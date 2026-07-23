@@ -1,7 +1,7 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-23T20:33:24Z
-- Context Hash：`0b86ab7357827c5c85cd676c112907cdc771564f553719bbb631572737a52673`
+- 生成时间：2026-07-23T20:40:41Z
+- Context Hash：`d35d533bab84234bb6720226ea9f44a52a4ded900d2670d758b806ba09e43075`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 规则就绪：`PASS`（`HASHED_CONTEXT_MANIFEST`）
@@ -153,7 +153,7 @@ blocked_tasks:
 - TASK-R06-008
 - TASK-R07-008
 next_task: TASK-R11-004
-updated_at: '2026-07-23T20:33:21Z'
+updated_at: '2026-07-23T20:40:38Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -187,16 +187,16 @@ continuity:
   mode: ENFORCED
   active_session_id: SES-20260723T183130Z-454A6E0D
   actor_id: codex-root-r11-client
-  story_id: STORY-R11-001
-  lease_expires_at: '2026-07-24T00:33:21Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260723T183130Z-454A6E0D/0010.yaml
-  project_fingerprint: 20c7351c87b9551117c90a8b9b45871342ea9ac0076210def1a99f62526cfcc3
+  story_id: STORY-R11-003
+  lease_expires_at: '2026-07-24T00:40:38Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260723T183130Z-454A6E0D/0011.yaml
+  project_fingerprint: 493b3bf81f0952e45143f68d4ae39bd607fe7828c71dfdd5316a95c8b3a168d8
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: 3a742c2a2cd15b125d0fd957f24e31b53aa2623ed0ba45ae50b953d761e7964a
-    generated_at: '2026-07-23T20:32:18Z'
+    context_hash: b0a287e846234210642a910c66ea6ade550c54cd61fa74c0c48a27907ffdd4a3
+    generated_at: '2026-07-23T20:33:56Z'
   handoff_bundle: null
 ```
 
@@ -395,10 +395,10 @@ actor:
   host: unknown
 release: R11
 task_id: TASK-R11-004
-story_id: STORY-R11-001
-goal: 实现B03/P04团队长详情与R11冻结操作闭环
+story_id: STORY-R11-003
+goal: 实现SCR-PUB-005团队长资料创建与编辑纵向闭环
 started_at: '2026-07-23T18:31:30Z'
-updated_at: '2026-07-23T20:33:21Z'
+updated_at: '2026-07-23T20:40:38Z'
 takeover_of: null
 change_requests:
 - CR-0285
@@ -406,6 +406,7 @@ change_requests:
 - CR-0287
 - CR-0288
 - CR-0289
+- CR-0290
 scope:
   allowed_paths:
   - apps/android/**
@@ -420,9 +421,15 @@ scope:
   - releases/**
   - design/**
   - scripts/**
+  - 严格按MOB-FORM与精确效果图绑定，实现POST /api/v1/contents与PATCH /api/v1/contents/{id}，不扩展冻结契约
   - CHANGELOG.md
-  approved_exceptions: []
-  source: story-switch+explicit
+  approved_exceptions:
+  - docs/03-continuity/PITFALLS.md
+  - docs/03-continuity/REUSABLE_PATTERNS.md
+  - docs/07-operations/DEPLOYMENT_RUNBOOK.md
+  - scripts/verify_cloud_environment.py
+  - scripts/tests/test_verify_cloud_environment.py
+  source: story-switch+explicit+approved-cr:CR-0290
 git:
   initialized: true
   branch: task/TASK-R03-001
@@ -432,12 +439,12 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-23T20:33:21Z'
-  expires_at: '2026-07-24T00:33:21Z'
-checkpoint_sequence: 10
-latest_checkpoint: .continuity/checkpoints/SES-20260723T183130Z-454A6E0D/0010.yaml
+  renewed_at: '2026-07-23T20:40:38Z'
+  expires_at: '2026-07-24T00:40:38Z'
+checkpoint_sequence: 11
+latest_checkpoint: .continuity/checkpoints/SES-20260723T183130Z-454A6E0D/0011.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260723T183130Z-454A6E0D.md
-next_step: 形成CR元数据提交后原子切换到STORY-R11-003
+next_step: 提交CR-0290实现并标记IMPLEMENTED，然后按STORY-R11-003实现团队长资料创建编辑闭环
 context_pack: THIS_CONTEXT_PACK
 handoff_bundle: null
 closure: null
@@ -445,52 +452,88 @@ parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 仅更新单一连续性状态机与CR索引，不可并行写入
+  reason: 服务器Swap、唯一构建锁、单SSH预检与连续性状态属于同一串行基础设施变更，必须由主控独占执行
 story_history:
 - story_id: STORY-R11-002
   completed_at: '2026-07-23T20:01:54Z'
   checkpoint_id: CP-SES-20260723T183130Z-454A6E0D-0007
   commit: 027855501ff8e0341340723317ede588e2b921e6
   summary: STORY-R11-002团队长列表与跨Story连续性协议均已形成独立验证提交
+- story_id: STORY-R11-001
+  completed_at: '2026-07-23T20:33:53Z'
+  checkpoint_id: CP-SES-20260723T183130Z-454A6E0D-0010
+  commit: 5b7c9fd299ceb172cf8b655337878a0fa5bd37a3
+  summary: STORY-R11-001团队长详情闭环完成并已提交，按R11依赖顺序继续团队长资料编辑
 ```
 
 ## 最新检查点
 
 ```yaml
 protocol_version: '1.0'
-checkpoint_id: CP-SES-20260723T183130Z-454A6E0D-0010
+checkpoint_id: CP-SES-20260723T183130Z-454A6E0D-0011
 session_id: SES-20260723T183130Z-454A6E0D
 task_id: TASK-R11-004
-story_id: STORY-R11-001
-sequence: 10
-created_at: '2026-07-23T20:33:21Z'
-summary: CR-0289已关联实现提交97a50136并标记IMPLEMENTED，STORY-R11-001实现与证据闭环完成
-next_step: 形成CR元数据提交后原子切换到STORY-R11-003
+story_id: STORY-R11-003
+sequence: 11
+created_at: '2026-07-23T20:40:37Z'
+summary: 完成CR-0290云端Android资源防护：服务器启用8GB持久Swap和低交换倾向，安装互斥限资源构建包装器；预检合并为单SSH并检查镜像、缓存、Swap、内存、负载与构建槽；既有踩坑、复用和运维规则原位增强
+next_step: 提交CR-0290实现并标记IMPLEMENTED，然后按STORY-R11-003实现团队长资料创建编辑闭环
 blockers: []
 decisions: []
 note: ''
 tests:
-- name: R11_IMPLEMENTATION_COMMIT
+- name: CLOUD_PREFLIGHT_UNIT
   result: PASS
-  evidence: 97a50136
-  note: 严格pre-commit与commit-msg通过
+  evidence: python -m unittest scripts.tests.test_verify_cloud_environment
+  note: 2 tests PASS
+- name: CLOUD_REAL_PREFLIGHT
+  result: PASS
+  evidence: scripts/verify_cloud_environment.py --check-android
+  note: swap 8191MB available 5347MB build slot available
+- name: ANDROID_SERVER_WRAPPER
+  result: PASS
+  evidence: /usr/local/bin/hhy-android-gradle sha256 fe19e0db82217f8ba0c7b6b854276a908387ed952f5bde3708be8fea526042ce
+  note: syntax and usage rejection PASS
+- name: ANDROID_UI_FOUNDATION
+  result: PASS
+  evidence: scripts/check_android_ui_foundation.py
+  note: global gate PASS
+- name: GIT_DIFF_CHECK
+  result: PASS
+  evidence: git diff --check
+  note: no whitespace errors
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: 97a50136b70c6f1ab2bee4bbffec13079030ad6c
+  head: 5b7c9fd299ceb172cf8b655337878a0fa5bd37a3
   upstream: origin/task/TASK-R03-001
-  ahead: 13
+  ahead: 14
   behind: 0
   dirty: true
   status_porcelain:
+  - ' M .continuity/ACTIVE_SESSION.yaml'
   - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
   - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/SESSION_INDEX.yaml'
   - ' M .continuity/STATE.yaml'
-  - ' M .continuity/change_requests/CR-0289.yaml'
+  - ' M .continuity/TASK_CLAIMS.yaml'
+  - ' M .continuity/sessions/SES-20260723T183130Z-454A6E0D.yaml'
+  - ' M CURRENT_STATUS.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
   - ' M catalogs/change_request_index.csv'
   - ' M catalogs/session_index.csv'
-  - ' M docs/03-continuity/change-requests/CR-0289-实现R11团队长详情客户端纵向闭环.md'
+  - ' M docs/03-continuity/PITFALLS.md'
+  - ' M docs/03-continuity/REUSABLE_PATTERNS.md'
+  - ' M docs/07-operations/DEPLOYMENT_RUNBOOK.md'
+  - ' M scripts/verify_cloud_environment.py'
+  - ?? .continuity/change_requests/CR-0290.yaml
+  - ?? docs/03-continuity/change-requests/CR-0290-强化云端Android构建资源隔离与连接可用性.md
+  - ?? scripts/tests/test_verify_cloud_environment.py
   recent_commits:
+  - "5b7c9fd299ceb172cf8b655337878a0fa5bd37a3\t2026-07-24T04:33:36+08:00\tHHY Continuity Bootstrap\t[STORY-R11-001] chore(continuity): close r11\
+    \ detail change request"
   - "97a50136b70c6f1ab2bee4bbffec13079030ad6c\t2026-07-24T04:32:29+08:00\tHHY Continuity Bootstrap\t[STORY-R11-001] feat(r11): implement team\
     \ leader detail flow"
   - "027855501ff8e0341340723317ede588e2b921e6\t2026-07-24T04:01:10+08:00\tHHY Continuity Bootstrap\t[STORY-R11-002] chore(continuity): support\
@@ -505,10 +548,8 @@ git:
     \ as completed"
   - "b7cb1e4316753a8d5a4276c2366f3813b64afd87\t2026-07-24T01:51:35+08:00\tHHY Continuity Bootstrap\t[STORY-R11-004] feat(database): enforce team\
     \ leader invariants"
-  - "94a520df9e3c5df535b4d26ff1b918cccb91288e\t2026-07-24T01:11:42+08:00\tHHY Continuity Bootstrap\t[STORY-R11-004] chore(continuity): close TASK-R11-001\
-    \ as completed"
 project_fingerprint:
-  sha256: 20c7351c87b9551117c90a8b9b45871342ea9ac0076210def1a99f62526cfcc3
+  sha256: 493b3bf81f0952e45143f68d4ae39bd607fe7828c71dfdd5316a95c8b3a168d8
   files:
   - CHANGELOG.md
   - apps/android/app/build.gradle.kts
@@ -521,18 +562,24 @@ project_fingerprint:
   - apps/android/feature/team-leader/src/main/java/cc/orbexa/hhy/teamleader/R11TeamLeaderState.kt
   - apps/android/feature/team-leader/src/test/java/cc/orbexa/hhy/teamleader/R11TeamLeaderStateTest.kt
   - apps/android/settings.gradle.kts
+  - docs/03-continuity/PITFALLS.md
+  - docs/03-continuity/REUSABLE_PATTERNS.md
   - docs/03-continuity/change-requests/CR-0285-实现R11团队长列表与首页真实入口回接.md
   - docs/03-continuity/change-requests/CR-0286-补齐R11团队长列表既有变更日志投影.md
   - docs/03-continuity/change-requests/CR-0287-支持同一Task内原子切换Story.md
   - docs/03-continuity/change-requests/CR-0288-补齐R11版本级并行执行计划实例.md
   - docs/03-continuity/change-requests/CR-0289-实现R11团队长详情客户端纵向闭环.md
+  - docs/03-continuity/change-requests/CR-0290-强化云端Android构建资源隔离与连接可用性.md
+  - docs/07-operations/DEPLOYMENT_RUNBOOK.md
   - docs/09-development/统一开发与交付效率规范.md
   - releases/R11/PARALLEL_EXECUTION_PLAN.yaml
   - scripts/continuity.py
   - scripts/continuity_gate.py
   - scripts/continuity_lib.py
   - scripts/test_continuity_protocol.py
-  file_count: 22
+  - scripts/tests/test_verify_cloud_environment.py
+  - scripts/verify_cloud_environment.py
+  file_count: 28
   payload:
     base_commit: ad68caf656ade3d36a4c775c7b0eeec0d8be1078
     files:
@@ -580,6 +627,14 @@ project_fingerprint:
       state: FILE
       size: 680
       sha256: 5b557c5d9bd88aed60c3dc3b5dd612f52a8e8179bdea79d430d1134e5856e495
+    - path: docs/03-continuity/PITFALLS.md
+      state: FILE
+      size: 7725
+      sha256: 59012227d161f0fa53728617c25a27d1dc38880d112f9b1c206290681cc27387
+    - path: docs/03-continuity/REUSABLE_PATTERNS.md
+      state: FILE
+      size: 3492
+      sha256: c40b8ef514ddfbff0f7b0a9b48515ccfa770be656565bbfe3cb0f738f6369ab9
     - path: docs/03-continuity/change-requests/CR-0285-实现R11团队长列表与首页真实入口回接.md
       state: FILE
       size: 3484
@@ -600,6 +655,14 @@ project_fingerprint:
       state: FILE
       size: 3454
       sha256: 288740be74b8a28e011f21c2931acf221e6ef07186faeaa4404acfd1d2e6dc16
+    - path: docs/03-continuity/change-requests/CR-0290-强化云端Android构建资源隔离与连接可用性.md
+      state: FILE
+      size: 2922
+      sha256: 894c332760a2cd2102bf9fb633edc6cdf3bb8a335ae5ae251c394de09fd719b7
+    - path: docs/07-operations/DEPLOYMENT_RUNBOOK.md
+      state: FILE
+      size: 40112
+      sha256: 901915af4c29f139b87654f524d457257685f5d8a22955bdb5ade962174f004e
     - path: docs/09-development/统一开发与交付效率规范.md
       state: FILE
       size: 16499
@@ -624,9 +687,18 @@ project_fingerprint:
       state: FILE
       size: 30678
       sha256: 97608112da947779c2fcf1cf5caf298f8f5a6dbc95d714ce7512f9f2e1bd4a09
+    - path: scripts/tests/test_verify_cloud_environment.py
+      state: FILE
+      size: 2676
+      sha256: e860177e2cada6a6c425053f13e41a127fcbb02ee6189e226c6df0bd03bd8f3b
+    - path: scripts/verify_cloud_environment.py
+      state: FILE
+      size: 5773
+      sha256: 3b1df95933fb50b1836557de84456b3febc62e871c360140adec82c6379cd41e
 change_classification:
   other:
   - CHANGELOG.md
+  - docs/07-operations/DEPLOYMENT_RUNBOOK.md
   - docs/09-development/统一开发与交付效率规范.md
   - releases/R11/PARALLEL_EXECUTION_PLAN.yaml
   code:
@@ -644,6 +716,8 @@ change_classification:
   - scripts/continuity_gate.py
   - scripts/continuity_lib.py
   - scripts/test_continuity_protocol.py
+  - scripts/tests/test_verify_cloud_environment.py
+  - scripts/verify_cloud_environment.py
   user_visible:
   - apps/android/app/build.gradle.kts
   - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
@@ -656,11 +730,14 @@ change_classification:
   - apps/android/feature/team-leader/src/test/java/cc/orbexa/hhy/teamleader/R11TeamLeaderStateTest.kt
   - apps/android/settings.gradle.kts
   continuity:
+  - docs/03-continuity/PITFALLS.md
+  - docs/03-continuity/REUSABLE_PATTERNS.md
   - docs/03-continuity/change-requests/CR-0285-实现R11团队长列表与首页真实入口回接.md
   - docs/03-continuity/change-requests/CR-0286-补齐R11团队长列表既有变更日志投影.md
   - docs/03-continuity/change-requests/CR-0287-支持同一Task内原子切换Story.md
   - docs/03-continuity/change-requests/CR-0288-补齐R11版本级并行执行计划实例.md
   - docs/03-continuity/change-requests/CR-0289-实现R11团队长详情客户端纵向闭环.md
+  - docs/03-continuity/change-requests/CR-0290-强化云端Android构建资源隔离与连接可用性.md
 required_records:
 - SESSION_RECORD
 - SESSION_LOG
@@ -674,6 +751,7 @@ change_requests:
 - CR-0287
 - CR-0288
 - CR-0289
+- CR-0290
 scope:
   allowed_paths:
   - apps/android/**
@@ -688,15 +766,21 @@ scope:
   - releases/**
   - design/**
   - scripts/**
+  - 严格按MOB-FORM与精确效果图绑定，实现POST /api/v1/contents与PATCH /api/v1/contents/{id}，不扩展冻结契约
   - CHANGELOG.md
-  approved_exceptions: []
-  source: story-switch+explicit
+  approved_exceptions:
+  - docs/03-continuity/PITFALLS.md
+  - docs/03-continuity/REUSABLE_PATTERNS.md
+  - docs/07-operations/DEPLOYMENT_RUNBOOK.md
+  - scripts/verify_cloud_environment.py
+  - scripts/tests/test_verify_cloud_environment.py
+  source: story-switch+explicit+approved-cr:CR-0290
 parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 仅更新单一连续性状态机与CR索引，不可并行写入
-event_hash: 4218b34f2eabc66bf174f76f05dec70a123154f16610f6f056725c2250c16c4f
+  reason: 服务器Swap、唯一构建锁、单SSH预检与连续性状态属于同一串行基础设施变更，必须由主控独占执行
+event_hash: e21bcb180b8ad506637adac577610ea5a77e2de2ee2607d7810f5b576eca4432
 ```
 
 ## 接续状态与事件头
@@ -708,8 +792,8 @@ active_session_id: SES-20260723T183130Z-454A6E0D
 last_session_id: SES-20260723T175513Z-EFD4D365
 last_session_result: COMPLETED
 last_closure_checkpoint_id: CP-SES-20260723T175513Z-EFD4D365-0002
-event_count: 2851
-event_head_hash: 4218b34f2eabc66bf174f76f05dec70a123154f16610f6f056725c2250c16c4f
+event_count: 2859
+event_head_hash: e21bcb180b8ad506637adac577610ea5a77e2de2ee2607d7810f5b576eca4432
 event_chain_valid: true
 ```
 
@@ -826,15 +910,15 @@ recent_sessions: - session_id: SES-20260723T062549Z-79779015
   handoff_bundle: null
 - session_id: SES-20260723T183130Z-454A6E0D
   task_id: TASK-R11-004
-  story_id: STORY-R11-001
+  story_id: STORY-R11-003
   actor_id: codex-root-r11-client
   status: ACTIVE
   started_at: '2026-07-23T18:31:30Z'
   record: .continuity/sessions/SES-20260723T183130Z-454A6E0D.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260723T183130Z-454A6E0D.md
-  updated_at: '2026-07-23T20:33:21Z'
+  updated_at: '2026-07-23T20:40:38Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260723T183130Z-454A6E0D/0010.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260723T183130Z-454A6E0D/0011.yaml
   handoff_bundle: null
 task_claims: - claim_id: CLM-0E07D6A43A16
   session_id: SES-20260722T153450Z-FAD75B8D
@@ -1624,7 +1708,7 @@ task_claims: - claim_id: CLM-0E07D6A43A16
 - claim_id: CLM-68C0071B101C
   session_id: SES-20260723T183130Z-454A6E0D
   task_id: TASK-R11-004
-  story_id: STORY-R11-001
+  story_id: STORY-R11-003
   actor_id: codex-root-r11-client
   status: ACTIVE
   claimed_at: '2026-07-23T18:31:30Z'
@@ -1641,8 +1725,9 @@ task_claims: - claim_id: CLM-0E07D6A43A16
   - releases/**
   - design/**
   - scripts/**
+  - 严格按MOB-FORM与精确效果图绑定，实现POST /api/v1/contents与PATCH /api/v1/contents/{id}，不扩展冻结契约
   - CHANGELOG.md
-  updated_at: '2026-07-23T20:01:54Z'
+  updated_at: '2026-07-23T20:33:53Z'
 recent_task_transitions: - transition_id: TRN-22C197FB1144
   timestamp: '2026-07-22T15:34:52Z'
   release: R09
@@ -1850,9 +1935,9 @@ recent_task_transitions: - transition_id: TRN-22C197FB1144
 ```yaml
 initialized: true
 branch: task/TASK-R03-001
-head: 97a50136b70c6f1ab2bee4bbffec13079030ad6c
+head: 5b7c9fd299ceb172cf8b655337878a0fa5bd37a3
 upstream: origin/task/TASK-R03-001
-ahead: 13
+ahead: 14
 behind: 0
 dirty: true
 status_porcelain:
@@ -1861,15 +1946,26 @@ status_porcelain:
 - ' M .continuity/EVENT_LOG.jsonl'
 - ' M .continuity/SESSION_INDEX.yaml'
 - ' M .continuity/STATE.yaml'
-- ' M .continuity/change_requests/CR-0289.yaml'
+- ' M .continuity/TASK_CLAIMS.yaml'
 - ' M .continuity/sessions/SES-20260723T183130Z-454A6E0D.yaml'
 - ' M CURRENT_STATUS.yaml'
+- ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+- ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+- ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
 - ' M catalogs/change_request_index.csv'
 - ' M catalogs/session_index.csv'
-- ' M docs/03-continuity/change-requests/CR-0289-实现R11团队长详情客户端纵向闭环.md'
+- ' M docs/03-continuity/PITFALLS.md'
+- ' M docs/03-continuity/REUSABLE_PATTERNS.md'
 - ' M docs/03-continuity/sessions/2026-07/SES-20260723T183130Z-454A6E0D.md'
-- ?? .continuity/checkpoints/SES-20260723T183130Z-454A6E0D/0010.yaml
+- ' M docs/07-operations/DEPLOYMENT_RUNBOOK.md'
+- ' M scripts/verify_cloud_environment.py'
+- ?? .continuity/change_requests/CR-0290.yaml
+- ?? .continuity/checkpoints/SES-20260723T183130Z-454A6E0D/0011.yaml
+- ?? docs/03-continuity/change-requests/CR-0290-强化云端Android构建资源隔离与连接可用性.md
+- ?? scripts/tests/test_verify_cloud_environment.py
 recent_commits:
+- "5b7c9fd299ceb172cf8b655337878a0fa5bd37a3\t2026-07-24T04:33:36+08:00\tHHY Continuity Bootstrap\t[STORY-R11-001] chore(continuity): close r11\
+  \ detail change request"
 - "97a50136b70c6f1ab2bee4bbffec13079030ad6c\t2026-07-24T04:32:29+08:00\tHHY Continuity Bootstrap\t[STORY-R11-001] feat(r11): implement team leader\
   \ detail flow"
 - "027855501ff8e0341340723317ede588e2b921e6\t2026-07-24T04:01:10+08:00\tHHY Continuity Bootstrap\t[STORY-R11-002] chore(continuity): support same-task\
@@ -1884,14 +1980,12 @@ recent_commits:
   \ as completed"
 - "b7cb1e4316753a8d5a4276c2366f3813b64afd87\t2026-07-24T01:51:35+08:00\tHHY Continuity Bootstrap\t[STORY-R11-004] feat(database): enforce team\
   \ leader invariants"
-- "94a520df9e3c5df535b4d26ff1b918cccb91288e\t2026-07-24T01:11:42+08:00\tHHY Continuity Bootstrap\t[STORY-R11-004] chore(continuity): close TASK-R11-001\
-  \ as completed"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`20c7351c87b9551117c90a8b9b45871342ea9ac0076210def1a99f62526cfcc3`
-- 文件数：22
+- 指纹：`493b3bf81f0952e45143f68d4ae39bd607fe7828c71dfdd5316a95c8b3a168d8`
+- 文件数：28
 
 - `CHANGELOG.md`
 - `apps/android/app/build.gradle.kts`
@@ -1904,17 +1998,23 @@ recent_commits:
 - `apps/android/feature/team-leader/src/main/java/cc/orbexa/hhy/teamleader/R11TeamLeaderState.kt`
 - `apps/android/feature/team-leader/src/test/java/cc/orbexa/hhy/teamleader/R11TeamLeaderStateTest.kt`
 - `apps/android/settings.gradle.kts`
+- `docs/03-continuity/PITFALLS.md`
+- `docs/03-continuity/REUSABLE_PATTERNS.md`
 - `docs/03-continuity/change-requests/CR-0285-实现R11团队长列表与首页真实入口回接.md`
 - `docs/03-continuity/change-requests/CR-0286-补齐R11团队长列表既有变更日志投影.md`
 - `docs/03-continuity/change-requests/CR-0287-支持同一Task内原子切换Story.md`
 - `docs/03-continuity/change-requests/CR-0288-补齐R11版本级并行执行计划实例.md`
 - `docs/03-continuity/change-requests/CR-0289-实现R11团队长详情客户端纵向闭环.md`
+- `docs/03-continuity/change-requests/CR-0290-强化云端Android构建资源隔离与连接可用性.md`
+- `docs/07-operations/DEPLOYMENT_RUNBOOK.md`
 - `docs/09-development/统一开发与交付效率规范.md`
 - `releases/R11/PARALLEL_EXECUTION_PLAN.yaml`
 - `scripts/continuity.py`
 - `scripts/continuity_gate.py`
 - `scripts/continuity_lib.py`
 - `scripts/test_continuity_protocol.py`
+- `scripts/tests/test_verify_cloud_environment.py`
+- `scripts/verify_cloud_environment.py`
 
 ## 当前 Release
 
@@ -9784,29 +9884,76 @@ PARALLEL_EXECUTION_PLAN.yaml:
   - SES-20260723T183130Z-454A6E0D
   implementation_commits:
   - 97a50136
+- protocol_version: '1.0'
+  cr_id: CR-0290
+  title: 强化云端Android构建资源隔离与连接可用性
+  status: IMPLEMENTING
+  created_at: '2026-07-23T20:35:47Z'
+  updated_at: '2026-07-23T20:36:20Z'
+  requester_actor_id: codex-root-r11-client
+  approver_actor_id: codex-independent-infra-reviewer
+  task_id: TASK-R11-004
+  session_id: SES-20260723T183130Z-454A6E0D
+  user_request: 解决服务器资源峰值导致SSH连接超时，并固化为跨电脑跨AI可复用方案
+  reason: 4核15GB服务器常驻约60个历史Staging容器且无Swap，Android MODULE峰值使可用内存降至198MB并造成SSH banner超时；现有规则仅约束固定镜像缓存和不重复构建，未强制互斥、资源上限与Swap预检。
+  original_rule: 固定Android服务器容器必须复用既有镜像和Gradle缓存；短时无日志时先检查活动，禁止误判卡死、并行重启或重建镜像。
+  new_rule: 在原条款内增加：云端Android构建必须获取服务器唯一flock互斥锁，容器限制CPU/内存/PID，Gradle使用单worker与受控JVM堆；预检必须验证持久Swap和最低可用内存，构建完成后自动删除临时容器。SSH超时时先区分MaxStartups与资源饱和，禁止盲目提高SSH容量或并发重连。
+  impact_summary: 增强现有云端Android经验与运维事实源，并由verify_cloud_environment.py检查Swap、内存和构建锁；不创建并列硬规则，不影响产品功能。
+  impact:
+    files:
+    - docs/03-continuity/PITFALLS.md
+    - docs/03-continuity/REUSABLE_PATTERNS.md
+    - docs/07-operations/DEPLOYMENT_RUNBOOK.md
+    - scripts/verify_cloud_environment.py
+    - scripts/tests/test_verify_cloud_environment.py
+    pages: []
+    apis: []
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - 云环境预检单测、脚本静态检查、真实obx-test资源预检
+    releases:
+    - R11
+    migration_and_compatibility: 服务器已在线新增8GB持久Swap且swappiness=10；不重启业务、不删除历史容器。旧调用仍可用，但预检会对资源不足给出明确阻断。
+  user_confirmation: 项目所有者已询问能否在服务器解决，并要求持续开发和跨AI复用既定方案。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-23T20:36:14Z'
+    note: 在既有规则原位增强，采用Swap保险、构建互斥和受限Gradle，不删除或重启线上容器；范围最小且可回滚。
+  machine_record: .continuity/change_requests/CR-0290.yaml
+  document: docs/03-continuity/change-requests/CR-0290-强化云端Android构建资源隔离与连接可用性.md
+  decision_log:
+  - at: '2026-07-23T20:36:20Z'
+    actor_id: codex-root-r11-client
+    status: IMPLEMENTING
+    note: 8GB持久Swap已在线启用，开始增强既有规则与云环境预检。
+    session_id: SES-20260723T183130Z-454A6E0D
+  session_ids:
+  - SES-20260723T183130Z-454A6E0D
 ```
 
 ## 上下文来源及哈希
 
 - `AGENTS.md` — `f93034917d4b87ffd4caffe8b6cad354f69bc31f6c0d9398dec3074ae165496d`
 - `START_HERE.md` — `22de14029ce47beb41ea569e36ce223fbc9d11b86f8676f28d5fbbd83896af5c`
-- `CURRENT_STATUS.yaml` — `26013300b8a739339bba911dcdd6b4f41888b44a6833fcedc3719d877a803368`
+- `CURRENT_STATUS.yaml` — `f6b6182f18a8d3f07a99efb84c02d75a79e0b2cd09929ddc9fe7279edcf60e91`
 - `NEXT_TASK.yaml` — `1f6153d3eb5ab85090f1beeb24d6741211ac44bc5cce682ac157fe204767f034`
 - `DEVELOPMENT_RISK_REGISTER.md` — `8304c91492e4ee2abea0522a06541c8688d39c7fc532b5d0cde499bf09fffb87`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
 - `docs/03-continuity/PROBLEM_REGISTRY.yaml` — `5a0b4c31c9ae3f5d1195243186697cccff914659c588a6330815e31f2bc0b2c8`
-- `docs/03-continuity/REUSABLE_PATTERNS.md` — `579122736019857604959c8ea65b6c7e3d6960680d00a17b376bbd51c57ac519`
-- `docs/03-continuity/PITFALLS.md` — `881ef16df439d6ab16bd07a40f70865ba46150c9defb54655c37d3e76901c88d`
+- `docs/03-continuity/REUSABLE_PATTERNS.md` — `c40b8ef514ddfbff0f7b0a9b48515ccfa770be656565bbfe3cb0f738f6369ab9`
+- `docs/03-continuity/PITFALLS.md` — `59012227d161f0fa53728617c25a27d1dc38880d112f9b1c206290681cc27387`
 - `releases/PROGRAM_EXECUTION_PLAN.yaml` — `93c0bd9fe83e2c447937c885f20d0de7a65d96c920d11b28309878bd5d533446`
 - `config/REPOSITORY_TRANSPORT.yaml` — `8c4a21f3e204d46e7ffb467d804a53ed26cda61cd088dadfddb50b69eea657fc`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `60943fcd9714cfae7274463554b5584fdb7a7aeee1ee547ff6dbc53fae6d4994`
-- `.continuity/EVENT_LOG.jsonl` — `339769e0102c7b0b6c68d10aa8fc62e437155efbe78fd10562c916fe17ba279d`
-- `.continuity/SESSION_INDEX.yaml` — `724dca4dafefc266a4fa70d2db38a102692db0bad97dbccff047f847c95ee408`
-- `.continuity/TASK_CLAIMS.yaml` — `363b0d7268cdf33ea0d0f8a92666ff76004d419aa72c6ef16e1a4533e2b5c353`
+- `.continuity/EVENT_LOG.jsonl` — `6b5e7345c84770df3c336609c1ede4b09ead150fc36da1714ed2520723b528fc`
+- `.continuity/SESSION_INDEX.yaml` — `0a000942e97f53cfab624a0c761736fb738ef2d0a896fa253df26965fd289d22`
+- `.continuity/TASK_CLAIMS.yaml` — `d981f0e13eaedb2c080fc60a6aebf99c3d7842e74c462515e061b68814ced8e8`
 - `.continuity/TASK_TRANSITIONS.yaml` — `9f85427a939c26ce554740892700d71993e883c9a1b75de148354f703dcbfb8d`
-- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `c9bfbd0fd013fd7ed1c7b242daf34b9a9bca8ce8ce871f60bf2d3ca37fea5983`
-- `.continuity/ACTIVE_SESSION.yaml` — `96b1581e09bfbeb41178e95e9f8e1be2400b9f5ef66a8c449d86625b338c6654`
+- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `001f9786074b942208b03cdfedc027597dfdfcc46eb9e323151198a35caf9343`
+- `.continuity/ACTIVE_SESSION.yaml` — `188ec81978e73a5004b7211e2d3711706701b109e55da2d4d40b10ed1f87597a`
 - `docs/00-baseline/正式商业系统全局硬性开发边界.md` — `9753b32db136e59e95a0974a62362456d9d577fd1bb40058ec985c4b64413eea`
 - `docs/02-ui/UI参考图使用与开发约束_V1.2.2.md` — `d14367586aa2067b059df58798acd20ab982459cdb35ff27fc7922a3896e4933`
 - `docs/03-continuity/持续开发无状态接续强制门禁_V1.2.3.md` — `d0ed3ed68bdd93b06500eecdfb5baa3245e6ca8b685a486788abb6eee39b3d51`
@@ -9817,13 +9964,14 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `releases/R11/TASKS.yaml` — `f10e6171a138dc3428bd51149347a22a64c7c3ad9a168c25e7de5e4ad3bb8721`
 - `releases/R11/ACCEPTANCE_MATRIX.csv` — `fd67dd0579ea65dc25e2671f49693a4b3b63eb59f0399587f96c11319c54b25f`
 - `releases/R11/PARALLEL_EXECUTION_PLAN.yaml` — `e892959361fe9a80841a49496d4302125b27838f73aab987c62a0e57a9070e54`
-- `docs/03-continuity/sessions/2026-07/SES-20260723T183130Z-454A6E0D.md` — `dffab070c45cd27536c0e5f3b64dffc7517aa43eb29d1ddf415c60e1dc98e1fb`
-- `.continuity/checkpoints/SES-20260723T183130Z-454A6E0D/0010.yaml` — `9cd1dc1f49deef17ecb30ae33f836bdd654b6193c794bf9e682b0129deffe28d`
+- `docs/03-continuity/sessions/2026-07/SES-20260723T183130Z-454A6E0D.md` — `6bca7cc436c22e6bf09559d2678c185ef86445e17e36f0f0830e1353394801c6`
+- `.continuity/checkpoints/SES-20260723T183130Z-454A6E0D/0011.yaml` — `49903b402f9805973a3b2b751763cc292a48bb93161755d08a2ad1c65b4a06b7`
 - `docs/03-continuity/change-requests/CR-0285-实现R11团队长列表与首页真实入口回接.md` — `4f68dc6f283c3500ff1020ccf976b1d8a17cd731e83243f0794c6f94ab0e90bb`
 - `docs/03-continuity/change-requests/CR-0286-补齐R11团队长列表既有变更日志投影.md` — `6856ae0f732d458e52c21ee7249f5fa6f405a8c0eb08710c4d31bb1c42be1593`
 - `docs/03-continuity/change-requests/CR-0287-支持同一Task内原子切换Story.md` — `0175a0db6540bc194e142b132eb2d84be8e4ecfc65c8cd49feb8bc49446b04b7`
 - `docs/03-continuity/change-requests/CR-0288-补齐R11版本级并行执行计划实例.md` — `c0bcfcee4e94d558d0950a908be98205909d7f92904be16a57bb51d6a061b474`
 - `docs/03-continuity/change-requests/CR-0289-实现R11团队长详情客户端纵向闭环.md` — `288740be74b8a28e011f21c2931acf221e6ef07186faeaa4404acfd1d2e6dc16`
+- `docs/03-continuity/change-requests/CR-0290-强化云端Android构建资源隔离与连接可用性.md` — `894c332760a2cd2102bf9fb633edc6cdf3bb8a335ae5ae251c394de09fd719b7`
 
 ## 接手硬规则
 

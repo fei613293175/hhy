@@ -307,6 +307,16 @@ APK上传若出现 `Connection reset`、`Broken pipe` 或固定次数的新连�
 
 大文件交付仍优先运行 `scripts/deliver_android_test_apk.py`，使用1 MiB分块、每片有界重试、远端顺序合并、大小和SHA-256双校验及原子发布；禁止以放宽SSH容量替代交付脚本，也禁止在一条Windows内联SSH长命令中重组签名、Nginx和交付步骤。
 
+### 云端 Android 构建资源基线
+
+`obx-test` 为 4 核、15 GiB 内存的共享业务与构建服务器。2026-07-24 实测历史 Staging/Candidate 常驻约 60 个容器，Android MODULE 峰值曾把可用内存压至 198 MiB、1 分钟负载推至 260，表现为 SSH `banner exchange timeout`；当时仅 1 条 SSH 连接、`MaxStartups 30:50:100`、Fail2ban 未启用，因此不得把该现象误判为 SSH 限流。
+
+服务器已配置 `/swapfile-hhy-build` 8 GiB 持久 Swap，`vm.swappiness=10`、`vm.vfs_cache_pressure=50`。`scripts/verify_cloud_environment.py --check-android` 以一次 SSH 同时验证固定镜像、命名缓存、Swap、可用内存、负载和唯一构建锁。Swap 少于 7 GiB 或可用内存少于 1 GiB 必须阻断新 Android 构建；构建锁为 `busy` 只表示排队，禁止启动第二个容器。
+
+所有远程 Android MODULE 必须调用服务器 `/usr/local/bin/hhy-android-gradle <workspace> <container-name> <gradle-task> [...]`；包装器 SHA-256 为 `fe19e0db82217f8ba0c7b6b854276a908387ed952f5bde3708be8fea526042ce`，只接受解析到 `/tmp/hhy-*/work/apps/android` 的工作区。它持有 `/var/lock/hhy-android-build.lock`，使用 `--rm --cpus 2.5 --memory 5g --memory-swap 7g --pids-limit 768`，并向 Gradle 传入 `--no-daemon --max-workers=1` 与最大 3 GiB JVM 堆。不得绕过包装器，也不得在业务服务器并行执行两个 Android/Gradle 构建。构建退出后必须确认临时容器已删除；历史 Staging/Candidate 仅能在域名与 Nginx 上游引用审计后分批下线，禁止为了释放内存直接批量删除。
+
+Swap 恢复命令（仅当文件缺失且磁盘至少剩余 16 GiB 时执行）：创建 8 GiB `/swapfile-hhy-build`、权限 `0600`、`mkswap`、`swapon`，并向 `/etc/fstab` 写入 `/swapfile-hhy-build none swap sw 0 0`；随后写入 `/etc/sysctl.d/99-hhy-build-memory.conf` 的 `vm.swappiness=10` 与 `vm.vfs_cache_pressure=50`。变更后必须回读 `swapon --show`、`free -h` 和两个 sysctl，禁止重启业务服务验证。
+
 R10 使用 `infra/staging/r10-smoke/docker-compose.yml`，采用独立 Compose project、仅回环发布端口、经服务器既有资源核对后冻结的 `172.31.242.0/24` 子网和独立数据卷；不得修改或重启公网以及 R01–R09 环境。执行前运行 `python3 scripts/check_r10_observability.py`，并把精确被测 Commit 注入 `HHY_R10_FROZEN_COMMIT`。测试 Secret 只在隔离进程环境生成和注入，禁止写入仓库、报告、命令输出或 Shell 历史；实名认证沙箱与 CI 自动登录保持关闭。
 
 TASK-R10-007 将精确候选 Commit 升级到专用 R10 Staging CI 候选容器后运行 `scripts/prepare_r10_ci_fixture.sh`。脚本必须显式设置 `HHY_R10_CI_FIXTURE_CONFIRM=YES`，只允许 `hhy-r10-ci-candidate-*` 后端及登记的 Staging PostgreSQL 容器；要求 Flyway V036 已成功并兼容最新 V037，幂等准备已实名专用候选用户、一个 ONLINE 群聊、群详情、群主联系方式和独立入群口令。不得虚构人数、收益、活跃度、下载量或媒体。

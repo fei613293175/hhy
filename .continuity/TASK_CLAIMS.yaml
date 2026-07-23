@@ -3419,7 +3419,7 @@ claims:
 - claim_id: CLM-68C0071B101C
   session_id: SES-20260723T183130Z-454A6E0D
   task_id: TASK-R11-004
-  story_id: STORY-R11-001
+  story_id: STORY-R11-003
   actor_id: codex-root-r11-client
   status: ACTIVE
   claimed_at: '2026-07-23T18:31:30Z'
@@ -3436,5 +3436,6 @@ claims:
   - releases/**
   - design/**
   - scripts/**
+  - 严格按MOB-FORM与精确效果图绑定，实现POST /api/v1/contents与PATCH /api/v1/contents/{id}，不扩展冻结契约
   - CHANGELOG.md
-  updated_at: '2026-07-23T20:01:54Z'
+  updated_at: '2026-07-23T20:33:53Z'
