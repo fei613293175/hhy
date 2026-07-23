@@ -1,7 +1,7 @@
 protocol_version: '1.0'
 package_version: 1.2.3
 session_id: SES-20260723T122953Z-52EBA51E
-status: ACTIVE
+status: CLOSED
 actor:
   id: codex-root-r10-candidate
   kind: AI_OR_HUMAN
@@ -11,7 +11,7 @@ task_id: TASK-R10-007
 story_id: STORY-R10-004
 goal: 群聊推广完整闭环Android测试APK与产物追溯
 started_at: '2026-07-23T12:29:53Z'
-updated_at: '2026-07-23T16:42:44Z'
+updated_at: '2026-07-23T16:49:16Z'
 takeover_of: null
 change_requests:
 - CR-0272
@@ -97,22 +97,36 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-23T16:42:40Z'
-  expires_at: '2026-07-23T20:42:40Z'
-checkpoint_sequence: 10
-latest_checkpoint: .continuity/checkpoints/SES-20260723T122953Z-52EBA51E/0010.yaml
+  renewed_at: '2026-07-23T16:49:11Z'
+  expires_at: '2026-07-23T20:49:11Z'
+checkpoint_sequence: 11
+latest_checkpoint: .continuity/checkpoints/SES-20260723T122953Z-52EBA51E/0011.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260723T122953Z-52EBA51E.md
-next_step: 提交并推送TASK-R10-007机器交付实现，随后以该Commit关闭任务并启动TASK-R10-008。
+next_step: 提交关闭元数据Commit，然后运行pre-push/CI门禁
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: 53279530f57f5aadbf44a3e5893a511d38618cb5afa636cc79c2eb186567c739
-  generated_at: '2026-07-23T16:42:42Z'
+  context_hash: 6362152f9bc9765e476d64e07b8a4f8b521c8b6e05bf3325cee83e513e4e3e39
+  generated_at: '2026-07-23T16:49:14Z'
 handoff_bundle: null
-closure: null
+closure:
+  result: COMPLETED
+  summary: R10 Android测试APK与产物追溯完成：候选、AI视觉审批、轻量晋升、固定签名APK、四方SHA交付、桌面说明和严格文档核对全部PASS；Owner真机反馈保持异步PENDING。实现Commit 758c30a3已本地形成，GitHub HTTPS三次因外部443连接重置或不可达尚未推送，恢复后必须先push该Commit。
+  code_commit: 758c30a3f5fa393dd57b886ac496edd039a6e46f
+  next_release: R10
+  next_task: TASK-R10-008
+  blocked_advance: false
+  completed_independent_advance: false
+  user_confirmation: null
+  metadata_commit: PENDING
+  push_verification: CI_REQUIRED_AFTER_METADATA_COMMIT
+  started_at: '2026-07-23T16:49:09Z'
+  closure_checkpoint_id: CP-SES-20260723T122953Z-52EBA51E-0011
+  closed_at: '2026-07-23T16:49:16Z'
 parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
   reason: Release事实归档、CR状态与连续性提交强耦合，主控串行复核。
+closed_at: '2026-07-23T16:49:16Z'

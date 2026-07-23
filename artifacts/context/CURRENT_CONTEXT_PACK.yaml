@@ -1,5 +1,5 @@
 context_version: '1.0'
-generated_at: '2026-07-23T16:42:42Z'
+generated_at: '2026-07-23T16:49:20Z'
 conversation_dependency: PROHIBITED
 source_of_truth: REPOSITORY_ONLY
 project: hhy-pro-platform
@@ -9,10 +9,10 @@ current_status:
   baseline_version: 1.2.3
   phase: R10
   active_release: R10
-  active_task: TASK-R10-007
-  status: IN_PROGRESS
+  active_task: TASK-R10-008
+  status: READY
   documentation_status: ZERO_BLOCKING_DOCUMENT_GAPS
-  last_green_commit: 1452e810
+  last_green_commit: 758c30a3f5fa393dd57b886ac496edd039a6e46f
   last_staging_apk: null
   completed_tasks:
   - V1.2.2_ENGINEERING_BASELINE
@@ -108,15 +108,15 @@ current_status:
   - TASK-R10-004
   - TASK-R10-005
   - TASK-R10-006
-  in_progress_tasks:
   - TASK-R10-007
+  in_progress_tasks: []
   blocked_tasks:
   - TASK-R02-007
   - TASK-R03-007
   - TASK-R06-008
   - TASK-R07-008
-  next_task: TASK-R10-007
-  updated_at: '2026-07-23T16:42:40Z'
+  next_task: TASK-R10-008
+  updated_at: '2026-07-23T16:49:16Z'
   notes:
   - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
   - 全部REST/WebSocket操作均有页面或系统所有者
@@ -148,22 +148,20 @@ current_status:
   continuity:
     protocol_version: '1.0'
     mode: ENFORCED
-    active_session_id: SES-20260723T122953Z-52EBA51E
-    actor_id: codex-root-r10-candidate
-    story_id: STORY-R10-004
-    lease_expires_at: '2026-07-23T20:42:40Z'
-    latest_checkpoint: .continuity/checkpoints/SES-20260723T122953Z-52EBA51E/0010.yaml
-    project_fingerprint: f25d53f820fc658908fa699551c5ec190ddf5798a4b2ef864f801310c1262908
+    active_session_id: null
+    last_session_id: SES-20260723T122953Z-52EBA51E
+    last_session_result: COMPLETED
+    last_checkpoint: .continuity/checkpoints/SES-20260723T122953Z-52EBA51E/0011.yaml
+    last_handoff_bundle: null
     context_pack:
       yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
       markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
       manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-      context_hash: 88269d0f924f140dfc3e02fb6aaa5d49b4a106884b10bdabc9dc37559812dc65
-      generated_at: '2026-07-23T16:42:09Z'
-    handoff_bundle: null
+      context_hash: 6362152f9bc9765e476d64e07b8a4f8b521c8b6e05bf3325cee83e513e4e3e39
+      generated_at: '2026-07-23T16:49:14Z'
 next_task:
-  id: TASK-R10-007
-  title: 群聊推广完整闭环Android测试APK与产物追溯
+  id: TASK-R10-008
+  title: 群聊推广完整闭环版本关闭与无状态交接
   status: READY
   release: R10
   requirements:
@@ -171,22 +169,22 @@ next_task:
   - REQ-GROUP-001
   - REQ-APK-001
   depends_on:
-  - TASK-R10-006
+  - TASK-R10-007
   definition_of_ready: releases/R10/DEFINITION_OF_READY.yaml
   stories: releases/R10/STORIES.yaml
   steps:
-  - APK可下载/可安装
-  - SHA256、Commit、versionName/versionCode、测试结果齐全
+  - 全新AI仅凭仓库可继续
+  - 工作区干净且Tag可追溯
   acceptance:
   - 无TODO/生产Mock
   - 代码、文档、测试、追踪同步更新
-  - APK可下载/可安装
-  - SHA256、Commit、versionName/versionCode、测试结果齐全
+  - 全新AI仅凭仓库可继续
+  - 工作区干净且Tag可追溯
   claim_required: true
-  start_command: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R10-007
+  start_command: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R10-008
   commands:
     resume: python3 scripts/continuity.py resume
-    start: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R10-007
+    start: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R10-008
     checkpoint: python3 scripts/continuity.py checkpoint --summary '<阶段完成>' --next-step '<精确下一步>' --test 'name|PASS|evidence|note' --parallel-assessment
       <ASSESSMENT> --parallel-reason '<未委托原因>'
     handoff: python3 scripts/continuity.py handoff --actor <ACTOR_ID> --reason '<移交原因>' --next-step '<精确下一步>'
@@ -194,555 +192,36 @@ next_task:
     cr_amend: python3 scripts/continuity.py cr-amend --actor <ACTOR_ID> --cr <CR_ID> --original-rule '<原规则>' --new-rule '<新规则>' --impact-summary
       '<影响摘要>' --migration-and-compatibility '<迁移兼容说明>' --file <PATH> --test '<TEST>' --release <RELEASE>
   next_after: 由当前TASKS.yaml依赖关系决定
-active_session:
-  protocol_version: '1.0'
-  package_version: 1.2.3
-  session_id: SES-20260723T122953Z-52EBA51E
-  status: ACTIVE
-  actor:
-    id: codex-root-r10-candidate
-    kind: AI_OR_HUMAN
-    host: unknown
-  release: R10
-  task_id: TASK-R10-007
-  story_id: STORY-R10-004
-  goal: 群聊推广完整闭环Android测试APK与产物追溯
-  started_at: '2026-07-23T12:29:53Z'
-  updated_at: '2026-07-23T16:42:40Z'
-  takeover_of: null
-  change_requests:
-  - CR-0272
-  - CR-0273
-  - CR-0274
-  - CR-0275
-  - CR-0276
-  - CR-0277
-  - CR-0278
-  scope:
-    allowed_paths:
-    - apps/**
-    - services/**
-    - packages/**
-    - contracts/**
-    - database/**
-    - config/**
-    - catalogs/**
-    - tests/**
-    - infra/**
-    - design/**
-    - docs/**
-    - releases/**
-    - scripts/**
-    - templates/**
-    - .github/**
-    - .githooks/**
-    - .codex/**
-    - AGENTS.md
-    - START_HERE.md
-    - README.md
-    - CHANGELOG.md
-    - Makefile
-    - .gitignore
-    - .gitattributes
-    - .dockerignore
-    - package.json
-    - pnpm-lock.yaml
-    - pnpm-workspace.yaml
-    - requirements-dev.txt
-    - PROJECT_*.yaml
-    - PROJECT_*.json
-    approved_exceptions:
-    - scripts/prepare_r10_ci_fixture.sh
-    - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
-    - apps/android/app/build.gradle.kts
-    - apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
-    - apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
-    - config/android-candidate-request.yaml
-    - docs/07-operations/DEPLOYMENT_RUNBOOK.md
-    - tests/test_android_ci_gate.py
-    - tests/test_r10_candidate.py
-    - tests/android/visual-manifests/R10.yaml
-    - CHANGELOG.md
-    - docs/03-continuity/PROBLEM_REGISTRY.yaml
-    - tests/android/visual-baselines/R10/01-home.png
-    - tests/android/visual-baselines/R10/02-group-list.png
-    - tests/android/visual-baselines/R10/03-group-detail.png
-    - tests/android/visual-baselines/R10/04-group-editor.png
-    - tests/android/visual-baselines/R10/APPROVAL.yaml
-    - .github/workflows/android-baseline-promotion.yml
-    - artifacts/apk/R10/APK_MANIFEST.yaml
-    - artifacts/apk/R10/hhy-r10-1e35a97-debug.apk
-    - artifacts/validation/r10-apk-delivery/delivery-evidence.json
-    - artifacts/validation/r10-task007-android/build-evidence.json
-    - artifacts/validation/r10-task007-android/candidate-report.json
-    - artifacts/validation/r10-task007-android/source-candidate-report.json
-    - artifacts/validation/r10-task007-android/APPROVAL.yaml
-    - artifacts/reports/R10/TASK-R10-007-android-apk.md
-    - artifacts/reports/R10/R10-version-test-guide.md
-    - docs/03-continuity/PITFALLS.md
-    - design/R10-UI-FROZEN/specs/SCR-LIST-003.md
-    - design/R10-UI-FROZEN/specs/SCR-DETAIL-003.md
-    - design/R10-UI-FROZEN/specs/SCR-PUB-004.md
-    - catalogs/ui_visual_acceptance.csv
-    source: story+explicit+approved-cr:CR-0272+approved-cr:CR-0273+approved-cr:CR-0274+approved-cr:CR-0275+approved-cr:CR-0276+approved-cr:CR-0277+approved-cr:CR-0278
-  git:
-    initialized: true
-    branch: task/TASK-R03-001
-    base_commit: caea3ee88dbf21cc6371a4b7168368c65597014a
-    start_head: caea3ee88dbf21cc6371a4b7168368c65597014a
-    upstream: origin/task/TASK-R03-001
-    initial_worktree_state: CLEAN
-  lease:
-    duration_minutes: 240
-    renewed_at: '2026-07-23T16:42:40Z'
-    expires_at: '2026-07-23T20:42:40Z'
-  checkpoint_sequence: 10
-  latest_checkpoint: .continuity/checkpoints/SES-20260723T122953Z-52EBA51E/0010.yaml
-  session_log: docs/03-continuity/sessions/2026-07/SES-20260723T122953Z-52EBA51E.md
-  next_step: 提交并推送TASK-R10-007机器交付实现，随后以该Commit关闭任务并启动TASK-R10-008。
-  context_pack: THIS_CONTEXT_PACK
-  handoff_bundle: null
-  closure: null
-  parallel_execution:
-    assessment: NO_SAFE_PARALLEL
-    delegated_workers: 0
-    workers: []
-    reason: Release事实归档、CR状态与连续性提交强耦合，主控串行复核。
-latest_checkpoint:
-  protocol_version: '1.0'
-  checkpoint_id: CP-SES-20260723T122953Z-52EBA51E-0010
-  session_id: SES-20260723T122953Z-52EBA51E
-  sequence: 10
-  created_at: '2026-07-23T16:42:40Z'
-  summary: 完成R10源候选与轻量晋升、固定签名APK四方交付、桌面测试说明、SSH预认证容量修复、CR-0277/CR-0278实施及三页视觉追溯归档；Owner真机仍异步PENDING。
-  next_step: 提交并推送TASK-R10-007机器交付实现，随后以该Commit关闭任务并启动TASK-R10-008。
-  blockers: []
-  decisions: []
-  note: ''
-  tests:
-  - name: R10 source candidate
-    result: PASS
-    evidence: artifacts/validation/r10-task007-android/source-candidate-report.json
-    note: Run 30013677033完整候选PASS
-  - name: R10 baseline promotion
-    result: PASS
-    evidence: artifacts/validation/r10-task007-android/candidate-report.json
-    note: 轻量晋升不重跑模拟器
-  - name: R10 APK delivery
-    result: PASS
-    evidence: artifacts/validation/r10-apk-delivery/delivery-evidence.json
-    note: 四方SHA一致
-  - name: R10 UI visual acceptance
-    result: PASS
-    evidence: catalogs/ui_visual_acceptance.csv
-    note: 三页精确视觉追溯PASS
-  - name: R10 documentation
-    result: PASS
-    evidence: artifacts/validation/project-doctor-v1.2.3-documentation.json
-    note: 严格文档零错误零警告
-  - name: SSH pre-auth capacity
-    result: PASS
-    evidence: docs/07-operations/DEPLOYMENT_RUNBOOK.md
-    note: 回读及12连接PASS
-  git:
-    initialized: true
-    branch: task/TASK-R03-001
-    head: e906f169852fff222291c88cec1e8b229f011593
-    upstream: origin/task/TASK-R03-001
-    ahead: 0
-    behind: 0
-    dirty: true
-    status_porcelain:
-    - ' M .continuity/ACTIVE_SESSION.yaml'
-    - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
-    - ' M .continuity/EVENT_LOG.jsonl'
-    - ' M .continuity/SESSION_INDEX.yaml'
-    - ' M .continuity/STATE.yaml'
-    - ' M .continuity/sessions/SES-20260723T122953Z-52EBA51E.yaml'
-    - ' M CHANGELOG.md'
-    - ' M CURRENT_STATUS.yaml'
-    - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
-    - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
-    - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
-    - ' M artifacts/validation/project-doctor-v1.2.3-documentation.json'
-    - ' M catalogs/change_request_index.csv'
-    - ' M catalogs/session_index.csv'
-    - ' M catalogs/ui_visual_acceptance.csv'
-    - ' M docs/03-continuity/PITFALLS.md'
-    - ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
-    - ' M docs/03-continuity/sessions/2026-07/SES-20260723T122953Z-52EBA51E.md'
-    - ' M docs/07-operations/DEPLOYMENT_RUNBOOK.md'
-    - ?? .continuity/change_requests/CR-0277.yaml
-    - ?? .continuity/change_requests/CR-0278.yaml
-    - ?? .continuity/checkpoints/SES-20260723T122953Z-52EBA51E/0009.yaml
-    - ?? artifacts/apk/R10/APK_MANIFEST.yaml
-    - ?? artifacts/reports/R10/R10-version-test-guide.md
-    - ?? artifacts/reports/R10/TASK-R10-007-android-apk.md
-    - ?? artifacts/validation/r10-apk-delivery/delivery-evidence.json
-    - ?? artifacts/validation/r10-task007-android/APPROVAL.yaml
-    - ?? artifacts/validation/r10-task007-android/build-evidence.json
-    - ?? artifacts/validation/r10-task007-android/candidate-report.json
-    - ?? artifacts/validation/r10-task007-android/source-candidate-report.json
-    - ?? design/R10-UI-FROZEN/specs/SCR-DETAIL-003.md
-    - ?? design/R10-UI-FROZEN/specs/SCR-LIST-003.md
-    - ?? design/R10-UI-FROZEN/specs/SCR-PUB-004.md
-    - ?? docs/03-continuity/change-requests/CR-0277-登记R10四方交付并固化SSH预认证容量修复.md
-    - ?? docs/03-continuity/change-requests/CR-0278-补齐R10三页视觉追溯归档.md
-    recent_commits:
-    - "e906f169852fff222291c88cec1e8b229f011593\t2026-07-23T22:24:15+08:00\tHHY Continuity Bootstrap\t[STORY-R10-004] fix(ci): allow strict doctor\
-      \ promotion evidence"
-    - "871ef5cf741ac10a5a51fe6cb7b6bf2f820f889f\t2026-07-23T22:17:27+08:00\tHHY Continuity Bootstrap\t[STORY-R10-004] test(android): approve R10\
-      \ visual baseline"
-    - "1e35a97fb0541644d85a264a84229435ead378bf\t2026-07-23T21:58:02+08:00\tHHY Continuity Bootstrap\t[STORY-R10-004] fix(android): bind R10 candidate\
-      \ visual manifest"
-    - "2af41e6464c8e928de248522bcbbf36c733e1818\t2026-07-23T21:31:51+08:00\tHHY Continuity Bootstrap\t[STORY-R10-004] test(android): prepare R10\
-      \ final candidate"
-    - "caea3ee88dbf21cc6371a4b7168368c65597014a\t2026-07-23T20:29:21+08:00\tHHY Continuity Bootstrap\t[STORY-R10-004] chore(continuity): close\
-      \ TASK-R10-006 as completed"
-    - "c1b62d353b41d833e3f980057491d7b81b7c4065\t2026-07-23T20:28:36+08:00\tHHY Continuity Bootstrap\t[STORY-R10-004] chore(cr): close observability\
-      \ change"
-    - "1452e8100057a80986036ae100dc6ff085e10729\t2026-07-23T20:26:48+08:00\tHHY Continuity Bootstrap\t[STORY-R10-004] test(staging): accept group\
-      \ observability"
-    - "e1edfa980f510f5d566f6efe49e7401703cf50a7\t2026-07-23T20:14:36+08:00\tHHY Continuity Bootstrap\t[STORY-R10-004] test(observability): cover\
-      \ shared group event"
-  project_fingerprint:
-    sha256: f25d53f820fc658908fa699551c5ec190ddf5798a4b2ef864f801310c1262908
-    files:
-    - .github/workflows/android-baseline-promotion.yml
-    - CHANGELOG.md
-    - apps/android/app/build.gradle.kts
-    - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
-    - apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
-    - apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
-    - artifacts/apk/R10/APK_MANIFEST.yaml
-    - catalogs/ui_visual_acceptance.csv
-    - config/android-candidate-request.yaml
-    - design/R10-UI-FROZEN/specs/SCR-DETAIL-003.md
-    - design/R10-UI-FROZEN/specs/SCR-LIST-003.md
-    - design/R10-UI-FROZEN/specs/SCR-PUB-004.md
-    - docs/03-continuity/PITFALLS.md
-    - docs/03-continuity/PROBLEM_REGISTRY.yaml
-    - docs/03-continuity/change-requests/CR-0272-R10最终候选四页旅程与隔离数据夹具精确范围.md
-    - docs/03-continuity/change-requests/CR-0273-同步R10候选静态回归事实源.md
-    - docs/03-continuity/change-requests/CR-0274-补齐R10候选视觉清单并登记首轮确定性失败.md
-    - docs/03-continuity/change-requests/CR-0275-批准并轻量晋升R10首版视觉基线.md
-    - docs/03-continuity/change-requests/CR-0276-修复R10轻量晋升Doctor报告白名单遗漏.md
-    - docs/03-continuity/change-requests/CR-0277-登记R10四方交付并固化SSH预认证容量修复.md
-    - docs/03-continuity/change-requests/CR-0278-补齐R10三页视觉追溯归档.md
-    - docs/07-operations/DEPLOYMENT_RUNBOOK.md
-    - scripts/prepare_r10_ci_fixture.sh
-    - tests/android/visual-baselines/R10/01-home.png
-    - tests/android/visual-baselines/R10/02-group-list.png
-    - tests/android/visual-baselines/R10/03-group-detail.png
-    - tests/android/visual-baselines/R10/04-group-editor.png
-    - tests/android/visual-baselines/R10/APPROVAL.yaml
-    - tests/android/visual-manifests/R10.yaml
-    - tests/test_android_ci_gate.py
-    - tests/test_r10_candidate.py
-    file_count: 31
-    payload:
-      base_commit: caea3ee88dbf21cc6371a4b7168368c65597014a
-      files:
-      - path: .github/workflows/android-baseline-promotion.yml
-        state: FILE
-        size: 5296
-        sha256: 2dd1894825e7cbe2ed2bf6e884034ac065d49f3219c9f6de54e7947484c05aa0
-      - path: CHANGELOG.md
-        state: FILE
-        size: 115096
-        sha256: 2f485311d44f3908c1466513127c8e86221c5d189101bf25d6b99e8b2e8a5c6c
-      - path: apps/android/app/build.gradle.kts
-        state: FILE
-        size: 5246
-        sha256: 574884777bb5ca6079e0e7c78d380d0e5f44a9df2fe1d00910ad1289493c5ae4
-      - path: apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
-        state: FILE
-        size: 12540
-        sha256: 4b2307181ace9e27125cebb82165c78c672e97b0e4ee27c417ddb812073b9775
-      - path: apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
-        state: FILE
-        size: 520
-        sha256: b76bd786e9f2484d08d5127569981af915f959492a0afc0e6df34845d1b5a1c0
-      - path: apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
-        state: FILE
-        size: 1243
-        sha256: e57c71ffa29f7656f5ecbcee74caf622fb9c1dc54c860ceff95a5cc13889fc57
-      - path: artifacts/apk/R10/APK_MANIFEST.yaml
-        state: FILE
-        size: 673
-        sha256: e7d88abc4773b953d2eb512bd08c640e150ea81764761769a7b7374d5a9d7626
-      - path: catalogs/ui_visual_acceptance.csv
-        state: FILE
-        size: 45276
-        sha256: 008dbbc23a8e2d8d9e08f3b6899d0132bff9f481fc53d6ae197afe90e5beea82
-      - path: config/android-candidate-request.yaml
-        state: FILE
-        size: 346
-        sha256: 8ed12fd4c03f67acd3fece8012ec1966f7029a657c9996d52de1161829378794
-      - path: design/R10-UI-FROZEN/specs/SCR-DETAIL-003.md
-        state: FILE
-        size: 1697
-        sha256: 79d9aa56c767f6635983e002b22454edbf564b903d700a10e3fa22ad9a4e1ec2
-      - path: design/R10-UI-FROZEN/specs/SCR-LIST-003.md
-        state: FILE
-        size: 1561
-        sha256: d04d0f6b43594354934095d565a25553a0acafdad1dc0d608f67ef1067afece4
-      - path: design/R10-UI-FROZEN/specs/SCR-PUB-004.md
-        state: FILE
-        size: 1568
-        sha256: c3f9494dd36c4022b3fb7417a85080e215da35f536a5a0aeb9cd81e1306bd171
-      - path: docs/03-continuity/PITFALLS.md
-        state: FILE
-        size: 7253
-        sha256: 881ef16df439d6ab16bd07a40f70865ba46150c9defb54655c37d3e76901c88d
-      - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
-        state: FILE
-        size: 143658
-        sha256: 5a0b4c31c9ae3f5d1195243186697cccff914659c588a6330815e31f2bc0b2c8
-      - path: docs/03-continuity/change-requests/CR-0272-R10最终候选四页旅程与隔离数据夹具精确范围.md
-        state: FILE
-        size: 3202
-        sha256: 499e88aaf76040ca27bc0cc85148bb1ce85207aa29cfbed12e6529f48036b284
-      - path: docs/03-continuity/change-requests/CR-0273-同步R10候选静态回归事实源.md
-        state: FILE
-        size: 2309
-        sha256: 02d9e68f95d85fd98271c581536da5908d9cdb9b0ecdf645def06aa08bc1bfeb
-      - path: docs/03-continuity/change-requests/CR-0274-补齐R10候选视觉清单并登记首轮确定性失败.md
-        state: FILE
-        size: 3066
-        sha256: fd456777d5a4f47a2a84ae48e8897020476b4feb008c942e1a9db5791a98e2fb
-      - path: docs/03-continuity/change-requests/CR-0275-批准并轻量晋升R10首版视觉基线.md
-        state: FILE
-        size: 2658
-        sha256: 10c0e2288656c7343612ad1851393d0da8d342c71042c8af553975c3c2a8bda8
-      - path: docs/03-continuity/change-requests/CR-0276-修复R10轻量晋升Doctor报告白名单遗漏.md
-        state: FILE
-        size: 2437
-        sha256: 1b419cecdd3ae611f87e98343eed8e2283b98cebb84a5cde98b76ad09bf4e033
-      - path: docs/03-continuity/change-requests/CR-0277-登记R10四方交付并固化SSH预认证容量修复.md
-        state: FILE
-        size: 4055
-        sha256: e8a8a66ebcd9d3e6a0306e52cf2d299a6fc20a04d6afb0b8c9193d5266a19bcb
-      - path: docs/03-continuity/change-requests/CR-0278-补齐R10三页视觉追溯归档.md
-        state: FILE
-        size: 3027
-        sha256: 5ddd6cd0b1f2f3b601f2820516f60737cdb8472bc9966f96e58ccd372f4d0f51
-      - path: docs/07-operations/DEPLOYMENT_RUNBOOK.md
-        state: FILE
-        size: 38058
-        sha256: 56ad157d98441e91815141fbbf3edee2f977e652f913908bd9c62e4e92c3aa1e
-      - path: scripts/prepare_r10_ci_fixture.sh
-        state: FILE
-        size: 5490
-        sha256: ad4b0670261111dde0065e14ad82f2242da997a0eceffeae27089aa3582bfcd5
-      - path: tests/android/visual-baselines/R10/01-home.png
-        state: FILE
-        size: 231749
-        sha256: f0e8b81f54e64adc966f01a2ce923927de4cc144120a6b4104020fc83b38ccc5
-      - path: tests/android/visual-baselines/R10/02-group-list.png
-        state: FILE
-        size: 113102
-        sha256: 969708c08c1cad03332ff5d9364dae515e59a046e6ac722db6033902070fd93e
-      - path: tests/android/visual-baselines/R10/03-group-detail.png
-        state: FILE
-        size: 173796
-        sha256: 5a990a5f65da24e876cac2c0c60536f4b64acaa46e928f60cd76468f4707cd77
-      - path: tests/android/visual-baselines/R10/04-group-editor.png
-        state: FILE
-        size: 162814
-        sha256: 127cecb49861ab20b3e4c24f9f14317b4a52451bc6c381401a67847a22e6a36d
-      - path: tests/android/visual-baselines/R10/APPROVAL.yaml
-        state: FILE
-        size: 1265
-        sha256: 44d32df82994f0d8deb6e3605e6e77a4c0b07c97f51846d3dd4c150a9cfbe748
-      - path: tests/android/visual-manifests/R10.yaml
-        state: FILE
-        size: 1974
-        sha256: a085f347c6a77899d9f3cc64f99bb79dcdc1725bebf666479d076e4a1f816b6d
-      - path: tests/test_android_ci_gate.py
-        state: FILE
-        size: 30531
-        sha256: dc86151929226928090ec29b1b689643d46acbaeed261b6ff0b0f463ccf41ac5
-      - path: tests/test_r10_candidate.py
-        state: FILE
-        size: 3211
-        sha256: c66e9fe665008803fe4bb9eaeb419a859c3bce88aca7c4a63fb0eab5d0beb6c1
-  change_classification:
-    infrastructure:
-    - .github/workflows/android-baseline-promotion.yml
-    other:
-    - CHANGELOG.md
-    - artifacts/apk/R10/APK_MANIFEST.yaml
-    - catalogs/ui_visual_acceptance.csv
-    - config/android-candidate-request.yaml
-    - design/R10-UI-FROZEN/specs/SCR-DETAIL-003.md
-    - design/R10-UI-FROZEN/specs/SCR-LIST-003.md
-    - design/R10-UI-FROZEN/specs/SCR-PUB-004.md
-    - docs/07-operations/DEPLOYMENT_RUNBOOK.md
-    code:
-    - apps/android/app/build.gradle.kts
-    - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
-    - apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
-    - apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
-    - scripts/prepare_r10_ci_fixture.sh
-    user_visible:
-    - apps/android/app/build.gradle.kts
-    - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
-    - apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
-    - apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
-    continuity:
-    - docs/03-continuity/PITFALLS.md
-    - docs/03-continuity/PROBLEM_REGISTRY.yaml
-    - docs/03-continuity/change-requests/CR-0272-R10最终候选四页旅程与隔离数据夹具精确范围.md
-    - docs/03-continuity/change-requests/CR-0273-同步R10候选静态回归事实源.md
-    - docs/03-continuity/change-requests/CR-0274-补齐R10候选视觉清单并登记首轮确定性失败.md
-    - docs/03-continuity/change-requests/CR-0275-批准并轻量晋升R10首版视觉基线.md
-    - docs/03-continuity/change-requests/CR-0276-修复R10轻量晋升Doctor报告白名单遗漏.md
-    - docs/03-continuity/change-requests/CR-0277-登记R10四方交付并固化SSH预认证容量修复.md
-    - docs/03-continuity/change-requests/CR-0278-补齐R10三页视觉追溯归档.md
-    tests:
-    - tests/android/visual-baselines/R10/01-home.png
-    - tests/android/visual-baselines/R10/02-group-list.png
-    - tests/android/visual-baselines/R10/03-group-detail.png
-    - tests/android/visual-baselines/R10/04-group-editor.png
-    - tests/android/visual-baselines/R10/APPROVAL.yaml
-    - tests/android/visual-manifests/R10.yaml
-    - tests/test_android_ci_gate.py
-    - tests/test_r10_candidate.py
-  required_records:
-  - SESSION_RECORD
-  - SESSION_LOG
-  - CHECKPOINT
-  - CURRENT_STATUS
-  - EVENT_LOG
-  - CHANGELOG
-  change_requests:
-  - CR-0272
-  - CR-0273
-  - CR-0274
-  - CR-0275
-  - CR-0276
-  - CR-0277
-  - CR-0278
-  scope:
-    allowed_paths:
-    - apps/**
-    - services/**
-    - packages/**
-    - contracts/**
-    - database/**
-    - config/**
-    - catalogs/**
-    - tests/**
-    - infra/**
-    - design/**
-    - docs/**
-    - releases/**
-    - scripts/**
-    - templates/**
-    - .github/**
-    - .githooks/**
-    - .codex/**
-    - AGENTS.md
-    - START_HERE.md
-    - README.md
-    - CHANGELOG.md
-    - Makefile
-    - .gitignore
-    - .gitattributes
-    - .dockerignore
-    - package.json
-    - pnpm-lock.yaml
-    - pnpm-workspace.yaml
-    - requirements-dev.txt
-    - PROJECT_*.yaml
-    - PROJECT_*.json
-    approved_exceptions:
-    - scripts/prepare_r10_ci_fixture.sh
-    - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
-    - apps/android/app/build.gradle.kts
-    - apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
-    - apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
-    - config/android-candidate-request.yaml
-    - docs/07-operations/DEPLOYMENT_RUNBOOK.md
-    - tests/test_android_ci_gate.py
-    - tests/test_r10_candidate.py
-    - tests/android/visual-manifests/R10.yaml
-    - CHANGELOG.md
-    - docs/03-continuity/PROBLEM_REGISTRY.yaml
-    - tests/android/visual-baselines/R10/01-home.png
-    - tests/android/visual-baselines/R10/02-group-list.png
-    - tests/android/visual-baselines/R10/03-group-detail.png
-    - tests/android/visual-baselines/R10/04-group-editor.png
-    - tests/android/visual-baselines/R10/APPROVAL.yaml
-    - .github/workflows/android-baseline-promotion.yml
-    - artifacts/apk/R10/APK_MANIFEST.yaml
-    - artifacts/apk/R10/hhy-r10-1e35a97-debug.apk
-    - artifacts/validation/r10-apk-delivery/delivery-evidence.json
-    - artifacts/validation/r10-task007-android/build-evidence.json
-    - artifacts/validation/r10-task007-android/candidate-report.json
-    - artifacts/validation/r10-task007-android/source-candidate-report.json
-    - artifacts/validation/r10-task007-android/APPROVAL.yaml
-    - artifacts/reports/R10/TASK-R10-007-android-apk.md
-    - artifacts/reports/R10/R10-version-test-guide.md
-    - docs/03-continuity/PITFALLS.md
-    - design/R10-UI-FROZEN/specs/SCR-LIST-003.md
-    - design/R10-UI-FROZEN/specs/SCR-DETAIL-003.md
-    - design/R10-UI-FROZEN/specs/SCR-PUB-004.md
-    - catalogs/ui_visual_acceptance.csv
-    source: story+explicit+approved-cr:CR-0272+approved-cr:CR-0273+approved-cr:CR-0274+approved-cr:CR-0275+approved-cr:CR-0276+approved-cr:CR-0277+approved-cr:CR-0278
-  parallel_execution:
-    assessment: NO_SAFE_PARALLEL
-    delegated_workers: 0
-    workers: []
-    reason: Release事实归档、CR状态与连续性提交强耦合，主控串行复核。
-  event_hash: 8c12a963354305aecf332412c75345acc6c89a8da112c266e4d0e551cb1208ab
+active_session: null
+latest_checkpoint: null
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: e906f169852fff222291c88cec1e8b229f011593
+  head: 758c30a3f5fa393dd57b886ac496edd039a6e46f
   upstream: origin/task/TASK-R03-001
-  ahead: 0
+  ahead: 1
   behind: 0
   dirty: true
   status_porcelain:
   - ' M .continuity/ACTIVE_SESSION.yaml'
-  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
   - ' M .continuity/EVENT_LOG.jsonl'
   - ' M .continuity/SESSION_INDEX.yaml'
   - ' M .continuity/STATE.yaml'
+  - ' M .continuity/TASK_CLAIMS.yaml'
   - ' M .continuity/sessions/SES-20260723T122953Z-52EBA51E.yaml'
   - ' M CHANGELOG.md'
   - ' M CURRENT_STATUS.yaml'
+  - ' M NEXT_TASK.yaml'
   - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
   - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
   - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
-  - ' M artifacts/validation/project-doctor-v1.2.3-documentation.json'
-  - ' M catalogs/change_request_index.csv'
   - ' M catalogs/session_index.csv'
-  - ' M catalogs/ui_visual_acceptance.csv'
-  - ' M docs/03-continuity/PITFALLS.md'
-  - ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
   - ' M docs/03-continuity/sessions/2026-07/SES-20260723T122953Z-52EBA51E.md'
-  - ' M docs/07-operations/DEPLOYMENT_RUNBOOK.md'
-  - ?? .continuity/change_requests/CR-0277.yaml
-  - ?? .continuity/change_requests/CR-0278.yaml
-  - ?? .continuity/checkpoints/SES-20260723T122953Z-52EBA51E/0009.yaml
-  - ?? .continuity/checkpoints/SES-20260723T122953Z-52EBA51E/0010.yaml
-  - ?? artifacts/apk/R10/APK_MANIFEST.yaml
-  - ?? artifacts/reports/R10/R10-version-test-guide.md
-  - ?? artifacts/reports/R10/TASK-R10-007-android-apk.md
-  - ?? artifacts/validation/r10-apk-delivery/delivery-evidence.json
-  - ?? artifacts/validation/r10-task007-android/APPROVAL.yaml
-  - ?? artifacts/validation/r10-task007-android/build-evidence.json
-  - ?? artifacts/validation/r10-task007-android/candidate-report.json
-  - ?? artifacts/validation/r10-task007-android/source-candidate-report.json
-  - ?? design/R10-UI-FROZEN/specs/SCR-DETAIL-003.md
-  - ?? design/R10-UI-FROZEN/specs/SCR-LIST-003.md
-  - ?? design/R10-UI-FROZEN/specs/SCR-PUB-004.md
-  - ?? docs/03-continuity/change-requests/CR-0277-登记R10四方交付并固化SSH预认证容量修复.md
-  - ?? docs/03-continuity/change-requests/CR-0278-补齐R10三页视觉追溯归档.md
+  - ' M releases/R10/TASKS.yaml'
+  - ?? .continuity/checkpoints/SES-20260723T122953Z-52EBA51E/0011.yaml
   recent_commits:
+  - "758c30a3f5fa393dd57b886ac496edd039a6e46f\t2026-07-24T00:43:51+08:00\tHHY Continuity Bootstrap\t[STORY-R10-004] test(android): deliver R10\
+    \ test APK"
   - "e906f169852fff222291c88cec1e8b229f011593\t2026-07-23T22:24:15+08:00\tHHY Continuity Bootstrap\t[STORY-R10-004] fix(ci): allow strict doctor\
     \ promotion evidence"
   - "871ef5cf741ac10a5a51fe6cb7b6bf2f820f889f\t2026-07-23T22:17:27+08:00\tHHY Continuity Bootstrap\t[STORY-R10-004] test(android): approve R10\
@@ -757,170 +236,10 @@ git:
     \ change"
   - "1452e8100057a80986036ae100dc6ff085e10729\t2026-07-23T20:26:48+08:00\tHHY Continuity Bootstrap\t[STORY-R10-004] test(staging): accept group\
     \ observability"
-  - "e1edfa980f510f5d566f6efe49e7401703cf50a7\t2026-07-23T20:14:36+08:00\tHHY Continuity Bootstrap\t[STORY-R10-004] test(observability): cover\
-    \ shared group event"
 project_fingerprint:
-  sha256: f25d53f820fc658908fa699551c5ec190ddf5798a4b2ef864f801310c1262908
-  files:
-  - .github/workflows/android-baseline-promotion.yml
-  - CHANGELOG.md
-  - apps/android/app/build.gradle.kts
-  - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
-  - apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
-  - apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
-  - artifacts/apk/R10/APK_MANIFEST.yaml
-  - catalogs/ui_visual_acceptance.csv
-  - config/android-candidate-request.yaml
-  - design/R10-UI-FROZEN/specs/SCR-DETAIL-003.md
-  - design/R10-UI-FROZEN/specs/SCR-LIST-003.md
-  - design/R10-UI-FROZEN/specs/SCR-PUB-004.md
-  - docs/03-continuity/PITFALLS.md
-  - docs/03-continuity/PROBLEM_REGISTRY.yaml
-  - docs/03-continuity/change-requests/CR-0272-R10最终候选四页旅程与隔离数据夹具精确范围.md
-  - docs/03-continuity/change-requests/CR-0273-同步R10候选静态回归事实源.md
-  - docs/03-continuity/change-requests/CR-0274-补齐R10候选视觉清单并登记首轮确定性失败.md
-  - docs/03-continuity/change-requests/CR-0275-批准并轻量晋升R10首版视觉基线.md
-  - docs/03-continuity/change-requests/CR-0276-修复R10轻量晋升Doctor报告白名单遗漏.md
-  - docs/03-continuity/change-requests/CR-0277-登记R10四方交付并固化SSH预认证容量修复.md
-  - docs/03-continuity/change-requests/CR-0278-补齐R10三页视觉追溯归档.md
-  - docs/07-operations/DEPLOYMENT_RUNBOOK.md
-  - scripts/prepare_r10_ci_fixture.sh
-  - tests/android/visual-baselines/R10/01-home.png
-  - tests/android/visual-baselines/R10/02-group-list.png
-  - tests/android/visual-baselines/R10/03-group-detail.png
-  - tests/android/visual-baselines/R10/04-group-editor.png
-  - tests/android/visual-baselines/R10/APPROVAL.yaml
-  - tests/android/visual-manifests/R10.yaml
-  - tests/test_android_ci_gate.py
-  - tests/test_r10_candidate.py
-  file_count: 31
-  payload:
-    base_commit: caea3ee88dbf21cc6371a4b7168368c65597014a
-    files:
-    - path: .github/workflows/android-baseline-promotion.yml
-      state: FILE
-      size: 5296
-      sha256: 2dd1894825e7cbe2ed2bf6e884034ac065d49f3219c9f6de54e7947484c05aa0
-    - path: CHANGELOG.md
-      state: FILE
-      size: 115096
-      sha256: 2f485311d44f3908c1466513127c8e86221c5d189101bf25d6b99e8b2e8a5c6c
-    - path: apps/android/app/build.gradle.kts
-      state: FILE
-      size: 5246
-      sha256: 574884777bb5ca6079e0e7c78d380d0e5f44a9df2fe1d00910ad1289493c5ae4
-    - path: apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
-      state: FILE
-      size: 12540
-      sha256: 4b2307181ace9e27125cebb82165c78c672e97b0e4ee27c417ddb812073b9775
-    - path: apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
-      state: FILE
-      size: 520
-      sha256: b76bd786e9f2484d08d5127569981af915f959492a0afc0e6df34845d1b5a1c0
-    - path: apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
-      state: FILE
-      size: 1243
-      sha256: e57c71ffa29f7656f5ecbcee74caf622fb9c1dc54c860ceff95a5cc13889fc57
-    - path: artifacts/apk/R10/APK_MANIFEST.yaml
-      state: FILE
-      size: 673
-      sha256: e7d88abc4773b953d2eb512bd08c640e150ea81764761769a7b7374d5a9d7626
-    - path: catalogs/ui_visual_acceptance.csv
-      state: FILE
-      size: 45276
-      sha256: 008dbbc23a8e2d8d9e08f3b6899d0132bff9f481fc53d6ae197afe90e5beea82
-    - path: config/android-candidate-request.yaml
-      state: FILE
-      size: 346
-      sha256: 8ed12fd4c03f67acd3fece8012ec1966f7029a657c9996d52de1161829378794
-    - path: design/R10-UI-FROZEN/specs/SCR-DETAIL-003.md
-      state: FILE
-      size: 1697
-      sha256: 79d9aa56c767f6635983e002b22454edbf564b903d700a10e3fa22ad9a4e1ec2
-    - path: design/R10-UI-FROZEN/specs/SCR-LIST-003.md
-      state: FILE
-      size: 1561
-      sha256: d04d0f6b43594354934095d565a25553a0acafdad1dc0d608f67ef1067afece4
-    - path: design/R10-UI-FROZEN/specs/SCR-PUB-004.md
-      state: FILE
-      size: 1568
-      sha256: c3f9494dd36c4022b3fb7417a85080e215da35f536a5a0aeb9cd81e1306bd171
-    - path: docs/03-continuity/PITFALLS.md
-      state: FILE
-      size: 7253
-      sha256: 881ef16df439d6ab16bd07a40f70865ba46150c9defb54655c37d3e76901c88d
-    - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
-      state: FILE
-      size: 143658
-      sha256: 5a0b4c31c9ae3f5d1195243186697cccff914659c588a6330815e31f2bc0b2c8
-    - path: docs/03-continuity/change-requests/CR-0272-R10最终候选四页旅程与隔离数据夹具精确范围.md
-      state: FILE
-      size: 3202
-      sha256: 499e88aaf76040ca27bc0cc85148bb1ce85207aa29cfbed12e6529f48036b284
-    - path: docs/03-continuity/change-requests/CR-0273-同步R10候选静态回归事实源.md
-      state: FILE
-      size: 2309
-      sha256: 02d9e68f95d85fd98271c581536da5908d9cdb9b0ecdf645def06aa08bc1bfeb
-    - path: docs/03-continuity/change-requests/CR-0274-补齐R10候选视觉清单并登记首轮确定性失败.md
-      state: FILE
-      size: 3066
-      sha256: fd456777d5a4f47a2a84ae48e8897020476b4feb008c942e1a9db5791a98e2fb
-    - path: docs/03-continuity/change-requests/CR-0275-批准并轻量晋升R10首版视觉基线.md
-      state: FILE
-      size: 2658
-      sha256: 10c0e2288656c7343612ad1851393d0da8d342c71042c8af553975c3c2a8bda8
-    - path: docs/03-continuity/change-requests/CR-0276-修复R10轻量晋升Doctor报告白名单遗漏.md
-      state: FILE
-      size: 2437
-      sha256: 1b419cecdd3ae611f87e98343eed8e2283b98cebb84a5cde98b76ad09bf4e033
-    - path: docs/03-continuity/change-requests/CR-0277-登记R10四方交付并固化SSH预认证容量修复.md
-      state: FILE
-      size: 4055
-      sha256: e8a8a66ebcd9d3e6a0306e52cf2d299a6fc20a04d6afb0b8c9193d5266a19bcb
-    - path: docs/03-continuity/change-requests/CR-0278-补齐R10三页视觉追溯归档.md
-      state: FILE
-      size: 3027
-      sha256: 5ddd6cd0b1f2f3b601f2820516f60737cdb8472bc9966f96e58ccd372f4d0f51
-    - path: docs/07-operations/DEPLOYMENT_RUNBOOK.md
-      state: FILE
-      size: 38058
-      sha256: 56ad157d98441e91815141fbbf3edee2f977e652f913908bd9c62e4e92c3aa1e
-    - path: scripts/prepare_r10_ci_fixture.sh
-      state: FILE
-      size: 5490
-      sha256: ad4b0670261111dde0065e14ad82f2242da997a0eceffeae27089aa3582bfcd5
-    - path: tests/android/visual-baselines/R10/01-home.png
-      state: FILE
-      size: 231749
-      sha256: f0e8b81f54e64adc966f01a2ce923927de4cc144120a6b4104020fc83b38ccc5
-    - path: tests/android/visual-baselines/R10/02-group-list.png
-      state: FILE
-      size: 113102
-      sha256: 969708c08c1cad03332ff5d9364dae515e59a046e6ac722db6033902070fd93e
-    - path: tests/android/visual-baselines/R10/03-group-detail.png
-      state: FILE
-      size: 173796
-      sha256: 5a990a5f65da24e876cac2c0c60536f4b64acaa46e928f60cd76468f4707cd77
-    - path: tests/android/visual-baselines/R10/04-group-editor.png
-      state: FILE
-      size: 162814
-      sha256: 127cecb49861ab20b3e4c24f9f14317b4a52451bc6c381401a67847a22e6a36d
-    - path: tests/android/visual-baselines/R10/APPROVAL.yaml
-      state: FILE
-      size: 1265
-      sha256: 44d32df82994f0d8deb6e3605e6e77a4c0b07c97f51846d3dd4c150a9cfbe748
-    - path: tests/android/visual-manifests/R10.yaml
-      state: FILE
-      size: 1974
-      sha256: a085f347c6a77899d9f3cc64f99bb79dcdc1725bebf666479d076e4a1f816b6d
-    - path: tests/test_android_ci_gate.py
-      state: FILE
-      size: 30531
-      sha256: dc86151929226928090ec29b1b689643d46acbaeed261b6ff0b0f463ccf41ac5
-    - path: tests/test_r10_candidate.py
-      state: FILE
-      size: 3211
-      sha256: c66e9fe665008803fe4bb9eaeb419a859c3bce88aca7c4a63fb0eab5d0beb6c1
+  sha256: 5aa8aa8d4e1e98d10119ca62df8098998d51712725368b872805e861fa73757e
+  files: []
+  file_count: 0
 release_context:
   RELEASE_MANIFEST.yaml:
     release: R10
@@ -1604,7 +923,7 @@ release_context:
       completed_at: '2026-07-23T12:28:52Z'
     - id: TASK-R10-007
       title: 群聊推广完整闭环Android测试APK与产物追溯
-      status: READY
+      status: DONE
       depends_on:
       - TASK-R10-006
       requirements: *id001
@@ -1618,9 +937,10 @@ release_context:
       - APK可下载/可安装
       - SHA256、Commit、versionName/versionCode、测试结果齐全
       session_log_required: true
+      completed_at: '2026-07-23T16:49:09Z'
     - id: TASK-R10-008
       title: 群聊推广完整闭环版本关闭与无状态交接
-      status: BLOCKED
+      status: READY
       depends_on:
       - TASK-R10-007
       requirements: *id001
@@ -1834,12 +1154,12 @@ repository_transport:
 continuity_state:
   mode: ENFORCED
   protocol_version: '1.0'
-  active_session_id: SES-20260723T122953Z-52EBA51E
-  last_session_id: SES-20260723T115555Z-5C81458B
+  active_session_id: null
+  last_session_id: SES-20260723T122953Z-52EBA51E
   last_session_result: COMPLETED
-  last_closure_checkpoint_id: CP-SES-20260723T115555Z-5C81458B-0008
-  event_count: 2749
-  event_head_hash: 8c12a963354305aecf332412c75345acc6c89a8da112c266e4d0e551cb1208ab
+  last_closure_checkpoint_id: CP-SES-20260723T122953Z-52EBA51E-0011
+  event_count: 2752
+  event_head_hash: 82957a3196cf7d96dd27890274a2088b30066913c613fc893234f56b6e7ec981
   event_chain_valid: true
 recent_sessions:
 - session_id: SES-20260722T200509Z-8FC026EC
@@ -1954,13 +1274,13 @@ recent_sessions:
   task_id: TASK-R10-007
   story_id: STORY-R10-004
   actor_id: codex-root-r10-candidate
-  status: ACTIVE
+  status: CLOSED
   started_at: '2026-07-23T12:29:53Z'
   record: .continuity/sessions/SES-20260723T122953Z-52EBA51E.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260723T122953Z-52EBA51E.md
-  updated_at: '2026-07-23T16:42:40Z'
-  closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260723T122953Z-52EBA51E/0010.yaml
+  updated_at: '2026-07-23T16:49:16Z'
+  closed_at: '2026-07-23T16:49:16Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260723T122953Z-52EBA51E/0011.yaml
   handoff_bundle: null
 task_claims:
 - claim_id: CLM-EB5FB81DE552
@@ -2753,7 +2073,7 @@ task_claims:
   task_id: TASK-R10-007
   story_id: STORY-R10-004
   actor_id: codex-root-r10-candidate
-  status: ACTIVE
+  status: CLOSED
   claimed_at: '2026-07-23T12:29:53Z'
   allowed_paths:
   - apps/**
@@ -2787,6 +2107,7 @@ task_claims:
   - requirements-dev.txt
   - PROJECT_*.yaml
   - PROJECT_*.json
+  closed_at: '2026-07-23T16:49:16Z'
 recent_task_transitions:
 - transition_id: TRN-212DF23D2F8E
   timestamp: '2026-07-22T03:16:05Z'
@@ -9461,11 +8782,11 @@ source_manifest:
   sha256: 22de14029ce47beb41ea569e36ce223fbc9d11b86f8676f28d5fbbd83896af5c
   bytes: 4556
 - path: CURRENT_STATUS.yaml
-  sha256: e78791c408f6987cf99eba7e3554629c8727a47567c1c852d3302ffb18ff87c4
-  bytes: 4199
+  sha256: bf46e061183c01b22cbe35fde31d7dbfe06ce5b391d5193f62342b6aba8e0bfa
+  bytes: 4094
 - path: NEXT_TASK.yaml
-  sha256: 8148a7d7c8d6cb52a518e42cd31188b6ebb3942e042f7ced5e6480c986612d35
-  bytes: 1576
+  sha256: 85001e9f28f0a1bf84ebc91dbba1a3f7208a86c502a4e988746d1736d63b45f2
+  bytes: 1525
 - path: DEVELOPMENT_RISK_REGISTER.md
   sha256: 8304c91492e4ee2abea0522a06541c8688d39c7fc532b5d0cde499bf09fffb87
   bytes: 8289
@@ -9494,14 +8815,14 @@ source_manifest:
   sha256: 16a96f9a52f352f3c62175db308dd973889b2e82acb117bcfdd12a4bc4d379f6
   bytes: 12763
 - path: .continuity/EVENT_LOG.jsonl
-  sha256: d296d9d7205cd9b3fbb28f230fc381a93935e0de7070072cc92ba585f06184d7
-  bytes: 1536503
+  sha256: 90b2a02fc7ed181d8273ec18fc3395a7d83fbc8b48edc0ec60ac44b13b4b9ba8
+  bytes: 1538420
 - path: .continuity/SESSION_INDEX.yaml
-  sha256: 1b4f788ba0c5dadac1bb32e81f20fa1d13e1ba8b06f3b9e6ce5a12242350372d
-  bytes: 46137
+  sha256: 8ed1489a5226e08e443179b2d115105c17e8b35f2b565df3c7af9f515b8784cb
+  bytes: 46155
 - path: .continuity/TASK_CLAIMS.yaml
-  sha256: 1f50a4defdbf5975f9ab4aee96217302f95ba0e6a2649818a21e1c2aa3b6f71b
-  bytes: 64060
+  sha256: 5a61107bef3b494678297107889c804dff974edcdbb17fcdebb45006ea91afc0
+  bytes: 64096
 - path: .continuity/TASK_TRANSITIONS.yaml
   sha256: a59673d389f8c0005526641168c27af2dfe7c2d16eea1a24789adabacb21a963
   bytes: 26268
@@ -9509,8 +8830,8 @@ source_manifest:
   sha256: f6da24e91bf2a0d61f37df814253f9df8d1d335aa879555e64866741a8bc22b0
   bytes: 931145
 - path: .continuity/ACTIVE_SESSION.yaml
-  sha256: 85b2b806ff925b67bfd182db6a66720e18458e7517246deb60b56140fd661fc9
-  bytes: 539
+  sha256: 6ffe7e4fe9830cecbff5d2396ab167cb85d0b1831dcafb37f58e2d9edb643e48
+  bytes: 143
 - path: docs/00-baseline/正式商业系统全局硬性开发边界.md
   sha256: 9753b32db136e59e95a0974a62362456d9d577fd1bb40058ec985c4b64413eea
   bytes: 12596
@@ -9533,41 +8854,14 @@ source_manifest:
   sha256: 5de97bb428f24c708a6613fffe8d19171b6e3760fdb92d555fa6188533ab5e02
   bytes: 11087
 - path: releases/R10/TASKS.yaml
-  sha256: 432c368e0ac96c82a74f12be67b30f8da0ee33a4bdfe6e64b3a1749bd08089ad
-  bytes: 5707
+  sha256: 0fd6405234634304df7768c90e60566ae5c061e573c22f5ebf957e8e0873f52c
+  bytes: 5743
 - path: releases/R10/ACCEPTANCE_MATRIX.csv
   sha256: a0f23471f3e3e17232d6089c670cf620e73e6b842ca6dbe86ecbbb173b634075
   bytes: 704
 - path: releases/R10/PARALLEL_EXECUTION_PLAN.yaml
   sha256: ad9d4615ce1683a80e27986d1f3f078ab5012ffd5c001a618a8b9df278e1e3f7
   bytes: 2382
-- path: docs/03-continuity/sessions/2026-07/SES-20260723T122953Z-52EBA51E.md
-  sha256: 4b96c8ba3a86668b34662ad2c3167d9a0f6435914fe463247b1d1c8e6bafcbc5
-  bytes: 22100
-- path: .continuity/checkpoints/SES-20260723T122953Z-52EBA51E/0010.yaml
-  sha256: 18a8c6f36a065b0122e8d700a13d0080e7a1eff595985e328f180bc3b62b1097
-  bytes: 17517
-- path: docs/03-continuity/change-requests/CR-0272-R10最终候选四页旅程与隔离数据夹具精确范围.md
-  sha256: 499e88aaf76040ca27bc0cc85148bb1ce85207aa29cfbed12e6529f48036b284
-  bytes: 3202
-- path: docs/03-continuity/change-requests/CR-0273-同步R10候选静态回归事实源.md
-  sha256: 02d9e68f95d85fd98271c581536da5908d9cdb9b0ecdf645def06aa08bc1bfeb
-  bytes: 2309
-- path: docs/03-continuity/change-requests/CR-0274-补齐R10候选视觉清单并登记首轮确定性失败.md
-  sha256: fd456777d5a4f47a2a84ae48e8897020476b4feb008c942e1a9db5791a98e2fb
-  bytes: 3066
-- path: docs/03-continuity/change-requests/CR-0275-批准并轻量晋升R10首版视觉基线.md
-  sha256: 10c0e2288656c7343612ad1851393d0da8d342c71042c8af553975c3c2a8bda8
-  bytes: 2658
-- path: docs/03-continuity/change-requests/CR-0276-修复R10轻量晋升Doctor报告白名单遗漏.md
-  sha256: 1b419cecdd3ae611f87e98343eed8e2283b98cebb84a5cde98b76ad09bf4e033
-  bytes: 2437
-- path: docs/03-continuity/change-requests/CR-0277-登记R10四方交付并固化SSH预认证容量修复.md
-  sha256: e8a8a66ebcd9d3e6a0306e52cf2d299a6fc20a04d6afb0b8c9193d5266a19bcb
-  bytes: 4055
-- path: docs/03-continuity/change-requests/CR-0278-补齐R10三页视觉追溯归档.md
-  sha256: 5ddd6cd0b1f2f3b601f2820516f60737cdb8472bc9966f96e58ccd372f4d0f51
-  bytes: 3027
 rule_readiness:
   status: PASS
   evidence: HASHED_CONTEXT_MANIFEST
@@ -9587,8 +8881,7 @@ rule_readiness:
   - docs/03-continuity/PITFALLS.md
   - docs/09-development/统一开发与交付效率规范.md
   missing_sources: []
-exact_resume_command: python3 scripts/continuity.py checkpoint --summary '<完成内容>' --next-step '<下一步>' --parallel-assessment <ASSESSMENT> --parallel-reason
-  '<未委托原因>'
+exact_resume_command: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R10-008
 hard_rules:
 - 不得依赖旧对话补充仓库已有需求
 - 未领取任务和会话不得编辑项目文件
@@ -9603,4 +8896,4 @@ hard_rules:
 - 除非项目所有者明确报告未连接，默认Codex已连接obx-test且既有项目环境可用；预检失败必须阻断并报告
 - 禁止以无服务器状态继续开发或重建本地Android SDK，必须复用登记的远端镜像和Gradle缓存
 - Git remote/upstream仅按tracked transport descriptor受控恢复；推送前必须预检且禁止force push
-context_hash: 53279530f57f5aadbf44a3e5893a511d38618cb5afa636cc79c2eb186567c739
+context_hash: 3dcca3e7bf25537f5c18d89b3f57e41c31078e84aa02e21ed702e3cec7790c59

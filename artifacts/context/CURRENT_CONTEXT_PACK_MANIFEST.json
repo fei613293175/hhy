@@ -1,19 +1,19 @@
 {
   "version": "1.0",
-  "generated_at": "2026-07-23T16:42:42Z",
-  "context_hash": "53279530f57f5aadbf44a3e5893a511d38618cb5afa636cc79c2eb186567c739",
-  "fingerprint_mode": "SESSION_DELTA",
+  "generated_at": "2026-07-23T16:49:20Z",
+  "context_hash": "3dcca3e7bf25537f5c18d89b3f57e41c31078e84aa02e21ed702e3cec7790c59",
+  "fingerprint_mode": "REPOSITORY_TREE",
   "project_fingerprint": {
-    "sha256": "f25d53f820fc658908fa699551c5ec190ddf5798a4b2ef864f801310c1262908",
-    "file_count": 31
+    "sha256": "5aa8aa8d4e1e98d10119ca62df8098998d51712725368b872805e861fa73757e",
+    "file_count": 0
   },
   "yaml": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.yaml",
-    "sha256": "4940a2b794a3d80666d7269bb2654a6cc017ca85db771f2b9ac16dd20b1dc872"
+    "sha256": "29f71e6a7649e070d7865024ff79831e0242e729e7ea446a8b0c883922340f58"
   },
   "markdown": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.md",
-    "sha256": "b5db782a9a46c06e5c06fb8569dfcb6b06482b7e9df6972d7e10051d10c3ab50"
+    "sha256": "121eeac06dcdcbbfbe4a9fbb1b06b4341b646c5933022a248ebdb90171a6b455"
   },
   "sources": [
     {
@@ -28,13 +28,13 @@
     },
     {
       "path": "CURRENT_STATUS.yaml",
-      "sha256": "e78791c408f6987cf99eba7e3554629c8727a47567c1c852d3302ffb18ff87c4",
-      "bytes": 4199
+      "sha256": "bf46e061183c01b22cbe35fde31d7dbfe06ce5b391d5193f62342b6aba8e0bfa",
+      "bytes": 4094
     },
     {
       "path": "NEXT_TASK.yaml",
-      "sha256": "8148a7d7c8d6cb52a518e42cd31188b6ebb3942e042f7ced5e6480c986612d35",
-      "bytes": 1576
+      "sha256": "85001e9f28f0a1bf84ebc91dbba1a3f7208a86c502a4e988746d1736d63b45f2",
+      "bytes": 1525
     },
     {
       "path": "DEVELOPMENT_RISK_REGISTER.md",
@@ -83,18 +83,18 @@
     },
     {
       "path": ".continuity/EVENT_LOG.jsonl",
-      "sha256": "d296d9d7205cd9b3fbb28f230fc381a93935e0de7070072cc92ba585f06184d7",
-      "bytes": 1536503
+      "sha256": "90b2a02fc7ed181d8273ec18fc3395a7d83fbc8b48edc0ec60ac44b13b4b9ba8",
+      "bytes": 1538420
     },
     {
       "path": ".continuity/SESSION_INDEX.yaml",
-      "sha256": "1b4f788ba0c5dadac1bb32e81f20fa1d13e1ba8b06f3b9e6ce5a12242350372d",
-      "bytes": 46137
+      "sha256": "8ed1489a5226e08e443179b2d115105c17e8b35f2b565df3c7af9f515b8784cb",
+      "bytes": 46155
     },
     {
       "path": ".continuity/TASK_CLAIMS.yaml",
-      "sha256": "1f50a4defdbf5975f9ab4aee96217302f95ba0e6a2649818a21e1c2aa3b6f71b",
-      "bytes": 64060
+      "sha256": "5a61107bef3b494678297107889c804dff974edcdbb17fcdebb45006ea91afc0",
+      "bytes": 64096
     },
     {
       "path": ".continuity/TASK_TRANSITIONS.yaml",
@@ -108,8 +108,8 @@
     },
     {
       "path": ".continuity/ACTIVE_SESSION.yaml",
-      "sha256": "85b2b806ff925b67bfd182db6a66720e18458e7517246deb60b56140fd661fc9",
-      "bytes": 539
+      "sha256": "6ffe7e4fe9830cecbff5d2396ab167cb85d0b1831dcafb37f58e2d9edb643e48",
+      "bytes": 143
     },
     {
       "path": "docs/00-baseline/正式商业系统全局硬性开发边界.md",
@@ -148,8 +148,8 @@
     },
     {
       "path": "releases/R10/TASKS.yaml",
-      "sha256": "432c368e0ac96c82a74f12be67b30f8da0ee33a4bdfe6e64b3a1749bd08089ad",
-      "bytes": 5707
+      "sha256": "0fd6405234634304df7768c90e60566ae5c061e573c22f5ebf957e8e0873f52c",
+      "bytes": 5743
     },
     {
       "path": "releases/R10/ACCEPTANCE_MATRIX.csv",
@@ -160,51 +160,6 @@
       "path": "releases/R10/PARALLEL_EXECUTION_PLAN.yaml",
       "sha256": "ad9d4615ce1683a80e27986d1f3f078ab5012ffd5c001a618a8b9df278e1e3f7",
       "bytes": 2382
-    },
-    {
-      "path": "docs/03-continuity/sessions/2026-07/SES-20260723T122953Z-52EBA51E.md",
-      "sha256": "4b96c8ba3a86668b34662ad2c3167d9a0f6435914fe463247b1d1c8e6bafcbc5",
-      "bytes": 22100
-    },
-    {
-      "path": ".continuity/checkpoints/SES-20260723T122953Z-52EBA51E/0010.yaml",
-      "sha256": "18a8c6f36a065b0122e8d700a13d0080e7a1eff595985e328f180bc3b62b1097",
-      "bytes": 17517
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0272-R10最终候选四页旅程与隔离数据夹具精确范围.md",
-      "sha256": "499e88aaf76040ca27bc0cc85148bb1ce85207aa29cfbed12e6529f48036b284",
-      "bytes": 3202
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0273-同步R10候选静态回归事实源.md",
-      "sha256": "02d9e68f95d85fd98271c581536da5908d9cdb9b0ecdf645def06aa08bc1bfeb",
-      "bytes": 2309
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0274-补齐R10候选视觉清单并登记首轮确定性失败.md",
-      "sha256": "fd456777d5a4f47a2a84ae48e8897020476b4feb008c942e1a9db5791a98e2fb",
-      "bytes": 3066
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0275-批准并轻量晋升R10首版视觉基线.md",
-      "sha256": "10c0e2288656c7343612ad1851393d0da8d342c71042c8af553975c3c2a8bda8",
-      "bytes": 2658
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0276-修复R10轻量晋升Doctor报告白名单遗漏.md",
-      "sha256": "1b419cecdd3ae611f87e98343eed8e2283b98cebb84a5cde98b76ad09bf4e033",
-      "bytes": 2437
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0277-登记R10四方交付并固化SSH预认证容量修复.md",
-      "sha256": "e8a8a66ebcd9d3e6a0306e52cf2d299a6fc20a04d6afb0b8c9193d5266a19bcb",
-      "bytes": 4055
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0278-补齐R10三页视觉追溯归档.md",
-      "sha256": "5ddd6cd0b1f2f3b601f2820516f60737cdb8472bc9966f96e58ccd372f4d0f51",
-      "bytes": 3027
     }
   ]
 }

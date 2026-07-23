@@ -1318,3 +1318,13 @@
 - Actor：`codex-root-r10-observability`
 - 摘要：完成R10群聊推广可观测性与隔离预发布验收，AC-R10-004及全部现场证据通过
 - 记录：`docs/03-continuity/sessions/2026-07/SES-20260723T115555Z-5C81458B.md`
+
+## TASK-R10-007 · COMPLETED · 2026-07-23T16:49:09Z
+
+- Task close: TASK-R10-007 / SES-20260723T122953Z-52EBA51E
+- Release：`R10`
+- Story：`STORY-R10-004`
+- Actor：`codex-root-r10-candidate`
+- 摘要：R10 Android测试APK与产物追溯完成：候选、AI视觉审批、轻量晋升、固定签名APK、四方SHA交付、桌面说明和严格文档核对全部PASS；Owner真机反馈保持异步PENDING。实现Commit 758c30a3已本地形成，GitHub HTTPS三次因外部443连接重置或不可达尚未推送，恢复后必须先push该Commit。
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260723T122953Z-52EBA51E.md`
+
