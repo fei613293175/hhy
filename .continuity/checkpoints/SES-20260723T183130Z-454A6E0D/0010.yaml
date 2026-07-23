@@ -1,0 +1,240 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260723T183130Z-454A6E0D-0010
+session_id: SES-20260723T183130Z-454A6E0D
+task_id: TASK-R11-004
+story_id: STORY-R11-001
+sequence: 10
+created_at: '2026-07-23T20:33:21Z'
+summary: CR-0289已关联实现提交97a50136并标记IMPLEMENTED，STORY-R11-001实现与证据闭环完成
+next_step: 形成CR元数据提交后原子切换到STORY-R11-003
+blockers: []
+decisions: []
+note: ''
+tests:
+- name: R11_IMPLEMENTATION_COMMIT
+  result: PASS
+  evidence: 97a50136
+  note: 严格pre-commit与commit-msg通过
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: 97a50136b70c6f1ab2bee4bbffec13079030ad6c
+  upstream: origin/task/TASK-R03-001
+  ahead: 13
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/change_requests/CR-0289.yaml'
+  - ' M catalogs/change_request_index.csv'
+  - ' M catalogs/session_index.csv'
+  - ' M docs/03-continuity/change-requests/CR-0289-实现R11团队长详情客户端纵向闭环.md'
+  recent_commits:
+  - "97a50136b70c6f1ab2bee4bbffec13079030ad6c\t2026-07-24T04:32:29+08:00\tHHY Continuity Bootstrap\t[STORY-R11-001] feat(r11): implement team\
+    \ leader detail flow"
+  - "027855501ff8e0341340723317ede588e2b921e6\t2026-07-24T04:01:10+08:00\tHHY Continuity Bootstrap\t[STORY-R11-002] chore(continuity): support\
+    \ same-task story switching"
+  - "9752485ae9b00c62df1846f7945b1e0bae42fcda\t2026-07-24T03:13:50+08:00\tHHY Continuity Bootstrap\t[STORY-R11-002] feat(r11): implement team\
+    \ leader list"
+  - "ad68caf656ade3d36a4c775c7b0eeec0d8be1078\t2026-07-24T02:30:28+08:00\tHHY Continuity Bootstrap\t[STORY-R11-004] chore(continuity): close TASK-R11-003\
+    \ as completed"
+  - "d28076b8653d54e0b028ed17fb60618ab1f630a9\t2026-07-24T02:28:48+08:00\tHHY Continuity Bootstrap\t[STORY-R11-004] feat(r11): implement team\
+    \ leader backend slice"
+  - "ed2f80ff1b1b9b7fbfd2b950a68c6c312fae565f\t2026-07-24T01:54:02+08:00\tHHY Continuity Bootstrap\t[STORY-R11-004] chore(continuity): close TASK-R11-002\
+    \ as completed"
+  - "b7cb1e4316753a8d5a4276c2366f3813b64afd87\t2026-07-24T01:51:35+08:00\tHHY Continuity Bootstrap\t[STORY-R11-004] feat(database): enforce team\
+    \ leader invariants"
+  - "94a520df9e3c5df535b4d26ff1b918cccb91288e\t2026-07-24T01:11:42+08:00\tHHY Continuity Bootstrap\t[STORY-R11-004] chore(continuity): close TASK-R11-001\
+    \ as completed"
+project_fingerprint:
+  sha256: 20c7351c87b9551117c90a8b9b45871342ea9ac0076210def1a99f62526cfcc3
+  files:
+  - CHANGELOG.md
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR11Api.kt
+  - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/R11ApiModelsSerializationTest.kt
+  - apps/android/feature/team-leader/build.gradle.kts
+  - apps/android/feature/team-leader/src/main/java/cc/orbexa/hhy/teamleader/R11TeamLeaderDetailScreen.kt
+  - apps/android/feature/team-leader/src/main/java/cc/orbexa/hhy/teamleader/R11TeamLeaderListScreen.kt
+  - apps/android/feature/team-leader/src/main/java/cc/orbexa/hhy/teamleader/R11TeamLeaderState.kt
+  - apps/android/feature/team-leader/src/test/java/cc/orbexa/hhy/teamleader/R11TeamLeaderStateTest.kt
+  - apps/android/settings.gradle.kts
+  - docs/03-continuity/change-requests/CR-0285-实现R11团队长列表与首页真实入口回接.md
+  - docs/03-continuity/change-requests/CR-0286-补齐R11团队长列表既有变更日志投影.md
+  - docs/03-continuity/change-requests/CR-0287-支持同一Task内原子切换Story.md
+  - docs/03-continuity/change-requests/CR-0288-补齐R11版本级并行执行计划实例.md
+  - docs/03-continuity/change-requests/CR-0289-实现R11团队长详情客户端纵向闭环.md
+  - docs/09-development/统一开发与交付效率规范.md
+  - releases/R11/PARALLEL_EXECUTION_PLAN.yaml
+  - scripts/continuity.py
+  - scripts/continuity_gate.py
+  - scripts/continuity_lib.py
+  - scripts/test_continuity_protocol.py
+  file_count: 22
+  payload:
+    base_commit: ad68caf656ade3d36a4c775c7b0eeec0d8be1078
+    files:
+    - path: CHANGELOG.md
+      state: FILE
+      size: 119756
+      sha256: d5bef10e4dc932a184e4c581c37eb6aad406157f84f8bfc2093ab286344a4b70
+    - path: apps/android/app/build.gradle.kts
+      state: FILE
+      size: 5298
+      sha256: ac72529e2b8c4c41dd876203e33c7b60d6a1fdf9b38479ec9838a383d3c2bae6
+    - path: apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+      state: FILE
+      size: 28857
+      sha256: e6551b7b052aad7e0baefcdc23cd1cb9c8fa0915ccb8d390a3986d7672cadb1f
+    - path: apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR11Api.kt
+      state: FILE
+      size: 7596
+      sha256: 09758093f110f8ff4ab1b652bd911c3cd4275f0a1be7ccacaa5e3412cae4ee9e
+    - path: apps/android/core/network/src/test/java/cc/orbexa/hhy/network/R11ApiModelsSerializationTest.kt
+      state: FILE
+      size: 1887
+      sha256: 51d75c23789ef3c4c459f85a050b11aa3a2a99f404d8a150f382296a53197180
+    - path: apps/android/feature/team-leader/build.gradle.kts
+      state: FILE
+      size: 1142
+      sha256: 0b00a28201b10b1519bb7cdbcddade45ae0fadde18bb5d79e1c495b7388d6d9d
+    - path: apps/android/feature/team-leader/src/main/java/cc/orbexa/hhy/teamleader/R11TeamLeaderDetailScreen.kt
+      state: FILE
+      size: 19278
+      sha256: b140efadb62d730dfac02dd94bb83d2490392bc0e21e87739cd169b38a40fc97
+    - path: apps/android/feature/team-leader/src/main/java/cc/orbexa/hhy/teamleader/R11TeamLeaderListScreen.kt
+      state: FILE
+      size: 15111
+      sha256: 584fe7d8fc9e01cb73fff3fa97ab1bf08122249d074545343b3f8df47ca648d3
+    - path: apps/android/feature/team-leader/src/main/java/cc/orbexa/hhy/teamleader/R11TeamLeaderState.kt
+      state: FILE
+      size: 6616
+      sha256: 96df136fb5fb69834ff6b07a1fb319ef5e98bb5e70bbb3e1296eec4e5399b137
+    - path: apps/android/feature/team-leader/src/test/java/cc/orbexa/hhy/teamleader/R11TeamLeaderStateTest.kt
+      state: FILE
+      size: 4652
+      sha256: 0d2342e330e14bff2f9e399a55b02f54268842cf8b018af62a6826721f594a62
+    - path: apps/android/settings.gradle.kts
+      state: FILE
+      size: 680
+      sha256: 5b557c5d9bd88aed60c3dc3b5dd612f52a8e8179bdea79d430d1134e5856e495
+    - path: docs/03-continuity/change-requests/CR-0285-实现R11团队长列表与首页真实入口回接.md
+      state: FILE
+      size: 3484
+      sha256: 4f68dc6f283c3500ff1020ccf976b1d8a17cd731e83243f0794c6f94ab0e90bb
+    - path: docs/03-continuity/change-requests/CR-0286-补齐R11团队长列表既有变更日志投影.md
+      state: FILE
+      size: 2321
+      sha256: 6856ae0f732d458e52c21ee7249f5fa6f405a8c0eb08710c4d31bb1c42be1593
+    - path: docs/03-continuity/change-requests/CR-0287-支持同一Task内原子切换Story.md
+      state: FILE
+      size: 3067
+      sha256: 0175a0db6540bc194e142b132eb2d84be8e4ecfc65c8cd49feb8bc49446b04b7
+    - path: docs/03-continuity/change-requests/CR-0288-补齐R11版本级并行执行计划实例.md
+      state: FILE
+      size: 2588
+      sha256: c0bcfcee4e94d558d0950a908be98205909d7f92904be16a57bb51d6a061b474
+    - path: docs/03-continuity/change-requests/CR-0289-实现R11团队长详情客户端纵向闭环.md
+      state: FILE
+      size: 3454
+      sha256: 288740be74b8a28e011f21c2931acf221e6ef07186faeaa4404acfd1d2e6dc16
+    - path: docs/09-development/统一开发与交付效率规范.md
+      state: FILE
+      size: 16499
+      sha256: c972a8fb9ed842877d8e047c0ee67a3c17af26b959c19335c2498e76cc6825b2
+    - path: releases/R11/PARALLEL_EXECUTION_PLAN.yaml
+      state: FILE
+      size: 2630
+      sha256: e892959361fe9a80841a49496d4302125b27838f73aab987c62a0e57a9070e54
+    - path: scripts/continuity.py
+      state: FILE
+      size: 78766
+      sha256: 353987f6e319c13009dc7033468daa8679cc4cc1af3d45fe8f41153ed346cd58
+    - path: scripts/continuity_gate.py
+      state: FILE
+      size: 43300
+      sha256: 7e80536d9b6127babae1230c11d655fd9654f608eca67d9518d9ce01e1d6b8d8
+    - path: scripts/continuity_lib.py
+      state: FILE
+      size: 114495
+      sha256: effd5bc6ea95649d7594dccb6721638b384b2c6dc721f677d146f695b0cb86d0
+    - path: scripts/test_continuity_protocol.py
+      state: FILE
+      size: 30678
+      sha256: 97608112da947779c2fcf1cf5caf298f8f5a6dbc95d714ce7512f9f2e1bd4a09
+change_classification:
+  other:
+  - CHANGELOG.md
+  - docs/09-development/统一开发与交付效率规范.md
+  - releases/R11/PARALLEL_EXECUTION_PLAN.yaml
+  code:
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR11Api.kt
+  - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/R11ApiModelsSerializationTest.kt
+  - apps/android/feature/team-leader/build.gradle.kts
+  - apps/android/feature/team-leader/src/main/java/cc/orbexa/hhy/teamleader/R11TeamLeaderDetailScreen.kt
+  - apps/android/feature/team-leader/src/main/java/cc/orbexa/hhy/teamleader/R11TeamLeaderListScreen.kt
+  - apps/android/feature/team-leader/src/main/java/cc/orbexa/hhy/teamleader/R11TeamLeaderState.kt
+  - apps/android/feature/team-leader/src/test/java/cc/orbexa/hhy/teamleader/R11TeamLeaderStateTest.kt
+  - apps/android/settings.gradle.kts
+  - scripts/continuity.py
+  - scripts/continuity_gate.py
+  - scripts/continuity_lib.py
+  - scripts/test_continuity_protocol.py
+  user_visible:
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR11Api.kt
+  - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/R11ApiModelsSerializationTest.kt
+  - apps/android/feature/team-leader/build.gradle.kts
+  - apps/android/feature/team-leader/src/main/java/cc/orbexa/hhy/teamleader/R11TeamLeaderDetailScreen.kt
+  - apps/android/feature/team-leader/src/main/java/cc/orbexa/hhy/teamleader/R11TeamLeaderListScreen.kt
+  - apps/android/feature/team-leader/src/main/java/cc/orbexa/hhy/teamleader/R11TeamLeaderState.kt
+  - apps/android/feature/team-leader/src/test/java/cc/orbexa/hhy/teamleader/R11TeamLeaderStateTest.kt
+  - apps/android/settings.gradle.kts
+  continuity:
+  - docs/03-continuity/change-requests/CR-0285-实现R11团队长列表与首页真实入口回接.md
+  - docs/03-continuity/change-requests/CR-0286-补齐R11团队长列表既有变更日志投影.md
+  - docs/03-continuity/change-requests/CR-0287-支持同一Task内原子切换Story.md
+  - docs/03-continuity/change-requests/CR-0288-补齐R11版本级并行执行计划实例.md
+  - docs/03-continuity/change-requests/CR-0289-实现R11团队长详情客户端纵向闭环.md
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+- CHANGELOG
+change_requests:
+- CR-0285
+- CR-0286
+- CR-0287
+- CR-0288
+- CR-0289
+scope:
+  allowed_paths:
+  - apps/android/**
+  - services/backend/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - tests/**
+  - docs/**
+  - catalogs/**
+  - releases/**
+  - design/**
+  - scripts/**
+  - CHANGELOG.md
+  approved_exceptions: []
+  source: story-switch+explicit
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 仅更新单一连续性状态机与CR索引，不可并行写入
+event_hash: 4218b34f2eabc66bf174f76f05dec70a123154f16610f6f056725c2250c16c4f
