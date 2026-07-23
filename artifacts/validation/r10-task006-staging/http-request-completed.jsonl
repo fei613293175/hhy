@@ -1,0 +1,1 @@
+{"@timestamp":"2026-07-23T12:19:54.090582347Z","@version":"1","message":"http_request_completed","logger_name":"cc.orbexa.hhy.boot.web.RequestIdFilter","thread_name":"http-nio-8080-exec-3","level":"INFO","level_value":20000,"traceId":"223344556677889900aabbccddeeff11","requestId":"r10-stage-request-001","operation":"GET /public-api/v1/platform/status","status":200,"latency":7}
