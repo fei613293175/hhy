@@ -1,7 +1,7 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-23T00:29:40Z
-- Context Hash：`c850acb0f41b80f503519f0fb5611636704270c0f493543d7cc3eb509b00d045`
+- 生成时间：2026-07-23T00:48:32Z
+- Context Hash：`ebf392a395725120438e0390dbaa374ab5434e0c243ad1792beb291c374bb006`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 规则就绪：`PASS`（`HASHED_CONTEXT_MANIFEST`）
@@ -140,7 +140,7 @@ blocked_tasks:
 - TASK-R06-008
 - TASK-R07-008
 next_task: TASK-R09-007
-updated_at: '2026-07-23T00:29:37Z'
+updated_at: '2026-07-23T00:48:29Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -175,15 +175,15 @@ continuity:
   active_session_id: SES-20260722T205410Z-782F22B9
   actor_id: codex-root-r09-candidate
   story_id: STORY-R09-004
-  lease_expires_at: '2026-07-23T04:29:37Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260722T205410Z-782F22B9/0013.yaml
-  project_fingerprint: 67171dcd51584209681d0caf0bde6131c9b51dcd96fb9eb4228d9894eea105d1
+  lease_expires_at: '2026-07-23T04:48:29Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260722T205410Z-782F22B9/0014.yaml
+  project_fingerprint: 314418cd05a82798450a39b268843745f4a420145841b524ec86beb2e15fc3f5
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: ec53e14f502002aa5a09f6558028a7b9f6b68443b80fdd615262e3535b30e5a7
-    generated_at: '2026-07-23T00:27:39Z'
+    context_hash: c850acb0f41b80f503519f0fb5611636704270c0f493543d7cc3eb509b00d045
+    generated_at: '2026-07-23T00:29:40Z'
   handoff_bundle: null
 ```
 
@@ -381,7 +381,7 @@ task_id: TASK-R09-007
 story_id: STORY-R09-004
 goal: 完成R09 App推广完整闭环最终候选：固定工具链构建、一次GitHub模拟器验证三页真实旅程与AI视觉审核、稳定签名测试APK、四方SHA/Commit/versionName/versionCode追溯并交付桌面；真机反馈保持异步。
 started_at: '2026-07-22T20:54:10Z'
-updated_at: '2026-07-23T00:29:37Z'
+updated_at: '2026-07-23T00:48:29Z'
 takeover_of: null
 change_requests:
 - CR-0257
@@ -461,12 +461,12 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-23T00:29:37Z'
-  expires_at: '2026-07-23T04:29:37Z'
-checkpoint_sequence: 13
-latest_checkpoint: .continuity/checkpoints/SES-20260722T205410Z-782F22B9/0013.yaml
+  renewed_at: '2026-07-23T00:48:29Z'
+  expires_at: '2026-07-23T04:48:29Z'
+checkpoint_sequence: 14
+latest_checkpoint: .continuity/checkpoints/SES-20260722T205410Z-782F22B9/0014.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260722T205410Z-782F22B9.md
-next_step: 执行严格Continuity、提交推送唯一EVIDENCE-REPLAY；GitHub若任一图片20秒内未loaded则instrumentation必须失败且禁止截图，成功后下载三页由AI逐图审核，全部PASS才晋升并交付R09；随后继续R10，R32完成Admin/H5正式部署与管理员凭据单独交付
+next_step: 提交并推送R09视觉基线，等待唯一轻量Android Visual Baseline Promotion；通过后下载同源晋升产物、登记R09候选与桌面交付证据，关闭PROB-0098与R09并进入R10；R32完成admin.orbexa.cc与h5.orbexa.cc部署及SUPER_ADMIN初始凭据单独交付
 context_pack: THIS_CONTEXT_PACK
 handoff_bundle: null
 closure: null
@@ -474,71 +474,74 @@ parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 同一AsyncImage状态、instrumentation等待与候选事实必须原子提交，且当前规则禁止未获用户明确要求时分派子代理
+  reason: 视觉基线审批、同源哈希绑定与唯一Continuity检查点属于单事实源原子收口，不能并行写入
 ```
 
 ## 最新检查点
 
 ```yaml
 protocol_version: '1.0'
-checkpoint_id: CP-SES-20260722T205410Z-782F22B9-0013
+checkpoint_id: CP-SES-20260722T205410Z-782F22B9-0014
 session_id: SES-20260722T205410Z-782F22B9
-sequence: 13
-created_at: '2026-07-23T00:29:36Z'
-summary: 完成R09 attempt=3证据重采修复：AppArtwork公开loading/loaded/error测试语义，列表与详情各两张真实图片必须onSuccess loaded后才允许截图；候选请求保持remediation_attempt=3并标识EVIDENCE-REPLAY，CR、Problem
-  Registry、Manifest、Changelog和静态回归同步更新
-next_step: 执行严格Continuity、提交推送唯一EVIDENCE-REPLAY；GitHub若任一图片20秒内未loaded则instrumentation必须失败且禁止截图，成功后下载三页由AI逐图审核，全部PASS才晋升并交付R09；随后继续R10，R32完成Admin/H5正式部署与管理员凭据单独交付
+sequence: 14
+created_at: '2026-07-23T00:48:28Z'
+summary: AI逐图批准Run 29969376611三页真实App媒体证据并建立R09首版视觉基线
+next_step: 提交并推送R09视觉基线，等待唯一轻量Android Visual Baseline Promotion；通过后下载同源晋升产物、登记R09候选与桌面交付证据，关闭PROB-0098与R09并进入R10；R32完成admin.orbexa.cc与h5.orbexa.cc部署及SUPER_ADMIN初始凭据单独交付
 blockers: []
-decisions: []
+decisions:
+- Run 29969376611三页全部AI PASS；列表和详情显示两张真实上传截图且无占位图，允许轻量基线晋升，不得重新编译或启动模拟器
 note: ''
 tests:
-- name: R09 and Android candidate regressions
+- name: GitHub candidate Run 29969376611
   result: PASS
-  evidence: 22 tests
-  note: 包含四个loaded资源硬断言与源码状态回归
-- name: Android UI foundation
+  evidence: 9m25s; compile 4m10s; emulator 4m29s; eligibility 17s
+  note: loaded硬断言和全部机器门禁通过
+- name: AI visual review
   result: PASS
-  evidence: ANDROID_UI_FOUNDATION_GATE=PASS
-  note: 页面基础规则通过
-- name: UI token gate
+  evidence: 01-app-list.png;02-app-detail.png;03-app-editor.png
+  note: 真实上传图片、效果图级层级、无虚构内容均合格
+- name: local baseline promotion preflight
   result: PASS
-  evidence: UI_TOKENS_OK 52
-  note: 无裸参数或平行Token
-- name: candidate request parser
-  result: PASS
-  evidence: attempt=3 request R09-CANDIDATE-20260723-003-EVIDENCE-REPLAY
-  note: 同一第三轮证据重采格式有效
+  evidence: artifacts/validation/r09-candidate-29969376611/local-promotion-report.json
+  note: 同源Run Commit artifact及逐图SHA全部匹配
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: c4cbe28920b424fa948c0023598789941ef2abb7
+  head: 97dc163e1cbed8d19a054326806453c5fa0aee9b
   upstream: origin/task/TASK-R03-001
   ahead: 0
   behind: 0
   dirty: true
   status_porcelain:
-  - ' M .continuity/ACTIVE_SESSION.yaml'
-  - ' M .continuity/EVENT_LOG.jsonl'
-  - ' M .continuity/SESSION_INDEX.yaml'
-  - ' M .continuity/STATE.yaml'
-  - ' M .continuity/sessions/SES-20260722T205410Z-782F22B9.yaml'
-  - ' M CHANGELOG.md'
-  - ' M CURRENT_STATUS.yaml'
-  - ' M apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt'
-  - ' M apps/android/feature/app-promotion/src/main/java/cc/orbexa/hhy/apppromotion/R09AppScreens.kt'
-  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
-  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
-  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
-  - ' M catalogs/session_index.csv'
-  - ' M config/android-candidate-request.yaml'
-  - ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
-  - ' M docs/03-continuity/change-requests/CR-0261-修复R09真实App图片展示与效果图级视觉不足.md'
-  - ' M docs/03-continuity/sessions/2026-07/SES-20260722T205410Z-782F22B9.md'
-  - ' M releases/R09/RELEASE_MANIFEST.yaml'
-  - ' M tests/test_android_ci_gate.py'
-  - ' M tests/test_r09_android_ui.py'
-  - ?? .continuity/checkpoints/SES-20260722T205410Z-782F22B9/0012.yaml
+  - ?? artifacts/validation/r09-candidate-29969376611/android-runtime-29969376611.zip
+  - ?? artifacts/validation/r09-candidate-29969376611/candidate/candidate-report.json
+  - ?? artifacts/validation/r09-candidate-29969376611/candidate/runtime/analyze.log
+  - ?? artifacts/validation/r09-candidate-29969376611/candidate/runtime/exit-info.txt
+  - ?? artifacts/validation/r09-candidate-29969376611/candidate/runtime/instrumentation.log
+  - ?? artifacts/validation/r09-candidate-29969376611/candidate/runtime/logcat.txt
+  - ?? artifacts/validation/r09-candidate-29969376611/candidate/runtime/runtime-report.json
+  - ?? artifacts/validation/r09-candidate-29969376611/candidate/runtime/test-exit-code.txt
+  - ?? artifacts/validation/r09-candidate-29969376611/candidate/screenshots/01-app-list.png
+  - ?? artifacts/validation/r09-candidate-29969376611/candidate/screenshots/02-app-detail.png
+  - ?? artifacts/validation/r09-candidate-29969376611/candidate/screenshots/03-app-editor.png
+  - ?? artifacts/validation/r09-candidate-29969376611/hhy-R09-candidate-29969376611.zip
+  - ?? artifacts/validation/r09-candidate-29969376611/local-promotion-report.json
+  - ?? artifacts/validation/r09-candidate-29969376611/runtime/runtime/analyze.log
+  - ?? artifacts/validation/r09-candidate-29969376611/runtime/runtime/exit-info.txt
+  - ?? artifacts/validation/r09-candidate-29969376611/runtime/runtime/instrumentation.log
+  - ?? artifacts/validation/r09-candidate-29969376611/runtime/runtime/logcat.txt
+  - ?? artifacts/validation/r09-candidate-29969376611/runtime/runtime/runtime-report.json
+  - ?? artifacts/validation/r09-candidate-29969376611/runtime/runtime/test-exit-code.txt
+  - ?? artifacts/validation/r09-candidate-29969376611/runtime/screenshots/01-app-list.png
+  - ?? artifacts/validation/r09-candidate-29969376611/runtime/screenshots/02-app-detail.png
+  - ?? artifacts/validation/r09-candidate-29969376611/runtime/screenshots/03-app-editor.png
+  - ?? tests/android/visual-baselines/R09/01-app-list.png
+  - ?? tests/android/visual-baselines/R09/02-app-detail.png
+  - ?? tests/android/visual-baselines/R09/03-app-editor.png
+  - ?? tests/android/visual-baselines/R09/APPROVAL.yaml
   recent_commits:
+  - "97dc163e1cbed8d19a054326806453c5fa0aee9b\t2026-07-23T08:30:26+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] fix(r09): require loaded media\
+    \ evidence"
   - "c4cbe28920b424fa948c0023598789941ef2abb7\t2026-07-23T08:10:58+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] fix(r09): refine app list\
     \ candidate layout"
   - "8461d818981d4482689189300b408fcff65f2b5f\t2026-07-23T07:35:57+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] fix(r09): render uploaded\
@@ -552,10 +555,8 @@ git:
   - "58ee7f5ad3e6fe843f6b5009f405f1c9b2139b88\t2026-07-23T04:52:23+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] docs(r09): close TASK-R09-006"
   - "51debc0b87a3a6535e4e4bb87d2272483861181f\t2026-07-23T04:51:16+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] docs(r09): close staging change\
     \ requests"
-  - "a478e03087475d937fdaf366d7c11f6c1e3b925a\t2026-07-23T04:49:09+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] test(staging): normalize evidence\
-    \ hashes"
 project_fingerprint:
-  sha256: 67171dcd51584209681d0caf0bde6131c9b51dcd96fb9eb4228d9894eea105d1
+  sha256: 314418cd05a82798450a39b268843745f4a420145841b524ec86beb2e15fc3f5
   files:
   - CHANGELOG.md
   - apps/android/app/build.gradle.kts
@@ -580,11 +581,15 @@ project_fingerprint:
   - scripts/run_android_emulator_gate.sh
   - tests/android/fixtures/r09-media/01-app-list.png
   - tests/android/fixtures/r09-media/03-app-editor.png
+  - tests/android/visual-baselines/R09/01-app-list.png
+  - tests/android/visual-baselines/R09/02-app-detail.png
+  - tests/android/visual-baselines/R09/03-app-editor.png
+  - tests/android/visual-baselines/R09/APPROVAL.yaml
   - tests/android/visual-manifests/R09.yaml
   - tests/test_android_ci_gate.py
   - tests/test_r09_android_ui.py
   - tests/test_r09_ci_fixture.py
-  file_count: 27
+  file_count: 31
   payload:
     base_commit: 58ee7f5ad3e6fe843f6b5009f405f1c9b2139b88
     files:
@@ -680,6 +685,22 @@ project_fingerprint:
       state: FILE
       size: 171069
       sha256: 8d8f6bd9eb054b18a292341e371aa228ab0415552d42ce431079334b1497a2f1
+    - path: tests/android/visual-baselines/R09/01-app-list.png
+      state: FILE
+      size: 152440
+      sha256: 349db4e4701ff01d935388e5e3dbb9cf66a289dddf65ef6b999dc4392dde3756
+    - path: tests/android/visual-baselines/R09/02-app-detail.png
+      state: FILE
+      size: 220586
+      sha256: 4b3939ec465f94272f7d02c55b91b6b07a8689c2cc5725840f82a0d9b7f5b270
+    - path: tests/android/visual-baselines/R09/03-app-editor.png
+      state: FILE
+      size: 183068
+      sha256: 5d2b36cc838371ea1b45e74025733abb343e050d568008d7236c26e53474a321
+    - path: tests/android/visual-baselines/R09/APPROVAL.yaml
+      state: FILE
+      size: 1130
+      sha256: 9ed9934fed5a8ce0cc34c97e8a6a621bfe7ffac2263f4692eac0580bad7d320b
     - path: tests/android/visual-manifests/R09.yaml
       state: FILE
       size: 1746
@@ -734,6 +755,10 @@ change_classification:
   tests:
   - tests/android/fixtures/r09-media/01-app-list.png
   - tests/android/fixtures/r09-media/03-app-editor.png
+  - tests/android/visual-baselines/R09/01-app-list.png
+  - tests/android/visual-baselines/R09/02-app-detail.png
+  - tests/android/visual-baselines/R09/03-app-editor.png
+  - tests/android/visual-baselines/R09/APPROVAL.yaml
   - tests/android/visual-manifests/R09.yaml
   - tests/test_android_ci_gate.py
   - tests/test_r09_android_ui.py
@@ -819,8 +844,8 @@ parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 同一AsyncImage状态、instrumentation等待与候选事实必须原子提交，且当前规则禁止未获用户明确要求时分派子代理
-event_hash: 11b5493e46b31c1d28c2c18352fc9b1903cc8860606f6262a515fc3d8656c8c4
+  reason: 视觉基线审批、同源哈希绑定与唯一Continuity检查点属于单事实源原子收口，不能并行写入
+event_hash: 667e6b578e3d493a413a02d0678de9e1e98c3e48899694a63e5fa42e522057f7
 ```
 
 ## 接续状态与事件头
@@ -832,8 +857,8 @@ active_session_id: SES-20260722T205410Z-782F22B9
 last_session_id: SES-20260722T200509Z-8FC026EC
 last_session_result: COMPLETED
 last_closure_checkpoint_id: CP-SES-20260722T200509Z-8FC026EC-0012
-event_count: 2577
-event_head_hash: 11b5493e46b31c1d28c2c18352fc9b1903cc8860606f6262a515fc3d8656c8c4
+event_count: 2578
+event_head_hash: 667e6b578e3d493a413a02d0678de9e1e98c3e48899694a63e5fa42e522057f7
 event_chain_valid: true
 ```
 
@@ -956,9 +981,9 @@ recent_sessions: - session_id: SES-20260722T060947Z-B45C6BC0
   started_at: '2026-07-22T20:54:10Z'
   record: .continuity/sessions/SES-20260722T205410Z-782F22B9.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260722T205410Z-782F22B9.md
-  updated_at: '2026-07-23T00:29:37Z'
+  updated_at: '2026-07-23T00:48:29Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260722T205410Z-782F22B9/0013.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260722T205410Z-782F22B9/0014.yaml
   handoff_bundle: null
 task_claims: - claim_id: CLM-D55597825C47
   session_id: SES-20260721T190306Z-32CB66BF
@@ -1972,7 +1997,7 @@ recent_task_transitions: - transition_id: TRN-678401844011
 ```yaml
 initialized: true
 branch: task/TASK-R03-001
-head: c4cbe28920b424fa948c0023598789941ef2abb7
+head: 97dc163e1cbed8d19a054326806453c5fa0aee9b
 upstream: origin/task/TASK-R03-001
 ahead: 0
 behind: 0
@@ -1983,24 +2008,39 @@ status_porcelain:
 - ' M .continuity/SESSION_INDEX.yaml'
 - ' M .continuity/STATE.yaml'
 - ' M .continuity/sessions/SES-20260722T205410Z-782F22B9.yaml'
-- ' M CHANGELOG.md'
 - ' M CURRENT_STATUS.yaml'
-- ' M apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt'
-- ' M apps/android/feature/app-promotion/src/main/java/cc/orbexa/hhy/apppromotion/R09AppScreens.kt'
-- ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
-- ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
-- ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
 - ' M catalogs/session_index.csv'
-- ' M config/android-candidate-request.yaml'
-- ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
-- ' M docs/03-continuity/change-requests/CR-0261-修复R09真实App图片展示与效果图级视觉不足.md'
 - ' M docs/03-continuity/sessions/2026-07/SES-20260722T205410Z-782F22B9.md'
-- ' M releases/R09/RELEASE_MANIFEST.yaml'
-- ' M tests/test_android_ci_gate.py'
-- ' M tests/test_r09_android_ui.py'
-- ?? .continuity/checkpoints/SES-20260722T205410Z-782F22B9/0012.yaml
-- ?? .continuity/checkpoints/SES-20260722T205410Z-782F22B9/0013.yaml
+- ?? .continuity/checkpoints/SES-20260722T205410Z-782F22B9/0014.yaml
+- ?? artifacts/validation/r09-candidate-29969376611/android-runtime-29969376611.zip
+- ?? artifacts/validation/r09-candidate-29969376611/candidate/candidate-report.json
+- ?? artifacts/validation/r09-candidate-29969376611/candidate/runtime/analyze.log
+- ?? artifacts/validation/r09-candidate-29969376611/candidate/runtime/exit-info.txt
+- ?? artifacts/validation/r09-candidate-29969376611/candidate/runtime/instrumentation.log
+- ?? artifacts/validation/r09-candidate-29969376611/candidate/runtime/logcat.txt
+- ?? artifacts/validation/r09-candidate-29969376611/candidate/runtime/runtime-report.json
+- ?? artifacts/validation/r09-candidate-29969376611/candidate/runtime/test-exit-code.txt
+- ?? artifacts/validation/r09-candidate-29969376611/candidate/screenshots/01-app-list.png
+- ?? artifacts/validation/r09-candidate-29969376611/candidate/screenshots/02-app-detail.png
+- ?? artifacts/validation/r09-candidate-29969376611/candidate/screenshots/03-app-editor.png
+- ?? artifacts/validation/r09-candidate-29969376611/hhy-R09-candidate-29969376611.zip
+- ?? artifacts/validation/r09-candidate-29969376611/local-promotion-report.json
+- ?? artifacts/validation/r09-candidate-29969376611/runtime/runtime/analyze.log
+- ?? artifacts/validation/r09-candidate-29969376611/runtime/runtime/exit-info.txt
+- ?? artifacts/validation/r09-candidate-29969376611/runtime/runtime/instrumentation.log
+- ?? artifacts/validation/r09-candidate-29969376611/runtime/runtime/logcat.txt
+- ?? artifacts/validation/r09-candidate-29969376611/runtime/runtime/runtime-report.json
+- ?? artifacts/validation/r09-candidate-29969376611/runtime/runtime/test-exit-code.txt
+- ?? artifacts/validation/r09-candidate-29969376611/runtime/screenshots/01-app-list.png
+- ?? artifacts/validation/r09-candidate-29969376611/runtime/screenshots/02-app-detail.png
+- ?? artifacts/validation/r09-candidate-29969376611/runtime/screenshots/03-app-editor.png
+- ?? tests/android/visual-baselines/R09/01-app-list.png
+- ?? tests/android/visual-baselines/R09/02-app-detail.png
+- ?? tests/android/visual-baselines/R09/03-app-editor.png
+- ?? tests/android/visual-baselines/R09/APPROVAL.yaml
 recent_commits:
+- "97dc163e1cbed8d19a054326806453c5fa0aee9b\t2026-07-23T08:30:26+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] fix(r09): require loaded media\
+  \ evidence"
 - "c4cbe28920b424fa948c0023598789941ef2abb7\t2026-07-23T08:10:58+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] fix(r09): refine app list candidate\
   \ layout"
 - "8461d818981d4482689189300b408fcff65f2b5f\t2026-07-23T07:35:57+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] fix(r09): render uploaded app\
@@ -2013,14 +2053,12 @@ recent_commits:
 - "58ee7f5ad3e6fe843f6b5009f405f1c9b2139b88\t2026-07-23T04:52:23+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] docs(r09): close TASK-R09-006"
 - "51debc0b87a3a6535e4e4bb87d2272483861181f\t2026-07-23T04:51:16+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] docs(r09): close staging change\
   \ requests"
-- "a478e03087475d937fdaf366d7c11f6c1e3b925a\t2026-07-23T04:49:09+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] test(staging): normalize evidence\
-  \ hashes"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`67171dcd51584209681d0caf0bde6131c9b51dcd96fb9eb4228d9894eea105d1`
-- 文件数：27
+- 指纹：`314418cd05a82798450a39b268843745f4a420145841b524ec86beb2e15fc3f5`
+- 文件数：31
 
 - `CHANGELOG.md`
 - `apps/android/app/build.gradle.kts`
@@ -2045,6 +2083,10 @@ recent_commits:
 - `scripts/run_android_emulator_gate.sh`
 - `tests/android/fixtures/r09-media/01-app-list.png`
 - `tests/android/fixtures/r09-media/03-app-editor.png`
+- `tests/android/visual-baselines/R09/01-app-list.png`
+- `tests/android/visual-baselines/R09/02-app-detail.png`
+- `tests/android/visual-baselines/R09/03-app-editor.png`
+- `tests/android/visual-baselines/R09/APPROVAL.yaml`
 - `tests/android/visual-manifests/R09.yaml`
 - `tests/test_android_ci_gate.py`
 - `tests/test_r09_android_ui.py`
@@ -8493,7 +8535,7 @@ PARALLEL_EXECUTION_PLAN.yaml:
 
 - `AGENTS.md` — `d07f1f2b2b8a0adae325a17c1ba349bc657e180d20d1c304a417bb116f294b86`
 - `START_HERE.md` — `22de14029ce47beb41ea569e36ce223fbc9d11b86f8676f28d5fbbd83896af5c`
-- `CURRENT_STATUS.yaml` — `bcb051270a5384cd43af6b992999638bf09a6418f148e617f4c5493aac05a11c`
+- `CURRENT_STATUS.yaml` — `8c74345e51b90f77057f5428e7f46fecfd4b7ec650c8fb44bcc72de16e2003f8`
 - `NEXT_TASK.yaml` — `800383beeb201ea7b396161629b7a8e9c2d216993bb39959be1969ced7d66d69`
 - `DEVELOPMENT_RISK_REGISTER.md` — `8304c91492e4ee2abea0522a06541c8688d39c7fc532b5d0cde499bf09fffb87`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
@@ -8504,12 +8546,12 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `config/REPOSITORY_TRANSPORT.yaml` — `8c4a21f3e204d46e7ffb467d804a53ed26cda61cd088dadfddb50b69eea657fc`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `16a96f9a52f352f3c62175db308dd973889b2e82acb117bcfdd12a4bc4d379f6`
-- `.continuity/EVENT_LOG.jsonl` — `61dcbac494ae95f69d368c5e0c6fec39297df79d15a25d6ccc9cab300046dbd8`
-- `.continuity/SESSION_INDEX.yaml` — `596152720c8ff978aade4a64008be9c616bdf1123bdad9f5a620ea37e3cc7cfd`
+- `.continuity/EVENT_LOG.jsonl` — `151bb967ed5526f1d117d0b6598dbbd405dcc957df0831650d6399977928a14c`
+- `.continuity/SESSION_INDEX.yaml` — `8b1eddc1b30e28b674371f21d58bac8230bb59a9fa42f269160c82d889c7f0f1`
 - `.continuity/TASK_CLAIMS.yaml` — `292c872faa7857fcff9328f8dd01e9e309f753524a86589096d732c75d08dbda`
 - `.continuity/TASK_TRANSITIONS.yaml` — `1c0fa255fffab4167f7468b2f8922f3bac5977714a5485e04357433d8298ba32`
 - `.continuity/CHANGE_REQUEST_INDEX.yaml` — `e06e054c8aa46fdfc2cb8d20cf6008ab90a19fadc51a77c39b229242c1383ea8`
-- `.continuity/ACTIVE_SESSION.yaml` — `860114f98043fdca0b5d351a072878b535081aa1d60fe5e12370952e1a636064`
+- `.continuity/ACTIVE_SESSION.yaml` — `a13eadb08c27daacaa69229dc69b828c2667d2029ed24db4dc26e2e6a1911c90`
 - `docs/00-baseline/正式商业系统全局硬性开发边界.md` — `70572ced7d8fbafe34f42a03c1f6c0f8dbb1035961d493ad7593c25bb7abb96a`
 - `docs/02-ui/UI参考图使用与开发约束_V1.2.2.md` — `d14367586aa2067b059df58798acd20ab982459cdb35ff27fc7922a3896e4933`
 - `docs/03-continuity/持续开发无状态接续强制门禁_V1.2.3.md` — `d0ed3ed68bdd93b06500eecdfb5baa3245e6ca8b685a486788abb6eee39b3d51`
@@ -8520,8 +8562,8 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `releases/R09/TASKS.yaml` — `c94088297981d6acc56d13ed7a68a653838ed6cb1e259d6f110074c41fbf2e96`
 - `releases/R09/ACCEPTANCE_MATRIX.csv` — `7ecfe46c4ebffe41ae722fddc0ed9efac09e1e3cadf649120d842cca9e0c2c2e`
 - `releases/R09/PARALLEL_EXECUTION_PLAN.yaml` — `182e97474390152a7f45613ebaf6e404c8d1687d9c1ea287bb1cb7bc4abe7eac`
-- `docs/03-continuity/sessions/2026-07/SES-20260722T205410Z-782F22B9.md` — `45b0f2cbecb664a7ccca02c725fc8b4f7d8b820f81f5c98904d3fecf0ec0c316`
-- `.continuity/checkpoints/SES-20260722T205410Z-782F22B9/0013.yaml` — `796caa5e69ef0e40d4a33ad252367b11c0764e3e31535908d98ede6476cb429e`
+- `docs/03-continuity/sessions/2026-07/SES-20260722T205410Z-782F22B9.md` — `69de81a4494978a9bc0a04177886eea67b0bdcf886b6575b79c8d34b5452cbc7`
+- `.continuity/checkpoints/SES-20260722T205410Z-782F22B9/0014.yaml` — `94f764de845771380dcccd3742916f63ea235778ef681769457d5a5582274cb7`
 - `docs/03-continuity/change-requests/CR-0257-建立R09-App最终候选真实旅程与唯一产物门禁.md` — `5021ae489b56ee20dbef1c38d04582befeaa69bccad8ef836a6ace258401d86f`
 - `docs/03-continuity/change-requests/CR-0258-修复R09编辑页分类与平台技术编码可见性.md` — `d78203939e87cec5c807bdf4431302d0e9a95b41c720631328943cf12294141d`
 - `docs/03-continuity/change-requests/CR-0259-登记R09候选固定数据不可变版本幂等缺口.md` — `cf47fd9e595cb3e3c06641f52c6584fb0789d0f3923ace8e5e08e81d41919ef7`

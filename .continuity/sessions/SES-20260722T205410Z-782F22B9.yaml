@@ -11,7 +11,7 @@ task_id: TASK-R09-007
 story_id: STORY-R09-004
 goal: 完成R09 App推广完整闭环最终候选：固定工具链构建、一次GitHub模拟器验证三页真实旅程与AI视觉审核、稳定签名测试APK、四方SHA/Commit/versionName/versionCode追溯并交付桌面；真机反馈保持异步。
 started_at: '2026-07-22T20:54:10Z'
-updated_at: '2026-07-23T00:29:41Z'
+updated_at: '2026-07-23T00:48:34Z'
 takeover_of: null
 change_requests:
 - CR-0257
@@ -91,22 +91,22 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-23T00:29:37Z'
-  expires_at: '2026-07-23T04:29:37Z'
-checkpoint_sequence: 13
-latest_checkpoint: .continuity/checkpoints/SES-20260722T205410Z-782F22B9/0013.yaml
+  renewed_at: '2026-07-23T00:48:29Z'
+  expires_at: '2026-07-23T04:48:29Z'
+checkpoint_sequence: 14
+latest_checkpoint: .continuity/checkpoints/SES-20260722T205410Z-782F22B9/0014.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260722T205410Z-782F22B9.md
-next_step: 执行严格Continuity、提交推送唯一EVIDENCE-REPLAY；GitHub若任一图片20秒内未loaded则instrumentation必须失败且禁止截图，成功后下载三页由AI逐图审核，全部PASS才晋升并交付R09；随后继续R10，R32完成Admin/H5正式部署与管理员凭据单独交付
+next_step: 提交并推送R09视觉基线，等待唯一轻量Android Visual Baseline Promotion；通过后下载同源晋升产物、登记R09候选与桌面交付证据，关闭PROB-0098与R09并进入R10；R32完成admin.orbexa.cc与h5.orbexa.cc部署及SUPER_ADMIN初始凭据单独交付
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: c850acb0f41b80f503519f0fb5611636704270c0f493543d7cc3eb509b00d045
-  generated_at: '2026-07-23T00:29:40Z'
+  context_hash: ebf392a395725120438e0390dbaa374ab5434e0c243ad1792beb291c374bb006
+  generated_at: '2026-07-23T00:48:32Z'
 handoff_bundle: null
 closure: null
 parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 同一AsyncImage状态、instrumentation等待与候选事实必须原子提交，且当前规则禁止未获用户明确要求时分派子代理
+  reason: 视觉基线审批、同源哈希绑定与唯一Continuity检查点属于单事实源原子收口，不能并行写入
