@@ -1267,3 +1267,13 @@
 - 新增 R10 专用网络契约与表单不变量，`JOIN_PASSWORD` 仅作为独立加密联系渠道提交和访问，禁止进入扩展属性。
 - H5-006 只展示安全公开群聊信息；后台统一内容详情补齐群聊业务字段、真实媒体、发布者、统计与脱敏入群信息。
 - 同步 admin OpenAPI、boot 运行时合同、生成 TypeScript 与合同注册表；固定云端 Android 114 tasks、后台 97 tests、H5 29 tests 和全部受影响门禁 PASS。
+
+## TASK-R10-004 · COMPLETED · 2026-07-23T11:41:07Z
+
+- Task close: TASK-R10-004 / SES-20260723T074719Z-AB4D0E80
+- Release：`R10`
+- Story：`STORY-R10-004`
+- Actor：`codex-root-r10-client`
+- 摘要：完成R10群聊推广Android三页、H5安全公开分享、后台类型化管理和跨端契约闭环，全部受影响MODULE门禁通过
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260723T074719Z-AB4D0E80.md`
+

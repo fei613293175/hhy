@@ -1,19 +1,19 @@
 {
   "version": "1.0",
-  "generated_at": "2026-07-23T11:38:26Z",
-  "context_hash": "98654c52cba8664cee49975fddac452b579904801d418856720ae7741c5fcd47",
-  "fingerprint_mode": "SESSION_DELTA",
+  "generated_at": "2026-07-23T11:41:19Z",
+  "context_hash": "ef752c7979be015fc53cadd21e53891899596f3b3b6e2cb0609af288c2451cfc",
+  "fingerprint_mode": "REPOSITORY_TREE",
   "project_fingerprint": {
-    "sha256": "8202575c8e98fdc9eea93c9f7168368609f8cc74927a197444d50b902392da7a",
-    "file_count": 39
+    "sha256": "758b6b150b97df7d24ae27238da065e78743732788e5cdff96e0ac764c140108",
+    "file_count": 0
   },
   "yaml": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.yaml",
-    "sha256": "49f84510a5eda1be1059f69f9b48f990c0568c4d278e7376d50aa13033ba08fb"
+    "sha256": "5cc3911b210c5c729ad02241b0e7cabfeddd0f50e9bc41198a8cc4e1844e5d67"
   },
   "markdown": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.md",
-    "sha256": "0734b71d9e9318ae987071ea826a38e60d80b15f57bf91fd467eb709b18044aa"
+    "sha256": "4ab51c562b2c827359f128e357a9b9351732a50ae25773e11d4442a7bccf8e25"
   },
   "sources": [
     {
@@ -28,13 +28,13 @@
     },
     {
       "path": "CURRENT_STATUS.yaml",
-      "sha256": "4ccb73c3c3830e0c576a442f871362807754f141bcc0de46a86e2e7cd756c39f",
-      "bytes": 4183
+      "sha256": "2dcb3c9db4cefa7b3a8614784f3531096ce4407f19ce8cab97bc6d679c0917cb",
+      "bytes": 4017
     },
     {
       "path": "NEXT_TASK.yaml",
-      "sha256": "7ca1b3eb478f794d341d916261d958c68022f0dd0ebdca4635c71daaa6d57712",
-      "bytes": 1841
+      "sha256": "5b57b56ee914f04f8434e6252360a0e9d458417f472d1cf2809b17de16714f7b",
+      "bytes": 1521
     },
     {
       "path": "DEVELOPMENT_RISK_REGISTER.md",
@@ -83,18 +83,18 @@
     },
     {
       "path": ".continuity/EVENT_LOG.jsonl",
-      "sha256": "8da9fe9b4cf662688b48a039fb7bcb8e3e0310b4fb37cbcbc94a9bd12e2c74db",
-      "bytes": 1490689
+      "sha256": "c78715d45282b1b27810700782d11416eb857ec66a0ec6cadccf988171c47130",
+      "bytes": 1492332
     },
     {
       "path": ".continuity/SESSION_INDEX.yaml",
-      "sha256": "758db608cfc39d21435a96283f8f93edf2663cfd629b78237555968b3f4a711c",
-      "bytes": 44589
+      "sha256": "9ad4ab25b661e2d5c655c925fa78c38b60edd11c3ec5be84735e327fd55b7e03",
+      "bytes": 44607
     },
     {
       "path": ".continuity/TASK_CLAIMS.yaml",
-      "sha256": "e03b63b3e06b1aeb3b72ae7c04d03cb35f240eb9908e1eb35dc8c6ddf169cb6f",
-      "bytes": 61659
+      "sha256": "14b80a2119d759d846380f6c35630f395adbdd0ada4f688b02e25845e88606db",
+      "bytes": 61695
     },
     {
       "path": ".continuity/TASK_TRANSITIONS.yaml",
@@ -108,8 +108,8 @@
     },
     {
       "path": ".continuity/ACTIVE_SESSION.yaml",
-      "sha256": "2b82e3d3299fa71d06c45e3377153976506692b3a529093f4dabc7c144f95ffb",
-      "bytes": 536
+      "sha256": "b853db09fe62089452ed868ab680ae31eb28390c2fdafeb5f5525f3b6134b7bb",
+      "bytes": 143
     },
     {
       "path": "docs/00-baseline/正式商业系统全局硬性开发边界.md",
@@ -148,8 +148,8 @@
     },
     {
       "path": "releases/R10/TASKS.yaml",
-      "sha256": "30ecec0feb3ab84966603c6aa8e1d367e49f7868ebae3f204cd65feba3dc6224",
-      "bytes": 5599
+      "sha256": "d71e8470750c8f96de6879b8f43ea0326523960ad0e3421738257633ea6cc502",
+      "bytes": 5635
     },
     {
       "path": "releases/R10/ACCEPTANCE_MATRIX.csv",
@@ -160,31 +160,6 @@
       "path": "releases/R10/PARALLEL_EXECUTION_PLAN.yaml",
       "sha256": "ad9d4615ce1683a80e27986d1f3f078ab5012ffd5c001a618a8b9df278e1e3f7",
       "bytes": 2382
-    },
-    {
-      "path": "docs/03-continuity/sessions/2026-07/SES-20260723T074719Z-AB4D0E80.md",
-      "sha256": "3ab94a06206ea1762c4504ddc953046b2596794253a0828dfc53d30e0bb7de98",
-      "bytes": 16004
-    },
-    {
-      "path": ".continuity/checkpoints/SES-20260723T074719Z-AB4D0E80/0008.yaml",
-      "sha256": "0c6a0b6b790c39a1fdbfe979045e716f68fbd43dcfd78a0db1453b6684b7b3b3",
-      "bytes": 19771
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0268-补齐R10群聊推广数据库不变量与可逆迁移.md",
-      "sha256": "f87950652df31e45d2704bb8c39326eb63a67ba16beba992bc51473665266a32",
-      "bytes": 8297
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0269-修复后台权限会话菜单与生产可用性.md",
-      "sha256": "cca5e602cd545da68a40b18e3c011cfe6e6a4a0ea5b20abbe520f1de5cc5b1f8",
-      "bytes": 3963
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0270-补齐登录后菜单响应式刷新回归.md",
-      "sha256": "c13c8844b8e463f7e39abe693e1e31310d0557451f67288376eae7bd250abf5f",
-      "bytes": 2623
     }
   ]
 }

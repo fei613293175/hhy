@@ -1048,11 +1048,11 @@ sessions:
   task_id: TASK-R10-004
   story_id: STORY-R10-004
   actor_id: codex-root-r10-client
-  status: ACTIVE
+  status: CLOSED
   started_at: '2026-07-23T07:47:19Z'
   record: .continuity/sessions/SES-20260723T074719Z-AB4D0E80.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260723T074719Z-AB4D0E80.md
-  updated_at: '2026-07-23T11:38:23Z'
-  closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260723T074719Z-AB4D0E80/0008.yaml
+  updated_at: '2026-07-23T11:41:16Z'
+  closed_at: '2026-07-23T11:41:16Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260723T074719Z-AB4D0E80/0009.yaml
   handoff_bundle: null

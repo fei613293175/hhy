@@ -60,7 +60,7 @@ tasks:
   completed_at: '2026-07-23T07:03:52Z'
 - id: TASK-R10-004
   title: 群聊推广完整闭环客户端/H5/后台实现
-  status: READY
+  status: DONE
   depends_on:
   - TASK-R10-003
   requirements: *id001
@@ -78,9 +78,10 @@ tasks:
   - 禁止页面级手写重复DTO
   - 全部动作绑定生成API类型
   session_log_required: true
+  completed_at: '2026-07-23T11:41:07Z'
 - id: TASK-R10-005
   title: 群聊推广完整闭环专项测试与故障注入
-  status: BLOCKED
+  status: READY
   depends_on:
   - TASK-R10-003
   - TASK-R10-004

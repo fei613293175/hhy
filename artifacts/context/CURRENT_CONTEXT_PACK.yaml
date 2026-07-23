@@ -1,5 +1,5 @@
 context_version: '1.0'
-generated_at: '2026-07-23T11:38:26Z'
+generated_at: '2026-07-23T11:41:19Z'
 conversation_dependency: PROHIBITED
 source_of_truth: REPOSITORY_ONLY
 project: hhy-pro-platform
@@ -9,10 +9,10 @@ current_status:
   baseline_version: 1.2.3
   phase: R10
   active_release: R10
-  active_task: TASK-R10-004
-  status: IN_PROGRESS
+  active_task: TASK-R10-005
+  status: READY
   documentation_status: ZERO_BLOCKING_DOCUMENT_GAPS
-  last_green_commit: 896948b70c98807cb30d5d165225a6c2a4155424
+  last_green_commit: caf9d07b
   last_staging_apk: null
   completed_tasks:
   - V1.2.2_ENGINEERING_BASELINE
@@ -105,15 +105,15 @@ current_status:
   - TASK-R10-001
   - TASK-R10-002
   - TASK-R10-003
-  in_progress_tasks:
   - TASK-R10-004
+  in_progress_tasks: []
   blocked_tasks:
   - TASK-R02-007
   - TASK-R03-007
   - TASK-R06-008
   - TASK-R07-008
-  next_task: TASK-R10-004
-  updated_at: '2026-07-23T11:38:23Z'
+  next_task: TASK-R10-005
+  updated_at: '2026-07-23T11:41:16Z'
   notes:
   - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
   - 全部REST/WebSocket操作均有页面或系统所有者
@@ -145,22 +145,20 @@ current_status:
   continuity:
     protocol_version: '1.0'
     mode: ENFORCED
-    active_session_id: SES-20260723T074719Z-AB4D0E80
-    actor_id: codex-root-r10-client
-    story_id: STORY-R10-004
-    lease_expires_at: '2026-07-23T15:38:23Z'
-    latest_checkpoint: .continuity/checkpoints/SES-20260723T074719Z-AB4D0E80/0008.yaml
-    project_fingerprint: 8202575c8e98fdc9eea93c9f7168368609f8cc74927a197444d50b902392da7a
+    active_session_id: null
+    last_session_id: SES-20260723T074719Z-AB4D0E80
+    last_session_result: COMPLETED
+    last_checkpoint: .continuity/checkpoints/SES-20260723T074719Z-AB4D0E80/0009.yaml
+    last_handoff_bundle: null
     context_pack:
       yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
       markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
       manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-      context_hash: ebbf3ff431d8d4ca21ad674bb41ec396bfd26e825f7ffadea53076ab5ef3c0ee
-      generated_at: '2026-07-23T11:09:02Z'
-    handoff_bundle: null
+      context_hash: 8fcebcdd30a110159ddc35daed842bf1c79a633253c83f14a5982b7c0936b06c
+      generated_at: '2026-07-23T11:41:14Z'
 next_task:
-  id: TASK-R10-004
-  title: 群聊推广完整闭环客户端/H5/后台实现
+  id: TASK-R10-005
+  title: 群聊推广完整闭环专项测试与故障注入
   status: READY
   release: R10
   requirements:
@@ -169,25 +167,22 @@ next_task:
   - REQ-APK-001
   depends_on:
   - TASK-R10-003
+  - TASK-R10-004
   definition_of_ready: releases/R10/DEFINITION_OF_READY.yaml
   stories: releases/R10/STORIES.yaml
   steps:
-  - 全部页面绑定catalogs/ui_page_specifications.csv
-  - 字段/状态/动作/导航与后台运营规格通过契约测试
-  - 禁止页面级手写重复DTO
-  - 全部动作绑定生成API类型
+  - 测试报告和失败证据归档
+  - 关键缺陷清零
   acceptance:
-  - 所有页面故事验收条件通过
-  - 加载、空、局部失败、无权限、404、离线、冲突和成功导航均有证据
-  - 全部页面绑定catalogs/ui_page_specifications.csv
-  - 字段/状态/动作/导航与后台运营规格通过契约测试
-  - 禁止页面级手写重复DTO
-  - 全部动作绑定生成API类型
+  - 无TODO/生产Mock
+  - 代码、文档、测试、追踪同步更新
+  - 测试报告和失败证据归档
+  - 关键缺陷清零
   claim_required: true
-  start_command: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R10-004
+  start_command: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R10-005
   commands:
     resume: python3 scripts/continuity.py resume
-    start: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R10-004
+    start: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R10-005
     checkpoint: python3 scripts/continuity.py checkpoint --summary '<阶段完成>' --next-step '<精确下一步>' --test 'name|PASS|evidence|note' --parallel-assessment
       <ASSESSMENT> --parallel-reason '<未委托原因>'
     handoff: python3 scripts/continuity.py handoff --actor <ACTOR_ID> --reason '<移交原因>' --next-step '<精确下一步>'
@@ -195,550 +190,14 @@ next_task:
     cr_amend: python3 scripts/continuity.py cr-amend --actor <ACTOR_ID> --cr <CR_ID> --original-rule '<原规则>' --new-rule '<新规则>' --impact-summary
       '<影响摘要>' --migration-and-compatibility '<迁移兼容说明>' --file <PATH> --test '<TEST>' --release <RELEASE>
   next_after: 由当前TASKS.yaml依赖关系决定
-active_session:
-  protocol_version: '1.0'
-  package_version: 1.2.3
-  session_id: SES-20260723T074719Z-AB4D0E80
-  status: ACTIVE
-  actor:
-    id: codex-root-r10-client
-    kind: AI_OR_HUMAN
-    host: unknown
-  release: R10
-  task_id: TASK-R10-004
-  story_id: STORY-R10-004
-  goal: 完成R10群聊推广Android列表、详情、发布页及首页真实入口，严格绑定冻结页面规格与UI效果图
-  started_at: '2026-07-23T07:47:19Z'
-  updated_at: '2026-07-23T11:38:23Z'
-  takeover_of: null
-  change_requests:
-  - CR-0268
-  - CR-0269
-  - CR-0270
-  scope:
-    allowed_paths:
-    - apps/**
-    - services/**
-    - packages/**
-    - contracts/**
-    - database/**
-    - config/**
-    - catalogs/**
-    - tests/**
-    - infra/**
-    - design/**
-    - docs/**
-    - releases/**
-    - scripts/**
-    - templates/**
-    - .github/**
-    - .githooks/**
-    - .codex/**
-    - AGENTS.md
-    - START_HERE.md
-    - README.md
-    - CHANGELOG.md
-    - Makefile
-    - .gitignore
-    - .gitattributes
-    - .dockerignore
-    - package.json
-    - pnpm-lock.yaml
-    - pnpm-workspace.yaml
-    - requirements-dev.txt
-    - PROJECT_*.yaml
-    - PROJECT_*.json
-    approved_exceptions:
-    - apps/admin-web/src/App.vue
-    - apps/admin-web/src/adminNavigation.ts
-    - apps/admin-web/src/adminNavigation.test.ts
-    - apps/admin-web/src/router.ts
-    - apps/admin-web/src/routerAccess.ts
-    - apps/admin-web/src/routerPermissions.test.ts
-    - apps/admin-web/src/services/adminSession.ts
-    - apps/admin-web/src/services/adminSession.test.ts
-    - apps/admin-web/src/styles.css
-    - apps/admin-web/src/views/AdminForbiddenPage.vue
-    - apps/admin-web/src/views/AdminLoginPage.vue
-    - apps/admin-web/src/views/CatalogPage.vue
-    - apps/admin-web/src/views/ProviderConfigPage.vue
-    - apps/admin-web/src/r01Pages.test.ts
-    - services/backend/boot/src/main/resources/db/migration/V037__admin_super_admin_permission_repair.sql
-    - database/migrations/V037__admin_super_admin_permission_repair.sql
-    - docs/03-continuity/PROBLEM_REGISTRY.yaml
-    - apps/admin-web/src/App.test.ts
-    source: story+explicit+approved-cr:CR-0269+approved-cr:CR-0270
-  git:
-    initialized: true
-    branch: task/TASK-R03-001
-    base_commit: ede20ba89945175f79c45252fa796e2f89e8a39a
-    start_head: ede20ba89945175f79c45252fa796e2f89e8a39a
-    upstream: origin/task/TASK-R03-001
-    initial_worktree_state: CLEAN
-  lease:
-    duration_minutes: 240
-    renewed_at: '2026-07-23T11:38:23Z'
-    expires_at: '2026-07-23T15:38:23Z'
-  checkpoint_sequence: 8
-  latest_checkpoint: .continuity/checkpoints/SES-20260723T074719Z-AB4D0E80/0008.yaml
-  session_log: docs/03-continuity/sessions/2026-07/SES-20260723T074719Z-AB4D0E80.md
-  next_step: 提交TASK-R10-004实现并执行close切换TASK-R10-005专项测试
-  context_pack: THIS_CONTEXT_PACK
-  handoff_bundle: null
-  closure: null
-  parallel_execution:
-    assessment: USER_SERIAL_OVERRIDE
-    delegated_workers: 0
-    workers: []
-    reason: 当前运行环境上级指令禁止派生子代理，主控串行完成跨端集成与最终复核
-latest_checkpoint:
-  protocol_version: '1.0'
-  checkpoint_id: CP-SES-20260723T074719Z-AB4D0E80-0008
-  session_id: SES-20260723T074719Z-AB4D0E80
-  sequence: 8
-  created_at: '2026-07-23T11:38:23Z'
-  summary: 完成TASK-R10-004群聊Android三页、H5-006安全公开分享、后台类型化详情、首页导航回接及admin契约同步
-  next_step: 提交TASK-R10-004实现并执行close切换TASK-R10-005专项测试
-  blockers: []
-  decisions: []
-  note: ''
-  tests:
-  - name: android-cloud-module
-    result: PASS
-    evidence: obx-test hhy-android-toolchain:r01-46fb273 114 tasks BUILD SUCCESSFUL
-    note: group-promotion和network单测及app Kotlin编译
-  - name: android-ui-foundation
-    result: PASS
-    evidence: scripts/check_android_ui_foundation.py
-    note: 统一导航图标动效门禁通过
-  - name: generated-assets
-    result: PASS
-    evidence: scripts/check_generated_assets.py
-    note: OpenAPI生成类型与运行时合同一致
-  - name: api-contract
-    result: PASS
-    evidence: client=131 admin=184 websocket=10
-    note: 合同注册表哈希通过
-  - name: admin-web
-    result: PASS
-    evidence: vue-tsc and 21 files 97 tests
-    note: 群聊后台详情与R08/R09复用回归通过
-  - name: h5
-    result: PASS
-    evidence: vue-tsc and 6 files 29 tests
-    note: H5-006安全公开分享回归通过
-  git:
-    initialized: true
-    branch: task/TASK-R03-001
-    head: 10f6c410df4c3163dcaed96107522cda4081fe73
-    upstream: origin/task/TASK-R03-001
-    ahead: 1
-    behind: 0
-    dirty: true
-    status_porcelain:
-    - ' M .continuity/STATE.yaml'
-    - ' M .continuity/sessions/SES-20260723T074719Z-AB4D0E80.yaml'
-    - ' M CHANGELOG.md'
-    - ' M apps/admin-web/src/views/AdminContentDetailPage.vue'
-    - ' M apps/android/app/build.gradle.kts'
-    - ' M apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt'
-    - ' M apps/android/settings.gradle.kts'
-    - ' M apps/h5/src/services/publicShare.test.ts'
-    - ' M apps/h5/src/views/PublicPage.vue'
-    - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
-    - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
-    - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
-    - ' M contracts/admin-openapi.yaml'
-    - ' M contracts/contract_status.csv'
-    - ' M docs/03-continuity/change-requests/CR-0268-补齐R10群聊推广数据库不变量与可逆迁移.md'
-    - ' M packages/api-client/src/admin.generated.ts'
-    - ' M services/backend/boot/src/main/resources/contracts/admin-openapi.yaml'
-    - ?? apps/admin-web/src/r10GroupReuse.test.ts
-    - ?? apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR10Api.kt
-    - ?? apps/android/feature/group-promotion/build.gradle.kts
-    - ?? apps/android/feature/group-promotion/src/main/AndroidManifest.xml
-    - ?? apps/android/feature/group-promotion/src/main/java/cc/orbexa/hhy/grouppromotion/R10GroupScreens.kt
-    - ?? apps/android/feature/group-promotion/src/main/java/cc/orbexa/hhy/grouppromotion/R10GroupState.kt
-    - ?? apps/android/feature/group-promotion/src/test/java/cc/orbexa/hhy/grouppromotion/R10GroupStateTest.kt
-    recent_commits:
-    - "10f6c410df4c3163dcaed96107522cda4081fe73\t2026-07-23T19:04:39+08:00\tHHY Continuity Bootstrap\t[STORY-R10-004] fix(admin): restore production\
-      \ management usability"
-    - "ede20ba89945175f79c45252fa796e2f89e8a39a\t2026-07-23T15:07:49+08:00\tHHY Continuity Bootstrap\t[STORY-R10-004] chore(continuity): close\
-      \ TASK-R10-003 as completed"
-    - "896948b70c98807cb30d5d165225a6c2a4155424\t2026-07-23T15:02:03+08:00\tHHY Continuity Bootstrap\t[STORY-R10-004] feat(content): complete\
-      \ group promotion backend"
-    - "2de94dd2b82efc2d5ebff5500ad808ea5ccee2d4\t2026-07-23T14:23:32+08:00\tHHY Continuity Bootstrap\t[STORY-R10-004] chore(continuity): close\
-      \ TASK-R10-002 as completed"
-    - "9322209a3e85917d0a11957a3137797b14c6c2e8\t2026-07-23T14:16:11+08:00\tHHY Continuity Bootstrap\t[STORY-R10-004] feat(database): enforce\
-      \ group promotion invariants"
-    - "47f2b158f68207603f260460aad7c4eccdd0b936\t2026-07-23T12:51:23+08:00\tHHY Continuity Bootstrap\t[STORY-R10-004] chore(continuity): close\
-      \ TASK-R10-001 as completed"
-    - "04a6e66a91725fdd2352f8a262f7de701fc4629e\t2026-07-23T12:46:50+08:00\tHHY Continuity Bootstrap\t[STORY-R10-004] fix(home): align runtime\
-      \ with canonical product contract"
-    - "9e05beefef5754521c1730ddbf1179bae694c31b\t2026-07-23T10:49:29+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] chore(continuity): close\
-      \ TASK-R09-008 as completed"
-  project_fingerprint:
-    sha256: 8202575c8e98fdc9eea93c9f7168368609f8cc74927a197444d50b902392da7a
-    files:
-    - CHANGELOG.md
-    - apps/admin-web/src/App.test.ts
-    - apps/admin-web/src/App.vue
-    - apps/admin-web/src/adminNavigation.test.ts
-    - apps/admin-web/src/adminNavigation.ts
-    - apps/admin-web/src/r01Pages.test.ts
-    - apps/admin-web/src/r10GroupReuse.test.ts
-    - apps/admin-web/src/router.ts
-    - apps/admin-web/src/routerAccess.ts
-    - apps/admin-web/src/routerPermissions.test.ts
-    - apps/admin-web/src/services/adminSession.test.ts
-    - apps/admin-web/src/services/adminSession.ts
-    - apps/admin-web/src/styles.css
-    - apps/admin-web/src/views/AdminContentDetailPage.vue
-    - apps/admin-web/src/views/AdminForbiddenPage.vue
-    - apps/admin-web/src/views/AdminLoginPage.vue
-    - apps/admin-web/src/views/CatalogPage.vue
-    - apps/admin-web/src/views/ProviderConfigPage.vue
-    - apps/android/app/build.gradle.kts
-    - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
-    - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR10Api.kt
-    - apps/android/feature/group-promotion/build.gradle.kts
-    - apps/android/feature/group-promotion/src/main/AndroidManifest.xml
-    - apps/android/feature/group-promotion/src/main/java/cc/orbexa/hhy/grouppromotion/R10GroupScreens.kt
-    - apps/android/feature/group-promotion/src/main/java/cc/orbexa/hhy/grouppromotion/R10GroupState.kt
-    - apps/android/feature/group-promotion/src/test/java/cc/orbexa/hhy/grouppromotion/R10GroupStateTest.kt
-    - apps/android/settings.gradle.kts
-    - apps/h5/src/services/publicShare.test.ts
-    - apps/h5/src/views/PublicPage.vue
-    - contracts/admin-openapi.yaml
-    - contracts/contract_status.csv
-    - database/migrations/V037__admin_super_admin_permission_repair.sql
-    - docs/03-continuity/PROBLEM_REGISTRY.yaml
-    - docs/03-continuity/change-requests/CR-0268-补齐R10群聊推广数据库不变量与可逆迁移.md
-    - docs/03-continuity/change-requests/CR-0269-修复后台权限会话菜单与生产可用性.md
-    - docs/03-continuity/change-requests/CR-0270-补齐登录后菜单响应式刷新回归.md
-    - packages/api-client/src/admin.generated.ts
-    - services/backend/boot/src/main/resources/contracts/admin-openapi.yaml
-    - services/backend/boot/src/main/resources/db/migration/V037__admin_super_admin_permission_repair.sql
-    file_count: 39
-    payload:
-      base_commit: ede20ba89945175f79c45252fa796e2f89e8a39a
-      files:
-      - path: CHANGELOG.md
-        state: FILE
-        size: 110609
-        sha256: 31988cc27b6902cfc30e001f521bf5c93b244187becd32ad01eebdb24d8e72af
-      - path: apps/admin-web/src/App.test.ts
-        state: FILE
-        size: 1127
-        sha256: 93043ce5f3bc2933380fdac3af3c4913ddd49bb8c1626d387d96aa1488b0f3bb
-      - path: apps/admin-web/src/App.vue
-        state: FILE
-        size: 1596
-        sha256: d042e7014118a8ff6a63fa312fd62cc488f57cde6804c899894ab8a083e3cada
-      - path: apps/admin-web/src/adminNavigation.test.ts
-        state: FILE
-        size: 1278
-        sha256: 51b70fc6a519efac96c02effe5fdbf0c3dfab108219c9d7d25d3cea04d431bee
-      - path: apps/admin-web/src/adminNavigation.ts
-        state: FILE
-        size: 1966
-        sha256: f649d867e2777d608d64fd6bfea8d7e74f3e4f437d87c59f5d837fb707cf6d5e
-      - path: apps/admin-web/src/r01Pages.test.ts
-        state: FILE
-        size: 21706
-        sha256: 7f4c4bfe39ea2b82cf11b54239baa9566da8a6ae8dc7dbfe326ece68899dfe3c
-      - path: apps/admin-web/src/r10GroupReuse.test.ts
-        state: FILE
-        size: 2457
-        sha256: b0a4f227833b030b339a900ddcb8a3bfddae7d26e0046d406ab08aca8091be80
-      - path: apps/admin-web/src/router.ts
-        state: FILE
-        size: 5097
-        sha256: 25e169544c27c9a737e9c76a56d5fc2401458813412cd2d95326f322fba2c4c9
-      - path: apps/admin-web/src/routerAccess.ts
-        state: FILE
-        size: 1208
-        sha256: cab1cb7b8b7c79102d565079093156f8066439d07a79abc999d01f3b90dafc0e
-      - path: apps/admin-web/src/routerPermissions.test.ts
-        state: FILE
-        size: 1166
-        sha256: 9c04050d7e94becc3078c3a66e58d3e555275d17d11500c47fd916422e0dd8f7
-      - path: apps/admin-web/src/services/adminSession.test.ts
-        state: FILE
-        size: 4572
-        sha256: dc88d69ba50c70da83e6fc635bf3658ddddd1386520882c853fb9ebc2097c0eb
-      - path: apps/admin-web/src/services/adminSession.ts
-        state: FILE
-        size: 2851
-        sha256: d8c52ceec02039de5f72912ed7cf50df7ab707f344cb48a222dc43aa88d90540
-      - path: apps/admin-web/src/styles.css
-        state: FILE
-        size: 21142
-        sha256: 02780378e32080d6be2b66b0af5c5e8e70516cf76e009460d1754511dc675706
-      - path: apps/admin-web/src/views/AdminContentDetailPage.vue
-        state: FILE
-        size: 8885
-        sha256: 85649a8a0a80c6944ffb93f772440521e0a9e74f9334a9b241b921c3267ddb33
-      - path: apps/admin-web/src/views/AdminForbiddenPage.vue
-        state: FILE
-        size: 891
-        sha256: c94891233bb04cf8bd85430a33a12e67ece6c73f059d6766b4fbda20916fe10f
-      - path: apps/admin-web/src/views/AdminLoginPage.vue
-        state: FILE
-        size: 6412
-        sha256: 9864588fb2caa7fe62e6e20c18d154122a565bf30da481c2e82e4b08d91faa1c
-      - path: apps/admin-web/src/views/CatalogPage.vue
-        state: FILE
-        size: 670
-        sha256: 4c1fc9853aa50a4aca6885815dcf0ebe63a5693dfd2014c752e3d6eaff4f4879
-      - path: apps/admin-web/src/views/ProviderConfigPage.vue
-        state: FILE
-        size: 25614
-        sha256: e2b856baa6e56e287c72b00870c04cc826d15d61d102bf2b69e4308f270ea17a
-      - path: apps/android/app/build.gradle.kts
-        state: FILE
-        size: 5246
-        sha256: be1d76adb3fe6a5d2b0f82b6a3ec934d6dcf2756ac5a7049c9a5574f6b0fe281
-      - path: apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
-        state: FILE
-        size: 26830
-        sha256: f0255363881ad601bc96b87471d869d7c960e3b20b149ec4d83c724e9e228999
-      - path: apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR10Api.kt
-        state: FILE
-        size: 10102
-        sha256: 6dac4cc74750fa7351b225deb186e810ff2b43e6c61e0238492b01471061e947
-      - path: apps/android/feature/group-promotion/build.gradle.kts
-        state: FILE
-        size: 1253
-        sha256: 60c548ff26c740aa5f33b6be491dd48a7a5da2d815faa7ac59b13c867939aabe
-      - path: apps/android/feature/group-promotion/src/main/AndroidManifest.xml
-        state: FILE
-        size: 13
-        sha256: 571f2735faf5e857752ee057ac8ef63425576a721616c60b86ee5d4c0a2d682f
-      - path: apps/android/feature/group-promotion/src/main/java/cc/orbexa/hhy/grouppromotion/R10GroupScreens.kt
-        state: FILE
-        size: 28635
-        sha256: 0304fb75b3da1535d9c4ac2d539d06a1890b7853e5fdb35e797f7a4db9ad0b16
-      - path: apps/android/feature/group-promotion/src/main/java/cc/orbexa/hhy/grouppromotion/R10GroupState.kt
-        state: FILE
-        size: 7590
-        sha256: 633ddbf3470cd558f05b3773a24fd2467c8906a7b00abbc43e41322ba47543a9
-      - path: apps/android/feature/group-promotion/src/test/java/cc/orbexa/hhy/grouppromotion/R10GroupStateTest.kt
-        state: FILE
-        size: 1781
-        sha256: e89a88909898c712a4747424d796e3144b5b799cb580b5cf4a89de209c546b69
-      - path: apps/android/settings.gradle.kts
-        state: FILE
-        size: 648
-        sha256: 37c813e60faad5b75d17940325f35ede47b454ea7d1a899e81404fe703ecd059
-      - path: apps/h5/src/services/publicShare.test.ts
-        state: FILE
-        size: 7000
-        sha256: 17653f7b98447d75be804587763b2f61eb9dfc8346419a86e4bb3342b37faf4a
-      - path: apps/h5/src/views/PublicPage.vue
-        state: FILE
-        size: 7151
-        sha256: 9761cb5682806eeb5d511546407d4e241d3a142cf8671ff5d6c158c7f261fe6f
-      - path: contracts/admin-openapi.yaml
-        state: FILE
-        size: 852938
-        sha256: 11182faff8bcadca14301e8b3de60d451beec5fbc132cfc6c2a29e631f0c9a94
-      - path: contracts/contract_status.csv
-        state: FILE
-        size: 140042
-        sha256: 699d43347faef475aa1461ff1c85b942ba6139920af6f3df44578c6964a7264c
-      - path: database/migrations/V037__admin_super_admin_permission_repair.sql
-        state: FILE
-        size: 1056
-        sha256: b902a648f75fe0527fadd80a1f70f4636c2751492f3a379b0b48516a1851700f
-      - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
-        state: FILE
-        size: 138253
-        sha256: 5edcbb69a69069beead6418da8b7c116695187a57426fec332f714056c102383
-      - path: docs/03-continuity/change-requests/CR-0268-补齐R10群聊推广数据库不变量与可逆迁移.md
-        state: FILE
-        size: 8297
-        sha256: f87950652df31e45d2704bb8c39326eb63a67ba16beba992bc51473665266a32
-      - path: docs/03-continuity/change-requests/CR-0269-修复后台权限会话菜单与生产可用性.md
-        state: FILE
-        size: 3963
-        sha256: cca5e602cd545da68a40b18e3c011cfe6e6a4a0ea5b20abbe520f1de5cc5b1f8
-      - path: docs/03-continuity/change-requests/CR-0270-补齐登录后菜单响应式刷新回归.md
-        state: FILE
-        size: 2623
-        sha256: c13c8844b8e463f7e39abe693e1e31310d0557451f67288376eae7bd250abf5f
-      - path: packages/api-client/src/admin.generated.ts
-        state: FILE
-        size: 886644
-        sha256: d5ad14684ab36b0e42c5fb7409b4a5c9065f7337e01e1f71353d8b0090ed9be9
-      - path: services/backend/boot/src/main/resources/contracts/admin-openapi.yaml
-        state: FILE
-        size: 852938
-        sha256: 11182faff8bcadca14301e8b3de60d451beec5fbc132cfc6c2a29e631f0c9a94
-      - path: services/backend/boot/src/main/resources/db/migration/V037__admin_super_admin_permission_repair.sql
-        state: FILE
-        size: 1056
-        sha256: b902a648f75fe0527fadd80a1f70f4636c2751492f3a379b0b48516a1851700f
-  change_classification:
-    other:
-    - CHANGELOG.md
-    code:
-    - apps/admin-web/src/App.test.ts
-    - apps/admin-web/src/App.vue
-    - apps/admin-web/src/adminNavigation.test.ts
-    - apps/admin-web/src/adminNavigation.ts
-    - apps/admin-web/src/r01Pages.test.ts
-    - apps/admin-web/src/r10GroupReuse.test.ts
-    - apps/admin-web/src/router.ts
-    - apps/admin-web/src/routerAccess.ts
-    - apps/admin-web/src/routerPermissions.test.ts
-    - apps/admin-web/src/services/adminSession.test.ts
-    - apps/admin-web/src/services/adminSession.ts
-    - apps/admin-web/src/styles.css
-    - apps/admin-web/src/views/AdminContentDetailPage.vue
-    - apps/admin-web/src/views/AdminForbiddenPage.vue
-    - apps/admin-web/src/views/AdminLoginPage.vue
-    - apps/admin-web/src/views/CatalogPage.vue
-    - apps/admin-web/src/views/ProviderConfigPage.vue
-    - apps/android/app/build.gradle.kts
-    - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
-    - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR10Api.kt
-    - apps/android/feature/group-promotion/build.gradle.kts
-    - apps/android/feature/group-promotion/src/main/AndroidManifest.xml
-    - apps/android/feature/group-promotion/src/main/java/cc/orbexa/hhy/grouppromotion/R10GroupScreens.kt
-    - apps/android/feature/group-promotion/src/main/java/cc/orbexa/hhy/grouppromotion/R10GroupState.kt
-    - apps/android/feature/group-promotion/src/test/java/cc/orbexa/hhy/grouppromotion/R10GroupStateTest.kt
-    - apps/android/settings.gradle.kts
-    - apps/h5/src/services/publicShare.test.ts
-    - apps/h5/src/views/PublicPage.vue
-    - packages/api-client/src/admin.generated.ts
-    - services/backend/boot/src/main/resources/contracts/admin-openapi.yaml
-    - services/backend/boot/src/main/resources/db/migration/V037__admin_super_admin_permission_repair.sql
-    user_visible:
-    - apps/admin-web/src/App.test.ts
-    - apps/admin-web/src/App.vue
-    - apps/admin-web/src/adminNavigation.test.ts
-    - apps/admin-web/src/adminNavigation.ts
-    - apps/admin-web/src/r01Pages.test.ts
-    - apps/admin-web/src/r10GroupReuse.test.ts
-    - apps/admin-web/src/router.ts
-    - apps/admin-web/src/routerAccess.ts
-    - apps/admin-web/src/routerPermissions.test.ts
-    - apps/admin-web/src/services/adminSession.test.ts
-    - apps/admin-web/src/services/adminSession.ts
-    - apps/admin-web/src/styles.css
-    - apps/admin-web/src/views/AdminContentDetailPage.vue
-    - apps/admin-web/src/views/AdminForbiddenPage.vue
-    - apps/admin-web/src/views/AdminLoginPage.vue
-    - apps/admin-web/src/views/CatalogPage.vue
-    - apps/admin-web/src/views/ProviderConfigPage.vue
-    - apps/android/app/build.gradle.kts
-    - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
-    - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR10Api.kt
-    - apps/android/feature/group-promotion/build.gradle.kts
-    - apps/android/feature/group-promotion/src/main/AndroidManifest.xml
-    - apps/android/feature/group-promotion/src/main/java/cc/orbexa/hhy/grouppromotion/R10GroupScreens.kt
-    - apps/android/feature/group-promotion/src/main/java/cc/orbexa/hhy/grouppromotion/R10GroupState.kt
-    - apps/android/feature/group-promotion/src/test/java/cc/orbexa/hhy/grouppromotion/R10GroupStateTest.kt
-    - apps/android/settings.gradle.kts
-    - apps/h5/src/services/publicShare.test.ts
-    - apps/h5/src/views/PublicPage.vue
-    - contracts/admin-openapi.yaml
-    - contracts/contract_status.csv
-    source_of_truth:
-    - contracts/admin-openapi.yaml
-    - contracts/contract_status.csv
-    contracts:
-    - contracts/admin-openapi.yaml
-    - contracts/contract_status.csv
-    database:
-    - database/migrations/V037__admin_super_admin_permission_repair.sql
-    continuity:
-    - docs/03-continuity/PROBLEM_REGISTRY.yaml
-    - docs/03-continuity/change-requests/CR-0268-补齐R10群聊推广数据库不变量与可逆迁移.md
-    - docs/03-continuity/change-requests/CR-0269-修复后台权限会话菜单与生产可用性.md
-    - docs/03-continuity/change-requests/CR-0270-补齐登录后菜单响应式刷新回归.md
-  required_records:
-  - SESSION_RECORD
-  - SESSION_LOG
-  - CHECKPOINT
-  - CURRENT_STATUS
-  - EVENT_LOG
-  - APPROVED_CHANGE_REQUEST
-  - DATABASE_TEST_EVIDENCE
-  - SCHEMA_TRACEABILITY
-  - CONTRACT_TEST_EVIDENCE
-  - GENERATED_CLIENTS_OR_GENERATION_RECORD
-  - CHANGELOG
-  change_requests:
-  - CR-0268
-  - CR-0269
-  - CR-0270
-  scope:
-    allowed_paths:
-    - apps/**
-    - services/**
-    - packages/**
-    - contracts/**
-    - database/**
-    - config/**
-    - catalogs/**
-    - tests/**
-    - infra/**
-    - design/**
-    - docs/**
-    - releases/**
-    - scripts/**
-    - templates/**
-    - .github/**
-    - .githooks/**
-    - .codex/**
-    - AGENTS.md
-    - START_HERE.md
-    - README.md
-    - CHANGELOG.md
-    - Makefile
-    - .gitignore
-    - .gitattributes
-    - .dockerignore
-    - package.json
-    - pnpm-lock.yaml
-    - pnpm-workspace.yaml
-    - requirements-dev.txt
-    - PROJECT_*.yaml
-    - PROJECT_*.json
-    approved_exceptions:
-    - apps/admin-web/src/App.vue
-    - apps/admin-web/src/adminNavigation.ts
-    - apps/admin-web/src/adminNavigation.test.ts
-    - apps/admin-web/src/router.ts
-    - apps/admin-web/src/routerAccess.ts
-    - apps/admin-web/src/routerPermissions.test.ts
-    - apps/admin-web/src/services/adminSession.ts
-    - apps/admin-web/src/services/adminSession.test.ts
-    - apps/admin-web/src/styles.css
-    - apps/admin-web/src/views/AdminForbiddenPage.vue
-    - apps/admin-web/src/views/AdminLoginPage.vue
-    - apps/admin-web/src/views/CatalogPage.vue
-    - apps/admin-web/src/views/ProviderConfigPage.vue
-    - apps/admin-web/src/r01Pages.test.ts
-    - services/backend/boot/src/main/resources/db/migration/V037__admin_super_admin_permission_repair.sql
-    - database/migrations/V037__admin_super_admin_permission_repair.sql
-    - docs/03-continuity/PROBLEM_REGISTRY.yaml
-    - apps/admin-web/src/App.test.ts
-    source: story+explicit+approved-cr:CR-0269+approved-cr:CR-0270
-  parallel_execution:
-    assessment: USER_SERIAL_OVERRIDE
-    delegated_workers: 0
-    workers: []
-    reason: 当前运行环境上级指令禁止派生子代理，主控串行完成跨端集成与最终复核
-  event_hash: 93624b999ae37d206b6a717a81d3a36a4a583562be10487f3b8fb8e7d2e52faf
+active_session: null
+latest_checkpoint: null
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: 10f6c410df4c3163dcaed96107522cda4081fe73
+  head: caf9d07b22fe318b2fe5acd5c85158da1345cf43
   upstream: origin/task/TASK-R03-001
-  ahead: 1
+  ahead: 2
   behind: 0
   dirty: true
   status_porcelain:
@@ -746,34 +205,21 @@ git:
   - ' M .continuity/EVENT_LOG.jsonl'
   - ' M .continuity/SESSION_INDEX.yaml'
   - ' M .continuity/STATE.yaml'
+  - ' M .continuity/TASK_CLAIMS.yaml'
   - ' M .continuity/sessions/SES-20260723T074719Z-AB4D0E80.yaml'
   - ' M CHANGELOG.md'
   - ' M CURRENT_STATUS.yaml'
-  - ' M apps/admin-web/src/views/AdminContentDetailPage.vue'
-  - ' M apps/android/app/build.gradle.kts'
-  - ' M apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt'
-  - ' M apps/android/settings.gradle.kts'
-  - ' M apps/h5/src/services/publicShare.test.ts'
-  - ' M apps/h5/src/views/PublicPage.vue'
+  - ' M NEXT_TASK.yaml'
   - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
   - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
   - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
   - ' M catalogs/session_index.csv'
-  - ' M contracts/admin-openapi.yaml'
-  - ' M contracts/contract_status.csv'
-  - ' M docs/03-continuity/change-requests/CR-0268-补齐R10群聊推广数据库不变量与可逆迁移.md'
   - ' M docs/03-continuity/sessions/2026-07/SES-20260723T074719Z-AB4D0E80.md'
-  - ' M packages/api-client/src/admin.generated.ts'
-  - ' M services/backend/boot/src/main/resources/contracts/admin-openapi.yaml'
-  - ?? .continuity/checkpoints/SES-20260723T074719Z-AB4D0E80/0008.yaml
-  - ?? apps/admin-web/src/r10GroupReuse.test.ts
-  - ?? apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR10Api.kt
-  - ?? apps/android/feature/group-promotion/build.gradle.kts
-  - ?? apps/android/feature/group-promotion/src/main/AndroidManifest.xml
-  - ?? apps/android/feature/group-promotion/src/main/java/cc/orbexa/hhy/grouppromotion/R10GroupScreens.kt
-  - ?? apps/android/feature/group-promotion/src/main/java/cc/orbexa/hhy/grouppromotion/R10GroupState.kt
-  - ?? apps/android/feature/group-promotion/src/test/java/cc/orbexa/hhy/grouppromotion/R10GroupStateTest.kt
+  - ' M releases/R10/TASKS.yaml'
+  - ?? .continuity/checkpoints/SES-20260723T074719Z-AB4D0E80/0009.yaml
   recent_commits:
+  - "caf9d07b22fe318b2fe5acd5c85158da1345cf43\t2026-07-23T19:40:20+08:00\tHHY Continuity Bootstrap\t[STORY-R10-004] feat(group): complete promotion\
+    \ client surfaces"
   - "10f6c410df4c3163dcaed96107522cda4081fe73\t2026-07-23T19:04:39+08:00\tHHY Continuity Bootstrap\t[STORY-R10-004] fix(admin): restore production\
     \ management usability"
   - "ede20ba89945175f79c45252fa796e2f89e8a39a\t2026-07-23T15:07:49+08:00\tHHY Continuity Bootstrap\t[STORY-R10-004] chore(continuity): close TASK-R10-003\
@@ -788,210 +234,10 @@ git:
     \ as completed"
   - "04a6e66a91725fdd2352f8a262f7de701fc4629e\t2026-07-23T12:46:50+08:00\tHHY Continuity Bootstrap\t[STORY-R10-004] fix(home): align runtime with\
     \ canonical product contract"
-  - "9e05beefef5754521c1730ddbf1179bae694c31b\t2026-07-23T10:49:29+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] chore(continuity): close TASK-R09-008\
-    \ as completed"
 project_fingerprint:
-  sha256: 8202575c8e98fdc9eea93c9f7168368609f8cc74927a197444d50b902392da7a
-  files:
-  - CHANGELOG.md
-  - apps/admin-web/src/App.test.ts
-  - apps/admin-web/src/App.vue
-  - apps/admin-web/src/adminNavigation.test.ts
-  - apps/admin-web/src/adminNavigation.ts
-  - apps/admin-web/src/r01Pages.test.ts
-  - apps/admin-web/src/r10GroupReuse.test.ts
-  - apps/admin-web/src/router.ts
-  - apps/admin-web/src/routerAccess.ts
-  - apps/admin-web/src/routerPermissions.test.ts
-  - apps/admin-web/src/services/adminSession.test.ts
-  - apps/admin-web/src/services/adminSession.ts
-  - apps/admin-web/src/styles.css
-  - apps/admin-web/src/views/AdminContentDetailPage.vue
-  - apps/admin-web/src/views/AdminForbiddenPage.vue
-  - apps/admin-web/src/views/AdminLoginPage.vue
-  - apps/admin-web/src/views/CatalogPage.vue
-  - apps/admin-web/src/views/ProviderConfigPage.vue
-  - apps/android/app/build.gradle.kts
-  - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
-  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR10Api.kt
-  - apps/android/feature/group-promotion/build.gradle.kts
-  - apps/android/feature/group-promotion/src/main/AndroidManifest.xml
-  - apps/android/feature/group-promotion/src/main/java/cc/orbexa/hhy/grouppromotion/R10GroupScreens.kt
-  - apps/android/feature/group-promotion/src/main/java/cc/orbexa/hhy/grouppromotion/R10GroupState.kt
-  - apps/android/feature/group-promotion/src/test/java/cc/orbexa/hhy/grouppromotion/R10GroupStateTest.kt
-  - apps/android/settings.gradle.kts
-  - apps/h5/src/services/publicShare.test.ts
-  - apps/h5/src/views/PublicPage.vue
-  - contracts/admin-openapi.yaml
-  - contracts/contract_status.csv
-  - database/migrations/V037__admin_super_admin_permission_repair.sql
-  - docs/03-continuity/PROBLEM_REGISTRY.yaml
-  - docs/03-continuity/change-requests/CR-0268-补齐R10群聊推广数据库不变量与可逆迁移.md
-  - docs/03-continuity/change-requests/CR-0269-修复后台权限会话菜单与生产可用性.md
-  - docs/03-continuity/change-requests/CR-0270-补齐登录后菜单响应式刷新回归.md
-  - packages/api-client/src/admin.generated.ts
-  - services/backend/boot/src/main/resources/contracts/admin-openapi.yaml
-  - services/backend/boot/src/main/resources/db/migration/V037__admin_super_admin_permission_repair.sql
-  file_count: 39
-  payload:
-    base_commit: ede20ba89945175f79c45252fa796e2f89e8a39a
-    files:
-    - path: CHANGELOG.md
-      state: FILE
-      size: 110609
-      sha256: 31988cc27b6902cfc30e001f521bf5c93b244187becd32ad01eebdb24d8e72af
-    - path: apps/admin-web/src/App.test.ts
-      state: FILE
-      size: 1127
-      sha256: 93043ce5f3bc2933380fdac3af3c4913ddd49bb8c1626d387d96aa1488b0f3bb
-    - path: apps/admin-web/src/App.vue
-      state: FILE
-      size: 1596
-      sha256: d042e7014118a8ff6a63fa312fd62cc488f57cde6804c899894ab8a083e3cada
-    - path: apps/admin-web/src/adminNavigation.test.ts
-      state: FILE
-      size: 1278
-      sha256: 51b70fc6a519efac96c02effe5fdbf0c3dfab108219c9d7d25d3cea04d431bee
-    - path: apps/admin-web/src/adminNavigation.ts
-      state: FILE
-      size: 1966
-      sha256: f649d867e2777d608d64fd6bfea8d7e74f3e4f437d87c59f5d837fb707cf6d5e
-    - path: apps/admin-web/src/r01Pages.test.ts
-      state: FILE
-      size: 21706
-      sha256: 7f4c4bfe39ea2b82cf11b54239baa9566da8a6ae8dc7dbfe326ece68899dfe3c
-    - path: apps/admin-web/src/r10GroupReuse.test.ts
-      state: FILE
-      size: 2457
-      sha256: b0a4f227833b030b339a900ddcb8a3bfddae7d26e0046d406ab08aca8091be80
-    - path: apps/admin-web/src/router.ts
-      state: FILE
-      size: 5097
-      sha256: 25e169544c27c9a737e9c76a56d5fc2401458813412cd2d95326f322fba2c4c9
-    - path: apps/admin-web/src/routerAccess.ts
-      state: FILE
-      size: 1208
-      sha256: cab1cb7b8b7c79102d565079093156f8066439d07a79abc999d01f3b90dafc0e
-    - path: apps/admin-web/src/routerPermissions.test.ts
-      state: FILE
-      size: 1166
-      sha256: 9c04050d7e94becc3078c3a66e58d3e555275d17d11500c47fd916422e0dd8f7
-    - path: apps/admin-web/src/services/adminSession.test.ts
-      state: FILE
-      size: 4572
-      sha256: dc88d69ba50c70da83e6fc635bf3658ddddd1386520882c853fb9ebc2097c0eb
-    - path: apps/admin-web/src/services/adminSession.ts
-      state: FILE
-      size: 2851
-      sha256: d8c52ceec02039de5f72912ed7cf50df7ab707f344cb48a222dc43aa88d90540
-    - path: apps/admin-web/src/styles.css
-      state: FILE
-      size: 21142
-      sha256: 02780378e32080d6be2b66b0af5c5e8e70516cf76e009460d1754511dc675706
-    - path: apps/admin-web/src/views/AdminContentDetailPage.vue
-      state: FILE
-      size: 8885
-      sha256: 85649a8a0a80c6944ffb93f772440521e0a9e74f9334a9b241b921c3267ddb33
-    - path: apps/admin-web/src/views/AdminForbiddenPage.vue
-      state: FILE
-      size: 891
-      sha256: c94891233bb04cf8bd85430a33a12e67ece6c73f059d6766b4fbda20916fe10f
-    - path: apps/admin-web/src/views/AdminLoginPage.vue
-      state: FILE
-      size: 6412
-      sha256: 9864588fb2caa7fe62e6e20c18d154122a565bf30da481c2e82e4b08d91faa1c
-    - path: apps/admin-web/src/views/CatalogPage.vue
-      state: FILE
-      size: 670
-      sha256: 4c1fc9853aa50a4aca6885815dcf0ebe63a5693dfd2014c752e3d6eaff4f4879
-    - path: apps/admin-web/src/views/ProviderConfigPage.vue
-      state: FILE
-      size: 25614
-      sha256: e2b856baa6e56e287c72b00870c04cc826d15d61d102bf2b69e4308f270ea17a
-    - path: apps/android/app/build.gradle.kts
-      state: FILE
-      size: 5246
-      sha256: be1d76adb3fe6a5d2b0f82b6a3ec934d6dcf2756ac5a7049c9a5574f6b0fe281
-    - path: apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
-      state: FILE
-      size: 26830
-      sha256: f0255363881ad601bc96b87471d869d7c960e3b20b149ec4d83c724e9e228999
-    - path: apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR10Api.kt
-      state: FILE
-      size: 10102
-      sha256: 6dac4cc74750fa7351b225deb186e810ff2b43e6c61e0238492b01471061e947
-    - path: apps/android/feature/group-promotion/build.gradle.kts
-      state: FILE
-      size: 1253
-      sha256: 60c548ff26c740aa5f33b6be491dd48a7a5da2d815faa7ac59b13c867939aabe
-    - path: apps/android/feature/group-promotion/src/main/AndroidManifest.xml
-      state: FILE
-      size: 13
-      sha256: 571f2735faf5e857752ee057ac8ef63425576a721616c60b86ee5d4c0a2d682f
-    - path: apps/android/feature/group-promotion/src/main/java/cc/orbexa/hhy/grouppromotion/R10GroupScreens.kt
-      state: FILE
-      size: 28635
-      sha256: 0304fb75b3da1535d9c4ac2d539d06a1890b7853e5fdb35e797f7a4db9ad0b16
-    - path: apps/android/feature/group-promotion/src/main/java/cc/orbexa/hhy/grouppromotion/R10GroupState.kt
-      state: FILE
-      size: 7590
-      sha256: 633ddbf3470cd558f05b3773a24fd2467c8906a7b00abbc43e41322ba47543a9
-    - path: apps/android/feature/group-promotion/src/test/java/cc/orbexa/hhy/grouppromotion/R10GroupStateTest.kt
-      state: FILE
-      size: 1781
-      sha256: e89a88909898c712a4747424d796e3144b5b799cb580b5cf4a89de209c546b69
-    - path: apps/android/settings.gradle.kts
-      state: FILE
-      size: 648
-      sha256: 37c813e60faad5b75d17940325f35ede47b454ea7d1a899e81404fe703ecd059
-    - path: apps/h5/src/services/publicShare.test.ts
-      state: FILE
-      size: 7000
-      sha256: 17653f7b98447d75be804587763b2f61eb9dfc8346419a86e4bb3342b37faf4a
-    - path: apps/h5/src/views/PublicPage.vue
-      state: FILE
-      size: 7151
-      sha256: 9761cb5682806eeb5d511546407d4e241d3a142cf8671ff5d6c158c7f261fe6f
-    - path: contracts/admin-openapi.yaml
-      state: FILE
-      size: 852938
-      sha256: 11182faff8bcadca14301e8b3de60d451beec5fbc132cfc6c2a29e631f0c9a94
-    - path: contracts/contract_status.csv
-      state: FILE
-      size: 140042
-      sha256: 699d43347faef475aa1461ff1c85b942ba6139920af6f3df44578c6964a7264c
-    - path: database/migrations/V037__admin_super_admin_permission_repair.sql
-      state: FILE
-      size: 1056
-      sha256: b902a648f75fe0527fadd80a1f70f4636c2751492f3a379b0b48516a1851700f
-    - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
-      state: FILE
-      size: 138253
-      sha256: 5edcbb69a69069beead6418da8b7c116695187a57426fec332f714056c102383
-    - path: docs/03-continuity/change-requests/CR-0268-补齐R10群聊推广数据库不变量与可逆迁移.md
-      state: FILE
-      size: 8297
-      sha256: f87950652df31e45d2704bb8c39326eb63a67ba16beba992bc51473665266a32
-    - path: docs/03-continuity/change-requests/CR-0269-修复后台权限会话菜单与生产可用性.md
-      state: FILE
-      size: 3963
-      sha256: cca5e602cd545da68a40b18e3c011cfe6e6a4a0ea5b20abbe520f1de5cc5b1f8
-    - path: docs/03-continuity/change-requests/CR-0270-补齐登录后菜单响应式刷新回归.md
-      state: FILE
-      size: 2623
-      sha256: c13c8844b8e463f7e39abe693e1e31310d0557451f67288376eae7bd250abf5f
-    - path: packages/api-client/src/admin.generated.ts
-      state: FILE
-      size: 886644
-      sha256: d5ad14684ab36b0e42c5fb7409b4a5c9065f7337e01e1f71353d8b0090ed9be9
-    - path: services/backend/boot/src/main/resources/contracts/admin-openapi.yaml
-      state: FILE
-      size: 852938
-      sha256: 11182faff8bcadca14301e8b3de60d451beec5fbc132cfc6c2a29e631f0c9a94
-    - path: services/backend/boot/src/main/resources/db/migration/V037__admin_super_admin_permission_repair.sql
-      state: FILE
-      size: 1056
-      sha256: b902a648f75fe0527fadd80a1f70f4636c2751492f3a379b0b48516a1851700f
+  sha256: 758b6b150b97df7d24ae27238da065e78743732788e5cdff96e0ac764c140108
+  files: []
+  file_count: 0
 release_context:
   RELEASE_MANIFEST.yaml:
     release: R10
@@ -1619,7 +865,7 @@ release_context:
       completed_at: '2026-07-23T07:03:52Z'
     - id: TASK-R10-004
       title: 群聊推广完整闭环客户端/H5/后台实现
-      status: READY
+      status: DONE
       depends_on:
       - TASK-R10-003
       requirements: *id001
@@ -1637,9 +883,10 @@ release_context:
       - 禁止页面级手写重复DTO
       - 全部动作绑定生成API类型
       session_log_required: true
+      completed_at: '2026-07-23T11:41:07Z'
     - id: TASK-R10-005
       title: 群聊推广完整闭环专项测试与故障注入
-      status: BLOCKED
+      status: READY
       depends_on:
       - TASK-R10-003
       - TASK-R10-004
@@ -1902,12 +1149,12 @@ repository_transport:
 continuity_state:
   mode: ENFORCED
   protocol_version: '1.0'
-  active_session_id: SES-20260723T074719Z-AB4D0E80
-  last_session_id: SES-20260723T062549Z-79779015
+  active_session_id: null
+  last_session_id: SES-20260723T074719Z-AB4D0E80
   last_session_result: COMPLETED
-  last_closure_checkpoint_id: CP-SES-20260723T062549Z-79779015-0003
-  event_count: 2672
-  event_head_hash: 93624b999ae37d206b6a717a81d3a36a4a583562be10487f3b8fb8e7d2e52faf
+  last_closure_checkpoint_id: CP-SES-20260723T074719Z-AB4D0E80-0009
+  event_count: 2675
+  event_head_hash: e3175a1a1a0097aa696401a6b9246040e407e3daebc509f6ab40fd97d16c0ce4
   event_chain_valid: true
 recent_sessions:
 - session_id: SES-20260722T183222Z-79C9A5DB
@@ -2022,13 +1269,13 @@ recent_sessions:
   task_id: TASK-R10-004
   story_id: STORY-R10-004
   actor_id: codex-root-r10-client
-  status: ACTIVE
+  status: CLOSED
   started_at: '2026-07-23T07:47:19Z'
   record: .continuity/sessions/SES-20260723T074719Z-AB4D0E80.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260723T074719Z-AB4D0E80.md
-  updated_at: '2026-07-23T11:38:23Z'
-  closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260723T074719Z-AB4D0E80/0008.yaml
+  updated_at: '2026-07-23T11:41:16Z'
+  closed_at: '2026-07-23T11:41:16Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260723T074719Z-AB4D0E80/0009.yaml
   handoff_bundle: null
 task_claims:
 - claim_id: CLM-1A2E3ED5354B
@@ -2820,7 +2067,7 @@ task_claims:
   task_id: TASK-R10-004
   story_id: STORY-R10-004
   actor_id: codex-root-r10-client
-  status: ACTIVE
+  status: CLOSED
   claimed_at: '2026-07-23T07:47:19Z'
   allowed_paths:
   - apps/**
@@ -2854,6 +2101,7 @@ task_claims:
   - requirements-dev.txt
   - PROJECT_*.yaml
   - PROJECT_*.json
+  closed_at: '2026-07-23T11:41:16Z'
 recent_task_transitions:
 - transition_id: TRN-07F5A5C05A2A
   timestamp: '2026-07-22T00:24:46Z'
@@ -9158,11 +8406,11 @@ source_manifest:
   sha256: 22de14029ce47beb41ea569e36ce223fbc9d11b86f8676f28d5fbbd83896af5c
   bytes: 4556
 - path: CURRENT_STATUS.yaml
-  sha256: 4ccb73c3c3830e0c576a442f871362807754f141bcc0de46a86e2e7cd756c39f
-  bytes: 4183
+  sha256: 2dcb3c9db4cefa7b3a8614784f3531096ce4407f19ce8cab97bc6d679c0917cb
+  bytes: 4017
 - path: NEXT_TASK.yaml
-  sha256: 7ca1b3eb478f794d341d916261d958c68022f0dd0ebdca4635c71daaa6d57712
-  bytes: 1841
+  sha256: 5b57b56ee914f04f8434e6252360a0e9d458417f472d1cf2809b17de16714f7b
+  bytes: 1521
 - path: DEVELOPMENT_RISK_REGISTER.md
   sha256: 8304c91492e4ee2abea0522a06541c8688d39c7fc532b5d0cde499bf09fffb87
   bytes: 8289
@@ -9191,14 +8439,14 @@ source_manifest:
   sha256: 16a96f9a52f352f3c62175db308dd973889b2e82acb117bcfdd12a4bc4d379f6
   bytes: 12763
 - path: .continuity/EVENT_LOG.jsonl
-  sha256: 8da9fe9b4cf662688b48a039fb7bcb8e3e0310b4fb37cbcbc94a9bd12e2c74db
-  bytes: 1490689
+  sha256: c78715d45282b1b27810700782d11416eb857ec66a0ec6cadccf988171c47130
+  bytes: 1492332
 - path: .continuity/SESSION_INDEX.yaml
-  sha256: 758db608cfc39d21435a96283f8f93edf2663cfd629b78237555968b3f4a711c
-  bytes: 44589
+  sha256: 9ad4ab25b661e2d5c655c925fa78c38b60edd11c3ec5be84735e327fd55b7e03
+  bytes: 44607
 - path: .continuity/TASK_CLAIMS.yaml
-  sha256: e03b63b3e06b1aeb3b72ae7c04d03cb35f240eb9908e1eb35dc8c6ddf169cb6f
-  bytes: 61659
+  sha256: 14b80a2119d759d846380f6c35630f395adbdd0ada4f688b02e25845e88606db
+  bytes: 61695
 - path: .continuity/TASK_TRANSITIONS.yaml
   sha256: 0197202e7b8d33216b68af7dddafc63cb0c021f28466409b5891a8898df2adf5
   bytes: 25395
@@ -9206,8 +8454,8 @@ source_manifest:
   sha256: 65e9fe061a73a81935600ddddbb1145019e91c73df5b7d7e1891b4009d9d7147
   bytes: 904814
 - path: .continuity/ACTIVE_SESSION.yaml
-  sha256: 2b82e3d3299fa71d06c45e3377153976506692b3a529093f4dabc7c144f95ffb
-  bytes: 536
+  sha256: b853db09fe62089452ed868ab680ae31eb28390c2fdafeb5f5525f3b6134b7bb
+  bytes: 143
 - path: docs/00-baseline/正式商业系统全局硬性开发边界.md
   sha256: 9753b32db136e59e95a0974a62362456d9d577fd1bb40058ec985c4b64413eea
   bytes: 12596
@@ -9230,29 +8478,14 @@ source_manifest:
   sha256: 5de97bb428f24c708a6613fffe8d19171b6e3760fdb92d555fa6188533ab5e02
   bytes: 11087
 - path: releases/R10/TASKS.yaml
-  sha256: 30ecec0feb3ab84966603c6aa8e1d367e49f7868ebae3f204cd65feba3dc6224
-  bytes: 5599
+  sha256: d71e8470750c8f96de6879b8f43ea0326523960ad0e3421738257633ea6cc502
+  bytes: 5635
 - path: releases/R10/ACCEPTANCE_MATRIX.csv
   sha256: a17663145b2e704291bb5095c55aed36cf67d01a716b8904018e6b254e243b9f
   bytes: 684
 - path: releases/R10/PARALLEL_EXECUTION_PLAN.yaml
   sha256: ad9d4615ce1683a80e27986d1f3f078ab5012ffd5c001a618a8b9df278e1e3f7
   bytes: 2382
-- path: docs/03-continuity/sessions/2026-07/SES-20260723T074719Z-AB4D0E80.md
-  sha256: 3ab94a06206ea1762c4504ddc953046b2596794253a0828dfc53d30e0bb7de98
-  bytes: 16004
-- path: .continuity/checkpoints/SES-20260723T074719Z-AB4D0E80/0008.yaml
-  sha256: 0c6a0b6b790c39a1fdbfe979045e716f68fbd43dcfd78a0db1453b6684b7b3b3
-  bytes: 19771
-- path: docs/03-continuity/change-requests/CR-0268-补齐R10群聊推广数据库不变量与可逆迁移.md
-  sha256: f87950652df31e45d2704bb8c39326eb63a67ba16beba992bc51473665266a32
-  bytes: 8297
-- path: docs/03-continuity/change-requests/CR-0269-修复后台权限会话菜单与生产可用性.md
-  sha256: cca5e602cd545da68a40b18e3c011cfe6e6a4a0ea5b20abbe520f1de5cc5b1f8
-  bytes: 3963
-- path: docs/03-continuity/change-requests/CR-0270-补齐登录后菜单响应式刷新回归.md
-  sha256: c13c8844b8e463f7e39abe693e1e31310d0557451f67288376eae7bd250abf5f
-  bytes: 2623
 rule_readiness:
   status: PASS
   evidence: HASHED_CONTEXT_MANIFEST
@@ -9272,8 +8505,7 @@ rule_readiness:
   - docs/03-continuity/PITFALLS.md
   - docs/09-development/统一开发与交付效率规范.md
   missing_sources: []
-exact_resume_command: python3 scripts/continuity.py checkpoint --summary '<完成内容>' --next-step '<下一步>' --parallel-assessment <ASSESSMENT> --parallel-reason
-  '<未委托原因>'
+exact_resume_command: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R10-005
 hard_rules:
 - 不得依赖旧对话补充仓库已有需求
 - 未领取任务和会话不得编辑项目文件
@@ -9288,4 +8520,4 @@ hard_rules:
 - 除非项目所有者明确报告未连接，默认Codex已连接obx-test且既有项目环境可用；预检失败必须阻断并报告
 - 禁止以无服务器状态继续开发或重建本地Android SDK，必须复用登记的远端镜像和Gradle缓存
 - Git remote/upstream仅按tracked transport descriptor受控恢复；推送前必须预检且禁止force push
-context_hash: 98654c52cba8664cee49975fddac452b579904801d418856720ae7741c5fcd47
+context_hash: ef752c7979be015fc53cadd21e53891899596f3b3b6e2cb0609af288c2451cfc
