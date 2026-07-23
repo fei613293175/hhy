@@ -1,0 +1,196 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260723T165808Z-606D1DDF-0001
+session_id: SES-20260723T165808Z-606D1DDF
+sequence: 1
+created_at: '2026-07-23T17:06:52Z'
+summary: 完成R11开发就绪核验：DoR和严格文档PASS；云Android环境PASS；SCR-LIST-004=B02/P08、SCR-DETAIL-004=B03/P04、SCR-PUB-005=B04/P05精确冻结；Manifest和Stories登记首页团队长真实入口卡片导航回接及最终候选才跑模拟器。
+next_step: 提交TASK-R11-001入口基线并关闭任务，随后启动TASK-R11-002数据迁移与领域不变量。
+blockers: []
+decisions: []
+note: ''
+tests:
+- name: R11 strict documentation
+  result: PASS
+  evidence: artifacts/validation/project-doctor-v1.2.3-documentation.json
+  note: 0 errors 0 warnings
+- name: R11 generated assets
+  result: PASS
+  evidence: scripts/check_generated_assets.py
+  note: android frontend openapi runtime全部VERIFIED
+- name: R11 contract hashes
+  result: PASS
+  evidence: scripts/generate_contracts.py --check
+  note: updated=0 stale=0
+- name: R11 exact visual bindings
+  result: PASS
+  evidence: catalogs/ui_page_specifications.csv
+  note: B02/P08 B03/P04 B04/P05
+- name: R11 cloud Android environment
+  result: PASS
+  evidence: scripts/verify_cloud_environment.py --check-android
+  note: existing image and cache PASS
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: 70524de3347e0365aeac268e6e25d66e6915615e
+  upstream: origin/task/TASK-R03-001
+  ahead: 4
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/ACTIVE_SESSION.yaml'
+  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/SESSION_INDEX.yaml'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/TASK_CLAIMS.yaml'
+  - ' M .continuity/TASK_TRANSITIONS.yaml'
+  - ' M CURRENT_STATUS.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+  - ' M artifacts/validation/project-doctor-v1.2.3-documentation.json'
+  - ' M catalogs/change_request_index.csv'
+  - ' M catalogs/session_index.csv'
+  - ' M catalogs/task_transition_ledger.csv'
+  - ' M catalogs/ui_page_specifications.csv'
+  - ' M docs/02-ui/page-specs/android/SCR-DETAIL-004_团队长详情.md'
+  - ' M docs/02-ui/page-specs/android/SCR-LIST-004_团队长列表.md'
+  - ' M docs/02-ui/page-specs/android/SCR-PUB-005_团队长资料编辑.md'
+  - ' M releases/R11/RELEASE_MANIFEST.yaml'
+  - ' M releases/R11/STORIES.yaml'
+  - ?? .continuity/change_requests/CR-0280.yaml
+  - ?? .continuity/sessions/SES-20260723T165808Z-606D1DDF.yaml
+  - ?? docs/03-continuity/change-requests/CR-0280-冻结R11团队长三页精确视觉与入口基线.md
+  - ?? docs/03-continuity/sessions/2026-07/SES-20260723T165808Z-606D1DDF.md
+  recent_commits:
+  - "70524de3347e0365aeac268e6e25d66e6915615e\t2026-07-24T00:57:17+08:00\tHHY Continuity Bootstrap\t[STORY-R10-004] chore(continuity): close TASK-R10-008\
+    \ as completed"
+  - "28354e71d6adff700696cb340f2275a62e61ede1\t2026-07-24T00:55:36+08:00\tHHY Continuity Bootstrap\t[STORY-R10-004] chore(release): close R10\
+    \ machine acceptance"
+  - "b04f326ddda935decdf2609ea7b1bee8cc799cfc\t2026-07-24T00:50:11+08:00\tHHY Continuity Bootstrap\t[STORY-R10-004] chore(continuity): close TASK-R10-007\
+    \ as completed"
+  - "758c30a3f5fa393dd57b886ac496edd039a6e46f\t2026-07-24T00:43:51+08:00\tHHY Continuity Bootstrap\t[STORY-R10-004] test(android): deliver R10\
+    \ test APK"
+  - "e906f169852fff222291c88cec1e8b229f011593\t2026-07-23T22:24:15+08:00\tHHY Continuity Bootstrap\t[STORY-R10-004] fix(ci): allow strict doctor\
+    \ promotion evidence"
+  - "871ef5cf741ac10a5a51fe6cb7b6bf2f820f889f\t2026-07-23T22:17:27+08:00\tHHY Continuity Bootstrap\t[STORY-R10-004] test(android): approve R10\
+    \ visual baseline"
+  - "1e35a97fb0541644d85a264a84229435ead378bf\t2026-07-23T21:58:02+08:00\tHHY Continuity Bootstrap\t[STORY-R10-004] fix(android): bind R10 candidate\
+    \ visual manifest"
+  - "2af41e6464c8e928de248522bcbbf36c733e1818\t2026-07-23T21:31:51+08:00\tHHY Continuity Bootstrap\t[STORY-R10-004] test(android): prepare R10\
+    \ final candidate"
+project_fingerprint:
+  sha256: 0ee1ad491156d2b6770ea62fbe35bfeae5cd524e0108cb7a77a059cd71ffbcf8
+  files:
+  - catalogs/ui_page_specifications.csv
+  - docs/02-ui/page-specs/android/SCR-DETAIL-004_团队长详情.md
+  - docs/02-ui/page-specs/android/SCR-LIST-004_团队长列表.md
+  - docs/02-ui/page-specs/android/SCR-PUB-005_团队长资料编辑.md
+  - docs/03-continuity/change-requests/CR-0280-冻结R11团队长三页精确视觉与入口基线.md
+  - releases/R11/RELEASE_MANIFEST.yaml
+  - releases/R11/STORIES.yaml
+  file_count: 7
+  payload:
+    base_commit: 70524de3347e0365aeac268e6e25d66e6915615e
+    files:
+    - path: catalogs/ui_page_specifications.csv
+      state: FILE
+      size: 293417
+      sha256: 230cc0d2b65329b266e254825143f5a0a7af1cc9b67b383011850c25c87da66e
+    - path: docs/02-ui/page-specs/android/SCR-DETAIL-004_团队长详情.md
+      state: FILE
+      size: 27334
+      sha256: 39a41235f24d0398797c59c4c5689c3b312fdb5f134f847f42fce5c55a35e338
+    - path: docs/02-ui/page-specs/android/SCR-LIST-004_团队长列表.md
+      state: FILE
+      size: 22018
+      sha256: 4dcc4ae0e3c8e66d4ae6b9920f1c1128208190a05b07f448c233201d636c3721
+    - path: docs/02-ui/page-specs/android/SCR-PUB-005_团队长资料编辑.md
+      state: FILE
+      size: 15983
+      sha256: 1a27ea0683e750fa4c1edac56ed15c769bd1cc65c503d546f545f3db0edf4b1c
+    - path: docs/03-continuity/change-requests/CR-0280-冻结R11团队长三页精确视觉与入口基线.md
+      state: FILE
+      size: 3526
+      sha256: 05589fa869f68d07cf31fcf3412faa146aa89765004ed69f965d53507b69f384
+    - path: releases/R11/RELEASE_MANIFEST.yaml
+      state: FILE
+      size: 3243
+      sha256: eb47fddf3188a85775b4935db84bd747ff0e4065eff17a90f88775472b469318
+    - path: releases/R11/STORIES.yaml
+      state: FILE
+      size: 10863
+      sha256: 2b38e53de2c13042295a14ef01f5b60cf5fd3e4f4f49b5f147446552e1a2ac30
+change_classification:
+  source_of_truth:
+  - catalogs/ui_page_specifications.csv
+  - docs/02-ui/page-specs/android/SCR-DETAIL-004_团队长详情.md
+  - docs/02-ui/page-specs/android/SCR-LIST-004_团队长列表.md
+  - docs/02-ui/page-specs/android/SCR-PUB-005_团队长资料编辑.md
+  - releases/R11/RELEASE_MANIFEST.yaml
+  - releases/R11/STORIES.yaml
+  user_visible:
+  - docs/02-ui/page-specs/android/SCR-DETAIL-004_团队长详情.md
+  - docs/02-ui/page-specs/android/SCR-LIST-004_团队长列表.md
+  - docs/02-ui/page-specs/android/SCR-PUB-005_团队长资料编辑.md
+  continuity:
+  - docs/03-continuity/change-requests/CR-0280-冻结R11团队长三页精确视觉与入口基线.md
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+- APPROVED_CHANGE_REQUEST
+- CHANGELOG
+change_requests:
+- CR-0280
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions:
+  - catalogs/ui_page_specifications.csv
+  - releases/R11/RELEASE_MANIFEST.yaml
+  - releases/R11/STORIES.yaml
+  - docs/02-ui/page-specs/android/SCR-LIST-004_团队长列表.md
+  - docs/02-ui/page-specs/android/SCR-DETAIL-004_团队长详情.md
+  - docs/02-ui/page-specs/android/SCR-PUB-005_团队长资料编辑.md
+  - artifacts/validation/project-doctor-v1.2.3-documentation.json
+  source: story+explicit+approved-cr:CR-0280
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 开发入口事实源、CR、Manifest、Stories和派生页面规格强耦合，需主控串行确保一致。
+event_hash: 41b5a2a87ffba86d0abafe6fa1e1d1cb9c953db70a13de18c1ddfa2354d6a408

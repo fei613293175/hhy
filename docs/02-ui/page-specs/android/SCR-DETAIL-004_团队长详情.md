@@ -98,7 +98,7 @@
 - 配置组：`content;chat`
 - 关键配置：`content.limit.normal.online;content.limit.month.online;content.limit.quarter.online;content.limit.year.online;content.team_leader_per_account;content.limit.normal.pending;content.limit.normal.drafts;content.limit.normal.daily_submissions;chat.stranger.daily_conversation_limit;chat.message.per_minute_limit;chat.image.max_mb;chat.history.retention_days`
 - 测试：`TST-CONTENT_001-HAPPY;TST-CONTACT_001-HAPPY;TST-TEAM_001-HAPPY;TST-CONTENT_001-IDEMPOTENT;TST-CONTACT_001-IDEMPOTENT;TST-TEAM_001-IDEMPOTENT`
-- UI参考：`B03/P01-P07`
+- UI参考：`B03/P04`（团队长详情精确面板）
 
 ## 8. 开发就绪检查
 

@@ -103,7 +103,7 @@
 - 配置组：`content`
 - 关键配置：`content.limit.normal.online;content.limit.month.online;content.limit.quarter.online;content.limit.year.online;content.team_leader_per_account;content.limit.normal.pending;content.limit.normal.drafts;content.limit.normal.daily_submissions`
 - 测试：`TST-CONTENT_001-HAPPY;TST-TEAM_001-HAPPY`
-- UI参考：`B02/P01-P08`
+- UI参考：`B02/P08`（团队长内容卡精确面板）
 
 ## 8. 开发就绪检查
 

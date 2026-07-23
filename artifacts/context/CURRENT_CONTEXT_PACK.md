@@ -1,14 +1,14 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-23T16:56:56Z
-- Context Hash：`33a540f8c95d2a27c46f1da5ed47d7b72b5200fafe7d54a70859564ab0cbc171`
+- 生成时间：2026-07-23T17:09:14Z
+- Context Hash：`9216e7907f741bdff9851c478caafa18a7335c4d11e1310abd4754aae038e9de`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 规则就绪：`PASS`（`HASHED_CONTEXT_MANIFEST`）
 - 精确恢复命令：
 
 ```bash
-python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R11-001
+python3 scripts/continuity.py checkpoint --summary '<完成内容>' --next-step '<下一步>' --parallel-assessment <ASSESSMENT> --parallel-reason '<未委托原因>'
 ```
 
 ## 规则就绪
@@ -42,7 +42,7 @@ baseline_version: 1.2.3
 phase: R11
 active_release: R11
 active_task: TASK-R11-001
-status: READY
+status: IN_PROGRESS
 documentation_status: ZERO_BLOCKING_DOCUMENT_GAPS
 last_green_commit: 28354e71
 last_staging_apk: null
@@ -142,14 +142,15 @@ completed_tasks:
 - TASK-R10-006
 - TASK-R10-007
 - TASK-R10-008
-in_progress_tasks: []
+in_progress_tasks:
+- TASK-R11-001
 blocked_tasks:
 - TASK-R02-007
 - TASK-R03-007
 - TASK-R06-008
 - TASK-R07-008
 next_task: TASK-R11-001
-updated_at: '2026-07-23T16:56:53Z'
+updated_at: '2026-07-23T17:09:12Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -181,17 +182,19 @@ validation:
 continuity:
   protocol_version: '1.0'
   mode: ENFORCED
-  active_session_id: null
-  last_session_id: SES-20260723T165113Z-58C6D99A
-  last_session_result: COMPLETED
-  last_checkpoint: .continuity/checkpoints/SES-20260723T165113Z-58C6D99A/0002.yaml
-  last_handoff_bundle: null
+  active_session_id: SES-20260723T165808Z-606D1DDF
+  actor_id: codex-root-r11-entry
+  story_id: STORY-R11-004
+  lease_expires_at: '2026-07-23T21:09:12Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260723T165808Z-606D1DDF/0002.yaml
+  project_fingerprint: f92fd5239d4e391d2bbe6d0cc925911fbf97ef9c820fdb0868e5de0986aab33f
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: de0dcde146715fcc25a2c25c6465836033fbc7ff48497b8a182de57f11947700
-    generated_at: '2026-07-23T16:56:51Z'
+    context_hash: 4980a2d27883a0cd2f0dbe7f287987c35586fae6d1162bd44df45e692adcf661
+    generated_at: '2026-07-23T17:06:56Z'
+  handoff_bundle: null
 ```
 
 ## 默认并行规则
@@ -378,13 +381,314 @@ next_after: 由当前TASKS.yaml依赖关系决定
 ## 活跃会话
 
 ```yaml
-status: NONE
+protocol_version: '1.0'
+package_version: 1.2.3
+session_id: SES-20260723T165808Z-606D1DDF
+status: ACTIVE
+actor:
+  id: codex-root-r11-entry
+  kind: AI_OR_HUMAN
+  host: unknown
+release: R11
+task_id: TASK-R11-001
+story_id: STORY-R11-004
+goal: 按冻结开发文档完成R11团队长入驻闭环开发就绪核验、精确UI绑定与变更基线，然后依赖顺序推进R11全部任务。
+started_at: '2026-07-23T16:58:08Z'
+updated_at: '2026-07-23T17:09:12Z'
+takeover_of: null
+change_requests:
+- CR-0280
+- CR-0281
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions:
+  - catalogs/ui_page_specifications.csv
+  - releases/R11/RELEASE_MANIFEST.yaml
+  - releases/R11/STORIES.yaml
+  - docs/02-ui/page-specs/android/SCR-LIST-004_团队长列表.md
+  - docs/02-ui/page-specs/android/SCR-DETAIL-004_团队长详情.md
+  - docs/02-ui/page-specs/android/SCR-PUB-005_团队长资料编辑.md
+  - artifacts/validation/project-doctor-v1.2.3-documentation.json
+  - CHANGELOG.md
+  source: story+explicit+approved-cr:CR-0280+approved-cr:CR-0281
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  base_commit: 70524de3347e0365aeac268e6e25d66e6915615e
+  start_head: 70524de3347e0365aeac268e6e25d66e6915615e
+  upstream: origin/task/TASK-R03-001
+  initial_worktree_state: CLEAN
+lease:
+  duration_minutes: 240
+  renewed_at: '2026-07-23T17:09:12Z'
+  expires_at: '2026-07-23T21:09:12Z'
+checkpoint_sequence: 2
+latest_checkpoint: .continuity/checkpoints/SES-20260723T165808Z-606D1DDF/0002.yaml
+session_log: docs/03-continuity/sessions/2026-07/SES-20260723T165808Z-606D1DDF.md
+next_step: 提交TASK-R11-001入口基线并关闭任务，随后启动TASK-R11-002数据迁移与领域不变量。
+context_pack: THIS_CONTEXT_PACK
+handoff_bundle: null
+closure: null
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 入口事实、视觉规格、变更日志和连续性状态强耦合，主控串行复核。
 ```
 
 ## 最新检查点
 
 ```yaml
-status: NO_CHECKPOINT
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260723T165808Z-606D1DDF-0002
+session_id: SES-20260723T165808Z-606D1DDF
+sequence: 2
+created_at: '2026-07-23T17:09:11Z'
+summary: 完成R11开发就绪与用户可见变更审计：DoR/云环境/严格文档/生成资产/契约哈希PASS；三页精确绑定和首页团队长回接已写入目录、页面规格、Manifest、Stories、Changelog；CR-0280与CR-0281已实施。
+next_step: 提交TASK-R11-001入口基线并关闭任务，随后启动TASK-R11-002数据迁移与领域不变量。
+blockers: []
+decisions: []
+note: ''
+tests:
+- name: R11 strict documentation
+  result: PASS
+  evidence: artifacts/validation/project-doctor-v1.2.3-documentation.json
+  note: 0 errors 0 warnings
+- name: R11 generated assets
+  result: PASS
+  evidence: scripts/check_generated_assets.py
+  note: 全部VERIFIED
+- name: R11 contract hashes
+  result: PASS
+  evidence: scripts/generate_contracts.py --check
+  note: updated=0 stale=0
+- name: R11 exact visual bindings
+  result: PASS
+  evidence: catalogs/ui_page_specifications.csv
+  note: B02/P08 B03/P04 B04/P05
+- name: R11 cloud Android environment
+  result: PASS
+  evidence: scripts/verify_cloud_environment.py --check-android
+  note: existing image cache PASS
+- name: R11 changelog projection
+  result: PASS
+  evidence: CHANGELOG.md
+  note: 用户可见视觉入口已登记
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: 70524de3347e0365aeac268e6e25d66e6915615e
+  upstream: origin/task/TASK-R03-001
+  ahead: 4
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - M  .continuity/ACTIVE_SESSION.yaml
+  - MM .continuity/CHANGE_REQUEST_INDEX.yaml
+  - MM .continuity/EVENT_LOG.jsonl
+  - M  .continuity/SESSION_INDEX.yaml
+  - MM .continuity/STATE.yaml
+  - M  .continuity/TASK_CLAIMS.yaml
+  - M  .continuity/TASK_TRANSITIONS.yaml
+  - A  .continuity/change_requests/CR-0280.yaml
+  - A  .continuity/checkpoints/SES-20260723T165808Z-606D1DDF/0001.yaml
+  - AM .continuity/sessions/SES-20260723T165808Z-606D1DDF.yaml
+  - ' M CHANGELOG.md'
+  - M  CURRENT_STATUS.yaml
+  - M  artifacts/context/CURRENT_CONTEXT_PACK.md
+  - M  artifacts/context/CURRENT_CONTEXT_PACK.yaml
+  - M  artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+  - M  artifacts/validation/project-doctor-v1.2.3-documentation.json
+  - MM catalogs/change_request_index.csv
+  - MM catalogs/session_index.csv
+  - M  catalogs/task_transition_ledger.csv
+  - M  catalogs/ui_page_specifications.csv
+  - M  docs/02-ui/page-specs/android/SCR-DETAIL-004_团队长详情.md
+  - M  docs/02-ui/page-specs/android/SCR-LIST-004_团队长列表.md
+  - M  docs/02-ui/page-specs/android/SCR-PUB-005_团队长资料编辑.md
+  - A  docs/03-continuity/change-requests/CR-0280-冻结R11团队长三页精确视觉与入口基线.md
+  - A  docs/03-continuity/sessions/2026-07/SES-20260723T165808Z-606D1DDF.md
+  - M  releases/R11/RELEASE_MANIFEST.yaml
+  - M  releases/R11/STORIES.yaml
+  - ?? .continuity/change_requests/CR-0281.yaml
+  - ?? docs/03-continuity/change-requests/CR-0281-登记R11精确视觉入口变更日志.md
+  recent_commits:
+  - "70524de3347e0365aeac268e6e25d66e6915615e\t2026-07-24T00:57:17+08:00\tHHY Continuity Bootstrap\t[STORY-R10-004] chore(continuity): close TASK-R10-008\
+    \ as completed"
+  - "28354e71d6adff700696cb340f2275a62e61ede1\t2026-07-24T00:55:36+08:00\tHHY Continuity Bootstrap\t[STORY-R10-004] chore(release): close R10\
+    \ machine acceptance"
+  - "b04f326ddda935decdf2609ea7b1bee8cc799cfc\t2026-07-24T00:50:11+08:00\tHHY Continuity Bootstrap\t[STORY-R10-004] chore(continuity): close TASK-R10-007\
+    \ as completed"
+  - "758c30a3f5fa393dd57b886ac496edd039a6e46f\t2026-07-24T00:43:51+08:00\tHHY Continuity Bootstrap\t[STORY-R10-004] test(android): deliver R10\
+    \ test APK"
+  - "e906f169852fff222291c88cec1e8b229f011593\t2026-07-23T22:24:15+08:00\tHHY Continuity Bootstrap\t[STORY-R10-004] fix(ci): allow strict doctor\
+    \ promotion evidence"
+  - "871ef5cf741ac10a5a51fe6cb7b6bf2f820f889f\t2026-07-23T22:17:27+08:00\tHHY Continuity Bootstrap\t[STORY-R10-004] test(android): approve R10\
+    \ visual baseline"
+  - "1e35a97fb0541644d85a264a84229435ead378bf\t2026-07-23T21:58:02+08:00\tHHY Continuity Bootstrap\t[STORY-R10-004] fix(android): bind R10 candidate\
+    \ visual manifest"
+  - "2af41e6464c8e928de248522bcbbf36c733e1818\t2026-07-23T21:31:51+08:00\tHHY Continuity Bootstrap\t[STORY-R10-004] test(android): prepare R10\
+    \ final candidate"
+project_fingerprint:
+  sha256: f92fd5239d4e391d2bbe6d0cc925911fbf97ef9c820fdb0868e5de0986aab33f
+  files:
+  - CHANGELOG.md
+  - catalogs/ui_page_specifications.csv
+  - docs/02-ui/page-specs/android/SCR-DETAIL-004_团队长详情.md
+  - docs/02-ui/page-specs/android/SCR-LIST-004_团队长列表.md
+  - docs/02-ui/page-specs/android/SCR-PUB-005_团队长资料编辑.md
+  - docs/03-continuity/change-requests/CR-0280-冻结R11团队长三页精确视觉与入口基线.md
+  - docs/03-continuity/change-requests/CR-0281-登记R11精确视觉入口变更日志.md
+  - releases/R11/RELEASE_MANIFEST.yaml
+  - releases/R11/STORIES.yaml
+  file_count: 9
+  payload:
+    base_commit: 70524de3347e0365aeac268e6e25d66e6915615e
+    files:
+    - path: CHANGELOG.md
+      state: FILE
+      size: 116867
+      sha256: 19f10151a63cccb0bd0b3ee670c054a343acb90fdee1a06087bb69e6d9f64d4f
+    - path: catalogs/ui_page_specifications.csv
+      state: FILE
+      size: 293417
+      sha256: 230cc0d2b65329b266e254825143f5a0a7af1cc9b67b383011850c25c87da66e
+    - path: docs/02-ui/page-specs/android/SCR-DETAIL-004_团队长详情.md
+      state: FILE
+      size: 27334
+      sha256: 39a41235f24d0398797c59c4c5689c3b312fdb5f134f847f42fce5c55a35e338
+    - path: docs/02-ui/page-specs/android/SCR-LIST-004_团队长列表.md
+      state: FILE
+      size: 22018
+      sha256: 4dcc4ae0e3c8e66d4ae6b9920f1c1128208190a05b07f448c233201d636c3721
+    - path: docs/02-ui/page-specs/android/SCR-PUB-005_团队长资料编辑.md
+      state: FILE
+      size: 15983
+      sha256: 1a27ea0683e750fa4c1edac56ed15c769bd1cc65c503d546f545f3db0edf4b1c
+    - path: docs/03-continuity/change-requests/CR-0280-冻结R11团队长三页精确视觉与入口基线.md
+      state: FILE
+      size: 3526
+      sha256: 05589fa869f68d07cf31fcf3412faa146aa89765004ed69f965d53507b69f384
+    - path: docs/03-continuity/change-requests/CR-0281-登记R11精确视觉入口变更日志.md
+      state: FILE
+      size: 2249
+      sha256: e6961e7c9178aee56e41354a26420ca6cf80b57cb91745fd7a3704057197243a
+    - path: releases/R11/RELEASE_MANIFEST.yaml
+      state: FILE
+      size: 3243
+      sha256: eb47fddf3188a85775b4935db84bd747ff0e4065eff17a90f88775472b469318
+    - path: releases/R11/STORIES.yaml
+      state: FILE
+      size: 10863
+      sha256: 2b38e53de2c13042295a14ef01f5b60cf5fd3e4f4f49b5f147446552e1a2ac30
+change_classification:
+  other:
+  - CHANGELOG.md
+  source_of_truth:
+  - catalogs/ui_page_specifications.csv
+  - docs/02-ui/page-specs/android/SCR-DETAIL-004_团队长详情.md
+  - docs/02-ui/page-specs/android/SCR-LIST-004_团队长列表.md
+  - docs/02-ui/page-specs/android/SCR-PUB-005_团队长资料编辑.md
+  - releases/R11/RELEASE_MANIFEST.yaml
+  - releases/R11/STORIES.yaml
+  user_visible:
+  - docs/02-ui/page-specs/android/SCR-DETAIL-004_团队长详情.md
+  - docs/02-ui/page-specs/android/SCR-LIST-004_团队长列表.md
+  - docs/02-ui/page-specs/android/SCR-PUB-005_团队长资料编辑.md
+  continuity:
+  - docs/03-continuity/change-requests/CR-0280-冻结R11团队长三页精确视觉与入口基线.md
+  - docs/03-continuity/change-requests/CR-0281-登记R11精确视觉入口变更日志.md
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+- APPROVED_CHANGE_REQUEST
+- CHANGELOG
+change_requests:
+- CR-0280
+- CR-0281
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions:
+  - catalogs/ui_page_specifications.csv
+  - releases/R11/RELEASE_MANIFEST.yaml
+  - releases/R11/STORIES.yaml
+  - docs/02-ui/page-specs/android/SCR-LIST-004_团队长列表.md
+  - docs/02-ui/page-specs/android/SCR-DETAIL-004_团队长详情.md
+  - docs/02-ui/page-specs/android/SCR-PUB-005_团队长资料编辑.md
+  - artifacts/validation/project-doctor-v1.2.3-documentation.json
+  - CHANGELOG.md
+  source: story+explicit+approved-cr:CR-0280+approved-cr:CR-0281
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 入口事实、视觉规格、变更日志和连续性状态强耦合，主控串行复核。
+event_hash: be0106a046c71088fa63bd661d889e23dd7db6d6cc634ae6f5741dc75d08bf35
 ```
 
 ## 接续状态与事件头
@@ -392,31 +696,19 @@ status: NO_CHECKPOINT
 ```yaml
 mode: ENFORCED
 protocol_version: '1.0'
-active_session_id: null
+active_session_id: SES-20260723T165808Z-606D1DDF
 last_session_id: SES-20260723T165113Z-58C6D99A
 last_session_result: COMPLETED
 last_closure_checkpoint_id: CP-SES-20260723T165113Z-58C6D99A-0002
-event_count: 2763
-event_head_hash: d2724b0e0226bab5c0d0aaf75fd79c715b04d9234165a522903fd3afde240ae8
+event_count: 2778
+event_head_hash: be0106a046c71088fa63bd661d889e23dd7db6d6cc634ae6f5741dc75d08bf35
 event_chain_valid: true
 ```
 
 ## 最近会话与任务迁移
 
 ```yaml
-recent_sessions: - session_id: SES-20260722T205410Z-782F22B9
-  task_id: TASK-R09-007
-  story_id: STORY-R09-004
-  actor_id: codex-root-r09-candidate
-  status: CLOSED
-  started_at: '2026-07-22T20:54:10Z'
-  record: .continuity/sessions/SES-20260722T205410Z-782F22B9.yaml
-  session_log: docs/03-continuity/sessions/2026-07/SES-20260722T205410Z-782F22B9.md
-  updated_at: '2026-07-23T02:39:19Z'
-  closed_at: '2026-07-23T02:39:19Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260722T205410Z-782F22B9/0017.yaml
-  handoff_bundle: null
-- session_id: SES-20260723T024212Z-696F7963
+recent_sessions: - session_id: SES-20260723T024212Z-696F7963
   task_id: TASK-R09-008
   story_id: STORY-R09-004
   actor_id: codex-root-r09-machine-close
@@ -524,47 +816,19 @@ recent_sessions: - session_id: SES-20260722T205410Z-782F22B9
   closed_at: '2026-07-23T16:56:53Z'
   latest_checkpoint: .continuity/checkpoints/SES-20260723T165113Z-58C6D99A/0002.yaml
   handoff_bundle: null
-task_claims: - claim_id: CLM-5551420764B4
-  session_id: SES-20260722T053639Z-033C23B5
-  task_id: TASK-R08-005
-  story_id: STORY-R08-004
-  actor_id: codex-root-r08-005
-  status: CLOSED
-  claimed_at: '2026-07-22T05:36:39Z'
-  allowed_paths:
-  - apps/**
-  - services/**
-  - packages/**
-  - contracts/**
-  - database/**
-  - config/**
-  - catalogs/**
-  - tests/**
-  - infra/**
-  - design/**
-  - docs/**
-  - releases/**
-  - scripts/**
-  - templates/**
-  - .github/**
-  - .githooks/**
-  - .codex/**
-  - AGENTS.md
-  - START_HERE.md
-  - README.md
-  - CHANGELOG.md
-  - Makefile
-  - .gitignore
-  - .gitattributes
-  - .dockerignore
-  - package.json
-  - pnpm-lock.yaml
-  - pnpm-workspace.yaml
-  - requirements-dev.txt
-  - PROJECT_*.yaml
-  - PROJECT_*.json
-  closed_at: '2026-07-22T06:06:14Z'
-- claim_id: CLM-1000439D8C5F
+- session_id: SES-20260723T165808Z-606D1DDF
+  task_id: TASK-R11-001
+  story_id: STORY-R11-004
+  actor_id: codex-root-r11-entry
+  status: ACTIVE
+  started_at: '2026-07-23T16:58:08Z'
+  record: .continuity/sessions/SES-20260723T165808Z-606D1DDF.yaml
+  session_log: docs/03-continuity/sessions/2026-07/SES-20260723T165808Z-606D1DDF.md
+  updated_at: '2026-07-23T17:09:12Z'
+  closed_at: null
+  latest_checkpoint: .continuity/checkpoints/SES-20260723T165808Z-606D1DDF/0002.yaml
+  handoff_bundle: null
+task_claims: - claim_id: CLM-1000439D8C5F
   session_id: SES-20260722T060947Z-B45C6BC0
   task_id: TASK-R08-006
   story_id: STORY-R08-004
@@ -1349,17 +1613,46 @@ task_claims: - claim_id: CLM-5551420764B4
   - PROJECT_*.yaml
   - PROJECT_*.json
   closed_at: '2026-07-23T16:56:53Z'
-recent_task_transitions: - transition_id: TRN-DAC8904BBFD5
-  timestamp: '2026-07-22T05:36:40Z'
-  release: R08
-  task_id: TASK-R08-005
-  story_id: STORY-R08-004
-  from_status: READY
-  to_status: IN_PROGRESS
-  session_id: SES-20260722T053639Z-033C23B5
-  actor_id: codex-root-r08-005
-  reason: 会话领取任务
-- transition_id: TRN-3E393855243A
+- claim_id: CLM-9CAD875787F9
+  session_id: SES-20260723T165808Z-606D1DDF
+  task_id: TASK-R11-001
+  story_id: STORY-R11-004
+  actor_id: codex-root-r11-entry
+  status: ACTIVE
+  claimed_at: '2026-07-23T16:58:08Z'
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+recent_task_transitions: - transition_id: TRN-3E393855243A
   timestamp: '2026-07-22T06:09:49Z'
   release: R08
   task_id: TASK-R08-006
@@ -1549,6 +1842,16 @@ recent_task_transitions: - transition_id: TRN-DAC8904BBFD5
   session_id: SES-20260723T165113Z-58C6D99A
   actor_id: codex-root-r10-close
   reason: 会话领取任务
+- transition_id: TRN-0D008912F110
+  timestamp: '2026-07-23T16:58:09Z'
+  release: R11
+  task_id: TASK-R11-001
+  story_id: STORY-R11-004
+  from_status: READY
+  to_status: IN_PROGRESS
+  session_id: SES-20260723T165808Z-606D1DDF
+  actor_id: codex-root-r11-entry
+  reason: 会话领取任务
 ```
 
 ## Git 状态
@@ -1556,29 +1859,45 @@ recent_task_transitions: - transition_id: TRN-DAC8904BBFD5
 ```yaml
 initialized: true
 branch: task/TASK-R03-001
-head: 28354e71d6adff700696cb340f2275a62e61ede1
+head: 70524de3347e0365aeac268e6e25d66e6915615e
 upstream: origin/task/TASK-R03-001
-ahead: 3
+ahead: 4
 behind: 0
 dirty: true
 status_porcelain:
-- ' M .continuity/ACTIVE_SESSION.yaml'
-- ' M .continuity/EVENT_LOG.jsonl'
-- ' M .continuity/SESSION_INDEX.yaml'
-- ' M .continuity/STATE.yaml'
-- ' M .continuity/TASK_CLAIMS.yaml'
-- ' M .continuity/sessions/SES-20260723T165113Z-58C6D99A.yaml'
+- MM .continuity/ACTIVE_SESSION.yaml
+- MM .continuity/CHANGE_REQUEST_INDEX.yaml
+- MM .continuity/EVENT_LOG.jsonl
+- MM .continuity/SESSION_INDEX.yaml
+- MM .continuity/STATE.yaml
+- M  .continuity/TASK_CLAIMS.yaml
+- M  .continuity/TASK_TRANSITIONS.yaml
+- A  .continuity/change_requests/CR-0280.yaml
+- A  .continuity/checkpoints/SES-20260723T165808Z-606D1DDF/0001.yaml
+- AM .continuity/sessions/SES-20260723T165808Z-606D1DDF.yaml
 - ' M CHANGELOG.md'
-- ' M CURRENT_STATUS.yaml'
-- ' M NEXT_TASK.yaml'
-- ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
-- ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
-- ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
-- ' M catalogs/session_index.csv'
-- ' M docs/03-continuity/sessions/2026-07/SES-20260723T165113Z-58C6D99A.md'
-- ' M releases/R10/TASKS.yaml'
-- ?? .continuity/checkpoints/SES-20260723T165113Z-58C6D99A/0002.yaml
+- MM CURRENT_STATUS.yaml
+- M  artifacts/context/CURRENT_CONTEXT_PACK.md
+- M  artifacts/context/CURRENT_CONTEXT_PACK.yaml
+- M  artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+- M  artifacts/validation/project-doctor-v1.2.3-documentation.json
+- MM catalogs/change_request_index.csv
+- MM catalogs/session_index.csv
+- M  catalogs/task_transition_ledger.csv
+- M  catalogs/ui_page_specifications.csv
+- M  docs/02-ui/page-specs/android/SCR-DETAIL-004_团队长详情.md
+- M  docs/02-ui/page-specs/android/SCR-LIST-004_团队长列表.md
+- M  docs/02-ui/page-specs/android/SCR-PUB-005_团队长资料编辑.md
+- A  docs/03-continuity/change-requests/CR-0280-冻结R11团队长三页精确视觉与入口基线.md
+- AM docs/03-continuity/sessions/2026-07/SES-20260723T165808Z-606D1DDF.md
+- M  releases/R11/RELEASE_MANIFEST.yaml
+- M  releases/R11/STORIES.yaml
+- ?? .continuity/change_requests/CR-0281.yaml
+- ?? .continuity/checkpoints/SES-20260723T165808Z-606D1DDF/0002.yaml
+- ?? docs/03-continuity/change-requests/CR-0281-登记R11精确视觉入口变更日志.md
 recent_commits:
+- "70524de3347e0365aeac268e6e25d66e6915615e\t2026-07-24T00:57:17+08:00\tHHY Continuity Bootstrap\t[STORY-R10-004] chore(continuity): close TASK-R10-008\
+  \ as completed"
 - "28354e71d6adff700696cb340f2275a62e61ede1\t2026-07-24T00:55:36+08:00\tHHY Continuity Bootstrap\t[STORY-R10-004] chore(release): close R10 machine\
   \ acceptance"
 - "b04f326ddda935decdf2609ea7b1bee8cc799cfc\t2026-07-24T00:50:11+08:00\tHHY Continuity Bootstrap\t[STORY-R10-004] chore(continuity): close TASK-R10-007\
@@ -1593,16 +1912,22 @@ recent_commits:
   \ visual manifest"
 - "2af41e6464c8e928de248522bcbbf36c733e1818\t2026-07-23T21:31:51+08:00\tHHY Continuity Bootstrap\t[STORY-R10-004] test(android): prepare R10 final\
   \ candidate"
-- "caea3ee88dbf21cc6371a4b7168368c65597014a\t2026-07-23T20:29:21+08:00\tHHY Continuity Bootstrap\t[STORY-R10-004] chore(continuity): close TASK-R10-006\
-  \ as completed"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`20d642054c454c8b9170bc437a2d23171edb2935f40a3dc5dbcb91319cdbcede`
-- 文件数：0
+- 指纹：`f92fd5239d4e391d2bbe6d0cc925911fbf97ef9c820fdb0868e5de0986aab33f`
+- 文件数：9
 
-- 无
+- `CHANGELOG.md`
+- `catalogs/ui_page_specifications.csv`
+- `docs/02-ui/page-specs/android/SCR-DETAIL-004_团队长详情.md`
+- `docs/02-ui/page-specs/android/SCR-LIST-004_团队长列表.md`
+- `docs/02-ui/page-specs/android/SCR-PUB-005_团队长资料编辑.md`
+- `docs/03-continuity/change-requests/CR-0280-冻结R11团队长三页精确视觉与入口基线.md`
+- `docs/03-continuity/change-requests/CR-0281-登记R11精确视觉入口变更日志.md`
+- `releases/R11/RELEASE_MANIFEST.yaml`
+- `releases/R11/STORIES.yaml`
 
 ## 当前 Release
 
@@ -1657,12 +1982,34 @@ RELEASE_MANIFEST.yaml:
   - TST-TEAM_001-HAPPY
   - TST-TEAM_001-IDEMPOTENT
   - TST-TEAM_001-REJECT
+  entry_baseline:
+    checked_at: '2026-07-24'
+    session_id: SES-20260723T165808Z-606D1DDF
+    story_id: STORY-R11-004
+    change_request: CR-0280
+    documentation_status: PASS_DOCUMENTATION_READY
+    cloud_environment_status: PASS
+    git_transport_status: PENDING_EXTERNAL_GITHUB_HTTPS_RECOVERY
+    workflow_profile: MODULE
+    implementation_start: ALLOWED
+    exact_visual_bindings:
+      SCR-LIST-004: B02/P08
+      SCR-DETAIL-004: B03/P04
+      SCR-PUB-005: B04/P05
+    home_cross_release_integration:
+      source: 合伙云Pro_完整项目开发文档_V1.2.2_页面与运营规格冻结版.md#4.3
+      requirement: TEAM_LEADER_ENTRY_CARD_AND_NAVIGATION_REQUIRED
+    delivery_policy:
+      ordinary_task_validation: AFFECTED_FAST_OR_MODULE
+      full_gate_and_emulator: FINAL_CANDIDATE_ONLY_TASK_R11_007
+      owner_feedback_mode: ASYNC_NON_BLOCKING
   entry_gate:
   - releases/R11/DEFINITION_OF_READY.yaml 全部适用项为PASS
   - releases/R11/STORIES.yaml 中每个故事均绑定页面/API/配置/数据/测试或显式N/A
   - 本版本页面字段、状态、动作、导航和后台运营规格不存在TBD/RELEASE_BOUND
   - 全部依赖版本为GREEN或按发布计划允许的并行依赖已记录
   - 冻结契约发生变化时已创建CR并重新生成追踪和SHA
+  - 三个R11页面分别精确绑定B02/P08、B03/P04、B04/P05，且团队长客户端关闭前同步完成首页团队长入口、真实内容卡与导航回接
   exit_gate:
   - 领域代码与前端真实闭环
   - 数据库迁移和不变量测试通过
@@ -1912,6 +2259,7 @@ STORIES.yaml:
     - test_engineer
     acceptance_criteria:
     - SCR-DETAIL-004 全部绑定模板 MOB-DETAIL，字段、状态、动作、导航和错误恢复无TBD
+    - SCR-DETAIL-004必须以B03/P04团队长详情作为精确视觉施工面板，联系方式仅复用安全语义且不得复制示例明文
     - 页面调用 operationId：contentGetContentsById;contentPostContentsByIdContactsByChannelAccess;chatPostConversationsDirect;contentPostContentsByIdFavorite;contentPostContentsByIdShare；请求/响应字段不得另行发明
     - 按钮显示、可用和确认条件与服务端状态机、权限、expectedVersion、幂等策略一致
     - 首屏、空、刷新、翻页/局部失败、无权限、404、离线和版本冲突状态按页面状态目录实现
@@ -1986,6 +2334,7 @@ STORIES.yaml:
     - 敏感字段按分级脱敏；高敏读取和后台写操作完整审计
     - 自动化覆盖：TST-CONTENT_001-HAPPY;TST-TEAM_001-HAPPY
     - 团队长列表闭环必须同时把首页“团队长”一级入口、真实团队长内容卡和团队长列表/详情导航接回SCR-HOME-001，并按V1.2工程执行强化版4.3与B02/P01、P02、P08回归
+    - SCR-LIST-004必须以B02/P08作为精确视觉施工面板，禁止继续使用B02/P01-P08粗粒度绑定
     definition_of_ready: 全部引用的页面/字段/状态/动作/API/配置/数据/测试均为FROZEN且无空缺
     status: READY_FOR_IMPLEMENTATION
   - story_id: STORY-R11-003
@@ -2059,6 +2408,7 @@ STORIES.yaml:
     - test_engineer
     acceptance_criteria:
     - SCR-PUB-005 全部绑定模板 MOB-FORM，字段、状态、动作、导航和错误恢复无TBD
+    - SCR-PUB-005必须以B04/P05团队长入驻申请作为精确视觉施工面板，禁止TOKENS_ONLY或相邻发布类型代替
     - 页面调用 operationId：contentPostContents;contentPatchContentsById；请求/响应字段不得另行发明
     - 按钮显示、可用和确认条件与服务端状态机、权限、expectedVersion、幂等策略一致
     - 首屏、空、刷新、翻页/局部失败、无权限、404、离线和版本冲突状态按页面状态目录实现
@@ -8805,13 +9155,119 @@ TASKS.yaml:
     session_id: SES-20260723T165113Z-58C6D99A
   session_ids:
   - SES-20260723T165113Z-58C6D99A
+- protocol_version: '1.0'
+  cr_id: CR-0280
+  title: 冻结R11团队长三页精确视觉与入口基线
+  status: IMPLEMENTED
+  created_at: '2026-07-23T16:59:20Z'
+  updated_at: '2026-07-23T17:06:49Z'
+  requester_actor_id: codex-root-r11-entry
+  approver_actor_id: codex-independent-r11-entry-reviewer
+  task_id: TASK-R11-001
+  session_id: SES-20260723T165808Z-606D1DDF
+  user_request: 所有版本UI必须接近效果图丰富度并与开发文档功能一一对应；按R01-R32持续开发。
+  reason: R11已有精确效果图B02/P08、B03/P04、B04/P05，但ui_page_specifications仍使用粗粒度B02/P01-P08和TOKENS_ONLY，RELEASE_MANIFEST也未登记精确绑定与首页团队长回接验收，若直接编码会重现UI偏离。
+  original_rule: R11三个页面合同完整，但视觉引用仍为SCR-LIST-004=B02/P01-P08、SCR-DETAIL-004=B03/P01-P07、SCR-PUB-005=TOKENS_ONLY；这违反每页精确面板施工规则，且Manifest未显式要求首页团队长入口与真实卡片回接。
+  new_rule: 只更新既有R11页面规格与Release投影：SCR-LIST-004精确绑定B02/P08，SCR-DETAIL-004精确绑定B03/P04，SCR-PUB-005精确绑定B04/P05；效果图仅决定结构层级和视觉，业务字段动作仍来自冻结页面合同。R11关闭前必须验证首页团队长一级入口、真实内容卡及列表详情导航回接。
+  impact_summary: 在R11编码前消除粗粒度与TOKENS_ONLY视觉缺口，确保团队长三页和首页回接按开发文档与精确效果图施工。
+  impact:
+    files:
+    - catalogs/ui_page_specifications.csv
+    - releases/R11/RELEASE_MANIFEST.yaml
+    - releases/R11/STORIES.yaml
+    - docs/02-ui/page-specs/android/SCR-LIST-004_团队长列表.md
+    - docs/02-ui/page-specs/android/SCR-DETAIL-004_团队长详情.md
+    - docs/02-ui/page-specs/android/SCR-PUB-005_团队长资料编辑.md
+    - artifacts/validation/project-doctor-v1.2.3-documentation.json
+    pages:
+    - SCR-LIST-004
+    - SCR-DETAIL-004
+    - SCR-PUB-005
+    apis: []
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - check_v123_documentation.py --strict --release R11 PASS
+    - R11 exact visual binding regression PASS
+    releases:
+    - R11
+    migration_and_compatibility: 仅修正现有页面规格、Manifest、Stories和派生目录；不新增业务字段、接口、数据库或效果图虚构内容。
+  user_confirmation: 项目所有者已明确要求所有版本UI按效果图丰富度、开发文档功能一一对应，并持续推进。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-23T17:00:06Z'
+    note: 独立复核确认ui_reference_index明确团队长列表卡B02/P08、详情B03/P04、入驻申请B04/P05；修正粗绑定与TOKENS_ONLY符合既有精确面板硬规则，不新增效果图虚构业务。
+  machine_record: .continuity/change_requests/CR-0280.yaml
+  document: docs/03-continuity/change-requests/CR-0280-冻结R11团队长三页精确视觉与入口基线.md
+  decision_log:
+  - at: '2026-07-23T17:06:46Z'
+    actor_id: codex-root-r11-entry
+    status: IMPLEMENTING
+    note: R11三页精确视觉引用、Manifest入口和Stories验收投影正在实施。
+    session_id: SES-20260723T165808Z-606D1DDF
+  - at: '2026-07-23T17:06:49Z'
+    actor_id: codex-root-r11-entry
+    status: IMPLEMENTED
+    note: R11三页精确绑定与首页团队长回接入口已落库，严格文档、生成资产、契约哈希和精确绑定回归PASS。
+    session_id: SES-20260723T165808Z-606D1DDF
+  session_ids:
+  - SES-20260723T165808Z-606D1DDF
+- protocol_version: '1.0'
+  cr_id: CR-0281
+  title: 登记R11精确视觉入口变更日志
+  status: IMPLEMENTED
+  created_at: '2026-07-23T17:07:46Z'
+  updated_at: '2026-07-23T17:09:08Z'
+  requester_actor_id: codex-root-r11-entry
+  approver_actor_id: codex-independent-r11-changelog-reviewer
+  task_id: TASK-R11-001
+  session_id: SES-20260723T165808Z-606D1DDF
+  user_request: 所有版本UI按效果图丰富度并与开发文档一一对应。
+  reason: CR-0280已修正R11三页用户可见视觉施工基线，Hook要求同步CHANGELOG，但批准范围未包含该投影文件。
+  original_rule: CR-0280已批准并实施R11三页精确视觉和首页回接基线，但CHANGELOG尚未投影该用户可见变化。
+  new_rule: 在既有CHANGELOG中登记R11团队长列表B02/P08、详情B03/P04、入驻B04/P05及首页团队长真实入口回接要求；不新建并列规则或修改产品范围。
+  impact_summary: 满足用户可见变更审计和提交Hook要求。
+  impact:
+    files:
+    - CHANGELOG.md
+    pages: []
+    apis: []
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - pre-commit continuity gate PASS
+    releases:
+    - R11
+    migration_and_compatibility: 纯Changelog投影，无运行时影响。
+  user_confirmation: 项目所有者要求跨AI跨电脑保持UI标准和持续开发事实可追溯。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-23T17:08:09Z'
+    note: 独立确认仅补CR-0280既有用户可见变更的Changelog投影，不扩大页面或业务范围。
+  machine_record: .continuity/change_requests/CR-0281.yaml
+  document: docs/03-continuity/change-requests/CR-0281-登记R11精确视觉入口变更日志.md
+  decision_log:
+  - at: '2026-07-23T17:09:04Z'
+    actor_id: codex-root-r11-entry
+    status: IMPLEMENTING
+    note: R11精确视觉入口的Changelog投影正在实施。
+    session_id: SES-20260723T165808Z-606D1DDF
+  - at: '2026-07-23T17:09:08Z'
+    actor_id: codex-root-r11-entry
+    status: IMPLEMENTED
+    note: R11精确视觉入口与最终候选模拟器策略已登记到既有Changelog。
+    session_id: SES-20260723T165808Z-606D1DDF
+  session_ids:
+  - SES-20260723T165808Z-606D1DDF
 ```
 
 ## 上下文来源及哈希
 
 - `AGENTS.md` — `f93034917d4b87ffd4caffe8b6cad354f69bc31f6c0d9398dec3074ae165496d`
 - `START_HERE.md` — `22de14029ce47beb41ea569e36ce223fbc9d11b86f8676f28d5fbbd83896af5c`
-- `CURRENT_STATUS.yaml` — `b929ac9583f74cfb36487b04f99a8893e8ca5e56f372ecbb1db6bf49676afcfa`
+- `CURRENT_STATUS.yaml` — `22e4897c6630fea535937b5663903bc72d5efc3bd1bf4ad9604abf5cda6f39f5`
 - `NEXT_TASK.yaml` — `dc0f30a1ececcb786a7826f36948a3781220189a02f15da4a0da110aeba7eb0e`
 - `DEVELOPMENT_RISK_REGISTER.md` — `8304c91492e4ee2abea0522a06541c8688d39c7fc532b5d0cde499bf09fffb87`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
@@ -8822,21 +9278,25 @@ TASKS.yaml:
 - `config/REPOSITORY_TRANSPORT.yaml` — `8c4a21f3e204d46e7ffb467d804a53ed26cda61cd088dadfddb50b69eea657fc`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `16a96f9a52f352f3c62175db308dd973889b2e82acb117bcfdd12a4bc4d379f6`
-- `.continuity/EVENT_LOG.jsonl` — `604d6fdc5584cd8d5d97f761ea99804d82862622a662773cc5d22202e057c8ce`
-- `.continuity/SESSION_INDEX.yaml` — `dea380f404ff245083fdf5909d860ee63817dfd42b5920063a0c1669dca26efd`
-- `.continuity/TASK_CLAIMS.yaml` — `da6484ff1da7d9d63ccb83817b59a751dff60e212ff45f7cad32e0963eb2a823`
-- `.continuity/TASK_TRANSITIONS.yaml` — `ceec5594e74ccaee96c101837fcbcd69bfb69f9ba9997294fef333e595f2ac32`
-- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `872afb7792399f80497acb25590cb7705bd44162d7ea26dac3004f8dc8ebd583`
-- `.continuity/ACTIVE_SESSION.yaml` — `806022a2701a3edba8b7f80c2e3da74d7b9800ac1ce8117b0d60aa83a8adc940`
+- `.continuity/EVENT_LOG.jsonl` — `be1550c408e3e5bcd618fdc23e98b3196496e04240467fded9db875d368ee3d8`
+- `.continuity/SESSION_INDEX.yaml` — `975ed7e432cd7ed2e8e115d6b08ac2d53f00782bc585a2e2bd747d41abdda5cd`
+- `.continuity/TASK_CLAIMS.yaml` — `e524cfd7533ad9443db9297f8d09a712d56207eac4c24cf39b3f72fc2a0456dd`
+- `.continuity/TASK_TRANSITIONS.yaml` — `c1954ed47a405891256c1bb8cacd13836d53333c0b0d3a6352d3be4d3730561d`
+- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `a6c47133bceb96aeac5e23d91850110e18761555ca067b559277bc8f1a2ef735`
+- `.continuity/ACTIVE_SESSION.yaml` — `6229a8a9dbf97a2d3cd5bfabd55c8d2d8e95e0c6d78dd152c45cc2fef5941732`
 - `docs/00-baseline/正式商业系统全局硬性开发边界.md` — `9753b32db136e59e95a0974a62362456d9d577fd1bb40058ec985c4b64413eea`
 - `docs/02-ui/UI参考图使用与开发约束_V1.2.2.md` — `d14367586aa2067b059df58798acd20ab982459cdb35ff27fc7922a3896e4933`
 - `docs/03-continuity/持续开发无状态接续强制门禁_V1.2.3.md` — `d0ed3ed68bdd93b06500eecdfb5baa3245e6ca8b685a486788abb6eee39b3d51`
 - `docs/09-development/统一开发与交付效率规范.md` — `1c84c84583dcb3cee8e22e4f535b09efe4127abe68fa49cd1408b62e05b23f49`
-- `releases/R11/RELEASE_MANIFEST.yaml` — `bdf5b420833df4353ad851e48569e86f4edaafbeaba249074791ee9f2ddc2f19`
+- `releases/R11/RELEASE_MANIFEST.yaml` — `eb47fddf3188a85775b4935db84bd747ff0e4065eff17a90f88775472b469318`
 - `releases/R11/DEFINITION_OF_READY.yaml` — `2c56dca2fe636028295ce7489474524a7067f9119d22e531490d870063513ff7`
-- `releases/R11/STORIES.yaml` — `1f3b20abb93d796f37a0441d45b449328716c4f450476ed3bde991caa08c0771`
+- `releases/R11/STORIES.yaml` — `2b38e53de2c13042295a14ef01f5b60cf5fd3e4f4f49b5f147446552e1a2ac30`
 - `releases/R11/TASKS.yaml` — `7910c5fc40c2a5126ba9b688db9bb51bd5c1133ee372d2bea5cb845bdc8698c9`
 - `releases/R11/ACCEPTANCE_MATRIX.csv` — `fd67dd0579ea65dc25e2671f49693a4b3b63eb59f0399587f96c11319c54b25f`
+- `docs/03-continuity/sessions/2026-07/SES-20260723T165808Z-606D1DDF.md` — `1a917e8faf3b5b2b70d4b71681cde2348b89bf7cf87844ad0c4774a786e7d912`
+- `.continuity/checkpoints/SES-20260723T165808Z-606D1DDF/0002.yaml` — `f81151035fc47e0937a52314823339033a3d9ac2960374ee426d8e3444ee9335`
+- `docs/03-continuity/change-requests/CR-0280-冻结R11团队长三页精确视觉与入口基线.md` — `05589fa869f68d07cf31fcf3412faa146aa89765004ed69f965d53507b69f384`
+- `docs/03-continuity/change-requests/CR-0281-登记R11精确视觉入口变更日志.md` — `e6961e7c9178aee56e41354a26420ca6cf80b57cb91745fd7a3704057197243a`
 
 ## 接手硬规则
 

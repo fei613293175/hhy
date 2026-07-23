@@ -1,0 +1,58 @@
+protocol_version: '1.0'
+cr_id: CR-0280
+title: 冻结R11团队长三页精确视觉与入口基线
+status: IMPLEMENTED
+created_at: '2026-07-23T16:59:20Z'
+updated_at: '2026-07-23T17:06:49Z'
+requester_actor_id: codex-root-r11-entry
+approver_actor_id: codex-independent-r11-entry-reviewer
+task_id: TASK-R11-001
+session_id: SES-20260723T165808Z-606D1DDF
+user_request: 所有版本UI必须接近效果图丰富度并与开发文档功能一一对应；按R01-R32持续开发。
+reason: R11已有精确效果图B02/P08、B03/P04、B04/P05，但ui_page_specifications仍使用粗粒度B02/P01-P08和TOKENS_ONLY，RELEASE_MANIFEST也未登记精确绑定与首页团队长回接验收，若直接编码会重现UI偏离。
+original_rule: R11三个页面合同完整，但视觉引用仍为SCR-LIST-004=B02/P01-P08、SCR-DETAIL-004=B03/P01-P07、SCR-PUB-005=TOKENS_ONLY；这违反每页精确面板施工规则，且Manifest未显式要求首页团队长入口与真实卡片回接。
+new_rule: 只更新既有R11页面规格与Release投影：SCR-LIST-004精确绑定B02/P08，SCR-DETAIL-004精确绑定B03/P04，SCR-PUB-005精确绑定B04/P05；效果图仅决定结构层级和视觉，业务字段动作仍来自冻结页面合同。R11关闭前必须验证首页团队长一级入口、真实内容卡及列表详情导航回接。
+impact_summary: 在R11编码前消除粗粒度与TOKENS_ONLY视觉缺口，确保团队长三页和首页回接按开发文档与精确效果图施工。
+impact:
+  files:
+  - catalogs/ui_page_specifications.csv
+  - releases/R11/RELEASE_MANIFEST.yaml
+  - releases/R11/STORIES.yaml
+  - docs/02-ui/page-specs/android/SCR-LIST-004_团队长列表.md
+  - docs/02-ui/page-specs/android/SCR-DETAIL-004_团队长详情.md
+  - docs/02-ui/page-specs/android/SCR-PUB-005_团队长资料编辑.md
+  - artifacts/validation/project-doctor-v1.2.3-documentation.json
+  pages:
+  - SCR-LIST-004
+  - SCR-DETAIL-004
+  - SCR-PUB-005
+  apis: []
+  database: []
+  configuration: []
+  ledger: []
+  tests:
+  - check_v123_documentation.py --strict --release R11 PASS
+  - R11 exact visual binding regression PASS
+  releases:
+  - R11
+  migration_and_compatibility: 仅修正现有页面规格、Manifest、Stories和派生目录；不新增业务字段、接口、数据库或效果图虚构内容。
+user_confirmation: 项目所有者已明确要求所有版本UI按效果图丰富度、开发文档功能一一对应，并持续推进。
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-23T17:00:06Z'
+  note: 独立复核确认ui_reference_index明确团队长列表卡B02/P08、详情B03/P04、入驻申请B04/P05；修正粗绑定与TOKENS_ONLY符合既有精确面板硬规则，不新增效果图虚构业务。
+machine_record: .continuity/change_requests/CR-0280.yaml
+document: docs/03-continuity/change-requests/CR-0280-冻结R11团队长三页精确视觉与入口基线.md
+decision_log:
+- at: '2026-07-23T17:06:46Z'
+  actor_id: codex-root-r11-entry
+  status: IMPLEMENTING
+  note: R11三页精确视觉引用、Manifest入口和Stories验收投影正在实施。
+  session_id: SES-20260723T165808Z-606D1DDF
+- at: '2026-07-23T17:06:49Z'
+  actor_id: codex-root-r11-entry
+  status: IMPLEMENTED
+  note: R11三页精确绑定与首页团队长回接入口已落库，严格文档、生成资产、契约哈希和精确绑定回归PASS。
+  session_id: SES-20260723T165808Z-606D1DDF
+session_ids:
+- SES-20260723T165808Z-606D1DDF
