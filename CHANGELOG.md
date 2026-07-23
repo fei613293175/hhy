@@ -1328,3 +1328,12 @@
 - 摘要：R10 Android测试APK与产物追溯完成：候选、AI视觉审批、轻量晋升、固定签名APK、四方SHA交付、桌面说明和严格文档核对全部PASS；Owner真机反馈保持异步PENDING。实现Commit 758c30a3已本地形成，GitHub HTTPS三次因外部443连接重置或不可达尚未推送，恢复后必须先push该Commit。
 - 记录：`docs/03-continuity/sessions/2026-07/SES-20260723T122953Z-52EBA51E.md`
 
+## TASK-R10-008 · COMPLETED · 2026-07-23T16:56:45Z
+
+- Task close: TASK-R10-008 / SES-20260723T165113Z-58C6D99A
+- Release：`R10`
+- Story：`STORY-R10-004`
+- Actor：`codex-root-r10-close`
+- 摘要：R10机器关闭完成：8任务、6验收、3视觉页、Android候选和四方APK交付全部PASS；Owner真机保持PENDING，正式验收与生产激活继续阻断，按仓库顺序进入并列依赖满足的R11。GitHub HTTPS外部不可达，本地待推送提交如实登记。
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260723T165113Z-58C6D99A.md`
+
