@@ -3,6 +3,7 @@ package cc.orbexa.hhy.content;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
@@ -167,6 +168,30 @@ class ContentServiceTest {
         assertEquals(List.of("active"), result.modules().stream()
                 .map(module -> module.trackingContext().source()).toList());
         assertEquals(NOW, result.serverTime());
+    }
+
+    @Test
+    void homeUsesRealDataSourceDeduplicatesContentAndMapsMoreTarget() {
+        when(store.homeModules()).thenReturn(List.of(
+                new ContentStore.HomeRow(1, "latest-projects", "最新发布", "VERTICAL_LIST", """
+                        {"dataSource":"LATEST_PROJECTS","limit":2,"moreTarget":{
+                          "targetType":"IN_APP_ROUTE","route":"/content/projects","requiresLogin":true}}
+                        """),
+                new ContentStore.HomeRow(2, "recommended-projects", "为你推荐", "HORIZONTAL_LIST", """
+                        {"dataSource":"LATEST_PROJECTS","limit":2}
+                        """)));
+        when(store.homeContent(eq("PROJECT"), anyInt())).thenReturn(List.of(
+                new ContentStore.HomeContentRow(9, "PROJECT", "真实项目九", "项目摘要", null),
+                new ContentStore.HomeContentRow(8, "PROJECT", "真实项目八", null,
+                        "https://download.orbexa.cc/project-8.png")));
+
+        var result = service.home("req-home-data-source");
+
+        assertEquals(List.of("9", "8"), result.modules().getFirst().items().stream()
+                .map(item -> item.id()).toList());
+        assertEquals("/content/project/9", result.modules().getFirst().items().getFirst().target().route());
+        assertEquals("/content/projects", result.modules().getFirst().moreTarget().route());
+        assertEquals(0, result.modules().get(1).items().size());
     }
 
     @Test

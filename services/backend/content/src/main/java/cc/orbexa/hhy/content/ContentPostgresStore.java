@@ -260,6 +260,32 @@ public class ContentPostgresStore implements ContentStore {
                         rs.getLong(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5)));
     }
 
+    @Override
+    public List<HomeContentRow> homeContent(String contentType, int limit) {
+        return jdbc.query("""
+                SELECT p.id,p.type,p.title,p.summary,
+                       CASE
+                         WHEN media.public_domain IS NULL OR media.object_key IS NULL THEN NULL
+                         ELSE rtrim(media.public_domain, '/') || '/' || ltrim(media.object_key, '/')
+                       END AS cover_url
+                FROM hhy.content_posts p
+                LEFT JOIN LATERAL (
+                  SELECT b.public_domain,m.object_key
+                  FROM hhy.content_media cm
+                  JOIN hhy.media_objects m ON m.id=cm.media_id AND m.status='READY'
+                  JOIN hhy.storage_scope_bindings b ON b.id=m.storage_binding_id AND b.status='ACTIVE'
+                  WHERE cm.content_id=p.id
+                  ORDER BY cm.sort_order,cm.id
+                  LIMIT 1
+                ) media ON true
+                WHERE p.status='ONLINE' AND (? IS NULL OR p.type=?)
+                ORDER BY p.created_at DESC,p.id DESC
+                LIMIT ?
+                """, (rs, row) -> new HomeContentRow(
+                        rs.getLong(1), rs.getString(2), rs.getString(3), rs.getString(4),
+                        rs.getString(5)), contentType, contentType, limit);
+    }
+
     private ContentRow content(ResultSet rs, int row) throws SQLException {
         return new ContentRow(
                 rs.getLong("id"), rs.getLong("owner_id"), rs.getString("type"), rs.getString("title"),

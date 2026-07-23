@@ -1,0 +1,61 @@
+protocol_version: '1.0'
+cr_id: CR-0264
+title: 建立R10开发入口与群聊发布页精确视觉基线
+status: SUPERSEDED
+created_at: '2026-07-23T02:52:43Z'
+updated_at: '2026-07-23T03:11:15Z'
+requester_actor_id: codex-root-r10-entry
+approver_actor_id: codex-r10-entry-review
+task_id: TASK-R10-001
+session_id: SES-20260723T025104Z-E29F6208
+user_request: 项目所有者要求持续推进全部版本；所有已开发和后续页面必须达到效果图的丰富度与精致度，效果图未涉及页面可复用同类页面效果图，真机反馈异步且不阻断。
+reason: R10 DoR已PASS，列表和详情分别绑定B02/B03，但SCR-PUB-004仍为TOKENS_ONLY；编码前必须复用同类发布表单B04/P04并记录单协调者执行计划、依赖边界和R10入口证据。
+original_rule: R10开发包已生成DoR、Stories、Tasks和Manifest；SCR-LIST-003绑定B02/P01-P08，SCR-DETAIL-003绑定B03/P01-P07，但SCR-PUB-004仅绑定TOKENS_ONLY/-，且R10尚无入口报告、版本执行计划或依赖机器完成投影。
+new_rule: R10进入编码前必须证明DoR、文档、产物结构、既有API复用、依赖机器完成和Git传输全部PASS；SCR-PUB-004直接复用同类发布/编辑表单效果图B04/P04，与列表B02、详情B03共同成为强制视觉基线。效果图只约束建模、区域顺序、信息层级、布局、组件和视觉样式，不得虚构群聊字段、动作、数据或能力。R10使用单一协调者串行推进，普通任务只跑受影响门禁，最终候选阶段才运行完整模拟器与APK交付。
+impact_summary: 补齐R10无状态开发入口、串行任务边界和三页效果图基线；不新增业务接口、表、配置、页面或虚构功能。
+impact:
+  files:
+  - docs/03-continuity/R10_TASK-001_ENTRY_GATE.md
+  - releases/R10/PARALLEL_EXECUTION_PLAN.yaml
+  - releases/R10/RELEASE_MANIFEST.yaml
+  - catalogs/ui_page_specifications.csv
+  - CHANGELOG.md
+  pages:
+  - SCR-LIST-003
+  - SCR-DETAIL-003
+  - SCR-PUB-004
+  apis: []
+  database: []
+  configuration:
+  - R10 single coordinator execution and final-candidate-only Android gate
+  ledger:
+  - R10入口证据、依赖机器完成状态与三页效果图绑定
+  tests:
+  - python scripts/check_v122_documentation.py --strict --release R10
+  - python scripts/check_release_artifacts.py --release R10
+  - python scripts/check_program_execution_plan.py
+  - python scripts/check_api_contract.py
+  - python scripts/check_generated_assets.py
+  releases:
+  - R10
+  migration_and_compatibility: 无运行时或数据迁移。群聊发布页只从TOKENS_ONLY升级为复用既有B04/P04视觉参考，冻结字段、动作、API和R09以前页面不变；最终Android候选仍在TASK-R10-007执行。
+user_confirmation: 项目所有者已要求效果图未涉及页面可复用相关页面效果图，所有后续版本遵守效果图级丰富度与精致度，并持续开发不等待真机反馈。
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-23T02:52:49Z'
+  note: 独立复核通过：R10三页均可使用现有效果图，发布/编辑复用同类B04/P04无需补图；业务字段和动作仍以冻结目录为唯一事实源。入口只建立执行与依赖投影，不提前实现R10功能或运行模拟器。
+machine_record: .continuity/change_requests/CR-0264.yaml
+document: docs/03-continuity/change-requests/CR-0264-建立R10开发入口与群聊发布页精确视觉基线.md
+decision_log:
+- at: '2026-07-23T02:52:55Z'
+  actor_id: codex-root-r10-entry
+  status: IMPLEMENTING
+  note: 开始建立R10入口报告、执行计划、依赖投影和三页精确视觉基线。
+  session_id: SES-20260723T025104Z-E29F6208
+- at: '2026-07-23T03:11:15Z'
+  actor_id: codex-root-r10-entry
+  status: SUPERSEDED
+  note: 原CR误将群聊发布绑定B04/P04，且未覆盖项目所有者确认的首页与V1.2工程执行强化版功能一一对应纠偏；由后续合并CR统一取代，禁止实施错误面板。
+  session_id: SES-20260723T025104Z-E29F6208
+session_ids:
+- SES-20260723T025104Z-E29F6208

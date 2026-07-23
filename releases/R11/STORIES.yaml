@@ -158,6 +158,7 @@ stories:
   - 首屏、空、刷新、翻页/局部失败、无权限、404、离线和版本冲突状态按页面状态目录实现
   - 敏感字段按分级脱敏；高敏读取和后台写操作完整审计
   - 自动化覆盖：TST-CONTENT_001-HAPPY;TST-TEAM_001-HAPPY
+  - 团队长列表闭环必须同时把首页“团队长”一级入口、真实团队长内容卡和团队长列表/详情导航接回SCR-HOME-001，并按V1.2工程执行强化版4.3与B02/P01、P02、P08回归
   definition_of_ready: 全部引用的页面/字段/状态/动作/API/配置/数据/测试均为FROZEN且无空缺
   status: READY_FOR_IMPLEMENTATION
 - story_id: STORY-R11-003

@@ -21,6 +21,7 @@ public interface ContentStore {
     void audit(long adminId, String action, long resourceId, String beforeJson, String afterJson, String ip);
     void outbox(long actorId, String eventType, String aggregateId, String status, Instant occurredAt);
     List<HomeRow> homeModules();
+    List<HomeContentRow> homeContent(String contentType, int limit);
 
     record ContentQuery(
             int page, int pageSize, Long beforeId, String status, String keyword,
@@ -38,4 +39,6 @@ public interface ContentStore {
     record IdempotencyClaim(long id, String requestHash, String responseRef, boolean replay) { }
     record LockedContent(long id, String status, long version) { }
     record HomeRow(long id, String code, String title, String sourceType, String configJson) { }
+    record HomeContentRow(
+            long id, String type, String title, String summary, String coverUrl) { }
 }

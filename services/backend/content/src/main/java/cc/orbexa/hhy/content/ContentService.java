@@ -27,6 +27,7 @@ import java.time.Clock;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.HexFormat;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -201,11 +202,13 @@ public class ContentService {
     @Transactional(readOnly = true)
     public HomeResource home(String requestId) {
         Instant now = Instant.now(clock);
-        List<HomeModule> modules = store.homeModules().stream().map(row -> homeModule(row, requestId))
-                .filter(module -> module.startAt() == null || !module.startAt().isAfter(now))
-                .filter(module -> module.endAt() == null || module.endAt().isAfter(now))
-                .toList();
-        return new HomeResource(modules, now, List.<FeatureFlag>of(),
+        Set<String> seenContentIds = new LinkedHashSet<>();
+        List<HomeModule> modules = new java.util.ArrayList<>();
+        for (ContentStore.HomeRow row : store.homeModules()) {
+            HomeModule module = homeModule(row, requestId, now, seenContentIds);
+            if (module != null) modules.add(module);
+        }
+        return new HomeResource(List.copyOf(modules), now, List.<FeatureFlag>of(),
                 tracking("SCR-HOME-001", "HOME", null, requestId));
     }
 
@@ -302,26 +305,86 @@ public class ContentService {
                 null, null, null, null, row.version(), object(row.itemsJson()));
     }
 
-    private HomeModule homeModule(ContentStore.HomeRow row, String requestId) {
+    private HomeModule homeModule(
+            ContentStore.HomeRow row, String requestId, Instant now, Set<String> seenContentIds) {
         JsonNode config = tree(row.configJson());
+        Instant startAt = instant(config, "startAt");
+        Instant endAt = instant(config, "endAt");
+        if ((startAt != null && startAt.isAfter(now)) || (endAt != null && !endAt.isAfter(now))) return null;
         String source = clean(row.sourceType());
         String type = source == null ? "VERTICAL_LIST" : source.toUpperCase(Locale.ROOT);
         if (!HOME_TYPES.contains(type)) type = "VERTICAL_LIST";
         List<HomeItem> items = new java.util.ArrayList<>();
-        JsonNode configured = config.path("items");
-        if (configured.isArray()) for (JsonNode item : configured) {
-            if (!item.hasNonNull("id") || !item.hasNonNull("title")) continue;
-            JsonNode target = item.path("target");
-            String targetType = target.path("targetType").asText("NONE");
-            items.add(new HomeItem(item.path("id").asText(), item.path("itemType").asText("ACTION"),
-                    item.path("title").asText(), nullable(item, "subtitle"), nullable(item, "coverUrl"),
-                    strings(item.path("badges")), new NavigationTarget(targetType,
-                            nullable(target, "route"), nullable(target, "url"), target.path("requiresLogin").asBoolean(true)),
-                    tracking("SCR-HOME-001", row.code(), nullable(item, "contentId"), requestId)));
+        String dataSource = clean(nullable(config, "dataSource"));
+        if (dataSource == null) {
+            JsonNode configured = config.path("items");
+            if (configured.isArray()) for (JsonNode item : configured) {
+                if (!item.hasNonNull("id") || !item.hasNonNull("title")) continue;
+                String contentId = nullable(item, "contentId");
+                if (contentId != null && !seenContentIds.add(contentId)) continue;
+                items.add(new HomeItem(item.path("id").asText(), item.path("itemType").asText("ACTION"),
+                        item.path("title").asText(), nullable(item, "subtitle"), nullable(item, "coverUrl"),
+                        strings(item.path("badges")), navigation(item.path("target"), true),
+                        tracking("SCR-HOME-001", row.code(), contentId, requestId)));
+            }
+        } else {
+            int limit = config.path("limit").asInt(6);
+            if (limit < 1 || limit > 20) throw validation("首页模块数量必须在1到20之间");
+            String contentType = homeContentType(dataSource);
+            int queryLimit = Math.min(100, limit + seenContentIds.size());
+            for (ContentStore.HomeContentRow content : store.homeContent(contentType, queryLimit)) {
+                String contentId = Long.toString(content.id());
+                if (!seenContentIds.add(contentId)) continue;
+                items.add(new HomeItem(contentId, "CONTENT", content.title(), clean(content.summary()),
+                        clean(content.coverUrl()), List.of(homeContentBadge(content.type())),
+                        new NavigationTarget("IN_APP_ROUTE", homeContentRoute(content), null, true),
+                        tracking("SCR-HOME-001", row.code(), contentId, requestId)));
+                if (items.size() == limit) break;
+            }
         }
+        NavigationTarget moreTarget = config.path("moreTarget").isObject()
+                ? navigation(config.path("moreTarget"), true) : null;
         return new HomeModule(Long.toString(row.id()), type, row.title(), nullable(config, "subtitle"),
-                config.path("layoutType").asText(type.toLowerCase(Locale.ROOT)), List.copyOf(items), null,
-                tracking("SCR-HOME-001", row.code(), null, requestId), instant(config, "startAt"), instant(config, "endAt"));
+                config.path("layoutType").asText(type.toLowerCase(Locale.ROOT)), List.copyOf(items), moreTarget,
+                tracking("SCR-HOME-001", row.code(), null, requestId), startAt, endAt);
+    }
+
+    private static NavigationTarget navigation(JsonNode target, boolean defaultRequiresLogin) {
+        return new NavigationTarget(target.path("targetType").asText("NONE"),
+                nullable(target, "route"), nullable(target, "url"),
+                target.path("requiresLogin").asBoolean(defaultRequiresLogin));
+    }
+
+    private static String homeContentType(String dataSource) {
+        return switch (dataSource.toUpperCase(Locale.ROOT)) {
+            case "LATEST_ALL" -> null;
+            case "LATEST_PROJECTS" -> "PROJECT";
+            case "LATEST_APPS" -> "APP";
+            case "LATEST_GROUPS" -> "GROUP";
+            case "LATEST_TEAM_LEADERS" -> "TEAM_LEADER";
+            default -> throw validation("首页模块数据源不符合要求");
+        };
+    }
+
+    private static String homeContentRoute(ContentStore.HomeContentRow content) {
+        String prefix = switch (content.type()) {
+            case "PROJECT" -> "/content/project/";
+            case "APP" -> "/content/app/";
+            case "GROUP" -> "/content/group/";
+            case "TEAM_LEADER" -> "/content/team-leader/";
+            default -> throw validation("首页内容类型不符合要求");
+        };
+        return prefix + content.id();
+    }
+
+    private static String homeContentBadge(String type) {
+        return switch (type) {
+            case "PROJECT" -> "项目";
+            case "APP" -> "App";
+            case "GROUP" -> "群聊";
+            case "TEAM_LEADER" -> "团队长";
+            default -> throw validation("首页内容类型不符合要求");
+        };
     }
 
     private TrackingContext tracking(String page, String source, String contentId, String requestId) {

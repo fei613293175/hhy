@@ -42,6 +42,8 @@ import cc.orbexa.hhy.network.DirectUploadResource
 import cc.orbexa.hhy.network.ExperienceApi
 import cc.orbexa.hhy.network.HhyNetworkJson
 import cc.orbexa.hhy.network.HomeModuleSnapshot
+import cc.orbexa.hhy.network.HomeModuleItemSnapshot
+import cc.orbexa.hhy.network.HomeNavigationTargetSnapshot
 import cc.orbexa.hhy.network.HomeSnapshot
 import cc.orbexa.hhy.network.IdentityCallResult
 import cc.orbexa.hhy.network.IdentityConsentCallResult
@@ -385,11 +387,83 @@ class HistoricalVisualAuditTest {
                 serverTime = "2026-07-22T16:00:00Z",
                 modules = listOf(
                     HomeModuleSnapshot(
-                        id = "visual-projects",
-                        type = "PROJECT",
+                        id = "visual-notice",
+                        type = "NOTICE",
+                        title = null,
+                        subtitle = null,
+                        layoutType = "notice",
+                        items = listOf(
+                            HomeModuleItemSnapshot(
+                                id = "notice-1",
+                                itemType = "NOTICE",
+                                title = "平台服务持续更新中",
+                                subtitle = null,
+                                coverUrl = null,
+                                badges = emptyList(),
+                                target = HomeNavigationTargetSnapshot("NONE", null, null, true),
+                                trackingContext = null,
+                            ),
+                        ),
+                        moreTarget = null,
+                        trackingContext = null,
+                        startAt = null,
+                        endAt = null,
+                    ),
+                    HomeModuleSnapshot(
+                        id = "visual-banner",
+                        type = "BANNER",
+                        title = null,
+                        subtitle = null,
+                        layoutType = "carousel",
+                        items = listOf(
+                            HomeModuleItemSnapshot(
+                                id = "banner-1",
+                                itemType = "BANNER",
+                                title = "连接真实项目与合作伙伴",
+                                subtitle = "首页内容由平台运营模块统一配置",
+                                coverUrl = null,
+                                badges = emptyList(),
+                                target = HomeNavigationTargetSnapshot("NONE", null, null, true),
+                                trackingContext = null,
+                            ),
+                        ),
+                        moreTarget = null,
+                        trackingContext = null,
+                        startAt = null,
+                        endAt = null,
+                    ),
+                    HomeModuleSnapshot(
+                        id = "visual-recommendations",
+                        type = "VERTICAL_LIST",
                         title = "公开合作推荐",
                         subtitle = "由服务端配置的公开内容",
-                        items = listOf("公开合作项目", "团队协作应用", "同城合作群聊"),
+                        layoutType = "content-card",
+                        items = listOf(
+                            HomeModuleItemSnapshot(
+                                id = "project-1",
+                                itemType = "CONTENT",
+                                title = "公开合作项目",
+                                subtitle = "浏览平台已发布的真实项目内容",
+                                coverUrl = null,
+                                badges = listOf("项目"),
+                                target = HomeNavigationTargetSnapshot("NONE", null, null, true),
+                                trackingContext = null,
+                            ),
+                            HomeModuleItemSnapshot(
+                                id = "app-1",
+                                itemType = "CONTENT",
+                                title = "团队协作应用",
+                                subtitle = "查看公开应用资料与真实截图",
+                                coverUrl = null,
+                                badges = listOf("App"),
+                                target = HomeNavigationTargetSnapshot("NONE", null, null, true),
+                                trackingContext = null,
+                            ),
+                        ),
+                        moreTarget = null,
+                        trackingContext = null,
+                        startAt = null,
+                        endAt = null,
                     ),
                 ),
             ),

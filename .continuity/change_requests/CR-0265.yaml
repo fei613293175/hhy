@@ -1,0 +1,89 @@
+protocol_version: '1.0'
+cr_id: CR-0265
+title: 修正首页及R10页面与V1.2工程执行强化版功能一一对应
+status: IMPLEMENTED
+created_at: '2026-07-23T03:11:42Z'
+updated_at: '2026-07-23T04:35:56Z'
+requester_actor_id: codex-root-r10-entry
+approver_actor_id: codex-r10-doc-review
+task_id: TASK-R10-001
+session_id: SES-20260723T025104Z-E29F6208
+user_request: 项目所有者明确要求修正当前首页与开发文档功能不对应的问题，所有开发功能必须一比一对应合伙云Pro_完整项目开发文档_V1.2_工程执行强化版；首页应包含顶部品牌/搜索/消息、横向Banner、项目/App/群聊/团队长四入口及真实推荐/最新发布等运营模块。
+reason: R06补充视觉规格错误删减正式首页信息架构，Android首页模型丢弃布局、媒体、徽标和导航字段，验收台账以错误实现自证PASS；R10入口CR又误将群聊发布绑定App发布面板，必须统一纠正事实源、实现和跨版本回归关系。
+original_rule: R06补充视觉规格把V1.2工程执行强化版4.3明确的顶部品牌搜索消息、横向轮播、项目/App/群聊/团队长四入口和运营内容模块缩减为自创Hero、搜索及项目/App快捷入口；Android只解析模块标题字符串，历史验收又以错误规格和自身截图判PASS。R08至R11故事未把新增分类闭环回接首页列为显式验收。R10入口CR-0264还误将群聊发布绑定B04/P04
+  App面板。
+new_rule: 合伙云Pro_完整项目开发文档_V1.2_工程执行强化版是功能业务数据权限和版本归属的强制基线，所有实现必须逐项一一对应，不得由补充规格增删改功能。SCR-HOME-001必须按4.3和B02/P01、P02、P04恢复顶部品牌/搜索/消息、可选公告、横向Banner、项目/App/群聊/团队长四入口、为你推荐/最新发布及服务端配置运营模块；只渲染接口真实数据和真实导航，不复制效果图虚构内容。Android完整保留moduleType、layoutType、itemType、coverUrl、badges、target、moreTarget并按模块类型呈现。R08项目、R09
+  App、R10群聊、R11团队长每版关闭前必须验证对应真实内容和导航已经回接首页。R10三页精确绑定SCR-LIST-003=B02/P07、SCR-DETAIL-003=B03/P03、SCR-PUB-004=B04/P03。错误首页视觉PASS立即撤销，只有R10最终候选真实截图按原文档和B02复核通过后才可恢复PASS。
+impact_summary: 统一纠正功能事实源优先级、首页规格/模型/渲染/导航、R06-R11跨版本集成验收以及R10三页视觉绑定，并补问题登记和防回归测试；不新增原开发文档之外的功能、字段、接口、数据库表或虚构数据。
+impact:
+  files:
+  - docs/00-baseline/正式商业系统全局硬性开发边界.md
+  - docs/02-ui/page-specs/android/SCR-HOME-001_首页.md
+  - design/R06-UI-FROZEN/specs/SCR-HOME-001.md
+  - catalogs/ui_page_specifications.csv
+  - catalogs/ui_visual_acceptance.csv
+  - catalogs/release_story_backlog.csv
+  - releases/R08/STORIES.yaml
+  - releases/R09/STORIES.yaml
+  - releases/R10/STORIES.yaml
+  - releases/R11/STORIES.yaml
+  - docs/03-continuity/R10_TASK-001_ENTRY_GATE.md
+  - releases/R10/PARALLEL_EXECUTION_PLAN.yaml
+  - releases/R10/RELEASE_MANIFEST.yaml
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ExperienceApi.kt
+  - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ExperienceApiTest.kt
+  - apps/android/feature/shell/build.gradle.kts
+  - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+  - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+  - apps/android/app/src/androidTest/java/cc/orbexa/hhy/HistoricalVisualAuditTest.kt
+  - tests/test_home_contract_alignment.py
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/PITFALLS.md
+  - CHANGELOG.md
+  pages:
+  - SCR-HOME-001
+  - SCR-LIST-003
+  - SCR-DETAIL-003
+  - SCR-PUB-004
+  apis:
+  - homeGetHome
+  database: []
+  configuration:
+  - 开发文档功能一一对应、首页跨版本回接、R10单协调者与最终候选模拟器策略
+  ledger:
+  - CR-0264错误面板被CR-0265取代；首页旧PASS撤销并登记根因和恢复条件
+  tests:
+  - python -m unittest tests.test_home_contract_alignment
+  - apps/android/gradlew.bat --no-daemon :core:network:testDebugUnitTest :feature:shell:lintDebug :app:compileDebugKotlin
+  - python scripts/check_android_ui_foundation.py
+  - python scripts/check_ui_visual_acceptance.py --release R06 --catalog-only
+  - python scripts/check_v122_documentation.py --strict --release R10
+  - python scripts/check_release_artifacts.py --release R10
+  - python scripts/check_program_execution_plan.py
+  releases:
+  - R06
+  - R08
+  - R09
+  - R10
+  - R11
+  migration_and_compatibility: 无数据库或服务端破坏性迁移。GET /api/v1/home保持既有OpenAPI兼容，Android从丢字段的内部快照升级为完整只读模型；旧模块缺少可选媒体时使用中性占位，缺少真实导航时不可伪造点击。历史R06-R09产物保留但首页旧PASS标记为IN_REVIEW，修复随当前R10开发线交付。
+user_confirmation: 项目所有者明确要求必须修正，所有开发功能必须一比一对应合伙云Pro_完整项目开发文档_V1.2_工程执行强化版。
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-23T03:15:41Z'
+  note: 复核通过：用户点名的V1.2工程执行强化版4.3、SCR-HOME-001、REQ-HOME-001与B02共同证明现实现偏离；范围同时撤销错误PASS、恢复完整Home模型与渲染、补R08-R11回接验收，并将R10列表/详情/发布正确绑定P07/P03/P03。未新增开发文档外业务。
+machine_record: .continuity/change_requests/CR-0265.yaml
+document: docs/03-continuity/change-requests/CR-0265-修正首页及R10页面与V1.2工程执行强化版功能一一对应.md
+decision_log:
+- at: '2026-07-23T03:16:07Z'
+  actor_id: codex-root-r10-entry
+  status: IMPLEMENTING
+  note: 开始按V1.2工程执行强化版逐项修复首页与R10精确视觉/版本回接事实。
+  session_id: SES-20260723T025104Z-E29F6208
+- at: '2026-07-23T04:35:56Z'
+  actor_id: codex-root-r10-entry
+  status: IMPLEMENTED
+  note: 主开发文档功能事实源、首页完整模型/渲染/真实媒体导航、R08-R11回接验收与R10精确面板纠偏已实现并通过26项契约回归、Android固定容器编译和严格文档门禁。
+  session_id: SES-20260723T025104Z-E29F6208
+session_ids:
+- SES-20260723T025104Z-E29F6208

@@ -48,12 +48,39 @@ tests:
 - TST-GROUP_001-IDEMPOTENT
 - TST-GROUP_001-REJECT
 - TST-V122-005
+entry_baseline:
+  checked_at: '2026-07-23'
+  session_id: SES-20260723T025104Z-E29F6208
+  story_id: STORY-R10-004
+  change_request: CR-0265
+  superseded_change_request: CR-0264
+  documentation_status: PASS_DOCUMENTATION_READY
+  cloud_environment_status: PASS
+  git_transport_status: PASS
+  workflow_profile: MODULE
+  implementation_start: ALLOWED
+  exact_visual_bindings:
+    SCR-LIST-003: B02/P07
+    SCR-DETAIL-003: B03/P03
+    SCR-PUB-004: B04/P03
+  home_cross_release_integration:
+    source: 合伙云Pro_完整项目开发文档_V1.2.2_页面与运营规格冻结版.md#4.3
+    R08: PROJECT_ENTRY_CARD_AND_NAVIGATION_REQUIRED
+    R09: APP_ENTRY_CARD_AND_NAVIGATION_REQUIRED
+    R10: GROUP_ENTRY_CARD_AND_NAVIGATION_REQUIRED
+    R11: TEAM_LEADER_ENTRY_CARD_AND_NAVIGATION_REQUIRED
+    current_home_visual_status: IN_REVIEW_CR_0265
+  delivery_policy:
+    ordinary_task_validation: AFFECTED_FAST_OR_MODULE
+    full_gate_and_emulator: FINAL_CANDIDATE_ONLY_TASK_R10_007
+    owner_feedback_mode: ASYNC_NON_BLOCKING
 entry_gate:
 - releases/R10/DEFINITION_OF_READY.yaml 全部适用项为PASS
 - releases/R10/STORIES.yaml 中每个故事均绑定页面/API/配置/数据/测试或显式N/A
 - 本版本页面字段、状态、动作、导航和后台运营规格不存在TBD/RELEASE_BOUND
 - 全部依赖版本为GREEN或按发布计划允许的并行依赖已记录
 - 冻结契约发生变化时已创建CR并重新生成追踪和SHA
+- 三个R10页面分别精确绑定B02/P07、B03/P03、B04/P03，且群聊客户端关闭前同步完成首页群聊入口、真实内容卡与导航回接
 exit_gate:
 - 领域代码与前端真实闭环
 - 数据库迁移和不变量测试通过

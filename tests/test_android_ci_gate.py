@@ -494,7 +494,13 @@ class AndroidCiGateTest(unittest.TestCase):
         ).read_text(encoding="utf-8")
         self.assertIn("modifier = Modifier.weight(1f)", shell)
         self.assertIn("alwaysShowLabel = true", shell)
-        self.assertIn("home != null && home!!.modules.isNotEmpty()", shell)
+        self.assertIn('it.type == "BANNER"', shell)
+        self.assertIn('it.type == "NOTICE"', shell)
+        self.assertIn('HomeCategory("项目"', shell)
+        self.assertIn('HomeCategory("App"', shell)
+        self.assertIn('HomeCategory("群聊"', shell)
+        self.assertIn('HomeCategory("团队长"', shell)
+        self.assertIn("HomeEmptyState(", shell)
 
     def test_release_manifest_and_duplicate_screenshot_guard_are_durable(self) -> None:
         policy = load_policy()

@@ -1,14 +1,14 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-23T02:49:09Z
-- Context Hash：`332687b4e7443df7d022e1a696a45a8b6284b53e58116e1f7386abedf13b566a`
+- 生成时间：2026-07-23T04:43:24Z
+- Context Hash：`0787ae473b5ac5a5775c4f58dd94f6391708ef7f2bc9eea14ee3d11d6007ebc1`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 规则就绪：`PASS`（`HASHED_CONTEXT_MANIFEST`）
 - 精确恢复命令：
 
 ```bash
-python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R10-001
+python3 scripts/continuity.py checkpoint --summary '<完成内容>' --next-step '<下一步>' --parallel-assessment <ASSESSMENT> --parallel-reason '<未委托原因>'
 ```
 
 ## 规则就绪
@@ -42,7 +42,7 @@ baseline_version: 1.2.3
 phase: R10
 active_release: R10
 active_task: TASK-R10-001
-status: READY
+status: IN_PROGRESS
 documentation_status: ZERO_BLOCKING_DOCUMENT_GAPS
 last_green_commit: 7f2c335493a6f78aadf8c041b4cc0fffd474d713
 last_staging_apk: null
@@ -134,14 +134,15 @@ completed_tasks:
 - TASK-R09-006
 - TASK-R09-007
 - TASK-R09-008
-in_progress_tasks: []
+in_progress_tasks:
+- TASK-R10-001
 blocked_tasks:
 - TASK-R02-007
 - TASK-R03-007
 - TASK-R06-008
 - TASK-R07-008
 next_task: TASK-R10-001
-updated_at: '2026-07-23T02:49:06Z'
+updated_at: '2026-07-23T04:41:45Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -173,17 +174,19 @@ validation:
 continuity:
   protocol_version: '1.0'
   mode: ENFORCED
-  active_session_id: null
-  last_session_id: SES-20260723T024212Z-696F7963
-  last_session_result: COMPLETED
-  last_checkpoint: .continuity/checkpoints/SES-20260723T024212Z-696F7963/0002.yaml
-  last_handoff_bundle: null
+  active_session_id: SES-20260723T025104Z-E29F6208
+  actor_id: codex-root-r10-entry
+  story_id: STORY-R10-004
+  lease_expires_at: '2026-07-23T08:41:45Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260723T025104Z-E29F6208/0003.yaml
+  project_fingerprint: e8a74e0fc5f98549b1837ac2585d6fbd975c05380a1846d8ec4dfda28573597e
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: 46fdc3898da90ec120a3df6c47f440b66e4b8d33ceb606d797b995acf1bef69b
-    generated_at: '2026-07-23T02:49:04Z'
+    context_hash: ecd056f0b83a1a67b82e33d606a590d169d06ac66a889d5e3c8504e2e5f18ffc
+    generated_at: '2026-07-23T04:36:27Z'
+  handoff_bundle: null
 ```
 
 ## 默认并行规则
@@ -370,13 +373,531 @@ next_after: 由当前TASKS.yaml依赖关系决定
 ## 活跃会话
 
 ```yaml
-status: NONE
+protocol_version: '1.0'
+package_version: 1.2.3
+session_id: SES-20260723T025104Z-E29F6208
+status: ACTIVE
+actor:
+  id: codex-root-r10-entry
+  kind: AI_OR_HUMAN
+  host: unknown
+release: R10
+task_id: TASK-R10-001
+story_id: STORY-R10-004
+goal: 群聊推广完整闭环开发就绪核验、故事领取与变更基线
+started_at: '2026-07-23T02:51:04Z'
+updated_at: '2026-07-23T04:41:49Z'
+takeover_of: null
+change_requests:
+- CR-0264
+- CR-0265
+- CR-0266
+- CR-0267
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions:
+  - docs/03-continuity/R10_TASK-001_ENTRY_GATE.md
+  - releases/R10/PARALLEL_EXECUTION_PLAN.yaml
+  - releases/R10/RELEASE_MANIFEST.yaml
+  - catalogs/ui_page_specifications.csv
+  - CHANGELOG.md
+  - docs/00-baseline/正式商业系统全局硬性开发边界.md
+  - docs/02-ui/page-specs/android/SCR-HOME-001_首页.md
+  - design/R06-UI-FROZEN/specs/SCR-HOME-001.md
+  - catalogs/ui_visual_acceptance.csv
+  - catalogs/release_story_backlog.csv
+  - releases/R08/STORIES.yaml
+  - releases/R09/STORIES.yaml
+  - releases/R10/STORIES.yaml
+  - releases/R11/STORIES.yaml
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ExperienceApi.kt
+  - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ExperienceApiTest.kt
+  - apps/android/feature/shell/build.gradle.kts
+  - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+  - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+  - apps/android/app/src/androidTest/java/cc/orbexa/hhy/HistoricalVisualAuditTest.kt
+  - tests/test_home_contract_alignment.py
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/PITFALLS.md
+  - tests/test_android_ci_gate.py
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentStore.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentPostgresStore.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentService.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/ContentServiceTest.java
+  - scripts/prepare_home_cms_staging_fixture.sh
+  source: story+explicit+approved-cr:CR-0264+approved-cr:CR-0265+approved-cr:CR-0266+approved-cr:CR-0267
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  base_commit: 9e05beefef5754521c1730ddbf1179bae694c31b
+  start_head: 9e05beefef5754521c1730ddbf1179bae694c31b
+  upstream: origin/task/TASK-R03-001
+  initial_worktree_state: CLEAN
+lease:
+  duration_minutes: 240
+  renewed_at: '2026-07-23T04:41:45Z'
+  expires_at: '2026-07-23T08:41:45Z'
+checkpoint_sequence: 3
+latest_checkpoint: .continuity/checkpoints/SES-20260723T025104Z-E29F6208/0003.yaml
+session_log: docs/03-continuity/sessions/2026-07/SES-20260723T025104Z-E29F6208.md
+next_step: 运行最终严格连续性门禁，提交推送TASK-R10-001实现并关闭会话，然后启动TASK-R10-002
+context_pack: THIS_CONTEXT_PACK
+handoff_bundle: null
+closure: null
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 修复涉及同一首页查询合同与已完成客户端/连续性台账，需单会话原子收口
 ```
 
 ## 最新检查点
 
 ```yaml
-status: NO_CHECKPOINT
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260723T025104Z-E29F6208-0003
+session_id: SES-20260723T025104Z-E29F6208
+sequence: 3
+created_at: '2026-07-23T04:41:44Z'
+summary: 修正真实首页动态查询对不存在attributes_json列的引用；以共享Staging原表执行等价SQL返回2条ONLINE项目；Maven ContentServiceTest 13项全部通过，首页26项契约回归保持通过
+next_step: 运行最终严格连续性门禁，提交推送TASK-R10-001实现并关闭会话，然后启动TASK-R10-002
+blockers: []
+decisions: []
+note: ''
+tests:
+- name: backend_content_service
+  result: PASS
+  evidence: 13 tests zero failures
+  note: ''
+- name: live_home_query_sql
+  result: PASS
+  evidence: shared staging returned two online projects
+  note: ''
+- name: home_contract_and_android_ci
+  result: PASS
+  evidence: 26 tests
+  note: ''
+- name: android_compile_lint
+  result: PASS
+  evidence: fixed container BUILD SUCCESSFUL in 4m51s
+  note: ''
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: 9e05beefef5754521c1730ddbf1179bae694c31b
+  upstream: origin/task/TASK-R03-001
+  ahead: 0
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/ACTIVE_SESSION.yaml'
+  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/SESSION_INDEX.yaml'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/TASK_CLAIMS.yaml'
+  - ' M .continuity/TASK_TRANSITIONS.yaml'
+  - ' M CHANGELOG.md'
+  - ' M CURRENT_STATUS.yaml'
+  - ' M apps/android/app/src/androidTest/java/cc/orbexa/hhy/HistoricalVisualAuditTest.kt'
+  - ' M apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt'
+  - ' M apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ExperienceApi.kt'
+  - ' M apps/android/feature/shell/build.gradle.kts'
+  - ' M apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+  - ' M artifacts/validation/continuity-gate-v1.2.3.json'
+  - ' M artifacts/validation/project-doctor-v1.2.2.json'
+  - ' M artifacts/validation/project-doctor-v1.2.3.json'
+  - ' M catalogs/change_request_index.csv'
+  - ' M catalogs/release_story_backlog.csv'
+  - ' M catalogs/session_index.csv'
+  - ' M catalogs/task_transition_ledger.csv'
+  - ' M catalogs/ui_page_specifications.csv'
+  - ' M catalogs/ui_visual_acceptance.csv'
+  - ' M design/R06-UI-FROZEN/specs/SCR-HOME-001.md'
+  - ' M docs/00-baseline/正式商业系统全局硬性开发边界.md'
+  - ' M docs/02-ui/page-specs/android/SCR-HOME-001_首页.md'
+  - ' M docs/03-continuity/PITFALLS.md'
+  - ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
+  - ' M releases/R08/STORIES.yaml'
+  - ' M releases/R09/STORIES.yaml'
+  - ' M releases/R10/RELEASE_MANIFEST.yaml'
+  - ' M releases/R10/STORIES.yaml'
+  - ' M releases/R11/STORIES.yaml'
+  - ' M services/backend/boot/src/test/java/cc/orbexa/hhy/content/ContentServiceTest.java'
+  - ' M services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentPostgresStore.java'
+  - ' M services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentService.java'
+  - ' M services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentStore.java'
+  - ' M tests/test_android_ci_gate.py'
+  - ?? .continuity/change_requests/CR-0264.yaml
+  - ?? .continuity/change_requests/CR-0265.yaml
+  - ?? .continuity/change_requests/CR-0266.yaml
+  - ?? .continuity/change_requests/CR-0267.yaml
+  - ?? .continuity/checkpoints/SES-20260723T025104Z-E29F6208/0001.yaml
+  - ?? .continuity/checkpoints/SES-20260723T025104Z-E29F6208/0002.yaml
+  - ?? .continuity/sessions/SES-20260723T025104Z-E29F6208.yaml
+  - ?? apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ExperienceApiTest.kt
+  - ?? docs/03-continuity/R10_TASK-001_ENTRY_GATE.md
+  - ?? docs/03-continuity/change-requests/CR-0264-建立R10开发入口与群聊发布页精确视觉基线.md
+  - ?? docs/03-continuity/change-requests/CR-0265-修正首页及R10页面与V1.2工程执行强化版功能一一对应.md
+  - ?? docs/03-continuity/change-requests/CR-0266-同步首页模块重构后的Android工具链回归断言.md
+  - ?? docs/03-continuity/change-requests/CR-0267-补齐首页真实CMS数据源、去重与查看更多闭环.md
+  - ?? docs/03-continuity/sessions/2026-07/SES-20260723T025104Z-E29F6208.md
+  - ?? releases/R10/PARALLEL_EXECUTION_PLAN.yaml
+  - ?? scripts/prepare_home_cms_staging_fixture.sh
+  - ?? tests/test_home_contract_alignment.py
+  recent_commits:
+  - "9e05beefef5754521c1730ddbf1179bae694c31b\t2026-07-23T10:49:29+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] chore(continuity): close TASK-R09-008\
+    \ as completed"
+  - "7f2c335493a6f78aadf8c041b4cc0fffd474d713\t2026-07-23T10:47:23+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] chore(r09): complete machine\
+    \ closure"
+  - "2e667408a5987b53ce55521f827ac70ce9e80cac\t2026-07-23T10:40:22+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] chore(continuity): close TASK-R09-007\
+    \ as completed"
+  - "6c214e59d028679ea2e51b83e619f1c87c2be4d0\t2026-07-23T10:37:02+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] chore(r09): deliver final\
+    \ candidate apk"
+  - "443d127996f0dc4d91586ead69fec39edece66a8\t2026-07-23T08:49:39+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] test(r09): approve app visual\
+    \ baseline"
+  - "97dc163e1cbed8d19a054326806453c5fa0aee9b\t2026-07-23T08:30:26+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] fix(r09): require loaded media\
+    \ evidence"
+  - "c4cbe28920b424fa948c0023598789941ef2abb7\t2026-07-23T08:10:58+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] fix(r09): refine app list\
+    \ candidate layout"
+  - "8461d818981d4482689189300b408fcff65f2b5f\t2026-07-23T07:35:57+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] fix(r09): render uploaded\
+    \ app media"
+project_fingerprint:
+  sha256: e8a74e0fc5f98549b1837ac2585d6fbd975c05380a1846d8ec4dfda28573597e
+  files:
+  - CHANGELOG.md
+  - apps/android/app/src/androidTest/java/cc/orbexa/hhy/HistoricalVisualAuditTest.kt
+  - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ExperienceApi.kt
+  - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ExperienceApiTest.kt
+  - apps/android/feature/shell/build.gradle.kts
+  - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+  - catalogs/release_story_backlog.csv
+  - catalogs/ui_page_specifications.csv
+  - catalogs/ui_visual_acceptance.csv
+  - design/R06-UI-FROZEN/specs/SCR-HOME-001.md
+  - docs/00-baseline/正式商业系统全局硬性开发边界.md
+  - docs/02-ui/page-specs/android/SCR-HOME-001_首页.md
+  - docs/03-continuity/PITFALLS.md
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/R10_TASK-001_ENTRY_GATE.md
+  - docs/03-continuity/change-requests/CR-0264-建立R10开发入口与群聊发布页精确视觉基线.md
+  - docs/03-continuity/change-requests/CR-0265-修正首页及R10页面与V1.2工程执行强化版功能一一对应.md
+  - docs/03-continuity/change-requests/CR-0266-同步首页模块重构后的Android工具链回归断言.md
+  - docs/03-continuity/change-requests/CR-0267-补齐首页真实CMS数据源、去重与查看更多闭环.md
+  - releases/R08/STORIES.yaml
+  - releases/R09/STORIES.yaml
+  - releases/R10/PARALLEL_EXECUTION_PLAN.yaml
+  - releases/R10/RELEASE_MANIFEST.yaml
+  - releases/R10/STORIES.yaml
+  - releases/R11/STORIES.yaml
+  - scripts/prepare_home_cms_staging_fixture.sh
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/ContentServiceTest.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentPostgresStore.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentService.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentStore.java
+  - tests/test_android_ci_gate.py
+  - tests/test_home_contract_alignment.py
+  file_count: 33
+  payload:
+    base_commit: 9e05beefef5754521c1730ddbf1179bae694c31b
+    files:
+    - path: CHANGELOG.md
+      state: FILE
+      size: 105883
+      sha256: db57c0d17d91d719269da405f4160d96e217cb33150ad1a72958d8b8a077f17a
+    - path: apps/android/app/src/androidTest/java/cc/orbexa/hhy/HistoricalVisualAuditTest.kt
+      state: FILE
+      size: 29946
+      sha256: d0780ee39492d3862dfe809f3cfea8c1f2e968a381830c12d87a7a2d926d23ff
+    - path: apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+      state: FILE
+      size: 23762
+      sha256: 50d14d1f6807dbc5c3f5a146d293bf0bd74f2f28dbd853d45f6704349a588c9c
+    - path: apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ExperienceApi.kt
+      state: FILE
+      size: 8798
+      sha256: 0a8bd12036fb7d133bc6c6e024e465cbe34763af63252475300057967a2f19be
+    - path: apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ExperienceApiTest.kt
+      state: FILE
+      size: 4988
+      sha256: 16dac8b5ba500b68248ab4dae109acec8fadd130143870bf8c877a0f61f503db
+    - path: apps/android/feature/shell/build.gradle.kts
+      state: FILE
+      size: 1014
+      sha256: c45025f023420f7e6f016d00d1fcfa4c8b7becc4eff295fd863cc590083d1296
+    - path: apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+      state: FILE
+      size: 28932
+      sha256: 0408d73f13edf5d6584568423c6f3274898963662e458bf6e46a637e1032efea
+    - path: catalogs/release_story_backlog.csv
+      state: FILE
+      size: 349322
+      sha256: 2df699c54fe88150fbe66974323f0537717d9f69082593dedd4905a155622685
+    - path: catalogs/ui_page_specifications.csv
+      state: FILE
+      size: 293467
+      sha256: 08bfac9c9715498726b85982ef7c08c4b60390552b832a43bfe85a0742aa9062
+    - path: catalogs/ui_visual_acceptance.csv
+      state: FILE
+      size: 42027
+      sha256: b5e2cc139d6f8cd923d7b45c7bea536a24813604d8a369a0c1eac75c7c04ef2e
+    - path: design/R06-UI-FROZEN/specs/SCR-HOME-001.md
+      state: FILE
+      size: 4615
+      sha256: c6a38b083625df6937453c40eee9d857be3c64282221b0a4856bba2252ac3800
+    - path: docs/00-baseline/正式商业系统全局硬性开发边界.md
+      state: FILE
+      size: 12596
+      sha256: 9753b32db136e59e95a0974a62362456d9d577fd1bb40058ec985c4b64413eea
+    - path: docs/02-ui/page-specs/android/SCR-HOME-001_首页.md
+      state: FILE
+      size: 10186
+      sha256: 2fff770e987e15d46f09499ae2212b86d0bafaffbcf94c7057f439cefbad0dc9
+    - path: docs/03-continuity/PITFALLS.md
+      state: FILE
+      size: 6484
+      sha256: b2634c815cd208083697aa7a33a00599de36c63394b2f02f5454f3ed9c575d92
+    - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
+      state: FILE
+      size: 136183
+      sha256: 44de3595119a66f3170c825f1b80a65d88acfdf7878838c758f007cf48309c38
+    - path: docs/03-continuity/R10_TASK-001_ENTRY_GATE.md
+      state: FILE
+      size: 3539
+      sha256: 56e70dc3d73e406711999a07163c983acc82318decf6fb2888dd429091ac6484
+    - path: docs/03-continuity/change-requests/CR-0264-建立R10开发入口与群聊发布页精确视觉基线.md
+      state: FILE
+      size: 4023
+      sha256: 583b55e3656d34d4faf3a1c0dd257542f03ebe60c37c8cdeaf9214c47a5df714
+    - path: docs/03-continuity/change-requests/CR-0265-修正首页及R10页面与V1.2工程执行强化版功能一一对应.md
+      state: FILE
+      size: 6396
+      sha256: e1694b873d8bbdd26314f44c5ecbc55e0a425f1cf5544f9cb5b654726f078af5
+    - path: docs/03-continuity/change-requests/CR-0266-同步首页模块重构后的Android工具链回归断言.md
+      state: FILE
+      size: 2596
+      sha256: cc57be56f2396c468292e67c1048e89469c7eb69622408e004fb8cdefd74d685
+    - path: docs/03-continuity/change-requests/CR-0267-补齐首页真实CMS数据源、去重与查看更多闭环.md
+      state: FILE
+      size: 4575
+      sha256: 521106c25261b42dc32a7b5506b2faa91a61b01ad7b0e0d7d5ec50ea11d895a8
+    - path: releases/R08/STORIES.yaml
+      state: FILE
+      size: 10500
+      sha256: fea6d0806de7f42d268eb913f54eb82942a276ae700497f3a1d74bc1915c7395
+    - path: releases/R09/STORIES.yaml
+      state: FILE
+      size: 10495
+      sha256: 1b8ba83ab7895e68cfe214cc04fc3fa9564564e0875574ff4267fd3c3799c567
+    - path: releases/R10/PARALLEL_EXECUTION_PLAN.yaml
+      state: FILE
+      size: 2382
+      sha256: ad9d4615ce1683a80e27986d1f3f078ab5012ffd5c001a618a8b9df278e1e3f7
+    - path: releases/R10/RELEASE_MANIFEST.yaml
+      state: FILE
+      size: 3457
+      sha256: b4d775599540871194f21bef652a86d2d8ee94438ffc9606f1bfa9d03c52fbfd
+    - path: releases/R10/STORIES.yaml
+      state: FILE
+      size: 10473
+      sha256: 09e313f1a52de868750926576f387e531a0fb3a1d79a44786f497215e6332843
+    - path: releases/R11/STORIES.yaml
+      state: FILE
+      size: 10480
+      sha256: 1f3b20abb93d796f37a0441d45b449328716c4f450476ed3bde991caa08c0771
+    - path: scripts/prepare_home_cms_staging_fixture.sh
+      state: FILE
+      size: 6070
+      sha256: 52e1e708648b76d15993a30ec35a10d765c6fff1119134efd365df4a7eb6ce7a
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/content/ContentServiceTest.java
+      state: FILE
+      size: 11167
+      sha256: ba9392322aba4b758aa1cc897b5f891b8eaf354708f477bc9b542c24e4090d3a
+    - path: services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentPostgresStore.java
+      state: FILE
+      size: 17209
+      sha256: 181abc0bd5ddcd12fddac15b959e20e23a13d57eb786766e7f08ad973656cd10
+    - path: services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentService.java
+      state: FILE
+      size: 26136
+      sha256: e9fea8dd309896b831cde26cab021aa81a505f41d7e11775c21b5034507b4328
+    - path: services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentStore.java
+      state: FILE
+      size: 2680
+      sha256: 2bbfa0c9ce2348d878f5d6f35e15f0207abf0f62a4557cc7bc796e537d07becb
+    - path: tests/test_android_ci_gate.py
+      state: FILE
+      size: 29913
+      sha256: 106526dd0f248372c41075848390ed457e6563144e0f2ac691147ae352d0347d
+    - path: tests/test_home_contract_alignment.py
+      state: FILE
+      size: 5976
+      sha256: 67551267cb6c64ea86e0f0b99c5e73073a8a0178b1480a9509956473c1c3763e
+change_classification:
+  other:
+  - CHANGELOG.md
+  - catalogs/release_story_backlog.csv
+  - catalogs/ui_visual_acceptance.csv
+  - design/R06-UI-FROZEN/specs/SCR-HOME-001.md
+  - releases/R10/PARALLEL_EXECUTION_PLAN.yaml
+  code:
+  - apps/android/app/src/androidTest/java/cc/orbexa/hhy/HistoricalVisualAuditTest.kt
+  - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ExperienceApi.kt
+  - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ExperienceApiTest.kt
+  - apps/android/feature/shell/build.gradle.kts
+  - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+  - scripts/prepare_home_cms_staging_fixture.sh
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/ContentServiceTest.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentPostgresStore.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentService.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentStore.java
+  user_visible:
+  - apps/android/app/src/androidTest/java/cc/orbexa/hhy/HistoricalVisualAuditTest.kt
+  - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ExperienceApi.kt
+  - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ExperienceApiTest.kt
+  - apps/android/feature/shell/build.gradle.kts
+  - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+  - docs/02-ui/page-specs/android/SCR-HOME-001_首页.md
+  source_of_truth:
+  - catalogs/ui_page_specifications.csv
+  - docs/00-baseline/正式商业系统全局硬性开发边界.md
+  - docs/02-ui/page-specs/android/SCR-HOME-001_首页.md
+  - releases/R08/STORIES.yaml
+  - releases/R09/STORIES.yaml
+  - releases/R10/RELEASE_MANIFEST.yaml
+  - releases/R10/STORIES.yaml
+  - releases/R11/STORIES.yaml
+  continuity:
+  - docs/03-continuity/PITFALLS.md
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/R10_TASK-001_ENTRY_GATE.md
+  - docs/03-continuity/change-requests/CR-0264-建立R10开发入口与群聊发布页精确视觉基线.md
+  - docs/03-continuity/change-requests/CR-0265-修正首页及R10页面与V1.2工程执行强化版功能一一对应.md
+  - docs/03-continuity/change-requests/CR-0266-同步首页模块重构后的Android工具链回归断言.md
+  - docs/03-continuity/change-requests/CR-0267-补齐首页真实CMS数据源、去重与查看更多闭环.md
+  tests:
+  - tests/test_android_ci_gate.py
+  - tests/test_home_contract_alignment.py
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+- APPROVED_CHANGE_REQUEST
+- CHANGELOG
+change_requests:
+- CR-0264
+- CR-0265
+- CR-0266
+- CR-0267
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions:
+  - docs/03-continuity/R10_TASK-001_ENTRY_GATE.md
+  - releases/R10/PARALLEL_EXECUTION_PLAN.yaml
+  - releases/R10/RELEASE_MANIFEST.yaml
+  - catalogs/ui_page_specifications.csv
+  - CHANGELOG.md
+  - docs/00-baseline/正式商业系统全局硬性开发边界.md
+  - docs/02-ui/page-specs/android/SCR-HOME-001_首页.md
+  - design/R06-UI-FROZEN/specs/SCR-HOME-001.md
+  - catalogs/ui_visual_acceptance.csv
+  - catalogs/release_story_backlog.csv
+  - releases/R08/STORIES.yaml
+  - releases/R09/STORIES.yaml
+  - releases/R10/STORIES.yaml
+  - releases/R11/STORIES.yaml
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ExperienceApi.kt
+  - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ExperienceApiTest.kt
+  - apps/android/feature/shell/build.gradle.kts
+  - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+  - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+  - apps/android/app/src/androidTest/java/cc/orbexa/hhy/HistoricalVisualAuditTest.kt
+  - tests/test_home_contract_alignment.py
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/PITFALLS.md
+  - tests/test_android_ci_gate.py
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentStore.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentPostgresStore.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentService.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/ContentServiceTest.java
+  - scripts/prepare_home_cms_staging_fixture.sh
+  source: story+explicit+approved-cr:CR-0264+approved-cr:CR-0265+approved-cr:CR-0266+approved-cr:CR-0267
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 修复涉及同一首页查询合同与已完成客户端/连续性台账，需单会话原子收口
+event_hash: 81c3e5220fe8dcdcc197c7ce42d115aa89291ef52327b3db5b78c5cb5049c8fa
 ```
 
 ## 接续状态与事件头
@@ -384,31 +905,19 @@ status: NO_CHECKPOINT
 ```yaml
 mode: ENFORCED
 protocol_version: '1.0'
-active_session_id: null
+active_session_id: SES-20260723T025104Z-E29F6208
 last_session_id: SES-20260723T024212Z-696F7963
 last_session_result: COMPLETED
 last_closure_checkpoint_id: CP-SES-20260723T024212Z-696F7963-0002
-event_count: 2598
-event_head_hash: 084da2693f0556b237c1266703c4e127ef517ed29d7c7cca088f676eb36d8b8a
+event_count: 2626
+event_head_hash: 81c3e5220fe8dcdcc197c7ce42d115aa89291ef52327b3db5b78c5cb5049c8fa
 event_chain_valid: true
 ```
 
 ## 最近会话与任务迁移
 
 ```yaml
-recent_sessions: - session_id: SES-20260722T064621Z-68304DE1
-  task_id: TASK-R08-007
-  story_id: STORY-R08-004
-  actor_id: codex-root-r08-007
-  status: CLOSED
-  started_at: '2026-07-22T06:46:21Z'
-  record: .continuity/sessions/SES-20260722T064621Z-68304DE1.yaml
-  session_log: docs/03-continuity/sessions/2026-07/SES-20260722T064621Z-68304DE1.md
-  updated_at: '2026-07-22T09:34:57Z'
-  closed_at: '2026-07-22T09:34:57Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260722T064621Z-68304DE1/0013.yaml
-  handoff_bundle: null
-- session_id: SES-20260722T093645Z-C7DB8EF0
+recent_sessions: - session_id: SES-20260722T093645Z-C7DB8EF0
   task_id: TASK-R08-008
   story_id: STORY-R08-004
   actor_id: codex-root-r08-008
@@ -516,47 +1025,19 @@ recent_sessions: - session_id: SES-20260722T064621Z-68304DE1
   closed_at: '2026-07-23T02:49:06Z'
   latest_checkpoint: .continuity/checkpoints/SES-20260723T024212Z-696F7963/0002.yaml
   handoff_bundle: null
-task_claims: - claim_id: CLM-8DF369877C3C
-  session_id: SES-20260721T193434Z-0C5F0BFA
-  task_id: TASK-R07-005
-  story_id: STORY-R07-005
-  actor_id: codex-root-r07-005
-  status: CLOSED
-  claimed_at: '2026-07-21T19:34:34Z'
-  allowed_paths:
-  - apps/**
-  - services/**
-  - packages/**
-  - contracts/**
-  - database/**
-  - config/**
-  - catalogs/**
-  - tests/**
-  - infra/**
-  - design/**
-  - docs/**
-  - releases/**
-  - scripts/**
-  - templates/**
-  - .github/**
-  - .githooks/**
-  - .codex/**
-  - AGENTS.md
-  - START_HERE.md
-  - README.md
-  - CHANGELOG.md
-  - Makefile
-  - .gitignore
-  - .gitattributes
-  - .dockerignore
-  - package.json
-  - pnpm-lock.yaml
-  - pnpm-workspace.yaml
-  - requirements-dev.txt
-  - PROJECT_*.yaml
-  - PROJECT_*.json
-  closed_at: '2026-07-21T20:16:20Z'
-- claim_id: CLM-B9C7BD1D91EE
+- session_id: SES-20260723T025104Z-E29F6208
+  task_id: TASK-R10-001
+  story_id: STORY-R10-004
+  actor_id: codex-root-r10-entry
+  status: ACTIVE
+  started_at: '2026-07-23T02:51:04Z'
+  record: .continuity/sessions/SES-20260723T025104Z-E29F6208.yaml
+  session_log: docs/03-continuity/sessions/2026-07/SES-20260723T025104Z-E29F6208.md
+  updated_at: '2026-07-23T04:41:45Z'
+  closed_at: null
+  latest_checkpoint: .continuity/checkpoints/SES-20260723T025104Z-E29F6208/0003.yaml
+  handoff_bundle: null
+task_claims: - claim_id: CLM-B9C7BD1D91EE
   session_id: SES-20260721T201747Z-CD80A1EE
   task_id: TASK-R07-006
   story_id: STORY-R07-005
@@ -1340,17 +1821,46 @@ task_claims: - claim_id: CLM-8DF369877C3C
   - PROJECT_*.yaml
   - PROJECT_*.json
   closed_at: '2026-07-23T02:49:06Z'
-recent_task_transitions: - transition_id: TRN-2EDC091C2223
-  timestamp: '2026-07-21T19:34:35Z'
-  release: R07
-  task_id: TASK-R07-005
-  story_id: STORY-R07-005
-  from_status: READY
-  to_status: IN_PROGRESS
-  session_id: SES-20260721T193434Z-0C5F0BFA
-  actor_id: codex-root-r07-005
-  reason: 会话领取任务
-- transition_id: TRN-967A3A5B5BA9
+- claim_id: CLM-958DD305287B
+  session_id: SES-20260723T025104Z-E29F6208
+  task_id: TASK-R10-001
+  story_id: STORY-R10-004
+  actor_id: codex-root-r10-entry
+  status: ACTIVE
+  claimed_at: '2026-07-23T02:51:04Z'
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+recent_task_transitions: - transition_id: TRN-967A3A5B5BA9
   timestamp: '2026-07-21T20:17:48Z'
   release: R07
   task_id: TASK-R07-006
@@ -1540,6 +2050,16 @@ recent_task_transitions: - transition_id: TRN-2EDC091C2223
   session_id: SES-20260723T024212Z-696F7963
   actor_id: codex-root-r09-machine-close
   reason: 会话领取任务
+- transition_id: TRN-15AFFA52E4DA
+  timestamp: '2026-07-23T02:51:06Z'
+  release: R10
+  task_id: TASK-R10-001
+  story_id: STORY-R10-004
+  from_status: READY
+  to_status: IN_PROGRESS
+  session_id: SES-20260723T025104Z-E29F6208
+  actor_id: codex-root-r10-entry
+  reason: 会话领取任务
 ```
 
 ## Git 状态
@@ -1547,29 +2067,74 @@ recent_task_transitions: - transition_id: TRN-2EDC091C2223
 ```yaml
 initialized: true
 branch: task/TASK-R03-001
-head: 7f2c335493a6f78aadf8c041b4cc0fffd474d713
+head: 9e05beefef5754521c1730ddbf1179bae694c31b
 upstream: origin/task/TASK-R03-001
 ahead: 0
 behind: 0
 dirty: true
 status_porcelain:
 - ' M .continuity/ACTIVE_SESSION.yaml'
+- ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
 - ' M .continuity/EVENT_LOG.jsonl'
 - ' M .continuity/SESSION_INDEX.yaml'
 - ' M .continuity/STATE.yaml'
 - ' M .continuity/TASK_CLAIMS.yaml'
-- ' M .continuity/sessions/SES-20260723T024212Z-696F7963.yaml'
+- ' M .continuity/TASK_TRANSITIONS.yaml'
 - ' M CHANGELOG.md'
 - ' M CURRENT_STATUS.yaml'
-- ' M NEXT_TASK.yaml'
+- ' M apps/android/app/src/androidTest/java/cc/orbexa/hhy/HistoricalVisualAuditTest.kt'
+- ' M apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt'
+- ' M apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ExperienceApi.kt'
+- ' M apps/android/feature/shell/build.gradle.kts'
+- ' M apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt'
 - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
 - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
 - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+- ' M artifacts/validation/continuity-gate-v1.2.3.json'
+- ' M artifacts/validation/project-doctor-v1.2.2.json'
+- ' M artifacts/validation/project-doctor-v1.2.3.json'
+- ' M catalogs/change_request_index.csv'
+- ' M catalogs/release_story_backlog.csv'
 - ' M catalogs/session_index.csv'
-- ' M docs/03-continuity/sessions/2026-07/SES-20260723T024212Z-696F7963.md'
-- ' M releases/R09/TASKS.yaml'
-- ?? .continuity/checkpoints/SES-20260723T024212Z-696F7963/0002.yaml
+- ' M catalogs/task_transition_ledger.csv'
+- ' M catalogs/ui_page_specifications.csv'
+- ' M catalogs/ui_visual_acceptance.csv'
+- ' M design/R06-UI-FROZEN/specs/SCR-HOME-001.md'
+- ' M docs/00-baseline/正式商业系统全局硬性开发边界.md'
+- ' M docs/02-ui/page-specs/android/SCR-HOME-001_首页.md'
+- ' M docs/03-continuity/PITFALLS.md'
+- ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
+- ' M releases/R08/STORIES.yaml'
+- ' M releases/R09/STORIES.yaml'
+- ' M releases/R10/RELEASE_MANIFEST.yaml'
+- ' M releases/R10/STORIES.yaml'
+- ' M releases/R11/STORIES.yaml'
+- ' M services/backend/boot/src/test/java/cc/orbexa/hhy/content/ContentServiceTest.java'
+- ' M services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentPostgresStore.java'
+- ' M services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentService.java'
+- ' M services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentStore.java'
+- ' M tests/test_android_ci_gate.py'
+- ?? .continuity/change_requests/CR-0264.yaml
+- ?? .continuity/change_requests/CR-0265.yaml
+- ?? .continuity/change_requests/CR-0266.yaml
+- ?? .continuity/change_requests/CR-0267.yaml
+- ?? .continuity/checkpoints/SES-20260723T025104Z-E29F6208/0001.yaml
+- ?? .continuity/checkpoints/SES-20260723T025104Z-E29F6208/0002.yaml
+- ?? .continuity/checkpoints/SES-20260723T025104Z-E29F6208/0003.yaml
+- ?? .continuity/sessions/SES-20260723T025104Z-E29F6208.yaml
+- ?? apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ExperienceApiTest.kt
+- ?? docs/03-continuity/R10_TASK-001_ENTRY_GATE.md
+- ?? docs/03-continuity/change-requests/CR-0264-建立R10开发入口与群聊发布页精确视觉基线.md
+- ?? docs/03-continuity/change-requests/CR-0265-修正首页及R10页面与V1.2工程执行强化版功能一一对应.md
+- ?? docs/03-continuity/change-requests/CR-0266-同步首页模块重构后的Android工具链回归断言.md
+- ?? docs/03-continuity/change-requests/CR-0267-补齐首页真实CMS数据源、去重与查看更多闭环.md
+- ?? docs/03-continuity/sessions/2026-07/SES-20260723T025104Z-E29F6208.md
+- ?? releases/R10/PARALLEL_EXECUTION_PLAN.yaml
+- ?? scripts/prepare_home_cms_staging_fixture.sh
+- ?? tests/test_home_contract_alignment.py
 recent_commits:
+- "9e05beefef5754521c1730ddbf1179bae694c31b\t2026-07-23T10:49:29+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] chore(continuity): close TASK-R09-008\
+  \ as completed"
 - "7f2c335493a6f78aadf8c041b4cc0fffd474d713\t2026-07-23T10:47:23+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] chore(r09): complete machine\
   \ closure"
 - "2e667408a5987b53ce55521f827ac70ce9e80cac\t2026-07-23T10:40:22+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] chore(continuity): close TASK-R09-007\
@@ -1584,16 +2149,46 @@ recent_commits:
   \ layout"
 - "8461d818981d4482689189300b408fcff65f2b5f\t2026-07-23T07:35:57+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] fix(r09): render uploaded app\
   \ media"
-- "040fa8354b7e6fc01e2373a96d2c78d5b30f219f\t2026-07-23T05:38:41+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] docs(r09): add release execution\
-  \ plan"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`9285b24b6f3755f5a5ffacf72a0a5490b3cfb5d96b5dd0ebb1771c9361f6f002`
-- 文件数：0
+- 指纹：`e8a74e0fc5f98549b1837ac2585d6fbd975c05380a1846d8ec4dfda28573597e`
+- 文件数：33
 
-- 无
+- `CHANGELOG.md`
+- `apps/android/app/src/androidTest/java/cc/orbexa/hhy/HistoricalVisualAuditTest.kt`
+- `apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt`
+- `apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ExperienceApi.kt`
+- `apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ExperienceApiTest.kt`
+- `apps/android/feature/shell/build.gradle.kts`
+- `apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt`
+- `catalogs/release_story_backlog.csv`
+- `catalogs/ui_page_specifications.csv`
+- `catalogs/ui_visual_acceptance.csv`
+- `design/R06-UI-FROZEN/specs/SCR-HOME-001.md`
+- `docs/00-baseline/正式商业系统全局硬性开发边界.md`
+- `docs/02-ui/page-specs/android/SCR-HOME-001_首页.md`
+- `docs/03-continuity/PITFALLS.md`
+- `docs/03-continuity/PROBLEM_REGISTRY.yaml`
+- `docs/03-continuity/R10_TASK-001_ENTRY_GATE.md`
+- `docs/03-continuity/change-requests/CR-0264-建立R10开发入口与群聊发布页精确视觉基线.md`
+- `docs/03-continuity/change-requests/CR-0265-修正首页及R10页面与V1.2工程执行强化版功能一一对应.md`
+- `docs/03-continuity/change-requests/CR-0266-同步首页模块重构后的Android工具链回归断言.md`
+- `docs/03-continuity/change-requests/CR-0267-补齐首页真实CMS数据源、去重与查看更多闭环.md`
+- `releases/R08/STORIES.yaml`
+- `releases/R09/STORIES.yaml`
+- `releases/R10/PARALLEL_EXECUTION_PLAN.yaml`
+- `releases/R10/RELEASE_MANIFEST.yaml`
+- `releases/R10/STORIES.yaml`
+- `releases/R11/STORIES.yaml`
+- `scripts/prepare_home_cms_staging_fixture.sh`
+- `services/backend/boot/src/test/java/cc/orbexa/hhy/content/ContentServiceTest.java`
+- `services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentPostgresStore.java`
+- `services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentService.java`
+- `services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentStore.java`
+- `tests/test_android_ci_gate.py`
+- `tests/test_home_contract_alignment.py`
 
 ## 当前 Release
 
@@ -1649,12 +2244,39 @@ RELEASE_MANIFEST.yaml:
   - TST-GROUP_001-IDEMPOTENT
   - TST-GROUP_001-REJECT
   - TST-V122-005
+  entry_baseline:
+    checked_at: '2026-07-23'
+    session_id: SES-20260723T025104Z-E29F6208
+    story_id: STORY-R10-004
+    change_request: CR-0265
+    superseded_change_request: CR-0264
+    documentation_status: PASS_DOCUMENTATION_READY
+    cloud_environment_status: PASS
+    git_transport_status: PASS
+    workflow_profile: MODULE
+    implementation_start: ALLOWED
+    exact_visual_bindings:
+      SCR-LIST-003: B02/P07
+      SCR-DETAIL-003: B03/P03
+      SCR-PUB-004: B04/P03
+    home_cross_release_integration:
+      source: 合伙云Pro_完整项目开发文档_V1.2.2_页面与运营规格冻结版.md#4.3
+      R08: PROJECT_ENTRY_CARD_AND_NAVIGATION_REQUIRED
+      R09: APP_ENTRY_CARD_AND_NAVIGATION_REQUIRED
+      R10: GROUP_ENTRY_CARD_AND_NAVIGATION_REQUIRED
+      R11: TEAM_LEADER_ENTRY_CARD_AND_NAVIGATION_REQUIRED
+      current_home_visual_status: IN_REVIEW_CR_0265
+    delivery_policy:
+      ordinary_task_validation: AFFECTED_FAST_OR_MODULE
+      full_gate_and_emulator: FINAL_CANDIDATE_ONLY_TASK_R10_007
+      owner_feedback_mode: ASYNC_NON_BLOCKING
   entry_gate:
   - releases/R10/DEFINITION_OF_READY.yaml 全部适用项为PASS
   - releases/R10/STORIES.yaml 中每个故事均绑定页面/API/配置/数据/测试或显式N/A
   - 本版本页面字段、状态、动作、导航和后台运营规格不存在TBD/RELEASE_BOUND
   - 全部依赖版本为GREEN或按发布计划允许的并行依赖已记录
   - 冻结契约发生变化时已创建CR并重新生成追踪和SHA
+  - 三个R10页面分别精确绑定B02/P07、B03/P03、B04/P03，且群聊客户端关闭前同步完成首页群聊入口、真实内容卡与导航回接
   exit_gate:
   - 领域代码与前端真实闭环
   - 数据库迁移和不变量测试通过
@@ -1977,6 +2599,7 @@ STORIES.yaml:
     - 首屏、空、刷新、翻页/局部失败、无权限、404、离线和版本冲突状态按页面状态目录实现
     - 敏感字段按分级脱敏；高敏读取和后台写操作完整审计
     - 自动化覆盖：TST-CONTENT_001-HAPPY;TST-GROUP_001-HAPPY
+    - 群聊列表闭环必须同时把首页“群聊”一级入口、真实群聊内容卡和群聊列表/详情导航接回SCR-HOME-001，并按V1.2工程执行强化版4.3与B02/P01、P02、P07回归
     definition_of_ready: 全部引用的页面/字段/状态/动作/API/配置/数据/测试均为FROZEN且无空缺
     status: READY_FOR_IMPLEMENTATION
   - story_id: STORY-R10-003
@@ -2277,6 +2900,83 @@ TASKS.yaml:
   definition_of_ready: releases/R10/DEFINITION_OF_READY.yaml
   story_backlog: releases/R10/STORIES.yaml
   execution_rule: TASKS定义治理顺序，STORIES定义可领取纵向工作；二者必须同时满足，不得以通用任务替代页面故事验收。
+PARALLEL_EXECUTION_PLAN.yaml:
+  version: '1.0'
+  release: R10
+  change_request: CR-0265
+  mode: SINGLE_COORDINATOR_SERIAL_WITH_FROZEN_PARTITIONS
+  authoritative_session_count: 1
+  max_parallel_workers: 0
+  simultaneous_claim_limit: 1
+  worker_parallelism_scope: DISABLED_UNLESS_PROJECT_OWNER_EXPLICITLY_REQUESTS
+  default_delegation_mode: DISABLED_FOR_CURRENT_RELEASE_SESSION
+  review_triggers:
+  - TASK_START
+  - SCOPE_CHANGE
+  non_delegation_requires_checkpoint_reason: true
+  capability_fallback: KEEP_SINGLE_AUTHORITATIVE_SESSION_AND_DO_NOT_FABRICATE_PARALLEL_EVIDENCE
+  source_of_truth_branch: task/TASK-R03-001
+  rules:
+  - 主控一次只领取一个Task/Story；当前R10会话串行推进，不创建执行代理或第二事实分支。
+  - 功能、字段、动作、数据、权限和版本归属必须逐项对应仓库主开发文档；效果图只约束正确功能的页面建模与视觉，不得增删业务。
+  - 首页是R08至R11的跨版本聚合面；每个分类闭环必须把真实入口、内容卡与导航同步回接首页。
+  - R10群聊列表、详情、发布页分别绑定B02/P07、B03/P03、B04/P03，禁止误用App面板。
+  - 普通任务只运行受影响FAST/MODULE；完整模拟器、截图和候选APK只在TASK-R10-007运行。
+  - 项目所有者真机反馈保持异步PENDING，不阻断后续依赖满足的开发。
+  coordinator_owned_paths:
+  - .continuity/**
+  - CURRENT_STATUS.yaml
+  - NEXT_TASK.yaml
+  - releases/**
+  - contracts/**
+  - catalogs/**
+  - docs/03-continuity/**
+  - apps/android/app/**
+  - apps/android/core/network/**
+  lanes:
+  - lane: GROUP-DATA-FOUNDATION
+    task_id: TASK-R10-002
+    stories:
+    - STORY-R10-004
+  - lane: GROUP-SERVICES
+    task_id: TASK-R10-003
+    stories:
+    - STORY-R10-001
+    - STORY-R10-002
+    - STORY-R10-003
+    - STORY-R10-004
+  - lane: GROUP-CLIENTS-AND-HOME-INTEGRATION
+    task_id: TASK-R10-004
+    stories:
+    - STORY-R10-001
+    - STORY-R10-002
+    - STORY-R10-003
+  - lane: R10-QUALITY
+    task_id: TASK-R10-005
+    stories:
+    - STORY-R10-001
+    - STORY-R10-002
+    - STORY-R10-003
+    - STORY-R10-004
+  integration:
+    task_id: TASK-R10-005
+    depends_on:
+    - TASK-R10-003
+    - TASK-R10-004
+    profiles:
+    - MODULE
+    - INTEGRATION
+    - SECURITY
+  apk:
+    task_id: TASK-R10-007
+    full_gate_and_emulator: FINAL_CANDIDATE_ONLY
+    desktop_copy_required: true
+    stable_test_signing_required: true
+    owner_physical_test_initial_status: PENDING
+  closure:
+    task_id: TASK-R10-008
+    owner_feedback_mode: ASYNC_NON_BLOCKING
+    machine_completion_may_continue_next_release: true
 ```
 
 ## 开放 CR
@@ -7967,38 +8667,253 @@ TASKS.yaml:
     session_id: SES-20260723T024212Z-696F7963
   session_ids:
   - SES-20260723T024212Z-696F7963
+- protocol_version: '1.0'
+  cr_id: CR-0265
+  title: 修正首页及R10页面与V1.2工程执行强化版功能一一对应
+  status: IMPLEMENTED
+  created_at: '2026-07-23T03:11:42Z'
+  updated_at: '2026-07-23T04:35:56Z'
+  requester_actor_id: codex-root-r10-entry
+  approver_actor_id: codex-r10-doc-review
+  task_id: TASK-R10-001
+  session_id: SES-20260723T025104Z-E29F6208
+  user_request: 项目所有者明确要求修正当前首页与开发文档功能不对应的问题，所有开发功能必须一比一对应合伙云Pro_完整项目开发文档_V1.2_工程执行强化版；首页应包含顶部品牌/搜索/消息、横向Banner、项目/App/群聊/团队长四入口及真实推荐/最新发布等运营模块。
+  reason: R06补充视觉规格错误删减正式首页信息架构，Android首页模型丢弃布局、媒体、徽标和导航字段，验收台账以错误实现自证PASS；R10入口CR又误将群聊发布绑定App发布面板，必须统一纠正事实源、实现和跨版本回归关系。
+  original_rule: R06补充视觉规格把V1.2工程执行强化版4.3明确的顶部品牌搜索消息、横向轮播、项目/App/群聊/团队长四入口和运营内容模块缩减为自创Hero、搜索及项目/App快捷入口；Android只解析模块标题字符串，历史验收又以错误规格和自身截图判PASS。R08至R11故事未把新增分类闭环回接首页列为显式验收。R10入口CR-0264还误将群聊发布绑定B04/P04
+    App面板。
+  new_rule: 合伙云Pro_完整项目开发文档_V1.2_工程执行强化版是功能业务数据权限和版本归属的强制基线，所有实现必须逐项一一对应，不得由补充规格增删改功能。SCR-HOME-001必须按4.3和B02/P01、P02、P04恢复顶部品牌/搜索/消息、可选公告、横向Banner、项目/App/群聊/团队长四入口、为你推荐/最新发布及服务端配置运营模块；只渲染接口真实数据和真实导航，不复制效果图虚构内容。Android完整保留moduleType、layoutType、itemType、coverUrl、badges、target、moreTarget并按模块类型呈现。R08项目、R09
+    App、R10群聊、R11团队长每版关闭前必须验证对应真实内容和导航已经回接首页。R10三页精确绑定SCR-LIST-003=B02/P07、SCR-DETAIL-003=B03/P03、SCR-PUB-004=B04/P03。错误首页视觉PASS立即撤销，只有R10最终候选真实截图按原文档和B02复核通过后才可恢复PASS。
+  impact_summary: 统一纠正功能事实源优先级、首页规格/模型/渲染/导航、R06-R11跨版本集成验收以及R10三页视觉绑定，并补问题登记和防回归测试；不新增原开发文档之外的功能、字段、接口、数据库表或虚构数据。
+  impact:
+    files:
+    - docs/00-baseline/正式商业系统全局硬性开发边界.md
+    - docs/02-ui/page-specs/android/SCR-HOME-001_首页.md
+    - design/R06-UI-FROZEN/specs/SCR-HOME-001.md
+    - catalogs/ui_page_specifications.csv
+    - catalogs/ui_visual_acceptance.csv
+    - catalogs/release_story_backlog.csv
+    - releases/R08/STORIES.yaml
+    - releases/R09/STORIES.yaml
+    - releases/R10/STORIES.yaml
+    - releases/R11/STORIES.yaml
+    - docs/03-continuity/R10_TASK-001_ENTRY_GATE.md
+    - releases/R10/PARALLEL_EXECUTION_PLAN.yaml
+    - releases/R10/RELEASE_MANIFEST.yaml
+    - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ExperienceApi.kt
+    - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ExperienceApiTest.kt
+    - apps/android/feature/shell/build.gradle.kts
+    - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+    - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+    - apps/android/app/src/androidTest/java/cc/orbexa/hhy/HistoricalVisualAuditTest.kt
+    - tests/test_home_contract_alignment.py
+    - docs/03-continuity/PROBLEM_REGISTRY.yaml
+    - docs/03-continuity/PITFALLS.md
+    - CHANGELOG.md
+    pages:
+    - SCR-HOME-001
+    - SCR-LIST-003
+    - SCR-DETAIL-003
+    - SCR-PUB-004
+    apis:
+    - homeGetHome
+    database: []
+    configuration:
+    - 开发文档功能一一对应、首页跨版本回接、R10单协调者与最终候选模拟器策略
+    ledger:
+    - CR-0264错误面板被CR-0265取代；首页旧PASS撤销并登记根因和恢复条件
+    tests:
+    - python -m unittest tests.test_home_contract_alignment
+    - apps/android/gradlew.bat --no-daemon :core:network:testDebugUnitTest :feature:shell:lintDebug :app:compileDebugKotlin
+    - python scripts/check_android_ui_foundation.py
+    - python scripts/check_ui_visual_acceptance.py --release R06 --catalog-only
+    - python scripts/check_v122_documentation.py --strict --release R10
+    - python scripts/check_release_artifacts.py --release R10
+    - python scripts/check_program_execution_plan.py
+    releases:
+    - R06
+    - R08
+    - R09
+    - R10
+    - R11
+    migration_and_compatibility: 无数据库或服务端破坏性迁移。GET /api/v1/home保持既有OpenAPI兼容，Android从丢字段的内部快照升级为完整只读模型；旧模块缺少可选媒体时使用中性占位，缺少真实导航时不可伪造点击。历史R06-R09产物保留但首页旧PASS标记为IN_REVIEW，修复随当前R10开发线交付。
+  user_confirmation: 项目所有者明确要求必须修正，所有开发功能必须一比一对应合伙云Pro_完整项目开发文档_V1.2_工程执行强化版。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-23T03:15:41Z'
+    note: 复核通过：用户点名的V1.2工程执行强化版4.3、SCR-HOME-001、REQ-HOME-001与B02共同证明现实现偏离；范围同时撤销错误PASS、恢复完整Home模型与渲染、补R08-R11回接验收，并将R10列表/详情/发布正确绑定P07/P03/P03。未新增开发文档外业务。
+  machine_record: .continuity/change_requests/CR-0265.yaml
+  document: docs/03-continuity/change-requests/CR-0265-修正首页及R10页面与V1.2工程执行强化版功能一一对应.md
+  decision_log:
+  - at: '2026-07-23T03:16:07Z'
+    actor_id: codex-root-r10-entry
+    status: IMPLEMENTING
+    note: 开始按V1.2工程执行强化版逐项修复首页与R10精确视觉/版本回接事实。
+    session_id: SES-20260723T025104Z-E29F6208
+  - at: '2026-07-23T04:35:56Z'
+    actor_id: codex-root-r10-entry
+    status: IMPLEMENTED
+    note: 主开发文档功能事实源、首页完整模型/渲染/真实媒体导航、R08-R11回接验收与R10精确面板纠偏已实现并通过26项契约回归、Android固定容器编译和严格文档门禁。
+    session_id: SES-20260723T025104Z-E29F6208
+  session_ids:
+  - SES-20260723T025104Z-E29F6208
+- protocol_version: '1.0'
+  cr_id: CR-0266
+  title: 同步首页模块重构后的Android工具链回归断言
+  status: IMPLEMENTED
+  created_at: '2026-07-23T03:53:47Z'
+  updated_at: '2026-07-23T04:35:59Z'
+  requester_actor_id: codex-root-r10-entry
+  approver_actor_id: codex-r10-test-review
+  task_id: TASK-R10-001
+  session_id: SES-20260723T025104Z-E29F6208
+  user_request: 项目所有者要求修正首页并确保功能一一对应开发文档。
+  reason: CR-0265删除旧首页空模块条件表达式后，tests/test_android_ci_gate.py仍按字符串断言旧实现，导致工具链回归假失败；必须改为验证新首页Banner、四分类和分型内容模块。
+  original_rule: Android CI工具链回归通过字符串断言旧首页空模块分支home != null && home!!.modules.isNotEmpty()，该实现已被CR-0265的按模块类型渲染替代。
+  new_rule: 原测试改为断言首页明确过滤NOTICE/BANNER、存在HomeBannerModule、HomeCategory四项和HomeEmptyState；继续证明API成功空模块有明确降级，同时冻结开发文档要求的新信息架构。
+  impact_summary: 仅同步既有工具链回归断言，不修改产品代码、合同、数据、配置或工作流。
+  impact:
+    files:
+    - tests/test_android_ci_gate.py
+    pages:
+    - SCR-HOME-001
+    apis: []
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - python -m unittest tests.test_android_ci_gate tests.test_home_contract_alignment
+    releases:
+    - R10
+    migration_and_compatibility: 无迁移；测试从旧实现细节更新为新行为语义。
+  user_confirmation: 项目所有者明确要求修正首页并确保功能与开发文档一一对应。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-23T03:54:41Z'
+    note: 复核确认仅替换失效的实现字符串断言，新的语义断言覆盖Banner、四分类、模块分型和空态；不扩大产品范围。
+  machine_record: .continuity/change_requests/CR-0266.yaml
+  document: docs/03-continuity/change-requests/CR-0266-同步首页模块重构后的Android工具链回归断言.md
+  decision_log:
+  - at: '2026-07-23T03:54:47Z'
+    actor_id: codex-root-r10-entry
+    status: IMPLEMENTING
+    note: 同步Android工具链首页语义断言。
+    session_id: SES-20260723T025104Z-E29F6208
+  - at: '2026-07-23T04:35:59Z'
+    actor_id: codex-root-r10-entry
+    status: IMPLEMENTED
+    note: 旧首页字符串断言已同步至完整首页模型，android_ci_gate与home_contract_alignment共26项通过。
+    session_id: SES-20260723T025104Z-E29F6208
+  session_ids:
+  - SES-20260723T025104Z-E29F6208
+- protocol_version: '1.0'
+  cr_id: CR-0267
+  title: 补齐首页真实CMS数据源、去重与查看更多闭环
+  status: IMPLEMENTED
+  created_at: '2026-07-23T04:08:41Z'
+  updated_at: '2026-07-23T04:36:02Z'
+  requester_actor_id: codex-root-r10-entry
+  approver_actor_id: codex-r10-data-review
+  task_id: TASK-R10-001
+  session_id: SES-20260723T025104Z-E29F6208
+  user_request: 项目所有者要求所有已开发功能必须一比一对应主开发文档；真实登录首页不能因home_modules空表而继续显示空页面。
+  reason: CR-0265已恢复客户端结构，但实时核验发现api.orbexa.cc共享Staging数据库home_modules为0行；后端未解析moreTarget且静态items不能落实主开发文档4.3的数据源、数量和同请求去重。需在原纠偏基础上补真实数据闭环。
+  original_rule: 首页后端只把home_modules.source_type当模块类型并读取config_json.items静态数组，moreTarget固定返回null；共享Staging home_modules为0行，导致真实登录首页无Banner、公告或内容模块，且无法落实后台数据源、数量和同请求去重。
+  new_rule: 在CR-0265既有主开发文档一一对应规则下，GET /api/v1/home必须读取已启用且排期有效的真实CMS模块，支持受控dataSource与limit从ONLINE内容生成卡片，解析moreTarget，并按display_order跨模块去重contentId；Staging必须通过幂等、显式STAGING限定的脚本配置公告、Banner和当前已开发项目/App模块，所有卡片只指向真实路由、真实内容和可访问HTTPS媒体。未来群聊、团队长、红包、头条等模块只能在对应版本真实能力完成后接入。
+  impact_summary: 补齐首页聚合服务的真实数据源、数量、跨模块去重和查看更多合同；增加受控Staging CMS配置并让Android显示真实查看更多动作；不新增开发文档外业务，不伪造尚未开发的群聊、团队长、红包或头条功能。
+  impact:
+    files:
+    - services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentStore.java
+    - services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentPostgresStore.java
+    - services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentService.java
+    - services/backend/boot/src/test/java/cc/orbexa/hhy/content/ContentServiceTest.java
+    - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+    - scripts/prepare_home_cms_staging_fixture.sh
+    - tests/test_home_contract_alignment.py
+    - docs/03-continuity/PROBLEM_REGISTRY.yaml
+    - docs/03-continuity/PITFALLS.md
+    - CHANGELOG.md
+    pages:
+    - SCR-HOME-001
+    apis:
+    - homeGetHome
+    database:
+    - home_modules
+    - content_posts
+    - content_media
+    - media_objects
+    configuration:
+    - home_modules.config_json:dataSource,limit,moreTarget
+    ledger:
+    - CR-0265真实数据闭环与Staging 0行根因证据
+    tests:
+    - ContentServiceTest首页数据源/去重/moreTarget
+    - tests.test_home_contract_alignment
+    - Staging home_modules配置与登录态GET /api/v1/home黑盒
+    releases:
+    - R06
+    - R08
+    - R09
+    - R10
+    migration_and_compatibility: 不新增数据库表或破坏字段；home_modules现有静态items继续兼容，dataSource、limit、moreTarget均为config_json可选字段。Staging配置脚本显式拒绝非STAGING，使用code幂等upsert且仅引用现有ONLINE内容和HTTPS媒体；生产数据不自动写入。
+  user_confirmation: 项目所有者明确要求必须修正，所有已开发功能必须一比一对应其点名的V1.2工程执行强化版开发文档。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-23T04:09:41Z'
+    note: 实时只读核验已证明共享Staging home_modules为0行；新合同保持既有表和静态items兼容，只增加可选真实数据源、去重、moreTarget及显式STAGING幂等配置，且禁止提前伪造未来功能，范围最小且与主开发文档4.3一致。
+  machine_record: .continuity/change_requests/CR-0267.yaml
+  document: docs/03-continuity/change-requests/CR-0267-补齐首页真实CMS数据源、去重与查看更多闭环.md
+  decision_log:
+  - at: '2026-07-23T04:09:46Z'
+    actor_id: codex-root-r10-entry
+    status: IMPLEMENTING
+    note: 开始实现首页真实CMS数据源、跨模块去重、moreTarget和Staging配置闭环。
+    session_id: SES-20260723T025104Z-E29F6208
+  - at: '2026-07-23T04:36:02Z'
+    actor_id: codex-root-r10-entry
+    status: IMPLEMENTED
+    note: 真实ONLINE数据源、跨模块去重、moreTarget、Android查看更多及显式STAGING幂等配置已实现；公网登录态首页返回4模块和4条真实内容，重复执行稳定，非STAGING拒绝。
+    session_id: SES-20260723T025104Z-E29F6208
+  session_ids:
+  - SES-20260723T025104Z-E29F6208
 ```
 
 ## 上下文来源及哈希
 
 - `AGENTS.md` — `f93034917d4b87ffd4caffe8b6cad354f69bc31f6c0d9398dec3074ae165496d`
 - `START_HERE.md` — `22de14029ce47beb41ea569e36ce223fbc9d11b86f8676f28d5fbbd83896af5c`
-- `CURRENT_STATUS.yaml` — `7de7f51eb06452471527d4964e137f3aa83076e7529a2cf52a6818b2c8c013af`
+- `CURRENT_STATUS.yaml` — `ba920b35d3654124be4b22414ffc7cffbce2cf1ebe797422f6faffb8c55ab360`
 - `NEXT_TASK.yaml` — `a0189208fb2410592f13bcbf8309a4c3c528994cdb324d44bda7eb36e2dbb71b`
 - `DEVELOPMENT_RISK_REGISTER.md` — `8304c91492e4ee2abea0522a06541c8688d39c7fc532b5d0cde499bf09fffb87`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
-- `docs/03-continuity/PROBLEM_REGISTRY.yaml` — `32c3fbe8f0783e6a5cd26b3c004cd911f081e25d6f745cc07a5fc8bba9aa4375`
+- `docs/03-continuity/PROBLEM_REGISTRY.yaml` — `44de3595119a66f3170c825f1b80a65d88acfdf7878838c758f007cf48309c38`
 - `docs/03-continuity/REUSABLE_PATTERNS.md` — `579122736019857604959c8ea65b6c7e3d6960680d00a17b376bbd51c57ac519`
-- `docs/03-continuity/PITFALLS.md` — `a24056026cfca7de36059d08572d63c9cc1f49d58b79a23a01a6d901bda2340c`
+- `docs/03-continuity/PITFALLS.md` — `b2634c815cd208083697aa7a33a00599de36c63394b2f02f5454f3ed9c575d92`
 - `releases/PROGRAM_EXECUTION_PLAN.yaml` — `93c0bd9fe83e2c447937c885f20d0de7a65d96c920d11b28309878bd5d533446`
 - `config/REPOSITORY_TRANSPORT.yaml` — `8c4a21f3e204d46e7ffb467d804a53ed26cda61cd088dadfddb50b69eea657fc`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `16a96f9a52f352f3c62175db308dd973889b2e82acb117bcfdd12a4bc4d379f6`
-- `.continuity/EVENT_LOG.jsonl` — `513ad28ddfc08c5adfa08e76aba3e010a73b01bc08d40aea7c84ea3841167b3b`
-- `.continuity/SESSION_INDEX.yaml` — `e39cde6312ee4bdba6b4870955f158a2e1462241e1c37963cfe2c14c76ea1155`
-- `.continuity/TASK_CLAIMS.yaml` — `d9342f54bf7b215eaa12d488e04d927795aad62004f8611eab01c6875b415946`
-- `.continuity/TASK_TRANSITIONS.yaml` — `bba186c7372e2cbd1bb7d1191f12d2d12c981d88ba9dab61b7f3a7b47a4a1b22`
-- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `9fee87e88f711bd34c79736154a99a04c0dc2b259fca1110772d242eef0d407f`
-- `.continuity/ACTIVE_SESSION.yaml` — `230187bdc09c2fa72e7817f68be1dc86c2692b7f01a9e7b58e22c9a2c126c04a`
-- `docs/00-baseline/正式商业系统全局硬性开发边界.md` — `70572ced7d8fbafe34f42a03c1f6c0f8dbb1035961d493ad7593c25bb7abb96a`
+- `.continuity/EVENT_LOG.jsonl` — `d105592c315f266bd44d50c0d3fce84571353387028fa228437a49fbdfcb4cfd`
+- `.continuity/SESSION_INDEX.yaml` — `e741d784aef8fd0b80813793b0e4935be22c46120072d9065829abaa1504e185`
+- `.continuity/TASK_CLAIMS.yaml` — `ec5cde1b93f98f3f7c100692041bb9383f534c698ba7007df7184b1eb8658938`
+- `.continuity/TASK_TRANSITIONS.yaml` — `754799369967e4355fcb774b2cefa420161eff8a3c9f6ea729e504c0bb16a0b1`
+- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `5b143047865aaf2367f00cf9c4b75c1be637f4b985d0d90710941a9590f597c0`
+- `.continuity/ACTIVE_SESSION.yaml` — `bed72c5383d7c272687e0614e46b6ea37e5806a9cee321b6780d5d93188c45ed`
+- `docs/00-baseline/正式商业系统全局硬性开发边界.md` — `9753b32db136e59e95a0974a62362456d9d577fd1bb40058ec985c4b64413eea`
 - `docs/02-ui/UI参考图使用与开发约束_V1.2.2.md` — `d14367586aa2067b059df58798acd20ab982459cdb35ff27fc7922a3896e4933`
 - `docs/03-continuity/持续开发无状态接续强制门禁_V1.2.3.md` — `d0ed3ed68bdd93b06500eecdfb5baa3245e6ca8b685a486788abb6eee39b3d51`
 - `docs/09-development/统一开发与交付效率规范.md` — `1c84c84583dcb3cee8e22e4f535b09efe4127abe68fa49cd1408b62e05b23f49`
-- `releases/R10/RELEASE_MANIFEST.yaml` — `958b5a054dad996ea88981c781c8a16f4136755376105669b8d4c3016e12a125`
+- `releases/R10/RELEASE_MANIFEST.yaml` — `b4d775599540871194f21bef652a86d2d8ee94438ffc9606f1bfa9d03c52fbfd`
 - `releases/R10/DEFINITION_OF_READY.yaml` — `3ccd991ded5b1aa89c5101538cfe4af59b4e6c566d7a7a05494f2d093848993c`
-- `releases/R10/STORIES.yaml` — `2ca9d5ac5b38f321450e0bb88f5f1fc2e4f53a21f116b99015adb5c12e769b7f`
+- `releases/R10/STORIES.yaml` — `09e313f1a52de868750926576f387e531a0fb3a1d79a44786f497215e6332843`
 - `releases/R10/TASKS.yaml` — `82d8d95da35ab0b6e2a03a6e4066f436399809dcbb303293728241ccffb78de5`
 - `releases/R10/ACCEPTANCE_MATRIX.csv` — `a17663145b2e704291bb5095c55aed36cf67d01a716b8904018e6b254e243b9f`
+- `releases/R10/PARALLEL_EXECUTION_PLAN.yaml` — `ad9d4615ce1683a80e27986d1f3f078ab5012ffd5c001a618a8b9df278e1e3f7`
+- `docs/03-continuity/sessions/2026-07/SES-20260723T025104Z-E29F6208.md` — `cf8c657d3e1fecd78ed1d23eccb2335fc6fa033db1bf9c944ea2c0e08076d3f6`
+- `.continuity/checkpoints/SES-20260723T025104Z-E29F6208/0003.yaml` — `dedc17d8fa7928fd16a2fd2f63a5a5d1ac64b41005c031b3b11a6eaa5a48f476`
+- `docs/03-continuity/change-requests/CR-0264-建立R10开发入口与群聊发布页精确视觉基线.md` — `583b55e3656d34d4faf3a1c0dd257542f03ebe60c37c8cdeaf9214c47a5df714`
+- `docs/03-continuity/change-requests/CR-0265-修正首页及R10页面与V1.2工程执行强化版功能一一对应.md` — `e1694b873d8bbdd26314f44c5ecbc55e0a425f1cf5544f9cb5b654726f078af5`
+- `docs/03-continuity/change-requests/CR-0266-同步首页模块重构后的Android工具链回归断言.md` — `cc57be56f2396c468292e67c1048e89469c7eb69622408e004fb8cdefd74d685`
+- `docs/03-continuity/change-requests/CR-0267-补齐首页真实CMS数据源、去重与查看更多闭环.md` — `521106c25261b42dc32a7b5506b2faa91a61b01ad7b0e0d7d5ec50ea11d895a8`
 
 ## 接手硬规则
 

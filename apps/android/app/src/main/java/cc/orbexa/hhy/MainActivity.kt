@@ -51,6 +51,7 @@ import cc.orbexa.hhy.network.AuthCallResult
 import cc.orbexa.hhy.network.AuthSessionResource
 import cc.orbexa.hhy.network.AuthSessionStore
 import cc.orbexa.hhy.network.HhyNetworkJson
+import cc.orbexa.hhy.network.HomeNavigationTargetSnapshot
 import cc.orbexa.hhy.network.ContractAuthApi
 import cc.orbexa.hhy.network.ContractIdentityApi
 import cc.orbexa.hhy.network.UserSelfResource
@@ -66,6 +67,7 @@ import cc.orbexa.hhy.network.UrlConnectionContractR08Api
 import cc.orbexa.hhy.network.UrlConnectionContractR09Api
 import cc.orbexa.hhy.network.sessionOrNull
 import cc.orbexa.hhy.network.userSelfOrNull
+import java.net.URI
 import cc.orbexa.hhy.project.R08ProjectDetailScreen
 import cc.orbexa.hhy.project.R08ProjectEditorScreen
 import cc.orbexa.hhy.project.R08ProjectListScreen
@@ -224,6 +226,7 @@ private fun AuthenticatedNavHost(
     val r08Api = remember { UrlConnectionContractR08Api(BuildConfig.API_BASE_URL) }
     val r09Api = remember { UrlConnectionContractR09Api(BuildConfig.API_BASE_URL) }
     val mediaApi = remember { UrlConnectionContractMediaApi(BuildConfig.API_BASE_URL) }
+    val uriHandler = androidx.compose.ui.platform.LocalUriHandler.current
     NavHost(
         navController = navController,
         startDestination = AuthenticatedRoute.Shell,
@@ -236,9 +239,25 @@ private fun AuthenticatedNavHost(
             HhyShellScreen(
                 onOpenSearch = { navController.navigate(AuthenticatedRoute.Search) },
                 onOpenProjects = { navController.navigate(AuthenticatedRoute.Projects) },
-                onCreateProject = { navController.navigate(AuthenticatedRoute.ProjectEditor()) },
                 onOpenApps = { navController.navigate(AuthenticatedRoute.Apps) },
-                onCreateApp = { navController.navigate(AuthenticatedRoute.AppEditor()) },
+                canOpenHomeTarget = { target -> canOpenHomeTarget(target) },
+                onOpenHomeTarget = { target ->
+                    val route = target.route.orEmpty()
+                    when {
+                        target.targetType == "IN_APP_ROUTE" && route == "/search" ->
+                            navController.navigate(AuthenticatedRoute.Search)
+                        target.targetType == "IN_APP_ROUTE" && route == "/content/projects" ->
+                            navController.navigate(AuthenticatedRoute.Projects)
+                        target.targetType == "IN_APP_ROUTE" && route == "/content/apps" ->
+                            navController.navigate(AuthenticatedRoute.Apps)
+                        target.targetType == "IN_APP_ROUTE" && route.startsWith("/content/project/") ->
+                            navController.navigate(AuthenticatedRoute.ProjectDetail(route.substringAfterLast('/')))
+                        target.targetType == "IN_APP_ROUTE" && route.startsWith("/content/app/") ->
+                            navController.navigate(AuthenticatedRoute.AppDetail(route.substringAfterLast('/')))
+                        target.targetType in setOf("H5_URL", "DOWNLOAD") && isSafeHomeUrl(target.url) ->
+                            uriHandler.openUri(target.url.orEmpty())
+                    }
+                },
                 onOpenLoginDevices = { navController.navigate(AuthenticatedRoute.LoginDevices) },
                 onOpenChangePassword = { navController.navigate(AuthenticatedRoute.ChangePassword) },
                 onOpenCancellation = { navController.navigate(AuthenticatedRoute.Cancellation) },
@@ -385,6 +404,24 @@ private fun AuthenticatedNavHost(
         }
     }
 }
+
+private fun canOpenHomeTarget(target: HomeNavigationTargetSnapshot): Boolean {
+    val route = target.route.orEmpty()
+    return when (target.targetType) {
+        "IN_APP_ROUTE" -> route in setOf("/search", "/content/projects", "/content/apps") ||
+            (route.startsWith("/content/project/") && route.substringAfterLast('/').isNotBlank()) ||
+            (route.startsWith("/content/app/") && route.substringAfterLast('/').isNotBlank())
+        "H5_URL", "DOWNLOAD" -> isSafeHomeUrl(target.url)
+        else -> false
+    }
+}
+
+private fun isSafeHomeUrl(value: String?): Boolean = runCatching {
+    val uri = URI.create(value.orEmpty())
+    uri.scheme.equals("https", ignoreCase = true) &&
+        !uri.host.isNullOrBlank() &&
+        uri.userInfo == null
+}.getOrDefault(false)
 
 @androidx.compose.runtime.Composable
 private fun RestoringSessionScreen() {
