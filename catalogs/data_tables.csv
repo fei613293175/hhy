@@ -25,10 +25,10 @@
 内容,content_posts,内容主表,"owner_id, type, title, summary, status, review_status, refresh_times",类型+状态索引,R06-R13
 内容,project_details,项目扩展,"content_id, cooperation, conditions, region, website",content_id唯一,R06-R13
 内容,app_details,App扩展,"content_id, app_name, platform, version_text, download_url, website",content_id唯一；无apk字段,R06-R13
-内容,group_details,群扩展,"content_id, platform, size_range, join_requirement, qr_media_id, group_link, group_no",content_id唯一,R06-R13
+内容,group_details,群扩展,"content_id, platform, size_range, join_requirement, qr_media_id, group_link, group_no",content_id唯一；join_requirement仅为入群要求；ONLINE必须有平台、入群通道和独立群主联系方式；二维码引用受RESTRICT保护,R06-R13
 内容,team_leader_details,团队长扩展,"content_id, team_name, size_range, skills, cooperation_types",owner唯一活动资料,R06-R13
 内容,content_media,内容媒体,"content_id, media_id, media_type, sort_order",内容+顺序唯一,R06-R13
-内容,content_contacts,内容联系方式,"content_id, channel, value_cipher, display_mask, sort_order",详情获取,R06-R13
+内容,content_contacts,内容联系方式及受保护入群口令,"content_id, channel, value_cipher, display_mask, sort_order",JOIN_PASSWORD仅GROUP且每内容唯一，使用V032加密信封与掩码并经显式访问审计，不计作群主联系方式,R06-R13
 内容,content_versions,内容版本,"content_id, version_no, snapshot_json, created_by",内容+版本唯一,R06-R13
 内容,content_status_logs,状态日志,"content_id, from_status, to_status, reason, operator",不可删除,R06-R13
 内容,content_review_records,审核记录,"content_id, version_no, decision, reason, admin_id",版本索引,R06-R13

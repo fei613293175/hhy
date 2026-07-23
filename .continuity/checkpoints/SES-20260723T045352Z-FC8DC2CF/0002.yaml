@@ -1,0 +1,138 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260723T045352Z-FC8DC2CF-0002
+session_id: SES-20260723T045352Z-FC8DC2CF
+sequence: 2
+created_at: '2026-07-23T05:38:22Z'
+summary: CR-0268已由独立审查者正式批准；当前仅治理与连续性元数据变化，产品迁移和测试尚未合入
+next_step: 主控复核并合入V036/U036、PostgreSQL17测试与数据目录更新
+blockers: []
+decisions:
+- JOIN_PASSWORD使用V032加密信封且仅GROUP唯一，不计群主联系方式；三个写入面采用双向DEFERRABLE终态检查与父行锁
+note: ''
+tests:
+- name: CR-0268 independent review
+  result: PASS
+  evidence: codex-r10-data-review正式APPROVED
+  note: 五项修订逐项满足
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: 47f2b158f68207603f260460aad7c4eccdd0b936
+  upstream: origin/task/TASK-R03-001
+  ahead: 0
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/ACTIVE_SESSION.yaml'
+  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/SESSION_INDEX.yaml'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/TASK_CLAIMS.yaml'
+  - ' M .continuity/TASK_TRANSITIONS.yaml'
+  - ' M CURRENT_STATUS.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+  - ' M catalogs/change_request_index.csv'
+  - ' M catalogs/session_index.csv'
+  - ' M catalogs/task_transition_ledger.csv'
+  - ?? .continuity/change_requests/CR-0268.yaml
+  - ?? .continuity/checkpoints/SES-20260723T045352Z-FC8DC2CF/0001.yaml
+  - ?? .continuity/sessions/SES-20260723T045352Z-FC8DC2CF.yaml
+  - ?? docs/03-continuity/change-requests/CR-0268-补齐R10群聊推广数据库不变量与可逆迁移.md
+  - ?? docs/03-continuity/sessions/2026-07/SES-20260723T045352Z-FC8DC2CF.md
+  recent_commits:
+  - "47f2b158f68207603f260460aad7c4eccdd0b936\t2026-07-23T12:51:23+08:00\tHHY Continuity Bootstrap\t[STORY-R10-004] chore(continuity): close TASK-R10-001\
+    \ as completed"
+  - "04a6e66a91725fdd2352f8a262f7de701fc4629e\t2026-07-23T12:46:50+08:00\tHHY Continuity Bootstrap\t[STORY-R10-004] fix(home): align runtime with\
+    \ canonical product contract"
+  - "9e05beefef5754521c1730ddbf1179bae694c31b\t2026-07-23T10:49:29+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] chore(continuity): close TASK-R09-008\
+    \ as completed"
+  - "7f2c335493a6f78aadf8c041b4cc0fffd474d713\t2026-07-23T10:47:23+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] chore(r09): complete machine\
+    \ closure"
+  - "2e667408a5987b53ce55521f827ac70ce9e80cac\t2026-07-23T10:40:22+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] chore(continuity): close TASK-R09-007\
+    \ as completed"
+  - "6c214e59d028679ea2e51b83e619f1c87c2be4d0\t2026-07-23T10:37:02+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] chore(r09): deliver final\
+    \ candidate apk"
+  - "443d127996f0dc4d91586ead69fec39edece66a8\t2026-07-23T08:49:39+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] test(r09): approve app visual\
+    \ baseline"
+  - "97dc163e1cbed8d19a054326806453c5fa0aee9b\t2026-07-23T08:30:26+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] fix(r09): require loaded media\
+    \ evidence"
+project_fingerprint:
+  sha256: 89bc2e0495892404e90897865442a7664c41c6c1749532fdde45da1778b0809c
+  files:
+  - docs/03-continuity/change-requests/CR-0268-补齐R10群聊推广数据库不变量与可逆迁移.md
+  file_count: 1
+  payload:
+    base_commit: 47f2b158f68207603f260460aad7c4eccdd0b936
+    files:
+    - path: docs/03-continuity/change-requests/CR-0268-补齐R10群聊推广数据库不变量与可逆迁移.md
+      state: FILE
+      size: 6162
+      sha256: 2f158d3d808685d13ce9c465656e51edb5245aa1b06171caaa2ddab6fd17061f
+change_classification:
+  continuity:
+  - docs/03-continuity/change-requests/CR-0268-补齐R10群聊推广数据库不变量与可逆迁移.md
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+change_requests:
+- CR-0268
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions: []
+  source: story+explicit
+parallel_execution:
+  assessment: DELEGATED
+  delegated_workers: 2
+  workers:
+  - worker_id: r10_group_sql
+    responsibility: V036和U036迁移实现
+    allowed_paths:
+    - database/migrations/V036__r10_group_promotion_invariants.sql
+    - database/rollback/U036__r10_group_promotion_invariants.sql
+    - services/backend/boot/src/main/resources/db/migration/V036__r10_group_promotion_invariants.sql
+  - worker_id: r10_group_tests
+    responsibility: 数据库静态与PostgreSQL17真实测试
+    allowed_paths:
+    - database/tests/r10_group_promotion_invariants.sql
+    - scripts/run_r10_database_invariants.sh
+    - scripts/run_r10_disposable_postgres_container.sh
+    - tests/test_r10_group_database_invariants.py
+  reason: 迁移实现与测试设计在独立scratch工作树互斥，数据库高风险最终集成由主控串行复核
+event_hash: d346a8d101cb1a9b05564c1e19fa0ede168e733f01a878db3f558c057194b0ac

@@ -219,10 +219,10 @@
 内容,group_details,2,content_id,bigint,否,,INDEX,content_id唯一,R06-R13,FROZEN
 内容,group_details,3,platform,varchar(255),否,,,content_id唯一,R06-R13,FROZEN
 内容,group_details,4,size_range,varchar(255),是,,,content_id唯一,R06-R13,FROZEN
-内容,group_details,5,join_requirement,varchar(255),是,,,content_id唯一,R06-R13,FROZEN
-内容,group_details,6,qr_media_id,bigint,是,,INDEX,content_id唯一,R06-R13,FROZEN
+内容,group_details,5,join_requirement,varchar(255),是,,,仅表示入群要求；不得存入群口令,R06-R13,FROZEN_CR-0268
+内容,group_details,6,qr_media_id,bigint,是,,INDEX,引用media_objects且ON DELETE RESTRICT；ONLINE入群通道之一,R06-R13,FROZEN_CR-0268
 内容,group_details,7,group_link,varchar(255),是,,,content_id唯一,R06-R13,FROZEN
-内容,group_details,8,group_no,varchar(255),是,,,content_id唯一,R06-R13,FROZEN
+内容,group_details,8,group_no,varchar(255),是,,,仅表示群号；ONLINE入群通道之一,R06-R13,FROZEN_CR-0268
 内容,group_details,9,created_at,timestamptz,否,now(),INDEX,统一审计字段,R06-R13,FROZEN
 内容,group_details,10,updated_at,timestamptz,否,now(),,统一审计字段,R06-R13,FROZEN
 内容,team_leader_details,1,id,bigint,否,generated,PRIMARY KEY,技术主键,R06-R13,FROZEN
@@ -242,8 +242,8 @@
 内容,content_media,7,updated_at,timestamptz,否,now(),,统一审计字段,R06-R13,FROZEN
 内容,content_contacts,1,id,bigint,否,generated,PRIMARY KEY,详情获取,R06-R13,FROZEN
 内容,content_contacts,2,content_id,bigint,否,,INDEX,详情获取,R06-R13,FROZEN
-内容,content_contacts,3,channel,varchar(64),是,,,详情获取,R06-R13,FROZEN
-内容,content_contacts,4,value_cipher,varchar(2048),是,,,详情获取,R06-R13,FROZEN_CR-0178
+内容,content_contacts,3,channel,varchar(64),是,,,JOIN_PASSWORD仅允许GROUP且每内容至多一条；不计入群主联系方式,R06-R13,FROZEN_CR-0268
+内容,content_contacts,4,value_cipher,varchar(2048),是,,,联系方式与JOIN_PASSWORD仅保存V032加密信封；禁止入群口令明文,R06-R13,FROZEN_CR-0178_CR-0268
 内容,content_contacts,5,display_mask,varchar(255),是,,,详情获取,R06-R13,FROZEN
 内容,content_contacts,6,sort_order,integer,是,,,详情获取,R06-R13,FROZEN
 内容,content_contacts,7,created_at,timestamptz,否,now(),INDEX,统一审计字段,R06-R13,FROZEN

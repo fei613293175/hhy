@@ -1,0 +1,244 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260723T045352Z-FC8DC2CF-0003
+session_id: SES-20260723T045352Z-FC8DC2CF
+sequence: 3
+created_at: '2026-07-23T06:02:57Z'
+summary: TASK-R10-002群聊推广V036/U036、数据库目录和完整测试已合入；PostgreSQL17空库/升级/失败关闭/并发/回滚/重放全部通过，CR-0268保持IMPLEMENTING等待R10-003/004跨层完成
+next_step: 完成TASK-R10-002任务追踪与关闭门禁，提交推送后启动TASK-R10-003同步JOIN_PASSWORD接口合同、后端和生成客户端
+blockers: []
+decisions:
+- 本Task只关闭数据库阶段，跨任务CR-0268不得提前标记IMPLEMENTED
+note: ''
+tests:
+- name: R10 database source contracts
+  result: PASS
+  evidence: 'python -m unittest tests.test_r10_group_database_invariants: 6 OK, 1 explicit container skip'
+  note: 源码、镜像、回滚对象和场景覆盖通过
+- name: R10 database schema
+  result: PASS
+  evidence: DB_SCHEMA_OK tables=200 migrations=36 runtime_hashes=PASS
+  note: 根迁移与boot Flyway镜像一致
+- name: R10 PostgreSQL 17 full scenarios
+  result: PASS
+  evidence: R10_EMPTY_DATABASE_TO_V036;R10_UPGRADE_DATABASE_TO_V036;8 fail-closed;R10_GROUP_PROMOTION_INVARIANTS;R10_PARENT_LOCK_WRITE_SKEW A=0
+    B=1 final=t
+  note: t;R10_U036_ROLLBACK;R10_V036_REPLAY|主工作树文件上传固定obx-test PostgreSQL17执行，166.4秒
+- name: git diff check
+  result: PASS
+  evidence: git diff --check exit 0
+  note: 仅CSV换行提示无错误
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: 47f2b158f68207603f260460aad7c4eccdd0b936
+  upstream: origin/task/TASK-R03-001
+  ahead: 0
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/ACTIVE_SESSION.yaml'
+  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/SESSION_INDEX.yaml'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/TASK_CLAIMS.yaml'
+  - ' M .continuity/TASK_TRANSITIONS.yaml'
+  - ' M CURRENT_STATUS.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+  - ' M catalogs/change_request_index.csv'
+  - ' M catalogs/data_tables.csv'
+  - ' M catalogs/session_index.csv'
+  - ' M catalogs/task_transition_ledger.csv'
+  - ' M database/schema_dictionary.csv'
+  - ?? .continuity/change_requests/CR-0268.yaml
+  - ?? .continuity/checkpoints/SES-20260723T045352Z-FC8DC2CF/0001.yaml
+  - ?? .continuity/checkpoints/SES-20260723T045352Z-FC8DC2CF/0002.yaml
+  - ?? .continuity/sessions/SES-20260723T045352Z-FC8DC2CF.yaml
+  - ?? database/migrations/V036__r10_group_promotion_invariants.sql
+  - ?? database/rollback/U036__r10_group_promotion_invariants.sql
+  - ?? database/tests/r10_group_promotion_invariants.sql
+  - ?? docs/03-continuity/change-requests/CR-0268-补齐R10群聊推广数据库不变量与可逆迁移.md
+  - ?? docs/03-continuity/sessions/2026-07/SES-20260723T045352Z-FC8DC2CF.md
+  - ?? scripts/run_r10_database_invariants.sh
+  - ?? scripts/run_r10_disposable_postgres_container.sh
+  - ?? services/backend/boot/src/main/resources/db/migration/V036__r10_group_promotion_invariants.sql
+  - ?? tests/test_r10_group_database_invariants.py
+  recent_commits:
+  - "47f2b158f68207603f260460aad7c4eccdd0b936\t2026-07-23T12:51:23+08:00\tHHY Continuity Bootstrap\t[STORY-R10-004] chore(continuity): close TASK-R10-001\
+    \ as completed"
+  - "04a6e66a91725fdd2352f8a262f7de701fc4629e\t2026-07-23T12:46:50+08:00\tHHY Continuity Bootstrap\t[STORY-R10-004] fix(home): align runtime with\
+    \ canonical product contract"
+  - "9e05beefef5754521c1730ddbf1179bae694c31b\t2026-07-23T10:49:29+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] chore(continuity): close TASK-R09-008\
+    \ as completed"
+  - "7f2c335493a6f78aadf8c041b4cc0fffd474d713\t2026-07-23T10:47:23+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] chore(r09): complete machine\
+    \ closure"
+  - "2e667408a5987b53ce55521f827ac70ce9e80cac\t2026-07-23T10:40:22+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] chore(continuity): close TASK-R09-007\
+    \ as completed"
+  - "6c214e59d028679ea2e51b83e619f1c87c2be4d0\t2026-07-23T10:37:02+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] chore(r09): deliver final\
+    \ candidate apk"
+  - "443d127996f0dc4d91586ead69fec39edece66a8\t2026-07-23T08:49:39+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] test(r09): approve app visual\
+    \ baseline"
+  - "97dc163e1cbed8d19a054326806453c5fa0aee9b\t2026-07-23T08:30:26+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] fix(r09): require loaded media\
+    \ evidence"
+project_fingerprint:
+  sha256: 76dc61924d5ec3c4f802c29c4b77def3cad471484627954996f912b81d882dae
+  files:
+  - catalogs/data_tables.csv
+  - database/migrations/V036__r10_group_promotion_invariants.sql
+  - database/rollback/U036__r10_group_promotion_invariants.sql
+  - database/schema_dictionary.csv
+  - database/tests/r10_group_promotion_invariants.sql
+  - docs/03-continuity/change-requests/CR-0268-补齐R10群聊推广数据库不变量与可逆迁移.md
+  - scripts/run_r10_database_invariants.sh
+  - scripts/run_r10_disposable_postgres_container.sh
+  - services/backend/boot/src/main/resources/db/migration/V036__r10_group_promotion_invariants.sql
+  - tests/test_r10_group_database_invariants.py
+  file_count: 10
+  payload:
+    base_commit: 47f2b158f68207603f260460aad7c4eccdd0b936
+    files:
+    - path: catalogs/data_tables.csv
+      state: FILE
+      size: 26204
+      sha256: 0b1a541650f6043bbd57c5ad1790f3519368261c6cf85255c95c5cda5a9b87ba
+    - path: database/migrations/V036__r10_group_promotion_invariants.sql
+      state: FILE
+      size: 12212
+      sha256: f4dc67a5db3fc7c7df0a04162397cfbf0b5b5d4edceec079afef88a7e5c1ba47
+    - path: database/rollback/U036__r10_group_promotion_invariants.sql
+      state: FILE
+      size: 918
+      sha256: 8df8fc2b2eb8896f41d6762ee0a40ff69de499a84e877ec8454080abd3ff5048
+    - path: database/schema_dictionary.csv
+      state: FILE
+      size: 147556
+      sha256: 940e0402b84d5c388db114fa73333f6013dafb09e64dfbb37d173dec93fa1fb8
+    - path: database/tests/r10_group_promotion_invariants.sql
+      state: FILE
+      size: 10752
+      sha256: 4a226f75da847d98e930186cf1d86c3b5c7d3d6688a571e2783904f7137d9d4e
+    - path: docs/03-continuity/change-requests/CR-0268-补齐R10群聊推广数据库不变量与可逆迁移.md
+      state: FILE
+      size: 6488
+      sha256: ba1897ddab99b6d4eb1fdb13290b9e7539f913829e362abe4da5af77a2f82b97
+    - path: scripts/run_r10_database_invariants.sh
+      state: FILE
+      size: 9300
+      sha256: 273165f8669214f88edc9704b6923aa73dadbc4869445f30cad94137ee356a07
+    - path: scripts/run_r10_disposable_postgres_container.sh
+      state: FILE
+      size: 10882
+      sha256: 83eb2f8443fa7997e4e68183b3a47966607f38663c484ce961c7790c256b4bab
+    - path: services/backend/boot/src/main/resources/db/migration/V036__r10_group_promotion_invariants.sql
+      state: FILE
+      size: 12212
+      sha256: f4dc67a5db3fc7c7df0a04162397cfbf0b5b5d4edceec079afef88a7e5c1ba47
+    - path: tests/test_r10_group_database_invariants.py
+      state: FILE
+      size: 11515
+      sha256: 0f5397537e7ed80c688e5a3da76dd9a43db7a18b1db8d552ea5ff9a3a1f5938a
+change_classification:
+  other:
+  - catalogs/data_tables.csv
+  database:
+  - database/migrations/V036__r10_group_promotion_invariants.sql
+  - database/rollback/U036__r10_group_promotion_invariants.sql
+  - database/schema_dictionary.csv
+  - database/tests/r10_group_promotion_invariants.sql
+  source_of_truth:
+  - database/schema_dictionary.csv
+  continuity:
+  - docs/03-continuity/change-requests/CR-0268-补齐R10群聊推广数据库不变量与可逆迁移.md
+  code:
+  - scripts/run_r10_database_invariants.sh
+  - scripts/run_r10_disposable_postgres_container.sh
+  - services/backend/boot/src/main/resources/db/migration/V036__r10_group_promotion_invariants.sql
+  tests:
+  - tests/test_r10_group_database_invariants.py
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+- APPROVED_CHANGE_REQUEST
+- DATABASE_TEST_EVIDENCE
+- SCHEMA_TRACEABILITY
+change_requests:
+- CR-0268
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions:
+  - database/migrations/V036__r10_group_promotion_invariants.sql
+  - database/rollback/U036__r10_group_promotion_invariants.sql
+  - services/backend/boot/src/main/resources/db/migration/V036__r10_group_promotion_invariants.sql
+  - database/tests/r10_group_promotion_invariants.sql
+  - scripts/run_r10_database_invariants.sh
+  - scripts/run_r10_disposable_postgres_container.sh
+  - tests/test_r10_group_database_invariants.py
+  - database/schema_dictionary.csv
+  - catalogs/data_tables.csv
+  - contracts/openapi.yaml
+  - services/backend/boot/src/main/resources/contracts/openapi.yaml
+  - packages/api-client/src/client.generated.ts
+  - contracts/contract_status.csv
+  - catalogs/ui_page_fields.csv
+  - docs/02-ui/page-specs/android/SCR-DETAIL-003_群聊详情.md
+  - docs/02-ui/page-specs/android/SCR-PUB-004_群聊发布_编辑.md
+  - docs/02-ui/page-specs/android/SHEET-CONTACT-001_联系方式面板.md
+  - releases/R10/STORIES.yaml
+  - tests/test_r10_group_contract.py
+  - CHANGELOG.md
+  source: story+explicit+approved-cr:CR-0268
+parallel_execution:
+  assessment: DELEGATED
+  delegated_workers: 2
+  workers:
+  - worker_id: r10_group_sql
+    responsibility: V036/U036迁移与独立PostgreSQL17实现验证
+    allowed_paths:
+    - database/migrations/V036__r10_group_promotion_invariants.sql
+    - database/rollback/U036__r10_group_promotion_invariants.sql
+    - services/backend/boot/src/main/resources/db/migration/V036__r10_group_promotion_invariants.sql
+  - worker_id: r10_group_tests
+    responsibility: 静态合同与真实PostgreSQL17场景
+    allowed_paths:
+    - database/tests/r10_group_promotion_invariants.sql
+    - scripts/run_r10_database_invariants.sh
+    - scripts/run_r10_disposable_postgres_container.sh
+    - tests/test_r10_group_database_invariants.py
+  reason: 互斥scratch工作包完成后由主控逐文件合入并复跑真实数据库门禁
+event_hash: aa74945ecdb27248951d34789cd3e18a655339f2721c148139112eeaee008590
