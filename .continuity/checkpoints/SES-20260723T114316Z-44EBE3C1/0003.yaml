@@ -1,0 +1,132 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260723T114316Z-44EBE3C1-0003
+session_id: SES-20260723T114316Z-44EBE3C1
+sequence: 3
+created_at: '2026-07-23T11:53:53Z'
+summary: 关闭 TASK-R10-005：完成R10群聊专项测试与故障注入，三类冻结测试和PostgreSQL17矩阵全部通过
+next_step: 提交关闭元数据Commit，然后运行pre-push/CI门禁
+blockers: []
+decisions:
+- 任务结果：COMPLETED
+- 实现Commit：4499a915
+- 任务转换：TRN-20260723T115351Z-SES-20260723T114316Z-44EBE3C1
+- 下一Release：R10
+note: 该检查点专门绑定最终关闭元数据Commit
+tests:
+- name: r10-specialized-matrix
+  result: PASS
+  evidence: artifacts/reports/R10/TASK-R10-005-specialized-tests.md
+  note: Java、Python、文档与PostgreSQL17专项矩阵通过
+- name: continuity closure metadata
+  result: PASS
+  evidence: catalogs/task_transition_ledger.csv;CHANGELOG.md;CURRENT_STATUS.yaml;NEXT_TASK.yaml
+  note: 关闭元数据、任务转换和下一任务已原子生成
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: 4499a9150763c80f56246a4cc1c204a7b32bd99e
+  upstream: origin/task/TASK-R03-001
+  ahead: 4
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/sessions/SES-20260723T114316Z-44EBE3C1.yaml'
+  - ' M CHANGELOG.md'
+  - ' M NEXT_TASK.yaml'
+  - ' M catalogs/session_index.csv'
+  - ' M releases/R10/TASKS.yaml'
+  recent_commits:
+  - "4499a9150763c80f56246a4cc1c204a7b32bd99e\t2026-07-23T19:53:37+08:00\tHHY Continuity Bootstrap\t[STORY-R10-004] test(group): complete specialized\
+    \ fault matrix"
+  - "08a3d4d7fcca26c978e9c843e5d8e5b827bebf86\t2026-07-23T19:42:14+08:00\tHHY Continuity Bootstrap\t[STORY-R10-004] chore(continuity): close TASK-R10-004\
+    \ as completed"
+  - "caf9d07b22fe318b2fe5acd5c85158da1345cf43\t2026-07-23T19:40:20+08:00\tHHY Continuity Bootstrap\t[STORY-R10-004] feat(group): complete promotion\
+    \ client surfaces"
+  - "10f6c410df4c3163dcaed96107522cda4081fe73\t2026-07-23T19:04:39+08:00\tHHY Continuity Bootstrap\t[STORY-R10-004] fix(admin): restore production\
+    \ management usability"
+  - "ede20ba89945175f79c45252fa796e2f89e8a39a\t2026-07-23T15:07:49+08:00\tHHY Continuity Bootstrap\t[STORY-R10-004] chore(continuity): close TASK-R10-003\
+    \ as completed"
+  - "896948b70c98807cb30d5d165225a6c2a4155424\t2026-07-23T15:02:03+08:00\tHHY Continuity Bootstrap\t[STORY-R10-004] feat(content): complete group\
+    \ promotion backend"
+  - "2de94dd2b82efc2d5ebff5500ad808ea5ccee2d4\t2026-07-23T14:23:32+08:00\tHHY Continuity Bootstrap\t[STORY-R10-004] chore(continuity): close TASK-R10-002\
+    \ as completed"
+  - "9322209a3e85917d0a11957a3137797b14c6c2e8\t2026-07-23T14:16:11+08:00\tHHY Continuity Bootstrap\t[STORY-R10-004] feat(database): enforce group\
+    \ promotion invariants"
+project_fingerprint:
+  sha256: 60e449f2d3a12e553574017dd3ec8c5e08e3b3c9bbf21bcec98bf7e44fefc172
+  files:
+  - CHANGELOG.md
+  - releases/R10/TASKS.yaml
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R10ServiceTest.java
+  file_count: 3
+  payload:
+    base_commit: 08a3d4d7fcca26c978e9c843e5d8e5b827bebf86
+    files:
+    - path: CHANGELOG.md
+      state: FILE
+      size: 111920
+      sha256: e91b3bc997d20678bb2065b7c9680e87d7bcbfdd175f9f3616c9207d33d0883a
+    - path: releases/R10/TASKS.yaml
+      state: FILE
+      size: 5671
+      sha256: 827e91affe54108fec23add25a2ff96aef107b4452f565fe8bbb916a30dff37c
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/content/R10ServiceTest.java
+      state: FILE
+      size: 12741
+      sha256: 5fb97fc4a0c6c198cf48ceeba4f4e4d2a1d60070a2fe18efd09aba61a004fb3f
+change_classification:
+  other:
+  - CHANGELOG.md
+  - releases/R10/TASKS.yaml
+  code:
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R10ServiceTest.java
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+change_requests: []
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions: []
+  source: story+explicit
+parallel_execution:
+  assessment: USER_SERIAL_OVERRIDE
+  delegated_workers: 0
+  workers: []
+  reason: R10执行计划要求单协调者串行完成专项测试关闭
+event_hash: 472ebede3b86ce65a9b77f81276bbae17f852c8ddb17673e45056b0026173c03

@@ -1282,3 +1282,13 @@
 - Actor：`codex-root-r10-client`
 - 摘要：完成R10群聊推广Android三页、H5安全公开分享、后台类型化管理和跨端契约闭环，全部受影响MODULE门禁通过
 - 记录：`docs/03-continuity/sessions/2026-07/SES-20260723T074719Z-AB4D0E80.md`
+
+## TASK-R10-005 · COMPLETED · 2026-07-23T11:53:51Z
+
+- Task close: TASK-R10-005 / SES-20260723T114316Z-44EBE3C1
+- Release：`R10`
+- Story：`STORY-R10-004`
+- Actor：`codex-root-r10-tests`
+- 摘要：完成R10群聊专项测试与故障注入，三类冻结测试和PostgreSQL17矩阵全部通过
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260723T114316Z-44EBE3C1.md`
+
