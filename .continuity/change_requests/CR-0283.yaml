@@ -1,0 +1,53 @@
+protocol_version: '1.0'
+cr_id: CR-0283
+title: 纠正CR-0282团队长地区数据库归属
+status: IMPLEMENTED
+created_at: '2026-07-23T17:32:30Z'
+updated_at: '2026-07-23T17:49:23Z'
+requester_actor_id: codex-root-r11-data
+approver_actor_id: codex-independent-r11-data-reviewer-2
+task_id: TASK-R11-002
+session_id: SES-20260723T171219Z-D5E6B99E
+user_request: 按开发文档一比一完成R11团队长入驻闭环并持续推进。
+reason: PostgreSQL 17全量迁移证明content_posts不存在region_code；CR-0282的复用假设无法执行，需沿用project_details.region模式在team_leader_details持久化冻结地区字段。
+original_rule: CR-0282规定团队长地区复用content_posts.region_code。
+new_rule: 数据库基线不存在content_posts.region_code；R11在team_leader_details新增region字段，沿用project_details.region的类型扩展建模，并纳入非空白、审核终态完整性、地区索引、升级失败关闭与安全回滚约束；content_media和content_contacts继续复用。
+impact_summary: 纠正不可执行的字段归属，使团队长地区成为可查询、可约束且与既有内容类型一致的持久化事实。
+impact:
+  files:
+  - database/migrations/V038__r11_team_leader_invariants.sql
+  - database/rollback/U038__r11_team_leader_invariants.sql
+  - database/tests/r11_team_leader_invariants.sql
+  - scripts/run_r11_database_invariants.sh
+  - database/schema_dictionary.csv
+  pages: []
+  apis: []
+  database:
+  - team_leader_details
+  configuration: []
+  ledger: []
+  tests:
+  - PostgreSQL 17 V001-V038 full migration and R11 invariant suite
+  releases:
+  - R11
+  migration_and_compatibility: region允许NULL兼容旧DRAFT；审核中及后续旧记录缺失region时V038失败关闭；U038发现region或其他新增字段有值时拒绝删除。
+user_confirmation: 项目所有者已要求按开发文档一比一实现并持续推进。
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-23T17:32:36Z'
+  note: 独立复核数据库基线、R08类型扩展模式和冻结团队长地区字段；修正不新增业务，只消除CR-0282不可执行引用。
+machine_record: .continuity/change_requests/CR-0283.yaml
+document: docs/03-continuity/change-requests/CR-0283-纠正CR-0282团队长地区数据库归属.md
+decision_log:
+- at: '2026-07-23T17:41:09Z'
+  actor_id: codex-root-r11-data
+  status: IMPLEMENTING
+  note: 已按批准纠错把团队长地区持久化到team_leader_details.region并进入验证。
+  session_id: SES-20260723T171219Z-D5E6B99E
+- at: '2026-07-23T17:49:23Z'
+  actor_id: codex-root-r11-data
+  status: IMPLEMENTED
+  note: team_leader_details.region已实现并通过空库升级、脏数据失败关闭、安全回滚与索引验证。
+  session_id: SES-20260723T171219Z-D5E6B99E
+session_ids:
+- SES-20260723T171219Z-D5E6B99E

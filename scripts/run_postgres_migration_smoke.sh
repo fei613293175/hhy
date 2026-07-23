@@ -307,6 +307,16 @@ echo "U010_REAPPLY_V010 PASS"
 "${PSQL[@]}" -f "$ROOT/database/tests/r03_provider_configuration_invariants.sql" >/dev/null
 DATABASE_URL="$DATABASE_URL" HHY_DB_SMOKE_CONFIRM=YES \
   bash "$ROOT/scripts/run_r04_database_invariants.sh"
+for migration in "$ROOT"/database/migrations/V*.sql; do
+  migration_name="$(basename "$migration")"
+  migration_version="${migration_name%%__*}"
+  migration_number=$((10#${migration_version#V}))
+  (( migration_number <= 22 )) && continue
+  "${PSQL[@]}" --single-transaction -f "$migration" >/dev/null
+done
+echo "LATEST_MIGRATIONS_AFTER_R04 PASS"
+DATABASE_URL="$DATABASE_URL" HHY_DB_SMOKE_CONFIRM=YES \
+  bash "$ROOT/scripts/run_r11_database_invariants.sh"
 FINAL_TABLE_COUNT="$("${PSQL[@]}" -Atc "SELECT count(*) FROM information_schema.tables WHERE table_schema='hhy' AND table_type='BASE TABLE';")"
 [[ "$FINAL_TABLE_COUNT" == "200" ]] || {
   echo "Final R03 schema must contain 200 tables, got $FINAL_TABLE_COUNT" >&2

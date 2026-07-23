@@ -17246,3 +17246,115 @@ change_requests:
     session_id: SES-20260723T165808Z-606D1DDF
   session_ids:
   - SES-20260723T165808Z-606D1DDF
+- protocol_version: '1.0'
+  cr_id: CR-0282
+  title: 实现R11团队长资料数据库不变量
+  status: IMPLEMENTED
+  created_at: '2026-07-23T17:13:56Z'
+  updated_at: '2026-07-23T17:49:20Z'
+  requester_actor_id: codex-root-r11-data
+  approver_actor_id: codex-independent-r11-data-reviewer
+  task_id: TASK-R11-002
+  session_id: SES-20260723T171219Z-D5E6B99E
+  user_request: 按开发文档一比一完成R11团队长入驻闭环并持续推进。
+  reason: 现有team_leader_details仅有团队名、人数、技能和合作类型；缺少冻结文档要求的昵称、头像Logo、个人/团队介绍、合作要求、案例、私聊偏好及终态完整性，核心事实不能继续仅依赖无约束attributes。
+  original_rule: team_leader_details仅存team_name/size_range/skills/cooperation_types，R06只约束类型与一账号一份；主文档要求的昵称、Logo、个人/团队介绍、合作要求、过往案例、私聊偏好和终态真实联系方式缺少数据库事实与并发保护。
+  new_rule: 新增V038/U038：复用content_posts.region_code、content_media和content_contacts，不重复存储通用事实；team_leader_details补nickname/logo_media_id/personal_intro/team_intro/cooperation_requirement/past_cases/accept_private_chat，字段值受类型、空白、JSON数组与Logo外键约束。PENDING_REVIEW及后续可公开/审核状态必须资料完整，ONLINE必须至少一种真实非JOIN_PASSWORD联系方式；父行锁加延迟终态约束阻止任意施工顺序和并发写偏斜；回滚遇到新列业务值必须失败关闭。
+  impact_summary: 把R11团队长专属资料和一账号一份终态从无约束attributes落实为可迁移、可回滚、可并发验证的数据库事实。
+  impact:
+    files:
+    - database/migrations/V038__r11_team_leader_invariants.sql
+    - database/rollback/U038__r11_team_leader_invariants.sql
+    - database/tests/r11_team_leader_invariants.sql
+    - scripts/run_r11_database_invariants.sh
+    - scripts/run_postgres_migration_smoke.sh
+    - database/schema_dictionary.csv
+    pages: []
+    apis: []
+    database:
+    - team_leader_details
+    - content_posts
+    - content_contacts
+    - media_objects
+    configuration: []
+    ledger: []
+    tests:
+    - R11 PostgreSQL 17 invariant matrix PASS
+    - V038/U038 rollback replay PASS
+    - R11 parent-lock write-skew PASS
+    releases:
+    - R11
+    migration_and_compatibility: V038新增列均允许NULL以兼容旧DRAFT；升级前检查不完整审核/公开历史数据并失败关闭。U038仅在所有新增列无业务值时允许删除，防止静默丢失。通用地区、图片和联系方式继续复用既有表。
+  user_confirmation: 项目所有者要求功能与开发文档一一对应并持续完成R11。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-23T17:15:27Z'
+    note: 独立复核确认新增列均来自主开发文档4.9.4；地区、展示图片、联系方式复用既有通用表，未重复建模。延迟约束与父行锁沿用R10已验证模式，回滚失败关闭保护数据。
+  machine_record: .continuity/change_requests/CR-0282.yaml
+  document: docs/03-continuity/change-requests/CR-0282-实现R11团队长资料数据库不变量.md
+  decision_log:
+  - at: '2026-07-23T17:41:06Z'
+    actor_id: codex-root-r11-data
+    status: IMPLEMENTING
+    note: V038数据库迁移、约束、回滚与PostgreSQL 17测试正在实施。
+    session_id: SES-20260723T171219Z-D5E6B99E
+  - at: '2026-07-23T17:49:20Z'
+    actor_id: codex-root-r11-data
+    status: IMPLEMENTED
+    note: V038/U038已实现团队长资料、媒体外键、真实联系方式终态、父行锁和延迟约束；地区归属由CR-0283纠正。PostgreSQL 17全量验证PASS。
+    session_id: SES-20260723T171219Z-D5E6B99E
+  session_ids:
+  - SES-20260723T171219Z-D5E6B99E
+- protocol_version: '1.0'
+  cr_id: CR-0283
+  title: 纠正CR-0282团队长地区数据库归属
+  status: IMPLEMENTED
+  created_at: '2026-07-23T17:32:30Z'
+  updated_at: '2026-07-23T17:49:23Z'
+  requester_actor_id: codex-root-r11-data
+  approver_actor_id: codex-independent-r11-data-reviewer-2
+  task_id: TASK-R11-002
+  session_id: SES-20260723T171219Z-D5E6B99E
+  user_request: 按开发文档一比一完成R11团队长入驻闭环并持续推进。
+  reason: PostgreSQL 17全量迁移证明content_posts不存在region_code；CR-0282的复用假设无法执行，需沿用project_details.region模式在team_leader_details持久化冻结地区字段。
+  original_rule: CR-0282规定团队长地区复用content_posts.region_code。
+  new_rule: 数据库基线不存在content_posts.region_code；R11在team_leader_details新增region字段，沿用project_details.region的类型扩展建模，并纳入非空白、审核终态完整性、地区索引、升级失败关闭与安全回滚约束；content_media和content_contacts继续复用。
+  impact_summary: 纠正不可执行的字段归属，使团队长地区成为可查询、可约束且与既有内容类型一致的持久化事实。
+  impact:
+    files:
+    - database/migrations/V038__r11_team_leader_invariants.sql
+    - database/rollback/U038__r11_team_leader_invariants.sql
+    - database/tests/r11_team_leader_invariants.sql
+    - scripts/run_r11_database_invariants.sh
+    - database/schema_dictionary.csv
+    pages: []
+    apis: []
+    database:
+    - team_leader_details
+    configuration: []
+    ledger: []
+    tests:
+    - PostgreSQL 17 V001-V038 full migration and R11 invariant suite
+    releases:
+    - R11
+    migration_and_compatibility: region允许NULL兼容旧DRAFT；审核中及后续旧记录缺失region时V038失败关闭；U038发现region或其他新增字段有值时拒绝删除。
+  user_confirmation: 项目所有者已要求按开发文档一比一实现并持续推进。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-23T17:32:36Z'
+    note: 独立复核数据库基线、R08类型扩展模式和冻结团队长地区字段；修正不新增业务，只消除CR-0282不可执行引用。
+  machine_record: .continuity/change_requests/CR-0283.yaml
+  document: docs/03-continuity/change-requests/CR-0283-纠正CR-0282团队长地区数据库归属.md
+  decision_log:
+  - at: '2026-07-23T17:41:09Z'
+    actor_id: codex-root-r11-data
+    status: IMPLEMENTING
+    note: 已按批准纠错把团队长地区持久化到team_leader_details.region并进入验证。
+    session_id: SES-20260723T171219Z-D5E6B99E
+  - at: '2026-07-23T17:49:23Z'
+    actor_id: codex-root-r11-data
+    status: IMPLEMENTED
+    note: team_leader_details.region已实现并通过空库升级、脏数据失败关闭、安全回滚与索引验证。
+    session_id: SES-20260723T171219Z-D5E6B99E
+  session_ids:
+  - SES-20260723T171219Z-D5E6B99E

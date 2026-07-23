@@ -1,14 +1,14 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-23T17:11:17Z
-- Context Hash：`1837b1e245b31384a82423f15c0f8ad0580f84092f5dbf54dd4a9c21440becc4`
+- 生成时间：2026-07-23T17:50:15Z
+- Context Hash：`cf0d2f8152f4d92d3613d28e9a544edb94f845552b87f3094d867b6f2e94af02`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 规则就绪：`PASS`（`HASHED_CONTEXT_MANIFEST`）
 - 精确恢复命令：
 
 ```bash
-python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R11-002
+python3 scripts/continuity.py checkpoint --summary '<完成内容>' --next-step '<下一步>' --parallel-assessment <ASSESSMENT> --parallel-reason '<未委托原因>'
 ```
 
 ## 规则就绪
@@ -42,7 +42,7 @@ baseline_version: 1.2.3
 phase: R11
 active_release: R11
 active_task: TASK-R11-002
-status: READY
+status: IN_PROGRESS
 documentation_status: ZERO_BLOCKING_DOCUMENT_GAPS
 last_green_commit: 8a2c6b93
 last_staging_apk: null
@@ -143,14 +143,15 @@ completed_tasks:
 - TASK-R10-007
 - TASK-R10-008
 - TASK-R11-001
-in_progress_tasks: []
+in_progress_tasks:
+- TASK-R11-002
 blocked_tasks:
 - TASK-R02-007
 - TASK-R03-007
 - TASK-R06-008
 - TASK-R07-008
 next_task: TASK-R11-002
-updated_at: '2026-07-23T17:11:15Z'
+updated_at: '2026-07-23T17:50:12Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -182,17 +183,19 @@ validation:
 continuity:
   protocol_version: '1.0'
   mode: ENFORCED
-  active_session_id: null
-  last_session_id: SES-20260723T165808Z-606D1DDF
-  last_session_result: COMPLETED
-  last_checkpoint: .continuity/checkpoints/SES-20260723T165808Z-606D1DDF/0003.yaml
-  last_handoff_bundle: null
+  active_session_id: SES-20260723T171219Z-D5E6B99E
+  actor_id: codex-root-r11-data
+  story_id: STORY-R11-004
+  lease_expires_at: '2026-07-23T21:50:12Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260723T171219Z-D5E6B99E/0001.yaml
+  project_fingerprint: 700a9b35f960c2c25e27bc036e5f0190710dd542d6a6b2890335ce6cc918ee49
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: d05b7ca918e39cd7f30eb79b12172d2b35996ebe34733298ead959ecddcc7579
-    generated_at: '2026-07-23T17:11:12Z'
+    context_hash: 92667be5fb78a357733f18632457cac224662308bb50c2b003159b768de184c4
+    generated_at: '2026-07-23T17:27:08Z'
+  handoff_bundle: null
 ```
 
 ## 默认并行规则
@@ -376,13 +379,312 @@ next_after: 由当前TASKS.yaml依赖关系决定
 ## 活跃会话
 
 ```yaml
-status: NONE
+protocol_version: '1.0'
+package_version: 1.2.3
+session_id: SES-20260723T171219Z-D5E6B99E
+status: ACTIVE
+actor:
+  id: codex-root-r11-data
+  kind: AI_OR_HUMAN
+  host: unknown
+release: R11
+task_id: TASK-R11-002
+story_id: STORY-R11-004
+goal: 实现R11团队长一账号一份、资料案例合作信息与终态约束的可迁移可回滚数据库不变量，并通过真实PostgreSQL矩阵。
+started_at: '2026-07-23T17:12:19Z'
+updated_at: '2026-07-23T17:50:12Z'
+takeover_of: null
+change_requests:
+- CR-0282
+- CR-0283
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions:
+  - database/migrations/V038__r11_team_leader_invariants.sql
+  - database/rollback/U038__r11_team_leader_invariants.sql
+  - database/tests/r11_team_leader_invariants.sql
+  - scripts/run_r11_database_invariants.sh
+  - scripts/run_postgres_migration_smoke.sh
+  - database/schema_dictionary.csv
+  source: story+explicit+approved-cr:CR-0282+approved-cr:CR-0283
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  base_commit: 94a520df9e3c5df535b4d26ff1b918cccb91288e
+  start_head: 94a520df9e3c5df535b4d26ff1b918cccb91288e
+  upstream: origin/task/TASK-R03-001
+  initial_worktree_state: CLEAN
+lease:
+  duration_minutes: 240
+  renewed_at: '2026-07-23T17:50:12Z'
+  expires_at: '2026-07-23T21:50:12Z'
+checkpoint_sequence: 1
+latest_checkpoint: .continuity/checkpoints/SES-20260723T171219Z-D5E6B99E/0001.yaml
+session_log: docs/03-continuity/sessions/2026-07/SES-20260723T171219Z-D5E6B99E.md
+next_step: 提交TASK-R11-002实现，关闭会话与任务，启动TASK-R11-003后端接口开发。
+context_pack: THIS_CONTEXT_PACK
+handoff_bundle: null
+closure: null
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 数据库迁移、并发、回滚和最终集成属于AGENTS.md规定的主控串行高风险范围；自动规划初始数据库单域也禁用并行。
 ```
 
 ## 最新检查点
 
 ```yaml
-status: NO_CHECKPOINT
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260723T171219Z-D5E6B99E-0001
+session_id: SES-20260723T171219Z-D5E6B99E
+sequence: 1
+created_at: '2026-07-23T17:50:12Z'
+summary: 完成TASK-R11-002团队长数据库不变量：V038/U038、地区纠错、父行锁延迟约束、回滚和升级失败关闭、运行时迁移同步与总烟测恢复。
+next_step: 提交TASK-R11-002实现，关闭会话与任务，启动TASK-R11-003后端接口开发。
+blockers: []
+decisions:
+- 地区按类型扩展存入team_leader_details.region；content_posts不存在region_code，CR-0283纠正CR-0282假设。
+note: ''
+tests:
+- name: PostgreSQL17全量迁移
+  result: PASS
+  evidence: obx-test:/tmp/hhy-r11-db-SES-20260723T171219Z-D5E6B99E/postgres-migration-smoke-final.log
+  note: V001-V038、200表和最终基线通过
+- name: R11数据库不变量
+  result: PASS
+  evidence: R11_TEAM_LEADER_INVARIANTS PASS
+  note: 资料完整、Logo外键、真实联系方式和字段约束通过
+- name: R11并发写偏斜
+  result: PASS
+  evidence: R11_PARENT_LOCK_WRITE_SKEW PASS A=1 B=0
+  note: 删除末个联系方式失败且下线成功
+- name: R11回滚与升级失败关闭
+  result: PASS
+  evidence: R11_U038_POPULATED_ROLLBACK_BLOCKED PASS; R11_DIRTY_UPGRADE_BLOCKED_ATOMICALLY PASS
+  note: 业务值不丢失且脏升级原子阻断
+- name: 后端模块测试
+  result: PASS
+  evidence: obx-test:/tmp/hhy-r11-backend-source-1784828657/backend-module.log
+  note: JDK21 Maven测试369项0失败0错误12跳过
+- name: 数据库静态门禁
+  result: PASS
+  evidence: DB_SCHEMA_OK tables=200 migrations=38 runtime_hashes=PASS
+  note: 模式字典和运行时副本一致
+- name: R11严格文档门禁
+  result: PASS
+  evidence: check_v123_documentation.py --strict --release R11
+  note: 0错误0警告
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: 94a520df9e3c5df535b4d26ff1b918cccb91288e
+  upstream: origin/task/TASK-R03-001
+  ahead: 6
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/ACTIVE_SESSION.yaml'
+  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/SESSION_INDEX.yaml'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/TASK_CLAIMS.yaml'
+  - ' M .continuity/TASK_TRANSITIONS.yaml'
+  - ' M CURRENT_STATUS.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+  - ' M catalogs/change_request_index.csv'
+  - ' M catalogs/session_index.csv'
+  - ' M catalogs/task_transition_ledger.csv'
+  - ' M database/schema_dictionary.csv'
+  - ' M scripts/run_postgres_migration_smoke.sh'
+  - ?? .continuity/change_requests/CR-0282.yaml
+  - ?? .continuity/change_requests/CR-0283.yaml
+  - ?? .continuity/sessions/SES-20260723T171219Z-D5E6B99E.yaml
+  - ?? database/migrations/V038__r11_team_leader_invariants.sql
+  - ?? database/rollback/U038__r11_team_leader_invariants.sql
+  - ?? database/tests/r11_team_leader_invariants.sql
+  - ?? docs/03-continuity/change-requests/CR-0282-实现R11团队长资料数据库不变量.md
+  - ?? docs/03-continuity/change-requests/CR-0283-纠正CR-0282团队长地区数据库归属.md
+  - ?? docs/03-continuity/sessions/2026-07/SES-20260723T171219Z-D5E6B99E.md
+  - ?? scripts/run_r11_database_invariants.sh
+  - ?? services/backend/boot/src/main/resources/db/migration/V038__r11_team_leader_invariants.sql
+  recent_commits:
+  - "94a520df9e3c5df535b4d26ff1b918cccb91288e\t2026-07-24T01:11:42+08:00\tHHY Continuity Bootstrap\t[STORY-R11-004] chore(continuity): close TASK-R11-001\
+    \ as completed"
+  - "8a2c6b937716789351afa7d49c146bb215867949\t2026-07-24T01:10:25+08:00\tHHY Continuity Bootstrap\t[STORY-R11-004] docs(release): freeze R11\
+    \ entry baseline"
+  - "70524de3347e0365aeac268e6e25d66e6915615e\t2026-07-24T00:57:17+08:00\tHHY Continuity Bootstrap\t[STORY-R10-004] chore(continuity): close TASK-R10-008\
+    \ as completed"
+  - "28354e71d6adff700696cb340f2275a62e61ede1\t2026-07-24T00:55:36+08:00\tHHY Continuity Bootstrap\t[STORY-R10-004] chore(release): close R10\
+    \ machine acceptance"
+  - "b04f326ddda935decdf2609ea7b1bee8cc799cfc\t2026-07-24T00:50:11+08:00\tHHY Continuity Bootstrap\t[STORY-R10-004] chore(continuity): close TASK-R10-007\
+    \ as completed"
+  - "758c30a3f5fa393dd57b886ac496edd039a6e46f\t2026-07-24T00:43:51+08:00\tHHY Continuity Bootstrap\t[STORY-R10-004] test(android): deliver R10\
+    \ test APK"
+  - "e906f169852fff222291c88cec1e8b229f011593\t2026-07-23T22:24:15+08:00\tHHY Continuity Bootstrap\t[STORY-R10-004] fix(ci): allow strict doctor\
+    \ promotion evidence"
+  - "871ef5cf741ac10a5a51fe6cb7b6bf2f820f889f\t2026-07-23T22:17:27+08:00\tHHY Continuity Bootstrap\t[STORY-R10-004] test(android): approve R10\
+    \ visual baseline"
+project_fingerprint:
+  sha256: 700a9b35f960c2c25e27bc036e5f0190710dd542d6a6b2890335ce6cc918ee49
+  files:
+  - database/migrations/V038__r11_team_leader_invariants.sql
+  - database/rollback/U038__r11_team_leader_invariants.sql
+  - database/schema_dictionary.csv
+  - database/tests/r11_team_leader_invariants.sql
+  - docs/03-continuity/change-requests/CR-0282-实现R11团队长资料数据库不变量.md
+  - docs/03-continuity/change-requests/CR-0283-纠正CR-0282团队长地区数据库归属.md
+  - scripts/run_postgres_migration_smoke.sh
+  - scripts/run_r11_database_invariants.sh
+  - services/backend/boot/src/main/resources/db/migration/V038__r11_team_leader_invariants.sql
+  file_count: 9
+  payload:
+    base_commit: 94a520df9e3c5df535b4d26ff1b918cccb91288e
+    files:
+    - path: database/migrations/V038__r11_team_leader_invariants.sql
+      state: FILE
+      size: 9475
+      sha256: 18f980da3a28460f4183f0e89c1a3f9d21e1cb80d2044d1604953543f9daa1ea
+    - path: database/rollback/U038__r11_team_leader_invariants.sql
+      state: FILE
+      size: 1659
+      sha256: 2035d9a60b18e3fe87910ec563363e360f41a671bed9510cec4a1d3f997491e1
+    - path: database/schema_dictionary.csv
+      state: FILE
+      size: 148320
+      sha256: d97b5ed2863b651078ee8bf43c2dacd4903bfe66b4f986dee0f30359324744b8
+    - path: database/tests/r11_team_leader_invariants.sql
+      state: FILE
+      size: 4125
+      sha256: a0f1554ed8231f970f1b61a16a86aad2861e6d517342f48b9ba2e84036fc2c6d
+    - path: docs/03-continuity/change-requests/CR-0282-实现R11团队长资料数据库不变量.md
+      state: FILE
+      size: 3817
+      sha256: 3a88416b652aad445380d959192f9731d99cabf458b425f0aa715468e3bb1d9f
+    - path: docs/03-continuity/change-requests/CR-0283-纠正CR-0282团队长地区数据库归属.md
+      state: FILE
+      size: 2915
+      sha256: 900ad0bc6ba0c32e7d957d37be6127f217abe9fcca522c516d2010288ac3681a
+    - path: scripts/run_postgres_migration_smoke.sh
+      state: FILE
+      size: 15262
+      sha256: 76c01efd33e48133c53f38cbc63737dd15b7e164e1cb72751462bf2d9d0e80c4
+    - path: scripts/run_r11_database_invariants.sh
+      state: FILE
+      size: 6103
+      sha256: 9164577a7bc915ba1af72222c4a0656c785ab7cf6ee4a566b739605c0bb58b20
+    - path: services/backend/boot/src/main/resources/db/migration/V038__r11_team_leader_invariants.sql
+      state: FILE
+      size: 9475
+      sha256: 18f980da3a28460f4183f0e89c1a3f9d21e1cb80d2044d1604953543f9daa1ea
+change_classification:
+  database:
+  - database/migrations/V038__r11_team_leader_invariants.sql
+  - database/rollback/U038__r11_team_leader_invariants.sql
+  - database/schema_dictionary.csv
+  - database/tests/r11_team_leader_invariants.sql
+  source_of_truth:
+  - database/schema_dictionary.csv
+  continuity:
+  - docs/03-continuity/change-requests/CR-0282-实现R11团队长资料数据库不变量.md
+  - docs/03-continuity/change-requests/CR-0283-纠正CR-0282团队长地区数据库归属.md
+  code:
+  - scripts/run_postgres_migration_smoke.sh
+  - scripts/run_r11_database_invariants.sh
+  - services/backend/boot/src/main/resources/db/migration/V038__r11_team_leader_invariants.sql
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+- APPROVED_CHANGE_REQUEST
+- DATABASE_TEST_EVIDENCE
+- SCHEMA_TRACEABILITY
+change_requests:
+- CR-0282
+- CR-0283
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions:
+  - database/migrations/V038__r11_team_leader_invariants.sql
+  - database/rollback/U038__r11_team_leader_invariants.sql
+  - database/tests/r11_team_leader_invariants.sql
+  - scripts/run_r11_database_invariants.sh
+  - scripts/run_postgres_migration_smoke.sh
+  - database/schema_dictionary.csv
+  source: story+explicit+approved-cr:CR-0282+approved-cr:CR-0283
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 数据库迁移、并发、回滚和最终集成属于AGENTS.md规定的主控串行高风险范围；自动规划初始数据库单域也禁用并行。
+event_hash: 84c45a2b4a81ba6b2b3bdfe565d283f21b5866a39c840e0b7eed22ba2226f074
 ```
 
 ## 接续状态与事件头
@@ -390,31 +692,19 @@ status: NO_CHECKPOINT
 ```yaml
 mode: ENFORCED
 protocol_version: '1.0'
-active_session_id: null
+active_session_id: SES-20260723T171219Z-D5E6B99E
 last_session_id: SES-20260723T165808Z-606D1DDF
 last_session_result: COMPLETED
 last_closure_checkpoint_id: CP-SES-20260723T165808Z-606D1DDF-0003
-event_count: 2781
-event_head_hash: 3ea68ca89d19daee5b130f5967ee14cc8ad5da70256542bdfd1075f4d6e9082e
+event_count: 2796
+event_head_hash: 84c45a2b4a81ba6b2b3bdfe565d283f21b5866a39c840e0b7eed22ba2226f074
 event_chain_valid: true
 ```
 
 ## 最近会话与任务迁移
 
 ```yaml
-recent_sessions: - session_id: SES-20260723T024212Z-696F7963
-  task_id: TASK-R09-008
-  story_id: STORY-R09-004
-  actor_id: codex-root-r09-machine-close
-  status: CLOSED
-  started_at: '2026-07-23T02:42:12Z'
-  record: .continuity/sessions/SES-20260723T024212Z-696F7963.yaml
-  session_log: docs/03-continuity/sessions/2026-07/SES-20260723T024212Z-696F7963.md
-  updated_at: '2026-07-23T02:49:06Z'
-  closed_at: '2026-07-23T02:49:06Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260723T024212Z-696F7963/0002.yaml
-  handoff_bundle: null
-- session_id: SES-20260723T025104Z-E29F6208
+recent_sessions: - session_id: SES-20260723T025104Z-E29F6208
   task_id: TASK-R10-001
   story_id: STORY-R10-004
   actor_id: codex-root-r10-entry
@@ -522,47 +812,19 @@ recent_sessions: - session_id: SES-20260723T024212Z-696F7963
   closed_at: '2026-07-23T17:11:14Z'
   latest_checkpoint: .continuity/checkpoints/SES-20260723T165808Z-606D1DDF/0003.yaml
   handoff_bundle: null
-task_claims: - claim_id: CLM-1000439D8C5F
-  session_id: SES-20260722T060947Z-B45C6BC0
-  task_id: TASK-R08-006
-  story_id: STORY-R08-004
-  actor_id: codex-root-r08-006
-  status: CLOSED
-  claimed_at: '2026-07-22T06:09:47Z'
-  allowed_paths:
-  - apps/**
-  - services/**
-  - packages/**
-  - contracts/**
-  - database/**
-  - config/**
-  - catalogs/**
-  - tests/**
-  - infra/**
-  - design/**
-  - docs/**
-  - releases/**
-  - scripts/**
-  - templates/**
-  - .github/**
-  - .githooks/**
-  - .codex/**
-  - AGENTS.md
-  - START_HERE.md
-  - README.md
-  - CHANGELOG.md
-  - Makefile
-  - .gitignore
-  - .gitattributes
-  - .dockerignore
-  - package.json
-  - pnpm-lock.yaml
-  - pnpm-workspace.yaml
-  - requirements-dev.txt
-  - PROJECT_*.yaml
-  - PROJECT_*.json
-  closed_at: '2026-07-22T06:40:24Z'
-- claim_id: CLM-16B5833492F6
+- session_id: SES-20260723T171219Z-D5E6B99E
+  task_id: TASK-R11-002
+  story_id: STORY-R11-004
+  actor_id: codex-root-r11-data
+  status: ACTIVE
+  started_at: '2026-07-23T17:12:19Z'
+  record: .continuity/sessions/SES-20260723T171219Z-D5E6B99E.yaml
+  session_log: docs/03-continuity/sessions/2026-07/SES-20260723T171219Z-D5E6B99E.md
+  updated_at: '2026-07-23T17:50:12Z'
+  closed_at: null
+  latest_checkpoint: .continuity/checkpoints/SES-20260723T171219Z-D5E6B99E/0001.yaml
+  handoff_bundle: null
+task_claims: - claim_id: CLM-16B5833492F6
   session_id: SES-20260722T064621Z-68304DE1
   task_id: TASK-R08-007
   story_id: STORY-R08-004
@@ -1347,17 +1609,46 @@ task_claims: - claim_id: CLM-1000439D8C5F
   - PROJECT_*.yaml
   - PROJECT_*.json
   closed_at: '2026-07-23T17:11:14Z'
-recent_task_transitions: - transition_id: TRN-3E393855243A
-  timestamp: '2026-07-22T06:09:49Z'
-  release: R08
-  task_id: TASK-R08-006
-  story_id: STORY-R08-004
-  from_status: READY
-  to_status: IN_PROGRESS
-  session_id: SES-20260722T060947Z-B45C6BC0
-  actor_id: codex-root-r08-006
-  reason: 会话领取任务
-- transition_id: TRN-42AA585CDCE5
+- claim_id: CLM-3D6F34DCEA9C
+  session_id: SES-20260723T171219Z-D5E6B99E
+  task_id: TASK-R11-002
+  story_id: STORY-R11-004
+  actor_id: codex-root-r11-data
+  status: ACTIVE
+  claimed_at: '2026-07-23T17:12:19Z'
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+recent_task_transitions: - transition_id: TRN-42AA585CDCE5
   timestamp: '2026-07-22T06:46:22Z'
   release: R08
   task_id: TASK-R08-007
@@ -1547,6 +1838,16 @@ recent_task_transitions: - transition_id: TRN-3E393855243A
   session_id: SES-20260723T165808Z-606D1DDF
   actor_id: codex-root-r11-entry
   reason: 会话领取任务
+- transition_id: TRN-E1E762FB88A9
+  timestamp: '2026-07-23T17:12:21Z'
+  release: R11
+  task_id: TASK-R11-002
+  story_id: STORY-R11-004
+  from_status: READY
+  to_status: IN_PROGRESS
+  session_id: SES-20260723T171219Z-D5E6B99E
+  actor_id: codex-root-r11-data
+  reason: 会话领取任务
 ```
 
 ## Git 状态
@@ -1554,29 +1855,43 @@ recent_task_transitions: - transition_id: TRN-3E393855243A
 ```yaml
 initialized: true
 branch: task/TASK-R03-001
-head: 8a2c6b937716789351afa7d49c146bb215867949
+head: 94a520df9e3c5df535b4d26ff1b918cccb91288e
 upstream: origin/task/TASK-R03-001
-ahead: 5
+ahead: 6
 behind: 0
 dirty: true
 status_porcelain:
 - ' M .continuity/ACTIVE_SESSION.yaml'
+- ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
 - ' M .continuity/EVENT_LOG.jsonl'
 - ' M .continuity/SESSION_INDEX.yaml'
 - ' M .continuity/STATE.yaml'
 - ' M .continuity/TASK_CLAIMS.yaml'
-- ' M .continuity/sessions/SES-20260723T165808Z-606D1DDF.yaml'
-- ' M CHANGELOG.md'
+- ' M .continuity/TASK_TRANSITIONS.yaml'
 - ' M CURRENT_STATUS.yaml'
-- ' M NEXT_TASK.yaml'
 - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
 - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
 - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+- ' M catalogs/change_request_index.csv'
 - ' M catalogs/session_index.csv'
-- ' M docs/03-continuity/sessions/2026-07/SES-20260723T165808Z-606D1DDF.md'
-- ' M releases/R11/TASKS.yaml'
-- ?? .continuity/checkpoints/SES-20260723T165808Z-606D1DDF/0003.yaml
+- ' M catalogs/task_transition_ledger.csv'
+- ' M database/schema_dictionary.csv'
+- ' M scripts/run_postgres_migration_smoke.sh'
+- ?? .continuity/change_requests/CR-0282.yaml
+- ?? .continuity/change_requests/CR-0283.yaml
+- ?? .continuity/checkpoints/SES-20260723T171219Z-D5E6B99E/0001.yaml
+- ?? .continuity/sessions/SES-20260723T171219Z-D5E6B99E.yaml
+- ?? database/migrations/V038__r11_team_leader_invariants.sql
+- ?? database/rollback/U038__r11_team_leader_invariants.sql
+- ?? database/tests/r11_team_leader_invariants.sql
+- ?? docs/03-continuity/change-requests/CR-0282-实现R11团队长资料数据库不变量.md
+- ?? docs/03-continuity/change-requests/CR-0283-纠正CR-0282团队长地区数据库归属.md
+- ?? docs/03-continuity/sessions/2026-07/SES-20260723T171219Z-D5E6B99E.md
+- ?? scripts/run_r11_database_invariants.sh
+- ?? services/backend/boot/src/main/resources/db/migration/V038__r11_team_leader_invariants.sql
 recent_commits:
+- "94a520df9e3c5df535b4d26ff1b918cccb91288e\t2026-07-24T01:11:42+08:00\tHHY Continuity Bootstrap\t[STORY-R11-004] chore(continuity): close TASK-R11-001\
+  \ as completed"
 - "8a2c6b937716789351afa7d49c146bb215867949\t2026-07-24T01:10:25+08:00\tHHY Continuity Bootstrap\t[STORY-R11-004] docs(release): freeze R11 entry\
   \ baseline"
 - "70524de3347e0365aeac268e6e25d66e6915615e\t2026-07-24T00:57:17+08:00\tHHY Continuity Bootstrap\t[STORY-R10-004] chore(continuity): close TASK-R10-008\
@@ -1591,16 +1906,22 @@ recent_commits:
   \ promotion evidence"
 - "871ef5cf741ac10a5a51fe6cb7b6bf2f820f889f\t2026-07-23T22:17:27+08:00\tHHY Continuity Bootstrap\t[STORY-R10-004] test(android): approve R10 visual\
   \ baseline"
-- "1e35a97fb0541644d85a264a84229435ead378bf\t2026-07-23T21:58:02+08:00\tHHY Continuity Bootstrap\t[STORY-R10-004] fix(android): bind R10 candidate\
-  \ visual manifest"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`1fbb190a13b20d27488f81727315e039af0e37ec1d6d8ce2c844e1339bbfdf5d`
-- 文件数：0
+- 指纹：`700a9b35f960c2c25e27bc036e5f0190710dd542d6a6b2890335ce6cc918ee49`
+- 文件数：9
 
-- 无
+- `database/migrations/V038__r11_team_leader_invariants.sql`
+- `database/rollback/U038__r11_team_leader_invariants.sql`
+- `database/schema_dictionary.csv`
+- `database/tests/r11_team_leader_invariants.sql`
+- `docs/03-continuity/change-requests/CR-0282-实现R11团队长资料数据库不变量.md`
+- `docs/03-continuity/change-requests/CR-0283-纠正CR-0282团队长地区数据库归属.md`
+- `scripts/run_postgres_migration_smoke.sh`
+- `scripts/run_r11_database_invariants.sh`
+- `services/backend/boot/src/main/resources/db/migration/V038__r11_team_leader_invariants.sql`
 
 ## 当前 Release
 
@@ -8935,13 +9256,125 @@ TASKS.yaml:
     session_id: SES-20260723T165808Z-606D1DDF
   session_ids:
   - SES-20260723T165808Z-606D1DDF
+- protocol_version: '1.0'
+  cr_id: CR-0282
+  title: 实现R11团队长资料数据库不变量
+  status: IMPLEMENTED
+  created_at: '2026-07-23T17:13:56Z'
+  updated_at: '2026-07-23T17:49:20Z'
+  requester_actor_id: codex-root-r11-data
+  approver_actor_id: codex-independent-r11-data-reviewer
+  task_id: TASK-R11-002
+  session_id: SES-20260723T171219Z-D5E6B99E
+  user_request: 按开发文档一比一完成R11团队长入驻闭环并持续推进。
+  reason: 现有team_leader_details仅有团队名、人数、技能和合作类型；缺少冻结文档要求的昵称、头像Logo、个人/团队介绍、合作要求、案例、私聊偏好及终态完整性，核心事实不能继续仅依赖无约束attributes。
+  original_rule: team_leader_details仅存team_name/size_range/skills/cooperation_types，R06只约束类型与一账号一份；主文档要求的昵称、Logo、个人/团队介绍、合作要求、过往案例、私聊偏好和终态真实联系方式缺少数据库事实与并发保护。
+  new_rule: 新增V038/U038：复用content_posts.region_code、content_media和content_contacts，不重复存储通用事实；team_leader_details补nickname/logo_media_id/personal_intro/team_intro/cooperation_requirement/past_cases/accept_private_chat，字段值受类型、空白、JSON数组与Logo外键约束。PENDING_REVIEW及后续可公开/审核状态必须资料完整，ONLINE必须至少一种真实非JOIN_PASSWORD联系方式；父行锁加延迟终态约束阻止任意施工顺序和并发写偏斜；回滚遇到新列业务值必须失败关闭。
+  impact_summary: 把R11团队长专属资料和一账号一份终态从无约束attributes落实为可迁移、可回滚、可并发验证的数据库事实。
+  impact:
+    files:
+    - database/migrations/V038__r11_team_leader_invariants.sql
+    - database/rollback/U038__r11_team_leader_invariants.sql
+    - database/tests/r11_team_leader_invariants.sql
+    - scripts/run_r11_database_invariants.sh
+    - scripts/run_postgres_migration_smoke.sh
+    - database/schema_dictionary.csv
+    pages: []
+    apis: []
+    database:
+    - team_leader_details
+    - content_posts
+    - content_contacts
+    - media_objects
+    configuration: []
+    ledger: []
+    tests:
+    - R11 PostgreSQL 17 invariant matrix PASS
+    - V038/U038 rollback replay PASS
+    - R11 parent-lock write-skew PASS
+    releases:
+    - R11
+    migration_and_compatibility: V038新增列均允许NULL以兼容旧DRAFT；升级前检查不完整审核/公开历史数据并失败关闭。U038仅在所有新增列无业务值时允许删除，防止静默丢失。通用地区、图片和联系方式继续复用既有表。
+  user_confirmation: 项目所有者要求功能与开发文档一一对应并持续完成R11。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-23T17:15:27Z'
+    note: 独立复核确认新增列均来自主开发文档4.9.4；地区、展示图片、联系方式复用既有通用表，未重复建模。延迟约束与父行锁沿用R10已验证模式，回滚失败关闭保护数据。
+  machine_record: .continuity/change_requests/CR-0282.yaml
+  document: docs/03-continuity/change-requests/CR-0282-实现R11团队长资料数据库不变量.md
+  decision_log:
+  - at: '2026-07-23T17:41:06Z'
+    actor_id: codex-root-r11-data
+    status: IMPLEMENTING
+    note: V038数据库迁移、约束、回滚与PostgreSQL 17测试正在实施。
+    session_id: SES-20260723T171219Z-D5E6B99E
+  - at: '2026-07-23T17:49:20Z'
+    actor_id: codex-root-r11-data
+    status: IMPLEMENTED
+    note: V038/U038已实现团队长资料、媒体外键、真实联系方式终态、父行锁和延迟约束；地区归属由CR-0283纠正。PostgreSQL 17全量验证PASS。
+    session_id: SES-20260723T171219Z-D5E6B99E
+  session_ids:
+  - SES-20260723T171219Z-D5E6B99E
+- protocol_version: '1.0'
+  cr_id: CR-0283
+  title: 纠正CR-0282团队长地区数据库归属
+  status: IMPLEMENTED
+  created_at: '2026-07-23T17:32:30Z'
+  updated_at: '2026-07-23T17:49:23Z'
+  requester_actor_id: codex-root-r11-data
+  approver_actor_id: codex-independent-r11-data-reviewer-2
+  task_id: TASK-R11-002
+  session_id: SES-20260723T171219Z-D5E6B99E
+  user_request: 按开发文档一比一完成R11团队长入驻闭环并持续推进。
+  reason: PostgreSQL 17全量迁移证明content_posts不存在region_code；CR-0282的复用假设无法执行，需沿用project_details.region模式在team_leader_details持久化冻结地区字段。
+  original_rule: CR-0282规定团队长地区复用content_posts.region_code。
+  new_rule: 数据库基线不存在content_posts.region_code；R11在team_leader_details新增region字段，沿用project_details.region的类型扩展建模，并纳入非空白、审核终态完整性、地区索引、升级失败关闭与安全回滚约束；content_media和content_contacts继续复用。
+  impact_summary: 纠正不可执行的字段归属，使团队长地区成为可查询、可约束且与既有内容类型一致的持久化事实。
+  impact:
+    files:
+    - database/migrations/V038__r11_team_leader_invariants.sql
+    - database/rollback/U038__r11_team_leader_invariants.sql
+    - database/tests/r11_team_leader_invariants.sql
+    - scripts/run_r11_database_invariants.sh
+    - database/schema_dictionary.csv
+    pages: []
+    apis: []
+    database:
+    - team_leader_details
+    configuration: []
+    ledger: []
+    tests:
+    - PostgreSQL 17 V001-V038 full migration and R11 invariant suite
+    releases:
+    - R11
+    migration_and_compatibility: region允许NULL兼容旧DRAFT；审核中及后续旧记录缺失region时V038失败关闭；U038发现region或其他新增字段有值时拒绝删除。
+  user_confirmation: 项目所有者已要求按开发文档一比一实现并持续推进。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-23T17:32:36Z'
+    note: 独立复核数据库基线、R08类型扩展模式和冻结团队长地区字段；修正不新增业务，只消除CR-0282不可执行引用。
+  machine_record: .continuity/change_requests/CR-0283.yaml
+  document: docs/03-continuity/change-requests/CR-0283-纠正CR-0282团队长地区数据库归属.md
+  decision_log:
+  - at: '2026-07-23T17:41:09Z'
+    actor_id: codex-root-r11-data
+    status: IMPLEMENTING
+    note: 已按批准纠错把团队长地区持久化到team_leader_details.region并进入验证。
+    session_id: SES-20260723T171219Z-D5E6B99E
+  - at: '2026-07-23T17:49:23Z'
+    actor_id: codex-root-r11-data
+    status: IMPLEMENTED
+    note: team_leader_details.region已实现并通过空库升级、脏数据失败关闭、安全回滚与索引验证。
+    session_id: SES-20260723T171219Z-D5E6B99E
+  session_ids:
+  - SES-20260723T171219Z-D5E6B99E
 ```
 
 ## 上下文来源及哈希
 
 - `AGENTS.md` — `f93034917d4b87ffd4caffe8b6cad354f69bc31f6c0d9398dec3074ae165496d`
 - `START_HERE.md` — `22de14029ce47beb41ea569e36ce223fbc9d11b86f8676f28d5fbbd83896af5c`
-- `CURRENT_STATUS.yaml` — `e4da983a031efea940f0ced98867c1433cc9ede036c92d15a1354533a1230db6`
+- `CURRENT_STATUS.yaml` — `3d45aca122ee2f641dd16fb312a8e7e95d09e1bfaf9954e677a732d638d47dd1`
 - `NEXT_TASK.yaml` — `81d66fa9ea672f7b11ec757aa82b68f18b5416fc69927824aa38d4ffea5825ed`
 - `DEVELOPMENT_RISK_REGISTER.md` — `8304c91492e4ee2abea0522a06541c8688d39c7fc532b5d0cde499bf09fffb87`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
@@ -8952,12 +9385,12 @@ TASKS.yaml:
 - `config/REPOSITORY_TRANSPORT.yaml` — `8c4a21f3e204d46e7ffb467d804a53ed26cda61cd088dadfddb50b69eea657fc`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `16a96f9a52f352f3c62175db308dd973889b2e82acb117bcfdd12a4bc4d379f6`
-- `.continuity/EVENT_LOG.jsonl` — `791cd6b4f60cd2df651925d5f9169a7afab8804439520574d1f482e2abfe1d27`
-- `.continuity/SESSION_INDEX.yaml` — `e9b7ac17399351b2269553b69d3aa5bd138b9cf08dda7f0b1a87ed396c82623b`
-- `.continuity/TASK_CLAIMS.yaml` — `235e120c943d4326c4aac11d6f680702d7f2029ccad4817414a3b1e35c3a6575`
-- `.continuity/TASK_TRANSITIONS.yaml` — `c1954ed47a405891256c1bb8cacd13836d53333c0b0d3a6352d3be4d3730561d`
-- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `a6c47133bceb96aeac5e23d91850110e18761555ca067b559277bc8f1a2ef735`
-- `.continuity/ACTIVE_SESSION.yaml` — `cf802f167b756727da776180ce35751d0eb3ced0bb1e06b0d8611864d7850d6e`
+- `.continuity/EVENT_LOG.jsonl` — `046da6759878cbb6c76b015e18df9e924ac0bd86f9ca806f469247d968509d50`
+- `.continuity/SESSION_INDEX.yaml` — `f1dad1aa7ee59f575ef058f9531d28f9f5daf129aded6c6673aeeb735366b1c5`
+- `.continuity/TASK_CLAIMS.yaml` — `34fa09bb5a027a117f0fbda670d6532443bf89e0642f837d70dc2aa55bce2508`
+- `.continuity/TASK_TRANSITIONS.yaml` — `a4bcc8de979d07459fd622eef2b699dde2ace9ae536670f857d958559f87fa72`
+- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `c31a3b7cfdf40eb3f7f51847e094c86508486f63dc8d9cd42a07f3c00b5d91dd`
+- `.continuity/ACTIVE_SESSION.yaml` — `de28597fe7a6191933ef1adc893d690e6ca210f6342dc7e6db028e585f9a9b7a`
 - `docs/00-baseline/正式商业系统全局硬性开发边界.md` — `9753b32db136e59e95a0974a62362456d9d577fd1bb40058ec985c4b64413eea`
 - `docs/02-ui/UI参考图使用与开发约束_V1.2.2.md` — `d14367586aa2067b059df58798acd20ab982459cdb35ff27fc7922a3896e4933`
 - `docs/03-continuity/持续开发无状态接续强制门禁_V1.2.3.md` — `d0ed3ed68bdd93b06500eecdfb5baa3245e6ca8b685a486788abb6eee39b3d51`
@@ -8967,6 +9400,10 @@ TASKS.yaml:
 - `releases/R11/STORIES.yaml` — `2b38e53de2c13042295a14ef01f5b60cf5fd3e4f4f49b5f147446552e1a2ac30`
 - `releases/R11/TASKS.yaml` — `9fae856ff74b7c45f1e24a0c572dc430ade8e96a9aeff3db79143593bf6f4948`
 - `releases/R11/ACCEPTANCE_MATRIX.csv` — `fd67dd0579ea65dc25e2671f49693a4b3b63eb59f0399587f96c11319c54b25f`
+- `docs/03-continuity/sessions/2026-07/SES-20260723T171219Z-D5E6B99E.md` — `a842840ac23c187f50ab3c2306ed4e40e314279337ea8d65eac2ba9097d39da2`
+- `.continuity/checkpoints/SES-20260723T171219Z-D5E6B99E/0001.yaml` — `eee46b0ca954826732b9457903c7971aa734947631367b99ae0a6694708dd666`
+- `docs/03-continuity/change-requests/CR-0282-实现R11团队长资料数据库不变量.md` — `3a88416b652aad445380d959192f9731d99cabf458b425f0aa715468e3bb1d9f`
+- `docs/03-continuity/change-requests/CR-0283-纠正CR-0282团队长地区数据库归属.md` — `900ad0bc6ba0c32e7d957d37be6127f217abe9fcca522c516d2010288ac3681a`
 
 ## 接手硬规则
 

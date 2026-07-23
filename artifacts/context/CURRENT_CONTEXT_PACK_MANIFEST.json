@@ -1,19 +1,19 @@
 {
   "version": "1.0",
-  "generated_at": "2026-07-23T17:11:17Z",
-  "context_hash": "1837b1e245b31384a82423f15c0f8ad0580f84092f5dbf54dd4a9c21440becc4",
-  "fingerprint_mode": "REPOSITORY_TREE",
+  "generated_at": "2026-07-23T17:50:15Z",
+  "context_hash": "cf0d2f8152f4d92d3613d28e9a544edb94f845552b87f3094d867b6f2e94af02",
+  "fingerprint_mode": "SESSION_DELTA",
   "project_fingerprint": {
-    "sha256": "1fbb190a13b20d27488f81727315e039af0e37ec1d6d8ce2c844e1339bbfdf5d",
-    "file_count": 0
+    "sha256": "700a9b35f960c2c25e27bc036e5f0190710dd542d6a6b2890335ce6cc918ee49",
+    "file_count": 9
   },
   "yaml": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.yaml",
-    "sha256": "d111b36b01c27589038a9ac593a2223a3e5759952d51e3c3a23a314b37892a67"
+    "sha256": "a742c084d875f3f0138e61ca04e6758c0d4032e647d976f2dc842c03c03311e9"
   },
   "markdown": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.md",
-    "sha256": "88108d0342e9c87e44a184ca4294d59547224f3add4d7f61f871ae22fc3bc6a9"
+    "sha256": "027e4b9b4acddc0ddf2f047a3affaa93ab8dad753d82ba68e55ba0d8a32b7643"
   },
   "sources": [
     {
@@ -28,8 +28,8 @@
     },
     {
       "path": "CURRENT_STATUS.yaml",
-      "sha256": "e4da983a031efea940f0ced98867c1433cc9ede036c92d15a1354533a1230db6",
-      "bytes": 4092
+      "sha256": "3d45aca122ee2f641dd16fb312a8e7e95d09e1bfaf9954e677a732d638d47dd1",
+      "bytes": 4239
     },
     {
       "path": "NEXT_TASK.yaml",
@@ -83,33 +83,33 @@
     },
     {
       "path": ".continuity/EVENT_LOG.jsonl",
-      "sha256": "791cd6b4f60cd2df651925d5f9169a7afab8804439520574d1f482e2abfe1d27",
-      "bytes": 1553266
+      "sha256": "046da6759878cbb6c76b015e18df9e924ac0bd86f9ca806f469247d968509d50",
+      "bytes": 1560768
     },
     {
       "path": ".continuity/SESSION_INDEX.yaml",
-      "sha256": "e9b7ac17399351b2269553b69d3aa5bd138b9cf08dda7f0b1a87ed396c82623b",
-      "bytes": 47179
+      "sha256": "f1dad1aa7ee59f575ef058f9531d28f9f5daf129aded6c6673aeeb735366b1c5",
+      "bytes": 47672
     },
     {
       "path": ".continuity/TASK_CLAIMS.yaml",
-      "sha256": "235e120c943d4326c4aac11d6f680702d7f2029ccad4817414a3b1e35c3a6575",
-      "bytes": 65630
+      "sha256": "34fa09bb5a027a117f0fbda670d6532443bf89e0642f837d70dc2aa55bce2508",
+      "bytes": 66360
     },
     {
       "path": ".continuity/TASK_TRANSITIONS.yaml",
-      "sha256": "c1954ed47a405891256c1bb8cacd13836d53333c0b0d3a6352d3be4d3730561d",
-      "bytes": 26842
+      "sha256": "a4bcc8de979d07459fd622eef2b699dde2ace9ae536670f857d958559f87fa72",
+      "bytes": 27128
     },
     {
       "path": ".continuity/CHANGE_REQUEST_INDEX.yaml",
-      "sha256": "a6c47133bceb96aeac5e23d91850110e18761555ca067b559277bc8f1a2ef735",
-      "bytes": 940063
+      "sha256": "c31a3b7cfdf40eb3f7f51847e094c86508486f63dc8d9cd42a07f3c00b5d91dd",
+      "bytes": 946820
     },
     {
       "path": ".continuity/ACTIVE_SESSION.yaml",
-      "sha256": "cf802f167b756727da776180ce35751d0eb3ced0bb1e06b0d8611864d7850d6e",
-      "bytes": 143
+      "sha256": "de28597fe7a6191933ef1adc893d690e6ca210f6342dc7e6db028e585f9a9b7a",
+      "bytes": 534
     },
     {
       "path": "docs/00-baseline/正式商业系统全局硬性开发边界.md",
@@ -155,6 +155,26 @@
       "path": "releases/R11/ACCEPTANCE_MATRIX.csv",
       "sha256": "fd67dd0579ea65dc25e2671f49693a4b3b63eb59f0399587f96c11319c54b25f",
       "bytes": 684
+    },
+    {
+      "path": "docs/03-continuity/sessions/2026-07/SES-20260723T171219Z-D5E6B99E.md",
+      "sha256": "a842840ac23c187f50ab3c2306ed4e40e314279337ea8d65eac2ba9097d39da2",
+      "bytes": 3727
+    },
+    {
+      "path": ".continuity/checkpoints/SES-20260723T171219Z-D5E6B99E/0001.yaml",
+      "sha256": "eee46b0ca954826732b9457903c7971aa734947631367b99ae0a6694708dd666",
+      "bytes": 9373
+    },
+    {
+      "path": "docs/03-continuity/change-requests/CR-0282-实现R11团队长资料数据库不变量.md",
+      "sha256": "3a88416b652aad445380d959192f9731d99cabf458b425f0aa715468e3bb1d9f",
+      "bytes": 3817
+    },
+    {
+      "path": "docs/03-continuity/change-requests/CR-0283-纠正CR-0282团队长地区数据库归属.md",
+      "sha256": "900ad0bc6ba0c32e7d957d37be6127f217abe9fcca522c516d2010288ac3681a",
+      "bytes": 2915
     }
   ]
 }

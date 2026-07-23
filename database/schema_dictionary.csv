@@ -233,6 +233,14 @@
 内容,team_leader_details,6,cooperation_types,varchar(255),是,,,owner唯一活动资料,R06-R13,FROZEN
 内容,team_leader_details,7,created_at,timestamptz,否,now(),INDEX,统一审计字段,R06-R13,FROZEN
 内容,team_leader_details,8,updated_at,timestamptz,否,now(),,统一审计字段,R06-R13,FROZEN
+内容,team_leader_details,9,nickname,varchar(255),是,,,团队长昵称,R11,FROZEN_CR-0282
+内容,team_leader_details,10,logo_media_id,bigint,是,,FOREIGN KEY,头像或Logo媒体引用,R11,FROZEN_CR-0282
+内容,team_leader_details,11,region,varchar(255),是,,,团队长所在地区,R11,FROZEN_CR-0283
+内容,team_leader_details,12,personal_intro,text,是,,,个人介绍,R11,FROZEN_CR-0282
+内容,team_leader_details,13,team_intro,text,是,,,团队介绍,R11,FROZEN_CR-0282
+内容,team_leader_details,14,cooperation_requirement,text,是,,,合作要求,R11,FROZEN_CR-0282
+内容,team_leader_details,15,past_cases,jsonb,是,,,过往案例数组,R11,FROZEN_CR-0282
+内容,team_leader_details,16,accept_private_chat,boolean,是,,,是否接受私聊,R11,FROZEN_CR-0282
 内容,content_media,1,id,bigint,否,generated,PRIMARY KEY,技术主键,R06-R13,FROZEN
 内容,content_media,2,content_id,bigint,否,,INDEX,内容+顺序唯一,R06-R13,FROZEN
 内容,content_media,3,media_id,bigint,否,,INDEX,内容+顺序唯一,R06-R13,FROZEN
