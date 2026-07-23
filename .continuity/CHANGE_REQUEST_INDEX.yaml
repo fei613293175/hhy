@@ -16891,3 +16891,46 @@ change_requests:
     session_id: SES-20260723T122953Z-52EBA51E
   session_ids:
   - SES-20260723T122953Z-52EBA51E
+- protocol_version: '1.0'
+  cr_id: CR-0275
+  title: 批准并轻量晋升R10首版视觉基线
+  status: APPROVED
+  created_at: '2026-07-23T14:12:18Z'
+  updated_at: '2026-07-23T14:12:44Z'
+  requester_actor_id: codex-root-r10-candidate
+  approver_actor_id: codex-independent-r10-baseline-reviewer
+  task_id: TASK-R10-007
+  session_id: SES-20260723T122953Z-52EBA51E
+  user_request: 项目所有者要求持续推进开发，截图由AI自行判断，不因每个版本等待用户核实。
+  reason: Run 30013677033的构建、OIDC认证、四页旅程、日志与截图均成功，唯一状态为首次无批准基线；需固化已审核截图并通过不重建、不重跑模拟器的轻量晋升完成候选。
+  original_rule: R10候选四页已通过真实模拟器旅程并产出截图，但首个Release视觉基线不存在时机器状态只能为BASELINE_REVIEW_REQUIRED，尚不能交付项目所有者。
+  new_rule: 仅将Run 30013677033中由AI逐图审核合格的四张原始截图固化为R10首版基线；批准清单必须绑定源Commit、Run、Artifact及逐图SHA；晋升只复核既有候选证据，不允许重建APK或再次启动模拟器。
+  impact_summary: 新增R10四张不可变视觉基线和唯一审批清单，触发轻量GitHub晋升验证；不修改产品代码、API、数据库、候选APK或模拟器结果。
+  impact:
+    files:
+    - tests/android/visual-baselines/R10/01-home.png
+    - tests/android/visual-baselines/R10/02-group-list.png
+    - tests/android/visual-baselines/R10/03-group-detail.png
+    - tests/android/visual-baselines/R10/04-group-editor.png
+    - tests/android/visual-baselines/R10/APPROVAL.yaml
+    pages:
+    - SCR-HOME-001
+    - SCR-LIST-003
+    - SCR-DETAIL-003
+    - SCR-PUB-004
+    apis: []
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - android_ci_gate promote R10 existing evidence
+    releases:
+    - R10
+    migration_and_compatibility: 无生产迁移；后续R10截图与此基线比较，源Run和源APK保持不变。
+  user_confirmation: 项目所有者已明确授权AI自行判断所有版本截图并持续推进，不等待逐版人工核实。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-23T14:12:44Z'
+    note: 独立复核确认四图来自同一成功候选旅程，页面身份、信息层级、真实数据、敏感字段掩码及禁现技术字段均符合R10视觉合同；轻量晋升不重建、不启动模拟器。
+  machine_record: .continuity/change_requests/CR-0275.yaml
+  document: docs/03-continuity/change-requests/CR-0275-批准并轻量晋升R10首版视觉基线.md
