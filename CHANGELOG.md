@@ -1268,6 +1268,12 @@
 - H5-006 只展示安全公开群聊信息；后台统一内容详情补齐群聊业务字段、真实媒体、发布者、统计与脱敏入群信息。
 - 同步 admin OpenAPI、boot 运行时合同、生成 TypeScript 与合同注册表；固定云端 Android 114 tasks、后台 97 tests、H5 29 tests 和全部受影响门禁 PASS。
 
+## TASK-R10-005 · SPECIALIZED TESTS PASS · 2026-07-23
+
+- 冻结 `HAPPY/REJECT/IDEMPOTENT` 三类群聊测试全部通过，补齐同键换请求体冲突且零副作用的显式回归。
+- 固定 Maven 容器 R10 精确测试 9 项通过；PostgreSQL17 隔离矩阵覆盖升级失败关闭、空库/升级、并发、回滚和重放。
+- 消息重复和供应商异常经依赖审计判定为 `N/A_WITH_EVIDENCE`；R10 无消息消费或供应商回调，Outbox 单次写入已由幂等测试覆盖。
+
 ## TASK-R10-004 · COMPLETED · 2026-07-23T11:41:07Z
 
 - Task close: TASK-R10-004 / SES-20260723T074719Z-AB4D0E80
@@ -1276,4 +1282,3 @@
 - Actor：`codex-root-r10-client`
 - 摘要：完成R10群聊推广Android三页、H5安全公开分享、后台类型化管理和跨端契约闭环，全部受影响MODULE门禁通过
 - 记录：`docs/03-continuity/sessions/2026-07/SES-20260723T074719Z-AB4D0E80.md`
-

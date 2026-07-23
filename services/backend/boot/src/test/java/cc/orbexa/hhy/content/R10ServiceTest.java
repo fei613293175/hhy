@@ -150,6 +150,25 @@ class R10ServiceTest {
     }
 
     @Test
+    void sameIdempotencyKeyWithChangedRequestIsRejectedWithoutSideEffects() {
+        when(shared.identityVerified(11)).thenReturn(true);
+        when(shared.ownsReadyMedia(11, List.of(91L))).thenReturn(true);
+        when(shared.claim(anyString(), eq(KEY), anyString(), any())).thenReturn(
+                new R08Store.IdempotencyClaim(10, "different-request-hash", null, null, null, false));
+
+        BusinessException error = assertThrows(BusinessException.class,
+                () -> service.create(11, request(), KEY));
+
+        assertEquals("COMMON-409-IDEMPOTENCY_CONFLICT", error.code());
+        verify(shared, never()).integerConfig(anyString());
+        verify(store, never()).createGroup(anyLong(), anyString(), any(), anyString(), any(), any(), any(),
+                any(), any(), anyString(), any(), any());
+        verify(shared, never()).replaceContacts(anyLong(), any(), any());
+        verify(shared, never()).outbox(anyLong(), anyString(), anyString(), anyString(), anyString(), any());
+        verify(shared, never()).complete(anyLong(), anyString(), anyString(), anyString());
+    }
+
+    @Test
     void staleOrConcurrentPatchCannotEmitSuccessSideEffects() {
         when(shared.identityVerified(11)).thenReturn(true);
         when(store.group(61)).thenReturn(Optional.of(group("DRAFT", 3)));
