@@ -80,6 +80,7 @@ import cc.orbexa.hhy.grouppromotion.R10GroupDetailScreen
 import cc.orbexa.hhy.grouppromotion.R10GroupEditorScreen
 import cc.orbexa.hhy.grouppromotion.R10GroupListScreen
 import cc.orbexa.hhy.teamleader.R11TeamLeaderListScreen
+import cc.orbexa.hhy.teamleader.R11TeamLeaderDetailScreen
 import cc.orbexa.hhy.shell.HhyShellScreen
 import cc.orbexa.hhy.startup.StartupGateScreen
 import kotlinx.serialization.Serializable
@@ -221,6 +222,7 @@ private sealed interface AuthenticatedRoute {
     @Serializable data class GroupDetail(val groupId: String) : AuthenticatedRoute
     @Serializable data class GroupEditor(val groupId: String? = null) : AuthenticatedRoute
     @Serializable data object TeamLeaders : AuthenticatedRoute
+    @Serializable data class TeamLeaderDetail(val teamLeaderId: String) : AuthenticatedRoute
 }
 
 @androidx.compose.runtime.Composable
@@ -272,8 +274,10 @@ private fun AuthenticatedNavHost(
                             navController.navigate(AuthenticatedRoute.ProjectDetail(route.substringAfterLast('/')))
                         target.targetType == "IN_APP_ROUTE" && route.startsWith("/content/app/") ->
                             navController.navigate(AuthenticatedRoute.AppDetail(route.substringAfterLast('/')))
-                        target.targetType == "IN_APP_ROUTE" && route.startsWith("/content/group/") ->
-                            navController.navigate(AuthenticatedRoute.GroupDetail(route.substringAfterLast('/')))
+                          target.targetType == "IN_APP_ROUTE" && route.startsWith("/content/group/") ->
+                              navController.navigate(AuthenticatedRoute.GroupDetail(route.substringAfterLast('/')))
+                          target.targetType == "IN_APP_ROUTE" && route.startsWith("/content/team-leader/") ->
+                              navController.navigate(AuthenticatedRoute.TeamLeaderDetail(route.substringAfterLast('/')))
                         target.targetType in setOf("H5_URL", "DOWNLOAD") && isSafeHomeUrl(target.url) ->
                             uriHandler.openUri(target.url.orEmpty())
                     }
@@ -466,7 +470,18 @@ private fun AuthenticatedNavHost(
                 api = r11Api,
                 accessToken = authenticated.session.accessToken,
                 onBack = { navController.popBackStack() },
-                onTeamLeaderSelected = { },
+                onTeamLeaderSelected = { id -> navController.navigate(AuthenticatedRoute.TeamLeaderDetail(id)) },
+                onSessionExpired = onSessionInvalidated,
+            )
+        }
+        composable<AuthenticatedRoute.TeamLeaderDetail> { backStackEntry ->
+            val route = backStackEntry.toRoute<AuthenticatedRoute.TeamLeaderDetail>()
+            R11TeamLeaderDetailScreen(
+                api = r11Api,
+                accessToken = authenticated.session.accessToken,
+                teamLeaderId = route.teamLeaderId,
+                onBack = { navController.popBackStack() },
+                onConversationReady = { },
                 onSessionExpired = onSessionInvalidated,
             )
         }
@@ -479,7 +494,8 @@ private fun canOpenHomeTarget(target: HomeNavigationTargetSnapshot): Boolean {
         "IN_APP_ROUTE" -> route in setOf("/search", "/content/projects", "/content/apps", "/content/groups", "/content/team-leaders") ||
             (route.startsWith("/content/project/") && route.substringAfterLast('/').isNotBlank()) ||
             (route.startsWith("/content/app/") && route.substringAfterLast('/').isNotBlank()) ||
-            (route.startsWith("/content/group/") && route.substringAfterLast('/').isNotBlank())
+              (route.startsWith("/content/group/") && route.substringAfterLast('/').isNotBlank())
+              || (route.startsWith("/content/team-leader/") && route.substringAfterLast('/').isNotBlank())
         "H5_URL", "DOWNLOAD" -> isSafeHomeUrl(target.url)
         else -> false
     }

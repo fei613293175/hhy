@@ -1,19 +1,19 @@
 {
   "version": "1.0",
-  "generated_at": "2026-07-23T19:59:33Z",
-  "context_hash": "c558314a2cf2e927fdd375e36a867429818a21b154d0b757e02a40dca6ab4602",
+  "generated_at": "2026-07-23T20:32:18Z",
+  "context_hash": "3a742c2a2cd15b125d0fd957f24e31b53aa2623ed0ba45ae50b953d761e7964a",
   "fingerprint_mode": "SESSION_DELTA",
   "project_fingerprint": {
-    "sha256": "e7cf19c5f8c5e88e394c55f7259ddafe87fe5576fa5a408d87068546c6d6afda",
-    "file_count": 20
+    "sha256": "66c3647c7f0c5f8e7429831a5efd8f79ffbfcd294be2d0e99372fa3bb9288891",
+    "file_count": 22
   },
   "yaml": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.yaml",
-    "sha256": "2ca8ba05a276d1772ba79fee614ad1ebe1845b10e5475931967c0b715290fe11"
+    "sha256": "e2e27d9fb1754d8f83c298a285935c701c96097b3bbdfa8838b7b126da58231f"
   },
   "markdown": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.md",
-    "sha256": "289fec7feba70f80fa088a2c3b7e72d11e66710987b721dc520b64e76abed301"
+    "sha256": "8c0c1d8a840f0ea1f14e686ad3ad744fc444d6dfad8b680d31bea91dfafa7bd8"
   },
   "sources": [
     {
@@ -28,7 +28,7 @@
     },
     {
       "path": "CURRENT_STATUS.yaml",
-      "sha256": "44d9bb2ece488f1d639a37e20111781c472a084d9999db8ff6b804f2095fc577",
+      "sha256": "dffa89e82e98bf1ef70e91a60e8a725e563e9167403a51c2989c53ac5d95f30c",
       "bytes": 4271
     },
     {
@@ -83,18 +83,18 @@
     },
     {
       "path": ".continuity/EVENT_LOG.jsonl",
-      "sha256": "ba89d501617aaee892cdc53bc6f9a8ef620b5ebeaf5207975d828e6aecf6d9c2",
-      "bytes": 1586080
+      "sha256": "48cf60b602ef9eb2484f97d204093f6fa94d8e77ab72773a938479fd03829cff",
+      "bytes": 1590164
     },
     {
       "path": ".continuity/SESSION_INDEX.yaml",
-      "sha256": "da7171b34fc3fcfc4501bb6f0166f1b196b41af2f1c873d0eaee95fab548d4f0",
+      "sha256": "65bc5e2a6f4f741339ea9b0f5a484cc7b9602f8152c6f5066fc0ebfe313c2ee6",
       "bytes": 48699
     },
     {
       "path": ".continuity/TASK_CLAIMS.yaml",
-      "sha256": "7c9edac591dda5ad0e3c8128401dc0f02f3de81d90400036533d4e0cd12ac4ac",
-      "bytes": 67603
+      "sha256": "363b0d7268cdf33ea0d0f8a92666ff76004d419aa72c6ef16e1a4533e2b5c353",
+      "bytes": 67640
     },
     {
       "path": ".continuity/TASK_TRANSITIONS.yaml",
@@ -103,12 +103,12 @@
     },
     {
       "path": ".continuity/CHANGE_REQUEST_INDEX.yaml",
-      "sha256": "2a9e1b807016329224301be401e0fad72672a2b3cbb6bf6e89aae2573c5e03c4",
-      "bytes": 962298
+      "sha256": "b8cd68b91efad4cb137e4605570b4ff73279c09bfe03b305a09eea7cbc47a5f9",
+      "bytes": 965561
     },
     {
       "path": ".continuity/ACTIVE_SESSION.yaml",
-      "sha256": "89c02ba69cb4d67e8c75897694957e2e354341e177902dbd9f9dbf4b1cbaf7c9",
+      "sha256": "8b4e46a27a664d01ca8b23ef700aa2c145f3232e67448242ec5be48f5555688d",
       "bytes": 536
     },
     {
@@ -163,13 +163,13 @@
     },
     {
       "path": "docs/03-continuity/sessions/2026-07/SES-20260723T183130Z-454A6E0D.md",
-      "sha256": "2e143296724e2bec90e0fba17fb2a6da44dfb5531187b633a98f1e02a16717db",
-      "bytes": 14815
+      "sha256": "dd617165aecc5b99ef9277a18477d9b24c682805b19c3e8b00f7e218385d00fe",
+      "bytes": 19138
     },
     {
-      "path": ".continuity/checkpoints/SES-20260723T183130Z-454A6E0D/0007.yaml",
-      "sha256": "780a3b5bf6004bc98307a28496f764a99cb248c33b276d571ac588ddf96c1074",
-      "bytes": 13265
+      "path": ".continuity/checkpoints/SES-20260723T183130Z-454A6E0D/0009.yaml",
+      "sha256": "4962625156fb7bb47e2a8060a4160aded2cc8afe8a8932bdfc9ef785824c8e3e",
+      "bytes": 13144
     },
     {
       "path": "docs/03-continuity/change-requests/CR-0285-实现R11团队长列表与首页真实入口回接.md",
@@ -190,6 +190,11 @@
       "path": "docs/03-continuity/change-requests/CR-0288-补齐R11版本级并行执行计划实例.md",
       "sha256": "c0bcfcee4e94d558d0950a908be98205909d7f92904be16a57bb51d6a061b474",
       "bytes": 2588
+    },
+    {
+      "path": "docs/03-continuity/change-requests/CR-0289-实现R11团队长详情客户端纵向闭环.md",
+      "sha256": "da12d097b5c964c034c68dae51982233d41329f8d3c7913ab4b136abea371d07",
+      "bytes": 3188
     }
   ]
 }

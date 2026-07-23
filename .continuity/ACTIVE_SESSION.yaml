@@ -4,9 +4,9 @@ status: ACTIVE
 session_record: .continuity/sessions/SES-20260723T183130Z-454A6E0D.yaml
 actor_id: codex-root-r11-client
 task_id: TASK-R11-004
-story_id: STORY-R11-002
-latest_checkpoint: .continuity/checkpoints/SES-20260723T183130Z-454A6E0D/0007.yaml
-checkpoint_id: CP-SES-20260723T183130Z-454A6E0D-0007
-project_fingerprint: e7cf19c5f8c5e88e394c55f7259ddafe87fe5576fa5a408d87068546c6d6afda
-lease_expires_at: '2026-07-23T23:59:31Z'
-updated_at: '2026-07-23T19:59:31Z'
+story_id: STORY-R11-001
+latest_checkpoint: .continuity/checkpoints/SES-20260723T183130Z-454A6E0D/0009.yaml
+checkpoint_id: CP-SES-20260723T183130Z-454A6E0D-0009
+project_fingerprint: 66c3647c7f0c5f8e7429831a5efd8f79ffbfcd294be2d0e99372fa3bb9288891
+lease_expires_at: '2026-07-24T00:32:15Z'
+updated_at: '2026-07-23T20:32:15Z'

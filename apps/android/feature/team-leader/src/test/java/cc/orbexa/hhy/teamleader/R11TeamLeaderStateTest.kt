@@ -8,6 +8,7 @@ import kotlinx.serialization.json.put
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNull
+import org.junit.Assert.assertNotEquals
 import org.junit.Test
 
 class R11TeamLeaderStateTest {
@@ -65,6 +66,31 @@ class R11TeamLeaderStateTest {
         assertEquals(R11TeamLeaderPhase.OFFLINE, R11TeamLeaderListState().failed(R07CallResult.Failure(null)).phase)
         assertEquals(R11TeamLeaderPhase.FORBIDDEN, R11TeamLeaderListState().failed(R07CallResult.Failure(403)).phase)
         assertEquals(R11TeamLeaderPhase.ERROR, R11TeamLeaderListState().failed(R07CallResult.Failure(500)).phase)
+        assertEquals(R11TeamLeaderPhase.NOT_FOUND, R07CallResult.Failure(404).toR11TeamLeaderFailure().phase)
+        assertEquals(R11TeamLeaderPhase.CONFLICT, R07CallResult.Failure(409).toR11TeamLeaderFailure().phase)
+    }
+
+    @Test
+    fun intentKeysAreStableForRetryAndChangeWithRequestBody() {
+        val keys = R11IntentKeys()
+        val first = keys.forBody("favorite", "content-1:2")
+        assertEquals(first, keys.forBody("favorite", "content-1:2"))
+        assertNotEquals(first, keys.forBody("favorite", "content-1:3"))
+    }
+
+    @Test
+    fun detailSectionsOnlyContainRegisteredBusinessFacts() {
+        val resource = resource(
+            attributes = buildJsonObject {
+                put("teamIntro", "真实团队介绍")
+                put("cooperationRequirement", "长期合作")
+                put("skills", "产品运营")
+                put("unknownSection", "不应展示")
+            },
+        )
+        val text = R11TeamLeaderFacts.from(resource).detailSections(resource).flatMap { it.second }
+        assertEquals(listOf("真实团队介绍", "长期合作", "产品运营"), text)
+        assertFalse(text.contains("不应展示"))
     }
 
     private fun resource(

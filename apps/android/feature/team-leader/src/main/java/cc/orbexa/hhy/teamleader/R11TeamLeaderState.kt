@@ -3,6 +3,7 @@ package cc.orbexa.hhy.teamleader
 import cc.orbexa.hhy.network.ContentResource
 import cc.orbexa.hhy.network.R07CallResult
 import java.net.URI
+import java.util.UUID
 import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
@@ -19,6 +20,9 @@ enum class R11TeamLeaderPhase {
     ERROR,
     OFFLINE,
     FORBIDDEN,
+    NOT_FOUND,
+    CONFLICT,
+    SUBMITTING,
 }
 
 data class R11TeamLeaderFailure(
@@ -34,6 +38,8 @@ fun R07CallResult.Failure.toR11TeamLeaderFailure(hasContent: Boolean = false): R
             when (statusCode) {
                 null -> R11TeamLeaderPhase.OFFLINE
                 403 -> R11TeamLeaderPhase.FORBIDDEN
+                404 -> R11TeamLeaderPhase.NOT_FOUND
+                409 -> R11TeamLeaderPhase.CONFLICT
                 else -> R11TeamLeaderPhase.ERROR
             }
         },
@@ -82,6 +88,30 @@ data class R11TeamLeaderFacts(
                 acceptPrivateChat = attributes.boolean("acceptPrivateChat"),
             )
         }
+    }
+}
+
+class R11IntentKeys {
+    private val keys = mutableMapOf<String, Pair<String, String>>()
+
+    fun forBody(intent: String, fingerprint: String): String = keys[intent]
+        ?.takeIf { it.first == fingerprint }
+        ?.second
+        ?: UUID.randomUUID().toString().also { keys[intent] = fingerprint to it }
+
+    fun consume(intent: String, fingerprint: String) {
+        if (keys[intent]?.first == fingerprint) keys.remove(intent)
+    }
+}
+
+fun R11TeamLeaderFacts.detailSections(resource: ContentResource): List<Pair<String, List<String>>> = buildList {
+    introduction?.let { add("团队介绍" to listOf(it)) }
+    cooperationRequirement?.let { add("合作要求" to listOf(it)) }
+    if (pastCases.isNotEmpty()) add("过往案例" to pastCases)
+    val capabilities = listOfNotNull(skills, cooperationTypes)
+    if (capabilities.isNotEmpty()) add("能力与合作" to capabilities)
+    resource.description?.trim()?.takeIf(String::isNotBlank)?.let { description ->
+        if (description != introduction) add("详细说明" to listOf(description))
     }
 }
 
