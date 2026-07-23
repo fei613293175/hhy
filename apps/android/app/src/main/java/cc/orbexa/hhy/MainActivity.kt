@@ -66,6 +66,7 @@ import cc.orbexa.hhy.network.UrlConnectionExperienceApi
 import cc.orbexa.hhy.network.UrlConnectionContractR08Api
 import cc.orbexa.hhy.network.UrlConnectionContractR09Api
 import cc.orbexa.hhy.network.UrlConnectionContractR10Api
+import cc.orbexa.hhy.network.UrlConnectionContractR11Api
 import cc.orbexa.hhy.network.sessionOrNull
 import cc.orbexa.hhy.network.userSelfOrNull
 import java.net.URI
@@ -78,6 +79,7 @@ import cc.orbexa.hhy.apppromotion.R09AppListScreen
 import cc.orbexa.hhy.grouppromotion.R10GroupDetailScreen
 import cc.orbexa.hhy.grouppromotion.R10GroupEditorScreen
 import cc.orbexa.hhy.grouppromotion.R10GroupListScreen
+import cc.orbexa.hhy.teamleader.R11TeamLeaderListScreen
 import cc.orbexa.hhy.shell.HhyShellScreen
 import cc.orbexa.hhy.startup.StartupGateScreen
 import kotlinx.serialization.Serializable
@@ -218,6 +220,7 @@ private sealed interface AuthenticatedRoute {
     @Serializable data object Groups : AuthenticatedRoute
     @Serializable data class GroupDetail(val groupId: String) : AuthenticatedRoute
     @Serializable data class GroupEditor(val groupId: String? = null) : AuthenticatedRoute
+    @Serializable data object TeamLeaders : AuthenticatedRoute
 }
 
 @androidx.compose.runtime.Composable
@@ -233,6 +236,7 @@ private fun AuthenticatedNavHost(
     val r08Api = remember { UrlConnectionContractR08Api(BuildConfig.API_BASE_URL) }
     val r09Api = remember { UrlConnectionContractR09Api(BuildConfig.API_BASE_URL) }
     val r10Api = remember { UrlConnectionContractR10Api(BuildConfig.API_BASE_URL) }
+    val r11Api = remember { UrlConnectionContractR11Api(BuildConfig.API_BASE_URL) }
     val mediaApi = remember { UrlConnectionContractMediaApi(BuildConfig.API_BASE_URL) }
     val uriHandler = androidx.compose.ui.platform.LocalUriHandler.current
     NavHost(
@@ -249,6 +253,7 @@ private fun AuthenticatedNavHost(
                 onOpenProjects = { navController.navigate(AuthenticatedRoute.Projects) },
                 onOpenApps = { navController.navigate(AuthenticatedRoute.Apps) },
                 onOpenGroups = { navController.navigate(AuthenticatedRoute.Groups) },
+                onOpenTeamLeaders = { navController.navigate(AuthenticatedRoute.TeamLeaders) },
                 canOpenHomeTarget = { target -> canOpenHomeTarget(target) },
                 onOpenHomeTarget = { target ->
                     val route = target.route.orEmpty()
@@ -261,6 +266,8 @@ private fun AuthenticatedNavHost(
                             navController.navigate(AuthenticatedRoute.Apps)
                         target.targetType == "IN_APP_ROUTE" && route == "/content/groups" ->
                             navController.navigate(AuthenticatedRoute.Groups)
+                        target.targetType == "IN_APP_ROUTE" && route == "/content/team-leaders" ->
+                            navController.navigate(AuthenticatedRoute.TeamLeaders)
                         target.targetType == "IN_APP_ROUTE" && route.startsWith("/content/project/") ->
                             navController.navigate(AuthenticatedRoute.ProjectDetail(route.substringAfterLast('/')))
                         target.targetType == "IN_APP_ROUTE" && route.startsWith("/content/app/") ->
@@ -454,13 +461,22 @@ private fun AuthenticatedNavHost(
                 onSessionExpired = onSessionInvalidated,
             )
         }
+        composable<AuthenticatedRoute.TeamLeaders> {
+            R11TeamLeaderListScreen(
+                api = r11Api,
+                accessToken = authenticated.session.accessToken,
+                onBack = { navController.popBackStack() },
+                onTeamLeaderSelected = { },
+                onSessionExpired = onSessionInvalidated,
+            )
+        }
     }
 }
 
 private fun canOpenHomeTarget(target: HomeNavigationTargetSnapshot): Boolean {
     val route = target.route.orEmpty()
     return when (target.targetType) {
-        "IN_APP_ROUTE" -> route in setOf("/search", "/content/projects", "/content/apps", "/content/groups") ||
+        "IN_APP_ROUTE" -> route in setOf("/search", "/content/projects", "/content/apps", "/content/groups", "/content/team-leaders") ||
             (route.startsWith("/content/project/") && route.substringAfterLast('/').isNotBlank()) ||
             (route.startsWith("/content/app/") && route.substringAfterLast('/').isNotBlank()) ||
             (route.startsWith("/content/group/") && route.substringAfterLast('/').isNotBlank())

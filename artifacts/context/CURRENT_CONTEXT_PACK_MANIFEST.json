@@ -1,19 +1,19 @@
 {
   "version": "1.0",
-  "generated_at": "2026-07-23T18:29:26Z",
-  "context_hash": "b65734ffd75901293a9c601c630fc7b75dbde2005da1edc87f91a415aa933b38",
-  "fingerprint_mode": "REPOSITORY_TREE",
+  "generated_at": "2026-07-23T19:13:28Z",
+  "context_hash": "6c174d5cc302d2e8091bf6797921daecf8c703d4e755925352d48f33d326052a",
+  "fingerprint_mode": "SESSION_DELTA",
   "project_fingerprint": {
-    "sha256": "ea4f26df21ac8927da65933c9dcfd1707a6d9141040a3bbab10fc5bbe102d81f",
-    "file_count": 0
+    "sha256": "2d10e89d3892d05e46ab6c292afafc205187a48dcea264a1745a0054bf474542",
+    "file_count": 12
   },
   "yaml": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.yaml",
-    "sha256": "069a541cbf67f74abce5207c4529c8e8b13462a4b8b0051dd475db9e9bae6191"
+    "sha256": "f5f86fb0577d2f3cf88258991879a106b858b67c5dbb75d2a8d1b120be464e8f"
   },
   "markdown": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.md",
-    "sha256": "8749550fd917d0a27bde79b6dbfcc6fddbe32762a07e2edf12b76dff45180c46"
+    "sha256": "1d119153ccd9e2fa6ecbee2cf96dc7c2e2f28220b6e80805b05f289c489f453a"
   },
   "sources": [
     {
@@ -28,8 +28,8 @@
     },
     {
       "path": "CURRENT_STATUS.yaml",
-      "sha256": "f0faf873b4deae94e30fc3af0d0493a46ece65b03387723ba310aa46e91fb9e7",
-      "bytes": 4122
+      "sha256": "f3074f9d618ec5201f6e36a8df7c43877a47242471d63552cc07d059b4b2c553",
+      "bytes": 4271
     },
     {
       "path": "NEXT_TASK.yaml",
@@ -83,33 +83,33 @@
     },
     {
       "path": ".continuity/EVENT_LOG.jsonl",
-      "sha256": "a27d4e3a27760212fd9b192465c87a68fc4e04b155b9f4e6bc5c6a1d1f560147",
-      "bytes": 1569019
+      "sha256": "1069920de905fd108a4d9fe4605d37e70a07bcb6dcf4ebbb199a372f1c508148",
+      "bytes": 1578708
     },
     {
       "path": ".continuity/SESSION_INDEX.yaml",
-      "sha256": "0c7c977e6ad8e906051f7c480969e8c987f684002f20b6ba4659c6b1f13d313d",
-      "bytes": 48204
+      "sha256": "ae6ad3c245cf4ebe57d69e03c2a3bf1ddfeb2df655e3ff96805a959f42ff0ff8",
+      "bytes": 48699
     },
     {
       "path": ".continuity/TASK_CLAIMS.yaml",
-      "sha256": "09956ec9cd354562c1ef6ed6f7f81d24243f22e34d53276e2870b5726e9111da",
-      "bytes": 67165
+      "sha256": "7c9edac591dda5ad0e3c8128401dc0f02f3de81d90400036533d4e0cd12ac4ac",
+      "bytes": 67603
     },
     {
       "path": ".continuity/TASK_TRANSITIONS.yaml",
-      "sha256": "fe0e778e471e2d560b488cfe817aca21fa3f65107307baa8199787c1291f94f1",
-      "bytes": 27417
+      "sha256": "9f85427a939c26ce554740892700d71993e883c9a1b75de148354f703dcbfb8d",
+      "bytes": 27705
     },
     {
       "path": ".continuity/CHANGE_REQUEST_INDEX.yaml",
-      "sha256": "292b9fb7db073ceb758bb21b53f5bf48326f3f87649ab30008a2c7c743ce2fe6",
-      "bytes": 950903
+      "sha256": "5256e50707705193f39ca55147b79dc1548d3daa41e5968afe57be7a973e90d5",
+      "bytes": 956737
     },
     {
       "path": ".continuity/ACTIVE_SESSION.yaml",
-      "sha256": "e68fd22914fcfd23e69e861d5d629f2806d3d63eb0cd5d91eb1b97f78f0c4201",
-      "bytes": 143
+      "sha256": "400235c4c15d962378dab4f89762af5f21293a93eb1ca70f7c01c94ba6cf15d7",
+      "bytes": 536
     },
     {
       "path": "docs/00-baseline/正式商业系统全局硬性开发边界.md",
@@ -155,6 +155,26 @@
       "path": "releases/R11/ACCEPTANCE_MATRIX.csv",
       "sha256": "fd67dd0579ea65dc25e2671f49693a4b3b63eb59f0399587f96c11319c54b25f",
       "bytes": 684
+    },
+    {
+      "path": "docs/03-continuity/sessions/2026-07/SES-20260723T183130Z-454A6E0D.md",
+      "sha256": "6d5a66862e3267376e1f031753df485cd0e9c19aebed224d7a305207ee5761a6",
+      "bytes": 6640
+    },
+    {
+      "path": ".continuity/checkpoints/SES-20260723T183130Z-454A6E0D/0003.yaml",
+      "sha256": "e5f7a486bab25511b0a28b1c8d429d53387f9f475c2435e785692f938f5adf1f",
+      "bytes": 11294
+    },
+    {
+      "path": "docs/03-continuity/change-requests/CR-0285-实现R11团队长列表与首页真实入口回接.md",
+      "sha256": "4f68dc6f283c3500ff1020ccf976b1d8a17cd731e83243f0794c6f94ab0e90bb",
+      "bytes": 3484
+    },
+    {
+      "path": "docs/03-continuity/change-requests/CR-0286-补齐R11团队长列表既有变更日志投影.md",
+      "sha256": "6856ae0f732d458e52c21ee7249f5fa6f405a8c0eb08710c4d31bb1c42be1593",
+      "bytes": 2321
     }
   ]
 }

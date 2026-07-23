@@ -970,3 +970,13 @@ transitions:
   session_id: SES-20260723T175513Z-EFD4D365
   actor_id: codex-root-r11-backend
   reason: 会话领取任务
+- transition_id: TRN-3D723D39EAA7
+  timestamp: '2026-07-23T18:31:31Z'
+  release: R11
+  task_id: TASK-R11-004
+  story_id: STORY-R11-002
+  from_status: READY
+  to_status: IN_PROGRESS
+  session_id: SES-20260723T183130Z-454A6E0D
+  actor_id: codex-root-r11-client
+  reason: 会话领取任务

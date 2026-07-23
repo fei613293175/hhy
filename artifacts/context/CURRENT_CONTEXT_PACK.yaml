@@ -1,5 +1,5 @@
 context_version: '1.0'
-generated_at: '2026-07-23T18:29:26Z'
+generated_at: '2026-07-23T19:13:28Z'
 conversation_dependency: PROHIBITED
 source_of_truth: REPOSITORY_ONLY
 project: hhy-pro-platform
@@ -10,7 +10,7 @@ current_status:
   phase: R11
   active_release: R11
   active_task: TASK-R11-004
-  status: READY
+  status: IN_PROGRESS
   documentation_status: ZERO_BLOCKING_DOCUMENT_GAPS
   last_green_commit: d28076b8
   last_staging_apk: null
@@ -113,14 +113,15 @@ current_status:
   - TASK-R11-001
   - TASK-R11-002
   - TASK-R11-003
-  in_progress_tasks: []
+  in_progress_tasks:
+  - TASK-R11-004
   blocked_tasks:
   - TASK-R02-007
   - TASK-R03-007
   - TASK-R06-008
   - TASK-R07-008
   next_task: TASK-R11-004
-  updated_at: '2026-07-23T18:29:23Z'
+  updated_at: '2026-07-23T19:13:25Z'
   notes:
   - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
   - 全部REST/WebSocket操作均有页面或系统所有者
@@ -152,17 +153,19 @@ current_status:
   continuity:
     protocol_version: '1.0'
     mode: ENFORCED
-    active_session_id: null
-    last_session_id: SES-20260723T175513Z-EFD4D365
-    last_session_result: COMPLETED
-    last_checkpoint: .continuity/checkpoints/SES-20260723T175513Z-EFD4D365/0002.yaml
-    last_handoff_bundle: null
+    active_session_id: SES-20260723T183130Z-454A6E0D
+    actor_id: codex-root-r11-client
+    story_id: STORY-R11-002
+    lease_expires_at: '2026-07-23T23:13:25Z'
+    latest_checkpoint: .continuity/checkpoints/SES-20260723T183130Z-454A6E0D/0003.yaml
+    project_fingerprint: 2d10e89d3892d05e46ab6c292afafc205187a48dcea264a1745a0054bf474542
     context_pack:
       yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
       markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
       manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-      context_hash: 4446cae0021d84ccfecdb5b36414ae1cb86a52cd521516ae58db13c864dadcfc
-      generated_at: '2026-07-23T18:29:21Z'
+      context_hash: a458f5d128979c57239afaebdf335a2cb2aa23f86956c1cbf57c9d83311d8d07
+      generated_at: '2026-07-23T19:10:31Z'
+    handoff_bundle: null
 next_task:
   id: TASK-R11-004
   title: 团队长入驻完整闭环客户端/H5/后台实现
@@ -200,34 +203,346 @@ next_task:
     cr_amend: python3 scripts/continuity.py cr-amend --actor <ACTOR_ID> --cr <CR_ID> --original-rule '<原规则>' --new-rule '<新规则>' --impact-summary
       '<影响摘要>' --migration-and-compatibility '<迁移兼容说明>' --file <PATH> --test '<TEST>' --release <RELEASE>
   next_after: 由当前TASKS.yaml依赖关系决定
-active_session: null
-latest_checkpoint: null
+active_session:
+  protocol_version: '1.0'
+  package_version: 1.2.3
+  session_id: SES-20260723T183130Z-454A6E0D
+  status: ACTIVE
+  actor:
+    id: codex-root-r11-client
+    kind: AI_OR_HUMAN
+    host: unknown
+  release: R11
+  task_id: TASK-R11-004
+  story_id: STORY-R11-002
+  goal: 团队长入驻完整闭环客户端/H5/后台实现
+  started_at: '2026-07-23T18:31:30Z'
+  updated_at: '2026-07-23T19:13:25Z'
+  takeover_of: null
+  change_requests:
+  - CR-0285
+  - CR-0286
+  scope:
+    allowed_paths:
+    - apps/android/**
+    - services/backend/**
+    - packages/**
+    - contracts/**
+    - database/**
+    - config/**
+    - tests/**
+    - docs/**
+    - catalogs/**
+    - releases/**
+    - design/**
+    - scripts/**
+    - CHANGELOG.md
+    approved_exceptions:
+    - apps/android/settings.gradle.kts
+    - apps/android/app/build.gradle.kts
+    - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+    - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR11Api.kt
+    - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/R11ApiModelsSerializationTest.kt
+    - apps/android/feature/team-leader/build.gradle.kts
+    - apps/android/feature/team-leader/src/main/java/cc/orbexa/hhy/teamleader/R11TeamLeaderListScreen.kt
+    - apps/android/feature/team-leader/src/main/java/cc/orbexa/hhy/teamleader/R11TeamLeaderState.kt
+    - apps/android/feature/team-leader/src/test/java/cc/orbexa/hhy/teamleader/R11TeamLeaderStateTest.kt
+    - CHANGELOG.md
+    source: story+explicit+approved-cr:CR-0285+approved-cr:CR-0286
+  git:
+    initialized: true
+    branch: task/TASK-R03-001
+    base_commit: ad68caf656ade3d36a4c775c7b0eeec0d8be1078
+    start_head: ad68caf656ade3d36a4c775c7b0eeec0d8be1078
+    upstream: origin/task/TASK-R03-001
+    initial_worktree_state: CLEAN
+  lease:
+    duration_minutes: 240
+    renewed_at: '2026-07-23T19:13:25Z'
+    expires_at: '2026-07-23T23:13:25Z'
+  checkpoint_sequence: 3
+  latest_checkpoint: .continuity/checkpoints/SES-20260723T183130Z-454A6E0D/0003.yaml
+  session_log: docs/03-continuity/sessions/2026-07/SES-20260723T183130Z-454A6E0D.md
+  next_step: 形成列表Story实现提交；随后修复同Task Story切换能力并领取STORY-R11-001实现B03/P04真实详情
+  context_pack: THIS_CONTEXT_PACK
+  handoff_bundle: null
+  closure: null
+  parallel_execution:
+    assessment: NO_SAFE_PARALLEL
+    delegated_workers: 0
+    workers: []
+    reason: 列表状态、Compose页面、首页Navigation和同一ContentResource契约强耦合；当前执行环境没有独立scratch worktree代理能力
+latest_checkpoint:
+  protocol_version: '1.0'
+  checkpoint_id: CP-SES-20260723T183130Z-454A6E0D-0003
+  session_id: SES-20260723T183130Z-454A6E0D
+  sequence: 3
+  created_at: '2026-07-23T19:13:25Z'
+  summary: 完成STORY-R11-002团队长列表纵向切片与CHANGELOG投影：B02/P08列表、严格属性映射、全状态分页、首页入口和列表Navigation
+  next_step: 形成列表Story实现提交；随后修复同Task Story切换能力并领取STORY-R11-001实现B03/P04真实详情
+  blockers: []
+  decisions: []
+  note: ''
+  tests:
+  - name: android-ui-foundation
+    result: PASS
+    evidence: scripts/check_android_ui_foundation.py
+    note: 全局Android基础门禁通过
+  - name: r11-network-unit
+    result: PASS
+    evidence: obx-test:hhy-r11-module-test-3
+    note: core network testDebugUnitTest通过
+  - name: r11-team-leader-unit
+    result: PASS
+    evidence: obx-test:hhy-r11-module-test-4
+    note: 团队长事实映射、分页去重与错误状态测试通过
+  - name: r11-team-leader-lint
+    result: PASS
+    evidence: obx-test:hhy-r11-module-test-3
+    note: feature team-leader lint分析完成无错误
+  - name: android-app-compile
+    result: PASS
+    evidence: obx-test:hhy-r11-module-test-4
+    note: app compileDebugKotlin构建成功
+  git:
+    initialized: true
+    branch: task/TASK-R03-001
+    head: ad68caf656ade3d36a4c775c7b0eeec0d8be1078
+    upstream: origin/task/TASK-R03-001
+    ahead: 10
+    behind: 0
+    dirty: true
+    status_porcelain:
+    - ' M .continuity/ACTIVE_SESSION.yaml'
+    - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
+    - ' M .continuity/EVENT_LOG.jsonl'
+    - ' M .continuity/SESSION_INDEX.yaml'
+    - ' M .continuity/STATE.yaml'
+    - ' M .continuity/TASK_CLAIMS.yaml'
+    - ' M .continuity/TASK_TRANSITIONS.yaml'
+    - ' M CHANGELOG.md'
+    - ' M CURRENT_STATUS.yaml'
+    - ' M apps/android/app/build.gradle.kts'
+    - ' M apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt'
+    - ' M apps/android/settings.gradle.kts'
+    - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+    - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+    - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+    - ' M catalogs/change_request_index.csv'
+    - ' M catalogs/session_index.csv'
+    - ' M catalogs/task_transition_ledger.csv'
+    - ?? .continuity/change_requests/CR-0285.yaml
+    - ?? .continuity/change_requests/CR-0286.yaml
+    - ?? .continuity/checkpoints/SES-20260723T183130Z-454A6E0D/0001.yaml
+    - ?? .continuity/checkpoints/SES-20260723T183130Z-454A6E0D/0002.yaml
+    - ?? .continuity/sessions/SES-20260723T183130Z-454A6E0D.yaml
+    - ?? apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR11Api.kt
+    - ?? apps/android/core/network/src/test/java/cc/orbexa/hhy/network/R11ApiModelsSerializationTest.kt
+    - ?? apps/android/feature/team-leader/build.gradle.kts
+    - ?? apps/android/feature/team-leader/src/main/java/cc/orbexa/hhy/teamleader/R11TeamLeaderListScreen.kt
+    - ?? apps/android/feature/team-leader/src/main/java/cc/orbexa/hhy/teamleader/R11TeamLeaderState.kt
+    - ?? apps/android/feature/team-leader/src/test/java/cc/orbexa/hhy/teamleader/R11TeamLeaderStateTest.kt
+    - ?? docs/03-continuity/change-requests/CR-0285-实现R11团队长列表与首页真实入口回接.md
+    - ?? docs/03-continuity/change-requests/CR-0286-补齐R11团队长列表既有变更日志投影.md
+    - ?? docs/03-continuity/sessions/2026-07/SES-20260723T183130Z-454A6E0D.md
+    recent_commits:
+    - "ad68caf656ade3d36a4c775c7b0eeec0d8be1078\t2026-07-24T02:30:28+08:00\tHHY Continuity Bootstrap\t[STORY-R11-004] chore(continuity): close\
+      \ TASK-R11-003 as completed"
+    - "d28076b8653d54e0b028ed17fb60618ab1f630a9\t2026-07-24T02:28:48+08:00\tHHY Continuity Bootstrap\t[STORY-R11-004] feat(r11): implement team\
+      \ leader backend slice"
+    - "ed2f80ff1b1b9b7fbfd2b950a68c6c312fae565f\t2026-07-24T01:54:02+08:00\tHHY Continuity Bootstrap\t[STORY-R11-004] chore(continuity): close\
+      \ TASK-R11-002 as completed"
+    - "b7cb1e4316753a8d5a4276c2366f3813b64afd87\t2026-07-24T01:51:35+08:00\tHHY Continuity Bootstrap\t[STORY-R11-004] feat(database): enforce\
+      \ team leader invariants"
+    - "94a520df9e3c5df535b4d26ff1b918cccb91288e\t2026-07-24T01:11:42+08:00\tHHY Continuity Bootstrap\t[STORY-R11-004] chore(continuity): close\
+      \ TASK-R11-001 as completed"
+    - "8a2c6b937716789351afa7d49c146bb215867949\t2026-07-24T01:10:25+08:00\tHHY Continuity Bootstrap\t[STORY-R11-004] docs(release): freeze R11\
+      \ entry baseline"
+    - "70524de3347e0365aeac268e6e25d66e6915615e\t2026-07-24T00:57:17+08:00\tHHY Continuity Bootstrap\t[STORY-R10-004] chore(continuity): close\
+      \ TASK-R10-008 as completed"
+    - "28354e71d6adff700696cb340f2275a62e61ede1\t2026-07-24T00:55:36+08:00\tHHY Continuity Bootstrap\t[STORY-R10-004] chore(release): close R10\
+      \ machine acceptance"
+  project_fingerprint:
+    sha256: 2d10e89d3892d05e46ab6c292afafc205187a48dcea264a1745a0054bf474542
+    files:
+    - CHANGELOG.md
+    - apps/android/app/build.gradle.kts
+    - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+    - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR11Api.kt
+    - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/R11ApiModelsSerializationTest.kt
+    - apps/android/feature/team-leader/build.gradle.kts
+    - apps/android/feature/team-leader/src/main/java/cc/orbexa/hhy/teamleader/R11TeamLeaderListScreen.kt
+    - apps/android/feature/team-leader/src/main/java/cc/orbexa/hhy/teamleader/R11TeamLeaderState.kt
+    - apps/android/feature/team-leader/src/test/java/cc/orbexa/hhy/teamleader/R11TeamLeaderStateTest.kt
+    - apps/android/settings.gradle.kts
+    - docs/03-continuity/change-requests/CR-0285-实现R11团队长列表与首页真实入口回接.md
+    - docs/03-continuity/change-requests/CR-0286-补齐R11团队长列表既有变更日志投影.md
+    file_count: 12
+    payload:
+      base_commit: ad68caf656ade3d36a4c775c7b0eeec0d8be1078
+      files:
+      - path: CHANGELOG.md
+        state: FILE
+        size: 119076
+        sha256: e7838b6b5bdb816f4a8401296527fb5fd6e8fe330f617849f9fd7580e56b51f9
+      - path: apps/android/app/build.gradle.kts
+        state: FILE
+        size: 5298
+        sha256: ac72529e2b8c4c41dd876203e33c7b60d6a1fdf9b38479ec9838a383d3c2bae6
+      - path: apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+        state: FILE
+        size: 27762
+        sha256: e54f82604688179f53a04ae41314b9c8f86f415299f4c87706fa0ea7221a4456
+      - path: apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR11Api.kt
+        state: FILE
+        size: 4145
+        sha256: 762cc8f8f19cadfc030e868679eb5d533e1abc830b319d64baac74712a589cf5
+      - path: apps/android/core/network/src/test/java/cc/orbexa/hhy/network/R11ApiModelsSerializationTest.kt
+        state: FILE
+        size: 826
+        sha256: 0a7355612ec03e52791c8adb33ef452584f032d367d2fd601b6df57ce06c2385
+      - path: apps/android/feature/team-leader/build.gradle.kts
+        state: FILE
+        size: 1142
+        sha256: 0b00a28201b10b1519bb7cdbcddade45ae0fadde18bb5d79e1c495b7388d6d9d
+      - path: apps/android/feature/team-leader/src/main/java/cc/orbexa/hhy/teamleader/R11TeamLeaderListScreen.kt
+        state: FILE
+        size: 15111
+        sha256: 584fe7d8fc9e01cb73fff3fa97ab1bf08122249d074545343b3f8df47ca648d3
+      - path: apps/android/feature/team-leader/src/main/java/cc/orbexa/hhy/teamleader/R11TeamLeaderState.kt
+        state: FILE
+        size: 5381
+        sha256: db684372237e07a08756e258abedd33df12054c5caa828bc0abe08bba6bf503c
+      - path: apps/android/feature/team-leader/src/test/java/cc/orbexa/hhy/teamleader/R11TeamLeaderStateTest.kt
+        state: FILE
+        size: 3440
+        sha256: 909c1821403ed109690ad3d9d1da61be38725b5b66fb195fc6ae421b65f320ad
+      - path: apps/android/settings.gradle.kts
+        state: FILE
+        size: 680
+        sha256: 5b557c5d9bd88aed60c3dc3b5dd612f52a8e8179bdea79d430d1134e5856e495
+      - path: docs/03-continuity/change-requests/CR-0285-实现R11团队长列表与首页真实入口回接.md
+        state: FILE
+        size: 3484
+        sha256: 4f68dc6f283c3500ff1020ccf976b1d8a17cd731e83243f0794c6f94ab0e90bb
+      - path: docs/03-continuity/change-requests/CR-0286-补齐R11团队长列表既有变更日志投影.md
+        state: FILE
+        size: 2321
+        sha256: 6856ae0f732d458e52c21ee7249f5fa6f405a8c0eb08710c4d31bb1c42be1593
+  change_classification:
+    other:
+    - CHANGELOG.md
+    code:
+    - apps/android/app/build.gradle.kts
+    - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+    - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR11Api.kt
+    - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/R11ApiModelsSerializationTest.kt
+    - apps/android/feature/team-leader/build.gradle.kts
+    - apps/android/feature/team-leader/src/main/java/cc/orbexa/hhy/teamleader/R11TeamLeaderListScreen.kt
+    - apps/android/feature/team-leader/src/main/java/cc/orbexa/hhy/teamleader/R11TeamLeaderState.kt
+    - apps/android/feature/team-leader/src/test/java/cc/orbexa/hhy/teamleader/R11TeamLeaderStateTest.kt
+    - apps/android/settings.gradle.kts
+    user_visible:
+    - apps/android/app/build.gradle.kts
+    - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+    - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR11Api.kt
+    - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/R11ApiModelsSerializationTest.kt
+    - apps/android/feature/team-leader/build.gradle.kts
+    - apps/android/feature/team-leader/src/main/java/cc/orbexa/hhy/teamleader/R11TeamLeaderListScreen.kt
+    - apps/android/feature/team-leader/src/main/java/cc/orbexa/hhy/teamleader/R11TeamLeaderState.kt
+    - apps/android/feature/team-leader/src/test/java/cc/orbexa/hhy/teamleader/R11TeamLeaderStateTest.kt
+    - apps/android/settings.gradle.kts
+    continuity:
+    - docs/03-continuity/change-requests/CR-0285-实现R11团队长列表与首页真实入口回接.md
+    - docs/03-continuity/change-requests/CR-0286-补齐R11团队长列表既有变更日志投影.md
+  required_records:
+  - SESSION_RECORD
+  - SESSION_LOG
+  - CHECKPOINT
+  - CURRENT_STATUS
+  - EVENT_LOG
+  - CHANGELOG
+  change_requests:
+  - CR-0285
+  - CR-0286
+  scope:
+    allowed_paths:
+    - apps/android/**
+    - services/backend/**
+    - packages/**
+    - contracts/**
+    - database/**
+    - config/**
+    - tests/**
+    - docs/**
+    - catalogs/**
+    - releases/**
+    - design/**
+    - scripts/**
+    - CHANGELOG.md
+    approved_exceptions:
+    - apps/android/settings.gradle.kts
+    - apps/android/app/build.gradle.kts
+    - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+    - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR11Api.kt
+    - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/R11ApiModelsSerializationTest.kt
+    - apps/android/feature/team-leader/build.gradle.kts
+    - apps/android/feature/team-leader/src/main/java/cc/orbexa/hhy/teamleader/R11TeamLeaderListScreen.kt
+    - apps/android/feature/team-leader/src/main/java/cc/orbexa/hhy/teamleader/R11TeamLeaderState.kt
+    - apps/android/feature/team-leader/src/test/java/cc/orbexa/hhy/teamleader/R11TeamLeaderStateTest.kt
+    - CHANGELOG.md
+    source: story+explicit+approved-cr:CR-0285+approved-cr:CR-0286
+  parallel_execution:
+    assessment: NO_SAFE_PARALLEL
+    delegated_workers: 0
+    workers: []
+    reason: 列表状态、Compose页面、首页Navigation和同一ContentResource契约强耦合；当前执行环境没有独立scratch worktree代理能力
+  event_hash: a3746213dc41035dc081281b5d2946eac094d30ab51494847c3339631e35536b
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: d28076b8653d54e0b028ed17fb60618ab1f630a9
+  head: ad68caf656ade3d36a4c775c7b0eeec0d8be1078
   upstream: origin/task/TASK-R03-001
-  ahead: 9
+  ahead: 10
   behind: 0
   dirty: true
   status_porcelain:
   - ' M .continuity/ACTIVE_SESSION.yaml'
+  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
   - ' M .continuity/EVENT_LOG.jsonl'
   - ' M .continuity/SESSION_INDEX.yaml'
   - ' M .continuity/STATE.yaml'
   - ' M .continuity/TASK_CLAIMS.yaml'
-  - ' M .continuity/sessions/SES-20260723T175513Z-EFD4D365.yaml'
+  - ' M .continuity/TASK_TRANSITIONS.yaml'
   - ' M CHANGELOG.md'
   - ' M CURRENT_STATUS.yaml'
-  - ' M NEXT_TASK.yaml'
+  - ' M apps/android/app/build.gradle.kts'
+  - ' M apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt'
+  - ' M apps/android/settings.gradle.kts'
   - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
   - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
   - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+  - ' M catalogs/change_request_index.csv'
   - ' M catalogs/session_index.csv'
-  - ' M docs/03-continuity/sessions/2026-07/SES-20260723T175513Z-EFD4D365.md'
-  - ' M releases/R11/TASKS.yaml'
-  - ?? .continuity/checkpoints/SES-20260723T175513Z-EFD4D365/0002.yaml
+  - ' M catalogs/task_transition_ledger.csv'
+  - ?? .continuity/change_requests/CR-0285.yaml
+  - ?? .continuity/change_requests/CR-0286.yaml
+  - ?? .continuity/checkpoints/SES-20260723T183130Z-454A6E0D/0001.yaml
+  - ?? .continuity/checkpoints/SES-20260723T183130Z-454A6E0D/0002.yaml
+  - ?? .continuity/checkpoints/SES-20260723T183130Z-454A6E0D/0003.yaml
+  - ?? .continuity/sessions/SES-20260723T183130Z-454A6E0D.yaml
+  - ?? apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR11Api.kt
+  - ?? apps/android/core/network/src/test/java/cc/orbexa/hhy/network/R11ApiModelsSerializationTest.kt
+  - ?? apps/android/feature/team-leader/build.gradle.kts
+  - ?? apps/android/feature/team-leader/src/main/java/cc/orbexa/hhy/teamleader/R11TeamLeaderListScreen.kt
+  - ?? apps/android/feature/team-leader/src/main/java/cc/orbexa/hhy/teamleader/R11TeamLeaderState.kt
+  - ?? apps/android/feature/team-leader/src/test/java/cc/orbexa/hhy/teamleader/R11TeamLeaderStateTest.kt
+  - ?? docs/03-continuity/change-requests/CR-0285-实现R11团队长列表与首页真实入口回接.md
+  - ?? docs/03-continuity/change-requests/CR-0286-补齐R11团队长列表既有变更日志投影.md
+  - ?? docs/03-continuity/sessions/2026-07/SES-20260723T183130Z-454A6E0D.md
   recent_commits:
+  - "ad68caf656ade3d36a4c775c7b0eeec0d8be1078\t2026-07-24T02:30:28+08:00\tHHY Continuity Bootstrap\t[STORY-R11-004] chore(continuity): close TASK-R11-003\
+    \ as completed"
   - "d28076b8653d54e0b028ed17fb60618ab1f630a9\t2026-07-24T02:28:48+08:00\tHHY Continuity Bootstrap\t[STORY-R11-004] feat(r11): implement team\
     \ leader backend slice"
   - "ed2f80ff1b1b9b7fbfd2b950a68c6c312fae565f\t2026-07-24T01:54:02+08:00\tHHY Continuity Bootstrap\t[STORY-R11-004] chore(continuity): close TASK-R11-002\
@@ -242,12 +557,73 @@ git:
     \ as completed"
   - "28354e71d6adff700696cb340f2275a62e61ede1\t2026-07-24T00:55:36+08:00\tHHY Continuity Bootstrap\t[STORY-R10-004] chore(release): close R10\
     \ machine acceptance"
-  - "b04f326ddda935decdf2609ea7b1bee8cc799cfc\t2026-07-24T00:50:11+08:00\tHHY Continuity Bootstrap\t[STORY-R10-004] chore(continuity): close TASK-R10-007\
-    \ as completed"
 project_fingerprint:
-  sha256: ea4f26df21ac8927da65933c9dcfd1707a6d9141040a3bbab10fc5bbe102d81f
-  files: []
-  file_count: 0
+  sha256: 2d10e89d3892d05e46ab6c292afafc205187a48dcea264a1745a0054bf474542
+  files:
+  - CHANGELOG.md
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR11Api.kt
+  - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/R11ApiModelsSerializationTest.kt
+  - apps/android/feature/team-leader/build.gradle.kts
+  - apps/android/feature/team-leader/src/main/java/cc/orbexa/hhy/teamleader/R11TeamLeaderListScreen.kt
+  - apps/android/feature/team-leader/src/main/java/cc/orbexa/hhy/teamleader/R11TeamLeaderState.kt
+  - apps/android/feature/team-leader/src/test/java/cc/orbexa/hhy/teamleader/R11TeamLeaderStateTest.kt
+  - apps/android/settings.gradle.kts
+  - docs/03-continuity/change-requests/CR-0285-实现R11团队长列表与首页真实入口回接.md
+  - docs/03-continuity/change-requests/CR-0286-补齐R11团队长列表既有变更日志投影.md
+  file_count: 12
+  payload:
+    base_commit: ad68caf656ade3d36a4c775c7b0eeec0d8be1078
+    files:
+    - path: CHANGELOG.md
+      state: FILE
+      size: 119076
+      sha256: e7838b6b5bdb816f4a8401296527fb5fd6e8fe330f617849f9fd7580e56b51f9
+    - path: apps/android/app/build.gradle.kts
+      state: FILE
+      size: 5298
+      sha256: ac72529e2b8c4c41dd876203e33c7b60d6a1fdf9b38479ec9838a383d3c2bae6
+    - path: apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+      state: FILE
+      size: 27762
+      sha256: e54f82604688179f53a04ae41314b9c8f86f415299f4c87706fa0ea7221a4456
+    - path: apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR11Api.kt
+      state: FILE
+      size: 4145
+      sha256: 762cc8f8f19cadfc030e868679eb5d533e1abc830b319d64baac74712a589cf5
+    - path: apps/android/core/network/src/test/java/cc/orbexa/hhy/network/R11ApiModelsSerializationTest.kt
+      state: FILE
+      size: 826
+      sha256: 0a7355612ec03e52791c8adb33ef452584f032d367d2fd601b6df57ce06c2385
+    - path: apps/android/feature/team-leader/build.gradle.kts
+      state: FILE
+      size: 1142
+      sha256: 0b00a28201b10b1519bb7cdbcddade45ae0fadde18bb5d79e1c495b7388d6d9d
+    - path: apps/android/feature/team-leader/src/main/java/cc/orbexa/hhy/teamleader/R11TeamLeaderListScreen.kt
+      state: FILE
+      size: 15111
+      sha256: 584fe7d8fc9e01cb73fff3fa97ab1bf08122249d074545343b3f8df47ca648d3
+    - path: apps/android/feature/team-leader/src/main/java/cc/orbexa/hhy/teamleader/R11TeamLeaderState.kt
+      state: FILE
+      size: 5381
+      sha256: db684372237e07a08756e258abedd33df12054c5caa828bc0abe08bba6bf503c
+    - path: apps/android/feature/team-leader/src/test/java/cc/orbexa/hhy/teamleader/R11TeamLeaderStateTest.kt
+      state: FILE
+      size: 3440
+      sha256: 909c1821403ed109690ad3d9d1da61be38725b5b66fb195fc6ae421b65f320ad
+    - path: apps/android/settings.gradle.kts
+      state: FILE
+      size: 680
+      sha256: 5b557c5d9bd88aed60c3dc3b5dd612f52a8e8179bdea79d430d1134e5856e495
+    - path: docs/03-continuity/change-requests/CR-0285-实现R11团队长列表与首页真实入口回接.md
+      state: FILE
+      size: 3484
+      sha256: 4f68dc6f283c3500ff1020ccf976b1d8a17cd731e83243f0794c6f94ab0e90bb
+    - path: docs/03-continuity/change-requests/CR-0286-补齐R11团队长列表既有变更日志投影.md
+      state: FILE
+      size: 2321
+      sha256: 6856ae0f732d458e52c21ee7249f5fa6f405a8c0eb08710c4d31bb1c42be1593
 release_context:
   RELEASE_MANIFEST.yaml:
     release: R11
@@ -1074,26 +1450,14 @@ repository_transport:
 continuity_state:
   mode: ENFORCED
   protocol_version: '1.0'
-  active_session_id: null
+  active_session_id: SES-20260723T183130Z-454A6E0D
   last_session_id: SES-20260723T175513Z-EFD4D365
   last_session_result: COMPLETED
   last_closure_checkpoint_id: CP-SES-20260723T175513Z-EFD4D365-0002
-  event_count: 2810
-  event_head_hash: d5a4f1102d9decae04cab883afcb9724d1ab18df6a62949a4ef0293090761a16
+  event_count: 2827
+  event_head_hash: a3746213dc41035dc081281b5d2946eac094d30ab51494847c3339631e35536b
   event_chain_valid: true
 recent_sessions:
-- session_id: SES-20260723T045352Z-FC8DC2CF
-  task_id: TASK-R10-002
-  story_id: STORY-R10-004
-  actor_id: codex-root-r10-data
-  status: CLOSED
-  started_at: '2026-07-23T04:53:52Z'
-  record: .continuity/sessions/SES-20260723T045352Z-FC8DC2CF.yaml
-  session_log: docs/03-continuity/sessions/2026-07/SES-20260723T045352Z-FC8DC2CF.md
-  updated_at: '2026-07-23T06:17:55Z'
-  closed_at: '2026-07-23T06:17:55Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260723T045352Z-FC8DC2CF/0006.yaml
-  handoff_bundle: null
 - session_id: SES-20260723T062549Z-79779015
   task_id: TASK-R10-003
   story_id: STORY-R10-004
@@ -1202,47 +1566,19 @@ recent_sessions:
   closed_at: '2026-07-23T18:29:22Z'
   latest_checkpoint: .continuity/checkpoints/SES-20260723T175513Z-EFD4D365/0002.yaml
   handoff_bundle: null
+- session_id: SES-20260723T183130Z-454A6E0D
+  task_id: TASK-R11-004
+  story_id: STORY-R11-002
+  actor_id: codex-root-r11-client
+  status: ACTIVE
+  started_at: '2026-07-23T18:31:30Z'
+  record: .continuity/sessions/SES-20260723T183130Z-454A6E0D.yaml
+  session_log: docs/03-continuity/sessions/2026-07/SES-20260723T183130Z-454A6E0D.md
+  updated_at: '2026-07-23T19:13:25Z'
+  closed_at: null
+  latest_checkpoint: .continuity/checkpoints/SES-20260723T183130Z-454A6E0D/0003.yaml
+  handoff_bundle: null
 task_claims:
-- claim_id: CLM-A8579B248F51
-  session_id: SES-20260722T093645Z-C7DB8EF0
-  task_id: TASK-R08-008
-  story_id: STORY-R08-004
-  actor_id: codex-root-r08-008
-  status: CLOSED
-  claimed_at: '2026-07-22T09:36:45Z'
-  allowed_paths:
-  - apps/**
-  - services/**
-  - packages/**
-  - contracts/**
-  - database/**
-  - config/**
-  - catalogs/**
-  - tests/**
-  - infra/**
-  - design/**
-  - docs/**
-  - releases/**
-  - scripts/**
-  - templates/**
-  - .github/**
-  - .githooks/**
-  - .codex/**
-  - AGENTS.md
-  - START_HERE.md
-  - README.md
-  - CHANGELOG.md
-  - Makefile
-  - .gitignore
-  - .gitattributes
-  - .dockerignore
-  - package.json
-  - pnpm-lock.yaml
-  - pnpm-workspace.yaml
-  - requirements-dev.txt
-  - PROJECT_*.yaml
-  - PROJECT_*.json
-  closed_at: '2026-07-22T15:23:15Z'
 - claim_id: CLM-0E07D6A43A16
   session_id: SES-20260722T153450Z-FAD75B8D
   task_id: TASK-R09-001
@@ -2028,17 +2364,28 @@ task_claims:
   - PROJECT_*.yaml
   - PROJECT_*.json
   closed_at: '2026-07-23T18:29:23Z'
+- claim_id: CLM-68C0071B101C
+  session_id: SES-20260723T183130Z-454A6E0D
+  task_id: TASK-R11-004
+  story_id: STORY-R11-002
+  actor_id: codex-root-r11-client
+  status: ACTIVE
+  claimed_at: '2026-07-23T18:31:30Z'
+  allowed_paths:
+  - apps/android/**
+  - services/backend/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - tests/**
+  - docs/**
+  - catalogs/**
+  - releases/**
+  - design/**
+  - scripts/**
+  - CHANGELOG.md
 recent_task_transitions:
-- transition_id: TRN-536B3E88AF9D
-  timestamp: '2026-07-22T09:36:47Z'
-  release: R08
-  task_id: TASK-R08-008
-  story_id: STORY-R08-004
-  from_status: READY
-  to_status: IN_PROGRESS
-  session_id: SES-20260722T093645Z-C7DB8EF0
-  actor_id: codex-root-r08-008
-  reason: 会话领取任务
 - transition_id: TRN-22C197FB1144
   timestamp: '2026-07-22T15:34:52Z'
   release: R09
@@ -2228,6 +2575,16 @@ recent_task_transitions:
   to_status: IN_PROGRESS
   session_id: SES-20260723T175513Z-EFD4D365
   actor_id: codex-root-r11-backend
+  reason: 会话领取任务
+- transition_id: TRN-3D723D39EAA7
+  timestamp: '2026-07-23T18:31:31Z'
+  release: R11
+  task_id: TASK-R11-004
+  story_id: STORY-R11-002
+  from_status: READY
+  to_status: IN_PROGRESS
+  session_id: SES-20260723T183130Z-454A6E0D
+  actor_id: codex-root-r11-client
   reason: 会话领取任务
 open_change_requests:
 - protocol_version: '1.0'
@@ -9032,6 +9389,114 @@ open_change_requests:
     session_id: SES-20260723T175513Z-EFD4D365
   session_ids:
   - SES-20260723T175513Z-EFD4D365
+- protocol_version: '1.0'
+  cr_id: CR-0285
+  title: 实现R11团队长列表与首页真实入口回接
+  status: IMPLEMENTED
+  created_at: '2026-07-23T18:33:59Z'
+  updated_at: '2026-07-23T19:10:25Z'
+  requester_actor_id: codex-root-r11-client
+  approver_actor_id: codex-independent-r11-ui-reviewer
+  task_id: TASK-R11-004
+  session_id: SES-20260723T183130Z-454A6E0D
+  user_request: 按开发文档与B02/P08一比一完成团队长列表并持续推进R11。
+  reason: 当前首页团队长入口未接导航，Android无R11网络契约和团队长专属列表页面，无法完成STORY-R11-002。
+  original_rule: Android仅有R08-R10内容类型模块；首页团队长入口回调为空，/content/team-leaders与/content/team-leader/{id}未进入真实Navigation栈。
+  new_rule: 新增feature:team-leader和ContractR11Api；STORY-R11-002按B02/P08实现圆形Logo、团队名、真实简介、规模地区、登记属性标签、发布者和真实统计卡片，完整覆盖加载/空/刷新/翻页/局部失败/离线；首页团队长一级入口与服务端TEAM_LEADER目标接入真实Navigation路由。
+  impact_summary: 完成团队长列表纵向切片与首页入口回接，不实现尚未领取的详情和编辑页面业务。
+  impact:
+    files:
+    - apps/android/settings.gradle.kts
+    - apps/android/app/build.gradle.kts
+    - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+    - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR11Api.kt
+    - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/R11ApiModelsSerializationTest.kt
+    - apps/android/feature/team-leader/build.gradle.kts
+    - apps/android/feature/team-leader/src/main/java/cc/orbexa/hhy/teamleader/R11TeamLeaderListScreen.kt
+    - apps/android/feature/team-leader/src/main/java/cc/orbexa/hhy/teamleader/R11TeamLeaderState.kt
+    - apps/android/feature/team-leader/src/test/java/cc/orbexa/hhy/teamleader/R11TeamLeaderStateTest.kt
+    pages:
+    - SCR-LIST-004
+    - SCR-HOME-001
+    apis:
+    - contentGetContents
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - R11 network serialization and state tests
+    - Android UI foundation and feature module tests
+    releases:
+    - R11
+    migration_and_compatibility: 复用冻结ContentResource与GET /api/v1/contents，仅新增TEAM_LEADER过滤客户端和Navigation目的地；R08-R10路由保持兼容。
+  user_confirmation: 项目所有者已要求按开发文档和效果图持续完成R11。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-23T18:34:25Z'
+    note: 独立复核B02/P08、SCR-LIST-004与首页聚合责任；文件范围仅实现列表、网络查询和Navigation回接，未越界详情编辑。
+  machine_record: .continuity/change_requests/CR-0285.yaml
+  document: docs/03-continuity/change-requests/CR-0285-实现R11团队长列表与首页真实入口回接.md
+  decision_log:
+  - at: '2026-07-23T19:09:58Z'
+    actor_id: codex-root-r11-client
+    status: IMPLEMENTING
+    note: 团队长列表、首页入口与Navigation回接已完成实现并通过MODULE验证，准备形成列表Story实现提交
+    session_id: SES-20260723T183130Z-454A6E0D
+  - at: '2026-07-23T19:10:25Z'
+    actor_id: codex-root-r11-client
+    status: IMPLEMENTED
+    note: B02/P08团队长列表、首页一级入口、TEAM_LEADER查询与真实Navigation列表目的地已实现；详情由同一TASK后续Story接续，当前未伪造详情UI
+    session_id: SES-20260723T183130Z-454A6E0D
+  session_ids:
+  - SES-20260723T183130Z-454A6E0D
+- protocol_version: '1.0'
+  cr_id: CR-0286
+  title: 补齐R11团队长列表既有变更日志投影
+  status: IMPLEMENTED
+  created_at: '2026-07-23T19:12:25Z'
+  updated_at: '2026-07-23T19:13:22Z'
+  requester_actor_id: codex-root-r11-client
+  approver_actor_id: codex-independent-r11-governance-reviewer
+  task_id: TASK-R11-004
+  session_id: SES-20260723T183130Z-454A6E0D
+  user_request: 项目所有者要求持续按仓库事实开发并确保跨AI无缝接续。
+  reason: CR-0285实现已完成后严格提交门禁发现用户可见变化缺少CHANGELOG.md；本CR只补齐同一变化的既有投影视图，不建立新规则。
+  original_rule: CR-0285已登记R11团队长列表用户可见变化，但既有CHANGELOG尚无本次实现条目。
+  new_rule: 仅在既有CHANGELOG.md补充CR-0285已批准并实现的团队长列表、首页入口和状态覆盖事实；不新增规则、页面、API或功能。
+  impact_summary: 补齐同一用户可见变化的变更日志投影，以满足严格提交门禁和跨AI接续。
+  impact:
+    files:
+    - CHANGELOG.md
+    pages: []
+    apis: []
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - continuity strict pre-commit gate
+    releases:
+    - R11
+    migration_and_compatibility: 纯文档投影，无运行时迁移；内容与CR-0285实现事实保持一致。
+  user_confirmation: 项目所有者要求开发事实写入仓库以便换电脑换AI后继续。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-23T19:12:44Z'
+    note: 确认本CR仅补齐CR-0285的既有CHANGELOG投影，不建立第二事实源或扩大产品范围。
+  machine_record: .continuity/change_requests/CR-0286.yaml
+  document: docs/03-continuity/change-requests/CR-0286-补齐R11团队长列表既有变更日志投影.md
+  decision_log:
+  - at: '2026-07-23T19:13:19Z'
+    actor_id: codex-root-r11-client
+    status: IMPLEMENTING
+    note: 已在既有CHANGELOG补充CR-0285团队长列表实现投影
+    session_id: SES-20260723T183130Z-454A6E0D
+  - at: '2026-07-23T19:13:22Z'
+    actor_id: codex-root-r11-client
+    status: IMPLEMENTED
+    note: 变更日志投影已完成，无运行时变化
+    session_id: SES-20260723T183130Z-454A6E0D
+  session_ids:
+  - SES-20260723T183130Z-454A6E0D
 source_manifest:
 - path: AGENTS.md
   sha256: f93034917d4b87ffd4caffe8b6cad354f69bc31f6c0d9398dec3074ae165496d
@@ -9040,8 +9505,8 @@ source_manifest:
   sha256: 22de14029ce47beb41ea569e36ce223fbc9d11b86f8676f28d5fbbd83896af5c
   bytes: 4556
 - path: CURRENT_STATUS.yaml
-  sha256: f0faf873b4deae94e30fc3af0d0493a46ece65b03387723ba310aa46e91fb9e7
-  bytes: 4122
+  sha256: f3074f9d618ec5201f6e36a8df7c43877a47242471d63552cc07d059b4b2c553
+  bytes: 4271
 - path: NEXT_TASK.yaml
   sha256: 1f6153d3eb5ab85090f1beeb24d6741211ac44bc5cce682ac157fe204767f034
   bytes: 1843
@@ -9073,23 +9538,23 @@ source_manifest:
   sha256: 16a96f9a52f352f3c62175db308dd973889b2e82acb117bcfdd12a4bc4d379f6
   bytes: 12763
 - path: .continuity/EVENT_LOG.jsonl
-  sha256: a27d4e3a27760212fd9b192465c87a68fc4e04b155b9f4e6bc5c6a1d1f560147
-  bytes: 1569019
+  sha256: 1069920de905fd108a4d9fe4605d37e70a07bcb6dcf4ebbb199a372f1c508148
+  bytes: 1578708
 - path: .continuity/SESSION_INDEX.yaml
-  sha256: 0c7c977e6ad8e906051f7c480969e8c987f684002f20b6ba4659c6b1f13d313d
-  bytes: 48204
+  sha256: ae6ad3c245cf4ebe57d69e03c2a3bf1ddfeb2df655e3ff96805a959f42ff0ff8
+  bytes: 48699
 - path: .continuity/TASK_CLAIMS.yaml
-  sha256: 09956ec9cd354562c1ef6ed6f7f81d24243f22e34d53276e2870b5726e9111da
-  bytes: 67165
+  sha256: 7c9edac591dda5ad0e3c8128401dc0f02f3de81d90400036533d4e0cd12ac4ac
+  bytes: 67603
 - path: .continuity/TASK_TRANSITIONS.yaml
-  sha256: fe0e778e471e2d560b488cfe817aca21fa3f65107307baa8199787c1291f94f1
-  bytes: 27417
+  sha256: 9f85427a939c26ce554740892700d71993e883c9a1b75de148354f703dcbfb8d
+  bytes: 27705
 - path: .continuity/CHANGE_REQUEST_INDEX.yaml
-  sha256: 292b9fb7db073ceb758bb21b53f5bf48326f3f87649ab30008a2c7c743ce2fe6
-  bytes: 950903
+  sha256: 5256e50707705193f39ca55147b79dc1548d3daa41e5968afe57be7a973e90d5
+  bytes: 956737
 - path: .continuity/ACTIVE_SESSION.yaml
-  sha256: e68fd22914fcfd23e69e861d5d629f2806d3d63eb0cd5d91eb1b97f78f0c4201
-  bytes: 143
+  sha256: 400235c4c15d962378dab4f89762af5f21293a93eb1ca70f7c01c94ba6cf15d7
+  bytes: 536
 - path: docs/00-baseline/正式商业系统全局硬性开发边界.md
   sha256: 9753b32db136e59e95a0974a62362456d9d577fd1bb40058ec985c4b64413eea
   bytes: 12596
@@ -9117,6 +9582,18 @@ source_manifest:
 - path: releases/R11/ACCEPTANCE_MATRIX.csv
   sha256: fd67dd0579ea65dc25e2671f49693a4b3b63eb59f0399587f96c11319c54b25f
   bytes: 684
+- path: docs/03-continuity/sessions/2026-07/SES-20260723T183130Z-454A6E0D.md
+  sha256: 6d5a66862e3267376e1f031753df485cd0e9c19aebed224d7a305207ee5761a6
+  bytes: 6640
+- path: .continuity/checkpoints/SES-20260723T183130Z-454A6E0D/0003.yaml
+  sha256: e5f7a486bab25511b0a28b1c8d429d53387f9f475c2435e785692f938f5adf1f
+  bytes: 11294
+- path: docs/03-continuity/change-requests/CR-0285-实现R11团队长列表与首页真实入口回接.md
+  sha256: 4f68dc6f283c3500ff1020ccf976b1d8a17cd731e83243f0794c6f94ab0e90bb
+  bytes: 3484
+- path: docs/03-continuity/change-requests/CR-0286-补齐R11团队长列表既有变更日志投影.md
+  sha256: 6856ae0f732d458e52c21ee7249f5fa6f405a8c0eb08710c4d31bb1c42be1593
+  bytes: 2321
 rule_readiness:
   status: PASS
   evidence: HASHED_CONTEXT_MANIFEST
@@ -9136,7 +9613,8 @@ rule_readiness:
   - docs/03-continuity/PITFALLS.md
   - docs/09-development/统一开发与交付效率规范.md
   missing_sources: []
-exact_resume_command: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R11-004
+exact_resume_command: python3 scripts/continuity.py checkpoint --summary '<完成内容>' --next-step '<下一步>' --parallel-assessment <ASSESSMENT> --parallel-reason
+  '<未委托原因>'
 hard_rules:
 - 不得依赖旧对话补充仓库已有需求
 - 未领取任务和会话不得编辑项目文件
@@ -9151,4 +9629,4 @@ hard_rules:
 - 除非项目所有者明确报告未连接，默认Codex已连接obx-test且既有项目环境可用；预检失败必须阻断并报告
 - 禁止以无服务器状态继续开发或重建本地Android SDK，必须复用登记的远端镜像和Gradle缓存
 - Git remote/upstream仅按tracked transport descriptor受控恢复；推送前必须预检且禁止force push
-context_hash: b65734ffd75901293a9c601c630fc7b75dbde2005da1edc87f91a415aa933b38
+context_hash: 6c174d5cc302d2e8091bf6797921daecf8c703d4e755925352d48f33d326052a
