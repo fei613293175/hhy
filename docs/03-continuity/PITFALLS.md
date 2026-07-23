@@ -23,3 +23,4 @@
 21. 异步真机反馈可能跨越多个大版本，跨Release依赖不能只看历史 `TASKS.yaml` 是否全为 `DONE`。只有当历史Release Manifest同时证明机器交付PASS、Owner真机PENDING、正式验收与生产激活仍阻断、后续开发ALLOWED时，才可把其最后一个 `BLOCKED` 外部门禁任务视为开发依赖GREEN；任何更早未完成任务、缺失Manifest事实或生产已放行的异常组合仍必须阻断。该豁免只允许继续开发，不得改写历史真机状态。
 22. Context Pack等跨电脑清单的来源哈希必须由生成端和校验端共同使用 `portable_source_record` 的规范化换行语义；不得一端记录LF规范化SHA、另一端比较Windows CRLF原始字节SHA。修复时必须保留真实内容变化负向阻断，禁止靠批量改写CSV换行掩盖算法不一致。
 23. 固定 Android 服务器容器验证必须把既有命名卷 `hhy-r01-android-gradle-cache` 挂载到 `/root/.gradle`，不得改用宿主 `/root/.gradle`；后者不会复用项目固定缓存，会造成依赖重复下载和耗时漂移。短生命周期容器首次补装稳定 API 36 时可能阶段性没有 Gradle 新日志，必须先检查容器状态、CPU 和增量日志；只要仍有安装或编译活动，就不得误判卡死、并行重启验证或重建固定镜像。
+24. 项目所有者授权使用 PowerShell/终端不等于允许 AI 把确认动作转交给项目所有者。未复用已批准前缀的 `ProcessStartInfo`、Git Credential Manager、复合复制/解压命令都可能让 Codex 客户端弹出“允许运行此命令”；执行前必须选择 `hhy_workflow.py git`、受控运行时、已批准 SSH、工作区编辑或等价静默通道。发生一次弹窗后不得换一种相似命令继续试探；客户端授权机制不是项目外部阻断。

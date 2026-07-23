@@ -1,0 +1,69 @@
+{
+  "schema": "hhy.android-ci-candidate/v1",
+  "policy_id": "HHY-ANDROID-AUTOMATION-V1",
+  "release": "R09",
+  "commit": "97dc163e1cbed8d19a054326806453c5fa0aee9b",
+  "github_run_id": "29969376611",
+  "status": "BASELINE_REVIEW_REQUIRED",
+  "owner_test_allowed": false,
+  "release_completion_allowed": false,
+  "production_activation_allowed": false,
+  "apk": {
+    "file": "hhy-R09-97dc163-candidate.apk",
+    "sha256": "4c4b05a1249802072168d3d4e43e5824998487bc4c9757b98dee90449b9e8224",
+    "size_bytes": 20732820
+  },
+  "runtime_report": {
+    "schema": "hhy.android-ci-runtime/v1",
+    "policy_id": "HHY-ANDROID-AUTOMATION-V1",
+    "release": "R09",
+    "commit": "97dc163e1cbed8d19a054326806453c5fa0aee9b",
+    "github_run_id": "29969376611",
+    "attempt": 3,
+    "max_ai_attempts": 3,
+    "status": "BASELINE_REVIEW_REQUIRED",
+    "candidate_eligible": false,
+    "owner_test_allowed": false,
+    "failures": [
+      {
+        "type": "VISUAL",
+        "detail": "approved visual baseline missing: /home/runner/work/hhy/hhy/tests/android/visual-baselines/R09"
+      }
+    ],
+    "visual_comparisons": [
+      {
+        "comparison": "cross_screen",
+        "screenshots": ["01-app-list.png", "02-app-detail.png"],
+        "changed_pixel_ratio": 0.156298
+      },
+      {
+        "comparison": "cross_screen",
+        "screenshots": ["02-app-detail.png", "03-app-editor.png"],
+        "changed_pixel_ratio": 0.172086
+      }
+    ],
+    "screenshot_evidence": [
+      {
+        "screenshot": "01-app-list.png",
+        "sha256": "564a30da48820509ed73e604918509a3ec469a4fab8a4e1ab3eb25abe48c3ac6",
+        "size_bytes": 152445
+      },
+      {
+        "screenshot": "02-app-detail.png",
+        "sha256": "7e15198b77b0eeb93913635e0b06ecbd48fc8243b0982635c5b3bea2731ea02f",
+        "size_bytes": 220593
+      },
+      {
+        "screenshot": "03-app-editor.png",
+        "sha256": "17d49803d398e6b7f95a99c7bc7b07cdd8d58a7b9a9fb40e7aa8efb19bf6c5e4",
+        "size_bytes": 183070
+      }
+    ],
+    "remediation": {
+      "status": "AI_BASELINE_REVIEW_REQUIRED",
+      "next_action": "AI_REVIEW_AND_LIGHTWEIGHT_PROMOTE_BASELINE",
+      "escalation_allowed": false
+    }
+  },
+  "errors": []
+}

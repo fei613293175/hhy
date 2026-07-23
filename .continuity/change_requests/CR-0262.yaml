@@ -1,0 +1,58 @@
+protocol_version: '1.0'
+cr_id: CR-0262
+title: 补齐R09最终交付证据范围并落实终端静默执行边界
+status: IMPLEMENTING
+created_at: '2026-07-23T02:30:39Z'
+updated_at: '2026-07-23T02:32:11Z'
+requester_actor_id: codex-root-r09-candidate
+approver_actor_id: codex-r09-delivery-policy-review
+task_id: TASK-R09-007
+session_id: SES-20260722T205410Z-782F22B9
+user_request: 项目所有者要求所有PowerShell及终端操作由AI直接执行，已授权全部终端权限，禁止再以权限确认框打扰；同时R09最终APK和文档必须形成仓库、桌面、公网、服务器四方可追溯交付。
+reason: CR-0257已进入IMPLEMENTING不能原地补充影响范围，而R09最终APK及候选/构建/交付证据是在候选成功后产生；现有规则已允许终端自动执行，但需在既有权威条款中明确授权与不打扰边界，并将新交付文件纳入当前会话。
+original_rule: 既有规则已经允许AI使用PowerShell和其他终端完成开发，但尚未在同一权威条款中精确区分“允许直接执行终端”与“不得把权限确认框转给用户”；CR-0257覆盖R09候选实现和晋升边界，但候选成功后生成的最终APK及交付证据文件尚未纳入会话范围。
+new_rule: 不新建平行终端规则，直接修订AGENTS.md与统一开发交付规范中的既有终端执行条款：在当前权限配置允许时，AI必须自行执行PowerShell及其他终端命令，不得为普通终端操作向项目所有者索要确认或弹出授权请求；该授权不扩大产品范围，也不豁免破坏性操作的精确目标校验。R09候选成功后产生的固定签名APK、候选/构建/四方交付证据和版本测试说明作为CR-0257的可追溯交付投影纳入版本化artifacts目录。
+impact_summary: 只更新既有终端权威条款和踩坑投影，避免第二事实源；同时补齐R09候选成功后必然产生的APK、报告和证据文件范围，使检查点可验证并可跨AI/电脑恢复。
+impact:
+  files:
+  - AGENTS.md
+  - docs/09-development/统一开发与交付效率规范.md
+  - docs/03-continuity/PITFALLS.md
+  - artifacts/apk/R09/APK_MANIFEST.yaml
+  - artifacts/apk/R09/hhy-r09-97dc163-debug.apk
+  - artifacts/reports/R09/R09-version-test-guide.md
+  - artifacts/reports/R09/TASK-R09-007-android-apk.md
+  - artifacts/validation/r09-apk-delivery/delivery-evidence.json
+  - artifacts/validation/r09-task007-android/APPROVAL.yaml
+  - artifacts/validation/r09-task007-android/source-candidate-report.json
+  - artifacts/validation/r09-task007-android/candidate-report.json
+  - artifacts/validation/r09-task007-android/build-evidence.json
+  pages: []
+  apis: []
+  database: []
+  configuration:
+  - Codex终端静默执行边界；无运行时配置值变更
+  ledger:
+  - R09最终APK、候选/构建报告、AI审批、四方SHA与桌面交付说明
+  tests:
+  - Continuity批准CR范围与检查点变更路径校验
+  - R09视觉、文档、49项回归、生成资产与版本交付校验
+  - 公网、服务器、仓库、桌面APK SHA一致性校验
+  releases:
+  - R09
+  migration_and_compatibility: 规则为既有终端授权边界的澄清，不改变功能、数据、API或生产配置；已有确认机制在权限受限环境仍由平台控制，但AI不得主动把普通终端确认转给用户。新增R09 artifacts均为已完成候选与交付的只读证据，不改变运行时行为。
+user_confirmation: 项目所有者已明确：问题不是不能使用PowerShell，而是使用时不能打扰；已授权AI全部权限直接使用所有终端，并要求持续开发。
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-23T02:31:21Z'
+  note: 独立复核通过：已查重并修订既有终端执行条款，没有建立第二套硬规则；权限授权不豁免破坏性目标校验。R09 artifacts仅补齐候选成功后的既有交付事实，范围与CR-0257一致。
+machine_record: .continuity/change_requests/CR-0262.yaml
+document: docs/03-continuity/change-requests/CR-0262-补齐R09最终交付证据范围并落实终端静默执行边界.md
+decision_log:
+- at: '2026-07-23T02:32:11Z'
+  actor_id: codex-root-r09-candidate
+  status: IMPLEMENTING
+  note: 已按批准范围把既有终端条款澄清和R09最终交付证据纳入当前会话，进入检查点与提交收口。
+  session_id: SES-20260722T205410Z-782F22B9
+session_ids:
+- SES-20260722T205410Z-782F22B9

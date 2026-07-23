@@ -1177,3 +1177,10 @@
 - Actor：`codex-root-r09-observability`
 - 摘要：R09 App推广可观测性与隔离Staging验收完成：358项受影响后端测试通过，7项App业务Gauge和7条告警规则可用，BackendDown与Outbox告警完成firing/resolved送达，V035同库同卷回切和22文件可移植证据通过；PROB-0095已SOLVED，GitHub模拟器与候选APK留给R09-007。
 - 记录：`docs/03-continuity/sessions/2026-07/SES-20260722T200509Z-8FC026EC.md`
+
+## TASK-R09-007 · COMPLETED · 2026-07-23T02:04:27Z
+
+- R09 最终候选 Run `29969376611` 完成编译、Lint、单测、模拟器、OIDC、三页真实 App 推广旅程、日志与四张媒体加载硬断言；三张截图由 AI 逐图批准。
+- 轻量基线晋升 Run `29970240620` 仅耗时 17 秒，复用同一 APK、截图和报告，没有重新编译或启动模拟器。
+- 固定签名 APK `hhy-r09-97dc163-debug.apk` 已完成 v2/v3、zipalign、正式 API、版本身份和四方 SHA-256 一致验证，并放入仓库、桌面和公网下载站。
+- `PROB-0098` 已关闭；项目所有者真机反馈保持异步 `PENDING`，不阻断 R09 机器关闭及 R10 开发。

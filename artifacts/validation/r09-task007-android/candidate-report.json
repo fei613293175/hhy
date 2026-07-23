@@ -1,0 +1,37 @@
+{
+  "schema": "hhy.android-ci-candidate-promotion/v1",
+  "policy_id": "HHY-ANDROID-AUTOMATION-V1",
+  "release": "R09",
+  "commit": "97dc163e1cbed8d19a054326806453c5fa0aee9b",
+  "github_run_id": "29970240620",
+  "source_github_run_id": "29969376611",
+  "status": "PASS",
+  "owner_test_allowed": true,
+  "release_completion_allowed": false,
+  "production_activation_allowed": false,
+  "apk": {
+    "file": "hhy-R09-97dc163-candidate.apk",
+    "sha256": "4c4b05a1249802072168d3d4e43e5824998487bc4c9757b98dee90449b9e8224",
+    "size_bytes": 20732820
+  },
+  "baseline_approval": {
+    "schema": "hhy.android-visual-baseline-approval/v1",
+    "release": "R09",
+    "status": "APPROVED",
+    "authority": "AI_IMPLEMENTATION_AGENT",
+    "promotion_attempt": 1,
+    "source": {
+      "github_run_id": "29969376611",
+      "commit": "97dc163e1cbed8d19a054326806453c5fa0aee9b",
+      "artifact_id": "8549198976",
+      "artifact_sha256": "21b71f711766629da6a7b0f6a0edc1fc4b3bd4b27cd703468dc46a35353ac6bf",
+      "runtime_status": "BASELINE_REVIEW_REQUIRED"
+    },
+    "screens": [
+      {"file": "01-app-list.png", "sha256": "564a30da48820509ed73e604918509a3ec469a4fab8a4e1ab3eb25abe48c3ac6"},
+      {"file": "02-app-detail.png", "sha256": "7e15198b77b0eeb93913635e0b06ecbd48fc8243b0982635c5b3bea2731ea02f"},
+      {"file": "03-app-editor.png", "sha256": "17d49803d398e6b7f95a99c7bc7b07cdd8d58a7b9a9fb40e7aa8efb19bf6c5e4"}
+    ]
+  },
+  "errors": []
+}

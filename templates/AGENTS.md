@@ -35,6 +35,7 @@
 - Git Hooks 和 CI 对每个非合并 Commit 重验，禁止通过 `--no-verify` 绕过远程门禁。
 - 交接必须生成 Handoff Bundle；另一个 AI 仅凭仓库/交接包恢复，不读取旧对话。
 - Git 远程和 upstream 只能按 `config/REPOSITORY_TRANSPORT.yaml` 及受控脚本恢复。推送前必须执行 transport/push preflight；禁止 force push、含凭据 URL、错误 remote/upstream、behind/diverged 推送，以及从无 `.git` 且无已验证 Bundle 的纯源码伪造历史。
+- 项目所有者已长期授权开发所需终端、PowerShell、SSH 和仓库工具执行；AI 必须静默复用已允许前缀、受控运行时或等价工作区通道，禁止弹出终端确认框、Git Credential Manager 或权限选择要求项目所有者操作。可能触发新交互授权的命令必须在执行前改写为无弹窗通道；只读 GitHub 构件不得调用凭据管理器。
 
 ### 2.1 分层验证
 
