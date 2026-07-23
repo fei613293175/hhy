@@ -204,7 +204,7 @@ class BusinessGaugeBinderTest {
         assertThat(registry.get("hhy.group.favorites.count").gauge().value()).isEqualTo(1.0);
         assertThat(registry.get("hhy.group.contact.accesses.5m").gauge().value()).isEqualTo(3.0);
         assertThat(registry.get("hhy.group.contact.rejections.5m").gauge().value()).isEqualTo(1.0);
-        assertThat(registry.get("hhy.r10.outbox.backlog").gauge().value()).isEqualTo(0.0);
+        assertThat(registry.get("hhy.r10.outbox.backlog").gauge().value()).isEqualTo(1.0);
         assertThat(registry.get("hhy.business.metric.query.failures")
                 .tag("metric", "hhy.admin.active.sessions").counter().count()).isZero();
     }
