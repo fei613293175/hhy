@@ -77,6 +77,7 @@ from continuity_lib import (
     save_session,
     save_state,
     session_record_path,
+    switch_active_claim_story,
     sha256_file,
     update_current_status_closed,
     update_current_status_for_session,
@@ -1346,6 +1347,70 @@ def command_context(args: Namespace) -> None:
     print_yaml({"status": "CONTEXT_PACK_GENERATED", "context_hash": payload["context_hash"], "resume_command": payload["exact_resume_command"]})
 
 
+def command_story_switch(args: Namespace) -> None:
+    actor = get_actor(args)
+    with continuity_lock(ROOT):
+        session = current_session(ROOT, allow_handoff=False)
+        if not session or session.get("status") != "ACTIVE":
+            raise ContinuityError("只有ACTIVE会话可以切换Story")
+        if session["actor"]["id"] != actor:
+            raise ContinuityError("只有当前Actor可以切换Story")
+        if session.get("story_id") == args.story:
+            raise ContinuityError("目标Story与当前Story相同")
+        git_state = git_info(ROOT)
+        if git_state.get("dirty"):
+            raise ContinuityError("切换Story前工作区必须干净")
+        checkpoint = latest_checkpoint(ROOT, session)
+        if not checkpoint:
+            raise ContinuityError("切换Story前必须存在已提交检查点")
+        commit_message = run_command(["git", "log", "-1", "--pretty=%B"], cwd=ROOT).stdout
+        checkpoint_id = str(checkpoint.get("checkpoint_id") or "")
+        if f"Checkpoint-ID: {checkpoint_id}" not in commit_message:
+            raise ContinuityError("最新检查点尚未提交到当前HEAD，禁止切换Story")
+        story = select_story(ROOT, session["release"], args.story)
+        previous_story = session.get("story_id")
+        switched_at = iso_utc()
+        session.setdefault("story_history", []).append({
+            "story_id": previous_story,
+            "completed_at": switched_at,
+            "checkpoint_id": checkpoint_id,
+            "commit": git_state["head"],
+            "summary": args.summary,
+        })
+        session["story_id"] = story["story_id"]
+        session["goal"] = args.goal or story.get("title") or session.get("goal")
+        session["scope"] = {
+            "allowed_paths": derive_scope(load_policy(ROOT), story, args.scope),
+            "approved_exceptions": [],
+            "source": "story-switch+explicit",
+        }
+        session["latest_checkpoint"] = None
+        session["next_step"] = "阅读新Story、逐项验证事实源后开始实现"
+        renew_lease(session, load_policy(ROOT))
+        save_session(ROOT, session)
+        switch_active_claim_story(ROOT, session, story["story_id"])
+        update_session_index(ROOT, session)
+        save_active_pointer(ROOT, {
+            "protocol_version": PROTOCOL_VERSION,
+            "active_session_id": session["session_id"],
+            "status": "ACTIVE",
+            "session_record": session_record_path(ROOT, session["session_id"]).relative_to(ROOT).as_posix(),
+            "actor_id": actor,
+            "task_id": session["task_id"],
+            "story_id": story["story_id"],
+            "lease_expires_at": session["lease"]["expires_at"],
+        })
+        update_current_status_for_session(ROOT, session)
+        append_event(ROOT, "SESSION_STORY_SWITCHED", {
+            "session_id": session["session_id"], "actor_id": actor, "task_id": session["task_id"],
+            "from_story_id": previous_story, "to_story_id": story["story_id"],
+            "checkpoint_id": checkpoint_id, "commit": git_state["head"], "summary": args.summary,
+        })
+        context = build_context_pack(ROOT, session)
+        save_session(ROOT, session)
+    print_yaml({"status": "STORY_SWITCHED", "session_id": session["session_id"], "task_id": session["task_id"], "from_story_id": previous_story, "story_id": story["story_id"], "checkpoint_required": True, "context_hash": context["context_hash"]})
+
+
 def read_only_no_session_resume_payload(root: Path) -> dict[str, Any]:
     """Resolve a cold-start command without mutating the clean repository.
 
@@ -1580,6 +1645,14 @@ def build_parser() -> ArgumentParser:
     checkpoint.add_argument("--parallel-reason", default="")
     checkpoint.add_argument("--note", default="")
     checkpoint.set_defaults(func=command_checkpoint)
+
+    story_switch = sub.add_parser("story-switch", help="同一Task内原子切换到另一个READY Story")
+    story_switch.add_argument("--actor")
+    story_switch.add_argument("--story", required=True)
+    story_switch.add_argument("--summary", required=True)
+    story_switch.add_argument("--goal", default="")
+    story_switch.add_argument("--scope", action="append", default=[])
+    story_switch.set_defaults(func=command_story_switch)
 
     heartbeat = sub.add_parser("heartbeat", help="长任务期间续租；不替代强制检查点")
     heartbeat.add_argument("--actor")

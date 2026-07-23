@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 同一 Task 多 Story 原子接续 · 2026-07-24
+
+- 新增 `continuity.py story-switch`：完成一个 Story 的独立提交后，可在不关闭整个 Task 的前提下切换到同一 Task 的另一个就绪 Story。
+- 切换强制要求干净工作树、已提交的最新检查点和当前 Actor；同步 Session、Claim、索引、状态、事件链与 Context Pack，并清空旧检查点要求新 Story 重新验证。
+
 ## R11 团队长列表与首页入口 · 2026-07-24
 
 - 新增团队长专属 Android 模块与冻结 `TEAM_LEADER` 内容查询，列表按 `B02/P08` 展示真实 Logo、团队介绍、规模、地区、登记属性标签、发布者及服务端浏览/收藏统计，不复制效果图虚构数据。

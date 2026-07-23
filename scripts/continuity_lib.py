@@ -822,6 +822,7 @@ def update_session_index(root: Path, session: dict[str, Any]) -> None:
         if row.get("session_id") == session["session_id"]:
             row.update(
                 {
+                    "story_id": session.get("story_id"),
                     "status": session["status"],
                     "updated_at": session.get("updated_at") or iso_utc(),
                     "closed_at": session.get("closed_at"),
@@ -835,6 +836,17 @@ def update_session_index(root: Path, session: dict[str, Any]) -> None:
         append_session_index(root, session)
         return
     atomic_write_yaml(root / SESSION_INDEX_FILE, index)
+
+
+def switch_active_claim_story(root: Path, session: dict[str, Any], story_id: str) -> None:
+    claims = load_index(root, TASK_CLAIMS_FILE, "claims")
+    matches = [row for row in claims["claims"] if row.get("session_id") == session["session_id"] and row.get("status") == "ACTIVE"]
+    if len(matches) != 1:
+        raise ContinuityError("当前会话必须且只能有一个ACTIVE Claim")
+    matches[0]["story_id"] = story_id
+    matches[0]["allowed_paths"] = session["scope"]["allowed_paths"]
+    matches[0]["updated_at"] = iso_utc()
+    atomic_write_yaml(root / TASK_CLAIMS_FILE, claims)
 
 
 def claim_task(root: Path, session: dict[str, Any]) -> None:
@@ -1228,14 +1240,15 @@ def checkpoint_cr_trailer(checkpoint: dict[str, Any] | None) -> str:
 
 def expected_commit_trailers(session: dict[str, Any], checkpoint: dict[str, Any]) -> dict[str, str]:
     trailers = {
-        "Task-ID": str(session.get("task_id") or ""),
+        "Task-ID": str(checkpoint.get("task_id") or session.get("task_id") or ""),
         "Session-ID": str(session.get("session_id") or ""),
         "Checkpoint-ID": str(checkpoint.get("checkpoint_id") or ""),
         "Tests": checkpoint_tests_trailer(checkpoint),
         "CR": checkpoint_cr_trailer(checkpoint),
     }
-    if session.get("story_id"):
-        trailers["Story-ID"] = str(session["story_id"])
+    story_id = checkpoint.get("story_id") or session.get("story_id")
+    if story_id:
+        trailers["Story-ID"] = str(story_id)
     return trailers
 
 
@@ -1734,6 +1747,8 @@ def write_checkpoint(
         "protocol_version": PROTOCOL_VERSION,
         "checkpoint_id": checkpoint_id,
         "session_id": session["session_id"],
+        "task_id": session["task_id"],
+        "story_id": session.get("story_id"),
         "sequence": sequence,
         "created_at": created_at,
         "summary": summary.strip(),

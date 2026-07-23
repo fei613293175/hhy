@@ -594,12 +594,33 @@ def validate_commit_identity(
     report.require(checkpoint is not None, "COMMIT_CHECKPOINT", f"{commit_sha}引用的检查点不存在：{checkpoint_id}")
     if not checkpoint:
         return None, checkpoint_path
-    expected = {key.lower(): value for key, value in expected_commit_trailers(session, checkpoint).items()}
+    trailer_story_id = trailers.get("story-id")
+    checkpoint_story_id = checkpoint.get("story_id")
+    if checkpoint_story_id:
+        historical_story_id = str(checkpoint_story_id)
+    else:
+        known_story_ids = {
+            str(value)
+            for value in [
+                session.get("story_id"),
+                *(row.get("story_id") for row in session.get("story_history", []) if isinstance(row, dict)),
+            ]
+            if value
+        }
+        report.require(
+            bool(trailer_story_id) and trailer_story_id in known_story_ids,
+            "COMMIT_HISTORICAL_STORY",
+            f"{commit_sha}旧格式检查点的Story-ID未登记于Session历史：{trailer_story_id}",
+        )
+        historical_story_id = trailer_story_id
+    historical_checkpoint = dict(checkpoint)
+    historical_checkpoint["story_id"] = historical_story_id
+    expected = {key.lower(): value for key, value in expected_commit_trailers(session, historical_checkpoint).items()}
     for key, value in expected.items():
         report.require(trailers.get(key) == value, "COMMIT_TRAILER_MISMATCH", f"{commit_sha} {key}应为{value}，实际为{trailers.get(key)}")
-    if not session.get("story_id"):
+    if not historical_story_id:
         report.require(not trailers.get("story-id"), "UNEXPECTED_STORY_TRAILER", f"{commit_sha}会话无Story但提交含Story-ID")
-    anchor = session.get("story_id") or session.get("task_id")
+    anchor = historical_story_id or checkpoint.get("task_id") or session.get("task_id")
     report.require(subject.startswith(f"[{anchor}] "), "COMMIT_SUBJECT_ANCHOR", f"{commit_sha}主题必须以[{anchor}]开头")
 
     changed_set = set(changed)

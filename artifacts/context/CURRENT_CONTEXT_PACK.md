@@ -1,7 +1,7 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-23T19:13:28Z
-- Context Hash：`6c174d5cc302d2e8091bf6797921daecf8c703d4e755925352d48f33d326052a`
+- 生成时间：2026-07-23T19:59:33Z
+- Context Hash：`c558314a2cf2e927fdd375e36a867429818a21b154d0b757e02a40dca6ab4602`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 规则就绪：`PASS`（`HASHED_CONTEXT_MANIFEST`）
@@ -153,7 +153,7 @@ blocked_tasks:
 - TASK-R06-008
 - TASK-R07-008
 next_task: TASK-R11-004
-updated_at: '2026-07-23T19:13:25Z'
+updated_at: '2026-07-23T19:59:31Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -188,15 +188,15 @@ continuity:
   active_session_id: SES-20260723T183130Z-454A6E0D
   actor_id: codex-root-r11-client
   story_id: STORY-R11-002
-  lease_expires_at: '2026-07-23T23:13:25Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260723T183130Z-454A6E0D/0003.yaml
-  project_fingerprint: 2d10e89d3892d05e46ab6c292afafc205187a48dcea264a1745a0054bf474542
+  lease_expires_at: '2026-07-23T23:59:31Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260723T183130Z-454A6E0D/0007.yaml
+  project_fingerprint: e7cf19c5f8c5e88e394c55f7259ddafe87fe5576fa5a408d87068546c6d6afda
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: a458f5d128979c57239afaebdf335a2cb2aa23f86956c1cbf57c9d83311d8d07
-    generated_at: '2026-07-23T19:10:31Z'
+    context_hash: c11dd08be90ca261c3fce56982d9afc54a96b863a6d00cc9c8821a8fe48a7d4b
+    generated_at: '2026-07-23T19:58:47Z'
   handoff_bundle: null
 ```
 
@@ -398,11 +398,13 @@ task_id: TASK-R11-004
 story_id: STORY-R11-002
 goal: 团队长入驻完整闭环客户端/H5/后台实现
 started_at: '2026-07-23T18:31:30Z'
-updated_at: '2026-07-23T19:13:25Z'
+updated_at: '2026-07-23T19:59:31Z'
 takeover_of: null
 change_requests:
 - CR-0285
 - CR-0286
+- CR-0287
+- CR-0288
 scope:
   allowed_paths:
   - apps/android/**
@@ -429,7 +431,12 @@ scope:
   - apps/android/feature/team-leader/src/main/java/cc/orbexa/hhy/teamleader/R11TeamLeaderState.kt
   - apps/android/feature/team-leader/src/test/java/cc/orbexa/hhy/teamleader/R11TeamLeaderStateTest.kt
   - CHANGELOG.md
-  source: story+explicit+approved-cr:CR-0285+approved-cr:CR-0286
+  - scripts/continuity.py
+  - scripts/continuity_lib.py
+  - scripts/test_continuity_protocol.py
+  - .continuity/CONTINUITY_POLICY.yaml
+  - docs/09-development/统一开发与交付效率规范.md
+  source: story+explicit+approved-cr:CR-0285+approved-cr:CR-0286+approved-cr:CR-0287
 git:
   initialized: true
   branch: task/TASK-R03-001
@@ -439,12 +446,12 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-23T19:13:25Z'
-  expires_at: '2026-07-23T23:13:25Z'
-checkpoint_sequence: 3
-latest_checkpoint: .continuity/checkpoints/SES-20260723T183130Z-454A6E0D/0003.yaml
+  renewed_at: '2026-07-23T19:59:31Z'
+  expires_at: '2026-07-23T23:59:31Z'
+checkpoint_sequence: 7
+latest_checkpoint: .continuity/checkpoints/SES-20260723T183130Z-454A6E0D/0007.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260723T183130Z-454A6E0D.md
-next_step: 形成列表Story实现提交；随后修复同Task Story切换能力并领取STORY-R11-001实现B03/P04真实详情
+next_step: 提交协议修复后执行story-switch到STORY-R11-001，开始B03/P04团队长详情
 context_pack: THIS_CONTEXT_PACK
 handoff_bundle: null
 closure: null
@@ -452,85 +459,81 @@ parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 列表状态、Compose页面、首页Navigation和同一ContentResource契约强耦合；当前执行环境没有独立scratch worktree代理能力
+  reason: 连续性状态机、Context Pack、CR状态和Git身份必须在单一事实分支串行闭合
 ```
 
 ## 最新检查点
 
 ```yaml
 protocol_version: '1.0'
-checkpoint_id: CP-SES-20260723T183130Z-454A6E0D-0003
+checkpoint_id: CP-SES-20260723T183130Z-454A6E0D-0007
 session_id: SES-20260723T183130Z-454A6E0D
-sequence: 3
-created_at: '2026-07-23T19:13:25Z'
-summary: 完成STORY-R11-002团队长列表纵向切片与CHANGELOG投影：B02/P08列表、严格属性映射、全状态分页、首页入口和列表Navigation
-next_step: 形成列表Story实现提交；随后修复同Task Story切换能力并领取STORY-R11-001实现B03/P04真实详情
+task_id: TASK-R11-004
+story_id: STORY-R11-002
+sequence: 7
+created_at: '2026-07-23T19:59:30Z'
+summary: CR-0287与CR-0288已实现：同Task跨Story审计推进、历史证据不可覆盖、R11计划进入Context Pack，全部连续性门禁PASS
+next_step: 提交协议修复后执行story-switch到STORY-R11-001，开始B03/P04团队长详情
 blockers: []
 decisions: []
 note: ''
 tests:
-- name: android-ui-foundation
+- name: continuity-lifecycle
   result: PASS
-  evidence: scripts/check_android_ui_foundation.py
-  note: 全局Android基础门禁通过
-- name: r11-network-unit
+  evidence: artifacts/validation/continuity-lifecycle-integration-v1.2.3.json
+  note: 15项完整生命周期通过
+- name: continuity-reconstruction
   result: PASS
-  evidence: obx-test:hhy-r11-module-test-3
-  note: core network testDebugUnitTest通过
-- name: r11-team-leader-unit
+  evidence: artifacts/validation/continuity-integration-v1.2.3.json
+  note: 12项仓库重建集成通过
+- name: continuity-doctor
   result: PASS
-  evidence: obx-test:hhy-r11-module-test-4
-  note: 团队长事实映射、分页去重与错误状态测试通过
-- name: r11-team-leader-lint
-  result: PASS
-  evidence: obx-test:hhy-r11-module-test-3
-  note: feature team-leader lint分析完成无错误
-- name: android-app-compile
-  result: PASS
-  evidence: obx-test:hhy-r11-module-test-4
-  note: app compileDebugKotlin构建成功
+  evidence: artifacts/validation/project-doctor-v1.2.3.json
+  note: V1.2.3连续性检查和严格Doctor通过
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: ad68caf656ade3d36a4c775c7b0eeec0d8be1078
+  head: 9752485ae9b00c62df1846f7945b1e0bae42fcda
   upstream: origin/task/TASK-R03-001
-  ahead: 10
+  ahead: 11
   behind: 0
   dirty: true
   status_porcelain:
   - ' M .continuity/ACTIVE_SESSION.yaml'
   - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
+  - ' M .continuity/CONTINUITY_POLICY.yaml'
   - ' M .continuity/EVENT_LOG.jsonl'
   - ' M .continuity/SESSION_INDEX.yaml'
   - ' M .continuity/STATE.yaml'
-  - ' M .continuity/TASK_CLAIMS.yaml'
-  - ' M .continuity/TASK_TRANSITIONS.yaml'
+  - ' M .continuity/sessions/SES-20260723T183130Z-454A6E0D.yaml'
   - ' M CHANGELOG.md'
   - ' M CURRENT_STATUS.yaml'
-  - ' M apps/android/app/build.gradle.kts'
-  - ' M apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt'
-  - ' M apps/android/settings.gradle.kts'
   - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
   - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
   - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+  - ' M artifacts/validation/continuity-integration-v1.2.3.json'
+  - ' M artifacts/validation/continuity-lifecycle-integration-v1.2.3.json'
+  - ' M artifacts/validation/continuity-lifecycle-integration-v1.2.3.log'
+  - ' M artifacts/validation/project-doctor-v1.2.3.json'
   - ' M catalogs/change_request_index.csv'
   - ' M catalogs/session_index.csv'
-  - ' M catalogs/task_transition_ledger.csv'
-  - ?? .continuity/change_requests/CR-0285.yaml
-  - ?? .continuity/change_requests/CR-0286.yaml
-  - ?? .continuity/checkpoints/SES-20260723T183130Z-454A6E0D/0001.yaml
-  - ?? .continuity/checkpoints/SES-20260723T183130Z-454A6E0D/0002.yaml
-  - ?? .continuity/sessions/SES-20260723T183130Z-454A6E0D.yaml
-  - ?? apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR11Api.kt
-  - ?? apps/android/core/network/src/test/java/cc/orbexa/hhy/network/R11ApiModelsSerializationTest.kt
-  - ?? apps/android/feature/team-leader/build.gradle.kts
-  - ?? apps/android/feature/team-leader/src/main/java/cc/orbexa/hhy/teamleader/R11TeamLeaderListScreen.kt
-  - ?? apps/android/feature/team-leader/src/main/java/cc/orbexa/hhy/teamleader/R11TeamLeaderState.kt
-  - ?? apps/android/feature/team-leader/src/test/java/cc/orbexa/hhy/teamleader/R11TeamLeaderStateTest.kt
-  - ?? docs/03-continuity/change-requests/CR-0285-实现R11团队长列表与首页真实入口回接.md
-  - ?? docs/03-continuity/change-requests/CR-0286-补齐R11团队长列表既有变更日志投影.md
-  - ?? docs/03-continuity/sessions/2026-07/SES-20260723T183130Z-454A6E0D.md
+  - ' M docs/03-continuity/sessions/2026-07/SES-20260723T183130Z-454A6E0D.md'
+  - ' M docs/09-development/统一开发与交付效率规范.md'
+  - ' M scripts/continuity.py'
+  - ' M scripts/continuity_gate.py'
+  - ' M scripts/continuity_lib.py'
+  - ' M scripts/test_continuity_protocol.py'
+  - ?? .continuity/change_requests/CR-0287.yaml
+  - ?? .continuity/change_requests/CR-0288.yaml
+  - ?? .continuity/checkpoints/SES-20260723T183130Z-454A6E0D/0004.yaml
+  - ?? .continuity/checkpoints/SES-20260723T183130Z-454A6E0D/0005.yaml
+  - ?? .continuity/checkpoints/SES-20260723T183130Z-454A6E0D/0006.yaml
+  - ?? docs/03-continuity/change-requests/CR-0287-支持同一Task内原子切换Story.md
+  - ?? docs/03-continuity/change-requests/CR-0288-补齐R11版本级并行执行计划实例.md
+  - ?? releases/R11/PARALLEL_EXECUTION_PLAN.yaml
   recent_commits:
+  - "9752485ae9b00c62df1846f7945b1e0bae42fcda\t2026-07-24T03:13:50+08:00\tHHY Continuity Bootstrap\t[STORY-R11-002] feat(r11): implement team\
+    \ leader list"
   - "ad68caf656ade3d36a4c775c7b0eeec0d8be1078\t2026-07-24T02:30:28+08:00\tHHY Continuity Bootstrap\t[STORY-R11-004] chore(continuity): close TASK-R11-003\
     \ as completed"
   - "d28076b8653d54e0b028ed17fb60618ab1f630a9\t2026-07-24T02:28:48+08:00\tHHY Continuity Bootstrap\t[STORY-R11-004] feat(r11): implement team\
@@ -545,10 +548,8 @@ git:
     \ entry baseline"
   - "70524de3347e0365aeac268e6e25d66e6915615e\t2026-07-24T00:57:17+08:00\tHHY Continuity Bootstrap\t[STORY-R10-004] chore(continuity): close TASK-R10-008\
     \ as completed"
-  - "28354e71d6adff700696cb340f2275a62e61ede1\t2026-07-24T00:55:36+08:00\tHHY Continuity Bootstrap\t[STORY-R10-004] chore(release): close R10\
-    \ machine acceptance"
 project_fingerprint:
-  sha256: 2d10e89d3892d05e46ab6c292afafc205187a48dcea264a1745a0054bf474542
+  sha256: e7cf19c5f8c5e88e394c55f7259ddafe87fe5576fa5a408d87068546c6d6afda
   files:
   - CHANGELOG.md
   - apps/android/app/build.gradle.kts
@@ -562,14 +563,22 @@ project_fingerprint:
   - apps/android/settings.gradle.kts
   - docs/03-continuity/change-requests/CR-0285-实现R11团队长列表与首页真实入口回接.md
   - docs/03-continuity/change-requests/CR-0286-补齐R11团队长列表既有变更日志投影.md
-  file_count: 12
+  - docs/03-continuity/change-requests/CR-0287-支持同一Task内原子切换Story.md
+  - docs/03-continuity/change-requests/CR-0288-补齐R11版本级并行执行计划实例.md
+  - docs/09-development/统一开发与交付效率规范.md
+  - releases/R11/PARALLEL_EXECUTION_PLAN.yaml
+  - scripts/continuity.py
+  - scripts/continuity_gate.py
+  - scripts/continuity_lib.py
+  - scripts/test_continuity_protocol.py
+  file_count: 20
   payload:
     base_commit: ad68caf656ade3d36a4c775c7b0eeec0d8be1078
     files:
     - path: CHANGELOG.md
       state: FILE
-      size: 119076
-      sha256: e7838b6b5bdb816f4a8401296527fb5fd6e8fe330f617849f9fd7580e56b51f9
+      size: 119505
+      sha256: 34f5c63ed3a41012fb32bda5a99b9b3cebd7d284d0833b90bf27541988a5fef2
     - path: apps/android/app/build.gradle.kts
       state: FILE
       size: 5298
@@ -614,9 +623,43 @@ project_fingerprint:
       state: FILE
       size: 2321
       sha256: 6856ae0f732d458e52c21ee7249f5fa6f405a8c0eb08710c4d31bb1c42be1593
+    - path: docs/03-continuity/change-requests/CR-0287-支持同一Task内原子切换Story.md
+      state: FILE
+      size: 3067
+      sha256: 0175a0db6540bc194e142b132eb2d84be8e4ecfc65c8cd49feb8bc49446b04b7
+    - path: docs/03-continuity/change-requests/CR-0288-补齐R11版本级并行执行计划实例.md
+      state: FILE
+      size: 2588
+      sha256: c0bcfcee4e94d558d0950a908be98205909d7f92904be16a57bb51d6a061b474
+    - path: docs/09-development/统一开发与交付效率规范.md
+      state: FILE
+      size: 16499
+      sha256: c972a8fb9ed842877d8e047c0ee67a3c17af26b959c19335c2498e76cc6825b2
+    - path: releases/R11/PARALLEL_EXECUTION_PLAN.yaml
+      state: FILE
+      size: 2630
+      sha256: e892959361fe9a80841a49496d4302125b27838f73aab987c62a0e57a9070e54
+    - path: scripts/continuity.py
+      state: FILE
+      size: 78766
+      sha256: 353987f6e319c13009dc7033468daa8679cc4cc1af3d45fe8f41153ed346cd58
+    - path: scripts/continuity_gate.py
+      state: FILE
+      size: 43300
+      sha256: 7e80536d9b6127babae1230c11d655fd9654f608eca67d9518d9ce01e1d6b8d8
+    - path: scripts/continuity_lib.py
+      state: FILE
+      size: 114495
+      sha256: effd5bc6ea95649d7594dccb6721638b384b2c6dc721f677d146f695b0cb86d0
+    - path: scripts/test_continuity_protocol.py
+      state: FILE
+      size: 30678
+      sha256: 97608112da947779c2fcf1cf5caf298f8f5a6dbc95d714ce7512f9f2e1bd4a09
 change_classification:
   other:
   - CHANGELOG.md
+  - docs/09-development/统一开发与交付效率规范.md
+  - releases/R11/PARALLEL_EXECUTION_PLAN.yaml
   code:
   - apps/android/app/build.gradle.kts
   - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
@@ -627,6 +670,10 @@ change_classification:
   - apps/android/feature/team-leader/src/main/java/cc/orbexa/hhy/teamleader/R11TeamLeaderState.kt
   - apps/android/feature/team-leader/src/test/java/cc/orbexa/hhy/teamleader/R11TeamLeaderStateTest.kt
   - apps/android/settings.gradle.kts
+  - scripts/continuity.py
+  - scripts/continuity_gate.py
+  - scripts/continuity_lib.py
+  - scripts/test_continuity_protocol.py
   user_visible:
   - apps/android/app/build.gradle.kts
   - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
@@ -640,6 +687,8 @@ change_classification:
   continuity:
   - docs/03-continuity/change-requests/CR-0285-实现R11团队长列表与首页真实入口回接.md
   - docs/03-continuity/change-requests/CR-0286-补齐R11团队长列表既有变更日志投影.md
+  - docs/03-continuity/change-requests/CR-0287-支持同一Task内原子切换Story.md
+  - docs/03-continuity/change-requests/CR-0288-补齐R11版本级并行执行计划实例.md
 required_records:
 - SESSION_RECORD
 - SESSION_LOG
@@ -650,6 +699,8 @@ required_records:
 change_requests:
 - CR-0285
 - CR-0286
+- CR-0287
+- CR-0288
 scope:
   allowed_paths:
   - apps/android/**
@@ -676,13 +727,18 @@ scope:
   - apps/android/feature/team-leader/src/main/java/cc/orbexa/hhy/teamleader/R11TeamLeaderState.kt
   - apps/android/feature/team-leader/src/test/java/cc/orbexa/hhy/teamleader/R11TeamLeaderStateTest.kt
   - CHANGELOG.md
-  source: story+explicit+approved-cr:CR-0285+approved-cr:CR-0286
+  - scripts/continuity.py
+  - scripts/continuity_lib.py
+  - scripts/test_continuity_protocol.py
+  - .continuity/CONTINUITY_POLICY.yaml
+  - docs/09-development/统一开发与交付效率规范.md
+  source: story+explicit+approved-cr:CR-0285+approved-cr:CR-0286+approved-cr:CR-0287
 parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 列表状态、Compose页面、首页Navigation和同一ContentResource契约强耦合；当前执行环境没有独立scratch worktree代理能力
-event_hash: a3746213dc41035dc081281b5d2946eac094d30ab51494847c3339631e35536b
+  reason: 连续性状态机、Context Pack、CR状态和Git身份必须在单一事实分支串行闭合
+event_hash: c3396d62ab74a583f5dcb0c797f5093fa5c00dd33fbcea9b587ac6c44cd9a9f8
 ```
 
 ## 接续状态与事件头
@@ -694,8 +750,8 @@ active_session_id: SES-20260723T183130Z-454A6E0D
 last_session_id: SES-20260723T175513Z-EFD4D365
 last_session_result: COMPLETED
 last_closure_checkpoint_id: CP-SES-20260723T175513Z-EFD4D365-0002
-event_count: 2827
-event_head_hash: a3746213dc41035dc081281b5d2946eac094d30ab51494847c3339631e35536b
+event_count: 2842
+event_head_hash: c3396d62ab74a583f5dcb0c797f5093fa5c00dd33fbcea9b587ac6c44cd9a9f8
 event_chain_valid: true
 ```
 
@@ -818,9 +874,9 @@ recent_sessions: - session_id: SES-20260723T062549Z-79779015
   started_at: '2026-07-23T18:31:30Z'
   record: .continuity/sessions/SES-20260723T183130Z-454A6E0D.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260723T183130Z-454A6E0D.md
-  updated_at: '2026-07-23T19:13:25Z'
+  updated_at: '2026-07-23T19:59:31Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260723T183130Z-454A6E0D/0003.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260723T183130Z-454A6E0D/0007.yaml
   handoff_bundle: null
 task_claims: - claim_id: CLM-0E07D6A43A16
   session_id: SES-20260722T153450Z-FAD75B8D
@@ -1835,46 +1891,48 @@ recent_task_transitions: - transition_id: TRN-22C197FB1144
 ```yaml
 initialized: true
 branch: task/TASK-R03-001
-head: ad68caf656ade3d36a4c775c7b0eeec0d8be1078
+head: 9752485ae9b00c62df1846f7945b1e0bae42fcda
 upstream: origin/task/TASK-R03-001
-ahead: 10
+ahead: 11
 behind: 0
 dirty: true
 status_porcelain:
 - ' M .continuity/ACTIVE_SESSION.yaml'
 - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
+- ' M .continuity/CONTINUITY_POLICY.yaml'
 - ' M .continuity/EVENT_LOG.jsonl'
 - ' M .continuity/SESSION_INDEX.yaml'
 - ' M .continuity/STATE.yaml'
-- ' M .continuity/TASK_CLAIMS.yaml'
-- ' M .continuity/TASK_TRANSITIONS.yaml'
+- ' M .continuity/sessions/SES-20260723T183130Z-454A6E0D.yaml'
 - ' M CHANGELOG.md'
 - ' M CURRENT_STATUS.yaml'
-- ' M apps/android/app/build.gradle.kts'
-- ' M apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt'
-- ' M apps/android/settings.gradle.kts'
 - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
 - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
 - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+- ' M artifacts/validation/continuity-integration-v1.2.3.json'
+- ' M artifacts/validation/continuity-lifecycle-integration-v1.2.3.json'
+- ' M artifacts/validation/continuity-lifecycle-integration-v1.2.3.log'
+- ' M artifacts/validation/project-doctor-v1.2.3.json'
 - ' M catalogs/change_request_index.csv'
 - ' M catalogs/session_index.csv'
-- ' M catalogs/task_transition_ledger.csv'
-- ?? .continuity/change_requests/CR-0285.yaml
-- ?? .continuity/change_requests/CR-0286.yaml
-- ?? .continuity/checkpoints/SES-20260723T183130Z-454A6E0D/0001.yaml
-- ?? .continuity/checkpoints/SES-20260723T183130Z-454A6E0D/0002.yaml
-- ?? .continuity/checkpoints/SES-20260723T183130Z-454A6E0D/0003.yaml
-- ?? .continuity/sessions/SES-20260723T183130Z-454A6E0D.yaml
-- ?? apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR11Api.kt
-- ?? apps/android/core/network/src/test/java/cc/orbexa/hhy/network/R11ApiModelsSerializationTest.kt
-- ?? apps/android/feature/team-leader/build.gradle.kts
-- ?? apps/android/feature/team-leader/src/main/java/cc/orbexa/hhy/teamleader/R11TeamLeaderListScreen.kt
-- ?? apps/android/feature/team-leader/src/main/java/cc/orbexa/hhy/teamleader/R11TeamLeaderState.kt
-- ?? apps/android/feature/team-leader/src/test/java/cc/orbexa/hhy/teamleader/R11TeamLeaderStateTest.kt
-- ?? docs/03-continuity/change-requests/CR-0285-实现R11团队长列表与首页真实入口回接.md
-- ?? docs/03-continuity/change-requests/CR-0286-补齐R11团队长列表既有变更日志投影.md
-- ?? docs/03-continuity/sessions/2026-07/SES-20260723T183130Z-454A6E0D.md
+- ' M docs/03-continuity/sessions/2026-07/SES-20260723T183130Z-454A6E0D.md'
+- ' M docs/09-development/统一开发与交付效率规范.md'
+- ' M scripts/continuity.py'
+- ' M scripts/continuity_gate.py'
+- ' M scripts/continuity_lib.py'
+- ' M scripts/test_continuity_protocol.py'
+- ?? .continuity/change_requests/CR-0287.yaml
+- ?? .continuity/change_requests/CR-0288.yaml
+- ?? .continuity/checkpoints/SES-20260723T183130Z-454A6E0D/0004.yaml
+- ?? .continuity/checkpoints/SES-20260723T183130Z-454A6E0D/0005.yaml
+- ?? .continuity/checkpoints/SES-20260723T183130Z-454A6E0D/0006.yaml
+- ?? .continuity/checkpoints/SES-20260723T183130Z-454A6E0D/0007.yaml
+- ?? docs/03-continuity/change-requests/CR-0287-支持同一Task内原子切换Story.md
+- ?? docs/03-continuity/change-requests/CR-0288-补齐R11版本级并行执行计划实例.md
+- ?? releases/R11/PARALLEL_EXECUTION_PLAN.yaml
 recent_commits:
+- "9752485ae9b00c62df1846f7945b1e0bae42fcda\t2026-07-24T03:13:50+08:00\tHHY Continuity Bootstrap\t[STORY-R11-002] feat(r11): implement team leader\
+  \ list"
 - "ad68caf656ade3d36a4c775c7b0eeec0d8be1078\t2026-07-24T02:30:28+08:00\tHHY Continuity Bootstrap\t[STORY-R11-004] chore(continuity): close TASK-R11-003\
   \ as completed"
 - "d28076b8653d54e0b028ed17fb60618ab1f630a9\t2026-07-24T02:28:48+08:00\tHHY Continuity Bootstrap\t[STORY-R11-004] feat(r11): implement team leader\
@@ -1889,14 +1947,12 @@ recent_commits:
   \ baseline"
 - "70524de3347e0365aeac268e6e25d66e6915615e\t2026-07-24T00:57:17+08:00\tHHY Continuity Bootstrap\t[STORY-R10-004] chore(continuity): close TASK-R10-008\
   \ as completed"
-- "28354e71d6adff700696cb340f2275a62e61ede1\t2026-07-24T00:55:36+08:00\tHHY Continuity Bootstrap\t[STORY-R10-004] chore(release): close R10 machine\
-  \ acceptance"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`2d10e89d3892d05e46ab6c292afafc205187a48dcea264a1745a0054bf474542`
-- 文件数：12
+- 指纹：`e7cf19c5f8c5e88e394c55f7259ddafe87fe5576fa5a408d87068546c6d6afda`
+- 文件数：20
 
 - `CHANGELOG.md`
 - `apps/android/app/build.gradle.kts`
@@ -1910,6 +1966,14 @@ recent_commits:
 - `apps/android/settings.gradle.kts`
 - `docs/03-continuity/change-requests/CR-0285-实现R11团队长列表与首页真实入口回接.md`
 - `docs/03-continuity/change-requests/CR-0286-补齐R11团队长列表既有变更日志投影.md`
+- `docs/03-continuity/change-requests/CR-0287-支持同一Task内原子切换Story.md`
+- `docs/03-continuity/change-requests/CR-0288-补齐R11版本级并行执行计划实例.md`
+- `docs/09-development/统一开发与交付效率规范.md`
+- `releases/R11/PARALLEL_EXECUTION_PLAN.yaml`
+- `scripts/continuity.py`
+- `scripts/continuity_gate.py`
+- `scripts/continuity_lib.py`
+- `scripts/test_continuity_protocol.py`
 
 ## 当前 Release
 
@@ -2620,6 +2684,85 @@ TASKS.yaml:
   definition_of_ready: releases/R11/DEFINITION_OF_READY.yaml
   story_backlog: releases/R11/STORIES.yaml
   execution_rule: TASKS定义治理顺序，STORIES定义可领取纵向工作；二者必须同时满足，不得以通用任务替代页面故事验收。
+PARALLEL_EXECUTION_PLAN.yaml:
+  version: '1.0'
+  release: R11
+  change_request: CR-0288
+  mode: SINGLE_AUTHORITATIVE_SESSION_WITH_SAFE_DELEGATION_REVIEW
+  authoritative_session_count: 1
+  max_parallel_workers: 3
+  simultaneous_claim_limit: 1
+  worker_parallelism_scope: DISJOINT_PATH_SCRATCH_WORKTREES_ONLY
+  default_delegation_mode: AUTO_WHEN_SAFE_PARALLEL_WORK_EXISTS
+  review_triggers:
+  - TASK_START
+  - SCOPE_CHANGE
+  non_delegation_requires_checkpoint_reason: true
+  capability_fallback: KEEP_SINGLE_AUTHORITATIVE_SESSION_AND_DO_NOT_FABRICATE_PARALLEL_EVIDENCE
+  source_of_truth_branch: task/TASK-R03-001
+  rules:
+  - 主控一次只保留一个ACTIVE Session和Task/Story Claim；执行代理不得形成第二事实源。
+  - Task开始或范围变化时评估安全并行；强耦合状态机、导航、契约和最终集成由主控串行完成。
+  - 执行代理仅可在路径互斥的scratch worktree工作，不得修改连续性、Release或状态事实文件。
+  - 功能、字段、动作、数据、权限和版本归属逐项对应仓库开发文档；效果图只约束正确功能的页面建模与视觉。
+  - 首页是R08至R11的跨版本聚合面；团队长闭环必须把真实入口、内容卡和Navigation同步回接首页。
+  - R11团队长列表、详情、发布页分别绑定B02/P08、B03/P04、B04/P04，禁止误用其他分类面板。
+  - 普通Story只运行受影响FAST/MODULE；完整模拟器、截图和候选APK仅在TASK-R11-007最终候选阶段运行。
+  - 项目所有者真机反馈保持异步PENDING，不阻断依赖满足的后续开发。
+  coordinator_owned_paths:
+  - .continuity/**
+  - CURRENT_STATUS.yaml
+  - NEXT_TASK.yaml
+  - releases/**
+  - contracts/**
+  - catalogs/**
+  - docs/03-continuity/**
+  - apps/android/app/**
+  - apps/android/core/network/**
+  lanes:
+  - lane: TEAM-LEADER-DATA-FOUNDATION
+    task_id: TASK-R11-002
+    stories:
+    - STORY-R11-004
+  - lane: TEAM-LEADER-SERVICES
+    task_id: TASK-R11-003
+    stories:
+    - STORY-R11-001
+    - STORY-R11-002
+    - STORY-R11-003
+    - STORY-R11-004
+  - lane: TEAM-LEADER-CLIENTS-AND-HOME-INTEGRATION
+    task_id: TASK-R11-004
+    stories:
+    - STORY-R11-001
+    - STORY-R11-002
+    - STORY-R11-003
+  - lane: R11-QUALITY
+    task_id: TASK-R11-005
+    stories:
+    - STORY-R11-001
+    - STORY-R11-002
+    - STORY-R11-003
+    - STORY-R11-004
+  integration:
+    task_id: TASK-R11-005
+    depends_on:
+    - TASK-R11-003
+    - TASK-R11-004
+    profiles:
+    - MODULE
+    - INTEGRATION
+    - SECURITY
+  apk:
+    task_id: TASK-R11-007
+    full_gate_and_emulator: FINAL_CANDIDATE_ONLY
+    desktop_copy_required: true
+    stable_test_signing_required: true
+    owner_physical_test_initial_status: PENDING
+  closure:
+    task_id: TASK-R11-008
+    owner_feedback_mode: ASYNC_NON_BLOCKING
+    machine_completion_may_continue_next_release: true
 ```
 
 ## 开放 CR
@@ -9535,13 +9678,116 @@ TASKS.yaml:
     session_id: SES-20260723T183130Z-454A6E0D
   session_ids:
   - SES-20260723T183130Z-454A6E0D
+- protocol_version: '1.0'
+  cr_id: CR-0287
+  title: 支持同一Task内原子切换Story
+  status: IMPLEMENTED
+  created_at: '2026-07-23T19:15:26Z'
+  updated_at: '2026-07-23T19:59:25Z'
+  requester_actor_id: codex-root-r11-client
+  approver_actor_id: codex-independent-continuity-reviewer
+  task_id: TASK-R11-004
+  session_id: SES-20260723T183130Z-454A6E0D
+  user_request: 项目所有者要求按R01-R32依赖持续开发，换电脑换AI也必须从仓库无缝接续。
+  reason: TASK-R11-004包含四个独立Story，现有协议仅能在start时固定story_id；close会误把整个Task标为DONE，无法在不伪造任务状态的前提下继续详情与编辑Story。
+  original_rule: ACTIVE Session的story_id仅在start时写入，协议没有同一Task内切换Story的合法操作；close总是关闭整个Task。
+  new_rule: 新增story-switch命令：仅当前Actor、ACTIVE会话、同一Task、干净工作树、最新检查点已提交且目标Story为READY_FOR_IMPLEMENTATION时，原子更新Session/Active pointer/Claim/索引/CURRENT_STATUS/事件链/Context
+    Pack；Task保持IN_PROGRESS且不得写DONE或关闭Claim。
+  impact_summary: 修复多Story Task无法逐Story审计推进的连续性缺口，并为R11详情与编辑提供合法切换路径。
+  impact:
+    files:
+    - scripts/continuity.py
+    - scripts/continuity_lib.py
+    - scripts/test_continuity_protocol.py
+    - .continuity/CONTINUITY_POLICY.yaml
+    - docs/09-development/统一开发与交付效率规范.md
+    - CHANGELOG.md
+    pages: []
+    apis: []
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - continuity story-switch unit and isolated lifecycle tests
+    - strict continuity gate
+    releases:
+    - R11
+    migration_and_compatibility: 不改变现有start/close语义；仅新增可选命令。旧会话可在满足前置条件时切换，旧仓库记录无需迁移。
+  user_confirmation: 项目所有者要求持续按依赖开发且任何AI可从仓库事实无缝接续。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-23T19:15:49Z'
+    note: 独立复核：原子切换不关闭Task/Claim，要求干净已提交检查点并同步全部索引和事件，避免重复事实源。
+  machine_record: .continuity/change_requests/CR-0287.yaml
+  document: docs/03-continuity/change-requests/CR-0287-支持同一Task内原子切换Story.md
+  decision_log:
+  - at: '2026-07-23T19:49:30Z'
+    actor_id: codex-root-r11-client
+    status: IMPLEMENTING
+    note: story-switch、Session级单调Checkpoint序号和历史Commit身份校验已实现；完整生命周期pre-push/CI均PASS，准备形成实现检查点
+    session_id: SES-20260723T183130Z-454A6E0D
+  - at: '2026-07-23T19:59:25Z'
+    actor_id: codex-root-r11-client
+    status: IMPLEMENTED
+    note: 原子Story切换、Session级单调Checkpoint、历史Commit身份校验完成；15项生命周期和12项重建集成均PASS
+    session_id: SES-20260723T183130Z-454A6E0D
+  session_ids:
+  - SES-20260723T183130Z-454A6E0D
+- protocol_version: '1.0'
+  cr_id: CR-0288
+  title: 补齐R11版本级并行执行计划实例
+  status: IMPLEMENTED
+  created_at: '2026-07-23T19:50:42Z'
+  updated_at: '2026-07-23T19:59:28Z'
+  requester_actor_id: codex-root-r11-client
+  approver_actor_id: codex-independent-r11-governance-reviewer
+  task_id: TASK-R11-004
+  session_id: SES-20260723T183130Z-454A6E0D
+  user_request: 项目所有者要求按仓库事实源持续开发且换AI换电脑可无缝接续
+  reason: R11已进入开发但缺少既有政策要求的版本级PARALLEL_EXECUTION_PLAN，导致Context Pack来源完整性检查失败
+  original_rule: CR-0260已规定Active Session的Context Pack必须包含当前Release并行执行计划；R11缺少该版本级实例
+  new_rule: 不新增第二套规则；仅补齐R11/PARALLEL_EXECUTION_PLAN.yaml，沿用权威并行策略、单一事实Session、按Task和范围变化评估安全委托、普通Story仅MODULE且最终候选才跑完整模拟器
+  impact_summary: 只补齐R11现有治理合同的版本级实例，不改变产品功能、API、数据库、候选频率或APK身份
+  impact:
+    files:
+    - releases/R11/PARALLEL_EXECUTION_PLAN.yaml
+    pages: []
+    apis: []
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - scripts/check_v123_continuity.py and strict continuity doctor
+    releases:
+    - R11
+    migration_and_compatibility: 无数据迁移；旧版本计划保持不变，R11 Context Pack生成后自动纳入该文件
+  user_confirmation: 项目所有者要求持续按仓库事实源开发且换AI换电脑可无缝接续
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-23T19:51:14Z'
+    note: 复用CR-0260既有规则，仅补版本级实例；范围不含业务/API/数据库，符合单一事实源和候选分层要求
+  machine_record: .continuity/change_requests/CR-0288.yaml
+  document: docs/03-continuity/change-requests/CR-0288-补齐R11版本级并行执行计划实例.md
+  decision_log:
+  - at: '2026-07-23T19:51:58Z'
+    actor_id: codex-root-r11-client
+    status: IMPLEMENTING
+    note: R11版本级并行执行计划已按CR-0260既有规则补齐，准备Context Pack与门禁验证
+    session_id: SES-20260723T183130Z-454A6E0D
+  - at: '2026-07-23T19:59:28Z'
+    actor_id: codex-root-r11-client
+    status: IMPLEMENTED
+    note: R11版本级并行执行计划已补齐并进入Context Pack；check_v123_continuity与严格Doctor均PASS
+    session_id: SES-20260723T183130Z-454A6E0D
+  session_ids:
+  - SES-20260723T183130Z-454A6E0D
 ```
 
 ## 上下文来源及哈希
 
 - `AGENTS.md` — `f93034917d4b87ffd4caffe8b6cad354f69bc31f6c0d9398dec3074ae165496d`
 - `START_HERE.md` — `22de14029ce47beb41ea569e36ce223fbc9d11b86f8676f28d5fbbd83896af5c`
-- `CURRENT_STATUS.yaml` — `f3074f9d618ec5201f6e36a8df7c43877a47242471d63552cc07d059b4b2c553`
+- `CURRENT_STATUS.yaml` — `44d9bb2ece488f1d639a37e20111781c472a084d9999db8ff6b804f2095fc577`
 - `NEXT_TASK.yaml` — `1f6153d3eb5ab85090f1beeb24d6741211ac44bc5cce682ac157fe204767f034`
 - `DEVELOPMENT_RISK_REGISTER.md` — `8304c91492e4ee2abea0522a06541c8688d39c7fc532b5d0cde499bf09fffb87`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
@@ -9551,26 +9797,29 @@ TASKS.yaml:
 - `releases/PROGRAM_EXECUTION_PLAN.yaml` — `93c0bd9fe83e2c447937c885f20d0de7a65d96c920d11b28309878bd5d533446`
 - `config/REPOSITORY_TRANSPORT.yaml` — `8c4a21f3e204d46e7ffb467d804a53ed26cda61cd088dadfddb50b69eea657fc`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
-- `.continuity/CONTINUITY_POLICY.yaml` — `16a96f9a52f352f3c62175db308dd973889b2e82acb117bcfdd12a4bc4d379f6`
-- `.continuity/EVENT_LOG.jsonl` — `1069920de905fd108a4d9fe4605d37e70a07bcb6dcf4ebbb199a372f1c508148`
-- `.continuity/SESSION_INDEX.yaml` — `ae6ad3c245cf4ebe57d69e03c2a3bf1ddfeb2df655e3ff96805a959f42ff0ff8`
+- `.continuity/CONTINUITY_POLICY.yaml` — `60943fcd9714cfae7274463554b5584fdb7a7aeee1ee547ff6dbc53fae6d4994`
+- `.continuity/EVENT_LOG.jsonl` — `ba89d501617aaee892cdc53bc6f9a8ef620b5ebeaf5207975d828e6aecf6d9c2`
+- `.continuity/SESSION_INDEX.yaml` — `da7171b34fc3fcfc4501bb6f0166f1b196b41af2f1c873d0eaee95fab548d4f0`
 - `.continuity/TASK_CLAIMS.yaml` — `7c9edac591dda5ad0e3c8128401dc0f02f3de81d90400036533d4e0cd12ac4ac`
 - `.continuity/TASK_TRANSITIONS.yaml` — `9f85427a939c26ce554740892700d71993e883c9a1b75de148354f703dcbfb8d`
-- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `5256e50707705193f39ca55147b79dc1548d3daa41e5968afe57be7a973e90d5`
-- `.continuity/ACTIVE_SESSION.yaml` — `400235c4c15d962378dab4f89762af5f21293a93eb1ca70f7c01c94ba6cf15d7`
+- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `2a9e1b807016329224301be401e0fad72672a2b3cbb6bf6e89aae2573c5e03c4`
+- `.continuity/ACTIVE_SESSION.yaml` — `89c02ba69cb4d67e8c75897694957e2e354341e177902dbd9f9dbf4b1cbaf7c9`
 - `docs/00-baseline/正式商业系统全局硬性开发边界.md` — `9753b32db136e59e95a0974a62362456d9d577fd1bb40058ec985c4b64413eea`
 - `docs/02-ui/UI参考图使用与开发约束_V1.2.2.md` — `d14367586aa2067b059df58798acd20ab982459cdb35ff27fc7922a3896e4933`
 - `docs/03-continuity/持续开发无状态接续强制门禁_V1.2.3.md` — `d0ed3ed68bdd93b06500eecdfb5baa3245e6ca8b685a486788abb6eee39b3d51`
-- `docs/09-development/统一开发与交付效率规范.md` — `1c84c84583dcb3cee8e22e4f535b09efe4127abe68fa49cd1408b62e05b23f49`
+- `docs/09-development/统一开发与交付效率规范.md` — `c972a8fb9ed842877d8e047c0ee67a3c17af26b959c19335c2498e76cc6825b2`
 - `releases/R11/RELEASE_MANIFEST.yaml` — `eb47fddf3188a85775b4935db84bd747ff0e4065eff17a90f88775472b469318`
 - `releases/R11/DEFINITION_OF_READY.yaml` — `2c56dca2fe636028295ce7489474524a7067f9119d22e531490d870063513ff7`
 - `releases/R11/STORIES.yaml` — `2b38e53de2c13042295a14ef01f5b60cf5fd3e4f4f49b5f147446552e1a2ac30`
 - `releases/R11/TASKS.yaml` — `f10e6171a138dc3428bd51149347a22a64c7c3ad9a168c25e7de5e4ad3bb8721`
 - `releases/R11/ACCEPTANCE_MATRIX.csv` — `fd67dd0579ea65dc25e2671f49693a4b3b63eb59f0399587f96c11319c54b25f`
-- `docs/03-continuity/sessions/2026-07/SES-20260723T183130Z-454A6E0D.md` — `6d5a66862e3267376e1f031753df485cd0e9c19aebed224d7a305207ee5761a6`
-- `.continuity/checkpoints/SES-20260723T183130Z-454A6E0D/0003.yaml` — `e5f7a486bab25511b0a28b1c8d429d53387f9f475c2435e785692f938f5adf1f`
+- `releases/R11/PARALLEL_EXECUTION_PLAN.yaml` — `e892959361fe9a80841a49496d4302125b27838f73aab987c62a0e57a9070e54`
+- `docs/03-continuity/sessions/2026-07/SES-20260723T183130Z-454A6E0D.md` — `2e143296724e2bec90e0fba17fb2a6da44dfb5531187b633a98f1e02a16717db`
+- `.continuity/checkpoints/SES-20260723T183130Z-454A6E0D/0007.yaml` — `780a3b5bf6004bc98307a28496f764a99cb248c33b276d571ac588ddf96c1074`
 - `docs/03-continuity/change-requests/CR-0285-实现R11团队长列表与首页真实入口回接.md` — `4f68dc6f283c3500ff1020ccf976b1d8a17cd731e83243f0794c6f94ab0e90bb`
 - `docs/03-continuity/change-requests/CR-0286-补齐R11团队长列表既有变更日志投影.md` — `6856ae0f732d458e52c21ee7249f5fa6f405a8c0eb08710c4d31bb1c42be1593`
+- `docs/03-continuity/change-requests/CR-0287-支持同一Task内原子切换Story.md` — `0175a0db6540bc194e142b132eb2d84be8e4ecfc65c8cd49feb8bc49446b04b7`
+- `docs/03-continuity/change-requests/CR-0288-补齐R11版本级并行执行计划实例.md` — `c0bcfcee4e94d558d0950a908be98205909d7f92904be16a57bb51d6a061b474`
 
 ## 接手硬规则
 

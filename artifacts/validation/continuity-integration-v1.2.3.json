@@ -6,7 +6,7 @@
   "source_manifest": [
     {
       "path": ".continuity/CONTINUITY_POLICY.yaml",
-      "sha256": "16a96f9a52f352f3c62175db308dd973889b2e82acb117bcfdd12a4bc4d379f6"
+      "sha256": "60943fcd9714cfae7274463554b5584fdb7a7aeee1ee547ff6dbc53fae6d4994"
     },
     {
       "path": "config/REPOSITORY_TRANSPORT.yaml",
@@ -18,15 +18,15 @@
     },
     {
       "path": "scripts/continuity_lib.py",
-      "sha256": "6bff70e3c6ca918bfc21bdf5dfb4680257f1c1d1091dce1f329d568c5494e778"
+      "sha256": "effd5bc6ea95649d7594dccb6721638b384b2c6dc721f677d146f695b0cb86d0"
     },
     {
       "path": "scripts/continuity.py",
-      "sha256": "ff422de9cfc16ab87cc4edff9cd6273955442818da3425913f325e1480ce073b"
+      "sha256": "353987f6e319c13009dc7033468daa8679cc4cc1af3d45fe8f41153ed346cd58"
     },
     {
       "path": "scripts/continuity_gate.py",
-      "sha256": "42a7880f9fffc097a7400cd4a44a1f5047b2bff92b5993e66d799d95f5ec010b"
+      "sha256": "7e80536d9b6127babae1230c11d655fd9654f608eca67d9518d9ce01e1d6b8d8"
     },
     {
       "path": "scripts/restore_git_transport.py",
@@ -50,7 +50,7 @@
     },
     {
       "path": "scripts/test_continuity_protocol.py",
-      "sha256": "ca9a2bcc1a907f8d320cb78cc3116ff694380485040cc09a6af89dd2590e293d"
+      "sha256": "97608112da947779c2fcf1cf5caf298f8f5a6dbc95d714ce7512f9f2e1bd4a09"
     },
     {
       "path": ".githooks/pre-commit",
@@ -123,7 +123,7 @@
     {
       "name": "portable_clone_fingerprint",
       "status": "PASS",
-      "evidence": "6c7024272d906ec2ab2a0610fd4ad53a975a32099437b1d5ac4920ce85ca7654"
+      "evidence": "1f54c6c281b1838817c8166a9e57adb2927157a64a45abe74392788032fcef54"
     },
     {
       "name": "handoff_tamper_rejected",
@@ -133,8 +133,8 @@
   ],
   "check_count": 12,
   "lifecycle_report": "artifacts\\validation\\continuity-lifecycle-integration-v1.2.3.json",
-  "handoff_sha256": "012b2373c46e15b1ea30b314f1737b9f7fc12a75dfecb2980f172a8e169d1afa",
-  "portable_project_fingerprint": "6c7024272d906ec2ab2a0610fd4ad53a975a32099437b1d5ac4920ce85ca7654",
+  "handoff_sha256": "5a7b7d5d22303662e058b16e4f9002eda67ca41de30705c5825f0c352abd63a8",
+  "portable_project_fingerprint": "1f54c6c281b1838817c8166a9e57adb2927157a64a45abe74392788032fcef54",
   "commands": [
     {
       "name": "lifecycle",

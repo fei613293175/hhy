@@ -313,8 +313,57 @@ def main() -> int:
         pointer = smoke.load_yaml(".continuity/ACTIVE_SESSION.yaml")
         if not pointer.get("checkpoint_id") or not pointer.get("project_fingerprint"):
             raise RuntimeError("active pointer was not refreshed by checkpoint")
+        first_checkpoint = smoke.load_yaml(pointer["latest_checkpoint"])
+        if first_checkpoint.get("task_id") != "TASK-P00-001" or first_checkpoint.get("story_id") != "STORY-P00-002":
+            raise RuntimeError("checkpoint did not freeze Task/Story identity")
+        first_checkpoint_path = pointer["latest_checkpoint"]
+        first_checkpoint_id = pointer["checkpoint_id"]
         commit1, msg1 = smoke.commit("06_first", "chore(continuity): add protocol smoke probe")
         smoke.pass_check("checkpoint_pointer_and_commit_trailers", commit1)
+
+        with probe.open("a", encoding="utf-8") as f:
+            f.write("dirty-story-switch-probe\n")
+        dirty_switch = smoke.run("06_story_switch_dirty_rejected", [
+            "python3", "scripts/continuity.py", "story-switch", "--actor", "smoke-a",
+            "--story", "STORY-P00-001", "--summary", "非法脏工作树切换",
+        ], expected={2})
+        if "工作区必须干净" not in dirty_switch.stderr:
+            raise RuntimeError("dirty story switch was not rejected")
+        smoke.run("06_story_switch_restore", ["git", "checkout", "--", "scripts/smoke/protocol_probe.txt"])
+        missing_story = smoke.run("06_story_switch_missing_rejected", [
+            "python3", "scripts/continuity.py", "story-switch", "--actor", "smoke-a",
+            "--story", "STORY-P00-MISSING", "--summary", "非法不存在Story切换",
+        ], expected={2})
+        if "不存在故事" not in missing_story.stderr and "中不存在故事" not in missing_story.stderr:
+            raise RuntimeError("missing story switch was not rejected")
+        smoke.run("06_story_switch", [
+            "python3", "scripts/continuity.py", "story-switch", "--actor", "smoke-a",
+            "--story", "STORY-P00-001", "--summary", "P00接续门禁Story已形成独立提交",
+            "--goal", "验证同一Task多Story原子切换",
+        ])
+        switched_pointer = smoke.load_yaml(".continuity/ACTIVE_SESSION.yaml")
+        switched_session = smoke.load_yaml(f".continuity/sessions/{session_a}.yaml")
+        active_claims = [row for row in smoke.load_yaml(".continuity/TASK_CLAIMS.yaml").get("claims", []) if row.get("session_id") == session_a and row.get("status") == "ACTIVE"]
+        if switched_pointer.get("story_id") != "STORY-P00-001" or switched_pointer.get("checkpoint_id"):
+            raise RuntimeError("story switch did not reset active pointer checkpoint")
+        if switched_session.get("task_id") != "TASK-P00-001" or switched_session.get("latest_checkpoint") is not None:
+            raise RuntimeError("story switch changed Task or retained stale checkpoint")
+        if len(active_claims) != 1 or active_claims[0].get("story_id") != "STORY-P00-001":
+            raise RuntimeError("story switch did not preserve one ACTIVE Task claim")
+        smoke.run("06_story_switch_checkpoint", [
+            "python3", "scripts/continuity.py", "checkpoint",
+            "--summary", "新Story完成事实复核", "--next-step", "继续生命周期演练",
+            "--no-test-reason", "仅切换连续性身份，无项目文件变化",
+            *serial_parallel,
+        ])
+        switched_checkpoint_pointer = smoke.load_yaml(".continuity/ACTIVE_SESSION.yaml")
+        if switched_checkpoint_pointer.get("checkpoint_id") == first_checkpoint_id or switched_checkpoint_pointer.get("latest_checkpoint") == first_checkpoint_path:
+            raise RuntimeError("story switch reused a historical checkpoint identity")
+        preserved_checkpoint = smoke.load_yaml(first_checkpoint_path)
+        if preserved_checkpoint.get("checkpoint_id") != first_checkpoint_id or preserved_checkpoint.get("story_id") != "STORY-P00-002":
+            raise RuntimeError("story switch overwrote the historical checkpoint")
+        commit_switch, _ = smoke.commit("06_story_switch_commit", "chore(continuity): switch story within active task")
+        smoke.pass_check("atomic_same_task_story_switch", commit_switch)
 
         # Stale checkpoint is rejected.
         with probe.open("a", encoding="utf-8") as f:
@@ -450,6 +499,9 @@ def main() -> int:
             "python3", "scripts/continuity_gate.py", "--mode", "pre-push", "--strict",
             "--json-out", str(outputs / "prepush-report.json"),
         ], timeout=900)
+        prepush_report = json.loads((outputs / "prepush-report.json").read_text(encoding="utf-8"))
+        if prepush_report.get("status") != "PASS" or prepush_report.get("metrics", {}).get("unpushed_commits", 0) < 2:
+            raise RuntimeError("pre-push did not validate commits from both Story identities")
         smoke.run("24_ci", [
             "python3", "scripts/continuity_gate.py", "--mode", "ci", "--strict",
             "--head-ref", "HEAD", "--json-out", str(outputs / "ci-report.json"),

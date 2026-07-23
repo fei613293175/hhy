@@ -1,0 +1,48 @@
+protocol_version: '1.0'
+cr_id: CR-0288
+title: 补齐R11版本级并行执行计划实例
+status: IMPLEMENTED
+created_at: '2026-07-23T19:50:42Z'
+updated_at: '2026-07-23T19:59:28Z'
+requester_actor_id: codex-root-r11-client
+approver_actor_id: codex-independent-r11-governance-reviewer
+task_id: TASK-R11-004
+session_id: SES-20260723T183130Z-454A6E0D
+user_request: 项目所有者要求按仓库事实源持续开发且换AI换电脑可无缝接续
+reason: R11已进入开发但缺少既有政策要求的版本级PARALLEL_EXECUTION_PLAN，导致Context Pack来源完整性检查失败
+original_rule: CR-0260已规定Active Session的Context Pack必须包含当前Release并行执行计划；R11缺少该版本级实例
+new_rule: 不新增第二套规则；仅补齐R11/PARALLEL_EXECUTION_PLAN.yaml，沿用权威并行策略、单一事实Session、按Task和范围变化评估安全委托、普通Story仅MODULE且最终候选才跑完整模拟器
+impact_summary: 只补齐R11现有治理合同的版本级实例，不改变产品功能、API、数据库、候选频率或APK身份
+impact:
+  files:
+  - releases/R11/PARALLEL_EXECUTION_PLAN.yaml
+  pages: []
+  apis: []
+  database: []
+  configuration: []
+  ledger: []
+  tests:
+  - scripts/check_v123_continuity.py and strict continuity doctor
+  releases:
+  - R11
+  migration_and_compatibility: 无数据迁移；旧版本计划保持不变，R11 Context Pack生成后自动纳入该文件
+user_confirmation: 项目所有者要求持续按仓库事实源开发且换AI换电脑可无缝接续
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-23T19:51:14Z'
+  note: 复用CR-0260既有规则，仅补版本级实例；范围不含业务/API/数据库，符合单一事实源和候选分层要求
+machine_record: .continuity/change_requests/CR-0288.yaml
+document: docs/03-continuity/change-requests/CR-0288-补齐R11版本级并行执行计划实例.md
+decision_log:
+- at: '2026-07-23T19:51:58Z'
+  actor_id: codex-root-r11-client
+  status: IMPLEMENTING
+  note: R11版本级并行执行计划已按CR-0260既有规则补齐，准备Context Pack与门禁验证
+  session_id: SES-20260723T183130Z-454A6E0D
+- at: '2026-07-23T19:59:28Z'
+  actor_id: codex-root-r11-client
+  status: IMPLEMENTED
+  note: R11版本级并行执行计划已补齐并进入Context Pack；check_v123_continuity与严格Doctor均PASS
+  session_id: SES-20260723T183130Z-454A6E0D
+session_ids:
+- SES-20260723T183130Z-454A6E0D

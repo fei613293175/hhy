@@ -122,6 +122,22 @@ checkpoint:
   - parallel_execution
   tests_required_when_project_changed: true
   active_pointer_refreshed_every_checkpoint: true
+story_switch:
+  same_task_only: true
+  require_active_session_actor: true
+  require_clean_worktree: true
+  require_committed_latest_checkpoint: true
+  target_status: READY_FOR_IMPLEMENTATION
+  preserve_task_and_active_claim: true
+  reset_checkpoint_for_new_story: true
+  synchronize:
+  - session_record
+  - active_pointer
+  - task_claim
+  - session_index
+  - current_status
+  - event_chain
+  - context_pack
 commit:
   prohibit_partial_project_commit: true
   require_latest_checkpoint_fingerprint: true

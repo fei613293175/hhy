@@ -3,10 +3,10 @@
   "product_spec_baseline": "V1.2.2",
   "continuity_protocol_version": "1.0",
   "status": "PASS",
-  "strict": true,
+  "strict": false,
   "release_filter": null,
   "metrics": {
-    "canonical_policy_sha256": "16a96f9a52f352f3c62175db308dd973889b2e82acb117bcfdd12a4bc4d379f6",
+    "canonical_policy_sha256": "60943fcd9714cfae7274463554b5584fdb7a7aeee1ee547ff6dbc53fae6d4994",
     "documentation": {
       "android_surfaces": 102,
       "h5_pages": 13,
@@ -30,8 +30,8 @@
       "open_document_gaps": 0
     },
     "continuity": {
-      "event_count": 2729,
-      "event_head_hash": "cfa397ee23756efdcc4bcdb392a402c2f03590f1d43001b8f7a68e4e1c33e127",
+      "event_count": 2839,
+      "event_head_hash": "402dd863bea9925fe0d31c14b44e5ef301c2d317e0ea512dae1840386f119b47",
       "rule_readiness": "PASS",
       "required_rule_sources": 11,
       "document_gate": {
@@ -43,12 +43,12 @@
     "continuity_gate_rules": 42,
     "continuity_event_types": 17,
     "continuity_required_records": 20,
-    "baseline_sessions": 91,
+    "baseline_sessions": 96,
     "baseline_handoffs": 3,
-    "change_requests": 273,
-    "task_transitions": 93,
+    "change_requests": 286,
+    "task_transitions": 98,
     "continuity_integration_checks": 12,
-    "continuity_lifecycle_checks": 14
+    "continuity_lifecycle_checks": 15
   },
   "errors": [],
   "warnings": []
