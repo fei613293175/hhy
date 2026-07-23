@@ -1,7 +1,7 @@
 protocol_version: '1.0'
 package_version: 1.2.3
 session_id: SES-20260723T024212Z-696F7963
-status: ACTIVE
+status: CLOSED
 actor:
   id: codex-root-r09-machine-close
   kind: AI_OR_HUMAN
@@ -11,7 +11,7 @@ task_id: TASK-R09-008
 story_id: STORY-R09-004
 goal: App推广完整闭环版本关闭与无状态交接
 started_at: '2026-07-23T02:42:12Z'
-updated_at: '2026-07-23T02:46:32Z'
+updated_at: '2026-07-23T02:49:06Z'
 takeover_of: null
 change_requests:
 - CR-0263
@@ -63,22 +63,36 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-23T02:46:28Z'
-  expires_at: '2026-07-23T06:46:28Z'
-checkpoint_sequence: 1
-latest_checkpoint: .continuity/checkpoints/SES-20260723T024212Z-696F7963/0001.yaml
+  renewed_at: '2026-07-23T02:49:01Z'
+  expires_at: '2026-07-23T06:49:01Z'
+checkpoint_sequence: 2
+latest_checkpoint: .continuity/checkpoints/SES-20260723T024212Z-696F7963/0002.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260723T024212Z-696F7963.md
-next_step: 运行严格Continuity，提交并推送TASK-R09-008实现；关闭R09并交接到R10/TASK-R10-001后继续开发。
+next_step: 提交关闭元数据Commit，然后运行pre-push/CI门禁
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: 641352e5c69999ba03595b82769fa9b28950290c1cc73cc73dbf271967300139
-  generated_at: '2026-07-23T02:46:30Z'
+  context_hash: 46fdc3898da90ec120a3df6c47f440b66e4b8d33ceb606d797b995acf1bef69b
+  generated_at: '2026-07-23T02:49:04Z'
 handoff_bundle: null
-closure: null
+closure:
+  result: COMPLETED
+  summary: R09机器完成、六项验收和异步真机交接已通过，正式验收与生产激活继续由Owner真机PENDING阻断
+  code_commit: 7f2c335493a6f78aadf8c041b4cc0fffd474d713
+  next_release: R10
+  next_task: TASK-R10-001
+  blocked_advance: false
+  completed_independent_advance: true
+  user_confirmation: 项目所有者明确要求所有版本由AI持续开发，版本机器完成后不等待逐版本真机反馈，继续按项目落地顺序推进。
+  metadata_commit: PENDING
+  push_verification: CI_REQUIRED_AFTER_METADATA_COMMIT
+  started_at: '2026-07-23T02:48:58Z'
+  closure_checkpoint_id: CP-SES-20260723T024212Z-696F7963-0002
+  closed_at: '2026-07-23T02:49:06Z'
 parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
   reason: Release Manifest、验收矩阵、机器关闭报告和跨版本指针属于同一关闭事实源，必须串行原子提交。
+closed_at: '2026-07-23T02:49:06Z'

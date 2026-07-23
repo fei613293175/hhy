@@ -1199,3 +1199,13 @@
 - Actor：`codex-root-r09-candidate`
 - 摘要：R09最终候选、视觉、固定签名和四方APK交付完成
 - 记录：`docs/03-continuity/sessions/2026-07/SES-20260722T205410Z-782F22B9.md`
+
+## TASK-R09-008 · COMPLETED · 2026-07-23T02:48:58Z
+
+- Task close: TASK-R09-008 / SES-20260723T024212Z-696F7963
+- Release：`R09`
+- Story：`STORY-R09-004`
+- Actor：`codex-root-r09-machine-close`
+- 摘要：R09机器完成、六项验收和异步真机交接已通过，正式验收与生产激活继续由Owner真机PENDING阻断
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260723T024212Z-696F7963.md`
+
