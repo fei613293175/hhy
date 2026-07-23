@@ -1,7 +1,7 @@
 protocol_version: '1.0'
 package_version: 1.2.3
 session_id: SES-20260723T115555Z-5C81458B
-status: ACTIVE
+status: CLOSED
 actor:
   id: codex-root-r10-observability
   kind: AI_OR_HUMAN
@@ -11,7 +11,7 @@ task_id: TASK-R10-006
 story_id: STORY-R10-004
 goal: 群聊推广完整闭环可观测性与预发布验收
 started_at: '2026-07-23T11:55:55Z'
-updated_at: '2026-07-23T12:28:22Z'
+updated_at: '2026-07-23T12:29:00Z'
 takeover_of: null
 change_requests:
 - CR-0271
@@ -98,22 +98,36 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-23T12:28:16Z'
-  expires_at: '2026-07-23T16:28:16Z'
-checkpoint_sequence: 7
-latest_checkpoint: .continuity/checkpoints/SES-20260723T115555Z-5C81458B/0007.yaml
+  renewed_at: '2026-07-23T12:28:55Z'
+  expires_at: '2026-07-23T16:28:55Z'
+checkpoint_sequence: 8
+latest_checkpoint: .continuity/checkpoints/SES-20260723T115555Z-5C81458B/0008.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260723T115555Z-5C81458B.md
-next_step: 关闭TASK-R10-006并切换TASK-R10-007
+next_step: 提交关闭元数据Commit，然后运行pre-push/CI门禁
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: 495c06a1c802e3e47e8b5414cb5742973cb9522000416f0e438471fc9ed46b7e
-  generated_at: '2026-07-23T12:28:19Z'
+  context_hash: 6b6447632ace6aca4578395f5e8d260536938e426db66e105641f81d2b67fff4
+  generated_at: '2026-07-23T12:28:58Z'
 handoff_bundle: null
-closure: null
+closure:
+  result: COMPLETED
+  summary: 完成R10群聊推广可观测性与隔离预发布验收，AC-R10-004及全部现场证据通过
+  code_commit: 1452e810
+  next_release: R10
+  next_task: TASK-R10-007
+  blocked_advance: false
+  completed_independent_advance: false
+  user_confirmation: null
+  metadata_commit: PENDING
+  push_verification: CI_REQUIRED_AFTER_METADATA_COMMIT
+  started_at: '2026-07-23T12:28:52Z'
+  closure_checkpoint_id: CP-SES-20260723T115555Z-5C81458B-0008
+  closed_at: '2026-07-23T12:29:00Z'
 parallel_execution:
   assessment: USER_SERIAL_OVERRIDE
   delegated_workers: 0
   workers: []
   reason: CR关闭和Task关闭为连续性元数据串行收口
+closed_at: '2026-07-23T12:29:00Z'

@@ -1298,3 +1298,13 @@
 - Actor：`codex-root-r10-tests`
 - 摘要：完成R10群聊专项测试与故障注入，三类冻结测试和PostgreSQL17矩阵全部通过
 - 记录：`docs/03-continuity/sessions/2026-07/SES-20260723T114316Z-44EBE3C1.md`
+
+## TASK-R10-006 · COMPLETED · 2026-07-23T12:28:52Z
+
+- Task close: TASK-R10-006 / SES-20260723T115555Z-5C81458B
+- Release：`R10`
+- Story：`STORY-R10-004`
+- Actor：`codex-root-r10-observability`
+- 摘要：完成R10群聊推广可观测性与隔离预发布验收，AC-R10-004及全部现场证据通过
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260723T115555Z-5C81458B.md`
+

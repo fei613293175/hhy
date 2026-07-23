@@ -3180,7 +3180,7 @@ claims:
   task_id: TASK-R10-006
   story_id: STORY-R10-004
   actor_id: codex-root-r10-observability
-  status: ACTIVE
+  status: CLOSED
   claimed_at: '2026-07-23T11:55:55Z'
   allowed_paths:
   - apps/**
@@ -3215,3 +3215,4 @@ claims:
   - PROJECT_*.yaml
   - PROJECT_*.json
   - artifacts/reports/R10,docs/08-testing,docs/09-development,CHANGELOG.md,releases/R10
+  closed_at: '2026-07-23T12:29:00Z'

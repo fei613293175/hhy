@@ -1,19 +1,19 @@
 {
   "version": "1.0",
-  "generated_at": "2026-07-23T12:28:19Z",
-  "context_hash": "495c06a1c802e3e47e8b5414cb5742973cb9522000416f0e438471fc9ed46b7e",
-  "fingerprint_mode": "SESSION_DELTA",
+  "generated_at": "2026-07-23T12:29:04Z",
+  "context_hash": "e7ba6eb0f9ef47b98db444cc2c414e36148304e1ad9645c370a7abcd5e7aaf47",
+  "fingerprint_mode": "REPOSITORY_TREE",
   "project_fingerprint": {
-    "sha256": "95dda5891af130c71efb794ad2f8f49bd679fd656e53aba65e1773cb401bfeb4",
-    "file_count": 15
+    "sha256": "830094612b6e566f2e74e0cd657e5b00bf1c02d6c25371b31b5601c6bdf4a4dc",
+    "file_count": 0
   },
   "yaml": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.yaml",
-    "sha256": "9278eafe67cd8fc939eab8eafae06326c557a7aec95a725869c07ef846243d72"
+    "sha256": "42738ecf02961473cf173e4f7e89e496b6b10cafc1a7cca35b8546ba4d431ae6"
   },
   "markdown": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.md",
-    "sha256": "42d97dca2483fe602e497b9203746355ba47ad3b048d3305f76d4af7eb72389c"
+    "sha256": "6a49d9f67bb9e146a365f1956a63c348b7c2c28d7611c96d1cea3085b1b8806b"
   },
   "sources": [
     {
@@ -28,13 +28,13 @@
     },
     {
       "path": "CURRENT_STATUS.yaml",
-      "sha256": "e49c0d4bcfa0766275366c467a009e936aa7df9693a0e2e9f9454971bc7e6401",
-      "bytes": 4188
+      "sha256": "faa69836033fdf4c2456a206255f5b963de4580122b0d36d0aa397f128edc960",
+      "bytes": 4047
     },
     {
       "path": "NEXT_TASK.yaml",
-      "sha256": "f4c7b4d3e2436352f8b1dde2074b8b430c622d0170cb904bc7664276bda688bd",
-      "bytes": 1479
+      "sha256": "8148a7d7c8d6cb52a518e42cd31188b6ebb3942e042f7ced5e6480c986612d35",
+      "bytes": 1576
     },
     {
       "path": "DEVELOPMENT_RISK_REGISTER.md",
@@ -83,18 +83,18 @@
     },
     {
       "path": ".continuity/EVENT_LOG.jsonl",
-      "sha256": "c177584eb1880e4029d78809f5c767894b20469962cb06f03bb83eeef3feb3d2",
-      "bytes": 1507926
+      "sha256": "17489c9e23ddf1e2042a3d0ba89d372de83e09b5f14830c2b55fe08144c5d03c",
+      "bytes": 1509528
     },
     {
       "path": ".continuity/SESSION_INDEX.yaml",
-      "sha256": "dee9c7c998a5337a409fe33cd86ab4ec79cfc107041f5e85c6b47bdb76e1aaa0",
-      "bytes": 45621
+      "sha256": "0eb8fc0544ef47d6ce66783c1049c8fa0241f99f855ab3f6dd91ff18cecf801d",
+      "bytes": 45639
     },
     {
       "path": ".continuity/TASK_CLAIMS.yaml",
-      "sha256": "35d048c734f81d6832953ff84270ae01e8cb1375628806276e50dc7571004d79",
-      "bytes": 63289
+      "sha256": "3270e3c1de9f000a71c8c41a8b5ded08e3753be860fa3c07894ac88a015b1fa2",
+      "bytes": 63325
     },
     {
       "path": ".continuity/TASK_TRANSITIONS.yaml",
@@ -108,8 +108,8 @@
     },
     {
       "path": ".continuity/ACTIVE_SESSION.yaml",
-      "sha256": "d598430c5e57dc134ecd3d4749f255d770be8d95086f567cdbcec0b56cc6f6a9",
-      "bytes": 543
+      "sha256": "d3b04d3b8f17c95ee4ae1876b66bb895d03809e46b109c6f2220fc35b2696c89",
+      "bytes": 143
     },
     {
       "path": "docs/00-baseline/正式商业系统全局硬性开发边界.md",
@@ -148,8 +148,8 @@
     },
     {
       "path": "releases/R10/TASKS.yaml",
-      "sha256": "827e91affe54108fec23add25a2ff96aef107b4452f565fe8bbb916a30dff37c",
-      "bytes": 5671
+      "sha256": "432c368e0ac96c82a74f12be67b30f8da0ee33a4bdfe6e64b3a1749bd08089ad",
+      "bytes": 5707
     },
     {
       "path": "releases/R10/ACCEPTANCE_MATRIX.csv",
@@ -160,21 +160,6 @@
       "path": "releases/R10/PARALLEL_EXECUTION_PLAN.yaml",
       "sha256": "ad9d4615ce1683a80e27986d1f3f078ab5012ffd5c001a618a8b9df278e1e3f7",
       "bytes": 2382
-    },
-    {
-      "path": "docs/03-continuity/sessions/2026-07/SES-20260723T115555Z-5C81458B.md",
-      "sha256": "313361ed45e9f4bc91ff1dfe1888999bf547ba25d7c347ed38704bec590f2738",
-      "bytes": 11892
-    },
-    {
-      "path": ".continuity/checkpoints/SES-20260723T115555Z-5C81458B/0007.yaml",
-      "sha256": "2663d29200860efa3460bed4daebb9ebdcb7321cbeafd88aa7fbc36801c3386e",
-      "bytes": 10443
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0271-R10群聊推广可观测性与隔离Staging验收精确范围.md",
-      "sha256": "a4bf4e0b67b4ed98ea732dda3f4f93ea80fa9c51924c477e05bfbaba7cea0364",
-      "bytes": 5421
     }
   ]
 }
