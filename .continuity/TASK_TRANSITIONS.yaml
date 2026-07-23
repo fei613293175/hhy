@@ -850,3 +850,13 @@ transitions:
   session_id: SES-20260722T205410Z-782F22B9
   actor_id: codex-root-r09-candidate
   reason: 会话领取任务
+- transition_id: TRN-BB5B29CAABD5
+  timestamp: '2026-07-23T02:42:14Z'
+  release: R09
+  task_id: TASK-R09-008
+  story_id: STORY-R09-004
+  from_status: READY
+  to_status: IN_PROGRESS
+  session_id: SES-20260723T024212Z-696F7963
+  actor_id: codex-root-r09-machine-close
+  reason: 会话领取任务

@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## R09 机器关闭与异步真机交接 · 2026-07-23
+
+- R09 前七项任务、三页 AI 视觉候选、固定签名 APK、正式 API 基址及仓库/桌面/服务器/HTTPS 四方交付均已通过；六项验收条目改为精确文件证据并全部 `PASS`。
+- Release 状态进入 `MACHINE_COMPLETE_OWNER_PENDING`；`owner_physical_test` 保持 `PENDING`，正式 Release 验收与生产激活继续阻断，不把机器完成伪装成 Owner 验收。
+- `next_release_development=ALLOWED`，R09 机器关闭后直接进入 R10，不强制项目所有者逐版本反馈，也不重复运行 GitHub 模拟器或重新打包。
+
 ## R09 App最终候选准备 · 2026-07-23
 
 - 候选旅程从历史混合页面收敛为 App 列表、详情、编辑三张 R09 对应截图，并显式限制 instrumentation 只运行候选测试类，避免离线历史审计截图混入版本证据。
@@ -1193,4 +1199,3 @@
 - Actor：`codex-root-r09-candidate`
 - 摘要：R09最终候选、视觉、固定签名和四方APK交付完成
 - 记录：`docs/03-continuity/sessions/2026-07/SES-20260722T205410Z-782F22B9.md`
-

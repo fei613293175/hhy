@@ -2935,3 +2935,42 @@ claims:
   - PROJECT_*.json
   - releases/R09/
   closed_at: '2026-07-23T02:39:19Z'
+- claim_id: CLM-497ECD2EEA0B
+  session_id: SES-20260723T024212Z-696F7963
+  task_id: TASK-R09-008
+  story_id: STORY-R09-004
+  actor_id: codex-root-r09-machine-close
+  status: ACTIVE
+  claimed_at: '2026-07-23T02:42:12Z'
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json

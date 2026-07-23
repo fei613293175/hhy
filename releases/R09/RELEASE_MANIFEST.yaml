@@ -1,6 +1,6 @@
 release: R09
 title: App推广完整闭环
-status: MACHINE_CANDIDATE_PASS_OWNER_PENDING
+status: MACHINE_COMPLETE_OWNER_PENDING
 milestone: M1_CONTENT_MARKETPLACE
 depends_on:
 - R05
@@ -132,6 +132,25 @@ android_automation:
   owner_physical_test: PENDING
   ai_visual_review: PASS
   evidence: artifacts/validation/r09-task007-android/candidate-report.json
+machine_completion:
+  status: PASS
+  owner_feedback_mode: ASYNC_NON_BLOCKING
+  formal_release_acceptance: PENDING_OWNER_PHYSICAL_TEST
+  production_activation: BLOCKED_OWNER_PHYSICAL_TEST
+  next_release_development: ALLOWED
+  evidence: artifacts/reports/R09/TASK-R09-008-machine-close.md
+machine_closure:
+  status: PASS
+  task_id: TASK-R09-008
+  session_id: SES-20260723T024212Z-696F7963
+  report: artifacts/reports/R09/TASK-R09-008-machine-close.md
+  owner_physical_test: PENDING
+  formal_release_acceptance: PENDING_OWNER_PHYSICAL_TEST
+  production_activation: BLOCKED_OWNER_PHYSICAL_TEST
+  next_work: R10
+  candidate_product_commit: 97dc163e1cbed8d19a054326806453c5fa0aee9b
+  candidate_delivery_commit: 6c214e59d028679ea2e51b83e619f1c87c2be4d0
+  task007_closure_commit: 2e667408a5987b53ce55521f827ac70ce9e80cac
 entry_gate:
 - releases/R09/DEFINITION_OF_READY.yaml 全部适用项为PASS
 - releases/R09/STORIES.yaml 中每个故事均绑定页面/API/配置/数据/测试或显式N/A
