@@ -1,7 +1,7 @@
 protocol_version: '1.0'
 package_version: 1.2.3
 session_id: SES-20260723T045352Z-FC8DC2CF
-status: ACTIVE
+status: CLOSED
 actor:
   id: codex-root-r10-data
   kind: AI_OR_HUMAN
@@ -11,7 +11,7 @@ task_id: TASK-R10-002
 story_id: STORY-R10-004
 goal: 群聊推广完整闭环数据迁移与领域不变量
 started_at: '2026-07-23T04:53:52Z'
-updated_at: '2026-07-23T06:15:16Z'
+updated_at: '2026-07-23T06:17:55Z'
 takeover_of: null
 change_requests:
 - CR-0268
@@ -79,20 +79,33 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-23T06:15:11Z'
-  expires_at: '2026-07-23T10:15:11Z'
-checkpoint_sequence: 5
-latest_checkpoint: .continuity/checkpoints/SES-20260723T045352Z-FC8DC2CF/0005.yaml
+  renewed_at: '2026-07-23T06:17:50Z'
+  expires_at: '2026-07-23T10:17:50Z'
+checkpoint_sequence: 6
+latest_checkpoint: .continuity/checkpoints/SES-20260723T045352Z-FC8DC2CF/0006.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260723T045352Z-FC8DC2CF.md
-next_step: 提交并推送TASK-R10-002实现，然后关闭任务进入TASK-R10-003
+next_step: 提交关闭元数据Commit，然后运行pre-push/CI门禁
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: 6a57c13a28b846fab9c6cf90e0a98fd1dbdbf3893e0ec73314f4eeac65e1492e
-  generated_at: '2026-07-23T06:15:14Z'
+  context_hash: 180f01e783e7b93fbe3718afeb745a1ec3f0bf2d7a5f4db608aea3606382550a
+  generated_at: '2026-07-23T06:17:53Z'
 handoff_bundle: null
-closure: null
+closure:
+  result: COMPLETED
+  summary: TASK-R10-002完成：V036/U036、群详情/入群通道/群主联系终态不变量、父行并发锁、二维码外键、数据目录和PostgreSQL17完整矩阵全部通过；实现提交9322209a已推送。CR-0268保持IMPLEMENTING并强制衔接R10-003/004。
+  code_commit: 9322209a3e85917d0a11957a3137797b14c6c2e8
+  next_release: R10
+  next_task: TASK-R10-003
+  blocked_advance: false
+  completed_independent_advance: false
+  user_confirmation: null
+  metadata_commit: PENDING
+  push_verification: CI_REQUIRED_AFTER_METADATA_COMMIT
+  started_at: '2026-07-23T06:17:46Z'
+  closure_checkpoint_id: CP-SES-20260723T045352Z-FC8DC2CF-0006
+  closed_at: '2026-07-23T06:17:55Z'
 parallel_execution:
   assessment: DELEGATED
   delegated_workers: 2
@@ -111,3 +124,4 @@ parallel_execution:
     - scripts/run_r10_disposable_postgres_container.sh
     - tests/test_r10_group_database_invariants.py
   reason: 实现已完成，主控仅做提交前格式收口
+closed_at: '2026-07-23T06:17:55Z'

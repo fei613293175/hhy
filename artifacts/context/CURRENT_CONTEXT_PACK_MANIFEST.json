@@ -1,19 +1,19 @@
 {
   "version": "1.0",
-  "generated_at": "2026-07-23T06:15:14Z",
-  "context_hash": "6a57c13a28b846fab9c6cf90e0a98fd1dbdbf3893e0ec73314f4eeac65e1492e",
-  "fingerprint_mode": "SESSION_DELTA",
+  "generated_at": "2026-07-23T06:17:58Z",
+  "context_hash": "57057e13a2ae4c6a7602e0db8500a26a9d4a7ce858cd52d22279ed5d4e9656ea",
+  "fingerprint_mode": "REPOSITORY_TREE",
   "project_fingerprint": {
-    "sha256": "cdcf5b2eb264f7e8b54139470b339a62dfb373230b8e8066d1bacf36dcd4652d",
-    "file_count": 11
+    "sha256": "27ebd697d09b066d50f54bdbcc19c2646731b456be6fe8b90b6a892a2c756f7a",
+    "file_count": 0
   },
   "yaml": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.yaml",
-    "sha256": "aab9921fb133324315b0d2e72cf75ca5442159ed6273644c7d7c2e6de940cf99"
+    "sha256": "f116100c0727252e1ba26904c6b5793a02f7f0b487ac6c835186c60b8d42a138"
   },
   "markdown": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.md",
-    "sha256": "da93e77e72795c8ce3ba9c0dffd8a1305ceefa075ca459b85f660498958c3d5d"
+    "sha256": "475369de0e73c596cfec7bd8e6eceb1a2ad3ad0e09e3f5563c65e3694769c16f"
   },
   "sources": [
     {
@@ -28,13 +28,13 @@
     },
     {
       "path": "CURRENT_STATUS.yaml",
-      "sha256": "a57687e9004bda8b4b9ca7f7e8d23a9632a62f009562ceed299bd4535798532d",
-      "bytes": 4151
+      "sha256": "6b62d6ec0a6dbebced890adb96d0e5d34c57ab64f6b63b0e002cd27e717d91ae",
+      "bytes": 4019
     },
     {
       "path": "NEXT_TASK.yaml",
-      "sha256": "1de595ceef8f3873342e9cf1df8ab1395f5b6158e599b98c7560344abb6e975d",
-      "bytes": 1535
+      "sha256": "32f1cf913db052d22b663146721d4b5ab97421d650cbe2d211fc0fcd35d85bc4",
+      "bytes": 1514
     },
     {
       "path": "DEVELOPMENT_RISK_REGISTER.md",
@@ -83,18 +83,18 @@
     },
     {
       "path": ".continuity/EVENT_LOG.jsonl",
-      "sha256": "3e1b5c4ac0777d2cb4ac34bdecb4a563d49893422e11c3d0906556328f964e8b",
-      "bytes": 1472307
+      "sha256": "147369e04f80a66db207809027ea21ff112c0b737b3c8f5dc8461cb9294d3eeb",
+      "bytes": 1474138
     },
     {
       "path": ".continuity/SESSION_INDEX.yaml",
-      "sha256": "f286c4d15f6afaeed8621815b5e98af9b4948a2556aaebb2bc17338dcfa7783b",
-      "bytes": 43562
+      "sha256": "2857712a94585c76930ed013d9134b94d4c9b5d99f8bbf91bf104452a78eb3e8",
+      "bytes": 43580
     },
     {
       "path": ".continuity/TASK_CLAIMS.yaml",
-      "sha256": "9a36707e67b4d4f886db839706e39b2e7796997d2dcbad8cc015051a33186b4e",
-      "bytes": 60122
+      "sha256": "1ad7fb6be56b76a10afb356146422b383401bd55ba1c720c2bd533a2021806c6",
+      "bytes": 60158
     },
     {
       "path": ".continuity/TASK_TRANSITIONS.yaml",
@@ -108,8 +108,8 @@
     },
     {
       "path": ".continuity/ACTIVE_SESSION.yaml",
-      "sha256": "e7998af89ca51121bf0e0156d5719fc932a6dc0ec0c86843c6f3175b12765807",
-      "bytes": 534
+      "sha256": "752db9fe84ab74f2bce816ebf427e531d9effd5ea899c4b509fa82e1430316ae",
+      "bytes": 143
     },
     {
       "path": "docs/00-baseline/正式商业系统全局硬性开发边界.md",
@@ -148,8 +148,8 @@
     },
     {
       "path": "releases/R10/TASKS.yaml",
-      "sha256": "8027263b753a386cf171fac1d21c3e5a1bd29411a2bb8921a69e850cf431b6bf",
-      "bytes": 5527
+      "sha256": "c6b4278f8bc3e680cd15bb5b0c3557080da38c9620066a1e9d3b40f6db18f06e",
+      "bytes": 5563
     },
     {
       "path": "releases/R10/ACCEPTANCE_MATRIX.csv",
@@ -160,21 +160,6 @@
       "path": "releases/R10/PARALLEL_EXECUTION_PLAN.yaml",
       "sha256": "ad9d4615ce1683a80e27986d1f3f078ab5012ffd5c001a618a8b9df278e1e3f7",
       "bytes": 2382
-    },
-    {
-      "path": "docs/03-continuity/sessions/2026-07/SES-20260723T045352Z-FC8DC2CF.md",
-      "sha256": "0b9b7faa30414eee14f68c3e7b84e0b9d02100a9acda2d7be8f541e464562c86",
-      "bytes": 8239
-    },
-    {
-      "path": ".continuity/checkpoints/SES-20260723T045352Z-FC8DC2CF/0005.yaml",
-      "sha256": "7f0ae38e081d3302b2eb578e2c4030f9fbabc1f4018aed9e0b1b6eb9c3426504",
-      "bytes": 10262
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0268-补齐R10群聊推广数据库不变量与可逆迁移.md",
-      "sha256": "ba1897ddab99b6d4eb1fdb13290b9e7539f913829e362abe4da5af77a2f82b97",
-      "bytes": 6488
     }
   ]
 }

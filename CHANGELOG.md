@@ -1237,3 +1237,13 @@
 - Actor：`codex-root-r10-entry`
 - 摘要：R10开发入口、主开发文档功能一一对应纠偏及首页真实数据闭环完成；CR-0265/0266/0267已实现，公网Staging返回真实四模块，全部受影响门禁通过。
 - 记录：`docs/03-continuity/sessions/2026-07/SES-20260723T025104Z-E29F6208.md`
+
+## TASK-R10-002 · COMPLETED · 2026-07-23T06:17:46Z
+
+- Task close: TASK-R10-002 / SES-20260723T045352Z-FC8DC2CF
+- Release：`R10`
+- Story：`STORY-R10-004`
+- Actor：`codex-root-r10-data`
+- 摘要：TASK-R10-002完成：V036/U036、群详情/入群通道/群主联系终态不变量、父行并发锁、二维码外键、数据目录和PostgreSQL17完整矩阵全部通过；实现提交9322209a已推送。CR-0268保持IMPLEMENTING并强制衔接R10-003/004。
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260723T045352Z-FC8DC2CF.md`
+
