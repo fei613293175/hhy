@@ -1414,3 +1414,10 @@
 - 摘要：TASK-R11-005完成：三项权威测试自动化、并发与幂等缺陷修复、Java21/PostgreSQL17/Android/后台精确Commit证据全部通过，关键缺陷清零
 - 记录：`docs/03-continuity/sessions/2026-07/SES-20260723T231210Z-409B970E.md`
 
+## TASK-R11-006 · IMPLEMENTED · 2026-07-24T03:13:00Z
+
+- Release：`R11`
+- Story：`STORY-R11-004`
+- Actor：`codex-root-r11-observability`
+- 摘要：完成团队长七项业务Gauge、七条专属告警、隔离Staging、Trace/日志脱敏、告警送达、Outbox流转和同库同卷回切；精确Commit `b190476f` 的208.1秒现场演练及25项证据全部PASS，`AC-R11-004` 已签字。
+- 证据：`artifacts/reports/R11/TASK-R11-006-staging.md`

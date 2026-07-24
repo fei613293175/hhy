@@ -1,0 +1,9 @@
+task=TASK-R11-006
+story=STORY-R11-004
+release=R11
+frozen_commit=b190476f72bd0c0de12dc0f29820a72d352caffc
+compose_project=hhy-r11-staging
+network_subnet=172.31.242.0/24
+current_image=sha256:3a87e43f14de2e87c83dc343dc8c93bfca893db823e0ea8e36f3c3e8ad47e2f5
+postgres_container=dfe8273681fb1911fae5341a4edcedf2a842b2e539e38a87afdafeeb7816b12e
+postgres_volume=hhy-r11-staging_pgdata
