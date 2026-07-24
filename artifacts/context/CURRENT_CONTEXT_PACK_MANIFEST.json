@@ -1,19 +1,19 @@
 {
   "version": "1.0",
-  "generated_at": "2026-07-24T01:54:21Z",
-  "context_hash": "7eebdbcc8265d8d26172cc0b28abe4894ebae03e2fcf207639a2097d96e0a084",
+  "generated_at": "2026-07-24T02:02:33Z",
+  "context_hash": "193a6102c3ab9440a5778a751f13356933818f9c91542af73b65aa2be1ed7ae0",
   "fingerprint_mode": "SESSION_DELTA",
   "project_fingerprint": {
-    "sha256": "b66c933cfb21880a0062f1ac854812ab9a0df4eadc9ceafba9a218f340183465",
+    "sha256": "390b0ed094c9e8fcbe242e5d6afe2e4a1e8b19b5172537dcbedc33f1c5a9b4ea",
     "file_count": 21
   },
   "yaml": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.yaml",
-    "sha256": "2d0be747aaca6cc86f395325e6635df523253fd79bada5ee538bb4589b735478"
+    "sha256": "701ae74637967c64bbc709b889cc52ce27b942f3224171c913a31d07b0ec3ddc"
   },
   "markdown": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.md",
-    "sha256": "4321ece0c2e6c2eaf9a5d26f708a51f6907ee05167e30b60680638deb773167a"
+    "sha256": "b02d90aa2c6818407324f3f56dc0212ce103fb8e664927a4d8c8cb624e443d65"
   },
   "sources": [
     {
@@ -28,7 +28,7 @@
     },
     {
       "path": "CURRENT_STATUS.yaml",
-      "sha256": "451bd312ad25a12bc7fe1bdba35c7278b2a2466dd7e62e9c0fbd939024a176d7",
+      "sha256": "99e4bd01139b331421c080a0bcbbc76245da13f6d67812a822c8cfefbd0c771d",
       "bytes": 4284
     },
     {
@@ -83,12 +83,12 @@
     },
     {
       "path": ".continuity/EVENT_LOG.jsonl",
-      "sha256": "3758559bc9d7b677e222f4ff9b0b89612da54f447b4b4a0eb3e4a9db92b77452",
-      "bytes": 1633077
+      "sha256": "d36c44a656f4f4e5165668e94caa69b21f3a222fb1b1752eff162d5b64267aed",
+      "bytes": 1636832
     },
     {
       "path": ".continuity/SESSION_INDEX.yaml",
-      "sha256": "f9b0b6732728670afa57b3758d0eaa100481b84713a56aa5dfc5003b3291d3b5",
+      "sha256": "a5878c3dafa310ed2cc08ef31e594cdc8b5898effe6d2e44364eb2376a76284a",
       "bytes": 49210
     },
     {
@@ -103,12 +103,12 @@
     },
     {
       "path": ".continuity/CHANGE_REQUEST_INDEX.yaml",
-      "sha256": "3a890cf2a4bf5ec5d436440113cb76a7f788c1c38dcfe624687c22d008ceebc7",
-      "bytes": 999271
+      "sha256": "59f8a24ef7915e9bca68cbf9cfdf84e63994fefdfe4b128361964520e7cd3c8d",
+      "bytes": 1001207
     },
     {
       "path": ".continuity/ACTIVE_SESSION.yaml",
-      "sha256": "97e5d9962ca887516c815ec46bd54e4f2bea44635c2a2285f696ed8d721e8106",
+      "sha256": "a0f37ca2b794994f35619489ac29edd6701371c02b65ce116d1be3aeb14c40ba",
       "bytes": 534
     },
     {
@@ -163,33 +163,33 @@
     },
     {
       "path": "docs/03-continuity/sessions/2026-07/SES-20260723T231210Z-409B970E.md",
-      "sha256": "585b210fddd1fe7c75b0883b4716a26a2a056ad0dccf0adf48a80baa08660f03",
-      "bytes": 8437
+      "sha256": "b47155961cae47580bcb7826ac8e41655708aa7c9fef9215a83dbdd2e18c3700",
+      "bytes": 10556
     },
     {
-      "path": ".continuity/checkpoints/SES-20260723T231210Z-409B970E/0003.yaml",
-      "sha256": "5bc518ddca301556c661431b29a856c73424a90b27eeab30ad24ba90cdb1fd79",
-      "bytes": 13883
+      "path": ".continuity/checkpoints/SES-20260723T231210Z-409B970E/0004.yaml",
+      "sha256": "935a2d12fe02629a7ade8024ada6da87eac0ae0441b4d632f4db409eca051d8c",
+      "bytes": 13196
     },
     {
       "path": "docs/03-continuity/change-requests/CR-0297-R11团队长三项专项测试与故障证据闭环.md",
-      "sha256": "2fb8bbb87c517bc6ff636e2242c4bcd0f4d05e48795bf987313f08b00d5e15c5",
-      "bytes": 3184
+      "sha256": "ad7e8c01b49704940116cd392702c3663eab5df6863dc9f334c180c7ce3909e6",
+      "bytes": 3617
     },
     {
       "path": "docs/03-continuity/change-requests/CR-0298-R11并发重复动作与后台幂等隔离修复.md",
-      "sha256": "93447daaec90b797b7bd1226157bdf40196c1cc617aa091a1cb4dd07ae506b3e",
-      "bytes": 2775
+      "sha256": "027b3145f29afaccf0d38e09f1b2529e0f81388395f93de6fa8a6aa646cb880c",
+      "bytes": 3206
     },
     {
       "path": "docs/03-continuity/change-requests/CR-0299-R11控制器合同测试路径稳定化.md",
-      "sha256": "878228736269a756bbaf7a6762996ab1bd7256414c5048a56a5098cff0d58e2a",
-      "bytes": 2102
+      "sha256": "defbfbbb8a800cfad6fb6f524e80136c00236af9ef1832ec473847bd3ad52efb",
+      "bytes": 2547
     },
     {
       "path": "docs/03-continuity/change-requests/CR-0300-补齐R11后台专项证据与精确验收矩阵范围.md",
-      "sha256": "9da49bb678eefe8a18223cdb1740025d80787429682c434e948098b245a80518",
-      "bytes": 2403
+      "sha256": "537ad32f7ed10fa89f7b9e5706351ae1b85b398a361cc073b23b71fa5eaf53b4",
+      "bytes": 2841
     }
   ]
 }

@@ -1,9 +1,9 @@
 protocol_version: '1.0'
 cr_id: CR-0299
 title: R11控制器合同测试路径稳定化
-status: IMPLEMENTING
+status: CLOSED
 created_at: '2026-07-23T23:40:24Z'
-updated_at: '2026-07-23T23:41:02Z'
+updated_at: '2026-07-24T01:59:07Z'
 requester_actor_id: codex-root-r11-test
 approver_actor_id: codex-reviewer-r11-quality
 task_id: TASK-R11-005
@@ -39,5 +39,17 @@ decision_log:
   status: IMPLEMENTING
   note: 改用classpath运行时OpenAPI并重跑唯一失败测试
   session_id: SES-20260723T231210Z-409B970E
+- at: '2026-07-24T01:57:29Z'
+  actor_id: codex-root-r11-test
+  status: IMPLEMENTED
+  note: 控制器合同测试classpath路径稳定化已实现并在Java21容器通过
+  session_id: SES-20260723T231210Z-409B970E
+- at: '2026-07-24T01:59:07Z'
+  actor_id: codex-root-r11-test
+  status: CLOSED
+  note: 合同测试路径在容器环境稳定通过，变更合同闭环
+  session_id: SES-20260723T231210Z-409B970E
 session_ids:
 - SES-20260723T231210Z-409B970E
+implementation_commits:
+- 5013a9a042026328bb9e6602f1931ed32d6632ed

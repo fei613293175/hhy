@@ -18101,9 +18101,9 @@ change_requests:
 - protocol_version: '1.0'
   cr_id: CR-0297
   title: R11团队长三项专项测试与故障证据闭环
-  status: IMPLEMENTING
+  status: CLOSED
   created_at: '2026-07-23T23:19:55Z'
-  updated_at: '2026-07-23T23:21:14Z'
+  updated_at: '2026-07-24T01:59:01Z'
   requester_actor_id: codex-root-r11-test
   approver_actor_id: codex-reviewer-r11-quality
   task_id: TASK-R11-005
@@ -18154,14 +18154,27 @@ change_requests:
     status: IMPLEMENTING
     note: 开始补齐三项权威测试适配器、缺口断言与可机检证据
     session_id: SES-20260723T231210Z-409B970E
+  - at: '2026-07-24T01:57:23Z'
+    actor_id: codex-root-r11-test
+    status: IMPLEMENTED
+    note: 三项权威矩阵、故障注入和四类精确Commit证据已实现
+    session_id: SES-20260723T231210Z-409B970E
+  - at: '2026-07-24T01:59:01Z'
+    actor_id: codex-root-r11-test
+    status: CLOSED
+    note: 三项权威矩阵与精确证据均通过，变更合同闭环
+    session_id: SES-20260723T231210Z-409B970E
   session_ids:
   - SES-20260723T231210Z-409B970E
+  implementation_commits:
+  - 5013a9a042026328bb9e6602f1931ed32d6632ed
+  - '34709214'
 - protocol_version: '1.0'
   cr_id: CR-0298
   title: R11并发重复动作与后台幂等隔离修复
-  status: IMPLEMENTING
+  status: CLOSED
   created_at: '2026-07-23T23:23:00Z'
-  updated_at: '2026-07-23T23:23:53Z'
+  updated_at: '2026-07-24T01:59:04Z'
   requester_actor_id: codex-root-r11-test
   approver_actor_id: codex-reviewer-r11-quality
   task_id: TASK-R11-005
@@ -18204,14 +18217,26 @@ change_requests:
     status: IMPLEMENTING
     note: 开始修复Android动作单写锁与后台资源级幂等隔离
     session_id: SES-20260723T231210Z-409B970E
+  - at: '2026-07-24T01:57:26Z'
+    actor_id: codex-root-r11-test
+    status: IMPLEMENTED
+    note: Android单写锁与后台资源级幂等隔离已实现并通过模块回归
+    session_id: SES-20260723T231210Z-409B970E
+  - at: '2026-07-24T01:59:04Z'
+    actor_id: codex-root-r11-test
+    status: CLOSED
+    note: 并发和幂等缺陷回归通过，关键缺陷清零
+    session_id: SES-20260723T231210Z-409B970E
   session_ids:
   - SES-20260723T231210Z-409B970E
+  implementation_commits:
+  - 5013a9a042026328bb9e6602f1931ed32d6632ed
 - protocol_version: '1.0'
   cr_id: CR-0299
   title: R11控制器合同测试路径稳定化
-  status: IMPLEMENTING
+  status: CLOSED
   created_at: '2026-07-23T23:40:24Z'
-  updated_at: '2026-07-23T23:41:02Z'
+  updated_at: '2026-07-24T01:59:07Z'
   requester_actor_id: codex-root-r11-test
   approver_actor_id: codex-reviewer-r11-quality
   task_id: TASK-R11-005
@@ -18247,14 +18272,26 @@ change_requests:
     status: IMPLEMENTING
     note: 改用classpath运行时OpenAPI并重跑唯一失败测试
     session_id: SES-20260723T231210Z-409B970E
+  - at: '2026-07-24T01:57:29Z'
+    actor_id: codex-root-r11-test
+    status: IMPLEMENTED
+    note: 控制器合同测试classpath路径稳定化已实现并在Java21容器通过
+    session_id: SES-20260723T231210Z-409B970E
+  - at: '2026-07-24T01:59:07Z'
+    actor_id: codex-root-r11-test
+    status: CLOSED
+    note: 合同测试路径在容器环境稳定通过，变更合同闭环
+    session_id: SES-20260723T231210Z-409B970E
   session_ids:
   - SES-20260723T231210Z-409B970E
+  implementation_commits:
+  - 5013a9a042026328bb9e6602f1931ed32d6632ed
 - protocol_version: '1.0'
   cr_id: CR-0300
   title: 补齐R11后台专项证据与精确验收矩阵范围
-  status: IMPLEMENTING
+  status: CLOSED
   created_at: '2026-07-24T00:43:39Z'
-  updated_at: '2026-07-24T01:52:58Z'
+  updated_at: '2026-07-24T01:59:11Z'
   requester_actor_id: codex-root-r11-test
   approver_actor_id: codex-reviewer-r11-evidence
   task_id: TASK-R11-005
@@ -18293,5 +18330,17 @@ change_requests:
     status: IMPLEMENTING
     note: 开始归档后台Web原始日志并将AC-R11-003绑定精确专项报告
     session_id: SES-20260723T231210Z-409B970E
+  - at: '2026-07-24T01:57:32Z'
+    actor_id: codex-root-r11-test
+    status: IMPLEMENTED
+    note: 后台原始日志已归档且AC-R11-003已绑定精确报告并签为PASS
+    session_id: SES-20260723T231210Z-409B970E
+  - at: '2026-07-24T01:59:11Z'
+    actor_id: codex-root-r11-test
+    status: CLOSED
+    note: 后台证据和精确验收投影已归档并通过中央矩阵
+    session_id: SES-20260723T231210Z-409B970E
   session_ids:
   - SES-20260723T231210Z-409B970E
+  implementation_commits:
+  - '34709214'
