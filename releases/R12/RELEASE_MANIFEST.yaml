@@ -1,6 +1,6 @@
 release: R12
 title: 统一发布与发布管理
-status: READY_WHEN_DEPENDENCIES_GREEN
+status: DEVELOPMENT_READY
 milestone: M1_CONTENT_MARKETPLACE
 depends_on:
 - R08
@@ -67,12 +67,54 @@ tests:
 - TST-PUBLISH_001-REJECT
 - TST-V122-018
 - TST-V122-019
+entry_baseline:
+  checked_at: '2026-07-24'
+  session_id: SES-20260724T144831Z-B2E27A89
+  story_id: STORY-R12-008
+  change_request: CR-0314
+  documentation_status: PASS_DOCUMENTATION_READY
+  strict_documentation: PASS_0_ERRORS_0_WARNINGS
+  generated_assets: PASS
+  program_execution_plan: PASS_31_RELEASES_0_ERRORS
+  release_artifacts: PASS
+  continuity_gate: PASS
+  exact_visual_binding_check: PASS_11_PAGES
+  cloud_environment_status: PASS
+  dependency_machine_status:
+    R08: MACHINE_COMPLETE_OWNER_PENDING
+    R09: MACHINE_COMPLETE_OWNER_PENDING
+    R10: MACHINE_COMPLETE_OWNER_PENDING
+    R11: MACHINE_COMPLETE_OWNER_PENDING
+  exact_visual_bindings:
+    SCR-PUB-001: B04/P01
+    SCR-PUB-006: B05/P06
+    SCR-PUB-007: SPEC:design/R12-UI-FROZEN/specs/SCR-PUB-007.md
+    SCR-MYC-001: B08/P02
+    SCR-MYC-002: SPEC:design/R12-UI-FROZEN/specs/SCR-MYC-002.md
+    SCR-MYC-003: B08/P03
+    SCR-MYC-004: SPEC:design/R12-UI-FROZEN/specs/SCR-MYC-004.md
+    SCR-MYC-005: B08/P06
+    SCR-ME-001: B08/P01
+    SCR-ME-002: SPEC:design/R12-UI-FROZEN/specs/SCR-ME-002.md
+    ADM-REVIEW-001: SPEC:docs/02-ui/管理后台页面与运营操作完整规格_V1.2.2.md
+  visual_audit: design/R12-UI-FROZEN/VISUAL_COVERAGE_AUDIT.md
+  ui_acceptance_registration:
+    catalog: catalogs/ui_visual_acceptance.csv
+    task: TASK-R12-004
+    initial_status: IN_REVIEW
+    final_candidate_status: PASS_AFTER_REAL_SCREENSHOT_AND_AI_REVIEW
+  delivery_policy:
+    ordinary_task_validation: AFFECTED_FAST_OR_MODULE
+    full_gate_and_emulator: FINAL_CANDIDATE_ONLY_TASK_R12_007
+    machine_close_profile: RELEASE_CLOSE
+    owner_feedback_mode: ASYNC_NON_BLOCKING
 entry_gate:
 - releases/R12/DEFINITION_OF_READY.yaml 全部适用项为PASS
 - releases/R12/STORIES.yaml 中每个故事均绑定页面/API/配置/数据/测试或显式N/A
 - 本版本页面字段、状态、动作、导航和后台运营规格不存在TBD/RELEASE_BOUND
 - 全部依赖版本为GREEN或按发布计划允许的并行依赖已记录
 - 冻结契约发生变化时已创建CR并重新生成追踪和SHA
+- 十一页均绑定精确面板、批准补充规格或原始ADM标准模板；禁止TOKENS_ONLY、P01-P08范围和同名错配施工
 exit_gate:
 - 领域代码与前端真实闭环
 - 数据库迁移和不变量测试通过

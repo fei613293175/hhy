@@ -36,18 +36,18 @@ SCR-RP-ADV-003,预审核结果,/me/red-packet-campaigns/{id}/review,B03/B09,P01/
 SCR-RP-ADV-004,红包报价确认,/me/red-packet-campaigns/{id}/quote,B03/B09,P01/P08,STYLE_LAYOUT_REFERENCE,详情红包区与奖励明细布局；功能按红包规格
 SCR-RP-ADV-005,红包活动详情,/me/red-packet-campaigns/{id},B08,P05,STYLE_LAYOUT_REFERENCE,红包活动管理布局
 SCR-RP-ADV-006,提高红包金额,/me/red-packet-campaigns/{id}/increase,B03/B09,P01/P08,STYLE_LAYOUT_REFERENCE,详情红包区与奖励明细布局；功能按红包规格
-SCR-PUB-001,发布入口,/publish,TOKENS_ONLY,-,STYLE_LAYOUT_REFERENCE,无精确面板；使用Design Token和组件库
+SCR-PUB-001,发布入口,/publish,B04,P01,EXACT_CONSTRUCTION_REFERENCE,四类发布中心精确施工面板；业务字段和动作以冻结页面合同为准
 SCR-PUB-002,项目发布/编辑,/publish/project/{id?},TOKENS_ONLY,-,STYLE_LAYOUT_REFERENCE,无精确面板；使用Design Token和组件库
 SCR-PUB-003,App发布/编辑,/publish/app/{id?},TOKENS_ONLY,-,STYLE_LAYOUT_REFERENCE,无精确面板；使用Design Token和组件库
 SCR-PUB-004,群聊发布/编辑,/publish/group/{id?},TOKENS_ONLY,-,STYLE_LAYOUT_REFERENCE,无精确面板；使用Design Token和组件库
 SCR-PUB-005,团队长资料编辑,/publish/team-leader,B04,P05,EXACT_CONSTRUCTION_REFERENCE,团队长入驻申请精确施工面板；业务字段和动作仍以冻结页面合同为准
-SCR-PUB-006,发布预览,/publish/preview,TOKENS_ONLY,-,STYLE_LAYOUT_REFERENCE,无精确面板；使用Design Token和组件库
-SCR-PUB-007,提交结果,/publish/result,TOKENS_ONLY,-,STYLE_LAYOUT_REFERENCE,无精确面板；使用Design Token和组件库
-SCR-MYC-001,我的发布,/me/contents,TOKENS_ONLY,-,STYLE_LAYOUT_REFERENCE,无精确面板；使用Design Token和组件库
-SCR-MYC-002,草稿箱,/me/drafts,TOKENS_ONLY,-,STYLE_LAYOUT_REFERENCE,无精确面板；使用Design Token和组件库
-SCR-MYC-003,内容管理详情,/me/contents/{id},TOKENS_ONLY,-,STYLE_LAYOUT_REFERENCE,无精确面板；使用Design Token和组件库
-SCR-MYC-004,审核记录,/me/contents/{id}/reviews,TOKENS_ONLY,-,STYLE_LAYOUT_REFERENCE,无精确面板；使用Design Token和组件库
-SCR-MYC-005,内容数据,/me/contents/{id}/analytics,TOKENS_ONLY,-,STYLE_LAYOUT_REFERENCE,无精确面板；使用Design Token和组件库
+SCR-PUB-006,发布预览,/publish/preview,B05,P06,EXACT_CONSTRUCTION_REFERENCE,发布预览精确施工面板；只展示当前草稿真实字段和媒体
+SCR-PUB-007,提交结果,/publish/result,B05,P07,APPROVED_SUPPLEMENT,批准补充规格复用B05/P07与B06/P07/P08覆盖成功待审驳回和失败恢复
+SCR-MYC-001,我的发布,/me/contents,B08,P02,EXACT_CONSTRUCTION_REFERENCE,我的发布列表精确施工面板；统计与状态只来自服务端
+SCR-MYC-002,草稿箱,/me/drafts,B08,P02,APPROVED_SUPPLEMENT,批准补充规格复用B08/P02列表主体与B05/P08保存反馈
+SCR-MYC-003,内容管理详情,/me/contents/{id},B08,P03,EXACT_CONSTRUCTION_REFERENCE,发布管理详情精确施工面板；能力按权限和状态机显示
+SCR-MYC-004,审核记录,/me/contents/{id}/reviews,B08,P03,APPROVED_SUPPLEMENT,批准补充规格复用B08/P03内容上下文与B06/P07/P08审核状态
+SCR-MYC-005,内容数据,/me/contents/{id}/analytics,B08,P06,EXACT_CONSTRUCTION_REFERENCE,数据统计精确施工面板；指标和趋势只来自真实接口
 SCR-MSG-001,消息中心,/messages,TOKENS_ONLY,-,STYLE_LAYOUT_REFERENCE,无精确面板；使用Design Token和组件库
 SCR-CHAT-001,会话列表,/messages/chats,B07,P01-P08,STYLE_LAYOUT_REFERENCE,聊天、通知与公告
 SCR-CHAT-002,私聊页,/messages/chat/{conversationId},B07,P01-P08,STYLE_LAYOUT_REFERENCE,聊天、通知与公告
@@ -57,8 +57,8 @@ SCR-NOTICE-001,通知列表,/messages/notifications,TOKENS_ONLY,-,STYLE_LAYOUT_R
 SCR-NOTICE-002,通知详情,/messages/notifications/{id},TOKENS_ONLY,-,STYLE_LAYOUT_REFERENCE,无精确面板；使用Design Token和组件库
 SCR-ANN-001,公告列表,/messages/announcements,B07,P01-P08,STYLE_LAYOUT_REFERENCE,聊天、通知与公告
 SCR-ANN-002,公告详情,/messages/announcements/{id},B07,P01-P08,STYLE_LAYOUT_REFERENCE,聊天、通知与公告
-SCR-ME-001,我的首页,/me,B08,P01-P08,STYLE_LAYOUT_REFERENCE,我的、订单、收藏和历史
-SCR-ME-002,个人资料,/me/profile,B08,P01-P08,STYLE_LAYOUT_REFERENCE,我的、订单、收藏和历史
+SCR-ME-001,我的首页,/me,B08,P01,EXACT_CONSTRUCTION_REFERENCE,我的首页精确施工面板；模块只使用冻结真实能力
+SCR-ME-002,个人资料,/me/profile,B08,P01,APPROVED_SUPPLEMENT,批准补充规格仅复用B08/P01身份头与MOB-FORM，不套用项目表单
 SCR-FAV-001,我的收藏,/me/favorites,B08,P01-P08,STYLE_LAYOUT_REFERENCE,我的、订单、收藏和历史
 SCR-HIS-001,浏览记录,/me/history,TOKENS_ONLY,-,STYLE_LAYOUT_REFERENCE,无精确面板；使用Design Token和组件库
 SCR-ORDER-001,订单列表,/me/orders,B08,P01-P08,STYLE_LAYOUT_REFERENCE,我的、订单、收藏和历史

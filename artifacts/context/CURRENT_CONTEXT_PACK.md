@@ -1,14 +1,14 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-24T14:43:47Z
-- Context Hash：`c20f2c9777aebe9505dc7426dda74332da9f8fd9e36d87c866f46a6932ccb3c6`
+- 生成时间：2026-07-24T15:59:11Z
+- Context Hash：`f06b16ea599ba6c2091bc1912a32d69f1ff5433daf153cd3166501b28934d16b`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 规则就绪：`PASS`（`HASHED_CONTEXT_MANIFEST`）
 - 精确恢复命令：
 
 ```bash
-python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R12-001
+python3 scripts/continuity.py checkpoint --summary '<完成内容>' --next-step '<下一步>' --parallel-assessment <ASSESSMENT> --parallel-reason '<未委托原因>'
 ```
 
 ## 规则就绪
@@ -42,7 +42,7 @@ baseline_version: 1.2.3
 phase: R12
 active_release: R12
 active_task: TASK-R12-001
-status: READY
+status: IN_PROGRESS
 documentation_status: ZERO_BLOCKING_DOCUMENT_GAPS
 last_green_commit: 6bd3313e087de6afc6f7189c6a1791a9a198ae7f
 last_staging_apk: null
@@ -150,14 +150,15 @@ completed_tasks:
 - TASK-R11-006
 - TASK-R11-007
 - TASK-R11-008
-in_progress_tasks: []
+in_progress_tasks:
+- TASK-R12-001
 blocked_tasks:
 - TASK-R02-007
 - TASK-R03-007
 - TASK-R06-008
 - TASK-R07-008
 next_task: TASK-R12-001
-updated_at: '2026-07-24T14:43:44Z'
+updated_at: '2026-07-24T15:59:08Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -189,17 +190,19 @@ validation:
 continuity:
   protocol_version: '1.0'
   mode: ENFORCED
-  active_session_id: null
-  last_session_id: SES-20260724T110611Z-0D26E8D5
-  last_session_result: COMPLETED
-  last_checkpoint: .continuity/checkpoints/SES-20260724T110611Z-0D26E8D5/0006.yaml
-  last_handoff_bundle: null
+  active_session_id: SES-20260724T144831Z-B2E27A89
+  actor_id: codex-root-r12-entry
+  story_id: STORY-R12-008
+  lease_expires_at: '2026-07-24T19:59:08Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260724T144831Z-B2E27A89/0002.yaml
+  project_fingerprint: dcd5086640ab6343cc0d5bbc5c9dc2071190848807c5482ffff0e2f4c5f5ff83
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: 8e2fccaaeb4cbc52892789250808eb908b23011106010a667d26cd179a29bffc
-    generated_at: '2026-07-24T14:43:42Z'
+    context_hash: 5a283e4c7f5a522183076300e2f2212066d9d0067ee71542af690a87ee3f2e2f
+    generated_at: '2026-07-24T15:46:38Z'
+  handoff_bundle: null
 ```
 
 ## 默认并行规则
@@ -386,13 +389,491 @@ next_after: 由当前TASKS.yaml依赖关系决定
 ## 活跃会话
 
 ```yaml
-status: NONE
+protocol_version: '1.0'
+package_version: 1.2.3
+session_id: SES-20260724T144831Z-B2E27A89
+status: ACTIVE
+actor:
+  id: codex-root-r12-entry
+  kind: AI_OR_HUMAN
+  host: unknown
+release: R12
+task_id: TASK-R12-001
+story_id: STORY-R12-008
+goal: 核验R12全部DoR、故事、页面、接口、数据、配置、测试和依赖基线，建立可执行变更边界并进入统一发布与发布管理开发
+started_at: '2026-07-24T14:48:31Z'
+updated_at: '2026-07-24T15:59:08Z'
+takeover_of: null
+change_requests:
+- CR-0313
+- CR-0314
+- CR-0315
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions: []
+  source: story+explicit
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  base_commit: 186a6cbddee8da6a9f6c74b4190f8550dbc4dee3
+  start_head: 186a6cbddee8da6a9f6c74b4190f8550dbc4dee3
+  upstream: origin/task/TASK-R03-001
+  initial_worktree_state: CLEAN
+lease:
+  duration_minutes: 240
+  renewed_at: '2026-07-24T15:59:08Z'
+  expires_at: '2026-07-24T19:59:08Z'
+checkpoint_sequence: 2
+latest_checkpoint: .continuity/checkpoints/SES-20260724T144831Z-B2E27A89/0002.yaml
+session_log: docs/03-continuity/sessions/2026-07/SES-20260724T144831Z-B2E27A89.md
+next_step: 复跑严格连续性，通过后提交推送TASK-R12-001入口基线并执行会话关闭
+context_pack: THIS_CONTEXT_PACK
+handoff_bundle: null
+closure: null
+parallel_execution:
+  assessment: DELEGATED
+  delegated_workers: 1
+  workers:
+  - worker_id: r12_visual_audit
+    responsibility: 只读审计R12十一页视觉绑定与效果图精确复用
+    allowed_paths:
+    - catalogs/ui_reference_index.csv
+    - design/effect-previews/**
+  reason: 只读视觉审计已独立完成；主控串行整合CR、Manifest、页面目录与连续性事实源
 ```
 
 ## 最新检查点
 
 ```yaml
-status: NO_CHECKPOINT
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260724T144831Z-B2E27A89-0002
+session_id: SES-20260724T144831Z-B2E27A89
+task_id: TASK-R12-001
+story_id: STORY-R12-008
+sequence: 2
+created_at: '2026-07-24T15:59:07Z'
+summary: R12入口开发就绪状态、CR实施记录与全部轻量门禁证据已回填
+next_step: 复跑严格连续性，通过后提交推送TASK-R12-001入口基线并执行会话关闭
+blockers: []
+decisions:
+- R12状态晋升DEVELOPMENT_READY；完整Android和模拟器仅TASK-R12-007最终候选执行
+note: ''
+tests:
+- name: r12-strict-documentation
+  result: PASS
+  evidence: scripts/check_v122_documentation.py --strict --release R12
+  note: 0 errors 0 warnings
+- name: generated-assets
+  result: PASS
+  evidence: scripts/check_generated_assets.py
+  note: Android前端OpenAPI运行时合同一致
+- name: program-plan
+  result: PASS
+  evidence: scripts/check_program_execution_plan.py
+  note: 31 releases 0 errors
+- name: release-artifacts
+  result: PASS
+  evidence: scripts/check_release_artifacts.py --release R12
+  note: R12结构完整
+- name: r12-exact-visual-bindings
+  result: PASS
+  evidence: catalogs/screen_visual_binding.csv;catalogs/ui_page_specifications.csv
+  note: 11页无TOKENS_ONLY或P01-P08范围引用
+- name: git-diff-check
+  result: PASS
+  evidence: git diff --check
+  note: 无空白错误
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: 186a6cbddee8da6a9f6c74b4190f8550dbc4dee3
+  upstream: origin/task/TASK-R03-001
+  ahead: 0
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/ACTIVE_SESSION.yaml'
+  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/SESSION_INDEX.yaml'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/TASK_CLAIMS.yaml'
+  - ' M .continuity/TASK_TRANSITIONS.yaml'
+  - ' M CHANGELOG.md'
+  - ' M CURRENT_STATUS.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+  - ' M artifacts/validation/project-doctor-v1.2.2.json'
+  - ' M artifacts/validation/project-doctor-v1.2.3.json'
+  - ' M catalogs/change_request_index.csv'
+  - ' M catalogs/screen_visual_binding.csv'
+  - ' M catalogs/session_index.csv'
+  - ' M catalogs/task_transition_ledger.csv'
+  - ' M catalogs/ui_page_specifications.csv'
+  - ' M docs/02-ui/page-specs/admin/ADM-REVIEW-001_审核队列.md'
+  - ' M docs/02-ui/page-specs/android/SCR-ME-001_我的首页.md'
+  - ' M docs/02-ui/page-specs/android/SCR-ME-002_个人资料.md'
+  - ' M docs/02-ui/page-specs/android/SCR-MYC-001_我的发布.md'
+  - ' M docs/02-ui/page-specs/android/SCR-MYC-002_草稿箱.md'
+  - ' M docs/02-ui/page-specs/android/SCR-MYC-003_内容管理详情.md'
+  - ' M docs/02-ui/page-specs/android/SCR-MYC-004_审核记录.md'
+  - ' M docs/02-ui/page-specs/android/SCR-MYC-005_内容数据.md'
+  - ' M docs/02-ui/page-specs/android/SCR-PUB-001_发布入口.md'
+  - ' M docs/02-ui/page-specs/android/SCR-PUB-006_发布预览.md'
+  - ' M docs/02-ui/page-specs/android/SCR-PUB-007_提交结果.md'
+  - ' M releases/R12/RELEASE_MANIFEST.yaml'
+  - ' M releases/R12/STORIES.yaml'
+  - ?? .continuity/change_requests/CR-0313.yaml
+  - ?? .continuity/change_requests/CR-0314.yaml
+  - ?? .continuity/change_requests/CR-0315.yaml
+  - ?? .continuity/checkpoints/SES-20260724T144831Z-B2E27A89/0001.yaml
+  - ?? .continuity/sessions/SES-20260724T144831Z-B2E27A89.yaml
+  - ?? design/R12-UI-FROZEN/VISUAL_COVERAGE_AUDIT.md
+  - ?? design/R12-UI-FROZEN/specs/ADM-REVIEW-001.md
+  - ?? design/R12-UI-FROZEN/specs/SCR-ME-001.md
+  - ?? design/R12-UI-FROZEN/specs/SCR-ME-002.md
+  - ?? design/R12-UI-FROZEN/specs/SCR-MYC-001.md
+  - ?? design/R12-UI-FROZEN/specs/SCR-MYC-002.md
+  - ?? design/R12-UI-FROZEN/specs/SCR-MYC-003.md
+  - ?? design/R12-UI-FROZEN/specs/SCR-MYC-004.md
+  - ?? design/R12-UI-FROZEN/specs/SCR-MYC-005.md
+  - ?? design/R12-UI-FROZEN/specs/SCR-PUB-001.md
+  - ?? design/R12-UI-FROZEN/specs/SCR-PUB-006.md
+  - ?? design/R12-UI-FROZEN/specs/SCR-PUB-007.md
+  - ?? docs/03-continuity/R12_TASK-001_ENTRY_GATE.md
+  - ?? docs/03-continuity/change-requests/CR-0313-建立R12开发入口执行计划与十一页精确视觉基线.md
+  - ?? docs/03-continuity/change-requests/CR-0314-校正并建立R12开发入口执行计划与十一页精确视觉基线.md
+  - ?? docs/03-continuity/change-requests/CR-0315-同步R12十一页视觉基线到页面施工文档.md
+  - ?? docs/03-continuity/sessions/2026-07/SES-20260724T144831Z-B2E27A89.md
+  - ?? releases/R12/PARALLEL_EXECUTION_PLAN.yaml
+  recent_commits:
+  - "186a6cbddee8da6a9f6c74b4190f8550dbc4dee3\t2026-07-24T22:45:56+08:00\tHHY Continuity Bootstrap\t[STORY-R11-004] chore(continuity): close TASK-R11-008\
+    \ as completed"
+  - "b197e7d9c753f41914e270ce108b4a0c897df3fe\t2026-07-24T22:41:56+08:00\tHHY Continuity Bootstrap\t[STORY-R11-004] chore(continuity): close R11\
+    \ workflow CRs"
+  - "6bd3313e087de6afc6f7189c6a1791a9a198ae7f\t2026-07-24T22:16:23+08:00\tHHY Continuity Bootstrap\t[STORY-R11-004] fix(workflow): close R11 without\
+    \ duplicate local builds"
+  - "a4772fbdbb703ee2c824c06cd0916fade1701f9d\t2026-07-24T19:02:18+08:00\tHHY Continuity Bootstrap\t[STORY-R11-004] chore(continuity): close TASK-R11-007\
+    \ as completed"
+  - "c64e8a630336c0e41f49a1335f71c661e3417dbf\t2026-07-24T17:27:43+08:00\tHHY Continuity Bootstrap\t[STORY-R11-004] test(android): publish R11\
+    \ test APK"
+  - "2a2b2c10fa859f65985181ebe16a938cbe28d3f7\t2026-07-24T15:00:02+08:00\tHHY Continuity Bootstrap\t[STORY-R11-004] test(android): approve R11\
+    \ visual baseline"
+  - "a3c32668ae1d6502d859efd3e8c18947f650e150\t2026-07-24T13:27:11+08:00\tHHY Continuity Bootstrap\t[STORY-R11-004] fix(r11): replace reused app\
+    \ logo media"
+  - "df22a0918fc80d3729aea2bfb47d3232f726ae0b\t2026-07-24T12:14:32+08:00\tHHY Continuity Bootstrap\t[STORY-R11-004] test(r11): bind final Android\
+    \ candidate"
+project_fingerprint:
+  sha256: dcd5086640ab6343cc0d5bbc5c9dc2071190848807c5482ffff0e2f4c5f5ff83
+  files:
+  - CHANGELOG.md
+  - catalogs/screen_visual_binding.csv
+  - catalogs/ui_page_specifications.csv
+  - design/R12-UI-FROZEN/VISUAL_COVERAGE_AUDIT.md
+  - design/R12-UI-FROZEN/specs/ADM-REVIEW-001.md
+  - design/R12-UI-FROZEN/specs/SCR-ME-001.md
+  - design/R12-UI-FROZEN/specs/SCR-ME-002.md
+  - design/R12-UI-FROZEN/specs/SCR-MYC-001.md
+  - design/R12-UI-FROZEN/specs/SCR-MYC-002.md
+  - design/R12-UI-FROZEN/specs/SCR-MYC-003.md
+  - design/R12-UI-FROZEN/specs/SCR-MYC-004.md
+  - design/R12-UI-FROZEN/specs/SCR-MYC-005.md
+  - design/R12-UI-FROZEN/specs/SCR-PUB-001.md
+  - design/R12-UI-FROZEN/specs/SCR-PUB-006.md
+  - design/R12-UI-FROZEN/specs/SCR-PUB-007.md
+  - docs/02-ui/page-specs/admin/ADM-REVIEW-001_审核队列.md
+  - docs/02-ui/page-specs/android/SCR-ME-001_我的首页.md
+  - docs/02-ui/page-specs/android/SCR-ME-002_个人资料.md
+  - docs/02-ui/page-specs/android/SCR-MYC-001_我的发布.md
+  - docs/02-ui/page-specs/android/SCR-MYC-002_草稿箱.md
+  - docs/02-ui/page-specs/android/SCR-MYC-003_内容管理详情.md
+  - docs/02-ui/page-specs/android/SCR-MYC-004_审核记录.md
+  - docs/02-ui/page-specs/android/SCR-MYC-005_内容数据.md
+  - docs/02-ui/page-specs/android/SCR-PUB-001_发布入口.md
+  - docs/02-ui/page-specs/android/SCR-PUB-006_发布预览.md
+  - docs/02-ui/page-specs/android/SCR-PUB-007_提交结果.md
+  - docs/03-continuity/R12_TASK-001_ENTRY_GATE.md
+  - docs/03-continuity/change-requests/CR-0313-建立R12开发入口执行计划与十一页精确视觉基线.md
+  - docs/03-continuity/change-requests/CR-0314-校正并建立R12开发入口执行计划与十一页精确视觉基线.md
+  - docs/03-continuity/change-requests/CR-0315-同步R12十一页视觉基线到页面施工文档.md
+  - releases/R12/PARALLEL_EXECUTION_PLAN.yaml
+  - releases/R12/RELEASE_MANIFEST.yaml
+  - releases/R12/STORIES.yaml
+  file_count: 33
+  payload:
+    base_commit: 186a6cbddee8da6a9f6c74b4190f8550dbc4dee3
+    files:
+    - path: CHANGELOG.md
+      state: FILE
+      size: 126680
+      sha256: 68899193790795773e27446b9ef717af5d972bbedd1e4c3a3b14c0c3e9cccf32
+    - path: catalogs/screen_visual_binding.csv
+      state: FILE
+      size: 14746
+      sha256: 0de74944aa90b7fa987f11cb749eb2d9b8d7dc287d382646d5a53002470bb376
+    - path: catalogs/ui_page_specifications.csv
+      state: FILE
+      size: 293576
+      sha256: 7297f0f897512d2dba5d5b14ef20940d4f2a3809e2a0639f59e82deeb67d7544
+    - path: design/R12-UI-FROZEN/VISUAL_COVERAGE_AUDIT.md
+      state: FILE
+      size: 1497
+      sha256: e649bc205791077fa8d19d9369f8c577440bac68c9f275902dbd88fc63ee0593
+    - path: design/R12-UI-FROZEN/specs/ADM-REVIEW-001.md
+      state: FILE
+      size: 774
+      sha256: 4dc763c4252bcce64ac6b6c9d2a141bba6655f5bcc4f0f6d19ee8ee59cb70a1e
+    - path: design/R12-UI-FROZEN/specs/SCR-ME-001.md
+      state: FILE
+      size: 534
+      sha256: 84814f3ff184e67316844cbbe3370816d10d7e5de1e2a4d1a8a9769ff62a0782
+    - path: design/R12-UI-FROZEN/specs/SCR-ME-002.md
+      state: FILE
+      size: 664
+      sha256: b07977de9853434064578c5feb770be7206db9cd9cba9743da2d9522703b4861
+    - path: design/R12-UI-FROZEN/specs/SCR-MYC-001.md
+      state: FILE
+      size: 518
+      sha256: 0e47dbf825b49e2eac08f53347349da98b6bf2f1aeeb62c093277791e484f95d
+    - path: design/R12-UI-FROZEN/specs/SCR-MYC-002.md
+      state: FILE
+      size: 619
+      sha256: af80dd327a41bb9b6a400ac514d0f3afbbffe7d8a8995673402a728f1fc4cfc6
+    - path: design/R12-UI-FROZEN/specs/SCR-MYC-003.md
+      state: FILE
+      size: 552
+      sha256: 6a00206dcba82a87c237d06d8d337222c239f9c1d4d62027fccb47d8dd1aa211
+    - path: design/R12-UI-FROZEN/specs/SCR-MYC-004.md
+      state: FILE
+      size: 640
+      sha256: 950876f8ec5a451a19d18ec344c3ece81974093d001dbe512e29c75a636fec85
+    - path: design/R12-UI-FROZEN/specs/SCR-MYC-005.md
+      state: FILE
+      size: 518
+      sha256: 574ead5b216247bfac170ece4d967eaa31458ff9388cb4553003552929b6504d
+    - path: design/R12-UI-FROZEN/specs/SCR-PUB-001.md
+      state: FILE
+      size: 588
+      sha256: 658d82392ea67caca3180ff89883a96ceb289eaeef3b080b74beb2d5b991d9db
+    - path: design/R12-UI-FROZEN/specs/SCR-PUB-006.md
+      state: FILE
+      size: 540
+      sha256: 987b93fda96bf2c4bdc8faad14e819b397023f26562c2680b4b22ebd49754963
+    - path: design/R12-UI-FROZEN/specs/SCR-PUB-007.md
+      state: FILE
+      size: 637
+      sha256: 9f45a3b90979e6b96e492c16826f44f654dd657617dae4d310c33b9bd9766933
+    - path: docs/02-ui/page-specs/admin/ADM-REVIEW-001_审核队列.md
+      state: FILE
+      size: 32379
+      sha256: 71dcbfca27770e4a7149da324aa54b4641b0f5786884d2a637e37330d9a95098
+    - path: docs/02-ui/page-specs/android/SCR-ME-001_我的首页.md
+      state: FILE
+      size: 19350
+      sha256: 8767fea46a462f65d32276d7bb34ab6d54cab9b67faeb2537f1678276044c0eb
+    - path: docs/02-ui/page-specs/android/SCR-ME-002_个人资料.md
+      state: FILE
+      size: 16284
+      sha256: 131c47fe7b578a2100e66e3fd8f6fac13ff031510f1c5c42eba67119bd4e13f9
+    - path: docs/02-ui/page-specs/android/SCR-MYC-001_我的发布.md
+      state: FILE
+      size: 27331
+      sha256: b582ed68f6645bbd17f59df8c3648fa7502fa3284bf53fd7c87ffba881db4be2
+    - path: docs/02-ui/page-specs/android/SCR-MYC-002_草稿箱.md
+      state: FILE
+      size: 24267
+      sha256: f04f2d0a69605852f58dacab4960687311f95a0608c3e0f72d0b2b4cc2d06c67
+    - path: docs/02-ui/page-specs/android/SCR-MYC-003_内容管理详情.md
+      state: FILE
+      size: 27093
+      sha256: 7f9382016b3db378fd2c7fe03d298674b1c4880de75c4e9d4aa7ea8ddc40e012
+    - path: docs/02-ui/page-specs/android/SCR-MYC-004_审核记录.md
+      state: FILE
+      size: 24227
+      sha256: 5a1a5874979cdbeb8d6892c364612e58f2981ce64f5b1dc0f7eb8a7b0114bbb5
+    - path: docs/02-ui/page-specs/android/SCR-MYC-005_内容数据.md
+      state: FILE
+      size: 23230
+      sha256: b5207c894d732370478288d0b7969d9abea3a1957a6f7117b8520c0b5c183115
+    - path: docs/02-ui/page-specs/android/SCR-PUB-001_发布入口.md
+      state: FILE
+      size: 25624
+      sha256: f2a6f22011f10b8bb226fe0f038b232a348a11c800a79602d4f30dcf9cd45962
+    - path: docs/02-ui/page-specs/android/SCR-PUB-006_发布预览.md
+      state: FILE
+      size: 16163
+      sha256: 7ac2c16e00ce224d629104fa77187ecf88def7b084464b4488ced616416b3f40
+    - path: docs/02-ui/page-specs/android/SCR-PUB-007_提交结果.md
+      state: FILE
+      size: 10058
+      sha256: e79213f978df6dbf59afd6b7cb855bd282e773af721418d5d8a6d0cd1cfa9288
+    - path: docs/03-continuity/R12_TASK-001_ENTRY_GATE.md
+      state: FILE
+      size: 1724
+      sha256: 915d83cb1c8871656deb407dfa3bea2299cc4bdc899ed68653f8360c83401970
+    - path: docs/03-continuity/change-requests/CR-0313-建立R12开发入口执行计划与十一页精确视觉基线.md
+      state: FILE
+      size: 4695
+      sha256: 153f7a309a3e0424765f4af82efd036ae73368ee0c4320801e035b2edb5365b2
+    - path: docs/03-continuity/change-requests/CR-0314-校正并建立R12开发入口执行计划与十一页精确视觉基线.md
+      state: FILE
+      size: 4857
+      sha256: d551893143f380dc6cde6550cb9f01525806272b6bf3de77a1268256bf8d5aec
+    - path: docs/03-continuity/change-requests/CR-0315-同步R12十一页视觉基线到页面施工文档.md
+      state: FILE
+      size: 3360
+      sha256: 0514536c4aba97a4357d71e760669bfc4ba251ebf694906655587e542835cf93
+    - path: releases/R12/PARALLEL_EXECUTION_PLAN.yaml
+      state: FILE
+      size: 2797
+      sha256: 2ddbee414a51a868b63331992e2e04c5400846cf6012474aab406e067e532e98
+    - path: releases/R12/RELEASE_MANIFEST.yaml
+      state: FILE
+      size: 4526
+      sha256: ac75bf100563ab4498d732adf95367ebe636c6199d87d619d15d27592eda2a99
+    - path: releases/R12/STORIES.yaml
+      state: FILE
+      size: 23128
+      sha256: 236bec910beb1ba15779990fc717d97fcd9a8a18e59f04beff9346a5da232bda
+change_classification:
+  other:
+  - CHANGELOG.md
+  - catalogs/screen_visual_binding.csv
+  - design/R12-UI-FROZEN/VISUAL_COVERAGE_AUDIT.md
+  - design/R12-UI-FROZEN/specs/ADM-REVIEW-001.md
+  - design/R12-UI-FROZEN/specs/SCR-ME-001.md
+  - design/R12-UI-FROZEN/specs/SCR-ME-002.md
+  - design/R12-UI-FROZEN/specs/SCR-MYC-001.md
+  - design/R12-UI-FROZEN/specs/SCR-MYC-002.md
+  - design/R12-UI-FROZEN/specs/SCR-MYC-003.md
+  - design/R12-UI-FROZEN/specs/SCR-MYC-004.md
+  - design/R12-UI-FROZEN/specs/SCR-MYC-005.md
+  - design/R12-UI-FROZEN/specs/SCR-PUB-001.md
+  - design/R12-UI-FROZEN/specs/SCR-PUB-006.md
+  - design/R12-UI-FROZEN/specs/SCR-PUB-007.md
+  - releases/R12/PARALLEL_EXECUTION_PLAN.yaml
+  source_of_truth:
+  - catalogs/ui_page_specifications.csv
+  - docs/02-ui/page-specs/admin/ADM-REVIEW-001_审核队列.md
+  - docs/02-ui/page-specs/android/SCR-ME-001_我的首页.md
+  - docs/02-ui/page-specs/android/SCR-ME-002_个人资料.md
+  - docs/02-ui/page-specs/android/SCR-MYC-001_我的发布.md
+  - docs/02-ui/page-specs/android/SCR-MYC-002_草稿箱.md
+  - docs/02-ui/page-specs/android/SCR-MYC-003_内容管理详情.md
+  - docs/02-ui/page-specs/android/SCR-MYC-004_审核记录.md
+  - docs/02-ui/page-specs/android/SCR-MYC-005_内容数据.md
+  - docs/02-ui/page-specs/android/SCR-PUB-001_发布入口.md
+  - docs/02-ui/page-specs/android/SCR-PUB-006_发布预览.md
+  - docs/02-ui/page-specs/android/SCR-PUB-007_提交结果.md
+  - releases/R12/RELEASE_MANIFEST.yaml
+  - releases/R12/STORIES.yaml
+  user_visible:
+  - docs/02-ui/page-specs/admin/ADM-REVIEW-001_审核队列.md
+  - docs/02-ui/page-specs/android/SCR-ME-001_我的首页.md
+  - docs/02-ui/page-specs/android/SCR-ME-002_个人资料.md
+  - docs/02-ui/page-specs/android/SCR-MYC-001_我的发布.md
+  - docs/02-ui/page-specs/android/SCR-MYC-002_草稿箱.md
+  - docs/02-ui/page-specs/android/SCR-MYC-003_内容管理详情.md
+  - docs/02-ui/page-specs/android/SCR-MYC-004_审核记录.md
+  - docs/02-ui/page-specs/android/SCR-MYC-005_内容数据.md
+  - docs/02-ui/page-specs/android/SCR-PUB-001_发布入口.md
+  - docs/02-ui/page-specs/android/SCR-PUB-006_发布预览.md
+  - docs/02-ui/page-specs/android/SCR-PUB-007_提交结果.md
+  continuity:
+  - docs/03-continuity/R12_TASK-001_ENTRY_GATE.md
+  - docs/03-continuity/change-requests/CR-0313-建立R12开发入口执行计划与十一页精确视觉基线.md
+  - docs/03-continuity/change-requests/CR-0314-校正并建立R12开发入口执行计划与十一页精确视觉基线.md
+  - docs/03-continuity/change-requests/CR-0315-同步R12十一页视觉基线到页面施工文档.md
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+- APPROVED_CHANGE_REQUEST
+- CHANGELOG
+change_requests:
+- CR-0313
+- CR-0314
+- CR-0315
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions: []
+  source: story+explicit
+parallel_execution:
+  assessment: DELEGATED
+  delegated_workers: 1
+  workers:
+  - worker_id: r12_visual_audit
+    responsibility: 只读审计R12十一页视觉绑定与效果图精确复用
+    allowed_paths:
+    - catalogs/ui_reference_index.csv
+    - design/effect-previews/**
+  reason: 只读视觉审计已独立完成；主控串行整合CR、Manifest、页面目录与连续性事实源
+event_hash: 1a546043e94e6cc98a21cbadab9c5c6ff6ca34dcae9021fd92ef3b0cdb9d0327
 ```
 
 ## 接续状态与事件头
@@ -400,31 +881,19 @@ status: NO_CHECKPOINT
 ```yaml
 mode: ENFORCED
 protocol_version: '1.0'
-active_session_id: null
+active_session_id: SES-20260724T144831Z-B2E27A89
 last_session_id: SES-20260724T110611Z-0D26E8D5
 last_session_result: COMPLETED
 last_closure_checkpoint_id: CP-SES-20260724T110611Z-0D26E8D5-0006
-event_count: 3039
-event_head_hash: 1a0e28e99b41cce48eb7b2891f456ba0ee9a845651ddc46b2309595897a99dfb
+event_count: 3056
+event_head_hash: 1a546043e94e6cc98a21cbadab9c5c6ff6ca34dcae9021fd92ef3b0cdb9d0327
 event_chain_valid: true
 ```
 
 ## 最近会话与任务迁移
 
 ```yaml
-recent_sessions: - session_id: SES-20260723T122953Z-52EBA51E
-  task_id: TASK-R10-007
-  story_id: STORY-R10-004
-  actor_id: codex-root-r10-candidate
-  status: CLOSED
-  started_at: '2026-07-23T12:29:53Z'
-  record: .continuity/sessions/SES-20260723T122953Z-52EBA51E.yaml
-  session_log: docs/03-continuity/sessions/2026-07/SES-20260723T122953Z-52EBA51E.md
-  updated_at: '2026-07-23T16:49:16Z'
-  closed_at: '2026-07-23T16:49:16Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260723T122953Z-52EBA51E/0011.yaml
-  handoff_bundle: null
-- session_id: SES-20260723T165113Z-58C6D99A
+recent_sessions: - session_id: SES-20260723T165113Z-58C6D99A
   task_id: TASK-R10-008
   story_id: STORY-R10-004
   actor_id: codex-root-r10-close
@@ -532,51 +1001,19 @@ recent_sessions: - session_id: SES-20260723T122953Z-52EBA51E
   closed_at: '2026-07-24T14:43:44Z'
   latest_checkpoint: .continuity/checkpoints/SES-20260724T110611Z-0D26E8D5/0006.yaml
   handoff_bundle: null
-task_claims: - claim_id: CLM-A7041AA004B4
-  session_id: SES-20260722T194140Z-BCF8BB57
-  task_id: TASK-R09-005
-  story_id: STORY-R09-004
-  actor_id: codex-root-r09-tests
-  status: CLOSED
-  claimed_at: '2026-07-22T19:41:40Z'
-  allowed_paths:
-  - apps/**
-  - services/**
-  - packages/**
-  - contracts/**
-  - database/**
-  - config/**
-  - catalogs/**
-  - tests/**
-  - infra/**
-  - design/**
-  - docs/**
-  - releases/**
-  - scripts/**
-  - templates/**
-  - .github/**
-  - .githooks/**
-  - .codex/**
-  - AGENTS.md
-  - START_HERE.md
-  - README.md
-  - CHANGELOG.md
-  - Makefile
-  - .gitignore
-  - .gitattributes
-  - .dockerignore
-  - package.json
-  - pnpm-lock.yaml
-  - pnpm-workspace.yaml
-  - requirements-dev.txt
-  - PROJECT_*.yaml
-  - PROJECT_*.json
-  - tests/r09/**
-  - services/backend/boot/src/test/**
-  - artifacts/reports/R09/**
-  - catalogs/test_cases.csv
-  closed_at: '2026-07-22T20:02:52Z'
-- claim_id: CLM-A8417F3CA922
+- session_id: SES-20260724T144831Z-B2E27A89
+  task_id: TASK-R12-001
+  story_id: STORY-R12-008
+  actor_id: codex-root-r12-entry
+  status: ACTIVE
+  started_at: '2026-07-24T14:48:31Z'
+  record: .continuity/sessions/SES-20260724T144831Z-B2E27A89.yaml
+  session_log: docs/03-continuity/sessions/2026-07/SES-20260724T144831Z-B2E27A89.md
+  updated_at: '2026-07-24T15:59:08Z'
+  closed_at: null
+  latest_checkpoint: .continuity/checkpoints/SES-20260724T144831Z-B2E27A89/0002.yaml
+  handoff_bundle: null
+task_claims: - claim_id: CLM-A8417F3CA922
   session_id: SES-20260722T200509Z-8FC026EC
   task_id: TASK-R09-006
   story_id: STORY-R09-004
@@ -1329,17 +1766,46 @@ task_claims: - claim_id: CLM-A7041AA004B4
   - PROJECT_*.yaml
   - PROJECT_*.json
   closed_at: '2026-07-24T14:43:44Z'
-recent_task_transitions: - transition_id: TRN-5632B808A1AA
-  timestamp: '2026-07-22T19:41:42Z'
-  release: R09
-  task_id: TASK-R09-005
-  story_id: STORY-R09-004
-  from_status: READY
-  to_status: IN_PROGRESS
-  session_id: SES-20260722T194140Z-BCF8BB57
-  actor_id: codex-root-r09-tests
-  reason: 会话领取任务
-- transition_id: TRN-80E58783ECAE
+- claim_id: CLM-934255B497B2
+  session_id: SES-20260724T144831Z-B2E27A89
+  task_id: TASK-R12-001
+  story_id: STORY-R12-008
+  actor_id: codex-root-r12-entry
+  status: ACTIVE
+  claimed_at: '2026-07-24T14:48:31Z'
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+recent_task_transitions: - transition_id: TRN-80E58783ECAE
   timestamp: '2026-07-22T20:05:11Z'
   release: R09
   task_id: TASK-R09-006
@@ -1529,6 +1995,16 @@ recent_task_transitions: - transition_id: TRN-5632B808A1AA
   session_id: SES-20260724T110611Z-0D26E8D5
   actor_id: codex-root-r11-close
   reason: 会话领取任务
+- transition_id: TRN-93DAF4407356
+  timestamp: '2026-07-24T14:48:33Z'
+  release: R12
+  task_id: TASK-R12-001
+  story_id: STORY-R12-008
+  from_status: READY
+  to_status: IN_PROGRESS
+  session_id: SES-20260724T144831Z-B2E27A89
+  actor_id: codex-root-r12-entry
+  reason: 会话领取任务
 ```
 
 ## Git 状态
@@ -1536,29 +2012,71 @@ recent_task_transitions: - transition_id: TRN-5632B808A1AA
 ```yaml
 initialized: true
 branch: task/TASK-R03-001
-head: b197e7d9c753f41914e270ce108b4a0c897df3fe
+head: 186a6cbddee8da6a9f6c74b4190f8550dbc4dee3
 upstream: origin/task/TASK-R03-001
 ahead: 0
 behind: 0
 dirty: true
 status_porcelain:
 - ' M .continuity/ACTIVE_SESSION.yaml'
+- ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
 - ' M .continuity/EVENT_LOG.jsonl'
 - ' M .continuity/SESSION_INDEX.yaml'
 - ' M .continuity/STATE.yaml'
 - ' M .continuity/TASK_CLAIMS.yaml'
-- ' M .continuity/sessions/SES-20260724T110611Z-0D26E8D5.yaml'
+- ' M .continuity/TASK_TRANSITIONS.yaml'
 - ' M CHANGELOG.md'
 - ' M CURRENT_STATUS.yaml'
-- ' M NEXT_TASK.yaml'
 - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
 - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
 - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+- ' M artifacts/validation/project-doctor-v1.2.2.json'
+- ' M artifacts/validation/project-doctor-v1.2.3.json'
+- ' M catalogs/change_request_index.csv'
+- ' M catalogs/screen_visual_binding.csv'
 - ' M catalogs/session_index.csv'
-- ' M docs/03-continuity/sessions/2026-07/SES-20260724T110611Z-0D26E8D5.md'
-- ' M releases/R11/TASKS.yaml'
-- ?? .continuity/checkpoints/SES-20260724T110611Z-0D26E8D5/0006.yaml
+- ' M catalogs/task_transition_ledger.csv'
+- ' M catalogs/ui_page_specifications.csv'
+- ' M docs/02-ui/page-specs/admin/ADM-REVIEW-001_审核队列.md'
+- ' M docs/02-ui/page-specs/android/SCR-ME-001_我的首页.md'
+- ' M docs/02-ui/page-specs/android/SCR-ME-002_个人资料.md'
+- ' M docs/02-ui/page-specs/android/SCR-MYC-001_我的发布.md'
+- ' M docs/02-ui/page-specs/android/SCR-MYC-002_草稿箱.md'
+- ' M docs/02-ui/page-specs/android/SCR-MYC-003_内容管理详情.md'
+- ' M docs/02-ui/page-specs/android/SCR-MYC-004_审核记录.md'
+- ' M docs/02-ui/page-specs/android/SCR-MYC-005_内容数据.md'
+- ' M docs/02-ui/page-specs/android/SCR-PUB-001_发布入口.md'
+- ' M docs/02-ui/page-specs/android/SCR-PUB-006_发布预览.md'
+- ' M docs/02-ui/page-specs/android/SCR-PUB-007_提交结果.md'
+- ' M releases/R12/RELEASE_MANIFEST.yaml'
+- ' M releases/R12/STORIES.yaml'
+- ?? .continuity/change_requests/CR-0313.yaml
+- ?? .continuity/change_requests/CR-0314.yaml
+- ?? .continuity/change_requests/CR-0315.yaml
+- ?? .continuity/checkpoints/SES-20260724T144831Z-B2E27A89/0001.yaml
+- ?? .continuity/checkpoints/SES-20260724T144831Z-B2E27A89/0002.yaml
+- ?? .continuity/sessions/SES-20260724T144831Z-B2E27A89.yaml
+- ?? design/R12-UI-FROZEN/VISUAL_COVERAGE_AUDIT.md
+- ?? design/R12-UI-FROZEN/specs/ADM-REVIEW-001.md
+- ?? design/R12-UI-FROZEN/specs/SCR-ME-001.md
+- ?? design/R12-UI-FROZEN/specs/SCR-ME-002.md
+- ?? design/R12-UI-FROZEN/specs/SCR-MYC-001.md
+- ?? design/R12-UI-FROZEN/specs/SCR-MYC-002.md
+- ?? design/R12-UI-FROZEN/specs/SCR-MYC-003.md
+- ?? design/R12-UI-FROZEN/specs/SCR-MYC-004.md
+- ?? design/R12-UI-FROZEN/specs/SCR-MYC-005.md
+- ?? design/R12-UI-FROZEN/specs/SCR-PUB-001.md
+- ?? design/R12-UI-FROZEN/specs/SCR-PUB-006.md
+- ?? design/R12-UI-FROZEN/specs/SCR-PUB-007.md
+- ?? docs/03-continuity/R12_TASK-001_ENTRY_GATE.md
+- ?? docs/03-continuity/change-requests/CR-0313-建立R12开发入口执行计划与十一页精确视觉基线.md
+- ?? docs/03-continuity/change-requests/CR-0314-校正并建立R12开发入口执行计划与十一页精确视觉基线.md
+- ?? docs/03-continuity/change-requests/CR-0315-同步R12十一页视觉基线到页面施工文档.md
+- ?? docs/03-continuity/sessions/2026-07/SES-20260724T144831Z-B2E27A89.md
+- ?? releases/R12/PARALLEL_EXECUTION_PLAN.yaml
 recent_commits:
+- "186a6cbddee8da6a9f6c74b4190f8550dbc4dee3\t2026-07-24T22:45:56+08:00\tHHY Continuity Bootstrap\t[STORY-R11-004] chore(continuity): close TASK-R11-008\
+  \ as completed"
 - "b197e7d9c753f41914e270ce108b4a0c897df3fe\t2026-07-24T22:41:56+08:00\tHHY Continuity Bootstrap\t[STORY-R11-004] chore(continuity): close R11\
   \ workflow CRs"
 - "6bd3313e087de6afc6f7189c6a1791a9a198ae7f\t2026-07-24T22:16:23+08:00\tHHY Continuity Bootstrap\t[STORY-R11-004] fix(workflow): close R11 without\
@@ -1573,15 +2091,46 @@ recent_commits:
   \ logo media"
 - "df22a0918fc80d3729aea2bfb47d3232f726ae0b\t2026-07-24T12:14:32+08:00\tHHY Continuity Bootstrap\t[STORY-R11-004] test(r11): bind final Android\
   \ candidate"
-- "c20c118ae98a93b3dde28d6901bc10baf98b0402\t2026-07-24T11:21:54+08:00\tHHY Continuity Bootstrap\t[STORY-R11-004] chore(continuity): close TASK-R11-006"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`cbe4002a45b797997b896328ca3057f23796ed2a9031a11e797342b50d3b7f9d`
-- 文件数：0
+- 指纹：`dcd5086640ab6343cc0d5bbc5c9dc2071190848807c5482ffff0e2f4c5f5ff83`
+- 文件数：33
 
-- 无
+- `CHANGELOG.md`
+- `catalogs/screen_visual_binding.csv`
+- `catalogs/ui_page_specifications.csv`
+- `design/R12-UI-FROZEN/VISUAL_COVERAGE_AUDIT.md`
+- `design/R12-UI-FROZEN/specs/ADM-REVIEW-001.md`
+- `design/R12-UI-FROZEN/specs/SCR-ME-001.md`
+- `design/R12-UI-FROZEN/specs/SCR-ME-002.md`
+- `design/R12-UI-FROZEN/specs/SCR-MYC-001.md`
+- `design/R12-UI-FROZEN/specs/SCR-MYC-002.md`
+- `design/R12-UI-FROZEN/specs/SCR-MYC-003.md`
+- `design/R12-UI-FROZEN/specs/SCR-MYC-004.md`
+- `design/R12-UI-FROZEN/specs/SCR-MYC-005.md`
+- `design/R12-UI-FROZEN/specs/SCR-PUB-001.md`
+- `design/R12-UI-FROZEN/specs/SCR-PUB-006.md`
+- `design/R12-UI-FROZEN/specs/SCR-PUB-007.md`
+- `docs/02-ui/page-specs/admin/ADM-REVIEW-001_审核队列.md`
+- `docs/02-ui/page-specs/android/SCR-ME-001_我的首页.md`
+- `docs/02-ui/page-specs/android/SCR-ME-002_个人资料.md`
+- `docs/02-ui/page-specs/android/SCR-MYC-001_我的发布.md`
+- `docs/02-ui/page-specs/android/SCR-MYC-002_草稿箱.md`
+- `docs/02-ui/page-specs/android/SCR-MYC-003_内容管理详情.md`
+- `docs/02-ui/page-specs/android/SCR-MYC-004_审核记录.md`
+- `docs/02-ui/page-specs/android/SCR-MYC-005_内容数据.md`
+- `docs/02-ui/page-specs/android/SCR-PUB-001_发布入口.md`
+- `docs/02-ui/page-specs/android/SCR-PUB-006_发布预览.md`
+- `docs/02-ui/page-specs/android/SCR-PUB-007_提交结果.md`
+- `docs/03-continuity/R12_TASK-001_ENTRY_GATE.md`
+- `docs/03-continuity/change-requests/CR-0313-建立R12开发入口执行计划与十一页精确视觉基线.md`
+- `docs/03-continuity/change-requests/CR-0314-校正并建立R12开发入口执行计划与十一页精确视觉基线.md`
+- `docs/03-continuity/change-requests/CR-0315-同步R12十一页视觉基线到页面施工文档.md`
+- `releases/R12/PARALLEL_EXECUTION_PLAN.yaml`
+- `releases/R12/RELEASE_MANIFEST.yaml`
+- `releases/R12/STORIES.yaml`
 
 ## 当前 Release
 
@@ -1589,7 +2138,7 @@ recent_commits:
 RELEASE_MANIFEST.yaml:
   release: R12
   title: 统一发布与发布管理
-  status: READY_WHEN_DEPENDENCIES_GREEN
+  status: DEVELOPMENT_READY
   milestone: M1_CONTENT_MARKETPLACE
   depends_on:
   - R08
@@ -1656,12 +2205,54 @@ RELEASE_MANIFEST.yaml:
   - TST-PUBLISH_001-REJECT
   - TST-V122-018
   - TST-V122-019
+  entry_baseline:
+    checked_at: '2026-07-24'
+    session_id: SES-20260724T144831Z-B2E27A89
+    story_id: STORY-R12-008
+    change_request: CR-0314
+    documentation_status: PASS_DOCUMENTATION_READY
+    strict_documentation: PASS_0_ERRORS_0_WARNINGS
+    generated_assets: PASS
+    program_execution_plan: PASS_31_RELEASES_0_ERRORS
+    release_artifacts: PASS
+    continuity_gate: PASS
+    exact_visual_binding_check: PASS_11_PAGES
+    cloud_environment_status: PASS
+    dependency_machine_status:
+      R08: MACHINE_COMPLETE_OWNER_PENDING
+      R09: MACHINE_COMPLETE_OWNER_PENDING
+      R10: MACHINE_COMPLETE_OWNER_PENDING
+      R11: MACHINE_COMPLETE_OWNER_PENDING
+    exact_visual_bindings:
+      SCR-PUB-001: B04/P01
+      SCR-PUB-006: B05/P06
+      SCR-PUB-007: SPEC:design/R12-UI-FROZEN/specs/SCR-PUB-007.md
+      SCR-MYC-001: B08/P02
+      SCR-MYC-002: SPEC:design/R12-UI-FROZEN/specs/SCR-MYC-002.md
+      SCR-MYC-003: B08/P03
+      SCR-MYC-004: SPEC:design/R12-UI-FROZEN/specs/SCR-MYC-004.md
+      SCR-MYC-005: B08/P06
+      SCR-ME-001: B08/P01
+      SCR-ME-002: SPEC:design/R12-UI-FROZEN/specs/SCR-ME-002.md
+      ADM-REVIEW-001: SPEC:docs/02-ui/管理后台页面与运营操作完整规格_V1.2.2.md
+    visual_audit: design/R12-UI-FROZEN/VISUAL_COVERAGE_AUDIT.md
+    ui_acceptance_registration:
+      catalog: catalogs/ui_visual_acceptance.csv
+      task: TASK-R12-004
+      initial_status: IN_REVIEW
+      final_candidate_status: PASS_AFTER_REAL_SCREENSHOT_AND_AI_REVIEW
+    delivery_policy:
+      ordinary_task_validation: AFFECTED_FAST_OR_MODULE
+      full_gate_and_emulator: FINAL_CANDIDATE_ONLY_TASK_R12_007
+      machine_close_profile: RELEASE_CLOSE
+      owner_feedback_mode: ASYNC_NON_BLOCKING
   entry_gate:
   - releases/R12/DEFINITION_OF_READY.yaml 全部适用项为PASS
   - releases/R12/STORIES.yaml 中每个故事均绑定页面/API/配置/数据/测试或显式N/A
   - 本版本页面字段、状态、动作、导航和后台运营规格不存在TBD/RELEASE_BOUND
   - 全部依赖版本为GREEN或按发布计划允许的并行依赖已记录
   - 冻结契约发生变化时已创建CR并重新生成追踪和SHA
+  - 十一页均绑定精确面板、批准补充规格或原始ADM标准模板；禁止TOKENS_ONLY、P01-P08范围和同名错配施工
   exit_gate:
   - 领域代码与前端真实闭环
   - 数据库迁移和不变量测试通过
@@ -1908,6 +2499,7 @@ STORIES.yaml:
     - test_engineer
     acceptance_criteria:
     - ADM-REVIEW-001 全部绑定模板 ADM-REVIEW，字段、状态、动作、导航和错误恢复无TBD
+    - ADM-REVIEW-001按原始ADM-REVIEW标准模板、页面规格和管理后台运营规格施工，禁止TOKENS_ONLY或自创后台布局
     - 页面调用 operationId：adminReviewGetReviewsQueue;adminReviewGetReviewsById;adminReportsGetContentReports;adminAppealsGetAppeals;adminReviewPostReviewsByIdDecide;adminReviewPostReviewsByIdAssign；请求/响应字段不得另行发明
     - 按钮显示、可用和确认条件与服务端状态机、权限、expectedVersion、幂等策略一致
     - 首屏、空、刷新、翻页/局部失败、无权限、404、离线和版本冲突状态按页面状态目录实现
@@ -1980,6 +2572,7 @@ STORIES.yaml:
     - test_engineer
     acceptance_criteria:
     - SCR-MYC-003 全部绑定模板 MOB-DETAIL，字段、状态、动作、导航和错误恢复无TBD
+    - SCR-MYC-003精确绑定B08/P03；效果图只约束发布管理详情结构，功能和动作仍来自冻结合同
     - 页面调用 operationId：contentGetContentsById;contentPostContentsByIdCopy;contentGetContentsByIdAnalytics；请求/响应字段不得另行发明
     - 按钮显示、可用和确认条件与服务端状态机、权限、expectedVersion、幂等策略一致
     - 首屏、空、刷新、翻页/局部失败、无权限、404、离线和版本冲突状态按页面状态目录实现
@@ -2063,6 +2656,7 @@ STORIES.yaml:
     - test_engineer
     acceptance_criteria:
     - SCR-MYC-001;SCR-MYC-002;SCR-MYC-004;SCR-MYC-005 全部绑定模板 MOB-LIST，字段、状态、动作、导航和错误恢复无TBD
+    - SCR-MYC-001=B08/P02、SCR-MYC-005=B08/P06；草稿箱和审核记录按CR-0314批准补充规格施工
     - 页面调用 operationId：contentGetMeContents;contentPostContentsByIdOnline;contentPostContentsByIdOffline;contentGetMeDrafts;contentDeleteContentsById;contentGetContentsByIdReviews;contentGetContentsByIdAnalytics；请求/响应字段不得另行发明
     - 按钮显示、可用和确认条件与服务端状态机、权限、expectedVersion、幂等策略一致
     - 首屏、空、刷新、翻页/局部失败、无权限、404、离线和版本冲突状态按页面状态目录实现
@@ -2140,6 +2734,7 @@ STORIES.yaml:
     - test_engineer
     acceptance_criteria:
     - SCR-PUB-001;SCR-PUB-006 全部绑定模板 MOB-FORM，字段、状态、动作、导航和错误恢复无TBD
+    - SCR-PUB-001精确绑定B04/P01四类发布中心，SCR-PUB-006精确绑定B05/P06；禁止误用B05/P01找资源入口业务
     - 页面调用 operationId：userGetMe;contentGetMeContents;contentGetContentsById；请求/响应字段不得另行发明
     - 按钮显示、可用和确认条件与服务端状态机、权限、expectedVersion、幂等策略一致
     - 首屏、空、刷新、翻页/局部失败、无权限、404、离线和版本冲突状态按页面状态目录实现
@@ -2205,6 +2800,7 @@ STORIES.yaml:
     - test_engineer
     acceptance_criteria:
     - SCR-PUB-007 全部绑定模板 MOB-STATUS，字段、状态、动作、导航和错误恢复无TBD
+    - SCR-PUB-007按批准补充规格复用B05/P07与B06/P07/P08，完整覆盖成功、待审、驳回和失败恢复
     - 页面调用 operationId：contentPostContentsByIdSubmit；请求/响应字段不得另行发明
     - 按钮显示、可用和确认条件与服务端状态机、权限、expectedVersion、幂等策略一致
     - 首屏、空、刷新、翻页/局部失败、无权限、404、离线和版本冲突状态按页面状态目录实现
@@ -2278,6 +2874,7 @@ STORIES.yaml:
     - test_engineer
     acceptance_criteria:
     - SCR-ME-002 全部绑定模板 MOB-FORM，字段、状态、动作、导航和错误恢复无TBD
+    - SCR-ME-002只复用B08/P01身份区与MOB-FORM，禁止套用项目发布表单或增加未冻结资料字段
     - 页面调用 operationId：userGetMe;userPatchMeProfile；请求/响应字段不得另行发明
     - 按钮显示、可用和确认条件与服务端状态机、权限、expectedVersion、幂等策略一致
     - 首屏、空、刷新、翻页/局部失败、无权限、404、离线和版本冲突状态按页面状态目录实现
@@ -2365,6 +2962,7 @@ STORIES.yaml:
     - test_engineer
     acceptance_criteria:
     - SCR-ME-001 全部绑定模板 MOB-HOME，字段、状态、动作、导航和错误恢复无TBD
+    - SCR-ME-001精确绑定B08/P01，金额、会员、入口和红点只可来自真实接口或配置
     - 页面调用 operationId：userGetMe;membershipGetMeMembership;rewardGetMeRewardAccount；请求/响应字段不得另行发明
     - 按钮显示、可用和确认条件与服务端状态机、权限、expectedVersion、幂等策略一致
     - 首屏、空、刷新、翻页/局部失败、无权限、404、离线和版本冲突状态按页面状态目录实现
@@ -2489,6 +3087,7 @@ STORIES.yaml:
     - OpenAPI、状态机、数据库迁移、配置Schema和页面契约引用一致，代码生成不得产生手工分叉
     - 每个需求可追溯到页面/API/表/配置/测试/故事；不适用项必须显式N/A并说明
     - 版本DoR全部PASS后方可编码；出口仍按原RELEASE_MANIFEST和ACCEPTANCE_MATRIX执行
+    - 十一页视觉来源与CR-0314、页面目录、逐页施工规格和Release Manifest一致；TASK-R12-004登记IN_REVIEW，TASK-R12-007真实截图经AI复核后才可PASS
     - 变更必须通过CR，更新唯一事实源并重新生成全部派生目录和哈希
     - 完成Session Log、追踪矩阵、发布证据和下一任务交接
     definition_of_ready: DEFINITION_OF_READY.yaml全部阻断项PASS
@@ -2640,6 +3239,95 @@ TASKS.yaml:
   definition_of_ready: releases/R12/DEFINITION_OF_READY.yaml
   story_backlog: releases/R12/STORIES.yaml
   execution_rule: TASKS定义治理顺序，STORIES定义可领取纵向工作；二者必须同时满足，不得以通用任务替代页面故事验收。
+PARALLEL_EXECUTION_PLAN.yaml:
+  version: '1.0'
+  release: R12
+  change_request: CR-0314
+  mode: SINGLE_AUTHORITATIVE_SESSION_WITH_SAFE_DELEGATION_REVIEW
+  authoritative_session_count: 1
+  max_parallel_workers: 3
+  simultaneous_claim_limit: 1
+  worker_parallelism_scope: DISJOINT_PATH_SCRATCH_WORKTREES_ONLY
+  default_delegation_mode: AUTO_WHEN_SAFE_PARALLEL_WORK_EXISTS
+  review_triggers:
+  - TASK_START
+  - SCOPE_CHANGE
+  non_delegation_requires_checkpoint_reason: true
+  capability_fallback: KEEP_SINGLE_AUTHORITATIVE_SESSION_AND_DO_NOT_FABRICATE_PARALLEL_EVIDENCE
+  source_of_truth_branch: task/TASK-R03-001
+  rules:
+  - 主控一次只保留一个ACTIVE Session和Task/Story Claim；执行代理不得形成第二事实源。
+  - Task开始或范围变化时评估安全并行；资金、安全、状态机、数据库迁移、导航和最终集成由主控串行复核。
+  - 执行代理仅可在路径互斥的scratch worktree工作，不得修改连续性、Release或状态事实文件。
+  - 功能、字段、动作、数据、权限和版本归属逐项对应仓库开发文档；效果图只约束正确功能的页面建模与视觉。
+  - R12十一页必须使用RELEASE_MANIFEST登记的精确面板、批准补充规格或ADM标准模板，禁止TOKENS_ONLY和面板范围施工。
+  - 普通Story只运行受影响FAST/MODULE；完整模拟器、截图和候选APK仅在TASK-R12-007最终候选阶段运行。
+  - TASK-R12-008只核验相同候选Commit的不可变证据，不重复Java、数据库、Android或模拟器门禁。
+  - 项目所有者真机反馈保持异步PENDING，不阻断依赖满足的后续开发。
+  coordinator_owned_paths:
+  - .continuity/**
+  - CURRENT_STATUS.yaml
+  - NEXT_TASK.yaml
+  - releases/**
+  - contracts/**
+  - catalogs/**
+  - docs/03-continuity/**
+  - apps/android/app/**
+  - apps/android/core/network/**
+  lanes:
+  - lane: PUBLISH-DATA-FOUNDATION
+    task_id: TASK-R12-002
+    stories:
+    - STORY-R12-008
+  - lane: PUBLISH-SERVICES
+    task_id: TASK-R12-003
+    stories:
+    - STORY-R12-001
+    - STORY-R12-002
+    - STORY-R12-003
+    - STORY-R12-004
+    - STORY-R12-005
+    - STORY-R12-008
+  - lane: PUBLISH-CLIENTS-AND-ADMIN
+    task_id: TASK-R12-004
+    stories:
+    - STORY-R12-001
+    - STORY-R12-002
+    - STORY-R12-003
+    - STORY-R12-004
+    - STORY-R12-005
+    - STORY-R12-006
+    - STORY-R12-007
+  - lane: R12-QUALITY
+    task_id: TASK-R12-005
+    stories:
+    - STORY-R12-001
+    - STORY-R12-002
+    - STORY-R12-003
+    - STORY-R12-004
+    - STORY-R12-005
+    - STORY-R12-006
+    - STORY-R12-007
+    - STORY-R12-008
+  integration:
+    task_id: TASK-R12-005
+    depends_on:
+    - TASK-R12-003
+    - TASK-R12-004
+    profiles:
+    - MODULE
+    - INTEGRATION
+    - SECURITY
+  apk:
+    task_id: TASK-R12-007
+    full_gate_and_emulator: FINAL_CANDIDATE_ONLY
+    desktop_copy_required: true
+    stable_test_signing_required: true
+    owner_physical_test_initial_status: PENDING
+  closure:
+    task_id: TASK-R12-008
+    owner_feedback_mode: ASYNC_NON_BLOCKING
+    machine_completion_may_continue_next_release: true
 ```
 
 ## 开放 CR
@@ -10342,13 +11030,162 @@ TASKS.yaml:
     session_id: SES-20260724T032308Z-98D6D10A
   session_ids:
   - SES-20260724T032308Z-98D6D10A
+- protocol_version: '1.0'
+  cr_id: CR-0314
+  title: 校正并建立R12开发入口执行计划与十一页精确视觉基线
+  status: IMPLEMENTED
+  created_at: '2026-07-24T15:12:32Z'
+  updated_at: '2026-07-24T15:55:05Z'
+  requester_actor_id: codex-root-r12-entry
+  approver_actor_id: codex-independent-r12-visual-reviewer
+  task_id: TASK-R12-001
+  session_id: SES-20260724T144831Z-B2E27A89
+  user_request: 项目所有者要求按R01-R32持续开发，功能与开发文档一一对应，全部页面按效果图丰富度施工；无直接图时可复用同类视觉，完整Android门禁仅在大版本最终候选阶段执行。
+  reason: 替代未实施的CR-0313：独立复核发现同名发布入口面板会造成业务错配，必须按四类发布入口和审核状态真实面板校正后建立R12入口基线。
+  original_rule: CR-0313未实施且被独立复核发现发布入口主面板错配；R12仍缺PARALLEL_EXECUTION_PLAN，11页仍为TOKENS_ONLY或P01-P08范围引用。
+  new_rule: 替代CR-0313且不新增第二套硬规则：建立R12单一事实Session执行计划。发布入口=B04/P01、发布预览=B05/P06、我的发布=B08/P02、内容管理详情=B08/P03、内容数据=B08/P06、我的首页=B08/P01；提交结果补充规格复用B05/P07和B06/P07/P08；草稿箱补充规格复用B08/P02和B05/P08；审核记录补充规格复用B08/P03和B06/P07/P08；个人资料补充规格仅复用B08/P01头像身份区与MOB-FORM；后台审核队列使用原始ADM-REVIEW标准模板。业务字段动作仍只来自冻结开发文档。普通任务仅FAST/MODULE，完整Android与模拟器只在TASK-R12-007最终候选执行。
+  impact_summary: 校正同名效果图误用并消除R12执行计划和11页视觉施工入口缺口；补齐Manifest、Stories与无状态入口证据，不新增业务、接口、数据库或虚构内容。
+  impact:
+    files:
+    - releases/R12/PARALLEL_EXECUTION_PLAN.yaml
+    - releases/R12/RELEASE_MANIFEST.yaml
+    - releases/R12/STORIES.yaml
+    - catalogs/ui_page_specifications.csv
+    - catalogs/screen_visual_binding.csv
+    - design/R12-UI-FROZEN/VISUAL_COVERAGE_AUDIT.md
+    - design/R12-UI-FROZEN/specs/SCR-PUB-001.md
+    - design/R12-UI-FROZEN/specs/SCR-PUB-006.md
+    - design/R12-UI-FROZEN/specs/SCR-PUB-007.md
+    - design/R12-UI-FROZEN/specs/SCR-MYC-001.md
+    - design/R12-UI-FROZEN/specs/SCR-MYC-002.md
+    - design/R12-UI-FROZEN/specs/SCR-MYC-003.md
+    - design/R12-UI-FROZEN/specs/SCR-MYC-004.md
+    - design/R12-UI-FROZEN/specs/SCR-MYC-005.md
+    - design/R12-UI-FROZEN/specs/SCR-ME-001.md
+    - design/R12-UI-FROZEN/specs/SCR-ME-002.md
+    - design/R12-UI-FROZEN/specs/ADM-REVIEW-001.md
+    - docs/03-continuity/R12_TASK-001_ENTRY_GATE.md
+    - CHANGELOG.md
+    pages:
+    - SCR-PUB-001
+    - SCR-PUB-006
+    - SCR-PUB-007
+    - SCR-MYC-001
+    - SCR-MYC-002
+    - SCR-MYC-003
+    - SCR-MYC-004
+    - SCR-MYC-005
+    - SCR-ME-001
+    - SCR-ME-002
+    - ADM-REVIEW-001
+    apis: []
+    database: []
+    configuration:
+    - R12 final-candidate-only Android gate and asynchronous owner physical testing
+    ledger:
+    - R12 entry baseline, corrected exact visual mapping, dependency readiness and deferred implementation evidence registration
+    tests:
+    - check_v122_documentation.py --strict --release R12;check_program_execution_plan.py;check_v123_continuity.py
+    releases:
+    - R12
+    migration_and_compatibility: 无运行时或数据迁移；只完善R12治理与视觉施工投影。ui_visual_acceptance在TASK-R12-004实现路径形成时登记IN_REVIEW，最终候选真实截图经AI复核后才可PASS。
+  user_confirmation: 项目所有者已明确要求按R01-R32持续开发、功能与开发文档一一对应、UI达到效果图丰富度；无直接图时允许复用相关页面视觉，完整Android门禁仅在大版本最终候选阶段执行。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-24T15:13:29Z'
+    note: 独立审计证据已落入校正版主体：B04/P01准确对应四类发布，B05和B06覆盖提交结果状态，B08覆盖内容管理与我的，ADM-REVIEW使用冻结标准模板；补充规格不新增业务。
+  machine_record: .continuity/change_requests/CR-0314.yaml
+  document: docs/03-continuity/change-requests/CR-0314-校正并建立R12开发入口执行计划与十一页精确视觉基线.md
+  decision_log:
+  - at: '2026-07-24T15:43:33Z'
+    actor_id: codex-root-r12-entry
+    status: IMPLEMENTING
+    note: R12执行计划、Manifest入口基线、十一页视觉审计和逐页施工规格已写入，开始严格验证。
+    session_id: SES-20260724T144831Z-B2E27A89
+  - at: '2026-07-24T15:55:05Z'
+    actor_id: codex-root-r12-entry
+    status: IMPLEMENTED
+    note: R12执行计划、Manifest入口基线、11页精确/补充/标准模板映射与入口证据已实现；严格文档、生成资产、计划、Release结构、连续性和精确绑定扫描全部PASS。
+    session_id: SES-20260724T144831Z-B2E27A89
+  session_ids:
+  - SES-20260724T144831Z-B2E27A89
+- protocol_version: '1.0'
+  cr_id: CR-0315
+  title: 同步R12十一页视觉基线到页面施工文档
+  status: IMPLEMENTED
+  created_at: '2026-07-24T15:24:55Z'
+  updated_at: '2026-07-24T15:55:09Z'
+  requester_actor_id: codex-root-r12-entry
+  approver_actor_id: codex-independent-r12-doc-reviewer
+  task_id: TASK-R12-001
+  session_id: SES-20260724T144831Z-B2E27A89
+  user_request: 项目所有者要求功能与开发文档一一对应并按精确效果图持续开发。
+  reason: CR-0314已批准页面目录和逐页补充规格，但严格生成资产门禁还要求11份页面施工文档同步同一UI参考；只做既有决定的派生投影。
+  original_rule: CR-0314已冻结R12页面目录、精确面板和补充规格，但派生页面施工文档仍残留TOKENS_ONLY或P01-P08范围。
+  new_rule: 只把CR-0314已经批准的11页视觉来源同步到对应页面施工文档；不增加、删减或改变页面功能、字段、动作、API、状态或视觉选择。
+  impact_summary: 消除页面目录与逐页施工文档之间的同一事实投影差异，确保生成资产和跨AI接续一致。
+  impact:
+    files:
+    - docs/02-ui/page-specs/android/SCR-PUB-001_发布入口.md
+    - docs/02-ui/page-specs/android/SCR-PUB-006_发布预览.md
+    - docs/02-ui/page-specs/android/SCR-PUB-007_提交结果.md
+    - docs/02-ui/page-specs/android/SCR-MYC-001_我的发布.md
+    - docs/02-ui/page-specs/android/SCR-MYC-002_草稿箱.md
+    - docs/02-ui/page-specs/android/SCR-MYC-003_内容管理详情.md
+    - docs/02-ui/page-specs/android/SCR-MYC-004_审核记录.md
+    - docs/02-ui/page-specs/android/SCR-MYC-005_内容数据.md
+    - docs/02-ui/page-specs/android/SCR-ME-001_我的首页.md
+    - docs/02-ui/page-specs/android/SCR-ME-002_个人资料.md
+    - docs/02-ui/page-specs/admin/ADM-REVIEW-001_审核队列.md
+    pages:
+    - SCR-PUB-001
+    - SCR-PUB-006
+    - SCR-PUB-007
+    - SCR-MYC-001
+    - SCR-MYC-002
+    - SCR-MYC-003
+    - SCR-MYC-004
+    - SCR-MYC-005
+    - SCR-ME-001
+    - SCR-ME-002
+    - ADM-REVIEW-001
+    apis: []
+    database: []
+    configuration: []
+    ledger:
+    - CR-0314 visual mapping projection into generated page specifications
+    tests:
+    - check_generated_assets.py;check_v122_documentation.py --strict --release R12
+    releases:
+    - R12
+    migration_and_compatibility: 纯文档投影，无运行时、API或数据迁移。
+  user_confirmation: 项目所有者要求全部版本功能与开发文档一一对应，并按精确效果图持续开发。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-24T15:32:41Z'
+    note: 仅同步CR-0314已批准视觉来源到11份页面施工文档，不产生第二事实源或新业务决定。
+  machine_record: .continuity/change_requests/CR-0315.yaml
+  document: docs/03-continuity/change-requests/CR-0315-同步R12十一页视觉基线到页面施工文档.md
+  decision_log:
+  - at: '2026-07-24T15:43:37Z'
+    actor_id: codex-root-r12-entry
+    status: IMPLEMENTING
+    note: CR-0314视觉来源已同步到十一份页面施工文档，开始生成资产一致性验证。
+    session_id: SES-20260724T144831Z-B2E27A89
+  - at: '2026-07-24T15:55:09Z'
+    actor_id: codex-root-r12-entry
+    status: IMPLEMENTED
+    note: 11份页面施工文档已同步CR-0314视觉来源；严格文档与生成资产一致性检查PASS。
+    session_id: SES-20260724T144831Z-B2E27A89
+  session_ids:
+  - SES-20260724T144831Z-B2E27A89
 ```
 
 ## 上下文来源及哈希
 
 - `AGENTS.md` — `690f960020dcbd18080ec91b3c314335627b32e231b9f9b2e14566b0fbbaeb35`
 - `START_HERE.md` — `22de14029ce47beb41ea569e36ce223fbc9d11b86f8676f28d5fbbd83896af5c`
-- `CURRENT_STATUS.yaml` — `fe7de87b62d99e62a5aea2e4dc535b7fa892c5992795a24945d7b13e7ecc4a5f`
+- `CURRENT_STATUS.yaml` — `f2fcddf4842a242239483ae4f2ddaa978868b64e1296d576609bbcbc3586a650`
 - `NEXT_TASK.yaml` — `7e585d0a114a8005951861a6ba378633ff41ff352e1e99db72e019839cc2f1e9`
 - `DEVELOPMENT_RISK_REGISTER.md` — `8304c91492e4ee2abea0522a06541c8688d39c7fc532b5d0cde499bf09fffb87`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
@@ -10359,21 +11196,27 @@ TASKS.yaml:
 - `config/REPOSITORY_TRANSPORT.yaml` — `8c4a21f3e204d46e7ffb467d804a53ed26cda61cd088dadfddb50b69eea657fc`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `60943fcd9714cfae7274463554b5584fdb7a7aeee1ee547ff6dbc53fae6d4994`
-- `.continuity/EVENT_LOG.jsonl` — `3981ebf4ec1cecd3827c4c1e415859eff58e1d4a67c18ab7d1f1a4635d8b14fe`
-- `.continuity/SESSION_INDEX.yaml` — `1768bc1e1a57302a112e810d28c794884c726e036d9924029d6f429a21df293d`
-- `.continuity/TASK_CLAIMS.yaml` — `49591d153a44ce90ed8731ada8d18d5c1a9bb2d21ba9a6cdfa12b5491c6ccbaf`
-- `.continuity/TASK_TRANSITIONS.yaml` — `d967b938cc2bb9c27e6ca17f735b411a1c3cd4121b26d3642aef73a48c7b5c1f`
-- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `96714c6cce853a8f5ec3182e3647b8f8a6aff232690f93c56c9a36b8291f97e6`
-- `.continuity/ACTIVE_SESSION.yaml` — `b1b9453bef986c59c88dad763d12331ce5496c41fb911e39277caf6404756cf1`
+- `.continuity/EVENT_LOG.jsonl` — `479dd52864ecf51842bcca647d98f9f81ed318557f9cdde4c1822ae8d82ac8c4`
+- `.continuity/SESSION_INDEX.yaml` — `6bf63189d13accea02eb4acdc722301b02cd95c9fe3f0a369c323ea547596053`
+- `.continuity/TASK_CLAIMS.yaml` — `e7b6dd5cb1d0277ff759e8c1819728564a30da3c998074618372cb00b17dc24c`
+- `.continuity/TASK_TRANSITIONS.yaml` — `6b5c8a9fee07c554fa815f55dbc8ed42996d3bd90fc4f7207bdac437fb184e4a`
+- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `8dc9459392f8cd5d7191776204a5a807c5794c213020a1ff9226bde868350be2`
+- `.continuity/ACTIVE_SESSION.yaml` — `2e9897667c01748b114ef4dcfb23d5b17aa664fc631380d2a6e85c110554f952`
 - `docs/00-baseline/正式商业系统全局硬性开发边界.md` — `9753b32db136e59e95a0974a62362456d9d577fd1bb40058ec985c4b64413eea`
 - `docs/02-ui/UI参考图使用与开发约束_V1.2.2.md` — `d14367586aa2067b059df58798acd20ab982459cdb35ff27fc7922a3896e4933`
 - `docs/03-continuity/持续开发无状态接续强制门禁_V1.2.3.md` — `d0ed3ed68bdd93b06500eecdfb5baa3245e6ca8b685a486788abb6eee39b3d51`
 - `docs/09-development/统一开发与交付效率规范.md` — `821ed91f6f860b729f6532c5e8145c6d78fa01fc7f5ec423687479fe5390a76f`
-- `releases/R12/RELEASE_MANIFEST.yaml` — `cf6e5acfda94e0b922ad8c1328401339332de1c8414f002e40517b6c0a461beb`
+- `releases/R12/RELEASE_MANIFEST.yaml` — `ac75bf100563ab4498d732adf95367ebe636c6199d87d619d15d27592eda2a99`
 - `releases/R12/DEFINITION_OF_READY.yaml` — `ec0e557f0fc1c9738d78e5954b24b5411e8f3f23ebbf13631aef6d64745515a7`
-- `releases/R12/STORIES.yaml` — `3be68016c34ad36edb3a510143384860272f99cf82e8643fd5c64349dbdd1db5`
+- `releases/R12/STORIES.yaml` — `236bec910beb1ba15779990fc717d97fcd9a8a18e59f04beff9346a5da232bda`
 - `releases/R12/TASKS.yaml` — `eade319ba33d63d0e802aa9eedc841b73baed4e63d38d8b75a726608cb37524c`
 - `releases/R12/ACCEPTANCE_MATRIX.csv` — `197874227cef03f791df1fa5d2101a251df266c63240f777f358388b46cb9706`
+- `releases/R12/PARALLEL_EXECUTION_PLAN.yaml` — `2ddbee414a51a868b63331992e2e04c5400846cf6012474aab406e067e532e98`
+- `docs/03-continuity/sessions/2026-07/SES-20260724T144831Z-B2E27A89.md` — `d507b32466e0c083bc4d42591a5b612c982ded419ea036183fe423e3d5e09656`
+- `.continuity/checkpoints/SES-20260724T144831Z-B2E27A89/0002.yaml` — `6ef5696daa10c74df83295826a723473074105cb4f80fb96752425e466df89c3`
+- `docs/03-continuity/change-requests/CR-0313-建立R12开发入口执行计划与十一页精确视觉基线.md` — `153f7a309a3e0424765f4af82efd036ae73368ee0c4320801e035b2edb5365b2`
+- `docs/03-continuity/change-requests/CR-0314-校正并建立R12开发入口执行计划与十一页精确视觉基线.md` — `d551893143f380dc6cde6550cb9f01525806272b6bf3de77a1268256bf8d5aec`
+- `docs/03-continuity/change-requests/CR-0315-同步R12十一页视觉基线到页面施工文档.md` — `0514536c4aba97a4357d71e760669bfc4ba251ebf694906655587e542835cf93`
 
 ## 接手硬规则
 

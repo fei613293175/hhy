@@ -88,7 +88,7 @@
 - 配置组：`auth;membership;withdrawal`
 - 关键配置：`auth.default_login_method;auth.security_challenge.provider;auth.security_challenge.mode;auth.password.min_length;auth.password.max_length;auth.password.max_failures;auth.password.lock_seconds;auth.invite.app_required;membership.upgrade.time_precision;membership.upgrade.rounding;membership.upgrade.preserve_gift_days;membership.public_badge.text;membership.public_badge.enabled;withdrawal.min_amount_cent.normal;withdrawal.fee.fixed_cent.normal;withdrawal.fee.bps.normal;withdrawal.daily_count.normal;withdrawal.min_amount_cent.month;withdrawal.fee.fixed_cent.month;withdrawal.fee.bps.month;withdrawal.daily_count.month`
 - 测试：`TST-PUBLISHER_001-HAPPY`
-- UI参考：`B08/P01-P08`
+- UI参考：`B08/P01`
 
 ## 8. 开发就绪检查
 

@@ -110,7 +110,7 @@
 - 配置组：`platform`
 - 关键配置：`platform.brand.name;platform.brand.slogan;platform.brand.logo_media_id;platform.customer_service.name;platform.customer_service.contact`
 - 测试：`TST-PUBLISH_001-HAPPY;TST-V122-018;TST-V122-019`
-- UI参考：`TOKENS_ONLY`
+- UI参考：`SPEC:docs/02-ui/管理后台页面与运营操作完整规格_V1.2.2.md`
 
 ## 8. 后台运营操作规格
 

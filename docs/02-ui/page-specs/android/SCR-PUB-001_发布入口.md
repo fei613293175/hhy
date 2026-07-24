@@ -110,7 +110,7 @@
 - 配置组：`auth;content`
 - 关键配置：`auth.default_login_method;auth.security_challenge.provider;auth.security_challenge.mode;auth.password.min_length;auth.password.max_length;auth.password.max_failures;auth.password.lock_seconds;auth.invite.app_required;content.limit.normal.online;content.limit.month.online;content.limit.quarter.online;content.limit.year.online;content.team_leader_per_account;content.limit.normal.pending;content.limit.normal.drafts;content.limit.normal.daily_submissions`
 - 测试：`TST-PUBLISH_001-HAPPY`
-- UI参考：`TOKENS_ONLY/-`
+- UI参考：`B04/P01`
 
 ## 8. 开发就绪检查
 

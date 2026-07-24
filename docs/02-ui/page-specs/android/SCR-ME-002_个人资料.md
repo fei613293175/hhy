@@ -84,7 +84,7 @@
 - 配置组：`auth`
 - 关键配置：`auth.default_login_method;auth.security_challenge.provider;auth.security_challenge.mode;auth.password.min_length;auth.password.max_length;auth.password.max_failures;auth.password.lock_seconds;auth.invite.app_required`
 - 测试：`TST-PUBLISHER_001-HAPPY;TST-PUBLISHER_001-IDEMPOTENT`
-- UI参考：`B08/P01-P08`
+- UI参考：`SPEC:design/R12-UI-FROZEN/specs/SCR-ME-002.md`
 
 ## 8. 开发就绪检查
 

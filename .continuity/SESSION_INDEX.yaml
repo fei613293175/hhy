@@ -1200,3 +1200,15 @@ sessions:
   closed_at: '2026-07-24T14:43:44Z'
   latest_checkpoint: .continuity/checkpoints/SES-20260724T110611Z-0D26E8D5/0006.yaml
   handoff_bundle: null
+- session_id: SES-20260724T144831Z-B2E27A89
+  task_id: TASK-R12-001
+  story_id: STORY-R12-008
+  actor_id: codex-root-r12-entry
+  status: ACTIVE
+  started_at: '2026-07-24T14:48:31Z'
+  record: .continuity/sessions/SES-20260724T144831Z-B2E27A89.yaml
+  session_log: docs/03-continuity/sessions/2026-07/SES-20260724T144831Z-B2E27A89.md
+  updated_at: '2026-07-24T15:59:08Z'
+  closed_at: null
+  latest_checkpoint: .continuity/checkpoints/SES-20260724T144831Z-B2E27A89/0002.yaml
+  handoff_bundle: null

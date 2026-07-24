@@ -87,7 +87,7 @@
 - 配置组：`content`
 - 关键配置：`content.limit.normal.online;content.limit.month.online;content.limit.quarter.online;content.limit.year.online;content.team_leader_per_account;content.limit.normal.pending;content.limit.normal.drafts;content.limit.normal.daily_submissions`
 - 测试：`TST-PUBLISH_001-HAPPY`
-- UI参考：`TOKENS_ONLY/-`
+- UI参考：`B05/P06`
 
 ## 8. 开发就绪检查
 
