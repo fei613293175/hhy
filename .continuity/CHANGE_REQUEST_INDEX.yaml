@@ -18098,3 +18098,154 @@ change_requests:
   - SES-20260723T183130Z-454A6E0D
   implementation_commits:
   - 7f3483f8
+- protocol_version: '1.0'
+  cr_id: CR-0297
+  title: R11团队长三项专项测试与故障证据闭环
+  status: IMPLEMENTING
+  created_at: '2026-07-23T23:19:55Z'
+  updated_at: '2026-07-23T23:21:14Z'
+  requester_actor_id: codex-root-r11-test
+  approver_actor_id: codex-reviewer-r11-quality
+  task_id: TASK-R11-005
+  session_id: SES-20260723T231210Z-409B970E
+  user_request: 立即开始并持续推进开发；所有终端命令静默执行
+  reason: 三个权威TST-TEAM测试仍为READY_TO_AUTOMATE，缺少适配器、并发/超时/重复消息及异常证据，无法满足TASK-R11-005出口门禁
+  original_rule: catalogs/test_cases.csv中TST-TEAM_001-HAPPY、REJECT、IDEMPOTENT为READY_TO_AUTOMATE且适配器路径尚不存在
+  new_rule: 仅自动化既有三个TST-TEAM权威测试ID：通过R11中央矩阵绑定后端、真实PostgreSQL、Android及共享存储故障回归，证据校验通过后状态改为AUTOMATED；不新增业务、API或供应商调用
+  impact_summary: 补齐R11成功、拒绝、幂等三类测试适配器与中央证据校验；新增同键异体、锁后竞争、配置超时零副作用和真实并发断言；供应商异常按共享媒体域跨回归且在R11报告中标记无直接调用
+  impact:
+    files:
+    - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R11ServiceTest.java
+    - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R11PostgresStoreTest.java
+    - tests/r11/README.md
+    - tests/r11/req-team-001_happy
+    - tests/r11/req-team-001_reject
+    - tests/r11/req-team-001_idempotent
+    - tests/test_r11_specialized_matrix.py
+    - scripts/run_r11_specialized_matrix.py
+    - catalogs/test_cases.csv
+    - artifacts/reports/R11/TASK-R11-005_SPECIALIZED_TEST_REPORT.md
+    - artifacts/validation/r11-test-evidence/evidence.json
+    - artifacts/validation/r11-test-evidence/backend-java21.log
+    - artifacts/validation/r11-test-evidence/postgresql17.log
+    - artifacts/validation/r11-test-evidence/android-module.log
+    pages: []
+    apis: []
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - TST-TEAM_001-HAPPY
+    - TST-TEAM_001-REJECT
+    - TST-TEAM_001-IDEMPOTENT
+    releases:
+    - R11
+    migration_and_compatibility: 仅测试与证据治理变化，不修改生产接口、数据库Schema或既有业务行为；现有客户端和服务端完全兼容
+  user_confirmation: 用户已明确要求立即开始并持续推进开发，且所有终端命令由AI静默执行
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-23T23:20:36Z'
+    note: 独立只读审计确认仅补现有三项权威测试与证据，不变更业务契约；范围最小且覆盖重复、并发、超时、消息和供应商异常边界
+  machine_record: .continuity/change_requests/CR-0297.yaml
+  document: docs/03-continuity/change-requests/CR-0297-R11团队长三项专项测试与故障证据闭环.md
+  decision_log:
+  - at: '2026-07-23T23:21:14Z'
+    actor_id: codex-root-r11-test
+    status: IMPLEMENTING
+    note: 开始补齐三项权威测试适配器、缺口断言与可机检证据
+    session_id: SES-20260723T231210Z-409B970E
+  session_ids:
+  - SES-20260723T231210Z-409B970E
+- protocol_version: '1.0'
+  cr_id: CR-0298
+  title: R11并发重复动作与后台幂等隔离修复
+  status: IMPLEMENTING
+  created_at: '2026-07-23T23:23:00Z'
+  updated_at: '2026-07-23T23:23:53Z'
+  requester_actor_id: codex-root-r11-test
+  approver_actor_id: codex-reviewer-r11-quality
+  task_id: TASK-R11-005
+  session_id: SES-20260723T231210Z-409B970E
+  user_request: 立即开始并持续推进开发；所有终端命令静默执行
+  reason: 专项测试审计发现Android详情动作缺少单写锁且失败丢失已加载上下文，后台不同内容命令共享operation级幂等槽，均会导致重复或错误请求
+  original_rule: 团队长详情动作仅使用稳定幂等键但未阻止同一资源重复并发；后台幂等键工厂仅按operation保存单槽
+  new_rule: 团队长详情同一时刻只允许一个写动作，动作失败保留已加载详情并允许同体同键重试；后台幂等键按operation与资源作用域隔离，成功仅清理对应作用域
+  impact_summary: 增加Android纯状态动作门禁并接入详情按钮；动作错误转为局部提示；扩展后台幂等键工厂作用域并让内容及字典命令按资源隔离；补回归测试
+  impact:
+    files:
+    - apps/android/feature/team-leader/src/main/java/cc/orbexa/hhy/teamleader/R11TeamLeaderState.kt
+    - apps/android/feature/team-leader/src/main/java/cc/orbexa/hhy/teamleader/R11TeamLeaderDetailScreen.kt
+    - apps/android/feature/team-leader/src/test/java/cc/orbexa/hhy/teamleader/R11TeamLeaderStateTest.kt
+    - apps/admin-web/src/services/idempotency.ts
+    - apps/admin-web/src/services/adminContents.ts
+    - apps/admin-web/src/services/adminContents.test.ts
+    pages:
+    - SCR-DETAIL-004
+    apis: []
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - TST-TEAM_001-IDEMPOTENT
+    - TST-TEAM_001-REJECT
+    releases:
+    - R11
+    migration_and_compatibility: 不改变API、字段或业务状态机；仅收紧重复点击并发和客户端幂等键生命周期，失败重试语义保持兼容
+  user_confirmation: 用户已明确要求立即开始并持续推进开发，且所有终端命令由AI静默执行
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-23T23:23:46Z'
+    note: 只读并发审计确认两项均为冻结行为的客户端缺陷，修复不扩展业务合同，回归范围明确
+  machine_record: .continuity/change_requests/CR-0298.yaml
+  document: docs/03-continuity/change-requests/CR-0298-R11并发重复动作与后台幂等隔离修复.md
+  decision_log:
+  - at: '2026-07-23T23:23:53Z'
+    actor_id: codex-root-r11-test
+    status: IMPLEMENTING
+    note: 开始修复Android动作单写锁与后台资源级幂等隔离
+    session_id: SES-20260723T231210Z-409B970E
+  session_ids:
+  - SES-20260723T231210Z-409B970E
+- protocol_version: '1.0'
+  cr_id: CR-0299
+  title: R11控制器合同测试路径稳定化
+  status: IMPLEMENTING
+  created_at: '2026-07-23T23:40:24Z'
+  updated_at: '2026-07-23T23:41:02Z'
+  requester_actor_id: codex-root-r11-test
+  approver_actor_id: codex-reviewer-r11-quality
+  task_id: TASK-R11-005
+  session_id: SES-20260723T231210Z-409B970E
+  user_request: 立即开始并持续推进开发；所有终端命令静默执行
+  reason: 云端Java21容器复现R11ControllerContractTest依赖工作目录的相对OpenAPI路径，导致合同测试在正确实现上误失败
+  original_rule: R11ControllerContractTest通过HHY_REPO_ROOT或相对路径读取仓库OpenAPI文件
+  new_rule: 控制器合同测试从boot运行时classpath读取已同步的/contracts/openapi.yaml，不依赖启动目录或机器路径
+  impact_summary: 只修复测试输入定位，继续验证同一冻结OpenAPI和八个operationId唯一落点
+  impact:
+    files:
+    - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/R11ControllerContractTest.java
+    pages: []
+    apis: []
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - TST-TEAM_001-HAPPY
+    releases:
+    - R11
+    migration_and_compatibility: 不修改生产代码、API合同或生成资产；测试在本机、容器和CI行为一致
+  user_confirmation: 用户已明确要求立即开始并持续推进开发，且所有终端命令由AI静默执行
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-23T23:40:55Z'
+    note: 失败证据确认是工作目录耦合；classpath运行时合同为现有同步事实源，修复最小且不改变断言
+  machine_record: .continuity/change_requests/CR-0299.yaml
+  document: docs/03-continuity/change-requests/CR-0299-R11控制器合同测试路径稳定化.md
+  decision_log:
+  - at: '2026-07-23T23:41:02Z'
+    actor_id: codex-root-r11-test
+    status: IMPLEMENTING
+    note: 改用classpath运行时OpenAPI并重跑唯一失败测试
+    session_id: SES-20260723T231210Z-409B970E
+  session_ids:
+  - SES-20260723T231210Z-409B970E

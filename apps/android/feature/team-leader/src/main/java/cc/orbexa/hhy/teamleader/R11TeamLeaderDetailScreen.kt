@@ -87,6 +87,7 @@ fun R11TeamLeaderDetailScreen(
     var content by remember { mutableStateOf<ContentResource?>(null) }
     var phase by remember { mutableStateOf(R11TeamLeaderPhase.LOADING) }
     var failure by remember { mutableStateOf<R11TeamLeaderFailure?>(null) }
+    var actionState by remember { mutableStateOf(R11TeamLeaderActionState()) }
     var revealedContact by remember { mutableStateOf<Pair<String, String>?>(null) }
     var notice by remember { mutableStateOf<String?>(null) }
 
@@ -94,6 +95,27 @@ fun R11TeamLeaderDetailScreen(
         if (result.statusCode == 401) onSessionExpired()
         failure = result.toR11TeamLeaderFailure()
         phase = failure!!.phase
+    }
+
+    fun failAction(result: R07CallResult.Failure) {
+        if (result.statusCode == 401) onSessionExpired()
+        notice = when (result.statusCode) {
+            403 -> "当前账号无权执行此操作"
+            409 -> "内容已更新，请刷新后重试"
+            else -> "操作未完成，请稍后重试"
+        }
+    }
+
+    fun launchAction(action: String, block: suspend () -> Unit) {
+        val started = actionState.begin(action) ?: return
+        actionState = started
+        scope.launch {
+            try {
+                block()
+            } finally {
+                actionState = actionState.finish(action)
+            }
+        }
     }
 
     fun load() {
@@ -116,13 +138,13 @@ fun R11TeamLeaderDetailScreen(
 
     fun reveal(channel: String) {
         val fingerprint = "$teamLeaderId:$channel"
-        scope.launch {
+        launchAction("contact:$channel") {
             when (val result = api.accessContact(accessToken, teamLeaderId, channel, keys.forBody("contact", fingerprint))) {
                 is R07CallResult.Success -> {
                     keys.consume("contact", fingerprint)
                     revealedContact = result.data.channel to result.data.value
                 }
-                is R07CallResult.Failure -> fail(result)
+                is R07CallResult.Failure -> failAction(result)
             }
         }
     }
@@ -161,16 +183,16 @@ fun R11TeamLeaderDetailScreen(
                     if (content?.publisher?.userId == currentUserId) {
                         TextButton(onClick = { onEdit(teamLeaderId) }) { Text("编辑") }
                     }
-                    TextButton(enabled = content != null && phase == R11TeamLeaderPhase.CONTENT, onClick = {
+                    TextButton(enabled = content != null && phase == R11TeamLeaderPhase.CONTENT && !actionState.busy, onClick = {
                         val fingerprint = "COPY_LINK"
-                        scope.launch {
+                        launchAction("share") {
                             when (val result = api.share(accessToken, teamLeaderId, keys.forBody("share", fingerprint), R08ShareRequest(fingerprint))) {
                                 is R07CallResult.Success -> {
                                     copyText(context, "团队长分享链接", result.data.url)
                                     keys.consume("share", fingerprint)
                                     notice = "分享链接已复制"
                                 }
-                                is R07CallResult.Failure -> fail(result)
+                                is R07CallResult.Failure -> failAction(result)
                             }
                         }
                     }) { Text("分享") }
@@ -182,16 +204,17 @@ fun R11TeamLeaderDetailScreen(
                 TeamLeaderActions(
                     canContact = item.contactsMasked.any { it.available },
                     canChat = item.publisher?.userId != null && R11TeamLeaderFacts.from(item).acceptPrivateChat != false,
+                    enabled = !actionState.busy,
                     onFavorite = {
                         val fingerprint = "${item.id}:${item.version}"
-                        scope.launch {
+                        launchAction("favorite") {
                             when (val result = api.favorite(accessToken, item.id, keys.forBody("favorite", fingerprint), R08FavoriteRequest(expectedVersion = item.version))) {
                                 is R07CallResult.Success -> {
                                     content = result.data
                                     keys.consume("favorite", fingerprint)
                                     notice = "已收藏"
                                 }
-                                is R07CallResult.Failure -> fail(result)
+                                is R07CallResult.Failure -> failAction(result)
                             }
                         }
                     },
@@ -199,14 +222,14 @@ fun R11TeamLeaderDetailScreen(
                     onChat = {
                         val peer = item.publisher?.userId ?: return@TeamLeaderActions
                         val fingerprint = "$peer:${item.id}"
-                        scope.launch {
+                        launchAction("direct") {
                             when (val result = api.direct(accessToken, keys.forBody("direct", fingerprint), R08DirectConversationRequest(peer, item.id))) {
                                 is R07CallResult.Success -> {
                                     keys.consume("direct", fingerprint)
                                     notice = "私聊会话已准备"
                                     onConversationReady(result.data.id)
                                 }
-                                is R07CallResult.Failure -> fail(result)
+                                is R07CallResult.Failure -> failAction(result)
                             }
                         }
                     },
@@ -231,7 +254,7 @@ fun R11TeamLeaderDetailScreen(
                     facts.detailSections(item).forEach { (title, values) ->
                         item(title) { TeamLeaderSection(title) { values.forEach { Text(it) } } }
                     }
-                    item { ContactSection(item, ::reveal) }
+                    item { ContactSection(item, !actionState.busy, ::reveal) }
                     item { PublisherSection(item) }
                     item { StatisticsSection(item) }
                     item { Text(item.updatedAt?.let { "最近更新 $it" } ?: item.createdAt?.let { "发布于 $it" }.orEmpty(), color = HhyColors.TextSecondary) }
@@ -243,15 +266,22 @@ fun R11TeamLeaderDetailScreen(
 }
 
 @Composable
-private fun TeamLeaderActions(canContact: Boolean, canChat: Boolean, onFavorite: () -> Unit, onContact: () -> Unit, onChat: () -> Unit) {
+private fun TeamLeaderActions(
+    canContact: Boolean,
+    canChat: Boolean,
+    enabled: Boolean,
+    onFavorite: () -> Unit,
+    onContact: () -> Unit,
+    onChat: () -> Unit,
+) {
     Surface(color = HhyColors.Surface, shadowElevation = HhyElevation.Card) {
         Row(
             Modifier.fillMaxWidth().navigationBarsPadding().padding(HhySpacing.Md),
             horizontalArrangement = Arrangement.spacedBy(HhySpacing.Sm),
         ) {
-            OutlinedButton(onClick = onFavorite, modifier = Modifier.weight(1f).testTag("r11.team_leader.favorite")) { Text("收藏") }
-            OutlinedButton(onClick = onContact, modifier = Modifier.weight(1f).testTag("r11.team_leader.contact"), enabled = canContact) { Text("联系方式") }
-            Button(onClick = onChat, modifier = Modifier.weight(1f).testTag("r11.team_leader.chat"), enabled = canChat) { Text("发起私聊") }
+            OutlinedButton(onClick = onFavorite, modifier = Modifier.weight(1f).testTag("r11.team_leader.favorite"), enabled = enabled) { Text("收藏") }
+            OutlinedButton(onClick = onContact, modifier = Modifier.weight(1f).testTag("r11.team_leader.contact"), enabled = enabled && canContact) { Text("联系方式") }
+            Button(onClick = onChat, modifier = Modifier.weight(1f).testTag("r11.team_leader.chat"), enabled = enabled && canChat) { Text("发起私聊") }
         }
     }
 }
@@ -300,10 +330,10 @@ private fun TeamLeaderImage(media: MediaItemResource, title: String) {
 }
 
 @Composable
-private fun ContactSection(item: ContentResource, reveal: (String) -> Unit) = TeamLeaderSection("联系团队") {
+private fun ContactSection(item: ContentResource, enabled: Boolean, reveal: (String) -> Unit) = TeamLeaderSection("联系团队") {
     val available = item.contactsMasked.filter { it.available }
     available.forEach { contact ->
-        OutlinedButton(onClick = { reveal(contact.channel) }, modifier = Modifier.fillMaxWidth()) {
+        OutlinedButton(onClick = { reveal(contact.channel) }, modifier = Modifier.fillMaxWidth(), enabled = enabled) {
             Text("获取${contactLabel(contact.channel)} ${contact.maskedValue.orEmpty()}")
         }
     }

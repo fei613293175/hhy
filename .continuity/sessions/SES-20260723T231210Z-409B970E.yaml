@@ -1,0 +1,103 @@
+protocol_version: '1.0'
+package_version: 1.2.3
+session_id: SES-20260723T231210Z-409B970E
+status: ACTIVE
+actor:
+  id: codex-root-r11-test
+  kind: AI_OR_HUMAN
+  host: unknown
+release: R11
+task_id: TASK-R11-005
+story_id: STORY-R11-004
+goal: 团队长入驻完整闭环专项测试与故障注入
+started_at: '2026-07-23T23:12:10Z'
+updated_at: '2026-07-24T00:20:24Z'
+takeover_of: null
+change_requests:
+- CR-0297
+- CR-0298
+- CR-0299
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions:
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R11ServiceTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R11PostgresStoreTest.java
+  - tests/r11/README.md
+  - tests/r11/req-team-001_happy
+  - tests/r11/req-team-001_reject
+  - tests/r11/req-team-001_idempotent
+  - tests/test_r11_specialized_matrix.py
+  - scripts/run_r11_specialized_matrix.py
+  - catalogs/test_cases.csv
+  - artifacts/reports/R11/TASK-R11-005_SPECIALIZED_TEST_REPORT.md
+  - artifacts/validation/r11-test-evidence/evidence.json
+  - artifacts/validation/r11-test-evidence/backend-java21.log
+  - artifacts/validation/r11-test-evidence/postgresql17.log
+  - artifacts/validation/r11-test-evidence/android-module.log
+  - apps/android/feature/team-leader/src/main/java/cc/orbexa/hhy/teamleader/R11TeamLeaderState.kt
+  - apps/android/feature/team-leader/src/main/java/cc/orbexa/hhy/teamleader/R11TeamLeaderDetailScreen.kt
+  - apps/android/feature/team-leader/src/test/java/cc/orbexa/hhy/teamleader/R11TeamLeaderStateTest.kt
+  - apps/admin-web/src/services/idempotency.ts
+  - apps/admin-web/src/services/adminContents.ts
+  - apps/admin-web/src/services/adminContents.test.ts
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/R11ControllerContractTest.java
+  source: story+explicit+approved-cr:CR-0297+approved-cr:CR-0298+approved-cr:CR-0299
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  base_commit: f31737d6714f7088397ab505626ea703ac4f6c7e
+  start_head: f31737d6714f7088397ab505626ea703ac4f6c7e
+  upstream: origin/task/TASK-R03-001
+  initial_worktree_state: CLEAN
+lease:
+  duration_minutes: 240
+  renewed_at: '2026-07-24T00:20:19Z'
+  expires_at: '2026-07-24T04:20:19Z'
+checkpoint_sequence: 2
+latest_checkpoint: .continuity/checkpoints/SES-20260723T231210Z-409B970E/0002.yaml
+session_log: docs/03-continuity/sessions/2026-07/SES-20260723T231210Z-409B970E.md
+next_step: 提交实现Commit并基于精确Commit生成四类专项证据
+context_pack:
+  yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
+  markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
+  manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+  context_hash: 1cc3bbd346255d66b341cebeb6131f4bd340e4afd69363f8b8515b575682be65
+  generated_at: '2026-07-24T00:20:22Z'
+handoff_bundle: null
+closure: null
+parallel_execution:
+  assessment: CAPABILITY_UNAVAILABLE
+  delegated_workers: 0
+  workers: []
+  reason: 当前运行时策略禁用主动子代理委托，主控完成跨模块串行复核

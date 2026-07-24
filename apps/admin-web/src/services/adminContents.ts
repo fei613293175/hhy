@@ -66,26 +66,30 @@ export class AdminContentsApi {
       adminContentPostContentsByIdRecommend: 'recommend',
       adminContentPostContentsByIdOfficialMark: 'official-mark',
     }[operation];
-    const key = options.idempotencyKey ?? adminIdempotencyKeys.current(operation, JSON.stringify(body));
+    const resourceId = safeId(id);
+    const key = options.idempotencyKey
+      ?? adminIdempotencyKeys.current(operation, JSON.stringify(body), resourceId);
     const response = await adminSecurityApi.request<{ data: Command<Id> }>(
-      `/admin-api/v1/contents/${safeId(id)}/${suffix}`,
+      `/admin-api/v1/contents/${resourceId}/${suffix}`,
       { method: 'POST', body: JSON.stringify(body) },
       { ...options, token: options.token ?? adminSession.accessToken, idempotencyKey: key },
     );
-    if (!options.idempotencyKey) adminIdempotencyKeys.clear(operation);
+    if (!options.idempotencyKey) adminIdempotencyKeys.clear(operation, resourceId);
     return response.data;
   }
 
   async updateDictionary(code: string, body: Body<'adminContentPutContentDictionariesByCode'>, options: AdminCallOptions = {}): Promise<Command<'adminContentPutContentDictionariesByCode'>> {
     if (!/^[A-Za-z0-9_-]{1,128}$/.test(code)) throw new RangeError('字典代码格式无效');
     const operation = 'adminContentPutContentDictionariesByCode' as const;
-    const key = options.idempotencyKey ?? adminIdempotencyKeys.current(operation, JSON.stringify(body));
+    const resourceCode = encodeURIComponent(code);
+    const key = options.idempotencyKey
+      ?? adminIdempotencyKeys.current(operation, JSON.stringify(body), resourceCode);
     const response = await adminSecurityApi.request<{ data: Command<typeof operation> }>(
-      `/admin-api/v1/content-dictionaries/${encodeURIComponent(code)}`,
+      `/admin-api/v1/content-dictionaries/${resourceCode}`,
       { method: 'PUT', body: JSON.stringify(body) },
       { ...options, token: options.token ?? adminSession.accessToken, idempotencyKey: key },
     );
-    if (!options.idempotencyKey) adminIdempotencyKeys.clear(operation);
+    if (!options.idempotencyKey) adminIdempotencyKeys.clear(operation, resourceCode);
     return response.data;
   }
 }

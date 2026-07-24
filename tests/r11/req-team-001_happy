@@ -1,0 +1,15 @@
+{
+  "schema": "hhy.r11.test-adapter/v1",
+  "test_id": "TST-TEAM_001-HAPPY",
+  "central_runner": "scripts/run_r11_specialized_matrix.py",
+  "runner": "r11-java21-postgresql17-android-admin-team-leader",
+  "selectors": [
+    "services/backend/boot/src/test/java/cc/orbexa/hhy/content/R11ServiceTest.java#createPersistsTypedDraftAndEncryptedContacts",
+    "services/backend/boot/src/test/java/cc/orbexa/hhy/content/R11ServiceTest.java#successfulPatchUpdatesOnceAndWritesSingleOutbox",
+    "services/backend/boot/src/test/java/cc/orbexa/hhy/content/R11PostgresStoreTest.java#createLockReadAndUpdateTeamLeaderUseRealPostgres",
+    "services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/R11ControllerContractTest.java#eightFrozenOperationsHaveOneControllerLandingAndTeamLeaderDispatcher",
+    "services/backend/boot/src/test/java/cc/orbexa/hhy/content/ContentServiceTest.java#onlinePersistsTransitionHistoryAuditOutboxAndIdempotentResult",
+    "apps/android/feature/team-leader/src/test/java/cc/orbexa/hhy/teamleader/R11TeamLeaderStateTest.kt#editorFormValidatesRequiredFactsAndBuildsRegisteredAttributes"
+  ],
+  "fault_classes": ["create-edit-lifecycle", "encrypted-contact", "real-postgresql", "shared-review-state-machine", "frozen-android-form"]
+}

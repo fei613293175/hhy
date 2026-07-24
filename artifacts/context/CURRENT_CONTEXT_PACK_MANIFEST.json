@@ -1,19 +1,19 @@
 {
   "version": "1.0",
-  "generated_at": "2026-07-23T23:07:33Z",
-  "context_hash": "0d37a00bd54d16e3e8e6ffe689a98318e7e0b7802ae3c973f7572755fa6a0197",
-  "fingerprint_mode": "REPOSITORY_TREE",
+  "generated_at": "2026-07-24T00:20:22Z",
+  "context_hash": "1cc3bbd346255d66b341cebeb6131f4bd340e4afd69363f8b8515b575682be65",
+  "fingerprint_mode": "SESSION_DELTA",
   "project_fingerprint": {
-    "sha256": "dbc02e868ec19dd23a0b2ee1843a29b4e7d86a9b381f6c18c67675e443d3b985",
-    "file_count": 0
+    "sha256": "f621971847ccef987cecb6aa828a84ed86a05274423a94e1c70a8313b3b875f2",
+    "file_count": 19
   },
   "yaml": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.yaml",
-    "sha256": "cc34acdda5f3d931cbab27303d64db9abc1442a719ffdc38fb09dff11c0b0717"
+    "sha256": "b036c97c4ddffdbc52b3ecc1ea83f67a6c269bcdf23f898f3376ed088c679908"
   },
   "markdown": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.md",
-    "sha256": "e9fe8f058cb9bfbaefd27c9c060fd687f04485f492ab95640a9ace8a913710cc"
+    "sha256": "f811fe2be9ae97c3a5f673b5ba006058d074079e7a4d39f113bf9d487d3b9fb9"
   },
   "sources": [
     {
@@ -28,8 +28,8 @@
     },
     {
       "path": "CURRENT_STATUS.yaml",
-      "sha256": "2fa66d5176131797b36455ac68e8e16f9524cea7e282eb7564b8af00ccee070b",
-      "bytes": 4137
+      "sha256": "908c443ce60f79f06276035dd9c802a4c17d7383d3c6f01f245eae1eabc482b6",
+      "bytes": 4284
     },
     {
       "path": "NEXT_TASK.yaml",
@@ -83,33 +83,33 @@
     },
     {
       "path": ".continuity/EVENT_LOG.jsonl",
-      "sha256": "e1809775acd3e8e6cd2913492b660785f8d406394582c323f92dcdf3df4c42fb",
-      "bytes": 1619469
+      "sha256": "2607b4aaf6664d66367d14f73043840633c61ca67d3ebe7932e039cafb76ad49",
+      "bytes": 1629281
     },
     {
       "path": ".continuity/SESSION_INDEX.yaml",
-      "sha256": "79c9db208aaa8d2114fabaadc61896fd0f8e8f1710eff17f1895ef5d2ab94061",
-      "bytes": 48717
+      "sha256": "a2f5f0f65ca68985fdc00d11d014d7f62017fee032793f090eb74b4d0771cab3",
+      "bytes": 49210
     },
     {
       "path": ".continuity/TASK_CLAIMS.yaml",
-      "sha256": "8e27d5351e152a11c7a37abd8ec7f24d74c8956019337e84cff6356ac99e47be",
-      "bytes": 67806
+      "sha256": "ba64f4072ecf9ac89d6c716eccacbca5039bb0d4f93f0f6e986b709707e5c7d3",
+      "bytes": 68536
     },
     {
       "path": ".continuity/TASK_TRANSITIONS.yaml",
-      "sha256": "9f85427a939c26ce554740892700d71993e883c9a1b75de148354f703dcbfb8d",
-      "bytes": 27705
+      "sha256": "ed27d4d69fc03d95094a93967dd59cb3109537c05cbb6c61bd873cea9643ae76",
+      "bytes": 27991
     },
     {
       "path": ".continuity/CHANGE_REQUEST_INDEX.yaml",
-      "sha256": "61cf1f7cd76be180c40f2378082f98e1708a8b29db51a9438b42c5b680407441",
-      "bytes": 988813
+      "sha256": "45a3a840f1fe12d81eed3fa8d448de927623c33d13c7c1dea48bfb2ec2f65e55",
+      "bytes": 996882
     },
     {
       "path": ".continuity/ACTIVE_SESSION.yaml",
-      "sha256": "8a749febe894a1d81d3c8855e699855bfbca71165831278f48b96485ccecfc4e",
-      "bytes": 143
+      "sha256": "c2b5cc5ad9f843d0e53b82a1fc48153513f6c0c2383455521ae2a66867534836",
+      "bytes": 534
     },
     {
       "path": "docs/00-baseline/正式商业系统全局硬性开发边界.md",
@@ -160,6 +160,31 @@
       "path": "releases/R11/PARALLEL_EXECUTION_PLAN.yaml",
       "sha256": "e892959361fe9a80841a49496d4302125b27838f73aab987c62a0e57a9070e54",
       "bytes": 2630
+    },
+    {
+      "path": "docs/03-continuity/sessions/2026-07/SES-20260723T231210Z-409B970E.md",
+      "sha256": "2b78c7a1cd349a0f78a8f17505542979f76e84ce27e131ec0179cc27877313e1",
+      "bytes": 5948
+    },
+    {
+      "path": ".continuity/checkpoints/SES-20260723T231210Z-409B970E/0002.yaml",
+      "sha256": "14f73b19dfa81f7918d559b70afcc337b699e952c6a0544a43fdf335df03a228",
+      "bytes": 14197
+    },
+    {
+      "path": "docs/03-continuity/change-requests/CR-0297-R11团队长三项专项测试与故障证据闭环.md",
+      "sha256": "2fb8bbb87c517bc6ff636e2242c4bcd0f4d05e48795bf987313f08b00d5e15c5",
+      "bytes": 3184
+    },
+    {
+      "path": "docs/03-continuity/change-requests/CR-0298-R11并发重复动作与后台幂等隔离修复.md",
+      "sha256": "93447daaec90b797b7bd1226157bdf40196c1cc617aa091a1cb4dd07ae506b3e",
+      "bytes": 2775
+    },
+    {
+      "path": "docs/03-continuity/change-requests/CR-0299-R11控制器合同测试路径稳定化.md",
+      "sha256": "878228736269a756bbaf7a6762996ab1bd7256414c5048a56a5098cff0d58e2a",
+      "bytes": 2102
     }
   ]
 }

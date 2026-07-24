@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
@@ -115,6 +116,87 @@ class R11ServiceTest {
         verify(store, times(1)).createTeamLeader(anyLong(), anyString(), any(), anyString(), any(), any(),
                 anyString(), any(), any());
         verify(shared, times(1)).outbox(11, "CONTENT", "content.team-leader.created.v1", "71", "DRAFT", NOW);
+        verify(content, times(1)).detail("71");
+        verify(shared, times(1)).complete(eq(9L), anyString(), anyString(), anyString());
+    }
+
+    @Test
+    void successfulPatchUpdatesOnceAndWritesSingleOutbox() {
+        when(shared.identityVerified(11)).thenReturn(true);
+        when(store.teamLeader(71)).thenReturn(Optional.of(row("DRAFT", 3)));
+        when(shared.claim(anyString(), eq(KEY), anyString(), any())).thenAnswer(invocation ->
+                new R08Store.IdempotencyClaim(10, invocation.getArgument(2), null, null, null, false));
+        when(store.lockTeamLeader(71)).thenReturn(Optional.of(row("DRAFT", 3)));
+        when(store.updateTeamLeader(eq(71L), eq(3L), eq("新标题"), any(), anyString(), any(), any(),
+                anyString(), any(), eq(false), eq(NOW), eq(11L))).thenReturn(true);
+        ContentResource updated = resource("71", "DRAFT", 4);
+        when(content.detail("71")).thenReturn(updated);
+        PatchProjectRequest request = new PatchProjectRequest("新标题", null, null, null, null,
+                null, null, null, 3L);
+
+        assertEquals(updated, service.patch(11, "71", request, KEY));
+
+        verify(shared).outbox(11, "CONTENT", "content.team-leader.updated.v1", "71", "DRAFT", NOW);
+        verify(shared).complete(eq(10L), anyString(), eq("r11.content-resource.v1"), anyString());
+    }
+
+    @Test
+    void differentRequestReusingKeyIsRejectedWithoutBusinessSideEffects() {
+        when(shared.identityVerified(11)).thenReturn(true);
+        when(shared.ownsReadyMedia(11, List.of(91L))).thenReturn(true);
+        when(shared.claim(anyString(), eq(KEY), anyString(), any())).thenReturn(
+                new R08Store.IdempotencyClaim(11, "f".repeat(64), null, null, null, true));
+
+        BusinessException error = assertThrows(BusinessException.class,
+                () -> service.create(11, request(), KEY));
+
+        assertEquals("COMMON-409-IDEMPOTENCY_CONFLICT", error.code());
+        verify(store, never()).lockOwnerTeamLeader(anyLong());
+        verify(store, never()).createTeamLeader(anyLong(), anyString(), any(), anyString(), any(), any(),
+                anyString(), any(), any());
+        verify(shared, never()).outbox(anyLong(), anyString(), anyString(), anyString(), anyString(), any());
+        verify(shared, never()).complete(anyLong(), anyString(), anyString(), anyString());
+    }
+
+    @Test
+    void configurationTimeoutStopsCreateWithoutBusinessSideEffects() {
+        when(shared.identityVerified(11)).thenReturn(true);
+        when(shared.ownsReadyMedia(11, List.of(91L))).thenReturn(true);
+        when(shared.claim(anyString(), eq(KEY), anyString(), any())).thenAnswer(invocation ->
+                new R08Store.IdempotencyClaim(12, invocation.getArgument(2), null, null, null, false));
+        when(shared.integerConfig("content.team_leader_per_account"))
+                .thenThrow(new IllegalStateException("configuration provider timeout"));
+
+        IllegalStateException error = assertThrows(IllegalStateException.class,
+                () -> service.create(11, request(), KEY));
+
+        assertEquals("configuration provider timeout", error.getMessage());
+        verify(store, never()).lockOwnerTeamLeader(anyLong());
+        verify(store, never()).createTeamLeader(anyLong(), anyString(), any(), anyString(), any(), any(),
+                anyString(), any(), any());
+        verify(shared, never()).replaceContacts(anyLong(), any(), any());
+        verify(shared, never()).outbox(anyLong(), anyString(), anyString(), anyString(), anyString(), any());
+        verify(shared, never()).complete(anyLong(), anyString(), anyString(), anyString());
+    }
+
+    @Test
+    void concurrentPatchLoserCannotEmitDuplicateMessageOrCompletion() {
+        when(shared.identityVerified(11)).thenReturn(true);
+        when(store.teamLeader(71)).thenReturn(Optional.of(row("DRAFT", 3)));
+        when(shared.claim(anyString(), eq(KEY), anyString(), any())).thenAnswer(invocation ->
+                new R08Store.IdempotencyClaim(13, invocation.getArgument(2), null, null, null, false));
+        when(store.lockTeamLeader(71)).thenReturn(Optional.of(row("DRAFT", 3)));
+        when(store.updateTeamLeader(anyLong(), anyLong(), anyString(), any(), anyString(), any(), any(),
+                anyString(), any(), anyBoolean(), any(), anyLong())).thenReturn(false);
+        PatchProjectRequest concurrent = new PatchProjectRequest("并发更新", null, null, null, null,
+                null, null, null, 3L);
+
+        BusinessException error = assertThrows(BusinessException.class,
+                () -> service.patch(11, "71", concurrent, KEY));
+
+        assertEquals("COMMON-409-VERSION_CONFLICT", error.code());
+        verify(shared, never()).outbox(anyLong(), anyString(), anyString(), anyString(), anyString(), any());
+        verify(shared, never()).complete(anyLong(), anyString(), anyString(), anyString());
     }
 
     @Test

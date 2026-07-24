@@ -1,0 +1,58 @@
+protocol_version: '1.0'
+cr_id: CR-0297
+title: R11团队长三项专项测试与故障证据闭环
+status: IMPLEMENTING
+created_at: '2026-07-23T23:19:55Z'
+updated_at: '2026-07-23T23:21:14Z'
+requester_actor_id: codex-root-r11-test
+approver_actor_id: codex-reviewer-r11-quality
+task_id: TASK-R11-005
+session_id: SES-20260723T231210Z-409B970E
+user_request: 立即开始并持续推进开发；所有终端命令静默执行
+reason: 三个权威TST-TEAM测试仍为READY_TO_AUTOMATE，缺少适配器、并发/超时/重复消息及异常证据，无法满足TASK-R11-005出口门禁
+original_rule: catalogs/test_cases.csv中TST-TEAM_001-HAPPY、REJECT、IDEMPOTENT为READY_TO_AUTOMATE且适配器路径尚不存在
+new_rule: 仅自动化既有三个TST-TEAM权威测试ID：通过R11中央矩阵绑定后端、真实PostgreSQL、Android及共享存储故障回归，证据校验通过后状态改为AUTOMATED；不新增业务、API或供应商调用
+impact_summary: 补齐R11成功、拒绝、幂等三类测试适配器与中央证据校验；新增同键异体、锁后竞争、配置超时零副作用和真实并发断言；供应商异常按共享媒体域跨回归且在R11报告中标记无直接调用
+impact:
+  files:
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R11ServiceTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R11PostgresStoreTest.java
+  - tests/r11/README.md
+  - tests/r11/req-team-001_happy
+  - tests/r11/req-team-001_reject
+  - tests/r11/req-team-001_idempotent
+  - tests/test_r11_specialized_matrix.py
+  - scripts/run_r11_specialized_matrix.py
+  - catalogs/test_cases.csv
+  - artifacts/reports/R11/TASK-R11-005_SPECIALIZED_TEST_REPORT.md
+  - artifacts/validation/r11-test-evidence/evidence.json
+  - artifacts/validation/r11-test-evidence/backend-java21.log
+  - artifacts/validation/r11-test-evidence/postgresql17.log
+  - artifacts/validation/r11-test-evidence/android-module.log
+  pages: []
+  apis: []
+  database: []
+  configuration: []
+  ledger: []
+  tests:
+  - TST-TEAM_001-HAPPY
+  - TST-TEAM_001-REJECT
+  - TST-TEAM_001-IDEMPOTENT
+  releases:
+  - R11
+  migration_and_compatibility: 仅测试与证据治理变化，不修改生产接口、数据库Schema或既有业务行为；现有客户端和服务端完全兼容
+user_confirmation: 用户已明确要求立即开始并持续推进开发，且所有终端命令由AI静默执行
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-23T23:20:36Z'
+  note: 独立只读审计确认仅补现有三项权威测试与证据，不变更业务契约；范围最小且覆盖重复、并发、超时、消息和供应商异常边界
+machine_record: .continuity/change_requests/CR-0297.yaml
+document: docs/03-continuity/change-requests/CR-0297-R11团队长三项专项测试与故障证据闭环.md
+decision_log:
+- at: '2026-07-23T23:21:14Z'
+  actor_id: codex-root-r11-test
+  status: IMPLEMENTING
+  note: 开始补齐三项权威测试适配器、缺口断言与可机检证据
+  session_id: SES-20260723T231210Z-409B970E
+session_ids:
+- SES-20260723T231210Z-409B970E

@@ -43,29 +43,34 @@ function secureUuid(): string {
 }
 
 export class IdempotencyKeyFactory {
-  private readonly active = new Map<AdminSecurityIdempotentOperation, {
+  private readonly active = new Map<string, {
     key: string;
     intentFingerprint: string;
   }>();
 
-  current(operation: AdminSecurityIdempotentOperation, intentFingerprint = ''): string {
-    const existing = this.active.get(operation);
+  current(operation: AdminSecurityIdempotentOperation, intentFingerprint = '', scope = ''): string {
+    const slot = this.slot(operation, scope);
+    const existing = this.active.get(slot);
     if (existing?.intentFingerprint === intentFingerprint) return existing.key;
-    return this.rotate(operation, intentFingerprint);
+    return this.rotate(operation, intentFingerprint, scope);
   }
 
-  rotate(operation: AdminSecurityIdempotentOperation, intentFingerprint = ''): string {
+  rotate(operation: AdminSecurityIdempotentOperation, intentFingerprint = '', scope = ''): string {
     const key = secureUuid();
-    this.active.set(operation, { key, intentFingerprint });
+    this.active.set(this.slot(operation, scope), { key, intentFingerprint });
     return key;
   }
 
-  clear(operation?: AdminSecurityIdempotentOperation): void {
+  clear(operation?: AdminSecurityIdempotentOperation, scope = ''): void {
     if (operation) {
-      this.active.delete(operation);
+      this.active.delete(this.slot(operation, scope));
     } else {
       this.active.clear();
     }
+  }
+
+  private slot(operation: AdminSecurityIdempotentOperation, scope: string): string {
+    return `${operation}\n${scope}`;
   }
 }
 

@@ -108,6 +108,16 @@ class R11IntentKeys {
     }
 }
 
+data class R11TeamLeaderActionState(val activeAction: String? = null) {
+    val busy: Boolean get() = activeAction != null
+
+    fun begin(action: String): R11TeamLeaderActionState? =
+        if (activeAction == null) copy(activeAction = action) else null
+
+    fun finish(action: String): R11TeamLeaderActionState =
+        if (activeAction == action) copy(activeAction = null) else this
+}
+
 data class R11TeamLeaderForm(
     val nickname: String = "",
     val personalIntro: String = "",

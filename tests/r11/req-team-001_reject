@@ -1,0 +1,15 @@
+{
+  "schema": "hhy.r11.test-adapter/v1",
+  "test_id": "TST-TEAM_001-REJECT",
+  "central_runner": "scripts/run_r11_specialized_matrix.py",
+  "runner": "r11-java21-postgresql17-android-admin-team-leader",
+  "selectors": [
+    "services/backend/boot/src/test/java/cc/orbexa/hhy/content/R11ServiceTest.java#oneAccountAndUnknownAttributesFailBeforeBusinessWrites",
+    "services/backend/boot/src/test/java/cc/orbexa/hhy/content/R11ServiceTest.java#stalePatchCannotEmitSuccessSideEffects",
+    "services/backend/boot/src/test/java/cc/orbexa/hhy/content/R11ServiceTest.java#configurationTimeoutStopsCreateWithoutBusinessSideEffects",
+    "services/backend/boot/src/test/java/cc/orbexa/hhy/content/R11ServiceTest.java#concurrentPatchLoserCannotEmitDuplicateMessageOrCompletion",
+    "services/backend/boot/src/test/java/cc/orbexa/hhy/access/storage/StorageMigrationServiceTest.java#providerFailurePausesWithoutAdvancingCursorAndCanResume",
+    "apps/android/feature/team-leader/src/test/java/cc/orbexa/hhy/teamleader/R11TeamLeaderStateTest.kt#firstLoadFailuresMapToUserFacingStates"
+  ],
+  "fault_classes": ["permission-validation-reject", "optimistic-concurrency", "configuration-timeout", "zero-side-effect", "shared-storage-provider-failure"]
+}

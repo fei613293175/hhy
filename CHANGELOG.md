@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## R11 团队长专项测试与并发幂等修复 · 2026-07-24
+
+- 将既有三项 `TST-TEAM_001-*` 权威测试接入统一机器适配器，覆盖成功编辑、权限与配置拒绝、网络超时重放、同键异体冲突、真实 PostgreSQL 并发唯一归属和 Outbox 去重，不新增第二套测试清单。
+- Android 团队长详情增加全局单写动作锁；重复点击不再并发请求，动作失败保留已加载详情并允许使用稳定幂等键重试。
+- 管理后台幂等键按操作与资源隔离，不同内容或字典命令不再互相覆盖，成功后只清理对应资源作用域。
+- 控制器合同测试改从运行时 classpath 读取同步 OpenAPI，消除本机、容器和 CI 工作目录差异；Java 21、PostgreSQL 17.10、固定 Android 容器和后台模块验证均已通过。
+
 ## 同一 Task 多 Story 原子接续 · 2026-07-24
 
 - 新增 `continuity.py story-switch`：完成一个 Story 的独立提交后，可在不关闭整个 Task 的前提下切换到同一 Task 的另一个就绪 Story。
@@ -1397,4 +1404,3 @@
 - Actor：`codex-root-r11-client`
 - 摘要：TASK-R11-004完成：团队长列表、详情、资料创建编辑三页纵向闭环，首页Navigation回接，后台统一内容列表与团队长运营详情，H5-007按R28显式N/A；Android、admin-web、生成资产和连续性证据PASS。
 - 记录：`docs/03-continuity/sessions/2026-07/SES-20260723T183130Z-454A6E0D.md`
-

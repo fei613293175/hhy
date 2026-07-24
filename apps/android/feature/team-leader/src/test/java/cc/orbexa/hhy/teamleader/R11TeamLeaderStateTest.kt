@@ -81,6 +81,18 @@ class R11TeamLeaderStateTest {
     }
 
     @Test
+    fun actionStateAllowsOnlyOneRequestAndReopensAfterCompletion() {
+        val initial = R11TeamLeaderActionState()
+        val running = initial.begin("favorite")!!
+        assertEquals(true, running.busy)
+        assertNull(running.begin("favorite"))
+        assertNull(running.begin("contact"))
+        val finished = running.finish("favorite")
+        assertFalse(finished.busy)
+        assertEquals("contact", finished.begin("contact")?.activeAction)
+    }
+
+    @Test
     fun detailSectionsOnlyContainRegisteredBusinessFacts() {
         val resource = resource(
             attributes = buildJsonObject {
