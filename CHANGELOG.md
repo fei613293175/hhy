@@ -1467,3 +1467,13 @@
 - Actor：`codex-root-r11-close`
 - 摘要：TASK-R11-008完成：R11机器候选、Staging、三页视觉、APK四方SHA、桌面说明、Acceptance与无状态交接PASS；项目所有者真机PENDING保持异步；关闭工作流已修正为MACHINE_CLOSE且不再重复本机Java/Android门禁
 - 记录：`docs/03-continuity/sessions/2026-07/SES-20260724T110611Z-0D26E8D5.md`
+
+## TASK-R12-001 · COMPLETED · 2026-07-24T16:35:17Z
+
+- Task close: TASK-R12-001 / SES-20260724T144831Z-B2E27A89
+- Release：`R12`
+- Story：`STORY-R12-008`
+- Actor：`codex-root-r12-entry`
+- 摘要：R12开发入口完成：DoR、云端环境、执行计划、依赖、11页精确视觉基线、Manifest、Stories与轻量门禁全部PASS；完整Android门禁保留至TASK-R12-007。
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260724T144831Z-B2E27A89.md`
+
