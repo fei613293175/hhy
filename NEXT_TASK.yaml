@@ -1,5 +1,5 @@
-id: TASK-R11-005
-title: 团队长入驻完整闭环专项测试与故障注入
+id: TASK-R11-006
+title: 团队长入驻完整闭环可观测性与预发布验收
 status: READY
 release: R11
 requirements:
@@ -7,23 +7,22 @@ requirements:
 - REQ-CONTACT-001
 - REQ-APK-001
 depends_on:
-- TASK-R11-003
-- TASK-R11-004
+- TASK-R11-005
 definition_of_ready: releases/R11/DEFINITION_OF_READY.yaml
 stories: releases/R11/STORIES.yaml
 steps:
-- 测试报告和失败证据归档
-- 关键缺陷清零
+- 运行手册演练
+- 验收矩阵签字
 acceptance:
 - 无TODO/生产Mock
 - 代码、文档、测试、追踪同步更新
-- 测试报告和失败证据归档
-- 关键缺陷清零
+- 运行手册演练
+- 验收矩阵签字
 claim_required: true
-start_command: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R11-005
+start_command: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R11-006
 commands:
   resume: python3 scripts/continuity.py resume
-  start: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R11-005
+  start: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R11-006
   checkpoint: python3 scripts/continuity.py checkpoint --summary '<阶段完成>' --next-step '<精确下一步>' --test 'name|PASS|evidence|note' --parallel-assessment
     <ASSESSMENT> --parallel-reason '<未委托原因>'
   handoff: python3 scripts/continuity.py handoff --actor <ACTOR_ID> --reason '<移交原因>' --next-step '<精确下一步>'
