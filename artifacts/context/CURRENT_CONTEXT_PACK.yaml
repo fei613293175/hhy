@@ -1,5 +1,5 @@
 context_version: '1.0'
-generated_at: '2026-07-24T03:21:06Z'
+generated_at: '2026-07-24T04:13:40Z'
 conversation_dependency: PROHIBITED
 source_of_truth: REPOSITORY_ONLY
 project: hhy-pro-platform
@@ -10,7 +10,7 @@ current_status:
   phase: R11
   active_release: R11
   active_task: TASK-R11-007
-  status: READY
+  status: IN_PROGRESS
   documentation_status: ZERO_BLOCKING_DOCUMENT_GAPS
   last_green_commit: b190476f72bd0c0de12dc0f29820a72d352caffc
   last_staging_apk: null
@@ -116,14 +116,15 @@ current_status:
   - TASK-R11-004
   - TASK-R11-005
   - TASK-R11-006
-  in_progress_tasks: []
+  in_progress_tasks:
+  - TASK-R11-007
   blocked_tasks:
   - TASK-R02-007
   - TASK-R03-007
   - TASK-R06-008
   - TASK-R07-008
   next_task: TASK-R11-007
-  updated_at: '2026-07-24T03:21:03Z'
+  updated_at: '2026-07-24T04:13:37Z'
   notes:
   - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
   - 全部REST/WebSocket操作均有页面或系统所有者
@@ -155,17 +156,19 @@ current_status:
   continuity:
     protocol_version: '1.0'
     mode: ENFORCED
-    active_session_id: null
-    last_session_id: SES-20260724T021901Z-603D54F5
-    last_session_result: COMPLETED
-    last_checkpoint: .continuity/checkpoints/SES-20260724T021901Z-603D54F5/0006.yaml
-    last_handoff_bundle: null
+    active_session_id: SES-20260724T032308Z-98D6D10A
+    actor_id: codex-root-r11-candidate
+    story_id: STORY-R11-004
+    lease_expires_at: '2026-07-24T08:13:37Z'
+    latest_checkpoint: .continuity/checkpoints/SES-20260724T032308Z-98D6D10A/0003.yaml
+    project_fingerprint: 3505a19b1c9decce2d9b17f561d5c1f19d7e3a1dd13ca467c51df81bce95e4cb
     context_pack:
       yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
       markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
       manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-      context_hash: 2c25466a920debe5cb4c9a7beec213fd4394ed7ba9ab80b8e965e7caad0e516f
-      generated_at: '2026-07-24T03:21:01Z'
+      context_hash: b68599d72262593a143040e2476107bb204cd00ef1f5093f05fd583a9160a090
+      generated_at: '2026-07-24T04:12:13Z'
+    handoff_bundle: null
 next_task:
   id: TASK-R11-007
   title: 团队长入驻完整闭环Android测试APK与产物追溯
@@ -199,34 +202,363 @@ next_task:
     cr_amend: python3 scripts/continuity.py cr-amend --actor <ACTOR_ID> --cr <CR_ID> --original-rule '<原规则>' --new-rule '<新规则>' --impact-summary
       '<影响摘要>' --migration-and-compatibility '<迁移兼容说明>' --file <PATH> --test '<TEST>' --release <RELEASE>
   next_after: 由当前TASKS.yaml依赖关系决定
-active_session: null
-latest_checkpoint: null
+active_session:
+  protocol_version: '1.0'
+  package_version: 1.2.3
+  session_id: SES-20260724T032308Z-98D6D10A
+  status: ACTIVE
+  actor:
+    id: codex-root-r11-candidate
+    kind: AI_OR_HUMAN
+    host: unknown
+  release: R11
+  task_id: TASK-R11-007
+  story_id: STORY-R11-004
+  goal: 团队长入驻完整闭环Android测试APK与产物追溯
+  started_at: '2026-07-24T03:23:08Z'
+  updated_at: '2026-07-24T04:13:37Z'
+  takeover_of: null
+  change_requests:
+  - CR-0302
+  - CR-0303
+  scope:
+    allowed_paths:
+    - apps/**
+    - services/**
+    - packages/**
+    - contracts/**
+    - database/**
+    - config/**
+    - catalogs/**
+    - tests/**
+    - infra/**
+    - design/**
+    - docs/**
+    - releases/**
+    - scripts/**
+    - templates/**
+    - .github/**
+    - .githooks/**
+    - .codex/**
+    - AGENTS.md
+    - START_HERE.md
+    - README.md
+    - CHANGELOG.md
+    - Makefile
+    - .gitignore
+    - .gitattributes
+    - .dockerignore
+    - package.json
+    - pnpm-lock.yaml
+    - pnpm-workspace.yaml
+    - requirements-dev.txt
+    - PROJECT_*.yaml
+    - PROJECT_*.json
+    approved_exceptions: []
+    source: story+explicit
+  git:
+    initialized: true
+    branch: task/TASK-R03-001
+    base_commit: c20c118ae98a93b3dde28d6901bc10baf98b0402
+    start_head: c20c118ae98a93b3dde28d6901bc10baf98b0402
+    upstream: origin/task/TASK-R03-001
+    initial_worktree_state: CLEAN
+  lease:
+    duration_minutes: 240
+    renewed_at: '2026-07-24T04:13:37Z'
+    expires_at: '2026-07-24T08:13:37Z'
+  checkpoint_sequence: 3
+  latest_checkpoint: .continuity/checkpoints/SES-20260724T032308Z-98D6D10A/0003.yaml
+  session_log: docs/03-continuity/sessions/2026-07/SES-20260724T032308Z-98D6D10A.md
+  next_step: 提交冻结变更，执行push-preflight并推送唯一R11候选
+  context_pack: THIS_CONTEXT_PACK
+  handoff_bundle: null
+  closure: null
+  parallel_execution:
+    assessment: NO_SAFE_PARALLEL
+    delegated_workers: 0
+    workers: []
+    reason: 最终候选必须以同一冻结提交串行绑定代码、数据、截图和APK证据
+latest_checkpoint:
+  protocol_version: '1.0'
+  checkpoint_id: CP-SES-20260724T032308Z-98D6D10A-0003
+  session_id: SES-20260724T032308Z-98D6D10A
+  task_id: TASK-R11-007
+  story_id: STORY-R11-004
+  sequence: 3
+  created_at: '2026-07-24T04:13:37Z'
+  summary: R11候选实现与CR状态均已冻结，可提交
+  next_step: 提交冻结变更，执行push-preflight并推送唯一R11候选
+  blockers: []
+  decisions: []
+  note: ''
+  tests:
+  - name: r11-python-candidate
+    result: PASS
+    evidence: 28 tests OK
+    note: 候选合同、门禁及请求回归
+  - name: android-ui-foundation
+    result: PASS
+    evidence: ANDROID_UI_FOUNDATION_GATE=PASS
+    note: Android基础UI约束
+  - name: ui-tokens
+    result: PASS
+    evidence: UI_TOKENS_OK 52
+    note: 全量UI令牌
+  - name: android-module
+    result: PASS
+    evidence: 216 actionable tasks BUILD SUCCESSFUL in 58s
+    note: 云端Android模块
+  - name: r11-fixture-idempotence
+    result: PASS
+    evidence: two identical successful runs
+    note: 专用候选数据
+  - name: r11-media
+    result: PASS
+    evidence: HTTP 200 image/png
+    note: 候选媒体
+  git:
+    initialized: true
+    branch: task/TASK-R03-001
+    head: c20c118ae98a93b3dde28d6901bc10baf98b0402
+    upstream: origin/task/TASK-R03-001
+    ahead: 4
+    behind: 0
+    dirty: true
+    status_porcelain:
+    - M  .continuity/ACTIVE_SESSION.yaml
+    - M  .continuity/CHANGE_REQUEST_INDEX.yaml
+    - M  .continuity/EVENT_LOG.jsonl
+    - M  .continuity/SESSION_INDEX.yaml
+    - M  .continuity/STATE.yaml
+    - M  .continuity/TASK_CLAIMS.yaml
+    - M  .continuity/TASK_TRANSITIONS.yaml
+    - A  .continuity/change_requests/CR-0302.yaml
+    - A  .continuity/change_requests/CR-0303.yaml
+    - A  .continuity/checkpoints/SES-20260724T032308Z-98D6D10A/0001.yaml
+    - A  .continuity/checkpoints/SES-20260724T032308Z-98D6D10A/0002.yaml
+    - A  .continuity/sessions/SES-20260724T032308Z-98D6D10A.yaml
+    - M  CHANGELOG.md
+    - M  CURRENT_STATUS.yaml
+    - M  apps/android/app/build.gradle.kts
+    - M  apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+    - M  apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+    - M  apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+    - M  artifacts/context/CURRENT_CONTEXT_PACK.md
+    - M  artifacts/context/CURRENT_CONTEXT_PACK.yaml
+    - M  artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+    - M  catalogs/change_request_index.csv
+    - M  catalogs/session_index.csv
+    - M  catalogs/task_transition_ledger.csv
+    - M  config/android-candidate-request.yaml
+    - A  docs/03-continuity/change-requests/CR-0302-补齐R11团队长Android最终候选与产物追溯.md
+    - A  docs/03-continuity/change-requests/CR-0303-同步R11候选ReleasePolicy与版本回归身份.md
+    - A  docs/03-continuity/sessions/2026-07/SES-20260724T032308Z-98D6D10A.md
+    - A  scripts/prepare_r11_ci_fixture.sh
+    - A  tests/android/visual-manifests/R11.yaml
+    - M  tests/test_android_ci_gate.py
+    - A  tests/test_r11_candidate.py
+    recent_commits:
+    - "c20c118ae98a93b3dde28d6901bc10baf98b0402\t2026-07-24T11:21:54+08:00\tHHY Continuity Bootstrap\t[STORY-R11-004] chore(continuity): close\
+      \ TASK-R11-006"
+    - "1b6d8d3c0c50770e891cd7a97cc1747264b5d5f0\t2026-07-24T11:20:09+08:00\tHHY Continuity Bootstrap\t[STORY-R11-004] test(r11): archive observability\
+      \ staging evidence"
+    - "b190476f72bd0c0de12dc0f29820a72d352caffc\t2026-07-24T11:12:03+08:00\tHHY Continuity Bootstrap\t[STORY-R11-004] fix(r11): isolate staging\
+      \ security sentinels"
+    - "98712e46c0229528333a27a1f09dbbeaef31cf79\t2026-07-24T11:04:23+08:00\tHHY Continuity Bootstrap\t[STORY-R11-004] fix(r11): enforce valid\
+      \ staging secret sentinels"
+    - "22f70c943b20f29013d5d33f017303e03830919c\t2026-07-24T10:43:40+08:00\tHHY Continuity Bootstrap\t[STORY-R11-004] feat(r11): add team leader\
+      \ observability staging gate"
+    - "b7da91084e6205a9875eeb6d26d2c5912b2d3cf9\t2026-07-24T10:17:32+08:00\tHHY Continuity Bootstrap\t[STORY-R11-004] chore(continuity): close\
+      \ TASK-R11-005 as completed"
+    - "d0d76808c3aa6a473e62e6bb7dd2e262faeff209\t2026-07-24T10:04:05+08:00\tHHY Continuity Bootstrap\t[STORY-R11-004] chore(continuity): close\
+      \ r11 test changes"
+    - "3470921483cdcccb3ac11e51b465f7ca1b6c9d7b\t2026-07-24T09:55:37+08:00\tHHY Continuity Bootstrap\t[STORY-R11-004] test(r11): archive specialized\
+      \ evidence"
+  project_fingerprint:
+    sha256: 3505a19b1c9decce2d9b17f561d5c1f19d7e3a1dd13ca467c51df81bce95e4cb
+    files:
+    - CHANGELOG.md
+    - apps/android/app/build.gradle.kts
+    - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+    - apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+    - apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+    - config/android-candidate-request.yaml
+    - docs/03-continuity/change-requests/CR-0302-补齐R11团队长Android最终候选与产物追溯.md
+    - docs/03-continuity/change-requests/CR-0303-同步R11候选ReleasePolicy与版本回归身份.md
+    - scripts/prepare_r11_ci_fixture.sh
+    - tests/android/visual-manifests/R11.yaml
+    - tests/test_android_ci_gate.py
+    - tests/test_r11_candidate.py
+    file_count: 12
+    payload:
+      base_commit: c20c118ae98a93b3dde28d6901bc10baf98b0402
+      files:
+      - path: CHANGELOG.md
+        state: FILE
+        size: 123995
+        sha256: 50ebce9ceb6012d56ea3db962fbd236f520f747b1214a8c304c6adaba72ff9b8
+      - path: apps/android/app/build.gradle.kts
+        state: FILE
+        size: 5298
+        sha256: ee776d3f3695a4836c808b6cfaa0c1b2407ea93eac44a40a76a03293b7e90e1c
+      - path: apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+        state: FILE
+        size: 12470
+        sha256: 18597bda38959157811644b0bfc30e622cb48c7f76115d9d3f7c061beac1338f
+      - path: apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+        state: FILE
+        size: 520
+        sha256: a916de4cc8c374221e59e1ef54827883d6f20778bf6504d6fd6e53da89304450
+      - path: apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+        state: FILE
+        size: 1243
+        sha256: 730319a20e23d7eb9a286ee030f09a1f02c4f2ab5c5837fafe6402cf07a26c08
+      - path: config/android-candidate-request.yaml
+        state: FILE
+        size: 334
+        sha256: 7db1f68a0919aaaaaccd2376d4f0e126397b81a260ee6693c33ca313495eab82
+      - path: docs/03-continuity/change-requests/CR-0302-补齐R11团队长Android最终候选与产物追溯.md
+        state: FILE
+        size: 3367
+        sha256: 13a55bb51fb2d9b89160365461177a1b81804be5790e77ecac4810a7bf8b63e4
+      - path: docs/03-continuity/change-requests/CR-0303-同步R11候选ReleasePolicy与版本回归身份.md
+        state: FILE
+        size: 2522
+        sha256: 915d5df43636e0e616bce0530d316748ddf16f91d51bedfe41e6591ceeaef75c
+      - path: scripts/prepare_r11_ci_fixture.sh
+        state: FILE
+        size: 10689
+        sha256: 57592d9daf444fe4f55f00a6c786f1659e5cd56766f1f0f8273d9947d9603d6a
+      - path: tests/android/visual-manifests/R11.yaml
+        state: FILE
+        size: 2138
+        sha256: a896e28b9b9fbb2d76c7defc57f3d92bd192b78dfd42394839fdcf44164b40a2
+      - path: tests/test_android_ci_gate.py
+        state: FILE
+        size: 31325
+        sha256: b493d900ca04bd5b6b625d1926b4fdfe4d261e7655ebdae57e718292f25981e8
+      - path: tests/test_r11_candidate.py
+        state: FILE
+        size: 5404
+        sha256: b37ee2ca1b2d90d448a7efc3507264af6fa938a149204d272ec4b5c5aa82a9aa
+  change_classification:
+    other:
+    - CHANGELOG.md
+    - config/android-candidate-request.yaml
+    code:
+    - apps/android/app/build.gradle.kts
+    - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+    - apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+    - apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+    - scripts/prepare_r11_ci_fixture.sh
+    user_visible:
+    - apps/android/app/build.gradle.kts
+    - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+    - apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+    - apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+    continuity:
+    - docs/03-continuity/change-requests/CR-0302-补齐R11团队长Android最终候选与产物追溯.md
+    - docs/03-continuity/change-requests/CR-0303-同步R11候选ReleasePolicy与版本回归身份.md
+    tests:
+    - tests/android/visual-manifests/R11.yaml
+    - tests/test_android_ci_gate.py
+    - tests/test_r11_candidate.py
+  required_records:
+  - SESSION_RECORD
+  - SESSION_LOG
+  - CHECKPOINT
+  - CURRENT_STATUS
+  - EVENT_LOG
+  - CHANGELOG
+  change_requests:
+  - CR-0302
+  - CR-0303
+  scope:
+    allowed_paths:
+    - apps/**
+    - services/**
+    - packages/**
+    - contracts/**
+    - database/**
+    - config/**
+    - catalogs/**
+    - tests/**
+    - infra/**
+    - design/**
+    - docs/**
+    - releases/**
+    - scripts/**
+    - templates/**
+    - .github/**
+    - .githooks/**
+    - .codex/**
+    - AGENTS.md
+    - START_HERE.md
+    - README.md
+    - CHANGELOG.md
+    - Makefile
+    - .gitignore
+    - .gitattributes
+    - .dockerignore
+    - package.json
+    - pnpm-lock.yaml
+    - pnpm-workspace.yaml
+    - requirements-dev.txt
+    - PROJECT_*.yaml
+    - PROJECT_*.json
+    approved_exceptions: []
+    source: story+explicit
+  parallel_execution:
+    assessment: NO_SAFE_PARALLEL
+    delegated_workers: 0
+    workers: []
+    reason: 最终候选必须以同一冻结提交串行绑定代码、数据、截图和APK证据
+  event_hash: 1822c83fae8bc96ab7e6a6b368d5aa88628b95509b039d9ab15c105afcfff3ca
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: 1b6d8d3c0c50770e891cd7a97cc1747264b5d5f0
+  head: c20c118ae98a93b3dde28d6901bc10baf98b0402
   upstream: origin/task/TASK-R03-001
-  ahead: 3
+  ahead: 4
   behind: 0
   dirty: true
   status_porcelain:
-  - ' M .continuity/ACTIVE_SESSION.yaml'
-  - ' M .continuity/EVENT_LOG.jsonl'
-  - ' M .continuity/SESSION_INDEX.yaml'
-  - ' M .continuity/STATE.yaml'
-  - ' M .continuity/TASK_CLAIMS.yaml'
-  - ' M .continuity/sessions/SES-20260724T021901Z-603D54F5.yaml'
-  - ' M CHANGELOG.md'
-  - ' M CURRENT_STATUS.yaml'
-  - ' M NEXT_TASK.yaml'
-  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
-  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
-  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
-  - ' M catalogs/session_index.csv'
-  - ' M docs/03-continuity/sessions/2026-07/SES-20260724T021901Z-603D54F5.md'
-  - ' M releases/R11/TASKS.yaml'
-  - ?? .continuity/checkpoints/SES-20260724T021901Z-603D54F5/0006.yaml
+  - MM .continuity/ACTIVE_SESSION.yaml
+  - M  .continuity/CHANGE_REQUEST_INDEX.yaml
+  - MM .continuity/EVENT_LOG.jsonl
+  - MM .continuity/SESSION_INDEX.yaml
+  - MM .continuity/STATE.yaml
+  - M  .continuity/TASK_CLAIMS.yaml
+  - M  .continuity/TASK_TRANSITIONS.yaml
+  - A  .continuity/change_requests/CR-0302.yaml
+  - A  .continuity/change_requests/CR-0303.yaml
+  - A  .continuity/checkpoints/SES-20260724T032308Z-98D6D10A/0001.yaml
+  - A  .continuity/checkpoints/SES-20260724T032308Z-98D6D10A/0002.yaml
+  - AM .continuity/sessions/SES-20260724T032308Z-98D6D10A.yaml
+  - M  CHANGELOG.md
+  - MM CURRENT_STATUS.yaml
+  - M  apps/android/app/build.gradle.kts
+  - M  apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+  - M  apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+  - M  apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+  - M  artifacts/context/CURRENT_CONTEXT_PACK.md
+  - M  artifacts/context/CURRENT_CONTEXT_PACK.yaml
+  - M  artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+  - M  catalogs/change_request_index.csv
+  - M  catalogs/session_index.csv
+  - M  catalogs/task_transition_ledger.csv
+  - M  config/android-candidate-request.yaml
+  - A  docs/03-continuity/change-requests/CR-0302-补齐R11团队长Android最终候选与产物追溯.md
+  - A  docs/03-continuity/change-requests/CR-0303-同步R11候选ReleasePolicy与版本回归身份.md
+  - AM docs/03-continuity/sessions/2026-07/SES-20260724T032308Z-98D6D10A.md
+  - A  scripts/prepare_r11_ci_fixture.sh
+  - A  tests/android/visual-manifests/R11.yaml
+  - M  tests/test_android_ci_gate.py
+  - A  tests/test_r11_candidate.py
+  - ?? .continuity/checkpoints/SES-20260724T032308Z-98D6D10A/0003.yaml
   recent_commits:
+  - "c20c118ae98a93b3dde28d6901bc10baf98b0402\t2026-07-24T11:21:54+08:00\tHHY Continuity Bootstrap\t[STORY-R11-004] chore(continuity): close TASK-R11-006"
   - "1b6d8d3c0c50770e891cd7a97cc1747264b5d5f0\t2026-07-24T11:20:09+08:00\tHHY Continuity Bootstrap\t[STORY-R11-004] test(r11): archive observability\
     \ staging evidence"
   - "b190476f72bd0c0de12dc0f29820a72d352caffc\t2026-07-24T11:12:03+08:00\tHHY Continuity Bootstrap\t[STORY-R11-004] fix(r11): isolate staging\
@@ -241,12 +573,73 @@ git:
     \ test changes"
   - "3470921483cdcccb3ac11e51b465f7ca1b6c9d7b\t2026-07-24T09:55:37+08:00\tHHY Continuity Bootstrap\t[STORY-R11-004] test(r11): archive specialized\
     \ evidence"
-  - "5013a9a042026328bb9e6602f1931ed32d6632ed\t2026-07-24T08:21:53+08:00\tHHY Continuity Bootstrap\t[STORY-R11-004] test(r11): close team leader\
-    \ fault matrix"
 project_fingerprint:
-  sha256: c09443d9a75306f39cb50833e34c158fb9e47417507b5bbe1a816a51e83a6778
-  files: []
-  file_count: 0
+  sha256: 3505a19b1c9decce2d9b17f561d5c1f19d7e3a1dd13ca467c51df81bce95e4cb
+  files:
+  - CHANGELOG.md
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+  - apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+  - apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+  - config/android-candidate-request.yaml
+  - docs/03-continuity/change-requests/CR-0302-补齐R11团队长Android最终候选与产物追溯.md
+  - docs/03-continuity/change-requests/CR-0303-同步R11候选ReleasePolicy与版本回归身份.md
+  - scripts/prepare_r11_ci_fixture.sh
+  - tests/android/visual-manifests/R11.yaml
+  - tests/test_android_ci_gate.py
+  - tests/test_r11_candidate.py
+  file_count: 12
+  payload:
+    base_commit: c20c118ae98a93b3dde28d6901bc10baf98b0402
+    files:
+    - path: CHANGELOG.md
+      state: FILE
+      size: 123995
+      sha256: 50ebce9ceb6012d56ea3db962fbd236f520f747b1214a8c304c6adaba72ff9b8
+    - path: apps/android/app/build.gradle.kts
+      state: FILE
+      size: 5298
+      sha256: ee776d3f3695a4836c808b6cfaa0c1b2407ea93eac44a40a76a03293b7e90e1c
+    - path: apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+      state: FILE
+      size: 12470
+      sha256: 18597bda38959157811644b0bfc30e622cb48c7f76115d9d3f7c061beac1338f
+    - path: apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+      state: FILE
+      size: 520
+      sha256: a916de4cc8c374221e59e1ef54827883d6f20778bf6504d6fd6e53da89304450
+    - path: apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+      state: FILE
+      size: 1243
+      sha256: 730319a20e23d7eb9a286ee030f09a1f02c4f2ab5c5837fafe6402cf07a26c08
+    - path: config/android-candidate-request.yaml
+      state: FILE
+      size: 334
+      sha256: 7db1f68a0919aaaaaccd2376d4f0e126397b81a260ee6693c33ca313495eab82
+    - path: docs/03-continuity/change-requests/CR-0302-补齐R11团队长Android最终候选与产物追溯.md
+      state: FILE
+      size: 3367
+      sha256: 13a55bb51fb2d9b89160365461177a1b81804be5790e77ecac4810a7bf8b63e4
+    - path: docs/03-continuity/change-requests/CR-0303-同步R11候选ReleasePolicy与版本回归身份.md
+      state: FILE
+      size: 2522
+      sha256: 915d5df43636e0e616bce0530d316748ddf16f91d51bedfe41e6591ceeaef75c
+    - path: scripts/prepare_r11_ci_fixture.sh
+      state: FILE
+      size: 10689
+      sha256: 57592d9daf444fe4f55f00a6c786f1659e5cd56766f1f0f8273d9947d9603d6a
+    - path: tests/android/visual-manifests/R11.yaml
+      state: FILE
+      size: 2138
+      sha256: a896e28b9b9fbb2d76c7defc57f3d92bd192b78dfd42394839fdcf44164b40a2
+    - path: tests/test_android_ci_gate.py
+      state: FILE
+      size: 31325
+      sha256: b493d900ca04bd5b6b625d1926b4fdfe4d261e7655ebdae57e718292f25981e8
+    - path: tests/test_r11_candidate.py
+      state: FILE
+      size: 5404
+      sha256: b37ee2ca1b2d90d448a7efc3507264af6fa938a149204d272ec4b5c5aa82a9aa
 release_context:
   RELEASE_MANIFEST.yaml:
     release: R11
@@ -1155,26 +1548,14 @@ repository_transport:
 continuity_state:
   mode: ENFORCED
   protocol_version: '1.0'
-  active_session_id: null
+  active_session_id: SES-20260724T032308Z-98D6D10A
   last_session_id: SES-20260724T021901Z-603D54F5
   last_session_result: COMPLETED
   last_closure_checkpoint_id: CP-SES-20260724T021901Z-603D54F5-0006
-  event_count: 2959
-  event_head_hash: 4a246b0313f1874523319c865eb733662540cbab62cf36e6a57bf58f4a44a812
+  event_count: 2973
+  event_head_hash: 1822c83fae8bc96ab7e6a6b368d5aa88628b95509b039d9ab15c105afcfff3ca
   event_chain_valid: true
 recent_sessions:
-- session_id: SES-20260723T114316Z-44EBE3C1
-  task_id: TASK-R10-005
-  story_id: STORY-R10-004
-  actor_id: codex-root-r10-tests
-  status: CLOSED
-  started_at: '2026-07-23T11:43:16Z'
-  record: .continuity/sessions/SES-20260723T114316Z-44EBE3C1.yaml
-  session_log: docs/03-continuity/sessions/2026-07/SES-20260723T114316Z-44EBE3C1.md
-  updated_at: '2026-07-23T11:53:58Z'
-  closed_at: '2026-07-23T11:53:58Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260723T114316Z-44EBE3C1/0003.yaml
-  handoff_bundle: null
 - session_id: SES-20260723T115555Z-5C81458B
   task_id: TASK-R10-006
   story_id: STORY-R10-004
@@ -1283,48 +1664,19 @@ recent_sessions:
   closed_at: '2026-07-24T03:21:03Z'
   latest_checkpoint: .continuity/checkpoints/SES-20260724T021901Z-603D54F5/0006.yaml
   handoff_bundle: null
+- session_id: SES-20260724T032308Z-98D6D10A
+  task_id: TASK-R11-007
+  story_id: STORY-R11-004
+  actor_id: codex-root-r11-candidate
+  status: ACTIVE
+  started_at: '2026-07-24T03:23:08Z'
+  record: .continuity/sessions/SES-20260724T032308Z-98D6D10A.yaml
+  session_log: docs/03-continuity/sessions/2026-07/SES-20260724T032308Z-98D6D10A.md
+  updated_at: '2026-07-24T04:13:37Z'
+  closed_at: null
+  latest_checkpoint: .continuity/checkpoints/SES-20260724T032308Z-98D6D10A/0003.yaml
+  handoff_bundle: null
 task_claims:
-- claim_id: CLM-0A9375C469AC
-  session_id: SES-20260722T183222Z-79C9A5DB
-  task_id: TASK-R09-003
-  story_id: STORY-R09-004
-  actor_id: codex-root-r09-backend
-  status: CLOSED
-  claimed_at: '2026-07-22T18:32:22Z'
-  allowed_paths:
-  - apps/**
-  - services/**
-  - packages/**
-  - contracts/**
-  - database/**
-  - config/**
-  - catalogs/**
-  - tests/**
-  - infra/**
-  - design/**
-  - docs/**
-  - releases/**
-  - scripts/**
-  - templates/**
-  - .github/**
-  - .githooks/**
-  - .codex/**
-  - AGENTS.md
-  - START_HERE.md
-  - README.md
-  - CHANGELOG.md
-  - Makefile
-  - .gitignore
-  - .gitattributes
-  - .dockerignore
-  - package.json
-  - pnpm-lock.yaml
-  - pnpm-workspace.yaml
-  - requirements-dev.txt
-  - PROJECT_*.yaml
-  - PROJECT_*.json
-  - App推广列表、详情、创建、编辑、分享H5后端应用服务、权限、幂等、错误码与审计
-  closed_at: '2026-07-22T19:00:20Z'
 - claim_id: CLM-902BBAC3CC04
   session_id: SES-20260722T190220Z-19869F4B
   task_id: TASK-R09-004
@@ -2083,17 +2435,46 @@ task_claims:
   - PROJECT_*.yaml
   - PROJECT_*.json
   closed_at: '2026-07-24T03:21:03Z'
+- claim_id: CLM-2F79D1B5F28D
+  session_id: SES-20260724T032308Z-98D6D10A
+  task_id: TASK-R11-007
+  story_id: STORY-R11-004
+  actor_id: codex-root-r11-candidate
+  status: ACTIVE
+  claimed_at: '2026-07-24T03:23:08Z'
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
 recent_task_transitions:
-- transition_id: TRN-C115BAEB8E06
-  timestamp: '2026-07-22T18:32:24Z'
-  release: R09
-  task_id: TASK-R09-003
-  story_id: STORY-R09-004
-  from_status: READY
-  to_status: IN_PROGRESS
-  session_id: SES-20260722T183222Z-79C9A5DB
-  actor_id: codex-root-r09-backend
-  reason: 会话领取任务
 - transition_id: TRN-A0B818D6EC56
   timestamp: '2026-07-22T19:02:22Z'
   release: R09
@@ -2283,6 +2664,16 @@ recent_task_transitions:
   to_status: IN_PROGRESS
   session_id: SES-20260724T021901Z-603D54F5
   actor_id: codex-root-r11-observability
+  reason: 会话领取任务
+- transition_id: TRN-0FBCC795A4AD
+  timestamp: '2026-07-24T03:23:10Z'
+  release: R11
+  task_id: TASK-R11-007
+  story_id: STORY-R11-004
+  from_status: READY
+  to_status: IN_PROGRESS
+  session_id: SES-20260724T032308Z-98D6D10A
+  actor_id: codex-root-r11-candidate
   reason: 会话领取任务
 open_change_requests:
 - protocol_version: '1.0'
@@ -9584,6 +9975,116 @@ open_change_requests:
   - SES-20260723T183130Z-454A6E0D
   implementation_commits:
   - 88b98424
+- protocol_version: '1.0'
+  cr_id: CR-0302
+  title: 补齐R11团队长Android最终候选与产物追溯
+  status: IMPLEMENTED
+  created_at: '2026-07-24T03:29:21Z'
+  updated_at: '2026-07-24T04:12:05Z'
+  requester_actor_id: codex-root-r11-candidate
+  approver_actor_id: codex-reviewer-r11-candidate
+  task_id: TASK-R11-007
+  session_id: SES-20260724T032308Z-98D6D10A
+  user_request: 继续开发并静默执行全部终端命令，最终候选由AI自主审核后交付桌面
+  reason: R11候选请求、隔离数据夹具、四页模拟器旅程、视觉清单、静态回归和单调版本号尚未从R10切换至R11
+  original_rule: TASK-R11-007要求固定工具链构建签名、模拟器安装冒烟、R11页面截图、APK_MANIFEST和Commit/versionCode/SHA256追溯，但现有候选仍绑定R10群聊旅程与请求
+  new_rule: 将唯一Android候选入口切换为R11 attempt 1：隔离Staging准备V038完整实名团队长资料与真实Logo媒体、首页至团队长列表/详情/编辑四页旅程、精确视觉清单和静态回归；versionCode递增到10220，完整门禁只运行一次并由AI自主审核
+  impact_summary: 仅修改R11候选测试与身份文件，复用既有OIDC自动登录和唯一质量门禁，不改生产业务契约、数据库迁移或R01-R10视觉基线
+  impact:
+    files:
+    - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+    - apps/android/app/build.gradle.kts
+    - config/android-candidate-request.yaml
+    - scripts/prepare_r11_ci_fixture.sh
+    - tests/test_r11_candidate.py
+    - tests/test_android_ci_gate.py
+    - tests/android/visual-manifests/R11.yaml
+    - CHANGELOG.md
+    pages:
+    - SCR-HOME-001
+    - SCR-LIST-004
+    - SCR-DETAIL-004
+    - SCR-PUB-005
+    apis: []
+    database: []
+    configuration:
+    - android-candidate-request:R11-attempt-1
+    ledger: []
+    tests:
+    - tests.test_r11_candidate;tests.test_android_ci_gate;tests.test_android_candidate_request;Android app unit/instrumentation compile;UI foundation
+    releases:
+    - R11
+    migration_and_compatibility: 测试夹具只允许专用R11 Staging候选容器并要求Flyway V038；既有R10候选证据保持只读，R11请求使用新的唯一request_id且不影响普通candidate=false提交
+  user_confirmation: 项目所有者已明确要求继续开发、AI自主审核截图并静默执行终端命令
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-24T03:30:08Z'
+    note: 范围逐文件明确，R11夹具强制V038与专用容器，沿用唯一OIDC和候选工作流；四页旅程、视觉合同、静态回归及10220版本身份必须一起通过后才可推送候选
+  machine_record: .continuity/change_requests/CR-0302.yaml
+  document: docs/03-continuity/change-requests/CR-0302-补齐R11团队长Android最终候选与产物追溯.md
+  decision_log:
+  - at: '2026-07-24T04:11:31Z'
+    actor_id: codex-root-r11-candidate
+    status: IMPLEMENTING
+    note: R11候选夹具、四页旅程、视觉清单、请求身份和静态回归已实施并通过本地及云端定向验证
+    session_id: SES-20260724T032308Z-98D6D10A
+  - at: '2026-07-24T04:12:05Z'
+    actor_id: codex-root-r11-candidate
+    status: IMPLEMENTED
+    note: R11候选实现完成；28项定向回归、UI基础与Token门禁、云端MODULE、夹具双次幂等及媒体200均通过
+    session_id: SES-20260724T032308Z-98D6D10A
+  session_ids:
+  - SES-20260724T032308Z-98D6D10A
+- protocol_version: '1.0'
+  cr_id: CR-0303
+  title: 同步R11候选ReleasePolicy与版本回归身份
+  status: IMPLEMENTED
+  created_at: '2026-07-24T03:49:24Z'
+  updated_at: '2026-07-24T04:12:09Z'
+  requester_actor_id: codex-root-r11-candidate
+  approver_actor_id: codex-reviewer-r11-version
+  task_id: TASK-R11-007
+  session_id: SES-20260724T032308Z-98D6D10A
+  user_request: 继续开发并静默执行全部终端命令
+  reason: 云端MODULE验证发现BuildConfig已递增10220但ReleasePolicy和VersionMetadataTest仍固定10219，必须原子同步
+  original_rule: Android候选版本号必须在Gradle BuildConfig、ReleasePolicy和版本回归中保持单调且完全一致
+  new_rule: R11最终候选的Gradle versionCode、ReleasePolicy.VERSION_CODE和VersionMetadataTest统一为10220，测试提示语同步R11
+  impact_summary: 只修复R11版本身份一致性，不改变versionName、合同版本、渠道、环境或任何业务行为
+  impact:
+    files:
+    - apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+    - apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+    pages: []
+    apis: []
+    database: []
+    configuration:
+    - android-version-code:10220
+    ledger: []
+    tests:
+    - VersionMetadataTest;app testDebugUnitTest;compileDebugAndroidTestKotlin
+    releases:
+    - R11
+    migration_and_compatibility: 从R10测试包10219单调递增到R11测试包10220，保持同一应用标识与固定测试签名升级兼容
+  user_confirmation: 项目所有者已明确要求持续开发并由AI自行处理终端和测试问题
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-24T03:49:58Z'
+    note: 失败证据精确指向ReleasePolicy与版本测试仍为10219；同步为10220是最小修复，保持版本单调且不扩展业务范围
+  machine_record: .continuity/change_requests/CR-0303.yaml
+  document: docs/03-continuity/change-requests/CR-0303-同步R11候选ReleasePolicy与版本回归身份.md
+  decision_log:
+  - at: '2026-07-24T04:11:34Z'
+    actor_id: codex-root-r11-candidate
+    status: IMPLEMENTING
+    note: versionCode、ReleasePolicy与版本回归已统一为10220，云端Android MODULE已通过
+    session_id: SES-20260724T032308Z-98D6D10A
+  - at: '2026-07-24T04:12:09Z'
+    actor_id: codex-root-r11-candidate
+    status: IMPLEMENTED
+    note: R11版本身份三方统一10220并通过云端testDebugUnitTest与compileDebugAndroidTestKotlin
+    session_id: SES-20260724T032308Z-98D6D10A
+  session_ids:
+  - SES-20260724T032308Z-98D6D10A
 source_manifest:
 - path: AGENTS.md
   sha256: f93034917d4b87ffd4caffe8b6cad354f69bc31f6c0d9398dec3074ae165496d
@@ -9592,8 +10093,8 @@ source_manifest:
   sha256: 22de14029ce47beb41ea569e36ce223fbc9d11b86f8676f28d5fbbd83896af5c
   bytes: 4556
 - path: CURRENT_STATUS.yaml
-  sha256: 0b7a21109949255a75e33aeebbada8c54f59ca4e3e43d2803dfb9a7fc75ca630
-  bytes: 4199
+  sha256: ccc394c7d073fb6a6a106a2d739e592f31f5d2f91a061aa2b7f7c1d98a201e2f
+  bytes: 4351
 - path: NEXT_TASK.yaml
   sha256: 477894c15a08e51c8f7d01de178f4cfa64546052e45a98bf40f0921b573fc7a4
   bytes: 1578
@@ -9625,23 +10126,23 @@ source_manifest:
   sha256: 60943fcd9714cfae7274463554b5584fdb7a7aeee1ee547ff6dbc53fae6d4994
   bytes: 13170
 - path: .continuity/EVENT_LOG.jsonl
-  sha256: c81d8b52830a550b4881d19b4e75169bca08990775ece1c192f609217655e0cf
-  bytes: 1647993
+  sha256: 746dc7e08fc79464f1a09ddd5f7395b2844ff4d5717aa672af7bf0ab77408994
+  bytes: 1654559
 - path: .continuity/SESSION_INDEX.yaml
-  sha256: bfcad4201d13adc259d4fd50ef3896ea6918a1b47eed90e3a4e8dc40c78ac5a3
-  bytes: 49748
+  sha256: 3d318596646b6ef6e947f7ab0eec8b70f122341b0f91c7ba1e3edc5818b836d0
+  bytes: 50246
 - path: .continuity/TASK_CLAIMS.yaml
-  sha256: 5190606107378b145709623200f56e0a79f1c9a4ee765b66c6b7fa24a85f7a5a
-  bytes: 69347
+  sha256: d45ce55b29c70bd9c40a7e5a336b76500b4bb6a5482b3abbacc926d4b82fb452
+  bytes: 70082
 - path: .continuity/TASK_TRANSITIONS.yaml
-  sha256: bb705d40105a9f68c0479e06f85b326fb0c63254b29a189a39e3cdf2b9dd0f5e
-  bytes: 28286
+  sha256: 0355f559e897daefe143534066b8a5e9b9d78174a71dddbc18df8b3f102ab426
+  bytes: 28577
 - path: .continuity/CHANGE_REQUEST_INDEX.yaml
-  sha256: a5bd75deb7d5a14de6303d369e662023b0a67d99d8fa89c64d975d076a099d52
-  bytes: 1004763
+  sha256: 75b91be86093d7f2b9a7c6b26c17faa4cd8ffacbaf342716e78b6383c64b0214
+  bytes: 1010752
 - path: .continuity/ACTIVE_SESSION.yaml
-  sha256: 2fd911e25ef95ceac6931733c8f60b0babeb7953bfea25067e5f6ac65288c3c8
-  bytes: 143
+  sha256: 268100a73d1498b38cf4572fb76209099681bd125cfb5fe0b2d8c48b48098b38
+  bytes: 539
 - path: docs/00-baseline/正式商业系统全局硬性开发边界.md
   sha256: 9753b32db136e59e95a0974a62362456d9d577fd1bb40058ec985c4b64413eea
   bytes: 12596
@@ -9672,6 +10173,18 @@ source_manifest:
 - path: releases/R11/PARALLEL_EXECUTION_PLAN.yaml
   sha256: e892959361fe9a80841a49496d4302125b27838f73aab987c62a0e57a9070e54
   bytes: 2630
+- path: docs/03-continuity/sessions/2026-07/SES-20260724T032308Z-98D6D10A.md
+  sha256: f203f64567f3ae71862fb73f95771ba5ec114cf7b767325440338946d9607c63
+  bytes: 5596
+- path: .continuity/checkpoints/SES-20260724T032308Z-98D6D10A/0003.yaml
+  sha256: dce52fcb4ef35f2207605a039a51c0de15f40039306e79cbf536e80af98ee37f
+  bytes: 9257
+- path: docs/03-continuity/change-requests/CR-0302-补齐R11团队长Android最终候选与产物追溯.md
+  sha256: 13a55bb51fb2d9b89160365461177a1b81804be5790e77ecac4810a7bf8b63e4
+  bytes: 3367
+- path: docs/03-continuity/change-requests/CR-0303-同步R11候选ReleasePolicy与版本回归身份.md
+  sha256: 915d5df43636e0e616bce0530d316748ddf16f91d51bedfe41e6591ceeaef75c
+  bytes: 2522
 rule_readiness:
   status: PASS
   evidence: HASHED_CONTEXT_MANIFEST
@@ -9691,7 +10204,8 @@ rule_readiness:
   - docs/03-continuity/PITFALLS.md
   - docs/09-development/统一开发与交付效率规范.md
   missing_sources: []
-exact_resume_command: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R11-007
+exact_resume_command: python3 scripts/continuity.py checkpoint --summary '<完成内容>' --next-step '<下一步>' --parallel-assessment <ASSESSMENT> --parallel-reason
+  '<未委托原因>'
 hard_rules:
 - 不得依赖旧对话补充仓库已有需求
 - 未领取任务和会话不得编辑项目文件
@@ -9706,4 +10220,4 @@ hard_rules:
 - 除非项目所有者明确报告未连接，默认Codex已连接obx-test且既有项目环境可用；预检失败必须阻断并报告
 - 禁止以无服务器状态继续开发或重建本地Android SDK，必须复用登记的远端镜像和Gradle缓存
 - Git remote/upstream仅按tracked transport descriptor受控恢复；推送前必须预检且禁止force push
-context_hash: d8f00b62635179594092d887a19d8c9c50a78d92302393335ef3b38c46ee8afc
+context_hash: 05332598f134263ca43a5b29297db984955251adb969dc7d436791dc9d924cc2

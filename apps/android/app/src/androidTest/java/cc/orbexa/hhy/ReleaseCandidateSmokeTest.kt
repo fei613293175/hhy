@@ -35,8 +35,7 @@ class ReleaseCandidateSmokeTest {
     private var previousScreenDigest: String? = null
     private val screenshotDirectory = "Pictures/hhy-ci-screenshots"
 
-    private val fixtureTitle = "R10候选产品交流圈"
-    private val fixturePublisher = "R10候选群主"
+    private val fixtureTitle = "R11候选增长协作团队"
 
     @Before
     fun prepareAuthenticatedCandidate() {
@@ -68,53 +67,50 @@ class ReleaseCandidateSmokeTest {
     }
 
     @Test
-    fun authenticatedR10PagesProduceBoundVisualEvidence() {
+    fun authenticatedR11PagesProduceBoundVisualEvidence() {
         assertTrue(
             "Authenticated shell did not reach its loaded screen identity",
             waitForScreen("hhy.screen.r06.home.loaded"),
         )
         assertFalse("Cold start exposed connection failure", device.hasObject(By.text("暂时无法连接")))
         assertTrue("Home missed the search entry", device.hasObject(By.textContains("搜索项目")))
-        assertTrue("Home missed the group category", device.hasObject(By.text("群聊")))
+        assertTrue("Home missed the team leader category", device.hasObject(By.text("团队长")))
         captureStable("01-home.png")
         assertNoForbiddenVisibleText()
 
-        clickResource("home.category.group")
+        clickResource("home.category.team-leader")
         assertTrue(
-            "R10 group list did not become visible",
-            waitForScreen("hhy.screen.r10.group.list.content", gone = "hhy.screen.r06.home.loaded"),
+            "R11 team leader list did not become visible",
+            waitForScreen("hhy.screen.r11.team-leader.list.content", gone = "hhy.screen.r06.home.loaded"),
         )
-        assertTrue("R10 group fixture is missing", device.wait(Until.hasObject(By.text(fixtureTitle)), 20_000))
-        assertTrue("R10 list missed the approved-content notice", device.hasObject(By.text("浏览审核通过的真实群聊推广")))
-        assertTrue("R10 list missed localized platform", device.hasObject(By.text("微信群")))
-        captureStable("02-group-list.png")
+        assertTrue("R11 team leader fixture is missing", device.wait(Until.hasObject(By.text(fixtureTitle)), 20_000))
+        assertTrue("R11 list missed its business heading", device.hasObject(By.text("发现真实团队与合作方向")))
+        assertTrue("R11 list missed the team size", device.hasObject(By.text("10-50人")))
+        captureStable("02-team-leader-list.png")
         assertNoForbiddenVisibleText()
 
         clickExactText(fixtureTitle)
         assertTrue(
-            "R10 group detail did not become visible",
-            waitForScreen("hhy.screen.r10.group.detail.content", gone = "hhy.screen.r10.group.list.content"),
+            "R11 team leader detail did not become visible",
+            waitForScreen("hhy.screen.r11.team_leader.detail.content", gone = "hhy.screen.r11.team-leader.list.content"),
         )
-        assertTrue("R10 group detail fixture is missing", device.wait(Until.hasObject(By.text(fixtureTitle)), 20_000))
-        assertTrue("R10 detail missed localized platform", device.hasObject(By.text("微信群")))
-        assertR10BusinessLabels()
-        captureStable("03-group-detail.png")
+        assertTrue("R11 team leader detail fixture is missing", device.wait(Until.hasObject(By.text(fixtureTitle)), 20_000))
+        assertTrue("R11 detail missed the localized capability", device.hasObject(By.text("品牌增长")))
+        assertTrue("R11 detail missed the edit action", device.hasObject(By.text("编辑")))
+        assertR11BusinessLabels()
+        captureStable("03-team-leader-detail.png")
         assertNoForbiddenVisibleText()
 
-        scrollUntilText("群聊介绍")
-        scrollUntilText("入群方式")
-        scrollUntilText(fixturePublisher)
-        scrollUntilResource("r10.group.edit")
-        clickResource("r10.group.edit")
+        clickExactText("编辑")
         assertTrue(
-            "R10 group editor did not become visible",
-            waitForScreen("hhy.screen.r10.group.editor.content", gone = "hhy.screen.r10.group.detail.content"),
+            "R11 team leader editor did not become visible",
+            waitForScreen("hhy.screen.r11.team-leader.editor.content", gone = "hhy.screen.r11.team_leader.detail.content"),
         )
-        assertTrue("R10 editor missed its business title", device.hasObject(By.text("编辑群聊")))
-        assertTrue("R10 editor missed the frozen group title", device.hasObject(By.text(fixtureTitle)))
-        assertFalse("R10 verified owner was incorrectly blocked by identity", device.hasObject(By.text("需要完成实名认证")))
-        assertR10BusinessLabels()
-        captureStable("04-group-editor.png")
+        assertTrue("R11 editor missed its business title", device.hasObject(By.text("编辑团队长资料")))
+        assertTrue("R11 editor missed the team identity", device.hasObject(By.text(fixtureTitle)))
+        assertFalse("R11 verified owner was incorrectly blocked by identity", device.hasObject(By.text("需要实名认证")))
+        assertR11BusinessLabels()
+        captureStable("04-team-leader-editor.png")
         assertNoForbiddenVisibleText()
     }
 
@@ -263,9 +259,9 @@ class ReleaseCandidateSmokeTest {
         assertFalse("Journey exposed TraceId", device.hasObject(By.textContains("TraceId")))
     }
 
-    private fun assertR10BusinessLabels() {
-        listOf("GROUP", "GROUP_CHAT", "WECHAT", "JOIN_PASSWORD", "PHONE", "EMAIL").forEach { technicalValue ->
-            assertFalse("R10 exposed technical business code: $technicalValue", device.hasObject(By.text(technicalValue)))
+    private fun assertR11BusinessLabels() {
+        listOf("TEAM_LEADER", "WECHAT", "PHONE", "QQ", "EMAIL").forEach { technicalValue ->
+            assertFalse("R11 exposed technical business code: $technicalValue", device.hasObject(By.text(technicalValue)))
         }
     }
 

@@ -1,0 +1,94 @@
+schema: hhy.android-visual-manifest/v1
+release: R11
+review_authority: AI_IMPLEMENTATION_AGENT
+authentication: STAGING_GITHUB_OIDC
+screens:
+- screen_id: SCR-HOME-001
+  file: 01-home.png
+  marker: hhy.screen.r06.home.loaded
+  required_text:
+  - 搜索项目 / App / 群聊 / 团队长
+  - 平台精选
+  - 四大分类
+  - 项目
+  - App
+  - 群聊
+  - 团队长
+  - 最新发布
+  forbidden_text:
+  - 暂时无法连接
+  - 请求编号
+  - TraceId
+  - 下载量
+  - 评分
+- screen_id: SCR-LIST-004
+  file: 02-team-leader-list.png
+  marker: hhy.screen.r11.team-leader.list.content
+  required_text:
+  - 团队长
+  - 最新发布
+  - 发现真实团队与合作方向
+  - R11候选增长协作团队
+  - 品牌增长
+  - 10-50人
+  - 上海
+  - 发布者 R11候选团队长
+  forbidden_text:
+  - 暂时无法连接
+  - 请求编号
+  - TraceId
+  - TEAM_LEADER
+  - CONTENT_TEAM_LEADER
+  - WECHAT
+  - 收益
+  - 下载量
+- screen_id: SCR-DETAIL-004
+  file: 03-team-leader-detail.png
+  marker: hhy.screen.r11.team_leader.detail.content
+  required_text:
+  - 团队长详情
+  - R11候选增长协作团队
+  - R11候选团队长
+  - 品牌增长
+  - 10-50人
+  - 团队介绍
+  - 团队风采
+  - 联系团队
+  - 获取微信 微信 R11***
+  - 编辑
+  forbidden_text:
+  - 暂时无法连接
+  - 请求编号
+  - TraceId
+  - TEAM_LEADER
+  - CONTENT_TEAM_LEADER
+  - WECHAT
+  - hhy-contact-v1:r11-ci-team-contact
+  - 收益
+  - 下载量
+- screen_id: SCR-PUB-005
+  file: 04-team-leader-editor.png
+  marker: hhy.screen.r11.team-leader.editor.content
+  required_text:
+  - 编辑团队长资料
+  - 个人与团队
+  - R11候选团队长
+  - R11候选增长协作团队
+  - 团队人数
+  - 10-50人
+  - 团队能力与合作
+  - 团队图片
+  - 联系方式
+  - 保存资料
+  forbidden_text:
+  - 暂时无法连接
+  - 请求编号
+  - TraceId
+  - TEAM_LEADER
+  - CONTENT_TEAM_LEADER
+  - WECHAT
+  - hhy-contact-v1:r11-ci-team-contact
+security_assertions:
+- surface: SCR-DETAIL-004
+  marker: hhy.screen.r11.team_leader.detail.content
+  rule: team contact remains masked in screenshots until the user performs the explicit audited reveal action

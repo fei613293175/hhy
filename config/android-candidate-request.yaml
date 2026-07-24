@@ -1,7 +1,7 @@
 schema_version: 1
 status: REQUESTED
-release: R10
+release: R11
 candidate: true
-remediation_attempt: 2
-request_id: R10-CANDIDATE-20260723-002
-reason: 首轮Run 30011688259的构建、OIDC自动登录、四页真实旅程和截图采集均成功，唯一失败为缺少R10视觉清单；补齐唯一清单事实源后执行第二轮候选并由AI审核截图。
+remediation_attempt: 1
+request_id: R11-CANDIDATE-20260724-001
+reason: TASK-R11-007最终候选；使用OIDC自动登录验证首页、团队长列表、团队长详情和团队长编辑四页真实业务旅程，由AI自主审核截图后决定是否晋升和交付。

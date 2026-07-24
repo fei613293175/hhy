@@ -1000,3 +1000,13 @@ transitions:
   session_id: SES-20260724T021901Z-603D54F5
   actor_id: codex-root-r11-observability
   reason: 会话领取任务
+- transition_id: TRN-0FBCC795A4AD
+  timestamp: '2026-07-24T03:23:10Z'
+  release: R11
+  task_id: TASK-R11-007
+  story_id: STORY-R11-004
+  from_status: READY
+  to_status: IN_PROGRESS
+  session_id: SES-20260724T032308Z-98D6D10A
+  actor_id: codex-root-r11-candidate
+  reason: 会话领取任务

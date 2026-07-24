@@ -429,13 +429,13 @@ class AndroidCiGateTest(unittest.TestCase):
         self.assertIn("hhyCiBootstrapCode", smoke_test)
         self.assertIn("/internal-ci/v1/android/session", smoke_test)
         self.assertIn('waitForScreen("hhy.screen.r06.home.loaded")', smoke_test)
-        self.assertIn('waitForScreen("hhy.screen.r10.group.list.content"', smoke_test)
-        self.assertIn('waitForScreen("hhy.screen.r10.group.detail.content"', smoke_test)
-        self.assertIn('waitForScreen("hhy.screen.r10.group.editor.content"', smoke_test)
+        self.assertIn('waitForScreen("hhy.screen.r11.team-leader.list.content"', smoke_test)
+        self.assertIn('waitForScreen("hhy.screen.r11.team_leader.detail.content"', smoke_test)
+        self.assertIn('waitForScreen("hhy.screen.r11.team-leader.editor.content"', smoke_test)
         self.assertIn('captureStable("01-home.png")', smoke_test)
-        self.assertIn('captureStable("02-group-list.png")', smoke_test)
-        self.assertIn('captureStable("03-group-detail.png")', smoke_test)
-        self.assertIn('captureStable("04-group-editor.png")', smoke_test)
+        self.assertIn('captureStable("02-team-leader-list.png")', smoke_test)
+        self.assertIn('captureStable("03-team-leader-detail.png")', smoke_test)
+        self.assertIn('captureStable("04-team-leader-editor.png")', smoke_test)
         self.assertNotIn('captureStable("26-r06-home.png")', smoke_test)
         self.assertNotIn('captureStable("01-project-list.png")', smoke_test)
         self.assertIn('captureStable("10-r02-startup.png")', historical_test)
@@ -443,16 +443,16 @@ class AndroidCiGateTest(unittest.TestCase):
         self.assertIn('captureStable("25-r05-identity-result.png")', historical_test)
         self.assertIn("AuthVisualAuditScreen", historical_test)
         self.assertIn("IdentityVisualAuditScreen", historical_test)
-        self.assertIn('By.text("需要完成实名认证")', smoke_test)
+        self.assertIn('By.text("需要实名认证")', smoke_test)
         self.assertIn("stableMatches >= 2", smoke_test)
         self.assertIn("digest != previousScreenDigest", smoke_test)
         self.assertIn("waitForIdle(2_000)", smoke_test)
-        self.assertIn('clickResource("home.category.group")', smoke_test)
-        self.assertIn('scrollUntilResource("r10.group.edit")', smoke_test)
+        self.assertIn('clickResource("home.category.team-leader")', smoke_test)
+        self.assertIn('clickExactText("编辑")', smoke_test)
         self.assertIn("scrollUntilResource", smoke_test)
-        self.assertIn("assertR10BusinessLabels", smoke_test)
-        self.assertIn('By.text("微信群")', smoke_test)
-        self.assertIn('"GROUP", "GROUP_CHAT", "WECHAT"', smoke_test)
+        self.assertIn("assertR11BusinessLabels", smoke_test)
+        self.assertIn('By.text("10-50人")', smoke_test)
+        self.assertIn('"TEAM_LEADER", "WECHAT"', smoke_test)
         self.assertNotIn("assertSecureWindow", smoke_test)
 
         r08_manifest = yaml.safe_load((ROOT / "tests/android/visual-manifests/R08.yaml").read_text(encoding="utf-8"))
@@ -497,6 +497,20 @@ class AndroidCiGateTest(unittest.TestCase):
         self.assertIn("R10-ci-owner", detail["forbidden_text"])
         self.assertIn("R10-ci-join", detail["forbidden_text"])
         self.assertIn("JOIN_PASSWORD", detail["forbidden_text"])
+
+        r11_manifest = yaml.safe_load((ROOT / "tests/android/visual-manifests/R11.yaml").read_text(encoding="utf-8"))
+        self.assertEqual("AI_IMPLEMENTATION_AGENT", r11_manifest["review_authority"])
+        self.assertEqual(4, len(r11_manifest["screens"]))
+        self.assertEqual(
+            {
+                "01-home.png", "02-team-leader-list.png",
+                "03-team-leader-detail.png", "04-team-leader-editor.png",
+            },
+            {row["file"] for row in r11_manifest["screens"]},
+        )
+        r11_detail = next(row for row in r11_manifest["screens"] if row["screen_id"] == "SCR-DETAIL-004")
+        self.assertIn("hhy-contact-v1:r11-ci-team-contact", r11_detail["forbidden_text"])
+        self.assertIn("WECHAT", r11_detail["forbidden_text"])
 
         shell = (
             ROOT

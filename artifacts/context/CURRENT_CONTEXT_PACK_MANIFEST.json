@@ -1,19 +1,19 @@
 {
   "version": "1.0",
-  "generated_at": "2026-07-24T03:21:06Z",
-  "context_hash": "d8f00b62635179594092d887a19d8c9c50a78d92302393335ef3b38c46ee8afc",
-  "fingerprint_mode": "REPOSITORY_TREE",
+  "generated_at": "2026-07-24T04:13:40Z",
+  "context_hash": "05332598f134263ca43a5b29297db984955251adb969dc7d436791dc9d924cc2",
+  "fingerprint_mode": "SESSION_DELTA",
   "project_fingerprint": {
-    "sha256": "c09443d9a75306f39cb50833e34c158fb9e47417507b5bbe1a816a51e83a6778",
-    "file_count": 0
+    "sha256": "3505a19b1c9decce2d9b17f561d5c1f19d7e3a1dd13ca467c51df81bce95e4cb",
+    "file_count": 12
   },
   "yaml": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.yaml",
-    "sha256": "98bb6add6260e51679b4c168914b8edc50b9a9515cb74ba1a84e320fb5a94090"
+    "sha256": "08cd6a1d515928850bf5d1cff3cb8c501679d37387e50fddc58ceb8b898c770c"
   },
   "markdown": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.md",
-    "sha256": "dca47441690a84d476942b490dbd482f891384d32c57964cf931afc9d686681e"
+    "sha256": "1d1e1c85f36fb3533fc40d996d7944859f4936cdd84a3e465fe15547240f6123"
   },
   "sources": [
     {
@@ -28,8 +28,8 @@
     },
     {
       "path": "CURRENT_STATUS.yaml",
-      "sha256": "0b7a21109949255a75e33aeebbada8c54f59ca4e3e43d2803dfb9a7fc75ca630",
-      "bytes": 4199
+      "sha256": "ccc394c7d073fb6a6a106a2d739e592f31f5d2f91a061aa2b7f7c1d98a201e2f",
+      "bytes": 4351
     },
     {
       "path": "NEXT_TASK.yaml",
@@ -83,33 +83,33 @@
     },
     {
       "path": ".continuity/EVENT_LOG.jsonl",
-      "sha256": "c81d8b52830a550b4881d19b4e75169bca08990775ece1c192f609217655e0cf",
-      "bytes": 1647993
+      "sha256": "746dc7e08fc79464f1a09ddd5f7395b2844ff4d5717aa672af7bf0ab77408994",
+      "bytes": 1654559
     },
     {
       "path": ".continuity/SESSION_INDEX.yaml",
-      "sha256": "bfcad4201d13adc259d4fd50ef3896ea6918a1b47eed90e3a4e8dc40c78ac5a3",
-      "bytes": 49748
+      "sha256": "3d318596646b6ef6e947f7ab0eec8b70f122341b0f91c7ba1e3edc5818b836d0",
+      "bytes": 50246
     },
     {
       "path": ".continuity/TASK_CLAIMS.yaml",
-      "sha256": "5190606107378b145709623200f56e0a79f1c9a4ee765b66c6b7fa24a85f7a5a",
-      "bytes": 69347
+      "sha256": "d45ce55b29c70bd9c40a7e5a336b76500b4bb6a5482b3abbacc926d4b82fb452",
+      "bytes": 70082
     },
     {
       "path": ".continuity/TASK_TRANSITIONS.yaml",
-      "sha256": "bb705d40105a9f68c0479e06f85b326fb0c63254b29a189a39e3cdf2b9dd0f5e",
-      "bytes": 28286
+      "sha256": "0355f559e897daefe143534066b8a5e9b9d78174a71dddbc18df8b3f102ab426",
+      "bytes": 28577
     },
     {
       "path": ".continuity/CHANGE_REQUEST_INDEX.yaml",
-      "sha256": "a5bd75deb7d5a14de6303d369e662023b0a67d99d8fa89c64d975d076a099d52",
-      "bytes": 1004763
+      "sha256": "75b91be86093d7f2b9a7c6b26c17faa4cd8ffacbaf342716e78b6383c64b0214",
+      "bytes": 1010752
     },
     {
       "path": ".continuity/ACTIVE_SESSION.yaml",
-      "sha256": "2fd911e25ef95ceac6931733c8f60b0babeb7953bfea25067e5f6ac65288c3c8",
-      "bytes": 143
+      "sha256": "268100a73d1498b38cf4572fb76209099681bd125cfb5fe0b2d8c48b48098b38",
+      "bytes": 539
     },
     {
       "path": "docs/00-baseline/正式商业系统全局硬性开发边界.md",
@@ -160,6 +160,26 @@
       "path": "releases/R11/PARALLEL_EXECUTION_PLAN.yaml",
       "sha256": "e892959361fe9a80841a49496d4302125b27838f73aab987c62a0e57a9070e54",
       "bytes": 2630
+    },
+    {
+      "path": "docs/03-continuity/sessions/2026-07/SES-20260724T032308Z-98D6D10A.md",
+      "sha256": "f203f64567f3ae71862fb73f95771ba5ec114cf7b767325440338946d9607c63",
+      "bytes": 5596
+    },
+    {
+      "path": ".continuity/checkpoints/SES-20260724T032308Z-98D6D10A/0003.yaml",
+      "sha256": "dce52fcb4ef35f2207605a039a51c0de15f40039306e79cbf536e80af98ee37f",
+      "bytes": 9257
+    },
+    {
+      "path": "docs/03-continuity/change-requests/CR-0302-补齐R11团队长Android最终候选与产物追溯.md",
+      "sha256": "13a55bb51fb2d9b89160365461177a1b81804be5790e77ecac4810a7bf8b63e4",
+      "bytes": 3367
+    },
+    {
+      "path": "docs/03-continuity/change-requests/CR-0303-同步R11候选ReleasePolicy与版本回归身份.md",
+      "sha256": "915d5df43636e0e616bce0530d316748ddf16f91d51bedfe41e6591ceeaef75c",
+      "bytes": 2522
     }
   ]
 }

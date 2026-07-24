@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## R11 Android 最终候选准备 · 2026-07-24
+
+- 最终候选旅程切换为真实 OIDC 登录后的首页、团队长列表、团队长详情和团队长编辑四页，截图由 AI 按 `SCR-HOME-001`、`SCR-LIST-004`、`SCR-DETAIL-004`、`SCR-PUB-005` 精确视觉合同自主审核。
+- 新增仅允许 `hhy-r11-ci-candidate-*` 使用的幂等隔离夹具，要求 Flyway V038、实名 CI 用户、唯一 ONLINE 团队长、完整必填资料、真实 READY Logo 媒体、脱敏联系方式和不可变版本历史。
+- 测试 APK 单调递增至 `versionCode 10220`，候选请求登记为 `R11-CANDIDATE-20260724-001`；普通提交不启动模拟器，本请求只触发一次完整候选门禁。
+
 ## R11 团队长专项测试与并发幂等修复 · 2026-07-24
 
 - 将既有三项 `TST-TEAM_001-*` 权威测试接入统一机器适配器，覆盖成功编辑、权限与配置拒绝、网络超时重放、同键异体冲突、真实 PostgreSQL 并发唯一归属和 Outbox 去重，不新增第二套测试清单。
@@ -1430,4 +1436,3 @@
 - Actor：`codex-root-r11-observability`
 - 摘要：TASK-R11-006完成：团队长七项Gauge、七条告警、V038隔离Staging、Trace日志脱敏、告警送达、Outbox与同库同卷回切全部通过，AC-R11-004及25项证据闭环
 - 记录：`docs/03-continuity/sessions/2026-07/SES-20260724T021901Z-603D54F5.md`
-
