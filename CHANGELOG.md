@@ -1453,3 +1453,12 @@
 - 摘要：R11 Android候选、AI视觉审核、固定签名、四方APK交付和桌面说明全部完成；真机反馈异步PENDING
 - 记录：`docs/03-continuity/sessions/2026-07/SES-20260724T032308Z-98D6D10A.md`
 
+## TASK-R11-008 · COMPLETED · 2026-07-24T14:43:35Z
+
+- Task close: TASK-R11-008 / SES-20260724T110611Z-0D26E8D5
+- Release：`R11`
+- Story：`STORY-R11-004`
+- Actor：`codex-root-r11-close`
+- 摘要：TASK-R11-008完成：R11机器候选、Staging、三页视觉、APK四方SHA、桌面说明、Acceptance与无状态交接PASS；项目所有者真机PENDING保持异步；关闭工作流已修正为MACHINE_CLOSE且不再重复本机Java/Android门禁
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260724T110611Z-0D26E8D5.md`
+

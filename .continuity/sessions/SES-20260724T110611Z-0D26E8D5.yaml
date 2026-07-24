@@ -1,7 +1,7 @@
 protocol_version: '1.0'
 package_version: 1.2.3
 session_id: SES-20260724T110611Z-0D26E8D5
-status: ACTIVE
+status: CLOSED
 actor:
   id: codex-root-r11-close
   kind: AI_OR_HUMAN
@@ -11,7 +11,7 @@ task_id: TASK-R11-008
 story_id: STORY-R11-004
 goal: 完成R11版本关闭、无状态交接并建立R12唯一合法起点
 started_at: '2026-07-24T11:06:11Z'
-updated_at: '2026-07-24T14:41:40Z'
+updated_at: '2026-07-24T14:43:44Z'
 takeover_of: null
 change_requests:
 - CR-0310
@@ -70,22 +70,36 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-24T14:41:34Z'
-  expires_at: '2026-07-24T18:41:34Z'
-checkpoint_sequence: 5
-latest_checkpoint: .continuity/checkpoints/SES-20260724T110611Z-0D26E8D5/0005.yaml
+  renewed_at: '2026-07-24T14:43:39Z'
+  expires_at: '2026-07-24T18:43:39Z'
+checkpoint_sequence: 6
+latest_checkpoint: .continuity/checkpoints/SES-20260724T110611Z-0D26E8D5/0006.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260724T110611Z-0D26E8D5.md
-next_step: 提交并推送CR关闭元数据，然后调用continuity close完成R11到R12原子切换
+next_step: 提交关闭元数据Commit，然后运行pre-push/CI门禁
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: 2fa8acea2c336b4c001bec57e348f0fcb8979378ff081a7b8507dacc50753aaa
-  generated_at: '2026-07-24T14:41:37Z'
+  context_hash: 8e2fccaaeb4cbc52892789250808eb908b23011106010a667d26cd179a29bffc
+  generated_at: '2026-07-24T14:43:42Z'
 handoff_bundle: null
-closure: null
+closure:
+  result: COMPLETED
+  summary: TASK-R11-008完成：R11机器候选、Staging、三页视觉、APK四方SHA、桌面说明、Acceptance与无状态交接PASS；项目所有者真机PENDING保持异步；关闭工作流已修正为MACHINE_CLOSE且不再重复本机Java/Android门禁
+  code_commit: 6bd3313e087de6afc6f7189c6a1791a9a198ae7f
+  next_release: R12
+  next_task: TASK-R12-001
+  blocked_advance: false
+  completed_independent_advance: false
+  user_confirmation: null
+  metadata_commit: PENDING
+  push_verification: CI_REQUIRED_AFTER_METADATA_COMMIT
+  started_at: '2026-07-24T14:43:35Z'
+  closure_checkpoint_id: CP-SES-20260724T110611Z-0D26E8D5-0006
+  closed_at: '2026-07-24T14:43:44Z'
 parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
   reason: 三项CR共享同一实现提交与当前Session索引，必须由唯一主控串行关闭
+closed_at: '2026-07-24T14:43:44Z'
