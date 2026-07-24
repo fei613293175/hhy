@@ -333,3 +333,13 @@ R10 现场演练至少覆盖：
 6. 证据统一写入 `artifacts/validation/r10-task006-staging/`，绑定冻结 Commit、两个不可变镜像、数据库容器/卷、Flyway V036、告警回执和逐文件 SHA-256。证据齐全后才能把 `AC-R10-004` 签为 PASS。
 
 现场步骤由 `scripts/run_r10_staging_acceptance.sh` 单一入口执行。Android 模拟器、页面截图和候选 APK 不属于本任务，只在 TASK-R10-007 最终候选阶段执行。
+
+## 16. R11 团队长隔离预发布验收
+
+R11 使用 `infra/staging/r11-smoke/docker-compose.yml`，默认隔离子网 `172.31.241.0/24`，仅在回环地址发布 HTTP `38111`、Prometheus `39612` 和 Alertmanager `39613`。执行前必须确认这些地址和端口未占用，不得修改、重启或复用 R01-R10 的 Compose project、网络、卷和端口。测试 Secret 仅在隔离进程环境注入，实名认证沙箱与 CI 自动登录必须关闭。
+
+现场演练必须绑定 `HHY_R11_FROZEN_COMMIT` 并由 `scripts/run_r11_staging_acceptance.sh` 单一入口完成，至少证明：liveness/readiness、公开状态、TraceId 和结构化日志脱敏正常；Prometheus target 为 UP，RED 与团队长总量、在线量、待审核量、收藏量、近五分钟联系方式访问/拒绝量及 `hhy_r11_outbox_backlog` 七项 Gauge 可采集且查询失败计数为零；`HhyR11BackendDown` 与 `HhyR11OutboxBacklog` 均有 firing、resolved 和 alert-sink 回执；四条测试 Outbox 事实合法经历 `PENDING -> PUBLISHING -> PUBLISHED`。
+
+回切只允许使用包含 V038 的 R11-005 功能基线镜像 `hhy-backend-r11-baseline:5013a9a0`，随后必须恢复冻结实现镜像。全过程保持同一 PostgreSQL 容器和数据卷，并比较团队长内容、详情、收藏、联系方式访问审计和 R11 Outbox 的回切前后快照。证据统一归档到 `artifacts/validation/r11-task006-staging/`，包括逐文件 SHA-256；只有证据完整且专项报告精确绑定冻结 Commit 后，`AC-R11-004` 才能签为 PASS。
+
+本任务不运行 Android 模拟器、页面截图或候选 APK；这些只在 TASK-R11-007 最终候选阶段执行。

@@ -360,6 +360,53 @@ public final class BusinessGaugeBinder implements MeterBinder {
                 'content.group.stage.alert.v1'
             ) AND status IN ('PENDING', 'RETRY_WAIT')
             """;
+    static final String TEAM_LEADER_TOTAL_SQL = """
+            SELECT COUNT(*)
+            FROM hhy.content_posts
+            WHERE type = 'TEAM_LEADER' AND status <> 'DELETED'
+            """;
+    static final String TEAM_LEADER_ONLINE_SQL = """
+            SELECT COUNT(*)
+            FROM hhy.content_posts
+            WHERE type = 'TEAM_LEADER' AND status = 'ONLINE'
+            """;
+    static final String TEAM_LEADER_REVIEW_PENDING_SQL = """
+            SELECT COUNT(*)
+            FROM hhy.content_posts
+            WHERE type = 'TEAM_LEADER' AND status <> 'DELETED' AND review_status = 'PENDING'
+            """;
+    static final String TEAM_LEADER_FAVORITES_SQL = """
+            SELECT COUNT(*)
+            FROM hhy.content_favorites favorite
+            JOIN hhy.content_posts post ON post.id = favorite.content_id
+            WHERE post.type = 'TEAM_LEADER' AND post.status <> 'DELETED'
+            """;
+    static final String TEAM_LEADER_CONTACT_ACCESSES_5M_SQL = """
+            SELECT COUNT(*)
+            FROM hhy.content_contact_access_logs access_log
+            JOIN hhy.content_posts post ON post.id = access_log.content_id
+            WHERE post.type = 'TEAM_LEADER'
+              AND access_log.action IN ('VIEW', 'COPY', 'REPLAY')
+              AND access_log.created_at >= CURRENT_TIMESTAMP - INTERVAL '5' MINUTE
+            """;
+    static final String TEAM_LEADER_CONTACT_REJECTIONS_5M_SQL = """
+            SELECT COUNT(*)
+            FROM hhy.content_contact_access_logs access_log
+            JOIN hhy.content_posts post ON post.id = access_log.content_id
+            WHERE post.type = 'TEAM_LEADER'
+              AND access_log.action LIKE 'REJECTED_%'
+              AND access_log.created_at >= CURRENT_TIMESTAMP - INTERVAL '5' MINUTE
+            """;
+    static final String R11_OUTBOX_BACKLOG_SQL = """
+            SELECT COUNT(*)
+            FROM hhy.outbox_events
+            WHERE event_type IN (
+                'content.team-leader.created.v1', 'content.team-leader.updated.v1',
+                'content.favorited.v1', 'content.favorite.replayed.v1',
+                'content.shared.v1', 'chat.direct.created.v1',
+                'content.team-leader.stage.alert.v1'
+            ) AND status IN ('PENDING', 'RETRY_WAIT')
+            """;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(BusinessGaugeBinder.class);
     private final JdbcTemplate jdbcTemplate;
@@ -424,6 +471,13 @@ public final class BusinessGaugeBinder implements MeterBinder {
         register(registry, "hhy.group.contact.accesses.5m", "Successful group contact accesses in the last five minutes", GROUP_CONTACT_ACCESSES_5M_SQL);
         register(registry, "hhy.group.contact.rejections.5m", "Rejected group contact accesses in the last five minutes", GROUP_CONTACT_REJECTIONS_5M_SQL);
         register(registry, "hhy.r10.outbox.backlog", "R10 group events waiting for delivery", R10_OUTBOX_BACKLOG_SQL);
+        register(registry, "hhy.team.leader.total.count", "Non-deleted team leader profiles", TEAM_LEADER_TOTAL_SQL);
+        register(registry, "hhy.team.leader.online.count", "Team leader profiles currently online", TEAM_LEADER_ONLINE_SQL);
+        register(registry, "hhy.team.leader.review.pending", "Team leader profiles waiting for review", TEAM_LEADER_REVIEW_PENDING_SQL);
+        register(registry, "hhy.team.leader.favorites.count", "Favorite rows attached to non-deleted team leader profiles", TEAM_LEADER_FAVORITES_SQL);
+        register(registry, "hhy.team.leader.contact.accesses.5m", "Successful team leader contact accesses in the last five minutes", TEAM_LEADER_CONTACT_ACCESSES_5M_SQL);
+        register(registry, "hhy.team.leader.contact.rejections.5m", "Rejected team leader contact accesses in the last five minutes", TEAM_LEADER_CONTACT_REJECTIONS_5M_SQL);
+        register(registry, "hhy.r11.outbox.backlog", "R11 team leader events waiting for delivery", R11_OUTBOX_BACKLOG_SQL);
     }
 
     private void register(MeterRegistry registry, String name, String description, String sql) {

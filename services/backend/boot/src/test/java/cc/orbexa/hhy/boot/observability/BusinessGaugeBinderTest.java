@@ -52,7 +52,9 @@ class BusinessGaugeBinderTest {
                 + "(5, 'CONTENT', 'content.shared.v1', 'RETRY_WAIT'), "
                 + "(6, 'SEARCH_HISTORY', 'search.history.cleared.v1', 'PENDING'), "
                 + "(7, 'CONTENT', 'content.app.created.v1', 'PENDING'), "
-                + "(8, 'CONTENT', 'content.app.updated.v1', 'RETRY_WAIT')");
+                + "(8, 'CONTENT', 'content.app.updated.v1', 'RETRY_WAIT'), "
+                + "(9, 'CONTENT', 'content.team-leader.created.v1', 'PENDING'), "
+                + "(10, 'CONTENT', 'content.team-leader.updated.v1', 'PUBLISHED')");
         jdbc.update("INSERT INTO hhy.ledger_accounts(id, currency) VALUES (10, 'CNY'), (11, 'CNY')");
         jdbc.update("INSERT INTO hhy.accounting_transactions(id, status) VALUES (20, 'POSTED'), (21, 'POSTED')");
         jdbc.update("INSERT INTO hhy.accounting_entries(id, transaction_id, account_id, amount_cent, currency, direction) VALUES "
@@ -121,9 +123,12 @@ class BusinessGaugeBinderTest {
                 + "(216, 230, 'APP', 'ONLINE', 'APPROVED'), "
                 + "(217, 230, 'APP', 'DRAFT', 'PENDING'), "
                 + "(218, 230, 'GROUP', 'ONLINE', 'APPROVED'), "
-                + "(219, 230, 'GROUP', 'DRAFT', 'PENDING')");
+                + "(219, 230, 'GROUP', 'DRAFT', 'PENDING'), "
+                + "(223, 230, 'TEAM_LEADER', 'ONLINE', 'APPROVED'), "
+                + "(224, 230, 'TEAM_LEADER', 'DRAFT', 'PENDING')");
         jdbc.update("INSERT INTO hhy.content_favorites(id, user_id, content_id) VALUES "
-                + "(213, 230, 210), (214, 231, 210), (215, 230, 212), (216, 230, 218)");
+                + "(213, 230, 210), (214, 231, 210), (215, 230, 212), (216, 230, 218), "
+                + "(217, 231, 223)");
         jdbc.update("INSERT INTO hhy.home_modules(id, source_type, enabled) VALUES "
                 + "(220, 'CONTENT', TRUE), (221, 'DICTIONARY', TRUE), (222, 'CONTENT', FALSE)");
         jdbc.update("INSERT INTO hhy.search_histories(id, user_id, keyword, created_at) VALUES "
@@ -146,12 +151,16 @@ class BusinessGaugeBinderTest {
                 + "(269, 230, 218, 'WECHAT', 'VIEW', CURRENT_TIMESTAMP), "
                 + "(270, 230, 218, 'WECHAT', 'COPY', CURRENT_TIMESTAMP), "
                 + "(271, 230, 218, 'WECHAT', 'REPLAY', CURRENT_TIMESTAMP), "
-                + "(272, 230, 218, 'WECHAT', 'REJECTED_INVALID', CURRENT_TIMESTAMP)");
+                + "(272, 230, 218, 'WECHAT', 'REJECTED_INVALID', CURRENT_TIMESTAMP), "
+                + "(273, 230, 223, 'WECHAT', 'VIEW', CURRENT_TIMESTAMP), "
+                + "(274, 230, 223, 'WECHAT', 'COPY', CURRENT_TIMESTAMP), "
+                + "(275, 230, 223, 'WECHAT', 'REPLAY', CURRENT_TIMESTAMP), "
+                + "(276, 230, 223, 'WECHAT', 'REJECTED_LIMIT', CURRENT_TIMESTAMP)");
 
         SimpleMeterRegistry registry = new SimpleMeterRegistry();
         new BusinessGaugeBinder(jdbc).bindTo(registry);
 
-        assertThat(registry.get("hhy.outbox.backlog").gauge().value()).isEqualTo(6.0);
+        assertThat(registry.get("hhy.outbox.backlog").gauge().value()).isEqualTo(7.0);
         assertThat(registry.get("hhy.outbox.dead.letter").gauge().value()).isEqualTo(1.0);
         assertThat(registry.get("hhy.ledger.unbalanced.transactions").gauge().value()).isEqualTo(1.0);
         assertThat(registry.get("hhy.reconciliation.open.differences").gauge().value()).isEqualTo(1.0);
@@ -174,15 +183,15 @@ class BusinessGaugeBinderTest {
         assertThat(registry.get("hhy.identity.provider.failures.5m").gauge().value()).isEqualTo(1.0);
         assertThat(registry.get("hhy.identity.manual.review.pending").gauge().value()).isEqualTo(1.0);
         assertThat(registry.get("hhy.identity.private.media.invalid").gauge().value()).isEqualTo(1.0);
-        assertThat(registry.get("hhy.content.online.count").gauge().value()).isEqualTo(3.0);
-        assertThat(registry.get("hhy.content.review.pending").gauge().value()).isEqualTo(3.0);
-        assertThat(registry.get("hhy.content.outbox.backlog").gauge().value()).isEqualTo(4.0);
+        assertThat(registry.get("hhy.content.online.count").gauge().value()).isEqualTo(4.0);
+        assertThat(registry.get("hhy.content.review.pending").gauge().value()).isEqualTo(4.0);
+        assertThat(registry.get("hhy.content.outbox.backlog").gauge().value()).isEqualTo(5.0);
         assertThat(registry.get("hhy.home.enabled.modules").gauge().value()).isEqualTo(1.0);
         assertThat(registry.get("hhy.search.history.rows").gauge().value()).isEqualTo(2.0);
         assertThat(registry.get("hhy.search.hot.terms.active").gauge().value()).isEqualTo(2.0);
         assertThat(registry.get("hhy.publisher.active.count").gauge().value()).isEqualTo(1.0);
-        assertThat(registry.get("hhy.contact.accesses.5m").gauge().value()).isEqualTo(9.0);
-        assertThat(registry.get("hhy.contact.rejections.5m").gauge().value()).isEqualTo(3.0);
+        assertThat(registry.get("hhy.contact.accesses.5m").gauge().value()).isEqualTo(12.0);
+        assertThat(registry.get("hhy.contact.rejections.5m").gauge().value()).isEqualTo(4.0);
         assertThat(registry.get("hhy.r07.outbox.backlog").gauge().value()).isEqualTo(5.0);
         assertThat(registry.get("hhy.project.total.count").gauge().value()).isEqualTo(2.0);
         assertThat(registry.get("hhy.project.online.count").gauge().value()).isEqualTo(1.0);
@@ -205,6 +214,13 @@ class BusinessGaugeBinderTest {
         assertThat(registry.get("hhy.group.contact.accesses.5m").gauge().value()).isEqualTo(3.0);
         assertThat(registry.get("hhy.group.contact.rejections.5m").gauge().value()).isEqualTo(1.0);
         assertThat(registry.get("hhy.r10.outbox.backlog").gauge().value()).isEqualTo(1.0);
+        assertThat(registry.get("hhy.team.leader.total.count").gauge().value()).isEqualTo(2.0);
+        assertThat(registry.get("hhy.team.leader.online.count").gauge().value()).isEqualTo(1.0);
+        assertThat(registry.get("hhy.team.leader.review.pending").gauge().value()).isEqualTo(1.0);
+        assertThat(registry.get("hhy.team.leader.favorites.count").gauge().value()).isEqualTo(1.0);
+        assertThat(registry.get("hhy.team.leader.contact.accesses.5m").gauge().value()).isEqualTo(3.0);
+        assertThat(registry.get("hhy.team.leader.contact.rejections.5m").gauge().value()).isEqualTo(1.0);
+        assertThat(registry.get("hhy.r11.outbox.backlog").gauge().value()).isEqualTo(2.0);
         assertThat(registry.get("hhy.business.metric.query.failures")
                 .tag("metric", "hhy.admin.active.sessions").counter().count()).isZero();
     }
