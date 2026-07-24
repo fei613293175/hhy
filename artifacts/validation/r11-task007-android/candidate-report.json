@@ -1,0 +1,51 @@
+{
+  "schema": "hhy.android-ci-candidate-promotion/v1",
+  "policy_id": "HHY-ANDROID-AUTOMATION-V1",
+  "release": "R11",
+  "commit": "a3c32668ae1d6502d859efd3e8c18947f650e150",
+  "github_run_id": "30074128265",
+  "source_github_run_id": "30069588243",
+  "status": "PASS",
+  "owner_test_allowed": true,
+  "release_completion_allowed": false,
+  "production_activation_allowed": false,
+  "apk": {
+    "file": "hhy-R11-a3c3266-candidate.apk",
+    "sha256": "0ad93ced14d5a47c1300c0dc340fde836613ec19243b6eedec2f4c42cf94bd5f",
+    "size_bytes": 21060559
+  },
+  "baseline_approval": {
+    "schema": "hhy.android-visual-baseline-approval/v1",
+    "release": "R11",
+    "status": "APPROVED",
+    "authority": "AI_IMPLEMENTATION_AGENT",
+    "promotion_attempt": 1,
+    "source": {
+      "github_run_id": "30069588243",
+      "commit": "a3c32668ae1d6502d859efd3e8c18947f650e150",
+      "artifact_id": "8587614599",
+      "artifact_sha256": "31974936b224a0263ed5e57c7ff70d1098a655cf647fa23cc4744534f3870d33",
+      "runtime_status": "BASELINE_REVIEW_REQUIRED"
+    },
+    "decision": "四张截图绑定R11真实OIDC认证首页与团队长旅程；首页、团队长列表、详情和编辑页均符合精确视觉合同与冻结Design Token，团队专用Logo和风采素材正确，无错误复用App截图。候选内容来自Staging真实审核数据，团队联系方式保持掩码，无技术字段、虚构功能或未授权敏感信息，批准为R11首版视觉基线。",
+    "screens": [
+      {
+        "file": "01-home.png",
+        "sha256": "90dd3ea3abd7b421c04f5704002973b49b5eb0419e98ac6dc94351d0a5ecd9ce"
+      },
+      {
+        "file": "02-team-leader-list.png",
+        "sha256": "bf3f42ba24720ad250343cd71e6a328dee21ba98fe870352b42190fbbbf2fc12"
+      },
+      {
+        "file": "03-team-leader-detail.png",
+        "sha256": "cec2e8db8778bb150807f7ac68f759a33ce0798157e58d4378f42c575e22773e"
+      },
+      {
+        "file": "04-team-leader-editor.png",
+        "sha256": "09947d28fde65999d190435736bfcb29f2b4bb57aefc58ecad0da3b6c4b37576"
+      }
+    ]
+  },
+  "errors": []
+}

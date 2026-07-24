@@ -1424,9 +1424,9 @@ problems:
   - 不得以关闭Secret长度校验或把真实凭据写入脚本来绕过启动失败
 - id: PROB-0105
   title: R11团队长候选错误复用R09 App截图导致视觉语义不合格
-  status: REMEDIATING
+  status: SOLVED
   root_cause: R11首轮Run 30066554254的真实四页旅程、编译、OIDC和媒体HTTP状态均通过，但隔离夹具沿用了R09公开App截图作为团队Logo；团队列表头像和详情团队风采因此显示App卡片，违反团队长页面必须使用专用团队语义素材的视觉合同。
-  resolution: CR-0304新增可复现的专用团队品牌PNG、夹具object_key和attempt 2请求；CR-0305新增download.orbexa.cc单文件精确静态路由，保留默认404。仓库、服务器和公网媒体SHA均为eb2138d67b8a23255240b5ce4ecc1cd758f2bbb8fe3586b874f7d7b32aea6709，夹具连续两次保持logo=3、contacts=1、media=1；待R11 attempt 2截图由AI复核后关闭。
+  resolution: CR-0304新增可复现的专用团队品牌PNG、夹具object_key和attempt 2请求；CR-0305新增download.orbexa.cc单文件精确静态路由，保留默认404。仓库、服务器和公网媒体SHA均为eb2138d67b8a23255240b5ce4ecc1cd758f2bbb8fe3586b874f7d7b32aea6709，夹具连续两次保持logo=3、contacts=1、media=1。Run 30069588243四张真实旅程截图由AI复核通过，Run 30074128265完成轻量视觉基线晋升；固定签名APK与四方交付通过，不合格首轮截图未晋升或交付。
   regression_checks:
   - python scripts/generate_r11_team_logo.py重复生成必须字节级SHA一致
   - tests.test_r11_candidate必须拒绝01-app-list.png并要求r11-team-logo.png
