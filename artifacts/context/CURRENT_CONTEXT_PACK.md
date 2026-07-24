@@ -1,14 +1,14 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-24T09:30:27Z
-- Context Hash：`93f669e34d09ed1085270a3f1e3d9ac174195f00ec7bda6a44ced6a5593d3342`
+- 生成时间：2026-07-24T14:16:02Z
+- Context Hash：`decbbdfc2b73a092021211a5fe26eb3e1f931e6e3ca6db7b187f603faba68895`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 规则就绪：`PASS`（`HASHED_CONTEXT_MANIFEST`）
 - 精确恢复命令：
 
 ```bash
-python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R11-008
+python3 scripts/continuity.py checkpoint --summary '<完成内容>' --next-step '<下一步>' --parallel-assessment <ASSESSMENT> --parallel-reason '<未委托原因>'
 ```
 
 ## 规则就绪
@@ -42,7 +42,7 @@ baseline_version: 1.2.3
 phase: R11
 active_release: R11
 active_task: TASK-R11-008
-status: READY
+status: IN_PROGRESS
 documentation_status: ZERO_BLOCKING_DOCUMENT_GAPS
 last_green_commit: c64e8a630336c0e41f49a1335f71c661e3417dbf
 last_staging_apk: null
@@ -149,14 +149,15 @@ completed_tasks:
 - TASK-R11-005
 - TASK-R11-006
 - TASK-R11-007
-in_progress_tasks: []
+in_progress_tasks:
+- TASK-R11-008
 blocked_tasks:
 - TASK-R02-007
 - TASK-R03-007
 - TASK-R06-008
 - TASK-R07-008
 next_task: TASK-R11-008
-updated_at: '2026-07-24T09:30:24Z'
+updated_at: '2026-07-24T14:15:59Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -188,17 +189,19 @@ validation:
 continuity:
   protocol_version: '1.0'
   mode: ENFORCED
-  active_session_id: null
-  last_session_id: SES-20260724T032308Z-98D6D10A
-  last_session_result: COMPLETED
-  last_checkpoint: .continuity/checkpoints/SES-20260724T032308Z-98D6D10A/0012.yaml
-  last_handoff_bundle: null
+  active_session_id: SES-20260724T110611Z-0D26E8D5
+  actor_id: codex-root-r11-close
+  story_id: STORY-R11-004
+  lease_expires_at: '2026-07-24T18:15:59Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260724T110611Z-0D26E8D5/0004.yaml
+  project_fingerprint: fdb4518884aeddcf13cfa841b6b650c0f79528f27ff05de2178f38bebb666f03
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: 1187e192209d1efa996497765768e071c198c6c00e247d3139258733f80f3ba6
-    generated_at: '2026-07-24T09:30:21Z'
+    context_hash: 05c54981199213b61de954c4bef6db4b907cc6880fe762bbdc7e32fde724f771
+    generated_at: '2026-07-24T14:13:16Z'
+  handoff_bundle: null
 ```
 
 ## 默认并行规则
@@ -382,13 +385,385 @@ next_after: 由当前TASKS.yaml依赖关系决定
 ## 活跃会话
 
 ```yaml
-status: NONE
+protocol_version: '1.0'
+package_version: 1.2.3
+session_id: SES-20260724T110611Z-0D26E8D5
+status: ACTIVE
+actor:
+  id: codex-root-r11-close
+  kind: AI_OR_HUMAN
+  host: unknown
+release: R11
+task_id: TASK-R11-008
+story_id: STORY-R11-004
+goal: 完成R11版本关闭、无状态交接并建立R12唯一合法起点
+started_at: '2026-07-24T11:06:11Z'
+updated_at: '2026-07-24T14:15:59Z'
+takeover_of: null
+change_requests:
+- CR-0310
+- CR-0311
+- CR-0312
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions:
+  - tests/test_cloud_environment.py
+  - tests/test_r10_candidate.py
+  - AGENTS.md
+  - docs/09-development/统一开发与交付效率规范.md
+  - config/development-workflow.yaml
+  - config/test-impact-map.yaml
+  - scripts/hhy_workflow.py
+  - tests/test_hhy_workflow.py
+  - tests/test_run_affected_tests.py
+  source: story+explicit+approved-cr:CR-0310+approved-cr:CR-0311+approved-cr:CR-0312
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  base_commit: a4772fbdbb703ee2c824c06cd0916fade1701f9d
+  start_head: a4772fbdbb703ee2c824c06cd0916fade1701f9d
+  upstream: origin/task/TASK-R03-001
+  initial_worktree_state: CLEAN
+lease:
+  duration_minutes: 240
+  renewed_at: '2026-07-24T14:15:59Z'
+  expires_at: '2026-07-24T18:15:59Z'
+checkpoint_sequence: 4
+latest_checkpoint: .continuity/checkpoints/SES-20260724T110611Z-0D26E8D5/0004.yaml
+session_log: docs/03-continuity/sessions/2026-07/SES-20260724T110611Z-0D26E8D5.md
+next_step: 以本检查点精确Trailer提交并推送R11机器收尾实现，然后关闭TASK-R11-008切换R12
+context_pack: THIS_CONTEXT_PACK
+handoff_bundle: null
+closure: null
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 最终Release状态、问题登记、Session、Context Pack和提交Trailer必须由唯一主控原子一致，无法拆分互斥事实分支
 ```
 
 ## 最新检查点
 
 ```yaml
-status: NO_CHECKPOINT
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260724T110611Z-0D26E8D5-0004
+session_id: SES-20260724T110611Z-0D26E8D5
+task_id: TASK-R11-008
+story_id: STORY-R11-004
+sequence: 4
+created_at: '2026-07-24T14:15:59Z'
+summary: R11机器收尾最终提交态：PROB-0106已登记，Context Pack刷新；严格文档、连续性、Doctor、生成资产、工作流选择器、视觉、模板镜像和专用MACHINE_CLOSE全部PASS
+next_step: 以本检查点精确Trailer提交并推送R11机器收尾实现，然后关闭TASK-R11-008切换R12
+blockers: []
+decisions: []
+note: ''
+tests:
+- name: continuity-doctor
+  result: PASS
+  evidence: scripts/continuity_gate.py --mode doctor --strict
+  note: rule readiness与事件链PASS
+- name: full-python-plus-failed-node
+  result: PASS
+  evidence: python unittest discover + template mirror focused retry
+  note: 324 PASS、1 skipped；唯一模板镜像失败修复后PASS
+- name: generated-assets
+  result: PASS
+  evidence: scripts/check_generated_assets.py --skip-openapi
+  note: Android、前端脚手架和运行时合同PASS
+- name: problem-registry
+  result: PASS
+  evidence: docs/03-continuity/PROBLEM_REGISTRY.yaml
+  note: PROB-0106 YAML解析与禁止复发项PASS
+- name: r11-machine-close
+  result: PASS
+  evidence: scripts/hhy_workflow.py run --intent release-close --release R11
+  note: MACHINE_CLOSE唯一证据门禁0.532秒PASS
+- name: r11-ui-visual
+  result: PASS
+  evidence: scripts/check_ui_visual_acceptance.py --release R11
+  note: 3页精确视觉合同PASS
+- name: strict-continuity
+  result: PASS
+  evidence: scripts/check_v123_continuity.py --strict
+  note: 0错误0警告，12集成与15生命周期检查PASS
+- name: strict-documentation
+  result: PASS
+  evidence: scripts/check_v123_documentation.py --strict --release R11
+  note: 0错误0警告
+- name: workflow-selector
+  result: PASS
+  evidence: tests.test_hhy_workflow tests.test_run_affected_tests
+  note: 27项PASS，机器收尾排除后端数据库Android重型门禁
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: a4772fbdbb703ee2c824c06cd0916fade1701f9d
+  upstream: origin/task/TASK-R03-001
+  ahead: 0
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - MM .continuity/ACTIVE_SESSION.yaml
+  - M  .continuity/CHANGE_REQUEST_INDEX.yaml
+  - MM .continuity/EVENT_LOG.jsonl
+  - MM .continuity/SESSION_INDEX.yaml
+  - MM .continuity/STATE.yaml
+  - M  .continuity/TASK_CLAIMS.yaml
+  - M  .continuity/TASK_TRANSITIONS.yaml
+  - A  .continuity/change_requests/CR-0310.yaml
+  - A  .continuity/change_requests/CR-0311.yaml
+  - A  .continuity/change_requests/CR-0312.yaml
+  - A  .continuity/checkpoints/SES-20260724T110611Z-0D26E8D5/0001.yaml
+  - A  .continuity/checkpoints/SES-20260724T110611Z-0D26E8D5/0002.yaml
+  - AM .continuity/sessions/SES-20260724T110611Z-0D26E8D5.yaml
+  - M  AGENTS.md
+  - MM CURRENT_STATUS.yaml
+  - MM artifacts/context/CURRENT_CONTEXT_PACK.md
+  - MM artifacts/context/CURRENT_CONTEXT_PACK.yaml
+  - MM artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+  - A  artifacts/reports/R11/TASK-R11-008-machine-close.md
+  - MM artifacts/validation/continuity-gate-v1.2.3.json
+  - M  artifacts/validation/continuity-integration-v1.2.3.json
+  - M  artifacts/validation/continuity-lifecycle-integration-v1.2.3.json
+  - M  artifacts/validation/continuity-lifecycle-integration-v1.2.3.log
+  - MM artifacts/validation/project-doctor-v1.2.3.json
+  - M  catalogs/change_request_index.csv
+  - MM catalogs/session_index.csv
+  - M  catalogs/task_transition_ledger.csv
+  - M  config/development-workflow.yaml
+  - M  config/test-impact-map.yaml
+  - ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
+  - A  docs/03-continuity/change-requests/CR-0310-同步云环境只读单次探针测试合同.md
+  - A  docs/03-continuity/change-requests/CR-0311-将R10候选回归改为归档证据验证.md
+  - A  docs/03-continuity/change-requests/CR-0312-修正机器收尾重复本机构建与生成证据指纹.md
+  - AM docs/03-continuity/sessions/2026-07/SES-20260724T110611Z-0D26E8D5.md
+  - M  docs/09-development/统一开发与交付效率规范.md
+  - M  releases/R11/ACCEPTANCE_MATRIX.csv
+  - M  releases/R11/RELEASE_MANIFEST.yaml
+  - M  scripts/hhy_workflow.py
+  - M  templates/AGENTS.md
+  - M  tests/test_cloud_environment.py
+  - M  tests/test_hhy_workflow.py
+  - M  tests/test_r10_candidate.py
+  - M  tests/test_run_affected_tests.py
+  - ?? .continuity/checkpoints/SES-20260724T110611Z-0D26E8D5/0003.yaml
+  recent_commits:
+  - "a4772fbdbb703ee2c824c06cd0916fade1701f9d\t2026-07-24T19:02:18+08:00\tHHY Continuity Bootstrap\t[STORY-R11-004] chore(continuity): close TASK-R11-007\
+    \ as completed"
+  - "c64e8a630336c0e41f49a1335f71c661e3417dbf\t2026-07-24T17:27:43+08:00\tHHY Continuity Bootstrap\t[STORY-R11-004] test(android): publish R11\
+    \ test APK"
+  - "2a2b2c10fa859f65985181ebe16a938cbe28d3f7\t2026-07-24T15:00:02+08:00\tHHY Continuity Bootstrap\t[STORY-R11-004] test(android): approve R11\
+    \ visual baseline"
+  - "a3c32668ae1d6502d859efd3e8c18947f650e150\t2026-07-24T13:27:11+08:00\tHHY Continuity Bootstrap\t[STORY-R11-004] fix(r11): replace reused app\
+    \ logo media"
+  - "df22a0918fc80d3729aea2bfb47d3232f726ae0b\t2026-07-24T12:14:32+08:00\tHHY Continuity Bootstrap\t[STORY-R11-004] test(r11): bind final Android\
+    \ candidate"
+  - "c20c118ae98a93b3dde28d6901bc10baf98b0402\t2026-07-24T11:21:54+08:00\tHHY Continuity Bootstrap\t[STORY-R11-004] chore(continuity): close TASK-R11-006"
+  - "1b6d8d3c0c50770e891cd7a97cc1747264b5d5f0\t2026-07-24T11:20:09+08:00\tHHY Continuity Bootstrap\t[STORY-R11-004] test(r11): archive observability\
+    \ staging evidence"
+  - "b190476f72bd0c0de12dc0f29820a72d352caffc\t2026-07-24T11:12:03+08:00\tHHY Continuity Bootstrap\t[STORY-R11-004] fix(r11): isolate staging\
+    \ security sentinels"
+project_fingerprint:
+  sha256: fdb4518884aeddcf13cfa841b6b650c0f79528f27ff05de2178f38bebb666f03
+  files:
+  - AGENTS.md
+  - config/development-workflow.yaml
+  - config/test-impact-map.yaml
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/change-requests/CR-0310-同步云环境只读单次探针测试合同.md
+  - docs/03-continuity/change-requests/CR-0311-将R10候选回归改为归档证据验证.md
+  - docs/03-continuity/change-requests/CR-0312-修正机器收尾重复本机构建与生成证据指纹.md
+  - docs/09-development/统一开发与交付效率规范.md
+  - releases/R11/ACCEPTANCE_MATRIX.csv
+  - releases/R11/RELEASE_MANIFEST.yaml
+  - scripts/hhy_workflow.py
+  - templates/AGENTS.md
+  - tests/test_cloud_environment.py
+  - tests/test_hhy_workflow.py
+  - tests/test_r10_candidate.py
+  - tests/test_run_affected_tests.py
+  file_count: 16
+  payload:
+    base_commit: a4772fbdbb703ee2c824c06cd0916fade1701f9d
+    files:
+    - path: AGENTS.md
+      state: FILE
+      size: 13921
+      sha256: 690f960020dcbd18080ec91b3c314335627b32e231b9f9b2e14566b0fbbaeb35
+    - path: config/development-workflow.yaml
+      state: FILE
+      size: 3576
+      sha256: 2b0f84a307ca22fa7d863a1a27e0400e42c51f447c30059a65188edaa5594fe1
+    - path: config/test-impact-map.yaml
+      state: FILE
+      size: 5689
+      sha256: dad3f6f7f98e4c8878f337c4fba812a0d02d0b081234e24ff32321ebd44faf86
+    - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
+      state: FILE
+      size: 148968
+      sha256: 12e54c3e459083089fabc9e090dcece8f3d5526df21a8fc7fbd611dd77ee775b
+    - path: docs/03-continuity/change-requests/CR-0310-同步云环境只读单次探针测试合同.md
+      state: FILE
+      size: 2566
+      sha256: e0d1e61db9782052bb5a44b7e34f4ed8ed6031de7d0815bc408ecd0c814f047c
+    - path: docs/03-continuity/change-requests/CR-0311-将R10候选回归改为归档证据验证.md
+      state: FILE
+      size: 2671
+      sha256: e402bd75860a84869bc9f96964512d4982c0fcb8f60d29377c4abaad2cf22df9
+    - path: docs/03-continuity/change-requests/CR-0312-修正机器收尾重复本机构建与生成证据指纹.md
+      state: FILE
+      size: 4187
+      sha256: b8a740433b837a705d9644c8528ca689d18da6ca5fa30e949712f37e0695e484
+    - path: docs/09-development/统一开发与交付效率规范.md
+      state: FILE
+      size: 16912
+      sha256: 821ed91f6f860b729f6532c5e8145c6d78fa01fc7f5ec423687479fe5390a76f
+    - path: releases/R11/ACCEPTANCE_MATRIX.csv
+      state: FILE
+      size: 876
+      sha256: 8359dcd7330fd0b7cb571239c77e744f1ba2378aad2facef658e227d18f8468c
+    - path: releases/R11/RELEASE_MANIFEST.yaml
+      state: FILE
+      size: 5300
+      sha256: 51ad6f246ef0f104f5af952f557e7a790e1a055fd58e49e3fc451104dcf7d727
+    - path: scripts/hhy_workflow.py
+      state: FILE
+      size: 21053
+      sha256: 63547509ad8a66353ece94b0283f002030d4851eef7100689ec946dea936bfb0
+    - path: templates/AGENTS.md
+      state: FILE
+      size: 13921
+      sha256: 690f960020dcbd18080ec91b3c314335627b32e231b9f9b2e14566b0fbbaeb35
+    - path: tests/test_cloud_environment.py
+      state: FILE
+      size: 2862
+      sha256: dad29106a1abd1bd7e39c1df903dffdd34239971ee2c4a1a8d61b65494c11501
+    - path: tests/test_hhy_workflow.py
+      state: FILE
+      size: 11091
+      sha256: db8bd0e86099172998108b155f63a51a5461d7456fa487175fbd300b1b019979
+    - path: tests/test_r10_candidate.py
+      state: FILE
+      size: 3408
+      sha256: 33fb3651debd2118ae883ac3629eb224e7df5395cd0133973b1353a5725c5fcc
+    - path: tests/test_run_affected_tests.py
+      state: FILE
+      size: 8478
+      sha256: d3ba0b7968e7f1d9d0e0f63df7e80b7e4e19792c27c4f51903e558d5208fefe1
+change_classification:
+  other:
+  - AGENTS.md
+  - config/development-workflow.yaml
+  - config/test-impact-map.yaml
+  - docs/09-development/统一开发与交付效率规范.md
+  - releases/R11/ACCEPTANCE_MATRIX.csv
+  - templates/AGENTS.md
+  continuity:
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/change-requests/CR-0310-同步云环境只读单次探针测试合同.md
+  - docs/03-continuity/change-requests/CR-0311-将R10候选回归改为归档证据验证.md
+  - docs/03-continuity/change-requests/CR-0312-修正机器收尾重复本机构建与生成证据指纹.md
+  source_of_truth:
+  - releases/R11/RELEASE_MANIFEST.yaml
+  code:
+  - scripts/hhy_workflow.py
+  tests:
+  - tests/test_cloud_environment.py
+  - tests/test_hhy_workflow.py
+  - tests/test_r10_candidate.py
+  - tests/test_run_affected_tests.py
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+- APPROVED_CHANGE_REQUEST
+change_requests:
+- CR-0310
+- CR-0311
+- CR-0312
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions:
+  - tests/test_cloud_environment.py
+  - tests/test_r10_candidate.py
+  - AGENTS.md
+  - docs/09-development/统一开发与交付效率规范.md
+  - config/development-workflow.yaml
+  - config/test-impact-map.yaml
+  - scripts/hhy_workflow.py
+  - tests/test_hhy_workflow.py
+  - tests/test_run_affected_tests.py
+  source: story+explicit+approved-cr:CR-0310+approved-cr:CR-0311+approved-cr:CR-0312
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 最终Release状态、问题登记、Session、Context Pack和提交Trailer必须由唯一主控原子一致，无法拆分互斥事实分支
+event_hash: f7af69ec0dfda1ee4b17473f3854ea27357581449a7a931be5a4f2995dab0b87
 ```
 
 ## 接续状态与事件头
@@ -396,31 +771,19 @@ status: NO_CHECKPOINT
 ```yaml
 mode: ENFORCED
 protocol_version: '1.0'
-active_session_id: null
+active_session_id: SES-20260724T110611Z-0D26E8D5
 last_session_id: SES-20260724T032308Z-98D6D10A
 last_session_result: COMPLETED
 last_closure_checkpoint_id: CP-SES-20260724T032308Z-98D6D10A-0012
-event_count: 3009
-event_head_hash: b70d14021a851ae7eac7e68bd64bd96ff2e4b00a3297476b5bb2a633c3785661
+event_count: 3032
+event_head_hash: f7af69ec0dfda1ee4b17473f3854ea27357581449a7a931be5a4f2995dab0b87
 event_chain_valid: true
 ```
 
 ## 最近会话与任务迁移
 
 ```yaml
-recent_sessions: - session_id: SES-20260723T115555Z-5C81458B
-  task_id: TASK-R10-006
-  story_id: STORY-R10-004
-  actor_id: codex-root-r10-observability
-  status: CLOSED
-  started_at: '2026-07-23T11:55:55Z'
-  record: .continuity/sessions/SES-20260723T115555Z-5C81458B.yaml
-  session_log: docs/03-continuity/sessions/2026-07/SES-20260723T115555Z-5C81458B.md
-  updated_at: '2026-07-23T12:29:00Z'
-  closed_at: '2026-07-23T12:29:00Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260723T115555Z-5C81458B/0008.yaml
-  handoff_bundle: null
-- session_id: SES-20260723T122953Z-52EBA51E
+recent_sessions: - session_id: SES-20260723T122953Z-52EBA51E
   task_id: TASK-R10-007
   story_id: STORY-R10-004
   actor_id: codex-root-r10-candidate
@@ -528,48 +891,19 @@ recent_sessions: - session_id: SES-20260723T115555Z-5C81458B
   closed_at: '2026-07-24T09:30:23Z'
   latest_checkpoint: .continuity/checkpoints/SES-20260724T032308Z-98D6D10A/0012.yaml
   handoff_bundle: null
-task_claims: - claim_id: CLM-902BBAC3CC04
-  session_id: SES-20260722T190220Z-19869F4B
-  task_id: TASK-R09-004
-  story_id: STORY-R09-004
-  actor_id: codex-root-r09-client
-  status: CLOSED
-  claimed_at: '2026-07-22T19:02:20Z'
-  allowed_paths:
-  - apps/**
-  - services/**
-  - packages/**
-  - contracts/**
-  - database/**
-  - config/**
-  - catalogs/**
-  - tests/**
-  - infra/**
-  - design/**
-  - docs/**
-  - releases/**
-  - scripts/**
-  - templates/**
-  - .github/**
-  - .githooks/**
-  - .codex/**
-  - AGENTS.md
-  - START_HERE.md
-  - README.md
-  - CHANGELOG.md
-  - Makefile
-  - .gitignore
-  - .gitattributes
-  - .dockerignore
-  - package.json
-  - pnpm-lock.yaml
-  - pnpm-workspace.yaml
-  - requirements-dev.txt
-  - PROJECT_*.yaml
-  - PROJECT_*.json
-  - R09 App推广完整闭环客户端/H5/后台实现；严格绑定效果图与现有UI规格，不虚构业务；普通任务只跑受影响门禁。
-  closed_at: '2026-07-22T19:39:54Z'
-- claim_id: CLM-A7041AA004B4
+- session_id: SES-20260724T110611Z-0D26E8D5
+  task_id: TASK-R11-008
+  story_id: STORY-R11-004
+  actor_id: codex-root-r11-close
+  status: ACTIVE
+  started_at: '2026-07-24T11:06:11Z'
+  record: .continuity/sessions/SES-20260724T110611Z-0D26E8D5.yaml
+  session_log: docs/03-continuity/sessions/2026-07/SES-20260724T110611Z-0D26E8D5.md
+  updated_at: '2026-07-24T14:15:59Z'
+  closed_at: null
+  latest_checkpoint: .continuity/checkpoints/SES-20260724T110611Z-0D26E8D5/0004.yaml
+  handoff_bundle: null
+task_claims: - claim_id: CLM-A7041AA004B4
   session_id: SES-20260722T194140Z-BCF8BB57
   task_id: TASK-R09-005
   story_id: STORY-R09-004
@@ -1326,17 +1660,46 @@ task_claims: - claim_id: CLM-902BBAC3CC04
   - PROJECT_*.yaml
   - PROJECT_*.json
   closed_at: '2026-07-24T09:30:23Z'
-recent_task_transitions: - transition_id: TRN-A0B818D6EC56
-  timestamp: '2026-07-22T19:02:22Z'
-  release: R09
-  task_id: TASK-R09-004
-  story_id: STORY-R09-004
-  from_status: READY
-  to_status: IN_PROGRESS
-  session_id: SES-20260722T190220Z-19869F4B
-  actor_id: codex-root-r09-client
-  reason: 会话领取任务
-- transition_id: TRN-5632B808A1AA
+- claim_id: CLM-96CC844017C2
+  session_id: SES-20260724T110611Z-0D26E8D5
+  task_id: TASK-R11-008
+  story_id: STORY-R11-004
+  actor_id: codex-root-r11-close
+  status: ACTIVE
+  claimed_at: '2026-07-24T11:06:11Z'
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+recent_task_transitions: - transition_id: TRN-5632B808A1AA
   timestamp: '2026-07-22T19:41:42Z'
   release: R09
   task_id: TASK-R09-005
@@ -1526,6 +1889,16 @@ recent_task_transitions: - transition_id: TRN-A0B818D6EC56
   session_id: SES-20260724T032308Z-98D6D10A
   actor_id: codex-root-r11-candidate
   reason: 会话领取任务
+- transition_id: TRN-CFCB70247974
+  timestamp: '2026-07-24T11:06:13Z'
+  release: R11
+  task_id: TASK-R11-008
+  story_id: STORY-R11-004
+  from_status: READY
+  to_status: IN_PROGRESS
+  session_id: SES-20260724T110611Z-0D26E8D5
+  actor_id: codex-root-r11-close
+  reason: 会话领取任务
 ```
 
 ## Git 状态
@@ -1533,29 +1906,60 @@ recent_task_transitions: - transition_id: TRN-A0B818D6EC56
 ```yaml
 initialized: true
 branch: task/TASK-R03-001
-head: c64e8a630336c0e41f49a1335f71c661e3417dbf
+head: a4772fbdbb703ee2c824c06cd0916fade1701f9d
 upstream: origin/task/TASK-R03-001
 ahead: 0
 behind: 0
 dirty: true
 status_porcelain:
-- ' M .continuity/ACTIVE_SESSION.yaml'
-- ' M .continuity/EVENT_LOG.jsonl'
-- ' M .continuity/SESSION_INDEX.yaml'
-- ' M .continuity/STATE.yaml'
-- ' M .continuity/TASK_CLAIMS.yaml'
-- ' M .continuity/sessions/SES-20260724T032308Z-98D6D10A.yaml'
-- ' M CHANGELOG.md'
-- ' M CURRENT_STATUS.yaml'
-- ' M NEXT_TASK.yaml'
-- ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
-- ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
-- ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
-- ' M catalogs/session_index.csv'
-- ' M docs/03-continuity/sessions/2026-07/SES-20260724T032308Z-98D6D10A.md'
-- ' M releases/R11/TASKS.yaml'
-- ?? .continuity/checkpoints/SES-20260724T032308Z-98D6D10A/0012.yaml
+- MM .continuity/ACTIVE_SESSION.yaml
+- M  .continuity/CHANGE_REQUEST_INDEX.yaml
+- MM .continuity/EVENT_LOG.jsonl
+- MM .continuity/SESSION_INDEX.yaml
+- MM .continuity/STATE.yaml
+- M  .continuity/TASK_CLAIMS.yaml
+- M  .continuity/TASK_TRANSITIONS.yaml
+- A  .continuity/change_requests/CR-0310.yaml
+- A  .continuity/change_requests/CR-0311.yaml
+- A  .continuity/change_requests/CR-0312.yaml
+- A  .continuity/checkpoints/SES-20260724T110611Z-0D26E8D5/0001.yaml
+- A  .continuity/checkpoints/SES-20260724T110611Z-0D26E8D5/0002.yaml
+- AM .continuity/sessions/SES-20260724T110611Z-0D26E8D5.yaml
+- M  AGENTS.md
+- MM CURRENT_STATUS.yaml
+- MM artifacts/context/CURRENT_CONTEXT_PACK.md
+- MM artifacts/context/CURRENT_CONTEXT_PACK.yaml
+- MM artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+- A  artifacts/reports/R11/TASK-R11-008-machine-close.md
+- MM artifacts/validation/continuity-gate-v1.2.3.json
+- M  artifacts/validation/continuity-integration-v1.2.3.json
+- M  artifacts/validation/continuity-lifecycle-integration-v1.2.3.json
+- M  artifacts/validation/continuity-lifecycle-integration-v1.2.3.log
+- MM artifacts/validation/project-doctor-v1.2.3.json
+- M  catalogs/change_request_index.csv
+- MM catalogs/session_index.csv
+- M  catalogs/task_transition_ledger.csv
+- M  config/development-workflow.yaml
+- M  config/test-impact-map.yaml
+- ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
+- A  docs/03-continuity/change-requests/CR-0310-同步云环境只读单次探针测试合同.md
+- A  docs/03-continuity/change-requests/CR-0311-将R10候选回归改为归档证据验证.md
+- A  docs/03-continuity/change-requests/CR-0312-修正机器收尾重复本机构建与生成证据指纹.md
+- AM docs/03-continuity/sessions/2026-07/SES-20260724T110611Z-0D26E8D5.md
+- M  docs/09-development/统一开发与交付效率规范.md
+- M  releases/R11/ACCEPTANCE_MATRIX.csv
+- M  releases/R11/RELEASE_MANIFEST.yaml
+- M  scripts/hhy_workflow.py
+- M  templates/AGENTS.md
+- M  tests/test_cloud_environment.py
+- M  tests/test_hhy_workflow.py
+- M  tests/test_r10_candidate.py
+- M  tests/test_run_affected_tests.py
+- ?? .continuity/checkpoints/SES-20260724T110611Z-0D26E8D5/0003.yaml
+- ?? .continuity/checkpoints/SES-20260724T110611Z-0D26E8D5/0004.yaml
 recent_commits:
+- "a4772fbdbb703ee2c824c06cd0916fade1701f9d\t2026-07-24T19:02:18+08:00\tHHY Continuity Bootstrap\t[STORY-R11-004] chore(continuity): close TASK-R11-007\
+  \ as completed"
 - "c64e8a630336c0e41f49a1335f71c661e3417dbf\t2026-07-24T17:27:43+08:00\tHHY Continuity Bootstrap\t[STORY-R11-004] test(android): publish R11 test\
   \ APK"
 - "2a2b2c10fa859f65985181ebe16a938cbe28d3f7\t2026-07-24T15:00:02+08:00\tHHY Continuity Bootstrap\t[STORY-R11-004] test(android): approve R11 visual\
@@ -1569,16 +1973,29 @@ recent_commits:
   \ staging evidence"
 - "b190476f72bd0c0de12dc0f29820a72d352caffc\t2026-07-24T11:12:03+08:00\tHHY Continuity Bootstrap\t[STORY-R11-004] fix(r11): isolate staging security\
   \ sentinels"
-- "98712e46c0229528333a27a1f09dbbeaef31cf79\t2026-07-24T11:04:23+08:00\tHHY Continuity Bootstrap\t[STORY-R11-004] fix(r11): enforce valid staging\
-  \ secret sentinels"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`5a39be66edaf1d52d87e4487822766f2dcf0345730957cfa57b07db8b7812229`
-- 文件数：0
+- 指纹：`fdb4518884aeddcf13cfa841b6b650c0f79528f27ff05de2178f38bebb666f03`
+- 文件数：16
 
-- 无
+- `AGENTS.md`
+- `config/development-workflow.yaml`
+- `config/test-impact-map.yaml`
+- `docs/03-continuity/PROBLEM_REGISTRY.yaml`
+- `docs/03-continuity/change-requests/CR-0310-同步云环境只读单次探针测试合同.md`
+- `docs/03-continuity/change-requests/CR-0311-将R10候选回归改为归档证据验证.md`
+- `docs/03-continuity/change-requests/CR-0312-修正机器收尾重复本机构建与生成证据指纹.md`
+- `docs/09-development/统一开发与交付效率规范.md`
+- `releases/R11/ACCEPTANCE_MATRIX.csv`
+- `releases/R11/RELEASE_MANIFEST.yaml`
+- `scripts/hhy_workflow.py`
+- `templates/AGENTS.md`
+- `tests/test_cloud_environment.py`
+- `tests/test_hhy_workflow.py`
+- `tests/test_r10_candidate.py`
+- `tests/test_run_affected_tests.py`
 
 ## 当前 Release
 
@@ -1586,7 +2003,7 @@ recent_commits:
 RELEASE_MANIFEST.yaml:
   release: R11
   title: 团队长入驻完整闭环
-  status: READY_WHEN_DEPENDENCIES_GREEN
+  status: MACHINE_COMPLETE_OWNER_PENDING
   milestone: M1_CONTENT_MARKETPLACE
   depends_on:
   - R05
@@ -1633,6 +2050,59 @@ RELEASE_MANIFEST.yaml:
   - TST-TEAM_001-HAPPY
   - TST-TEAM_001-IDEMPOTENT
   - TST-TEAM_001-REJECT
+  test_count: 3
+  planning_depth: STORY_READY
+  apk_gate: MACHINE_CANDIDATE_PASS_OWNER_FEEDBACK_ASYNC
+  android_delivery:
+    source_commit: a3c32668ae1d6502d859efd3e8c18947f650e150
+    apk_file: hhy-r11-a3c3266-debug.apk
+    version_name: 1.2.2-debug
+    version_code: 10220
+    sha256: 01e2c435752fcf969c641057a11855a12dd1991dda6f1af8ba2d982d4b07185a
+    machine_delivery: PASS
+    owner_physical_test: PENDING
+    evidence: artifacts/validation/r11-apk-delivery/delivery-evidence.json
+    test_guide: artifacts/reports/R11/R11-version-test-guide.md
+  android_automation:
+    policy_id: HHY-ANDROID-AUTOMATION-V1
+    source_github_run_id: '30069588243'
+    promotion_github_run_id: '30074128265'
+    status: PASS
+    commit: a3c32668ae1d6502d859efd3e8c18947f650e150
+    journey:
+    - SCR-HOME-001
+    - SCR-LIST-004
+    - SCR-DETAIL-004
+    - SCR-PUB-005
+    baseline_promotion:
+      artifact_id: '8589169043'
+      artifact_sha256: 28f0bb663ff0fec6fcecd1bee00d2e0ca642253c9054fec59253a46c87aeb3ca
+      rebuild_or_emulator_rerun: false
+      status: PASS
+    owner_test_allowed: true
+    owner_physical_test: PENDING
+    ai_visual_review: PASS
+    candidate_report: artifacts/validation/r11-task007-android/candidate-report.json
+    evidence: artifacts/validation/r11-task007-android/candidate-report.json
+  machine_completion:
+    status: PASS
+    owner_feedback_mode: ASYNC_NON_BLOCKING
+    formal_release_acceptance: PENDING_OWNER_PHYSICAL_TEST
+    production_activation: BLOCKED_OWNER_PHYSICAL_TEST
+    next_release_development: ALLOWED
+    evidence: artifacts/reports/R11/TASK-R11-008-machine-close.md
+  machine_closure:
+    status: PASS
+    task_id: TASK-R11-008
+    session_id: SES-20260724T110611Z-0D26E8D5
+    report: artifacts/reports/R11/TASK-R11-008-machine-close.md
+    owner_physical_test: PENDING
+    formal_release_acceptance: PENDING_OWNER_PHYSICAL_TEST
+    production_activation: BLOCKED_OWNER_PHYSICAL_TEST
+    next_work: R12
+    candidate_product_commit: a3c32668ae1d6502d859efd3e8c18947f650e150
+    candidate_delivery_commit: c64e8a630336c0e41f49a1335f71c661e3417dbf
+    task007_closure_commit: a4772fbdbb703ee2c824c06cd0916fade1701f9d
   entry_baseline:
     checked_at: '2026-07-24'
     session_id: SES-20260723T165808Z-606D1DDF
@@ -10074,39 +10544,199 @@ PARALLEL_EXECUTION_PLAN.yaml:
     session_id: SES-20260724T032308Z-98D6D10A
   session_ids:
   - SES-20260724T032308Z-98D6D10A
+- protocol_version: '1.0'
+  cr_id: CR-0310
+  title: 同步云环境只读单次探针测试合同
+  status: IMPLEMENTED
+  created_at: '2026-07-24T11:19:31Z'
+  updated_at: '2026-07-24T11:32:57Z'
+  requester_actor_id: codex-root-r11-close
+  approver_actor_id: codex-independent-r11-close-reviewer
+  task_id: TASK-R11-008
+  session_id: SES-20260724T110611Z-0D26E8D5
+  user_request: 持续开发并完成R11机器关闭，不因确定性门禁问题停止
+  reason: 云环境实现已合并为单次SSH key=value探针，但测试仍模拟旧版三次SSH返回，导致R11关闭全量Python测试两项误失败
+  original_rule: 测试按旧版hostname、image id、volume列表三次SSH调用模拟云环境预检
+  new_rule: 测试必须按当前android_probe_command的一次SSH key=value输出验证镜像、Gradle缓存、API36平台卷、swap、可用内存、负载和构建锁；错误镜像以同一只读命令非零退出验证阻断
+  impact_summary: 仅同步过期单测与已存在的只读单次探针实现，不改云端环境、Android工具链、构建缓存或产品代码
+  impact:
+    files:
+    - tests/test_cloud_environment.py
+    pages: []
+    apis: []
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - python -m unittest tests.test_cloud_environment
+    - python -m unittest discover -s tests -p test_*.py
+    releases:
+    - R11
+    migration_and_compatibility: 无运行时迁移；保留旧策略键和阻断语义，只修测试模拟边界
+  user_confirmation: 项目所有者要求持续开发并自主解决门禁问题，终端静默执行
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-24T11:20:06Z'
+    note: 实现已明确采用单次只读复合探针，旧三调用mock与当前返回协议不兼容；范围仅一项测试且继续断言无build/bootstrap
+  machine_record: .continuity/change_requests/CR-0310.yaml
+  document: docs/03-continuity/change-requests/CR-0310-同步云环境只读单次探针测试合同.md
+  decision_log:
+  - at: '2026-07-24T11:32:53Z'
+    actor_id: codex-root-r11-close
+    status: IMPLEMENTING
+    note: 正在同步云环境单次只读探针测试合同
+    session_id: SES-20260724T110611Z-0D26E8D5
+  - at: '2026-07-24T11:32:57Z'
+    actor_id: codex-root-r11-close
+    status: IMPLEMENTED
+    note: 云环境单次只读探针测试已同步，定向3项全部通过且继续禁止docker build、sdkmanager和bootstrap
+    session_id: SES-20260724T110611Z-0D26E8D5
+  session_ids:
+  - SES-20260724T110611Z-0D26E8D5
+- protocol_version: '1.0'
+  cr_id: CR-0311
+  title: 将R10候选回归改为归档证据验证
+  status: IMPLEMENTED
+  created_at: '2026-07-24T11:33:01Z'
+  updated_at: '2026-07-24T13:52:52Z'
+  requester_actor_id: codex-root-r11-close
+  approver_actor_id: codex-independent-r11-close-reviewer
+  task_id: TASK-R11-008
+  session_id: SES-20260724T110611Z-0D26E8D5
+  user_request: 持续完成R11机器关闭并解决全量门禁确定性失败
+  reason: R10历史测试错误读取已切换到R11的当前唯一候选旅程源码，应验证R10冻结源候选报告和视觉基线而非要求当前旅程保留旧版本代码
+  original_rule: R10测试直接读取当前ReleaseCandidateSmokeTest.kt并要求其中永久保留R10截图旅程
+  new_rule: 历史版本候选测试验证各自已归档source-candidate-report、截图清单、冻结视觉基线文件和SHA；当前唯一旅程源码只由当前候选版本测试约束
+  impact_summary: 把R10四页旅程断言从可变当前源码迁移到不可变归档证据，保留且增强四张截图和字节摘要验证；不改Android候选实现
+  impact:
+    files:
+    - tests/test_r10_candidate.py
+    pages: []
+    apis: []
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - python -m unittest tests.test_r10_candidate tests.test_r11_candidate
+    - python -m unittest discover -s tests -p test_*.py
+    releases:
+    - R11
+    migration_and_compatibility: R10报告和视觉基线路径保持不变，R11当前旅程继续由test_r11_candidate覆盖
+  user_confirmation: 项目所有者要求持续推进并自主处理版本关闭门禁
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-24T11:34:34Z'
+    note: 唯一当前候选旅程不能同时保留R10与R11；以冻结源报告和视觉基线SHA验证R10历史事实更严格且不削弱R11当前旅程覆盖
+  machine_record: .continuity/change_requests/CR-0311.yaml
+  document: docs/03-continuity/change-requests/CR-0311-将R10候选回归改为归档证据验证.md
+  decision_log:
+  - at: '2026-07-24T11:36:38Z'
+    actor_id: codex-root-r11-close
+    status: IMPLEMENTING
+    note: R10历史候选回归已切换到归档源报告和四张视觉基线SHA验证，R10/R11定向候选测试通过
+    session_id: SES-20260724T110611Z-0D26E8D5
+  - at: '2026-07-24T13:52:52Z'
+    actor_id: codex-root-r11-close
+    status: IMPLEMENTED
+    note: R10历史候选回归已改为验证归档source-candidate-report、四张视觉基线及SHA；R10/R11定向和全量Python回归通过
+    session_id: SES-20260724T110611Z-0D26E8D5
+  session_ids:
+  - SES-20260724T110611Z-0D26E8D5
+- protocol_version: '1.0'
+  cr_id: CR-0312
+  title: 修正机器收尾重复本机构建与生成证据指纹
+  status: IMPLEMENTED
+  created_at: '2026-07-24T13:46:17Z'
+  updated_at: '2026-07-24T14:05:38Z'
+  requester_actor_id: codex-root-r11-close
+  approver_actor_id: codex-independent-r11-workflow-reviewer
+  task_id: TASK-R11-008
+  session_id: SES-20260724T110611Z-0D26E8D5
+  user_request: 项目所有者确认Java和Android工具链应复用obx-test既有环境，不应为R11关闭在本机安装或重复运行已通过的候选门禁
+  reason: CR-0247与统一效率规范已要求同一候选只执行一次重型门禁，但RELEASE_CLOSE仍映射通用RELEASE profile并包含本机Maven、PostgreSQL和Android集成；生成的validation报告还参与输入指纹，导致已通过节点失效重跑
+  original_rule: RELEASE_CLOSE映射通用RELEASE profile，在TASK-xx-007最终候选已经完成云端全量集成、Android构建和模拟器后，TASK-xx-008仍在本机重复Maven、PostgreSQL和Android；生成validation报告还参与同一工作流输入指纹
+  new_rule: 更新CR-0247既有唯一关闭规则的实现投影：最终候选阶段在obx-test/GitHub固定工具链完成且证据绑定同一源码Commit后，机器收尾使用专用MACHINE_CLOSE profile，只核验候选、APK四方SHA、Staging、视觉、Acceptance、桌面文档与无状态交接；不得在本机安装Java/Android
+    SDK或重复Maven、PostgreSQL、Android、模拟器。生成的artifacts/validation证据不参与工作分类和缓存输入指纹
+  impact_summary: 纠正统一工作流profile与已批准效率规则不一致的问题，保留INTEGRATION/RELEASE供真正最终候选使用，机器关闭仅运行既有machine-close-gate；补精确负向测试和生成证据指纹回归
+  impact:
+    files:
+    - AGENTS.md
+    - docs/09-development/统一开发与交付效率规范.md
+    - config/development-workflow.yaml
+    - config/test-impact-map.yaml
+    - scripts/hhy_workflow.py
+    - tests/test_hhy_workflow.py
+    - tests/test_run_affected_tests.py
+    pages: []
+    apis: []
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - python -m unittest tests.test_hhy_workflow tests.test_run_affected_tests
+    - python scripts/hhy_workflow.py plan --intent release-close --release R11
+    - python scripts/hhy_workflow.py run --intent release-close --release R11
+    releases:
+    - R11
+    migration_and_compatibility: 不改变产品、API、数据库、候选质量或生产验收；旧RELEASE profile保留。release-close计划改为MACHINE_CLOSE，已有R11候选证据直接复用；若候选源码或真实依赖变化，仍须在最终候选阶段重新执行完整云端门禁
+  user_confirmation: 项目所有者明确指出线上已有Java和Android环境并质疑本机安装，要求继续按既定持续开发目标推进
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-24T13:47:31Z'
+    note: CR-0247和统一效率规范已明确同一候选只运行一次重型门禁；专用MACHINE_CLOSE profile保留所有不可变候选与交付证据核验，同时消除本机重复环境和生成报告缓存抖动，未降低最终候选或生产验收强度
+  machine_record: .continuity/change_requests/CR-0312.yaml
+  document: docs/03-continuity/change-requests/CR-0312-修正机器收尾重复本机构建与生成证据指纹.md
+  decision_log:
+  - at: '2026-07-24T13:52:56Z'
+    actor_id: codex-root-r11-close
+    status: IMPLEMENTING
+    note: MACHINE_CLOSE专用profile、生成证据指纹排除、唯一规则投影和负向测试已实现；27项定向测试与计划检查通过
+    session_id: SES-20260724T110611Z-0D26E8D5
+  - at: '2026-07-24T14:05:38Z'
+    actor_id: codex-root-r11-close
+    status: IMPLEMENTED
+    note: 专用MACHINE_CLOSE profile、现有唯一规则与模板投影、validation生成证据指纹排除及负向回归完成；27项工作流测试、模板失败节点复测、R11视觉和机器关闭门禁均PASS，实际关闭耗时0.468秒且无本机Java/Android重跑
+    session_id: SES-20260724T110611Z-0D26E8D5
+  session_ids:
+  - SES-20260724T110611Z-0D26E8D5
 ```
 
 ## 上下文来源及哈希
 
-- `AGENTS.md` — `f93034917d4b87ffd4caffe8b6cad354f69bc31f6c0d9398dec3074ae165496d`
+- `AGENTS.md` — `690f960020dcbd18080ec91b3c314335627b32e231b9f9b2e14566b0fbbaeb35`
 - `START_HERE.md` — `22de14029ce47beb41ea569e36ce223fbc9d11b86f8676f28d5fbbd83896af5c`
-- `CURRENT_STATUS.yaml` — `efbf4c9aff79c38dbb71d855896113dce41690b0fbbecd016126ed550a3ac14d`
+- `CURRENT_STATUS.yaml` — `0eb3a99c82ea69dc2fdedf015331017e75a28969388d2d2a91025b04e68f6c30`
 - `NEXT_TASK.yaml` — `d6e088ab75b0f199f26c64e87d53eaa4cd5cb16a96ad002c9f475a7d11bdd0d7`
 - `DEVELOPMENT_RISK_REGISTER.md` — `8304c91492e4ee2abea0522a06541c8688d39c7fc532b5d0cde499bf09fffb87`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
-- `docs/03-continuity/PROBLEM_REGISTRY.yaml` — `fbbeb6d058f8eff3f3f88b960de3ab54797f90c5c2a0b909d8c17490795307e2`
+- `docs/03-continuity/PROBLEM_REGISTRY.yaml` — `12e54c3e459083089fabc9e090dcece8f3d5526df21a8fc7fbd611dd77ee775b`
 - `docs/03-continuity/REUSABLE_PATTERNS.md` — `fe65ac4157e0072a3e8fbe2fb815bf6badf3f81fa295f54b9663b66683f5d593`
 - `docs/03-continuity/PITFALLS.md` — `80ebb16c0f5a94a5f20a06df9a60b398e957c2e9d66720f199cad6deebc6dd45`
 - `releases/PROGRAM_EXECUTION_PLAN.yaml` — `93c0bd9fe83e2c447937c885f20d0de7a65d96c920d11b28309878bd5d533446`
 - `config/REPOSITORY_TRANSPORT.yaml` — `8c4a21f3e204d46e7ffb467d804a53ed26cda61cd088dadfddb50b69eea657fc`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `60943fcd9714cfae7274463554b5584fdb7a7aeee1ee547ff6dbc53fae6d4994`
-- `.continuity/EVENT_LOG.jsonl` — `eb6c5922f41e8b5d07d9d5cca3f7967dedeb3caa23fde28250e35b4276d605af`
-- `.continuity/SESSION_INDEX.yaml` — `9b37b32163781d05d7cb13a58891878d194a5481d86404098b6494ecc2a905de`
-- `.continuity/TASK_CLAIMS.yaml` — `adb0ab0f28885cf199d46646e8db3d470e9c548ba41a7fd9e6b5383a6226c8d4`
-- `.continuity/TASK_TRANSITIONS.yaml` — `0355f559e897daefe143534066b8a5e9b9d78174a71dddbc18df8b3f102ab426`
-- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `ad9a23cf20b64bdd821296e08a6c427d91612694662f2993a48ba1bd32cb4f06`
-- `.continuity/ACTIVE_SESSION.yaml` — `f97fc03c7ba99cce670bed799240b9725762f0cb870b45b4b95a318bd85e62a5`
+- `.continuity/EVENT_LOG.jsonl` — `f6b8633f0b56f4bc8970813cb8f22ccc6cc0ab319d2235128521f23751f0f2fe`
+- `.continuity/SESSION_INDEX.yaml` — `2fd08d569c74f7f86bf72e1cd4b2351676b3bd3e5d20e34fe52261d5757220d7`
+- `.continuity/TASK_CLAIMS.yaml` — `3cc70c5f4a447fa9e65a2aa069c70b4e18ab0af5ac99cfd947366d3f50a271f3`
+- `.continuity/TASK_TRANSITIONS.yaml` — `d967b938cc2bb9c27e6ca17f735b411a1c3cd4121b26d3642aef73a48c7b5c1f`
+- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `3bd627766cd6b478e31934c12c93bf97870385ed5a9f18da93dd69210dc7a11e`
+- `.continuity/ACTIVE_SESSION.yaml` — `87308b057e920859367c2abfaf8878cb2d1bff524ce5c1465f38b2cfbd62dd03`
 - `docs/00-baseline/正式商业系统全局硬性开发边界.md` — `9753b32db136e59e95a0974a62362456d9d577fd1bb40058ec985c4b64413eea`
 - `docs/02-ui/UI参考图使用与开发约束_V1.2.2.md` — `d14367586aa2067b059df58798acd20ab982459cdb35ff27fc7922a3896e4933`
 - `docs/03-continuity/持续开发无状态接续强制门禁_V1.2.3.md` — `d0ed3ed68bdd93b06500eecdfb5baa3245e6ca8b685a486788abb6eee39b3d51`
-- `docs/09-development/统一开发与交付效率规范.md` — `c972a8fb9ed842877d8e047c0ee67a3c17af26b959c19335c2498e76cc6825b2`
-- `releases/R11/RELEASE_MANIFEST.yaml` — `eb47fddf3188a85775b4935db84bd747ff0e4065eff17a90f88775472b469318`
+- `docs/09-development/统一开发与交付效率规范.md` — `821ed91f6f860b729f6532c5e8145c6d78fa01fc7f5ec423687479fe5390a76f`
+- `releases/R11/RELEASE_MANIFEST.yaml` — `51ad6f246ef0f104f5af952f557e7a790e1a055fd58e49e3fc451104dcf7d727`
 - `releases/R11/DEFINITION_OF_READY.yaml` — `2c56dca2fe636028295ce7489474524a7067f9119d22e531490d870063513ff7`
 - `releases/R11/STORIES.yaml` — `2b38e53de2c13042295a14ef01f5b60cf5fd3e4f4f49b5f147446552e1a2ac30`
 - `releases/R11/TASKS.yaml` — `9afd1e440038bcf4164ad6467d84135fccf2e61fc37aaccc86637df0a7a1ef20`
-- `releases/R11/ACCEPTANCE_MATRIX.csv` — `77a6fe70317a359fba4daa130291080bc9eb34e729915050a118f803fd71f201`
+- `releases/R11/ACCEPTANCE_MATRIX.csv` — `8359dcd7330fd0b7cb571239c77e744f1ba2378aad2facef658e227d18f8468c`
 - `releases/R11/PARALLEL_EXECUTION_PLAN.yaml` — `e892959361fe9a80841a49496d4302125b27838f73aab987c62a0e57a9070e54`
+- `docs/03-continuity/sessions/2026-07/SES-20260724T110611Z-0D26E8D5.md` — `55051442ef8ccbedb7366d50ec432c43fd1d99db32ad9eb1581885394ca0f2ea`
+- `.continuity/checkpoints/SES-20260724T110611Z-0D26E8D5/0004.yaml` — `d12df55662b2528c10288e6156780fdd841997d8fda4252260d8ad09cb041f6f`
+- `docs/03-continuity/change-requests/CR-0310-同步云环境只读单次探针测试合同.md` — `e0d1e61db9782052bb5a44b7e34f4ed8ed6031de7d0815bc408ecd0c814f047c`
+- `docs/03-continuity/change-requests/CR-0311-将R10候选回归改为归档证据验证.md` — `e402bd75860a84869bc9f96964512d4982c0fcb8f60d29377c4abaad2cf22df9`
+- `docs/03-continuity/change-requests/CR-0312-修正机器收尾重复本机构建与生成证据指纹.md` — `b8a740433b837a705d9644c8528ca689d18da6ca5fa30e949712f37e0695e484`
 
 ## 接手硬规则
 

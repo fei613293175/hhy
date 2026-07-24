@@ -123,7 +123,7 @@
     {
       "name": "portable_clone_fingerprint",
       "status": "PASS",
-      "evidence": "4037c9bd01c3d637b65f103c5aeb8b6853d3d64655e06fbf2154bdb9e9f2cc21"
+      "evidence": "95966ac131a9905cd79ecac8d1f3bfb370907906405385e9d49c34ff02ab1f20"
     },
     {
       "name": "handoff_tamper_rejected",
@@ -133,8 +133,8 @@
   ],
   "check_count": 12,
   "lifecycle_report": "artifacts\\validation\\continuity-lifecycle-integration-v1.2.3.json",
-  "handoff_sha256": "ae9aaa3c1c5efc5554c0481cf6c546a8c55d252e75aac04c7264d4db7ab4be0a",
-  "portable_project_fingerprint": "4037c9bd01c3d637b65f103c5aeb8b6853d3d64655e06fbf2154bdb9e9f2cc21",
+  "handoff_sha256": "f439fcc44fd7179ad687dc39f954f40aa5f4a214ec2132ccab643d9efb68c778",
+  "portable_project_fingerprint": "95966ac131a9905cd79ecac8d1f3bfb370907906405385e9d49c34ff02ab1f20",
   "commands": [
     {
       "name": "lifecycle",

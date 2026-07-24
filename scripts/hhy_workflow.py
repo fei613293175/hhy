@@ -134,7 +134,7 @@ def create_plan(args: Namespace) -> dict[str, Any]:
     workflow = classify_work(policy, args.intent, paths)
     impact = affected.load_impact_map(args.impact_map)
     release = args.release
-    if workflow["quality_profile"] == "RELEASE" and not release:
+    if workflow["mode"] == "RELEASE_CLOSE" and not release:
         status = yaml.safe_load((ROOT / "CURRENT_STATUS.yaml").read_text(encoding="utf-8")) or {}
         release = status.get("active_release")
     quality_plan = affected.build_plan(

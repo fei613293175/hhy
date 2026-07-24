@@ -66,7 +66,7 @@ class WorkflowClassificationTest(TestCase):
         release = workflow.classify_work(self.policy, "release-close", [])
         self.assertEqual("TEST_APK", apk["mode"])
         self.assertEqual("RELEASE_CLOSE", release["mode"])
-        self.assertEqual("RELEASE", release["quality_profile"])
+        self.assertEqual("MACHINE_CLOSE", release["quality_profile"])
 
     def test_generated_continuity_files_do_not_inflate_product_scope(self) -> None:
         result = workflow.classify_work(
@@ -76,6 +76,7 @@ class WorkflowClassificationTest(TestCase):
                 "apps/h5/src/Login.vue",
                 ".continuity/STATE.yaml",
                 "artifacts/context/CURRENT_CONTEXT_PACK.md",
+                "artifacts/validation/continuity-integration-v1.2.3.json",
                 "catalogs/task_transition_ledger.csv",
             ],
         )
@@ -115,6 +116,11 @@ class WorkflowClassificationTest(TestCase):
             if row["id"] == "release-close-gate"
         ]
         self.assertEqual(1, len(close_checks))
+        ids = {row["id"] for row in plan["quality_plan"]["checks"]}
+        self.assertEqual({"release-close-gate"}, ids)
+        self.assertNotIn("integration-backend", ids)
+        self.assertNotIn("integration-postgres-migration", ids)
+        self.assertNotIn("integration-android", ids)
         self.assertIn("--machine-close-gate", close_checks[0]["command"])
         self.assertNotIn("--production-close-gate", close_checks[0]["command"])
         self.assertTrue(any("asynchronous" in value for value in plan["next_actions"]))

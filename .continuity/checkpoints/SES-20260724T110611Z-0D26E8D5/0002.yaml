@@ -1,0 +1,267 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260724T110611Z-0D26E8D5-0002
+session_id: SES-20260724T110611Z-0D26E8D5
+task_id: TASK-R11-008
+story_id: STORY-R11-004
+sequence: 2
+created_at: '2026-07-24T14:08:12Z'
+summary: R11机器收尾提交前验证完成：唯一全量回归失败为AGENTS交接模板镜像，修复后失败节点PASS；严格文档、严格连续性、Doctor、生成资产、视觉和MACHINE_CLOSE均PASS
+next_step: 提交TASK-R11-008机器收尾实现与CR-0310/0311/0312，然后执行受控pre-push并关闭会话切换R12
+blockers: []
+decisions: []
+note: ''
+tests:
+- name: strict-documentation
+  result: PASS
+  evidence: scripts/check_v123_documentation.py --strict --release R11
+  note: 0 errors 0 warnings
+- name: strict-continuity
+  result: PASS
+  evidence: scripts/check_v123_continuity.py --strict
+  note: 12集成检查和15生命周期检查PASS
+- name: continuity-doctor
+  result: PASS
+  evidence: scripts/continuity_gate.py --mode doctor --strict
+  note: rule readiness和事件链PASS
+- name: generated-assets
+  result: PASS
+  evidence: scripts/check_generated_assets.py --skip-openapi
+  note: Android、前端脚手架和运行时合同PASS
+- name: r11-machine-close
+  result: PASS
+  evidence: scripts/hhy_workflow.py run --intent release-close --release R11
+  note: MACHINE_CLOSE唯一检查0.468秒PASS
+- name: full-python-plus-failed-node
+  result: PASS
+  evidence: python unittest discover + template mirror focused retry
+  note: 324 PASS、1 skipped；唯一失败修复后定向PASS
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: a4772fbdbb703ee2c824c06cd0916fade1701f9d
+  upstream: origin/task/TASK-R03-001
+  ahead: 0
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/ACTIVE_SESSION.yaml'
+  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/SESSION_INDEX.yaml'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/TASK_CLAIMS.yaml'
+  - ' M .continuity/TASK_TRANSITIONS.yaml'
+  - ' M AGENTS.md'
+  - ' M CURRENT_STATUS.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+  - ' M artifacts/validation/continuity-gate-v1.2.3.json'
+  - ' M artifacts/validation/continuity-integration-v1.2.3.json'
+  - ' M artifacts/validation/continuity-lifecycle-integration-v1.2.3.json'
+  - ' M artifacts/validation/continuity-lifecycle-integration-v1.2.3.log'
+  - ' M artifacts/validation/project-doctor-v1.2.3.json'
+  - ' M catalogs/change_request_index.csv'
+  - ' M catalogs/session_index.csv'
+  - ' M catalogs/task_transition_ledger.csv'
+  - ' M config/development-workflow.yaml'
+  - ' M config/test-impact-map.yaml'
+  - ' M docs/09-development/统一开发与交付效率规范.md'
+  - ' M releases/R11/ACCEPTANCE_MATRIX.csv'
+  - ' M releases/R11/RELEASE_MANIFEST.yaml'
+  - ' M scripts/hhy_workflow.py'
+  - ' M templates/AGENTS.md'
+  - ' M tests/test_cloud_environment.py'
+  - ' M tests/test_hhy_workflow.py'
+  - ' M tests/test_r10_candidate.py'
+  - ' M tests/test_run_affected_tests.py'
+  - ?? .continuity/change_requests/CR-0310.yaml
+  - ?? .continuity/change_requests/CR-0311.yaml
+  - ?? .continuity/change_requests/CR-0312.yaml
+  - ?? .continuity/checkpoints/SES-20260724T110611Z-0D26E8D5/0001.yaml
+  - ?? .continuity/sessions/SES-20260724T110611Z-0D26E8D5.yaml
+  - ?? artifacts/reports/R11/TASK-R11-008-machine-close.md
+  - ?? docs/03-continuity/change-requests/CR-0310-同步云环境只读单次探针测试合同.md
+  - ?? docs/03-continuity/change-requests/CR-0311-将R10候选回归改为归档证据验证.md
+  - ?? docs/03-continuity/change-requests/CR-0312-修正机器收尾重复本机构建与生成证据指纹.md
+  - ?? docs/03-continuity/sessions/2026-07/SES-20260724T110611Z-0D26E8D5.md
+  recent_commits:
+  - "a4772fbdbb703ee2c824c06cd0916fade1701f9d\t2026-07-24T19:02:18+08:00\tHHY Continuity Bootstrap\t[STORY-R11-004] chore(continuity): close TASK-R11-007\
+    \ as completed"
+  - "c64e8a630336c0e41f49a1335f71c661e3417dbf\t2026-07-24T17:27:43+08:00\tHHY Continuity Bootstrap\t[STORY-R11-004] test(android): publish R11\
+    \ test APK"
+  - "2a2b2c10fa859f65985181ebe16a938cbe28d3f7\t2026-07-24T15:00:02+08:00\tHHY Continuity Bootstrap\t[STORY-R11-004] test(android): approve R11\
+    \ visual baseline"
+  - "a3c32668ae1d6502d859efd3e8c18947f650e150\t2026-07-24T13:27:11+08:00\tHHY Continuity Bootstrap\t[STORY-R11-004] fix(r11): replace reused app\
+    \ logo media"
+  - "df22a0918fc80d3729aea2bfb47d3232f726ae0b\t2026-07-24T12:14:32+08:00\tHHY Continuity Bootstrap\t[STORY-R11-004] test(r11): bind final Android\
+    \ candidate"
+  - "c20c118ae98a93b3dde28d6901bc10baf98b0402\t2026-07-24T11:21:54+08:00\tHHY Continuity Bootstrap\t[STORY-R11-004] chore(continuity): close TASK-R11-006"
+  - "1b6d8d3c0c50770e891cd7a97cc1747264b5d5f0\t2026-07-24T11:20:09+08:00\tHHY Continuity Bootstrap\t[STORY-R11-004] test(r11): archive observability\
+    \ staging evidence"
+  - "b190476f72bd0c0de12dc0f29820a72d352caffc\t2026-07-24T11:12:03+08:00\tHHY Continuity Bootstrap\t[STORY-R11-004] fix(r11): isolate staging\
+    \ security sentinels"
+project_fingerprint:
+  sha256: 5d23842350d24d8695e2c1462d983efe751bbdffbc71512beabfac4422464c57
+  files:
+  - AGENTS.md
+  - config/development-workflow.yaml
+  - config/test-impact-map.yaml
+  - docs/03-continuity/change-requests/CR-0310-同步云环境只读单次探针测试合同.md
+  - docs/03-continuity/change-requests/CR-0311-将R10候选回归改为归档证据验证.md
+  - docs/03-continuity/change-requests/CR-0312-修正机器收尾重复本机构建与生成证据指纹.md
+  - docs/09-development/统一开发与交付效率规范.md
+  - releases/R11/ACCEPTANCE_MATRIX.csv
+  - releases/R11/RELEASE_MANIFEST.yaml
+  - scripts/hhy_workflow.py
+  - templates/AGENTS.md
+  - tests/test_cloud_environment.py
+  - tests/test_hhy_workflow.py
+  - tests/test_r10_candidate.py
+  - tests/test_run_affected_tests.py
+  file_count: 15
+  payload:
+    base_commit: a4772fbdbb703ee2c824c06cd0916fade1701f9d
+    files:
+    - path: AGENTS.md
+      state: FILE
+      size: 13921
+      sha256: 690f960020dcbd18080ec91b3c314335627b32e231b9f9b2e14566b0fbbaeb35
+    - path: config/development-workflow.yaml
+      state: FILE
+      size: 3576
+      sha256: 2b0f84a307ca22fa7d863a1a27e0400e42c51f447c30059a65188edaa5594fe1
+    - path: config/test-impact-map.yaml
+      state: FILE
+      size: 5689
+      sha256: dad3f6f7f98e4c8878f337c4fba812a0d02d0b081234e24ff32321ebd44faf86
+    - path: docs/03-continuity/change-requests/CR-0310-同步云环境只读单次探针测试合同.md
+      state: FILE
+      size: 2566
+      sha256: e0d1e61db9782052bb5a44b7e34f4ed8ed6031de7d0815bc408ecd0c814f047c
+    - path: docs/03-continuity/change-requests/CR-0311-将R10候选回归改为归档证据验证.md
+      state: FILE
+      size: 2671
+      sha256: e402bd75860a84869bc9f96964512d4982c0fcb8f60d29377c4abaad2cf22df9
+    - path: docs/03-continuity/change-requests/CR-0312-修正机器收尾重复本机构建与生成证据指纹.md
+      state: FILE
+      size: 4187
+      sha256: b8a740433b837a705d9644c8528ca689d18da6ca5fa30e949712f37e0695e484
+    - path: docs/09-development/统一开发与交付效率规范.md
+      state: FILE
+      size: 16912
+      sha256: 821ed91f6f860b729f6532c5e8145c6d78fa01fc7f5ec423687479fe5390a76f
+    - path: releases/R11/ACCEPTANCE_MATRIX.csv
+      state: FILE
+      size: 876
+      sha256: 8359dcd7330fd0b7cb571239c77e744f1ba2378aad2facef658e227d18f8468c
+    - path: releases/R11/RELEASE_MANIFEST.yaml
+      state: FILE
+      size: 5300
+      sha256: 51ad6f246ef0f104f5af952f557e7a790e1a055fd58e49e3fc451104dcf7d727
+    - path: scripts/hhy_workflow.py
+      state: FILE
+      size: 21053
+      sha256: 63547509ad8a66353ece94b0283f002030d4851eef7100689ec946dea936bfb0
+    - path: templates/AGENTS.md
+      state: FILE
+      size: 13921
+      sha256: 690f960020dcbd18080ec91b3c314335627b32e231b9f9b2e14566b0fbbaeb35
+    - path: tests/test_cloud_environment.py
+      state: FILE
+      size: 2862
+      sha256: dad29106a1abd1bd7e39c1df903dffdd34239971ee2c4a1a8d61b65494c11501
+    - path: tests/test_hhy_workflow.py
+      state: FILE
+      size: 11091
+      sha256: db8bd0e86099172998108b155f63a51a5461d7456fa487175fbd300b1b019979
+    - path: tests/test_r10_candidate.py
+      state: FILE
+      size: 3408
+      sha256: 33fb3651debd2118ae883ac3629eb224e7df5395cd0133973b1353a5725c5fcc
+    - path: tests/test_run_affected_tests.py
+      state: FILE
+      size: 8478
+      sha256: d3ba0b7968e7f1d9d0e0f63df7e80b7e4e19792c27c4f51903e558d5208fefe1
+change_classification:
+  other:
+  - AGENTS.md
+  - config/development-workflow.yaml
+  - config/test-impact-map.yaml
+  - docs/09-development/统一开发与交付效率规范.md
+  - releases/R11/ACCEPTANCE_MATRIX.csv
+  - templates/AGENTS.md
+  continuity:
+  - docs/03-continuity/change-requests/CR-0310-同步云环境只读单次探针测试合同.md
+  - docs/03-continuity/change-requests/CR-0311-将R10候选回归改为归档证据验证.md
+  - docs/03-continuity/change-requests/CR-0312-修正机器收尾重复本机构建与生成证据指纹.md
+  source_of_truth:
+  - releases/R11/RELEASE_MANIFEST.yaml
+  code:
+  - scripts/hhy_workflow.py
+  tests:
+  - tests/test_cloud_environment.py
+  - tests/test_hhy_workflow.py
+  - tests/test_r10_candidate.py
+  - tests/test_run_affected_tests.py
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+- APPROVED_CHANGE_REQUEST
+change_requests:
+- CR-0310
+- CR-0311
+- CR-0312
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions:
+  - tests/test_cloud_environment.py
+  - tests/test_r10_candidate.py
+  - AGENTS.md
+  - docs/09-development/统一开发与交付效率规范.md
+  - config/development-workflow.yaml
+  - config/test-impact-map.yaml
+  - scripts/hhy_workflow.py
+  - tests/test_hhy_workflow.py
+  - tests/test_run_affected_tests.py
+  source: story+explicit+approved-cr:CR-0310+approved-cr:CR-0311+approved-cr:CR-0312
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 最终Release事实、Session、CR、Context Pack和同一提交必须由唯一主控原子收尾，无法拆分互斥事实分支
+event_hash: f609064418b3014f5f40880ab89efa2a94f97d2bea957756471e169ad6d7407c

@@ -1436,3 +1436,20 @@ problems:
   - 媒体HTTP 200只证明可访问，不证明图片与页面业务语义匹配
   - 团队长、群聊、App和项目不得跨业务复用视觉素材作为Logo或风采证据
   - 首轮候选视觉不合格时不得晋升基线或交付APK，必须递增attempt并保留首轮截图证据
+- id: PROB-0106
+  title: R11机器收尾错误复用RELEASE全量档导致本机重复安装和构建
+  status: SOLVED
+  root_cause: CR-0247和统一效率规范已经规定最终候选绑定同一源码Commit且PASS后机器收尾只核验不可变证据，但config/development-workflow.yaml仍把RELEASE_CLOSE映射到通用RELEASE profile；该profile递归包含INTEGRATION，因而在TASK-R11-007已经完成obx-test/GitHub固定工具链的Java、数据库、Android和模拟器门禁后，TASK-R11-008又在Windows本机调用Maven、PostgreSQL和Gradle。与此同时artifacts/validation生成报告仍进入classified_files和检查输入指纹，报告写回会让已PASS节点失效并从头重跑。
+  resolution: CR-0312原位修正CR-0247既有唯一规则及其投影，不建立平行关闭体系；新增专用MACHINE_CLOSE profile且只选择release-close-gate --machine-close-gate，通用RELEASE与INTEGRATION继续保留给真正的最终候选。AGENTS根规则、templates/AGENTS交接镜像和统一效率规范同步明确：本机不得为关闭安装Java或Android SDK，也不得重复Maven、PostgreSQL、Gradle或模拟器；artifacts/validation生成证据不参与工作分类和缓存输入指纹。R11实际机器收尾仅执行一个0.468秒证据门禁并PASS。
+  regression_checks:
+  - tests.test_hhy_workflow必须断言release-close的quality_profile为MACHINE_CLOSE且计划精确只有release-close-gate
+  - tests.test_hhy_workflow必须断言机器收尾不包含integration-backend、integration-postgres-migration或integration-android
+  - tests.test_run_affected_tests必须分别证明RELEASE仍包含全量集成、MACHINE_CLOSE只包含--machine-close-gate
+  - artifacts/validation/**必须从classified_files排除，生成报告写回不得改变检查输入指纹
+  - tests.test_context_pack_parallel_policy必须证明AGENTS.md与templates/AGENTS.md字节一致
+  - python scripts/hhy_workflow.py run --intent release-close --release <RELEASE>的输出不得出现mvnw、PostgreSQL smoke、gradlew或模拟器
+  do_not_repeat:
+  - 不得把最终候选全量验证和TASK-xx-008机器收尾映射到同一个执行profile
+  - 不得因本机缺少Java、Android SDK或Android Studio下载工具链作为云端固定环境的回退
+  - 不得让门禁自身写回的validation报告成为同一门禁缓存失效的输入
+  - 已绑定同一源码Commit且PASS的候选、构建、Lint、单测和模拟器证据不得在关闭阶段重复执行

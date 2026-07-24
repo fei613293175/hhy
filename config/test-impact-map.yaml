@@ -12,6 +12,9 @@ profiles:
   RELEASE:
     affected_only: false
     includes: [INTEGRATION]
+  MACHINE_CLOSE:
+    affected_only: false
+    includes: []
 
 checks:
 - id: program-execution-plan
@@ -205,7 +208,7 @@ checks:
   command: ['{gradle_wrapper}', --no-daemon, lintDebug, testDebugUnitTest, assembleDebug]
   timeout_seconds: 1800
 - id: release-close-gate
-  profiles: [RELEASE]
+  profiles: [MACHINE_CLOSE]
   ci_job: release
   cwd: .
   command: ['{python}', scripts/check_release_artifacts.py, --release, '{release}', --machine-close-gate]

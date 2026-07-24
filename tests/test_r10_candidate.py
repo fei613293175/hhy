@@ -1,17 +1,20 @@
+import hashlib
+import json
 from pathlib import Path
 import unittest
 
 
 ROOT = Path(__file__).resolve().parents[1]
 FIXTURE = ROOT / "scripts/prepare_r10_ci_fixture.sh"
-JOURNEY = ROOT / "apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt"
 VISUAL_MANIFEST = ROOT / "tests/android/visual-manifests/R10.yaml"
+SOURCE_REPORT = ROOT / "artifacts/validation/r10-task007-android/source-candidate-report.json"
+VISUAL_BASELINE = ROOT / "tests/android/visual-baselines/R10"
 
 
 class R10CandidateTest(unittest.TestCase):
     def setUp(self) -> None:
         self.fixture = FIXTURE.read_text(encoding="utf-8")
-        self.journey = JOURNEY.read_text(encoding="utf-8")
+        self.source_report = json.loads(SOURCE_REPORT.read_text(encoding="utf-8"))
         self.do_body = self.fixture.split("DO $$", 1)[1].split("$$;", 1)[0]
 
     def test_fixture_is_limited_to_r10_candidate_staging(self) -> None:
@@ -33,20 +36,22 @@ class R10CandidateTest(unittest.TestCase):
         for invented_metric in ("收益", "活跃度", "下载量", "评分"):
             self.assertNotIn(invented_metric, self.do_body)
 
-    def test_journey_captures_exactly_home_and_three_group_pages(self) -> None:
-        expected = (
-            'captureStable("01-home.png")',
-            'captureStable("02-group-list.png")',
-            'captureStable("03-group-detail.png")',
-            'captureStable("04-group-editor.png")',
-        )
-        for capture in expected:
-            self.assertIn(capture, self.journey)
-        self.assertEqual(4, self.journey.count("captureStable(\""))
-        self.assertIn('clickResource("home.category.group")', self.journey)
-        self.assertIn('clickResource("r10.group.edit")', self.journey)
-        self.assertNotIn("authenticatedR09Pages", self.journey)
-        self.assertNotIn("r09.app.", self.journey)
+    def test_archived_candidate_contains_exactly_home_and_three_group_pages(self) -> None:
+        expected = {
+            "01-home.png",
+            "02-group-list.png",
+            "03-group-detail.png",
+            "04-group-editor.png",
+        }
+        self.assertEqual("R10", self.source_report["release"])
+        evidence = self.source_report["runtime_report"]["screenshot_evidence"]
+        self.assertEqual(expected, {row["screenshot"] for row in evidence})
+        self.assertEqual(4, len(evidence))
+        for row in evidence:
+            baseline = VISUAL_BASELINE / row["screenshot"]
+            self.assertTrue(baseline.is_file(), row["screenshot"])
+            digest = hashlib.sha256(baseline.read_bytes()).hexdigest()
+            self.assertEqual(row["sha256"], digest, row["screenshot"])
 
     def test_visual_manifest_covers_the_exact_r10_journey(self) -> None:
         manifest = VISUAL_MANIFEST.read_text(encoding="utf-8")

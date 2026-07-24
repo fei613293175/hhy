@@ -1,0 +1,91 @@
+protocol_version: '1.0'
+package_version: 1.2.3
+session_id: SES-20260724T110611Z-0D26E8D5
+status: ACTIVE
+actor:
+  id: codex-root-r11-close
+  kind: AI_OR_HUMAN
+  host: unknown
+release: R11
+task_id: TASK-R11-008
+story_id: STORY-R11-004
+goal: 完成R11版本关闭、无状态交接并建立R12唯一合法起点
+started_at: '2026-07-24T11:06:11Z'
+updated_at: '2026-07-24T14:16:04Z'
+takeover_of: null
+change_requests:
+- CR-0310
+- CR-0311
+- CR-0312
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions:
+  - tests/test_cloud_environment.py
+  - tests/test_r10_candidate.py
+  - AGENTS.md
+  - docs/09-development/统一开发与交付效率规范.md
+  - config/development-workflow.yaml
+  - config/test-impact-map.yaml
+  - scripts/hhy_workflow.py
+  - tests/test_hhy_workflow.py
+  - tests/test_run_affected_tests.py
+  source: story+explicit+approved-cr:CR-0310+approved-cr:CR-0311+approved-cr:CR-0312
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  base_commit: a4772fbdbb703ee2c824c06cd0916fade1701f9d
+  start_head: a4772fbdbb703ee2c824c06cd0916fade1701f9d
+  upstream: origin/task/TASK-R03-001
+  initial_worktree_state: CLEAN
+lease:
+  duration_minutes: 240
+  renewed_at: '2026-07-24T14:15:59Z'
+  expires_at: '2026-07-24T18:15:59Z'
+checkpoint_sequence: 4
+latest_checkpoint: .continuity/checkpoints/SES-20260724T110611Z-0D26E8D5/0004.yaml
+session_log: docs/03-continuity/sessions/2026-07/SES-20260724T110611Z-0D26E8D5.md
+next_step: 以本检查点精确Trailer提交并推送R11机器收尾实现，然后关闭TASK-R11-008切换R12
+context_pack:
+  yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
+  markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
+  manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+  context_hash: decbbdfc2b73a092021211a5fe26eb3e1f931e6e3ca6db7b187f603faba68895
+  generated_at: '2026-07-24T14:16:02Z'
+handoff_bundle: null
+closure: null
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 最终Release状态、问题登记、Session、Context Pack和提交Trailer必须由唯一主控原子一致，无法拆分互斥事实分支

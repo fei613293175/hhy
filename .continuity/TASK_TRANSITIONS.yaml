@@ -1010,3 +1010,13 @@ transitions:
   session_id: SES-20260724T032308Z-98D6D10A
   actor_id: codex-root-r11-candidate
   reason: 会话领取任务
+- transition_id: TRN-CFCB70247974
+  timestamp: '2026-07-24T11:06:13Z'
+  release: R11
+  task_id: TASK-R11-008
+  story_id: STORY-R11-004
+  from_status: READY
+  to_status: IN_PROGRESS
+  session_id: SES-20260724T110611Z-0D26E8D5
+  actor_id: codex-root-r11-close
+  reason: 会话领取任务

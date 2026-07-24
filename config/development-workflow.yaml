@@ -39,10 +39,10 @@ modes:
     apk_route_preflight: required_before_build
     rule: 只增加真机回归所需的签名、端点、路由和四方SHA门禁，不冒充版本关闭
   RELEASE_CLOSE:
-    quality_profile: RELEASE
-    full_integration: true
+    quality_profile: MACHINE_CLOSE
+    full_integration: verified_by_final_candidate
     release_gate: true
-    rule: 仅在大版本机器封板时执行一次全量集成、候选APK证据、文档核对和无状态交接；允许项目所有者真机结果异步PENDING，生产验收不在此模式内
+    rule: 最终候选已在obx-test/GitHub固定工具链执行一次全量门禁后，机器收尾只核验同一源码Commit的候选APK、Staging、视觉、文档和无状态交接证据；不得在本机安装或重复Java/Android重型门禁；允许项目所有者真机结果异步PENDING，生产验收不在此模式内
 
 simple_task:
   max_classified_files: 6
@@ -53,6 +53,7 @@ classification:
   ignored_paths:
   - .continuity/**
   - artifacts/context/**
+  - artifacts/validation/**
   - catalogs/session_index.csv
   - catalogs/change_request_index.csv
   - catalogs/task_transition_ledger.csv

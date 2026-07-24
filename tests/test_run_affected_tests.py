@@ -68,15 +68,25 @@ class TestImpactMap(TestCase):
         self.assertIn("integration-postgres-migration", ids)
         self.assertNotIn("release-close-gate", ids)
 
-    def test_release_includes_integration_and_requires_release_name(self) -> None:
-        with self.assertRaises(affected.ImpactMapError):
-            affected.build_plan(self.document, "RELEASE", [], root=ROOT)
-        plan = affected.build_plan(self.document, "RELEASE", [], root=ROOT, release="R02")
+    def test_release_includes_integration_without_machine_close(self) -> None:
+        plan = affected.build_plan(self.document, "RELEASE", [], root=ROOT)
         ids = {row["id"] for row in plan["checks"]}
         self.assertIn("integration-backend", ids)
-        self.assertIn("release-close-gate", ids)
-        release = next(row for row in plan["checks"] if row["id"] == "release-close-gate")
-        self.assertIn("R02", release["command"])
+        self.assertIn("integration-postgres-migration", ids)
+        self.assertIn("integration-android", ids)
+        self.assertNotIn("release-close-gate", ids)
+
+    def test_machine_close_only_verifies_existing_release_evidence(self) -> None:
+        with self.assertRaises(affected.ImpactMapError):
+            affected.build_plan(self.document, "MACHINE_CLOSE", [], root=ROOT)
+        plan = affected.build_plan(
+            self.document, "MACHINE_CLOSE", [], root=ROOT, release="R11"
+        )
+        ids = {row["id"] for row in plan["checks"]}
+        self.assertEqual({"release-close-gate"}, ids)
+        release = plan["checks"][0]
+        self.assertIn("R11", release["command"])
+        self.assertIn("--machine-close-gate", release["command"])
 
     def test_runtime_overrides_avoid_machine_path_assumptions(self) -> None:
         with mock.patch.dict(os.environ, {"HHY_GIT_BIN": "X:/portable/git.exe", "HHY_PNPM_BIN": "X:/portable/pnpm.cmd"}):

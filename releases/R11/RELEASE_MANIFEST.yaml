@@ -1,6 +1,6 @@
 release: R11
 title: 团队长入驻完整闭环
-status: READY_WHEN_DEPENDENCIES_GREEN
+status: MACHINE_COMPLETE_OWNER_PENDING
 milestone: M1_CONTENT_MARKETPLACE
 depends_on:
 - R05
@@ -47,6 +47,59 @@ tests:
 - TST-TEAM_001-HAPPY
 - TST-TEAM_001-IDEMPOTENT
 - TST-TEAM_001-REJECT
+test_count: 3
+planning_depth: STORY_READY
+apk_gate: MACHINE_CANDIDATE_PASS_OWNER_FEEDBACK_ASYNC
+android_delivery:
+  source_commit: a3c32668ae1d6502d859efd3e8c18947f650e150
+  apk_file: hhy-r11-a3c3266-debug.apk
+  version_name: 1.2.2-debug
+  version_code: 10220
+  sha256: 01e2c435752fcf969c641057a11855a12dd1991dda6f1af8ba2d982d4b07185a
+  machine_delivery: PASS
+  owner_physical_test: PENDING
+  evidence: artifacts/validation/r11-apk-delivery/delivery-evidence.json
+  test_guide: artifacts/reports/R11/R11-version-test-guide.md
+android_automation:
+  policy_id: HHY-ANDROID-AUTOMATION-V1
+  source_github_run_id: '30069588243'
+  promotion_github_run_id: '30074128265'
+  status: PASS
+  commit: a3c32668ae1d6502d859efd3e8c18947f650e150
+  journey:
+  - SCR-HOME-001
+  - SCR-LIST-004
+  - SCR-DETAIL-004
+  - SCR-PUB-005
+  baseline_promotion:
+    artifact_id: '8589169043'
+    artifact_sha256: 28f0bb663ff0fec6fcecd1bee00d2e0ca642253c9054fec59253a46c87aeb3ca
+    rebuild_or_emulator_rerun: false
+    status: PASS
+  owner_test_allowed: true
+  owner_physical_test: PENDING
+  ai_visual_review: PASS
+  candidate_report: artifacts/validation/r11-task007-android/candidate-report.json
+  evidence: artifacts/validation/r11-task007-android/candidate-report.json
+machine_completion:
+  status: PASS
+  owner_feedback_mode: ASYNC_NON_BLOCKING
+  formal_release_acceptance: PENDING_OWNER_PHYSICAL_TEST
+  production_activation: BLOCKED_OWNER_PHYSICAL_TEST
+  next_release_development: ALLOWED
+  evidence: artifacts/reports/R11/TASK-R11-008-machine-close.md
+machine_closure:
+  status: PASS
+  task_id: TASK-R11-008
+  session_id: SES-20260724T110611Z-0D26E8D5
+  report: artifacts/reports/R11/TASK-R11-008-machine-close.md
+  owner_physical_test: PENDING
+  formal_release_acceptance: PENDING_OWNER_PHYSICAL_TEST
+  production_activation: BLOCKED_OWNER_PHYSICAL_TEST
+  next_work: R12
+  candidate_product_commit: a3c32668ae1d6502d859efd3e8c18947f650e150
+  candidate_delivery_commit: c64e8a630336c0e41f49a1335f71c661e3417dbf
+  task007_closure_commit: a4772fbdbb703ee2c824c06cd0916fade1701f9d
 entry_baseline:
   checked_at: '2026-07-24'
   session_id: SES-20260723T165808Z-606D1DDF

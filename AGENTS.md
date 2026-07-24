@@ -42,7 +42,7 @@
 - `FAST`：每次本地变化与提交，校验 Session、Scope、Secret、CR、Fingerprint、Trailer 和受影响的轻量测试。
 - `MODULE`：执行代理交付补丁前，运行其修改模块的单元、类型、契约或静态检查。
 - `INTEGRATION`：每天一次或纵向切片汇合时，运行后端、Web、数据库、Android 和连续性全量集成。
-- `RELEASE`：版本封板前运行全量集成、Staging/E2E、APK 四方哈希与用户真机验收。
+- `RELEASE`：大版本最终候选阶段在 `obx-test` / GitHub 固定工具链运行一次全量集成、Staging/E2E、Android 构建与模拟器、APK 四方哈希；项目所有者真机验收保持异步。相同源码 Commit 的候选证据已 PASS 后，`TASK-xx-008` 机器收尾只能核验这些不可变证据，不得在本机安装 Java/Android SDK 或重复 Maven、PostgreSQL、Android 和模拟器。
 - 完整文档 Doctor 仅在其事实输入变化、手动 Doctor、集成或发布阶段运行；不得因此跳过任何连续性核心校验。
 - GitHub 普通提交不得运行 Android 模拟器、截图、候选报告或候选 APK；`candidate=false` 只执行受影响的源码策略、正式 API、编译、单测、Lint 与打包。完整 Android 自动化仅由已验证的 `config/android-candidate-request.yaml` 或默认分支注册后的 `workflow_dispatch(candidate=true)` 触发。
 - Continuity Gate 每次提交都必须执行 Commit/Session/Checkpoint/CR/Scope/Trailer 和严格 Doctor；只有连续性核心策略、脚本、Hook、运行时/传输描述或连续性工作流变化时，才运行临时 Git 仓库的完整交接、恢复、关闭和篡改生命周期演练。不得用跳过核心门禁换取速度。
@@ -53,7 +53,7 @@
 - 每项开发先运行 `python scripts/hhy_workflow.py plan --intent <意图>`，以 `config/development-workflow.yaml` 自动选择 `SIMPLE`、`STANDARD`、`CROSS_LAYER`、`TEST_APK` 或 `RELEASE_CLOSE`。
 - 单模块、低风险、小范围Bug默认走 `SIMPLE`，只运行受影响模块回归；不得无理由运行全量集成、拆分多个CR、重建APK或执行版本关闭，禁止“用大炮打蚊子”。
 - 数据库、冻结契约、安全、资金、生产基础设施、APK身份和版本关闭必须自动升级；升级输出必须列出具体触发路径，不得只用“为了保险”解释。
-- `TEST_APK` 与 `RELEASE_CLOSE` 是不同状态。测试包不得触发大版本关闭；正式版本关闭不得省略全量门禁。
+- `TEST_APK` 与 `RELEASE_CLOSE` 是不同状态。测试包不得触发大版本关闭；最终候选不得省略全量门禁，机器收尾也不得重复已经绑定同一源码 Commit 且 PASS 的重型门禁。
 - 统一流程和例外规则以 `docs/09-development/统一开发与交付效率规范.md` 为事实源，聊天中的临时做法不得覆盖。
 
 ## 3. 变更控制
