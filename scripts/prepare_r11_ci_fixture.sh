@@ -95,15 +95,15 @@ BEGIN
   SELECT id INTO fixture_logo
   FROM hhy.media_objects
   WHERE owner_id=ci_user AND storage_binding_id=fixture_binding
-    AND object_key='01-app-list.png' AND status='READY'
+    AND object_key='r11-team-logo.png' AND status='READY'
   ORDER BY id LIMIT 1;
   IF fixture_logo IS NULL THEN
     INSERT INTO hhy.media_objects(
       owner_id,bucket,object_key,mime,size,sha256,visibility,purpose,
       storage_scope,storage_binding_id,status)
     VALUES (
-      ci_user,'hhy-r11-candidate-media','01-app-list.png','image/png',122463,
-      '4327c819bbaa435f681ac34f5dd01fff920bd850f26974b4708c792490b14878',
+      ci_user,'hhy-r11-candidate-media','r11-team-logo.png','image/png',51614,
+      'eb2138d67b8a23255240b5ce4ecc1cd758f2bbb8fe3586b874f7d7b32aea6709',
       'PUBLIC','CONTENT_TEAM_LEADER','public_media',fixture_binding,'READY')
     RETURNING id INTO fixture_logo;
   END IF;

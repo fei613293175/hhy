@@ -11,11 +11,13 @@ task_id: TASK-R11-007
 story_id: STORY-R11-004
 goal: 团队长入驻完整闭环Android测试APK与产物追溯
 started_at: '2026-07-24T03:23:08Z'
-updated_at: '2026-07-24T04:13:42Z'
+updated_at: '2026-07-24T05:26:40Z'
 takeover_of: null
 change_requests:
 - CR-0302
 - CR-0303
+- CR-0304
+- CR-0305
 scope:
   allowed_paths:
   - apps/**
@@ -60,22 +62,22 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-24T04:13:37Z'
-  expires_at: '2026-07-24T08:13:37Z'
-checkpoint_sequence: 3
-latest_checkpoint: .continuity/checkpoints/SES-20260724T032308Z-98D6D10A/0003.yaml
+  renewed_at: '2026-07-24T05:26:34Z'
+  expires_at: '2026-07-24T09:26:34Z'
+checkpoint_sequence: 6
+latest_checkpoint: .continuity/checkpoints/SES-20260724T032308Z-98D6D10A/0006.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260724T032308Z-98D6D10A.md
-next_step: 提交冻结变更，执行push-preflight并推送唯一R11候选
+next_step: 提交并推送attempt 2候选，AI复核四页截图
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: 05332598f134263ca43a5b29297db984955251adb969dc7d436791dc9d924cc2
-  generated_at: '2026-07-24T04:13:40Z'
+  context_hash: 5d30b5c0de385d4dddb1508a567684d8032bebb67b673c47a6d829b26571c273
+  generated_at: '2026-07-24T05:26:38Z'
 handoff_bundle: null
 closure: null
 parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 最终候选必须以同一冻结提交串行绑定代码、数据、截图和APK证据
+  reason: attempt 2必须以同一提交绑定代码、媒体、夹具、Problem Registry和请求身份

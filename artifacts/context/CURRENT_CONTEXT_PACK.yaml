@@ -1,5 +1,5 @@
 context_version: '1.0'
-generated_at: '2026-07-24T04:13:40Z'
+generated_at: '2026-07-24T05:26:38Z'
 conversation_dependency: PROHIBITED
 source_of_truth: REPOSITORY_ONLY
 project: hhy-pro-platform
@@ -124,7 +124,7 @@ current_status:
   - TASK-R06-008
   - TASK-R07-008
   next_task: TASK-R11-007
-  updated_at: '2026-07-24T04:13:37Z'
+  updated_at: '2026-07-24T05:26:34Z'
   notes:
   - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
   - 全部REST/WebSocket操作均有页面或系统所有者
@@ -159,15 +159,15 @@ current_status:
     active_session_id: SES-20260724T032308Z-98D6D10A
     actor_id: codex-root-r11-candidate
     story_id: STORY-R11-004
-    lease_expires_at: '2026-07-24T08:13:37Z'
-    latest_checkpoint: .continuity/checkpoints/SES-20260724T032308Z-98D6D10A/0003.yaml
-    project_fingerprint: 3505a19b1c9decce2d9b17f561d5c1f19d7e3a1dd13ca467c51df81bce95e4cb
+    lease_expires_at: '2026-07-24T09:26:34Z'
+    latest_checkpoint: .continuity/checkpoints/SES-20260724T032308Z-98D6D10A/0006.yaml
+    project_fingerprint: 658e97ceb6d6fd1ab01b929db16f72f5129eaf6962bebd30d673986f3b282f47
     context_pack:
       yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
       markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
       manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-      context_hash: b68599d72262593a143040e2476107bb204cd00ef1f5093f05fd583a9160a090
-      generated_at: '2026-07-24T04:12:13Z'
+      context_hash: c495ada8da8893ed45fcab5b789a8110adf1004c02dfc4c97551cf402baa9cf0
+      generated_at: '2026-07-24T05:17:52Z'
     handoff_bundle: null
 next_task:
   id: TASK-R11-007
@@ -216,11 +216,13 @@ active_session:
   story_id: STORY-R11-004
   goal: 团队长入驻完整闭环Android测试APK与产物追溯
   started_at: '2026-07-24T03:23:08Z'
-  updated_at: '2026-07-24T04:13:37Z'
+  updated_at: '2026-07-24T05:26:34Z'
   takeover_of: null
   change_requests:
   - CR-0302
   - CR-0303
+  - CR-0304
+  - CR-0305
   scope:
     allowed_paths:
     - apps/**
@@ -265,12 +267,12 @@ active_session:
     initial_worktree_state: CLEAN
   lease:
     duration_minutes: 240
-    renewed_at: '2026-07-24T04:13:37Z'
-    expires_at: '2026-07-24T08:13:37Z'
-  checkpoint_sequence: 3
-  latest_checkpoint: .continuity/checkpoints/SES-20260724T032308Z-98D6D10A/0003.yaml
+    renewed_at: '2026-07-24T05:26:34Z'
+    expires_at: '2026-07-24T09:26:34Z'
+  checkpoint_sequence: 6
+  latest_checkpoint: .continuity/checkpoints/SES-20260724T032308Z-98D6D10A/0006.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260724T032308Z-98D6D10A.md
-  next_step: 提交冻结变更，执行push-preflight并推送唯一R11候选
+  next_step: 提交并推送attempt 2候选，AI复核四页截图
   context_pack: THIS_CONTEXT_PACK
   handoff_bundle: null
   closure: null
@@ -278,51 +280,60 @@ active_session:
     assessment: NO_SAFE_PARALLEL
     delegated_workers: 0
     workers: []
-    reason: 最终候选必须以同一冻结提交串行绑定代码、数据、截图和APK证据
+    reason: attempt 2必须以同一提交绑定代码、媒体、夹具、Problem Registry和请求身份
 latest_checkpoint:
   protocol_version: '1.0'
-  checkpoint_id: CP-SES-20260724T032308Z-98D6D10A-0003
+  checkpoint_id: CP-SES-20260724T032308Z-98D6D10A-0006
   session_id: SES-20260724T032308Z-98D6D10A
   task_id: TASK-R11-007
   story_id: STORY-R11-004
-  sequence: 3
-  created_at: '2026-07-24T04:13:37Z'
-  summary: R11候选实现与CR状态均已冻结，可提交
-  next_step: 提交冻结变更，执行push-preflight并推送唯一R11候选
+  sequence: 6
+  created_at: '2026-07-24T05:26:34Z'
+  summary: R11 attempt 2修复含Problem Registry已冻结
+  next_step: 提交并推送attempt 2候选，AI复核四页截图
   blockers: []
-  decisions: []
+  decisions:
+  - 首轮R11视觉拒绝已登记PROB-0105并通过专用素材修复
   note: ''
   tests:
+  - name: r11-first-candidate
+    result: FAIL
+    evidence: Run 30066554254 screenshots
+    note: Logo和风采错误复用R09 App截图
   - name: r11-python-candidate
     result: PASS
     evidence: 28 tests OK
-    note: 候选合同、门禁及请求回归
-  - name: android-ui-foundation
+    note: attempt 2合同
+  - name: team-logo-reproducible
     result: PASS
-    evidence: ANDROID_UI_FOUNDATION_GATE=PASS
-    note: Android基础UI约束
-  - name: ui-tokens
+    evidence: eb2138d67b8a23255240b5ce4ecc1cd758f2bbb8fe3586b874f7d7b32aea6709
+    note: 重复生成一致
+  - name: r11-media-public
     result: PASS
-    evidence: UI_TOKENS_OK 52
-    note: 全量UI令牌
-  - name: android-module
+    evidence: HTTP 200 image/png 51614 bytes
+    note: 公网SHA一致
+  - name: r11-media-default-deny
     result: PASS
-    evidence: 216 actionable tasks BUILD SUCCESSFUL in 58s
-    note: 云端Android模块
+    evidence: unknown path 404
+    note: 默认拒绝保持
+  - name: nginx-config
+    result: PASS
+    evidence: nginx -t
+    note: 精确路由
   - name: r11-fixture-idempotence
     result: PASS
-    evidence: two identical successful runs
-    note: 专用候选数据
-  - name: r11-media
+    evidence: two runs logo=3 contacts=1 media=1
+    note: 幂等
+  - name: problem-registry
     result: PASS
-    evidence: HTTP 200 image/png
-    note: 候选媒体
+    evidence: PROB-0105
+    note: 首轮视觉根因和回归规则已登记
   git:
     initialized: true
     branch: task/TASK-R03-001
-    head: c20c118ae98a93b3dde28d6901bc10baf98b0402
+    head: df22a0918fc80d3729aea2bfb47d3232f726ae0b
     upstream: origin/task/TASK-R03-001
-    ahead: 4
+    ahead: 0
     behind: 0
     dirty: true
     status_porcelain:
@@ -331,34 +342,31 @@ latest_checkpoint:
     - M  .continuity/EVENT_LOG.jsonl
     - M  .continuity/SESSION_INDEX.yaml
     - M  .continuity/STATE.yaml
-    - M  .continuity/TASK_CLAIMS.yaml
-    - M  .continuity/TASK_TRANSITIONS.yaml
-    - A  .continuity/change_requests/CR-0302.yaml
-    - A  .continuity/change_requests/CR-0303.yaml
-    - A  .continuity/checkpoints/SES-20260724T032308Z-98D6D10A/0001.yaml
-    - A  .continuity/checkpoints/SES-20260724T032308Z-98D6D10A/0002.yaml
-    - A  .continuity/sessions/SES-20260724T032308Z-98D6D10A.yaml
+    - A  .continuity/change_requests/CR-0304.yaml
+    - A  .continuity/change_requests/CR-0305.yaml
+    - A  .continuity/checkpoints/SES-20260724T032308Z-98D6D10A/0004.yaml
+    - A  .continuity/checkpoints/SES-20260724T032308Z-98D6D10A/0005.yaml
+    - M  .continuity/sessions/SES-20260724T032308Z-98D6D10A.yaml
     - M  CHANGELOG.md
     - M  CURRENT_STATUS.yaml
-    - M  apps/android/app/build.gradle.kts
-    - M  apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
-    - M  apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
-    - M  apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
     - M  artifacts/context/CURRENT_CONTEXT_PACK.md
     - M  artifacts/context/CURRENT_CONTEXT_PACK.yaml
     - M  artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
     - M  catalogs/change_request_index.csv
     - M  catalogs/session_index.csv
-    - M  catalogs/task_transition_ledger.csv
     - M  config/android-candidate-request.yaml
-    - A  docs/03-continuity/change-requests/CR-0302-补齐R11团队长Android最终候选与产物追溯.md
-    - A  docs/03-continuity/change-requests/CR-0303-同步R11候选ReleasePolicy与版本回归身份.md
-    - A  docs/03-continuity/sessions/2026-07/SES-20260724T032308Z-98D6D10A.md
-    - A  scripts/prepare_r11_ci_fixture.sh
-    - A  tests/android/visual-manifests/R11.yaml
-    - M  tests/test_android_ci_gate.py
-    - A  tests/test_r11_candidate.py
+    - ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
+    - A  docs/03-continuity/change-requests/CR-0304-替换R11候选错误复用的App截图为专用团队视觉素材.md
+    - A  docs/03-continuity/change-requests/CR-0305-新增R11团队Logo公开媒体精确路由.md
+    - M  docs/03-continuity/sessions/2026-07/SES-20260724T032308Z-98D6D10A.md
+    - A  infra/nginx/r11-candidate-media-location.inc
+    - A  scripts/generate_r11_team_logo.py
+    - M  scripts/prepare_r11_ci_fixture.sh
+    - A  tests/android/fixtures/r11-team-logo.png
+    - M  tests/test_r11_candidate.py
     recent_commits:
+    - "df22a0918fc80d3729aea2bfb47d3232f726ae0b\t2026-07-24T12:14:32+08:00\tHHY Continuity Bootstrap\t[STORY-R11-004] test(r11): bind final Android\
+      \ candidate"
     - "c20c118ae98a93b3dde28d6901bc10baf98b0402\t2026-07-24T11:21:54+08:00\tHHY Continuity Bootstrap\t[STORY-R11-004] chore(continuity): close\
       \ TASK-R11-006"
     - "1b6d8d3c0c50770e891cd7a97cc1747264b5d5f0\t2026-07-24T11:20:09+08:00\tHHY Continuity Bootstrap\t[STORY-R11-004] test(r11): archive observability\
@@ -373,10 +381,8 @@ latest_checkpoint:
       \ TASK-R11-005 as completed"
     - "d0d76808c3aa6a473e62e6bb7dd2e262faeff209\t2026-07-24T10:04:05+08:00\tHHY Continuity Bootstrap\t[STORY-R11-004] chore(continuity): close\
       \ r11 test changes"
-    - "3470921483cdcccb3ac11e51b465f7ca1b6c9d7b\t2026-07-24T09:55:37+08:00\tHHY Continuity Bootstrap\t[STORY-R11-004] test(r11): archive specialized\
-      \ evidence"
   project_fingerprint:
-    sha256: 3505a19b1c9decce2d9b17f561d5c1f19d7e3a1dd13ca467c51df81bce95e4cb
+    sha256: 658e97ceb6d6fd1ab01b929db16f72f5129eaf6962bebd30d673986f3b282f47
     files:
     - CHANGELOG.md
     - apps/android/app/build.gradle.kts
@@ -384,20 +390,26 @@ latest_checkpoint:
     - apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
     - apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
     - config/android-candidate-request.yaml
+    - docs/03-continuity/PROBLEM_REGISTRY.yaml
     - docs/03-continuity/change-requests/CR-0302-补齐R11团队长Android最终候选与产物追溯.md
     - docs/03-continuity/change-requests/CR-0303-同步R11候选ReleasePolicy与版本回归身份.md
+    - docs/03-continuity/change-requests/CR-0304-替换R11候选错误复用的App截图为专用团队视觉素材.md
+    - docs/03-continuity/change-requests/CR-0305-新增R11团队Logo公开媒体精确路由.md
+    - infra/nginx/r11-candidate-media-location.inc
+    - scripts/generate_r11_team_logo.py
     - scripts/prepare_r11_ci_fixture.sh
+    - tests/android/fixtures/r11-team-logo.png
     - tests/android/visual-manifests/R11.yaml
     - tests/test_android_ci_gate.py
     - tests/test_r11_candidate.py
-    file_count: 12
+    file_count: 18
     payload:
       base_commit: c20c118ae98a93b3dde28d6901bc10baf98b0402
       files:
       - path: CHANGELOG.md
         state: FILE
-        size: 123995
-        sha256: 50ebce9ceb6012d56ea3db962fbd236f520f747b1214a8c304c6adaba72ff9b8
+        size: 124278
+        sha256: 6dfceb7f83fb132360d85159e0683157c1d315ee69adcfdffa95c5b67169634b
       - path: apps/android/app/build.gradle.kts
         state: FILE
         size: 5298
@@ -416,8 +428,12 @@ latest_checkpoint:
         sha256: 730319a20e23d7eb9a286ee030f09a1f02c4f2ab5c5837fafe6402cf07a26c08
       - path: config/android-candidate-request.yaml
         state: FILE
-        size: 334
-        sha256: 7db1f68a0919aaaaaccd2376d4f0e126397b81a260ee6693c33ca313495eab82
+        size: 363
+        sha256: 9173072bc36223f8e00cbf04c5d0f6f8634cd38713dbe0ab50e908691024e0f2
+      - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
+        state: FILE
+        size: 146331
+        sha256: 62da4088311a31880cb366a010485e5b1ff69fe06331b298d348a29e07edcf11
       - path: docs/03-continuity/change-requests/CR-0302-补齐R11团队长Android最终候选与产物追溯.md
         state: FILE
         size: 3367
@@ -426,10 +442,30 @@ latest_checkpoint:
         state: FILE
         size: 2522
         sha256: 915d5df43636e0e616bce0530d316748ddf16f91d51bedfe41e6591ceeaef75c
+      - path: docs/03-continuity/change-requests/CR-0304-替换R11候选错误复用的App截图为专用团队视觉素材.md
+        state: FILE
+        size: 2891
+        sha256: cf1a3a4445450c21cb2fe20eea2b513d74033b88d845a56dc23b11c808ac90fd
+      - path: docs/03-continuity/change-requests/CR-0305-新增R11团队Logo公开媒体精确路由.md
+        state: FILE
+        size: 2464
+        sha256: fa44d6bde218097b14085dccd5c594a1e4cc2d4ae94d36c30e54d4fd63f8db2c
+      - path: infra/nginx/r11-candidate-media-location.inc
+        state: FILE
+        size: 230
+        sha256: 9be2edf3db72302cb50bb4f7f2843441308aab91295c88049d08bb6de2853be9
+      - path: scripts/generate_r11_team_logo.py
+        state: FILE
+        size: 2978
+        sha256: 1f64e80692900a797ba0a1355be56e09d77bd623f46f39bbff14cfc405ce0073
       - path: scripts/prepare_r11_ci_fixture.sh
         state: FILE
-        size: 10689
-        sha256: 57592d9daf444fe4f55f00a6c786f1659e5cd56766f1f0f8273d9947d9603d6a
+        size: 10692
+        sha256: 800ec311fb0d90488c8793ff071cc6062c11cea852377b772e4c110ec877573b
+      - path: tests/android/fixtures/r11-team-logo.png
+        state: FILE
+        size: 51613
+        sha256: 850c0df4c8bd9af3d69e977628433a148ca48e5d610112f7f79514090fbe4bce
       - path: tests/android/visual-manifests/R11.yaml
         state: FILE
         size: 2138
@@ -440,8 +476,8 @@ latest_checkpoint:
         sha256: b493d900ca04bd5b6b625d1926b4fdfe4d261e7655ebdae57e718292f25981e8
       - path: tests/test_r11_candidate.py
         state: FILE
-        size: 5404
-        sha256: b37ee2ca1b2d90d448a7efc3507264af6fa938a149204d272ec4b5c5aa82a9aa
+        size: 5626
+        sha256: 7a2ec80f17346734ef9b9a8220ae74013b21bede1e6a9b4d7133819276a0aa12
   change_classification:
     other:
     - CHANGELOG.md
@@ -451,6 +487,7 @@ latest_checkpoint:
     - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
     - apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
     - apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+    - scripts/generate_r11_team_logo.py
     - scripts/prepare_r11_ci_fixture.sh
     user_visible:
     - apps/android/app/build.gradle.kts
@@ -458,9 +495,15 @@ latest_checkpoint:
     - apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
     - apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
     continuity:
+    - docs/03-continuity/PROBLEM_REGISTRY.yaml
     - docs/03-continuity/change-requests/CR-0302-补齐R11团队长Android最终候选与产物追溯.md
     - docs/03-continuity/change-requests/CR-0303-同步R11候选ReleasePolicy与版本回归身份.md
+    - docs/03-continuity/change-requests/CR-0304-替换R11候选错误复用的App截图为专用团队视觉素材.md
+    - docs/03-continuity/change-requests/CR-0305-新增R11团队Logo公开媒体精确路由.md
+    infrastructure:
+    - infra/nginx/r11-candidate-media-location.inc
     tests:
+    - tests/android/fixtures/r11-team-logo.png
     - tests/android/visual-manifests/R11.yaml
     - tests/test_android_ci_gate.py
     - tests/test_r11_candidate.py
@@ -474,6 +517,8 @@ latest_checkpoint:
   change_requests:
   - CR-0302
   - CR-0303
+  - CR-0304
+  - CR-0305
   scope:
     allowed_paths:
     - apps/**
@@ -513,14 +558,14 @@ latest_checkpoint:
     assessment: NO_SAFE_PARALLEL
     delegated_workers: 0
     workers: []
-    reason: 最终候选必须以同一冻结提交串行绑定代码、数据、截图和APK证据
-  event_hash: 1822c83fae8bc96ab7e6a6b368d5aa88628b95509b039d9ab15c105afcfff3ca
+    reason: attempt 2必须以同一提交绑定代码、媒体、夹具、Problem Registry和请求身份
+  event_hash: f8a269082fdfb0d0ec7bfe72d59707463bb550f8bfc411ed8b8579cdad0666ce
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: c20c118ae98a93b3dde28d6901bc10baf98b0402
+  head: df22a0918fc80d3729aea2bfb47d3232f726ae0b
   upstream: origin/task/TASK-R03-001
-  ahead: 4
+  ahead: 0
   behind: 0
   dirty: true
   status_porcelain:
@@ -529,35 +574,32 @@ git:
   - MM .continuity/EVENT_LOG.jsonl
   - MM .continuity/SESSION_INDEX.yaml
   - MM .continuity/STATE.yaml
-  - M  .continuity/TASK_CLAIMS.yaml
-  - M  .continuity/TASK_TRANSITIONS.yaml
-  - A  .continuity/change_requests/CR-0302.yaml
-  - A  .continuity/change_requests/CR-0303.yaml
-  - A  .continuity/checkpoints/SES-20260724T032308Z-98D6D10A/0001.yaml
-  - A  .continuity/checkpoints/SES-20260724T032308Z-98D6D10A/0002.yaml
-  - AM .continuity/sessions/SES-20260724T032308Z-98D6D10A.yaml
+  - A  .continuity/change_requests/CR-0304.yaml
+  - A  .continuity/change_requests/CR-0305.yaml
+  - A  .continuity/checkpoints/SES-20260724T032308Z-98D6D10A/0004.yaml
+  - A  .continuity/checkpoints/SES-20260724T032308Z-98D6D10A/0005.yaml
+  - MM .continuity/sessions/SES-20260724T032308Z-98D6D10A.yaml
   - M  CHANGELOG.md
   - MM CURRENT_STATUS.yaml
-  - M  apps/android/app/build.gradle.kts
-  - M  apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
-  - M  apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
-  - M  apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
   - M  artifacts/context/CURRENT_CONTEXT_PACK.md
   - M  artifacts/context/CURRENT_CONTEXT_PACK.yaml
   - M  artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
   - M  catalogs/change_request_index.csv
-  - M  catalogs/session_index.csv
-  - M  catalogs/task_transition_ledger.csv
+  - MM catalogs/session_index.csv
   - M  config/android-candidate-request.yaml
-  - A  docs/03-continuity/change-requests/CR-0302-补齐R11团队长Android最终候选与产物追溯.md
-  - A  docs/03-continuity/change-requests/CR-0303-同步R11候选ReleasePolicy与版本回归身份.md
-  - AM docs/03-continuity/sessions/2026-07/SES-20260724T032308Z-98D6D10A.md
-  - A  scripts/prepare_r11_ci_fixture.sh
-  - A  tests/android/visual-manifests/R11.yaml
-  - M  tests/test_android_ci_gate.py
-  - A  tests/test_r11_candidate.py
-  - ?? .continuity/checkpoints/SES-20260724T032308Z-98D6D10A/0003.yaml
+  - ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
+  - A  docs/03-continuity/change-requests/CR-0304-替换R11候选错误复用的App截图为专用团队视觉素材.md
+  - A  docs/03-continuity/change-requests/CR-0305-新增R11团队Logo公开媒体精确路由.md
+  - MM docs/03-continuity/sessions/2026-07/SES-20260724T032308Z-98D6D10A.md
+  - A  infra/nginx/r11-candidate-media-location.inc
+  - A  scripts/generate_r11_team_logo.py
+  - M  scripts/prepare_r11_ci_fixture.sh
+  - A  tests/android/fixtures/r11-team-logo.png
+  - M  tests/test_r11_candidate.py
+  - ?? .continuity/checkpoints/SES-20260724T032308Z-98D6D10A/0006.yaml
   recent_commits:
+  - "df22a0918fc80d3729aea2bfb47d3232f726ae0b\t2026-07-24T12:14:32+08:00\tHHY Continuity Bootstrap\t[STORY-R11-004] test(r11): bind final Android\
+    \ candidate"
   - "c20c118ae98a93b3dde28d6901bc10baf98b0402\t2026-07-24T11:21:54+08:00\tHHY Continuity Bootstrap\t[STORY-R11-004] chore(continuity): close TASK-R11-006"
   - "1b6d8d3c0c50770e891cd7a97cc1747264b5d5f0\t2026-07-24T11:20:09+08:00\tHHY Continuity Bootstrap\t[STORY-R11-004] test(r11): archive observability\
     \ staging evidence"
@@ -571,10 +613,8 @@ git:
     \ as completed"
   - "d0d76808c3aa6a473e62e6bb7dd2e262faeff209\t2026-07-24T10:04:05+08:00\tHHY Continuity Bootstrap\t[STORY-R11-004] chore(continuity): close r11\
     \ test changes"
-  - "3470921483cdcccb3ac11e51b465f7ca1b6c9d7b\t2026-07-24T09:55:37+08:00\tHHY Continuity Bootstrap\t[STORY-R11-004] test(r11): archive specialized\
-    \ evidence"
 project_fingerprint:
-  sha256: 3505a19b1c9decce2d9b17f561d5c1f19d7e3a1dd13ca467c51df81bce95e4cb
+  sha256: 658e97ceb6d6fd1ab01b929db16f72f5129eaf6962bebd30d673986f3b282f47
   files:
   - CHANGELOG.md
   - apps/android/app/build.gradle.kts
@@ -582,20 +622,26 @@ project_fingerprint:
   - apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
   - apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
   - config/android-candidate-request.yaml
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
   - docs/03-continuity/change-requests/CR-0302-补齐R11团队长Android最终候选与产物追溯.md
   - docs/03-continuity/change-requests/CR-0303-同步R11候选ReleasePolicy与版本回归身份.md
+  - docs/03-continuity/change-requests/CR-0304-替换R11候选错误复用的App截图为专用团队视觉素材.md
+  - docs/03-continuity/change-requests/CR-0305-新增R11团队Logo公开媒体精确路由.md
+  - infra/nginx/r11-candidate-media-location.inc
+  - scripts/generate_r11_team_logo.py
   - scripts/prepare_r11_ci_fixture.sh
+  - tests/android/fixtures/r11-team-logo.png
   - tests/android/visual-manifests/R11.yaml
   - tests/test_android_ci_gate.py
   - tests/test_r11_candidate.py
-  file_count: 12
+  file_count: 18
   payload:
     base_commit: c20c118ae98a93b3dde28d6901bc10baf98b0402
     files:
     - path: CHANGELOG.md
       state: FILE
-      size: 123995
-      sha256: 50ebce9ceb6012d56ea3db962fbd236f520f747b1214a8c304c6adaba72ff9b8
+      size: 124278
+      sha256: 6dfceb7f83fb132360d85159e0683157c1d315ee69adcfdffa95c5b67169634b
     - path: apps/android/app/build.gradle.kts
       state: FILE
       size: 5298
@@ -614,8 +660,12 @@ project_fingerprint:
       sha256: 730319a20e23d7eb9a286ee030f09a1f02c4f2ab5c5837fafe6402cf07a26c08
     - path: config/android-candidate-request.yaml
       state: FILE
-      size: 334
-      sha256: 7db1f68a0919aaaaaccd2376d4f0e126397b81a260ee6693c33ca313495eab82
+      size: 363
+      sha256: 9173072bc36223f8e00cbf04c5d0f6f8634cd38713dbe0ab50e908691024e0f2
+    - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
+      state: FILE
+      size: 146331
+      sha256: 62da4088311a31880cb366a010485e5b1ff69fe06331b298d348a29e07edcf11
     - path: docs/03-continuity/change-requests/CR-0302-补齐R11团队长Android最终候选与产物追溯.md
       state: FILE
       size: 3367
@@ -624,10 +674,30 @@ project_fingerprint:
       state: FILE
       size: 2522
       sha256: 915d5df43636e0e616bce0530d316748ddf16f91d51bedfe41e6591ceeaef75c
+    - path: docs/03-continuity/change-requests/CR-0304-替换R11候选错误复用的App截图为专用团队视觉素材.md
+      state: FILE
+      size: 2891
+      sha256: cf1a3a4445450c21cb2fe20eea2b513d74033b88d845a56dc23b11c808ac90fd
+    - path: docs/03-continuity/change-requests/CR-0305-新增R11团队Logo公开媒体精确路由.md
+      state: FILE
+      size: 2464
+      sha256: fa44d6bde218097b14085dccd5c594a1e4cc2d4ae94d36c30e54d4fd63f8db2c
+    - path: infra/nginx/r11-candidate-media-location.inc
+      state: FILE
+      size: 230
+      sha256: 9be2edf3db72302cb50bb4f7f2843441308aab91295c88049d08bb6de2853be9
+    - path: scripts/generate_r11_team_logo.py
+      state: FILE
+      size: 2978
+      sha256: 1f64e80692900a797ba0a1355be56e09d77bd623f46f39bbff14cfc405ce0073
     - path: scripts/prepare_r11_ci_fixture.sh
       state: FILE
-      size: 10689
-      sha256: 57592d9daf444fe4f55f00a6c786f1659e5cd56766f1f0f8273d9947d9603d6a
+      size: 10692
+      sha256: 800ec311fb0d90488c8793ff071cc6062c11cea852377b772e4c110ec877573b
+    - path: tests/android/fixtures/r11-team-logo.png
+      state: FILE
+      size: 51613
+      sha256: 850c0df4c8bd9af3d69e977628433a148ca48e5d610112f7f79514090fbe4bce
     - path: tests/android/visual-manifests/R11.yaml
       state: FILE
       size: 2138
@@ -638,8 +708,8 @@ project_fingerprint:
       sha256: b493d900ca04bd5b6b625d1926b4fdfe4d261e7655ebdae57e718292f25981e8
     - path: tests/test_r11_candidate.py
       state: FILE
-      size: 5404
-      sha256: b37ee2ca1b2d90d448a7efc3507264af6fa938a149204d272ec4b5c5aa82a9aa
+      size: 5626
+      sha256: 7a2ec80f17346734ef9b9a8220ae74013b21bede1e6a9b4d7133819276a0aa12
 release_context:
   RELEASE_MANIFEST.yaml:
     release: R11
@@ -1552,8 +1622,8 @@ continuity_state:
   last_session_id: SES-20260724T021901Z-603D54F5
   last_session_result: COMPLETED
   last_closure_checkpoint_id: CP-SES-20260724T021901Z-603D54F5-0006
-  event_count: 2973
-  event_head_hash: 1822c83fae8bc96ab7e6a6b368d5aa88628b95509b039d9ab15c105afcfff3ca
+  event_count: 2986
+  event_head_hash: f8a269082fdfb0d0ec7bfe72d59707463bb550f8bfc411ed8b8579cdad0666ce
   event_chain_valid: true
 recent_sessions:
 - session_id: SES-20260723T115555Z-5C81458B
@@ -1672,9 +1742,9 @@ recent_sessions:
   started_at: '2026-07-24T03:23:08Z'
   record: .continuity/sessions/SES-20260724T032308Z-98D6D10A.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260724T032308Z-98D6D10A.md
-  updated_at: '2026-07-24T04:13:37Z'
+  updated_at: '2026-07-24T05:26:34Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260724T032308Z-98D6D10A/0003.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260724T032308Z-98D6D10A/0006.yaml
   handoff_bundle: null
 task_claims:
 - claim_id: CLM-902BBAC3CC04
@@ -10085,6 +10155,111 @@ open_change_requests:
     session_id: SES-20260724T032308Z-98D6D10A
   session_ids:
   - SES-20260724T032308Z-98D6D10A
+- protocol_version: '1.0'
+  cr_id: CR-0304
+  title: 替换R11候选错误复用的App截图为专用团队视觉素材
+  status: IMPLEMENTED
+  created_at: '2026-07-24T04:55:44Z'
+  updated_at: '2026-07-24T05:13:20Z'
+  requester_actor_id: codex-root-r11-candidate
+  approver_actor_id: codex-reviewer-r11-visual
+  task_id: TASK-R11-007
+  session_id: SES-20260724T032308Z-98D6D10A
+  user_request: 所有版本截图由AI自主判断，不合格直接修复并继续开发
+  reason: Run 30066554254四页旅程通过，但团队Logo及团队风采错误复用R09 App截图，视觉语义不合格，不能批准基线
+  original_rule: R11候选媒体可临时复用已验证公开图片，只要HTTP 200即可进入视觉审核
+  new_rule: R11团队Logo和团队风采必须使用专用团队语义素材，禁止复用App截图、其他业务页面或与团队无关的图片；候选attempt递增为2并仅重跑受影响的最终候选
+  impact_summary: 新增可复现的专用团队品牌PNG，上传到R11候选公开媒体路径并更新夹具、静态回归、候选请求和变更记录；不修改业务接口、数据库结构或页面布局
+  impact:
+    files:
+    - scripts/generate_r11_team_logo.py
+    - tests/android/fixtures/r11-team-logo.png
+    - scripts/prepare_r11_ci_fixture.sh
+    - tests/test_r11_candidate.py
+    - config/android-candidate-request.yaml
+    - CHANGELOG.md
+    pages:
+    - SCR-LIST-004
+    - SCR-DETAIL-004
+    apis: []
+    database: []
+    configuration:
+    - android-candidate-request:R11-attempt-2
+    ledger: []
+    tests:
+    - team-logo-generator;tests.test_r11_candidate;HTTP200-image;Android候选四页视觉审核
+    releases:
+    - R11
+    migration_and_compatibility: 只更新专用R11 Staging夹具已绑定media_files的object_key/public_url，历史R09资源和R11首轮证据保持只读；attempt 2使用新request_id
+  user_confirmation: 项目所有者已明确授权AI自主判定截图，不合格时不中断开发并直接修复
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-24T04:57:07Z'
+    note: 首轮截图已形成确定性证据：团队头像和风采均显示R09 App卡片，违反团队业务语义；专用可复现素材及单次attempt 2是最小有界修复
+  machine_record: .continuity/change_requests/CR-0304.yaml
+  document: docs/03-continuity/change-requests/CR-0304-替换R11候选错误复用的App截图为专用团队视觉素材.md
+  decision_log:
+  - at: '2026-07-24T05:13:12Z'
+    actor_id: codex-root-r11-candidate
+    status: IMPLEMENTING
+    note: 专用团队视觉素材、夹具、静态回归和attempt 2请求已实施并通过本地及公网验证
+    session_id: SES-20260724T032308Z-98D6D10A
+  - at: '2026-07-24T05:13:20Z'
+    actor_id: codex-root-r11-candidate
+    status: IMPLEMENTED
+    note: 已消除R09 App截图复用，专用Logo生成可复现且夹具双次幂等
+    session_id: SES-20260724T032308Z-98D6D10A
+  session_ids:
+  - SES-20260724T032308Z-98D6D10A
+- protocol_version: '1.0'
+  cr_id: CR-0305
+  title: 新增R11团队Logo公开媒体精确路由
+  status: IMPLEMENTED
+  created_at: '2026-07-24T05:04:20Z'
+  updated_at: '2026-07-24T05:13:26Z'
+  requester_actor_id: codex-root-r11-candidate
+  approver_actor_id: codex-reviewer-r11-media-route
+  task_id: TASK-R11-007
+  session_id: SES-20260724T032308Z-98D6D10A
+  user_request: AI自主修复不合格候选并继续开发
+  reason: download.orbexa.cc保持默认404且只放行精确资源，新增团队Logo文件后必须登记并部署单文件Nginx路由才可供候选加载
+  original_rule: download.orbexa.cc默认拒绝未登记路径，仅R09既有两张候选图片有精确location
+  new_rule: 新增且仅新增/r09-candidate-media/attempt-2/r11-team-logo.png精确只读image/png路由，保留默认404、nosniff和短缓存；部署前备份配置并通过nginx -t
+  impact_summary: 新增一个版本控制的Nginx include并部署到现有download站点；不开放目录浏览、不放宽通用路径、不改历史资源
+  impact:
+    files:
+    - infra/nginx/r11-candidate-media-location.inc
+    pages: []
+    apis: []
+    database: []
+    configuration:
+    - download.orbexa.cc:r11-team-logo-exact-route
+    ledger: []
+    tests:
+    - nginx-t;HTTP200-image/png;SHA256-equality;unknown-path-404
+    releases:
+    - R11
+    migration_and_compatibility: 旧R09图片和APK路由保持不变；R11文件删除或回滚include即可恢复原状态
+  user_confirmation: 项目所有者已授权AI自主修复候选并静默执行服务器命令
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-24T05:05:06Z'
+    note: 默认404策略要求精确白名单；单文件include、备份、nginx -t和未知路径404验证是最小安全改动
+  machine_record: .continuity/change_requests/CR-0305.yaml
+  document: docs/03-continuity/change-requests/CR-0305-新增R11团队Logo公开媒体精确路由.md
+  decision_log:
+  - at: '2026-07-24T05:13:16Z'
+    actor_id: codex-root-r11-candidate
+    status: IMPLEMENTING
+    note: 精确媒体include已版本化并部署，nginx -t、200 image/png、SHA一致及未知路径404通过
+    session_id: SES-20260724T032308Z-98D6D10A
+  - at: '2026-07-24T05:13:26Z'
+    actor_id: codex-root-r11-candidate
+    status: IMPLEMENTED
+    note: download.orbexa.cc仅新增单文件精确路由，默认404保持不变
+    session_id: SES-20260724T032308Z-98D6D10A
+  session_ids:
+  - SES-20260724T032308Z-98D6D10A
 source_manifest:
 - path: AGENTS.md
   sha256: f93034917d4b87ffd4caffe8b6cad354f69bc31f6c0d9398dec3074ae165496d
@@ -10093,7 +10268,7 @@ source_manifest:
   sha256: 22de14029ce47beb41ea569e36ce223fbc9d11b86f8676f28d5fbbd83896af5c
   bytes: 4556
 - path: CURRENT_STATUS.yaml
-  sha256: ccc394c7d073fb6a6a106a2d739e592f31f5d2f91a061aa2b7f7c1d98a201e2f
+  sha256: 6f180f6d2caccceb6daf3025943f306cd7dea60c34b727ed70cf51b918dcabe8
   bytes: 4351
 - path: NEXT_TASK.yaml
   sha256: 477894c15a08e51c8f7d01de178f4cfa64546052e45a98bf40f0921b573fc7a4
@@ -10105,8 +10280,8 @@ source_manifest:
   sha256: 045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511
   bytes: 1442
 - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
-  sha256: cc8b9cd4677e5373ec20c88b0e3b6b0e646e0ea85a60ff0dfaaeaea2d3160fe0
-  bytes: 144783
+  sha256: 62da4088311a31880cb366a010485e5b1ff69fe06331b298d348a29e07edcf11
+  bytes: 146331
 - path: docs/03-continuity/REUSABLE_PATTERNS.md
   sha256: fe65ac4157e0072a3e8fbe2fb815bf6badf3f81fa295f54b9663b66683f5d593
   bytes: 3629
@@ -10126,10 +10301,10 @@ source_manifest:
   sha256: 60943fcd9714cfae7274463554b5584fdb7a7aeee1ee547ff6dbc53fae6d4994
   bytes: 13170
 - path: .continuity/EVENT_LOG.jsonl
-  sha256: 746dc7e08fc79464f1a09ddd5f7395b2844ff4d5717aa672af7bf0ab77408994
-  bytes: 1654559
+  sha256: 3112611f0e4012be9acd8c227deacc3743191bd27d6a9a083567505a9b0ca6ca
+  bytes: 1660408
 - path: .continuity/SESSION_INDEX.yaml
-  sha256: 3d318596646b6ef6e947f7ab0eec8b70f122341b0f91c7ba1e3edc5818b836d0
+  sha256: b42b6cbd1ec548fb9491b7093b0bc54a1210cb1173c2885ec2de5f8238497be1
   bytes: 50246
 - path: .continuity/TASK_CLAIMS.yaml
   sha256: d45ce55b29c70bd9c40a7e5a336b76500b4bb6a5482b3abbacc926d4b82fb452
@@ -10138,10 +10313,10 @@ source_manifest:
   sha256: 0355f559e897daefe143534066b8a5e9b9d78174a71dddbc18df8b3f102ab426
   bytes: 28577
 - path: .continuity/CHANGE_REQUEST_INDEX.yaml
-  sha256: 75b91be86093d7f2b9a7c6b26c17faa4cd8ffacbaf342716e78b6383c64b0214
-  bytes: 1010752
+  sha256: 6689f0b4f6571a8af62ab13f6d2221c2a499f49a779b990330afcdeb408319c3
+  bytes: 1016204
 - path: .continuity/ACTIVE_SESSION.yaml
-  sha256: 268100a73d1498b38cf4572fb76209099681bd125cfb5fe0b2d8c48b48098b38
+  sha256: 8c14905f561df1caccea77a7ec3e8d2395104552ad36128f1fc8afa595a26767
   bytes: 539
 - path: docs/00-baseline/正式商业系统全局硬性开发边界.md
   sha256: 9753b32db136e59e95a0974a62362456d9d577fd1bb40058ec985c4b64413eea
@@ -10174,17 +10349,23 @@ source_manifest:
   sha256: e892959361fe9a80841a49496d4302125b27838f73aab987c62a0e57a9070e54
   bytes: 2630
 - path: docs/03-continuity/sessions/2026-07/SES-20260724T032308Z-98D6D10A.md
-  sha256: f203f64567f3ae71862fb73f95771ba5ec114cf7b767325440338946d9607c63
-  bytes: 5596
-- path: .continuity/checkpoints/SES-20260724T032308Z-98D6D10A/0003.yaml
-  sha256: dce52fcb4ef35f2207605a039a51c0de15f40039306e79cbf536e80af98ee37f
-  bytes: 9257
+  sha256: 6c6ec298479d9d2d93543821b1cb531fe954143153e0ddbd3ebf3d01a8679226
+  bytes: 11989
+- path: .continuity/checkpoints/SES-20260724T032308Z-98D6D10A/0006.yaml
+  sha256: 94e0473405932c632a7c91dbea494e7dc331b1777f412bff4f70aadad10c91af
+  bytes: 11214
 - path: docs/03-continuity/change-requests/CR-0302-补齐R11团队长Android最终候选与产物追溯.md
   sha256: 13a55bb51fb2d9b89160365461177a1b81804be5790e77ecac4810a7bf8b63e4
   bytes: 3367
 - path: docs/03-continuity/change-requests/CR-0303-同步R11候选ReleasePolicy与版本回归身份.md
   sha256: 915d5df43636e0e616bce0530d316748ddf16f91d51bedfe41e6591ceeaef75c
   bytes: 2522
+- path: docs/03-continuity/change-requests/CR-0304-替换R11候选错误复用的App截图为专用团队视觉素材.md
+  sha256: cf1a3a4445450c21cb2fe20eea2b513d74033b88d845a56dc23b11c808ac90fd
+  bytes: 2891
+- path: docs/03-continuity/change-requests/CR-0305-新增R11团队Logo公开媒体精确路由.md
+  sha256: fa44d6bde218097b14085dccd5c594a1e4cc2d4ae94d36c30e54d4fd63f8db2c
+  bytes: 2464
 rule_readiness:
   status: PASS
   evidence: HASHED_CONTEXT_MANIFEST
@@ -10220,4 +10401,4 @@ hard_rules:
 - 除非项目所有者明确报告未连接，默认Codex已连接obx-test且既有项目环境可用；预检失败必须阻断并报告
 - 禁止以无服务器状态继续开发或重建本地Android SDK，必须复用登记的远端镜像和Gradle缓存
 - Git remote/upstream仅按tracked transport descriptor受控恢复；推送前必须预检且禁止force push
-context_hash: 05332598f134263ca43a5b29297db984955251adb969dc7d436791dc9d924cc2
+context_hash: 5d30b5c0de385d4dddb1508a567684d8032bebb67b673c47a6d829b26571c273

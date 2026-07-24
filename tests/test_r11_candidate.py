@@ -12,6 +12,7 @@ BUILD = ROOT / "apps/android/app/build.gradle.kts"
 RELEASE_POLICY = ROOT / "apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt"
 VERSION_TEST = ROOT / "apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt"
 REQUEST = ROOT / "config/android-candidate-request.yaml"
+TEAM_LOGO = ROOT / "tests/android/fixtures/r11-team-logo.png"
 
 
 class R11CandidateTest(unittest.TestCase):
@@ -49,6 +50,9 @@ class R11CandidateTest(unittest.TestCase):
         self.assertNotIn("fixture_content,'r11-ci-1'", self.do_body)
         self.assertIn("ON CONFLICT (content_id,version_no) DO NOTHING", self.do_body)
         self.assertNotIn("ON CONFLICT (content_id,version_no) DO UPDATE", self.do_body)
+        self.assertIn("r11-team-logo.png", self.do_body)
+        self.assertNotIn("01-app-list.png", self.do_body)
+        self.assertTrue(TEAM_LOGO.is_file())
 
     def test_journey_captures_exactly_home_and_three_team_leader_pages(self) -> None:
         expected = (
@@ -100,8 +104,8 @@ class R11CandidateTest(unittest.TestCase):
         self.assertNotIn("10219", build + release_policy + version_test)
         self.assertEqual("R11", request["release"])
         self.assertTrue(request["candidate"])
-        self.assertEqual(1, request["remediation_attempt"])
-        self.assertEqual("R11-CANDIDATE-20260724-001", request["request_id"])
+        self.assertEqual(2, request["remediation_attempt"])
+        self.assertEqual("R11-CANDIDATE-20260724-002", request["request_id"])
 
 
 if __name__ == "__main__":

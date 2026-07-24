@@ -2,6 +2,6 @@ schema_version: 1
 status: REQUESTED
 release: R11
 candidate: true
-remediation_attempt: 1
-request_id: R11-CANDIDATE-20260724-001
-reason: TASK-R11-007最终候选；使用OIDC自动登录验证首页、团队长列表、团队长详情和团队长编辑四页真实业务旅程，由AI自主审核截图后决定是否晋升和交付。
+remediation_attempt: 2
+request_id: R11-CANDIDATE-20260724-002
+reason: 首轮Run 30066554254的编译、OIDC自动登录、四页旅程与截图采集均成功；AI审核发现团队Logo和团队风采错误复用R09 App截图，替换为专用团队视觉素材后执行唯一有界修复候选。
