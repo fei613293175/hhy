@@ -1,9 +1,9 @@
 protocol_version: '1.0'
 cr_id: CR-0312
 title: 修正机器收尾重复本机构建与生成证据指纹
-status: IMPLEMENTED
+status: CLOSED
 created_at: '2026-07-24T13:46:17Z'
-updated_at: '2026-07-24T14:05:38Z'
+updated_at: '2026-07-24T14:20:17Z'
 requester_actor_id: codex-root-r11-close
 approver_actor_id: codex-independent-r11-workflow-reviewer
 task_id: TASK-R11-008
@@ -53,5 +53,12 @@ decision_log:
   status: IMPLEMENTED
   note: 专用MACHINE_CLOSE profile、现有唯一规则与模板投影、validation生成证据指纹排除及负向回归完成；27项工作流测试、模板失败节点复测、R11视觉和机器关闭门禁均PASS，实际关闭耗时0.468秒且无本机Java/Android重跑
   session_id: SES-20260724T110611Z-0D26E8D5
+- at: '2026-07-24T14:20:17Z'
+  actor_id: codex-root-r11-close
+  status: CLOSED
+  note: MACHINE_CLOSE专用profile、规则模板同步、生成证据指纹和PROB-0106已由实现提交6bd3313e087de6afc6f7189c6a1791a9a198ae7f落地，R11机器门禁PASS
+  session_id: SES-20260724T110611Z-0D26E8D5
 session_ids:
 - SES-20260724T110611Z-0D26E8D5
+implementation_commits:
+- 6bd3313e087de6afc6f7189c6a1791a9a198ae7f
