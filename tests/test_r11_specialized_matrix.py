@@ -19,6 +19,13 @@ SPEC.loader.exec_module(MATRIX)
 
 
 class R11SpecializedMatrixTest(unittest.TestCase):
+    def test_r11_staging_inspection_sentinels_meet_runtime_minimum(self) -> None:
+        script = (ROOT / "scripts/run_r11_staging_acceptance.sh").read_text(encoding="utf-8")
+        self.assertNotIn("compose-inspection-only}\n", script)
+        defaults = [line.split(":-", 1)[1].split("}", 1)[0] for line in script.splitlines() if "compose-inspection-only-" in line]
+        self.assertEqual(8, len(defaults))
+        self.assertTrue(all(len(value) >= 32 for value in defaults))
+
     def test_inventory_is_exact_and_all_selectors_exist(self) -> None:
         inventory, errors = MATRIX.load_inventory()
         self.assertEqual([], errors)

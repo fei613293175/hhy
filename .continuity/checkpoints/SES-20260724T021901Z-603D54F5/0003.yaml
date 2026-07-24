@@ -1,0 +1,214 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260724T021901Z-603D54F5-0003
+session_id: SES-20260724T021901Z-603D54F5
+task_id: TASK-R11-006
+story_id: STORY-R11-004
+sequence: 3
+created_at: '2026-07-24T03:04:06Z'
+summary: 登记PROB-0104并补充哨兵长度回归测试，修复现场启动失败根因
+next_step: 提交修复Commit并重跑R11隔离现场验收
+blockers: []
+decisions: []
+note: ''
+tests:
+- name: test_r11_specialized_matrix
+  result: PASS
+  evidence: 4 tests OK
+  note: 锁定8个默认哨兵均至少32字节
+- name: check_r11_observability.py
+  result: PASS
+  evidence: R11_OBSERVABILITY_CONFIG_OK
+  note: 静态门禁通过
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: 22f70c943b20f29013d5d33f017303e03830919c
+  upstream: origin/task/TASK-R03-001
+  ahead: 0
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - M  .continuity/ACTIVE_SESSION.yaml
+  - M  .continuity/EVENT_LOG.jsonl
+  - M  .continuity/SESSION_INDEX.yaml
+  - M  .continuity/STATE.yaml
+  - A  .continuity/checkpoints/SES-20260724T021901Z-603D54F5/0002.yaml
+  - M  .continuity/sessions/SES-20260724T021901Z-603D54F5.yaml
+  - M  CURRENT_STATUS.yaml
+  - M  artifacts/context/CURRENT_CONTEXT_PACK.md
+  - M  artifacts/context/CURRENT_CONTEXT_PACK.yaml
+  - M  artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+  - M  catalogs/session_index.csv
+  - ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
+  - M  docs/03-continuity/sessions/2026-07/SES-20260724T021901Z-603D54F5.md
+  - M  scripts/run_r11_staging_acceptance.sh
+  - ' M tests/test_r11_specialized_matrix.py'
+  recent_commits:
+  - "22f70c943b20f29013d5d33f017303e03830919c\t2026-07-24T10:43:40+08:00\tHHY Continuity Bootstrap\t[STORY-R11-004] feat(r11): add team leader\
+    \ observability staging gate"
+  - "b7da91084e6205a9875eeb6d26d2c5912b2d3cf9\t2026-07-24T10:17:32+08:00\tHHY Continuity Bootstrap\t[STORY-R11-004] chore(continuity): close TASK-R11-005\
+    \ as completed"
+  - "d0d76808c3aa6a473e62e6bb7dd2e262faeff209\t2026-07-24T10:04:05+08:00\tHHY Continuity Bootstrap\t[STORY-R11-004] chore(continuity): close r11\
+    \ test changes"
+  - "3470921483cdcccb3ac11e51b465f7ca1b6c9d7b\t2026-07-24T09:55:37+08:00\tHHY Continuity Bootstrap\t[STORY-R11-004] test(r11): archive specialized\
+    \ evidence"
+  - "5013a9a042026328bb9e6602f1931ed32d6632ed\t2026-07-24T08:21:53+08:00\tHHY Continuity Bootstrap\t[STORY-R11-004] test(r11): close team leader\
+    \ fault matrix"
+  - "f31737d6714f7088397ab505626ea703ac4f6c7e\t2026-07-24T07:09:16+08:00\tHHY Continuity Bootstrap\t[STORY-R11-003] chore(continuity): close TASK-R11-004\
+    \ as completed"
+  - "f156b9673a093e87261d4926146134fe555a409d\t2026-07-24T07:05:23+08:00\tHHY Continuity Bootstrap\t[STORY-R11-003] chore(continuity): close admin\
+    \ changes"
+  - "7f3483f8335c6601aaf757e12b5ceac3c608949d\t2026-07-24T07:02:00+08:00\tHHY Continuity Bootstrap\t[STORY-R11-003] feat(admin): add team leader\
+    \ operations view"
+project_fingerprint:
+  sha256: a3134a9e945947ef04b79988c2056343db534b60e8bdce2df9861fe6e2565df9
+  files:
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/change-requests/CR-0301-补齐R11团队长可观测性与独立Staging验收.md
+  - docs/07-operations/DEPLOYMENT_RUNBOOK.md
+  - docs/07-operations/ROLLBACK_RUNBOOK.md
+  - infra/staging/r11-smoke/alertmanager.yml
+  - infra/staging/r11-smoke/docker-compose.yml
+  - infra/staging/r11-smoke/nginx.conf
+  - infra/staging/r11-smoke/prometheus.yml
+  - infra/staging/r11-smoke/r11-alerts.yml
+  - scripts/check_r11_observability.py
+  - scripts/run_r11_staging_acceptance.sh
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinder.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinderTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/ObservabilityEndpointsTest.java
+  - tests/test_r11_specialized_matrix.py
+  file_count: 15
+  payload:
+    base_commit: b7da91084e6205a9875eeb6d26d2c5912b2d3cf9
+    files:
+    - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
+      state: FILE
+      size: 144727
+      sha256: 438624beaddf1ddcb2f100db7c6fafc511b89b2fc66f08989b25a8fd7bc5dc48
+    - path: docs/03-continuity/change-requests/CR-0301-补齐R11团队长可观测性与独立Staging验收.md
+      state: FILE
+      size: 2715
+      sha256: 9744cb15d4b046cba3b13c2d805c51642706c84a7166cd6e63cdd725c91adc57
+    - path: docs/07-operations/DEPLOYMENT_RUNBOOK.md
+      state: FILE
+      size: 42060
+      sha256: 63ffa61e52677bf23dc973a37f087a9846a4925cc55404c7d946048526486920
+    - path: docs/07-operations/ROLLBACK_RUNBOOK.md
+      state: FILE
+      size: 15098
+      sha256: 61539bec944d0cde80334dfcb4ecc58cbf9b22a65e04ad89e967e33fc43f5a30
+    - path: infra/staging/r11-smoke/alertmanager.yml
+      state: FILE
+      size: 278
+      sha256: 1e672d18ec1f08876a68b6bd5f7ef63245c3ca7dab085046332502a342646434
+    - path: infra/staging/r11-smoke/docker-compose.yml
+      state: FILE
+      size: 4464
+      sha256: 674804fae9c6501a88d469d8a4f3fb7704a34c1926f2500112118a7ee88a2b29
+    - path: infra/staging/r11-smoke/nginx.conf
+      state: FILE
+      size: 319
+      sha256: 23e8717a38389b1ecbdff55563f55a2d9b99519439398a35d72006fa8f7876fb
+    - path: infra/staging/r11-smoke/prometheus.yml
+      state: FILE
+      size: 402
+      sha256: 7baa1ddf2874d2c58860ce5eb869d8adfd8d2e8245c98b5128a3856f32e5709c
+    - path: infra/staging/r11-smoke/r11-alerts.yml
+      state: FILE
+      size: 2102
+      sha256: 9e9ab4280febe0fcf43093783ca6633b309d30976241f2a0bf80f702bdc9b8cc
+    - path: scripts/check_r11_observability.py
+      state: FILE
+      size: 5793
+      sha256: ad2b7d61c53334ce96adcc533df60b06d0c35e484b415deba332885cde247813
+    - path: scripts/run_r11_staging_acceptance.sh
+      state: FILE
+      size: 17365
+      sha256: cc2a531eb7b1021518d8a3e0e2d99ef8476e5303f96c7bb6168e221d73cdc25d
+    - path: services/backend/boot/src/main/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinder.java
+      state: FILE
+      size: 28366
+      sha256: a8201b4c96b4e198dc23fd1acaa8d84c656feb40a59af51dfee4bed6c25e3245
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinderTest.java
+      state: FILE
+      size: 21569
+      sha256: 64353f86355a9449075d8c4dd3bdd3946cde607783f365bb69aed6fc5f130e4f
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/ObservabilityEndpointsTest.java
+      state: FILE
+      size: 12841
+      sha256: b0164a4868a9a8b3e93e28653edef80f38012ea662a7dad5bfaaaf453f1f850e
+    - path: tests/test_r11_specialized_matrix.py
+      state: FILE
+      size: 2459
+      sha256: c47a4e19df3e50e9b586b9765725cc888872222e988810080ca235eca80fb2c0
+change_classification:
+  continuity:
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/change-requests/CR-0301-补齐R11团队长可观测性与独立Staging验收.md
+  other:
+  - docs/07-operations/DEPLOYMENT_RUNBOOK.md
+  - docs/07-operations/ROLLBACK_RUNBOOK.md
+  infrastructure:
+  - infra/staging/r11-smoke/alertmanager.yml
+  - infra/staging/r11-smoke/docker-compose.yml
+  - infra/staging/r11-smoke/nginx.conf
+  - infra/staging/r11-smoke/prometheus.yml
+  - infra/staging/r11-smoke/r11-alerts.yml
+  code:
+  - scripts/check_r11_observability.py
+  - scripts/run_r11_staging_acceptance.sh
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinder.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinderTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/ObservabilityEndpointsTest.java
+  tests:
+  - tests/test_r11_specialized_matrix.py
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+change_requests:
+- CR-0301
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions: []
+  source: story+explicit
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 问题修复涉及现场脚本、Problem Registry与回归测试，主控串行整合
+event_hash: f492e76f71c372f99df12a8a4c9e13852aaac368f0d4cf58767ea63bcb54ffef
