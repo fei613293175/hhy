@@ -1410,15 +1410,15 @@ problems:
   - 不得只无限增加MaxStartups；必须先缩短未认证连接存活时间并保留有界容量
   - 不得因解决传输问题擅自关闭密码/root登录、修改端口或扩大本次安全变更范围
 - id: PROB-0104
-  title: R11 Staging检查哨兵密钥长度不足导致API健康检查失败
+  title: R11 Staging检查哨兵不满足密钥强度与独立性导致API健康检查失败
   status: SOLVED
-  root_cause: R11隔离验收脚本为Compose只读检查填充的compose-inspection-only哨兵短于AdminSecurityProperties要求的32字节，导致API在Tomcat启动后因JWT、MFA和幂等HMAC配置绑定失败而反复重启，现场验收无法进入readiness。
-  resolution: 将所有R11检查哨兵统一改为长度合规且仅用于隔离编排检查的确定性字符串；真实Secret仍优先从环境注入，哨兵不写入仓库证据或生产配置。
+  root_cause: R11隔离验收脚本为Compose只读检查填充的compose-inspection-only哨兵先短于AdminSecurityProperties要求的32字节，长度修正后又错误复用同一值，触发管理员JWT、MFA和幂等HMAC必须相互独立的启动保护，现场验收无法进入readiness。
+  resolution: 将八个R11检查哨兵改为长度合规、彼此独立且仅用于隔离编排检查的确定性字符串；真实Secret仍优先从环境注入，哨兵不写入仓库证据或生产配置。
   regression_checks:
   - python scripts/check_r11_observability.py
   - sh -n scripts/run_r11_staging_acceptance.sh
-  - scripts/run_r11_staging_acceptance.sh必须在API readiness前验证所有默认哨兵长度至少32字节
+  - tests.test_r11_specialized_matrix必须验证八个默认哨兵长度至少32字节且全部唯一
   - R11隔离现场必须取得API liveness/readiness和Prometheus target=up
   do_not_repeat:
-  - 不得使用短于运行时校验下限的compose-inspection-only默认值
+  - 不得使用短于运行时校验下限或相互复用的compose-inspection默认值
   - 不得以关闭Secret长度校验或把真实凭据写入脚本来绕过启动失败
