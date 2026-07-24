@@ -1,62 +1,62 @@
-01_bootstrap rc=0 duration=79.375s :: C:\Users\小白\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe scripts/continuity.py bootstrap --actor smoke-bootstrap --init-git --initial-commit --task TASK-P00-001 --branch task/TASK-P00-001 --git-user-name Continuity Smoke --git-user-email smoke@example.invalid
-01_base_head rc=0 duration=0.062s :: git rev-parse HEAD
-01_clean rc=0 duration=0.11s :: git status --porcelain
-01_transport_remote rc=0 duration=0.047s :: git remote add origin file:///C:/Users/%E5%B0%8F%E7%99%BD/AppData/Local/Temp/hhy-v123-reconstruct-l1y1iy07/lifecycle/transport-remote.git
-01_transport_upstream rc=0 duration=8.5s :: git -c core.hooksPath=.git/no-hooks push --set-upstream origin task/TASK-P00-001
-02_no_session_add rc=0 duration=0.187s :: git add -A
-02_no_session_rejected rc=1 duration=2.063s :: C:\Users\小白\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe scripts/continuity_gate.py --mode pre-commit --strict --json-out C:\Users\小白\AppData\Local\Temp\hhy-v123-reconstruct-l1y1iy07\lifecycle\outputs\no-session.json
-02_reset rc=0 duration=0.5s :: git reset --hard HEAD
-03_start rc=0 duration=4.953s :: C:\Users\小白\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe scripts/continuity.py start --actor smoke-a --task TASK-P00-001 --story STORY-P00-002 --goal 验证持续开发无状态接续协议
+01_bootstrap rc=0 duration=101.234s :: C:\Users\小白\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe scripts/continuity.py bootstrap --actor smoke-bootstrap --init-git --initial-commit --task TASK-P00-001 --branch task/TASK-P00-001 --git-user-name Continuity Smoke --git-user-email smoke@example.invalid
+01_base_head rc=0 duration=0.047s :: git rev-parse HEAD
+01_clean rc=0 duration=0.109s :: git status --porcelain
+01_transport_remote rc=0 duration=0.063s :: git remote add origin file:///C:/Users/%E5%B0%8F%E7%99%BD/AppData/Local/Temp/hhy-v123-reconstruct-_5nkv4f4/lifecycle/transport-remote.git
+01_transport_upstream rc=0 duration=9.047s :: git -c core.hooksPath=.git/no-hooks push --set-upstream origin task/TASK-P00-001
+02_no_session_add rc=0 duration=0.188s :: git add -A
+02_no_session_rejected rc=1 duration=2.359s :: C:\Users\小白\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe scripts/continuity_gate.py --mode pre-commit --strict --json-out C:\Users\小白\AppData\Local\Temp\hhy-v123-reconstruct-_5nkv4f4\lifecycle\outputs\no-session.json
+02_reset rc=0 duration=0.469s :: git reset --hard HEAD
+03_start rc=0 duration=5.797s :: C:\Users\小白\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe scripts/continuity.py start --actor smoke-a --task TASK-P00-001 --story STORY-P00-002 --goal 验证持续开发无状态接续协议
 03_double_claim_rejected rc=2 duration=0.235s :: C:\Users\小白\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe scripts/continuity.py start --actor smoke-c --task TASK-P00-001 --story STORY-P00-002 --goal 非法并发领取
-04_checkpoint_without_test rc=2 duration=0.812s :: C:\Users\小白\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe scripts/continuity.py checkpoint --summary 首次变更 --next-step 记录测试 --parallel-assessment NO_SAFE_PARALLEL --parallel-reason 生命周期演练按单一状态链串行验证
-05_checkpoint rc=0 duration=4.281s :: C:\Users\小白\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe scripts/continuity.py checkpoint --summary 完成首次协议变更 --next-step 提交实现变更 --test continuity-smoke|PASS|scripts/check_v123_continuity.py|联合门禁作为证据 --parallel-assessment NO_SAFE_PARALLEL --parallel-reason 生命周期演练按单一状态链串行验证
-06_first_add rc=0 duration=0.266s :: git add -A
-06_first_commit rc=0 duration=4.64s :: git commit -m chore(continuity): add protocol smoke probe
+04_checkpoint_without_test rc=2 duration=0.922s :: C:\Users\小白\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe scripts/continuity.py checkpoint --summary 首次变更 --next-step 记录测试 --parallel-assessment NO_SAFE_PARALLEL --parallel-reason 生命周期演练按单一状态链串行验证
+05_checkpoint rc=0 duration=5.11s :: C:\Users\小白\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe scripts/continuity.py checkpoint --summary 完成首次协议变更 --next-step 提交实现变更 --test continuity-smoke|PASS|scripts/check_v123_continuity.py|联合门禁作为证据 --parallel-assessment NO_SAFE_PARALLEL --parallel-reason 生命周期演练按单一状态链串行验证
+06_first_add rc=0 duration=0.344s :: git add -A
+06_first_commit rc=0 duration=5.437s :: git commit -m chore(continuity): add protocol smoke probe
 06_first_message rc=0 duration=0.047s :: git log -1 --pretty=%B
 06_first_head rc=0 duration=0.047s :: git rev-parse HEAD
-06_story_switch_dirty_rejected rc=2 duration=0.578s :: C:\Users\小白\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe scripts/continuity.py story-switch --actor smoke-a --story STORY-P00-001 --summary 非法脏工作树切换
-06_story_switch_restore rc=0 duration=0.047s :: git checkout -- scripts/smoke/protocol_probe.txt
-06_story_switch_missing_rejected rc=2 duration=0.656s :: C:\Users\小白\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe scripts/continuity.py story-switch --actor smoke-a --story STORY-P00-MISSING --summary 非法不存在Story切换
-06_story_switch rc=0 duration=4.0s :: C:\Users\小白\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe scripts/continuity.py story-switch --actor smoke-a --story STORY-P00-001 --summary P00接续门禁Story已形成独立提交 --goal 验证同一Task多Story原子切换
-06_story_switch_checkpoint rc=0 duration=4.312s :: C:\Users\小白\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe scripts/continuity.py checkpoint --summary 新Story完成事实复核 --next-step 继续生命周期演练 --no-test-reason 仅切换连续性身份，无项目文件变化 --parallel-assessment NO_SAFE_PARALLEL --parallel-reason 生命周期演练按单一状态链串行验证
-06_story_switch_commit_add rc=0 duration=0.25s :: git add -A
-06_story_switch_commit_commit rc=0 duration=4.422s :: git commit -m chore(continuity): switch story within active task
+06_story_switch_dirty_rejected rc=2 duration=0.672s :: C:\Users\小白\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe scripts/continuity.py story-switch --actor smoke-a --story STORY-P00-001 --summary 非法脏工作树切换
+06_story_switch_restore rc=0 duration=0.062s :: git checkout -- scripts/smoke/protocol_probe.txt
+06_story_switch_missing_rejected rc=2 duration=0.735s :: C:\Users\小白\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe scripts/continuity.py story-switch --actor smoke-a --story STORY-P00-MISSING --summary 非法不存在Story切换
+06_story_switch rc=0 duration=4.921s :: C:\Users\小白\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe scripts/continuity.py story-switch --actor smoke-a --story STORY-P00-001 --summary P00接续门禁Story已形成独立提交 --goal 验证同一Task多Story原子切换
+06_story_switch_checkpoint rc=0 duration=5.0s :: C:\Users\小白\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe scripts/continuity.py checkpoint --summary 新Story完成事实复核 --next-step 继续生命周期演练 --no-test-reason 仅切换连续性身份，无项目文件变化 --parallel-assessment NO_SAFE_PARALLEL --parallel-reason 生命周期演练按单一状态链串行验证
+06_story_switch_commit_add rc=0 duration=0.281s :: git add -A
+06_story_switch_commit_commit rc=0 duration=5.719s :: git commit -m chore(continuity): switch story within active task
 06_story_switch_commit_message rc=0 duration=0.047s :: git log -1 --pretty=%B
 06_story_switch_commit_head rc=0 duration=0.047s :: git rev-parse HEAD
-07_stale_add rc=0 duration=0.203s :: git add -A
-07_stale_rejected rc=1 duration=2.0s :: C:\Users\小白\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe scripts/continuity_gate.py --mode pre-commit --strict --json-out C:\Users\小白\AppData\Local\Temp\hhy-v123-reconstruct-l1y1iy07\lifecycle\outputs\stale-checkpoint.json
-08_checkpoint rc=0 duration=4.109s :: C:\Users\小白\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe scripts/continuity.py checkpoint --summary 更新协议探针 --next-step 验证完整CR合同 --test stale-gate|PASS|C:\Users\小白\AppData\Local\Temp\hhy-v123-reconstruct-l1y1iy07\lifecycle\outputs\stale-checkpoint.json|旧检查点已阻断 --parallel-assessment NO_SAFE_PARALLEL --parallel-reason 生命周期演练按单一状态链串行验证
-09_second_add rc=0 duration=0.25s :: git add -A
-09_second_commit rc=0 duration=4.75s :: git commit -m test(continuity): verify stale checkpoint rejection
+07_stale_add rc=0 duration=0.219s :: git add -A
+07_stale_rejected rc=1 duration=2.421s :: C:\Users\小白\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe scripts/continuity_gate.py --mode pre-commit --strict --json-out C:\Users\小白\AppData\Local\Temp\hhy-v123-reconstruct-_5nkv4f4\lifecycle\outputs\stale-checkpoint.json
+08_checkpoint rc=0 duration=5.079s :: C:\Users\小白\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe scripts/continuity.py checkpoint --summary 更新协议探针 --next-step 验证完整CR合同 --test stale-gate|PASS|C:\Users\小白\AppData\Local\Temp\hhy-v123-reconstruct-_5nkv4f4\lifecycle\outputs\stale-checkpoint.json|旧检查点已阻断 --parallel-assessment NO_SAFE_PARALLEL --parallel-reason 生命周期演练按单一状态链串行验证
+09_second_add rc=0 duration=0.312s :: git add -A
+09_second_commit rc=0 duration=5.609s :: git commit -m test(continuity): verify stale checkpoint rejection
 09_second_message rc=0 duration=0.047s :: git log -1 --pretty=%B
 09_second_head rc=0 duration=0.047s :: git rev-parse HEAD
-10_no_cr_rejected rc=2 duration=1.343s :: C:\Users\小白\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe scripts/continuity.py checkpoint --summary 无CR冻结事实变更 --next-step 应阻断 --test cr-negative|PASS|docs/00-baseline/SOURCE_OF_TRUTH.md|负向门禁 --parallel-assessment NO_SAFE_PARALLEL --parallel-reason 生命周期演练按单一状态链串行验证
-11_cr_create rc=0 duration=2.532s :: C:\Users\小白\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe scripts/continuity.py cr-create --actor smoke-requester --title Continuity smoke frozen fact update --task TASK-P00-001 --user-request 验证冻结事实完整变更合同 --reason 集成演练
-11_incomplete_cr_rejected rc=2 duration=1.062s :: C:\Users\小白\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe scripts/continuity.py cr-approve --actor smoke-approver --cr CR-0289 --decision APPROVED --note 信息尚不完整 --user-confirmation integration user confirmation
-12_cr_amend rc=0 duration=2.516s :: C:\Users\小白\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe scripts/continuity.py cr-amend --actor smoke-requester --cr CR-0289 --original-rule SOURCE_OF_TRUTH文档没有集成演练标记 --new-rule 加入仅用于临时仓库演练的受控标记 --impact-summary 仅影响临时测试仓库的一份开发前事实文档，不改变业务功能 --migration-and-compatibility 文档兼容，无数据迁移；测试结束后临时仓库销毁 --file docs/00-baseline/SOURCE_OF_TRUTH.md --test continuity CR gate integration smoke --release P00
-12_self_approval_rejected rc=2 duration=1.015s :: C:\Users\小白\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe scripts/continuity.py cr-approve --actor smoke-requester --cr CR-0289 --decision APPROVED --note 禁止自审 --user-confirmation integration user confirmation
-13_cr_approve rc=0 duration=2.5s :: C:\Users\小白\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe scripts/continuity.py cr-approve --actor smoke-approver --cr CR-0289 --decision APPROVED --note 完整合同已复核 --user-confirmation integration user confirmation recorded in repository
-14_cr_checkpoint rc=0 duration=5.781s :: C:\Users\小白\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe scripts/continuity.py checkpoint --summary 批准CR后的冻结事实变更 --next-step 提交并演练WIP交接 --test cr-positive|PASS|.continuity/CHANGE_REQUEST_INDEX.yaml|完整合同和不同Actor审批通过 --parallel-assessment NO_SAFE_PARALLEL --parallel-reason 生命周期演练按单一状态链串行验证
-15_cr_add rc=0 duration=0.328s :: git add -A
-15_cr_commit rc=0 duration=20.672s :: git commit -m docs(continuity): verify approved change request path
-15_cr_message rc=0 duration=0.032s :: git log -1 --pretty=%B
-15_cr_head rc=0 duration=0.031s :: git rev-parse HEAD
-16_handoff_checkpoint rc=0 duration=5.078s :: C:\Users\小白\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe scripts/continuity.py checkpoint --summary 形成可移交WIP --next-step 新AI验证Manifest后提交WIP --test handoff-prep|PASS|scripts/continuity.py|交接前检查点 --parallel-assessment NO_SAFE_PARALLEL --parallel-reason 生命周期演练按单一状态链串行验证
-17_handoff rc=0 duration=15.453s :: C:\Users\小白\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe scripts/continuity.py handoff --actor smoke-a --reason 切换AI进行无对话接管 --next-step 验证Manifest后提交WIP --portable-zip C:\Users\小白\AppData\Local\Temp\hhy-v123-reconstruct-l1y1iy07\lifecycle\outputs\wip-handoff.zip
-18_takeover rc=0 duration=9.969s :: C:\Users\小白\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe scripts/continuity.py takeover --actor smoke-b --session SES-20260723T195430Z-1C2D1DD6 --reason 无旧对话接管 --next-step 重新检查点并提交WIP
-19_takeover_checkpoint rc=0 duration=4.937s :: C:\Users\小白\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe scripts/continuity.py checkpoint --summary 接管并验证WIP --next-step 提交接管后的实现 --test takeover-verify|PASS|artifacts/context/CURRENT_CONTEXT_PACK.md|无需旧对话恢复 --parallel-assessment NO_SAFE_PARALLEL --parallel-reason 生命周期演练按单一状态链串行验证
-20_takeover_add rc=0 duration=1.875s :: git add -A
-20_takeover_commit rc=0 duration=5.25s :: git commit -m chore(continuity): continue handed-off work without dialog
-20_takeover_message rc=0 duration=0.047s :: git log -1 --pretty=%B
-20_takeover_head rc=0 duration=0.047s :: git rev-parse HEAD
-21_close rc=0 duration=10.687s :: C:\Users\小白\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe scripts/continuity.py close --actor smoke-b --result COMPLETED --summary 持续接续协议集成演练完成 --next-task TASK-P00-002
-22_close_metadata_add rc=0 duration=0.25s :: git add -A
-22_close_metadata_commit rc=0 duration=12.922s :: git commit -m chore(continuity): close completed smoke task
-22_close_metadata_message rc=0 duration=0.031s :: git log -1 --pretty=%B
-22_close_metadata_head rc=0 duration=0.032s :: git rev-parse HEAD
-23_prepush rc=0 duration=14.656s :: C:\Users\小白\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe scripts/continuity_gate.py --mode pre-push --strict --json-out C:\Users\小白\AppData\Local\Temp\hhy-v123-reconstruct-l1y1iy07\lifecycle\outputs\prepush-report.json
-24_ci rc=0 duration=13.437s :: C:\Users\小白\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe scripts/continuity_gate.py --mode ci --strict --head-ref HEAD --json-out C:\Users\小白\AppData\Local\Temp\hhy-v123-reconstruct-l1y1iy07\lifecycle\outputs\ci-report.json
-25_export_clean rc=0 duration=23.5s :: C:\Users\小白\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe scripts/continuity.py export-clean --portable-zip C:\Users\小白\AppData\Local\Temp\hhy-v123-reconstruct-l1y1iy07\lifecycle\outputs\clean-project-export.zip
-25_clean_after_export rc=0 duration=0.11s :: git status --porcelain
-27_final_head rc=0 duration=0.062s :: git rev-parse HEAD
-27_commit_count rc=0 duration=0.047s :: git rev-list --count HEAD
+10_no_cr_rejected rc=2 duration=1.656s :: C:\Users\小白\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe scripts/continuity.py checkpoint --summary 无CR冻结事实变更 --next-step 应阻断 --test cr-negative|PASS|docs/00-baseline/SOURCE_OF_TRUTH.md|负向门禁 --parallel-assessment NO_SAFE_PARALLEL --parallel-reason 生命周期演练按单一状态链串行验证
+11_cr_create rc=0 duration=3.219s :: C:\Users\小白\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe scripts/continuity.py cr-create --actor smoke-requester --title Continuity smoke frozen fact update --task TASK-P00-001 --user-request 验证冻结事实完整变更合同 --reason 集成演练
+11_incomplete_cr_rejected rc=2 duration=1.281s :: C:\Users\小白\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe scripts/continuity.py cr-approve --actor smoke-approver --cr CR-0308 --decision APPROVED --note 信息尚不完整 --user-confirmation integration user confirmation
+12_cr_amend rc=0 duration=3.219s :: C:\Users\小白\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe scripts/continuity.py cr-amend --actor smoke-requester --cr CR-0308 --original-rule SOURCE_OF_TRUTH文档没有集成演练标记 --new-rule 加入仅用于临时仓库演练的受控标记 --impact-summary 仅影响临时测试仓库的一份开发前事实文档，不改变业务功能 --migration-and-compatibility 文档兼容，无数据迁移；测试结束后临时仓库销毁 --file docs/00-baseline/SOURCE_OF_TRUTH.md --test continuity CR gate integration smoke --release P00
+12_self_approval_rejected rc=2 duration=1.25s :: C:\Users\小白\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe scripts/continuity.py cr-approve --actor smoke-requester --cr CR-0308 --decision APPROVED --note 禁止自审 --user-confirmation integration user confirmation
+13_cr_approve rc=0 duration=3.078s :: C:\Users\小白\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe scripts/continuity.py cr-approve --actor smoke-approver --cr CR-0308 --decision APPROVED --note 完整合同已复核 --user-confirmation integration user confirmation recorded in repository
+14_cr_checkpoint rc=0 duration=6.172s :: C:\Users\小白\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe scripts/continuity.py checkpoint --summary 批准CR后的冻结事实变更 --next-step 提交并演练WIP交接 --test cr-positive|PASS|.continuity/CHANGE_REQUEST_INDEX.yaml|完整合同和不同Actor审批通过 --parallel-assessment NO_SAFE_PARALLEL --parallel-reason 生命周期演练按单一状态链串行验证
+15_cr_add rc=0 duration=0.375s :: git add -A
+15_cr_commit rc=0 duration=25.11s :: git commit -m docs(continuity): verify approved change request path
+15_cr_message rc=0 duration=0.062s :: git log -1 --pretty=%B
+15_cr_head rc=0 duration=0.047s :: git rev-parse HEAD
+16_handoff_checkpoint rc=0 duration=7.687s :: C:\Users\小白\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe scripts/continuity.py checkpoint --summary 形成可移交WIP --next-step 新AI验证Manifest后提交WIP --test handoff-prep|PASS|scripts/continuity.py|交接前检查点 --parallel-assessment NO_SAFE_PARALLEL --parallel-reason 生命周期演练按单一状态链串行验证
+17_handoff rc=0 duration=21.0s :: C:\Users\小白\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe scripts/continuity.py handoff --actor smoke-a --reason 切换AI进行无对话接管 --next-step 验证Manifest后提交WIP --portable-zip C:\Users\小白\AppData\Local\Temp\hhy-v123-reconstruct-_5nkv4f4\lifecycle\outputs\wip-handoff.zip
+18_takeover rc=0 duration=14.5s :: C:\Users\小白\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe scripts/continuity.py takeover --actor smoke-b --session SES-20260724T063103Z-4C1FEE44 --reason 无旧对话接管 --next-step 重新检查点并提交WIP
+19_takeover_checkpoint rc=0 duration=8.25s :: C:\Users\小白\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe scripts/continuity.py checkpoint --summary 接管并验证WIP --next-step 提交接管后的实现 --test takeover-verify|PASS|artifacts/context/CURRENT_CONTEXT_PACK.md|无需旧对话恢复 --parallel-assessment NO_SAFE_PARALLEL --parallel-reason 生命周期演练按单一状态链串行验证
+20_takeover_add rc=0 duration=2.781s :: git add -A
+20_takeover_commit rc=0 duration=7.344s :: git commit -m chore(continuity): continue handed-off work without dialog
+20_takeover_message rc=0 duration=0.078s :: git log -1 --pretty=%B
+20_takeover_head rc=0 duration=0.078s :: git rev-parse HEAD
+21_close rc=0 duration=15.547s :: C:\Users\小白\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe scripts/continuity.py close --actor smoke-b --result COMPLETED --summary 持续接续协议集成演练完成 --next-task TASK-P00-002
+22_close_metadata_add rc=0 duration=0.437s :: git add -A
+22_close_metadata_commit rc=0 duration=18.813s :: git commit -m chore(continuity): close completed smoke task
+22_close_metadata_message rc=0 duration=0.062s :: git log -1 --pretty=%B
+22_close_metadata_head rc=0 duration=0.047s :: git rev-parse HEAD
+23_prepush rc=0 duration=18.907s :: C:\Users\小白\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe scripts/continuity_gate.py --mode pre-push --strict --json-out C:\Users\小白\AppData\Local\Temp\hhy-v123-reconstruct-_5nkv4f4\lifecycle\outputs\prepush-report.json
+24_ci rc=0 duration=17.969s :: C:\Users\小白\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe scripts/continuity_gate.py --mode ci --strict --head-ref HEAD --json-out C:\Users\小白\AppData\Local\Temp\hhy-v123-reconstruct-_5nkv4f4\lifecycle\outputs\ci-report.json
+25_export_clean rc=0 duration=26.796s :: C:\Users\小白\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe scripts/continuity.py export-clean --portable-zip C:\Users\小白\AppData\Local\Temp\hhy-v123-reconstruct-_5nkv4f4\lifecycle\outputs\clean-project-export.zip
+25_clean_after_export rc=0 duration=0.125s :: git status --porcelain
+27_final_head rc=0 duration=0.078s :: git rev-parse HEAD
+27_commit_count rc=0 duration=0.079s :: git rev-list --count HEAD

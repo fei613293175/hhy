@@ -18629,3 +18629,123 @@ change_requests:
     session_id: SES-20260724T032308Z-98D6D10A
   session_ids:
   - SES-20260724T032308Z-98D6D10A
+- protocol_version: '1.0'
+  cr_id: CR-0306
+  title: 批准并轻量晋升R11首版视觉基线
+  status: APPROVED
+  created_at: '2026-07-24T06:11:21Z'
+  updated_at: '2026-07-24T06:13:21Z'
+  requester_actor_id: codex-root-r11-candidate
+  approver_actor_id: codex-independent-r11-baseline-reviewer
+  task_id: TASK-R11-007
+  session_id: SES-20260724T032308Z-98D6D10A
+  user_request: 项目所有者要求截图由AI自行判断合格并持续推进，不因逐版人工核实停止开发。
+  reason: Run 30069588243的编译、Lint、单测、OIDC认证、四页模拟器旅程和候选资格均成功，AI逐图复核通过；唯一待办是固化首版视觉基线并轻量晋升。
+  original_rule: R11候选四页已通过真实OIDC认证模拟器旅程并由AI逐图审核合格，但首个Release视觉基线不存在时机器状态只能为BASELINE_REVIEW_REQUIRED，尚不能生成最终可交付候选。
+  new_rule: 仅将Run 30069588243中由AI逐图审核合格的四张原始截图固化为R11首版视觉基线；批准清单绑定源Commit、Run、Artifact及逐图SHA；晋升仅复核既有候选证据，不重建APK、不再次启动模拟器。
+  impact_summary: 新增R11四张不可变视觉基线和唯一审批清单，触发轻量GitHub晋升验证；不修改产品代码、API、数据库、候选APK或模拟器结果。
+  impact:
+    files:
+    - tests/android/visual-baselines/R11/01-home.png
+    - tests/android/visual-baselines/R11/02-team-leader-list.png
+    - tests/android/visual-baselines/R11/03-team-leader-detail.png
+    - tests/android/visual-baselines/R11/04-team-leader-editor.png
+    - tests/android/visual-baselines/R11/APPROVAL.yaml
+    pages:
+    - SCR-HOME-001
+    - SCR-LIST-004
+    - SCR-DETAIL-004
+    - SCR-PUB-005
+    apis: []
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - android_ci_gate promote R11 existing evidence
+    releases:
+    - R11
+    migration_and_compatibility: 无生产迁移；后续R11截图与此基线比较，源Run、源Commit和源APK保持不变。
+  user_confirmation: 项目所有者已明确授权AI自行判断所有版本截图并持续推进，不等待逐版人工核实。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-24T06:13:21Z'
+    note: 独立复核确认四图来自同一成功候选旅程：首页保持搜索、Banner、四分类与最新发布结构；团队长列表、详情和编辑页均对应精确视觉面板，团队专用Logo与风采素材正确，联系方式保持掩码，无技术字段、错误复用App截图或虚构功能；轻量晋升不重建、不启动模拟器。
+  machine_record: .continuity/change_requests/CR-0306.yaml
+  document: docs/03-continuity/change-requests/CR-0306-批准并轻量晋升R11首版视觉基线.md
+- protocol_version: '1.0'
+  cr_id: CR-0307
+  title: 修复R11基线晋升连续性报告过期门禁
+  status: APPROVED
+  created_at: '2026-07-24T06:22:28Z'
+  updated_at: '2026-07-24T06:22:35Z'
+  requester_actor_id: codex-root-r11-candidate
+  approver_actor_id: codex-independent-r11-gate-reviewer
+  task_id: TASK-R11-007
+  session_id: SES-20260724T032308Z-98D6D10A
+  user_request: 项目所有者要求GitHub调试避免反复失败和浪费时间，终端与修复由AI直接执行。
+  reason: verify_cloud_environment.py在历史提交中更新后，continuity integration和lifecycle报告未同步，导致任何后续轻量推送的严格门禁确定性失败；需刷新既有报告并允许基线晋升携带这两项纯治理证据。
+  original_rule: Android基线晋升允许携带项目Doctor与连续性会话治理文件，但未允许continuity integration/lifecycle报告；历史连续性核心脚本变化会使严格门禁报告过期。
+  new_rule: 轻量基线晋升范围允许携带由权威连续性自测生成的integration和lifecycle JSON报告；仍禁止任何产品代码、APK重建或模拟器重跑，工作流及单测继续明确验证边界。
+  impact_summary: 修复确定性的Continuity Gate失败，刷新两项连续性报告并扩展基线晋升纯治理允许清单；不影响业务、API、数据库、APK或截图内容。
+  impact:
+    files:
+    - .github/workflows/android-baseline-promotion.yml
+    - tests/test_android_ci_gate.py
+    - artifacts/validation/continuity-integration-v1.2.3.json
+    - artifacts/validation/continuity-lifecycle-integration-v1.2.3.json
+    pages: []
+    apis: []
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - run_continuity_self_test
+    - test_continuity_protocol
+    - tests.test_android_ci_gate
+    releases:
+    - R11
+    migration_and_compatibility: 无生产迁移；旧基线审批保持有效，新允许项仅限两个固定路径的机器报告。
+  user_confirmation: 项目所有者明确要求避免GitHub反复失败并授权AI直接执行终端与必要修复。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-24T06:22:35Z'
+    note: 独立复核确认失败由历史连续性源哈希漂移引起；两份报告是严格门禁的权威机器证据，固定路径允许不会扩大到产品文件，且工作流仍明确禁止Gradle和模拟器。
+  machine_record: .continuity/change_requests/CR-0307.yaml
+  document: docs/03-continuity/change-requests/CR-0307-修复R11基线晋升连续性报告过期门禁.md
+- protocol_version: '1.0'
+  cr_id: CR-0308
+  title: 补齐R11基线晋升生命周期日志证据范围
+  status: APPROVED
+  created_at: '2026-07-24T06:39:35Z'
+  updated_at: '2026-07-24T06:39:44Z'
+  requester_actor_id: codex-root-r11-candidate
+  approver_actor_id: codex-independent-r11-gate-reviewer
+  task_id: TASK-R11-007
+  session_id: SES-20260724T032308Z-98D6D10A
+  user_request: 项目所有者要求GitHub调试避免反复失败和浪费时间，终端与修复由AI直接执行。
+  reason: CR-0307刷新权威生命周期报告时脚本同时更新配套log；该日志属于同一测试证据但未列入轻量晋升固定允许路径，若遗漏会造成确定性范围失败。
+  original_rule: CR-0307仅登记continuity integration/lifecycle JSON报告，权威脚本同步生成的lifecycle log未包含在固定治理证据范围。
+  new_rule: 在CR-0307既有固定治理证据范围中补充唯一的continuity-lifecycle-integration-v1.2.3.log；仍不允许目录通配、产品代码、APK重建或模拟器执行。
+  impact_summary: 仅补齐同一次PASS生命周期演练的文本日志和固定允许项，不形成第二套门禁规则，不影响业务产物。
+  impact:
+    files:
+    - .github/workflows/android-baseline-promotion.yml
+    - tests/test_android_ci_gate.py
+    - artifacts/validation/continuity-lifecycle-integration-v1.2.3.log
+    pages: []
+    apis: []
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - tests.test_android_ci_gate
+    releases:
+    - R11
+    migration_and_compatibility: CR-0307保持主规则，本CR只补齐其遗漏的单一生成日志路径。
+  user_confirmation: 项目所有者明确要求避免GitHub反复失败并授权AI直接执行必要修复。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-24T06:39:44Z'
+    note: 确认这是CR-0307同一权威脚本输出的遗漏补齐，范围精确到单文件，不新增平行规则或放宽产品路径。
+  machine_record: .continuity/change_requests/CR-0308.yaml
+  document: docs/03-continuity/change-requests/CR-0308-补齐R11基线晋升生命周期日志证据范围.md

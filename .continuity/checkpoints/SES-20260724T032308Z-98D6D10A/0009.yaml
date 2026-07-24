@@ -1,0 +1,331 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260724T032308Z-98D6D10A-0009
+session_id: SES-20260724T032308Z-98D6D10A
+task_id: TASK-R11-007
+story_id: STORY-R11-004
+sequence: 9
+created_at: '2026-07-24T06:58:00Z'
+summary: R11视觉基线轻量晋升与连续性报告修复全部完成；本地晋升PASS、18项单测PASS、12项重建与15项生命周期PASS、严格联合门禁和Doctor均0错误0警告。
+next_step: 提交推送R11视觉基线，确认Android Visual Baseline Promotion和Continuity Gate远端PASS。
+blockers: []
+decisions: []
+note: ''
+tests:
+- name: r11-local-baseline-promotion
+  result: PASS
+  evidence: C:/Users/小白/Desktop/workspace/.tmp-r11-promotion-local/candidate-report.json
+  note: owner_test_allowed=true
+- name: tests.test_android_ci_gate
+  result: PASS
+  evidence: 18 unittest
+  note: 晋升范围与禁重建边界
+- name: continuity-reconstruction
+  result: PASS
+  evidence: artifacts/validation/continuity-integration-v1.2.3.json
+  note: 12 checks
+- name: continuity-lifecycle
+  result: PASS
+  evidence: artifacts/validation/continuity-lifecycle-integration-v1.2.3.json
+  note: 15 checks
+- name: strict-v123
+  result: PASS
+  evidence: artifacts/validation/project-doctor-v1.2.3.json
+  note: 0 errors 0 warnings
+- name: strict-continuity-doctor
+  result: PASS
+  evidence: artifacts/validation/continuity-gate-v1.2.3.json
+  note: 0 errors 0 warnings
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: a3c32668ae1d6502d859efd3e8c18947f650e150
+  upstream: origin/task/TASK-R03-001
+  ahead: 0
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/ACTIVE_SESSION.yaml'
+  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/SESSION_INDEX.yaml'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/sessions/SES-20260724T032308Z-98D6D10A.yaml'
+  - ' M .github/workflows/android-baseline-promotion.yml'
+  - ' M CURRENT_STATUS.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+  - ' M artifacts/validation/continuity-gate-v1.2.3.json'
+  - ' M artifacts/validation/continuity-integration-v1.2.3.json'
+  - ' M artifacts/validation/continuity-lifecycle-integration-v1.2.3.json'
+  - ' M artifacts/validation/continuity-lifecycle-integration-v1.2.3.log'
+  - ' M artifacts/validation/project-doctor-v1.2.3.json'
+  - ' M catalogs/change_request_index.csv'
+  - ' M catalogs/session_index.csv'
+  - ' M docs/03-continuity/sessions/2026-07/SES-20260724T032308Z-98D6D10A.md'
+  - ' M tests/test_android_ci_gate.py'
+  - ?? .continuity/change_requests/CR-0306.yaml
+  - ?? .continuity/change_requests/CR-0307.yaml
+  - ?? .continuity/change_requests/CR-0308.yaml
+  - ?? .continuity/checkpoints/SES-20260724T032308Z-98D6D10A/0007.yaml
+  - ?? .continuity/checkpoints/SES-20260724T032308Z-98D6D10A/0008.yaml
+  - ?? docs/03-continuity/change-requests/CR-0306-批准并轻量晋升R11首版视觉基线.md
+  - ?? docs/03-continuity/change-requests/CR-0307-修复R11基线晋升连续性报告过期门禁.md
+  - ?? docs/03-continuity/change-requests/CR-0308-补齐R11基线晋升生命周期日志证据范围.md
+  - ?? tests/android/visual-baselines/R11/01-home.png
+  - ?? tests/android/visual-baselines/R11/02-team-leader-list.png
+  - ?? tests/android/visual-baselines/R11/03-team-leader-detail.png
+  - ?? tests/android/visual-baselines/R11/04-team-leader-editor.png
+  - ?? tests/android/visual-baselines/R11/APPROVAL.yaml
+  recent_commits:
+  - "a3c32668ae1d6502d859efd3e8c18947f650e150\t2026-07-24T13:27:11+08:00\tHHY Continuity Bootstrap\t[STORY-R11-004] fix(r11): replace reused app\
+    \ logo media"
+  - "df22a0918fc80d3729aea2bfb47d3232f726ae0b\t2026-07-24T12:14:32+08:00\tHHY Continuity Bootstrap\t[STORY-R11-004] test(r11): bind final Android\
+    \ candidate"
+  - "c20c118ae98a93b3dde28d6901bc10baf98b0402\t2026-07-24T11:21:54+08:00\tHHY Continuity Bootstrap\t[STORY-R11-004] chore(continuity): close TASK-R11-006"
+  - "1b6d8d3c0c50770e891cd7a97cc1747264b5d5f0\t2026-07-24T11:20:09+08:00\tHHY Continuity Bootstrap\t[STORY-R11-004] test(r11): archive observability\
+    \ staging evidence"
+  - "b190476f72bd0c0de12dc0f29820a72d352caffc\t2026-07-24T11:12:03+08:00\tHHY Continuity Bootstrap\t[STORY-R11-004] fix(r11): isolate staging\
+    \ security sentinels"
+  - "98712e46c0229528333a27a1f09dbbeaef31cf79\t2026-07-24T11:04:23+08:00\tHHY Continuity Bootstrap\t[STORY-R11-004] fix(r11): enforce valid staging\
+    \ secret sentinels"
+  - "22f70c943b20f29013d5d33f017303e03830919c\t2026-07-24T10:43:40+08:00\tHHY Continuity Bootstrap\t[STORY-R11-004] feat(r11): add team leader\
+    \ observability staging gate"
+  - "b7da91084e6205a9875eeb6d26d2c5912b2d3cf9\t2026-07-24T10:17:32+08:00\tHHY Continuity Bootstrap\t[STORY-R11-004] chore(continuity): close TASK-R11-005\
+    \ as completed"
+project_fingerprint:
+  sha256: 63aeca2832b66da4b7798f95789a33c2fa88a5023e1032fb16b8fbd901a5e059
+  files:
+  - .github/workflows/android-baseline-promotion.yml
+  - CHANGELOG.md
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+  - apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+  - apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+  - config/android-candidate-request.yaml
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/change-requests/CR-0302-补齐R11团队长Android最终候选与产物追溯.md
+  - docs/03-continuity/change-requests/CR-0303-同步R11候选ReleasePolicy与版本回归身份.md
+  - docs/03-continuity/change-requests/CR-0304-替换R11候选错误复用的App截图为专用团队视觉素材.md
+  - docs/03-continuity/change-requests/CR-0305-新增R11团队Logo公开媒体精确路由.md
+  - docs/03-continuity/change-requests/CR-0306-批准并轻量晋升R11首版视觉基线.md
+  - docs/03-continuity/change-requests/CR-0307-修复R11基线晋升连续性报告过期门禁.md
+  - docs/03-continuity/change-requests/CR-0308-补齐R11基线晋升生命周期日志证据范围.md
+  - infra/nginx/r11-candidate-media-location.inc
+  - scripts/generate_r11_team_logo.py
+  - scripts/prepare_r11_ci_fixture.sh
+  - tests/android/fixtures/r11-team-logo.png
+  - tests/android/visual-baselines/R11/01-home.png
+  - tests/android/visual-baselines/R11/02-team-leader-list.png
+  - tests/android/visual-baselines/R11/03-team-leader-detail.png
+  - tests/android/visual-baselines/R11/04-team-leader-editor.png
+  - tests/android/visual-baselines/R11/APPROVAL.yaml
+  - tests/android/visual-manifests/R11.yaml
+  - tests/test_android_ci_gate.py
+  - tests/test_r11_candidate.py
+  file_count: 27
+  payload:
+    base_commit: c20c118ae98a93b3dde28d6901bc10baf98b0402
+    files:
+    - path: .github/workflows/android-baseline-promotion.yml
+      state: FILE
+      size: 5534
+      sha256: 6b1db5deaa4dbd18b7e485503613f4f375e0de23a8b760e6eed15156f966245f
+    - path: CHANGELOG.md
+      state: FILE
+      size: 124278
+      sha256: 6dfceb7f83fb132360d85159e0683157c1d315ee69adcfdffa95c5b67169634b
+    - path: apps/android/app/build.gradle.kts
+      state: FILE
+      size: 5298
+      sha256: ee776d3f3695a4836c808b6cfaa0c1b2407ea93eac44a40a76a03293b7e90e1c
+    - path: apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+      state: FILE
+      size: 12470
+      sha256: 18597bda38959157811644b0bfc30e622cb48c7f76115d9d3f7c061beac1338f
+    - path: apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+      state: FILE
+      size: 520
+      sha256: a916de4cc8c374221e59e1ef54827883d6f20778bf6504d6fd6e53da89304450
+    - path: apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+      state: FILE
+      size: 1243
+      sha256: 730319a20e23d7eb9a286ee030f09a1f02c4f2ab5c5837fafe6402cf07a26c08
+    - path: config/android-candidate-request.yaml
+      state: FILE
+      size: 363
+      sha256: 9173072bc36223f8e00cbf04c5d0f6f8634cd38713dbe0ab50e908691024e0f2
+    - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
+      state: FILE
+      size: 146331
+      sha256: 62da4088311a31880cb366a010485e5b1ff69fe06331b298d348a29e07edcf11
+    - path: docs/03-continuity/change-requests/CR-0302-补齐R11团队长Android最终候选与产物追溯.md
+      state: FILE
+      size: 3367
+      sha256: 13a55bb51fb2d9b89160365461177a1b81804be5790e77ecac4810a7bf8b63e4
+    - path: docs/03-continuity/change-requests/CR-0303-同步R11候选ReleasePolicy与版本回归身份.md
+      state: FILE
+      size: 2522
+      sha256: 915d5df43636e0e616bce0530d316748ddf16f91d51bedfe41e6591ceeaef75c
+    - path: docs/03-continuity/change-requests/CR-0304-替换R11候选错误复用的App截图为专用团队视觉素材.md
+      state: FILE
+      size: 2891
+      sha256: cf1a3a4445450c21cb2fe20eea2b513d74033b88d845a56dc23b11c808ac90fd
+    - path: docs/03-continuity/change-requests/CR-0305-新增R11团队Logo公开媒体精确路由.md
+      state: FILE
+      size: 2464
+      sha256: fa44d6bde218097b14085dccd5c594a1e4cc2d4ae94d36c30e54d4fd63f8db2c
+    - path: docs/03-continuity/change-requests/CR-0306-批准并轻量晋升R11首版视觉基线.md
+      state: FILE
+      size: 2824
+      sha256: abb75bc7d3b68ce2616532b329ecbeef97892f644e944a9b8d314c96cb8dca0a
+    - path: docs/03-continuity/change-requests/CR-0307-修复R11基线晋升连续性报告过期门禁.md
+      state: FILE
+      size: 2635
+      sha256: 8eac0a140246121aa66b338cbd74f5cfd7e5327d7c5686532e68b7c009fa76a8
+    - path: docs/03-continuity/change-requests/CR-0308-补齐R11基线晋升生命周期日志证据范围.md
+      state: FILE
+      size: 2222
+      sha256: 0fc63eeb68817c1458cf04c246b05b83b6fbee5a04feff9503a1c7a363fe9f71
+    - path: infra/nginx/r11-candidate-media-location.inc
+      state: FILE
+      size: 230
+      sha256: 9be2edf3db72302cb50bb4f7f2843441308aab91295c88049d08bb6de2853be9
+    - path: scripts/generate_r11_team_logo.py
+      state: FILE
+      size: 2978
+      sha256: 1f64e80692900a797ba0a1355be56e09d77bd623f46f39bbff14cfc405ce0073
+    - path: scripts/prepare_r11_ci_fixture.sh
+      state: FILE
+      size: 10692
+      sha256: 800ec311fb0d90488c8793ff071cc6062c11cea852377b772e4c110ec877573b
+    - path: tests/android/fixtures/r11-team-logo.png
+      state: FILE
+      size: 51613
+      sha256: 850c0df4c8bd9af3d69e977628433a148ca48e5d610112f7f79514090fbe4bce
+    - path: tests/android/visual-baselines/R11/01-home.png
+      state: FILE
+      size: 206077
+      sha256: 132f894496afa25296ed5837f2077b7e84d57fb7f57bc117f5c8861822ea11fe
+    - path: tests/android/visual-baselines/R11/02-team-leader-list.png
+      state: FILE
+      size: 119511
+      sha256: cfcafbd82dc45eb8b5db0faba159b4a8d753d4e9e9c880493cc0ff0c422b7cda
+    - path: tests/android/visual-baselines/R11/03-team-leader-detail.png
+      state: FILE
+      size: 206493
+      sha256: 9a6d30093899bfa4872637475ecf8603eb50d61d55caa2ae65f4c0620c6215ca
+    - path: tests/android/visual-baselines/R11/04-team-leader-editor.png
+      state: FILE
+      size: 161370
+      sha256: 23bbf3e7b2331669d870c1d2cbb68bd391b272905da2771f5600499faaddfd36
+    - path: tests/android/visual-baselines/R11/APPROVAL.yaml
+      state: FILE
+      size: 1215
+      sha256: 0fdc8a262a5c56038f277e894dd8074e17926682d017f04db735a8265de95af4
+    - path: tests/android/visual-manifests/R11.yaml
+      state: FILE
+      size: 2138
+      sha256: a896e28b9b9fbb2d76c7defc57f3d92bd192b78dfd42394839fdcf44164b40a2
+    - path: tests/test_android_ci_gate.py
+      state: FILE
+      size: 31617
+      sha256: 4c6a06b575dd89fc0134f44aede7c7c10fac0bec9185caf1df78e2dcbe89332e
+    - path: tests/test_r11_candidate.py
+      state: FILE
+      size: 5626
+      sha256: 7a2ec80f17346734ef9b9a8220ae74013b21bede1e6a9b4d7133819276a0aa12
+change_classification:
+  infrastructure:
+  - .github/workflows/android-baseline-promotion.yml
+  - infra/nginx/r11-candidate-media-location.inc
+  other:
+  - CHANGELOG.md
+  - config/android-candidate-request.yaml
+  code:
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+  - apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+  - apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+  - scripts/generate_r11_team_logo.py
+  - scripts/prepare_r11_ci_fixture.sh
+  user_visible:
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+  - apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+  - apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+  continuity:
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/change-requests/CR-0302-补齐R11团队长Android最终候选与产物追溯.md
+  - docs/03-continuity/change-requests/CR-0303-同步R11候选ReleasePolicy与版本回归身份.md
+  - docs/03-continuity/change-requests/CR-0304-替换R11候选错误复用的App截图为专用团队视觉素材.md
+  - docs/03-continuity/change-requests/CR-0305-新增R11团队Logo公开媒体精确路由.md
+  - docs/03-continuity/change-requests/CR-0306-批准并轻量晋升R11首版视觉基线.md
+  - docs/03-continuity/change-requests/CR-0307-修复R11基线晋升连续性报告过期门禁.md
+  - docs/03-continuity/change-requests/CR-0308-补齐R11基线晋升生命周期日志证据范围.md
+  tests:
+  - tests/android/fixtures/r11-team-logo.png
+  - tests/android/visual-baselines/R11/01-home.png
+  - tests/android/visual-baselines/R11/02-team-leader-list.png
+  - tests/android/visual-baselines/R11/03-team-leader-detail.png
+  - tests/android/visual-baselines/R11/04-team-leader-editor.png
+  - tests/android/visual-baselines/R11/APPROVAL.yaml
+  - tests/android/visual-manifests/R11.yaml
+  - tests/test_android_ci_gate.py
+  - tests/test_r11_candidate.py
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+- CHANGELOG
+change_requests:
+- CR-0302
+- CR-0303
+- CR-0304
+- CR-0305
+- CR-0306
+- CR-0307
+- CR-0308
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions: []
+  source: story+explicit
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 不可变候选和视觉审批的最终提交、推送与远端晋升必须由唯一事实主控串行完成。
+event_hash: 5c4055a02cb704696199eec51074acb3e41e0e12f8fc68db66e1948a23147129

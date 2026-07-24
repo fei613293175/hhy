@@ -1,0 +1,37 @@
+protocol_version: '1.0'
+cr_id: CR-0308
+title: 补齐R11基线晋升生命周期日志证据范围
+status: APPROVED
+created_at: '2026-07-24T06:39:35Z'
+updated_at: '2026-07-24T06:39:44Z'
+requester_actor_id: codex-root-r11-candidate
+approver_actor_id: codex-independent-r11-gate-reviewer
+task_id: TASK-R11-007
+session_id: SES-20260724T032308Z-98D6D10A
+user_request: 项目所有者要求GitHub调试避免反复失败和浪费时间，终端与修复由AI直接执行。
+reason: CR-0307刷新权威生命周期报告时脚本同时更新配套log；该日志属于同一测试证据但未列入轻量晋升固定允许路径，若遗漏会造成确定性范围失败。
+original_rule: CR-0307仅登记continuity integration/lifecycle JSON报告，权威脚本同步生成的lifecycle log未包含在固定治理证据范围。
+new_rule: 在CR-0307既有固定治理证据范围中补充唯一的continuity-lifecycle-integration-v1.2.3.log；仍不允许目录通配、产品代码、APK重建或模拟器执行。
+impact_summary: 仅补齐同一次PASS生命周期演练的文本日志和固定允许项，不形成第二套门禁规则，不影响业务产物。
+impact:
+  files:
+  - .github/workflows/android-baseline-promotion.yml
+  - tests/test_android_ci_gate.py
+  - artifacts/validation/continuity-lifecycle-integration-v1.2.3.log
+  pages: []
+  apis: []
+  database: []
+  configuration: []
+  ledger: []
+  tests:
+  - tests.test_android_ci_gate
+  releases:
+  - R11
+  migration_and_compatibility: CR-0307保持主规则，本CR只补齐其遗漏的单一生成日志路径。
+user_confirmation: 项目所有者明确要求避免GitHub反复失败并授权AI直接执行必要修复。
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-24T06:39:44Z'
+  note: 确认这是CR-0307同一权威脚本输出的遗漏补齐，范围精确到单文件，不新增平行规则或放宽产品路径。
+machine_record: .continuity/change_requests/CR-0308.yaml
+document: docs/03-continuity/change-requests/CR-0308-补齐R11基线晋升生命周期日志证据范围.md

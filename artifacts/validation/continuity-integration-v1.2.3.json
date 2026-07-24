@@ -38,7 +38,7 @@
     },
     {
       "path": "scripts/verify_cloud_environment.py",
-      "sha256": "e6166a0bd556b37455947825cc7d6673063a6cdd05735ace9d7493bb9fbb0b42"
+      "sha256": "698aa5bbdd90112748134f1f51f6657d15b793fc9e902dea7e8660ac185d8eaf"
     },
     {
       "path": "scripts/prepare_commit_message.py",
@@ -123,7 +123,7 @@
     {
       "name": "portable_clone_fingerprint",
       "status": "PASS",
-      "evidence": "1f54c6c281b1838817c8166a9e57adb2927157a64a45abe74392788032fcef54"
+      "evidence": "4037c9bd01c3d637b65f103c5aeb8b6853d3d64655e06fbf2154bdb9e9f2cc21"
     },
     {
       "name": "handoff_tamper_rejected",
@@ -133,8 +133,8 @@
   ],
   "check_count": 12,
   "lifecycle_report": "artifacts\\validation\\continuity-lifecycle-integration-v1.2.3.json",
-  "handoff_sha256": "5a7b7d5d22303662e058b16e4f9002eda67ca41de30705c5825f0c352abd63a8",
-  "portable_project_fingerprint": "1f54c6c281b1838817c8166a9e57adb2927157a64a45abe74392788032fcef54",
+  "handoff_sha256": "ae9aaa3c1c5efc5554c0481cf6c546a8c55d252e75aac04c7264d4db7ab4be0a",
+  "portable_project_fingerprint": "4037c9bd01c3d637b65f103c5aeb8b6853d3d64655e06fbf2154bdb9e9f2cc21",
   "commands": [
     {
       "name": "lifecycle",
