@@ -1,0 +1,11 @@
+$ vitest run
+
+ RUN  v4.1.10 C:/Users/小白/Desktop/workspace/hhy-v1.2.3-handoff/合伙云Pro_Codex直接开发包_V1.2.3_持续开发无状态接续强制门禁最终版/apps/admin-web
+
+
+ Test Files  23 passed (23)
+      Tests  101 passed (101)
+   Start at  08:33:36
+   Duration  7.49s (transform 4.84s, setup 0ms, import 11.49s, tests 3.25s, environment 23.51s)
+
+$ vue-tsc --noEmit

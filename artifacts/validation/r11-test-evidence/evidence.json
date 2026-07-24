@@ -1,0 +1,59 @@
+{
+  "schema": "hhy.r11.specialized-evidence/v1",
+  "suite": "r11-java21-postgresql17-android-admin-team-leader",
+  "source_commit": "5013a9a042026328bb9e6602f1931ed32d6632ed",
+  "environment": {
+    "host": "local Windows plus obx-test isolated containers",
+    "java": "Eclipse Temurin 21.0.9",
+    "postgresql": "PostgreSQL 17.10 disposable container",
+    "android_gradle_jdk": "Eclipse Temurin 21.0.9"
+  },
+  "results": [
+    {
+      "test_id": "TST-TEAM_001-HAPPY",
+      "status": "PASS",
+      "exit_code": 0,
+      "assertions": [
+        "team-leader create and patch persist one result and one outbox event",
+        "team-leader create, lock, read and update pass against PostgreSQL 17.10",
+        "the frozen controller dispatcher, Android form and admin client contracts pass"
+      ],
+      "artifacts": [
+        { "path": "backend-java21.log", "sha256": "ead2ed97f2256e56437c3aec966d312fa7fa08ea4de22a5cc765f32ff7596c9e" },
+        { "path": "postgresql17.log", "sha256": "497a07270517747b6bca1030900a5bfdc31d81a03fcbe39eefdf53e1dfa73985" },
+        { "path": "android-module.log", "sha256": "8e1b26e6aa0272143aba86e7444ada147bf601b6547897f6f6b67bbe8a583f4e" },
+        { "path": "admin-web.log", "sha256": "71497580748dd8d65332e5f080da3b9e288e5ec68f7342997f8092790be8f255" }
+      ]
+    },
+    {
+      "test_id": "TST-TEAM_001-REJECT",
+      "status": "PASS",
+      "exit_code": 0,
+      "assertions": [
+        "invalid attributes, stale versions and configuration timeout fail without business side effects",
+        "a concurrent patch loser emits no duplicate outbox event or idempotent completion",
+        "shared storage provider failure and Android duplicate actions remain controlled"
+      ],
+      "artifacts": [
+        { "path": "backend-java21.log", "sha256": "ead2ed97f2256e56437c3aec966d312fa7fa08ea4de22a5cc765f32ff7596c9e" },
+        { "path": "android-module.log", "sha256": "8e1b26e6aa0272143aba86e7444ada147bf601b6547897f6f6b67bbe8a583f4e" }
+      ]
+    },
+    {
+      "test_id": "TST-TEAM_001-IDEMPOTENT",
+      "status": "PASS",
+      "exit_code": 0,
+      "assertions": [
+        "network-timeout retry replays the completed snapshot without duplicate writes",
+        "a different request body using the same key returns an idempotency conflict",
+        "real PostgreSQL concurrent claims, Android single-flight and admin resource scopes remain isolated"
+      ],
+      "artifacts": [
+        { "path": "backend-java21.log", "sha256": "ead2ed97f2256e56437c3aec966d312fa7fa08ea4de22a5cc765f32ff7596c9e" },
+        { "path": "postgresql17.log", "sha256": "497a07270517747b6bca1030900a5bfdc31d81a03fcbe39eefdf53e1dfa73985" },
+        { "path": "android-module.log", "sha256": "8e1b26e6aa0272143aba86e7444ada147bf601b6547897f6f6b67bbe8a583f4e" },
+        { "path": "admin-web.log", "sha256": "71497580748dd8d65332e5f080da3b9e288e5ec68f7342997f8092790be8f255" }
+      ]
+    }
+  ]
+}

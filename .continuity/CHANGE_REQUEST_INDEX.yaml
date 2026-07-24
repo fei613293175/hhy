@@ -18249,3 +18249,49 @@ change_requests:
     session_id: SES-20260723T231210Z-409B970E
   session_ids:
   - SES-20260723T231210Z-409B970E
+- protocol_version: '1.0'
+  cr_id: CR-0300
+  title: 补齐R11后台专项证据与精确验收矩阵范围
+  status: IMPLEMENTING
+  created_at: '2026-07-24T00:43:39Z'
+  updated_at: '2026-07-24T01:52:58Z'
+  requester_actor_id: codex-root-r11-test
+  approver_actor_id: codex-reviewer-r11-evidence
+  task_id: TASK-R11-005
+  session_id: SES-20260723T231210Z-409B970E
+  user_request: 立即开始并持续推进开发；所有终端命令静默执行
+  reason: R11中央证据门禁要求admin-web.log且AC-R11-003必须绑定精确报告路径，原CR-0297未列出这两个新增文件范围
+  original_rule: CR-0297的专项证据范围只列后端、PostgreSQL和Android日志，AC-R11-003仍使用目录级占位证据
+  new_rule: R11专项证据必须同时归档后台Web原始日志，AC-R11-003必须绑定TASK-R11-005精确报告路径并仅在中央矩阵通过后签为PASS
+  impact_summary: 新增admin-web.log证据文件并把AC-R11-003从目录占位更新为精确报告和PASS，不改变业务、API、数据库或测试语义
+  impact:
+    files:
+    - artifacts/validation/r11-test-evidence/admin-web.log
+    - releases/R11/ACCEPTANCE_MATRIX.csv
+    pages: []
+    apis: []
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - TST-TEAM_001-HAPPY
+    - TST-TEAM_001-REJECT
+    - TST-TEAM_001-IDEMPOTENT
+    releases:
+    - R11
+    migration_and_compatibility: 纯证据与验收投影变化，无运行时行为、Schema或客户端兼容影响
+  user_confirmation: 项目所有者已明确要求持续推进开发且所有终端命令由AI静默执行；本CR只补齐既定TASK-R11-005证据闭环
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-24T01:52:06Z'
+    note: 独立只读证据审计已明确要求归档后台模块原始日志并将AC-R11-003绑定专项报告；当前机器矩阵复核确认admin-web.log哈希匹配且验收只更新该一行，不改变运行时事实
+  machine_record: .continuity/change_requests/CR-0300.yaml
+  document: docs/03-continuity/change-requests/CR-0300-补齐R11后台专项证据与精确验收矩阵范围.md
+  decision_log:
+  - at: '2026-07-24T01:52:58Z'
+    actor_id: codex-root-r11-test
+    status: IMPLEMENTING
+    note: 开始归档后台Web原始日志并将AC-R11-003绑定精确专项报告
+    session_id: SES-20260723T231210Z-409B970E
+  session_ids:
+  - SES-20260723T231210Z-409B970E
