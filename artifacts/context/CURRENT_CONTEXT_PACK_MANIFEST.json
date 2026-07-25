@@ -1,19 +1,19 @@
 {
   "version": "1.0",
-  "generated_at": "2026-07-25T19:13:30Z",
-  "context_hash": "25bbaa35b2c0d8db7695b68cc188c32d4e0fc2c0d6ec81a89d017be2abc176ff",
+  "generated_at": "2026-07-25T19:15:41Z",
+  "context_hash": "b04bfadd03c23cefff14134a6c70cfaa3c94fdad920eb348649a9d3cb05d4919",
   "fingerprint_mode": "SESSION_DELTA",
   "project_fingerprint": {
-    "sha256": "7ec9481d3253605e5543cec59912aea818a4ca8816c18cffa9e519e2202d0cbd",
+    "sha256": "a8fd70cbc6f7346f92263e3bbe4ab5a6d9d2622646e0a564e547ae18566f07ea",
     "file_count": 23
   },
   "yaml": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.yaml",
-    "sha256": "78606f99e9632113a777164f664fd91ec25eeb5d66dc6d237245f2c8b83df0c9"
+    "sha256": "08259f2d05ecc4f1f71f88c85c03b13ee42ccc7e44d259564305a4d85d1abd68"
   },
   "markdown": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.md",
-    "sha256": "f8a3bb74a70f8bb53ecf634b4509b1d6c14d7a1601574336b7e2fffdc8836158"
+    "sha256": "81aa93132cb407a4a2cf9c4ada0fc3793a412eb4d3c9489993829e82fd9b2469"
   },
   "sources": [
     {
@@ -28,7 +28,7 @@
     },
     {
       "path": "CURRENT_STATUS.yaml",
-      "sha256": "b82dbda570ed1039b23c1ce667009b5db000cc06b3c1d10d418d9e6c05c36ec2",
+      "sha256": "8c0f152cd2c98b7a86f15fb76f197356ec05f6cf49952b5dcbcc3e4294327573",
       "bytes": 4469
     },
     {
@@ -83,12 +83,12 @@
     },
     {
       "path": ".continuity/EVENT_LOG.jsonl",
-      "sha256": "f893457e164e77d56a704dac0a73f6a1d5a712226141e84452a1cc73aeccee06",
-      "bytes": 1871867
+      "sha256": "8be7b570df3fec3f2f9802bccfd44fe4a19bd255bb6f8612bbe43518d2844766",
+      "bytes": 1874931
     },
     {
       "path": ".continuity/SESSION_INDEX.yaml",
-      "sha256": "4293a47e1efb9edc8aabd16819cf650739631b15c99ac9be075e83d3c8f131c9",
+      "sha256": "616e45fe3a33f6aa6d81c199eea5de751bd29f92e8f4c0be4dcdd759bd315b41",
       "bytes": 54342
     },
     {
@@ -103,12 +103,12 @@
     },
     {
       "path": ".continuity/CHANGE_REQUEST_INDEX.yaml",
-      "sha256": "09375e52c3c5b3fd1b1176444ee825b80d28cb950d6aa9eda44697ff5cb7912d",
-      "bytes": 1157613
+      "sha256": "43f4600ea763cff89996ba317d7c6cd49d99e19077688ab51a2f7c9248610eac",
+      "bytes": 1159364
     },
     {
       "path": ".continuity/ACTIVE_SESSION.yaml",
-      "sha256": "a346cce8f423b149964e6153bd55b6d9f83d9605c5003c3b67abf2285156e2fa",
+      "sha256": "83034b72c438bebc9a77465f9323257433b3758859dcf009174a52deb2ffce35",
       "bytes": 552
     },
     {
@@ -163,38 +163,38 @@
     },
     {
       "path": "docs/03-continuity/sessions/2026-07/SES-20260725T180922Z-D7231210.md",
-      "sha256": "da566bf87f0f06cca258c695c539f72f5168b70514c06dea0ad9389d08c4063e",
-      "bytes": 14495
+      "sha256": "35716f003a10b5c676059f4cf8aee7fee53fdb2161a311bd29bcf8bb2fec823a",
+      "bytes": 16576
     },
     {
-      "path": ".continuity/checkpoints/SES-20260725T180922Z-D7231210/0006.yaml",
-      "sha256": "4231ad4d17c202f4d7d41e7738e6c0042ce221736e02e669b892981771d17067",
-      "bytes": 12591
+      "path": ".continuity/checkpoints/SES-20260725T180922Z-D7231210/0007.yaml",
+      "sha256": "a2300f7eea62e4e9e4d157625c626326a603a0577dae043cdbf88928f8ad7951",
+      "bytes": 12654
     },
     {
       "path": "docs/03-continuity/change-requests/CR-0334-补齐R12统一发布可观测性与独立Staging验收.md",
-      "sha256": "3aea983358fbdd0780796cc9ae588a4731a13f336ee1d2161cc0d6f7c4084299",
-      "bytes": 3736
+      "sha256": "de0602b9aceb2067d4b1a44fa226f6270b60a2b829180f87968d31c77c055724",
+      "bytes": 3995
     },
     {
       "path": "docs/03-continuity/change-requests/CR-0335-修正R12隔离Staging子网与R09冲突.md",
-      "sha256": "00d80bf8d4b5b74f60e3b76932e742c49e68df2488c589be0e2b96fb36439be8",
-      "bytes": 2621
+      "sha256": "6774f2f6d90f1b0dc4520e70884a6161fbae940604d1f547941301cfe472c07a",
+      "bytes": 2880
     },
     {
       "path": "docs/03-continuity/change-requests/CR-0336-登记R12隔离子网冲突问题与回归.md",
-      "sha256": "e81df558f3f887c09e5e67d5533aeffe80e63dac104b5e37d146cc50bb1e88d7",
-      "bytes": 2203
+      "sha256": "45ba658d6372c7471c08e5fcfb1a3a3106a4a934a9ba3b382366f86063e94bed",
+      "bytes": 2462
     },
     {
       "path": "docs/03-continuity/change-requests/CR-0337-修正R12现场验收Flyway-V041格式误判.md",
-      "sha256": "ea2b5b82f24b234e4b56febd299a6bdb3b91cc3dc7d692a2d231143eb10743b4",
-      "bytes": 2475
+      "sha256": "f78b600ca362ce666cdbec68a7656d178257589b651bd6c07a2642dcc1382b39",
+      "bytes": 2734
     },
     {
       "path": "docs/03-continuity/change-requests/CR-0338-冻结现场证据原始字节避免Git换行改写.md",
-      "sha256": "4dc6600227d0579362ca0b219d1fb0e10f1b890211bb7c128e64ff4c71edb131",
-      "bytes": 2211
+      "sha256": "6be5b58206dd8510eccb6895009ab22bf5b8ed9f51b27c3094db1fee64f42487",
+      "bytes": 2743
     }
   ]
 }

@@ -85,3 +85,17 @@ artifacts/validation下的现场证据按原始字节入库，禁止Git换行过
 - Status：`IMPLEMENTING`
 - Session：`SES-20260725T180922Z-D7231210`
 - Note：已加入artifacts/validation原始字节规则，Git索引25文件与现场SHA256SUMS逐项一致
+
+## 状态记录 · 2026-07-25T19:14:55Z
+
+- Actor：`codex-root-r12-observability-20260726`
+- Status：`IMPLEMENTED`
+- Session：`SES-20260725T180922Z-D7231210`
+- Note：gitattributes原始字节规则、PROB-0112和Commit对象25文件SHA复核已进入正式证据提交
+
+## 状态记录 · 2026-07-25T19:15:16Z
+
+- Actor：`codex-root-r12-observability-20260726`
+- Status：`CLOSED`
+- Session：`SES-20260725T180922Z-D7231210`
+- Note：R12现场验收、证据签字和Commit对象哈希均已推送并通过，变更请求关闭

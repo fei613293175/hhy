@@ -96,3 +96,10 @@ obx-test只读网络审计确认172.31.243.0/24仍由hhy-r09-staging_smoke占用
 - Status：`IMPLEMENTED`
 - Session：`SES-20260725T180922Z-D7231210`
 - Note：R12默认子网切换到经服务器审计空闲的172.31.240.0/24并通过现场验收
+
+## 状态记录 · 2026-07-25T19:15:04Z
+
+- Actor：`codex-root-r12-observability-20260726`
+- Status：`CLOSED`
+- Session：`SES-20260725T180922Z-D7231210`
+- Note：R12现场验收、证据签字和Commit对象哈希均已推送并通过，变更请求关闭
