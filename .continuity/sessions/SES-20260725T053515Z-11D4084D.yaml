@@ -11,7 +11,7 @@ task_id: TASK-R12-004
 story_id: STORY-R12-004
 goal: 严格按SCR-PUB-001 B04/P01与SCR-PUB-006 B05/P06冻结视觉、MOB-FORM页面规格和现有API合同实现四类发布入口及真实内容预览闭环。
 started_at: '2026-07-25T05:35:15Z'
-updated_at: '2026-07-25T10:20:29Z'
+updated_at: '2026-07-25T10:26:14Z'
 takeover_of: null
 change_requests:
 - CR-0319
@@ -23,6 +23,7 @@ change_requests:
 - CR-0325
 - CR-0326
 - CR-0327
+- CR-0328
 scope:
   allowed_paths:
   - apps/android/**
@@ -67,7 +68,15 @@ scope:
   - apps/admin-web/src/adminNavigation.test.ts
   - apps/admin-web/src/routerPermissions.test.ts
   - apps/admin-web/src/styles.css
-  source: story-switch+explicit+approved-cr:CR-0320
+  - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+  - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+  - apps/android/feature/content-management/src/main/java/cc/orbexa/hhy/contentmanagement/R12ContentManagementDetailScreen.kt
+  - apps/android/feature/content-management/src/main/java/cc/orbexa/hhy/contentmanagement/R12PublishScreens.kt
+  - apps/android/feature/content-management/src/main/java/cc/orbexa/hhy/contentmanagement/R12PublishState.kt
+  - apps/android/feature/content-management/src/test/java/cc/orbexa/hhy/contentmanagement/R12PublishStateTest.kt
+  - catalogs/ui_visual_acceptance.csv
+  - CHANGELOG.md
+  source: story-switch+explicit+approved-cr:CR-0320+approved-cr:CR-0328
 git:
   initialized: true
   branch: task/TASK-R03-001
@@ -77,25 +86,25 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-25T10:20:23Z'
-  expires_at: '2026-07-25T14:20:23Z'
-checkpoint_sequence: 14
-latest_checkpoint: .continuity/checkpoints/SES-20260725T053515Z-11D4084D/0014.yaml
+  renewed_at: '2026-07-25T10:26:08Z'
+  expires_at: '2026-07-25T14:26:08Z'
+checkpoint_sequence: 15
+latest_checkpoint: .continuity/checkpoints/SES-20260725T053515Z-11D4084D/0015.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260725T053515Z-11D4084D.md
-next_step: 提交并推送Story切换证据，创建本Story实现CR后施工发布入口与发布预览。
+next_step: 提交CR-0328审批证据后实现发布中心、发布预览、typed Navigation与状态单测。
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: 46cab605fa42d98056009905d8229598d6f1ca2ab281b04298d0a64ae6f47c61
-  generated_at: '2026-07-25T10:20:27Z'
+  context_hash: 46be020a05f317ac407e77eedc12aa9c79245bfd7564527de5975e6f5b5cde8f
+  generated_at: '2026-07-25T10:26:12Z'
 handoff_bundle: null
 closure: null
 parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: SCR-PUB-001与SCR-PUB-006共享发布模块、内容资源模型、MainActivity typed Navigation及测试装配，拆分会产生同路径冲突；主控串行实现并统一复核。
+  reason: 两页共享R12内容状态、MainActivity typed Navigation、Shell发布入口与同一测试模块；路径高度重叠，主控串行实施避免事实分叉。
 story_history:
 - story_id: STORY-R12-001
   completed_at: '2026-07-25T07:44:07Z'
