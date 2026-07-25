@@ -8,10 +8,10 @@ actor:
   host: unknown
 release: R12
 task_id: TASK-R12-004
-story_id: STORY-R12-007
-goal: 实现SCR-ME-001账号、会员、收益与功能入口真实聚合闭环。
+story_id: STORY-R12-008
+goal: 按冻结R12契约完成数据、配置、测试、观测、视觉验收、候选APK与版本交接收口。
 started_at: '2026-07-25T05:35:15Z'
-updated_at: '2026-07-25T16:54:04Z'
+updated_at: '2026-07-25T16:57:16Z'
 takeover_of: null
 change_requests:
 - CR-0319
@@ -29,84 +29,39 @@ change_requests:
 - CR-0331
 scope:
   allowed_paths:
-  - apps/android/**
-  - services/backend/**
+  - apps/**
+  - services/**
   - packages/**
   - contracts/**
   - database/**
   - config/**
-  - tests/**
-  - docs/**
   - catalogs/**
-  - releases/**
+  - tests/**
+  - infra/**
   - design/**
+  - docs/**
+  - releases/**
   - scripts/**
-  - STORY-R12-007冻结页面、API、视觉合同及其必要客户端测试范围。
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
   - CHANGELOG.md
-  approved_exceptions:
-  - catalogs/admin_pages.csv
-  - catalogs/ui_page_specifications.csv
-  - catalogs/admin_page_operation_specs.csv
-  - catalogs/release_story_backlog.csv
-  - database/state_machines.yaml
-  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R12ReviewService.java
-  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R12ReviewPostgresStore.java
-  - docs/02-ui/page-specs/admin/ADM-REVIEW-001_审核队列.md
-  - database/migrations/V041__r12_review_permission_alignment.sql
-  - services/backend/boot/src/main/resources/db/migration/V041__r12_review_permission_alignment.sql
-  - database/rollback/U041__r12_review_permission_alignment.sql
-  - database/tests/r12_review_permission_alignment.sql
-  - scripts/check_db_schema.py
-  - scripts/run_r12_database_invariants.sh
-  - releases/R12/STORIES.yaml
-  - apps/admin-web/src/generated/admin-pages.json
-  - apps/admin-web/src/services/adminReviews.ts
-  - apps/admin-web/src/services/adminReviews.test.ts
-  - apps/admin-web/src/services/idempotency.ts
-  - apps/admin-web/src/services/index.ts
-  - apps/admin-web/src/views/AdminReviewWorkbenchPage.vue
-  - apps/admin-web/src/r12ReviewWorkbench.test.ts
-  - apps/admin-web/src/router.ts
-  - apps/admin-web/src/adminNavigation.ts
-  - apps/admin-web/src/adminNavigation.test.ts
-  - apps/admin-web/src/routerPermissions.test.ts
-  - apps/admin-web/src/styles.css
-  - contracts/openapi.yaml
-  - services/backend/boot/src/main/resources/contracts/openapi.yaml
-  - contracts/contract_status.csv
-  - contracts/operation-error-matrix.csv
-  - catalogs/api_ui_ownership.csv
-  - catalogs/ui_page_states.csv
-  - catalogs/ui_action_matrix.csv
-  - docs/02-ui/page-specs/android/SCR-ME-001_我的首页.md
-  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/R12AccountControllerContractTest.java
-  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ApiModels.kt
-  - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ApiModelsSerializationTest.kt
-  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractIdentityApi.kt
-  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractMediaApi.kt
-  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR07Api.kt
-  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR08Api.kt
-  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR09Api.kt
-  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR10Api.kt
-  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR11Api.kt
-  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR12Api.kt
-  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR12ProfileApi.kt
-  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR12MeApi.kt
-  - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ContractR12MeApiTest.kt
-  - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/R12MeHomeState.kt
-  - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/R12MeHomeScreen.kt
-  - apps/android/feature/shell/src/test/java/cc/orbexa/hhy/shell/R12MeHomeStateTest.kt
-  - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
-  - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
-  - apps/android/app/src/test/java/cc/orbexa/hhy/NavigationPolicyTest.kt
-  - apps/android/app/src/androidTest/java/cc/orbexa/hhy/AuthenticatedNavigationTest.kt
-  - apps/android/app/src/androidTest/java/cc/orbexa/hhy/HistoricalVisualAuditTest.kt
-  - scripts/check_android_ui_foundation.py
-  - tests/test_android_ui_foundation.py
-  - catalogs/ui_visual_acceptance.csv
-  - docs/03-continuity/PROBLEM_REGISTRY.yaml
-  - CHANGELOG.md
-  source: story-switch+explicit+approved-cr:CR-0319+approved-cr:CR-0320+approved-cr:CR-0331
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions: []
+  source: story-switch+explicit
 git:
   initialized: true
   branch: task/TASK-R03-001
@@ -116,25 +71,25 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-25T16:53:59Z'
-  expires_at: '2026-07-25T20:53:59Z'
-checkpoint_sequence: 32
-latest_checkpoint: .continuity/checkpoints/SES-20260725T053515Z-11D4084D/0032.yaml
+  renewed_at: '2026-07-25T16:57:10Z'
+  expires_at: '2026-07-25T20:57:10Z'
+checkpoint_sequence: 33
+latest_checkpoint: .continuity/checkpoints/SES-20260725T053515Z-11D4084D/0033.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260725T053515Z-11D4084D.md
-next_step: 提交并推送STORY-R12-007实现，随后原子切换STORY-R12-008工程治理并按R12候选门禁收口。
+next_step: 逐项审计R12 TASKS、Release Manifest、验收矩阵和当前实现证据，确定剩余任务与最终候选门禁顺序。
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: 2d0c49505f688ffd1027862cf8acd2f17365f9c38f7c689020d69c69c1569a66
-  generated_at: '2026-07-25T16:54:02Z'
+  context_hash: 6db82241430a0c52f962d7e8b659a2c2e166fdd9c79eba42d5bd605fd60687e5
+  generated_at: '2026-07-25T16:57:13Z'
 handoff_bundle: null
 closure: null
 parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 实现、合同与连续性文件高度耦合且当前进入单一提交收口；只读复核已在CR-0331审批阶段完成，继续拆分会造成共享工作树竞争。
+  reason: 当前步骤只执行单一连续性Story切换和版本级事实审计，拆分会并发修改同一会话与验收事实源。
 story_history:
 - story_id: STORY-R12-001
   completed_at: '2026-07-25T07:44:07Z'
@@ -166,3 +121,8 @@ story_history:
   checkpoint_id: CP-SES-20260725T053515Z-11D4084D-0029
   commit: 7792d4321f284c0660f185878d2be70a60a3ecfc
   summary: STORY-R12-006个人资料闭环已实现、MODULE通过并以7792d432推送；按R12顺序继续我的首页。
+- story_id: STORY-R12-007
+  completed_at: '2026-07-25T16:56:48Z'
+  checkpoint_id: CP-SES-20260725T053515Z-11D4084D-0032
+  commit: 3153ef9cafbcc06ffee8be92dac4f77435f43866
+  summary: STORY-R12-007真实我的首页、会员奖励聚合、typed顶层导航与全部MODULE证据已提交并推送。
