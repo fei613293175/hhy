@@ -1,7 +1,7 @@
 protocol_version: '1.0'
 package_version: 1.2.3
 session_id: SES-20260724T235749Z-6EC9DB09
-status: ACTIVE
+status: CLOSED
 actor:
   id: codex-root-r12-data-20260725
   kind: AI_OR_HUMAN
@@ -11,7 +11,7 @@ task_id: TASK-R12-002
 story_id: STORY-R12-008
 goal: 异常恢复 SES-20260724T195501Z-13F8DFDE：统一发布与发布管理数据迁移与领域不变量
 started_at: '2026-07-24T23:57:49Z'
-updated_at: '2026-07-25T02:45:29Z'
+updated_at: '2026-07-25T02:47:14Z'
 takeover_of: SES-20260724T195501Z-13F8DFDE
 change_requests:
 - CR-0316
@@ -101,22 +101,36 @@ git:
   initial_worktree_state: DIRTY_TAKEOVER
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-25T02:45:24Z'
-  expires_at: '2026-07-25T06:45:24Z'
-checkpoint_sequence: 7
-latest_checkpoint: .continuity/checkpoints/SES-20260724T235749Z-6EC9DB09/0007.yaml
+  renewed_at: '2026-07-25T02:47:09Z'
+  expires_at: '2026-07-25T06:47:09Z'
+checkpoint_sequence: 8
+latest_checkpoint: .continuity/checkpoints/SES-20260724T235749Z-6EC9DB09/0008.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260724T235749Z-6EC9DB09.md
-next_step: 提交并推送CR关闭元数据，然后以实现Commit关闭TASK-R12-002并启动TASK-R12-003
+next_step: 提交关闭元数据Commit，然后运行pre-push/CI门禁
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: e124465ff1fd3ad3559ae68b2a32a0087473305067d4f2122afd8446a80a27de
-  generated_at: '2026-07-25T02:45:27Z'
+  context_hash: c94453086aa7f49fee1ba83c870f8491d70ba76079a6f990c6ad5044faf07ef6
+  generated_at: '2026-07-25T02:47:12Z'
 handoff_bundle: null
-closure: null
+closure:
+  result: COMPLETED
+  summary: TASK-R12-002统一发布数据库状态机、乐观版本、审核快照、Outbox绑定与软删除门禁完成
+  code_commit: 5e09dd4f80dc014611f93717b159f791403be457
+  next_release: R12
+  next_task: TASK-R12-003
+  blocked_advance: false
+  completed_independent_advance: false
+  user_confirmation: null
+  metadata_commit: PENDING
+  push_verification: CI_REQUIRED_AFTER_METADATA_COMMIT
+  started_at: '2026-07-25T02:47:05Z'
+  closure_checkpoint_id: CP-SES-20260724T235749Z-6EC9DB09-0008
+  closed_at: '2026-07-25T02:47:14Z'
 parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
   reason: CR与任务关闭修改同一连续性状态机且必须由唯一主控串行提交
+closed_at: '2026-07-25T02:47:14Z'

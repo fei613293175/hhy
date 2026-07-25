@@ -1483,3 +1483,13 @@
 - Actor：`codex-root-r12-entry`
 - 摘要：R12开发入口完成：DoR、云端环境、执行计划、依赖、11页精确视觉基线、Manifest、Stories与轻量门禁全部PASS；完整Android门禁保留至TASK-R12-007。
 - 记录：`docs/03-continuity/sessions/2026-07/SES-20260724T144831Z-B2E27A89.md`
+
+## TASK-R12-002 · COMPLETED · 2026-07-25T02:47:05Z
+
+- Task close: TASK-R12-002 / SES-20260724T235749Z-6EC9DB09
+- Release：`R12`
+- Story：`STORY-R12-008`
+- Actor：`codex-root-r12-data-20260725`
+- 摘要：TASK-R12-002统一发布数据库状态机、乐观版本、审核快照、Outbox绑定与软删除门禁完成
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260724T235749Z-6EC9DB09.md`
+

@@ -26,7 +26,7 @@ tasks:
   completed_at: '2026-07-24T16:35:17Z'
 - id: TASK-R12-002
   title: 统一发布与发布管理数据迁移与领域不变量
-  status: READY
+  status: DONE
   depends_on:
   - TASK-R12-001
   requirements: *id001
@@ -40,9 +40,10 @@ tasks:
   - Flyway前向迁移与空库/升级库测试
   - 不变量属性测试
   session_log_required: true
+  completed_at: '2026-07-25T02:47:05Z'
 - id: TASK-R12-003
   title: 统一发布与发布管理后端应用服务与接口
-  status: BLOCKED
+  status: READY
   depends_on:
   - TASK-R12-002
   requirements: *id001

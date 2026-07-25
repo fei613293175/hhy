@@ -1228,11 +1228,11 @@ sessions:
   task_id: TASK-R12-002
   story_id: STORY-R12-008
   actor_id: codex-root-r12-data-20260725
-  status: ACTIVE
+  status: CLOSED
   started_at: '2026-07-24T23:57:49Z'
   record: .continuity/sessions/SES-20260724T235749Z-6EC9DB09.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260724T235749Z-6EC9DB09.md
-  updated_at: '2026-07-25T02:45:24Z'
-  closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260724T235749Z-6EC9DB09/0007.yaml
+  updated_at: '2026-07-25T02:47:14Z'
+  closed_at: '2026-07-25T02:47:14Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260724T235749Z-6EC9DB09/0008.yaml
   handoff_bundle: null
