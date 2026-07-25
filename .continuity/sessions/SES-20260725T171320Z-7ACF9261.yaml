@@ -1,0 +1,79 @@
+protocol_version: '1.0'
+package_version: 1.2.3
+session_id: SES-20260725T171320Z-7ACF9261
+status: ACTIVE
+actor:
+  id: codex-root-r12-testing-20260726
+  kind: AI_OR_HUMAN
+  host: unknown
+release: R12
+task_id: TASK-R12-005
+story_id: STORY-R12-008
+goal: 执行R12重复请求、并发、超时、消息重复和异常恢复专项测试，归档报告并清零关键缺陷。
+started_at: '2026-07-25T17:13:20Z'
+updated_at: '2026-07-25T17:14:29Z'
+takeover_of: null
+change_requests: []
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions: []
+  source: story+explicit
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  base_commit: 1b18f744c6f28b918c6d3d38957de1a02ca00745
+  start_head: 1b18f744c6f28b918c6d3d38957de1a02ca00745
+  upstream: origin/task/TASK-R03-001
+  initial_worktree_state: CLEAN
+lease:
+  duration_minutes: 240
+  renewed_at: '2026-07-25T17:14:20Z'
+  expires_at: '2026-07-25T21:14:20Z'
+checkpoint_sequence: 1
+latest_checkpoint: .continuity/checkpoints/SES-20260725T171320Z-7ACF9261/0001.yaml
+session_log: docs/03-continuity/sessions/2026-07/SES-20260725T171320Z-7ACF9261.md
+next_step: 创建受控CR，将六个既有测试ID升级为AUTOMATED，新增tests/r12适配器、统一矩阵、真实Java/PostgreSQL故障注入证据和任务报告。
+context_pack:
+  yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
+  markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
+  manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+  context_hash: 42ad01b2c05b32805ce4d92dd0e115665664fe6badb51186d64cc8c85c7158ed
+  generated_at: '2026-07-25T17:14:25Z'
+handoff_bundle: null
+closure: null
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 六项测试共享同一R12领域服务、PostgreSQL不变量、测试目录和证据矩阵，需先由主控冻结边界后再实施。
