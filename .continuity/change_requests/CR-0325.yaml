@@ -1,0 +1,47 @@
+protocol_version: '1.0'
+cr_id: CR-0325
+title: 纠正CR-0324内容管理源码路径投影
+status: IMPLEMENTING
+created_at: '2026-07-25T08:22:34Z'
+updated_at: '2026-07-25T08:23:00Z'
+requester_actor_id: codex-root-r12-client-20260725
+approver_actor_id: codex-r12-path-projection-reviewer
+task_id: TASK-R12-004
+session_id: SES-20260725T053515Z-11D4084D
+user_request: OWNER_ACTIVE_GOAL_REPOSITORY_FACTS_MUST_SUPPORT_CROSS_AI_CONTINUITY
+reason: CR-0324审批清单的状态与页面源码路径误写为cc/orbexa/hhy/feature/contentmanagement，实际模块沿用现有Android包规范cc/orbexa/hhy/contentmanagement；仅纠正路径投影，不新增规则或功能。
+original_rule: CR-0324对两个新Kotlin源码和测试路径多投影了一层feature目录，与实际模块包规范不一致。
+new_rule: CR-0324业务、视觉、API和测试决定保持不变；精确源码路径纠正为apps/android/feature/content-management/src/**/cc/orbexa/hhy/contentmanagement/R12ContentManagementState.kt、R12ContentManagementDetailScreen.kt和R12ContentManagementStateTest.kt。
+impact_summary: 只纠正CR-0324精确文件路径，使批准范围、实际文件和跨AI Context一致。
+impact:
+  files:
+  - apps/android/feature/content-management/src/main/java/cc/orbexa/hhy/contentmanagement/R12ContentManagementState.kt
+  - apps/android/feature/content-management/src/main/java/cc/orbexa/hhy/contentmanagement/R12ContentManagementDetailScreen.kt
+  - apps/android/feature/content-management/src/test/java/cc/orbexa/hhy/contentmanagement/R12ContentManagementStateTest.kt
+  pages:
+  - SCR-MYC-003
+  apis: []
+  database: []
+  configuration: []
+  ledger:
+  - CR-0324 path projection correction only
+  tests:
+  - git diff --check; obx-test R12 content-management module PASS evidence remains unchanged
+  releases:
+  - R12
+  migration_and_compatibility: 纯连续性路径投影纠正；不移动运行时代码、不改变Kotlin包、API、UI、数据或测试。
+user_confirmation: OWNER_ACTIVE_GOAL_REPOSITORY_FACTS_MUST_SUPPORT_CROSS_AI_CONTINUITY
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-25T08:22:47Z'
+  note: 仅纠正CR-0324三条Android源测试路径到现有模块包规范；不改变产品、视觉、API、实现或测试结论。
+machine_record: .continuity/change_requests/CR-0325.yaml
+document: docs/03-continuity/change-requests/CR-0325-纠正CR-0324内容管理源码路径投影.md
+decision_log:
+- at: '2026-07-25T08:23:00Z'
+  actor_id: codex-root-r12-client-20260725
+  status: IMPLEMENTING
+  note: 路径投影已独立审批并应用，实际文件与云端已通过证据保持不变。
+  session_id: SES-20260725T053515Z-11D4084D
+session_ids:
+- SES-20260725T053515Z-11D4084D

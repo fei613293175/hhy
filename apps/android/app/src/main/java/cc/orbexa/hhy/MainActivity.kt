@@ -67,6 +67,7 @@ import cc.orbexa.hhy.network.UrlConnectionContractR08Api
 import cc.orbexa.hhy.network.UrlConnectionContractR09Api
 import cc.orbexa.hhy.network.UrlConnectionContractR10Api
 import cc.orbexa.hhy.network.UrlConnectionContractR11Api
+import cc.orbexa.hhy.network.UrlConnectionContractR12Api
 import cc.orbexa.hhy.network.sessionOrNull
 import cc.orbexa.hhy.network.userSelfOrNull
 import java.net.URI
@@ -82,6 +83,7 @@ import cc.orbexa.hhy.grouppromotion.R10GroupListScreen
 import cc.orbexa.hhy.teamleader.R11TeamLeaderListScreen
 import cc.orbexa.hhy.teamleader.R11TeamLeaderDetailScreen
 import cc.orbexa.hhy.teamleader.R11TeamLeaderEditorScreen
+import cc.orbexa.hhy.contentmanagement.R12ContentManagementDetailScreen
 import cc.orbexa.hhy.shell.HhyShellScreen
 import cc.orbexa.hhy.startup.StartupGateScreen
 import kotlinx.serialization.Serializable
@@ -225,6 +227,7 @@ private sealed interface AuthenticatedRoute {
     @Serializable data object TeamLeaders : AuthenticatedRoute
     @Serializable data class TeamLeaderDetail(val teamLeaderId: String) : AuthenticatedRoute
     @Serializable data class TeamLeaderEditor(val teamLeaderId: String? = null) : AuthenticatedRoute
+    @Serializable data class ContentManagementDetail(val contentId: String) : AuthenticatedRoute
 }
 
 @androidx.compose.runtime.Composable
@@ -241,6 +244,7 @@ private fun AuthenticatedNavHost(
     val r09Api = remember { UrlConnectionContractR09Api(BuildConfig.API_BASE_URL) }
     val r10Api = remember { UrlConnectionContractR10Api(BuildConfig.API_BASE_URL) }
     val r11Api = remember { UrlConnectionContractR11Api(BuildConfig.API_BASE_URL) }
+    val r12Api = remember { UrlConnectionContractR12Api(BuildConfig.API_BASE_URL) }
     val mediaApi = remember { UrlConnectionContractMediaApi(BuildConfig.API_BASE_URL) }
     val uriHandler = androidx.compose.ui.platform.LocalUriHandler.current
     NavHost(
@@ -502,6 +506,23 @@ private fun AuthenticatedNavHost(
                 onSaved = { id ->
                     navController.navigate(AuthenticatedRoute.TeamLeaderDetail(id)) {
                         popUpTo<AuthenticatedRoute.TeamLeaders>() { inclusive = false }
+                    }
+                },
+                onSessionExpired = onSessionInvalidated,
+            )
+        }
+        composable<AuthenticatedRoute.ContentManagementDetail> { backStackEntry ->
+            val route = backStackEntry.toRoute<AuthenticatedRoute.ContentManagementDetail>()
+            R12ContentManagementDetailScreen(
+                api = r12Api,
+                accessToken = authenticated.session.accessToken,
+                contentId = route.contentId,
+                currentUserId = authenticated.user.id,
+                identityVerified = authenticated.user.identityStatus == "VERIFIED",
+                onBack = { navController.popBackStack() },
+                onDraftCreated = { draftId ->
+                    navController.navigate(AuthenticatedRoute.ContentManagementDetail(draftId)) {
+                        popUpTo<AuthenticatedRoute.ContentManagementDetail> { inclusive = true }
                     }
                 },
                 onSessionExpired = onSessionInvalidated,

@@ -121,6 +121,7 @@ dependencies {
     implementation(project(":feature:app-promotion"))
     implementation(project(":feature:group-promotion"))
     implementation(project(":feature:team-leader"))
+    implementation(project(":feature:content-management"))
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.navigation.compose)

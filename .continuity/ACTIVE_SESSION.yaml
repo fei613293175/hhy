@@ -4,9 +4,9 @@ status: ACTIVE
 session_record: .continuity/sessions/SES-20260725T053515Z-11D4084D.yaml
 actor_id: codex-root-r12-client-20260725
 task_id: TASK-R12-004
-story_id: STORY-R12-001
-latest_checkpoint: .continuity/checkpoints/SES-20260725T053515Z-11D4084D/0004.yaml
-checkpoint_id: CP-SES-20260725T053515Z-11D4084D-0004
-project_fingerprint: 978367834b6bbcb4f4078f2ba5e3d021740ab0b50923e9847c07a00b23960b92
-lease_expires_at: '2026-07-25T11:42:27Z'
-updated_at: '2026-07-25T07:42:27Z'
+story_id: STORY-R12-002
+latest_checkpoint: .continuity/checkpoints/SES-20260725T053515Z-11D4084D/0007.yaml
+checkpoint_id: CP-SES-20260725T053515Z-11D4084D-0007
+project_fingerprint: 977ef5d07122a6db5454ffaf578c9510c59a2921a390a3e49246f4b02b64b42f
+lease_expires_at: '2026-07-25T12:23:26Z'
+updated_at: '2026-07-25T08:23:26Z'

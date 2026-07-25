@@ -8,10 +8,10 @@ actor:
   host: unknown
 release: R12
 task_id: TASK-R12-004
-story_id: STORY-R12-001
-goal: 按ADM-REVIEW-001冻结页面规格、运营规格、admin-openapi生成类型和精确视觉来源实现审核队列纵向闭环，并依次完成R12其余Android页面故事
+story_id: STORY-R12-002
+goal: 按SCR-MYC-003页面规格、B08/P03精确视觉合同和生成API类型实现内容管理详情、复制与数据闭环
 started_at: '2026-07-25T05:35:15Z'
-updated_at: '2026-07-25T07:42:33Z'
+updated_at: '2026-07-25T08:23:32Z'
 takeover_of: null
 change_requests:
 - CR-0319
@@ -19,9 +19,11 @@ change_requests:
 - CR-0321
 - CR-0322
 - CR-0323
+- CR-0324
+- CR-0325
 scope:
   allowed_paths:
-  - apps/admin-web/**
+  - apps/android/**
   - services/backend/**
   - packages/**
   - contracts/**
@@ -33,24 +35,25 @@ scope:
   - releases/**
   - design/**
   - scripts/**
+  - apps/android/**,catalogs/ui_visual_acceptance.csv,releases/R12/**,docs/02-ui/page-specs/android/**,tests/**,CHANGELOG.md
   - CHANGELOG.md
   approved_exceptions:
-  - catalogs/admin_pages.csv
-  - catalogs/ui_page_specifications.csv
-  - catalogs/admin_page_operation_specs.csv
-  - catalogs/release_story_backlog.csv
-  - database/state_machines.yaml
-  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R12ReviewService.java
-  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R12ReviewPostgresStore.java
-  - docs/02-ui/page-specs/admin/ADM-REVIEW-001_审核队列.md
   - database/migrations/V041__r12_review_permission_alignment.sql
   - services/backend/boot/src/main/resources/db/migration/V041__r12_review_permission_alignment.sql
   - database/rollback/U041__r12_review_permission_alignment.sql
   - database/tests/r12_review_permission_alignment.sql
   - scripts/check_db_schema.py
   - scripts/run_r12_database_invariants.sh
+  - catalogs/admin_pages.csv
+  - catalogs/ui_page_specifications.csv
+  - catalogs/admin_page_operation_specs.csv
+  - catalogs/release_story_backlog.csv
+  - database/state_machines.yaml
   - releases/R12/STORIES.yaml
   - apps/admin-web/src/generated/admin-pages.json
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R12ReviewService.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R12ReviewPostgresStore.java
+  - docs/02-ui/page-specs/admin/ADM-REVIEW-001_审核队列.md
   - apps/admin-web/src/services/adminReviews.ts
   - apps/admin-web/src/services/adminReviews.test.ts
   - apps/admin-web/src/services/idempotency.ts
@@ -62,10 +65,24 @@ scope:
   - apps/admin-web/src/adminNavigation.test.ts
   - apps/admin-web/src/routerPermissions.test.ts
   - apps/admin-web/src/styles.css
+  - apps/android/settings.gradle.kts
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR12Api.kt
+  - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/R12ApiModelsSerializationTest.kt
+  - apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyIcons.kt
+  - apps/android/feature/content-management/build.gradle.kts
+  - apps/android/feature/content-management/src/main/AndroidManifest.xml
+  - apps/android/feature/content-management/src/main/java/cc/orbexa/hhy/feature/contentmanagement/R12ContentManagementState.kt
+  - apps/android/feature/content-management/src/main/java/cc/orbexa/hhy/feature/contentmanagement/R12ContentManagementDetailScreen.kt
+  - apps/android/feature/content-management/src/test/java/cc/orbexa/hhy/feature/contentmanagement/R12ContentManagementStateTest.kt
   - catalogs/ui_visual_acceptance.csv
-  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R12ReviewServiceTest.java
-  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R12ReviewPostgresStoreTest.java
-  source: story+explicit+approved-cr:CR-0319+approved-cr:CR-0320+approved-cr:CR-0321+approved-cr:CR-0322+approved-cr:CR-0323
+  - docs/02-ui/page-specs/android/SCR-MYC-003_内容管理详情.md
+  - CHANGELOG.md
+  - apps/android/feature/content-management/src/main/java/cc/orbexa/hhy/contentmanagement/R12ContentManagementState.kt
+  - apps/android/feature/content-management/src/main/java/cc/orbexa/hhy/contentmanagement/R12ContentManagementDetailScreen.kt
+  - apps/android/feature/content-management/src/test/java/cc/orbexa/hhy/contentmanagement/R12ContentManagementStateTest.kt
+  source: story-switch+explicit+approved-cr:CR-0320+approved-cr:CR-0324+approved-cr:CR-0325
 git:
   initialized: true
   branch: task/TASK-R03-001
@@ -75,31 +92,33 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-25T07:42:27Z'
-  expires_at: '2026-07-25T11:42:27Z'
-checkpoint_sequence: 4
-latest_checkpoint: .continuity/checkpoints/SES-20260725T053515Z-11D4084D/0004.yaml
+  renewed_at: '2026-07-25T08:23:26Z'
+  expires_at: '2026-07-25T12:23:26Z'
+checkpoint_sequence: 7
+latest_checkpoint: .continuity/checkpoints/SES-20260725T053515Z-11D4084D/0007.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260725T053515Z-11D4084D.md
-next_step: 提交CR治理收尾Commit，然后切换到STORY-R12-002并实现SCR-MYC-003内容管理详情
+next_step: 提交并推送STORY-R12-002实现，绑定CR-0324/CR-0325与云端测试证据后切换下一Story。
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: 5791a353fc83c6826d0102ff1c77aff40b0fbc0dec27f6f1f0e65d7abd6be206
-  generated_at: '2026-07-25T07:42:30Z'
+  context_hash: 336e432bb79278ad8034e6ad7e3993f1d7c63d69a5fe4094bcb4415e80711a9a
+  generated_at: '2026-07-25T08:23:30Z'
 handoff_bundle: null
 closure: null
 parallel_execution:
   assessment: DELEGATED
-  delegated_workers: 2
+  delegated_workers: 1
   workers:
-  - worker_id: r12_admin_arch_audit
-    responsibility: 只读后台架构与交互审计
+  - worker_id: r12_myc003_readonly_audit
+    responsibility: 只读Android复用点和合同缺口审计
     allowed_paths:
-    - apps/admin-web/**
-  - worker_id: r12_admin_contract_audit
-    responsibility: CR-0320与CR-0321独立合同审批
-    allowed_paths:
-    - docs/03-continuity/**
-    - catalogs/ui_visual_acceptance.csv
-  reason: ''
+    - apps/android/**
+    - catalogs/**
+  reason: 只读代理完成复用点审计；实现、CR、集成与云端门禁由主控串行复核。
+story_history:
+- story_id: STORY-R12-001
+  completed_at: '2026-07-25T07:44:07Z'
+  checkpoint_id: CP-SES-20260725T053515Z-11D4084D-0004
+  commit: ad95719dc9aceb22b2e189c5cae28b07eae5c025
+  summary: STORY-R12-001审核工作台已实现、推送并通过obx-test模块门禁，继续内容管理详情

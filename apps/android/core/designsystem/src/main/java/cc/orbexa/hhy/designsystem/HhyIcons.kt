@@ -6,9 +6,11 @@ import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.outlined.AddCircleOutline
 import androidx.compose.material.icons.outlined.Apps
 import androidx.compose.material.icons.outlined.CameraAlt
+import androidx.compose.material.icons.outlined.BarChart
 import androidx.compose.material.icons.outlined.CardGiftcard
 import androidx.compose.material.icons.outlined.ChatBubbleOutline
 import androidx.compose.material.icons.outlined.ChevronRight
+import androidx.compose.material.icons.outlined.ContentCopy
 import androidx.compose.material.icons.outlined.DeleteForever
 import androidx.compose.material.icons.outlined.Devices
 import androidx.compose.material.icons.outlined.ErrorOutline
@@ -60,6 +62,8 @@ object HhyIcons {
     val Groups = Icons.Outlined.Groups
     val Verified = Icons.Outlined.Verified
     val ChevronRight = Icons.Outlined.ChevronRight
+    val Copy = Icons.Outlined.ContentCopy
+    val Analytics = Icons.Outlined.BarChart
 }
 
 @Composable

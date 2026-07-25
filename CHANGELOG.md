@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## R12 Android 内容管理详情 · 2026-07-25
+
+- 新增 `SCR-MYC-003` 内容管理详情模块与 `/me/contents/{id}` typed Navigation 路由，按 B08/P03 保留媒体标题状态头、四项真实指标、管理动作、信息分区和固定双操作区；只映射详情、内容数据与复制为草稿三项冻结能力，过滤编辑、上下架、置顶、道具和红包等未登记动作。
+- 新增冻结 R12 Android 网络合同，详情与数据复用 `ContentResource`、`ContentPageResource`，复制兼容 `ContentResource | CommandResultResource` 联合响应；复制动作强制实名、所有者、最新 `expectedVersion`、稳定幂等键、同资源单写锁和二次确认。
+- 页面覆盖 `LOADING / CONTENT / STALE_CACHE / NOT_FOUND / FORBIDDEN / ERROR / OFFLINE`，刷新失败保留只读缓存，内容数据失败局部降级；正式 UI 不展示 requestId、错误码、version 或原始 attributes，无真实媒体时不生成虚构图片。
+- `obx-test` 固定 Android 镜像完成网络合同单测、新模块 6 项状态单测、Lint 与 `app:compileDebugKotlin`，最终 197 个任务 `BUILD SUCCESSFUL`；本 Story 不触发模拟器、候选 APK 或全量 R12 视觉关闭。
+
 ## R12 后台统一审核工作台 · 2026-07-25
 
 - 新增大型商业后台三栏审核工作台：审核队列、任务上下文/举报申诉证据和决定面板同屏协作，窄屏按真实步骤切换；支持 URL 筛选分页、取消旧请求、局部失败、离线只读、权限收回、版本冲突和真实空态，不虚构证据媒体、SLA、历史或审核员。
