@@ -1,7 +1,7 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-25T05:19:58Z
-- Context Hash：`447a2f92e788baa1ff4e96d1eefdb1941bdd5b6e2b45fda88d9d5085f376b461`
+- 生成时间：2026-07-25T05:30:27Z
+- Context Hash：`8a24852157578f5f05ec5003e901ff5a648a3f85ce75994c4341022c19b625da`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 规则就绪：`PASS`（`HASHED_CONTEXT_MANIFEST`）
@@ -160,7 +160,7 @@ blocked_tasks:
 - TASK-R06-008
 - TASK-R07-008
 next_task: TASK-R12-003
-updated_at: '2026-07-25T05:19:54Z'
+updated_at: '2026-07-25T05:30:24Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -195,15 +195,15 @@ continuity:
   active_session_id: SES-20260725T025042Z-A53070A0
   actor_id: codex-root-r12-backend-20260725
   story_id: STORY-R12-008
-  lease_expires_at: '2026-07-25T09:19:54Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260725T025042Z-A53070A0/0003.yaml
-  project_fingerprint: 63427cd69e88024d04d6da7486580d048d2927705aaba87eac0a04e412b38e1d
+  lease_expires_at: '2026-07-25T09:30:24Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260725T025042Z-A53070A0/0004.yaml
+  project_fingerprint: 35826da145d6b459451d4a8a69426ca784fa0fb5d9f6641081a949bbe4ccea02
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: d3f2af72ff6c209bda0e61773377ac77d5889d9436fa43124181310f7301bb33
-    generated_at: '2026-07-25T05:17:14Z'
+    context_hash: 447a2f92e788baa1ff4e96d1eefdb1941bdd5b6e2b45fda88d9d5085f376b461
+    generated_at: '2026-07-25T05:19:58Z'
   handoff_bundle: null
 ```
 
@@ -401,7 +401,7 @@ task_id: TASK-R12-003
 story_id: STORY-R12-008
 goal: 实现R12范围19个冻结operationId的后端应用服务与接口，覆盖权限、幂等、错误码、审计和事务Outbox，不新增合同外业务
 started_at: '2026-07-25T02:50:42Z'
-updated_at: '2026-07-25T05:19:54Z'
+updated_at: '2026-07-25T05:30:24Z'
 takeover_of: null
 change_requests:
 - CR-0318
@@ -468,157 +468,61 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-25T05:19:54Z'
-  expires_at: '2026-07-25T09:19:54Z'
-checkpoint_sequence: 3
-latest_checkpoint: .continuity/checkpoints/SES-20260725T025042Z-A53070A0/0003.yaml
+  renewed_at: '2026-07-25T05:30:24Z'
+  expires_at: '2026-07-25T09:30:24Z'
+checkpoint_sequence: 4
+latest_checkpoint: .continuity/checkpoints/SES-20260725T025042Z-A53070A0/0004.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260725T025042Z-A53070A0.md
-next_step: 提交实现Commit，执行干净工作区push-preflight并推送，随后关闭TASK-R12-003并启动TASK-R12-004
+next_step: 提交推送CR关闭记录，然后执行continuity close关闭TASK-R12-003并切换TASK-R12-004
 context_pack: THIS_CONTEXT_PACK
 handoff_bundle: null
 closure: null
 parallel_execution:
-  assessment: DELEGATED
-  delegated_workers: 3
-  workers:
-  - worker_id: r12_admin_review
-    responsibility: 后台审核、举报与申诉6个冻结接口
-    allowed_paths:
-    - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/admin
-    - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/admin
-  - worker_id: r12_account_summary
-    responsibility: 个人资料、会员与奖励账户3个冻结接口
-    allowed_paths:
-    - services/backend/access/src/main/java/cc/orbexa/hhy/access/user
-    - services/backend/commerce/src/main/java/cc/orbexa/hhy/commerce
-    - services/backend/incentive/src/main/java/cc/orbexa/hhy/incentive
-    - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user
-  - worker_id: r12_content_audit
-    responsibility: 只读审计发布管理与冻结契约一致性
-    allowed_paths:
-    - artifacts/validation/r12-content-audit
-  reason: ''
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: CR关闭必须由主控串行绑定唯一已推送实现Commit，不存在可拆分路径。
 ```
 
 ## 最新检查点
 
 ```yaml
 protocol_version: '1.0'
-checkpoint_id: CP-SES-20260725T025042Z-A53070A0-0003
+checkpoint_id: CP-SES-20260725T025042Z-A53070A0-0004
 session_id: SES-20260725T025042Z-A53070A0
 task_id: TASK-R12-003
 story_id: STORY-R12-008
-sequence: 3
-created_at: '2026-07-25T05:19:53Z'
-summary: TASK-R12-003最终实现检查点：19个冻结operationId、V040/U040二审与完整后端回归全部通过，严格连续性Doctor已刷新
-next_step: 提交实现Commit，执行干净工作区push-preflight并推送，随后关闭TASK-R12-003并启动TASK-R12-004
+sequence: 4
+created_at: '2026-07-25T05:30:24Z'
+summary: CR-0318已绑定并关闭于R12后端实现Commit 35acc4c97bd5ddb8771bd23266e6a5d1b84ab206
+next_step: 提交推送CR关闭记录，然后执行continuity close关闭TASK-R12-003并切换TASK-R12-004
 blockers: []
-decisions:
-- 本任务不运行Android、模拟器、截图或APK，最终候选统一留在TASK-R12-007
-- 本机不安装Java、Android Studio或Android SDK，重型验证固定使用obx-test既有环境
-note: 主控完成委托结果审查、V040高风险串行复核、PostgreSQL17、Java21全回归及严格连续性；CR-0318为IMPLEMENTED，transport status READY。
+decisions: []
+note: ''
 tests:
-- name: backend-java21-full
+- name: cr-0318-close
   result: PASS
-  evidence: obx-test:/tmp/hhy-r12-task003-backend-final-v3.log
-  note: 411 tests, 0 failures, 0 errors, 0 skipped
-- name: r12-postgres-stores
-  result: PASS
-  evidence: obx-test:/tmp/hhy-r12-task003-backend-final-v3.log
-  note: R12ReviewPostgresStoreTest和R12PublishingPostgresStoreTest各1项且0 skipped
-- name: r12-db-v040
-  result: PASS
-  evidence: docs/03-continuity/R12_TASK-003_BACKEND_GATE.md
-  note: V001-V040、二审事务矩阵、U040回滚重放与有事实原子阻断
-- name: runtime-contracts
-  result: PASS
-  evidence: scripts/sync_runtime_assets.py --check; scripts/check_api_contract.py; scripts/check_db_schema.py
-  note: 44 assets; client=131 admin=184 websocket=10; tables=200 migrations=40
-- name: r12-strict-docs
-  result: PASS
-  evidence: scripts/check_v122_documentation.py --strict --release R12
-  note: 0 errors, 0 warnings
-- name: continuity-strict
-  result: PASS
-  evidence: scripts/check_v123_continuity.py --strict
-  note: 0 errors, 0 warnings, 42 rules
-- name: state-trace-generated
-  result: PASS
-  evidence: scripts/check_content_state_machine_projection.py; scripts/check_frontend_backend_matrix.py; scripts/check_generated_assets.py
-  note: 11 states 29 edges; 189 surfaces; generated assets verified
+  evidence: .continuity/change_requests/CR-0318.yaml
+  note: status CLOSED and implementation commit 35acc4c97bd5ddb8771bd23266e6a5d1b84ab206
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: 8ab868d27c0a3768f4106e7f8bb71d1102363ebc
+  head: 35acc4c97bd5ddb8771bd23266e6a5d1b84ab206
   upstream: origin/task/TASK-R03-001
   ahead: 0
   behind: 0
   dirty: true
   status_porcelain:
-  - ' M .continuity/ACTIVE_SESSION.yaml'
   - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
   - ' M .continuity/EVENT_LOG.jsonl'
-  - ' M .continuity/SESSION_INDEX.yaml'
   - ' M .continuity/STATE.yaml'
-  - ' M .continuity/TASK_CLAIMS.yaml'
-  - ' M .continuity/TASK_TRANSITIONS.yaml'
-  - ' M CHANGELOG.md'
-  - ' M CURRENT_STATUS.yaml'
-  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
-  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
-  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
-  - ' M artifacts/validation/project-doctor-v1.2.2.json'
-  - ' M artifacts/validation/project-doctor-v1.2.3.json'
+  - ' M .continuity/change_requests/CR-0318.yaml'
   - ' M catalogs/change_request_index.csv'
-  - ' M catalogs/data_tables.csv'
   - ' M catalogs/session_index.csv'
-  - ' M catalogs/task_transition_ledger.csv'
-  - ' M database/schema_dictionary.csv'
-  - ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
-  - ' M releases/R12/RELEASE_MANIFEST.yaml'
-  - ' M scripts/check_db_schema.py'
-  - ' M services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinderTest.java'
-  - ?? .continuity/change_requests/CR-0318.yaml
-  - ?? .continuity/checkpoints/SES-20260725T025042Z-A53070A0/0001.yaml
-  - ?? .continuity/checkpoints/SES-20260725T025042Z-A53070A0/0002.yaml
-  - ?? .continuity/sessions/SES-20260725T025042Z-A53070A0.yaml
-  - ?? database/migrations/V040__r12_review_escalation.sql
-  - ?? database/rollback/U040__r12_review_escalation.sql
-  - ?? database/tests/r12_review_escalation.sql
-  - ?? docs/03-continuity/R12_TASK-003_BACKEND_GATE.md
-  - ?? docs/03-continuity/change-requests/CR-0318-补齐R12内容审核ESCALATE二审持久化与事务语义.md
-  - ?? docs/03-continuity/sessions/2026-07/SES-20260725T025042Z-A53070A0.md
-  - ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/user/R12ProfileContracts.java
-  - ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/user/R12ProfileService.java
-  - ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/user/R12ProfileStore.java
-  - ?? services/backend/boot/src/main/java/cc/orbexa/hhy/boot/admin/R12ReviewController.java
-  - ?? services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/R12AccountController.java
-  - ?? services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/R12PublishingController.java
-  - ?? services/backend/boot/src/main/resources/db/migration/V040__r12_review_escalation.sql
-  - ?? services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/R12ProfileServiceTest.java
-  - ?? services/backend/boot/src/test/java/cc/orbexa/hhy/boot/admin/R12ReviewControllerContractTest.java
-  - ?? services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/R12AccountControllerContractTest.java
-  - ?? services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/R12PublishingControllerContractTest.java
-  - ?? services/backend/boot/src/test/java/cc/orbexa/hhy/commerce/R12MembershipServiceTest.java
-  - ?? services/backend/boot/src/test/java/cc/orbexa/hhy/content/R12PublishingPostgresStoreTest.java
-  - ?? services/backend/boot/src/test/java/cc/orbexa/hhy/content/R12PublishingServiceTest.java
-  - ?? services/backend/boot/src/test/java/cc/orbexa/hhy/content/R12ReviewPostgresStoreTest.java
-  - ?? services/backend/boot/src/test/java/cc/orbexa/hhy/content/R12ReviewServiceTest.java
-  - ?? services/backend/boot/src/test/java/cc/orbexa/hhy/incentive/R12RewardServiceTest.java
-  - ?? services/backend/commerce/src/main/java/cc/orbexa/hhy/commerce/R12MembershipContracts.java
-  - ?? services/backend/commerce/src/main/java/cc/orbexa/hhy/commerce/R12MembershipService.java
-  - ?? services/backend/commerce/src/main/java/cc/orbexa/hhy/commerce/R12MembershipStore.java
-  - ?? services/backend/content/src/main/java/cc/orbexa/hhy/content/R12PublishingPostgresStore.java
-  - ?? services/backend/content/src/main/java/cc/orbexa/hhy/content/R12PublishingService.java
-  - ?? services/backend/content/src/main/java/cc/orbexa/hhy/content/R12PublishingStore.java
-  - ?? services/backend/content/src/main/java/cc/orbexa/hhy/content/R12ReviewContracts.java
-  - ?? services/backend/content/src/main/java/cc/orbexa/hhy/content/R12ReviewPostgresStore.java
-  - ?? services/backend/content/src/main/java/cc/orbexa/hhy/content/R12ReviewService.java
-  - ?? services/backend/content/src/main/java/cc/orbexa/hhy/content/R12ReviewStore.java
-  - ?? services/backend/incentive/src/main/java/cc/orbexa/hhy/incentive/R12RewardContracts.java
-  - ?? services/backend/incentive/src/main/java/cc/orbexa/hhy/incentive/R12RewardService.java
-  - ?? services/backend/incentive/src/main/java/cc/orbexa/hhy/incentive/R12RewardStore.java
+  - ' M docs/03-continuity/change-requests/CR-0318-补齐R12内容审核ESCALATE二审持久化与事务语义.md'
   recent_commits:
+  - "35acc4c97bd5ddb8771bd23266e6a5d1b84ab206\t2026-07-25T13:28:05+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] feat(content): implement R12\
+    \ publishing backend"
   - "8ab868d27c0a3768f4106e7f8bb71d1102363ebc\t2026-07-25T10:48:13+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] chore(continuity): close TASK-R12-002\
     \ as completed"
   - "4715464b8e3016619dc94217c138c1558393722e\t2026-07-25T10:45:49+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] chore(continuity): close R12\
@@ -633,10 +537,8 @@ git:
     \ as completed"
   - "b197e7d9c753f41914e270ce108b4a0c897df3fe\t2026-07-24T22:41:56+08:00\tHHY Continuity Bootstrap\t[STORY-R11-004] chore(continuity): close R11\
     \ workflow CRs"
-  - "6bd3313e087de6afc6f7189c6a1791a9a198ae7f\t2026-07-24T22:16:23+08:00\tHHY Continuity Bootstrap\t[STORY-R11-004] fix(workflow): close R11 without\
-    \ duplicate local builds"
 project_fingerprint:
-  sha256: 63427cd69e88024d04d6da7486580d048d2927705aaba87eac0a04e412b38e1d
+  sha256: 35826da145d6b459451d4a8a69426ca784fa0fb5d9f6641081a949bbe4ccea02
   files:
   - CHANGELOG.md
   - catalogs/data_tables.csv
@@ -718,8 +620,8 @@ project_fingerprint:
       sha256: 8d7c7f4be46d05e4aec6b13b3cd998f9ec53d7c7d2367444c59dd64aede47a94
     - path: docs/03-continuity/change-requests/CR-0318-补齐R12内容审核ESCALATE二审持久化与事务语义.md
       state: FILE
-      size: 7979
-      sha256: ad6183ba3c823be9e8172a656814bea0ffd28fd7be2486a13dabda8708a7d3e4
+      size: 8332
+      sha256: f55a02de9151123ea3ca12a6bf0e0e4a0fc01099cd135d9e20cd01c300b7435d
     - path: releases/R12/RELEASE_MANIFEST.yaml
       state: FILE
       size: 6729
@@ -967,27 +869,11 @@ scope:
   - CHANGELOG.md
   source: story+explicit+approved-cr:CR-0318
 parallel_execution:
-  assessment: DELEGATED
-  delegated_workers: 3
-  workers:
-  - worker_id: r12_admin_review
-    responsibility: 后台审核、举报与申诉6个冻结接口
-    allowed_paths:
-    - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/admin
-    - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/admin
-  - worker_id: r12_account_summary
-    responsibility: 个人资料、会员与奖励账户3个冻结接口
-    allowed_paths:
-    - services/backend/access/src/main/java/cc/orbexa/hhy/access/user
-    - services/backend/commerce/src/main/java/cc/orbexa/hhy/commerce
-    - services/backend/incentive/src/main/java/cc/orbexa/hhy/incentive
-    - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user
-  - worker_id: r12_content_audit
-    responsibility: 只读审计发布管理与冻结契约一致性
-    allowed_paths:
-    - artifacts/validation/r12-content-audit
-  reason: ''
-event_hash: 5ee0aa4bfb2795dbf9cbc3291adc6d11abcf6decb790ab9ef53c8b827aafeb44
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: CR关闭必须由主控串行绑定唯一已推送实现Commit，不存在可拆分路径。
+event_hash: 2d306e469937bca873fb2f3701eb1a4b5087c9051d8bf4a3dc35319cccc60175
 ```
 
 ## 接续状态与事件头
@@ -999,8 +885,8 @@ active_session_id: SES-20260725T025042Z-A53070A0
 last_session_id: SES-20260724T235749Z-6EC9DB09
 last_session_result: COMPLETED
 last_closure_checkpoint_id: CP-SES-20260724T235749Z-6EC9DB09-0008
-event_count: 3101
-event_head_hash: 5ee0aa4bfb2795dbf9cbc3291adc6d11abcf6decb790ab9ef53c8b827aafeb44
+event_count: 3103
+event_head_hash: 2d306e469937bca873fb2f3701eb1a4b5087c9051d8bf4a3dc35319cccc60175
 event_chain_valid: true
 ```
 
@@ -1123,9 +1009,9 @@ recent_sessions: - session_id: SES-20260723T175513Z-EFD4D365
   started_at: '2026-07-25T02:50:42Z'
   record: .continuity/sessions/SES-20260725T025042Z-A53070A0.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260725T025042Z-A53070A0.md
-  updated_at: '2026-07-25T05:19:54Z'
+  updated_at: '2026-07-25T05:30:24Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260725T025042Z-A53070A0/0003.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260725T025042Z-A53070A0/0004.yaml
   handoff_bundle: null
 task_claims: - claim_id: CLM-958DD305287B
   session_id: SES-20260723T025104Z-E29F6208
@@ -2118,7 +2004,7 @@ recent_task_transitions: - transition_id: TRN-15AFFA52E4DA
 ```yaml
 initialized: true
 branch: task/TASK-R03-001
-head: 8ab868d27c0a3768f4106e7f8bb71d1102363ebc
+head: 35acc4c97bd5ddb8771bd23266e6a5d1b84ab206
 upstream: origin/task/TASK-R03-001
 ahead: 0
 behind: 0
@@ -2129,66 +2015,17 @@ status_porcelain:
 - ' M .continuity/EVENT_LOG.jsonl'
 - ' M .continuity/SESSION_INDEX.yaml'
 - ' M .continuity/STATE.yaml'
-- ' M .continuity/TASK_CLAIMS.yaml'
-- ' M .continuity/TASK_TRANSITIONS.yaml'
-- ' M CHANGELOG.md'
+- ' M .continuity/change_requests/CR-0318.yaml'
+- ' M .continuity/sessions/SES-20260725T025042Z-A53070A0.yaml'
 - ' M CURRENT_STATUS.yaml'
-- ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
-- ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
-- ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
-- ' M artifacts/validation/project-doctor-v1.2.2.json'
-- ' M artifacts/validation/project-doctor-v1.2.3.json'
 - ' M catalogs/change_request_index.csv'
-- ' M catalogs/data_tables.csv'
 - ' M catalogs/session_index.csv'
-- ' M catalogs/task_transition_ledger.csv'
-- ' M database/schema_dictionary.csv'
-- ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
-- ' M releases/R12/RELEASE_MANIFEST.yaml'
-- ' M scripts/check_db_schema.py'
-- ' M services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinderTest.java'
-- ?? .continuity/change_requests/CR-0318.yaml
-- ?? .continuity/checkpoints/SES-20260725T025042Z-A53070A0/0001.yaml
-- ?? .continuity/checkpoints/SES-20260725T025042Z-A53070A0/0002.yaml
-- ?? .continuity/checkpoints/SES-20260725T025042Z-A53070A0/0003.yaml
-- ?? .continuity/sessions/SES-20260725T025042Z-A53070A0.yaml
-- ?? database/migrations/V040__r12_review_escalation.sql
-- ?? database/rollback/U040__r12_review_escalation.sql
-- ?? database/tests/r12_review_escalation.sql
-- ?? docs/03-continuity/R12_TASK-003_BACKEND_GATE.md
-- ?? docs/03-continuity/change-requests/CR-0318-补齐R12内容审核ESCALATE二审持久化与事务语义.md
-- ?? docs/03-continuity/sessions/2026-07/SES-20260725T025042Z-A53070A0.md
-- ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/user/R12ProfileContracts.java
-- ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/user/R12ProfileService.java
-- ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/user/R12ProfileStore.java
-- ?? services/backend/boot/src/main/java/cc/orbexa/hhy/boot/admin/R12ReviewController.java
-- ?? services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/R12AccountController.java
-- ?? services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/R12PublishingController.java
-- ?? services/backend/boot/src/main/resources/db/migration/V040__r12_review_escalation.sql
-- ?? services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/R12ProfileServiceTest.java
-- ?? services/backend/boot/src/test/java/cc/orbexa/hhy/boot/admin/R12ReviewControllerContractTest.java
-- ?? services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/R12AccountControllerContractTest.java
-- ?? services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/R12PublishingControllerContractTest.java
-- ?? services/backend/boot/src/test/java/cc/orbexa/hhy/commerce/R12MembershipServiceTest.java
-- ?? services/backend/boot/src/test/java/cc/orbexa/hhy/content/R12PublishingPostgresStoreTest.java
-- ?? services/backend/boot/src/test/java/cc/orbexa/hhy/content/R12PublishingServiceTest.java
-- ?? services/backend/boot/src/test/java/cc/orbexa/hhy/content/R12ReviewPostgresStoreTest.java
-- ?? services/backend/boot/src/test/java/cc/orbexa/hhy/content/R12ReviewServiceTest.java
-- ?? services/backend/boot/src/test/java/cc/orbexa/hhy/incentive/R12RewardServiceTest.java
-- ?? services/backend/commerce/src/main/java/cc/orbexa/hhy/commerce/R12MembershipContracts.java
-- ?? services/backend/commerce/src/main/java/cc/orbexa/hhy/commerce/R12MembershipService.java
-- ?? services/backend/commerce/src/main/java/cc/orbexa/hhy/commerce/R12MembershipStore.java
-- ?? services/backend/content/src/main/java/cc/orbexa/hhy/content/R12PublishingPostgresStore.java
-- ?? services/backend/content/src/main/java/cc/orbexa/hhy/content/R12PublishingService.java
-- ?? services/backend/content/src/main/java/cc/orbexa/hhy/content/R12PublishingStore.java
-- ?? services/backend/content/src/main/java/cc/orbexa/hhy/content/R12ReviewContracts.java
-- ?? services/backend/content/src/main/java/cc/orbexa/hhy/content/R12ReviewPostgresStore.java
-- ?? services/backend/content/src/main/java/cc/orbexa/hhy/content/R12ReviewService.java
-- ?? services/backend/content/src/main/java/cc/orbexa/hhy/content/R12ReviewStore.java
-- ?? services/backend/incentive/src/main/java/cc/orbexa/hhy/incentive/R12RewardContracts.java
-- ?? services/backend/incentive/src/main/java/cc/orbexa/hhy/incentive/R12RewardService.java
-- ?? services/backend/incentive/src/main/java/cc/orbexa/hhy/incentive/R12RewardStore.java
+- ' M docs/03-continuity/change-requests/CR-0318-补齐R12内容审核ESCALATE二审持久化与事务语义.md'
+- ' M docs/03-continuity/sessions/2026-07/SES-20260725T025042Z-A53070A0.md'
+- ?? .continuity/checkpoints/SES-20260725T025042Z-A53070A0/0004.yaml
 recent_commits:
+- "35acc4c97bd5ddb8771bd23266e6a5d1b84ab206\t2026-07-25T13:28:05+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] feat(content): implement R12\
+  \ publishing backend"
 - "8ab868d27c0a3768f4106e7f8bb71d1102363ebc\t2026-07-25T10:48:13+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] chore(continuity): close TASK-R12-002\
   \ as completed"
 - "4715464b8e3016619dc94217c138c1558393722e\t2026-07-25T10:45:49+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] chore(continuity): close R12\
@@ -2203,13 +2040,11 @@ recent_commits:
   \ as completed"
 - "b197e7d9c753f41914e270ce108b4a0c897df3fe\t2026-07-24T22:41:56+08:00\tHHY Continuity Bootstrap\t[STORY-R11-004] chore(continuity): close R11\
   \ workflow CRs"
-- "6bd3313e087de6afc6f7189c6a1791a9a198ae7f\t2026-07-24T22:16:23+08:00\tHHY Continuity Bootstrap\t[STORY-R11-004] fix(workflow): close R11 without\
-  \ duplicate local builds"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`63427cd69e88024d04d6da7486580d048d2927705aaba87eac0a04e412b38e1d`
+- 指纹：`35826da145d6b459451d4a8a69426ca784fa0fb5d9f6641081a949bbe4ccea02`
 - 文件数：42
 
 - `CHANGELOG.md`
@@ -11371,94 +11206,13 @@ PARALLEL_EXECUTION_PLAN.yaml:
     session_id: SES-20260724T144831Z-B2E27A89
   session_ids:
   - SES-20260724T144831Z-B2E27A89
-- protocol_version: '1.0'
-  cr_id: CR-0318
-  title: 补齐R12内容审核ESCALATE二审持久化与事务语义
-  status: IMPLEMENTED
-  created_at: '2026-07-25T03:40:46Z'
-  updated_at: '2026-07-25T05:11:59Z'
-  requester_actor_id: codex-root-r12-backend-20260725
-  approver_actor_id: codex-r12-escalation-cr-reviewer
-  task_id: TASK-R12-003
-  session_id: SES-20260725T025042Z-A53070A0
-  user_request: OWNER_ACTIVE_GOAL_CONTINUE_R01_R32_IN_REPOSITORY_ORDER
-  reason: 冻结OpenAPI和后台页面要求APPROVE、REJECT、ESCALATE，但V039数据库约束与触发器只能持久化CLAIM、ASSIGN、APPROVE、REJECT，当前服务被迫对二审返回422，无法满足R12冻结功能。
-  original_rule: V039仅允许content_review_records.decision为CLAIM、ASSIGN、APPROVE、REJECT，并把REVIEWING审核决定限定为APPROVED或REJECTED；但冻结OpenAPI与ADM-REVIEW-001同时要求ESCALATE二审，服务当前只能失败关闭返回422。
-  new_rule: ESCALATE仅表示把同一不可变提交快照升级到二审，不新增CONTENT_STATUS或自迁移边。固定事务顺序为claim/replay → FOR UPDATE锁内容 → 校验REVIEWING、expectedVersion、最近PENDING_REVIEW提交快照和同快照未曾ESCALATE
-    → UPDATE status仍为REVIEWING且version恰好+1 → INSERT decision=ESCALATE审核记录 → 管理员审计 → content.review.escalated.v1应用Outbox → 加密首次响应快照 → commit；不写REVIEWING到REVIEWING状态日志。同一snapshot_version_id最多一条ESCALATE。ESCALATE后，APPROVE/REJECT前必须存在ID更大的ASSIGN记录，最终决定admin_id必须等于该最新ASSIGN.admin_id；即ESCALATE
-    → ASSIGN二审员 → 被分配二审员APPROVE或REJECT，结果语义不变但新增二审分配前置条件。V040数据库守卫独立强制当前状态REVIEWING、父记录已同事务version+1且GUC一致、snapshot_version_id等于最近提交快照、reason和command_id非空、同快照ESCALATE唯一，并强制ESCALATE后最终决定的分配顺序与管理员身份；延迟约束证明对应审计和应用Outbox同事务存在。管理员审计冻结actorId、actorUsername、有效权限review.decide、目标、前后状态与版本、reason、evidenceIds、requestId、IP、已认证admin_sessions.device_fingerprint、result和commandId；通过resource_id
-    + action + after_json.commandId + afterVersion + result精确关联。设备必须按AdminPrincipal.sessionId与adminId从admin_sessions读取，任何请求头只可作为未采信的客户端声明且本实现不写入权威审计。Outbox冻结contentId、submittedSnapshotId/version、beforeVersion、afterVersion/contentVersion、status、actorId、actorUsername、permission、reason、evidenceIds、requestId、device、commandId、occurredAt。幂等scope固定r12.adminReviewPostReviewsByIdDecide:admin:<actorId>，reviewId、decision、规范化reason、expectedVersion和顺序规范化evidenceIds进入hash；replay先于当前状态/版本校验，首次响应使用版本化response_type和AES-GCM
-    ciphertext。ASSIGN/CLAIM及无ESCALATE时APPROVE/REJECT语义不变。
-  impact_summary: 以V040前向迁移扩展V039审核决策约束、插入守卫、同快照唯一索引、ESCALATE后分配/决定人约束与延迟审计/Outbox提交检查，不增加业务表、不改变CONTENT_STATUS状态集合或29条状态边。后端移除ESCALATE失败关闭，实现保持REVIEWING的版本化二审事务；从已认证管理员会话读取设备，使用commandId串联审核、审计与Outbox，读取投影兼容最新ESCALATE；补单元、控制器合同、PostgreSQL17真库及V040/U040原子回滚测试。
-  impact:
-    files:
-    - database/migrations/V040__r12_review_escalation.sql
-    - services/backend/boot/src/main/resources/db/migration/V040__r12_review_escalation.sql
-    - database/rollback/U040__r12_review_escalation.sql
-    - database/tests/r12_review_escalation.sql
-    - scripts/check_db_schema.py
-    - services/backend/content/src/main/java/cc/orbexa/hhy/content/R12ReviewContracts.java
-    - services/backend/content/src/main/java/cc/orbexa/hhy/content/R12ReviewStore.java
-    - services/backend/content/src/main/java/cc/orbexa/hhy/content/R12ReviewService.java
-    - services/backend/content/src/main/java/cc/orbexa/hhy/content/R12ReviewPostgresStore.java
-    - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/admin/R12ReviewController.java
-    - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R12ReviewServiceTest.java
-    - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R12ReviewPostgresStoreTest.java
-    - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/admin/R12ReviewControllerContractTest.java
-    - database/schema_dictionary.csv
-    - catalogs/data_tables.csv
-    - releases/R12/RELEASE_MANIFEST.yaml
-    - docs/03-continuity/PROBLEM_REGISTRY.yaml
-    - docs/03-continuity/R12_TASK-003_BACKEND_GATE.md
-    - CHANGELOG.md
-    pages:
-    - ADM-REVIEW-001
-    apis:
-    - POST /admin-api/v1/reviews/{id}/decide
-    database:
-    - content_review_records
-    - content_posts
-    - admin_sessions
-    - admin_operation_logs
-    - outbox_events
-    configuration: []
-    ledger: []
-    tests:
-    - R12ReviewServiceTest：成功二审保持REVIEWING/version+1/零状态日志/审核审计Outbox幂等；同键重放、异体冲突、非REVIEWING、过期版本和同快照重复拒绝
-    - R12ReviewServiceTest：ESCALATE后直接决定拒绝、分配后错误管理员拒绝、被分配管理员成功
-    - R12ReviewControllerContractTest：AdminPrincipal adminId/sessionId/username与review.decide、requestId、IP上下文传递；设备仅由Store按会话读取
-    - R12ReviewPostgresStoreTest PostgreSQL17：完整二审事务、并发同版本仅一成功、任一步失败零落地、V040含ESCALATE时旧读取投影成功
-    - database/tests/r12_review_escalation.sql：空reason、错误快照、无父更新、缺审计、审计commandId/afterVersion/result错配、缺应用Outbox、错误contentVersion、二审未分配或决定人不匹配拒绝；V040/U040无数据精确回滚重放和有ESCALATE原子阻断
-    releases:
-    - R12
-    migration_and_compatibility: 部署顺序固定为先执行V040数据库迁移，再部署支持ESCALATE的应用；回滚顺序固定为先部署不再发起ESCALATE的旧应用，再执行U040。V040不改写既有记录，以NOT VALID后VALIDATE扩展约束与守卫，并创建同一提交快照最多一次ESCALATE的唯一索引和延迟事务事实检查。U040在任何DDL前先检测ESCALATE记录：不存在时精确恢复V039约束、函数和触发器并允许再次重放V040；存在时整个事务原子拒绝，不删除、不改写事实且不执行部分DDL。应用回滚后仍必须通过原读取投影返回既有ESCALATE；以V040含ESCALATE数据加旧读取查询回归证明，不要求旧应用发起二审。
-  user_confirmation: OWNER_ACTIVE_GOAL_CONTINUE_R01_R32_IN_REPOSITORY_ORDER
-  approval:
-    decision: APPROVED
-    decided_at: '2026-07-25T03:59:13Z'
-    note: 第三轮独立只读复核通过：ESCALATE状态/版本/快照/唯一性、二审分配决定人、commandId审计关联、管理员会话设备来源、幂等、Outbox及V040/U040兼容测试均已闭环。
-  machine_record: .continuity/change_requests/CR-0318.yaml
-  document: docs/03-continuity/change-requests/CR-0318-补齐R12内容审核ESCALATE二审持久化与事务语义.md
-  decision_log:
-  - at: '2026-07-25T03:59:20Z'
-    actor_id: codex-root-r12-backend-20260725
-    status: IMPLEMENTING
-    note: 开始实现V040/U040、二审应用事务、审计Outbox、控制器上下文与PostgreSQL17回归。
-    session_id: SES-20260725T025042Z-A53070A0
-  - at: '2026-07-25T05:11:59Z'
-    actor_id: codex-root-r12-backend-20260725
-    status: IMPLEMENTED
-    note: V040/U040、ESCALATE二审事务、commandId审计与Outbox、认证会话设备来源、19个冻结operationId及Java21/PostgreSQL17回归均已实现；后端全回归411项，0失败、0错误、0跳过。
-    session_id: SES-20260725T025042Z-A53070A0
-  session_ids:
-  - SES-20260725T025042Z-A53070A0
 ```
 
 ## 上下文来源及哈希
 
 - `AGENTS.md` — `690f960020dcbd18080ec91b3c314335627b32e231b9f9b2e14566b0fbbaeb35`
 - `START_HERE.md` — `22de14029ce47beb41ea569e36ce223fbc9d11b86f8676f28d5fbbd83896af5c`
-- `CURRENT_STATUS.yaml` — `81dd756008c0f04d11f700a1c6267e1e78a0b922ec01134694f0ff1b726119f8`
+- `CURRENT_STATUS.yaml` — `402bc4265aa1f5a43c984870fffd0bf6b5b19febd78848f757e284fd91404213`
 - `NEXT_TASK.yaml` — `b8776e358361450c7c930346e4f31b71ef5248208e9357299169bbee87a0b0e9`
 - `DEVELOPMENT_RISK_REGISTER.md` — `8304c91492e4ee2abea0522a06541c8688d39c7fc532b5d0cde499bf09fffb87`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
@@ -11469,12 +11223,12 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `config/REPOSITORY_TRANSPORT.yaml` — `8c4a21f3e204d46e7ffb467d804a53ed26cda61cd088dadfddb50b69eea657fc`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `60943fcd9714cfae7274463554b5584fdb7a7aeee1ee547ff6dbc53fae6d4994`
-- `.continuity/EVENT_LOG.jsonl` — `7b66d990cf9a36eec8d4f441018575956c9bf94e57e0f919672daf3b63574334`
-- `.continuity/SESSION_INDEX.yaml` — `c446bbcf38f771b385774d431ebc5007bd0992fb133f9c9e26899513d05f3647`
+- `.continuity/EVENT_LOG.jsonl` — `bdc2db4e189fbfb5ac5e76bcb272e66399dee8bfe02eb27f03869d66b0478250`
+- `.continuity/SESSION_INDEX.yaml` — `63972629e1f17e77a1c0519aaf9ca61937de7126f2a61daf610b009cd5bb1e80`
 - `.continuity/TASK_CLAIMS.yaml` — `8e30a2e6a9dcee63799d96ea369d984979e32341092a0baa37cb93de755a5452`
 - `.continuity/TASK_TRANSITIONS.yaml` — `e05b38cb2dedd9741acb06108e8352c0490b89f8dcaab9769f095a5b97213c77`
-- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `245961d636693a2fa3a3e043026d9d2d390609d9c4c5e8c19ebfbbf26d2f1a2a`
-- `.continuity/ACTIVE_SESSION.yaml` — `b5b9c8c17759021deea58022e5e5ff2f0c071ef6c719be9f2f5c26b2c7a16bd5`
+- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `63a4c7ec0be275e382dbcb4865407ac9213ad58bfcb238b3b2fc8d067857d066`
+- `.continuity/ACTIVE_SESSION.yaml` — `5996d71aa6eb8860aad14f92cfb7bc813e26568df7dde99fd1e1989210d6594e`
 - `docs/00-baseline/正式商业系统全局硬性开发边界.md` — `9753b32db136e59e95a0974a62362456d9d577fd1bb40058ec985c4b64413eea`
 - `docs/02-ui/UI参考图使用与开发约束_V1.2.2.md` — `d14367586aa2067b059df58798acd20ab982459cdb35ff27fc7922a3896e4933`
 - `docs/03-continuity/持续开发无状态接续强制门禁_V1.2.3.md` — `d0ed3ed68bdd93b06500eecdfb5baa3245e6ca8b685a486788abb6eee39b3d51`
@@ -11485,9 +11239,9 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `releases/R12/TASKS.yaml` — `1778642d3ad06cf4d21ce38f59ff7b36db08e66570395256775fdf341b17b38b`
 - `releases/R12/ACCEPTANCE_MATRIX.csv` — `197874227cef03f791df1fa5d2101a251df266c63240f777f358388b46cb9706`
 - `releases/R12/PARALLEL_EXECUTION_PLAN.yaml` — `2ddbee414a51a868b63331992e2e04c5400846cf6012474aab406e067e532e98`
-- `docs/03-continuity/sessions/2026-07/SES-20260725T025042Z-A53070A0.md` — `70d5387137a87a6655353f35b9caa467eec7e8d4538e842325a6e4179b987d76`
-- `.continuity/checkpoints/SES-20260725T025042Z-A53070A0/0003.yaml` — `d188254992a46ca9e739cff8eebe2d357cabf7be2743802dffb8e31b317ae10b`
-- `docs/03-continuity/change-requests/CR-0318-补齐R12内容审核ESCALATE二审持久化与事务语义.md` — `ad6183ba3c823be9e8172a656814bea0ffd28fd7be2486a13dabda8708a7d3e4`
+- `docs/03-continuity/sessions/2026-07/SES-20260725T025042Z-A53070A0.md` — `7a72ca4032132baf337c45040e328ffcbf25b5016fba2ac9e6b92ea8a9985f0b`
+- `.continuity/checkpoints/SES-20260725T025042Z-A53070A0/0004.yaml` — `84b0784ac5648d9bb5d66c9a8ec6d521103a45a5dc628baeaf05aec3dcd04af7`
+- `docs/03-continuity/change-requests/CR-0318-补齐R12内容审核ESCALATE二审持久化与事务语义.md` — `f55a02de9151123ea3ca12a6bf0e0e4a0fc01099cd135d9e20cd01c300b7435d`
 
 ## 接手硬规则
 
