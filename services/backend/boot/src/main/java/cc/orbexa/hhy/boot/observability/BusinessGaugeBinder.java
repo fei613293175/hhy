@@ -407,6 +407,46 @@ public final class BusinessGaugeBinder implements MeterBinder {
                 'content.team-leader.stage.alert.v1'
             ) AND status IN ('PENDING', 'RETRY_WAIT')
             """;
+    static final String PUBLISH_TOTAL_SQL = """
+            SELECT COUNT(*)
+            FROM hhy.content_posts
+            WHERE status <> 'DELETED'
+            """;
+    static final String PUBLISH_DRAFT_SQL = """
+            SELECT COUNT(*)
+            FROM hhy.content_posts
+            WHERE status = 'DRAFT'
+            """;
+    static final String PUBLISH_REVIEW_PENDING_SQL = """
+            SELECT COUNT(*)
+            FROM hhy.content_posts
+            WHERE status = 'PENDING_REVIEW'
+            """;
+    static final String PUBLISH_REVIEWING_SQL = """
+            SELECT COUNT(*)
+            FROM hhy.content_posts
+            WHERE status = 'REVIEWING'
+            """;
+    static final String PUBLISH_REJECTED_SQL = """
+            SELECT COUNT(*)
+            FROM hhy.content_posts
+            WHERE status = 'REJECTED'
+            """;
+    static final String PUBLISH_ONLINE_SQL = """
+            SELECT COUNT(*)
+            FROM hhy.content_posts
+            WHERE status = 'ONLINE'
+            """;
+    static final String R12_OUTBOX_BACKLOG_SQL = """
+            SELECT COUNT(*)
+            FROM hhy.outbox_events
+            WHERE event_type IN (
+                'content.created.v1', 'content.updated.v1', 'content.status.changed.v1',
+                'content.submitted.v1', 'content.review.assigned.v1',
+                'content.review.escalated.v1', 'content.review.decided.v1',
+                'content.r12.stage.alert.v1'
+            ) AND status IN ('PENDING', 'RETRY_WAIT')
+            """;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(BusinessGaugeBinder.class);
     private final JdbcTemplate jdbcTemplate;
@@ -478,6 +518,13 @@ public final class BusinessGaugeBinder implements MeterBinder {
         register(registry, "hhy.team.leader.contact.accesses.5m", "Successful team leader contact accesses in the last five minutes", TEAM_LEADER_CONTACT_ACCESSES_5M_SQL);
         register(registry, "hhy.team.leader.contact.rejections.5m", "Rejected team leader contact accesses in the last five minutes", TEAM_LEADER_CONTACT_REJECTIONS_5M_SQL);
         register(registry, "hhy.r11.outbox.backlog", "R11 team leader events waiting for delivery", R11_OUTBOX_BACKLOG_SQL);
+        register(registry, "hhy.publish.total.count", "Non-deleted content managed by unified publishing", PUBLISH_TOTAL_SQL);
+        register(registry, "hhy.publish.draft.count", "Unified publishing drafts", PUBLISH_DRAFT_SQL);
+        register(registry, "hhy.publish.review.pending", "Unified publishing submissions waiting for review", PUBLISH_REVIEW_PENDING_SQL);
+        register(registry, "hhy.publish.reviewing.count", "Unified publishing submissions under active review", PUBLISH_REVIEWING_SQL);
+        register(registry, "hhy.publish.rejected.count", "Unified publishing submissions rejected by review", PUBLISH_REJECTED_SQL);
+        register(registry, "hhy.publish.online.count", "Unified publishing content currently online", PUBLISH_ONLINE_SQL);
+        register(registry, "hhy.r12.outbox.backlog", "R12 publishing and review events waiting for delivery", R12_OUTBOX_BACKLOG_SQL);
     }
 
     private void register(MeterRegistry registry, String name, String description, String sql) {

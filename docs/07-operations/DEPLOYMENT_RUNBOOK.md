@@ -343,3 +343,17 @@ R11 使用 `infra/staging/r11-smoke/docker-compose.yml`，默认隔离子网 `17
 回切只允许使用包含 V038 的 R11-005 功能基线镜像 `hhy-backend-r11-baseline:5013a9a0`，随后必须恢复冻结实现镜像。全过程保持同一 PostgreSQL 容器和数据卷，并比较团队长内容、详情、收藏、联系方式访问审计和 R11 Outbox 的回切前后快照。证据统一归档到 `artifacts/validation/r11-task006-staging/`，包括逐文件 SHA-256；只有证据完整且专项报告精确绑定冻结 Commit 后，`AC-R11-004` 才能签为 PASS。
 
 本任务不运行 Android 模拟器、页面截图或候选 APK；这些只在 TASK-R11-007 最终候选阶段执行。
+
+## 17. R12 统一发布隔离预发布验收
+
+R12 使用 `infra/staging/r12-smoke/docker-compose.yml`，默认隔离子网 `172.31.243.0/24`，仅在回环地址发布 HTTP `38112`、Prometheus `39614` 和 Alertmanager `39615`。执行前必须确认端口和目标 Compose project 为空，不得修改或重启公网及 R01-R11 环境。测试 Secret 只注入隔离进程环境，实名认证沙箱与 CI 自动登录保持关闭。
+
+现场演练必须绑定 `HHY_R12_FROZEN_COMMIT`，并由 `scripts/run_r12_staging_acceptance.sh` 单一入口完成：
+
+1. PostgreSQL 17 完整迁移到 V041，liveness、readiness、公开状态、TraceId 和结构化日志脱敏通过。
+2. Prometheus target 为 UP，RED 与统一发布总量、草稿、待审核、审核中、驳回、在线及 `hhy_r12_outbox_backlog` 七项 Gauge 可采集，业务指标查询失败累计值为零。
+3. `HhyR12BackendDown` 与 `HhyR12OutboxBacklog` 都取得 firing、resolved 和 alert-sink 回执；四条隔离 Outbox 测试事实合法经历 `PENDING -> PUBLISHING -> PUBLISHED`，不得删除或伪造终态。
+4. 回切只允许使用包含 V041 的 TASK-R12-005 精确功能基线 `hhy-backend-r12-baseline:5419d682`，随后恢复冻结实现镜像。全过程保持同一 PostgreSQL 容器和数据卷，并逐项比较内容状态、版本、状态历史、审核记录、媒体、联系方式及 R12 Outbox 快照。
+5. 证据统一归档到 `artifacts/validation/r12-task006-staging/` 并生成逐文件 `SHA256SUMS`。只有现场证据和专项报告精确绑定冻结 Commit 后，`AC-R12-004` 才能签为 PASS。
+
+本任务不运行 Android 模拟器、页面截图或候选 APK；完整 Android 最终候选只在 TASK-R12-007 执行。

@@ -3,7 +3,7 @@ baseline_version: 1.2.3
 phase: R12
 active_release: R12
 active_task: TASK-R12-006
-status: READY
+status: IN_PROGRESS
 documentation_status: ZERO_BLOCKING_DOCUMENT_GAPS
 last_green_commit: 5419d68255dcc965c2c31fcb3006f616d9f8c38a
 last_staging_apk: null
@@ -116,14 +116,15 @@ completed_tasks:
 - TASK-R12-003
 - TASK-R12-004
 - TASK-R12-005
-in_progress_tasks: []
+in_progress_tasks:
+- TASK-R12-006
 blocked_tasks:
 - TASK-R02-007
 - TASK-R03-007
 - TASK-R06-008
 - TASK-R07-008
 next_task: TASK-R12-006
-updated_at: '2026-07-25T18:03:04Z'
+updated_at: '2026-07-25T18:28:00Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -155,14 +156,16 @@ validation:
 continuity:
   protocol_version: '1.0'
   mode: ENFORCED
-  active_session_id: null
-  last_session_id: SES-20260725T171320Z-7ACF9261
-  last_session_result: COMPLETED
-  last_checkpoint: .continuity/checkpoints/SES-20260725T171320Z-7ACF9261/0006.yaml
-  last_handoff_bundle: null
+  active_session_id: SES-20260725T180922Z-D7231210
+  actor_id: codex-root-r12-observability-20260726
+  story_id: STORY-R12-008
+  lease_expires_at: '2026-07-25T22:28:00Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260725T180922Z-D7231210/0001.yaml
+  project_fingerprint: f15f1b66b55b86c72b9a5d8a0585e79373c1478f78f0b7082dea64d8e7740143
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: e9177b349ea957bf87807d8198b3b0dc123a99fabe0a8bc01a90e2682e95c276
-    generated_at: '2026-07-25T18:03:02Z'
+    context_hash: aa4ef2d29e177ba4b64247e7e8272accd84af9dd3ba0585843cc81faee0e0fc5
+    generated_at: '2026-07-25T18:09:27Z'
+  handoff_bundle: null

@@ -1,0 +1,98 @@
+protocol_version: '1.0'
+package_version: 1.2.3
+session_id: SES-20260725T180922Z-D7231210
+status: ACTIVE
+actor:
+  id: codex-root-r12-observability-20260726
+  kind: AI_OR_HUMAN
+  host: unknown
+release: R12
+task_id: TASK-R12-006
+story_id: STORY-R12-008
+goal: 完成R12统一发布与发布管理结构化日志、TraceId、RED及业务指标、告警、隔离Staging回滚演练和验收矩阵签字
+started_at: '2026-07-25T18:09:22Z'
+updated_at: '2026-07-25T18:28:06Z'
+takeover_of: null
+change_requests:
+- CR-0334
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions:
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinder.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinderTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/ObservabilityEndpointsTest.java
+  - infra/staging/r12-smoke/docker-compose.yml
+  - infra/staging/r12-smoke/prometheus.yml
+  - infra/staging/r12-smoke/alertmanager.yml
+  - infra/staging/r12-smoke/nginx.conf
+  - infra/staging/r12-smoke/r12-alerts.yml
+  - scripts/check_r12_observability.py
+  - scripts/run_r12_staging_acceptance.sh
+  - tests/test_r12_staging_acceptance.py
+  - docs/07-operations/DEPLOYMENT_RUNBOOK.md
+  - docs/07-operations/ROLLBACK_RUNBOOK.md
+  - artifacts/reports/R12/TASK-R12-006-staging.md
+  - artifacts/validation/r12-task006-staging
+  - releases/R12/ACCEPTANCE_MATRIX.csv
+  - releases/R12/RELEASE_MANIFEST.yaml
+  - CHANGELOG.md
+  source: story+explicit+approved-cr:CR-0334
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  base_commit: 3c166a03e093ce344b147849188fabb38b79ffe9
+  start_head: 3c166a03e093ce344b147849188fabb38b79ffe9
+  upstream: origin/task/TASK-R03-001
+  initial_worktree_state: CLEAN
+lease:
+  duration_minutes: 240
+  renewed_at: '2026-07-25T18:28:00Z'
+  expires_at: '2026-07-25T22:28:00Z'
+checkpoint_sequence: 1
+latest_checkpoint: .continuity/checkpoints/SES-20260725T180922Z-D7231210/0001.yaml
+session_log: docs/03-continuity/sessions/2026-07/SES-20260725T180922Z-D7231210.md
+next_step: 提交冻结实现Commit并在obx-test运行Java21模块测试及唯一隔离Staging现场演练
+context_pack:
+  yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
+  markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
+  manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+  context_hash: 7135711d0f70c717aac6f753ea044e45f362016b6023154767e49c046eb5eaf8
+  generated_at: '2026-07-25T18:28:04Z'
+handoff_bundle: null
+closure: null
+parallel_execution:
+  assessment: CAPABILITY_UNAVAILABLE
+  delegated_workers: 0
+  workers: []
+  reason: 当前执行约束不允许主动创建执行代理；本阶段共享BusinessGaugeBinder、单一Staging脚本和连续性事实由主控串行集成，未伪造并行证据

@@ -185,3 +185,19 @@ docker compose -p hhy-r11-staging -f infra/staging/r11-smoke/docker-compose.yml 
 ```
 
 回切前后必须保持 PostgreSQL 容器 ID、卷名和 Flyway V038 不变，并逐行比较团队长内容、`team_leader_details`、收藏、联系方式访问审计及 R11 Outbox 快照；随后恢复冻结实现镜像并重验 readiness 和七项 R11 Gauge。禁止 U038、禁止降版本 DDL、删除或改写业务事实、删除卷、重建数据库以及在回滚过程中运行数据清理脚本。
+
+## 16. R12 统一发布隔离回滚演练
+
+R12 统一发布隔离回滚只切换 `api` 镜像，目标固定为已经包含 V041 且通过 TASK-R12-005 精确专项测试的功能基线 `hhy-backend-r12-baseline:5419d682`。禁止使用不包含 V041、发布状态机或审核权限对齐迁移的旧镜像作为成功回滚证据；基线若不能通过 readiness，立即恢复冻结实现镜像并采用前向修复。
+
+```bash
+export HHY_R12_ROLLBACK_IMAGE='hhy-backend-r12-baseline:5419d682'
+export HHY_R12_ROLLBACK_TAG='rollback-5419d682'
+docker tag "$HHY_R12_ROLLBACK_IMAGE" "hhy-backend-r12-smoke:$HHY_R12_ROLLBACK_TAG"
+export HHY_SMOKE_ID="$HHY_R12_ROLLBACK_TAG"
+docker compose -p hhy-r12-staging -f infra/staging/r12-smoke/docker-compose.yml up -d --no-deps --no-build api
+docker compose -p hhy-r12-staging -f infra/staging/r12-smoke/docker-compose.yml exec -T api \
+  curl -fsS http://127.0.0.1:9091/actuator/health/readiness
+```
+
+回切前后必须保持 PostgreSQL 容器 ID、卷名和 Flyway V041 不变，并逐项比较内容状态、不可变版本、状态历史、审核记录、媒体、联系方式及 R12 Outbox 快照；随后恢复冻结实现镜像并重验 readiness 和七项 R12 Gauge。禁止 U041、U040、U039、禁止降版本 DDL、删除或改写业务事实、删除卷、重建数据库或在回滚过程中运行数据清理脚本。
