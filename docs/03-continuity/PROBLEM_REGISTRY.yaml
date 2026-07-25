@@ -1453,3 +1453,33 @@ problems:
   - 不得因本机缺少Java、Android SDK或Android Studio下载工具链作为云端固定环境的回退
   - 不得让门禁自身写回的validation报告成为同一门禁缓存失效的输入
   - 已绑定同一源码Commit且PASS的候选、构建、Lint、单测和模拟器证据不得在关闭阶段重复执行
+- id: PROB-0107
+  title: R12真实PostgreSQL门禁暴露Outbox空参数类型和管理员会话夹具违规
+  status: SOLVED
+  root_cause: 发布复制事务会把fromStatus置空，但R12PublishingPostgresStore直接把未显式类型的JDBC空参数传给jsonb_build_object，PostgreSQL无法推断参数类型；同时R12ReviewPostgresStoreTest直接创建VERIFIED且使用早于数据库默认created_at的固定last_active_at，违反R01管理员会话必须从NONE/version=0开始及生命周期时间不得倒退的不变量。纯Mockito单测和编译均不会触发这两项真实数据库约束。
+  resolution: 所有发布Outbox JSON参数在SQL中显式转换为bigint或text，空值语义保持JSON null；审核测试夹具显式冻结created_at/updated_at，先创建NONE/version=0会话，再以version+1升级到VERIFIED。PostgreSQL17重新执行V001至V040后，发布与审核两个真实Store测试均通过且0 skipped。
+  regression_checks:
+  - R12PublishingPostgresStoreTest必须覆盖复制事务fromStatus为空并成功提交Outbox
+  - R12ReviewPostgresStoreTest必须通过R01会话初态、版本递增、MFA迁移和生命周期约束
+  - HHY_DB_SMOKE_CONFIRM=YES时两个R12 PostgreSQL Store测试必须实际运行且0 skipped
+  - V001至V040 Flyway迁移和database/tests/r12_review_escalation.sql必须在PostgreSQL17.10通过
+  do_not_repeat:
+  - 向jsonb_build_object传递可能为空的JDBC参数时不得依赖PostgreSQL推断unknown类型
+  - 真实数据库夹具不得跳过或伪造既有状态机初态与版本迁移
+  - 固定测试时钟涉及数据库生命周期约束时必须同时冻结created_at等比较基准
+  - 编译和Mockito通过不得替代环境条件测试0 skipped的真实PostgreSQL证据
+- id: PROB-0108
+  title: R12后端全回归暴露审核operationId落点和跨版本Gauge断言漂移
+  status: SOLVED
+  root_cause: R12审核控制器六个方法使用queue/detail/decide等通用Java方法名，路由虽正确但无法由控制器反射测试直接证明与冻结operationId一一对应；方法重命名后，审核控制器合同又错误读取客户端contracts/openapi.yaml，而六个后台operationId的权威运行时资源是contracts/admin-openapi.yaml；同时R07通用Outbox Gauge按定义统计所有CONTENT和SEARCH_HISTORY待发送事件，R11新增团队长CONTENT事件后测试夹具正确总数已从5变为6，旧断言未随跨版本聚合语义更新。
+  resolution: 六个审核控制器方法名改为冻结operationId，并由同一合同测试从admin-openapi.yaml逐项核对operationId、路由和权限；R07通用Outbox Gauge继续保持原SQL语义，只把夹具断言更新为包含R11团队长事件的6。HTTP合同、指标查询和生产数据均未改变；Java21全回归411项、两项R12 PostgreSQL Store测试0 skipped。
+  regression_checks:
+  - R12ReviewControllerContractTest必须验证六个冻结operationId在运行时OpenAPI和控制器中各恰好一个落点
+  - 后台控制器合同必须读取contracts/admin-openapi.yaml，禁止从客户端contracts/openapi.yaml验证后台operationId
+  - 每个审核operationId必须同时绑定精确HTTP路由与最小后台权限
+  - BusinessGaugeBinderTest的R07通用Outbox断言必须包含后续版本新增的CONTENT待发送事件
+  - Java21后端MODULE全回归必须0 failures且R12 PostgreSQL测试0 skipped
+  do_not_repeat:
+  - 新控制器不得只验证路径而遗漏operationId到实现方法的机器可追踪关系
+  - 跨版本聚合Gauge新增后续业务事件时必须同步重新计算夹具总量
+  - 不得为了恢复旧断言从通用Gauge错误排除后续版本的同类CONTENT事件

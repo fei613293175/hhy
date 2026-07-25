@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## R12 发布管理后端与审核二审事务 · 2026-07-25
+
+- 落地 R12 范围 19 个冻结 operationId：10 个发布管理与内容接口、6 个后台审核接口、3 个个人资料/会员/奖励账户接口；控制器、应用服务、PostgreSQL Store、权限、幂等、错误码、审计和事务 Outbox 同步实现。
+- 新增 `V040/U040`，实现 `ESCALATE → 更晚 ASSIGN → 被分配二审员 APPROVE/REJECT`；升级保持 `REVIEWING`、版本恰好加一且禁止伪造 `REVIEWING → REVIEWING` 状态日志，同一提交快照最多升级一次。审核事实、管理员审计和应用 Outbox 以 `commandId` 精确关联，设备只读取已认证管理员会话。
+- 真实 PostgreSQL 17.10 门禁修复复制内容 Outbox 对可空 JSON 参数缺少显式类型的问题，并把审核 Store 测试夹具对齐 R01 管理员会话 `NONE → VERIFIED` 状态机和生命周期时间约束。
+- Java 21 定向 32 项、PostgreSQL Store 2 项零跳过、V001→V040、二审正反事务、U040 无事实回滚重放及有事实原子阻断均通过；完整 Android、模拟器、截图和 APK 仍仅在 `TASK-R12-007` 最终候选阶段执行。
+
 ## R12 统一发布数据不变量 · 2026-07-25
 
 - 新增 `V039/U039`，把 11 状态、29 条合法边的统一内容状态机落实为数据库强制规则；新内容固定 `DRAFT/version=0`，所有更新严格 `version+1`，状态历史、提交快照、审核命令和事务 Outbox 按同一内容版本绑定。
@@ -1492,4 +1499,3 @@
 - Actor：`codex-root-r12-data-20260725`
 - 摘要：TASK-R12-002统一发布数据库状态机、乐观版本、审核快照、Outbox绑定与软删除门禁完成
 - 记录：`docs/03-continuity/sessions/2026-07/SES-20260724T235749Z-6EC9DB09.md`
-

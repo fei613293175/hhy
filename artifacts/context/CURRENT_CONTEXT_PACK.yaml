@@ -1,5 +1,5 @@
 context_version: '1.0'
-generated_at: '2026-07-25T02:47:18Z'
+generated_at: '2026-07-25T05:19:58Z'
 conversation_dependency: PROHIBITED
 source_of_truth: REPOSITORY_ONLY
 project: hhy-pro-platform
@@ -10,7 +10,7 @@ current_status:
   phase: R12
   active_release: R12
   active_task: TASK-R12-003
-  status: READY
+  status: IN_PROGRESS
   documentation_status: ZERO_BLOCKING_DOCUMENT_GAPS
   last_green_commit: 5e09dd4f80dc014611f93717b159f791403be457
   last_staging_apk: null
@@ -120,14 +120,15 @@ current_status:
   - TASK-R11-008
   - TASK-R12-001
   - TASK-R12-002
-  in_progress_tasks: []
+  in_progress_tasks:
+  - TASK-R12-003
   blocked_tasks:
   - TASK-R02-007
   - TASK-R03-007
   - TASK-R06-008
   - TASK-R07-008
   next_task: TASK-R12-003
-  updated_at: '2026-07-25T02:47:15Z'
+  updated_at: '2026-07-25T05:19:54Z'
   notes:
   - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
   - 全部REST/WebSocket操作均有页面或系统所有者
@@ -159,17 +160,19 @@ current_status:
   continuity:
     protocol_version: '1.0'
     mode: ENFORCED
-    active_session_id: null
-    last_session_id: SES-20260724T235749Z-6EC9DB09
-    last_session_result: COMPLETED
-    last_checkpoint: .continuity/checkpoints/SES-20260724T235749Z-6EC9DB09/0008.yaml
-    last_handoff_bundle: null
+    active_session_id: SES-20260725T025042Z-A53070A0
+    actor_id: codex-root-r12-backend-20260725
+    story_id: STORY-R12-008
+    lease_expires_at: '2026-07-25T09:19:54Z'
+    latest_checkpoint: .continuity/checkpoints/SES-20260725T025042Z-A53070A0/0003.yaml
+    project_fingerprint: 63427cd69e88024d04d6da7486580d048d2927705aaba87eac0a04e412b38e1d
     context_pack:
       yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
       markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
       manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-      context_hash: c94453086aa7f49fee1ba83c870f8491d70ba76079a6f990c6ad5044faf07ef6
-      generated_at: '2026-07-25T02:47:12Z'
+      context_hash: d3f2af72ff6c209bda0e61773377ac77d5889d9436fa43124181310f7301bb33
+      generated_at: '2026-07-25T05:17:14Z'
+    handoff_bundle: null
 next_task:
   id: TASK-R12-003
   title: 统一发布与发布管理后端应用服务与接口
@@ -203,34 +206,679 @@ next_task:
     cr_amend: python3 scripts/continuity.py cr-amend --actor <ACTOR_ID> --cr <CR_ID> --original-rule '<原规则>' --new-rule '<新规则>' --impact-summary
       '<影响摘要>' --migration-and-compatibility '<迁移兼容说明>' --file <PATH> --test '<TEST>' --release <RELEASE>
   next_after: 由当前TASKS.yaml依赖关系决定
-active_session: null
-latest_checkpoint: null
+active_session:
+  protocol_version: '1.0'
+  package_version: 1.2.3
+  session_id: SES-20260725T025042Z-A53070A0
+  status: ACTIVE
+  actor:
+    id: codex-root-r12-backend-20260725
+    kind: AI_OR_HUMAN
+    host: unknown
+  release: R12
+  task_id: TASK-R12-003
+  story_id: STORY-R12-008
+  goal: 实现R12范围19个冻结operationId的后端应用服务与接口，覆盖权限、幂等、错误码、审计和事务Outbox，不新增合同外业务
+  started_at: '2026-07-25T02:50:42Z'
+  updated_at: '2026-07-25T05:19:54Z'
+  takeover_of: null
+  change_requests:
+  - CR-0318
+  scope:
+    allowed_paths:
+    - apps/**
+    - services/**
+    - packages/**
+    - contracts/**
+    - database/**
+    - config/**
+    - catalogs/**
+    - tests/**
+    - infra/**
+    - design/**
+    - docs/**
+    - releases/**
+    - scripts/**
+    - templates/**
+    - .github/**
+    - .githooks/**
+    - .codex/**
+    - AGENTS.md
+    - START_HERE.md
+    - README.md
+    - CHANGELOG.md
+    - Makefile
+    - .gitignore
+    - .gitattributes
+    - .dockerignore
+    - package.json
+    - pnpm-lock.yaml
+    - pnpm-workspace.yaml
+    - requirements-dev.txt
+    - PROJECT_*.yaml
+    - PROJECT_*.json
+    approved_exceptions:
+    - database/migrations/V040__r12_review_escalation.sql
+    - services/backend/boot/src/main/resources/db/migration/V040__r12_review_escalation.sql
+    - database/rollback/U040__r12_review_escalation.sql
+    - database/tests/r12_review_escalation.sql
+    - scripts/check_db_schema.py
+    - services/backend/content/src/main/java/cc/orbexa/hhy/content/R12ReviewContracts.java
+    - services/backend/content/src/main/java/cc/orbexa/hhy/content/R12ReviewStore.java
+    - services/backend/content/src/main/java/cc/orbexa/hhy/content/R12ReviewService.java
+    - services/backend/content/src/main/java/cc/orbexa/hhy/content/R12ReviewPostgresStore.java
+    - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/admin/R12ReviewController.java
+    - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R12ReviewServiceTest.java
+    - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R12ReviewPostgresStoreTest.java
+    - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/admin/R12ReviewControllerContractTest.java
+    - database/schema_dictionary.csv
+    - catalogs/data_tables.csv
+    - releases/R12/RELEASE_MANIFEST.yaml
+    - docs/03-continuity/PROBLEM_REGISTRY.yaml
+    - docs/03-continuity/R12_TASK-003_BACKEND_GATE.md
+    - CHANGELOG.md
+    source: story+explicit+approved-cr:CR-0318
+  git:
+    initialized: true
+    branch: task/TASK-R03-001
+    base_commit: 8ab868d27c0a3768f4106e7f8bb71d1102363ebc
+    start_head: 8ab868d27c0a3768f4106e7f8bb71d1102363ebc
+    upstream: origin/task/TASK-R03-001
+    initial_worktree_state: CLEAN
+  lease:
+    duration_minutes: 240
+    renewed_at: '2026-07-25T05:19:54Z'
+    expires_at: '2026-07-25T09:19:54Z'
+  checkpoint_sequence: 3
+  latest_checkpoint: .continuity/checkpoints/SES-20260725T025042Z-A53070A0/0003.yaml
+  session_log: docs/03-continuity/sessions/2026-07/SES-20260725T025042Z-A53070A0.md
+  next_step: 提交实现Commit，执行干净工作区push-preflight并推送，随后关闭TASK-R12-003并启动TASK-R12-004
+  context_pack: THIS_CONTEXT_PACK
+  handoff_bundle: null
+  closure: null
+  parallel_execution:
+    assessment: DELEGATED
+    delegated_workers: 3
+    workers:
+    - worker_id: r12_admin_review
+      responsibility: 后台审核、举报与申诉6个冻结接口
+      allowed_paths:
+      - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/admin
+      - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/admin
+    - worker_id: r12_account_summary
+      responsibility: 个人资料、会员与奖励账户3个冻结接口
+      allowed_paths:
+      - services/backend/access/src/main/java/cc/orbexa/hhy/access/user
+      - services/backend/commerce/src/main/java/cc/orbexa/hhy/commerce
+      - services/backend/incentive/src/main/java/cc/orbexa/hhy/incentive
+      - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user
+    - worker_id: r12_content_audit
+      responsibility: 只读审计发布管理与冻结契约一致性
+      allowed_paths:
+      - artifacts/validation/r12-content-audit
+    reason: ''
+latest_checkpoint:
+  protocol_version: '1.0'
+  checkpoint_id: CP-SES-20260725T025042Z-A53070A0-0003
+  session_id: SES-20260725T025042Z-A53070A0
+  task_id: TASK-R12-003
+  story_id: STORY-R12-008
+  sequence: 3
+  created_at: '2026-07-25T05:19:53Z'
+  summary: TASK-R12-003最终实现检查点：19个冻结operationId、V040/U040二审与完整后端回归全部通过，严格连续性Doctor已刷新
+  next_step: 提交实现Commit，执行干净工作区push-preflight并推送，随后关闭TASK-R12-003并启动TASK-R12-004
+  blockers: []
+  decisions:
+  - 本任务不运行Android、模拟器、截图或APK，最终候选统一留在TASK-R12-007
+  - 本机不安装Java、Android Studio或Android SDK，重型验证固定使用obx-test既有环境
+  note: 主控完成委托结果审查、V040高风险串行复核、PostgreSQL17、Java21全回归及严格连续性；CR-0318为IMPLEMENTED，transport status READY。
+  tests:
+  - name: backend-java21-full
+    result: PASS
+    evidence: obx-test:/tmp/hhy-r12-task003-backend-final-v3.log
+    note: 411 tests, 0 failures, 0 errors, 0 skipped
+  - name: r12-postgres-stores
+    result: PASS
+    evidence: obx-test:/tmp/hhy-r12-task003-backend-final-v3.log
+    note: R12ReviewPostgresStoreTest和R12PublishingPostgresStoreTest各1项且0 skipped
+  - name: r12-db-v040
+    result: PASS
+    evidence: docs/03-continuity/R12_TASK-003_BACKEND_GATE.md
+    note: V001-V040、二审事务矩阵、U040回滚重放与有事实原子阻断
+  - name: runtime-contracts
+    result: PASS
+    evidence: scripts/sync_runtime_assets.py --check; scripts/check_api_contract.py; scripts/check_db_schema.py
+    note: 44 assets; client=131 admin=184 websocket=10; tables=200 migrations=40
+  - name: r12-strict-docs
+    result: PASS
+    evidence: scripts/check_v122_documentation.py --strict --release R12
+    note: 0 errors, 0 warnings
+  - name: continuity-strict
+    result: PASS
+    evidence: scripts/check_v123_continuity.py --strict
+    note: 0 errors, 0 warnings, 42 rules
+  - name: state-trace-generated
+    result: PASS
+    evidence: scripts/check_content_state_machine_projection.py; scripts/check_frontend_backend_matrix.py; scripts/check_generated_assets.py
+    note: 11 states 29 edges; 189 surfaces; generated assets verified
+  git:
+    initialized: true
+    branch: task/TASK-R03-001
+    head: 8ab868d27c0a3768f4106e7f8bb71d1102363ebc
+    upstream: origin/task/TASK-R03-001
+    ahead: 0
+    behind: 0
+    dirty: true
+    status_porcelain:
+    - ' M .continuity/ACTIVE_SESSION.yaml'
+    - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
+    - ' M .continuity/EVENT_LOG.jsonl'
+    - ' M .continuity/SESSION_INDEX.yaml'
+    - ' M .continuity/STATE.yaml'
+    - ' M .continuity/TASK_CLAIMS.yaml'
+    - ' M .continuity/TASK_TRANSITIONS.yaml'
+    - ' M CHANGELOG.md'
+    - ' M CURRENT_STATUS.yaml'
+    - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+    - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+    - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+    - ' M artifacts/validation/project-doctor-v1.2.2.json'
+    - ' M artifacts/validation/project-doctor-v1.2.3.json'
+    - ' M catalogs/change_request_index.csv'
+    - ' M catalogs/data_tables.csv'
+    - ' M catalogs/session_index.csv'
+    - ' M catalogs/task_transition_ledger.csv'
+    - ' M database/schema_dictionary.csv'
+    - ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
+    - ' M releases/R12/RELEASE_MANIFEST.yaml'
+    - ' M scripts/check_db_schema.py'
+    - ' M services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinderTest.java'
+    - ?? .continuity/change_requests/CR-0318.yaml
+    - ?? .continuity/checkpoints/SES-20260725T025042Z-A53070A0/0001.yaml
+    - ?? .continuity/checkpoints/SES-20260725T025042Z-A53070A0/0002.yaml
+    - ?? .continuity/sessions/SES-20260725T025042Z-A53070A0.yaml
+    - ?? database/migrations/V040__r12_review_escalation.sql
+    - ?? database/rollback/U040__r12_review_escalation.sql
+    - ?? database/tests/r12_review_escalation.sql
+    - ?? docs/03-continuity/R12_TASK-003_BACKEND_GATE.md
+    - ?? docs/03-continuity/change-requests/CR-0318-补齐R12内容审核ESCALATE二审持久化与事务语义.md
+    - ?? docs/03-continuity/sessions/2026-07/SES-20260725T025042Z-A53070A0.md
+    - ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/user/R12ProfileContracts.java
+    - ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/user/R12ProfileService.java
+    - ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/user/R12ProfileStore.java
+    - ?? services/backend/boot/src/main/java/cc/orbexa/hhy/boot/admin/R12ReviewController.java
+    - ?? services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/R12AccountController.java
+    - ?? services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/R12PublishingController.java
+    - ?? services/backend/boot/src/main/resources/db/migration/V040__r12_review_escalation.sql
+    - ?? services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/R12ProfileServiceTest.java
+    - ?? services/backend/boot/src/test/java/cc/orbexa/hhy/boot/admin/R12ReviewControllerContractTest.java
+    - ?? services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/R12AccountControllerContractTest.java
+    - ?? services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/R12PublishingControllerContractTest.java
+    - ?? services/backend/boot/src/test/java/cc/orbexa/hhy/commerce/R12MembershipServiceTest.java
+    - ?? services/backend/boot/src/test/java/cc/orbexa/hhy/content/R12PublishingPostgresStoreTest.java
+    - ?? services/backend/boot/src/test/java/cc/orbexa/hhy/content/R12PublishingServiceTest.java
+    - ?? services/backend/boot/src/test/java/cc/orbexa/hhy/content/R12ReviewPostgresStoreTest.java
+    - ?? services/backend/boot/src/test/java/cc/orbexa/hhy/content/R12ReviewServiceTest.java
+    - ?? services/backend/boot/src/test/java/cc/orbexa/hhy/incentive/R12RewardServiceTest.java
+    - ?? services/backend/commerce/src/main/java/cc/orbexa/hhy/commerce/R12MembershipContracts.java
+    - ?? services/backend/commerce/src/main/java/cc/orbexa/hhy/commerce/R12MembershipService.java
+    - ?? services/backend/commerce/src/main/java/cc/orbexa/hhy/commerce/R12MembershipStore.java
+    - ?? services/backend/content/src/main/java/cc/orbexa/hhy/content/R12PublishingPostgresStore.java
+    - ?? services/backend/content/src/main/java/cc/orbexa/hhy/content/R12PublishingService.java
+    - ?? services/backend/content/src/main/java/cc/orbexa/hhy/content/R12PublishingStore.java
+    - ?? services/backend/content/src/main/java/cc/orbexa/hhy/content/R12ReviewContracts.java
+    - ?? services/backend/content/src/main/java/cc/orbexa/hhy/content/R12ReviewPostgresStore.java
+    - ?? services/backend/content/src/main/java/cc/orbexa/hhy/content/R12ReviewService.java
+    - ?? services/backend/content/src/main/java/cc/orbexa/hhy/content/R12ReviewStore.java
+    - ?? services/backend/incentive/src/main/java/cc/orbexa/hhy/incentive/R12RewardContracts.java
+    - ?? services/backend/incentive/src/main/java/cc/orbexa/hhy/incentive/R12RewardService.java
+    - ?? services/backend/incentive/src/main/java/cc/orbexa/hhy/incentive/R12RewardStore.java
+    recent_commits:
+    - "8ab868d27c0a3768f4106e7f8bb71d1102363ebc\t2026-07-25T10:48:13+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] chore(continuity): close\
+      \ TASK-R12-002 as completed"
+    - "4715464b8e3016619dc94217c138c1558393722e\t2026-07-25T10:45:49+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] chore(continuity): close\
+      \ R12 database workflow CRs"
+    - "5e09dd4f80dc014611f93717b159f791403be457\t2026-07-25T10:42:37+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] feat(content): enforce R12\
+      \ publish lifecycle invariants"
+    - "67436cb48ca2e9fb3c921744dd992022d574ce5d\t2026-07-25T00:37:48+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] chore(continuity): close\
+      \ TASK-R12-001 as completed"
+    - "3a48126e76fd55b4d9f187e7e73122d121cfa190\t2026-07-25T00:29:49+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] docs(release): freeze R12\
+      \ entry and visual baseline"
+    - "186a6cbddee8da6a9f6c74b4190f8550dbc4dee3\t2026-07-24T22:45:56+08:00\tHHY Continuity Bootstrap\t[STORY-R11-004] chore(continuity): close\
+      \ TASK-R11-008 as completed"
+    - "b197e7d9c753f41914e270ce108b4a0c897df3fe\t2026-07-24T22:41:56+08:00\tHHY Continuity Bootstrap\t[STORY-R11-004] chore(continuity): close\
+      \ R11 workflow CRs"
+    - "6bd3313e087de6afc6f7189c6a1791a9a198ae7f\t2026-07-24T22:16:23+08:00\tHHY Continuity Bootstrap\t[STORY-R11-004] fix(workflow): close R11\
+      \ without duplicate local builds"
+  project_fingerprint:
+    sha256: 63427cd69e88024d04d6da7486580d048d2927705aaba87eac0a04e412b38e1d
+    files:
+    - CHANGELOG.md
+    - catalogs/data_tables.csv
+    - database/migrations/V040__r12_review_escalation.sql
+    - database/rollback/U040__r12_review_escalation.sql
+    - database/schema_dictionary.csv
+    - database/tests/r12_review_escalation.sql
+    - docs/03-continuity/PROBLEM_REGISTRY.yaml
+    - docs/03-continuity/R12_TASK-003_BACKEND_GATE.md
+    - docs/03-continuity/change-requests/CR-0318-补齐R12内容审核ESCALATE二审持久化与事务语义.md
+    - releases/R12/RELEASE_MANIFEST.yaml
+    - scripts/check_db_schema.py
+    - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/R12ProfileContracts.java
+    - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/R12ProfileService.java
+    - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/R12ProfileStore.java
+    - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/admin/R12ReviewController.java
+    - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/R12AccountController.java
+    - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/R12PublishingController.java
+    - services/backend/boot/src/main/resources/db/migration/V040__r12_review_escalation.sql
+    - services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/R12ProfileServiceTest.java
+    - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/admin/R12ReviewControllerContractTest.java
+    - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinderTest.java
+    - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/R12AccountControllerContractTest.java
+    - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/R12PublishingControllerContractTest.java
+    - services/backend/boot/src/test/java/cc/orbexa/hhy/commerce/R12MembershipServiceTest.java
+    - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R12PublishingPostgresStoreTest.java
+    - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R12PublishingServiceTest.java
+    - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R12ReviewPostgresStoreTest.java
+    - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R12ReviewServiceTest.java
+    - services/backend/boot/src/test/java/cc/orbexa/hhy/incentive/R12RewardServiceTest.java
+    - services/backend/commerce/src/main/java/cc/orbexa/hhy/commerce/R12MembershipContracts.java
+    - services/backend/commerce/src/main/java/cc/orbexa/hhy/commerce/R12MembershipService.java
+    - services/backend/commerce/src/main/java/cc/orbexa/hhy/commerce/R12MembershipStore.java
+    - services/backend/content/src/main/java/cc/orbexa/hhy/content/R12PublishingPostgresStore.java
+    - services/backend/content/src/main/java/cc/orbexa/hhy/content/R12PublishingService.java
+    - services/backend/content/src/main/java/cc/orbexa/hhy/content/R12PublishingStore.java
+    - services/backend/content/src/main/java/cc/orbexa/hhy/content/R12ReviewContracts.java
+    - services/backend/content/src/main/java/cc/orbexa/hhy/content/R12ReviewPostgresStore.java
+    - services/backend/content/src/main/java/cc/orbexa/hhy/content/R12ReviewService.java
+    - services/backend/content/src/main/java/cc/orbexa/hhy/content/R12ReviewStore.java
+    - services/backend/incentive/src/main/java/cc/orbexa/hhy/incentive/R12RewardContracts.java
+    - services/backend/incentive/src/main/java/cc/orbexa/hhy/incentive/R12RewardService.java
+    - services/backend/incentive/src/main/java/cc/orbexa/hhy/incentive/R12RewardStore.java
+    file_count: 42
+    payload:
+      base_commit: 8ab868d27c0a3768f4106e7f8bb71d1102363ebc
+      files:
+      - path: CHANGELOG.md
+        state: FILE
+        size: 129781
+        sha256: a58f575631395ec9daf4fc20ee09022bc2ab5d76321c9b77bd2fc1fb0f8f5fb3
+      - path: catalogs/data_tables.csv
+        state: FILE
+        size: 26530
+        sha256: ca2662bf7e60fac854f12f595f8117d42f9cc4206a75fb03f5a5cc8bad38224e
+      - path: database/migrations/V040__r12_review_escalation.sql
+        state: FILE
+        size: 7814
+        sha256: f10328861646c20683ad31edd7f69532230bcd4513388a102d56378b0268a87f
+      - path: database/rollback/U040__r12_review_escalation.sql
+        state: FILE
+        size: 2655
+        sha256: 2f36926918019f7ecadce314555da22bddbe1fe279f3d68d27f03b61e53a3545
+      - path: database/schema_dictionary.csv
+        state: FILE
+        size: 149244
+        sha256: c9b6cce23352c583c8cf36b4f76d5b5720f5a6d9a895ca4149a92be2d16cf1b4
+      - path: database/tests/r12_review_escalation.sql
+        state: FILE
+        size: 19780
+        sha256: a0270c86990d7da4b5edf5d5bd0a00b73465e41ebdaa1d8291a17ebfc71575e5
+      - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
+        state: FILE
+        size: 152653
+        sha256: b874a00f4198d28ded7d7466c5eab306669d1bf3c56955faff0f37b2d68714b4
+      - path: docs/03-continuity/R12_TASK-003_BACKEND_GATE.md
+        state: FILE
+        size: 3273
+        sha256: 8d7c7f4be46d05e4aec6b13b3cd998f9ec53d7c7d2367444c59dd64aede47a94
+      - path: docs/03-continuity/change-requests/CR-0318-补齐R12内容审核ESCALATE二审持久化与事务语义.md
+        state: FILE
+        size: 7979
+        sha256: ad6183ba3c823be9e8172a656814bea0ffd28fd7be2486a13dabda8708a7d3e4
+      - path: releases/R12/RELEASE_MANIFEST.yaml
+        state: FILE
+        size: 6729
+        sha256: 28af49f50c84993bcc1c79cc810c57998f3800363ec8f17fb96ac7d93d2f93a2
+      - path: scripts/check_db_schema.py
+        state: FILE
+        size: 14414
+        sha256: a21c880d9525dacb1a62eb9c1434a13dc991331dff536097d237c80bfee0d683
+      - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/user/R12ProfileContracts.java
+        state: FILE
+        size: 505
+        sha256: f1ff4e84c47de886975b49e2ab7de92aa595833ffde672fe232ee970d40a8b56
+      - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/user/R12ProfileService.java
+        state: FILE
+        size: 10426
+        sha256: 865b99ca896d4f3906739a9fa6eda26ffbb25bb7fb272e669d638dad2da3a8be
+      - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/user/R12ProfileStore.java
+        state: FILE
+        size: 4383
+        sha256: b38085456a69172bf7579ff6809e604d6bf902a3331cfc0f069a1ffbb77dd2a0
+      - path: services/backend/boot/src/main/java/cc/orbexa/hhy/boot/admin/R12ReviewController.java
+        state: FILE
+        size: 6731
+        sha256: d8dbceb93387ac6428f6e66585bb42e3a66f45ec4665c917b1a5f5b12de312ab
+      - path: services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/R12AccountController.java
+        state: FILE
+        size: 4843
+        sha256: 23b43fa66f08342f2d59ad311bb5af2405829a5b9779cd7a7c0a1c7907f7751a
+      - path: services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/R12PublishingController.java
+        state: FILE
+        size: 9832
+        sha256: 190012b33c3370edd5fa2099a858f37ed95903c1e1f6136266c73ba79e28c495
+      - path: services/backend/boot/src/main/resources/db/migration/V040__r12_review_escalation.sql
+        state: FILE
+        size: 7814
+        sha256: f10328861646c20683ad31edd7f69532230bcd4513388a102d56378b0268a87f
+      - path: services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/R12ProfileServiceTest.java
+        state: FILE
+        size: 6543
+        sha256: 815255a84a4d49e9d919ea422c39f0b71f71c774eb68f17716d0ddd42cc3c7d4
+      - path: services/backend/boot/src/test/java/cc/orbexa/hhy/boot/admin/R12ReviewControllerContractTest.java
+        state: FILE
+        size: 6224
+        sha256: 6439bb127e56a00a288bc445b4c1f0187eef3dcd405d660332e9d897934dd14e
+      - path: services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinderTest.java
+        state: FILE
+        size: 21569
+        sha256: 9a4a19ba792027d3acb97584f54a1243515b8194b07b7ad306698a350fc6919f
+      - path: services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/R12AccountControllerContractTest.java
+        state: FILE
+        size: 3572
+        sha256: 76e84ac289ebf40276a24e68fe161642d0458d7e2d27a5ef6fbe77d41fa44d6c
+      - path: services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/R12PublishingControllerContractTest.java
+        state: FILE
+        size: 2760
+        sha256: 0ecbef7538c5f571655db0a7f338b6e81d6c6d417118b55f72b3ed9a0cbe02f1
+      - path: services/backend/boot/src/test/java/cc/orbexa/hhy/commerce/R12MembershipServiceTest.java
+        state: FILE
+        size: 1899
+        sha256: f1cdec8db70047a4cca5028e9ffe85f2936738aea51dc0ad18f23eb0cf6dbc5f
+      - path: services/backend/boot/src/test/java/cc/orbexa/hhy/content/R12PublishingPostgresStoreTest.java
+        state: FILE
+        size: 6674
+        sha256: 55565e7ecfa552b1dc694da619b7aefa9dad9f26196d90bbc6d22cfdbf7d5935
+      - path: services/backend/boot/src/test/java/cc/orbexa/hhy/content/R12PublishingServiceTest.java
+        state: FILE
+        size: 8350
+        sha256: 448984c7f542c72ec8f8d0274b1e8572fec9c67d4ce7549aba3ae61a7be78e1d
+      - path: services/backend/boot/src/test/java/cc/orbexa/hhy/content/R12ReviewPostgresStoreTest.java
+        state: FILE
+        size: 12421
+        sha256: 10ea82e446a51cae9493012b16a0153a13cead9e079979e091b3a6fe43ccb415
+      - path: services/backend/boot/src/test/java/cc/orbexa/hhy/content/R12ReviewServiceTest.java
+        state: FILE
+        size: 14474
+        sha256: 9c862a46b1acd50ca95b132f66ab455b3ba0d2747d70fbb86e11d1b57e131a49
+      - path: services/backend/boot/src/test/java/cc/orbexa/hhy/incentive/R12RewardServiceTest.java
+        state: FILE
+        size: 2365
+        sha256: 54bc60ad6a97306c76553e34421e7516e3d8268de4c005833c153400db43fbda
+      - path: services/backend/commerce/src/main/java/cc/orbexa/hhy/commerce/R12MembershipContracts.java
+        state: FILE
+        size: 662
+        sha256: e64f38564ea9ef9c1e75e3c6ef2c4271f86e7b52d0007aa1046ef5447059486d
+      - path: services/backend/commerce/src/main/java/cc/orbexa/hhy/commerce/R12MembershipService.java
+        state: FILE
+        size: 1250
+        sha256: ccd36e4ff20c7ce1811eef79b41c235385eb532d43d24f65e8595e14f30dbd62
+      - path: services/backend/commerce/src/main/java/cc/orbexa/hhy/commerce/R12MembershipStore.java
+        state: FILE
+        size: 9550
+        sha256: 2a3a21f7ee46d1790feaeb68d38190d2d39b6a354ba6ad9a12e454c9d51d29d1
+      - path: services/backend/content/src/main/java/cc/orbexa/hhy/content/R12PublishingPostgresStore.java
+        state: FILE
+        size: 21326
+        sha256: 1abb23db1b7a08740cdf533458b3c076b4c8d43204a1b98bfdeaa3adbc00f062
+      - path: services/backend/content/src/main/java/cc/orbexa/hhy/content/R12PublishingService.java
+        state: FILE
+        size: 26821
+        sha256: 0fb70d7c29c4437c68f17b76d4ced0fa3ed0730d8d3a811ab56b24cc0cf7fb55
+      - path: services/backend/content/src/main/java/cc/orbexa/hhy/content/R12PublishingStore.java
+        state: FILE
+        size: 2516
+        sha256: decb5abe5ec5ed7a5b6201017eacc8885b92e70d309e5e8c86721c5d12bb75c3
+      - path: services/backend/content/src/main/java/cc/orbexa/hhy/content/R12ReviewContracts.java
+        state: FILE
+        size: 2692
+        sha256: 92281a69145bfc2047aeb0366c948a789699e4713c5b57854800d8ed8820a76d
+      - path: services/backend/content/src/main/java/cc/orbexa/hhy/content/R12ReviewPostgresStore.java
+        state: FILE
+        size: 20534
+        sha256: e6120a7e3f16365d3a4a06187a2902e0fe2b3b0e0f4b14ada332304b8a11a774
+      - path: services/backend/content/src/main/java/cc/orbexa/hhy/content/R12ReviewService.java
+        state: FILE
+        size: 23651
+        sha256: d8718087403e4c5c08f978addae1390e3d0bac3eb9cb42e755e8cad59934afea
+      - path: services/backend/content/src/main/java/cc/orbexa/hhy/content/R12ReviewStore.java
+        state: FILE
+        size: 2737
+        sha256: 61357aa07ef24a2651f25e9097651485b406e0d9197f2fb3a76bb1d86fefecff
+      - path: services/backend/incentive/src/main/java/cc/orbexa/hhy/incentive/R12RewardContracts.java
+        state: FILE
+        size: 393
+        sha256: 7360bdc09f632bef328c66f4f0f5f88894d7489d682cb6caa8ed8b78855a9588
+      - path: services/backend/incentive/src/main/java/cc/orbexa/hhy/incentive/R12RewardService.java
+        state: FILE
+        size: 1819
+        sha256: bbd5cb3309a7a1f48ee9823bcee88c94706fc55845f51e6ebefdd47037dc3449
+      - path: services/backend/incentive/src/main/java/cc/orbexa/hhy/incentive/R12RewardStore.java
+        state: FILE
+        size: 3423
+        sha256: 6d2ff83bbbb4107cd985fe474fbd783adda4709de747ec2eb390da190572a8a1
+  change_classification:
+    other:
+    - CHANGELOG.md
+    - catalogs/data_tables.csv
+    database:
+    - database/migrations/V040__r12_review_escalation.sql
+    - database/rollback/U040__r12_review_escalation.sql
+    - database/schema_dictionary.csv
+    - database/tests/r12_review_escalation.sql
+    source_of_truth:
+    - database/schema_dictionary.csv
+    - releases/R12/RELEASE_MANIFEST.yaml
+    continuity:
+    - docs/03-continuity/PROBLEM_REGISTRY.yaml
+    - docs/03-continuity/R12_TASK-003_BACKEND_GATE.md
+    - docs/03-continuity/change-requests/CR-0318-补齐R12内容审核ESCALATE二审持久化与事务语义.md
+    code:
+    - scripts/check_db_schema.py
+    - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/R12ProfileContracts.java
+    - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/R12ProfileService.java
+    - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/R12ProfileStore.java
+    - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/admin/R12ReviewController.java
+    - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/R12AccountController.java
+    - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/R12PublishingController.java
+    - services/backend/boot/src/main/resources/db/migration/V040__r12_review_escalation.sql
+    - services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/R12ProfileServiceTest.java
+    - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/admin/R12ReviewControllerContractTest.java
+    - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinderTest.java
+    - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/R12AccountControllerContractTest.java
+    - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/R12PublishingControllerContractTest.java
+    - services/backend/boot/src/test/java/cc/orbexa/hhy/commerce/R12MembershipServiceTest.java
+    - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R12PublishingPostgresStoreTest.java
+    - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R12PublishingServiceTest.java
+    - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R12ReviewPostgresStoreTest.java
+    - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R12ReviewServiceTest.java
+    - services/backend/boot/src/test/java/cc/orbexa/hhy/incentive/R12RewardServiceTest.java
+    - services/backend/commerce/src/main/java/cc/orbexa/hhy/commerce/R12MembershipContracts.java
+    - services/backend/commerce/src/main/java/cc/orbexa/hhy/commerce/R12MembershipService.java
+    - services/backend/commerce/src/main/java/cc/orbexa/hhy/commerce/R12MembershipStore.java
+    - services/backend/content/src/main/java/cc/orbexa/hhy/content/R12PublishingPostgresStore.java
+    - services/backend/content/src/main/java/cc/orbexa/hhy/content/R12PublishingService.java
+    - services/backend/content/src/main/java/cc/orbexa/hhy/content/R12PublishingStore.java
+    - services/backend/content/src/main/java/cc/orbexa/hhy/content/R12ReviewContracts.java
+    - services/backend/content/src/main/java/cc/orbexa/hhy/content/R12ReviewPostgresStore.java
+    - services/backend/content/src/main/java/cc/orbexa/hhy/content/R12ReviewService.java
+    - services/backend/content/src/main/java/cc/orbexa/hhy/content/R12ReviewStore.java
+    - services/backend/incentive/src/main/java/cc/orbexa/hhy/incentive/R12RewardContracts.java
+    - services/backend/incentive/src/main/java/cc/orbexa/hhy/incentive/R12RewardService.java
+    - services/backend/incentive/src/main/java/cc/orbexa/hhy/incentive/R12RewardStore.java
+  required_records:
+  - SESSION_RECORD
+  - SESSION_LOG
+  - CHECKPOINT
+  - CURRENT_STATUS
+  - EVENT_LOG
+  - APPROVED_CHANGE_REQUEST
+  - DATABASE_TEST_EVIDENCE
+  - SCHEMA_TRACEABILITY
+  change_requests:
+  - CR-0318
+  scope:
+    allowed_paths:
+    - apps/**
+    - services/**
+    - packages/**
+    - contracts/**
+    - database/**
+    - config/**
+    - catalogs/**
+    - tests/**
+    - infra/**
+    - design/**
+    - docs/**
+    - releases/**
+    - scripts/**
+    - templates/**
+    - .github/**
+    - .githooks/**
+    - .codex/**
+    - AGENTS.md
+    - START_HERE.md
+    - README.md
+    - CHANGELOG.md
+    - Makefile
+    - .gitignore
+    - .gitattributes
+    - .dockerignore
+    - package.json
+    - pnpm-lock.yaml
+    - pnpm-workspace.yaml
+    - requirements-dev.txt
+    - PROJECT_*.yaml
+    - PROJECT_*.json
+    approved_exceptions:
+    - database/migrations/V040__r12_review_escalation.sql
+    - services/backend/boot/src/main/resources/db/migration/V040__r12_review_escalation.sql
+    - database/rollback/U040__r12_review_escalation.sql
+    - database/tests/r12_review_escalation.sql
+    - scripts/check_db_schema.py
+    - services/backend/content/src/main/java/cc/orbexa/hhy/content/R12ReviewContracts.java
+    - services/backend/content/src/main/java/cc/orbexa/hhy/content/R12ReviewStore.java
+    - services/backend/content/src/main/java/cc/orbexa/hhy/content/R12ReviewService.java
+    - services/backend/content/src/main/java/cc/orbexa/hhy/content/R12ReviewPostgresStore.java
+    - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/admin/R12ReviewController.java
+    - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R12ReviewServiceTest.java
+    - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R12ReviewPostgresStoreTest.java
+    - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/admin/R12ReviewControllerContractTest.java
+    - database/schema_dictionary.csv
+    - catalogs/data_tables.csv
+    - releases/R12/RELEASE_MANIFEST.yaml
+    - docs/03-continuity/PROBLEM_REGISTRY.yaml
+    - docs/03-continuity/R12_TASK-003_BACKEND_GATE.md
+    - CHANGELOG.md
+    source: story+explicit+approved-cr:CR-0318
+  parallel_execution:
+    assessment: DELEGATED
+    delegated_workers: 3
+    workers:
+    - worker_id: r12_admin_review
+      responsibility: 后台审核、举报与申诉6个冻结接口
+      allowed_paths:
+      - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/admin
+      - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/admin
+    - worker_id: r12_account_summary
+      responsibility: 个人资料、会员与奖励账户3个冻结接口
+      allowed_paths:
+      - services/backend/access/src/main/java/cc/orbexa/hhy/access/user
+      - services/backend/commerce/src/main/java/cc/orbexa/hhy/commerce
+      - services/backend/incentive/src/main/java/cc/orbexa/hhy/incentive
+      - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user
+    - worker_id: r12_content_audit
+      responsibility: 只读审计发布管理与冻结契约一致性
+      allowed_paths:
+      - artifacts/validation/r12-content-audit
+    reason: ''
+  event_hash: 5ee0aa4bfb2795dbf9cbc3291adc6d11abcf6decb790ab9ef53c8b827aafeb44
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: 4715464b8e3016619dc94217c138c1558393722e
+  head: 8ab868d27c0a3768f4106e7f8bb71d1102363ebc
   upstream: origin/task/TASK-R03-001
   ahead: 0
   behind: 0
   dirty: true
   status_porcelain:
   - ' M .continuity/ACTIVE_SESSION.yaml'
+  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
   - ' M .continuity/EVENT_LOG.jsonl'
   - ' M .continuity/SESSION_INDEX.yaml'
   - ' M .continuity/STATE.yaml'
   - ' M .continuity/TASK_CLAIMS.yaml'
-  - ' M .continuity/sessions/SES-20260724T235749Z-6EC9DB09.yaml'
+  - ' M .continuity/TASK_TRANSITIONS.yaml'
   - ' M CHANGELOG.md'
   - ' M CURRENT_STATUS.yaml'
-  - ' M NEXT_TASK.yaml'
   - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
   - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
   - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+  - ' M artifacts/validation/project-doctor-v1.2.2.json'
+  - ' M artifacts/validation/project-doctor-v1.2.3.json'
+  - ' M catalogs/change_request_index.csv'
+  - ' M catalogs/data_tables.csv'
   - ' M catalogs/session_index.csv'
-  - ' M docs/03-continuity/sessions/2026-07/SES-20260724T235749Z-6EC9DB09.md'
-  - ' M releases/R12/TASKS.yaml'
-  - ?? .continuity/checkpoints/SES-20260724T235749Z-6EC9DB09/0008.yaml
+  - ' M catalogs/task_transition_ledger.csv'
+  - ' M database/schema_dictionary.csv'
+  - ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
+  - ' M releases/R12/RELEASE_MANIFEST.yaml'
+  - ' M scripts/check_db_schema.py'
+  - ' M services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinderTest.java'
+  - ?? .continuity/change_requests/CR-0318.yaml
+  - ?? .continuity/checkpoints/SES-20260725T025042Z-A53070A0/0001.yaml
+  - ?? .continuity/checkpoints/SES-20260725T025042Z-A53070A0/0002.yaml
+  - ?? .continuity/checkpoints/SES-20260725T025042Z-A53070A0/0003.yaml
+  - ?? .continuity/sessions/SES-20260725T025042Z-A53070A0.yaml
+  - ?? database/migrations/V040__r12_review_escalation.sql
+  - ?? database/rollback/U040__r12_review_escalation.sql
+  - ?? database/tests/r12_review_escalation.sql
+  - ?? docs/03-continuity/R12_TASK-003_BACKEND_GATE.md
+  - ?? docs/03-continuity/change-requests/CR-0318-补齐R12内容审核ESCALATE二审持久化与事务语义.md
+  - ?? docs/03-continuity/sessions/2026-07/SES-20260725T025042Z-A53070A0.md
+  - ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/user/R12ProfileContracts.java
+  - ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/user/R12ProfileService.java
+  - ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/user/R12ProfileStore.java
+  - ?? services/backend/boot/src/main/java/cc/orbexa/hhy/boot/admin/R12ReviewController.java
+  - ?? services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/R12AccountController.java
+  - ?? services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/R12PublishingController.java
+  - ?? services/backend/boot/src/main/resources/db/migration/V040__r12_review_escalation.sql
+  - ?? services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/R12ProfileServiceTest.java
+  - ?? services/backend/boot/src/test/java/cc/orbexa/hhy/boot/admin/R12ReviewControllerContractTest.java
+  - ?? services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/R12AccountControllerContractTest.java
+  - ?? services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/R12PublishingControllerContractTest.java
+  - ?? services/backend/boot/src/test/java/cc/orbexa/hhy/commerce/R12MembershipServiceTest.java
+  - ?? services/backend/boot/src/test/java/cc/orbexa/hhy/content/R12PublishingPostgresStoreTest.java
+  - ?? services/backend/boot/src/test/java/cc/orbexa/hhy/content/R12PublishingServiceTest.java
+  - ?? services/backend/boot/src/test/java/cc/orbexa/hhy/content/R12ReviewPostgresStoreTest.java
+  - ?? services/backend/boot/src/test/java/cc/orbexa/hhy/content/R12ReviewServiceTest.java
+  - ?? services/backend/boot/src/test/java/cc/orbexa/hhy/incentive/R12RewardServiceTest.java
+  - ?? services/backend/commerce/src/main/java/cc/orbexa/hhy/commerce/R12MembershipContracts.java
+  - ?? services/backend/commerce/src/main/java/cc/orbexa/hhy/commerce/R12MembershipService.java
+  - ?? services/backend/commerce/src/main/java/cc/orbexa/hhy/commerce/R12MembershipStore.java
+  - ?? services/backend/content/src/main/java/cc/orbexa/hhy/content/R12PublishingPostgresStore.java
+  - ?? services/backend/content/src/main/java/cc/orbexa/hhy/content/R12PublishingService.java
+  - ?? services/backend/content/src/main/java/cc/orbexa/hhy/content/R12PublishingStore.java
+  - ?? services/backend/content/src/main/java/cc/orbexa/hhy/content/R12ReviewContracts.java
+  - ?? services/backend/content/src/main/java/cc/orbexa/hhy/content/R12ReviewPostgresStore.java
+  - ?? services/backend/content/src/main/java/cc/orbexa/hhy/content/R12ReviewService.java
+  - ?? services/backend/content/src/main/java/cc/orbexa/hhy/content/R12ReviewStore.java
+  - ?? services/backend/incentive/src/main/java/cc/orbexa/hhy/incentive/R12RewardContracts.java
+  - ?? services/backend/incentive/src/main/java/cc/orbexa/hhy/incentive/R12RewardService.java
+  - ?? services/backend/incentive/src/main/java/cc/orbexa/hhy/incentive/R12RewardStore.java
   recent_commits:
+  - "8ab868d27c0a3768f4106e7f8bb71d1102363ebc\t2026-07-25T10:48:13+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] chore(continuity): close TASK-R12-002\
+    \ as completed"
   - "4715464b8e3016619dc94217c138c1558393722e\t2026-07-25T10:45:49+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] chore(continuity): close R12\
     \ database workflow CRs"
   - "5e09dd4f80dc014611f93717b159f791403be457\t2026-07-25T10:42:37+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] feat(content): enforce R12\
@@ -245,12 +893,223 @@ git:
     \ workflow CRs"
   - "6bd3313e087de6afc6f7189c6a1791a9a198ae7f\t2026-07-24T22:16:23+08:00\tHHY Continuity Bootstrap\t[STORY-R11-004] fix(workflow): close R11 without\
     \ duplicate local builds"
-  - "a4772fbdbb703ee2c824c06cd0916fade1701f9d\t2026-07-24T19:02:18+08:00\tHHY Continuity Bootstrap\t[STORY-R11-004] chore(continuity): close TASK-R11-007\
-    \ as completed"
 project_fingerprint:
-  sha256: 6b350081d9e1f632cf32e198130c6707ceb3b7d24433a4fcb31b6fc0a7b48e39
-  files: []
-  file_count: 0
+  sha256: 63427cd69e88024d04d6da7486580d048d2927705aaba87eac0a04e412b38e1d
+  files:
+  - CHANGELOG.md
+  - catalogs/data_tables.csv
+  - database/migrations/V040__r12_review_escalation.sql
+  - database/rollback/U040__r12_review_escalation.sql
+  - database/schema_dictionary.csv
+  - database/tests/r12_review_escalation.sql
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/R12_TASK-003_BACKEND_GATE.md
+  - docs/03-continuity/change-requests/CR-0318-补齐R12内容审核ESCALATE二审持久化与事务语义.md
+  - releases/R12/RELEASE_MANIFEST.yaml
+  - scripts/check_db_schema.py
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/R12ProfileContracts.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/R12ProfileService.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/R12ProfileStore.java
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/admin/R12ReviewController.java
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/R12AccountController.java
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/R12PublishingController.java
+  - services/backend/boot/src/main/resources/db/migration/V040__r12_review_escalation.sql
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/R12ProfileServiceTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/admin/R12ReviewControllerContractTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinderTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/R12AccountControllerContractTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/R12PublishingControllerContractTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/commerce/R12MembershipServiceTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R12PublishingPostgresStoreTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R12PublishingServiceTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R12ReviewPostgresStoreTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R12ReviewServiceTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/incentive/R12RewardServiceTest.java
+  - services/backend/commerce/src/main/java/cc/orbexa/hhy/commerce/R12MembershipContracts.java
+  - services/backend/commerce/src/main/java/cc/orbexa/hhy/commerce/R12MembershipService.java
+  - services/backend/commerce/src/main/java/cc/orbexa/hhy/commerce/R12MembershipStore.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R12PublishingPostgresStore.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R12PublishingService.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R12PublishingStore.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R12ReviewContracts.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R12ReviewPostgresStore.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R12ReviewService.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R12ReviewStore.java
+  - services/backend/incentive/src/main/java/cc/orbexa/hhy/incentive/R12RewardContracts.java
+  - services/backend/incentive/src/main/java/cc/orbexa/hhy/incentive/R12RewardService.java
+  - services/backend/incentive/src/main/java/cc/orbexa/hhy/incentive/R12RewardStore.java
+  file_count: 42
+  payload:
+    base_commit: 8ab868d27c0a3768f4106e7f8bb71d1102363ebc
+    files:
+    - path: CHANGELOG.md
+      state: FILE
+      size: 129781
+      sha256: a58f575631395ec9daf4fc20ee09022bc2ab5d76321c9b77bd2fc1fb0f8f5fb3
+    - path: catalogs/data_tables.csv
+      state: FILE
+      size: 26530
+      sha256: ca2662bf7e60fac854f12f595f8117d42f9cc4206a75fb03f5a5cc8bad38224e
+    - path: database/migrations/V040__r12_review_escalation.sql
+      state: FILE
+      size: 7814
+      sha256: f10328861646c20683ad31edd7f69532230bcd4513388a102d56378b0268a87f
+    - path: database/rollback/U040__r12_review_escalation.sql
+      state: FILE
+      size: 2655
+      sha256: 2f36926918019f7ecadce314555da22bddbe1fe279f3d68d27f03b61e53a3545
+    - path: database/schema_dictionary.csv
+      state: FILE
+      size: 149244
+      sha256: c9b6cce23352c583c8cf36b4f76d5b5720f5a6d9a895ca4149a92be2d16cf1b4
+    - path: database/tests/r12_review_escalation.sql
+      state: FILE
+      size: 19780
+      sha256: a0270c86990d7da4b5edf5d5bd0a00b73465e41ebdaa1d8291a17ebfc71575e5
+    - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
+      state: FILE
+      size: 152653
+      sha256: b874a00f4198d28ded7d7466c5eab306669d1bf3c56955faff0f37b2d68714b4
+    - path: docs/03-continuity/R12_TASK-003_BACKEND_GATE.md
+      state: FILE
+      size: 3273
+      sha256: 8d7c7f4be46d05e4aec6b13b3cd998f9ec53d7c7d2367444c59dd64aede47a94
+    - path: docs/03-continuity/change-requests/CR-0318-补齐R12内容审核ESCALATE二审持久化与事务语义.md
+      state: FILE
+      size: 7979
+      sha256: ad6183ba3c823be9e8172a656814bea0ffd28fd7be2486a13dabda8708a7d3e4
+    - path: releases/R12/RELEASE_MANIFEST.yaml
+      state: FILE
+      size: 6729
+      sha256: 28af49f50c84993bcc1c79cc810c57998f3800363ec8f17fb96ac7d93d2f93a2
+    - path: scripts/check_db_schema.py
+      state: FILE
+      size: 14414
+      sha256: a21c880d9525dacb1a62eb9c1434a13dc991331dff536097d237c80bfee0d683
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/user/R12ProfileContracts.java
+      state: FILE
+      size: 505
+      sha256: f1ff4e84c47de886975b49e2ab7de92aa595833ffde672fe232ee970d40a8b56
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/user/R12ProfileService.java
+      state: FILE
+      size: 10426
+      sha256: 865b99ca896d4f3906739a9fa6eda26ffbb25bb7fb272e669d638dad2da3a8be
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/user/R12ProfileStore.java
+      state: FILE
+      size: 4383
+      sha256: b38085456a69172bf7579ff6809e604d6bf902a3331cfc0f069a1ffbb77dd2a0
+    - path: services/backend/boot/src/main/java/cc/orbexa/hhy/boot/admin/R12ReviewController.java
+      state: FILE
+      size: 6731
+      sha256: d8dbceb93387ac6428f6e66585bb42e3a66f45ec4665c917b1a5f5b12de312ab
+    - path: services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/R12AccountController.java
+      state: FILE
+      size: 4843
+      sha256: 23b43fa66f08342f2d59ad311bb5af2405829a5b9779cd7a7c0a1c7907f7751a
+    - path: services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/R12PublishingController.java
+      state: FILE
+      size: 9832
+      sha256: 190012b33c3370edd5fa2099a858f37ed95903c1e1f6136266c73ba79e28c495
+    - path: services/backend/boot/src/main/resources/db/migration/V040__r12_review_escalation.sql
+      state: FILE
+      size: 7814
+      sha256: f10328861646c20683ad31edd7f69532230bcd4513388a102d56378b0268a87f
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/R12ProfileServiceTest.java
+      state: FILE
+      size: 6543
+      sha256: 815255a84a4d49e9d919ea422c39f0b71f71c774eb68f17716d0ddd42cc3c7d4
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/boot/admin/R12ReviewControllerContractTest.java
+      state: FILE
+      size: 6224
+      sha256: 6439bb127e56a00a288bc445b4c1f0187eef3dcd405d660332e9d897934dd14e
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinderTest.java
+      state: FILE
+      size: 21569
+      sha256: 9a4a19ba792027d3acb97584f54a1243515b8194b07b7ad306698a350fc6919f
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/R12AccountControllerContractTest.java
+      state: FILE
+      size: 3572
+      sha256: 76e84ac289ebf40276a24e68fe161642d0458d7e2d27a5ef6fbe77d41fa44d6c
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/R12PublishingControllerContractTest.java
+      state: FILE
+      size: 2760
+      sha256: 0ecbef7538c5f571655db0a7f338b6e81d6c6d417118b55f72b3ed9a0cbe02f1
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/commerce/R12MembershipServiceTest.java
+      state: FILE
+      size: 1899
+      sha256: f1cdec8db70047a4cca5028e9ffe85f2936738aea51dc0ad18f23eb0cf6dbc5f
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/content/R12PublishingPostgresStoreTest.java
+      state: FILE
+      size: 6674
+      sha256: 55565e7ecfa552b1dc694da619b7aefa9dad9f26196d90bbc6d22cfdbf7d5935
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/content/R12PublishingServiceTest.java
+      state: FILE
+      size: 8350
+      sha256: 448984c7f542c72ec8f8d0274b1e8572fec9c67d4ce7549aba3ae61a7be78e1d
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/content/R12ReviewPostgresStoreTest.java
+      state: FILE
+      size: 12421
+      sha256: 10ea82e446a51cae9493012b16a0153a13cead9e079979e091b3a6fe43ccb415
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/content/R12ReviewServiceTest.java
+      state: FILE
+      size: 14474
+      sha256: 9c862a46b1acd50ca95b132f66ab455b3ba0d2747d70fbb86e11d1b57e131a49
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/incentive/R12RewardServiceTest.java
+      state: FILE
+      size: 2365
+      sha256: 54bc60ad6a97306c76553e34421e7516e3d8268de4c005833c153400db43fbda
+    - path: services/backend/commerce/src/main/java/cc/orbexa/hhy/commerce/R12MembershipContracts.java
+      state: FILE
+      size: 662
+      sha256: e64f38564ea9ef9c1e75e3c6ef2c4271f86e7b52d0007aa1046ef5447059486d
+    - path: services/backend/commerce/src/main/java/cc/orbexa/hhy/commerce/R12MembershipService.java
+      state: FILE
+      size: 1250
+      sha256: ccd36e4ff20c7ce1811eef79b41c235385eb532d43d24f65e8595e14f30dbd62
+    - path: services/backend/commerce/src/main/java/cc/orbexa/hhy/commerce/R12MembershipStore.java
+      state: FILE
+      size: 9550
+      sha256: 2a3a21f7ee46d1790feaeb68d38190d2d39b6a354ba6ad9a12e454c9d51d29d1
+    - path: services/backend/content/src/main/java/cc/orbexa/hhy/content/R12PublishingPostgresStore.java
+      state: FILE
+      size: 21326
+      sha256: 1abb23db1b7a08740cdf533458b3c076b4c8d43204a1b98bfdeaa3adbc00f062
+    - path: services/backend/content/src/main/java/cc/orbexa/hhy/content/R12PublishingService.java
+      state: FILE
+      size: 26821
+      sha256: 0fb70d7c29c4437c68f17b76d4ced0fa3ed0730d8d3a811ab56b24cc0cf7fb55
+    - path: services/backend/content/src/main/java/cc/orbexa/hhy/content/R12PublishingStore.java
+      state: FILE
+      size: 2516
+      sha256: decb5abe5ec5ed7a5b6201017eacc8885b92e70d309e5e8c86721c5d12bb75c3
+    - path: services/backend/content/src/main/java/cc/orbexa/hhy/content/R12ReviewContracts.java
+      state: FILE
+      size: 2692
+      sha256: 92281a69145bfc2047aeb0366c948a789699e4713c5b57854800d8ed8820a76d
+    - path: services/backend/content/src/main/java/cc/orbexa/hhy/content/R12ReviewPostgresStore.java
+      state: FILE
+      size: 20534
+      sha256: e6120a7e3f16365d3a4a06187a2902e0fe2b3b0e0f4b14ada332304b8a11a774
+    - path: services/backend/content/src/main/java/cc/orbexa/hhy/content/R12ReviewService.java
+      state: FILE
+      size: 23651
+      sha256: d8718087403e4c5c08f978addae1390e3d0bac3eb9cb42e755e8cad59934afea
+    - path: services/backend/content/src/main/java/cc/orbexa/hhy/content/R12ReviewStore.java
+      state: FILE
+      size: 2737
+      sha256: 61357aa07ef24a2651f25e9097651485b406e0d9197f2fb3a76bb1d86fefecff
+    - path: services/backend/incentive/src/main/java/cc/orbexa/hhy/incentive/R12RewardContracts.java
+      state: FILE
+      size: 393
+      sha256: 7360bdc09f632bef328c66f4f0f5f88894d7489d682cb6caa8ed8b78855a9588
+    - path: services/backend/incentive/src/main/java/cc/orbexa/hhy/incentive/R12RewardService.java
+      state: FILE
+      size: 1819
+      sha256: bbd5cb3309a7a1f48ee9823bcee88c94706fc55845f51e6ebefdd47037dc3449
+    - path: services/backend/incentive/src/main/java/cc/orbexa/hhy/incentive/R12RewardStore.java
+      state: FILE
+      size: 3423
+      sha256: 6d2ff83bbbb4107cd985fe474fbd783adda4709de747ec2eb390da190572a8a1
 release_context:
   RELEASE_MANIFEST.yaml:
     release: R12
@@ -395,6 +1254,41 @@ release_context:
       - screenshot_visual_review
       - test_apk
       next_task: TASK-R12-003
+    task_003_backend_gate:
+      status: PASS
+      session_id: SES-20260725T025042Z-A53070A0
+      change_requests:
+      - CR-0318
+      report: docs/03-continuity/R12_TASK-003_BACKEND_GATE.md
+      frozen_operations:
+        total: 19
+        publishing_content: 10
+        admin_review: 6
+        account_summary: 3
+      review_escalation:
+        migration: V040__r12_review_escalation.sql
+        rollback: U040__r12_review_escalation.sql
+        semantics: ESCALATE_THEN_LATER_ASSIGN_THEN_ASSIGNED_REVIEWER_FINAL_DECISION
+        false_reviewing_status_log: FORBIDDEN
+        exact_audit_outbox_link: commandId
+        trusted_device_source: admin_sessions.device_fingerprint
+      validation:
+        java_21_targeted: PASS_32_TESTS
+        postgres_17_store: PASS_2_TESTS_0_SKIPS
+        postgres_17_migrations: PASS_V001_TO_V040
+        escalation_transactions: PASS_POSITIVE_AND_NEGATIVE_MATRIX
+        u040_safe_rollback_replay: PASS
+        u040_facts_present_atomic_block: PASS
+        schema_gate: PASS_200_TABLES_40_MIGRATIONS_RUNTIME_HASHES
+        java_21_backend_full: PASS_411_TESTS_0_FAILURES_0_ERRORS_0_SKIPS
+        postgres_17_store_full_regression: PASS_2_TESTS_0_SKIPS
+        evidence: obx-test:/tmp/hhy-r12-task003-backend-final-v3.log
+      deferred_final_candidate:
+      - android_full_build
+      - emulator
+      - screenshot_visual_review
+      - test_apk
+      next_task: TASK-R12-004_AFTER_TASK_CLOSE
     entry_gate:
     - releases/R12/DEFINITION_OF_READY.yaml 全部适用项为PASS
     - releases/R12/STORIES.yaml 中每个故事均绑定页面/API/配置/数据/测试或显式N/A
@@ -1598,26 +2492,14 @@ repository_transport:
 continuity_state:
   mode: ENFORCED
   protocol_version: '1.0'
-  active_session_id: null
+  active_session_id: SES-20260725T025042Z-A53070A0
   last_session_id: SES-20260724T235749Z-6EC9DB09
   last_session_result: COMPLETED
   last_closure_checkpoint_id: CP-SES-20260724T235749Z-6EC9DB09-0008
-  event_count: 3089
-  event_head_hash: 124fd24ca86ae75f2340dd16b940db23b4af957ebfb5a923f9c15b711e3ab156
+  event_count: 3101
+  event_head_hash: 5ee0aa4bfb2795dbf9cbc3291adc6d11abcf6decb790ab9ef53c8b827aafeb44
   event_chain_valid: true
 recent_sessions:
-- session_id: SES-20260723T171219Z-D5E6B99E
-  task_id: TASK-R11-002
-  story_id: STORY-R11-004
-  actor_id: codex-root-r11-data
-  status: CLOSED
-  started_at: '2026-07-23T17:12:19Z'
-  record: .continuity/sessions/SES-20260723T171219Z-D5E6B99E.yaml
-  session_log: docs/03-continuity/sessions/2026-07/SES-20260723T171219Z-D5E6B99E.md
-  updated_at: '2026-07-23T17:53:00Z'
-  closed_at: '2026-07-23T17:53:00Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260723T171219Z-D5E6B99E/0002.yaml
-  handoff_bundle: null
 - session_id: SES-20260723T175513Z-EFD4D365
   task_id: TASK-R11-003
   story_id: STORY-R11-004
@@ -1726,47 +2608,19 @@ recent_sessions:
   closed_at: '2026-07-25T02:47:14Z'
   latest_checkpoint: .continuity/checkpoints/SES-20260724T235749Z-6EC9DB09/0008.yaml
   handoff_bundle: null
+- session_id: SES-20260725T025042Z-A53070A0
+  task_id: TASK-R12-003
+  story_id: STORY-R12-008
+  actor_id: codex-root-r12-backend-20260725
+  status: ACTIVE
+  started_at: '2026-07-25T02:50:42Z'
+  record: .continuity/sessions/SES-20260725T025042Z-A53070A0.yaml
+  session_log: docs/03-continuity/sessions/2026-07/SES-20260725T025042Z-A53070A0.md
+  updated_at: '2026-07-25T05:19:54Z'
+  closed_at: null
+  latest_checkpoint: .continuity/checkpoints/SES-20260725T025042Z-A53070A0/0003.yaml
+  handoff_bundle: null
 task_claims:
-- claim_id: CLM-497ECD2EEA0B
-  session_id: SES-20260723T024212Z-696F7963
-  task_id: TASK-R09-008
-  story_id: STORY-R09-004
-  actor_id: codex-root-r09-machine-close
-  status: CLOSED
-  claimed_at: '2026-07-23T02:42:12Z'
-  allowed_paths:
-  - apps/**
-  - services/**
-  - packages/**
-  - contracts/**
-  - database/**
-  - config/**
-  - catalogs/**
-  - tests/**
-  - infra/**
-  - design/**
-  - docs/**
-  - releases/**
-  - scripts/**
-  - templates/**
-  - .github/**
-  - .githooks/**
-  - .codex/**
-  - AGENTS.md
-  - START_HERE.md
-  - README.md
-  - CHANGELOG.md
-  - Makefile
-  - .gitignore
-  - .gitattributes
-  - .dockerignore
-  - package.json
-  - pnpm-lock.yaml
-  - pnpm-workspace.yaml
-  - requirements-dev.txt
-  - PROJECT_*.yaml
-  - PROJECT_*.json
-  closed_at: '2026-07-23T02:49:06Z'
 - claim_id: CLM-958DD305287B
   session_id: SES-20260723T025104Z-E29F6208
   task_id: TASK-R10-001
@@ -2512,17 +3366,46 @@ task_claims:
   - PROJECT_*.yaml
   - PROJECT_*.json
   closed_at: '2026-07-25T02:47:14Z'
+- claim_id: CLM-4723E5F90953
+  session_id: SES-20260725T025042Z-A53070A0
+  task_id: TASK-R12-003
+  story_id: STORY-R12-008
+  actor_id: codex-root-r12-backend-20260725
+  status: ACTIVE
+  claimed_at: '2026-07-25T02:50:42Z'
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
 recent_task_transitions:
-- transition_id: TRN-BB5B29CAABD5
-  timestamp: '2026-07-23T02:42:14Z'
-  release: R09
-  task_id: TASK-R09-008
-  story_id: STORY-R09-004
-  from_status: READY
-  to_status: IN_PROGRESS
-  session_id: SES-20260723T024212Z-696F7963
-  actor_id: codex-root-r09-machine-close
-  reason: 会话领取任务
 - transition_id: TRN-15AFFA52E4DA
   timestamp: '2026-07-23T02:51:06Z'
   release: R10
@@ -2712,6 +3595,16 @@ recent_task_transitions:
   to_status: IN_PROGRESS
   session_id: SES-20260724T235749Z-6EC9DB09
   actor_id: codex-root-r12-data-20260725
+  reason: 会话领取任务
+- transition_id: TRN-452B820154B9
+  timestamp: '2026-07-25T02:50:44Z'
+  release: R12
+  task_id: TASK-R12-003
+  story_id: STORY-R12-008
+  from_status: READY
+  to_status: IN_PROGRESS
+  session_id: SES-20260725T025042Z-A53070A0
+  actor_id: codex-root-r12-backend-20260725
   reason: 会话领取任务
 open_change_requests:
 - protocol_version: '1.0'
@@ -10560,6 +11453,87 @@ open_change_requests:
     session_id: SES-20260724T144831Z-B2E27A89
   session_ids:
   - SES-20260724T144831Z-B2E27A89
+- protocol_version: '1.0'
+  cr_id: CR-0318
+  title: 补齐R12内容审核ESCALATE二审持久化与事务语义
+  status: IMPLEMENTED
+  created_at: '2026-07-25T03:40:46Z'
+  updated_at: '2026-07-25T05:11:59Z'
+  requester_actor_id: codex-root-r12-backend-20260725
+  approver_actor_id: codex-r12-escalation-cr-reviewer
+  task_id: TASK-R12-003
+  session_id: SES-20260725T025042Z-A53070A0
+  user_request: OWNER_ACTIVE_GOAL_CONTINUE_R01_R32_IN_REPOSITORY_ORDER
+  reason: 冻结OpenAPI和后台页面要求APPROVE、REJECT、ESCALATE，但V039数据库约束与触发器只能持久化CLAIM、ASSIGN、APPROVE、REJECT，当前服务被迫对二审返回422，无法满足R12冻结功能。
+  original_rule: V039仅允许content_review_records.decision为CLAIM、ASSIGN、APPROVE、REJECT，并把REVIEWING审核决定限定为APPROVED或REJECTED；但冻结OpenAPI与ADM-REVIEW-001同时要求ESCALATE二审，服务当前只能失败关闭返回422。
+  new_rule: ESCALATE仅表示把同一不可变提交快照升级到二审，不新增CONTENT_STATUS或自迁移边。固定事务顺序为claim/replay → FOR UPDATE锁内容 → 校验REVIEWING、expectedVersion、最近PENDING_REVIEW提交快照和同快照未曾ESCALATE
+    → UPDATE status仍为REVIEWING且version恰好+1 → INSERT decision=ESCALATE审核记录 → 管理员审计 → content.review.escalated.v1应用Outbox → 加密首次响应快照 → commit；不写REVIEWING到REVIEWING状态日志。同一snapshot_version_id最多一条ESCALATE。ESCALATE后，APPROVE/REJECT前必须存在ID更大的ASSIGN记录，最终决定admin_id必须等于该最新ASSIGN.admin_id；即ESCALATE
+    → ASSIGN二审员 → 被分配二审员APPROVE或REJECT，结果语义不变但新增二审分配前置条件。V040数据库守卫独立强制当前状态REVIEWING、父记录已同事务version+1且GUC一致、snapshot_version_id等于最近提交快照、reason和command_id非空、同快照ESCALATE唯一，并强制ESCALATE后最终决定的分配顺序与管理员身份；延迟约束证明对应审计和应用Outbox同事务存在。管理员审计冻结actorId、actorUsername、有效权限review.decide、目标、前后状态与版本、reason、evidenceIds、requestId、IP、已认证admin_sessions.device_fingerprint、result和commandId；通过resource_id
+    + action + after_json.commandId + afterVersion + result精确关联。设备必须按AdminPrincipal.sessionId与adminId从admin_sessions读取，任何请求头只可作为未采信的客户端声明且本实现不写入权威审计。Outbox冻结contentId、submittedSnapshotId/version、beforeVersion、afterVersion/contentVersion、status、actorId、actorUsername、permission、reason、evidenceIds、requestId、device、commandId、occurredAt。幂等scope固定r12.adminReviewPostReviewsByIdDecide:admin:<actorId>，reviewId、decision、规范化reason、expectedVersion和顺序规范化evidenceIds进入hash；replay先于当前状态/版本校验，首次响应使用版本化response_type和AES-GCM
+    ciphertext。ASSIGN/CLAIM及无ESCALATE时APPROVE/REJECT语义不变。
+  impact_summary: 以V040前向迁移扩展V039审核决策约束、插入守卫、同快照唯一索引、ESCALATE后分配/决定人约束与延迟审计/Outbox提交检查，不增加业务表、不改变CONTENT_STATUS状态集合或29条状态边。后端移除ESCALATE失败关闭，实现保持REVIEWING的版本化二审事务；从已认证管理员会话读取设备，使用commandId串联审核、审计与Outbox，读取投影兼容最新ESCALATE；补单元、控制器合同、PostgreSQL17真库及V040/U040原子回滚测试。
+  impact:
+    files:
+    - database/migrations/V040__r12_review_escalation.sql
+    - services/backend/boot/src/main/resources/db/migration/V040__r12_review_escalation.sql
+    - database/rollback/U040__r12_review_escalation.sql
+    - database/tests/r12_review_escalation.sql
+    - scripts/check_db_schema.py
+    - services/backend/content/src/main/java/cc/orbexa/hhy/content/R12ReviewContracts.java
+    - services/backend/content/src/main/java/cc/orbexa/hhy/content/R12ReviewStore.java
+    - services/backend/content/src/main/java/cc/orbexa/hhy/content/R12ReviewService.java
+    - services/backend/content/src/main/java/cc/orbexa/hhy/content/R12ReviewPostgresStore.java
+    - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/admin/R12ReviewController.java
+    - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R12ReviewServiceTest.java
+    - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R12ReviewPostgresStoreTest.java
+    - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/admin/R12ReviewControllerContractTest.java
+    - database/schema_dictionary.csv
+    - catalogs/data_tables.csv
+    - releases/R12/RELEASE_MANIFEST.yaml
+    - docs/03-continuity/PROBLEM_REGISTRY.yaml
+    - docs/03-continuity/R12_TASK-003_BACKEND_GATE.md
+    - CHANGELOG.md
+    pages:
+    - ADM-REVIEW-001
+    apis:
+    - POST /admin-api/v1/reviews/{id}/decide
+    database:
+    - content_review_records
+    - content_posts
+    - admin_sessions
+    - admin_operation_logs
+    - outbox_events
+    configuration: []
+    ledger: []
+    tests:
+    - R12ReviewServiceTest：成功二审保持REVIEWING/version+1/零状态日志/审核审计Outbox幂等；同键重放、异体冲突、非REVIEWING、过期版本和同快照重复拒绝
+    - R12ReviewServiceTest：ESCALATE后直接决定拒绝、分配后错误管理员拒绝、被分配管理员成功
+    - R12ReviewControllerContractTest：AdminPrincipal adminId/sessionId/username与review.decide、requestId、IP上下文传递；设备仅由Store按会话读取
+    - R12ReviewPostgresStoreTest PostgreSQL17：完整二审事务、并发同版本仅一成功、任一步失败零落地、V040含ESCALATE时旧读取投影成功
+    - database/tests/r12_review_escalation.sql：空reason、错误快照、无父更新、缺审计、审计commandId/afterVersion/result错配、缺应用Outbox、错误contentVersion、二审未分配或决定人不匹配拒绝；V040/U040无数据精确回滚重放和有ESCALATE原子阻断
+    releases:
+    - R12
+    migration_and_compatibility: 部署顺序固定为先执行V040数据库迁移，再部署支持ESCALATE的应用；回滚顺序固定为先部署不再发起ESCALATE的旧应用，再执行U040。V040不改写既有记录，以NOT VALID后VALIDATE扩展约束与守卫，并创建同一提交快照最多一次ESCALATE的唯一索引和延迟事务事实检查。U040在任何DDL前先检测ESCALATE记录：不存在时精确恢复V039约束、函数和触发器并允许再次重放V040；存在时整个事务原子拒绝，不删除、不改写事实且不执行部分DDL。应用回滚后仍必须通过原读取投影返回既有ESCALATE；以V040含ESCALATE数据加旧读取查询回归证明，不要求旧应用发起二审。
+  user_confirmation: OWNER_ACTIVE_GOAL_CONTINUE_R01_R32_IN_REPOSITORY_ORDER
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-25T03:59:13Z'
+    note: 第三轮独立只读复核通过：ESCALATE状态/版本/快照/唯一性、二审分配决定人、commandId审计关联、管理员会话设备来源、幂等、Outbox及V040/U040兼容测试均已闭环。
+  machine_record: .continuity/change_requests/CR-0318.yaml
+  document: docs/03-continuity/change-requests/CR-0318-补齐R12内容审核ESCALATE二审持久化与事务语义.md
+  decision_log:
+  - at: '2026-07-25T03:59:20Z'
+    actor_id: codex-root-r12-backend-20260725
+    status: IMPLEMENTING
+    note: 开始实现V040/U040、二审应用事务、审计Outbox、控制器上下文与PostgreSQL17回归。
+    session_id: SES-20260725T025042Z-A53070A0
+  - at: '2026-07-25T05:11:59Z'
+    actor_id: codex-root-r12-backend-20260725
+    status: IMPLEMENTED
+    note: V040/U040、ESCALATE二审事务、commandId审计与Outbox、认证会话设备来源、19个冻结operationId及Java21/PostgreSQL17回归均已实现；后端全回归411项，0失败、0错误、0跳过。
+    session_id: SES-20260725T025042Z-A53070A0
+  session_ids:
+  - SES-20260725T025042Z-A53070A0
 source_manifest:
 - path: AGENTS.md
   sha256: 690f960020dcbd18080ec91b3c314335627b32e231b9f9b2e14566b0fbbaeb35
@@ -10568,8 +11542,8 @@ source_manifest:
   sha256: 22de14029ce47beb41ea569e36ce223fbc9d11b86f8676f28d5fbbd83896af5c
   bytes: 4556
 - path: CURRENT_STATUS.yaml
-  sha256: aa9e9d452aa41f288a4da278719b1c3c0231c452723dc677b3be1b8b14468ff0
-  bytes: 4259
+  sha256: 81dd756008c0f04d11f700a1c6267e1e78a0b922ec01134694f0ff1b726119f8
+  bytes: 4418
 - path: NEXT_TASK.yaml
   sha256: b8776e358361450c7c930346e4f31b71ef5248208e9357299169bbee87a0b0e9
   bytes: 1519
@@ -10580,8 +11554,8 @@ source_manifest:
   sha256: 045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511
   bytes: 1442
 - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
-  sha256: 12e54c3e459083089fabc9e090dcece8f3d5526df21a8fc7fbd611dd77ee775b
-  bytes: 148968
+  sha256: b874a00f4198d28ded7d7466c5eab306669d1bf3c56955faff0f37b2d68714b4
+  bytes: 152653
 - path: docs/03-continuity/REUSABLE_PATTERNS.md
   sha256: fe65ac4157e0072a3e8fbe2fb815bf6badf3f81fa295f54b9663b66683f5d593
   bytes: 3629
@@ -10601,23 +11575,23 @@ source_manifest:
   sha256: 60943fcd9714cfae7274463554b5584fdb7a7aeee1ee547ff6dbc53fae6d4994
   bytes: 13170
 - path: .continuity/EVENT_LOG.jsonl
-  sha256: b862c8b1e0282c719297bff5f453fdde69ce76a48251ec920542f35c20793276
-  bytes: 1720197
+  sha256: 7b66d990cf9a36eec8d4f441018575956c9bf94e57e0f919672daf3b63574334
+  bytes: 1730147
 - path: .continuity/SESSION_INDEX.yaml
-  sha256: 5bd7704125e0509c3999ddc1704d6449d3473e6ce678151efee38d81524916a4
-  bytes: 52263
+  sha256: c446bbcf38f771b385774d431ebc5007bd0992fb133f9c9e26899513d05f3647
+  bytes: 52768
 - path: .continuity/TASK_CLAIMS.yaml
-  sha256: 9343bbc2dabadd8c0ad30d70951bac945a7f4b537c92683f75c019c891850bd7
-  bytes: 73196
+  sha256: 8e30a2e6a9dcee63799d96ea369d984979e32341092a0baa37cb93de755a5452
+  bytes: 73938
 - path: .continuity/TASK_TRANSITIONS.yaml
-  sha256: d11e631ff693b4c9ddf014da60f6cc1e9a782d40122f604c9414a51d84cad06b
-  bytes: 29732
+  sha256: e05b38cb2dedd9741acb06108e8352c0490b89f8dcaab9769f095a5b97213c77
+  bytes: 30030
 - path: .continuity/CHANGE_REQUEST_INDEX.yaml
-  sha256: d8c01b9cb357f4e9c8dec198f4c3fa95db325c7f649158eb0dfb9c28d4c6d713
-  bytes: 1062803
+  sha256: 245961d636693a2fa3a3e043026d9d2d390609d9c4c5e8c19ebfbbf26d2f1a2a
+  bytes: 1070963
 - path: .continuity/ACTIVE_SESSION.yaml
-  sha256: 1028c74e7fb10233f9a3e28464f842c7c5863e253dbac7467d1baeca258f76aa
-  bytes: 143
+  sha256: b5b9c8c17759021deea58022e5e5ff2f0c071ef6c719be9f2f5c26b2c7a16bd5
+  bytes: 546
 - path: docs/00-baseline/正式商业系统全局硬性开发边界.md
   sha256: 9753b32db136e59e95a0974a62362456d9d577fd1bb40058ec985c4b64413eea
   bytes: 12596
@@ -10631,8 +11605,8 @@ source_manifest:
   sha256: 821ed91f6f860b729f6532c5e8145c6d78fa01fc7f5ec423687479fe5390a76f
   bytes: 16912
 - path: releases/R12/RELEASE_MANIFEST.yaml
-  sha256: 22bc9cd4b9be424fd32cd5b907f27a1511f77f8447684717648c34bc7c7c8cdc
-  bytes: 5431
+  sha256: 28af49f50c84993bcc1c79cc810c57998f3800363ec8f17fb96ac7d93d2f93a2
+  bytes: 6729
 - path: releases/R12/DEFINITION_OF_READY.yaml
   sha256: ec0e557f0fc1c9738d78e5954b24b5411e8f3f23ebbf13631aef6d64745515a7
   bytes: 7067
@@ -10648,6 +11622,15 @@ source_manifest:
 - path: releases/R12/PARALLEL_EXECUTION_PLAN.yaml
   sha256: 2ddbee414a51a868b63331992e2e04c5400846cf6012474aab406e067e532e98
   bytes: 2797
+- path: docs/03-continuity/sessions/2026-07/SES-20260725T025042Z-A53070A0.md
+  sha256: 70d5387137a87a6655353f35b9caa467eec7e8d4538e842325a6e4179b987d76
+  bytes: 12985
+- path: .continuity/checkpoints/SES-20260725T025042Z-A53070A0/0003.yaml
+  sha256: d188254992a46ca9e739cff8eebe2d357cabf7be2743802dffb8e31b317ae10b
+  bytes: 26981
+- path: docs/03-continuity/change-requests/CR-0318-补齐R12内容审核ESCALATE二审持久化与事务语义.md
+  sha256: ad6183ba3c823be9e8172a656814bea0ffd28fd7be2486a13dabda8708a7d3e4
+  bytes: 7979
 rule_readiness:
   status: PASS
   evidence: HASHED_CONTEXT_MANIFEST
@@ -10667,7 +11650,8 @@ rule_readiness:
   - docs/03-continuity/PITFALLS.md
   - docs/09-development/统一开发与交付效率规范.md
   missing_sources: []
-exact_resume_command: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R12-003
+exact_resume_command: python3 scripts/continuity.py checkpoint --summary '<完成内容>' --next-step '<下一步>' --parallel-assessment <ASSESSMENT> --parallel-reason
+  '<未委托原因>'
 hard_rules:
 - 不得依赖旧对话补充仓库已有需求
 - 未领取任务和会话不得编辑项目文件
@@ -10682,4 +11666,4 @@ hard_rules:
 - 除非项目所有者明确报告未连接，默认Codex已连接obx-test且既有项目环境可用；预检失败必须阻断并报告
 - 禁止以无服务器状态继续开发或重建本地Android SDK，必须复用登记的远端镜像和Gradle缓存
 - Git remote/upstream仅按tracked transport descriptor受控恢复；推送前必须预检且禁止force push
-context_hash: 6f4a23ecf541ba6a12bc7a22ab5d54061fec44abc113f58aa2dc4afce06bd00b
+context_hash: 447a2f92e788baa1ff4e96d1eefdb1941bdd5b6e2b45fda88d9d5085f376b461

@@ -1,0 +1,118 @@
+---
+cr_id: CR-0318
+status: APPROVED
+requester_actor_id: codex-root-r12-backend-20260725
+approver_actor_id: codex-r12-escalation-cr-reviewer
+task_id: TASK-R12-003
+session_id: SES-20260725T025042Z-A53070A0
+created_at: 2026-07-25T03:40:46Z
+updated_at: 2026-07-25T03:59:13Z
+---
+# CR-0318 — 补齐R12内容审核ESCALATE二审持久化与事务语义
+
+## 用户需求摘要
+
+OWNER_ACTIVE_GOAL_CONTINUE_R01_R32_IN_REPOSITORY_ORDER
+
+## 原规则
+
+V039仅允许content_review_records.decision为CLAIM、ASSIGN、APPROVE、REJECT，并把REVIEWING审核决定限定为APPROVED或REJECTED；但冻结OpenAPI与ADM-REVIEW-001同时要求ESCALATE二审，服务当前只能失败关闭返回422。
+
+## 新规则
+
+ESCALATE仅表示把同一不可变提交快照升级到二审，不新增CONTENT_STATUS或自迁移边。固定事务顺序为claim/replay → FOR UPDATE锁内容 → 校验REVIEWING、expectedVersion、最近PENDING_REVIEW提交快照和同快照未曾ESCALATE → UPDATE status仍为REVIEWING且version恰好+1 → INSERT decision=ESCALATE审核记录 → 管理员审计 → content.review.escalated.v1应用Outbox → 加密首次响应快照 → commit；不写REVIEWING到REVIEWING状态日志。同一snapshot_version_id最多一条ESCALATE。ESCALATE后，APPROVE/REJECT前必须存在ID更大的ASSIGN记录，最终决定admin_id必须等于该最新ASSIGN.admin_id；即ESCALATE → ASSIGN二审员 → 被分配二审员APPROVE或REJECT，结果语义不变但新增二审分配前置条件。V040数据库守卫独立强制当前状态REVIEWING、父记录已同事务version+1且GUC一致、snapshot_version_id等于最近提交快照、reason和command_id非空、同快照ESCALATE唯一，并强制ESCALATE后最终决定的分配顺序与管理员身份；延迟约束证明对应审计和应用Outbox同事务存在。管理员审计冻结actorId、actorUsername、有效权限review.decide、目标、前后状态与版本、reason、evidenceIds、requestId、IP、已认证admin_sessions.device_fingerprint、result和commandId；通过resource_id + action + after_json.commandId + afterVersion + result精确关联。设备必须按AdminPrincipal.sessionId与adminId从admin_sessions读取，任何请求头只可作为未采信的客户端声明且本实现不写入权威审计。Outbox冻结contentId、submittedSnapshotId/version、beforeVersion、afterVersion/contentVersion、status、actorId、actorUsername、permission、reason、evidenceIds、requestId、device、commandId、occurredAt。幂等scope固定r12.adminReviewPostReviewsByIdDecide:admin:<actorId>，reviewId、decision、规范化reason、expectedVersion和顺序规范化evidenceIds进入hash；replay先于当前状态/版本校验，首次响应使用版本化response_type和AES-GCM ciphertext。ASSIGN/CLAIM及无ESCALATE时APPROVE/REJECT语义不变。
+
+## 修改原因
+
+冻结OpenAPI和后台页面要求APPROVE、REJECT、ESCALATE，但V039数据库约束与触发器只能持久化CLAIM、ASSIGN、APPROVE、REJECT，当前服务被迫对二审返回422，无法满足R12冻结功能。
+
+## 影响摘要
+
+以V040前向迁移扩展V039审核决策约束、插入守卫、同快照唯一索引、ESCALATE后分配/决定人约束与延迟审计/Outbox提交检查，不增加业务表、不改变CONTENT_STATUS状态集合或29条状态边。后端移除ESCALATE失败关闭，实现保持REVIEWING的版本化二审事务；从已认证管理员会话读取设备，使用commandId串联审核、审计与Outbox，读取投影兼容最新ESCALATE；补单元、控制器合同、PostgreSQL17真库及V040/U040原子回滚测试。
+
+## 影响文件
+
+- `database/migrations/V040__r12_review_escalation.sql`
+- `services/backend/boot/src/main/resources/db/migration/V040__r12_review_escalation.sql`
+- `database/rollback/U040__r12_review_escalation.sql`
+- `database/tests/r12_review_escalation.sql`
+- `scripts/check_db_schema.py`
+- `services/backend/content/src/main/java/cc/orbexa/hhy/content/R12ReviewContracts.java`
+- `services/backend/content/src/main/java/cc/orbexa/hhy/content/R12ReviewStore.java`
+- `services/backend/content/src/main/java/cc/orbexa/hhy/content/R12ReviewService.java`
+- `services/backend/content/src/main/java/cc/orbexa/hhy/content/R12ReviewPostgresStore.java`
+- `services/backend/boot/src/main/java/cc/orbexa/hhy/boot/admin/R12ReviewController.java`
+- `services/backend/boot/src/test/java/cc/orbexa/hhy/content/R12ReviewServiceTest.java`
+- `services/backend/boot/src/test/java/cc/orbexa/hhy/content/R12ReviewPostgresStoreTest.java`
+- `services/backend/boot/src/test/java/cc/orbexa/hhy/boot/admin/R12ReviewControllerContractTest.java`
+- `database/schema_dictionary.csv`
+- `catalogs/data_tables.csv`
+- `releases/R12/RELEASE_MANIFEST.yaml`
+- `docs/03-continuity/PROBLEM_REGISTRY.yaml`
+- `docs/03-continuity/R12_TASK-003_BACKEND_GATE.md`
+- `CHANGELOG.md`
+
+## 页面
+
+- `ADM-REVIEW-001`
+
+## API
+
+- `POST /admin-api/v1/reviews/{id}/decide`
+
+## 数据库与迁移
+
+- `content_review_records`
+- `content_posts`
+- `admin_sessions`
+- `admin_operation_logs`
+- `outbox_events`
+
+## 配置
+
+- 无直接影响（已在影响摘要说明）
+
+## 资金/账本与历史数据
+
+- 无直接影响（已在影响摘要说明）
+
+## 测试
+
+- `R12ReviewServiceTest：成功二审保持REVIEWING/version+1/零状态日志/审核审计Outbox幂等；同键重放、异体冲突、非REVIEWING、过期版本和同快照重复拒绝`
+- `R12ReviewServiceTest：ESCALATE后直接决定拒绝、分配后错误管理员拒绝、被分配管理员成功`
+- `R12ReviewControllerContractTest：AdminPrincipal adminId/sessionId/username与review.decide、requestId、IP上下文传递；设备仅由Store按会话读取`
+- `R12ReviewPostgresStoreTest PostgreSQL17：完整二审事务、并发同版本仅一成功、任一步失败零落地、V040含ESCALATE时旧读取投影成功`
+- `database/tests/r12_review_escalation.sql：空reason、错误快照、无父更新、缺审计、审计commandId/afterVersion/result错配、缺应用Outbox、错误contentVersion、二审未分配或决定人不匹配拒绝；V040/U040无数据精确回滚重放和有ESCALATE原子阻断`
+
+## 版本
+
+- `R12`
+
+## 迁移与兼容策略
+
+部署顺序固定为先执行V040数据库迁移，再部署支持ESCALATE的应用；回滚顺序固定为先部署不再发起ESCALATE的旧应用，再执行U040。V040不改写既有记录，以NOT VALID后VALIDATE扩展约束与守卫，并创建同一提交快照最多一次ESCALATE的唯一索引和延迟事务事实检查。U040在任何DDL前先检测ESCALATE记录：不存在时精确恢复V039约束、函数和触发器并允许再次重放V040；存在时整个事务原子拒绝，不删除、不改写事实且不执行部分DDL。应用回滚后仍必须通过原读取投影返回既有ESCALATE；以V040含ESCALATE数据加旧读取查询回归证明，不要求旧应用发起二审。
+
+## 用户确认
+
+OWNER_ACTIVE_GOAL_CONTINUE_R01_R32_IN_REPOSITORY_ORDER
+
+## 审批
+
+- 审批人：`codex-r12-escalation-cr-reviewer`
+- 决定：`APPROVED`
+- 时间：`2026-07-25T03:59:13Z`
+- 说明：第三轮独立只读复核通过：ESCALATE状态/版本/快照/唯一性、二审分配决定人、commandId审计关联、管理员会话设备来源、幂等、Outbox及V040/U040兼容测试均已闭环。
+
+## 状态记录 · 2026-07-25T03:59:20Z
+
+- Actor：`codex-root-r12-backend-20260725`
+- Status：`IMPLEMENTING`
+- Session：`SES-20260725T025042Z-A53070A0`
+- Note：开始实现V040/U040、二审应用事务、审计Outbox、控制器上下文与PostgreSQL17回归。
+
+## 状态记录 · 2026-07-25T05:11:59Z
+
+- Actor：`codex-root-r12-backend-20260725`
+- Status：`IMPLEMENTED`
+- Session：`SES-20260725T025042Z-A53070A0`
+- Note：V040/U040、ESCALATE二审事务、commandId审计与Outbox、认证会话设备来源、19个冻结operationId及Java21/PostgreSQL17回归均已实现；后端全回归411项，0失败、0错误、0跳过。

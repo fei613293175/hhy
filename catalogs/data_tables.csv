@@ -31,7 +31,7 @@
 内容,content_contacts,内容联系方式及受保护入群口令,"content_id, channel, value_cipher, display_mask, sort_order, removed_at",内容内渠道和顺序唯一；JOIN_PASSWORD仅GROUP且每内容唯一，使用V032加密信封与掩码并经显式访问审计，不计作群主联系方式；移除仅软标记,R06-R13
 内容,content_versions,内容版本,"content_id, version_no, snapshot_json, created_by",内容+版本唯一,R06-R13
 内容,content_status_logs,状态日志,"content_id, from_status, to_status, reason, operator, transition_version",不可删除；V039后按内容版本唯一,R06-R13
-内容,content_review_records,审核记录,"content_id, version_no, decision, reason, admin_id, snapshot_version_id, command_id",不可删除；绑定提交快照并按命令幂等,R06-R13
+内容,content_review_records,审核记录,"content_id, version_no, decision, reason, admin_id, snapshot_version_id, command_id",不可删除；绑定提交快照并按命令幂等；同快照最多一次ESCALATE且二审必须重新分配后由被分配管理员决定,R06-R13
 内容,content_stats,累计统计,"content_id, organic_views, redpacket_views, task_views, favorites, chats, contacts",content_id唯一,R06-R13
 内容,content_daily_stats,每日统计,"content_id, stat_date, metrics_json",内容+日期唯一,R06-R13
 内容,content_favorites,收藏,"user_id, content_id, created_at",用户+内容唯一,R06-R13

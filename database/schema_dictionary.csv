@@ -275,11 +275,11 @@
 内容,content_review_records,1,id,bigint,否,generated,PRIMARY KEY,版本索引,R06-R13,FROZEN
 内容,content_review_records,2,content_id,bigint,否,,INDEX,版本索引,R06-R13,FROZEN
 内容,content_review_records,3,version_no,varchar(255),是,,,版本索引,R06-R13,FROZEN
-内容,content_review_records,4,decision,varchar(64),是,,,版本索引,R06-R13,FROZEN
+内容,content_review_records,4,decision,varchar(64),是,,,V040后提交快照决策允许CLAIM/ASSIGN/APPROVE/REJECT/ESCALATE；ESCALATE后必须重新分配二审员,R06-R13,FROZEN_CR-0318
 内容,content_review_records,5,reason,text,是,,,版本索引,R06-R13,FROZEN
 内容,content_review_records,6,admin_id,bigint,是,,INDEX,版本索引,R06-R13,FROZEN
 内容,content_review_records,7,created_at,timestamptz,否,now(),INDEX,统一审计字段,R06-R13,FROZEN
-内容,content_review_records,8,snapshot_version_id,bigint,是,,INDEX FK content_versions(id),V039后审核事件绑定提交快照；旧记录允许空,R12,FROZEN_CR-0316
+内容,content_review_records,8,snapshot_version_id,bigint,是,,INDEX FK content_versions(id); UNIQUE WHERE decision=ESCALATE,V039后审核事件绑定提交快照；V040强制同快照最多一次ESCALATE；旧记录允许空,R12,FROZEN_CR-0318
 内容,content_review_records,9,command_id,varchar(128),是,,UNIQUE(content_id command_id),V039后审核命令幂等；旧记录允许空,R12,FROZEN_CR-0316
 内容,content_stats,1,id,bigint,否,generated,PRIMARY KEY,技术主键,R06-R13,FROZEN
 内容,content_stats,2,content_id,bigint,否,,INDEX,content_id唯一,R06-R13,FROZEN

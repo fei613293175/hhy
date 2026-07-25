@@ -138,6 +138,41 @@ task_002_database_gate:
   - screenshot_visual_review
   - test_apk
   next_task: TASK-R12-003
+task_003_backend_gate:
+  status: PASS
+  session_id: SES-20260725T025042Z-A53070A0
+  change_requests:
+  - CR-0318
+  report: docs/03-continuity/R12_TASK-003_BACKEND_GATE.md
+  frozen_operations:
+    total: 19
+    publishing_content: 10
+    admin_review: 6
+    account_summary: 3
+  review_escalation:
+    migration: V040__r12_review_escalation.sql
+    rollback: U040__r12_review_escalation.sql
+    semantics: ESCALATE_THEN_LATER_ASSIGN_THEN_ASSIGNED_REVIEWER_FINAL_DECISION
+    false_reviewing_status_log: FORBIDDEN
+    exact_audit_outbox_link: commandId
+    trusted_device_source: admin_sessions.device_fingerprint
+  validation:
+    java_21_targeted: PASS_32_TESTS
+    postgres_17_store: PASS_2_TESTS_0_SKIPS
+    postgres_17_migrations: PASS_V001_TO_V040
+    escalation_transactions: PASS_POSITIVE_AND_NEGATIVE_MATRIX
+    u040_safe_rollback_replay: PASS
+    u040_facts_present_atomic_block: PASS
+    schema_gate: PASS_200_TABLES_40_MIGRATIONS_RUNTIME_HASHES
+    java_21_backend_full: PASS_411_TESTS_0_FAILURES_0_ERRORS_0_SKIPS
+    postgres_17_store_full_regression: PASS_2_TESTS_0_SKIPS
+    evidence: obx-test:/tmp/hhy-r12-task003-backend-final-v3.log
+  deferred_final_candidate:
+  - android_full_build
+  - emulator
+  - screenshot_visual_review
+  - test_apk
+  next_task: TASK-R12-004_AFTER_TASK_CLOSE
 entry_gate:
 - releases/R12/DEFINITION_OF_READY.yaml 全部适用项为PASS
 - releases/R12/STORIES.yaml 中每个故事均绑定页面/API/配置/数据/测试或显式N/A

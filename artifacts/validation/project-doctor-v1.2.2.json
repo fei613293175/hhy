@@ -1,7 +1,7 @@
 {
   "version": "1.2.2",
   "status": "PASS",
-  "strict": false,
+  "strict": true,
   "release_filter": "R12",
   "metrics": {
     "android_surfaces": 102,

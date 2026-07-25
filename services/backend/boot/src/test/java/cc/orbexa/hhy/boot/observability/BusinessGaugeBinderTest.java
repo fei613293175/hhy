@@ -192,7 +192,7 @@ class BusinessGaugeBinderTest {
         assertThat(registry.get("hhy.publisher.active.count").gauge().value()).isEqualTo(1.0);
         assertThat(registry.get("hhy.contact.accesses.5m").gauge().value()).isEqualTo(12.0);
         assertThat(registry.get("hhy.contact.rejections.5m").gauge().value()).isEqualTo(4.0);
-        assertThat(registry.get("hhy.r07.outbox.backlog").gauge().value()).isEqualTo(5.0);
+        assertThat(registry.get("hhy.r07.outbox.backlog").gauge().value()).isEqualTo(6.0);
         assertThat(registry.get("hhy.project.total.count").gauge().value()).isEqualTo(2.0);
         assertThat(registry.get("hhy.project.online.count").gauge().value()).isEqualTo(1.0);
         assertThat(registry.get("hhy.project.review.pending").gauge().value()).isEqualTo(1.0);

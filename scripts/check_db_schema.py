@@ -170,6 +170,10 @@ r12_required_files = (
     "services/backend/boot/src/main/resources/db/migration/V039__r12_publish_management_invariants.sql",
     "database/rollback/U039__r12_publish_management_invariants.sql",
     "database/tests/r12_publish_management_invariants.sql",
+    "database/migrations/V040__r12_review_escalation.sql",
+    "services/backend/boot/src/main/resources/db/migration/V040__r12_review_escalation.sql",
+    "database/rollback/U040__r12_review_escalation.sql",
+    "database/tests/r12_review_escalation.sql",
     "scripts/check_content_state_machine_projection.py",
     "scripts/run_r12_database_invariants.sh",
 )
@@ -224,7 +228,7 @@ if all((ROOT / relative).is_file() for relative in r12_required_files):
         if marker not in r12_rollback:
             errors.append(f"U039 missing R12 rollback marker: {marker}")
 
-    r12_runner = (ROOT / r12_required_files[5]).read_text(encoding="utf-8")
+    r12_runner = (ROOT / r12_required_files[9]).read_text(encoding="utf-8")
     for marker in (
         "R12_DIRTY_UPGRADE_ATOMIC_MATRIX",
         "R12_PUBLISH_MANAGEMENT_INVARIANTS",
@@ -236,6 +240,47 @@ if all((ROOT / relative).is_file() for relative in r12_required_files):
     ):
         if marker not in r12_runner:
             errors.append(f"R12 database runner missing closure marker: {marker}")
+
+    r12_escalation_migration = (ROOT / r12_required_files[4]).read_text(encoding="utf-8")
+    for marker in (
+        "uq_r12_content_review_escalation_snapshot",
+        "R12_CONTENT_REVIEW_ESCALATE_REQUIRES_REVIEWING",
+        "R12_CONTENT_REVIEW_ESCALATE_SNAPSHOT_NOT_LATEST",
+        "R12_CONTENT_SECOND_REVIEWER_REQUIRED",
+        "R12_CONTENT_REVIEW_ESCALATION_AUDIT_REQUIRED",
+        "R12_CONTENT_REVIEW_ESCALATION_OUTBOX_REQUIRED",
+        "content.review.escalated.v1",
+        "commandId",
+    ):
+        if marker not in r12_escalation_migration:
+            errors.append(f"V040 missing R12 escalation invariant marker: {marker}")
+
+    r12_escalation_rollback = (ROOT / r12_required_files[6]).read_text(encoding="utf-8")
+    for marker in (
+        "R12_U040_ESCALATION_FACTS_PRESENT",
+        "DROP TRIGGER IF EXISTS trg_r12_review_escalation_commit",
+        "DROP INDEX IF EXISTS hhy.uq_r12_content_review_escalation_snapshot",
+        "decision IN ('CLAIM','ASSIGN','APPROVE','REJECT')",
+    ):
+        if marker not in r12_escalation_rollback:
+            errors.append(f"U040 missing R12 escalation rollback marker: {marker}")
+
+    r12_escalation_test = (ROOT / r12_required_files[7]).read_text(encoding="utf-8")
+    for marker in (
+        "R12_ESCALATION_WITHOUT_PARENT_WRITE_ACCEPTED",
+        "R12_ESCALATION_WITHOUT_AUDIT_ACCEPTED",
+        "R12_ESCALATION_WITH_MISMATCHED_AUDIT_COMMAND_ACCEPTED",
+        "R12_ESCALATION_WITH_MISMATCHED_AUDIT_VERSION_ACCEPTED",
+        "R12_ESCALATION_WITH_FAILED_AUDIT_ACCEPTED",
+        "R12_ESCALATION_WITHOUT_APPLICATION_OUTBOX_ACCEPTED",
+        "R12_ESCALATION_WITH_MISMATCHED_OUTBOX_VERSION_ACCEPTED",
+        "R12_DUPLICATE_SNAPSHOT_ESCALATION_ACCEPTED",
+        "R12_FINAL_DECISION_WITHOUT_SECOND_ASSIGNMENT_ACCEPTED",
+        "R12_WRONG_SECOND_REVIEWER_ACCEPTED",
+        "R12_REVIEW_ESCALATION_INVARIANTS PASS",
+    ):
+        if marker not in r12_escalation_test:
+            errors.append(f"R12 escalation test missing closure marker: {marker}")
 
     for marker in (
         'migration_number >= 39',
