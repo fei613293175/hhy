@@ -2,10 +2,10 @@ project: hhy-pro-platform
 baseline_version: 1.2.3
 phase: R12
 active_release: R12
-active_task: TASK-R12-004
-status: IN_PROGRESS
+active_task: TASK-R12-005
+status: READY
 documentation_status: ZERO_BLOCKING_DOCUMENT_GAPS
-last_green_commit: 35acc4c97bd5ddb8771bd23266e6a5d1b84ab206
+last_green_commit: 4366bd9392efe2e60b5aa9217428e71932368cf6
 last_staging_apk: null
 completed_tasks:
 - V1.2.2_ENGINEERING_BASELINE
@@ -114,15 +114,15 @@ completed_tasks:
 - TASK-R12-001
 - TASK-R12-002
 - TASK-R12-003
-in_progress_tasks:
 - TASK-R12-004
+in_progress_tasks: []
 blocked_tasks:
 - TASK-R02-007
 - TASK-R03-007
 - TASK-R06-008
 - TASK-R07-008
-next_task: TASK-R12-004
-updated_at: '2026-07-25T17:08:13Z'
+next_task: TASK-R12-005
+updated_at: '2026-07-25T17:10:17Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -154,16 +154,14 @@ validation:
 continuity:
   protocol_version: '1.0'
   mode: ENFORCED
-  active_session_id: SES-20260725T053515Z-11D4084D
-  actor_id: codex-root-r12-client-20260725
-  story_id: STORY-R12-008
-  lease_expires_at: '2026-07-25T21:08:13Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260725T053515Z-11D4084D/0036.yaml
-  project_fingerprint: 93e7f5cae8919cde5ae0ce6a973f475ec82b64334277314456961d005bc78880
+  active_session_id: null
+  last_session_id: SES-20260725T053515Z-11D4084D
+  last_session_result: COMPLETED
+  last_checkpoint: .continuity/checkpoints/SES-20260725T053515Z-11D4084D/0037.yaml
+  last_handoff_bundle: null
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: 7a96f2e651c0422b0f7378cd4105907623f8aa09dc62737d86a1270620b38dcd
-    generated_at: '2026-07-25T17:04:08Z'
-  handoff_bundle: null
+    context_hash: 7d248bd661174e1ccae061dc627289178f6c960664a5544e3929cf33eff23452
+    generated_at: '2026-07-25T17:10:14Z'

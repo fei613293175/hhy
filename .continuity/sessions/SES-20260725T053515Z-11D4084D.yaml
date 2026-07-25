@@ -1,7 +1,7 @@
 protocol_version: '1.0'
 package_version: 1.2.3
 session_id: SES-20260725T053515Z-11D4084D
-status: ACTIVE
+status: CLOSED
 actor:
   id: codex-root-r12-client-20260725
   kind: AI_OR_HUMAN
@@ -11,7 +11,7 @@ task_id: TASK-R12-004
 story_id: STORY-R12-008
 goal: 按冻结R12契约完成数据、配置、测试、观测、视觉验收、候选APK与版本交接收口。
 started_at: '2026-07-25T05:35:15Z'
-updated_at: '2026-07-25T17:08:22Z'
+updated_at: '2026-07-25T17:10:17Z'
 takeover_of: null
 change_requests:
 - CR-0319
@@ -75,20 +75,33 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-25T17:08:13Z'
-  expires_at: '2026-07-25T21:08:13Z'
-checkpoint_sequence: 36
-latest_checkpoint: .continuity/checkpoints/SES-20260725T053515Z-11D4084D/0036.yaml
+  renewed_at: '2026-07-25T17:10:11Z'
+  expires_at: '2026-07-25T21:10:11Z'
+checkpoint_sequence: 37
+latest_checkpoint: .continuity/checkpoints/SES-20260725T053515Z-11D4084D/0037.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260725T053515Z-11D4084D.md
-next_step: 提交并推送CR关闭元数据，然后执行continuity close关闭TASK-R12-004并切换TASK-R12-005。
+next_step: 提交关闭元数据Commit，然后运行pre-push/CI门禁
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: e381fcc2f25bd67cd3d5f27e1ddbf5b512f8be1e6b3397eee82d8bd39cecb50f
-  generated_at: '2026-07-25T17:08:19Z'
+  context_hash: 7d248bd661174e1ccae061dc627289178f6c960664a5544e3929cf33eff23452
+  generated_at: '2026-07-25T17:10:14Z'
 handoff_bundle: null
-closure: null
+closure:
+  result: COMPLETED
+  summary: TASK-R12-004完成：八个Story、十一页客户端/后台真实闭环、逐Story MODULE证据、视觉IN_REVIEW边界和Release Manifest均已收口；最终候选截图与APK保留至TASK-R12-007。
+  code_commit: 4366bd9392efe2e60b5aa9217428e71932368cf6
+  next_release: R12
+  next_task: TASK-R12-005
+  blocked_advance: false
+  completed_independent_advance: false
+  user_confirmation: null
+  metadata_commit: PENDING
+  push_verification: CI_REQUIRED_AFTER_METADATA_COMMIT
+  started_at: '2026-07-25T17:10:07Z'
+  closure_checkpoint_id: CP-SES-20260725T053515Z-11D4084D-0037
+  closed_at: '2026-07-25T17:10:17Z'
 parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
@@ -130,3 +143,4 @@ story_history:
   checkpoint_id: CP-SES-20260725T053515Z-11D4084D-0032
   commit: 3153ef9cafbcc06ffee8be92dac4f77435f43866
   summary: STORY-R12-007真实我的首页、会员奖励聚合、typed顶层导航与全部MODULE证据已提交并推送。
+closed_at: '2026-07-25T17:10:17Z'

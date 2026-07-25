@@ -60,7 +60,7 @@ tasks:
   completed_at: '2026-07-25T05:31:44Z'
 - id: TASK-R12-004
   title: 统一发布与发布管理客户端/H5/后台实现
-  status: READY
+  status: DONE
   depends_on:
   - TASK-R12-003
   requirements: *id001
@@ -78,9 +78,10 @@ tasks:
   - 禁止页面级手写重复DTO
   - 全部动作绑定生成API类型
   session_log_required: true
+  completed_at: '2026-07-25T17:10:07Z'
 - id: TASK-R12-005
   title: 统一发布与发布管理专项测试与故障注入
-  status: BLOCKED
+  status: READY
   depends_on:
   - TASK-R12-003
   - TASK-R12-004

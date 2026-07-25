@@ -3765,7 +3765,7 @@ claims:
   task_id: TASK-R12-004
   story_id: STORY-R12-008
   actor_id: codex-root-r12-client-20260725
-  status: ACTIVE
+  status: CLOSED
   claimed_at: '2026-07-25T05:35:15Z'
   allowed_paths:
   - apps/**
@@ -3800,3 +3800,4 @@ claims:
   - PROJECT_*.yaml
   - PROJECT_*.json
   updated_at: '2026-07-25T16:56:48Z'
+  closed_at: '2026-07-25T17:10:17Z'

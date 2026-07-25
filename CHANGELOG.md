@@ -1563,3 +1563,13 @@
 - Actor：`codex-root-r12-backend-20260725`
 - 摘要：TASK-R12-003完成：19个冻结operationId、发布管理、审核二审、资料会员奖励、V040/U040、权限幂等审计Outbox和Java21/PostgreSQL17全回归闭环
 - 记录：`docs/03-continuity/sessions/2026-07/SES-20260725T025042Z-A53070A0.md`
+
+## TASK-R12-004 · COMPLETED · 2026-07-25T17:10:07Z
+
+- Task close: TASK-R12-004 / SES-20260725T053515Z-11D4084D
+- Release：`R12`
+- Story：`STORY-R12-008`
+- Actor：`codex-root-r12-client-20260725`
+- 摘要：TASK-R12-004完成：八个Story、十一页客户端/后台真实闭环、逐Story MODULE证据、视觉IN_REVIEW边界和Release Manifest均已收口；最终候选截图与APK保留至TASK-R12-007。
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260725T053515Z-11D4084D.md`
+
