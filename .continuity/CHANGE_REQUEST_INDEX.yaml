@@ -19899,3 +19899,103 @@ change_requests:
   - SES-20260725T053515Z-11D4084D
   implementation_commits:
   - 7c30b6b0db88fafc1aa0c42cd4f4513f03f9442b
+- protocol_version: '1.0'
+  cr_id: CR-0326
+  title: 实现R12四页发布管理客户端闭环
+  status: APPROVED
+  created_at: '2026-07-25T08:47:59Z'
+  updated_at: '2026-07-25T08:49:45Z'
+  requester_actor_id: codex-root-r12-client-20260725
+  approver_actor_id: codex-r12-contract-reviewer-20260725
+  task_id: TASK-R12-004
+  session_id: SES-20260725T053515Z-11D4084D
+  user_request: 按R01-R32执行计划持续开发合伙云Pro，当前完成STORY-R12-003四页Android发布管理闭环。
+  reason: SCR-MYC-001/002/004/005已冻结视觉与业务合同，但现有客户端仅实现SCR-MYC-003详情，需接入七项既有operationId、真实Navigation、列表状态与安全写操作。
+  original_rule: R12冻结页面与OpenAPI已定义四页和七项operationId，客户端当前尚未实现。
+  new_rule: 在既有ContractR12Api与content-management模块内实现四页Compose、分页状态、稳定幂等、expectedVersion、二次确认和typed Navigation；审核记录与内容数据仅呈现ContentPageResource真实字段，不新增合同字段。
+  impact_summary: 新增R12四页Android纵向切片并回接我的页面真实入口；不改变公开API、数据库、配置、资金或生产行为。
+  impact:
+    files:
+    - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR12Api.kt
+    - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ContractR12ApiTest.kt
+    - apps/android/feature/content-management/src/main/java/cc/orbexa/hhy/contentmanagement/R12ContentManagementListState.kt
+    - apps/android/feature/content-management/src/main/java/cc/orbexa/hhy/contentmanagement/R12ContentManagementListScreens.kt
+    - apps/android/feature/content-management/src/test/java/cc/orbexa/hhy/contentmanagement/R12ContentManagementListStateTest.kt
+    - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+    - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+    - catalogs/ui_visual_acceptance.csv
+    - CHANGELOG.md
+    pages:
+    - SCR-MYC-001
+    - SCR-MYC-002
+    - SCR-MYC-004
+    - SCR-MYC-005
+    apis:
+    - contentGetMeContents
+    - contentPostContentsByIdOnline
+    - contentPostContentsByIdOffline
+    - contentGetMeDrafts
+    - contentDeleteContentsById
+    - contentGetContentsByIdReviews
+    - contentGetContentsByIdAnalytics
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - ContractR12Api单测;内容管理状态单测;check_android_ui_foundation;obx-test test/lint/app compile
+    releases:
+    - R12
+    migration_and_compatibility: 增量客户端实现；既有SCR-MYC-003详情路由保持兼容，服务端合同不变。
+  user_confirmation: 项目所有者已明确要求按仓库R01-R32计划持续开发并自主推进当前版本。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-25T08:49:45Z'
+    note: 独立合同复核：四页和七项operationId均已冻结；实现范围只接入既有合同，明确禁止reviews/analytics虚构字段，范围最小且具备模块测试。
+  machine_record: .continuity/change_requests/CR-0326.yaml
+  document: docs/03-continuity/change-requests/CR-0326-实现R12四页发布管理客户端闭环.md
+- protocol_version: '1.0'
+  cr_id: CR-0327
+  title: 纠正R12四页商业错误投影与发布入口
+  status: APPROVED
+  created_at: '2026-07-25T09:45:31Z'
+  updated_at: '2026-07-25T09:46:04Z'
+  requester_actor_id: codex-root-r12-client-20260725
+  approver_actor_id: codex-r12-ui-boundary-reviewer-20260725
+  task_id: TASK-R12-004
+  session_id: SES-20260725T053515Z-11D4084D
+  user_request: 持续按商业系统标准完成R12，禁止技术字段和错误功能入口进入正式UI。
+  reason: CR-0326批准后复核发现四份旧生成规格仍要求ERROR展示requestId，且我的发布入口不能错误写死为仅发布项目；需用独立CR修正既有商业边界投影并补齐四类型真实入口。
+  original_rule: 四份旧页面规格ERROR状态要求向用户展示稳定错误码和requestId；我的发布主入口若写死项目编辑器会漏掉App、群聊和团队长四类型发布能力。
+  new_rule: 四页正式UI只展示业务化错误和恢复动作，requestId与错误码仅保留网络层；我的发布主入口进入四类型发布选择，不替用户预选内容类型。
+  impact_summary: 修正规格技术字段投影并增加不虚构业务的四类型发布入口选择；复用R08-R11既有编辑器，无新API。
+  impact:
+    files:
+    - apps/android/feature/content-management/src/main/java/cc/orbexa/hhy/contentmanagement/R12ContentManagementListScreens.kt
+    - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+    - docs/02-ui/page-specs/android/SCR-MYC-001_我的发布.md
+    - docs/02-ui/page-specs/android/SCR-MYC-002_草稿箱.md
+    - docs/02-ui/page-specs/android/SCR-MYC-004_审核记录.md
+    - docs/02-ui/page-specs/android/SCR-MYC-005_内容数据.md
+    - CHANGELOG.md
+    pages:
+    - SCR-MYC-001
+    - SCR-MYC-002
+    - SCR-MYC-004
+    - SCR-MYC-005
+    apis:
+    - contentGetMeContents
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - 技术字段UI静态扫描;四类型导航单测;check_android_ui_foundation;obx-test MODULE回归
+    releases:
+    - R12
+    migration_and_compatibility: 错误诊断数据仍在网络层和受控日志；既有四类编辑路由不变，仅增加明确选择入口。
+  user_confirmation: 项目所有者已要求全部前端严格对应完整开发文档并持续推进。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-25T09:46:04Z'
+    note: 独立复核确认旧ERROR投影违反既有商业边界，四类型发布均已在R08-R11冻结且复用既有编辑器，不新增功能或接口。
+  machine_record: .continuity/change_requests/CR-0327.yaml
+  document: docs/03-continuity/change-requests/CR-0327-纠正R12四页商业错误投影与发布入口.md

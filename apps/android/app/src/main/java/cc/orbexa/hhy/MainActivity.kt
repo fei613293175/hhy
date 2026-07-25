@@ -84,6 +84,10 @@ import cc.orbexa.hhy.teamleader.R11TeamLeaderListScreen
 import cc.orbexa.hhy.teamleader.R11TeamLeaderDetailScreen
 import cc.orbexa.hhy.teamleader.R11TeamLeaderEditorScreen
 import cc.orbexa.hhy.contentmanagement.R12ContentManagementDetailScreen
+import cc.orbexa.hhy.contentmanagement.R12ContentAnalyticsScreen
+import cc.orbexa.hhy.contentmanagement.R12ContentReviewsScreen
+import cc.orbexa.hhy.contentmanagement.R12DraftsScreen
+import cc.orbexa.hhy.contentmanagement.R12MyContentsScreen
 import cc.orbexa.hhy.shell.HhyShellScreen
 import cc.orbexa.hhy.startup.StartupGateScreen
 import kotlinx.serialization.Serializable
@@ -228,6 +232,10 @@ private sealed interface AuthenticatedRoute {
     @Serializable data class TeamLeaderDetail(val teamLeaderId: String) : AuthenticatedRoute
     @Serializable data class TeamLeaderEditor(val teamLeaderId: String? = null) : AuthenticatedRoute
     @Serializable data class ContentManagementDetail(val contentId: String) : AuthenticatedRoute
+    @Serializable data object MyContents : AuthenticatedRoute
+    @Serializable data object MyDrafts : AuthenticatedRoute
+    @Serializable data class ContentReviews(val contentId: String) : AuthenticatedRoute
+    @Serializable data class ContentAnalytics(val contentId: String) : AuthenticatedRoute
 }
 
 @androidx.compose.runtime.Composable
@@ -293,6 +301,8 @@ private fun AuthenticatedNavHost(
                 onOpenCancellation = { navController.navigate(AuthenticatedRoute.Cancellation) },
                 onOpenIdentity = { navController.navigate(AuthenticatedRoute.Identity) },
                 onOpenAbout = { navController.navigate(AuthenticatedRoute.About) },
+                onOpenMyContents = { navController.navigate(AuthenticatedRoute.MyContents) },
+                onOpenMyDrafts = { navController.navigate(AuthenticatedRoute.MyDrafts) },
                 experienceApi = experienceApi,
                 accessToken = authenticated.session.accessToken,
             )
@@ -525,6 +535,63 @@ private fun AuthenticatedNavHost(
                         popUpTo<AuthenticatedRoute.ContentManagementDetail> { inclusive = true }
                     }
                 },
+                onSessionExpired = onSessionInvalidated,
+            )
+        }
+        composable<AuthenticatedRoute.MyContents> {
+            R12MyContentsScreen(
+                api = r12Api,
+                accessToken = authenticated.session.accessToken,
+                identityVerified = authenticated.user.identityStatus == "VERIFIED",
+                onBack = { navController.popBackStack() },
+                onContentSelected = { navController.navigate(AuthenticatedRoute.ContentManagementDetail(it)) },
+                onCreateContent = { contentType ->
+                    when (contentType) {
+                        "PROJECT" -> navController.navigate(AuthenticatedRoute.ProjectEditor())
+                        "APP" -> navController.navigate(AuthenticatedRoute.AppEditor())
+                        "GROUP_CHAT" -> navController.navigate(AuthenticatedRoute.GroupEditor())
+                        "TEAM_LEADER" -> navController.navigate(AuthenticatedRoute.TeamLeaderEditor())
+                    }
+                },
+                onReviews = { navController.navigate(AuthenticatedRoute.ContentReviews(it)) },
+                onAnalytics = { navController.navigate(AuthenticatedRoute.ContentAnalytics(it)) },
+                onSessionExpired = onSessionInvalidated,
+            )
+        }
+        composable<AuthenticatedRoute.MyDrafts> {
+            R12DraftsScreen(
+                api = r12Api,
+                accessToken = authenticated.session.accessToken,
+                onBack = { navController.popBackStack() },
+                onContentSelected = { navController.navigate(AuthenticatedRoute.ContentManagementDetail(it)) },
+                onEdit = { contentType, contentId ->
+                    when (contentType) {
+                        "PROJECT" -> navController.navigate(AuthenticatedRoute.ProjectEditor(contentId))
+                        "APP" -> navController.navigate(AuthenticatedRoute.AppEditor(contentId))
+                        "GROUP_CHAT" -> navController.navigate(AuthenticatedRoute.GroupEditor(contentId))
+                        "TEAM_LEADER" -> navController.navigate(AuthenticatedRoute.TeamLeaderEditor(contentId))
+                    }
+                },
+                onSessionExpired = onSessionInvalidated,
+            )
+        }
+        composable<AuthenticatedRoute.ContentReviews> { backStackEntry ->
+            val route = backStackEntry.toRoute<AuthenticatedRoute.ContentReviews>()
+            R12ContentReviewsScreen(
+                api = r12Api,
+                accessToken = authenticated.session.accessToken,
+                contentId = route.contentId,
+                onBack = { navController.popBackStack() },
+                onSessionExpired = onSessionInvalidated,
+            )
+        }
+        composable<AuthenticatedRoute.ContentAnalytics> { backStackEntry ->
+            val route = backStackEntry.toRoute<AuthenticatedRoute.ContentAnalytics>()
+            R12ContentAnalyticsScreen(
+                api = r12Api,
+                accessToken = authenticated.session.accessToken,
+                contentId = route.contentId,
+                onBack = { navController.popBackStack() },
                 onSessionExpired = onSessionInvalidated,
             )
         }

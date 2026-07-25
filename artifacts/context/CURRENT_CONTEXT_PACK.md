@@ -1,7 +1,7 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-25T08:35:12Z
-- Context Hash：`eb7fdc26ec1814b569907c784c7e7825d2c1fd3dde03d1a13cf8285b3dffb546`
+- 生成时间：2026-07-25T10:05:34Z
+- Context Hash：`516f6cc3efc13bf8f185ea6af5d74da06a8706b6cee32ad41e9d792cd8920381`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 规则就绪：`PASS`（`HASHED_CONTEXT_MANIFEST`）
@@ -161,7 +161,7 @@ blocked_tasks:
 - TASK-R06-008
 - TASK-R07-008
 next_task: TASK-R12-004
-updated_at: '2026-07-25T08:35:08Z'
+updated_at: '2026-07-25T10:05:31Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -195,16 +195,16 @@ continuity:
   mode: ENFORCED
   active_session_id: SES-20260725T053515Z-11D4084D
   actor_id: codex-root-r12-client-20260725
-  story_id: STORY-R12-002
-  lease_expires_at: '2026-07-25T12:35:08Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260725T053515Z-11D4084D/0008.yaml
-  project_fingerprint: 44065fb25f7a1b4770a3cade944e8f7fb46ee7d4d4d8c32d9686794d6850d78d
+  story_id: STORY-R12-003
+  lease_expires_at: '2026-07-25T14:05:31Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260725T053515Z-11D4084D/0012.yaml
+  project_fingerprint: a4fdb8907d46d257dcda8dc78f62912c36bcb632341dd83e88d89340665c4f3a
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: 336e432bb79278ad8034e6ad7e3993f1d7c63d69a5fe4094bcb4415e80711a9a
-    generated_at: '2026-07-25T08:23:30Z'
+    context_hash: b2ca743919f237bd6a8d5eccaebb38387af0ccac9af1b3f14ffa3ed1b386c4cf
+    generated_at: '2026-07-25T10:04:03Z'
   handoff_bundle: null
 ```
 
@@ -403,10 +403,10 @@ actor:
   host: unknown
 release: R12
 task_id: TASK-R12-004
-story_id: STORY-R12-002
-goal: 按SCR-MYC-003页面规格、B08/P03精确视觉合同和生成API类型实现内容管理详情、复制与数据闭环
+story_id: STORY-R12-003
+goal: 按SCR-MYC-001/002/004/005冻结合同与R12精确视觉规格实现我的发布、草稿箱、审核记录、内容数据，并接入真实Navigation入口。
 started_at: '2026-07-25T05:35:15Z'
-updated_at: '2026-07-25T08:35:08Z'
+updated_at: '2026-07-25T10:05:31Z'
 takeover_of: null
 change_requests:
 - CR-0319
@@ -416,6 +416,8 @@ change_requests:
 - CR-0323
 - CR-0324
 - CR-0325
+- CR-0326
+- CR-0327
 scope:
   allowed_paths:
   - apps/android/**
@@ -430,7 +432,7 @@ scope:
   - releases/**
   - design/**
   - scripts/**
-  - apps/android/**,catalogs/ui_visual_acceptance.csv,releases/R12/**,docs/02-ui/page-specs/android/**,tests/**,CHANGELOG.md
+  - apps/android/**,catalogs/ui_visual_acceptance.csv,docs/02-ui/page-specs/android/**,CHANGELOG.md,tests/**
   - CHANGELOG.md
   approved_exceptions:
   - database/migrations/V041__r12_review_permission_alignment.sql
@@ -460,24 +462,7 @@ scope:
   - apps/admin-web/src/adminNavigation.test.ts
   - apps/admin-web/src/routerPermissions.test.ts
   - apps/admin-web/src/styles.css
-  - apps/android/settings.gradle.kts
-  - apps/android/app/build.gradle.kts
-  - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
-  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR12Api.kt
-  - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/R12ApiModelsSerializationTest.kt
-  - apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyIcons.kt
-  - apps/android/feature/content-management/build.gradle.kts
-  - apps/android/feature/content-management/src/main/AndroidManifest.xml
-  - apps/android/feature/content-management/src/main/java/cc/orbexa/hhy/feature/contentmanagement/R12ContentManagementState.kt
-  - apps/android/feature/content-management/src/main/java/cc/orbexa/hhy/feature/contentmanagement/R12ContentManagementDetailScreen.kt
-  - apps/android/feature/content-management/src/test/java/cc/orbexa/hhy/feature/contentmanagement/R12ContentManagementStateTest.kt
-  - catalogs/ui_visual_acceptance.csv
-  - docs/02-ui/page-specs/android/SCR-MYC-003_内容管理详情.md
-  - CHANGELOG.md
-  - apps/android/feature/content-management/src/main/java/cc/orbexa/hhy/contentmanagement/R12ContentManagementState.kt
-  - apps/android/feature/content-management/src/main/java/cc/orbexa/hhy/contentmanagement/R12ContentManagementDetailScreen.kt
-  - apps/android/feature/content-management/src/test/java/cc/orbexa/hhy/contentmanagement/R12ContentManagementStateTest.kt
-  source: story-switch+explicit+approved-cr:CR-0320+approved-cr:CR-0324+approved-cr:CR-0325
+  source: story-switch+explicit+approved-cr:CR-0320
 git:
   initialized: true
   branch: task/TASK-R03-001
@@ -487,12 +472,12 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-25T08:35:08Z'
-  expires_at: '2026-07-25T12:35:08Z'
-checkpoint_sequence: 8
-latest_checkpoint: .continuity/checkpoints/SES-20260725T053515Z-11D4084D/0008.yaml
+  renewed_at: '2026-07-25T10:05:31Z'
+  expires_at: '2026-07-25T14:05:31Z'
+checkpoint_sequence: 12
+latest_checkpoint: .continuity/checkpoints/SES-20260725T053515Z-11D4084D/0012.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260725T053515Z-11D4084D.md
-next_step: 原子切换到R12下一个READY Story并读取页面、API与精确视觉合同。
+next_step: 以CP-0012提交并推送STORY-R12-003，绑定CR-0326/0327后切换STORY-R12-004。
 context_pack: THIS_CONTEXT_PACK
 handoff_bundle: null
 closure: null
@@ -501,62 +486,116 @@ parallel_execution:
   delegated_workers: 1
   workers:
   - worker_id: r12_myc003_readonly_audit
-    responsibility: 只读Android复用点和合同缺口审计
+    responsibility: 只读审计STORY-R12-003四页合同、模型与复用点
     allowed_paths:
     - apps/android/**
+    - docs/02-ui/**
+    - design/R12-UI-FROZEN/**
+    - releases/R12/**
+    - contracts/**
     - catalogs/**
-  reason: 只读代理审计完成，主控已复核实现与证据。
+  reason: 只读合同审计已完成；主控串行完成最终实现、云端门禁与提交审计。
 story_history:
 - story_id: STORY-R12-001
   completed_at: '2026-07-25T07:44:07Z'
   checkpoint_id: CP-SES-20260725T053515Z-11D4084D-0004
   commit: ad95719dc9aceb22b2e189c5cae28b07eae5c025
   summary: STORY-R12-001审核工作台已实现、推送并通过obx-test模块门禁，继续内容管理详情
+- story_id: STORY-R12-002
+  completed_at: '2026-07-25T08:36:51Z'
+  checkpoint_id: CP-SES-20260725T053515Z-11D4084D-0008
+  commit: a074488d8745a9175a832ebabb49d336b98eef81
+  summary: STORY-R12-002内容管理详情已实现、云端MODULE通过并以7c30b6b0/a074488d推送；继续仓库顺序四页发布管理列表闭环。
 ```
 
 ## 最新检查点
 
 ```yaml
 protocol_version: '1.0'
-checkpoint_id: CP-SES-20260725T053515Z-11D4084D-0008
+checkpoint_id: CP-SES-20260725T053515Z-11D4084D-0012
 session_id: SES-20260725T053515Z-11D4084D
 task_id: TASK-R12-004
-story_id: STORY-R12-002
-sequence: 8
-created_at: '2026-07-25T08:35:07Z'
-summary: STORY-R12-002实现提交7c30b6b0已推送；CR-0324与CR-0325已绑定实现Commit并转IMPLEMENTED。
-next_step: 原子切换到R12下一个READY Story并读取页面、API与精确视觉合同。
+story_id: STORY-R12-003
+sequence: 12
+created_at: '2026-07-25T10:05:30Z'
+summary: STORY-R12-003实现、云端MODULE、商业UI扫描、生成资产与严格连续性Doctor全部PASS；提交范围已完成最终审计。
+next_step: 以CP-0012提交并推送STORY-R12-003，绑定CR-0326/0327后切换STORY-R12-004。
 blockers: []
 decisions: []
 note: ''
 tests:
-- name: implementation-push
+- name: r12-final-module
   result: PASS
-  evidence: origin/task/TASK-R03-001@7c30b6b0
-  note: pre-push strict PASS
-- name: r12-content-module
+  evidence: obx-test:/tmp/hhy-r12-myc004-20260725-1655/android-final-r2.log sha256=ad7fa95261f6c7f4e5c040410321c0e9c388eedced64be031ce41f1d21b51ddb
+  note: 四类型入口、内容管理单测Lint与App编译197任务PASS
+- name: continuity-strict
   result: PASS
-  evidence: obx-test:/tmp/hhy-r12-myc003-20260725-1608/android-module-r2.log sha256=c27a0accc84cf8714702b0a3a6c806da8d79caaeb97873beddfd507dc7980f19
-  note: 197 tasks BUILD SUCCESSFUL
+  evidence: scripts/check_v123_continuity.py --strict
+  note: 0 errors 0 warnings
+- name: continuity-doctor
+  result: PASS
+  evidence: scripts/continuity_gate.py --mode doctor --strict
+  note: 0 errors 0 warnings
+- name: android-ui-foundation
+  result: PASS
+  evidence: scripts/check_android_ui_foundation.py
+  note: 全项目Android基础门禁通过
+- name: generated-assets
+  result: PASS
+  evidence: scripts/check_generated_assets.py
+  note: 生成资产合同无漂移
+- name: commercial-ui-tech-field-scan
+  result: PASS
+  evidence: apps/android/feature/content-management
+  note: 正式UI无技术诊断字段与虚构业务
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: 7c30b6b0db88fafc1aa0c42cd4f4513f03f9442b
+  head: a074488d8745a9175a832ebabb49d336b98eef81
   upstream: origin/task/TASK-R03-001
   ahead: 0
   behind: 0
   dirty: true
   status_porcelain:
+  - ' M .continuity/ACTIVE_SESSION.yaml'
   - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
   - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/SESSION_INDEX.yaml'
   - ' M .continuity/STATE.yaml'
-  - ' M .continuity/change_requests/CR-0324.yaml'
-  - ' M .continuity/change_requests/CR-0325.yaml'
+  - ' M .continuity/TASK_CLAIMS.yaml'
+  - ' M .continuity/sessions/SES-20260725T053515Z-11D4084D.yaml'
+  - ' M CHANGELOG.md'
+  - ' M CURRENT_STATUS.yaml'
+  - ' M apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt'
+  - ' M apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR12Api.kt'
+  - ' M apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+  - ' M artifacts/validation/continuity-gate-v1.2.3.json'
+  - ' M artifacts/validation/project-doctor-v1.2.3.json'
   - ' M catalogs/change_request_index.csv'
   - ' M catalogs/session_index.csv'
-  - ' M docs/03-continuity/change-requests/CR-0324-实现SCR-MYC-003内容管理详情客户端闭环.md'
-  - ' M docs/03-continuity/change-requests/CR-0325-纠正CR-0324内容管理源码路径投影.md'
+  - ' M catalogs/ui_visual_acceptance.csv'
+  - ' M docs/02-ui/page-specs/android/SCR-MYC-001_我的发布.md'
+  - ' M docs/02-ui/page-specs/android/SCR-MYC-002_草稿箱.md'
+  - ' M docs/02-ui/page-specs/android/SCR-MYC-004_审核记录.md'
+  - ' M docs/02-ui/page-specs/android/SCR-MYC-005_内容数据.md'
+  - ' M docs/03-continuity/sessions/2026-07/SES-20260725T053515Z-11D4084D.md'
+  - ?? .continuity/change_requests/CR-0326.yaml
+  - ?? .continuity/change_requests/CR-0327.yaml
+  - ?? .continuity/checkpoints/SES-20260725T053515Z-11D4084D/0009.yaml
+  - ?? .continuity/checkpoints/SES-20260725T053515Z-11D4084D/0010.yaml
+  - ?? .continuity/checkpoints/SES-20260725T053515Z-11D4084D/0011.yaml
+  - ?? apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ContractR12ApiTest.kt
+  - ?? apps/android/feature/content-management/src/main/java/cc/orbexa/hhy/contentmanagement/R12ContentManagementListScreens.kt
+  - ?? apps/android/feature/content-management/src/main/java/cc/orbexa/hhy/contentmanagement/R12ContentManagementListState.kt
+  - ?? apps/android/feature/content-management/src/test/java/cc/orbexa/hhy/contentmanagement/R12ContentManagementListStateTest.kt
+  - ?? docs/03-continuity/change-requests/CR-0326-实现R12四页发布管理客户端闭环.md
+  - ?? docs/03-continuity/change-requests/CR-0327-纠正R12四页商业错误投影与发布入口.md
   recent_commits:
+  - "a074488d8745a9175a832ebabb49d336b98eef81\t2026-07-25T16:35:33+08:00\tHHY Continuity Bootstrap\t[STORY-R12-002] chore(continuity): bind content\
+    \ detail evidence"
   - "7c30b6b0db88fafc1aa0c42cd4f4513f03f9442b\t2026-07-25T16:32:45+08:00\tHHY Continuity Bootstrap\t[STORY-R12-002] feat(android): implement content\
     \ management detail"
   - "ad95719dc9aceb22b2e189c5cae28b07eae5c025\t2026-07-25T15:43:02+08:00\tHHY Continuity Bootstrap\t[STORY-R12-001] chore(continuity): bind R12\
@@ -571,10 +610,8 @@ git:
     \ publishing backend"
   - "8ab868d27c0a3768f4106e7f8bb71d1102363ebc\t2026-07-25T10:48:13+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] chore(continuity): close TASK-R12-002\
     \ as completed"
-  - "4715464b8e3016619dc94217c138c1558393722e\t2026-07-25T10:45:49+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] chore(continuity): close R12\
-    \ database workflow CRs"
 project_fingerprint:
-  sha256: 44065fb25f7a1b4770a3cade944e8f7fb46ee7d4d4d8c32d9686794d6850d78d
+  sha256: a4fdb8907d46d257dcda8dc78f62912c36bcb632341dd83e88d89340665c4f3a
   files:
   - CHANGELOG.md
   - apps/admin-web/src/adminNavigation.test.ts
@@ -593,12 +630,17 @@ project_fingerprint:
   - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
   - apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyIcons.kt
   - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR12Api.kt
+  - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ContractR12ApiTest.kt
   - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/R12ApiModelsSerializationTest.kt
   - apps/android/feature/content-management/build.gradle.kts
   - apps/android/feature/content-management/src/main/AndroidManifest.xml
   - apps/android/feature/content-management/src/main/java/cc/orbexa/hhy/contentmanagement/R12ContentManagementDetailScreen.kt
+  - apps/android/feature/content-management/src/main/java/cc/orbexa/hhy/contentmanagement/R12ContentManagementListScreens.kt
+  - apps/android/feature/content-management/src/main/java/cc/orbexa/hhy/contentmanagement/R12ContentManagementListState.kt
   - apps/android/feature/content-management/src/main/java/cc/orbexa/hhy/contentmanagement/R12ContentManagementState.kt
+  - apps/android/feature/content-management/src/test/java/cc/orbexa/hhy/contentmanagement/R12ContentManagementListStateTest.kt
   - apps/android/feature/content-management/src/test/java/cc/orbexa/hhy/contentmanagement/R12ContentManagementStateTest.kt
+  - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
   - apps/android/settings.gradle.kts
   - catalogs/admin_page_operation_specs.csv
   - catalogs/admin_pages.csv
@@ -610,7 +652,11 @@ project_fingerprint:
   - database/state_machines.yaml
   - database/tests/r12_review_permission_alignment.sql
   - docs/02-ui/page-specs/admin/ADM-REVIEW-001_审核队列.md
+  - docs/02-ui/page-specs/android/SCR-MYC-001_我的发布.md
+  - docs/02-ui/page-specs/android/SCR-MYC-002_草稿箱.md
   - docs/02-ui/page-specs/android/SCR-MYC-003_内容管理详情.md
+  - docs/02-ui/page-specs/android/SCR-MYC-004_审核记录.md
+  - docs/02-ui/page-specs/android/SCR-MYC-005_内容数据.md
   - docs/03-continuity/change-requests/CR-0319-统一R12审核工作台权限目录与默认排序合同.md
   - docs/03-continuity/change-requests/CR-0320-扩展CR-0319审核证据权限与真实工作台施工范围.md
   - docs/03-continuity/change-requests/CR-0321-投影R12逐页视觉合同到验收目录.md
@@ -618,6 +664,8 @@ project_fingerprint:
   - docs/03-continuity/change-requests/CR-0323-补齐CR-0319默认排序PostgreSQL执行回归范围.md
   - docs/03-continuity/change-requests/CR-0324-实现SCR-MYC-003内容管理详情客户端闭环.md
   - docs/03-continuity/change-requests/CR-0325-纠正CR-0324内容管理源码路径投影.md
+  - docs/03-continuity/change-requests/CR-0326-实现R12四页发布管理客户端闭环.md
+  - docs/03-continuity/change-requests/CR-0327-纠正R12四页商业错误投影与发布入口.md
   - releases/R12/STORIES.yaml
   - scripts/check_db_schema.py
   - scripts/run_r12_database_invariants.sh
@@ -626,14 +674,14 @@ project_fingerprint:
   - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R12ReviewServiceTest.java
   - services/backend/content/src/main/java/cc/orbexa/hhy/content/R12ReviewPostgresStore.java
   - services/backend/content/src/main/java/cc/orbexa/hhy/content/R12ReviewService.java
-  file_count: 50
+  file_count: 61
   payload:
     base_commit: 8b852b35e1e152adbc37feb6f0add7fc719f4770
     files:
     - path: CHANGELOG.md
       state: FILE
-      size: 132704
-      sha256: 70849b3c367beb46f4832b9487765c3c82044beb03e5297b443cbbefea3d344e
+      size: 133747
+      sha256: f1df1d6fb3c20b7a62bd5388eabe8750357f62a831159bfdf8fbe0d80d9d61c1
     - path: apps/admin-web/src/adminNavigation.test.ts
       state: FILE
       size: 1720
@@ -688,16 +736,20 @@ project_fingerprint:
       sha256: eb1894027c9f85eb635218a01a481572e8be103f03499938d25f2f0c0b425e7b
     - path: apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
       state: FILE
-      size: 31359
-      sha256: 4ed4820dc8b368c6b4141465c34b491f081b8f5f3a0c4d316cba8114b1ad43f3
+      size: 35249
+      sha256: 807a811866c2dd867f1acc992fda85045136c8549f695b489aa3223ddd277679
     - path: apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyIcons.kt
       state: FILE
       size: 3646
       sha256: 8f3426aa22371600ba2f25919a90d0136ec7dd0572c765de6defec4d603b7c57
     - path: apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR12Api.kt
       state: FILE
-      size: 7236
-      sha256: d79a6c91149ced42bbdefc1782b36acf81b909849927120a474bdc70fbb10724
+      size: 15545
+      sha256: 051f784d47db740b9a45db21e41b212660dc227c1ecbf3ac8586e8eaf41bb8fb
+    - path: apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ContractR12ApiTest.kt
+      state: FILE
+      size: 2276
+      sha256: c5891c85689e5cd37772061eb6dc5a77056d0c27c1b26d92673c636e132822aa
     - path: apps/android/core/network/src/test/java/cc/orbexa/hhy/network/R12ApiModelsSerializationTest.kt
       state: FILE
       size: 1524
@@ -714,14 +766,30 @@ project_fingerprint:
       state: FILE
       size: 22614
       sha256: 11fac11bfe65b0258bdf3e9888949008f09d7c33106edc3fd12ec4e487225188
+    - path: apps/android/feature/content-management/src/main/java/cc/orbexa/hhy/contentmanagement/R12ContentManagementListScreens.kt
+      state: FILE
+      size: 38918
+      sha256: 4ee9753c817757cb2c076f41517c4966bdd3a6c4e42ded39f4519f3d1c2260d3
+    - path: apps/android/feature/content-management/src/main/java/cc/orbexa/hhy/contentmanagement/R12ContentManagementListState.kt
+      state: FILE
+      size: 5364
+      sha256: 705f5e304d4e708e94a826756ea6a950d096307a47529992db20f1f9600c18d0
     - path: apps/android/feature/content-management/src/main/java/cc/orbexa/hhy/contentmanagement/R12ContentManagementState.kt
       state: FILE
       size: 4417
       sha256: 93761dd9856b33e6f1bbaa2ee7844fae18b8ab189e330c266116ef1762b1a9c6
+    - path: apps/android/feature/content-management/src/test/java/cc/orbexa/hhy/contentmanagement/R12ContentManagementListStateTest.kt
+      state: FILE
+      size: 3415
+      sha256: 71313ef151092224f0ff76f645e23c344322b0e122835460be932998c642d729
     - path: apps/android/feature/content-management/src/test/java/cc/orbexa/hhy/contentmanagement/R12ContentManagementStateTest.kt
       state: FILE
       size: 3922
       sha256: 13bf4557e4c1d142c7c1324fc117fb91a144d642e93207b6deb233e8e2067835
+    - path: apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+      state: FILE
+      size: 31857
+      sha256: e3e49efb0941dec6c286d642934752912729f077b4f6a4b832ff9c9a814ef715
     - path: apps/android/settings.gradle.kts
       state: FILE
       size: 719
@@ -744,8 +812,8 @@ project_fingerprint:
       sha256: 509def927119ea5799ad88a1216378178d6cb13e4b8fd7609dbbb3128393c69c
     - path: catalogs/ui_visual_acceptance.csv
       state: FILE
-      size: 50358
-      sha256: 218ffe956b3035067e5623024a8a78899c8db6ed50e25ca42c0ed4f2fc1b54b2
+      size: 53303
+      sha256: 22518294d85bdd8e44a71d4b7a9b80933a5fc948c938bb804080b2a8ab4db09f
     - path: database/migrations/V041__r12_review_permission_alignment.sql
       state: FILE
       size: 2495
@@ -766,10 +834,26 @@ project_fingerprint:
       state: FILE
       size: 32405
       sha256: 155dca08eefc554bbdf45420dfd95a456d41cce00dd4c81c47a5d48cdc62077b
+    - path: docs/02-ui/page-specs/android/SCR-MYC-001_我的发布.md
+      state: FILE
+      size: 27379
+      sha256: 6c516c439f130629ca97232aea9af71c58262bd52ec60af5feebabaa4bb11ee3
+    - path: docs/02-ui/page-specs/android/SCR-MYC-002_草稿箱.md
+      state: FILE
+      size: 25233
+      sha256: 841b8ec7f6997eda151c72e052de9e753a7fdc82a3d48417d9097d11cfe939ad
     - path: docs/02-ui/page-specs/android/SCR-MYC-003_内容管理详情.md
       state: FILE
       size: 27250
       sha256: ce6e6e62d7991622e024c4d900fcd16e2866a11727158ead92b35d297c2dc799
+    - path: docs/02-ui/page-specs/android/SCR-MYC-004_审核记录.md
+      state: FILE
+      size: 24275
+      sha256: ae66837e18ace3f5774211cb8e3388ae80a250b49ffc4136395cd89ff1660e0e
+    - path: docs/02-ui/page-specs/android/SCR-MYC-005_内容数据.md
+      state: FILE
+      size: 23278
+      sha256: e099fbf188f5bfc030a94cc41c6e304cf733a3a6c2cb9591bec9c49e3918339e
     - path: docs/03-continuity/change-requests/CR-0319-统一R12审核工作台权限目录与默认排序合同.md
       state: FILE
       size: 3780
@@ -798,6 +882,14 @@ project_fingerprint:
       state: FILE
       size: 3001
       sha256: f9cd85d5a8884eec00da4a5ff05cf433572f52b0eb84bdebbeeccb423f1626f9
+    - path: docs/03-continuity/change-requests/CR-0326-实现R12四页发布管理客户端闭环.md
+      state: FILE
+      size: 3176
+      sha256: 374b5c5d0c8abf5a487ea53aa564dca4a3961972362367c330871a5956240cf0
+    - path: docs/03-continuity/change-requests/CR-0327-纠正R12四页商业错误投影与发布入口.md
+      state: FILE
+      size: 2708
+      sha256: 61a4982299bb1f3c5044ea747b7a858ace719b184614f4568d87aa0b85bdce7b
     - path: releases/R12/STORIES.yaml
       state: FILE
       size: 23156
@@ -853,12 +945,17 @@ change_classification:
   - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
   - apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyIcons.kt
   - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR12Api.kt
+  - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ContractR12ApiTest.kt
   - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/R12ApiModelsSerializationTest.kt
   - apps/android/feature/content-management/build.gradle.kts
   - apps/android/feature/content-management/src/main/AndroidManifest.xml
   - apps/android/feature/content-management/src/main/java/cc/orbexa/hhy/contentmanagement/R12ContentManagementDetailScreen.kt
+  - apps/android/feature/content-management/src/main/java/cc/orbexa/hhy/contentmanagement/R12ContentManagementListScreens.kt
+  - apps/android/feature/content-management/src/main/java/cc/orbexa/hhy/contentmanagement/R12ContentManagementListState.kt
   - apps/android/feature/content-management/src/main/java/cc/orbexa/hhy/contentmanagement/R12ContentManagementState.kt
+  - apps/android/feature/content-management/src/test/java/cc/orbexa/hhy/contentmanagement/R12ContentManagementListStateTest.kt
   - apps/android/feature/content-management/src/test/java/cc/orbexa/hhy/contentmanagement/R12ContentManagementStateTest.kt
+  - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
   - apps/android/settings.gradle.kts
   - scripts/check_db_schema.py
   - scripts/run_r12_database_invariants.sh
@@ -884,21 +981,34 @@ change_classification:
   - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
   - apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyIcons.kt
   - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR12Api.kt
+  - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ContractR12ApiTest.kt
   - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/R12ApiModelsSerializationTest.kt
   - apps/android/feature/content-management/build.gradle.kts
   - apps/android/feature/content-management/src/main/AndroidManifest.xml
   - apps/android/feature/content-management/src/main/java/cc/orbexa/hhy/contentmanagement/R12ContentManagementDetailScreen.kt
+  - apps/android/feature/content-management/src/main/java/cc/orbexa/hhy/contentmanagement/R12ContentManagementListScreens.kt
+  - apps/android/feature/content-management/src/main/java/cc/orbexa/hhy/contentmanagement/R12ContentManagementListState.kt
   - apps/android/feature/content-management/src/main/java/cc/orbexa/hhy/contentmanagement/R12ContentManagementState.kt
+  - apps/android/feature/content-management/src/test/java/cc/orbexa/hhy/contentmanagement/R12ContentManagementListStateTest.kt
   - apps/android/feature/content-management/src/test/java/cc/orbexa/hhy/contentmanagement/R12ContentManagementStateTest.kt
+  - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
   - apps/android/settings.gradle.kts
   - docs/02-ui/page-specs/admin/ADM-REVIEW-001_审核队列.md
+  - docs/02-ui/page-specs/android/SCR-MYC-001_我的发布.md
+  - docs/02-ui/page-specs/android/SCR-MYC-002_草稿箱.md
   - docs/02-ui/page-specs/android/SCR-MYC-003_内容管理详情.md
+  - docs/02-ui/page-specs/android/SCR-MYC-004_审核记录.md
+  - docs/02-ui/page-specs/android/SCR-MYC-005_内容数据.md
   source_of_truth:
   - catalogs/admin_page_operation_specs.csv
   - catalogs/ui_page_specifications.csv
   - database/state_machines.yaml
   - docs/02-ui/page-specs/admin/ADM-REVIEW-001_审核队列.md
+  - docs/02-ui/page-specs/android/SCR-MYC-001_我的发布.md
+  - docs/02-ui/page-specs/android/SCR-MYC-002_草稿箱.md
   - docs/02-ui/page-specs/android/SCR-MYC-003_内容管理详情.md
+  - docs/02-ui/page-specs/android/SCR-MYC-004_审核记录.md
+  - docs/02-ui/page-specs/android/SCR-MYC-005_内容数据.md
   - releases/R12/STORIES.yaml
   database:
   - database/migrations/V041__r12_review_permission_alignment.sql
@@ -913,6 +1023,8 @@ change_classification:
   - docs/03-continuity/change-requests/CR-0323-补齐CR-0319默认排序PostgreSQL执行回归范围.md
   - docs/03-continuity/change-requests/CR-0324-实现SCR-MYC-003内容管理详情客户端闭环.md
   - docs/03-continuity/change-requests/CR-0325-纠正CR-0324内容管理源码路径投影.md
+  - docs/03-continuity/change-requests/CR-0326-实现R12四页发布管理客户端闭环.md
+  - docs/03-continuity/change-requests/CR-0327-纠正R12四页商业错误投影与发布入口.md
 required_records:
 - SESSION_RECORD
 - SESSION_LOG
@@ -931,6 +1043,8 @@ change_requests:
 - CR-0323
 - CR-0324
 - CR-0325
+- CR-0326
+- CR-0327
 scope:
   allowed_paths:
   - apps/android/**
@@ -945,7 +1059,7 @@ scope:
   - releases/**
   - design/**
   - scripts/**
-  - apps/android/**,catalogs/ui_visual_acceptance.csv,releases/R12/**,docs/02-ui/page-specs/android/**,tests/**,CHANGELOG.md
+  - apps/android/**,catalogs/ui_visual_acceptance.csv,docs/02-ui/page-specs/android/**,CHANGELOG.md,tests/**
   - CHANGELOG.md
   approved_exceptions:
   - database/migrations/V041__r12_review_permission_alignment.sql
@@ -975,35 +1089,22 @@ scope:
   - apps/admin-web/src/adminNavigation.test.ts
   - apps/admin-web/src/routerPermissions.test.ts
   - apps/admin-web/src/styles.css
-  - apps/android/settings.gradle.kts
-  - apps/android/app/build.gradle.kts
-  - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
-  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR12Api.kt
-  - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/R12ApiModelsSerializationTest.kt
-  - apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyIcons.kt
-  - apps/android/feature/content-management/build.gradle.kts
-  - apps/android/feature/content-management/src/main/AndroidManifest.xml
-  - apps/android/feature/content-management/src/main/java/cc/orbexa/hhy/feature/contentmanagement/R12ContentManagementState.kt
-  - apps/android/feature/content-management/src/main/java/cc/orbexa/hhy/feature/contentmanagement/R12ContentManagementDetailScreen.kt
-  - apps/android/feature/content-management/src/test/java/cc/orbexa/hhy/feature/contentmanagement/R12ContentManagementStateTest.kt
-  - catalogs/ui_visual_acceptance.csv
-  - docs/02-ui/page-specs/android/SCR-MYC-003_内容管理详情.md
-  - CHANGELOG.md
-  - apps/android/feature/content-management/src/main/java/cc/orbexa/hhy/contentmanagement/R12ContentManagementState.kt
-  - apps/android/feature/content-management/src/main/java/cc/orbexa/hhy/contentmanagement/R12ContentManagementDetailScreen.kt
-  - apps/android/feature/content-management/src/test/java/cc/orbexa/hhy/contentmanagement/R12ContentManagementStateTest.kt
-  source: story-switch+explicit+approved-cr:CR-0320+approved-cr:CR-0324+approved-cr:CR-0325
+  source: story-switch+explicit+approved-cr:CR-0320
 parallel_execution:
   assessment: DELEGATED
   delegated_workers: 1
   workers:
   - worker_id: r12_myc003_readonly_audit
-    responsibility: 只读Android复用点和合同缺口审计
+    responsibility: 只读审计STORY-R12-003四页合同、模型与复用点
     allowed_paths:
     - apps/android/**
+    - docs/02-ui/**
+    - design/R12-UI-FROZEN/**
+    - releases/R12/**
+    - contracts/**
     - catalogs/**
-  reason: 只读代理审计完成，主控已复核实现与证据。
-event_hash: 20cc56d0459cca71e00b2b5f47fa450879093f7a3822e1d51f8da8b3a2d4c5cc
+  reason: 只读合同审计已完成；主控串行完成最终实现、云端门禁与提交审计。
+event_hash: e6fd96898287b3652dff7f025d588616c85e6908bfe0bdf948c149e75c9cddf4
 ```
 
 ## 接续状态与事件头
@@ -1015,8 +1116,8 @@ active_session_id: SES-20260725T053515Z-11D4084D
 last_session_id: SES-20260725T025042Z-A53070A0
 last_session_result: COMPLETED
 last_closure_checkpoint_id: CP-SES-20260725T025042Z-A53070A0-0005
-event_count: 3159
-event_head_hash: 20cc56d0459cca71e00b2b5f47fa450879093f7a3822e1d51f8da8b3a2d4c5cc
+event_count: 3171
+event_head_hash: e6fd96898287b3652dff7f025d588616c85e6908bfe0bdf948c149e75c9cddf4
 event_chain_valid: true
 ```
 
@@ -1133,15 +1234,15 @@ recent_sessions: - session_id: SES-20260723T183130Z-454A6E0D
   handoff_bundle: null
 - session_id: SES-20260725T053515Z-11D4084D
   task_id: TASK-R12-004
-  story_id: STORY-R12-002
+  story_id: STORY-R12-003
   actor_id: codex-root-r12-client-20260725
   status: ACTIVE
   started_at: '2026-07-25T05:35:15Z'
   record: .continuity/sessions/SES-20260725T053515Z-11D4084D.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260725T053515Z-11D4084D.md
-  updated_at: '2026-07-25T08:35:08Z'
+  updated_at: '2026-07-25T10:05:31Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260725T053515Z-11D4084D/0008.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260725T053515Z-11D4084D/0012.yaml
   handoff_bundle: null
 task_claims: - claim_id: CLM-DA66E38CEAE0
   session_id: SES-20260723T045352Z-FC8DC2CF
@@ -1891,7 +1992,7 @@ task_claims: - claim_id: CLM-DA66E38CEAE0
 - claim_id: CLM-4615E14A5D2B
   session_id: SES-20260725T053515Z-11D4084D
   task_id: TASK-R12-004
-  story_id: STORY-R12-002
+  story_id: STORY-R12-003
   actor_id: codex-root-r12-client-20260725
   status: ACTIVE
   claimed_at: '2026-07-25T05:35:15Z'
@@ -1908,9 +2009,9 @@ task_claims: - claim_id: CLM-DA66E38CEAE0
   - releases/**
   - design/**
   - scripts/**
-  - apps/android/**,catalogs/ui_visual_acceptance.csv,releases/R12/**,docs/02-ui/page-specs/android/**,tests/**,CHANGELOG.md
+  - apps/android/**,catalogs/ui_visual_acceptance.csv,docs/02-ui/page-specs/android/**,CHANGELOG.md,tests/**
   - CHANGELOG.md
-  updated_at: '2026-07-25T07:44:07Z'
+  updated_at: '2026-07-25T08:36:51Z'
 recent_task_transitions: - transition_id: TRN-E6B4E3D44A16
   timestamp: '2026-07-23T04:53:54Z'
   release: R10
@@ -2118,7 +2219,7 @@ recent_task_transitions: - transition_id: TRN-E6B4E3D44A16
 ```yaml
 initialized: true
 branch: task/TASK-R03-001
-head: 7c30b6b0db88fafc1aa0c42cd4f4513f03f9442b
+head: a074488d8745a9175a832ebabb49d336b98eef81
 upstream: origin/task/TASK-R03-001
 ahead: 0
 behind: 0
@@ -2129,17 +2230,41 @@ status_porcelain:
 - ' M .continuity/EVENT_LOG.jsonl'
 - ' M .continuity/SESSION_INDEX.yaml'
 - ' M .continuity/STATE.yaml'
-- ' M .continuity/change_requests/CR-0324.yaml'
-- ' M .continuity/change_requests/CR-0325.yaml'
+- ' M .continuity/TASK_CLAIMS.yaml'
 - ' M .continuity/sessions/SES-20260725T053515Z-11D4084D.yaml'
+- ' M CHANGELOG.md'
 - ' M CURRENT_STATUS.yaml'
+- ' M apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt'
+- ' M apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR12Api.kt'
+- ' M apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt'
+- ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+- ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+- ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+- ' M artifacts/validation/continuity-gate-v1.2.3.json'
+- ' M artifacts/validation/project-doctor-v1.2.3.json'
 - ' M catalogs/change_request_index.csv'
 - ' M catalogs/session_index.csv'
-- ' M docs/03-continuity/change-requests/CR-0324-实现SCR-MYC-003内容管理详情客户端闭环.md'
-- ' M docs/03-continuity/change-requests/CR-0325-纠正CR-0324内容管理源码路径投影.md'
+- ' M catalogs/ui_visual_acceptance.csv'
+- ' M docs/02-ui/page-specs/android/SCR-MYC-001_我的发布.md'
+- ' M docs/02-ui/page-specs/android/SCR-MYC-002_草稿箱.md'
+- ' M docs/02-ui/page-specs/android/SCR-MYC-004_审核记录.md'
+- ' M docs/02-ui/page-specs/android/SCR-MYC-005_内容数据.md'
 - ' M docs/03-continuity/sessions/2026-07/SES-20260725T053515Z-11D4084D.md'
-- ?? .continuity/checkpoints/SES-20260725T053515Z-11D4084D/0008.yaml
+- ?? .continuity/change_requests/CR-0326.yaml
+- ?? .continuity/change_requests/CR-0327.yaml
+- ?? .continuity/checkpoints/SES-20260725T053515Z-11D4084D/0009.yaml
+- ?? .continuity/checkpoints/SES-20260725T053515Z-11D4084D/0010.yaml
+- ?? .continuity/checkpoints/SES-20260725T053515Z-11D4084D/0011.yaml
+- ?? .continuity/checkpoints/SES-20260725T053515Z-11D4084D/0012.yaml
+- ?? apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ContractR12ApiTest.kt
+- ?? apps/android/feature/content-management/src/main/java/cc/orbexa/hhy/contentmanagement/R12ContentManagementListScreens.kt
+- ?? apps/android/feature/content-management/src/main/java/cc/orbexa/hhy/contentmanagement/R12ContentManagementListState.kt
+- ?? apps/android/feature/content-management/src/test/java/cc/orbexa/hhy/contentmanagement/R12ContentManagementListStateTest.kt
+- ?? docs/03-continuity/change-requests/CR-0326-实现R12四页发布管理客户端闭环.md
+- ?? docs/03-continuity/change-requests/CR-0327-纠正R12四页商业错误投影与发布入口.md
 recent_commits:
+- "a074488d8745a9175a832ebabb49d336b98eef81\t2026-07-25T16:35:33+08:00\tHHY Continuity Bootstrap\t[STORY-R12-002] chore(continuity): bind content\
+  \ detail evidence"
 - "7c30b6b0db88fafc1aa0c42cd4f4513f03f9442b\t2026-07-25T16:32:45+08:00\tHHY Continuity Bootstrap\t[STORY-R12-002] feat(android): implement content\
   \ management detail"
 - "ad95719dc9aceb22b2e189c5cae28b07eae5c025\t2026-07-25T15:43:02+08:00\tHHY Continuity Bootstrap\t[STORY-R12-001] chore(continuity): bind R12\
@@ -2154,14 +2279,12 @@ recent_commits:
   \ publishing backend"
 - "8ab868d27c0a3768f4106e7f8bb71d1102363ebc\t2026-07-25T10:48:13+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] chore(continuity): close TASK-R12-002\
   \ as completed"
-- "4715464b8e3016619dc94217c138c1558393722e\t2026-07-25T10:45:49+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] chore(continuity): close R12\
-  \ database workflow CRs"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`44065fb25f7a1b4770a3cade944e8f7fb46ee7d4d4d8c32d9686794d6850d78d`
-- 文件数：50
+- 指纹：`a4fdb8907d46d257dcda8dc78f62912c36bcb632341dd83e88d89340665c4f3a`
+- 文件数：61
 
 - `CHANGELOG.md`
 - `apps/admin-web/src/adminNavigation.test.ts`
@@ -2180,12 +2303,17 @@ recent_commits:
 - `apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt`
 - `apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyIcons.kt`
 - `apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR12Api.kt`
+- `apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ContractR12ApiTest.kt`
 - `apps/android/core/network/src/test/java/cc/orbexa/hhy/network/R12ApiModelsSerializationTest.kt`
 - `apps/android/feature/content-management/build.gradle.kts`
 - `apps/android/feature/content-management/src/main/AndroidManifest.xml`
 - `apps/android/feature/content-management/src/main/java/cc/orbexa/hhy/contentmanagement/R12ContentManagementDetailScreen.kt`
+- `apps/android/feature/content-management/src/main/java/cc/orbexa/hhy/contentmanagement/R12ContentManagementListScreens.kt`
+- `apps/android/feature/content-management/src/main/java/cc/orbexa/hhy/contentmanagement/R12ContentManagementListState.kt`
 - `apps/android/feature/content-management/src/main/java/cc/orbexa/hhy/contentmanagement/R12ContentManagementState.kt`
+- `apps/android/feature/content-management/src/test/java/cc/orbexa/hhy/contentmanagement/R12ContentManagementListStateTest.kt`
 - `apps/android/feature/content-management/src/test/java/cc/orbexa/hhy/contentmanagement/R12ContentManagementStateTest.kt`
+- `apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt`
 - `apps/android/settings.gradle.kts`
 - `catalogs/admin_page_operation_specs.csv`
 - `catalogs/admin_pages.csv`
@@ -2197,7 +2325,11 @@ recent_commits:
 - `database/state_machines.yaml`
 - `database/tests/r12_review_permission_alignment.sql`
 - `docs/02-ui/page-specs/admin/ADM-REVIEW-001_审核队列.md`
+- `docs/02-ui/page-specs/android/SCR-MYC-001_我的发布.md`
+- `docs/02-ui/page-specs/android/SCR-MYC-002_草稿箱.md`
 - `docs/02-ui/page-specs/android/SCR-MYC-003_内容管理详情.md`
+- `docs/02-ui/page-specs/android/SCR-MYC-004_审核记录.md`
+- `docs/02-ui/page-specs/android/SCR-MYC-005_内容数据.md`
 - `docs/03-continuity/change-requests/CR-0319-统一R12审核工作台权限目录与默认排序合同.md`
 - `docs/03-continuity/change-requests/CR-0320-扩展CR-0319审核证据权限与真实工作台施工范围.md`
 - `docs/03-continuity/change-requests/CR-0321-投影R12逐页视觉合同到验收目录.md`
@@ -2205,6 +2337,8 @@ recent_commits:
 - `docs/03-continuity/change-requests/CR-0323-补齐CR-0319默认排序PostgreSQL执行回归范围.md`
 - `docs/03-continuity/change-requests/CR-0324-实现SCR-MYC-003内容管理详情客户端闭环.md`
 - `docs/03-continuity/change-requests/CR-0325-纠正CR-0324内容管理源码路径投影.md`
+- `docs/03-continuity/change-requests/CR-0326-实现R12四页发布管理客户端闭环.md`
+- `docs/03-continuity/change-requests/CR-0327-纠正R12四页商业错误投影与发布入口.md`
 - `releases/R12/STORIES.yaml`
 - `scripts/check_db_schema.py`
 - `scripts/run_r12_database_invariants.sh`
@@ -11760,13 +11894,113 @@ PARALLEL_EXECUTION_PLAN.yaml:
   - SES-20260725T053515Z-11D4084D
   implementation_commits:
   - 7c30b6b0db88fafc1aa0c42cd4f4513f03f9442b
+- protocol_version: '1.0'
+  cr_id: CR-0326
+  title: 实现R12四页发布管理客户端闭环
+  status: APPROVED
+  created_at: '2026-07-25T08:47:59Z'
+  updated_at: '2026-07-25T08:49:45Z'
+  requester_actor_id: codex-root-r12-client-20260725
+  approver_actor_id: codex-r12-contract-reviewer-20260725
+  task_id: TASK-R12-004
+  session_id: SES-20260725T053515Z-11D4084D
+  user_request: 按R01-R32执行计划持续开发合伙云Pro，当前完成STORY-R12-003四页Android发布管理闭环。
+  reason: SCR-MYC-001/002/004/005已冻结视觉与业务合同，但现有客户端仅实现SCR-MYC-003详情，需接入七项既有operationId、真实Navigation、列表状态与安全写操作。
+  original_rule: R12冻结页面与OpenAPI已定义四页和七项operationId，客户端当前尚未实现。
+  new_rule: 在既有ContractR12Api与content-management模块内实现四页Compose、分页状态、稳定幂等、expectedVersion、二次确认和typed Navigation；审核记录与内容数据仅呈现ContentPageResource真实字段，不新增合同字段。
+  impact_summary: 新增R12四页Android纵向切片并回接我的页面真实入口；不改变公开API、数据库、配置、资金或生产行为。
+  impact:
+    files:
+    - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR12Api.kt
+    - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ContractR12ApiTest.kt
+    - apps/android/feature/content-management/src/main/java/cc/orbexa/hhy/contentmanagement/R12ContentManagementListState.kt
+    - apps/android/feature/content-management/src/main/java/cc/orbexa/hhy/contentmanagement/R12ContentManagementListScreens.kt
+    - apps/android/feature/content-management/src/test/java/cc/orbexa/hhy/contentmanagement/R12ContentManagementListStateTest.kt
+    - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+    - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+    - catalogs/ui_visual_acceptance.csv
+    - CHANGELOG.md
+    pages:
+    - SCR-MYC-001
+    - SCR-MYC-002
+    - SCR-MYC-004
+    - SCR-MYC-005
+    apis:
+    - contentGetMeContents
+    - contentPostContentsByIdOnline
+    - contentPostContentsByIdOffline
+    - contentGetMeDrafts
+    - contentDeleteContentsById
+    - contentGetContentsByIdReviews
+    - contentGetContentsByIdAnalytics
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - ContractR12Api单测;内容管理状态单测;check_android_ui_foundation;obx-test test/lint/app compile
+    releases:
+    - R12
+    migration_and_compatibility: 增量客户端实现；既有SCR-MYC-003详情路由保持兼容，服务端合同不变。
+  user_confirmation: 项目所有者已明确要求按仓库R01-R32计划持续开发并自主推进当前版本。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-25T08:49:45Z'
+    note: 独立合同复核：四页和七项operationId均已冻结；实现范围只接入既有合同，明确禁止reviews/analytics虚构字段，范围最小且具备模块测试。
+  machine_record: .continuity/change_requests/CR-0326.yaml
+  document: docs/03-continuity/change-requests/CR-0326-实现R12四页发布管理客户端闭环.md
+- protocol_version: '1.0'
+  cr_id: CR-0327
+  title: 纠正R12四页商业错误投影与发布入口
+  status: APPROVED
+  created_at: '2026-07-25T09:45:31Z'
+  updated_at: '2026-07-25T09:46:04Z'
+  requester_actor_id: codex-root-r12-client-20260725
+  approver_actor_id: codex-r12-ui-boundary-reviewer-20260725
+  task_id: TASK-R12-004
+  session_id: SES-20260725T053515Z-11D4084D
+  user_request: 持续按商业系统标准完成R12，禁止技术字段和错误功能入口进入正式UI。
+  reason: CR-0326批准后复核发现四份旧生成规格仍要求ERROR展示requestId，且我的发布入口不能错误写死为仅发布项目；需用独立CR修正既有商业边界投影并补齐四类型真实入口。
+  original_rule: 四份旧页面规格ERROR状态要求向用户展示稳定错误码和requestId；我的发布主入口若写死项目编辑器会漏掉App、群聊和团队长四类型发布能力。
+  new_rule: 四页正式UI只展示业务化错误和恢复动作，requestId与错误码仅保留网络层；我的发布主入口进入四类型发布选择，不替用户预选内容类型。
+  impact_summary: 修正规格技术字段投影并增加不虚构业务的四类型发布入口选择；复用R08-R11既有编辑器，无新API。
+  impact:
+    files:
+    - apps/android/feature/content-management/src/main/java/cc/orbexa/hhy/contentmanagement/R12ContentManagementListScreens.kt
+    - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+    - docs/02-ui/page-specs/android/SCR-MYC-001_我的发布.md
+    - docs/02-ui/page-specs/android/SCR-MYC-002_草稿箱.md
+    - docs/02-ui/page-specs/android/SCR-MYC-004_审核记录.md
+    - docs/02-ui/page-specs/android/SCR-MYC-005_内容数据.md
+    - CHANGELOG.md
+    pages:
+    - SCR-MYC-001
+    - SCR-MYC-002
+    - SCR-MYC-004
+    - SCR-MYC-005
+    apis:
+    - contentGetMeContents
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - 技术字段UI静态扫描;四类型导航单测;check_android_ui_foundation;obx-test MODULE回归
+    releases:
+    - R12
+    migration_and_compatibility: 错误诊断数据仍在网络层和受控日志；既有四类编辑路由不变，仅增加明确选择入口。
+  user_confirmation: 项目所有者已要求全部前端严格对应完整开发文档并持续推进。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-25T09:46:04Z'
+    note: 独立复核确认旧ERROR投影违反既有商业边界，四类型发布均已在R08-R11冻结且复用既有编辑器，不新增功能或接口。
+  machine_record: .continuity/change_requests/CR-0327.yaml
+  document: docs/03-continuity/change-requests/CR-0327-纠正R12四页商业错误投影与发布入口.md
 ```
 
 ## 上下文来源及哈希
 
 - `AGENTS.md` — `690f960020dcbd18080ec91b3c314335627b32e231b9f9b2e14566b0fbbaeb35`
 - `START_HERE.md` — `22de14029ce47beb41ea569e36ce223fbc9d11b86f8676f28d5fbbd83896af5c`
-- `CURRENT_STATUS.yaml` — `fe1bc5e471496bf00394408bd65f324039f464cae7b57d8db60039c2d3bc4cc6`
+- `CURRENT_STATUS.yaml` — `fb09012e2825f06d4cf8b18d089f6d7bcd5e220b728a0ce4aee75456e89f7677`
 - `NEXT_TASK.yaml` — `05e6bd161a5d73ff15c34dade88c269f05ff3e6e615e2d124681cd3b561a0524`
 - `DEVELOPMENT_RISK_REGISTER.md` — `8304c91492e4ee2abea0522a06541c8688d39c7fc532b5d0cde499bf09fffb87`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
@@ -11777,12 +12011,12 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `config/REPOSITORY_TRANSPORT.yaml` — `8c4a21f3e204d46e7ffb467d804a53ed26cda61cd088dadfddb50b69eea657fc`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `60943fcd9714cfae7274463554b5584fdb7a7aeee1ee547ff6dbc53fae6d4994`
-- `.continuity/EVENT_LOG.jsonl` — `998427e334b74af246df7f49508755456657ccae1593dc6a31ac5b24ee38c19d`
-- `.continuity/SESSION_INDEX.yaml` — `2a2d1b4aac3b3a306d92af60d17864df59d78462f53652a2e24074bc893c1571`
-- `.continuity/TASK_CLAIMS.yaml` — `b6c90de9d9205f422dd437dd6d85fbb58d61bdce1b1628cc3768ce8d5711090f`
+- `.continuity/EVENT_LOG.jsonl` — `a4b1e4436d1d64833d3822e6462213a374f7936eba820854e0f5a4a99e739407`
+- `.continuity/SESSION_INDEX.yaml` — `73c899c7e524ff88de159c29367d59dee46eeed8196502d54b8a59995e66d925`
+- `.continuity/TASK_CLAIMS.yaml` — `22e8f9a71d984584f029176eaf11d9f0a4b95324a61b483c52a12ff784f076ee`
 - `.continuity/TASK_TRANSITIONS.yaml` — `42dda46a34627046c9f85e5e719e8dcfc107aa0725121cf6e86563f40d5034ab`
-- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `736cbec837b22cd106bf83026248d8fded3f4f2df8783d0e474d7486ace04120`
-- `.continuity/ACTIVE_SESSION.yaml` — `019ab7fcce1b6ed0a5b7d4a19fe37f2917c0fde4f1daab53c21608f7a2c3de6e`
+- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `e6a8e02fbeaef1b46e80d05d87dd469e4f5b6fd01a7f86585fe7b4ccac996d17`
+- `.continuity/ACTIVE_SESSION.yaml` — `99486a220706502cfa3418c3a077bdc328cc13e26bce7650576fca3cfe4b8d16`
 - `docs/00-baseline/正式商业系统全局硬性开发边界.md` — `9753b32db136e59e95a0974a62362456d9d577fd1bb40058ec985c4b64413eea`
 - `docs/02-ui/UI参考图使用与开发约束_V1.2.2.md` — `d14367586aa2067b059df58798acd20ab982459cdb35ff27fc7922a3896e4933`
 - `docs/03-continuity/持续开发无状态接续强制门禁_V1.2.3.md` — `d0ed3ed68bdd93b06500eecdfb5baa3245e6ca8b685a486788abb6eee39b3d51`
@@ -11793,8 +12027,8 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `releases/R12/TASKS.yaml` — `ccf3a782104fc56bdb97d02da81e8acb1be2fd0cf30f5935bb4754a63c9fb275`
 - `releases/R12/ACCEPTANCE_MATRIX.csv` — `197874227cef03f791df1fa5d2101a251df266c63240f777f358388b46cb9706`
 - `releases/R12/PARALLEL_EXECUTION_PLAN.yaml` — `2ddbee414a51a868b63331992e2e04c5400846cf6012474aab406e067e532e98`
-- `docs/03-continuity/sessions/2026-07/SES-20260725T053515Z-11D4084D.md` — `e27ef5b10dcad775da07327377496593da1ab3745ce9a5a58518775c9c6b99b8`
-- `.continuity/checkpoints/SES-20260725T053515Z-11D4084D/0008.yaml` — `2f544d767e309b171eb82f8730b9f0480db5ba50e557b9266d96a9c8a9dcdf31`
+- `docs/03-continuity/sessions/2026-07/SES-20260725T053515Z-11D4084D.md` — `8a3ba94275a7f3ce264cbb6c06b9a45395497b16c12257e37860f31a2830b316`
+- `.continuity/checkpoints/SES-20260725T053515Z-11D4084D/0012.yaml` — `6e3fd67097ccc9d6b8af69a3c597df446da3132772484c7e6563a6c94adbf0f6`
 - `docs/03-continuity/change-requests/CR-0319-统一R12审核工作台权限目录与默认排序合同.md` — `42c214f27ab3a4061c8fe3963c213e37be4c2766a4d8c489f9757eaf6df4c5fc`
 - `docs/03-continuity/change-requests/CR-0320-扩展CR-0319审核证据权限与真实工作台施工范围.md` — `52dc56ab94cc576e79f38ce0ae4d628463ae6ba8af5b353f59bb3cd44ab05c64`
 - `docs/03-continuity/change-requests/CR-0321-投影R12逐页视觉合同到验收目录.md` — `ca31b8e0045e23616f5b308cbd4bebb447d249ce88770f020a47a607becebb68`
@@ -11802,6 +12036,8 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `docs/03-continuity/change-requests/CR-0323-补齐CR-0319默认排序PostgreSQL执行回归范围.md` — `9386b2c77764cd34df35d078c1ed9e96fbc5f794e47b4290838cd3898d192fb5`
 - `docs/03-continuity/change-requests/CR-0324-实现SCR-MYC-003内容管理详情客户端闭环.md` — `bc941b05ba5c1609d9a24eed01d1ad6606095ba51b6c4a1c53eb50eeaa1edfb6`
 - `docs/03-continuity/change-requests/CR-0325-纠正CR-0324内容管理源码路径投影.md` — `f9cd85d5a8884eec00da4a5ff05cf433572f52b0eb84bdebbeeccb423f1626f9`
+- `docs/03-continuity/change-requests/CR-0326-实现R12四页发布管理客户端闭环.md` — `374b5c5d0c8abf5a487ea53aa564dca4a3961972362367c330871a5956240cf0`
+- `docs/03-continuity/change-requests/CR-0327-纠正R12四页商业错误投影与发布入口.md` — `61a4982299bb1f3c5044ea747b7a858ace719b184614f4568d87aa0b85bdce7b`
 
 ## 接手硬规则
 

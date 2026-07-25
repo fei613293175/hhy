@@ -1,0 +1,46 @@
+protocol_version: '1.0'
+cr_id: CR-0327
+title: 纠正R12四页商业错误投影与发布入口
+status: APPROVED
+created_at: '2026-07-25T09:45:31Z'
+updated_at: '2026-07-25T09:46:04Z'
+requester_actor_id: codex-root-r12-client-20260725
+approver_actor_id: codex-r12-ui-boundary-reviewer-20260725
+task_id: TASK-R12-004
+session_id: SES-20260725T053515Z-11D4084D
+user_request: 持续按商业系统标准完成R12，禁止技术字段和错误功能入口进入正式UI。
+reason: CR-0326批准后复核发现四份旧生成规格仍要求ERROR展示requestId，且我的发布入口不能错误写死为仅发布项目；需用独立CR修正既有商业边界投影并补齐四类型真实入口。
+original_rule: 四份旧页面规格ERROR状态要求向用户展示稳定错误码和requestId；我的发布主入口若写死项目编辑器会漏掉App、群聊和团队长四类型发布能力。
+new_rule: 四页正式UI只展示业务化错误和恢复动作，requestId与错误码仅保留网络层；我的发布主入口进入四类型发布选择，不替用户预选内容类型。
+impact_summary: 修正规格技术字段投影并增加不虚构业务的四类型发布入口选择；复用R08-R11既有编辑器，无新API。
+impact:
+  files:
+  - apps/android/feature/content-management/src/main/java/cc/orbexa/hhy/contentmanagement/R12ContentManagementListScreens.kt
+  - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+  - docs/02-ui/page-specs/android/SCR-MYC-001_我的发布.md
+  - docs/02-ui/page-specs/android/SCR-MYC-002_草稿箱.md
+  - docs/02-ui/page-specs/android/SCR-MYC-004_审核记录.md
+  - docs/02-ui/page-specs/android/SCR-MYC-005_内容数据.md
+  - CHANGELOG.md
+  pages:
+  - SCR-MYC-001
+  - SCR-MYC-002
+  - SCR-MYC-004
+  - SCR-MYC-005
+  apis:
+  - contentGetMeContents
+  database: []
+  configuration: []
+  ledger: []
+  tests:
+  - 技术字段UI静态扫描;四类型导航单测;check_android_ui_foundation;obx-test MODULE回归
+  releases:
+  - R12
+  migration_and_compatibility: 错误诊断数据仍在网络层和受控日志；既有四类编辑路由不变，仅增加明确选择入口。
+user_confirmation: 项目所有者已要求全部前端严格对应完整开发文档并持续推进。
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-25T09:46:04Z'
+  note: 独立复核确认旧ERROR投影违反既有商业边界，四类型发布均已在R08-R11冻结且复用既有编辑器，不新增功能或接口。
+machine_record: .continuity/change_requests/CR-0327.yaml
+document: docs/03-continuity/change-requests/CR-0327-纠正R12四页商业错误投影与发布入口.md

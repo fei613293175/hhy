@@ -8,10 +8,10 @@ actor:
   host: unknown
 release: R12
 task_id: TASK-R12-004
-story_id: STORY-R12-002
-goal: 按SCR-MYC-003页面规格、B08/P03精确视觉合同和生成API类型实现内容管理详情、复制与数据闭环
+story_id: STORY-R12-003
+goal: 按SCR-MYC-001/002/004/005冻结合同与R12精确视觉规格实现我的发布、草稿箱、审核记录、内容数据，并接入真实Navigation入口。
 started_at: '2026-07-25T05:35:15Z'
-updated_at: '2026-07-25T08:35:15Z'
+updated_at: '2026-07-25T10:05:36Z'
 takeover_of: null
 change_requests:
 - CR-0319
@@ -21,6 +21,8 @@ change_requests:
 - CR-0323
 - CR-0324
 - CR-0325
+- CR-0326
+- CR-0327
 scope:
   allowed_paths:
   - apps/android/**
@@ -35,7 +37,7 @@ scope:
   - releases/**
   - design/**
   - scripts/**
-  - apps/android/**,catalogs/ui_visual_acceptance.csv,releases/R12/**,docs/02-ui/page-specs/android/**,tests/**,CHANGELOG.md
+  - apps/android/**,catalogs/ui_visual_acceptance.csv,docs/02-ui/page-specs/android/**,CHANGELOG.md,tests/**
   - CHANGELOG.md
   approved_exceptions:
   - database/migrations/V041__r12_review_permission_alignment.sql
@@ -65,24 +67,7 @@ scope:
   - apps/admin-web/src/adminNavigation.test.ts
   - apps/admin-web/src/routerPermissions.test.ts
   - apps/admin-web/src/styles.css
-  - apps/android/settings.gradle.kts
-  - apps/android/app/build.gradle.kts
-  - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
-  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR12Api.kt
-  - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/R12ApiModelsSerializationTest.kt
-  - apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyIcons.kt
-  - apps/android/feature/content-management/build.gradle.kts
-  - apps/android/feature/content-management/src/main/AndroidManifest.xml
-  - apps/android/feature/content-management/src/main/java/cc/orbexa/hhy/feature/contentmanagement/R12ContentManagementState.kt
-  - apps/android/feature/content-management/src/main/java/cc/orbexa/hhy/feature/contentmanagement/R12ContentManagementDetailScreen.kt
-  - apps/android/feature/content-management/src/test/java/cc/orbexa/hhy/feature/contentmanagement/R12ContentManagementStateTest.kt
-  - catalogs/ui_visual_acceptance.csv
-  - docs/02-ui/page-specs/android/SCR-MYC-003_内容管理详情.md
-  - CHANGELOG.md
-  - apps/android/feature/content-management/src/main/java/cc/orbexa/hhy/contentmanagement/R12ContentManagementState.kt
-  - apps/android/feature/content-management/src/main/java/cc/orbexa/hhy/contentmanagement/R12ContentManagementDetailScreen.kt
-  - apps/android/feature/content-management/src/test/java/cc/orbexa/hhy/contentmanagement/R12ContentManagementStateTest.kt
-  source: story-switch+explicit+approved-cr:CR-0320+approved-cr:CR-0324+approved-cr:CR-0325
+  source: story-switch+explicit+approved-cr:CR-0320
 git:
   initialized: true
   branch: task/TASK-R03-001
@@ -92,18 +77,18 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-25T08:35:08Z'
-  expires_at: '2026-07-25T12:35:08Z'
-checkpoint_sequence: 8
-latest_checkpoint: .continuity/checkpoints/SES-20260725T053515Z-11D4084D/0008.yaml
+  renewed_at: '2026-07-25T10:05:31Z'
+  expires_at: '2026-07-25T14:05:31Z'
+checkpoint_sequence: 12
+latest_checkpoint: .continuity/checkpoints/SES-20260725T053515Z-11D4084D/0012.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260725T053515Z-11D4084D.md
-next_step: 原子切换到R12下一个READY Story并读取页面、API与精确视觉合同。
+next_step: 以CP-0012提交并推送STORY-R12-003，绑定CR-0326/0327后切换STORY-R12-004。
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: eb7fdc26ec1814b569907c784c7e7825d2c1fd3dde03d1a13cf8285b3dffb546
-  generated_at: '2026-07-25T08:35:12Z'
+  context_hash: 516f6cc3efc13bf8f185ea6af5d74da06a8706b6cee32ad41e9d792cd8920381
+  generated_at: '2026-07-25T10:05:34Z'
 handoff_bundle: null
 closure: null
 parallel_execution:
@@ -111,14 +96,23 @@ parallel_execution:
   delegated_workers: 1
   workers:
   - worker_id: r12_myc003_readonly_audit
-    responsibility: 只读Android复用点和合同缺口审计
+    responsibility: 只读审计STORY-R12-003四页合同、模型与复用点
     allowed_paths:
     - apps/android/**
+    - docs/02-ui/**
+    - design/R12-UI-FROZEN/**
+    - releases/R12/**
+    - contracts/**
     - catalogs/**
-  reason: 只读代理审计完成，主控已复核实现与证据。
+  reason: 只读合同审计已完成；主控串行完成最终实现、云端门禁与提交审计。
 story_history:
 - story_id: STORY-R12-001
   completed_at: '2026-07-25T07:44:07Z'
   checkpoint_id: CP-SES-20260725T053515Z-11D4084D-0004
   commit: ad95719dc9aceb22b2e189c5cae28b07eae5c025
   summary: STORY-R12-001审核工作台已实现、推送并通过obx-test模块门禁，继续内容管理详情
+- story_id: STORY-R12-002
+  completed_at: '2026-07-25T08:36:51Z'
+  checkpoint_id: CP-SES-20260725T053515Z-11D4084D-0008
+  commit: a074488d8745a9175a832ebabb49d336b98eef81
+  summary: STORY-R12-002内容管理详情已实现、云端MODULE通过并以7c30b6b0/a074488d推送；继续仓库顺序四页发布管理列表闭环。

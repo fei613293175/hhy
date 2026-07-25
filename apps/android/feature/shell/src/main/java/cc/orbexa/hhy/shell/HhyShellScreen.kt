@@ -97,6 +97,8 @@ fun HhyShellScreen(
     onOpenCancellation: () -> Unit = {},
     onOpenIdentity: () -> Unit = {},
     onOpenAbout: () -> Unit = {},
+    onOpenMyContents: () -> Unit = {},
+    onOpenMyDrafts: () -> Unit = {},
     experienceApi: ExperienceApi? = null,
     accessToken: String = "",
 ) {
@@ -218,6 +220,12 @@ fun HhyShellScreen(
 
             if (selectedIndex == 4) {
                 item {
+                    MineContentManagementCard(
+                        onOpenMyContents = onOpenMyContents,
+                        onOpenMyDrafts = onOpenMyDrafts,
+                    )
+                }
+                item {
                     MineSecurityCard(
                         onOpenIdentity = onOpenIdentity,
                         onOpenLoginDevices = onOpenLoginDevices,
@@ -227,6 +235,71 @@ fun HhyShellScreen(
                     )
                 }
             }
+        }
+    }
+}
+
+@Composable
+private fun MineContentManagementCard(
+    onOpenMyContents: () -> Unit,
+    onOpenMyDrafts: () -> Unit,
+) {
+    Card(
+        modifier = Modifier.fillMaxWidth(),
+        shape = RoundedCornerShape(HhyRadius.LargeCard),
+        colors = CardDefaults.cardColors(containerColor = HhyColors.Surface),
+        elevation = CardDefaults.cardElevation(defaultElevation = HhyElevation.Card),
+    ) {
+        Column(
+            modifier = Modifier.fillMaxWidth().padding(HhySpacing.Lg),
+            verticalArrangement = Arrangement.spacedBy(HhySpacing.Md),
+        ) {
+            Text("发布管理", fontWeight = FontWeight.SemiBold, color = HhyColors.TextPrimary)
+            Text("查看发布状态、继续编辑草稿和跟进内容数据", color = HhyColors.TextSecondary)
+            MineManagementRow(
+                title = "我的发布",
+                subtitle = "管理审核中、已上架与已下架内容",
+                icon = HhyIcons.Publish,
+                testTag = "mine.my-contents",
+                onClick = onOpenMyContents,
+            )
+            MineManagementRow(
+                title = "草稿箱",
+                subtitle = "继续编辑或删除尚未提交的内容",
+                icon = HhyIcons.Applications,
+                testTag = "mine.my-drafts",
+                onClick = onOpenMyDrafts,
+            )
+        }
+    }
+}
+
+@Composable
+private fun MineManagementRow(
+    title: String,
+    subtitle: String,
+    icon: ImageVector,
+    testTag: String,
+    onClick: () -> Unit,
+) {
+    Surface(
+        modifier = Modifier.fillMaxWidth().clip(RoundedCornerShape(HhyRadius.Button))
+            .clickable(onClick = onClick).testTag(testTag),
+        color = HhyColors.PageBackground,
+    ) {
+        Row(
+            modifier = Modifier.fillMaxWidth().padding(HhySpacing.Md),
+            horizontalArrangement = Arrangement.spacedBy(HhySpacing.Md),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Surface(shape = RoundedCornerShape(HhyRadius.Tag), color = HhyColors.SoftBlue) {
+                HhyIcon(icon, null, Modifier.padding(HhySpacing.Sm), HhyColors.BrandPrimary)
+            }
+            Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(HhySpacing.Xs)) {
+                Text(title, fontWeight = FontWeight.SemiBold, color = HhyColors.TextPrimary)
+                Text(subtitle, style = androidx.compose.material3.MaterialTheme.typography.bodySmall, color = HhyColors.TextSecondary)
+            }
+            HhyIcon(HhyIcons.ChevronRight, null, tint = HhyColors.TextTertiary)
         }
     }
 }

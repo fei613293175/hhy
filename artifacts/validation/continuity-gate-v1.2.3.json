@@ -1,41 +1,18 @@
 {
   "version": "1.2.3",
   "protocol_version": "1.0",
-  "mode": "pre-commit",
+  "mode": "doctor",
   "strict": true,
   "status": "PASS",
   "metrics": {
-    "event_count": 3083,
-    "event_head_hash": "d95c4070c72754c5dab5de470098f2b375798fd421e505f43b38e4832db52e44",
+    "event_count": 3170,
+    "event_head_hash": "cb9297c684677e9cfc7f15175d2ea7e5ac73212cc0e7c9e6b8f40ed3f0cdd08f",
     "rule_readiness": "PASS",
     "required_rule_sources": 11,
-    "changed_files": 70,
-    "project_changed_files": 40,
-    "change_classification": {
-      "other": 2,
-      "source_of_truth": 7,
-      "contracts": 2,
-      "user_visible": 3,
-      "database": 4,
-      "continuity": 3,
-      "code": 25
-    },
     "document_gate": {
       "status": "EXECUTED",
-      "forced": false,
-      "affected_inputs": [
-        "catalogs/data_tables.csv",
-        "catalogs/ui_action_matrix.csv",
-        "catalogs/ui_page_fields.csv",
-        "contracts/contract_status.csv",
-        "contracts/openapi.yaml",
-        "database/migrations/V039__r12_publish_management_invariants.sql",
-        "database/rollback/U039__r12_publish_management_invariants.sql",
-        "database/schema_dictionary.csv",
-        "database/tests/r12_publish_management_invariants.sql",
-        "docs/02-ui/page-specs/android/SCR-MYC-002_草稿箱.md",
-        "releases/R12/RELEASE_MANIFEST.yaml"
-      ]
+      "forced": true,
+      "affected_inputs": []
     }
   },
   "errors": [],
