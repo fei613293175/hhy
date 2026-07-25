@@ -43,7 +43,7 @@
 2. **CONTINUITY 核心门禁**：每次提交校验身份、范围、检查点、CR、Trailer 和 Context Pack；只有连续性核心事实变化才执行完整临时 Git 生命周期。
 3. **RELEASE CANDIDATE**：候选请求验证通过后运行完整 Android 构建、模拟器、旅程、截图、视觉、日志、候选报告与 APK 上传。
 
-`config/android-candidate-request.yaml` 必须包含：`schema_version: 1`、`status: REQUESTED`、`R06-R32` Release、`candidate: true`、1 至 3 的 `remediation_attempt`、以及每次候选唯一的 `request_id`。普通 CI 的 build artifact 不是候选，任何人或 AI 都不得把它复制到桌面冒充候选。
+`config/android-candidate-request.yaml` 必须包含：`schema_version: 1`、`status: REQUESTED`、`R06-R32` Release、`candidate: true`、普通范围 1 至 3 的 `remediation_attempt`、以及每次候选唯一的 `request_id`。全局 `max_ai_attempts` 必须始终为 3；只有 `config/android-automation.yaml` 中经过批准且精确绑定 Release、轮次、request ID、CR、根因修复 Commit 和单次运行上限的例外，才允许相应请求超过普通范围。例外不得改写全局上限、伪造为新 attempt 1、扩展到其他 Release 或产生 attempt 5；候选运行报告必须同时记录全局上限与本次有效上限。普通 CI 的 build artifact 不是候选，任何人或 AI 都不得把它复制到桌面冒充候选。
 
 ## 3. 自动修复闭环
 
@@ -56,7 +56,7 @@
 3. 对确定性故障修改最小必要代码和回归测试；
 4. 提交后由同一工作流重新编译、打包、安装和测试；
 5. 原 Commit 只有在业务测试开始前且日志明确证明为 GitHub、网络、镜像或 Staging 接口瞬态故障（包括 HTTP 5xx）时，才允许只重跑失败作业及其依赖一次；已通过的编译、Lint、单测和打包必须复用，不得修改业务代码或重跑全部作业；同一瞬态再次出现必须停止重跑并检查 Staging 健康、服务日志和基础设施；
-6. 同一根因最多三轮 AI 修复。测试实现缺陷由 AI 重构后以新候选周期继续，不得停下等待项目所有者判断截图；只有确需新增外部秘密、第三方权限或商业决策时才允许请求介入。失败候选仍不得交付。
+6. 同一根因最多三轮 AI 修复。若同一 Release 的前三轮分别暴露不同根因，且最后一个根因已由新 Commit 修复并通过受影响 MODULE，必须通过独立批准 CR 建立全字段精确、最多运行一次的候选例外；校验器必须在 Android 环境安装和模拟器启动前拒绝任何字段漂移。测试实现缺陷由 AI 重构后以准确递增的候选轮次继续，不得重置或伪造历史，不得停下等待项目所有者判断截图；只有确需新增外部秘密、第三方权限或商业决策时才允许请求介入。失败候选仍不得交付。
 
 所谓“自动修复”不是让 Actions 无审查改写生产代码。Actions 负责确定性验证和耐久失败队列；当前或接续 AI 负责依据证据修改、提交，随后 Actions 自动重跑。这避免无限循环和不可审计的机器人提交。
 

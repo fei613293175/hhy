@@ -1,0 +1,67 @@
+protocol_version: '1.0'
+cr_id: CR-0344
+title: 允许R12修复提交执行一次精确绑定的第四次Android候选
+status: IMPLEMENTED
+created_at: '2026-07-25T23:14:32Z'
+updated_at: '2026-07-25T23:23:51Z'
+requester_actor_id: codex-root-r12-candidate-20260726
+approver_actor_id: codex-avicenna-r12-contract-review-20260726
+task_id: TASK-R12-007
+session_id: SES-20260725T192048Z-668BD05D
+user_request: 项目所有者要求按仓库规则持续推进R01-R32，不得因真机反馈或界面状态停止；所有Android候选由AI完成自动门禁和截图审核后交付桌面。
+reason: R12前三次候选分别暴露可观测性、隔离启动发布链和审核记录页面三个不同根因；daae207a已修复第三个根因并通过obx-test模块门禁，需要在不改变全局max_ai_attempts=3且不伪造轮次的前提下，为该修复提交授予一次精确受控的attempt 4候选。
+original_rule: 全局Android自动修复上限固定为3，普通候选请求只允许remediation_attempt 1至3；现有校验对任何attempt 4一律拒绝，无法准确表达R12前三次候选为不同根因且第四次仅验证已修复提交的事实。
+new_rule: 全局max_ai_attempts必须继续严格等于3，普通候选范围继续为1至3；仅允许政策中已审批例外以release=R12、attempt=4、request_id=R12-CANDIDATE-20260726-004、exception_id=CR-0344、required_fix_commit=daae207af319008411995b7ac23a13c9042fc5a2、max_candidate_runs=1全字段精确匹配时运行一次。任何字段不匹配、无例外、其他Release或attempt
+  5必须拒绝，运行报告必须同时保留全局3与本次有效上限4。
+impact_summary: 为R12三个不同根因后的修复提交提供一次真实且可审计的第四次完整候选；不放宽后续版本或同一根因三轮上限，不新增attempt 5，不改变产品、API、数据库、生产权限、秘密或真机异步规则。
+impact:
+  files:
+  - config/android-automation.yaml
+  - config/android-candidate-request.yaml
+  - scripts/android_candidate_request.py
+  - scripts/android_ci_gate.py
+  - scripts/run_android_emulator_gate.sh
+  - .github/workflows/android-candidate-request.yml
+  - .github/workflows/android-quality-gate.yml
+  - tests/test_android_candidate_request.py
+  - tests/test_android_ci_gate.py
+  - tests/test_r12_candidate.py
+  - docs/08-testing/Android自动开发测试修复交付体系_V1.0.md
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - CHANGELOG.md
+  pages: []
+  apis: []
+  database: []
+  configuration:
+  - config/android-automation.yaml remediation.approved_attempt_exceptions
+  - config/android-candidate-request.yaml attempt_exception_id
+  ledger: []
+  tests:
+  - python -m unittest tests.test_android_candidate_request
+  - python -m unittest tests.test_android_ci_gate
+  - python -m unittest tests.test_r12_candidate
+  - python scripts/android_ci_gate.py policy-check
+  - FAST continuity and scope gates
+  releases:
+  - R12
+  migration_and_compatibility: 配置与工作流向后兼容：普通1至3候选行为不变；新增字段仅在批准例外时必填并端到端透传，例外消费后保留历史事实但不得再次请求。错误Release、request、CR、Commit或attempt均在启动模拟器前失败。
+user_confirmation: 项目所有者已要求按仓库计划持续推进、自动完成候选截图审核并在交付后继续开发；无需等待逐版本真机反馈。
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-25T23:15:34Z'
+  note: 独立合同复核确认R12前三轮为三个不同根因，第四次是daae207a修复后的首次完整候选验证。批准仅限六字段精确匹配且max_candidate_runs=1；全局三轮、普通1至3和attempt 5硬拒绝保持不变。
+machine_record: .continuity/change_requests/CR-0344.yaml
+document: docs/03-continuity/change-requests/CR-0344-允许R12修复提交执行一次精确绑定的第四次Android候选.md
+decision_log:
+- at: '2026-07-25T23:15:42Z'
+  actor_id: codex-root-r12-candidate-20260726
+  status: IMPLEMENTING
+  note: 已完成独立合同审批并应用精确影响范围，开始实现一次性attempt 4校验、工作流透传与回归。
+  session_id: SES-20260725T192048Z-668BD05D
+- at: '2026-07-25T23:23:51Z'
+  actor_id: codex-root-r12-candidate-20260726
+  status: IMPLEMENTED
+  note: 一次性R12 attempt 4策略、候选请求校验、GitHub工作流前置祖先验证、运行时报告、文档、Problem Registry和35项回归均已实现；全局max_ai_attempts保持3，attempt 5及任一错误绑定均硬拒绝。
+  session_id: SES-20260725T192048Z-668BD05D
+session_ids:
+- SES-20260725T192048Z-668BD05D

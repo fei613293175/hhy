@@ -18,6 +18,10 @@ ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_POLICY = ROOT / "config/android-automation.yaml"
 DEFAULT_VISUAL_MANIFEST_ROOT = ROOT / "tests/android/visual-manifests"
 RELEASE_PATTERN = re.compile(r"^R(\d{2})$")
+CANDIDATE_RELEASE_PATTERN = re.compile(r"^R(?:0[6-9]|[12][0-9]|3[0-2])$")
+REQUEST_ID_PATTERN = re.compile(r"^[A-Z0-9][A-Z0-9._-]{5,79}$")
+EXCEPTION_ID_PATTERN = re.compile(r"^CR-\d{4}$")
+COMMIT_PATTERN = re.compile(r"^[0-9a-f]{40}$")
 
 
 class GateError(RuntimeError):
@@ -38,8 +42,39 @@ def load_policy(path: Path = DEFAULT_POLICY) -> dict[str, Any]:
     endpoint = str(document["build"].get("api_base_url") or "")
     if endpoint != "https://api.orbexa.cc":
         raise GateError("Android candidate API base URL must be https://api.orbexa.cc")
-    if int(document["remediation"].get("max_ai_attempts") or 0) != 3:
+    max_attempts = int(document["remediation"].get("max_ai_attempts") or 0)
+    if max_attempts != 3:
         raise GateError("Android remediation loop must be bounded to exactly three AI attempts")
+    exceptions = document["remediation"].get("approved_attempt_exceptions") or []
+    if not isinstance(exceptions, list):
+        raise GateError("approved Android attempt exceptions must be a list")
+    seen_exception_ids: set[str] = set()
+    seen_request_ids: set[str] = set()
+    for row in exceptions:
+        if not isinstance(row, dict):
+            raise GateError("every approved Android attempt exception must be an object")
+        exception_id = str(row.get("exception_id") or "")
+        release = str(row.get("release") or "")
+        request_id = str(row.get("request_id") or "")
+        required_fix_commit = str(row.get("required_fix_commit") or "")
+        if not EXCEPTION_ID_PATTERN.fullmatch(exception_id):
+            raise GateError("approved attempt exception_id must be a CR identifier")
+        if exception_id in seen_exception_ids:
+            raise GateError(f"duplicate approved attempt exception_id: {exception_id}")
+        if not CANDIDATE_RELEASE_PATTERN.fullmatch(release):
+            raise GateError("approved attempt exception release must be R06 through R32")
+        if row.get("attempt") != max_attempts + 1:
+            raise GateError("approved attempt exception must cover only the next bounded attempt")
+        if not REQUEST_ID_PATTERN.fullmatch(request_id):
+            raise GateError("approved attempt exception request_id is invalid")
+        if request_id in seen_request_ids:
+            raise GateError(f"duplicate approved attempt exception request_id: {request_id}")
+        if not COMMIT_PATTERN.fullmatch(required_fix_commit):
+            raise GateError("approved attempt exception required_fix_commit must be a full lowercase SHA-1")
+        if row.get("max_candidate_runs") != 1:
+            raise GateError("approved attempt exception must permit exactly one candidate run")
+        seen_exception_ids.add(exception_id)
+        seen_request_ids.add(request_id)
     authentication = document["authentication"]
     if authentication.get("mode") != "GITHUB_OIDC_ONE_TIME":
         raise GateError("Android candidate authentication must use one-time GitHub OIDC")
@@ -75,6 +110,49 @@ def load_policy(path: Path = DEFAULT_POLICY) -> dict[str, Any]:
     if not document["emulator"].get("visual_manifest_root"):
         raise GateError("Every enforced release must resolve a visual manifest")
     return document
+
+
+def resolve_attempt_policy(
+    policy: dict[str, Any],
+    *,
+    release: str,
+    attempt: int,
+    request_id: str = "",
+    exception_id: str = "",
+    required_fix_commit: str = "",
+) -> dict[str, Any]:
+    max_attempts = int(policy["remediation"]["max_ai_attempts"])
+    supplied_exception_fields = any((exception_id, required_fix_commit))
+    if 1 <= attempt <= max_attempts:
+        if supplied_exception_fields:
+            raise GateError("ordinary attempts must not claim an attempt exception")
+        return {
+            "max_ai_attempts": max_attempts,
+            "effective_attempt_limit": max_attempts,
+            "attempt_exception_id": None,
+            "required_fix_commit": None,
+            "max_candidate_runs": None,
+        }
+    if attempt != max_attempts + 1:
+        raise GateError(f"remediation attempt must be between 1 and {max_attempts}, unless exactly approved")
+    matches = [
+        row for row in policy["remediation"].get("approved_attempt_exceptions", [])
+        if row.get("release") == release
+        and row.get("attempt") == attempt
+        and row.get("request_id") == request_id
+        and row.get("exception_id") == exception_id
+        and row.get("required_fix_commit") == required_fix_commit
+        and row.get("max_candidate_runs") == 1
+    ]
+    if len(matches) != 1:
+        raise GateError("remediation attempt exceeds the global limit without one exact approved exception")
+    return {
+        "max_ai_attempts": max_attempts,
+        "effective_attempt_limit": attempt,
+        "attempt_exception_id": exception_id,
+        "required_fix_commit": required_fix_commit,
+        "max_candidate_runs": 1,
+    }
 
 
 def release_number(value: str) -> int | None:
@@ -204,10 +282,17 @@ def visual_failures(
 
 def analyze(args: Any) -> int:
     policy = load_policy(Path(args.policy))
-    max_attempts = int(policy["remediation"]["max_ai_attempts"])
     attempt = int(args.attempt)
-    if not 1 <= attempt <= max_attempts:
-        raise GateError(f"remediation attempt must be between 1 and {max_attempts}")
+    attempt_policy = resolve_attempt_policy(
+        policy,
+        release=args.release,
+        attempt=attempt,
+        request_id=str(getattr(args, "request_id", "") or ""),
+        exception_id=str(getattr(args, "attempt_exception_id", "") or ""),
+        required_fix_commit=str(getattr(args, "required_fix_commit", "") or ""),
+    )
+    max_attempts = int(attempt_policy["max_ai_attempts"])
+    effective_attempt_limit = int(attempt_policy["effective_attempt_limit"])
     test_exit_code_path = Path(args.test_exit_code_file)
     try:
         test_exit_code = int(test_exit_code_path.read_text(encoding="utf-8").strip())
@@ -252,6 +337,11 @@ def analyze(args: Any) -> int:
         "github_run_id": str(getattr(args, "run_id", "")),
         "attempt": attempt,
         "max_ai_attempts": max_attempts,
+        "effective_attempt_limit": effective_attempt_limit,
+        "candidate_request_id": str(getattr(args, "request_id", "") or "") or None,
+        "attempt_exception_id": attempt_policy["attempt_exception_id"],
+        "required_fix_commit": attempt_policy["required_fix_commit"],
+        "max_candidate_runs": attempt_policy["max_candidate_runs"],
         "status": status,
         "candidate_eligible": status == "PASS",
         "owner_test_allowed": status == "PASS",
@@ -267,7 +357,7 @@ def analyze(args: Any) -> int:
                 if status == "BASELINE_REVIEW_REQUIRED"
                 else "AI_ANALYZE_FIX_REBUILD_RETEST"
             ),
-            "escalation_allowed": status == "FAIL" and attempt >= max_attempts,
+            "escalation_allowed": status == "FAIL" and attempt >= effective_attempt_limit,
         },
     }
     output = Path(args.output)
@@ -444,12 +534,25 @@ def main() -> int:
     policy = sub.add_parser("policy-check")
     policy.add_argument("--policy", default=str(DEFAULT_POLICY))
 
+    attempt_check = sub.add_parser("attempt-check")
+    attempt_check.add_argument("--policy", default=str(DEFAULT_POLICY))
+    attempt_check.add_argument("--release", required=True)
+    attempt_check.add_argument("--commit", required=True)
+    attempt_check.add_argument("--attempt", type=int, required=True)
+    attempt_check.add_argument("--request-id", default="")
+    attempt_check.add_argument("--attempt-exception-id", default="")
+    attempt_check.add_argument("--required-fix-commit", default="")
+    attempt_check.add_argument("--effective-attempt-limit", type=int, required=True)
+
     runtime = sub.add_parser("analyze")
     runtime.add_argument("--policy", default=str(DEFAULT_POLICY))
     runtime.add_argument("--release", required=True)
     runtime.add_argument("--commit", required=True)
     runtime.add_argument("--run-id", default="")
     runtime.add_argument("--attempt", type=int, default=1)
+    runtime.add_argument("--request-id", default="")
+    runtime.add_argument("--attempt-exception-id", default="")
+    runtime.add_argument("--required-fix-commit", default="")
     runtime.add_argument("--test-exit-code-file", required=True)
     runtime.add_argument("--junit-root", required=True)
     runtime.add_argument("--logcat", required=True)
@@ -486,6 +589,22 @@ def main() -> int:
         if args.command == "policy-check":
             document = load_policy(Path(args.policy))
             print(json.dumps({"status": "PASS", "policy_id": document["policy_id"]}, ensure_ascii=False))
+            return 0
+        if args.command == "attempt-check":
+            document = load_policy(Path(args.policy))
+            resolution = resolve_attempt_policy(
+                document,
+                release=args.release,
+                attempt=args.attempt,
+                request_id=args.request_id,
+                exception_id=args.attempt_exception_id,
+                required_fix_commit=args.required_fix_commit,
+            )
+            if args.effective_attempt_limit != resolution["effective_attempt_limit"]:
+                raise GateError("effective attempt limit does not match the approved policy")
+            if resolution["required_fix_commit"] and args.commit == resolution["required_fix_commit"]:
+                raise GateError("candidate commit must contain the required fix plus the approved request")
+            print(json.dumps({"status": "PASS", **resolution}, ensure_ascii=False))
             return 0
         if args.command == "analyze":
             return analyze(args)

@@ -2,6 +2,8 @@ schema_version: 1
 status: REQUESTED
 release: R12
 candidate: true
-remediation_attempt: 3
-request_id: R12-CANDIDATE-20260726-003
-reason: R12 attempt 2已证明OIDC bootstrap、session和/api/v1/me均为200，但隔离数据库遗漏official+STAGING+10221发布链使启动版本检查返回404；CR-0341已补齐确定性夹具，在obx-test连续两次输出一致且公网version-check返回200/NONE后，attempt 3执行十页Android最终候选、视觉证据与APK追溯。
+remediation_attempt: 4
+request_id: R12-CANDIDATE-20260726-004
+attempt_exception_id: CR-0344
+required_fix_commit: daae207af319008411995b7ac23a13c9042fc5a2
+reason: R12前三次候选分别发现可观测性、隔离启动发布链和审核记录页面三个不同根因；CR-0342/CR-0343已在修复提交daae207a恢复SCR-MYC-004真实当前内容摘要与审核时间线，并通过obx-test单测、Lint和App编译。CR-0344仅批准该修复提交后的单次attempt 4完整十页候选，全局三轮上限保持不变。

@@ -14,10 +14,30 @@ on:
         type: boolean
         default: false
       remediation_attempt:
-        description: AI remediation attempt number, one through three
+        description: AI remediation attempt number; ordinary range is one through three
         required: false
         type: number
         default: 1
+      request_id:
+        description: Durable candidate request identifier
+        required: false
+        type: string
+        default: ''
+      attempt_exception_id:
+        description: Approved CR for an exact attempt exception
+        required: false
+        type: string
+        default: ''
+      required_fix_commit:
+        description: Exact approved root-fix commit for an attempt exception
+        required: false
+        type: string
+        default: ''
+      effective_attempt_limit:
+        description: Effective limit resolved by the candidate request validator
+        required: false
+        type: number
+        default: 3
   workflow_dispatch:
     inputs:
       release:
@@ -34,6 +54,26 @@ on:
         required: true
         type: number
         default: 1
+      request_id:
+        description: Durable candidate request identifier
+        required: false
+        type: string
+        default: ''
+      attempt_exception_id:
+        description: Approved CR for an exact attempt exception
+        required: false
+        type: string
+        default: ''
+      required_fix_commit:
+        description: Exact approved root-fix commit for an attempt exception
+        required: false
+        type: string
+        default: ''
+      effective_attempt_limit:
+        description: Effective attempt limit
+        required: true
+        type: number
+        default: 3
 
 permissions:
   contents: read
@@ -112,14 +152,29 @@ jobs:
         with:
           python-version: '3.12'
       - run: pip install --disable-pip-version-check pyyaml pillow
+      - name: Validate durable automation policy
+        run: python scripts/android_ci_gate.py policy-check
+      - name: Validate exact candidate attempt before Android setup
+        if: ${{ inputs.candidate }}
+        shell: bash
+        run: |
+          python scripts/android_ci_gate.py attempt-check \
+            --release "${{ inputs.release }}" \
+            --commit "$GITHUB_SHA" \
+            --attempt "${{ inputs.remediation_attempt }}" \
+            --request-id "${{ inputs.request_id }}" \
+            --attempt-exception-id "${{ inputs.attempt_exception_id }}" \
+            --required-fix-commit "${{ inputs.required_fix_commit }}" \
+            --effective-attempt-limit "${{ inputs.effective_attempt_limit }}"
+          if [[ -n "${{ inputs.required_fix_commit }}" ]]; then
+            git merge-base --is-ancestor "${{ inputs.required_fix_commit }}" "$GITHUB_SHA"
+          fi
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: '21'
           cache: gradle
       - uses: android-actions/setup-android@v3
-      - name: Validate durable automation policy
-        run: python scripts/android_ci_gate.py policy-check
       - name: Install Android build platform
         run: sdkmanager 'platforms;android-36' 'build-tools;36.0.0'
       - name: Run source and visual foundation gates
@@ -210,6 +265,9 @@ jobs:
           script: bash scripts/run_android_emulator_gate.sh
         env:
           REMEDIATION_ATTEMPT: ${{ inputs.remediation_attempt }}
+          CANDIDATE_REQUEST_ID: ${{ inputs.request_id }}
+          ATTEMPT_EXCEPTION_ID: ${{ inputs.attempt_exception_id }}
+          REQUIRED_FIX_COMMIT: ${{ inputs.required_fix_commit }}
           HHY_CI_BOOTSTRAP_CODE: ${{ env.HHY_CI_BOOTSTRAP_CODE }}
       - uses: actions/upload-artifact@v4
         if: always()
@@ -276,7 +334,7 @@ jobs:
               '状态：REMEDIATION_REQUIRED',
               `Release：${release}`,
               `Commit：${context.sha}`,
-              `修复轮次：${{ inputs.remediation_attempt }}/3`,
+              `修复轮次：${{ inputs.remediation_attempt }}/${{ inputs.effective_attempt_limit }}`,
               `失败证据：${runUrl}`,
               '',
               '接续 AI 必须下载 android-build 与 android-runtime 证据，定位根因、修改、重新打包并重跑。',

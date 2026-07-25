@@ -22,8 +22,13 @@ jobs:
       candidate: ${{ steps.request.outputs.candidate }}
       remediation_attempt: ${{ steps.request.outputs.remediation_attempt }}
       request_id: ${{ steps.request.outputs.request_id }}
+      attempt_exception_id: ${{ steps.request.outputs.attempt_exception_id }}
+      required_fix_commit: ${{ steps.request.outputs.required_fix_commit }}
+      effective_attempt_limit: ${{ steps.request.outputs.effective_attempt_limit }}
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
@@ -32,8 +37,13 @@ jobs:
         run: >-
           python scripts/android_candidate_request.py
           --request config/android-candidate-request.yaml
+          --policy config/android-automation.yaml
           --github-output "$GITHUB_OUTPUT"
           --json-output artifacts/android-ci/candidate-request.json
+      - name: Verify candidate history contains the approved fix
+        if: steps.request.outputs.required_fix_commit != ''
+        shell: bash
+        run: git merge-base --is-ancestor "${{ steps.request.outputs.required_fix_commit }}" "$GITHUB_SHA"
       - uses: actions/upload-artifact@v4
         with:
           name: android-candidate-request-${{ github.run_id }}
@@ -53,3 +63,7 @@ jobs:
       release: ${{ needs.request.outputs.release }}
       candidate: ${{ needs.request.outputs.candidate == 'true' }}
       remediation_attempt: ${{ fromJSON(needs.request.outputs.remediation_attempt) }}
+      request_id: ${{ needs.request.outputs.request_id }}
+      attempt_exception_id: ${{ needs.request.outputs.attempt_exception_id }}
+      required_fix_commit: ${{ needs.request.outputs.required_fix_commit }}
+      effective_attempt_limit: ${{ fromJSON(needs.request.outputs.effective_attempt_limit) }}

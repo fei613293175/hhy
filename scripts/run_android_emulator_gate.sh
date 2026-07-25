@@ -39,6 +39,9 @@ python3 scripts/android_ci_gate.py analyze \
   --commit "$GITHUB_SHA" \
   --run-id "$GITHUB_RUN_ID" \
   --attempt "${REMEDIATION_ATTEMPT:-1}" \
+  --request-id "${CANDIDATE_REQUEST_ID:-}" \
+  --attempt-exception-id "${ATTEMPT_EXCEPTION_ID:-}" \
+  --required-fix-commit "${REQUIRED_FIX_COMMIT:-}" \
   --test-exit-code-file "$runtime_dir/test-exit-code.txt" \
   --junit-root apps/android/app/build/outputs/androidTest-results/connected \
   --logcat "$runtime_dir/logcat.txt" \

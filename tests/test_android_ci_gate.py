@@ -9,7 +9,15 @@ import unittest
 import yaml
 from PIL import Image
 
-from scripts.android_ci_gate import analyze, finalize, is_enforced_release, load_policy, promote
+from scripts.android_ci_gate import (
+    GateError,
+    analyze,
+    finalize,
+    is_enforced_release,
+    load_policy,
+    promote,
+    resolve_attempt_policy,
+)
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -57,6 +65,57 @@ class AndroidCiGateTest(unittest.TestCase):
         self.assertFalse(bootstrap["promotion_rebuild_allowed"])
         self.assertFalse(bootstrap["promotion_emulator_allowed"])
         self.assertEqual(0.005, policy["visual"]["minimum_cross_screen_changed_pixel_ratio"])
+        self.assertEqual(3, policy["remediation"]["max_ai_attempts"])
+        self.assertEqual([{
+            "exception_id": "CR-0344",
+            "release": "R12",
+            "attempt": 4,
+            "request_id": "R12-CANDIDATE-20260726-004",
+            "required_fix_commit": "daae207af319008411995b7ac23a13c9042fc5a2",
+            "max_candidate_runs": 1,
+        }], policy["remediation"]["approved_attempt_exceptions"])
+
+    def test_attempt_exception_is_exact_and_never_changes_the_global_limit(self) -> None:
+        policy = load_policy()
+        exact = resolve_attempt_policy(
+            policy,
+            release="R12",
+            attempt=4,
+            request_id="R12-CANDIDATE-20260726-004",
+            exception_id="CR-0344",
+            required_fix_commit="daae207af319008411995b7ac23a13c9042fc5a2",
+        )
+        self.assertEqual(3, exact["max_ai_attempts"])
+        self.assertEqual(4, exact["effective_attempt_limit"])
+        self.assertEqual(1, exact["max_candidate_runs"])
+        invalid = (
+            {"release": "R13"},
+            {"request_id": "R12-CANDIDATE-20260726-999"},
+            {"exception_id": "CR-9999"},
+            {"required_fix_commit": "b" * 40},
+            {"attempt": 5},
+        )
+        base = {
+            "release": "R12",
+            "attempt": 4,
+            "request_id": "R12-CANDIDATE-20260726-004",
+            "exception_id": "CR-0344",
+            "required_fix_commit": "daae207af319008411995b7ac23a13c9042fc5a2",
+        }
+        for override in invalid:
+            with self.subTest(override=override), self.assertRaises(GateError):
+                resolve_attempt_policy(policy, **(base | override))
+        with self.assertRaises(GateError):
+            resolve_attempt_policy(policy, release="R12", attempt=4)
+
+    def test_policy_rejects_a_global_limit_other_than_three(self) -> None:
+        with TemporaryDirectory() as temp:
+            policy = yaml.safe_load((ROOT / "config/android-automation.yaml").read_text(encoding="utf-8"))
+            policy["remediation"]["max_ai_attempts"] = 4
+            path = Path(temp) / "policy.yaml"
+            path.write_text(yaml.safe_dump(policy, allow_unicode=True), encoding="utf-8")
+            with self.assertRaises(GateError):
+                load_policy(path)
 
     def test_first_release_visuals_require_ai_review_without_forcing_emulator_rerun(self) -> None:
         with TemporaryDirectory() as temp:
@@ -93,6 +152,44 @@ class AndroidCiGateTest(unittest.TestCase):
             self.assertFalse(payload["candidate_eligible"])
             self.assertFalse(payload["owner_test_allowed"])
             self.assertEqual("AI_REVIEW_AND_LIGHTWEIGHT_PROMOTE_BASELINE", payload["remediation"]["next_action"])
+
+    def test_attempt_four_runtime_report_keeps_global_and_effective_limits(self) -> None:
+        with TemporaryDirectory() as temp:
+            root = Path(temp)
+            (root / "exit.txt").write_text("0\n", encoding="utf-8")
+            (root / "logcat.txt").write_text("I HHY candidate started\n", encoding="utf-8")
+            junit = root / "junit"
+            junit.mkdir()
+            (junit / "TEST-smoke.xml").write_text(
+                '<testsuite tests="1" failures="0" errors="0"/>', encoding="utf-8",
+            )
+            screenshots = root / "screenshots"
+            screenshots.mkdir()
+            Image.new("RGB", (10, 10), "white").save(screenshots / "01.png")
+            Image.new("RGB", (10, 10), "black").save(screenshots / "02.png")
+            manifests = root / "manifests"
+            manifests.mkdir()
+            (manifests / "R12.yaml").write_text(yaml.safe_dump({
+                "schema": "hhy.android-visual-manifest/v1",
+                "release": "R12",
+                "screens": [{"file": "01.png"}, {"file": "02.png"}],
+            }), encoding="utf-8")
+            output = root / "runtime.json"
+            result = analyze(SimpleNamespace(
+                policy=str(ROOT / "config/android-automation.yaml"), release="R12", commit="c" * 40,
+                run_id="444", attempt=4, request_id="R12-CANDIDATE-20260726-004",
+                attempt_exception_id="CR-0344",
+                required_fix_commit="daae207af319008411995b7ac23a13c9042fc5a2",
+                test_exit_code_file=str(root / "exit.txt"), junit_root=str(junit),
+                logcat=str(root / "logcat.txt"), screenshots=str(screenshots),
+                baseline_root=str(root / "baseline"), visual_manifest_root=str(manifests), output=str(output),
+            ))
+            payload = json.loads(output.read_text(encoding="utf-8"))
+            self.assertEqual(0, result)
+            self.assertEqual(3, payload["max_ai_attempts"])
+            self.assertEqual(4, payload["effective_attempt_limit"])
+            self.assertEqual("CR-0344", payload["attempt_exception_id"])
+            self.assertEqual(1, payload["max_candidate_runs"])
 
     def test_runtime_failure_creates_remediation_queue(self) -> None:
         with TemporaryDirectory() as temp:
@@ -308,6 +405,10 @@ class AndroidCiGateTest(unittest.TestCase):
         self.assertIn("-Xmx1536m", source)
         self.assertIn("android_ci_gate.py finalize", source)
         self.assertIn("script: bash scripts/run_android_emulator_gate.sh", source)
+        self.assertIn("android_ci_gate.py attempt-check", source)
+        self.assertIn("git merge-base --is-ancestor", source)
+        self.assertIn("inputs.effective_attempt_limit", source)
+        self.assertNotIn("inputs.remediation_attempt }}/3", source)
         self.assertIn("! -name '*androidTest*'", source)
         self.assertIn("path: candidate-output", source)
         self.assertEqual(
@@ -371,6 +472,18 @@ class AndroidCiGateTest(unittest.TestCase):
             "${{ steps.request.outputs.candidate }}",
             workflow["jobs"]["request"]["outputs"]["candidate"],
         )
+        self.assertEqual(
+            "${{ steps.request.outputs.attempt_exception_id }}",
+            workflow["jobs"]["request"]["outputs"]["attempt_exception_id"],
+        )
+        self.assertEqual(
+            "${{ needs.request.outputs.required_fix_commit }}",
+            workflow["jobs"]["quality"]["with"]["required_fix_commit"],
+        )
+        self.assertEqual(
+            "${{ fromJSON(needs.request.outputs.effective_attempt_limit) }}",
+            workflow["jobs"]["quality"]["with"]["effective_attempt_limit"],
+        )
         self.assertIn("config/android-candidate-request.yaml", workflow_path.read_text(encoding="utf-8"))
         self.assertEqual("write", workflow["jobs"]["quality"]["permissions"]["id-token"])
 
@@ -414,6 +527,9 @@ class AndroidCiGateTest(unittest.TestCase):
         self.assertIn("connectedDebugAndroidTest", source)
         self.assertIn("test_rc=${PIPESTATUS[0]}", source)
         self.assertIn("android_ci_gate.py analyze", source)
+        self.assertIn("--request-id", source)
+        self.assertIn("--attempt-exception-id", source)
+        self.assertIn("--required-fix-commit", source)
         self.assertIn("adb logcat", source)
         self.assertIn("runtime-report.json", source)
         self.assertIn("::error title=Android emulator gate failed::", source)

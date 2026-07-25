@@ -1587,3 +1587,19 @@ problems:
   - 不得把人工处理记录为空等同于内容不存在或审核未开始
   - 不得为通过候选断言伪造一条待审核历史，当前状态必须来自内容详情
   - 列表去重键和Compose key必须使用资源自身稳定身份，不能机械复用父内容ID
+- id: PROB-0116
+  title: 全局三轮上限无法准确表达R12三个不同根因后的第四次候选
+  status: SOLVED
+  root_cause: R12前三次候选依次暴露结构化日志遮蔽、隔离Staging启动发布链缺失和审核记录页面错误建模三个不同根因；既有候选请求和运行时校验把任何attempt 4一律拒绝。永久把全局上限改为4会削弱所有后续版本，重置为attempt 1又会伪造历史，而只靠聊天同意无法跨电脑和AI审计。
+  resolution: CR-0344保留全局max_ai_attempts=3和普通1至3不变，仅在android-automation唯一事实源登记release=R12、attempt=4、request_id=R12-CANDIDATE-20260726-004、exception_id=CR-0344、required_fix_commit=daae207af319008411995b7ac23a13c9042fc5a2、max_candidate_runs=1的精确例外。候选校验、运行时报告和两个工作流端到端透传全部字段；GitHub在安装Android环境前验证政策并以完整Git历史证明修复Commit为候选祖先，attempt 5和任一字段漂移均硬拒绝。
+  regression_checks:
+  - config/android-automation.yaml的max_ai_attempts必须严格等于3且唯一例外max_candidate_runs必须等于1
+  - tests.test_android_candidate_request必须覆盖精确例外PASS及Release、request、CR、Commit、attempt任一漂移FAIL
+  - tests.test_android_ci_gate必须证明运行报告同时记录max_ai_attempts=3与effective_attempt_limit=4
+  - android-candidate-request工作流必须fetch-depth=0并执行git merge-base --is-ancestor验证required_fix_commit
+  - android-quality-gate必须在setup-java、setup-android和模拟器之前执行attempt-check
+  do_not_repeat:
+  - 不得为单版例外永久提高全局三轮上限
+  - 不得把真实第四次候选伪写成attempt 1或复用旧request_id
+  - 不得仅在模拟器运行后才检查例外字段或根因修复Commit
+  - 不得允许错误Release、request、CR、Commit、attempt 5或无批准例外的attempt 4

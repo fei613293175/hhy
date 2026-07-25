@@ -1,7 +1,7 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-25T23:02:13Z
-- Context Hash：`33ad8158488a0b573fb26ed51ff6a912bd43ea02f86ab7a3b55eb61affc3e6b4`
+- 生成时间：2026-07-25T23:26:06Z
+- Context Hash：`51d0468b0a638b733ccae3bcf92a9b6697f94384a08cd142e211387bf9e5c310`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 规则就绪：`PASS`（`HASHED_CONTEXT_MANIFEST`）
@@ -164,7 +164,7 @@ blocked_tasks:
 - TASK-R06-008
 - TASK-R07-008
 next_task: TASK-R12-007
-updated_at: '2026-07-25T23:01:48Z'
+updated_at: '2026-07-25T23:26:03Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -199,15 +199,15 @@ continuity:
   active_session_id: SES-20260725T192048Z-668BD05D
   actor_id: codex-root-r12-candidate-20260726
   story_id: STORY-R12-008
-  lease_expires_at: '2026-07-26T03:01:48Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260725T192048Z-668BD05D/0010.yaml
-  project_fingerprint: 50bab2ec94cf3f219d9bf9545a4fe399308858df6f180d62585c4bfbb775f255
+  lease_expires_at: '2026-07-26T03:26:03Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260725T192048Z-668BD05D/0012.yaml
+  project_fingerprint: a2684e82106bb64a84dd76671c47d55e84eb40042e879edcea0243218d902c04
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: fb89d07d74a1949713ad959c69484e6e35d36d40012f190ea04fe67bb3d3955b
-    generated_at: '2026-07-25T22:52:07Z'
+    context_hash: 901240af582e77367d63e5a3defc814460f88081aabe483997dfce5398988888
+    generated_at: '2026-07-25T23:24:17Z'
   handoff_bundle: null
 ```
 
@@ -405,7 +405,7 @@ task_id: TASK-R12-007
 story_id: STORY-R12-008
 goal: 完成R12最终Android候选、真实模拟器截图AI验收、固定签名测试APK与桌面交付
 started_at: '2026-07-25T19:20:48Z'
-updated_at: '2026-07-25T23:01:54Z'
+updated_at: '2026-07-25T23:26:03Z'
 takeover_of: null
 change_requests:
 - CR-0339
@@ -413,6 +413,7 @@ change_requests:
 - CR-0341
 - CR-0342
 - CR-0343
+- CR-0344
 scope:
   allowed_paths:
   - apps/**
@@ -450,7 +451,19 @@ scope:
   - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/web/GlobalExceptionHandler.java
   - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/web/GlobalExceptionHandlerTest.java
   - docs/03-continuity/PROBLEM_REGISTRY.yaml
-  source: story+explicit+approved-cr:CR-0340
+  - config/android-automation.yaml
+  - config/android-candidate-request.yaml
+  - scripts/android_candidate_request.py
+  - scripts/android_ci_gate.py
+  - scripts/run_android_emulator_gate.sh
+  - .github/workflows/android-candidate-request.yml
+  - .github/workflows/android-quality-gate.yml
+  - tests/test_android_candidate_request.py
+  - tests/test_android_ci_gate.py
+  - tests/test_r12_candidate.py
+  - docs/08-testing/Android自动开发测试修复交付体系_V1.0.md
+  - CHANGELOG.md
+  source: story+explicit+approved-cr:CR-0340+approved-cr:CR-0344
 git:
   initialized: true
   branch: task/TASK-R03-001
@@ -460,89 +473,102 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-25T23:01:48Z'
-  expires_at: '2026-07-26T03:01:48Z'
-checkpoint_sequence: 10
-latest_checkpoint: .continuity/checkpoints/SES-20260725T192048Z-668BD05D/0010.yaml
+  renewed_at: '2026-07-25T23:26:03Z'
+  expires_at: '2026-07-26T03:26:03Z'
+checkpoint_sequence: 12
+latest_checkpoint: .continuity/checkpoints/SES-20260725T192048Z-668BD05D/0012.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260725T192048Z-668BD05D.md
-next_step: 执行提交前连续性与受影响快速门禁，提交并推送R12审核记录根因修复；随后建立独立批准策略允许一次修复后候选
+next_step: 重新暂存最终检查点与Doctor报告，运行pre-commit后提交；普通CI完成后只推送一次R12 attempt 4候选请求
 context_pack: THIS_CONTEXT_PACK
 handoff_bundle: null
 closure: null
 parallel_execution:
-  assessment: NO_SAFE_PARALLEL
-  delegated_workers: 0
-  workers: []
-  reason: 同一审核页状态、UI、测试与依赖已经作为单模块原子补丁完成；两次独立只读复核已覆盖方案与依赖边界
+  assessment: DELEGATED
+  delegated_workers: 1
+  workers:
+  - worker_id: codex-avicenna-r12-contract-review-20260726
+    responsibility: 独立审核CR-0344的精确例外边界
+    allowed_paths:
+    - config/android-automation.yaml
+    - scripts/android_candidate_request.py
+    - scripts/android_ci_gate.py
+  reason: 独立合同复核已经完成，主控完成实现、测试与最终集成
 ```
 
 ## 最新检查点
 
 ```yaml
 protocol_version: '1.0'
-checkpoint_id: CP-SES-20260725T192048Z-668BD05D-0010
+checkpoint_id: CP-SES-20260725T192048Z-668BD05D-0012
 session_id: SES-20260725T192048Z-668BD05D
 task_id: TASK-R12-007
 story_id: STORY-R12-008
-sequence: 10
-created_at: '2026-07-25T23:01:48Z'
-summary: 完成PROB-0115根因修复：SCR-MYC-004当前内容摘要与真实审核时间线分离，review.id稳定去重/key，空人工历史展示真实待审状态；CR-0342/0343均IMPLEMENTED
-next_step: 执行提交前连续性与受影响快速门禁，提交并推送R12审核记录根因修复；随后建立独立批准策略允许一次修复后候选
+sequence: 12
+created_at: '2026-07-25T23:26:02Z'
+summary: CR-0344实现与提交级验证全部完成，严格Project Doctor刷新受控报告并PASS
+next_step: 重新暂存最终检查点与Doctor报告，运行pre-commit后提交；普通CI完成后只推送一次R12 attempt 4候选请求
 blockers: []
 decisions: []
 note: ''
 tests:
-- name: R12_REVIEW_ANDROID_MODULE
+- name: ANDROID_CANDIDATE_EXCEPTION_TESTS
   result: PASS
-  evidence: obx-test:/tmp/hhy-r12-review-module-9428c7f-v2/gradle-review-v4.log sha256=0c21a029a5fd928c1bfc08c6736300f61b54ec64da389b93077daa5300c5d43c
-  note: 197 tasks; content-management unit+lint and app compile
-- name: ANDROID_UI_FOUNDATION
+  evidence: 35 unittest cases
+  note: exact attempt exception and workflow regressions
+- name: CONTINUITY_PRE_COMMIT
   result: PASS
-  evidence: scripts/check_android_ui_foundation.py
-  note: 全局Android基础门禁
-- name: R12_UI_VISUAL_CATALOG
+  evidence: scripts/continuity_gate.py --mode pre-commit --strict
+  note: 0 errors 0 warnings
+- name: PROJECT_DOCTOR
   result: PASS
-  evidence: scripts/check_ui_visual_acceptance.py --release R12 --catalog-only
-  note: 11 pages bound
-- name: GIT_DIFF_CHECK
+  evidence: scripts/check_v123_continuity.py --strict
+  note: 0 gaps, 0 unassigned APIs, 42 continuity rules
+- name: ANDROID_AUTOMATION_POLICY
   result: PASS
-  evidence: git diff --check
-  note: 无空白错误
+  evidence: scripts/android_ci_gate.py policy-check
+  note: max_ai_attempts=3
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: 9428c7f5dbc2a901ae656beecb52e3dfcb204fab
+  head: daae207af319008411995b7ac23a13c9042fc5a2
   upstream: origin/task/TASK-R03-001
   ahead: 0
   behind: 0
   dirty: true
   status_porcelain:
-  - ' M .continuity/ACTIVE_SESSION.yaml'
-  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
-  - ' M .continuity/EVENT_LOG.jsonl'
-  - ' M .continuity/SESSION_INDEX.yaml'
-  - ' M .continuity/STATE.yaml'
-  - ' M .continuity/sessions/SES-20260725T192048Z-668BD05D.yaml'
-  - ' M CHANGELOG.md'
-  - ' M CURRENT_STATUS.yaml'
-  - ' M apps/android/feature/content-management/build.gradle.kts'
-  - ' M apps/android/feature/content-management/src/main/java/cc/orbexa/hhy/contentmanagement/R12ContentManagementListScreens.kt'
-  - ' M apps/android/feature/content-management/src/main/java/cc/orbexa/hhy/contentmanagement/R12ContentManagementListState.kt'
-  - ' M apps/android/feature/content-management/src/test/java/cc/orbexa/hhy/contentmanagement/R12ContentManagementListStateTest.kt'
-  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
-  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
-  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
-  - ' M catalogs/change_request_index.csv'
-  - ' M catalogs/session_index.csv'
-  - ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
-  - ' M docs/03-continuity/sessions/2026-07/SES-20260725T192048Z-668BD05D.md'
-  - ?? .continuity/change_requests/CR-0342.yaml
-  - ?? .continuity/change_requests/CR-0343.yaml
-  - ?? .continuity/checkpoints/SES-20260725T192048Z-668BD05D/0008.yaml
-  - ?? .continuity/checkpoints/SES-20260725T192048Z-668BD05D/0009.yaml
-  - ?? docs/03-continuity/change-requests/CR-0342-修复R12审核记录当前内容摘要与真实时间线缺失.md
-  - ?? docs/03-continuity/change-requests/CR-0343-补齐R12内容管理审核身份解析的直接JSON依赖.md
+  - M  .continuity/ACTIVE_SESSION.yaml
+  - M  .continuity/CHANGE_REQUEST_INDEX.yaml
+  - M  .continuity/EVENT_LOG.jsonl
+  - M  .continuity/SESSION_INDEX.yaml
+  - M  .continuity/STATE.yaml
+  - A  .continuity/change_requests/CR-0344.yaml
+  - A  .continuity/checkpoints/SES-20260725T192048Z-668BD05D/0011.yaml
+  - M  .continuity/sessions/SES-20260725T192048Z-668BD05D.yaml
+  - M  .github/workflows/android-candidate-request.yml
+  - M  .github/workflows/android-quality-gate.yml
+  - M  CHANGELOG.md
+  - M  CURRENT_STATUS.yaml
+  - M  artifacts/context/CURRENT_CONTEXT_PACK.md
+  - M  artifacts/context/CURRENT_CONTEXT_PACK.yaml
+  - M  artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+  - ' M artifacts/validation/project-doctor-v1.2.3.json'
+  - M  catalogs/change_request_index.csv
+  - M  catalogs/session_index.csv
+  - M  config/android-automation.yaml
+  - M  config/android-candidate-request.yaml
+  - M  docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - A  docs/03-continuity/change-requests/CR-0344-允许R12修复提交执行一次精确绑定的第四次Android候选.md
+  - M  docs/03-continuity/sessions/2026-07/SES-20260725T192048Z-668BD05D.md
+  - M  docs/08-testing/Android自动开发测试修复交付体系_V1.0.md
+  - M  scripts/android_candidate_request.py
+  - M  scripts/android_ci_gate.py
+  - M  scripts/run_android_emulator_gate.sh
+  - M  tests/test_android_candidate_request.py
+  - M  tests/test_android_ci_gate.py
+  - M  tests/test_r12_candidate.py
   recent_commits:
+  - "daae207af319008411995b7ac23a13c9042fc5a2\t2026-07-26T07:04:47+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] fix(r12): restore review context\
+    \ and timeline"
   - "9428c7f5dbc2a901ae656beecb52e3dfcb204fab\t2026-07-26T05:53:15+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] test(r12): request Android\
     \ candidate attempt 3"
   - "a16a75e6f3e03e08893c0398b4af2596550cbeaf\t2026-07-26T05:45:59+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] fix(r12): seed candidate startup\
@@ -557,11 +583,11 @@ git:
     \ as completed"
   - "17d6ee9acce9b46df63399a5bf3d4a944c8976b6\t2026-07-26T03:15:52+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] chore(r12): close staging\
     \ acceptance changes"
-  - "6abb78314402cfd5811480742341d487a6139cdb\t2026-07-26T03:09:49+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] docs(r12): freeze staging\
-    \ acceptance evidence"
 project_fingerprint:
-  sha256: 50bab2ec94cf3f219d9bf9545a4fe399308858df6f180d62585c4bfbb775f255
+  sha256: a2684e82106bb64a84dd76671c47d55e84eb40042e879edcea0243218d902c04
   files:
+  - .github/workflows/android-candidate-request.yml
+  - .github/workflows/android-quality-gate.yml
   - CHANGELOG.md
   - apps/android/app/build.gradle.kts
   - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
@@ -571,6 +597,7 @@ project_fingerprint:
   - apps/android/feature/content-management/src/main/java/cc/orbexa/hhy/contentmanagement/R12ContentManagementListScreens.kt
   - apps/android/feature/content-management/src/main/java/cc/orbexa/hhy/contentmanagement/R12ContentManagementListState.kt
   - apps/android/feature/content-management/src/test/java/cc/orbexa/hhy/contentmanagement/R12ContentManagementListStateTest.kt
+  - config/android-automation.yaml
   - config/android-candidate-request.yaml
   - docs/03-continuity/PROBLEM_REGISTRY.yaml
   - docs/03-continuity/change-requests/CR-0339-补齐R12统一发布Android最终候选与产物追溯.md
@@ -578,20 +605,34 @@ project_fingerprint:
   - docs/03-continuity/change-requests/CR-0341-补齐R12隔离候选official-STAGING版本发布夹具.md
   - docs/03-continuity/change-requests/CR-0342-修复R12审核记录当前内容摘要与真实时间线缺失.md
   - docs/03-continuity/change-requests/CR-0343-补齐R12内容管理审核身份解析的直接JSON依赖.md
+  - docs/03-continuity/change-requests/CR-0344-允许R12修复提交执行一次精确绑定的第四次Android候选.md
+  - docs/08-testing/Android自动开发测试修复交付体系_V1.0.md
+  - scripts/android_candidate_request.py
+  - scripts/android_ci_gate.py
   - scripts/prepare_r12_ci_fixture.sh
+  - scripts/run_android_emulator_gate.sh
   - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/web/GlobalExceptionHandler.java
   - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/web/GlobalExceptionHandlerTest.java
   - tests/android/visual-manifests/R12.yaml
+  - tests/test_android_candidate_request.py
   - tests/test_android_ci_gate.py
   - tests/test_r12_candidate.py
-  file_count: 22
+  file_count: 31
   payload:
     base_commit: 8b20e881c6a72fc1e1deb11e86f3212e36ea7941
     files:
+    - path: .github/workflows/android-candidate-request.yml
+      state: FILE
+      size: 2644
+      sha256: a97de688be10965fb7a9a13d8bf75f2b8e70090ee253eb77f26fa0530ab77625
+    - path: .github/workflows/android-quality-gate.yml
+      state: FILE
+      size: 14485
+      sha256: 549bd4d58d0508ece290e30892993bc89e3984a46fd6e259338620b3b654faea
     - path: CHANGELOG.md
       state: FILE
-      size: 146550
-      sha256: adec8b1a6e4f9252113493bd984c5fea7fa7883b9a0a2ad585502398facaf553
+      size: 147370
+      sha256: 492cd0080d94d315e2ab9479872db85e21b633d641dfee4a93a589245fc87689
     - path: apps/android/app/build.gradle.kts
       state: FILE
       size: 5357
@@ -624,14 +665,18 @@ project_fingerprint:
       state: FILE
       size: 8228
       sha256: fd1b0d04c45d13a91f733dc42e1c64dc542cd4b63fd975c5fb94d15ca3bbe82f
+    - path: config/android-automation.yaml
+      state: FILE
+      size: 6170
+      sha256: 7c8f3a3556aaf4e76de4d71e41aef3ad9c03e8498b82d5e46bbaee4bae4fbce9
     - path: config/android-candidate-request.yaml
       state: FILE
-      size: 476
-      sha256: ffde9757041650ed5f6b070ebc16756cbb054fc341f44bdc4071738860f012ac
+      size: 590
+      sha256: efe8c236c26352dbb5c096187db279db51f9404cb7d107c2b1b26239f7138334
     - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
       state: FILE
-      size: 165143
-      sha256: b289f8895babeb2f377f55c81e03044de813919e4cea0865465bddef8a828b4d
+      size: 167087
+      sha256: 2c2bdedd3fa83375f914b05fc8d5d81aa643a636036e48eda2b1a8ae592a6356
     - path: docs/03-continuity/change-requests/CR-0339-补齐R12统一发布Android最终候选与产物追溯.md
       state: FILE
       size: 4099
@@ -652,10 +697,30 @@ project_fingerprint:
       state: FILE
       size: 3175
       sha256: 03b623d7f2e63aaec50fcb3e87312f4413637c2299b60765651087309c317bd0
+    - path: docs/03-continuity/change-requests/CR-0344-允许R12修复提交执行一次精确绑定的第四次Android候选.md
+      state: FILE
+      size: 4700
+      sha256: 97ccef4ae91f005ebd0d114e5e4863c27599884b02f7ea00f434048b2717a593
+    - path: docs/08-testing/Android自动开发测试修复交付体系_V1.0.md
+      state: FILE
+      size: 9914
+      sha256: d54f8a8a361a4a6263121e25664ace0e8e36e6496021b69d0d5333f9765a6762
+    - path: scripts/android_candidate_request.py
+      state: FILE
+      size: 4691
+      sha256: 4ffd752c85299a3bc1dd14643089c9723e90345d488e68a7985beeb85513649a
+    - path: scripts/android_ci_gate.py
+      state: FILE
+      size: 30863
+      sha256: 6b817f41409de748d3737d6ff2aec0aae1d3c76cc41422896a55569f9efc21d9
     - path: scripts/prepare_r12_ci_fixture.sh
       state: FILE
       size: 26762
       sha256: e9453f57670533b0670d0363d9c58e14ec89855da21dbb3a2b0422b9e1f8cd46
+    - path: scripts/run_android_emulator_gate.sh
+      state: FILE
+      size: 2853
+      sha256: b982ca0944f865b6d5b576636d454ed59a2e19ff1da586d79267a9eee86670bc
     - path: services/backend/boot/src/main/java/cc/orbexa/hhy/boot/web/GlobalExceptionHandler.java
       state: FILE
       size: 4776
@@ -668,18 +733,27 @@ project_fingerprint:
       state: FILE
       size: 3460
       sha256: d47a214545dc973e7bca32257b647ea558e53c515e04218d07d01c9c2e76ac1b
+    - path: tests/test_android_candidate_request.py
+      state: FILE
+      size: 5019
+      sha256: 558ed937390e0b0c909728a3ee46ff423411f17bcfcc3b4db0c20a332635ca3a
     - path: tests/test_android_ci_gate.py
       state: FILE
-      size: 33146
-      sha256: 53110cadb86540e5d59c5b012b86dfd0dd6b706bba7b61c219964878e271396b
+      size: 38630
+      sha256: ea61b3787578e02c54ec4d1e8424e1c4b68fcb2c606f151149061e51635913e8
     - path: tests/test_r12_candidate.py
       state: FILE
-      size: 8654
-      sha256: 6a8d773301521923498f2d251684ec9adc8ad9211647aaaa14426c66c1966d4d
+      size: 8859
+      sha256: ecb048bee9a5b2bd4c0b22ec47cbd4d5803f9224e74eecfa0ae74647fd27b648
 change_classification:
+  infrastructure:
+  - .github/workflows/android-candidate-request.yml
+  - .github/workflows/android-quality-gate.yml
   other:
   - CHANGELOG.md
+  - config/android-automation.yaml
   - config/android-candidate-request.yaml
+  - docs/08-testing/Android自动开发测试修复交付体系_V1.0.md
   code:
   - apps/android/app/build.gradle.kts
   - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
@@ -689,7 +763,10 @@ change_classification:
   - apps/android/feature/content-management/src/main/java/cc/orbexa/hhy/contentmanagement/R12ContentManagementListScreens.kt
   - apps/android/feature/content-management/src/main/java/cc/orbexa/hhy/contentmanagement/R12ContentManagementListState.kt
   - apps/android/feature/content-management/src/test/java/cc/orbexa/hhy/contentmanagement/R12ContentManagementListStateTest.kt
+  - scripts/android_candidate_request.py
+  - scripts/android_ci_gate.py
   - scripts/prepare_r12_ci_fixture.sh
+  - scripts/run_android_emulator_gate.sh
   - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/web/GlobalExceptionHandler.java
   - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/web/GlobalExceptionHandlerTest.java
   user_visible:
@@ -708,8 +785,10 @@ change_classification:
   - docs/03-continuity/change-requests/CR-0341-补齐R12隔离候选official-STAGING版本发布夹具.md
   - docs/03-continuity/change-requests/CR-0342-修复R12审核记录当前内容摘要与真实时间线缺失.md
   - docs/03-continuity/change-requests/CR-0343-补齐R12内容管理审核身份解析的直接JSON依赖.md
+  - docs/03-continuity/change-requests/CR-0344-允许R12修复提交执行一次精确绑定的第四次Android候选.md
   tests:
   - tests/android/visual-manifests/R12.yaml
+  - tests/test_android_candidate_request.py
   - tests/test_android_ci_gate.py
   - tests/test_r12_candidate.py
 required_records:
@@ -725,6 +804,7 @@ change_requests:
 - CR-0341
 - CR-0342
 - CR-0343
+- CR-0344
 scope:
   allowed_paths:
   - apps/**
@@ -762,13 +842,31 @@ scope:
   - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/web/GlobalExceptionHandler.java
   - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/web/GlobalExceptionHandlerTest.java
   - docs/03-continuity/PROBLEM_REGISTRY.yaml
-  source: story+explicit+approved-cr:CR-0340
+  - config/android-automation.yaml
+  - config/android-candidate-request.yaml
+  - scripts/android_candidate_request.py
+  - scripts/android_ci_gate.py
+  - scripts/run_android_emulator_gate.sh
+  - .github/workflows/android-candidate-request.yml
+  - .github/workflows/android-quality-gate.yml
+  - tests/test_android_candidate_request.py
+  - tests/test_android_ci_gate.py
+  - tests/test_r12_candidate.py
+  - docs/08-testing/Android自动开发测试修复交付体系_V1.0.md
+  - CHANGELOG.md
+  source: story+explicit+approved-cr:CR-0340+approved-cr:CR-0344
 parallel_execution:
-  assessment: NO_SAFE_PARALLEL
-  delegated_workers: 0
-  workers: []
-  reason: 同一审核页状态、UI、测试与依赖已经作为单模块原子补丁完成；两次独立只读复核已覆盖方案与依赖边界
-event_hash: eb19bdd23ab72563d0634128ef435ffdd238e96f534c611a7bb95d99b8b93c0c
+  assessment: DELEGATED
+  delegated_workers: 1
+  workers:
+  - worker_id: codex-avicenna-r12-contract-review-20260726
+    responsibility: 独立审核CR-0344的精确例外边界
+    allowed_paths:
+    - config/android-automation.yaml
+    - scripts/android_candidate_request.py
+    - scripts/android_ci_gate.py
+  reason: 独立合同复核已经完成，主控完成实现、测试与最终集成
+event_hash: 35a4841ffe7633bd478c565bef9d379bd57e5be3cd99df239da1516c804a0e74
 ```
 
 ## 接续状态与事件头
@@ -780,8 +878,8 @@ active_session_id: SES-20260725T192048Z-668BD05D
 last_session_id: SES-20260725T180922Z-D7231210
 last_session_result: COMPLETED
 last_closure_checkpoint_id: CP-SES-20260725T180922Z-D7231210-0008
-event_count: 3359
-event_head_hash: eb19bdd23ab72563d0634128ef435ffdd238e96f534c611a7bb95d99b8b93c0c
+event_count: 3367
+event_head_hash: 35a4841ffe7633bd478c565bef9d379bd57e5be3cd99df239da1516c804a0e74
 event_chain_valid: true
 ```
 
@@ -904,9 +1002,9 @@ recent_sessions: - session_id: SES-20260724T032308Z-98D6D10A
   started_at: '2026-07-25T19:20:48Z'
   record: .continuity/sessions/SES-20260725T192048Z-668BD05D.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260725T192048Z-668BD05D.md
-  updated_at: '2026-07-25T23:01:48Z'
+  updated_at: '2026-07-25T23:26:03Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260725T192048Z-668BD05D/0010.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260725T192048Z-668BD05D/0012.yaml
   handoff_bundle: null
 task_claims: - claim_id: CLM-9F0481F9E6A2
   session_id: SES-20260723T114316Z-44EBE3C1
@@ -1900,39 +1998,46 @@ recent_task_transitions: - transition_id: TRN-7D4AC37706EB
 ```yaml
 initialized: true
 branch: task/TASK-R03-001
-head: 9428c7f5dbc2a901ae656beecb52e3dfcb204fab
+head: daae207af319008411995b7ac23a13c9042fc5a2
 upstream: origin/task/TASK-R03-001
 ahead: 0
 behind: 0
 dirty: true
 status_porcelain:
-- ' M .continuity/ACTIVE_SESSION.yaml'
-- ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
-- ' M .continuity/EVENT_LOG.jsonl'
-- ' M .continuity/SESSION_INDEX.yaml'
-- ' M .continuity/STATE.yaml'
-- ' M .continuity/sessions/SES-20260725T192048Z-668BD05D.yaml'
-- ' M CHANGELOG.md'
-- ' M CURRENT_STATUS.yaml'
-- ' M apps/android/feature/content-management/build.gradle.kts'
-- ' M apps/android/feature/content-management/src/main/java/cc/orbexa/hhy/contentmanagement/R12ContentManagementListScreens.kt'
-- ' M apps/android/feature/content-management/src/main/java/cc/orbexa/hhy/contentmanagement/R12ContentManagementListState.kt'
-- ' M apps/android/feature/content-management/src/test/java/cc/orbexa/hhy/contentmanagement/R12ContentManagementListStateTest.kt'
-- ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
-- ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
-- ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
-- ' M catalogs/change_request_index.csv'
-- ' M catalogs/session_index.csv'
-- ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
-- ' M docs/03-continuity/sessions/2026-07/SES-20260725T192048Z-668BD05D.md'
-- ?? .continuity/change_requests/CR-0342.yaml
-- ?? .continuity/change_requests/CR-0343.yaml
-- ?? .continuity/checkpoints/SES-20260725T192048Z-668BD05D/0008.yaml
-- ?? .continuity/checkpoints/SES-20260725T192048Z-668BD05D/0009.yaml
-- ?? .continuity/checkpoints/SES-20260725T192048Z-668BD05D/0010.yaml
-- ?? docs/03-continuity/change-requests/CR-0342-修复R12审核记录当前内容摘要与真实时间线缺失.md
-- ?? docs/03-continuity/change-requests/CR-0343-补齐R12内容管理审核身份解析的直接JSON依赖.md
+- MM .continuity/ACTIVE_SESSION.yaml
+- M  .continuity/CHANGE_REQUEST_INDEX.yaml
+- MM .continuity/EVENT_LOG.jsonl
+- MM .continuity/SESSION_INDEX.yaml
+- MM .continuity/STATE.yaml
+- A  .continuity/change_requests/CR-0344.yaml
+- A  .continuity/checkpoints/SES-20260725T192048Z-668BD05D/0011.yaml
+- MM .continuity/sessions/SES-20260725T192048Z-668BD05D.yaml
+- M  .github/workflows/android-candidate-request.yml
+- M  .github/workflows/android-quality-gate.yml
+- M  CHANGELOG.md
+- MM CURRENT_STATUS.yaml
+- M  artifacts/context/CURRENT_CONTEXT_PACK.md
+- M  artifacts/context/CURRENT_CONTEXT_PACK.yaml
+- M  artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+- ' M artifacts/validation/project-doctor-v1.2.3.json'
+- M  catalogs/change_request_index.csv
+- MM catalogs/session_index.csv
+- M  config/android-automation.yaml
+- M  config/android-candidate-request.yaml
+- M  docs/03-continuity/PROBLEM_REGISTRY.yaml
+- A  docs/03-continuity/change-requests/CR-0344-允许R12修复提交执行一次精确绑定的第四次Android候选.md
+- MM docs/03-continuity/sessions/2026-07/SES-20260725T192048Z-668BD05D.md
+- M  docs/08-testing/Android自动开发测试修复交付体系_V1.0.md
+- M  scripts/android_candidate_request.py
+- M  scripts/android_ci_gate.py
+- M  scripts/run_android_emulator_gate.sh
+- M  tests/test_android_candidate_request.py
+- M  tests/test_android_ci_gate.py
+- M  tests/test_r12_candidate.py
+- ?? .continuity/checkpoints/SES-20260725T192048Z-668BD05D/0012.yaml
 recent_commits:
+- "daae207af319008411995b7ac23a13c9042fc5a2\t2026-07-26T07:04:47+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] fix(r12): restore review context\
+  \ and timeline"
 - "9428c7f5dbc2a901ae656beecb52e3dfcb204fab\t2026-07-26T05:53:15+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] test(r12): request Android candidate\
   \ attempt 3"
 - "a16a75e6f3e03e08893c0398b4af2596550cbeaf\t2026-07-26T05:45:59+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] fix(r12): seed candidate startup\
@@ -1947,15 +2052,15 @@ recent_commits:
   \ as completed"
 - "17d6ee9acce9b46df63399a5bf3d4a944c8976b6\t2026-07-26T03:15:52+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] chore(r12): close staging acceptance\
   \ changes"
-- "6abb78314402cfd5811480742341d487a6139cdb\t2026-07-26T03:09:49+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] docs(r12): freeze staging acceptance\
-  \ evidence"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`50bab2ec94cf3f219d9bf9545a4fe399308858df6f180d62585c4bfbb775f255`
-- 文件数：22
+- 指纹：`a2684e82106bb64a84dd76671c47d55e84eb40042e879edcea0243218d902c04`
+- 文件数：31
 
+- `.github/workflows/android-candidate-request.yml`
+- `.github/workflows/android-quality-gate.yml`
 - `CHANGELOG.md`
 - `apps/android/app/build.gradle.kts`
 - `apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt`
@@ -1965,6 +2070,7 @@ recent_commits:
 - `apps/android/feature/content-management/src/main/java/cc/orbexa/hhy/contentmanagement/R12ContentManagementListScreens.kt`
 - `apps/android/feature/content-management/src/main/java/cc/orbexa/hhy/contentmanagement/R12ContentManagementListState.kt`
 - `apps/android/feature/content-management/src/test/java/cc/orbexa/hhy/contentmanagement/R12ContentManagementListStateTest.kt`
+- `config/android-automation.yaml`
 - `config/android-candidate-request.yaml`
 - `docs/03-continuity/PROBLEM_REGISTRY.yaml`
 - `docs/03-continuity/change-requests/CR-0339-补齐R12统一发布Android最终候选与产物追溯.md`
@@ -1972,10 +2078,16 @@ recent_commits:
 - `docs/03-continuity/change-requests/CR-0341-补齐R12隔离候选official-STAGING版本发布夹具.md`
 - `docs/03-continuity/change-requests/CR-0342-修复R12审核记录当前内容摘要与真实时间线缺失.md`
 - `docs/03-continuity/change-requests/CR-0343-补齐R12内容管理审核身份解析的直接JSON依赖.md`
+- `docs/03-continuity/change-requests/CR-0344-允许R12修复提交执行一次精确绑定的第四次Android候选.md`
+- `docs/08-testing/Android自动开发测试修复交付体系_V1.0.md`
+- `scripts/android_candidate_request.py`
+- `scripts/android_ci_gate.py`
 - `scripts/prepare_r12_ci_fixture.sh`
+- `scripts/run_android_emulator_gate.sh`
 - `services/backend/boot/src/main/java/cc/orbexa/hhy/boot/web/GlobalExceptionHandler.java`
 - `services/backend/boot/src/test/java/cc/orbexa/hhy/boot/web/GlobalExceptionHandlerTest.java`
 - `tests/android/visual-manifests/R12.yaml`
+- `tests/test_android_candidate_request.py`
 - `tests/test_android_ci_gate.py`
 - `tests/test_r12_candidate.py`
 
@@ -11486,29 +11598,96 @@ PARALLEL_EXECUTION_PLAN.yaml:
     session_id: SES-20260725T192048Z-668BD05D
   session_ids:
   - SES-20260725T192048Z-668BD05D
+- protocol_version: '1.0'
+  cr_id: CR-0344
+  title: 允许R12修复提交执行一次精确绑定的第四次Android候选
+  status: IMPLEMENTED
+  created_at: '2026-07-25T23:14:32Z'
+  updated_at: '2026-07-25T23:23:51Z'
+  requester_actor_id: codex-root-r12-candidate-20260726
+  approver_actor_id: codex-avicenna-r12-contract-review-20260726
+  task_id: TASK-R12-007
+  session_id: SES-20260725T192048Z-668BD05D
+  user_request: 项目所有者要求按仓库规则持续推进R01-R32，不得因真机反馈或界面状态停止；所有Android候选由AI完成自动门禁和截图审核后交付桌面。
+  reason: R12前三次候选分别暴露可观测性、隔离启动发布链和审核记录页面三个不同根因；daae207a已修复第三个根因并通过obx-test模块门禁，需要在不改变全局max_ai_attempts=3且不伪造轮次的前提下，为该修复提交授予一次精确受控的attempt 4候选。
+  original_rule: 全局Android自动修复上限固定为3，普通候选请求只允许remediation_attempt 1至3；现有校验对任何attempt 4一律拒绝，无法准确表达R12前三次候选为不同根因且第四次仅验证已修复提交的事实。
+  new_rule: 全局max_ai_attempts必须继续严格等于3，普通候选范围继续为1至3；仅允许政策中已审批例外以release=R12、attempt=4、request_id=R12-CANDIDATE-20260726-004、exception_id=CR-0344、required_fix_commit=daae207af319008411995b7ac23a13c9042fc5a2、max_candidate_runs=1全字段精确匹配时运行一次。任何字段不匹配、无例外、其他Release或attempt
+    5必须拒绝，运行报告必须同时保留全局3与本次有效上限4。
+  impact_summary: 为R12三个不同根因后的修复提交提供一次真实且可审计的第四次完整候选；不放宽后续版本或同一根因三轮上限，不新增attempt 5，不改变产品、API、数据库、生产权限、秘密或真机异步规则。
+  impact:
+    files:
+    - config/android-automation.yaml
+    - config/android-candidate-request.yaml
+    - scripts/android_candidate_request.py
+    - scripts/android_ci_gate.py
+    - scripts/run_android_emulator_gate.sh
+    - .github/workflows/android-candidate-request.yml
+    - .github/workflows/android-quality-gate.yml
+    - tests/test_android_candidate_request.py
+    - tests/test_android_ci_gate.py
+    - tests/test_r12_candidate.py
+    - docs/08-testing/Android自动开发测试修复交付体系_V1.0.md
+    - docs/03-continuity/PROBLEM_REGISTRY.yaml
+    - CHANGELOG.md
+    pages: []
+    apis: []
+    database: []
+    configuration:
+    - config/android-automation.yaml remediation.approved_attempt_exceptions
+    - config/android-candidate-request.yaml attempt_exception_id
+    ledger: []
+    tests:
+    - python -m unittest tests.test_android_candidate_request
+    - python -m unittest tests.test_android_ci_gate
+    - python -m unittest tests.test_r12_candidate
+    - python scripts/android_ci_gate.py policy-check
+    - FAST continuity and scope gates
+    releases:
+    - R12
+    migration_and_compatibility: 配置与工作流向后兼容：普通1至3候选行为不变；新增字段仅在批准例外时必填并端到端透传，例外消费后保留历史事实但不得再次请求。错误Release、request、CR、Commit或attempt均在启动模拟器前失败。
+  user_confirmation: 项目所有者已要求按仓库计划持续推进、自动完成候选截图审核并在交付后继续开发；无需等待逐版本真机反馈。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-25T23:15:34Z'
+    note: 独立合同复核确认R12前三轮为三个不同根因，第四次是daae207a修复后的首次完整候选验证。批准仅限六字段精确匹配且max_candidate_runs=1；全局三轮、普通1至3和attempt 5硬拒绝保持不变。
+  machine_record: .continuity/change_requests/CR-0344.yaml
+  document: docs/03-continuity/change-requests/CR-0344-允许R12修复提交执行一次精确绑定的第四次Android候选.md
+  decision_log:
+  - at: '2026-07-25T23:15:42Z'
+    actor_id: codex-root-r12-candidate-20260726
+    status: IMPLEMENTING
+    note: 已完成独立合同审批并应用精确影响范围，开始实现一次性attempt 4校验、工作流透传与回归。
+    session_id: SES-20260725T192048Z-668BD05D
+  - at: '2026-07-25T23:23:51Z'
+    actor_id: codex-root-r12-candidate-20260726
+    status: IMPLEMENTED
+    note: 一次性R12 attempt 4策略、候选请求校验、GitHub工作流前置祖先验证、运行时报告、文档、Problem Registry和35项回归均已实现；全局max_ai_attempts保持3，attempt 5及任一错误绑定均硬拒绝。
+    session_id: SES-20260725T192048Z-668BD05D
+  session_ids:
+  - SES-20260725T192048Z-668BD05D
 ```
 
 ## 上下文来源及哈希
 
 - `AGENTS.md` — `690f960020dcbd18080ec91b3c314335627b32e231b9f9b2e14566b0fbbaeb35`
 - `START_HERE.md` — `22de14029ce47beb41ea569e36ce223fbc9d11b86f8676f28d5fbbd83896af5c`
-- `CURRENT_STATUS.yaml` — `6af40f6780814f04c425f2de98a9a6feeb8bdd34217ce47dc040f996fca1a53e`
+- `CURRENT_STATUS.yaml` — `21d2a7201bfffbb515744cbd50831c09de8c6dc9659819972606bfff629cef55`
 - `NEXT_TASK.yaml` — `1f03675aa74266e5c95220a1296010172ca5527e763602ee4ef876d1001f9507`
 - `DEVELOPMENT_RISK_REGISTER.md` — `8304c91492e4ee2abea0522a06541c8688d39c7fc532b5d0cde499bf09fffb87`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
-- `docs/03-continuity/PROBLEM_REGISTRY.yaml` — `b289f8895babeb2f377f55c81e03044de813919e4cea0865465bddef8a828b4d`
+- `docs/03-continuity/PROBLEM_REGISTRY.yaml` — `2c2bdedd3fa83375f914b05fc8d5d81aa643a636036e48eda2b1a8ae592a6356`
 - `docs/03-continuity/REUSABLE_PATTERNS.md` — `fe65ac4157e0072a3e8fbe2fb815bf6badf3f81fa295f54b9663b66683f5d593`
 - `docs/03-continuity/PITFALLS.md` — `80ebb16c0f5a94a5f20a06df9a60b398e957c2e9d66720f199cad6deebc6dd45`
 - `releases/PROGRAM_EXECUTION_PLAN.yaml` — `93c0bd9fe83e2c447937c885f20d0de7a65d96c920d11b28309878bd5d533446`
 - `config/REPOSITORY_TRANSPORT.yaml` — `8c4a21f3e204d46e7ffb467d804a53ed26cda61cd088dadfddb50b69eea657fc`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `60943fcd9714cfae7274463554b5584fdb7a7aeee1ee547ff6dbc53fae6d4994`
-- `.continuity/EVENT_LOG.jsonl` — `e62f7a1676f5bafb1c93d88936814a30ee72c50fe08f39e2503a8c211f9ccc2d`
-- `.continuity/SESSION_INDEX.yaml` — `f89bfc2f66a5db6ca1b0fc45e49539a6d6cf0868a2b9f50191b1b6f29a073cff`
+- `.continuity/EVENT_LOG.jsonl` — `e47aa0c9738ba3b1d65f685d95e373cb411f62e4a3a1026d657668d946af3b74`
+- `.continuity/SESSION_INDEX.yaml` — `baf170448a3c35a7bd8e92949abbea52e0bafaf007002d51f9ba81a2bfed1ad6`
 - `.continuity/TASK_CLAIMS.yaml` — `5948f9d27d01996570044a191a32d7a1803736d6fe2c1c0d1a4a0e16d8716541`
 - `.continuity/TASK_TRANSITIONS.yaml` — `07c10f929db719a9014aa25face3c259d96dc1793f448f33dc3012b4d5babdc4`
-- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `72f2c133088629abdda591b9ce542f4f674bcda33b9c6d51b4cda5a4a55b72d9`
-- `.continuity/ACTIVE_SESSION.yaml` — `40f7a0be5f91f9cac1b28330928d95bbee42982d9e3256d3892d237322e80e0e`
+- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `ff0e2844355a8182a168ecf63776803cec968b28d7c612e196f9d0ea8b6284e0`
+- `.continuity/ACTIVE_SESSION.yaml` — `947107a7bb27bffa28db6656b8ed716410995eb6f8aa2964a8d7530f515b7d9b`
 - `docs/00-baseline/正式商业系统全局硬性开发边界.md` — `9753b32db136e59e95a0974a62362456d9d577fd1bb40058ec985c4b64413eea`
 - `docs/02-ui/UI参考图使用与开发约束_V1.2.2.md` — `d14367586aa2067b059df58798acd20ab982459cdb35ff27fc7922a3896e4933`
 - `docs/03-continuity/持续开发无状态接续强制门禁_V1.2.3.md` — `d0ed3ed68bdd93b06500eecdfb5baa3245e6ca8b685a486788abb6eee39b3d51`
@@ -11519,13 +11698,14 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `releases/R12/TASKS.yaml` — `1ca7b627e103e1f54f2eb87f7087d848465a3c351169d186172c9055c11da709`
 - `releases/R12/ACCEPTANCE_MATRIX.csv` — `0fa8c9e830600bb02b4b6b729bc6d400dcc14fa1a2e7e4c5fb3f83d46c01abca`
 - `releases/R12/PARALLEL_EXECUTION_PLAN.yaml` — `2ddbee414a51a868b63331992e2e04c5400846cf6012474aab406e067e532e98`
-- `docs/03-continuity/sessions/2026-07/SES-20260725T192048Z-668BD05D.md` — `08e9fca8b421dd274213b44984cbcf302a1997f2a1b762e76ec2bcb8560bafae`
-- `.continuity/checkpoints/SES-20260725T192048Z-668BD05D/0010.yaml` — `1e2fd10b0aeb3a5ecab3c288a7dde194b28769287f3a3f3b4667f8a98d476947`
+- `docs/03-continuity/sessions/2026-07/SES-20260725T192048Z-668BD05D.md` — `7e5cc6f04d344240a1c2bb0a8196acab6c57e654dea43e33b745cf425e3e5acf`
+- `.continuity/checkpoints/SES-20260725T192048Z-668BD05D/0012.yaml` — `63c6f26db9b3efc8f5d49627d18c56a53a7619588ec3edd350e918f62c05a48b`
 - `docs/03-continuity/change-requests/CR-0339-补齐R12统一发布Android最终候选与产物追溯.md` — `6d0cfb4e067edebc263badbf91bd560127467ff7ee4dd6c5f9cef82baee002d7`
 - `docs/03-continuity/change-requests/CR-0340-修复R12候选OIDC异常日志重复requestId遮蔽.md` — `e36ceb50b8f45a22fffdb20fc599d5972c184170c9619290706b6c40da8aad6f`
 - `docs/03-continuity/change-requests/CR-0341-补齐R12隔离候选official-STAGING版本发布夹具.md` — `0a222e781daea9cabe11b525f5f3522803f4c4122908afe94b81fea167b26c0d`
 - `docs/03-continuity/change-requests/CR-0342-修复R12审核记录当前内容摘要与真实时间线缺失.md` — `d6465ed9e89f5be88b134dab6237e9e659ab76ff50ebb97502a683992bc1c2ec`
 - `docs/03-continuity/change-requests/CR-0343-补齐R12内容管理审核身份解析的直接JSON依赖.md` — `03b623d7f2e63aaec50fcb3e87312f4413637c2299b60765651087309c317bd0`
+- `docs/03-continuity/change-requests/CR-0344-允许R12修复提交执行一次精确绑定的第四次Android候选.md` — `97ccef4ae91f005ebd0d114e5e4863c27599884b02f7ea00f434048b2717a593`
 
 ## 接手硬规则
 

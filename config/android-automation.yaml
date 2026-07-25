@@ -98,6 +98,13 @@ logs:
   - 暂时无法连接
 remediation:
   max_ai_attempts: 3
+  approved_attempt_exceptions:
+  - exception_id: CR-0344
+    release: R12
+    attempt: 4
+    request_id: R12-CANDIDATE-20260726-004
+    required_fix_commit: daae207af319008411995b7ac23a13c9042fc5a2
+    max_candidate_runs: 1
   failure_issue_title_prefix: '[Android CI]'
   required_status: REMEDIATION_REQUIRED
   retry_rule: 编译或测试确定性失败必须修改后重新提交；仅业务测试开始前且日志明确证明为GitHub、网络、镜像或Staging接口瞬态故障时，允许同一Commit只重跑失败作业及其依赖一次，禁止重跑已通过阶段或修改业务代码；同一瞬态再次出现必须停止重跑并检查Staging健康与基础设施
@@ -159,4 +166,4 @@ candidate_request:
   reusable_quality_gate: .github/workflows/android-quality-gate.yml
   allowed_releases: R06-R32
   remediation_attempt_range: 1-3
-  rule: 候选请求必须进入事实分支并通过同一权威质量门禁；视觉证据由AI按版本矩阵自主验收，桌面真机反馈异步进入后续修复队列且不阻断下一版本编码；不得用普通CI的中间APK替代候选产物
+  rule: 候选请求必须进入事实分支并通过同一权威质量门禁；普通请求仅允许1至3，只有approved_attempt_exceptions全字段精确匹配时才允许其登记的单次轮次，且不得改变全局max_ai_attempts=3；视觉证据由AI按版本矩阵自主验收，桌面真机反馈异步进入后续修复队列且不阻断下一版本编码；不得用普通CI的中间APK替代候选产物

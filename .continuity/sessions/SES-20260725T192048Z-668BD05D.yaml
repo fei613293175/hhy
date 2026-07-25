@@ -11,7 +11,7 @@ task_id: TASK-R12-007
 story_id: STORY-R12-008
 goal: 完成R12最终Android候选、真实模拟器截图AI验收、固定签名测试APK与桌面交付
 started_at: '2026-07-25T19:20:48Z'
-updated_at: '2026-07-25T23:02:15Z'
+updated_at: '2026-07-25T23:26:09Z'
 takeover_of: null
 change_requests:
 - CR-0339
@@ -19,6 +19,7 @@ change_requests:
 - CR-0341
 - CR-0342
 - CR-0343
+- CR-0344
 scope:
   allowed_paths:
   - apps/**
@@ -56,7 +57,19 @@ scope:
   - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/web/GlobalExceptionHandler.java
   - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/web/GlobalExceptionHandlerTest.java
   - docs/03-continuity/PROBLEM_REGISTRY.yaml
-  source: story+explicit+approved-cr:CR-0340
+  - config/android-automation.yaml
+  - config/android-candidate-request.yaml
+  - scripts/android_candidate_request.py
+  - scripts/android_ci_gate.py
+  - scripts/run_android_emulator_gate.sh
+  - .github/workflows/android-candidate-request.yml
+  - .github/workflows/android-quality-gate.yml
+  - tests/test_android_candidate_request.py
+  - tests/test_android_ci_gate.py
+  - tests/test_r12_candidate.py
+  - docs/08-testing/Android自动开发测试修复交付体系_V1.0.md
+  - CHANGELOG.md
+  source: story+explicit+approved-cr:CR-0340+approved-cr:CR-0344
 git:
   initialized: true
   branch: task/TASK-R03-001
@@ -66,22 +79,28 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-25T23:01:48Z'
-  expires_at: '2026-07-26T03:01:48Z'
-checkpoint_sequence: 10
-latest_checkpoint: .continuity/checkpoints/SES-20260725T192048Z-668BD05D/0010.yaml
+  renewed_at: '2026-07-25T23:26:03Z'
+  expires_at: '2026-07-26T03:26:03Z'
+checkpoint_sequence: 12
+latest_checkpoint: .continuity/checkpoints/SES-20260725T192048Z-668BD05D/0012.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260725T192048Z-668BD05D.md
-next_step: 执行提交前连续性与受影响快速门禁，提交并推送R12审核记录根因修复；随后建立独立批准策略允许一次修复后候选
+next_step: 重新暂存最终检查点与Doctor报告，运行pre-commit后提交；普通CI完成后只推送一次R12 attempt 4候选请求
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: 33ad8158488a0b573fb26ed51ff6a912bd43ea02f86ab7a3b55eb61affc3e6b4
-  generated_at: '2026-07-25T23:02:13Z'
+  context_hash: 51d0468b0a638b733ccae3bcf92a9b6697f94384a08cd142e211387bf9e5c310
+  generated_at: '2026-07-25T23:26:06Z'
 handoff_bundle: null
 closure: null
 parallel_execution:
-  assessment: NO_SAFE_PARALLEL
-  delegated_workers: 0
-  workers: []
-  reason: 同一审核页状态、UI、测试与依赖已经作为单模块原子补丁完成；两次独立只读复核已覆盖方案与依赖边界
+  assessment: DELEGATED
+  delegated_workers: 1
+  workers:
+  - worker_id: codex-avicenna-r12-contract-review-20260726
+    responsibility: 独立审核CR-0344的精确例外边界
+    allowed_paths:
+    - config/android-automation.yaml
+    - scripts/android_candidate_request.py
+    - scripts/android_ci_gate.py
+  reason: 独立合同复核已经完成，主控完成实现、测试与最终集成

@@ -10,6 +10,11 @@ import re
 
 import yaml
 
+if __package__:
+    from .android_ci_gate import DEFAULT_POLICY, GateError, load_policy, resolve_attempt_policy
+else:
+    from android_ci_gate import DEFAULT_POLICY, GateError, load_policy, resolve_attempt_policy
+
 
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_REQUEST = ROOT / "config/android-candidate-request.yaml"
@@ -21,7 +26,7 @@ class CandidateRequestError(ValueError):
     pass
 
 
-def load_request(path: Path) -> dict[str, object]:
+def load_request(path: Path, policy_path: Path = DEFAULT_POLICY) -> dict[str, object]:
     payload = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
     if not isinstance(payload, dict):
         raise CandidateRequestError("candidate request must be a YAML object")
@@ -40,11 +45,24 @@ def load_request(path: Path) -> dict[str, object]:
     else:
         raise CandidateRequestError("candidate must be a boolean")
     attempt = payload.get("remediation_attempt")
-    if not isinstance(attempt, int) or isinstance(attempt, bool) or not 1 <= attempt <= 3:
-        raise CandidateRequestError("remediation_attempt must be an integer from 1 through 3")
+    if not isinstance(attempt, int) or isinstance(attempt, bool):
+        raise CandidateRequestError("remediation_attempt must be an integer")
     request_id = str(payload.get("request_id") or "").strip()
     if not request_id or not re.fullmatch(r"[A-Z0-9][A-Z0-9._-]{5,79}", request_id):
         raise CandidateRequestError("request_id must be a stable 6-80 character identifier")
+    attempt_exception_id = str(payload.get("attempt_exception_id") or "").strip()
+    required_fix_commit = str(payload.get("required_fix_commit") or "").strip()
+    try:
+        attempt_policy = resolve_attempt_policy(
+            load_policy(policy_path),
+            release=release,
+            attempt=attempt,
+            request_id=request_id,
+            exception_id=attempt_exception_id,
+            required_fix_commit=required_fix_commit,
+        )
+    except GateError as exc:
+        raise CandidateRequestError(str(exc)) from exc
     return {
         "schema": "hhy.android-candidate-request/v1",
         "enabled": True,
@@ -52,6 +70,9 @@ def load_request(path: Path) -> dict[str, object]:
         "candidate": candidate,
         "remediation_attempt": attempt,
         "request_id": request_id,
+        "attempt_exception_id": attempt_policy["attempt_exception_id"],
+        "required_fix_commit": attempt_policy["required_fix_commit"],
+        "effective_attempt_limit": attempt_policy["effective_attempt_limit"],
         "reason": str(payload.get("reason") or "").strip(),
     }
 
@@ -63,6 +84,9 @@ def write_github_output(path: Path, payload: dict[str, object]) -> None:
         "candidate": str(payload["candidate"]).lower(),
         "remediation_attempt": payload["remediation_attempt"],
         "request_id": payload["request_id"],
+        "attempt_exception_id": payload["attempt_exception_id"] or "",
+        "required_fix_commit": payload["required_fix_commit"] or "",
+        "effective_attempt_limit": payload["effective_attempt_limit"],
     }
     with path.open("a", encoding="utf-8", newline="\n") as handle:
         for key, value in values.items():
@@ -72,10 +96,11 @@ def write_github_output(path: Path, payload: dict[str, object]) -> None:
 def main() -> int:
     parser = ArgumentParser()
     parser.add_argument("--request", default=str(DEFAULT_REQUEST))
+    parser.add_argument("--policy", default=str(DEFAULT_POLICY))
     parser.add_argument("--github-output")
     parser.add_argument("--json-output")
     args = parser.parse_args()
-    payload = load_request(Path(args.request))
+    payload = load_request(Path(args.request), Path(args.policy))
     if args.github_output:
         write_github_output(Path(args.github_output), payload)
     if args.json_output:
