@@ -1,7 +1,7 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-25T16:57:13Z
-- Context Hash：`6db82241430a0c52f962d7e8b659a2c2e166fdd9c79eba42d5bd605fd60687e5`
+- 生成时间：2026-07-25T17:04:08Z
+- Context Hash：`7a96f2e651c0422b0f7378cd4105907623f8aa09dc62737d86a1270620b38dcd`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 规则就绪：`PASS`（`HASHED_CONTEXT_MANIFEST`）
@@ -161,7 +161,7 @@ blocked_tasks:
 - TASK-R06-008
 - TASK-R07-008
 next_task: TASK-R12-004
-updated_at: '2026-07-25T16:57:10Z'
+updated_at: '2026-07-25T17:04:05Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -196,15 +196,15 @@ continuity:
   active_session_id: SES-20260725T053515Z-11D4084D
   actor_id: codex-root-r12-client-20260725
   story_id: STORY-R12-008
-  lease_expires_at: '2026-07-25T20:57:10Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260725T053515Z-11D4084D/0033.yaml
-  project_fingerprint: e5956c769c92c34c85e06f80969221aace3daca41d16bd09da79d0d88026c6c2
+  lease_expires_at: '2026-07-25T21:04:05Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260725T053515Z-11D4084D/0035.yaml
+  project_fingerprint: d114223e27635c90e9a2c847889e34c43eedbc9eaf144d03c58d389e467333a6
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: 4e63499d7b2021c3c3fe026f64e5fb3a0e3f08b5086eeb204ccece0e96c3dbb9
-    generated_at: '2026-07-25T16:56:51Z'
+    context_hash: 0325133833e3da8694fe81fa76a61a3878c8526c39a1def2659e7b16422e563f
+    generated_at: '2026-07-25T17:01:24Z'
   handoff_bundle: null
 ```
 
@@ -406,7 +406,7 @@ task_id: TASK-R12-004
 story_id: STORY-R12-008
 goal: 按冻结R12契约完成数据、配置、测试、观测、视觉验收、候选APK与版本交接收口。
 started_at: '2026-07-25T05:35:15Z'
-updated_at: '2026-07-25T16:57:10Z'
+updated_at: '2026-07-25T17:04:05Z'
 takeover_of: null
 change_requests:
 - CR-0319
@@ -422,6 +422,7 @@ change_requests:
 - CR-0329
 - CR-0330
 - CR-0331
+- CR-0332
 scope:
   allowed_paths:
   - apps/**
@@ -455,8 +456,11 @@ scope:
   - requirements-dev.txt
   - PROJECT_*.yaml
   - PROJECT_*.json
-  approved_exceptions: []
-  source: story-switch+explicit
+  approved_exceptions:
+  - releases/R12/RELEASE_MANIFEST.yaml
+  - docs/03-continuity/R12_TASK-004_CLIENT_GATE.md
+  - CHANGELOG.md
+  source: story-switch+explicit+approved-cr:CR-0332
 git:
   initialized: true
   branch: task/TASK-R03-001
@@ -466,12 +470,12 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-25T16:57:10Z'
-  expires_at: '2026-07-25T20:57:10Z'
-checkpoint_sequence: 33
-latest_checkpoint: .continuity/checkpoints/SES-20260725T053515Z-11D4084D/0033.yaml
+  renewed_at: '2026-07-25T17:04:05Z'
+  expires_at: '2026-07-25T21:04:05Z'
+checkpoint_sequence: 35
+latest_checkpoint: .continuity/checkpoints/SES-20260725T053515Z-11D4084D/0035.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260725T053515Z-11D4084D.md
-next_step: 逐项审计R12 TASKS、Release Manifest、验收矩阵和当前实现证据，确定剩余任务与最终候选门禁顺序。
+next_step: 提交并推送TASK-R12-004门禁与CR-0332，然后关闭CR-0319至CR-0332并完成任务切换。
 context_pack: THIS_CONTEXT_PACK
 handoff_bundle: null
 closure: null
@@ -479,7 +483,7 @@ parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 当前步骤只执行单一连续性Story切换和版本级事实审计，拆分会并发修改同一会话与验收事实源。
+  reason: CR、Manifest、报告与连续性检查点必须在同一提交中保持原子一致。
 story_history:
 - story_id: STORY-R12-001
   completed_at: '2026-07-25T07:44:07Z'
@@ -522,43 +526,53 @@ story_history:
 
 ```yaml
 protocol_version: '1.0'
-checkpoint_id: CP-SES-20260725T053515Z-11D4084D-0033
+checkpoint_id: CP-SES-20260725T053515Z-11D4084D-0035
 session_id: SES-20260725T053515Z-11D4084D
 task_id: TASK-R12-004
 story_id: STORY-R12-008
-sequence: 33
-created_at: '2026-07-25T16:57:10Z'
-summary: 原子切换至STORY-R12-008工程治理，开始R12版本级契约、数据、配置、测试、观测、视觉和交接收口。
-next_step: 逐项审计R12 TASKS、Release Manifest、验收矩阵和当前实现证据，确定剩余任务与最终候选门禁顺序。
+sequence: 35
+created_at: '2026-07-25T17:04:04Z'
+summary: CR-0332经不同Actor批准并实施，TASK-R12-004八个Story证据已合法投影到Release Manifest、客户端门禁报告和CHANGELOG。
+next_step: 提交并推送TASK-R12-004门禁与CR-0332，然后关闭CR-0319至CR-0332并完成任务切换。
 blockers: []
 decisions: []
-note: 遵循大版本最终候选才运行完整门禁、模拟器和APK交付；所有构建继续使用obx-test。
+note: 预提交门禁的CR_NOT_IN_CHANGESET已按协议修复。
 tests:
-- name: story-r12-007-commit
+- name: cr-0332-declared-gates
   result: PASS
-  evidence: git 3153ef9cafbcc06ffee8be92dac4f77435f43866 pushed to origin/task/TASK-R03-001
-  note: MODULE和静态门禁证据已绑定检查点0032
+  evidence: strict documentation, release artifacts, program plan, visual catalog and YAML parse
+  note: 纯证据投影，无业务和视觉状态扩张
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: 3153ef9cafbcc06ffee8be92dac4f77435f43866
+  head: 4a11d21d741c2f15f5e6b96f16f87bb0081fb588
   upstream: origin/task/TASK-R03-001
   ahead: 0
   behind: 0
   dirty: true
   status_porcelain:
-  - ' M .continuity/ACTIVE_SESSION.yaml'
-  - ' M .continuity/EVENT_LOG.jsonl'
-  - ' M .continuity/SESSION_INDEX.yaml'
-  - ' M .continuity/STATE.yaml'
-  - ' M .continuity/TASK_CLAIMS.yaml'
-  - ' M .continuity/sessions/SES-20260725T053515Z-11D4084D.yaml'
-  - ' M CURRENT_STATUS.yaml'
-  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
-  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
-  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
-  - ' M catalogs/session_index.csv'
+  - M  .continuity/ACTIVE_SESSION.yaml
+  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
+  - MM .continuity/EVENT_LOG.jsonl
+  - M  .continuity/SESSION_INDEX.yaml
+  - MM .continuity/STATE.yaml
+  - A  .continuity/checkpoints/SES-20260725T053515Z-11D4084D/0034.yaml
+  - MM .continuity/sessions/SES-20260725T053515Z-11D4084D.yaml
+  - M  CHANGELOG.md
+  - M  CURRENT_STATUS.yaml
+  - M  artifacts/context/CURRENT_CONTEXT_PACK.md
+  - M  artifacts/context/CURRENT_CONTEXT_PACK.yaml
+  - M  artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+  - ' M catalogs/change_request_index.csv'
+  - MM catalogs/session_index.csv
+  - A  docs/03-continuity/R12_TASK-004_CLIENT_GATE.md
+  - M  docs/03-continuity/sessions/2026-07/SES-20260725T053515Z-11D4084D.md
+  - M  releases/R12/RELEASE_MANIFEST.yaml
+  - ?? .continuity/change_requests/CR-0332.yaml
+  - ?? docs/03-continuity/change-requests/CR-0332-投影TASK-R12-004八个Story实现证据到Release-Manifest.md
   recent_commits:
+  - "4a11d21d741c2f15f5e6b96f16f87bb0081fb588\t2026-07-26T00:57:51+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] chore(continuity): enter release\
+    \ closure"
   - "3153ef9cafbcc06ffee8be92dac4f77435f43866\t2026-07-26T00:54:52+08:00\tHHY Continuity Bootstrap\t[STORY-R12-007] feat(android): implement me\
     \ home"
   - "1f9fd299e34657f878463f331838a80608cf3da4\t2026-07-25T23:29:26+08:00\tHHY Continuity Bootstrap\t[STORY-R12-007] chore(continuity): approve\
@@ -573,10 +587,8 @@ git:
     \ result evidence"
   - "8900e572a35828acd5c697ac40d09a8a850ab1af\t2026-07-25T19:40:31+08:00\tHHY Continuity Bootstrap\t[STORY-R12-005] test(android): align submit\
     \ version assertion"
-  - "c40b80358b2d2f067df2f2f4bd0965988ea6ea92\t2026-07-25T19:28:11+08:00\tHHY Continuity Bootstrap\t[STORY-R12-005] feat(android): implement submit\
-    \ result flow"
 project_fingerprint:
-  sha256: e5956c769c92c34c85e06f80969221aace3daca41d16bd09da79d0d88026c6c2
+  sha256: d114223e27635c90e9a2c847889e34c43eedbc9eaf144d03c58d389e467333a6
   files:
   - CHANGELOG.md
   - apps/admin-web/src/adminNavigation.test.ts
@@ -668,6 +680,7 @@ project_fingerprint:
   - docs/02-ui/page-specs/android/SCR-PUBLISHER-001_发布者主页.md
   - docs/02-ui/page-specs/android/SCR-SET-001_设置.md
   - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/R12_TASK-004_CLIENT_GATE.md
   - docs/03-continuity/change-requests/CR-0319-统一R12审核工作台权限目录与默认排序合同.md
   - docs/03-continuity/change-requests/CR-0320-扩展CR-0319审核证据权限与真实工作台施工范围.md
   - docs/03-continuity/change-requests/CR-0321-投影R12逐页视觉合同到验收目录.md
@@ -681,6 +694,8 @@ project_fingerprint:
   - docs/03-continuity/change-requests/CR-0329-实现R12稳定幂等提交与SCR-PUB-007结果闭环.md
   - docs/03-continuity/change-requests/CR-0330-统一R12个人资料255字符合同并实现SCR-ME-002客户端闭环.md
   - docs/03-continuity/change-requests/CR-0331-实现SCR-ME-001真实资产聚合首页并修复底部栏目导航回归.md
+  - docs/03-continuity/change-requests/CR-0332-投影TASK-R12-004八个Story实现证据到Release-Manifest.md
+  - releases/R12/RELEASE_MANIFEST.yaml
   - releases/R12/STORIES.yaml
   - scripts/check_android_ui_foundation.py
   - scripts/check_db_schema.py
@@ -698,14 +713,14 @@ project_fingerprint:
   - services/backend/content/src/main/java/cc/orbexa/hhy/content/R12ReviewPostgresStore.java
   - services/backend/content/src/main/java/cc/orbexa/hhy/content/R12ReviewService.java
   - tests/test_android_ui_foundation.py
-  file_count: 120
+  file_count: 123
   payload:
     base_commit: 8b852b35e1e152adbc37feb6f0add7fc719f4770
     files:
     - path: CHANGELOG.md
       state: FILE
-      size: 138647
-      sha256: 4e8f323688e3eb0b2e07aab25438d6a251bd7469fc20e33b1aa16bd97cb3bc2d
+      size: 139427
+      sha256: 72947e1123a99d7383ff33b924d7b17864770855fbcb6925cdaaf61dd889f151
     - path: apps/admin-web/src/adminNavigation.test.ts
       state: FILE
       size: 1720
@@ -1062,6 +1077,10 @@ project_fingerprint:
       state: FILE
       size: 154856
       sha256: 761f9a6583d5d7b4dc84ef9f44d429b9186da54e361059ca2f411d57338b8079
+    - path: docs/03-continuity/R12_TASK-004_CLIENT_GATE.md
+      state: FILE
+      size: 3439
+      sha256: b1fdd21055fa96910d7edeb8c24fbeed121c745fb6051001f48b1aa3588255bb
     - path: docs/03-continuity/change-requests/CR-0319-统一R12审核工作台权限目录与默认排序合同.md
       state: FILE
       size: 3780
@@ -1114,6 +1133,14 @@ project_fingerprint:
       state: FILE
       size: 8869
       sha256: 4afed54b3b461c1cd01c21b1c1df6faf8f91051c7fc7bd597b563971bfcdd1a3
+    - path: docs/03-continuity/change-requests/CR-0332-投影TASK-R12-004八个Story实现证据到Release-Manifest.md
+      state: FILE
+      size: 3219
+      sha256: 3636fb3cc088723a5b60e6e85c39b21d8477739162e88d6155a7df5545044314
+    - path: releases/R12/RELEASE_MANIFEST.yaml
+      state: FILE
+      size: 7882
+      sha256: 2779773d5a6097ad22604a1faceb979ba3303521f9124a7f73c88c8fd0682978
     - path: releases/R12/STORIES.yaml
       state: FILE
       size: 23156
@@ -1363,6 +1390,7 @@ change_classification:
   - docs/02-ui/page-specs/android/SCR-PUB-001_发布入口.md
   - docs/02-ui/page-specs/android/SCR-PUBLISHER-001_发布者主页.md
   - docs/02-ui/page-specs/android/SCR-SET-001_设置.md
+  - releases/R12/RELEASE_MANIFEST.yaml
   - releases/R12/STORIES.yaml
   contracts:
   - contracts/admin-openapi.yaml
@@ -1376,6 +1404,7 @@ change_classification:
   - database/tests/r12_review_permission_alignment.sql
   continuity:
   - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/R12_TASK-004_CLIENT_GATE.md
   - docs/03-continuity/change-requests/CR-0319-统一R12审核工作台权限目录与默认排序合同.md
   - docs/03-continuity/change-requests/CR-0320-扩展CR-0319审核证据权限与真实工作台施工范围.md
   - docs/03-continuity/change-requests/CR-0321-投影R12逐页视觉合同到验收目录.md
@@ -1389,6 +1418,7 @@ change_classification:
   - docs/03-continuity/change-requests/CR-0329-实现R12稳定幂等提交与SCR-PUB-007结果闭环.md
   - docs/03-continuity/change-requests/CR-0330-统一R12个人资料255字符合同并实现SCR-ME-002客户端闭环.md
   - docs/03-continuity/change-requests/CR-0331-实现SCR-ME-001真实资产聚合首页并修复底部栏目导航回归.md
+  - docs/03-continuity/change-requests/CR-0332-投影TASK-R12-004八个Story实现证据到Release-Manifest.md
   tests:
   - tests/test_android_ui_foundation.py
 required_records:
@@ -1417,6 +1447,7 @@ change_requests:
 - CR-0329
 - CR-0330
 - CR-0331
+- CR-0332
 scope:
   allowed_paths:
   - apps/**
@@ -1450,14 +1481,17 @@ scope:
   - requirements-dev.txt
   - PROJECT_*.yaml
   - PROJECT_*.json
-  approved_exceptions: []
-  source: story-switch+explicit
+  approved_exceptions:
+  - releases/R12/RELEASE_MANIFEST.yaml
+  - docs/03-continuity/R12_TASK-004_CLIENT_GATE.md
+  - CHANGELOG.md
+  source: story-switch+explicit+approved-cr:CR-0332
 parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 当前步骤只执行单一连续性Story切换和版本级事实审计，拆分会并发修改同一会话与验收事实源。
-event_hash: d9fb62221120b830c584725b404a1172bf42f38adc98e1f6340af350a6e06e0b
+  reason: CR、Manifest、报告与连续性检查点必须在同一提交中保持原子一致。
+event_hash: 8709db8a828fe244def1188a70f03c4e623cbc14813ae07e0333647a13f427e2
 ```
 
 ## 接续状态与事件头
@@ -1469,8 +1503,8 @@ active_session_id: SES-20260725T053515Z-11D4084D
 last_session_id: SES-20260725T025042Z-A53070A0
 last_session_result: COMPLETED
 last_closure_checkpoint_id: CP-SES-20260725T025042Z-A53070A0-0005
-event_count: 3234
-event_head_hash: d9fb62221120b830c584725b404a1172bf42f38adc98e1f6340af350a6e06e0b
+event_count: 3242
+event_head_hash: 8709db8a828fe244def1188a70f03c4e623cbc14813ae07e0333647a13f427e2
 event_chain_valid: true
 ```
 
@@ -1593,9 +1627,9 @@ recent_sessions: - session_id: SES-20260723T183130Z-454A6E0D
   started_at: '2026-07-25T05:35:15Z'
   record: .continuity/sessions/SES-20260725T053515Z-11D4084D.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260725T053515Z-11D4084D.md
-  updated_at: '2026-07-25T16:57:10Z'
+  updated_at: '2026-07-25T17:04:05Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260725T053515Z-11D4084D/0033.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260725T053515Z-11D4084D/0035.yaml
   handoff_bundle: null
 task_claims: - claim_id: CLM-DA66E38CEAE0
   session_id: SES-20260723T045352Z-FC8DC2CF
@@ -2589,26 +2623,35 @@ recent_task_transitions: - transition_id: TRN-E6B4E3D44A16
 ```yaml
 initialized: true
 branch: task/TASK-R03-001
-head: 3153ef9cafbcc06ffee8be92dac4f77435f43866
+head: 4a11d21d741c2f15f5e6b96f16f87bb0081fb588
 upstream: origin/task/TASK-R03-001
 ahead: 0
 behind: 0
 dirty: true
 status_porcelain:
-- ' M .continuity/ACTIVE_SESSION.yaml'
-- ' M .continuity/EVENT_LOG.jsonl'
-- ' M .continuity/SESSION_INDEX.yaml'
-- ' M .continuity/STATE.yaml'
-- ' M .continuity/TASK_CLAIMS.yaml'
-- ' M .continuity/sessions/SES-20260725T053515Z-11D4084D.yaml'
-- ' M CURRENT_STATUS.yaml'
-- ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
-- ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
-- ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
-- ' M catalogs/session_index.csv'
-- ' M docs/03-continuity/sessions/2026-07/SES-20260725T053515Z-11D4084D.md'
-- ?? .continuity/checkpoints/SES-20260725T053515Z-11D4084D/0033.yaml
+- MM .continuity/ACTIVE_SESSION.yaml
+- ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
+- MM .continuity/EVENT_LOG.jsonl
+- MM .continuity/SESSION_INDEX.yaml
+- MM .continuity/STATE.yaml
+- A  .continuity/checkpoints/SES-20260725T053515Z-11D4084D/0034.yaml
+- MM .continuity/sessions/SES-20260725T053515Z-11D4084D.yaml
+- M  CHANGELOG.md
+- MM CURRENT_STATUS.yaml
+- M  artifacts/context/CURRENT_CONTEXT_PACK.md
+- M  artifacts/context/CURRENT_CONTEXT_PACK.yaml
+- M  artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+- ' M catalogs/change_request_index.csv'
+- MM catalogs/session_index.csv
+- A  docs/03-continuity/R12_TASK-004_CLIENT_GATE.md
+- MM docs/03-continuity/sessions/2026-07/SES-20260725T053515Z-11D4084D.md
+- M  releases/R12/RELEASE_MANIFEST.yaml
+- ?? .continuity/change_requests/CR-0332.yaml
+- ?? .continuity/checkpoints/SES-20260725T053515Z-11D4084D/0035.yaml
+- ?? docs/03-continuity/change-requests/CR-0332-投影TASK-R12-004八个Story实现证据到Release-Manifest.md
 recent_commits:
+- "4a11d21d741c2f15f5e6b96f16f87bb0081fb588\t2026-07-26T00:57:51+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] chore(continuity): enter release\
+  \ closure"
 - "3153ef9cafbcc06ffee8be92dac4f77435f43866\t2026-07-26T00:54:52+08:00\tHHY Continuity Bootstrap\t[STORY-R12-007] feat(android): implement me\
   \ home"
 - "1f9fd299e34657f878463f331838a80608cf3da4\t2026-07-25T23:29:26+08:00\tHHY Continuity Bootstrap\t[STORY-R12-007] chore(continuity): approve me\
@@ -2623,14 +2666,12 @@ recent_commits:
   \ result evidence"
 - "8900e572a35828acd5c697ac40d09a8a850ab1af\t2026-07-25T19:40:31+08:00\tHHY Continuity Bootstrap\t[STORY-R12-005] test(android): align submit\
   \ version assertion"
-- "c40b80358b2d2f067df2f2f4bd0965988ea6ea92\t2026-07-25T19:28:11+08:00\tHHY Continuity Bootstrap\t[STORY-R12-005] feat(android): implement submit\
-  \ result flow"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`e5956c769c92c34c85e06f80969221aace3daca41d16bd09da79d0d88026c6c2`
-- 文件数：120
+- 指纹：`d114223e27635c90e9a2c847889e34c43eedbc9eaf144d03c58d389e467333a6`
+- 文件数：123
 
 - `CHANGELOG.md`
 - `apps/admin-web/src/adminNavigation.test.ts`
@@ -2722,6 +2763,7 @@ recent_commits:
 - `docs/02-ui/page-specs/android/SCR-PUBLISHER-001_发布者主页.md`
 - `docs/02-ui/page-specs/android/SCR-SET-001_设置.md`
 - `docs/03-continuity/PROBLEM_REGISTRY.yaml`
+- `docs/03-continuity/R12_TASK-004_CLIENT_GATE.md`
 - `docs/03-continuity/change-requests/CR-0319-统一R12审核工作台权限目录与默认排序合同.md`
 - `docs/03-continuity/change-requests/CR-0320-扩展CR-0319审核证据权限与真实工作台施工范围.md`
 - `docs/03-continuity/change-requests/CR-0321-投影R12逐页视觉合同到验收目录.md`
@@ -2735,6 +2777,8 @@ recent_commits:
 - `docs/03-continuity/change-requests/CR-0329-实现R12稳定幂等提交与SCR-PUB-007结果闭环.md`
 - `docs/03-continuity/change-requests/CR-0330-统一R12个人资料255字符合同并实现SCR-ME-002客户端闭环.md`
 - `docs/03-continuity/change-requests/CR-0331-实现SCR-ME-001真实资产聚合首页并修复底部栏目导航回归.md`
+- `docs/03-continuity/change-requests/CR-0332-投影TASK-R12-004八个Story实现证据到Release-Manifest.md`
+- `releases/R12/RELEASE_MANIFEST.yaml`
 - `releases/R12/STORIES.yaml`
 - `scripts/check_android_ui_foundation.py`
 - `scripts/check_db_schema.py`
@@ -2934,6 +2978,43 @@ RELEASE_MANIFEST.yaml:
     - screenshot_visual_review
     - test_apk
     next_task: TASK-R12-004_AFTER_TASK_CLOSE
+  task_004_client_gate:
+    status: PASS
+    completed_at: '2026-07-26'
+    session_id: SES-20260725T053515Z-11D4084D
+    report: docs/03-continuity/R12_TASK-004_CLIENT_GATE.md
+    stories:
+      total: 8
+      completed: 8
+      commits:
+        STORY-R12-001: ad95719d
+        STORY-R12-002: a074488d
+        STORY-R12-003: 4ccc1f3f
+        STORY-R12-004: 43d55108
+        STORY-R12-005: 7155dbff
+        STORY-R12-006: 7792d432
+        STORY-R12-007: 3153ef9c
+        STORY-R12-008: TASK_004_GATE_REPORT
+    pages:
+      total: 11
+      implementation_status: PASS
+      visual_catalog_status: IN_REVIEW
+      final_visual_pass: DEFERRED_TASK_R12_007_REAL_SCREENSHOT_AI_REVIEW
+    validation:
+      admin_web: PASS_25_FILES_113_TESTS
+      backend_latest: PASS_415_TESTS_0_FAILURES_0_ERRORS
+      android_latest: PASS_534_TASKS_NETWORK_SHELL_APP_TEST_COMPILE_LINT
+      api_contract: PASS_131_CLIENT_184_ADMIN_10_WEBSOCKET
+      strict_documentation: PASS_0_ERRORS_0_WARNINGS
+      commercial_ui_boundary: PASS
+      ui_tokens: PASS_52
+    deferred_final_candidate:
+    - full_release_gate
+    - emulator_real_screenshots
+    - ai_visual_review
+    - assemble_signed_test_apk
+    - install_smoke
+    next_task: TASK-R12-005
   entry_gate:
   - releases/R12/DEFINITION_OF_READY.yaml 全部适用项为PASS
   - releases/R12/STORIES.yaml 中每个故事均绑定页面/API/配置/数据/测试或显式N/A
@@ -12771,13 +12852,66 @@ PARALLEL_EXECUTION_PLAN.yaml:
     session_id: SES-20260725T053515Z-11D4084D
   session_ids:
   - SES-20260725T053515Z-11D4084D
+- protocol_version: '1.0'
+  cr_id: CR-0332
+  title: 投影TASK-R12-004八个Story实现证据到Release Manifest
+  status: IMPLEMENTED
+  created_at: '2026-07-25T17:02:17Z'
+  updated_at: '2026-07-25T17:03:47Z'
+  requester_actor_id: codex-root-r12-client-20260725
+  approver_actor_id: codex-r12-release-reviewer-20260726
+  task_id: TASK-R12-004
+  session_id: SES-20260725T053515Z-11D4084D
+  user_request: 按仓库事实源持续完成R12并仅在最终候选执行模拟器与APK。
+  reason: 八个Story已完成且模块证据已形成，需要把客户端任务门禁结论写入R12唯一Release Manifest；不改变任何业务合同。
+  original_rule: R12 Release Manifest仅记录到TASK-R12-003后端门禁，TASK-R12-004八个Story的提交、模块证据和十一页IN_REVIEW边界尚未形成版本级证据投影。
+  new_rule: 在R12 Release Manifest新增task_004_client_gate：登记8/8 Story实现提交、11页实现PASS与视觉IN_REVIEW、后台113测试、后端415测试、Android 534任务及静态门禁；真实截图、AI视觉PASS、APK和安装冒烟继续明确延后到TASK-R12-007。
+  impact_summary: 新增TASK-R12-004客户端门禁报告、Manifest证据段和CHANGELOG摘要；不修改业务、接口、数据库、配置、UI实现或最终视觉状态。
+  impact:
+    files:
+    - releases/R12/RELEASE_MANIFEST.yaml
+    - docs/03-continuity/R12_TASK-004_CLIENT_GATE.md
+    - CHANGELOG.md
+    pages: []
+    apis: []
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - check_v122_documentation.py --strict --release R12
+    - check_release_artifacts.py --release R12
+    - check_program_execution_plan.py
+    - check_ui_visual_acceptance.py --release R12 --catalog-only
+    releases:
+    - R12
+    migration_and_compatibility: 纯证据投影，无运行时、数据或配置迁移；十一页继续IN_REVIEW，兼容既有最终候选策略。
+  user_confirmation: 项目所有者已授权按仓库R01-R32计划持续开发，要求大版本最终候选才运行完整门禁、模拟器和APK，常规治理决策无需暂停确认。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-25T17:02:57Z'
+    note: 只读复核通过：变更仅把已提交的8个Story和既有MODULE证据投影到Release Manifest，十一页保持IN_REVIEW，未扩大接口、页面、数据或提前执行候选门禁。
+  machine_record: .continuity/change_requests/CR-0332.yaml
+  document: docs/03-continuity/change-requests/CR-0332-投影TASK-R12-004八个Story实现证据到Release-Manifest.md
+  decision_log:
+  - at: '2026-07-25T17:03:27Z'
+    actor_id: codex-root-r12-client-20260725
+    status: IMPLEMENTING
+    note: TASK-R12-004门禁报告、Release Manifest和CHANGELOG投影已写入并通过四项声明门禁。
+    session_id: SES-20260725T053515Z-11D4084D
+  - at: '2026-07-25T17:03:47Z'
+    actor_id: codex-root-r12-client-20260725
+    status: IMPLEMENTED
+    note: 证据投影完成：严格R12文档、Release artifacts、31 Release执行计划、11页视觉目录与YAML解析全部PASS；未提前改变IN_REVIEW或执行候选APK。
+    session_id: SES-20260725T053515Z-11D4084D
+  session_ids:
+  - SES-20260725T053515Z-11D4084D
 ```
 
 ## 上下文来源及哈希
 
 - `AGENTS.md` — `690f960020dcbd18080ec91b3c314335627b32e231b9f9b2e14566b0fbbaeb35`
 - `START_HERE.md` — `22de14029ce47beb41ea569e36ce223fbc9d11b86f8676f28d5fbbd83896af5c`
-- `CURRENT_STATUS.yaml` — `39f38b81e3b8b0fbbbb1e67f1587fe9dc5437f1b9236fbefffddf9c20397e9fa`
+- `CURRENT_STATUS.yaml` — `5f800290ca54f532266bc831b837f8627f7ff54e4c996af9b653792da9e4a094`
 - `NEXT_TASK.yaml` — `05e6bd161a5d73ff15c34dade88c269f05ff3e6e615e2d124681cd3b561a0524`
 - `DEVELOPMENT_RISK_REGISTER.md` — `8304c91492e4ee2abea0522a06541c8688d39c7fc532b5d0cde499bf09fffb87`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
@@ -12788,24 +12922,24 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `config/REPOSITORY_TRANSPORT.yaml` — `8c4a21f3e204d46e7ffb467d804a53ed26cda61cd088dadfddb50b69eea657fc`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `60943fcd9714cfae7274463554b5584fdb7a7aeee1ee547ff6dbc53fae6d4994`
-- `.continuity/EVENT_LOG.jsonl` — `ba359f0452da3a7fbdf2ab0051ec6e0dc66d73ec57ed0094d6c0ba766395e325`
-- `.continuity/SESSION_INDEX.yaml` — `af3f64685fbdda2a7e1368ff3df04a42c906389ee20c8655312e0391aa1a5c33`
+- `.continuity/EVENT_LOG.jsonl` — `955471bbbd9b32e08937ff474f44be0c659eeac04041796c13fd1ecac2e8ddfd`
+- `.continuity/SESSION_INDEX.yaml` — `0a1f36c1c0312ac7044b3c561ac523a744d5f7220c72d43b2c2029b7775d9603`
 - `.continuity/TASK_CLAIMS.yaml` — `f8a7d517f7e8ba77ca7be0f1145f5056e822321b33d4184234b8e84fc536a163`
 - `.continuity/TASK_TRANSITIONS.yaml` — `42dda46a34627046c9f85e5e719e8dcfc107aa0725121cf6e86563f40d5034ab`
-- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `5de123e2e5d1f73d7549dc7ced223e71a552bfa58cce8eb7b69557b7947d99ef`
-- `.continuity/ACTIVE_SESSION.yaml` — `e3f5c20f900f5b838055df946df154bb9c460847a67d0b5d14cbc14e57f00cb4`
+- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `5cdeb2869e4b4ac9a99daa3cacd32ee5a7e36adbf38341215a7b66de3e8ece1b`
+- `.continuity/ACTIVE_SESSION.yaml` — `24136df08e3ab03b2c2acf5a742175cee569527f5f399bbf0bb12814cb84a6e7`
 - `docs/00-baseline/正式商业系统全局硬性开发边界.md` — `9753b32db136e59e95a0974a62362456d9d577fd1bb40058ec985c4b64413eea`
 - `docs/02-ui/UI参考图使用与开发约束_V1.2.2.md` — `d14367586aa2067b059df58798acd20ab982459cdb35ff27fc7922a3896e4933`
 - `docs/03-continuity/持续开发无状态接续强制门禁_V1.2.3.md` — `d0ed3ed68bdd93b06500eecdfb5baa3245e6ca8b685a486788abb6eee39b3d51`
 - `docs/09-development/统一开发与交付效率规范.md` — `821ed91f6f860b729f6532c5e8145c6d78fa01fc7f5ec423687479fe5390a76f`
-- `releases/R12/RELEASE_MANIFEST.yaml` — `28af49f50c84993bcc1c79cc810c57998f3800363ec8f17fb96ac7d93d2f93a2`
+- `releases/R12/RELEASE_MANIFEST.yaml` — `2779773d5a6097ad22604a1faceb979ba3303521f9124a7f73c88c8fd0682978`
 - `releases/R12/DEFINITION_OF_READY.yaml` — `ec0e557f0fc1c9738d78e5954b24b5411e8f3f23ebbf13631aef6d64745515a7`
 - `releases/R12/STORIES.yaml` — `ed80bfe7ba3779ab57985d98a5250c4a80c15708035c30afe393de146e029fc2`
 - `releases/R12/TASKS.yaml` — `ccf3a782104fc56bdb97d02da81e8acb1be2fd0cf30f5935bb4754a63c9fb275`
 - `releases/R12/ACCEPTANCE_MATRIX.csv` — `197874227cef03f791df1fa5d2101a251df266c63240f777f358388b46cb9706`
 - `releases/R12/PARALLEL_EXECUTION_PLAN.yaml` — `2ddbee414a51a868b63331992e2e04c5400846cf6012474aab406e067e532e98`
-- `docs/03-continuity/sessions/2026-07/SES-20260725T053515Z-11D4084D.md` — `a18ea45e340e481279a5dac21c0bb54b601d30624401191218e840e828325cb0`
-- `.continuity/checkpoints/SES-20260725T053515Z-11D4084D/0033.yaml` — `099f6e599052952fa5a918f6f44e1ff8f58a79143d2b5ae823afa9e34dee37f0`
+- `docs/03-continuity/sessions/2026-07/SES-20260725T053515Z-11D4084D.md` — `1230f9da4e9a2d04af06ed88e3959e929d5d1ab5e7711ee43c3c0d2883346b36`
+- `.continuity/checkpoints/SES-20260725T053515Z-11D4084D/0035.yaml` — `b04de34a08ba1c2541c401c31fce4250c00be30a4c59e7c085fb100202549969`
 - `docs/03-continuity/change-requests/CR-0319-统一R12审核工作台权限目录与默认排序合同.md` — `42c214f27ab3a4061c8fe3963c213e37be4c2766a4d8c489f9757eaf6df4c5fc`
 - `docs/03-continuity/change-requests/CR-0320-扩展CR-0319审核证据权限与真实工作台施工范围.md` — `52dc56ab94cc576e79f38ce0ae4d628463ae6ba8af5b353f59bb3cd44ab05c64`
 - `docs/03-continuity/change-requests/CR-0321-投影R12逐页视觉合同到验收目录.md` — `ca31b8e0045e23616f5b308cbd4bebb447d249ce88770f020a47a607becebb68`
@@ -12819,6 +12953,7 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `docs/03-continuity/change-requests/CR-0329-实现R12稳定幂等提交与SCR-PUB-007结果闭环.md` — `87d2d1b49d3da7ff141ef57b5547eb5b91d340ff84db2726f4c56a055a50962f`
 - `docs/03-continuity/change-requests/CR-0330-统一R12个人资料255字符合同并实现SCR-ME-002客户端闭环.md` — `9007f0dacbde56bb0ec15c8a60567897e9443704f81f5d46d3757e03be808a38`
 - `docs/03-continuity/change-requests/CR-0331-实现SCR-ME-001真实资产聚合首页并修复底部栏目导航回归.md` — `4afed54b3b461c1cd01c21b1c1df6faf8f91051c7fc7bd597b563971bfcdd1a3`
+- `docs/03-continuity/change-requests/CR-0332-投影TASK-R12-004八个Story实现证据到Release-Manifest.md` — `3636fb3cc088723a5b60e6e85c39b21d8477739162e88d6155a7df5545044314`
 
 ## 接手硬规则
 

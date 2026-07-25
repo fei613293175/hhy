@@ -11,7 +11,7 @@ task_id: TASK-R12-004
 story_id: STORY-R12-008
 goal: 按冻结R12契约完成数据、配置、测试、观测、视觉验收、候选APK与版本交接收口。
 started_at: '2026-07-25T05:35:15Z'
-updated_at: '2026-07-25T16:57:16Z'
+updated_at: '2026-07-25T17:04:11Z'
 takeover_of: null
 change_requests:
 - CR-0319
@@ -27,6 +27,7 @@ change_requests:
 - CR-0329
 - CR-0330
 - CR-0331
+- CR-0332
 scope:
   allowed_paths:
   - apps/**
@@ -60,8 +61,11 @@ scope:
   - requirements-dev.txt
   - PROJECT_*.yaml
   - PROJECT_*.json
-  approved_exceptions: []
-  source: story-switch+explicit
+  approved_exceptions:
+  - releases/R12/RELEASE_MANIFEST.yaml
+  - docs/03-continuity/R12_TASK-004_CLIENT_GATE.md
+  - CHANGELOG.md
+  source: story-switch+explicit+approved-cr:CR-0332
 git:
   initialized: true
   branch: task/TASK-R03-001
@@ -71,25 +75,25 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-25T16:57:10Z'
-  expires_at: '2026-07-25T20:57:10Z'
-checkpoint_sequence: 33
-latest_checkpoint: .continuity/checkpoints/SES-20260725T053515Z-11D4084D/0033.yaml
+  renewed_at: '2026-07-25T17:04:05Z'
+  expires_at: '2026-07-25T21:04:05Z'
+checkpoint_sequence: 35
+latest_checkpoint: .continuity/checkpoints/SES-20260725T053515Z-11D4084D/0035.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260725T053515Z-11D4084D.md
-next_step: 逐项审计R12 TASKS、Release Manifest、验收矩阵和当前实现证据，确定剩余任务与最终候选门禁顺序。
+next_step: 提交并推送TASK-R12-004门禁与CR-0332，然后关闭CR-0319至CR-0332并完成任务切换。
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: 6db82241430a0c52f962d7e8b659a2c2e166fdd9c79eba42d5bd605fd60687e5
-  generated_at: '2026-07-25T16:57:13Z'
+  context_hash: 7a96f2e651c0422b0f7378cd4105907623f8aa09dc62737d86a1270620b38dcd
+  generated_at: '2026-07-25T17:04:08Z'
 handoff_bundle: null
 closure: null
 parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 当前步骤只执行单一连续性Story切换和版本级事实审计，拆分会并发修改同一会话与验收事实源。
+  reason: CR、Manifest、报告与连续性检查点必须在同一提交中保持原子一致。
 story_history:
 - story_id: STORY-R12-001
   completed_at: '2026-07-25T07:44:07Z'

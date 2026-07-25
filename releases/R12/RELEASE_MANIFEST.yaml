@@ -173,6 +173,43 @@ task_003_backend_gate:
   - screenshot_visual_review
   - test_apk
   next_task: TASK-R12-004_AFTER_TASK_CLOSE
+task_004_client_gate:
+  status: PASS
+  completed_at: '2026-07-26'
+  session_id: SES-20260725T053515Z-11D4084D
+  report: docs/03-continuity/R12_TASK-004_CLIENT_GATE.md
+  stories:
+    total: 8
+    completed: 8
+    commits:
+      STORY-R12-001: ad95719d
+      STORY-R12-002: a074488d
+      STORY-R12-003: 4ccc1f3f
+      STORY-R12-004: 43d55108
+      STORY-R12-005: 7155dbff
+      STORY-R12-006: 7792d432
+      STORY-R12-007: 3153ef9c
+      STORY-R12-008: TASK_004_GATE_REPORT
+  pages:
+    total: 11
+    implementation_status: PASS
+    visual_catalog_status: IN_REVIEW
+    final_visual_pass: DEFERRED_TASK_R12_007_REAL_SCREENSHOT_AI_REVIEW
+  validation:
+    admin_web: PASS_25_FILES_113_TESTS
+    backend_latest: PASS_415_TESTS_0_FAILURES_0_ERRORS
+    android_latest: PASS_534_TASKS_NETWORK_SHELL_APP_TEST_COMPILE_LINT
+    api_contract: PASS_131_CLIENT_184_ADMIN_10_WEBSOCKET
+    strict_documentation: PASS_0_ERRORS_0_WARNINGS
+    commercial_ui_boundary: PASS
+    ui_tokens: PASS_52
+  deferred_final_candidate:
+  - full_release_gate
+  - emulator_real_screenshots
+  - ai_visual_review
+  - assemble_signed_test_apk
+  - install_smoke
+  next_task: TASK-R12-005
 entry_gate:
 - releases/R12/DEFINITION_OF_READY.yaml 全部适用项为PASS
 - releases/R12/STORIES.yaml 中每个故事均绑定页面/API/配置/数据/测试或显式N/A
