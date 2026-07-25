@@ -54,7 +54,7 @@ class ContractR12ApiTest {
 
         assertTrue(result is R12CopyContentResult.Command)
         assertEquals("PENDING_REVIEW", (result as R12CopyContentResult.Command).command.status)
-        assertEquals(13, result.command.version)
+        assertEquals(13L, result.command.version)
     }
 
     @Test
