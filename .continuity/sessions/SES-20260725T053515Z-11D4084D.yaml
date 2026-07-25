@@ -8,10 +8,10 @@ actor:
   host: unknown
 release: R12
 task_id: TASK-R12-004
-story_id: STORY-R12-003
-goal: 按SCR-MYC-001/002/004/005冻结合同与R12精确视觉规格实现我的发布、草稿箱、审核记录、内容数据，并接入真实Navigation入口。
+story_id: STORY-R12-004
+goal: 严格按SCR-PUB-001 B04/P01与SCR-PUB-006 B05/P06冻结视觉、MOB-FORM页面规格和现有API合同实现四类发布入口及真实内容预览闭环。
 started_at: '2026-07-25T05:35:15Z'
-updated_at: '2026-07-25T10:14:32Z'
+updated_at: '2026-07-25T10:20:29Z'
 takeover_of: null
 change_requests:
 - CR-0319
@@ -37,7 +37,7 @@ scope:
   - releases/**
   - design/**
   - scripts/**
-  - apps/android/**,catalogs/ui_visual_acceptance.csv,docs/02-ui/page-specs/android/**,CHANGELOG.md,tests/**
+  - apps/android/**,docs/02-ui/page-specs/android/**,catalogs/ui_visual_acceptance.csv,CHANGELOG.md,tests/**
   - CHANGELOG.md
   approved_exceptions:
   - database/migrations/V041__r12_review_permission_alignment.sql
@@ -77,25 +77,25 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-25T10:14:27Z'
-  expires_at: '2026-07-25T14:14:27Z'
-checkpoint_sequence: 13
-latest_checkpoint: .continuity/checkpoints/SES-20260725T053515Z-11D4084D/0013.yaml
+  renewed_at: '2026-07-25T10:20:23Z'
+  expires_at: '2026-07-25T14:20:23Z'
+checkpoint_sequence: 14
+latest_checkpoint: .continuity/checkpoints/SES-20260725T053515Z-11D4084D/0014.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260725T053515Z-11D4084D.md
-next_step: 提交并推送CR状态绑定证据，随后在干净工作树切换STORY-R12-004。
+next_step: 提交并推送Story切换证据，创建本Story实现CR后施工发布入口与发布预览。
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: 1697087c7db3fd03458416873a882c6351d513436f73610dd6e66edfe85bb646
-  generated_at: '2026-07-25T10:14:30Z'
+  context_hash: 46cab605fa42d98056009905d8229598d6f1ca2ab281b04298d0a64ae6f47c61
+  generated_at: '2026-07-25T10:20:27Z'
 handoff_bundle: null
 closure: null
 parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 本步骤仅绑定同一事实会话的CR状态、事件链与检查点，连续性元数据必须由唯一主控串行更新。
+  reason: SCR-PUB-001与SCR-PUB-006共享发布模块、内容资源模型、MainActivity typed Navigation及测试装配，拆分会产生同路径冲突；主控串行实现并统一复核。
 story_history:
 - story_id: STORY-R12-001
   completed_at: '2026-07-25T07:44:07Z'
@@ -107,3 +107,8 @@ story_history:
   checkpoint_id: CP-SES-20260725T053515Z-11D4084D-0008
   commit: a074488d8745a9175a832ebabb49d336b98eef81
   summary: STORY-R12-002内容管理详情已实现、云端MODULE通过并以7c30b6b0/a074488d推送；继续仓库顺序四页发布管理列表闭环。
+- story_id: STORY-R12-003
+  completed_at: '2026-07-25T10:17:45Z'
+  checkpoint_id: CP-SES-20260725T053515Z-11D4084D-0013
+  commit: 4ccc1f3fa3656d9032561c14753b9ed24743f813
+  summary: STORY-R12-003实现与证据已提交推送，按R12依赖顺序进入发布入口与发布预览。
