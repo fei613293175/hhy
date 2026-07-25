@@ -11,7 +11,7 @@ task_id: TASK-R12-004
 story_id: STORY-R12-005
 goal: 实现contentPostContentsByIdSubmit稳定幂等提交、二次确认、未知结果安全查询与SCR-PUB-007 MOB-STATUS成功待审驳回失败恢复页面；正式UI禁止技术字段。
 started_at: '2026-07-25T05:35:15Z'
-updated_at: '2026-07-25T11:40:15Z'
+updated_at: '2026-07-25T11:52:06Z'
 takeover_of: null
 change_requests:
 - CR-0319
@@ -88,25 +88,25 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-25T11:40:08Z'
-  expires_at: '2026-07-25T15:40:08Z'
-checkpoint_sequence: 25
-latest_checkpoint: .continuity/checkpoints/SES-20260725T053515Z-11D4084D/0025.yaml
+  renewed_at: '2026-07-25T11:52:00Z'
+  expires_at: '2026-07-25T15:52:00Z'
+checkpoint_sequence: 26
+latest_checkpoint: .continuity/checkpoints/SES-20260725T053515Z-11D4084D/0026.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260725T053515Z-11D4084D.md
-next_step: 提交修正并在obx-test固定镜像重新运行完整R12定向Android门禁。
+next_step: 提交并推送CR-0329实现证据，然后原子切换到STORY-R12-006继续个人资料开发。
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: a4eb4f8dcc199ab2cb081b2335a596b651e4973028acc4849750edbc22dfd6c6
-  generated_at: '2026-07-25T11:40:12Z'
+  context_hash: 4693522cf4f50d303f15116153b346d6e50dcb1b4c866caed129acf3c3d4d151
+  generated_at: '2026-07-25T11:52:03Z'
 handoff_bundle: null
 closure: null
 parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 单一断言类型修正与冻结网络模型直接耦合，不适合拆分。
+  reason: 本Story单一提交意图、网络合同与结果导航已完成，证据绑定必须保持同一实现Commit。
 story_history:
 - story_id: STORY-R12-001
   completed_at: '2026-07-25T07:44:07Z'
