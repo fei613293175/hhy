@@ -8,10 +8,10 @@ actor:
   host: unknown
 release: R12
 task_id: TASK-R12-004
-story_id: STORY-R12-004
-goal: 严格按SCR-PUB-001 B04/P01与SCR-PUB-006 B05/P06冻结视觉、MOB-FORM页面规格和现有API合同实现四类发布入口及真实内容预览闭环。
+story_id: STORY-R12-005
+goal: 实现contentPostContentsByIdSubmit稳定幂等提交、二次确认、未知结果安全查询与SCR-PUB-007 MOB-STATUS成功待审驳回失败恢复页面；正式UI禁止技术字段。
 started_at: '2026-07-25T05:35:15Z'
-updated_at: '2026-07-25T10:54:25Z'
+updated_at: '2026-07-25T10:57:07Z'
 takeover_of: null
 change_requests:
 - CR-0319
@@ -68,15 +68,7 @@ scope:
   - apps/admin-web/src/adminNavigation.test.ts
   - apps/admin-web/src/routerPermissions.test.ts
   - apps/admin-web/src/styles.css
-  - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
-  - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
-  - apps/android/feature/content-management/src/main/java/cc/orbexa/hhy/contentmanagement/R12ContentManagementDetailScreen.kt
-  - apps/android/feature/content-management/src/main/java/cc/orbexa/hhy/contentmanagement/R12PublishScreens.kt
-  - apps/android/feature/content-management/src/main/java/cc/orbexa/hhy/contentmanagement/R12PublishState.kt
-  - apps/android/feature/content-management/src/test/java/cc/orbexa/hhy/contentmanagement/R12PublishStateTest.kt
-  - catalogs/ui_visual_acceptance.csv
-  - CHANGELOG.md
-  source: story-switch+explicit+approved-cr:CR-0320+approved-cr:CR-0328
+  source: story-switch+explicit+approved-cr:CR-0320
 git:
   initialized: true
   branch: task/TASK-R03-001
@@ -86,25 +78,25 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-25T10:54:19Z'
-  expires_at: '2026-07-25T14:54:19Z'
-checkpoint_sequence: 19
-latest_checkpoint: .continuity/checkpoints/SES-20260725T053515Z-11D4084D/0019.yaml
+  renewed_at: '2026-07-25T10:57:01Z'
+  expires_at: '2026-07-25T14:57:01Z'
+checkpoint_sequence: 20
+latest_checkpoint: .continuity/checkpoints/SES-20260725T053515Z-11D4084D/0020.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260725T053515Z-11D4084D.md
-next_step: 提交推送CR-0328状态绑定证据，在干净工作树切换STORY-R12-005。
+next_step: 提交Story切换证据，创建提交结果实现CR并补齐R12 submit网络合同与页面。
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: 0711064d209b4fe29d23ca311df21e0592534b17caeb5b47334e6a8d97f05cb8
-  generated_at: '2026-07-25T10:54:22Z'
+  context_hash: 1fed70b3d8ea827cc473a66dd35e2ba373d7e06480c1c242d3a79d70903222f0
+  generated_at: '2026-07-25T10:57:04Z'
 handoff_bundle: null
 closure: null
 parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 本步骤仅绑定CR实现提交和连续性事件链，必须由唯一主控串行更新。
+  reason: 提交命令、幂等键、预览回调、结果状态页和typed Navigation共用R12网络与content-management模块，路径重叠且状态机安全需要主控串行复核。
 story_history:
 - story_id: STORY-R12-001
   completed_at: '2026-07-25T07:44:07Z'
@@ -121,3 +113,8 @@ story_history:
   checkpoint_id: CP-SES-20260725T053515Z-11D4084D-0013
   commit: 4ccc1f3fa3656d9032561c14753b9ed24743f813
   summary: STORY-R12-003实现与证据已提交推送，按R12依赖顺序进入发布入口与发布预览。
+- story_id: STORY-R12-004
+  completed_at: '2026-07-25T10:56:19Z'
+  checkpoint_id: CP-SES-20260725T053515Z-11D4084D-0019
+  commit: 43d55108ea1b86efcc887c17a7f8c2c7f05ba88e
+  summary: STORY-R12-004实现与证据已提交推送，继续R12提交结果闭环。
