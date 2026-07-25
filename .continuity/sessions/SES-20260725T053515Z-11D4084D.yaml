@@ -11,7 +11,7 @@ task_id: TASK-R12-004
 story_id: STORY-R12-007
 goal: 实现SCR-ME-001账号、会员、收益与功能入口真实聚合闭环。
 started_at: '2026-07-25T05:35:15Z'
-updated_at: '2026-07-25T15:00:07Z'
+updated_at: '2026-07-25T15:27:33Z'
 takeover_of: null
 change_requests:
 - CR-0319
@@ -26,6 +26,7 @@ change_requests:
 - CR-0328
 - CR-0329
 - CR-0330
+- CR-0331
 scope:
   allowed_paths:
   - apps/android/**
@@ -70,7 +71,42 @@ scope:
   - apps/admin-web/src/adminNavigation.test.ts
   - apps/admin-web/src/routerPermissions.test.ts
   - apps/admin-web/src/styles.css
-  source: story-switch+explicit+approved-cr:CR-0319+approved-cr:CR-0320
+  - contracts/openapi.yaml
+  - services/backend/boot/src/main/resources/contracts/openapi.yaml
+  - contracts/contract_status.csv
+  - contracts/operation-error-matrix.csv
+  - catalogs/api_ui_ownership.csv
+  - catalogs/ui_page_states.csv
+  - catalogs/ui_action_matrix.csv
+  - docs/02-ui/page-specs/android/SCR-ME-001_我的首页.md
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/R12AccountControllerContractTest.java
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ApiModels.kt
+  - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ApiModelsSerializationTest.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractIdentityApi.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractMediaApi.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR07Api.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR08Api.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR09Api.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR10Api.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR11Api.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR12Api.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR12ProfileApi.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR12MeApi.kt
+  - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ContractR12MeApiTest.kt
+  - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/R12MeHomeState.kt
+  - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/R12MeHomeScreen.kt
+  - apps/android/feature/shell/src/test/java/cc/orbexa/hhy/shell/R12MeHomeStateTest.kt
+  - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+  - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+  - apps/android/app/src/test/java/cc/orbexa/hhy/NavigationPolicyTest.kt
+  - apps/android/app/src/androidTest/java/cc/orbexa/hhy/AuthenticatedNavigationTest.kt
+  - apps/android/app/src/androidTest/java/cc/orbexa/hhy/HistoricalVisualAuditTest.kt
+  - scripts/check_android_ui_foundation.py
+  - tests/test_android_ui_foundation.py
+  - catalogs/ui_visual_acceptance.csv
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - CHANGELOG.md
+  source: story-switch+explicit+approved-cr:CR-0319+approved-cr:CR-0320+approved-cr:CR-0331
 git:
   initialized: true
   branch: task/TASK-R03-001
@@ -80,25 +116,36 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-25T15:00:00Z'
-  expires_at: '2026-07-25T19:00:00Z'
-checkpoint_sequence: 30
-latest_checkpoint: .continuity/checkpoints/SES-20260725T053515Z-11D4084D/0030.yaml
+  renewed_at: '2026-07-25T15:27:28Z'
+  expires_at: '2026-07-25T19:27:28Z'
+checkpoint_sequence: 31
+latest_checkpoint: .continuity/checkpoints/SES-20260725T053515Z-11D4084D/0031.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260725T053515Z-11D4084D.md
-next_step: 提交并推送Story切换证据，读取SCR-ME-001页面、字段、状态、动作、三项API与精确视觉合同，评估现有实现差距并创建必要CR。
+next_step: 提交并推送CR-0331治理检查点，然后按批准范围实现合同、Android网络/状态/UI、typed底部导航与回归测试。
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: 331ca343244f99292ac62048f0ff2dc71ec76f6ff27710ca35a9800aec68b98b
-  generated_at: '2026-07-25T15:00:04Z'
+  context_hash: 0619436bb424433518858f571e7458139421c71deac61a9d7759bc7b9bdb395c
+  generated_at: '2026-07-25T15:27:31Z'
 handoff_bundle: null
 closure: null
 parallel_execution:
-  assessment: NO_SAFE_PARALLEL
-  delegated_workers: 0
-  workers: []
-  reason: 原子Story切换、历史范围恢复与检查点写入属于单一连续性事实操作，禁止并发修改。
+  assessment: DELEGATED
+  delegated_workers: 2
+  workers:
+  - worker_id: profile_contract_review
+    responsibility: CR-0331合同与错误边界独立复核
+    allowed_paths:
+    - contracts/openapi.yaml
+    - catalogs/api_ui_ownership.csv
+    - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ApiModels.kt
+  - worker_id: profile_android_review
+    responsibility: SCR-ME-001视觉与导航独立复核
+    allowed_paths:
+    - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+    - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+  reason: ''
 story_history:
 - story_id: STORY-R12-001
   completed_at: '2026-07-25T07:44:07Z'

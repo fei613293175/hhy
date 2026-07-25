@@ -20272,3 +20272,88 @@ change_requests:
     session_id: SES-20260725T053515Z-11D4084D
   session_ids:
   - SES-20260725T053515Z-11D4084D
+- protocol_version: '1.0'
+  cr_id: CR-0331
+  title: 实现SCR-ME-001真实资产聚合首页并修复底部栏目导航回归
+  status: APPROVED
+  created_at: '2026-07-25T15:11:23Z'
+  updated_at: '2026-07-25T15:25:54Z'
+  requester_actor_id: codex-root-r12-client-20260725
+  approver_actor_id: codex-r12-me-contract-reviewer-20260725
+  task_id: TASK-R12-004
+  session_id: SES-20260725T053515Z-11D4084D
+  user_request: 按仓库R01-R32计划持续开发；R12我的首页必须一比一对应开发文档与B08/P01，真实会员、收益和入口不得虚构。
+  reason: 现有我的页仅有资料头、发布与安全列表，未调用membershipGetMeMembership和rewardGetMeRewardAccount，缺少真实资产、会员、独立局部失败与刷新；底部栏目仍用页面级mutableIntStateOf切换，违背已批准CR-0119；SCR-ME-001旧ERROR投影还要求展示requestId，与正式商业UI硬边界冲突。
+  original_rule: 当前HhyShellScreen只用登录缓存绘制简化我的页，未调用会员与奖励GET；底部五栏由rememberSaveable selectedIndex伪切页；共享合同把会员仅归R18、奖励仅归R24，奖励423未进入OpenAPI，Android错误信封又错误要求全部诊断字段存在，SCR-ME-001还要求在正式UI展示errorCode/requestId。
+  new_rule: 不新增平行规则，统一落实STORY-R12-007、SCR-ME-001、B08/P01和CR-0119：三项GET分别提供用户、会员、奖励独立状态与缓存；401只触发一次根会话失效，403局部受限，会员404为未开通，奖励404为无账户，奖励422为待实名、423为风险受限，409只刷新对应模块，429保留旧内容并局部提示，网络或5xx有缓存标记可能过期、无缓存显示局部恢复；成功时间优先响应timestamp，缺失时允许以客户端成功接收时刻作为缓存元数据。会员归属登记R12/R18、奖励归属登记R12/R24，OpenAPI补423；Android合法精简信封允许timestamp、retryable、traceId和detail.field缺失，details默认空且诊断字段永不进入正式UI。B08/P01按蓝色身份头、会员状态、奖励资产摘要、四列真实功能网格、真实会员权益、账号服务和固定五栏顺序施工；只展示真实资料、发布、草稿、实名、设备、密码、关于、注销和中央发布入口，过滤R13+订单、收藏、浏览、消息、红包、邀请、成长、任务、红点及示例数据；paidValueCent/remainingValueCent不得冒充奖励余额。顶层使用typed
+    Home/Me真实Navigation Compose目的地，popUpTo Home saveState、restoreState、launchSingleTop，当前栏目由NavDestination推导，同级使用HhyMotion.peerContent，禁止selectedIndex伪返回栈；红包和消息未实现时不可进入占位页。
+  impact_summary: 把R12聚合页所需的三项真实GET、共享Release归属、HTTP 423和精简错误信封统一到合同、运行时与Android；实现三模块独立恢复的B08/P01商业首页，并用typed Home/Me Navigation Compose修复底部栏目、来源返回和状态恢复回归；同步问题登记、视觉IN_REVIEW和回归门禁。
+  impact:
+    files:
+    - contracts/openapi.yaml
+    - services/backend/boot/src/main/resources/contracts/openapi.yaml
+    - contracts/contract_status.csv
+    - contracts/operation-error-matrix.csv
+    - catalogs/api_ui_ownership.csv
+    - catalogs/ui_page_states.csv
+    - catalogs/ui_action_matrix.csv
+    - docs/02-ui/page-specs/android/SCR-ME-001_我的首页.md
+    - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/R12AccountControllerContractTest.java
+    - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ApiModels.kt
+    - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ApiModelsSerializationTest.kt
+    - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractIdentityApi.kt
+    - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractMediaApi.kt
+    - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR07Api.kt
+    - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR08Api.kt
+    - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR09Api.kt
+    - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR10Api.kt
+    - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR11Api.kt
+    - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR12Api.kt
+    - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR12ProfileApi.kt
+    - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR12MeApi.kt
+    - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ContractR12MeApiTest.kt
+    - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/R12MeHomeState.kt
+    - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/R12MeHomeScreen.kt
+    - apps/android/feature/shell/src/test/java/cc/orbexa/hhy/shell/R12MeHomeStateTest.kt
+    - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+    - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+    - apps/android/app/src/test/java/cc/orbexa/hhy/NavigationPolicyTest.kt
+    - apps/android/app/src/androidTest/java/cc/orbexa/hhy/AuthenticatedNavigationTest.kt
+    - apps/android/app/src/androidTest/java/cc/orbexa/hhy/HistoricalVisualAuditTest.kt
+    - scripts/check_android_ui_foundation.py
+    - tests/test_android_ui_foundation.py
+    - catalogs/ui_visual_acceptance.csv
+    - docs/03-continuity/PROBLEM_REGISTRY.yaml
+    - CHANGELOG.md
+    pages:
+    - SCR-ME-001
+    apis:
+    - userGetMe
+    - membershipGetMeMembership
+    - rewardGetMeRewardAccount
+    database:
+    - N/A
+    configuration:
+    - 既有Android typed navigation与Design Token；无新增服务端配置
+    ledger:
+    - N/A_READ_ONLY_BALANCE_PROJECTION
+    tests:
+    - OpenAPI/runtime/hash/docs consistency, R12/R18 membership ownership, R12/R24 reward ownership and HTTP 423 response
+    - R12AccountControllerContractTest membership/reward route, release metadata and OpenAPI 423 assertions
+    - ApiModelsSerializationTest accepts legal compact success/error envelopes without exposing diagnostics
+    - ContractR12MeApi three GET routes, bearer header, strict model decoding and 401/403/404/409/422/423/429/5xx/offline mapping
+    - R12MeHomeState independent module loading, cache freshness, localized recovery, single 401 invalidation and integer-cent formatting
+    - typed Home/Me top-level navigation saveState restoreState launchSingleTop, source back stack and peer motion
+    - SCR-ME-001 B08/P01 identity, membership, reward and real-route UI without R13+ fictional entries
+    - obx-test backend boot and Android network/shell/app MODULE plus API, commercial UI, token, foundation and R12 catalog gates
+    releases:
+    - R12
+    migration_and_compatibility: 无数据库、账本、服务端业务逻辑或配置迁移；现有URL和成功响应不变，仅补齐既有423文档与R12共享归属。Android错误模型放宽为兼容OpenAPI合法省略字段，所有消费者过滤无field详情；缓存只读且逐模块标注新鲜度。会员、奖励后续完整模块仍归R18/R24，R12仅消费既有只读摘要；未实现R13+入口继续隐藏。截图和模拟器仍仅在TASK-R12-007最终候选执行。
+  user_confirmation: 项目所有者已明确要求以仓库事实源和R01-R32计划持续开发完整项目，UI严格对应开发文档与精确效果图，常规决策自行执行且无需逐Story暂停确认。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-25T15:25:54Z'
+    note: 独立合同与Android只读复核通过：修订后的CR-0331完整覆盖R12/R18会员与R12/R24奖励共享归属、HTTP 423、OpenAPI合法精简错误信封、三项GET精确字段及独立恢复边界、B08/P01真实区域与虚构项过滤、typed Home/Me真实Navigation
+      Compose栈、来源返回、saveState/restoreState/launchSingleTop及peer动效；文件、兼容和MODULE证据范围完整，无需数据库或服务端业务迁移，批准按所列范围实施。
+  machine_record: .continuity/change_requests/CR-0331.yaml
+  document: docs/03-continuity/change-requests/CR-0331-实现SCR-ME-001真实资产聚合首页并修复底部栏目导航回归.md
