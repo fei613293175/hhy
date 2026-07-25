@@ -1,5 +1,5 @@
 context_version: '1.0'
-generated_at: '2026-07-25T18:02:01Z'
+generated_at: '2026-07-25T18:03:08Z'
 conversation_dependency: PROHIBITED
 source_of_truth: REPOSITORY_ONLY
 project: hhy-pro-platform
@@ -9,10 +9,10 @@ current_status:
   baseline_version: 1.2.3
   phase: R12
   active_release: R12
-  active_task: TASK-R12-005
-  status: IN_PROGRESS
+  active_task: TASK-R12-006
+  status: READY
   documentation_status: ZERO_BLOCKING_DOCUMENT_GAPS
-  last_green_commit: 4366bd9392efe2e60b5aa9217428e71932368cf6
+  last_green_commit: 5419d68255dcc965c2c31fcb3006f616d9f8c38a
   last_staging_apk: null
   completed_tasks:
   - V1.2.2_ENGINEERING_BASELINE
@@ -122,15 +122,15 @@ current_status:
   - TASK-R12-002
   - TASK-R12-003
   - TASK-R12-004
-  in_progress_tasks:
   - TASK-R12-005
+  in_progress_tasks: []
   blocked_tasks:
   - TASK-R02-007
   - TASK-R03-007
   - TASK-R06-008
   - TASK-R07-008
-  next_task: TASK-R12-005
-  updated_at: '2026-07-25T18:01:58Z'
+  next_task: TASK-R12-006
+  updated_at: '2026-07-25T18:03:04Z'
   notes:
   - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
   - 全部REST/WebSocket操作均有页面或系统所有者
@@ -162,22 +162,20 @@ current_status:
   continuity:
     protocol_version: '1.0'
     mode: ENFORCED
-    active_session_id: SES-20260725T171320Z-7ACF9261
-    actor_id: codex-root-r12-testing-20260726
-    story_id: STORY-R12-008
-    lease_expires_at: '2026-07-25T22:01:58Z'
-    latest_checkpoint: .continuity/checkpoints/SES-20260725T171320Z-7ACF9261/0005.yaml
-    project_fingerprint: f594ad1ee34ed111f3f2fe70794c44c5484c3cc8889d09317cfb3b52342c3849
+    active_session_id: null
+    last_session_id: SES-20260725T171320Z-7ACF9261
+    last_session_result: COMPLETED
+    last_checkpoint: .continuity/checkpoints/SES-20260725T171320Z-7ACF9261/0006.yaml
+    last_handoff_bundle: null
     context_pack:
       yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
       markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
       manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-      context_hash: 92027e35f500ecec53a369523054960b61499df0d0c4a209b105917be2123b6d
-      generated_at: '2026-07-25T17:58:27Z'
-    handoff_bundle: null
+      context_hash: e9177b349ea957bf87807d8198b3b0dc123a99fabe0a8bc01a90e2682e95c276
+      generated_at: '2026-07-25T18:03:02Z'
 next_task:
-  id: TASK-R12-005
-  title: 统一发布与发布管理专项测试与故障注入
+  id: TASK-R12-006
+  title: 统一发布与发布管理可观测性与预发布验收
   status: READY
   release: R12
   requirements:
@@ -185,23 +183,22 @@ next_task:
   - REQ-PUBLISH-001
   - REQ-APK-001
   depends_on:
-  - TASK-R12-003
-  - TASK-R12-004
+  - TASK-R12-005
   definition_of_ready: releases/R12/DEFINITION_OF_READY.yaml
   stories: releases/R12/STORIES.yaml
   steps:
-  - 测试报告和失败证据归档
-  - 关键缺陷清零
+  - 运行手册演练
+  - 验收矩阵签字
   acceptance:
   - 无TODO/生产Mock
   - 代码、文档、测试、追踪同步更新
-  - 测试报告和失败证据归档
-  - 关键缺陷清零
+  - 运行手册演练
+  - 验收矩阵签字
   claim_required: true
-  start_command: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R12-005
+  start_command: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R12-006
   commands:
     resume: python3 scripts/continuity.py resume
-    start: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R12-005
+    start: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R12-006
     checkpoint: python3 scripts/continuity.py checkpoint --summary '<阶段完成>' --next-step '<精确下一步>' --test 'name|PASS|evidence|note' --parallel-assessment
       <ASSESSMENT> --parallel-reason '<未委托原因>'
     handoff: python3 scripts/continuity.py handoff --actor <ACTOR_ID> --reason '<移交原因>' --next-step '<精确下一步>'
@@ -209,349 +206,36 @@ next_task:
     cr_amend: python3 scripts/continuity.py cr-amend --actor <ACTOR_ID> --cr <CR_ID> --original-rule '<原规则>' --new-rule '<新规则>' --impact-summary
       '<影响摘要>' --migration-and-compatibility '<迁移兼容说明>' --file <PATH> --test '<TEST>' --release <RELEASE>
   next_after: 由当前TASKS.yaml依赖关系决定
-active_session:
-  protocol_version: '1.0'
-  package_version: 1.2.3
-  session_id: SES-20260725T171320Z-7ACF9261
-  status: ACTIVE
-  actor:
-    id: codex-root-r12-testing-20260726
-    kind: AI_OR_HUMAN
-    host: unknown
-  release: R12
-  task_id: TASK-R12-005
-  story_id: STORY-R12-008
-  goal: 执行R12重复请求、并发、超时、消息重复和异常恢复专项测试，归档报告并清零关键缺陷。
-  started_at: '2026-07-25T17:13:20Z'
-  updated_at: '2026-07-25T18:01:58Z'
-  takeover_of: null
-  change_requests:
-  - CR-0333
-  scope:
-    allowed_paths:
-    - apps/**
-    - services/**
-    - packages/**
-    - contracts/**
-    - database/**
-    - config/**
-    - catalogs/**
-    - tests/**
-    - infra/**
-    - design/**
-    - docs/**
-    - releases/**
-    - scripts/**
-    - templates/**
-    - .github/**
-    - .githooks/**
-    - .codex/**
-    - AGENTS.md
-    - START_HERE.md
-    - README.md
-    - CHANGELOG.md
-    - Makefile
-    - .gitignore
-    - .gitattributes
-    - .dockerignore
-    - package.json
-    - pnpm-lock.yaml
-    - pnpm-workspace.yaml
-    - requirements-dev.txt
-    - PROJECT_*.yaml
-    - PROJECT_*.json
-    approved_exceptions:
-    - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R12PublishingServiceTest.java
-    - tests/r12/README.md
-    - tests/r12/req-content-002_happy
-    - tests/r12/req-content-002_reject
-    - tests/r12/req-content-002_idempotent
-    - tests/r12/req-publish-001_happy
-    - tests/r12/req-publish-001_reject
-    - tests/r12/req-publish-001_idempotent
-    - tests/test_r12_specialized_matrix.py
-    - scripts/run_r12_specialized_matrix.py
-    - catalogs/test_cases.csv
-    - artifacts/validation/r12-test-evidence/evidence.json
-    - artifacts/validation/r12-test-evidence/backend-java21.log
-    - artifacts/validation/r12-test-evidence/postgresql17.log
-    - artifacts/validation/r12-test-evidence/android-module.log
-    - docs/03-continuity/R12_TASK-005_SPECIALIZED_TEST_GATE.md
-    - releases/R12/RELEASE_MANIFEST.yaml
-    - CHANGELOG.md
-    source: story+explicit+approved-cr:CR-0333
-  git:
-    initialized: true
-    branch: task/TASK-R03-001
-    base_commit: 1b18f744c6f28b918c6d3d38957de1a02ca00745
-    start_head: 1b18f744c6f28b918c6d3d38957de1a02ca00745
-    upstream: origin/task/TASK-R03-001
-    initial_worktree_state: CLEAN
-  lease:
-    duration_minutes: 240
-    renewed_at: '2026-07-25T18:01:58Z'
-    expires_at: '2026-07-25T22:01:58Z'
-  checkpoint_sequence: 5
-  latest_checkpoint: .continuity/checkpoints/SES-20260725T171320Z-7ACF9261/0005.yaml
-  session_log: docs/03-continuity/sessions/2026-07/SES-20260725T171320Z-7ACF9261.md
-  next_step: 关闭TASK-R12-005会话并生成机器关闭提交，NEXT_TASK切换TASK-R12-006。
-  context_pack: THIS_CONTEXT_PACK
-  handoff_bundle: null
-  closure: null
-  parallel_execution:
-    assessment: NO_SAFE_PARALLEL
-    delegated_workers: 0
-    workers: []
-    reason: 仅关闭同一CR与任务元数据，必须由主控串行维护唯一连续性事实源。
-latest_checkpoint:
-  protocol_version: '1.0'
-  checkpoint_id: CP-SES-20260725T171320Z-7ACF9261-0005
-  session_id: SES-20260725T171320Z-7ACF9261
-  task_id: TASK-R12-005
-  story_id: STORY-R12-008
-  sequence: 5
-  created_at: '2026-07-25T18:01:57Z'
-  summary: CR-0333已关闭，TASK-R12-005实现、证据与行尾归一化Commit均已推送；六项矩阵复核PASS。
-  next_step: 关闭TASK-R12-005会话并生成机器关闭提交，NEXT_TASK切换TASK-R12-006。
-  blockers: []
-  decisions: []
-  note: 完整模拟器、截图与APK继续延后到TASK-R12-007。
-  tests:
-  - name: r12-specialized-final
-    result: PASS
-    evidence: artifacts/validation/r12-test-evidence/evidence.json
-    note: CR关闭后六项矩阵和哈希仍有效
-  - name: git-push-task-r12-005
-    result: PASS
-    evidence: origin/task/TASK-R03-001@04855647
-    note: 实现与证据Commit已推送且分支未behind/diverged
-  git:
-    initialized: true
-    branch: task/TASK-R03-001
-    head: 04855647f6ee4d8609b709cd4bc98e9baa48d4bc
-    upstream: origin/task/TASK-R03-001
-    ahead: 0
-    behind: 0
-    dirty: true
-    status_porcelain:
-    - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
-    - ' M .continuity/EVENT_LOG.jsonl'
-    - ' M .continuity/STATE.yaml'
-    - ' M .continuity/change_requests/CR-0333.yaml'
-    - ' M catalogs/change_request_index.csv'
-    - ' M catalogs/session_index.csv'
-    - ' M docs/03-continuity/change-requests/CR-0333-R12统一发布六项专项测试与故障证据闭环.md'
-    recent_commits:
-    - "04855647f6ee4d8609b709cd4bc98e9baa48d4bc\t2026-07-26T01:59:06+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] chore(r12): normalize evidence\
-      \ line endings"
-    - "1cc414c8bb58ee121c5739890794ccbcda45aee4\t2026-07-26T01:55:51+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] docs(r12): freeze specialized\
-      \ test evidence"
-    - "5419d68255dcc965c2c31fcb3006f616d9f8c38a\t2026-07-26T01:46:43+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] test(r12): automate publishing\
-      \ matrix"
-    - "50c31b95e6352f648ec7793663c291458de4c685\t2026-07-26T01:14:52+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] chore(continuity): enter\
-      \ specialized test gate"
-    - "1b18f744c6f28b918c6d3d38957de1a02ca00745\t2026-07-26T01:11:28+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] chore(continuity): close\
-      \ TASK-R12-004 as completed"
-    - "22bcc942eb801e3a6a36292aa8026aed845af852\t2026-07-26T01:08:50+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] chore(continuity): close\
-      \ client gate changes"
-    - "4366bd9392efe2e60b5aa9217428e71932368cf6\t2026-07-26T01:04:41+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] docs(release): close client\
-      \ implementation gate"
-    - "4a11d21d741c2f15f5e6b96f16f87bb0081fb588\t2026-07-26T00:57:51+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] chore(continuity): enter\
-      \ release closure"
-  project_fingerprint:
-    sha256: f594ad1ee34ed111f3f2fe70794c44c5484c3cc8889d09317cfb3b52342c3849
-    files:
-    - CHANGELOG.md
-    - catalogs/test_cases.csv
-    - docs/03-continuity/R12_TASK-005_SPECIALIZED_TEST_GATE.md
-    - docs/03-continuity/change-requests/CR-0333-R12统一发布六项专项测试与故障证据闭环.md
-    - releases/R12/RELEASE_MANIFEST.yaml
-    - scripts/run_r12_specialized_matrix.py
-    - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R12PublishingServiceTest.java
-    - tests/r12/README.md
-    - tests/r12/req-content-002_happy
-    - tests/r12/req-content-002_idempotent
-    - tests/r12/req-content-002_reject
-    - tests/r12/req-publish-001_happy
-    - tests/r12/req-publish-001_idempotent
-    - tests/r12/req-publish-001_reject
-    - tests/test_r12_specialized_matrix.py
-    file_count: 15
-    payload:
-      base_commit: 1b18f744c6f28b918c6d3d38957de1a02ca00745
-      files:
-      - path: CHANGELOG.md
-        state: FILE
-        size: 140865
-        sha256: 653150a1a2d501c90d2e9d5b57581294f5ea7a7b687592cdf4387d7ad87b4996
-      - path: catalogs/test_cases.csv
-        state: FILE
-        size: 227784
-        sha256: 80a41ace55020aecfebc7fc6d7c822a5aa2624de03ceee79009ad0fa2561a4b0
-      - path: docs/03-continuity/R12_TASK-005_SPECIALIZED_TEST_GATE.md
-        state: FILE
-        size: 2881
-        sha256: 06d0a58729467020407535bd80a214c35352da5f0ee013737bf24ee6fdb5f1f3
-      - path: docs/03-continuity/change-requests/CR-0333-R12统一发布六项专项测试与故障证据闭环.md
-        state: FILE
-        size: 4760
-        sha256: 9620e99fdeb135cd39731ae761ec9684203d25c28ca3258371033521811552ea
-      - path: releases/R12/RELEASE_MANIFEST.yaml
-        state: FILE
-        size: 8978
-        sha256: e3141c642bfaf5a5302a66b2d2c583c7a1ad1123d3816ae8829991b23d95aa92
-      - path: scripts/run_r12_specialized_matrix.py
-        state: FILE
-        size: 9225
-        sha256: 65eaeba00d0fad71e8d50dcae1482cfdeb224a4ca7ca00156a33c4c253f5c706
-      - path: services/backend/boot/src/test/java/cc/orbexa/hhy/content/R12PublishingServiceTest.java
-        state: FILE
-        size: 14465
-        sha256: 475da2eafd0ae32aea58601426a6d611301939ad91a73357fbc39254b04b45d7
-      - path: tests/r12/README.md
-        state: FILE
-        size: 881
-        sha256: d3c2ccd311b9628c720a684f9e57d5c0c38c8d99b9220e021f2e1520320edbe4
-      - path: tests/r12/req-content-002_happy
-        state: FILE
-        size: 1202
-        sha256: fb25b7a28868bfdefdf03405514768ffae1707354b31abee2a2cd93c9bdb601b
-      - path: tests/r12/req-content-002_idempotent
-        state: FILE
-        size: 1198
-        sha256: 51db8b6894fad53d46c27a0e983f4c28eb5cc6ad16ba9bc9e34d0970b4d1de20
-      - path: tests/r12/req-content-002_reject
-        state: FILE
-        size: 1318
-        sha256: 3f95c56fa73c0303afb0e4b94b6f4770933546078ec6c1ad478bba2437ab3942
-      - path: tests/r12/req-publish-001_happy
-        state: FILE
-        size: 1167
-        sha256: b65bd15ffd759c52971c3ea9fd85e3b9d57b3ca86a9a790444ce10da818c2485
-      - path: tests/r12/req-publish-001_idempotent
-        state: FILE
-        size: 1190
-        sha256: c1eb3259ebf689c7cb213d899144bbb07bbdfde109eaf02e0f01b223765d08bd
-      - path: tests/r12/req-publish-001_reject
-        state: FILE
-        size: 1285
-        sha256: 525e328ebaaf4169575608f18d482a309ea2ed372664e57cd7e5cf51203e932b
-      - path: tests/test_r12_specialized_matrix.py
-        state: FILE
-        size: 3168
-        sha256: f9c3238f22135e43baffa6a43280f00c9a74ff2bc57be55ba4eae205a31b70c7
-  change_classification:
-    other:
-    - CHANGELOG.md
-    - catalogs/test_cases.csv
-    continuity:
-    - docs/03-continuity/R12_TASK-005_SPECIALIZED_TEST_GATE.md
-    - docs/03-continuity/change-requests/CR-0333-R12统一发布六项专项测试与故障证据闭环.md
-    source_of_truth:
-    - releases/R12/RELEASE_MANIFEST.yaml
-    code:
-    - scripts/run_r12_specialized_matrix.py
-    - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R12PublishingServiceTest.java
-    tests:
-    - tests/r12/README.md
-    - tests/r12/req-content-002_happy
-    - tests/r12/req-content-002_idempotent
-    - tests/r12/req-content-002_reject
-    - tests/r12/req-publish-001_happy
-    - tests/r12/req-publish-001_idempotent
-    - tests/r12/req-publish-001_reject
-    - tests/test_r12_specialized_matrix.py
-  required_records:
-  - SESSION_RECORD
-  - SESSION_LOG
-  - CHECKPOINT
-  - CURRENT_STATUS
-  - EVENT_LOG
-  - APPROVED_CHANGE_REQUEST
-  change_requests:
-  - CR-0333
-  scope:
-    allowed_paths:
-    - apps/**
-    - services/**
-    - packages/**
-    - contracts/**
-    - database/**
-    - config/**
-    - catalogs/**
-    - tests/**
-    - infra/**
-    - design/**
-    - docs/**
-    - releases/**
-    - scripts/**
-    - templates/**
-    - .github/**
-    - .githooks/**
-    - .codex/**
-    - AGENTS.md
-    - START_HERE.md
-    - README.md
-    - CHANGELOG.md
-    - Makefile
-    - .gitignore
-    - .gitattributes
-    - .dockerignore
-    - package.json
-    - pnpm-lock.yaml
-    - pnpm-workspace.yaml
-    - requirements-dev.txt
-    - PROJECT_*.yaml
-    - PROJECT_*.json
-    approved_exceptions:
-    - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R12PublishingServiceTest.java
-    - tests/r12/README.md
-    - tests/r12/req-content-002_happy
-    - tests/r12/req-content-002_reject
-    - tests/r12/req-content-002_idempotent
-    - tests/r12/req-publish-001_happy
-    - tests/r12/req-publish-001_reject
-    - tests/r12/req-publish-001_idempotent
-    - tests/test_r12_specialized_matrix.py
-    - scripts/run_r12_specialized_matrix.py
-    - catalogs/test_cases.csv
-    - artifacts/validation/r12-test-evidence/evidence.json
-    - artifacts/validation/r12-test-evidence/backend-java21.log
-    - artifacts/validation/r12-test-evidence/postgresql17.log
-    - artifacts/validation/r12-test-evidence/android-module.log
-    - docs/03-continuity/R12_TASK-005_SPECIALIZED_TEST_GATE.md
-    - releases/R12/RELEASE_MANIFEST.yaml
-    - CHANGELOG.md
-    source: story+explicit+approved-cr:CR-0333
-  parallel_execution:
-    assessment: NO_SAFE_PARALLEL
-    delegated_workers: 0
-    workers: []
-    reason: 仅关闭同一CR与任务元数据，必须由主控串行维护唯一连续性事实源。
-  event_hash: 86e9c7b9f2b075c0e4c18890c9510ef88a70f89d6d4a266994cb40ae7f1a7bbc
+active_session: null
+latest_checkpoint: null
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: 04855647f6ee4d8609b709cd4bc98e9baa48d4bc
+  head: 284917c042dbd77c815657a979aa9de06c1a8754
   upstream: origin/task/TASK-R03-001
-  ahead: 0
+  ahead: 1
   behind: 0
   dirty: true
   status_porcelain:
   - ' M .continuity/ACTIVE_SESSION.yaml'
-  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
   - ' M .continuity/EVENT_LOG.jsonl'
   - ' M .continuity/SESSION_INDEX.yaml'
   - ' M .continuity/STATE.yaml'
-  - ' M .continuity/change_requests/CR-0333.yaml'
+  - ' M .continuity/TASK_CLAIMS.yaml'
   - ' M .continuity/sessions/SES-20260725T171320Z-7ACF9261.yaml'
+  - ' M CHANGELOG.md'
   - ' M CURRENT_STATUS.yaml'
-  - ' M catalogs/change_request_index.csv'
+  - ' M NEXT_TASK.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
   - ' M catalogs/session_index.csv'
-  - ' M docs/03-continuity/change-requests/CR-0333-R12统一发布六项专项测试与故障证据闭环.md'
   - ' M docs/03-continuity/sessions/2026-07/SES-20260725T171320Z-7ACF9261.md'
-  - ?? .continuity/checkpoints/SES-20260725T171320Z-7ACF9261/0005.yaml
+  - ' M releases/R12/TASKS.yaml'
+  - ?? .continuity/checkpoints/SES-20260725T171320Z-7ACF9261/0006.yaml
   recent_commits:
+  - "284917c042dbd77c815657a979aa9de06c1a8754\t2026-07-26T02:02:31+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] chore(continuity): close specialized\
+    \ test change"
   - "04855647f6ee4d8609b709cd4bc98e9baa48d4bc\t2026-07-26T01:59:06+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] chore(r12): normalize evidence\
     \ line endings"
   - "1cc414c8bb58ee121c5739890794ccbcda45aee4\t2026-07-26T01:55:51+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] docs(r12): freeze specialized\
@@ -566,90 +250,10 @@ git:
     \ gate changes"
   - "4366bd9392efe2e60b5aa9217428e71932368cf6\t2026-07-26T01:04:41+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] docs(release): close client\
     \ implementation gate"
-  - "4a11d21d741c2f15f5e6b96f16f87bb0081fb588\t2026-07-26T00:57:51+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] chore(continuity): enter release\
-    \ closure"
 project_fingerprint:
-  sha256: f594ad1ee34ed111f3f2fe70794c44c5484c3cc8889d09317cfb3b52342c3849
-  files:
-  - CHANGELOG.md
-  - catalogs/test_cases.csv
-  - docs/03-continuity/R12_TASK-005_SPECIALIZED_TEST_GATE.md
-  - docs/03-continuity/change-requests/CR-0333-R12统一发布六项专项测试与故障证据闭环.md
-  - releases/R12/RELEASE_MANIFEST.yaml
-  - scripts/run_r12_specialized_matrix.py
-  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R12PublishingServiceTest.java
-  - tests/r12/README.md
-  - tests/r12/req-content-002_happy
-  - tests/r12/req-content-002_idempotent
-  - tests/r12/req-content-002_reject
-  - tests/r12/req-publish-001_happy
-  - tests/r12/req-publish-001_idempotent
-  - tests/r12/req-publish-001_reject
-  - tests/test_r12_specialized_matrix.py
-  file_count: 15
-  payload:
-    base_commit: 1b18f744c6f28b918c6d3d38957de1a02ca00745
-    files:
-    - path: CHANGELOG.md
-      state: FILE
-      size: 140865
-      sha256: 653150a1a2d501c90d2e9d5b57581294f5ea7a7b687592cdf4387d7ad87b4996
-    - path: catalogs/test_cases.csv
-      state: FILE
-      size: 227784
-      sha256: 80a41ace55020aecfebc7fc6d7c822a5aa2624de03ceee79009ad0fa2561a4b0
-    - path: docs/03-continuity/R12_TASK-005_SPECIALIZED_TEST_GATE.md
-      state: FILE
-      size: 2881
-      sha256: 06d0a58729467020407535bd80a214c35352da5f0ee013737bf24ee6fdb5f1f3
-    - path: docs/03-continuity/change-requests/CR-0333-R12统一发布六项专项测试与故障证据闭环.md
-      state: FILE
-      size: 4760
-      sha256: 9620e99fdeb135cd39731ae761ec9684203d25c28ca3258371033521811552ea
-    - path: releases/R12/RELEASE_MANIFEST.yaml
-      state: FILE
-      size: 8978
-      sha256: e3141c642bfaf5a5302a66b2d2c583c7a1ad1123d3816ae8829991b23d95aa92
-    - path: scripts/run_r12_specialized_matrix.py
-      state: FILE
-      size: 9225
-      sha256: 65eaeba00d0fad71e8d50dcae1482cfdeb224a4ca7ca00156a33c4c253f5c706
-    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/content/R12PublishingServiceTest.java
-      state: FILE
-      size: 14465
-      sha256: 475da2eafd0ae32aea58601426a6d611301939ad91a73357fbc39254b04b45d7
-    - path: tests/r12/README.md
-      state: FILE
-      size: 881
-      sha256: d3c2ccd311b9628c720a684f9e57d5c0c38c8d99b9220e021f2e1520320edbe4
-    - path: tests/r12/req-content-002_happy
-      state: FILE
-      size: 1202
-      sha256: fb25b7a28868bfdefdf03405514768ffae1707354b31abee2a2cd93c9bdb601b
-    - path: tests/r12/req-content-002_idempotent
-      state: FILE
-      size: 1198
-      sha256: 51db8b6894fad53d46c27a0e983f4c28eb5cc6ad16ba9bc9e34d0970b4d1de20
-    - path: tests/r12/req-content-002_reject
-      state: FILE
-      size: 1318
-      sha256: 3f95c56fa73c0303afb0e4b94b6f4770933546078ec6c1ad478bba2437ab3942
-    - path: tests/r12/req-publish-001_happy
-      state: FILE
-      size: 1167
-      sha256: b65bd15ffd759c52971c3ea9fd85e3b9d57b3ca86a9a790444ce10da818c2485
-    - path: tests/r12/req-publish-001_idempotent
-      state: FILE
-      size: 1190
-      sha256: c1eb3259ebf689c7cb213d899144bbb07bbdfde109eaf02e0f01b223765d08bd
-    - path: tests/r12/req-publish-001_reject
-      state: FILE
-      size: 1285
-      sha256: 525e328ebaaf4169575608f18d482a309ea2ed372664e57cd7e5cf51203e932b
-    - path: tests/test_r12_specialized_matrix.py
-      state: FILE
-      size: 3168
-      sha256: f9c3238f22135e43baffa6a43280f00c9a74ff2bc57be55ba4eae205a31b70c7
+  sha256: a5c1ba1e9baaf35c4af582fd690be3c023871a69722bd5c629d9d7325c91d947
+  files: []
+  file_count: 0
 release_context:
   RELEASE_MANIFEST.yaml:
     release: R12
@@ -1825,7 +1429,7 @@ release_context:
       completed_at: '2026-07-25T17:10:07Z'
     - id: TASK-R12-005
       title: 统一发布与发布管理专项测试与故障注入
-      status: READY
+      status: DONE
       depends_on:
       - TASK-R12-003
       - TASK-R12-004
@@ -1840,9 +1444,10 @@ release_context:
       - 测试报告和失败证据归档
       - 关键缺陷清零
       session_log_required: true
+      completed_at: '2026-07-25T18:02:53Z'
     - id: TASK-R12-006
       title: 统一发布与发布管理可观测性与预发布验收
-      status: BLOCKED
+      status: READY
       depends_on:
       - TASK-R12-005
       requirements: *id001
@@ -2100,12 +1705,12 @@ repository_transport:
 continuity_state:
   mode: ENFORCED
   protocol_version: '1.0'
-  active_session_id: SES-20260725T171320Z-7ACF9261
-  last_session_id: SES-20260725T053515Z-11D4084D
+  active_session_id: null
+  last_session_id: SES-20260725T171320Z-7ACF9261
   last_session_result: COMPLETED
-  last_closure_checkpoint_id: CP-SES-20260725T053515Z-11D4084D-0037
-  event_count: 3273
-  event_head_hash: 86e9c7b9f2b075c0e4c18890c9510ef88a70f89d6d4a266994cb40ae7f1a7bbc
+  last_closure_checkpoint_id: CP-SES-20260725T171320Z-7ACF9261-0006
+  event_count: 3276
+  event_head_hash: c000e99ca04e15e0ea53d493c6b4cd23c905a3d86661f84d2ffcae4241930ccb
   event_chain_valid: true
 recent_sessions:
 - session_id: SES-20260723T231210Z-409B970E
@@ -2220,13 +1825,13 @@ recent_sessions:
   task_id: TASK-R12-005
   story_id: STORY-R12-008
   actor_id: codex-root-r12-testing-20260726
-  status: ACTIVE
+  status: CLOSED
   started_at: '2026-07-25T17:13:20Z'
   record: .continuity/sessions/SES-20260725T171320Z-7ACF9261.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260725T171320Z-7ACF9261.md
-  updated_at: '2026-07-25T18:01:58Z'
-  closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260725T171320Z-7ACF9261/0005.yaml
+  updated_at: '2026-07-25T18:03:04Z'
+  closed_at: '2026-07-25T18:03:04Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260725T171320Z-7ACF9261/0006.yaml
   handoff_bundle: null
 task_claims:
 - claim_id: CLM-5F25C1DC3278
@@ -2980,7 +2585,7 @@ task_claims:
   task_id: TASK-R12-005
   story_id: STORY-R12-008
   actor_id: codex-root-r12-testing-20260726
-  status: ACTIVE
+  status: CLOSED
   claimed_at: '2026-07-25T17:13:20Z'
   allowed_paths:
   - apps/**
@@ -3014,6 +2619,7 @@ task_claims:
   - requirements-dev.txt
   - PROJECT_*.yaml
   - PROJECT_*.json
+  closed_at: '2026-07-25T18:03:04Z'
 recent_task_transitions:
 - transition_id: TRN-1168B6AF55E1
   timestamp: '2026-07-23T06:25:52Z'
@@ -11070,11 +10676,11 @@ source_manifest:
   sha256: 22de14029ce47beb41ea569e36ce223fbc9d11b86f8676f28d5fbbd83896af5c
   bytes: 4556
 - path: CURRENT_STATUS.yaml
-  sha256: 1cfc8aec3c7a3548e350e5bb7f691ef488a2c85f49028e76bdaf6f878632c042
-  bytes: 4448
+  sha256: ec758877b0c5b18e1bb0dad9e02a0f0881591bb319c68c0ad7fec9b4eca807f4
+  bytes: 4304
 - path: NEXT_TASK.yaml
-  sha256: 8e57ae554a2e4fea9ace7cb8e9a13093511c356f5d1f69d63ccf2a310df569df
-  bytes: 1526
+  sha256: 39db6c6f107c3fd4b926f53a338d945b2cfef53d27fd64ceb03de630adb4d343
+  bytes: 1484
 - path: DEVELOPMENT_RISK_REGISTER.md
   sha256: 8304c91492e4ee2abea0522a06541c8688d39c7fc532b5d0cde499bf09fffb87
   bytes: 8289
@@ -11103,14 +10709,14 @@ source_manifest:
   sha256: 60943fcd9714cfae7274463554b5584fdb7a7aeee1ee547ff6dbc53fae6d4994
   bytes: 13170
 - path: .continuity/EVENT_LOG.jsonl
-  sha256: 69c5e4a36f2f5f6bd570170a45a68d9182b94adfd3d9b4b0bcbb625ee25affb9
-  bytes: 1850204
+  sha256: 7c968bca6407bc1657c69a202962f1b563cec925adb617e187eff4b96526de32
+  bytes: 1851995
 - path: .continuity/SESSION_INDEX.yaml
-  sha256: e1f0f8c03265088e8b6e9a92f9937ee64aadb482e91461c53a3775110f7d7c15
-  bytes: 53813
+  sha256: 12f33e3156a30466d283d1d14c7e470346735627ccb80b87e8744b12f28eecc2
+  bytes: 53831
 - path: .continuity/TASK_CLAIMS.yaml
-  sha256: cfef95133733f0aed1484ad809d44633cbb4458228226f89c0a7d451a213773b
-  bytes: 75530
+  sha256: 3782b891aa4a53a52b826191e71e62892751fd961ffe848e02dc19f255b026c6
+  bytes: 75566
 - path: .continuity/TASK_TRANSITIONS.yaml
   sha256: fe80c7cef82c43488e5def1133b9b6228b875f41552e273af8449910f0df0d06
   bytes: 30625
@@ -11118,8 +10724,8 @@ source_manifest:
   sha256: b6ef276395afc57153ca0782dc38e864461af4d9140b28f50183a346819a7cb0
   bytes: 1144111
 - path: .continuity/ACTIVE_SESSION.yaml
-  sha256: 3b19c3a77fb7528998b45844ff6c4ed367f234443773c94af7cd5a3291bc1ebf
-  bytes: 546
+  sha256: 1efd402b0a3862bf209ebf97af8308caaa4b93d06aac29f81a46a5af670bd4de
+  bytes: 143
 - path: docs/00-baseline/正式商业系统全局硬性开发边界.md
   sha256: 9753b32db136e59e95a0974a62362456d9d577fd1bb40058ec985c4b64413eea
   bytes: 12596
@@ -11142,23 +10748,14 @@ source_manifest:
   sha256: ed80bfe7ba3779ab57985d98a5250c4a80c15708035c30afe393de146e029fc2
   bytes: 23156
 - path: releases/R12/TASKS.yaml
-  sha256: 2bd987c32a2de444e21c5908f413d9ba6c0e98cdb26ce12fa1cfdc126fffb2fd
-  bytes: 5666
+  sha256: 8e247655c5e9535870b573fa60ac2f3767df9ee896ade7b0868ad9488ec51461
+  bytes: 5702
 - path: releases/R12/ACCEPTANCE_MATRIX.csv
   sha256: 197874227cef03f791df1fa5d2101a251df266c63240f777f358388b46cb9706
   bytes: 684
 - path: releases/R12/PARALLEL_EXECUTION_PLAN.yaml
   sha256: 2ddbee414a51a868b63331992e2e04c5400846cf6012474aab406e067e532e98
   bytes: 2797
-- path: docs/03-continuity/sessions/2026-07/SES-20260725T171320Z-7ACF9261.md
-  sha256: 0e899f1d8fb8bf9bf7afe568aceb2e38ecbb42676b5211b9624d847b73e6fd78
-  bytes: 9807
-- path: .continuity/checkpoints/SES-20260725T171320Z-7ACF9261/0005.yaml
-  sha256: 0620712023ef63dfa6d4dee71f9f12481c9e21f86c45972c5b7729c5b3c71e17
-  bytes: 8735
-- path: docs/03-continuity/change-requests/CR-0333-R12统一发布六项专项测试与故障证据闭环.md
-  sha256: 9620e99fdeb135cd39731ae761ec9684203d25c28ca3258371033521811552ea
-  bytes: 4760
 rule_readiness:
   status: PASS
   evidence: HASHED_CONTEXT_MANIFEST
@@ -11178,8 +10775,7 @@ rule_readiness:
   - docs/03-continuity/PITFALLS.md
   - docs/09-development/统一开发与交付效率规范.md
   missing_sources: []
-exact_resume_command: python3 scripts/continuity.py checkpoint --summary '<完成内容>' --next-step '<下一步>' --parallel-assessment <ASSESSMENT> --parallel-reason
-  '<未委托原因>'
+exact_resume_command: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R12-006
 hard_rules:
 - 不得依赖旧对话补充仓库已有需求
 - 未领取任务和会话不得编辑项目文件
@@ -11194,4 +10790,4 @@ hard_rules:
 - 除非项目所有者明确报告未连接，默认Codex已连接obx-test且既有项目环境可用；预检失败必须阻断并报告
 - 禁止以无服务器状态继续开发或重建本地Android SDK，必须复用登记的远端镜像和Gradle缓存
 - Git remote/upstream仅按tracked transport descriptor受控恢复；推送前必须预检且禁止force push
-context_hash: e8d27801314bbeda657e85b215f118cf6daa0ce530fa905cd3b80aa20c8575ef
+context_hash: c63dd8517eb0fcd59388540968d009c3a9d6a164fe59bcdf17c4013cd116bb5a

@@ -1579,3 +1579,13 @@
 - Actor：`codex-root-r12-client-20260725`
 - 摘要：TASK-R12-004完成：八个Story、十一页客户端/后台真实闭环、逐Story MODULE证据、视觉IN_REVIEW边界和Release Manifest均已收口；最终候选截图与APK保留至TASK-R12-007。
 - 记录：`docs/03-continuity/sessions/2026-07/SES-20260725T053515Z-11D4084D.md`
+
+## TASK-R12-005 · COMPLETED · 2026-07-25T18:02:53Z
+
+- Task close: TASK-R12-005 / SES-20260725T171320Z-7ACF9261
+- Release：`R12`
+- Story：`STORY-R12-008`
+- Actor：`codex-root-r12-testing-20260726`
+- 摘要：TASK-R12-005完成：六个既有R12权威测试ID全部AUTOMATED，响应丢失重放、同键异体、Outbox单写、配置/存储故障零成功副作用和PostgreSQL17真实并发证据全部PASS，P0/P1缺陷清零。
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260725T171320Z-7ACF9261.md`
+
