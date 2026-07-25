@@ -3514,6 +3514,11 @@ export interface components {
         ContentDeleteContentsByIdParameters: {
             /** @description 路径资源标识：id */
             id: string;
+            /**
+             * Format: int64
+             * @description 当前内容乐观锁版本；版本不一致返回 COMMON-409-VERSION_CONFLICT
+             */
+            expectedVersion: number;
             xIdempotencyKey: string;
         };
         ContentGetMeContentsResponse: {
@@ -8778,7 +8783,10 @@ export interface operations {
     };
     contentDeleteContentsById: {
         parameters: {
-            query?: never;
+            query: {
+                /** @description 当前内容乐观锁版本；版本不一致返回 COMMON-409-VERSION_CONFLICT */
+                expectedVersion: number;
+            };
             header: {
                 /** @description UUID/ULID。相同主体、操作和键必须返回首次结果；请求摘要不一致返回 COMMON-409-IDEMPOTENCY_CONFLICT。 */
                 "X-Idempotency-Key": components["parameters"]["XIdempotencyKey"];

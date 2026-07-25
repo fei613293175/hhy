@@ -248,6 +248,7 @@
 内容,content_media,5,sort_order,integer,是,,,内容+顺序唯一,R06-R13,FROZEN
 内容,content_media,6,created_at,timestamptz,否,now(),INDEX,统一审计字段,R06-R13,FROZEN
 内容,content_media,7,updated_at,timestamptz,否,now(),,统一审计字段,R06-R13,FROZEN
+内容,content_media,8,removed_at,timestamptz,是,,INDEX,移除仅软标记且保留绑定历史,R12,FROZEN_CR-0316
 内容,content_contacts,1,id,bigint,否,generated,PRIMARY KEY,详情获取,R06-R13,FROZEN
 内容,content_contacts,2,content_id,bigint,否,,INDEX,详情获取,R06-R13,FROZEN
 内容,content_contacts,3,channel,varchar(64),是,,,JOIN_PASSWORD仅允许GROUP且每内容至多一条；不计入群主联系方式,R06-R13,FROZEN_CR-0268
@@ -256,6 +257,7 @@
 内容,content_contacts,6,sort_order,integer,是,,,详情获取,R06-R13,FROZEN
 内容,content_contacts,7,created_at,timestamptz,否,now(),INDEX,统一审计字段,R06-R13,FROZEN
 内容,content_contacts,8,updated_at,timestamptz,否,now(),,统一审计字段,R06-R13,FROZEN
+内容,content_contacts,9,removed_at,timestamptz,是,,INDEX,移除仅软标记且保留绑定历史,R12,FROZEN_CR-0316
 内容,content_versions,1,id,bigint,否,generated,PRIMARY KEY,技术主键,R06-R13,FROZEN
 内容,content_versions,2,content_id,bigint,否,,INDEX,内容+版本唯一,R06-R13,FROZEN
 内容,content_versions,3,version_no,varchar(255),否,,,内容+版本唯一,R06-R13,FROZEN
@@ -269,6 +271,7 @@
 内容,content_status_logs,5,reason,text,是,,,不可删除,R06-R13,FROZEN
 内容,content_status_logs,6,operator,varchar(255),是,,,不可删除,R06-R13,FROZEN
 内容,content_status_logs,7,created_at,timestamptz,否,now(),INDEX,统一审计字段,R06-R13,FROZEN
+内容,content_status_logs,8,transition_version,bigint,是,,UNIQUE(content_id transition_version),V039后每次迁移绑定唯一内容版本；旧历史允许空,R12,FROZEN_CR-0316
 内容,content_review_records,1,id,bigint,否,generated,PRIMARY KEY,版本索引,R06-R13,FROZEN
 内容,content_review_records,2,content_id,bigint,否,,INDEX,版本索引,R06-R13,FROZEN
 内容,content_review_records,3,version_no,varchar(255),是,,,版本索引,R06-R13,FROZEN
@@ -276,6 +279,8 @@
 内容,content_review_records,5,reason,text,是,,,版本索引,R06-R13,FROZEN
 内容,content_review_records,6,admin_id,bigint,是,,INDEX,版本索引,R06-R13,FROZEN
 内容,content_review_records,7,created_at,timestamptz,否,now(),INDEX,统一审计字段,R06-R13,FROZEN
+内容,content_review_records,8,snapshot_version_id,bigint,是,,INDEX FK content_versions(id),V039后审核事件绑定提交快照；旧记录允许空,R12,FROZEN_CR-0316
+内容,content_review_records,9,command_id,varchar(128),是,,UNIQUE(content_id command_id),V039后审核命令幂等；旧记录允许空,R12,FROZEN_CR-0316
 内容,content_stats,1,id,bigint,否,generated,PRIMARY KEY,技术主键,R06-R13,FROZEN
 内容,content_stats,2,content_id,bigint,否,,INDEX,content_id唯一,R06-R13,FROZEN
 内容,content_stats,3,organic_views,varchar(255),否,,,content_id唯一,R06-R13,FROZEN

@@ -1,0 +1,171 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260724T235749Z-6EC9DB09-0005
+session_id: SES-20260724T235749Z-6EC9DB09
+task_id: TASK-R12-002
+story_id: STORY-R12-008
+sequence: 5
+created_at: '2026-07-25T00:37:18Z'
+summary: CR-0316第三版经独立Actor复核批准并应用到TASK-R12-002会话范围
+next_step: 先修订DELETE expectedVersion合同并生成投影资产，再实现V039/U039与测试
+blockers: []
+decisions: []
+note: ''
+tests:
+- name: 本阶段未执行测试
+  result: NOT_RUN
+  evidence: ''
+  note: 本阶段完成变更控制审批和范围应用，尚未修改实现文件
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: 67436cb48ca2e9fb3c921744dd992022d574ce5d
+  upstream: origin/task/TASK-R03-001
+  ahead: 0
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/ACTIVE_SESSION.yaml'
+  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/SESSION_INDEX.yaml'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/TASK_CLAIMS.yaml'
+  - ' M .continuity/TASK_TRANSITIONS.yaml'
+  - ' M CURRENT_STATUS.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+  - ' M catalogs/change_request_index.csv'
+  - ' M catalogs/session_index.csv'
+  - ' M catalogs/task_transition_ledger.csv'
+  - ?? .continuity/change_requests/CR-0316.yaml
+  - ?? .continuity/checkpoints/SES-20260724T235749Z-6EC9DB09/0001.yaml
+  - ?? .continuity/checkpoints/SES-20260724T235749Z-6EC9DB09/0002.yaml
+  - ?? .continuity/checkpoints/SES-20260724T235749Z-6EC9DB09/0003.yaml
+  - ?? .continuity/checkpoints/SES-20260724T235749Z-6EC9DB09/0004.yaml
+  - ?? .continuity/sessions/SES-20260724T195501Z-13F8DFDE.yaml
+  - ?? .continuity/sessions/SES-20260724T235749Z-6EC9DB09.yaml
+  - ?? docs/03-continuity/change-requests/CR-0316-实现R12统一发布管理数据库状态机与领域不变量.md
+  - ?? docs/03-continuity/sessions/2026-07/SES-20260724T195501Z-13F8DFDE.md
+  - ?? docs/03-continuity/sessions/2026-07/SES-20260724T235749Z-6EC9DB09.md
+  recent_commits:
+  - "67436cb48ca2e9fb3c921744dd992022d574ce5d\t2026-07-25T00:37:48+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] chore(continuity): close TASK-R12-001\
+    \ as completed"
+  - "3a48126e76fd55b4d9f187e7e73122d121cfa190\t2026-07-25T00:29:49+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] docs(release): freeze R12\
+    \ entry and visual baseline"
+  - "186a6cbddee8da6a9f6c74b4190f8550dbc4dee3\t2026-07-24T22:45:56+08:00\tHHY Continuity Bootstrap\t[STORY-R11-004] chore(continuity): close TASK-R11-008\
+    \ as completed"
+  - "b197e7d9c753f41914e270ce108b4a0c897df3fe\t2026-07-24T22:41:56+08:00\tHHY Continuity Bootstrap\t[STORY-R11-004] chore(continuity): close R11\
+    \ workflow CRs"
+  - "6bd3313e087de6afc6f7189c6a1791a9a198ae7f\t2026-07-24T22:16:23+08:00\tHHY Continuity Bootstrap\t[STORY-R11-004] fix(workflow): close R11 without\
+    \ duplicate local builds"
+  - "a4772fbdbb703ee2c824c06cd0916fade1701f9d\t2026-07-24T19:02:18+08:00\tHHY Continuity Bootstrap\t[STORY-R11-004] chore(continuity): close TASK-R11-007\
+    \ as completed"
+  - "c64e8a630336c0e41f49a1335f71c661e3417dbf\t2026-07-24T17:27:43+08:00\tHHY Continuity Bootstrap\t[STORY-R11-004] test(android): publish R11\
+    \ test APK"
+  - "2a2b2c10fa859f65985181ebe16a938cbe28d3f7\t2026-07-24T15:00:02+08:00\tHHY Continuity Bootstrap\t[STORY-R11-004] test(android): approve R11\
+    \ visual baseline"
+project_fingerprint:
+  sha256: 87ad228b4b0545beeed4574e85db27671c8370dc367473e833f02e047e0ca0bd
+  files:
+  - docs/03-continuity/change-requests/CR-0316-实现R12统一发布管理数据库状态机与领域不变量.md
+  file_count: 1
+  payload:
+    base_commit: 67436cb48ca2e9fb3c921744dd992022d574ce5d
+    files:
+    - path: docs/03-continuity/change-requests/CR-0316-实现R12统一发布管理数据库状态机与领域不变量.md
+      state: FILE
+      size: 8237
+      sha256: c4309a8c1802446c848d7d5fcfb6fd9e5314422c2db90307770cb3d8879d8e5d
+change_classification:
+  continuity:
+  - docs/03-continuity/change-requests/CR-0316-实现R12统一发布管理数据库状态机与领域不变量.md
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+change_requests:
+- CR-0316
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions:
+  - contracts/openapi.yaml
+  - services/backend/boot/src/main/resources/contracts/openapi.yaml
+  - packages/api-client/src/client.generated.ts
+  - contracts/contract_status.csv
+  - scripts/generate_contracts.py
+  - scripts/check_api_contract.py
+  - catalogs/ui_action_matrix.csv
+  - catalogs/ui_page_fields.csv
+  - docs/02-ui/page-specs/android/SCR-MYC-002_草稿箱.md
+  - database/migrations/V039__r12_publish_management_invariants.sql
+  - services/backend/boot/src/main/resources/db/migration/V039__r12_publish_management_invariants.sql
+  - database/rollback/U039__r12_publish_management_invariants.sql
+  - database/tests/r12_publish_management_invariants.sql
+  - scripts/check_content_state_machine_projection.py
+  - scripts/run_r12_database_invariants.sh
+  - scripts/run_postgres_migration_smoke.sh
+  - scripts/run_r08_disposable_postgres_container.sh
+  - scripts/run_r09_disposable_postgres_container.sh
+  - scripts/check_db_schema.py
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentService.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentPostgresStore.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R08PostgresStore.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R09PostgresStore.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R10PostgresStore.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R11PostgresStore.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/ContentServiceTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R07PostgresStoreTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R08PostgresStoreTest.java
+  - database/tests/r06_content_home_invariants.sql
+  - database/tests/r07_contact_contract_alignment.sql
+  - database/tests/r07_search_invariants.sql
+  - database/tests/r08_project_invariants.sql
+  - database/tests/r09_app_promotion_invariants.sql
+  - database/tests/r10_group_promotion_invariants.sql
+  - database/tests/r11_team_leader_invariants.sql
+  - catalogs/data_tables.csv
+  - database/schema_dictionary.csv
+  - releases/R12/RELEASE_MANIFEST.yaml
+  - docs/03-continuity/R12_TASK-002_DATABASE_GATE.md
+  - CHANGELOG.md
+  source: story+explicit+approved-cr:CR-0316
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 审批后进入冻结合同、状态机和破坏性迁移实现，按AGENTS要求由主控串行复核
+event_hash: bebb39e0e6bbff9e064651f83bf1641fd984d7791621a7d60675fad0190e8be5

@@ -31,6 +31,10 @@ PSQL=(psql "${DATABASE_URL}" -X -v ON_ERROR_STOP=1)
 
 "${PSQL[@]}" -c "DROP SCHEMA IF EXISTS hhy CASCADE" >/dev/null
 for migration in "${ROOT}"/database/migrations/V*.sql; do
+  migration_name="$(basename "${migration}")"
+  migration_version="${migration_name%%__*}"
+  migration_number=$((10#${migration_version#V}))
+  (( migration_number > 33 )) && break
   "${PSQL[@]}" --single-transaction -f "${migration}" >/dev/null
 done
 table_count="$(${PSQL[@]} -qAt -c "SELECT count(*) FROM information_schema.tables WHERE table_schema='hhy' AND table_type='BASE TABLE'")"

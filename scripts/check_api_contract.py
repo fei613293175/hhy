@@ -114,6 +114,31 @@ require(
     "platform capability set drift",
 )
 
+# CR-0316: the destructive content command must participate in the same
+# optimistic-lock contract as every other content mutation.  The operation is
+# still pre-implementation, so this corrects the frozen v1 contract before any
+# runtime consumer can ship without a version token.
+content_delete = client["paths"]["/api/v1/contents/{id}"]["delete"]
+delete_parameters = {
+    (item.get("name"), item.get("in")): item
+    for item in content_delete.get("parameters", [])
+    if "$ref" not in item
+}
+delete_expected_version = delete_parameters.get(("expectedVersion", "query"), {})
+require(
+    delete_expected_version.get("required") is True
+    and delete_expected_version.get("schema") == {
+        "type": "integer", "format": "int64", "minimum": 0,
+    },
+    "content delete expectedVersion query contract drift",
+)
+delete_contract = schemas.get("ContentDeleteContentsByIdParameters", {})
+require(
+    "expectedVersion" in delete_contract.get("required", [])
+    and delete_contract.get("properties", {}).get("expectedVersion", {}).get("minimum") == 0,
+    "content delete named parameter contract must require nonnegative expectedVersion",
+)
+
 for row_number, row in enumerate(rows("contracts/contract_status.csv"), start=2):
     source = ROOT / row["事实源"]
     require(source.is_file(), f"contract_status:{row_number} source missing: {row['事实源']}")

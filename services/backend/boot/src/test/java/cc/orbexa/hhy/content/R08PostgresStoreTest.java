@@ -96,7 +96,20 @@ class R08PostgresStoreTest {
                     "COOP2", "CN-31", null, null,
                     "{\"description\":\"说明2\",\"categoryCode\":\"COOP2\",\"regionCode\":\"CN-31\"}",
                     List.of(), false, now.plusSeconds(1), owner));
-            realJdbc.update("UPDATE hhy.content_posts SET status='ONLINE' WHERE id=?", contentId);
+            realStore.replaceContacts(contentId, List.of(
+                    new R08Store.ContactWrite("EMAIL", "encrypted-email-v2", "n***@example.com", 0),
+                    new R08Store.ContactWrite("WECHAT", "encrypted-wechat-v1", "微信***", 1)), now.plusSeconds(1));
+            realStore.replaceContacts(contentId, List.of(
+                    new R08Store.ContactWrite("WECHAT", "encrypted-wechat-v2", "微信新***", 0)), now.plusSeconds(1));
+            assertEquals(2, realJdbc.queryForObject(
+                    "SELECT count(*) FROM hhy.content_contacts WHERE content_id=?", Integer.class, contentId));
+            assertEquals(1, realJdbc.queryForObject(
+                    "SELECT count(*) FROM hhy.content_contacts WHERE content_id=? AND removed_at IS NULL",
+                    Integer.class, contentId));
+            assertEquals("encrypted-wechat-v2", realJdbc.queryForObject(
+                    "SELECT value_cipher FROM hhy.content_contacts WHERE content_id=? AND removed_at IS NULL",
+                    String.class, contentId));
+            assertEquals(5, R12PostgresTestFixtures.publish(realJdbc, contentId, 1, suffix));
 
             assertTrue(realStore.favorite(viewer, contentId, now));
             assertFalse(realStore.favorite(viewer, contentId, now));

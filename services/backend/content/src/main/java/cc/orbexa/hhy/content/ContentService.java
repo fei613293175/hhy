@@ -110,7 +110,7 @@ public class ContentService {
     public CommandResult online(
             long adminId, String id, StatusRequest request, String key, String requestId, String ip) {
         return transition(adminId, id, request.expectedVersion(), request.reason(), key, requestId, ip,
-                "ONLINE", Set.of("APPROVED", "OFFLINE_BY_OWNER", "OFFLINE_BY_PLATFORM"), "CONTENT_ONLINE");
+                "ONLINE", Set.of("APPROVED", "OFFLINE_BY_OWNER"), "CONTENT_ONLINE");
     }
 
     @Transactional

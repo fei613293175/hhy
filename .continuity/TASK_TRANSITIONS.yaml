@@ -1030,3 +1030,23 @@ transitions:
   session_id: SES-20260724T144831Z-B2E27A89
   actor_id: codex-root-r12-entry
   reason: 会话领取任务
+- transition_id: TRN-684AB934BA4C
+  timestamp: '2026-07-24T19:55:03Z'
+  release: R12
+  task_id: TASK-R12-002
+  story_id: STORY-R12-008
+  from_status: READY
+  to_status: IN_PROGRESS
+  session_id: SES-20260724T195501Z-13F8DFDE
+  actor_id: codex-root-r12-data
+  reason: 会话领取任务
+- transition_id: TRN-B689C4DB262F
+  timestamp: '2026-07-24T23:57:51Z'
+  release: R12
+  task_id: TASK-R12-002
+  story_id: STORY-R12-008
+  from_status: READY
+  to_status: IN_PROGRESS
+  session_id: SES-20260724T235749Z-6EC9DB09
+  actor_id: codex-root-r12-data-20260725
+  reason: 会话领取任务

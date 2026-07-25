@@ -59,13 +59,15 @@ class R07PostgresStoreTest {
             jdbc.update("INSERT INTO hhy.user_profiles(user_id,nickname,avatar,bio) VALUES (?,?,?,?)",
                     publisherId, "真实发布者", "https://example.invalid/avatar.png", "公开简介");
             Long contentId = jdbc.queryForObject("""
-                    INSERT INTO hhy.content_posts(owner_id,type,title,summary,status)
-                    VALUES (?,'PROJECT',?,?,'ONLINE') RETURNING id
+                    INSERT INTO hhy.content_posts(owner_id,type,title,summary,status,version)
+                    VALUES (?,'PROJECT',?,?,'DRAFT',0) RETURNING id
                     """, Long.class, publisherId, searchKeyword + " 项目", "可靠的真实数据库搜索摘要");
             assertNotNull(contentId);
+            jdbc.update("INSERT INTO hhy.project_details(content_id,cooperation,region) VALUES (?,?,?)",
+                    contentId, "深度协作", "CN");
             jdbc.update("""
                     INSERT INTO hhy.content_versions(content_id,version_no,snapshot_json,created_by)
-                    VALUES (?,'1',CAST(? AS jsonb),'test')
+                    VALUES (?,'0',CAST(? AS jsonb),'test')
                     """, contentId,
                     "{\"description\":\"深度协作\",\"categoryCode\":\"TECH\",\"regionCode\":\"CN\"}");
             String contactEnvelope = "hhy-contact-v1.test-nonce." + suffix;
@@ -74,6 +76,7 @@ class R07PostgresStoreTest {
                       content_id,channel,value_cipher,display_mask,sort_order)
                     VALUES (?,'EMAIL',?,'t***@example.com',1)
                     """, contentId, contactEnvelope);
+            assertEquals(4, R12PostgresTestFixtures.publish(jdbc, contentId, 0, suffix));
 
             var search = store.search(new R07Store.SearchQuery(
                     viewerId, searchKeyword, "PROJECT", "TECH", "CN",

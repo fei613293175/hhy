@@ -153,7 +153,8 @@ public class R07PostgresStore implements R07Store {
                 SELECT contact.content_id,contact.channel,contact.value_cipher
                 FROM hhy.content_contacts contact
                 JOIN hhy.content_posts content ON content.id=contact.content_id
-                WHERE contact.content_id=? AND upper(contact.channel)=? AND content.status='ONLINE'
+                WHERE contact.content_id=? AND upper(contact.channel)=? AND contact.removed_at IS NULL
+                  AND content.status='ONLINE'
                 ORDER BY contact.sort_order,contact.id LIMIT 1
                 """, (rs, row) -> new ContactRow(rs.getLong(1), rs.getString(2), rs.getString(3)),
                 contentId, channel).stream().findFirst();

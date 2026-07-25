@@ -3136,6 +3136,14 @@ paths:
         schema:
           type: string
           pattern: ^[A-Za-z0-9_-]{1,64}$
+      - name: expectedVersion
+        in: query
+        required: true
+        description: 当前内容乐观锁版本；版本不一致返回 COMMON-409-VERSION_CONFLICT
+        schema:
+          type: integer
+          format: int64
+          minimum: 0
       - $ref: '#/components/parameters/XIdempotencyKey'
       x-request-schema: '#/components/schemas/ContentDeleteContentsByIdParameters'
       responses:
@@ -16869,12 +16877,18 @@ components:
           type: string
           pattern: ^[A-Za-z0-9_-]{1,64}$
           description: 路径资源标识：id
+        expectedVersion:
+          type: integer
+          format: int64
+          minimum: 0
+          description: 当前内容乐观锁版本；版本不一致返回 COMMON-409-VERSION_CONFLICT
         xIdempotencyKey:
           type: string
           minLength: 16
           maxLength: 128
       required:
       - id
+      - expectedVersion
       - xIdempotencyKey
     ContentGetMeContentsResponse:
       type: object

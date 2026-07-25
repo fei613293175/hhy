@@ -165,6 +165,86 @@ for event in ("CANCEL_ENROLLMENT", "REENROLL"):
     if transition is None or "write_admin_operation_log" not in transition.group("body"):
         errors.append(f"R01 MFA transition must write operation audit: {event}")
 
+r12_required_files = (
+    "database/migrations/V039__r12_publish_management_invariants.sql",
+    "services/backend/boot/src/main/resources/db/migration/V039__r12_publish_management_invariants.sql",
+    "database/rollback/U039__r12_publish_management_invariants.sql",
+    "database/tests/r12_publish_management_invariants.sql",
+    "scripts/check_content_state_machine_projection.py",
+    "scripts/run_r12_database_invariants.sh",
+)
+for relative in r12_required_files:
+    if not (ROOT / relative).is_file():
+        errors.append(f"missing R12 database closure asset: {relative}")
+
+if all((ROOT / relative).is_file() for relative in r12_required_files):
+    r12_migration = (ROOT / r12_required_files[0]).read_text(encoding="utf-8")
+    for marker in (
+        "R12_DIRTY_UPGRADE_CONTENT_DETAIL_CARDINALITY",
+        "R12_DIRTY_UPGRADE_ILLEGAL_STATUS_HISTORY_EDGE",
+        "R12_DIRTY_UPGRADE_INVALID_CONTENT_CONTACT",
+        "R12_DIRTY_UPGRADE_INVALID_CONTENT_MEDIA",
+        "R12_DIRTY_UPGRADE_DUPLICATE_CONTACT_ORDER",
+        "R12_DIRTY_UPGRADE_DUPLICATE_CONTACT_CHANNEL",
+        "R12_DIRTY_UPGRADE_DUPLICATE_CONTENT_MEDIA",
+        "R12_DIRTY_UPGRADE_INVALID_CONTENT_VERSION_SEQUENCE",
+        "R12_DIRTY_UPGRADE_REVIEW_VERSION_UNBINDABLE",
+        "-- BEGIN CONTENT_STATUS_SQL_PROJECTION",
+        "-- END CONTENT_STATUS_SQL_PROJECTION",
+        "guard_r12_content_post",
+        "record_r12_content_write",
+        "guard_r12_content_status_log",
+        "guard_r12_content_version_insert",
+        "guard_r12_content_review_insert",
+        "enrich_r12_content_outbox",
+        "prevent_r12_content_physical_delete",
+        "assert_r12_content_commit",
+        "transition_version",
+        "snapshot_version_id",
+        "command_id",
+        "removed_at",
+        "uq_r12_content_media_identity",
+        "uq_r12_content_contact_channel",
+        "uq_r12_content_contact_order",
+    ):
+        if marker not in r12_migration:
+            errors.append(f"V039 missing R12 publish invariant marker: {marker}")
+
+    r12_rollback = (ROOT / r12_required_files[2]).read_text(encoding="utf-8")
+    if "DROP COLUMN" in r12_rollback.upper():
+        errors.append("U039 must preserve R12 compatibility columns and business data")
+    for marker in (
+        "trg_r12_content_commit",
+        "uq_r12_content_media_identity",
+        "uq_r12_content_contact_channel",
+        "uq_r12_content_contact_order",
+        "ck_r12_content_review_action",
+        "ck_r12_content_status_transition_version",
+    ):
+        if marker not in r12_rollback:
+            errors.append(f"U039 missing R12 rollback marker: {marker}")
+
+    r12_runner = (ROOT / r12_required_files[5]).read_text(encoding="utf-8")
+    for marker in (
+        "R12_DIRTY_UPGRADE_ATOMIC_MATRIX",
+        "R12_PUBLISH_MANAGEMENT_INVARIANTS",
+        "R12_U039_ROLLBACK_V039_REPLAY",
+        "R12_DATABASE_OBJECTS",
+        "R12_OPTIMISTIC_CONCURRENCY",
+        "detail_cardinality",
+        "unbindable_review_version",
+    ):
+        if marker not in r12_runner:
+            errors.append(f"R12 database runner missing closure marker: {marker}")
+
+    for marker in (
+        'migration_number >= 39',
+        "V039__r12_publish_management_invariants.sql",
+        "run_r12_database_invariants.sh",
+    ):
+        if marker not in migration_smoke:
+            errors.append(f"migration smoke missing R12 chain marker: {marker}")
+
 if errors:
     print("DB_SCHEMA_FAIL")
     print("\n".join(errors))

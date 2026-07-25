@@ -1,0 +1,48 @@
+protocol_version: '1.0'
+cr_id: CR-0317
+title: 修正P00 Flyway回归测试陈旧全库表数
+status: IMPLEMENTED
+created_at: '2026-07-25T02:20:54Z'
+updated_at: '2026-07-25T02:35:31Z'
+requester_actor_id: codex-root-r12-data-20260725
+approver_actor_id: codex-r12-test-reviewer
+task_id: TASK-R12-002
+session_id: SES-20260724T235749Z-6EC9DB09
+user_request: 按R01-R32仓库事实源持续开发并完成R12数据库门禁
+reason: 真实PostgreSQL17后端MODULE显示P00FlywayMigrationTest仍断言198表，与当前200表权威Schema矛盾
+original_rule: P00FlywayMigrationTest把执行全部当前迁移后的hhy表数固定为198
+new_rule: 执行全部当前迁移至V039后必须得到权威200表，同时P00三个关键保护触发器仍逐项存在
+impact_summary: 只修正跨版本测试的陈旧全库计数；不修改P00、R12数据库结构、业务状态机或运行时代码
+impact:
+  files:
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/P00FlywayMigrationTest.java
+  pages: []
+  apis: []
+  database: []
+  configuration: []
+  ledger: []
+  tests:
+  - P00FlywayMigrationTest; PostgreSQL17 backend boot MODULE 380 tests
+  releases:
+  - R12
+  migration_and_compatibility: V039不新增表；R03起目录、Schema静态门禁和迁移烟测均固定200表，历史198与199仅由verify_baseline保留升级兼容
+user_confirmation: OWNER_ACTIVE_GOAL_CONTINUE_R01_R32_IN_REPOSITORY_ORDER
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-25T02:21:24Z'
+  note: 纠错范围仅一项测试断言，200表由目录、迁移烟测和Schema门禁三方证明，保留P00触发器断言
+machine_record: .continuity/change_requests/CR-0317.yaml
+document: docs/03-continuity/change-requests/CR-0317-修正P00-Flyway回归测试陈旧全库表数.md
+decision_log:
+- at: '2026-07-25T02:35:14Z'
+  actor_id: codex-root-r12-data-20260725
+  status: IMPLEMENTING
+  note: 已进入实现与验证
+  session_id: SES-20260724T235749Z-6EC9DB09
+- at: '2026-07-25T02:35:31Z'
+  actor_id: codex-root-r12-data-20260725
+  status: IMPLEMENTED
+  note: P00 Flyway陈旧198表断言已纠正为当前200表，后端380项零失败零跳过
+  session_id: SES-20260724T235749Z-6EC9DB09
+session_ids:
+- SES-20260724T235749Z-6EC9DB09

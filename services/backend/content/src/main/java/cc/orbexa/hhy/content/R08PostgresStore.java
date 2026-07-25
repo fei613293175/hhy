@@ -154,25 +154,12 @@ public class R08PostgresStore implements R08Store {
     }
 
     private void replaceMedia(long contentId, List<Long> mediaIds, Instant now) {
-        jdbc.update("DELETE FROM hhy.content_media WHERE content_id=?", contentId);
-        for (int index = 0; index < mediaIds.size(); index++) {
-            jdbc.update("""
-                    INSERT INTO hhy.content_media(content_id,media_id,media_type,sort_order,created_at,updated_at)
-                    SELECT ?,id,mime,?,?,? FROM hhy.media_objects WHERE id=?
-                    """, contentId, index, time(now), time(now), mediaIds.get(index));
-        }
+        R12ContentBindings.replaceMedia(jdbc, contentId, mediaIds, now);
     }
 
     @Override
     public void replaceContacts(long contentId, List<ContactWrite> contacts, Instant now) {
-        jdbc.update("DELETE FROM hhy.content_contacts WHERE content_id=?", contentId);
-        for (ContactWrite contact : contacts) {
-            jdbc.update("""
-                    INSERT INTO hhy.content_contacts(content_id,channel,value_cipher,display_mask,sort_order,created_at,updated_at)
-                    VALUES (?,?,?,?,?,?,?)
-                    """, contentId, contact.channel(), contact.valueCipher(), contact.displayMask(),
-                    contact.sortOrder(), time(now), time(now));
-        }
+        R12ContentBindings.replaceContacts(jdbc, contentId, contacts, now);
     }
 
     @Override

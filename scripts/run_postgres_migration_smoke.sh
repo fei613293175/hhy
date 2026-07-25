@@ -312,11 +312,16 @@ for migration in "$ROOT"/database/migrations/V*.sql; do
   migration_version="${migration_name%%__*}"
   migration_number=$((10#${migration_version#V}))
   (( migration_number <= 22 )) && continue
+  (( migration_number >= 39 )) && break
   "${PSQL[@]}" --single-transaction -f "$migration" >/dev/null
 done
-echo "LATEST_MIGRATIONS_AFTER_R04 PASS"
+echo "MIGRATIONS_TO_V038_AFTER_R04 PASS"
 DATABASE_URL="$DATABASE_URL" HHY_DB_SMOKE_CONFIRM=YES \
   bash "$ROOT/scripts/run_r11_database_invariants.sh"
+"${PSQL[@]}" --single-transaction \
+  -f "$ROOT/database/migrations/V039__r12_publish_management_invariants.sql" >/dev/null
+DATABASE_URL="$DATABASE_URL" HHY_DB_SMOKE_CONFIRM=YES \
+  bash "$ROOT/scripts/run_r12_database_invariants.sh"
 FINAL_TABLE_COUNT="$("${PSQL[@]}" -Atc "SELECT count(*) FROM information_schema.tables WHERE table_schema='hhy' AND table_type='BASE TABLE';")"
 [[ "$FINAL_TABLE_COUNT" == "200" ]] || {
   echo "Final R03 schema must contain 200 tables, got $FINAL_TABLE_COUNT" >&2

@@ -1212,3 +1212,27 @@ sessions:
   closed_at: '2026-07-24T16:35:25Z'
   latest_checkpoint: .continuity/checkpoints/SES-20260724T144831Z-B2E27A89/0003.yaml
   handoff_bundle: null
+- session_id: SES-20260724T195501Z-13F8DFDE
+  task_id: TASK-R12-002
+  story_id: STORY-R12-008
+  actor_id: codex-root-r12-data
+  status: ABANDONED
+  started_at: '2026-07-24T19:55:01Z'
+  record: .continuity/sessions/SES-20260724T195501Z-13F8DFDE.yaml
+  session_log: docs/03-continuity/sessions/2026-07/SES-20260724T195501Z-13F8DFDE.md
+  updated_at: '2026-07-24T23:57:48Z'
+  closed_at: '2026-07-24T23:57:48Z'
+  latest_checkpoint: null
+  handoff_bundle: null
+- session_id: SES-20260724T235749Z-6EC9DB09
+  task_id: TASK-R12-002
+  story_id: STORY-R12-008
+  actor_id: codex-root-r12-data-20260725
+  status: ACTIVE
+  started_at: '2026-07-24T23:57:49Z'
+  record: .continuity/sessions/SES-20260724T235749Z-6EC9DB09.yaml
+  session_log: docs/03-continuity/sessions/2026-07/SES-20260724T235749Z-6EC9DB09.md
+  updated_at: '2026-07-25T02:37:05Z'
+  closed_at: null
+  latest_checkpoint: .continuity/checkpoints/SES-20260724T235749Z-6EC9DB09/0006.yaml
+  handoff_bundle: null

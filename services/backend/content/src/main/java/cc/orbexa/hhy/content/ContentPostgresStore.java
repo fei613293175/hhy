@@ -83,7 +83,8 @@ public class ContentPostgresStore implements ContentStore {
                 FROM hhy.content_media content_media
                 JOIN hhy.media_objects media ON media.id=content_media.media_id
                 JOIN hhy.storage_scope_bindings binding ON binding.id=media.storage_binding_id
-                WHERE content_media.content_id=? AND media.status='READY' AND media.deleted_at IS NULL
+                WHERE content_media.content_id=? AND content_media.removed_at IS NULL
+                  AND media.status='READY' AND media.deleted_at IS NULL
                   AND media.visibility='PUBLIC' AND binding.status='ACTIVE'
                   AND binding.public_domain IS NOT NULL AND btrim(binding.public_domain)<>''
                 ORDER BY content_media.sort_order,content_media.id
@@ -95,7 +96,7 @@ public class ContentPostgresStore implements ContentStore {
     public List<ContactRow> contacts(long contentId) {
         return jdbc.query("""
                 SELECT channel,display_mask,sort_order FROM hhy.content_contacts
-                WHERE content_id=? ORDER BY sort_order,id
+                WHERE content_id=? AND removed_at IS NULL ORDER BY sort_order,id
                 """, (rs, row) -> new ContactRow(rs.getString(1), rs.getString(2), rs.getInt(3)), contentId);
     }
 
@@ -243,10 +244,11 @@ public class ContentPostgresStore implements ContentStore {
     public void outbox(long actorId, String eventType, String aggregateId, String status, Instant occurredAt) {
         String payload = "{\"actorId\":" + actorId + ",\"resourceId\":\"" + aggregateId
                 + "\",\"status\":\"" + status + "\",\"occurredAt\":\"" + occurredAt + "\"}";
+        String aggregateType = eventType.startsWith("content.dictionary.") ? "CONTENT_DICTIONARY" : "CONTENT";
         jdbc.update("""
                 INSERT INTO hhy.outbox_events(aggregate_id,aggregate_type,event_id,event_type,event_version,headers,payload)
-                VALUES (?,'CONTENT',?,?,1,'{"source":"content-api"}'::jsonb,CAST(? AS jsonb))
-                """, aggregateId, UUID.randomUUID().toString(), eventType, payload);
+                VALUES (?,?,?,?,1,'{"source":"content-api"}'::jsonb,CAST(? AS jsonb))
+                """, aggregateId, aggregateType, UUID.randomUUID().toString(), eventType, payload);
     }
 
     @Override
@@ -274,7 +276,7 @@ public class ContentPostgresStore implements ContentStore {
                   FROM hhy.content_media cm
                   JOIN hhy.media_objects m ON m.id=cm.media_id AND m.status='READY'
                   JOIN hhy.storage_scope_bindings b ON b.id=m.storage_binding_id AND b.status='ACTIVE'
-                  WHERE cm.content_id=p.id
+                  WHERE cm.content_id=p.id AND cm.removed_at IS NULL
                   ORDER BY cm.sort_order,cm.id
                   LIMIT 1
                 ) media ON true

@@ -65,8 +65,11 @@ class R10PostgresStoreTest {
             assertEquals("群聊新标题", updated.title());
             assertEquals("QQ", updated.platform());
             assertEquals("112233", updated.groupNo());
-            assertTrue(jdbc.queryForObject(
-                    "SELECT count(*)=0 FROM hhy.content_media WHERE content_id=?", Boolean.class, contentId));
+            assertTrue(jdbc.queryForObject("""
+                    SELECT count(*) FILTER (WHERE removed_at IS NULL)=0
+                       AND count(*) FILTER (WHERE removed_at IS NOT NULL)=1
+                    FROM hhy.content_media WHERE content_id=?
+                    """, Boolean.class, contentId));
             transaction.setRollbackOnly();
         });
     }

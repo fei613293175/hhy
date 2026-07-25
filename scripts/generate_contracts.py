@@ -439,8 +439,17 @@ def path_parameters(path: str) -> list[dict]:
     return out
 
 def query_parameters(row: dict[str,str]) -> list[dict]:
+    path=row['路径']
+    if row['方法']=='DELETE':
+        if path == '/api/v1/contents/{id}':
+            return [{
+              'name':'expectedVersion','in':'query','required':True,
+              'description':'当前内容乐观锁版本；版本不一致返回 COMMON-409-VERSION_CONFLICT',
+              'schema':{'type':'integer','format':'int64','minimum':0},
+            }]
+        return []
     if row['方法']!='GET': return []
-    path=row['路径']; purpose=row['用途']; params=[]
+    purpose=row['用途']; params=[]
     if is_list(row):
         params += [
           {'name':'page','in':'query','required':False,'schema':{'type':'integer','minimum':1,'default':1},'description':'页码；游标接口可忽略'},

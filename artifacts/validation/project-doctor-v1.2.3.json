@@ -13,7 +13,7 @@
       "admin_pages": 74,
       "ui_surfaces": 189,
       "templates": 30,
-      "fields": 5166,
+      "fields": 5168,
       "states": 1633,
       "actions": 609,
       "configs": 319,
@@ -30,8 +30,8 @@
       "open_document_gaps": 0
     },
     "continuity": {
-      "event_count": 3056,
-      "event_head_hash": "1a546043e94e6cc98a21cbadab9c5c6ff6ca34dcae9021fd92ef3b0cdb9d0327",
+      "event_count": 3083,
+      "event_head_hash": "d95c4070c72754c5dab5de470098f2b375798fd421e505f43b38e4832db52e44",
       "rule_readiness": "PASS",
       "required_rule_sources": 11,
       "document_gate": {
@@ -43,10 +43,10 @@
     "continuity_gate_rules": 42,
     "continuity_event_types": 17,
     "continuity_required_records": 20,
-    "baseline_sessions": 101,
+    "baseline_sessions": 103,
     "baseline_handoffs": 3,
-    "change_requests": 313,
-    "task_transitions": 103,
+    "change_requests": 315,
+    "task_transitions": 105,
     "continuity_integration_checks": 12,
     "continuity_lifecycle_checks": 15
   },

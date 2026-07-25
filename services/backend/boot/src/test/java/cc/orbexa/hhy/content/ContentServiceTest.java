@@ -142,6 +142,23 @@ class ContentServiceTest {
     }
 
     @Test
+    void platformOfflineContentCannotBypassRectificationAndGoDirectlyOnline() {
+        when(store.claim(anyString(), eq(KEY), anyString(), any())).thenReturn(
+                new ContentStore.IdempotencyClaim(77, "hash", null, false));
+        when(store.lock(42)).thenReturn(Optional.of(
+                new ContentStore.LockedContent(42, "OFFLINE_BY_PLATFORM", 3)));
+
+        BusinessException error = assertThrows(BusinessException.class, () ->
+                service.online(7, "42", new StatusRequest(3L, "尝试直接恢复"),
+                        KEY, "req-platform-offline", "127.0.0.1"));
+
+        assertEquals("CONTENT-409-STATUS_TRANSITION", error.code());
+        verify(store, never()).transition(anyLong(), anyLong(), anyString(), any());
+        verify(store, never()).statusLog(anyLong(), any(), anyString(), any(), anyString());
+        verify(store, never()).outbox(anyLong(), anyString(), anyString(), anyString(), any());
+    }
+
+    @Test
     void dictionaryStatusIsAppliedBeforePagingAndCounting() {
         when(store.dictionaries(2, 10, "region", false, "updated_at DESC,id DESC"))
                 .thenReturn(List.of());

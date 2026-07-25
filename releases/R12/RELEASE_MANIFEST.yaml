@@ -108,6 +108,36 @@ entry_baseline:
     full_gate_and_emulator: FINAL_CANDIDATE_ONLY_TASK_R12_007
     machine_close_profile: RELEASE_CLOSE
     owner_feedback_mode: ASYNC_NON_BLOCKING
+task_002_database_gate:
+  status: PASS
+  completed_at: '2026-07-25'
+  session_id: SES-20260724T235749Z-6EC9DB09
+  change_requests:
+  - CR-0316
+  - CR-0317
+  migration: V039__r12_publish_management_invariants.sql
+  rollback: U039__r12_publish_management_invariants.sql
+  report: docs/03-continuity/R12_TASK-002_DATABASE_GATE.md
+  state_machine_projection:
+    states: 11
+    edges: 29
+    terminal_states: [BANNED, DELETED]
+  postgres_17:
+    full_migration_smoke: PASS
+    dirty_upgrade_atomic_cases: 9
+    rollback_replay: PASS
+    optimistic_concurrency: PASS_EXACTLY_ONE_WRITER
+  affected_module:
+    backend: PASS_380_TESTS_0_FAILURES_0_ERRORS_0_SKIPS
+    admin_web: PASS_101_TESTS_AND_TYPECHECK
+    h5: PASS_29_TESTS_AND_TYPECHECK
+    android: PASS_571_TASKS_UNIT_AND_LINT
+  deferred_final_candidate:
+  - assembleDebug
+  - emulator
+  - screenshot_visual_review
+  - test_apk
+  next_task: TASK-R12-003
 entry_gate:
 - releases/R12/DEFINITION_OF_READY.yaml 全部适用项为PASS
 - releases/R12/STORIES.yaml 中每个故事均绑定页面/API/配置/数据/测试或显式N/A
