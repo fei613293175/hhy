@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## R12 Android 发布中心与发布预览 · 2026-07-25
+
+- 新增 `SCR-PUB-001` 发布中心和 `SCR-PUB-006` 发布预览，精确绑定 B04/P01 与 B05/P06：发布中心包含真实资格/发布概览和项目、App、群聊、团队长四个同级入口；预览包含内容类型、标题标签、真实媒体、分区详情及固定操作区。
+- 底部“发布”导航接入 typed Navigation 真实页面，四类编辑器保存后进入 `/publish/preview/{contentId}`，内容管理详情也提供预览入口；页面复用现有 `userGetMe` 会话事实、`contentGetMeContents` 和 `contentGetContentsById`，不新增接口或业务类型。
+- 发布概览不硬编码额度次数，预览只接收安全 HTTPS 图片并隐藏缺失可选字段；页面不展示 requestId、错误码、资源 ID、version 或原始 attributes，也不生成示例图片、地点、人数和编号。
+- 本 Story 只预留“确认提交”回调，实际幂等提交由 `STORY-R12-005` 使用冻结 `contentPostContentsByIdSubmit` 接口完成；当前登记 `IN_REVIEW`，模拟器截图与最终视觉 PASS 留在 `TASK-R12-007`。
+
 ## R12 Android 发布管理四页 · 2026-07-25
 
 - 新增 `SCR-MYC-001/002/004/005` 我的发布、草稿箱、审核记录和内容数据四页，按 B08/P02、B08/P06 与批准补充视觉规格实现状态筛选、紧凑内容卡、真实状态层级、指标网格和业务空态，并从“我的”页面接入 typed Navigation 真实入口。

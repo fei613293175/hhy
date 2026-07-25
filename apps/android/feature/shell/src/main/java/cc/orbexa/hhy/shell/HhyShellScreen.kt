@@ -89,6 +89,7 @@ fun HhyShellScreen(
     onOpenApps: (() -> Unit)? = null,
     onOpenGroups: (() -> Unit)? = null,
     onOpenTeamLeaders: (() -> Unit)? = null,
+    onOpenPublish: () -> Unit = {},
     onOpenMessages: (() -> Unit)? = null,
     canOpenHomeTarget: (HomeNavigationTargetSnapshot) -> Boolean = { false },
     onOpenHomeTarget: (HomeNavigationTargetSnapshot) -> Unit = {},
@@ -170,7 +171,9 @@ fun HhyShellScreen(
                     NavigationBarItem(
                         modifier = Modifier.weight(1f),
                         selected = selectedIndex == index,
-                        onClick = { selectedIndex = index },
+                        onClick = {
+                            if (index == 2) onOpenPublish() else selectedIndex = index
+                        },
                         icon = { HhyIcon(item.icon, contentDescription = item.label) },
                         label = { Text(item.label) },
                         alwaysShowLabel = true,

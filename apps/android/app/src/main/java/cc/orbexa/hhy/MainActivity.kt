@@ -88,6 +88,8 @@ import cc.orbexa.hhy.contentmanagement.R12ContentAnalyticsScreen
 import cc.orbexa.hhy.contentmanagement.R12ContentReviewsScreen
 import cc.orbexa.hhy.contentmanagement.R12DraftsScreen
 import cc.orbexa.hhy.contentmanagement.R12MyContentsScreen
+import cc.orbexa.hhy.contentmanagement.R12PublishCenterScreen
+import cc.orbexa.hhy.contentmanagement.R12PublishPreviewScreen
 import cc.orbexa.hhy.shell.HhyShellScreen
 import cc.orbexa.hhy.startup.StartupGateScreen
 import kotlinx.serialization.Serializable
@@ -236,6 +238,8 @@ private sealed interface AuthenticatedRoute {
     @Serializable data object MyDrafts : AuthenticatedRoute
     @Serializable data class ContentReviews(val contentId: String) : AuthenticatedRoute
     @Serializable data class ContentAnalytics(val contentId: String) : AuthenticatedRoute
+    @Serializable data object PublishCenter : AuthenticatedRoute
+    @Serializable data class PublishPreview(val contentId: String) : AuthenticatedRoute
 }
 
 @androidx.compose.runtime.Composable
@@ -270,6 +274,7 @@ private fun AuthenticatedNavHost(
                 onOpenApps = { navController.navigate(AuthenticatedRoute.Apps) },
                 onOpenGroups = { navController.navigate(AuthenticatedRoute.Groups) },
                 onOpenTeamLeaders = { navController.navigate(AuthenticatedRoute.TeamLeaders) },
+                onOpenPublish = { navController.navigate(AuthenticatedRoute.PublishCenter) },
                 canOpenHomeTarget = { target -> canOpenHomeTarget(target) },
                 onOpenHomeTarget = { target ->
                     val route = target.route.orEmpty()
@@ -396,9 +401,7 @@ private fun AuthenticatedNavHost(
                 identityVerified = authenticated.user.identityStatus == "VERIFIED",
                 onBack = { navController.popBackStack() },
                 onSaved = { id ->
-                    navController.navigate(AuthenticatedRoute.ProjectDetail(id)) {
-                        popUpTo<AuthenticatedRoute.Projects>() { inclusive = false }
-                    }
+                    navController.navigate(AuthenticatedRoute.PublishPreview(id))
                 },
                 onSessionExpired = onSessionInvalidated,
             )
@@ -435,9 +438,7 @@ private fun AuthenticatedNavHost(
                 identityVerified = authenticated.user.identityStatus == "VERIFIED",
                 onBack = { navController.popBackStack() },
                 onSaved = { id ->
-                    navController.navigate(AuthenticatedRoute.AppDetail(id)) {
-                        popUpTo<AuthenticatedRoute.Apps>() { inclusive = false }
-                    }
+                    navController.navigate(AuthenticatedRoute.PublishPreview(id))
                 },
                 onSessionExpired = onSessionInvalidated,
             )
@@ -474,9 +475,7 @@ private fun AuthenticatedNavHost(
                 identityVerified = authenticated.user.identityStatus == "VERIFIED",
                 onBack = { navController.popBackStack() },
                 onSaved = { id ->
-                    navController.navigate(AuthenticatedRoute.GroupDetail(id)) {
-                        popUpTo<AuthenticatedRoute.Groups>() { inclusive = false }
-                    }
+                    navController.navigate(AuthenticatedRoute.PublishPreview(id))
                 },
                 onSessionExpired = onSessionInvalidated,
             )
@@ -514,9 +513,7 @@ private fun AuthenticatedNavHost(
                 identityVerified = authenticated.user.identityStatus == "VERIFIED",
                 onBack = { navController.popBackStack() },
                 onSaved = { id ->
-                    navController.navigate(AuthenticatedRoute.TeamLeaderDetail(id)) {
-                        popUpTo<AuthenticatedRoute.TeamLeaders>() { inclusive = false }
-                    }
+                    navController.navigate(AuthenticatedRoute.PublishPreview(id))
                 },
                 onSessionExpired = onSessionInvalidated,
             )
@@ -535,6 +532,46 @@ private fun AuthenticatedNavHost(
                         popUpTo<AuthenticatedRoute.ContentManagementDetail> { inclusive = true }
                     }
                 },
+                onPreview = { navController.navigate(AuthenticatedRoute.PublishPreview(it)) },
+                onSessionExpired = onSessionInvalidated,
+            )
+        }
+        composable<AuthenticatedRoute.PublishCenter> {
+            R12PublishCenterScreen(
+                api = r12Api,
+                accessToken = authenticated.session.accessToken,
+                user = authenticated.user,
+                onBack = { navController.popBackStack() },
+                onOpenIdentity = { navController.navigate(AuthenticatedRoute.Identity) },
+                onOpenMyContents = { navController.navigate(AuthenticatedRoute.MyContents) },
+                onCreateContent = { contentType ->
+                    when (contentType) {
+                        "PROJECT" -> navController.navigate(AuthenticatedRoute.ProjectEditor())
+                        "APP" -> navController.navigate(AuthenticatedRoute.AppEditor())
+                        "GROUP_CHAT" -> navController.navigate(AuthenticatedRoute.GroupEditor())
+                        "TEAM_LEADER" -> navController.navigate(AuthenticatedRoute.TeamLeaderEditor())
+                    }
+                },
+                onSessionExpired = onSessionInvalidated,
+            )
+        }
+        composable<AuthenticatedRoute.PublishPreview> { backStackEntry ->
+            val route = backStackEntry.toRoute<AuthenticatedRoute.PublishPreview>()
+            R12PublishPreviewScreen(
+                api = r12Api,
+                accessToken = authenticated.session.accessToken,
+                contentId = route.contentId,
+                user = authenticated.user,
+                onBack = { navController.popBackStack() },
+                onEdit = { contentType, contentId ->
+                    when (contentType) {
+                        "PROJECT" -> navController.navigate(AuthenticatedRoute.ProjectEditor(contentId))
+                        "APP" -> navController.navigate(AuthenticatedRoute.AppEditor(contentId))
+                        "GROUP_CHAT" -> navController.navigate(AuthenticatedRoute.GroupEditor(contentId))
+                        "TEAM_LEADER" -> navController.navigate(AuthenticatedRoute.TeamLeaderEditor(contentId))
+                    }
+                },
+                onConfirmSubmit = null,
                 onSessionExpired = onSessionInvalidated,
             )
         }

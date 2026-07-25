@@ -11,7 +11,7 @@ task_id: TASK-R12-004
 story_id: STORY-R12-004
 goal: 严格按SCR-PUB-001 B04/P01与SCR-PUB-006 B05/P06冻结视觉、MOB-FORM页面规格和现有API合同实现四类发布入口及真实内容预览闭环。
 started_at: '2026-07-25T05:35:15Z'
-updated_at: '2026-07-25T10:26:14Z'
+updated_at: '2026-07-25T10:51:10Z'
 takeover_of: null
 change_requests:
 - CR-0319
@@ -86,25 +86,25 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-25T10:26:08Z'
-  expires_at: '2026-07-25T14:26:08Z'
-checkpoint_sequence: 15
-latest_checkpoint: .continuity/checkpoints/SES-20260725T053515Z-11D4084D/0015.yaml
+  renewed_at: '2026-07-25T10:51:01Z'
+  expires_at: '2026-07-25T14:51:01Z'
+checkpoint_sequence: 18
+latest_checkpoint: .continuity/checkpoints/SES-20260725T053515Z-11D4084D/0018.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260725T053515Z-11D4084D.md
-next_step: 提交CR-0328审批证据后实现发布中心、发布预览、typed Navigation与状态单测。
+next_step: 以CP-0018提交并推送STORY-R12-004实现，随后将CR-0328绑定实现提交并继续STORY-R12-005。
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: 46be020a05f317ac407e77eedc12aa9c79245bfd7564527de5975e6f5b5cde8f
-  generated_at: '2026-07-25T10:26:12Z'
+  context_hash: 02c6f6e20053230738ec0676fb4f28d66794ff80147a7b7c2f7d8c17331d93b7
+  generated_at: '2026-07-25T10:51:07Z'
 handoff_bundle: null
 closure: null
 parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 两页共享R12内容状态、MainActivity typed Navigation、Shell发布入口与同一测试模块；路径高度重叠，主控串行实施避免事实分叉。
+  reason: 实现、远端验证与连续性证据已进入单一提交收口，涉及共享导航和同一模块，必须由唯一主控串行审计。
 story_history:
 - story_id: STORY-R12-001
   completed_at: '2026-07-25T07:44:07Z'

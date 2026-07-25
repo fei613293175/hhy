@@ -70,6 +70,7 @@ fun R12ContentManagementDetailScreen(
     identityVerified: Boolean,
     onBack: () -> Unit,
     onDraftCreated: (String) -> Unit,
+    onPreview: (String) -> Unit,
     onSessionExpired: () -> Unit,
 ) {
     val scope = rememberCoroutineScope()
@@ -207,6 +208,7 @@ fun R12ContentManagementDetailScreen(
                     padding = padding,
                     onRefresh = ::load,
                     onLoadData = ::loadAnalytics,
+                    onPreview = { onPreview(content.id) },
                     onCopy = { copyDialogOpen = true },
                     canCopy = canCopy,
                 )
@@ -223,6 +225,7 @@ private fun ManagementContent(
     padding: PaddingValues,
     onRefresh: () -> Unit,
     onLoadData: () -> Unit,
+    onPreview: () -> Unit,
     onCopy: () -> Unit,
     canCopy: Boolean,
 ) {
@@ -237,7 +240,7 @@ private fun ManagementContent(
         state.notice?.let { notice -> item { StatusNotice(notice, HhyColors.SuccessSoft, HhyColors.Success) } }
         item { ManagementHero(content) }
         item { StatisticsCard(state) }
-        item { ManagementActionGrid(onRefresh, onLoadData, onCopy, canCopy, state.analyticsLoading) }
+        item { ManagementActionGrid(onRefresh, onLoadData, onPreview, onCopy, canCopy, state.analyticsLoading) }
         item {
             InformationSection("基本信息") {
                 InformationRow("内容类型", contentTypeLabel(content.contentType))
@@ -343,6 +346,7 @@ private fun StatisticCell(label: String, value: Long?, modifier: Modifier = Modi
 private fun ManagementActionGrid(
     onRefresh: () -> Unit,
     onLoadData: () -> Unit,
+    onPreview: () -> Unit,
     onCopy: () -> Unit,
     canCopy: Boolean,
     loadingData: Boolean,
@@ -353,6 +357,7 @@ private fun ManagementActionGrid(
     ) {
         ManagementAction(HhyIcons.Refresh, "刷新", true, onRefresh)
         ManagementAction(HhyIcons.Analytics, "数据", !loadingData, onLoadData)
+        ManagementAction(HhyIcons.Applications, "预览", true, onPreview)
         ManagementAction(HhyIcons.Copy, "复制草稿", canCopy, onCopy)
     }
 }
