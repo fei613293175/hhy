@@ -20094,3 +20094,52 @@ change_requests:
   - SES-20260725T053515Z-11D4084D
   implementation_commits:
   - 7c5fcfd22780f8b6b415f177aa33500e9fbb47d1
+- protocol_version: '1.0'
+  cr_id: CR-0329
+  title: 实现R12稳定幂等提交与SCR-PUB-007结果闭环
+  status: APPROVED
+  created_at: '2026-07-25T11:09:02Z'
+  updated_at: '2026-07-25T11:09:45Z'
+  requester_actor_id: codex-root-r12-client-20260725
+  approver_actor_id: codex-r12-submit-contract-reviewer-20260725
+  task_id: TASK-R12-004
+  session_id: SES-20260725T053515Z-11D4084D
+  user_request: 按R01-R32计划持续开发，严格对齐开发文档与效果图，R12提交必须形成真实可恢复闭环。
+  reason: STORY-R12-005已READY，现有发布预览确认提交仍为空，缺少submit网络合同、并发幂等控制、结果页和typed Navigation。
+  original_rule: SCR-PUB-006仅展示真实内容预览，确认提交回调为空；ContractR12Api没有冻结submit操作，SCR-PUB-007无Android实现。
+  new_rule: 预览页二次确认后为同一内容版本生成稳定幂等意图并进入SCR-PUB-007；结果页使用expectedVersion和同一X-Idempotency-Key调用冻结submit接口，同资源写锁防止并发；409只重读服务端事实，未知结果只查询不创建新提交意图；成功仅声明已受理。
+  impact_summary: 新增submit请求与响应解析、结果状态投影、确认弹层、MOB-STATUS结果页、typed Navigation和针对幂等冲突及未知结果的单测；不改后端、数据库或冻结OpenAPI。
+  impact:
+    files:
+    - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR12Api.kt
+    - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ContractR12ApiTest.kt
+    - apps/android/feature/content-management/src/main/java/cc/orbexa/hhy/contentmanagement/R12PublishState.kt
+    - apps/android/feature/content-management/src/main/java/cc/orbexa/hhy/contentmanagement/R12PublishScreens.kt
+    - apps/android/feature/content-management/src/test/java/cc/orbexa/hhy/contentmanagement/R12PublishStateTest.kt
+    - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+    - apps/android/app/src/test/java/cc/orbexa/hhy/NavigationPolicyTest.kt
+    - catalogs/ui_visual_acceptance.csv
+    - CHANGELOG.md
+    pages:
+    - SCR-PUB-006
+    - SCR-PUB-007
+    apis:
+    - contentPostContentsByIdSubmit
+    database:
+    - 无直接影响
+    configuration:
+    - 读取既有content限制，客户端不硬编码配额
+    ledger:
+    - 无直接影响
+    tests:
+    - ContractR12Api submit合同测试;R12发布结果状态与稳定幂等测试;typed Navigation静态测试;商业技术字段扫描;obx-test Android MODULE
+    releases:
+    - R12
+    migration_and_compatibility: 保留现有发布中心、预览和四类编辑路由；新增内部typed结果路由，旧深链不变；无数据库迁移。
+  user_confirmation: 项目所有者已明确授权按R01-R32连续开发、UI严格按效果图和开发文档落地，无需逐Story停下确认。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-25T11:09:45Z'
+    note: 独立复核确认范围严格对应STORY-R12-005和冻结contentPostContentsByIdSubmit；结果页遵循批准补充规格，不展示requestId、错误码、资源ID、version或原始attributes；未知结果与409均禁止创建新业务意图。
+  machine_record: .continuity/change_requests/CR-0329.yaml
+  document: docs/03-continuity/change-requests/CR-0329-实现R12稳定幂等提交与SCR-PUB-007结果闭环.md

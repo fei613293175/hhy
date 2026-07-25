@@ -11,7 +11,7 @@ task_id: TASK-R12-004
 story_id: STORY-R12-005
 goal: 实现contentPostContentsByIdSubmit稳定幂等提交、二次确认、未知结果安全查询与SCR-PUB-007 MOB-STATUS成功待审驳回失败恢复页面；正式UI禁止技术字段。
 started_at: '2026-07-25T05:35:15Z'
-updated_at: '2026-07-25T11:03:14Z'
+updated_at: '2026-07-25T11:10:31Z'
 takeover_of: null
 change_requests:
 - CR-0319
@@ -24,6 +24,7 @@ change_requests:
 - CR-0326
 - CR-0327
 - CR-0328
+- CR-0329
 scope:
   allowed_paths:
   - apps/android/**
@@ -68,7 +69,16 @@ scope:
   - apps/admin-web/src/adminNavigation.test.ts
   - apps/admin-web/src/routerPermissions.test.ts
   - apps/admin-web/src/styles.css
-  source: story-switch+explicit+approved-cr:CR-0320
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR12Api.kt
+  - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ContractR12ApiTest.kt
+  - apps/android/feature/content-management/src/main/java/cc/orbexa/hhy/contentmanagement/R12PublishState.kt
+  - apps/android/feature/content-management/src/main/java/cc/orbexa/hhy/contentmanagement/R12PublishScreens.kt
+  - apps/android/feature/content-management/src/test/java/cc/orbexa/hhy/contentmanagement/R12PublishStateTest.kt
+  - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+  - apps/android/app/src/test/java/cc/orbexa/hhy/NavigationPolicyTest.kt
+  - catalogs/ui_visual_acceptance.csv
+  - CHANGELOG.md
+  source: story-switch+explicit+approved-cr:CR-0320+approved-cr:CR-0329
 git:
   initialized: true
   branch: task/TASK-R03-001
@@ -78,25 +88,25 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-25T11:03:09Z'
-  expires_at: '2026-07-25T15:03:09Z'
-checkpoint_sequence: 21
-latest_checkpoint: .continuity/checkpoints/SES-20260725T053515Z-11D4084D/0021.yaml
+  renewed_at: '2026-07-25T11:10:26Z'
+  expires_at: '2026-07-25T15:10:26Z'
+checkpoint_sequence: 22
+latest_checkpoint: .continuity/checkpoints/SES-20260725T053515Z-11D4084D/0022.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260725T053515Z-11D4084D.md
-next_step: 提交并推送Story切换证据，创建并审批提交结果实现CR。
+next_step: 提交CR批准证据并实现submit合同、确认弹层、结果状态机和typed Navigation。
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: abe441e2605674c0b81cba8c478ef9db5ebfbd8041030da32f74c0ab045e7bd5
-  generated_at: '2026-07-25T11:03:12Z'
+  context_hash: 4fd93ce55089a376975fc9e95ab3791e0b9cf988092677283a4e5d8bb169dfcf
+  generated_at: '2026-07-25T11:10:29Z'
 handoff_bundle: null
 closure: null
 parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 单一Android发布提交结果链路涉及同一网络合同与导航状态，需顺序修改避免冲突。
+  reason: 网络合同、提交状态机、结果页和导航共享同一业务意图及文件链路，顺序实现可避免幂等语义分叉。
 story_history:
 - story_id: STORY-R12-001
   completed_at: '2026-07-25T07:44:07Z'
