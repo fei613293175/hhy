@@ -9,6 +9,8 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.ArgumentMatchers.isNull;
 import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.doAnswer;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -25,6 +27,8 @@ import java.time.ZoneOffset;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicReference;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -73,6 +77,47 @@ class R12PublishingServiceTest {
     }
 
     @Test
+    void retryReplaysStoredSubmitResultWithoutDuplicateWrites() {
+        when(store.lockOwned(71)).thenReturn(Optional.of(row(71, "DRAFT", 3)));
+        when(shared.identityVerified(11)).thenReturn(true);
+        when(shared.countOwnedInStatus(11, "PENDING_REVIEW")).thenReturn(0L);
+        when(shared.integerConfig("content.limit.normal.pending")).thenReturn(3);
+        when(shared.integerConfig("content.limit.normal.daily_submissions")).thenReturn(10);
+        when(store.submissionsSince(eq(11L), any())).thenReturn(0L);
+        when(store.transitionOwned(71, 11, 3, "DRAFT", "PENDING_REVIEW", "PENDING", NOW))
+                .thenReturn(true);
+        AtomicInteger claims = new AtomicInteger();
+        AtomicReference<String> responseType = new AtomicReference<>();
+        AtomicReference<String> responsePayload = new AtomicReference<>();
+        when(shared.claim(anyString(), eq(KEY), anyString(), any())).thenAnswer(invocation -> {
+            String hash = invocation.getArgument(2);
+            if (claims.getAndIncrement() == 0) {
+                return new R08Store.IdempotencyClaim(26, hash, null, null, null, false);
+            }
+            return new R08Store.IdempotencyClaim(
+                    26, hash, "r12.content-command-result.v1:ok",
+                    responseType.get(), responsePayload.get(), true);
+        });
+        doAnswer(invocation -> {
+            responseType.set(invocation.getArgument(2));
+            responsePayload.set(invocation.getArgument(3));
+            return null;
+        }).when(shared).complete(eq(26L), anyString(), anyString(), anyString());
+
+        CommandResult first = service.submit(11, "71", new StatusRequest(3L, "资料完整"), KEY);
+        CommandResult replay = service.submit(11, "71", new StatusRequest(3L, "资料完整"), KEY);
+
+        assertEquals(first, replay);
+        verify(store, times(1)).transitionOwned(
+                71, 11, 3, "DRAFT", "PENDING_REVIEW", "PENDING", NOW);
+        verify(store, times(1)).submissionSnapshot(71, 11, NOW);
+        verify(store, times(1)).statusLog(71, "DRAFT", "PENDING_REVIEW", "资料完整", 11, 4);
+        verify(store, times(1)).outbox(eq(11L), eq("content.submitted.v1"), eq(71L),
+                eq("DRAFT"), eq("PENDING_REVIEW"), eq(4L), eq("资料完整"), any(), eq(NOW));
+        verify(shared, times(1)).complete(eq(26L), anyString(), anyString(), anyString());
+    }
+
+    @Test
     void submitRequiresVerifiedOwnerBeforeBusinessWrites() {
         newClaim(22);
         when(store.lockOwned(71)).thenReturn(Optional.of(row(71, "DRAFT", 3)));
@@ -84,6 +129,69 @@ class R12PublishingServiceTest {
         assertEquals("IDENTITY-422-NOT_VERIFIED", error.code());
         verify(store, never()).transitionOwned(anyLong(), anyLong(), anyLong(),
                 anyString(), anyString(), any(), any());
+        verify(shared, never()).complete(anyLong(), anyString(), anyString(), anyString());
+    }
+
+    @Test
+    void foreignOwnerCannotWriteOrCompleteIdempotency() {
+        newClaim(27);
+        when(store.lockOwned(71)).thenReturn(Optional.of(
+                new R12PublishingStore.OwnedContent(71, 12, "PROJECT", "DRAFT", 3)));
+
+        BusinessException error = assertThrows(BusinessException.class,
+                () -> service.submit(11, "71", new StatusRequest(3L, null), KEY));
+
+        assertEquals("COMMON-403-FORBIDDEN", error.code());
+        verify(shared, never()).identityVerified(anyLong());
+        verify(store, never()).transitionOwned(anyLong(), anyLong(), anyLong(),
+                anyString(), anyString(), any(), any());
+        verify(store, never()).outbox(anyLong(), anyString(), anyLong(), any(),
+                anyString(), anyLong(), any(), any(), any());
+        verify(shared, never()).complete(anyLong(), anyString(), anyString(), anyString());
+    }
+
+    @Test
+    void configurationTimeoutStopsSubmitWithoutSuccessSideEffects() {
+        newClaim(28);
+        when(store.lockOwned(71)).thenReturn(Optional.of(row(71, "DRAFT", 3)));
+        when(shared.identityVerified(11)).thenReturn(true);
+        when(shared.countOwnedInStatus(11, "PENDING_REVIEW")).thenReturn(0L);
+        when(shared.integerConfig("content.limit.normal.pending"))
+                .thenThrow(new IllegalStateException("configuration provider timeout"));
+
+        IllegalStateException error = assertThrows(IllegalStateException.class,
+                () -> service.submit(11, "71", new StatusRequest(3L, null), KEY));
+
+        assertEquals("configuration provider timeout", error.getMessage());
+        verify(store, never()).transitionOwned(anyLong(), anyLong(), anyLong(),
+                anyString(), anyString(), any(), any());
+        verify(store, never()).statusLog(anyLong(), anyString(), anyString(), any(), anyLong(), anyLong());
+        verify(store, never()).submissionSnapshot(anyLong(), anyLong(), any());
+        verify(store, never()).outbox(anyLong(), anyString(), anyLong(), any(),
+                anyString(), anyLong(), any(), any(), any());
+        verify(shared, never()).complete(anyLong(), anyString(), anyString(), anyString());
+    }
+
+    @Test
+    void concurrentSubmitLoserCannotEmitOutboxOrCompletion() {
+        newClaim(29);
+        when(store.lockOwned(71)).thenReturn(Optional.of(row(71, "DRAFT", 3)));
+        when(shared.identityVerified(11)).thenReturn(true);
+        when(shared.countOwnedInStatus(11, "PENDING_REVIEW")).thenReturn(0L);
+        when(shared.integerConfig("content.limit.normal.pending")).thenReturn(3);
+        when(shared.integerConfig("content.limit.normal.daily_submissions")).thenReturn(10);
+        when(store.submissionsSince(eq(11L), any())).thenReturn(0L);
+        when(store.transitionOwned(71, 11, 3, "DRAFT", "PENDING_REVIEW", "PENDING", NOW))
+                .thenReturn(false);
+
+        BusinessException error = assertThrows(BusinessException.class,
+                () -> service.submit(11, "71", new StatusRequest(3L, null), KEY));
+
+        assertEquals("COMMON-409-VERSION_CONFLICT", error.code());
+        verify(store, never()).statusLog(anyLong(), anyString(), anyString(), any(), anyLong(), anyLong());
+        verify(store, never()).submissionSnapshot(anyLong(), anyLong(), any());
+        verify(store, never()).outbox(anyLong(), anyString(), anyLong(), any(),
+                anyString(), anyLong(), any(), any(), any());
         verify(shared, never()).complete(anyLong(), anyString(), anyString(), anyString());
     }
 

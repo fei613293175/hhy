@@ -1,0 +1,14 @@
+{
+  "schema": "hhy.r12.test-adapter/v1",
+  "test_id": "TST-CONTENT_002-IDEMPOTENT",
+  "central_runner": "scripts/run_r12_specialized_matrix.py",
+  "runner": "r12-java21-postgresql17-android-publish-management",
+  "selectors": [
+    "services/backend/boot/src/test/java/cc/orbexa/hhy/content/R12PublishingServiceTest.java#retryReplaysStoredSubmitResultWithoutDuplicateWrites",
+    "services/backend/boot/src/test/java/cc/orbexa/hhy/content/R12PublishingServiceTest.java#reusedKeyWithDifferentRequestIsRejectedBeforeLockingContent",
+    "services/backend/boot/src/test/java/cc/orbexa/hhy/content/R08PostgresStoreTest.java#concurrentIdenticalClaimsHaveExactlyOneOwnerInRealPostgres",
+    "apps/android/feature/content-management/src/test/java/cc/orbexa/hhy/contentmanagement/R12ContentManagementListStateTest.kt#intentKeyIsStableOnlyForSameBusinessIntent",
+    "apps/android/feature/content-management/src/test/java/cc/orbexa/hhy/contentmanagement/R12ContentManagementStateTest.kt#copyKeyIsStableForRetryAndChangesWithVersion"
+  ],
+  "fault_classes": ["network-timeout-replay", "duplicate-outbox-prevention", "request-body-key-conflict", "real-postgresql-concurrency", "stable-business-intent-key"]
+}

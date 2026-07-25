@@ -1,0 +1,15 @@
+{
+  "schema": "hhy.r12.test-adapter/v1",
+  "test_id": "TST-PUBLISH_001-REJECT",
+  "central_runner": "scripts/run_r12_specialized_matrix.py",
+  "runner": "r12-java21-postgresql17-android-publish-management",
+  "selectors": [
+    "services/backend/boot/src/test/java/cc/orbexa/hhy/content/R12PublishingServiceTest.java#submitRequiresVerifiedOwnerBeforeBusinessWrites",
+    "services/backend/boot/src/test/java/cc/orbexa/hhy/content/R12PublishingServiceTest.java#foreignOwnerCannotWriteOrCompleteIdempotency",
+    "services/backend/boot/src/test/java/cc/orbexa/hhy/content/R12PublishingServiceTest.java#configurationTimeoutStopsSubmitWithoutSuccessSideEffects",
+    "services/backend/boot/src/test/java/cc/orbexa/hhy/content/R12PublishingServiceTest.java#concurrentSubmitLoserCannotEmitOutboxOrCompletion",
+    "apps/android/feature/content-management/src/test/java/cc/orbexa/hhy/contentmanagement/R12PublishStateTest.kt#submitEligibilityFollowsOwnerIdentityAndContentState",
+    "apps/android/feature/content-management/src/test/java/cc/orbexa/hhy/contentmanagement/R12PublishStateTest.kt#submitFailureNeverBlindlyRetriesConflictOrUnknownOutcome"
+  ],
+  "fault_classes": ["identity-reject", "permission-reject", "configuration-timeout", "zero-success-side-effect", "version-conflict"]
+}

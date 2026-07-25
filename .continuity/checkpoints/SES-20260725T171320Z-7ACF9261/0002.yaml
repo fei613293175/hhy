@@ -1,0 +1,241 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260725T171320Z-7ACF9261-0002
+session_id: SES-20260725T171320Z-7ACF9261
+task_id: TASK-R12-005
+story_id: STORY-R12-008
+sequence: 2
+created_at: '2026-07-25T17:45:37Z'
+summary: CR-0333批准并实现R12六项权威测试适配器、中央矩阵和四类服务故障断言；Java21、PostgreSQL17与Android受影响MODULE全部通过。
+next_step: 提交精确测试源码Commit；以该Commit在obx-test重验并下载三类非空日志，生成evidence.json、TASK-R12-005报告与Release Manifest投影。
+blockers: []
+decisions:
+- 六项测试复用共享R08幂等并发和媒体存储故障回归；R12消息重复只以事务Outbox单写证明，不虚构私有消费者。
+note: TASK-R12-005不运行模拟器、截图或APK；完整候选留到TASK-R12-007。
+tests:
+- name: r12-specialized-matrix-selftest
+  result: PASS
+  evidence: tests/test_r12_specialized_matrix.py
+  note: 4项矩阵负向与路径安全自测通过
+- name: r12-specialized-inventory
+  result: PASS
+  evidence: scripts/run_r12_specialized_matrix.py
+  note: 六个既有测试ID与全部selector解析通过
+- name: backend-java21-module
+  result: PASS
+  evidence: obx-test:/tmp/hhy-r12-task005-backend.log
+  note: 15项零失败零错误零跳过
+- name: postgresql17-integration
+  result: PASS
+  evidence: obx-test:/tmp/hhy-r12-task005-postgresql17.log
+  note: 5项真实事务与八路并发零失败零跳过
+- name: android-content-management-module
+  result: PASS
+  evidence: obx-test:/tmp/hhy-r12-task005-android-module.log
+  note: 202 tasks，网络与内容管理单测、Lint及App编译通过
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: 50c31b95e6352f648ec7793663c291458de4c685
+  upstream: origin/task/TASK-R03-001
+  ahead: 0
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/sessions/SES-20260725T171320Z-7ACF9261.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+  - ' M catalogs/change_request_index.csv'
+  - ' M catalogs/session_index.csv'
+  - ' M catalogs/test_cases.csv'
+  - ' M services/backend/boot/src/test/java/cc/orbexa/hhy/content/R12PublishingServiceTest.java'
+  - ?? .continuity/change_requests/CR-0333.yaml
+  - ?? docs/03-continuity/change-requests/CR-0333-R12统一发布六项专项测试与故障证据闭环.md
+  - ?? scripts/run_r12_specialized_matrix.py
+  - ?? tests/r12/README.md
+  - ?? tests/r12/req-content-002_happy
+  - ?? tests/r12/req-content-002_idempotent
+  - ?? tests/r12/req-content-002_reject
+  - ?? tests/r12/req-publish-001_happy
+  - ?? tests/r12/req-publish-001_idempotent
+  - ?? tests/r12/req-publish-001_reject
+  - ?? tests/test_r12_specialized_matrix.py
+  recent_commits:
+  - "50c31b95e6352f648ec7793663c291458de4c685\t2026-07-26T01:14:52+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] chore(continuity): enter specialized\
+    \ test gate"
+  - "1b18f744c6f28b918c6d3d38957de1a02ca00745\t2026-07-26T01:11:28+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] chore(continuity): close TASK-R12-004\
+    \ as completed"
+  - "22bcc942eb801e3a6a36292aa8026aed845af852\t2026-07-26T01:08:50+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] chore(continuity): close client\
+    \ gate changes"
+  - "4366bd9392efe2e60b5aa9217428e71932368cf6\t2026-07-26T01:04:41+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] docs(release): close client\
+    \ implementation gate"
+  - "4a11d21d741c2f15f5e6b96f16f87bb0081fb588\t2026-07-26T00:57:51+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] chore(continuity): enter release\
+    \ closure"
+  - "3153ef9cafbcc06ffee8be92dac4f77435f43866\t2026-07-26T00:54:52+08:00\tHHY Continuity Bootstrap\t[STORY-R12-007] feat(android): implement me\
+    \ home"
+  - "1f9fd299e34657f878463f331838a80608cf3da4\t2026-07-25T23:29:26+08:00\tHHY Continuity Bootstrap\t[STORY-R12-007] chore(continuity): approve\
+    \ me home scope"
+  - "ee2cf43c79d79db896b79021afde60ba3c6b2f0c\t2026-07-25T23:00:44+08:00\tHHY Continuity Bootstrap\t[STORY-R12-007] chore(continuity): enter my\
+    \ home story"
+project_fingerprint:
+  sha256: 5518b877c65d2945a60240420e82a42864c7e153bb01fd640da44699a42caeb2
+  files:
+  - catalogs/test_cases.csv
+  - docs/03-continuity/change-requests/CR-0333-R12统一发布六项专项测试与故障证据闭环.md
+  - scripts/run_r12_specialized_matrix.py
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R12PublishingServiceTest.java
+  - tests/r12/README.md
+  - tests/r12/req-content-002_happy
+  - tests/r12/req-content-002_idempotent
+  - tests/r12/req-content-002_reject
+  - tests/r12/req-publish-001_happy
+  - tests/r12/req-publish-001_idempotent
+  - tests/r12/req-publish-001_reject
+  - tests/test_r12_specialized_matrix.py
+  file_count: 12
+  payload:
+    base_commit: 1b18f744c6f28b918c6d3d38957de1a02ca00745
+    files:
+    - path: catalogs/test_cases.csv
+      state: FILE
+      size: 227784
+      sha256: 80a41ace55020aecfebc7fc6d7c822a5aa2624de03ceee79009ad0fa2561a4b0
+    - path: docs/03-continuity/change-requests/CR-0333-R12统一发布六项专项测试与故障证据闭环.md
+      state: FILE
+      size: 4106
+      sha256: 44116f74e3c48545b4e4406e7a8691e9a10e46c7147f1d58ac785fd41749d05f
+    - path: scripts/run_r12_specialized_matrix.py
+      state: FILE
+      size: 9225
+      sha256: 65eaeba00d0fad71e8d50dcae1482cfdeb224a4ca7ca00156a33c4c253f5c706
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/content/R12PublishingServiceTest.java
+      state: FILE
+      size: 14465
+      sha256: 475da2eafd0ae32aea58601426a6d611301939ad91a73357fbc39254b04b45d7
+    - path: tests/r12/README.md
+      state: FILE
+      size: 881
+      sha256: d3c2ccd311b9628c720a684f9e57d5c0c38c8d99b9220e021f2e1520320edbe4
+    - path: tests/r12/req-content-002_happy
+      state: FILE
+      size: 1202
+      sha256: fb25b7a28868bfdefdf03405514768ffae1707354b31abee2a2cd93c9bdb601b
+    - path: tests/r12/req-content-002_idempotent
+      state: FILE
+      size: 1198
+      sha256: 51db8b6894fad53d46c27a0e983f4c28eb5cc6ad16ba9bc9e34d0970b4d1de20
+    - path: tests/r12/req-content-002_reject
+      state: FILE
+      size: 1318
+      sha256: 3f95c56fa73c0303afb0e4b94b6f4770933546078ec6c1ad478bba2437ab3942
+    - path: tests/r12/req-publish-001_happy
+      state: FILE
+      size: 1167
+      sha256: b65bd15ffd759c52971c3ea9fd85e3b9d57b3ca86a9a790444ce10da818c2485
+    - path: tests/r12/req-publish-001_idempotent
+      state: FILE
+      size: 1190
+      sha256: c1eb3259ebf689c7cb213d899144bbb07bbdfde109eaf02e0f01b223765d08bd
+    - path: tests/r12/req-publish-001_reject
+      state: FILE
+      size: 1285
+      sha256: 525e328ebaaf4169575608f18d482a309ea2ed372664e57cd7e5cf51203e932b
+    - path: tests/test_r12_specialized_matrix.py
+      state: FILE
+      size: 3168
+      sha256: f9c3238f22135e43baffa6a43280f00c9a74ff2bc57be55ba4eae205a31b70c7
+change_classification:
+  other:
+  - catalogs/test_cases.csv
+  continuity:
+  - docs/03-continuity/change-requests/CR-0333-R12统一发布六项专项测试与故障证据闭环.md
+  code:
+  - scripts/run_r12_specialized_matrix.py
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R12PublishingServiceTest.java
+  tests:
+  - tests/r12/README.md
+  - tests/r12/req-content-002_happy
+  - tests/r12/req-content-002_idempotent
+  - tests/r12/req-content-002_reject
+  - tests/r12/req-publish-001_happy
+  - tests/r12/req-publish-001_idempotent
+  - tests/r12/req-publish-001_reject
+  - tests/test_r12_specialized_matrix.py
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+change_requests:
+- CR-0333
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions:
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R12PublishingServiceTest.java
+  - tests/r12/README.md
+  - tests/r12/req-content-002_happy
+  - tests/r12/req-content-002_reject
+  - tests/r12/req-content-002_idempotent
+  - tests/r12/req-publish-001_happy
+  - tests/r12/req-publish-001_reject
+  - tests/r12/req-publish-001_idempotent
+  - tests/test_r12_specialized_matrix.py
+  - scripts/run_r12_specialized_matrix.py
+  - catalogs/test_cases.csv
+  - artifacts/validation/r12-test-evidence/evidence.json
+  - artifacts/validation/r12-test-evidence/backend-java21.log
+  - artifacts/validation/r12-test-evidence/postgresql17.log
+  - artifacts/validation/r12-test-evidence/android-module.log
+  - docs/03-continuity/R12_TASK-005_SPECIALIZED_TEST_GATE.md
+  - releases/R12/RELEASE_MANIFEST.yaml
+  - CHANGELOG.md
+  source: story+explicit+approved-cr:CR-0333
+parallel_execution:
+  assessment: DELEGATED
+  delegated_workers: 2
+  workers:
+  - worker_id: profile_contract_review
+    responsibility: CR-0333独立测试范围与共享能力复用审计
+    allowed_paths:
+    - .continuity/change_requests/CR-0333.yaml
+  - worker_id: profile_android_review
+    responsibility: R12 Android专项MODULE边界与CR复核
+    allowed_paths:
+    - apps/android/feature/content-management/src/test
+  reason: 两个代理仅做互斥只读审计；资金、状态机、并发、CR落盘、测试实现和最终集成由主控串行完成。
+event_hash: 259d9d287b2409fb4797322ccb3466da209fffa9fb0d1f4944c43a0a877359c7
