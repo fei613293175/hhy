@@ -46,7 +46,7 @@ for secret in (
     require(str(environment.get(secret, "")) == f"${{{secret}:?{secret} is required}}", f"R12_SECRET_REQUIRED_{secret}")
 require("${HHY_R12_TRUSTED_PROXY_CIDRS:-" in str(environment.get("HHY_ADMIN_TRUSTED_PROXY_CIDRS")), "R12_TRUSTED_PROXY_NOT_CONFIGURABLE")
 require("${HHY_R12_SMOKE_SUBNET:-" in str(compose.get("networks")), "R12_SUBNET_NOT_CONFIGURABLE")
-require("172.31.243.0/24" in str(compose.get("networks")), "R12_DEFAULT_SUBNET_NOT_ISOLATED")
+require("172.31.240.0/24" in str(compose.get("networks")), "R12_DEFAULT_SUBNET_NOT_ISOLATED")
 require("${HHY_R12_PROMETHEUS_PORT:-39614}" in str((services.get("prometheus") or {}).get("ports")), "R12_PROMETHEUS_PORT_NOT_ISOLATED")
 require("${HHY_R12_ALERTMANAGER_PORT:-39615}" in str((services.get("alertmanager") or {}).get("ports")), "R12_ALERTMANAGER_PORT_NOT_ISOLATED")
 

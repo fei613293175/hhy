@@ -148,7 +148,7 @@ load_compose_environment() {
   export POSTGRES_PASSWORD HHY_CONTENT_CONTACT_ROOT_SECRET HHY_USER_JWT_SECRET
   export HHY_USER_TOKEN_HMAC_SECRET HHY_USER_SNAPSHOT_ROOT_SECRET HHY_ADMIN_JWT_SECRET
   export HHY_ADMIN_MFA_ROOT_SECRET HHY_ADMIN_IDEMPOTENCY_HMAC_SECRET
-  export HHY_R12_SMOKE_SUBNET=${HHY_R12_SMOKE_SUBNET:-172.31.243.0/24}
+  export HHY_R12_SMOKE_SUBNET=${HHY_R12_SMOKE_SUBNET:-172.31.240.0/24}
 }
 
 record_database_state() {
@@ -201,7 +201,7 @@ capture_baseline() {
     echo release=R12
     echo frozen_commit="$FROZEN_COMMIT"
     echo compose_project="$PROJECT"
-    echo network_subnet=${HHY_R12_SMOKE_SUBNET:-172.31.243.0/24}
+    echo network_subnet=${HHY_R12_SMOKE_SUBNET:-172.31.240.0/24}
     echo current_image="$current_image"
     echo postgres_container=$(docker inspect "$POSTGRES" --format '{{.Id}}')
     echo postgres_volume="$pg_volume"

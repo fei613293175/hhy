@@ -35,9 +35,9 @@ class R12StagingAcceptanceTest(unittest.TestCase):
 
     def test_isolated_network_and_ports_are_consistent(self) -> None:
         for text in (self.compose, self.runner):
-            self.assertIn("172.31.243.0/24", text)
+            self.assertIn("172.31.240.0/24", text)
         for suffix in ("10", "20", "40"):
-            self.assertIn(f"172.31.243.{suffix}", self.compose)
+            self.assertIn(f"172.31.240.{suffix}", self.compose)
         self.assertIn("HHY_R12_SMOKE_HTTP_PORT:-38112", self.compose)
         self.assertIn("HHY_R12_PROMETHEUS_PORT:-39614", self.compose)
         self.assertIn("HHY_R12_ALERTMANAGER_PORT:-39615", self.compose)

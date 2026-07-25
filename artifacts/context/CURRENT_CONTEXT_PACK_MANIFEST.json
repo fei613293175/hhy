@@ -1,19 +1,19 @@
 {
   "version": "1.0",
-  "generated_at": "2026-07-25T18:28:04Z",
-  "context_hash": "7135711d0f70c717aac6f753ea044e45f362016b6023154767e49c046eb5eaf8",
+  "generated_at": "2026-07-25T18:45:18Z",
+  "context_hash": "0752a71a21f35f6bfd8e8cb1b4d2f546aff2bc94611a7cf1fc61c3c0f920969e",
   "fingerprint_mode": "SESSION_DELTA",
   "project_fingerprint": {
-    "sha256": "f15f1b66b55b86c72b9a5d8a0585e79373c1478f78f0b7082dea64d8e7740143",
-    "file_count": 14
+    "sha256": "c594f95c618d27e98ac834922825345c897e7db1fea76eafe65c3971f8a8346b",
+    "file_count": 17
   },
   "yaml": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.yaml",
-    "sha256": "8f2716e6f12c4a0c7358e08df7f8da1981f049192cf080a6ed24655427b27dd1"
+    "sha256": "4ff77c4655a5f46f40d00606542ed4547cbc55bdf0f3e255807da01dc8d497b8"
   },
   "markdown": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.md",
-    "sha256": "dee838e46fa514dd0a55026aaf07ab6882d8d3401a3b72ea3ea8c7d5082f63b1"
+    "sha256": "129b719ab03c873c4b880f81cba45577fbb9d96ce32003a49c7cb8015964e377"
   },
   "sources": [
     {
@@ -28,7 +28,7 @@
     },
     {
       "path": "CURRENT_STATUS.yaml",
-      "sha256": "dcdad7459eeed947dcc743cb5409494e7df1922776d6e1048e5e3c4cbdca005b",
+      "sha256": "d082235e7064bd5ad94cdba941b21983a59f4d873e20e50293f70a551cfa5c12",
       "bytes": 4469
     },
     {
@@ -48,8 +48,8 @@
     },
     {
       "path": "docs/03-continuity/PROBLEM_REGISTRY.yaml",
-      "sha256": "761f9a6583d5d7b4dc84ef9f44d429b9186da54e361059ca2f411d57338b8079",
-      "bytes": 154856
+      "sha256": "398e6376d7f63ebfbfa9ab1273b85cca58d3f92b7c7215b13caf306402e9b994",
+      "bytes": 156407
     },
     {
       "path": "docs/03-continuity/REUSABLE_PATTERNS.md",
@@ -83,12 +83,12 @@
     },
     {
       "path": ".continuity/EVENT_LOG.jsonl",
-      "sha256": "11d528138feac778d0998f1ccd43bd28a22eacd1ce7575da95fedacbcaff56a1",
-      "bytes": 1858086
+      "sha256": "f3fab7de43c735e2e6a2cccc01ea6a3a23a0a74de60b77ea73845689ea9ad929",
+      "bytes": 1863082
     },
     {
       "path": ".continuity/SESSION_INDEX.yaml",
-      "sha256": "9d3f9bb20988a6fe0acbf6d99ec194a4df4d4fe5d7a8d3f059e6c05617192fd2",
+      "sha256": "ea71ceb920a0d4a843fb9a61176c1ea98250b1e36cbdecd7da99cfccd60785c9",
       "bytes": 54342
     },
     {
@@ -103,12 +103,12 @@
     },
     {
       "path": ".continuity/CHANGE_REQUEST_INDEX.yaml",
-      "sha256": "7293650e4f360710c513f477671f523da6363b7bda39e71500d3f3c39aa29f51",
-      "bytes": 1147628
+      "sha256": "ae4c5b9a7d407f4f8c221d30c6d4081c75e15ca50d794efa8d35f7550d616e84",
+      "bytes": 1151361
     },
     {
       "path": ".continuity/ACTIVE_SESSION.yaml",
-      "sha256": "88d1d8b75ce71ac471953baf368500922f3611116517abd845798ad435e83234",
+      "sha256": "83d85736fa13bdaed3e16dd249349178d6ba2d0ea2e7004cd22da4b22ea5fdb4",
       "bytes": 552
     },
     {
@@ -163,18 +163,28 @@
     },
     {
       "path": "docs/03-continuity/sessions/2026-07/SES-20260725T180922Z-D7231210.md",
-      "sha256": "f2f9185368758a711d773df39dc4da15b666c4629cdab7c2111d65bca7848f23",
-      "bytes": 3579
+      "sha256": "2de2cad5a2dc2c55f67f9ff602335f6572befabb3bba6e663d3c2d67a7074759",
+      "bytes": 7614
     },
     {
-      "path": ".continuity/checkpoints/SES-20260725T180922Z-D7231210/0001.yaml",
-      "sha256": "0a80c9b619e87d7891e364b3f1c3ee83441a6ff63993f1e85d908ce012c539b6",
-      "bytes": 10997
+      "path": ".continuity/checkpoints/SES-20260725T180922Z-D7231210/0003.yaml",
+      "sha256": "e11a1204258fb12b4831c3e3e6c97c54a5d1dc9732b3c549d95ce3d1d89a21fb",
+      "bytes": 11796
     },
     {
       "path": "docs/03-continuity/change-requests/CR-0334-补齐R12统一发布可观测性与独立Staging验收.md",
       "sha256": "fd76c42eca1da76fa0a2db9ed34cbdfe4f710bb133a3e7b10c2039482ff34504",
       "bytes": 3460
+    },
+    {
+      "path": "docs/03-continuity/change-requests/CR-0335-修正R12隔离Staging子网与R09冲突.md",
+      "sha256": "bb3647e8f9b34a77d454e18e2631d396c9fe6e4611106ca72b5c45d66f3d4e8b",
+      "bytes": 2131
+    },
+    {
+      "path": "docs/03-continuity/change-requests/CR-0336-登记R12隔离子网冲突问题与回归.md",
+      "sha256": "44afbdd8ae7449e375cc2c9a68e3b8febdab09d0516cbabba7f98bf7a0d877bc",
+      "bytes": 1734
     }
   ]
 }

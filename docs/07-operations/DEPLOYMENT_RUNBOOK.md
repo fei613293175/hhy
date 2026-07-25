@@ -346,7 +346,7 @@ R11 使用 `infra/staging/r11-smoke/docker-compose.yml`，默认隔离子网 `17
 
 ## 17. R12 统一发布隔离预发布验收
 
-R12 使用 `infra/staging/r12-smoke/docker-compose.yml`，默认隔离子网 `172.31.243.0/24`，仅在回环地址发布 HTTP `38112`、Prometheus `39614` 和 Alertmanager `39615`。执行前必须确认端口和目标 Compose project 为空，不得修改或重启公网及 R01-R11 环境。测试 Secret 只注入隔离进程环境，实名认证沙箱与 CI 自动登录保持关闭。
+R12 使用 `infra/staging/r12-smoke/docker-compose.yml`，默认隔离子网 `172.31.240.0/24`，仅在回环地址发布 HTTP `38112`、Prometheus `39614` 和 Alertmanager `39615`。该子网由执行前服务器网络审计确认未占用；不得修改或重启仍占用 `172.31.243.0/24` 的 R09 及其他公网/R01-R11 环境。测试 Secret 只注入隔离进程环境，实名认证沙箱与 CI 自动登录保持关闭。
 
 现场演练必须绑定 `HHY_R12_FROZEN_COMMIT`，并由 `scripts/run_r12_staging_acceptance.sh` 单一入口完成：
 

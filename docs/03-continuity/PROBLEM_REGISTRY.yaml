@@ -1499,3 +1499,19 @@ problems:
   - 底部栏目不得使用页面级mutableState或selectedIndex冒充Navigation Compose返回栈
   - 效果图虚构项必须过滤，但不得以过滤为由删掉其余区域顺序、层级和信息密度
   - 正式商业错误界面不得展示requestId、traceId、错误码或接口名
+- id: PROB-0110
+  title: R12隔离Staging机械复用R09已占用Docker子网
+  status: SOLVED
+  root_cause: R12从既有版本复制隔离Staging编排时机械沿用了172.31.243.0/24，没有先对obx-test当前Docker网络和回环端口执行只读审计；该子网仍由hhy-r09-staging_smoke占用。静态配置检查只验证了R12组件内部地址一致，无法证明服务器侧资源未冲突。
+  resolution: CR-0335将R12默认子网及全部静态IP成组切换到服务器审计确认未占用的172.31.240.0/24，端口38112、39614和39615保持不变；CR-0336把根因、修复、回归和禁止做法登记到唯一Problem Registry。R12尚未启动现场环境，因此没有污染或清理既有Docker资源。
+  regression_checks:
+  - obx-test执行前必须审计docker network inspect结果，证明172.31.240.0/24未被既有网络占用
+  - obx-test执行前必须审计监听端口，证明38112、39614和39615未被既有进程占用
+  - python scripts/check_r12_observability.py
+  - python -m unittest tests.test_r12_staging_acceptance
+  - bash -n scripts/run_r12_staging_acceptance.sh
+  - R12现场验收不得创建、修改或重启hhy-r09-staging_smoke及其他既有公网环境
+  do_not_repeat:
+  - 不得未经目标服务器Docker网络和监听端口审计就复用历史版本默认子网或端口
+  - 不得只验证Compose文件内部地址一致性并据此宣称隔离资源可用
+  - 发现资源冲突后不得停止、删除或改网既有版本环境，应为新版本选择经审计的空闲资源

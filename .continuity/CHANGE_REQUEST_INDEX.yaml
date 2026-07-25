@@ -20650,3 +20650,80 @@ change_requests:
     session_id: SES-20260725T180922Z-D7231210
   session_ids:
   - SES-20260725T180922Z-D7231210
+- protocol_version: '1.0'
+  cr_id: CR-0335
+  title: 修正R12隔离Staging子网与R09冲突
+  status: APPROVED
+  created_at: '2026-07-25T18:37:59Z'
+  updated_at: '2026-07-25T18:38:36Z'
+  requester_actor_id: codex-root-r12-observability-20260726
+  approver_actor_id: codex-reviewer-r12-network
+  task_id: TASK-R12-006
+  session_id: SES-20260725T180922Z-D7231210
+  user_request: 按既定计划连续开发且不浪费时间反复重跑
+  reason: obx-test只读网络审计确认172.31.243.0/24仍由hhy-r09-staging_smoke占用，R12必须使用独立未占用子网
+  original_rule: CR-0334初始登记R12隔离网络为172.31.243.0/24
+  new_rule: R12隔离网络改为服务器审计确认未占用的172.31.240.0/24，端口38112/39614/39615保持不变
+  impact_summary: 仅修正R12隔离Compose、运行脚本、静态门禁、回归测试和运行手册中的默认子网，不触碰R09网络或任何业务事实
+  impact:
+    files:
+    - infra/staging/r12-smoke/docker-compose.yml
+    - scripts/check_r12_observability.py
+    - scripts/run_r12_staging_acceptance.sh
+    - tests/test_r12_staging_acceptance.py
+    - docs/07-operations/DEPLOYMENT_RUNBOOK.md
+    - artifacts/reports/R12/TASK-R12-006-staging.md
+    - CHANGELOG.md
+    pages: []
+    apis: []
+    database: []
+    configuration:
+    - R12隔离子网172.31.240.0/24
+    ledger: []
+    tests:
+    - check_r12_observability.py;test_r12_staging_acceptance.py;obx-test docker network audit
+    releases:
+    - R12
+    migration_and_compatibility: 纯Staging隔离网络修正，无数据库、API、业务兼容性变化；旧R09网络保持原样
+  user_confirmation: 项目所有者要求连续推进并避免无效重跑，已长期授权终端静默执行
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-25T18:38:36Z'
+    note: 服务器证据明确证明243网段被R09占用；240网段须在执行前再次审计未占用，修改仅限R12隔离资源
+  machine_record: .continuity/change_requests/CR-0335.yaml
+  document: docs/03-continuity/change-requests/CR-0335-修正R12隔离Staging子网与R09冲突.md
+- protocol_version: '1.0'
+  cr_id: CR-0336
+  title: 登记R12隔离子网冲突问题与回归
+  status: APPROVED
+  created_at: '2026-07-25T18:41:03Z'
+  updated_at: '2026-07-25T18:41:34Z'
+  requester_actor_id: codex-root-r12-observability-20260726
+  approver_actor_id: codex-reviewer-r12-governance
+  task_id: TASK-R12-006
+  session_id: SES-20260725T180922Z-D7231210
+  user_request: 按既定计划连续开发且问题经验可跨AI复用
+  reason: 提交门禁要求Bug修复同步更新唯一Problem Registry，避免后续版本再次复用已占用Docker子网
+  original_rule: Bug修复必须同步Problem Registry与回归检查
+  new_rule: 新增PROB-0110记录R12复用R09占用子网的根因、240网段修复、执行前网络端口审计和禁止做法
+  impact_summary: 只更新既有唯一Problem Registry，不创建平行踩坑或经验事实源
+  impact:
+    files:
+    - docs/03-continuity/PROBLEM_REGISTRY.yaml
+    pages: []
+    apis: []
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - obx-test docker network audit;tests/test_r12_staging_acceptance.py
+    releases:
+    - R12
+    migration_and_compatibility: 治理记录增量，无运行时兼容性变化
+  user_confirmation: 项目所有者要求所有规则和经验跨电脑、跨AI持续生效
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-25T18:41:34Z'
+    note: 更新唯一Problem Registry符合既有规则，回归必须同时验证网段与端口未占用
+  machine_record: .continuity/change_requests/CR-0336.yaml
+  document: docs/03-continuity/change-requests/CR-0336-登记R12隔离子网冲突问题与回归.md

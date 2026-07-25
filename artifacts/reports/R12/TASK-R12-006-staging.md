@@ -12,6 +12,7 @@
 - 指标：统一发布总量、草稿、待审核、审核中、驳回、在线及 R12 Outbox 积压。
 - 告警：后端不可用、错误率、P95、Outbox、审核积压、驳回积压和指标查询失败。
 - 回滚基线：`hhy-backend-r12-baseline:5419d682`，必须兼容 PostgreSQL 17 / Flyway V041。
+- 隔离网络：`172.31.240.0/24`；`172.31.243.0/24` 已由 R09 占用，禁止复用。
 - 现场入口：`scripts/run_r12_staging_acceptance.sh`，必须绑定精确源码 Commit。
 
 ## 验收状态
