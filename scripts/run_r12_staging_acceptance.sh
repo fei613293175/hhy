@@ -210,7 +210,7 @@ capture_baseline() {
   docker exec "$API" curl -fsS http://127.0.0.1:9091/actuator/health/liveness > "$EVIDENCE/liveness.json"
   docker exec "$API" curl -fsS http://127.0.0.1:9091/actuator/health/readiness > "$EVIDENCE/readiness.json"
   record_database_state > "$EVIDENCE/database.txt"
-  test "$(sed -n '1p' "$EVIDENCE/database.txt")" = "41"
+  test "$(sed -n '1p' "$EVIDENCE/database.txt")" = "041"
   curl -sS -D "$EVIDENCE/trace-headers.txt" -o "$EVIDENCE/public-status.json" \
     -H 'X-Request-Id: r12-stage-request-001' \
     -H 'X-Trace-Id: 223344556677889900aabbccddeeff11' \

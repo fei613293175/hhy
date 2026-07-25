@@ -1,0 +1,38 @@
+protocol_version: '1.0'
+cr_id: CR-0337
+title: 修正R12现场验收Flyway V041格式误判
+status: APPROVED
+created_at: '2026-07-25T18:51:04Z'
+updated_at: '2026-07-25T18:51:29Z'
+requester_actor_id: codex-root-r12-observability-20260726
+approver_actor_id: codex-reviewer-r12-governance
+task_id: TASK-R12-006
+session_id: SES-20260725T180922Z-D7231210
+user_request: 按事实源连续开发并自行解决现场验收问题
+reason: obx-test精确Commit现场证据显示数据库版本为041，脚本错误比较为41并在基线阶段误退出
+original_rule: R12现场验收必须确认Flyway V041且数据库连续性成立
+new_rule: 按Flyway权威输出的三位版本041验证V041，并用静态回归锁定脚本断言；失败Commit不得原样重跑
+impact_summary: 修正单个验收脚本断言，新增回归与唯一Problem Registry记录，不修改数据库或产品运行时
+impact:
+  files:
+  - scripts/run_r12_staging_acceptance.sh
+  - tests/test_r12_staging_acceptance.py
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - artifacts/reports/R12/TASK-R12-006-staging.md
+  pages: []
+  apis: []
+  database: []
+  configuration: []
+  ledger: []
+  tests:
+  - python -m unittest tests.test_r12_staging_acceptance; obx-test exact-commit staging acceptance
+  releases:
+  - R12
+  migration_and_compatibility: 仅验收工具修正；数据库仍为V041且无迁移、降级或数据变更
+user_confirmation: 项目所有者已授权自行解决现场验收问题并连续推进
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-25T18:51:29Z'
+  note: 041是Flyway对V041的权威版本输出，修正断言且保留失败证据符合不盲目重跑规则
+machine_record: .continuity/change_requests/CR-0337.yaml
+document: docs/03-continuity/change-requests/CR-0337-修正R12现场验收Flyway-V041格式误判.md

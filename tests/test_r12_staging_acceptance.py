@@ -44,7 +44,7 @@ class R12StagingAcceptanceTest(unittest.TestCase):
 
     def test_rollback_preserves_v041_publishing_facts(self) -> None:
         self.assertIn("hhy-backend-r12-baseline:5419d682", self.runner)
-        self.assertIn('test "$(sed -n \'1p\' "$EVIDENCE/database.txt")" = "41"', self.runner)
+        self.assertIn('test "$(sed -n \'1p\' "$EVIDENCE/database.txt")" = "041"', self.runner)
         self.assertIn("record_publishing_facts", self.runner)
         self.assertIn("publishing-facts-before.txt", self.runner)
         self.assertIn("publishing-facts-after.txt", self.runner)

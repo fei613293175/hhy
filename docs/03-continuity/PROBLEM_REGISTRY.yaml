@@ -1515,3 +1515,17 @@ problems:
   - 不得未经目标服务器Docker网络和监听端口审计就复用历史版本默认子网或端口
   - 不得只验证Compose文件内部地址一致性并据此宣称隔离资源可用
   - 发现资源冲突后不得停止、删除或改网既有版本环境，应为新版本选择经审计的空闲资源
+- id: PROB-0111
+  title: R12现场验收把Flyway V041权威输出误写为41
+  status: SOLVED
+  root_cause: Flyway数据库历史表的version列对V041返回三位字符串041，但R12现场脚本沿用整数式写法与41比较。静态测试又逐字锁定了同一错误断言，导致正确完成V041迁移的现场环境在基线采集阶段被误判失败。
+  resolution: CR-0337把验收断言和静态回归同步修正为041，并在现场报告保留Commit 3205187edfec06e5055312a228f4f51ca55db9c4的首次失败事实；该Commit不原样重跑，只允许新Commit在全新Compose项目中重新验收。
+  regression_checks:
+  - python -m unittest tests.test_r12_staging_acceptance
+  - tests.test_r12_staging_acceptance必须逐字锁定database.txt首行为041
+  - obx-test新Commit现场证据的database.txt和machine-summary.txt必须分别记录041
+  - 新Commit必须从空Compose项目启动并完整通过基线、两类告警、回滚和证据终结
+  do_not_repeat:
+  - 不得把带前导零的迁移版本当作整数手写比较值
+  - 不得让静态测试只逐字复制实现而不核对真实工具输出
+  - 确定性脚本缺陷出现后不得原样重跑同一Commit，应保留失败证据并修复后递增Commit

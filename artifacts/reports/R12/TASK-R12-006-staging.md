@@ -20,3 +20,8 @@
 `PENDING_FROZEN_COMMIT_STAGING_REHEARSAL`
 
 现场证据完成后回填精确 Commit、镜像 ID、数据库连续性、告警回执、业务事实比较和 SHA-256；此前 `AC-R12-004` 保持 `NOT_RUN`。
+
+## 现场尝试记录
+
+- Attempt 1：Commit `3205187edfec06e5055312a228f4f51ca55db9c4` 完成镜像构建、六容器启动和 PostgreSQL V041 迁移；基线证据首行正确输出 `041`，但脚本错误与 `41` 比较后退出。该 Commit 不重跑，修复由 `CR-0337` 跟踪。
+- 原始服务器日志：`obx-test:/tmp/hhy-r12-task006-3205187e.log`。
