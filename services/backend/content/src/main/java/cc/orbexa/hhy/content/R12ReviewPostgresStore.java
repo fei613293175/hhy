@@ -375,6 +375,7 @@ public class R12ReviewPostgresStore implements R12ReviewStore {
 
     private static String reviewOrder(String sort) {
         return switch (sort) {
+            case "priority:desc,createdAt:asc" -> "CASE upper(COALESCE(snapshot.snapshot_json->>'riskLevel','')) WHEN 'CRITICAL' THEN 4 WHEN 'HIGH' THEN 3 WHEN 'MEDIUM' THEN 2 WHEN 'LOW' THEN 1 ELSE 0 END DESC,COALESCE(submitted.created_at,content.created_at) ASC,content.id ASC";
             case "createdAt:desc" -> "COALESCE(submitted.created_at,content.created_at) DESC,content.id DESC";
             case "createdAt:asc" -> "COALESCE(submitted.created_at,content.created_at) ASC,content.id ASC";
             case "updatedAt:desc" -> "content.updated_at DESC,content.id DESC";

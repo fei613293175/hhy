@@ -7,7 +7,7 @@ ADM-ID-002,实名,实名详情与复核,/identity/:id,identity,identity.read,ide
 ADM-CONTENT-001,内容,统一内容列表,/contents,contents,content.read,content.manage,NORMAL,四类内容,R06,ROUTE_PERMISSION_FROZEN
 ADM-CONTENT-002,内容,内容详情,/contents/:id,contents,content.read,content.manage,NORMAL,版本、媒体、链接、数据,R06,ROUTE_PERMISSION_FROZEN
 ADM-CONTENT-003,内容,字典与属性,/contents/dictionaries,contents,content.read,content.manage,NORMAL,地区、平台、人数、标签,R06,ROUTE_PERMISSION_FROZEN
-ADM-REVIEW-001,审核,审核队列,/reviews,reviews,review.manage,review.manage,NORMAL,内容/红包/实名/申诉,R12,ROUTE_PERMISSION_FROZEN
+ADM-REVIEW-001,审核,审核队列,/reviews,reviews,review.read,review.decide;review.assign,NORMAL,内容/红包/实名/申诉,R12,ROUTE_PERMISSION_FROZEN
 ADM-RP-001,红包,红包活动列表,/red-packets,red-packets,redpacket.read,redpacket.manage,NORMAL,活动状态和金额,R20,ROUTE_PERMISSION_FROZEN
 ADM-RP-002,红包,红包活动详情,/red-packets/:id,red-packets,redpacket.read,redpacket.manage,NORMAL,库存、会话、领取、账本,R23,ROUTE_PERMISSION_FROZEN
 ADM-RP-003,红包,红包预审核,/red-packets/review,red-packets,redpacket.read,redpacket.manage,NORMAL,规则和内容联查,R20,ROUTE_PERMISSION_FROZEN

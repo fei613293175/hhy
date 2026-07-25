@@ -363,3 +363,6 @@ concurrency_state="$("${PSQL[@]}" -qAt -c "
   exit 1
 }
 echo "R12_OPTIMISTIC_CONCURRENCY PASS writers=${result_one}:${result_two} state=${concurrency_state}"
+
+"${PSQL[@]}" -f "${ROOT}/database/tests/r12_review_permission_alignment.sql" >/dev/null
+echo "R12_REVIEW_PERMISSION_ALIGNMENT PASS"

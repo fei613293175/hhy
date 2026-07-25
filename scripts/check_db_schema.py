@@ -176,6 +176,10 @@ r12_required_files = (
     "database/tests/r12_review_escalation.sql",
     "scripts/check_content_state_machine_projection.py",
     "scripts/run_r12_database_invariants.sh",
+    "database/migrations/V041__r12_review_permission_alignment.sql",
+    "services/backend/boot/src/main/resources/db/migration/V041__r12_review_permission_alignment.sql",
+    "database/rollback/U041__r12_review_permission_alignment.sql",
+    "database/tests/r12_review_permission_alignment.sql",
 )
 for relative in r12_required_files:
     if not (ROOT / relative).is_file():
@@ -281,6 +285,26 @@ if all((ROOT / relative).is_file() for relative in r12_required_files):
     ):
         if marker not in r12_escalation_test:
             errors.append(f"R12 escalation test missing closure marker: {marker}")
+
+    r12_permission_migration = (ROOT / r12_required_files[10]).read_text(encoding="utf-8")
+    for marker in (
+        "review.read",
+        "review.decide",
+        "review.assign",
+        "report.read",
+        "appeal.read",
+        "R12_REVIEW_MANAGER_PERMISSION_MAPPING_INCOMPLETE",
+    ):
+        if marker not in r12_permission_migration:
+            errors.append(f"V041 missing R12 review permission marker: {marker}")
+
+    r12_permission_rollback = (ROOT / r12_required_files[12]).read_text(encoding="utf-8")
+    if "R12_U041_INDEPENDENT_GRANULAR_GRANTS_PRESENT" not in r12_permission_rollback:
+        errors.append("U041 must preserve independently assigned granular review grants")
+
+    r12_permission_test = (ROOT / r12_required_files[13]).read_text(encoding="utf-8")
+    if "R12_REVIEW_PERMISSION_ALIGNMENT PASS" not in r12_permission_test:
+        errors.append("R12 permission alignment test is missing its PASS marker")
 
     for marker in (
         'migration_number >= 39',

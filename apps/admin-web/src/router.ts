@@ -14,6 +14,7 @@ import AdminIdentityDetailPage from './views/AdminIdentityDetailPage.vue'
 import AdminContentListPage from './views/AdminContentListPage.vue'
 import AdminContentDetailPage from './views/AdminContentDetailPage.vue'
 import AdminContentDictionariesPage from './views/AdminContentDictionariesPage.vue'
+import AdminReviewWorkbenchPage from './views/AdminReviewWorkbenchPage.vue'
 import AdminForbiddenPage from './views/AdminForbiddenPage.vue'
 import { implementedAdminPageIds } from './adminNavigation'
 import { resolveAdminRouteRedirect } from './routerAccess'
@@ -39,6 +40,7 @@ export const router = createRouter({
     { path: '/contents', name: 'ADM-CONTENT-001', component: AdminContentListPage, meta: { requiresAuth: true, permission: 'content.read' } },
     { path: '/contents/dictionaries', name: 'ADM-CONTENT-003', component: AdminContentDictionariesPage, meta: { requiresAuth: true, permission: 'content.read' } },
     { path: '/contents/:id', name: 'ADM-CONTENT-002', component: AdminContentDetailPage, meta: { requiresAuth: true, permission: 'content.read' } },
+    { path: '/reviews', name: 'ADM-REVIEW-001', component: AdminReviewWorkbenchPage, meta: { requiresAuth: true, permission: 'review.read' } },
     ...adminPages.filter((page) => !implementedAdminPageIds.has(page.ID)).map((page) => ({
       path: page.路由,
       name: page.ID,

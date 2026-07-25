@@ -74,6 +74,24 @@ class R12ReviewServiceTest {
     }
 
     @Test
+    void defaultPriorityQueueUsesPagePaginationAndNeverEmitsCursor() {
+        when(store.reviews(any())).thenReturn(new R12ReviewStore.ReviewPageRows(List.of(
+                row("PENDING_REVIEW", 3, null, null, null)), 21, true));
+
+        var page = service.queue(2, 20, null, null, null,
+                "priority:desc,createdAt:asc");
+
+        assertEquals(2, page.page().page());
+        assertEquals("true", page.page().hasMore());
+        assertEquals(null, page.page().nextCursor());
+        ArgumentCaptor<R12ReviewStore.PageQuery> query =
+                ArgumentCaptor.forClass(R12ReviewStore.PageQuery.class);
+        verify(store).reviews(query.capture());
+        assertEquals("priority:desc,createdAt:asc", query.getValue().sort());
+        assertEquals(null, query.getValue().cursor());
+    }
+
+    @Test
     void assigningQueuedReviewWritesImmutableAssignAndClaimAuditAndOutbox() {
         ReviewAssignRequest request = new ReviewAssignRequest("12", "轮值分配", 3L);
         firstClaim();
@@ -252,6 +270,9 @@ class R12ReviewServiceTest {
                 () -> service.queue(1, 20, null, null, null, "title:desc")).code());
         assertEquals("COMMON-400-VALIDATION", assertThrows(BusinessException.class,
                 () -> service.queue(1, 20, "71", null, null, "id:asc")).code());
+        assertEquals("COMMON-400-VALIDATION", assertThrows(BusinessException.class,
+                () -> service.queue(1, 20, "dGVzdA", null, null,
+                        "priority:desc,createdAt:asc")).code());
         verify(store, never()).reviews(any());
     }
 

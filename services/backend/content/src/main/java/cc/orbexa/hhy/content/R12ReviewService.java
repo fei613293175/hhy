@@ -30,9 +30,11 @@ import org.springframework.transaction.annotation.Transactional;
 public class R12ReviewService {
     private static final Duration IDEMPOTENCY_TTL = Duration.ofHours(24);
     private static final String RESPONSE_TYPE = "r12.review-resource.v1";
+    private static final String REVIEW_DEFAULT_SORT = "priority:desc,createdAt:asc";
     private static final Set<String> REVIEW_STATUSES = Set.of(
             "PENDING_REVIEW", "REVIEWING", "APPROVED", "REJECTED");
     private static final Map<String, String> REVIEW_SORTS = Map.of(
+            REVIEW_DEFAULT_SORT, "risk priority descending, submitted time ascending",
             "createdAt:desc", "COALESCE(submitted.created_at,content.created_at) DESC,content.id DESC",
             "createdAt:asc", "COALESCE(submitted.created_at,content.created_at) ASC,content.id ASC",
             "updatedAt:desc", "content.updated_at DESC,content.id DESC",
@@ -340,7 +342,7 @@ public class R12ReviewService {
     private static PageMeta page(
             R12ReviewStore.PageQuery query, long total, boolean hasMore,
             Long lastId, Instant lastSortValue) {
-        String nextCursor = hasMore && lastId != null
+        String nextCursor = hasMore && lastId != null && !REVIEW_DEFAULT_SORT.equals(query.sort())
                 ? cursor(query.sort(), lastId, lastSortValue) : null;
         return new PageMeta(query.page(), query.pageSize(), Long.toString(total),
                 nextCursor, Boolean.toString(hasMore));
@@ -383,6 +385,7 @@ public class R12ReviewService {
     private static R12ReviewStore.CursorKey cursor(String value, String sort) {
         String cleaned = clean(value);
         if (cleaned == null) return null;
+        if (REVIEW_DEFAULT_SORT.equals(sort)) throw validation("默认优先级排序仅支持页码分页");
         try {
             String decoded = new String(Base64.getUrlDecoder().decode(cleaned), StandardCharsets.UTF_8);
             String[] parts = decoded.split("\\n", -1);
@@ -408,7 +411,7 @@ public class R12ReviewService {
 
     private static Instant sortValue(String sort, Instant createdAt, Instant updatedAt) {
         return switch (sort) {
-            case "createdAt:asc", "createdAt:desc" -> createdAt;
+            case REVIEW_DEFAULT_SORT, "createdAt:asc", "createdAt:desc" -> createdAt;
             case "updatedAt:asc", "updatedAt:desc" -> updatedAt;
             case "id:asc", "id:desc" -> null;
             default -> throw new IllegalArgumentException("Unsupported R12 review sort");

@@ -15,6 +15,7 @@ describe('admin navigation', () => {
   it('shows only implemented pages and renders Chinese group labels', () => {
     expect(isImplementedMenuPage(page('ADM-CONFIG-004'))).toBe(true)
     expect(isImplementedMenuPage(page('ADM-DASH-001'))).toBe(false)
+    expect(isImplementedMenuPage(page('ADM-REVIEW-001'))).toBe(true)
     expect(menuGroupLabels.system).toBe('系统管理')
     expect(menuGroupLabels.contents).toBe('内容运营')
   })
@@ -26,6 +27,15 @@ describe('admin navigation', () => {
     })
     expect(canAccessPage(page('ADM-CONFIG-004'))).toBe(true)
     expect(canAccessPage(page('ADM-CONFIG-008'))).toBe(true)
+    expect(canAccessPage(page('ADM-USER-001'))).toBe(false)
+  })
+
+  it('uses the granular review read permission for the workbench menu', () => {
+    adminSession.apply({
+      accessToken: 'access', adminUserId: '7', displayName: '审核员',
+      permissionCodes: ['review.read'], mfaRequired: 'NONE',
+    })
+    expect(canAccessPage(page('ADM-REVIEW-001'))).toBe(true)
     expect(canAccessPage(page('ADM-USER-001'))).toBe(false)
   })
 })

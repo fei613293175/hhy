@@ -29,4 +29,18 @@ describe('admin router permissions', () => {
     })
     expect(result).toEqual({ path: '/forbidden', replace: true })
   })
+
+  it('allows the review workbench only with review.read', () => {
+    const allowed = resolveAdminRouteRedirect({
+      isAuthenticated: true,
+      isMfaPendingRoute: false,
+      isPublicRoute: false,
+      requiresAuth: true,
+      requiredPermission: 'review.read',
+      targetPath: '/reviews',
+      hasMfaTicket: false,
+      hasPermission: (permission) => permission === 'review.read',
+    })
+    expect(allowed).toBeUndefined()
+  })
 })

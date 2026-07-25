@@ -10,7 +10,7 @@ stories:
 - story_id: STORY-R12-001
   release: R12
   title: 审核：审核队列
-  user_story: 作为具备 review.manage 的后台员工；写操作另需 review.manage，我需要完成审核队列的完整业务流程，以便在不依赖研发临时决策的情况下实现内容/红包/实名/申诉。
+  user_story: 作为具备 review.read 的后台员工；决定与分配分别需要 review.decide 和 review.assign，我需要完成审核队列的完整业务流程，以便在不依赖研发临时决策的情况下实现内容/红包/实名/申诉。
   platform: ADMIN
   module: 审核
   template_id: ADM-REVIEW

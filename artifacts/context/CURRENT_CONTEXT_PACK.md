@@ -1,14 +1,14 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-25T05:31:57Z
-- Context Hash：`b328194125feaa917ecadbf1b24fb815b08cac4c0b9ef5254f7acb631de3241f`
+- 生成时间：2026-07-25T07:25:31Z
+- Context Hash：`4a97a4b53a44b90f270cf1e82317a9c25c1f402fd4bf41a4321edac662ba40ea`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 规则就绪：`PASS`（`HASHED_CONTEXT_MANIFEST`）
 - 精确恢复命令：
 
 ```bash
-python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R12-004
+python3 scripts/continuity.py checkpoint --summary '<完成内容>' --next-step '<下一步>' --parallel-assessment <ASSESSMENT> --parallel-reason '<未委托原因>'
 ```
 
 ## 规则就绪
@@ -42,7 +42,7 @@ baseline_version: 1.2.3
 phase: R12
 active_release: R12
 active_task: TASK-R12-004
-status: READY
+status: IN_PROGRESS
 documentation_status: ZERO_BLOCKING_DOCUMENT_GAPS
 last_green_commit: 35acc4c97bd5ddb8771bd23266e6a5d1b84ab206
 last_staging_apk: null
@@ -153,14 +153,15 @@ completed_tasks:
 - TASK-R12-001
 - TASK-R12-002
 - TASK-R12-003
-in_progress_tasks: []
+in_progress_tasks:
+- TASK-R12-004
 blocked_tasks:
 - TASK-R02-007
 - TASK-R03-007
 - TASK-R06-008
 - TASK-R07-008
 next_task: TASK-R12-004
-updated_at: '2026-07-25T05:31:54Z'
+updated_at: '2026-07-25T07:22:01Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -192,17 +193,19 @@ validation:
 continuity:
   protocol_version: '1.0'
   mode: ENFORCED
-  active_session_id: null
-  last_session_id: SES-20260725T025042Z-A53070A0
-  last_session_result: COMPLETED
-  last_checkpoint: .continuity/checkpoints/SES-20260725T025042Z-A53070A0/0005.yaml
-  last_handoff_bundle: null
+  active_session_id: SES-20260725T053515Z-11D4084D
+  actor_id: codex-root-r12-client-20260725
+  story_id: STORY-R12-001
+  lease_expires_at: '2026-07-25T11:22:01Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260725T053515Z-11D4084D/0002.yaml
+  project_fingerprint: fd341f332ae57ecef7f351bb3347d7ab805d9bafcea23ce7d103ed8fd4b1e958
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: 1b6ee21dd3a23cb6c9777b9556a84eba9936850b2e7ddc1b20914b82b8bb2be0
-    generated_at: '2026-07-25T05:31:51Z'
+    context_hash: 7e38e5bf2a60d2b3f5fcccdfc8201e80127af868c00bf1bcc934e21052723797
+    generated_at: '2026-07-25T07:19:13Z'
+  handoff_bundle: null
 ```
 
 ## 默认并行规则
@@ -390,13 +393,567 @@ next_after: 由当前TASKS.yaml依赖关系决定
 ## 活跃会话
 
 ```yaml
-status: NONE
+protocol_version: '1.0'
+package_version: 1.2.3
+session_id: SES-20260725T053515Z-11D4084D
+status: ACTIVE
+actor:
+  id: codex-root-r12-client-20260725
+  kind: AI_OR_HUMAN
+  host: unknown
+release: R12
+task_id: TASK-R12-004
+story_id: STORY-R12-001
+goal: 按ADM-REVIEW-001冻结页面规格、运营规格、admin-openapi生成类型和精确视觉来源实现审核队列纵向闭环，并依次完成R12其余Android页面故事
+started_at: '2026-07-25T05:35:15Z'
+updated_at: '2026-07-25T07:22:07Z'
+takeover_of: null
+change_requests:
+- CR-0319
+- CR-0320
+- CR-0321
+- CR-0322
+- CR-0323
+scope:
+  allowed_paths:
+  - apps/admin-web/**
+  - services/backend/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - tests/**
+  - docs/**
+  - catalogs/**
+  - releases/**
+  - design/**
+  - scripts/**
+  - CHANGELOG.md
+  approved_exceptions:
+  - catalogs/admin_pages.csv
+  - catalogs/ui_page_specifications.csv
+  - catalogs/admin_page_operation_specs.csv
+  - catalogs/release_story_backlog.csv
+  - database/state_machines.yaml
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R12ReviewService.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R12ReviewPostgresStore.java
+  - docs/02-ui/page-specs/admin/ADM-REVIEW-001_审核队列.md
+  - database/migrations/V041__r12_review_permission_alignment.sql
+  - services/backend/boot/src/main/resources/db/migration/V041__r12_review_permission_alignment.sql
+  - database/rollback/U041__r12_review_permission_alignment.sql
+  - database/tests/r12_review_permission_alignment.sql
+  - scripts/check_db_schema.py
+  - scripts/run_r12_database_invariants.sh
+  - releases/R12/STORIES.yaml
+  - apps/admin-web/src/generated/admin-pages.json
+  - apps/admin-web/src/services/adminReviews.ts
+  - apps/admin-web/src/services/adminReviews.test.ts
+  - apps/admin-web/src/services/idempotency.ts
+  - apps/admin-web/src/services/index.ts
+  - apps/admin-web/src/views/AdminReviewWorkbenchPage.vue
+  - apps/admin-web/src/r12ReviewWorkbench.test.ts
+  - apps/admin-web/src/router.ts
+  - apps/admin-web/src/adminNavigation.ts
+  - apps/admin-web/src/adminNavigation.test.ts
+  - apps/admin-web/src/routerPermissions.test.ts
+  - apps/admin-web/src/styles.css
+  - catalogs/ui_visual_acceptance.csv
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R12ReviewServiceTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R12ReviewPostgresStoreTest.java
+  source: story+explicit+approved-cr:CR-0319+approved-cr:CR-0320+approved-cr:CR-0321+approved-cr:CR-0322+approved-cr:CR-0323
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  base_commit: 8b852b35e1e152adbc37feb6f0add7fc719f4770
+  start_head: 8b852b35e1e152adbc37feb6f0add7fc719f4770
+  upstream: origin/task/TASK-R03-001
+  initial_worktree_state: CLEAN
+lease:
+  duration_minutes: 240
+  renewed_at: '2026-07-25T07:22:01Z'
+  expires_at: '2026-07-25T11:22:01Z'
+checkpoint_sequence: 2
+latest_checkpoint: .continuity/checkpoints/SES-20260725T053515Z-11D4084D/0002.yaml
+session_log: docs/03-continuity/sessions/2026-07/SES-20260725T053515Z-11D4084D.md
+next_step: 提交冻结实现Commit，然后在obx-test运行Java21 R12ReviewService/Postgres Store与PostgreSQL17 V041/U041验证
+context_pack: THIS_CONTEXT_PACK
+handoff_bundle: null
+closure: null
+parallel_execution:
+  assessment: DELEGATED
+  delegated_workers: 2
+  workers:
+  - worker_id: r12_admin_arch_audit
+    responsibility: 只读后台架构与交互审计
+    allowed_paths:
+    - apps/admin-web/**
+  - worker_id: r12_admin_contract_audit
+    responsibility: CR-0320与CR-0321独立合同审批
+    allowed_paths:
+    - .continuity/change_requests/CR-0320.yaml
+    - .continuity/change_requests/CR-0321.yaml
+  reason: 后台架构盘点与独立CR审批路径只读且与主控实现互斥；数据库、安全、最终集成由主控串行复核
 ```
 
 ## 最新检查点
 
 ```yaml
-status: NO_CHECKPOINT
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260725T053515Z-11D4084D-0002
+session_id: SES-20260725T053515Z-11D4084D
+task_id: TASK-R12-004
+story_id: STORY-R12-001
+sequence: 2
+created_at: '2026-07-25T07:22:00Z'
+summary: 补齐R12后台统一审核工作台CHANGELOG并刷新提交前Checkpoint
+next_step: 提交冻结实现Commit，然后在obx-test运行Java21 R12ReviewService/Postgres Store与PostgreSQL17 V041/U041验证
+blockers: []
+decisions: []
+note: R12 catalog-only仍准确报告10个后续Android页面未实现，按CR-0321禁止伪造路径或截图，将随STORY-R12-002至007逐页登记。
+tests:
+- name: admin-web full
+  result: PASS
+  evidence: 25 files 113 tests
+  note: 审核服务、工作台、权限与批量分配全量通过
+- name: admin-web production build
+  result: PASS
+  evidence: vue-tsc and Vite build
+  note: 86 modules production bundle
+- name: db schema
+  result: PASS
+  evidence: 200 tables 41 migrations runtime hashes
+  note: V041根与运行时镜像一致
+- name: API contract
+  result: PASS
+  evidence: client 131 admin 184 websocket 10
+  note: runtime hashes PASS
+- name: R12 strict documentation
+  result: PASS
+  evidence: 0 errors 0 warnings
+  note: V1.2.2 release R12 strict
+- name: V1.2.3 documentation
+  result: PASS
+  evidence: 0 errors 0 warnings
+  note: continuity documentation valid
+- name: generated assets
+  result: PASS
+  evidence: 45 assets verified
+  note: OpenAPI types and runtime contracts verified
+- name: cloud environment
+  result: PASS
+  evidence: obx-test fixed Android image and cache
+  note: Java Android only remote
+- name: ADM-REVIEW-001 visual registration
+  result: PASS
+  evidence: catalogs/ui_visual_acceptance.csv
+  note: 真实实现登记IN_REVIEW，最终候选截图前不标PASS
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: 8b852b35e1e152adbc37feb6f0add7fc719f4770
+  upstream: origin/task/TASK-R03-001
+  ahead: 0
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - M  .continuity/ACTIVE_SESSION.yaml
+  - M  .continuity/CHANGE_REQUEST_INDEX.yaml
+  - M  .continuity/EVENT_LOG.jsonl
+  - M  .continuity/SESSION_INDEX.yaml
+  - M  .continuity/STATE.yaml
+  - M  .continuity/TASK_CLAIMS.yaml
+  - M  .continuity/TASK_TRANSITIONS.yaml
+  - A  .continuity/change_requests/CR-0319.yaml
+  - A  .continuity/change_requests/CR-0320.yaml
+  - A  .continuity/change_requests/CR-0321.yaml
+  - A  .continuity/change_requests/CR-0322.yaml
+  - A  .continuity/change_requests/CR-0323.yaml
+  - A  .continuity/checkpoints/SES-20260725T053515Z-11D4084D/0001.yaml
+  - A  .continuity/sessions/SES-20260725T053515Z-11D4084D.yaml
+  - ' M CHANGELOG.md'
+  - M  CURRENT_STATUS.yaml
+  - M  apps/admin-web/src/adminNavigation.test.ts
+  - M  apps/admin-web/src/adminNavigation.ts
+  - M  apps/admin-web/src/generated/admin-pages.json
+  - A  apps/admin-web/src/r12ReviewWorkbench.test.ts
+  - M  apps/admin-web/src/router.ts
+  - M  apps/admin-web/src/routerPermissions.test.ts
+  - A  apps/admin-web/src/services/adminReviews.test.ts
+  - A  apps/admin-web/src/services/adminReviews.ts
+  - M  apps/admin-web/src/services/idempotency.ts
+  - M  apps/admin-web/src/services/index.ts
+  - M  apps/admin-web/src/styles.css
+  - A  apps/admin-web/src/views/AdminReviewWorkbenchPage.vue
+  - M  artifacts/context/CURRENT_CONTEXT_PACK.md
+  - M  artifacts/context/CURRENT_CONTEXT_PACK.yaml
+  - M  artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+  - M  artifacts/validation/project-doctor-v1.2.3-documentation.json
+  - M  catalogs/admin_page_operation_specs.csv
+  - M  catalogs/admin_pages.csv
+  - M  catalogs/change_request_index.csv
+  - M  catalogs/release_story_backlog.csv
+  - M  catalogs/session_index.csv
+  - M  catalogs/task_transition_ledger.csv
+  - M  catalogs/ui_page_specifications.csv
+  - M  catalogs/ui_visual_acceptance.csv
+  - A  database/migrations/V041__r12_review_permission_alignment.sql
+  - A  database/rollback/U041__r12_review_permission_alignment.sql
+  - M  database/state_machines.yaml
+  - A  database/tests/r12_review_permission_alignment.sql
+  - M  docs/02-ui/page-specs/admin/ADM-REVIEW-001_审核队列.md
+  - A  docs/03-continuity/change-requests/CR-0319-统一R12审核工作台权限目录与默认排序合同.md
+  - A  docs/03-continuity/change-requests/CR-0320-扩展CR-0319审核证据权限与真实工作台施工范围.md
+  - A  docs/03-continuity/change-requests/CR-0321-投影R12逐页视觉合同到验收目录.md
+  - A  docs/03-continuity/change-requests/CR-0322-补齐CR-0319默认排序Java回归测试范围.md
+  - A  docs/03-continuity/change-requests/CR-0323-补齐CR-0319默认排序PostgreSQL执行回归范围.md
+  - A  docs/03-continuity/sessions/2026-07/SES-20260725T053515Z-11D4084D.md
+  - M  releases/R12/STORIES.yaml
+  - M  scripts/check_db_schema.py
+  - M  scripts/run_r12_database_invariants.sh
+  - A  services/backend/boot/src/main/resources/db/migration/V041__r12_review_permission_alignment.sql
+  - M  services/backend/boot/src/test/java/cc/orbexa/hhy/content/R12ReviewPostgresStoreTest.java
+  - M  services/backend/boot/src/test/java/cc/orbexa/hhy/content/R12ReviewServiceTest.java
+  - M  services/backend/content/src/main/java/cc/orbexa/hhy/content/R12ReviewPostgresStore.java
+  - M  services/backend/content/src/main/java/cc/orbexa/hhy/content/R12ReviewService.java
+  recent_commits:
+  - "8b852b35e1e152adbc37feb6f0add7fc719f4770\t2026-07-25T13:32:52+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] chore(continuity): close TASK-R12-003\
+    \ as completed"
+  - "07e1c3f52250bb0c6a959dd8d197a9b7ac7b88aa\t2026-07-25T13:30:42+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] chore(continuity): close R12\
+    \ backend CR"
+  - "35acc4c97bd5ddb8771bd23266e6a5d1b84ab206\t2026-07-25T13:28:05+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] feat(content): implement R12\
+    \ publishing backend"
+  - "8ab868d27c0a3768f4106e7f8bb71d1102363ebc\t2026-07-25T10:48:13+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] chore(continuity): close TASK-R12-002\
+    \ as completed"
+  - "4715464b8e3016619dc94217c138c1558393722e\t2026-07-25T10:45:49+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] chore(continuity): close R12\
+    \ database workflow CRs"
+  - "5e09dd4f80dc014611f93717b159f791403be457\t2026-07-25T10:42:37+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] feat(content): enforce R12\
+    \ publish lifecycle invariants"
+  - "67436cb48ca2e9fb3c921744dd992022d574ce5d\t2026-07-25T00:37:48+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] chore(continuity): close TASK-R12-001\
+    \ as completed"
+  - "3a48126e76fd55b4d9f187e7e73122d121cfa190\t2026-07-25T00:29:49+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] docs(release): freeze R12\
+    \ entry and visual baseline"
+project_fingerprint:
+  sha256: fd341f332ae57ecef7f351bb3347d7ab805d9bafcea23ce7d103ed8fd4b1e958
+  files:
+  - CHANGELOG.md
+  - apps/admin-web/src/adminNavigation.test.ts
+  - apps/admin-web/src/adminNavigation.ts
+  - apps/admin-web/src/generated/admin-pages.json
+  - apps/admin-web/src/r12ReviewWorkbench.test.ts
+  - apps/admin-web/src/router.ts
+  - apps/admin-web/src/routerPermissions.test.ts
+  - apps/admin-web/src/services/adminReviews.test.ts
+  - apps/admin-web/src/services/adminReviews.ts
+  - apps/admin-web/src/services/idempotency.ts
+  - apps/admin-web/src/services/index.ts
+  - apps/admin-web/src/styles.css
+  - apps/admin-web/src/views/AdminReviewWorkbenchPage.vue
+  - catalogs/admin_page_operation_specs.csv
+  - catalogs/admin_pages.csv
+  - catalogs/release_story_backlog.csv
+  - catalogs/ui_page_specifications.csv
+  - catalogs/ui_visual_acceptance.csv
+  - database/migrations/V041__r12_review_permission_alignment.sql
+  - database/rollback/U041__r12_review_permission_alignment.sql
+  - database/state_machines.yaml
+  - database/tests/r12_review_permission_alignment.sql
+  - docs/02-ui/page-specs/admin/ADM-REVIEW-001_审核队列.md
+  - docs/03-continuity/change-requests/CR-0319-统一R12审核工作台权限目录与默认排序合同.md
+  - docs/03-continuity/change-requests/CR-0320-扩展CR-0319审核证据权限与真实工作台施工范围.md
+  - docs/03-continuity/change-requests/CR-0321-投影R12逐页视觉合同到验收目录.md
+  - docs/03-continuity/change-requests/CR-0322-补齐CR-0319默认排序Java回归测试范围.md
+  - docs/03-continuity/change-requests/CR-0323-补齐CR-0319默认排序PostgreSQL执行回归范围.md
+  - releases/R12/STORIES.yaml
+  - scripts/check_db_schema.py
+  - scripts/run_r12_database_invariants.sh
+  - services/backend/boot/src/main/resources/db/migration/V041__r12_review_permission_alignment.sql
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R12ReviewPostgresStoreTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R12ReviewServiceTest.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R12ReviewPostgresStore.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R12ReviewService.java
+  file_count: 36
+  payload:
+    base_commit: 8b852b35e1e152adbc37feb6f0add7fc719f4770
+    files:
+    - path: CHANGELOG.md
+      state: FILE
+      size: 131484
+      sha256: 84dc647da89c85ac33f1bcdb0cf2dcd4ca2e73704956b3ee62ed444201982eb3
+    - path: apps/admin-web/src/adminNavigation.test.ts
+      state: FILE
+      size: 1720
+      sha256: 15682019cf3665922a8ba74959b40f9bff15a28f8f8921ac94ddb71a160380e7
+    - path: apps/admin-web/src/adminNavigation.ts
+      state: FILE
+      size: 1986
+      sha256: dac605bbf57431787c944daf98fc42b79ee080f3cec21cbc8464b47837d6140c
+    - path: apps/admin-web/src/generated/admin-pages.json
+      state: FILE
+      size: 57017
+      sha256: 5b859285cd2c4efac3871d4c63a1794ad2355e91f8e9a9aa41312962d75bebca
+    - path: apps/admin-web/src/r12ReviewWorkbench.test.ts
+      state: FILE
+      size: 7625
+      sha256: 0ecdeacc28b8c95b0eb95ea26fe69d71023464c877672cca027aba56370ca1ce
+    - path: apps/admin-web/src/router.ts
+      state: FILE
+      size: 5317
+      sha256: d40a56b9795c2ff8b5d7630a6638fb69143c2946c614fd581ecd7b9beb97df68
+    - path: apps/admin-web/src/routerPermissions.test.ts
+      state: FILE
+      size: 1609
+      sha256: 5de5dcd2e707ea3857ced7af69680df119baf2f6785a3d46333c4b9579a09f55
+    - path: apps/admin-web/src/services/adminReviews.test.ts
+      state: FILE
+      size: 5526
+      sha256: da7f4353c4c7665abedec27159372ae574219c8a169499febf1f36568111d459
+    - path: apps/admin-web/src/services/adminReviews.ts
+      state: FILE
+      size: 8532
+      sha256: 0b9fe7fe1b6f5cf35035a0bf320c25b9b7ef946747a223ecb77196dddb3ab758
+    - path: apps/admin-web/src/services/idempotency.ts
+      state: FILE
+      size: 2939
+      sha256: 124b83cb41ff78ee335d062b4c79c796ed40e273f74a25b67eeabca2e74beef4
+    - path: apps/admin-web/src/services/index.ts
+      state: FILE
+      size: 371
+      sha256: 934b101b3894e47ec24cdd9b31164c8568170a55bcc4f42679a13d11765511d8
+    - path: apps/admin-web/src/styles.css
+      state: FILE
+      size: 35190
+      sha256: bef80d3ac43f446cd46eb212ae4cacc1df8270bdbeafbff8c4c53ed8b99041dd
+    - path: apps/admin-web/src/views/AdminReviewWorkbenchPage.vue
+      state: FILE
+      size: 33724
+      sha256: bc0a8e801088c0025a3a766d755b98920239e10b86cda48226f77992c85c7e48
+    - path: catalogs/admin_page_operation_specs.csv
+      state: FILE
+      size: 126406
+      sha256: c64b1a16ee2097fc379eb93fc21d1164c201ec12e7ad7f5a7efca8d28ecdec9e
+    - path: catalogs/admin_pages.csv
+      state: FILE
+      size: 13224
+      sha256: e241235356ee306bf9fdef5732c0a1dfb966631e1fb988ca7fc9a62aea596325
+    - path: catalogs/release_story_backlog.csv
+      state: FILE
+      size: 349350
+      sha256: 910b941a9644ebcfdccfc30886f7ab3db000c86ac5b657839b9fa78036544acd
+    - path: catalogs/ui_page_specifications.csv
+      state: FILE
+      size: 293602
+      sha256: 509def927119ea5799ad88a1216378178d6cb13e4b8fd7609dbbb3128393c69c
+    - path: catalogs/ui_visual_acceptance.csv
+      state: FILE
+      size: 49551
+      sha256: 77a2c3e5cc563f28654c33f247c5129dc9f677b9e16253eee9fa91a17419e336
+    - path: database/migrations/V041__r12_review_permission_alignment.sql
+      state: FILE
+      size: 2495
+      sha256: 98b0295ab898b20238d65933f23749899e2cae5da4eed7a87841ea5e050ddb47
+    - path: database/rollback/U041__r12_review_permission_alignment.sql
+      state: FILE
+      size: 1220
+      sha256: e58686ea147d09ae46f84e7f83c888b0924a85273f61105193a7b0d1f1c4ac5b
+    - path: database/state_machines.yaml
+      state: FILE
+      size: 15546
+      sha256: 865cbe6b55306c03fa27701a1c3ef638a3973060ae86350ecb0e0d086405136c
+    - path: database/tests/r12_review_permission_alignment.sql
+      state: FILE
+      size: 1378
+      sha256: 3cc108211d1dcc994d1c509b5c15300b12e3322ea914bfaf71e1b9b8ea5f1b07
+    - path: docs/02-ui/page-specs/admin/ADM-REVIEW-001_审核队列.md
+      state: FILE
+      size: 32405
+      sha256: 155dca08eefc554bbdf45420dfd95a456d41cce00dd4c81c47a5d48cdc62077b
+    - path: docs/03-continuity/change-requests/CR-0319-统一R12审核工作台权限目录与默认排序合同.md
+      state: FILE
+      size: 3199
+      sha256: 20ca9c30445e272751f416a334afc19b85ca177dcf752a45bbee45a34c309347
+    - path: docs/03-continuity/change-requests/CR-0320-扩展CR-0319审核证据权限与真实工作台施工范围.md
+      state: FILE
+      size: 4505
+      sha256: 701a4410db8d9050da4d3e794c9057c3bbcb947a1fdb7bcd9bc0d62060e79d84
+    - path: docs/03-continuity/change-requests/CR-0321-投影R12逐页视觉合同到验收目录.md
+      state: FILE
+      size: 2962
+      sha256: f1000451aec726ca24eb26db010d24aa33747afc10aee4fd8f42e7113ece4ef3
+    - path: docs/03-continuity/change-requests/CR-0322-补齐CR-0319默认排序Java回归测试范围.md
+      state: FILE
+      size: 2488
+      sha256: 55df4567c6eb6521341cfdfbf193a27d6ab79f20fee0a14733b86d972fe87ef6
+    - path: docs/03-continuity/change-requests/CR-0323-补齐CR-0319默认排序PostgreSQL执行回归范围.md
+      state: FILE
+      size: 2399
+      sha256: 3e9ff718e40eb44a888a46a9240a73aba66d25b35e917bcf47544d2c4252c731
+    - path: releases/R12/STORIES.yaml
+      state: FILE
+      size: 23156
+      sha256: ed80bfe7ba3779ab57985d98a5250c4a80c15708035c30afe393de146e029fc2
+    - path: scripts/check_db_schema.py
+      state: FILE
+      size: 15652
+      sha256: 9b59c6ac31ff2cdb42ed5d6432e44d45a15c22a64c2483cbede274d439e650d8
+    - path: scripts/run_r12_database_invariants.sh
+      state: FILE
+      size: 15716
+      sha256: 5be8400ee93e0ff3827379da3bebdf04d1122c7911b9a96bbaa983574efc4dcd
+    - path: services/backend/boot/src/main/resources/db/migration/V041__r12_review_permission_alignment.sql
+      state: FILE
+      size: 2495
+      sha256: 98b0295ab898b20238d65933f23749899e2cae5da4eed7a87841ea5e050ddb47
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/content/R12ReviewPostgresStoreTest.java
+      state: FILE
+      size: 12709
+      sha256: aed3cc8c13a421f7dcc866437b4367b2c1e160a57b81af4cd4eeda39389a7bc6
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/content/R12ReviewServiceTest.java
+      state: FILE
+      size: 15509
+      sha256: ce5b13ae3127e97460257b39e72e0b2c494fb3aae84ac86f17cc43ebccbdbd69
+    - path: services/backend/content/src/main/java/cc/orbexa/hhy/content/R12ReviewPostgresStore.java
+      state: FILE
+      size: 20815
+      sha256: d5126d005eec44235b7e2ad1615a4f8d9aade5dbabfadc8a9170361c2e03e204
+    - path: services/backend/content/src/main/java/cc/orbexa/hhy/content/R12ReviewService.java
+      state: FILE
+      size: 23999
+      sha256: 906bbc71d9b3133fcb53405dd7bd5c95660009b71c4c805fa1dc879aaea625ff
+change_classification:
+  other:
+  - CHANGELOG.md
+  - catalogs/admin_pages.csv
+  - catalogs/release_story_backlog.csv
+  - catalogs/ui_visual_acceptance.csv
+  code:
+  - apps/admin-web/src/adminNavigation.test.ts
+  - apps/admin-web/src/adminNavigation.ts
+  - apps/admin-web/src/generated/admin-pages.json
+  - apps/admin-web/src/r12ReviewWorkbench.test.ts
+  - apps/admin-web/src/router.ts
+  - apps/admin-web/src/routerPermissions.test.ts
+  - apps/admin-web/src/services/adminReviews.test.ts
+  - apps/admin-web/src/services/adminReviews.ts
+  - apps/admin-web/src/services/idempotency.ts
+  - apps/admin-web/src/services/index.ts
+  - apps/admin-web/src/styles.css
+  - apps/admin-web/src/views/AdminReviewWorkbenchPage.vue
+  - scripts/check_db_schema.py
+  - scripts/run_r12_database_invariants.sh
+  - services/backend/boot/src/main/resources/db/migration/V041__r12_review_permission_alignment.sql
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R12ReviewPostgresStoreTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R12ReviewServiceTest.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R12ReviewPostgresStore.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R12ReviewService.java
+  user_visible:
+  - apps/admin-web/src/adminNavigation.test.ts
+  - apps/admin-web/src/adminNavigation.ts
+  - apps/admin-web/src/generated/admin-pages.json
+  - apps/admin-web/src/r12ReviewWorkbench.test.ts
+  - apps/admin-web/src/router.ts
+  - apps/admin-web/src/routerPermissions.test.ts
+  - apps/admin-web/src/services/adminReviews.test.ts
+  - apps/admin-web/src/services/adminReviews.ts
+  - apps/admin-web/src/services/idempotency.ts
+  - apps/admin-web/src/services/index.ts
+  - apps/admin-web/src/styles.css
+  - apps/admin-web/src/views/AdminReviewWorkbenchPage.vue
+  - docs/02-ui/page-specs/admin/ADM-REVIEW-001_审核队列.md
+  source_of_truth:
+  - catalogs/admin_page_operation_specs.csv
+  - catalogs/ui_page_specifications.csv
+  - database/state_machines.yaml
+  - docs/02-ui/page-specs/admin/ADM-REVIEW-001_审核队列.md
+  - releases/R12/STORIES.yaml
+  database:
+  - database/migrations/V041__r12_review_permission_alignment.sql
+  - database/rollback/U041__r12_review_permission_alignment.sql
+  - database/state_machines.yaml
+  - database/tests/r12_review_permission_alignment.sql
+  continuity:
+  - docs/03-continuity/change-requests/CR-0319-统一R12审核工作台权限目录与默认排序合同.md
+  - docs/03-continuity/change-requests/CR-0320-扩展CR-0319审核证据权限与真实工作台施工范围.md
+  - docs/03-continuity/change-requests/CR-0321-投影R12逐页视觉合同到验收目录.md
+  - docs/03-continuity/change-requests/CR-0322-补齐CR-0319默认排序Java回归测试范围.md
+  - docs/03-continuity/change-requests/CR-0323-补齐CR-0319默认排序PostgreSQL执行回归范围.md
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+- APPROVED_CHANGE_REQUEST
+- DATABASE_TEST_EVIDENCE
+- SCHEMA_TRACEABILITY
+- CHANGELOG
+change_requests:
+- CR-0319
+- CR-0320
+- CR-0321
+- CR-0322
+- CR-0323
+scope:
+  allowed_paths:
+  - apps/admin-web/**
+  - services/backend/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - tests/**
+  - docs/**
+  - catalogs/**
+  - releases/**
+  - design/**
+  - scripts/**
+  - CHANGELOG.md
+  approved_exceptions:
+  - catalogs/admin_pages.csv
+  - catalogs/ui_page_specifications.csv
+  - catalogs/admin_page_operation_specs.csv
+  - catalogs/release_story_backlog.csv
+  - database/state_machines.yaml
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R12ReviewService.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R12ReviewPostgresStore.java
+  - docs/02-ui/page-specs/admin/ADM-REVIEW-001_审核队列.md
+  - database/migrations/V041__r12_review_permission_alignment.sql
+  - services/backend/boot/src/main/resources/db/migration/V041__r12_review_permission_alignment.sql
+  - database/rollback/U041__r12_review_permission_alignment.sql
+  - database/tests/r12_review_permission_alignment.sql
+  - scripts/check_db_schema.py
+  - scripts/run_r12_database_invariants.sh
+  - releases/R12/STORIES.yaml
+  - apps/admin-web/src/generated/admin-pages.json
+  - apps/admin-web/src/services/adminReviews.ts
+  - apps/admin-web/src/services/adminReviews.test.ts
+  - apps/admin-web/src/services/idempotency.ts
+  - apps/admin-web/src/services/index.ts
+  - apps/admin-web/src/views/AdminReviewWorkbenchPage.vue
+  - apps/admin-web/src/r12ReviewWorkbench.test.ts
+  - apps/admin-web/src/router.ts
+  - apps/admin-web/src/adminNavigation.ts
+  - apps/admin-web/src/adminNavigation.test.ts
+  - apps/admin-web/src/routerPermissions.test.ts
+  - apps/admin-web/src/styles.css
+  - catalogs/ui_visual_acceptance.csv
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R12ReviewServiceTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R12ReviewPostgresStoreTest.java
+  source: story+explicit+approved-cr:CR-0319+approved-cr:CR-0320+approved-cr:CR-0321+approved-cr:CR-0322+approved-cr:CR-0323
+parallel_execution:
+  assessment: DELEGATED
+  delegated_workers: 2
+  workers:
+  - worker_id: r12_admin_arch_audit
+    responsibility: 只读后台架构与交互审计
+    allowed_paths:
+    - apps/admin-web/**
+  - worker_id: r12_admin_contract_audit
+    responsibility: CR-0320与CR-0321独立合同审批
+    allowed_paths:
+    - .continuity/change_requests/CR-0320.yaml
+    - .continuity/change_requests/CR-0321.yaml
+  reason: 后台架构盘点与独立CR审批路径只读且与主控实现互斥；数据库、安全、最终集成由主控串行复核
+event_hash: 119f1fc8ecd937b44a9dfdc539f9f16b6abf242323b5e3bd654aca87d68bd34c
 ```
 
 ## 接续状态与事件头
@@ -404,31 +961,19 @@ status: NO_CHECKPOINT
 ```yaml
 mode: ENFORCED
 protocol_version: '1.0'
-active_session_id: null
+active_session_id: SES-20260725T053515Z-11D4084D
 last_session_id: SES-20260725T025042Z-A53070A0
 last_session_result: COMPLETED
 last_closure_checkpoint_id: CP-SES-20260725T025042Z-A53070A0-0005
-event_count: 3106
-event_head_hash: 63c98e1fe5ea60edf1ee933532b2716824e324ec1d5a560d20e9fae0ba1c058c
+event_count: 3133
+event_head_hash: 119f1fc8ecd937b44a9dfdc539f9f16b6abf242323b5e3bd654aca87d68bd34c
 event_chain_valid: true
 ```
 
 ## 最近会话与任务迁移
 
 ```yaml
-recent_sessions: - session_id: SES-20260723T175513Z-EFD4D365
-  task_id: TASK-R11-003
-  story_id: STORY-R11-004
-  actor_id: codex-root-r11-backend
-  status: CLOSED
-  started_at: '2026-07-23T17:55:13Z'
-  record: .continuity/sessions/SES-20260723T175513Z-EFD4D365.yaml
-  session_log: docs/03-continuity/sessions/2026-07/SES-20260723T175513Z-EFD4D365.md
-  updated_at: '2026-07-23T18:29:22Z'
-  closed_at: '2026-07-23T18:29:22Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260723T175513Z-EFD4D365/0002.yaml
-  handoff_bundle: null
-- session_id: SES-20260723T183130Z-454A6E0D
+recent_sessions: - session_id: SES-20260723T183130Z-454A6E0D
   task_id: TASK-R11-004
   story_id: STORY-R11-003
   actor_id: codex-root-r11-client
@@ -536,47 +1081,19 @@ recent_sessions: - session_id: SES-20260723T175513Z-EFD4D365
   closed_at: '2026-07-25T05:31:53Z'
   latest_checkpoint: .continuity/checkpoints/SES-20260725T025042Z-A53070A0/0005.yaml
   handoff_bundle: null
-task_claims: - claim_id: CLM-958DD305287B
-  session_id: SES-20260723T025104Z-E29F6208
-  task_id: TASK-R10-001
-  story_id: STORY-R10-004
-  actor_id: codex-root-r10-entry
-  status: CLOSED
-  claimed_at: '2026-07-23T02:51:04Z'
-  allowed_paths:
-  - apps/**
-  - services/**
-  - packages/**
-  - contracts/**
-  - database/**
-  - config/**
-  - catalogs/**
-  - tests/**
-  - infra/**
-  - design/**
-  - docs/**
-  - releases/**
-  - scripts/**
-  - templates/**
-  - .github/**
-  - .githooks/**
-  - .codex/**
-  - AGENTS.md
-  - START_HERE.md
-  - README.md
-  - CHANGELOG.md
-  - Makefile
-  - .gitignore
-  - .gitattributes
-  - .dockerignore
-  - package.json
-  - pnpm-lock.yaml
-  - pnpm-workspace.yaml
-  - requirements-dev.txt
-  - PROJECT_*.yaml
-  - PROJECT_*.json
-  closed_at: '2026-07-23T04:49:43Z'
-- claim_id: CLM-DA66E38CEAE0
+- session_id: SES-20260725T053515Z-11D4084D
+  task_id: TASK-R12-004
+  story_id: STORY-R12-001
+  actor_id: codex-root-r12-client-20260725
+  status: ACTIVE
+  started_at: '2026-07-25T05:35:15Z'
+  record: .continuity/sessions/SES-20260725T053515Z-11D4084D.yaml
+  session_log: docs/03-continuity/sessions/2026-07/SES-20260725T053515Z-11D4084D.md
+  updated_at: '2026-07-25T07:22:01Z'
+  closed_at: null
+  latest_checkpoint: .continuity/checkpoints/SES-20260725T053515Z-11D4084D/0002.yaml
+  handoff_bundle: null
+task_claims: - claim_id: CLM-DA66E38CEAE0
   session_id: SES-20260723T045352Z-FC8DC2CF
   task_id: TASK-R10-002
   story_id: STORY-R10-004
@@ -1321,17 +1838,28 @@ task_claims: - claim_id: CLM-958DD305287B
   - PROJECT_*.yaml
   - PROJECT_*.json
   closed_at: '2026-07-25T05:31:53Z'
-recent_task_transitions: - transition_id: TRN-15AFFA52E4DA
-  timestamp: '2026-07-23T02:51:06Z'
-  release: R10
-  task_id: TASK-R10-001
-  story_id: STORY-R10-004
-  from_status: READY
-  to_status: IN_PROGRESS
-  session_id: SES-20260723T025104Z-E29F6208
-  actor_id: codex-root-r10-entry
-  reason: 会话领取任务
-- transition_id: TRN-E6B4E3D44A16
+- claim_id: CLM-4615E14A5D2B
+  session_id: SES-20260725T053515Z-11D4084D
+  task_id: TASK-R12-004
+  story_id: STORY-R12-001
+  actor_id: codex-root-r12-client-20260725
+  status: ACTIVE
+  claimed_at: '2026-07-25T05:35:15Z'
+  allowed_paths:
+  - apps/admin-web/**
+  - services/backend/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - tests/**
+  - docs/**
+  - catalogs/**
+  - releases/**
+  - design/**
+  - scripts/**
+  - CHANGELOG.md
+recent_task_transitions: - transition_id: TRN-E6B4E3D44A16
   timestamp: '2026-07-23T04:53:54Z'
   release: R10
   task_id: TASK-R10-002
@@ -1521,6 +2049,16 @@ recent_task_transitions: - transition_id: TRN-15AFFA52E4DA
   session_id: SES-20260725T025042Z-A53070A0
   actor_id: codex-root-r12-backend-20260725
   reason: 会话领取任务
+- transition_id: TRN-870A4682B8CC
+  timestamp: '2026-07-25T05:35:17Z'
+  release: R12
+  task_id: TASK-R12-004
+  story_id: STORY-R12-001
+  from_status: READY
+  to_status: IN_PROGRESS
+  session_id: SES-20260725T053515Z-11D4084D
+  actor_id: codex-root-r12-client-20260725
+  reason: 会话领取任务
 ```
 
 ## Git 状态
@@ -1528,29 +2066,75 @@ recent_task_transitions: - transition_id: TRN-15AFFA52E4DA
 ```yaml
 initialized: true
 branch: task/TASK-R03-001
-head: 07e1c3f52250bb0c6a959dd8d197a9b7ac7b88aa
+head: 8b852b35e1e152adbc37feb6f0add7fc719f4770
 upstream: origin/task/TASK-R03-001
 ahead: 0
 behind: 0
 dirty: true
 status_porcelain:
-- ' M .continuity/ACTIVE_SESSION.yaml'
-- ' M .continuity/EVENT_LOG.jsonl'
-- ' M .continuity/SESSION_INDEX.yaml'
-- ' M .continuity/STATE.yaml'
-- ' M .continuity/TASK_CLAIMS.yaml'
-- ' M .continuity/sessions/SES-20260725T025042Z-A53070A0.yaml'
-- ' M CHANGELOG.md'
-- ' M CURRENT_STATUS.yaml'
-- ' M NEXT_TASK.yaml'
-- ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
-- ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
-- ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
-- ' M catalogs/session_index.csv'
-- ' M docs/03-continuity/sessions/2026-07/SES-20260725T025042Z-A53070A0.md'
-- ' M releases/R12/TASKS.yaml'
-- ?? .continuity/checkpoints/SES-20260725T025042Z-A53070A0/0005.yaml
+- M  .continuity/ACTIVE_SESSION.yaml
+- M  .continuity/CHANGE_REQUEST_INDEX.yaml
+- M  .continuity/EVENT_LOG.jsonl
+- M  .continuity/SESSION_INDEX.yaml
+- M  .continuity/STATE.yaml
+- M  .continuity/TASK_CLAIMS.yaml
+- M  .continuity/TASK_TRANSITIONS.yaml
+- A  .continuity/change_requests/CR-0319.yaml
+- A  .continuity/change_requests/CR-0320.yaml
+- A  .continuity/change_requests/CR-0321.yaml
+- A  .continuity/change_requests/CR-0322.yaml
+- A  .continuity/change_requests/CR-0323.yaml
+- A  .continuity/checkpoints/SES-20260725T053515Z-11D4084D/0001.yaml
+- A  .continuity/checkpoints/SES-20260725T053515Z-11D4084D/0002.yaml
+- A  .continuity/sessions/SES-20260725T053515Z-11D4084D.yaml
+- M  CHANGELOG.md
+- M  CURRENT_STATUS.yaml
+- M  apps/admin-web/src/adminNavigation.test.ts
+- M  apps/admin-web/src/adminNavigation.ts
+- M  apps/admin-web/src/generated/admin-pages.json
+- A  apps/admin-web/src/r12ReviewWorkbench.test.ts
+- M  apps/admin-web/src/router.ts
+- M  apps/admin-web/src/routerPermissions.test.ts
+- A  apps/admin-web/src/services/adminReviews.test.ts
+- A  apps/admin-web/src/services/adminReviews.ts
+- M  apps/admin-web/src/services/idempotency.ts
+- M  apps/admin-web/src/services/index.ts
+- M  apps/admin-web/src/styles.css
+- A  apps/admin-web/src/views/AdminReviewWorkbenchPage.vue
+- M  artifacts/context/CURRENT_CONTEXT_PACK.md
+- M  artifacts/context/CURRENT_CONTEXT_PACK.yaml
+- M  artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+- M  artifacts/validation/project-doctor-v1.2.3-documentation.json
+- M  catalogs/admin_page_operation_specs.csv
+- M  catalogs/admin_pages.csv
+- M  catalogs/change_request_index.csv
+- M  catalogs/release_story_backlog.csv
+- M  catalogs/session_index.csv
+- M  catalogs/task_transition_ledger.csv
+- M  catalogs/ui_page_specifications.csv
+- M  catalogs/ui_visual_acceptance.csv
+- A  database/migrations/V041__r12_review_permission_alignment.sql
+- A  database/rollback/U041__r12_review_permission_alignment.sql
+- M  database/state_machines.yaml
+- A  database/tests/r12_review_permission_alignment.sql
+- M  docs/02-ui/page-specs/admin/ADM-REVIEW-001_审核队列.md
+- A  docs/03-continuity/change-requests/CR-0319-统一R12审核工作台权限目录与默认排序合同.md
+- A  docs/03-continuity/change-requests/CR-0320-扩展CR-0319审核证据权限与真实工作台施工范围.md
+- A  docs/03-continuity/change-requests/CR-0321-投影R12逐页视觉合同到验收目录.md
+- A  docs/03-continuity/change-requests/CR-0322-补齐CR-0319默认排序Java回归测试范围.md
+- A  docs/03-continuity/change-requests/CR-0323-补齐CR-0319默认排序PostgreSQL执行回归范围.md
+- A  docs/03-continuity/sessions/2026-07/SES-20260725T053515Z-11D4084D.md
+- M  releases/R12/STORIES.yaml
+- M  scripts/check_db_schema.py
+- M  scripts/run_r12_database_invariants.sh
+- A  services/backend/boot/src/main/resources/db/migration/V041__r12_review_permission_alignment.sql
+- M  services/backend/boot/src/test/java/cc/orbexa/hhy/content/R12ReviewPostgresStoreTest.java
+- M  services/backend/boot/src/test/java/cc/orbexa/hhy/content/R12ReviewServiceTest.java
+- M  services/backend/content/src/main/java/cc/orbexa/hhy/content/R12ReviewPostgresStore.java
+- M  services/backend/content/src/main/java/cc/orbexa/hhy/content/R12ReviewService.java
 recent_commits:
+- "8b852b35e1e152adbc37feb6f0add7fc719f4770\t2026-07-25T13:32:52+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] chore(continuity): close TASK-R12-003\
+  \ as completed"
 - "07e1c3f52250bb0c6a959dd8d197a9b7ac7b88aa\t2026-07-25T13:30:42+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] chore(continuity): close R12\
   \ backend CR"
 - "35acc4c97bd5ddb8771bd23266e6a5d1b84ab206\t2026-07-25T13:28:05+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] feat(content): implement R12\
@@ -1565,16 +2149,49 @@ recent_commits:
   \ as completed"
 - "3a48126e76fd55b4d9f187e7e73122d121cfa190\t2026-07-25T00:29:49+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] docs(release): freeze R12 entry\
   \ and visual baseline"
-- "186a6cbddee8da6a9f6c74b4190f8550dbc4dee3\t2026-07-24T22:45:56+08:00\tHHY Continuity Bootstrap\t[STORY-R11-004] chore(continuity): close TASK-R11-008\
-  \ as completed"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`4b44774235c3075ceb75e175470ab4e91d19c3b7fb32288d14aac82e8f6ef7ff`
-- 文件数：0
+- 指纹：`fd341f332ae57ecef7f351bb3347d7ab805d9bafcea23ce7d103ed8fd4b1e958`
+- 文件数：36
 
-- 无
+- `CHANGELOG.md`
+- `apps/admin-web/src/adminNavigation.test.ts`
+- `apps/admin-web/src/adminNavigation.ts`
+- `apps/admin-web/src/generated/admin-pages.json`
+- `apps/admin-web/src/r12ReviewWorkbench.test.ts`
+- `apps/admin-web/src/router.ts`
+- `apps/admin-web/src/routerPermissions.test.ts`
+- `apps/admin-web/src/services/adminReviews.test.ts`
+- `apps/admin-web/src/services/adminReviews.ts`
+- `apps/admin-web/src/services/idempotency.ts`
+- `apps/admin-web/src/services/index.ts`
+- `apps/admin-web/src/styles.css`
+- `apps/admin-web/src/views/AdminReviewWorkbenchPage.vue`
+- `catalogs/admin_page_operation_specs.csv`
+- `catalogs/admin_pages.csv`
+- `catalogs/release_story_backlog.csv`
+- `catalogs/ui_page_specifications.csv`
+- `catalogs/ui_visual_acceptance.csv`
+- `database/migrations/V041__r12_review_permission_alignment.sql`
+- `database/rollback/U041__r12_review_permission_alignment.sql`
+- `database/state_machines.yaml`
+- `database/tests/r12_review_permission_alignment.sql`
+- `docs/02-ui/page-specs/admin/ADM-REVIEW-001_审核队列.md`
+- `docs/03-continuity/change-requests/CR-0319-统一R12审核工作台权限目录与默认排序合同.md`
+- `docs/03-continuity/change-requests/CR-0320-扩展CR-0319审核证据权限与真实工作台施工范围.md`
+- `docs/03-continuity/change-requests/CR-0321-投影R12逐页视觉合同到验收目录.md`
+- `docs/03-continuity/change-requests/CR-0322-补齐CR-0319默认排序Java回归测试范围.md`
+- `docs/03-continuity/change-requests/CR-0323-补齐CR-0319默认排序PostgreSQL执行回归范围.md`
+- `releases/R12/STORIES.yaml`
+- `scripts/check_db_schema.py`
+- `scripts/run_r12_database_invariants.sh`
+- `services/backend/boot/src/main/resources/db/migration/V041__r12_review_permission_alignment.sql`
+- `services/backend/boot/src/test/java/cc/orbexa/hhy/content/R12ReviewPostgresStoreTest.java`
+- `services/backend/boot/src/test/java/cc/orbexa/hhy/content/R12ReviewServiceTest.java`
+- `services/backend/content/src/main/java/cc/orbexa/hhy/content/R12ReviewPostgresStore.java`
+- `services/backend/content/src/main/java/cc/orbexa/hhy/content/R12ReviewService.java`
 
 ## 当前 Release
 
@@ -1938,7 +2555,7 @@ STORIES.yaml:
   - story_id: STORY-R12-001
     release: R12
     title: 审核：审核队列
-    user_story: 作为具备 review.manage 的后台员工；写操作另需 review.manage，我需要完成审核队列的完整业务流程，以便在不依赖研发临时决策的情况下实现内容/红包/实名/申诉。
+    user_story: 作为具备 review.read 的后台员工；决定与分配分别需要 review.decide 和 review.assign，我需要完成审核队列的完整业务流程，以便在不依赖研发临时决策的情况下实现内容/红包/实名/申诉。
     platform: ADMIN
     module: 审核
     template_id: ADM-REVIEW
@@ -10693,13 +11310,277 @@ PARALLEL_EXECUTION_PLAN.yaml:
     session_id: SES-20260724T144831Z-B2E27A89
   session_ids:
   - SES-20260724T144831Z-B2E27A89
+- protocol_version: '1.0'
+  cr_id: CR-0319
+  title: 统一R12审核工作台权限目录与默认排序合同
+  status: APPROVED
+  created_at: '2026-07-25T05:45:05Z'
+  updated_at: '2026-07-25T05:48:22Z'
+  requester_actor_id: codex-root-r12-client-20260725
+  approver_actor_id: codex-r12-review-contract-reviewer
+  task_id: TASK-R12-004
+  session_id: SES-20260725T053515Z-11D4084D
+  user_request: 项目所有者要求按仓库开发文档一比一实现，并授权持续开发、内部冲突自行解决而不停止
+  reason: ADM-REVIEW-001仍使用不存在于当前授权链的review.manage，而冻结OpenAPI与后端使用review.read/review.decide/review.assign；运营规格默认复合排序尚未由服务端支持，直接实现会导致菜单可见但接口403或首屏400
+  original_rule: ADM-REVIEW-001页面读写统一使用review.manage，默认排序为priority:desc,createdAt:asc，但数据库仅登记review.manage且R12冻结接口实际要求review.read、review.decide、review.assign，服务端只接受单字段排序
+  new_rule: ADM-REVIEW-001入口与队列读取使用review.read；决定和分配分别使用review.decide与review.assign；新增三个细粒度权限并将历史持有review.manage的角色无损映射到三项权限；保留review.manage作为兼容权限但不再用于R12接口鉴权；服务端正式支持冻结默认排序priority:desc,createdAt:asc，复合排序使用页码分页且不生成误导性游标
+  impact_summary: 统一后台菜单、路由、会话权限、OpenAPI、服务端、RBAC和页面规格，避免菜单可见后接口403、动作错误放权或默认查询400；不改变既有管理员的有效能力
+  impact:
+    files:
+    - catalogs/admin_pages.csv
+    - catalogs/ui_page_specifications.csv
+    - catalogs/admin_page_operation_specs.csv
+    - catalogs/release_story_backlog.csv
+    - database/state_machines.yaml
+    - services/backend/content/src/main/java/cc/orbexa/hhy/content/R12ReviewService.java
+    - services/backend/content/src/main/java/cc/orbexa/hhy/content/R12ReviewPostgresStore.java
+    - docs/02-ui/page-specs/admin/ADM-REVIEW-001_审核队列.md
+    pages:
+    - ADM-REVIEW-001
+    apis:
+    - GET/POST /admin-api/v1/reviews/*
+    database:
+    - admin_permissions;admin_role_permissions
+    configuration: []
+    ledger:
+    - 无资金账本影响
+    tests:
+    - RBAC迁移回归；R12ReviewService/Postgres排序测试；admin-web路由与动作权限测试
+    releases:
+    - R12
+    migration_and_compatibility: 以V041幂等迁移新增细粒度权限，并把当前已持有review.manage的全部角色及SUPER_ADMIN映射到新权限；旧review.manage保留，不删除历史授权；复合排序新增白名单实现，既有createdAt/updatedAt/id排序继续兼容
+  user_confirmation: OWNER_ACTIVE_GOAL_CONTINUE_R01_R32_IN_REPOSITORY_ORDER
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-25T05:48:22Z'
+    note: 独立只读合同审计确认冻结OpenAPI与运行时Controller为细粒度权限事实；V041兼容映射保留既有能力，复合默认排序消除首屏400且不扩展未登记业务动作。
+  machine_record: .continuity/change_requests/CR-0319.yaml
+  document: docs/03-continuity/change-requests/CR-0319-统一R12审核工作台权限目录与默认排序合同.md
+- protocol_version: '1.0'
+  cr_id: CR-0320
+  title: 扩展CR-0319审核证据权限与真实工作台施工范围
+  status: IMPLEMENTING
+  created_at: '2026-07-25T06:25:12Z'
+  updated_at: '2026-07-25T06:52:31Z'
+  requester_actor_id: codex-root-r12-client-20260725
+  approver_actor_id: codex-r12-review-contract-reviewer
+  task_id: TASK-R12-004
+  session_id: SES-20260725T053515Z-11D4084D
+  user_request: OWNER_ACTIVE_GOAL_CONTINUE_R01_R32_IN_REPOSITORY_ORDER
+  reason: CR-0319批准后只允许PROPOSED状态补充影响文件；实施复核又确认六个冻结operationId中的举报和申诉分别需要report.read与appeal.read，且工作台真实三栏、空态和自动化文件必须纳入可审计范围，因此建立非并行规则的受控实施扩展并显式引用CR-0319
+  original_rule: CR-0319已统一review.read、review.decide、review.assign与默认复合排序，但其批准影响清单未包含V041实际迁移、举报/申诉证据读取权限、三栏工作台产品文件和完整自动化证据；批准后治理工具禁止原位补充影响清单
+  new_rule: CR-0320仅作为CR-0319的受控实施范围扩展，不建立第二套权限规则：举报与申诉证据区分别使用report.read和appeal.read；V041将五项细粒度权限无损映射给历史review.manage角色；ADM-REVIEW-001按宽屏三栏/窄屏分步实现六个冻结operationId，缺少证据媒体、SLA、完整历史时展示明确真实空态；不得虚构字段、操作、审核员或批量最终决定
+  impact_summary: 补齐CR-0319无法后补的实际迁移、页面、服务、路由、样式、生成资产和测试范围；保留原权限规则为唯一事实，新增内容只解决其实施完整性和六接口可访问性
+  impact:
+    files:
+    - database/migrations/V041__r12_review_permission_alignment.sql
+    - services/backend/boot/src/main/resources/db/migration/V041__r12_review_permission_alignment.sql
+    - database/rollback/U041__r12_review_permission_alignment.sql
+    - database/tests/r12_review_permission_alignment.sql
+    - scripts/check_db_schema.py
+    - scripts/run_r12_database_invariants.sh
+    - catalogs/admin_pages.csv
+    - catalogs/ui_page_specifications.csv
+    - catalogs/admin_page_operation_specs.csv
+    - catalogs/release_story_backlog.csv
+    - database/state_machines.yaml
+    - releases/R12/STORIES.yaml
+    - apps/admin-web/src/generated/admin-pages.json
+    - services/backend/content/src/main/java/cc/orbexa/hhy/content/R12ReviewService.java
+    - services/backend/content/src/main/java/cc/orbexa/hhy/content/R12ReviewPostgresStore.java
+    - docs/02-ui/page-specs/admin/ADM-REVIEW-001_审核队列.md
+    - apps/admin-web/src/services/adminReviews.ts
+    - apps/admin-web/src/services/adminReviews.test.ts
+    - apps/admin-web/src/services/idempotency.ts
+    - apps/admin-web/src/services/index.ts
+    - apps/admin-web/src/views/AdminReviewWorkbenchPage.vue
+    - apps/admin-web/src/r12ReviewWorkbench.test.ts
+    - apps/admin-web/src/router.ts
+    - apps/admin-web/src/adminNavigation.ts
+    - apps/admin-web/src/adminNavigation.test.ts
+    - apps/admin-web/src/routerPermissions.test.ts
+    - apps/admin-web/src/styles.css
+    pages:
+    - ADM-REVIEW-001
+    apis:
+    - GET/POST /admin-api/v1/reviews/*;GET /admin-api/v1/content-reports;GET /admin-api/v1/appeals
+    database:
+    - admin_permissions;admin_role_permissions
+    configuration:
+    - 无新增运行时配置
+    ledger:
+    - 无资金账本影响
+    tests:
+    - 后台112项；typecheck/build；DB schema 41 migrations；V122/V123 documentation；obx-test Java/PostgreSQL待执行
+    releases:
+    - R12
+    migration_and_compatibility: V041幂等新增review.read/review.decide/review.assign/report.read/appeal.read并映射历史review.manage角色与SUPER_ADMIN；旧review.manage保留；U041发现独立细粒度授权时原子拒绝；页面对缺失证据数据只降级为空态
+  user_confirmation: OWNER_ACTIVE_GOAL_CONTINUE_R01_R32_IN_REPOSITORY_ORDER
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-25T06:28:20Z'
+    note: CR-0320仅扩展CR-0319实施范围；V041五项权限无损映射、U041独立授权原子阻断、六operationId三栏真实空态与测试范围一致且未虚构能力
+  machine_record: .continuity/change_requests/CR-0320.yaml
+  document: docs/03-continuity/change-requests/CR-0320-扩展CR-0319审核证据权限与真实工作台施工范围.md
+  decision_log:
+  - at: '2026-07-25T06:52:31Z'
+    actor_id: codex-root-r12-client-20260725
+    status: IMPLEMENTING
+    note: 独立审批通过并已应用精确实施范围，开始补齐批量分配、视觉验收登记与模块验证。
+    session_id: SES-20260725T053515Z-11D4084D
+  session_ids:
+  - SES-20260725T053515Z-11D4084D
+- protocol_version: '1.0'
+  cr_id: CR-0321
+  title: 投影R12逐页视觉合同到验收目录
+  status: IMPLEMENTING
+  created_at: '2026-07-25T07:07:30Z'
+  updated_at: '2026-07-25T07:12:01Z'
+  requester_actor_id: codex-root-r12-client-20260725
+  approver_actor_id: codex-r12-review-contract-reviewer
+  task_id: TASK-R12-004
+  session_id: SES-20260725T053515Z-11D4084D
+  user_request: OWNER_ACTIVE_GOAL_EXACT_UI_AND_CONTINUE_R01_R32
+  reason: CR-0314已批准R12十一页精确视觉映射并明确TASK-R12-004登记IN_REVIEW，但其影响清单未包含运行时验收目录；本CR只把既有视觉决定投影到catalogs/ui_visual_acceptance.csv，不新增业务或第二套视觉规则。
+  original_rule: CR-0314已冻结R12十一页精确视觉来源并要求TASK-R12-004在catalogs/ui_visual_acceptance.csv登记IN_REVIEW，真实截图和AI逐页复核仅在TASK-R12-007转PASS；当前验收目录尚无R12行。
+  new_rule: 只将CR-0314已批准的十一页视觉映射投影到catalogs/ui_visual_acceptance.csv：真实实现路径形成的页面登记IN_REVIEW，未形成实现路径的Android页面不得伪造文件或截图；后续故事形成路径时逐行补齐，同一页面仅保留一条合同。
+  impact_summary: 建立R12逐页视觉验收的单一投影入口，当前先登记已实现的ADM-REVIEW-001，并允许后续十个Android故事在同一CR下按真实实现进度登记；不更改视觉选择和业务合同。
+  impact:
+    files:
+    - catalogs/ui_visual_acceptance.csv
+    pages:
+    - SCR-PUB-001
+    - SCR-PUB-006
+    - SCR-PUB-007
+    - SCR-MYC-001
+    - SCR-MYC-002
+    - SCR-MYC-003
+    - SCR-MYC-004
+    - SCR-MYC-005
+    - SCR-ME-001
+    - SCR-ME-002
+    - ADM-REVIEW-001
+    apis: []
+    database: []
+    configuration: []
+    ledger:
+    - CR-0314 visual mapping projection only
+    tests:
+    - scripts/check_ui_visual_acceptance.py --release R12 --catalog-only
+    releases:
+    - R12
+    migration_and_compatibility: 纯目录投影；无运行时、API或数据库迁移；非PASS行不需要截图，最终候选真实截图经AI复核后才能转PASS。
+  user_confirmation: OWNER_ACTIVE_GOAL_EXACT_UI_AND_CONTINUE_R01_R32
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-25T07:11:12Z'
+    note: CR-0321仅投影CR-0314既有视觉决定；当前只允许登记真实存在的ADM-REVIEW-001为IN_REVIEW，未实现Android页面不得填写路径或截图，最终候选真实截图经AI复核后方可转PASS，不建立第二套视觉规则
+  machine_record: .continuity/change_requests/CR-0321.yaml
+  document: docs/03-continuity/change-requests/CR-0321-投影R12逐页视觉合同到验收目录.md
+  decision_log:
+  - at: '2026-07-25T07:12:01Z'
+    actor_id: codex-root-r12-client-20260725
+    status: IMPLEMENTING
+    note: 独立审批通过，当前仅登记已真实实现的ADM-REVIEW-001为IN_REVIEW；后续Android页面按真实路径形成顺序追加。
+    session_id: SES-20260725T053515Z-11D4084D
+  session_ids:
+  - SES-20260725T053515Z-11D4084D
+- protocol_version: '1.0'
+  cr_id: CR-0322
+  title: 补齐CR-0319默认排序Java回归测试范围
+  status: IMPLEMENTING
+  created_at: '2026-07-25T07:14:49Z'
+  updated_at: '2026-07-25T07:17:53Z'
+  requester_actor_id: codex-root-r12-client-20260725
+  approver_actor_id: codex-r12-java-test-scope-reviewer
+  task_id: TASK-R12-004
+  session_id: SES-20260725T053515Z-11D4084D
+  user_request: OWNER_ACTIVE_GOAL_CONTINUE_R01_R32_IN_REPOSITORY_ORDER
+  reason: CR-0319已批准并明确要求R12ReviewService/Postgres排序测试，但批准影响文件漏列现有R12ReviewServiceTest.java；本CR仅补齐既有决定的测试实施范围，不新增或改变权限与排序规则。
+  original_rule: CR-0319的新规则与tests字段已要求默认复合排序使用页码且不生成游标，并要求R12ReviewService/Postgres排序测试，但impact.files未包含现有R12ReviewServiceTest.java。
+  new_rule: 只在现有R12ReviewServiceTest.java增加CR-0319默认排序页码分页、不生成游标、拒绝默认排序游标的回归用例；排序与权限规则仍完全来自CR-0319。
+  impact_summary: 补齐CR-0319明确要求但漏列的Java回归测试实施文件，使默认排序行为可由obx-test Java 21测试锁定。
+  impact:
+    files:
+    - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R12ReviewServiceTest.java
+    pages: []
+    apis:
+    - GET /admin-api/v1/reviews/queue
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - obx-test Java21 R12ReviewServiceTest
+    releases:
+    - R12
+    migration_and_compatibility: 纯测试范围扩展；无运行时、API、数据或配置迁移。
+  user_confirmation: OWNER_ACTIVE_GOAL_CONTINUE_R01_R32_IN_REPOSITORY_ORDER
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-25T07:15:29Z'
+    note: 仅补齐CR-0319已明确要求的R12ReviewService默认排序回归测试文件；覆盖页码分页、无游标和拒绝默认排序游标，不改变任何运行时合同。
+  machine_record: .continuity/change_requests/CR-0322.yaml
+  document: docs/03-continuity/change-requests/CR-0322-补齐CR-0319默认排序Java回归测试范围.md
+  decision_log:
+  - at: '2026-07-25T07:17:53Z'
+    actor_id: codex-root-r12-client-20260725
+    status: IMPLEMENTING
+    note: 服务层默认排序页码分页、无游标与拒绝默认排序游标回归用例已落盘，准备在obx-test Java21验证。
+    session_id: SES-20260725T053515Z-11D4084D
+  session_ids:
+  - SES-20260725T053515Z-11D4084D
+- protocol_version: '1.0'
+  cr_id: CR-0323
+  title: 补齐CR-0319默认排序PostgreSQL执行回归范围
+  status: IMPLEMENTING
+  created_at: '2026-07-25T07:16:29Z'
+  updated_at: '2026-07-25T07:18:02Z'
+  requester_actor_id: codex-root-r12-client-20260725
+  approver_actor_id: codex-r12-postgres-test-scope-reviewer
+  task_id: TASK-R12-004
+  session_id: SES-20260725T053515Z-11D4084D
+  user_request: OWNER_ACTIVE_GOAL_CONTINUE_R01_R32_IN_REPOSITORY_ORDER
+  reason: CR-0319明确要求R12ReviewService/Postgres排序测试；CR-0322已补服务层行为，但真实PostgreSQL执行文件仍未纳入当前批准范围。本CR只让现有R12ReviewPostgresStoreTest实际执行默认复合排序查询。
+  original_rule: CR-0319明确要求R12ReviewService/Postgres排序测试，但真实PostgreSQL Store测试文件未列入影响范围。
+  new_rule: 仅在现有R12ReviewPostgresStoreTest.java增加对priority:desc,createdAt:asc真实查询的执行断言，确保PostgreSQL 17接受冻结默认排序且返回无游标的页码结果；运行时规则仍来自CR-0319。
+  impact_summary: 补齐CR-0319默认复合排序的真实PostgreSQL执行证据，不增加业务、权限、API或迁移。
+  impact:
+    files:
+    - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R12ReviewPostgresStoreTest.java
+    pages: []
+    apis:
+    - GET /admin-api/v1/reviews/queue
+    database:
+    - PostgreSQL17 review default ordering execution
+    configuration: []
+    ledger: []
+    tests:
+    - obx-test Java21 R12ReviewPostgresStoreTest with PostgreSQL17
+    releases:
+    - R12
+    migration_and_compatibility: 纯测试范围扩展；无运行时或数据迁移。
+  user_confirmation: OWNER_ACTIVE_GOAL_CONTINUE_R01_R32_IN_REPOSITORY_ORDER
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-25T07:16:58Z'
+    note: 仅增加CR-0319已要求的默认复合排序真实PostgreSQL17执行断言；不改变Store实现、合同、权限或迁移。
+  machine_record: .continuity/change_requests/CR-0323.yaml
+  document: docs/03-continuity/change-requests/CR-0323-补齐CR-0319默认排序PostgreSQL执行回归范围.md
+  decision_log:
+  - at: '2026-07-25T07:18:02Z'
+    actor_id: codex-root-r12-client-20260725
+    status: IMPLEMENTING
+    note: 真实PostgreSQL Store默认复合排序执行断言已落盘，准备在obx-test PostgreSQL17验证。
+    session_id: SES-20260725T053515Z-11D4084D
+  session_ids:
+  - SES-20260725T053515Z-11D4084D
 ```
 
 ## 上下文来源及哈希
 
 - `AGENTS.md` — `690f960020dcbd18080ec91b3c314335627b32e231b9f9b2e14566b0fbbaeb35`
 - `START_HERE.md` — `22de14029ce47beb41ea569e36ce223fbc9d11b86f8676f28d5fbbd83896af5c`
-- `CURRENT_STATUS.yaml` — `52406fe8dff1b6891b4aa23274bb1757c0c5aacf044d82fac983d5c63ab16ae2`
+- `CURRENT_STATUS.yaml` — `4ecfc0172202b326d4efe1c13995a517f8893394a817121d5b89ace0949d627b`
 - `NEXT_TASK.yaml` — `05e6bd161a5d73ff15c34dade88c269f05ff3e6e615e2d124681cd3b561a0524`
 - `DEVELOPMENT_RISK_REGISTER.md` — `8304c91492e4ee2abea0522a06541c8688d39c7fc532b5d0cde499bf09fffb87`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
@@ -10710,22 +11591,29 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `config/REPOSITORY_TRANSPORT.yaml` — `8c4a21f3e204d46e7ffb467d804a53ed26cda61cd088dadfddb50b69eea657fc`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `60943fcd9714cfae7274463554b5584fdb7a7aeee1ee547ff6dbc53fae6d4994`
-- `.continuity/EVENT_LOG.jsonl` — `a15f8ed32450e9a4f3d3175a9941338bade86e4949e9620c9357dff49182782a`
-- `.continuity/SESSION_INDEX.yaml` — `14615c0430da4724c4a6a3f237b8c9a379727665058b3b77e0ecb5829d9fdc55`
-- `.continuity/TASK_CLAIMS.yaml` — `2ed67e37a3b23ec70f9365b57b7908ef4d3ed7a5ac8322234721bc3b6ffef066`
-- `.continuity/TASK_TRANSITIONS.yaml` — `e05b38cb2dedd9741acb06108e8352c0490b89f8dcaab9769f095a5b97213c77`
-- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `63a4c7ec0be275e382dbcb4865407ac9213ad58bfcb238b3b2fc8d067857d066`
-- `.continuity/ACTIVE_SESSION.yaml` — `452c601465ce3b20907e812c511afce2e190d25ba604dc2c2d485a82e6831a3f`
+- `.continuity/EVENT_LOG.jsonl` — `75c2e8930016abbf39af1be7b7175360a4ccdf4dea5a608855b0747647fdb88a`
+- `.continuity/SESSION_INDEX.yaml` — `ce751a04ecaadb52f95b893b35fc1298b814888028e696c7d50a1daa6195a97e`
+- `.continuity/TASK_CLAIMS.yaml` — `fa4e75a57e04c050da8d9a16d49f6d07befc1ee206f33c6140450a6885a3dd45`
+- `.continuity/TASK_TRANSITIONS.yaml` — `42dda46a34627046c9f85e5e719e8dcfc107aa0725121cf6e86563f40d5034ab`
+- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `75506b915d0f6841502e162f195d3f0426cc32a4663d028c0a2f7fa9c3b5326b`
+- `.continuity/ACTIVE_SESSION.yaml` — `7b41cb9ff1205100e72d21fd5291b7ec4287b9e5c085a6614dd5d416d33ff541`
 - `docs/00-baseline/正式商业系统全局硬性开发边界.md` — `9753b32db136e59e95a0974a62362456d9d577fd1bb40058ec985c4b64413eea`
 - `docs/02-ui/UI参考图使用与开发约束_V1.2.2.md` — `d14367586aa2067b059df58798acd20ab982459cdb35ff27fc7922a3896e4933`
 - `docs/03-continuity/持续开发无状态接续强制门禁_V1.2.3.md` — `d0ed3ed68bdd93b06500eecdfb5baa3245e6ca8b685a486788abb6eee39b3d51`
 - `docs/09-development/统一开发与交付效率规范.md` — `821ed91f6f860b729f6532c5e8145c6d78fa01fc7f5ec423687479fe5390a76f`
 - `releases/R12/RELEASE_MANIFEST.yaml` — `28af49f50c84993bcc1c79cc810c57998f3800363ec8f17fb96ac7d93d2f93a2`
 - `releases/R12/DEFINITION_OF_READY.yaml` — `ec0e557f0fc1c9738d78e5954b24b5411e8f3f23ebbf13631aef6d64745515a7`
-- `releases/R12/STORIES.yaml` — `236bec910beb1ba15779990fc717d97fcd9a8a18e59f04beff9346a5da232bda`
+- `releases/R12/STORIES.yaml` — `ed80bfe7ba3779ab57985d98a5250c4a80c15708035c30afe393de146e029fc2`
 - `releases/R12/TASKS.yaml` — `ccf3a782104fc56bdb97d02da81e8acb1be2fd0cf30f5935bb4754a63c9fb275`
 - `releases/R12/ACCEPTANCE_MATRIX.csv` — `197874227cef03f791df1fa5d2101a251df266c63240f777f358388b46cb9706`
 - `releases/R12/PARALLEL_EXECUTION_PLAN.yaml` — `2ddbee414a51a868b63331992e2e04c5400846cf6012474aab406e067e532e98`
+- `docs/03-continuity/sessions/2026-07/SES-20260725T053515Z-11D4084D.md` — `e05a52753d07f23b8ad765258c0bd2f44d244f6cd7da1f942f35267f8f29e22d`
+- `.continuity/checkpoints/SES-20260725T053515Z-11D4084D/0002.yaml` — `2149cd2a9a2090f2e3223737e7aba0001792893a7a659e76d969080475d9cc78`
+- `docs/03-continuity/change-requests/CR-0319-统一R12审核工作台权限目录与默认排序合同.md` — `20ca9c30445e272751f416a334afc19b85ca177dcf752a45bbee45a34c309347`
+- `docs/03-continuity/change-requests/CR-0320-扩展CR-0319审核证据权限与真实工作台施工范围.md` — `701a4410db8d9050da4d3e794c9057c3bbcb947a1fdb7bcd9bc0d62060e79d84`
+- `docs/03-continuity/change-requests/CR-0321-投影R12逐页视觉合同到验收目录.md` — `f1000451aec726ca24eb26db010d24aa33747afc10aee4fd8f42e7113ece4ef3`
+- `docs/03-continuity/change-requests/CR-0322-补齐CR-0319默认排序Java回归测试范围.md` — `55df4567c6eb6521341cfdfbf193a27d6ab79f20fee0a14733b86d972fe87ef6`
+- `docs/03-continuity/change-requests/CR-0323-补齐CR-0319默认排序PostgreSQL执行回归范围.md` — `3e9ff718e40eb44a888a46a9240a73aba66d25b35e917bcf47544d2c4252c731`
 
 ## 接手硬规则
 

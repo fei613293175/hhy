@@ -1,0 +1,44 @@
+protocol_version: '1.0'
+cr_id: CR-0322
+title: 补齐CR-0319默认排序Java回归测试范围
+status: IMPLEMENTING
+created_at: '2026-07-25T07:14:49Z'
+updated_at: '2026-07-25T07:17:53Z'
+requester_actor_id: codex-root-r12-client-20260725
+approver_actor_id: codex-r12-java-test-scope-reviewer
+task_id: TASK-R12-004
+session_id: SES-20260725T053515Z-11D4084D
+user_request: OWNER_ACTIVE_GOAL_CONTINUE_R01_R32_IN_REPOSITORY_ORDER
+reason: CR-0319已批准并明确要求R12ReviewService/Postgres排序测试，但批准影响文件漏列现有R12ReviewServiceTest.java；本CR仅补齐既有决定的测试实施范围，不新增或改变权限与排序规则。
+original_rule: CR-0319的新规则与tests字段已要求默认复合排序使用页码且不生成游标，并要求R12ReviewService/Postgres排序测试，但impact.files未包含现有R12ReviewServiceTest.java。
+new_rule: 只在现有R12ReviewServiceTest.java增加CR-0319默认排序页码分页、不生成游标、拒绝默认排序游标的回归用例；排序与权限规则仍完全来自CR-0319。
+impact_summary: 补齐CR-0319明确要求但漏列的Java回归测试实施文件，使默认排序行为可由obx-test Java 21测试锁定。
+impact:
+  files:
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R12ReviewServiceTest.java
+  pages: []
+  apis:
+  - GET /admin-api/v1/reviews/queue
+  database: []
+  configuration: []
+  ledger: []
+  tests:
+  - obx-test Java21 R12ReviewServiceTest
+  releases:
+  - R12
+  migration_and_compatibility: 纯测试范围扩展；无运行时、API、数据或配置迁移。
+user_confirmation: OWNER_ACTIVE_GOAL_CONTINUE_R01_R32_IN_REPOSITORY_ORDER
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-25T07:15:29Z'
+  note: 仅补齐CR-0319已明确要求的R12ReviewService默认排序回归测试文件；覆盖页码分页、无游标和拒绝默认排序游标，不改变任何运行时合同。
+machine_record: .continuity/change_requests/CR-0322.yaml
+document: docs/03-continuity/change-requests/CR-0322-补齐CR-0319默认排序Java回归测试范围.md
+decision_log:
+- at: '2026-07-25T07:17:53Z'
+  actor_id: codex-root-r12-client-20260725
+  status: IMPLEMENTING
+  note: 服务层默认排序页码分页、无游标与拒绝默认排序游标回归用例已落盘，准备在obx-test Java21验证。
+  session_id: SES-20260725T053515Z-11D4084D
+session_ids:
+- SES-20260725T053515Z-11D4084D

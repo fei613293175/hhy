@@ -6,11 +6,11 @@
 
 | 平台 | 模块 | 路由 | 页面形态 | 模板 | 版本 | 访问规则 | 数据分级 | DoR |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| ADMIN | 审核 | /reviews | PAGE | ADM-REVIEW | R12 | review.manage | NORMAL | READY |
+| ADMIN | 审核 | /reviews | PAGE | ADM-REVIEW | R12 | review.read | NORMAL | READY |
 
 **业务目标：** 内容/红包/实名/申诉
 
-**主要角色：** 具备 review.manage 的后台员工；写操作另需 review.manage
+**主要角色：** 具备 review.read 的后台员工；决定与分配分别需要 review.decide 和 review.assign
 
 **入口：** 从左侧菜单、数据驾驶舱待办、全局搜索或关联详情跳转进入
 

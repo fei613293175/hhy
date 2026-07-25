@@ -8,3 +8,4 @@ export * from './apiError';
 export * from './idempotency';
 export * from './adminIdentities';
 export * from './adminContents';
+export * from './adminReviews';

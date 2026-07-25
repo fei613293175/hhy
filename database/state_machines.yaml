@@ -44,7 +44,7 @@ machines:
     to: REVIEWING
     event: CLAIM_REVIEW
     actor: ADMIN
-    guard: permission=review.manage
+    guard: permission=review.assign
     side_effects:
     - write_review_record
     idempotency: COMMAND_ID
@@ -52,7 +52,7 @@ machines:
     to: APPROVED
     event: APPROVE
     actor: ADMIN
-    guard: permission=review.manage
+    guard: permission=review.decide
     side_effects:
     - write_review_record
     - emit ContentApproved
@@ -61,7 +61,7 @@ machines:
     to: REJECTED
     event: REJECT
     actor: ADMIN
-    guard: reason_required
+    guard: permission=review.decide;reason_required
     side_effects:
     - write_review_record
     - notify_owner

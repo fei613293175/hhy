@@ -7,6 +7,7 @@ export const implementedAdminPageIds = new Set([
   'ADM-CONFIG-006', 'ADM-CONFIG-007', 'ADM-CONFIG-008',
   'ADM-ID-001', 'ADM-ID-002',
   'ADM-CONTENT-001', 'ADM-CONTENT-002', 'ADM-CONTENT-003',
+  'ADM-REVIEW-001',
 ])
 
 export const menuGroupLabels: Record<string, string> = {

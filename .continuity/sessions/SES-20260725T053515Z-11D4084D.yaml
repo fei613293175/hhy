@@ -1,0 +1,105 @@
+protocol_version: '1.0'
+package_version: 1.2.3
+session_id: SES-20260725T053515Z-11D4084D
+status: ACTIVE
+actor:
+  id: codex-root-r12-client-20260725
+  kind: AI_OR_HUMAN
+  host: unknown
+release: R12
+task_id: TASK-R12-004
+story_id: STORY-R12-001
+goal: 按ADM-REVIEW-001冻结页面规格、运营规格、admin-openapi生成类型和精确视觉来源实现审核队列纵向闭环，并依次完成R12其余Android页面故事
+started_at: '2026-07-25T05:35:15Z'
+updated_at: '2026-07-25T07:25:34Z'
+takeover_of: null
+change_requests:
+- CR-0319
+- CR-0320
+- CR-0321
+- CR-0322
+- CR-0323
+scope:
+  allowed_paths:
+  - apps/admin-web/**
+  - services/backend/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - tests/**
+  - docs/**
+  - catalogs/**
+  - releases/**
+  - design/**
+  - scripts/**
+  - CHANGELOG.md
+  approved_exceptions:
+  - catalogs/admin_pages.csv
+  - catalogs/ui_page_specifications.csv
+  - catalogs/admin_page_operation_specs.csv
+  - catalogs/release_story_backlog.csv
+  - database/state_machines.yaml
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R12ReviewService.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R12ReviewPostgresStore.java
+  - docs/02-ui/page-specs/admin/ADM-REVIEW-001_审核队列.md
+  - database/migrations/V041__r12_review_permission_alignment.sql
+  - services/backend/boot/src/main/resources/db/migration/V041__r12_review_permission_alignment.sql
+  - database/rollback/U041__r12_review_permission_alignment.sql
+  - database/tests/r12_review_permission_alignment.sql
+  - scripts/check_db_schema.py
+  - scripts/run_r12_database_invariants.sh
+  - releases/R12/STORIES.yaml
+  - apps/admin-web/src/generated/admin-pages.json
+  - apps/admin-web/src/services/adminReviews.ts
+  - apps/admin-web/src/services/adminReviews.test.ts
+  - apps/admin-web/src/services/idempotency.ts
+  - apps/admin-web/src/services/index.ts
+  - apps/admin-web/src/views/AdminReviewWorkbenchPage.vue
+  - apps/admin-web/src/r12ReviewWorkbench.test.ts
+  - apps/admin-web/src/router.ts
+  - apps/admin-web/src/adminNavigation.ts
+  - apps/admin-web/src/adminNavigation.test.ts
+  - apps/admin-web/src/routerPermissions.test.ts
+  - apps/admin-web/src/styles.css
+  - catalogs/ui_visual_acceptance.csv
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R12ReviewServiceTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R12ReviewPostgresStoreTest.java
+  source: story+explicit+approved-cr:CR-0319+approved-cr:CR-0320+approved-cr:CR-0321+approved-cr:CR-0322+approved-cr:CR-0323
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  base_commit: 8b852b35e1e152adbc37feb6f0add7fc719f4770
+  start_head: 8b852b35e1e152adbc37feb6f0add7fc719f4770
+  upstream: origin/task/TASK-R03-001
+  initial_worktree_state: CLEAN
+lease:
+  duration_minutes: 240
+  renewed_at: '2026-07-25T07:22:01Z'
+  expires_at: '2026-07-25T11:22:01Z'
+checkpoint_sequence: 2
+latest_checkpoint: .continuity/checkpoints/SES-20260725T053515Z-11D4084D/0002.yaml
+session_log: docs/03-continuity/sessions/2026-07/SES-20260725T053515Z-11D4084D.md
+next_step: 提交冻结实现Commit，然后在obx-test运行Java21 R12ReviewService/Postgres Store与PostgreSQL17 V041/U041验证
+context_pack:
+  yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
+  markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
+  manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+  context_hash: 4a97a4b53a44b90f270cf1e82317a9c25c1f402fd4bf41a4321edac662ba40ea
+  generated_at: '2026-07-25T07:25:31Z'
+handoff_bundle: null
+closure: null
+parallel_execution:
+  assessment: DELEGATED
+  delegated_workers: 2
+  workers:
+  - worker_id: r12_admin_arch_audit
+    responsibility: 只读后台架构与交互审计
+    allowed_paths:
+    - apps/admin-web/**
+  - worker_id: r12_admin_contract_audit
+    responsibility: CR-0320与CR-0321独立合同审批
+    allowed_paths:
+    - .continuity/change_requests/CR-0320.yaml
+    - .continuity/change_requests/CR-0321.yaml
+  reason: 后台架构盘点与独立CR审批路径只读且与主控实现互斥；数据库、安全、最终集成由主控串行复核

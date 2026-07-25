@@ -46,6 +46,11 @@ class R12ReviewPostgresStoreTest {
         Fixture fixture = transaction.execute(status -> seed(jdbc, suffix));
         if (fixture == null) throw new IllegalStateException("R12 review fixture was not created");
 
+        var priorityQueue = service.queue(1, 20, null, "PENDING_REVIEW", null,
+                "priority:desc,createdAt:asc");
+        assertEquals(Long.toString(fixture.contentId()), priorityQueue.items().getFirst().id());
+        assertEquals(null, priorityQueue.page().nextCursor());
+
         var assigned = transaction.execute(status -> service.assign(
                 fixture.actor("review.assign"), Long.toString(fixture.contentId()),
                 new ReviewAssignRequest(Long.toString(fixture.assigneeId()), "轮值分配", 1L),
