@@ -210,6 +210,35 @@ task_004_client_gate:
   - assemble_signed_test_apk
   - install_smoke
   next_task: TASK-R12-005
+task_005_specialized_test_gate:
+  status: PASS
+  completed_at: '2026-07-26'
+  session_id: SES-20260725T171320Z-7ACF9261
+  change_request: CR-0333
+  source_commit: 5419d68255dcc965c2c31fcb3006f616d9f8c38a
+  report: docs/03-continuity/R12_TASK-005_SPECIALIZED_TEST_GATE.md
+  authoritative_tests:
+    total: 6
+    automated: 6
+    pass: 6
+    critical_defects: 0
+  validation:
+    backend_java21: PASS_15_TESTS_0_FAILURES_0_ERRORS_0_SKIPS
+    postgresql17: PASS_5_TESTS_0_FAILURES_0_ERRORS_0_SKIPS
+    postgresql_migrations: PASS_41_TO_V041
+    postgresql_concurrency: PASS_8_CONTENDERS_EXACTLY_1_OWNER
+    android_module: PASS_202_TASKS_TEST_LINT_COMPILE
+    response_loss_replay: PASS_SINGLE_BUSINESS_RESULT_AND_OUTBOX
+    request_body_key_conflict: PASS_NO_BUSINESS_WRITE
+    configuration_timeout: PASS_ZERO_SUCCESS_SIDE_EFFECTS
+    shared_storage_failure: PASS_NO_CURSOR_ADVANCE_AND_RESUMABLE
+    evidence_hashes: PASS_REMOTE_LOCAL_EQUAL
+  deferred_final_candidate:
+  - full_release_gate
+  - emulator_real_screenshots
+  - ai_visual_review
+  - assemble_signed_test_apk
+  next_task: TASK-R12-006
 entry_gate:
 - releases/R12/DEFINITION_OF_READY.yaml 全部适用项为PASS
 - releases/R12/STORIES.yaml 中每个故事均绑定页面/API/配置/数据/测试或显式N/A
