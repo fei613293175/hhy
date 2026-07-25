@@ -1,7 +1,7 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-25T17:04:08Z
-- Context Hash：`7a96f2e651c0422b0f7378cd4105907623f8aa09dc62737d86a1270620b38dcd`
+- 生成时间：2026-07-25T17:08:19Z
+- Context Hash：`e381fcc2f25bd67cd3d5f27e1ddbf5b512f8be1e6b3397eee82d8bd39cecb50f`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 规则就绪：`PASS`（`HASHED_CONTEXT_MANIFEST`）
@@ -161,7 +161,7 @@ blocked_tasks:
 - TASK-R06-008
 - TASK-R07-008
 next_task: TASK-R12-004
-updated_at: '2026-07-25T17:04:05Z'
+updated_at: '2026-07-25T17:08:13Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -196,15 +196,15 @@ continuity:
   active_session_id: SES-20260725T053515Z-11D4084D
   actor_id: codex-root-r12-client-20260725
   story_id: STORY-R12-008
-  lease_expires_at: '2026-07-25T21:04:05Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260725T053515Z-11D4084D/0035.yaml
-  project_fingerprint: d114223e27635c90e9a2c847889e34c43eedbc9eaf144d03c58d389e467333a6
+  lease_expires_at: '2026-07-25T21:08:13Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260725T053515Z-11D4084D/0036.yaml
+  project_fingerprint: 93e7f5cae8919cde5ae0ce6a973f475ec82b64334277314456961d005bc78880
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: 0325133833e3da8694fe81fa76a61a3878c8526c39a1def2659e7b16422e563f
-    generated_at: '2026-07-25T17:01:24Z'
+    context_hash: 7a96f2e651c0422b0f7378cd4105907623f8aa09dc62737d86a1270620b38dcd
+    generated_at: '2026-07-25T17:04:08Z'
   handoff_bundle: null
 ```
 
@@ -406,7 +406,7 @@ task_id: TASK-R12-004
 story_id: STORY-R12-008
 goal: 按冻结R12契约完成数据、配置、测试、观测、视觉验收、候选APK与版本交接收口。
 started_at: '2026-07-25T05:35:15Z'
-updated_at: '2026-07-25T17:04:05Z'
+updated_at: '2026-07-25T17:08:13Z'
 takeover_of: null
 change_requests:
 - CR-0319
@@ -470,12 +470,12 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-25T17:04:05Z'
-  expires_at: '2026-07-25T21:04:05Z'
-checkpoint_sequence: 35
-latest_checkpoint: .continuity/checkpoints/SES-20260725T053515Z-11D4084D/0035.yaml
+  renewed_at: '2026-07-25T17:08:13Z'
+  expires_at: '2026-07-25T21:08:13Z'
+checkpoint_sequence: 36
+latest_checkpoint: .continuity/checkpoints/SES-20260725T053515Z-11D4084D/0036.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260725T053515Z-11D4084D.md
-next_step: 提交并推送TASK-R12-004门禁与CR-0332，然后关闭CR-0319至CR-0332并完成任务切换。
+next_step: 提交并推送CR关闭元数据，然后执行continuity close关闭TASK-R12-004并切换TASK-R12-005。
 context_pack: THIS_CONTEXT_PACK
 handoff_bundle: null
 closure: null
@@ -483,7 +483,7 @@ parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: CR、Manifest、报告与连续性检查点必须在同一提交中保持原子一致。
+  reason: 十四个CR共享同一任务关闭事实和连续性索引，必须串行原子收口。
 story_history:
 - story_id: STORY-R12-001
   completed_at: '2026-07-25T07:44:07Z'
@@ -526,51 +526,67 @@ story_history:
 
 ```yaml
 protocol_version: '1.0'
-checkpoint_id: CP-SES-20260725T053515Z-11D4084D-0035
+checkpoint_id: CP-SES-20260725T053515Z-11D4084D-0036
 session_id: SES-20260725T053515Z-11D4084D
 task_id: TASK-R12-004
 story_id: STORY-R12-008
-sequence: 35
-created_at: '2026-07-25T17:04:04Z'
-summary: CR-0332经不同Actor批准并实施，TASK-R12-004八个Story证据已合法投影到Release Manifest、客户端门禁报告和CHANGELOG。
-next_step: 提交并推送TASK-R12-004门禁与CR-0332，然后关闭CR-0319至CR-0332并完成任务切换。
+sequence: 36
+created_at: '2026-07-25T17:08:12Z'
+summary: CR-0319至CR-0332全部转CLOSED并绑定TASK-R12-004门禁提交4366bd93；本任务冻结范围无遗留实现项。
+next_step: 提交并推送CR关闭元数据，然后执行continuity close关闭TASK-R12-004并切换TASK-R12-005。
 blockers: []
 decisions: []
-note: 预提交门禁的CR_NOT_IN_CHANGESET已按协议修复。
+note: 无阻断。
 tests:
-- name: cr-0332-declared-gates
+- name: task004-cr-closure
   result: PASS
-  evidence: strict documentation, release artifacts, program plan, visual catalog and YAML parse
-  note: 纯证据投影，无业务和视觉状态扩张
+  evidence: CR-0319..CR-0332 status=CLOSED commit=4366bd9392efe2e60b5aa9217428e71932368cf6
+  note: 最终截图与APK仍显式延后至TASK-R12-007
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: 4a11d21d741c2f15f5e6b96f16f87bb0081fb588
+  head: 4366bd9392efe2e60b5aa9217428e71932368cf6
   upstream: origin/task/TASK-R03-001
   ahead: 0
   behind: 0
   dirty: true
   status_porcelain:
-  - M  .continuity/ACTIVE_SESSION.yaml
   - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
-  - MM .continuity/EVENT_LOG.jsonl
-  - M  .continuity/SESSION_INDEX.yaml
-  - MM .continuity/STATE.yaml
-  - A  .continuity/checkpoints/SES-20260725T053515Z-11D4084D/0034.yaml
-  - MM .continuity/sessions/SES-20260725T053515Z-11D4084D.yaml
-  - M  CHANGELOG.md
-  - M  CURRENT_STATUS.yaml
-  - M  artifacts/context/CURRENT_CONTEXT_PACK.md
-  - M  artifacts/context/CURRENT_CONTEXT_PACK.yaml
-  - M  artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/change_requests/CR-0319.yaml'
+  - ' M .continuity/change_requests/CR-0320.yaml'
+  - ' M .continuity/change_requests/CR-0321.yaml'
+  - ' M .continuity/change_requests/CR-0322.yaml'
+  - ' M .continuity/change_requests/CR-0323.yaml'
+  - ' M .continuity/change_requests/CR-0324.yaml'
+  - ' M .continuity/change_requests/CR-0325.yaml'
+  - ' M .continuity/change_requests/CR-0326.yaml'
+  - ' M .continuity/change_requests/CR-0327.yaml'
+  - ' M .continuity/change_requests/CR-0328.yaml'
+  - ' M .continuity/change_requests/CR-0329.yaml'
+  - ' M .continuity/change_requests/CR-0330.yaml'
+  - ' M .continuity/change_requests/CR-0331.yaml'
+  - ' M .continuity/change_requests/CR-0332.yaml'
   - ' M catalogs/change_request_index.csv'
-  - MM catalogs/session_index.csv
-  - A  docs/03-continuity/R12_TASK-004_CLIENT_GATE.md
-  - M  docs/03-continuity/sessions/2026-07/SES-20260725T053515Z-11D4084D.md
-  - M  releases/R12/RELEASE_MANIFEST.yaml
-  - ?? .continuity/change_requests/CR-0332.yaml
-  - ?? docs/03-continuity/change-requests/CR-0332-投影TASK-R12-004八个Story实现证据到Release-Manifest.md
+  - ' M catalogs/session_index.csv'
+  - ' M docs/03-continuity/change-requests/CR-0319-统一R12审核工作台权限目录与默认排序合同.md'
+  - ' M docs/03-continuity/change-requests/CR-0320-扩展CR-0319审核证据权限与真实工作台施工范围.md'
+  - ' M docs/03-continuity/change-requests/CR-0321-投影R12逐页视觉合同到验收目录.md'
+  - ' M docs/03-continuity/change-requests/CR-0322-补齐CR-0319默认排序Java回归测试范围.md'
+  - ' M docs/03-continuity/change-requests/CR-0323-补齐CR-0319默认排序PostgreSQL执行回归范围.md'
+  - ' M docs/03-continuity/change-requests/CR-0324-实现SCR-MYC-003内容管理详情客户端闭环.md'
+  - ' M docs/03-continuity/change-requests/CR-0325-纠正CR-0324内容管理源码路径投影.md'
+  - ' M docs/03-continuity/change-requests/CR-0326-实现R12四页发布管理客户端闭环.md'
+  - ' M docs/03-continuity/change-requests/CR-0327-纠正R12四页商业错误投影与发布入口.md'
+  - ' M docs/03-continuity/change-requests/CR-0328-实现R12发布中心与真实内容预览纵向闭环.md'
+  - ' M docs/03-continuity/change-requests/CR-0329-实现R12稳定幂等提交与SCR-PUB-007结果闭环.md'
+  - ' M docs/03-continuity/change-requests/CR-0330-统一R12个人资料255字符合同并实现SCR-ME-002客户端闭环.md'
+  - ' M docs/03-continuity/change-requests/CR-0331-实现SCR-ME-001真实资产聚合首页并修复底部栏目导航回归.md'
+  - ' M docs/03-continuity/change-requests/CR-0332-投影TASK-R12-004八个Story实现证据到Release-Manifest.md'
   recent_commits:
+  - "4366bd9392efe2e60b5aa9217428e71932368cf6\t2026-07-26T01:04:41+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] docs(release): close client\
+    \ implementation gate"
   - "4a11d21d741c2f15f5e6b96f16f87bb0081fb588\t2026-07-26T00:57:51+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] chore(continuity): enter release\
     \ closure"
   - "3153ef9cafbcc06ffee8be92dac4f77435f43866\t2026-07-26T00:54:52+08:00\tHHY Continuity Bootstrap\t[STORY-R12-007] feat(android): implement me\
@@ -585,10 +601,8 @@ git:
     \ story"
   - "7155dbff25fbc38cb397ce96bd71bf612b7d89d3\t2026-07-25T20:20:32+08:00\tHHY Continuity Bootstrap\t[STORY-R12-005] chore(continuity): bind submit\
     \ result evidence"
-  - "8900e572a35828acd5c697ac40d09a8a850ab1af\t2026-07-25T19:40:31+08:00\tHHY Continuity Bootstrap\t[STORY-R12-005] test(android): align submit\
-    \ version assertion"
 project_fingerprint:
-  sha256: d114223e27635c90e9a2c847889e34c43eedbc9eaf144d03c58d389e467333a6
+  sha256: 93e7f5cae8919cde5ae0ce6a973f475ec82b64334277314456961d005bc78880
   files:
   - CHANGELOG.md
   - apps/admin-web/src/adminNavigation.test.ts
@@ -1083,60 +1097,60 @@ project_fingerprint:
       sha256: b1fdd21055fa96910d7edeb8c24fbeed121c745fb6051001f48b1aa3588255bb
     - path: docs/03-continuity/change-requests/CR-0319-统一R12审核工作台权限目录与默认排序合同.md
       state: FILE
-      size: 3780
-      sha256: 42c214f27ab3a4061c8fe3963c213e37be4c2766a4d8c489f9757eaf6df4c5fc
+      size: 4107
+      sha256: 417480f69ec6922aa60ebd49b051521b3ef109a2fdbb1defe170c4311c7a5a71
     - path: docs/03-continuity/change-requests/CR-0320-扩展CR-0319审核证据权限与真实工作台施工范围.md
       state: FILE
-      size: 4889
-      sha256: 52dc56ab94cc576e79f38ce0ae4d628463ae6ba8af5b353f59bb3cd44ab05c64
+      size: 5216
+      sha256: cc4a3db4874b40699245875af9e0834135ce899771a576142eee239293aefd7f
     - path: docs/03-continuity/change-requests/CR-0321-投影R12逐页视觉合同到验收目录.md
       state: FILE
-      size: 3346
-      sha256: ca31b8e0045e23616f5b308cbd4bebb447d249ce88770f020a47a607becebb68
+      size: 3673
+      sha256: 09db38046a585a857c8bc854ba2cefa8024ca40703dfc853908a5a72d44081e8
     - path: docs/03-continuity/change-requests/CR-0322-补齐CR-0319默认排序Java回归测试范围.md
       state: FILE
-      size: 2872
-      sha256: 220b26f0aed40b0191ba113460a74bb4e57dca467f2f011b107d1dca84039c38
+      size: 3199
+      sha256: b5d20b5b3edcb562421c40d98696ee1c9f484a63d9b163dfef09c260956124eb
     - path: docs/03-continuity/change-requests/CR-0323-补齐CR-0319默认排序PostgreSQL执行回归范围.md
       state: FILE
-      size: 2783
-      sha256: 9386b2c77764cd34df35d078c1ed9e96fbc5f794e47b4290838cd3898d192fb5
+      size: 3110
+      sha256: e0ea322314877b510abc780f9d1e3b6b702e58dc2c61a9270d2a19e8349bfc22
     - path: docs/03-continuity/change-requests/CR-0324-实现SCR-MYC-003内容管理详情客户端闭环.md
       state: FILE
-      size: 4523
-      sha256: bc941b05ba5c1609d9a24eed01d1ad6606095ba51b6c4a1c53eb50eeaa1edfb6
+      size: 4850
+      sha256: 64a45db25c4a85a4a2d8e6a8474fd199232396de7f9433eb6f25091521b946f3
     - path: docs/03-continuity/change-requests/CR-0325-纠正CR-0324内容管理源码路径投影.md
       state: FILE
-      size: 3001
-      sha256: f9cd85d5a8884eec00da4a5ff05cf433572f52b0eb84bdebbeeccb423f1626f9
+      size: 3328
+      sha256: 91a585376b557e60178b03a30bc90c3b32c22b786c154b1bb2f67a9f1e4888b0
     - path: docs/03-continuity/change-requests/CR-0326-实现R12四页发布管理客户端闭环.md
       state: FILE
-      size: 3616
-      sha256: 24297931e74a1b65edee1fcf0f0acdbba078c682c0288db72d52aeecb48eea54
+      size: 3943
+      sha256: 4e98e3ee43423eba41993fb41932c5153c073001946111d2d4eafc72e530d1b4
     - path: docs/03-continuity/change-requests/CR-0327-纠正R12四页商业错误投影与发布入口.md
       state: FILE
-      size: 3148
-      sha256: 7e90572f178db492fca1bd0f95d65a8b05eb1d52c6dcd23cacf50b6a613d93f3
+      size: 3475
+      sha256: b73f66e16fd9e928e445295da5dee18c89fca494bdac28d546be0cd38d04b0f2
     - path: docs/03-continuity/change-requests/CR-0328-实现R12发布中心与真实内容预览纵向闭环.md
       state: FILE
-      size: 3873
-      sha256: 6005f051fd8704efafcda588ccb315ce6394a83d7fd79f4c8956ddd2d30039c6
+      size: 4200
+      sha256: 86ef970899e3a0870524ecd9927e3b2adbacbd7cd78ad5b83b7341d63ba029bb
     - path: docs/03-continuity/change-requests/CR-0329-实现R12稳定幂等提交与SCR-PUB-007结果闭环.md
       state: FILE
-      size: 4026
-      sha256: 87d2d1b49d3da7ff141ef57b5547eb5b91d340ff84db2726f4c56a055a50962f
+      size: 4353
+      sha256: 3bb0ade44a627c084381bc05205be472329e8e7c3937614044aad6af8b58e0e4
     - path: docs/03-continuity/change-requests/CR-0330-统一R12个人资料255字符合同并实现SCR-ME-002客户端闭环.md
       state: FILE
-      size: 8085
-      sha256: 9007f0dacbde56bb0ec15c8a60567897e9443704f81f5d46d3757e03be808a38
+      size: 8412
+      sha256: 526054c3c32fd73f5a3e3a259076df5b588f5f521b24ad9ca970c9ddeaa2c6d8
     - path: docs/03-continuity/change-requests/CR-0331-实现SCR-ME-001真实资产聚合首页并修复底部栏目导航回归.md
       state: FILE
-      size: 8869
-      sha256: 4afed54b3b461c1cd01c21b1c1df6faf8f91051c7fc7bd597b563971bfcdd1a3
+      size: 9196
+      sha256: 58c9557af53f0912d51974dd01f991540d775fbf533605456d8c7b682c046251
     - path: docs/03-continuity/change-requests/CR-0332-投影TASK-R12-004八个Story实现证据到Release-Manifest.md
       state: FILE
-      size: 3219
-      sha256: 3636fb3cc088723a5b60e6e85c39b21d8477739162e88d6155a7df5545044314
+      size: 3546
+      sha256: f2f6d580e485fa709f14a439eec8b68b6ca4a17546e1978e98a4c30793a86de4
     - path: releases/R12/RELEASE_MANIFEST.yaml
       state: FILE
       size: 7882
@@ -1490,8 +1504,8 @@ parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: CR、Manifest、报告与连续性检查点必须在同一提交中保持原子一致。
-event_hash: 8709db8a828fe244def1188a70f03c4e623cbc14813ae07e0333647a13f427e2
+  reason: 十四个CR共享同一任务关闭事实和连续性索引，必须串行原子收口。
+event_hash: bac009a3e529a7a65d0b77fed7fd4f008712836a3aba8ec4c2150759660065dd
 ```
 
 ## 接续状态与事件头
@@ -1503,8 +1517,8 @@ active_session_id: SES-20260725T053515Z-11D4084D
 last_session_id: SES-20260725T025042Z-A53070A0
 last_session_result: COMPLETED
 last_closure_checkpoint_id: CP-SES-20260725T025042Z-A53070A0-0005
-event_count: 3242
-event_head_hash: 8709db8a828fe244def1188a70f03c4e623cbc14813ae07e0333647a13f427e2
+event_count: 3257
+event_head_hash: bac009a3e529a7a65d0b77fed7fd4f008712836a3aba8ec4c2150759660065dd
 event_chain_valid: true
 ```
 
@@ -1627,9 +1641,9 @@ recent_sessions: - session_id: SES-20260723T183130Z-454A6E0D
   started_at: '2026-07-25T05:35:15Z'
   record: .continuity/sessions/SES-20260725T053515Z-11D4084D.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260725T053515Z-11D4084D.md
-  updated_at: '2026-07-25T17:04:05Z'
+  updated_at: '2026-07-25T17:08:13Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260725T053515Z-11D4084D/0035.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260725T053515Z-11D4084D/0036.yaml
   handoff_bundle: null
 task_claims: - claim_id: CLM-DA66E38CEAE0
   session_id: SES-20260723T045352Z-FC8DC2CF
@@ -2623,33 +2637,54 @@ recent_task_transitions: - transition_id: TRN-E6B4E3D44A16
 ```yaml
 initialized: true
 branch: task/TASK-R03-001
-head: 4a11d21d741c2f15f5e6b96f16f87bb0081fb588
+head: 4366bd9392efe2e60b5aa9217428e71932368cf6
 upstream: origin/task/TASK-R03-001
 ahead: 0
 behind: 0
 dirty: true
 status_porcelain:
-- MM .continuity/ACTIVE_SESSION.yaml
+- ' M .continuity/ACTIVE_SESSION.yaml'
 - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
-- MM .continuity/EVENT_LOG.jsonl
-- MM .continuity/SESSION_INDEX.yaml
-- MM .continuity/STATE.yaml
-- A  .continuity/checkpoints/SES-20260725T053515Z-11D4084D/0034.yaml
-- MM .continuity/sessions/SES-20260725T053515Z-11D4084D.yaml
-- M  CHANGELOG.md
-- MM CURRENT_STATUS.yaml
-- M  artifacts/context/CURRENT_CONTEXT_PACK.md
-- M  artifacts/context/CURRENT_CONTEXT_PACK.yaml
-- M  artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+- ' M .continuity/EVENT_LOG.jsonl'
+- ' M .continuity/SESSION_INDEX.yaml'
+- ' M .continuity/STATE.yaml'
+- ' M .continuity/change_requests/CR-0319.yaml'
+- ' M .continuity/change_requests/CR-0320.yaml'
+- ' M .continuity/change_requests/CR-0321.yaml'
+- ' M .continuity/change_requests/CR-0322.yaml'
+- ' M .continuity/change_requests/CR-0323.yaml'
+- ' M .continuity/change_requests/CR-0324.yaml'
+- ' M .continuity/change_requests/CR-0325.yaml'
+- ' M .continuity/change_requests/CR-0326.yaml'
+- ' M .continuity/change_requests/CR-0327.yaml'
+- ' M .continuity/change_requests/CR-0328.yaml'
+- ' M .continuity/change_requests/CR-0329.yaml'
+- ' M .continuity/change_requests/CR-0330.yaml'
+- ' M .continuity/change_requests/CR-0331.yaml'
+- ' M .continuity/change_requests/CR-0332.yaml'
+- ' M .continuity/sessions/SES-20260725T053515Z-11D4084D.yaml'
+- ' M CURRENT_STATUS.yaml'
 - ' M catalogs/change_request_index.csv'
-- MM catalogs/session_index.csv
-- A  docs/03-continuity/R12_TASK-004_CLIENT_GATE.md
-- MM docs/03-continuity/sessions/2026-07/SES-20260725T053515Z-11D4084D.md
-- M  releases/R12/RELEASE_MANIFEST.yaml
-- ?? .continuity/change_requests/CR-0332.yaml
-- ?? .continuity/checkpoints/SES-20260725T053515Z-11D4084D/0035.yaml
-- ?? docs/03-continuity/change-requests/CR-0332-投影TASK-R12-004八个Story实现证据到Release-Manifest.md
+- ' M catalogs/session_index.csv'
+- ' M docs/03-continuity/change-requests/CR-0319-统一R12审核工作台权限目录与默认排序合同.md'
+- ' M docs/03-continuity/change-requests/CR-0320-扩展CR-0319审核证据权限与真实工作台施工范围.md'
+- ' M docs/03-continuity/change-requests/CR-0321-投影R12逐页视觉合同到验收目录.md'
+- ' M docs/03-continuity/change-requests/CR-0322-补齐CR-0319默认排序Java回归测试范围.md'
+- ' M docs/03-continuity/change-requests/CR-0323-补齐CR-0319默认排序PostgreSQL执行回归范围.md'
+- ' M docs/03-continuity/change-requests/CR-0324-实现SCR-MYC-003内容管理详情客户端闭环.md'
+- ' M docs/03-continuity/change-requests/CR-0325-纠正CR-0324内容管理源码路径投影.md'
+- ' M docs/03-continuity/change-requests/CR-0326-实现R12四页发布管理客户端闭环.md'
+- ' M docs/03-continuity/change-requests/CR-0327-纠正R12四页商业错误投影与发布入口.md'
+- ' M docs/03-continuity/change-requests/CR-0328-实现R12发布中心与真实内容预览纵向闭环.md'
+- ' M docs/03-continuity/change-requests/CR-0329-实现R12稳定幂等提交与SCR-PUB-007结果闭环.md'
+- ' M docs/03-continuity/change-requests/CR-0330-统一R12个人资料255字符合同并实现SCR-ME-002客户端闭环.md'
+- ' M docs/03-continuity/change-requests/CR-0331-实现SCR-ME-001真实资产聚合首页并修复底部栏目导航回归.md'
+- ' M docs/03-continuity/change-requests/CR-0332-投影TASK-R12-004八个Story实现证据到Release-Manifest.md'
+- ' M docs/03-continuity/sessions/2026-07/SES-20260725T053515Z-11D4084D.md'
+- ?? .continuity/checkpoints/SES-20260725T053515Z-11D4084D/0036.yaml
 recent_commits:
+- "4366bd9392efe2e60b5aa9217428e71932368cf6\t2026-07-26T01:04:41+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] docs(release): close client\
+  \ implementation gate"
 - "4a11d21d741c2f15f5e6b96f16f87bb0081fb588\t2026-07-26T00:57:51+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] chore(continuity): enter release\
   \ closure"
 - "3153ef9cafbcc06ffee8be92dac4f77435f43866\t2026-07-26T00:54:52+08:00\tHHY Continuity Bootstrap\t[STORY-R12-007] feat(android): implement me\
@@ -2664,13 +2699,11 @@ recent_commits:
   \ story"
 - "7155dbff25fbc38cb397ce96bd71bf612b7d89d3\t2026-07-25T20:20:32+08:00\tHHY Continuity Bootstrap\t[STORY-R12-005] chore(continuity): bind submit\
   \ result evidence"
-- "8900e572a35828acd5c697ac40d09a8a850ab1af\t2026-07-25T19:40:31+08:00\tHHY Continuity Bootstrap\t[STORY-R12-005] test(android): align submit\
-  \ version assertion"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`d114223e27635c90e9a2c847889e34c43eedbc9eaf144d03c58d389e467333a6`
+- 指纹：`93e7f5cae8919cde5ae0ce6a973f475ec82b64334277314456961d005bc78880`
 - 文件数：123
 
 - `CHANGELOG.md`
@@ -11951,967 +11984,13 @@ PARALLEL_EXECUTION_PLAN.yaml:
     session_id: SES-20260724T144831Z-B2E27A89
   session_ids:
   - SES-20260724T144831Z-B2E27A89
-- protocol_version: '1.0'
-  cr_id: CR-0319
-  title: 统一R12审核工作台权限目录与默认排序合同
-  status: IMPLEMENTED
-  created_at: '2026-07-25T05:45:05Z'
-  updated_at: '2026-07-25T07:42:10Z'
-  requester_actor_id: codex-root-r12-client-20260725
-  approver_actor_id: codex-r12-review-contract-reviewer
-  task_id: TASK-R12-004
-  session_id: SES-20260725T053515Z-11D4084D
-  user_request: 项目所有者要求按仓库开发文档一比一实现，并授权持续开发、内部冲突自行解决而不停止
-  reason: ADM-REVIEW-001仍使用不存在于当前授权链的review.manage，而冻结OpenAPI与后端使用review.read/review.decide/review.assign；运营规格默认复合排序尚未由服务端支持，直接实现会导致菜单可见但接口403或首屏400
-  original_rule: ADM-REVIEW-001页面读写统一使用review.manage，默认排序为priority:desc,createdAt:asc，但数据库仅登记review.manage且R12冻结接口实际要求review.read、review.decide、review.assign，服务端只接受单字段排序
-  new_rule: ADM-REVIEW-001入口与队列读取使用review.read；决定和分配分别使用review.decide与review.assign；新增三个细粒度权限并将历史持有review.manage的角色无损映射到三项权限；保留review.manage作为兼容权限但不再用于R12接口鉴权；服务端正式支持冻结默认排序priority:desc,createdAt:asc，复合排序使用页码分页且不生成误导性游标
-  impact_summary: 统一后台菜单、路由、会话权限、OpenAPI、服务端、RBAC和页面规格，避免菜单可见后接口403、动作错误放权或默认查询400；不改变既有管理员的有效能力
-  impact:
-    files:
-    - catalogs/admin_pages.csv
-    - catalogs/ui_page_specifications.csv
-    - catalogs/admin_page_operation_specs.csv
-    - catalogs/release_story_backlog.csv
-    - database/state_machines.yaml
-    - services/backend/content/src/main/java/cc/orbexa/hhy/content/R12ReviewService.java
-    - services/backend/content/src/main/java/cc/orbexa/hhy/content/R12ReviewPostgresStore.java
-    - docs/02-ui/page-specs/admin/ADM-REVIEW-001_审核队列.md
-    pages:
-    - ADM-REVIEW-001
-    apis:
-    - GET/POST /admin-api/v1/reviews/*
-    database:
-    - admin_permissions;admin_role_permissions
-    configuration: []
-    ledger:
-    - 无资金账本影响
-    tests:
-    - RBAC迁移回归；R12ReviewService/Postgres排序测试；admin-web路由与动作权限测试
-    releases:
-    - R12
-    migration_and_compatibility: 以V041幂等迁移新增细粒度权限，并把当前已持有review.manage的全部角色及SUPER_ADMIN映射到新权限；旧review.manage保留，不删除历史授权；复合排序新增白名单实现，既有createdAt/updatedAt/id排序继续兼容
-  user_confirmation: OWNER_ACTIVE_GOAL_CONTINUE_R01_R32_IN_REPOSITORY_ORDER
-  approval:
-    decision: APPROVED
-    decided_at: '2026-07-25T05:48:22Z'
-    note: 独立只读合同审计确认冻结OpenAPI与运行时Controller为细粒度权限事实；V041兼容映射保留既有能力，复合默认排序消除首屏400且不扩展未登记业务动作。
-  machine_record: .continuity/change_requests/CR-0319.yaml
-  document: docs/03-continuity/change-requests/CR-0319-统一R12审核工作台权限目录与默认排序合同.md
-  decision_log:
-  - at: '2026-07-25T07:42:07Z'
-    actor_id: codex-root-r12-client-20260725
-    status: IMPLEMENTING
-    note: 冻结实现Commit 13d85385已推送并进入obx-test精确验证
-    session_id: SES-20260725T053515Z-11D4084D
-  - at: '2026-07-25T07:42:10Z'
-    actor_id: codex-root-r12-client-20260725
-    status: IMPLEMENTED
-    note: obx-test Java21、PostgreSQL17、V041/U041与仓库SQL合同全部PASS，日志/tmp/hhy-r12-task004-13d85385-v3.log sha256=2efd38006ae7e87b0827417d43e5f845921bbd4b02131d2877484c78ab747864
-    session_id: SES-20260725T053515Z-11D4084D
-  session_ids:
-  - SES-20260725T053515Z-11D4084D
-  implementation_commits:
-  - 13d8538542c05c8a28f2f35f7b28224df657b7b1
-- protocol_version: '1.0'
-  cr_id: CR-0320
-  title: 扩展CR-0319审核证据权限与真实工作台施工范围
-  status: IMPLEMENTED
-  created_at: '2026-07-25T06:25:12Z'
-  updated_at: '2026-07-25T07:41:34Z'
-  requester_actor_id: codex-root-r12-client-20260725
-  approver_actor_id: codex-r12-review-contract-reviewer
-  task_id: TASK-R12-004
-  session_id: SES-20260725T053515Z-11D4084D
-  user_request: OWNER_ACTIVE_GOAL_CONTINUE_R01_R32_IN_REPOSITORY_ORDER
-  reason: CR-0319批准后只允许PROPOSED状态补充影响文件；实施复核又确认六个冻结operationId中的举报和申诉分别需要report.read与appeal.read，且工作台真实三栏、空态和自动化文件必须纳入可审计范围，因此建立非并行规则的受控实施扩展并显式引用CR-0319
-  original_rule: CR-0319已统一review.read、review.decide、review.assign与默认复合排序，但其批准影响清单未包含V041实际迁移、举报/申诉证据读取权限、三栏工作台产品文件和完整自动化证据；批准后治理工具禁止原位补充影响清单
-  new_rule: CR-0320仅作为CR-0319的受控实施范围扩展，不建立第二套权限规则：举报与申诉证据区分别使用report.read和appeal.read；V041将五项细粒度权限无损映射给历史review.manage角色；ADM-REVIEW-001按宽屏三栏/窄屏分步实现六个冻结operationId，缺少证据媒体、SLA、完整历史时展示明确真实空态；不得虚构字段、操作、审核员或批量最终决定
-  impact_summary: 补齐CR-0319无法后补的实际迁移、页面、服务、路由、样式、生成资产和测试范围；保留原权限规则为唯一事实，新增内容只解决其实施完整性和六接口可访问性
-  impact:
-    files:
-    - database/migrations/V041__r12_review_permission_alignment.sql
-    - services/backend/boot/src/main/resources/db/migration/V041__r12_review_permission_alignment.sql
-    - database/rollback/U041__r12_review_permission_alignment.sql
-    - database/tests/r12_review_permission_alignment.sql
-    - scripts/check_db_schema.py
-    - scripts/run_r12_database_invariants.sh
-    - catalogs/admin_pages.csv
-    - catalogs/ui_page_specifications.csv
-    - catalogs/admin_page_operation_specs.csv
-    - catalogs/release_story_backlog.csv
-    - database/state_machines.yaml
-    - releases/R12/STORIES.yaml
-    - apps/admin-web/src/generated/admin-pages.json
-    - services/backend/content/src/main/java/cc/orbexa/hhy/content/R12ReviewService.java
-    - services/backend/content/src/main/java/cc/orbexa/hhy/content/R12ReviewPostgresStore.java
-    - docs/02-ui/page-specs/admin/ADM-REVIEW-001_审核队列.md
-    - apps/admin-web/src/services/adminReviews.ts
-    - apps/admin-web/src/services/adminReviews.test.ts
-    - apps/admin-web/src/services/idempotency.ts
-    - apps/admin-web/src/services/index.ts
-    - apps/admin-web/src/views/AdminReviewWorkbenchPage.vue
-    - apps/admin-web/src/r12ReviewWorkbench.test.ts
-    - apps/admin-web/src/router.ts
-    - apps/admin-web/src/adminNavigation.ts
-    - apps/admin-web/src/adminNavigation.test.ts
-    - apps/admin-web/src/routerPermissions.test.ts
-    - apps/admin-web/src/styles.css
-    pages:
-    - ADM-REVIEW-001
-    apis:
-    - GET/POST /admin-api/v1/reviews/*;GET /admin-api/v1/content-reports;GET /admin-api/v1/appeals
-    database:
-    - admin_permissions;admin_role_permissions
-    configuration:
-    - 无新增运行时配置
-    ledger:
-    - 无资金账本影响
-    tests:
-    - 后台112项；typecheck/build；DB schema 41 migrations；V122/V123 documentation；obx-test Java/PostgreSQL待执行
-    releases:
-    - R12
-    migration_and_compatibility: V041幂等新增review.read/review.decide/review.assign/report.read/appeal.read并映射历史review.manage角色与SUPER_ADMIN；旧review.manage保留；U041发现独立细粒度授权时原子拒绝；页面对缺失证据数据只降级为空态
-  user_confirmation: OWNER_ACTIVE_GOAL_CONTINUE_R01_R32_IN_REPOSITORY_ORDER
-  approval:
-    decision: APPROVED
-    decided_at: '2026-07-25T06:28:20Z'
-    note: CR-0320仅扩展CR-0319实施范围；V041五项权限无损映射、U041独立授权原子阻断、六operationId三栏真实空态与测试范围一致且未虚构能力
-  machine_record: .continuity/change_requests/CR-0320.yaml
-  document: docs/03-continuity/change-requests/CR-0320-扩展CR-0319审核证据权限与真实工作台施工范围.md
-  decision_log:
-  - at: '2026-07-25T06:52:31Z'
-    actor_id: codex-root-r12-client-20260725
-    status: IMPLEMENTING
-    note: 独立审批通过并已应用精确实施范围，开始补齐批量分配、视觉验收登记与模块验证。
-    session_id: SES-20260725T053515Z-11D4084D
-  - at: '2026-07-25T07:41:34Z'
-    actor_id: codex-root-r12-client-20260725
-    status: IMPLEMENTED
-    note: 冻结实现已提交并推送；obx-test Java21、PostgreSQL17、V041/U041与仓库SQL合同全部PASS，日志/tmp/hhy-r12-task004-13d85385-v3.log sha256=2efd38006ae7e87b0827417d43e5f845921bbd4b02131d2877484c78ab747864
-    session_id: SES-20260725T053515Z-11D4084D
-  session_ids:
-  - SES-20260725T053515Z-11D4084D
-  implementation_commits:
-  - 13d8538542c05c8a28f2f35f7b28224df657b7b1
-- protocol_version: '1.0'
-  cr_id: CR-0321
-  title: 投影R12逐页视觉合同到验收目录
-  status: IMPLEMENTED
-  created_at: '2026-07-25T07:07:30Z'
-  updated_at: '2026-07-25T07:41:37Z'
-  requester_actor_id: codex-root-r12-client-20260725
-  approver_actor_id: codex-r12-review-contract-reviewer
-  task_id: TASK-R12-004
-  session_id: SES-20260725T053515Z-11D4084D
-  user_request: OWNER_ACTIVE_GOAL_EXACT_UI_AND_CONTINUE_R01_R32
-  reason: CR-0314已批准R12十一页精确视觉映射并明确TASK-R12-004登记IN_REVIEW，但其影响清单未包含运行时验收目录；本CR只把既有视觉决定投影到catalogs/ui_visual_acceptance.csv，不新增业务或第二套视觉规则。
-  original_rule: CR-0314已冻结R12十一页精确视觉来源并要求TASK-R12-004在catalogs/ui_visual_acceptance.csv登记IN_REVIEW，真实截图和AI逐页复核仅在TASK-R12-007转PASS；当前验收目录尚无R12行。
-  new_rule: 只将CR-0314已批准的十一页视觉映射投影到catalogs/ui_visual_acceptance.csv：真实实现路径形成的页面登记IN_REVIEW，未形成实现路径的Android页面不得伪造文件或截图；后续故事形成路径时逐行补齐，同一页面仅保留一条合同。
-  impact_summary: 建立R12逐页视觉验收的单一投影入口，当前先登记已实现的ADM-REVIEW-001，并允许后续十个Android故事在同一CR下按真实实现进度登记；不更改视觉选择和业务合同。
-  impact:
-    files:
-    - catalogs/ui_visual_acceptance.csv
-    pages:
-    - SCR-PUB-001
-    - SCR-PUB-006
-    - SCR-PUB-007
-    - SCR-MYC-001
-    - SCR-MYC-002
-    - SCR-MYC-003
-    - SCR-MYC-004
-    - SCR-MYC-005
-    - SCR-ME-001
-    - SCR-ME-002
-    - ADM-REVIEW-001
-    apis: []
-    database: []
-    configuration: []
-    ledger:
-    - CR-0314 visual mapping projection only
-    tests:
-    - scripts/check_ui_visual_acceptance.py --release R12 --catalog-only
-    releases:
-    - R12
-    migration_and_compatibility: 纯目录投影；无运行时、API或数据库迁移；非PASS行不需要截图，最终候选真实截图经AI复核后才能转PASS。
-  user_confirmation: OWNER_ACTIVE_GOAL_EXACT_UI_AND_CONTINUE_R01_R32
-  approval:
-    decision: APPROVED
-    decided_at: '2026-07-25T07:11:12Z'
-    note: CR-0321仅投影CR-0314既有视觉决定；当前只允许登记真实存在的ADM-REVIEW-001为IN_REVIEW，未实现Android页面不得填写路径或截图，最终候选真实截图经AI复核后方可转PASS，不建立第二套视觉规则
-  machine_record: .continuity/change_requests/CR-0321.yaml
-  document: docs/03-continuity/change-requests/CR-0321-投影R12逐页视觉合同到验收目录.md
-  decision_log:
-  - at: '2026-07-25T07:12:01Z'
-    actor_id: codex-root-r12-client-20260725
-    status: IMPLEMENTING
-    note: 独立审批通过，当前仅登记已真实实现的ADM-REVIEW-001为IN_REVIEW；后续Android页面按真实路径形成顺序追加。
-    session_id: SES-20260725T053515Z-11D4084D
-  - at: '2026-07-25T07:41:37Z'
-    actor_id: codex-root-r12-client-20260725
-    status: IMPLEMENTED
-    note: 冻结实现已提交并推送；obx-test Java21、PostgreSQL17、V041/U041与仓库SQL合同全部PASS，日志/tmp/hhy-r12-task004-13d85385-v3.log sha256=2efd38006ae7e87b0827417d43e5f845921bbd4b02131d2877484c78ab747864
-    session_id: SES-20260725T053515Z-11D4084D
-  session_ids:
-  - SES-20260725T053515Z-11D4084D
-  implementation_commits:
-  - 13d8538542c05c8a28f2f35f7b28224df657b7b1
-- protocol_version: '1.0'
-  cr_id: CR-0322
-  title: 补齐CR-0319默认排序Java回归测试范围
-  status: IMPLEMENTED
-  created_at: '2026-07-25T07:14:49Z'
-  updated_at: '2026-07-25T07:41:41Z'
-  requester_actor_id: codex-root-r12-client-20260725
-  approver_actor_id: codex-r12-java-test-scope-reviewer
-  task_id: TASK-R12-004
-  session_id: SES-20260725T053515Z-11D4084D
-  user_request: OWNER_ACTIVE_GOAL_CONTINUE_R01_R32_IN_REPOSITORY_ORDER
-  reason: CR-0319已批准并明确要求R12ReviewService/Postgres排序测试，但批准影响文件漏列现有R12ReviewServiceTest.java；本CR仅补齐既有决定的测试实施范围，不新增或改变权限与排序规则。
-  original_rule: CR-0319的新规则与tests字段已要求默认复合排序使用页码且不生成游标，并要求R12ReviewService/Postgres排序测试，但impact.files未包含现有R12ReviewServiceTest.java。
-  new_rule: 只在现有R12ReviewServiceTest.java增加CR-0319默认排序页码分页、不生成游标、拒绝默认排序游标的回归用例；排序与权限规则仍完全来自CR-0319。
-  impact_summary: 补齐CR-0319明确要求但漏列的Java回归测试实施文件，使默认排序行为可由obx-test Java 21测试锁定。
-  impact:
-    files:
-    - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R12ReviewServiceTest.java
-    pages: []
-    apis:
-    - GET /admin-api/v1/reviews/queue
-    database: []
-    configuration: []
-    ledger: []
-    tests:
-    - obx-test Java21 R12ReviewServiceTest
-    releases:
-    - R12
-    migration_and_compatibility: 纯测试范围扩展；无运行时、API、数据或配置迁移。
-  user_confirmation: OWNER_ACTIVE_GOAL_CONTINUE_R01_R32_IN_REPOSITORY_ORDER
-  approval:
-    decision: APPROVED
-    decided_at: '2026-07-25T07:15:29Z'
-    note: 仅补齐CR-0319已明确要求的R12ReviewService默认排序回归测试文件；覆盖页码分页、无游标和拒绝默认排序游标，不改变任何运行时合同。
-  machine_record: .continuity/change_requests/CR-0322.yaml
-  document: docs/03-continuity/change-requests/CR-0322-补齐CR-0319默认排序Java回归测试范围.md
-  decision_log:
-  - at: '2026-07-25T07:17:53Z'
-    actor_id: codex-root-r12-client-20260725
-    status: IMPLEMENTING
-    note: 服务层默认排序页码分页、无游标与拒绝默认排序游标回归用例已落盘，准备在obx-test Java21验证。
-    session_id: SES-20260725T053515Z-11D4084D
-  - at: '2026-07-25T07:41:41Z'
-    actor_id: codex-root-r12-client-20260725
-    status: IMPLEMENTED
-    note: 冻结实现已提交并推送；obx-test Java21、PostgreSQL17、V041/U041与仓库SQL合同全部PASS，日志/tmp/hhy-r12-task004-13d85385-v3.log sha256=2efd38006ae7e87b0827417d43e5f845921bbd4b02131d2877484c78ab747864
-    session_id: SES-20260725T053515Z-11D4084D
-  session_ids:
-  - SES-20260725T053515Z-11D4084D
-  implementation_commits:
-  - 13d8538542c05c8a28f2f35f7b28224df657b7b1
-- protocol_version: '1.0'
-  cr_id: CR-0323
-  title: 补齐CR-0319默认排序PostgreSQL执行回归范围
-  status: IMPLEMENTED
-  created_at: '2026-07-25T07:16:29Z'
-  updated_at: '2026-07-25T07:41:45Z'
-  requester_actor_id: codex-root-r12-client-20260725
-  approver_actor_id: codex-r12-postgres-test-scope-reviewer
-  task_id: TASK-R12-004
-  session_id: SES-20260725T053515Z-11D4084D
-  user_request: OWNER_ACTIVE_GOAL_CONTINUE_R01_R32_IN_REPOSITORY_ORDER
-  reason: CR-0319明确要求R12ReviewService/Postgres排序测试；CR-0322已补服务层行为，但真实PostgreSQL执行文件仍未纳入当前批准范围。本CR只让现有R12ReviewPostgresStoreTest实际执行默认复合排序查询。
-  original_rule: CR-0319明确要求R12ReviewService/Postgres排序测试，但真实PostgreSQL Store测试文件未列入影响范围。
-  new_rule: 仅在现有R12ReviewPostgresStoreTest.java增加对priority:desc,createdAt:asc真实查询的执行断言，确保PostgreSQL 17接受冻结默认排序且返回无游标的页码结果；运行时规则仍来自CR-0319。
-  impact_summary: 补齐CR-0319默认复合排序的真实PostgreSQL执行证据，不增加业务、权限、API或迁移。
-  impact:
-    files:
-    - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R12ReviewPostgresStoreTest.java
-    pages: []
-    apis:
-    - GET /admin-api/v1/reviews/queue
-    database:
-    - PostgreSQL17 review default ordering execution
-    configuration: []
-    ledger: []
-    tests:
-    - obx-test Java21 R12ReviewPostgresStoreTest with PostgreSQL17
-    releases:
-    - R12
-    migration_and_compatibility: 纯测试范围扩展；无运行时或数据迁移。
-  user_confirmation: OWNER_ACTIVE_GOAL_CONTINUE_R01_R32_IN_REPOSITORY_ORDER
-  approval:
-    decision: APPROVED
-    decided_at: '2026-07-25T07:16:58Z'
-    note: 仅增加CR-0319已要求的默认复合排序真实PostgreSQL17执行断言；不改变Store实现、合同、权限或迁移。
-  machine_record: .continuity/change_requests/CR-0323.yaml
-  document: docs/03-continuity/change-requests/CR-0323-补齐CR-0319默认排序PostgreSQL执行回归范围.md
-  decision_log:
-  - at: '2026-07-25T07:18:02Z'
-    actor_id: codex-root-r12-client-20260725
-    status: IMPLEMENTING
-    note: 真实PostgreSQL Store默认复合排序执行断言已落盘，准备在obx-test PostgreSQL17验证。
-    session_id: SES-20260725T053515Z-11D4084D
-  - at: '2026-07-25T07:41:45Z'
-    actor_id: codex-root-r12-client-20260725
-    status: IMPLEMENTED
-    note: 冻结实现已提交并推送；obx-test Java21、PostgreSQL17、V041/U041与仓库SQL合同全部PASS，日志/tmp/hhy-r12-task004-13d85385-v3.log sha256=2efd38006ae7e87b0827417d43e5f845921bbd4b02131d2877484c78ab747864
-    session_id: SES-20260725T053515Z-11D4084D
-  session_ids:
-  - SES-20260725T053515Z-11D4084D
-  implementation_commits:
-  - 13d8538542c05c8a28f2f35f7b28224df657b7b1
-- protocol_version: '1.0'
-  cr_id: CR-0324
-  title: 实现SCR-MYC-003内容管理详情客户端闭环
-  status: IMPLEMENTED
-  created_at: '2026-07-25T07:56:50Z'
-  updated_at: '2026-07-25T08:34:57Z'
-  requester_actor_id: codex-root-r12-client-20260725
-  approver_actor_id: codex-r12-myc003-independent-reviewer
-  task_id: TASK-R12-004
-  session_id: SES-20260725T053515Z-11D4084D
-  user_request: OWNER_ACTIVE_GOAL_CONTINUE_R01_R32_WITH_EXACT_UI_AND_CLOUD_ANDROID
-  reason: 冻结页面、API与B08/P03视觉合同已齐备，但R12 Android运行时模块、生成合同适配、真实Navigation路由和商业错误投影尚未实现；本CR仅授权施工，不新增产品能力。
-  original_rule: SCR-MYC-003已有冻结43字段、7状态、3动作、B08/P03精确视觉合同和三项OpenAPI操作，但Android没有运行时模块；旧ERROR投影要求展示技术错误字段，与正式商业系统全局边界冲突。
-  new_rule: 仅实现contentGetContentsById、contentPostContentsByIdCopy、contentGetContentsByIdAnalytics三项冻结能力和B08/P03真实视觉结构；复制使用expectedVersion、稳定幂等键、同资源单写锁和二次确认；UI覆盖LOADING、CONTENT、STALE_CACHE、NOT_FOUND、FORBIDDEN、ERROR、OFFLINE且隐藏技术字段；编辑、下架、置顶、道具、红包等未登记动作不得实现。
-  impact_summary: 新增R12内容管理Android模块、合同网络适配、官方语义图标与Jetpack Navigation Compose详情路由；修正本页ERROR商业文案投影并将真实实现登记IN_REVIEW，不改变OpenAPI、数据库或服务端业务。
-  impact:
-    files:
-    - apps/android/settings.gradle.kts
-    - apps/android/app/build.gradle.kts
-    - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
-    - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR12Api.kt
-    - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/R12ApiModelsSerializationTest.kt
-    - apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyIcons.kt
-    - apps/android/feature/content-management/build.gradle.kts
-    - apps/android/feature/content-management/src/main/AndroidManifest.xml
-    - apps/android/feature/content-management/src/main/java/cc/orbexa/hhy/feature/contentmanagement/R12ContentManagementState.kt
-    - apps/android/feature/content-management/src/main/java/cc/orbexa/hhy/feature/contentmanagement/R12ContentManagementDetailScreen.kt
-    - apps/android/feature/content-management/src/test/java/cc/orbexa/hhy/feature/contentmanagement/R12ContentManagementStateTest.kt
-    - catalogs/ui_visual_acceptance.csv
-    - docs/02-ui/page-specs/android/SCR-MYC-003_内容管理详情.md
-    - CHANGELOG.md
-    pages:
-    - SCR-MYC-003
-    apis:
-    - contentGetContentsById
-    - contentPostContentsByIdCopy
-    - contentGetContentsByIdAnalytics
-    database: []
-    configuration: []
-    ledger:
-    - CR-0314 B08/P03 visual mapping; CR-0321 acceptance projection; CR-0119 navigation/icon rules
-    tests:
-    - scripts/check_android_ui_foundation.py; :core:network:testDebugUnitTest; :feature:content-management:testDebugUnitTest; :app:compileDebugKotlin
-    releases:
-    - R12
-    migration_and_compatibility: 纯Android客户端增量和文档冲突修正；复用既有ContentResource、ContentStatisticsResource、CommandResultResource；无数据库迁移、无服务端兼容性变化，旧页面入口由后续真实列表故事接入。
-  user_confirmation: OWNER_ACTIVE_GOAL_CONTINUE_R01_R32_WITH_EXACT_UI_AND_CLOUD_ANDROID
-  approval:
-    decision: APPROVED
-    decided_at: '2026-07-25T07:57:27Z'
-    note: 独立复核通过：仅施工既有三项冻结API、B08/P03和商业UI边界；禁止未登记动作，复制并发与幂等条件完整，技术错误仅内部诊断。
-  machine_record: .continuity/change_requests/CR-0324.yaml
-  document: docs/03-continuity/change-requests/CR-0324-实现SCR-MYC-003内容管理详情客户端闭环.md
-  decision_log:
-  - at: '2026-07-25T07:57:42Z'
-    actor_id: codex-root-r12-client-20260725
-    status: IMPLEMENTING
-    note: 已完成独立审批和精确范围应用，开始实现R12 Android内容管理详情合同、状态、Compose UI及真实导航。
-    session_id: SES-20260725T053515Z-11D4084D
-  - at: '2026-07-25T08:34:57Z'
-    actor_id: codex-root-r12-client-20260725
-    status: IMPLEMENTED
-    note: SCR-MYC-003网络合同、状态、B08/P03 Compose UI与typed Navigation已提交推送；obx-test模块单测、Lint和app编译PASS，完整候选留待TASK-R12-007。
-    session_id: SES-20260725T053515Z-11D4084D
-  session_ids:
-  - SES-20260725T053515Z-11D4084D
-  implementation_commits:
-  - 7c30b6b0db88fafc1aa0c42cd4f4513f03f9442b
-- protocol_version: '1.0'
-  cr_id: CR-0325
-  title: 纠正CR-0324内容管理源码路径投影
-  status: IMPLEMENTED
-  created_at: '2026-07-25T08:22:34Z'
-  updated_at: '2026-07-25T08:35:02Z'
-  requester_actor_id: codex-root-r12-client-20260725
-  approver_actor_id: codex-r12-path-projection-reviewer
-  task_id: TASK-R12-004
-  session_id: SES-20260725T053515Z-11D4084D
-  user_request: OWNER_ACTIVE_GOAL_REPOSITORY_FACTS_MUST_SUPPORT_CROSS_AI_CONTINUITY
-  reason: CR-0324审批清单的状态与页面源码路径误写为cc/orbexa/hhy/feature/contentmanagement，实际模块沿用现有Android包规范cc/orbexa/hhy/contentmanagement；仅纠正路径投影，不新增规则或功能。
-  original_rule: CR-0324对两个新Kotlin源码和测试路径多投影了一层feature目录，与实际模块包规范不一致。
-  new_rule: CR-0324业务、视觉、API和测试决定保持不变；精确源码路径纠正为apps/android/feature/content-management/src/**/cc/orbexa/hhy/contentmanagement/R12ContentManagementState.kt、R12ContentManagementDetailScreen.kt和R12ContentManagementStateTest.kt。
-  impact_summary: 只纠正CR-0324精确文件路径，使批准范围、实际文件和跨AI Context一致。
-  impact:
-    files:
-    - apps/android/feature/content-management/src/main/java/cc/orbexa/hhy/contentmanagement/R12ContentManagementState.kt
-    - apps/android/feature/content-management/src/main/java/cc/orbexa/hhy/contentmanagement/R12ContentManagementDetailScreen.kt
-    - apps/android/feature/content-management/src/test/java/cc/orbexa/hhy/contentmanagement/R12ContentManagementStateTest.kt
-    pages:
-    - SCR-MYC-003
-    apis: []
-    database: []
-    configuration: []
-    ledger:
-    - CR-0324 path projection correction only
-    tests:
-    - git diff --check; obx-test R12 content-management module PASS evidence remains unchanged
-    releases:
-    - R12
-    migration_and_compatibility: 纯连续性路径投影纠正；不移动运行时代码、不改变Kotlin包、API、UI、数据或测试。
-  user_confirmation: OWNER_ACTIVE_GOAL_REPOSITORY_FACTS_MUST_SUPPORT_CROSS_AI_CONTINUITY
-  approval:
-    decision: APPROVED
-    decided_at: '2026-07-25T08:22:47Z'
-    note: 仅纠正CR-0324三条Android源测试路径到现有模块包规范；不改变产品、视觉、API、实现或测试结论。
-  machine_record: .continuity/change_requests/CR-0325.yaml
-  document: docs/03-continuity/change-requests/CR-0325-纠正CR-0324内容管理源码路径投影.md
-  decision_log:
-  - at: '2026-07-25T08:23:00Z'
-    actor_id: codex-root-r12-client-20260725
-    status: IMPLEMENTING
-    note: 路径投影已独立审批并应用，实际文件与云端已通过证据保持不变。
-    session_id: SES-20260725T053515Z-11D4084D
-  - at: '2026-07-25T08:35:02Z'
-    actor_id: codex-root-r12-client-20260725
-    status: IMPLEMENTED
-    note: 路径投影纠正已随SCR-MYC-003实现提交推送，CR精确路径与实际包结构一致。
-    session_id: SES-20260725T053515Z-11D4084D
-  session_ids:
-  - SES-20260725T053515Z-11D4084D
-  implementation_commits:
-  - 7c30b6b0db88fafc1aa0c42cd4f4513f03f9442b
-- protocol_version: '1.0'
-  cr_id: CR-0326
-  title: 实现R12四页发布管理客户端闭环
-  status: IMPLEMENTED
-  created_at: '2026-07-25T08:47:59Z'
-  updated_at: '2026-07-25T10:09:55Z'
-  requester_actor_id: codex-root-r12-client-20260725
-  approver_actor_id: codex-r12-contract-reviewer-20260725
-  task_id: TASK-R12-004
-  session_id: SES-20260725T053515Z-11D4084D
-  user_request: 按R01-R32执行计划持续开发合伙云Pro，当前完成STORY-R12-003四页Android发布管理闭环。
-  reason: SCR-MYC-001/002/004/005已冻结视觉与业务合同，但现有客户端仅实现SCR-MYC-003详情，需接入七项既有operationId、真实Navigation、列表状态与安全写操作。
-  original_rule: R12冻结页面与OpenAPI已定义四页和七项operationId，客户端当前尚未实现。
-  new_rule: 在既有ContractR12Api与content-management模块内实现四页Compose、分页状态、稳定幂等、expectedVersion、二次确认和typed Navigation；审核记录与内容数据仅呈现ContentPageResource真实字段，不新增合同字段。
-  impact_summary: 新增R12四页Android纵向切片并回接我的页面真实入口；不改变公开API、数据库、配置、资金或生产行为。
-  impact:
-    files:
-    - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR12Api.kt
-    - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ContractR12ApiTest.kt
-    - apps/android/feature/content-management/src/main/java/cc/orbexa/hhy/contentmanagement/R12ContentManagementListState.kt
-    - apps/android/feature/content-management/src/main/java/cc/orbexa/hhy/contentmanagement/R12ContentManagementListScreens.kt
-    - apps/android/feature/content-management/src/test/java/cc/orbexa/hhy/contentmanagement/R12ContentManagementListStateTest.kt
-    - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
-    - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
-    - catalogs/ui_visual_acceptance.csv
-    - CHANGELOG.md
-    pages:
-    - SCR-MYC-001
-    - SCR-MYC-002
-    - SCR-MYC-004
-    - SCR-MYC-005
-    apis:
-    - contentGetMeContents
-    - contentPostContentsByIdOnline
-    - contentPostContentsByIdOffline
-    - contentGetMeDrafts
-    - contentDeleteContentsById
-    - contentGetContentsByIdReviews
-    - contentGetContentsByIdAnalytics
-    database: []
-    configuration: []
-    ledger: []
-    tests:
-    - ContractR12Api单测;内容管理状态单测;check_android_ui_foundation;obx-test test/lint/app compile
-    releases:
-    - R12
-    migration_and_compatibility: 增量客户端实现；既有SCR-MYC-003详情路由保持兼容，服务端合同不变。
-  user_confirmation: 项目所有者已明确要求按仓库R01-R32计划持续开发并自主推进当前版本。
-  approval:
-    decision: APPROVED
-    decided_at: '2026-07-25T08:49:45Z'
-    note: 独立合同复核：四页和七项operationId均已冻结；实现范围只接入既有合同，明确禁止reviews/analytics虚构字段，范围最小且具备模块测试。
-  machine_record: .continuity/change_requests/CR-0326.yaml
-  document: docs/03-continuity/change-requests/CR-0326-实现R12四页发布管理客户端闭环.md
-  decision_log:
-  - at: '2026-07-25T10:09:51Z'
-    actor_id: codex-root-r12-client-20260725
-    status: IMPLEMENTING
-    note: 实现提交已完成，进入证据绑定。
-    session_id: SES-20260725T053515Z-11D4084D
-  - at: '2026-07-25T10:09:55Z'
-    actor_id: codex-root-r12-client-20260725
-    status: IMPLEMENTED
-    note: 实现、MODULE测试与严格门禁完成并绑定精确提交。
-    session_id: SES-20260725T053515Z-11D4084D
-  session_ids:
-  - SES-20260725T053515Z-11D4084D
-  implementation_commits:
-  - c5fdb519ce1f9544930bc008a9bdd52616227305
-- protocol_version: '1.0'
-  cr_id: CR-0327
-  title: 纠正R12四页商业错误投影与发布入口
-  status: IMPLEMENTED
-  created_at: '2026-07-25T09:45:31Z'
-  updated_at: '2026-07-25T10:10:36Z'
-  requester_actor_id: codex-root-r12-client-20260725
-  approver_actor_id: codex-r12-ui-boundary-reviewer-20260725
-  task_id: TASK-R12-004
-  session_id: SES-20260725T053515Z-11D4084D
-  user_request: 持续按商业系统标准完成R12，禁止技术字段和错误功能入口进入正式UI。
-  reason: CR-0326批准后复核发现四份旧生成规格仍要求ERROR展示requestId，且我的发布入口不能错误写死为仅发布项目；需用独立CR修正既有商业边界投影并补齐四类型真实入口。
-  original_rule: 四份旧页面规格ERROR状态要求向用户展示稳定错误码和requestId；我的发布主入口若写死项目编辑器会漏掉App、群聊和团队长四类型发布能力。
-  new_rule: 四页正式UI只展示业务化错误和恢复动作，requestId与错误码仅保留网络层；我的发布主入口进入四类型发布选择，不替用户预选内容类型。
-  impact_summary: 修正规格技术字段投影并增加不虚构业务的四类型发布入口选择；复用R08-R11既有编辑器，无新API。
-  impact:
-    files:
-    - apps/android/feature/content-management/src/main/java/cc/orbexa/hhy/contentmanagement/R12ContentManagementListScreens.kt
-    - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
-    - docs/02-ui/page-specs/android/SCR-MYC-001_我的发布.md
-    - docs/02-ui/page-specs/android/SCR-MYC-002_草稿箱.md
-    - docs/02-ui/page-specs/android/SCR-MYC-004_审核记录.md
-    - docs/02-ui/page-specs/android/SCR-MYC-005_内容数据.md
-    - CHANGELOG.md
-    pages:
-    - SCR-MYC-001
-    - SCR-MYC-002
-    - SCR-MYC-004
-    - SCR-MYC-005
-    apis:
-    - contentGetMeContents
-    database: []
-    configuration: []
-    ledger: []
-    tests:
-    - 技术字段UI静态扫描;四类型导航单测;check_android_ui_foundation;obx-test MODULE回归
-    releases:
-    - R12
-    migration_and_compatibility: 错误诊断数据仍在网络层和受控日志；既有四类编辑路由不变，仅增加明确选择入口。
-  user_confirmation: 项目所有者已要求全部前端严格对应完整开发文档并持续推进。
-  approval:
-    decision: APPROVED
-    decided_at: '2026-07-25T09:46:04Z'
-    note: 独立复核确认旧ERROR投影违反既有商业边界，四类型发布均已在R08-R11冻结且复用既有编辑器，不新增功能或接口。
-  machine_record: .continuity/change_requests/CR-0327.yaml
-  document: docs/03-continuity/change-requests/CR-0327-纠正R12四页商业错误投影与发布入口.md
-  decision_log:
-  - at: '2026-07-25T10:09:59Z'
-    actor_id: codex-root-r12-client-20260725
-    status: IMPLEMENTING
-    note: 实现提交已完成，进入证据绑定。
-    session_id: SES-20260725T053515Z-11D4084D
-  - at: '2026-07-25T10:10:36Z'
-    actor_id: codex-root-r12-client-20260725
-    status: IMPLEMENTED
-    note: 实现、MODULE测试与严格门禁完成并绑定精确提交。
-    session_id: SES-20260725T053515Z-11D4084D
-  session_ids:
-  - SES-20260725T053515Z-11D4084D
-  implementation_commits:
-  - c5fdb519ce1f9544930bc008a9bdd52616227305
-- protocol_version: '1.0'
-  cr_id: CR-0328
-  title: 实现R12发布中心与真实内容预览纵向闭环
-  status: IMPLEMENTED
-  created_at: '2026-07-25T10:24:47Z'
-  updated_at: '2026-07-25T10:53:56Z'
-  requester_actor_id: codex-root-r12-client-20260725
-  approver_actor_id: codex-r12-publish-contract-reviewer-20260725
-  task_id: TASK-R12-004
-  session_id: SES-20260725T053515Z-11D4084D
-  user_request: 按R01-R32计划持续开发整个项目，UI严格对应开发文档与精确效果图，功能不得虚构或遗漏。
-  reason: STORY-R12-004已READY，SCR-PUB-001和SCR-PUB-006尚无真实Android页面、typed Navigation与底部发布入口接线。
-  original_rule: STORY-R12-004已冻结SCR-PUB-001 B04/P01与SCR-PUB-006 B05/P06，但Android仅有列表弹层和四类独立编辑器，底部发布栏仍为占位，缺少发布中心、真实预览及typed Navigation。
-  new_rule: 底部发布入口和发布管理入口进入B04/P01发布中心；中心基于已认证用户及contentGetMeContents真实事实展示发布概览和四类同级入口；四类编辑保存后进入B05/P06真实ContentResource预览，媒体、标签与分区详情只取服务端字段，提交动作留给STORY-R12-005冻结接口接线。
-  impact_summary: 新增发布中心与预览页面、状态归一化、typed Navigation和单测，复用R08-R11四类编辑器与R12内容合同，不新增接口或业务类型。
-  impact:
-    files:
-    - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
-    - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
-    - apps/android/feature/content-management/src/main/java/cc/orbexa/hhy/contentmanagement/R12ContentManagementDetailScreen.kt
-    - apps/android/feature/content-management/src/main/java/cc/orbexa/hhy/contentmanagement/R12PublishScreens.kt
-    - apps/android/feature/content-management/src/main/java/cc/orbexa/hhy/contentmanagement/R12PublishState.kt
-    - apps/android/feature/content-management/src/test/java/cc/orbexa/hhy/contentmanagement/R12PublishStateTest.kt
-    - catalogs/ui_visual_acceptance.csv
-    - CHANGELOG.md
-    pages:
-    - SCR-PUB-001
-    - SCR-PUB-006
-    apis:
-    - userGetMe
-    - contentGetMeContents
-    - contentGetContentsById
-    database:
-    - 无直接影响（只读既有内容事实）
-    configuration:
-    - 读取冻结资格和额度语义但不硬编码配置值
-    ledger:
-    - 无直接影响
-    tests:
-    - R12发布状态单测;typed Navigation静态验证;商业技术字段扫描;check_android_ui_foundation;obx-test Android MODULE
-    releases:
-    - R12
-    migration_and_compatibility: 保留既有四类编辑、内容详情和我的发布路由；新增路由仅接线真实入口，旧深链不变；无数据库迁移。
-  user_confirmation: 项目所有者已明确要求按R01-R32顺序持续开发，前端一比一对应开发文档及精确效果图，且无需逐Story暂停确认。
-  approval:
-    decision: APPROVED
-    decided_at: '2026-07-25T10:25:30Z'
-    note: 独立复核确认两页范围严格对应STORY-R12-004、B04/P01和B05/P06；仅复用既有三项operationId与四类编辑器，不提前实现STORY-R12-005提交接口，不引入虚构额度或媒体。
-  machine_record: .continuity/change_requests/CR-0328.yaml
-  document: docs/03-continuity/change-requests/CR-0328-实现R12发布中心与真实内容预览纵向闭环.md
-  decision_log:
-  - at: '2026-07-25T10:38:51Z'
-    actor_id: codex-root-r12-client-20260725
-    status: IMPLEMENTING
-    note: 发布中心、预览、typed Navigation与状态单测已落盘，进入obx-test Android MODULE验证。
-    session_id: SES-20260725T053515Z-11D4084D
-  - at: '2026-07-25T10:53:56Z'
-    actor_id: codex-root-r12-client-20260725
-    status: IMPLEMENTED
-    note: 发布中心、真实内容预览、typed Navigation、四类编辑保存回接、内容管理预览入口及19项模块单测已完成；obx-test 225任务、双模块Lint和App编译PASS。
-    session_id: SES-20260725T053515Z-11D4084D
-  session_ids:
-  - SES-20260725T053515Z-11D4084D
-  implementation_commits:
-  - 7c5fcfd22780f8b6b415f177aa33500e9fbb47d1
-- protocol_version: '1.0'
-  cr_id: CR-0329
-  title: 实现R12稳定幂等提交与SCR-PUB-007结果闭环
-  status: IMPLEMENTED
-  created_at: '2026-07-25T11:09:02Z'
-  updated_at: '2026-07-25T11:51:35Z'
-  requester_actor_id: codex-root-r12-client-20260725
-  approver_actor_id: codex-r12-submit-contract-reviewer-20260725
-  task_id: TASK-R12-004
-  session_id: SES-20260725T053515Z-11D4084D
-  user_request: 按R01-R32计划持续开发，严格对齐开发文档与效果图，R12提交必须形成真实可恢复闭环。
-  reason: STORY-R12-005已READY，现有发布预览确认提交仍为空，缺少submit网络合同、并发幂等控制、结果页和typed Navigation。
-  original_rule: SCR-PUB-006仅展示真实内容预览，确认提交回调为空；ContractR12Api没有冻结submit操作，SCR-PUB-007无Android实现。
-  new_rule: 预览页二次确认后为同一内容版本生成稳定幂等意图并进入SCR-PUB-007；结果页使用expectedVersion和同一X-Idempotency-Key调用冻结submit接口，同资源写锁防止并发；409只重读服务端事实，未知结果只查询不创建新提交意图；成功仅声明已受理。
-  impact_summary: 新增submit请求与响应解析、结果状态投影、确认弹层、MOB-STATUS结果页、typed Navigation和针对幂等冲突及未知结果的单测；不改后端、数据库或冻结OpenAPI。
-  impact:
-    files:
-    - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR12Api.kt
-    - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ContractR12ApiTest.kt
-    - apps/android/feature/content-management/src/main/java/cc/orbexa/hhy/contentmanagement/R12PublishState.kt
-    - apps/android/feature/content-management/src/main/java/cc/orbexa/hhy/contentmanagement/R12PublishScreens.kt
-    - apps/android/feature/content-management/src/test/java/cc/orbexa/hhy/contentmanagement/R12PublishStateTest.kt
-    - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
-    - apps/android/app/src/test/java/cc/orbexa/hhy/NavigationPolicyTest.kt
-    - catalogs/ui_visual_acceptance.csv
-    - CHANGELOG.md
-    pages:
-    - SCR-PUB-006
-    - SCR-PUB-007
-    apis:
-    - contentPostContentsByIdSubmit
-    database:
-    - 无直接影响
-    configuration:
-    - 读取既有content限制，客户端不硬编码配额
-    ledger:
-    - 无直接影响
-    tests:
-    - ContractR12Api submit合同测试;R12发布结果状态与稳定幂等测试;typed Navigation静态测试;商业技术字段扫描;obx-test Android MODULE
-    releases:
-    - R12
-    migration_and_compatibility: 保留现有发布中心、预览和四类编辑路由；新增内部typed结果路由，旧深链不变；无数据库迁移。
-  user_confirmation: 项目所有者已明确授权按R01-R32连续开发、UI严格按效果图和开发文档落地，无需逐Story停下确认。
-  approval:
-    decision: APPROVED
-    decided_at: '2026-07-25T11:09:45Z'
-    note: 独立复核确认范围严格对应STORY-R12-005和冻结contentPostContentsByIdSubmit；结果页遵循批准补充规格，不展示requestId、错误码、资源ID、version或原始attributes；未知结果与409均禁止创建新业务意图。
-  machine_record: .continuity/change_requests/CR-0329.yaml
-  document: docs/03-continuity/change-requests/CR-0329-实现R12稳定幂等提交与SCR-PUB-007结果闭环.md
-  decision_log:
-  - at: '2026-07-25T11:26:00Z'
-    actor_id: codex-root-r12-client-20260725
-    status: IMPLEMENTING
-    note: submit冻结合同、稳定幂等意图、二次确认、结果状态机、SCR-PUB-007和typed Navigation已落盘，进入源码检查与obx-test Android MODULE验证。
-    session_id: SES-20260725T053515Z-11D4084D
-  - at: '2026-07-25T11:51:35Z'
-    actor_id: codex-root-r12-client-20260725
-    status: IMPLEMENTED
-    note: 冻结实现Commit完成submit合同、二次确认、稳定幂等键、同资源写锁、409/未知结果查询恢复、SCR-PUB-007与typed Navigation；obx-test 531任务、77项单测0失败、content与app Lint、App编译PASS，日志sha256=6a0e8c4aa56df3a5889ef24bf0a69ea469d09777c65af4cbc1d8cad28b061684。
-    session_id: SES-20260725T053515Z-11D4084D
-  session_ids:
-  - SES-20260725T053515Z-11D4084D
-  implementation_commits:
-  - 8900e572a35828acd5c697ac40d09a8a850ab1af
-- protocol_version: '1.0'
-  cr_id: CR-0330
-  title: 统一R12个人资料255字符合同并实现SCR-ME-002客户端闭环
-  status: IMPLEMENTED
-  created_at: '2026-07-25T13:35:44Z'
-  updated_at: '2026-07-25T14:51:47Z'
-  requester_actor_id: codex-root-r12-client-20260725
-  approver_actor_id: codex-r12-profile-contract-reviewer-20260725
-  task_id: TASK-R12-004
-  session_id: SES-20260725T053515Z-11D4084D
-  user_request: 按R01-R32计划持续开发；个人资料必须按冻结页面规格、真实后端和视觉合同完整落地。
-  reason: OpenAPI和派生页面规格允许昵称/简介2000字符，但数据库varchar(255)与R12ProfileService真实限制为255；必须先统一合同再实现客户端，避免允许必然被服务端拒绝的输入。
-  original_rule: 客户端与后台OpenAPI把UserResource及userPatchMeProfile的nickname/bio声明为最多2000字符，PublisherSummaryResource又声明昵称64和简介300；Bean Validation使用@Size(2000)，但数据库user_profiles与R12ProfileService真实上限均为255，且Java
-    String.length会把补充平面字符按两个UTF-16 code unit计数。
-  new_rule: nickname与bio以Unicode-aware strip去除首尾Unicode空白后，按Unicode code point计数，最多255个字符；Java使用String.codePointCount，Android使用codePointCount，客户端、后台、运行时OpenAPI、共享PublisherSummaryResource、九个页面字段目录和服务端校验必须一致，禁止静默截断。个人资料使用冻结GET/PATCH、稳定幂等键、同资源写锁、409保留输入并查询最新事实、未知写结果只查询；头像只使用public_media且真实单选；保存后的UserResource回接根SessionState。SCR-ME-002按B08/P01身份层级与MOB-FORM实现typed
-    Navigation。
-  impact_summary: 统一共享用户资料和发布者摘要的255 Unicode code-point合同，修复后端emoji边界与所有直接/嵌套响应消费者，并实现SCR-ME-002网络、状态、单图媒体、UI、导航和根会话用户事实回接；数据库物理结构不变。
-  impact:
-    files:
-    - contracts/openapi.yaml
-    - contracts/admin-openapi.yaml
-    - services/backend/boot/src/main/resources/contracts/openapi.yaml
-    - services/backend/boot/src/main/resources/contracts/admin-openapi.yaml
-    - contracts/contract_status.csv
-    - catalogs/ui_page_fields.csv
-    - docs/02-ui/page-specs/android/SCR-AUTH-005_账号冻结.md
-    - docs/02-ui/page-specs/android/SCR-ID-001_实名认证首页.md
-    - docs/02-ui/page-specs/android/SCR-ME-001_我的首页.md
-    - docs/02-ui/page-specs/android/SCR-ME-002_个人资料.md
-    - docs/02-ui/page-specs/android/SCR-PUB-001_发布入口.md
-    - docs/02-ui/page-specs/android/SCR-PUBLISHER-001_发布者主页.md
-    - docs/02-ui/page-specs/android/SCR-SET-001_设置.md
-    - docs/02-ui/page-specs/admin/ADM-USER-001_用户列表.md
-    - docs/02-ui/page-specs/admin/ADM-USER-002_用户详情.md
-    - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/R12ProfileContracts.java
-    - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/R12ProfileService.java
-    - services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/R12ProfileServiceTest.java
-    - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/R12AccountControllerContractTest.java
-    - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R07ServiceTest.java
-    - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR12ProfileApi.kt
-    - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ContractR12ProfileApiTest.kt
-    - apps/android/feature/media/src/main/java/cc/orbexa/hhy/media/MediaUploadSheet.kt
-    - apps/android/feature/media/src/test/java/cc/orbexa/hhy/media/MediaUploadSheetTest.kt
-    - apps/android/feature/shell/build.gradle.kts
-    - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
-    - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/R12ProfileState.kt
-    - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/R12ProfileScreen.kt
-    - apps/android/feature/shell/src/test/java/cc/orbexa/hhy/shell/R12ProfileStateTest.kt
-    - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
-    - apps/android/app/src/test/java/cc/orbexa/hhy/NavigationPolicyTest.kt
-    - catalogs/ui_visual_acceptance.csv
-    - CHANGELOG.md
-    pages:
-    - SCR-AUTH-005
-    - SCR-ID-001
-    - SCR-ME-001
-    - SCR-ME-002
-    - SCR-PUB-001
-    - SCR-PUBLISHER-001
-    - SCR-SET-001
-    - ADM-USER-001
-    - ADM-USER-002
-    apis:
-    - userGetMe
-    - userPatchMeProfile
-    - userPostMeCancellation
-    - userGetPublishersById
-    - adminUsersGetUsers
-    - adminUsersGetUsersById
-    - adminUsersPostUsersByIdRestrictions
-    - adminUsersPostUsersByIdFreeze
-    - adminUsersPostUsersByIdUnfreeze
-    - adminUsersPostUsersByIdForceLogout
-    - search/content/chat response families embedding PublisherSummaryResource
-    database:
-    - user_profiles(nickname,bio varchar(255); no migration)
-    configuration:
-    - auth(existing only; no new key)
-    ledger:
-    - N/A
-    tests:
-    - OpenAPI/runtime/hash/docs consistency and exact 255 Unicode code-point schemas
-    - R12ProfileService ASCII/CJK/emoji 255-256 boundary, idempotency and no DB/outbox/idempotency-complete side effects
-    - R07Service publisher/search/content projection accepts 255 supplementary-plane characters
-    - ContractR12ProfileApi request-response-error contract tests
-    - R12ProfileState dirty/validation/stable-idempotency/conflict/unknown-result tests
-    - MediaUploadSheet single-selection and backward compatibility tests
-    - typed Navigation, root user update and Android UI foundation
-    - obx-test backend access/boot and Android network/media/shell/app MODULE
-    releases:
-    - R12
-    migration_and_compatibility: 数据库已是varchar(255)，无需迁移或数据重写。请求上限收紧只对齐已部署物理上限；响应上限对现存数据安全。128至255个补充平面字符过去可能被UTF-16 length误拒绝，改为合法是有意的兼容性放宽；256
-      code points在SQL前字段级400且不得写DB、Outbox或完成幂等快照。旧输入保留且不静默截断。媒体选择器默认行为保持多选，头像显式单选；现有公开路由不变，仅新增内部/me/profile typed route。
-  user_confirmation: 项目所有者明确要求以仓库事实源和R01-R32计划持续开发完整项目，常规开发决策自行执行且不得因未反馈停止；本CR是实现TASK-R12-004和真实合同一致性的必要纠错。
-  approval:
-    decision: APPROVED
-    decided_at: '2026-07-25T13:52:07Z'
-    note: 独立只读复核通过：CR-0330以数据库varchar(255)和真实服务边界为依据，将nickname/bio统一为Unicode-aware strip后最多255个Unicode code point，并同步客户端/后台/运行时OpenAPI、UserResource、PublisherSummaryResource、九页面字段目录、服务端与Android表单；明确修复UTF-16补充平面字符误拒绝，128至255个补充字符的接受属于有意兼容放宽，256在SQL前以字段级400拒绝且不得写DB、Outbox或完成幂等快照；共享发布者直接/嵌套消费者、R07投影、单图头像及媒体选择器向后兼容、幂等/冲突/未知结果、typed
-      Navigation和根会话事实回接均有精确文件与MODULE测试范围。数据库无需迁移或数据重写，禁止静默截断，现有公开路由不变，批准按所列范围实施。
-  machine_record: .continuity/change_requests/CR-0330.yaml
-  document: docs/03-continuity/change-requests/CR-0330-统一R12个人资料255字符合同并实现SCR-ME-002客户端闭环.md
-  decision_log:
-  - at: '2026-07-25T14:51:43Z'
-    actor_id: codex-root-r12-client-20260725
-    status: IMPLEMENTING
-    note: 已按批准范围实施合同、后端与Android客户端；进入最终证据绑定。
-    session_id: SES-20260725T053515Z-11D4084D
-  - at: '2026-07-25T14:51:47Z'
-    actor_id: codex-root-r12-client-20260725
-    status: IMPLEMENTED
-    note: 统一255 Unicode code-point合同、后端边界、副作用保护、Android网络/单图媒体/状态/UI/typed导航与根会话回接已实现；obx-test JDK21后端25项与固定Android容器75项单测、四模块Lint及app编译全部PASS。
-    session_id: SES-20260725T053515Z-11D4084D
-  session_ids:
-  - SES-20260725T053515Z-11D4084D
-- protocol_version: '1.0'
-  cr_id: CR-0331
-  title: 实现SCR-ME-001真实资产聚合首页并修复底部栏目导航回归
-  status: IMPLEMENTED
-  created_at: '2026-07-25T15:11:23Z'
-  updated_at: '2026-07-25T16:53:32Z'
-  requester_actor_id: codex-root-r12-client-20260725
-  approver_actor_id: codex-r12-me-contract-reviewer-20260725
-  task_id: TASK-R12-004
-  session_id: SES-20260725T053515Z-11D4084D
-  user_request: 按仓库R01-R32计划持续开发；R12我的首页必须一比一对应开发文档与B08/P01，真实会员、收益和入口不得虚构。
-  reason: 现有我的页仅有资料头、发布与安全列表，未调用membershipGetMeMembership和rewardGetMeRewardAccount，缺少真实资产、会员、独立局部失败与刷新；底部栏目仍用页面级mutableIntStateOf切换，违背已批准CR-0119；SCR-ME-001旧ERROR投影还要求展示requestId，与正式商业UI硬边界冲突。
-  original_rule: 当前HhyShellScreen只用登录缓存绘制简化我的页，未调用会员与奖励GET；底部五栏由rememberSaveable selectedIndex伪切页；共享合同把会员仅归R18、奖励仅归R24，奖励423未进入OpenAPI，Android错误信封又错误要求全部诊断字段存在，SCR-ME-001还要求在正式UI展示errorCode/requestId。
-  new_rule: 不新增平行规则，统一落实STORY-R12-007、SCR-ME-001、B08/P01和CR-0119：三项GET分别提供用户、会员、奖励独立状态与缓存；401只触发一次根会话失效，403局部受限，会员404为未开通，奖励404为无账户，奖励422为待实名、423为风险受限，409只刷新对应模块，429保留旧内容并局部提示，网络或5xx有缓存标记可能过期、无缓存显示局部恢复；成功时间优先响应timestamp，缺失时允许以客户端成功接收时刻作为缓存元数据。会员归属登记R12/R18、奖励归属登记R12/R24，OpenAPI补423；Android合法精简信封允许timestamp、retryable、traceId和detail.field缺失，details默认空且诊断字段永不进入正式UI。B08/P01按蓝色身份头、会员状态、奖励资产摘要、四列真实功能网格、真实会员权益、账号服务和固定五栏顺序施工；只展示真实资料、发布、草稿、实名、设备、密码、关于、注销和中央发布入口，过滤R13+订单、收藏、浏览、消息、红包、邀请、成长、任务、红点及示例数据；paidValueCent/remainingValueCent不得冒充奖励余额。顶层使用typed
-    Home/Me真实Navigation Compose目的地，popUpTo Home saveState、restoreState、launchSingleTop，当前栏目由NavDestination推导，同级使用HhyMotion.peerContent，禁止selectedIndex伪返回栈；红包和消息未实现时不可进入占位页。
-  impact_summary: 把R12聚合页所需的三项真实GET、共享Release归属、HTTP 423和精简错误信封统一到合同、运行时与Android；实现三模块独立恢复的B08/P01商业首页，并用typed Home/Me Navigation Compose修复底部栏目、来源返回和状态恢复回归；同步问题登记、视觉IN_REVIEW和回归门禁。
-  impact:
-    files:
-    - contracts/openapi.yaml
-    - services/backend/boot/src/main/resources/contracts/openapi.yaml
-    - contracts/contract_status.csv
-    - contracts/operation-error-matrix.csv
-    - catalogs/api_ui_ownership.csv
-    - catalogs/ui_page_states.csv
-    - catalogs/ui_action_matrix.csv
-    - docs/02-ui/page-specs/android/SCR-ME-001_我的首页.md
-    - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/R12AccountControllerContractTest.java
-    - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ApiModels.kt
-    - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ApiModelsSerializationTest.kt
-    - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractIdentityApi.kt
-    - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractMediaApi.kt
-    - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR07Api.kt
-    - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR08Api.kt
-    - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR09Api.kt
-    - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR10Api.kt
-    - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR11Api.kt
-    - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR12Api.kt
-    - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR12ProfileApi.kt
-    - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR12MeApi.kt
-    - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ContractR12MeApiTest.kt
-    - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/R12MeHomeState.kt
-    - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/R12MeHomeScreen.kt
-    - apps/android/feature/shell/src/test/java/cc/orbexa/hhy/shell/R12MeHomeStateTest.kt
-    - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
-    - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
-    - apps/android/app/src/test/java/cc/orbexa/hhy/NavigationPolicyTest.kt
-    - apps/android/app/src/androidTest/java/cc/orbexa/hhy/AuthenticatedNavigationTest.kt
-    - apps/android/app/src/androidTest/java/cc/orbexa/hhy/HistoricalVisualAuditTest.kt
-    - scripts/check_android_ui_foundation.py
-    - tests/test_android_ui_foundation.py
-    - catalogs/ui_visual_acceptance.csv
-    - docs/03-continuity/PROBLEM_REGISTRY.yaml
-    - CHANGELOG.md
-    pages:
-    - SCR-ME-001
-    apis:
-    - userGetMe
-    - membershipGetMeMembership
-    - rewardGetMeRewardAccount
-    database:
-    - N/A
-    configuration:
-    - 既有Android typed navigation与Design Token；无新增服务端配置
-    ledger:
-    - N/A_READ_ONLY_BALANCE_PROJECTION
-    tests:
-    - OpenAPI/runtime/hash/docs consistency, R12/R18 membership ownership, R12/R24 reward ownership and HTTP 423 response
-    - R12AccountControllerContractTest membership/reward route, release metadata and OpenAPI 423 assertions
-    - ApiModelsSerializationTest accepts legal compact success/error envelopes without exposing diagnostics
-    - ContractR12MeApi three GET routes, bearer header, strict model decoding and 401/403/404/409/422/423/429/5xx/offline mapping
-    - R12MeHomeState independent module loading, cache freshness, localized recovery, single 401 invalidation and integer-cent formatting
-    - typed Home/Me top-level navigation saveState restoreState launchSingleTop, source back stack and peer motion
-    - SCR-ME-001 B08/P01 identity, membership, reward and real-route UI without R13+ fictional entries
-    - obx-test backend boot and Android network/shell/app MODULE plus API, commercial UI, token, foundation and R12 catalog gates
-    releases:
-    - R12
-    migration_and_compatibility: 无数据库、账本、服务端业务逻辑或配置迁移；现有URL和成功响应不变，仅补齐既有423文档与R12共享归属。Android错误模型放宽为兼容OpenAPI合法省略字段，所有消费者过滤无field详情；缓存只读且逐模块标注新鲜度。会员、奖励后续完整模块仍归R18/R24，R12仅消费既有只读摘要；未实现R13+入口继续隐藏。截图和模拟器仍仅在TASK-R12-007最终候选执行。
-  user_confirmation: 项目所有者已明确要求以仓库事实源和R01-R32计划持续开发完整项目，UI严格对应开发文档与精确效果图，常规决策自行执行且无需逐Story暂停确认。
-  approval:
-    decision: APPROVED
-    decided_at: '2026-07-25T15:25:54Z'
-    note: 独立合同与Android只读复核通过：修订后的CR-0331完整覆盖R12/R18会员与R12/R24奖励共享归属、HTTP 423、OpenAPI合法精简错误信封、三项GET精确字段及独立恢复边界、B08/P01真实区域与虚构项过滤、typed Home/Me真实Navigation
-      Compose栈、来源返回、saveState/restoreState/launchSingleTop及peer动效；文件、兼容和MODULE证据范围完整，无需数据库或服务端业务迁移，批准按所列范围实施。
-  machine_record: .continuity/change_requests/CR-0331.yaml
-  document: docs/03-continuity/change-requests/CR-0331-实现SCR-ME-001真实资产聚合首页并修复底部栏目导航回归.md
-  decision_log:
-  - at: '2026-07-25T16:53:19Z'
-    actor_id: codex-root-r12-client-20260725
-    status: IMPLEMENTING
-    note: 已完成冻结范围实现并进入证据绑定；obx-test后端与Android模块门禁均已执行。
-    session_id: SES-20260725T053515Z-11D4084D
-  - at: '2026-07-25T16:53:32Z'
-    actor_id: codex-root-r12-client-20260725
-    status: IMPLEMENTED
-    note: 冻结范围已实现并验证：obx-test Android 534 tasks BUILD SUCCESSFUL，日志SHA256=9f08f703c8ca2d9197f352d3d962c1707a792d7d4c7ac5e99d8fabac40529766；backend
-      415 tests BUILD SUCCESS，日志SHA256=bc4680a97e140127d5aeb3bedf676556104547194fb4445532fd796ec845506e；本地合同、UI基础、商业边界、Token、R12目录和严格文档门禁全PASS。
-    session_id: SES-20260725T053515Z-11D4084D
-  session_ids:
-  - SES-20260725T053515Z-11D4084D
-- protocol_version: '1.0'
-  cr_id: CR-0332
-  title: 投影TASK-R12-004八个Story实现证据到Release Manifest
-  status: IMPLEMENTED
-  created_at: '2026-07-25T17:02:17Z'
-  updated_at: '2026-07-25T17:03:47Z'
-  requester_actor_id: codex-root-r12-client-20260725
-  approver_actor_id: codex-r12-release-reviewer-20260726
-  task_id: TASK-R12-004
-  session_id: SES-20260725T053515Z-11D4084D
-  user_request: 按仓库事实源持续完成R12并仅在最终候选执行模拟器与APK。
-  reason: 八个Story已完成且模块证据已形成，需要把客户端任务门禁结论写入R12唯一Release Manifest；不改变任何业务合同。
-  original_rule: R12 Release Manifest仅记录到TASK-R12-003后端门禁，TASK-R12-004八个Story的提交、模块证据和十一页IN_REVIEW边界尚未形成版本级证据投影。
-  new_rule: 在R12 Release Manifest新增task_004_client_gate：登记8/8 Story实现提交、11页实现PASS与视觉IN_REVIEW、后台113测试、后端415测试、Android 534任务及静态门禁；真实截图、AI视觉PASS、APK和安装冒烟继续明确延后到TASK-R12-007。
-  impact_summary: 新增TASK-R12-004客户端门禁报告、Manifest证据段和CHANGELOG摘要；不修改业务、接口、数据库、配置、UI实现或最终视觉状态。
-  impact:
-    files:
-    - releases/R12/RELEASE_MANIFEST.yaml
-    - docs/03-continuity/R12_TASK-004_CLIENT_GATE.md
-    - CHANGELOG.md
-    pages: []
-    apis: []
-    database: []
-    configuration: []
-    ledger: []
-    tests:
-    - check_v122_documentation.py --strict --release R12
-    - check_release_artifacts.py --release R12
-    - check_program_execution_plan.py
-    - check_ui_visual_acceptance.py --release R12 --catalog-only
-    releases:
-    - R12
-    migration_and_compatibility: 纯证据投影，无运行时、数据或配置迁移；十一页继续IN_REVIEW，兼容既有最终候选策略。
-  user_confirmation: 项目所有者已授权按仓库R01-R32计划持续开发，要求大版本最终候选才运行完整门禁、模拟器和APK，常规治理决策无需暂停确认。
-  approval:
-    decision: APPROVED
-    decided_at: '2026-07-25T17:02:57Z'
-    note: 只读复核通过：变更仅把已提交的8个Story和既有MODULE证据投影到Release Manifest，十一页保持IN_REVIEW，未扩大接口、页面、数据或提前执行候选门禁。
-  machine_record: .continuity/change_requests/CR-0332.yaml
-  document: docs/03-continuity/change-requests/CR-0332-投影TASK-R12-004八个Story实现证据到Release-Manifest.md
-  decision_log:
-  - at: '2026-07-25T17:03:27Z'
-    actor_id: codex-root-r12-client-20260725
-    status: IMPLEMENTING
-    note: TASK-R12-004门禁报告、Release Manifest和CHANGELOG投影已写入并通过四项声明门禁。
-    session_id: SES-20260725T053515Z-11D4084D
-  - at: '2026-07-25T17:03:47Z'
-    actor_id: codex-root-r12-client-20260725
-    status: IMPLEMENTED
-    note: 证据投影完成：严格R12文档、Release artifacts、31 Release执行计划、11页视觉目录与YAML解析全部PASS；未提前改变IN_REVIEW或执行候选APK。
-    session_id: SES-20260725T053515Z-11D4084D
-  session_ids:
-  - SES-20260725T053515Z-11D4084D
 ```
 
 ## 上下文来源及哈希
 
 - `AGENTS.md` — `690f960020dcbd18080ec91b3c314335627b32e231b9f9b2e14566b0fbbaeb35`
 - `START_HERE.md` — `22de14029ce47beb41ea569e36ce223fbc9d11b86f8676f28d5fbbd83896af5c`
-- `CURRENT_STATUS.yaml` — `5f800290ca54f532266bc831b837f8627f7ff54e4c996af9b653792da9e4a094`
+- `CURRENT_STATUS.yaml` — `e5aa68580ed5f54556c67eaaf65b01739e146169e5d12b0963e0e1e175434724`
 - `NEXT_TASK.yaml` — `05e6bd161a5d73ff15c34dade88c269f05ff3e6e615e2d124681cd3b561a0524`
 - `DEVELOPMENT_RISK_REGISTER.md` — `8304c91492e4ee2abea0522a06541c8688d39c7fc532b5d0cde499bf09fffb87`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
@@ -12922,12 +12001,12 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `config/REPOSITORY_TRANSPORT.yaml` — `8c4a21f3e204d46e7ffb467d804a53ed26cda61cd088dadfddb50b69eea657fc`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `60943fcd9714cfae7274463554b5584fdb7a7aeee1ee547ff6dbc53fae6d4994`
-- `.continuity/EVENT_LOG.jsonl` — `955471bbbd9b32e08937ff474f44be0c659eeac04041796c13fd1ecac2e8ddfd`
-- `.continuity/SESSION_INDEX.yaml` — `0a1f36c1c0312ac7044b3c561ac523a744d5f7220c72d43b2c2029b7775d9603`
+- `.continuity/EVENT_LOG.jsonl` — `f6c95053615f94bf7352f391f501221c74371b28a36142bf4825a01e506c4d31`
+- `.continuity/SESSION_INDEX.yaml` — `4873e344c972d98aabc107d53c8750cfbdf73a814b5c83a314ac6ddfcbf64b0d`
 - `.continuity/TASK_CLAIMS.yaml` — `f8a7d517f7e8ba77ca7be0f1145f5056e822321b33d4184234b8e84fc536a163`
 - `.continuity/TASK_TRANSITIONS.yaml` — `42dda46a34627046c9f85e5e719e8dcfc107aa0725121cf6e86563f40d5034ab`
-- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `5cdeb2869e4b4ac9a99daa3cacd32ee5a7e36adbf38341215a7b66de3e8ece1b`
-- `.continuity/ACTIVE_SESSION.yaml` — `24136df08e3ab03b2c2acf5a742175cee569527f5f399bbf0bb12814cb84a6e7`
+- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `1dea4588bdb84621c07e9c3edf19f529f42b577f66d5c0563393a1fb0e2d1213`
+- `.continuity/ACTIVE_SESSION.yaml` — `932b57ae3f2894ed18a902be0802645a543fa52ba51ab0908957270ccea5adef`
 - `docs/00-baseline/正式商业系统全局硬性开发边界.md` — `9753b32db136e59e95a0974a62362456d9d577fd1bb40058ec985c4b64413eea`
 - `docs/02-ui/UI参考图使用与开发约束_V1.2.2.md` — `d14367586aa2067b059df58798acd20ab982459cdb35ff27fc7922a3896e4933`
 - `docs/03-continuity/持续开发无状态接续强制门禁_V1.2.3.md` — `d0ed3ed68bdd93b06500eecdfb5baa3245e6ca8b685a486788abb6eee39b3d51`
@@ -12938,22 +12017,22 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `releases/R12/TASKS.yaml` — `ccf3a782104fc56bdb97d02da81e8acb1be2fd0cf30f5935bb4754a63c9fb275`
 - `releases/R12/ACCEPTANCE_MATRIX.csv` — `197874227cef03f791df1fa5d2101a251df266c63240f777f358388b46cb9706`
 - `releases/R12/PARALLEL_EXECUTION_PLAN.yaml` — `2ddbee414a51a868b63331992e2e04c5400846cf6012474aab406e067e532e98`
-- `docs/03-continuity/sessions/2026-07/SES-20260725T053515Z-11D4084D.md` — `1230f9da4e9a2d04af06ed88e3959e929d5d1ab5e7711ee43c3c0d2883346b36`
-- `.continuity/checkpoints/SES-20260725T053515Z-11D4084D/0035.yaml` — `b04de34a08ba1c2541c401c31fce4250c00be30a4c59e7c085fb100202549969`
-- `docs/03-continuity/change-requests/CR-0319-统一R12审核工作台权限目录与默认排序合同.md` — `42c214f27ab3a4061c8fe3963c213e37be4c2766a4d8c489f9757eaf6df4c5fc`
-- `docs/03-continuity/change-requests/CR-0320-扩展CR-0319审核证据权限与真实工作台施工范围.md` — `52dc56ab94cc576e79f38ce0ae4d628463ae6ba8af5b353f59bb3cd44ab05c64`
-- `docs/03-continuity/change-requests/CR-0321-投影R12逐页视觉合同到验收目录.md` — `ca31b8e0045e23616f5b308cbd4bebb447d249ce88770f020a47a607becebb68`
-- `docs/03-continuity/change-requests/CR-0322-补齐CR-0319默认排序Java回归测试范围.md` — `220b26f0aed40b0191ba113460a74bb4e57dca467f2f011b107d1dca84039c38`
-- `docs/03-continuity/change-requests/CR-0323-补齐CR-0319默认排序PostgreSQL执行回归范围.md` — `9386b2c77764cd34df35d078c1ed9e96fbc5f794e47b4290838cd3898d192fb5`
-- `docs/03-continuity/change-requests/CR-0324-实现SCR-MYC-003内容管理详情客户端闭环.md` — `bc941b05ba5c1609d9a24eed01d1ad6606095ba51b6c4a1c53eb50eeaa1edfb6`
-- `docs/03-continuity/change-requests/CR-0325-纠正CR-0324内容管理源码路径投影.md` — `f9cd85d5a8884eec00da4a5ff05cf433572f52b0eb84bdebbeeccb423f1626f9`
-- `docs/03-continuity/change-requests/CR-0326-实现R12四页发布管理客户端闭环.md` — `24297931e74a1b65edee1fcf0f0acdbba078c682c0288db72d52aeecb48eea54`
-- `docs/03-continuity/change-requests/CR-0327-纠正R12四页商业错误投影与发布入口.md` — `7e90572f178db492fca1bd0f95d65a8b05eb1d52c6dcd23cacf50b6a613d93f3`
-- `docs/03-continuity/change-requests/CR-0328-实现R12发布中心与真实内容预览纵向闭环.md` — `6005f051fd8704efafcda588ccb315ce6394a83d7fd79f4c8956ddd2d30039c6`
-- `docs/03-continuity/change-requests/CR-0329-实现R12稳定幂等提交与SCR-PUB-007结果闭环.md` — `87d2d1b49d3da7ff141ef57b5547eb5b91d340ff84db2726f4c56a055a50962f`
-- `docs/03-continuity/change-requests/CR-0330-统一R12个人资料255字符合同并实现SCR-ME-002客户端闭环.md` — `9007f0dacbde56bb0ec15c8a60567897e9443704f81f5d46d3757e03be808a38`
-- `docs/03-continuity/change-requests/CR-0331-实现SCR-ME-001真实资产聚合首页并修复底部栏目导航回归.md` — `4afed54b3b461c1cd01c21b1c1df6faf8f91051c7fc7bd597b563971bfcdd1a3`
-- `docs/03-continuity/change-requests/CR-0332-投影TASK-R12-004八个Story实现证据到Release-Manifest.md` — `3636fb3cc088723a5b60e6e85c39b21d8477739162e88d6155a7df5545044314`
+- `docs/03-continuity/sessions/2026-07/SES-20260725T053515Z-11D4084D.md` — `795267327c096068f3bc14806a0fa35ed0bea6ecbf1bc65e594a83b274f09a57`
+- `.continuity/checkpoints/SES-20260725T053515Z-11D4084D/0036.yaml` — `14321e22a252d5c8ed67381ee1ebd4dad5e814e0f3e0cadac0251272b1349267`
+- `docs/03-continuity/change-requests/CR-0319-统一R12审核工作台权限目录与默认排序合同.md` — `417480f69ec6922aa60ebd49b051521b3ef109a2fdbb1defe170c4311c7a5a71`
+- `docs/03-continuity/change-requests/CR-0320-扩展CR-0319审核证据权限与真实工作台施工范围.md` — `cc4a3db4874b40699245875af9e0834135ce899771a576142eee239293aefd7f`
+- `docs/03-continuity/change-requests/CR-0321-投影R12逐页视觉合同到验收目录.md` — `09db38046a585a857c8bc854ba2cefa8024ca40703dfc853908a5a72d44081e8`
+- `docs/03-continuity/change-requests/CR-0322-补齐CR-0319默认排序Java回归测试范围.md` — `b5d20b5b3edcb562421c40d98696ee1c9f484a63d9b163dfef09c260956124eb`
+- `docs/03-continuity/change-requests/CR-0323-补齐CR-0319默认排序PostgreSQL执行回归范围.md` — `e0ea322314877b510abc780f9d1e3b6b702e58dc2c61a9270d2a19e8349bfc22`
+- `docs/03-continuity/change-requests/CR-0324-实现SCR-MYC-003内容管理详情客户端闭环.md` — `64a45db25c4a85a4a2d8e6a8474fd199232396de7f9433eb6f25091521b946f3`
+- `docs/03-continuity/change-requests/CR-0325-纠正CR-0324内容管理源码路径投影.md` — `91a585376b557e60178b03a30bc90c3b32c22b786c154b1bb2f67a9f1e4888b0`
+- `docs/03-continuity/change-requests/CR-0326-实现R12四页发布管理客户端闭环.md` — `4e98e3ee43423eba41993fb41932c5153c073001946111d2d4eafc72e530d1b4`
+- `docs/03-continuity/change-requests/CR-0327-纠正R12四页商业错误投影与发布入口.md` — `b73f66e16fd9e928e445295da5dee18c89fca494bdac28d546be0cd38d04b0f2`
+- `docs/03-continuity/change-requests/CR-0328-实现R12发布中心与真实内容预览纵向闭环.md` — `86ef970899e3a0870524ecd9927e3b2adbacbd7cd78ad5b83b7341d63ba029bb`
+- `docs/03-continuity/change-requests/CR-0329-实现R12稳定幂等提交与SCR-PUB-007结果闭环.md` — `3bb0ade44a627c084381bc05205be472329e8e7c3937614044aad6af8b58e0e4`
+- `docs/03-continuity/change-requests/CR-0330-统一R12个人资料255字符合同并实现SCR-ME-002客户端闭环.md` — `526054c3c32fd73f5a3e3a259076df5b588f5f521b24ad9ca970c9ddeaa2c6d8`
+- `docs/03-continuity/change-requests/CR-0331-实现SCR-ME-001真实资产聚合首页并修复底部栏目导航回归.md` — `58c9557af53f0912d51974dd01f991540d775fbf533605456d8c7b682c046251`
+- `docs/03-continuity/change-requests/CR-0332-投影TASK-R12-004八个Story实现证据到Release-Manifest.md` — `f2f6d580e485fa709f14a439eec8b68b6ca4a17546e1978e98a4c30793a86de4`
 
 ## 接手硬规则
 

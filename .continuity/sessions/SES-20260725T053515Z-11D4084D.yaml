@@ -11,7 +11,7 @@ task_id: TASK-R12-004
 story_id: STORY-R12-008
 goal: 按冻结R12契约完成数据、配置、测试、观测、视觉验收、候选APK与版本交接收口。
 started_at: '2026-07-25T05:35:15Z'
-updated_at: '2026-07-25T17:04:11Z'
+updated_at: '2026-07-25T17:08:22Z'
 takeover_of: null
 change_requests:
 - CR-0319
@@ -75,25 +75,25 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-25T17:04:05Z'
-  expires_at: '2026-07-25T21:04:05Z'
-checkpoint_sequence: 35
-latest_checkpoint: .continuity/checkpoints/SES-20260725T053515Z-11D4084D/0035.yaml
+  renewed_at: '2026-07-25T17:08:13Z'
+  expires_at: '2026-07-25T21:08:13Z'
+checkpoint_sequence: 36
+latest_checkpoint: .continuity/checkpoints/SES-20260725T053515Z-11D4084D/0036.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260725T053515Z-11D4084D.md
-next_step: 提交并推送TASK-R12-004门禁与CR-0332，然后关闭CR-0319至CR-0332并完成任务切换。
+next_step: 提交并推送CR关闭元数据，然后执行continuity close关闭TASK-R12-004并切换TASK-R12-005。
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: 7a96f2e651c0422b0f7378cd4105907623f8aa09dc62737d86a1270620b38dcd
-  generated_at: '2026-07-25T17:04:08Z'
+  context_hash: e381fcc2f25bd67cd3d5f27e1ddbf5b512f8be1e6b3397eee82d8bd39cecb50f
+  generated_at: '2026-07-25T17:08:19Z'
 handoff_bundle: null
 closure: null
 parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: CR、Manifest、报告与连续性检查点必须在同一提交中保持原子一致。
+  reason: 十四个CR共享同一任务关闭事实和连续性索引，必须串行原子收口。
 story_history:
 - story_id: STORY-R12-001
   completed_at: '2026-07-25T07:44:07Z'

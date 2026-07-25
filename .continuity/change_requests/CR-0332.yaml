@@ -1,9 +1,9 @@
 protocol_version: '1.0'
 cr_id: CR-0332
 title: 投影TASK-R12-004八个Story实现证据到Release Manifest
-status: IMPLEMENTED
+status: CLOSED
 created_at: '2026-07-25T17:02:17Z'
-updated_at: '2026-07-25T17:03:47Z'
+updated_at: '2026-07-25T17:07:39Z'
 requester_actor_id: codex-root-r12-client-20260725
 approver_actor_id: codex-r12-release-reviewer-20260726
 task_id: TASK-R12-004
@@ -49,5 +49,12 @@ decision_log:
   status: IMPLEMENTED
   note: 证据投影完成：严格R12文档、Release artifacts、31 Release执行计划、11页视觉目录与YAML解析全部PASS；未提前改变IN_REVIEW或执行候选APK。
   session_id: SES-20260725T053515Z-11D4084D
+- at: '2026-07-25T17:07:39Z'
+  actor_id: codex-root-r12-client-20260725
+  status: CLOSED
+  note: TASK-R12-004八个Story、模块证据与Release门禁报告已完成并推送，冻结范围无遗留实现项；最终截图与APK按既定策略留到TASK-R12-007。
+  session_id: SES-20260725T053515Z-11D4084D
 session_ids:
 - SES-20260725T053515Z-11D4084D
+implementation_commits:
+- 4366bd9392efe2e60b5aa9217428e71932368cf6

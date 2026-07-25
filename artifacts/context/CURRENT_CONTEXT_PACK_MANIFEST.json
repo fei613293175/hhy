@@ -1,19 +1,19 @@
 {
   "version": "1.0",
-  "generated_at": "2026-07-25T17:04:08Z",
-  "context_hash": "7a96f2e651c0422b0f7378cd4105907623f8aa09dc62737d86a1270620b38dcd",
+  "generated_at": "2026-07-25T17:08:19Z",
+  "context_hash": "e381fcc2f25bd67cd3d5f27e1ddbf5b512f8be1e6b3397eee82d8bd39cecb50f",
   "fingerprint_mode": "SESSION_DELTA",
   "project_fingerprint": {
-    "sha256": "d114223e27635c90e9a2c847889e34c43eedbc9eaf144d03c58d389e467333a6",
+    "sha256": "93e7f5cae8919cde5ae0ce6a973f475ec82b64334277314456961d005bc78880",
     "file_count": 123
   },
   "yaml": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.yaml",
-    "sha256": "b377882d32d6bd1775dab3c6aa9e90d352e9adcd2536a2803cb56648c70da6fc"
+    "sha256": "be6b1a5bf00194a76dfc8b67a2c7593fa3ebb419bb142c1fe7626050b38e0d1a"
   },
   "markdown": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.md",
-    "sha256": "e7243a015f186caddb7627cdf5aa722c0ed3b6849ca2c62dc51d19a0f891f9d1"
+    "sha256": "01453e8052314c9270e61598739b607a99fcda9dc885e8880edbb15f93d6fce2"
   },
   "sources": [
     {
@@ -28,7 +28,7 @@
     },
     {
       "path": "CURRENT_STATUS.yaml",
-      "sha256": "5f800290ca54f532266bc831b837f8627f7ff54e4c996af9b653792da9e4a094",
+      "sha256": "e5aa68580ed5f54556c67eaaf65b01739e146169e5d12b0963e0e1e175434724",
       "bytes": 4432
     },
     {
@@ -83,12 +83,12 @@
     },
     {
       "path": ".continuity/EVENT_LOG.jsonl",
-      "sha256": "955471bbbd9b32e08937ff474f44be0c659eeac04041796c13fd1ecac2e8ddfd",
-      "bytes": 1833432
+      "sha256": "f6c95053615f94bf7352f391f501221c74371b28a36142bf4825a01e506c4d31",
+      "bytes": 1839724
     },
     {
       "path": ".continuity/SESSION_INDEX.yaml",
-      "sha256": "0a1f36c1c0312ac7044b3c561ac523a744d5f7220c72d43b2c2029b7775d9603",
+      "sha256": "4873e344c972d98aabc107d53c8750cfbdf73a814b5c83a314ac6ddfcbf64b0d",
       "bytes": 53290
     },
     {
@@ -103,12 +103,12 @@
     },
     {
       "path": ".continuity/CHANGE_REQUEST_INDEX.yaml",
-      "sha256": "5cdeb2869e4b4ac9a99daa3cacd32ee5a7e36adbf38341215a7b66de3e8ece1b",
-      "bytes": 1134121
+      "sha256": "1dea4588bdb84621c07e9c3edf19f529f42b577f66d5c0563393a1fb0e2d1213",
+      "bytes": 1139239
     },
     {
       "path": ".continuity/ACTIVE_SESSION.yaml",
-      "sha256": "24136df08e3ab03b2c2acf5a742175cee569527f5f399bbf0bb12814cb84a6e7",
+      "sha256": "932b57ae3f2894ed18a902be0802645a543fa52ba51ab0908957270ccea5adef",
       "bytes": 545
     },
     {
@@ -163,83 +163,83 @@
     },
     {
       "path": "docs/03-continuity/sessions/2026-07/SES-20260725T053515Z-11D4084D.md",
-      "sha256": "1230f9da4e9a2d04af06ed88e3959e929d5d1ab5e7711ee43c3c0d2883346b36",
-      "bytes": 207831
+      "sha256": "795267327c096068f3bc14806a0fa35ed0bea6ecbf1bc65e594a83b274f09a57",
+      "bytes": 217486
     },
     {
-      "path": ".continuity/checkpoints/SES-20260725T053515Z-11D4084D/0035.yaml",
-      "sha256": "b04de34a08ba1c2541c401c31fce4250c00be30a4c59e7c085fb100202549969",
-      "bytes": 52546
+      "path": ".continuity/checkpoints/SES-20260725T053515Z-11D4084D/0036.yaml",
+      "sha256": "14321e22a252d5c8ed67381ee1ebd4dad5e814e0f3e0cadac0251272b1349267",
+      "bytes": 53967
     },
     {
       "path": "docs/03-continuity/change-requests/CR-0319-统一R12审核工作台权限目录与默认排序合同.md",
-      "sha256": "42c214f27ab3a4061c8fe3963c213e37be4c2766a4d8c489f9757eaf6df4c5fc",
-      "bytes": 3780
+      "sha256": "417480f69ec6922aa60ebd49b051521b3ef109a2fdbb1defe170c4311c7a5a71",
+      "bytes": 4107
     },
     {
       "path": "docs/03-continuity/change-requests/CR-0320-扩展CR-0319审核证据权限与真实工作台施工范围.md",
-      "sha256": "52dc56ab94cc576e79f38ce0ae4d628463ae6ba8af5b353f59bb3cd44ab05c64",
-      "bytes": 4889
+      "sha256": "cc4a3db4874b40699245875af9e0834135ce899771a576142eee239293aefd7f",
+      "bytes": 5216
     },
     {
       "path": "docs/03-continuity/change-requests/CR-0321-投影R12逐页视觉合同到验收目录.md",
-      "sha256": "ca31b8e0045e23616f5b308cbd4bebb447d249ce88770f020a47a607becebb68",
-      "bytes": 3346
+      "sha256": "09db38046a585a857c8bc854ba2cefa8024ca40703dfc853908a5a72d44081e8",
+      "bytes": 3673
     },
     {
       "path": "docs/03-continuity/change-requests/CR-0322-补齐CR-0319默认排序Java回归测试范围.md",
-      "sha256": "220b26f0aed40b0191ba113460a74bb4e57dca467f2f011b107d1dca84039c38",
-      "bytes": 2872
+      "sha256": "b5d20b5b3edcb562421c40d98696ee1c9f484a63d9b163dfef09c260956124eb",
+      "bytes": 3199
     },
     {
       "path": "docs/03-continuity/change-requests/CR-0323-补齐CR-0319默认排序PostgreSQL执行回归范围.md",
-      "sha256": "9386b2c77764cd34df35d078c1ed9e96fbc5f794e47b4290838cd3898d192fb5",
-      "bytes": 2783
+      "sha256": "e0ea322314877b510abc780f9d1e3b6b702e58dc2c61a9270d2a19e8349bfc22",
+      "bytes": 3110
     },
     {
       "path": "docs/03-continuity/change-requests/CR-0324-实现SCR-MYC-003内容管理详情客户端闭环.md",
-      "sha256": "bc941b05ba5c1609d9a24eed01d1ad6606095ba51b6c4a1c53eb50eeaa1edfb6",
-      "bytes": 4523
+      "sha256": "64a45db25c4a85a4a2d8e6a8474fd199232396de7f9433eb6f25091521b946f3",
+      "bytes": 4850
     },
     {
       "path": "docs/03-continuity/change-requests/CR-0325-纠正CR-0324内容管理源码路径投影.md",
-      "sha256": "f9cd85d5a8884eec00da4a5ff05cf433572f52b0eb84bdebbeeccb423f1626f9",
-      "bytes": 3001
+      "sha256": "91a585376b557e60178b03a30bc90c3b32c22b786c154b1bb2f67a9f1e4888b0",
+      "bytes": 3328
     },
     {
       "path": "docs/03-continuity/change-requests/CR-0326-实现R12四页发布管理客户端闭环.md",
-      "sha256": "24297931e74a1b65edee1fcf0f0acdbba078c682c0288db72d52aeecb48eea54",
-      "bytes": 3616
+      "sha256": "4e98e3ee43423eba41993fb41932c5153c073001946111d2d4eafc72e530d1b4",
+      "bytes": 3943
     },
     {
       "path": "docs/03-continuity/change-requests/CR-0327-纠正R12四页商业错误投影与发布入口.md",
-      "sha256": "7e90572f178db492fca1bd0f95d65a8b05eb1d52c6dcd23cacf50b6a613d93f3",
-      "bytes": 3148
+      "sha256": "b73f66e16fd9e928e445295da5dee18c89fca494bdac28d546be0cd38d04b0f2",
+      "bytes": 3475
     },
     {
       "path": "docs/03-continuity/change-requests/CR-0328-实现R12发布中心与真实内容预览纵向闭环.md",
-      "sha256": "6005f051fd8704efafcda588ccb315ce6394a83d7fd79f4c8956ddd2d30039c6",
-      "bytes": 3873
+      "sha256": "86ef970899e3a0870524ecd9927e3b2adbacbd7cd78ad5b83b7341d63ba029bb",
+      "bytes": 4200
     },
     {
       "path": "docs/03-continuity/change-requests/CR-0329-实现R12稳定幂等提交与SCR-PUB-007结果闭环.md",
-      "sha256": "87d2d1b49d3da7ff141ef57b5547eb5b91d340ff84db2726f4c56a055a50962f",
-      "bytes": 4026
+      "sha256": "3bb0ade44a627c084381bc05205be472329e8e7c3937614044aad6af8b58e0e4",
+      "bytes": 4353
     },
     {
       "path": "docs/03-continuity/change-requests/CR-0330-统一R12个人资料255字符合同并实现SCR-ME-002客户端闭环.md",
-      "sha256": "9007f0dacbde56bb0ec15c8a60567897e9443704f81f5d46d3757e03be808a38",
-      "bytes": 8085
+      "sha256": "526054c3c32fd73f5a3e3a259076df5b588f5f521b24ad9ca970c9ddeaa2c6d8",
+      "bytes": 8412
     },
     {
       "path": "docs/03-continuity/change-requests/CR-0331-实现SCR-ME-001真实资产聚合首页并修复底部栏目导航回归.md",
-      "sha256": "4afed54b3b461c1cd01c21b1c1df6faf8f91051c7fc7bd597b563971bfcdd1a3",
-      "bytes": 8869
+      "sha256": "58c9557af53f0912d51974dd01f991540d775fbf533605456d8c7b682c046251",
+      "bytes": 9196
     },
     {
       "path": "docs/03-continuity/change-requests/CR-0332-投影TASK-R12-004八个Story实现证据到Release-Manifest.md",
-      "sha256": "3636fb3cc088723a5b60e6e85c39b21d8477739162e88d6155a7df5545044314",
-      "bytes": 3219
+      "sha256": "f2f6d580e485fa709f14a439eec8b68b6ca4a17546e1978e98a4c30793a86de4",
+      "bytes": 3546
     }
   ]
 }

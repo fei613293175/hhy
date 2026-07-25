@@ -1,9 +1,9 @@
 protocol_version: '1.0'
 cr_id: CR-0324
 title: 实现SCR-MYC-003内容管理详情客户端闭环
-status: IMPLEMENTED
+status: CLOSED
 created_at: '2026-07-25T07:56:50Z'
-updated_at: '2026-07-25T08:34:57Z'
+updated_at: '2026-07-25T17:07:03Z'
 requester_actor_id: codex-root-r12-client-20260725
 approver_actor_id: codex-r12-myc003-independent-reviewer
 task_id: TASK-R12-004
@@ -62,7 +62,13 @@ decision_log:
   status: IMPLEMENTED
   note: SCR-MYC-003网络合同、状态、B08/P03 Compose UI与typed Navigation已提交推送；obx-test模块单测、Lint和app编译PASS，完整候选留待TASK-R12-007。
   session_id: SES-20260725T053515Z-11D4084D
+- at: '2026-07-25T17:07:03Z'
+  actor_id: codex-root-r12-client-20260725
+  status: CLOSED
+  note: TASK-R12-004八个Story、模块证据与Release门禁报告已完成并推送，冻结范围无遗留实现项；最终截图与APK按既定策略留到TASK-R12-007。
+  session_id: SES-20260725T053515Z-11D4084D
 session_ids:
 - SES-20260725T053515Z-11D4084D
 implementation_commits:
 - 7c30b6b0db88fafc1aa0c42cd4f4513f03f9442b
+- 4366bd9392efe2e60b5aa9217428e71932368cf6

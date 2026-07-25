@@ -105,3 +105,10 @@ OWNER_ACTIVE_GOAL_CONTINUE_R01_R32_WITH_EXACT_UI_AND_CLOUD_ANDROID
 - Status：`IMPLEMENTED`
 - Session：`SES-20260725T053515Z-11D4084D`
 - Note：SCR-MYC-003网络合同、状态、B08/P03 Compose UI与typed Navigation已提交推送；obx-test模块单测、Lint和app编译PASS，完整候选留待TASK-R12-007。
+
+## 状态记录 · 2026-07-25T17:07:03Z
+
+- Actor：`codex-root-r12-client-20260725`
+- Status：`CLOSED`
+- Session：`SES-20260725T053515Z-11D4084D`
+- Note：TASK-R12-004八个Story、模块证据与Release门禁报告已完成并推送，冻结范围无遗留实现项；最终截图与APK按既定策略留到TASK-R12-007。
