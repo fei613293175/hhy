@@ -20592,9 +20592,9 @@ change_requests:
 - protocol_version: '1.0'
   cr_id: CR-0334
   title: 补齐R12统一发布可观测性与独立Staging验收
-  status: IMPLEMENTING
+  status: IMPLEMENTED
   created_at: '2026-07-25T18:11:02Z'
-  updated_at: '2026-07-25T18:27:06Z'
+  updated_at: '2026-07-25T19:08:02Z'
   requester_actor_id: codex-root-r12-observability-20260726
   approver_actor_id: codex-reviewer-r12-observability
   task_id: TASK-R12-006
@@ -20648,14 +20648,21 @@ change_requests:
     status: IMPLEMENTING
     note: R12七项业务Gauge、告警、隔离Staging、回滚事实快照和静态回归已实现，等待精确Commit远端测试与现场演练
     session_id: SES-20260725T180922Z-D7231210
+  - at: '2026-07-25T19:08:02Z'
+    actor_id: codex-root-r12-observability-20260726
+    status: IMPLEMENTED
+    note: 七项Gauge、七条告警、隔离Staging、精确Commit现场验收、告警和回滚证据全部实现
+    session_id: SES-20260725T180922Z-D7231210
   session_ids:
   - SES-20260725T180922Z-D7231210
+  implementation_commits:
+  - 4365e1c790e3792812cfd62bb415e1075eb00149
 - protocol_version: '1.0'
   cr_id: CR-0335
   title: 修正R12隔离Staging子网与R09冲突
-  status: APPROVED
+  status: IMPLEMENTED
   created_at: '2026-07-25T18:37:59Z'
-  updated_at: '2026-07-25T18:38:36Z'
+  updated_at: '2026-07-25T19:08:27Z'
   requester_actor_id: codex-root-r12-observability-20260726
   approver_actor_id: codex-reviewer-r12-network
   task_id: TASK-R12-006
@@ -20692,12 +20699,27 @@ change_requests:
     note: 服务器证据明确证明243网段被R09占用；240网段须在执行前再次审计未占用，修改仅限R12隔离资源
   machine_record: .continuity/change_requests/CR-0335.yaml
   document: docs/03-continuity/change-requests/CR-0335-修正R12隔离Staging子网与R09冲突.md
+  decision_log:
+  - at: '2026-07-25T19:08:23Z'
+    actor_id: codex-root-r12-observability-20260726
+    status: IMPLEMENTING
+    note: 已进入实现并完成对应代码、治理记录与回归
+    session_id: SES-20260725T180922Z-D7231210
+  - at: '2026-07-25T19:08:27Z'
+    actor_id: codex-root-r12-observability-20260726
+    status: IMPLEMENTED
+    note: R12默认子网切换到经服务器审计空闲的172.31.240.0/24并通过现场验收
+    session_id: SES-20260725T180922Z-D7231210
+  session_ids:
+  - SES-20260725T180922Z-D7231210
+  implementation_commits:
+  - 3205187edfec06e5055312a228f4f51ca55db9c4
 - protocol_version: '1.0'
   cr_id: CR-0336
   title: 登记R12隔离子网冲突问题与回归
-  status: APPROVED
+  status: IMPLEMENTED
   created_at: '2026-07-25T18:41:03Z'
-  updated_at: '2026-07-25T18:41:34Z'
+  updated_at: '2026-07-25T19:08:35Z'
   requester_actor_id: codex-root-r12-observability-20260726
   approver_actor_id: codex-reviewer-r12-governance
   task_id: TASK-R12-006
@@ -20727,12 +20749,27 @@ change_requests:
     note: 更新唯一Problem Registry符合既有规则，回归必须同时验证网段与端口未占用
   machine_record: .continuity/change_requests/CR-0336.yaml
   document: docs/03-continuity/change-requests/CR-0336-登记R12隔离子网冲突问题与回归.md
+  decision_log:
+  - at: '2026-07-25T19:08:31Z'
+    actor_id: codex-root-r12-observability-20260726
+    status: IMPLEMENTING
+    note: 已进入实现并完成对应代码、治理记录与回归
+    session_id: SES-20260725T180922Z-D7231210
+  - at: '2026-07-25T19:08:35Z'
+    actor_id: codex-root-r12-observability-20260726
+    status: IMPLEMENTED
+    note: PROB-0110已登记并由服务器资源审计与静态回归验证
+    session_id: SES-20260725T180922Z-D7231210
+  session_ids:
+  - SES-20260725T180922Z-D7231210
+  implementation_commits:
+  - 3205187edfec06e5055312a228f4f51ca55db9c4
 - protocol_version: '1.0'
   cr_id: CR-0337
   title: 修正R12现场验收Flyway V041格式误判
-  status: APPROVED
+  status: IMPLEMENTED
   created_at: '2026-07-25T18:51:04Z'
-  updated_at: '2026-07-25T18:51:29Z'
+  updated_at: '2026-07-25T19:08:44Z'
   requester_actor_id: codex-root-r12-observability-20260726
   approver_actor_id: codex-reviewer-r12-governance
   task_id: TASK-R12-006
@@ -20765,3 +20802,63 @@ change_requests:
     note: 041是Flyway对V041的权威版本输出，修正断言且保留失败证据符合不盲目重跑规则
   machine_record: .continuity/change_requests/CR-0337.yaml
   document: docs/03-continuity/change-requests/CR-0337-修正R12现场验收Flyway-V041格式误判.md
+  decision_log:
+  - at: '2026-07-25T19:08:40Z'
+    actor_id: codex-root-r12-observability-20260726
+    status: IMPLEMENTING
+    note: 已进入实现并完成对应代码、治理记录与回归
+    session_id: SES-20260725T180922Z-D7231210
+  - at: '2026-07-25T19:08:44Z'
+    actor_id: codex-root-r12-observability-20260726
+    status: IMPLEMENTED
+    note: Flyway V041权威输出041断言已修正，PROB-0111登记，新Commit现场完整通过
+    session_id: SES-20260725T180922Z-D7231210
+  session_ids:
+  - SES-20260725T180922Z-D7231210
+  implementation_commits:
+  - 4365e1c790e3792812cfd62bb415e1075eb00149
+- protocol_version: '1.0'
+  cr_id: CR-0338
+  title: 冻结现场证据原始字节避免Git换行改写
+  status: IMPLEMENTING
+  created_at: '2026-07-25T19:11:37Z'
+  updated_at: '2026-07-25T19:13:05Z'
+  requester_actor_id: codex-root-r12-observability-20260726
+  approver_actor_id: codex-reviewer-r12-evidence
+  task_id: TASK-R12-006
+  session_id: SES-20260725T180922Z-D7231210
+  user_request: 按仓库事实源连续开发并保证交付证据可验证
+  reason: 未推送Commit对象校验发现trace-headers.txt被Git文本规范化，提交字节哈希与obx-test原始证据不一致
+  original_rule: 现场证据必须保留服务器原始字节并可由SHA256SUMS复核
+  new_rule: artifacts/validation下的现场证据按原始字节入库，禁止Git换行过滤；提交对象必须逐文件对照SHA256SUMS
+  impact_summary: 为现场证据目录增加Git -text规则，重新暂存原始字节并登记PROB-0112，不修改产品代码或运行时
+  impact:
+    files:
+    - .gitattributes
+    - artifacts/validation/r12-task006-staging
+    - docs/03-continuity/PROBLEM_REGISTRY.yaml
+    pages: []
+    apis: []
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - Git index blob SHA256 versus artifacts/validation/r12-task006-staging/SHA256SUMS
+    releases:
+    - R12
+    migration_and_compatibility: 仅证据存储格式治理；既有产品、数据库、API和现场运行结果不变
+  user_confirmation: 项目所有者要求证据和规则跨电脑跨AI可直接复用
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-25T19:12:01Z'
+    note: 原始现场证据必须字节级可追溯，目录级-text规则和提交对象复核是最小修复
+  machine_record: .continuity/change_requests/CR-0338.yaml
+  document: docs/03-continuity/change-requests/CR-0338-冻结现场证据原始字节避免Git换行改写.md
+  decision_log:
+  - at: '2026-07-25T19:13:05Z'
+    actor_id: codex-root-r12-observability-20260726
+    status: IMPLEMENTING
+    note: 已加入artifacts/validation原始字节规则，Git索引25文件与现场SHA256SUMS逐项一致
+    session_id: SES-20260725T180922Z-D7231210
+  session_ids:
+  - SES-20260725T180922Z-D7231210

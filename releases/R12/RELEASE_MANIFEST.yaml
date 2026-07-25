@@ -239,6 +239,50 @@ task_005_specialized_test_gate:
   - ai_visual_review
   - assemble_signed_test_apk
   next_task: TASK-R12-006
+task_006_observability_gate:
+  status: PASS
+  completed_at: '2026-07-26'
+  session_id: SES-20260725T180922Z-D7231210
+  change_requests:
+  - CR-0334
+  - CR-0335
+  - CR-0336
+  - CR-0337
+  source_commit: 4365e1c790e3792812cfd62bb415e1075eb00149
+  report: artifacts/reports/R12/TASK-R12-006-staging.md
+  evidence: artifacts/validation/r12-task006-staging/
+  staging:
+    compose_project: hhy-r12-staging-a2
+    subnet: 172.31.240.0/24
+    postgres: 17.10
+    flyway: V041
+    schema_tables_including_flyway: 201
+    business_tables: 200
+    evidence_files: 25
+    evidence_sha256_manifest: 7180b33251308b1b77f15a1faafb51d440d65513ad81c34dab765d7c818bb23e
+  observability:
+    business_gauges: 7
+    alert_rules: 7
+    prometheus_target: PASS
+    backend_down_firing_and_resolved: PASS
+    r12_outbox_firing_and_resolved: PASS
+    log_redaction: PASS
+  rollback:
+    baseline_image: sha256:49bc8ff7ab451137d7221b9fec8f46c9ee9f03dbdb7b596cee6663cc00524601
+    current_image: sha256:12e73089033a1f59082e08b0f85232a69c8a6a7ac4938c1e7e524e1830195074
+    same_postgres_container: PASS
+    same_postgres_volume: PASS
+    publishing_facts_preserved: PASS
+    current_image_restored: PASS
+  acceptance:
+    AC-R12-004: PASS
+  deferred_final_candidate:
+  - android_full_release_gate
+  - emulator_real_screenshots
+  - ai_visual_review
+  - assemble_signed_test_apk
+  - install_smoke
+  next_task: TASK-R12-007
 entry_gate:
 - releases/R12/DEFINITION_OF_READY.yaml 全部适用项为PASS
 - releases/R12/STORIES.yaml 中每个故事均绑定页面/API/配置/数据/测试或显式N/A

@@ -1,0 +1,4 @@
+r12-stage-alert-4365e1c7-1|PUBLISHED|1|t
+r12-stage-alert-4365e1c7-2|PUBLISHED|1|t
+r12-stage-alert-4365e1c7-3|PUBLISHED|1|t
+r12-stage-alert-4365e1c7-4|PUBLISHED|1|t

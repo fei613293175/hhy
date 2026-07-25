@@ -1,0 +1,7 @@
+NAME                                IMAGE                            COMMAND                  SERVICE        CREATED          STATUS                    PORTS
+hhy-r12-staging-a2-alert-sink-1     hhy-alert-sink-r12:4365e1c7      "python /app/alert_s…"   alert-sink     42 seconds ago   Up 41 seconds (healthy)   8080/tcp
+hhy-r12-staging-a2-alertmanager-1   prom/alertmanager:v0.28.1        "/bin/alertmanager -…"   alertmanager   42 seconds ago   Up 35 seconds             127.0.0.1:39615->9093/tcp
+hhy-r12-staging-a2-api-1            hhy-backend-r12-smoke:4365e1c7   "java -XX:MaxRAMPerc…"   api            42 seconds ago   Up 34 seconds (healthy)   8080/tcp, 9091/tcp
+hhy-r12-staging-a2-nginx-1          nginx:1.28.0-alpine              "/docker-entrypoint.…"   nginx          42 seconds ago   Up 7 seconds              127.0.0.1:38112->80/tcp
+hhy-r12-staging-a2-postgres-1       postgres:17.10-alpine            "docker-entrypoint.s…"   postgres       42 seconds ago   Up 41 seconds (healthy)   5432/tcp
+hhy-r12-staging-a2-prometheus-1     prom/prometheus:v3.5.0           "/bin/prometheus --c…"   prometheus     42 seconds ago   Up 8 seconds              127.0.0.1:39614->9090/tcp

@@ -1589,3 +1589,10 @@
 - 摘要：TASK-R12-005完成：六个既有R12权威测试ID全部AUTOMATED，响应丢失重放、同键异体、Outbox单写、配置/存储故障零成功副作用和PostgreSQL17真实并发证据全部PASS，P0/P1缺陷清零。
 - 记录：`docs/03-continuity/sessions/2026-07/SES-20260725T171320Z-7ACF9261.md`
 
+## TASK-R12-006 · IMPLEMENTED · 2026-07-25T18:56:00Z
+
+- Release：`R12`
+- Story：`STORY-R12-008`
+- Actor：`codex-root-r12-observability-20260726`
+- 摘要：完成统一发布七项业务Gauge、七条专属告警、隔离Staging、Trace与日志脱敏、两类告警送达、Outbox合法终结和同库同卷回切；精确Commit `4365e1c7` 的223.7秒现场演练及25项证据全部PASS，`AC-R12-004` 已签字。
+- 证据：`artifacts/reports/R12/TASK-R12-006-staging.md`

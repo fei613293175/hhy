@@ -1529,3 +1529,16 @@ problems:
   - 不得把带前导零的迁移版本当作整数手写比较值
   - 不得让静态测试只逐字复制实现而不核对真实工具输出
   - 确定性脚本缺陷出现后不得原样重跑同一Commit，应保留失败证据并修复后递增Commit
+- id: PROB-0112
+  title: Git文本规范化改写现场证据导致提交对象哈希漂移
+  status: SOLVED
+  root_cause: 仓库全局gitattributes默认把文本规范化为LF，obx-test采集的trace-headers.txt包含HTTP原始CRLF。工作区逐文件SHA校验通过后，Git在入库时把该文件转换为LF，导致未推送Commit对象的SHA与现场SHA256SUMS不一致；只检查工作区无法发现这种索引层漂移。
+  resolution: CR-0338在既有.gitattributes中为artifacts/validation/**增加-text原始字节规则，重新暂存现场证据，并在推送前直接读取Git索引或Commit对象逐文件对照SHA256SUMS。未推送的错误证据Commit被原位重建，不进入远端历史。
+  regression_checks:
+  - git check-attr text -- artifacts/validation/r12-task006-staging/trace-headers.txt必须返回text: unset
+  - Git索引中的25个现场证据对象必须逐文件匹配artifacts/validation/r12-task006-staging/SHA256SUMS
+  - 干净检出后必须再次逐文件复核SHA256SUMS，不得只检查当前工作区
+  do_not_repeat:
+  - 不得把工作区文件哈希通过等同于Git提交对象字节一致
+  - 带HTTP头、外部工具输出或签名数据的现场证据不得经过Git文本换行过滤
+  - 发现未推送证据Commit哈希漂移时不得推送后再补说明，应先重建未推送Commit

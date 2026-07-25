@@ -11,13 +11,14 @@ task_id: TASK-R12-006
 story_id: STORY-R12-008
 goal: 完成R12统一发布与发布管理结构化日志、TraceId、RED及业务指标、告警、隔离Staging回滚演练和验收矩阵签字
 started_at: '2026-07-25T18:09:22Z'
-updated_at: '2026-07-25T18:53:58Z'
+updated_at: '2026-07-25T19:13:32Z'
 takeover_of: null
 change_requests:
 - CR-0334
 - CR-0335
 - CR-0336
 - CR-0337
+- CR-0338
 scope:
   allowed_paths:
   - apps/**
@@ -71,7 +72,8 @@ scope:
   - releases/R12/RELEASE_MANIFEST.yaml
   - CHANGELOG.md
   - docs/03-continuity/PROBLEM_REGISTRY.yaml
-  source: story+explicit+approved-cr:CR-0334+approved-cr:CR-0335+approved-cr:CR-0336+approved-cr:CR-0337
+  - .gitattributes
+  source: story+explicit+approved-cr:CR-0334+approved-cr:CR-0335+approved-cr:CR-0336+approved-cr:CR-0337+approved-cr:CR-0338
 git:
   initialized: true
   branch: task/TASK-R03-001
@@ -81,22 +83,22 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-25T18:53:52Z'
-  expires_at: '2026-07-25T22:53:52Z'
-checkpoint_sequence: 4
-latest_checkpoint: .continuity/checkpoints/SES-20260725T180922Z-D7231210/0004.yaml
+  renewed_at: '2026-07-25T19:13:26Z'
+  expires_at: '2026-07-25T23:13:26Z'
+checkpoint_sequence: 6
+latest_checkpoint: .continuity/checkpoints/SES-20260725T180922Z-D7231210/0006.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260725T180922Z-D7231210.md
-next_step: 提交推送新Commit并以新Compose项目执行R12 Staging完整验收
+next_step: 重建未推送验收证据Commit，验证Commit对象25文件哈希后推送并关闭CR
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: b442332a6ee149c96aff02c2ae292b034af6705141d40debab9c68abad5d390a
-  generated_at: '2026-07-25T18:53:56Z'
+  context_hash: 25bbaa35b2c0d8db7695b68cc188c32d4e0fc2c0d6ec81a89d017be2abc176ff
+  generated_at: '2026-07-25T19:13:30Z'
 handoff_bundle: null
 closure: null
 parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 当前唯一连续性会话需串行写入检查点、提交并占用单一R12现场资源，避免事实源与Docker项目竞争
+  reason: 未推送Commit重建、索引字节校验与连续性检查点必须在当前唯一会话串行完成

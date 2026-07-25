@@ -79,3 +79,17 @@ obx-test精确Commit现场证据显示数据库版本为041，脚本错误比较
 - 决定：`APPROVED`
 - 时间：`2026-07-25T18:51:29Z`
 - 说明：041是Flyway对V041的权威版本输出，修正断言且保留失败证据符合不盲目重跑规则
+
+## 状态记录 · 2026-07-25T19:08:40Z
+
+- Actor：`codex-root-r12-observability-20260726`
+- Status：`IMPLEMENTING`
+- Session：`SES-20260725T180922Z-D7231210`
+- Note：已进入实现并完成对应代码、治理记录与回归
+
+## 状态记录 · 2026-07-25T19:08:44Z
+
+- Actor：`codex-root-r12-observability-20260726`
+- Status：`IMPLEMENTED`
+- Session：`SES-20260725T180922Z-D7231210`
+- Note：Flyway V041权威输出041断言已修正，PROB-0111登记，新Commit现场完整通过
