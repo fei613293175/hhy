@@ -1,7 +1,7 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-25T21:12:57Z
-- Context Hash：`b64e9beee22e6d09118e63b0bfb3e49fcd19647e05096293e596350cd6bb8bcd`
+- 生成时间：2026-07-25T21:43:34Z
+- Context Hash：`0b6c4b9c477a7a198a6698d8e84867b2c1529c9684a97b3286d3553b2c63b845`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 规则就绪：`PASS`（`HASHED_CONTEXT_MANIFEST`）
@@ -164,7 +164,7 @@ blocked_tasks:
 - TASK-R06-008
 - TASK-R07-008
 next_task: TASK-R12-007
-updated_at: '2026-07-25T21:12:53Z'
+updated_at: '2026-07-25T21:43:28Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -199,15 +199,15 @@ continuity:
   active_session_id: SES-20260725T192048Z-668BD05D
   actor_id: codex-root-r12-candidate-20260726
   story_id: STORY-R12-008
-  lease_expires_at: '2026-07-26T01:12:53Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260725T192048Z-668BD05D/0004.yaml
-  project_fingerprint: b5e0e8bf50ca7d53d14e1ece4096dc562057109af98ffaa05517249bdf1c1641
+  lease_expires_at: '2026-07-26T01:43:28Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260725T192048Z-668BD05D/0005.yaml
+  project_fingerprint: 891c46769257f0c49c48b6814951d7bf57980ab703365728ae6f0d2b178c1b48
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: 99e76a8b2ba464dabfa1ab71e7b8df6bc4fd9a632cafc45f6b9fad0704d0171c
-    generated_at: '2026-07-25T21:01:31Z'
+    context_hash: bc82a9f7355c05720cd3b8fdc7d66606cac1a785a8978ca48f0aca3433ac2b70
+    generated_at: '2026-07-25T21:29:53Z'
   handoff_bundle: null
 ```
 
@@ -405,11 +405,12 @@ task_id: TASK-R12-007
 story_id: STORY-R12-008
 goal: 完成R12最终Android候选、真实模拟器截图AI验收、固定签名测试APK与桌面交付
 started_at: '2026-07-25T19:20:48Z'
-updated_at: '2026-07-25T21:12:53Z'
+updated_at: '2026-07-25T21:43:28Z'
 takeover_of: null
 change_requests:
 - CR-0339
 - CR-0340
+- CR-0341
 scope:
   allowed_paths:
   - apps/**
@@ -457,12 +458,12 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-25T21:12:53Z'
-  expires_at: '2026-07-26T01:12:53Z'
-checkpoint_sequence: 4
-latest_checkpoint: .continuity/checkpoints/SES-20260725T192048Z-668BD05D/0004.yaml
+  renewed_at: '2026-07-25T21:43:28Z'
+  expires_at: '2026-07-26T01:43:28Z'
+checkpoint_sequence: 5
+latest_checkpoint: .continuity/checkpoints/SES-20260725T192048Z-668BD05D/0005.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260725T192048Z-668BD05D.md
-next_step: 提交并推送R12-CANDIDATE-20260726-002，监控唯一GitHub候选并依据新后端原始错误类型或十页证据继续处理
+next_step: 提交并推送夹具修复但保持candidate attempt 2请求不变；远端门禁通过后独立递增attempt 3并触发最后一次完整候选
 context_pack: THIS_CONTEXT_PACK
 handoff_bundle: null
 closure: null
@@ -471,62 +472,81 @@ parallel_execution:
   delegated_workers: 1
   workers:
   - worker_id: profile_contract_review
-    responsibility: 独立复核并批准CR-0340范围
+    responsibility: 独立复核并批准CR-0341范围
     allowed_paths:
-    - .continuity/change_requests/CR-0340.yaml
-    - docs/03-continuity/change-requests/CR-0340-修复R12候选OIDC异常日志重复requestId遮蔽.md
-  reason: attempt 2请求、精确后端部署和唯一候选触发相互依赖，由主控串行集成
+    - .continuity/change_requests/CR-0341.yaml
+    - docs/03-continuity/change-requests/CR-0341-补齐R12隔离候选official-STAGING版本发布夹具.md
+  reason: 实现、真实数据库写入与公网验证相互依赖，由主控串行集成；独立代理只承担CR范围审批
 ```
 
 ## 最新检查点
 
 ```yaml
 protocol_version: '1.0'
-checkpoint_id: CP-SES-20260725T192048Z-668BD05D-0004
+checkpoint_id: CP-SES-20260725T192048Z-668BD05D-0005
 session_id: SES-20260725T192048Z-668BD05D
 task_id: TASK-R12-007
 story_id: STORY-R12-008
-sequence: 4
-created_at: '2026-07-25T21:12:52Z'
-summary: R12 attempt 2候选请求已递增，CR-0340精确后端镜像已部署并通过公网路由与安全日志验证
-next_step: 提交并推送R12-CANDIDATE-20260726-002，监控唯一GitHub候选并依据新后端原始错误类型或十页证据继续处理
+sequence: 5
+created_at: '2026-07-25T21:43:26Z'
+summary: CR-0341补齐R12隔离候选official+STAGING+10221发布链并完成模拟器前确定性验证
+next_step: 提交并推送夹具修复但保持candidate attempt 2请求不变；远端门禁通过后独立递增attempt 3并触发最后一次完整候选
 blockers: []
 decisions: []
 note: ''
 tests:
-- name: r12-candidate-contract
+- name: r12-candidate-module
   result: PASS
-  evidence: 29 unittest tests
-  note: R12 request, CI gate and candidate parser pass
-- name: backend-image
+  evidence: 30 unittest tests
+  note: R12 fixture、candidate request与Android CI gate全部通过
+- name: r12-fixture-idempotence
   result: PASS
-  evidence: obx-test:hhy-backend-r12-candidate:d2244cf5 sha256:2bb8c5348d1e2cefa0eeafa124e84c942d8f5c6da623c024a19a55e4041ade99
-  note: image label commit d2244cf55481a8aed9996d82402317df4455792a
-- name: candidate-public-route
+  evidence: obx-test two exact outputs
+  note: 两次均release=1、release_version=10221、release_update=NONE且逐字一致
+- name: r12-version-policy-public
   result: PASS
-  evidence: api.orbexa.cc -> 127.0.0.1:28098 -> hhy-r12-ci-candidate-d2244cf5
-  note: new container healthy and old container received no probe
-- name: structured-log-runtime
+  evidence: HTTP 200 requestId ad653810-33e6-433a-b05b-cc8cf15ebf33
+  note: official+STAGING+10221返回latestVersionCode 10221和updateType NONE
+- name: r12-fixture-isolation
   result: PASS
-  evidence: requestId 6cd0b03d-1f43-4c3e-bfa7-818ea8e6f171
-  note: errorType BadJwtException with no duplicate requestId error
-- name: git-diff-check
+  evidence: obx-test PostgreSQL V041 chain counts 1,1,1,1,1 and PROD channels 0
+  note: 五层链唯一且未写PROD
+- name: r12-ui-catalog
   result: PASS
-  evidence: git diff --check
-  note: no whitespace errors
+  evidence: UI_VISUAL_CATALOG_OK R12 pages=11
+  note: 候选前视觉目录保持完整
+- name: cloud-android-environment
+  result: PASS
+  evidence: verify_cloud_environment development_allowed true
+  note: 固定Android镜像、Gradle缓存、API36和构建槽可用
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: d2244cf55481a8aed9996d82402317df4455792a
+  head: 2b51aa89739efc8d195ee7c4991f28bee98d0126
   upstream: origin/task/TASK-R03-001
   ahead: 0
   behind: 0
   dirty: true
   status_porcelain:
+  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/sessions/SES-20260725T192048Z-668BD05D.yaml'
   - ' M CHANGELOG.md'
-  - ' M config/android-candidate-request.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+  - ' M artifacts/validation/project-doctor-v1.2.3.json'
+  - ' M catalogs/change_request_index.csv'
+  - ' M catalogs/session_index.csv'
+  - ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
+  - ' M scripts/prepare_r12_ci_fixture.sh'
   - ' M tests/test_r12_candidate.py'
+  - ?? .continuity/change_requests/CR-0341.yaml
+  - ?? docs/03-continuity/change-requests/CR-0341-补齐R12隔离候选official-STAGING版本发布夹具.md
   recent_commits:
+  - "2b51aa89739efc8d195ee7c4991f28bee98d0126\t2026-07-26T05:13:11+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] test(r12): request Android\
+    \ candidate attempt 2"
   - "d2244cf55481a8aed9996d82402317df4455792a\t2026-07-26T05:03:22+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] fix(r12): preserve OIDC failure\
     \ observability"
   - "f6d53d0b67f5eba6381303b3927dc1eea971a859\t2026-07-26T04:27:02+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] test(r12): prepare final Android\
@@ -541,10 +561,8 @@ git:
     \ V041 output"
   - "3205187edfec06e5055312a228f4f51ca55db9c4\t2026-07-26T02:46:04+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] fix(r12): isolate staging\
     \ subnet"
-  - "c4f2b8a2899130a81ea76ca8b5a87c016f56b28d\t2026-07-26T02:29:43+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] feat(r12): add publishing\
-    \ observability staging gate"
 project_fingerprint:
-  sha256: b5e0e8bf50ca7d53d14e1ece4096dc562057109af98ffaa05517249bdf1c1641
+  sha256: 891c46769257f0c49c48b6814951d7bf57980ab703365728ae6f0d2b178c1b48
   files:
   - CHANGELOG.md
   - apps/android/app/build.gradle.kts
@@ -555,20 +573,21 @@ project_fingerprint:
   - docs/03-continuity/PROBLEM_REGISTRY.yaml
   - docs/03-continuity/change-requests/CR-0339-补齐R12统一发布Android最终候选与产物追溯.md
   - docs/03-continuity/change-requests/CR-0340-修复R12候选OIDC异常日志重复requestId遮蔽.md
+  - docs/03-continuity/change-requests/CR-0341-补齐R12隔离候选official-STAGING版本发布夹具.md
   - scripts/prepare_r12_ci_fixture.sh
   - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/web/GlobalExceptionHandler.java
   - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/web/GlobalExceptionHandlerTest.java
   - tests/android/visual-manifests/R12.yaml
   - tests/test_android_ci_gate.py
   - tests/test_r12_candidate.py
-  file_count: 15
+  file_count: 16
   payload:
     base_commit: 8b20e881c6a72fc1e1deb11e86f3212e36ea7941
     files:
     - path: CHANGELOG.md
       state: FILE
-      size: 143859
-      sha256: cba357d62ee5430e4df5dd42437536d9bb14628d70c79e6dcbfb0cb57e19e70e
+      size: 144509
+      sha256: 29a0147bfe62770b1fb09c7869931e32a978acd032f8581e43ac7d6635f5b9d3
     - path: apps/android/app/build.gradle.kts
       state: FILE
       size: 5357
@@ -591,8 +610,8 @@ project_fingerprint:
       sha256: 14afa02eead064c81c3e86fb3038abde26302237cfd76cf3d205826e95279c74
     - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
       state: FILE
-      size: 160918
-      sha256: f87d2b8c34c29fe8a06fc846d5c278389bb626f7c2c6d4197cb970ae01f67bea
+      size: 163038
+      sha256: f74545a5a41da8ff0b559d9e76f51b912f6a9f50b418303c8399a228c17b8fed
     - path: docs/03-continuity/change-requests/CR-0339-补齐R12统一发布Android最终候选与产物追溯.md
       state: FILE
       size: 3675
@@ -601,10 +620,14 @@ project_fingerprint:
       state: FILE
       size: 3643
       sha256: e36ceb50b8f45a22fffdb20fc599d5972c184170c9619290706b6c40da8aad6f
+    - path: docs/03-continuity/change-requests/CR-0341-补齐R12隔离候选official-STAGING版本发布夹具.md
+      state: FILE
+      size: 4533
+      sha256: 0a222e781daea9cabe11b525f5f3522803f4c4122908afe94b81fea167b26c0d
     - path: scripts/prepare_r12_ci_fixture.sh
       state: FILE
-      size: 20242
-      sha256: fc50545618f570af4e56fd0d97d99337705dd35291c110c392d042b05f32c676
+      size: 26762
+      sha256: e9453f57670533b0670d0363d9c58e14ec89855da21dbb3a2b0422b9e1f8cd46
     - path: services/backend/boot/src/main/java/cc/orbexa/hhy/boot/web/GlobalExceptionHandler.java
       state: FILE
       size: 4776
@@ -623,8 +646,8 @@ project_fingerprint:
       sha256: 53110cadb86540e5d59c5b012b86dfd0dd6b706bba7b61c219964878e271396b
     - path: tests/test_r12_candidate.py
       state: FILE
-      size: 7598
-      sha256: eda0ecdc1dea439e1d2f9d7c50cf87d4a62d751fde9a053018eb0559656821da
+      size: 8654
+      sha256: 4d3e78e23e9320947915ad2d45ed1290df8e58622f4c027ced1fe070399d8eea
 change_classification:
   other:
   - CHANGELOG.md
@@ -646,6 +669,7 @@ change_classification:
   - docs/03-continuity/PROBLEM_REGISTRY.yaml
   - docs/03-continuity/change-requests/CR-0339-补齐R12统一发布Android最终候选与产物追溯.md
   - docs/03-continuity/change-requests/CR-0340-修复R12候选OIDC异常日志重复requestId遮蔽.md
+  - docs/03-continuity/change-requests/CR-0341-补齐R12隔离候选official-STAGING版本发布夹具.md
   tests:
   - tests/android/visual-manifests/R12.yaml
   - tests/test_android_ci_gate.py
@@ -660,6 +684,7 @@ required_records:
 change_requests:
 - CR-0339
 - CR-0340
+- CR-0341
 scope:
   allowed_paths:
   - apps/**
@@ -703,12 +728,12 @@ parallel_execution:
   delegated_workers: 1
   workers:
   - worker_id: profile_contract_review
-    responsibility: 独立复核并批准CR-0340范围
+    responsibility: 独立复核并批准CR-0341范围
     allowed_paths:
-    - .continuity/change_requests/CR-0340.yaml
-    - docs/03-continuity/change-requests/CR-0340-修复R12候选OIDC异常日志重复requestId遮蔽.md
-  reason: attempt 2请求、精确后端部署和唯一候选触发相互依赖，由主控串行集成
-event_hash: 2f9ad5fbc14eec2da3b0a967c07ae5b67bcc58bd20a0edeef09c826830dbea93
+    - .continuity/change_requests/CR-0341.yaml
+    - docs/03-continuity/change-requests/CR-0341-补齐R12隔离候选official-STAGING版本发布夹具.md
+  reason: 实现、真实数据库写入与公网验证相互依赖，由主控串行集成；独立代理只承担CR范围审批
+event_hash: 00ad9959410db937fbc3877c7236124ea74a86337b0b8ac22fc0818bb0ca8ac6
 ```
 
 ## 接续状态与事件头
@@ -720,8 +745,8 @@ active_session_id: SES-20260725T192048Z-668BD05D
 last_session_id: SES-20260725T180922Z-D7231210
 last_session_result: COMPLETED
 last_closure_checkpoint_id: CP-SES-20260725T180922Z-D7231210-0008
-event_count: 3337
-event_head_hash: 2f9ad5fbc14eec2da3b0a967c07ae5b67bcc58bd20a0edeef09c826830dbea93
+event_count: 3343
+event_head_hash: 00ad9959410db937fbc3877c7236124ea74a86337b0b8ac22fc0818bb0ca8ac6
 event_chain_valid: true
 ```
 
@@ -844,9 +869,9 @@ recent_sessions: - session_id: SES-20260724T032308Z-98D6D10A
   started_at: '2026-07-25T19:20:48Z'
   record: .continuity/sessions/SES-20260725T192048Z-668BD05D.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260725T192048Z-668BD05D.md
-  updated_at: '2026-07-25T21:12:53Z'
+  updated_at: '2026-07-25T21:43:28Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260725T192048Z-668BD05D/0004.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260725T192048Z-668BD05D/0005.yaml
   handoff_bundle: null
 task_claims: - claim_id: CLM-9F0481F9E6A2
   session_id: SES-20260723T114316Z-44EBE3C1
@@ -1840,25 +1865,36 @@ recent_task_transitions: - transition_id: TRN-7D4AC37706EB
 ```yaml
 initialized: true
 branch: task/TASK-R03-001
-head: d2244cf55481a8aed9996d82402317df4455792a
+head: 2b51aa89739efc8d195ee7c4991f28bee98d0126
 upstream: origin/task/TASK-R03-001
 ahead: 0
 behind: 0
 dirty: true
 status_porcelain:
 - ' M .continuity/ACTIVE_SESSION.yaml'
+- ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
 - ' M .continuity/EVENT_LOG.jsonl'
 - ' M .continuity/SESSION_INDEX.yaml'
 - ' M .continuity/STATE.yaml'
 - ' M .continuity/sessions/SES-20260725T192048Z-668BD05D.yaml'
 - ' M CHANGELOG.md'
 - ' M CURRENT_STATUS.yaml'
+- ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+- ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+- ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+- ' M artifacts/validation/project-doctor-v1.2.3.json'
+- ' M catalogs/change_request_index.csv'
 - ' M catalogs/session_index.csv'
-- ' M config/android-candidate-request.yaml'
+- ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
 - ' M docs/03-continuity/sessions/2026-07/SES-20260725T192048Z-668BD05D.md'
+- ' M scripts/prepare_r12_ci_fixture.sh'
 - ' M tests/test_r12_candidate.py'
-- ?? .continuity/checkpoints/SES-20260725T192048Z-668BD05D/0004.yaml
+- ?? .continuity/change_requests/CR-0341.yaml
+- ?? .continuity/checkpoints/SES-20260725T192048Z-668BD05D/0005.yaml
+- ?? docs/03-continuity/change-requests/CR-0341-补齐R12隔离候选official-STAGING版本发布夹具.md
 recent_commits:
+- "2b51aa89739efc8d195ee7c4991f28bee98d0126\t2026-07-26T05:13:11+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] test(r12): request Android candidate\
+  \ attempt 2"
 - "d2244cf55481a8aed9996d82402317df4455792a\t2026-07-26T05:03:22+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] fix(r12): preserve OIDC failure\
   \ observability"
 - "f6d53d0b67f5eba6381303b3927dc1eea971a859\t2026-07-26T04:27:02+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] test(r12): prepare final Android\
@@ -1872,14 +1908,12 @@ recent_commits:
 - "4365e1c790e3792812cfd62bb415e1075eb00149\t2026-07-26T02:54:07+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] fix(r12): validate Flyway V041\
   \ output"
 - "3205187edfec06e5055312a228f4f51ca55db9c4\t2026-07-26T02:46:04+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] fix(r12): isolate staging subnet"
-- "c4f2b8a2899130a81ea76ca8b5a87c016f56b28d\t2026-07-26T02:29:43+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] feat(r12): add publishing observability\
-  \ staging gate"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`b5e0e8bf50ca7d53d14e1ece4096dc562057109af98ffaa05517249bdf1c1641`
-- 文件数：15
+- 指纹：`891c46769257f0c49c48b6814951d7bf57980ab703365728ae6f0d2b178c1b48`
+- 文件数：16
 
 - `CHANGELOG.md`
 - `apps/android/app/build.gradle.kts`
@@ -1890,6 +1924,7 @@ recent_commits:
 - `docs/03-continuity/PROBLEM_REGISTRY.yaml`
 - `docs/03-continuity/change-requests/CR-0339-补齐R12统一发布Android最终候选与产物追溯.md`
 - `docs/03-continuity/change-requests/CR-0340-修复R12候选OIDC异常日志重复requestId遮蔽.md`
+- `docs/03-continuity/change-requests/CR-0341-补齐R12隔离候选official-STAGING版本发布夹具.md`
 - `scripts/prepare_r12_ci_fixture.sh`
 - `services/backend/boot/src/main/java/cc/orbexa/hhy/boot/web/GlobalExceptionHandler.java`
 - `services/backend/boot/src/test/java/cc/orbexa/hhy/boot/web/GlobalExceptionHandlerTest.java`
@@ -11236,29 +11271,85 @@ PARALLEL_EXECUTION_PLAN.yaml:
     session_id: SES-20260725T192048Z-668BD05D
   session_ids:
   - SES-20260725T192048Z-668BD05D
+- protocol_version: '1.0'
+  cr_id: CR-0341
+  title: 补齐R12隔离候选official-STAGING版本发布夹具
+  status: IMPLEMENTED
+  created_at: '2026-07-25T21:31:45Z'
+  updated_at: '2026-07-25T21:42:05Z'
+  requester_actor_id: codex-root-r12-candidate-20260726
+  approver_actor_id: codex-independent-r12-release-fixture-reviewer
+  task_id: TASK-R12-007
+  session_id: SES-20260725T192048Z-668BD05D
+  user_request: 持续推进R12最终候选，避免在GitHub模拟器上盲目重跑；终端静默执行并复用obx-test环境
+  reason: Run 30175242918已完成OIDC自动登录，但启动门禁对official+STAGING+10221调用version-check返回404；R12隔离数据库app_build_artifacts、app_release_channels、app_release_records均为空，候选夹具遗漏启动必需的已发布版本链
+  original_rule: R12专用候选夹具只创建登录用户、会员奖励和发布内容事实，未创建StartupGate调用official+STAGING版本检查所需的构建配置、构建任务、APK产物、渠道与已发布记录；空发布表使正确的10221请求返回404，十页旅程无法开始
+  new_rule: R12专用候选夹具必须在同一事务中幂等创建唯一official+STAGING活动渠道、10221对应的确定性构建配置/任务/APK产物和PUBLISHED发布记录；重复执行输出严格一致，POST version-check对10221返回HTTP 200且updateType=NONE，任何完整候选触发前必须先在obx-test验证两次夹具与公网启动门禁
+  impact_summary: 仅补充R12隔离STAGING候选测试数据及静态回归和唯一问题记录；不修改生产数据库迁移、版本检查合同、Android业务页面、生产PROD发布链或既有R01-R11基线
+  impact:
+    files:
+    - scripts/prepare_r12_ci_fixture.sh
+    - tests/test_r12_candidate.py
+    - docs/03-continuity/PROBLEM_REGISTRY.yaml
+    - CHANGELOG.md
+    pages: []
+    apis:
+    - POST /public-api/v1/app/version-check（合同不变，仅补候选数据）
+    database:
+    - R12隔离夹具：app_build_profiles/app_build_jobs/app_build_artifacts/app_release_channels/app_release_records
+    configuration:
+    - R12 candidate fixture official/STAGING/versionCode 10221
+    ledger: []
+    tests:
+    - tests.test_r12_candidate；夹具连续执行两次输出严格一致；version-check HTTP 200且updateType=NONE；Problem Registry YAML唯一性
+    releases:
+    - R12
+    migration_and_compatibility: 无迁移；仅向专用hhy-r12-staging-*-postgres-1隔离数据库写入带R12固定标识的可重复夹具，已存在且一致时复用，发现冲突或漂移时硬失败，不触碰PROD渠道或生产发布记录
+  user_confirmation: 项目所有者已明确授权持续开发、静默执行终端命令、复用obx-test既有环境并避免反复浪费GitHub模拟器时间。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-25T21:33:47Z'
+    note: 独立复核确认根因成立且不与PROB-0053/CR-0127重复：既有问题修复owner-test渠道漂移，本CR修复R12隔离STAGING数据库发布链为空。范围仅限prepare_r12_ci_fixture、其静态回归、唯一Problem Registry和Changelog；夹具必须受YES确认、hhy-r12-ci-candidate-*后端、hhy-r12-staging-*-postgres-1数据库、staging
+      Profile及CI automation五重约束，同事务幂等写入official+STAGING+10221，发现漂移硬失败。回归必须明确拒绝PROD写入，连续两次输出一致，并在模拟器前验证公网version-check为200且updateType=NONE；不得修改API合同、迁移或生产发布记录。
+  machine_record: .continuity/change_requests/CR-0341.yaml
+  document: docs/03-continuity/change-requests/CR-0341-补齐R12隔离候选official-STAGING版本发布夹具.md
+  decision_log:
+  - at: '2026-07-25T21:36:44Z'
+    actor_id: codex-root-r12-candidate-20260726
+    status: IMPLEMENTING
+    note: 独立审批完成；开始补齐R12隔离候选official+STAGING+10221发布链、静态回归和唯一问题登记，模拟器前先做obx-test双次幂等与公网200/NONE验证。
+    session_id: SES-20260725T192048Z-668BD05D
+  - at: '2026-07-25T21:42:05Z'
+    actor_id: codex-root-r12-candidate-20260726
+    status: IMPLEMENTED
+    note: R12隔离STAGING发布链已实现：tests.test_r12_candidate、android candidate request/gate共30项通过，Problem Registry 114项唯一；obx-test Bash语法通过，夹具连续两次输出逐字一致并显示release=1/version=10221/update=NONE；服务器五层链各1且PROD渠道0；公网version-check
+      HTTP 200、latestVersionCode=10221、updateType=NONE。
+    session_id: SES-20260725T192048Z-668BD05D
+  session_ids:
+  - SES-20260725T192048Z-668BD05D
 ```
 
 ## 上下文来源及哈希
 
 - `AGENTS.md` — `690f960020dcbd18080ec91b3c314335627b32e231b9f9b2e14566b0fbbaeb35`
 - `START_HERE.md` — `22de14029ce47beb41ea569e36ce223fbc9d11b86f8676f28d5fbbd83896af5c`
-- `CURRENT_STATUS.yaml` — `f7c7f27891c92b033e0ecaa79a4bf592302f7a94ee8c4160a1a6e7929e3b3785`
+- `CURRENT_STATUS.yaml` — `b3d404a6f8903a966e41aea9a976140e9fe9d0c3518ec398e4fd49d243b97789`
 - `NEXT_TASK.yaml` — `1f03675aa74266e5c95220a1296010172ca5527e763602ee4ef876d1001f9507`
 - `DEVELOPMENT_RISK_REGISTER.md` — `8304c91492e4ee2abea0522a06541c8688d39c7fc532b5d0cde499bf09fffb87`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
-- `docs/03-continuity/PROBLEM_REGISTRY.yaml` — `f87d2b8c34c29fe8a06fc846d5c278389bb626f7c2c6d4197cb970ae01f67bea`
+- `docs/03-continuity/PROBLEM_REGISTRY.yaml` — `f74545a5a41da8ff0b559d9e76f51b912f6a9f50b418303c8399a228c17b8fed`
 - `docs/03-continuity/REUSABLE_PATTERNS.md` — `fe65ac4157e0072a3e8fbe2fb815bf6badf3f81fa295f54b9663b66683f5d593`
 - `docs/03-continuity/PITFALLS.md` — `80ebb16c0f5a94a5f20a06df9a60b398e957c2e9d66720f199cad6deebc6dd45`
 - `releases/PROGRAM_EXECUTION_PLAN.yaml` — `93c0bd9fe83e2c447937c885f20d0de7a65d96c920d11b28309878bd5d533446`
 - `config/REPOSITORY_TRANSPORT.yaml` — `8c4a21f3e204d46e7ffb467d804a53ed26cda61cd088dadfddb50b69eea657fc`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `60943fcd9714cfae7274463554b5584fdb7a7aeee1ee547ff6dbc53fae6d4994`
-- `.continuity/EVENT_LOG.jsonl` — `71e62b5fce0e7e9b0582edd6a15b317cde402a270cb9f4d66222631e7e4970c2`
-- `.continuity/SESSION_INDEX.yaml` — `bed7d995122728f2198b77fe8fa2178a4a24e22a277e39323807a06ecfbfe975`
+- `.continuity/EVENT_LOG.jsonl` — `d9eacd7bc78a78591975aa0fff2cf827e4004dc472c90ebcc4b720eb49c8df94`
+- `.continuity/SESSION_INDEX.yaml` — `e9142c6bed534e474b04819cc6fe9ffb37a981c64bdee5357531f7854a8ac938`
 - `.continuity/TASK_CLAIMS.yaml` — `5948f9d27d01996570044a191a32d7a1803736d6fe2c1c0d1a4a0e16d8716541`
 - `.continuity/TASK_TRANSITIONS.yaml` — `07c10f929db719a9014aa25face3c259d96dc1793f448f33dc3012b4d5babdc4`
-- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `030792bef47345decb46c358d88e8e9efdd24f35da4227505d495f7c0372a000`
-- `.continuity/ACTIVE_SESSION.yaml` — `c212efc28614494a8f6e2bd8cbba39d6c97ceda7560de67b6968c4438221b862`
+- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `73672e65cda3bc198e9bcffd15f617650727f7d1ef1ca5607a5a128df680ac9d`
+- `.continuity/ACTIVE_SESSION.yaml` — `d9f14fa6ed7f10dd2431d8072c8af086c8d292fa3d0f830bef1caceccd4412ec`
 - `docs/00-baseline/正式商业系统全局硬性开发边界.md` — `9753b32db136e59e95a0974a62362456d9d577fd1bb40058ec985c4b64413eea`
 - `docs/02-ui/UI参考图使用与开发约束_V1.2.2.md` — `d14367586aa2067b059df58798acd20ab982459cdb35ff27fc7922a3896e4933`
 - `docs/03-continuity/持续开发无状态接续强制门禁_V1.2.3.md` — `d0ed3ed68bdd93b06500eecdfb5baa3245e6ca8b685a486788abb6eee39b3d51`
@@ -11269,10 +11360,11 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `releases/R12/TASKS.yaml` — `1ca7b627e103e1f54f2eb87f7087d848465a3c351169d186172c9055c11da709`
 - `releases/R12/ACCEPTANCE_MATRIX.csv` — `0fa8c9e830600bb02b4b6b729bc6d400dcc14fa1a2e7e4c5fb3f83d46c01abca`
 - `releases/R12/PARALLEL_EXECUTION_PLAN.yaml` — `2ddbee414a51a868b63331992e2e04c5400846cf6012474aab406e067e532e98`
-- `docs/03-continuity/sessions/2026-07/SES-20260725T192048Z-668BD05D.md` — `78d5c923dffe561d7d4a5bca95806d0d204935b2d06074ba9af8a4f3f9210860`
-- `.continuity/checkpoints/SES-20260725T192048Z-668BD05D/0004.yaml` — `ad40fa9dc3168261621d09b1c1aa523fb1c119b775887c6fa872cdf46b696d1b`
+- `docs/03-continuity/sessions/2026-07/SES-20260725T192048Z-668BD05D.md` — `36c7c2fb8fe14cc247263982fab7471329649b5f2904732a4b559aca6f338335`
+- `.continuity/checkpoints/SES-20260725T192048Z-668BD05D/0005.yaml` — `947b80a4cd51a307eb938958aa6742b943a2eee97c4bf7129eba3c350128ee60`
 - `docs/03-continuity/change-requests/CR-0339-补齐R12统一发布Android最终候选与产物追溯.md` — `fbcccbee6f0f67d3178e52e694d2e27ee7ae5e2c27881ba42c53d2aaca7a9e76`
 - `docs/03-continuity/change-requests/CR-0340-修复R12候选OIDC异常日志重复requestId遮蔽.md` — `e36ceb50b8f45a22fffdb20fc599d5972c184170c9619290706b6c40da8aad6f`
+- `docs/03-continuity/change-requests/CR-0341-补齐R12隔离候选official-STAGING版本发布夹具.md` — `0a222e781daea9cabe11b525f5f3522803f4c4122908afe94b81fea167b26c0d`
 
 ## 接手硬规则
 

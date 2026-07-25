@@ -1556,3 +1556,19 @@ problems:
   - 使用Spring Boot结构化日志时不得在MDC和SLF4J keyValue中重复写入同名字段
   - 不得为了排查OIDC把Bearer Token、JWT声明全文、异常消息或Throwable堆栈写入候选日志
   - 业务旅程开始前的确定性后端500不得直接重跑模拟器，应先修复可观测性并在固定候选后端复现
+- id: PROB-0114
+  title: R12隔离候选遗漏版本发布链导致登录成功后启动门禁404
+  status: SOLVED
+  root_cause: Run 30175242918的OIDC bootstrap、session和/api/v1/me均返回200，但R12专用夹具只创建用户、会员、奖励和内容事实，没有创建StartupGate对official+STAGING+10221所需的构建配置、构建任务、APK产物、活动渠道和PUBLISHED发布记录。隔离数据库三张发布表为空，/public-api/v1/app/version-check因此返回404，首页loaded标记和十页旅程均无法开始。既有PROB-0053处理的是客户端错误注入owner-test渠道，本次请求维度正确，根因不同。
+  resolution: CR-0341在既有R12专用夹具同一事务内幂等创建带固定标识的STAGING构建配置、10221成功任务、确定性APK元数据、official+STAGING活动渠道和NONE/PUBLISHED发布记录；任何重复或字段漂移都硬失败，脚本不包含PROD写入。完整GitHub候选前必须先在obx-test连续执行夹具两次并取得严格相同输出，再对公网version-check验证HTTP 200和updateType=NONE。
+  regression_checks:
+  - python -m unittest tests.test_r12_candidate
+  - prepare_r12_ci_fixture.sh只能接受hhy-r12-ci-candidate-*后端、hhy-r12-staging-*-postgres-1数据库、staging Profile和显式YES确认
+  - 夹具连续执行两次必须输出严格一致且release=1、release_version=10221、release_update=NONE
+  - POST /public-api/v1/app/version-check对ANDROID、10221、official、STAGING必须返回HTTP 200且updateType=NONE
+  - 服务器SQL必须证明official+STAGING+10221发布链各层唯一，夹具不得写入PROD渠道或生产发布记录
+  do_not_repeat:
+  - 最终候选夹具不得只覆盖登录后页面数据而遗漏StartupGate在认证前读取的平台状态和版本策略
+  - OIDC登录成功不能证明业务旅程可开始，必须分别验证启动门禁、首页loaded标记和页面截图阶段
+  - 已知版本表为空导致的确定性404不得通过重跑GitHub模拟器碰运气
+  - 不得复用生产PROD发布链为隔离候选补数据，只允许专用STAGING夹具

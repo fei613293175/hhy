@@ -6,6 +6,8 @@
 - CR-0340 修复 `GlobalExceptionHandler` 同时从 MDC 与 SLF4J keyValue 写入 `requestId` 导致原始 OIDC 异常被结构化日志错误遮蔽的问题；`obx-test` Java 21 双路径回归 2 项全部通过。
 - 精确 Commit `d2244cf5` 的后端镜像 `sha256:2bb8c5348d1e2cefa0eeafa124e84c942d8f5c6da623c024a19a55e4041ade99` 已部署为 R12 专用候选，公网请求只进入新容器；安全伪令牌实测记录 `errorType=BadJwtException`，未再出现重复字段错误。
 - 候选请求递增为 `R12-CANDIDATE-20260726-002` / attempt 2；继续复用 versionCode `10221`、R12 专用 Flyway V041 夹具和十页唯一旅程，截图仍由 AI 自主逐页审核。
+- Run `30175242918` 已证明 OIDC bootstrap、session 与 `/api/v1/me` 全部为 200；Emulator Job `89723135402` 随后因 R12 隔离数据库版本发布链为空，`official + STAGING + 10221` 的公开版本检查返回 404，启动门禁未进入首页，十页截图尚未开始。
+- CR-0341 在同一 R12 专用夹具事务内补齐确定性构建配置、构建任务、APK 元数据、`official + STAGING` 活动渠道和 `10221/NONE/PUBLISHED` 发布记录；任何重复或漂移均硬失败，禁止触碰 PROD。完整候选下一轮只允许在 `obx-test` 双次幂等输出一致且公网版本检查先返回 `200/NONE` 后触发。
 
 ## R12 六项专项测试与故障证据闭环 · 2026-07-26
 

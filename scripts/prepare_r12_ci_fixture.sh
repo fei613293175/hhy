@@ -192,6 +192,11 @@ DECLARE
   fixture_config bigint;
   fixture_media bigint;
   fixture_content bigint;
+  fixture_build_profile bigint;
+  fixture_build_job bigint;
+  fixture_artifact bigint;
+  fixture_channel bigint;
+  fixture_release bigint;
   active_target_count integer;
   stale record;
 BEGIN
@@ -201,6 +206,129 @@ BEGIN
 
   SELECT user_id INTO ci_user FROM hhy_r12_ci_fixture_context;
   IF ci_user IS NULL THEN RAISE EXCEPTION 'Dedicated CI user is missing or inactive'; END IF;
+
+  SELECT id INTO fixture_build_profile FROM hhy.app_build_profiles
+  WHERE environment='STAGING' AND name='r12-ci-startup-policy';
+  IF fixture_build_profile IS NULL THEN
+    INSERT INTO hhy.app_build_profiles(
+      name,environment,display_name,gradle_params,allowed_refs,status,version
+    ) VALUES (
+      'r12-ci-startup-policy','STAGING','R12候选启动版本策略',
+      'fixture-only','refs/fixtures/r12/startup-policy','ACTIVE',0
+    ) RETURNING id INTO fixture_build_profile;
+  ELSIF EXISTS (
+    SELECT 1 FROM hhy.app_build_profiles
+    WHERE id=fixture_build_profile AND (
+      display_name IS DISTINCT FROM 'R12候选启动版本策略'
+      OR gradle_params IS DISTINCT FROM 'fixture-only'
+      OR allowed_refs IS DISTINCT FROM 'refs/fixtures/r12/startup-policy'
+      OR status IS DISTINCT FROM 'ACTIVE'
+    )
+  ) THEN
+    RAISE EXCEPTION 'R12 startup build profile drifted: %',fixture_build_profile;
+  END IF;
+
+  IF (
+    SELECT count(*) FROM hhy.app_build_jobs
+    WHERE profile_id=fixture_build_profile
+      AND triggered_by='r12-ci-startup-policy' AND version_code=10221
+  )>1 THEN
+    RAISE EXCEPTION 'R12 startup build job is duplicated';
+  END IF;
+  SELECT id INTO fixture_build_job FROM hhy.app_build_jobs
+  WHERE profile_id=fixture_build_profile
+    AND triggered_by='r12-ci-startup-policy' AND version_code=10221;
+  IF fixture_build_job IS NULL THEN
+    INSERT INTO hhy.app_build_jobs(
+      profile_id,git_ref,commit_sha,version_name,version_code,status,triggered_by,
+      started_at,finished_at
+    ) VALUES (
+      fixture_build_profile,'refs/fixtures/r12/startup-policy',repeat('0',40),
+      '1.2.2',10221,'SUCCEEDED','r12-ci-startup-policy',
+      timestamptz '2026-07-25 00:00:00+00',timestamptz '2026-07-25 00:00:00+00'
+    ) RETURNING id INTO fixture_build_job;
+  ELSIF EXISTS (
+    SELECT 1 FROM hhy.app_build_jobs
+    WHERE id=fixture_build_job AND (
+      git_ref IS DISTINCT FROM 'refs/fixtures/r12/startup-policy'
+      OR commit_sha IS DISTINCT FROM repeat('0',40)
+      OR version_name IS DISTINCT FROM '1.2.2'
+      OR status IS DISTINCT FROM 'SUCCEEDED'
+    )
+  ) THEN
+    RAISE EXCEPTION 'R12 startup build job drifted: %',fixture_build_job;
+  END IF;
+
+  SELECT id INTO fixture_artifact FROM hhy.app_build_artifacts
+  WHERE job_id=fixture_build_job AND artifact_type='APK';
+  IF fixture_artifact IS NULL THEN
+    INSERT INTO hhy.app_build_artifacts(
+      job_id,artifact_type,object_key,file_size,sha256,signing_fingerprint,retention_until
+    ) VALUES (
+      fixture_build_job,'APK','fixtures/r12/hhy-pro-1.2.2-10221.apk',1,repeat('f',64),
+      repeat('e',64),timestamptz '2099-12-31 23:59:59+00'
+    ) RETURNING id INTO fixture_artifact;
+  ELSIF EXISTS (
+    SELECT 1 FROM hhy.app_build_artifacts
+    WHERE id=fixture_artifact AND (
+      object_key IS DISTINCT FROM 'fixtures/r12/hhy-pro-1.2.2-10221.apk'
+      OR file_size IS DISTINCT FROM 1
+      OR sha256 IS DISTINCT FROM repeat('f',64)
+      OR signing_fingerprint IS DISTINCT FROM repeat('e',64)
+    )
+  ) THEN
+    RAISE EXCEPTION 'R12 startup APK artifact drifted: %',fixture_artifact;
+  END IF;
+
+  SELECT id INTO fixture_channel FROM hhy.app_release_channels
+  WHERE code='official' AND environment='STAGING';
+  IF fixture_channel IS NULL THEN
+    INSERT INTO hhy.app_release_channels(
+      code,environment,download_domain,update_policy,status
+    ) VALUES (
+      'official','STAGING','https://download.orbexa.cc','R12_CI_STARTUP_GATE','ACTIVE'
+    ) RETURNING id INTO fixture_channel;
+  ELSIF EXISTS (
+    SELECT 1 FROM hhy.app_release_channels
+    WHERE id=fixture_channel AND (
+      download_domain IS DISTINCT FROM 'https://download.orbexa.cc'
+      OR update_policy IS DISTINCT FROM 'R12_CI_STARTUP_GATE'
+      OR status IS DISTINCT FROM 'ACTIVE'
+    )
+  ) THEN
+    RAISE EXCEPTION 'R12 official STAGING release channel drifted: %',fixture_channel;
+  END IF;
+
+  IF (
+    SELECT count(*) FROM hhy.app_release_records
+    WHERE channel_id=fixture_channel AND version_code=10221
+  )>1 THEN
+    RAISE EXCEPTION 'R12 startup release record is duplicated';
+  END IF;
+  SELECT id INTO fixture_release FROM hhy.app_release_records
+  WHERE channel_id=fixture_channel AND version_code=10221;
+  IF fixture_release IS NULL THEN
+    INSERT INTO hhy.app_release_records(
+      artifact_id,channel_id,version_name,version_code,update_type,status,published_at,
+      min_supported_version_code,release_notes
+    ) VALUES (
+      fixture_artifact,fixture_channel,'1.2.2',10221,'NONE','PUBLISHED',
+      timestamptz '2026-07-25 00:00:00+00',10221,'R12隔离候选启动策略夹具'
+    ) RETURNING id INTO fixture_release;
+  ELSIF EXISTS (
+    SELECT 1 FROM hhy.app_release_records
+    WHERE id=fixture_release AND (
+      artifact_id IS DISTINCT FROM fixture_artifact
+      OR version_name IS DISTINCT FROM '1.2.2'
+      OR update_type IS DISTINCT FROM 'NONE'
+      OR status IS DISTINCT FROM 'PUBLISHED'
+      OR published_at IS DISTINCT FROM timestamptz '2026-07-25 00:00:00+00'
+      OR min_supported_version_code IS DISTINCT FROM 10221
+      OR release_notes IS DISTINCT FROM 'R12隔离候选启动策略夹具'
+    )
+  ) THEN
+    RAISE EXCEPTION 'R12 startup release record drifted: %',fixture_release;
+  END IF;
 
   INSERT INTO hhy.user_profiles(user_id,nickname,bio)
   VALUES (ci_user,'R12候选发布者','专注联合增长、内容运营与商业协作落地')
@@ -408,7 +536,10 @@ SELECT 'R12_CI_FIXTURE_OK|user='||u.id||
        '|online='||count(DISTINCT online.id)||
        '|target='||target.id||
        '|target_media='||count(DISTINCT media.id)||
-       '|target_snapshot='||count(DISTINCT snapshot.id)
+       '|target_snapshot='||count(DISTINCT snapshot.id)||
+       '|release='||count(DISTINCT release.id)||
+       '|release_version='||min(release.version_code)::text||
+       '|release_update='||min(release.update_type)
 FROM hhy.users u
 JOIN hhy.identity_profiles identity ON identity.user_id=u.id AND identity.status='VERIFIED'
 JOIN hhy.user_memberships membership ON membership.user_id=u.id AND membership.status='ACTIVE'
@@ -427,6 +558,19 @@ JOIN hhy.content_posts rejected ON rejected.owner_id=u.id
   AND rejected.title='R12候选未通过的渠道方案' AND rejected.status='REJECTED'
 JOIN hhy.content_posts online ON online.owner_id=u.id
   AND online.title='R12候选已上线的联合增长项目' AND online.status='ONLINE'
+JOIN hhy.app_build_profiles build_profile
+  ON build_profile.environment='STAGING' AND build_profile.name='r12-ci-startup-policy'
+  AND build_profile.status='ACTIVE'
+JOIN hhy.app_build_jobs build_job
+  ON build_job.profile_id=build_profile.id AND build_job.triggered_by='r12-ci-startup-policy'
+  AND build_job.version_code=10221 AND build_job.status='SUCCEEDED'
+JOIN hhy.app_build_artifacts artifact
+  ON artifact.job_id=build_job.id AND artifact.artifact_type='APK'
+JOIN hhy.app_release_channels channel
+  ON channel.code='official' AND channel.environment='STAGING' AND channel.status='ACTIVE'
+JOIN hhy.app_release_records release
+  ON release.channel_id=channel.id AND release.artifact_id=artifact.id
+  AND release.version_code=10221 AND release.update_type='NONE' AND release.status='PUBLISHED'
 WHERE u.phone=:'ci_phone' AND u.status='ACTIVE'
   AND reward.pending=3200 AND reward.available=128600 AND reward.frozen=1200
   AND detail.region='上海' AND stats.organic_views='128'
@@ -438,5 +582,10 @@ HAVING count(DISTINCT membership.id)=1
    AND count(DISTINCT rejected.id)=1
    AND count(DISTINCT online.id)=1
    AND count(DISTINCT media.id)=1
-   AND count(DISTINCT snapshot.id)=1;
+   AND count(DISTINCT snapshot.id)=1
+   AND count(DISTINCT build_profile.id)=1
+   AND count(DISTINCT build_job.id)=1
+   AND count(DISTINCT artifact.id)=1
+   AND count(DISTINCT channel.id)=1
+   AND count(DISTINCT release.id)=1;
 SQL

@@ -69,6 +69,28 @@ class R12CandidateTest(unittest.TestCase):
         self.assertIn("rejected.status='REJECTED'", self.fixture)
         self.assertIn("online.status='ONLINE'", self.fixture)
 
+    def test_fixture_contains_idempotent_official_staging_startup_release(self) -> None:
+        for fact in (
+            "INSERT INTO hhy.app_build_profiles(",
+            "INSERT INTO hhy.app_build_jobs(",
+            "INSERT INTO hhy.app_build_artifacts(",
+            "INSERT INTO hhy.app_release_channels(",
+            "INSERT INTO hhy.app_release_records(",
+            "'official','STAGING'",
+            "'1.2.2',10221,'NONE','PUBLISHED'",
+            "min_supported_version_code IS DISTINCT FROM 10221",
+            "R12 startup build job is duplicated",
+            "R12 startup release record is duplicated",
+            "R12 startup release record drifted",
+            "|release_version=",
+            "|release_update=",
+        ):
+            self.assertIn(fact, self.fixture)
+        self.assertNotIn("'official','PROD'", self.fixture)
+        self.assertNotIn("environment='PROD'", self.fixture)
+        self.assertEqual(1, self.fixture.count("'official','STAGING'"))
+        self.assertIn("count(DISTINCT release.id)=1", self.fixture)
+
     def test_journey_captures_the_exact_ten_r12_android_pages(self) -> None:
         expected = (
             'captureStable("01-publish-center.png")',

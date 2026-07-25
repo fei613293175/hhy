@@ -11,11 +11,12 @@ task_id: TASK-R12-007
 story_id: STORY-R12-008
 goal: 完成R12最终Android候选、真实模拟器截图AI验收、固定签名测试APK与桌面交付
 started_at: '2026-07-25T19:20:48Z'
-updated_at: '2026-07-25T21:12:59Z'
+updated_at: '2026-07-25T21:43:38Z'
 takeover_of: null
 change_requests:
 - CR-0339
 - CR-0340
+- CR-0341
 scope:
   allowed_paths:
   - apps/**
@@ -63,18 +64,18 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-25T21:12:53Z'
-  expires_at: '2026-07-26T01:12:53Z'
-checkpoint_sequence: 4
-latest_checkpoint: .continuity/checkpoints/SES-20260725T192048Z-668BD05D/0004.yaml
+  renewed_at: '2026-07-25T21:43:28Z'
+  expires_at: '2026-07-26T01:43:28Z'
+checkpoint_sequence: 5
+latest_checkpoint: .continuity/checkpoints/SES-20260725T192048Z-668BD05D/0005.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260725T192048Z-668BD05D.md
-next_step: 提交并推送R12-CANDIDATE-20260726-002，监控唯一GitHub候选并依据新后端原始错误类型或十页证据继续处理
+next_step: 提交并推送夹具修复但保持candidate attempt 2请求不变；远端门禁通过后独立递增attempt 3并触发最后一次完整候选
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: b64e9beee22e6d09118e63b0bfb3e49fcd19647e05096293e596350cd6bb8bcd
-  generated_at: '2026-07-25T21:12:57Z'
+  context_hash: 0b6c4b9c477a7a198a6698d8e84867b2c1529c9684a97b3286d3553b2c63b845
+  generated_at: '2026-07-25T21:43:34Z'
 handoff_bundle: null
 closure: null
 parallel_execution:
@@ -82,8 +83,8 @@ parallel_execution:
   delegated_workers: 1
   workers:
   - worker_id: profile_contract_review
-    responsibility: 独立复核并批准CR-0340范围
+    responsibility: 独立复核并批准CR-0341范围
     allowed_paths:
-    - .continuity/change_requests/CR-0340.yaml
-    - docs/03-continuity/change-requests/CR-0340-修复R12候选OIDC异常日志重复requestId遮蔽.md
-  reason: attempt 2请求、精确后端部署和唯一候选触发相互依赖，由主控串行集成
+    - .continuity/change_requests/CR-0341.yaml
+    - docs/03-continuity/change-requests/CR-0341-补齐R12隔离候选official-STAGING版本发布夹具.md
+  reason: 实现、真实数据库写入与公网验证相互依赖，由主控串行集成；独立代理只承担CR范围审批
