@@ -4,6 +4,8 @@ import cc.orbexa.hhy.network.ContentPageResource
 import cc.orbexa.hhy.network.ContentResource
 import cc.orbexa.hhy.network.R07CallResult
 import cc.orbexa.hhy.network.R07PageMeta
+import kotlinx.serialization.json.buildJsonObject
+import kotlinx.serialization.json.put
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNotEquals
@@ -64,9 +66,120 @@ class R12ContentManagementListStateTest {
         )
     }
 
+    @Test
+    fun pendingContentRemainsVisibleWhenAdminHistoryIsEmpty() {
+        val summary = ContentResource(
+            id = "content-1",
+            contentType = "PROJECT",
+            title = "真实待审项目",
+            status = "PENDING_REVIEW",
+            reviewStatus = "PENDING_REVIEW",
+            version = 2,
+        )
+        val state = R12ReviewHistoryState("content-1")
+            .reloadStarted(requestGeneration = 1, refresh = false)
+            .summaryLoaded(summary)
+            .timelineLoaded(page(emptyList()))
+
+        assertEquals(R12ContentListPhase.CONTENT, state.phase)
+        assertEquals("真实待审项目", state.summary?.title)
+        assertTrue(state.entries.isEmpty())
+        assertFalse(state.partialFailure)
+    }
+
+    @Test
+    fun reviewTimelineUsesReviewIdsAndKeepsMultipleRecordsForOneContent() {
+        val firstPage = page(
+            listOf(review("content-1", "review-1"), review("content-1", "review-2")),
+            page = 1,
+            hasMore = "true",
+        )
+        val secondPage = page(
+            listOf(review("content-1", "review-2"), review("content-1", "review-3")),
+            page = 2,
+        )
+        val state = R12ReviewHistoryState("content-1")
+            .reloadStarted(requestGeneration = 1, refresh = false)
+            .summaryLoaded(ContentResource("content-1", "PROJECT", "项目", status = "PENDING_REVIEW", version = 2))
+            .timelineLoaded(firstPage)
+            .timelineLoaded(secondPage, append = true)
+
+        assertEquals(listOf("review-1", "review-2", "review-3"), state.entries.map(R12ReviewTimelineEntry::reviewId))
+        assertEquals(3, state.entries.distinctBy(R12ReviewTimelineEntry::reviewId).size)
+    }
+
+    @Test
+    fun missingReviewIdentityNeverFallsBackToContentId() {
+        val summary = ContentResource("content-1", "PROJECT", "项目", status = "PENDING_REVIEW", version = 2)
+        val invalid = summary.copy(attributes = buildJsonObject { put("source", "content") })
+        val state = R12ReviewHistoryState("content-1")
+            .reloadStarted(requestGeneration = 1, refresh = false)
+            .summaryLoaded(summary)
+            .timelineLoaded(page(listOf(invalid)))
+
+        assertTrue(state.entries.isEmpty())
+        assertTrue(state.partialFailure)
+        assertEquals(R12ContentListPhase.ERROR, state.timelineFailure?.phase)
+    }
+
+    @Test
+    fun refreshPreservesVisibleDataAndResetsHistoryPagination() {
+        val summary = ContentResource("content-1", "PROJECT", "项目", status = "PENDING_REVIEW", version = 2)
+        val loaded = R12ReviewHistoryState("content-1")
+            .reloadStarted(requestGeneration = 1, refresh = false)
+            .summaryLoaded(summary)
+            .timelineLoaded(page(listOf(review("content-1", "review-1")), hasMore = "true"))
+        val refreshing = loaded.reloadStarted(requestGeneration = 2, refresh = true)
+
+        assertEquals(summary, refreshing.summary)
+        assertEquals(listOf("review-1"), refreshing.entries.map(R12ReviewTimelineEntry::reviewId))
+        assertEquals(null, refreshing.page)
+        assertTrue(refreshing.refreshing)
+        assertFalse(refreshing.canLoadMore)
+    }
+
+    @Test
+    fun partialTimelineFailureKeepsCurrentContentAndStableRequestIdentity() {
+        val summary = ContentResource("content-1", "PROJECT", "项目", status = "PENDING_REVIEW", version = 2)
+        val state = R12ReviewHistoryState("content-1")
+            .reloadStarted(requestGeneration = 4, refresh = false)
+            .summaryLoaded(summary)
+            .timelineFailed(R07CallResult.Failure(statusCode = 500))
+
+        assertEquals(R12ContentListPhase.CONTENT, state.phase)
+        assertEquals(summary, state.summary)
+        assertTrue(state.partialFailure)
+        assertTrue(state.accepts("content-1", 4))
+        assertFalse(state.accepts("content-2", 4))
+        assertFalse(state.accepts("content-1", 3))
+    }
+
+    @Test
+    fun reviewTimesUseBusinessFormattingInsteadOfRawIsoText() {
+        assertEquals("2026-07-26 06:00", "2026-07-25T22:00:00Z".r12BusinessTimeLabel())
+        assertEquals("时间待同步", "not-a-time".r12BusinessTimeLabel())
+    }
+
     private fun page(
         items: List<ContentResource>,
         page: Long = 1,
         hasMore: String = "false",
     ) = ContentPageResource(items, R07PageMeta(page = page, pageSize = 20, hasMore = hasMore))
+
+    private fun review(contentId: String, reviewId: String) = ContentResource(
+        id = contentId,
+        contentType = "PROJECT",
+        title = "项目",
+        status = "PENDING_REVIEW",
+        reviewStatus = "ASSIGN",
+        updatedAt = "2026-07-25T22:00:00Z",
+        version = 2,
+        attributes = buildJsonObject {
+            put("review", buildJsonObject {
+                put("id", reviewId)
+                put("decision", "ASSIGN")
+                put("createdAt", "2026-07-25T22:00:00Z")
+            })
+        },
+    )
 }

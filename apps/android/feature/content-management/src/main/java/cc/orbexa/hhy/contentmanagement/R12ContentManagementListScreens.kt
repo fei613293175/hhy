@@ -61,6 +61,8 @@ import cc.orbexa.hhy.network.ContractR12Api
 import cc.orbexa.hhy.network.R07CallResult
 import cc.orbexa.hhy.network.R12ContentStatusRequest
 import coil.compose.AsyncImage
+import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 
 private enum class R12PendingAction { ONLINE, OFFLINE, DELETE }
@@ -294,17 +296,266 @@ fun R12ContentReviewsScreen(
     onBack: () -> Unit,
     onSessionExpired: () -> Unit,
 ) {
-    R12ReadOnlyContentPage(
-        screenTag = "hhy.screen.r12.content-reviews",
-        title = "审核记录",
-        subtitle = "按更新时间查看真实审核状态",
-        kind = R12ContentListKind.REVIEWS,
-        contentId = contentId,
-        api = api,
-        accessToken = accessToken,
+    val scope = rememberCoroutineScope()
+    var refreshRequest by remember(contentId) { mutableStateOf(0) }
+    var state by remember(contentId) { mutableStateOf(R12ReviewHistoryState(contentId)) }
+
+    LaunchedEffect(contentId, refreshRequest) {
+        val requestGeneration = state.generation + 1
+        val refresh = state.summary != null
+        state = state.reloadStarted(requestGeneration, refresh)
+        coroutineScope {
+            val summaryRequest = async { api.content(accessToken, contentId) }
+            val timelineRequest = async {
+                api.reviews(
+                    accessToken = accessToken,
+                    id = contentId,
+                    page = 1,
+                    cursor = null,
+                    sort = "updatedAt:desc",
+                )
+            }
+            var sessionExpired = false
+            when (val result = summaryRequest.await()) {
+                is R07CallResult.Success -> if (state.accepts(contentId, requestGeneration)) {
+                    state = state.summaryLoaded(result.data)
+                }
+                is R07CallResult.Failure -> if (state.accepts(contentId, requestGeneration)) {
+                    sessionExpired = result.statusCode == 401
+                    state = state.summaryFailed(result)
+                }
+            }
+            when (val result = timelineRequest.await()) {
+                is R07CallResult.Success -> if (state.accepts(contentId, requestGeneration)) {
+                    state = state.timelineLoaded(result.data)
+                }
+                is R07CallResult.Failure -> if (state.accepts(contentId, requestGeneration)) {
+                    sessionExpired = sessionExpired || result.statusCode == 401
+                    state = state.timelineFailed(result)
+                }
+            }
+            if (sessionExpired && state.accepts(contentId, requestGeneration)) onSessionExpired()
+        }
+    }
+
+    fun loadMore() {
+        if (!state.canLoadMore) return
+        val requestState = state
+        state = state.appendStarted()
+        scope.launch {
+            val result = api.reviews(
+                accessToken = accessToken,
+                id = contentId,
+                page = ((requestState.page?.page ?: 1) + 1).toInt(),
+                cursor = requestState.page?.nextCursor,
+                sort = "updatedAt:desc",
+            )
+            if (!state.accepts(contentId, requestState.generation)) return@launch
+            when (result) {
+                is R07CallResult.Success -> state = state.timelineLoaded(result.data, append = true)
+                is R07CallResult.Failure -> {
+                    if (result.statusCode == 401) onSessionExpired()
+                    state = state.timelineFailed(result)
+                }
+            }
+        }
+    }
+
+    R12ReviewHistoryScaffold(
+        state = state,
         onBack = onBack,
-        onSessionExpired = onSessionExpired,
+        onRefresh = {
+            if (!state.refreshing && !state.appending && !state.summaryLoading && !state.timelineLoading) {
+                refreshRequest += 1
+            }
+        },
+        onAppend = ::loadMore,
     )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun R12ReviewHistoryScaffold(
+    state: R12ReviewHistoryState,
+    onBack: () -> Unit,
+    onRefresh: () -> Unit,
+    onAppend: () -> Unit,
+) {
+    Scaffold(
+        modifier = Modifier.semantics { testTagsAsResourceId = true }.testTag("hhy.screen.r12.content-reviews"),
+        topBar = {
+            TopAppBar(
+                title = {
+                    Column {
+                        Text("审核记录", fontWeight = FontWeight.SemiBold)
+                        Text("按更新时间查看真实审核状态", style = MaterialTheme.typography.bodySmall, color = HhyColors.TextSecondary)
+                    }
+                },
+                navigationIcon = { HhyBackButton(onBack) },
+            )
+        },
+        containerColor = HhyColors.PageBackground,
+    ) { padding ->
+        when (state.phase) {
+            R12ContentListPhase.LOADING -> R12ListSkeleton(padding)
+            R12ContentListPhase.CONTENT -> LazyColumn(
+                modifier = Modifier.fillMaxSize().padding(padding),
+                contentPadding = PaddingValues(HhySpacing.Lg),
+                verticalArrangement = Arrangement.spacedBy(HhySpacing.Md),
+            ) {
+                state.summary?.let { summary ->
+                    item { R12ReviewContextCard(summary) }
+                }
+                if (state.summaryFailure != null) {
+                    item { R12Notice("当前内容暂未更新，正在展示上次成功加载的信息", true) }
+                }
+                if (state.timelineFailure != null) {
+                    item { R12Notice("部分审核记录暂未更新，当前内容仍可查看", true) }
+                }
+                item {
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        Column {
+                            Text("处理进度", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.SemiBold)
+                            Text("仅展示平台真实处理记录", style = MaterialTheme.typography.bodySmall, color = HhyColors.TextSecondary)
+                        }
+                        OutlinedButton(
+                            onClick = onRefresh,
+                            enabled = !state.refreshing && !state.appending && !state.summaryLoading && !state.timelineLoading,
+                        ) {
+                            HhyIcon(HhyIcons.Refresh, "刷新")
+                            Text("刷新")
+                        }
+                    }
+                }
+                if (state.timelineLoading) {
+                    item {
+                        Row(
+                            modifier = Modifier.fillMaxWidth().padding(HhySpacing.Lg),
+                            horizontalArrangement = Arrangement.Center,
+                            verticalAlignment = Alignment.CenterVertically,
+                        ) {
+                            CircularProgressIndicator(Modifier.size(HhySize.StandardProgress))
+                        }
+                    }
+                } else if (state.entries.isEmpty()) {
+                    item { R12ReviewTimelineEmpty() }
+                } else {
+                    items(state.entries, key = R12ReviewTimelineEntry::reviewId) { entry ->
+                        R12ReviewTimelineItem(entry)
+                    }
+                }
+                if (state.appending) {
+                    item {
+                        Box(Modifier.fillMaxWidth().padding(HhySpacing.Lg), contentAlignment = Alignment.Center) {
+                            CircularProgressIndicator(Modifier.size(HhySize.StandardProgress))
+                        }
+                    }
+                } else if (state.canLoadMore) {
+                    item { OutlinedButton(onClick = onAppend, modifier = Modifier.fillMaxWidth()) { Text("加载更多") } }
+                }
+            }
+            else -> R12ListFailure(state.phase, padding, onBack, onRefresh)
+        }
+    }
+}
+
+@Composable
+private fun R12ReviewContextCard(content: ContentResource) {
+    Card(
+        modifier = Modifier.fillMaxWidth().testTag("hhy.r12.review-context"),
+        shape = RoundedCornerShape(HhyRadius.NormalCard),
+        colors = CardDefaults.cardColors(containerColor = HhyColors.Surface),
+        elevation = CardDefaults.cardElevation(defaultElevation = HhyElevation.Card),
+    ) {
+        Column(
+            modifier = Modifier.fillMaxWidth().padding(HhySpacing.Lg),
+            verticalArrangement = Arrangement.spacedBy(HhySpacing.Md),
+        ) {
+            Text("当前内容", style = MaterialTheme.typography.labelMedium, color = HhyColors.TextSecondary)
+            Row(horizontalArrangement = Arrangement.spacedBy(HhySpacing.Md), verticalAlignment = Alignment.CenterVertically) {
+                R12ContentMedia(content)
+                Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(HhySpacing.Xs)) {
+                    Text(content.title, style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.SemiBold, maxLines = 2, overflow = TextOverflow.Ellipsis)
+                    content.summary?.takeIf(String::isNotBlank)?.let {
+                        Text(it, color = HhyColors.TextSecondary, style = MaterialTheme.typography.bodySmall, maxLines = 2, overflow = TextOverflow.Ellipsis)
+                    }
+                    Row(horizontalArrangement = Arrangement.spacedBy(HhySpacing.Xs)) {
+                        R12Tag(contentTypeLabel(content.contentType), HhyColors.SoftBlue, HhyColors.BrandPrimary)
+                        R12Tag(contentStatusLabel(content.reviewStatus ?: content.status), R12StatusColor(content), HhyColors.TextPrimary)
+                    }
+                }
+            }
+            Text("最近更新 ${content.updatedAt.r12BusinessTimeLabel()}", color = HhyColors.TextTertiary, style = MaterialTheme.typography.labelSmall)
+        }
+    }
+}
+
+@Composable
+private fun R12ReviewTimelineItem(entry: R12ReviewTimelineEntry) {
+    val tone = r12ReviewDecisionTone(entry.decision)
+    Card(
+        modifier = Modifier.fillMaxWidth().testTag("hhy.r12.review-entry.${entry.reviewId}"),
+        shape = RoundedCornerShape(HhyRadius.NormalCard),
+        colors = CardDefaults.cardColors(containerColor = HhyColors.Surface),
+    ) {
+        Row(
+            modifier = Modifier.fillMaxWidth().padding(HhySpacing.Lg),
+            horizontalArrangement = Arrangement.spacedBy(HhySpacing.Md),
+            verticalAlignment = Alignment.Top,
+        ) {
+            Surface(modifier = Modifier.size(HhySpacing.Xl), shape = RoundedCornerShape(HhyRadius.Pill), color = tone) {}
+            Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(HhySpacing.Xs)) {
+                Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                    Text(r12ReviewDecisionLabel(entry.decision), fontWeight = FontWeight.SemiBold)
+                    Text(entry.createdAt.r12BusinessTimeLabel(), color = HhyColors.TextTertiary, style = MaterialTheme.typography.labelSmall)
+                }
+                entry.reason?.let { Text(it, color = HhyColors.TextSecondary, style = MaterialTheme.typography.bodySmall) }
+                Text(r12ReviewNextStep(entry.decision), color = HhyColors.TextSecondary, style = MaterialTheme.typography.bodySmall)
+            }
+        }
+    }
+}
+
+@Composable
+private fun R12ReviewTimelineEmpty() {
+    Surface(modifier = Modifier.fillMaxWidth(), shape = RoundedCornerShape(HhyRadius.NormalCard), color = HhyColors.Surface) {
+        Column(
+            modifier = Modifier.fillMaxWidth().padding(HhySpacing.Xl),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(HhySpacing.Sm),
+        ) {
+            HhyIcon(HhyIcons.Pending, null, tint = HhyColors.BrandPrimary)
+            Text("暂无人工审核记录", fontWeight = FontWeight.SemiBold)
+            Text("平台处理后会在这里展示真实进度", color = HhyColors.TextSecondary, style = MaterialTheme.typography.bodySmall)
+        }
+    }
+}
+
+private fun r12ReviewDecisionLabel(value: String?): String = when (value) {
+    "ASSIGN", "PENDING", "PENDING_REVIEW", "REVIEWING" -> "审核中"
+    "APPROVE", "APPROVED" -> "已通过"
+    "REJECT", "REJECTED" -> "未通过"
+    "ESCALATE" -> "复核中"
+    else -> "状态已更新"
+}
+
+private fun r12ReviewNextStep(value: String?): String = when (value) {
+    "ASSIGN", "PENDING", "PENDING_REVIEW", "REVIEWING" -> "平台正在处理，请耐心等待"
+    "APPROVE", "APPROVED" -> "审核已通过，无需处理"
+    "REJECT", "REJECTED" -> "请按审核原因修改内容后重新提交"
+    "ESCALATE" -> "内容已进入复核流程，请等待结果"
+    else -> "请留意后续状态更新"
+}
+
+private fun r12ReviewDecisionTone(value: String?) = when (value) {
+    "APPROVE", "APPROVED" -> HhyColors.SuccessSoft
+    "REJECT", "REJECTED" -> HhyColors.ErrorSoft
+    "ASSIGN", "PENDING", "PENDING_REVIEW", "REVIEWING", "ESCALATE" -> HhyColors.WarningSoft
+    else -> HhyColors.SoftBlue
 }
 
 @Composable

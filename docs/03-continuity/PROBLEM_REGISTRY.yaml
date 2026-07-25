@@ -1572,3 +1572,18 @@ problems:
   - OIDC登录成功不能证明业务旅程可开始，必须分别验证启动门禁、首页loaded标记和页面截图阶段
   - 已知版本表为空导致的确定性404不得通过重跑GitHub模拟器碰运气
   - 不得复用生产PROD发布链为隔离候选补数据，只允许专用STAGING夹具
+- id: PROB-0115
+  title: R12审核记录页把空人工处理历史误判为内容不存在
+  status: SOLVED
+  root_cause: Run 30176531999已证明内容提交成功并进入PENDING_REVIEW，但SCR-MYC-004客户端只请求GET /contents/{id}/reviews；该接口只返回管理员已写入content_review_records的真实处理记录，尚未领取或决定时合法返回空列表。通用列表状态因此进入整页EMPTY，遗漏冻结补充规格要求的顶部当前内容摘要与最新待审状态；同一页面又按ContentResource.id去重和生成Compose key，而后端每条历史都沿用相同contentId，导致多条审核记录被折叠或产生重复key。
+  resolution: CR-0342把审核页拆为独立状态与布局：并行读取既有内容详情作为唯一当前摘要，reviews仅作为真实管理员处理时间线；摘要成功且历史为空时仍展示内容标题和审核中，并显示真实空时间线。历史只从attributes.review.id取得稳定身份并据此跨页去重和生成Compose key，缺失身份进入受控局部错误，禁止回退contentId或伪造待审记录；刷新重置历史分页并保留已显示摘要，旧contentId或旧generation响应不得覆盖当前页面。
+  regression_checks:
+  - R12ContentManagementListStateTest必须覆盖摘要成功且人工历史为空仍为CONTENT
+  - 同一contentId的多条review.id必须全部保留，跨页重复review.id只保留一次
+  - 缺失attributes.review.id必须进入受控局部错误，禁止回退ContentResource.id
+  - 刷新必须保留现有摘要与时间线并重置page/cursor，旧请求身份不得覆盖新页面
+  - R12候选审核记录截图必须同时出现真实内容标题、审核中和SCR-MYC-004页面marker，不得出现管理员标识、记录ID或内部状态码
+  do_not_repeat:
+  - 不得把人工处理记录为空等同于内容不存在或审核未开始
+  - 不得为通过候选断言伪造一条待审核历史，当前状态必须来自内容详情
+  - 列表去重键和Compose key必须使用资源自身稳定身份，不能机械复用父内容ID

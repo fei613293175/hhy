@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## R12 审核记录真实摘要与时间线修复 · 2026-07-26
+
+- Run `30176531999` 已完成构建、OIDC 自动登录、提交成功及前八页真实旅程；唯一业务失败是管理员尚未处理时 `/contents/{id}/reviews` 合法返回空列表，旧客户端把整页误判为空，未展示冻结 SCR-MYC-004 要求的当前内容摘要和待审状态。
+- CR-0342 将审核页拆为当前内容摘要与真实管理员处理时间线：详情接口提供真实标题和当前审核状态，历史仅按 `attributes.review.id` 去重和生成稳定 Compose key；无人处理时展示“审核中 + 暂无人工审核记录”，不伪造待审历史，也不暴露管理员、记录 ID 或内部状态码。
+- 刷新保留已显示摘要并重置历史分页，追加只请求时间线，旧内容或旧 generation 响应不能覆盖当前页面；原始 ISO 时间统一转换为上海业务时间。CR-0343 按既有 feature 边界补齐 JSON 直接依赖，不扩大 `core:network` ABI。
+- `obx-test` 固定 Android 镜像已通过内容管理单测、Lint 和完整 App Kotlin 编译，共 197 个任务 `BUILD SUCCESSFUL`；R12 视觉目录和 Android UI foundation 静态门禁均通过。三轮候选上限仍保持有效，下一轮只能在独立批准候选策略后触发。
+
 ## R12 Android 最终候选 attempt 3 · 2026-07-26
 
 - 修复提交 `a16a75e6` 已通过本地三层连续性门禁、`obx-test` 双次夹具幂等验证、公网 `official + STAGING + 10221` 版本检查 `200/NONE`，以及 GitHub Continuity Gate `30176293676` 和受影响 CI `30176293786`；普通推送未启动 Android、后端、数据库、Web 或模拟器重型 Job。

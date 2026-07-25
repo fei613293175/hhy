@@ -21071,3 +21071,107 @@ change_requests:
     session_id: SES-20260725T192048Z-668BD05D
   session_ids:
   - SES-20260725T192048Z-668BD05D
+- protocol_version: '1.0'
+  cr_id: CR-0342
+  title: 修复R12审核记录当前内容摘要与真实时间线缺失
+  status: IMPLEMENTED
+  created_at: '2026-07-25T22:26:00Z'
+  updated_at: '2026-07-25T23:00:28Z'
+  requester_actor_id: codex-root-r12-candidate-20260726
+  approver_actor_id: codex-carson-r12-contract-review-20260726
+  task_id: TASK-R12-007
+  session_id: SES-20260725T192048Z-668BD05D
+  user_request: 按R01-R32计划持续开发并由AI自行修复Android候选失败，不因真机反馈或界面状态停止
+  reason: GitHub候选30176531999已证明提交成功且审核记录页可达，但管理员尚未处理时reviews列表为空；冻结SCR-MYC-004要求顶部内容摘要和最新待审核状态，当前客户端未独立读取内容详情且历史记录分页按contentId错误去重
+  original_rule: 当前SCR-MYC-004客户端仅请求GET /contents/{id}/reviews并把每条历史记录按ContentResource.id去重；管理员尚未处理时页面为空，未落实已冻结的顶部内容摘要与最新待审状态
+  new_rule: SCR-MYC-004必须分别读取既有内容详情和审核历史：顶部只展示当前内容真实摘要与当前服务端状态，主体仅展示reviews返回的真实处理时间线；历史项按review.id稳定去重和分页，不得把空的人工处理记录误判为内容不存在
+  impact_summary: 修复R12候选第三轮唯一业务失败并对齐批准补充视觉规格；不修改OpenAPI、数据库、审核状态机或候选断言
+  impact:
+    files:
+    - apps/android/feature/content-management/src/main/java/cc/orbexa/hhy/contentmanagement/R12ContentManagementListScreens.kt
+    - apps/android/feature/content-management/src/main/java/cc/orbexa/hhy/contentmanagement/R12ContentManagementListState.kt
+    - apps/android/feature/content-management/src/test/java/cc/orbexa/hhy/contentmanagement/R12ContentManagementListStateTest.kt
+    - docs/03-continuity/PROBLEM_REGISTRY.yaml
+    pages:
+    - SCR-MYC-004
+    apis:
+    - GET /api/v1/contents/{id}
+    - GET /api/v1/contents/{id}/reviews
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - R12ContentManagementListStateTest
+    - R12候选审核记录页面旅程
+    releases:
+    - R12
+    migration_and_compatibility: 无数据迁移、无协议破坏；复用既有GET /api/v1/contents/{id}与GET /api/v1/contents/{id}/reviews，旧服务响应兼容；页面刷新和会话失效继续沿用现有策略
+  user_confirmation: 项目所有者已要求持续开发并由AI自行修复候选失败，不因真机反馈或Codex界面状态暂停。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-25T22:32:00Z'
+    note: 独立Android复核确认：顶部内容摘要应读取既有内容详情，reviews仅作为真实审核时间线；不得伪造待审记录；历史必须按attributes.review.id去重并使用稳定Compose key；应使用审核页专用状态以覆盖摘要成功+历史为空及局部失败。
+  machine_record: .continuity/change_requests/CR-0342.yaml
+  document: docs/03-continuity/change-requests/CR-0342-修复R12审核记录当前内容摘要与真实时间线缺失.md
+  decision_log:
+  - at: '2026-07-25T23:00:08Z'
+    actor_id: codex-root-r12-candidate-20260726
+    status: IMPLEMENTING
+    note: 已按批准范围完成源码实现并进入远程模块验证闭环。
+    session_id: SES-20260725T192048Z-668BD05D
+  - at: '2026-07-25T23:00:28Z'
+    actor_id: codex-root-r12-candidate-20260726
+    status: IMPLEMENTED
+    note: 审核页已拆为当前内容摘要与真实审核时间线；空人工历史仍展示真实待审内容；review.id去重/key、刷新分页、旧请求保护和业务时间格式均已实现，obx-test MODULE PASS。
+    session_id: SES-20260725T192048Z-668BD05D
+  session_ids:
+  - SES-20260725T192048Z-668BD05D
+- protocol_version: '1.0'
+  cr_id: CR-0343
+  title: 补齐R12内容管理审核身份解析的直接JSON依赖
+  status: IMPLEMENTED
+  created_at: '2026-07-25T22:50:09Z'
+  updated_at: '2026-07-25T23:00:32Z'
+  requester_actor_id: codex-root-r12-candidate-20260726
+  approver_actor_id: codex-avicenna-r12-contract-review-20260726
+  task_id: TASK-R12-007
+  session_id: SES-20260725T192048Z-668BD05D
+  user_request: 持续修复R12候选根因并使用obx-test完成模块验证
+  reason: CR-0342实现按attributes.review.id建模后，obx-test编译证明feature:content-management未声明其直接使用的kotlinx.serialization.json；仓库其他解析ContentResource.attributes的feature均显式声明该依赖
+  original_rule: feature:content-management仅通过implementation依赖core:network，未声明自身源码和测试直接导入的kotlinx.serialization.json；Gradle implementation不会向消费模块传递该编译类型
+  new_rule: feature:content-management必须像既有app-promotion、group-promotion和team-leader模块一样显式implementation(libs.kotlinx.serialization.json)，仅为解析ContentResource.attributes中的冻结review对象提供编译依赖；core:network的依赖可见性保持不变
+  impact_summary: 为CR-0342的review.id解析补齐单模块直接编译依赖；不改变运行时API、数据库、页面合同或其他feature依赖图
+  impact:
+    files:
+    - apps/android/feature/content-management/build.gradle.kts
+    pages:
+    - SCR-MYC-004
+    apis: []
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - obx-test :feature:content-management:testDebugUnitTest :feature:content-management:lintDebug :app:compileDebugKotlin
+    releases:
+    - R12
+    migration_and_compatibility: 纯Gradle编译依赖修复，无数据或协议迁移；版本由既有catalog锁定，不新增第三方版本
+  user_confirmation: 项目所有者要求持续修复R12候选并复用obx-test验证，不因界面状态或真机反馈暂停。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-25T22:51:45Z'
+    note: 独立合同复核确认最小修复为feature:content-management显式implementation(libs.kotlinx.serialization.json)：该模块源码与测试直接解析JsonObject，且app-promotion、group-promotion、team-leader、auth、identity均采用相同依赖边界；不得把core:network改为api扩大ABI和重编译面。
+  machine_record: .continuity/change_requests/CR-0343.yaml
+  document: docs/03-continuity/change-requests/CR-0343-补齐R12内容管理审核身份解析的直接JSON依赖.md
+  decision_log:
+  - at: '2026-07-25T23:00:13Z'
+    actor_id: codex-root-r12-candidate-20260726
+    status: IMPLEMENTING
+    note: 已按批准范围完成源码实现并进入远程模块验证闭环。
+    session_id: SES-20260725T192048Z-668BD05D
+  - at: '2026-07-25T23:00:32Z'
+    actor_id: codex-root-r12-candidate-20260726
+    status: IMPLEMENTED
+    note: content-management已按既有feature模式声明kotlinx.serialization.json直接依赖；obx-test单测、Lint及App Kotlin编译PASS。
+    session_id: SES-20260725T192048Z-668BD05D
+  session_ids:
+  - SES-20260725T192048Z-668BD05D

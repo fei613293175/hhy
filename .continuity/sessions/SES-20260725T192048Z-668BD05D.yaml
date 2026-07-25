@@ -11,12 +11,14 @@ task_id: TASK-R12-007
 story_id: STORY-R12-008
 goal: 完成R12最终Android候选、真实模拟器截图AI验收、固定签名测试APK与桌面交付
 started_at: '2026-07-25T19:20:48Z'
-updated_at: '2026-07-25T21:52:34Z'
+updated_at: '2026-07-25T23:02:15Z'
 takeover_of: null
 change_requests:
 - CR-0339
 - CR-0340
 - CR-0341
+- CR-0342
+- CR-0343
 scope:
   allowed_paths:
   - apps/**
@@ -64,22 +66,22 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-25T21:52:27Z'
-  expires_at: '2026-07-26T01:52:27Z'
-checkpoint_sequence: 7
-latest_checkpoint: .continuity/checkpoints/SES-20260725T192048Z-668BD05D/0007.yaml
+  renewed_at: '2026-07-25T23:01:48Z'
+  expires_at: '2026-07-26T03:01:48Z'
+checkpoint_sequence: 10
+latest_checkpoint: .continuity/checkpoints/SES-20260725T192048Z-668BD05D/0010.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260725T192048Z-668BD05D.md
-next_step: 提交并推送R12-CANDIDATE-20260726-003，监控唯一完整候选；下载Artifact并由AI审核十页截图
+next_step: 执行提交前连续性与受影响快速门禁，提交并推送R12审核记录根因修复；随后建立独立批准策略允许一次修复后候选
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: 0ee272b464a73ed53c51628decb807f4f844d846f81ed11e8a3b8b6439b98c72
-  generated_at: '2026-07-25T21:52:31Z'
+  context_hash: 33ad8158488a0b573fb26ed51ff6a912bd43ea02f86ab7a3b55eb61affc3e6b4
+  generated_at: '2026-07-25T23:02:13Z'
 handoff_bundle: null
 closure: null
 parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 候选请求、单调attempt和对应断言必须作为一个原子触发提交，拆分会产生错误或重复GitHub候选
+  reason: 同一审核页状态、UI、测试与依赖已经作为单模块原子补丁完成；两次独立只读复核已覆盖方案与依赖边界
