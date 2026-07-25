@@ -50,6 +50,7 @@ public class R12ProfileService {
     public UserResource patch(UserPrincipal principal, ProfilePatchRequest request, String key) {
         requireActive(principal);
         requireRequest(request);
+        validateProfileFields(request);
         String scope = "r12:profile:" + principal.userId();
         String requestHash = fingerprint(request);
         UserAuthStore.IdempotencyClaim claim = idempotency.claimIdempotency(
@@ -98,7 +99,7 @@ public class R12ProfileService {
     private String normalizeNickname(String candidate, String current, List<String> changedFields) {
         if (candidate == null) return current;
         String normalized = candidate.strip();
-        if (normalized.isEmpty() || normalized.length() > PROFILE_COLUMN_LIMIT) {
+        if (normalized.isEmpty() || codePointLength(normalized) > PROFILE_COLUMN_LIMIT) {
             throw validation("昵称必须为1至255个字符");
         }
         changedFields.add("nickname");
@@ -108,7 +109,7 @@ public class R12ProfileService {
     private String normalizeBio(String candidate, String current, List<String> changedFields) {
         if (candidate == null) return current;
         String normalized = candidate.strip();
-        if (normalized.length() > PROFILE_COLUMN_LIMIT) {
+        if (codePointLength(normalized) > PROFILE_COLUMN_LIMIT) {
             throw validation("个人简介不能超过255个字符");
         }
         changedFields.add("bio");
@@ -209,6 +210,22 @@ public class R12ProfileService {
         if (request == null || request.expectedVersion() == null || request.expectedVersion() < 0) {
             throw validation("资料版本无效");
         }
+    }
+
+    private static void validateProfileFields(ProfilePatchRequest request) {
+        if (request.nickname() != null) {
+            String nickname = request.nickname().strip();
+            if (nickname.isEmpty() || codePointLength(nickname) > PROFILE_COLUMN_LIMIT) {
+                throw validation("昵称必须为1至255个字符");
+            }
+        }
+        if (request.bio() != null && codePointLength(request.bio().strip()) > PROFILE_COLUMN_LIMIT) {
+            throw validation("个人简介不能超过255个字符");
+        }
+    }
+
+    private static int codePointLength(String value) {
+        return value.codePointCount(0, value.length());
     }
 
     private static void requireActive(UserPrincipal principal) {

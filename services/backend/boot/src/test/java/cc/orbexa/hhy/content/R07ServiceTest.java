@@ -141,6 +141,20 @@ class R07ServiceTest {
     }
 
     @Test
+    void publisherProjectionPreservesTwoHundredFiftyFiveSupplementaryCharacters() {
+        String value = "😀".repeat(255);
+        when(store.publisher(7, 11, NOW)).thenReturn(Optional.of(new R07Store.PublisherRow(
+                7, value, null, value, false, null, false)));
+
+        var result = service.publisher(11, "7");
+
+        assertEquals(value, result.nickname());
+        assertEquals(value, result.bio());
+        assertEquals(255, result.nickname().codePointCount(0, result.nickname().length()));
+        assertEquals(255, result.bio().codePointCount(0, result.bio().length()));
+    }
+
+    @Test
     void repeatedPublisherReadsAreStableAndHaveNoWriteSideEffects() {
         var row = new R07Store.PublisherRow(7, "公开发布者", null, null,
                 false, null, false);

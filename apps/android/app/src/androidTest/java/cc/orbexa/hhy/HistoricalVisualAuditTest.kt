@@ -58,6 +58,7 @@ import cc.orbexa.hhy.network.MediaCompleteUploadSessionRequest
 import cc.orbexa.hhy.network.MediaCreateUploadSessionRequest
 import cc.orbexa.hhy.network.MediaResource
 import cc.orbexa.hhy.network.PublisherSummaryResource
+import cc.orbexa.hhy.network.UserSelfResource
 import cc.orbexa.hhy.network.R07CallResult
 import cc.orbexa.hhy.network.R07PageMeta
 import cc.orbexa.hhy.network.SearchResultPageResource
@@ -229,6 +230,16 @@ class HistoricalVisualAuditTest {
     fun homeProducesBoundVisualEvidence() {
         setAuditContent {
             HhyShellScreen(
+                user = UserSelfResource(
+                    id = "visual-user",
+                    phoneMasked = "138****0000",
+                    nickname = "合伙云用户",
+                    avatarUrl = null,
+                    bio = "寻找真实合作机会",
+                    status = "ACTIVE",
+                    identityStatus = "VERIFIED",
+                    version = 1,
+                ),
                 experienceApi = experienceApi,
                 accessToken = "visual-audit-token",
             )

@@ -64,6 +64,7 @@ import cc.orbexa.hhy.network.HomeModuleItemSnapshot
 import cc.orbexa.hhy.network.HomeModuleSnapshot
 import cc.orbexa.hhy.network.HomeNavigationTargetSnapshot
 import cc.orbexa.hhy.network.HomeSnapshot
+import cc.orbexa.hhy.network.UserSelfResource
 
 private data class NavigationItem(val label: String, val icon: ImageVector)
 private data class HomeCategory(
@@ -84,6 +85,7 @@ private val navigationItems = listOf(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HhyShellScreen(
+    user: UserSelfResource,
     onOpenSearch: () -> Unit = {},
     onOpenProjects: (() -> Unit)? = null,
     onOpenApps: (() -> Unit)? = null,
@@ -100,6 +102,7 @@ fun HhyShellScreen(
     onOpenAbout: () -> Unit = {},
     onOpenMyContents: () -> Unit = {},
     onOpenMyDrafts: () -> Unit = {},
+    onOpenProfile: () -> Unit = {},
     experienceApi: ExperienceApi? = null,
     accessToken: String = "",
 ) {
@@ -217,6 +220,8 @@ fun HhyShellScreen(
                         )
                     }
                 }
+            } else if (selectedIndex == 4) {
+                item { MineProfileHeader(user, onOpenProfile) }
             } else {
                 item { ShellPlaceholder(selectedIndex) }
             }
@@ -238,6 +243,60 @@ fun HhyShellScreen(
                     )
                 }
             }
+        }
+    }
+}
+
+@Composable
+private fun MineProfileHeader(user: UserSelfResource, onOpenProfile: () -> Unit) {
+    Card(
+        modifier = Modifier.fillMaxWidth().clickable(onClick = onOpenProfile).testTag("mine.profile"),
+        shape = RoundedCornerShape(HhyRadius.LargeCard),
+        colors = CardDefaults.cardColors(containerColor = HhyColors.Surface),
+        elevation = CardDefaults.cardElevation(defaultElevation = HhyElevation.Card),
+    ) {
+        Row(
+            modifier = Modifier.fillMaxWidth().padding(HhySpacing.Xl),
+            horizontalArrangement = Arrangement.spacedBy(HhySpacing.Lg),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Surface(
+                modifier = Modifier.size(HhySize.AppLogo).clip(CircleShape),
+                shape = CircleShape,
+                color = HhyColors.SoftBlue,
+            ) {
+                if (secureProfileAvatarUrl(user.avatarUrl) != null) {
+                    AsyncImage(
+                        model = user.avatarUrl,
+                        contentDescription = "个人头像",
+                        modifier = Modifier.fillMaxSize(),
+                        contentScale = ContentScale.Crop,
+                    )
+                } else {
+                    Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                        HhyIcon(HhyIcons.Profile, null, tint = HhyColors.BrandPrimary)
+                    }
+                }
+            }
+            Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(HhySpacing.Xs)) {
+                Text(
+                    user.nickname?.takeIf(String::isNotBlank) ?: "未设置昵称",
+                    fontWeight = FontWeight.SemiBold,
+                    color = HhyColors.TextPrimary,
+                )
+                user.phoneMasked?.takeIf(String::isNotBlank)?.let {
+                    Text(it, color = HhyColors.TextSecondary)
+                }
+                user.bio?.takeIf(String::isNotBlank)?.let {
+                    Text(
+                        it,
+                        color = HhyColors.TextSecondary,
+                        style = androidx.compose.material3.MaterialTheme.typography.bodySmall,
+                        maxLines = 2,
+                    )
+                }
+            }
+            HhyIcon(HhyIcons.ChevronRight, contentDescription = "编辑个人资料", tint = HhyColors.TextTertiary)
         }
     }
 }

@@ -68,6 +68,7 @@ import cc.orbexa.hhy.network.UrlConnectionContractR09Api
 import cc.orbexa.hhy.network.UrlConnectionContractR10Api
 import cc.orbexa.hhy.network.UrlConnectionContractR11Api
 import cc.orbexa.hhy.network.UrlConnectionContractR12Api
+import cc.orbexa.hhy.network.UrlConnectionContractR12ProfileApi
 import cc.orbexa.hhy.network.sessionOrNull
 import cc.orbexa.hhy.network.userSelfOrNull
 import java.net.URI
@@ -92,6 +93,7 @@ import cc.orbexa.hhy.contentmanagement.R12PublishCenterScreen
 import cc.orbexa.hhy.contentmanagement.R12PublishPreviewScreen
 import cc.orbexa.hhy.contentmanagement.R12PublishResultScreen
 import cc.orbexa.hhy.shell.HhyShellScreen
+import cc.orbexa.hhy.shell.R12ProfileScreen
 import cc.orbexa.hhy.startup.StartupGateScreen
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.decodeFromString
@@ -180,6 +182,9 @@ class MainActivity : ComponentActivity() {
                                     sessionStore.clear()
                                     sessionState = SessionState.AuthenticationRequired
                                 },
+                                onUserUpdated = { user ->
+                                    sessionState = authenticated.copy(user = user)
+                                },
                             )
                         }
                         is SessionState.Restricted -> {
@@ -215,6 +220,7 @@ private sealed interface SessionState {
 @Serializable
 internal sealed interface AuthenticatedRoute {
     @Serializable data object Shell : AuthenticatedRoute
+    @Serializable data object Profile : AuthenticatedRoute
     @Serializable data object LoginDevices : AuthenticatedRoute
     @Serializable data object ChangePassword : AuthenticatedRoute
     @Serializable data object Cancellation : AuthenticatedRoute
@@ -258,6 +264,7 @@ private fun AuthenticatedNavHost(
     authApi: ContractAuthApi,
     identityApi: ContractIdentityApi,
     onSessionInvalidated: () -> Unit,
+    onUserUpdated: (UserSelfResource) -> Unit,
 ) {
     val navController = rememberNavController()
     val experienceApi = remember { UrlConnectionExperienceApi(BuildConfig.API_BASE_URL) }
@@ -267,6 +274,7 @@ private fun AuthenticatedNavHost(
     val r10Api = remember { UrlConnectionContractR10Api(BuildConfig.API_BASE_URL) }
     val r11Api = remember { UrlConnectionContractR11Api(BuildConfig.API_BASE_URL) }
     val r12Api = remember { UrlConnectionContractR12Api(BuildConfig.API_BASE_URL) }
+    val r12ProfileApi = remember { UrlConnectionContractR12ProfileApi(BuildConfig.API_BASE_URL) }
     val mediaApi = remember { UrlConnectionContractMediaApi(BuildConfig.API_BASE_URL) }
     val uriHandler = androidx.compose.ui.platform.LocalUriHandler.current
     NavHost(
@@ -279,6 +287,7 @@ private fun AuthenticatedNavHost(
     ) {
         composable<AuthenticatedRoute.Shell> {
             HhyShellScreen(
+                user = authenticated.user,
                 onOpenSearch = { navController.navigate(AuthenticatedRoute.Search) },
                 onOpenProjects = { navController.navigate(AuthenticatedRoute.Projects) },
                 onOpenApps = { navController.navigate(AuthenticatedRoute.Apps) },
@@ -318,8 +327,20 @@ private fun AuthenticatedNavHost(
                 onOpenAbout = { navController.navigate(AuthenticatedRoute.About) },
                 onOpenMyContents = { navController.navigate(AuthenticatedRoute.MyContents) },
                 onOpenMyDrafts = { navController.navigate(AuthenticatedRoute.MyDrafts) },
+                onOpenProfile = { navController.navigate(AuthenticatedRoute.Profile) },
                 experienceApi = experienceApi,
                 accessToken = authenticated.session.accessToken,
+            )
+        }
+        composable<AuthenticatedRoute.Profile> {
+            R12ProfileScreen(
+                api = r12ProfileApi,
+                mediaApi = mediaApi,
+                accessToken = authenticated.session.accessToken,
+                initialUser = authenticated.user,
+                onBack = { navController.popBackStack() },
+                onUserUpdated = onUserUpdated,
+                onSessionExpired = onSessionInvalidated,
             )
         }
         composable<AuthenticatedRoute.LoginDevices> {

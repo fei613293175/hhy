@@ -63,11 +63,13 @@ fun MediaUploadSheet(
     onCompleted: (List<MediaUploadSelection>) -> Unit,
     onDismiss: () -> Unit,
     maxConcurrentUploads: Int,
+    maxSelectionCount: Int = Int.MAX_VALUE,
     onAuthenticationRequired: () -> Unit = {},
     onPreview: (MediaUploadSelection) -> Unit = {},
     acceptedTypes: Array<String> = arrayOf("image/*"),
 ) {
     require(maxConcurrentUploads > 0)
+    require(maxSelectionCount > 0)
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
     val manager = remember(api, accessToken, purpose) {
@@ -94,8 +96,9 @@ fun MediaUploadSheet(
         if (hasActiveUploads()) confirmDismiss = true else onDismiss()
     }
 
-    val picker = rememberLauncherForActivityResult(ActivityResultContracts.OpenMultipleDocuments()) { uris ->
-        uris.mapNotNull { uri -> context.contentResolver.toMediaLocalFile(uri) }.forEach { file ->
+    fun enqueue(uris: List<Uri>) {
+        val remaining = remainingSelectionCapacity(maxSelectionCount, uploadItems.size)
+        uris.take(remaining).mapNotNull { uri -> context.contentResolver.toMediaLocalFile(uri) }.forEach { file ->
             val id = manager.add(file)
             jobs[id] = scope.launch {
                 try {
@@ -105,6 +108,13 @@ fun MediaUploadSheet(
                 }
             }
         }
+    }
+
+    val singlePicker = rememberLauncherForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
+        enqueue(uri?.let(::listOf).orEmpty())
+    }
+    val multiplePicker = rememberLauncherForActivityResult(ActivityResultContracts.OpenMultipleDocuments()) { uris ->
+        enqueue(uris)
     }
 
     ModalBottomSheet(onDismissRequest = ::requestDismiss) {
@@ -214,13 +224,20 @@ fun MediaUploadSheet(
             }
             OutlinedButton(
                 modifier = Modifier.fillMaxWidth().height(HhySize.PrimaryButtonHeight),
-                enabled = !hasActiveUploads(),
-                onClick = { picker.launch(acceptedTypes) },
-            ) { Text("选择文件") }
+                enabled = !hasActiveUploads() && remainingSelectionCapacity(maxSelectionCount, uploadItems.size) > 0,
+                onClick = {
+                    if (usesSingleSelectionContract(maxSelectionCount)) singlePicker.launch(acceptedTypes)
+                    else multiplePicker.launch(acceptedTypes)
+                },
+            ) { Text(selectionButtonLabel(maxSelectionCount, uploadItems.size)) }
             Button(
                 modifier = Modifier.fillMaxWidth().height(HhySize.PrimaryButtonHeight),
                 enabled = manager.completedSelections().isNotEmpty() && !hasActiveUploads(),
-                onClick = { onCompleted(manager.completedSelections()) },
+                onClick = {
+                    val completed = manager.completedSelections()
+                    check(completed.size <= maxSelectionCount)
+                    onCompleted(completed)
+                },
             ) { Text("完成") }
             TextButton(modifier = Modifier.fillMaxWidth(), onClick = ::requestDismiss) { Text("取消") }
             Spacer(Modifier.height(HhySpacing.Md))
@@ -348,6 +365,20 @@ internal fun acceptedTypeSummary(acceptedTypes: Array<String>): String {
         if (acceptedTypes.any { it.startsWith("audio/") }) add("音频")
     }
     return if (labels.isEmpty()) "支持当前业务允许的文件类型" else "支持${labels.joinToString("、")}文件"
+}
+
+internal fun usesSingleSelectionContract(maxSelectionCount: Int): Boolean = maxSelectionCount == 1
+
+internal fun remainingSelectionCapacity(maxSelectionCount: Int, selectedCount: Int): Int {
+    require(maxSelectionCount > 0)
+    require(selectedCount >= 0)
+    return (maxSelectionCount - selectedCount).coerceAtLeast(0)
+}
+
+internal fun selectionButtonLabel(maxSelectionCount: Int, selectedCount: Int): String = when {
+    usesSingleSelectionContract(maxSelectionCount) && selectedCount == 0 -> "选择文件"
+    usesSingleSelectionContract(maxSelectionCount) -> "已选择文件"
+    else -> "继续选择文件"
 }
 
 private fun ContentResolver.toMediaLocalFile(uri: Uri): MediaLocalFile? {

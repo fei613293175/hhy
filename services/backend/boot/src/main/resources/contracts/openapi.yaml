@@ -13482,13 +13482,13 @@ components:
           maxLength: 2000
         nickname:
           type: string
-          maxLength: 2000
+          maxLength: 255
         avatarUrl:
           type: string
           maxLength: 2000
         bio:
           type: string
-          maxLength: 2000
+          maxLength: 255
         status:
           type: string
           maxLength: 2000
@@ -15785,13 +15785,13 @@ components:
       properties:
         nickname:
           type: string
-          maxLength: 2000
+          maxLength: 255
         avatarMediaId:
           type: string
           maxLength: 64
         bio:
           type: string
-          maxLength: 2000
+          maxLength: 255
         expectedVersion:
           type: integer
           format: int64
@@ -21209,14 +21209,14 @@ components:
           maxLength: 64
         nickname:
           type: string
-          maxLength: 64
+          maxLength: 255
         avatarUrl:
           type: string
           maxLength: 2048
           format: uri
         bio:
           type: string
-          maxLength: 300
+          maxLength: 255
         verified:
           type: boolean
         memberBadge:

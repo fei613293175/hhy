@@ -67,5 +67,18 @@ class R12AccountControllerContractTest {
             assertEquals(1, source.lines().map(String::strip)
                     .filter(("operationId: " + operation)::equals).count(), operation);
         }
+        String userResource = schema(source, "UserResource", "IdentitySessionResource");
+        String patchRequest = schema(source, "UserPatchMeProfileRequest", "UserPatchMeProfileResponse");
+        assertEquals(2, userResource.lines().map(String::strip)
+                .filter("maxLength: 255"::equals).count());
+        assertEquals(2, patchRequest.lines().map(String::strip)
+                .filter("maxLength: 255"::equals).count());
+    }
+
+    private static String schema(String source, String start, String end) {
+        int from = source.indexOf("    " + start + ":");
+        int to = source.indexOf("    " + end + ":", from + start.length());
+        assertTrue(from >= 0 && to > from, start);
+        return source.substring(from, to);
     }
 }

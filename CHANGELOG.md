@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## R12 Android 个人资料闭环与 Unicode 合同统一 · 2026-07-25
+
+- `nickname/bio` 统一为 Unicode-aware 去除首尾空白后最多 255 个 Unicode code point；客户端、后台、运行时 OpenAPI、共享用户/发布者响应、九份派生页面规格和 Java 服务校验同步，数据库保持既有 `varchar(255)` 且禁止静默截断。
+- 新增独立 `ContractR12ProfileApi` 与 `SCR-ME-002`：只发送实际变化字段，清空简介或头像使用空字符串，保存使用同一请求体稳定幂等键；409 保留输入并查询最新资料，网络中断、5xx 和联合命令响应先 GET 确认，禁止盲目重复写入。
+- 个人资料页按 B08/P01 身份层级与 `MOB-FORM` 实现 56dp 返回顶栏、可编辑真实头像、脱敏账号摘要、昵称/简介字段级校验和底部单一保存操作；头像固定 `public_media`、单图与单并发，媒体选择器保持既有多选调用向后兼容。
+- “我的”身份头接入 typed `Profile` 路由，保存或查询成功后的 `UserSelfResource` 回接根认证会话；页面登记为 `IN_REVIEW`，当前只执行受影响合同、后端与 Android MODULE，模拟器截图和最终视觉 PASS 留到 `TASK-R12-007`。
+
 ## R12 Android 稳定幂等提交与结果闭环 · 2026-07-25
 
 - `ContractR12Api` 新增冻结 `contentPostContentsByIdSubmit`：请求只携带最新 `expectedVersion` 和可选 `reason`，路径、请求体与 `X-Idempotency-Key` 作为同一不可变提交意图绑定；服务端联合响应继续严格解析为 `ContentResource | CommandResultResource`。

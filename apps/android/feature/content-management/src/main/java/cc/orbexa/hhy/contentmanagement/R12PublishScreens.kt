@@ -55,7 +55,6 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.testTagsAsResourceId
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.unit.dp
 import cc.orbexa.hhy.designsystem.HhyBackButton
 import cc.orbexa.hhy.designsystem.HhyColors
 import cc.orbexa.hhy.designsystem.HhyElevation
@@ -255,7 +254,7 @@ private fun PublishOptionCard(
 ) {
     val (icon, accent, background) = publishOptionStyle(option.contentType)
     Card(
-        modifier = modifier.heightIn(min = 142.dp).clickable(enabled = enabled, onClick = onClick)
+        modifier = modifier.heightIn(min = HhySize.PrimaryButtonHeight * 3).clickable(enabled = enabled, onClick = onClick)
             .testTag("publish.center.${option.contentType.lowercase()}"),
         colors = CardDefaults.cardColors(containerColor = HhyColors.Surface),
         elevation = CardDefaults.cardElevation(defaultElevation = HhyElevation.Card),
@@ -627,11 +626,11 @@ private fun PublishResultIcon(phase: R12SubmitPhase) {
         R12SubmitPhase.CONFLICT -> HhyIcons.Information
         else -> HhyIcons.Error
     }
-    Surface(shape = CircleShape, color = resultBackground(phase), modifier = Modifier.size(112.dp)) {
+    Surface(shape = CircleShape, color = resultBackground(phase), modifier = Modifier.size(HhySize.TopAppBarHeight * 2)) {
         Box(contentAlignment = Alignment.Center) {
-            Surface(shape = CircleShape, color = HhyColors.Surface, modifier = Modifier.size(82.dp)) {
+            Surface(shape = CircleShape, color = HhyColors.Surface, modifier = Modifier.size(HhySize.AppLogo + HhySpacing.Lg)) {
                 Box(contentAlignment = Alignment.Center) {
-                    HhyIcon(icon, null, Modifier.size(52.dp), resultAccent(phase))
+                    HhyIcon(icon, null, Modifier.size(HhySize.InputHeight), resultAccent(phase))
                 }
             }
         }
@@ -810,7 +809,7 @@ private fun PublishPreviewContent(content: ContentResource, padding: PaddingValu
                         AsyncImage(
                             model = image.url,
                             contentDescription = image.altText ?: "${content.title}内容图片",
-                            modifier = Modifier.size(96.dp).clip(RoundedCornerShape(HhyRadius.Tag)),
+                            modifier = Modifier.size(HhySize.PrimaryButtonHeight * 2).clip(RoundedCornerShape(HhyRadius.Tag)),
                             contentScale = ContentScale.Crop,
                         )
                     }
@@ -859,7 +858,7 @@ private fun PreviewFactRow(label: String, value: String) = Row(
     horizontalArrangement = Arrangement.spacedBy(HhySpacing.Lg),
     verticalAlignment = Alignment.Top,
 ) {
-    Text(label, Modifier.width(76.dp), color = HhyColors.TextSecondary)
+    Text(label, Modifier.width(HhySize.AppLogo + HhySpacing.Md), color = HhyColors.TextSecondary)
     Text(value, Modifier.weight(1f), color = HhyColors.TextPrimary)
 }
 

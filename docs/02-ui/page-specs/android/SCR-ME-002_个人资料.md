@@ -31,18 +31,18 @@
 | FLD-01397 | 表单状态 | fieldErrorSummary | 字段错误摘要 | UI_META | ui | ERROR_SUMMARY | LOCAL_UI | 存在校验错误时显示 | 按页面状态显示 | 本地UI字段不可写入业务事实 | 按页面模板 | NORMAL | 无需特殊掩码；仍遵守最小展示 | 字段错误摘要不符合页面规格 |
 | FLD-01398 | 主要内容 | id | ID | DISPLAY | string | TEXT | userGetMe.response.data.UserResource | 服务端返回时展示 | 有值且当前角色拥有字段访问权限 | 只读；通过明确写操作更新 | 必填；最多64字符 | NORMAL | 无需特殊掩码；仍遵守最小展示 | ID加载失败时显示字段级占位或隐藏 |
 | FLD-01399 | 主要内容 | phoneMasked | phone Masked | DISPLAY | string | TEXT | userGetMe.response.data.UserResource | 服务端返回时展示 | 有值且当前角色拥有字段访问权限 | 只读；通过明确写操作更新 | 最多2000字符 | HIGH | 按数据分级展示部分掩码；导出执行更严格脱敏 | phone Masked加载失败时显示字段级占位或隐藏 |
-| FLD-01400 | 主要内容 | nickname | 昵称 | DISPLAY | string | TEXT | userGetMe.response.data.UserResource | 服务端返回时展示 | 有值且当前角色拥有字段访问权限 | 只读；通过明确写操作更新 | 最多2000字符 | NORMAL | 无需特殊掩码；仍遵守最小展示 | 昵称加载失败时显示字段级占位或隐藏 |
+| FLD-01400 | 主要内容 | nickname | 昵称 | DISPLAY | string | TEXT | userGetMe.response.data.UserResource | 服务端返回时展示 | 有值且当前角色拥有字段访问权限 | 只读；通过明确写操作更新 | 最多255字符 | NORMAL | 无需特殊掩码；仍遵守最小展示 | 昵称加载失败时显示字段级占位或隐藏 |
 | FLD-01401 | 主要内容 | avatarUrl | 头像 | DISPLAY | string | TEXT | userGetMe.response.data.UserResource | 服务端返回时展示 | 有值且当前角色拥有字段访问权限 | 只读；通过明确写操作更新 | 最多2000字符 | NORMAL | 无需特殊掩码；仍遵守最小展示 | 头像加载失败时显示字段级占位或隐藏 |
-| FLD-01402 | 主要内容 | bio | 个人简介 | DISPLAY | string | TEXT | userGetMe.response.data.UserResource | 服务端返回时展示 | 有值且当前角色拥有字段访问权限 | 只读；通过明确写操作更新 | 最多2000字符 | NORMAL | 无需特殊掩码；仍遵守最小展示 | 个人简介加载失败时显示字段级占位或隐藏 |
+| FLD-01402 | 主要内容 | bio | 个人简介 | DISPLAY | string | TEXT | userGetMe.response.data.UserResource | 服务端返回时展示 | 有值且当前角色拥有字段访问权限 | 只读；通过明确写操作更新 | 最多255字符 | NORMAL | 无需特殊掩码；仍遵守最小展示 | 个人简介加载失败时显示字段级占位或隐藏 |
 | FLD-01403 | 主要内容 | status | 状态 | DISPLAY | string | TEXT | userGetMe.response.data.UserResource | 服务端返回时展示 | 有值且当前角色拥有字段访问权限 | 只读；通过明确写操作更新 | 必填；最多2000字符 | NORMAL | 无需特殊掩码；仍遵守最小展示 | 状态加载失败时显示字段级占位或隐藏 |
 | FLD-01404 | 主要内容 | identityStatus | identity Status | DISPLAY | string | TEXT | userGetMe.response.data.UserResource | 服务端返回时展示 | 有值且当前角色拥有字段访问权限 | 只读；通过明确写操作更新 | 最多2000字符 | NORMAL | 无需特殊掩码；仍遵守最小展示 | identity Status加载失败时显示字段级占位或隐藏 |
 | FLD-01405 | 主要内容 | membershipStatus | membership Status | DISPLAY | string | TEXT | userGetMe.response.data.UserResource | 服务端返回时展示 | 有值且当前角色拥有字段访问权限 | 只读；通过明确写操作更新 | 最多2000字符 | HIGH | 按数据分级展示部分掩码；导出执行更严格脱敏 | membership Status加载失败时显示字段级占位或隐藏 |
 | FLD-01406 | 主要内容 | createdAt | 创建时间 | DISPLAY | string | DATETIME_TEXT | userGetMe.response.data.UserResource | 服务端返回时展示 | 有值且当前角色拥有字段访问权限 | 只读；通过明确写操作更新 | 格式:date-time | NORMAL | 无需特殊掩码；仍遵守最小展示 | 创建时间加载失败时显示字段级占位或隐藏 |
 | FLD-01407 | 主要内容 | version | 版本 | DISPLAY | integer | NUMBER_TEXT | userGetMe.response.data.UserResource | 服务端返回时展示 | 有值且当前角色拥有字段访问权限 | 只读；通过明确写操作更新 | 必填；格式:int64 | NORMAL | 无需特殊掩码；仍遵守最小展示 | 版本加载失败时显示字段级占位或隐藏 |
 | FLD-01408 | 请求头 | X-Idempotency-Key | X-Idempotency-Key | REQUEST_HEADER | string | TEXT_INPUT | userPatchMeProfile.header | 必填 | 执行“修改头像昵称简介”时显示 | 用户具备权限且页面状态允许 | 必填；最多128字符 | NORMAL | 无需特殊掩码；仍遵守最小展示 | X-Idempotency-Key格式或范围不正确 |
-| FLD-01409 | 表单输入 | nickname | 昵称 | INPUT | string | TEXT_INPUT | userPatchMeProfile.request | 可选；按业务条件或页面状态决定 | 执行“修改头像昵称简介”且字段适用时显示 | 具备 登录 且资源状态允许 | 最多2000字符 | NORMAL | 无需特殊掩码；仍遵守最小展示 | 昵称不符合要求 |
+| FLD-01409 | 表单输入 | nickname | 昵称 | INPUT | string | TEXT_INPUT | userPatchMeProfile.request | 可选；按业务条件或页面状态决定 | 执行“修改头像昵称简介”且字段适用时显示 | 具备 登录 且资源状态允许 | 最多255字符 | NORMAL | 无需特殊掩码；仍遵守最小展示 | 昵称不符合要求 |
 | FLD-01410 | 表单输入 | avatarMediaId | 头像 | INPUT | string | TEXT_INPUT | userPatchMeProfile.request | 可选；按业务条件或页面状态决定 | 执行“修改头像昵称简介”且字段适用时显示 | 具备 登录 且资源状态允许 | 最多64字符 | NORMAL | 无需特殊掩码；仍遵守最小展示 | 头像不符合要求 |
-| FLD-01411 | 表单输入 | bio | 个人简介 | INPUT | string | TEXT_INPUT | userPatchMeProfile.request | 可选；按业务条件或页面状态决定 | 执行“修改头像昵称简介”且字段适用时显示 | 具备 登录 且资源状态允许 | 最多2000字符 | NORMAL | 无需特殊掩码；仍遵守最小展示 | 个人简介不符合要求 |
+| FLD-01411 | 表单输入 | bio | 个人简介 | INPUT | string | TEXT_INPUT | userPatchMeProfile.request | 可选；按业务条件或页面状态决定 | 执行“修改头像昵称简介”且字段适用时显示 | 具备 登录 且资源状态允许 | 最多255字符 | NORMAL | 无需特殊掩码；仍遵守最小展示 | 个人简介不符合要求 |
 | FLD-01412 | 表单输入 | expectedVersion | 数据版本 | INPUT | integer | NUMBER_INPUT | userPatchMeProfile.request | 必填 | 执行“修改头像昵称简介”且字段适用时显示 | 具备 登录 且资源状态允许 | 必填；格式:int64 | NORMAL | 无需特殊掩码；仍遵守最小展示 | 数据版本不符合要求 |
 
 ## 4. 页面状态与恢复

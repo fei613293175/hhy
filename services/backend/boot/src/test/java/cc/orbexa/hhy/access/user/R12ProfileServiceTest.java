@@ -99,6 +99,45 @@ class R12ProfileServiceTest {
     }
 
     @Test
+    void supplementaryCharactersUseTheDatabaseCodePointLimit() {
+        String value = "😀".repeat(255);
+        UserAuthStore.IdempotencyRow claimRow = new UserAuthStore.IdempotencyRow(
+                94, "request-hash", null, null, null);
+        when(idempotency.claimIdempotency(anyString(), anyString(), anyString(), any()))
+                .thenReturn(new UserAuthStore.IdempotencyClaim(claimRow, false));
+        R12ProfileStore.ProfileAggregate locked = new R12ProfileStore.ProfileAggregate(
+                7, 4, 2, "old", null, "old bio");
+        when(profiles.lock(7)).thenReturn(Optional.of(locked));
+        when(profiles.update(eq(locked), eq(4L), eq(value), any(), eq(value),
+                eq(NOW), eq(List.of("nickname", "bio")), anyString()))
+                .thenReturn(R12ProfileStore.UpdateResult.updated(5, 3, List.of("nickname", "bio")));
+        UserResource response = new UserResource(
+                "7", "138****0000", value, null, value,
+                "ACTIVE", "VERIFIED", "ACTIVE", NOW, 5);
+        when(users.self(PRINCIPAL)).thenReturn(response);
+
+        assertEquals(response, service.patch(
+                PRINCIPAL, new ProfilePatchRequest(value, null, value, 4L),
+                "idem-profile-key-0004"));
+    }
+
+    @Test
+    void twoHundredFiftySixCodePointsAreRejectedBeforeAnyWriteClaim() {
+        String value = "😀".repeat(256);
+
+        BusinessException failure = assertThrows(BusinessException.class, () -> service.patch(
+                PRINCIPAL, new ProfilePatchRequest(value, null, null, 4L),
+                "idem-profile-key-0005"));
+
+        assertEquals("COMMON-400-VALIDATION", failure.code());
+        verify(idempotency, never()).claimIdempotency(anyString(), anyString(), anyString(), any());
+        verify(profiles, never()).lock(anyLong());
+        verify(profiles, never()).update(any(), anyLong(), any(), any(), any(), any(), any(), anyString());
+        verify(idempotency, never()).completeIdempotencySnapshot(
+                anyLong(), anyString(), anyString(), anyString());
+    }
+
+    @Test
     void completedIdempotencyClaimReplaysTheOriginalResponseWithoutASecondWrite() throws Exception {
         UserResource original = new UserResource(
                 "7", "138****0000", "首次结果", null, null,

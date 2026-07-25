@@ -11,7 +11,7 @@ task_id: TASK-R12-004
 story_id: STORY-R12-006
 goal: 按SCR-ME-002 MOB-FORM和冻结userGetMe/userPatchMeProfile实现头像、昵称、简介真实个人资料流程，含expectedVersion、稳定幂等、媒体选择与错误恢复。
 started_at: '2026-07-25T05:35:15Z'
-updated_at: '2026-07-25T12:27:40Z'
+updated_at: '2026-07-25T14:52:49Z'
 takeover_of: null
 change_requests:
 - CR-0319
@@ -25,6 +25,7 @@ change_requests:
 - CR-0327
 - CR-0328
 - CR-0329
+- CR-0330
 scope:
   allowed_paths:
   - apps/android/**
@@ -68,7 +69,40 @@ scope:
   - apps/admin-web/src/adminNavigation.test.ts
   - apps/admin-web/src/routerPermissions.test.ts
   - apps/admin-web/src/styles.css
-  source: story-switch+explicit+approved-cr:CR-0319+approved-cr:CR-0320
+  - contracts/openapi.yaml
+  - contracts/admin-openapi.yaml
+  - services/backend/boot/src/main/resources/contracts/openapi.yaml
+  - services/backend/boot/src/main/resources/contracts/admin-openapi.yaml
+  - contracts/contract_status.csv
+  - catalogs/ui_page_fields.csv
+  - docs/02-ui/page-specs/android/SCR-AUTH-005_账号冻结.md
+  - docs/02-ui/page-specs/android/SCR-ID-001_实名认证首页.md
+  - docs/02-ui/page-specs/android/SCR-ME-001_我的首页.md
+  - docs/02-ui/page-specs/android/SCR-ME-002_个人资料.md
+  - docs/02-ui/page-specs/android/SCR-PUB-001_发布入口.md
+  - docs/02-ui/page-specs/android/SCR-PUBLISHER-001_发布者主页.md
+  - docs/02-ui/page-specs/android/SCR-SET-001_设置.md
+  - docs/02-ui/page-specs/admin/ADM-USER-001_用户列表.md
+  - docs/02-ui/page-specs/admin/ADM-USER-002_用户详情.md
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/R12ProfileContracts.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/R12ProfileService.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/R12ProfileServiceTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/R12AccountControllerContractTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R07ServiceTest.java
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR12ProfileApi.kt
+  - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ContractR12ProfileApiTest.kt
+  - apps/android/feature/media/src/main/java/cc/orbexa/hhy/media/MediaUploadSheet.kt
+  - apps/android/feature/media/src/test/java/cc/orbexa/hhy/media/MediaUploadSheetTest.kt
+  - apps/android/feature/shell/build.gradle.kts
+  - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+  - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/R12ProfileState.kt
+  - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/R12ProfileScreen.kt
+  - apps/android/feature/shell/src/test/java/cc/orbexa/hhy/shell/R12ProfileStateTest.kt
+  - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+  - apps/android/app/src/test/java/cc/orbexa/hhy/NavigationPolicyTest.kt
+  - catalogs/ui_visual_acceptance.csv
+  - CHANGELOG.md
+  source: story-switch+explicit+approved-cr:CR-0319+approved-cr:CR-0320+approved-cr:CR-0330
 git:
   initialized: true
   branch: task/TASK-R03-001
@@ -78,25 +112,25 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-25T12:27:35Z'
-  expires_at: '2026-07-25T16:27:35Z'
-checkpoint_sequence: 27
-latest_checkpoint: .continuity/checkpoints/SES-20260725T053515Z-11D4084D/0027.yaml
+  renewed_at: '2026-07-25T14:52:43Z'
+  expires_at: '2026-07-25T18:52:43Z'
+checkpoint_sequence: 29
+latest_checkpoint: .continuity/checkpoints/SES-20260725T053515Z-11D4084D/0029.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260725T053515Z-11D4084D.md
-next_step: 提交Story切换证据，读取SCR-ME-002视觉规格、冻结个人资料合同和现有我的页面实现，创建实现CR。
+next_step: 审计CR-0330精确范围与连续性门禁，提交并推送STORY-R12-006后原子切换到STORY-R12-007。
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: 55f265b20adc133e40852e550fd29c7532b5578c2ffa0a99dad00e07501eef31
-  generated_at: '2026-07-25T12:27:38Z'
+  context_hash: 65860f488418b04c7cf2194a155b10c2266728ac2f9be7f43bfb7c644df329d7
+  generated_at: '2026-07-25T14:52:46Z'
 handoff_bundle: null
 closure: null
 parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 个人资料合同、媒体上传、表单状态与我的页面导航共享同一资料模型，需先统一核对后再决定可拆分范围。
+  reason: 批准范围已经由两名独立复核者审计；本阶段仅在共享事实分支修正一个Kotlin文件并绑定最终证据，继续拆分会制造同一检查点和CR状态竞争。
 story_history:
 - story_id: STORY-R12-001
   completed_at: '2026-07-25T07:44:07Z'

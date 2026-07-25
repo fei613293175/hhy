@@ -2,14 +2,14 @@ package cc.orbexa.hhy.access.user;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;
-import jakarta.validation.constraints.Size;
+import org.hibernate.validator.constraints.CodePointLength;
 
 public final class R12ProfileContracts {
     private R12ProfileContracts() { }
 
     public record ProfilePatchRequest(
-            @Size(max = 2000) String nickname,
-            @Size(max = 64) String avatarMediaId,
-            @Size(max = 2000) String bio,
+            @CodePointLength(max = 255) String nickname,
+            @CodePointLength(max = 64) String avatarMediaId,
+            @CodePointLength(max = 255) String bio,
             @NotNull @PositiveOrZero Long expectedVersion) { }
 }

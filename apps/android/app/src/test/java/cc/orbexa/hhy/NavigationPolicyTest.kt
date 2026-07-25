@@ -28,4 +28,11 @@ class NavigationPolicyTest {
         assertEquals(12, route.expectedVersion)
         assertEquals("r12-submit-1234567890abcdef", route.idempotencyKey)
     }
+
+    @Test
+    fun profileUsesATypedChildRouteFromTheAuthenticatedShell() {
+        val route: AuthenticatedRoute = AuthenticatedRoute.Profile
+
+        assertTrue(route is AuthenticatedRoute.Profile)
+    }
 }
