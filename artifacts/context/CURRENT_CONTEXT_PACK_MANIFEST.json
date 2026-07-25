@@ -1,19 +1,19 @@
 {
   "version": "1.0",
-  "generated_at": "2026-07-25T02:37:08Z",
-  "context_hash": "acfa57802788a6d12594b7372d896316a898b70b15aab1900e94dfe555bdea83",
+  "generated_at": "2026-07-25T02:45:27Z",
+  "context_hash": "e124465ff1fd3ad3559ae68b2a32a0087473305067d4f2122afd8446a80a27de",
   "fingerprint_mode": "SESSION_DELTA",
   "project_fingerprint": {
-    "sha256": "8d66006b95ae627d1ef7b4271b1848b16a1e29dab1087f79a2e1a8a8ceb30533",
+    "sha256": "b86e13fec2d301fe55e295ed79830ef1fc7ef8a99e251751e092d1ebf489734f",
     "file_count": 40
   },
   "yaml": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.yaml",
-    "sha256": "fb3182b6879fe8e4e308e82ff3d873f87785dafb8a0570380cdff913507d7d81"
+    "sha256": "bcca096d1db6e70885b489c409e02a8c6d76a185abd91e73437f61575a1ed105"
   },
   "markdown": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.md",
-    "sha256": "61d5fd4b2234eb548d4299ee1ab6d5c74ea86b960007aa6e11ec952e3964290f"
+    "sha256": "da8cd713190d294ea5559a648f077d847234c9cdab65442a6e37c985a8bdf5bd"
   },
   "sources": [
     {
@@ -28,7 +28,7 @@
     },
     {
       "path": "CURRENT_STATUS.yaml",
-      "sha256": "9ed30332b399dc14086e09d50f771290c342b38653b9a440dbbf314170205a5a",
+      "sha256": "e2ec0e4ea30776f03532bd6edef8716786889c816516c626ab01167549fd7168",
       "bytes": 4400
     },
     {
@@ -83,12 +83,12 @@
     },
     {
       "path": ".continuity/EVENT_LOG.jsonl",
-      "sha256": "d439b777ae5cb5161b1501f14e7b26f141d761c396649a591ac7ab3005412622",
-      "bytes": 1717072
+      "sha256": "9902cea97a19fef18051d508b240e75f5209bff963243cfa6430180d631dfeca",
+      "bytes": 1718517
     },
     {
       "path": ".continuity/SESSION_INDEX.yaml",
-      "sha256": "8ff5db4a07f7ac29d8f006665a2e0dae64324cb06f7b436d6952721c122b143c",
+      "sha256": "dee85bc9283eaaef6efd64f377fa9463b69a0de83a8090299786a3c61eabba5d",
       "bytes": 52245
     },
     {
@@ -103,12 +103,12 @@
     },
     {
       "path": ".continuity/CHANGE_REQUEST_INDEX.yaml",
-      "sha256": "61e692df19e76bb4f93144438e7e0544cbe45b404b2071ddf360f604df2d0b66",
-      "bytes": 1062213
+      "sha256": "d8c01b9cb357f4e9c8dec198f4c3fa95db325c7f649158eb0dfb9c28d4c6d713",
+      "bytes": 1062803
     },
     {
       "path": ".continuity/ACTIVE_SESSION.yaml",
-      "sha256": "626f67bbb4a1f244cc93130f34cb01c5fb9dc42a7059d2e265b53860fdbf14d4",
+      "sha256": "9c79fc17a84d0c643a59a2d0ad6c2291d58f0ba1dbd3193cbad15ed08e77eb7e",
       "bytes": 543
     },
     {
@@ -163,23 +163,23 @@
     },
     {
       "path": "docs/03-continuity/sessions/2026-07/SES-20260724T235749Z-6EC9DB09.md",
-      "sha256": "cb287763ba77273dfd113b47def65fd58c0eee5ec30d366c8db9ec36d4fbb164",
-      "bytes": 9005
+      "sha256": "827b9bf2197d5671380cf1fcbd5ea669fd11ce56ec5f393b3de586ceac92df6e",
+      "bytes": 12235
     },
     {
-      "path": ".continuity/checkpoints/SES-20260724T235749Z-6EC9DB09/0006.yaml",
-      "sha256": "8e37b5984feb671bb073cc34da6b32dcdeb89403fa14333e320a64dd488ed09a",
-      "bytes": 23712
+      "path": ".continuity/checkpoints/SES-20260724T235749Z-6EC9DB09/0007.yaml",
+      "sha256": "9839c8ffeb57ef0911788266b205e7b1556f8b46da6ea00c8862afdfbc750d5f",
+      "bytes": 19271
     },
     {
       "path": "docs/03-continuity/change-requests/CR-0316-实现R12统一发布管理数据库状态机与领域不变量.md",
-      "sha256": "2551b0309835f531e2d0f2658ef233af1bfad16a99b8cfbcb6371a4f92145898",
-      "bytes": 8703
+      "sha256": "9804298a4baeccb87c4fd51a6d7345b62796c9e62d65bd8db35b52b5895e7f9c",
+      "bytes": 8939
     },
     {
       "path": "docs/03-continuity/change-requests/CR-0317-修正P00-Flyway回归测试陈旧全库表数.md",
-      "sha256": "d4180037c8f37cfefc756467fb67dfb108300a33825f7c0acaabe67d9001db76",
-      "bytes": 2344
+      "sha256": "706b81e14bc1c295a2b2f6edf7627b63e0d994ef3cedb86ec26e92855f4ae005",
+      "bytes": 2580
     }
   ]
 }

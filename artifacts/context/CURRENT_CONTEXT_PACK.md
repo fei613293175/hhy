@@ -1,7 +1,7 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-25T02:37:08Z
-- Context Hash：`acfa57802788a6d12594b7372d896316a898b70b15aab1900e94dfe555bdea83`
+- 生成时间：2026-07-25T02:45:27Z
+- Context Hash：`e124465ff1fd3ad3559ae68b2a32a0087473305067d4f2122afd8446a80a27de`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 规则就绪：`PASS`（`HASHED_CONTEXT_MANIFEST`）
@@ -159,7 +159,7 @@ blocked_tasks:
 - TASK-R06-008
 - TASK-R07-008
 next_task: TASK-R12-002
-updated_at: '2026-07-25T02:37:05Z'
+updated_at: '2026-07-25T02:45:24Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -194,15 +194,15 @@ continuity:
   active_session_id: SES-20260724T235749Z-6EC9DB09
   actor_id: codex-root-r12-data-20260725
   story_id: STORY-R12-008
-  lease_expires_at: '2026-07-25T06:37:05Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260724T235749Z-6EC9DB09/0006.yaml
-  project_fingerprint: 8d66006b95ae627d1ef7b4271b1848b16a1e29dab1087f79a2e1a8a8ceb30533
+  lease_expires_at: '2026-07-25T06:45:24Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260724T235749Z-6EC9DB09/0007.yaml
+  project_fingerprint: b86e13fec2d301fe55e295ed79830ef1fc7ef8a99e251751e092d1ebf489734f
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: 04efe904e060a9999724b2e41b8d8426dec8121547fd9910ab05929346891abc
-    generated_at: '2026-07-25T02:01:23Z'
+    context_hash: acfa57802788a6d12594b7372d896316a898b70b15aab1900e94dfe555bdea83
+    generated_at: '2026-07-25T02:37:08Z'
   handoff_bundle: null
 ```
 
@@ -400,7 +400,7 @@ task_id: TASK-R12-002
 story_id: STORY-R12-008
 goal: 异常恢复 SES-20260724T195501Z-13F8DFDE：统一发布与发布管理数据迁移与领域不变量
 started_at: '2026-07-24T23:57:49Z'
-updated_at: '2026-07-25T02:37:05Z'
+updated_at: '2026-07-25T02:45:24Z'
 takeover_of: SES-20260724T195501Z-13F8DFDE
 change_requests:
 - CR-0316
@@ -490,12 +490,12 @@ git:
   initial_worktree_state: DIRTY_TAKEOVER
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-25T02:37:05Z'
-  expires_at: '2026-07-25T06:37:05Z'
-checkpoint_sequence: 6
-latest_checkpoint: .continuity/checkpoints/SES-20260724T235749Z-6EC9DB09/0006.yaml
+  renewed_at: '2026-07-25T02:45:24Z'
+  expires_at: '2026-07-25T06:45:24Z'
+checkpoint_sequence: 7
+latest_checkpoint: .continuity/checkpoints/SES-20260724T235749Z-6EC9DB09/0007.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260724T235749Z-6EC9DB09.md
-next_step: 提交并推送TASK-R12-002实现Commit，关闭任务和CR后立即启动TASK-R12-003后端接口开发
+next_step: 提交并推送CR关闭元数据，然后以实现Commit关闭TASK-R12-002并启动TASK-R12-003
 context_pack: THIS_CONTEXT_PACK
 handoff_bundle: null
 closure: null
@@ -503,127 +503,50 @@ parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 破坏性迁移、冻结合同、共享Store与真实数据库验证属于同一顺序敏感边界，由唯一主控串行复核
+  reason: CR与任务关闭修改同一连续性状态机且必须由唯一主控串行提交
 ```
 
 ## 最新检查点
 
 ```yaml
 protocol_version: '1.0'
-checkpoint_id: CP-SES-20260724T235749Z-6EC9DB09-0006
+checkpoint_id: CP-SES-20260724T235749Z-6EC9DB09-0007
 session_id: SES-20260724T235749Z-6EC9DB09
 task_id: TASK-R12-002
 story_id: STORY-R12-008
-sequence: 6
-created_at: '2026-07-25T02:37:05Z'
-summary: 完成TASK-R12-002统一发布数据库状态机、版本历史审核Outbox绑定、软删除、合同纠错及全部受影响MODULE验证
-next_step: 提交并推送TASK-R12-002实现Commit，关闭任务和CR后立即启动TASK-R12-003后端接口开发
+sequence: 7
+created_at: '2026-07-25T02:45:23Z'
+summary: 关闭CR-0316与CR-0317并绑定已推送实现Commit 5e09dd4f
+next_step: 提交并推送CR关闭元数据，然后以实现Commit关闭TASK-R12-002并启动TASK-R12-003
 blockers: []
-decisions:
-- 完整Android构建、模拟器、截图和APK继续只在TASK-R12-007最终候选执行
+decisions: []
 note: ''
 tests:
-- name: PostgreSQL17全迁移
+- name: CR关闭
   result: PASS
-  evidence: POSTGRESQL_MIGRATION_SMOKE PASS V001-V039 200 tables
-  note: 独立临时容器
-- name: R12脏升级与并发
-  result: PASS
-  evidence: 9/9 atomic blocks; U039 replay; writers 1:0
-  note: PostgreSQL17.10
-- name: 后端MODULE
-  result: PASS
-  evidence: 380 tests 0 failures 0 errors 0 skipped
-  note: Java21 Flyway39
-- name: Web MODULE
-  result: PASS
-  evidence: Admin 101; H5 29; both typecheck
-  note: affected map
-- name: Android MODULE
-  result: PASS
-  evidence: 571 tasks BUILD SUCCESSFUL
-  note: unit and lint only no APK
-- name: 静态合同
-  result: PASS
-  evidence: DB 200/39; API 131/184/10; generated; strict R12 docs
-  note: 0 errors 0 warnings
+  evidence: CR-0316与CR-0317状态CLOSED且implementation_commits包含5e09dd4f
+  note: 无重型测试重跑
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: 67436cb48ca2e9fb3c921744dd992022d574ce5d
+  head: 5e09dd4f80dc014611f93717b159f791403be457
   upstream: origin/task/TASK-R03-001
   ahead: 0
   behind: 0
   dirty: true
   status_porcelain:
-  - ' M .continuity/ACTIVE_SESSION.yaml'
   - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
   - ' M .continuity/EVENT_LOG.jsonl'
-  - ' M .continuity/SESSION_INDEX.yaml'
   - ' M .continuity/STATE.yaml'
-  - ' M .continuity/TASK_CLAIMS.yaml'
-  - ' M .continuity/TASK_TRANSITIONS.yaml'
-  - ' M CHANGELOG.md'
-  - ' M CURRENT_STATUS.yaml'
-  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
-  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
-  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
-  - ' M artifacts/validation/project-doctor-v1.2.2.json'
-  - ' M artifacts/validation/project-doctor-v1.2.3-documentation.json'
+  - ' M .continuity/change_requests/CR-0316.yaml'
+  - ' M .continuity/change_requests/CR-0317.yaml'
   - ' M catalogs/change_request_index.csv'
-  - ' M catalogs/data_tables.csv'
   - ' M catalogs/session_index.csv'
-  - ' M catalogs/task_transition_ledger.csv'
-  - ' M catalogs/ui_action_matrix.csv'
-  - ' M catalogs/ui_page_fields.csv'
-  - ' M contracts/contract_status.csv'
-  - ' M contracts/openapi.yaml'
-  - ' M database/schema_dictionary.csv'
-  - ' M docs/02-ui/page-specs/android/SCR-MYC-002_草稿箱.md'
-  - ' M packages/api-client/src/client.generated.ts'
-  - ' M releases/R12/RELEASE_MANIFEST.yaml'
-  - ' M scripts/check_api_contract.py'
-  - ' M scripts/check_db_schema.py'
-  - ' M scripts/generate_contracts.py'
-  - ' M scripts/run_postgres_migration_smoke.sh'
-  - ' M scripts/run_r08_disposable_postgres_container.sh'
-  - ' M scripts/run_r09_disposable_postgres_container.sh'
-  - ' M services/backend/boot/src/main/resources/contracts/openapi.yaml'
-  - ' M services/backend/boot/src/test/java/cc/orbexa/hhy/P00FlywayMigrationTest.java'
-  - ' M services/backend/boot/src/test/java/cc/orbexa/hhy/content/ContentServiceTest.java'
-  - ' M services/backend/boot/src/test/java/cc/orbexa/hhy/content/R07PostgresStoreTest.java'
-  - ' M services/backend/boot/src/test/java/cc/orbexa/hhy/content/R08PostgresStoreTest.java'
-  - ' M services/backend/boot/src/test/java/cc/orbexa/hhy/content/R10PostgresStoreTest.java'
-  - ' M services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentPostgresStore.java'
-  - ' M services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentService.java'
-  - ' M services/backend/content/src/main/java/cc/orbexa/hhy/content/R07PostgresStore.java'
-  - ' M services/backend/content/src/main/java/cc/orbexa/hhy/content/R08PostgresStore.java'
-  - ' M services/backend/content/src/main/java/cc/orbexa/hhy/content/R09PostgresStore.java'
-  - ' M services/backend/content/src/main/java/cc/orbexa/hhy/content/R10PostgresStore.java'
-  - ' M services/backend/content/src/main/java/cc/orbexa/hhy/content/R11PostgresStore.java'
-  - ?? .continuity/change_requests/CR-0316.yaml
-  - ?? .continuity/change_requests/CR-0317.yaml
-  - ?? .continuity/checkpoints/SES-20260724T235749Z-6EC9DB09/0001.yaml
-  - ?? .continuity/checkpoints/SES-20260724T235749Z-6EC9DB09/0002.yaml
-  - ?? .continuity/checkpoints/SES-20260724T235749Z-6EC9DB09/0003.yaml
-  - ?? .continuity/checkpoints/SES-20260724T235749Z-6EC9DB09/0004.yaml
-  - ?? .continuity/checkpoints/SES-20260724T235749Z-6EC9DB09/0005.yaml
-  - ?? .continuity/sessions/SES-20260724T195501Z-13F8DFDE.yaml
-  - ?? .continuity/sessions/SES-20260724T235749Z-6EC9DB09.yaml
-  - ?? database/migrations/V039__r12_publish_management_invariants.sql
-  - ?? database/rollback/U039__r12_publish_management_invariants.sql
-  - ?? database/tests/r12_publish_management_invariants.sql
-  - ?? docs/03-continuity/R12_TASK-002_DATABASE_GATE.md
-  - ?? docs/03-continuity/change-requests/CR-0316-实现R12统一发布管理数据库状态机与领域不变量.md
-  - ?? docs/03-continuity/change-requests/CR-0317-修正P00-Flyway回归测试陈旧全库表数.md
-  - ?? docs/03-continuity/sessions/2026-07/SES-20260724T195501Z-13F8DFDE.md
-  - ?? docs/03-continuity/sessions/2026-07/SES-20260724T235749Z-6EC9DB09.md
-  - ?? scripts/check_content_state_machine_projection.py
-  - ?? scripts/run_r12_database_invariants.sh
-  - ?? services/backend/boot/src/main/resources/db/migration/V039__r12_publish_management_invariants.sql
-  - ?? services/backend/boot/src/test/java/cc/orbexa/hhy/content/R12PostgresTestFixtures.java
-  - ?? services/backend/content/src/main/java/cc/orbexa/hhy/content/R12ContentBindings.java
+  - ' M docs/03-continuity/change-requests/CR-0316-实现R12统一发布管理数据库状态机与领域不变量.md'
+  - ' M docs/03-continuity/change-requests/CR-0317-修正P00-Flyway回归测试陈旧全库表数.md'
   recent_commits:
+  - "5e09dd4f80dc014611f93717b159f791403be457\t2026-07-25T10:42:37+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] feat(content): enforce R12\
+    \ publish lifecycle invariants"
   - "67436cb48ca2e9fb3c921744dd992022d574ce5d\t2026-07-25T00:37:48+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] chore(continuity): close TASK-R12-001\
     \ as completed"
   - "3a48126e76fd55b4d9f187e7e73122d121cfa190\t2026-07-25T00:29:49+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] docs(release): freeze R12\
@@ -638,10 +561,8 @@ git:
     \ as completed"
   - "c64e8a630336c0e41f49a1335f71c661e3417dbf\t2026-07-24T17:27:43+08:00\tHHY Continuity Bootstrap\t[STORY-R11-004] test(android): publish R11\
     \ test APK"
-  - "2a2b2c10fa859f65985181ebe16a938cbe28d3f7\t2026-07-24T15:00:02+08:00\tHHY Continuity Bootstrap\t[STORY-R11-004] test(android): approve R11\
-    \ visual baseline"
 project_fingerprint:
-  sha256: 8d66006b95ae627d1ef7b4271b1848b16a1e29dab1087f79a2e1a8a8ceb30533
+  sha256: b86e13fec2d301fe55e295ed79830ef1fc7ef8a99e251751e092d1ebf489734f
   files:
   - CHANGELOG.md
   - catalogs/data_tables.csv
@@ -737,12 +658,12 @@ project_fingerprint:
       sha256: 5afd14ea00b70eb973a4f33af2e1842f7bfd2bdaaa6797f2b14ff65ef4847bf2
     - path: docs/03-continuity/change-requests/CR-0316-实现R12统一发布管理数据库状态机与领域不变量.md
       state: FILE
-      size: 8703
-      sha256: 2551b0309835f531e2d0f2658ef233af1bfad16a99b8cfbcb6371a4f92145898
+      size: 8939
+      sha256: 9804298a4baeccb87c4fd51a6d7345b62796c9e62d65bd8db35b52b5895e7f9c
     - path: docs/03-continuity/change-requests/CR-0317-修正P00-Flyway回归测试陈旧全库表数.md
       state: FILE
-      size: 2344
-      sha256: d4180037c8f37cfefc756467fb67dfb108300a33825f7c0acaabe67d9001db76
+      size: 2580
+      sha256: 706b81e14bc1c295a2b2f6edf7627b63e0d994ef3cedb86ec26e92855f4ae005
     - path: packages/api-client/src/client.generated.ts
       state: FILE
       size: 621199
@@ -996,8 +917,8 @@ parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 破坏性迁移、冻结合同、共享Store与真实数据库验证属于同一顺序敏感边界，由唯一主控串行复核
-event_hash: d95c4070c72754c5dab5de470098f2b375798fd421e505f43b38e4832db52e44
+  reason: CR与任务关闭修改同一连续性状态机且必须由唯一主控串行提交
+event_hash: 27c63beba529a98f381b517b34dac64825c1afc349ca130c47f0e3b5feccd296
 ```
 
 ## 接续状态与事件头
@@ -1009,8 +930,8 @@ active_session_id: SES-20260724T235749Z-6EC9DB09
 last_session_id: SES-20260724T144831Z-B2E27A89
 last_session_result: COMPLETED
 last_closure_checkpoint_id: CP-SES-20260724T144831Z-B2E27A89-0003
-event_count: 3083
-event_head_hash: d95c4070c72754c5dab5de470098f2b375798fd421e505f43b38e4832db52e44
+event_count: 3086
+event_head_hash: 27c63beba529a98f381b517b34dac64825c1afc349ca130c47f0e3b5feccd296
 event_chain_valid: true
 ```
 
@@ -1133,9 +1054,9 @@ recent_sessions: - session_id: SES-20260723T171219Z-D5E6B99E
   started_at: '2026-07-24T23:57:49Z'
   record: .continuity/sessions/SES-20260724T235749Z-6EC9DB09.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260724T235749Z-6EC9DB09.md
-  updated_at: '2026-07-25T02:37:05Z'
+  updated_at: '2026-07-25T02:45:24Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260724T235749Z-6EC9DB09/0006.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260724T235749Z-6EC9DB09/0007.yaml
   handoff_bundle: null
 task_claims: - claim_id: CLM-497ECD2EEA0B
   session_id: SES-20260723T024212Z-696F7963
@@ -2128,7 +2049,7 @@ recent_task_transitions: - transition_id: TRN-BB5B29CAABD5
 ```yaml
 initialized: true
 branch: task/TASK-R03-001
-head: 67436cb48ca2e9fb3c921744dd992022d574ce5d
+head: 5e09dd4f80dc014611f93717b159f791403be457
 upstream: origin/task/TASK-R03-001
 ahead: 0
 behind: 0
@@ -2139,70 +2060,19 @@ status_porcelain:
 - ' M .continuity/EVENT_LOG.jsonl'
 - ' M .continuity/SESSION_INDEX.yaml'
 - ' M .continuity/STATE.yaml'
-- ' M .continuity/TASK_CLAIMS.yaml'
-- ' M .continuity/TASK_TRANSITIONS.yaml'
-- ' M CHANGELOG.md'
+- ' M .continuity/change_requests/CR-0316.yaml'
+- ' M .continuity/change_requests/CR-0317.yaml'
+- ' M .continuity/sessions/SES-20260724T235749Z-6EC9DB09.yaml'
 - ' M CURRENT_STATUS.yaml'
-- ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
-- ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
-- ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
-- ' M artifacts/validation/project-doctor-v1.2.2.json'
-- ' M artifacts/validation/project-doctor-v1.2.3-documentation.json'
 - ' M catalogs/change_request_index.csv'
-- ' M catalogs/data_tables.csv'
 - ' M catalogs/session_index.csv'
-- ' M catalogs/task_transition_ledger.csv'
-- ' M catalogs/ui_action_matrix.csv'
-- ' M catalogs/ui_page_fields.csv'
-- ' M contracts/contract_status.csv'
-- ' M contracts/openapi.yaml'
-- ' M database/schema_dictionary.csv'
-- ' M docs/02-ui/page-specs/android/SCR-MYC-002_草稿箱.md'
-- ' M packages/api-client/src/client.generated.ts'
-- ' M releases/R12/RELEASE_MANIFEST.yaml'
-- ' M scripts/check_api_contract.py'
-- ' M scripts/check_db_schema.py'
-- ' M scripts/generate_contracts.py'
-- ' M scripts/run_postgres_migration_smoke.sh'
-- ' M scripts/run_r08_disposable_postgres_container.sh'
-- ' M scripts/run_r09_disposable_postgres_container.sh'
-- ' M services/backend/boot/src/main/resources/contracts/openapi.yaml'
-- ' M services/backend/boot/src/test/java/cc/orbexa/hhy/P00FlywayMigrationTest.java'
-- ' M services/backend/boot/src/test/java/cc/orbexa/hhy/content/ContentServiceTest.java'
-- ' M services/backend/boot/src/test/java/cc/orbexa/hhy/content/R07PostgresStoreTest.java'
-- ' M services/backend/boot/src/test/java/cc/orbexa/hhy/content/R08PostgresStoreTest.java'
-- ' M services/backend/boot/src/test/java/cc/orbexa/hhy/content/R10PostgresStoreTest.java'
-- ' M services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentPostgresStore.java'
-- ' M services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentService.java'
-- ' M services/backend/content/src/main/java/cc/orbexa/hhy/content/R07PostgresStore.java'
-- ' M services/backend/content/src/main/java/cc/orbexa/hhy/content/R08PostgresStore.java'
-- ' M services/backend/content/src/main/java/cc/orbexa/hhy/content/R09PostgresStore.java'
-- ' M services/backend/content/src/main/java/cc/orbexa/hhy/content/R10PostgresStore.java'
-- ' M services/backend/content/src/main/java/cc/orbexa/hhy/content/R11PostgresStore.java'
-- ?? .continuity/change_requests/CR-0316.yaml
-- ?? .continuity/change_requests/CR-0317.yaml
-- ?? .continuity/checkpoints/SES-20260724T235749Z-6EC9DB09/0001.yaml
-- ?? .continuity/checkpoints/SES-20260724T235749Z-6EC9DB09/0002.yaml
-- ?? .continuity/checkpoints/SES-20260724T235749Z-6EC9DB09/0003.yaml
-- ?? .continuity/checkpoints/SES-20260724T235749Z-6EC9DB09/0004.yaml
-- ?? .continuity/checkpoints/SES-20260724T235749Z-6EC9DB09/0005.yaml
-- ?? .continuity/checkpoints/SES-20260724T235749Z-6EC9DB09/0006.yaml
-- ?? .continuity/sessions/SES-20260724T195501Z-13F8DFDE.yaml
-- ?? .continuity/sessions/SES-20260724T235749Z-6EC9DB09.yaml
-- ?? database/migrations/V039__r12_publish_management_invariants.sql
-- ?? database/rollback/U039__r12_publish_management_invariants.sql
-- ?? database/tests/r12_publish_management_invariants.sql
-- ?? docs/03-continuity/R12_TASK-002_DATABASE_GATE.md
-- ?? docs/03-continuity/change-requests/CR-0316-实现R12统一发布管理数据库状态机与领域不变量.md
-- ?? docs/03-continuity/change-requests/CR-0317-修正P00-Flyway回归测试陈旧全库表数.md
-- ?? docs/03-continuity/sessions/2026-07/SES-20260724T195501Z-13F8DFDE.md
-- ?? docs/03-continuity/sessions/2026-07/SES-20260724T235749Z-6EC9DB09.md
-- ?? scripts/check_content_state_machine_projection.py
-- ?? scripts/run_r12_database_invariants.sh
-- ?? services/backend/boot/src/main/resources/db/migration/V039__r12_publish_management_invariants.sql
-- ?? services/backend/boot/src/test/java/cc/orbexa/hhy/content/R12PostgresTestFixtures.java
-- ?? services/backend/content/src/main/java/cc/orbexa/hhy/content/R12ContentBindings.java
+- ' M docs/03-continuity/change-requests/CR-0316-实现R12统一发布管理数据库状态机与领域不变量.md'
+- ' M docs/03-continuity/change-requests/CR-0317-修正P00-Flyway回归测试陈旧全库表数.md'
+- ' M docs/03-continuity/sessions/2026-07/SES-20260724T235749Z-6EC9DB09.md'
+- ?? .continuity/checkpoints/SES-20260724T235749Z-6EC9DB09/0007.yaml
 recent_commits:
+- "5e09dd4f80dc014611f93717b159f791403be457\t2026-07-25T10:42:37+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] feat(content): enforce R12 publish\
+  \ lifecycle invariants"
 - "67436cb48ca2e9fb3c921744dd992022d574ce5d\t2026-07-25T00:37:48+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] chore(continuity): close TASK-R12-001\
   \ as completed"
 - "3a48126e76fd55b4d9f187e7e73122d121cfa190\t2026-07-25T00:29:49+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] docs(release): freeze R12 entry\
@@ -2217,13 +2087,11 @@ recent_commits:
   \ as completed"
 - "c64e8a630336c0e41f49a1335f71c661e3417dbf\t2026-07-24T17:27:43+08:00\tHHY Continuity Bootstrap\t[STORY-R11-004] test(android): publish R11 test\
   \ APK"
-- "2a2b2c10fa859f65985181ebe16a938cbe28d3f7\t2026-07-24T15:00:02+08:00\tHHY Continuity Bootstrap\t[STORY-R11-004] test(android): approve R11 visual\
-  \ baseline"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`8d66006b95ae627d1ef7b4271b1848b16a1e29dab1087f79a2e1a8a8ceb30533`
+- 指纹：`b86e13fec2d301fe55e295ed79830ef1fc7ef8a99e251751e092d1ebf489734f`
 - 文件数：40
 
 - `CHANGELOG.md`
@@ -11347,169 +11215,13 @@ PARALLEL_EXECUTION_PLAN.yaml:
     session_id: SES-20260724T144831Z-B2E27A89
   session_ids:
   - SES-20260724T144831Z-B2E27A89
-- protocol_version: '1.0'
-  cr_id: CR-0316
-  title: 实现R12统一发布管理数据库状态机与领域不变量
-  status: IMPLEMENTED
-  created_at: '2026-07-25T00:06:30Z'
-  updated_at: '2026-07-25T02:35:28Z'
-  requester_actor_id: codex-root-r12-data-20260725
-  approver_actor_id: codex-r12-cr-reviewer
-  task_id: TASK-R12-002
-  session_id: SES-20260724T235749Z-6EC9DB09
-  user_request: 按仓库R01-R32计划持续完成合伙云Pro；R12统一发布、草稿、审核、上下架、复制和无自动过期必须与冻结开发文档一一对应。
-  reason: V029至V038已覆盖类型详情和各垂直内容约束，但尚未在数据库层完整强制CONTENT_STATUS合法迁移、每次状态历史、提交版本快照、审核记录绑定版本、乐观版本单步递增和Outbox副作用；R12任务明确要求补齐迁移、唯一约束、状态历史、幂等边界与回滚验证。
-  original_rule: V007仅约束CONTENT_STATUS枚举；V029-V038覆盖类型匹配、垂直详情和历史不可变，但枚举内非法跳转、无初始历史、状态变化缺少同版本历史/审核/快照/Outbox绑定、PROJECT活动详情缺失、联系方式空值/顺序/渠道重复、媒体重复以及DELETED后子数据或媒体对象级联删除仍可发生。冻结DELETE合同缺少expectedVersion，ContentService错误允许OFFLINE_BY_PLATFORM直接ONLINE。
-  new_rule: V039/U039继续以V007枚举和database/state_machines.yaml为唯一状态机，并由check_content_state_machine_projection.py逐边校验SQL投影完全一致；通配BAN/DELETE不得从DELETED、BANNED继续迁移或自迁移。新内容只能DRAFT/version=0并由数据库自动写NULL到DRAFT初始历史；任何业务或状态更新version必须恰好+1。content_status_logs新增transition_version并按(content_id,transition_version)唯一。content_review_records新增snapshot_version_id外键绑定content_versions.id以及command_id；同一快照允许CLAIM、ASSIGN、APPROVE或REJECT多条不可变记录，仅按(content_id,command_id)保证命令幂等。提交/重提必须有当前乐观版本的不可变快照，审核迁移必须存在绑定该提交快照的对应审核记录。创建、业务更新和每次状态迁移必须同事务写CONTENT
-    Outbox，数据库向payload注入并校验contentVersion。非DELETED内容恰有一份匹配类型详情；任何状态下均禁止物理删除详情、媒体、联系方式、版本、审核和历史，内容媒体的media_objects级联同样被子表删除守卫阻断，真正清理由未来批准的保留策略迁移处理。V039先审计并验证旧NULL/空渠道、非法顺序、重复值和NOT
-    VALID约束，再新增(content_id,sort_order)联系方式全局顺序唯一、(content_id,channel)渠道唯一、(content_id,media_id)媒体唯一。DELETE /api/v1/contents/{id}增加必填expectedVersion查询参数并同步运行时合同、生成客户端、动作/字段目录与SCR-MYC-002施工规格；该操作尚无运行时控制器或已发布消费者，属于首次实现前冻结合同纠错。ContentService禁止OFFLINE_BY_PLATFORM直接ONLINE。TASK-R12-003复制命令复用既有idempotency_records唯一领取和首次响应快照，目标为新ID、DRAFT/version=0，源不变，同键并发仅创建一个目标并重放首次响应。
-  impact_summary: 在不新增业务表或第二状态机的前提下，将R12发布管理落实为数据库强制状态边、乐观版本、唯一迁移历史、可多事件审核快照绑定、事务Outbox、详情和媒体/联系方式唯一性及不可绕过的软删除，并补齐DELETE乐观锁合同与现有服务非法跳转。
-  impact:
-    files:
-    - contracts/openapi.yaml
-    - services/backend/boot/src/main/resources/contracts/openapi.yaml
-    - packages/api-client/src/client.generated.ts
-    - contracts/contract_status.csv
-    - scripts/generate_contracts.py
-    - scripts/check_api_contract.py
-    - catalogs/ui_action_matrix.csv
-    - catalogs/ui_page_fields.csv
-    - docs/02-ui/page-specs/android/SCR-MYC-002_草稿箱.md
-    - database/migrations/V039__r12_publish_management_invariants.sql
-    - services/backend/boot/src/main/resources/db/migration/V039__r12_publish_management_invariants.sql
-    - database/rollback/U039__r12_publish_management_invariants.sql
-    - database/tests/r12_publish_management_invariants.sql
-    - scripts/check_content_state_machine_projection.py
-    - scripts/run_r12_database_invariants.sh
-    - scripts/run_postgres_migration_smoke.sh
-    - scripts/run_r08_disposable_postgres_container.sh
-    - scripts/run_r09_disposable_postgres_container.sh
-    - scripts/check_db_schema.py
-    - services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentService.java
-    - services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentPostgresStore.java
-    - services/backend/content/src/main/java/cc/orbexa/hhy/content/R08PostgresStore.java
-    - services/backend/content/src/main/java/cc/orbexa/hhy/content/R09PostgresStore.java
-    - services/backend/content/src/main/java/cc/orbexa/hhy/content/R10PostgresStore.java
-    - services/backend/content/src/main/java/cc/orbexa/hhy/content/R11PostgresStore.java
-    - services/backend/boot/src/test/java/cc/orbexa/hhy/content/ContentServiceTest.java
-    - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R07PostgresStoreTest.java
-    - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R08PostgresStoreTest.java
-    - database/tests/r06_content_home_invariants.sql
-    - database/tests/r07_contact_contract_alignment.sql
-    - database/tests/r07_search_invariants.sql
-    - database/tests/r08_project_invariants.sql
-    - database/tests/r09_app_promotion_invariants.sql
-    - database/tests/r10_group_promotion_invariants.sql
-    - database/tests/r11_team_leader_invariants.sql
-    - catalogs/data_tables.csv
-    - database/schema_dictionary.csv
-    - releases/R12/RELEASE_MANIFEST.yaml
-    - docs/03-continuity/R12_TASK-002_DATABASE_GATE.md
-    - CHANGELOG.md
-    pages:
-    - SCR-MYC-002
-    apis:
-    - DELETE /api/v1/contents/{id}
-    database:
-    - content_posts
-    - project_details
-    - app_details
-    - group_details
-    - team_leader_details
-    - content_media
-    - content_contacts
-    - content_versions
-    - content_status_logs
-    - content_review_records
-    - idempotency_records
-    - outbox_events
-    - media_objects
-    configuration: []
-    ledger: []
-    tests:
-    - R12 PostgreSQL 17空库/升级/脏升级原子阻断/全状态机/版本历史审核Outbox绑定/唯一性/并发/软删除及媒体级联/填充库回滚重放矩阵
-    - YAML状态机与V039 SQL逐边防漂移检查
-    - OpenAPI运行时副本、生成客户端、DELETE expectedVersion和页面合同一致性
-    - ContentService与Flyway最新库Store MODULE回归
-    releases:
-    - R12
-    migration_and_compatibility: V039先以父表优先的固定顺序锁定全部内容父子表，在任何DDL前审计非法状态边、活动详情缺失/错配、旧NULL/空联系方式、非法顺序、重复媒体/渠道/顺序、版本断层及无法绑定的非空审核记录；脏升级单事务原子失败。transition_version、snapshot_version_id、command_id允许旧行NULL且不伪造历史；V039后的新记录由触发器强制填充或显式提供并校验。父子删除统一先锁父行且无论DELETED与否均拒绝，content_media上的守卫同时阻断media_objects的ON
-      DELETE CASCADE。DELETE操作当前只有冻结文档和生成类型，无后端DELETE控制器或生产消费者，因此在TASK-R12-003首次实现前补为必填expectedVersion，不需要并行v2。U039保留新增列和全部业务数据，只移除R12触发器/约束/索引并恢复被替换的旧对象定义；填充库可数据不变回滚并重放。R06-R11历史SQL测试固定在各自迁移边界；Flyway最新库的Store测试按R12创建/迁移证据更新。
-  user_confirmation: OWNER_ACTIVE_GOAL_CONTINUE_R01_R32_IN_REPOSITORY_ORDER
-  approval:
-    decision: APPROVED
-    decided_at: '2026-07-25T00:36:51Z'
-    note: 独立只读第三版复核通过：迁移版本与审核快照拆分、旧数据审计、媒体级联软删除、完整影响面和YAML-SQL防漂移均闭环
-  machine_record: .continuity/change_requests/CR-0316.yaml
-  document: docs/03-continuity/change-requests/CR-0316-实现R12统一发布管理数据库状态机与领域不变量.md
-  decision_log:
-  - at: '2026-07-25T02:35:10Z'
-    actor_id: codex-root-r12-data-20260725
-    status: IMPLEMENTING
-    note: 已进入实现与验证
-    session_id: SES-20260724T235749Z-6EC9DB09
-  - at: '2026-07-25T02:35:28Z'
-    actor_id: codex-root-r12-data-20260725
-    status: IMPLEMENTED
-    note: V039/U039、合同投影、软删除、九类原子阻断、回滚重放、乐观并发及受影响MODULE全部通过
-    session_id: SES-20260724T235749Z-6EC9DB09
-  session_ids:
-  - SES-20260724T235749Z-6EC9DB09
-- protocol_version: '1.0'
-  cr_id: CR-0317
-  title: 修正P00 Flyway回归测试陈旧全库表数
-  status: IMPLEMENTED
-  created_at: '2026-07-25T02:20:54Z'
-  updated_at: '2026-07-25T02:35:31Z'
-  requester_actor_id: codex-root-r12-data-20260725
-  approver_actor_id: codex-r12-test-reviewer
-  task_id: TASK-R12-002
-  session_id: SES-20260724T235749Z-6EC9DB09
-  user_request: 按R01-R32仓库事实源持续开发并完成R12数据库门禁
-  reason: 真实PostgreSQL17后端MODULE显示P00FlywayMigrationTest仍断言198表，与当前200表权威Schema矛盾
-  original_rule: P00FlywayMigrationTest把执行全部当前迁移后的hhy表数固定为198
-  new_rule: 执行全部当前迁移至V039后必须得到权威200表，同时P00三个关键保护触发器仍逐项存在
-  impact_summary: 只修正跨版本测试的陈旧全库计数；不修改P00、R12数据库结构、业务状态机或运行时代码
-  impact:
-    files:
-    - services/backend/boot/src/test/java/cc/orbexa/hhy/P00FlywayMigrationTest.java
-    pages: []
-    apis: []
-    database: []
-    configuration: []
-    ledger: []
-    tests:
-    - P00FlywayMigrationTest; PostgreSQL17 backend boot MODULE 380 tests
-    releases:
-    - R12
-    migration_and_compatibility: V039不新增表；R03起目录、Schema静态门禁和迁移烟测均固定200表，历史198与199仅由verify_baseline保留升级兼容
-  user_confirmation: OWNER_ACTIVE_GOAL_CONTINUE_R01_R32_IN_REPOSITORY_ORDER
-  approval:
-    decision: APPROVED
-    decided_at: '2026-07-25T02:21:24Z'
-    note: 纠错范围仅一项测试断言，200表由目录、迁移烟测和Schema门禁三方证明，保留P00触发器断言
-  machine_record: .continuity/change_requests/CR-0317.yaml
-  document: docs/03-continuity/change-requests/CR-0317-修正P00-Flyway回归测试陈旧全库表数.md
-  decision_log:
-  - at: '2026-07-25T02:35:14Z'
-    actor_id: codex-root-r12-data-20260725
-    status: IMPLEMENTING
-    note: 已进入实现与验证
-    session_id: SES-20260724T235749Z-6EC9DB09
-  - at: '2026-07-25T02:35:31Z'
-    actor_id: codex-root-r12-data-20260725
-    status: IMPLEMENTED
-    note: P00 Flyway陈旧198表断言已纠正为当前200表，后端380项零失败零跳过
-    session_id: SES-20260724T235749Z-6EC9DB09
-  session_ids:
-  - SES-20260724T235749Z-6EC9DB09
 ```
 
 ## 上下文来源及哈希
 
 - `AGENTS.md` — `690f960020dcbd18080ec91b3c314335627b32e231b9f9b2e14566b0fbbaeb35`
 - `START_HERE.md` — `22de14029ce47beb41ea569e36ce223fbc9d11b86f8676f28d5fbbd83896af5c`
-- `CURRENT_STATUS.yaml` — `9ed30332b399dc14086e09d50f771290c342b38653b9a440dbbf314170205a5a`
+- `CURRENT_STATUS.yaml` — `e2ec0e4ea30776f03532bd6edef8716786889c816516c626ab01167549fd7168`
 - `NEXT_TASK.yaml` — `9606dd07c135c2fd7a3785787dc01e7bdd62ac90cb9de2bc788d0f80e08fa81d`
 - `DEVELOPMENT_RISK_REGISTER.md` — `8304c91492e4ee2abea0522a06541c8688d39c7fc532b5d0cde499bf09fffb87`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
@@ -11520,12 +11232,12 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `config/REPOSITORY_TRANSPORT.yaml` — `8c4a21f3e204d46e7ffb467d804a53ed26cda61cd088dadfddb50b69eea657fc`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `60943fcd9714cfae7274463554b5584fdb7a7aeee1ee547ff6dbc53fae6d4994`
-- `.continuity/EVENT_LOG.jsonl` — `d439b777ae5cb5161b1501f14e7b26f141d761c396649a591ac7ab3005412622`
-- `.continuity/SESSION_INDEX.yaml` — `8ff5db4a07f7ac29d8f006665a2e0dae64324cb06f7b436d6952721c122b143c`
+- `.continuity/EVENT_LOG.jsonl` — `9902cea97a19fef18051d508b240e75f5209bff963243cfa6430180d631dfeca`
+- `.continuity/SESSION_INDEX.yaml` — `dee85bc9283eaaef6efd64f377fa9463b69a0de83a8090299786a3c61eabba5d`
 - `.continuity/TASK_CLAIMS.yaml` — `a41c2bcac61a5db79871afe1e9bbe47bec4507e335ea4d9618a2a980c845a60f`
 - `.continuity/TASK_TRANSITIONS.yaml` — `d11e631ff693b4c9ddf014da60f6cc1e9a782d40122f604c9414a51d84cad06b`
-- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `61e692df19e76bb4f93144438e7e0544cbe45b404b2071ddf360f604df2d0b66`
-- `.continuity/ACTIVE_SESSION.yaml` — `626f67bbb4a1f244cc93130f34cb01c5fb9dc42a7059d2e265b53860fdbf14d4`
+- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `d8c01b9cb357f4e9c8dec198f4c3fa95db325c7f649158eb0dfb9c28d4c6d713`
+- `.continuity/ACTIVE_SESSION.yaml` — `9c79fc17a84d0c643a59a2d0ad6c2291d58f0ba1dbd3193cbad15ed08e77eb7e`
 - `docs/00-baseline/正式商业系统全局硬性开发边界.md` — `9753b32db136e59e95a0974a62362456d9d577fd1bb40058ec985c4b64413eea`
 - `docs/02-ui/UI参考图使用与开发约束_V1.2.2.md` — `d14367586aa2067b059df58798acd20ab982459cdb35ff27fc7922a3896e4933`
 - `docs/03-continuity/持续开发无状态接续强制门禁_V1.2.3.md` — `d0ed3ed68bdd93b06500eecdfb5baa3245e6ca8b685a486788abb6eee39b3d51`
@@ -11536,10 +11248,10 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `releases/R12/TASKS.yaml` — `3aa61b6e710aefcf76d24cf73cd915269a2b33fe7ecaf9cbca7f5cdf98a2018e`
 - `releases/R12/ACCEPTANCE_MATRIX.csv` — `197874227cef03f791df1fa5d2101a251df266c63240f777f358388b46cb9706`
 - `releases/R12/PARALLEL_EXECUTION_PLAN.yaml` — `2ddbee414a51a868b63331992e2e04c5400846cf6012474aab406e067e532e98`
-- `docs/03-continuity/sessions/2026-07/SES-20260724T235749Z-6EC9DB09.md` — `cb287763ba77273dfd113b47def65fd58c0eee5ec30d366c8db9ec36d4fbb164`
-- `.continuity/checkpoints/SES-20260724T235749Z-6EC9DB09/0006.yaml` — `8e37b5984feb671bb073cc34da6b32dcdeb89403fa14333e320a64dd488ed09a`
-- `docs/03-continuity/change-requests/CR-0316-实现R12统一发布管理数据库状态机与领域不变量.md` — `2551b0309835f531e2d0f2658ef233af1bfad16a99b8cfbcb6371a4f92145898`
-- `docs/03-continuity/change-requests/CR-0317-修正P00-Flyway回归测试陈旧全库表数.md` — `d4180037c8f37cfefc756467fb67dfb108300a33825f7c0acaabe67d9001db76`
+- `docs/03-continuity/sessions/2026-07/SES-20260724T235749Z-6EC9DB09.md` — `827b9bf2197d5671380cf1fcbd5ea669fd11ce56ec5f393b3de586ceac92df6e`
+- `.continuity/checkpoints/SES-20260724T235749Z-6EC9DB09/0007.yaml` — `9839c8ffeb57ef0911788266b205e7b1556f8b46da6ea00c8862afdfbc750d5f`
+- `docs/03-continuity/change-requests/CR-0316-实现R12统一发布管理数据库状态机与领域不变量.md` — `9804298a4baeccb87c4fd51a6d7345b62796c9e62d65bd8db35b52b5895e7f9c`
+- `docs/03-continuity/change-requests/CR-0317-修正P00-Flyway回归测试陈旧全库表数.md` — `706b81e14bc1c295a2b2f6edf7627b63e0d994ef3cedb86ec26e92855f4ae005`
 
 ## 接手硬规则
 
