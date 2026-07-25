@@ -1596,3 +1596,13 @@
 - Actor：`codex-root-r12-observability-20260726`
 - 摘要：完成统一发布七项业务Gauge、七条专属告警、隔离Staging、Trace与日志脱敏、两类告警送达、Outbox合法终结和同库同卷回切；精确Commit `4365e1c7` 的223.7秒现场演练及25项证据全部PASS，`AC-R12-004` 已签字。
 - 证据：`artifacts/reports/R12/TASK-R12-006-staging.md`
+
+## TASK-R12-006 · COMPLETED · 2026-07-25T19:17:27Z
+
+- Task close: TASK-R12-006 / SES-20260725T180922Z-D7231210
+- Release：`R12`
+- Story：`STORY-R12-008`
+- Actor：`codex-root-r12-observability-20260726`
+- 摘要：TASK-R12-006完成：七项发布Gauge、七条告警、V041隔离Staging、Trace日志脱敏、告警送达、Outbox合法终结、同库同卷回切、AC-R12-004与25项原始字节证据全部闭环
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260725T180922Z-D7231210.md`
+

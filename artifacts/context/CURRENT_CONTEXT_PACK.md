@@ -1,14 +1,14 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-25T19:15:41Z
-- Context Hash：`b04bfadd03c23cefff14134a6c70cfaa3c94fdad920eb348649a9d3cb05d4919`
+- 生成时间：2026-07-25T19:17:40Z
+- Context Hash：`9197e2f5862a57e5156993be961a4393280b5f3c42397dd28af8f57b78a54e23`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 规则就绪：`PASS`（`HASHED_CONTEXT_MANIFEST`）
 - 精确恢复命令：
 
 ```bash
-python3 scripts/continuity.py checkpoint --summary '<完成内容>' --next-step '<下一步>' --parallel-assessment <ASSESSMENT> --parallel-reason '<未委托原因>'
+python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R12-007
 ```
 
 ## 规则就绪
@@ -41,10 +41,10 @@ project: hhy-pro-platform
 baseline_version: 1.2.3
 phase: R12
 active_release: R12
-active_task: TASK-R12-006
-status: IN_PROGRESS
+active_task: TASK-R12-007
+status: READY
 documentation_status: ZERO_BLOCKING_DOCUMENT_GAPS
-last_green_commit: 5419d68255dcc965c2c31fcb3006f616d9f8c38a
+last_green_commit: 17d6ee9acce9b46df63399a5bf3d4a944c8976b6
 last_staging_apk: null
 completed_tasks:
 - V1.2.2_ENGINEERING_BASELINE
@@ -155,15 +155,15 @@ completed_tasks:
 - TASK-R12-003
 - TASK-R12-004
 - TASK-R12-005
-in_progress_tasks:
 - TASK-R12-006
+in_progress_tasks: []
 blocked_tasks:
 - TASK-R02-007
 - TASK-R03-007
 - TASK-R06-008
 - TASK-R07-008
-next_task: TASK-R12-006
-updated_at: '2026-07-25T19:15:38Z'
+next_task: TASK-R12-007
+updated_at: '2026-07-25T19:17:37Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -195,19 +195,17 @@ validation:
 continuity:
   protocol_version: '1.0'
   mode: ENFORCED
-  active_session_id: SES-20260725T180922Z-D7231210
-  actor_id: codex-root-r12-observability-20260726
-  story_id: STORY-R12-008
-  lease_expires_at: '2026-07-25T23:15:38Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260725T180922Z-D7231210/0007.yaml
-  project_fingerprint: a8fd70cbc6f7346f92263e3bbe4ab5a6d9d2622646e0a564e547ae18566f07ea
+  active_session_id: null
+  last_session_id: SES-20260725T180922Z-D7231210
+  last_session_result: COMPLETED
+  last_checkpoint: .continuity/checkpoints/SES-20260725T180922Z-D7231210/0008.yaml
+  last_handoff_bundle: null
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: 25bbaa35b2c0d8db7695b68cc188c32d4e0fc2c0d6ec81a89d017be2abc176ff
-    generated_at: '2026-07-25T19:13:30Z'
-  handoff_bundle: null
+    context_hash: 109e67663b98ff6203fc8df6a99fada30514c72e098ed8b6e7f4aba1ed9b3db9
+    generated_at: '2026-07-25T19:17:34Z'
 ```
 
 ## 默认并行规则
@@ -354,8 +352,8 @@ push_preflight:
 ## 下一任务
 
 ```yaml
-id: TASK-R12-006
-title: 统一发布与发布管理可观测性与预发布验收
+id: TASK-R12-007
+title: 统一发布与发布管理Android测试APK与产物追溯
 status: READY
 release: R12
 requirements:
@@ -363,22 +361,22 @@ requirements:
 - REQ-PUBLISH-001
 - REQ-APK-001
 depends_on:
-- TASK-R12-005
+- TASK-R12-006
 definition_of_ready: releases/R12/DEFINITION_OF_READY.yaml
 stories: releases/R12/STORIES.yaml
 steps:
-- 运行手册演练
-- 验收矩阵签字
+- APK可下载/可安装
+- SHA256、Commit、versionName/versionCode、测试结果齐全
 acceptance:
 - 无TODO/生产Mock
 - 代码、文档、测试、追踪同步更新
-- 运行手册演练
-- 验收矩阵签字
+- APK可下载/可安装
+- SHA256、Commit、versionName/versionCode、测试结果齐全
 claim_required: true
-start_command: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R12-006
+start_command: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R12-007
 commands:
   resume: python3 scripts/continuity.py resume
-  start: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R12-006
+  start: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R12-007
   checkpoint: python3 scripts/continuity.py checkpoint --summary '<阶段完成>' --next-step '<精确下一步>' --test 'name|PASS|evidence|note' --parallel-assessment
     <ASSESSMENT> --parallel-reason '<未委托原因>'
   handoff: python3 scripts/continuity.py handoff --actor <ACTOR_ID> --reason '<移交原因>' --next-step '<精确下一步>'
@@ -391,402 +389,13 @@ next_after: 由当前TASKS.yaml依赖关系决定
 ## 活跃会话
 
 ```yaml
-protocol_version: '1.0'
-package_version: 1.2.3
-session_id: SES-20260725T180922Z-D7231210
-status: ACTIVE
-actor:
-  id: codex-root-r12-observability-20260726
-  kind: AI_OR_HUMAN
-  host: unknown
-release: R12
-task_id: TASK-R12-006
-story_id: STORY-R12-008
-goal: 完成R12统一发布与发布管理结构化日志、TraceId、RED及业务指标、告警、隔离Staging回滚演练和验收矩阵签字
-started_at: '2026-07-25T18:09:22Z'
-updated_at: '2026-07-25T19:15:38Z'
-takeover_of: null
-change_requests:
-- CR-0334
-- CR-0335
-- CR-0336
-- CR-0337
-- CR-0338
-scope:
-  allowed_paths:
-  - apps/**
-  - services/**
-  - packages/**
-  - contracts/**
-  - database/**
-  - config/**
-  - catalogs/**
-  - tests/**
-  - infra/**
-  - design/**
-  - docs/**
-  - releases/**
-  - scripts/**
-  - templates/**
-  - .github/**
-  - .githooks/**
-  - .codex/**
-  - AGENTS.md
-  - START_HERE.md
-  - README.md
-  - CHANGELOG.md
-  - Makefile
-  - .gitignore
-  - .gitattributes
-  - .dockerignore
-  - package.json
-  - pnpm-lock.yaml
-  - pnpm-workspace.yaml
-  - requirements-dev.txt
-  - PROJECT_*.yaml
-  - PROJECT_*.json
-  approved_exceptions:
-  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinder.java
-  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinderTest.java
-  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/ObservabilityEndpointsTest.java
-  - infra/staging/r12-smoke/docker-compose.yml
-  - infra/staging/r12-smoke/prometheus.yml
-  - infra/staging/r12-smoke/alertmanager.yml
-  - infra/staging/r12-smoke/nginx.conf
-  - infra/staging/r12-smoke/r12-alerts.yml
-  - scripts/check_r12_observability.py
-  - scripts/run_r12_staging_acceptance.sh
-  - tests/test_r12_staging_acceptance.py
-  - docs/07-operations/DEPLOYMENT_RUNBOOK.md
-  - docs/07-operations/ROLLBACK_RUNBOOK.md
-  - artifacts/reports/R12/TASK-R12-006-staging.md
-  - artifacts/validation/r12-task006-staging
-  - releases/R12/ACCEPTANCE_MATRIX.csv
-  - releases/R12/RELEASE_MANIFEST.yaml
-  - CHANGELOG.md
-  - docs/03-continuity/PROBLEM_REGISTRY.yaml
-  - .gitattributes
-  source: story+explicit+approved-cr:CR-0334+approved-cr:CR-0335+approved-cr:CR-0336+approved-cr:CR-0337+approved-cr:CR-0338
-git:
-  initialized: true
-  branch: task/TASK-R03-001
-  base_commit: 3c166a03e093ce344b147849188fabb38b79ffe9
-  start_head: 3c166a03e093ce344b147849188fabb38b79ffe9
-  upstream: origin/task/TASK-R03-001
-  initial_worktree_state: CLEAN
-lease:
-  duration_minutes: 240
-  renewed_at: '2026-07-25T19:15:38Z'
-  expires_at: '2026-07-25T23:15:38Z'
-checkpoint_sequence: 7
-latest_checkpoint: .continuity/checkpoints/SES-20260725T180922Z-D7231210/0007.yaml
-session_log: docs/03-continuity/sessions/2026-07/SES-20260725T180922Z-D7231210.md
-next_step: 提交推送CR关闭记录并关闭TASK-R12-006交接TASK-R12-007
-context_pack: THIS_CONTEXT_PACK
-handoff_bundle: null
-closure: null
-parallel_execution:
-  assessment: NO_SAFE_PARALLEL
-  delegated_workers: 0
-  workers: []
-  reason: CR关闭、Task关闭和下一任务交接共享唯一连续性状态，必须串行提交
+status: NONE
 ```
 
 ## 最新检查点
 
 ```yaml
-protocol_version: '1.0'
-checkpoint_id: CP-SES-20260725T180922Z-D7231210-0007
-session_id: SES-20260725T180922Z-D7231210
-task_id: TASK-R12-006
-story_id: STORY-R12-008
-sequence: 7
-created_at: '2026-07-25T19:15:37Z'
-summary: CR-0334至CR-0338全部关闭，R12现场验收与证据治理完成
-next_step: 提交推送CR关闭记录并关闭TASK-R12-006交接TASK-R12-007
-blockers: []
-decisions: []
-note: ''
-tests:
-- name: r12-cr-closure
-  result: PASS
-  evidence: CR-0334,CR-0335,CR-0336,CR-0337,CR-0338:CLOSED
-  note: 全部变更请求已绑定正式证据Commit关闭
-- name: r12-release-artifacts
-  result: PASS
-  evidence: RELEASE_ARTIFACTS_OK 1
-  note: R12 Release元数据有效
-- name: git-diff-check
-  result: PASS
-  evidence: git diff --check
-  note: 无空白错误
-git:
-  initialized: true
-  branch: task/TASK-R03-001
-  head: 6abb78314402cfd5811480742341d487a6139cdb
-  upstream: origin/task/TASK-R03-001
-  ahead: 0
-  behind: 0
-  dirty: true
-  status_porcelain:
-  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
-  - ' M .continuity/EVENT_LOG.jsonl'
-  - ' M .continuity/STATE.yaml'
-  - ' M .continuity/change_requests/CR-0334.yaml'
-  - ' M .continuity/change_requests/CR-0335.yaml'
-  - ' M .continuity/change_requests/CR-0336.yaml'
-  - ' M .continuity/change_requests/CR-0337.yaml'
-  - ' M .continuity/change_requests/CR-0338.yaml'
-  - ' M catalogs/change_request_index.csv'
-  - ' M catalogs/session_index.csv'
-  - ' M docs/03-continuity/change-requests/CR-0334-补齐R12统一发布可观测性与独立Staging验收.md'
-  - ' M docs/03-continuity/change-requests/CR-0335-修正R12隔离Staging子网与R09冲突.md'
-  - ' M docs/03-continuity/change-requests/CR-0336-登记R12隔离子网冲突问题与回归.md'
-  - ' M docs/03-continuity/change-requests/CR-0337-修正R12现场验收Flyway-V041格式误判.md'
-  - ' M docs/03-continuity/change-requests/CR-0338-冻结现场证据原始字节避免Git换行改写.md'
-  recent_commits:
-  - "6abb78314402cfd5811480742341d487a6139cdb\t2026-07-26T03:09:49+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] docs(r12): freeze staging\
-    \ acceptance evidence"
-  - "4365e1c790e3792812cfd62bb415e1075eb00149\t2026-07-26T02:54:07+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] fix(r12): validate Flyway\
-    \ V041 output"
-  - "3205187edfec06e5055312a228f4f51ca55db9c4\t2026-07-26T02:46:04+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] fix(r12): isolate staging\
-    \ subnet"
-  - "c4f2b8a2899130a81ea76ca8b5a87c016f56b28d\t2026-07-26T02:29:43+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] feat(r12): add publishing\
-    \ observability staging gate"
-  - "3c166a03e093ce344b147849188fabb38b79ffe9\t2026-07-26T02:04:31+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] chore(continuity): close TASK-R12-005\
-    \ as completed"
-  - "284917c042dbd77c815657a979aa9de06c1a8754\t2026-07-26T02:02:31+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] chore(continuity): close specialized\
-    \ test change"
-  - "04855647f6ee4d8609b709cd4bc98e9baa48d4bc\t2026-07-26T01:59:06+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] chore(r12): normalize evidence\
-    \ line endings"
-  - "1cc414c8bb58ee121c5739890794ccbcda45aee4\t2026-07-26T01:55:51+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] docs(r12): freeze specialized\
-    \ test evidence"
-project_fingerprint:
-  sha256: a8fd70cbc6f7346f92263e3bbe4ab5a6d9d2622646e0a564e547ae18566f07ea
-  files:
-  - .gitattributes
-  - CHANGELOG.md
-  - docs/03-continuity/PROBLEM_REGISTRY.yaml
-  - docs/03-continuity/change-requests/CR-0334-补齐R12统一发布可观测性与独立Staging验收.md
-  - docs/03-continuity/change-requests/CR-0335-修正R12隔离Staging子网与R09冲突.md
-  - docs/03-continuity/change-requests/CR-0336-登记R12隔离子网冲突问题与回归.md
-  - docs/03-continuity/change-requests/CR-0337-修正R12现场验收Flyway-V041格式误判.md
-  - docs/03-continuity/change-requests/CR-0338-冻结现场证据原始字节避免Git换行改写.md
-  - docs/07-operations/DEPLOYMENT_RUNBOOK.md
-  - docs/07-operations/ROLLBACK_RUNBOOK.md
-  - infra/staging/r12-smoke/alertmanager.yml
-  - infra/staging/r12-smoke/docker-compose.yml
-  - infra/staging/r12-smoke/nginx.conf
-  - infra/staging/r12-smoke/prometheus.yml
-  - infra/staging/r12-smoke/r12-alerts.yml
-  - releases/R12/ACCEPTANCE_MATRIX.csv
-  - releases/R12/RELEASE_MANIFEST.yaml
-  - scripts/check_r12_observability.py
-  - scripts/run_r12_staging_acceptance.sh
-  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinder.java
-  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinderTest.java
-  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/ObservabilityEndpointsTest.java
-  - tests/test_r12_staging_acceptance.py
-  file_count: 23
-  payload:
-    base_commit: 3c166a03e093ce344b147849188fabb38b79ffe9
-    files:
-    - path: .gitattributes
-      state: FILE
-      size: 475
-      sha256: 6b603b99a8ce7d0bb688464f702210fca78970044e2b00460693b2eb155e5261
-    - path: CHANGELOG.md
-      state: FILE
-      size: 141865
-      sha256: 08693a23f19fa77583c9bae601314a1a17536d8b7f4903dd3909d0fcdba3e946
-    - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
-      state: FILE
-      size: 159009
-      sha256: de84cef6a1e7810f94a0d66633b2ee18d45f5d0472ccceab97458436c01be03b
-    - path: docs/03-continuity/change-requests/CR-0334-补齐R12统一发布可观测性与独立Staging验收.md
-      state: FILE
-      size: 3995
-      sha256: de0602b9aceb2067d4b1a44fa226f6270b60a2b829180f87968d31c77c055724
-    - path: docs/03-continuity/change-requests/CR-0335-修正R12隔离Staging子网与R09冲突.md
-      state: FILE
-      size: 2880
-      sha256: 6774f2f6d90f1b0dc4520e70884a6161fbae940604d1f547941301cfe472c07a
-    - path: docs/03-continuity/change-requests/CR-0336-登记R12隔离子网冲突问题与回归.md
-      state: FILE
-      size: 2462
-      sha256: 45ba658d6372c7471c08e5fcfb1a3a3106a4a934a9ba3b382366f86063e94bed
-    - path: docs/03-continuity/change-requests/CR-0337-修正R12现场验收Flyway-V041格式误判.md
-      state: FILE
-      size: 2734
-      sha256: f78b600ca362ce666cdbec68a7656d178257589b651bd6c07a2642dcc1382b39
-    - path: docs/03-continuity/change-requests/CR-0338-冻结现场证据原始字节避免Git换行改写.md
-      state: FILE
-      size: 2743
-      sha256: 6be5b58206dd8510eccb6895009ab22bf5b8ed9f51b27c3094db1fee64f42487
-    - path: docs/07-operations/DEPLOYMENT_RUNBOOK.md
-      state: FILE
-      size: 43837
-      sha256: 2456ff1ccc9835477d59b019d4ecde86c6cbe85194894156d279ed94936edae2
-    - path: docs/07-operations/ROLLBACK_RUNBOOK.md
-      state: FILE
-      size: 16472
-      sha256: df8b5c87a0b723cad03f4ce511907ecd6e103753322cfb304a907e5531d7bb4d
-    - path: infra/staging/r12-smoke/alertmanager.yml
-      state: FILE
-      size: 278
-      sha256: 563765925b55f0d9985b504b4d235328a8036dbc3a79e72ce990912f024a6de2
-    - path: infra/staging/r12-smoke/docker-compose.yml
-      state: FILE
-      size: 4463
-      sha256: cca42f929de6d2b98fd287414a35e990a9e64f5363c1d7cfd1cce8f0e4bb7575
-    - path: infra/staging/r12-smoke/nginx.conf
-      state: FILE
-      size: 319
-      sha256: 23e8717a38389b1ecbdff55563f55a2d9b99519439398a35d72006fa8f7876fb
-    - path: infra/staging/r12-smoke/prometheus.yml
-      state: FILE
-      size: 402
-      sha256: 882e908064e07a37dd803189472649acfaeaa50a492e70efaa7b6e6f08448f77
-    - path: infra/staging/r12-smoke/r12-alerts.yml
-      state: FILE
-      size: 2037
-      sha256: 93102e0b5f5baf293814ea556529834318dffbcfd46bc3a4a01111bc94322415
-    - path: releases/R12/ACCEPTANCE_MATRIX.csv
-      state: FILE
-      size: 704
-      sha256: 0fa8c9e830600bb02b4b6b729bc6d400dcc14fa1a2e7e4c5fb3f83d46c01abca
-    - path: releases/R12/RELEASE_MANIFEST.yaml
-      state: FILE
-      size: 10371
-      sha256: 631ca3a1caf672af5f37b0cdb6502702ee8287997ff2aa9d1b210b58810de381
-    - path: scripts/check_r12_observability.py
-      state: FILE
-      size: 5693
-      sha256: ee2049bbe9af6b568e974560c6363b6986bebcdf00155994e4b6dd2b9992e220
-    - path: scripts/run_r12_staging_acceptance.sh
-      state: FILE
-      size: 17494
-      sha256: e6f14ac72443d090300898fbeb5b75498d8b6287c6a329ab8affea6a6d085eec
-    - path: services/backend/boot/src/main/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinder.java
-      state: FILE
-      size: 30778
-      sha256: 240e4704a36dd7367fe7ef304627efc0c3c180116824d06fbfa46815fa6a2043
-    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinderTest.java
-      state: FILE
-      size: 22742
-      sha256: 3ebfaebd5d574334d5dab547feb543c77c779211a45878c6f9f2ce28d6c6423b
-    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/ObservabilityEndpointsTest.java
-      state: FILE
-      size: 13621
-      sha256: 710872ac05f6ec3829b5abdeab985bef2c8337b95dd16f18c3eb1358778460d6
-    - path: tests/test_r12_staging_acceptance.py
-      state: FILE
-      size: 2814
-      sha256: 860bbd0db32e61e3cafb7efed166624970caf7d8bb5f13e760cbabe1b96d7234
-change_classification:
-  other:
-  - .gitattributes
-  - CHANGELOG.md
-  - docs/07-operations/DEPLOYMENT_RUNBOOK.md
-  - docs/07-operations/ROLLBACK_RUNBOOK.md
-  - releases/R12/ACCEPTANCE_MATRIX.csv
-  continuity:
-  - docs/03-continuity/PROBLEM_REGISTRY.yaml
-  - docs/03-continuity/change-requests/CR-0334-补齐R12统一发布可观测性与独立Staging验收.md
-  - docs/03-continuity/change-requests/CR-0335-修正R12隔离Staging子网与R09冲突.md
-  - docs/03-continuity/change-requests/CR-0336-登记R12隔离子网冲突问题与回归.md
-  - docs/03-continuity/change-requests/CR-0337-修正R12现场验收Flyway-V041格式误判.md
-  - docs/03-continuity/change-requests/CR-0338-冻结现场证据原始字节避免Git换行改写.md
-  infrastructure:
-  - infra/staging/r12-smoke/alertmanager.yml
-  - infra/staging/r12-smoke/docker-compose.yml
-  - infra/staging/r12-smoke/nginx.conf
-  - infra/staging/r12-smoke/prometheus.yml
-  - infra/staging/r12-smoke/r12-alerts.yml
-  source_of_truth:
-  - releases/R12/RELEASE_MANIFEST.yaml
-  code:
-  - scripts/check_r12_observability.py
-  - scripts/run_r12_staging_acceptance.sh
-  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinder.java
-  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinderTest.java
-  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/ObservabilityEndpointsTest.java
-  tests:
-  - tests/test_r12_staging_acceptance.py
-required_records:
-- SESSION_RECORD
-- SESSION_LOG
-- CHECKPOINT
-- CURRENT_STATUS
-- EVENT_LOG
-- APPROVED_CHANGE_REQUEST
-change_requests:
-- CR-0334
-- CR-0335
-- CR-0336
-- CR-0337
-- CR-0338
-scope:
-  allowed_paths:
-  - apps/**
-  - services/**
-  - packages/**
-  - contracts/**
-  - database/**
-  - config/**
-  - catalogs/**
-  - tests/**
-  - infra/**
-  - design/**
-  - docs/**
-  - releases/**
-  - scripts/**
-  - templates/**
-  - .github/**
-  - .githooks/**
-  - .codex/**
-  - AGENTS.md
-  - START_HERE.md
-  - README.md
-  - CHANGELOG.md
-  - Makefile
-  - .gitignore
-  - .gitattributes
-  - .dockerignore
-  - package.json
-  - pnpm-lock.yaml
-  - pnpm-workspace.yaml
-  - requirements-dev.txt
-  - PROJECT_*.yaml
-  - PROJECT_*.json
-  approved_exceptions:
-  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinder.java
-  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinderTest.java
-  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/ObservabilityEndpointsTest.java
-  - infra/staging/r12-smoke/docker-compose.yml
-  - infra/staging/r12-smoke/prometheus.yml
-  - infra/staging/r12-smoke/alertmanager.yml
-  - infra/staging/r12-smoke/nginx.conf
-  - infra/staging/r12-smoke/r12-alerts.yml
-  - scripts/check_r12_observability.py
-  - scripts/run_r12_staging_acceptance.sh
-  - tests/test_r12_staging_acceptance.py
-  - docs/07-operations/DEPLOYMENT_RUNBOOK.md
-  - docs/07-operations/ROLLBACK_RUNBOOK.md
-  - artifacts/reports/R12/TASK-R12-006-staging.md
-  - artifacts/validation/r12-task006-staging
-  - releases/R12/ACCEPTANCE_MATRIX.csv
-  - releases/R12/RELEASE_MANIFEST.yaml
-  - CHANGELOG.md
-  - docs/03-continuity/PROBLEM_REGISTRY.yaml
-  - .gitattributes
-  source: story+explicit+approved-cr:CR-0334+approved-cr:CR-0335+approved-cr:CR-0336+approved-cr:CR-0337+approved-cr:CR-0338
-parallel_execution:
-  assessment: NO_SAFE_PARALLEL
-  delegated_workers: 0
-  workers: []
-  reason: CR关闭、Task关闭和下一任务交接共享唯一连续性状态，必须串行提交
-event_hash: 666ca2b9d15d716e2c97e2504f89dc59bd8ffad9272fd777c9a04a66403c6685
+status: NO_CHECKPOINT
 ```
 
 ## 接续状态与事件头
@@ -794,12 +403,12 @@ event_hash: 666ca2b9d15d716e2c97e2504f89dc59bd8ffad9272fd777c9a04a66403c6685
 ```yaml
 mode: ENFORCED
 protocol_version: '1.0'
-active_session_id: SES-20260725T180922Z-D7231210
-last_session_id: SES-20260725T171320Z-7ACF9261
+active_session_id: null
+last_session_id: SES-20260725T180922Z-D7231210
 last_session_result: COMPLETED
-last_closure_checkpoint_id: CP-SES-20260725T171320Z-7ACF9261-0006
-event_count: 3320
-event_head_hash: 666ca2b9d15d716e2c97e2504f89dc59bd8ffad9272fd777c9a04a66403c6685
+last_closure_checkpoint_id: CP-SES-20260725T180922Z-D7231210-0008
+event_count: 3323
+event_head_hash: 1f1c263259ddc83aa75c5ac31b8e017d4ae476d87f1b00b37cd15228b0e6830e
 event_chain_valid: true
 ```
 
@@ -918,13 +527,13 @@ recent_sessions: - session_id: SES-20260724T021901Z-603D54F5
   task_id: TASK-R12-006
   story_id: STORY-R12-008
   actor_id: codex-root-r12-observability-20260726
-  status: ACTIVE
+  status: CLOSED
   started_at: '2026-07-25T18:09:22Z'
   record: .continuity/sessions/SES-20260725T180922Z-D7231210.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260725T180922Z-D7231210.md
-  updated_at: '2026-07-25T19:15:38Z'
-  closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260725T180922Z-D7231210/0007.yaml
+  updated_at: '2026-07-25T19:17:36Z'
+  closed_at: '2026-07-25T19:17:36Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260725T180922Z-D7231210/0008.yaml
   handoff_bundle: null
 task_claims: - claim_id: CLM-6DF637774FD0
   session_id: SES-20260723T074719Z-AB4D0E80
@@ -1677,7 +1286,7 @@ task_claims: - claim_id: CLM-6DF637774FD0
   task_id: TASK-R12-006
   story_id: STORY-R12-008
   actor_id: codex-root-r12-observability-20260726
-  status: ACTIVE
+  status: CLOSED
   claimed_at: '2026-07-25T18:09:22Z'
   allowed_paths:
   - apps/**
@@ -1711,6 +1320,7 @@ task_claims: - claim_id: CLM-6DF637774FD0
   - requirements-dev.txt
   - PROJECT_*.yaml
   - PROJECT_*.json
+  closed_at: '2026-07-25T19:17:36Z'
 recent_task_transitions: - transition_id: TRN-FB693511AB84
   timestamp: '2026-07-23T07:47:20Z'
   release: R10
@@ -1918,34 +1528,31 @@ recent_task_transitions: - transition_id: TRN-FB693511AB84
 ```yaml
 initialized: true
 branch: task/TASK-R03-001
-head: 6abb78314402cfd5811480742341d487a6139cdb
+head: 17d6ee9acce9b46df63399a5bf3d4a944c8976b6
 upstream: origin/task/TASK-R03-001
 ahead: 0
 behind: 0
 dirty: true
 status_porcelain:
 - ' M .continuity/ACTIVE_SESSION.yaml'
-- ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
 - ' M .continuity/EVENT_LOG.jsonl'
 - ' M .continuity/SESSION_INDEX.yaml'
 - ' M .continuity/STATE.yaml'
-- ' M .continuity/change_requests/CR-0334.yaml'
-- ' M .continuity/change_requests/CR-0335.yaml'
-- ' M .continuity/change_requests/CR-0336.yaml'
-- ' M .continuity/change_requests/CR-0337.yaml'
-- ' M .continuity/change_requests/CR-0338.yaml'
+- ' M .continuity/TASK_CLAIMS.yaml'
 - ' M .continuity/sessions/SES-20260725T180922Z-D7231210.yaml'
+- ' M CHANGELOG.md'
 - ' M CURRENT_STATUS.yaml'
-- ' M catalogs/change_request_index.csv'
+- ' M NEXT_TASK.yaml'
+- ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+- ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+- ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
 - ' M catalogs/session_index.csv'
-- ' M docs/03-continuity/change-requests/CR-0334-补齐R12统一发布可观测性与独立Staging验收.md'
-- ' M docs/03-continuity/change-requests/CR-0335-修正R12隔离Staging子网与R09冲突.md'
-- ' M docs/03-continuity/change-requests/CR-0336-登记R12隔离子网冲突问题与回归.md'
-- ' M docs/03-continuity/change-requests/CR-0337-修正R12现场验收Flyway-V041格式误判.md'
-- ' M docs/03-continuity/change-requests/CR-0338-冻结现场证据原始字节避免Git换行改写.md'
 - ' M docs/03-continuity/sessions/2026-07/SES-20260725T180922Z-D7231210.md'
-- ?? .continuity/checkpoints/SES-20260725T180922Z-D7231210/0007.yaml
+- ' M releases/R12/TASKS.yaml'
+- ?? .continuity/checkpoints/SES-20260725T180922Z-D7231210/0008.yaml
 recent_commits:
+- "17d6ee9acce9b46df63399a5bf3d4a944c8976b6\t2026-07-26T03:15:52+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] chore(r12): close staging acceptance\
+  \ changes"
 - "6abb78314402cfd5811480742341d487a6139cdb\t2026-07-26T03:09:49+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] docs(r12): freeze staging acceptance\
   \ evidence"
 - "4365e1c790e3792812cfd62bb415e1075eb00149\t2026-07-26T02:54:07+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] fix(r12): validate Flyway V041\
@@ -1959,38 +1566,14 @@ recent_commits:
   \ test change"
 - "04855647f6ee4d8609b709cd4bc98e9baa48d4bc\t2026-07-26T01:59:06+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] chore(r12): normalize evidence\
   \ line endings"
-- "1cc414c8bb58ee121c5739890794ccbcda45aee4\t2026-07-26T01:55:51+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] docs(r12): freeze specialized\
-  \ test evidence"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`a8fd70cbc6f7346f92263e3bbe4ab5a6d9d2622646e0a564e547ae18566f07ea`
-- 文件数：23
+- 指纹：`baedefddab93c184a413c6f76328227c244eb1c47ed7bcc0ceabb55bee11225d`
+- 文件数：0
 
-- `.gitattributes`
-- `CHANGELOG.md`
-- `docs/03-continuity/PROBLEM_REGISTRY.yaml`
-- `docs/03-continuity/change-requests/CR-0334-补齐R12统一发布可观测性与独立Staging验收.md`
-- `docs/03-continuity/change-requests/CR-0335-修正R12隔离Staging子网与R09冲突.md`
-- `docs/03-continuity/change-requests/CR-0336-登记R12隔离子网冲突问题与回归.md`
-- `docs/03-continuity/change-requests/CR-0337-修正R12现场验收Flyway-V041格式误判.md`
-- `docs/03-continuity/change-requests/CR-0338-冻结现场证据原始字节避免Git换行改写.md`
-- `docs/07-operations/DEPLOYMENT_RUNBOOK.md`
-- `docs/07-operations/ROLLBACK_RUNBOOK.md`
-- `infra/staging/r12-smoke/alertmanager.yml`
-- `infra/staging/r12-smoke/docker-compose.yml`
-- `infra/staging/r12-smoke/nginx.conf`
-- `infra/staging/r12-smoke/prometheus.yml`
-- `infra/staging/r12-smoke/r12-alerts.yml`
-- `releases/R12/ACCEPTANCE_MATRIX.csv`
-- `releases/R12/RELEASE_MANIFEST.yaml`
-- `scripts/check_r12_observability.py`
-- `scripts/run_r12_staging_acceptance.sh`
-- `services/backend/boot/src/main/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinder.java`
-- `services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinderTest.java`
-- `services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/ObservabilityEndpointsTest.java`
-- `tests/test_r12_staging_acceptance.py`
+- 无
 
 ## 当前 Release
 
@@ -3231,7 +2814,7 @@ TASKS.yaml:
     completed_at: '2026-07-25T18:02:53Z'
   - id: TASK-R12-006
     title: 统一发布与发布管理可观测性与预发布验收
-    status: READY
+    status: DONE
     depends_on:
     - TASK-R12-005
     requirements: *id001
@@ -3245,9 +2828,10 @@ TASKS.yaml:
     - 运行手册演练
     - 验收矩阵签字
     session_log_required: true
+    completed_at: '2026-07-25T19:17:27Z'
   - id: TASK-R12-007
     title: 统一发布与发布管理Android测试APK与产物追溯
-    status: BLOCKED
+    status: READY
     depends_on:
     - TASK-R12-006
     requirements: *id001
@@ -11227,8 +10811,8 @@ PARALLEL_EXECUTION_PLAN.yaml:
 
 - `AGENTS.md` — `690f960020dcbd18080ec91b3c314335627b32e231b9f9b2e14566b0fbbaeb35`
 - `START_HERE.md` — `22de14029ce47beb41ea569e36ce223fbc9d11b86f8676f28d5fbbd83896af5c`
-- `CURRENT_STATUS.yaml` — `8c0f152cd2c98b7a86f15fb76f197356ec05f6cf49952b5dcbcc3e4294327573`
-- `NEXT_TASK.yaml` — `39db6c6f107c3fd4b926f53a338d945b2cfef53d27fd64ceb03de630adb4d343`
+- `CURRENT_STATUS.yaml` — `c9e174e220588e6039b2e912e51db412dd0ebd7eac145e1ed1c3b546983797c1`
+- `NEXT_TASK.yaml` — `1f03675aa74266e5c95220a1296010172ca5527e763602ee4ef876d1001f9507`
 - `DEVELOPMENT_RISK_REGISTER.md` — `8304c91492e4ee2abea0522a06541c8688d39c7fc532b5d0cde499bf09fffb87`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
 - `docs/03-continuity/PROBLEM_REGISTRY.yaml` — `de84cef6a1e7810f94a0d66633b2ee18d45f5d0472ccceab97458436c01be03b`
@@ -11238,12 +10822,12 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `config/REPOSITORY_TRANSPORT.yaml` — `8c4a21f3e204d46e7ffb467d804a53ed26cda61cd088dadfddb50b69eea657fc`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `60943fcd9714cfae7274463554b5584fdb7a7aeee1ee547ff6dbc53fae6d4994`
-- `.continuity/EVENT_LOG.jsonl` — `8be7b570df3fec3f2f9802bccfd44fe4a19bd255bb6f8612bbe43518d2844766`
-- `.continuity/SESSION_INDEX.yaml` — `616e45fe3a33f6aa6d81c199eea5de751bd29f92e8f4c0be4dcdd759bd315b41`
-- `.continuity/TASK_CLAIMS.yaml` — `b0b67fc71aa863f5f3fc930950b319734b50bcc1818aef33db2bada9f7c03fc7`
+- `.continuity/EVENT_LOG.jsonl` — `598971b896dbe3b9c4fa900a11c3f2f2417066904b004b777794c459a4022953`
+- `.continuity/SESSION_INDEX.yaml` — `bf88a964afeea995663b80cd72ae5e9ba6b9d189db4e4e4fa4f36f961597f3ca`
+- `.continuity/TASK_CLAIMS.yaml` — `ae6a46a726243f5e347ec6d2d36a44645e1e7ee0f2a9a1948f598e5ff227c764`
 - `.continuity/TASK_TRANSITIONS.yaml` — `aa34d96e43bdbe53bc56fb7489d5f3eedcaf9931a9d100371534c806af5298de`
 - `.continuity/CHANGE_REQUEST_INDEX.yaml` — `43f4600ea763cff89996ba317d7c6cd49d99e19077688ab51a2f7c9248610eac`
-- `.continuity/ACTIVE_SESSION.yaml` — `83034b72c438bebc9a77465f9323257433b3758859dcf009174a52deb2ffce35`
+- `.continuity/ACTIVE_SESSION.yaml` — `bbedc2e3d6541b9120cff318813ba2c60d469259a292c0b6abcc47eb23ebac43`
 - `docs/00-baseline/正式商业系统全局硬性开发边界.md` — `9753b32db136e59e95a0974a62362456d9d577fd1bb40058ec985c4b64413eea`
 - `docs/02-ui/UI参考图使用与开发约束_V1.2.2.md` — `d14367586aa2067b059df58798acd20ab982459cdb35ff27fc7922a3896e4933`
 - `docs/03-continuity/持续开发无状态接续强制门禁_V1.2.3.md` — `d0ed3ed68bdd93b06500eecdfb5baa3245e6ca8b685a486788abb6eee39b3d51`
@@ -11251,16 +10835,9 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `releases/R12/RELEASE_MANIFEST.yaml` — `631ca3a1caf672af5f37b0cdb6502702ee8287997ff2aa9d1b210b58810de381`
 - `releases/R12/DEFINITION_OF_READY.yaml` — `ec0e557f0fc1c9738d78e5954b24b5411e8f3f23ebbf13631aef6d64745515a7`
 - `releases/R12/STORIES.yaml` — `ed80bfe7ba3779ab57985d98a5250c4a80c15708035c30afe393de146e029fc2`
-- `releases/R12/TASKS.yaml` — `8e247655c5e9535870b573fa60ac2f3767df9ee896ade7b0868ad9488ec51461`
+- `releases/R12/TASKS.yaml` — `1ca7b627e103e1f54f2eb87f7087d848465a3c351169d186172c9055c11da709`
 - `releases/R12/ACCEPTANCE_MATRIX.csv` — `0fa8c9e830600bb02b4b6b729bc6d400dcc14fa1a2e7e4c5fb3f83d46c01abca`
 - `releases/R12/PARALLEL_EXECUTION_PLAN.yaml` — `2ddbee414a51a868b63331992e2e04c5400846cf6012474aab406e067e532e98`
-- `docs/03-continuity/sessions/2026-07/SES-20260725T180922Z-D7231210.md` — `35716f003a10b5c676059f4cf8aee7fee53fdb2161a311bd29bcf8bb2fec823a`
-- `.continuity/checkpoints/SES-20260725T180922Z-D7231210/0007.yaml` — `a2300f7eea62e4e9e4d157625c626326a603a0577dae043cdbf88928f8ad7951`
-- `docs/03-continuity/change-requests/CR-0334-补齐R12统一发布可观测性与独立Staging验收.md` — `de0602b9aceb2067d4b1a44fa226f6270b60a2b829180f87968d31c77c055724`
-- `docs/03-continuity/change-requests/CR-0335-修正R12隔离Staging子网与R09冲突.md` — `6774f2f6d90f1b0dc4520e70884a6161fbae940604d1f547941301cfe472c07a`
-- `docs/03-continuity/change-requests/CR-0336-登记R12隔离子网冲突问题与回归.md` — `45ba658d6372c7471c08e5fcfb1a3a3106a4a934a9ba3b382366f86063e94bed`
-- `docs/03-continuity/change-requests/CR-0337-修正R12现场验收Flyway-V041格式误判.md` — `f78b600ca362ce666cdbec68a7656d178257589b651bd6c07a2642dcc1382b39`
-- `docs/03-continuity/change-requests/CR-0338-冻结现场证据原始字节避免Git换行改写.md` — `6be5b58206dd8510eccb6895009ab22bf5b8ed9f51b27c3094db1fee64f42487`
 
 ## 接手硬规则
 
