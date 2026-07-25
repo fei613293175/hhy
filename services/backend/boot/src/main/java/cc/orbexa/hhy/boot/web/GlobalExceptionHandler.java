@@ -8,6 +8,8 @@ import java.time.Clock;
 import java.time.Instant;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
+import org.slf4j.spi.LoggingEventBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.authorization.AuthorizationDeniedException;
@@ -90,10 +92,12 @@ public final class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     ResponseEntity<ApiErrorResponse> unexpected(Exception ex, HttpServletRequest request) {
-        LOG.atError()
-                .addKeyValue("requestId", requestId(request))
-                .addKeyValue("errorType", ex.getClass().getSimpleName())
-                .log("unhandled_api_exception");
+        LoggingEventBuilder event = LOG.atError()
+                .addKeyValue("errorType", ex.getClass().getSimpleName());
+        if (MDC.get("requestId") == null) {
+            event.addKeyValue("requestId", requestId(request));
+        }
+        event.log("unhandled_api_exception");
         return ResponseEntity.internalServerError().body(error(
                 request,
                 "COMMON-500-INTERNAL",

@@ -1542,3 +1542,17 @@ problems:
   - 不得把工作区文件哈希通过等同于Git提交对象字节一致
   - 带HTTP头、外部工具输出或签名数据的现场证据不得经过Git文本换行过滤
   - 发现未推送证据Commit哈希漂移时不得推送后再补说明，应先重建未推送Commit
+- id: PROB-0113
+  title: R12候选OIDC原始异常被重复requestId结构化日志错误遮蔽
+  status: SOLVED
+  root_cause: Run 30173649942的Android Build已成功，但Emulator Job 89719831962在请求internal-ci bootstrap时返回500。RequestIdFilter已把requestId写入MDC，GlobalExceptionHandler.unexpected又把同名requestId写入SLF4J keyValue；Spring Boot logstash结构化格式拒绝同一事件中的重复字段并抛出The name requestId has already been written，导致真正的OIDC或CI引导异常类型被二次日志错误覆盖，模拟器旅程尚未启动。
+  resolution: CR-0340让unexpected异常事件优先复用RequestIdFilter的MDC关联字段，只记录不含异常消息或令牌的安全errorType；仅在MDC缺失时从请求属性回退写入requestId。双路径单测同时锁定关联ID保留、同名字段不重复、异常消息和敏感URL不进入日志。R12候选必须先部署该精确源码并读取原始安全错误类型，再决定是否修改OIDC或夹具，禁止盲目重跑GitHub模拟器。
+  regression_checks:
+  - GlobalExceptionHandlerTest必须证明MDC已有requestId时keyValue不再包含同名字段，事件MDC仍保留原关联ID
+  - GlobalExceptionHandlerTest必须证明MDC缺失时keyValue回退记录requestId和errorType
+  - 两条路径都不得记录异常消息、令牌、私有URL、签名参数或ThrowableProxy
+  - R12候选后端日志中的unhandled_api_exception必须可安全读取原始errorType，且不得再出现The name requestId has already been written
+  do_not_repeat:
+  - 使用Spring Boot结构化日志时不得在MDC和SLF4J keyValue中重复写入同名字段
+  - 不得为了排查OIDC把Bearer Token、JWT声明全文、异常消息或Throwable堆栈写入候选日志
+  - 业务旅程开始前的确定性后端500不得直接重跑模拟器，应先修复可观测性并在固定候选后端复现
