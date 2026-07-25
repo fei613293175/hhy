@@ -1,0 +1,157 @@
+from pathlib import Path
+import unittest
+
+import yaml
+
+
+ROOT = Path(__file__).resolve().parents[1]
+FIXTURE = ROOT / "scripts/prepare_r12_ci_fixture.sh"
+JOURNEY = ROOT / "apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt"
+VISUAL_MANIFEST = ROOT / "tests/android/visual-manifests/R12.yaml"
+BUILD = ROOT / "apps/android/app/build.gradle.kts"
+RELEASE_POLICY = ROOT / "apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt"
+VERSION_TEST = ROOT / "apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt"
+REQUEST = ROOT / "config/android-candidate-request.yaml"
+
+
+class R12CandidateTest(unittest.TestCase):
+    def setUp(self) -> None:
+        self.fixture = FIXTURE.read_text(encoding="utf-8")
+        self.journey = JOURNEY.read_text(encoding="utf-8")
+
+    def test_fixture_is_isolated_to_r12_v041_candidate_staging(self) -> None:
+        self.assertIn("hhy-r12-ci-candidate-*", self.fixture)
+        self.assertIn("hhy-r12-staging-*-postgres-1", self.fixture)
+        self.assertIn("SPRING_PROFILES_ACTIVE", self.fixture)
+        self.assertIn("HHY_CI_AUTOMATION_ENABLED", self.fixture)
+        self.assertIn("version='041'", self.fixture)
+        self.assertIn("psql -qAt", self.fixture)
+        self.assertIn("INSERT INTO hhy.users(phone,status,invite_code)", self.fixture)
+        self.assertIn("ON CONFLICT (phone) DO NOTHING", self.fixture)
+        self.assertNotIn("ON CONFLICT (phone) DO UPDATE", self.fixture)
+        self.assertNotIn('echo "$phone"', self.fixture)
+        self.assertNotIn("hhy-r11-ci-candidate-*", self.fixture)
+
+    def test_fixture_uses_only_legal_r12_content_edges_and_review_bindings(self) -> None:
+        for edge in (
+            "'DRAFT','PENDING_REVIEW'",
+            "'PENDING_REVIEW','REVIEWING'",
+            "'REVIEWING','REJECTED'",
+            "'REVIEWING','APPROVED'",
+            "'APPROVED','ONLINE'",
+        ):
+            self.assertIn(edge, self.fixture)
+        self.assertIn("snapshot_version_id,command_id", self.fixture)
+        self.assertIn("transition_version", self.fixture)
+        self.assertIn("status='DRAFT' AND version=0", self.fixture)
+        self.assertNotIn("VALUES (\n+    p_user_id,'PROJECT',p_title,p_summary,'ONLINE'", self.fixture)
+        self.assertNotIn("SET status='DRAFT'", self.fixture)
+        self.assertIn("ON CONFLICT (user_id) DO UPDATE", self.fixture)
+        self.assertIn("R12_CI_FIXTURE_OK", self.fixture)
+
+    def test_fixture_contains_every_candidate_owner_fact(self) -> None:
+        for fact in (
+            "R12候选发布者",
+            "R12候选发布预览项目",
+            "R12候选内容策略草稿",
+            "R12候选审核中的品牌合作",
+            "R12候选未通过的渠道方案",
+            "R12候选已上线的联合增长项目",
+            "专业协作会员",
+            "reward_accounts",
+            "identity.status='VERIFIED'",
+            "target_snapshot=",
+            "target_media=",
+        ):
+            self.assertIn(fact, self.fixture)
+        self.assertIn("count(DISTINCT draft.id)>=2", self.fixture)
+        self.assertIn("reviewing.status='REVIEWING'", self.fixture)
+        self.assertIn("rejected.status='REJECTED'", self.fixture)
+        self.assertIn("online.status='ONLINE'", self.fixture)
+
+    def test_journey_captures_the_exact_ten_r12_android_pages(self) -> None:
+        expected = (
+            'captureStable("01-publish-center.png")',
+            'captureStable("02-me-home.png")',
+            'captureStable("03-profile.png")',
+            'captureStable("04-drafts.png")',
+            'captureStable("05-content-management-detail.png")',
+            'captureStable("06-publish-preview.png")',
+            'captureStable("07-submit-result.png")',
+            'captureStable("08-my-contents.png")',
+            'captureStable("09-content-reviews.png")',
+            'captureStable("10-content-analytics.png")',
+        )
+        for capture in expected:
+            self.assertIn(capture, self.journey)
+        self.assertEqual(10, self.journey.count('captureStable("'))
+        for marker in (
+            "hhy.screen.r12.publish.center.content",
+            "hhy.screen.r12.me",
+            "hhy.screen.r12.profile.content",
+            "hhy.screen.r12.drafts",
+            "hhy.screen.r12.content_management.detail.content",
+            "hhy.screen.r12.publish.preview.content",
+            "hhy.screen.r12.publish.result.success",
+            "hhy.screen.r12.my-contents",
+            "hhy.screen.r12.content-reviews",
+            "hhy.screen.r12.content-analytics",
+        ):
+            self.assertIn(marker, self.journey)
+        self.assertIn('clickLastExactText("确认提交")', self.journey)
+        self.assertIn('clickExactText("查看我的发布")', self.journey)
+        self.assertIn('scrollUntilResource("mine.my-drafts")', self.journey)
+        self.assertIn('scrollUntilText("审核记录")', self.journey)
+        self.assertIn('scrollUntilText("内容数据")', self.journey)
+        self.assertNotIn("authenticatedR11Pages", self.journey)
+
+    def test_visual_manifest_covers_the_exact_r12_journey(self) -> None:
+        manifest = yaml.safe_load(VISUAL_MANIFEST.read_text(encoding="utf-8"))
+        self.assertEqual("R12", manifest["release"])
+        self.assertEqual("AI_IMPLEMENTATION_AGENT", manifest["review_authority"])
+        self.assertEqual(10, len(manifest["screens"]))
+        self.assertEqual(
+            {
+                "SCR-PUB-001", "SCR-PUB-006", "SCR-PUB-007",
+                "SCR-MYC-001", "SCR-MYC-002", "SCR-MYC-003",
+                "SCR-MYC-004", "SCR-MYC-005", "SCR-ME-001", "SCR-ME-002",
+            },
+            {row["screen_id"] for row in manifest["screens"]},
+        )
+        self.assertEqual(
+            {capture.split('"')[1] for capture in (
+                'captureStable("01-publish-center.png")',
+                'captureStable("02-me-home.png")',
+                'captureStable("03-profile.png")',
+                'captureStable("04-drafts.png")',
+                'captureStable("05-content-management-detail.png")',
+                'captureStable("06-publish-preview.png")',
+                'captureStable("07-submit-result.png")',
+                'captureStable("08-my-contents.png")',
+                'captureStable("09-content-reviews.png")',
+                'captureStable("10-content-analytics.png")',
+            )},
+            {row["file"] for row in manifest["screens"]},
+        )
+        for row in manifest["screens"]:
+            self.assertIn("请求编号", row["forbidden_text"])
+            self.assertIn("TraceId", row["forbidden_text"])
+            self.assertIn("PROJECT", row["forbidden_text"])
+
+    def test_candidate_identity_is_monotonic_and_unique(self) -> None:
+        build = BUILD.read_text(encoding="utf-8")
+        release_policy = RELEASE_POLICY.read_text(encoding="utf-8")
+        version_test = VERSION_TEST.read_text(encoding="utf-8")
+        request = yaml.safe_load(REQUEST.read_text(encoding="utf-8"))
+        self.assertIn("versionCode = 10221", build)
+        self.assertIn("VERSION_CODE: Int = 10221", release_policy)
+        self.assertIn('"R12 test APK versionCode must remain monotonic", 10221', version_test)
+        self.assertNotIn("10220", build + release_policy + version_test)
+        self.assertEqual("R12", request["release"])
+        self.assertTrue(request["candidate"])
+        self.assertEqual(1, request["remediation_attempt"])
+        self.assertEqual("R12-CANDIDATE-20260726-001", request["request_id"])
+
+
+if __name__ == "__main__":
+    unittest.main()

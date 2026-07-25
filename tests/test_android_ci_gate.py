@@ -432,13 +432,17 @@ class AndroidCiGateTest(unittest.TestCase):
         self.assertIn("hhyCiBootstrapCode", smoke_test)
         self.assertIn("/internal-ci/v1/android/session", smoke_test)
         self.assertIn('waitForScreen("hhy.screen.r06.home.loaded")', smoke_test)
-        self.assertIn('waitForScreen("hhy.screen.r11.team-leader.list.content"', smoke_test)
-        self.assertIn('waitForScreen("hhy.screen.r11.team_leader.detail.content"', smoke_test)
-        self.assertIn('waitForScreen("hhy.screen.r11.team-leader.editor.content"', smoke_test)
-        self.assertIn('captureStable("01-home.png")', smoke_test)
-        self.assertIn('captureStable("02-team-leader-list.png")', smoke_test)
-        self.assertIn('captureStable("03-team-leader-detail.png")', smoke_test)
-        self.assertIn('captureStable("04-team-leader-editor.png")', smoke_test)
+        self.assertIn('waitForScreen("hhy.screen.r12.publish.center.content"', smoke_test)
+        self.assertIn('waitForScreen("hhy.screen.r12.profile.content"', smoke_test)
+        self.assertIn('waitForScreen("hhy.screen.r12.content_management.detail.content"', smoke_test)
+        self.assertIn('"hhy.screen.r12.publish.preview.content"', smoke_test)
+        self.assertIn('waitForScreen("hhy.screen.r12.publish.result.success"', smoke_test)
+        self.assertIn('waitForScreen("hhy.screen.r12.content-reviews"', smoke_test)
+        self.assertIn('waitForScreen("hhy.screen.r12.content-analytics"', smoke_test)
+        self.assertIn('captureStable("01-publish-center.png")', smoke_test)
+        self.assertIn('captureStable("05-content-management-detail.png")', smoke_test)
+        self.assertIn('captureStable("10-content-analytics.png")', smoke_test)
+        self.assertEqual(10, smoke_test.count('captureStable("'))
         self.assertNotIn('captureStable("26-r06-home.png")', smoke_test)
         self.assertNotIn('captureStable("01-project-list.png")', smoke_test)
         self.assertIn('captureStable("10-r02-startup.png")', historical_test)
@@ -446,16 +450,18 @@ class AndroidCiGateTest(unittest.TestCase):
         self.assertIn('captureStable("25-r05-identity-result.png")', historical_test)
         self.assertIn("AuthVisualAuditScreen", historical_test)
         self.assertIn("IdentityVisualAuditScreen", historical_test)
-        self.assertIn('By.text("需要实名认证")', smoke_test)
         self.assertIn("stableMatches >= 2", smoke_test)
         self.assertIn("digest != previousScreenDigest", smoke_test)
         self.assertIn("waitForIdle(2_000)", smoke_test)
-        self.assertIn('clickResource("home.category.team-leader")', smoke_test)
-        self.assertIn('clickExactText("编辑")', smoke_test)
+        self.assertIn('clickResource("mine.identity-header")', smoke_test)
+        self.assertIn('scrollUntilResource("mine.my-drafts")', smoke_test)
+        self.assertIn('clickResource("mine.my-drafts")', smoke_test)
+        self.assertIn('scrollUntilText("审核记录")', smoke_test)
+        self.assertIn('scrollUntilText("内容数据")', smoke_test)
+        self.assertIn('clickLastExactText("确认提交")', smoke_test)
         self.assertIn("scrollUntilResource", smoke_test)
-        self.assertIn("assertR11BusinessLabels", smoke_test)
-        self.assertIn('By.text("10-50人")', smoke_test)
-        self.assertIn('"TEAM_LEADER", "WECHAT"', smoke_test)
+        self.assertIn("assertR12BusinessLabels", smoke_test)
+        self.assertIn('"PROJECT", "APP", "GROUP_CHAT", "TEAM_LEADER"', smoke_test)
         self.assertNotIn("assertSecureWindow", smoke_test)
 
         r08_manifest = yaml.safe_load((ROOT / "tests/android/visual-manifests/R08.yaml").read_text(encoding="utf-8"))
@@ -514,6 +520,26 @@ class AndroidCiGateTest(unittest.TestCase):
         r11_detail = next(row for row in r11_manifest["screens"] if row["screen_id"] == "SCR-DETAIL-004")
         self.assertIn("hhy-contact-v1:r11-ci-team-contact", r11_detail["forbidden_text"])
         self.assertIn("WECHAT", r11_detail["forbidden_text"])
+
+        r12_manifest = yaml.safe_load((ROOT / "tests/android/visual-manifests/R12.yaml").read_text(encoding="utf-8"))
+        self.assertEqual("AI_IMPLEMENTATION_AGENT", r12_manifest["review_authority"])
+        self.assertEqual(10, len(r12_manifest["screens"]))
+        self.assertEqual(
+            {
+                "SCR-PUB-001", "SCR-PUB-006", "SCR-PUB-007",
+                "SCR-MYC-001", "SCR-MYC-002", "SCR-MYC-003",
+                "SCR-MYC-004", "SCR-MYC-005", "SCR-ME-001", "SCR-ME-002",
+            },
+            {row["screen_id"] for row in r12_manifest["screens"]},
+        )
+        self.assertEqual(
+            {
+                "01-publish-center.png", "02-me-home.png", "03-profile.png", "04-drafts.png",
+                "05-content-management-detail.png", "06-publish-preview.png", "07-submit-result.png",
+                "08-my-contents.png", "09-content-reviews.png", "10-content-analytics.png",
+            },
+            {row["file"] for row in r12_manifest["screens"]},
+        )
 
         shell = (
             ROOT

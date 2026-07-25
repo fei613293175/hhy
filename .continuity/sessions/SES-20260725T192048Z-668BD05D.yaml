@@ -1,0 +1,85 @@
+protocol_version: '1.0'
+package_version: 1.2.3
+session_id: SES-20260725T192048Z-668BD05D
+status: ACTIVE
+actor:
+  id: codex-root-r12-candidate-20260726
+  kind: AI_OR_HUMAN
+  host: unknown
+release: R12
+task_id: TASK-R12-007
+story_id: STORY-R12-008
+goal: 完成R12最终Android候选、真实模拟器截图AI验收、固定签名测试APK与桌面交付
+started_at: '2026-07-25T19:20:48Z'
+updated_at: '2026-07-25T20:25:18Z'
+takeover_of: null
+change_requests:
+- CR-0339
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions: []
+  source: story+explicit
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  base_commit: 8b20e881c6a72fc1e1deb11e86f3212e36ea7941
+  start_head: 8b20e881c6a72fc1e1deb11e86f3212e36ea7941
+  upstream: origin/task/TASK-R03-001
+  initial_worktree_state: CLEAN
+lease:
+  duration_minutes: 240
+  renewed_at: '2026-07-25T20:25:13Z'
+  expires_at: '2026-07-26T00:25:13Z'
+checkpoint_sequence: 2
+latest_checkpoint: .continuity/checkpoints/SES-20260725T192048Z-668BD05D/0002.yaml
+session_log: docs/03-continuity/sessions/2026-07/SES-20260725T192048Z-668BD05D.md
+next_step: 提交并推送唯一R12 attempt 1，等待GitHub模拟器十页证据并由AI逐图审核
+context_pack:
+  yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
+  markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
+  manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+  context_hash: ef0112b9cc2717b74c059e6b1e75a6287073af7b4bb607481e3e30c8bd6bc2a9
+  generated_at: '2026-07-25T20:25:16Z'
+handoff_bundle: null
+closure: null
+parallel_execution:
+  assessment: DELEGATED
+  delegated_workers: 1
+  workers:
+  - worker_id: profile_contract_review
+    responsibility: 独立复核并批准CR-0339候选范围
+    allowed_paths:
+    - docs/03-continuity/change-requests/CR-0339-补齐R12统一发布Android最终候选与产物追溯.md
+    - .continuity/change_requests/CR-0339.yaml
+  reason: CR-0339已由独立审查代理批准；候选测试、数据库夹具、版本身份与唯一旅程高度耦合，由主控串行集成和云端复核

@@ -35,7 +35,7 @@ class ReleaseCandidateSmokeTest {
     private var previousScreenDigest: String? = null
     private val screenshotDirectory = "Pictures/hhy-ci-screenshots"
 
-    private val fixtureTitle = "R11候选增长协作团队"
+    private val submitTargetTitle = "R12候选发布预览项目"
 
     @Before
     fun prepareAuthenticatedCandidate() {
@@ -67,50 +67,125 @@ class ReleaseCandidateSmokeTest {
     }
 
     @Test
-    fun authenticatedR11PagesProduceBoundVisualEvidence() {
+    fun authenticatedR12PagesProduceBoundVisualEvidence() {
         assertTrue(
             "Authenticated shell did not reach its loaded screen identity",
             waitForScreen("hhy.screen.r06.home.loaded"),
         )
         assertFalse("Cold start exposed connection failure", device.hasObject(By.text("暂时无法连接")))
-        assertTrue("Home missed the search entry", device.hasObject(By.textContains("搜索项目")))
-        assertTrue("Home missed the team leader category", device.hasObject(By.text("团队长")))
-        captureStable("01-home.png")
+
+        clickExactText("发布")
+        assertTrue(
+            "R12 publish center did not become visible",
+            waitForScreen("hhy.screen.r12.publish.center.content", gone = "hhy.screen.r06.home.loaded"),
+        )
+        listOf("发布中心", "我的发布", "项目", "App", "群聊", "团队长").forEach { label ->
+            assertTrue("R12 publish center missed: $label", device.hasObject(By.text(label)))
+        }
+        captureStable("01-publish-center.png")
         assertNoForbiddenVisibleText()
 
-        clickResource("home.category.team-leader")
+        device.pressBack()
+        assertTrue("R12 publish center did not return home", waitForScreen("hhy.screen.r06.home.loaded"))
+        clickExactText("我的")
         assertTrue(
-            "R11 team leader list did not become visible",
-            waitForScreen("hhy.screen.r11.team-leader.list.content", gone = "hhy.screen.r06.home.loaded"),
+            "R12 me home did not become visible",
+            waitForScreen("hhy.screen.r12.me", gone = "hhy.screen.r06.home.loaded"),
         )
-        assertTrue("R11 team leader fixture is missing", device.wait(Until.hasObject(By.text(fixtureTitle)), 20_000))
-        assertTrue("R11 list missed its business heading", device.hasObject(By.text("发现真实团队与合作方向")))
-        assertTrue("R11 list missed the team size", device.hasObject(By.text("10-50人")))
-        captureStable("02-team-leader-list.png")
+        assertTrue("R12 me home missed its owner", device.wait(Until.hasObject(By.text("R12候选发布者")), 20_000))
+        captureStable("02-me-home.png")
         assertNoForbiddenVisibleText()
 
-        clickExactText(fixtureTitle)
+        clickResource("mine.identity-header")
         assertTrue(
-            "R11 team leader detail did not become visible",
-            waitForScreen("hhy.screen.r11.team_leader.detail.content", gone = "hhy.screen.r11.team-leader.list.content"),
+            "R12 profile did not become visible",
+            waitForScreen("hhy.screen.r12.profile.content", gone = "hhy.screen.r12.me"),
         )
-        assertTrue("R11 team leader detail fixture is missing", device.wait(Until.hasObject(By.text(fixtureTitle)), 20_000))
-        assertTrue("R11 detail missed the localized capability", device.hasObject(By.text("品牌增长")))
-        assertTrue("R11 detail missed the edit action", device.hasObject(By.text("编辑")))
-        assertR11BusinessLabels()
-        captureStable("03-team-leader-detail.png")
+        assertTrue("R12 profile missed its title", device.hasObject(By.text("个人资料")))
+        assertTrue("R12 profile missed its owner", device.hasObject(By.text("R12候选发布者")))
+        captureStable("03-profile.png")
         assertNoForbiddenVisibleText()
 
-        clickExactText("编辑")
+        device.pressBack()
+        assertTrue("R12 profile did not return to me home", waitForScreen("hhy.screen.r12.me"))
+        scrollUntilResource("mine.my-drafts")
+        clickResource("mine.my-drafts")
         assertTrue(
-            "R11 team leader editor did not become visible",
-            waitForScreen("hhy.screen.r11.team-leader.editor.content", gone = "hhy.screen.r11.team_leader.detail.content"),
+            "R12 drafts did not become visible",
+            waitForScreen("hhy.screen.r12.drafts", gone = "hhy.screen.r12.me"),
         )
-        assertTrue("R11 editor missed its business title", device.hasObject(By.text("编辑团队长资料")))
-        assertTrue("R11 editor missed the team identity", device.hasObject(By.text(fixtureTitle)))
-        assertFalse("R11 verified owner was incorrectly blocked by identity", device.hasObject(By.text("需要实名认证")))
-        assertR11BusinessLabels()
-        captureStable("04-team-leader-editor.png")
+        assertTrue("R12 submit target draft is missing", device.wait(Until.hasObject(By.text(submitTargetTitle)), 20_000))
+        captureStable("04-drafts.png")
+        assertNoForbiddenVisibleText()
+
+        clickExactText(submitTargetTitle)
+        assertTrue(
+            "R12 content management detail did not become visible",
+            waitForScreen("hhy.screen.r12.content_management.detail.content", gone = "hhy.screen.r12.drafts"),
+        )
+        assertTrue("R12 management detail missed its title", device.wait(Until.hasObject(By.text(submitTargetTitle)), 20_000))
+        assertTrue("R12 management detail missed preview", device.hasObject(By.text("预览")))
+        captureStable("05-content-management-detail.png")
+        assertNoForbiddenVisibleText()
+
+        clickExactText("预览")
+        assertTrue(
+            "R12 publish preview did not become visible",
+            waitForScreen(
+                "hhy.screen.r12.publish.preview.content",
+                gone = "hhy.screen.r12.content_management.detail.content",
+            ),
+        )
+        assertTrue("R12 publish preview missed its title", device.wait(Until.hasObject(By.text(submitTargetTitle)), 20_000))
+        assertTrue("R12 publish preview missed submit", device.hasObject(By.text("确认提交")))
+        captureStable("06-publish-preview.png")
+        assertNoForbiddenVisibleText()
+
+        clickExactText("确认提交")
+        assertTrue(
+            "R12 submit confirmation did not become visible",
+            device.wait(Until.hasObject(By.text("确认提交审核")), 10_000),
+        )
+        clickLastExactText("确认提交")
+        assertTrue(
+            "R12 submit result did not become visible",
+            waitForScreen("hhy.screen.r12.publish.result.success", gone = "hhy.screen.r12.publish.preview.content"),
+        )
+        assertTrue("R12 submit result missed its success action", device.hasObject(By.text("查看我的发布")))
+        captureStable("07-submit-result.png")
+        assertNoForbiddenVisibleText()
+
+        clickExactText("查看我的发布")
+        assertTrue(
+            "R12 my contents did not become visible",
+            waitForScreen("hhy.screen.r12.my-contents", gone = "hhy.screen.r12.publish.result.success"),
+        )
+        assertTrue("R12 submitted content is missing", device.wait(Until.hasObject(By.text(submitTargetTitle)), 20_000))
+        captureStable("08-my-contents.png")
+        assertNoForbiddenVisibleText()
+
+        scrollUntilText("审核记录")
+        clickExactText("审核记录")
+        assertTrue(
+            "R12 review history did not become visible",
+            waitForScreen("hhy.screen.r12.content-reviews", gone = "hhy.screen.r12.my-contents"),
+        )
+        assertTrue("R12 review history missed its content", device.wait(Until.hasObject(By.text(submitTargetTitle)), 20_000))
+        captureStable("09-content-reviews.png")
+        assertNoForbiddenVisibleText()
+
+        device.pressBack()
+        assertTrue("R12 review history did not return to my contents", waitForScreen("hhy.screen.r12.my-contents"))
+        scrollUntilText("内容数据")
+        clickExactText("内容数据")
+        assertTrue(
+            "R12 content analytics did not become visible",
+            waitForScreen("hhy.screen.r12.content-analytics", gone = "hhy.screen.r12.my-contents"),
+        )
+        assertTrue("R12 content analytics missed its content", device.wait(Until.hasObject(By.text(submitTargetTitle)), 20_000))
+        captureStable("10-content-analytics.png")
+        assertNoForbiddenVisibleText()
+        assertR12BusinessLabels()
         assertNoForbiddenVisibleText()
     }
 
@@ -124,6 +199,14 @@ class ReleaseCandidateSmokeTest {
     private fun clickExactText(value: String) {
         val node = device.wait(Until.findObject(By.text(value)), 15_000)
             ?: error("Cannot find UI element: $value")
+        node.click()
+        device.waitForIdle(2_000)
+    }
+
+    private fun clickLastExactText(value: String) {
+        val node = device.wait(Until.findObjects(By.text(value)), 15_000)
+            .lastOrNull { it.isEnabled }
+            ?: error("Cannot find enabled UI element: $value")
         node.click()
         device.waitForIdle(2_000)
     }
@@ -259,9 +342,9 @@ class ReleaseCandidateSmokeTest {
         assertFalse("Journey exposed TraceId", device.hasObject(By.textContains("TraceId")))
     }
 
-    private fun assertR11BusinessLabels() {
-        listOf("TEAM_LEADER", "WECHAT", "PHONE", "QQ", "EMAIL").forEach { technicalValue ->
-            assertFalse("R11 exposed technical business code: $technicalValue", device.hasObject(By.text(technicalValue)))
+    private fun assertR12BusinessLabels() {
+        listOf("PROJECT", "APP", "GROUP_CHAT", "TEAM_LEADER", "WECHAT", "PHONE", "QQ", "EMAIL").forEach { technicalValue ->
+            assertFalse("R12 exposed technical business code: $technicalValue", device.hasObject(By.text(technicalValue)))
         }
     }
 
