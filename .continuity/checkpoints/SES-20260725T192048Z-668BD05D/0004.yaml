@@ -1,0 +1,228 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260725T192048Z-668BD05D-0004
+session_id: SES-20260725T192048Z-668BD05D
+task_id: TASK-R12-007
+story_id: STORY-R12-008
+sequence: 4
+created_at: '2026-07-25T21:12:52Z'
+summary: R12 attempt 2候选请求已递增，CR-0340精确后端镜像已部署并通过公网路由与安全日志验证
+next_step: 提交并推送R12-CANDIDATE-20260726-002，监控唯一GitHub候选并依据新后端原始错误类型或十页证据继续处理
+blockers: []
+decisions: []
+note: ''
+tests:
+- name: r12-candidate-contract
+  result: PASS
+  evidence: 29 unittest tests
+  note: R12 request, CI gate and candidate parser pass
+- name: backend-image
+  result: PASS
+  evidence: obx-test:hhy-backend-r12-candidate:d2244cf5 sha256:2bb8c5348d1e2cefa0eeafa124e84c942d8f5c6da623c024a19a55e4041ade99
+  note: image label commit d2244cf55481a8aed9996d82402317df4455792a
+- name: candidate-public-route
+  result: PASS
+  evidence: api.orbexa.cc -> 127.0.0.1:28098 -> hhy-r12-ci-candidate-d2244cf5
+  note: new container healthy and old container received no probe
+- name: structured-log-runtime
+  result: PASS
+  evidence: requestId 6cd0b03d-1f43-4c3e-bfa7-818ea8e6f171
+  note: errorType BadJwtException with no duplicate requestId error
+- name: git-diff-check
+  result: PASS
+  evidence: git diff --check
+  note: no whitespace errors
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: d2244cf55481a8aed9996d82402317df4455792a
+  upstream: origin/task/TASK-R03-001
+  ahead: 0
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - ' M CHANGELOG.md'
+  - ' M config/android-candidate-request.yaml'
+  - ' M tests/test_r12_candidate.py'
+  recent_commits:
+  - "d2244cf55481a8aed9996d82402317df4455792a\t2026-07-26T05:03:22+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] fix(r12): preserve OIDC failure\
+    \ observability"
+  - "f6d53d0b67f5eba6381303b3927dc1eea971a859\t2026-07-26T04:27:02+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] test(r12): prepare final Android\
+    \ candidate"
+  - "8b20e881c6a72fc1e1deb11e86f3212e36ea7941\t2026-07-26T03:19:13+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] chore(continuity): close TASK-R12-006\
+    \ as completed"
+  - "17d6ee9acce9b46df63399a5bf3d4a944c8976b6\t2026-07-26T03:15:52+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] chore(r12): close staging\
+    \ acceptance changes"
+  - "6abb78314402cfd5811480742341d487a6139cdb\t2026-07-26T03:09:49+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] docs(r12): freeze staging\
+    \ acceptance evidence"
+  - "4365e1c790e3792812cfd62bb415e1075eb00149\t2026-07-26T02:54:07+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] fix(r12): validate Flyway\
+    \ V041 output"
+  - "3205187edfec06e5055312a228f4f51ca55db9c4\t2026-07-26T02:46:04+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] fix(r12): isolate staging\
+    \ subnet"
+  - "c4f2b8a2899130a81ea76ca8b5a87c016f56b28d\t2026-07-26T02:29:43+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] feat(r12): add publishing\
+    \ observability staging gate"
+project_fingerprint:
+  sha256: b5e0e8bf50ca7d53d14e1ece4096dc562057109af98ffaa05517249bdf1c1641
+  files:
+  - CHANGELOG.md
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+  - apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+  - apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+  - config/android-candidate-request.yaml
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/change-requests/CR-0339-补齐R12统一发布Android最终候选与产物追溯.md
+  - docs/03-continuity/change-requests/CR-0340-修复R12候选OIDC异常日志重复requestId遮蔽.md
+  - scripts/prepare_r12_ci_fixture.sh
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/web/GlobalExceptionHandler.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/web/GlobalExceptionHandlerTest.java
+  - tests/android/visual-manifests/R12.yaml
+  - tests/test_android_ci_gate.py
+  - tests/test_r12_candidate.py
+  file_count: 15
+  payload:
+    base_commit: 8b20e881c6a72fc1e1deb11e86f3212e36ea7941
+    files:
+    - path: CHANGELOG.md
+      state: FILE
+      size: 143859
+      sha256: cba357d62ee5430e4df5dd42437536d9bb14628d70c79e6dcbfb0cb57e19e70e
+    - path: apps/android/app/build.gradle.kts
+      state: FILE
+      size: 5357
+      sha256: 6eaea2a1f69e0acd22749b09f491eb40ec9e878e056d5cfa299da8a426286426
+    - path: apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+      state: FILE
+      size: 16015
+      sha256: c21763bfea24f1c0aa27a5d51c2de05acd0c04974633749e9b3bb21fdbbdac67
+    - path: apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+      state: FILE
+      size: 520
+      sha256: a1df9d94f5723f39de171fbbee51bd038641e3981697af4cea179156cf05414e
+    - path: apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+      state: FILE
+      size: 1243
+      sha256: ddf37d314b022daf3b33adcf549c7289e7b39f45aee95088c94303eaf3d9ce00
+    - path: config/android-candidate-request.yaml
+      state: FILE
+      size: 411
+      sha256: 14afa02eead064c81c3e86fb3038abde26302237cfd76cf3d205826e95279c74
+    - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
+      state: FILE
+      size: 160918
+      sha256: f87d2b8c34c29fe8a06fc846d5c278389bb626f7c2c6d4197cb970ae01f67bea
+    - path: docs/03-continuity/change-requests/CR-0339-补齐R12统一发布Android最终候选与产物追溯.md
+      state: FILE
+      size: 3675
+      sha256: fbcccbee6f0f67d3178e52e694d2e27ee7ae5e2c27881ba42c53d2aaca7a9e76
+    - path: docs/03-continuity/change-requests/CR-0340-修复R12候选OIDC异常日志重复requestId遮蔽.md
+      state: FILE
+      size: 3643
+      sha256: e36ceb50b8f45a22fffdb20fc599d5972c184170c9619290706b6c40da8aad6f
+    - path: scripts/prepare_r12_ci_fixture.sh
+      state: FILE
+      size: 20242
+      sha256: fc50545618f570af4e56fd0d97d99337705dd35291c110c392d042b05f32c676
+    - path: services/backend/boot/src/main/java/cc/orbexa/hhy/boot/web/GlobalExceptionHandler.java
+      state: FILE
+      size: 4776
+      sha256: 9b8fc37b04ccd7261922303a95f4feed4cd71d1e6614189c6e37690ecd3ad14f
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/boot/web/GlobalExceptionHandlerTest.java
+      state: FILE
+      size: 3692
+      sha256: 7f12a056f4ccc790c42793c361e489a9cafc1ef0c04061be151efeb1af11f8f6
+    - path: tests/android/visual-manifests/R12.yaml
+      state: FILE
+      size: 3460
+      sha256: d47a214545dc973e7bca32257b647ea558e53c515e04218d07d01c9c2e76ac1b
+    - path: tests/test_android_ci_gate.py
+      state: FILE
+      size: 33146
+      sha256: 53110cadb86540e5d59c5b012b86dfd0dd6b706bba7b61c219964878e271396b
+    - path: tests/test_r12_candidate.py
+      state: FILE
+      size: 7598
+      sha256: eda0ecdc1dea439e1d2f9d7c50cf87d4a62d751fde9a053018eb0559656821da
+change_classification:
+  other:
+  - CHANGELOG.md
+  - config/android-candidate-request.yaml
+  code:
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+  - apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+  - apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+  - scripts/prepare_r12_ci_fixture.sh
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/web/GlobalExceptionHandler.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/web/GlobalExceptionHandlerTest.java
+  user_visible:
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+  - apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+  - apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+  continuity:
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/change-requests/CR-0339-补齐R12统一发布Android最终候选与产物追溯.md
+  - docs/03-continuity/change-requests/CR-0340-修复R12候选OIDC异常日志重复requestId遮蔽.md
+  tests:
+  - tests/android/visual-manifests/R12.yaml
+  - tests/test_android_ci_gate.py
+  - tests/test_r12_candidate.py
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+- CHANGELOG
+change_requests:
+- CR-0339
+- CR-0340
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions:
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/web/GlobalExceptionHandler.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/web/GlobalExceptionHandlerTest.java
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  source: story+explicit+approved-cr:CR-0340
+parallel_execution:
+  assessment: DELEGATED
+  delegated_workers: 1
+  workers:
+  - worker_id: profile_contract_review
+    responsibility: 独立复核并批准CR-0340范围
+    allowed_paths:
+    - .continuity/change_requests/CR-0340.yaml
+    - docs/03-continuity/change-requests/CR-0340-修复R12候选OIDC异常日志重复requestId遮蔽.md
+  reason: attempt 2请求、精确后端部署和唯一候选触发相互依赖，由主控串行集成
+event_hash: 2f9ad5fbc14eec2da3b0a967c07ae5b67bcc58bd20a0edeef09c826830dbea93

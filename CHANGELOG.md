@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## R12 Android 最终候选 attempt 2 · 2026-07-26
+
+- Run `30173649942` 的 Android Build 已成功，但 Emulator Job `89719831962` 在模拟器旅程启动前请求 CI bootstrap 时返回 500；未产生 R12 页面截图，也未消耗视觉审核结果。
+- CR-0340 修复 `GlobalExceptionHandler` 同时从 MDC 与 SLF4J keyValue 写入 `requestId` 导致原始 OIDC 异常被结构化日志错误遮蔽的问题；`obx-test` Java 21 双路径回归 2 项全部通过。
+- 精确 Commit `d2244cf5` 的后端镜像 `sha256:2bb8c5348d1e2cefa0eeafa124e84c942d8f5c6da623c024a19a55e4041ade99` 已部署为 R12 专用候选，公网请求只进入新容器；安全伪令牌实测记录 `errorType=BadJwtException`，未再出现重复字段错误。
+- 候选请求递增为 `R12-CANDIDATE-20260726-002` / attempt 2；继续复用 versionCode `10221`、R12 专用 Flyway V041 夹具和十页唯一旅程，截图仍由 AI 自主逐页审核。
+
 ## R12 六项专项测试与故障证据闭环 · 2026-07-26
 
 - `TST-CONTENT_002-*` 与 `TST-PUBLISH_001-*` 六个既有测试 ID 全部升级为可机检 `AUTOMATED`，通过 `tests/r12` 适配器和唯一中央矩阵绑定真实 Java、PostgreSQL 与 Android 测试，不建立平行测试清单。
