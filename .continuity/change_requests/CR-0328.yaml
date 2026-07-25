@@ -1,9 +1,9 @@
 protocol_version: '1.0'
 cr_id: CR-0328
 title: 实现R12发布中心与真实内容预览纵向闭环
-status: IMPLEMENTING
+status: IMPLEMENTED
 created_at: '2026-07-25T10:24:47Z'
-updated_at: '2026-07-25T10:38:51Z'
+updated_at: '2026-07-25T10:53:56Z'
 requester_actor_id: codex-root-r12-client-20260725
 approver_actor_id: codex-r12-publish-contract-reviewer-20260725
 task_id: TASK-R12-004
@@ -54,5 +54,12 @@ decision_log:
   status: IMPLEMENTING
   note: 发布中心、预览、typed Navigation与状态单测已落盘，进入obx-test Android MODULE验证。
   session_id: SES-20260725T053515Z-11D4084D
+- at: '2026-07-25T10:53:56Z'
+  actor_id: codex-root-r12-client-20260725
+  status: IMPLEMENTED
+  note: 发布中心、真实内容预览、typed Navigation、四类编辑保存回接、内容管理预览入口及19项模块单测已完成；obx-test 225任务、双模块Lint和App编译PASS。
+  session_id: SES-20260725T053515Z-11D4084D
 session_ids:
 - SES-20260725T053515Z-11D4084D
+implementation_commits:
+- 7c5fcfd22780f8b6b415f177aa33500e9fbb47d1
