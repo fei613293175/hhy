@@ -1,7 +1,7 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-25T14:52:46Z
-- Context Hash：`65860f488418b04c7cf2194a155b10c2266728ac2f9be7f43bfb7c644df329d7`
+- 生成时间：2026-07-25T15:00:04Z
+- Context Hash：`331ca343244f99292ac62048f0ff2dc71ec76f6ff27710ca35a9800aec68b98b`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 规则就绪：`PASS`（`HASHED_CONTEXT_MANIFEST`）
@@ -161,7 +161,7 @@ blocked_tasks:
 - TASK-R06-008
 - TASK-R07-008
 next_task: TASK-R12-004
-updated_at: '2026-07-25T14:52:43Z'
+updated_at: '2026-07-25T15:00:00Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -195,16 +195,16 @@ continuity:
   mode: ENFORCED
   active_session_id: SES-20260725T053515Z-11D4084D
   actor_id: codex-root-r12-client-20260725
-  story_id: STORY-R12-006
-  lease_expires_at: '2026-07-25T18:52:43Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260725T053515Z-11D4084D/0029.yaml
+  story_id: STORY-R12-007
+  lease_expires_at: '2026-07-25T19:00:00Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260725T053515Z-11D4084D/0030.yaml
   project_fingerprint: 590e1c37e54b21a1a34e1380401f762fb8ed6934a6ce8b3f08089bae22c58c93
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: 8e646311d04340613dfdaa0e218f94fab21783b31dcd0d8ad6fb28fe9d32e100
-    generated_at: '2026-07-25T14:36:42Z'
+    context_hash: bd153a7e078511eadee5aa645ee55b63601389db6dd0b4fc3c51fec8e4b5e748
+    generated_at: '2026-07-25T14:58:35Z'
   handoff_bundle: null
 ```
 
@@ -403,10 +403,10 @@ actor:
   host: unknown
 release: R12
 task_id: TASK-R12-004
-story_id: STORY-R12-006
-goal: 按SCR-ME-002 MOB-FORM和冻结userGetMe/userPatchMeProfile实现头像、昵称、简介真实个人资料流程，含expectedVersion、稳定幂等、媒体选择与错误恢复。
+story_id: STORY-R12-007
+goal: 实现SCR-ME-001账号、会员、收益与功能入口真实聚合闭环。
 started_at: '2026-07-25T05:35:15Z'
-updated_at: '2026-07-25T14:52:43Z'
+updated_at: '2026-07-25T15:00:00Z'
 takeover_of: null
 change_requests:
 - CR-0319
@@ -435,6 +435,7 @@ scope:
   - releases/**
   - design/**
   - scripts/**
+  - STORY-R12-007冻结页面、API、视觉合同及其必要客户端测试范围。
   - CHANGELOG.md
   approved_exceptions:
   - catalogs/admin_pages.csv
@@ -464,40 +465,7 @@ scope:
   - apps/admin-web/src/adminNavigation.test.ts
   - apps/admin-web/src/routerPermissions.test.ts
   - apps/admin-web/src/styles.css
-  - contracts/openapi.yaml
-  - contracts/admin-openapi.yaml
-  - services/backend/boot/src/main/resources/contracts/openapi.yaml
-  - services/backend/boot/src/main/resources/contracts/admin-openapi.yaml
-  - contracts/contract_status.csv
-  - catalogs/ui_page_fields.csv
-  - docs/02-ui/page-specs/android/SCR-AUTH-005_账号冻结.md
-  - docs/02-ui/page-specs/android/SCR-ID-001_实名认证首页.md
-  - docs/02-ui/page-specs/android/SCR-ME-001_我的首页.md
-  - docs/02-ui/page-specs/android/SCR-ME-002_个人资料.md
-  - docs/02-ui/page-specs/android/SCR-PUB-001_发布入口.md
-  - docs/02-ui/page-specs/android/SCR-PUBLISHER-001_发布者主页.md
-  - docs/02-ui/page-specs/android/SCR-SET-001_设置.md
-  - docs/02-ui/page-specs/admin/ADM-USER-001_用户列表.md
-  - docs/02-ui/page-specs/admin/ADM-USER-002_用户详情.md
-  - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/R12ProfileContracts.java
-  - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/R12ProfileService.java
-  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/R12ProfileServiceTest.java
-  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/R12AccountControllerContractTest.java
-  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R07ServiceTest.java
-  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR12ProfileApi.kt
-  - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ContractR12ProfileApiTest.kt
-  - apps/android/feature/media/src/main/java/cc/orbexa/hhy/media/MediaUploadSheet.kt
-  - apps/android/feature/media/src/test/java/cc/orbexa/hhy/media/MediaUploadSheetTest.kt
-  - apps/android/feature/shell/build.gradle.kts
-  - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
-  - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/R12ProfileState.kt
-  - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/R12ProfileScreen.kt
-  - apps/android/feature/shell/src/test/java/cc/orbexa/hhy/shell/R12ProfileStateTest.kt
-  - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
-  - apps/android/app/src/test/java/cc/orbexa/hhy/NavigationPolicyTest.kt
-  - catalogs/ui_visual_acceptance.csv
-  - CHANGELOG.md
-  source: story-switch+explicit+approved-cr:CR-0319+approved-cr:CR-0320+approved-cr:CR-0330
+  source: story-switch+explicit+approved-cr:CR-0319+approved-cr:CR-0320
 git:
   initialized: true
   branch: task/TASK-R03-001
@@ -507,12 +475,12 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-25T14:52:43Z'
-  expires_at: '2026-07-25T18:52:43Z'
-checkpoint_sequence: 29
-latest_checkpoint: .continuity/checkpoints/SES-20260725T053515Z-11D4084D/0029.yaml
+  renewed_at: '2026-07-25T15:00:00Z'
+  expires_at: '2026-07-25T19:00:00Z'
+checkpoint_sequence: 30
+latest_checkpoint: .continuity/checkpoints/SES-20260725T053515Z-11D4084D/0030.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260725T053515Z-11D4084D.md
-next_step: 审计CR-0330精确范围与连续性门禁，提交并推送STORY-R12-006后原子切换到STORY-R12-007。
+next_step: 提交并推送Story切换证据，读取SCR-ME-001页面、字段、状态、动作、三项API与精确视觉合同，评估现有实现差距并创建必要CR。
 context_pack: THIS_CONTEXT_PACK
 handoff_bundle: null
 closure: null
@@ -520,7 +488,7 @@ parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 批准范围已经由两名独立复核者审计；本阶段仅在共享事实分支修正一个Kotlin文件并绑定最终证据，继续拆分会制造同一检查点和CR状态竞争。
+  reason: 原子Story切换、历史范围恢复与检查点写入属于单一连续性事实操作，禁止并发修改。
 story_history:
 - story_id: STORY-R12-001
   completed_at: '2026-07-25T07:44:07Z'
@@ -547,118 +515,56 @@ story_history:
   checkpoint_id: CP-SES-20260725T053515Z-11D4084D-0026
   commit: 7155dbff25fbc38cb397ce96bd71bf612b7d89d3
   summary: STORY-R12-005稳定幂等提交与SCR-PUB-007闭环已完成并推送，切换到个人资料。
+- story_id: STORY-R12-006
+  completed_at: '2026-07-25T14:58:27Z'
+  checkpoint_id: CP-SES-20260725T053515Z-11D4084D-0029
+  commit: 7792d4321f284c0660f185878d2be70a60a3ecfc
+  summary: STORY-R12-006个人资料闭环已实现、MODULE通过并以7792d432推送；按R12顺序继续我的首页。
 ```
 
 ## 最新检查点
 
 ```yaml
 protocol_version: '1.0'
-checkpoint_id: CP-SES-20260725T053515Z-11D4084D-0029
+checkpoint_id: CP-SES-20260725T053515Z-11D4084D-0030
 session_id: SES-20260725T053515Z-11D4084D
 task_id: TASK-R12-004
-story_id: STORY-R12-006
-sequence: 29
-created_at: '2026-07-25T14:52:43Z'
-summary: 完成CR-0330：统一个人资料255 Unicode code-point合同并实现SCR-ME-002后端与Android纵向闭环，修复跨模块Kotlin编译问题，CR状态已转IMPLEMENTED。
-next_step: 审计CR-0330精确范围与连续性门禁，提交并推送STORY-R12-006后原子切换到STORY-R12-007。
+story_id: STORY-R12-007
+sequence: 30
+created_at: '2026-07-25T14:59:59Z'
+summary: STORY-R12-006完成后原子切换到STORY-R12-007我的首页，并恢复同一长会话CR-0319/CR-0320已批准后台历史范围。
+next_step: 提交并推送Story切换证据，读取SCR-ME-001页面、字段、状态、动作、三项API与精确视觉合同，评估现有实现差距并创建必要CR。
 blockers: []
-decisions:
-- Android和后端MODULE继续固定使用obx-test现有JDK21与Android容器；本机不安装Java、Android Studio或SDK。
+decisions: []
 note: ''
 tests:
-- name: backend-profile-module
-  result: PASS
-  evidence: obx-test:/tmp/hhy-r12-profile006-20260725-cp0030/backend-module-r3.log sha256=651e304d6ea407410105fbbe9384164772ec1f82d5550480d148bfa5c888f832
-  note: JDK21 Maven 25 tests 0 failures
-- name: android-profile-module
-  result: PASS
-  evidence: obx-test:/tmp/hhy-r12-profile006-20260725-cp0030/android-module-r2.log sha256=687059cbc8e64f823aaa31bfa1701bb24b998f3c201aed5ea25bd2bcbb32cf61
-  note: fixed container 75 tests 0 failures; four lint targets and app compile; 542 tasks
-- name: api-contract
-  result: PASS
-  evidence: scripts/check_api_contract.py
-  note: client=131 admin=184 websocket=10 runtime hashes PASS
-- name: runtime-assets
-  result: PASS
-  evidence: scripts/sync_runtime_assets.py --check
-  note: 45 assets unchanged
-- name: android-ui-foundation
-  result: PASS
-  evidence: scripts/check_android_ui_foundation.py
-  note: global gate PASS
-- name: commercial-ui-boundary
-  result: PASS
-  evidence: scripts/check_commercial_ui_boundaries.py
-  note: 68 sources PASS
-- name: ui-tokens
-  result: PASS
-  evidence: scripts/check_ui_tokens.py
-  note: 52 token checks PASS
-- name: git-diff-check
-  result: PASS
-  evidence: git diff --check
-  note: only existing CRLF notice
+- name: 本阶段未执行测试
+  result: NOT_RUN
+  evidence: ''
+  note: 仅切换同一TASK内Story、恢复已批准历史范围并刷新连续性元数据，未改变项目实现。
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: e8fbdf16d72da6745bda5d34c15cc1fcc2205140
+  head: 7792d4321f284c0660f185878d2be70a60a3ecfc
   upstream: origin/task/TASK-R03-001
-  ahead: 1
+  ahead: 0
   behind: 0
   dirty: true
   status_porcelain:
   - ' M .continuity/ACTIVE_SESSION.yaml'
-  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
   - ' M .continuity/EVENT_LOG.jsonl'
   - ' M .continuity/SESSION_INDEX.yaml'
   - ' M .continuity/STATE.yaml'
+  - ' M .continuity/TASK_CLAIMS.yaml'
   - ' M .continuity/sessions/SES-20260725T053515Z-11D4084D.yaml'
-  - ' M CHANGELOG.md'
   - ' M CURRENT_STATUS.yaml'
-  - ' M apps/android/app/src/androidTest/java/cc/orbexa/hhy/HistoricalVisualAuditTest.kt'
-  - ' M apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt'
-  - ' M apps/android/app/src/test/java/cc/orbexa/hhy/NavigationPolicyTest.kt'
-  - ' M apps/android/feature/content-management/src/main/java/cc/orbexa/hhy/contentmanagement/R12PublishScreens.kt'
-  - ' M apps/android/feature/media/src/main/java/cc/orbexa/hhy/media/MediaUploadSheet.kt'
-  - ' M apps/android/feature/media/src/test/java/cc/orbexa/hhy/media/MediaUploadSheetTest.kt'
-  - ' M apps/android/feature/shell/build.gradle.kts'
-  - ' M apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt'
   - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
   - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
   - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
-  - ' M catalogs/change_request_index.csv'
   - ' M catalogs/session_index.csv'
-  - ' M catalogs/ui_page_fields.csv'
-  - ' M catalogs/ui_visual_acceptance.csv'
-  - ' M contracts/admin-openapi.yaml'
-  - ' M contracts/contract_status.csv'
-  - ' M contracts/openapi.yaml'
-  - ' M docs/02-ui/page-specs/admin/ADM-USER-001_用户列表.md'
-  - ' M docs/02-ui/page-specs/admin/ADM-USER-002_用户详情.md'
-  - ' M docs/02-ui/page-specs/android/SCR-AUTH-005_账号冻结.md'
-  - ' M docs/02-ui/page-specs/android/SCR-ID-001_实名认证首页.md'
-  - ' M docs/02-ui/page-specs/android/SCR-ME-001_我的首页.md'
-  - ' M docs/02-ui/page-specs/android/SCR-ME-002_个人资料.md'
-  - ' M docs/02-ui/page-specs/android/SCR-PUB-001_发布入口.md'
-  - ' M docs/02-ui/page-specs/android/SCR-PUBLISHER-001_发布者主页.md'
-  - ' M docs/02-ui/page-specs/android/SCR-SET-001_设置.md'
-  - ' M docs/03-continuity/sessions/2026-07/SES-20260725T053515Z-11D4084D.md'
-  - ' M services/backend/access/src/main/java/cc/orbexa/hhy/access/user/R12ProfileContracts.java'
-  - ' M services/backend/access/src/main/java/cc/orbexa/hhy/access/user/R12ProfileService.java'
-  - ' M services/backend/boot/src/main/resources/contracts/admin-openapi.yaml'
-  - ' M services/backend/boot/src/main/resources/contracts/openapi.yaml'
-  - ' M services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/R12ProfileServiceTest.java'
-  - ' M services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/R12AccountControllerContractTest.java'
-  - ' M services/backend/boot/src/test/java/cc/orbexa/hhy/content/R07ServiceTest.java'
-  - ?? .continuity/change_requests/CR-0330.yaml
-  - ?? .continuity/checkpoints/SES-20260725T053515Z-11D4084D/0028.yaml
-  - ?? apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR12ProfileApi.kt
-  - ?? apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ContractR12ProfileApiTest.kt
-  - ?? apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/R12ProfileScreen.kt
-  - ?? apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/R12ProfileState.kt
-  - ?? apps/android/feature/shell/src/test/java/cc/orbexa/hhy/shell/R12ProfileStateTest.kt
-  - ?? docs/03-continuity/change-requests/CR-0330-统一R12个人资料255字符合同并实现SCR-ME-002客户端闭环.md
   recent_commits:
+  - "7792d4321f284c0660f185878d2be70a60a3ecfc\t2026-07-25T22:55:59+08:00\tHHY Continuity Bootstrap\t[STORY-R12-006] feat(profile): implement personal\
+    \ profile flow"
   - "e8fbdf16d72da6745bda5d34c15cc1fcc2205140\t2026-07-25T20:28:11+08:00\tHHY Continuity Bootstrap\t[STORY-R12-006] chore(continuity): enter profile\
     \ story"
   - "7155dbff25fbc38cb397ce96bd71bf612b7d89d3\t2026-07-25T20:20:32+08:00\tHHY Continuity Bootstrap\t[STORY-R12-005] chore(continuity): bind submit\
@@ -673,8 +579,6 @@ git:
     \ publish result story"
   - "0f5e87bc53f56c2e15efb20cdaaf945a5fe8755a\t2026-07-25T18:57:23+08:00\tHHY Continuity Bootstrap\t[STORY-R12-005] chore(continuity): enter publish\
     \ result story"
-  - "43d55108ea1b86efcc887c17a7f8c2c7f05ba88e\t2026-07-25T18:54:42+08:00\tHHY Continuity Bootstrap\t[STORY-R12-004] chore(continuity): bind publish\
-    \ preview evidence"
 project_fingerprint:
   sha256: 590e1c37e54b21a1a34e1380401f762fb8ed6934a6ce8b3f08089bae22c58c93
   files:
@@ -1374,6 +1278,7 @@ scope:
   - releases/**
   - design/**
   - scripts/**
+  - STORY-R12-007冻结页面、API、视觉合同及其必要客户端测试范围。
   - CHANGELOG.md
   approved_exceptions:
   - catalogs/admin_pages.csv
@@ -1403,46 +1308,13 @@ scope:
   - apps/admin-web/src/adminNavigation.test.ts
   - apps/admin-web/src/routerPermissions.test.ts
   - apps/admin-web/src/styles.css
-  - contracts/openapi.yaml
-  - contracts/admin-openapi.yaml
-  - services/backend/boot/src/main/resources/contracts/openapi.yaml
-  - services/backend/boot/src/main/resources/contracts/admin-openapi.yaml
-  - contracts/contract_status.csv
-  - catalogs/ui_page_fields.csv
-  - docs/02-ui/page-specs/android/SCR-AUTH-005_账号冻结.md
-  - docs/02-ui/page-specs/android/SCR-ID-001_实名认证首页.md
-  - docs/02-ui/page-specs/android/SCR-ME-001_我的首页.md
-  - docs/02-ui/page-specs/android/SCR-ME-002_个人资料.md
-  - docs/02-ui/page-specs/android/SCR-PUB-001_发布入口.md
-  - docs/02-ui/page-specs/android/SCR-PUBLISHER-001_发布者主页.md
-  - docs/02-ui/page-specs/android/SCR-SET-001_设置.md
-  - docs/02-ui/page-specs/admin/ADM-USER-001_用户列表.md
-  - docs/02-ui/page-specs/admin/ADM-USER-002_用户详情.md
-  - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/R12ProfileContracts.java
-  - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/R12ProfileService.java
-  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/R12ProfileServiceTest.java
-  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/R12AccountControllerContractTest.java
-  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R07ServiceTest.java
-  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR12ProfileApi.kt
-  - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ContractR12ProfileApiTest.kt
-  - apps/android/feature/media/src/main/java/cc/orbexa/hhy/media/MediaUploadSheet.kt
-  - apps/android/feature/media/src/test/java/cc/orbexa/hhy/media/MediaUploadSheetTest.kt
-  - apps/android/feature/shell/build.gradle.kts
-  - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
-  - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/R12ProfileState.kt
-  - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/R12ProfileScreen.kt
-  - apps/android/feature/shell/src/test/java/cc/orbexa/hhy/shell/R12ProfileStateTest.kt
-  - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
-  - apps/android/app/src/test/java/cc/orbexa/hhy/NavigationPolicyTest.kt
-  - catalogs/ui_visual_acceptance.csv
-  - CHANGELOG.md
-  source: story-switch+explicit+approved-cr:CR-0319+approved-cr:CR-0320+approved-cr:CR-0330
+  source: story-switch+explicit+approved-cr:CR-0319+approved-cr:CR-0320
 parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 批准范围已经由两名独立复核者审计；本阶段仅在共享事实分支修正一个Kotlin文件并绑定最终证据，继续拆分会制造同一检查点和CR状态竞争。
-event_hash: d60c24ed9ea103ce792790a5da4843dc3d54a94106ef9995bc6cae26055b7dab
+  reason: 原子Story切换、历史范围恢复与检查点写入属于单一连续性事实操作，禁止并发修改。
+event_hash: 35afe02e2dc57d9a45a05bc95d297612c71dec01419ff06030f906f31d327486
 ```
 
 ## 接续状态与事件头
@@ -1454,8 +1326,8 @@ active_session_id: SES-20260725T053515Z-11D4084D
 last_session_id: SES-20260725T025042Z-A53070A0
 last_session_result: COMPLETED
 last_closure_checkpoint_id: CP-SES-20260725T025042Z-A53070A0-0005
-event_count: 3219
-event_head_hash: d60c24ed9ea103ce792790a5da4843dc3d54a94106ef9995bc6cae26055b7dab
+event_count: 3223
+event_head_hash: 35afe02e2dc57d9a45a05bc95d297612c71dec01419ff06030f906f31d327486
 event_chain_valid: true
 ```
 
@@ -1572,15 +1444,15 @@ recent_sessions: - session_id: SES-20260723T183130Z-454A6E0D
   handoff_bundle: null
 - session_id: SES-20260725T053515Z-11D4084D
   task_id: TASK-R12-004
-  story_id: STORY-R12-006
+  story_id: STORY-R12-007
   actor_id: codex-root-r12-client-20260725
   status: ACTIVE
   started_at: '2026-07-25T05:35:15Z'
   record: .continuity/sessions/SES-20260725T053515Z-11D4084D.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260725T053515Z-11D4084D.md
-  updated_at: '2026-07-25T14:52:43Z'
+  updated_at: '2026-07-25T15:00:00Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260725T053515Z-11D4084D/0029.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260725T053515Z-11D4084D/0030.yaml
   handoff_bundle: null
 task_claims: - claim_id: CLM-DA66E38CEAE0
   session_id: SES-20260723T045352Z-FC8DC2CF
@@ -2330,7 +2202,7 @@ task_claims: - claim_id: CLM-DA66E38CEAE0
 - claim_id: CLM-4615E14A5D2B
   session_id: SES-20260725T053515Z-11D4084D
   task_id: TASK-R12-004
-  story_id: STORY-R12-006
+  story_id: STORY-R12-007
   actor_id: codex-root-r12-client-20260725
   status: ACTIVE
   claimed_at: '2026-07-25T05:35:15Z'
@@ -2347,8 +2219,9 @@ task_claims: - claim_id: CLM-DA66E38CEAE0
   - releases/**
   - design/**
   - scripts/**
+  - STORY-R12-007冻结页面、API、视觉合同及其必要客户端测试范围。
   - CHANGELOG.md
-  updated_at: '2026-07-25T12:24:12Z'
+  updated_at: '2026-07-25T14:58:27Z'
 recent_task_transitions: - transition_id: TRN-E6B4E3D44A16
   timestamp: '2026-07-23T04:53:54Z'
   release: R10
@@ -2556,65 +2429,28 @@ recent_task_transitions: - transition_id: TRN-E6B4E3D44A16
 ```yaml
 initialized: true
 branch: task/TASK-R03-001
-head: e8fbdf16d72da6745bda5d34c15cc1fcc2205140
+head: 7792d4321f284c0660f185878d2be70a60a3ecfc
 upstream: origin/task/TASK-R03-001
-ahead: 1
+ahead: 0
 behind: 0
 dirty: true
 status_porcelain:
 - ' M .continuity/ACTIVE_SESSION.yaml'
-- ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
 - ' M .continuity/EVENT_LOG.jsonl'
 - ' M .continuity/SESSION_INDEX.yaml'
 - ' M .continuity/STATE.yaml'
+- ' M .continuity/TASK_CLAIMS.yaml'
 - ' M .continuity/sessions/SES-20260725T053515Z-11D4084D.yaml'
-- ' M CHANGELOG.md'
 - ' M CURRENT_STATUS.yaml'
-- ' M apps/android/app/src/androidTest/java/cc/orbexa/hhy/HistoricalVisualAuditTest.kt'
-- ' M apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt'
-- ' M apps/android/app/src/test/java/cc/orbexa/hhy/NavigationPolicyTest.kt'
-- ' M apps/android/feature/content-management/src/main/java/cc/orbexa/hhy/contentmanagement/R12PublishScreens.kt'
-- ' M apps/android/feature/media/src/main/java/cc/orbexa/hhy/media/MediaUploadSheet.kt'
-- ' M apps/android/feature/media/src/test/java/cc/orbexa/hhy/media/MediaUploadSheetTest.kt'
-- ' M apps/android/feature/shell/build.gradle.kts'
-- ' M apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt'
 - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
 - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
 - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
-- ' M catalogs/change_request_index.csv'
 - ' M catalogs/session_index.csv'
-- ' M catalogs/ui_page_fields.csv'
-- ' M catalogs/ui_visual_acceptance.csv'
-- ' M contracts/admin-openapi.yaml'
-- ' M contracts/contract_status.csv'
-- ' M contracts/openapi.yaml'
-- ' M docs/02-ui/page-specs/admin/ADM-USER-001_用户列表.md'
-- ' M docs/02-ui/page-specs/admin/ADM-USER-002_用户详情.md'
-- ' M docs/02-ui/page-specs/android/SCR-AUTH-005_账号冻结.md'
-- ' M docs/02-ui/page-specs/android/SCR-ID-001_实名认证首页.md'
-- ' M docs/02-ui/page-specs/android/SCR-ME-001_我的首页.md'
-- ' M docs/02-ui/page-specs/android/SCR-ME-002_个人资料.md'
-- ' M docs/02-ui/page-specs/android/SCR-PUB-001_发布入口.md'
-- ' M docs/02-ui/page-specs/android/SCR-PUBLISHER-001_发布者主页.md'
-- ' M docs/02-ui/page-specs/android/SCR-SET-001_设置.md'
 - ' M docs/03-continuity/sessions/2026-07/SES-20260725T053515Z-11D4084D.md'
-- ' M services/backend/access/src/main/java/cc/orbexa/hhy/access/user/R12ProfileContracts.java'
-- ' M services/backend/access/src/main/java/cc/orbexa/hhy/access/user/R12ProfileService.java'
-- ' M services/backend/boot/src/main/resources/contracts/admin-openapi.yaml'
-- ' M services/backend/boot/src/main/resources/contracts/openapi.yaml'
-- ' M services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/R12ProfileServiceTest.java'
-- ' M services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/R12AccountControllerContractTest.java'
-- ' M services/backend/boot/src/test/java/cc/orbexa/hhy/content/R07ServiceTest.java'
-- ?? .continuity/change_requests/CR-0330.yaml
-- ?? .continuity/checkpoints/SES-20260725T053515Z-11D4084D/0028.yaml
-- ?? .continuity/checkpoints/SES-20260725T053515Z-11D4084D/0029.yaml
-- ?? apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR12ProfileApi.kt
-- ?? apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ContractR12ProfileApiTest.kt
-- ?? apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/R12ProfileScreen.kt
-- ?? apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/R12ProfileState.kt
-- ?? apps/android/feature/shell/src/test/java/cc/orbexa/hhy/shell/R12ProfileStateTest.kt
-- ?? docs/03-continuity/change-requests/CR-0330-统一R12个人资料255字符合同并实现SCR-ME-002客户端闭环.md
+- ?? .continuity/checkpoints/SES-20260725T053515Z-11D4084D/0030.yaml
 recent_commits:
+- "7792d4321f284c0660f185878d2be70a60a3ecfc\t2026-07-25T22:55:59+08:00\tHHY Continuity Bootstrap\t[STORY-R12-006] feat(profile): implement personal\
+  \ profile flow"
 - "e8fbdf16d72da6745bda5d34c15cc1fcc2205140\t2026-07-25T20:28:11+08:00\tHHY Continuity Bootstrap\t[STORY-R12-006] chore(continuity): enter profile\
   \ story"
 - "7155dbff25fbc38cb397ce96bd71bf612b7d89d3\t2026-07-25T20:20:32+08:00\tHHY Continuity Bootstrap\t[STORY-R12-005] chore(continuity): bind submit\
@@ -2629,8 +2465,6 @@ recent_commits:
   \ result story"
 - "0f5e87bc53f56c2e15efb20cdaaf945a5fe8755a\t2026-07-25T18:57:23+08:00\tHHY Continuity Bootstrap\t[STORY-R12-005] chore(continuity): enter publish\
   \ result story"
-- "43d55108ea1b86efcc887c17a7f8c2c7f05ba88e\t2026-07-25T18:54:42+08:00\tHHY Continuity Bootstrap\t[STORY-R12-004] chore(continuity): bind publish\
-  \ preview evidence"
 ```
 
 ## 会话累计项目变更
@@ -12661,7 +12495,7 @@ PARALLEL_EXECUTION_PLAN.yaml:
 
 - `AGENTS.md` — `690f960020dcbd18080ec91b3c314335627b32e231b9f9b2e14566b0fbbaeb35`
 - `START_HERE.md` — `22de14029ce47beb41ea569e36ce223fbc9d11b86f8676f28d5fbbd83896af5c`
-- `CURRENT_STATUS.yaml` — `4ddd768881ef734330ad5ad02460defb4bf30923c4be76cb5b740880f94c5bfc`
+- `CURRENT_STATUS.yaml` — `a4bf3ca18d5983a98d9d67c20322eb94feb358c4ce9abecc7b06db55011ceca1`
 - `NEXT_TASK.yaml` — `05e6bd161a5d73ff15c34dade88c269f05ff3e6e615e2d124681cd3b561a0524`
 - `DEVELOPMENT_RISK_REGISTER.md` — `8304c91492e4ee2abea0522a06541c8688d39c7fc532b5d0cde499bf09fffb87`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
@@ -12672,12 +12506,12 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `config/REPOSITORY_TRANSPORT.yaml` — `8c4a21f3e204d46e7ffb467d804a53ed26cda61cd088dadfddb50b69eea657fc`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `60943fcd9714cfae7274463554b5584fdb7a7aeee1ee547ff6dbc53fae6d4994`
-- `.continuity/EVENT_LOG.jsonl` — `d63176b8dce9ddedeff1318d51306d0f8e00b0405b2065f9aba5afb8db7ef21f`
-- `.continuity/SESSION_INDEX.yaml` — `f71ef2cf25222db0df81d7876a205d423dabbfe7e0fdb688aea71667a333708a`
-- `.continuity/TASK_CLAIMS.yaml` — `37bde02d4ec413326c64a20692591b4d1893f2478fdae77ef2d544ef90927eb6`
+- `.continuity/EVENT_LOG.jsonl` — `5ed356ea62b0a269762ec320728866690a122eafee0255c81ad6e7bce9c3c98d`
+- `.continuity/SESSION_INDEX.yaml` — `4c5a1f24c0e039a252d693b7546bfd90e98a0edca7de050e9c44d64b7261d398`
+- `.continuity/TASK_CLAIMS.yaml` — `af33503567650596aab772d50d7c19adad3cbee3bc11b1de8d5de5d46f18b6bb`
 - `.continuity/TASK_TRANSITIONS.yaml` — `42dda46a34627046c9f85e5e719e8dcfc107aa0725121cf6e86563f40d5034ab`
 - `.continuity/CHANGE_REQUEST_INDEX.yaml` — `5b531486a71eff1c87d185970ecfc5c6249994110a59a8fd400fea3ea2c69e42`
-- `.continuity/ACTIVE_SESSION.yaml` — `b361a3a5a36c0078d8c5b5bec988d645ba429084edeb309c1b0b5692de2ca2da`
+- `.continuity/ACTIVE_SESSION.yaml` — `b1e5699868801cd35e3d17cb468339a5408793c1a6ac08a803a0e2a158526e06`
 - `docs/00-baseline/正式商业系统全局硬性开发边界.md` — `9753b32db136e59e95a0974a62362456d9d577fd1bb40058ec985c4b64413eea`
 - `docs/02-ui/UI参考图使用与开发约束_V1.2.2.md` — `d14367586aa2067b059df58798acd20ab982459cdb35ff27fc7922a3896e4933`
 - `docs/03-continuity/持续开发无状态接续强制门禁_V1.2.3.md` — `d0ed3ed68bdd93b06500eecdfb5baa3245e6ca8b685a486788abb6eee39b3d51`
@@ -12688,8 +12522,8 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `releases/R12/TASKS.yaml` — `ccf3a782104fc56bdb97d02da81e8acb1be2fd0cf30f5935bb4754a63c9fb275`
 - `releases/R12/ACCEPTANCE_MATRIX.csv` — `197874227cef03f791df1fa5d2101a251df266c63240f777f358388b46cb9706`
 - `releases/R12/PARALLEL_EXECUTION_PLAN.yaml` — `2ddbee414a51a868b63331992e2e04c5400846cf6012474aab406e067e532e98`
-- `docs/03-continuity/sessions/2026-07/SES-20260725T053515Z-11D4084D.md` — `794fd7d5abc833e3a76b4e16ab9b9949818e7c9eb75dc5246b38afab8de42a90`
-- `.continuity/checkpoints/SES-20260725T053515Z-11D4084D/0029.yaml` — `cc0a10627e8db5f0846a874406ab4929aa20fd5eecf02effba334c2903cecb87`
+- `docs/03-continuity/sessions/2026-07/SES-20260725T053515Z-11D4084D.md` — `606a66a79df97312ed6ff151569ec457ad7707b752ac4721e70d6e1d29fe3993`
+- `.continuity/checkpoints/SES-20260725T053515Z-11D4084D/0030.yaml` — `f08d93958ab896ffd2416d31c8a43e11716675669409ee1cb139ac2d4ae87bea`
 - `docs/03-continuity/change-requests/CR-0319-统一R12审核工作台权限目录与默认排序合同.md` — `42c214f27ab3a4061c8fe3963c213e37be4c2766a4d8c489f9757eaf6df4c5fc`
 - `docs/03-continuity/change-requests/CR-0320-扩展CR-0319审核证据权限与真实工作台施工范围.md` — `52dc56ab94cc576e79f38ce0ae4d628463ae6ba8af5b353f59bb3cd44ab05c64`
 - `docs/03-continuity/change-requests/CR-0321-投影R12逐页视觉合同到验收目录.md` — `ca31b8e0045e23616f5b308cbd4bebb447d249ce88770f020a47a607becebb68`
