@@ -47,6 +47,22 @@ class AndroidUiFoundationGateTest(unittest.TestCase):
             self.assertTrue(any("auth destinations must use" in value for value in violations))
             self.assertTrue(any("peer login tabs must not use" in value for value in violations))
 
+    def test_shell_selected_index_and_placeholder_navigation_are_rejected(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            source = root / "apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt"
+            source.parent.mkdir(parents=True)
+            source.write_text(
+                "var selectedIndex by rememberSaveable { mutableIntStateOf(0) }\n"
+                "fun ShellPlaceholder(index: Int) = index\n",
+                encoding="utf-8",
+            )
+            (root / "apps/android/gradle").mkdir(parents=True)
+            (root / "apps/android/gradle/libs.versions.toml").write_text('navigation = "2.9.8"\n', encoding="utf-8")
+            violations = MODULE.find_violations(root)
+            self.assertTrue(any("derive selection from the typed NavDestination" in value for value in violations))
+            self.assertTrue(any("must not open placeholder pages" in value for value in violations))
+
 
 if __name__ == "__main__":
     unittest.main()

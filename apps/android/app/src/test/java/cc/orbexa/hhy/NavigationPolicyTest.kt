@@ -30,9 +30,19 @@ class NavigationPolicyTest {
     }
 
     @Test
-    fun profileUsesATypedChildRouteFromTheAuthenticatedShell() {
+    fun profileUsesATypedChildRouteFromTheAuthenticatedRoot() {
         val route: AuthenticatedRoute = AuthenticatedRoute.Profile
 
         assertTrue(route is AuthenticatedRoute.Profile)
+    }
+
+    @Test
+    fun homeAndMeAreDistinctTypedTopLevelDestinations() {
+        val home: AuthenticatedRoute = AuthenticatedRoute.Home
+        val me: AuthenticatedRoute = AuthenticatedRoute.Me
+
+        assertTrue(home is AuthenticatedRoute.Home)
+        assertTrue(me is AuthenticatedRoute.Me)
+        assertTrue(home != me)
     }
 }

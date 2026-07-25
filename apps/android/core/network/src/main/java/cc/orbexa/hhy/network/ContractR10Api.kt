@@ -137,7 +137,7 @@ class UrlConnectionContractR10Api(baseUrl: String) : ContractR10Api {
         return R07CallResult.Failure(
             statusCode = status, errorCode = error?.error?.code, requestId = error?.requestId,
             retryAfterSeconds = connection.getHeaderField("Retry-After")?.toLongOrNull(),
-            fieldErrors = error?.error?.details.orEmpty().associate { it.field to it.message },
+            fieldErrors = error?.error?.fieldErrors().orEmpty(),
             retryable = error?.error?.retryable ?: (status >= 500),
         )
     }

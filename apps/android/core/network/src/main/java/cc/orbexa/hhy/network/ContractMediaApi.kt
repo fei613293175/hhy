@@ -201,7 +201,7 @@ class UrlConnectionContractMediaApi(baseUrl: String) : ContractMediaApi {
             statusCode = status,
             errorCode = error?.error?.code,
             retryAfterSeconds = connection.getHeaderField("Retry-After")?.toLongOrNull(),
-            fieldErrors = error?.error?.details.orEmpty().associate { it.field to it.message },
+            fieldErrors = error?.error?.fieldErrors().orEmpty(),
         )
     }
 

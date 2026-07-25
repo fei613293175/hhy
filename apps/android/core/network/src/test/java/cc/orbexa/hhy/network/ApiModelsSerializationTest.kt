@@ -85,6 +85,23 @@ class ApiModelsSerializationTest {
         assertEquals("trace_429", decoded.error.traceId)
     }
 
+    @Test fun compactEnvelopesAllowOnlyOpenApiRequiredFields() {
+        val success = HhyNetworkJson.value.decodeFromString<ApiEnvelope<UserSelfResource>>(
+            """{"success":true,"requestId":"request_compact","data":{"id":"user-1","status":"ACTIVE","version":7}}""",
+        )
+        val failure = HhyNetworkJson.value.decodeFromString<ApiErrorEnvelope>(
+            """{"success":false,"requestId":"request_error","error":{"code":"COMMON-400-VALIDATION","message":"请检查输入","details":[{"code":"INVALID","message":"字段不合法"}]}}""",
+        )
+
+        assertEquals(null, success.timestamp)
+        assertEquals("user-1", success.data.id)
+        assertEquals(null, failure.timestamp)
+        assertEquals(null, failure.error.retryable)
+        assertEquals(null, failure.error.traceId)
+        assertEquals(null, failure.error.details.single().field)
+        assertTrue(failure.error.fieldErrors().isEmpty())
+    }
+
     @Test fun authRequestsKeepFrozenContractFieldNames() {
         val request = AuthPasswordLoginRequest(
             phone = "13800000000",

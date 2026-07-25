@@ -1483,3 +1483,19 @@ problems:
   - 新控制器不得只验证路径而遗漏operationId到实现方法的机器可追踪关系
   - 跨版本聚合Gauge新增后续业务事件时必须同步重新计算夹具总量
   - 不得为了恢复旧断言从通用Gauge错误排除后续版本的同类CONTENT事件
+- id: PROB-0109
+  title: R12我的首页被简化缓存页和selectedIndex伪导航替代冻结聚合合同
+  status: SOLVED
+  root_cause: 既有HhyShellScreen在R06首页施工时把五个底部栏目留在同一Composable内，并用rememberSaveable selectedIndex切换；后续R12只在该简化我的分支追加登录缓存资料头、发布管理和安全按钮，没有按STORY-R12-007接入会员与奖励两项GET，也没有逐模块加载、缓存和恢复。旧SCR-ME-001错误状态还要求展示errorCode和requestId，会员与奖励共享接口的Release归属及奖励HTTP423也没有同步投影，导致页面功能、视觉、合同和导航同时偏离B08/P01及CR-0119。
+  resolution: CR-0331原位落实SCR-ME-001、B08/P01和CR-0119，不新增平行规则；补齐R12/R18会员与R12/R24奖励共享归属、HTTP423和合法精简错误信封，新增三项GET Android适配、三个独立模块状态及真实资产商业页面。顶层改为typed Home/Me Jetpack Navigation Compose，使用saveState、restoreState和launchSingleTop，栏目选择由NavDestination推导，同级内容使用HhyMotion.peerContent；未实现红包和消息禁用且不再进入占位页。
+  regression_checks:
+  - ContractR12MeApiTest必须锁定三项GET路径、严格Long金额和结构化会员权益
+  - R12MeHomeStateTest必须覆盖会员404、奖励404/422/423、429、网络/5xx缓存保留和整数分格式化
+  - NavigationPolicyTest与AuthenticatedNavigationTest必须证明typed Home/Me、子页返回真实来源和顶层无重复栈
+  - check_android_ui_foundation.py必须拒绝HhyShellScreen重新出现selectedIndex伪导航或ShellPlaceholder
+  - catalogs/ui_visual_acceptance.csv的SCR-ME-001必须绑定B08/P01且在最终候选真实截图经AI验收前保持IN_REVIEW
+  do_not_repeat:
+  - 聚合页不得只显示登录缓存而省略Story明确登记的跨域只读接口
+  - 底部栏目不得使用页面级mutableState或selectedIndex冒充Navigation Compose返回栈
+  - 效果图虚构项必须过滤，但不得以过滤为由删掉其余区域顺序、层级和信息密度
+  - 正式商业错误界面不得展示requestId、traceId、错误码或接口名

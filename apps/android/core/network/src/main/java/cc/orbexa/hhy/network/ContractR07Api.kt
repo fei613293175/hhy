@@ -46,7 +46,11 @@ interface ContractR07Api {
 }
 
 sealed interface R07CallResult<out T> {
-    data class Success<T>(val data: T, val requestId: String) : R07CallResult<T>
+    data class Success<T>(
+        val data: T,
+        val requestId: String,
+        val timestamp: String? = null,
+    ) : R07CallResult<T>
     data class Failure(
         val statusCode: Int?,
         val errorCode: String? = null,
@@ -203,7 +207,7 @@ class UrlConnectionContractR07Api(baseUrl: String) : ContractR07Api {
             errorCode = error?.error?.code,
             requestId = error?.requestId,
             retryAfterSeconds = connection.getHeaderField("Retry-After")?.toLongOrNull(),
-            fieldErrors = error?.error?.details.orEmpty().associate { it.field to it.message },
+            fieldErrors = error?.error?.fieldErrors().orEmpty(),
             retryable = error?.error?.retryable ?: (status >= 500),
         )
     }

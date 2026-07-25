@@ -1,5 +1,6 @@
 package cc.orbexa.hhy.shell
 
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -26,7 +27,6 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.OutlinedButton
@@ -39,7 +39,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -56,17 +55,30 @@ import cc.orbexa.hhy.designsystem.HhyColors
 import cc.orbexa.hhy.designsystem.HhyElevation
 import cc.orbexa.hhy.designsystem.HhyIcon
 import cc.orbexa.hhy.designsystem.HhyIcons
+import cc.orbexa.hhy.designsystem.HhyMotion
 import cc.orbexa.hhy.designsystem.HhyRadius
 import cc.orbexa.hhy.designsystem.HhySize
 import cc.orbexa.hhy.designsystem.HhySpacing
+import cc.orbexa.hhy.network.ContractR12MeApi
 import cc.orbexa.hhy.network.ExperienceApi
 import cc.orbexa.hhy.network.HomeModuleItemSnapshot
 import cc.orbexa.hhy.network.HomeModuleSnapshot
 import cc.orbexa.hhy.network.HomeNavigationTargetSnapshot
 import cc.orbexa.hhy.network.HomeSnapshot
+import cc.orbexa.hhy.network.MembershipResource
+import cc.orbexa.hhy.network.R07CallResult
+import cc.orbexa.hhy.network.RewardAccountResource
 import cc.orbexa.hhy.network.UserSelfResource
+import java.time.Instant
 
-private data class NavigationItem(val label: String, val icon: ImageVector)
+enum class HhyTopLevelDestination { HOME, REWARD, PUBLISH, MESSAGE, ME }
+
+private data class NavigationItem(
+    val destination: HhyTopLevelDestination,
+    val label: String,
+    val icon: ImageVector,
+    val enabled: Boolean,
+)
 private data class HomeCategory(
     val title: String,
     val icon: ImageVector,
@@ -75,24 +87,25 @@ private data class HomeCategory(
 )
 
 private val navigationItems = listOf(
-    NavigationItem("首页", HhyIcons.Home),
-    NavigationItem("红包", HhyIcons.Reward),
-    NavigationItem("发布", HhyIcons.Publish),
-    NavigationItem("消息", HhyIcons.Message),
-    NavigationItem("我的", HhyIcons.Profile),
+    NavigationItem(HhyTopLevelDestination.HOME, "首页", HhyIcons.Home, true),
+    NavigationItem(HhyTopLevelDestination.REWARD, "红包", HhyIcons.Reward, false),
+    NavigationItem(HhyTopLevelDestination.PUBLISH, "发布", HhyIcons.Publish, true),
+    NavigationItem(HhyTopLevelDestination.MESSAGE, "消息", HhyIcons.Message, false),
+    NavigationItem(HhyTopLevelDestination.ME, "我的", HhyIcons.Profile, true),
 )
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HhyShellScreen(
     user: UserSelfResource,
+    selectedDestination: HhyTopLevelDestination = HhyTopLevelDestination.HOME,
+    onTopLevelSelected: (HhyTopLevelDestination) -> Unit = {},
     onOpenSearch: () -> Unit = {},
     onOpenProjects: (() -> Unit)? = null,
     onOpenApps: (() -> Unit)? = null,
     onOpenGroups: (() -> Unit)? = null,
     onOpenTeamLeaders: (() -> Unit)? = null,
     onOpenPublish: () -> Unit = {},
-    onOpenMessages: (() -> Unit)? = null,
     canOpenHomeTarget: (HomeNavigationTargetSnapshot) -> Boolean = { false },
     onOpenHomeTarget: (HomeNavigationTargetSnapshot) -> Unit = {},
     onOpenLoginDevices: () -> Unit = {},
@@ -104,15 +117,31 @@ fun HhyShellScreen(
     onOpenMyDrafts: () -> Unit = {},
     onOpenProfile: () -> Unit = {},
     experienceApi: ExperienceApi? = null,
+    meApi: ContractR12MeApi? = null,
     accessToken: String = "",
+    onUserUpdated: (UserSelfResource) -> Unit = {},
+    onSessionExpired: () -> Unit = {},
 ) {
-    var selectedIndex by rememberSaveable { androidx.compose.runtime.mutableIntStateOf(0) }
     var home by androidx.compose.runtime.remember { mutableStateOf<HomeSnapshot?>(null) }
     var homeError by androidx.compose.runtime.remember { mutableStateOf(false) }
     var refreshing by androidx.compose.runtime.remember { mutableStateOf(false) }
     var homeRefreshKey by androidx.compose.runtime.remember { androidx.compose.runtime.mutableIntStateOf(0) }
+    var userState by androidx.compose.runtime.remember(user.id) {
+        mutableStateOf(R12MeModuleState.cached(user))
+    }
+    var membershipState by androidx.compose.runtime.remember(user.id) {
+        mutableStateOf(R12MeModuleState<MembershipResource>())
+    }
+    var rewardState by androidx.compose.runtime.remember(user.id) {
+        mutableStateOf(R12MeModuleState<RewardAccountResource>())
+    }
+    var userRefreshKey by androidx.compose.runtime.remember { androidx.compose.runtime.mutableIntStateOf(0) }
+    var membershipRefreshKey by androidx.compose.runtime.remember { androidx.compose.runtime.mutableIntStateOf(0) }
+    var rewardRefreshKey by androidx.compose.runtime.remember { androidx.compose.runtime.mutableIntStateOf(0) }
+    var sessionExpiredHandled by androidx.compose.runtime.remember(user.id) { mutableStateOf(false) }
 
-    LaunchedEffect(experienceApi, accessToken, homeRefreshKey) {
+    LaunchedEffect(experienceApi, accessToken, homeRefreshKey, selectedDestination) {
+        if (selectedDestination != HhyTopLevelDestination.HOME) return@LaunchedEffect
         val api = experienceApi ?: return@LaunchedEffect
         refreshing = true
         api.home(accessToken)
@@ -121,12 +150,79 @@ fun HhyShellScreen(
         refreshing = false
     }
 
+    LaunchedEffect(meApi, accessToken, userRefreshKey, selectedDestination) {
+        if (selectedDestination != HhyTopLevelDestination.ME) return@LaunchedEffect
+        val api = meApi ?: return@LaunchedEffect
+        userState = userState.refreshing()
+        val first = api.user(accessToken)
+        val result = if (first is R07CallResult.Failure && first.statusCode == 409) api.user(accessToken) else first
+        when (result) {
+            is R07CallResult.Success -> {
+                userState = userState.loaded(result.data, result.timestamp, Instant.now().toString())
+                onUserUpdated(result.data)
+            }
+            is R07CallResult.Failure -> if (result.statusCode == 401) {
+                if (!sessionExpiredHandled) {
+                    sessionExpiredHandled = true
+                    onSessionExpired()
+                }
+            } else {
+                userState = userState.failed(R12MeModuleKind.USER, result)
+            }
+        }
+    }
+
+    LaunchedEffect(meApi, accessToken, membershipRefreshKey, selectedDestination) {
+        if (selectedDestination != HhyTopLevelDestination.ME) return@LaunchedEffect
+        val api = meApi ?: return@LaunchedEffect
+        membershipState = membershipState.refreshing()
+        val first = api.membership(accessToken)
+        val result = if (first is R07CallResult.Failure && first.statusCode == 409) api.membership(accessToken) else first
+        when (result) {
+            is R07CallResult.Success -> membershipState = membershipState.loaded(
+                result.data,
+                result.timestamp,
+                Instant.now().toString(),
+            )
+            is R07CallResult.Failure -> if (result.statusCode == 401) {
+                if (!sessionExpiredHandled) {
+                    sessionExpiredHandled = true
+                    onSessionExpired()
+                }
+            } else {
+                membershipState = membershipState.failed(R12MeModuleKind.MEMBERSHIP, result)
+            }
+        }
+    }
+
+    LaunchedEffect(meApi, accessToken, rewardRefreshKey, selectedDestination) {
+        if (selectedDestination != HhyTopLevelDestination.ME) return@LaunchedEffect
+        val api = meApi ?: return@LaunchedEffect
+        rewardState = rewardState.refreshing()
+        val first = api.rewardAccount(accessToken)
+        val result = if (first is R07CallResult.Failure && first.statusCode == 409) api.rewardAccount(accessToken) else first
+        when (result) {
+            is R07CallResult.Success -> rewardState = rewardState.loaded(
+                result.data,
+                result.timestamp,
+                Instant.now().toString(),
+            )
+            is R07CallResult.Failure -> if (result.statusCode == 401) {
+                if (!sessionExpiredHandled) {
+                    sessionExpiredHandled = true
+                    onSessionExpired()
+                }
+            } else {
+                rewardState = rewardState.failed(R12MeModuleKind.REWARD, result)
+            }
+        }
+    }
+
     val screenMarker = when {
-        selectedIndex == 0 && home != null -> "hhy.screen.r06.home.loaded"
-        selectedIndex == 0 && homeError -> "hhy.screen.r06.home.error"
-        selectedIndex == 0 -> "hhy.screen.r06.home.loading"
-        selectedIndex == 4 -> "hhy.screen.r06.mine"
-        else -> "hhy.screen.shell.${navigationItems[selectedIndex].label}"
+        selectedDestination == HhyTopLevelDestination.HOME && home != null -> "hhy.screen.r06.home.loaded"
+        selectedDestination == HhyTopLevelDestination.HOME && homeError -> "hhy.screen.r06.home.error"
+        selectedDestination == HhyTopLevelDestination.HOME -> "hhy.screen.r06.home.loading"
+        else -> "hhy.screen.r12.me"
     }
     val categories = listOf(
         HomeCategory("项目", HhyIcons.Projects, "home.category.project", onOpenProjects),
@@ -138,7 +234,7 @@ fun HhyShellScreen(
     Scaffold(
         modifier = Modifier.semantics { testTagsAsResourceId = true }.testTag(screenMarker),
         topBar = {
-            TopAppBar(
+            if (selectedDestination == HhyTopLevelDestination.HOME) TopAppBar(
                 title = {
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Surface(shape = CircleShape, color = HhyColors.SoftBlue) {
@@ -157,25 +253,21 @@ fun HhyShellScreen(
                         )
                     }
                 },
-                actions = {
-                    IconButton(
-                        onClick = { onOpenMessages?.invoke() },
-                        enabled = onOpenMessages != null,
-                        modifier = Modifier.testTag("home.messages"),
-                    ) {
-                        HhyIcon(HhyIcons.Message, contentDescription = "消息")
-                    }
-                },
             )
         },
         bottomBar = {
             NavigationBar(modifier = Modifier.fillMaxWidth()) {
-                navigationItems.forEachIndexed { index, item ->
+                navigationItems.forEach { item ->
                     NavigationBarItem(
                         modifier = Modifier.weight(1f),
-                        selected = selectedIndex == index,
+                        selected = selectedDestination == item.destination,
+                        enabled = item.enabled,
                         onClick = {
-                            if (index == 2) onOpenPublish() else selectedIndex = index
+                            if (item.destination == HhyTopLevelDestination.PUBLISH) {
+                                onOpenPublish()
+                            } else {
+                                onTopLevelSelected(item.destination)
+                            }
                         },
                         icon = { HhyIcon(item.icon, contentDescription = item.label) },
                         label = { Text(item.label) },
@@ -186,12 +278,17 @@ fun HhyShellScreen(
         },
         containerColor = HhyColors.PageBackground,
     ) { padding ->
-        LazyColumn(
-            modifier = Modifier.fillMaxSize().padding(padding),
-            contentPadding = PaddingValues(HhySpacing.Lg),
-            verticalArrangement = Arrangement.spacedBy(HhySpacing.Md),
-        ) {
-            if (selectedIndex == 0) {
+        AnimatedContent(
+            targetState = selectedDestination,
+            transitionSpec = { HhyMotion.peerContent() },
+            label = "authenticated-top-level",
+        ) { destination ->
+            if (destination == HhyTopLevelDestination.HOME) {
+                LazyColumn(
+                    modifier = Modifier.fillMaxSize().padding(padding),
+                    contentPadding = PaddingValues(HhySpacing.Lg),
+                    verticalArrangement = Arrangement.spacedBy(HhySpacing.Md),
+                ) {
                 item { HomeSearch(onOpenSearch) }
 
                 val noticeModules = home?.modules.orEmpty().filter { it.type == "NOTICE" }
@@ -220,28 +317,30 @@ fun HhyShellScreen(
                         )
                     }
                 }
-            } else if (selectedIndex == 4) {
-                item { MineProfileHeader(user, onOpenProfile) }
+                }
             } else {
-                item { ShellPlaceholder(selectedIndex) }
-            }
-
-            if (selectedIndex == 4) {
-                item {
-                    MineContentManagementCard(
-                        onOpenMyContents = onOpenMyContents,
-                        onOpenMyDrafts = onOpenMyDrafts,
-                    )
-                }
-                item {
-                    MineSecurityCard(
-                        onOpenIdentity = onOpenIdentity,
-                        onOpenLoginDevices = onOpenLoginDevices,
-                        onOpenChangePassword = onOpenChangePassword,
-                        onOpenCancellation = onOpenCancellation,
-                        onOpenAbout = onOpenAbout,
-                    )
-                }
+                R12MeHomeScreen(
+                    user = userState,
+                    membership = membershipState,
+                    reward = rewardState,
+                    contentPadding = padding,
+                    onRefreshAll = {
+                        userRefreshKey += 1
+                        membershipRefreshKey += 1
+                        rewardRefreshKey += 1
+                    },
+                    onRetryUser = { userRefreshKey += 1 },
+                    onRetryMembership = { membershipRefreshKey += 1 },
+                    onRetryReward = { rewardRefreshKey += 1 },
+                    onOpenProfile = onOpenProfile,
+                    onOpenMyContents = onOpenMyContents,
+                    onOpenMyDrafts = onOpenMyDrafts,
+                    onOpenIdentity = onOpenIdentity,
+                    onOpenLoginDevices = onOpenLoginDevices,
+                    onOpenChangePassword = onOpenChangePassword,
+                    onOpenAbout = onOpenAbout,
+                    onOpenCancellation = onOpenCancellation,
+                )
             }
         }
     }
@@ -726,26 +825,6 @@ private fun HomeEmptyState(homeError: Boolean, refreshing: Boolean, onRetry: () 
                 if (homeError) OutlinedButton(onClick = onRetry) { Text("重新加载") }
             }
         }
-    }
-}
-
-@Composable
-private fun ShellPlaceholder(selectedIndex: Int) {
-    Column(verticalArrangement = Arrangement.spacedBy(HhySpacing.Sm)) {
-        Text(
-            navigationItems[selectedIndex].label,
-            style = androidx.compose.material3.MaterialTheme.typography.headlineSmall,
-            fontWeight = FontWeight.SemiBold,
-        )
-        Text(
-            when (selectedIndex) {
-                1 -> "参与活动，获得更多权益"
-                2 -> "分享你的项目与能力"
-                3 -> "与合作伙伴保持联系"
-                else -> "管理个人资料与账号安全"
-            },
-            color = HhyColors.TextSecondary,
-        )
     }
 }
 

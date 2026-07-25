@@ -6493,7 +6493,7 @@ paths:
       - BearerAuth: []
       x-permission: 登录
       x-idempotent: false
-      x-release: R18
+      x-release: R12/R18
       x-contract-maturity: FROZEN
       x-error-codes:
       - COMMON-400-VALIDATION
@@ -9813,7 +9813,7 @@ paths:
       - BearerAuth: []
       x-permission: 登录+实名
       x-idempotent: false
-      x-release: R24
+      x-release: R12/R24
       x-contract-maturity: FROZEN
       x-error-codes:
       - COMMON-400-VALIDATION
@@ -9866,6 +9866,12 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
         '422':
           description: 业务规则不满足
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '423':
+          description: 奖励账户因风险审核暂时受限
           content:
             application/json:
               schema:

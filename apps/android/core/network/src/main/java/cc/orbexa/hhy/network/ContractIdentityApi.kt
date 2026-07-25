@@ -121,8 +121,7 @@ class UrlConnectionContractIdentityApi(baseUrl: String) : ContractIdentityApi {
                             statusCode = status,
                             errorCode = error?.error?.code,
                             retryAfterSeconds = connection.getHeaderField("Retry-After")?.toLongOrNull(),
-                            fieldErrors = error?.error?.details.orEmpty()
-                                .associate { it.field to it.message },
+                            fieldErrors = error?.error?.fieldErrors().orEmpty(),
                         )
                     }
                     val envelope = HhyNetworkJson.value
@@ -241,7 +240,7 @@ class UrlConnectionContractIdentityApi(baseUrl: String) : ContractIdentityApi {
             errorCode = error?.error?.code,
             message = error?.error?.message,
             retryAfterSeconds = connection.getHeaderField("Retry-After")?.toLongOrNull(),
-            fieldErrors = error?.error?.details.orEmpty().associate { it.field to it.message },
+            fieldErrors = error?.error?.fieldErrors().orEmpty(),
         )
     }
 

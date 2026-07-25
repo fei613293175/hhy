@@ -73,11 +73,25 @@ class R12AccountControllerContractTest {
                 .filter("maxLength: 255"::equals).count());
         assertEquals(2, patchRequest.lines().map(String::strip)
                 .filter("maxLength: 255"::equals).count());
+
+        String membership = path(source, "/api/v1/me/membership:", "/api/v1/membership/orders:");
+        String reward = path(source, "/api/v1/me/reward-account:", "/api/v1/me/reward-ledger:");
+        assertTrue(membership.contains("x-release: R12/R18"));
+        assertTrue(reward.contains("x-release: R12/R24"));
+        assertTrue(reward.contains("'423':"));
+        assertTrue(reward.contains("REWARD-423-RISK_FROZEN"));
     }
 
     private static String schema(String source, String start, String end) {
         int from = source.indexOf("    " + start + ":");
         int to = source.indexOf("    " + end + ":", from + start.length());
+        assertTrue(from >= 0 && to > from, start);
+        return source.substring(from, to);
+    }
+
+    private static String path(String source, String start, String end) {
+        int from = source.indexOf("  " + start);
+        int to = source.indexOf("  " + end, from + start.length());
         assertTrue(from >= 0 && to > from, start);
         return source.substring(from, to);
     }

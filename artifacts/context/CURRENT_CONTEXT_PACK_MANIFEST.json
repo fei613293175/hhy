@@ -1,19 +1,19 @@
 {
   "version": "1.0",
-  "generated_at": "2026-07-25T15:27:31Z",
-  "context_hash": "0619436bb424433518858f571e7458139421c71deac61a9d7759bc7b9bdb395c",
+  "generated_at": "2026-07-25T16:54:02Z",
+  "context_hash": "2d0c49505f688ffd1027862cf8acd2f17365f9c38f7c689020d69c69c1569a66",
   "fingerprint_mode": "SESSION_DELTA",
   "project_fingerprint": {
-    "sha256": "4ba7fcde80ea5a8d6e37ea670756f51683c6fe6dac97d7b57efff0428d3a997e",
-    "file_count": 98
+    "sha256": "e5956c769c92c34c85e06f80969221aace3daca41d16bd09da79d0d88026c6c2",
+    "file_count": 120
   },
   "yaml": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.yaml",
-    "sha256": "a2292ae50fe1f578a52cf08ae15dd23825baa27622077042b8e96dd686d2900e"
+    "sha256": "84b5113eafe781c1fb3c2221b778ccd1aa3d1a063716cc21a35b85848535e91c"
   },
   "markdown": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.md",
-    "sha256": "ce64f2148c36cf05d696eac57deb2cead3bc6f3f1e07673aaf37e7cca8885c35"
+    "sha256": "92c4c06e7744a9e71efed1b5c205aa0a84fa83de450ca481def378f055433841"
   },
   "sources": [
     {
@@ -28,7 +28,7 @@
     },
     {
       "path": "CURRENT_STATUS.yaml",
-      "sha256": "c408c18efeb92af891fc8e981accde88dccaa5ff82f4d94ac0d09bf2dd864af6",
+      "sha256": "ec3c9cd14c8df984a21f1d838e53310cca5c73db27879d2576f3b568942e5121",
       "bytes": 4432
     },
     {
@@ -48,8 +48,8 @@
     },
     {
       "path": "docs/03-continuity/PROBLEM_REGISTRY.yaml",
-      "sha256": "b874a00f4198d28ded7d7466c5eab306669d1bf3c56955faff0f37b2d68714b4",
-      "bytes": 152653
+      "sha256": "761f9a6583d5d7b4dc84ef9f44d429b9186da54e361059ca2f411d57338b8079",
+      "bytes": 154856
     },
     {
       "path": "docs/03-continuity/REUSABLE_PATTERNS.md",
@@ -83,12 +83,12 @@
     },
     {
       "path": ".continuity/EVENT_LOG.jsonl",
-      "sha256": "717d098c01a3c0648cb37ad7b369f62ad2f6b6d5a41bbe8173b1bb275482b7bb",
-      "bytes": 1826363
+      "sha256": "1fe08633942cd39052d0de225eb74464670fd1cfe28e62fece1119f36563d2fa",
+      "bytes": 1827949
     },
     {
       "path": ".continuity/SESSION_INDEX.yaml",
-      "sha256": "d06dfed9bd49108c64b018f9fa70bb94fa3b424415a9cd10702366edbf3ecacc",
+      "sha256": "4a833e1edcadb88a02e4373a26c74effff0f400072a16f263c8371b6edf21ca1",
       "bytes": 53290
     },
     {
@@ -103,12 +103,12 @@
     },
     {
       "path": ".continuity/CHANGE_REQUEST_INDEX.yaml",
-      "sha256": "da124922493661293261e6b1a348ec8427ebc78cdd7b8ad70b5d60c2a1f35caa",
-      "bytes": 1130069
+      "sha256": "5de123e2e5d1f73d7549dc7ced223e71a552bfa58cce8eb7b69557b7947d99ef",
+      "bytes": 1130922
     },
     {
       "path": ".continuity/ACTIVE_SESSION.yaml",
-      "sha256": "0a817d7ad6ed02f1829192ba9e45acf0c166526b410f1efbc94020f3186983e5",
+      "sha256": "a296e77072cd83ca8b82f473bcb2bd2f93dfdc094f4c50618c6281dacf8c0f72",
       "bytes": 545
     },
     {
@@ -163,13 +163,13 @@
     },
     {
       "path": "docs/03-continuity/sessions/2026-07/SES-20260725T053515Z-11D4084D.md",
-      "sha256": "ad5c45fc9ab8022cd66b5c3c72bc63e0f7068c7f428b41513bf79a800e5bd557",
-      "bytes": 167606
+      "sha256": "41de688361186100f3f298944cd3b79c978e3b00aae80a4bce3f2dede89e14fc",
+      "bytes": 178249
     },
     {
-      "path": ".continuity/checkpoints/SES-20260725T053515Z-11D4084D/0031.yaml",
-      "sha256": "1da94bb0ea2fd7fef83617b124c42f487e35c5341a7da9549e2bb6b98c7c85f4",
-      "bytes": 46989
+      "path": ".continuity/checkpoints/SES-20260725T053515Z-11D4084D/0032.yaml",
+      "sha256": "5d26a7f8bc4223673e4e899e3b719d0889f6076bb3ccadba0f06ccb44c8901fb",
+      "bytes": 58753
     },
     {
       "path": "docs/03-continuity/change-requests/CR-0319-统一R12审核工作台权限目录与默认排序合同.md",
@@ -233,8 +233,8 @@
     },
     {
       "path": "docs/03-continuity/change-requests/CR-0331-实现SCR-ME-001真实资产聚合首页并修复底部栏目导航回归.md",
-      "sha256": "e1a79b59823efed8bbb785f0ed0b810bc3a1e8a1aa9abda6fee254e2f6281ada",
-      "bytes": 8076
+      "sha256": "4afed54b3b461c1cd01c21b1c1df6faf8f91051c7fc7bd597b563971bfcdd1a3",
+      "bytes": 8869
     }
   ]
 }

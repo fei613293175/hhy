@@ -523,7 +523,7 @@ STA-00521,SCR-ME-001,ANDROID,我的首页,LOADING,首屏数据请求进行中,�
 STA-00522,SCR-ME-001,ANDROID,我的首页,CONTENT,核心数据完整且可交互,展示内容并按权限/状态机计算操作入口,页面定义的读写动作,与当前状态、权限或服务端version冲突的所有写操作,刷新或执行操作,page_state_scr_me_001_content,否,FROZEN_V1.2.2
 STA-00523,SCR-ME-001,ANDROID,我的首页,PARTIAL_CONTENT,部分模块成功、部分模块失败,保留成功模块，失败模块显示局部重试,重试失败模块,与当前状态、权限或服务端version冲突的所有写操作,不得将局部失败升级为全页失败,page_state_scr_me_001_partial_content,否,FROZEN_V1.2.2
 STA-00524,SCR-ME-001,ANDROID,我的首页,REFRESHING,已有内容上执行刷新,保留内容并显示轻量刷新指示,取消刷新,与当前状态、权限或服务端version冲突的所有写操作,失败保留旧数据,page_state_scr_me_001_refreshing,否,FROZEN_V1.2.2
-STA-00525,SCR-ME-001,ANDROID,我的首页,ERROR,请求失败且无法展示可靠内容,展示稳定错误码、requestId、重试和返回,重试/返回,与当前状态、权限或服务端version冲突的所有写操作,按错误码恢复,page_state_scr_me_001_error,否,FROZEN_V1.2.2
+STA-00525,SCR-ME-001,ANDROID,我的首页,ERROR,三项请求均失败且无法展示可靠内容,展示商业化失败说明和重试操作；技术诊断仅保留在受控日志,重试,与当前状态、权限或服务端version冲突的所有写操作,按模块恢复；不得展示错误码、requestId或traceId,page_state_scr_me_001_error,否,FROZEN_V1.2.2
 STA-00526,SCR-ME-001,ANDROID,我的首页,OFFLINE,网络不可用,只读页面可展示标记为缓存的数据；写操作禁用,重试网络,与当前状态、权限或服务端version冲突的所有写操作,恢复网络后主动刷新,page_state_scr_me_001_offline,否,FROZEN_V1.2.2
 STA-00527,SCR-ME-002,ANDROID,个人资料,EDITING,用户正在编辑表单,显示字段、帮助、脏状态和保存/提交入口,编辑/保存/提交/取消,与当前状态、权限或服务端version冲突的所有写操作,离开时执行脏表单保护,page_state_scr_me_002_editing,否,FROZEN_V1.2.2
 STA-00528,SCR-ME-002,ANDROID,个人资料,DIRTY,存在未保存变更,显示未保存标识和离开确认,保存/放弃,与当前状态、权限或服务端version冲突的所有写操作,禁止静默丢失,page_state_scr_me_002_dirty,否,FROZEN_V1.2.2

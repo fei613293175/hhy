@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## R12 Android 我的首页真实资产聚合与顶层导航修复 · 2026-07-25
+
+- `SCR-ME-001` 按 B08/P01 重建为蓝色真实身份头、奖励资产双主双次摘要、会员状态、四列真实功能网格、会员权益、账号服务和固定五栏底部导航；只消费用户、会员和奖励三项冻结 GET，过滤效果图中的订单、红包、收藏、浏览、消息、邀请、成长、任务、红点、等级和示例金额。
+- 会员接口归属统一登记为 `R12/R18`，奖励接口统一登记为 `R12/R24`，奖励风险冻结补齐 HTTP 423；Android 成功/错误信封兼容 OpenAPI 合法省略字段，字段级错误只保留具名字段，`requestId/errorCode/traceId` 不进入正式 UI。
+- 用户、会员和奖励模块独立加载、缓存、更新时间、局部失败和重试；会员 404、奖励 404、奖励 422/423、429、网络/5xx 分别映射真实商业状态，任一模块失败不清空其他成功模块，401 只触发一次根会话失效。
+- 底部栏目从页面级 `selectedIndex` 伪切页恢复为 typed `Home/Me` Jetpack Navigation Compose 目的地，使用 `saveState/restoreState/launchSingleTop` 和 `HhyMotion.peerContent()`；红包与消息未实现时禁用，不再进入文字占位页。页面登记为 `IN_REVIEW`，真实模拟器截图与最终视觉 PASS 留到 `TASK-R12-007`。
+
 ## R12 Android 个人资料闭环与 Unicode 合同统一 · 2026-07-25
 
 - `nickname/bio` 统一为 Unicode-aware 去除首尾空白后最多 255 个 Unicode code point；客户端、后台、运行时 OpenAPI、共享用户/发布者响应、九份派生页面规格和 Java 服务校验同步，数据库保持既有 `varchar(255)` 且禁止静默截断。

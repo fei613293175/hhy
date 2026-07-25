@@ -28,7 +28,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.toRoute
 import cc.orbexa.hhy.auth.AuthScreen
 import cc.orbexa.hhy.auth.ChangeLoginPasswordScreen
@@ -68,6 +70,7 @@ import cc.orbexa.hhy.network.UrlConnectionContractR09Api
 import cc.orbexa.hhy.network.UrlConnectionContractR10Api
 import cc.orbexa.hhy.network.UrlConnectionContractR11Api
 import cc.orbexa.hhy.network.UrlConnectionContractR12Api
+import cc.orbexa.hhy.network.UrlConnectionContractR12MeApi
 import cc.orbexa.hhy.network.UrlConnectionContractR12ProfileApi
 import cc.orbexa.hhy.network.sessionOrNull
 import cc.orbexa.hhy.network.userSelfOrNull
@@ -93,6 +96,7 @@ import cc.orbexa.hhy.contentmanagement.R12PublishCenterScreen
 import cc.orbexa.hhy.contentmanagement.R12PublishPreviewScreen
 import cc.orbexa.hhy.contentmanagement.R12PublishResultScreen
 import cc.orbexa.hhy.shell.HhyShellScreen
+import cc.orbexa.hhy.shell.HhyTopLevelDestination
 import cc.orbexa.hhy.shell.R12ProfileScreen
 import cc.orbexa.hhy.startup.StartupGateScreen
 import kotlinx.serialization.Serializable
@@ -219,7 +223,8 @@ private sealed interface SessionState {
 
 @Serializable
 internal sealed interface AuthenticatedRoute {
-    @Serializable data object Shell : AuthenticatedRoute
+    @Serializable data object Home : AuthenticatedRoute
+    @Serializable data object Me : AuthenticatedRoute
     @Serializable data object Profile : AuthenticatedRoute
     @Serializable data object LoginDevices : AuthenticatedRoute
     @Serializable data object ChangePassword : AuthenticatedRoute
@@ -274,64 +279,102 @@ private fun AuthenticatedNavHost(
     val r10Api = remember { UrlConnectionContractR10Api(BuildConfig.API_BASE_URL) }
     val r11Api = remember { UrlConnectionContractR11Api(BuildConfig.API_BASE_URL) }
     val r12Api = remember { UrlConnectionContractR12Api(BuildConfig.API_BASE_URL) }
+    val r12MeApi = remember { UrlConnectionContractR12MeApi(BuildConfig.API_BASE_URL) }
     val r12ProfileApi = remember { UrlConnectionContractR12ProfileApi(BuildConfig.API_BASE_URL) }
     val mediaApi = remember { UrlConnectionContractMediaApi(BuildConfig.API_BASE_URL) }
     val uriHandler = androidx.compose.ui.platform.LocalUriHandler.current
+    val currentBackStackEntry by navController.currentBackStackEntryAsState()
+    val selectedTopLevel = if (currentBackStackEntry?.destination?.hasRoute<AuthenticatedRoute.Me>() == true) {
+        HhyTopLevelDestination.ME
+    } else {
+        HhyTopLevelDestination.HOME
+    }
+    val rootContent: @androidx.compose.runtime.Composable () -> Unit = {
+        HhyShellScreen(
+            user = authenticated.user,
+            selectedDestination = selectedTopLevel,
+            onTopLevelSelected = { destination ->
+                when (destination) {
+                    HhyTopLevelDestination.HOME -> navController.navigate(AuthenticatedRoute.Home) {
+                        popUpTo<AuthenticatedRoute.Home> { saveState = true }
+                        launchSingleTop = true
+                        restoreState = true
+                    }
+                    HhyTopLevelDestination.ME -> navController.navigate(AuthenticatedRoute.Me) {
+                        popUpTo<AuthenticatedRoute.Home> { saveState = true }
+                        launchSingleTop = true
+                        restoreState = true
+                    }
+                    else -> Unit
+                }
+            },
+            onOpenSearch = { navController.navigate(AuthenticatedRoute.Search) },
+            onOpenProjects = { navController.navigate(AuthenticatedRoute.Projects) },
+            onOpenApps = { navController.navigate(AuthenticatedRoute.Apps) },
+            onOpenGroups = { navController.navigate(AuthenticatedRoute.Groups) },
+            onOpenTeamLeaders = { navController.navigate(AuthenticatedRoute.TeamLeaders) },
+            onOpenPublish = { navController.navigate(AuthenticatedRoute.PublishCenter) },
+            canOpenHomeTarget = { target -> canOpenHomeTarget(target) },
+            onOpenHomeTarget = { target ->
+                val route = target.route.orEmpty()
+                when {
+                    target.targetType == "IN_APP_ROUTE" && route == "/search" ->
+                        navController.navigate(AuthenticatedRoute.Search)
+                    target.targetType == "IN_APP_ROUTE" && route == "/content/projects" ->
+                        navController.navigate(AuthenticatedRoute.Projects)
+                    target.targetType == "IN_APP_ROUTE" && route == "/content/apps" ->
+                        navController.navigate(AuthenticatedRoute.Apps)
+                    target.targetType == "IN_APP_ROUTE" && route == "/content/groups" ->
+                        navController.navigate(AuthenticatedRoute.Groups)
+                    target.targetType == "IN_APP_ROUTE" && route == "/content/team-leaders" ->
+                        navController.navigate(AuthenticatedRoute.TeamLeaders)
+                    target.targetType == "IN_APP_ROUTE" && route.startsWith("/content/project/") ->
+                        navController.navigate(AuthenticatedRoute.ProjectDetail(route.substringAfterLast('/')))
+                    target.targetType == "IN_APP_ROUTE" && route.startsWith("/content/app/") ->
+                        navController.navigate(AuthenticatedRoute.AppDetail(route.substringAfterLast('/')))
+                    target.targetType == "IN_APP_ROUTE" && route.startsWith("/content/group/") ->
+                        navController.navigate(AuthenticatedRoute.GroupDetail(route.substringAfterLast('/')))
+                    target.targetType == "IN_APP_ROUTE" && route.startsWith("/content/team-leader/") ->
+                        navController.navigate(AuthenticatedRoute.TeamLeaderDetail(route.substringAfterLast('/')))
+                    target.targetType in setOf("H5_URL", "DOWNLOAD") && isSafeHomeUrl(target.url) ->
+                        uriHandler.openUri(target.url.orEmpty())
+                }
+            },
+            onOpenLoginDevices = { navController.navigate(AuthenticatedRoute.LoginDevices) },
+            onOpenChangePassword = { navController.navigate(AuthenticatedRoute.ChangePassword) },
+            onOpenCancellation = { navController.navigate(AuthenticatedRoute.Cancellation) },
+            onOpenIdentity = { navController.navigate(AuthenticatedRoute.Identity) },
+            onOpenAbout = { navController.navigate(AuthenticatedRoute.About) },
+            onOpenMyContents = { navController.navigate(AuthenticatedRoute.MyContents) },
+            onOpenMyDrafts = { navController.navigate(AuthenticatedRoute.MyDrafts) },
+            onOpenProfile = { navController.navigate(AuthenticatedRoute.Profile) },
+            experienceApi = experienceApi,
+            meApi = r12MeApi,
+            accessToken = authenticated.session.accessToken,
+            onUserUpdated = onUserUpdated,
+            onSessionExpired = onSessionInvalidated,
+        )
+    }
     NavHost(
         navController = navController,
-        startDestination = AuthenticatedRoute.Shell,
+        startDestination = AuthenticatedRoute.Home,
         enterTransition = { HhyMotion.forwardEnter() },
         exitTransition = { HhyMotion.forwardExit() },
         popEnterTransition = { HhyMotion.backwardEnter() },
         popExitTransition = { HhyMotion.backwardExit() },
     ) {
-        composable<AuthenticatedRoute.Shell> {
-            HhyShellScreen(
-                user = authenticated.user,
-                onOpenSearch = { navController.navigate(AuthenticatedRoute.Search) },
-                onOpenProjects = { navController.navigate(AuthenticatedRoute.Projects) },
-                onOpenApps = { navController.navigate(AuthenticatedRoute.Apps) },
-                onOpenGroups = { navController.navigate(AuthenticatedRoute.Groups) },
-                onOpenTeamLeaders = { navController.navigate(AuthenticatedRoute.TeamLeaders) },
-                onOpenPublish = { navController.navigate(AuthenticatedRoute.PublishCenter) },
-                canOpenHomeTarget = { target -> canOpenHomeTarget(target) },
-                onOpenHomeTarget = { target ->
-                    val route = target.route.orEmpty()
-                    when {
-                        target.targetType == "IN_APP_ROUTE" && route == "/search" ->
-                            navController.navigate(AuthenticatedRoute.Search)
-                        target.targetType == "IN_APP_ROUTE" && route == "/content/projects" ->
-                            navController.navigate(AuthenticatedRoute.Projects)
-                        target.targetType == "IN_APP_ROUTE" && route == "/content/apps" ->
-                            navController.navigate(AuthenticatedRoute.Apps)
-                        target.targetType == "IN_APP_ROUTE" && route == "/content/groups" ->
-                            navController.navigate(AuthenticatedRoute.Groups)
-                        target.targetType == "IN_APP_ROUTE" && route == "/content/team-leaders" ->
-                            navController.navigate(AuthenticatedRoute.TeamLeaders)
-                        target.targetType == "IN_APP_ROUTE" && route.startsWith("/content/project/") ->
-                            navController.navigate(AuthenticatedRoute.ProjectDetail(route.substringAfterLast('/')))
-                        target.targetType == "IN_APP_ROUTE" && route.startsWith("/content/app/") ->
-                            navController.navigate(AuthenticatedRoute.AppDetail(route.substringAfterLast('/')))
-                          target.targetType == "IN_APP_ROUTE" && route.startsWith("/content/group/") ->
-                              navController.navigate(AuthenticatedRoute.GroupDetail(route.substringAfterLast('/')))
-                          target.targetType == "IN_APP_ROUTE" && route.startsWith("/content/team-leader/") ->
-                              navController.navigate(AuthenticatedRoute.TeamLeaderDetail(route.substringAfterLast('/')))
-                        target.targetType in setOf("H5_URL", "DOWNLOAD") && isSafeHomeUrl(target.url) ->
-                            uriHandler.openUri(target.url.orEmpty())
-                    }
-                },
-                onOpenLoginDevices = { navController.navigate(AuthenticatedRoute.LoginDevices) },
-                onOpenChangePassword = { navController.navigate(AuthenticatedRoute.ChangePassword) },
-                onOpenCancellation = { navController.navigate(AuthenticatedRoute.Cancellation) },
-                onOpenIdentity = { navController.navigate(AuthenticatedRoute.Identity) },
-                onOpenAbout = { navController.navigate(AuthenticatedRoute.About) },
-                onOpenMyContents = { navController.navigate(AuthenticatedRoute.MyContents) },
-                onOpenMyDrafts = { navController.navigate(AuthenticatedRoute.MyDrafts) },
-                onOpenProfile = { navController.navigate(AuthenticatedRoute.Profile) },
-                experienceApi = experienceApi,
-                accessToken = authenticated.session.accessToken,
-            )
-        }
+        composable<AuthenticatedRoute.Home>(
+            enterTransition = { androidx.compose.animation.EnterTransition.None },
+            exitTransition = { androidx.compose.animation.ExitTransition.None },
+            popEnterTransition = { androidx.compose.animation.EnterTransition.None },
+            popExitTransition = { androidx.compose.animation.ExitTransition.None },
+        ) { rootContent() }
+        composable<AuthenticatedRoute.Me>(
+            enterTransition = { androidx.compose.animation.EnterTransition.None },
+            exitTransition = { androidx.compose.animation.ExitTransition.None },
+            popEnterTransition = { androidx.compose.animation.EnterTransition.None },
+            popExitTransition = { androidx.compose.animation.ExitTransition.None },
+        ) { rootContent() }
         composable<AuthenticatedRoute.Profile> {
             R12ProfileScreen(
                 api = r12ProfileApi,
@@ -636,13 +679,11 @@ private fun AuthenticatedNavHost(
                 },
                 onOpenMyContents = {
                     navController.navigate(AuthenticatedRoute.MyContents) {
-                        popUpTo<AuthenticatedRoute.Shell>()
                         launchSingleTop = true
                     }
                 },
                 onBackToPublishCenter = {
                     navController.navigate(AuthenticatedRoute.PublishCenter) {
-                        popUpTo<AuthenticatedRoute.Shell>()
                         launchSingleTop = true
                     }
                 },

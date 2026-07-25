@@ -2,13 +2,14 @@ package cc.orbexa.hhy.network
 
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonObject
 
 @Serializable
 data class ApiEnvelope<T>(
     val success: Boolean,
     val requestId: String,
-    val timestamp: String,
+    val timestamp: String? = null,
     val data: T,
 )
 
@@ -16,7 +17,7 @@ data class ApiEnvelope<T>(
 data class ApiErrorEnvelope(
     val success: Boolean,
     val requestId: String,
-    val timestamp: String,
+    val timestamp: String? = null,
     val error: ApiErrorBody,
 )
 
@@ -24,17 +25,21 @@ data class ApiErrorEnvelope(
 data class ApiErrorBody(
     val code: String,
     val message: String,
-    val details: List<ApiErrorDetail>,
-    val retryable: Boolean,
-    val traceId: String,
+    val details: List<ApiErrorDetail> = emptyList(),
+    val retryable: Boolean? = null,
+    val traceId: String? = null,
 )
 
 @Serializable
 data class ApiErrorDetail(
-    val field: String,
+    val field: String? = null,
     val code: String,
     val message: String,
 )
+
+internal fun ApiErrorBody.fieldErrors(): Map<String, String> = details.mapNotNull { detail ->
+    detail.field?.takeIf(String::isNotBlank)?.let { field -> field to detail.message }
+}.toMap()
 
 @Serializable
 data class PlatformCapabilities(
@@ -230,6 +235,39 @@ data class UserSelfResource(
     val membershipStatus: String? = null,
     val createdAt: String? = null,
     val version: Long,
+)
+
+@Serializable
+data class MembershipBenefitResource(
+    val benefitCode: String,
+    val name: String,
+    val value: JsonElement,
+    val unit: String? = null,
+)
+
+@Serializable
+data class MembershipResource(
+    val id: String? = null,
+    val skuId: String? = null,
+    val name: String? = null,
+    val status: String,
+    val startsAt: String? = null,
+    val expiresAt: String? = null,
+    val benefits: List<MembershipBenefitResource> = emptyList(),
+    val paidValueCent: Long? = null,
+    val remainingValueCent: Long? = null,
+    val version: Long,
+)
+
+@Serializable
+data class RewardAccountResource(
+    val userId: String,
+    val pendingCent: Long,
+    val availableCent: Long,
+    val frozenCent: Long,
+    val withdrawnCent: Long? = null,
+    val version: Long,
+    val updatedAt: String? = null,
 )
 
 // Frozen R05 identity operation types. UI modules consume these contract types and

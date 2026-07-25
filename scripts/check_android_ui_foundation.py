@@ -41,6 +41,11 @@ def find_violations(root: Path = ROOT) -> list[str]:
             "NavHost(",
             "popEnterTransition",
             "popExitTransition",
+            "AuthenticatedRoute.Home",
+            "AuthenticatedRoute.Me",
+            "saveState = true",
+            "launchSingleTop = true",
+            "restoreState = true",
         ),
         "apps/android/feature/identity/src/main/java/cc/orbexa/hhy/identity/IdentityFlowScreen.kt": (
             "rememberNavController()",
@@ -57,7 +62,9 @@ def find_violations(root: Path = ROOT) -> list[str]:
             "HhyBackButton",
         ),
         "apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt": (
-            "rememberSaveable",
+            "HhyTopLevelDestination",
+            "AnimatedContent(",
+            "HhyMotion.peerContent()",
             "HhyIcons.",
             "HhyIcon(",
         ),
@@ -88,6 +95,14 @@ def find_violations(root: Path = ROOT) -> list[str]:
             violations.append("apps/android/feature/auth/src/main/java/cc/orbexa/hhy/auth/AuthScreen.kt: auth destinations must use a real Navigation back stack")
         if "HhyMotion.forwardContent()" in auth_text:
             violations.append("apps/android/feature/auth/src/main/java/cc/orbexa/hhy/auth/AuthScreen.kt: peer login tabs must not use directional page motion")
+
+    shell = android / "feature" / "shell" / "src" / "main" / "java" / "cc" / "orbexa" / "hhy" / "shell" / "HhyShellScreen.kt"
+    if shell.exists():
+        shell_text = _text(shell)
+        if re.search(r"\bvar\s+selectedIndex\s+by\s+remember", shell_text):
+            violations.append("apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt: bottom navigation must derive selection from the typed NavDestination")
+        if "ShellPlaceholder(" in shell_text:
+            violations.append("apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt: disabled top-level destinations must not open placeholder pages")
 
     catalog = _text(android / "gradle" / "libs.versions.toml")
     match = re.search(r'^navigation\s*=\s*"([^"]+)"', catalog, flags=re.MULTILINE)

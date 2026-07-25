@@ -38,6 +38,7 @@ import cc.orbexa.hhy.network.ContractAuthApi
 import cc.orbexa.hhy.network.ContractIdentityApi
 import cc.orbexa.hhy.network.ContractMediaApi
 import cc.orbexa.hhy.network.ContractR07Api
+import cc.orbexa.hhy.network.ContractR12MeApi
 import cc.orbexa.hhy.network.DirectUploadResource
 import cc.orbexa.hhy.network.ExperienceApi
 import cc.orbexa.hhy.network.HhyNetworkJson
@@ -57,10 +58,13 @@ import cc.orbexa.hhy.network.MediaCallResult
 import cc.orbexa.hhy.network.MediaCompleteUploadSessionRequest
 import cc.orbexa.hhy.network.MediaCreateUploadSessionRequest
 import cc.orbexa.hhy.network.MediaResource
+import cc.orbexa.hhy.network.MembershipBenefitResource
+import cc.orbexa.hhy.network.MembershipResource
 import cc.orbexa.hhy.network.PublisherSummaryResource
 import cc.orbexa.hhy.network.UserSelfResource
 import cc.orbexa.hhy.network.R07CallResult
 import cc.orbexa.hhy.network.R07PageMeta
+import cc.orbexa.hhy.network.RewardAccountResource
 import cc.orbexa.hhy.network.SearchResultPageResource
 import cc.orbexa.hhy.network.SearchResultResource
 import cc.orbexa.hhy.network.SearchTermPageResource
@@ -72,6 +76,7 @@ import cc.orbexa.hhy.network.UserSecuritySessionResource
 import cc.orbexa.hhy.network.VersionCheckRequest
 import cc.orbexa.hhy.network.VersionPolicy
 import cc.orbexa.hhy.shell.HhyShellScreen
+import cc.orbexa.hhy.shell.HhyTopLevelDestination
 import cc.orbexa.hhy.startup.StartupVisualAuditMode
 import cc.orbexa.hhy.startup.StartupVisualAuditScreen
 import java.io.InputStream
@@ -248,6 +253,22 @@ class HistoricalVisualAuditTest {
         waitForText("合作入口")
         waitForText("公开合作推荐")
         captureStable("26-r06-home.png")
+    }
+
+    @Test
+    fun meHomeProducesBoundVisualEvidence() {
+        setAuditContent {
+            HhyShellScreen(
+                user = visualMeUser,
+                selectedDestination = HhyTopLevelDestination.ME,
+                meApi = visualMeApi,
+                accessToken = "visual-audit-token",
+            )
+        }
+        waitForText("奖励资产")
+        waitForText("1,268.88")
+        waitForText("常用功能")
+        captureStable("41-r12-me-home.png")
     }
 
     @Test
@@ -533,6 +554,59 @@ class HistoricalVisualAuditTest {
             mediaId: String,
             idempotencyKey: String,
         ): MediaCallResult<CommandResultResource> = unavailable()
+    }
+
+    private val visualMeUser = UserSelfResource(
+        id = "visual-r12-user",
+        phoneMasked = "138****0000",
+        nickname = "合伙云用户",
+        avatarUrl = null,
+        bio = "寻找真实合作机会",
+        status = "ACTIVE",
+        identityStatus = "VERIFIED",
+        membershipStatus = "ACTIVE",
+        version = 3,
+    )
+
+    private val visualMeApi = object : ContractR12MeApi {
+        override suspend fun user(accessToken: String) = R07CallResult.Success(
+            visualMeUser,
+            "visual-r12-user",
+            "2026-07-25T15:00:00Z",
+        )
+
+        override suspend fun membership(accessToken: String) = R07CallResult.Success(
+            MembershipResource(
+                name = "Pro会员",
+                status = "ACTIVE",
+                expiresAt = "2027-07-25T15:00:00Z",
+                benefits = listOf(
+                    MembershipBenefitResource(
+                        benefitCode = "PUBLISH_LIMIT",
+                        name = "发布额度",
+                        value = kotlinx.serialization.json.JsonPrimitive(12),
+                        unit = "次",
+                    ),
+                ),
+                version = 2,
+            ),
+            "visual-r12-membership",
+            "2026-07-25T15:00:00Z",
+        )
+
+        override suspend fun rewardAccount(accessToken: String) = R07CallResult.Success(
+            RewardAccountResource(
+                userId = visualMeUser.id,
+                pendingCent = 32_600,
+                availableCent = 126_888,
+                frozenCent = 0,
+                withdrawnCent = 5_000,
+                version = 4,
+                updatedAt = "2026-07-25T15:00:00Z",
+            ),
+            "visual-r12-reward",
+            "2026-07-25T15:00:00Z",
+        )
     }
 
     private val discoveryPublisher = PublisherSummaryResource(
