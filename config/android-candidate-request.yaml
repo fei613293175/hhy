@@ -2,6 +2,6 @@ schema_version: 1
 status: REQUESTED
 release: R12
 candidate: true
-remediation_attempt: 2
-request_id: R12-CANDIDATE-20260726-002
-reason: R12 attempt 1在模拟器旅程启动前因后端结构化日志重复requestId遮蔽OIDC异常而失败；CR-0340已修复并在精确候选后端验证，attempt 2继续执行十页Android最终候选、OIDC自动登录、真实状态机夹具、视觉证据与APK追溯。
+remediation_attempt: 3
+request_id: R12-CANDIDATE-20260726-003
+reason: R12 attempt 2已证明OIDC bootstrap、session和/api/v1/me均为200，但隔离数据库遗漏official+STAGING+10221发布链使启动版本检查返回404；CR-0341已补齐确定性夹具，在obx-test连续两次输出一致且公网version-check返回200/NONE后，attempt 3执行十页Android最终候选、视觉证据与APK追溯。

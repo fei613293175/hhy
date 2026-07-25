@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## R12 Android 最终候选 attempt 3 · 2026-07-26
+
+- 修复提交 `a16a75e6` 已通过本地三层连续性门禁、`obx-test` 双次夹具幂等验证、公网 `official + STAGING + 10221` 版本检查 `200/NONE`，以及 GitHub Continuity Gate `30176293676` 和受影响 CI `30176293786`；普通推送未启动 Android、后端、数据库、Web 或模拟器重型 Job。
+- 唯一候选请求递增为 `R12-CANDIDATE-20260726-003` / attempt 3；继续使用 versionCode `10221`、R12 专用 Flyway V041 数据、OIDC 自动登录和十页唯一旅程。该轮完成构建、安装、功能、截图、日志及追溯后，由 AI 逐图判定视觉质量；若首次 R12 基线缺失，只做轻量基线晋升，不重复模拟器。
+
 ## R12 Android 最终候选 attempt 2 · 2026-07-26
 
 - Run `30173649942` 的 Android Build 已成功，但 Emulator Job `89719831962` 在模拟器旅程启动前请求 CI bootstrap 时返回 500；未产生 R12 页面截图，也未消耗视觉审核结果。

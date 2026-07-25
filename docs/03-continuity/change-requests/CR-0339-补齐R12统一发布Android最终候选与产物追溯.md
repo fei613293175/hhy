@@ -96,3 +96,10 @@ R12夹具只允许专用hhy-r12-ci-candidate-*容器并强制Flyway V041；R11�
 - 决定：`APPROVED`
 - 时间：`2026-07-25T19:35:04Z`
 - 说明：独立复核确认TASK-R12-007范围完整：十个R12 Android页面、专用hhy-r12-ci-candidate容器与Flyway V041夹具、既有OIDC自动登录、10221单调版本身份、首次基线单次采集后轻量晋升均已覆盖；仅调整候选测试、夹具、视觉清单和版本元数据，不修改生产业务/API/数据库契约。
+
+## 状态记录 · 2026-07-25T21:49:10Z
+
+- Actor：`codex-root-r12-candidate-20260726`
+- Status：`IMPLEMENTING`
+- Session：`SES-20260725T192048Z-668BD05D`
+- Note：attempt 1日志可观测性缺陷和attempt 2启动发布夹具缺口均已由CR-0340/0341修复并在固定候选后端确定性验证；提交a16a75e6的Continuity Gate与受影响CI成功且未启动模拟器，现递增唯一候选请求为attempt 3。

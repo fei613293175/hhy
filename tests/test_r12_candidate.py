@@ -171,8 +171,8 @@ class R12CandidateTest(unittest.TestCase):
         self.assertNotIn("10220", build + release_policy + version_test)
         self.assertEqual("R12", request["release"])
         self.assertTrue(request["candidate"])
-        self.assertEqual(2, request["remediation_attempt"])
-        self.assertEqual("R12-CANDIDATE-20260726-002", request["request_id"])
+        self.assertEqual(3, request["remediation_attempt"])
+        self.assertEqual("R12-CANDIDATE-20260726-003", request["request_id"])
 
 
 if __name__ == "__main__":
