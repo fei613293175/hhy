@@ -1,11 +1,18 @@
 # CHANGELOG
 
+## R12 Android 稳定幂等提交与结果闭环 · 2026-07-25
+
+- `ContractR12Api` 新增冻结 `contentPostContentsByIdSubmit`：请求只携带最新 `expectedVersion` 和可选 `reason`，路径、请求体与 `X-Idempotency-Key` 作为同一不可变提交意图绑定；服务端联合响应继续严格解析为 `ContentResource | CommandResultResource`。
+- `SCR-PUB-006` 在真实预览上增加二次确认，确认后进入 typed `SCR-PUB-007`；结果页按 B05/P07、B06/P07/P08 与批准补充规格实现提交中、已受理、待审、驳回、冲突、未知、离线和可恢复失败状态，同资源写请求期间锁定重复操作。
+- 409 只重新读取服务端最新内容，网络中断和 5xx 未知结果只允许查询最新状态，不自动判失败或生成新幂等键；429 仅允许使用原请求和原键继续。提交成功只显示“提交已受理”，不声称审核通过或已上线。
+- 正式 UI 不展示 `requestId`、错误码、资源 ID、`version`、幂等键或原始 `attributes`；本 Story 仅执行受影响 Android MODULE，R12 模拟器、真实截图、AI 视觉复核和候选 APK 仍留到 `TASK-R12-007`。
+
 ## R12 Android 发布中心与发布预览 · 2026-07-25
 
 - 新增 `SCR-PUB-001` 发布中心和 `SCR-PUB-006` 发布预览，精确绑定 B04/P01 与 B05/P06：发布中心包含真实资格/发布概览和项目、App、群聊、团队长四个同级入口；预览包含内容类型、标题标签、真实媒体、分区详情及固定操作区。
 - 底部“发布”导航接入 typed Navigation 真实页面，四类编辑器保存后进入 `/publish/preview/{contentId}`，内容管理详情也提供预览入口；页面复用现有 `userGetMe` 会话事实、`contentGetMeContents` 和 `contentGetContentsById`，不新增接口或业务类型。
 - 发布概览不硬编码额度次数，预览只接收安全 HTTPS 图片并隐藏缺失可选字段；页面不展示 requestId、错误码、资源 ID、version 或原始 attributes，也不生成示例图片、地点、人数和编号。
-- 本 Story 只预留“确认提交”回调，实际幂等提交由 `STORY-R12-005` 使用冻结 `contentPostContentsByIdSubmit` 接口完成；当前登记 `IN_REVIEW`，模拟器截图与最终视觉 PASS 留在 `TASK-R12-007`。
+- 发布预览已由后续 `STORY-R12-005` 接入冻结幂等提交与结果路由；当前登记 `IN_REVIEW`，模拟器截图与最终视觉 PASS 留在 `TASK-R12-007`。
 
 ## R12 Android 发布管理四页 · 2026-07-25
 

@@ -27,6 +27,18 @@ data class R12ContentStatusRequest(
     val reason: String? = null,
 )
 
+@Serializable
+data class R12SubmitContentRequest(
+    val expectedVersion: Long,
+    val reason: String? = null,
+)
+
+internal data class R12SubmitCall(
+    val route: String,
+    val idempotencyKey: String,
+    val body: String,
+)
+
 sealed interface R12CopyContentResult {
     data class Content(val resource: ContentResource) : R12CopyContentResult
     data class Command(val command: CommandResultResource) : R12CopyContentResult
@@ -60,6 +72,12 @@ interface ContractR12Api {
         id: String,
         idempotencyKey: String,
         request: R12CopyContentRequest,
+    ): R07CallResult<R12CopyContentResult>
+    suspend fun submit(
+        accessToken: String,
+        id: String,
+        idempotencyKey: String,
+        request: R12SubmitContentRequest,
     ): R07CallResult<R12CopyContentResult>
     suspend fun online(
         accessToken: String,
@@ -174,6 +192,21 @@ class UrlConnectionContractR12Api(baseUrl: String) : ContractR12Api {
             accessToken = accessToken,
             idempotencyKey = requireR12Key(idempotencyKey),
             body = HhyNetworkJson.value.encodeToString(request),
+        )
+    }
+
+    override suspend fun submit(
+        accessToken: String,
+        id: String,
+        idempotencyKey: String,
+        request: R12SubmitContentRequest,
+    ): R07CallResult<R12CopyContentResult> {
+        val call = buildR12SubmitCall(id, idempotencyKey, request)
+        return copyCall(
+            route = call.route,
+            accessToken = accessToken,
+            idempotencyKey = call.idempotencyKey,
+            body = call.body,
         )
     }
 
@@ -427,6 +460,20 @@ internal fun buildR12PageRoute(
 internal fun buildR12DeleteRoute(id: String, expectedVersion: Long): String {
     require(expectedVersion >= 0)
     return "/api/v1/contents/${safeR12Id(id)}?expectedVersion=$expectedVersion"
+}
+
+internal fun buildR12SubmitCall(
+    id: String,
+    idempotencyKey: String,
+    request: R12SubmitContentRequest,
+): R12SubmitCall {
+    require(request.expectedVersion >= 0)
+    require(request.reason == null || request.reason.length <= 2000)
+    return R12SubmitCall(
+        route = "/api/v1/contents/${safeR12Id(id)}/submit",
+        idempotencyKey = requireR12Key(idempotencyKey),
+        body = HhyNetworkJson.value.encodeToString(request),
+    )
 }
 
 internal fun decodeR12CopyData(value: JsonElement): R12CopyContentResult {

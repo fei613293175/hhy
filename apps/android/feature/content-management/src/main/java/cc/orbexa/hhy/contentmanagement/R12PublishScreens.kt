@@ -1,5 +1,6 @@
 package cc.orbexa.hhy.contentmanagement
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
@@ -23,6 +24,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
@@ -66,6 +68,7 @@ import cc.orbexa.hhy.network.ContentPageResource
 import cc.orbexa.hhy.network.ContentResource
 import cc.orbexa.hhy.network.ContractR12Api
 import cc.orbexa.hhy.network.R07CallResult
+import cc.orbexa.hhy.network.R12SubmitContentRequest
 import cc.orbexa.hhy.network.UserSelfResource
 import coil.compose.AsyncImage
 import kotlinx.coroutines.launch
@@ -293,13 +296,14 @@ fun R12PublishPreviewScreen(
     user: UserSelfResource,
     onBack: () -> Unit,
     onEdit: (String, String) -> Unit,
-    onConfirmSubmit: ((ContentResource) -> Unit)?,
+    onConfirmSubmit: (ContentResource, String) -> Unit,
     onSessionExpired: () -> Unit,
 ) {
     val scope = rememberCoroutineScope()
     var phase by remember(contentId) { mutableStateOf(R12PublishPhase.LOADING) }
     var content by remember(contentId) { mutableStateOf<ContentResource?>(null) }
     var refreshing by remember { mutableStateOf(false) }
+    var submitCandidate by remember(contentId) { mutableStateOf<ContentResource?>(null) }
 
     fun load() {
         if (refreshing) return
@@ -338,9 +342,9 @@ fun R12PublishPreviewScreen(
             current?.let { item ->
                 PublishPreviewActions(
                     editEnabled = !refreshing,
-                    submitEnabled = !refreshing && item.canSubmitFromPreview(user) && onConfirmSubmit != null,
+                    submitEnabled = !refreshing && item.canSubmitFromPreview(user),
                     onEdit = { onEdit(item.contentType, item.id) },
-                    onSubmit = { onConfirmSubmit?.invoke(item) },
+                    onSubmit = { submitCandidate = item },
                 )
             }
         },
@@ -351,6 +355,403 @@ fun R12PublishPreviewScreen(
             else -> PublishPreviewContent(current, padding)
         }
     }
+
+    submitCandidate?.let { item ->
+        AlertDialog(
+            onDismissRequest = { submitCandidate = null },
+            title = { Text("确认提交审核") },
+            text = {
+                Column(verticalArrangement = Arrangement.spacedBy(HhySpacing.Sm)) {
+                    Text("${r12ContentTypeLabel(item.contentType)}「${item.title}」将进入平台审核。")
+                    Text(
+                        "提交后需等待平台处理，期间不能直接上架。本次未填写补充原因，审核状态变化时可能收到通知。",
+                        color = HhyColors.TextSecondary,
+                    )
+                }
+            },
+            confirmButton = {
+                Button(
+                    onClick = {
+                        val idempotencyKey = r12SubmitIdempotencyKey(item.id, item.version)
+                        submitCandidate = null
+                        onConfirmSubmit(item, idempotencyKey)
+                    },
+                ) { Text("确认提交") }
+            },
+            dismissButton = {
+                TextButton(onClick = { submitCandidate = null }) { Text("继续检查") }
+            },
+        )
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun R12PublishResultScreen(
+    api: ContractR12Api,
+    accessToken: String,
+    contentId: String,
+    expectedVersion: Long,
+    idempotencyKey: String,
+    initialTitle: String,
+    initialContentType: String,
+    reason: String? = null,
+    onBack: () -> Unit,
+    onReturnPreview: () -> Unit,
+    onOpenMyContents: () -> Unit,
+    onBackToPublishCenter: () -> Unit,
+    onEdit: (String, String) -> Unit,
+    onSessionExpired: () -> Unit,
+) {
+    val scope = rememberCoroutineScope()
+    var phase by remember(contentId, expectedVersion, idempotencyKey) { mutableStateOf(R12SubmitPhase.SUBMITTING) }
+    var title by remember(contentId) { mutableStateOf(initialTitle) }
+    var contentType by remember(contentId) { mutableStateOf(initialContentType) }
+    var contentStatus by remember(contentId) { mutableStateOf<String?>(null) }
+    var retryAfterSeconds by remember(contentId) { mutableStateOf<Long?>(null) }
+    var writing by remember(contentId) { mutableStateOf(false) }
+    var checking by remember(contentId) { mutableStateOf(false) }
+    var started by remember(contentId, expectedVersion, idempotencyKey) { mutableStateOf(false) }
+
+    fun applyLatestContent(item: ContentResource, keepConflict: Boolean) {
+        title = item.title
+        contentType = item.contentType
+        contentStatus = item.status
+        phase = if (keepConflict) R12SubmitPhase.CONFLICT else r12SubmitPhaseFromContent(item.status)
+    }
+
+    suspend fun readLatest(keepConflict: Boolean) {
+        when (val latest = api.content(accessToken, contentId)) {
+            is R07CallResult.Success -> applyLatestContent(latest.data, keepConflict)
+            is R07CallResult.Failure -> when (latest.statusCode) {
+                401 -> onSessionExpired()
+                403 -> phase = R12SubmitPhase.FORBIDDEN
+                404 -> phase = R12SubmitPhase.NOT_FOUND
+                null -> if (!keepConflict) phase = R12SubmitPhase.OFFLINE
+                else -> if (!keepConflict) phase = R12SubmitPhase.ERROR
+            }
+        }
+    }
+
+    fun queryLatest() {
+        if (writing || checking) return
+        checking = true
+        scope.launch {
+            readLatest(keepConflict = false)
+            checking = false
+        }
+    }
+
+    fun submit(retrying: Boolean) {
+        if (writing || checking) return
+        writing = true
+        retryAfterSeconds = null
+        phase = if (retrying) R12SubmitPhase.RETRYING else R12SubmitPhase.SUBMITTING
+        scope.launch {
+            when (
+                val result = api.submit(
+                    accessToken = accessToken,
+                    id = contentId,
+                    idempotencyKey = idempotencyKey,
+                    request = R12SubmitContentRequest(expectedVersion = expectedVersion, reason = reason),
+                )
+            ) {
+                is R07CallResult.Success -> {
+                    contentStatus = result.data.submittedStatus()
+                    when (val submitted = result.data) {
+                        is cc.orbexa.hhy.network.R12CopyContentResult.Content -> {
+                            title = submitted.resource.title
+                            contentType = submitted.resource.contentType
+                        }
+                        is cc.orbexa.hhy.network.R12CopyContentResult.Command -> Unit
+                    }
+                    phase = R12SubmitPhase.SUCCESS
+                }
+                is R07CallResult.Failure -> {
+                    if (result.statusCode == 401) {
+                        onSessionExpired()
+                    } else {
+                        phase = result.toR12SubmitPhase()
+                        retryAfterSeconds = result.retryAfterSeconds
+                        if (result.statusCode == 409) readLatest(keepConflict = true)
+                    }
+                }
+            }
+            writing = false
+        }
+    }
+
+    LaunchedEffect(contentId, expectedVersion, idempotencyKey) {
+        if (!started) {
+            started = true
+            submit(retrying = false)
+        }
+    }
+    BackHandler(enabled = writing) {}
+
+    val presentation = r12SubmitPresentation(phase, contentStatus, retryAfterSeconds)
+    Scaffold(
+        modifier = Modifier.semantics { testTagsAsResourceId = true }
+            .testTag("hhy.screen.r12.publish.result.${phase.name.lowercase()}"),
+        containerColor = HhyColors.PageBackground,
+        topBar = {
+            TopAppBar(
+                title = { Text("提交结果", fontWeight = FontWeight.SemiBold) },
+                navigationIcon = { HhyBackButton(onBack, enabled = !writing) },
+            )
+        },
+    ) { padding ->
+        PublishResultContent(
+            padding = padding,
+            phase = phase,
+            presentation = presentation,
+            title = title,
+            contentType = contentType,
+            busy = writing || checking,
+            onQueryLatest = ::queryLatest,
+            onRetrySameRequest = { submit(retrying = true) },
+            onReturnPreview = onReturnPreview,
+            onOpenMyContents = onOpenMyContents,
+            onBackToPublishCenter = onBackToPublishCenter,
+            onEdit = { onEdit(contentType, contentId) },
+        )
+    }
+}
+
+@Composable
+private fun PublishResultContent(
+    padding: PaddingValues,
+    phase: R12SubmitPhase,
+    presentation: R12SubmitPresentation,
+    title: String,
+    contentType: String,
+    busy: Boolean,
+    onQueryLatest: () -> Unit,
+    onRetrySameRequest: () -> Unit,
+    onReturnPreview: () -> Unit,
+    onOpenMyContents: () -> Unit,
+    onBackToPublishCenter: () -> Unit,
+    onEdit: () -> Unit,
+) {
+    LazyColumn(
+        modifier = Modifier.fillMaxSize().padding(padding),
+        contentPadding = PaddingValues(horizontal = HhySpacing.Xl, vertical = HhySpacing.Xxl),
+        verticalArrangement = Arrangement.spacedBy(HhySpacing.Xl),
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        item {
+            Column(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.spacedBy(HhySpacing.Md),
+            ) {
+                PublishResultIcon(phase)
+                Text(
+                    presentation.title,
+                    style = MaterialTheme.typography.headlineSmall,
+                    fontWeight = FontWeight.Bold,
+                    color = HhyColors.TextPrimary,
+                )
+                Text(
+                    presentation.detail,
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = HhyColors.TextSecondary,
+                    textAlign = androidx.compose.ui.text.style.TextAlign.Center,
+                )
+            }
+        }
+        if (phase == R12SubmitPhase.PENDING) item { PublishReviewTimeline() }
+        item {
+            Surface(
+                modifier = Modifier.fillMaxWidth(),
+                color = HhyColors.Surface,
+                shape = RoundedCornerShape(HhyRadius.NormalCard),
+                tonalElevation = HhyElevation.Card,
+            ) {
+                Row(
+                    Modifier.fillMaxWidth().padding(HhySpacing.Lg),
+                    horizontalArrangement = Arrangement.spacedBy(HhySpacing.Md),
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    Surface(shape = RoundedCornerShape(HhyRadius.Tag), color = HhyColors.SoftBlue) {
+                        HhyIcon(
+                            publishOptionStyle(contentType).first,
+                            null,
+                            Modifier.padding(HhySpacing.Md),
+                            HhyColors.BrandPrimary,
+                        )
+                    }
+                    Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(HhySpacing.Xs)) {
+                        Text(
+                            title,
+                            fontWeight = FontWeight.SemiBold,
+                            color = HhyColors.TextPrimary,
+                            maxLines = 2,
+                            overflow = TextOverflow.Ellipsis,
+                        )
+                        Text(
+                            r12ContentTypeLabel(contentType),
+                            style = MaterialTheme.typography.bodySmall,
+                            color = HhyColors.TextSecondary,
+                        )
+                    }
+                    PreviewTag(
+                        presentation.statusLabel,
+                        resultAccent(phase),
+                        resultBackground(phase),
+                    )
+                }
+            }
+        }
+        item {
+            PublishResultActions(
+                phase = phase,
+                busy = busy,
+                onQueryLatest = onQueryLatest,
+                onRetrySameRequest = onRetrySameRequest,
+                onReturnPreview = onReturnPreview,
+                onOpenMyContents = onOpenMyContents,
+                onBackToPublishCenter = onBackToPublishCenter,
+                onEdit = onEdit,
+            )
+        }
+    }
+}
+
+@Composable
+private fun PublishResultIcon(phase: R12SubmitPhase) {
+    val icon = when (phase) {
+        R12SubmitPhase.SUCCESS -> HhyIcons.Check
+        R12SubmitPhase.PENDING, R12SubmitPhase.SUBMITTING, R12SubmitPhase.RETRYING,
+        R12SubmitPhase.UNKNOWN, R12SubmitPhase.OFFLINE -> HhyIcons.Pending
+        R12SubmitPhase.CONFLICT -> HhyIcons.Information
+        else -> HhyIcons.Error
+    }
+    Surface(shape = CircleShape, color = resultBackground(phase), modifier = Modifier.size(112.dp)) {
+        Box(contentAlignment = Alignment.Center) {
+            Surface(shape = CircleShape, color = HhyColors.Surface, modifier = Modifier.size(82.dp)) {
+                Box(contentAlignment = Alignment.Center) {
+                    HhyIcon(icon, null, Modifier.size(52.dp), resultAccent(phase))
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun PublishReviewTimeline() = Surface(
+    modifier = Modifier.fillMaxWidth(),
+    color = HhyColors.Surface,
+    shape = RoundedCornerShape(HhyRadius.NormalCard),
+) {
+    Row(
+        Modifier.fillMaxWidth().padding(HhySpacing.Lg),
+        verticalAlignment = Alignment.Top,
+    ) {
+        ReviewStep("提交成功", active = true, Modifier.weight(1f))
+        ReviewStep("平台审核", active = true, Modifier.weight(1f))
+        ReviewStep("结果更新", active = false, Modifier.weight(1f))
+    }
+}
+
+@Composable
+private fun ReviewStep(label: String, active: Boolean, modifier: Modifier) = Column(
+    modifier = modifier,
+    horizontalAlignment = Alignment.CenterHorizontally,
+    verticalArrangement = Arrangement.spacedBy(HhySpacing.Sm),
+) {
+    Surface(
+        shape = CircleShape,
+        color = if (active) HhyColors.BrandPrimary else HhyColors.Border,
+        modifier = Modifier.size(HhySpacing.Md),
+    ) {}
+    Text(
+        label,
+        style = MaterialTheme.typography.bodySmall,
+        color = if (active) HhyColors.BrandPrimary else HhyColors.TextTertiary,
+    )
+}
+
+@Composable
+private fun PublishResultActions(
+    phase: R12SubmitPhase,
+    busy: Boolean,
+    onQueryLatest: () -> Unit,
+    onRetrySameRequest: () -> Unit,
+    onReturnPreview: () -> Unit,
+    onOpenMyContents: () -> Unit,
+    onBackToPublishCenter: () -> Unit,
+    onEdit: () -> Unit,
+) = Column(
+    modifier = Modifier.fillMaxWidth(),
+    verticalArrangement = Arrangement.spacedBy(HhySpacing.Md),
+) {
+    when (phase) {
+        R12SubmitPhase.SUBMITTING, R12SubmitPhase.RETRYING -> {
+            Button(onClick = {}, enabled = false, modifier = Modifier.fillMaxWidth().height(HhySize.PrimaryButtonHeight)) {
+                CircularProgressIndicator(Modifier.size(HhySpacing.Lg), color = HhyColors.TextInverse, strokeWidth = HhySize.Hairline)
+                Spacer(Modifier.width(HhySpacing.Sm))
+                Text("处理中")
+            }
+        }
+        R12SubmitPhase.SUCCESS -> {
+            PrimaryResultButton("查看我的发布", busy, onOpenMyContents)
+            SecondaryResultButton("返回发布中心", busy, onBackToPublishCenter)
+        }
+        R12SubmitPhase.PENDING -> {
+            PrimaryResultButton("刷新审核状态", busy, onQueryLatest)
+            SecondaryResultButton("查看我的发布", busy, onOpenMyContents)
+        }
+        R12SubmitPhase.REJECTED, R12SubmitPhase.FAILED -> {
+            PrimaryResultButton("修改后重新提交", busy, onEdit)
+            SecondaryResultButton("查看我的发布", busy, onOpenMyContents)
+        }
+        R12SubmitPhase.CONFLICT -> {
+            PrimaryResultButton("查看最新内容", busy, onReturnPreview)
+            SecondaryResultButton("查看我的发布", busy, onOpenMyContents)
+        }
+        R12SubmitPhase.UNKNOWN, R12SubmitPhase.OFFLINE -> {
+            PrimaryResultButton("查询最新状态", busy, onQueryLatest)
+            SecondaryResultButton("查看我的发布", busy, onOpenMyContents)
+        }
+        R12SubmitPhase.ERROR -> {
+            PrimaryResultButton("使用原请求继续", busy, onRetrySameRequest)
+            SecondaryResultButton("返回发布预览", busy, onReturnPreview)
+        }
+        R12SubmitPhase.FORBIDDEN, R12SubmitPhase.NOT_FOUND -> {
+            PrimaryResultButton("返回发布中心", busy, onBackToPublishCenter)
+        }
+    }
+}
+
+@Composable
+private fun PrimaryResultButton(label: String, busy: Boolean, onClick: () -> Unit) = Button(
+    onClick = onClick,
+    enabled = !busy,
+    modifier = Modifier.fillMaxWidth().height(HhySize.PrimaryButtonHeight),
+) { Text(label) }
+
+@Composable
+private fun SecondaryResultButton(label: String, busy: Boolean, onClick: () -> Unit) = OutlinedButton(
+    onClick = onClick,
+    enabled = !busy,
+    modifier = Modifier.fillMaxWidth().height(HhySize.PrimaryButtonHeight),
+) { Text(label) }
+
+private fun resultAccent(phase: R12SubmitPhase): Color = when (phase) {
+    R12SubmitPhase.SUCCESS -> HhyColors.Success
+    R12SubmitPhase.PENDING, R12SubmitPhase.SUBMITTING, R12SubmitPhase.RETRYING,
+    R12SubmitPhase.UNKNOWN, R12SubmitPhase.OFFLINE -> HhyColors.BrandPrimary
+    R12SubmitPhase.CONFLICT, R12SubmitPhase.ERROR -> HhyColors.Warning
+    else -> HhyColors.Error
+}
+
+private fun resultBackground(phase: R12SubmitPhase): Color = when (phase) {
+    R12SubmitPhase.SUCCESS -> HhyColors.SuccessSoft
+    R12SubmitPhase.PENDING, R12SubmitPhase.SUBMITTING, R12SubmitPhase.RETRYING,
+    R12SubmitPhase.UNKNOWN, R12SubmitPhase.OFFLINE -> HhyColors.SoftBlue
+    R12SubmitPhase.CONFLICT, R12SubmitPhase.ERROR -> HhyColors.WarningSoft
+    else -> HhyColors.ErrorSoft
 }
 
 @Composable

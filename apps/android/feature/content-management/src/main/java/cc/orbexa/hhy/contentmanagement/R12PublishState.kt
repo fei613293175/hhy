@@ -4,8 +4,11 @@ import cc.orbexa.hhy.network.ContentPageResource
 import cc.orbexa.hhy.network.ContentResource
 import cc.orbexa.hhy.network.MediaItemResource
 import cc.orbexa.hhy.network.R07CallResult
+import cc.orbexa.hhy.network.R12CopyContentResult
 import cc.orbexa.hhy.network.UserSelfResource
 import java.net.URI
+import java.security.MessageDigest
+import java.util.UUID
 
 enum class R12PublishPhase {
     LOADING,
@@ -16,6 +19,27 @@ enum class R12PublishPhase {
     OFFLINE,
     ERROR,
 }
+
+enum class R12SubmitPhase {
+    SUBMITTING,
+    RETRYING,
+    SUCCESS,
+    PENDING,
+    REJECTED,
+    CONFLICT,
+    FAILED,
+    UNKNOWN,
+    OFFLINE,
+    FORBIDDEN,
+    NOT_FOUND,
+    ERROR,
+}
+
+internal data class R12SubmitPresentation(
+    val title: String,
+    val detail: String,
+    val statusLabel: String,
+)
 
 data class R12PublishEligibility(
     val canPublish: Boolean,
@@ -111,6 +135,114 @@ internal fun ContentResource.canSubmitFromPreview(user: UserSelfResource): Boole
         user.identityStatus == "VERIFIED" &&
         publisher?.userId == user.id &&
         status in setOf("DRAFT", "REJECTED", "RECTIFICATION")
+
+internal fun r12SubmitIdempotencyKey(
+    contentId: String,
+    expectedVersion: Long,
+    intentId: String = UUID.randomUUID().toString(),
+): String {
+    require(Regex("^[A-Za-z0-9_-]{1,64}$").matches(contentId))
+    require(expectedVersion >= 0)
+    require(intentId.isNotBlank())
+    val digest = MessageDigest.getInstance("SHA-256")
+        .digest("$contentId:$expectedVersion:$intentId".toByteArray(Charsets.UTF_8))
+        .joinToString("") { byte -> "%02x".format(byte.toInt() and 0xff) }
+    return "r12-submit-$digest"
+}
+
+internal fun R07CallResult.Failure.toR12SubmitPhase(): R12SubmitPhase = when (statusCode) {
+    403 -> R12SubmitPhase.FORBIDDEN
+    404 -> R12SubmitPhase.NOT_FOUND
+    409 -> R12SubmitPhase.CONFLICT
+    400, 422 -> R12SubmitPhase.FAILED
+    429 -> R12SubmitPhase.ERROR
+    null -> R12SubmitPhase.UNKNOWN
+    in 500..599 -> R12SubmitPhase.UNKNOWN
+    else -> R12SubmitPhase.ERROR
+}
+
+internal fun r12SubmitPhaseFromContent(status: String): R12SubmitPhase = when (status) {
+    "PENDING_REVIEW", "REVIEWING" -> R12SubmitPhase.PENDING
+    "REJECTED", "RECTIFICATION" -> R12SubmitPhase.REJECTED
+    "APPROVED", "ONLINE" -> R12SubmitPhase.SUCCESS
+    else -> R12SubmitPhase.UNKNOWN
+}
+
+internal fun R12CopyContentResult.submittedStatus(): String = when (this) {
+    is R12CopyContentResult.Content -> resource.status
+    is R12CopyContentResult.Command -> command.status
+}
+
+internal fun r12SubmitPresentation(
+    phase: R12SubmitPhase,
+    contentStatus: String?,
+    retryAfterSeconds: Long? = null,
+): R12SubmitPresentation {
+    val statusLabel = contentStatus?.let(::r12ContentStatusLabel) ?: "等待状态同步"
+    return when (phase) {
+        R12SubmitPhase.SUBMITTING -> R12SubmitPresentation(
+            "正在提交",
+            "正在校验最新内容并提交平台审核，请勿重复操作",
+            "提交中",
+        )
+        R12SubmitPhase.RETRYING -> R12SubmitPresentation(
+            "正在重新提交",
+            "正在使用原请求继续处理，不会创建新的提交意图",
+            "处理中",
+        )
+        R12SubmitPhase.SUCCESS -> R12SubmitPresentation(
+            "提交已受理",
+            "内容已交由平台处理，请在我的发布中查看最新审核进度",
+            statusLabel,
+        )
+        R12SubmitPhase.PENDING -> R12SubmitPresentation(
+            "审核中",
+            "平台正在审核该内容，最终结果以服务端最新状态为准",
+            statusLabel,
+        )
+        R12SubmitPhase.REJECTED -> R12SubmitPresentation(
+            "审核未通过",
+            "请根据平台审核结果修改内容后，再发起新的提交",
+            statusLabel,
+        )
+        R12SubmitPhase.CONFLICT -> R12SubmitPresentation(
+            "内容已发生变化",
+            "已重新读取服务端最新内容，请确认后再操作",
+            statusLabel,
+        )
+        R12SubmitPhase.FAILED -> R12SubmitPresentation(
+            "暂未提交",
+            "当前内容或账号条件暂不满足提交要求，请修改后重试",
+            statusLabel,
+        )
+        R12SubmitPhase.UNKNOWN -> R12SubmitPresentation(
+            "结果确认中",
+            "网络中断后无法确认最终结果，请先查询最新状态，不要重复提交",
+            statusLabel,
+        )
+        R12SubmitPhase.OFFLINE -> R12SubmitPresentation(
+            "网络不可用",
+            "暂时无法查询最新结果，恢复网络后可继续确认",
+            statusLabel,
+        )
+        R12SubmitPhase.FORBIDDEN -> R12SubmitPresentation(
+            "暂时无法提交",
+            "当前账号没有提交此内容的权限，请确认实名认证和内容归属",
+            statusLabel,
+        )
+        R12SubmitPhase.NOT_FOUND -> R12SubmitPresentation(
+            "内容不存在",
+            "内容可能已删除或链接已经失效",
+            "内容不可用",
+        )
+        R12SubmitPhase.ERROR -> R12SubmitPresentation(
+            "请稍后再试",
+            retryAfterSeconds?.let { "操作较频繁，请在 $it 秒后使用原请求继续" }
+                ?: "暂时无法完成提交，可保留当前内容稍后继续",
+            statusLabel,
+        )
+    }
+}
 
 internal fun ContentResource.securePreviewMedia(): List<MediaItemResource> = media
     .asSequence()

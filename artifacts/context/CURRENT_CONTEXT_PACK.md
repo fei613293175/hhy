@@ -1,7 +1,7 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-25T11:10:29Z
-- Context Hash：`4fd93ce55089a376975fc9e95ab3791e0b9cf988092677283a4e5d8bb169dfcf`
+- 生成时间：2026-07-25T11:27:28Z
+- Context Hash：`e7b32db1df853807add2ec618b7d4498b346c330698a63282e6745fc58510375`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 规则就绪：`PASS`（`HASHED_CONTEXT_MANIFEST`）
@@ -161,7 +161,7 @@ blocked_tasks:
 - TASK-R06-008
 - TASK-R07-008
 next_task: TASK-R12-004
-updated_at: '2026-07-25T11:10:26Z'
+updated_at: '2026-07-25T11:27:23Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -196,15 +196,15 @@ continuity:
   active_session_id: SES-20260725T053515Z-11D4084D
   actor_id: codex-root-r12-client-20260725
   story_id: STORY-R12-005
-  lease_expires_at: '2026-07-25T15:10:26Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260725T053515Z-11D4084D/0022.yaml
-  project_fingerprint: 6f7e14007787ccad243c7358bb0deff3af82d7eb597d522cd3aff8f78d15c16a
+  lease_expires_at: '2026-07-25T15:27:23Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260725T053515Z-11D4084D/0023.yaml
+  project_fingerprint: 6140d019b4a14178c813c140d89f2de9ab9635ef362bcc00ba476d812e3b8a00
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: abe441e2605674c0b81cba8c478ef9db5ebfbd8041030da32f74c0ab045e7bd5
-    generated_at: '2026-07-25T11:03:12Z'
+    context_hash: 4fd93ce55089a376975fc9e95ab3791e0b9cf988092677283a4e5d8bb169dfcf
+    generated_at: '2026-07-25T11:10:29Z'
   handoff_bundle: null
 ```
 
@@ -406,7 +406,7 @@ task_id: TASK-R12-004
 story_id: STORY-R12-005
 goal: 实现contentPostContentsByIdSubmit稳定幂等提交、二次确认、未知结果安全查询与SCR-PUB-007 MOB-STATUS成功待审驳回失败恢复页面；正式UI禁止技术字段。
 started_at: '2026-07-25T05:35:15Z'
-updated_at: '2026-07-25T11:10:26Z'
+updated_at: '2026-07-25T11:27:23Z'
 takeover_of: null
 change_requests:
 - CR-0319
@@ -483,12 +483,12 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-25T11:10:26Z'
-  expires_at: '2026-07-25T15:10:26Z'
-checkpoint_sequence: 22
-latest_checkpoint: .continuity/checkpoints/SES-20260725T053515Z-11D4084D/0022.yaml
+  renewed_at: '2026-07-25T11:27:23Z'
+  expires_at: '2026-07-25T15:27:23Z'
+checkpoint_sequence: 23
+latest_checkpoint: .continuity/checkpoints/SES-20260725T053515Z-11D4084D/0023.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260725T053515Z-11D4084D.md
-next_step: 提交CR批准证据并实现submit合同、确认弹层、结果状态机和typed Navigation。
+next_step: 提交冻结实现Commit并在obx-test运行R12网络、内容管理、App导航单测、Lint和App编译。
 context_pack: THIS_CONTEXT_PACK
 handoff_bundle: null
 closure: null
@@ -496,7 +496,7 @@ parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 网络合同、提交状态机、结果页和导航共享同一业务意图及文件链路，顺序实现可避免幂等语义分叉。
+  reason: 提交网络合同、页面状态机与typed Navigation共享同一业务意图和编译链，保持单一实现者顺序冻结。
 story_history:
 - story_id: STORY-R12-001
   completed_at: '2026-07-25T07:44:07Z'
@@ -524,40 +524,58 @@ story_history:
 
 ```yaml
 protocol_version: '1.0'
-checkpoint_id: CP-SES-20260725T053515Z-11D4084D-0022
+checkpoint_id: CP-SES-20260725T053515Z-11D4084D-0023
 session_id: SES-20260725T053515Z-11D4084D
 task_id: TASK-R12-004
 story_id: STORY-R12-005
-sequence: 22
-created_at: '2026-07-25T11:10:25Z'
-summary: 创建、修订并独立批准CR-0329，冻结R12稳定幂等提交、结果查询恢复和SCR-PUB-007视觉范围。
-next_step: 提交CR批准证据并实现submit合同、确认弹层、结果状态机和typed Navigation。
+sequence: 23
+created_at: '2026-07-25T11:27:23Z'
+summary: 实现R12冻结submit合同、稳定幂等提交、二次确认、SCR-PUB-007商业结果状态与typed Navigation。
+next_step: 提交冻结实现Commit并在obx-test运行R12网络、内容管理、App导航单测、Lint和App编译。
 blockers: []
 decisions: []
 note: ''
 tests:
-- name: 本阶段未执行测试
-  result: NOT_RUN
-  evidence: ''
-  note: 仅冻结并批准实现范围，尚未修改业务代码。
+- name: android-ui-foundation
+  result: PASS
+  evidence: scripts/check_android_ui_foundation.py
+  note: ''
+- name: generated-assets
+  result: PASS
+  evidence: scripts/check_generated_assets.py
+  note: ''
+- name: git-diff-check
+  result: PASS
+  evidence: git diff --check
+  note: ''
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: 1cd40a799e3b65911cd2683057b12b85b8d853ce
+  head: bd41773dd08056c33a281a8201cfcb5e8acb2deb
   upstream: origin/task/TASK-R03-001
-  ahead: 0
+  ahead: 1
   behind: 0
   dirty: true
   status_porcelain:
   - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
   - ' M .continuity/EVENT_LOG.jsonl'
   - ' M .continuity/STATE.yaml'
-  - ' M .continuity/sessions/SES-20260725T053515Z-11D4084D.yaml'
+  - ' M .continuity/change_requests/CR-0329.yaml'
+  - ' M CHANGELOG.md'
+  - ' M apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt'
+  - ' M apps/android/app/src/test/java/cc/orbexa/hhy/NavigationPolicyTest.kt'
+  - ' M apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR12Api.kt'
+  - ' M apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ContractR12ApiTest.kt'
+  - ' M apps/android/feature/content-management/src/main/java/cc/orbexa/hhy/contentmanagement/R12PublishScreens.kt'
+  - ' M apps/android/feature/content-management/src/main/java/cc/orbexa/hhy/contentmanagement/R12PublishState.kt'
+  - ' M apps/android/feature/content-management/src/test/java/cc/orbexa/hhy/contentmanagement/R12PublishStateTest.kt'
   - ' M catalogs/change_request_index.csv'
   - ' M catalogs/session_index.csv'
-  - ?? .continuity/change_requests/CR-0329.yaml
-  - ?? docs/03-continuity/change-requests/CR-0329-实现R12稳定幂等提交与SCR-PUB-007结果闭环.md
+  - ' M catalogs/ui_visual_acceptance.csv'
+  - ' M docs/03-continuity/change-requests/CR-0329-实现R12稳定幂等提交与SCR-PUB-007结果闭环.md'
   recent_commits:
+  - "bd41773dd08056c33a281a8201cfcb5e8acb2deb\t2026-07-25T19:11:30+08:00\tHHY Continuity Bootstrap\t[STORY-R12-005] chore(continuity): approve\
+    \ submit result scope"
   - "1cd40a799e3b65911cd2683057b12b85b8d853ce\t2026-07-25T19:03:32+08:00\tHHY Continuity Bootstrap\t[STORY-R12-005] chore(continuity): resume\
     \ publish result story"
   - "0f5e87bc53f56c2e15efb20cdaaf945a5fe8755a\t2026-07-25T18:57:23+08:00\tHHY Continuity Bootstrap\t[STORY-R12-005] chore(continuity): enter publish\
@@ -572,10 +590,8 @@ git:
     \ preview story"
   - "4ccc1f3fa3656d9032561c14753b9ed24743f813\t2026-07-25T18:16:23+08:00\tHHY Continuity Bootstrap\t[STORY-R12-003] chore(continuity): bind content\
     \ list evidence"
-  - "c5fdb519ce1f9544930bc008a9bdd52616227305\t2026-07-25T18:07:34+08:00\tHHY Continuity Bootstrap\t[STORY-R12-003] feat(android): implement content\
-    \ management lists"
 project_fingerprint:
-  sha256: 6f7e14007787ccad243c7358bb0deff3af82d7eb597d522cd3aff8f78d15c16a
+  sha256: 6140d019b4a14178c813c140d89f2de9ab9635ef362bcc00ba476d812e3b8a00
   files:
   - CHANGELOG.md
   - apps/admin-web/src/adminNavigation.test.ts
@@ -592,6 +608,7 @@ project_fingerprint:
   - apps/admin-web/src/views/AdminReviewWorkbenchPage.vue
   - apps/android/app/build.gradle.kts
   - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+  - apps/android/app/src/test/java/cc/orbexa/hhy/NavigationPolicyTest.kt
   - apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyIcons.kt
   - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR12Api.kt
   - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ContractR12ApiTest.kt
@@ -643,14 +660,14 @@ project_fingerprint:
   - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R12ReviewServiceTest.java
   - services/backend/content/src/main/java/cc/orbexa/hhy/content/R12ReviewPostgresStore.java
   - services/backend/content/src/main/java/cc/orbexa/hhy/content/R12ReviewService.java
-  file_count: 66
+  file_count: 67
   payload:
     base_commit: 8b852b35e1e152adbc37feb6f0add7fc719f4770
     files:
     - path: CHANGELOG.md
       state: FILE
-      size: 134882
-      sha256: d05f12b06fb5c042ef0526f89c613cf6e9fc6db35c9984ad64606c04f320fb4a
+      size: 135996
+      sha256: fd541f7805653e954d1f234ed4f17c18dd3d843aabcf7d196670ddf794ed0d16
     - path: apps/admin-web/src/adminNavigation.test.ts
       state: FILE
       size: 1720
@@ -705,20 +722,24 @@ project_fingerprint:
       sha256: eb1894027c9f85eb635218a01a481572e8be103f03499938d25f2f0c0b425e7b
     - path: apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
       state: FILE
-      size: 37473
-      sha256: 67f0ae1d3e3cf89293ab8e1bbd510b2e8618e999a9b190e89ac421911244dbd9
+      size: 40408
+      sha256: 02b08694450f02aef7665bdee1f9631d87992c6987a96064a2e45a57902a076c
+    - path: apps/android/app/src/test/java/cc/orbexa/hhy/NavigationPolicyTest.kt
+      state: FILE
+      size: 1028
+      sha256: e24a291be3b534ad9910de116e80e84c735b200289826be517c0f1cd482d0100
     - path: apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyIcons.kt
       state: FILE
       size: 3646
       sha256: 8f3426aa22371600ba2f25919a90d0136ec7dd0572c765de6defec4d603b7c57
     - path: apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR12Api.kt
       state: FILE
-      size: 15545
-      sha256: 051f784d47db740b9a45db21e41b212660dc227c1ecbf3ac8586e8eaf41bb8fb
+      size: 16884
+      sha256: d0b13173393f0555d1cc2ed899bdf7243e946c83976c56bc98c50113305aa67d
     - path: apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ContractR12ApiTest.kt
       state: FILE
-      size: 2276
-      sha256: c5891c85689e5cd37772061eb6dc5a77056d0c27c1b26d92673c636e132822aa
+      size: 4147
+      sha256: bc675d6cddae1190163817bee24633890d005afa38a03695110bd16275c81067
     - path: apps/android/core/network/src/test/java/cc/orbexa/hhy/network/R12ApiModelsSerializationTest.kt
       state: FILE
       size: 1524
@@ -749,12 +770,12 @@ project_fingerprint:
       sha256: 93761dd9856b33e6f1bbaa2ee7844fae18b8ab189e330c266116ef1762b1a9c6
     - path: apps/android/feature/content-management/src/main/java/cc/orbexa/hhy/contentmanagement/R12PublishScreens.kt
       state: FILE
-      size: 24268
-      sha256: 6dc83e94c1cb338f42056ff140c1937945d034dac65b10df6a57f5c9d0d28bdf
+      size: 40397
+      sha256: b21d6f4ab69aba81cb44f341a18d6f2c1a4f2e801cbe8934b145032978e4a5c9
     - path: apps/android/feature/content-management/src/main/java/cc/orbexa/hhy/contentmanagement/R12PublishState.kt
       state: FILE
-      size: 4755
-      sha256: 7268a7bede66261c1ab55fded0532372622cdfad5140b660ff903b7065820d28
+      size: 9455
+      sha256: 2ed5db490f594debe9ff40bc6c1545cf9caf177b1cc16a2e70e576c7b7acdf75
     - path: apps/android/feature/content-management/src/test/java/cc/orbexa/hhy/contentmanagement/R12ContentManagementListStateTest.kt
       state: FILE
       size: 3415
@@ -765,8 +786,8 @@ project_fingerprint:
       sha256: 13bf4557e4c1d142c7c1324fc117fb91a144d642e93207b6deb233e8e2067835
     - path: apps/android/feature/content-management/src/test/java/cc/orbexa/hhy/contentmanagement/R12PublishStateTest.kt
       state: FILE
-      size: 4425
-      sha256: 9f357e66f23575e85b71cf2511e1fd1d2a74ecad6a14434d04dff8344e982174
+      size: 7438
+      sha256: 73d39accc6b2659873b6983df7b6fa085d81b9cb10859234dd6fe90811e71d65
     - path: apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
       state: FILE
       size: 31982
@@ -793,8 +814,8 @@ project_fingerprint:
       sha256: 509def927119ea5799ad88a1216378178d6cb13e4b8fd7609dbbb3128393c69c
     - path: catalogs/ui_visual_acceptance.csv
       state: FILE
-      size: 54819
-      sha256: 46e28ac50f3aa813f44c794c3fba540567d218abbdf780209648b1adbc4cab83
+      size: 55793
+      sha256: 904ef4a721afa699d9defc241a90b382626c93af9ffcbb6d684ca2bb5b4cd9bb
     - path: database/migrations/V041__r12_review_permission_alignment.sql
       state: FILE
       size: 2495
@@ -877,8 +898,8 @@ project_fingerprint:
       sha256: 6005f051fd8704efafcda588ccb315ce6394a83d7fd79f4c8956ddd2d30039c6
     - path: docs/03-continuity/change-requests/CR-0329-实现R12稳定幂等提交与SCR-PUB-007结果闭环.md
       state: FILE
-      size: 3214
-      sha256: bd6f70bccf96d004006d25852072392d1f9b1d0428ebea0edc32caa7ed307022
+      size: 3549
+      sha256: d8e0c97af10b32fe5bb0a85d054db46c3fc86d0aef4b3d876013d4b602bf604f
     - path: releases/R12/STORIES.yaml
       state: FILE
       size: 23156
@@ -932,6 +953,7 @@ change_classification:
   - apps/admin-web/src/views/AdminReviewWorkbenchPage.vue
   - apps/android/app/build.gradle.kts
   - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+  - apps/android/app/src/test/java/cc/orbexa/hhy/NavigationPolicyTest.kt
   - apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyIcons.kt
   - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR12Api.kt
   - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ContractR12ApiTest.kt
@@ -971,6 +993,7 @@ change_classification:
   - apps/admin-web/src/views/AdminReviewWorkbenchPage.vue
   - apps/android/app/build.gradle.kts
   - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+  - apps/android/app/src/test/java/cc/orbexa/hhy/NavigationPolicyTest.kt
   - apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyIcons.kt
   - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR12Api.kt
   - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ContractR12ApiTest.kt
@@ -1102,8 +1125,8 @@ parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 网络合同、提交状态机、结果页和导航共享同一业务意图及文件链路，顺序实现可避免幂等语义分叉。
-event_hash: 3494b1815f32e5fa2dc1b02f5ecddbe78063cab04b4a0dfbe60345314a9f5da4
+  reason: 提交网络合同、页面状态机与typed Navigation共享同一业务意图和编译链，保持单一实现者顺序冻结。
+event_hash: f470a30e1ead6f786d8db2d781260ec2135691706a998dfdc1f18d7c7dcb00ca
 ```
 
 ## 接续状态与事件头
@@ -1115,8 +1138,8 @@ active_session_id: SES-20260725T053515Z-11D4084D
 last_session_id: SES-20260725T025042Z-A53070A0
 last_session_result: COMPLETED
 last_closure_checkpoint_id: CP-SES-20260725T025042Z-A53070A0-0005
-event_count: 3199
-event_head_hash: 3494b1815f32e5fa2dc1b02f5ecddbe78063cab04b4a0dfbe60345314a9f5da4
+event_count: 3201
+event_head_hash: f470a30e1ead6f786d8db2d781260ec2135691706a998dfdc1f18d7c7dcb00ca
 event_chain_valid: true
 ```
 
@@ -1239,9 +1262,9 @@ recent_sessions: - session_id: SES-20260723T183130Z-454A6E0D
   started_at: '2026-07-25T05:35:15Z'
   record: .continuity/sessions/SES-20260725T053515Z-11D4084D.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260725T053515Z-11D4084D.md
-  updated_at: '2026-07-25T11:10:26Z'
+  updated_at: '2026-07-25T11:27:23Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260725T053515Z-11D4084D/0022.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260725T053515Z-11D4084D/0023.yaml
   handoff_bundle: null
 task_claims: - claim_id: CLM-DA66E38CEAE0
   session_id: SES-20260723T045352Z-FC8DC2CF
@@ -2218,9 +2241,9 @@ recent_task_transitions: - transition_id: TRN-E6B4E3D44A16
 ```yaml
 initialized: true
 branch: task/TASK-R03-001
-head: 1cd40a799e3b65911cd2683057b12b85b8d853ce
+head: bd41773dd08056c33a281a8201cfcb5e8acb2deb
 upstream: origin/task/TASK-R03-001
-ahead: 0
+ahead: 1
 behind: 0
 dirty: true
 status_porcelain:
@@ -2229,15 +2252,26 @@ status_porcelain:
 - ' M .continuity/EVENT_LOG.jsonl'
 - ' M .continuity/SESSION_INDEX.yaml'
 - ' M .continuity/STATE.yaml'
+- ' M .continuity/change_requests/CR-0329.yaml'
 - ' M .continuity/sessions/SES-20260725T053515Z-11D4084D.yaml'
+- ' M CHANGELOG.md'
 - ' M CURRENT_STATUS.yaml'
+- ' M apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt'
+- ' M apps/android/app/src/test/java/cc/orbexa/hhy/NavigationPolicyTest.kt'
+- ' M apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR12Api.kt'
+- ' M apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ContractR12ApiTest.kt'
+- ' M apps/android/feature/content-management/src/main/java/cc/orbexa/hhy/contentmanagement/R12PublishScreens.kt'
+- ' M apps/android/feature/content-management/src/main/java/cc/orbexa/hhy/contentmanagement/R12PublishState.kt'
+- ' M apps/android/feature/content-management/src/test/java/cc/orbexa/hhy/contentmanagement/R12PublishStateTest.kt'
 - ' M catalogs/change_request_index.csv'
 - ' M catalogs/session_index.csv'
+- ' M catalogs/ui_visual_acceptance.csv'
+- ' M docs/03-continuity/change-requests/CR-0329-实现R12稳定幂等提交与SCR-PUB-007结果闭环.md'
 - ' M docs/03-continuity/sessions/2026-07/SES-20260725T053515Z-11D4084D.md'
-- ?? .continuity/change_requests/CR-0329.yaml
-- ?? .continuity/checkpoints/SES-20260725T053515Z-11D4084D/0022.yaml
-- ?? docs/03-continuity/change-requests/CR-0329-实现R12稳定幂等提交与SCR-PUB-007结果闭环.md
+- ?? .continuity/checkpoints/SES-20260725T053515Z-11D4084D/0023.yaml
 recent_commits:
+- "bd41773dd08056c33a281a8201cfcb5e8acb2deb\t2026-07-25T19:11:30+08:00\tHHY Continuity Bootstrap\t[STORY-R12-005] chore(continuity): approve submit\
+  \ result scope"
 - "1cd40a799e3b65911cd2683057b12b85b8d853ce\t2026-07-25T19:03:32+08:00\tHHY Continuity Bootstrap\t[STORY-R12-005] chore(continuity): resume publish\
   \ result story"
 - "0f5e87bc53f56c2e15efb20cdaaf945a5fe8755a\t2026-07-25T18:57:23+08:00\tHHY Continuity Bootstrap\t[STORY-R12-005] chore(continuity): enter publish\
@@ -2252,14 +2286,12 @@ recent_commits:
   \ preview story"
 - "4ccc1f3fa3656d9032561c14753b9ed24743f813\t2026-07-25T18:16:23+08:00\tHHY Continuity Bootstrap\t[STORY-R12-003] chore(continuity): bind content\
   \ list evidence"
-- "c5fdb519ce1f9544930bc008a9bdd52616227305\t2026-07-25T18:07:34+08:00\tHHY Continuity Bootstrap\t[STORY-R12-003] feat(android): implement content\
-  \ management lists"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`6f7e14007787ccad243c7358bb0deff3af82d7eb597d522cd3aff8f78d15c16a`
-- 文件数：66
+- 指纹：`6140d019b4a14178c813c140d89f2de9ab9635ef362bcc00ba476d812e3b8a00`
+- 文件数：67
 
 - `CHANGELOG.md`
 - `apps/admin-web/src/adminNavigation.test.ts`
@@ -2276,6 +2308,7 @@ recent_commits:
 - `apps/admin-web/src/views/AdminReviewWorkbenchPage.vue`
 - `apps/android/app/build.gradle.kts`
 - `apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt`
+- `apps/android/app/src/test/java/cc/orbexa/hhy/NavigationPolicyTest.kt`
 - `apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyIcons.kt`
 - `apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR12Api.kt`
 - `apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ContractR12ApiTest.kt`
@@ -12072,9 +12105,9 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - protocol_version: '1.0'
   cr_id: CR-0329
   title: 实现R12稳定幂等提交与SCR-PUB-007结果闭环
-  status: APPROVED
+  status: IMPLEMENTING
   created_at: '2026-07-25T11:09:02Z'
-  updated_at: '2026-07-25T11:09:45Z'
+  updated_at: '2026-07-25T11:26:00Z'
   requester_actor_id: codex-root-r12-client-20260725
   approver_actor_id: codex-r12-submit-contract-reviewer-20260725
   task_id: TASK-R12-004
@@ -12118,13 +12151,21 @@ PARALLEL_EXECUTION_PLAN.yaml:
     note: 独立复核确认范围严格对应STORY-R12-005和冻结contentPostContentsByIdSubmit；结果页遵循批准补充规格，不展示requestId、错误码、资源ID、version或原始attributes；未知结果与409均禁止创建新业务意图。
   machine_record: .continuity/change_requests/CR-0329.yaml
   document: docs/03-continuity/change-requests/CR-0329-实现R12稳定幂等提交与SCR-PUB-007结果闭环.md
+  decision_log:
+  - at: '2026-07-25T11:26:00Z'
+    actor_id: codex-root-r12-client-20260725
+    status: IMPLEMENTING
+    note: submit冻结合同、稳定幂等意图、二次确认、结果状态机、SCR-PUB-007和typed Navigation已落盘，进入源码检查与obx-test Android MODULE验证。
+    session_id: SES-20260725T053515Z-11D4084D
+  session_ids:
+  - SES-20260725T053515Z-11D4084D
 ```
 
 ## 上下文来源及哈希
 
 - `AGENTS.md` — `690f960020dcbd18080ec91b3c314335627b32e231b9f9b2e14566b0fbbaeb35`
 - `START_HERE.md` — `22de14029ce47beb41ea569e36ce223fbc9d11b86f8676f28d5fbbd83896af5c`
-- `CURRENT_STATUS.yaml` — `97ad8a8d2e8b13efe7f64878750bf3b17578c8d7bdd19a828389feff9ad3fecd`
+- `CURRENT_STATUS.yaml` — `afc88ef6fca075ca8bdef636b946ecfb1167b8e5f29b8a3f1e0dc0e8240cf4ba`
 - `NEXT_TASK.yaml` — `05e6bd161a5d73ff15c34dade88c269f05ff3e6e615e2d124681cd3b561a0524`
 - `DEVELOPMENT_RISK_REGISTER.md` — `8304c91492e4ee2abea0522a06541c8688d39c7fc532b5d0cde499bf09fffb87`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
@@ -12135,12 +12176,12 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `config/REPOSITORY_TRANSPORT.yaml` — `8c4a21f3e204d46e7ffb467d804a53ed26cda61cd088dadfddb50b69eea657fc`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `60943fcd9714cfae7274463554b5584fdb7a7aeee1ee547ff6dbc53fae6d4994`
-- `.continuity/EVENT_LOG.jsonl` — `6bf1afa20451e2325acea36f04869e6364a03ccde62f07efd830b35855f00c0f`
-- `.continuity/SESSION_INDEX.yaml` — `a570c8f0ee61df66b06b0af3abb51fecdc9bdf9d1d7e0403ab2fcf4620366da8`
+- `.continuity/EVENT_LOG.jsonl` — `19f727f278ca26fda4cfa73346a5ecc0ad1eb737d2a95b2a0396c6b629b46ff4`
+- `.continuity/SESSION_INDEX.yaml` — `b6fe5ebc2edea25fa102e48907a32dded78c6c8212f13d5fd67e94fa5ffbfa4f`
 - `.continuity/TASK_CLAIMS.yaml` — `97899659deabee4acf32ac55d82f8c8ebb00b4f394ab61e35fae298dcff00d28`
 - `.continuity/TASK_TRANSITIONS.yaml` — `42dda46a34627046c9f85e5e719e8dcfc107aa0725121cf6e86563f40d5034ab`
-- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `c5db2ff970bd194a6052ae844b0a60b7474289cda5c687f2bcd2698f7f847409`
-- `.continuity/ACTIVE_SESSION.yaml` — `f0c729c9473bc9a8846021f97bb07ebf15cde8e9073d75e3b096292c57f20575`
+- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `bbca526046ba4ac3b7144db8bddfd11aaa1d36081f9fd126c3002bcbe7781f39`
+- `.continuity/ACTIVE_SESSION.yaml` — `0342e539bbb8212579f3d580711498cb7b66c165a0374b10a4913ad74a279a5c`
 - `docs/00-baseline/正式商业系统全局硬性开发边界.md` — `9753b32db136e59e95a0974a62362456d9d577fd1bb40058ec985c4b64413eea`
 - `docs/02-ui/UI参考图使用与开发约束_V1.2.2.md` — `d14367586aa2067b059df58798acd20ab982459cdb35ff27fc7922a3896e4933`
 - `docs/03-continuity/持续开发无状态接续强制门禁_V1.2.3.md` — `d0ed3ed68bdd93b06500eecdfb5baa3245e6ca8b685a486788abb6eee39b3d51`
@@ -12151,8 +12192,8 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `releases/R12/TASKS.yaml` — `ccf3a782104fc56bdb97d02da81e8acb1be2fd0cf30f5935bb4754a63c9fb275`
 - `releases/R12/ACCEPTANCE_MATRIX.csv` — `197874227cef03f791df1fa5d2101a251df266c63240f777f358388b46cb9706`
 - `releases/R12/PARALLEL_EXECUTION_PLAN.yaml` — `2ddbee414a51a868b63331992e2e04c5400846cf6012474aab406e067e532e98`
-- `docs/03-continuity/sessions/2026-07/SES-20260725T053515Z-11D4084D.md` — `2d2cafb6001214fda3582ae425ed8c26f5b85522947fd46b5723e64019cc5f49`
-- `.continuity/checkpoints/SES-20260725T053515Z-11D4084D/0022.yaml` — `d26b0e0351c6a9c61f7a54713f50edda5adc57fe1b0de949ce1907aa7ccac3cb`
+- `docs/03-continuity/sessions/2026-07/SES-20260725T053515Z-11D4084D.md` — `b5d67ef57860b71cd40aac65e42b966c47a88def5a5b9a778bfaf10f343c062e`
+- `.continuity/checkpoints/SES-20260725T053515Z-11D4084D/0023.yaml` — `a7722562fc08051353a389635d312ee57863f153ea08d850fdc1f2a007e3a770`
 - `docs/03-continuity/change-requests/CR-0319-统一R12审核工作台权限目录与默认排序合同.md` — `42c214f27ab3a4061c8fe3963c213e37be4c2766a4d8c489f9757eaf6df4c5fc`
 - `docs/03-continuity/change-requests/CR-0320-扩展CR-0319审核证据权限与真实工作台施工范围.md` — `52dc56ab94cc576e79f38ce0ae4d628463ae6ba8af5b353f59bb3cd44ab05c64`
 - `docs/03-continuity/change-requests/CR-0321-投影R12逐页视觉合同到验收目录.md` — `ca31b8e0045e23616f5b308cbd4bebb447d249ce88770f020a47a607becebb68`
@@ -12163,7 +12204,7 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `docs/03-continuity/change-requests/CR-0326-实现R12四页发布管理客户端闭环.md` — `24297931e74a1b65edee1fcf0f0acdbba078c682c0288db72d52aeecb48eea54`
 - `docs/03-continuity/change-requests/CR-0327-纠正R12四页商业错误投影与发布入口.md` — `7e90572f178db492fca1bd0f95d65a8b05eb1d52c6dcd23cacf50b6a613d93f3`
 - `docs/03-continuity/change-requests/CR-0328-实现R12发布中心与真实内容预览纵向闭环.md` — `6005f051fd8704efafcda588ccb315ce6394a83d7fd79f4c8956ddd2d30039c6`
-- `docs/03-continuity/change-requests/CR-0329-实现R12稳定幂等提交与SCR-PUB-007结果闭环.md` — `bd6f70bccf96d004006d25852072392d1f9b1d0428ebea0edc32caa7ed307022`
+- `docs/03-continuity/change-requests/CR-0329-实现R12稳定幂等提交与SCR-PUB-007结果闭环.md` — `d8e0c97af10b32fe5bb0a85d054db46c3fc86d0aef4b3d876013d4b602bf604f`
 
 ## 接手硬规则
 

@@ -8,6 +8,56 @@ import org.junit.Test
 
 class ContractR12ApiTest {
     @Test
+    fun submitCallUsesFrozenRouteStableKeyAndBody() {
+        val key = "r12-submit-1234567890abcdef"
+        val call = buildR12SubmitCall(
+            id = "draft-1",
+            idempotencyKey = key,
+            request = R12SubmitContentRequest(expectedVersion = 12, reason = "补充资料后提交"),
+        )
+
+        assertEquals("/api/v1/contents/draft-1/submit", call.route)
+        assertEquals(key, call.idempotencyKey)
+        assertEquals("{\"expectedVersion\":12,\"reason\":\"补充资料后提交\"}", call.body)
+    }
+
+    @Test
+    fun submitCallRejectsInvalidVersionReasonAndKey() {
+        assertTrue(
+            runCatching {
+                buildR12SubmitCall("draft-1", "short", R12SubmitContentRequest(1))
+            }.exceptionOrNull() is IllegalArgumentException,
+        )
+        assertTrue(
+            runCatching {
+                buildR12SubmitCall("draft-1", "r12-submit-1234567890abcdef", R12SubmitContentRequest(-1))
+            }.exceptionOrNull() is IllegalArgumentException,
+        )
+        assertTrue(
+            runCatching {
+                buildR12SubmitCall(
+                    "draft-1",
+                    "r12-submit-1234567890abcdef",
+                    R12SubmitContentRequest(1, "x".repeat(2001)),
+                )
+            }.exceptionOrNull() is IllegalArgumentException,
+        )
+    }
+
+    @Test
+    fun submitResponseDecodesFrozenCommandResult() {
+        val data = HhyNetworkJson.value.parseToJsonElement(
+            """{"resourceId":"draft-1","status":"PENDING_REVIEW","version":13,"acceptedAt":"2026-07-25T11:00:00Z"}""",
+        )
+
+        val result = decodeR12CopyData(data)
+
+        assertTrue(result is R12CopyContentResult.Command)
+        assertEquals("PENDING_REVIEW", (result as R12CopyContentResult.Command).command.status)
+        assertEquals(13, result.command.version)
+    }
+
+    @Test
     fun statusRequestUsesFrozenExpectedVersionAndReason() {
         val encoded = HhyNetworkJson.value.encodeToString(R12ContentStatusRequest(12, "计划下架"))
         assertEquals("{\"expectedVersion\":12,\"reason\":\"计划下架\"}", encoded)

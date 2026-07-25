@@ -6,6 +6,8 @@ import cc.orbexa.hhy.network.MediaItemResource
 import cc.orbexa.hhy.network.PublisherSummaryResource
 import cc.orbexa.hhy.network.R07CallResult
 import cc.orbexa.hhy.network.R07PageMeta
+import cc.orbexa.hhy.network.CommandResultResource
+import cc.orbexa.hhy.network.R12CopyContentResult
 import cc.orbexa.hhy.network.UserSelfResource
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
@@ -75,6 +77,69 @@ class R12PublishStateTest {
         assertFalse(draft.copy(status = "ONLINE").canSubmitFromPreview(user()))
         assertFalse(draft.canSubmitFromPreview(user(identityStatus = "PENDING")))
         assertFalse(draft.copy(publisher = PublisherSummaryResource("other", "其他用户", verified = true)).canSubmitFromPreview(user()))
+    }
+
+    @Test
+    fun submitIdempotencyKeyIsStableForSameIntentAndChangesForNewIntent() {
+        val first = r12SubmitIdempotencyKey("draft-1", 7, "intent-a")
+        val replay = r12SubmitIdempotencyKey("draft-1", 7, "intent-a")
+        val nextIntent = r12SubmitIdempotencyKey("draft-1", 7, "intent-b")
+
+        assertEquals(first, replay)
+        assertFalse(first == nextIntent)
+        assertTrue(first.length in 16..128)
+        assertTrue(Regex("^[A-Za-z0-9._:-]+$").matches(first))
+    }
+
+    @Test
+    fun submitFailureNeverBlindlyRetriesConflictOrUnknownOutcome() {
+        assertEquals(R12SubmitPhase.CONFLICT, R07CallResult.Failure(409).toR12SubmitPhase())
+        assertEquals(R12SubmitPhase.UNKNOWN, R07CallResult.Failure(null).toR12SubmitPhase())
+        assertEquals(R12SubmitPhase.UNKNOWN, R07CallResult.Failure(500).toR12SubmitPhase())
+        assertEquals(R12SubmitPhase.ERROR, R07CallResult.Failure(429, retryAfterSeconds = 30).toR12SubmitPhase())
+        assertEquals(R12SubmitPhase.FAILED, R07CallResult.Failure(422).toR12SubmitPhase())
+    }
+
+    @Test
+    fun acceptedSubmitUsesServerStatusWithoutClaimingApproval() {
+        val result = R12CopyContentResult.Command(
+            CommandResultResource(
+                resourceId = "draft-1",
+                status = "PENDING_REVIEW",
+                version = 8,
+                acceptedAt = "2026-07-25T11:00:00Z",
+            ),
+        )
+        val presentation = r12SubmitPresentation(
+            phase = R12SubmitPhase.SUCCESS,
+            contentStatus = result.submittedStatus(),
+        )
+
+        assertEquals("PENDING_REVIEW", result.submittedStatus())
+        assertEquals("提交已受理", presentation.title)
+        assertFalse(presentation.detail.contains("审核通过"))
+        assertFalse(presentation.detail.contains("已上线"))
+    }
+
+    @Test
+    fun queriedContentProjectsPendingAndRejectedStates() {
+        assertEquals(R12SubmitPhase.PENDING, r12SubmitPhaseFromContent("PENDING_REVIEW"))
+        assertEquals(R12SubmitPhase.PENDING, r12SubmitPhaseFromContent("REVIEWING"))
+        assertEquals(R12SubmitPhase.REJECTED, r12SubmitPhaseFromContent("REJECTED"))
+        assertEquals(R12SubmitPhase.SUCCESS, r12SubmitPhaseFromContent("APPROVED"))
+        assertEquals(R12SubmitPhase.UNKNOWN, r12SubmitPhaseFromContent("DRAFT"))
+    }
+
+    @Test
+    fun commercialSubmitCopyNeverExposesTechnicalFields() {
+        R12SubmitPhase.entries.forEach { phase ->
+            val copy = r12SubmitPresentation(phase, "PENDING_REVIEW", retryAfterSeconds = 30)
+            val text = "${copy.title} ${copy.detail} ${copy.statusLabel}"
+            assertFalse(text.contains("requestId", ignoreCase = true))
+            assertFalse(text.contains("expectedVersion", ignoreCase = true))
+            assertFalse(text.contains("idempotency", ignoreCase = true))
+            assertFalse(text.contains("COMMON-"))
+        }
     }
 
     @Test
