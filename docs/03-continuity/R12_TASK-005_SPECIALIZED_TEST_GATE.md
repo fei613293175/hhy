@@ -41,6 +41,6 @@
 |---|---|
 | `artifacts/validation/r12-test-evidence/backend-java21.log` | `8526f1421842de9bc5619eb6afa20fae33a2d6798c84c7101ccd0b2f1ebf1389` |
 | `artifacts/validation/r12-test-evidence/postgresql17.log` | `4ff88496ab06bdf8f5a02d821aa7b5adeb4c6c7add3cc0c0e16d932098209c03` |
-| `artifacts/validation/r12-test-evidence/android-module.log` | `52b816b32718a11db57f6479571c438dd48bb89dfcd27b2d58e263e48a926c2e` |
+| `artifacts/validation/r12-test-evidence/android-module.log` | `33d18a7c972cfa577c5e3167a2647d4da80087703e8bce6516c695594ce502bb` |
 
 `evidence.json` 对每个测试 ID 记录断言、退出码和原始日志哈希。本任务只运行受影响 MODULE 与一次性 PostgreSQL 17，没有触发 GitHub 模拟器、候选截图或 APK。

@@ -21,7 +21,7 @@
       "artifacts": [
         { "path": "backend-java21.log", "sha256": "8526f1421842de9bc5619eb6afa20fae33a2d6798c84c7101ccd0b2f1ebf1389" },
         { "path": "postgresql17.log", "sha256": "4ff88496ab06bdf8f5a02d821aa7b5adeb4c6c7add3cc0c0e16d932098209c03" },
-        { "path": "android-module.log", "sha256": "52b816b32718a11db57f6479571c438dd48bb89dfcd27b2d58e263e48a926c2e" }
+        { "path": "android-module.log", "sha256": "33d18a7c972cfa577c5e3167a2647d4da80087703e8bce6516c695594ce502bb" }
       ]
     },
     {
@@ -36,7 +36,7 @@
       "artifacts": [
         { "path": "backend-java21.log", "sha256": "8526f1421842de9bc5619eb6afa20fae33a2d6798c84c7101ccd0b2f1ebf1389" },
         { "path": "postgresql17.log", "sha256": "4ff88496ab06bdf8f5a02d821aa7b5adeb4c6c7add3cc0c0e16d932098209c03" },
-        { "path": "android-module.log", "sha256": "52b816b32718a11db57f6479571c438dd48bb89dfcd27b2d58e263e48a926c2e" }
+        { "path": "android-module.log", "sha256": "33d18a7c972cfa577c5e3167a2647d4da80087703e8bce6516c695594ce502bb" }
       ]
     },
     {
@@ -50,7 +50,7 @@
       ],
       "artifacts": [
         { "path": "backend-java21.log", "sha256": "8526f1421842de9bc5619eb6afa20fae33a2d6798c84c7101ccd0b2f1ebf1389" },
-        { "path": "android-module.log", "sha256": "52b816b32718a11db57f6479571c438dd48bb89dfcd27b2d58e263e48a926c2e" }
+        { "path": "android-module.log", "sha256": "33d18a7c972cfa577c5e3167a2647d4da80087703e8bce6516c695594ce502bb" }
       ]
     },
     {
@@ -65,7 +65,7 @@
       "artifacts": [
         { "path": "backend-java21.log", "sha256": "8526f1421842de9bc5619eb6afa20fae33a2d6798c84c7101ccd0b2f1ebf1389" },
         { "path": "postgresql17.log", "sha256": "4ff88496ab06bdf8f5a02d821aa7b5adeb4c6c7add3cc0c0e16d932098209c03" },
-        { "path": "android-module.log", "sha256": "52b816b32718a11db57f6479571c438dd48bb89dfcd27b2d58e263e48a926c2e" }
+        { "path": "android-module.log", "sha256": "33d18a7c972cfa577c5e3167a2647d4da80087703e8bce6516c695594ce502bb" }
       ]
     },
     {
@@ -80,7 +80,7 @@
       "artifacts": [
         { "path": "backend-java21.log", "sha256": "8526f1421842de9bc5619eb6afa20fae33a2d6798c84c7101ccd0b2f1ebf1389" },
         { "path": "postgresql17.log", "sha256": "4ff88496ab06bdf8f5a02d821aa7b5adeb4c6c7add3cc0c0e16d932098209c03" },
-        { "path": "android-module.log", "sha256": "52b816b32718a11db57f6479571c438dd48bb89dfcd27b2d58e263e48a926c2e" }
+        { "path": "android-module.log", "sha256": "33d18a7c972cfa577c5e3167a2647d4da80087703e8bce6516c695594ce502bb" }
       ]
     },
     {
@@ -94,7 +94,7 @@
       ],
       "artifacts": [
         { "path": "backend-java21.log", "sha256": "8526f1421842de9bc5619eb6afa20fae33a2d6798c84c7101ccd0b2f1ebf1389" },
-        { "path": "android-module.log", "sha256": "52b816b32718a11db57f6479571c438dd48bb89dfcd27b2d58e263e48a926c2e" }
+        { "path": "android-module.log", "sha256": "33d18a7c972cfa577c5e3167a2647d4da80087703e8bce6516c695594ce502bb" }
       ]
     }
   ]

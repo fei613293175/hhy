@@ -1,19 +1,19 @@
 {
   "version": "1.0",
-  "generated_at": "2026-07-25T17:55:34Z",
-  "context_hash": "79f95e62e10070d32b0ea566d19b2818615dddef29a2ee09e08bcfea58fa8990",
+  "generated_at": "2026-07-25T17:58:27Z",
+  "context_hash": "92027e35f500ecec53a369523054960b61499df0d0c4a209b105917be2123b6d",
   "fingerprint_mode": "SESSION_DELTA",
   "project_fingerprint": {
-    "sha256": "c7a0d3f3850541a360a966c30d863726e97a7dff6a01797007c8da3fb5cdcb24",
+    "sha256": "79dc72fa1ecb38af6942ee2922b2c64912090bfadaa6322759e897682fef0e7d",
     "file_count": 15
   },
   "yaml": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.yaml",
-    "sha256": "6cceb1eb12758e07c69f07e155a374b0777042ac284938de3a53a1755401c42f"
+    "sha256": "98e786316fd20069542b027b20ee9fa7e441c36e851be59f8a5abe37d60f8b52"
   },
   "markdown": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.md",
-    "sha256": "143a493ef48c59be57f75ee70c48ee506bb4266b967fb518fffc3adb91f77639"
+    "sha256": "43d22d0c66ebcb5051cac3cb75064bcce062d169e703ec1084e2b700269e0997"
   },
   "sources": [
     {
@@ -28,7 +28,7 @@
     },
     {
       "path": "CURRENT_STATUS.yaml",
-      "sha256": "71708988daf75167cca5b75641b27923dc225de0b8f49a02808207d17a456efb",
+      "sha256": "b7a9ac8992c3159902076a52d61950a967064a4f1a794f7eea87f7ebe5bce4be",
       "bytes": 4448
     },
     {
@@ -83,12 +83,12 @@
     },
     {
       "path": ".continuity/EVENT_LOG.jsonl",
-      "sha256": "f8cfb797a74b16cd92f798aa5ac71613f1ce092db4042b78c857775c0ff96380",
-      "bytes": 1848333
+      "sha256": "92977af6cb71a3ae449c6216224ccc7b48193c9d65d913ce5980773a0be2bfb1",
+      "bytes": 1849115
     },
     {
       "path": ".continuity/SESSION_INDEX.yaml",
-      "sha256": "3c5ba39702bc819abdc63287862d171324aed97af4306cb25acf6dbcd09821c9",
+      "sha256": "370dd9ad1091b1d6801683341b7a22fe557ee97a155c6a9c2871c5d74547b1f6",
       "bytes": 53813
     },
     {
@@ -108,7 +108,7 @@
     },
     {
       "path": ".continuity/ACTIVE_SESSION.yaml",
-      "sha256": "505eed6dbc0b6acbd55f9ff084d135ab52d6e69b4468f5aafd65ec24e2edcf72",
+      "sha256": "f8053f5f0689a886097a479eeacdfe56b7b135c459a2ebaaaca5e7b76e2bab72",
       "bytes": 546
     },
     {
@@ -163,13 +163,13 @@
     },
     {
       "path": "docs/03-continuity/sessions/2026-07/SES-20260725T171320Z-7ACF9261.md",
-      "sha256": "f122fbc78010a0ce1ef9946393b08574ac8670d4919f7531bd4b6439958e6804",
-      "bytes": 6766
+      "sha256": "92bbb68ead825db31428c622f42e1b6d834d8345a4f89accb903976530ea4ee6",
+      "bytes": 8421
     },
     {
-      "path": ".continuity/checkpoints/SES-20260725T171320Z-7ACF9261/0003.yaml",
-      "sha256": "f765b9c5b1ad14795f2843f3409f1cf9b0c3579f19a1c2ec76ace40bfd38714f",
-      "bytes": 10883
+      "path": ".continuity/checkpoints/SES-20260725T171320Z-7ACF9261/0004.yaml",
+      "sha256": "4ebf767d6790ffd347602dbb2ed008a16c1e424b73bd133714cfff4297dcad43",
+      "bytes": 8957
     },
     {
       "path": "docs/03-continuity/change-requests/CR-0333-R12统一发布六项专项测试与故障证据闭环.md",
