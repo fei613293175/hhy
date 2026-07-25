@@ -83,3 +83,10 @@ OWNER_ACTIVE_GOAL_CONTINUE_R01_R32_IN_REPOSITORY_ORDER
 - Status：`IMPLEMENTING`
 - Session：`SES-20260725T053515Z-11D4084D`
 - Note：真实PostgreSQL Store默认复合排序执行断言已落盘，准备在obx-test PostgreSQL17验证。
+
+## 状态记录 · 2026-07-25T07:41:45Z
+
+- Actor：`codex-root-r12-client-20260725`
+- Status：`IMPLEMENTED`
+- Session：`SES-20260725T053515Z-11D4084D`
+- Note：冻结实现已提交并推送；obx-test Java21、PostgreSQL17、V041/U041与仓库SQL合同全部PASS，日志/tmp/hhy-r12-task004-13d85385-v3.log sha256=2efd38006ae7e87b0827417d43e5f845921bbd4b02131d2877484c78ab747864

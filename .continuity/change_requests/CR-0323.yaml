@@ -1,9 +1,9 @@
 protocol_version: '1.0'
 cr_id: CR-0323
 title: 补齐CR-0319默认排序PostgreSQL执行回归范围
-status: IMPLEMENTING
+status: IMPLEMENTED
 created_at: '2026-07-25T07:16:29Z'
-updated_at: '2026-07-25T07:18:02Z'
+updated_at: '2026-07-25T07:41:45Z'
 requester_actor_id: codex-root-r12-client-20260725
 approver_actor_id: codex-r12-postgres-test-scope-reviewer
 task_id: TASK-R12-004
@@ -41,5 +41,12 @@ decision_log:
   status: IMPLEMENTING
   note: 真实PostgreSQL Store默认复合排序执行断言已落盘，准备在obx-test PostgreSQL17验证。
   session_id: SES-20260725T053515Z-11D4084D
+- at: '2026-07-25T07:41:45Z'
+  actor_id: codex-root-r12-client-20260725
+  status: IMPLEMENTED
+  note: 冻结实现已提交并推送；obx-test Java21、PostgreSQL17、V041/U041与仓库SQL合同全部PASS，日志/tmp/hhy-r12-task004-13d85385-v3.log sha256=2efd38006ae7e87b0827417d43e5f845921bbd4b02131d2877484c78ab747864
+  session_id: SES-20260725T053515Z-11D4084D
 session_ids:
 - SES-20260725T053515Z-11D4084D
+implementation_commits:
+- 13d8538542c05c8a28f2f35f7b28224df657b7b1
