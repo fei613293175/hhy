@@ -3763,7 +3763,7 @@ claims:
 - claim_id: CLM-4615E14A5D2B
   session_id: SES-20260725T053515Z-11D4084D
   task_id: TASK-R12-004
-  story_id: STORY-R12-005
+  story_id: STORY-R12-006
   actor_id: codex-root-r12-client-20260725
   status: ACTIVE
   claimed_at: '2026-07-25T05:35:15Z'
@@ -3780,6 +3780,5 @@ claims:
   - releases/**
   - design/**
   - scripts/**
-  - apps/android/**,docs/02-ui/page-specs/android/**,catalogs/ui_visual_acceptance.csv,CHANGELOG.md,tests/**
   - CHANGELOG.md
-  updated_at: '2026-07-25T10:56:20Z'
+  updated_at: '2026-07-25T12:24:12Z'

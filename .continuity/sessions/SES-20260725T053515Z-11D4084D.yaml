@@ -8,10 +8,10 @@ actor:
   host: unknown
 release: R12
 task_id: TASK-R12-004
-story_id: STORY-R12-005
-goal: 实现contentPostContentsByIdSubmit稳定幂等提交、二次确认、未知结果安全查询与SCR-PUB-007 MOB-STATUS成功待审驳回失败恢复页面；正式UI禁止技术字段。
+story_id: STORY-R12-006
+goal: 按SCR-ME-002 MOB-FORM和冻结userGetMe/userPatchMeProfile实现头像、昵称、简介真实个人资料流程，含expectedVersion、稳定幂等、媒体选择与错误恢复。
 started_at: '2026-07-25T05:35:15Z'
-updated_at: '2026-07-25T11:52:06Z'
+updated_at: '2026-07-25T12:27:40Z'
 takeover_of: null
 change_requests:
 - CR-0319
@@ -39,25 +39,24 @@ scope:
   - releases/**
   - design/**
   - scripts/**
-  - apps/android/**,docs/02-ui/page-specs/android/**,catalogs/ui_visual_acceptance.csv,CHANGELOG.md,tests/**
   - CHANGELOG.md
   approved_exceptions:
+  - catalogs/admin_pages.csv
+  - catalogs/ui_page_specifications.csv
+  - catalogs/admin_page_operation_specs.csv
+  - catalogs/release_story_backlog.csv
+  - database/state_machines.yaml
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R12ReviewService.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R12ReviewPostgresStore.java
+  - docs/02-ui/page-specs/admin/ADM-REVIEW-001_审核队列.md
   - database/migrations/V041__r12_review_permission_alignment.sql
   - services/backend/boot/src/main/resources/db/migration/V041__r12_review_permission_alignment.sql
   - database/rollback/U041__r12_review_permission_alignment.sql
   - database/tests/r12_review_permission_alignment.sql
   - scripts/check_db_schema.py
   - scripts/run_r12_database_invariants.sh
-  - catalogs/admin_pages.csv
-  - catalogs/ui_page_specifications.csv
-  - catalogs/admin_page_operation_specs.csv
-  - catalogs/release_story_backlog.csv
-  - database/state_machines.yaml
   - releases/R12/STORIES.yaml
   - apps/admin-web/src/generated/admin-pages.json
-  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R12ReviewService.java
-  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R12ReviewPostgresStore.java
-  - docs/02-ui/page-specs/admin/ADM-REVIEW-001_审核队列.md
   - apps/admin-web/src/services/adminReviews.ts
   - apps/admin-web/src/services/adminReviews.test.ts
   - apps/admin-web/src/services/idempotency.ts
@@ -69,16 +68,7 @@ scope:
   - apps/admin-web/src/adminNavigation.test.ts
   - apps/admin-web/src/routerPermissions.test.ts
   - apps/admin-web/src/styles.css
-  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR12Api.kt
-  - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ContractR12ApiTest.kt
-  - apps/android/feature/content-management/src/main/java/cc/orbexa/hhy/contentmanagement/R12PublishState.kt
-  - apps/android/feature/content-management/src/main/java/cc/orbexa/hhy/contentmanagement/R12PublishScreens.kt
-  - apps/android/feature/content-management/src/test/java/cc/orbexa/hhy/contentmanagement/R12PublishStateTest.kt
-  - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
-  - apps/android/app/src/test/java/cc/orbexa/hhy/NavigationPolicyTest.kt
-  - catalogs/ui_visual_acceptance.csv
-  - CHANGELOG.md
-  source: story-switch+explicit+approved-cr:CR-0320+approved-cr:CR-0329
+  source: story-switch+explicit+approved-cr:CR-0319+approved-cr:CR-0320
 git:
   initialized: true
   branch: task/TASK-R03-001
@@ -88,25 +78,25 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-25T11:52:00Z'
-  expires_at: '2026-07-25T15:52:00Z'
-checkpoint_sequence: 26
-latest_checkpoint: .continuity/checkpoints/SES-20260725T053515Z-11D4084D/0026.yaml
+  renewed_at: '2026-07-25T12:27:35Z'
+  expires_at: '2026-07-25T16:27:35Z'
+checkpoint_sequence: 27
+latest_checkpoint: .continuity/checkpoints/SES-20260725T053515Z-11D4084D/0027.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260725T053515Z-11D4084D.md
-next_step: 提交并推送CR-0329实现证据，然后原子切换到STORY-R12-006继续个人资料开发。
+next_step: 提交Story切换证据，读取SCR-ME-002视觉规格、冻结个人资料合同和现有我的页面实现，创建实现CR。
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: 4693522cf4f50d303f15116153b346d6e50dcb1b4c866caed129acf3c3d4d151
-  generated_at: '2026-07-25T11:52:03Z'
+  context_hash: 55f265b20adc133e40852e550fd29c7532b5578c2ffa0a99dad00e07501eef31
+  generated_at: '2026-07-25T12:27:38Z'
 handoff_bundle: null
 closure: null
 parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 本Story单一提交意图、网络合同与结果导航已完成，证据绑定必须保持同一实现Commit。
+  reason: 个人资料合同、媒体上传、表单状态与我的页面导航共享同一资料模型，需先统一核对后再决定可拆分范围。
 story_history:
 - story_id: STORY-R12-001
   completed_at: '2026-07-25T07:44:07Z'
@@ -128,3 +118,8 @@ story_history:
   checkpoint_id: CP-SES-20260725T053515Z-11D4084D-0019
   commit: 43d55108ea1b86efcc887c17a7f8c2c7f05ba88e
   summary: STORY-R12-004实现与证据已提交推送，继续R12提交结果闭环。
+- story_id: STORY-R12-005
+  completed_at: '2026-07-25T12:24:12Z'
+  checkpoint_id: CP-SES-20260725T053515Z-11D4084D-0026
+  commit: 7155dbff25fbc38cb397ce96bd71bf612b7d89d3
+  summary: STORY-R12-005稳定幂等提交与SCR-PUB-007闭环已完成并推送，切换到个人资料。
