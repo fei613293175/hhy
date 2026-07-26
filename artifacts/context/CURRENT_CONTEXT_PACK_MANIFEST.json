@@ -1,19 +1,19 @@
 {
   "version": "1.0",
-  "generated_at": "2026-07-26T10:47:17Z",
-  "context_hash": "5be23e9e24366e77cb36a296815d47635cc142228e04b1855cb7094c7b210bde",
-  "fingerprint_mode": "REPOSITORY_TREE",
+  "generated_at": "2026-07-26T10:54:31Z",
+  "context_hash": "4459c4a7e2dca43df689bf33dc1d5334a6cfede29c9d31086ed7772a18d84727",
+  "fingerprint_mode": "SESSION_DELTA",
   "project_fingerprint": {
-    "sha256": "44586e342bcf4c7d8de3ea86034be550ed9a75af98303a25eac7fbe892acde8f",
-    "file_count": 0
+    "sha256": "63b475411fc2164a9358ea9ec9701d51655502834258984f61200e726291bd4f",
+    "file_count": 2
   },
   "yaml": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.yaml",
-    "sha256": "66ccc000a649552a64890a14151bf2d2cbc2da2bed21bafba729b74d9dfd2ef0"
+    "sha256": "bbe575cfcd47bccc7641de2d7802b2df7de6dee2c58cabdc8ca2afce47224d32"
   },
   "markdown": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.md",
-    "sha256": "b287a1cf8e86cf090fb063a47743b36196058ed909360d3ff1f4f25fdb3c08c2"
+    "sha256": "a6bd45eb83f3e17b493be3236afb62ba72512ac1f34ec09d9dacc9ae5dfb0e1c"
   },
   "sources": [
     {
@@ -28,8 +28,8 @@
     },
     {
       "path": "CURRENT_STATUS.yaml",
-      "sha256": "385e3bf2d210ccb8b538161771abba129df23494ca60885e4d439a89a228bafa",
-      "bytes": 4334
+      "sha256": "86e58a50f366d43a2370cd54f058fbcee19f5db9044f4893cb2ec9f704f3b3ec",
+      "bytes": 4491
     },
     {
       "path": "NEXT_TASK.yaml",
@@ -83,33 +83,33 @@
     },
     {
       "path": ".continuity/EVENT_LOG.jsonl",
-      "sha256": "a5c0a178e8f792ee84242fe28593cb2940b042ffde6d74ff16d11dc090430fbe",
-      "bytes": 1989576
+      "sha256": "38f27f7f6f77e4d1616e200b87ec999e8401b6c979089284f3f8c9782d10cd90",
+      "bytes": 1992982
     },
     {
       "path": ".continuity/SESSION_INDEX.yaml",
-      "sha256": "79e10db44cfcc715e9457497d94388342e595769636858cdc88066dd4a5542fe",
-      "bytes": 54885
+      "sha256": "a98d098a25d737bba9533d59868013a4dce9d3da49372b132e4a61d4be379b07",
+      "bytes": 55388
     },
     {
       "path": ".continuity/TASK_CLAIMS.yaml",
-      "sha256": "0351448ef317655635002ef1c66675bf3aa2810cf86f9976f1ac0bb554fe7998",
-      "bytes": 77130
+      "sha256": "55132f00b275369c4341aa84d466d2b31c698bd338423b1a29ab66e371ba7d6e",
+      "bytes": 77870
     },
     {
       "path": ".continuity/TASK_TRANSITIONS.yaml",
-      "sha256": "07c10f929db719a9014aa25face3c259d96dc1793f448f33dc3012b4d5babdc4",
-      "bytes": 31229
+      "sha256": "fa52e1a462602024df6bd798894386f5dc4c7738722761b6f8893e9ca8ce9da1",
+      "bytes": 31525
     },
     {
       "path": ".continuity/CHANGE_REQUEST_INDEX.yaml",
-      "sha256": "7e0bf7bb5bb91b0550fd681031e226fe217f3743b8b65cdbdd12a18e7520776f",
-      "bytes": 1257008
+      "sha256": "e369c9b6b155302d33046a90a514773fa3bf028c9801b5285715c5274102dc29",
+      "bytes": 1259996
     },
     {
       "path": ".continuity/ACTIVE_SESSION.yaml",
-      "sha256": "837917ffdef397f377cd5e2ccd6504155c0f3caa6b742de7ad1cc13e051c7027",
-      "bytes": 143
+      "sha256": "53973307bb36383f2d38fa637845523b59b5feced3bcb7b326768ed5b178c327",
+      "bytes": 544
     },
     {
       "path": "docs/00-baseline/正式商业系统全局硬性开发边界.md",
@@ -133,8 +133,8 @@
     },
     {
       "path": "releases/R12/RELEASE_MANIFEST.yaml",
-      "sha256": "f49d7dc668a98c53ea98c2432e9376b815fecfad2386c722319b82b443f04e49",
-      "bytes": 12454
+      "sha256": "cd8ca9e3f1d764f608227774869b5b768e4b177f2be47b86e4ea9458f13f26e8",
+      "bytes": 14270
     },
     {
       "path": "releases/R12/DEFINITION_OF_READY.yaml",
@@ -160,6 +160,21 @@
       "path": "releases/R12/PARALLEL_EXECUTION_PLAN.yaml",
       "sha256": "2ddbee414a51a868b63331992e2e04c5400846cf6012474aab406e067e532e98",
       "bytes": 2797
+    },
+    {
+      "path": "docs/03-continuity/sessions/2026-07/SES-20260726T105013Z-AE578D81.md",
+      "sha256": "c38faa8603034355d89685bf06fbc69befa3c2b3fff3e30674b6134652636f15",
+      "bytes": 2899
+    },
+    {
+      "path": ".continuity/checkpoints/SES-20260726T105013Z-AE578D81/0001.yaml",
+      "sha256": "14948002c54d8841ed09d6d57c77dd3e20eb30cfd025425ebc5f773266d41521",
+      "bytes": 5773
+    },
+    {
+      "path": "docs/03-continuity/change-requests/CR-0362-完成R12机器关闭与异步真机交接.md",
+      "sha256": "fc72a75b4f1362715683dd9d9c8e5f4e7a607bddd430880e41cf72d182aa9da9",
+      "bytes": 2998
     }
   ]
 }

@@ -22390,3 +22390,50 @@ change_requests:
   - SES-20260725T192048Z-668BD05D
   implementation_commits:
   - 47a4494dea729eda45cde6bb6bc144622c42745c
+- protocol_version: '1.0'
+  cr_id: CR-0362
+  title: 完成R12机器关闭与异步真机交接
+  status: IMPLEMENTING
+  created_at: '2026-07-26T10:51:33Z'
+  updated_at: '2026-07-26T10:52:11Z'
+  requester_actor_id: codex-root-r12-close-20260726
+  approver_actor_id: project-owner
+  task_id: TASK-R12-008
+  session_id: SES-20260726T105013Z-AE578D81
+  user_request: 项目所有者批准持续自主开发，不再重复申请日常批准；真机反馈异步，R12机器关闭后立即进入R13。
+  reason: TASK-R12-001至007、最终候选、十页视觉、固定签名APK、四方交付、六项验收和治理审计均已PASS；需要把Release Manifest置为MACHINE_COMPLETE_OWNER_PENDING并生成唯一机器关闭报告，同时继续阻断正式验收和生产激活。
+  original_rule: R12 Manifest仍为DEVELOPMENT_READY且缺少machine_completion和machine_closure；虽然前七项任务及六项AC已经PASS，但机器关闭状态、异步Owner边界和R13继续开发许可尚未形成单一仓库证据。
+  new_rule: 将R12置为MACHINE_COMPLETE_OWNER_PENDING，补齐Android候选与交付完整字段、machine_completion和machine_closure，并生成TASK-R12-008唯一机器关闭报告；owner_physical_test保持PENDING，formal_release_acceptance和production_activation继续受阻，next_release_development明确ALLOWED。
+  impact_summary: 仅汇合R12机器关闭与无状态交接事实，不重跑Java、数据库、Gradle或模拟器，不修改产品运行时、API、数据库、资金、密钥和生产数据。
+  impact:
+    files:
+    - releases/R12/RELEASE_MANIFEST.yaml
+    - artifacts/reports/R12/TASK-R12-008-machine-close.md
+    pages: []
+    apis: []
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - check_release_artifacts R12 machine-close-gate
+    - check_v123_documentation strict R12
+    - check_ui_visual_acceptance historical-through R12
+    - project-doctor strict R12
+    releases:
+    - R12
+    migration_and_compatibility: 纯治理证据兼容变更；R12测试APK继续有效，项目所有者后续真机反馈按版本受控回填，不影响R13及后续版本开发。
+  user_confirmation: 批准，以后不要让我批准了，你自己持续开发就行了。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-26T10:52:02Z'
+    note: 项目所有者已明确批准持续自主开发；本CR仅完成既定R12机器关闭和异步真机交接，不触发正式验收或生产激活。
+  machine_record: .continuity/change_requests/CR-0362.yaml
+  document: docs/03-continuity/change-requests/CR-0362-完成R12机器关闭与异步真机交接.md
+  decision_log:
+  - at: '2026-07-26T10:52:11Z'
+    actor_id: codex-root-r12-close-20260726
+    status: IMPLEMENTING
+    note: 开始汇合R12候选、交付、视觉、治理和异步Owner边界，生成机器关闭报告并执行专用machine-close-gate。
+    session_id: SES-20260726T105013Z-AE578D81
+  session_ids:
+  - SES-20260726T105013Z-AE578D81

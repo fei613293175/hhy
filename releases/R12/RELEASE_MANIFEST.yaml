@@ -1,6 +1,6 @@
 release: R12
 title: 统一发布与发布管理
-status: DEVELOPMENT_READY
+status: MACHINE_COMPLETE_OWNER_PENDING
 milestone: M1_CONTENT_MARKETPLACE
 depends_on:
 - R08
@@ -60,13 +60,41 @@ database_tables:
 - content_appeals
 android_delivery:
   source_commit: 8090001f064c304db08ca9886fe1b1d4d231ef00
+  apk_file: hhy-r12-8090001-debug.apk
+  version_name: 1.2.2-debug
+  version_code: 10221
+  sha256: b97bf8fd1a0306678f297da72c6b5b2e0b224aff2965a962a7db41167bc3e4f8
+  machine_delivery: PASS
+  owner_physical_test: PENDING
+  evidence: artifacts/validation/r12-apk-delivery/delivery-evidence.json
+  test_guide: artifacts/reports/R12/R12-version-test-guide.md
 android_automation:
   policy_id: HHY-ANDROID-AUTOMATION-V1
+  source_github_run_id: '30194396225'
+  promotion_github_run_id: '30195682023'
   status: PASS
   owner_test_allowed: true
   owner_physical_test: PENDING
   commit: 8090001f064c304db08ca9886fe1b1d4d231ef00
+  journey:
+  - SCR-PUB-001
+  - SCR-PUB-006
+  - SCR-PUB-007
+  - SCR-MYC-001
+  - SCR-MYC-002
+  - SCR-MYC-003
+  - SCR-MYC-004
+  - SCR-MYC-005
+  - SCR-ME-001
+  - SCR-ME-002
+  baseline_promotion:
+    artifact_id: '8630028491'
+    artifact_sha256: 423f76d0247ef331a988538ece00a424988d9f3caa75ea15e89efbe9f139446c
+    rebuild_or_emulator_rerun: false
+    status: PASS
+  ai_visual_review: PASS
   candidate_report: artifacts/validation/r12-task007-android/candidate-report.json
+  evidence: artifacts/validation/r12-task007-android/candidate-report.json
 governance_audit:
   status: PASS
   source_commit: 8090001f064c304db08ca9886fe1b1d4d231ef00
@@ -79,6 +107,25 @@ governance_audit:
     pitfalls: PASS
   evidence: artifacts/reports/R12/R12-governance-drift-audit.md
   evidence_sha256: a38e1336d09dd49db3c3409ffb79a33f1f102b9dcd866701776262c629d58442
+machine_completion:
+  status: PASS
+  owner_feedback_mode: ASYNC_NON_BLOCKING
+  formal_release_acceptance: PENDING_OWNER_PHYSICAL_TEST
+  production_activation: BLOCKED_OWNER_PHYSICAL_TEST
+  next_release_development: ALLOWED
+  evidence: artifacts/reports/R12/TASK-R12-008-machine-close.md
+machine_closure:
+  status: PASS
+  task_id: TASK-R12-008
+  session_id: SES-20260726T105013Z-AE578D81
+  report: artifacts/reports/R12/TASK-R12-008-machine-close.md
+  owner_physical_test: PENDING
+  formal_release_acceptance: PENDING_OWNER_PHYSICAL_TEST
+  production_activation: BLOCKED_OWNER_PHYSICAL_TEST
+  next_work: R13
+  candidate_product_commit: 8090001f064c304db08ca9886fe1b1d4d231ef00
+  candidate_delivery_commit: 47a4494dea729eda45cde6bb6bc144622c42745c
+  task007_closure_commit: 9b367d87b1037d1b91a9b46f44d45b9f01be31b8
 tests:
 - TST-CONTENT_002-HAPPY
 - TST-CONTENT_002-IDEMPOTENT
@@ -88,6 +135,9 @@ tests:
 - TST-PUBLISH_001-REJECT
 - TST-V122-018
 - TST-V122-019
+test_count: 8
+planning_depth: STORY_READY
+apk_gate: MACHINE_CANDIDATE_PASS_OWNER_FEEDBACK_ASYNC
 entry_baseline:
   checked_at: '2026-07-24'
   session_id: SES-20260724T144831Z-B2E27A89

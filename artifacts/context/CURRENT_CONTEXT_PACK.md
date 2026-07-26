@@ -1,14 +1,14 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-26T10:47:17Z
-- Context Hash：`5be23e9e24366e77cb36a296815d47635cc142228e04b1855cb7094c7b210bde`
+- 生成时间：2026-07-26T10:54:31Z
+- Context Hash：`4459c4a7e2dca43df689bf33dc1d5334a6cfede29c9d31086ed7772a18d84727`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 规则就绪：`PASS`（`HASHED_CONTEXT_MANIFEST`）
 - 精确恢复命令：
 
 ```bash
-python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R12-008
+python3 scripts/continuity.py checkpoint --summary '<完成内容>' --next-step '<下一步>' --parallel-assessment <ASSESSMENT> --parallel-reason '<未委托原因>'
 ```
 
 ## 规则就绪
@@ -42,7 +42,7 @@ baseline_version: 1.2.3
 phase: R12
 active_release: R12
 active_task: TASK-R12-008
-status: READY
+status: IN_PROGRESS
 documentation_status: ZERO_BLOCKING_DOCUMENT_GAPS
 last_green_commit: 47a4494dea729eda45cde6bb6bc144622c42745c
 last_staging_apk: null
@@ -157,14 +157,15 @@ completed_tasks:
 - TASK-R12-005
 - TASK-R12-006
 - TASK-R12-007
-in_progress_tasks: []
+in_progress_tasks:
+- TASK-R12-008
 blocked_tasks:
 - TASK-R02-007
 - TASK-R03-007
 - TASK-R06-008
 - TASK-R07-008
 next_task: TASK-R12-008
-updated_at: '2026-07-26T10:47:13Z'
+updated_at: '2026-07-26T10:54:13Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -196,17 +197,19 @@ validation:
 continuity:
   protocol_version: '1.0'
   mode: ENFORCED
-  active_session_id: null
-  last_session_id: SES-20260725T192048Z-668BD05D
-  last_session_result: COMPLETED
-  last_checkpoint: .continuity/checkpoints/SES-20260725T192048Z-668BD05D/0049.yaml
-  last_handoff_bundle: null
+  active_session_id: SES-20260726T105013Z-AE578D81
+  actor_id: codex-root-r12-close-20260726
+  story_id: STORY-R12-008
+  lease_expires_at: '2026-07-26T14:54:13Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260726T105013Z-AE578D81/0001.yaml
+  project_fingerprint: 63b475411fc2164a9358ea9ec9701d51655502834258984f61200e726291bd4f
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: 796c8846a17b65a3db5462d8914f9883be0267cee87f2b3cca77c3a3d9bffb4d
-    generated_at: '2026-07-26T10:47:09Z'
+    context_hash: 1770c598bb95a7cd027aa85ede1432dfb27b57b82b9a80122f8b1ab098db760d
+    generated_at: '2026-07-26T10:50:19Z'
+  handoff_bundle: null
 ```
 
 ## 默认并行规则
@@ -390,13 +393,238 @@ next_after: 由当前TASKS.yaml依赖关系决定
 ## 活跃会话
 
 ```yaml
-status: NONE
+protocol_version: '1.0'
+package_version: 1.2.3
+session_id: SES-20260726T105013Z-AE578D81
+status: ACTIVE
+actor:
+  id: codex-root-r12-close-20260726
+  kind: AI_OR_HUMAN
+  host: unknown
+release: R12
+task_id: TASK-R12-008
+story_id: STORY-R12-008
+goal: 完成R12机器关闭、无状态交接并立即进入R13，保持Owner真机反馈异步且不触发生产激活。
+started_at: '2026-07-26T10:50:13Z'
+updated_at: '2026-07-26T10:54:20Z'
+takeover_of: null
+change_requests:
+- CR-0362
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions:
+  - releases/R12/RELEASE_MANIFEST.yaml
+  - artifacts/reports/R12/TASK-R12-008-machine-close.md
+  source: story+explicit+approved-cr:CR-0362
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  base_commit: 9b367d87b1037d1b91a9b46f44d45b9f01be31b8
+  start_head: 9b367d87b1037d1b91a9b46f44d45b9f01be31b8
+  upstream: origin/task/TASK-R03-001
+  initial_worktree_state: CLEAN
+lease:
+  duration_minutes: 240
+  renewed_at: '2026-07-26T10:54:13Z'
+  expires_at: '2026-07-26T14:54:13Z'
+checkpoint_sequence: 1
+latest_checkpoint: .continuity/checkpoints/SES-20260726T105013Z-AE578D81/0001.yaml
+session_log: docs/03-continuity/sessions/2026-07/SES-20260726T105013Z-AE578D81.md
+next_step: 刷新Context并运行严格Doctor、pre-commit和提交；绑定CR-0362实现Commit后关闭TASK-R12-008并进入R13。
+context_pack: THIS_CONTEXT_PACK
+handoff_bundle: null
+closure: null
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 版本终态Manifest、关闭报告、CR和连续性指针必须串行绑定同一提交。
 ```
 
 ## 最新检查点
 
 ```yaml
-status: NO_CHECKPOINT
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260726T105013Z-AE578D81-0001
+session_id: SES-20260726T105013Z-AE578D81
+task_id: TASK-R12-008
+story_id: STORY-R12-008
+sequence: 1
+created_at: '2026-07-26T10:54:13Z'
+summary: R12机器关闭事实已汇合：Manifest进入MACHINE_COMPLETE_OWNER_PENDING，唯一关闭报告、六项AC、七个operationId、累计65页视觉、候选/稳定签名/治理审计和异步Owner边界完整；专用machine-close-gate
+  PASS。
+next_step: 刷新Context并运行严格Doctor、pre-commit和提交；绑定CR-0362实现Commit后关闭TASK-R12-008并进入R13。
+blockers: []
+decisions: []
+note: ''
+tests:
+- name: R12 machine close gate
+  result: PASS
+  evidence: scripts/check_release_artifacts.py --release R12 --machine-close-gate
+  note: 8任务6AC7 operationId和65页视觉PASS
+- name: Strict R12 documentation
+  result: PASS
+  evidence: scripts/check_v123_documentation.py --strict --release R12
+  note: 84需求319 REST且零文档缺口
+- name: Historical visual acceptance
+  result: PASS
+  evidence: catalogs/ui_visual_acceptance.csv
+  note: R01-R12累计65页PASS
+- name: Program execution plan
+  result: PASS
+  evidence: releases/PROGRAM_EXECUTION_PLAN.yaml
+  note: R02-R32共31版无漂移
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: 9b367d87b1037d1b91a9b46f44d45b9f01be31b8
+  upstream: origin/task/TASK-R03-001
+  ahead: 3
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/ACTIVE_SESSION.yaml'
+  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/SESSION_INDEX.yaml'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/TASK_CLAIMS.yaml'
+  - ' M .continuity/TASK_TRANSITIONS.yaml'
+  - ' M CURRENT_STATUS.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+  - ' M catalogs/change_request_index.csv'
+  - ' M catalogs/session_index.csv'
+  - ' M catalogs/task_transition_ledger.csv'
+  - ' M releases/R12/RELEASE_MANIFEST.yaml'
+  - ?? .continuity/change_requests/CR-0362.yaml
+  - ?? .continuity/sessions/SES-20260726T105013Z-AE578D81.yaml
+  - ?? artifacts/reports/R12/TASK-R12-008-machine-close.md
+  - ?? docs/03-continuity/change-requests/CR-0362-完成R12机器关闭与异步真机交接.md
+  - ?? docs/03-continuity/sessions/2026-07/SES-20260726T105013Z-AE578D81.md
+  recent_commits:
+  - "9b367d87b1037d1b91a9b46f44d45b9f01be31b8\t2026-07-26T18:48:53+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] chore(continuity): close TASK-R12-007\
+    \ as completed"
+  - "339fd7389d3f322f98a7abfc6a45a3319bd6438c\t2026-07-26T18:46:43+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] docs(r12): bind delivery implementation\
+    \ commit"
+  - "47a4494dea729eda45cde6bb6bc144622c42745c\t2026-07-26T18:43:38+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] chore(r12): deliver final\
+    \ test APK"
+  - "75fb4271dabec52d477b597512f028886ba261d3\t2026-07-26T17:00:00+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] test(android): approve R12\
+    \ visual baseline"
+  - "8090001f064c304db08ca9886fe1b1d4d231ef00\t2026-07-26T16:17:26+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] test(r12): authorize autonomous\
+    \ attempt 7"
+  - "8ad04b03befe575fc35cc619184e55db5781c7e0\t2026-07-26T15:58:57+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] docs(continuity): prepare\
+    \ attempt 7 decision"
+  - "bcde496e9821dce301d4b13bfe0b1f590f1380f5\t2026-07-26T15:47:46+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] test(r12): sync visual stability\
+    \ gate"
+  - "37f35dc8c4c0f4afe13b1c2c7d68a27e3daf0101\t2026-07-26T15:20:04+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] fix(r12): reject unstable\
+    \ visual evidence"
+project_fingerprint:
+  sha256: 63b475411fc2164a9358ea9ec9701d51655502834258984f61200e726291bd4f
+  files:
+  - docs/03-continuity/change-requests/CR-0362-完成R12机器关闭与异步真机交接.md
+  - releases/R12/RELEASE_MANIFEST.yaml
+  file_count: 2
+  payload:
+    base_commit: 9b367d87b1037d1b91a9b46f44d45b9f01be31b8
+    files:
+    - path: docs/03-continuity/change-requests/CR-0362-完成R12机器关闭与异步真机交接.md
+      state: FILE
+      size: 2998
+      sha256: fc72a75b4f1362715683dd9d9c8e5f4e7a607bddd430880e41cf72d182aa9da9
+    - path: releases/R12/RELEASE_MANIFEST.yaml
+      state: FILE
+      size: 14270
+      sha256: cd8ca9e3f1d764f608227774869b5b768e4b177f2be47b86e4ea9458f13f26e8
+change_classification:
+  continuity:
+  - docs/03-continuity/change-requests/CR-0362-完成R12机器关闭与异步真机交接.md
+  source_of_truth:
+  - releases/R12/RELEASE_MANIFEST.yaml
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+- APPROVED_CHANGE_REQUEST
+change_requests:
+- CR-0362
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions:
+  - releases/R12/RELEASE_MANIFEST.yaml
+  - artifacts/reports/R12/TASK-R12-008-machine-close.md
+  source: story+explicit+approved-cr:CR-0362
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 版本终态Manifest、关闭报告、CR和连续性指针必须串行绑定同一提交。
+event_hash: 2556e481c6558936d209ae81bb85aec61c9d614ad7d135c6e6700f37bf734b36
 ```
 
 ## 接续状态与事件头
@@ -404,31 +632,19 @@ status: NO_CHECKPOINT
 ```yaml
 mode: ENFORCED
 protocol_version: '1.0'
-active_session_id: null
+active_session_id: SES-20260726T105013Z-AE578D81
 last_session_id: SES-20260725T192048Z-668BD05D
 last_session_result: COMPLETED
 last_closure_checkpoint_id: CP-SES-20260725T192048Z-668BD05D-0049
-event_count: 3516
-event_head_hash: eb1324cee8401d6c2ea75a09c3585516e66fbdca256f81ba3d01ebb09047d452
+event_count: 3523
+event_head_hash: 2556e481c6558936d209ae81bb85aec61c9d614ad7d135c6e6700f37bf734b36
 event_chain_valid: true
 ```
 
 ## 最近会话与任务迁移
 
 ```yaml
-recent_sessions: - session_id: SES-20260724T032308Z-98D6D10A
-  task_id: TASK-R11-007
-  story_id: STORY-R11-004
-  actor_id: codex-root-r11-candidate
-  status: CLOSED
-  started_at: '2026-07-24T03:23:08Z'
-  record: .continuity/sessions/SES-20260724T032308Z-98D6D10A.yaml
-  session_log: docs/03-continuity/sessions/2026-07/SES-20260724T032308Z-98D6D10A.md
-  updated_at: '2026-07-24T09:30:23Z'
-  closed_at: '2026-07-24T09:30:23Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260724T032308Z-98D6D10A/0012.yaml
-  handoff_bundle: null
-- session_id: SES-20260724T110611Z-0D26E8D5
+recent_sessions: - session_id: SES-20260724T110611Z-0D26E8D5
   task_id: TASK-R11-008
   story_id: STORY-R11-004
   actor_id: codex-root-r11-close
@@ -536,47 +752,19 @@ recent_sessions: - session_id: SES-20260724T032308Z-98D6D10A
   closed_at: '2026-07-26T10:47:12Z'
   latest_checkpoint: .continuity/checkpoints/SES-20260725T192048Z-668BD05D/0049.yaml
   handoff_bundle: null
-task_claims: - claim_id: CLM-9F0481F9E6A2
-  session_id: SES-20260723T114316Z-44EBE3C1
-  task_id: TASK-R10-005
-  story_id: STORY-R10-004
-  actor_id: codex-root-r10-tests
-  status: CLOSED
-  claimed_at: '2026-07-23T11:43:16Z'
-  allowed_paths:
-  - apps/**
-  - services/**
-  - packages/**
-  - contracts/**
-  - database/**
-  - config/**
-  - catalogs/**
-  - tests/**
-  - infra/**
-  - design/**
-  - docs/**
-  - releases/**
-  - scripts/**
-  - templates/**
-  - .github/**
-  - .githooks/**
-  - .codex/**
-  - AGENTS.md
-  - START_HERE.md
-  - README.md
-  - CHANGELOG.md
-  - Makefile
-  - .gitignore
-  - .gitattributes
-  - .dockerignore
-  - package.json
-  - pnpm-lock.yaml
-  - pnpm-workspace.yaml
-  - requirements-dev.txt
-  - PROJECT_*.yaml
-  - PROJECT_*.json
-  closed_at: '2026-07-23T11:53:58Z'
-- claim_id: CLM-C0DD955F7A14
+- session_id: SES-20260726T105013Z-AE578D81
+  task_id: TASK-R12-008
+  story_id: STORY-R12-008
+  actor_id: codex-root-r12-close-20260726
+  status: ACTIVE
+  started_at: '2026-07-26T10:50:13Z'
+  record: .continuity/sessions/SES-20260726T105013Z-AE578D81.yaml
+  session_log: docs/03-continuity/sessions/2026-07/SES-20260726T105013Z-AE578D81.md
+  updated_at: '2026-07-26T10:54:13Z'
+  closed_at: null
+  latest_checkpoint: .continuity/checkpoints/SES-20260726T105013Z-AE578D81/0001.yaml
+  handoff_bundle: null
+task_claims: - claim_id: CLM-C0DD955F7A14
   session_id: SES-20260723T115555Z-5C81458B
   task_id: TASK-R10-006
   story_id: STORY-R10-004
@@ -1322,17 +1510,46 @@ task_claims: - claim_id: CLM-9F0481F9E6A2
   - PROJECT_*.yaml
   - PROJECT_*.json
   closed_at: '2026-07-26T10:47:13Z'
-recent_task_transitions: - transition_id: TRN-7D4AC37706EB
-  timestamp: '2026-07-23T11:43:18Z'
-  release: R10
-  task_id: TASK-R10-005
-  story_id: STORY-R10-004
-  from_status: READY
-  to_status: IN_PROGRESS
-  session_id: SES-20260723T114316Z-44EBE3C1
-  actor_id: codex-root-r10-tests
-  reason: 会话领取任务
-- transition_id: TRN-46DFAF915ED3
+- claim_id: CLM-2DA939E90089
+  session_id: SES-20260726T105013Z-AE578D81
+  task_id: TASK-R12-008
+  story_id: STORY-R12-008
+  actor_id: codex-root-r12-close-20260726
+  status: ACTIVE
+  claimed_at: '2026-07-26T10:50:13Z'
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+recent_task_transitions: - transition_id: TRN-46DFAF915ED3
   timestamp: '2026-07-23T11:55:57Z'
   release: R10
   task_id: TASK-R10-006
@@ -1522,6 +1739,16 @@ recent_task_transitions: - transition_id: TRN-7D4AC37706EB
   session_id: SES-20260725T192048Z-668BD05D
   actor_id: codex-root-r12-candidate-20260726
   reason: 会话领取任务
+- transition_id: TRN-E2300A22C0F0
+  timestamp: '2026-07-26T10:50:15Z'
+  release: R12
+  task_id: TASK-R12-008
+  story_id: STORY-R12-008
+  from_status: READY
+  to_status: IN_PROGRESS
+  session_id: SES-20260726T105013Z-AE578D81
+  actor_id: codex-root-r12-close-20260726
+  reason: 会话领取任务
 ```
 
 ## Git 状态
@@ -1529,29 +1756,36 @@ recent_task_transitions: - transition_id: TRN-7D4AC37706EB
 ```yaml
 initialized: true
 branch: task/TASK-R03-001
-head: 339fd7389d3f322f98a7abfc6a45a3319bd6438c
+head: 9b367d87b1037d1b91a9b46f44d45b9f01be31b8
 upstream: origin/task/TASK-R03-001
-ahead: 2
+ahead: 3
 behind: 0
 dirty: true
 status_porcelain:
 - ' M .continuity/ACTIVE_SESSION.yaml'
+- ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
 - ' M .continuity/EVENT_LOG.jsonl'
 - ' M .continuity/SESSION_INDEX.yaml'
 - ' M .continuity/STATE.yaml'
 - ' M .continuity/TASK_CLAIMS.yaml'
-- ' M .continuity/sessions/SES-20260725T192048Z-668BD05D.yaml'
-- ' M CHANGELOG.md'
+- ' M .continuity/TASK_TRANSITIONS.yaml'
 - ' M CURRENT_STATUS.yaml'
-- ' M NEXT_TASK.yaml'
 - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
 - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
 - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+- ' M catalogs/change_request_index.csv'
 - ' M catalogs/session_index.csv'
-- ' M docs/03-continuity/sessions/2026-07/SES-20260725T192048Z-668BD05D.md'
-- ' M releases/R12/TASKS.yaml'
-- ?? .continuity/checkpoints/SES-20260725T192048Z-668BD05D/0049.yaml
+- ' M catalogs/task_transition_ledger.csv'
+- ' M releases/R12/RELEASE_MANIFEST.yaml'
+- ?? .continuity/change_requests/CR-0362.yaml
+- ?? .continuity/checkpoints/SES-20260726T105013Z-AE578D81/0001.yaml
+- ?? .continuity/sessions/SES-20260726T105013Z-AE578D81.yaml
+- ?? artifacts/reports/R12/TASK-R12-008-machine-close.md
+- ?? docs/03-continuity/change-requests/CR-0362-完成R12机器关闭与异步真机交接.md
+- ?? docs/03-continuity/sessions/2026-07/SES-20260726T105013Z-AE578D81.md
 recent_commits:
+- "9b367d87b1037d1b91a9b46f44d45b9f01be31b8\t2026-07-26T18:48:53+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] chore(continuity): close TASK-R12-007\
+  \ as completed"
 - "339fd7389d3f322f98a7abfc6a45a3319bd6438c\t2026-07-26T18:46:43+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] docs(r12): bind delivery implementation\
   \ commit"
 - "47a4494dea729eda45cde6bb6bc144622c42745c\t2026-07-26T18:43:38+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] chore(r12): deliver final test\
@@ -1566,16 +1800,15 @@ recent_commits:
   \ gate"
 - "37f35dc8c4c0f4afe13b1c2c7d68a27e3daf0101\t2026-07-26T15:20:04+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] fix(r12): reject unstable visual\
   \ evidence"
-- "f89cbaa66f5d6259985c0c068c62a522b41f8e21\t2026-07-26T14:29:51+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] test(r12): authorize single\
-  \ final candidate"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`44586e342bcf4c7d8de3ea86034be550ed9a75af98303a25eac7fbe892acde8f`
-- 文件数：0
+- 指纹：`63b475411fc2164a9358ea9ec9701d51655502834258984f61200e726291bd4f`
+- 文件数：2
 
-- 无
+- `docs/03-continuity/change-requests/CR-0362-完成R12机器关闭与异步真机交接.md`
+- `releases/R12/RELEASE_MANIFEST.yaml`
 
 ## 当前 Release
 
@@ -1583,7 +1816,7 @@ recent_commits:
 RELEASE_MANIFEST.yaml:
   release: R12
   title: 统一发布与发布管理
-  status: DEVELOPMENT_READY
+  status: MACHINE_COMPLETE_OWNER_PENDING
   milestone: M1_CONTENT_MARKETPLACE
   depends_on:
   - R08
@@ -1643,13 +1876,41 @@ RELEASE_MANIFEST.yaml:
   - content_appeals
   android_delivery:
     source_commit: 8090001f064c304db08ca9886fe1b1d4d231ef00
+    apk_file: hhy-r12-8090001-debug.apk
+    version_name: 1.2.2-debug
+    version_code: 10221
+    sha256: b97bf8fd1a0306678f297da72c6b5b2e0b224aff2965a962a7db41167bc3e4f8
+    machine_delivery: PASS
+    owner_physical_test: PENDING
+    evidence: artifacts/validation/r12-apk-delivery/delivery-evidence.json
+    test_guide: artifacts/reports/R12/R12-version-test-guide.md
   android_automation:
     policy_id: HHY-ANDROID-AUTOMATION-V1
+    source_github_run_id: '30194396225'
+    promotion_github_run_id: '30195682023'
     status: PASS
     owner_test_allowed: true
     owner_physical_test: PENDING
     commit: 8090001f064c304db08ca9886fe1b1d4d231ef00
+    journey:
+    - SCR-PUB-001
+    - SCR-PUB-006
+    - SCR-PUB-007
+    - SCR-MYC-001
+    - SCR-MYC-002
+    - SCR-MYC-003
+    - SCR-MYC-004
+    - SCR-MYC-005
+    - SCR-ME-001
+    - SCR-ME-002
+    baseline_promotion:
+      artifact_id: '8630028491'
+      artifact_sha256: 423f76d0247ef331a988538ece00a424988d9f3caa75ea15e89efbe9f139446c
+      rebuild_or_emulator_rerun: false
+      status: PASS
+    ai_visual_review: PASS
     candidate_report: artifacts/validation/r12-task007-android/candidate-report.json
+    evidence: artifacts/validation/r12-task007-android/candidate-report.json
   governance_audit:
     status: PASS
     source_commit: 8090001f064c304db08ca9886fe1b1d4d231ef00
@@ -1662,6 +1923,25 @@ RELEASE_MANIFEST.yaml:
       pitfalls: PASS
     evidence: artifacts/reports/R12/R12-governance-drift-audit.md
     evidence_sha256: a38e1336d09dd49db3c3409ffb79a33f1f102b9dcd866701776262c629d58442
+  machine_completion:
+    status: PASS
+    owner_feedback_mode: ASYNC_NON_BLOCKING
+    formal_release_acceptance: PENDING_OWNER_PHYSICAL_TEST
+    production_activation: BLOCKED_OWNER_PHYSICAL_TEST
+    next_release_development: ALLOWED
+    evidence: artifacts/reports/R12/TASK-R12-008-machine-close.md
+  machine_closure:
+    status: PASS
+    task_id: TASK-R12-008
+    session_id: SES-20260726T105013Z-AE578D81
+    report: artifacts/reports/R12/TASK-R12-008-machine-close.md
+    owner_physical_test: PENDING
+    formal_release_acceptance: PENDING_OWNER_PHYSICAL_TEST
+    production_activation: BLOCKED_OWNER_PHYSICAL_TEST
+    next_work: R13
+    candidate_product_commit: 8090001f064c304db08ca9886fe1b1d4d231ef00
+    candidate_delivery_commit: 47a4494dea729eda45cde6bb6bc144622c42745c
+    task007_closure_commit: 9b367d87b1037d1b91a9b46f44d45b9f01be31b8
   tests:
   - TST-CONTENT_002-HAPPY
   - TST-CONTENT_002-IDEMPOTENT
@@ -1671,6 +1951,9 @@ RELEASE_MANIFEST.yaml:
   - TST-PUBLISH_001-REJECT
   - TST-V122-018
   - TST-V122-019
+  test_count: 8
+  planning_depth: STORY_READY
+  apk_gate: MACHINE_CANDIDATE_PASS_OWNER_FEEDBACK_ASYNC
   entry_baseline:
     checked_at: '2026-07-24'
     session_id: SES-20260724T144831Z-B2E27A89
@@ -11756,13 +12039,60 @@ PARALLEL_EXECUTION_PLAN.yaml:
   - SES-20260725T192048Z-668BD05D
   implementation_commits:
   - 47a4494dea729eda45cde6bb6bc144622c42745c
+- protocol_version: '1.0'
+  cr_id: CR-0362
+  title: 完成R12机器关闭与异步真机交接
+  status: IMPLEMENTING
+  created_at: '2026-07-26T10:51:33Z'
+  updated_at: '2026-07-26T10:52:11Z'
+  requester_actor_id: codex-root-r12-close-20260726
+  approver_actor_id: project-owner
+  task_id: TASK-R12-008
+  session_id: SES-20260726T105013Z-AE578D81
+  user_request: 项目所有者批准持续自主开发，不再重复申请日常批准；真机反馈异步，R12机器关闭后立即进入R13。
+  reason: TASK-R12-001至007、最终候选、十页视觉、固定签名APK、四方交付、六项验收和治理审计均已PASS；需要把Release Manifest置为MACHINE_COMPLETE_OWNER_PENDING并生成唯一机器关闭报告，同时继续阻断正式验收和生产激活。
+  original_rule: R12 Manifest仍为DEVELOPMENT_READY且缺少machine_completion和machine_closure；虽然前七项任务及六项AC已经PASS，但机器关闭状态、异步Owner边界和R13继续开发许可尚未形成单一仓库证据。
+  new_rule: 将R12置为MACHINE_COMPLETE_OWNER_PENDING，补齐Android候选与交付完整字段、machine_completion和machine_closure，并生成TASK-R12-008唯一机器关闭报告；owner_physical_test保持PENDING，formal_release_acceptance和production_activation继续受阻，next_release_development明确ALLOWED。
+  impact_summary: 仅汇合R12机器关闭与无状态交接事实，不重跑Java、数据库、Gradle或模拟器，不修改产品运行时、API、数据库、资金、密钥和生产数据。
+  impact:
+    files:
+    - releases/R12/RELEASE_MANIFEST.yaml
+    - artifacts/reports/R12/TASK-R12-008-machine-close.md
+    pages: []
+    apis: []
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - check_release_artifacts R12 machine-close-gate
+    - check_v123_documentation strict R12
+    - check_ui_visual_acceptance historical-through R12
+    - project-doctor strict R12
+    releases:
+    - R12
+    migration_and_compatibility: 纯治理证据兼容变更；R12测试APK继续有效，项目所有者后续真机反馈按版本受控回填，不影响R13及后续版本开发。
+  user_confirmation: 批准，以后不要让我批准了，你自己持续开发就行了。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-26T10:52:02Z'
+    note: 项目所有者已明确批准持续自主开发；本CR仅完成既定R12机器关闭和异步真机交接，不触发正式验收或生产激活。
+  machine_record: .continuity/change_requests/CR-0362.yaml
+  document: docs/03-continuity/change-requests/CR-0362-完成R12机器关闭与异步真机交接.md
+  decision_log:
+  - at: '2026-07-26T10:52:11Z'
+    actor_id: codex-root-r12-close-20260726
+    status: IMPLEMENTING
+    note: 开始汇合R12候选、交付、视觉、治理和异步Owner边界，生成机器关闭报告并执行专用machine-close-gate。
+    session_id: SES-20260726T105013Z-AE578D81
+  session_ids:
+  - SES-20260726T105013Z-AE578D81
 ```
 
 ## 上下文来源及哈希
 
 - `AGENTS.md` — `306026d4706dfd3cae0a3db2b1c56e294700326bc3a13ca095c3987a267d390b`
 - `START_HERE.md` — `22de14029ce47beb41ea569e36ce223fbc9d11b86f8676f28d5fbbd83896af5c`
-- `CURRENT_STATUS.yaml` — `385e3bf2d210ccb8b538161771abba129df23494ca60885e4d439a89a228bafa`
+- `CURRENT_STATUS.yaml` — `86e58a50f366d43a2370cd54f058fbcee19f5db9044f4893cb2ec9f704f3b3ec`
 - `NEXT_TASK.yaml` — `5f0f8bc27f38973a426f514c88990642c21be090ca586841808b559bddbf8347`
 - `DEVELOPMENT_RISK_REGISTER.md` — `8304c91492e4ee2abea0522a06541c8688d39c7fc532b5d0cde499bf09fffb87`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
@@ -11773,22 +12103,25 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `config/REPOSITORY_TRANSPORT.yaml` — `8c4a21f3e204d46e7ffb467d804a53ed26cda61cd088dadfddb50b69eea657fc`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `38e04ed812c8df0d353c2b91993d31e53b471e9c457f06b426bd2260c470aa92`
-- `.continuity/EVENT_LOG.jsonl` — `a5c0a178e8f792ee84242fe28593cb2940b042ffde6d74ff16d11dc090430fbe`
-- `.continuity/SESSION_INDEX.yaml` — `79e10db44cfcc715e9457497d94388342e595769636858cdc88066dd4a5542fe`
-- `.continuity/TASK_CLAIMS.yaml` — `0351448ef317655635002ef1c66675bf3aa2810cf86f9976f1ac0bb554fe7998`
-- `.continuity/TASK_TRANSITIONS.yaml` — `07c10f929db719a9014aa25face3c259d96dc1793f448f33dc3012b4d5babdc4`
-- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `7e0bf7bb5bb91b0550fd681031e226fe217f3743b8b65cdbdd12a18e7520776f`
-- `.continuity/ACTIVE_SESSION.yaml` — `837917ffdef397f377cd5e2ccd6504155c0f3caa6b742de7ad1cc13e051c7027`
+- `.continuity/EVENT_LOG.jsonl` — `38f27f7f6f77e4d1616e200b87ec999e8401b6c979089284f3f8c9782d10cd90`
+- `.continuity/SESSION_INDEX.yaml` — `a98d098a25d737bba9533d59868013a4dce9d3da49372b132e4a61d4be379b07`
+- `.continuity/TASK_CLAIMS.yaml` — `55132f00b275369c4341aa84d466d2b31c698bd338423b1a29ab66e371ba7d6e`
+- `.continuity/TASK_TRANSITIONS.yaml` — `fa52e1a462602024df6bd798894386f5dc4c7738722761b6f8893e9ca8ce9da1`
+- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `e369c9b6b155302d33046a90a514773fa3bf028c9801b5285715c5274102dc29`
+- `.continuity/ACTIVE_SESSION.yaml` — `53973307bb36383f2d38fa637845523b59b5feced3bcb7b326768ed5b178c327`
 - `docs/00-baseline/正式商业系统全局硬性开发边界.md` — `b1d965b019e632fbe1a259831201be7c82f79c26836fa161fd1d41855fcdb7c8`
 - `docs/02-ui/UI参考图使用与开发约束_V1.2.2.md` — `d14367586aa2067b059df58798acd20ab982459cdb35ff27fc7922a3896e4933`
 - `docs/03-continuity/持续开发无状态接续强制门禁_V1.2.3.md` — `d0ed3ed68bdd93b06500eecdfb5baa3245e6ca8b685a486788abb6eee39b3d51`
 - `docs/09-development/统一开发与交付效率规范.md` — `261efdf96ff72721f3b186b0ecfb75abbe21123f56ae94af98b2d53e00e2f150`
-- `releases/R12/RELEASE_MANIFEST.yaml` — `f49d7dc668a98c53ea98c2432e9376b815fecfad2386c722319b82b443f04e49`
+- `releases/R12/RELEASE_MANIFEST.yaml` — `cd8ca9e3f1d764f608227774869b5b768e4b177f2be47b86e4ea9458f13f26e8`
 - `releases/R12/DEFINITION_OF_READY.yaml` — `ec0e557f0fc1c9738d78e5954b24b5411e8f3f23ebbf13631aef6d64745515a7`
 - `releases/R12/STORIES.yaml` — `ed80bfe7ba3779ab57985d98a5250c4a80c15708035c30afe393de146e029fc2`
 - `releases/R12/TASKS.yaml` — `b801cdc9ed98fd85958ba4f19573d3c7bc6ab116aef5729e1a8ae20fa5683324`
 - `releases/R12/ACCEPTANCE_MATRIX.csv` — `82779ea570fb7951a6a2d813b851c0fb38f6d0c2ad927e3f4d69f4ac2142ca1f`
 - `releases/R12/PARALLEL_EXECUTION_PLAN.yaml` — `2ddbee414a51a868b63331992e2e04c5400846cf6012474aab406e067e532e98`
+- `docs/03-continuity/sessions/2026-07/SES-20260726T105013Z-AE578D81.md` — `c38faa8603034355d89685bf06fbc69befa3c2b3fff3e30674b6134652636f15`
+- `.continuity/checkpoints/SES-20260726T105013Z-AE578D81/0001.yaml` — `14948002c54d8841ed09d6d57c77dd3e20eb30cfd025425ebc5f773266d41521`
+- `docs/03-continuity/change-requests/CR-0362-完成R12机器关闭与异步真机交接.md` — `fc72a75b4f1362715683dd9d9c8e5f4e7a607bddd430880e41cf72d182aa9da9`
 
 ## 接手硬规则
 
