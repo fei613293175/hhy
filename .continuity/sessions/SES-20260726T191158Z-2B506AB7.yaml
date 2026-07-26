@@ -11,7 +11,7 @@ task_id: TASK-R13-007
 story_id: STORY-R13-003
 goal: 收藏、历史、分享与行为审计Android测试APK与产物追溯
 started_at: '2026-07-26T19:11:58Z'
-updated_at: '2026-07-26T21:15:59Z'
+updated_at: '2026-07-26T21:58:16Z'
 takeover_of: null
 change_requests:
 - CR-0377
@@ -19,6 +19,8 @@ change_requests:
 - CR-0379
 - CR-0380
 - CR-0381
+- CR-0382
+- CR-0383
 scope:
   allowed_paths:
   - apps/**
@@ -80,22 +82,22 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-26T21:15:52Z'
-  expires_at: '2026-07-27T01:15:52Z'
-checkpoint_sequence: 8
-latest_checkpoint: .continuity/checkpoints/SES-20260726T191158Z-2B506AB7/0008.yaml
+  renewed_at: '2026-07-26T21:58:08Z'
+  expires_at: '2026-07-27T01:58:08Z'
+checkpoint_sequence: 11
+latest_checkpoint: .continuity/checkpoints/SES-20260726T191158Z-2B506AB7/0011.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260726T191158Z-2B506AB7.md
-next_step: 提交CP-0008绑定变更，执行Git transport/push preflight并单次推送R13 attempt3；监控唯一新Run，技术通过后下载四图由AI自主审核。
+next_step: 提交不含候选请求的R13稳定点击修复Commit，使用其完整SHA在obx-test编译后建立CR-0383精确attempt4例外和新请求。
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: b91e8ed5fc1c502458ac14a64118c7f35c958747d667699cdc198c563147eb69
-  generated_at: '2026-07-26T21:15:56Z'
+  context_hash: 2d4f68798b9425047ffac0dcb0ca4f771c7e0ed66a2dc8d9018fe3b7942cccb1
+  generated_at: '2026-07-26T21:58:13Z'
 handoff_bundle: null
 closure: null
 parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 候选请求、CR状态、Session检查点、提交和单次推送共享同一事实分支且必须严格串行，拆分会产生候选身份和检查点竞态。
+  reason: 首个修复Commit的完整SHA必须先冻结，随后候选例外和请求才能精确绑定；同一事实分支的CR、Checkpoint、Commit与请求不能并行写入。

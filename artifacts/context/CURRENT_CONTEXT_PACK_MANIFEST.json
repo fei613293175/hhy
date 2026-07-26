@@ -1,19 +1,19 @@
 {
   "version": "1.0",
-  "generated_at": "2026-07-26T21:15:56Z",
-  "context_hash": "b91e8ed5fc1c502458ac14a64118c7f35c958747d667699cdc198c563147eb69",
+  "generated_at": "2026-07-26T21:58:13Z",
+  "context_hash": "2d4f68798b9425047ffac0dcb0ca4f771c7e0ed66a2dc8d9018fe3b7942cccb1",
   "fingerprint_mode": "SESSION_DELTA",
   "project_fingerprint": {
-    "sha256": "86d2995dcede1396d3cb8e3f00873b129fb7af34bbbf060fd60d27359e8c4ea7",
-    "file_count": 22
+    "sha256": "bf3e50c76be7522787c0b141303e66cfe920bf775ad3566f1c905c8b509fb0b9",
+    "file_count": 25
   },
   "yaml": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.yaml",
-    "sha256": "eefb75218ef7d59413916abc2bd28963b2014866e771f6c22707e34886311930"
+    "sha256": "59f0740460200d3726a1646d3981c450a5bff4aa2ac6d977112543704677e280"
   },
   "markdown": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.md",
-    "sha256": "36fbbcf1002935bef0acba08ccbf3e160d4d5e28918a78884290947b93979ecd"
+    "sha256": "2bd19990e8ce9c8c4ef0ad5a8819716bc707e35eb673fcba5d0860c2503adc19"
   },
   "sources": [
     {
@@ -28,7 +28,7 @@
     },
     {
       "path": "CURRENT_STATUS.yaml",
-      "sha256": "8ccfdd5699f1aa810a62c44c057d9b0c25699fc8f24b5db8e401ea1da8558707",
+      "sha256": "0e480a6999cf80bf3d9678ce2e84401742c250662c9c4ec03f5867c87d1dc437",
       "bytes": 4568
     },
     {
@@ -48,8 +48,8 @@
     },
     {
       "path": "docs/03-continuity/PROBLEM_REGISTRY.yaml",
-      "sha256": "d2afac3917ad19b60547aeecf0b620993c055e9e72a586fa886517bb55b1c49b",
-      "bytes": 185753
+      "sha256": "98f0962acf150141f7d816cc6604b72d0d989ee898a5c73616c9512d4573695f",
+      "bytes": 187910
     },
     {
       "path": "docs/03-continuity/REUSABLE_PATTERNS.md",
@@ -83,12 +83,12 @@
     },
     {
       "path": ".continuity/EVENT_LOG.jsonl",
-      "sha256": "5290ad78cac2244c510ecc633b8a24db3a93918544ef750f825ad1164bcf395c",
-      "bytes": 2105259
+      "sha256": "0a2e7cea19ba4966886bafbd6d47dfbeb9f5bba62836e606a9912527da833af3",
+      "bytes": 2110802
     },
     {
       "path": ".continuity/SESSION_INDEX.yaml",
-      "sha256": "ba5edc08d8735b59c6aa61cdee2483225dc3b8d98a9b797e5a141674971b32fb",
+      "sha256": "d78d599258450a5ccce5a2dd7142e1b69381c5e1659192aeb6ead03488e88add",
       "bytes": 59039
     },
     {
@@ -103,12 +103,12 @@
     },
     {
       "path": ".continuity/CHANGE_REQUEST_INDEX.yaml",
-      "sha256": "24005be0dd6b991e828bf688c2509f5c83140be9cc44a4ec69cb4e9e907e4f0c",
-      "bytes": 1333013
+      "sha256": "dfaf3518a9de5f6efd9276a386aeb51bba1c2a795c8bbfb5630ff5e3612219ad",
+      "bytes": 1341418
     },
     {
       "path": ".continuity/ACTIVE_SESSION.yaml",
-      "sha256": "c94b2448d0b018df5e7cdc052e9739c6d009e0b203fc846e9c7dc9c34af433c8",
+      "sha256": "d716a7c081224809da3cbbde0004d89d6a53d3a31d3336c535be28ff127cb43d",
       "bytes": 548
     },
     {
@@ -163,13 +163,13 @@
     },
     {
       "path": "docs/03-continuity/sessions/2026-07/SES-20260726T191158Z-2B506AB7.md",
-      "sha256": "9f2fdb48b1449bcb9b40c204e65792d3dafc57df51610a6057806a4d52c83903",
-      "bytes": 19779
+      "sha256": "f9cbb017003069c3ae95a123d15bf90d131de928c3c2689044569e152663a26d",
+      "bytes": 27307
     },
     {
-      "path": ".continuity/checkpoints/SES-20260726T191158Z-2B506AB7/0008.yaml",
-      "sha256": "8ee7bd97484997fe1a91ec92bd87cfcffef9d94cebd705ec66911567a1d874f6",
-      "bytes": 14095
+      "path": ".continuity/checkpoints/SES-20260726T191158Z-2B506AB7/0011.yaml",
+      "sha256": "207aca5b1871e7495b454c7c0cbdd66a2adad6efea0dc5a43bb1131891e6e45c",
+      "bytes": 14788
     },
     {
       "path": "docs/03-continuity/change-requests/CR-0377-建立R13收藏历史分享最终Android候选.md",
@@ -195,6 +195,16 @@
       "path": "docs/03-continuity/change-requests/CR-0381-解除R12历史候选测试对R13当前attempt的锁死.md",
       "sha256": "ac6ccb3a90a09ef5f596003940367609e72cf2f657d982db1494e77d9d62eedc",
       "bytes": 3151
+    },
+    {
+      "path": "docs/03-continuity/change-requests/CR-0382-修复R13候选分享反馈稳定点击并授权一次精确attempt4.md",
+      "sha256": "e2ef6f7f6947e154b31e90e1ab52ab2166d77dbabcededddfa8ffc0e479b816c",
+      "bytes": 4101
+    },
+    {
+      "path": "docs/03-continuity/change-requests/CR-0383-按Release隔离候选例外轮次并修复R13稳定点击.md",
+      "sha256": "4fe08c5bf4b77fb12399f77a2b61e3fd6b0974e6bc9a8efa96b9cc0a5038004a",
+      "bytes": 4318
     }
   ]
 }

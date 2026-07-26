@@ -23638,3 +23638,107 @@ change_requests:
     session_id: SES-20260726T191158Z-2B506AB7
   session_ids:
   - SES-20260726T191158Z-2B506AB7
+- protocol_version: '1.0'
+  cr_id: CR-0382
+  title: 修复R13候选分享反馈稳定点击并授权一次精确attempt4
+  status: REJECTED
+  created_at: '2026-07-26T21:40:32Z'
+  updated_at: '2026-07-26T21:48:39Z'
+  requester_actor_id: codex-root-r13-candidate-20260727
+  approver_actor_id: codex-helmholtz-r13-cr0382-review-20260727
+  task_id: TASK-R13-007
+  session_id: SES-20260726T191158Z-2B506AB7
+  user_request: 项目所有者已长期授权AI持续开发、自动修复候选并自主审核截图，不再逐次请求终端、GitHub或候选批准。
+  reason: R13 attempt3已完成登录、启动门禁、收藏和历史旅程，但UIAutomator点击Compose TextButton内部不可点击文字节点导致分享面板未打开；这是前三轮之外的新独立根因，需要先增加稳定资源标识并完成模块回归，再把唯一attempt4精确绑定到修复提交，且全局上限继续为3。
+  original_rule: R13普通Android候选仅允许attempt 1至3；项目详情分享和反馈旅程仍按可见文字节点点击，Compose语义树可能返回不可点击子节点；全局max_ai_attempts固定为3，未经精确批准不得执行attempt4。
+  new_rule: 项目详情的分享和失效反馈真实TextButton必须暴露稳定资源标识，R13候选旅程必须按资源标识点击并用专项回归锁定；全局max_ai_attempts继续严格等于3，仅允许release=R13、attempt=4、request_id=R13-CANDIDATE-20260727-004、exception_id=CR-0382、required_fix_commit=本CR首个修复Commit完整SHA、max_candidate_runs=1全字段精确匹配时运行一次，任何字段不匹配及attempt5均拒绝。
+  impact_summary: 消除Compose文字子节点不可点击导致的确定性旅程失败，并为该独立新根因修复提交建立一次真实、可审计的R13 attempt4；不改变产品功能、API、数据库、生产权限、秘密、全局三轮规则或异步真机反馈规则。
+  impact:
+    files:
+    - apps/android/feature/project/src/main/java/cc/orbexa/hhy/project/R08ProjectScreens.kt
+    - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+    - tests/test_r13_candidate.py
+    - config/android-automation.yaml
+    - config/android-candidate-request.yaml
+    - tests/test_android_ci_gate.py
+    - docs/03-continuity/PROBLEM_REGISTRY.yaml
+    - docs/03-continuity/REUSABLE_PATTERNS.md
+    - docs/03-continuity/PITFALLS.md
+    - CHANGELOG.md
+    pages: []
+    apis: []
+    database: []
+    configuration:
+    - config/android-automation.yaml:remediation.approved_attempt_exceptions
+    - config/android-candidate-request.yaml:attempt_exception_id
+    ledger: []
+    tests:
+    - python -m unittest tests.test_r13_candidate
+    - python -m unittest tests.test_android_ci_gate
+    - python scripts/check_android_ui_foundation.py
+    - python scripts/android_candidate_request.py
+    releases:
+    - R13
+    migration_and_compatibility: 仅增加Compose测试语义和候选测试定位，不改变用户可见UI；普通attempt1至3保持不变，精确例外消费后仅保留历史事实且不得重跑，错误Release、请求号、CR、Commit或轮次在模拟器启动前硬拒绝。
+  user_confirmation: 项目所有者已长期授权AI持续开发和候选修复，但该授权不允许绕过仓库硬门禁
+  approval:
+    decision: REJECTED
+    decided_at: '2026-07-26T21:48:39Z'
+    note: Run 30220806413证明确有独立的Compose文字节点点击根因，稳定资源标识修复方向成立；但当前android_ci_gate.py按全局列表索引强制例外轮次为4、5、6、7连续递增，现有R12历史后追加R13 attempt4会被要求为attempt8。CR范围遗漏scripts/android_ci_gate.py与tests/test_android_candidate_request.py，无法建立按Release独立编号且拒绝attempt5的可执行合同。不得重跑attempt3，不得授权attempt5；请修订或新建精确CR后重新独立审批。
+  machine_record: .continuity/change_requests/CR-0382.yaml
+  document: docs/03-continuity/change-requests/CR-0382-修复R13候选分享反馈稳定点击并授权一次精确attempt4.md
+- protocol_version: '1.0'
+  cr_id: CR-0383
+  title: 按Release隔离候选例外轮次并修复R13稳定点击
+  status: APPROVED
+  created_at: '2026-07-26T21:49:38Z'
+  updated_at: '2026-07-26T21:51:33Z'
+  requester_actor_id: codex-root-r13-candidate-20260727
+  approver_actor_id: codex-independent-r13-cr0383-review-20260727
+  task_id: TASK-R13-007
+  session_id: SES-20260726T191158Z-2B506AB7
+  user_request: 项目所有者已长期授权AI持续开发、自动修复候选并自主审核截图，不再逐次请求终端、GitHub或候选批准。
+  reason: CR-0382独立审查确认R13 attempt3为新的Compose文字子节点点击根因，同时发现候选例外连续性错误地按全局列表计数；本CR补齐按Release独立从attempt4连续编号的门禁实现、专项回归、稳定资源点击和唯一R13 attempt4精确例外。
+  original_rule: Android候选例外列表按全局索引要求attempt从4连续递增，导致R12历史attempt4至7存在时，R13首个合规例外attempt4被错误要求为attempt8；R13项目详情旅程同时按Compose TextButton的可见文字子节点点击，可能点击不可点击节点。
+  new_rule: 全局max_ai_attempts继续固定为3；approved_attempt_exceptions必须按每个Release独立从attempt4连续编号，同时CR、request_id、required_fix_commit仍全局唯一且max_candidate_runs固定为1，任一Release自身跳号、重复或错误绑定均拒绝。项目详情分享与反馈TextButton必须暴露稳定资源标识，文字定位辅助也必须向上选择第一个enabled且clickable的真实祖先。仅允许release=R13、attempt=4、request_id=R13-CANDIDATE-20260727-004、exception_id=CR-0383、required_fix_commit=本CR首个修复Commit完整SHA、max_candidate_runs=1精确运行一次；R13
+    attempt5不得预授权。
+  impact_summary: 修复跨版本候选例外错误串号和Compose语义点击根因，使R13首个attempt4在不放宽全局三轮上限的前提下可被精确验证；不改变R12历史、产品功能、API、数据库、生产权限、秘密或异步真机反馈规则。
+  impact:
+    files:
+    - scripts/android_ci_gate.py
+    - tests/test_android_candidate_request.py
+    - tests/test_android_ci_gate.py
+    - apps/android/feature/project/src/main/java/cc/orbexa/hhy/project/R08ProjectScreens.kt
+    - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+    - tests/test_r13_candidate.py
+    - config/android-automation.yaml
+    - config/android-candidate-request.yaml
+    - docs/08-testing/Android自动开发测试修复交付体系_V1.0.md
+    - docs/03-continuity/PROBLEM_REGISTRY.yaml
+    - docs/03-continuity/REUSABLE_PATTERNS.md
+    - docs/03-continuity/PITFALLS.md
+    - CHANGELOG.md
+    pages: []
+    apis: []
+    database: []
+    configuration:
+    - config/android-automation.yaml:remediation.approved_attempt_exceptions
+    - config/android-candidate-request.yaml:attempt_exception_id
+    ledger: []
+    tests:
+    - python -m unittest tests.test_r13_candidate
+    - python -m unittest tests.test_android_candidate_request
+    - python -m unittest tests.test_android_ci_gate
+    - python scripts/check_android_ui_foundation.py
+    - python scripts/android_ci_gate.py policy-check
+    releases:
+    - R13
+    migration_and_compatibility: 既有R12 attempt4至7按Release分组后仍连续有效；无例外的普通attempt1至3行为不变。R13仅新增首个attempt4，错误Release、轮次、请求号、CR、Commit或多次运行均在模拟器前拒绝；稳定测试标识不改变用户可见UI。
+  user_confirmation: 项目所有者已长期授权AI持续开发和候选修复；该授权不绕过仓库门禁，本次仅批准CR-0383登记的按Release编号和R13精确attempt4。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-26T21:51:33Z'
+    note: 独立复核确认CR-0383完整吸收CR-0382拒绝意见：新增android_ci_gate按Release独立连续编号及candidate request回归，保留全局max_ai_attempts=3、全局身份唯一、单次运行和R13 attempt5硬拒绝；稳定资源点击范围与Run
+      30220806413证据一致。
+  machine_record: .continuity/change_requests/CR-0383.yaml
+  document: docs/03-continuity/change-requests/CR-0383-按Release隔离候选例外轮次并修复R13稳定点击.md

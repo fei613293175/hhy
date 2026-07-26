@@ -13,6 +13,7 @@ RELEASE_POLICY = ROOT / "apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePol
 VERSION_TEST = ROOT / "apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt"
 REQUEST = ROOT / "config/android-candidate-request.yaml"
 ACTIVITY_SCREEN = ROOT / "apps/android/feature/activity/src/main/java/cc/orbexa/hhy/activity/R13ActivityScreens.kt"
+PROJECT_SCREEN = ROOT / "apps/android/feature/project/src/main/java/cc/orbexa/hhy/project/R08ProjectScreens.kt"
 
 
 class R13CandidateTest(unittest.TestCase):
@@ -93,10 +94,17 @@ class R13CandidateTest(unittest.TestCase):
         self.assertIn('clickResource("mine.favorites")', self.journey)
         self.assertIn('clickResource("mine.history")', self.journey)
         self.assertIn('clickExactText(activityTargetTitle)', self.journey)
-        self.assertIn('clickExactText("分享")', self.journey)
-        self.assertIn('clickExactText("反馈")', self.journey)
+        self.assertIn('clickResource("r13.action.project.share")', self.journey)
+        self.assertIn('clickResource("r13.action.project.invalid-feedback")', self.journey)
+        self.assertIn("generateSequence(textNode) { current -> current.parent }", self.journey)
+        self.assertIn(".firstOrNull { it.isClickable && it.isEnabled }", self.journey)
         self.assertIn('clickExactText("再检查一下")', self.journey)
         self.assertNotIn("authenticatedR12PagesProduceBoundVisualEvidence", self.journey)
+
+    def test_project_detail_exposes_stable_resources_for_candidate_actions(self) -> None:
+        source = PROJECT_SCREEN.read_text(encoding="utf-8")
+        self.assertIn('Modifier.testTag("r13.action.project.share")', source)
+        self.assertIn('Modifier.testTag("r13.action.project.invalid-feedback")', source)
 
     def test_visual_manifest_matches_the_four_frozen_r13_surfaces(self) -> None:
         manifest = yaml.safe_load(VISUAL_MANIFEST.read_text(encoding="utf-8"))

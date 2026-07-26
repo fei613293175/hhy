@@ -1722,3 +1722,18 @@ problems:
   - 两张相同截图不足以证明异步页面和导航退出层已经稳定
   - 服务端ISO时间和默认深色OutlinedButton不得直接进入正式商业页面
   - GitHub候选技术SUCCESS不等于视觉PASS，AI拒绝后不得交付同Run APK或复用已消费轮次
+- id: PROB-0123
+  title: R13候选点击Compose文字子节点且跨版本例外轮次被全局串号
+  status: SOLVED
+  root_cause: Run 30220806413已通过OIDC登录、启动门禁、收藏页和历史页，但UIAutomator按“分享”文字直接点击Compose TextButton内部不可点击的Text语义子节点，导致真实按钮未触发；准备精确attempt4时又发现android_ci_gate按approved_attempt_exceptions全局列表索引要求轮次连续，R12历史attempt4至7会把R13首个例外错误要求为attempt8，无法表达每个Release各自独立的修复轮次。
+  resolution: CR-0382因遗漏跨版本编号实现而由独立审查拒绝且未触发候选；CR-0383为项目详情分享和反馈真实TextButton增加稳定资源标识，候选旅程改为资源点击，剩余文字定位只选择首个enabled且clickable祖先。同时保留全局max_ai_attempts=3和全局CR、request、Commit唯一性，把例外连续性改为每个Release独立从attempt4编号；R13仅允许精确绑定修复Commit、CR-0383、唯一request004和max_candidate_runs=1的attempt4，旧attempt3不得重跑且attempt5未授权。
+  regression_checks:
+  - tests.test_r13_candidate必须锁定分享与反馈稳定资源标识、资源点击以及文字定位向上寻找enabled且clickable祖先
+  - tests.test_android_ci_gate必须证明R12 attempt4至7与R13 attempt4可同时存在且每个Release自身连续，任一Release跳号仍失败
+  - tests.test_android_candidate_request必须证明R13 attempt4仅在Release、request、CR、修复Commit和轮次全字段精确匹配时通过
+  - obx-test固定Android镜像必须编译app AndroidTest Kotlin，证明UiObject2祖先遍历和资源标识可编译
+  do_not_repeat:
+  - 不得对Compose可见文字子节点直接调用click并假定其继承父按钮可点击性
+  - 关键候选动作必须优先使用稳定资源标识，文字回退只能点击真实可点击祖先
+  - 候选例外连续性不得跨Release共享轮次计数，也不得为解决串号提高全局三轮上限
+  - 被确定性缺陷消费的旧Run不得重跑，新增例外不得预授权下一未知轮次

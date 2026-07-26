@@ -108,7 +108,7 @@ class ReleaseCandidateSmokeTest {
             "R13 candidate project detail did not become visible",
             waitForScreen("hhy.screen.r08.project.detail.content", gone = "hhy.screen.r13.history.content"),
         )
-        clickExactText("分享")
+        clickResource("r13.action.project.share")
         assertTrue(
             "R13 share sheet did not become visible",
             waitForScreen("hhy.sheet.r13.share"),
@@ -124,7 +124,7 @@ class ReleaseCandidateSmokeTest {
             "R13 share sheet did not return to project detail",
             waitForScreen("hhy.screen.r08.project.detail.content", gone = "hhy.sheet.r13.share"),
         )
-        clickExactText("反馈")
+        clickResource("r13.action.project.invalid-feedback")
         assertTrue(
             "R13 invalid feedback sheet did not become visible",
             waitForScreen("hhy.sheet.r13.invalid-feedback"),
@@ -157,8 +157,11 @@ class ReleaseCandidateSmokeTest {
     }
 
     private fun clickExactText(value: String) {
-        val node = device.wait(Until.findObject(By.text(value)), 15_000)
+        val textNode = device.wait(Until.findObject(By.text(value)), 15_000)
             ?: error("Cannot find UI element: $value")
+        val node = generateSequence(textNode) { current -> current.parent }
+            .firstOrNull { it.isClickable && it.isEnabled }
+            ?: error("Cannot find clickable UI ancestor: $value")
         node.click()
         device.waitForIdle(2_000)
     }

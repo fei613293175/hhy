@@ -229,8 +229,16 @@ fun R08ProjectDetailScreen(
                 title = { Text("项目详情") },
                 navigationIcon = { HhyBackButton(onBack) },
                 actions = {
-                    TextButton(enabled = project?.contactsMasked?.isNotEmpty() == true, onClick = { project?.let { onInvalidFeedback(it.title, it.contactsMasked.map { contact -> contact.channel }) } }) { Text("反馈") }
-                    TextButton(enabled = project != null, onClick = { project?.title?.let(onShare) }) { Text("分享") }
+                    TextButton(
+                        modifier = Modifier.testTag("r13.action.project.invalid-feedback"),
+                        enabled = project?.contactsMasked?.isNotEmpty() == true,
+                        onClick = { project?.let { onInvalidFeedback(it.title, it.contactsMasked.map { contact -> contact.channel }) } },
+                    ) { Text("反馈") }
+                    TextButton(
+                        modifier = Modifier.testTag("r13.action.project.share"),
+                        enabled = project != null,
+                        onClick = { project?.title?.let(onShare) },
+                    ) { Text("分享") }
                 },
             )
         },
