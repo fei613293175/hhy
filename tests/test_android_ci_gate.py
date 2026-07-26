@@ -149,6 +149,14 @@ class AndroidCiGateTest(unittest.TestCase):
                 "required_fix_commit": "bcde496e9821dce301d4b13bfe0b1f590f1380f5",
                 "max_candidate_runs": 1,
             },
+            {
+                "exception_id": "CR-0383",
+                "release": "R13",
+                "attempt": 4,
+                "request_id": "R13-CANDIDATE-20260727-004",
+                "required_fix_commit": "c602d2f0194980efcf19f233148f0b0932254ba6",
+                "max_candidate_runs": 1,
+            },
         ], policy["remediation"]["approved_attempt_exceptions"])
 
     def test_attempt_exception_is_exact_and_never_changes_the_global_limit(self) -> None:
@@ -214,6 +222,29 @@ class AndroidCiGateTest(unittest.TestCase):
         for override in invalid:
             with self.subTest(override=override), self.assertRaises(GateError):
                 resolve_attempt_policy(policy, **(base | override))
+
+    def test_r13_attempt_four_sequence_is_independent_and_attempt_five_is_rejected(self) -> None:
+        policy = load_policy()
+        exact = resolve_attempt_policy(
+            policy,
+            release="R13",
+            attempt=4,
+            request_id="R13-CANDIDATE-20260727-004",
+            exception_id="CR-0383",
+            required_fix_commit="c602d2f0194980efcf19f233148f0b0932254ba6",
+        )
+        self.assertEqual(3, exact["max_ai_attempts"])
+        self.assertEqual(4, exact["effective_attempt_limit"])
+        self.assertEqual(1, exact["max_candidate_runs"])
+        with self.assertRaises(GateError):
+            resolve_attempt_policy(
+                policy,
+                release="R13",
+                attempt=5,
+                request_id="R13-CANDIDATE-20260727-005",
+                exception_id="CR-0383",
+                required_fix_commit="c602d2f0194980efcf19f233148f0b0932254ba6",
+            )
 
     def test_attempt_six_exception_is_exact(self) -> None:
         policy = load_policy()
@@ -330,7 +361,7 @@ class AndroidCiGateTest(unittest.TestCase):
                 with self.assertRaises(GateError):
                     load_policy(path)
 
-    def test_attempt_exception_history_must_be_contiguous_ordered_and_unique(self) -> None:
+    def test_attempt_exception_history_must_be_contiguous_per_release_ordered_and_unique(self) -> None:
         source = yaml.safe_load(
             (ROOT / "config/android-automation.yaml").read_text(encoding="utf-8")
         )
@@ -885,8 +916,10 @@ class AndroidCiGateTest(unittest.TestCase):
         self.assertIn("waitForIdle(2_000)", smoke_test)
         self.assertIn('clickResource("mine.favorites")', smoke_test)
         self.assertIn('clickResource("mine.history")', smoke_test)
-        self.assertIn('clickExactText("分享")', smoke_test)
-        self.assertIn('clickExactText("反馈")', smoke_test)
+        self.assertIn('clickResource("r13.action.project.share")', smoke_test)
+        self.assertIn('clickResource("r13.action.project.invalid-feedback")', smoke_test)
+        self.assertIn("generateSequence(textNode) { current -> current.parent }", smoke_test)
+        self.assertIn(".firstOrNull { it.isClickable && it.isEnabled }", smoke_test)
         self.assertIn('clickExactText("再检查一下")', smoke_test)
         self.assertIn("assertR13BusinessLabels", smoke_test)
         self.assertIn('"PROJECT", "GROUP_CHAT", "TEAM_LEADER"', smoke_test)

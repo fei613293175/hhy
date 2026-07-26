@@ -10,7 +10,7 @@
     "governance_knowledge": {
       "problem_records": 123,
       "reusable_patterns": 11,
-      "pitfalls": 31
+      "pitfalls": 32
     },
     "documentation": {
       "android_surfaces": 102,
@@ -35,8 +35,8 @@
       "open_document_gaps": 0
     },
     "continuity": {
-      "event_count": 3732,
-      "event_head_hash": "d9fc9b7bff3c0544d89f9b0309e426fe7547cb9bb473964cbb637f5d31225601",
+      "event_count": 3733,
+      "event_head_hash": "bb9b81ab4fbc21cbecb0046b906e5ea2fdf7c825e49fd5c0bcaa7774923b1c05",
       "rule_readiness": "PASS",
       "required_rule_sources": 11,
       "document_gate": {

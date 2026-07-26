@@ -73,7 +73,8 @@ def load_policy(path: Path = DEFAULT_POLICY) -> dict[str, Any]:
     seen_exception_ids: set[str] = set()
     seen_request_ids: set[str] = set()
     seen_fix_commits: set[str] = set()
-    for index, row in enumerate(exceptions):
+    next_attempt_by_release: dict[str, int] = {}
+    for row in exceptions:
         if not isinstance(row, dict):
             raise GateError("every approved Android attempt exception must be an object")
         exception_id = str(row.get("exception_id") or "")
@@ -86,10 +87,10 @@ def load_policy(path: Path = DEFAULT_POLICY) -> dict[str, Any]:
             raise GateError(f"duplicate approved attempt exception_id: {exception_id}")
         if not CANDIDATE_RELEASE_PATTERN.fullmatch(release):
             raise GateError("approved attempt exception release must be R06 through R32")
-        expected_attempt = max_attempts + index + 1
+        expected_attempt = next_attempt_by_release.get(release, max_attempts + 1)
         if row.get("attempt") != expected_attempt:
             raise GateError(
-                "approved attempt exceptions must be ordered and contiguous after the global limit"
+                "approved attempt exceptions must be ordered and contiguous per release after the global limit"
             )
         if not REQUEST_ID_PATTERN.fullmatch(request_id):
             raise GateError("approved attempt exception request_id is invalid")
@@ -106,6 +107,7 @@ def load_policy(path: Path = DEFAULT_POLICY) -> dict[str, Any]:
         seen_exception_ids.add(exception_id)
         seen_request_ids.add(request_id)
         seen_fix_commits.add(required_fix_commit)
+        next_attempt_by_release[release] = expected_attempt + 1
     authentication = document["authentication"]
     if authentication.get("mode") != "GITHUB_OIDC_ONE_TIME":
         raise GateError("Android candidate authentication must use one-time GitHub OIDC")

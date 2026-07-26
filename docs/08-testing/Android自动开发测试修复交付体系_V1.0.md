@@ -43,7 +43,7 @@
 2. **CONTINUITY 核心门禁**：每次提交校验身份、范围、检查点、CR、Trailer 和 Context Pack；只有连续性核心事实变化才执行完整临时 Git 生命周期。
 3. **RELEASE CANDIDATE**：候选请求验证通过后运行完整 Android 构建、模拟器、旅程、截图、视觉、日志、候选报告与 APK 上传。
 
-`config/android-candidate-request.yaml` 必须包含：`schema_version: 1`、`status: REQUESTED`、`R06-R32` Release、`candidate: true`、普通范围 1 至 3 的 `remediation_attempt`、以及每次候选唯一的 `request_id`。全局 `max_ai_attempts` 必须始终为 3。CR-0358 记录项目所有者对 AI 候选持续决策的站立授权；AI 不再逐轮询问项目所有者，但任何超过普通范围的请求仍必须在 `config/android-automation.yaml` 中精确绑定 Release、连续轮次、唯一 request ID、独立 CR、根因修复 Commit 和 `max_candidate_runs=1`。只有上一请求已消费、独立根因已修复且受影响模块与普通 CI 通过后，独立 AI 候选授权角色才可依据站立授权审批下一轮 CR；不得提前登记尚无根因和修复证据的未来轮次。例外不得改写全局上限、伪造为新 attempt 1、扩展到其他 Release、复用已消费请求或产生未审批的下一轮；候选运行报告必须同时记录全局上限与本次有效上限。新增秘密、第三方权限、资金/账本策略和生产激活仍必须由项目所有者决定。普通 CI 的 build artifact 不是候选，任何人或 AI 都不得把它复制到桌面冒充候选。
+`config/android-candidate-request.yaml` 必须包含：`schema_version: 1`、`status: REQUESTED`、`R06-R32` Release、`candidate: true`、普通范围 1 至 3 的 `remediation_attempt`、以及每次候选唯一的 `request_id`。全局 `max_ai_attempts` 必须始终为 3。CR-0358 记录项目所有者对 AI 候选持续决策的站立授权；AI 不再逐轮询问项目所有者，但任何超过普通范围的请求仍必须在 `config/android-automation.yaml` 中精确绑定 Release、该 Release 自身从 attempt 4 开始的连续轮次、全局唯一 request ID、独立 CR、全局唯一根因修复 Commit 和 `max_candidate_runs=1`。不同 Release 的例外轮次各自独立编号，不得把历史版本的 attempt 4 至 N 串接为新版本的起始轮次；同一 Release 内仍禁止跳号、倒序或重复。只有上一请求已消费、独立根因已修复且受影响模块与普通 CI 通过后，独立 AI 候选授权角色才可依据站立授权审批下一轮 CR；不得提前登记尚无根因和修复证据的未来轮次。例外不得改写全局上限、伪造为新 attempt 1、扩展到其他 Release、复用已消费请求或产生未审批的下一轮；候选运行报告必须同时记录全局上限与本次有效上限。新增秘密、第三方权限、资金/账本策略和生产激活仍必须由项目所有者决定。普通 CI 的 build artifact 不是候选，任何人或 AI 都不得把它复制到桌面冒充候选。
 
 ### 2.2 候选可消费业务夹具
 

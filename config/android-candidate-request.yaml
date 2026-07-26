@@ -2,6 +2,8 @@ schema_version: 1
 status: REQUESTED
 release: R13
 candidate: true
-remediation_attempt: 3
-request_id: R13-CANDIDATE-20260727-003
-reason: R13 attempt 2 Run 30219507396的构建、Lint和单测全部通过，OIDC会话与/api/v1/me为200，但R13夹具把10222发布时间固定在候选运行之后，StartupGate的version-check因记录尚未生效返回404。该Run已消费且不得重跑；本请求只允许运行一次普通attempt 3，绑定过去发布时间、已生效断言及公网version-check 200/NONE的最小修复。
+remediation_attempt: 4
+request_id: R13-CANDIDATE-20260727-004
+reason: R13 attempt 3 Run 30220806413已通过OIDC登录、启动门禁、收藏页和历史页，但UIAutomator点击了Compose TextButton内部不可点击的“分享”文字子节点。该Run已消费且不得重跑；CR-0383已用稳定资源标识和可点击祖先回退修复此独立根因，并把每个Release的例外轮次独立编号。本请求只允许对修复Commit执行一次精确attempt 4，不授权attempt 5。
+attempt_exception_id: CR-0383
+required_fix_commit: c602d2f0194980efcf19f233148f0b0932254ba6
