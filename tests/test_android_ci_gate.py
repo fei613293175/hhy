@@ -762,7 +762,7 @@ class AndroidCiGateTest(unittest.TestCase):
         self.assertIn('captureStable("25-r05-identity-result.png")', historical_test)
         self.assertIn("AuthVisualAuditScreen", historical_test)
         self.assertIn("IdentityVisualAuditScreen", historical_test)
-        self.assertIn("stableMatches >= 2", smoke_test)
+        self.assertIn("stableMatches >= 4", smoke_test)
         self.assertIn("digest != previousScreenDigest", smoke_test)
         self.assertIn("waitForIdle(2_000)", smoke_test)
         self.assertIn('clickResource("mine.identity-header")', smoke_test)
