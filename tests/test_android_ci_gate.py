@@ -60,6 +60,34 @@ class AndroidCiGateTest(unittest.TestCase):
             {"repository", "workflow_ref", "commit", "run_id"},
             set(policy["authentication"]["binding_claims"]),
         )
+        route_activation = policy["authentication"]["public_route_activation"]
+        self.assertTrue(route_activation["required"])
+        self.assertEqual(
+            "scripts/switch_android_candidate_route.sh",
+            route_activation["script"],
+        )
+        self.assertEqual(
+            "HHY_CANDIDATE_ROUTE_CONFIRM",
+            route_activation["confirmation_env"],
+        )
+        self.assertEqual(
+            "/www/server/panel/vhost/nginx/api.orbexa.cc.conf",
+            route_activation["nginx_config"],
+        )
+        self.assertEqual(
+            "https://api.orbexa.cc/public-api/v1/platform/status",
+            route_activation["public_probe_url"],
+        )
+        self.assertEqual(
+            {
+                "target_container_local_http_200",
+                "nginx_upstream_exact",
+                "nginx_config_test_pass",
+                "public_request_id_in_target_container_log",
+                "automatic_rollback_on_failure",
+            },
+            set(route_activation["required_proofs"]),
+        )
         bootstrap = policy["visual"]["baseline_bootstrap"]
         self.assertEqual("SINGLE_EMULATOR_CAPTURE_THEN_LIGHTWEIGHT_PROMOTION", bootstrap["mode"])
         self.assertFalse(bootstrap["promotion_rebuild_allowed"])
@@ -157,6 +185,29 @@ class AndroidCiGateTest(unittest.TestCase):
             path.write_text(yaml.safe_dump(policy, allow_unicode=True), encoding="utf-8")
             with self.assertRaises(GateError):
                 load_policy(path)
+
+    def test_policy_rejects_incomplete_public_route_activation_proof(self) -> None:
+        mutations = (
+            lambda route: route.update(required=False),
+            lambda route: route.update(script="scripts/manual-route.sh"),
+            lambda route: route.update(confirmation_env="UNSAFE_CONFIRM"),
+            lambda route: route.update(nginx_config="/etc/nginx/nginx.conf"),
+            lambda route: route.update(public_probe_url="http://127.0.0.1/status"),
+            lambda route: route["required_proofs"].pop(),
+        )
+        for mutate in mutations:
+            with self.subTest(mutate=mutate), TemporaryDirectory() as temp:
+                policy = yaml.safe_load(
+                    (ROOT / "config/android-automation.yaml").read_text(encoding="utf-8")
+                )
+                mutate(policy["authentication"]["public_route_activation"])
+                path = Path(temp) / "policy.yaml"
+                path.write_text(
+                    yaml.safe_dump(policy, allow_unicode=True),
+                    encoding="utf-8",
+                )
+                with self.assertRaises(GateError):
+                    load_policy(path)
 
     def test_attempt_exception_history_must_be_contiguous_ordered_and_unique(self) -> None:
         source = yaml.safe_load(

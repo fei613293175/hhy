@@ -62,6 +62,25 @@ checks:
   cwd: .
   command: ['{python}', -m, unittest, discover, -s, tests, -p, 'test_r*_candidate.py']
   timeout_seconds: 300
+- id: android-governance-unit
+  profiles: [FAST]
+  ci_job: tooling
+  paths:
+  - .github/workflows/android-quality-gate.yml
+  - .github/workflows/android-candidate-request.yml
+  - .github/workflows/android-visual-baseline-promotion.yml
+  - config/android-automation.yaml
+  - config/android-candidate-request.yaml
+  - scripts/android_ci_gate.py
+  - scripts/android_candidate_request.py
+  - scripts/run_android_emulator_gate.sh
+  - scripts/switch_android_candidate_route.sh
+  - tests/test_android_ci_gate.py
+  - tests/test_android_candidate_request.py
+  - tests/test_android_candidate_route.py
+  cwd: .
+  command: ['{python}', -m, unittest, tests.test_android_ci_gate, tests.test_android_candidate_request, tests.test_android_candidate_route]
+  timeout_seconds: 300
 - id: governance-knowledge-unit
   profiles: [FAST]
   ci_job: tooling
@@ -174,12 +193,6 @@ checks:
   - apps/android/**
   - contracts/**
   - packages/domain-types/**
-  - .github/workflows/android-quality-gate.yml
-  - .github/workflows/ci.yml
-  - config/android-automation.yaml
-  - scripts/android_ci_gate.py
-  - scripts/run_android_emulator_gate.sh
-  - tests/test_android_ci_gate.py
   cwd: apps/android
   command: ['{gradle_wrapper}', --no-daemon, testDebugUnitTest, lintDebug]
   timeout_seconds: 1200

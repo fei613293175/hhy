@@ -66,6 +66,14 @@ R12 的提交旅程固定消费标题为“R12候选发布预览项目”的草�
 
 所谓“自动修复”不是让 Actions 无审查改写生产代码。Actions 负责确定性验证和耐久失败队列；当前或接续 AI 负责依据证据修改、提交，随后 Actions 自动重跑。这避免无限循环和不可审计的机器人提交。
 
+### 3.1 候选公网路由激活
+
+候选后端“容器健康”和公网状态接口“HTTP 200”不能分别作为切流完成证据，因为公网可能仍命中旧容器。`api.orbexa.cc` 候选切流只能使用 `scripts/switch_android_candidate_route.sh`：显式确认精确旧/新 loopback upstream 与目标候选容器，先验证容器运行、8080 精确端口映射和目标本机状态 200，再备份唯一 Nginx 配置并替换精确 upstream；只有 `nginx -t` 通过才允许 reload。切流后必须携带唯一 `X-Request-ID` 访问公网状态接口，并在目标容器结构化日志中找到同一 requestId；任一步失败自动恢复备份并 reload，禁止以人工 `sed` 后只看公网 200 作为成功。
+
+GitHub 模拟器 Job 必须在安装 Java、Android SDK、平台包和 KVM 之前完成 OIDC 与 Staging bootstrap 两阶段预检。两阶段分别记录安全的 HTTP 状态，响应体、Bearer Token、一次性码和 JWT 声明不得进入日志。预检失败即停止重型准备；同一 Commit 仍只允许一次瞬态失败重跑，重复失败按既有规则停止重跑并诊断，不得因为路由已修复而静默增加第三次 rerun 或未批准候选轮次。
+
+Android候选策略、工作流、请求校验器、路由脚本及其Python专项测试发生变化时，普通提交只运行`android-governance-unit` tooling；只有`apps/android/**`、共享合同或领域类型实际影响客户端编译时才进入`android-module`。候选工作流变化必须在最终大版本候选验证，禁止为了验证YAML、策略或Shell文本而在同一普通推送额外运行一次完整Android编译。
+
 项目所有者不承担逐版本即时反馈义务。桌面候选可按版本累积，项目所有者在任意时间安装并反馈；未反馈版本保持 `owner_physical_test=PENDING`，只阻断对应 Release 的正式验收和生产激活，不得阻断后续依赖已满足版本的编码、机器候选和桌面 APK 交付。后续反馈的问题进入当前适用版本或批准热修队列，不得要求项目所有者先补齐所有旧版本结论。
 
 ## 4. 视觉基线规则

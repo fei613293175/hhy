@@ -8,7 +8,7 @@
   "metrics": {
     "canonical_policy_sha256": "38e04ed812c8df0d353c2b91993d31e53b471e9c457f06b426bd2260c470aa92",
     "governance_knowledge": {
-      "problem_records": 120,
+      "problem_records": 121,
       "reusable_patterns": 11,
       "pitfalls": 30
     },
@@ -35,8 +35,8 @@
       "open_document_gaps": 0
     },
     "continuity": {
-      "event_count": 3408,
-      "event_head_hash": "ff468eed5700258569328810f78cfeafe2ce8c91830e842fa794d5539d67d0c5",
+      "event_count": 3453,
+      "event_head_hash": "fc21d5f8f7ccec8c8759ca72a9e97ed2c4782fcea90ce95465743a5357a495b8",
       "rule_readiness": "PASS",
       "required_rule_sources": 11,
       "document_gate": {
@@ -50,7 +50,7 @@
     "continuity_required_records": 20,
     "baseline_sessions": 108,
     "baseline_handoffs": 3,
-    "change_requests": 347,
+    "change_requests": 352,
     "task_transitions": 110,
     "continuity_integration_checks": 12,
     "continuity_lifecycle_checks": 15

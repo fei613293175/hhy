@@ -44,6 +44,18 @@ authentication:
   - run_id
   consume_once: true
   production_enabled: false
+  public_route_activation:
+    required: true
+    script: scripts/switch_android_candidate_route.sh
+    confirmation_env: HHY_CANDIDATE_ROUTE_CONFIRM
+    nginx_config: /www/server/panel/vhost/nginx/api.orbexa.cc.conf
+    public_probe_url: https://api.orbexa.cc/public-api/v1/platform/status
+    required_proofs:
+    - target_container_local_http_200
+    - nginx_upstream_exact
+    - nginx_config_test_pass
+    - public_request_id_in_target_container_log
+    - automatic_rollback_on_failure
 emulator:
   api_level: 35
   target: google_apis

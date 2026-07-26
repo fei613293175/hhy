@@ -11,7 +11,7 @@ task_id: TASK-R12-007
 story_id: STORY-R12-008
 goal: 完成R12最终Android候选、真实模拟器截图AI验收、固定签名测试APK与桌面交付
 started_at: '2026-07-25T19:20:48Z'
-updated_at: '2026-07-26T04:57:52Z'
+updated_at: '2026-07-26T05:29:08Z'
 takeover_of: null
 change_requests:
 - CR-0339
@@ -28,6 +28,8 @@ change_requests:
 - CR-0350
 - CR-0351
 - CR-0352
+- CR-0353
+- CR-0354
 scope:
   allowed_paths:
   - apps/**
@@ -108,7 +110,11 @@ scope:
   - tests/test_run_affected_tests.py
   - catalogs/ui_visual_acceptance.csv
   - tests/test_home_contract_alignment.py
-  source: story+explicit+approved-cr:CR-0340+approved-cr:CR-0344+approved-cr:CR-0346+approved-cr:CR-0345+approved-cr:CR-0348+approved-cr:CR-0349+approved-cr:CR-0350+approved-cr:CR-0351+approved-cr:CR-0352
+  - scripts/switch_android_candidate_route.sh
+  - tests/test_android_candidate_route.py
+  - docs/03-continuity/change-requests/CR-0353-加固Android候选公网路由切换与前置启动码门禁.md
+  - docs/03-continuity/change-requests/CR-0354-完整加固Android候选公网路由与前置启动码门禁.md
+  source: story+explicit+approved-cr:CR-0340+approved-cr:CR-0344+approved-cr:CR-0346+approved-cr:CR-0345+approved-cr:CR-0348+approved-cr:CR-0349+approved-cr:CR-0350+approved-cr:CR-0351+approved-cr:CR-0352+approved-cr:CR-0353+approved-cr:CR-0354
 git:
   initialized: true
   branch: task/TASK-R03-001
@@ -118,22 +124,22 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-26T04:57:46Z'
-  expires_at: '2026-07-26T08:57:46Z'
-checkpoint_sequence: 29
-latest_checkpoint: .continuity/checkpoints/SES-20260725T192048Z-668BD05D/0029.yaml
+  renewed_at: '2026-07-26T05:29:02Z'
+  expires_at: '2026-07-26T09:29:02Z'
+checkpoint_sequence: 32
+latest_checkpoint: .continuity/checkpoints/SES-20260725T192048Z-668BD05D/0032.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260725T192048Z-668BD05D.md
-next_step: 提交IMPLEMENTED元数据，Git传输预检并一次推送；该推送将启动唯一R12 attempt5候选，随后读取运行证据并由AI审核十页截图。
+next_step: 运行严格Doctor、预提交并提交推送，确认GitHub tooling/continuity PASS且Android跳过；随后在不违反attempt5重跑和attempt6禁令的前提下继续R12候选收口。
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: a13cd1eeb88a4d6e2fb82ac6de5c41a1743f6e29e42d2a660874c267c09d2d3a
-  generated_at: '2026-07-26T04:57:49Z'
+  context_hash: ac3b4d4bf81576684114ecfc9ecaa6d7aeeefbf0779fbad30dcf11d49949c933
+  generated_at: '2026-07-26T05:29:06Z'
 handoff_bundle: null
 closure: null
 parallel_execution:
-  assessment: USER_SERIAL_OVERRIDE
+  assessment: CAPABILITY_UNAVAILABLE
   delegated_workers: 0
   workers: []
-  reason: 唯一候选请求和连续性元数据需串行完成，禁止并发重复触发。
+  reason: 当前开发者指令禁止未获用户明确要求时启动子代理，本变更串行执行。

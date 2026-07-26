@@ -1,7 +1,7 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-26T04:57:49Z
-- Context Hash：`a13cd1eeb88a4d6e2fb82ac6de5c41a1743f6e29e42d2a660874c267c09d2d3a`
+- 生成时间：2026-07-26T05:29:06Z
+- Context Hash：`ac3b4d4bf81576684114ecfc9ecaa6d7aeeefbf0779fbad30dcf11d49949c933`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 规则就绪：`PASS`（`HASHED_CONTEXT_MANIFEST`）
@@ -164,7 +164,7 @@ blocked_tasks:
 - TASK-R06-008
 - TASK-R07-008
 next_task: TASK-R12-007
-updated_at: '2026-07-26T04:57:46Z'
+updated_at: '2026-07-26T05:29:02Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -199,15 +199,15 @@ continuity:
   active_session_id: SES-20260725T192048Z-668BD05D
   actor_id: codex-root-r12-candidate-20260726
   story_id: STORY-R12-008
-  lease_expires_at: '2026-07-26T08:57:46Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260725T192048Z-668BD05D/0029.yaml
-  project_fingerprint: 789ab7f51318a26005bb2b992f36484d453301f6dc05b5a0695de86a6aba17df
+  lease_expires_at: '2026-07-26T09:29:02Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260725T192048Z-668BD05D/0032.yaml
+  project_fingerprint: e6974f8ca9081b0f64c3007773d1bd746e4bddf2fd7729e650b0266b2375c1b8
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: 44be2ded97a7f4a107dae1897a6caf5d4d9ce1fb5fd0a917a001508496289dc3
-    generated_at: '2026-07-26T04:55:43Z'
+    context_hash: e97f2dbd8c1e46a1c1195cf7afe373a9b860dc5f946110e364b3a2a471d302d8
+    generated_at: '2026-07-26T05:28:22Z'
   handoff_bundle: null
 ```
 
@@ -405,7 +405,7 @@ task_id: TASK-R12-007
 story_id: STORY-R12-008
 goal: 完成R12最终Android候选、真实模拟器截图AI验收、固定签名测试APK与桌面交付
 started_at: '2026-07-25T19:20:48Z'
-updated_at: '2026-07-26T04:57:46Z'
+updated_at: '2026-07-26T05:29:02Z'
 takeover_of: null
 change_requests:
 - CR-0339
@@ -422,6 +422,8 @@ change_requests:
 - CR-0350
 - CR-0351
 - CR-0352
+- CR-0353
+- CR-0354
 scope:
   allowed_paths:
   - apps/**
@@ -502,7 +504,11 @@ scope:
   - tests/test_run_affected_tests.py
   - catalogs/ui_visual_acceptance.csv
   - tests/test_home_contract_alignment.py
-  source: story+explicit+approved-cr:CR-0340+approved-cr:CR-0344+approved-cr:CR-0346+approved-cr:CR-0345+approved-cr:CR-0348+approved-cr:CR-0349+approved-cr:CR-0350+approved-cr:CR-0351+approved-cr:CR-0352
+  - scripts/switch_android_candidate_route.sh
+  - tests/test_android_candidate_route.py
+  - docs/03-continuity/change-requests/CR-0353-加固Android候选公网路由切换与前置启动码门禁.md
+  - docs/03-continuity/change-requests/CR-0354-完整加固Android候选公网路由与前置启动码门禁.md
+  source: story+explicit+approved-cr:CR-0340+approved-cr:CR-0344+approved-cr:CR-0346+approved-cr:CR-0345+approved-cr:CR-0348+approved-cr:CR-0349+approved-cr:CR-0350+approved-cr:CR-0351+approved-cr:CR-0352+approved-cr:CR-0353+approved-cr:CR-0354
 git:
   initialized: true
   branch: task/TASK-R03-001
@@ -512,64 +518,97 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-26T04:57:46Z'
-  expires_at: '2026-07-26T08:57:46Z'
-checkpoint_sequence: 29
-latest_checkpoint: .continuity/checkpoints/SES-20260725T192048Z-668BD05D/0029.yaml
+  renewed_at: '2026-07-26T05:29:02Z'
+  expires_at: '2026-07-26T09:29:02Z'
+checkpoint_sequence: 32
+latest_checkpoint: .continuity/checkpoints/SES-20260725T192048Z-668BD05D/0032.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260725T192048Z-668BD05D.md
-next_step: 提交IMPLEMENTED元数据，Git传输预检并一次推送；该推送将启动唯一R12 attempt5候选，随后读取运行证据并由AI审核十页截图。
+next_step: 运行严格Doctor、预提交并提交推送，确认GitHub tooling/continuity PASS且Android跳过；随后在不违反attempt5重跑和attempt6禁令的前提下继续R12候选收口。
 context_pack: THIS_CONTEXT_PACK
 handoff_bundle: null
 closure: null
 parallel_execution:
-  assessment: USER_SERIAL_OVERRIDE
+  assessment: CAPABILITY_UNAVAILABLE
   delegated_workers: 0
   workers: []
-  reason: 唯一候选请求和连续性元数据需串行完成，禁止并发重复触发。
+  reason: 当前开发者指令禁止未获用户明确要求时启动子代理，本变更串行执行。
 ```
 
 ## 最新检查点
 
 ```yaml
 protocol_version: '1.0'
-checkpoint_id: CP-SES-20260725T192048Z-668BD05D-0029
+checkpoint_id: CP-SES-20260725T192048Z-668BD05D-0032
 session_id: SES-20260725T192048Z-668BD05D
 task_id: TASK-R12-007
 story_id: STORY-R12-008
-sequence: 29
-created_at: '2026-07-26T04:57:45Z'
-summary: CR-0352实现提交438cf624：R12 attempt5精确一次性候选请求已就绪，attempt6保持硬拒绝。
-next_step: 提交IMPLEMENTED元数据，Git传输预检并一次推送；该推送将启动唯一R12 attempt5候选，随后读取运行证据并由AI审核十页截图。
+sequence: 32
+created_at: '2026-07-26T05:29:02Z'
+summary: CR-0354 IMPLEMENTED：候选公网路由切流、前置启动码诊断、tooling-only治理影响映射和PROB-0121闭环完成；64项专项、远端脚本语法/幂等公网命中、严格文档均PASS。
+next_step: 运行严格Doctor、预提交并提交推送，确认GitHub tooling/continuity PASS且Android跳过；随后在不违反attempt5重跑和attempt6禁令的前提下继续R12候选收口。
 blockers: []
 decisions:
-- GitHub候选请求工作流由config/android-candidate-request.yaml变更触发；本次只推送一次，不手工重复dispatch。
-note: 候选尚未触发；推送后只观察同一run。
+- 候选基础设施加固已实施；禁止同Commit第三次重跑和未批准attempt6。
+note: ''
 tests:
-- name: implementation-commit
+- name: android-governance-regression
   result: PASS
-  evidence: 438cf624
-  note: CR-0352实现
-- name: strict-project-doctor
+  evidence: 64 tests OK
+  note: 含请求、路由和影响映射
+- name: route-public-binding
   result: PASS
-  evidence: 84 requirements; 319 REST; 0 gaps
-  note: R12严格Doctor
+  evidence: hhy-route-20260726T052331Z-205365489
+  note: 目标容器28098
+- name: documentation-strict
+  result: PASS
+  evidence: 84 requirements 319 REST 0 gaps
+  note: R12
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: 438cf6248629529d9596d104691db2470daca009
+  head: b3ef70f9f1f46e2499f50db680f1981be6be9c02
   upstream: origin/task/TASK-R03-001
-  ahead: 1
+  ahead: 0
   behind: 0
   dirty: true
   status_porcelain:
+  - ' M .continuity/ACTIVE_SESSION.yaml'
   - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
   - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/SESSION_INDEX.yaml'
   - ' M .continuity/STATE.yaml'
-  - ' M .continuity/change_requests/CR-0352.yaml'
+  - ' M .continuity/sessions/SES-20260725T192048Z-668BD05D.yaml'
+  - ' M .github/workflows/android-quality-gate.yml'
+  - ' M CHANGELOG.md'
+  - ' M CURRENT_STATUS.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+  - ' M artifacts/validation/project-doctor-v1.2.3-documentation.json'
+  - ' M artifacts/validation/project-doctor-v1.2.3.json'
   - ' M catalogs/change_request_index.csv'
   - ' M catalogs/session_index.csv'
-  - ' M docs/03-continuity/change-requests/CR-0352-连续精确例外验证并授权R12第五次候选.md'
+  - ' M config/android-automation.yaml'
+  - ' M config/test-impact-map.yaml'
+  - ' M docs/03-continuity/PITFALLS.md'
+  - ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
+  - ' M docs/03-continuity/REUSABLE_PATTERNS.md'
+  - ' M docs/03-continuity/sessions/2026-07/SES-20260725T192048Z-668BD05D.md'
+  - ' M docs/08-testing/Android自动开发测试修复交付体系_V1.0.md'
+  - ' M scripts/android_ci_gate.py'
+  - A  scripts/switch_android_candidate_route.sh
+  - ' M tests/test_android_ci_gate.py'
+  - ' M tests/test_run_affected_tests.py'
+  - ?? .continuity/change_requests/CR-0353.yaml
+  - ?? .continuity/change_requests/CR-0354.yaml
+  - ?? .continuity/checkpoints/SES-20260725T192048Z-668BD05D/0030.yaml
+  - ?? .continuity/checkpoints/SES-20260725T192048Z-668BD05D/0031.yaml
+  - ?? docs/03-continuity/change-requests/CR-0353-加固Android候选公网路由切换与前置启动码门禁.md
+  - ?? docs/03-continuity/change-requests/CR-0354-完整加固Android候选公网路由与前置启动码门禁.md
+  - ?? tests/test_android_candidate_route.py
   recent_commits:
+  - "b3ef70f9f1f46e2499f50db680f1981be6be9c02\t2026-07-26T12:58:05+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] docs(continuity): record candidate\
+    \ attempt 5 authorization"
   - "438cf6248629529d9596d104691db2470daca009\t2026-07-26T12:57:03+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] test(r12): authorize exact\
     \ candidate attempt 5"
   - "739d6d2d749d67f8cbdfcc4206bcbed725c41d57\t2026-07-26T12:42:46+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] docs(continuity): record R06\
@@ -584,10 +623,8 @@ git:
     \ tooling"
   - "bfd5d2e66004c6c3995f1c52bec067b374073b79\t2026-07-26T12:09:06+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] docs(continuity): record CR-0348\
     \ implementation"
-  - "e2be41a20eac92ead295b2f6a1979f863c325142\t2026-07-26T12:06:52+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] fix(ci): preserve historical\
-    \ candidate evidence"
 project_fingerprint:
-  sha256: 789ab7f51318a26005bb2b992f36484d453301f6dc05b5a0695de86a6aba17df
+  sha256: e6974f8ca9081b0f64c3007773d1bd746e4bddf2fd7729e650b0266b2375c1b8
   files:
   - .github/workflows/android-candidate-request.yml
   - .github/workflows/android-quality-gate.yml
@@ -625,6 +662,8 @@ project_fingerprint:
   - docs/03-continuity/change-requests/CR-0350-同步R10已批准首页证据并关闭R06历史视觉债务.md
   - docs/03-continuity/change-requests/CR-0351-为CR-0345候选前夹具修复授权一次R12第五次候选.md
   - docs/03-continuity/change-requests/CR-0352-连续精确例外验证并授权R12第五次候选.md
+  - docs/03-continuity/change-requests/CR-0353-加固Android候选公网路由切换与前置启动码门禁.md
+  - docs/03-continuity/change-requests/CR-0354-完整加固Android候选公网路由与前置启动码门禁.md
   - docs/08-testing/Android自动开发测试修复交付体系_V1.0.md
   - docs/09-development/统一开发与交付效率规范.md
   - releases/PROGRAM_EXECUTION_PLAN.yaml
@@ -639,6 +678,7 @@ project_fingerprint:
   - scripts/generate_program_execution_plan.py
   - scripts/prepare_r12_ci_fixture.sh
   - scripts/run_android_emulator_gate.sh
+  - scripts/switch_android_candidate_route.sh
   - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/CiAutomationFixtureStore.java
   - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/CiAutomationService.java
   - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/CiAutomationController.java
@@ -651,6 +691,7 @@ project_fingerprint:
   - templates/AGENTS.md
   - tests/android/visual-manifests/R12.yaml
   - tests/test_android_candidate_request.py
+  - tests/test_android_candidate_route.py
   - tests/test_android_ci_gate.py
   - tests/test_context_pack_parallel_policy.py
   - tests/test_documentation_baseline_version.py
@@ -660,7 +701,7 @@ project_fingerprint:
   - tests/test_r12_candidate.py
   - tests/test_release_close_gate.py
   - tests/test_run_affected_tests.py
-  file_count: 71
+  file_count: 75
   payload:
     base_commit: 8b20e881c6a72fc1e1deb11e86f3212e36ea7941
     files:
@@ -670,16 +711,16 @@ project_fingerprint:
       sha256: a97de688be10965fb7a9a13d8bf75f2b8e70090ee253eb77f26fa0530ab77625
     - path: .github/workflows/android-quality-gate.yml
       state: FILE
-      size: 14525
-      sha256: c6b9ffeb8c23f6cd59767e1674adb7006d11d960055e267701d0e32c6dab5e81
+      size: 15451
+      sha256: 2556807282c8acd370663203356e1351a2ba50c5bcf07b06f1ef74e60fb347ea
     - path: AGENTS.md
       state: FILE
       size: 14707
       sha256: 306026d4706dfd3cae0a3db2b1c56e294700326bc3a13ca095c3987a267d390b
     - path: CHANGELOG.md
       state: FILE
-      size: 152357
-      sha256: b60abf6cfa5349c90ea702b214dad9b3516780e594719d4c873ecd11bc1698db
+      size: 153432
+      sha256: 0f73dd3460a432d048dd5957d8b5c78205531e0e1d2f00bfb73112cf426842c1
     - path: PROJECT_EXECUTION_PLAN.md
       state: FILE
       size: 939
@@ -722,16 +763,16 @@ project_fingerprint:
       sha256: 1189bdd5b7fa40bfda6e119644542087a409a80751fd1ea8fad167980629a2fe
     - path: config/android-automation.yaml
       state: FILE
-      size: 6363
-      sha256: 34de5af87f571e78f9fb47f42ddf03b80ae0de72088536380973160fe594c77d
+      size: 6853
+      sha256: e2cb13d54338b9a6bbd55bbf80ec7742f255194d799eafe641699ccbeafcc012
     - path: config/android-candidate-request.yaml
       state: FILE
       size: 659
       sha256: eca08db17f5633f7cbe70ee0c5814050f6fb472f50dcde6f327d42e1daa8293f
     - path: config/test-impact-map.yaml
       state: FILE
-      size: 6812
-      sha256: 9f62f2bfdd267a4746a50c3795a2311e05669c3d8a352e94601602ccca222d6e
+      size: 7358
+      sha256: 89719940f6f87444c17bda520386ced85f6ce9e22a651426895ef6e4ae53efe4
     - path: docs/00-baseline/合伙云Pro_完整项目开发文档_V1.2.2_开发就绪版.md
       state: FILE
       size: 203
@@ -742,16 +783,16 @@ project_fingerprint:
       sha256: b1d965b019e632fbe1a259831201be7c82f79c26836fa161fd1d41855fcdb7c8
     - path: docs/03-continuity/PITFALLS.md
       state: FILE
-      size: 10279
-      sha256: 83465c8b3ff56f6a2189226b287607d39e9845a39140ca605c01242251e8a7a2
+      size: 10892
+      sha256: 7ba0ebb90335cfaddcc10a95279697cc073b39095b3d8622a48b0c99335d409a
     - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
       state: FILE
-      size: 177064
-      sha256: 83348603ce91a5ed8e696d606fa1721b1a52255f1156ac1fe6267a9b2fd7d88f
+      size: 179593
+      sha256: cbdf11b271fc29d8911a80cf90b7ef68dad0859b573e916a771c1ef1aff14094
     - path: docs/03-continuity/REUSABLE_PATTERNS.md
       state: FILE
-      size: 4857
-      sha256: 1201b5707bb300a3f28da7d0001726079a224b3210723834e7788b9a7c28aa7c
+      size: 5383
+      sha256: 5f6cebd6da0ac89da3d336106ff99992cafd2e74ccb0b783188f079ea52ae934
     - path: docs/03-continuity/change-requests/CR-0339-补齐R12统一发布Android最终候选与产物追溯.md
       state: FILE
       size: 4099
@@ -808,10 +849,18 @@ project_fingerprint:
       state: FILE
       size: 3999
       sha256: 33f75ecb710d3c0b2cb89b17f785f91a839e57fd456a04b73982a0f612718fe3
+    - path: docs/03-continuity/change-requests/CR-0353-加固Android候选公网路由切换与前置启动码门禁.md
+      state: FILE
+      size: 4355
+      sha256: ab9242a83605ecce2a29e0c0b9540ea6bb03c9925cccff98872c69b67c232d14
+    - path: docs/03-continuity/change-requests/CR-0354-完整加固Android候选公网路由与前置启动码门禁.md
+      state: FILE
+      size: 4501
+      sha256: f2588f731d10b0651cd2e18fb99c32f53bd20ebebb6b05269616566b89cd5977
     - path: docs/08-testing/Android自动开发测试修复交付体系_V1.0.md
       state: FILE
-      size: 11202
-      sha256: a7cd5250e20eec9df4e9b4dd86b3f54c94e1fd811f3aa35214cd250889585055
+      size: 12867
+      sha256: 5e6d888989ec820541d3613a2b55c7b7a35be70d6a630ae1bf7b555e2c63b12a
     - path: docs/09-development/统一开发与交付效率规范.md
       state: FILE
       size: 17399
@@ -826,8 +875,8 @@ project_fingerprint:
       sha256: 4ffd752c85299a3bc1dd14643089c9723e90345d488e68a7985beeb85513649a
     - path: scripts/android_ci_gate.py
       state: FILE
-      size: 31114
-      sha256: a717d7919318229417272ac1c0cea254f29d30dba61c3ce50d093ce843ff37e7
+      size: 32508
+      sha256: 36c54e5a6c49d550e93e1bf93b40638e076c5a1c8d68162f5adc821e134cfe6e
     - path: scripts/check_program_execution_plan.py
       state: FILE
       size: 10627
@@ -864,6 +913,10 @@ project_fingerprint:
       state: FILE
       size: 2853
       sha256: b982ca0944f865b6d5b576636d454ed59a2e19ff1da586d79267a9eee86670bc
+    - path: scripts/switch_android_candidate_route.sh
+      state: FILE
+      size: 3702
+      sha256: 664b3d0e9c1f606fe0d2981d7939b7cd1b1c85b6e7b6957341b3cd12789125c2
     - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/user/CiAutomationFixtureStore.java
       state: FILE
       size: 10380
@@ -912,10 +965,14 @@ project_fingerprint:
       state: FILE
       size: 6946
       sha256: be79d9b07f4245e88c2fad60586fa2bfbfcc87acdc309f7215cea85fe5e30a52
+    - path: tests/test_android_candidate_route.py
+      state: FILE
+      size: 3635
+      sha256: 055fc6281f06f679a6acdc1afb19a219331bd8127aad50d48e529f92934c7274
     - path: tests/test_android_ci_gate.py
       state: FILE
-      size: 43732
-      sha256: 9cae226c64839d7d2a8cbfc599795c5bf34d7da0181aa90f8d0438b4a634154e
+      size: 45956
+      sha256: 7cf334f455a6bcd3ed43b2968cc4cfe421b15cf04f81203f7d384f7733ed6076
     - path: tests/test_context_pack_parallel_policy.py
       state: FILE
       size: 11352
@@ -946,8 +1003,8 @@ project_fingerprint:
       sha256: 3e7cf0c0d1730df1524b253e05fc5a46d2ed251aa63938ae6832c20cece2cd5b
     - path: tests/test_run_affected_tests.py
       state: FILE
-      size: 10576
-      sha256: 6760be6ab0631da90ad702fd1eaf8e6a8aab7e2b8dd058a0c25022de74785518
+      size: 11451
+      sha256: 58b2ecf685494dfed3ecf4a5e37e151887e29a1f47fc0eac89df1324a78698e5
 change_classification:
   infrastructure:
   - .github/workflows/android-candidate-request.yml
@@ -984,6 +1041,7 @@ change_classification:
   - scripts/generate_program_execution_plan.py
   - scripts/prepare_r12_ci_fixture.sh
   - scripts/run_android_emulator_gate.sh
+  - scripts/switch_android_candidate_route.sh
   - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/CiAutomationFixtureStore.java
   - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/CiAutomationService.java
   - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/CiAutomationController.java
@@ -1023,9 +1081,12 @@ change_classification:
   - docs/03-continuity/change-requests/CR-0350-同步R10已批准首页证据并关闭R06历史视觉债务.md
   - docs/03-continuity/change-requests/CR-0351-为CR-0345候选前夹具修复授权一次R12第五次候选.md
   - docs/03-continuity/change-requests/CR-0352-连续精确例外验证并授权R12第五次候选.md
+  - docs/03-continuity/change-requests/CR-0353-加固Android候选公网路由切换与前置启动码门禁.md
+  - docs/03-continuity/change-requests/CR-0354-完整加固Android候选公网路由与前置启动码门禁.md
   tests:
   - tests/android/visual-manifests/R12.yaml
   - tests/test_android_candidate_request.py
+  - tests/test_android_candidate_route.py
   - tests/test_android_ci_gate.py
   - tests/test_context_pack_parallel_policy.py
   - tests/test_documentation_baseline_version.py
@@ -1058,6 +1119,8 @@ change_requests:
 - CR-0350
 - CR-0351
 - CR-0352
+- CR-0353
+- CR-0354
 scope:
   allowed_paths:
   - apps/**
@@ -1138,13 +1201,17 @@ scope:
   - tests/test_run_affected_tests.py
   - catalogs/ui_visual_acceptance.csv
   - tests/test_home_contract_alignment.py
-  source: story+explicit+approved-cr:CR-0340+approved-cr:CR-0344+approved-cr:CR-0346+approved-cr:CR-0345+approved-cr:CR-0348+approved-cr:CR-0349+approved-cr:CR-0350+approved-cr:CR-0351+approved-cr:CR-0352
+  - scripts/switch_android_candidate_route.sh
+  - tests/test_android_candidate_route.py
+  - docs/03-continuity/change-requests/CR-0353-加固Android候选公网路由切换与前置启动码门禁.md
+  - docs/03-continuity/change-requests/CR-0354-完整加固Android候选公网路由与前置启动码门禁.md
+  source: story+explicit+approved-cr:CR-0340+approved-cr:CR-0344+approved-cr:CR-0346+approved-cr:CR-0345+approved-cr:CR-0348+approved-cr:CR-0349+approved-cr:CR-0350+approved-cr:CR-0351+approved-cr:CR-0352+approved-cr:CR-0353+approved-cr:CR-0354
 parallel_execution:
-  assessment: USER_SERIAL_OVERRIDE
+  assessment: CAPABILITY_UNAVAILABLE
   delegated_workers: 0
   workers: []
-  reason: 唯一候选请求和连续性元数据需串行完成，禁止并发重复触发。
-event_hash: bf1e075b162caf4a743a66f2dabd1bf8585106cec82e6180c7b7d341d393bdc0
+  reason: 当前开发者指令禁止未获用户明确要求时启动子代理，本变更串行执行。
+event_hash: fc21d5f8f7ccec8c8759ca72a9e97ed2c4782fcea90ce95465743a5357a495b8
 ```
 
 ## 接续状态与事件头
@@ -1156,8 +1223,8 @@ active_session_id: SES-20260725T192048Z-668BD05D
 last_session_id: SES-20260725T180922Z-D7231210
 last_session_result: COMPLETED
 last_closure_checkpoint_id: CP-SES-20260725T180922Z-D7231210-0008
-event_count: 3437
-event_head_hash: bf1e075b162caf4a743a66f2dabd1bf8585106cec82e6180c7b7d341d393bdc0
+event_count: 3453
+event_head_hash: fc21d5f8f7ccec8c8759ca72a9e97ed2c4782fcea90ce95465743a5357a495b8
 event_chain_valid: true
 ```
 
@@ -1280,9 +1347,9 @@ recent_sessions: - session_id: SES-20260724T032308Z-98D6D10A
   started_at: '2026-07-25T19:20:48Z'
   record: .continuity/sessions/SES-20260725T192048Z-668BD05D.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260725T192048Z-668BD05D.md
-  updated_at: '2026-07-26T04:57:46Z'
+  updated_at: '2026-07-26T05:29:02Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260725T192048Z-668BD05D/0029.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260725T192048Z-668BD05D/0032.yaml
   handoff_bundle: null
 task_claims: - claim_id: CLM-9F0481F9E6A2
   session_id: SES-20260723T114316Z-44EBE3C1
@@ -2276,9 +2343,9 @@ recent_task_transitions: - transition_id: TRN-7D4AC37706EB
 ```yaml
 initialized: true
 branch: task/TASK-R03-001
-head: 438cf6248629529d9596d104691db2470daca009
+head: b3ef70f9f1f46e2499f50db680f1981be6be9c02
 upstream: origin/task/TASK-R03-001
-ahead: 1
+ahead: 0
 behind: 0
 dirty: true
 status_porcelain:
@@ -2287,15 +2354,39 @@ status_porcelain:
 - ' M .continuity/EVENT_LOG.jsonl'
 - ' M .continuity/SESSION_INDEX.yaml'
 - ' M .continuity/STATE.yaml'
-- ' M .continuity/change_requests/CR-0352.yaml'
 - ' M .continuity/sessions/SES-20260725T192048Z-668BD05D.yaml'
+- ' M .github/workflows/android-quality-gate.yml'
+- ' M CHANGELOG.md'
 - ' M CURRENT_STATUS.yaml'
+- ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+- ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+- ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+- ' M artifacts/validation/project-doctor-v1.2.3-documentation.json'
+- ' M artifacts/validation/project-doctor-v1.2.3.json'
 - ' M catalogs/change_request_index.csv'
 - ' M catalogs/session_index.csv'
-- ' M docs/03-continuity/change-requests/CR-0352-连续精确例外验证并授权R12第五次候选.md'
+- ' M config/android-automation.yaml'
+- ' M config/test-impact-map.yaml'
+- ' M docs/03-continuity/PITFALLS.md'
+- ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
+- ' M docs/03-continuity/REUSABLE_PATTERNS.md'
 - ' M docs/03-continuity/sessions/2026-07/SES-20260725T192048Z-668BD05D.md'
-- ?? .continuity/checkpoints/SES-20260725T192048Z-668BD05D/0029.yaml
+- ' M docs/08-testing/Android自动开发测试修复交付体系_V1.0.md'
+- ' M scripts/android_ci_gate.py'
+- A  scripts/switch_android_candidate_route.sh
+- ' M tests/test_android_ci_gate.py'
+- ' M tests/test_run_affected_tests.py'
+- ?? .continuity/change_requests/CR-0353.yaml
+- ?? .continuity/change_requests/CR-0354.yaml
+- ?? .continuity/checkpoints/SES-20260725T192048Z-668BD05D/0030.yaml
+- ?? .continuity/checkpoints/SES-20260725T192048Z-668BD05D/0031.yaml
+- ?? .continuity/checkpoints/SES-20260725T192048Z-668BD05D/0032.yaml
+- ?? docs/03-continuity/change-requests/CR-0353-加固Android候选公网路由切换与前置启动码门禁.md
+- ?? docs/03-continuity/change-requests/CR-0354-完整加固Android候选公网路由与前置启动码门禁.md
+- ?? tests/test_android_candidate_route.py
 recent_commits:
+- "b3ef70f9f1f46e2499f50db680f1981be6be9c02\t2026-07-26T12:58:05+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] docs(continuity): record candidate\
+  \ attempt 5 authorization"
 - "438cf6248629529d9596d104691db2470daca009\t2026-07-26T12:57:03+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] test(r12): authorize exact candidate\
   \ attempt 5"
 - "739d6d2d749d67f8cbdfcc4206bcbed725c41d57\t2026-07-26T12:42:46+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] docs(continuity): record R06\
@@ -2310,14 +2401,12 @@ recent_commits:
   \ tooling"
 - "bfd5d2e66004c6c3995f1c52bec067b374073b79\t2026-07-26T12:09:06+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] docs(continuity): record CR-0348\
   \ implementation"
-- "e2be41a20eac92ead295b2f6a1979f863c325142\t2026-07-26T12:06:52+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] fix(ci): preserve historical\
-  \ candidate evidence"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`789ab7f51318a26005bb2b992f36484d453301f6dc05b5a0695de86a6aba17df`
-- 文件数：71
+- 指纹：`e6974f8ca9081b0f64c3007773d1bd746e4bddf2fd7729e650b0266b2375c1b8`
+- 文件数：75
 
 - `.github/workflows/android-candidate-request.yml`
 - `.github/workflows/android-quality-gate.yml`
@@ -2355,6 +2444,8 @@ recent_commits:
 - `docs/03-continuity/change-requests/CR-0350-同步R10已批准首页证据并关闭R06历史视觉债务.md`
 - `docs/03-continuity/change-requests/CR-0351-为CR-0345候选前夹具修复授权一次R12第五次候选.md`
 - `docs/03-continuity/change-requests/CR-0352-连续精确例外验证并授权R12第五次候选.md`
+- `docs/03-continuity/change-requests/CR-0353-加固Android候选公网路由切换与前置启动码门禁.md`
+- `docs/03-continuity/change-requests/CR-0354-完整加固Android候选公网路由与前置启动码门禁.md`
 - `docs/08-testing/Android自动开发测试修复交付体系_V1.0.md`
 - `docs/09-development/统一开发与交付效率规范.md`
 - `releases/PROGRAM_EXECUTION_PLAN.yaml`
@@ -2369,6 +2460,7 @@ recent_commits:
 - `scripts/generate_program_execution_plan.py`
 - `scripts/prepare_r12_ci_fixture.sh`
 - `scripts/run_android_emulator_gate.sh`
+- `scripts/switch_android_candidate_route.sh`
 - `services/backend/access/src/main/java/cc/orbexa/hhy/access/user/CiAutomationFixtureStore.java`
 - `services/backend/access/src/main/java/cc/orbexa/hhy/access/user/CiAutomationService.java`
 - `services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/CiAutomationController.java`
@@ -2381,6 +2473,7 @@ recent_commits:
 - `templates/AGENTS.md`
 - `tests/android/visual-manifests/R12.yaml`
 - `tests/test_android_candidate_request.py`
+- `tests/test_android_candidate_route.py`
 - `tests/test_android_ci_gate.py`
 - `tests/test_context_pack_parallel_policy.py`
 - `tests/test_documentation_baseline_version.py`
@@ -12225,29 +12318,93 @@ PARALLEL_EXECUTION_PLAN.yaml:
   - SES-20260725T192048Z-668BD05D
   implementation_commits:
   - 438cf624
+- protocol_version: '1.0'
+  cr_id: CR-0354
+  title: 完整加固Android候选公网路由与前置启动码门禁
+  status: IMPLEMENTED
+  created_at: '2026-07-26T05:18:38Z'
+  updated_at: '2026-07-26T05:28:42Z'
+  requester_actor_id: codex-root-r12-candidate-20260726
+  approver_actor_id: project-owner
+  task_id: TASK-R12-007
+  session_id: SES-20260725T192048Z-668BD05D
+  user_request: 全局检查开发文档、硬性门禁、开发进度、优点复用和踩坑记录；存在漂移立即加固优化。
+  reason: CR-0353实现前发现遗漏测试影响映射而SUPERSEDED；R12候选修复容器健康但公网代理仍指向旧端口，现有门禁缺少端到端命中证明并在Android重型准备后才验证启动码。
+  original_rule: 候选后端部署只要求容器健康和公网状态200；启动码请求在Java、Android SDK、KVM准备之后执行，curl失败只返回笼统HTTP状态；新路由脚本若不进入既有影响映射，普通CI可能跳过对应Python回归。
+  new_rule: 候选切流必须通过唯一受控脚本完成：精确验证旧/新upstream、目标容器端口与本机健康，备份Nginx配置后切换，nginx -t成功才reload，并以唯一X-Request-ID从公网访问后证明请求命中目标容器；任一步失败自动回滚。GitHub必须在安装Java、Android
+    SDK和KVM之前分别验证OIDC与Staging bootstrap并输出不含令牌/响应体的阶段化HTTP状态。路由脚本、策略与专项测试必须进入既有Android影响映射。未取得端到端命中证据禁止候选。
+  impact_summary: 原位加固既有Android自动候选、固定远程环境与测试影响映射，新增受控可回滚路由脚本及专项回归，前置启动码门禁减少错误路由时的无效Android准备；不修改产品页面、业务API、数据库、资金规则或全局候选次数。
+  impact:
+    files:
+    - .github/workflows/android-quality-gate.yml
+    - config/android-automation.yaml
+    - config/test-impact-map.yaml
+    - scripts/android_ci_gate.py
+    - scripts/switch_android_candidate_route.sh
+    - tests/test_android_ci_gate.py
+    - tests/test_android_candidate_route.py
+    - tests/test_run_affected_tests.py
+    - docs/08-testing/Android自动开发测试修复交付体系_V1.0.md
+    - docs/03-continuity/PROBLEM_REGISTRY.yaml
+    - docs/03-continuity/PITFALLS.md
+    - docs/03-continuity/REUSABLE_PATTERNS.md
+    - CHANGELOG.md
+    - docs/03-continuity/change-requests/CR-0354-完整加固Android候选公网路由与前置启动码门禁.md
+    pages: []
+    apis:
+    - POST /internal-ci/v1/android/bootstrap（只调整候选前置验证与诊断，不改合同）
+    database: []
+    configuration:
+    - api.orbexa.cc Nginx upstream、Android automation public_route_activation和既有Android影响映射
+    ledger: []
+    tests:
+    - python -m unittest -v tests.test_android_ci_gate tests.test_android_candidate_route tests.test_r12_candidate tests.test_run_affected_tests
+    releases:
+    - R12
+    migration_and_compatibility: CR-0353未实施即SUPERSEDED；现役api.orbexa.cc已从旧28099切至已验证的新28098并保留pre-r12-fbde523e备份。脚本要求显式YES、精确旧/新upstream与目标容器。attempt5第二次工作流失败证据保留，不绕过max_same_commit_reruns=1，不登记attempt6。
+  user_confirmation: 用户明确要求发现漂移后立即加固优化相关规则；本CR只完善既有门禁及其影响映射。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-26T05:19:09Z'
+    note: 本轮全局漂移检查明确授权立即加固；批准完整影响范围，保持候选重跑上限和attempt6禁令不变。
+  machine_record: .continuity/change_requests/CR-0354.yaml
+  document: docs/03-continuity/change-requests/CR-0354-完整加固Android候选公网路由与前置启动码门禁.md
+  decision_log:
+  - at: '2026-07-26T05:19:21Z'
+    actor_id: codex-root-r12-candidate-20260726
+    status: IMPLEMENTING
+    note: 开始按完整影响范围实现并验证。
+    session_id: SES-20260725T192048Z-668BD05D
+  - at: '2026-07-26T05:28:42Z'
+    actor_id: codex-root-r12-candidate-20260726
+    status: IMPLEMENTED
+    note: 受控切流脚本在obx-test bash -n及现役28098幂等执行PASS，公网requestId命中目标容器；Android策略/请求/路由/R12/影响映射64项PASS，严格文档PASS。候选治理变化只选择tooling+contracts，不选择android；apps/android变化仍选择android。attempt5不第三次重跑，attempt6未登记。
+    session_id: SES-20260725T192048Z-668BD05D
+  session_ids:
+  - SES-20260725T192048Z-668BD05D
 ```
 
 ## 上下文来源及哈希
 
 - `AGENTS.md` — `306026d4706dfd3cae0a3db2b1c56e294700326bc3a13ca095c3987a267d390b`
 - `START_HERE.md` — `22de14029ce47beb41ea569e36ce223fbc9d11b86f8676f28d5fbbd83896af5c`
-- `CURRENT_STATUS.yaml` — `8a22db64da01c8e8ec46a0cdd99e19657024f57fa9a4ae1de855f4f8cabe2ceb`
+- `CURRENT_STATUS.yaml` — `5cf8535739fe538ccbc50a5474d6a726a21338261c77dcd92e953590b7811054`
 - `NEXT_TASK.yaml` — `1f03675aa74266e5c95220a1296010172ca5527e763602ee4ef876d1001f9507`
 - `DEVELOPMENT_RISK_REGISTER.md` — `8304c91492e4ee2abea0522a06541c8688d39c7fc532b5d0cde499bf09fffb87`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
-- `docs/03-continuity/PROBLEM_REGISTRY.yaml` — `83348603ce91a5ed8e696d606fa1721b1a52255f1156ac1fe6267a9b2fd7d88f`
-- `docs/03-continuity/REUSABLE_PATTERNS.md` — `1201b5707bb300a3f28da7d0001726079a224b3210723834e7788b9a7c28aa7c`
-- `docs/03-continuity/PITFALLS.md` — `83465c8b3ff56f6a2189226b287607d39e9845a39140ca605c01242251e8a7a2`
+- `docs/03-continuity/PROBLEM_REGISTRY.yaml` — `cbdf11b271fc29d8911a80cf90b7ef68dad0859b573e916a771c1ef1aff14094`
+- `docs/03-continuity/REUSABLE_PATTERNS.md` — `5f6cebd6da0ac89da3d336106ff99992cafd2e74ccb0b783188f079ea52ae934`
+- `docs/03-continuity/PITFALLS.md` — `7ba0ebb90335cfaddcc10a95279697cc073b39095b3d8622a48b0c99335d409a`
 - `releases/PROGRAM_EXECUTION_PLAN.yaml` — `542911104a0feb22d6d37ef92448bfc1b140b2f07d9fbf861440642f7f3d29d9`
 - `config/REPOSITORY_TRANSPORT.yaml` — `8c4a21f3e204d46e7ffb467d804a53ed26cda61cd088dadfddb50b69eea657fc`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `38e04ed812c8df0d353c2b91993d31e53b471e9c457f06b426bd2260c470aa92`
-- `.continuity/EVENT_LOG.jsonl` — `03eabe910c689592e7b461a69b5f91b0442f441d4cf4d07ddc216fa94286d63f`
-- `.continuity/SESSION_INDEX.yaml` — `6b4914c3c1b91b9220ce12e30b690380f93cd805249fcbe3a6dd489408d3ae22`
+- `.continuity/EVENT_LOG.jsonl` — `953104a64ab84dd588db805674e86f14ca9601e1b535eeb957f90159cb99b61f`
+- `.continuity/SESSION_INDEX.yaml` — `bb909259927d9380c3e661c413785e4b5bf7f045460c0cb26eab42355adf263b`
 - `.continuity/TASK_CLAIMS.yaml` — `5948f9d27d01996570044a191a32d7a1803736d6fe2c1c0d1a4a0e16d8716541`
 - `.continuity/TASK_TRANSITIONS.yaml` — `07c10f929db719a9014aa25face3c259d96dc1793f448f33dc3012b4d5babdc4`
-- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `823f5adaf2a81fc796df051fc92614e1eb879ca0be10ab010ff3f2ed20c34e25`
-- `.continuity/ACTIVE_SESSION.yaml` — `eba6d57f247ed077d3d0214f95da20a8648e2392c1c2a3dec8de60d5c63ec880`
+- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `881224a125f1b682b6386d567020ed94c478ddb64acd1faf1272b9613b6ae720`
+- `.continuity/ACTIVE_SESSION.yaml` — `41ad5e0e27c63b5808733d711fac64d81c8f471e780cb90fcddebe807d0aeff2`
 - `docs/00-baseline/正式商业系统全局硬性开发边界.md` — `b1d965b019e632fbe1a259831201be7c82f79c26836fa161fd1d41855fcdb7c8`
 - `docs/02-ui/UI参考图使用与开发约束_V1.2.2.md` — `d14367586aa2067b059df58798acd20ab982459cdb35ff27fc7922a3896e4933`
 - `docs/03-continuity/持续开发无状态接续强制门禁_V1.2.3.md` — `d0ed3ed68bdd93b06500eecdfb5baa3245e6ca8b685a486788abb6eee39b3d51`
@@ -12258,8 +12415,8 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `releases/R12/TASKS.yaml` — `1ca7b627e103e1f54f2eb87f7087d848465a3c351169d186172c9055c11da709`
 - `releases/R12/ACCEPTANCE_MATRIX.csv` — `0fa8c9e830600bb02b4b6b729bc6d400dcc14fa1a2e7e4c5fb3f83d46c01abca`
 - `releases/R12/PARALLEL_EXECUTION_PLAN.yaml` — `2ddbee414a51a868b63331992e2e04c5400846cf6012474aab406e067e532e98`
-- `docs/03-continuity/sessions/2026-07/SES-20260725T192048Z-668BD05D.md` — `fa72aab015b392c9dae28521e438a6679f60757833eb83af7b64313b8eefcf24`
-- `.continuity/checkpoints/SES-20260725T192048Z-668BD05D/0029.yaml` — `da8f048f557efe004e671407c0572bd8e4461bcd3e7ca5fe7fd6d8220c2f9d5d`
+- `docs/03-continuity/sessions/2026-07/SES-20260725T192048Z-668BD05D.md` — `311e20009cd768357fb84ea3b5001ee4e723c233aa1a50f6e59c69f78d79f13f`
+- `.continuity/checkpoints/SES-20260725T192048Z-668BD05D/0032.yaml` — `125e6903760dbb381f95fbc9b8e1175feb2bc0b0629d5d4e22198ade86a80878`
 - `docs/03-continuity/change-requests/CR-0339-补齐R12统一发布Android最终候选与产物追溯.md` — `6d0cfb4e067edebc263badbf91bd560127467ff7ee4dd6c5f9cef82baee002d7`
 - `docs/03-continuity/change-requests/CR-0340-修复R12候选OIDC异常日志重复requestId遮蔽.md` — `e36ceb50b8f45a22fffdb20fc599d5972c184170c9619290706b6c40da8aad6f`
 - `docs/03-continuity/change-requests/CR-0341-补齐R12隔离候选official-STAGING版本发布夹具.md` — `0a222e781daea9cabe11b525f5f3522803f4c4122908afe94b81fea167b26c0d`
@@ -12274,6 +12431,8 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `docs/03-continuity/change-requests/CR-0350-同步R10已批准首页证据并关闭R06历史视觉债务.md` — `e9da73363ec9929b8155d782b197778dd4eac2e131fbf57de52e854dc8ab47c2`
 - `docs/03-continuity/change-requests/CR-0351-为CR-0345候选前夹具修复授权一次R12第五次候选.md` — `741cbc6812bbd479d08ce2e43d11f5f711533a56733d9552767f798533073477`
 - `docs/03-continuity/change-requests/CR-0352-连续精确例外验证并授权R12第五次候选.md` — `33f75ecb710d3c0b2cb89b17f785f91a839e57fd456a04b73982a0f612718fe3`
+- `docs/03-continuity/change-requests/CR-0353-加固Android候选公网路由切换与前置启动码门禁.md` — `ab9242a83605ecce2a29e0c0b9540ea6bb03c9925cccff98872c69b67c232d14`
+- `docs/03-continuity/change-requests/CR-0354-完整加固Android候选公网路由与前置启动码门禁.md` — `f2588f731d10b0651cd2e18fb99c32f53bd20ebebb6b05269616566b89cd5977`
 
 ## 接手硬规则
 

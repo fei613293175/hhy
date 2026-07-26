@@ -97,6 +97,26 @@ def load_policy(path: Path = DEFAULT_POLICY) -> dict[str, Any]:
     required_claims = {"repository", "workflow_ref", "commit", "run_id"}
     if set(authentication.get("binding_claims") or []) != required_claims:
         raise GateError("Android CI bootstrap must bind repository, workflow, commit, and run")
+    route_activation = authentication.get("public_route_activation") or {}
+    if route_activation.get("required") is not True:
+        raise GateError("Android candidate public route activation proof must be required")
+    if route_activation.get("script") != "scripts/switch_android_candidate_route.sh":
+        raise GateError("Android candidate public route activation must use the controlled switch script")
+    if route_activation.get("confirmation_env") != "HHY_CANDIDATE_ROUTE_CONFIRM":
+        raise GateError("Android candidate route activation confirmation variable drift")
+    if route_activation.get("nginx_config") != "/www/server/panel/vhost/nginx/api.orbexa.cc.conf":
+        raise GateError("Android candidate route activation must target the exact api.orbexa.cc Nginx config")
+    if route_activation.get("public_probe_url") != "https://api.orbexa.cc/public-api/v1/platform/status":
+        raise GateError("Android candidate route activation public probe URL drift")
+    required_route_proofs = {
+        "target_container_local_http_200",
+        "nginx_upstream_exact",
+        "nginx_config_test_pass",
+        "public_request_id_in_target_container_log",
+        "automatic_rollback_on_failure",
+    }
+    if set(route_activation.get("required_proofs") or []) != required_route_proofs:
+        raise GateError("Android candidate public route activation proof set drift")
     if not document["delivery"].get("forbid_owner_request_before_pass"):
         raise GateError("Owner test must remain blocked before automated PASS")
     if not document["delivery"].get("desktop_copy_after_actions_pass"):

@@ -37,20 +37,38 @@ class TestImpactMap(TestCase):
         self.assertIn("backend-module", ids)
         self.assertNotIn("integration-backend", ids)
 
-    def test_android_gate_changes_always_select_android_job(self) -> None:
+    def test_android_governance_changes_select_tooling_without_compiling_android(self) -> None:
         gate_paths = [
             ".github/workflows/android-quality-gate.yml",
-            ".github/workflows/ci.yml",
+            ".github/workflows/android-candidate-request.yml",
+            ".github/workflows/android-visual-baseline-promotion.yml",
             "config/android-automation.yaml",
+            "config/android-candidate-request.yaml",
             "scripts/android_ci_gate.py",
+            "scripts/android_candidate_request.py",
             "scripts/run_android_emulator_gate.sh",
+            "scripts/switch_android_candidate_route.sh",
             "tests/test_android_ci_gate.py",
+            "tests/test_android_candidate_request.py",
+            "tests/test_android_candidate_route.py",
         ]
         for path in gate_paths:
             with self.subTest(path=path):
                 plan = affected.build_plan(self.document, "MODULE", [path], root=ROOT)
-                self.assertIn("android", plan["ci_jobs"])
-                self.assertIn("android-module", {row["id"] for row in plan["checks"]})
+                ids = {row["id"] for row in plan["checks"]}
+                self.assertIn("tooling", plan["ci_jobs"])
+                self.assertIn("android-governance-unit", ids)
+                self.assertNotIn("android-module", ids)
+
+    def test_android_application_change_still_selects_android_job(self) -> None:
+        plan = affected.build_plan(
+            self.document,
+            "MODULE",
+            ["apps/android/feature/shell/src/main/java/HhyShell.kt"],
+            root=ROOT,
+        )
+        self.assertIn("android", plan["ci_jobs"])
+        self.assertIn("android-module", {row["id"] for row in plan["checks"]})
 
     def test_impact_map_change_validates_tooling_without_compiling_android(self) -> None:
         plan = affected.build_plan(

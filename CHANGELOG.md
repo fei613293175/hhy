@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## R12候选公网路由与前置启动码门禁加固 · 2026-07-26
+
+- Run `30188636875` attempt2证明固定镜像已健康并不代表公网已切流：`api.orbexa.cc`仍代理旧`28099`并让bootstrap返回400；现场已备份配置、切至新`28098`、通过`nginx -t`与reload，并以唯一`X-Request-ID`证明公网请求进入目标容器。
+- CR-0353因实现前发现遗漏测试影响映射而SUPERSEDED且未实施；CR-0354原位加固既有Android策略、测试体系、远程复用模式和踩坑20，新增严格确认、精确upstream、目标容器端口、本机健康、自动回滚及公网requestId命中的唯一切流脚本。
+- GitHub OIDC与Staging bootstrap改为在Java、Android SDK、平台包和KVM之前分阶段预检，仅输出安全HTTP状态并抑制响应体与令牌；脚本、策略和专项测试进入既有`android-governance-unit` tooling，普通规则提交不再重复编译Android，真实客户端源码仍进入`android-module`。attempt5失败证据保留，同Commit第三次重跑及未批准attempt6继续禁止。
+
 ## R12候选前夹具修复的单次第五轮授权 · 2026-07-26
 
 - CR-0351专项测试发现影响范围遗漏策略加载器后即被SUPERSEDED，未提交、未推送、未运行候选；CR-0352不复用已消费的attempt 4，保留全局`max_ai_attempts=3`和普通1至3，只为CR-0345修复提交`fbde523e8e751b74f7300ef125c70fa9eb4d03fd`登记`R12 / attempt 5 / R12-CANDIDATE-20260726-005 / max_candidate_runs=1`精确例外。

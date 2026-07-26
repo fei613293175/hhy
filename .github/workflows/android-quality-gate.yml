@@ -223,6 +223,38 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+      - name: Request one-time Staging CI bootstrap code
+        shell: bash
+        run: |
+          set -euo pipefail
+          oidc_file="${RUNNER_TEMP}/hhy-android-oidc.json"
+          bootstrap_file="${RUNNER_TEMP}/hhy-android-bootstrap.json"
+          trap 'rm -f "$oidc_file" "$bootstrap_file"' EXIT
+          oidc_status="$(curl --silent --show-error \
+            --output "$oidc_file" \
+            --write-out '%{http_code}' \
+            --header "Authorization: bearer ${ACTIONS_ID_TOKEN_REQUEST_TOKEN}" \
+            "${ACTIONS_ID_TOKEN_REQUEST_URL}&audience=hhy-android-e2e")"
+          if [[ "$oidc_status" != "200" ]]; then
+            echo "::error title=GitHub OIDC bootstrap preflight failed::GitHub OIDC token endpoint returned HTTP ${oidc_status}; response body is intentionally suppressed"
+            exit 22
+          fi
+          oidc_token="$(python -c 'import json,sys; print(json.load(open(sys.argv[1], encoding="utf-8"))["value"])' "$oidc_file")"
+          bootstrap_payload="$(python -c 'import json,os; print(json.dumps({"commit":os.environ["GITHUB_SHA"],"runId":os.environ["GITHUB_RUN_ID"],"release":os.environ["ANDROID_RELEASE"]}))')"
+          bootstrap_status="$(curl --silent --show-error \
+            --output "$bootstrap_file" \
+            --write-out '%{http_code}' \
+            --header "Authorization: Bearer ${oidc_token}" \
+            --header 'Content-Type: application/json' \
+            --data "$bootstrap_payload" \
+            https://api.orbexa.cc/internal-ci/v1/android/bootstrap)"
+          if [[ "$bootstrap_status" != "200" ]]; then
+            echo "::error title=Staging bootstrap preflight failed::Staging bootstrap endpoint returned HTTP ${bootstrap_status}; response body and bearer token are intentionally suppressed"
+            exit 22
+          fi
+          bootstrap_code="$(python -c 'import json,sys; print(json.load(open(sys.argv[1], encoding="utf-8"))["data"]["code"])' "$bootstrap_file")"
+          echo "::add-mask::$bootstrap_code"
+          echo "HHY_CI_BOOTSTRAP_CODE=$bootstrap_code" >> "$GITHUB_ENV"
       - run: pip install --disable-pip-version-check pyyaml pillow
       - uses: actions/setup-java@v4
         with:
@@ -237,22 +269,6 @@ jobs:
           echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
           sudo udevadm control --reload-rules
           sudo udevadm trigger --name-match=kvm
-      - name: Request one-time Staging CI bootstrap code
-        shell: bash
-        run: |
-          oidc_response="$(curl --fail --silent --show-error \
-            --header "Authorization: bearer ${ACTIONS_ID_TOKEN_REQUEST_TOKEN}" \
-            "${ACTIONS_ID_TOKEN_REQUEST_URL}&audience=hhy-android-e2e")"
-          oidc_token="$(python -c 'import json,sys; print(json.load(sys.stdin)["value"])' <<<"$oidc_response")"
-          bootstrap_payload="$(python -c 'import json,os; print(json.dumps({"commit":os.environ["GITHUB_SHA"],"runId":os.environ["GITHUB_RUN_ID"],"release":os.environ["ANDROID_RELEASE"]}))')"
-          bootstrap_response="$(curl --fail --silent --show-error \
-            --header "Authorization: Bearer ${oidc_token}" \
-            --header 'Content-Type: application/json' \
-            --data "$bootstrap_payload" \
-            https://api.orbexa.cc/internal-ci/v1/android/bootstrap)"
-          bootstrap_code="$(python -c 'import json,sys; print(json.load(sys.stdin)["data"]["code"])' <<<"$bootstrap_response")"
-          echo "::add-mask::$bootstrap_code"
-          echo "HHY_CI_BOOTSTRAP_CODE=$bootstrap_code" >> "$GITHUB_ENV"
       - name: Execute deterministic emulator journeys
         uses: reactivecircus/android-emulator-runner@a421e43855164a8197daf9d8d40fe71c6996bb0d
         with:
