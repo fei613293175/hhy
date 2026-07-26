@@ -1664,9 +1664,10 @@ problems:
   title: R11历史候选回归与Maven Wrapper文件模式随R12演进漂移
   status: SOLVED
   root_cause: R11候选回归直接断言全局当前构建配置、发布策略、候选请求和共享模拟器旅程永远保持R11，版本进入R12后必然假失败；同时services/backend/mvnw在Git索引中为100644，Windows本地无法暴露该问题，Linux CI使用./mvnw时直接返回Permission denied。
-  resolution: CR-0348将R11身份、页面集合和截图哈希改为读取已归档build-evidence、candidate-report与R11视觉合同验证不可变事实，当前构建与发布策略只要求一致且严格大于R11的10220；恢复Maven Wrapper的Git 100755模式，并在既有V1.2.3严格Doctor和工具回归中同时校验Android与Maven Wrapper的索引模式。
+  resolution: CR-0348将R11身份、页面集合和截图哈希改为读取已归档build-evidence、candidate-report与R11视觉合同验证不可变事实，当前构建与发布策略只要求一致且严格大于R11的10220；恢复Maven Wrapper的Git 100755模式，并在既有V1.2.3严格Doctor和工具回归中同时校验Android与Maven Wrapper的索引模式。run 30187349464进一步证明候选与治理测试路径未进入tooling影响映射；CR-0349在既有test-impact-map原位增加candidate-history-unit和governance-knowledge-unit，相关路径变化必须选择tooling，未受影响的Android、数据库和Web继续跳过。
   regression_checks:
   - python -m unittest -v tests.test_r11_candidate tests.test_context_pack_parallel_policy
+  - tests.test_run_affected_tests必须证明候选历史、视觉归档、严格Doctor和三份治理知识源变化均选择tooling
   - git ls-files -s -- apps/android/gradlew services/backend/mvnw必须均为100755
   - python scripts/check_v123_continuity.py --strict --release R12
   - GitHub普通CI tooling与backend Job必须PASS，且不得触发Android模拟器候选
@@ -1675,3 +1676,4 @@ problems:
   - 不得用CI临时chmod替代Git索引100755事实
   - Windows本机可执行不能作为Linux Wrapper权限证据
   - 普通CI失败不得通过启动或复用已消耗的Android候选轮次解决
+  - 受影响测试本地PASS不代表GitHub impact-map已选择对应Job，远端skipped必须作为门禁覆盖缺口修复

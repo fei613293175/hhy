@@ -60,6 +60,33 @@ class TestImpactMap(TestCase):
         self.assertIn("acceleration-tooling-unit", ids)
         self.assertNotIn("android-module", ids)
 
+    def test_candidate_history_changes_select_candidate_tooling(self) -> None:
+        paths = [
+            "tests/test_r11_candidate.py",
+            "tests/test_r12_candidate.py",
+            "tests/android/visual-manifests/R11.yaml",
+            "artifacts/validation/r11-task007-android/candidate-report.json",
+        ]
+        for path in paths:
+            with self.subTest(path=path):
+                plan = affected.build_plan(self.document, "MODULE", [path], root=ROOT)
+                self.assertIn("candidate-history-unit", {row["id"] for row in plan["checks"]})
+                self.assertIn("tooling", plan["ci_jobs"])
+
+    def test_governance_knowledge_changes_select_governance_tooling(self) -> None:
+        paths = [
+            "scripts/check_v123_continuity.py",
+            "tests/test_context_pack_parallel_policy.py",
+            "docs/03-continuity/PROBLEM_REGISTRY.yaml",
+            "docs/03-continuity/REUSABLE_PATTERNS.md",
+            "docs/03-continuity/PITFALLS.md",
+        ]
+        for path in paths:
+            with self.subTest(path=path):
+                plan = affected.build_plan(self.document, "MODULE", [path], root=ROOT)
+                self.assertIn("governance-knowledge-unit", {row["id"] for row in plan["checks"]})
+                self.assertIn("tooling", plan["ci_jobs"])
+
     def test_integration_ignores_changed_path_filter(self) -> None:
         plan = affected.build_plan(self.document, "INTEGRATION", [], root=ROOT)
         ids = {row["id"] for row in plan["checks"]}

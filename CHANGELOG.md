@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## R12 普通CI tooling影响映射补强 · 2026-07-26
+
+- run `30187349464` 已验证后端Maven Wrapper修复PASS，但候选历史测试与严格Doctor变化被错误判为tooling `skipped`；本地357项PASS不能替代远端Job被正确选择。
+- CR-0349 在既有`test-impact-map`原位增加候选历史与治理知识两个精确tooling检查，覆盖候选测试、视觉归档、严格Doctor、Problem Registry、复用模式和踩坑记录；未受影响的Android、数据库和Web继续跳过。
+- PROB-0120、PATTERN-CONTINUITY-001和踩坑30原位补充该经验，不新增平行规则或问题记录，不触发Android候选。
+
 ## R12 普通CI历史候选与Wrapper模式漂移修复 · 2026-07-26
 
 - CR-0348 修复R11历史候选测试把全局当前构建配置、候选请求和共享模拟器旅程永久锁死为R11的问题：旧身份、页面集合和截图哈希改由归档候选报告、构建证据与视觉合同验证，当前身份只要求构建与发布策略一致且严格递增。

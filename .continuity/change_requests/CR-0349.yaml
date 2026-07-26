@@ -1,0 +1,51 @@
+protocol_version: '1.0'
+cr_id: CR-0349
+title: 补齐候选与治理测试的普通CI影响映射
+status: IMPLEMENTING
+created_at: '2026-07-26T04:13:36Z'
+updated_at: '2026-07-26T04:14:14Z'
+requester_actor_id: codex-root-r12-candidate-20260726
+approver_actor_id: project-owner
+task_id: TASK-R12-007
+session_id: SES-20260725T192048Z-668BD05D
+user_request: 全局检查开发文档、硬性门禁规则、开发进度、优点复用和踩坑记录，发现漂移立即加固。
+reason: CR-0348推送后的CI run 30187349464把已修改的历史候选测试和严格Doctor判定为tooling skipped，证明现有test-impact-map遗漏候选历史回归与治理知识门禁路径。
+original_rule: 普通CI按受影响模块选择Job；候选历史回归和治理知识门禁属于tooling事实，修改后必须运行对应回归，未受影响的Android、数据库和Web继续跳过。
+new_rule: 既有test-impact-map增加候选历史与治理知识两个精确tooling检查：历史candidate测试或视觉归档变化运行候选测试发现；严格Doctor、治理知识与三份经验事实源变化运行治理结构回归。影响映射自身由既有加速测试验证，禁止用全量Android候选补证。
+impact_summary: 消除修改候选或治理测试却被普通CI错误skipped的假绿；tooling只在相关路径变化时运行，Android、数据库、Web仍按影响跳过。
+impact:
+  files:
+  - config/test-impact-map.yaml
+  - tests/test_run_affected_tests.py
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/REUSABLE_PATTERNS.md
+  - docs/03-continuity/PITFALLS.md
+  - CHANGELOG.md
+  pages: []
+  apis: []
+  database: []
+  configuration:
+  - test-impact-map tooling path coverage
+  ledger: []
+  tests:
+  - python -m unittest -v tests.test_run_affected_tests tests.test_context_pack_parallel_policy tests.test_r11_candidate tests.test_r12_candidate
+  - python scripts/run_affected_tests.py --profile MODULE --changed-file tests/test_r11_candidate.py
+  - GitHub普通CI tooling与continuity PASS，Android/database/web skipped
+  releases:
+  - R12
+  migration_and_compatibility: 纯CI影响映射和回归修复；不改变产品、运行时、候选请求、APK或数据库。已有run 30187349464保留tooling skipped事实，修复后以新普通CI PASS闭环。
+user_confirmation: 项目所有者本轮明确要求发现开发漂移后立即加固相关规则。
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-26T04:14:05Z'
+  note: 更新既有影响映射、Problem Registry和经验记录，不新增平行硬规则，不扩大Android候选权限。
+machine_record: .continuity/change_requests/CR-0349.yaml
+document: docs/03-continuity/change-requests/CR-0349-补齐候选与治理测试的普通CI影响映射.md
+decision_log:
+- at: '2026-07-26T04:14:14Z'
+  actor_id: codex-root-r12-candidate-20260726
+  status: IMPLEMENTING
+  note: 已确认run 30187349464 backend PASS但tooling错误skipped，开始补齐精确tooling影响路径与回归。
+  session_id: SES-20260725T192048Z-668BD05D
+session_ids:
+- SES-20260725T192048Z-668BD05D

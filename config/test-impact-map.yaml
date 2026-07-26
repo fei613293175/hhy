@@ -52,6 +52,28 @@ checks:
   cwd: .
   command: ['{python}', -m, unittest, tests.test_hhy_workflow, tests.test_run_affected_tests, tests.test_generated_assets, tests.test_android_apk_delivery]
   timeout_seconds: 300
+- id: candidate-history-unit
+  profiles: [FAST]
+  ci_job: tooling
+  paths:
+  - tests/test_r*_candidate.py
+  - tests/android/visual-manifests/R*.yaml
+  - artifacts/validation/r*-task007-android/*.json
+  cwd: .
+  command: ['{python}', -m, unittest, discover, -s, tests, -p, 'test_r*_candidate.py']
+  timeout_seconds: 300
+- id: governance-knowledge-unit
+  profiles: [FAST]
+  ci_job: tooling
+  paths:
+  - scripts/check_v123_continuity.py
+  - tests/test_context_pack_parallel_policy.py
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/REUSABLE_PATTERNS.md
+  - docs/03-continuity/PITFALLS.md
+  cwd: .
+  command: ['{python}', -m, unittest, tests.test_context_pack_parallel_policy]
+  timeout_seconds: 300
 - id: r04-authoritative-matrix-unit
   profiles: [MODULE, INTEGRATION]
   ci_job: tooling

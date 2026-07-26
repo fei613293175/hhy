@@ -11,7 +11,7 @@ task_id: TASK-R12-007
 story_id: STORY-R12-008
 goal: 完成R12最终Android候选、真实模拟器截图AI验收、固定签名测试APK与桌面交付
 started_at: '2026-07-25T19:20:48Z'
-updated_at: '2026-07-26T04:07:40Z'
+updated_at: '2026-07-26T04:16:06Z'
 takeover_of: null
 change_requests:
 - CR-0339
@@ -24,6 +24,7 @@ change_requests:
 - CR-0346
 - CR-0347
 - CR-0348
+- CR-0349
 scope:
   allowed_paths:
   - apps/**
@@ -100,7 +101,9 @@ scope:
   - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/CiAutomationControllerTest.java
   - tests/test_r11_candidate.py
   - services/backend/mvnw
-  source: story+explicit+approved-cr:CR-0340+approved-cr:CR-0344+approved-cr:CR-0346+approved-cr:CR-0345+approved-cr:CR-0348
+  - config/test-impact-map.yaml
+  - tests/test_run_affected_tests.py
+  source: story+explicit+approved-cr:CR-0340+approved-cr:CR-0344+approved-cr:CR-0346+approved-cr:CR-0345+approved-cr:CR-0348+approved-cr:CR-0349
 git:
   initialized: true
   branch: task/TASK-R03-001
@@ -110,22 +113,22 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-26T04:07:34Z'
-  expires_at: '2026-07-26T08:07:34Z'
-checkpoint_sequence: 21
-latest_checkpoint: .continuity/checkpoints/SES-20260725T192048Z-668BD05D/0021.yaml
+  renewed_at: '2026-07-26T04:16:00Z'
+  expires_at: '2026-07-26T08:16:00Z'
+checkpoint_sequence: 22
+latest_checkpoint: .continuity/checkpoints/SES-20260725T192048Z-668BD05D/0022.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260725T192048Z-668BD05D.md
-next_step: 严格Doctor复核状态记录，提交CR实现元数据，执行Git传输预检并一次推送；随后只观察普通CI tooling/backend，不启动Android候选。
+next_step: 运行严格Doctor、暂存和pre-commit，提交并一次推送后验证GitHub普通CI tooling和continuity PASS，Android/database/web继续skipped。
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: 0052b2a01f882ad13da63bca356f8c1ccc56f4c23fabe77653ef6b8d48845344
-  generated_at: '2026-07-26T04:07:37Z'
+  context_hash: 9cdf81e2b9eca368224ebb41d0fbb87eeb3bd7a784510b06ce42732501662096
+  generated_at: '2026-07-26T04:16:03Z'
 handoff_bundle: null
 closure: null
 parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: CR状态、检查点、Context Pack和Git索引为同一串行事实链，不允许并行写入。
+  reason: 影响映射、测试、CR、Context Pack和Git索引为同一原子事实链，需串行更新。
