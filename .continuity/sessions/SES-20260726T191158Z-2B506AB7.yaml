@@ -11,10 +11,11 @@ task_id: TASK-R13-007
 story_id: STORY-R13-003
 goal: 收藏、历史、分享与行为审计Android测试APK与产物追溯
 started_at: '2026-07-26T19:11:58Z'
-updated_at: '2026-07-26T19:51:24Z'
+updated_at: '2026-07-26T20:13:13Z'
 takeover_of: null
 change_requests:
 - CR-0377
+- CR-0378
 scope:
   allowed_paths:
   - apps/**
@@ -61,7 +62,12 @@ scope:
   - tests/test_android_ci_gate.py
   - tests/android/visual-manifests/R13.yaml
   - CHANGELOG.md
-  source: story+explicit+approved-cr:CR-0377
+  - scripts/switch_android_candidate_route.sh
+  - tests/test_android_candidate_route.py
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/REUSABLE_PATTERNS.md
+  - docs/03-continuity/PITFALLS.md
+  source: story+explicit+approved-cr:CR-0377+approved-cr:CR-0378
 git:
   initialized: true
   branch: task/TASK-R03-001
@@ -71,32 +77,22 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-26T19:51:16Z'
-  expires_at: '2026-07-26T23:51:16Z'
-checkpoint_sequence: 2
-latest_checkpoint: .continuity/checkpoints/SES-20260726T191158Z-2B506AB7/0002.yaml
+  renewed_at: '2026-07-26T20:13:05Z'
+  expires_at: '2026-07-27T00:13:05Z'
+checkpoint_sequence: 3
+latest_checkpoint: .continuity/checkpoints/SES-20260726T191158Z-2B506AB7/0003.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260726T191158Z-2B506AB7.md
-next_step: 冻结实现Commit，在obx-test以该Commit构建并部署启用OIDC自动化的R13候选后端，验证公网bootstrap命中后执行传输预检与单次推送候选。
+next_step: 提交CR-0378修复；以新精确Commit在obx-test重建候选身份、双跑R13夹具和传输预检，仅推送一次触发R13最终候选。
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: 9c12dc814eced1964b672740b637860476b7d2067504cec31b4c92cc01e0845f
-  generated_at: '2026-07-26T19:51:21Z'
+  context_hash: 63eb430250550e2fe4f94cb4a94187e64bb4e0efe0648623d52bee47cbe3e02f
+  generated_at: '2026-07-26T20:13:09Z'
 handoff_bundle: null
 closure: null
 parallel_execution:
-  assessment: DELEGATED
-  delegated_workers: 2
-  workers:
-  - worker_id: r13_candidate_gap
-    responsibility: 只读候选差距审计
-    allowed_paths:
-    - config/android-candidate-request.yaml
-    - tests/test_r13_candidate.py
-  - worker_id: r13_visual_audit
-    responsibility: 只读视觉合同与旅程审计
-    allowed_paths:
-    - design/R13-UI-FROZEN
-    - apps/android/feature/activity
-  reason: ''
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 切流脚本、同一CR治理事实源和真实Nginx切换属于单一强顺序安全边界，且最终生产入口变更必须由主控串行复核。

@@ -64,19 +64,41 @@ else
   exit 2
 fi
 
-request_id="hhy-route-$(date -u +%Y%m%dT%H%M%SZ)-${RANDOM}${RANDOM}"
-probe_since="$(date -u -d '-2 seconds' +%Y-%m-%dT%H:%M:%SZ)"
-curl --fail --silent --show-error --max-time 20 \
-  --header "X-Request-ID: ${request_id}" \
-  "$public_probe_url" >/dev/null
-
+response_headers="$(mktemp)"
+cleanup_headers() {
+  rm -f "$response_headers"
+}
+trap cleanup_headers EXIT
 matched="false"
-for _ in 1 2 3 4 5; do
-  if docker logs --since "$probe_since" "$HHY_CANDIDATE_CONTAINER" 2>&1 \
-    | grep -Fq "\"requestId\":\"${request_id}\""; then
-    matched="true"
-    break
+for probe_attempt in {1..10}; do
+  sent_request_id="hhy-route-$(date -u +%Y%m%dT%H%M%SZ)-${probe_attempt}-${RANDOM}${RANDOM}"
+  probe_since="$(date -u -d '-2 seconds' +%Y-%m-%dT%H:%M:%SZ)"
+  : >"$response_headers"
+  curl --fail --silent --show-error --max-time 20 \
+    --dump-header "$response_headers" \
+    --header "X-Request-ID: ${sent_request_id}" \
+    "$public_probe_url" >/dev/null
+  response_request_id="$(awk '
+    tolower($0) ~ /^x-request-id:[[:space:]]*/ {
+      sub(/\r$/, "")
+      sub(/^[^:]*:[[:space:]]*/, "")
+      value = $0
+    }
+    END { print value }
+  ' "$response_headers")"
+  if [[ ! "$response_request_id" =~ ^[A-Za-z0-9_-]{8,64}$ ]]; then
+    echo "Public response did not provide a valid backend X-Request-Id" >&2
+    false
   fi
+
+  for _ in 1 2; do
+    if docker logs --since "$probe_since" "$HHY_CANDIDATE_CONTAINER" 2>&1 \
+      | grep -F "\"requestId\":\"${response_request_id}\"" >/dev/null; then
+      matched="true"
+      break 2
+    fi
+    sleep 1
+  done
   sleep 1
 done
 if [[ "$matched" != "true" ]]; then
@@ -86,4 +108,4 @@ fi
 
 activated="false"
 trap - ERR
-echo "ANDROID_CANDIDATE_ROUTE_OK container=${HHY_CANDIDATE_CONTAINER} upstream=${HHY_TARGET_UPSTREAM} backup=${backup} request_id=${request_id}"
+echo "ANDROID_CANDIDATE_ROUTE_OK container=${HHY_CANDIDATE_CONTAINER} upstream=${HHY_TARGET_UPSTREAM} backup=${backup} sent_request_id=${sent_request_id} response_request_id=${response_request_id}"

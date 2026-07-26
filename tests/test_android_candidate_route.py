@@ -34,9 +34,22 @@ class AndroidCandidateRouteTest(unittest.TestCase):
             'public_probe_url="https://api.orbexa.cc/public-api/v1/platform/status"',
             self.script,
         )
-        self.assertIn('--header "X-Request-ID: ${request_id}"', self.script)
+        self.assertIn('--header "X-Request-ID: ${sent_request_id}"', self.script)
+        self.assertIn('--dump-header "$response_headers"', self.script)
+        self.assertIn('tolower($0) ~ /^x-request-id:[[:space:]]*', self.script)
+        self.assertIn(
+            '[[ ! "$response_request_id" =~ ^[A-Za-z0-9_-]{8,64}$ ]]',
+            self.script,
+        )
+        self.assertIn(
+            "Public response did not provide a valid backend X-Request-Id",
+            self.script,
+        )
+        self.assertIn("for probe_attempt in {1..10}; do", self.script)
+        self.assertIn("break 2", self.script)
         self.assertIn('docker logs --since "$probe_since" "$HHY_CANDIDATE_CONTAINER"', self.script)
-        self.assertIn('grep -Fq "\\"requestId\\":\\"${request_id}\\""', self.script)
+        self.assertIn('grep -F "\\"requestId\\":\\"${response_request_id}\\"" >/dev/null', self.script)
+        self.assertIn('trap cleanup_headers EXIT', self.script)
         self.assertIn(
             "Public request did not reach the intended candidate container",
             self.script,

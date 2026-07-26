@@ -1685,12 +1685,12 @@ problems:
 - id: PROB-0121
   title: R12候选修复容器健康但公网Nginx仍指向旧候选
   status: SOLVED
-  root_cause: CR-0345固定镜像已在obx-test以新容器和新loopback端口健康启动，但人工部署只验证了新端口本机状态和api.orbexa.cc公网状态200，没有证明两者属于同一容器；现役Nginx仍把api.orbexa.cc代理到旧28099，因此Run 30188636875 attempt2的bootstrap继续命中旧镜像并返回400。GitHub又在安装Java、Android SDK和KVM之后才请求启动码，43秒准备没有产生任何业务测试价值。
-  resolution: 现场先备份api.orbexa.cc配置，把唯一upstream从28099切至固定镜像fbde523e的28098，经nginx -t和reload后使用唯一X-Request-ID从公网访问并在目标容器日志确认同一requestId。CR-0353因影响范围遗漏CI映射而未实施即SUPERSEDED；CR-0354在既有Android策略、测试体系、远程复用模式和踩坑20中原位强制受控可回滚切流脚本，GitHub把OIDC和Staging bootstrap分阶段前置到全部Android重型准备之前，并将脚本、策略和专项测试映射到android-governance-unit tooling；只有真实客户端源码、共享合同或领域类型才触发android-module。
+  root_cause: CR-0345固定镜像已在obx-test以新容器和新loopback端口健康启动，但人工部署只验证了新端口本机状态和api.orbexa.cc公网状态200，没有证明两者属于同一容器；现役Nginx仍把api.orbexa.cc代理到旧28099，因此Run 30188636875 attempt2的bootstrap继续命中旧镜像并返回400。GitHub又在安装Java、Android SDK和KVM之后才请求启动码，43秒准备没有产生任何业务测试价值。R13首次受控切流还暴露Cloudflare不会可靠保留客户端X-Request-Id，后端会生成新的响应请求号；旧脚本只按发送值查日志，因而把真实命中候选误判为失败并回滚。Nginx reload后旧worker和Cloudflare既有源站连接还可能在短暂排空窗口内返回旧upstream，单次立即公网探针不能证明最终路由状态。
+  resolution: 现场先备份api.orbexa.cc配置，把唯一upstream从28099切至固定镜像fbde523e的28098，经nginx -t和reload后使用唯一X-Request-ID从公网访问并在目标容器日志确认同一requestId。CR-0353因影响范围遗漏CI映射而未实施即SUPERSEDED；CR-0354在既有Android策略、测试体系、远程复用模式和踩坑20中原位强制受控可回滚切流脚本，GitHub把OIDC和Staging bootstrap分阶段前置到全部Android重型准备之前，并将脚本、策略和专项测试映射到android-governance-unit tooling；只有真实客户端源码、共享合同或领域类型才触发android-module。CR-0378进一步保留客户端发送号用于诊断，按HTTP大小写语义从成功公网响应头提取并校验后端实际X-Request-Id，再以响应号精确匹配目标容器日志；reload后仅在固定10次窗口内使用全新请求号重试以等待旧worker排空，兼容代理保留或重写请求号且超时继续自动回滚。
   regression_checks:
   - python -m unittest -v tests.test_android_ci_gate tests.test_android_candidate_route tests.test_r12_candidate tests.test_run_affected_tests
   - bash -n scripts/switch_android_candidate_route.sh
-  - scripts/switch_android_candidate_route.sh必须验证目标容器精确端口、本机HTTP200、Nginx唯一upstream、nginx -t和公网requestId命中目标日志，失败自动回滚
+  - scripts/switch_android_candidate_route.sh必须验证目标容器精确端口、本机HTTP200、Nginx唯一upstream、nginx -t，在固定10次窗口内从公网响应头提取合法后端requestId并命中目标日志，失败自动回滚
   - android-quality-gate必须在setup-java、setup-android、sdkmanager和KVM之前分别报告OIDC与Staging bootstrap安全HTTP状态
   - 候选治理文件必须选择android-governance-unit且不选择android-module，apps/android源码仍必须选择android-module
   - Run 30188636875 attempt2失败事实必须保留，不得执行同Commit第三次重跑；CR-0354路由修复本身不是attempt6授权，只有项目所有者随后明确批准的CR-0355才构成唯一单次授权
