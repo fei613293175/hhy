@@ -253,7 +253,7 @@ private fun R13ActivityListScreen(
                         )
                     }
                     if (state.phase == R13ListPhase.PARTIAL_ERROR) item {
-                        R13InlineError(state.requestId) { load(append = state.hasMore) }
+                        R13InlineError { load(append = state.hasMore) }
                     }
                     if (state.hasMore) item {
                         Box(Modifier.fillMaxWidth().padding(HhySpacing.Lg), contentAlignment = Alignment.Center) {
@@ -370,7 +370,7 @@ private fun R13ActivityRow(
                 overflow = TextOverflow.Ellipsis,
             )
             Text(
-                if (mode == R13ListMode.FAVORITES) "收藏内容" else activityTimeLabel(item)?.let { "时间：$it" } ?: "时间未提供",
+                activityTimeLabel(item) ?: "内容时间未提供",
                 color = HhyColors.TextSecondary,
                 fontSize = HhyType.CaptionSize,
             )
@@ -382,7 +382,7 @@ private fun R13ActivityRow(
                 modifier = Modifier.testTag("r13.favorite.remove.${item.id}"),
             ) {
                 if (busy) CircularProgressIndicator(Modifier.size(HhySpacing.Xl), strokeWidth = HhySize.Hairline)
-                else HhyIcon(HhyIcons.Check, "取消收藏", tint = HhyColors.Warning)
+                else HhyIcon(HhyIcons.Favorite, "取消收藏", tint = HhyColors.Warning)
             }
         }
     }
@@ -418,7 +418,7 @@ private fun R13SkeletonList() {
 
 @Composable
 private fun R13EmptyState(mode: R13ListMode, onBack: () -> Unit) = R13CenteredState(
-    icon = if (mode == R13ListMode.FAVORITES) HhyIcons.Check else HhyIcons.Pending,
+    icon = if (mode == R13ListMode.FAVORITES) HhyIcons.Favorite else HhyIcons.Pending,
     title = if (mode == R13ListMode.FAVORITES) "还没有收藏内容" else "还没有浏览记录",
     body = if (mode == R13ListMode.FAVORITES) "浏览平台内容后，可从详情页加入收藏" else "浏览内容详情后，记录会安全地显示在这里",
     action = "返回浏览",
@@ -440,7 +440,7 @@ private fun R13FullError(state: R13ActivityListState, onBack: () -> Unit, retry:
         R13ListPhase.OFFLINE -> "网络不可用" to "已停止写操作，请恢复网络后重试"
         R13ListPhase.FORBIDDEN -> "无法访问" to "当前账号没有查看该页面的权限"
         R13ListPhase.NOT_FOUND -> "页面内容不存在" to "相关数据可能已经失效"
-        else -> "加载失败" to listOfNotNull("暂时无法获取可靠内容", state.requestId?.let { "请求编号：$it" }).joinToString("\n")
+        else -> "加载失败" to "暂时无法获取可靠内容，请稍后重试"
     }
     R13CenteredState(HhyIcons.Error, title, body, "重试", retry, onBack)
 }
@@ -479,13 +479,13 @@ private fun R13InlineProgress(label: String) {
 }
 
 @Composable
-private fun R13InlineError(requestId: String?, retry: () -> Unit) {
+private fun R13InlineError(retry: () -> Unit) {
     Row(
         Modifier.fillMaxWidth().padding(HhySpacing.Lg),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        Text(requestId?.let { "加载失败 · $it" } ?: "加载失败，已保留现有内容", color = HhyColors.Error, fontSize = HhyType.CaptionSize)
+        Text("加载失败，已保留现有内容", color = HhyColors.Error, fontSize = HhyType.CaptionSize)
         TextButton(onClick = retry) { Text("重试") }
     }
 }
@@ -730,7 +730,7 @@ private fun r13FailureMessage(failure: R07CallResult.Failure): String = when (fa
     409 -> "数据已经变化，请刷新后再试"
     422 -> "当前业务状态不允许此操作"
     429 -> failure.retryAfterSeconds?.let { "操作较频繁，请 $it 秒后重试" } ?: "操作较频繁，请稍后重试"
-    else -> failure.requestId?.let { "操作失败，请求编号：$it" } ?: "操作失败，请稍后重试"
+    else -> "操作失败，请稍后重试"
 }
 
 private fun copyR13Link(context: Context, url: String) {

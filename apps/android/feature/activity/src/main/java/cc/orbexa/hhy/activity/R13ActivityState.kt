@@ -8,6 +8,7 @@ import java.time.Instant
 import java.time.LocalDate
 import java.time.OffsetDateTime
 import java.time.ZoneId
+import java.time.format.DateTimeFormatter
 import java.util.UUID
 
 enum class R13ListPhase {
@@ -106,13 +107,19 @@ internal fun activityDateGroup(value: ContentResource, now: Instant = Instant.no
     val date = activityTime(value)?.atZone(zoneId)?.toLocalDate() ?: return "更早"
     val today = now.atZone(zoneId).toLocalDate()
     return when (date) {
-        today -> "今天"
-        today.minusDays(1) -> "昨天"
-        else -> "更早"
+        today -> "今天的内容"
+        today.minusDays(1) -> "昨天的内容"
+        else -> "更早内容"
     }
 }
 
-internal fun activityTimeLabel(value: ContentResource, zoneId: ZoneId = ZoneId.systemDefault()): String? =
-    activityTime(value)?.atZone(zoneId)?.let { time ->
-        "%02d:%02d".format(time.hour, time.minute)
+internal fun activityTimeLabel(value: ContentResource, zoneId: ZoneId = ZoneId.systemDefault()): String? {
+    val updated = value.updatedAt?.let { runCatching { OffsetDateTime.parse(it).toInstant() }.getOrNull() }
+    val created = value.createdAt?.let { runCatching { OffsetDateTime.parse(it).toInstant() }.getOrNull() }
+    val (label, instant) = when {
+        updated != null -> "内容更新" to updated
+        created != null -> "内容发布" to created
+        else -> return null
     }
+    return "$label：${DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm").format(instant.atZone(zoneId))}"
+}

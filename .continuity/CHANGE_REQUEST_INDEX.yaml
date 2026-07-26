@@ -22885,3 +22885,99 @@ change_requests:
     session_id: SES-20260726T134047Z-F9A80405
   session_ids:
   - SES-20260726T134047Z-F9A80405
+- protocol_version: '1.0'
+  cr_id: CR-0370
+  title: 补齐R13收藏星标语义图标
+  status: IMPLEMENTING
+  created_at: '2026-07-26T14:38:53Z'
+  updated_at: '2026-07-26T14:40:02Z'
+  requester_actor_id: codex-root-r13-client-20260726
+  approver_actor_id: owner-standing-delegation-20260726
+  task_id: TASK-R13-004
+  session_id: SES-20260726T134047Z-F9A80405
+  user_request: 项目所有者批准持续开发并要求后续日常开发不再逐次申请批准；R13必须按B08/P07精确视觉来源施工。
+  reason: 现有HhyIcons缺少收藏星标，R13收藏页和我的入口只能错误复用成功勾选图标，无法满足共享图标注册表与B08/P07收藏语义。
+  original_rule: 共享HhyIcons仅有成功勾选图标，收藏入口、收藏列表动作和收藏空态错误复用HhyIcons.Check。
+  new_rule: 在共享HhyIcons注册官方Material Outlined StarBorder为Favorite语义，R13收藏入口、取消收藏动作和收藏空态统一引用HhyIcons.Favorite；成功勾选继续仅表示成功状态。
+  impact_summary: 只扩展共享图标注册表并在CR-0369既有页面范围内切换收藏语义引用；不新增页面、接口、状态、字段、依赖或业务能力。
+  impact:
+    files:
+    - apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyIcons.kt
+    pages:
+    - SCR-FAV-001
+    - SCR-ME-001
+    apis: []
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - Android UI foundation禁止页面私有或字符图标
+    - feature activity and shell compile plus unit and lint regression
+    releases:
+    - R13
+    migration_and_compatibility: 纯源码兼容扩展；既有HhyIcons.Check调用保持不变，无数据、API、配置或发布迁移。
+  user_confirmation: 项目所有者原文：批准，以后不要让我批准了 你自己持续开发就行了。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-26T14:39:30Z'
+    note: Owner持续授权覆盖本次低风险R13视觉一致性修复；影响仅为共享官方星标语义注册，不改变业务合同、功能、数据、权限或生产配置。
+  machine_record: .continuity/change_requests/CR-0370.yaml
+  document: docs/03-continuity/change-requests/CR-0370-补齐R13收藏星标语义图标.md
+  decision_log:
+  - at: '2026-07-26T14:40:02Z'
+    actor_id: codex-root-r13-client-20260726
+    status: IMPLEMENTING
+    note: 开始在共享HhyIcons注册收藏星标并替换R13收藏语义引用。
+    session_id: SES-20260726T134047Z-F9A80405
+  session_ids:
+  - SES-20260726T134047Z-F9A80405
+- protocol_version: '1.0'
+  cr_id: CR-0371
+  title: 修复R13请求编号回显复发并更新既有问题记录
+  status: IMPLEMENTING
+  created_at: '2026-07-26T14:47:10Z'
+  updated_at: '2026-07-26T14:48:36Z'
+  requester_actor_id: codex-root-r13-client-20260726
+  approver_actor_id: owner-standing-delegation-20260726
+  task_id: TASK-R13-004
+  session_id: SES-20260726T134047Z-F9A80405
+  user_request: 项目所有者批准持续开发且要求正式商业系统规则持续生效；R13客户端必须按现有商业UI边界实现。
+  reason: R13列表与操作错误文案再次渲染requestId，触发PROB-0088既有禁止复发项；修复代码后必须原位更新该问题记录和回归证据，不能新增重复Problem。
+  original_rule: PROB-0088已禁止正式Android、H5和管理端渲染requestId，但R13新页面仍在全页错误、局部错误和写操作失败文案中显示请求编号。
+  new_rule: R13错误状态只展示用户可理解的发生情况与恢复动作；requestId继续保留在内部网络失败模型供受控诊断但不得进入Composable文案，并原位更新PROB-0088复发原因与回归证据。
+  impact_summary: 删除R13四个页面和面板中的请求编号回显，保留内部诊断数据；更新既有PROB-0088和Changelog，不新建平行问题或UI规则。
+  impact:
+    files:
+    - apps/android/feature/activity/src/main/java/cc/orbexa/hhy/activity/R13ActivityScreens.kt
+    - docs/03-continuity/PROBLEM_REGISTRY.yaml
+    - CHANGELOG.md
+    pages:
+    - SHEET-SHARE-001
+    - SCR-FAV-001
+    - SCR-HIS-001
+    - SHEET-CONTENT-INVALID-001
+    apis: []
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - python scripts/check_commercial_ui_boundaries.py
+    - feature activity testDebugUnitTest lintDebug
+    releases:
+    - R13
+    migration_and_compatibility: 纯客户端文案与问题记录修复；无API、数据、配置、日志、权限或发布迁移，内部R07CallResult.Failure结构保持兼容。
+  user_confirmation: 项目所有者原文：批准，以后不要让我批准了 你自己持续开发就行了。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-26T14:47:54Z'
+    note: Owner持续授权覆盖既有商业UI硬边界的确定性缺陷修复；本CR仅删除技术字段回显并原位更新既有PROB-0088，不改变产品合同。
+  machine_record: .continuity/change_requests/CR-0371.yaml
+  document: docs/03-continuity/change-requests/CR-0371-修复R13请求编号回显复发并更新既有问题记录.md
+  decision_log:
+  - at: '2026-07-26T14:48:36Z'
+    actor_id: codex-root-r13-client-20260726
+    status: IMPLEMENTING
+    note: 开始原位更新PROB-0088复发记录并绑定R13商业UI回归证据。
+    session_id: SES-20260726T134047Z-F9A80405
+  session_ids:
+  - SES-20260726T134047Z-F9A80405

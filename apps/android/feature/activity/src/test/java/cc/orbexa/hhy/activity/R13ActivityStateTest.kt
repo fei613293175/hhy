@@ -56,9 +56,10 @@ class R13ActivityStateTest {
     fun historyGroupsOnlyFromRealServerTime() {
         val today = content("1", updatedAt = "2026-07-26T08:10:00Z")
         assertEquals(
-            "今天",
+            "今天的内容",
             activityDateGroup(today, Instant.parse("2026-07-26T12:00:00Z"), ZoneId.of("UTC")),
         )
+        assertEquals("内容更新：2026-07-26 08:10", activityTimeLabel(today, ZoneId.of("UTC")))
     }
 
     private fun page(vararg values: ContentResource, total: String = values.size.toString()) = ContentPageResource(

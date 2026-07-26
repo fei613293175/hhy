@@ -83,7 +83,7 @@ fun R12MeHomeScreen(
         MeQuickAction("个人资料", HhyIcons.Profile, "mine.profile", onOpenProfile),
         MeQuickAction("我的发布", HhyIcons.Publish, "mine.my-contents", onOpenMyContents),
         MeQuickAction("草稿箱", HhyIcons.Applications, "mine.my-drafts", onOpenMyDrafts),
-        MeQuickAction("收藏夹", HhyIcons.Check, "mine.favorites", onOpenFavorites),
+        MeQuickAction("收藏夹", HhyIcons.Favorite, "mine.favorites", onOpenFavorites),
         MeQuickAction("浏览记录", HhyIcons.Pending, "mine.history", onOpenHistory),
         MeQuickAction("实名认证", HhyIcons.Verified, "mine.identity", onOpenIdentity),
         MeQuickAction("登录设备", HhyIcons.Devices, "mine.devices", onOpenLoginDevices),

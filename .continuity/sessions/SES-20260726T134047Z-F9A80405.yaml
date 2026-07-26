@@ -8,14 +8,16 @@ actor:
   host: unknown
 release: R13
 task_id: TASK-R13-004
-story_id: STORY-R13-001
-goal: 收藏、历史、分享与行为审计客户端/H5/后台实现
+story_id: STORY-R13-002
+goal: 完成SCR-FAV-001与SCR-HIS-001收藏历史页面、我的入口、详情导航、视觉登记和MODULE证据。
 started_at: '2026-07-26T13:40:47Z'
-updated_at: '2026-07-26T14:17:55Z'
+updated_at: '2026-07-26T15:00:53Z'
 takeover_of: null
 change_requests:
 - CR-0368
 - CR-0369
+- CR-0370
+- CR-0371
 scope:
   allowed_paths:
   - apps/android/**
@@ -30,9 +32,14 @@ scope:
   - releases/**
   - design/**
   - scripts/**
+  - apps/android/feature/activity;apps/android/feature/shell;apps/android/app;catalogs/ui_visual_acceptance.csv;releases/R13/RELEASE_MANIFEST.yaml;docs/03-continuity/R13_TASK-004_CLIENT_GATE.md;CHANGELOG.md
   - CHANGELOG.md
-  approved_exceptions: []
-  source: story+explicit
+  approved_exceptions:
+  - apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyIcons.kt
+  - apps/android/feature/activity/src/main/java/cc/orbexa/hhy/activity/R13ActivityScreens.kt
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - CHANGELOG.md
+  source: story-switch+explicit+approved-cr:CR-0370+approved-cr:CR-0371
 git:
   initialized: true
   branch: task/TASK-R03-001
@@ -42,22 +49,28 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-26T14:17:49Z'
-  expires_at: '2026-07-26T18:17:49Z'
-checkpoint_sequence: 2
-latest_checkpoint: .continuity/checkpoints/SES-20260726T134047Z-F9A80405/0002.yaml
+  renewed_at: '2026-07-26T15:00:44Z'
+  expires_at: '2026-07-26T19:00:44Z'
+checkpoint_sequence: 5
+latest_checkpoint: .continuity/checkpoints/SES-20260726T134047Z-F9A80405/0005.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260726T134047Z-F9A80405.md
-next_step: 提交精确源码Commit并在obx-test固定Android镜像运行受影响MODULE。
+next_step: 提交精确源码Commit并在obx-test固定镜像运行受影响Android MODULE单测与lintDebug
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: bc1033aed38a52dbce241fb029fd71991610e4f4a4837f8b56067a067726fc00
-  generated_at: '2026-07-26T14:17:52Z'
+  context_hash: 6bd72ef41fc2c817df9e77b75286986f0d3de1d9eba658c100fbc27b48ec1c1d
+  generated_at: '2026-07-26T15:00:49Z'
 handoff_bundle: null
 closure: null
 parallel_execution:
   assessment: CAPABILITY_UNAVAILABLE
   delegated_workers: 0
   workers: []
-  reason: 当前系统约束禁止子代理；由唯一活跃会话串行实施。
+  reason: 当前会话平台策略禁止在用户未显式要求子代理时委托；本阶段为同一Android事实分支的小范围串行集成与审计，不伪造并行证据
+story_history:
+- story_id: STORY-R13-001
+  completed_at: '2026-07-26T14:29:38Z'
+  checkpoint_id: CP-SES-20260726T134047Z-F9A80405-0002
+  commit: 97e3502a522512f863d5a0a3b5e2a1cb9533c002
+  summary: STORY-R13-001分享与失效反馈面板及四类详情回接已提交97e3502a；共享R13传输和列表基础随同提交，固定云端镜像首轮编译单测PASS。

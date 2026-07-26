@@ -24,6 +24,7 @@ import androidx.compose.material.icons.outlined.Refresh
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material.icons.outlined.Schedule
 import androidx.compose.material.icons.outlined.Shield
+import androidx.compose.material.icons.outlined.StarBorder
 import androidx.compose.material.icons.outlined.Verified
 import androidx.compose.material.icons.outlined.WorkOutline
 import androidx.compose.material3.Icon
@@ -64,6 +65,7 @@ object HhyIcons {
     val ChevronRight = Icons.Outlined.ChevronRight
     val Copy = Icons.Outlined.ContentCopy
     val Analytics = Icons.Outlined.BarChart
+    val Favorite = Icons.Outlined.StarBorder
 }
 
 @Composable

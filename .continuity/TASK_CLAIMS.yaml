@@ -4066,7 +4066,7 @@ claims:
 - claim_id: CLM-BF3BB44F7C31
   session_id: SES-20260726T134047Z-F9A80405
   task_id: TASK-R13-004
-  story_id: STORY-R13-001
+  story_id: STORY-R13-002
   actor_id: codex-root-r13-client-20260726
   status: ACTIVE
   claimed_at: '2026-07-26T13:40:47Z'
@@ -4083,4 +4083,6 @@ claims:
   - releases/**
   - design/**
   - scripts/**
+  - apps/android/feature/activity;apps/android/feature/shell;apps/android/app;catalogs/ui_visual_acceptance.csv;releases/R13/RELEASE_MANIFEST.yaml;docs/03-continuity/R13_TASK-004_CLIENT_GATE.md;CHANGELOG.md
   - CHANGELOG.md
+  updated_at: '2026-07-26T14:29:38Z'

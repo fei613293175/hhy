@@ -1346,13 +1346,13 @@ sessions:
   handoff_bundle: null
 - session_id: SES-20260726T134047Z-F9A80405
   task_id: TASK-R13-004
-  story_id: STORY-R13-001
+  story_id: STORY-R13-002
   actor_id: codex-root-r13-client-20260726
   status: ACTIVE
   started_at: '2026-07-26T13:40:47Z'
   record: .continuity/sessions/SES-20260726T134047Z-F9A80405.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260726T134047Z-F9A80405.md
-  updated_at: '2026-07-26T14:17:49Z'
+  updated_at: '2026-07-26T15:00:44Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260726T134047Z-F9A80405/0002.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260726T134047Z-F9A80405/0005.yaml
   handoff_bundle: null

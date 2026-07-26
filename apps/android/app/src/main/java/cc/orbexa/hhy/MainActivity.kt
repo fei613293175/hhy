@@ -823,6 +823,7 @@ private fun R13DetailActionHost(
     dismiss: () -> Unit,
     onSessionExpired: () -> Unit,
 ) {
+    var completionNotice by remember(contentId) { mutableStateOf<String?>(null) }
     sheet?.let {
         R13ContentActionSheet(
             sheet = it,
@@ -832,8 +833,20 @@ private fun R13DetailActionHost(
             contentTitle = contentTitle,
             feedbackChannels = feedbackChannels,
             onDismiss = dismiss,
-            onCompleted = { dismiss() },
+            onCompleted = { message -> completionNotice = message; dismiss() },
             onSessionExpired = onSessionExpired,
+        )
+    }
+    completionNotice?.let { message ->
+        androidx.compose.material3.AlertDialog(
+            onDismissRequest = { completionNotice = null },
+            title = { Text("操作成功") },
+            text = { Text(message) },
+            confirmButton = {
+                androidx.compose.material3.TextButton(onClick = { completionNotice = null }) {
+                    Text("知道了")
+                }
+            },
         )
     }
 }

@@ -1178,10 +1178,11 @@ problems:
 - id: PROB-0088
   title: 普通CI全量工具回归发现公开请求编号与测试环境漂移
   status: SOLVED
-  root_cause: R07 Android错误卡和H5公开分享错误页仍把客户端内部requestId以请求编号展示；既有正式前端禁显规则升级后，普通MODULE未覆盖的全量商业边界测试正确阻断。同期test_android_ci_gate已导入Pillow但tooling作业只安装pyyaml与pglast，Release关闭隔离夹具又未同步CR-0213增加的六项效果图级PASS说明，造成与产品无关的确定性工具失败。
-  resolution: CR-0239删除两处公开请求编号渲染但保留内部错误模型和日志字段；tooling环境增加Pillow；Release关闭夹具的说明字段补齐既有六项PASS标记，不改变视觉门禁本身。全部GitHub失败集合先在本地通过后才允许再次推送。
+  root_cause: R07 Android错误卡和H5公开分享错误页仍把客户端内部requestId以请求编号展示；既有正式前端禁显规则升级后，普通MODULE未覆盖的全量商业边界测试正确阻断。同期test_android_ci_gate已导入Pillow但tooling作业只安装pyyaml与pglast，Release关闭隔离夹具又未同步CR-0213增加的六项效果图级PASS说明，造成与产品无关的确定性工具失败。2026-07-26复发审计发现R13新列表的全页错误、局部错误和写操作失败文案再次直接拼接requestId，原因是新页面实现未在提交前主动执行既有全局商业UI边界门禁。
+  resolution: CR-0239删除两处公开请求编号渲染但保留内部错误模型和日志字段；tooling环境增加Pillow；Release关闭夹具的说明字段补齐既有六项PASS标记，不改变视觉门禁本身。CR-0371继续复用同一规则，删除R13全部用户可见请求编号但保留R07CallResult.Failure内部诊断字段，并在提交前执行全量商业UI边界检查。全部GitHub失败集合先在本地通过后才允许再次推送。
   regression_checks:
   - python -m unittest tests.test_android_ci_gate tests.test_commercial_ui_boundaries tests.test_release_close_gate
+  - python scripts/check_commercial_ui_boundaries.py
   - Android discovery受影响编译必须通过
   - H5 typecheck与test必须通过
   - GitHub tooling依赖必须包含Pillow且普通Android作业继续candidate=false
