@@ -335,13 +335,14 @@ private fun R13ActivityRow(
     onClick: () -> Unit,
     onUnfavorite: (() -> Unit)?,
 ) {
+    val mediaUrl = secureActivityMediaUrl(item.media.firstOrNull()?.thumbnailUrl ?: item.media.firstOrNull()?.url)
+    var mediaState by remember(mediaUrl) { mutableStateOf(if (mediaUrl == null) "unavailable" else "loading") }
     Row(
         modifier = Modifier.fillMaxWidth().background(HhyColors.Surface).clickable(onClick = onClick)
             .padding(horizontal = HhySpacing.Lg, vertical = HhySpacing.Md),
         horizontalArrangement = Arrangement.spacedBy(HhySpacing.Md),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        val mediaUrl = secureActivityMediaUrl(item.media.firstOrNull()?.thumbnailUrl ?: item.media.firstOrNull()?.url)
         Box(
             modifier = Modifier.size(width = HhySize.TopAppBarHeight * 1.55f, height = HhySize.TopAppBarHeight)
                 .clip(RoundedCornerShape(HhyRadius.Tag)).background(HhyColors.SoftBlue),
@@ -352,8 +353,10 @@ private fun R13ActivityRow(
                 AsyncImage(
                     model = it,
                     contentDescription = item.media.firstOrNull()?.altText ?: "${item.title}缩略图",
-                    modifier = Modifier.fillMaxSize(),
+                    modifier = Modifier.fillMaxSize().testTag("r13.media.${item.id}.$mediaState"),
                     contentScale = ContentScale.Crop,
+                    onSuccess = { mediaState = "loaded" },
+                    onError = { mediaState = "error" },
                 )
             }
         }

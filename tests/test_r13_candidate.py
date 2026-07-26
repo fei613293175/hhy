@@ -106,6 +106,19 @@ class R13CandidateTest(unittest.TestCase):
         self.assertIn('Modifier.testTag("r13.action.project.share")', source)
         self.assertIn('Modifier.testTag("r13.action.project.invalid-feedback")', source)
 
+    def test_favorites_waits_for_all_real_media_before_visual_capture(self) -> None:
+        source = ACTIVITY_SCREEN.read_text(encoding="utf-8")
+        self.assertIn('remember(mediaUrl)', source)
+        self.assertIn('testTag("r13.media.${item.id}.$mediaState")', source)
+        self.assertIn('onSuccess = { mediaState = "loaded" }', source)
+        self.assertIn('onError = { mediaState = "error" }', source)
+        wait = 'waitForLoadedMedia("r13.media.", expectedCount = 3)'
+        capture = 'captureStable("01-favorites.png")'
+        self.assertIn(wait, self.journey)
+        self.assertIn('device.hasObject(failed)', self.journey)
+        self.assertIn('device.findObjects(loaded).size >= expectedCount', self.journey)
+        self.assertLess(self.journey.index(wait), self.journey.index(capture))
+
     def test_visual_manifest_matches_the_four_frozen_r13_surfaces(self) -> None:
         manifest = yaml.safe_load(VISUAL_MANIFEST.read_text(encoding="utf-8"))
         self.assertEqual("R13", manifest["release"])

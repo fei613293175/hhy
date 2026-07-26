@@ -23742,3 +23742,111 @@ change_requests:
       30220806413证据一致。
   machine_record: .continuity/change_requests/CR-0383.yaml
   document: docs/03-continuity/change-requests/CR-0383-按Release隔离候选例外轮次并修复R13稳定点击.md
+- protocol_version: '1.0'
+  cr_id: CR-0384
+  title: 批准并轻量晋升R13首版视觉基线
+  status: REJECTED
+  created_at: '2026-07-26T22:45:15Z'
+  updated_at: '2026-07-26T22:51:44Z'
+  requester_actor_id: codex-root-r13-candidate-20260727
+  approver_actor_id: codex-independent-r13-visual-review-20260727
+  task_id: TASK-R13-007
+  session_id: SES-20260726T191158Z-2B506AB7
+  user_request: 批准，以后不要让我批准了 你自己持续开发就行了
+  reason: Run 30222792524全部机器旅程成功且唯一缺口为R13首版视觉基线，需将AI逐图审核合格的同一Run原图固化并轻量晋升。
+  original_rule: R13候选四页已通过真实OIDC认证模拟器旅程并产出同一Run截图，但首个Release视觉基线不存在时机器状态只能为BASELINE_REVIEW_REQUIRED，尚不能生成项目所有者可测试的PASS候选。
+  new_rule: 仅将Run 30222792524中由主控和独立AI逐图对照冻结规格审核合格的四张原始截图固化为R13首版视觉基线；批准清单绑定源Commit、Run、Artifact和逐图SHA-256；晋升仅复核同一Run既有候选证据，不重建APK、不重新编译、不再次启动模拟器。
+  impact_summary: 新增R13四张不可变视觉基线和唯一审批清单，触发轻量GitHub晋升验证；不修改产品代码、API、数据库、候选APK、模拟器结果、生产权限或异步真机反馈规则。
+  impact:
+    files:
+    - tests/android/visual-baselines/R13/01-favorites.png
+    - tests/android/visual-baselines/R13/02-history.png
+    - tests/android/visual-baselines/R13/03-share-sheet.png
+    - tests/android/visual-baselines/R13/04-invalid-feedback-sheet.png
+    - tests/android/visual-baselines/R13/APPROVAL.yaml
+    pages:
+    - SCR-FAV-001
+    - SCR-HIS-001
+    - SHEET-SHARE-001
+    - SHEET-CONTENT-INVALID-001
+    apis: []
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - python scripts/android_ci_gate.py promote --release R13 existing evidence
+    - python -m unittest tests.test_android_ci_gate tests.test_r13_candidate
+    releases:
+    - R13
+    migration_and_compatibility: 无生产迁移；后续R13截图与此基线比较，源Run、源Commit、源APK和逐图哈希保持不可变。晋升失败只修复证据绑定或治理，不得重跑候选Run。
+  user_confirmation: 项目所有者已长期授权AI独立逐图验收且要求不合格立即修复并持续开发；本次为拒绝不合格截图，不代表批准新候选。
+  approval:
+    decision: REJECTED
+    decided_at: '2026-07-26T22:51:44Z'
+    note: Run 30222792524 的 01-favorites.png 在三条内容媒体加载完成前显示通用占位图，而同一夹具随后在 02-history.png 已加载真实 READY 媒体；像素稳定不能替代异步媒体完成标识。不得批准或晋升该 Run，需建立独立根因
+      CR，等待收藏页三条媒体全部 loaded 后再截图，并使用新候选轮次验证。
+  machine_record: .continuity/change_requests/CR-0384.yaml
+  document: docs/03-continuity/change-requests/CR-0384-批准并轻量晋升R13首版视觉基线.md
+- protocol_version: '1.0'
+  cr_id: CR-0385
+  title: 修复R13收藏页候选媒体未加载即截图并建立attempt5
+  status: IMPLEMENTING
+  created_at: '2026-07-26T22:52:58Z'
+  updated_at: '2026-07-26T23:06:25Z'
+  requester_actor_id: codex-root-r13-candidate-20260727
+  approver_actor_id: codex-independent-r13-visual-review-20260727
+  task_id: TASK-R13-007
+  session_id: SES-20260726T191158Z-2B506AB7
+  user_request: 项目所有者批准持续开发并要求后续不再逐次确认；AI必须自主判断候选截图，不合格立即修复。
+  reason: Run 30222792524 已消费且整体视觉拒绝：01-favorites.png 的三条真实 READY 媒体仍显示通用占位图，而同一夹具随后在历史页已显示媒体，证明 captureStable 在 Coil 异步加载完成前误采。需复用 R09 loaded/error
+    语义，先完成代码和模块回归，再为独立根因精确建立 R13 attempt5。
+  original_rule: R13 收藏与历史页在业务列表进入 CONTENT 后只等待可见文字和连续像素稳定，AsyncImage 未暴露或等待候选媒体加载终态；R13 attempt4 已消费且不得重跑，attempt5 尚未授权。
+  new_rule: 不新建平行视觉规则，原位落实既有真实加载门禁：R13 列表每条具备 HTTPS 媒体的内容必须暴露稳定且按内容ID区分的 loading/loaded/error 语义；候选收藏页必须等待三条夹具媒体全部 loaded，任一 error 或 30 秒超时立即失败，随后才可执行四次连续像素稳定采样。Run
+    30222792524 保持已消费且不晋升；代码修复和模块证据完成后，R13 attempt5 仅允许精确绑定 CR-0385、唯一 request005、首个修复Commit完整SHA和 max_candidate_runs=1。
+  impact_summary: 修复 R13 收藏页真实媒体加载前过早截图，新增专项回归与候选精确 attempt5；不改变用户可见布局、API、数据库、资金、生产权限、全局三轮上限或异步真机规则。
+  impact:
+    files:
+    - apps/android/feature/activity/src/main/java/cc/orbexa/hhy/activity/R13ActivityScreens.kt
+    - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+    - tests/test_r13_candidate.py
+    - config/android-automation.yaml
+    - config/android-candidate-request.yaml
+    - tests/test_android_candidate_request.py
+    - tests/test_android_ci_gate.py
+    - docs/03-continuity/PROBLEM_REGISTRY.yaml
+    - docs/03-continuity/PITFALLS.md
+    - docs/03-continuity/REUSABLE_PATTERNS.md
+    - docs/08-testing/Android自动开发测试修复交付体系_V1.0.md
+    - CHANGELOG.md
+    pages:
+    - SCR-FAV-001
+    - SCR-HIS-001
+    apis: []
+    database: []
+    configuration:
+    - config/android-automation.yaml:remediation.approved_attempt_exceptions
+    - config/android-candidate-request.yaml
+    ledger:
+    - Run 30222792524、attempt4、request004、Commit 3e667a766bf45456400f56c0b6c263726b26d63b 和四张截图哈希保留为已消费但视觉拒绝的不可变历史证据
+    tests:
+    - python -m unittest tests.test_r13_candidate tests.test_android_candidate_request tests.test_android_ci_gate
+    - python scripts/check_android_ui_foundation.py
+    - obx-test :feature:activity:testDebugUnitTest :app:compileDebugAndroidTestKotlin
+    releases:
+    - R13
+    migration_and_compatibility: 仅增加 Compose 测试语义、仪器等待和治理证据；没有生产数据迁移。无媒体内容继续显示业务类型占位图，存在媒体的内容必须加载成功后才可成为候选视觉证据；历史 attempt4 保持不可变且不得重跑。
+  user_confirmation: 项目所有者已批准AI持续开发并明确要求AI自主判断全部候选截图、不合格立即修复且不再逐次确认；该站立授权不绕过精确CR和候选单次约束。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-26T22:53:38Z'
+    note: 独立逐图审查已用同一夹具的收藏与历史截图交叉证明异步媒体未完成是独立根因。复用R09的loaded/error语义、先等三条收藏媒体全部loaded再采集、保留attempt4已消费并把下一轮精确限制为R13 attempt5/request005/CR-0385/首个修复Commit/max1，范围完整且不改变产品功能。
+  machine_record: .continuity/change_requests/CR-0385.yaml
+  document: docs/03-continuity/change-requests/CR-0385-修复R13收藏页候选媒体未加载即截图并建立attempt5.md
+  decision_log:
+  - at: '2026-07-26T23:06:25Z'
+    actor_id: codex-root-r13-candidate-20260727
+    status: IMPLEMENTING
+    note: 已实现R13媒体loading/loaded/error语义和收藏页三媒体成功等待；本地44项专项及治理回归、Android UI基础门禁和obx-test固定镜像223任务通过，准备形成首个修复Commit，尚未建立attempt5请求或运行候选。
+    session_id: SES-20260726T191158Z-2B506AB7
+  session_ids:
+  - SES-20260726T191158Z-2B506AB7

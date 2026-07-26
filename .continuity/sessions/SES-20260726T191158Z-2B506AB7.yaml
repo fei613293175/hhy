@@ -11,7 +11,7 @@ task_id: TASK-R13-007
 story_id: STORY-R13-003
 goal: 收藏、历史、分享与行为审计Android测试APK与产物追溯
 started_at: '2026-07-26T19:11:58Z'
-updated_at: '2026-07-26T22:13:40Z'
+updated_at: '2026-07-26T23:07:42Z'
 takeover_of: null
 change_requests:
 - CR-0377
@@ -21,6 +21,8 @@ change_requests:
 - CR-0381
 - CR-0382
 - CR-0383
+- CR-0384
+- CR-0385
 scope:
   allowed_paths:
   - apps/**
@@ -72,7 +74,10 @@ scope:
   - docs/03-continuity/PROBLEM_REGISTRY.yaml
   - docs/03-continuity/REUSABLE_PATTERNS.md
   - docs/03-continuity/PITFALLS.md
-  source: story+explicit+approved-cr:CR-0377+approved-cr:CR-0378+approved-cr:CR-0379+approved-cr:CR-0380+approved-cr:CR-0381
+  - config/android-automation.yaml
+  - tests/test_android_candidate_request.py
+  - docs/08-testing/Android自动开发测试修复交付体系_V1.0.md
+  source: story+explicit+approved-cr:CR-0377+approved-cr:CR-0378+approved-cr:CR-0379+approved-cr:CR-0380+approved-cr:CR-0381+approved-cr:CR-0385
 git:
   initialized: true
   branch: task/TASK-R03-001
@@ -82,22 +87,22 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-26T22:13:34Z'
-  expires_at: '2026-07-27T02:13:34Z'
-checkpoint_sequence: 12
-latest_checkpoint: .continuity/checkpoints/SES-20260726T191158Z-2B506AB7/0012.yaml
+  renewed_at: '2026-07-26T23:06:42Z'
+  expires_at: '2026-07-27T03:06:42Z'
+checkpoint_sequence: 13
+latest_checkpoint: .continuity/checkpoints/SES-20260726T191158Z-2B506AB7/0013.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260726T191158Z-2B506AB7.md
-next_step: 提交CR-0383候选授权Commit，执行Git transport/push preflight后一次推送两个Commit，只监控由R13-CANDIDATE-20260727-004触发的新Run。
+next_step: 提交不含attempt5请求的CR-0385首个修复Commit；以该完整SHA更新精确R13 attempt5例外和唯一request005，再运行候选治理回归、检查点、提交和推送。
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: bfd0a9fe25d8d308ae8836d58f2001c0a62b48ea84551066addfb4b8db4edbf4
-  generated_at: '2026-07-26T22:13:37Z'
+  context_hash: 8dd41fb73d7ab569cc9db7c5cd668a665d79e24f0b8c20c98a4300b463d69dc0
+  generated_at: '2026-07-26T23:07:38Z'
 handoff_bundle: null
 closure: null
 parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 候选授权Commit、精确请求、Checkpoint和单次推送共享同一事实分支；并行写入会破坏修复SHA祖先绑定或重复触发候选。
+  reason: R13媒体修复、CR状态、Checkpoint、首个修复SHA与随后候选请求存在严格顺序依赖且共享同一事实分支，拆分会破坏精确Commit绑定。

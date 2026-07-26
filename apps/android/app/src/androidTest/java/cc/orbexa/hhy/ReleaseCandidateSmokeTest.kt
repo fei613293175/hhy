@@ -19,6 +19,7 @@ import java.net.HttpURLConnection
 import java.net.URL
 import java.security.MessageDigest
 import java.util.UUID
+import java.util.regex.Pattern
 import kotlinx.serialization.decodeFromString
 import org.json.JSONObject
 import org.junit.Assert.assertFalse
@@ -87,6 +88,7 @@ class ReleaseCandidateSmokeTest {
         listOf("我的收藏", "全部", "项目", "APP", "群聊", "团队长", activityTargetTitle).forEach { label ->
             assertTrue("R13 favorites missed: $label", device.wait(Until.hasObject(By.text(label)), 20_000))
         }
+        waitForLoadedMedia("r13.media.", expectedCount = 3)
         captureStable("01-favorites.png")
         assertNoForbiddenVisibleText()
 
@@ -225,6 +227,21 @@ class ReleaseCandidateSmokeTest {
             SystemClock.sleep(350)
         }
         error("Screen pixels did not become stable and distinct for $name")
+    }
+
+    private fun waitForLoadedMedia(prefix: String, expectedCount: Int) {
+        val loaded = By.res(Pattern.compile("${Pattern.quote(prefix)}[^.]+\\.loaded"))
+        val failed = By.res(Pattern.compile("${Pattern.quote(prefix)}[^.]+\\.error"))
+        val deadline = SystemClock.uptimeMillis() + 30_000
+        while (SystemClock.uptimeMillis() < deadline) {
+            assertFalse("Candidate media failed to load: $prefix", device.hasObject(failed))
+            if (device.findObjects(loaded).size >= expectedCount) {
+                device.waitForIdle(2_000)
+                return
+            }
+            SystemClock.sleep(250)
+        }
+        error("Candidate media did not finish loading: $prefix expected=$expectedCount")
     }
 
     private fun dismissSystemAnrIfPresent() {

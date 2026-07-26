@@ -1737,3 +1737,18 @@ problems:
   - 关键候选动作必须优先使用稳定资源标识，文字回退只能点击真实可点击祖先
   - 候选例外连续性不得跨Release共享轮次计数，也不得为解决串号提高全局三轮上限
   - 被确定性缺陷消费的旧Run不得重跑，新增例外不得预授权下一未知轮次
+- id: PROB-0124
+  title: R13收藏页候选在真实媒体异步加载完成前误采稳定占位图
+  status: REMEDIATING
+  root_cause: Run 30222792524 的收藏页已进入 CONTENT 且连续四次像素相同，但三个 AsyncImage 尚未完成 Coil 异步加载，因此 01-favorites.png 全部保留通用项目占位图；紧接着的历史页对同三条内容显示了 READY 媒体，证明像素稳定只描述当前帧不再变化，不能证明真实媒体加载完成。R13 列表没有像 R09 一样暴露 loaded/error 语义，候选旅程也只等待文字和像素稳定。
+  resolution: CR-0384 由独立视觉审查拒绝，Run 30222792524 保持已消费且不得晋升；CR-0385 复用 R09 已验证方案，为每条存在 HTTPS 媒体的 R13 列表项暴露按内容ID区分的 loading/loaded/error 标识，收藏页必须等待三条夹具媒体全部 loaded，任一 error 或30秒超时立即失败，之后才允许四次连续像素稳定采样。代码和模块门禁通过后只允许精确 R13 attempt5 重新候选。
+  regression_checks:
+  - tests.test_r13_candidate必须锁定R13媒体状态标识、成功和失败回调、三条loaded等待以及等待先于01-favorites截图
+  - obx-test固定Android镜像必须通过feature:activity单测和app AndroidTest Kotlin编译
+  - 新候选必须证明01-favorites.png三条真实媒体均已显示，再由AI逐图审查全部四张截图
+  - R13 attempt5必须精确绑定CR-0385、唯一request005、首个修复Commit完整SHA和单次运行上限
+  do_not_repeat:
+  - 不得把连续像素相同等同于AsyncImage或其他异步业务资源加载完成
+  - 页面声明真实READY媒体时不得接受占位图作为首版视觉基线
+  - 候选必须显式等待成功语义并对error和超时硬失败，不能用固定sleep猜测加载完成
+  - 视觉拒绝的旧Run不得晋升、重跑或交付APK
