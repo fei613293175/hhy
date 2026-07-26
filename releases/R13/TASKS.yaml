@@ -26,7 +26,7 @@ tasks:
   completed_at: '2026-07-26T11:33:50Z'
 - id: TASK-R13-002
   title: 收藏、历史、分享与行为审计数据迁移与领域不变量
-  status: READY
+  status: DONE
   depends_on:
   - TASK-R13-001
   requirements: *id001
@@ -40,9 +40,10 @@ tasks:
   - Flyway前向迁移与空库/升级库测试
   - 不变量属性测试
   session_log_required: true
+  completed_at: '2026-07-26T12:28:32Z'
 - id: TASK-R13-003
   title: 收藏、历史、分享与行为审计后端应用服务与接口
-  status: BLOCKED
+  status: READY
   depends_on:
   - TASK-R13-002
   requirements: *id001
