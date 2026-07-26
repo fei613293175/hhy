@@ -1,9 +1,9 @@
 protocol_version: '1.0'
 cr_id: CR-0350
 title: 同步R10已批准首页证据并关闭R06历史视觉债务
-status: IMPLEMENTING
+status: IMPLEMENTED
 created_at: '2026-07-26T04:34:40Z'
-updated_at: '2026-07-26T04:35:30Z'
+updated_at: '2026-07-26T04:42:21Z'
 requester_actor_id: codex-root-r12-candidate-20260726
 approver_actor_id: project-owner
 task_id: TASK-R12-007
@@ -54,5 +54,12 @@ decision_log:
   status: IMPLEMENTING
   note: 开始同步R10首页批准证据、更新治理台账和普通CI影响映射。
   session_id: SES-20260725T192048Z-668BD05D
+- at: '2026-07-26T04:42:21Z'
+  actor_id: codex-root-r12-candidate-20260726
+  status: IMPLEMENTED
+  note: R10首页证据已与R06视觉台账、PROB-0099、回归测试和普通CI影响映射原子同步；33项单测、R06视觉门禁和严格Doctor PASS，累计R12视觉门禁仍仅保留11页33项显式债务。
+  session_id: SES-20260725T192048Z-668BD05D
 session_ids:
 - SES-20260725T192048Z-668BD05D
+implementation_commits:
+- 735098d0
