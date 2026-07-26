@@ -1,4 +1,6 @@
 from pathlib import Path
+import json
+import re
 import unittest
 
 import yaml
@@ -6,19 +8,17 @@ import yaml
 
 ROOT = Path(__file__).resolve().parents[1]
 FIXTURE = ROOT / "scripts/prepare_r11_ci_fixture.sh"
-JOURNEY = ROOT / "apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt"
 VISUAL_MANIFEST = ROOT / "tests/android/visual-manifests/R11.yaml"
 BUILD = ROOT / "apps/android/app/build.gradle.kts"
 RELEASE_POLICY = ROOT / "apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt"
-VERSION_TEST = ROOT / "apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt"
-REQUEST = ROOT / "config/android-candidate-request.yaml"
 TEAM_LOGO = ROOT / "tests/android/fixtures/r11-team-logo.png"
+BUILD_EVIDENCE = ROOT / "artifacts/validation/r11-task007-android/build-evidence.json"
+CANDIDATE_REPORT = ROOT / "artifacts/validation/r11-task007-android/candidate-report.json"
 
 
 class R11CandidateTest(unittest.TestCase):
     def setUp(self) -> None:
         self.fixture = FIXTURE.read_text(encoding="utf-8")
-        self.journey = JOURNEY.read_text(encoding="utf-8")
         self.do_body = self.fixture.split("DO $$", 1)[1].split("$$;", 1)[0]
 
     def test_fixture_is_limited_to_r11_candidate_staging(self) -> None:
@@ -54,20 +54,15 @@ class R11CandidateTest(unittest.TestCase):
         self.assertNotIn("01-app-list.png", self.do_body)
         self.assertTrue(TEAM_LOGO.is_file())
 
-    def test_journey_captures_exactly_home_and_three_team_leader_pages(self) -> None:
-        expected = (
-            'captureStable("01-home.png")',
-            'captureStable("02-team-leader-list.png")',
-            'captureStable("03-team-leader-detail.png")',
-            'captureStable("04-team-leader-editor.png")',
-        )
-        for capture in expected:
-            self.assertIn(capture, self.journey)
-        self.assertEqual(4, self.journey.count('captureStable("'))
-        self.assertIn('clickResource("home.category.team-leader")', self.journey)
-        self.assertIn('clickExactText("编辑")', self.journey)
-        self.assertNotIn("authenticatedR10Pages", self.journey)
-        self.assertNotIn("r10.group", self.journey)
+    def test_archived_visual_evidence_matches_the_r11_contract(self) -> None:
+        manifest = yaml.safe_load(VISUAL_MANIFEST.read_text(encoding="utf-8"))
+        candidate_report = json.loads(CANDIDATE_REPORT.read_text(encoding="utf-8"))
+        expected = {row["file"] for row in manifest["screens"]}
+        archived = candidate_report["baseline_approval"]["screens"]
+        self.assertEqual(expected, {row["file"] for row in archived})
+        self.assertEqual(len(expected), len({row["sha256"] for row in archived}))
+        for row in archived:
+            self.assertRegex(row["sha256"], r"^[0-9a-f]{64}$")
 
     def test_visual_manifest_covers_the_exact_r11_journey(self) -> None:
         manifest = yaml.safe_load(VISUAL_MANIFEST.read_text(encoding="utf-8"))
@@ -93,19 +88,31 @@ class R11CandidateTest(unittest.TestCase):
         self.assertIn("hhy-contact-v1:r11-ci-team-contact", detail["forbidden_text"])
         self.assertIn("WECHAT", detail["forbidden_text"])
 
-    def test_candidate_identity_is_monotonic_and_unique(self) -> None:
+    def test_archived_candidate_identity_is_immutable_and_current_identity_is_newer(self) -> None:
         build = BUILD.read_text(encoding="utf-8")
         release_policy = RELEASE_POLICY.read_text(encoding="utf-8")
-        version_test = VERSION_TEST.read_text(encoding="utf-8")
-        request = yaml.safe_load(REQUEST.read_text(encoding="utf-8"))
-        self.assertIn("versionCode = 10220", build)
-        self.assertIn("VERSION_CODE: Int = 10220", release_policy)
-        self.assertIn('"R11 test APK versionCode must remain monotonic", 10220', version_test)
-        self.assertNotIn("10219", build + release_policy + version_test)
-        self.assertEqual("R11", request["release"])
-        self.assertTrue(request["candidate"])
-        self.assertEqual(2, request["remediation_attempt"])
-        self.assertEqual("R11-CANDIDATE-20260724-002", request["request_id"])
+        build_evidence = json.loads(BUILD_EVIDENCE.read_text(encoding="utf-8"))
+        candidate_report = json.loads(CANDIDATE_REPORT.read_text(encoding="utf-8"))
+        build_version = int(re.search(r"\bversionCode\s*=\s*(\d+)", build).group(1))
+        policy_version = int(re.search(r"\bVERSION_CODE:\s*Int\s*=\s*(\d+)", release_policy).group(1))
+
+        self.assertEqual("R11", build_evidence["release"])
+        self.assertEqual(10220, build_evidence["version_code"])
+        self.assertEqual("PASS", build_evidence["build_status"])
+        self.assertEqual("a3c32668ae1d6502d859efd3e8c18947f650e150", build_evidence["commit"])
+        self.assertEqual("R11", candidate_report["release"])
+        self.assertEqual("PASS", candidate_report["status"])
+        self.assertTrue(candidate_report["owner_test_allowed"])
+        self.assertEqual(build_evidence["commit"], candidate_report["commit"])
+        self.assertEqual("30069588243", candidate_report["source_github_run_id"])
+        self.assertEqual("30074128265", candidate_report["github_run_id"])
+        self.assertEqual("hhy-R11-a3c3266-candidate.apk", candidate_report["apk"]["file"])
+        self.assertEqual(
+            "0ad93ced14d5a47c1300c0dc340fde836613ec19243b6eedec2f4c42cf94bd5f",
+            candidate_report["apk"]["sha256"],
+        )
+        self.assertEqual(build_version, policy_version)
+        self.assertGreater(build_version, build_evidence["version_code"])
 
 
 if __name__ == "__main__":

@@ -94,6 +94,21 @@ def git_executable() -> str:
     raise OSError("Git不可执行：请安装Git或设置HHY_GIT_BIN")
 
 
+def tracked_git_mode(root: Path, relative: str) -> str | None:
+    if not (root / ".git").exists():
+        return None
+    result = subprocess.run(
+        [git_executable(), "ls-files", "-s", "--", relative],
+        cwd=root, text=True, capture_output=True,
+    )
+    if result.returncode != 0:
+        raise OSError(result.stderr.strip() or f"无法读取Git文件模式：{relative}")
+    rows = [line for line in result.stdout.splitlines() if line.strip()]
+    if len(rows) != 1:
+        return None
+    return rows[0].split(maxsplit=1)[0]
+
+
 def read_csv(relative: str) -> list[dict[str, str]]:
     with (ROOT / relative).open("r", encoding="utf-8-sig", newline="") as handle:
         return list(csv.DictReader(handle))
@@ -543,6 +558,13 @@ def main() -> int:
         or Path(path).suffix in {".pyc", ".pyo"}
     ]
     require(not tracked_transient, "TRACKED_TRANSIENT_FILES", "Git不得跟踪临时产物：" + ", ".join(tracked_transient[:20]))
+    if (ROOT / ".git").exists():
+        for wrapper in ("apps/android/gradlew", "services/backend/mvnw"):
+            require(
+                tracked_git_mode(ROOT, wrapper) == "100755",
+                "WRAPPER_EXECUTABLE_MODE_DRIFT",
+                f"{wrapper}必须以Git 100755模式提交，确保Linux CI可直接执行",
+            )
     status = "PASS" if not errors and (not args.strict or not warnings) else "FAIL"
     payload = {
         "version": "1.2.3",

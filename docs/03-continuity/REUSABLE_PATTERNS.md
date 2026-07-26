@@ -13,7 +13,7 @@ Secret不可读回，连接测试后双人激活，历史版本可回滚，业�
 余额由流水汇总，任何修正产生冲正记录，不允许管理员直接修改金额字段。
 
 ## PATTERN-APK-001 可追溯APK
-APK绑定Commit、versionName、versionCode、签名指纹、SHA256、测试报告和下载地址。
+APK绑定Commit、versionName、versionCode、签名指纹、SHA256、测试报告和下载地址。历史版本回归必须读取该版本已归档的候选报告、构建证据和截图哈希验证不可变身份；当前构建身份只验证严格大于历史versionCode，不得把全局当前构建配置、候选请求或共享模拟器旅程永久锁死为旧Release。
 
 ## PATTERN-CONTINUITY-001 无状态接续
 CURRENT_STATUS + NEXT_TASK + Release Manifest + Context Pack + Session Log构成AI接手上下文。总执行计划必须由CURRENT_STATUS的活动版本确定性生成，不能由生成器和检查器共享硬编码旧窗口。只承担导航作用的文档指针也必须由严格文档门禁验证目标存在且与唯一事实源文件名完全一致，不能只校验主文档本身。R12起每个大版本最终候选后复用同一Doctor、累计视觉目录和六项治理审计，报告绑定候选Commit与SHA后才允许机器关闭和进入下一版。

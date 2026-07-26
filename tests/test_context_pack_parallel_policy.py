@@ -12,10 +12,18 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
 
 from continuity_lib import portable_source_record, tree_fingerprint
-from check_v123_continuity import context_source_matches, validate_governance_knowledge
+from check_v123_continuity import (
+    context_source_matches,
+    tracked_git_mode,
+    validate_governance_knowledge,
+)
 
 
 class ContextPackParallelPolicyTest(unittest.TestCase):
+    def test_linux_wrappers_keep_executable_git_mode(self) -> None:
+        self.assertEqual("100755", tracked_git_mode(ROOT, "apps/android/gradlew"))
+        self.assertEqual("100755", tracked_git_mode(ROOT, "services/backend/mvnw"))
+
     def test_context_pack_carries_canonical_parallel_policy(self) -> None:
         policy = yaml.safe_load((ROOT / ".continuity/CONTINUITY_POLICY.yaml").read_text(encoding="utf-8"))
         context = yaml.safe_load((ROOT / "artifacts/context/CURRENT_CONTEXT_PACK.yaml").read_text(encoding="utf-8"))

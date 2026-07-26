@@ -4,13 +4,13 @@
   "continuity_protocol_version": "1.0",
   "status": "PASS",
   "strict": true,
-  "release_filter": null,
+  "release_filter": "R12",
   "metrics": {
     "canonical_policy_sha256": "38e04ed812c8df0d353c2b91993d31e53b471e9c457f06b426bd2260c470aa92",
     "governance_knowledge": {
-      "problem_records": 117,
+      "problem_records": 120,
       "reusable_patterns": 11,
-      "pitfalls": 28
+      "pitfalls": 30
     },
     "documentation": {
       "android_surfaces": 102,
@@ -35,8 +35,8 @@
       "open_document_gaps": 0
     },
     "continuity": {
-      "event_count": 3381,
-      "event_head_hash": "061431a7750159c21e969a5082be827eba532e047404bf7d3a483277f2b75234",
+      "event_count": 3400,
+      "event_head_hash": "6a5b1b37ea2bb66cb560ddcbf94cb05db6cce47a82e8cfe8963f9308ebc8313f",
       "rule_readiness": "PASS",
       "required_rule_sources": 11,
       "document_gate": {
@@ -50,7 +50,7 @@
     "continuity_required_records": 20,
     "baseline_sessions": 108,
     "baseline_handoffs": 3,
-    "change_requests": 344,
+    "change_requests": 346,
     "task_transitions": 110,
     "continuity_integration_checks": 12,
     "continuity_lifecycle_checks": 15
