@@ -11,7 +11,7 @@ task_id: TASK-R12-007
 story_id: STORY-R12-008
 goal: 完成R12最终Android候选、真实模拟器截图AI验收、固定签名测试APK与桌面交付
 started_at: '2026-07-25T19:20:48Z'
-updated_at: '2026-07-26T07:46:16Z'
+updated_at: '2026-07-26T07:57:07Z'
 takeover_of: null
 change_requests:
 - CR-0339
@@ -33,6 +33,7 @@ change_requests:
 - CR-0355
 - CR-0356
 - CR-0357
+- CR-0358
 scope:
   allowed_paths:
   - apps/**
@@ -127,22 +128,22 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-26T07:45:39Z'
-  expires_at: '2026-07-26T11:45:39Z'
-checkpoint_sequence: 40
-latest_checkpoint: .continuity/checkpoints/SES-20260725T192048Z-668BD05D/0040.yaml
+  renewed_at: '2026-07-26T07:56:46Z'
+  expires_at: '2026-07-26T11:56:46Z'
+checkpoint_sequence: 41
+latest_checkpoint: .continuity/checkpoints/SES-20260725T192048Z-668BD05D/0041.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260725T192048Z-668BD05D.md
-next_step: 刷新Context Pack并通过严格Doctor，提交推送CR-0357，等待普通CI全绿后关闭CR-0356与CR-0357；不运行attempt7。
+next_step: 等待项目所有者明确批准CR-0358；批准后再更新策略、专项回归、普通CI并仅触发一次R12 attempt7。未批准前禁止运行候选。
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: b53161a70009f8aaa13f47a69a5c9a8385fe3e2aa320ea1397b408086f438099
-  generated_at: '2026-07-26T07:46:13Z'
+  context_hash: da04f9e058c25dad599a2c51021b0d4e4f71747c1ce906201499687b4483c635
+  generated_at: '2026-07-26T07:57:05Z'
 handoff_bundle: null
 closure: null
 parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 同一工作树内的CR索引、事件链、Context Pack和提交状态必须串行一致，且当前任务未授权子代理。
+  reason: 候选次数授权、CR状态、事件链和Context Pack属于单一事实源且新增候选必须由项目所有者决定。

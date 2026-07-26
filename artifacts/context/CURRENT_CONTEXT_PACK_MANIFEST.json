@@ -1,19 +1,19 @@
 {
   "version": "1.0",
-  "generated_at": "2026-07-26T07:46:13Z",
-  "context_hash": "b53161a70009f8aaa13f47a69a5c9a8385fe3e2aa320ea1397b408086f438099",
+  "generated_at": "2026-07-26T07:57:05Z",
+  "context_hash": "da04f9e058c25dad599a2c51021b0d4e4f71747c1ce906201499687b4483c635",
   "fingerprint_mode": "SESSION_DELTA",
   "project_fingerprint": {
-    "sha256": "918947803698c6efe751163086f46bbc40ff3611ad7a20fe72022060e24806e3",
-    "file_count": 83
+    "sha256": "9bf1ae9213a61b918d602a69a704ef7a137e995fd804462802795ab298c0e014",
+    "file_count": 84
   },
   "yaml": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.yaml",
-    "sha256": "240cf97d424df979388b3b0ed53e3b2eb37f7c5e9497cef66ab0ee2babb9d89e"
+    "sha256": "aa909bd937873d9ebef6a762dd6a43d72a4c45ae58fc808aa10f4f1c1216b264"
   },
   "markdown": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.md",
-    "sha256": "d6415845ed2c08f0efb15cfaae623dfa063e7f451d800184bd62aabb162ed9c5"
+    "sha256": "044558230b8ade5569ddf285dcf5442fecaecd13241a728b0de9d3c3df77044f"
   },
   "sources": [
     {
@@ -28,7 +28,7 @@
     },
     {
       "path": "CURRENT_STATUS.yaml",
-      "sha256": "250f8897ab0df2e6595c2a2a9e823b4ba7faac23d838b493e5a61fdc300db811",
+      "sha256": "1265af0d5b575cedb03c185fb57daaf13abce2e35be7cebc83f60972da38c703",
       "bytes": 4480
     },
     {
@@ -83,12 +83,12 @@
     },
     {
       "path": ".continuity/EVENT_LOG.jsonl",
-      "sha256": "c178f1c5bd68862cecdb036d9c1de11cec7e4028eaa2181cd1bc97665ad7bb85",
-      "bytes": 1967881
+      "sha256": "678e1c24028f7af270e9d963ee8df914897cf569976b2fb2927f2fdd89eb9fd1",
+      "bytes": 1970569
     },
     {
       "path": ".continuity/SESSION_INDEX.yaml",
-      "sha256": "cfba48231aedc9440c08e8ee0a44f6cc514802a3cf715c1de4fa6880d7c74edb",
+      "sha256": "a652b346aa7926fef459b62757ca19a279d5e1853b85f48277639c6a1e43c572",
       "bytes": 54867
     },
     {
@@ -103,12 +103,12 @@
     },
     {
       "path": ".continuity/CHANGE_REQUEST_INDEX.yaml",
-      "sha256": "2c6e550ac423a2af95a56928be04be93d7c3b044058a883c12870a93368f0ec4",
-      "bytes": 1239923
+      "sha256": "a8e4c63c8453c06f9c7c76d39a886d2587a12514d8df73874f9fefb25111884f",
+      "bytes": 1243946
     },
     {
       "path": ".continuity/ACTIVE_SESSION.yaml",
-      "sha256": "abb3596e077a63006138915ba27f28d3a466553574abbc6c8909662f03c65d87",
+      "sha256": "f0fccc0eec15daf0d3d2e961476cd35da649e8b23894da823d618d093fcaf1ea",
       "bytes": 548
     },
     {
@@ -163,13 +163,13 @@
     },
     {
       "path": "docs/03-continuity/sessions/2026-07/SES-20260725T192048Z-668BD05D.md",
-      "sha256": "d6327814eb2eed67ff54e554ece251a6731cfca4da9cbc0cff09685aad0c4266",
-      "bytes": 186825
+      "sha256": "47270154a75bf1bab46ab045dd6d3b2ed97bff660b05028a4008fdd9dec29caf",
+      "bytes": 193964
     },
     {
-      "path": ".continuity/checkpoints/SES-20260725T192048Z-668BD05D/0040.yaml",
-      "sha256": "07294e3b7cbc8ba80fd4388dcfb80895ededf603e0acead1ed2e65574d48bddd",
-      "bytes": 36593
+      "path": ".continuity/checkpoints/SES-20260725T192048Z-668BD05D/0041.yaml",
+      "sha256": "486f726359a8f3cd74f9449e2218ccd40ed33a79d18668dbdfffc45144818646",
+      "bytes": 37285
     },
     {
       "path": "docs/03-continuity/change-requests/CR-0339-补齐R12统一发布Android最终候选与产物追溯.md",
@@ -258,13 +258,18 @@
     },
     {
       "path": "docs/03-continuity/change-requests/CR-0356-修复R12候选视觉缺陷与过渡帧误采集.md",
-      "sha256": "a474e5e74953d352a2256539b2de8feb1ff54ca851c68d2ce4a3853e7f84f3c2",
-      "bytes": 4630
+      "sha256": "5a5ee13fd165a4cba223224d429d3418a19f73f114eeedfdbf27f90fd4b8ef3b",
+      "bytes": 5058
     },
     {
       "path": "docs/03-continuity/change-requests/CR-0357-同步CR-0356截图稳定窗口全量回归断言.md",
-      "sha256": "6ea7ec996cf575f4842e42a3f0e71b5b420da37b75133c177e2f149ec8525a75",
-      "bytes": 2889
+      "sha256": "4c19935eef02d437aa12c0558ad58ab75de01893b6b01c346aa31e0ee4c0e1f4",
+      "bytes": 3191
+    },
+    {
+      "path": "docs/03-continuity/change-requests/CR-0358-申请R12第七次单次最终候选验证视觉修复.md",
+      "sha256": "bedc7a304d29ee049b536a74a4fb35aca1d2c2958e52a087e50a918ea2359384",
+      "bytes": 2978
     }
   ]
 }

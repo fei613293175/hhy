@@ -1,9 +1,9 @@
 protocol_version: '1.0'
 cr_id: CR-0356
 title: 修复R12候选视觉缺陷与过渡帧误采集
-status: IMPLEMENTED
+status: CLOSED
 created_at: '2026-07-26T07:01:42Z'
-updated_at: '2026-07-26T07:16:49Z'
+updated_at: '2026-07-26T07:55:17Z'
 requester_actor_id: codex-root-r12-visual-fix-20260726
 approver_actor_id: project-owner
 task_id: TASK-R12-007
@@ -71,5 +71,12 @@ decision_log:
   status: IMPLEMENTED
   note: 产品与候选修复已实现：安全区、全屏退出、四次稳定采样、Asia/Shanghai时间及蓝底反色按钮完成。obx-test固定镜像testDebugUnitTest、lintDebug、assembleDebug及AndroidTest编译PASS；本地候选、治理知识、合同和严格文档PASS。未运行attempt7。
   session_id: SES-20260725T192048Z-668BD05D
+- at: '2026-07-26T07:55:17Z'
+  actor_id: codex-root-r12-visual-fix-20260726
+  status: CLOSED
+  note: 视觉实现与候选稳定采样修复已完成；obx-test Android全模块PASS，GitHub Continuity Gate 30193469053和普通CI 30193469150均PASS。关闭实现CR不代表批准视觉基线，真实截图复验仍需新的精确候选授权；attempt7未运行。
+  session_id: SES-20260725T192048Z-668BD05D
 session_ids:
 - SES-20260725T192048Z-668BD05D
+implementation_commits:
+- bcde496e9821dce301d4b13bfe0b1f590f1380f5

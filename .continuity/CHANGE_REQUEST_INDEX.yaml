@@ -21978,9 +21978,9 @@ change_requests:
 - protocol_version: '1.0'
   cr_id: CR-0356
   title: 修复R12候选视觉缺陷与过渡帧误采集
-  status: IMPLEMENTED
+  status: CLOSED
   created_at: '2026-07-26T07:01:42Z'
-  updated_at: '2026-07-26T07:16:49Z'
+  updated_at: '2026-07-26T07:55:17Z'
   requester_actor_id: codex-root-r12-visual-fix-20260726
   approver_actor_id: project-owner
   task_id: TASK-R12-007
@@ -22048,14 +22048,21 @@ change_requests:
     status: IMPLEMENTED
     note: 产品与候选修复已实现：安全区、全屏退出、四次稳定采样、Asia/Shanghai时间及蓝底反色按钮完成。obx-test固定镜像testDebugUnitTest、lintDebug、assembleDebug及AndroidTest编译PASS；本地候选、治理知识、合同和严格文档PASS。未运行attempt7。
     session_id: SES-20260725T192048Z-668BD05D
+  - at: '2026-07-26T07:55:17Z'
+    actor_id: codex-root-r12-visual-fix-20260726
+    status: CLOSED
+    note: 视觉实现与候选稳定采样修复已完成；obx-test Android全模块PASS，GitHub Continuity Gate 30193469053和普通CI 30193469150均PASS。关闭实现CR不代表批准视觉基线，真实截图复验仍需新的精确候选授权；attempt7未运行。
+    session_id: SES-20260725T192048Z-668BD05D
   session_ids:
   - SES-20260725T192048Z-668BD05D
+  implementation_commits:
+  - bcde496e9821dce301d4b13bfe0b1f590f1380f5
 - protocol_version: '1.0'
   cr_id: CR-0357
   title: 同步CR-0356截图稳定窗口全量回归断言
-  status: IMPLEMENTED
+  status: CLOSED
   created_at: '2026-07-26T07:35:21Z'
-  updated_at: '2026-07-26T07:44:16Z'
+  updated_at: '2026-07-26T07:55:22Z'
   requester_actor_id: codex-root-r12-visual-fix-20260726
   approver_actor_id: project-owner
   task_id: TASK-R12-007
@@ -22097,5 +22104,73 @@ change_requests:
     status: IMPLEMENTED
     note: 旧断言已由stableMatches大于等于2同步为大于等于4；目标回归2项PASS，本地与GitHub tooling等价的全量375项PASS（1项skip，675.806秒）。Run 30192657281 Android compile/lint/unit/package独立PASS；不运行attempt7。
     session_id: SES-20260725T192048Z-668BD05D
+  - at: '2026-07-26T07:55:22Z'
+    actor_id: codex-root-r12-visual-fix-20260726
+    status: CLOSED
+    note: stableMatches四帧断言已同步；本地375项PASS且GitHub tooling 30193469150 PASS。CR仅修复旧测试合同，不授权attempt7。
+    session_id: SES-20260725T192048Z-668BD05D
   session_ids:
   - SES-20260725T192048Z-668BD05D
+  implementation_commits:
+  - bcde496e9821dce301d4b13bfe0b1f590f1380f5
+- protocol_version: '1.0'
+  cr_id: CR-0358
+  title: 申请R12第七次单次最终候选验证视觉修复
+  status: PROPOSED
+  created_at: '2026-07-26T07:55:40Z'
+  updated_at: '2026-07-26T07:56:11Z'
+  requester_actor_id: codex-root-r12-candidate-attempt7-20260726
+  approver_actor_id: null
+  task_id: TASK-R12-007
+  session_id: SES-20260725T192048Z-668BD05D
+  user_request: 项目目标要求按依赖完成R01-R32且每个大版本仅在最终候选阶段运行完整门禁和模拟器；新增超限候选仍须项目所有者精确批准。
+  reason: attempt6已由Run 30191193348消费且AI拒绝视觉基线；CR-0356/0357修复提交bcde496e已通过本地375项、obx-test Android全模块和GitHub普通CI，但真实设备截图尚未复验。
+  original_rule: 全局max_ai_attempts=3，R12 attempt4、5、6仅按各自精确CR运行一次且均已消费；attempt7未获项目所有者明确批准前必须在重型环境准备前硬拒绝。
+  new_rule: 如项目所有者明确批准，则只允许release=R12、attempt=7、request_id=R12-CANDIDATE-20260726-007、exception_id=CR-0358、required_fix_commit=bcde496e9821dce301d4b13bfe0b1f590f1380f5、max_candidate_runs=1的精确单次例外；全局上限3和普通1至3保持不变，attempt8及复用004至007继续硬拒绝。
+  impact_summary: 仅在审批后更新Android候选治理、当前候选请求、专项回归和既有候选经验记录；不修改产品功能、API、数据库、生产配置、资金或R13至R32普通规则。当前CR保持PROPOSED时不激活任何候选。
+  impact:
+    files:
+    - config/android-automation.yaml
+    - config/android-candidate-request.yaml
+    - tests/test_android_candidate_request.py
+    - tests/test_android_ci_gate.py
+    - tests/test_r12_candidate.py
+    - docs/03-continuity/PROBLEM_REGISTRY.yaml
+    - docs/03-continuity/PITFALLS.md
+    - docs/08-testing/Android自动开发测试修复交付体系_V1.0.md
+    - CHANGELOG.md
+    pages:
+    - SCR-PUB-001
+    - SCR-PUB-006
+    - SCR-PUB-007
+    - SCR-MYC-001
+    - SCR-MYC-002
+    - SCR-MYC-003
+    - SCR-MYC-004
+    - SCR-MYC-005
+    - SCR-ME-001
+    - SCR-ME-002
+    apis:
+    - 无直接影响
+    database:
+    - 无直接影响
+    configuration:
+    - android remediation approved_attempt_exceptions与android candidate request（仅审批后）
+    ledger:
+    - R12 attempt7单次授权、十页截图与APK追溯证据
+    tests:
+    - tests.test_android_candidate_request
+    - tests.test_android_ci_gate
+    - tests.test_r12_candidate
+    - python scripts/android_candidate_request.py --validate-only
+    - python scripts/android_ci_gate.py policy-check
+    releases:
+    - R12
+    migration_and_compatibility: 保留attempt4至6和全部Run消费历史；审批前不修改候选策略。审批后先以普通CI验证唯一字段，再只触发一次完整R12候选；失败或视觉拒绝后request007不得复用。
+  user_confirmation: PENDING
+  approval:
+    decision: null
+    decided_at: null
+    note: null
+  machine_record: .continuity/change_requests/CR-0358.yaml
+  document: docs/03-continuity/change-requests/CR-0358-申请R12第七次单次最终候选验证视觉修复.md

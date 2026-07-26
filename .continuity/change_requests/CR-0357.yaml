@@ -1,9 +1,9 @@
 protocol_version: '1.0'
 cr_id: CR-0357
 title: 同步CR-0356截图稳定窗口全量回归断言
-status: IMPLEMENTED
+status: CLOSED
 created_at: '2026-07-26T07:35:21Z'
-updated_at: '2026-07-26T07:44:16Z'
+updated_at: '2026-07-26T07:55:22Z'
 requester_actor_id: codex-root-r12-visual-fix-20260726
 approver_actor_id: project-owner
 task_id: TASK-R12-007
@@ -45,5 +45,12 @@ decision_log:
   status: IMPLEMENTED
   note: 旧断言已由stableMatches大于等于2同步为大于等于4；目标回归2项PASS，本地与GitHub tooling等价的全量375项PASS（1项skip，675.806秒）。Run 30192657281 Android compile/lint/unit/package独立PASS；不运行attempt7。
   session_id: SES-20260725T192048Z-668BD05D
+- at: '2026-07-26T07:55:22Z'
+  actor_id: codex-root-r12-visual-fix-20260726
+  status: CLOSED
+  note: stableMatches四帧断言已同步；本地375项PASS且GitHub tooling 30193469150 PASS。CR仅修复旧测试合同，不授权attempt7。
+  session_id: SES-20260725T192048Z-668BD05D
 session_ids:
 - SES-20260725T192048Z-668BD05D
+implementation_commits:
+- bcde496e9821dce301d4b13bfe0b1f590f1380f5
