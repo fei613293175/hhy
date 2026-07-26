@@ -1,9 +1,7 @@
 schema_version: 1
 status: REQUESTED
-release: R12
+release: R13
 candidate: true
-remediation_attempt: 7
-request_id: R12-CANDIDATE-20260726-007
-attempt_exception_id: CR-0358
-required_fix_commit: bcde496e9821dce301d4b13bfe0b1f590f1380f5
-reason: R12 attempt 6已由Run 30191193348完整消费，技术流程成功但AI拒绝包含安全区压缩、转场残层、ISO时间和按钮对比度问题的视觉基线；CR-0356与CR-0357已在bcde496e完成产品修复和全量回归同步，并通过obx-test Android全模块、GitHub Continuity Gate 30193469053及普通CI 30193469150。项目所有者明确批准CR-0358并授予AI后续候选持续决策权；本请求仍只允许运行一次attempt 7，全局三轮上限保持不变，attempt 4至6不得复用。
+remediation_attempt: 1
+request_id: R13-CANDIDATE-20260727-001
+reason: R13收藏、浏览记录、分享与联系方式失效反馈四个冻结交互面已经完成候选前实现和专项回归；本请求只允许运行一次普通attempt 1，在隔离Staging夹具上通过OIDC自动登录采集四张真实业务截图，并由AI自主完成视觉审核。

@@ -1,0 +1,102 @@
+protocol_version: '1.0'
+package_version: 1.2.3
+session_id: SES-20260726T191158Z-2B506AB7
+status: ACTIVE
+actor:
+  id: codex-root-r13-candidate-20260727
+  kind: AI_OR_HUMAN
+  host: unknown
+release: R13
+task_id: TASK-R13-007
+story_id: STORY-R13-003
+goal: 收藏、历史、分享与行为审计Android测试APK与产物追溯
+started_at: '2026-07-26T19:11:58Z'
+updated_at: '2026-07-26T19:51:24Z'
+takeover_of: null
+change_requests:
+- CR-0377
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions:
+  - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+  - apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+  - apps/android/feature/activity/src/main/java/cc/orbexa/hhy/activity/R13ActivityScreens.kt
+  - config/android-candidate-request.yaml
+  - scripts/prepare_r13_ci_fixture.sh
+  - tests/test_r13_candidate.py
+  - tests/test_r12_candidate.py
+  - tests/test_android_ci_gate.py
+  - tests/android/visual-manifests/R13.yaml
+  - CHANGELOG.md
+  source: story+explicit+approved-cr:CR-0377
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  base_commit: 05fe13da3dded5a41321de78bff0f08c34d2f647
+  start_head: 05fe13da3dded5a41321de78bff0f08c34d2f647
+  upstream: origin/task/TASK-R03-001
+  initial_worktree_state: CLEAN
+lease:
+  duration_minutes: 240
+  renewed_at: '2026-07-26T19:51:16Z'
+  expires_at: '2026-07-26T23:51:16Z'
+checkpoint_sequence: 2
+latest_checkpoint: .continuity/checkpoints/SES-20260726T191158Z-2B506AB7/0002.yaml
+session_log: docs/03-continuity/sessions/2026-07/SES-20260726T191158Z-2B506AB7.md
+next_step: 冻结实现Commit，在obx-test以该Commit构建并部署启用OIDC自动化的R13候选后端，验证公网bootstrap命中后执行传输预检与单次推送候选。
+context_pack:
+  yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
+  markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
+  manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+  context_hash: 9c12dc814eced1964b672740b637860476b7d2067504cec31b4c92cc01e0845f
+  generated_at: '2026-07-26T19:51:21Z'
+handoff_bundle: null
+closure: null
+parallel_execution:
+  assessment: DELEGATED
+  delegated_workers: 2
+  workers:
+  - worker_id: r13_candidate_gap
+    responsibility: 只读候选差距审计
+    allowed_paths:
+    - config/android-candidate-request.yaml
+    - tests/test_r13_candidate.py
+  - worker_id: r13_visual_audit
+    responsibility: 只读视觉合同与旅程审计
+    allowed_paths:
+    - design/R13-UI-FROZEN
+    - apps/android/feature/activity
+  reason: ''

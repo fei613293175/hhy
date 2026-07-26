@@ -1,4 +1,5 @@
 from pathlib import Path
+import json
 import unittest
 
 import yaml
@@ -21,6 +22,8 @@ PROFILE_SCREEN = ROOT / "apps/android/feature/shell/src/main/java/cc/orbexa/hhy/
 ME_SCREEN = ROOT / "apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/R12MeHomeScreen.kt"
 MANAGEMENT_LIST = ROOT / "apps/android/feature/content-management/src/main/java/cc/orbexa/hhy/contentmanagement/R12ContentManagementListScreens.kt"
 MANAGEMENT_DETAIL = ROOT / "apps/android/feature/content-management/src/main/java/cc/orbexa/hhy/contentmanagement/R12ContentManagementDetailScreen.kt"
+ARCHIVED_BUILD = ROOT / "artifacts/validation/r12-task007-android/build-evidence.json"
+ARCHIVED_REPORT = ROOT / "artifacts/validation/r12-task007-android/candidate-report.json"
 
 
 class R12CandidateTest(unittest.TestCase):
@@ -122,41 +125,22 @@ class R12CandidateTest(unittest.TestCase):
         self.assertNotIn("INSERT INTO hhy.content_review_records", fixture_store)
         self.assertIn('if ("R12".equals(release))', service)
 
-    def test_journey_captures_the_exact_ten_r12_android_pages(self) -> None:
-        expected = (
-            'captureStable("01-publish-center.png")',
-            'captureStable("02-me-home.png")',
-            'captureStable("03-profile.png")',
-            'captureStable("04-drafts.png")',
-            'captureStable("05-content-management-detail.png")',
-            'captureStable("06-publish-preview.png")',
-            'captureStable("07-submit-result.png")',
-            'captureStable("08-my-contents.png")',
-            'captureStable("09-content-reviews.png")',
-            'captureStable("10-content-analytics.png")',
+    def test_archived_candidate_preserves_the_exact_ten_r12_android_pages(self) -> None:
+        report = json.loads(ARCHIVED_REPORT.read_text(encoding="utf-8"))
+        screens = report["baseline_approval"]["screens"]
+        self.assertEqual("R12", report["release"])
+        self.assertEqual("PASS", report["status"])
+        self.assertTrue(report["owner_test_allowed"])
+        self.assertEqual(10, len(screens))
+        self.assertEqual(
+            {
+                "01-publish-center.png", "02-me-home.png", "03-profile.png", "04-drafts.png",
+                "05-content-management-detail.png", "06-publish-preview.png", "07-submit-result.png",
+                "08-my-contents.png", "09-content-reviews.png", "10-content-analytics.png",
+            },
+            {row["file"] for row in screens},
         )
-        for capture in expected:
-            self.assertIn(capture, self.journey)
-        self.assertEqual(10, self.journey.count('captureStable("'))
-        for marker in (
-            "hhy.screen.r12.publish.center.content",
-            "hhy.screen.r12.me",
-            "hhy.screen.r12.profile.content",
-            "hhy.screen.r12.drafts",
-            "hhy.screen.r12.content_management.detail.content",
-            "hhy.screen.r12.publish.preview.content",
-            "hhy.screen.r12.publish.result.success",
-            "hhy.screen.r12.my-contents",
-            "hhy.screen.r12.content-reviews",
-            "hhy.screen.r12.content-analytics",
-        ):
-            self.assertIn(marker, self.journey)
-        self.assertIn('clickLastExactText("确认提交")', self.journey)
-        self.assertIn('clickExactText("查看我的发布")', self.journey)
-        self.assertIn('scrollUntilResource("mine.my-drafts")', self.journey)
-        self.assertIn('scrollUntilText("审核记录")', self.journey)
-        self.assertIn('scrollUntilText("内容数据")', self.journey)
-        self.assertNotIn("authenticatedR11Pages", self.journey)
+        self.assertTrue(all(len(row["sha256"]) == 64 for row in screens))
 
     def test_visual_manifest_covers_the_exact_r12_journey(self) -> None:
         manifest = yaml.safe_load(VISUAL_MANIFEST.read_text(encoding="utf-8"))
@@ -211,19 +195,19 @@ class R12CandidateTest(unittest.TestCase):
         release_policy = RELEASE_POLICY.read_text(encoding="utf-8")
         version_test = VERSION_TEST.read_text(encoding="utf-8")
         request = yaml.safe_load(REQUEST.read_text(encoding="utf-8"))
-        self.assertIn("versionCode = 10221", build)
-        self.assertIn("VERSION_CODE: Int = 10221", release_policy)
-        self.assertIn('"R12 test APK versionCode must remain monotonic", 10221', version_test)
-        self.assertNotIn("10220", build + release_policy + version_test)
-        self.assertEqual("R12", request["release"])
+        archived = json.loads(ARCHIVED_BUILD.read_text(encoding="utf-8"))
+        self.assertEqual("R12", archived["release"])
+        self.assertEqual(10221, archived["version_code"])
+        self.assertEqual("PASS", archived["build_status"])
+        self.assertIn("versionCode = 10222", build)
+        self.assertIn("VERSION_CODE: Int = 10222", release_policy)
+        self.assertIn('"R13 test APK versionCode must remain monotonic", 10222', version_test)
+        self.assertGreater(10222, archived["version_code"])
+        self.assertEqual("R13", request["release"])
         self.assertTrue(request["candidate"])
-        self.assertEqual(7, request["remediation_attempt"])
-        self.assertEqual("R12-CANDIDATE-20260726-007", request["request_id"])
-        self.assertEqual("CR-0358", request["attempt_exception_id"])
-        self.assertEqual(
-            "bcde496e9821dce301d4b13bfe0b1f590f1380f5",
-            request["required_fix_commit"],
-        )
+        self.assertEqual(1, request["remediation_attempt"])
+        self.assertNotIn("attempt_exception_id", request)
+        self.assertNotIn("required_fix_commit", request)
 
 
 if __name__ == "__main__":

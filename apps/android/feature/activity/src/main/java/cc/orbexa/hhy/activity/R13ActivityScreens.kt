@@ -296,16 +296,30 @@ private fun R13ActivityListScreen(
 private fun R13CategoryTabs(selected: String?, onSelected: (String?) -> Unit) {
     Row(
         modifier = Modifier.fillMaxWidth().background(HhyColors.Surface)
-            .padding(horizontal = HhySpacing.Md, vertical = HhySpacing.Sm),
-        horizontalArrangement = Arrangement.spacedBy(HhySpacing.Xs),
+            .padding(horizontal = HhySpacing.Md),
     ) {
         R13_CATEGORIES.forEach { category ->
-            FilterChip(
-                selected = selected == category.code,
-                onClick = { onSelected(category.code) },
-                label = { Text(category.label, maxLines = 1) },
-                modifier = Modifier.weight(1f).testTag("r13.category.${category.code ?: "all"}"),
-            )
+            val active = selected == category.code
+            Column(
+                modifier = Modifier.weight(1f)
+                    .testTag("r13.category.${category.code ?: "all"}")
+                    .clickable { onSelected(category.code) }
+                    .padding(top = HhySpacing.Md),
+                horizontalAlignment = Alignment.CenterHorizontally,
+            ) {
+                Text(
+                    category.label,
+                    maxLines = 1,
+                    fontSize = HhyType.BodySize,
+                    fontWeight = if (active) FontWeight.Bold else FontWeight.Normal,
+                    color = if (active) HhyColors.BrandPrimary else HhyColors.TextSecondary,
+                )
+                Spacer(Modifier.height(HhySpacing.Sm))
+                Box(
+                    Modifier.fillMaxWidth().height(HhySize.Hairline * 2)
+                        .background(if (active) HhyColors.BrandPrimary else Color.Transparent),
+                )
+            }
         }
     }
     HorizontalDivider(color = HhyColors.Border)
@@ -509,7 +523,8 @@ fun R13ContentActionSheet(
     ModalBottomSheet(
         onDismissRequest = onDismiss,
         containerColor = HhyColors.Surface,
-        modifier = Modifier.testTag("hhy.sheet.r13.${if (sheet == R13ContentSheet.SHARE) "share" else "invalid-feedback"}"),
+        modifier = Modifier.semantics { testTagsAsResourceId = true }
+            .testTag("hhy.sheet.r13.${if (sheet == R13ContentSheet.SHARE) "share" else "invalid-feedback"}"),
     ) {
         when (sheet) {
             R13ContentSheet.SHARE -> R13ShareSheetBody(

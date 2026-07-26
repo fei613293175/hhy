@@ -864,17 +864,15 @@ class AndroidCiGateTest(unittest.TestCase):
         self.assertIn("hhyCiBootstrapCode", smoke_test)
         self.assertIn("/internal-ci/v1/android/session", smoke_test)
         self.assertIn('waitForScreen("hhy.screen.r06.home.loaded")', smoke_test)
-        self.assertIn('waitForScreen("hhy.screen.r12.publish.center.content"', smoke_test)
-        self.assertIn('waitForScreen("hhy.screen.r12.profile.content"', smoke_test)
-        self.assertIn('waitForScreen("hhy.screen.r12.content_management.detail.content"', smoke_test)
-        self.assertIn('"hhy.screen.r12.publish.preview.content"', smoke_test)
-        self.assertIn('waitForScreen("hhy.screen.r12.publish.result.success"', smoke_test)
-        self.assertIn('waitForScreen("hhy.screen.r12.content-reviews"', smoke_test)
-        self.assertIn('waitForScreen("hhy.screen.r12.content-analytics"', smoke_test)
-        self.assertIn('captureStable("01-publish-center.png")', smoke_test)
-        self.assertIn('captureStable("05-content-management-detail.png")', smoke_test)
-        self.assertIn('captureStable("10-content-analytics.png")', smoke_test)
-        self.assertEqual(10, smoke_test.count('captureStable("'))
+        self.assertIn('waitForScreen("hhy.screen.r13.favorites.content"', smoke_test)
+        self.assertIn('waitForScreen("hhy.screen.r13.history.content"', smoke_test)
+        self.assertIn('waitForScreen("hhy.sheet.r13.share"', smoke_test)
+        self.assertIn('waitForScreen("hhy.sheet.r13.invalid-feedback"', smoke_test)
+        self.assertIn('captureStable("01-favorites.png")', smoke_test)
+        self.assertIn('captureStable("02-history.png")', smoke_test)
+        self.assertIn('captureStable("03-share-sheet.png")', smoke_test)
+        self.assertIn('captureStable("04-invalid-feedback-sheet.png")', smoke_test)
+        self.assertEqual(4, smoke_test.count('captureStable("'))
         self.assertNotIn('captureStable("26-r06-home.png")', smoke_test)
         self.assertNotIn('captureStable("01-project-list.png")', smoke_test)
         self.assertIn('captureStable("10-r02-startup.png")', historical_test)
@@ -885,15 +883,13 @@ class AndroidCiGateTest(unittest.TestCase):
         self.assertIn("stableMatches >= 4", smoke_test)
         self.assertIn("digest != previousScreenDigest", smoke_test)
         self.assertIn("waitForIdle(2_000)", smoke_test)
-        self.assertIn('clickResource("mine.identity-header")', smoke_test)
-        self.assertIn('scrollUntilResource("mine.my-drafts")', smoke_test)
-        self.assertIn('clickResource("mine.my-drafts")', smoke_test)
-        self.assertIn('scrollUntilText("审核记录")', smoke_test)
-        self.assertIn('scrollUntilText("内容数据")', smoke_test)
-        self.assertIn('clickLastExactText("确认提交")', smoke_test)
-        self.assertIn("scrollUntilResource", smoke_test)
-        self.assertIn("assertR12BusinessLabels", smoke_test)
-        self.assertIn('"PROJECT", "APP", "GROUP_CHAT", "TEAM_LEADER"', smoke_test)
+        self.assertIn('clickResource("mine.favorites")', smoke_test)
+        self.assertIn('clickResource("mine.history")', smoke_test)
+        self.assertIn('clickExactText("分享")', smoke_test)
+        self.assertIn('clickExactText("反馈")', smoke_test)
+        self.assertIn('clickExactText("再检查一下")', smoke_test)
+        self.assertIn("assertR13BusinessLabels", smoke_test)
+        self.assertIn('"PROJECT", "GROUP_CHAT", "TEAM_LEADER"', smoke_test)
         self.assertNotIn("assertSecureWindow", smoke_test)
 
         r08_manifest = yaml.safe_load((ROOT / "tests/android/visual-manifests/R08.yaml").read_text(encoding="utf-8"))
@@ -971,6 +967,18 @@ class AndroidCiGateTest(unittest.TestCase):
                 "08-my-contents.png", "09-content-reviews.png", "10-content-analytics.png",
             },
             {row["file"] for row in r12_manifest["screens"]},
+        )
+
+        r13_manifest = yaml.safe_load((ROOT / "tests/android/visual-manifests/R13.yaml").read_text(encoding="utf-8"))
+        self.assertEqual("AI_IMPLEMENTATION_AGENT", r13_manifest["review_authority"])
+        self.assertEqual(4, len(r13_manifest["screens"]))
+        self.assertEqual(
+            {"SCR-FAV-001", "SCR-HIS-001", "SHEET-SHARE-001", "SHEET-CONTENT-INVALID-001"},
+            {row["screen_id"] for row in r13_manifest["screens"]},
+        )
+        self.assertEqual(
+            {"01-favorites.png", "02-history.png", "03-share-sheet.png", "04-invalid-feedback-sheet.png"},
+            {row["file"] for row in r13_manifest["screens"]},
         )
 
         shell = (

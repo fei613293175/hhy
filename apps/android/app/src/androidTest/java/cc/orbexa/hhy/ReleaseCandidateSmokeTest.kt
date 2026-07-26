@@ -35,7 +35,7 @@ class ReleaseCandidateSmokeTest {
     private var previousScreenDigest: String? = null
     private val screenshotDirectory = "Pictures/hhy-ci-screenshots"
 
-    private val submitTargetTitle = "R12候选发布预览项目"
+    private val activityTargetTitle = "R13候选协作项目"
 
     @Before
     fun prepareAuthenticatedCandidate() {
@@ -67,125 +67,85 @@ class ReleaseCandidateSmokeTest {
     }
 
     @Test
-    fun authenticatedR12PagesProduceBoundVisualEvidence() {
+    fun authenticatedR13PagesProduceBoundVisualEvidence() {
         assertTrue(
             "Authenticated shell did not reach its loaded screen identity",
             waitForScreen("hhy.screen.r06.home.loaded"),
         )
         assertFalse("Cold start exposed connection failure", device.hasObject(By.text("暂时无法连接")))
 
-        clickExactText("发布")
-        assertTrue(
-            "R12 publish center did not become visible",
-            waitForScreen("hhy.screen.r12.publish.center.content", gone = "hhy.screen.r06.home.loaded"),
-        )
-        listOf("发布中心", "我的发布", "项目", "App", "群聊", "团队长").forEach { label ->
-            assertTrue("R12 publish center missed: $label", device.hasObject(By.text(label)))
-        }
-        captureStable("01-publish-center.png")
-        assertNoForbiddenVisibleText()
-
-        device.pressBack()
-        assertTrue("R12 publish center did not return home", waitForScreen("hhy.screen.r06.home.loaded"))
         clickExactText("我的")
         assertTrue(
-            "R12 me home did not become visible",
+            "R13 me home did not become visible",
             waitForScreen("hhy.screen.r12.me", gone = "hhy.screen.r06.home.loaded"),
         )
-        assertTrue("R12 me home missed its owner", device.wait(Until.hasObject(By.text("R12候选发布者")), 20_000))
-        captureStable("02-me-home.png")
-        assertNoForbiddenVisibleText()
-
-        clickResource("mine.identity-header")
+        clickResource("mine.favorites")
         assertTrue(
-            "R12 profile did not become visible",
-            waitForScreen("hhy.screen.r12.profile.content", gone = "hhy.screen.r12.me"),
+            "R13 favorites did not become visible",
+            waitForScreen("hhy.screen.r13.favorites.content", gone = "hhy.screen.r12.me"),
         )
-        assertTrue("R12 profile missed its title", device.hasObject(By.text("个人资料")))
-        assertTrue("R12 profile missed its owner", device.hasObject(By.text("R12候选发布者")))
-        captureStable("03-profile.png")
+        listOf("我的收藏", "全部", "项目", "APP", "群聊", "团队长", activityTargetTitle).forEach { label ->
+            assertTrue("R13 favorites missed: $label", device.wait(Until.hasObject(By.text(label)), 20_000))
+        }
+        captureStable("01-favorites.png")
         assertNoForbiddenVisibleText()
 
         device.pressBack()
-        assertTrue("R12 profile did not return to me home", waitForScreen("hhy.screen.r12.me"))
-        scrollUntilResource("mine.my-drafts")
-        clickResource("mine.my-drafts")
+        assertTrue("R13 favorites did not return to me home", waitForScreen("hhy.screen.r12.me"))
+        clickResource("mine.history")
         assertTrue(
-            "R12 drafts did not become visible",
-            waitForScreen("hhy.screen.r12.drafts", gone = "hhy.screen.r12.me"),
+            "R13 history did not become visible",
+            waitForScreen("hhy.screen.r13.history.content", gone = "hhy.screen.r12.me"),
         )
-        assertTrue("R12 submit target draft is missing", device.wait(Until.hasObject(By.text(submitTargetTitle)), 20_000))
-        captureStable("04-drafts.png")
+        listOf("浏览记录", "全部", "项目", "APP", "群聊", "团队长", activityTargetTitle).forEach { label ->
+            assertTrue("R13 history missed: $label", device.wait(Until.hasObject(By.text(label)), 20_000))
+        }
+        captureStable("02-history.png")
         assertNoForbiddenVisibleText()
 
-        clickExactText(submitTargetTitle)
+        clickExactText(activityTargetTitle)
         assertTrue(
-            "R12 content management detail did not become visible",
-            waitForScreen("hhy.screen.r12.content_management.detail.content", gone = "hhy.screen.r12.drafts"),
+            "R13 candidate project detail did not become visible",
+            waitForScreen("hhy.screen.r08.project.detail.content", gone = "hhy.screen.r13.history.content"),
         )
-        assertTrue("R12 management detail missed its title", device.wait(Until.hasObject(By.text(submitTargetTitle)), 20_000))
-        assertTrue("R12 management detail missed preview", device.hasObject(By.text("预览")))
-        captureStable("05-content-management-detail.png")
-        assertNoForbiddenVisibleText()
-
-        clickExactText("预览")
+        clickExactText("分享")
         assertTrue(
-            "R12 publish preview did not become visible",
-            waitForScreen(
-                "hhy.screen.r12.publish.preview.content",
-                gone = "hhy.screen.r12.content_management.detail.content",
-            ),
+            "R13 share sheet did not become visible",
+            waitForScreen("hhy.sheet.r13.share"),
         )
-        assertTrue("R12 publish preview missed its title", device.wait(Until.hasObject(By.text(submitTargetTitle)), 20_000))
-        assertTrue("R12 publish preview missed submit", device.hasObject(By.text("确认提交")))
-        captureStable("06-publish-preview.png")
-        assertNoForbiddenVisibleText()
-
-        clickExactText("确认提交")
-        assertTrue(
-            "R12 submit confirmation did not become visible",
-            device.wait(Until.hasObject(By.text("确认提交审核")), 10_000),
-        )
-        clickLastExactText("确认提交")
-        assertTrue(
-            "R12 submit result did not become visible",
-            waitForScreen("hhy.screen.r12.publish.result.success", gone = "hhy.screen.r12.publish.preview.content"),
-        )
-        assertTrue("R12 submit result missed its success action", device.hasObject(By.text("查看我的发布")))
-        captureStable("07-submit-result.png")
-        assertNoForbiddenVisibleText()
-
-        clickExactText("查看我的发布")
-        assertTrue(
-            "R12 my contents did not become visible",
-            waitForScreen("hhy.screen.r12.my-contents", gone = "hhy.screen.r12.publish.result.success"),
-        )
-        assertTrue("R12 submitted content is missing", device.wait(Until.hasObject(By.text(submitTargetTitle)), 20_000))
-        captureStable("08-my-contents.png")
-        assertNoForbiddenVisibleText()
-
-        scrollUntilText("审核记录")
-        clickExactText("审核记录")
-        assertTrue(
-            "R12 review history did not become visible",
-            waitForScreen("hhy.screen.r12.content-reviews", gone = "hhy.screen.r12.my-contents"),
-        )
-        assertTrue("R12 review history missed its content", device.wait(Until.hasObject(By.text(submitTargetTitle)), 20_000))
-        captureStable("09-content-reviews.png")
+        listOf("分享", "微信", "朋友圈", "复制链接", "其他", "取消", "继续分享").forEach { label ->
+            assertTrue("R13 share sheet missed: $label", device.hasObject(By.text(label)))
+        }
+        captureStable("03-share-sheet.png")
         assertNoForbiddenVisibleText()
 
         device.pressBack()
-        assertTrue("R12 review history did not return to my contents", waitForScreen("hhy.screen.r12.my-contents"))
-        scrollUntilText("内容数据")
-        clickExactText("内容数据")
         assertTrue(
-            "R12 content analytics did not become visible",
-            waitForScreen("hhy.screen.r12.content-analytics", gone = "hhy.screen.r12.my-contents"),
+            "R13 share sheet did not return to project detail",
+            waitForScreen("hhy.screen.r08.project.detail.content", gone = "hhy.sheet.r13.share"),
         )
-        assertTrue("R12 content analytics missed its content", device.wait(Until.hasObject(By.text(submitTargetTitle)), 20_000))
-        captureStable("10-content-analytics.png")
+        clickExactText("反馈")
+        assertTrue(
+            "R13 invalid feedback sheet did not become visible",
+            waitForScreen("hhy.sheet.r13.invalid-feedback"),
+        )
+        clickExactText("链接无法打开")
+        listOf("联系方式失效反馈", "链接无法打开", "详细说明（选填）", "取消", "提交反馈").forEach { label ->
+            assertTrue("R13 invalid feedback sheet missed: $label", device.hasObject(By.text(label)))
+        }
+        captureStable("04-invalid-feedback-sheet.png")
         assertNoForbiddenVisibleText()
-        assertR12BusinessLabels()
+        clickExactText("提交反馈")
+        assertTrue(
+            "R13 invalid feedback confirmation did not become visible",
+            device.wait(Until.hasObject(By.text("确认提交反馈")), 10_000),
+        )
+        clickExactText("再检查一下")
+        assertTrue(
+            "R13 feedback confirmation did not close",
+            device.wait(Until.gone(By.text("确认提交反馈")), 10_000),
+        )
+        assertR13BusinessLabels()
         assertNoForbiddenVisibleText()
     }
 
@@ -342,9 +302,12 @@ class ReleaseCandidateSmokeTest {
         assertFalse("Journey exposed TraceId", device.hasObject(By.textContains("TraceId")))
     }
 
-    private fun assertR12BusinessLabels() {
-        listOf("PROJECT", "APP", "GROUP_CHAT", "TEAM_LEADER", "WECHAT", "PHONE", "QQ", "EMAIL").forEach { technicalValue ->
-            assertFalse("R12 exposed technical business code: $technicalValue", device.hasObject(By.text(technicalValue)))
+    private fun assertR13BusinessLabels() {
+        listOf(
+            "PROJECT", "GROUP_CHAT", "TEAM_LEADER", "WECHAT", "WECHAT_MOMENTS", "COPY_LINK", "OTHER",
+            "QR_CODE", "LINK", "PHONE", "EMAIL", "JOIN_PASSWORD",
+        ).forEach { technicalValue ->
+            assertFalse("R13 exposed technical business code: $technicalValue", device.hasObject(By.text(technicalValue)))
         }
     }
 
