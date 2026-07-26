@@ -74,6 +74,18 @@ checks:
   cwd: .
   command: ['{python}', -m, unittest, tests.test_context_pack_parallel_policy]
   timeout_seconds: 300
+- id: visual-acceptance-unit
+  profiles: [FAST]
+  ci_job: tooling
+  paths:
+  - catalogs/ui_visual_acceptance.csv
+  - scripts/check_ui_visual_acceptance.py
+  - tests/test_ui_visual_acceptance.py
+  - tests/test_home_contract_alignment.py
+  - design/*-UI-FROZEN/specs/**
+  cwd: .
+  command: ['{python}', -m, unittest, tests.test_ui_visual_acceptance, tests.test_home_contract_alignment]
+  timeout_seconds: 300
 - id: r04-authoritative-matrix-unit
   profiles: [MODULE, INTEGRATION]
   ci_job: tooling

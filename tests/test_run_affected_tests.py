@@ -87,6 +87,22 @@ class TestImpactMap(TestCase):
                 self.assertIn("governance-knowledge-unit", {row["id"] for row in plan["checks"]})
                 self.assertIn("tooling", plan["ci_jobs"])
 
+    def test_visual_acceptance_changes_select_visual_tooling_without_android(self) -> None:
+        paths = [
+            "catalogs/ui_visual_acceptance.csv",
+            "scripts/check_ui_visual_acceptance.py",
+            "tests/test_ui_visual_acceptance.py",
+            "tests/test_home_contract_alignment.py",
+            "design/R06-UI-FROZEN/specs/SCR-HOME-001.md",
+        ]
+        for path in paths:
+            with self.subTest(path=path):
+                plan = affected.build_plan(self.document, "MODULE", [path], root=ROOT)
+                ids = {row["id"] for row in plan["checks"]}
+                self.assertIn("visual-acceptance-unit", ids)
+                self.assertIn("tooling", plan["ci_jobs"])
+                self.assertNotIn("android-module", ids)
+
     def test_integration_ignores_changed_path_filter(self) -> None:
         plan = affected.build_plan(self.document, "INTEGRATION", [], root=ROOT)
         ids = {row["id"] for row in plan["checks"]}

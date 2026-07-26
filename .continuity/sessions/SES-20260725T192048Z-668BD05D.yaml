@@ -11,7 +11,7 @@ task_id: TASK-R12-007
 story_id: STORY-R12-008
 goal: 完成R12最终Android候选、真实模拟器截图AI验收、固定签名测试APK与桌面交付
 started_at: '2026-07-25T19:20:48Z'
-updated_at: '2026-07-26T04:26:03Z'
+updated_at: '2026-07-26T04:39:56Z'
 takeover_of: null
 change_requests:
 - CR-0339
@@ -25,6 +25,7 @@ change_requests:
 - CR-0347
 - CR-0348
 - CR-0349
+- CR-0350
 scope:
   allowed_paths:
   - apps/**
@@ -103,7 +104,9 @@ scope:
   - services/backend/mvnw
   - config/test-impact-map.yaml
   - tests/test_run_affected_tests.py
-  source: story+explicit+approved-cr:CR-0340+approved-cr:CR-0344+approved-cr:CR-0346+approved-cr:CR-0345+approved-cr:CR-0348+approved-cr:CR-0349
+  - catalogs/ui_visual_acceptance.csv
+  - tests/test_home_contract_alignment.py
+  source: story+explicit+approved-cr:CR-0340+approved-cr:CR-0344+approved-cr:CR-0346+approved-cr:CR-0345+approved-cr:CR-0348+approved-cr:CR-0349+approved-cr:CR-0350
 git:
   initialized: true
   branch: task/TASK-R03-001
@@ -113,22 +116,22 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-26T04:25:56Z'
-  expires_at: '2026-07-26T08:25:56Z'
-checkpoint_sequence: 25
-latest_checkpoint: .continuity/checkpoints/SES-20260725T192048Z-668BD05D/0025.yaml
+  renewed_at: '2026-07-26T04:39:50Z'
+  expires_at: '2026-07-26T08:39:50Z'
+checkpoint_sequence: 26
+latest_checkpoint: .continuity/checkpoints/SES-20260725T192048Z-668BD05D/0026.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260725T192048Z-668BD05D.md
-next_step: 保持R12 TASK-R12-007；不得复用已消耗的attempt 4。下一步需先形成新的候选次数与证据授权，或继续不依赖候选的R12收口工作。
+next_step: 刷新Context后运行严格Doctor、暂存pre-commit并提交推送CR-0350；不启动R12 Android候选。
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: be6716bf7da0344e02ec373a2ae383253693f9b5ca8c25c3579d2e9f2476e515
-  generated_at: '2026-07-26T04:26:00Z'
+  context_hash: 5128f5b63f641f2ff3c3ac5db7e48dddae2aaa6fdd6f82d9e3abca199f3c3673
+  generated_at: '2026-07-26T04:39:53Z'
 handoff_bundle: null
 closure: null
 parallel_execution:
-  assessment: NO_SAFE_PARALLEL
+  assessment: USER_SERIAL_OVERRIDE
   delegated_workers: 0
   workers: []
-  reason: 远端证据、CR关闭、检查点和Context Pack必须绑定同一串行事实链。
+  reason: 当前主代理按本会话规则串行维护同一连续性状态与CR，未授权子代理。

@@ -1342,9 +1342,9 @@ problems:
   - 对象键必须保持相对路径并经ACTIVE存储绑定生成HTTPS URL，禁止写绝对URL绕过绑定模型
 - id: PROB-0099
   title: R06首页补充规格删减主开发文档功能并由错误基线循环自证
-  status: REMEDIATING
+  status: SOLVED
   root_cause: V1.2工程执行强化版4.3、REQ-HOME-001、SCR-HOME-001和B02均明确顶部品牌/搜索/消息、可选公告、横向Banner、项目/App/群聊/团队长四入口和真实运营内容模块；但CR-0165绑定的R06补充规格把首页改成自创Hero、搜索与项目/App快捷入口。Android ExperienceApi又把HomeModuleItemResource降级为标题字符串，丢弃moduleType/layoutType/itemType/coverUrl/badges/target/moreTarget，导致客户端无法按合同渲染丰富模块。后续历史视觉审计继续以该补充规格和实现自身截图为事实源，把信息架构错误误判为PASS；R08至R11故事也未显式要求新分类闭环回接首页。CR-0264还把群聊发布误绑到App发布B04/P04，说明粗粒度面板和相邻页面解释仍可绕过功能核对。
-  resolution: CR-0265取代CR-0264并纠正CR-0165首页删减；现有全局硬边界原位增加主开发文档功能逐项对应和聚合页跨版本回接规则，不建立平行硬规则。首页视觉状态撤销为IN_REVIEW；页面规格恢复B02/P01、P02、P04与P05-P08卡片体系；Android恢复完整Home模型、真实媒体/徽标/导航和BANNER、NOTICE、GRID、HORIZONTAL_LIST、VERTICAL_LIST分型渲染，删除自创Hero与发布快捷入口。R08项目、R09 App、R10群聊、R11团队长Story均增加首页真实入口/内容卡/导航回接验收；R10三页改为B02/P07、B03/P03、B04/P03。CR-0267继续修复实时核验发现的第二层缺口：2026-07-23共享Staging的home_modules为0行，后端moreTarget固定为空且只消费静态items；现补dataSource/limit真实ONLINE内容、跨模块contentId去重、moreTarget与显式STAGING幂等配置脚本。最终只有R10候选真实截图按开发文档4.3与B02审核通过后，首页才可恢复PASS并把本问题改为SOLVED。
+  resolution: CR-0265取代CR-0264并纠正CR-0165首页删减；现有全局硬边界原位增加主开发文档功能逐项对应和聚合页跨版本回接规则，不建立平行硬规则。首页视觉状态撤销为IN_REVIEW；页面规格恢复B02/P01、P02、P04与P05-P08卡片体系；Android恢复完整Home模型、真实媒体/徽标/导航和BANNER、NOTICE、GRID、HORIZONTAL_LIST、VERTICAL_LIST分型渲染，删除自创Hero与发布快捷入口。R08项目、R09 App、R10群聊、R11团队长Story均增加首页真实入口/内容卡/导航回接验收；R10三页改为B02/P07、B03/P03、B04/P03。CR-0267继续修复实时核验发现的第二层缺口：2026-07-23共享Staging的home_modules为0行，后端moreTarget固定为空且只消费静态items；现补dataSource/limit真实ONLINE内容、跨模块contentId去重、moreTarget与显式STAGING幂等配置脚本。R10最终候选源Run 30013677033、晋升Run 30015180600与Commit 1e35a97fb0541644d85a264a84229435ead378bf已生成并批准1080x2400真实加载首页，01-home.png的SHA-256为2b2357c76b36f2d939d91829a98dd70d362355c001f716be965b7926afe8f7ff；CR-0350据此原子同步视觉台账、回归测试和本问题状态，完成原定恢复条件。
   regression_checks:
   - python -m unittest tests.test_home_contract_alignment
   - apps/android/gradlew.bat --no-daemon :core:network:testDebugUnitTest :feature:shell:lintDebug :app:compileDebugKotlin
@@ -1353,6 +1353,8 @@ problems:
   - scripts/prepare_home_cms_staging_fixture.sh必须拒绝非STAGING，重复执行保持4个受控模块且只引用ONLINE项目/App和可访问HTTPS媒体
   - 登录态GET /api/v1/home必须返回公告、Banner、最新项目、推荐App、moreTarget且同一contentId不跨模块重复
   - R10最终候选必须同时出现搜索、真实Banner、项目/App/群聊/团队长四入口和至少一个真实服务端内容模块
+  - python -m unittest tests.test_home_contract_alignment必须同时核验R10批准状态、源Run、晋升Run、Commit与01-home.png真实SHA-256
+  - python scripts/check_ui_visual_acceptance.py --release R06必须PASS
   - R10群聊列表、详情、发布必须分别对照B02/P07、B03/P03、B04/P03，禁止B04/P04
   do_not_repeat:
   - 补充视觉规格不得删除、替换或重新组织主开发文档明确功能；禁止把“不得虚构”解释为删除真实合同模块
@@ -1361,6 +1363,7 @@ problems:
   - 后续分类版本不得只完成独立列表/详情而遗漏首页聚合入口、卡片和导航回接
   - 面板必须按索引逐页核对，禁止用整批范围或相邻App页面替代群聊页面
   - 客户端组件齐全不等于真实首页可用；必须核验home_modules非空、真实数据源、图片200、登录态响应与导航共同成立
+  - 延迟恢复条件一旦被后续版本满足，必须在同一CR中以不可变Run、Commit、截图SHA和批准记录同步历史视觉台账、Problem Registry与回归测试；不得让IN_REVIEW或REMEDIATING长期滞留
 - id: PROB-0100
   title: 后台权限种子与页面路由脱节导致超级管理员大量功能不可用
   status: SOLVED

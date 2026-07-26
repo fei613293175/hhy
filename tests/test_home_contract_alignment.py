@@ -1,8 +1,12 @@
 from __future__ import annotations
 
 import csv
+import hashlib
+import json
 from pathlib import Path
 import unittest
+
+import yaml
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -48,13 +52,53 @@ class HomeContractAlignmentTest(unittest.TestCase):
         self.assertEqual("B03/P03", rows["SCR-DETAIL-003"]["UI参考"])
         self.assertEqual("B04/P03", rows["SCR-PUB-004"]["UI参考"])
 
-    def test_incorrect_home_visual_pass_is_revoked(self) -> None:
+    def test_corrected_home_visual_pass_is_bound_to_r10_candidate(self) -> None:
         with (ROOT / "catalogs/ui_visual_acceptance.csv").open(encoding="utf-8-sig", newline="") as handle:
             rows = {row["页面ID"]: row for row in csv.DictReader(handle)}
         home = rows["SCR-HOME-001"]
-        self.assertEqual("IN_REVIEW", home["验收状态"])
+        self.assertEqual("PASS", home["验收状态"])
         self.assertEqual("B02/P01;B02/P02;B02/P04", home["视觉来源"])
-        self.assertIn("旧PASS", home["说明"])
+        self.assertEqual(
+            "tests/android/visual-baselines/R10/01-home.png",
+            home["实现截图证据"],
+        )
+        for marker in (
+            "肉眼丰富度=PASS",
+            "信息层级=PASS",
+            "组件精致度=PASS",
+            "真实业务映射=PASS",
+            "状态完整性=PASS",
+            "AI对照结论=PASS",
+        ):
+            self.assertIn(marker, home["说明"])
+
+        screenshot = ROOT / home["实现截图证据"]
+        actual_sha256 = hashlib.sha256(screenshot.read_bytes()).hexdigest()
+        approval = yaml.safe_load(
+            read("tests/android/visual-baselines/R10/APPROVAL.yaml")
+        )
+        report = json.loads(
+            read("artifacts/validation/r10-task007-android/candidate-report.json")
+        )
+        approval_home = next(
+            screen for screen in approval["screens"] if screen["file"] == "01-home.png"
+        )
+        report_home = next(
+            screen
+            for screen in report["baseline_approval"]["screens"]
+            if screen["file"] == "01-home.png"
+        )
+        self.assertEqual("APPROVED", approval["status"])
+        self.assertEqual("AI_IMPLEMENTATION_AGENT", approval["authority"])
+        self.assertEqual("30013677033", approval["source"]["github_run_id"])
+        self.assertEqual(
+            "1e35a97fb0541644d85a264a84229435ead378bf",
+            approval["source"]["commit"],
+        )
+        self.assertEqual("PASS", report["status"])
+        self.assertEqual("30015180600", report["github_run_id"])
+        self.assertEqual(approval_home["sha256"], actual_sha256)
+        self.assertEqual(report_home["sha256"], actual_sha256)
 
     def test_android_home_preserves_and_renders_rich_contract(self) -> None:
         api = read("apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ExperienceApi.kt")
