@@ -65,7 +65,6 @@ import cc.orbexa.hhy.network.MediaItemResource
 import cc.orbexa.hhy.network.R07CallResult
 import cc.orbexa.hhy.network.R08DirectConversationRequest
 import cc.orbexa.hhy.network.R08FavoriteRequest
-import cc.orbexa.hhy.network.R08ShareRequest
 import coil.compose.AsyncImage
 import kotlinx.coroutines.launch
 
@@ -79,6 +78,8 @@ fun R11TeamLeaderDetailScreen(
     onBack: () -> Unit,
     onEdit: (String) -> Unit,
     onConversationReady: (String) -> Unit,
+    onShare: (String) -> Unit = {},
+    onInvalidFeedback: (String, List<String>) -> Unit = { _, _ -> },
     onSessionExpired: () -> Unit,
 ) {
     val scope = rememberCoroutineScope()
@@ -183,19 +184,8 @@ fun R11TeamLeaderDetailScreen(
                     if (content?.publisher?.userId == currentUserId) {
                         TextButton(onClick = { onEdit(teamLeaderId) }) { Text("编辑") }
                     }
-                    TextButton(enabled = content != null && phase == R11TeamLeaderPhase.CONTENT && !actionState.busy, onClick = {
-                        val fingerprint = "COPY_LINK"
-                        launchAction("share") {
-                            when (val result = api.share(accessToken, teamLeaderId, keys.forBody("share", fingerprint), R08ShareRequest(fingerprint))) {
-                                is R07CallResult.Success -> {
-                                    copyText(context, "团队长分享链接", result.data.url)
-                                    keys.consume("share", fingerprint)
-                                    notice = "分享链接已复制"
-                                }
-                                is R07CallResult.Failure -> failAction(result)
-                            }
-                        }
-                    }) { Text("分享") }
+                    TextButton(enabled = content?.contactsMasked?.isNotEmpty() == true && phase == R11TeamLeaderPhase.CONTENT && !actionState.busy, onClick = { content?.let { onInvalidFeedback(it.title, it.contactsMasked.map { contact -> contact.channel }) } }) { Text("反馈") }
+                    TextButton(enabled = content != null && phase == R11TeamLeaderPhase.CONTENT && !actionState.busy, onClick = { content?.title?.let(onShare) }) { Text("分享") }
                 },
             )
         },

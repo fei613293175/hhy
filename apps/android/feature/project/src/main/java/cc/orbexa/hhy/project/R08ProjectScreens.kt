@@ -76,7 +76,6 @@ import cc.orbexa.hhy.network.R08CreateProjectRequest
 import cc.orbexa.hhy.network.R08DirectConversationRequest
 import cc.orbexa.hhy.network.R08FavoriteRequest
 import cc.orbexa.hhy.network.R08PatchProjectRequest
-import cc.orbexa.hhy.network.R08ShareRequest
 import cc.orbexa.hhy.media.MediaUploadSheet
 import kotlinx.coroutines.launch
 
@@ -176,6 +175,8 @@ fun R08ProjectDetailScreen(
     currentUserId: String,
     onBack: () -> Unit,
     onEdit: (String) -> Unit,
+    onShare: (String) -> Unit = {},
+    onInvalidFeedback: (String, List<String>) -> Unit = { _, _ -> },
     onSessionExpired: () -> Unit,
 ) {
     val scope = rememberCoroutineScope()
@@ -228,15 +229,8 @@ fun R08ProjectDetailScreen(
                 title = { Text("项目详情") },
                 navigationIcon = { HhyBackButton(onBack) },
                 actions = {
-                    TextButton(enabled = project != null, onClick = {
-                        val body = "COPY_LINK"
-                        scope.launch {
-                            when (val result = api.share(accessToken, projectId, keys.forBody("share", body), R08ShareRequest(body))) {
-                                is R07CallResult.Success -> { copyText(context, "项目链接", result.data.url); message = "分享链接已复制"; keys.consume("share", body) }
-                                is R07CallResult.Failure -> accept(result)
-                            }
-                        }
-                    }) { Text("分享") }
+                    TextButton(enabled = project?.contactsMasked?.isNotEmpty() == true, onClick = { project?.let { onInvalidFeedback(it.title, it.contactsMasked.map { contact -> contact.channel }) } }) { Text("反馈") }
+                    TextButton(enabled = project != null, onClick = { project?.title?.let(onShare) }) { Text("分享") }
                 },
             )
         },

@@ -86,7 +86,6 @@ import cc.orbexa.hhy.network.R07CallResult
 import cc.orbexa.hhy.network.R08ContactInput
 import cc.orbexa.hhy.network.R08DirectConversationRequest
 import cc.orbexa.hhy.network.R08FavoriteRequest
-import cc.orbexa.hhy.network.R08ShareRequest
 import cc.orbexa.hhy.network.R09CreateAppRequest
 import cc.orbexa.hhy.network.R09PatchAppRequest
 import kotlinx.coroutines.launch
@@ -216,6 +215,8 @@ fun R09AppDetailScreen(
     currentUserId: String,
     onBack: () -> Unit,
     onEdit: (String) -> Unit,
+    onShare: (String) -> Unit = {},
+    onInvalidFeedback: (String, List<String>) -> Unit = { _, _ -> },
     onSessionExpired: () -> Unit,
 ) {
     val scope = rememberCoroutineScope()
@@ -260,15 +261,8 @@ fun R09AppDetailScreen(
         modifier = Modifier.semantics { testTagsAsResourceId = true }.testTag("hhy.screen.r09.app.detail.${phase.name.lowercase()}"),
         topBar = {
             TopAppBar(title = { Text("App详情") }, navigationIcon = { HhyBackButton(onBack) }, actions = {
-                TextButton(enabled = app != null, onClick = {
-                    val body = "COPY_LINK"
-                    scope.launch {
-                        when (val result = api.share(accessToken, appId, keys.forBody("share", body), R08ShareRequest(body))) {
-                            is R07CallResult.Success -> { copyText(context, "App推广链接", result.data.url); keys.consume("share", body); message = "推广链接已复制" }
-                            is R07CallResult.Failure -> fail(result)
-                        }
-                    }
-                }) { Text("分享") }
+                TextButton(enabled = app?.contactsMasked?.isNotEmpty() == true, onClick = { app?.let { onInvalidFeedback(it.title, it.contactsMasked.map { contact -> contact.channel }) } }) { Text("反馈") }
+                TextButton(enabled = app != null, onClick = { app?.title?.let(onShare) }) { Text("分享") }
             })
         },
         bottomBar = {

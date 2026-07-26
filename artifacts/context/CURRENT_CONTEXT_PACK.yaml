@@ -1,5 +1,5 @@
 context_version: '1.0'
-generated_at: '2026-07-26T13:33:39Z'
+generated_at: '2026-07-26T14:17:52Z'
 conversation_dependency: PROHIBITED
 source_of_truth: REPOSITORY_ONLY
 project: hhy-pro-platform
@@ -10,7 +10,7 @@ current_status:
   phase: R13
   active_release: R13
   active_task: TASK-R13-004
-  status: READY
+  status: IN_PROGRESS
   documentation_status: ZERO_BLOCKING_DOCUMENT_GAPS
   last_green_commit: be9a99d9
   last_staging_apk: null
@@ -129,14 +129,15 @@ current_status:
   - TASK-R13-001
   - TASK-R13-002
   - TASK-R13-003
-  in_progress_tasks: []
+  in_progress_tasks:
+  - TASK-R13-004
   blocked_tasks:
   - TASK-R02-007
   - TASK-R03-007
   - TASK-R06-008
   - TASK-R07-008
   next_task: TASK-R13-004
-  updated_at: '2026-07-26T13:33:35Z'
+  updated_at: '2026-07-26T14:17:49Z'
   notes:
   - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
   - 全部REST/WebSocket操作均有页面或系统所有者
@@ -168,17 +169,19 @@ current_status:
   continuity:
     protocol_version: '1.0'
     mode: ENFORCED
-    active_session_id: null
-    last_session_id: SES-20260726T123133Z-63E93B88
-    last_session_result: COMPLETED
-    last_checkpoint: .continuity/checkpoints/SES-20260726T123133Z-63E93B88/0004.yaml
-    last_handoff_bundle: null
+    active_session_id: SES-20260726T134047Z-F9A80405
+    actor_id: codex-root-r13-client-20260726
+    story_id: STORY-R13-001
+    lease_expires_at: '2026-07-26T18:17:49Z'
+    latest_checkpoint: .continuity/checkpoints/SES-20260726T134047Z-F9A80405/0002.yaml
+    project_fingerprint: 6e2f64b9f42e66e837b44fd56270d89079433f646c29dae6bdb7099d2e8c79d8
     context_pack:
       yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
       markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
       manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-      context_hash: bbe3d39885989b43a9dd9e65d476bd04cd8cd14a965f594ceb65bb7a4152981d
-      generated_at: '2026-07-26T13:33:32Z'
+      context_hash: 63372ee5a9b3073d391514e0526eb076db24b54f4b66b87dbb8996dad7c84839
+      generated_at: '2026-07-26T14:14:25Z'
+    handoff_bundle: null
 next_task:
   id: TASK-R13-004
   title: 收藏、历史、分享与行为审计客户端/H5/后台实现
@@ -216,34 +219,368 @@ next_task:
     cr_amend: python3 scripts/continuity.py cr-amend --actor <ACTOR_ID> --cr <CR_ID> --original-rule '<原规则>' --new-rule '<新规则>' --impact-summary
       '<影响摘要>' --migration-and-compatibility '<迁移兼容说明>' --file <PATH> --test '<TEST>' --release <RELEASE>
   next_after: 由当前TASKS.yaml依赖关系决定
-active_session: null
-latest_checkpoint: null
+active_session:
+  protocol_version: '1.0'
+  package_version: 1.2.3
+  session_id: SES-20260726T134047Z-F9A80405
+  status: ACTIVE
+  actor:
+    id: codex-root-r13-client-20260726
+    kind: AI_OR_HUMAN
+    host: unknown
+  release: R13
+  task_id: TASK-R13-004
+  story_id: STORY-R13-001
+  goal: 收藏、历史、分享与行为审计客户端/H5/后台实现
+  started_at: '2026-07-26T13:40:47Z'
+  updated_at: '2026-07-26T14:17:49Z'
+  takeover_of: null
+  change_requests:
+  - CR-0368
+  - CR-0369
+  scope:
+    allowed_paths:
+    - apps/android/**
+    - services/backend/**
+    - packages/**
+    - contracts/**
+    - database/**
+    - config/**
+    - tests/**
+    - docs/**
+    - catalogs/**
+    - releases/**
+    - design/**
+    - scripts/**
+    - CHANGELOG.md
+    approved_exceptions: []
+    source: story+explicit
+  git:
+    initialized: true
+    branch: task/TASK-R03-001
+    base_commit: cdbbf232aa888d684c2ab434218d8c7afcb5f636
+    start_head: cdbbf232aa888d684c2ab434218d8c7afcb5f636
+    upstream: origin/task/TASK-R03-001
+    initial_worktree_state: CLEAN
+  lease:
+    duration_minutes: 240
+    renewed_at: '2026-07-26T14:17:49Z'
+    expires_at: '2026-07-26T18:17:49Z'
+  checkpoint_sequence: 2
+  latest_checkpoint: .continuity/checkpoints/SES-20260726T134047Z-F9A80405/0002.yaml
+  session_log: docs/03-continuity/sessions/2026-07/SES-20260726T134047Z-F9A80405.md
+  next_step: 提交精确源码Commit并在obx-test固定Android镜像运行受影响MODULE。
+  context_pack: THIS_CONTEXT_PACK
+  handoff_bundle: null
+  closure: null
+  parallel_execution:
+    assessment: CAPABILITY_UNAVAILABLE
+    delegated_workers: 0
+    workers: []
+    reason: 当前系统约束禁止子代理；由唯一活跃会话串行实施。
+latest_checkpoint:
+  protocol_version: '1.0'
+  checkpoint_id: CP-SES-20260726T134047Z-F9A80405-0002
+  session_id: SES-20260726T134047Z-F9A80405
+  task_id: TASK-R13-004
+  story_id: STORY-R13-001
+  sequence: 2
+  created_at: '2026-07-26T14:17:48Z'
+  summary: R13四页Android首轮实现与CHANGELOG齐备；失效原因只使用服务端内容上下文返回的联系方式渠道，未虚构业务枚举。
+  next_step: 提交精确源码Commit并在obx-test固定Android镜像运行受影响MODULE。
+  blockers: []
+  decisions: []
+  note: ''
+  tests:
+  - name: android-ui-foundation
+    result: PASS
+    evidence: scripts/check_android_ui_foundation.py
+    note: 共享UI基础门禁通过
+  - name: pre-commit-first-attempt
+    result: FAIL
+    evidence: .continuity/runtime/pre-commit.json
+    note: 已补齐CHANGELOG，待本次提交重验
+  git:
+    initialized: true
+    branch: task/TASK-R03-001
+    head: cdbbf232aa888d684c2ab434218d8c7afcb5f636
+    upstream: origin/task/TASK-R03-001
+    ahead: 0
+    behind: 0
+    dirty: true
+    status_porcelain:
+    - M  .continuity/ACTIVE_SESSION.yaml
+    - M  .continuity/CHANGE_REQUEST_INDEX.yaml
+    - M  .continuity/EVENT_LOG.jsonl
+    - M  .continuity/SESSION_INDEX.yaml
+    - M  .continuity/STATE.yaml
+    - M  .continuity/TASK_CLAIMS.yaml
+    - M  .continuity/TASK_TRANSITIONS.yaml
+    - A  .continuity/change_requests/CR-0368.yaml
+    - A  .continuity/change_requests/CR-0369.yaml
+    - A  .continuity/checkpoints/SES-20260726T134047Z-F9A80405/0001.yaml
+    - A  .continuity/sessions/SES-20260726T134047Z-F9A80405.yaml
+    - ' M CHANGELOG.md'
+    - M  CURRENT_STATUS.yaml
+    - M  apps/android/app/build.gradle.kts
+    - M  apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+    - A  apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR13Api.kt
+    - A  apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ContractR13ApiTest.kt
+    - A  apps/android/feature/activity/build.gradle.kts
+    - A  apps/android/feature/activity/src/main/java/cc/orbexa/hhy/activity/R13ActivityScreens.kt
+    - A  apps/android/feature/activity/src/main/java/cc/orbexa/hhy/activity/R13ActivityState.kt
+    - A  apps/android/feature/activity/src/test/java/cc/orbexa/hhy/activity/R13ActivityStateTest.kt
+    - M  apps/android/feature/app-promotion/src/main/java/cc/orbexa/hhy/apppromotion/R09AppScreens.kt
+    - M  apps/android/feature/group-promotion/src/main/java/cc/orbexa/hhy/grouppromotion/R10GroupScreens.kt
+    - M  apps/android/feature/project/src/main/java/cc/orbexa/hhy/project/R08ProjectScreens.kt
+    - M  apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+    - M  apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/R12MeHomeScreen.kt
+    - M  apps/android/feature/team-leader/src/main/java/cc/orbexa/hhy/teamleader/R11TeamLeaderDetailScreen.kt
+    - M  apps/android/settings.gradle.kts
+    - M  artifacts/context/CURRENT_CONTEXT_PACK.md
+    - M  artifacts/context/CURRENT_CONTEXT_PACK.yaml
+    - M  artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+    - M  catalogs/change_request_index.csv
+    - M  catalogs/session_index.csv
+    - M  catalogs/task_transition_ledger.csv
+    - A  docs/03-continuity/change-requests/CR-0368-实现R13四页Android收藏历史分享与失效反馈闭环.md
+    - A  docs/03-continuity/change-requests/CR-0369-实现R13四页Android收藏历史分享与失效反馈闭环.md
+    - A  docs/03-continuity/sessions/2026-07/SES-20260726T134047Z-F9A80405.md
+    recent_commits:
+    - "cdbbf232aa888d684c2ab434218d8c7afcb5f636\t2026-07-26T21:35:01+08:00\tHHY Continuity Bootstrap\t[STORY-R13-003] chore(continuity): close\
+      \ TASK-R13-003 as completed"
+    - "bb869d2ef4bcea8dbfba3b7d579db997f96034e1\t2026-07-26T21:29:21+08:00\tHHY Continuity Bootstrap\t[STORY-R13-003] chore(continuity): bind\
+      \ R13 backend implementation"
+    - "be9a99d9fbfe08aad2b98c6cd189119392b8564e\t2026-07-26T21:27:29+08:00\tHHY Continuity Bootstrap\t[STORY-R13-003] feat(content): implement\
+      \ R13 activity APIs"
+    - "c5e4ce7c3139823291896f9d1b8a26df147cad74\t2026-07-26T20:29:44+08:00\tHHY Continuity Bootstrap\t[STORY-R13-003] chore(continuity): close\
+      \ TASK-R13-002 as completed"
+    - "20a8deadda14b3d5034b7f0b015c235235b565d8\t2026-07-26T20:26:22+08:00\tHHY Continuity Bootstrap\t[STORY-R13-003] chore(continuity): bind\
+      \ R13 activity CR"
+    - "6b1da3779106ae9db5f454511c365111d85a8d62\t2026-07-26T20:24:53+08:00\tHHY Continuity Bootstrap\t[STORY-R13-003] feat(database): enforce\
+      \ R13 activity invariants"
+    - "aeda26ad525af23f5e26a855b78e03f7c412a5f9\t2026-07-26T19:35:50+08:00\tHHY Continuity Bootstrap\t[STORY-R13-001] chore(continuity): close\
+      \ TASK-R13-001 as completed"
+    - "6d74ca24440daabb8a5abf4b34e0d5d52eb7e33d\t2026-07-26T19:33:35+08:00\tHHY Continuity Bootstrap\t[STORY-R13-001] chore(r13): bind entry implementation\
+      \ evidence"
+  project_fingerprint:
+    sha256: 6e2f64b9f42e66e837b44fd56270d89079433f646c29dae6bdb7099d2e8c79d8
+    files:
+    - CHANGELOG.md
+    - apps/android/app/build.gradle.kts
+    - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+    - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR13Api.kt
+    - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ContractR13ApiTest.kt
+    - apps/android/feature/activity/build.gradle.kts
+    - apps/android/feature/activity/src/main/java/cc/orbexa/hhy/activity/R13ActivityScreens.kt
+    - apps/android/feature/activity/src/main/java/cc/orbexa/hhy/activity/R13ActivityState.kt
+    - apps/android/feature/activity/src/test/java/cc/orbexa/hhy/activity/R13ActivityStateTest.kt
+    - apps/android/feature/app-promotion/src/main/java/cc/orbexa/hhy/apppromotion/R09AppScreens.kt
+    - apps/android/feature/group-promotion/src/main/java/cc/orbexa/hhy/grouppromotion/R10GroupScreens.kt
+    - apps/android/feature/project/src/main/java/cc/orbexa/hhy/project/R08ProjectScreens.kt
+    - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+    - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/R12MeHomeScreen.kt
+    - apps/android/feature/team-leader/src/main/java/cc/orbexa/hhy/teamleader/R11TeamLeaderDetailScreen.kt
+    - apps/android/settings.gradle.kts
+    - docs/03-continuity/change-requests/CR-0368-实现R13四页Android收藏历史分享与失效反馈闭环.md
+    - docs/03-continuity/change-requests/CR-0369-实现R13四页Android收藏历史分享与失效反馈闭环.md
+    file_count: 18
+    payload:
+      base_commit: cdbbf232aa888d684c2ab434218d8c7afcb5f636
+      files:
+      - path: CHANGELOG.md
+        state: FILE
+        size: 160962
+        sha256: 4c2226f0ad5c09ae37f92b8d247d364193872b3678e7013798201bdd2521dc0b
+      - path: apps/android/app/build.gradle.kts
+        state: FILE
+        size: 5406
+        sha256: f532d2fa62eeb85712bf984103dee372135b1520a3504a8a5150f18b235c3aa3
+      - path: apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+        state: FILE
+        size: 49061
+        sha256: af20e9e43e4fbfeb008106e710200650b3975583fba6150b5a9680a9dc00145f
+      - path: apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR13Api.kt
+        state: FILE
+        size: 9086
+        sha256: 2a7475f02e79a550d86845886395460da2ac37296174e6de5f2b99fa532be707
+      - path: apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ContractR13ApiTest.kt
+        state: FILE
+        size: 1102
+        sha256: 146d347d8f6b4b2abc6d6e541615b194c43446572ce9845ae1fd674b47c055ce
+      - path: apps/android/feature/activity/build.gradle.kts
+        state: FILE
+        size: 1094
+        sha256: 81ac7033eb0393a7f878bf1ef052b0018c3c848a347087f1e7e697421e5527a5
+      - path: apps/android/feature/activity/src/main/java/cc/orbexa/hhy/activity/R13ActivityScreens.kt
+        state: FILE
+        size: 33792
+        sha256: ba058f0cd0b10ff6eb9efbf359809ef5b36550c78f71e60bfdc3bc1ff5db9af9
+      - path: apps/android/feature/activity/src/main/java/cc/orbexa/hhy/activity/R13ActivityState.kt
+        state: FILE
+        size: 4355
+        sha256: fbc1fe9b49bf45987cdc77452008b8b215b5b6ec5ad1de2c2c65646adc180540
+      - path: apps/android/feature/activity/src/test/java/cc/orbexa/hhy/activity/R13ActivityStateTest.kt
+        state: FILE
+        size: 2780
+        sha256: 7e69bf414ebcc2e5888380cacc5c1de39cbf466cddbbf6459e36e16a3bbe5cc9
+      - path: apps/android/feature/app-promotion/src/main/java/cc/orbexa/hhy/apppromotion/R09AppScreens.kt
+        state: FILE
+        size: 44182
+        sha256: 78f1abaa4138ae222f452af3a272efc746b2b26c7c4d2ae0063c8f5d2f956a80
+      - path: apps/android/feature/group-promotion/src/main/java/cc/orbexa/hhy/grouppromotion/R10GroupScreens.kt
+        state: FILE
+        size: 28590
+        sha256: 77cb26d9e80630f464454cad2948bdd15bdc9a2d4f51447b9d768ec5474bf36f
+      - path: apps/android/feature/project/src/main/java/cc/orbexa/hhy/project/R08ProjectScreens.kt
+        state: FILE
+        size: 35046
+        sha256: e25c8fc6cfaf5012d7e0e0351eed184140576086624f0ff4abfa5e1184bd51cc
+      - path: apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+        state: FILE
+        size: 39194
+        sha256: 869c7bfcdca47e3a752347734b7c78351c6f23e1f7fe024d52610938e38f233a
+      - path: apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/R12MeHomeScreen.kt
+        state: FILE
+        size: 26506
+        sha256: f70cce40499edc2d120c3c884947c8c9d4cd3e6f79eae1ce312067a9559d6484
+      - path: apps/android/feature/team-leader/src/main/java/cc/orbexa/hhy/teamleader/R11TeamLeaderDetailScreen.kt
+        state: FILE
+        size: 20182
+        sha256: 82d28462b6f98175ab6a8b3872e7aa79f680cbc54ebc3a5e9f3de947fee58870
+      - path: apps/android/settings.gradle.kts
+        state: FILE
+        size: 748
+        sha256: f92c18ae655bcb87c7b195bb4f319392747cf955896a18c1701fb3ef9dacdeda
+      - path: docs/03-continuity/change-requests/CR-0368-实现R13四页Android收藏历史分享与失效反馈闭环.md
+        state: FILE
+        size: 3076
+        sha256: 2b58405951992e65b32d887d4539ae5b1c502e77f9c2a222420b9527c37a32ce
+      - path: docs/03-continuity/change-requests/CR-0369-实现R13四页Android收藏历史分享与失效反馈闭环.md
+        state: FILE
+        size: 4439
+        sha256: 1b39c75285fe60ac9747764152551f7f9d8ce86833132a99839d7ce88435186a
+  change_classification:
+    other:
+    - CHANGELOG.md
+    code:
+    - apps/android/app/build.gradle.kts
+    - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+    - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR13Api.kt
+    - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ContractR13ApiTest.kt
+    - apps/android/feature/activity/build.gradle.kts
+    - apps/android/feature/activity/src/main/java/cc/orbexa/hhy/activity/R13ActivityScreens.kt
+    - apps/android/feature/activity/src/main/java/cc/orbexa/hhy/activity/R13ActivityState.kt
+    - apps/android/feature/activity/src/test/java/cc/orbexa/hhy/activity/R13ActivityStateTest.kt
+    - apps/android/feature/app-promotion/src/main/java/cc/orbexa/hhy/apppromotion/R09AppScreens.kt
+    - apps/android/feature/group-promotion/src/main/java/cc/orbexa/hhy/grouppromotion/R10GroupScreens.kt
+    - apps/android/feature/project/src/main/java/cc/orbexa/hhy/project/R08ProjectScreens.kt
+    - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+    - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/R12MeHomeScreen.kt
+    - apps/android/feature/team-leader/src/main/java/cc/orbexa/hhy/teamleader/R11TeamLeaderDetailScreen.kt
+    - apps/android/settings.gradle.kts
+    user_visible:
+    - apps/android/app/build.gradle.kts
+    - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+    - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR13Api.kt
+    - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ContractR13ApiTest.kt
+    - apps/android/feature/activity/build.gradle.kts
+    - apps/android/feature/activity/src/main/java/cc/orbexa/hhy/activity/R13ActivityScreens.kt
+    - apps/android/feature/activity/src/main/java/cc/orbexa/hhy/activity/R13ActivityState.kt
+    - apps/android/feature/activity/src/test/java/cc/orbexa/hhy/activity/R13ActivityStateTest.kt
+    - apps/android/feature/app-promotion/src/main/java/cc/orbexa/hhy/apppromotion/R09AppScreens.kt
+    - apps/android/feature/group-promotion/src/main/java/cc/orbexa/hhy/grouppromotion/R10GroupScreens.kt
+    - apps/android/feature/project/src/main/java/cc/orbexa/hhy/project/R08ProjectScreens.kt
+    - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+    - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/R12MeHomeScreen.kt
+    - apps/android/feature/team-leader/src/main/java/cc/orbexa/hhy/teamleader/R11TeamLeaderDetailScreen.kt
+    - apps/android/settings.gradle.kts
+    continuity:
+    - docs/03-continuity/change-requests/CR-0368-实现R13四页Android收藏历史分享与失效反馈闭环.md
+    - docs/03-continuity/change-requests/CR-0369-实现R13四页Android收藏历史分享与失效反馈闭环.md
+  required_records:
+  - SESSION_RECORD
+  - SESSION_LOG
+  - CHECKPOINT
+  - CURRENT_STATUS
+  - EVENT_LOG
+  - CHANGELOG
+  change_requests:
+  - CR-0368
+  - CR-0369
+  scope:
+    allowed_paths:
+    - apps/android/**
+    - services/backend/**
+    - packages/**
+    - contracts/**
+    - database/**
+    - config/**
+    - tests/**
+    - docs/**
+    - catalogs/**
+    - releases/**
+    - design/**
+    - scripts/**
+    - CHANGELOG.md
+    approved_exceptions: []
+    source: story+explicit
+  parallel_execution:
+    assessment: CAPABILITY_UNAVAILABLE
+    delegated_workers: 0
+    workers: []
+    reason: 当前系统约束禁止子代理；由唯一活跃会话串行实施。
+  event_hash: ee783606841b1b7cd18a71d38131037051f5eb86120d33d35d038ba8ef8830e4
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: bb869d2ef4bcea8dbfba3b7d579db997f96034e1
+  head: cdbbf232aa888d684c2ab434218d8c7afcb5f636
   upstream: origin/task/TASK-R03-001
   ahead: 0
   behind: 0
   dirty: true
   status_porcelain:
-  - ' M .continuity/ACTIVE_SESSION.yaml'
-  - ' M .continuity/EVENT_LOG.jsonl'
-  - ' M .continuity/SESSION_INDEX.yaml'
-  - ' M .continuity/STATE.yaml'
-  - ' M .continuity/TASK_CLAIMS.yaml'
-  - ' M .continuity/sessions/SES-20260726T123133Z-63E93B88.yaml'
+  - MM .continuity/ACTIVE_SESSION.yaml
+  - M  .continuity/CHANGE_REQUEST_INDEX.yaml
+  - MM .continuity/EVENT_LOG.jsonl
+  - MM .continuity/SESSION_INDEX.yaml
+  - MM .continuity/STATE.yaml
+  - M  .continuity/TASK_CLAIMS.yaml
+  - M  .continuity/TASK_TRANSITIONS.yaml
+  - A  .continuity/change_requests/CR-0368.yaml
+  - A  .continuity/change_requests/CR-0369.yaml
+  - A  .continuity/checkpoints/SES-20260726T134047Z-F9A80405/0001.yaml
+  - AM .continuity/sessions/SES-20260726T134047Z-F9A80405.yaml
   - ' M CHANGELOG.md'
-  - ' M CURRENT_STATUS.yaml'
-  - ' M NEXT_TASK.yaml'
-  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
-  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
-  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
-  - ' M catalogs/session_index.csv'
-  - ' M docs/03-continuity/sessions/2026-07/SES-20260726T123133Z-63E93B88.md'
-  - ' M releases/R13/TASKS.yaml'
-  - ?? .continuity/checkpoints/SES-20260726T123133Z-63E93B88/0004.yaml
+  - MM CURRENT_STATUS.yaml
+  - M  apps/android/app/build.gradle.kts
+  - M  apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+  - A  apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR13Api.kt
+  - A  apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ContractR13ApiTest.kt
+  - A  apps/android/feature/activity/build.gradle.kts
+  - A  apps/android/feature/activity/src/main/java/cc/orbexa/hhy/activity/R13ActivityScreens.kt
+  - A  apps/android/feature/activity/src/main/java/cc/orbexa/hhy/activity/R13ActivityState.kt
+  - A  apps/android/feature/activity/src/test/java/cc/orbexa/hhy/activity/R13ActivityStateTest.kt
+  - M  apps/android/feature/app-promotion/src/main/java/cc/orbexa/hhy/apppromotion/R09AppScreens.kt
+  - M  apps/android/feature/group-promotion/src/main/java/cc/orbexa/hhy/grouppromotion/R10GroupScreens.kt
+  - M  apps/android/feature/project/src/main/java/cc/orbexa/hhy/project/R08ProjectScreens.kt
+  - M  apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+  - M  apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/R12MeHomeScreen.kt
+  - M  apps/android/feature/team-leader/src/main/java/cc/orbexa/hhy/teamleader/R11TeamLeaderDetailScreen.kt
+  - M  apps/android/settings.gradle.kts
+  - M  artifacts/context/CURRENT_CONTEXT_PACK.md
+  - M  artifacts/context/CURRENT_CONTEXT_PACK.yaml
+  - M  artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+  - M  catalogs/change_request_index.csv
+  - MM catalogs/session_index.csv
+  - M  catalogs/task_transition_ledger.csv
+  - A  docs/03-continuity/change-requests/CR-0368-实现R13四页Android收藏历史分享与失效反馈闭环.md
+  - A  docs/03-continuity/change-requests/CR-0369-实现R13四页Android收藏历史分享与失效反馈闭环.md
+  - AM docs/03-continuity/sessions/2026-07/SES-20260726T134047Z-F9A80405.md
+  - ?? .continuity/checkpoints/SES-20260726T134047Z-F9A80405/0002.yaml
   recent_commits:
+  - "cdbbf232aa888d684c2ab434218d8c7afcb5f636\t2026-07-26T21:35:01+08:00\tHHY Continuity Bootstrap\t[STORY-R13-003] chore(continuity): close TASK-R13-003\
+    \ as completed"
   - "bb869d2ef4bcea8dbfba3b7d579db997f96034e1\t2026-07-26T21:29:21+08:00\tHHY Continuity Bootstrap\t[STORY-R13-003] chore(continuity): bind R13\
     \ backend implementation"
   - "be9a99d9fbfe08aad2b98c6cd189119392b8564e\t2026-07-26T21:27:29+08:00\tHHY Continuity Bootstrap\t[STORY-R13-003] feat(content): implement R13\
@@ -258,12 +595,103 @@ git:
     \ as completed"
   - "6d74ca24440daabb8a5abf4b34e0d5d52eb7e33d\t2026-07-26T19:33:35+08:00\tHHY Continuity Bootstrap\t[STORY-R13-001] chore(r13): bind entry implementation\
     \ evidence"
-  - "29ad2bcc6c1dae68a42ea9147110dc4b9dd29745\t2026-07-26T19:29:21+08:00\tHHY Continuity Bootstrap\t[STORY-R13-001] docs(r13): establish implementation\
-    \ entry baseline"
 project_fingerprint:
-  sha256: 1ab95f8e5a796c027e399f7cde9f638b020fa5f87164a937d9843902d6799538
-  files: []
-  file_count: 0
+  sha256: 6e2f64b9f42e66e837b44fd56270d89079433f646c29dae6bdb7099d2e8c79d8
+  files:
+  - CHANGELOG.md
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR13Api.kt
+  - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ContractR13ApiTest.kt
+  - apps/android/feature/activity/build.gradle.kts
+  - apps/android/feature/activity/src/main/java/cc/orbexa/hhy/activity/R13ActivityScreens.kt
+  - apps/android/feature/activity/src/main/java/cc/orbexa/hhy/activity/R13ActivityState.kt
+  - apps/android/feature/activity/src/test/java/cc/orbexa/hhy/activity/R13ActivityStateTest.kt
+  - apps/android/feature/app-promotion/src/main/java/cc/orbexa/hhy/apppromotion/R09AppScreens.kt
+  - apps/android/feature/group-promotion/src/main/java/cc/orbexa/hhy/grouppromotion/R10GroupScreens.kt
+  - apps/android/feature/project/src/main/java/cc/orbexa/hhy/project/R08ProjectScreens.kt
+  - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+  - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/R12MeHomeScreen.kt
+  - apps/android/feature/team-leader/src/main/java/cc/orbexa/hhy/teamleader/R11TeamLeaderDetailScreen.kt
+  - apps/android/settings.gradle.kts
+  - docs/03-continuity/change-requests/CR-0368-实现R13四页Android收藏历史分享与失效反馈闭环.md
+  - docs/03-continuity/change-requests/CR-0369-实现R13四页Android收藏历史分享与失效反馈闭环.md
+  file_count: 18
+  payload:
+    base_commit: cdbbf232aa888d684c2ab434218d8c7afcb5f636
+    files:
+    - path: CHANGELOG.md
+      state: FILE
+      size: 160962
+      sha256: 4c2226f0ad5c09ae37f92b8d247d364193872b3678e7013798201bdd2521dc0b
+    - path: apps/android/app/build.gradle.kts
+      state: FILE
+      size: 5406
+      sha256: f532d2fa62eeb85712bf984103dee372135b1520a3504a8a5150f18b235c3aa3
+    - path: apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+      state: FILE
+      size: 49061
+      sha256: af20e9e43e4fbfeb008106e710200650b3975583fba6150b5a9680a9dc00145f
+    - path: apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR13Api.kt
+      state: FILE
+      size: 9086
+      sha256: 2a7475f02e79a550d86845886395460da2ac37296174e6de5f2b99fa532be707
+    - path: apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ContractR13ApiTest.kt
+      state: FILE
+      size: 1102
+      sha256: 146d347d8f6b4b2abc6d6e541615b194c43446572ce9845ae1fd674b47c055ce
+    - path: apps/android/feature/activity/build.gradle.kts
+      state: FILE
+      size: 1094
+      sha256: 81ac7033eb0393a7f878bf1ef052b0018c3c848a347087f1e7e697421e5527a5
+    - path: apps/android/feature/activity/src/main/java/cc/orbexa/hhy/activity/R13ActivityScreens.kt
+      state: FILE
+      size: 33792
+      sha256: ba058f0cd0b10ff6eb9efbf359809ef5b36550c78f71e60bfdc3bc1ff5db9af9
+    - path: apps/android/feature/activity/src/main/java/cc/orbexa/hhy/activity/R13ActivityState.kt
+      state: FILE
+      size: 4355
+      sha256: fbc1fe9b49bf45987cdc77452008b8b215b5b6ec5ad1de2c2c65646adc180540
+    - path: apps/android/feature/activity/src/test/java/cc/orbexa/hhy/activity/R13ActivityStateTest.kt
+      state: FILE
+      size: 2780
+      sha256: 7e69bf414ebcc2e5888380cacc5c1de39cbf466cddbbf6459e36e16a3bbe5cc9
+    - path: apps/android/feature/app-promotion/src/main/java/cc/orbexa/hhy/apppromotion/R09AppScreens.kt
+      state: FILE
+      size: 44182
+      sha256: 78f1abaa4138ae222f452af3a272efc746b2b26c7c4d2ae0063c8f5d2f956a80
+    - path: apps/android/feature/group-promotion/src/main/java/cc/orbexa/hhy/grouppromotion/R10GroupScreens.kt
+      state: FILE
+      size: 28590
+      sha256: 77cb26d9e80630f464454cad2948bdd15bdc9a2d4f51447b9d768ec5474bf36f
+    - path: apps/android/feature/project/src/main/java/cc/orbexa/hhy/project/R08ProjectScreens.kt
+      state: FILE
+      size: 35046
+      sha256: e25c8fc6cfaf5012d7e0e0351eed184140576086624f0ff4abfa5e1184bd51cc
+    - path: apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+      state: FILE
+      size: 39194
+      sha256: 869c7bfcdca47e3a752347734b7c78351c6f23e1f7fe024d52610938e38f233a
+    - path: apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/R12MeHomeScreen.kt
+      state: FILE
+      size: 26506
+      sha256: f70cce40499edc2d120c3c884947c8c9d4cd3e6f79eae1ce312067a9559d6484
+    - path: apps/android/feature/team-leader/src/main/java/cc/orbexa/hhy/teamleader/R11TeamLeaderDetailScreen.kt
+      state: FILE
+      size: 20182
+      sha256: 82d28462b6f98175ab6a8b3872e7aa79f680cbc54ebc3a5e9f3de947fee58870
+    - path: apps/android/settings.gradle.kts
+      state: FILE
+      size: 748
+      sha256: f92c18ae655bcb87c7b195bb4f319392747cf955896a18c1701fb3ef9dacdeda
+    - path: docs/03-continuity/change-requests/CR-0368-实现R13四页Android收藏历史分享与失效反馈闭环.md
+      state: FILE
+      size: 3076
+      sha256: 2b58405951992e65b32d887d4539ae5b1c502e77f9c2a222420b9527c37a32ce
+    - path: docs/03-continuity/change-requests/CR-0369-实现R13四页Android收藏历史分享与失效反馈闭环.md
+      state: FILE
+      size: 4439
+      sha256: 1b39c75285fe60ac9747764152551f7f9d8ce86833132a99839d7ce88435186a
 release_context:
   RELEASE_MANIFEST.yaml:
     release: R13
@@ -1110,26 +1538,14 @@ repository_transport:
 continuity_state:
   mode: ENFORCED
   protocol_version: '1.0'
-  active_session_id: null
+  active_session_id: SES-20260726T134047Z-F9A80405
   last_session_id: SES-20260726T123133Z-63E93B88
   last_session_result: COMPLETED
   last_closure_checkpoint_id: CP-SES-20260726T123133Z-63E93B88-0004
-  event_count: 3580
-  event_head_hash: 12351476f195be762929c19bab4376d640e01b04a24fdb3bb932eabe4b721622
+  event_count: 3610
+  event_head_hash: ee783606841b1b7cd18a71d38131037051f5eb86120d33d35d038ba8ef8830e4
   event_chain_valid: true
 recent_sessions:
-- session_id: SES-20260724T235749Z-6EC9DB09
-  task_id: TASK-R12-002
-  story_id: STORY-R12-008
-  actor_id: codex-root-r12-data-20260725
-  status: CLOSED
-  started_at: '2026-07-24T23:57:49Z'
-  record: .continuity/sessions/SES-20260724T235749Z-6EC9DB09.yaml
-  session_log: docs/03-continuity/sessions/2026-07/SES-20260724T235749Z-6EC9DB09.md
-  updated_at: '2026-07-25T02:47:14Z'
-  closed_at: '2026-07-25T02:47:14Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260724T235749Z-6EC9DB09/0008.yaml
-  handoff_bundle: null
 - session_id: SES-20260725T025042Z-A53070A0
   task_id: TASK-R12-003
   story_id: STORY-R12-008
@@ -1238,47 +1654,19 @@ recent_sessions:
   closed_at: '2026-07-26T13:33:35Z'
   latest_checkpoint: .continuity/checkpoints/SES-20260726T123133Z-63E93B88/0004.yaml
   handoff_bundle: null
+- session_id: SES-20260726T134047Z-F9A80405
+  task_id: TASK-R13-004
+  story_id: STORY-R13-001
+  actor_id: codex-root-r13-client-20260726
+  status: ACTIVE
+  started_at: '2026-07-26T13:40:47Z'
+  record: .continuity/sessions/SES-20260726T134047Z-F9A80405.yaml
+  session_log: docs/03-continuity/sessions/2026-07/SES-20260726T134047Z-F9A80405.md
+  updated_at: '2026-07-26T14:17:49Z'
+  closed_at: null
+  latest_checkpoint: .continuity/checkpoints/SES-20260726T134047Z-F9A80405/0002.yaml
+  handoff_bundle: null
 task_claims:
-- claim_id: CLM-9CAD875787F9
-  session_id: SES-20260723T165808Z-606D1DDF
-  task_id: TASK-R11-001
-  story_id: STORY-R11-004
-  actor_id: codex-root-r11-entry
-  status: CLOSED
-  claimed_at: '2026-07-23T16:58:08Z'
-  allowed_paths:
-  - apps/**
-  - services/**
-  - packages/**
-  - contracts/**
-  - database/**
-  - config/**
-  - catalogs/**
-  - tests/**
-  - infra/**
-  - design/**
-  - docs/**
-  - releases/**
-  - scripts/**
-  - templates/**
-  - .github/**
-  - .githooks/**
-  - .codex/**
-  - AGENTS.md
-  - START_HERE.md
-  - README.md
-  - CHANGELOG.md
-  - Makefile
-  - .gitignore
-  - .gitattributes
-  - .dockerignore
-  - package.json
-  - pnpm-lock.yaml
-  - pnpm-workspace.yaml
-  - requirements-dev.txt
-  - PROJECT_*.yaml
-  - PROJECT_*.json
-  closed_at: '2026-07-23T17:11:14Z'
 - claim_id: CLM-3D6F34DCEA9C
   session_id: SES-20260723T171219Z-D5E6B99E
   task_id: TASK-R11-002
@@ -2006,17 +2394,28 @@ task_claims:
   - PROJECT_*.yaml
   - PROJECT_*.json
   closed_at: '2026-07-26T13:33:35Z'
+- claim_id: CLM-BF3BB44F7C31
+  session_id: SES-20260726T134047Z-F9A80405
+  task_id: TASK-R13-004
+  story_id: STORY-R13-001
+  actor_id: codex-root-r13-client-20260726
+  status: ACTIVE
+  claimed_at: '2026-07-26T13:40:47Z'
+  allowed_paths:
+  - apps/android/**
+  - services/backend/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - tests/**
+  - docs/**
+  - catalogs/**
+  - releases/**
+  - design/**
+  - scripts/**
+  - CHANGELOG.md
 recent_task_transitions:
-- transition_id: TRN-0D008912F110
-  timestamp: '2026-07-23T16:58:09Z'
-  release: R11
-  task_id: TASK-R11-001
-  story_id: STORY-R11-004
-  from_status: READY
-  to_status: IN_PROGRESS
-  session_id: SES-20260723T165808Z-606D1DDF
-  actor_id: codex-root-r11-entry
-  reason: 会话领取任务
 - transition_id: TRN-E1E762FB88A9
   timestamp: '2026-07-23T17:12:21Z'
   release: R11
@@ -2206,6 +2605,16 @@ recent_task_transitions:
   to_status: IN_PROGRESS
   session_id: SES-20260726T123133Z-63E93B88
   actor_id: codex-root-r13-backend-20260726
+  reason: 会话领取任务
+- transition_id: TRN-DECCC79D7057
+  timestamp: '2026-07-26T13:40:50Z'
+  release: R13
+  task_id: TASK-R13-004
+  story_id: STORY-R13-001
+  from_status: READY
+  to_status: IN_PROGRESS
+  session_id: SES-20260726T134047Z-F9A80405
+  actor_id: codex-root-r13-client-20260726
   reason: 会话领取任务
 open_change_requests:
 - protocol_version: '1.0'
@@ -11310,6 +11719,78 @@ open_change_requests:
   - SES-20260726T123133Z-63E93B88
   implementation_commits:
   - be9a99d9
+- protocol_version: '1.0'
+  cr_id: CR-0369
+  title: 实现R13四页Android收藏历史分享与失效反馈闭环
+  status: IMPLEMENTING
+  created_at: '2026-07-26T13:54:50Z'
+  updated_at: '2026-07-26T13:55:59Z'
+  requester_actor_id: codex-root-r13-client-20260726
+  approver_actor_id: codex-android-contract-review-r13-20260726
+  task_id: TASK-R13-004
+  session_id: SES-20260726T134047Z-F9A80405
+  user_request: 项目所有者批准持续开发且日常开发无需再次批准；按冻结开发文档和精确视觉规格实现R13。
+  reason: R13-003已完成六个operationId服务端合同，R13-004需要新增ContractR13Api、四页状态与Compose UI、我的入口及内容详情动作回接，并形成MODULE证据。
+  original_rule: R13六个冻结operationId服务端已完成，但Android仍复用旧版本直接分享动作且缺少取消收藏、收藏列表、浏览历史和失效反馈四页闭环。
+  new_rule: 新增独立ContractR13Api与activity功能模块，四页严格绑定冻结operationId和精确视觉规格；我的首页进入收藏与历史，内容详情统一打开分享和失效反馈底部面板，所有写操作使用稳定幂等键并覆盖完整错误恢复。
+  impact_summary: 实现R13四页Android真实客户端闭环、四类内容详情动作回接、我的入口、类型化传输和MODULE测试；H5与后台页面按Release Manifest显式不适用，不修改OpenAPI、数据库、资金或生产配置。
+  impact:
+    files:
+    - apps/android/settings.gradle.kts
+    - apps/android/app/build.gradle.kts
+    - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+    - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR13Api.kt
+    - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ContractR13ApiTest.kt
+    - apps/android/feature/activity/build.gradle.kts
+    - apps/android/feature/activity/src/main/java/cc/orbexa/hhy/activity/R13ActivityState.kt
+    - apps/android/feature/activity/src/main/java/cc/orbexa/hhy/activity/R13ActivityScreens.kt
+    - apps/android/feature/activity/src/test/java/cc/orbexa/hhy/activity/R13ActivityStateTest.kt
+    - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+    - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/R12MeHomeScreen.kt
+    - apps/android/feature/project/src/main/java/cc/orbexa/hhy/project/R08ProjectScreens.kt
+    - apps/android/feature/app-promotion/src/main/java/cc/orbexa/hhy/apppromotion/R09AppScreens.kt
+    - apps/android/feature/group-promotion/src/main/java/cc/orbexa/hhy/grouppromotion/R10GroupScreens.kt
+    - apps/android/feature/team-leader/src/main/java/cc/orbexa/hhy/teamleader/R11TeamLeaderDetailScreen.kt
+    - catalogs/ui_visual_acceptance.csv
+    - releases/R13/RELEASE_MANIFEST.yaml
+    - docs/03-continuity/R13_TASK-004_CLIENT_GATE.md
+    - CHANGELOG.md
+    pages:
+    - SHEET-SHARE-001
+    - SCR-FAV-001
+    - SCR-HIS-001
+    - SHEET-CONTENT-INVALID-001
+    apis:
+    - contentDeleteContentsByIdFavorite
+    - contentGetMeFavorites
+    - contentGetMeHistory
+    - contentPostContentsByIdShare
+    - contentPostContentsByIdInvalidFeedback
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - ContractR13Api serialization validation and error mapping tests
+    - R13 favorites history pagination retention grouping and stable idempotency state tests
+    - R13 four-page Compose navigation and visual contract tests
+    releases:
+    - R13
+    migration_and_compatibility: 无数据库、OpenAPI或配置迁移；新增Android模块与可选回调保持既有详情导航兼容，既有R08至R12接口调用不变。
+  user_confirmation: 项目所有者已批准持续开发并明确日常开发无需再次批准。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-26T13:55:52Z'
+    note: 独立复核确认完整影响文件、四页、五个客户端operationId、B08精确面板与两份补充规格边界一致；H5和后台页面显式不适用，客户端新增模块不修改冻结合同。
+  machine_record: .continuity/change_requests/CR-0369.yaml
+  document: docs/03-continuity/change-requests/CR-0369-实现R13四页Android收藏历史分享与失效反馈闭环.md
+  decision_log:
+  - at: '2026-07-26T13:55:59Z'
+    actor_id: codex-root-r13-client-20260726
+    status: IMPLEMENTING
+    note: 开始实施R13类型化Android传输、四页状态与Compose UI、我的入口及四类内容详情动作回接。
+    session_id: SES-20260726T134047Z-F9A80405
+  session_ids:
+  - SES-20260726T134047Z-F9A80405
 source_manifest:
 - path: AGENTS.md
   sha256: 306026d4706dfd3cae0a3db2b1c56e294700326bc3a13ca095c3987a267d390b
@@ -11318,8 +11799,8 @@ source_manifest:
   sha256: 22de14029ce47beb41ea569e36ce223fbc9d11b86f8676f28d5fbbd83896af5c
   bytes: 4556
 - path: CURRENT_STATUS.yaml
-  sha256: ac449e7031b71fb0076daa6e983471fc341ec1e73a56e9aef80a9d406152529f
-  bytes: 4362
+  sha256: b8f9470085b04d312863ce6485d130876a0d9244aefdcbaa7be10bd368957f58
+  bytes: 4520
 - path: NEXT_TASK.yaml
   sha256: 84794d1ee0f44d18c670e2fc821193c6f181442aa884f3c57574936ad8e3314d
   bytes: 1861
@@ -11351,23 +11832,23 @@ source_manifest:
   sha256: 38e04ed812c8df0d353c2b91993d31e53b471e9c457f06b426bd2260c470aa92
   bytes: 13936
 - path: .continuity/EVENT_LOG.jsonl
-  sha256: 3ec026696496342480b044fa28d96dcaa1d691a024d7a3cc762bab4639f93b59
-  bytes: 2025899
+  sha256: 138829ca9e699564b894f224ab7d198c824c5512bb87584d2152e8a7505083cb
+  bytes: 2040048
 - path: .continuity/SESSION_INDEX.yaml
-  sha256: f595e7a9ef7619c3326dbcde77e4b5da65230489d0c3386af73a2cf51c952d0f
-  bytes: 56964
+  sha256: e047a0d1f1f29792d992bd79f21a7bbf8a2713689388fa8f8c6dc2785506a283
+  bytes: 57468
 - path: .continuity/TASK_CLAIMS.yaml
-  sha256: a341d9ed2f36ad5f0059ef3791701e61c690450e0685ca22baa7a57fb973a98c
-  bytes: 79935
+  sha256: a22270a496f9a9e3624fbdb0271a0ac86af44fc1b35e8e3b65910fceb1ba57d9
+  bytes: 80382
 - path: .continuity/TASK_TRANSITIONS.yaml
-  sha256: 640eac9cdd8cb4921759f25233544067e85599cacca942e0fbe9fae96034a614
-  bytes: 32408
+  sha256: 2608583c8c865c5f573df0f593f6cb40b7838ea48b6f8ad3f3fd0362bbaf060a
+  bytes: 32705
 - path: .continuity/CHANGE_REQUEST_INDEX.yaml
-  sha256: 3df380a7c0aa043e062efaff9f262950756c0fdecf2bbd0410bd9bc29f032262
-  bytes: 1278766
+  sha256: f82dcde28fad0b900e6e4d27a1fd426c9b38c01ebd8da8b94d3a95aedb20d989
+  bytes: 1286364
 - path: .continuity/ACTIVE_SESSION.yaml
-  sha256: 2c000c370b988fa93d6dfe91ad3cfc34da3fa39c51fd9d0f3ba89d06c14e6d4c
-  bytes: 143
+  sha256: eca652a500abe1fe887e39e6b538a2f027451c087eaa7ef052fa8935a56646ae
+  bytes: 545
 - path: docs/00-baseline/正式商业系统全局硬性开发边界.md
   sha256: b1d965b019e632fbe1a259831201be7c82f79c26836fa161fd1d41855fcdb7c8
   bytes: 13487
@@ -11398,6 +11879,18 @@ source_manifest:
 - path: releases/R13/PARALLEL_EXECUTION_PLAN.yaml
   sha256: 192844a37221f84e42f714fa209260976c81685e094733390664168e34ef5887
   bytes: 2581
+- path: docs/03-continuity/sessions/2026-07/SES-20260726T134047Z-F9A80405.md
+  sha256: 9c5a258bf5215b40c91548ca46927bf0359e84a127bf3ff0cb072372b8ac30f6
+  bytes: 5967
+- path: .continuity/checkpoints/SES-20260726T134047Z-F9A80405/0002.yaml
+  sha256: b9e3485a57c3d5bad542ca5f992b3db35f41760949901483aacb439e255ba694
+  bytes: 13443
+- path: docs/03-continuity/change-requests/CR-0368-实现R13四页Android收藏历史分享与失效反馈闭环.md
+  sha256: 2b58405951992e65b32d887d4539ae5b1c502e77f9c2a222420b9527c37a32ce
+  bytes: 3076
+- path: docs/03-continuity/change-requests/CR-0369-实现R13四页Android收藏历史分享与失效反馈闭环.md
+  sha256: 1b39c75285fe60ac9747764152551f7f9d8ce86833132a99839d7ce88435186a
+  bytes: 4439
 rule_readiness:
   status: PASS
   evidence: HASHED_CONTEXT_MANIFEST
@@ -11417,7 +11910,8 @@ rule_readiness:
   - docs/03-continuity/PITFALLS.md
   - docs/09-development/统一开发与交付效率规范.md
   missing_sources: []
-exact_resume_command: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R13-004
+exact_resume_command: python3 scripts/continuity.py checkpoint --summary '<完成内容>' --next-step '<下一步>' --parallel-assessment <ASSESSMENT> --parallel-reason
+  '<未委托原因>'
 hard_rules:
 - 不得依赖旧对话补充仓库已有需求
 - 未领取任务和会话不得编辑项目文件
@@ -11432,4 +11926,4 @@ hard_rules:
 - 除非项目所有者明确报告未连接，默认Codex已连接obx-test且既有项目环境可用；预检失败必须阻断并报告
 - 禁止以无服务器状态继续开发或重建本地Android SDK，必须复用登记的远端镜像和Gradle缓存
 - Git remote/upstream仅按tracked transport descriptor受控恢复；推送前必须预检且禁止force push
-context_hash: 7a2151b96ae7cc5b57ced475835922131b4c71f1b8dfc046dfcf857bcb04fa07
+context_hash: bc1033aed38a52dbce241fb029fd71991610e4f4a4837f8b56067a067726fc00

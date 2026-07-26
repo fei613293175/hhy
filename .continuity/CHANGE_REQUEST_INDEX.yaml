@@ -22765,3 +22765,123 @@ change_requests:
   - SES-20260726T123133Z-63E93B88
   implementation_commits:
   - be9a99d9
+- protocol_version: '1.0'
+  cr_id: CR-0368
+  title: 实现R13四页Android收藏历史分享与失效反馈闭环
+  status: SUPERSEDED
+  created_at: '2026-07-26T13:47:02Z'
+  updated_at: '2026-07-26T13:54:44Z'
+  requester_actor_id: codex-root-r13-client-20260726
+  approver_actor_id: codex-android-contract-review-r13-20260726
+  task_id: TASK-R13-004
+  session_id: SES-20260726T134047Z-F9A80405
+  user_request: 项目所有者批准持续开发且日常开发无需再次批准；按冻结开发文档和精确视觉规格实现R13。
+  reason: R13-003已完成六个operationId服务端合同，R13-004需要新增ContractR13Api、四页状态与Compose UI、我的入口及内容详情动作回接，并形成MODULE证据。
+  original_rule: R13六个冻结operationId服务端已完成，但Android仍复用旧版本直接分享动作且缺少取消收藏、收藏列表、浏览历史和失效反馈四页闭环。
+  new_rule: 新增独立ContractR13Api与activity功能模块，四页严格绑定冻结operationId和精确视觉规格；我的首页进入收藏与历史，内容详情统一打开分享和失效反馈底部面板，所有写操作使用稳定幂等键并覆盖完整错误恢复。
+  impact_summary: 实现R13四页Android真实客户端闭环、四类内容详情动作回接、我的入口、类型化传输和MODULE测试；H5与后台页面按Release Manifest显式不适用，不修改OpenAPI、数据库、资金或生产配置。
+  impact:
+    files:
+    - CHANGELOG.md
+    pages: []
+    apis: []
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - R13 Android transport state UI and navigation MODULE tests
+    releases:
+    - R13
+    migration_and_compatibility: 无数据库、OpenAPI或配置迁移；新增Android模块与可选回调保持既有详情导航兼容，既有R08至R12接口调用不变。
+  user_confirmation: 项目所有者已批准持续开发并明确日常开发无需再次批准。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-26T13:53:04Z'
+    note: 独立复核确认四页、六个operationId、B08精确面板与两份补充规格边界一致；H5和后台页面显式不适用，客户端新增模块不修改冻结合同。
+  machine_record: .continuity/change_requests/CR-0368.yaml
+  document: docs/03-continuity/change-requests/CR-0368-实现R13四页Android收藏历史分享与失效反馈闭环.md
+  decision_log:
+  - at: '2026-07-26T13:53:10Z'
+    actor_id: codex-root-r13-client-20260726
+    status: IMPLEMENTING
+    note: 开始实施R13类型化Android传输、四页状态与Compose UI、我的入口及四类内容详情动作回接。
+    session_id: SES-20260726T134047Z-F9A80405
+  - at: '2026-07-26T13:54:44Z'
+    actor_id: codex-root-r13-client-20260726
+    status: SUPERSEDED
+    note: 更正CLI影响清单录入方式：逐次cr-amend覆盖了前一组文件，未开始产品代码编辑；由完整影响范围的新CR替代。
+    session_id: SES-20260726T134047Z-F9A80405
+  session_ids:
+  - SES-20260726T134047Z-F9A80405
+- protocol_version: '1.0'
+  cr_id: CR-0369
+  title: 实现R13四页Android收藏历史分享与失效反馈闭环
+  status: IMPLEMENTING
+  created_at: '2026-07-26T13:54:50Z'
+  updated_at: '2026-07-26T13:55:59Z'
+  requester_actor_id: codex-root-r13-client-20260726
+  approver_actor_id: codex-android-contract-review-r13-20260726
+  task_id: TASK-R13-004
+  session_id: SES-20260726T134047Z-F9A80405
+  user_request: 项目所有者批准持续开发且日常开发无需再次批准；按冻结开发文档和精确视觉规格实现R13。
+  reason: R13-003已完成六个operationId服务端合同，R13-004需要新增ContractR13Api、四页状态与Compose UI、我的入口及内容详情动作回接，并形成MODULE证据。
+  original_rule: R13六个冻结operationId服务端已完成，但Android仍复用旧版本直接分享动作且缺少取消收藏、收藏列表、浏览历史和失效反馈四页闭环。
+  new_rule: 新增独立ContractR13Api与activity功能模块，四页严格绑定冻结operationId和精确视觉规格；我的首页进入收藏与历史，内容详情统一打开分享和失效反馈底部面板，所有写操作使用稳定幂等键并覆盖完整错误恢复。
+  impact_summary: 实现R13四页Android真实客户端闭环、四类内容详情动作回接、我的入口、类型化传输和MODULE测试；H5与后台页面按Release Manifest显式不适用，不修改OpenAPI、数据库、资金或生产配置。
+  impact:
+    files:
+    - apps/android/settings.gradle.kts
+    - apps/android/app/build.gradle.kts
+    - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+    - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR13Api.kt
+    - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ContractR13ApiTest.kt
+    - apps/android/feature/activity/build.gradle.kts
+    - apps/android/feature/activity/src/main/java/cc/orbexa/hhy/activity/R13ActivityState.kt
+    - apps/android/feature/activity/src/main/java/cc/orbexa/hhy/activity/R13ActivityScreens.kt
+    - apps/android/feature/activity/src/test/java/cc/orbexa/hhy/activity/R13ActivityStateTest.kt
+    - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+    - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/R12MeHomeScreen.kt
+    - apps/android/feature/project/src/main/java/cc/orbexa/hhy/project/R08ProjectScreens.kt
+    - apps/android/feature/app-promotion/src/main/java/cc/orbexa/hhy/apppromotion/R09AppScreens.kt
+    - apps/android/feature/group-promotion/src/main/java/cc/orbexa/hhy/grouppromotion/R10GroupScreens.kt
+    - apps/android/feature/team-leader/src/main/java/cc/orbexa/hhy/teamleader/R11TeamLeaderDetailScreen.kt
+    - catalogs/ui_visual_acceptance.csv
+    - releases/R13/RELEASE_MANIFEST.yaml
+    - docs/03-continuity/R13_TASK-004_CLIENT_GATE.md
+    - CHANGELOG.md
+    pages:
+    - SHEET-SHARE-001
+    - SCR-FAV-001
+    - SCR-HIS-001
+    - SHEET-CONTENT-INVALID-001
+    apis:
+    - contentDeleteContentsByIdFavorite
+    - contentGetMeFavorites
+    - contentGetMeHistory
+    - contentPostContentsByIdShare
+    - contentPostContentsByIdInvalidFeedback
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - ContractR13Api serialization validation and error mapping tests
+    - R13 favorites history pagination retention grouping and stable idempotency state tests
+    - R13 four-page Compose navigation and visual contract tests
+    releases:
+    - R13
+    migration_and_compatibility: 无数据库、OpenAPI或配置迁移；新增Android模块与可选回调保持既有详情导航兼容，既有R08至R12接口调用不变。
+  user_confirmation: 项目所有者已批准持续开发并明确日常开发无需再次批准。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-26T13:55:52Z'
+    note: 独立复核确认完整影响文件、四页、五个客户端operationId、B08精确面板与两份补充规格边界一致；H5和后台页面显式不适用，客户端新增模块不修改冻结合同。
+  machine_record: .continuity/change_requests/CR-0369.yaml
+  document: docs/03-continuity/change-requests/CR-0369-实现R13四页Android收藏历史分享与失效反馈闭环.md
+  decision_log:
+  - at: '2026-07-26T13:55:59Z'
+    actor_id: codex-root-r13-client-20260726
+    status: IMPLEMENTING
+    note: 开始实施R13类型化Android传输、四页状态与Compose UI、我的入口及四类内容详情动作回接。
+    session_id: SES-20260726T134047Z-F9A80405
+  session_ids:
+  - SES-20260726T134047Z-F9A80405

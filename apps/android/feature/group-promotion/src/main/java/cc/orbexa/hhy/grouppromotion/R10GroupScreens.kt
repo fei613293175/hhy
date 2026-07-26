@@ -75,7 +75,6 @@ import cc.orbexa.hhy.network.MediaItemResource
 import cc.orbexa.hhy.network.R07CallResult
 import cc.orbexa.hhy.network.R08DirectConversationRequest
 import cc.orbexa.hhy.network.R08FavoriteRequest
-import cc.orbexa.hhy.network.R08ShareRequest
 import cc.orbexa.hhy.network.R10CreateGroupRequest
 import cc.orbexa.hhy.network.R10PatchGroupRequest
 import coil.compose.AsyncImage
@@ -137,7 +136,7 @@ fun R10GroupListScreen(api: ContractR10Api, accessToken: String, onBack: () -> U
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun R10GroupDetailScreen(api: ContractR10Api, accessToken: String, groupId: String, currentUserId: String, onBack: () -> Unit, onEdit: (String) -> Unit, onSessionExpired: () -> Unit) {
+fun R10GroupDetailScreen(api: ContractR10Api, accessToken: String, groupId: String, currentUserId: String, onBack: () -> Unit, onEdit: (String) -> Unit, onShare: (String) -> Unit = {}, onInvalidFeedback: (String, List<String>) -> Unit = { _, _ -> }, onSessionExpired: () -> Unit) {
     val scope = rememberCoroutineScope()
     val context = LocalContext.current
     val keys = remember { R10IntentKeys() }
@@ -153,7 +152,7 @@ fun R10GroupDetailScreen(api: ContractR10Api, accessToken: String, groupId: Stri
     revealed?.let { (channel, value) -> ModalBottomSheet(onDismissRequest = { revealed = null }) { Column(Modifier.fillMaxWidth().padding(HhySpacing.Xl), verticalArrangement = Arrangement.spacedBy(HhySpacing.Md)) { Text(if (channel == "JOIN_PASSWORD") "入群口令" else "群主联系方式", style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold); Text(value, style = MaterialTheme.typography.titleMedium); Button(modifier = Modifier.fillMaxWidth(), onClick = { copyText(context, value); revealed = null; message = "已复制" }) { Text("复制") }; Text("仅在你主动获取后显示，请勿向无关人员泄露", color = HhyColors.TextSecondary) } } }
     Scaffold(
         modifier = Modifier.semantics { testTagsAsResourceId = true }.testTag("hhy.screen.r10.group.detail.${phase.name.lowercase()}"),
-        topBar = { TopAppBar(title = { Text("群聊详情") }, navigationIcon = { HhyBackButton(onBack) }, actions = { TextButton(enabled = group != null, onClick = { scope.launch { val body = "COPY_LINK"; when (val result = api.share(accessToken, groupId, keys.forBody("share", body), R08ShareRequest(body))) { is R07CallResult.Success -> { copyText(context, result.data.url); keys.consume("share", body); message = "分享链接已复制" }; is R07CallResult.Failure -> fail(result) } } }) { Text("分享") } }) },
+        topBar = { TopAppBar(title = { Text("群聊详情") }, navigationIcon = { HhyBackButton(onBack) }, actions = { TextButton(enabled = group?.contactsMasked?.isNotEmpty() == true, onClick = { group?.let { onInvalidFeedback(it.title, it.contactsMasked.map { contact -> contact.channel }) } }) { Text("反馈") }; TextButton(enabled = group != null, onClick = { group?.title?.let(onShare) }) { Text("分享") } }) },
         containerColor = HhyColors.PageBackground,
     ) { padding ->
         when (phase) {

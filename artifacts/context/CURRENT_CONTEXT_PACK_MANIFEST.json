@@ -1,19 +1,19 @@
 {
   "version": "1.0",
-  "generated_at": "2026-07-26T13:33:39Z",
-  "context_hash": "7a2151b96ae7cc5b57ced475835922131b4c71f1b8dfc046dfcf857bcb04fa07",
-  "fingerprint_mode": "REPOSITORY_TREE",
+  "generated_at": "2026-07-26T14:17:52Z",
+  "context_hash": "bc1033aed38a52dbce241fb029fd71991610e4f4a4837f8b56067a067726fc00",
+  "fingerprint_mode": "SESSION_DELTA",
   "project_fingerprint": {
-    "sha256": "1ab95f8e5a796c027e399f7cde9f638b020fa5f87164a937d9843902d6799538",
-    "file_count": 0
+    "sha256": "6e2f64b9f42e66e837b44fd56270d89079433f646c29dae6bdb7099d2e8c79d8",
+    "file_count": 18
   },
   "yaml": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.yaml",
-    "sha256": "1204d5cf4b4712753a5a296f1d7dc65772522812b2dde76cf05cebf4b2b1332b"
+    "sha256": "fb786b4cfbc1c72e71530d952ea30e22070db977159e9bf01ba545f63cb03823"
   },
   "markdown": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.md",
-    "sha256": "ce66e717816d2a3252b1bcf953c33e673f7d53953efb2804cd48a66a7004ce44"
+    "sha256": "91c0bfd221654ebf5b9bb8876fa8f87f779656a265bbb110cbafd49c4b409a31"
   },
   "sources": [
     {
@@ -28,8 +28,8 @@
     },
     {
       "path": "CURRENT_STATUS.yaml",
-      "sha256": "ac449e7031b71fb0076daa6e983471fc341ec1e73a56e9aef80a9d406152529f",
-      "bytes": 4362
+      "sha256": "b8f9470085b04d312863ce6485d130876a0d9244aefdcbaa7be10bd368957f58",
+      "bytes": 4520
     },
     {
       "path": "NEXT_TASK.yaml",
@@ -83,33 +83,33 @@
     },
     {
       "path": ".continuity/EVENT_LOG.jsonl",
-      "sha256": "3ec026696496342480b044fa28d96dcaa1d691a024d7a3cc762bab4639f93b59",
-      "bytes": 2025899
+      "sha256": "138829ca9e699564b894f224ab7d198c824c5512bb87584d2152e8a7505083cb",
+      "bytes": 2040048
     },
     {
       "path": ".continuity/SESSION_INDEX.yaml",
-      "sha256": "f595e7a9ef7619c3326dbcde77e4b5da65230489d0c3386af73a2cf51c952d0f",
-      "bytes": 56964
+      "sha256": "e047a0d1f1f29792d992bd79f21a7bbf8a2713689388fa8f8c6dc2785506a283",
+      "bytes": 57468
     },
     {
       "path": ".continuity/TASK_CLAIMS.yaml",
-      "sha256": "a341d9ed2f36ad5f0059ef3791701e61c690450e0685ca22baa7a57fb973a98c",
-      "bytes": 79935
+      "sha256": "a22270a496f9a9e3624fbdb0271a0ac86af44fc1b35e8e3b65910fceb1ba57d9",
+      "bytes": 80382
     },
     {
       "path": ".continuity/TASK_TRANSITIONS.yaml",
-      "sha256": "640eac9cdd8cb4921759f25233544067e85599cacca942e0fbe9fae96034a614",
-      "bytes": 32408
+      "sha256": "2608583c8c865c5f573df0f593f6cb40b7838ea48b6f8ad3f3fd0362bbaf060a",
+      "bytes": 32705
     },
     {
       "path": ".continuity/CHANGE_REQUEST_INDEX.yaml",
-      "sha256": "3df380a7c0aa043e062efaff9f262950756c0fdecf2bbd0410bd9bc29f032262",
-      "bytes": 1278766
+      "sha256": "f82dcde28fad0b900e6e4d27a1fd426c9b38c01ebd8da8b94d3a95aedb20d989",
+      "bytes": 1286364
     },
     {
       "path": ".continuity/ACTIVE_SESSION.yaml",
-      "sha256": "2c000c370b988fa93d6dfe91ad3cfc34da3fa39c51fd9d0f3ba89d06c14e6d4c",
-      "bytes": 143
+      "sha256": "eca652a500abe1fe887e39e6b538a2f027451c087eaa7ef052fa8935a56646ae",
+      "bytes": 545
     },
     {
       "path": "docs/00-baseline/正式商业系统全局硬性开发边界.md",
@@ -160,6 +160,26 @@
       "path": "releases/R13/PARALLEL_EXECUTION_PLAN.yaml",
       "sha256": "192844a37221f84e42f714fa209260976c81685e094733390664168e34ef5887",
       "bytes": 2581
+    },
+    {
+      "path": "docs/03-continuity/sessions/2026-07/SES-20260726T134047Z-F9A80405.md",
+      "sha256": "9c5a258bf5215b40c91548ca46927bf0359e84a127bf3ff0cb072372b8ac30f6",
+      "bytes": 5967
+    },
+    {
+      "path": ".continuity/checkpoints/SES-20260726T134047Z-F9A80405/0002.yaml",
+      "sha256": "b9e3485a57c3d5bad542ca5f992b3db35f41760949901483aacb439e255ba694",
+      "bytes": 13443
+    },
+    {
+      "path": "docs/03-continuity/change-requests/CR-0368-实现R13四页Android收藏历史分享与失效反馈闭环.md",
+      "sha256": "2b58405951992e65b32d887d4539ae5b1c502e77f9c2a222420b9527c37a32ce",
+      "bytes": 3076
+    },
+    {
+      "path": "docs/03-continuity/change-requests/CR-0369-实现R13四页Android收藏历史分享与失效反馈闭环.md",
+      "sha256": "1b39c75285fe60ac9747764152551f7f9d8ce86833132a99839d7ce88435186a",
+      "bytes": 4439
     }
   ]
 }
