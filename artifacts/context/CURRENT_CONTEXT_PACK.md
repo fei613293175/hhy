@@ -1,7 +1,7 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-26T10:38:40Z
-- Context Hash：`74bf9ece61e76c7b3872a901c394a2058a1ee3346a511ed769919e649a5facec`
+- 生成时间：2026-07-26T10:44:46Z
+- Context Hash：`7910e1912a12fbc11024a1ba781ccb994d1393795bdcb40f0e2ad0a6ed5eaa0b`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 规则就绪：`PASS`（`HASHED_CONTEXT_MANIFEST`）
@@ -164,7 +164,7 @@ blocked_tasks:
 - TASK-R06-008
 - TASK-R07-008
 next_task: TASK-R12-007
-updated_at: '2026-07-26T10:38:20Z'
+updated_at: '2026-07-26T10:44:42Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -199,15 +199,15 @@ continuity:
   active_session_id: SES-20260725T192048Z-668BD05D
   actor_id: codex-root-r12-candidate-20260726
   story_id: STORY-R12-008
-  lease_expires_at: '2026-07-26T14:38:20Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260725T192048Z-668BD05D/0047.yaml
-  project_fingerprint: 27acc5d3149e87b91deebcc6bdab68002b8f2f4b2367f366f9acb4f8006af1bb
+  lease_expires_at: '2026-07-26T14:44:42Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260725T192048Z-668BD05D/0048.yaml
+  project_fingerprint: 429d4566d5793045b9a626af631cf099ca56b03f7dbb1f89fda813a91a2610d2
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: a4801018a863664d7be2e9384f0b0646fe8c5f8cc34be61c77e9c6d804e3878a
-    generated_at: '2026-07-26T10:36:32Z'
+    context_hash: 74bf9ece61e76c7b3872a901c394a2058a1ee3346a511ed769919e649a5facec
+    generated_at: '2026-07-26T10:38:40Z'
   handoff_bundle: null
 ```
 
@@ -405,7 +405,7 @@ task_id: TASK-R12-007
 story_id: STORY-R12-008
 goal: 完成R12最终Android候选、真实模拟器截图AI验收、固定签名测试APK与桌面交付
 started_at: '2026-07-25T19:20:48Z'
-updated_at: '2026-07-26T10:38:27Z'
+updated_at: '2026-07-26T10:44:42Z'
 takeover_of: null
 change_requests:
 - CR-0339
@@ -547,12 +547,12 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-26T10:38:20Z'
-  expires_at: '2026-07-26T14:38:20Z'
-checkpoint_sequence: 47
-latest_checkpoint: .continuity/checkpoints/SES-20260725T192048Z-668BD05D/0047.yaml
+  renewed_at: '2026-07-26T10:44:42Z'
+  expires_at: '2026-07-26T14:44:42Z'
+checkpoint_sequence: 48
+latest_checkpoint: .continuity/checkpoints/SES-20260725T192048Z-668BD05D/0048.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260725T192048Z-668BD05D.md
-next_step: 运行只读严格门禁与pre-commit，提交推送TASK-R12-007交付证据；然后登记CR实现Commit并关闭TASK-R12-007，启动TASK-R12-008机器关闭。
+next_step: 关闭TASK-R12-007并把TASK-R12-008置为可执行状态，随后运行R12最终机器关闭门禁。
 context_pack: THIS_CONTEXT_PACK
 handoff_bundle: null
 closure: null
@@ -560,79 +560,50 @@ parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 当前为单一Release关闭状态机与提交边界，必须串行保持Commit、CR、Session和指针一致。
+  reason: 任务关闭与下一任务激活修改同一连续性指针和R12状态机，必须串行。
 ```
 
 ## 最新检查点
 
 ```yaml
 protocol_version: '1.0'
-checkpoint_id: CP-SES-20260725T192048Z-668BD05D-0047
+checkpoint_id: CP-SES-20260725T192048Z-668BD05D-0048
 session_id: SES-20260725T192048Z-668BD05D
 task_id: TASK-R12-007
 story_id: STORY-R12-008
-sequence: 47
-created_at: '2026-07-26T10:38:19Z'
-summary: R12关闭证据结构已收敛：单文件验收证据、七个OpenAPI operationId、Android自动化、固定签名转换、累计65页视觉及绑定候选Commit和SHA-256的六项治理审计全部PASS；严格Project Doctor通过。
-next_step: 运行只读严格门禁与pre-commit，提交推送TASK-R12-007交付证据；然后登记CR实现Commit并关闭TASK-R12-007，启动TASK-R12-008机器关闭。
+sequence: 48
+created_at: '2026-07-26T10:44:41Z'
+summary: CR-0360与CR-0361已绑定实现Commit 47a4494d并标记IMPLEMENTED；R12候选、稳定签名交付、累计视觉和六项治理审计完整落库。
+next_step: 关闭TASK-R12-007并把TASK-R12-008置为可执行状态，随后运行R12最终机器关闭门禁。
 blockers: []
 decisions: []
 note: ''
 tests:
-- name: Project Doctor strict R12
+- name: Implementation commit
   result: PASS
-  evidence: artifacts/validation/project-doctor-v1.2.3.json
-  note: 122问题、11复用模式、31踩坑记录及连续性全部PASS
-- name: Release artifacts R12
-  result: PASS
-  evidence: scripts/check_release_artifacts.py
-  note: 候选、APK、自动化、视觉和治理证据结构PASS
-- name: Machine close preflight
-  result: PASS
-  evidence: scripts/check_release_artifacts.py --machine-close-gate
-  note: 仅剩TASK-R12-007关闭、TASK-R12-008激活及Manifest终态六项预期状态项
+  evidence: 47a4494dea729eda45cde6bb6bc144622c42745c
+  note: 交付与治理证据提交完成
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: 75fb4271dabec52d477b597512f028886ba261d3
+  head: 47a4494dea729eda45cde6bb6bc144622c42745c
   upstream: origin/task/TASK-R03-001
-  ahead: 0
+  ahead: 1
   behind: 0
   dirty: true
   status_porcelain:
-  - ' M .continuity/ACTIVE_SESSION.yaml'
   - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
   - ' M .continuity/EVENT_LOG.jsonl'
-  - ' M .continuity/SESSION_INDEX.yaml'
   - ' M .continuity/STATE.yaml'
-  - ' M .continuity/sessions/SES-20260725T192048Z-668BD05D.yaml'
-  - ' M CHANGELOG.md'
-  - ' M CURRENT_STATUS.yaml'
-  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
-  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
-  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
-  - ' M artifacts/validation/project-doctor-v1.2.3.json'
+  - ' M .continuity/change_requests/CR-0360.yaml'
+  - ' M .continuity/change_requests/CR-0361.yaml'
   - ' M catalogs/change_request_index.csv'
   - ' M catalogs/session_index.csv'
-  - ' M catalogs/ui_visual_acceptance.csv'
-  - ' M docs/03-continuity/sessions/2026-07/SES-20260725T192048Z-668BD05D.md'
-  - ' M releases/R12/ACCEPTANCE_MATRIX.csv'
-  - ' M releases/R12/RELEASE_MANIFEST.yaml'
-  - ?? .continuity/change_requests/CR-0360.yaml
-  - ?? .continuity/change_requests/CR-0361.yaml
-  - ?? .continuity/checkpoints/SES-20260725T192048Z-668BD05D/0046.yaml
-  - ?? artifacts/apk/R12/APK_MANIFEST.yaml
-  - ?? artifacts/reports/R12/R12-governance-drift-audit.md
-  - ?? artifacts/reports/R12/R12-version-test-guide.md
-  - ?? artifacts/reports/R12/TASK-R12-007-android-apk.md
-  - ?? artifacts/validation/r12-apk-delivery/delivery-evidence.json
-  - ?? artifacts/validation/r12-task007-android/APPROVAL.yaml
-  - ?? artifacts/validation/r12-task007-android/build-evidence.json
-  - ?? artifacts/validation/r12-task007-android/candidate-report.json
-  - ?? artifacts/validation/r12-task007-android/source-candidate-report.json
-  - ?? docs/03-continuity/change-requests/CR-0360-登记R12固定签名APK视觉通过与四方交付证据.md
-  - ?? docs/03-continuity/change-requests/CR-0361-登记R12六项全局治理漂移审计.md
+  - ' M docs/03-continuity/change-requests/CR-0360-登记R12固定签名APK视觉通过与四方交付证据.md'
+  - ' M docs/03-continuity/change-requests/CR-0361-登记R12六项全局治理漂移审计.md'
   recent_commits:
+  - "47a4494dea729eda45cde6bb6bc144622c42745c\t2026-07-26T18:43:38+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] chore(r12): deliver final\
+    \ test APK"
   - "75fb4271dabec52d477b597512f028886ba261d3\t2026-07-26T17:00:00+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] test(android): approve R12\
     \ visual baseline"
   - "8090001f064c304db08ca9886fe1b1d4d231ef00\t2026-07-26T16:17:26+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] test(r12): authorize autonomous\
@@ -647,10 +618,8 @@ git:
     \ final candidate"
   - "9290d9166f9fe4345b082f0c0a70f72b8b94f280\t2026-07-26T14:15:18+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] docs(continuity): record final\
     \ candidate evidence boundary"
-  - "930a63629836945b02ab4ff53798a06602e7d508\t2026-07-26T14:03:15+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] test(ui): approve R12 admin\
-    \ review visual"
 project_fingerprint:
-  sha256: 27acc5d3149e87b91deebcc6bdab68002b8f2f4b2367f366f9acb4f8006af1bb
+  sha256: 429d4566d5793045b9a626af631cf099ca56b03f7dbb1f89fda813a91a2610d2
   files:
   - .github/workflows/android-candidate-request.yml
   - .github/workflows/android-quality-gate.yml
@@ -955,12 +924,12 @@ project_fingerprint:
       sha256: aaee8c74ba4e8a783bd14af5a1454bd65ba852103d3f4d63d12c1b93bdb9111e
     - path: docs/03-continuity/change-requests/CR-0360-登记R12固定签名APK视觉通过与四方交付证据.md
       state: FILE
-      size: 3721
-      sha256: 053e304ff2107aa51b11e6e36417c492e978233a9f695d1ec5b6118dcbfecf55
+      size: 4025
+      sha256: e5bb867fb79d9b32547df124f9cb485c965fabac851979470269aed84784fc5e
     - path: docs/03-continuity/change-requests/CR-0361-登记R12六项全局治理漂移审计.md
       state: FILE
-      size: 3018
-      sha256: fcfaf7b7b4742f4c0736dc503f3a6a34bb2145873259d44c782fb8a44b4f3455
+      size: 3322
+      sha256: 21489fd84ae0a0492e83bcc19f6f00f6f1e6aeccd52851059fd93a739e58d644
     - path: docs/08-testing/Android自动开发测试修复交付体系_V1.0.md
       state: FILE
       size: 13797
@@ -1426,8 +1395,8 @@ parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 当前为单一Release关闭状态机与提交边界，必须串行保持Commit、CR、Session和指针一致。
-event_hash: e74ede85766e64e89aee7a17f552230282a3383f50e86fa0e97e24e6705080ef
+  reason: 任务关闭与下一任务激活修改同一连续性指针和R12状态机，必须串行。
+event_hash: eedcaf7486f9ff393f873f12a2818c7ccb357a32448c2242eb13801ba1219b2e
 ```
 
 ## 接续状态与事件头
@@ -1439,8 +1408,8 @@ active_session_id: SES-20260725T192048Z-668BD05D
 last_session_id: SES-20260725T180922Z-D7231210
 last_session_result: COMPLETED
 last_closure_checkpoint_id: CP-SES-20260725T180922Z-D7231210-0008
-event_count: 3510
-event_head_hash: e74ede85766e64e89aee7a17f552230282a3383f50e86fa0e97e24e6705080ef
+event_count: 3513
+event_head_hash: eedcaf7486f9ff393f873f12a2818c7ccb357a32448c2242eb13801ba1219b2e
 event_chain_valid: true
 ```
 
@@ -1563,9 +1532,9 @@ recent_sessions: - session_id: SES-20260724T032308Z-98D6D10A
   started_at: '2026-07-25T19:20:48Z'
   record: .continuity/sessions/SES-20260725T192048Z-668BD05D.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260725T192048Z-668BD05D.md
-  updated_at: '2026-07-26T10:38:20Z'
+  updated_at: '2026-07-26T10:44:42Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260725T192048Z-668BD05D/0047.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260725T192048Z-668BD05D/0048.yaml
   handoff_bundle: null
 task_claims: - claim_id: CLM-9F0481F9E6A2
   session_id: SES-20260723T114316Z-44EBE3C1
@@ -2559,9 +2528,9 @@ recent_task_transitions: - transition_id: TRN-7D4AC37706EB
 ```yaml
 initialized: true
 branch: task/TASK-R03-001
-head: 75fb4271dabec52d477b597512f028886ba261d3
+head: 47a4494dea729eda45cde6bb6bc144622c42745c
 upstream: origin/task/TASK-R03-001
-ahead: 0
+ahead: 1
 behind: 0
 dirty: true
 status_porcelain:
@@ -2570,35 +2539,19 @@ status_porcelain:
 - ' M .continuity/EVENT_LOG.jsonl'
 - ' M .continuity/SESSION_INDEX.yaml'
 - ' M .continuity/STATE.yaml'
+- ' M .continuity/change_requests/CR-0360.yaml'
+- ' M .continuity/change_requests/CR-0361.yaml'
 - ' M .continuity/sessions/SES-20260725T192048Z-668BD05D.yaml'
-- ' M CHANGELOG.md'
 - ' M CURRENT_STATUS.yaml'
-- ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
-- ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
-- ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
-- ' M artifacts/validation/project-doctor-v1.2.3.json'
 - ' M catalogs/change_request_index.csv'
 - ' M catalogs/session_index.csv'
-- ' M catalogs/ui_visual_acceptance.csv'
+- ' M docs/03-continuity/change-requests/CR-0360-登记R12固定签名APK视觉通过与四方交付证据.md'
+- ' M docs/03-continuity/change-requests/CR-0361-登记R12六项全局治理漂移审计.md'
 - ' M docs/03-continuity/sessions/2026-07/SES-20260725T192048Z-668BD05D.md'
-- ' M releases/R12/ACCEPTANCE_MATRIX.csv'
-- ' M releases/R12/RELEASE_MANIFEST.yaml'
-- ?? .continuity/change_requests/CR-0360.yaml
-- ?? .continuity/change_requests/CR-0361.yaml
-- ?? .continuity/checkpoints/SES-20260725T192048Z-668BD05D/0046.yaml
-- ?? .continuity/checkpoints/SES-20260725T192048Z-668BD05D/0047.yaml
-- ?? artifacts/apk/R12/APK_MANIFEST.yaml
-- ?? artifacts/reports/R12/R12-governance-drift-audit.md
-- ?? artifacts/reports/R12/R12-version-test-guide.md
-- ?? artifacts/reports/R12/TASK-R12-007-android-apk.md
-- ?? artifacts/validation/r12-apk-delivery/delivery-evidence.json
-- ?? artifacts/validation/r12-task007-android/APPROVAL.yaml
-- ?? artifacts/validation/r12-task007-android/build-evidence.json
-- ?? artifacts/validation/r12-task007-android/candidate-report.json
-- ?? artifacts/validation/r12-task007-android/source-candidate-report.json
-- ?? docs/03-continuity/change-requests/CR-0360-登记R12固定签名APK视觉通过与四方交付证据.md
-- ?? docs/03-continuity/change-requests/CR-0361-登记R12六项全局治理漂移审计.md
+- ?? .continuity/checkpoints/SES-20260725T192048Z-668BD05D/0048.yaml
 recent_commits:
+- "47a4494dea729eda45cde6bb6bc144622c42745c\t2026-07-26T18:43:38+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] chore(r12): deliver final test\
+  \ APK"
 - "75fb4271dabec52d477b597512f028886ba261d3\t2026-07-26T17:00:00+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] test(android): approve R12 visual\
   \ baseline"
 - "8090001f064c304db08ca9886fe1b1d4d231ef00\t2026-07-26T16:17:26+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] test(r12): authorize autonomous\
@@ -2613,13 +2566,11 @@ recent_commits:
   \ final candidate"
 - "9290d9166f9fe4345b082f0c0a70f72b8b94f280\t2026-07-26T14:15:18+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] docs(continuity): record final\
   \ candidate evidence boundary"
-- "930a63629836945b02ab4ff53798a06602e7d508\t2026-07-26T14:03:15+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] test(ui): approve R12 admin\
-  \ review visual"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`27acc5d3149e87b91deebcc6bdab68002b8f2f4b2367f366f9acb4f8006af1bb`
+- 指纹：`429d4566d5793045b9a626af631cf099ca56b03f7dbb1f89fda813a91a2610d2`
 - 文件数：101
 
 - `.github/workflows/android-candidate-request.yml`
@@ -12773,9 +12724,9 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - protocol_version: '1.0'
   cr_id: CR-0360
   title: 登记R12固定签名APK视觉通过与四方交付证据
-  status: IMPLEMENTING
+  status: IMPLEMENTED
   created_at: '2026-07-26T09:07:03Z'
-  updated_at: '2026-07-26T09:08:07Z'
+  updated_at: '2026-07-26T10:44:00Z'
   requester_actor_id: codex-root-r12-candidate-20260726
   approver_actor_id: codex-r12-delivery-authorizer-20260726
   task_id: TASK-R12-007
@@ -12837,14 +12788,21 @@ PARALLEL_EXECUTION_PLAN.yaml:
     status: IMPLEMENTING
     note: 开始基于源候选和晋升PASS证据生成固定签名R12测试APK、四方交付、十页视觉PASS目录和桌面测试说明；不重跑Gradle或模拟器。
     session_id: SES-20260725T192048Z-668BD05D
+  - at: '2026-07-26T10:44:00Z'
+    actor_id: codex-root-r12-candidate-20260726
+    status: IMPLEMENTED
+    note: R12最终候选、稳定签名APK、视觉/治理证据与交付清单已由实现Commit 47a4494d落库，相关本地严格门禁PASS。
+    session_id: SES-20260725T192048Z-668BD05D
   session_ids:
   - SES-20260725T192048Z-668BD05D
+  implementation_commits:
+  - 47a4494dea729eda45cde6bb6bc144622c42745c
 - protocol_version: '1.0'
   cr_id: CR-0361
   title: 登记R12六项全局治理漂移审计
-  status: IMPLEMENTING
+  status: IMPLEMENTED
   created_at: '2026-07-26T10:33:35Z'
-  updated_at: '2026-07-26T10:34:54Z'
+  updated_at: '2026-07-26T10:44:06Z'
   requester_actor_id: codex-root-r12-candidate-20260726
   approver_actor_id: project-owner
   task_id: TASK-R12-007
@@ -12886,15 +12844,22 @@ PARALLEL_EXECUTION_PLAN.yaml:
     status: IMPLEMENTING
     note: 六项审计报告及候选Commit、报告SHA-256和精确检查键已写入R12 Release Manifest，进入最终门禁验证。
     session_id: SES-20260725T192048Z-668BD05D
+  - at: '2026-07-26T10:44:06Z'
+    actor_id: codex-root-r12-candidate-20260726
+    status: IMPLEMENTED
+    note: R12最终候选、稳定签名APK、视觉/治理证据与交付清单已由实现Commit 47a4494d落库，相关本地严格门禁PASS。
+    session_id: SES-20260725T192048Z-668BD05D
   session_ids:
   - SES-20260725T192048Z-668BD05D
+  implementation_commits:
+  - 47a4494dea729eda45cde6bb6bc144622c42745c
 ```
 
 ## 上下文来源及哈希
 
 - `AGENTS.md` — `306026d4706dfd3cae0a3db2b1c56e294700326bc3a13ca095c3987a267d390b`
 - `START_HERE.md` — `22de14029ce47beb41ea569e36ce223fbc9d11b86f8676f28d5fbbd83896af5c`
-- `CURRENT_STATUS.yaml` — `247fc33ba973044d9357afbb5c10bdfb96d733fa580c7aeaa1c4499e65c2304c`
+- `CURRENT_STATUS.yaml` — `26bf4732bd0df6c1112c3914e11368a8a1056eb7fda8e7e681cc55bc45d639be`
 - `NEXT_TASK.yaml` — `1f03675aa74266e5c95220a1296010172ca5527e763602ee4ef876d1001f9507`
 - `DEVELOPMENT_RISK_REGISTER.md` — `8304c91492e4ee2abea0522a06541c8688d39c7fc532b5d0cde499bf09fffb87`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
@@ -12905,12 +12870,12 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `config/REPOSITORY_TRANSPORT.yaml` — `8c4a21f3e204d46e7ffb467d804a53ed26cda61cd088dadfddb50b69eea657fc`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `38e04ed812c8df0d353c2b91993d31e53b471e9c457f06b426bd2260c470aa92`
-- `.continuity/EVENT_LOG.jsonl` — `cecbeedf0c8299f5a793b27d3d436c4e01ad42d80ab742d62f5ca7f6856ecccb`
-- `.continuity/SESSION_INDEX.yaml` — `0e39904fc0a85cad39e0e9c163fe9df4ee039c37b1acfae5afd7f9f30f80862c`
+- `.continuity/EVENT_LOG.jsonl` — `07f386737d5e807a4f0f3d1a7b2b94e7fdf911b318fc6048ffd3b50f26f1d84f`
+- `.continuity/SESSION_INDEX.yaml` — `cc396595804298bdb78acab45f7b17ecc23c13c987fb309fae3a2d7ea37893a6`
 - `.continuity/TASK_CLAIMS.yaml` — `5948f9d27d01996570044a191a32d7a1803736d6fe2c1c0d1a4a0e16d8716541`
 - `.continuity/TASK_TRANSITIONS.yaml` — `07c10f929db719a9014aa25face3c259d96dc1793f448f33dc3012b4d5babdc4`
-- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `99a1abd5f8f45997e06170aec5bb147b0c8d94813eaf0c8745398279ce30371b`
-- `.continuity/ACTIVE_SESSION.yaml` — `2b95a2a25bf5fb5c1cde4aaae88bc5e22bd67541182c02a7d1f896ee84407cb7`
+- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `7e0bf7bb5bb91b0550fd681031e226fe217f3743b8b65cdbdd12a18e7520776f`
+- `.continuity/ACTIVE_SESSION.yaml` — `96d078ee9cb7bc75cf370288983a485e3310a5651289b663eb4091c14a46ff42`
 - `docs/00-baseline/正式商业系统全局硬性开发边界.md` — `b1d965b019e632fbe1a259831201be7c82f79c26836fa161fd1d41855fcdb7c8`
 - `docs/02-ui/UI参考图使用与开发约束_V1.2.2.md` — `d14367586aa2067b059df58798acd20ab982459cdb35ff27fc7922a3896e4933`
 - `docs/03-continuity/持续开发无状态接续强制门禁_V1.2.3.md` — `d0ed3ed68bdd93b06500eecdfb5baa3245e6ca8b685a486788abb6eee39b3d51`
@@ -12921,8 +12886,8 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `releases/R12/TASKS.yaml` — `1ca7b627e103e1f54f2eb87f7087d848465a3c351169d186172c9055c11da709`
 - `releases/R12/ACCEPTANCE_MATRIX.csv` — `82779ea570fb7951a6a2d813b851c0fb38f6d0c2ad927e3f4d69f4ac2142ca1f`
 - `releases/R12/PARALLEL_EXECUTION_PLAN.yaml` — `2ddbee414a51a868b63331992e2e04c5400846cf6012474aab406e067e532e98`
-- `docs/03-continuity/sessions/2026-07/SES-20260725T192048Z-668BD05D.md` — `56eaf5c26c5d366502c65d7f6caa4520a5a1b07bb59d5e1e75fd3ef963fe41e9`
-- `.continuity/checkpoints/SES-20260725T192048Z-668BD05D/0047.yaml` — `b619f0a364d113a034e116011cc744ba44249dd19aa685a6a3acdcbb2c381c93`
+- `docs/03-continuity/sessions/2026-07/SES-20260725T192048Z-668BD05D.md` — `f9f7c613e040feee0833d01bba7d4abb42f878f8a9605bfc4463248283e81855`
+- `.continuity/checkpoints/SES-20260725T192048Z-668BD05D/0048.yaml` — `06e4b582a21608c4d6696b836b562de89a1219865a96a70460ea2457bf5bf757`
 - `docs/03-continuity/change-requests/CR-0339-补齐R12统一发布Android最终候选与产物追溯.md` — `6d0cfb4e067edebc263badbf91bd560127467ff7ee4dd6c5f9cef82baee002d7`
 - `docs/03-continuity/change-requests/CR-0340-修复R12候选OIDC异常日志重复requestId遮蔽.md` — `e36ceb50b8f45a22fffdb20fc599d5972c184170c9619290706b6c40da8aad6f`
 - `docs/03-continuity/change-requests/CR-0341-补齐R12隔离候选official-STAGING版本发布夹具.md` — `0a222e781daea9cabe11b525f5f3522803f4c4122908afe94b81fea167b26c0d`
@@ -12944,8 +12909,8 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `docs/03-continuity/change-requests/CR-0357-同步CR-0356截图稳定窗口全量回归断言.md` — `4c19935eef02d437aa12c0558ad58ab75de01893b6b01c346aa31e0ee4c0e1f4`
 - `docs/03-continuity/change-requests/CR-0358-申请R12第七次单次最终候选验证视觉修复.md` — `9c2bd4ff5b0f31f20ab776a3fea1072aec77d980a974c9b408d5c53b0fe2b8cf`
 - `docs/03-continuity/change-requests/CR-0359-批准并轻量晋升R12首版视觉基线.md` — `aaee8c74ba4e8a783bd14af5a1454bd65ba852103d3f4d63d12c1b93bdb9111e`
-- `docs/03-continuity/change-requests/CR-0360-登记R12固定签名APK视觉通过与四方交付证据.md` — `053e304ff2107aa51b11e6e36417c492e978233a9f695d1ec5b6118dcbfecf55`
-- `docs/03-continuity/change-requests/CR-0361-登记R12六项全局治理漂移审计.md` — `fcfaf7b7b4742f4c0736dc503f3a6a34bb2145873259d44c782fb8a44b4f3455`
+- `docs/03-continuity/change-requests/CR-0360-登记R12固定签名APK视觉通过与四方交付证据.md` — `e5bb867fb79d9b32547df124f9cb485c965fabac851979470269aed84784fc5e`
+- `docs/03-continuity/change-requests/CR-0361-登记R12六项全局治理漂移审计.md` — `21489fd84ae0a0492e83bcc19f6f00f6f1e6aeccd52851059fd93a739e58d644`
 
 ## 接手硬规则
 

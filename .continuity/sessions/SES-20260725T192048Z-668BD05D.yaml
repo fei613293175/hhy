@@ -11,7 +11,7 @@ task_id: TASK-R12-007
 story_id: STORY-R12-008
 goal: 完成R12最终Android候选、真实模拟器截图AI验收、固定签名测试APK与桌面交付
 started_at: '2026-07-25T19:20:48Z'
-updated_at: '2026-07-26T10:38:43Z'
+updated_at: '2026-07-26T10:44:49Z'
 takeover_of: null
 change_requests:
 - CR-0339
@@ -153,22 +153,22 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-26T10:38:20Z'
-  expires_at: '2026-07-26T14:38:20Z'
-checkpoint_sequence: 47
-latest_checkpoint: .continuity/checkpoints/SES-20260725T192048Z-668BD05D/0047.yaml
+  renewed_at: '2026-07-26T10:44:42Z'
+  expires_at: '2026-07-26T14:44:42Z'
+checkpoint_sequence: 48
+latest_checkpoint: .continuity/checkpoints/SES-20260725T192048Z-668BD05D/0048.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260725T192048Z-668BD05D.md
-next_step: 运行只读严格门禁与pre-commit，提交推送TASK-R12-007交付证据；然后登记CR实现Commit并关闭TASK-R12-007，启动TASK-R12-008机器关闭。
+next_step: 关闭TASK-R12-007并把TASK-R12-008置为可执行状态，随后运行R12最终机器关闭门禁。
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: 74bf9ece61e76c7b3872a901c394a2058a1ee3346a511ed769919e649a5facec
-  generated_at: '2026-07-26T10:38:40Z'
+  context_hash: 7910e1912a12fbc11024a1ba781ccb994d1393795bdcb40f0e2ad0a6ed5eaa0b
+  generated_at: '2026-07-26T10:44:46Z'
 handoff_bundle: null
 closure: null
 parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 当前为单一Release关闭状态机与提交边界，必须串行保持Commit、CR、Session和指针一致。
+  reason: 任务关闭与下一任务激活修改同一连续性指针和R12状态机，必须串行。

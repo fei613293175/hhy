@@ -22261,9 +22261,9 @@ change_requests:
 - protocol_version: '1.0'
   cr_id: CR-0360
   title: 登记R12固定签名APK视觉通过与四方交付证据
-  status: IMPLEMENTING
+  status: IMPLEMENTED
   created_at: '2026-07-26T09:07:03Z'
-  updated_at: '2026-07-26T09:08:07Z'
+  updated_at: '2026-07-26T10:44:00Z'
   requester_actor_id: codex-root-r12-candidate-20260726
   approver_actor_id: codex-r12-delivery-authorizer-20260726
   task_id: TASK-R12-007
@@ -22325,14 +22325,21 @@ change_requests:
     status: IMPLEMENTING
     note: 开始基于源候选和晋升PASS证据生成固定签名R12测试APK、四方交付、十页视觉PASS目录和桌面测试说明；不重跑Gradle或模拟器。
     session_id: SES-20260725T192048Z-668BD05D
+  - at: '2026-07-26T10:44:00Z'
+    actor_id: codex-root-r12-candidate-20260726
+    status: IMPLEMENTED
+    note: R12最终候选、稳定签名APK、视觉/治理证据与交付清单已由实现Commit 47a4494d落库，相关本地严格门禁PASS。
+    session_id: SES-20260725T192048Z-668BD05D
   session_ids:
   - SES-20260725T192048Z-668BD05D
+  implementation_commits:
+  - 47a4494dea729eda45cde6bb6bc144622c42745c
 - protocol_version: '1.0'
   cr_id: CR-0361
   title: 登记R12六项全局治理漂移审计
-  status: IMPLEMENTING
+  status: IMPLEMENTED
   created_at: '2026-07-26T10:33:35Z'
-  updated_at: '2026-07-26T10:34:54Z'
+  updated_at: '2026-07-26T10:44:06Z'
   requester_actor_id: codex-root-r12-candidate-20260726
   approver_actor_id: project-owner
   task_id: TASK-R12-007
@@ -22374,5 +22381,12 @@ change_requests:
     status: IMPLEMENTING
     note: 六项审计报告及候选Commit、报告SHA-256和精确检查键已写入R12 Release Manifest，进入最终门禁验证。
     session_id: SES-20260725T192048Z-668BD05D
+  - at: '2026-07-26T10:44:06Z'
+    actor_id: codex-root-r12-candidate-20260726
+    status: IMPLEMENTED
+    note: R12最终候选、稳定签名APK、视觉/治理证据与交付清单已由实现Commit 47a4494d落库，相关本地严格门禁PASS。
+    session_id: SES-20260725T192048Z-668BD05D
   session_ids:
   - SES-20260725T192048Z-668BD05D
+  implementation_commits:
+  - 47a4494dea729eda45cde6bb6bc144622c42745c
