@@ -60,7 +60,7 @@ tasks:
   completed_at: '2026-07-26T13:33:25Z'
 - id: TASK-R13-004
   title: 收藏、历史、分享与行为审计客户端/H5/后台实现
-  status: READY
+  status: DONE
   depends_on:
   - TASK-R13-003
   requirements: *id001
@@ -78,9 +78,10 @@ tasks:
   - 禁止页面级手写重复DTO
   - 全部动作绑定生成API类型
   session_log_required: true
+  completed_at: '2026-07-26T15:51:51Z'
 - id: TASK-R13-005
   title: 收藏、历史、分享与行为审计专项测试与故障注入
-  status: BLOCKED
+  status: READY
   depends_on:
   - TASK-R13-003
   - TASK-R13-004
