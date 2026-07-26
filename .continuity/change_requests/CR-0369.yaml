@@ -1,9 +1,9 @@
 protocol_version: '1.0'
 cr_id: CR-0369
 title: 实现R13四页Android收藏历史分享与失效反馈闭环
-status: IMPLEMENTED
+status: CLOSED
 created_at: '2026-07-26T13:54:50Z'
-updated_at: '2026-07-26T15:20:17Z'
+updated_at: '2026-07-26T15:24:08Z'
 requester_actor_id: codex-root-r13-client-20260726
 approver_actor_id: codex-android-contract-review-r13-20260726
 task_id: TASK-R13-004
@@ -73,7 +73,13 @@ decision_log:
   status: IMPLEMENTED
   note: R13客户端精确提交已通过obx-test固定镜像MODULE单测与Lint，视觉目录保持IN_REVIEW等待最终候选。
   session_id: SES-20260726T134047Z-F9A80405
+- at: '2026-07-26T15:24:08Z'
+  actor_id: codex-root-r13-client-20260726
+  status: CLOSED
+  note: R13四页客户端闭环、MODULE证据、视觉IN_REVIEW目录和TASK-R13-004门禁报告已提交。
+  session_id: SES-20260726T134047Z-F9A80405
 session_ids:
 - SES-20260726T134047Z-F9A80405
 implementation_commits:
 - f8df36e3cbdcdb406b779e15da367591c1cd2fcc
+- 7865a469d1436c94506d41027f99421dcf8b7275
