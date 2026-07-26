@@ -94,6 +94,28 @@ class AndroidCiGateTest(unittest.TestCase):
         self.assertFalse(bootstrap["promotion_emulator_allowed"])
         self.assertEqual(0.005, policy["visual"]["minimum_cross_screen_changed_pixel_ratio"])
         self.assertEqual(3, policy["remediation"]["max_ai_attempts"])
+        self.assertEqual(
+            {
+                "mode": "AI_STANDING_DELEGATION",
+                "authority": "AI_IMPLEMENTATION_AGENT",
+                "standing_owner_confirmation_cr": "CR-0358",
+                "prompt_owner_each_attempt": False,
+                "require_previous_request_consumed": True,
+                "require_distinct_root_cause": True,
+                "require_fix_evidence": True,
+                "require_change_request": True,
+                "require_contiguous_attempts": True,
+                "require_unique_request_id": True,
+                "max_candidate_runs": 1,
+                "owner_only_actions": [
+                    "NEW_SECRET",
+                    "THIRD_PARTY_PERMISSION",
+                    "FUNDS_OR_LEDGER_POLICY",
+                    "PRODUCTION_ACTIVATION",
+                ],
+            },
+            policy["remediation"]["candidate_authorization"],
+        )
         self.assertEqual([
             {
                 "exception_id": "CR-0344",
@@ -117,6 +139,14 @@ class AndroidCiGateTest(unittest.TestCase):
                 "attempt": 6,
                 "request_id": "R12-CANDIDATE-20260726-006",
                 "required_fix_commit": "f11901ea1d3c61ccbcc59ec4cab3e77e24b1f1b0",
+                "max_candidate_runs": 1,
+            },
+            {
+                "exception_id": "CR-0358",
+                "release": "R12",
+                "attempt": 7,
+                "request_id": "R12-CANDIDATE-20260726-007",
+                "required_fix_commit": "bcde496e9821dce301d4b13bfe0b1f590f1380f5",
                 "max_candidate_runs": 1,
             },
         ], policy["remediation"]["approved_attempt_exceptions"])
@@ -185,7 +215,7 @@ class AndroidCiGateTest(unittest.TestCase):
             with self.subTest(override=override), self.assertRaises(GateError):
                 resolve_attempt_policy(policy, **(base | override))
 
-    def test_attempt_six_exception_is_exact_and_rejects_attempt_seven(self) -> None:
+    def test_attempt_six_exception_is_exact(self) -> None:
         policy = load_policy()
         exact = resolve_attempt_policy(
             policy,
@@ -216,6 +246,37 @@ class AndroidCiGateTest(unittest.TestCase):
             with self.subTest(override=override), self.assertRaises(GateError):
                 resolve_attempt_policy(policy, **(base | override))
 
+    def test_attempt_seven_exception_is_exact_and_rejects_attempt_eight(self) -> None:
+        policy = load_policy()
+        exact = resolve_attempt_policy(
+            policy,
+            release="R12",
+            attempt=7,
+            request_id="R12-CANDIDATE-20260726-007",
+            exception_id="CR-0358",
+            required_fix_commit="bcde496e9821dce301d4b13bfe0b1f590f1380f5",
+        )
+        self.assertEqual(3, exact["max_ai_attempts"])
+        self.assertEqual(7, exact["effective_attempt_limit"])
+        self.assertEqual(1, exact["max_candidate_runs"])
+        base = {
+            "release": "R12",
+            "attempt": 7,
+            "request_id": "R12-CANDIDATE-20260726-007",
+            "exception_id": "CR-0358",
+            "required_fix_commit": "bcde496e9821dce301d4b13bfe0b1f590f1380f5",
+        }
+        invalid = (
+            {"release": "R13"},
+            {"request_id": "R12-CANDIDATE-20260726-006"},
+            {"exception_id": "CR-0355"},
+            {"required_fix_commit": "b" * 40},
+            {"attempt": 8},
+        )
+        for override in invalid:
+            with self.subTest(override=override), self.assertRaises(GateError):
+                resolve_attempt_policy(policy, **(base | override))
+
     def test_policy_rejects_a_global_limit_other_than_three(self) -> None:
         with TemporaryDirectory() as temp:
             policy = yaml.safe_load((ROOT / "config/android-automation.yaml").read_text(encoding="utf-8"))
@@ -224,6 +285,27 @@ class AndroidCiGateTest(unittest.TestCase):
             path.write_text(yaml.safe_dump(policy, allow_unicode=True), encoding="utf-8")
             with self.assertRaises(GateError):
                 load_policy(path)
+
+    def test_policy_rejects_candidate_authorization_drift(self) -> None:
+        mutations = (
+            lambda authorization: authorization.update(prompt_owner_each_attempt=True),
+            lambda authorization: authorization.update(require_fix_evidence=False),
+            lambda authorization: authorization.update(max_candidate_runs=2),
+            lambda authorization: authorization["owner_only_actions"].pop(),
+        )
+        for mutate in mutations:
+            with self.subTest(mutate=mutate), TemporaryDirectory() as temp:
+                policy = yaml.safe_load(
+                    (ROOT / "config/android-automation.yaml").read_text(encoding="utf-8")
+                )
+                mutate(policy["remediation"]["candidate_authorization"])
+                path = Path(temp) / "policy.yaml"
+                path.write_text(
+                    yaml.safe_dump(policy, allow_unicode=True),
+                    encoding="utf-8",
+                )
+                with self.assertRaises(GateError):
+                    load_policy(path)
 
     def test_policy_rejects_incomplete_public_route_activation_proof(self) -> None:
         mutations = (
@@ -385,6 +467,44 @@ class AndroidCiGateTest(unittest.TestCase):
             self.assertEqual(3, payload["max_ai_attempts"])
             self.assertEqual(6, payload["effective_attempt_limit"])
             self.assertEqual("CR-0355", payload["attempt_exception_id"])
+            self.assertEqual(1, payload["max_candidate_runs"])
+
+    def test_attempt_seven_runtime_report_keeps_global_and_effective_limits(self) -> None:
+        with TemporaryDirectory() as temp:
+            root = Path(temp)
+            (root / "exit.txt").write_text("0\n", encoding="utf-8")
+            (root / "logcat.txt").write_text("I HHY candidate started\n", encoding="utf-8")
+            junit = root / "junit"
+            junit.mkdir()
+            (junit / "TEST-smoke.xml").write_text(
+                '<testsuite tests="1" failures="0" errors="0"/>', encoding="utf-8",
+            )
+            screenshots = root / "screenshots"
+            screenshots.mkdir()
+            Image.new("RGB", (10, 10), "white").save(screenshots / "01.png")
+            Image.new("RGB", (10, 10), "black").save(screenshots / "02.png")
+            manifests = root / "manifests"
+            manifests.mkdir()
+            (manifests / "R12.yaml").write_text(yaml.safe_dump({
+                "schema": "hhy.android-visual-manifest/v1",
+                "release": "R12",
+                "screens": [{"file": "01.png"}, {"file": "02.png"}],
+            }), encoding="utf-8")
+            output = root / "runtime.json"
+            result = analyze(SimpleNamespace(
+                policy=str(ROOT / "config/android-automation.yaml"), release="R12", commit="c" * 40,
+                run_id="777", attempt=7, request_id="R12-CANDIDATE-20260726-007",
+                attempt_exception_id="CR-0358",
+                required_fix_commit="bcde496e9821dce301d4b13bfe0b1f590f1380f5",
+                test_exit_code_file=str(root / "exit.txt"), junit_root=str(junit),
+                logcat=str(root / "logcat.txt"), screenshots=str(screenshots),
+                baseline_root=str(root / "baseline"), visual_manifest_root=str(manifests), output=str(output),
+            ))
+            payload = json.loads(output.read_text(encoding="utf-8"))
+            self.assertEqual(0, result)
+            self.assertEqual(3, payload["max_ai_attempts"])
+            self.assertEqual(7, payload["effective_attempt_limit"])
+            self.assertEqual("CR-0358", payload["attempt_exception_id"])
             self.assertEqual(1, payload["max_candidate_runs"])
 
     def test_runtime_failure_creates_remediation_queue(self) -> None:

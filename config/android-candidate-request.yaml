@@ -2,8 +2,8 @@ schema_version: 1
 status: REQUESTED
 release: R12
 candidate: true
-remediation_attempt: 6
-request_id: R12-CANDIDATE-20260726-006
-attempt_exception_id: CR-0355
-required_fix_commit: f11901ea1d3c61ccbcc59ec4cab3e77e24b1f1b0
-reason: R12 attempt 5及其一次同Commit失败作业重跑均在CR-0354修复公网路由前命中旧容器并于业务旅程前结束，未产生Android截图且次数均已消费；CR-0354已在提交f11901ea完成受控切流、目标容器requestId命中和重型准备前bootstrap门禁。项目所有者明确批准CR-0355仅以新request ID运行一次attempt 6最终候选，全局三轮上限保持不变，attempt 4/5不得复用且attempt 7未经批准继续硬拒绝。
+remediation_attempt: 7
+request_id: R12-CANDIDATE-20260726-007
+attempt_exception_id: CR-0358
+required_fix_commit: bcde496e9821dce301d4b13bfe0b1f590f1380f5
+reason: R12 attempt 6已由Run 30191193348完整消费，技术流程成功但AI拒绝包含安全区压缩、转场残层、ISO时间和按钮对比度问题的视觉基线；CR-0356与CR-0357已在bcde496e完成产品修复和全量回归同步，并通过obx-test Android全模块、GitHub Continuity Gate 30193469053及普通CI 30193469150。项目所有者明确批准CR-0358并授予AI后续候选持续决策权；本请求仍只允许运行一次attempt 7，全局三轮上限保持不变，attempt 4至6不得复用。

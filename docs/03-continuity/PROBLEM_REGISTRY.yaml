@@ -1607,18 +1607,19 @@ problems:
   title: 全局三轮上限无法准确表达R12三个不同根因后的第四次候选
   status: SOLVED
   root_cause: R12前三次候选依次暴露结构化日志遮蔽、隔离Staging启动发布链缺失和审核记录页面错误建模三个不同根因；既有候选请求和运行时校验把任何attempt 4一律拒绝。永久把全局上限改为4会削弱所有后续版本，重置为attempt 1又会伪造历史，而只靠聊天同意无法跨电脑和AI审计。
-  resolution: CR-0344保留全局max_ai_attempts=3和普通1至3不变，仅在android-automation唯一事实源登记release=R12、attempt=4、request_id=R12-CANDIDATE-20260726-004、exception_id=CR-0344、required_fix_commit=daae207af319008411995b7ac23a13c9042fc5a2、max_candidate_runs=1的精确例外。attempt 4随后暴露候选前可消费草稿未重建这一第四个独立根因，CR-0345已在fbde523e8e751b74f7300ef125c70fa9eb4d03fd完成事务夹具修复；CR-0351因遗漏策略加载器被SUPERSEDED且从未提交、推送或运行候选，CR-0352只新增release=R12、attempt=5、request_id=R12-CANDIDATE-20260726-005、exception_id=CR-0352、required_fix_commit=fbde523e8e751b74f7300ef125c70fa9eb4d03fd、max_candidate_runs=1的精确例外。attempt 5及其一次同Commit失败作业重跑均在CR-0354公网路由修复前结束且未产生Android截图，既有次数不可复用；项目所有者随后明确批准CR-0355仅新增release=R12、attempt=6、request_id=R12-CANDIDATE-20260726-006、exception_id=CR-0355、required_fix_commit=f11901ea1d3c61ccbcc59ec4cab3e77e24b1f1b0、max_candidate_runs=1的单次最终候选。候选校验、运行时报告和两个工作流端到端透传全部字段；GitHub在安装Android环境前验证政策并以完整Git历史证明修复Commit为候选祖先，attempt 7、缺口、乱序、复用004/005/006请求和任一字段漂移均硬拒绝。
+  resolution: CR-0344保留全局max_ai_attempts=3和普通1至3不变，仅在android-automation唯一事实源登记release=R12、attempt=4、request_id=R12-CANDIDATE-20260726-004、exception_id=CR-0344、required_fix_commit=daae207af319008411995b7ac23a13c9042fc5a2、max_candidate_runs=1的精确例外。attempt 4随后暴露候选前可消费草稿未重建这一第四个独立根因，CR-0345已在fbde523e8e751b74f7300ef125c70fa9eb4d03fd完成事务夹具修复；CR-0351因遗漏策略加载器被SUPERSEDED且从未提交、推送或运行候选，CR-0352只新增release=R12、attempt=5、request_id=R12-CANDIDATE-20260726-005、exception_id=CR-0352、required_fix_commit=fbde523e8e751b74f7300ef125c70fa9eb4d03fd、max_candidate_runs=1的精确例外。attempt 5及其一次同Commit失败作业重跑均在CR-0354公网路由修复前结束且未产生Android截图，既有次数不可复用；CR-0355的attempt6由Run 30191193348完整消费，技术流程成功但AI拒绝视觉基线。CR-0356与CR-0357已在bcde496e修复安全区、转场残层、业务时间、按钮对比度和四帧稳定断言。项目所有者明确批准CR-0358的release=R12、attempt=7、request_id=R12-CANDIDATE-20260726-007、required_fix_commit=bcde496e9821dce301d4b13bfe0b1f590f1380f5、max_candidate_runs=1，并授予AI后续候选持续决策的站立授权。android-automation原位记录AI_STANDING_DELEGATION：只有上一请求已消费、独立根因已修复、模块与普通CI通过后，独立AI候选授权角色才可另建精确CR批准连续下一轮；每轮仍绑定唯一request、修复Commit和单次运行，未知未来轮次不得提前授权，新增秘密、第三方权限、资金/账本策略和生产激活仍归项目所有者。
   regression_checks:
   - config/android-automation.yaml的max_ai_attempts必须严格等于3且每个已批准例外的max_candidate_runs必须等于1
   - tests.test_android_candidate_request必须覆盖精确例外PASS及Release、request、CR、Commit、attempt任一漂移FAIL
-  - tests.test_android_ci_gate必须证明历史attempt4和当前attempt6运行报告分别记录max_ai_attempts=3与effective_attempt_limit=4/6
+  - tests.test_android_ci_gate必须证明AI_STANDING_DELEGATION精确字段不可漂移，历史attempt4和当前attempt7运行报告分别记录max_ai_attempts=3与effective_attempt_limit=4/7
   - android-candidate-request工作流必须fetch-depth=0并执行git merge-base --is-ancestor验证required_fix_commit
   - android-quality-gate必须在setup-java、setup-android和模拟器之前执行attempt-check
   do_not_repeat:
   - 不得为单版例外永久提高全局三轮上限
   - 不得把真实第四次候选伪写成attempt 1或复用旧request_id
   - 不得仅在模拟器运行后才检查例外字段或根因修复Commit
-  - 不得允许错误Release、request、CR、Commit、attempt 7、复用已消费004/005/006请求或无批准例外的attempt 4/5/6
+  - 不得允许错误Release、request、CR、Commit、attempt 8、复用已消费004/005/006/007请求或无精确例外的超限轮次
+  - 站立授权只消除逐轮询问，不得预授权未知根因、无限重试或绕过秘密、第三方权限、资金和生产激活的项目所有者决定
 - id: PROB-0117
   title: 滚动计划与累计治理门禁实现落后于权威规则仍返回假PASS
   status: SOLVED

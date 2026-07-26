@@ -43,7 +43,7 @@
 2. **CONTINUITY 核心门禁**：每次提交校验身份、范围、检查点、CR、Trailer 和 Context Pack；只有连续性核心事实变化才执行完整临时 Git 生命周期。
 3. **RELEASE CANDIDATE**：候选请求验证通过后运行完整 Android 构建、模拟器、旅程、截图、视觉、日志、候选报告与 APK 上传。
 
-`config/android-candidate-request.yaml` 必须包含：`schema_version: 1`、`status: REQUESTED`、`R06-R32` Release、`candidate: true`、普通范围 1 至 3 的 `remediation_attempt`、以及每次候选唯一的 `request_id`。全局 `max_ai_attempts` 必须始终为 3；只有项目所有者明确批准，且 `config/android-automation.yaml` 中精确绑定 Release、轮次、request ID、CR、根因修复 Commit 和单次运行上限的例外，才允许相应请求超过普通范围。例外不得改写全局上限、伪造为新 attempt 1、扩展到其他 Release、复用已消费请求或产生未审批的下一轮；候选运行报告必须同时记录全局上限与本次有效上限。一个精确例外只允许验证其绑定修复提交之后的一次候选运行，基础设施或代码修复本身不构成授权；新增独立根因或已消费例外之后的下一轮必须取得新的项目所有者确认、另建 CR 和新 request ID，禁止把旧例外静默扩容。普通 CI 的 build artifact 不是候选，任何人或 AI 都不得把它复制到桌面冒充候选。
+`config/android-candidate-request.yaml` 必须包含：`schema_version: 1`、`status: REQUESTED`、`R06-R32` Release、`candidate: true`、普通范围 1 至 3 的 `remediation_attempt`、以及每次候选唯一的 `request_id`。全局 `max_ai_attempts` 必须始终为 3。CR-0358 记录项目所有者对 AI 候选持续决策的站立授权；AI 不再逐轮询问项目所有者，但任何超过普通范围的请求仍必须在 `config/android-automation.yaml` 中精确绑定 Release、连续轮次、唯一 request ID、独立 CR、根因修复 Commit 和 `max_candidate_runs=1`。只有上一请求已消费、独立根因已修复且受影响模块与普通 CI 通过后，独立 AI 候选授权角色才可依据站立授权审批下一轮 CR；不得提前登记尚无根因和修复证据的未来轮次。例外不得改写全局上限、伪造为新 attempt 1、扩展到其他 Release、复用已消费请求或产生未审批的下一轮；候选运行报告必须同时记录全局上限与本次有效上限。新增秘密、第三方权限、资金/账本策略和生产激活仍必须由项目所有者决定。普通 CI 的 build artifact 不是候选，任何人或 AI 都不得把它复制到桌面冒充候选。
 
 ### 2.2 候选可消费业务夹具
 
@@ -62,7 +62,7 @@ R12 的提交旅程固定消费标题为“R12候选发布预览项目”的草�
 3. 对确定性故障修改最小必要代码和回归测试；
 4. 提交后由同一工作流重新编译、打包、安装和测试；
 5. 原 Commit 只有在业务测试开始前且日志明确证明为 GitHub、网络、镜像或 Staging 接口瞬态故障（包括 HTTP 5xx）时，才允许只重跑失败作业及其依赖一次；已通过的编译、Lint、单测和打包必须复用，不得修改业务代码或重跑全部作业；同一瞬态再次出现必须停止重跑并检查 Staging 健康、服务日志和基础设施；
-6. 同一根因最多三轮 AI 修复。若同一 Release 的前三轮分别暴露不同根因，且最后一个根因已由新 Commit 修复并通过受影响 MODULE，必须通过独立批准 CR 建立全字段精确、最多运行一次的候选例外；校验器必须在 Android 环境安装和模拟器启动前拒绝任何字段漂移。测试实现缺陷由 AI 重构后以准确递增的候选轮次继续，不得重置或伪造历史，不得停下等待项目所有者判断截图；只有确需新增外部秘密、第三方权限或商业决策时才允许请求介入。失败候选仍不得交付。
+6. 同一根因最多三轮 AI 修复。若同一 Release 的前三轮分别暴露不同根因，且最后一个根因已由新 Commit 修复并通过受影响 MODULE，必须通过独立 CR 建立全字段精确、最多运行一次的候选例外；CR-0358 之后由独立 AI 候选授权角色依据项目所有者站立授权审批，不再向项目所有者逐轮提问。校验器必须在 Android 环境安装和模拟器启动前拒绝任何字段漂移。测试实现缺陷由 AI 重构后以准确递增的候选轮次继续，不得重置或伪造历史，不得停下等待项目所有者判断截图；只有确需新增外部秘密、第三方权限、资金/账本策略或生产激活时才允许请求介入。失败候选仍不得交付。
 
 所谓“自动修复”不是让 Actions 无审查改写生产代码。Actions 负责确定性验证和耐久失败队列；当前或接续 AI 负责依据证据修改、提交，随后 Actions 自动重跑。这避免无限循环和不可审计的机器人提交。
 
@@ -70,7 +70,7 @@ R12 的提交旅程固定消费标题为“R12候选发布预览项目”的草�
 
 候选后端“容器健康”和公网状态接口“HTTP 200”不能分别作为切流完成证据，因为公网可能仍命中旧容器。`api.orbexa.cc` 候选切流只能使用 `scripts/switch_android_candidate_route.sh`：显式确认精确旧/新 loopback upstream 与目标候选容器，先验证容器运行、8080 精确端口映射和目标本机状态 200，再备份唯一 Nginx 配置并替换精确 upstream；只有 `nginx -t` 通过才允许 reload。切流后必须携带唯一 `X-Request-ID` 访问公网状态接口，并在目标容器结构化日志中找到同一 requestId；任一步失败自动恢复备份并 reload，禁止以人工 `sed` 后只看公网 200 作为成功。
 
-GitHub 模拟器 Job 必须在安装 Java、Android SDK、平台包和 KVM 之前完成 OIDC 与 Staging bootstrap 两阶段预检。两阶段分别记录安全的 HTTP 状态，响应体、Bearer Token、一次性码和 JWT 声明不得进入日志。预检失败即停止重型准备；同一 Commit 仍只允许一次瞬态失败重跑，重复失败按既有规则停止重跑并诊断，不得因为路由已修复而静默增加第三次 rerun 或未批准候选轮次。项目所有者明确批准下一轮后，也只能登记其确认内容对应的精确 CR/request/修复 Commit/单次运行例外，之前失败运行和重跑仍保持已消费。
+GitHub 模拟器 Job 必须在安装 Java、Android SDK、平台包和 KVM 之前完成 OIDC 与 Staging bootstrap 两阶段预检。两阶段分别记录安全的 HTTP 状态，响应体、Bearer Token、一次性码和 JWT 声明不得进入日志。预检失败即停止重型准备；同一 Commit 仍只允许一次瞬态失败重跑，重复失败按既有规则停止重跑并诊断，不得因为路由已修复而静默增加第三次 rerun。CR-0358 之后，下一轮由 AI 在独立根因已有修复 Commit、模块证据和普通 CI 证据后，基于站立授权建立并审批精确 CR/request/修复 Commit/单次运行例外；之前失败运行和重跑仍保持已消费，不得预授权未知未来轮次。
 
 Android候选策略、工作流、请求校验器、路由脚本及其Python专项测试发生变化时，普通提交只运行`android-governance-unit` tooling；只有`apps/android/**`、共享合同或领域类型实际影响客户端编译时才进入`android-module`。候选工作流变化必须在最终大版本候选验证，禁止为了验证YAML、策略或Shell文本而在同一普通推送额外运行一次完整Android编译。
 

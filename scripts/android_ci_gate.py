@@ -45,6 +45,28 @@ def load_policy(path: Path = DEFAULT_POLICY) -> dict[str, Any]:
     max_attempts = int(document["remediation"].get("max_ai_attempts") or 0)
     if max_attempts != 3:
         raise GateError("Android remediation loop must be bounded to exactly three AI attempts")
+    authorization = document["remediation"].get("candidate_authorization") or {}
+    expected_authorization = {
+        "mode": "AI_STANDING_DELEGATION",
+        "authority": "AI_IMPLEMENTATION_AGENT",
+        "standing_owner_confirmation_cr": "CR-0358",
+        "prompt_owner_each_attempt": False,
+        "require_previous_request_consumed": True,
+        "require_distinct_root_cause": True,
+        "require_fix_evidence": True,
+        "require_change_request": True,
+        "require_contiguous_attempts": True,
+        "require_unique_request_id": True,
+        "max_candidate_runs": 1,
+        "owner_only_actions": [
+            "NEW_SECRET",
+            "THIRD_PARTY_PERMISSION",
+            "FUNDS_OR_LEDGER_POLICY",
+            "PRODUCTION_ACTIVATION",
+        ],
+    }
+    if authorization != expected_authorization:
+        raise GateError("Android candidate standing authorization contract drift")
     exceptions = document["remediation"].get("approved_attempt_exceptions") or []
     if not isinstance(exceptions, list):
         raise GateError("approved Android attempt exceptions must be a list")

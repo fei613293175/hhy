@@ -1,27 +1,30 @@
 protocol_version: '1.0'
 cr_id: CR-0358
 title: 申请R12第七次单次最终候选验证视觉修复
-status: PROPOSED
+status: IMPLEMENTED
 created_at: '2026-07-26T07:55:40Z'
-updated_at: '2026-07-26T07:56:11Z'
+updated_at: '2026-07-26T08:15:03Z'
 requester_actor_id: codex-root-r12-candidate-attempt7-20260726
-approver_actor_id: null
+approver_actor_id: project-owner-20260726
 task_id: TASK-R12-007
 session_id: SES-20260725T192048Z-668BD05D
 user_request: 项目目标要求按依赖完成R01-R32且每个大版本仅在最终候选阶段运行完整门禁和模拟器；新增超限候选仍须项目所有者精确批准。
 reason: attempt6已由Run 30191193348消费且AI拒绝视觉基线；CR-0356/0357修复提交bcde496e已通过本地375项、obx-test Android全模块和GitHub普通CI，但真实设备截图尚未复验。
-original_rule: 全局max_ai_attempts=3，R12 attempt4、5、6仅按各自精确CR运行一次且均已消费；attempt7未获项目所有者明确批准前必须在重型环境准备前硬拒绝。
-new_rule: 如项目所有者明确批准，则只允许release=R12、attempt=7、request_id=R12-CANDIDATE-20260726-007、exception_id=CR-0358、required_fix_commit=bcde496e9821dce301d4b13bfe0b1f590f1380f5、max_candidate_runs=1的精确单次例外；全局上限3和普通1至3保持不变，attempt8及复用004至007继续硬拒绝。
-impact_summary: 仅在审批后更新Android候选治理、当前候选请求、专项回归和既有候选经验记录；不修改产品功能、API、数据库、生产配置、资金或R13至R32普通规则。当前CR保持PROPOSED时不激活任何候选。
+original_rule: 全局max_ai_attempts=3，R12 attempt4至6仅按各自精确CR运行一次且均已消费；此前每次新增超限候选都要求项目所有者逐轮明确批准。
+new_rule: 项目所有者本轮明确批准CR-0358，并授予AI后续候选持续决策权，不再逐轮询问。全局max_ai_attempts=3和普通1至3保持不变；AI只有在上一请求已消费、独立根因已修复、受影响模块和普通CI通过后，才可基于本次站立授权以独立CR登记连续新轮次、唯一request
+  ID、唯一修复Commit和max_candidate_runs=1并由独立AI候选授权角色审批。每个请求仍只运行一次、失败不得复用、截图仍由AI逐图验收；新增秘密、第三方权限、资金或生产激活仍需项目所有者介入。本次只允许R12/attempt7/request007/CR-0358/bcde496e/max_candidate_runs=1，attempt8必须等到attempt7产生新根因且完成修复证据后由AI另建精确CR，禁止提前授权或无限重试。
+impact_summary: 原位更新既有Android候选治理、请求校验、当前R12候选、测试体系、问题记录、复用模式、踩坑和变更记录；不建立第二套规则，不修改产品功能、API、数据库、资金或生产配置。
 impact:
   files:
   - config/android-automation.yaml
   - config/android-candidate-request.yaml
+  - scripts/android_ci_gate.py
   - tests/test_android_candidate_request.py
   - tests/test_android_ci_gate.py
   - tests/test_r12_candidate.py
   - docs/03-continuity/PROBLEM_REGISTRY.yaml
   - docs/03-continuity/PITFALLS.md
+  - docs/03-continuity/REUSABLE_PATTERNS.md
   - docs/08-testing/Android自动开发测试修复交付体系_V1.0.md
   - CHANGELOG.md
   pages:
@@ -40,7 +43,7 @@ impact:
   database:
   - 无直接影响
   configuration:
-  - android remediation approved_attempt_exceptions与android candidate request（仅审批后）
+  - android remediation candidate_authorization、approved_attempt_exceptions与android candidate request
   ledger:
   - R12 attempt7单次授权、十页截图与APK追溯证据
   tests:
@@ -51,11 +54,24 @@ impact:
   - python scripts/android_ci_gate.py policy-check
   releases:
   - R12
-  migration_and_compatibility: 保留attempt4至6和全部Run消费历史；审批前不修改候选策略。审批后先以普通CI验证唯一字段，再只触发一次完整R12候选；失败或视觉拒绝后request007不得复用。
-user_confirmation: PENDING
+  migration_and_compatibility: 保留attempt4至6及全部Run消费历史；现有全局三轮上限、唯一CR/request/Commit和单次运行门禁兼容不变。未来AI自主管理只替代逐轮向用户提问，不放宽任何技术门禁或正式生产验收。
+user_confirmation: 项目所有者原话：批准，以后不要让我批准了 你自己持续开发就行了
 approval:
-  decision: null
-  decided_at: null
-  note: null
+  decision: APPROVED
+  decided_at: '2026-07-26T08:06:46Z'
+  note: 项目所有者明确批准CR-0358，并明确要求以后不要再逐轮请求批准，由AI依据仓库事实源持续开发；候选仍保持精确CR、连续轮次、唯一request/Commit、单次运行和AI视觉验收。
 machine_record: .continuity/change_requests/CR-0358.yaml
 document: docs/03-continuity/change-requests/CR-0358-申请R12第七次单次最终候选验证视觉修复.md
+decision_log:
+- at: '2026-07-26T08:06:51Z'
+  actor_id: codex-root-r12-candidate-attempt7-20260726
+  status: IMPLEMENTING
+  note: 开始原位实施AI候选持续授权、R12 attempt7精确例外、request007和专项回归；完成普通CI前不触发候选。
+  session_id: SES-20260725T192048Z-668BD05D
+- at: '2026-07-26T08:15:03Z'
+  actor_id: codex-root-r12-candidate-attempt7-20260726
+  status: IMPLEMENTED
+  note: 已原位实现AI候选持续授权与R12 attempt7精确绑定；候选请求和策略校验PASS，51项候选专项测试PASS。尚未推送、未消费attempt7，CR保持未关闭。
+  session_id: SES-20260725T192048Z-668BD05D
+session_ids:
+- SES-20260725T192048Z-668BD05D
