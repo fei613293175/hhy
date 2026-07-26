@@ -5,21 +5,17 @@
   "strict": true,
   "status": "PASS",
   "metrics": {
-    "event_count": 3457,
-    "event_head_hash": "bc38098f6066ad8a4d1ddc46649b4c488cc5993e6acfd5a570009a379ecf5f3f",
+    "event_count": 3458,
+    "event_head_hash": "d6033b1303eb9e4740214e966b155dbc6f3dcf0659e8e29808f749c06601ec38",
     "rule_readiness": "PASS",
     "required_rule_sources": 11,
-    "changed_files": 15,
-    "project_changed_files": 1,
-    "change_classification": {
-      "other": 1
-    },
+    "changed_files": 13,
+    "project_changed_files": 0,
+    "change_classification": {},
     "document_gate": {
-      "status": "EXECUTED",
+      "status": "SKIPPED_UNAFFECTED",
       "forced": false,
-      "affected_inputs": [
-        "catalogs/ui_visual_acceptance.csv"
-      ]
+      "affected_inputs": []
     }
   },
   "errors": [],

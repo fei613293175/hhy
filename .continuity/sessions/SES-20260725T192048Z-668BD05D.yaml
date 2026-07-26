@@ -11,7 +11,7 @@ task_id: TASK-R12-007
 story_id: STORY-R12-008
 goal: 完成R12最终Android候选、真实模拟器截图AI验收、固定签名测试APK与桌面交付
 started_at: '2026-07-25T19:20:48Z'
-updated_at: '2026-07-26T06:01:27Z'
+updated_at: '2026-07-26T06:14:07Z'
 takeover_of: null
 change_requests:
 - CR-0339
@@ -124,22 +124,22 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-26T06:01:21Z'
-  expires_at: '2026-07-26T10:01:21Z'
-checkpoint_sequence: 35
-latest_checkpoint: .continuity/checkpoints/SES-20260725T192048Z-668BD05D/0035.yaml
+  renewed_at: '2026-07-26T06:14:00Z'
+  expires_at: '2026-07-26T10:14:00Z'
+checkpoint_sequence: 36
+latest_checkpoint: .continuity/checkpoints/SES-20260725T192048Z-668BD05D/0036.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260725T192048Z-668BD05D.md
-next_step: 继续TASK-R12-007：盘点剩余10个Android页面与已有候选证据，只在现有授权边界内补齐实现和离线证据；禁止第三次重跑attempt5，禁止未获所有者新授权登记attempt6。
+next_step: R12仅剩最终候选外部授权项：保持attempt5与其一次同Commit失败作业重跑不可复用；等待项目所有者明确批准新的精确attempt6后，才登记单次候选并执行十页模拟器截图、AI逐图审核、轻量基线晋升和桌面APK/文档交付。在此之前不得伪造30项视觉PASS或进入R13。
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: a7650376ab77233c302f7555d77761e682533f428a5af188e1fc24314e1f2105
-  generated_at: '2026-07-26T06:01:25Z'
+  context_hash: 4af8f5d872e9e16bcab0d92578065dce9d9a343de4f5cc4930f0a0cce99881c9
+  generated_at: '2026-07-26T06:14:04Z'
 handoff_bundle: null
 closure: null
 parallel_execution:
   assessment: CAPABILITY_UNAVAILABLE
   delegated_workers: 0
   workers: []
-  reason: 当前运行时规则禁止在用户未明确要求时创建子代理，故本步骤由单代理完成。
+  reason: 当前运行时规则禁止在用户未明确要求时创建子代理；逐页静态核对由主代理完成。

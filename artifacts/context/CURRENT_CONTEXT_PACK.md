@@ -1,7 +1,7 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-26T06:01:25Z
-- Context Hash：`a7650376ab77233c302f7555d77761e682533f428a5af188e1fc24314e1f2105`
+- 生成时间：2026-07-26T06:14:04Z
+- Context Hash：`4af8f5d872e9e16bcab0d92578065dce9d9a343de4f5cc4930f0a0cce99881c9`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 规则就绪：`PASS`（`HASHED_CONTEXT_MANIFEST`）
@@ -164,7 +164,7 @@ blocked_tasks:
 - TASK-R06-008
 - TASK-R07-008
 next_task: TASK-R12-007
-updated_at: '2026-07-26T06:01:21Z'
+updated_at: '2026-07-26T06:14:00Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -199,15 +199,15 @@ continuity:
   active_session_id: SES-20260725T192048Z-668BD05D
   actor_id: codex-root-r12-candidate-20260726
   story_id: STORY-R12-008
-  lease_expires_at: '2026-07-26T10:01:21Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260725T192048Z-668BD05D/0035.yaml
+  lease_expires_at: '2026-07-26T10:14:00Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260725T192048Z-668BD05D/0036.yaml
   project_fingerprint: 5b13f258162d4098b1ae6477d37b094f76722395bd36507baa42c67007c61f03
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: f3e5c01c8389138fc0dffefee072463545d7a068ad2a0b9846c5f0a715fbd3a0
-    generated_at: '2026-07-26T05:48:42Z'
+    context_hash: 1762a7dafc67d477cdc3cff70ea0fb9e467204b3f21548bdc1693fd95b04a7bf
+    generated_at: '2026-07-26T06:05:33Z'
   handoff_bundle: null
 ```
 
@@ -405,7 +405,7 @@ task_id: TASK-R12-007
 story_id: STORY-R12-008
 goal: 完成R12最终Android候选、真实模拟器截图AI验收、固定签名测试APK与桌面交付
 started_at: '2026-07-25T19:20:48Z'
-updated_at: '2026-07-26T06:01:21Z'
+updated_at: '2026-07-26T06:14:00Z'
 takeover_of: null
 change_requests:
 - CR-0339
@@ -518,12 +518,12 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-26T06:01:21Z'
-  expires_at: '2026-07-26T10:01:21Z'
-checkpoint_sequence: 35
-latest_checkpoint: .continuity/checkpoints/SES-20260725T192048Z-668BD05D/0035.yaml
+  renewed_at: '2026-07-26T06:14:00Z'
+  expires_at: '2026-07-26T10:14:00Z'
+checkpoint_sequence: 36
+latest_checkpoint: .continuity/checkpoints/SES-20260725T192048Z-668BD05D/0036.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260725T192048Z-668BD05D.md
-next_step: 继续TASK-R12-007：盘点剩余10个Android页面与已有候选证据，只在现有授权边界内补齐实现和离线证据；禁止第三次重跑attempt5，禁止未获所有者新授权登记attempt6。
+next_step: R12仅剩最终候选外部授权项：保持attempt5与其一次同Commit失败作业重跑不可复用；等待项目所有者明确批准新的精确attempt6后，才登记单次候选并执行十页模拟器截图、AI逐图审核、轻量基线晋升和桌面APK/文档交付。在此之前不得伪造30项视觉PASS或进入R13。
 context_pack: THIS_CONTEXT_PACK
 handoff_bundle: null
 closure: null
@@ -531,62 +531,60 @@ parallel_execution:
   assessment: CAPABILITY_UNAVAILABLE
   delegated_workers: 0
   workers: []
-  reason: 当前运行时规则禁止在用户未明确要求时创建子代理，故本步骤由单代理完成。
+  reason: 当前运行时规则禁止在用户未明确要求时创建子代理；逐页静态核对由主代理完成。
 ```
 
 ## 最新检查点
 
 ```yaml
 protocol_version: '1.0'
-checkpoint_id: CP-SES-20260725T192048Z-668BD05D-0035
+checkpoint_id: CP-SES-20260725T192048Z-668BD05D-0036
 session_id: SES-20260725T192048Z-668BD05D
 task_id: TASK-R12-007
 story_id: STORY-R12-008
-sequence: 35
-created_at: '2026-07-26T06:01:21Z'
-summary: R12后台审核工作台完成真实浏览器视觉证据与AI六维复核，ADM-REVIEW-001由IN_REVIEW转PASS；R12视觉门禁待办由33项降至30项，剩余为10个Android页面。生产后台登录实测同时确认当前部署凭据长度与冻结8-72字符安全合同不匹配，未擅自修改密码或弱化规则。
-next_step: 继续TASK-R12-007：盘点剩余10个Android页面与已有候选证据，只在现有授权边界内补齐实现和离线证据；禁止第三次重跑attempt5，禁止未获所有者新授权登记attempt6。
+sequence: 36
+created_at: '2026-07-26T06:14:00Z'
+summary: R12十个Android页面候选前非模拟器收口完成：逐页核对冻结B04/B05/B08及批准补充规格、真实实现路径、视觉清单和唯一旅程，未发现需立即修改的结构性UI或业务映射漂移；33项R12候选/Android门禁单测与商业UI边界PASS。只读核对GitHub
+  attempt5 run 30188636875确认编译/lint/单测/APK打包成功，但模拟器在业务旅程前exit 22且明确未生成artifacts/android-ci，因此没有可复用截图。
+next_step: R12仅剩最终候选外部授权项：保持attempt5与其一次同Commit失败作业重跑不可复用；等待项目所有者明确批准新的精确attempt6后，才登记单次候选并执行十页模拟器截图、AI逐图审核、轻量基线晋升和桌面APK/文档交付。在此之前不得伪造30项视觉PASS或进入R13。
 blockers: []
 decisions:
-- 沿用CR-0321批准的R12视觉验收投影，不新增重复规则；后台截图采用当前生产构建与冻结API受控夹具，仅验证已实现真实业务映射，不制造最终审核决定。
-note: 后台生产登录页实测在客户端即因密码少于冻结合同最小8字符而阻止请求；该项需要所有者决定合规密码，不在本次视觉证据变更中静默处理。
+- 不新增离线截图框架、不以静态检查替代真实模拟器证据、不绕过候选入口；当前实现与冻结视觉规格静态一致，最后30项仅由同一最终候选十页截图和六维AI审核关闭。
+note: 浏览器检查只读且已清理测试标签页；未运行GitHub工作流、Android编译、模拟器或APK。
 tests:
-- name: admin-web-build
+- name: r12-candidate-and-android-policy
   result: PASS
-  evidence: pnpm --filter @hhy/admin-web build
-  note: vue-tsc与Vite生产构建通过
-- name: admin-browser-visual
+  evidence: 33 unittest PASS
+  note: 候选夹具、OIDC草稿重建、十页旅程、视觉清单、attempt例外与最终化策略全部通过
+- name: commercial-ui-boundary
   result: PASS
-  evidence: artifacts/validation/r12-task007-admin/ADM-REVIEW-001-browser-1440x1100.png sha256=f2d08620563c0c5eb27afaab24eaeb414778db2a0de9eedc090be3102d0f36b4
-  note: 1440x1100真实浏览器渲染及AI六维复核通过
-- name: visual-acceptance-unit
-  result: PASS
-  evidence: 16 tests
-  note: 视觉验收单元测试通过
-- name: contract-runtime-assets
-  result: PASS
-  evidence: scripts/hhy_workflow.py run fast
-  note: 运行时资产合同通过
-- name: contract-openapi
-  result: PASS
-  evidence: client=131 admin=184 websocket=10
-  note: OpenAPI与运行时hash通过
+  evidence: sources=70
+  note: 无敏感或技术字段越界
 - name: r12-visual-acceptance
   result: FAIL
   evidence: 30 expected findings
-  note: 剩余10个Android页面各缺截图、PASS状态与AI六项标记，属于当前R12活跃工作而非历史漂移
+  note: 十个Android页面各缺最终候选截图、PASS状态和AI六维标记，保持真实未完成
+- name: github-attempt5-readonly-audit
+  result: FAIL
+  evidence: run 30188636875 attempt 2; emulator exit 22; artifacts/android-ci missing
+  note: 未触发重跑；证明无可复用Android截图
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: 16efa1e4188d3dc9ce1d2212b15bae7dcddc36f8
+  head: 930a63629836945b02ab4ff53798a06602e7d508
   upstream: origin/task/TASK-R03-001
   ahead: 0
   behind: 0
   dirty: true
   status_porcelain:
-  - ' M catalogs/ui_visual_acceptance.csv'
-  - ?? artifacts/validation/r12-task007-admin/ADM-REVIEW-001-browser-1440x1100.png
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/sessions/SES-20260725T192048Z-668BD05D.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
   recent_commits:
+  - "930a63629836945b02ab4ff53798a06602e7d508\t2026-07-26T14:03:15+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] test(ui): approve R12 admin\
+    \ review visual"
   - "16efa1e4188d3dc9ce1d2212b15bae7dcddc36f8\t2026-07-26T13:51:20+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] docs(continuity): refresh\
     \ global drift audit checkpoint"
   - "77650fb1f9e1c6d60d531c98636cf6d73e8757f9\t2026-07-26T13:37:47+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] docs(continuity): close candidate\
@@ -601,8 +599,6 @@ git:
     \ evidence reconciliation"
   - "735098d0fd108049ee473e16953f7c9d7a184d67\t2026-07-26T12:41:38+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] fix(ui): reconcile approved\
     \ R06 home evidence"
-  - "76fe17bd5f693f48701c5b828c25b4ca98920689\t2026-07-26T12:26:36+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] docs(continuity): close global\
-    \ drift audit"
 project_fingerprint:
   sha256: 5b13f258162d4098b1ae6477d37b094f76722395bd36507baa42c67007c61f03
   files:
@@ -1190,8 +1186,8 @@ parallel_execution:
   assessment: CAPABILITY_UNAVAILABLE
   delegated_workers: 0
   workers: []
-  reason: 当前运行时规则禁止在用户未明确要求时创建子代理，故本步骤由单代理完成。
-event_hash: bc38098f6066ad8a4d1ddc46649b4c488cc5993e6acfd5a570009a379ecf5f3f
+  reason: 当前运行时规则禁止在用户未明确要求时创建子代理；逐页静态核对由主代理完成。
+event_hash: d6033b1303eb9e4740214e966b155dbc6f3dcf0659e8e29808f749c06601ec38
 ```
 
 ## 接续状态与事件头
@@ -1203,8 +1199,8 @@ active_session_id: SES-20260725T192048Z-668BD05D
 last_session_id: SES-20260725T180922Z-D7231210
 last_session_result: COMPLETED
 last_closure_checkpoint_id: CP-SES-20260725T180922Z-D7231210-0008
-event_count: 3457
-event_head_hash: bc38098f6066ad8a4d1ddc46649b4c488cc5993e6acfd5a570009a379ecf5f3f
+event_count: 3458
+event_head_hash: d6033b1303eb9e4740214e966b155dbc6f3dcf0659e8e29808f749c06601ec38
 event_chain_valid: true
 ```
 
@@ -1327,9 +1323,9 @@ recent_sessions: - session_id: SES-20260724T032308Z-98D6D10A
   started_at: '2026-07-25T19:20:48Z'
   record: .continuity/sessions/SES-20260725T192048Z-668BD05D.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260725T192048Z-668BD05D.md
-  updated_at: '2026-07-26T06:01:21Z'
+  updated_at: '2026-07-26T06:14:00Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260725T192048Z-668BD05D/0035.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260725T192048Z-668BD05D/0036.yaml
   handoff_bundle: null
 task_claims: - claim_id: CLM-9F0481F9E6A2
   session_id: SES-20260723T114316Z-44EBE3C1
@@ -2323,7 +2319,7 @@ recent_task_transitions: - transition_id: TRN-7D4AC37706EB
 ```yaml
 initialized: true
 branch: task/TASK-R03-001
-head: 16efa1e4188d3dc9ce1d2212b15bae7dcddc36f8
+head: 930a63629836945b02ab4ff53798a06602e7d508
 upstream: origin/task/TASK-R03-001
 ahead: 0
 behind: 0
@@ -2335,12 +2331,15 @@ status_porcelain:
 - ' M .continuity/STATE.yaml'
 - ' M .continuity/sessions/SES-20260725T192048Z-668BD05D.yaml'
 - ' M CURRENT_STATUS.yaml'
+- ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+- ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+- ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
 - ' M catalogs/session_index.csv'
-- ' M catalogs/ui_visual_acceptance.csv'
 - ' M docs/03-continuity/sessions/2026-07/SES-20260725T192048Z-668BD05D.md'
-- ?? .continuity/checkpoints/SES-20260725T192048Z-668BD05D/0035.yaml
-- ?? artifacts/validation/r12-task007-admin/ADM-REVIEW-001-browser-1440x1100.png
+- ?? .continuity/checkpoints/SES-20260725T192048Z-668BD05D/0036.yaml
 recent_commits:
+- "930a63629836945b02ab4ff53798a06602e7d508\t2026-07-26T14:03:15+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] test(ui): approve R12 admin\
+  \ review visual"
 - "16efa1e4188d3dc9ce1d2212b15bae7dcddc36f8\t2026-07-26T13:51:20+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] docs(continuity): refresh global\
   \ drift audit checkpoint"
 - "77650fb1f9e1c6d60d531c98636cf6d73e8757f9\t2026-07-26T13:37:47+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] docs(continuity): close candidate\
@@ -2355,8 +2354,6 @@ recent_commits:
   \ evidence reconciliation"
 - "735098d0fd108049ee473e16953f7c9d7a184d67\t2026-07-26T12:41:38+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] fix(ui): reconcile approved\
   \ R06 home evidence"
-- "76fe17bd5f693f48701c5b828c25b4ca98920689\t2026-07-26T12:26:36+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] docs(continuity): close global\
-  \ drift audit"
 ```
 
 ## 会话累计项目变更
@@ -12280,7 +12277,7 @@ PARALLEL_EXECUTION_PLAN.yaml:
 
 - `AGENTS.md` — `306026d4706dfd3cae0a3db2b1c56e294700326bc3a13ca095c3987a267d390b`
 - `START_HERE.md` — `22de14029ce47beb41ea569e36ce223fbc9d11b86f8676f28d5fbbd83896af5c`
-- `CURRENT_STATUS.yaml` — `9f4a024d025bafbc203ab6e090e04f9e6671abf37f99acdb791f04fe1e0ba5d5`
+- `CURRENT_STATUS.yaml` — `3efa46c4b8a85cab50e60d09ee1e1772da1c2440c5a332577dcbf2fd0f2cb896`
 - `NEXT_TASK.yaml` — `1f03675aa74266e5c95220a1296010172ca5527e763602ee4ef876d1001f9507`
 - `DEVELOPMENT_RISK_REGISTER.md` — `8304c91492e4ee2abea0522a06541c8688d39c7fc532b5d0cde499bf09fffb87`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
@@ -12291,12 +12288,12 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `config/REPOSITORY_TRANSPORT.yaml` — `8c4a21f3e204d46e7ffb467d804a53ed26cda61cd088dadfddb50b69eea657fc`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `38e04ed812c8df0d353c2b91993d31e53b471e9c457f06b426bd2260c470aa92`
-- `.continuity/EVENT_LOG.jsonl` — `9f7c3fe4b39bebc9a301109902cca43219aa0265874e74b67b9cf6e5b026c016`
-- `.continuity/SESSION_INDEX.yaml` — `cce88b777a2057175fed81eae4acfe74a80da57d48ae60d2c25d16a15dccbd6d`
+- `.continuity/EVENT_LOG.jsonl` — `9c9cb5550747ca1fdafd6ee72bb0eb79aa88651bb1de68e1a2d7ed954c440e7e`
+- `.continuity/SESSION_INDEX.yaml` — `406fd0c84aa41f23cd513037036d9b97c45bb75887362147c5d0d6888a192aa5`
 - `.continuity/TASK_CLAIMS.yaml` — `5948f9d27d01996570044a191a32d7a1803736d6fe2c1c0d1a4a0e16d8716541`
 - `.continuity/TASK_TRANSITIONS.yaml` — `07c10f929db719a9014aa25face3c259d96dc1793f448f33dc3012b4d5babdc4`
 - `.continuity/CHANGE_REQUEST_INDEX.yaml` — `e6087c5f08750cf547b969f461b6c6529bd60145fc1107677a3aa6354922aca3`
-- `.continuity/ACTIVE_SESSION.yaml` — `8f43a4a375ea52612cf8bbffcf4613e95d60111bbb436842d8fd9cea113abe81`
+- `.continuity/ACTIVE_SESSION.yaml` — `28690f3bc1e42262de35c4deac6cf0d372fa4aeb410e134c86035de293eb5635`
 - `docs/00-baseline/正式商业系统全局硬性开发边界.md` — `b1d965b019e632fbe1a259831201be7c82f79c26836fa161fd1d41855fcdb7c8`
 - `docs/02-ui/UI参考图使用与开发约束_V1.2.2.md` — `d14367586aa2067b059df58798acd20ab982459cdb35ff27fc7922a3896e4933`
 - `docs/03-continuity/持续开发无状态接续强制门禁_V1.2.3.md` — `d0ed3ed68bdd93b06500eecdfb5baa3245e6ca8b685a486788abb6eee39b3d51`
@@ -12307,8 +12304,8 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `releases/R12/TASKS.yaml` — `1ca7b627e103e1f54f2eb87f7087d848465a3c351169d186172c9055c11da709`
 - `releases/R12/ACCEPTANCE_MATRIX.csv` — `0fa8c9e830600bb02b4b6b729bc6d400dcc14fa1a2e7e4c5fb3f83d46c01abca`
 - `releases/R12/PARALLEL_EXECUTION_PLAN.yaml` — `2ddbee414a51a868b63331992e2e04c5400846cf6012474aab406e067e532e98`
-- `docs/03-continuity/sessions/2026-07/SES-20260725T192048Z-668BD05D.md` — `252c0af0b9fcc5a26b6aebd2857cc25b9dca7be3c546d7f7892a8c28a5092d13`
-- `.continuity/checkpoints/SES-20260725T192048Z-668BD05D/0035.yaml` — `7f5c4db2553b1c646cd6d87fdedfa6e951757d72dab44d27d126cdd64cefe960`
+- `docs/03-continuity/sessions/2026-07/SES-20260725T192048Z-668BD05D.md` — `c6efec14a8cb4bfea9fdcf8434cc7d92445fbfe591754fdc0233301aec10093d`
+- `.continuity/checkpoints/SES-20260725T192048Z-668BD05D/0036.yaml` — `34f61104c55a845e0e2ffbee19783e44421d4939cc4b198d04c4fdced3f4f535`
 - `docs/03-continuity/change-requests/CR-0339-补齐R12统一发布Android最终候选与产物追溯.md` — `6d0cfb4e067edebc263badbf91bd560127467ff7ee4dd6c5f9cef82baee002d7`
 - `docs/03-continuity/change-requests/CR-0340-修复R12候选OIDC异常日志重复requestId遮蔽.md` — `e36ceb50b8f45a22fffdb20fc599d5972c184170c9619290706b6c40da8aad6f`
 - `docs/03-continuity/change-requests/CR-0341-补齐R12隔离候选official-STAGING版本发布夹具.md` — `0a222e781daea9cabe11b525f5f3522803f4c4122908afe94b81fea167b26c0d`
