@@ -1,6 +1,6 @@
 release: R13
 title: 收藏、历史、分享与行为审计
-status: READY_WHEN_DEPENDENCIES_GREEN
+status: DEVELOPMENT_READY
 milestone: M1_CONTENT_MARKETPLACE
 depends_on:
 - R07
@@ -20,11 +20,12 @@ ui:
   admin: []
 contracts:
   client_api:
-  - POST /api/v1/contents/{id}/favorite
-  - DELETE /api/v1/contents/{id}/favorite
-  - GET /api/v1/me/favorites
-  - GET /api/v1/me/history
-  - POST /api/v1/contents/{id}/share
+  - contentPostContentsByIdFavorite
+  - contentDeleteContentsByIdFavorite
+  - contentGetMeFavorites
+  - contentGetMeHistory
+  - contentPostContentsByIdShare
+  - contentPostContentsByIdInvalidFeedback
   admin_api: []
   websocket: []
 database_tables:
@@ -57,12 +58,39 @@ tests:
 - TST-ACTIVITY_001-HAPPY
 - TST-ACTIVITY_001-IDEMPOTENT
 - TST-ACTIVITY_001-REJECT
+test_count: 3
+planning_depth: STORY_READY
+apk_gate: FINAL_CANDIDATE_ONLY_OWNER_FEEDBACK_ASYNC
+entry_baseline:
+  checked_at: '2026-07-26'
+  session_id: SES-20260726T110209Z-C9DC8AD5
+  story_id: STORY-R13-001
+  change_request: CR-0363
+  documentation_status: PASS_DOCUMENTATION_READY
+  strict_documentation: PASS_0_ERRORS_0_WARNINGS
+  program_execution_plan: PASS_31_RELEASES_0_ERRORS
+  release_artifacts: PASS
+  continuity_gate: PASS
+  cloud_environment_status: PASS
+  dependency_machine_status:
+    R07: MACHINE_COMPLETE_OWNER_PENDING
+    R12: MACHINE_COMPLETE_OWNER_PENDING
+  contract_boundary:
+    release_owned_operation_ids: 5
+    shared_story_operation_ids: 1
+    total_implementation_operation_ids: 6
+  exact_visual_bindings:
+    SHEET-SHARE-001: SPEC:design/R13-UI-FROZEN/specs/SHEET-SHARE-001.md
+    SCR-FAV-001: B08/P07
+    SCR-HIS-001: B08/P08
+    SHEET-CONTENT-INVALID-001: SPEC:design/R13-UI-FROZEN/specs/SHEET-CONTENT-INVALID-001.md
 entry_gate:
 - releases/R13/DEFINITION_OF_READY.yaml 全部适用项为PASS
 - releases/R13/STORIES.yaml 中每个故事均绑定页面/API/配置/数据/测试或显式N/A
 - 本版本页面字段、状态、动作、导航和后台运营规格不存在TBD/RELEASE_BOUND
 - 全部依赖版本为GREEN或按发布计划允许的并行依赖已记录
 - 冻结契约发生变化时已创建CR并重新生成追踪和SHA
+- 四页均绑定精确面板或批准补充规格；禁止TOKENS_ONLY、P01-P08范围和缺失绑定施工
 exit_gate:
 - 领域代码与前端真实闭环
 - 数据库迁移和不变量测试通过

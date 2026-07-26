@@ -67,7 +67,7 @@
 - 配置组：`content;storage;analytics`
 - 关键配置：`content.limit.normal.online;content.limit.month.online;content.limit.quarter.online;content.limit.year.online;content.team_leader_per_account;content.limit.normal.pending;content.limit.normal.drafts;content.limit.normal.daily_submissions;storage.default_provider;storage.scope.public_media.provider;storage.scope.private_kyc.provider;storage.scope.private_chat.provider;storage.scope.audit_evidence.provider;storage.scope.apk_release.provider;storage.scope.backup.provider;storage.r2.account_id;analytics.event.retention_days;analytics.traffic_types`
 - 测试：`TST-V122-005`
-- UI参考：`TOKENS_AND_TEMPLATE`
+- UI参考：`SPEC:design/R13-UI-FROZEN/specs/SHEET-CONTENT-INVALID-001.md`
 
 ## 8. 开发就绪检查
 

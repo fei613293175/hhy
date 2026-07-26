@@ -3961,3 +3961,24 @@ claims:
   - PROJECT_*.yaml
   - PROJECT_*.json
   closed_at: '2026-07-26T10:58:02Z'
+- claim_id: CLM-0565DCD53F60
+  session_id: SES-20260726T110209Z-C9DC8AD5
+  task_id: TASK-R13-001
+  story_id: STORY-R13-001
+  actor_id: codex-root-r13-20260726
+  status: ACTIVE
+  claimed_at: '2026-07-26T11:02:09Z'
+  allowed_paths:
+  - apps/android/**
+  - services/backend/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - tests/**
+  - docs/**
+  - catalogs/**
+  - releases/**
+  - design/**
+  - scripts/**
+  - CHANGELOG.md

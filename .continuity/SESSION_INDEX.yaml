@@ -1308,3 +1308,15 @@ sessions:
   closed_at: '2026-07-26T10:58:02Z'
   latest_checkpoint: .continuity/checkpoints/SES-20260726T105013Z-AE578D81/0003.yaml
   handoff_bundle: null
+- session_id: SES-20260726T110209Z-C9DC8AD5
+  task_id: TASK-R13-001
+  story_id: STORY-R13-001
+  actor_id: codex-root-r13-20260726
+  status: ACTIVE
+  started_at: '2026-07-26T11:02:09Z'
+  record: .continuity/sessions/SES-20260726T110209Z-C9DC8AD5.yaml
+  session_log: docs/03-continuity/sessions/2026-07/SES-20260726T110209Z-C9DC8AD5.md
+  updated_at: '2026-07-26T11:25:25Z'
+  closed_at: null
+  latest_checkpoint: .continuity/checkpoints/SES-20260726T110209Z-C9DC8AD5/0002.yaml
+  handoff_bundle: null

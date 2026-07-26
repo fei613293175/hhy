@@ -24,7 +24,7 @@ SCR-DETAIL-004,团队长详情,/content/team-leader/{id},B03,P01-P07,STYLE_LAYOU
 SCR-PUBLISHER-001,发布者主页,/publisher/{userId},B03,P01-P07,STYLE_LAYOUT_REFERENCE,详情与发布者信息
 SHEET-CONTACT-001,联系方式面板,sheet://contact,B03,P01-P07,STYLE_LAYOUT_REFERENCE,详情与发布者信息
 SHEET-REPORT-001,举报面板,sheet://report,TOKENS_ONLY,-,STYLE_LAYOUT_REFERENCE,无精确面板；使用Design Token和组件库
-SHEET-SHARE-001,分享面板,sheet://share,TOKENS_ONLY,-,STYLE_LAYOUT_REFERENCE,无精确面板；使用Design Token和组件库
+SHEET-SHARE-001,分享面板,sheet://share,B03,P01-P04,APPROVED_SUPPLEMENT,批准补充规格复用B03详情分享入口与B07/P07底部面板结构；渠道字段只来自冻结规格
 SCR-RP-001,红包首页,/red-packet,B03/B09,P01/P08,STYLE_LAYOUT_REFERENCE,详情红包区与奖励明细布局；功能按红包规格
 SCR-RP-002,红包任务资格,/red-packet/{id}/eligibility,B03/B09,P01/P08,STYLE_LAYOUT_REFERENCE,详情红包区与奖励明细布局；功能按红包规格
 SCR-RP-003,红包浏览任务,/red-packet/{id}/view,B03/B09,P01/P08,STYLE_LAYOUT_REFERENCE,详情红包区与奖励明细布局；功能按红包规格
@@ -59,8 +59,9 @@ SCR-ANN-001,公告列表,/messages/announcements,B07,P01-P08,STYLE_LAYOUT_REFERE
 SCR-ANN-002,公告详情,/messages/announcements/{id},B07,P01-P08,STYLE_LAYOUT_REFERENCE,聊天、通知与公告
 SCR-ME-001,我的首页,/me,B08,P01,EXACT_CONSTRUCTION_REFERENCE,我的首页精确施工面板；模块只使用冻结真实能力
 SCR-ME-002,个人资料,/me/profile,B08,P01,APPROVED_SUPPLEMENT,批准补充规格仅复用B08/P01身份头与MOB-FORM，不套用项目表单
-SCR-FAV-001,我的收藏,/me/favorites,B08,P01-P08,STYLE_LAYOUT_REFERENCE,我的、订单、收藏和历史
-SCR-HIS-001,浏览记录,/me/history,TOKENS_ONLY,-,STYLE_LAYOUT_REFERENCE,无精确面板；使用Design Token和组件库
+SCR-FAV-001,我的收藏,/me/favorites,B08,P07,EXACT_PANEL,精确复用B08/P07我的收藏页面层级与卡片布局
+SCR-HIS-001,浏览记录,/me/history,B08,P08,EXACT_PANEL,精确复用B08/P08浏览记录时间分组与列表布局
+SHEET-CONTENT-INVALID-001,联系方式失效反馈,sheet://content-invalid-feedback,B03,P08,APPROVED_SUPPLEMENT,批准补充规格复用B03/P08失效语境与B07/P07原因反馈底部面板
 SCR-ORDER-001,订单列表,/me/orders,B08,P01-P08,STYLE_LAYOUT_REFERENCE,我的、订单、收藏和历史
 SCR-ORDER-002,订单详情,/me/orders/{id},B08,P01-P08,STYLE_LAYOUT_REFERENCE,我的、订单、收藏和历史
 SCR-MEMBER-001,会员中心,/me/membership,B11,P01-P08,STYLE_LAYOUT_REFERENCE,单一Pro会员和道具；忽略多会员身份

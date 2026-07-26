@@ -1,0 +1,83 @@
+protocol_version: '1.0'
+package_version: 1.2.3
+session_id: SES-20260726T110209Z-C9DC8AD5
+status: ACTIVE
+actor:
+  id: codex-root-r13-20260726
+  kind: AI_OR_HUMAN
+  host: unknown
+release: R13
+task_id: TASK-R13-001
+story_id: STORY-R13-001
+goal: 核验R13收藏、历史、分享与行为审计开发基线，领取三项故事并按依赖推进至实现和最终候选。
+started_at: '2026-07-26T11:02:09Z'
+updated_at: '2026-07-26T11:25:37Z'
+takeover_of: null
+change_requests:
+- CR-0363
+- CR-0364
+- CR-0365
+scope:
+  allowed_paths:
+  - apps/android/**
+  - services/backend/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - tests/**
+  - docs/**
+  - catalogs/**
+  - releases/**
+  - design/**
+  - scripts/**
+  - CHANGELOG.md
+  approved_exceptions:
+  - releases/R13/PARALLEL_EXECUTION_PLAN.yaml
+  - releases/R13/RELEASE_MANIFEST.yaml
+  - releases/R13/STORIES.yaml
+  - releases/R13/TASKS.yaml
+  - catalogs/ui_page_specifications.csv
+  - catalogs/screen_visual_binding.csv
+  - design/R13-UI-FROZEN/VISUAL_COVERAGE_AUDIT.md
+  - design/R13-UI-FROZEN/specs/SHEET-SHARE-001.md
+  - design/R13-UI-FROZEN/specs/SCR-FAV-001.md
+  - design/R13-UI-FROZEN/specs/SCR-HIS-001.md
+  - design/R13-UI-FROZEN/specs/SHEET-CONTENT-INVALID-001.md
+  - docs/02-ui/page-specs/android/SHEET-SHARE-001_分享面板.md
+  - docs/02-ui/page-specs/android/SCR-FAV-001_我的收藏.md
+  - docs/02-ui/page-specs/android/SCR-HIS-001_浏览记录.md
+  - docs/02-ui/page-specs/android/SHEET-CONTENT-INVALID-001_联系方式失效反馈.md
+  - docs/03-continuity/R13_TASK-001_ENTRY_GATE.md
+  - CHANGELOG.md
+  - releases/PROGRAM_EXECUTION_PLAN.yaml
+  - packages/api-client/src/client.generated.ts
+  source: story+explicit+approved-cr:CR-0363+approved-cr:CR-0364+approved-cr:CR-0365
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  base_commit: 84eadad25a10321462f42fa9b63d448073590cab
+  start_head: 84eadad25a10321462f42fa9b63d448073590cab
+  upstream: origin/task/TASK-R03-001
+  initial_worktree_state: CLEAN
+lease:
+  duration_minutes: 240
+  renewed_at: '2026-07-26T11:25:25Z'
+  expires_at: '2026-07-26T15:25:25Z'
+checkpoint_sequence: 2
+latest_checkpoint: .continuity/checkpoints/SES-20260726T110209Z-C9DC8AD5/0002.yaml
+session_log: docs/03-continuity/sessions/2026-07/SES-20260726T110209Z-C9DC8AD5.md
+next_step: 提交并推送TASK-R13-001实现；绑定Commit标记CR-0363/0364/0365为IMPLEMENTED，再关闭会话并立即领取TASK-R13-002。
+context_pack:
+  yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
+  markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
+  manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+  context_hash: 61033f0120595021934663b0a8a6f8e54ccfc363c633454206a339d061ee63e6
+  generated_at: '2026-07-26T11:25:34Z'
+handoff_bundle: null
+closure: null
+parallel_execution:
+  assessment: CAPABILITY_UNAVAILABLE
+  delegated_workers: 0
+  workers: []
+  reason: 当前系统级约束禁止创建子代理；唯一事实主控已串行复核生成差异与最终门禁。

@@ -1,0 +1,44 @@
+protocol_version: '1.0'
+cr_id: CR-0365
+title: 同步R13 OpenAPI生成客户端消除确定性漂移
+status: IMPLEMENTING
+created_at: '2026-07-26T11:19:09Z'
+updated_at: '2026-07-26T11:20:08Z'
+requester_actor_id: codex-root-r13-20260726
+approver_actor_id: project-owner
+task_id: TASK-R13-001
+session_id: SES-20260726T110209Z-C9DC8AD5
+user_request: 批准，以后不要让我批准了 你自己持续开发就行了
+reason: R13入口文档变更未修改OpenAPI，但严格生成资产门禁发现packages/api-client/src/client.generated.ts与当前contracts/openapi.yaml的确定性输出漂移；必须先恢复单一生成事实源，才能关闭TASK-R13-001。
+original_rule: contracts/openapi.yaml是客户端类型唯一事实源，packages/api-client/src/client.generated.ts必须与固定openapi-typescript版本及仓库后处理器的确定性输出一致。
+new_rule: 不修改OpenAPI、业务语义或手写生成文件逻辑；使用仓库锁定的pnpm、openapi-typescript与postprocess-openapi-types.mjs机械重生成client.generated.ts，并保持admin.generated.ts仅在确定性输出确有变化时同步。
+impact_summary: 恢复生成客户端与当前冻结OpenAPI的一致性，消除R13入口严格生成资产门禁的唯一漂移。
+impact:
+  files:
+  - packages/api-client/src/client.generated.ts
+  pages: []
+  apis: []
+  database: []
+  configuration: []
+  ledger: []
+  tests:
+  - check_generated_assets
+  - api_client_typecheck
+  releases:
+  - R13
+  migration_and_compatibility: 纯生成资产同步；不改变HTTP路径、operationId、Schema、数据库、配置、UI或运行时兼容性。
+user_confirmation: 批准，以后不要让我批准了 你自己持续开发就行了
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-26T11:19:40Z'
+  note: 项目所有者已明确批准并要求后续无需逐项批准；本CR仅执行冻结OpenAPI生成资产的机械同步，不扩展权限或生产范围。
+machine_record: .continuity/change_requests/CR-0365.yaml
+document: docs/03-continuity/change-requests/CR-0365-同步R13-OpenAPI生成客户端消除确定性漂移.md
+decision_log:
+- at: '2026-07-26T11:20:08Z'
+  actor_id: codex-root-r13-20260726
+  status: IMPLEMENTING
+  note: 开始使用锁定工具链机械重生成客户端，并运行生成漂移与类型门禁。
+  session_id: SES-20260726T110209Z-C9DC8AD5
+session_ids:
+- SES-20260726T110209Z-C9DC8AD5

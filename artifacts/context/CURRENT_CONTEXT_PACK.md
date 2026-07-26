@@ -1,14 +1,14 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-26T10:58:08Z
-- Context Hash：`53756d2daf09db6596e80911598fe3b10d96b446da65259e6379f086a7ed0a1b`
+- 生成时间：2026-07-26T11:25:34Z
+- Context Hash：`61033f0120595021934663b0a8a6f8e54ccfc363c633454206a339d061ee63e6`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 规则就绪：`PASS`（`HASHED_CONTEXT_MANIFEST`）
 - 精确恢复命令：
 
 ```bash
-python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R13-001
+python3 scripts/continuity.py checkpoint --summary '<完成内容>' --next-step '<下一步>' --parallel-assessment <ASSESSMENT> --parallel-reason '<未委托原因>'
 ```
 
 ## 规则就绪
@@ -42,7 +42,7 @@ baseline_version: 1.2.3
 phase: R13
 active_release: R13
 active_task: TASK-R13-001
-status: READY
+status: IN_PROGRESS
 documentation_status: ZERO_BLOCKING_DOCUMENT_GAPS
 last_green_commit: 60c547b9cd0fc8c35a6567c744271ba23a593d41
 last_staging_apk: null
@@ -158,14 +158,15 @@ completed_tasks:
 - TASK-R12-006
 - TASK-R12-007
 - TASK-R12-008
-in_progress_tasks: []
+in_progress_tasks:
+- TASK-R13-001
 blocked_tasks:
 - TASK-R02-007
 - TASK-R03-007
 - TASK-R06-008
 - TASK-R07-008
 next_task: TASK-R13-001
-updated_at: '2026-07-26T10:58:03Z'
+updated_at: '2026-07-26T11:25:25Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -197,17 +198,19 @@ validation:
 continuity:
   protocol_version: '1.0'
   mode: ENFORCED
-  active_session_id: null
-  last_session_id: SES-20260726T105013Z-AE578D81
-  last_session_result: COMPLETED
-  last_checkpoint: .continuity/checkpoints/SES-20260726T105013Z-AE578D81/0003.yaml
-  last_handoff_bundle: null
+  active_session_id: SES-20260726T110209Z-C9DC8AD5
+  actor_id: codex-root-r13-20260726
+  story_id: STORY-R13-001
+  lease_expires_at: '2026-07-26T15:25:25Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260726T110209Z-C9DC8AD5/0002.yaml
+  project_fingerprint: 9d919dd60af9e13cd987fdcd3631cf329ba8019de8b9b9ca187262e8c60e2357
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: 0137894450ad1a0db32756bb6f14ca29b76e7674e7d62ab03bcc52a0dd43b14b
-    generated_at: '2026-07-26T10:57:58Z'
+    context_hash: 559f4389d69d92650e6dbbceb9a79f31b1f4b9f7edd461a191bf86622ca22be2
+    generated_at: '2026-07-26T11:24:12Z'
+  handoff_bundle: null
 ```
 
 ## 默认并行规则
@@ -394,13 +397,392 @@ next_after: 由当前TASKS.yaml依赖关系决定
 ## 活跃会话
 
 ```yaml
-status: NONE
+protocol_version: '1.0'
+package_version: 1.2.3
+session_id: SES-20260726T110209Z-C9DC8AD5
+status: ACTIVE
+actor:
+  id: codex-root-r13-20260726
+  kind: AI_OR_HUMAN
+  host: unknown
+release: R13
+task_id: TASK-R13-001
+story_id: STORY-R13-001
+goal: 核验R13收藏、历史、分享与行为审计开发基线，领取三项故事并按依赖推进至实现和最终候选。
+started_at: '2026-07-26T11:02:09Z'
+updated_at: '2026-07-26T11:25:31Z'
+takeover_of: null
+change_requests:
+- CR-0363
+- CR-0364
+- CR-0365
+scope:
+  allowed_paths:
+  - apps/android/**
+  - services/backend/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - tests/**
+  - docs/**
+  - catalogs/**
+  - releases/**
+  - design/**
+  - scripts/**
+  - CHANGELOG.md
+  approved_exceptions:
+  - releases/R13/PARALLEL_EXECUTION_PLAN.yaml
+  - releases/R13/RELEASE_MANIFEST.yaml
+  - releases/R13/STORIES.yaml
+  - releases/R13/TASKS.yaml
+  - catalogs/ui_page_specifications.csv
+  - catalogs/screen_visual_binding.csv
+  - design/R13-UI-FROZEN/VISUAL_COVERAGE_AUDIT.md
+  - design/R13-UI-FROZEN/specs/SHEET-SHARE-001.md
+  - design/R13-UI-FROZEN/specs/SCR-FAV-001.md
+  - design/R13-UI-FROZEN/specs/SCR-HIS-001.md
+  - design/R13-UI-FROZEN/specs/SHEET-CONTENT-INVALID-001.md
+  - docs/02-ui/page-specs/android/SHEET-SHARE-001_分享面板.md
+  - docs/02-ui/page-specs/android/SCR-FAV-001_我的收藏.md
+  - docs/02-ui/page-specs/android/SCR-HIS-001_浏览记录.md
+  - docs/02-ui/page-specs/android/SHEET-CONTENT-INVALID-001_联系方式失效反馈.md
+  - docs/03-continuity/R13_TASK-001_ENTRY_GATE.md
+  - CHANGELOG.md
+  - releases/PROGRAM_EXECUTION_PLAN.yaml
+  - packages/api-client/src/client.generated.ts
+  source: story+explicit+approved-cr:CR-0363+approved-cr:CR-0364+approved-cr:CR-0365
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  base_commit: 84eadad25a10321462f42fa9b63d448073590cab
+  start_head: 84eadad25a10321462f42fa9b63d448073590cab
+  upstream: origin/task/TASK-R03-001
+  initial_worktree_state: CLEAN
+lease:
+  duration_minutes: 240
+  renewed_at: '2026-07-26T11:25:25Z'
+  expires_at: '2026-07-26T15:25:25Z'
+checkpoint_sequence: 2
+latest_checkpoint: .continuity/checkpoints/SES-20260726T110209Z-C9DC8AD5/0002.yaml
+session_log: docs/03-continuity/sessions/2026-07/SES-20260726T110209Z-C9DC8AD5.md
+next_step: 提交并推送TASK-R13-001实现；绑定Commit标记CR-0363/0364/0365为IMPLEMENTED，再关闭会话并立即领取TASK-R13-002。
+context_pack: THIS_CONTEXT_PACK
+handoff_bundle: null
+closure: null
+parallel_execution:
+  assessment: CAPABILITY_UNAVAILABLE
+  delegated_workers: 0
+  workers: []
+  reason: 当前系统级约束禁止创建子代理；唯一事实主控已串行复核生成差异与最终门禁。
 ```
 
 ## 最新检查点
 
 ```yaml
-status: NO_CHECKPOINT
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260726T110209Z-C9DC8AD5-0002
+session_id: SES-20260726T110209Z-C9DC8AD5
+task_id: TASK-R13-001
+story_id: STORY-R13-001
+sequence: 2
+created_at: '2026-07-26T11:25:24Z'
+summary: TASK-R13-001实现与验证完成：入口计划、四页视觉基线、R13滚动计划、生成客户端同步和受影响模块回归均PASS，严格Project/Continuity Doctor无错误无警告。
+next_step: 提交并推送TASK-R13-001实现；绑定Commit标记CR-0363/0364/0365为IMPLEMENTED，再关闭会话并立即领取TASK-R13-002。
+blockers: []
+decisions: []
+note: ''
+tests:
+- name: project_doctor_R13
+  result: PASS
+  evidence: scripts/project-doctor.py --strict --release R13
+  note: 0 errors 0 warnings rule readiness PASS
+- name: continuity_doctor
+  result: PASS
+  evidence: scripts/continuity_gate.py --mode doctor --strict
+  note: 11 required sources PASS
+- name: generated_assets
+  result: PASS
+  evidence: scripts/check_generated_assets.py
+  note: 确定性生成资产一致
+- name: admin_h5_regression
+  result: PASS
+  evidence: pnpm module typecheck and test
+  note: 142 tests total passed
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: 84eadad25a10321462f42fa9b63d448073590cab
+  upstream: origin/task/TASK-R03-001
+  ahead: 0
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/ACTIVE_SESSION.yaml'
+  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/SESSION_INDEX.yaml'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/TASK_CLAIMS.yaml'
+  - ' M .continuity/TASK_TRANSITIONS.yaml'
+  - ' M CHANGELOG.md'
+  - ' M CURRENT_STATUS.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+  - ' M artifacts/validation/continuity-gate-v1.2.3.json'
+  - ' M artifacts/validation/project-doctor-v1.2.3-documentation.json'
+  - ' M artifacts/validation/project-doctor-v1.2.3.json'
+  - ' M catalogs/change_request_index.csv'
+  - ' M catalogs/screen_visual_binding.csv'
+  - ' M catalogs/session_index.csv'
+  - ' M catalogs/task_transition_ledger.csv'
+  - ' M catalogs/ui_page_specifications.csv'
+  - ' M docs/02-ui/page-specs/android/SCR-FAV-001_我的收藏.md'
+  - ' M docs/02-ui/page-specs/android/SCR-HIS-001_浏览记录.md'
+  - ' M docs/02-ui/page-specs/android/SHEET-CONTENT-INVALID-001_联系方式失效反馈.md'
+  - ' M docs/02-ui/page-specs/android/SHEET-SHARE-001_分享面板.md'
+  - ' M packages/api-client/src/client.generated.ts'
+  - ' M releases/PROGRAM_EXECUTION_PLAN.yaml'
+  - ' M releases/R13/RELEASE_MANIFEST.yaml'
+  - ' M releases/R13/STORIES.yaml'
+  - ' M releases/R13/TASKS.yaml'
+  - ?? .continuity/change_requests/CR-0363.yaml
+  - ?? .continuity/change_requests/CR-0364.yaml
+  - ?? .continuity/change_requests/CR-0365.yaml
+  - ?? .continuity/checkpoints/SES-20260726T110209Z-C9DC8AD5/0001.yaml
+  - ?? .continuity/sessions/SES-20260726T110209Z-C9DC8AD5.yaml
+  - ?? design/R13-UI-FROZEN/VISUAL_COVERAGE_AUDIT.md
+  - ?? design/R13-UI-FROZEN/specs/SCR-FAV-001.md
+  - ?? design/R13-UI-FROZEN/specs/SCR-HIS-001.md
+  - ?? design/R13-UI-FROZEN/specs/SHEET-CONTENT-INVALID-001.md
+  - ?? design/R13-UI-FROZEN/specs/SHEET-SHARE-001.md
+  - ?? docs/03-continuity/R13_TASK-001_ENTRY_GATE.md
+  - ?? docs/03-continuity/change-requests/CR-0363-建立R13开发入口计划与四页精确视觉基线.md
+  - ?? docs/03-continuity/change-requests/CR-0364-刷新R13动态滚动执行计划.md
+  - ?? docs/03-continuity/change-requests/CR-0365-同步R13-OpenAPI生成客户端消除确定性漂移.md
+  - ?? docs/03-continuity/sessions/2026-07/SES-20260726T110209Z-C9DC8AD5.md
+  - ?? releases/R13/PARALLEL_EXECUTION_PLAN.yaml
+  recent_commits:
+  - "84eadad25a10321462f42fa9b63d448073590cab\t2026-07-26T18:58:57+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] chore(continuity): close TASK-R12-008\
+    \ as completed"
+  - "0af377d34568245e87a279e5cb0811369086b670\t2026-07-26T18:57:30+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] docs(r12): bind machine close\
+    \ implementation"
+  - "60c547b9cd0fc8c35a6567c744271ba23a593d41\t2026-07-26T18:55:49+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] chore(r12): complete machine\
+    \ close evidence"
+  - "9b367d87b1037d1b91a9b46f44d45b9f01be31b8\t2026-07-26T18:48:53+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] chore(continuity): close TASK-R12-007\
+    \ as completed"
+  - "339fd7389d3f322f98a7abfc6a45a3319bd6438c\t2026-07-26T18:46:43+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] docs(r12): bind delivery implementation\
+    \ commit"
+  - "47a4494dea729eda45cde6bb6bc144622c42745c\t2026-07-26T18:43:38+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] chore(r12): deliver final\
+    \ test APK"
+  - "75fb4271dabec52d477b597512f028886ba261d3\t2026-07-26T17:00:00+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] test(android): approve R12\
+    \ visual baseline"
+  - "8090001f064c304db08ca9886fe1b1d4d231ef00\t2026-07-26T16:17:26+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] test(r12): authorize autonomous\
+    \ attempt 7"
+project_fingerprint:
+  sha256: 9d919dd60af9e13cd987fdcd3631cf329ba8019de8b9b9ca187262e8c60e2357
+  files:
+  - CHANGELOG.md
+  - catalogs/screen_visual_binding.csv
+  - catalogs/ui_page_specifications.csv
+  - design/R13-UI-FROZEN/VISUAL_COVERAGE_AUDIT.md
+  - design/R13-UI-FROZEN/specs/SCR-FAV-001.md
+  - design/R13-UI-FROZEN/specs/SCR-HIS-001.md
+  - design/R13-UI-FROZEN/specs/SHEET-CONTENT-INVALID-001.md
+  - design/R13-UI-FROZEN/specs/SHEET-SHARE-001.md
+  - docs/02-ui/page-specs/android/SCR-FAV-001_我的收藏.md
+  - docs/02-ui/page-specs/android/SCR-HIS-001_浏览记录.md
+  - docs/02-ui/page-specs/android/SHEET-CONTENT-INVALID-001_联系方式失效反馈.md
+  - docs/02-ui/page-specs/android/SHEET-SHARE-001_分享面板.md
+  - docs/03-continuity/R13_TASK-001_ENTRY_GATE.md
+  - docs/03-continuity/change-requests/CR-0363-建立R13开发入口计划与四页精确视觉基线.md
+  - docs/03-continuity/change-requests/CR-0364-刷新R13动态滚动执行计划.md
+  - docs/03-continuity/change-requests/CR-0365-同步R13-OpenAPI生成客户端消除确定性漂移.md
+  - packages/api-client/src/client.generated.ts
+  - releases/PROGRAM_EXECUTION_PLAN.yaml
+  - releases/R13/PARALLEL_EXECUTION_PLAN.yaml
+  - releases/R13/RELEASE_MANIFEST.yaml
+  - releases/R13/STORIES.yaml
+  - releases/R13/TASKS.yaml
+  file_count: 22
+  payload:
+    base_commit: 84eadad25a10321462f42fa9b63d448073590cab
+    files:
+    - path: CHANGELOG.md
+      state: FILE
+      size: 158649
+      sha256: dd043ae9fe91f405c5da36bdffe1332225b657bc4e69012f18815f26d7ea9e3d
+    - path: catalogs/screen_visual_binding.csv
+      state: FILE
+      size: 14995
+      sha256: 11933469b3a1c3cf225bee2e5bbe986452e03c518ce5723593ec58eac5ea059e
+    - path: catalogs/ui_page_specifications.csv
+      state: FILE
+      size: 293689
+      sha256: 01ae502d55367eaf90a35469486115845de31515e57c9f98d949be4e4521c544
+    - path: design/R13-UI-FROZEN/VISUAL_COVERAGE_AUDIT.md
+      state: FILE
+      size: 1417
+      sha256: 300144198be9502f322cdcdc8ef901779c051381bd82663e0bdbf89dbab3f25c
+    - path: design/R13-UI-FROZEN/specs/SCR-FAV-001.md
+      state: FILE
+      size: 991
+      sha256: da774cf71e7c85874898efbc5babbaf35164e9083ad0bbcc044bfa119953270b
+    - path: design/R13-UI-FROZEN/specs/SCR-HIS-001.md
+      state: FILE
+      size: 1027
+      sha256: 2b5b03d37b07028b29673dcaa9b04bdd7de7c4ee94f031897903ced866ce54b2
+    - path: design/R13-UI-FROZEN/specs/SHEET-CONTENT-INVALID-001.md
+      state: FILE
+      size: 1264
+      sha256: ffa19bcc68cb3d5a345dd85b535cf2dc6a70d43ff84824969de53c1c14929286
+    - path: design/R13-UI-FROZEN/specs/SHEET-SHARE-001.md
+      state: FILE
+      size: 1648
+      sha256: cf91759cb17a4fb713988c77e2c62d6272097a46392c7d7e5317c2c1c901d289
+    - path: docs/02-ui/page-specs/android/SCR-FAV-001_我的收藏.md
+      state: FILE
+      size: 24335
+      sha256: f5492312f4ebb63457443928c4d9e9b49ec31dd014ef4cf2df92c434378a4473
+    - path: docs/02-ui/page-specs/android/SCR-HIS-001_浏览记录.md
+      state: FILE
+      size: 19691
+      sha256: f6e820762d3076cdcfebaca04fdaf09fdc785f775178582041fbe481af25e7af
+    - path: docs/02-ui/page-specs/android/SHEET-CONTENT-INVALID-001_联系方式失效反馈.md
+      state: FILE
+      size: 10108
+      sha256: 269289481023383bc39c415a311fa248093c939397dc5b548df55aaaff9ec6fa
+    - path: docs/02-ui/page-specs/android/SHEET-SHARE-001_分享面板.md
+      state: FILE
+      size: 9259
+      sha256: ec1a3a899d2984f4be4cd007d1c271a686b5e654bb57d17760465e2d23b92d1f
+    - path: docs/03-continuity/R13_TASK-001_ENTRY_GATE.md
+      state: FILE
+      size: 1626
+      sha256: d2405e02de4f0be810423f4432e429f37d38ff44c461239097f86c7253af78ac
+    - path: docs/03-continuity/change-requests/CR-0363-建立R13开发入口计划与四页精确视觉基线.md
+      state: FILE
+      size: 4287
+      sha256: 068e2358c0fb122937ae79ed3293ca8e1f97c8eae742985d91baf064fe112c6f
+    - path: docs/03-continuity/change-requests/CR-0364-刷新R13动态滚动执行计划.md
+      state: FILE
+      size: 2120
+      sha256: dc0a5d826ab6365beab4cbf0b0f21677dfc31dde1119a023d3ff037df15d93d8
+    - path: docs/03-continuity/change-requests/CR-0365-同步R13-OpenAPI生成客户端消除确定性漂移.md
+      state: FILE
+      size: 2496
+      sha256: c10e7c51c25e9b5f91f8efb044254a17255061e7aae43ca061fab29fcb04f29f
+    - path: packages/api-client/src/client.generated.ts
+      state: FILE
+      size: 621522
+      sha256: fbc78653c57afb2ec99c1014e78244acc4a56b397c946e14fc4ddeb3b9709839
+    - path: releases/PROGRAM_EXECUTION_PLAN.yaml
+      state: FILE
+      size: 36523
+      sha256: f96cc0a89a5f3ae9bc849a200bfc697c0b53a3a00fb3034c66cc0f3610391c4d
+    - path: releases/R13/PARALLEL_EXECUTION_PLAN.yaml
+      state: FILE
+      size: 2581
+      sha256: 192844a37221f84e42f714fa209260976c81685e094733390664168e34ef5887
+    - path: releases/R13/RELEASE_MANIFEST.yaml
+      state: FILE
+      size: 3697
+      sha256: 9da70eeaff821007d592553c06735b8f30d81babaf2975f8720d51bc11399fb2
+    - path: releases/R13/STORIES.yaml
+      state: FILE
+      size: 8605
+      sha256: 63c13176b456f804ab42ee350bd1c3496666cf13e3250d82b013ef73c8cd84fd
+    - path: releases/R13/TASKS.yaml
+      state: FILE
+      size: 5676
+      sha256: 69ba9334ffbb3eb1b84843cb6e3bfe1801992ad6ef70bd86cd9c16b4c7626950
+change_classification:
+  other:
+  - CHANGELOG.md
+  - catalogs/screen_visual_binding.csv
+  - design/R13-UI-FROZEN/VISUAL_COVERAGE_AUDIT.md
+  - design/R13-UI-FROZEN/specs/SCR-FAV-001.md
+  - design/R13-UI-FROZEN/specs/SCR-HIS-001.md
+  - design/R13-UI-FROZEN/specs/SHEET-CONTENT-INVALID-001.md
+  - design/R13-UI-FROZEN/specs/SHEET-SHARE-001.md
+  - releases/PROGRAM_EXECUTION_PLAN.yaml
+  - releases/R13/PARALLEL_EXECUTION_PLAN.yaml
+  - releases/R13/TASKS.yaml
+  source_of_truth:
+  - catalogs/ui_page_specifications.csv
+  - docs/02-ui/page-specs/android/SCR-FAV-001_我的收藏.md
+  - docs/02-ui/page-specs/android/SCR-HIS-001_浏览记录.md
+  - docs/02-ui/page-specs/android/SHEET-CONTENT-INVALID-001_联系方式失效反馈.md
+  - docs/02-ui/page-specs/android/SHEET-SHARE-001_分享面板.md
+  - releases/R13/RELEASE_MANIFEST.yaml
+  - releases/R13/STORIES.yaml
+  user_visible:
+  - docs/02-ui/page-specs/android/SCR-FAV-001_我的收藏.md
+  - docs/02-ui/page-specs/android/SCR-HIS-001_浏览记录.md
+  - docs/02-ui/page-specs/android/SHEET-CONTENT-INVALID-001_联系方式失效反馈.md
+  - docs/02-ui/page-specs/android/SHEET-SHARE-001_分享面板.md
+  continuity:
+  - docs/03-continuity/R13_TASK-001_ENTRY_GATE.md
+  - docs/03-continuity/change-requests/CR-0363-建立R13开发入口计划与四页精确视觉基线.md
+  - docs/03-continuity/change-requests/CR-0364-刷新R13动态滚动执行计划.md
+  - docs/03-continuity/change-requests/CR-0365-同步R13-OpenAPI生成客户端消除确定性漂移.md
+  code:
+  - packages/api-client/src/client.generated.ts
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+- APPROVED_CHANGE_REQUEST
+- CHANGELOG
+change_requests:
+- CR-0363
+- CR-0364
+- CR-0365
+scope:
+  allowed_paths:
+  - apps/android/**
+  - services/backend/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - tests/**
+  - docs/**
+  - catalogs/**
+  - releases/**
+  - design/**
+  - scripts/**
+  - CHANGELOG.md
+  approved_exceptions:
+  - releases/R13/PARALLEL_EXECUTION_PLAN.yaml
+  - releases/R13/RELEASE_MANIFEST.yaml
+  - releases/R13/STORIES.yaml
+  - releases/R13/TASKS.yaml
+  - catalogs/ui_page_specifications.csv
+  - catalogs/screen_visual_binding.csv
+  - design/R13-UI-FROZEN/VISUAL_COVERAGE_AUDIT.md
+  - design/R13-UI-FROZEN/specs/SHEET-SHARE-001.md
+  - design/R13-UI-FROZEN/specs/SCR-FAV-001.md
+  - design/R13-UI-FROZEN/specs/SCR-HIS-001.md
+  - design/R13-UI-FROZEN/specs/SHEET-CONTENT-INVALID-001.md
+  - docs/02-ui/page-specs/android/SHEET-SHARE-001_分享面板.md
+  - docs/02-ui/page-specs/android/SCR-FAV-001_我的收藏.md
+  - docs/02-ui/page-specs/android/SCR-HIS-001_浏览记录.md
+  - docs/02-ui/page-specs/android/SHEET-CONTENT-INVALID-001_联系方式失效反馈.md
+  - docs/03-continuity/R13_TASK-001_ENTRY_GATE.md
+  - CHANGELOG.md
+  - releases/PROGRAM_EXECUTION_PLAN.yaml
+  - packages/api-client/src/client.generated.ts
+  source: story+explicit+approved-cr:CR-0363+approved-cr:CR-0364+approved-cr:CR-0365
+parallel_execution:
+  assessment: CAPABILITY_UNAVAILABLE
+  delegated_workers: 0
+  workers: []
+  reason: 当前系统级约束禁止创建子代理；唯一事实主控已串行复核生成差异与最终门禁。
+event_hash: 28140c92b255cbe67ee7978ebfafc5118cad159f1dc8cf56a3aad5a0e9c031be
 ```
 
 ## 接续状态与事件头
@@ -408,31 +790,19 @@ status: NO_CHECKPOINT
 ```yaml
 mode: ENFORCED
 protocol_version: '1.0'
-active_session_id: null
+active_session_id: SES-20260726T110209Z-C9DC8AD5
 last_session_id: SES-20260726T105013Z-AE578D81
 last_session_result: COMPLETED
 last_closure_checkpoint_id: CP-SES-20260726T105013Z-AE578D81-0003
-event_count: 3528
-event_head_hash: 126568355f75f4559cf3f67f6aa2071528043c6238f5e3e89e852e9aac16659e
+event_count: 3546
+event_head_hash: 28140c92b255cbe67ee7978ebfafc5118cad159f1dc8cf56a3aad5a0e9c031be
 event_chain_valid: true
 ```
 
 ## 最近会话与任务迁移
 
 ```yaml
-recent_sessions: - session_id: SES-20260724T110611Z-0D26E8D5
-  task_id: TASK-R11-008
-  story_id: STORY-R11-004
-  actor_id: codex-root-r11-close
-  status: CLOSED
-  started_at: '2026-07-24T11:06:11Z'
-  record: .continuity/sessions/SES-20260724T110611Z-0D26E8D5.yaml
-  session_log: docs/03-continuity/sessions/2026-07/SES-20260724T110611Z-0D26E8D5.md
-  updated_at: '2026-07-24T14:43:44Z'
-  closed_at: '2026-07-24T14:43:44Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260724T110611Z-0D26E8D5/0006.yaml
-  handoff_bundle: null
-- session_id: SES-20260724T144831Z-B2E27A89
+recent_sessions: - session_id: SES-20260724T144831Z-B2E27A89
   task_id: TASK-R12-001
   story_id: STORY-R12-008
   actor_id: codex-root-r12-entry
@@ -540,48 +910,19 @@ recent_sessions: - session_id: SES-20260724T110611Z-0D26E8D5
   closed_at: '2026-07-26T10:58:02Z'
   latest_checkpoint: .continuity/checkpoints/SES-20260726T105013Z-AE578D81/0003.yaml
   handoff_bundle: null
-task_claims: - claim_id: CLM-C0DD955F7A14
-  session_id: SES-20260723T115555Z-5C81458B
-  task_id: TASK-R10-006
-  story_id: STORY-R10-004
-  actor_id: codex-root-r10-observability
-  status: CLOSED
-  claimed_at: '2026-07-23T11:55:55Z'
-  allowed_paths:
-  - apps/**
-  - services/**
-  - packages/**
-  - contracts/**
-  - database/**
-  - config/**
-  - catalogs/**
-  - tests/**
-  - infra/**
-  - design/**
-  - docs/**
-  - releases/**
-  - scripts/**
-  - templates/**
-  - .github/**
-  - .githooks/**
-  - .codex/**
-  - AGENTS.md
-  - START_HERE.md
-  - README.md
-  - CHANGELOG.md
-  - Makefile
-  - .gitignore
-  - .gitattributes
-  - .dockerignore
-  - package.json
-  - pnpm-lock.yaml
-  - pnpm-workspace.yaml
-  - requirements-dev.txt
-  - PROJECT_*.yaml
-  - PROJECT_*.json
-  - artifacts/reports/R10,docs/08-testing,docs/09-development,CHANGELOG.md,releases/R10
-  closed_at: '2026-07-23T12:29:00Z'
-- claim_id: CLM-533B7974289D
+- session_id: SES-20260726T110209Z-C9DC8AD5
+  task_id: TASK-R13-001
+  story_id: STORY-R13-001
+  actor_id: codex-root-r13-20260726
+  status: ACTIVE
+  started_at: '2026-07-26T11:02:09Z'
+  record: .continuity/sessions/SES-20260726T110209Z-C9DC8AD5.yaml
+  session_log: docs/03-continuity/sessions/2026-07/SES-20260726T110209Z-C9DC8AD5.md
+  updated_at: '2026-07-26T11:25:25Z'
+  closed_at: null
+  latest_checkpoint: .continuity/checkpoints/SES-20260726T110209Z-C9DC8AD5/0002.yaml
+  handoff_bundle: null
+task_claims: - claim_id: CLM-533B7974289D
   session_id: SES-20260723T122953Z-52EBA51E
   task_id: TASK-R10-007
   story_id: STORY-R10-004
@@ -1326,17 +1667,28 @@ task_claims: - claim_id: CLM-C0DD955F7A14
   - PROJECT_*.yaml
   - PROJECT_*.json
   closed_at: '2026-07-26T10:58:02Z'
-recent_task_transitions: - transition_id: TRN-46DFAF915ED3
-  timestamp: '2026-07-23T11:55:57Z'
-  release: R10
-  task_id: TASK-R10-006
-  story_id: STORY-R10-004
-  from_status: READY
-  to_status: IN_PROGRESS
-  session_id: SES-20260723T115555Z-5C81458B
-  actor_id: codex-root-r10-observability
-  reason: 会话领取任务
-- transition_id: TRN-EED5520BDCDA
+- claim_id: CLM-0565DCD53F60
+  session_id: SES-20260726T110209Z-C9DC8AD5
+  task_id: TASK-R13-001
+  story_id: STORY-R13-001
+  actor_id: codex-root-r13-20260726
+  status: ACTIVE
+  claimed_at: '2026-07-26T11:02:09Z'
+  allowed_paths:
+  - apps/android/**
+  - services/backend/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - tests/**
+  - docs/**
+  - catalogs/**
+  - releases/**
+  - design/**
+  - scripts/**
+  - CHANGELOG.md
+recent_task_transitions: - transition_id: TRN-EED5520BDCDA
   timestamp: '2026-07-23T12:29:55Z'
   release: R10
   task_id: TASK-R10-007
@@ -1526,6 +1878,16 @@ recent_task_transitions: - transition_id: TRN-46DFAF915ED3
   session_id: SES-20260726T105013Z-AE578D81
   actor_id: codex-root-r12-close-20260726
   reason: 会话领取任务
+- transition_id: TRN-823101375F29
+  timestamp: '2026-07-26T11:02:13Z'
+  release: R13
+  task_id: TASK-R13-001
+  story_id: STORY-R13-001
+  from_status: READY
+  to_status: IN_PROGRESS
+  session_id: SES-20260726T110209Z-C9DC8AD5
+  actor_id: codex-root-r13-20260726
+  reason: 会话领取任务
 ```
 
 ## Git 状态
@@ -1533,29 +1895,61 @@ recent_task_transitions: - transition_id: TRN-46DFAF915ED3
 ```yaml
 initialized: true
 branch: task/TASK-R03-001
-head: 0af377d34568245e87a279e5cb0811369086b670
+head: 84eadad25a10321462f42fa9b63d448073590cab
 upstream: origin/task/TASK-R03-001
-ahead: 5
+ahead: 0
 behind: 0
 dirty: true
 status_porcelain:
 - ' M .continuity/ACTIVE_SESSION.yaml'
+- ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
 - ' M .continuity/EVENT_LOG.jsonl'
 - ' M .continuity/SESSION_INDEX.yaml'
 - ' M .continuity/STATE.yaml'
 - ' M .continuity/TASK_CLAIMS.yaml'
-- ' M .continuity/sessions/SES-20260726T105013Z-AE578D81.yaml'
+- ' M .continuity/TASK_TRANSITIONS.yaml'
 - ' M CHANGELOG.md'
 - ' M CURRENT_STATUS.yaml'
-- ' M NEXT_TASK.yaml'
 - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
 - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
 - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+- ' M artifacts/validation/continuity-gate-v1.2.3.json'
+- ' M artifacts/validation/project-doctor-v1.2.3-documentation.json'
+- ' M artifacts/validation/project-doctor-v1.2.3.json'
+- ' M catalogs/change_request_index.csv'
+- ' M catalogs/screen_visual_binding.csv'
 - ' M catalogs/session_index.csv'
-- ' M docs/03-continuity/sessions/2026-07/SES-20260726T105013Z-AE578D81.md'
-- ' M releases/R12/TASKS.yaml'
-- ?? .continuity/checkpoints/SES-20260726T105013Z-AE578D81/0003.yaml
+- ' M catalogs/task_transition_ledger.csv'
+- ' M catalogs/ui_page_specifications.csv'
+- ' M docs/02-ui/page-specs/android/SCR-FAV-001_我的收藏.md'
+- ' M docs/02-ui/page-specs/android/SCR-HIS-001_浏览记录.md'
+- ' M docs/02-ui/page-specs/android/SHEET-CONTENT-INVALID-001_联系方式失效反馈.md'
+- ' M docs/02-ui/page-specs/android/SHEET-SHARE-001_分享面板.md'
+- ' M packages/api-client/src/client.generated.ts'
+- ' M releases/PROGRAM_EXECUTION_PLAN.yaml'
+- ' M releases/R13/RELEASE_MANIFEST.yaml'
+- ' M releases/R13/STORIES.yaml'
+- ' M releases/R13/TASKS.yaml'
+- ?? .continuity/change_requests/CR-0363.yaml
+- ?? .continuity/change_requests/CR-0364.yaml
+- ?? .continuity/change_requests/CR-0365.yaml
+- ?? .continuity/checkpoints/SES-20260726T110209Z-C9DC8AD5/0001.yaml
+- ?? .continuity/checkpoints/SES-20260726T110209Z-C9DC8AD5/0002.yaml
+- ?? .continuity/sessions/SES-20260726T110209Z-C9DC8AD5.yaml
+- ?? design/R13-UI-FROZEN/VISUAL_COVERAGE_AUDIT.md
+- ?? design/R13-UI-FROZEN/specs/SCR-FAV-001.md
+- ?? design/R13-UI-FROZEN/specs/SCR-HIS-001.md
+- ?? design/R13-UI-FROZEN/specs/SHEET-CONTENT-INVALID-001.md
+- ?? design/R13-UI-FROZEN/specs/SHEET-SHARE-001.md
+- ?? docs/03-continuity/R13_TASK-001_ENTRY_GATE.md
+- ?? docs/03-continuity/change-requests/CR-0363-建立R13开发入口计划与四页精确视觉基线.md
+- ?? docs/03-continuity/change-requests/CR-0364-刷新R13动态滚动执行计划.md
+- ?? docs/03-continuity/change-requests/CR-0365-同步R13-OpenAPI生成客户端消除确定性漂移.md
+- ?? docs/03-continuity/sessions/2026-07/SES-20260726T110209Z-C9DC8AD5.md
+- ?? releases/R13/PARALLEL_EXECUTION_PLAN.yaml
 recent_commits:
+- "84eadad25a10321462f42fa9b63d448073590cab\t2026-07-26T18:58:57+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] chore(continuity): close TASK-R12-008\
+  \ as completed"
 - "0af377d34568245e87a279e5cb0811369086b670\t2026-07-26T18:57:30+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] docs(r12): bind machine close\
   \ implementation"
 - "60c547b9cd0fc8c35a6567c744271ba23a593d41\t2026-07-26T18:55:49+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] chore(r12): complete machine\
@@ -1570,16 +1964,35 @@ recent_commits:
   \ baseline"
 - "8090001f064c304db08ca9886fe1b1d4d231ef00\t2026-07-26T16:17:26+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] test(r12): authorize autonomous\
   \ attempt 7"
-- "8ad04b03befe575fc35cc619184e55db5781c7e0\t2026-07-26T15:58:57+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] docs(continuity): prepare attempt\
-  \ 7 decision"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`5db2cc4f55f29480297798698e0c409a394ff458d94e3ee62709c76a88615385`
-- 文件数：0
+- 指纹：`9d919dd60af9e13cd987fdcd3631cf329ba8019de8b9b9ca187262e8c60e2357`
+- 文件数：22
 
-- 无
+- `CHANGELOG.md`
+- `catalogs/screen_visual_binding.csv`
+- `catalogs/ui_page_specifications.csv`
+- `design/R13-UI-FROZEN/VISUAL_COVERAGE_AUDIT.md`
+- `design/R13-UI-FROZEN/specs/SCR-FAV-001.md`
+- `design/R13-UI-FROZEN/specs/SCR-HIS-001.md`
+- `design/R13-UI-FROZEN/specs/SHEET-CONTENT-INVALID-001.md`
+- `design/R13-UI-FROZEN/specs/SHEET-SHARE-001.md`
+- `docs/02-ui/page-specs/android/SCR-FAV-001_我的收藏.md`
+- `docs/02-ui/page-specs/android/SCR-HIS-001_浏览记录.md`
+- `docs/02-ui/page-specs/android/SHEET-CONTENT-INVALID-001_联系方式失效反馈.md`
+- `docs/02-ui/page-specs/android/SHEET-SHARE-001_分享面板.md`
+- `docs/03-continuity/R13_TASK-001_ENTRY_GATE.md`
+- `docs/03-continuity/change-requests/CR-0363-建立R13开发入口计划与四页精确视觉基线.md`
+- `docs/03-continuity/change-requests/CR-0364-刷新R13动态滚动执行计划.md`
+- `docs/03-continuity/change-requests/CR-0365-同步R13-OpenAPI生成客户端消除确定性漂移.md`
+- `packages/api-client/src/client.generated.ts`
+- `releases/PROGRAM_EXECUTION_PLAN.yaml`
+- `releases/R13/PARALLEL_EXECUTION_PLAN.yaml`
+- `releases/R13/RELEASE_MANIFEST.yaml`
+- `releases/R13/STORIES.yaml`
+- `releases/R13/TASKS.yaml`
 
 ## 当前 Release
 
@@ -1587,7 +2000,7 @@ recent_commits:
 RELEASE_MANIFEST.yaml:
   release: R13
   title: 收藏、历史、分享与行为审计
-  status: READY_WHEN_DEPENDENCIES_GREEN
+  status: DEVELOPMENT_READY
   milestone: M1_CONTENT_MARKETPLACE
   depends_on:
   - R07
@@ -1607,11 +2020,12 @@ RELEASE_MANIFEST.yaml:
     admin: []
   contracts:
     client_api:
-    - POST /api/v1/contents/{id}/favorite
-    - DELETE /api/v1/contents/{id}/favorite
-    - GET /api/v1/me/favorites
-    - GET /api/v1/me/history
-    - POST /api/v1/contents/{id}/share
+    - contentPostContentsByIdFavorite
+    - contentDeleteContentsByIdFavorite
+    - contentGetMeFavorites
+    - contentGetMeHistory
+    - contentPostContentsByIdShare
+    - contentPostContentsByIdInvalidFeedback
     admin_api: []
     websocket: []
   database_tables:
@@ -1644,12 +2058,39 @@ RELEASE_MANIFEST.yaml:
   - TST-ACTIVITY_001-HAPPY
   - TST-ACTIVITY_001-IDEMPOTENT
   - TST-ACTIVITY_001-REJECT
+  test_count: 3
+  planning_depth: STORY_READY
+  apk_gate: FINAL_CANDIDATE_ONLY_OWNER_FEEDBACK_ASYNC
+  entry_baseline:
+    checked_at: '2026-07-26'
+    session_id: SES-20260726T110209Z-C9DC8AD5
+    story_id: STORY-R13-001
+    change_request: CR-0363
+    documentation_status: PASS_DOCUMENTATION_READY
+    strict_documentation: PASS_0_ERRORS_0_WARNINGS
+    program_execution_plan: PASS_31_RELEASES_0_ERRORS
+    release_artifacts: PASS
+    continuity_gate: PASS
+    cloud_environment_status: PASS
+    dependency_machine_status:
+      R07: MACHINE_COMPLETE_OWNER_PENDING
+      R12: MACHINE_COMPLETE_OWNER_PENDING
+    contract_boundary:
+      release_owned_operation_ids: 5
+      shared_story_operation_ids: 1
+      total_implementation_operation_ids: 6
+    exact_visual_bindings:
+      SHEET-SHARE-001: SPEC:design/R13-UI-FROZEN/specs/SHEET-SHARE-001.md
+      SCR-FAV-001: B08/P07
+      SCR-HIS-001: B08/P08
+      SHEET-CONTENT-INVALID-001: SPEC:design/R13-UI-FROZEN/specs/SHEET-CONTENT-INVALID-001.md
   entry_gate:
   - releases/R13/DEFINITION_OF_READY.yaml 全部适用项为PASS
   - releases/R13/STORIES.yaml 中每个故事均绑定页面/API/配置/数据/测试或显式N/A
   - 本版本页面字段、状态、动作、导航和后台运营规格不存在TBD/RELEASE_BOUND
   - 全部依赖版本为GREEN或按发布计划允许的并行依赖已记录
   - 冻结契约发生变化时已创建CR并重新生成追踪和SHA
+  - 四页均绑定精确面板或批准补充规格；禁止TOKENS_ONLY、P01-P08范围和缺失绑定施工
   exit_gate:
   - 领域代码与前端真实闭环
   - 数据库迁移和不变量测试通过
@@ -2051,6 +2492,7 @@ STORIES.yaml:
     - OpenAPI、状态机、数据库迁移、配置Schema和页面契约引用一致，代码生成不得产生手工分叉
     - 每个需求可追溯到页面/API/表/配置/测试/故事；不适用项必须显式N/A并说明
     - 版本DoR全部PASS后方可编码；出口仍按原RELEASE_MANIFEST和ACCEPTANCE_MATRIX执行
+    - 四页视觉来源与CR-0363、页面目录、逐页施工规格和Release Manifest一致；TASK-R13-004登记IN_REVIEW，TASK-R13-007真实截图经AI复核后才可PASS
     - 变更必须通过CR，更新唯一事实源并重新生成全部派生目录和哈希
     - 完成Session Log、追踪矩阵、发布证据和下一任务交接
     definition_of_ready: DEFINITION_OF_READY.yaml全部阻断项PASS
@@ -2067,7 +2509,7 @@ TASKS.yaml:
     - REQ-PUBLISHER-001
     - REQ-ACTIVITY-001
     - REQ-APK-001
-    description: 核验 2 项需求、5 个接口、25 张相关表、4 个页面/交互面和 3 个故事；全部适用DoR必须PASS。
+    description: 核验 2 项本版需求、5 个R13归属接口、1 个Story复用共享接口、25 张相关表、4 个页面/交互面和 3 个故事；全部适用DoR必须PASS。
     deliverables:
     - releases/R13/DEFINITION_OF_READY.yaml 全部适用项PASS
     - releases/R13/STORIES.yaml 故事责任人和依赖已领取
@@ -2202,6 +2644,82 @@ TASKS.yaml:
   definition_of_ready: releases/R13/DEFINITION_OF_READY.yaml
   story_backlog: releases/R13/STORIES.yaml
   execution_rule: TASKS定义治理顺序，STORIES定义可领取纵向工作；二者必须同时满足，不得以通用任务替代页面故事验收。
+PARALLEL_EXECUTION_PLAN.yaml:
+  version: '1.0'
+  release: R13
+  change_request: CR-0363
+  mode: SINGLE_AUTHORITATIVE_SESSION_WITH_SAFE_DELEGATION_REVIEW
+  authoritative_session_count: 1
+  max_parallel_workers: 3
+  simultaneous_claim_limit: 1
+  worker_parallelism_scope: DISJOINT_PATH_SCRATCH_WORKTREES_ONLY
+  default_delegation_mode: AUTO_WHEN_SAFE_PARALLEL_WORK_EXISTS
+  review_triggers:
+  - TASK_START
+  - SCOPE_CHANGE
+  non_delegation_requires_checkpoint_reason: true
+  capability_fallback: KEEP_SINGLE_AUTHORITATIVE_SESSION_AND_DO_NOT_FABRICATE_PARALLEL_EVIDENCE
+  source_of_truth_branch: task/TASK-R03-001
+  rules:
+  - 主控一次只保留一个ACTIVE Session和Task/Story Claim；执行代理不得形成第二事实源。
+  - Task开始或范围变化时评估安全并行；状态机、数据库迁移、导航、审计和最终集成由主控串行复核。
+  - 执行代理仅可在路径互斥的scratch worktree工作，不得修改连续性、Release或状态事实文件。
+  - 功能、字段、动作、数据、权限和版本归属逐项对应仓库开发文档；效果图只约束正确功能的页面建模与视觉。
+  - R13四页必须使用Release Manifest登记的精确面板或批准补充规格，禁止TOKENS_ONLY、P01-P08范围和缺失绑定施工。
+  - 普通Story只运行受影响FAST/MODULE；完整模拟器、截图和候选APK仅在TASK-R13-007最终候选阶段运行。
+  - TASK-R13-008只核验相同候选Commit的不可变证据，不重复Java、数据库、Android或模拟器门禁。
+  - 项目所有者真机反馈保持异步PENDING，不阻断依赖满足的后续开发。
+  coordinator_owned_paths:
+  - .continuity/**
+  - CURRENT_STATUS.yaml
+  - NEXT_TASK.yaml
+  - releases/**
+  - contracts/**
+  - catalogs/**
+  - docs/03-continuity/**
+  - apps/android/app/**
+  - apps/android/core/network/**
+  lanes:
+  - lane: ACTIVITY-DATA-FOUNDATION
+    task_id: TASK-R13-002
+    stories:
+    - STORY-R13-003
+  - lane: ACTIVITY-SERVICES
+    task_id: TASK-R13-003
+    stories:
+    - STORY-R13-001
+    - STORY-R13-002
+    - STORY-R13-003
+  - lane: ACTIVITY-ANDROID
+    task_id: TASK-R13-004
+    stories:
+    - STORY-R13-001
+    - STORY-R13-002
+  - lane: R13-QUALITY
+    task_id: TASK-R13-005
+    stories:
+    - STORY-R13-001
+    - STORY-R13-002
+    - STORY-R13-003
+  integration:
+    task_id: TASK-R13-005
+    depends_on:
+    - TASK-R13-003
+    - TASK-R13-004
+    profiles:
+    - MODULE
+    - INTEGRATION
+    - SECURITY
+  apk:
+    task_id: TASK-R13-007
+    full_gate_and_emulator: FINAL_CANDIDATE_ONLY
+    desktop_copy_required: true
+    stable_test_signing_required: true
+    owner_physical_test_initial_status: PENDING
+  closure:
+    task_id: TASK-R13-008
+    owner_feedback_mode: ASYNC_NON_BLOCKING
+    machine_completion_may_continue_next_release: true
 ```
 
 ## 开放 CR
@@ -10988,38 +11506,206 @@ TASKS.yaml:
   - SES-20260726T105013Z-AE578D81
   implementation_commits:
   - 60c547b9cd0fc8c35a6567c744271ba23a593d41
+- protocol_version: '1.0'
+  cr_id: CR-0363
+  title: 建立R13开发入口计划与四页精确视觉基线
+  status: IMPLEMENTING
+  created_at: '2026-07-26T11:06:25Z'
+  updated_at: '2026-07-26T11:07:23Z'
+  requester_actor_id: codex-root-r13-20260726
+  approver_actor_id: project-owner
+  task_id: TASK-R13-001
+  session_id: SES-20260726T110209Z-C9DC8AD5
+  user_request: 项目所有者要求按R01-R32持续开发，功能与开发文档一一对应，全部页面达到效果图丰富度；普通任务不跑完整模拟器，最终候选再执行完整门禁。
+  reason: R13缺少PARALLEL_EXECUTION_PLAN；SHEET-SHARE-001和SCR-HIS-001仍为TOKENS_ONLY，SCR-FAV-001引用整批P01-P08，SHEET-CONTENT-INVALID-001无视觉绑定；Release
+    Manifest使用HTTP路径且遗漏Story要求的contentPostContentsByIdInvalidFeedback，直接编码会违反精确视觉和operationId事实源规则。
+  original_rule: 既有全局UI规则要求编码前每页绑定精确效果图面板或批准补充规格，普通任务只跑FAST/MODULE，完整Android与模拟器只在最终候选执行；R13现有页面目录仍含TOKENS_ONLY、整批P01-P08和缺失绑定，且版本缺少执行计划。
+  new_rule: 不新增平行规则：R13建立单一执行计划；我的收藏=B08/P07、浏览记录=B08/P08；分享面板采用批准补充规格，复用B03详情分享入口和B07/P07底部面板结构；联系方式失效反馈采用批准补充规格，复用B03/P08失效语境与B07/P07原因反馈面板。字段、动作和内容只来自冻结文档。Manifest统一登记六个operationId，其中五个为R13归属、失效反馈为Story要求的共享复用接口。
+  impact_summary: 消除R13执行计划、四页视觉施工入口和Manifest接口表达漂移；不新增业务字段、接口或数据库，不运行Android构建和模拟器。
+  impact:
+    files:
+    - releases/R13/PARALLEL_EXECUTION_PLAN.yaml
+    - releases/R13/RELEASE_MANIFEST.yaml
+    - releases/R13/STORIES.yaml
+    - releases/R13/TASKS.yaml
+    - catalogs/ui_page_specifications.csv
+    - catalogs/screen_visual_binding.csv
+    - design/R13-UI-FROZEN/VISUAL_COVERAGE_AUDIT.md
+    - design/R13-UI-FROZEN/specs/SHEET-SHARE-001.md
+    - design/R13-UI-FROZEN/specs/SCR-FAV-001.md
+    - design/R13-UI-FROZEN/specs/SCR-HIS-001.md
+    - design/R13-UI-FROZEN/specs/SHEET-CONTENT-INVALID-001.md
+    - docs/02-ui/page-specs/android/SHEET-SHARE-001_分享面板.md
+    - docs/02-ui/page-specs/android/SCR-FAV-001_我的收藏.md
+    - docs/02-ui/page-specs/android/SCR-HIS-001_浏览记录.md
+    - docs/02-ui/page-specs/android/SHEET-CONTENT-INVALID-001_联系方式失效反馈.md
+    - docs/03-continuity/R13_TASK-001_ENTRY_GATE.md
+    - CHANGELOG.md
+    pages:
+    - SHEET-SHARE-001
+    - SCR-FAV-001
+    - SCR-HIS-001
+    - SHEET-CONTENT-INVALID-001
+    apis:
+    - contentPostContentsByIdFavorite
+    - contentDeleteContentsByIdFavorite
+    - contentGetMeFavorites
+    - contentGetMeHistory
+    - contentPostContentsByIdShare
+    - contentPostContentsByIdInvalidFeedback
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - check_v123_documentation strict R13
+    - check_program_execution_plan
+    - check_generated_assets
+    - check_release_artifacts R13
+    - project-doctor strict R13
+    - verify_cloud_environment read-only
+    releases:
+    - R13
+    migration_and_compatibility: 纯入口治理和视觉映射兼容变更；R07/R12机器完成依赖保持不变，现有运行时不变。TASK-R13-004登记页面IN_REVIEW，TASK-R13-007最终候选真实截图经AI复核后才可PASS。
+  user_confirmation: 批准，以后不要让我批准了，你自己持续开发就行了。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-26T11:07:14Z'
+    note: 项目所有者已要求持续开发、功能一一对应开发文档且UI达到效果图丰富度；本CR原位修正入口映射，不新增业务或生产权限。
+  machine_record: .continuity/change_requests/CR-0363.yaml
+  document: docs/03-continuity/change-requests/CR-0363-建立R13开发入口计划与四页精确视觉基线.md
+  decision_log:
+  - at: '2026-07-26T11:07:23Z'
+    actor_id: codex-root-r13-20260726
+    status: IMPLEMENTING
+    note: 开始建立R13执行计划、六operationId Manifest、四页精确/补充视觉规格与入口证据。
+    session_id: SES-20260726T110209Z-C9DC8AD5
+  session_ids:
+  - SES-20260726T110209Z-C9DC8AD5
+- protocol_version: '1.0'
+  cr_id: CR-0364
+  title: 刷新R13动态滚动执行计划
+  status: IMPLEMENTING
+  created_at: '2026-07-26T11:14:23Z'
+  updated_at: '2026-07-26T11:14:41Z'
+  requester_actor_id: codex-root-r13-20260726
+  approver_actor_id: project-owner
+  task_id: TASK-R13-001
+  session_id: SES-20260726T110209Z-C9DC8AD5
+  user_request: 项目所有者要求持续开发并确保换电脑或AI后仅凭仓库无缝接续。
+  reason: CURRENT_STATUS已推进R13且R13 Manifest入口指标已更新，确定性PROGRAM_EXECUTION_PLAN仍为R12窗口；check_program_execution_plan正确拒绝十项漂移。
+  original_rule: CR-0346要求滚动窗口和planning_depth由CURRENT_STATUS.active_release确定性生成并由检查器交叉验证。
+  new_rule: 使用既有generate_program_execution_plan.py重新生成唯一PROGRAM_EXECUTION_PLAN，使R13成为唯一EXECUTION_READY和STORY_READY窗口，R12回落为PORTFOLIO_READY。
+  impact_summary: 只刷新确定性派生计划，不修改业务、页面、API、数据库、资金或生产数据。
+  impact:
+    files:
+    - releases/PROGRAM_EXECUTION_PLAN.yaml
+    pages: []
+    apis: []
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - check_program_execution_plan
+    releases:
+    - R13
+    migration_and_compatibility: 派生文档兼容更新；生成器、状态源和调度规则不变。
+  user_confirmation: 批准，以后不要让我批准了，你自己持续开发就行了。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-26T11:14:33Z'
+    note: 按项目所有者持续开发授权执行既有确定性计划刷新，不新增规则或权限。
+  machine_record: .continuity/change_requests/CR-0364.yaml
+  document: docs/03-continuity/change-requests/CR-0364-刷新R13动态滚动执行计划.md
+  decision_log:
+  - at: '2026-07-26T11:14:41Z'
+    actor_id: codex-root-r13-20260726
+    status: IMPLEMENTING
+    note: 开始按CURRENT_STATUS与Release事实重生成R13滚动计划。
+    session_id: SES-20260726T110209Z-C9DC8AD5
+  session_ids:
+  - SES-20260726T110209Z-C9DC8AD5
+- protocol_version: '1.0'
+  cr_id: CR-0365
+  title: 同步R13 OpenAPI生成客户端消除确定性漂移
+  status: IMPLEMENTING
+  created_at: '2026-07-26T11:19:09Z'
+  updated_at: '2026-07-26T11:20:08Z'
+  requester_actor_id: codex-root-r13-20260726
+  approver_actor_id: project-owner
+  task_id: TASK-R13-001
+  session_id: SES-20260726T110209Z-C9DC8AD5
+  user_request: 批准，以后不要让我批准了 你自己持续开发就行了
+  reason: R13入口文档变更未修改OpenAPI，但严格生成资产门禁发现packages/api-client/src/client.generated.ts与当前contracts/openapi.yaml的确定性输出漂移；必须先恢复单一生成事实源，才能关闭TASK-R13-001。
+  original_rule: contracts/openapi.yaml是客户端类型唯一事实源，packages/api-client/src/client.generated.ts必须与固定openapi-typescript版本及仓库后处理器的确定性输出一致。
+  new_rule: 不修改OpenAPI、业务语义或手写生成文件逻辑；使用仓库锁定的pnpm、openapi-typescript与postprocess-openapi-types.mjs机械重生成client.generated.ts，并保持admin.generated.ts仅在确定性输出确有变化时同步。
+  impact_summary: 恢复生成客户端与当前冻结OpenAPI的一致性，消除R13入口严格生成资产门禁的唯一漂移。
+  impact:
+    files:
+    - packages/api-client/src/client.generated.ts
+    pages: []
+    apis: []
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - check_generated_assets
+    - api_client_typecheck
+    releases:
+    - R13
+    migration_and_compatibility: 纯生成资产同步；不改变HTTP路径、operationId、Schema、数据库、配置、UI或运行时兼容性。
+  user_confirmation: 批准，以后不要让我批准了 你自己持续开发就行了
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-26T11:19:40Z'
+    note: 项目所有者已明确批准并要求后续无需逐项批准；本CR仅执行冻结OpenAPI生成资产的机械同步，不扩展权限或生产范围。
+  machine_record: .continuity/change_requests/CR-0365.yaml
+  document: docs/03-continuity/change-requests/CR-0365-同步R13-OpenAPI生成客户端消除确定性漂移.md
+  decision_log:
+  - at: '2026-07-26T11:20:08Z'
+    actor_id: codex-root-r13-20260726
+    status: IMPLEMENTING
+    note: 开始使用锁定工具链机械重生成客户端，并运行生成漂移与类型门禁。
+    session_id: SES-20260726T110209Z-C9DC8AD5
+  session_ids:
+  - SES-20260726T110209Z-C9DC8AD5
 ```
 
 ## 上下文来源及哈希
 
 - `AGENTS.md` — `306026d4706dfd3cae0a3db2b1c56e294700326bc3a13ca095c3987a267d390b`
 - `START_HERE.md` — `22de14029ce47beb41ea569e36ce223fbc9d11b86f8676f28d5fbbd83896af5c`
-- `CURRENT_STATUS.yaml` — `77c0c98da7eafac9cf8239cd9e6518231135b6d65f3b070950ab36a0fa459d28`
+- `CURRENT_STATUS.yaml` — `9524751272dac9262c0a34644b22c37bb88ddf748cd2ebbc4f36aa254cac2fd9`
 - `NEXT_TASK.yaml` — `939185923aad157770ddd7a6cfac0c4de647186b8d359138ce88f04b18e2616e`
 - `DEVELOPMENT_RISK_REGISTER.md` — `8304c91492e4ee2abea0522a06541c8688d39c7fc532b5d0cde499bf09fffb87`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
 - `docs/03-continuity/PROBLEM_REGISTRY.yaml` — `751c958af750cf2e6aa75afba820d7fc647a01f8d12a008c2dbf07bcf4ed14a8`
 - `docs/03-continuity/REUSABLE_PATTERNS.md` — `07341977f8ac653f1d364ff6a9ad59dbd8470c1977cb00da11561047000036b1`
 - `docs/03-continuity/PITFALLS.md` — `d164a512eb559723df2be8356187f4244f771c15dfc84838085e87f6e9caeb2b`
-- `releases/PROGRAM_EXECUTION_PLAN.yaml` — `542911104a0feb22d6d37ef92448bfc1b140b2f07d9fbf861440642f7f3d29d9`
+- `releases/PROGRAM_EXECUTION_PLAN.yaml` — `f96cc0a89a5f3ae9bc849a200bfc697c0b53a3a00fb3034c66cc0f3610391c4d`
 - `config/REPOSITORY_TRANSPORT.yaml` — `8c4a21f3e204d46e7ffb467d804a53ed26cda61cd088dadfddb50b69eea657fc`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `38e04ed812c8df0d353c2b91993d31e53b471e9c457f06b426bd2260c470aa92`
-- `.continuity/EVENT_LOG.jsonl` — `dccb5b5e99e69fee12f967dd83971aab79420f7e12b0ee65c0291d2a611d412a`
-- `.continuity/SESSION_INDEX.yaml` — `7381dcbb997c3d26a0328d92d76b1e15899c13574bad0853fc1788791c9bc09e`
-- `.continuity/TASK_CLAIMS.yaml` — `63e3f28282b61d3848e5cc33a87eb763b4ff57911d7b93da140e091788cc2239`
-- `.continuity/TASK_TRANSITIONS.yaml` — `fa52e1a462602024df6bd798894386f5dc4c7738722761b6f8893e9ca8ce9da1`
-- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `3dc1c02b8c4fcbaa7f19a4011828401af56c586c30e2b4c73933d57eedfdaf20`
-- `.continuity/ACTIVE_SESSION.yaml` — `5093b5c94a232659a7b396fb9e688c8885aebdcb79d3e5e3a13ce7586e20c5b0`
+- `.continuity/EVENT_LOG.jsonl` — `b79f2f95d115dbb967b2e878f53c104d6a46348124e6fce65fc4a3f57bd6ebd3`
+- `.continuity/SESSION_INDEX.yaml` — `8eeca39189023000a9762591fc7d71135417fb0e3b53512fa9fbfaa33df7a915`
+- `.continuity/TASK_CLAIMS.yaml` — `3656a0768ea3e8d843e1d5a876ce87f8cc29f61fa70b4e1cf41d96b587e13bbd`
+- `.continuity/TASK_TRANSITIONS.yaml` — `73fcb3f508ce8a2d712fb1024fc0b382dbcd811a7334e7531a229994acb9aedf`
+- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `ab13d36038410df1643a73dec93b541c5585b8e17044e396990fe69a6d30aa8a`
+- `.continuity/ACTIVE_SESSION.yaml` — `4eee176a44b0043d1c7890330cd80cbbbcdd76c27841675cc10dea228e3c907f`
 - `docs/00-baseline/正式商业系统全局硬性开发边界.md` — `b1d965b019e632fbe1a259831201be7c82f79c26836fa161fd1d41855fcdb7c8`
 - `docs/02-ui/UI参考图使用与开发约束_V1.2.2.md` — `d14367586aa2067b059df58798acd20ab982459cdb35ff27fc7922a3896e4933`
 - `docs/03-continuity/持续开发无状态接续强制门禁_V1.2.3.md` — `d0ed3ed68bdd93b06500eecdfb5baa3245e6ca8b685a486788abb6eee39b3d51`
 - `docs/09-development/统一开发与交付效率规范.md` — `261efdf96ff72721f3b186b0ecfb75abbe21123f56ae94af98b2d53e00e2f150`
-- `releases/R13/RELEASE_MANIFEST.yaml` — `9387c439b2f0124f3fcc2ebb44781e2359a58cc3dc65f53bea394e43f5688d69`
+- `releases/R13/RELEASE_MANIFEST.yaml` — `9da70eeaff821007d592553c06735b8f30d81babaf2975f8720d51bc11399fb2`
 - `releases/R13/DEFINITION_OF_READY.yaml` — `ba0fe58385ceb74fb62ecdde3b5a56c3871c5fc8234c0bd3fcbe8d72923cc995`
-- `releases/R13/STORIES.yaml` — `88c3755579b4dc9e65a5d7e6e94d83f670ebcdabb7d2e1edb69b48259d111e0e`
-- `releases/R13/TASKS.yaml` — `5ec1b0ed476246b69217a3abc1152737319dcda1ca9eadc50e782918d9028f6f`
+- `releases/R13/STORIES.yaml` — `63c13176b456f804ab42ee350bd1c3496666cf13e3250d82b013ef73c8cd84fd`
+- `releases/R13/TASKS.yaml` — `69ba9334ffbb3eb1b84843cb6e3bfe1801992ad6ef70bd86cd9c16b4c7626950`
 - `releases/R13/ACCEPTANCE_MATRIX.csv` — `d15e7b61b5756b2173c714bb75d3bbd753c16c6d130628fb4bd297dfe5d14bc5`
+- `releases/R13/PARALLEL_EXECUTION_PLAN.yaml` — `192844a37221f84e42f714fa209260976c81685e094733390664168e34ef5887`
+- `docs/03-continuity/sessions/2026-07/SES-20260726T110209Z-C9DC8AD5.md` — `c2acc86394880125b0649db4cb64deb3503d26325a459077f8b6c8c46e3ce693`
+- `.continuity/checkpoints/SES-20260726T110209Z-C9DC8AD5/0002.yaml` — `0525c6ff036f3d073ad5f0bb22b3453683e3863bf7c1c16b164404f8c2476e9a`
+- `docs/03-continuity/change-requests/CR-0363-建立R13开发入口计划与四页精确视觉基线.md` — `068e2358c0fb122937ae79ed3293ca8e1f97c8eae742985d91baf064fe112c6f`
+- `docs/03-continuity/change-requests/CR-0364-刷新R13动态滚动执行计划.md` — `dc0a5d826ab6365beab4cbf0b0f21677dfc31dde1119a023d3ff037df15d93d8`
+- `docs/03-continuity/change-requests/CR-0365-同步R13-OpenAPI生成客户端消除确定性漂移.md` — `c10e7c51c25e9b5f91f8efb044254a17255061e7aae43ca061fab29fcb04f29f`
 
 ## 接手硬规则
 

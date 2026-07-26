@@ -21,10 +21,10 @@ portfolio_totals:
   android_surfaces: 102
   h5_surfaces: 13
   admin_surfaces: 71
-  client_api_references: 91
+  client_api_references: 92
   admin_api_references: 162
   websocket_references: 0
-  manifest_endpoint_references: 253
+  manifest_endpoint_references: 254
   story_operation_references: 712
   story_unique_operation_ids: 396
   database_table_references: 646
@@ -65,14 +65,13 @@ operating_model:
     - tests/**
     - artifacts/validation/**
 rolling_window:
-  current_release: R12
+  current_release: R13
   execution_ready:
-  - R12
-  story_ready:
   - R13
+  story_ready:
   - R14
-  portfolio_ready:
   - R15
+  portfolio_ready:
   - R16
   - R17
   - R18
@@ -643,7 +642,7 @@ release_plan:
   - R09
   - R10
   - R11
-  planning_depth: EXECUTION_READY
+  planning_depth: ROLLING_WINDOW_PASSED
   android_test_apk_required: true
   risk_tier: P2_STANDARD
   risk_domains:
@@ -680,7 +679,7 @@ release_plan:
   depends_on:
   - R07
   - R12
-  planning_depth: STORY_READY
+  planning_depth: EXECUTION_READY
   android_test_apk_required: true
   risk_tier: P2_STANDARD
   risk_domains:
@@ -697,10 +696,10 @@ release_plan:
     android_surfaces: 4
     h5_surfaces: 0
     admin_surfaces: 0
-    client_api_references: 5
+    client_api_references: 6
     admin_api_references: 0
     websocket_references: 0
-    manifest_endpoint_references: 5
+    manifest_endpoint_references: 6
     story_operation_references: 10
     story_unique_operation_ids: 6
     database_table_references: 25
@@ -710,6 +709,7 @@ release_plan:
     stories: releases/R13/STORIES.yaml
     tasks: releases/R13/TASKS.yaml
     acceptance: releases/R13/ACCEPTANCE_MATRIX.csv
+  parallel_execution_plan: releases/R13/PARALLEL_EXECUTION_PLAN.yaml
 - release: R14
   title: 一对一聊天核心
   milestone: M1_CONTENT_MARKETPLACE
@@ -754,7 +754,7 @@ release_plan:
   milestone: M1_CONTENT_MARKETPLACE
   depends_on:
   - R14
-  planning_depth: PORTFOLIO_READY
+  planning_depth: STORY_READY
   android_test_apk_required: true
   risk_tier: P1_HIGH
   risk_domains:

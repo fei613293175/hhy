@@ -9,7 +9,7 @@ tasks:
   - REQ-PUBLISHER-001
   - REQ-ACTIVITY-001
   - REQ-APK-001
-  description: 核验 2 项需求、5 个接口、25 张相关表、4 个页面/交互面和 3 个故事；全部适用DoR必须PASS。
+  description: 核验 2 项本版需求、5 个R13归属接口、1 个Story复用共享接口、25 张相关表、4 个页面/交互面和 3 个故事；全部适用DoR必须PASS。
   deliverables:
   - releases/R13/DEFINITION_OF_READY.yaml 全部适用项PASS
   - releases/R13/STORIES.yaml 故事责任人和依赖已领取

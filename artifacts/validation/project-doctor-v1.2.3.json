@@ -4,7 +4,7 @@
   "continuity_protocol_version": "1.0",
   "status": "PASS",
   "strict": true,
-  "release_filter": "R12",
+  "release_filter": null,
   "metrics": {
     "canonical_policy_sha256": "38e04ed812c8df0d353c2b91993d31e53b471e9c457f06b426bd2260c470aa92",
     "governance_knowledge": {
@@ -35,8 +35,8 @@
       "open_document_gaps": 0
     },
     "continuity": {
-      "event_count": 3509,
-      "event_head_hash": "dadc6a5c848f2db974e529ca132fa72b9f1b7d8f27c1a847393119c268286cc5",
+      "event_count": 3546,
+      "event_head_hash": "28140c92b255cbe67ee7978ebfafc5118cad159f1dc8cf56a3aad5a0e9c031be",
       "rule_readiness": "PASS",
       "required_rule_sources": 11,
       "document_gate": {
@@ -48,10 +48,10 @@
     "continuity_gate_rules": 42,
     "continuity_event_types": 17,
     "continuity_required_records": 20,
-    "baseline_sessions": 108,
+    "baseline_sessions": 110,
     "baseline_handoffs": 3,
-    "change_requests": 359,
-    "task_transitions": 110,
+    "change_requests": 363,
+    "task_transitions": 112,
     "continuity_integration_checks": 12,
     "continuity_lifecycle_checks": 15
   },
