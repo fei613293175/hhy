@@ -204,6 +204,13 @@ def build_plan(root: Path) -> dict[str, Any]:
     dependency_doc = load_yaml(root / "releases" / "RELEASE_DEPENDENCIES.yaml")
     dependencies = dependency_doc["dependencies"]
     parallel_policy = load_yaml(root / ".continuity" / "CONTINUITY_POLICY.yaml")["parallel_development"]
+    current_status = load_yaml(root / "CURRENT_STATUS.yaml")
+    current_release = str(current_status.get("active_release") or "").upper()
+    if current_release not in RELEASES:
+        raise ValueError(f"CURRENT_STATUS.active_release must be one of R02-R32: {current_release or 'EMPTY'}")
+    current_index = RELEASES.index(current_release)
+    story_ready = RELEASES[current_index + 1 : current_index + 3]
+    portfolio_ready = RELEASES[current_index + 3 :]
     waves = topological_waves(dependencies)
     critical_path = longest_path_to("R32", dependencies, {})
 
@@ -235,10 +242,12 @@ def build_plan(root: Path) -> dict[str, Any]:
             "milestone": manifest.get("milestone"),
             "depends_on": dependencies.get(release, []),
             "planning_depth": (
-                "EXECUTION_READY"
-                if release == "R02"
+                "ROLLING_WINDOW_PASSED"
+                if RELEASES.index(release) < current_index
+                else "EXECUTION_READY"
+                if release == current_release
                 else "STORY_READY"
-                if release in {"R03", "R04"}
+                if release in story_ready
                 else "PORTFOLIO_READY"
             ),
             "android_test_apk_required": apk_required,
@@ -258,7 +267,7 @@ def build_plan(root: Path) -> dict[str, Any]:
                 "acceptance": f"releases/{release}/ACCEPTANCE_MATRIX.csv",
             },
         }
-        if release in {"R02", "R03", "R04"}:
+        if (root / "releases" / release / "PARALLEL_EXECUTION_PLAN.yaml").is_file():
             entry["parallel_execution_plan"] = f"releases/{release}/PARALLEL_EXECUTION_PLAN.yaml"
         release_entries.append(entry)
         totals["releases"] += 1
@@ -308,10 +317,10 @@ def build_plan(root: Path) -> dict[str, Any]:
             ],
         },
         "rolling_window": {
-            "current_release": "R02",
-            "execution_ready": ["R02"],
-            "story_ready": ["R03", "R04"],
-            "portfolio_ready": [f"R{index:02d}" for index in range(5, 33)],
+            "current_release": current_release,
+            "execution_ready": [current_release],
+            "story_ready": story_ready,
+            "portfolio_ready": portfolio_ready,
             "refinement_trigger": "每个版本封板时把当前+1提升为EXECUTION_READY，并把当前+3提升为STORY_READY",
             "rules": [
                 "当前版本细化到代理、目录、接口、页面、数据和测试",

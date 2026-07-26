@@ -11,7 +11,7 @@ task_id: TASK-R12-007
 story_id: STORY-R12-008
 goal: 完成R12最终Android候选、真实模拟器截图AI验收、固定签名测试APK与桌面交付
 started_at: '2026-07-25T19:20:48Z'
-updated_at: '2026-07-25T23:26:09Z'
+updated_at: '2026-07-26T02:22:56Z'
 takeover_of: null
 change_requests:
 - CR-0339
@@ -20,6 +20,8 @@ change_requests:
 - CR-0342
 - CR-0343
 - CR-0344
+- CR-0345
+- CR-0346
 scope:
   allowed_paths:
   - apps/**
@@ -69,7 +71,26 @@ scope:
   - tests/test_r12_candidate.py
   - docs/08-testing/Android自动开发测试修复交付体系_V1.0.md
   - CHANGELOG.md
-  source: story+explicit+approved-cr:CR-0340+approved-cr:CR-0344
+  - .continuity/CONTINUITY_POLICY.yaml
+  - AGENTS.md
+  - templates/AGENTS.md
+  - docs/00-baseline/正式商业系统全局硬性开发边界.md
+  - docs/09-development/统一开发与交付效率规范.md
+  - PROJECT_EXECUTION_PLAN.md
+  - releases/PROGRAM_EXECUTION_PLAN.yaml
+  - releases/R12/RELEASE_MANIFEST.yaml
+  - scripts/generate_program_execution_plan.py
+  - scripts/check_program_execution_plan.py
+  - scripts/check_ui_visual_acceptance.py
+  - scripts/check_release_artifacts.py
+  - scripts/check_v123_continuity.py
+  - tests/test_program_execution_plan.py
+  - tests/test_ui_visual_acceptance.py
+  - tests/test_release_close_gate.py
+  - tests/test_context_pack_parallel_policy.py
+  - docs/03-continuity/REUSABLE_PATTERNS.md
+  - docs/03-continuity/PITFALLS.md
+  source: story+explicit+approved-cr:CR-0340+approved-cr:CR-0344+approved-cr:CR-0346
 git:
   initialized: true
   branch: task/TASK-R03-001
@@ -79,28 +100,22 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-25T23:26:03Z'
-  expires_at: '2026-07-26T03:26:03Z'
-checkpoint_sequence: 12
-latest_checkpoint: .continuity/checkpoints/SES-20260725T192048Z-668BD05D/0012.yaml
+  renewed_at: '2026-07-26T02:22:50Z'
+  expires_at: '2026-07-26T06:22:50Z'
+checkpoint_sequence: 16
+latest_checkpoint: .continuity/checkpoints/SES-20260725T192048Z-668BD05D/0016.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260725T192048Z-668BD05D.md
-next_step: 重新暂存最终检查点与Doctor报告，运行pre-commit后提交；普通CI完成后只推送一次R12 attempt 4候选请求
+next_step: 运行最终严格Doctor与pre-commit，提交并推送一次；随后实施CR-0345
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: 51d0468b0a638b733ccae3bcf92a9b6697f94384a08cd142e211387bf9e5c310
-  generated_at: '2026-07-25T23:26:06Z'
+  context_hash: 72cc8be59509866ac9466007f56b573d651fec65e0c15001f08e6b5681f4502c
+  generated_at: '2026-07-26T02:22:54Z'
 handoff_bundle: null
 closure: null
 parallel_execution:
-  assessment: DELEGATED
-  delegated_workers: 1
-  workers:
-  - worker_id: codex-avicenna-r12-contract-review-20260726
-    responsibility: 独立审核CR-0344的精确例外边界
-    allowed_paths:
-    - config/android-automation.yaml
-    - scripts/android_candidate_request.py
-    - scripts/android_ci_gate.py
-  reason: 独立合同复核已经完成，主控完成实现、测试与最终集成
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 全局规则、事件链、检查点和生成物同属单一治理事实链，必须串行收口

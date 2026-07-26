@@ -235,7 +235,14 @@ commercial_product_boundaries:
   - R05
   - R06
   - R07
-  historical_visual_reaudit_blocks_release: R08
+  historical_visual_transition:
+    original_blocking_release: R08
+    superseded_by: CR-0242
+    disposition: R08_HISTORY_PRESERVED_POST_R08_GLOBAL_AUDIT
+  cumulative_visual_debt_gate:
+    effective_from_release: R12
+    machine_close_requires_all_frontend_pages_through_release_pass: true
+    reopened_historical_page_invalidates_prior_pass: true
   require_release_document_reconciliation: true
   require_desktop_owner_test_guide_for_major_release: true
   test_capabilities_allowed_profiles:
@@ -245,6 +252,20 @@ commercial_product_boundaries:
   test_capabilities_forbidden_profiles:
   - prod
   - production
+release_governance_audit:
+  effective_from_release: R12
+  timing: AFTER_FINAL_CANDIDATE_BEFORE_MACHINE_CLOSE
+  source_commit_must_match_candidate: true
+  evidence_sha256_required: true
+  required_checks:
+  - development_documents
+  - hard_gate_enforcement
+  - development_progress
+  - reusable_patterns
+  - problem_registry
+  - pitfalls
+  drift_action: AMEND_EXISTING_CANONICAL_SOURCE_AND_ADD_REGRESSION_BEFORE_CLOSE
+  next_release_must_not_start_before_pass: true
 handoff:
   require_latest_checkpoint: true
   require_context_pack: true

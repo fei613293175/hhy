@@ -16,7 +16,7 @@ Secret不可读回，连接测试后双人激活，历史版本可回滚，业�
 APK绑定Commit、versionName、versionCode、签名指纹、SHA256、测试报告和下载地址。
 
 ## PATTERN-CONTINUITY-001 无状态接续
-CURRENT_STATUS + NEXT_TASK + Release Manifest + Context Pack + Session Log构成AI接手上下文。
+CURRENT_STATUS + NEXT_TASK + Release Manifest + Context Pack + Session Log构成AI接手上下文。总执行计划必须由CURRENT_STATUS的活动版本确定性生成，不能由生成器和检查器共享硬编码旧窗口。R12起每个大版本最终候选后复用同一Doctor、累计视觉目录和六项治理审计，报告绑定候选Commit与SHA后才允许机器关闭和进入下一版。
 
 ## PATTERN-CONTINUITY-002 外部门禁不扩大为全项目停工
 APK机器交付完成但项目所有者真机验收尚未返回时，原任务保持BLOCKED且绝不标记DONE。只有项目所有者明确要求继续、目标Release从首个READY任务开始、并且其声明依赖全部DONE时，才使用受控blocked-and-advance转换继续独立依赖图分支；NEXT_TASK必须携带deferred_task及恢复条件。

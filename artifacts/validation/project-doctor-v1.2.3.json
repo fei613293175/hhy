@@ -6,7 +6,12 @@
   "strict": true,
   "release_filter": null,
   "metrics": {
-    "canonical_policy_sha256": "60943fcd9714cfae7274463554b5584fdb7a7aeee1ee547ff6dbc53fae6d4994",
+    "canonical_policy_sha256": "38e04ed812c8df0d353c2b91993d31e53b471e9c457f06b426bd2260c470aa92",
+    "governance_knowledge": {
+      "problem_records": 117,
+      "reusable_patterns": 11,
+      "pitfalls": 28
+    },
     "documentation": {
       "android_surfaces": 102,
       "h5_pages": 13,
@@ -30,8 +35,8 @@
       "open_document_gaps": 0
     },
     "continuity": {
-      "event_count": 3366,
-      "event_head_hash": "8dd04d0f51920901f169a2485425338ddcc1d77a174a4da683c47da11e4d3319",
+      "event_count": 3381,
+      "event_head_hash": "061431a7750159c21e969a5082be827eba532e047404bf7d3a483277f2b75234",
       "rule_readiness": "PASS",
       "required_rule_sources": 11,
       "document_gate": {
@@ -45,7 +50,7 @@
     "continuity_required_records": 20,
     "baseline_sessions": 108,
     "baseline_handoffs": 3,
-    "change_requests": 342,
+    "change_requests": 344,
     "task_transitions": 110,
     "continuity_integration_checks": 12,
     "continuity_lifecycle_checks": 15

@@ -42,7 +42,10 @@ class ProgramExecutionPlanTest(unittest.TestCase):
         self.assertTrue(any("default_delegation_mode" in item for item in validate_plan(ROOT, changed)))
 
     def test_rejects_missing_near_term_parallel_capacity(self) -> None:
-        path = ROOT / "releases/R02/PARALLEL_EXECUTION_PLAN.yaml"
+        current_release = yaml.safe_load(
+            (ROOT / "CURRENT_STATUS.yaml").read_text(encoding="utf-8")
+        )["active_release"]
+        path = ROOT / "releases" / current_release / "PARALLEL_EXECUTION_PLAN.yaml"
         original = path.read_text(encoding="utf-8")
         try:
             data = yaml.safe_load(original)
@@ -51,6 +54,22 @@ class ProgramExecutionPlanTest(unittest.TestCase):
             self.assertTrue(any("exactly three" in item for item in validate_plan(ROOT, self.plan)))
         finally:
             path.write_text(original, encoding="utf-8")
+
+    def test_rejects_stale_hardcoded_rolling_window(self) -> None:
+        changed = copy.deepcopy(self.plan)
+        changed["rolling_window"]["current_release"] = "R02"
+        changed["rolling_window"]["execution_ready"] = ["R02"]
+        self.assertTrue(any("CURRENT_STATUS" in item for item in validate_plan(ROOT, changed)))
+
+    def test_active_release_and_next_two_drive_planning_depth(self) -> None:
+        current_release = yaml.safe_load(
+            (ROOT / "CURRENT_STATUS.yaml").read_text(encoding="utf-8")
+        )["active_release"]
+        current_index = RELEASES.index(current_release)
+        by_release = {entry["release"]: entry for entry in self.plan["release_plan"]}
+        self.assertEqual("EXECUTION_READY", by_release[current_release]["planning_depth"])
+        for release in RELEASES[current_index + 1 : current_index + 3]:
+            self.assertEqual("STORY_READY", by_release[release]["planning_depth"])
 
     def test_rejects_missing_release(self) -> None:
         changed = copy.deepcopy(self.plan)

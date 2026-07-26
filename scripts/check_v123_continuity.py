@@ -8,6 +8,7 @@ import csv
 import hashlib
 import json
 import os
+import re
 import shutil
 import subprocess
 import sys
@@ -18,6 +19,63 @@ import yaml
 from continuity_lib import portable_source_record
 
 ROOT = Path(__file__).resolve().parents[1]
+PROBLEM_STATUSES = {"OPEN", "IN_PROGRESS", "REMEDIATING", "MITIGATED", "SOLVED"}
+
+
+def validate_governance_knowledge(root: Path) -> tuple[list[tuple[str, str]], dict[str, int]]:
+    errors: list[tuple[str, str]] = []
+    registry_path = root / "docs/03-continuity/PROBLEM_REGISTRY.yaml"
+    registry = yaml.safe_load(registry_path.read_text(encoding="utf-8")) or {}
+    problems = registry.get("problems") if isinstance(registry, dict) else None
+    if not isinstance(problems, list) or not problems:
+        return [("PROBLEM_REGISTRY_EMPTY", "Problem Registry必须为非空列表")], {}
+
+    ids: list[str] = []
+    numbers: list[int] = []
+    for problem in problems:
+        if not isinstance(problem, dict):
+            errors.append(("PROBLEM_RECORD_INVALID", "Problem Registry条目必须为对象"))
+            continue
+        problem_id = str(problem.get("id") or "").strip()
+        ids.append(problem_id)
+        match = re.fullmatch(r"PROB-(\d{4})", problem_id)
+        if not match:
+            errors.append(("PROBLEM_ID_INVALID", problem_id or "EMPTY"))
+        else:
+            numbers.append(int(match.group(1)))
+        for field in ("title", "status", "root_cause", "do_not_repeat"):
+            if not problem.get(field):
+                errors.append(("PROBLEM_FIELD_MISSING", f"{problem_id or 'UNKNOWN'}缺少{field}"))
+        status = str(problem.get("status") or "").upper()
+        if status not in PROBLEM_STATUSES:
+            errors.append(("PROBLEM_STATUS_INVALID", f"{problem_id}:{status or 'EMPTY'}"))
+        if status in {"SOLVED", "MITIGATED"}:
+            for field in ("resolution", "regression_checks"):
+                if not problem.get(field):
+                    errors.append(("PROBLEM_CLOSURE_EVIDENCE_MISSING", f"{problem_id}缺少{field}"))
+    if len(ids) != len(set(ids)):
+        errors.append(("PROBLEM_ID_DUPLICATE", "Problem Registry编号重复"))
+    if numbers != sorted(numbers):
+        errors.append(("PROBLEM_ID_ORDER", "Problem Registry必须按编号递增"))
+    if numbers and numbers != list(range(1, max(numbers) + 1)):
+        errors.append(("PROBLEM_ID_GAP", "Problem Registry编号必须连续"))
+
+    patterns_text = (root / "docs/03-continuity/REUSABLE_PATTERNS.md").read_text(encoding="utf-8")
+    pattern_ids = re.findall(r"^## (PATTERN-[A-Z0-9-]+)\s+", patterns_text, re.MULTILINE)
+    if not pattern_ids:
+        errors.append(("REUSABLE_PATTERN_EMPTY", "可复用模式必须至少包含一个登记条目"))
+    if len(pattern_ids) != len(set(pattern_ids)):
+        errors.append(("REUSABLE_PATTERN_DUPLICATE", "可复用模式编号重复"))
+
+    pitfalls_text = (root / "docs/03-continuity/PITFALLS.md").read_text(encoding="utf-8")
+    pitfall_numbers = [int(value) for value in re.findall(r"^(\d+)\.\s+", pitfalls_text, re.MULTILINE)]
+    if pitfall_numbers != list(range(1, len(pitfall_numbers) + 1)):
+        errors.append(("PITFALL_NUMBER_DRIFT", "踩坑记录必须从1开始连续编号且不得重复"))
+    return errors, {
+        "problem_records": len(problems),
+        "reusable_patterns": len(pattern_ids),
+        "pitfalls": len(pitfall_numbers),
+    }
 
 
 def git_executable() -> str:
@@ -207,6 +265,25 @@ def main() -> int:
     require(rule_policy.get("continue_only_requires_user_reexplanation") is False, "RULE_READY_CONTINUE", "项目所有者只说继续开发时不得要求重述")
     require(len(required_rule_sources) >= 10 and len(required_rule_sources) == len(set(required_rule_sources)), "RULE_SOURCE_REGISTRY", "全局必读规则来源必须完整且无重复")
     require(operational_policy.get("rule_readiness", {}).get("source") == ".continuity/CONTINUITY_POLICY.yaml#rule_readiness", "RULE_OPERATIONAL_POINTER", "运营视图只能指向权威规则就绪策略")
+    knowledge_errors, knowledge_metrics = validate_governance_knowledge(ROOT)
+    for code, message in knowledge_errors:
+        require(False, code, message)
+    metrics["governance_knowledge"] = knowledge_metrics
+    commercial = policy.get("commercial_product_boundaries", {})
+    visual_debt = commercial.get("cumulative_visual_debt_gate", {})
+    require(visual_debt.get("effective_from_release") == "R12", "VISUAL_DEBT_EFFECTIVE_RELEASE", "累计视觉债务门禁必须从R12机器关闭生效")
+    require(visual_debt.get("machine_close_requires_all_frontend_pages_through_release_pass") is True, "VISUAL_DEBT_CUMULATIVE", "机器关闭必须累计验证截至当前版本的全部前端页面")
+    require(visual_debt.get("reopened_historical_page_invalidates_prior_pass") is True, "VISUAL_DEBT_REOPEN", "历史页面被重开后旧PASS必须失效")
+    governance_audit = policy.get("release_governance_audit", {})
+    required_audit_checks = {
+        "development_documents", "hard_gate_enforcement", "development_progress",
+        "reusable_patterns", "problem_registry", "pitfalls",
+    }
+    require(governance_audit.get("effective_from_release") == "R12", "GOVERNANCE_AUDIT_EFFECTIVE_RELEASE", "六项治理审计必须从R12机器关闭生效")
+    require(set(governance_audit.get("required_checks", [])) == required_audit_checks, "GOVERNANCE_AUDIT_SCOPE", "六项治理审计范围漂移")
+    require(governance_audit.get("source_commit_must_match_candidate") is True, "GOVERNANCE_AUDIT_COMMIT", "治理审计必须绑定最终候选源码Commit")
+    require(governance_audit.get("evidence_sha256_required") is True, "GOVERNANCE_AUDIT_SHA", "治理审计必须记录证据SHA-256")
+    require(governance_audit.get("next_release_must_not_start_before_pass") is True, "GOVERNANCE_AUDIT_NEXT_RELEASE", "治理审计未通过不得进入下一版")
     parallel = policy.get("parallel_development", {})
     operational_parallel = operational_policy.get("parallel_development", {})
     require(parallel.get("authorization", {}).get("status") == "PROJECT_OWNER_STANDING_AUTHORIZATION", "PARALLEL_AUTHORIZATION", "必须记录项目所有者长期多代理授权")

@@ -247,8 +247,8 @@ def validate_historical(
     """Validate every catalogued frontend release through the requested boundary.
 
     This deliberately reuses ``validate_release`` and the same CSV facts. It is
-    an explicit global-remediation gate, not an implicit prerequisite of one
-    historical release close.
+    the cumulative visual-debt gate used by current release closure. CR-0242's
+    already-recorded R08 transition remains historical and is not rewritten.
     """
     target_key = _release_key(through_release)
     if target_key is None:

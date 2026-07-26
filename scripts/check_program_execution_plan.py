@@ -125,22 +125,49 @@ def validate_plan(root: Path, plan: dict[str, Any]) -> list[str]:
             if key and not (root / relative).exists():
                 errors.append(f"{release}: missing fact source {relative}")
 
+    current_status = load_yaml(root / "CURRENT_STATUS.yaml")
+    current_release = str(current_status.get("active_release") or "").upper()
+    if current_release not in RELEASES:
+        errors.append(f"CURRENT_STATUS active release is outside R02-R32: {current_release or 'EMPTY'}")
+        current_release = RELEASES[0]
+    current_index = RELEASES.index(current_release)
+    expected_story_ready = RELEASES[current_index + 1 : current_index + 3]
+    expected_portfolio_ready = RELEASES[current_index + 3 :]
     rolling = plan.get("rolling_window", {})
-    if rolling.get("current_release") != "R02":
-        errors.append("rolling window current release must be R02")
-    if rolling.get("execution_ready") != ["R02"]:
-        errors.append("only R02 may be EXECUTION_READY")
-    if rolling.get("story_ready") != ["R03", "R04"]:
-        errors.append("R03 and R04 must be STORY_READY")
+    if rolling.get("current_release") != current_release:
+        errors.append("rolling window current release drifted from CURRENT_STATUS")
+    if rolling.get("execution_ready") != [current_release]:
+        errors.append("rolling window must expose only the active release as EXECUTION_READY")
+    if rolling.get("story_ready") != expected_story_ready:
+        errors.append("rolling window STORY_READY releases drifted from the active release")
+    if rolling.get("portfolio_ready") != expected_portfolio_ready:
+        errors.append("rolling window PORTFOLIO_READY releases drifted from the active release")
 
-    near_term = {"R02", "R03", "R04"}
-    for release in sorted(near_term):
+    for entry in release_entries:
+        release = str(entry.get("release") or "")
+        release_index = RELEASES.index(release)
+        expected_depth = (
+            "ROLLING_WINDOW_PASSED"
+            if release_index < current_index
+            else "EXECUTION_READY"
+            if release == current_release
+            else "STORY_READY"
+            if release in expected_story_ready
+            else "PORTFOLIO_READY"
+        )
+        if entry.get("planning_depth") != expected_depth:
+            errors.append(f"{release}: planning depth drifted from rolling window")
+
+    for release in [current_release]:
         parallel_path = root / "releases" / release / "PARALLEL_EXECUTION_PLAN.yaml"
         if not parallel_path.exists():
-            errors.append(f"{release}: missing parallel execution plan")
+            errors.append(f"{release}: active release is missing parallel execution plan")
             continue
         parallel = load_yaml(parallel_path)
-        if parallel.get("mode") != "ONE_MASTER_THREE_DELEGATED_WORKERS":
+        if parallel.get("mode") not in {
+            "ONE_MASTER_THREE_DELEGATED_WORKERS",
+            "SINGLE_AUTHORITATIVE_SESSION_WITH_SAFE_DELEGATION_REVIEW",
+        }:
             errors.append(f"{release}: invalid parallel mode")
         if parallel.get("authoritative_session_count") != 1:
             errors.append(f"{release}: parallel plan must keep one authoritative session")
@@ -148,7 +175,10 @@ def validate_plan(root: Path, plan: dict[str, Any]) -> list[str]:
             errors.append(f"{release}: parallel plan must keep exactly three delegated worker slots")
         if parallel.get("simultaneous_claim_limit") != 1:
             errors.append(f"{release}: parallel plan must keep one claim")
-        for key in mirrored_fields:
+        for key in [
+            "default_delegation_mode", "review_triggers",
+            "non_delegation_requires_checkpoint_reason",
+        ]:
             if parallel.get(key) != parallel_policy.get(key):
                 errors.append(f"{release}: parallel policy drifted: {key}")
         expected_stories = story_ids(root / "releases" / release / "STORIES.yaml")
@@ -166,16 +196,8 @@ def validate_plan(root: Path, plan: dict[str, Any]) -> list[str]:
         task_doc = load_yaml(root / "releases" / release / "TASKS.yaml")
         tasks = task_doc.get("tasks", [])
         errors.extend(task_dag_errors(release, tasks))
-        task_story_coverage = {
-            str(story)
-            for task in tasks
-            for story in task.get("stories", [])
-        }
-        if task_story_coverage != expected_stories:
-            errors.append(
-                f"{release}: task story coverage mismatch; missing={sorted(expected_stories-task_story_coverage)} "
-                f"unknown={sorted(task_story_coverage-expected_stories)}"
-            )
+        # Story coverage lives in the current release's parallel lanes. TASKS
+        # remains the dependency DAG and must not become a second Story map.
 
     apk_by_release = {
         entry["release"]: entry.get("android_test_apk_required") for entry in release_entries

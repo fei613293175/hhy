@@ -17,7 +17,7 @@ import sys
 
 import yaml
 
-from check_ui_visual_acceptance import validate_release as validate_ui_visual_release
+from check_ui_visual_acceptance import validate_historical as validate_ui_visual_historical
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -32,6 +32,15 @@ PLACEHOLDER_PATTERN = re.compile(
     r"PENDING|PLACEHOLDER|\bTODO\b|\bTBD\b|NOT_INITIALIZED|NOT_RUN|UNKNOWN|<[^>]+>",
     re.IGNORECASE,
 )
+GOVERNANCE_AUDIT_EFFECTIVE_RELEASE = 12
+GOVERNANCE_AUDIT_CHECKS = {
+    "development_documents",
+    "hard_gate_enforcement",
+    "development_progress",
+    "reusable_patterns",
+    "problem_registry",
+    "pitfalls",
+}
 
 
 def git_executable() -> str:
@@ -431,11 +440,37 @@ class CloseGate:
             )
 
     def validate_ui_visual_acceptance(self) -> int:
-        visual_errors, page_count = validate_ui_visual_release(
-            ROOT, self.release, require_pass=True
-        )
+        visual_errors, page_count = validate_ui_visual_historical(ROOT, self.release)
         self.errors.extend(visual_errors)
         return page_count
+
+    def validate_governance_audit(self, manifest: dict[str, Any], candidate_commit: str) -> None:
+        number = release_number(self.release)
+        if number is None or number < GOVERNANCE_AUDIT_EFFECTIVE_RELEASE:
+            return
+        audit = manifest.get("governance_audit")
+        if not isinstance(audit, dict):
+            self.errors.append(("GOVERNANCE_AUDIT_MISSING", "R12起机器关闭必须包含六项全局漂移审计"))
+            return
+        self.require(audit.get("status") == "PASS", "GOVERNANCE_AUDIT_NOT_PASS", "全局漂移审计状态必须为PASS")
+        self.require(
+            str(audit.get("source_commit") or "").lower() == candidate_commit.lower(),
+            "GOVERNANCE_AUDIT_COMMIT_MISMATCH",
+            "全局漂移审计必须绑定最终候选源码Commit",
+        )
+        checks = audit.get("checks") if isinstance(audit.get("checks"), dict) else {}
+        self.require(set(checks) == GOVERNANCE_AUDIT_CHECKS, "GOVERNANCE_AUDIT_CHECKS", "全局漂移审计必须精确覆盖六项事实")
+        for key in sorted(GOVERNANCE_AUDIT_CHECKS):
+            self.require(checks.get(key) == "PASS", "GOVERNANCE_AUDIT_CHECK_NOT_PASS", f"全局漂移审计未通过：{key}")
+        evidence_value = str(audit.get("evidence") or "").strip()
+        evidence = ROOT / evidence_value if evidence_value else None
+        self.require(bool(evidence_value), "GOVERNANCE_AUDIT_EVIDENCE_MISSING", "全局漂移审计缺少仓库证据")
+        self.require(bool(evidence and evidence.is_file()), "GOVERNANCE_AUDIT_EVIDENCE_MISSING", evidence_value or "EMPTY")
+        expected_sha = str(audit.get("evidence_sha256") or "").lower()
+        self.require(bool(re.fullmatch(r"[0-9a-f]{64}", expected_sha)), "GOVERNANCE_AUDIT_SHA_INVALID", "全局漂移审计证据SHA-256非法")
+        if evidence and evidence.is_file() and re.fullmatch(r"[0-9a-f]{64}", expected_sha):
+            actual_sha = hashlib.sha256(evidence.read_bytes()).hexdigest()
+            self.require(actual_sha == expected_sha, "GOVERNANCE_AUDIT_SHA_MISMATCH", evidence_value)
 
     def run(self) -> int:
         visual_page_count = 0
@@ -446,6 +481,7 @@ class CloseGate:
             candidate_commit = self.validate_apk(manifest)
             self.validate_android_automation(manifest, candidate_commit)
             visual_page_count = self.validate_ui_visual_acceptance()
+            self.validate_governance_audit(manifest, candidate_commit)
             self.validate_pointers(task_ids, release_commit)
         except (OSError, ValueError, yaml.YAMLError, csv.Error) as exc:
             self.errors.append(("CLOSE_GATE_READ_ERROR", str(exc)))

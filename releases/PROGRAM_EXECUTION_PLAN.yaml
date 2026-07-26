@@ -65,23 +65,13 @@ operating_model:
     - tests/**
     - artifacts/validation/**
 rolling_window:
-  current_release: R02
+  current_release: R12
   execution_ready:
-  - R02
-  story_ready:
-  - R03
-  - R04
-  portfolio_ready:
-  - R05
-  - R06
-  - R07
-  - R08
-  - R09
-  - R10
-  - R11
   - R12
+  story_ready:
   - R13
   - R14
+  portfolio_ready:
   - R15
   - R16
   - R17
@@ -254,7 +244,7 @@ release_plan:
   milestone: M0_ENGINEERING_FOUNDATION
   depends_on:
   - R01
-  planning_depth: EXECUTION_READY
+  planning_depth: ROLLING_WINDOW_PASSED
   android_test_apk_required: true
   risk_tier: P1_HIGH
   risk_domains:
@@ -296,7 +286,7 @@ release_plan:
   milestone: M0_ENGINEERING_FOUNDATION
   depends_on:
   - R01
-  planning_depth: STORY_READY
+  planning_depth: ROLLING_WINDOW_PASSED
   android_test_apk_required: true
   risk_tier: P1_HIGH
   risk_domains:
@@ -342,7 +332,7 @@ release_plan:
   milestone: M0_ENGINEERING_FOUNDATION
   depends_on:
   - R03
-  planning_depth: STORY_READY
+  planning_depth: ROLLING_WINDOW_PASSED
   android_test_apk_required: true
   risk_tier: P1_HIGH
   risk_domains:
@@ -384,7 +374,7 @@ release_plan:
   depends_on:
   - R02
   - R04
-  planning_depth: PORTFOLIO_READY
+  planning_depth: ROLLING_WINDOW_PASSED
   android_test_apk_required: true
   risk_tier: P1_HIGH
   risk_domains:
@@ -418,6 +408,7 @@ release_plan:
     stories: releases/R05/STORIES.yaml
     tasks: releases/R05/TASKS.yaml
     acceptance: releases/R05/ACCEPTANCE_MATRIX.csv
+  parallel_execution_plan: releases/R05/PARALLEL_EXECUTION_PLAN.yaml
 - release: R06
   title: 统一内容基础、首页与CMS
   milestone: M1_CONTENT_MARKETPLACE
@@ -425,7 +416,7 @@ release_plan:
   - R02
   - R04
   - R05
-  planning_depth: PORTFOLIO_READY
+  planning_depth: ROLLING_WINDOW_PASSED
   android_test_apk_required: true
   risk_tier: P2_STANDARD
   risk_domains:
@@ -455,12 +446,13 @@ release_plan:
     stories: releases/R06/STORIES.yaml
     tasks: releases/R06/TASKS.yaml
     acceptance: releases/R06/ACCEPTANCE_MATRIX.csv
+  parallel_execution_plan: releases/R06/PARALLEL_EXECUTION_PLAN.yaml
 - release: R07
   title: 搜索、发布者主页与联系方式保护
   milestone: M1_CONTENT_MARKETPLACE
   depends_on:
   - R06
-  planning_depth: PORTFOLIO_READY
+  planning_depth: ROLLING_WINDOW_PASSED
   android_test_apk_required: true
   risk_tier: P2_STANDARD
   risk_domains:
@@ -490,6 +482,7 @@ release_plan:
     stories: releases/R07/STORIES.yaml
     tasks: releases/R07/TASKS.yaml
     acceptance: releases/R07/ACCEPTANCE_MATRIX.csv
+  parallel_execution_plan: releases/R07/PARALLEL_EXECUTION_PLAN.yaml
 - release: R08
   title: 项目推广完整闭环
   milestone: M1_CONTENT_MARKETPLACE
@@ -497,7 +490,7 @@ release_plan:
   - R05
   - R06
   - R07
-  planning_depth: PORTFOLIO_READY
+  planning_depth: ROLLING_WINDOW_PASSED
   android_test_apk_required: true
   risk_tier: P2_STANDARD
   risk_domains:
@@ -527,6 +520,7 @@ release_plan:
     stories: releases/R08/STORIES.yaml
     tasks: releases/R08/TASKS.yaml
     acceptance: releases/R08/ACCEPTANCE_MATRIX.csv
+  parallel_execution_plan: releases/R08/PARALLEL_EXECUTION_PLAN.yaml
 - release: R09
   title: App推广完整闭环
   milestone: M1_CONTENT_MARKETPLACE
@@ -534,7 +528,7 @@ release_plan:
   - R05
   - R06
   - R07
-  planning_depth: PORTFOLIO_READY
+  planning_depth: ROLLING_WINDOW_PASSED
   android_test_apk_required: true
   risk_tier: P2_STANDARD
   risk_domains:
@@ -564,6 +558,7 @@ release_plan:
     stories: releases/R09/STORIES.yaml
     tasks: releases/R09/TASKS.yaml
     acceptance: releases/R09/ACCEPTANCE_MATRIX.csv
+  parallel_execution_plan: releases/R09/PARALLEL_EXECUTION_PLAN.yaml
 - release: R10
   title: 群聊推广完整闭环
   milestone: M1_CONTENT_MARKETPLACE
@@ -571,7 +566,7 @@ release_plan:
   - R05
   - R06
   - R07
-  planning_depth: PORTFOLIO_READY
+  planning_depth: ROLLING_WINDOW_PASSED
   android_test_apk_required: true
   risk_tier: P2_STANDARD
   risk_domains:
@@ -601,6 +596,7 @@ release_plan:
     stories: releases/R10/STORIES.yaml
     tasks: releases/R10/TASKS.yaml
     acceptance: releases/R10/ACCEPTANCE_MATRIX.csv
+  parallel_execution_plan: releases/R10/PARALLEL_EXECUTION_PLAN.yaml
 - release: R11
   title: 团队长入驻完整闭环
   milestone: M1_CONTENT_MARKETPLACE
@@ -608,7 +604,7 @@ release_plan:
   - R05
   - R06
   - R07
-  planning_depth: PORTFOLIO_READY
+  planning_depth: ROLLING_WINDOW_PASSED
   android_test_apk_required: true
   risk_tier: P2_STANDARD
   risk_domains:
@@ -638,6 +634,7 @@ release_plan:
     stories: releases/R11/STORIES.yaml
     tasks: releases/R11/TASKS.yaml
     acceptance: releases/R11/ACCEPTANCE_MATRIX.csv
+  parallel_execution_plan: releases/R11/PARALLEL_EXECUTION_PLAN.yaml
 - release: R12
   title: 统一发布与发布管理
   milestone: M1_CONTENT_MARKETPLACE
@@ -646,7 +643,7 @@ release_plan:
   - R09
   - R10
   - R11
-  planning_depth: PORTFOLIO_READY
+  planning_depth: EXECUTION_READY
   android_test_apk_required: true
   risk_tier: P2_STANDARD
   risk_domains:
@@ -676,13 +673,14 @@ release_plan:
     stories: releases/R12/STORIES.yaml
     tasks: releases/R12/TASKS.yaml
     acceptance: releases/R12/ACCEPTANCE_MATRIX.csv
+  parallel_execution_plan: releases/R12/PARALLEL_EXECUTION_PLAN.yaml
 - release: R13
   title: 收藏、历史、分享与行为审计
   milestone: M1_CONTENT_MARKETPLACE
   depends_on:
   - R07
   - R12
-  planning_depth: PORTFOLIO_READY
+  planning_depth: STORY_READY
   android_test_apk_required: true
   risk_tier: P2_STANDARD
   risk_domains:
@@ -719,7 +717,7 @@ release_plan:
   - R02
   - R04
   - R06
-  planning_depth: PORTFOLIO_READY
+  planning_depth: STORY_READY
   android_test_apk_required: true
   risk_tier: P1_HIGH
   risk_domains:

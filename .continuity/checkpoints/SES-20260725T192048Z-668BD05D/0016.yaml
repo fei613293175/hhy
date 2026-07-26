@@ -1,0 +1,516 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260725T192048Z-668BD05D-0016
+session_id: SES-20260725T192048Z-668BD05D
+task_id: TASK-R12-007
+story_id: STORY-R12-008
+sequence: 16
+created_at: '2026-07-26T02:22:49Z'
+summary: CR-0346全局防漂移加固、LF证据与严格Doctor最终PASS已闭环
+next_step: 运行最终严格Doctor与pre-commit，提交并推送一次；随后实施CR-0345
+blockers: []
+decisions: []
+note: ''
+tests:
+- name: PROJECT_DOCTOR
+  result: PASS
+  evidence: .continuity/runtime/project-doctor-v1.2.3-final.json
+  note: 0 errors 0 warnings
+- name: GOVERNANCE_UNIT
+  result: PASS
+  evidence: 45 unittest cases
+  note: 全局治理专项回归
+- name: RELEASE_CLOSE_GATE
+  result: PASS
+  evidence: 11 unittest cases
+  note: 累计视觉与六项审计负向门禁
+- name: DOCUMENTATION_CONTRACT
+  result: PASS
+  evidence: 84 requirements 319 REST 0 gaps
+  note: 严格开发文档合同
+- name: CONTINUITY_LIFECYCLE
+  result: PASS
+  evidence: 12 reconstruction and 15 lifecycle checks
+  note: 无状态接续完整生命周期
+- name: DIFF_CHECK
+  result: PASS
+  evidence: git diff --cached --check
+  note: 证据LF归一化后无空白错误
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: 4243f970096f5ee92d6c867bd3a123c3600ed035
+  upstream: origin/task/TASK-R03-001
+  ahead: 0
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - M  .continuity/ACTIVE_SESSION.yaml
+  - M  .continuity/CHANGE_REQUEST_INDEX.yaml
+  - M  .continuity/CONTINUITY_POLICY.yaml
+  - M  .continuity/EVENT_LOG.jsonl
+  - M  .continuity/SESSION_INDEX.yaml
+  - M  .continuity/STATE.yaml
+  - A  .continuity/change_requests/CR-0345.yaml
+  - A  .continuity/change_requests/CR-0346.yaml
+  - A  .continuity/checkpoints/SES-20260725T192048Z-668BD05D/0013.yaml
+  - A  .continuity/checkpoints/SES-20260725T192048Z-668BD05D/0014.yaml
+  - A  .continuity/checkpoints/SES-20260725T192048Z-668BD05D/0015.yaml
+  - M  .continuity/sessions/SES-20260725T192048Z-668BD05D.yaml
+  - M  AGENTS.md
+  - M  CHANGELOG.md
+  - M  CURRENT_STATUS.yaml
+  - M  PROJECT_EXECUTION_PLAN.md
+  - M  artifacts/context/CURRENT_CONTEXT_PACK.md
+  - M  artifacts/context/CURRENT_CONTEXT_PACK.yaml
+  - M  artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+  - M  artifacts/validation/continuity-integration-v1.2.3.json
+  - M  artifacts/validation/continuity-lifecycle-integration-v1.2.3.json
+  - M  artifacts/validation/continuity-lifecycle-integration-v1.2.3.log
+  - M  artifacts/validation/project-doctor-v1.2.3-documentation.json
+  - M  artifacts/validation/project-doctor-v1.2.3.json
+  - M  catalogs/change_request_index.csv
+  - M  catalogs/session_index.csv
+  - M  docs/00-baseline/正式商业系统全局硬性开发边界.md
+  - M  docs/03-continuity/PITFALLS.md
+  - M  docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - M  docs/03-continuity/REUSABLE_PATTERNS.md
+  - A  docs/03-continuity/change-requests/CR-0345-修复R12候选OIDC启动前提交目标夹具未确定性重建.md
+  - A  docs/03-continuity/change-requests/CR-0346-加固滚动计划跨版本视觉债务与经验记录防漂移门禁.md
+  - M  docs/03-continuity/sessions/2026-07/SES-20260725T192048Z-668BD05D.md
+  - M  docs/09-development/统一开发与交付效率规范.md
+  - M  releases/PROGRAM_EXECUTION_PLAN.yaml
+  - M  scripts/check_program_execution_plan.py
+  - M  scripts/check_release_artifacts.py
+  - M  scripts/check_ui_visual_acceptance.py
+  - M  scripts/check_v123_continuity.py
+  - M  scripts/generate_program_execution_plan.py
+  - M  templates/AGENTS.md
+  - M  tests/test_context_pack_parallel_policy.py
+  - M  tests/test_program_execution_plan.py
+  - M  tests/test_release_close_gate.py
+  recent_commits:
+  - "4243f970096f5ee92d6c867bd3a123c3600ed035\t2026-07-26T07:27:45+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] test(r12): authorize exact\
+    \ candidate attempt 4"
+  - "daae207af319008411995b7ac23a13c9042fc5a2\t2026-07-26T07:04:47+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] fix(r12): restore review context\
+    \ and timeline"
+  - "9428c7f5dbc2a901ae656beecb52e3dfcb204fab\t2026-07-26T05:53:15+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] test(r12): request Android\
+    \ candidate attempt 3"
+  - "a16a75e6f3e03e08893c0398b4af2596550cbeaf\t2026-07-26T05:45:59+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] fix(r12): seed candidate startup\
+    \ release policy"
+  - "2b51aa89739efc8d195ee7c4991f28bee98d0126\t2026-07-26T05:13:11+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] test(r12): request Android\
+    \ candidate attempt 2"
+  - "d2244cf55481a8aed9996d82402317df4455792a\t2026-07-26T05:03:22+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] fix(r12): preserve OIDC failure\
+    \ observability"
+  - "f6d53d0b67f5eba6381303b3927dc1eea971a859\t2026-07-26T04:27:02+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] test(r12): prepare final Android\
+    \ candidate"
+  - "8b20e881c6a72fc1e1deb11e86f3212e36ea7941\t2026-07-26T03:19:13+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] chore(continuity): close TASK-R12-006\
+    \ as completed"
+project_fingerprint:
+  sha256: c920130279d1324175deefaddb9781f38ccce96a0cbf2c3733d61aec5a1a9ca1
+  files:
+  - .github/workflows/android-candidate-request.yml
+  - .github/workflows/android-quality-gate.yml
+  - AGENTS.md
+  - CHANGELOG.md
+  - PROJECT_EXECUTION_PLAN.md
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+  - apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+  - apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+  - apps/android/feature/content-management/build.gradle.kts
+  - apps/android/feature/content-management/src/main/java/cc/orbexa/hhy/contentmanagement/R12ContentManagementListScreens.kt
+  - apps/android/feature/content-management/src/main/java/cc/orbexa/hhy/contentmanagement/R12ContentManagementListState.kt
+  - apps/android/feature/content-management/src/test/java/cc/orbexa/hhy/contentmanagement/R12ContentManagementListStateTest.kt
+  - config/android-automation.yaml
+  - config/android-candidate-request.yaml
+  - docs/00-baseline/正式商业系统全局硬性开发边界.md
+  - docs/03-continuity/PITFALLS.md
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/REUSABLE_PATTERNS.md
+  - docs/03-continuity/change-requests/CR-0339-补齐R12统一发布Android最终候选与产物追溯.md
+  - docs/03-continuity/change-requests/CR-0340-修复R12候选OIDC异常日志重复requestId遮蔽.md
+  - docs/03-continuity/change-requests/CR-0341-补齐R12隔离候选official-STAGING版本发布夹具.md
+  - docs/03-continuity/change-requests/CR-0342-修复R12审核记录当前内容摘要与真实时间线缺失.md
+  - docs/03-continuity/change-requests/CR-0343-补齐R12内容管理审核身份解析的直接JSON依赖.md
+  - docs/03-continuity/change-requests/CR-0344-允许R12修复提交执行一次精确绑定的第四次Android候选.md
+  - docs/03-continuity/change-requests/CR-0345-修复R12候选OIDC启动前提交目标夹具未确定性重建.md
+  - docs/03-continuity/change-requests/CR-0346-加固滚动计划跨版本视觉债务与经验记录防漂移门禁.md
+  - docs/08-testing/Android自动开发测试修复交付体系_V1.0.md
+  - docs/09-development/统一开发与交付效率规范.md
+  - releases/PROGRAM_EXECUTION_PLAN.yaml
+  - scripts/android_candidate_request.py
+  - scripts/android_ci_gate.py
+  - scripts/check_program_execution_plan.py
+  - scripts/check_release_artifacts.py
+  - scripts/check_ui_visual_acceptance.py
+  - scripts/check_v123_continuity.py
+  - scripts/generate_program_execution_plan.py
+  - scripts/prepare_r12_ci_fixture.sh
+  - scripts/run_android_emulator_gate.sh
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/web/GlobalExceptionHandler.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/web/GlobalExceptionHandlerTest.java
+  - templates/AGENTS.md
+  - tests/android/visual-manifests/R12.yaml
+  - tests/test_android_candidate_request.py
+  - tests/test_android_ci_gate.py
+  - tests/test_context_pack_parallel_policy.py
+  - tests/test_program_execution_plan.py
+  - tests/test_r12_candidate.py
+  - tests/test_release_close_gate.py
+  file_count: 49
+  payload:
+    base_commit: 8b20e881c6a72fc1e1deb11e86f3212e36ea7941
+    files:
+    - path: .github/workflows/android-candidate-request.yml
+      state: FILE
+      size: 2644
+      sha256: a97de688be10965fb7a9a13d8bf75f2b8e70090ee253eb77f26fa0530ab77625
+    - path: .github/workflows/android-quality-gate.yml
+      state: FILE
+      size: 14485
+      sha256: 549bd4d58d0508ece290e30892993bc89e3984a46fd6e259338620b3b654faea
+    - path: AGENTS.md
+      state: FILE
+      size: 14707
+      sha256: 306026d4706dfd3cae0a3db2b1c56e294700326bc3a13ca095c3987a267d390b
+    - path: CHANGELOG.md
+      state: FILE
+      size: 148354
+      sha256: 6a3462e438329a5684f76508733a37dafee149d9138c4c5fcbb975f23e1f0ec4
+    - path: PROJECT_EXECUTION_PLAN.md
+      state: FILE
+      size: 939
+      sha256: 3c2b93d06c6b36b9ac44bb79f1fa667445924fc3806f1f1b107c3848b839f3f9
+    - path: apps/android/app/build.gradle.kts
+      state: FILE
+      size: 5357
+      sha256: 6eaea2a1f69e0acd22749b09f491eb40ec9e878e056d5cfa299da8a426286426
+    - path: apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+      state: FILE
+      size: 16015
+      sha256: c21763bfea24f1c0aa27a5d51c2de05acd0c04974633749e9b3bb21fdbbdac67
+    - path: apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+      state: FILE
+      size: 520
+      sha256: a1df9d94f5723f39de171fbbee51bd038641e3981697af4cea179156cf05414e
+    - path: apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+      state: FILE
+      size: 1243
+      sha256: ddf37d314b022daf3b33adcf549c7289e7b39f45aee95088c94303eaf3d9ce00
+    - path: apps/android/feature/content-management/build.gradle.kts
+      state: FILE
+      size: 1200
+      sha256: 9f62494d9a9b9b30c76ed903fe56c82067e13ebad20e339032eb8507e038e4bb
+    - path: apps/android/feature/content-management/src/main/java/cc/orbexa/hhy/contentmanagement/R12ContentManagementListScreens.kt
+      state: FILE
+      size: 51061
+      sha256: 8f1cff9f122a721379a546b6623214b0122fce92b2b3767e6e951ae44adf0c23
+    - path: apps/android/feature/content-management/src/main/java/cc/orbexa/hhy/contentmanagement/R12ContentManagementListState.kt
+      state: FILE
+      size: 10711
+      sha256: dcc46ebec6735182af3762b48d22b1d783fbbee2d3451bded43486bf01952df6
+    - path: apps/android/feature/content-management/src/test/java/cc/orbexa/hhy/contentmanagement/R12ContentManagementListStateTest.kt
+      state: FILE
+      size: 8228
+      sha256: fd1b0d04c45d13a91f733dc42e1c64dc542cd4b63fd975c5fb94d15ca3bbe82f
+    - path: config/android-automation.yaml
+      state: FILE
+      size: 6170
+      sha256: 7c8f3a3556aaf4e76de4d71e41aef3ad9c03e8498b82d5e46bbaee4bae4fbce9
+    - path: config/android-candidate-request.yaml
+      state: FILE
+      size: 590
+      sha256: efe8c236c26352dbb5c096187db279db51f9404cb7d107c2b1b26239f7138334
+    - path: docs/00-baseline/正式商业系统全局硬性开发边界.md
+      state: FILE
+      size: 13487
+      sha256: b1d965b019e632fbe1a259831201be7c82f79c26836fa161fd1d41855fcdb7c8
+    - path: docs/03-continuity/PITFALLS.md
+      state: FILE
+      size: 8593
+      sha256: 034bf5e2ee3ef1e818ffd6dc244135f46d19869a69a9d741c593b35866a224b3
+    - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
+      state: FILE
+      size: 169890
+      sha256: c9ba3bf30f0a83b10222e140820f0d7b9af21f0cc4c85e2a725c24b57698d359
+    - path: docs/03-continuity/REUSABLE_PATTERNS.md
+      state: FILE
+      size: 3931
+      sha256: a5f963015203b94f819790709ff1cb00d00b4b495533fc5d655e1f3070ad5b90
+    - path: docs/03-continuity/change-requests/CR-0339-补齐R12统一发布Android最终候选与产物追溯.md
+      state: FILE
+      size: 4099
+      sha256: 6d0cfb4e067edebc263badbf91bd560127467ff7ee4dd6c5f9cef82baee002d7
+    - path: docs/03-continuity/change-requests/CR-0340-修复R12候选OIDC异常日志重复requestId遮蔽.md
+      state: FILE
+      size: 3643
+      sha256: e36ceb50b8f45a22fffdb20fc599d5972c184170c9619290706b6c40da8aad6f
+    - path: docs/03-continuity/change-requests/CR-0341-补齐R12隔离候选official-STAGING版本发布夹具.md
+      state: FILE
+      size: 4533
+      sha256: 0a222e781daea9cabe11b525f5f3522803f4c4122908afe94b81fea167b26c0d
+    - path: docs/03-continuity/change-requests/CR-0342-修复R12审核记录当前内容摘要与真实时间线缺失.md
+      state: FILE
+      size: 3759
+      sha256: d6465ed9e89f5be88b134dab6237e9e659ab76ff50ebb97502a683992bc1c2ec
+    - path: docs/03-continuity/change-requests/CR-0343-补齐R12内容管理审核身份解析的直接JSON依赖.md
+      state: FILE
+      size: 3175
+      sha256: 03b623d7f2e63aaec50fcb3e87312f4413637c2299b60765651087309c317bd0
+    - path: docs/03-continuity/change-requests/CR-0344-允许R12修复提交执行一次精确绑定的第四次Android候选.md
+      state: FILE
+      size: 4700
+      sha256: 97ccef4ae91f005ebd0d114e5e4863c27599884b02f7ea00f434048b2717a593
+    - path: docs/03-continuity/change-requests/CR-0345-修复R12候选OIDC启动前提交目标夹具未确定性重建.md
+      state: FILE
+      size: 4362
+      sha256: 1248359703e12f290d8f2857c589f720553cc151d7177f5c4474d4ade45196c4
+    - path: docs/03-continuity/change-requests/CR-0346-加固滚动计划跨版本视觉债务与经验记录防漂移门禁.md
+      state: FILE
+      size: 5089
+      sha256: a985b1626edb83550e84017eb876264f5294ed273db5fc34ad4d322f5382cf61
+    - path: docs/08-testing/Android自动开发测试修复交付体系_V1.0.md
+      state: FILE
+      size: 9914
+      sha256: d54f8a8a361a4a6263121e25664ace0e8e36e6496021b69d0d5333f9765a6762
+    - path: docs/09-development/统一开发与交付效率规范.md
+      state: FILE
+      size: 17399
+      sha256: 261efdf96ff72721f3b186b0ecfb75abbe21123f56ae94af98b2d53e00e2f150
+    - path: releases/PROGRAM_EXECUTION_PLAN.yaml
+      state: FILE
+      size: 36456
+      sha256: 542911104a0feb22d6d37ef92448bfc1b140b2f07d9fbf861440642f7f3d29d9
+    - path: scripts/android_candidate_request.py
+      state: FILE
+      size: 4691
+      sha256: 4ffd752c85299a3bc1dd14643089c9723e90345d488e68a7985beeb85513649a
+    - path: scripts/android_ci_gate.py
+      state: FILE
+      size: 30863
+      sha256: 6b817f41409de748d3737d6ff2aec0aae1d3c76cc41422896a55569f9efc21d9
+    - path: scripts/check_program_execution_plan.py
+      state: FILE
+      size: 10627
+      sha256: 2f0e59d3202483e77ca539d9fc36d2a2544403b62ce097281485d71ba705e8b7
+    - path: scripts/check_release_artifacts.py
+      state: FILE
+      size: 29578
+      sha256: c2bed955dcccfa7225f8a65455bd8cc7062f70ac0b4d04d254af901dd3c96b05
+    - path: scripts/check_ui_visual_acceptance.py
+      state: FILE
+      size: 13330
+      sha256: 2909ca67a0048b4bf0f00b3a118504cde4be10ae69b5718317ad5b6569faae39
+    - path: scripts/check_v123_continuity.py
+      state: FILE
+      size: 40763
+      sha256: e19804b3aea98d3db61b593503f87ce59e29680e6f7b3d8a03b4686fd0101b8e
+    - path: scripts/generate_program_execution_plan.py
+      state: FILE
+      size: 17128
+      sha256: e7cc5ece9d7f34be40df5e7d8357a24f0b28eb662f6e4afbdaadd4ab9b1a5bc2
+    - path: scripts/prepare_r12_ci_fixture.sh
+      state: FILE
+      size: 26762
+      sha256: e9453f57670533b0670d0363d9c58e14ec89855da21dbb3a2b0422b9e1f8cd46
+    - path: scripts/run_android_emulator_gate.sh
+      state: FILE
+      size: 2853
+      sha256: b982ca0944f865b6d5b576636d454ed59a2e19ff1da586d79267a9eee86670bc
+    - path: services/backend/boot/src/main/java/cc/orbexa/hhy/boot/web/GlobalExceptionHandler.java
+      state: FILE
+      size: 4776
+      sha256: 9b8fc37b04ccd7261922303a95f4feed4cd71d1e6614189c6e37690ecd3ad14f
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/boot/web/GlobalExceptionHandlerTest.java
+      state: FILE
+      size: 3692
+      sha256: 7f12a056f4ccc790c42793c361e489a9cafc1ef0c04061be151efeb1af11f8f6
+    - path: templates/AGENTS.md
+      state: FILE
+      size: 14707
+      sha256: 306026d4706dfd3cae0a3db2b1c56e294700326bc3a13ca095c3987a267d390b
+    - path: tests/android/visual-manifests/R12.yaml
+      state: FILE
+      size: 3460
+      sha256: d47a214545dc973e7bca32257b647ea558e53c515e04218d07d01c9c2e76ac1b
+    - path: tests/test_android_candidate_request.py
+      state: FILE
+      size: 5019
+      sha256: 558ed937390e0b0c909728a3ee46ff423411f17bcfcc3b4db0c20a332635ca3a
+    - path: tests/test_android_ci_gate.py
+      state: FILE
+      size: 38630
+      sha256: ea61b3787578e02c54ec4d1e8424e1c4b68fcb2c606f151149061e51635913e8
+    - path: tests/test_context_pack_parallel_policy.py
+      state: FILE
+      size: 11081
+      sha256: ebc8d60814e9759270e465bb037b8cfb0a8ff5590b7f9ad935ecb733ba198e6c
+    - path: tests/test_program_execution_plan.py
+      state: FILE
+      size: 4222
+      sha256: daeb57fa4d2cf309644acbcc38a39d31797ce68788e4539f98a2409ac51c71cd
+    - path: tests/test_r12_candidate.py
+      state: FILE
+      size: 8859
+      sha256: ecb048bee9a5b2bd4c0b22ec47cbd4d5803f9224e74eecfa0ae74647fd27b648
+    - path: tests/test_release_close_gate.py
+      state: FILE
+      size: 24775
+      sha256: 3e7cf0c0d1730df1524b253e05fc5a46d2ed251aa63938ae6832c20cece2cd5b
+change_classification:
+  infrastructure:
+  - .github/workflows/android-candidate-request.yml
+  - .github/workflows/android-quality-gate.yml
+  other:
+  - AGENTS.md
+  - CHANGELOG.md
+  - PROJECT_EXECUTION_PLAN.md
+  - config/android-automation.yaml
+  - config/android-candidate-request.yaml
+  - docs/08-testing/Android自动开发测试修复交付体系_V1.0.md
+  - docs/09-development/统一开发与交付效率规范.md
+  - releases/PROGRAM_EXECUTION_PLAN.yaml
+  - templates/AGENTS.md
+  code:
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+  - apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+  - apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+  - apps/android/feature/content-management/build.gradle.kts
+  - apps/android/feature/content-management/src/main/java/cc/orbexa/hhy/contentmanagement/R12ContentManagementListScreens.kt
+  - apps/android/feature/content-management/src/main/java/cc/orbexa/hhy/contentmanagement/R12ContentManagementListState.kt
+  - apps/android/feature/content-management/src/test/java/cc/orbexa/hhy/contentmanagement/R12ContentManagementListStateTest.kt
+  - scripts/android_candidate_request.py
+  - scripts/android_ci_gate.py
+  - scripts/check_program_execution_plan.py
+  - scripts/check_release_artifacts.py
+  - scripts/check_ui_visual_acceptance.py
+  - scripts/check_v123_continuity.py
+  - scripts/generate_program_execution_plan.py
+  - scripts/prepare_r12_ci_fixture.sh
+  - scripts/run_android_emulator_gate.sh
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/web/GlobalExceptionHandler.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/web/GlobalExceptionHandlerTest.java
+  user_visible:
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+  - apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+  - apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+  - apps/android/feature/content-management/build.gradle.kts
+  - apps/android/feature/content-management/src/main/java/cc/orbexa/hhy/contentmanagement/R12ContentManagementListScreens.kt
+  - apps/android/feature/content-management/src/main/java/cc/orbexa/hhy/contentmanagement/R12ContentManagementListState.kt
+  - apps/android/feature/content-management/src/test/java/cc/orbexa/hhy/contentmanagement/R12ContentManagementListStateTest.kt
+  source_of_truth:
+  - docs/00-baseline/正式商业系统全局硬性开发边界.md
+  continuity:
+  - docs/03-continuity/PITFALLS.md
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/REUSABLE_PATTERNS.md
+  - docs/03-continuity/change-requests/CR-0339-补齐R12统一发布Android最终候选与产物追溯.md
+  - docs/03-continuity/change-requests/CR-0340-修复R12候选OIDC异常日志重复requestId遮蔽.md
+  - docs/03-continuity/change-requests/CR-0341-补齐R12隔离候选official-STAGING版本发布夹具.md
+  - docs/03-continuity/change-requests/CR-0342-修复R12审核记录当前内容摘要与真实时间线缺失.md
+  - docs/03-continuity/change-requests/CR-0343-补齐R12内容管理审核身份解析的直接JSON依赖.md
+  - docs/03-continuity/change-requests/CR-0344-允许R12修复提交执行一次精确绑定的第四次Android候选.md
+  - docs/03-continuity/change-requests/CR-0345-修复R12候选OIDC启动前提交目标夹具未确定性重建.md
+  - docs/03-continuity/change-requests/CR-0346-加固滚动计划跨版本视觉债务与经验记录防漂移门禁.md
+  tests:
+  - tests/android/visual-manifests/R12.yaml
+  - tests/test_android_candidate_request.py
+  - tests/test_android_ci_gate.py
+  - tests/test_context_pack_parallel_policy.py
+  - tests/test_program_execution_plan.py
+  - tests/test_r12_candidate.py
+  - tests/test_release_close_gate.py
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+- APPROVED_CHANGE_REQUEST
+- CHANGELOG
+change_requests:
+- CR-0339
+- CR-0340
+- CR-0341
+- CR-0342
+- CR-0343
+- CR-0344
+- CR-0345
+- CR-0346
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions:
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/web/GlobalExceptionHandler.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/web/GlobalExceptionHandlerTest.java
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - config/android-automation.yaml
+  - config/android-candidate-request.yaml
+  - scripts/android_candidate_request.py
+  - scripts/android_ci_gate.py
+  - scripts/run_android_emulator_gate.sh
+  - .github/workflows/android-candidate-request.yml
+  - .github/workflows/android-quality-gate.yml
+  - tests/test_android_candidate_request.py
+  - tests/test_android_ci_gate.py
+  - tests/test_r12_candidate.py
+  - docs/08-testing/Android自动开发测试修复交付体系_V1.0.md
+  - CHANGELOG.md
+  - .continuity/CONTINUITY_POLICY.yaml
+  - AGENTS.md
+  - templates/AGENTS.md
+  - docs/00-baseline/正式商业系统全局硬性开发边界.md
+  - docs/09-development/统一开发与交付效率规范.md
+  - PROJECT_EXECUTION_PLAN.md
+  - releases/PROGRAM_EXECUTION_PLAN.yaml
+  - releases/R12/RELEASE_MANIFEST.yaml
+  - scripts/generate_program_execution_plan.py
+  - scripts/check_program_execution_plan.py
+  - scripts/check_ui_visual_acceptance.py
+  - scripts/check_release_artifacts.py
+  - scripts/check_v123_continuity.py
+  - tests/test_program_execution_plan.py
+  - tests/test_ui_visual_acceptance.py
+  - tests/test_release_close_gate.py
+  - tests/test_context_pack_parallel_policy.py
+  - docs/03-continuity/REUSABLE_PATTERNS.md
+  - docs/03-continuity/PITFALLS.md
+  source: story+explicit+approved-cr:CR-0340+approved-cr:CR-0344+approved-cr:CR-0346
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 全局规则、事件链、检查点和生成物同属单一治理事实链，必须串行收口
+event_hash: 4100cac49db058054bd15f40a4ec82a3daa54491f25f1de54a34cf3a613c528f

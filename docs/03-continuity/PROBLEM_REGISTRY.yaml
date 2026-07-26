@@ -539,6 +539,7 @@ problems:
   title: R05客户端实名授权协议版本缺少受控读取来源
   status: SOLVED
   root_cause: 冻结创建实名会话契约要求consentVersion，页面字段目录明确禁止客户端暗设默认，但R05四个客户端接口和现有配置接口均未提供当前实名授权协议版本；公开注册协议配置在当前环境也没有实名协议条目。
+  resolution: CR-0096新增受控的当前实名认证协议读取并在创建会话时二次校验版本；Android只提交服务端返回的不透明版本ID，不再使用构建变量或本地默认值。
   impact: 已由CR-0096补齐服务端受控协议读取、当前版本二次校验和Android自动加载阅读闭环；APK不再携带协议版本构建变量，用户页面不展示技术版本ID。
   current_behavior: Android进入实名信息表单自动读取当前生效的IDENTITY_VERIFICATION协议，用户可展开阅读正文并明确同意；创建会话只提交内存中的不透明版本ID，服务端拒绝空版本、旧版本或已切换版本。
   next_owner: TASK-R05-004
@@ -546,6 +547,10 @@ problems:
   - CR-0096冻结GET /api/v1/identity/consent和创建会话版本校验规则
   - Java 21服务/控制器测试8项通过，Android网络测试24项与实名/App Kotlin编译通过
   - PostgreSQL 17空库V027、U027至U023回滚和V023至V027重装通过，覆盖未配置、受控种子和有签署拒绝回滚
+  regression_checks:
+  - Java 21实名认证协议服务与控制器测试8项
+  - Android网络测试24项及实名/App Kotlin编译
+  - PostgreSQL 17 V027安装、回滚和已有签署拒绝回滚验证
   do_not_repeat:
   - 不得使用App版本、OpenAPI版本或consent-v1测试常量代替实名授权协议版本
   - 不得在页面局部硬编码协议版本或允许空版本提交
@@ -553,6 +558,7 @@ problems:
   title: R05活体回跳仅携带state但H5查询接口要求会话ID和Bearer
   status: SOLVED
   root_cause: 供应商按冻结安全边界只向H5回跳地址携带一次性state，而H5-012登记的GET身份会话接口同时要求路径id与登录Bearer；现有契约没有state消费或安全换取结果的操作，H5无法从回跳事实构造合法查询。
+  resolution: CR-0092新增公开一次性state原子消费契约，H5清理URL后只取得最小业务结果；重放、过期和篡改统一拒绝且不要求会话ID或Bearer。
   impact: 已通过CR-0092补齐公开一次性state消费契约，独立H5-012不再需要会话ID或Bearer即可安全完成回跳状态交接。
   current_behavior: H5读取state后立即清理URL，调用公开原子消费接口并只展示最小业务状态；重复、过期、篡改state统一进入商业失效页，技术参数不进入DOM。
   next_owner: TASK-R05-004
@@ -560,6 +566,9 @@ problems:
   - 通过CR冻结一次性state消费接口、重放防护、过期和结果最小披露
   - H5无Bearer回跳成功、重复state拒绝、过期state和篡改state测试
   - 页面模板统一为商业回跳状态页并禁止技术字段进入DOM
+  regression_checks:
+  - H5无Bearer回跳成功、重复state拒绝、过期state和篡改state测试
+  - 公开消费响应最小披露且页面DOM不得包含state、会话ID、Bearer或内部错误字段
   do_not_repeat:
   - 不得把会话ID、Bearer、姓名或身份证号追加到供应商回跳URL
   - 不得用客户端缓存猜测state对应会话或把通用占位页标为H5闭环完成
@@ -674,6 +683,10 @@ problems:
   - 配置后重新执行注册、授权说明、创建会话、活体令牌和结果查询黑盒门禁
   - scripts/check_r05_staging_identity_sandbox.py --api-base-url https://api.orbexa.cc
   - artifacts/validation/r05-public-rollforward/evidence.json
+  regression_checks:
+  - scripts/check_r05_staging_identity_sandbox.py --api-base-url https://api.orbexa.cc
+  - 注册、协议、创建会话、活体页面、完成、结果查询及一次性state防重放公网黑盒
+  - production启用测试供应商必须拒绝启动，客户端不得本地伪造认证终态
   do_not_repeat:
   - 不得把协议接口200等同于实名认证运行配置已就绪
   - 不得把创建会话阶段的500误归因于第三方活体Key
@@ -1603,3 +1616,18 @@ problems:
   - 不得把真实第四次候选伪写成attempt 1或复用旧request_id
   - 不得仅在模拟器运行后才检查例外字段或根因修复Commit
   - 不得允许错误Release、request、CR、Commit、attempt 5或无批准例外的attempt 4
+- id: PROB-0117
+  title: 滚动计划与累计治理门禁实现落后于权威规则仍返回假PASS
+  status: SOLVED
+  root_cause: PROGRAM_EXECUTION_PLAN生成器和检查器同时把R02硬编码为当前滚动窗口，导致项目已到R12仍自证PASS；CR-0242调整R08历史UI时序后机器策略未同步，版本关闭又只检查本版页面，使CR-0265重开的R06首页没有阻断R10/R11；Problem Registry、复用模式和踩坑记录只进入Context Pack哈希，没有结构完整性校验。
+  resolution: CR-0346让总计划从CURRENT_STATUS.active_release确定性生成并交叉验证；R12起机器关闭使用同一视觉目录累计检查截至当前版本全部前端页面，并要求绑定候选Commit和SHA的六项治理审计；严格Doctor验证问题编号与闭环字段、复用模式唯一编号和踩坑连续编号，同时原位补齐PROB-0044、PROB-0045与PROB-0052缺失证据。
+  regression_checks:
+  - python -m unittest tests.test_program_execution_plan tests.test_ui_visual_acceptance tests.test_release_close_gate tests.test_context_pack_parallel_policy
+  - python scripts/check_program_execution_plan.py --json
+  - python scripts/check_ui_visual_acceptance.py --historical-through R12
+  - python scripts/check_v123_continuity.py --strict
+  do_not_repeat:
+  - 不得让生成器与检查器共享同一硬编码旧状态后互相自证PASS
+  - 不得只检查当前Release页面而忽略被后续CR重新打开的历史视觉债务
+  - 经验文件进入哈希清单不等于内容可复用，必须校验编号、状态和闭环字段
+  - 每个大版本不得在六项治理审计未绑定最终候选Commit时关闭或进入下一版

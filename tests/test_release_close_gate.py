@@ -15,6 +15,9 @@ import unittest
 
 import yaml
 
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
+import check_release_artifacts as release_gate  # noqa: E402
+
 
 ROOT = Path(__file__).resolve().parents[1]
 OPERATIONS = [
@@ -502,6 +505,38 @@ class ReleaseCloseGateTest(unittest.TestCase):
                 "UI_VISUAL_SCREENSHOT_EVIDENCE_MISSING",
             ]:
                 self.assertIn(code, result.stdout)
+
+    def test_r12_governance_audit_is_commit_and_hash_bound(self) -> None:
+        with tempfile.TemporaryDirectory(prefix="hhy-governance-audit-") as temp:
+            root = Path(temp)
+            evidence = root / "artifacts/reports/R12/R12-governance-drift-audit.md"
+            evidence.parent.mkdir(parents=True)
+            evidence.write_text("audit pass\n", encoding="utf-8")
+            candidate_commit = "a" * 40
+            manifest = {
+                "governance_audit": {
+                    "status": "PASS",
+                    "source_commit": candidate_commit,
+                    "checks": {key: "PASS" for key in release_gate.GOVERNANCE_AUDIT_CHECKS},
+                    "evidence": evidence.relative_to(root).as_posix(),
+                    "evidence_sha256": hashlib.sha256(evidence.read_bytes()).hexdigest(),
+                }
+            }
+            original_root = release_gate.ROOT
+            release_gate.ROOT = root
+            try:
+                missing_gate = release_gate.CloseGate("R12", "machine")
+                missing_gate.validate_governance_audit({}, candidate_commit)
+                self.assertIn("GOVERNANCE_AUDIT_MISSING", {code for code, _ in missing_gate.errors})
+                gate = release_gate.CloseGate("R12", "machine")
+                gate.validate_governance_audit(manifest, candidate_commit)
+                self.assertEqual([], gate.errors)
+                evidence.write_text("tampered\n", encoding="utf-8")
+                gate = release_gate.CloseGate("R12", "machine")
+                gate.validate_governance_audit(manifest, candidate_commit)
+                self.assertIn("GOVERNANCE_AUDIT_SHA_MISMATCH", {code for code, _ in gate.errors})
+            finally:
+                release_gate.ROOT = original_root
 
 
 if __name__ == "__main__":
