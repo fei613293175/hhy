@@ -61,6 +61,9 @@ class R13CandidateTest(unittest.TestCase):
             "status='READY'",
             "'official','STAGING'",
             "'1.2.2',10222,'NONE','PUBLISHED'",
+            "timestamptz '2026-07-26 00:00:00+00'",
+            "published_at > clock_timestamp()",
+            "release.published_at<=clock_timestamp()",
             "R13_CI_FIXTURE_OK",
             "count(DISTINCT content.id)=3",
             "count(DISTINCT favorite.id)=3",
@@ -129,8 +132,8 @@ class R13CandidateTest(unittest.TestCase):
         request = yaml.safe_load(REQUEST.read_text(encoding="utf-8"))
         self.assertEqual("R13", request["release"])
         self.assertTrue(request["candidate"])
-        self.assertEqual(2, request["remediation_attempt"])
-        self.assertEqual("R13-CANDIDATE-20260727-002", request["request_id"])
+        self.assertEqual(3, request["remediation_attempt"])
+        self.assertEqual("R13-CANDIDATE-20260727-003", request["request_id"])
         self.assertNotIn("attempt_exception_id", request)
         self.assertNotIn("required_fix_commit", request)
 

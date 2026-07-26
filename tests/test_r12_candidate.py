@@ -12,7 +12,6 @@ VISUAL_MANIFEST = ROOT / "tests/android/visual-manifests/R12.yaml"
 BUILD = ROOT / "apps/android/app/build.gradle.kts"
 RELEASE_POLICY = ROOT / "apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt"
 VERSION_TEST = ROOT / "apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt"
-REQUEST = ROOT / "config/android-candidate-request.yaml"
 WORKFLOW = ROOT / ".github/workflows/android-quality-gate.yml"
 CI_SERVICE = ROOT / "services/backend/access/src/main/java/cc/orbexa/hhy/access/user/CiAutomationService.java"
 CI_FIXTURE_STORE = ROOT / "services/backend/access/src/main/java/cc/orbexa/hhy/access/user/CiAutomationFixtureStore.java"
@@ -194,7 +193,6 @@ class R12CandidateTest(unittest.TestCase):
         build = BUILD.read_text(encoding="utf-8")
         release_policy = RELEASE_POLICY.read_text(encoding="utf-8")
         version_test = VERSION_TEST.read_text(encoding="utf-8")
-        request = yaml.safe_load(REQUEST.read_text(encoding="utf-8"))
         archived = json.loads(ARCHIVED_BUILD.read_text(encoding="utf-8"))
         self.assertEqual("R12", archived["release"])
         self.assertEqual(10221, archived["version_code"])
@@ -203,11 +201,6 @@ class R12CandidateTest(unittest.TestCase):
         self.assertIn("VERSION_CODE: Int = 10222", release_policy)
         self.assertIn('"R13 test APK versionCode must remain monotonic", 10222', version_test)
         self.assertGreater(10222, archived["version_code"])
-        self.assertEqual("R13", request["release"])
-        self.assertTrue(request["candidate"])
-        self.assertEqual(1, request["remediation_attempt"])
-        self.assertNotIn("attempt_exception_id", request)
-        self.assertNotIn("required_fix_commit", request)
 
 
 if __name__ == "__main__":

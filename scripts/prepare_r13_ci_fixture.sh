@@ -136,16 +136,23 @@ BEGIN
       min_supported_version_code,release_notes
     ) VALUES (
       fixture_artifact,fixture_channel,'1.2.2',10222,'NONE','PUBLISHED',
-      timestamptz '2026-07-27 00:00:00+00',10222,'R13隔离候选启动策略夹具'
+      timestamptz '2026-07-26 00:00:00+00',10222,'R13隔离候选启动策略夹具'
     ) RETURNING id INTO fixture_release;
-  ELSIF EXISTS (
+  END IF;
+  UPDATE hhy.app_release_records
+     SET published_at=timestamptz '2026-07-26 00:00:00+00'
+   WHERE id=fixture_release
+     AND published_at IS DISTINCT FROM timestamptz '2026-07-26 00:00:00+00';
+  IF EXISTS (
     SELECT 1 FROM hhy.app_release_records WHERE id=fixture_release AND (
       artifact_id IS DISTINCT FROM fixture_artifact OR version_name IS DISTINCT FROM '1.2.2'
       OR update_type IS DISTINCT FROM 'NONE' OR status IS DISTINCT FROM 'PUBLISHED'
       OR min_supported_version_code IS DISTINCT FROM 10222
+      OR published_at IS DISTINCT FROM timestamptz '2026-07-26 00:00:00+00'
+      OR published_at > clock_timestamp()
     )
   ) THEN
-    RAISE EXCEPTION 'R13 startup release record drifted';
+    RAISE EXCEPTION 'R13 startup release record drifted or is not effective';
   END IF;
 
   INSERT INTO hhy.user_profiles(user_id,nickname,bio)
@@ -380,6 +387,7 @@ LEFT JOIN hhy.content_contacts contact ON contact.content_id=content.id
 JOIN hhy.app_release_channels channel ON channel.code='official' AND channel.environment='STAGING'
 JOIN hhy.app_release_records release ON release.channel_id=channel.id
   AND release.version_code=10222 AND release.update_type='NONE' AND release.status='PUBLISHED'
+  AND release.published_at<=clock_timestamp()
 WHERE candidate.phone=:'ci_phone'
 HAVING count(DISTINCT content.id)=3
    AND count(DISTINCT favorite.id)=3

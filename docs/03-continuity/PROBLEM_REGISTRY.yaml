@@ -1576,21 +1576,23 @@ problems:
   - 不得为了排查OIDC把Bearer Token、JWT声明全文、异常消息或Throwable堆栈写入候选日志
   - 业务旅程开始前的确定性后端500不得直接重跑模拟器，应先修复可观测性并在固定候选后端复现
 - id: PROB-0114
-  title: R12隔离候选遗漏版本发布链导致登录成功后启动门禁404
+  title: 隔离候选启动发布链缺失或未生效导致登录成功后404
   status: SOLVED
   root_cause: Run 30175242918的OIDC bootstrap、session和/api/v1/me均返回200，但R12专用夹具只创建用户、会员、奖励和内容事实，没有创建StartupGate对official+STAGING+10221所需的构建配置、构建任务、APK产物、活动渠道和PUBLISHED发布记录。隔离数据库三张发布表为空，/public-api/v1/app/version-check因此返回404，首页loaded标记和十页旅程均无法开始。既有PROB-0053处理的是客户端错误注入owner-test渠道，本次请求维度正确，根因不同。
-  resolution: CR-0341在既有R12专用夹具同一事务内幂等创建带固定标识的STAGING构建配置、10221成功任务、确定性APK元数据、official+STAGING活动渠道和NONE/PUBLISHED发布记录；任何重复或字段漂移都硬失败，脚本不包含PROD写入。完整GitHub候选前必须先在obx-test连续执行夹具两次并取得严格相同输出，再对公网version-check验证HTTP 200和updateType=NONE。
+  resolution: CR-0341在既有R12专用夹具同一事务内幂等创建带固定标识的STAGING构建配置、10221成功任务、确定性APK元数据、official+STAGING活动渠道和NONE/PUBLISHED发布记录；任何重复或字段漂移都硬失败，脚本不包含PROD写入。R13 attempt 2 Run 30219507396进一步证明“记录存在”仍不等于“记录已生效”：夹具输出 `version=10222`，但published_at晚于候选运行时刻，查询按published_at<=now返回404。CR-0380将R13发布时间固定为候选日前的过去时刻，幂等修正已有候选记录，并在漂移断言和最终输出查询中共同要求published_at已生效。完整GitHub候选前必须先在obx-test连续执行夹具两次并取得严格相同输出，再对公网version-check验证HTTP 200和updateType=NONE。
   regression_checks:
   - python -m unittest tests.test_r12_candidate
   - prepare_r12_ci_fixture.sh只能接受hhy-r12-ci-candidate-*后端、hhy-r12-staging-*-postgres-1数据库、staging Profile和显式YES确认
   - 夹具连续执行两次必须输出严格一致且release=1、release_version=10221、release_update=NONE
   - POST /public-api/v1/app/version-check对ANDROID、10221、official、STAGING必须返回HTTP 200且updateType=NONE
   - 服务器SQL必须证明official+STAGING+10221发布链各层唯一，夹具不得写入PROD渠道或生产发布记录
+  - R13夹具必须锁定过去published_at、幂等修正已存在的未生效记录，且输出联查必须包含release.published_at<=clock_timestamp()
   do_not_repeat:
   - 最终候选夹具不得只覆盖登录后页面数据而遗漏StartupGate在认证前读取的平台状态和版本策略
   - OIDC登录成功不能证明业务旅程可开始，必须分别验证启动门禁、首页loaded标记和页面截图阶段
   - 已知版本表为空导致的确定性404不得通过重跑GitHub模拟器碰运气
   - 不得复用生产PROD发布链为隔离候选补数据，只允许专用STAGING夹具
+  - 夹具成功输出不得只计数发布记录，必须按业务查询相同时间条件证明其已生效
 - id: PROB-0115
   title: R12审核记录页把空人工处理历史误判为内容不存在
   status: SOLVED
@@ -1671,15 +1673,17 @@ problems:
   title: R11历史候选回归与Maven Wrapper文件模式随R12演进漂移
   status: SOLVED
   root_cause: R11候选回归直接断言全局当前构建配置、发布策略、候选请求和共享模拟器旅程永远保持R11，版本进入R12后必然假失败；同时services/backend/mvnw在Git索引中为100644，Windows本地无法暴露该问题，Linux CI使用./mvnw时直接返回Permission denied。
-  resolution: CR-0348将R11身份、页面集合和截图哈希改为读取已归档build-evidence、candidate-report与R11视觉合同验证不可变事实，当前构建与发布策略只要求一致且严格大于R11的10220；恢复Maven Wrapper的Git 100755模式，并在既有V1.2.3严格Doctor和工具回归中同时校验Android与Maven Wrapper的索引模式。run 30187349464进一步证明候选与治理测试路径未进入tooling影响映射；CR-0349在既有test-impact-map原位增加candidate-history-unit和governance-knowledge-unit，相关路径变化必须选择tooling，未受影响的Android、数据库和Web继续跳过。
+  resolution: CR-0348将R11身份、页面集合和截图哈希改为读取已归档build-evidence、candidate-report与R11视觉合同验证不可变事实，当前构建与发布策略只要求一致且严格大于R11的10220；恢复Maven Wrapper的Git 100755模式，并在既有V1.2.3严格Doctor和工具回归中同时校验Android与Maven Wrapper的索引模式。run 30187349464进一步证明候选与治理测试路径未进入tooling影响映射；CR-0349在既有test-impact-map原位增加candidate-history-unit和governance-knowledge-unit，相关路径变化必须选择tooling，未受影响的Android、数据库和Web继续跳过。R13 attempt 3预检又发现R12归档测试仍把全局当前R13请求锁死为attempt 1；CR-0381删除该越界读取，R12只验证自身归档事实及后继版本身份单调性，R13精确轮次只由R13专项测试负责。
   regression_checks:
   - python -m unittest -v tests.test_r11_candidate tests.test_context_pack_parallel_policy
+  - python -m unittest discover -s tests -p test_r*_candidate.py必须允许当前Release候选轮次演进且保持历史归档事实通过
   - tests.test_run_affected_tests必须证明候选历史、视觉归档、严格Doctor和三份治理知识源变化均选择tooling
   - git ls-files -s -- apps/android/gradlew services/backend/mvnw必须均为100755
   - python scripts/check_v123_continuity.py --strict --release R12
   - GitHub普通CI tooling与backend Job必须PASS，且不得触发Android模拟器候选
   do_not_repeat:
   - 不得让历史Release测试读取并锁死全局当前候选请求、版本号或共享模拟器旅程
+  - 当前Release的精确remediation_attempt和request_id只能由当前Release专项测试验证，历史测试不得重复拥有
   - 不得用CI临时chmod替代Git索引100755事实
   - Windows本机可执行不能作为Linux Wrapper权限证据
   - 普通CI失败不得通过启动或复用已消耗的Android候选轮次解决

@@ -11,12 +11,14 @@ task_id: TASK-R13-007
 story_id: STORY-R13-003
 goal: 收藏、历史、分享与行为审计Android测试APK与产物追溯
 started_at: '2026-07-26T19:11:58Z'
-updated_at: '2026-07-26T20:39:00Z'
+updated_at: '2026-07-26T21:15:59Z'
 takeover_of: null
 change_requests:
 - CR-0377
 - CR-0378
 - CR-0379
+- CR-0380
+- CR-0381
 scope:
   allowed_paths:
   - apps/**
@@ -68,7 +70,7 @@ scope:
   - docs/03-continuity/PROBLEM_REGISTRY.yaml
   - docs/03-continuity/REUSABLE_PATTERNS.md
   - docs/03-continuity/PITFALLS.md
-  source: story+explicit+approved-cr:CR-0377+approved-cr:CR-0378+approved-cr:CR-0379
+  source: story+explicit+approved-cr:CR-0377+approved-cr:CR-0378+approved-cr:CR-0379+approved-cr:CR-0380+approved-cr:CR-0381
 git:
   initialized: true
   branch: task/TASK-R03-001
@@ -78,22 +80,22 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-26T20:38:50Z'
-  expires_at: '2026-07-27T00:38:50Z'
-checkpoint_sequence: 6
-latest_checkpoint: .continuity/checkpoints/SES-20260726T191158Z-2B506AB7/0006.yaml
+  renewed_at: '2026-07-26T21:15:52Z'
+  expires_at: '2026-07-27T01:15:52Z'
+checkpoint_sequence: 8
+latest_checkpoint: .continuity/checkpoints/SES-20260726T191158Z-2B506AB7/0008.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260726T191158Z-2B506AB7.md
-next_step: 提交精确模块测试与CR状态证据，重新通过Git transport/push preflight并单次推送R13 attempt2；监控唯一候选Run，技术成功后下载四图由AI自主视觉审核。
+next_step: 提交CP-0008绑定变更，执行Git transport/push preflight并单次推送R13 attempt3；监控唯一新Run，技术通过后下载四图由AI自主审核。
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: b77d65ded45afe8363f2b77914a0bea40155950ef351d155f59683ef3fe5fe5a
-  generated_at: '2026-07-26T20:38:56Z'
+  context_hash: b91e8ed5fc1c502458ac14a64118c7f35c958747d667699cdc198c563147eb69
+  generated_at: '2026-07-26T21:15:56Z'
 handoff_bundle: null
 closure: null
 parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 精确Commit Android构建锁、候选请求推送和CR最终集成属于同一串行发布边界，不能并行形成多个候选事实。
+  reason: 候选请求、CR状态、Session检查点、提交和单次推送共享同一事实分支且必须严格串行，拆分会产生候选身份和检查点竞态。

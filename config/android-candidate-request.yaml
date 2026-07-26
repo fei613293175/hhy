@@ -2,6 +2,6 @@ schema_version: 1
 status: REQUESTED
 release: R13
 candidate: true
-remediation_attempt: 2
-request_id: R13-CANDIDATE-20260727-002
-reason: R13 attempt 1 Run 30218800712在Android编译和模拟器前被UI Token门禁阻断，已消费且不得重跑；本请求只允许运行一次普通attempt 2，绑定移除分类指示线原始Color.Transparent的最小修复，在隔离Staging夹具上采集同一四张真实业务截图并由AI自主审核。
+remediation_attempt: 3
+request_id: R13-CANDIDATE-20260727-003
+reason: R13 attempt 2 Run 30219507396的构建、Lint和单测全部通过，OIDC会话与/api/v1/me为200，但R13夹具把10222发布时间固定在候选运行之后，StartupGate的version-check因记录尚未生效返回404。该Run已消费且不得重跑；本请求只允许运行一次普通attempt 3，绑定过去发布时间、已生效断言及公网version-check 200/NONE的最小修复。
