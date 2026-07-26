@@ -3983,3 +3983,42 @@ claims:
   - scripts/**
   - CHANGELOG.md
   closed_at: '2026-07-26T11:34:02Z'
+- claim_id: CLM-47DFED8C22CB
+  session_id: SES-20260726T113800Z-4EDAA918
+  task_id: TASK-R13-002
+  story_id: STORY-R13-003
+  actor_id: codex-root-r13-data-20260726
+  status: ACTIVE
+  claimed_at: '2026-07-26T11:38:00Z'
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json

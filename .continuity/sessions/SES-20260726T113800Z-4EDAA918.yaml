@@ -1,0 +1,85 @@
+protocol_version: '1.0'
+package_version: 1.2.3
+session_id: SES-20260726T113800Z-4EDAA918
+status: ACTIVE
+actor:
+  id: codex-root-r13-data-20260726
+  kind: AI_OR_HUMAN
+  host: unknown
+release: R13
+task_id: TASK-R13-002
+story_id: STORY-R13-003
+goal: 实现R13收藏、浏览历史、分享与行为审计的数据迁移、约束、幂等与回滚验证，保持冻结契约和资金边界不变。
+started_at: '2026-07-26T11:38:00Z'
+updated_at: '2026-07-26T12:20:52Z'
+takeover_of: null
+change_requests:
+- CR-0366
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions:
+  - database/migrations/V042__r13_activity_invariants.sql
+  - services/backend/boot/src/main/resources/db/migration/V042__r13_activity_invariants.sql
+  - database/rollback/U042__r13_activity_invariants.sql
+  - database/tests/r13_activity_invariants.sql
+  - tests/test_r13_activity_migration.py
+  source: story+explicit+approved-cr:CR-0366
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  base_commit: aeda26ad525af23f5e26a855b78e03f7c412a5f9
+  start_head: aeda26ad525af23f5e26a855b78e03f7c412a5f9
+  upstream: origin/task/TASK-R03-001
+  initial_worktree_state: CLEAN
+lease:
+  duration_minutes: 240
+  renewed_at: '2026-07-26T12:20:41Z'
+  expires_at: '2026-07-26T16:20:41Z'
+checkpoint_sequence: 2
+latest_checkpoint: .continuity/checkpoints/SES-20260726T113800Z-4EDAA918/0002.yaml
+session_log: docs/03-continuity/sessions/2026-07/SES-20260726T113800Z-4EDAA918.md
+next_step: 运行严格连续性与提交门禁，提交推送V042实现并绑定CR-0366
+context_pack:
+  yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
+  markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
+  manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+  context_hash: 1beea28d63bba88a070768ddadd4014fe8cf939808e9dbf0b7942cbc58925362
+  generated_at: '2026-07-26T12:20:46Z'
+handoff_bundle: null
+closure: null
+parallel_execution:
+  assessment: CAPABILITY_UNAVAILABLE
+  delegated_workers: 0
+  workers: []
+  reason: 当前系统级约束禁止启动子代理；数据库迁移、安全不变量和最终集成由主控串行复核

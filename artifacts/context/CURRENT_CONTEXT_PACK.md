@@ -1,14 +1,14 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-26T11:34:06Z
-- Context Hash：`18e9ca5a4a5f01fe2f3f672e08d9a670e86cce45a80bb31461e9298e5e68466b`
+- 生成时间：2026-07-26T12:20:46Z
+- Context Hash：`1beea28d63bba88a070768ddadd4014fe8cf939808e9dbf0b7942cbc58925362`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 规则就绪：`PASS`（`HASHED_CONTEXT_MANIFEST`）
 - 精确恢复命令：
 
 ```bash
-python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R13-002
+python3 scripts/continuity.py checkpoint --summary '<完成内容>' --next-step '<下一步>' --parallel-assessment <ASSESSMENT> --parallel-reason '<未委托原因>'
 ```
 
 ## 规则就绪
@@ -42,7 +42,7 @@ baseline_version: 1.2.3
 phase: R13
 active_release: R13
 active_task: TASK-R13-002
-status: READY
+status: IN_PROGRESS
 documentation_status: ZERO_BLOCKING_DOCUMENT_GAPS
 last_green_commit: 29ad2bcc6c1dae68a42ea9147110dc4b9dd29745
 last_staging_apk: null
@@ -159,14 +159,15 @@ completed_tasks:
 - TASK-R12-007
 - TASK-R12-008
 - TASK-R13-001
-in_progress_tasks: []
+in_progress_tasks:
+- TASK-R13-002
 blocked_tasks:
 - TASK-R02-007
 - TASK-R03-007
 - TASK-R06-008
 - TASK-R07-008
 next_task: TASK-R13-002
-updated_at: '2026-07-26T11:34:02Z'
+updated_at: '2026-07-26T12:20:41Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -198,17 +199,19 @@ validation:
 continuity:
   protocol_version: '1.0'
   mode: ENFORCED
-  active_session_id: null
-  last_session_id: SES-20260726T110209Z-C9DC8AD5
-  last_session_result: COMPLETED
-  last_checkpoint: .continuity/checkpoints/SES-20260726T110209Z-C9DC8AD5/0005.yaml
-  last_handoff_bundle: null
+  active_session_id: SES-20260726T113800Z-4EDAA918
+  actor_id: codex-root-r13-data-20260726
+  story_id: STORY-R13-003
+  lease_expires_at: '2026-07-26T16:20:41Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260726T113800Z-4EDAA918/0002.yaml
+  project_fingerprint: 281a45915b49fbbea1d47e0bd74a29b5781d3e59c1307c8315dbbe1309ad9371
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: 540bb273d5d166ca0fe552e91a17f61267971f9745766e6ca686391390202524
-    generated_at: '2026-07-26T11:33:59Z'
+    context_hash: 72e416af2ed71679d725ed8ea957b01a2a9158929dba138f9a0534ba536ad741
+    generated_at: '2026-07-26T12:02:35Z'
+  handoff_bundle: null
 ```
 
 ## 默认并行规则
@@ -392,13 +395,282 @@ next_after: 由当前TASKS.yaml依赖关系决定
 ## 活跃会话
 
 ```yaml
-status: NONE
+protocol_version: '1.0'
+package_version: 1.2.3
+session_id: SES-20260726T113800Z-4EDAA918
+status: ACTIVE
+actor:
+  id: codex-root-r13-data-20260726
+  kind: AI_OR_HUMAN
+  host: unknown
+release: R13
+task_id: TASK-R13-002
+story_id: STORY-R13-003
+goal: 实现R13收藏、浏览历史、分享与行为审计的数据迁移、约束、幂等与回滚验证，保持冻结契约和资金边界不变。
+started_at: '2026-07-26T11:38:00Z'
+updated_at: '2026-07-26T12:20:41Z'
+takeover_of: null
+change_requests:
+- CR-0366
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions:
+  - database/migrations/V042__r13_activity_invariants.sql
+  - services/backend/boot/src/main/resources/db/migration/V042__r13_activity_invariants.sql
+  - database/rollback/U042__r13_activity_invariants.sql
+  - database/tests/r13_activity_invariants.sql
+  - tests/test_r13_activity_migration.py
+  source: story+explicit+approved-cr:CR-0366
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  base_commit: aeda26ad525af23f5e26a855b78e03f7c412a5f9
+  start_head: aeda26ad525af23f5e26a855b78e03f7c412a5f9
+  upstream: origin/task/TASK-R03-001
+  initial_worktree_state: CLEAN
+lease:
+  duration_minutes: 240
+  renewed_at: '2026-07-26T12:20:41Z'
+  expires_at: '2026-07-26T16:20:41Z'
+checkpoint_sequence: 2
+latest_checkpoint: .continuity/checkpoints/SES-20260726T113800Z-4EDAA918/0002.yaml
+session_log: docs/03-continuity/sessions/2026-07/SES-20260726T113800Z-4EDAA918.md
+next_step: 运行严格连续性与提交门禁，提交推送V042实现并绑定CR-0366
+context_pack: THIS_CONTEXT_PACK
+handoff_bundle: null
+closure: null
+parallel_execution:
+  assessment: CAPABILITY_UNAVAILABLE
+  delegated_workers: 0
+  workers: []
+  reason: 当前系统级约束禁止启动子代理；数据库迁移、安全不变量和最终集成由主控串行复核
 ```
 
 ## 最新检查点
 
 ```yaml
-status: NO_CHECKPOINT
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260726T113800Z-4EDAA918-0002
+session_id: SES-20260726T113800Z-4EDAA918
+task_id: TASK-R13-002
+story_id: STORY-R13-003
+sequence: 2
+created_at: '2026-07-26T12:20:40Z'
+summary: R13-002 V042数据层实现已完成MODULE验证：契约、生成资产、数据库目录、静态回归、空库/升级库/回滚实测通过；本机JAVA_HOME缺失未安装本地Java，改用obx-test缓存Maven 3.9.11+Java21执行同一access,boot模块测试431项全通过
+next_step: 运行严格连续性与提交门禁，提交推送V042实现并绑定CR-0366
+blockers: []
+decisions: []
+note: ''
+tests:
+- name: workflow-contract-runtime-assets
+  result: PASS
+  evidence: scripts/sync_runtime_assets.py --check
+  note: 46 assets一致
+- name: workflow-openapi
+  result: PASS
+  evidence: scripts/check_api_contract.py
+  note: client131 admin184 websocket10
+- name: workflow-local-backend-environment
+  result: SKIPPED
+  evidence: hhy_workflow backend-module
+  note: 本机JAVA_HOME缺失且规则禁止安装；已由云端同命令替代
+- name: backend-module-cloud-java21
+  result: PASS
+  evidence: obx-test maven:3.9.11-eclipse-temurin-21
+  note: 431 tests, 0 failures, 0 errors, 20 skipped, BUILD SUCCESS
+- name: database-module
+  result: PASS
+  evidence: scripts/check_db_schema.py
+  note: 200 tables,42 migrations,runtime hashes PASS
+- name: r13-postgres-empty-upgrade-rollback
+  result: PASS
+  evidence: obx-test postgres:16-alpine
+  note: 空库、升级库、不变量和1:1:1:1数据保留通过
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: aeda26ad525af23f5e26a855b78e03f7c412a5f9
+  upstream: origin/task/TASK-R03-001
+  ahead: 0
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/ACTIVE_SESSION.yaml'
+  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/SESSION_INDEX.yaml'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/TASK_CLAIMS.yaml'
+  - ' M .continuity/TASK_TRANSITIONS.yaml'
+  - ' M CURRENT_STATUS.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+  - ' M catalogs/change_request_index.csv'
+  - ' M catalogs/session_index.csv'
+  - ' M catalogs/task_transition_ledger.csv'
+  - ?? .continuity/change_requests/CR-0366.yaml
+  - ?? .continuity/checkpoints/SES-20260726T113800Z-4EDAA918/0001.yaml
+  - ?? .continuity/sessions/SES-20260726T113800Z-4EDAA918.yaml
+  - ?? database/migrations/V042__r13_activity_invariants.sql
+  - ?? database/rollback/U042__r13_activity_invariants.sql
+  - ?? database/tests/r13_activity_invariants.sql
+  - ?? docs/03-continuity/change-requests/CR-0366-补齐R13活动数据不变量并复用通用审计事实源.md
+  - ?? docs/03-continuity/sessions/2026-07/SES-20260726T113800Z-4EDAA918.md
+  - ?? services/backend/boot/src/main/resources/db/migration/V042__r13_activity_invariants.sql
+  - ?? tests/test_r13_activity_migration.py
+  recent_commits:
+  - "aeda26ad525af23f5e26a855b78e03f7c412a5f9\t2026-07-26T19:35:50+08:00\tHHY Continuity Bootstrap\t[STORY-R13-001] chore(continuity): close TASK-R13-001\
+    \ as completed"
+  - "6d74ca24440daabb8a5abf4b34e0d5d52eb7e33d\t2026-07-26T19:33:35+08:00\tHHY Continuity Bootstrap\t[STORY-R13-001] chore(r13): bind entry implementation\
+    \ evidence"
+  - "29ad2bcc6c1dae68a42ea9147110dc4b9dd29745\t2026-07-26T19:29:21+08:00\tHHY Continuity Bootstrap\t[STORY-R13-001] docs(r13): establish implementation\
+    \ entry baseline"
+  - "84eadad25a10321462f42fa9b63d448073590cab\t2026-07-26T18:58:57+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] chore(continuity): close TASK-R12-008\
+    \ as completed"
+  - "0af377d34568245e87a279e5cb0811369086b670\t2026-07-26T18:57:30+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] docs(r12): bind machine close\
+    \ implementation"
+  - "60c547b9cd0fc8c35a6567c744271ba23a593d41\t2026-07-26T18:55:49+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] chore(r12): complete machine\
+    \ close evidence"
+  - "9b367d87b1037d1b91a9b46f44d45b9f01be31b8\t2026-07-26T18:48:53+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] chore(continuity): close TASK-R12-007\
+    \ as completed"
+  - "339fd7389d3f322f98a7abfc6a45a3319bd6438c\t2026-07-26T18:46:43+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] docs(r12): bind delivery implementation\
+    \ commit"
+project_fingerprint:
+  sha256: 281a45915b49fbbea1d47e0bd74a29b5781d3e59c1307c8315dbbe1309ad9371
+  files:
+  - database/migrations/V042__r13_activity_invariants.sql
+  - database/rollback/U042__r13_activity_invariants.sql
+  - database/tests/r13_activity_invariants.sql
+  - docs/03-continuity/change-requests/CR-0366-补齐R13活动数据不变量并复用通用审计事实源.md
+  - services/backend/boot/src/main/resources/db/migration/V042__r13_activity_invariants.sql
+  - tests/test_r13_activity_migration.py
+  file_count: 6
+  payload:
+    base_commit: aeda26ad525af23f5e26a855b78e03f7c412a5f9
+    files:
+    - path: database/migrations/V042__r13_activity_invariants.sql
+      state: FILE
+      size: 4145
+      sha256: bdfa61d91144c21b99c9de168b41a43662a18ffe661facd7d4a48452e9729241
+    - path: database/rollback/U042__r13_activity_invariants.sql
+      state: FILE
+      size: 844
+      sha256: 1425dc82677299aa2a02cf9cb4b849a1e5d36e7510585d396f8312fbbb806e0a
+    - path: database/tests/r13_activity_invariants.sql
+      state: FILE
+      size: 4647
+      sha256: e9fd1e1efab69b425006122be9aec88409cd591f17a17864e540853200389a23
+    - path: docs/03-continuity/change-requests/CR-0366-补齐R13活动数据不变量并复用通用审计事实源.md
+      state: FILE
+      size: 3335
+      sha256: 3c2a8e91ef1bb8322c439609bd6618f1edf5f3ec2e90a766fa434e87d72a4878
+    - path: services/backend/boot/src/main/resources/db/migration/V042__r13_activity_invariants.sql
+      state: FILE
+      size: 4145
+      sha256: bdfa61d91144c21b99c9de168b41a43662a18ffe661facd7d4a48452e9729241
+    - path: tests/test_r13_activity_migration.py
+      state: FILE
+      size: 3804
+      sha256: a26b110f7b1ade86f91a69540ff47b1f5d6ad969e8f4f06d6410074145414edf
+change_classification:
+  database:
+  - database/migrations/V042__r13_activity_invariants.sql
+  - database/rollback/U042__r13_activity_invariants.sql
+  - database/tests/r13_activity_invariants.sql
+  continuity:
+  - docs/03-continuity/change-requests/CR-0366-补齐R13活动数据不变量并复用通用审计事实源.md
+  code:
+  - services/backend/boot/src/main/resources/db/migration/V042__r13_activity_invariants.sql
+  tests:
+  - tests/test_r13_activity_migration.py
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+- DATABASE_TEST_EVIDENCE
+- SCHEMA_TRACEABILITY
+change_requests:
+- CR-0366
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions:
+  - database/migrations/V042__r13_activity_invariants.sql
+  - services/backend/boot/src/main/resources/db/migration/V042__r13_activity_invariants.sql
+  - database/rollback/U042__r13_activity_invariants.sql
+  - database/tests/r13_activity_invariants.sql
+  - tests/test_r13_activity_migration.py
+  source: story+explicit+approved-cr:CR-0366
+parallel_execution:
+  assessment: CAPABILITY_UNAVAILABLE
+  delegated_workers: 0
+  workers: []
+  reason: 当前系统级约束禁止启动子代理；数据库迁移、安全不变量和最终集成由主控串行复核
+event_hash: e78eb0b36f9ef5d97b8dcc48aef383cf3fd9ffaa11686c2ef2a64184d2c0083f
 ```
 
 ## 接续状态与事件头
@@ -406,31 +678,19 @@ status: NO_CHECKPOINT
 ```yaml
 mode: ENFORCED
 protocol_version: '1.0'
-active_session_id: null
+active_session_id: SES-20260726T113800Z-4EDAA918
 last_session_id: SES-20260726T110209Z-C9DC8AD5
 last_session_result: COMPLETED
 last_closure_checkpoint_id: CP-SES-20260726T110209Z-C9DC8AD5-0005
-event_count: 3554
-event_head_hash: 42b3f7be2f1ee0b63ce843c6e7e23131ea3bc008f53838868c94f0213d0651af
+event_count: 3562
+event_head_hash: e78eb0b36f9ef5d97b8dcc48aef383cf3fd9ffaa11686c2ef2a64184d2c0083f
 event_chain_valid: true
 ```
 
 ## 最近会话与任务迁移
 
 ```yaml
-recent_sessions: - session_id: SES-20260724T144831Z-B2E27A89
-  task_id: TASK-R12-001
-  story_id: STORY-R12-008
-  actor_id: codex-root-r12-entry
-  status: CLOSED
-  started_at: '2026-07-24T14:48:31Z'
-  record: .continuity/sessions/SES-20260724T144831Z-B2E27A89.yaml
-  session_log: docs/03-continuity/sessions/2026-07/SES-20260724T144831Z-B2E27A89.md
-  updated_at: '2026-07-24T16:35:25Z'
-  closed_at: '2026-07-24T16:35:25Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260724T144831Z-B2E27A89/0003.yaml
-  handoff_bundle: null
-- session_id: SES-20260724T195501Z-13F8DFDE
+recent_sessions: - session_id: SES-20260724T195501Z-13F8DFDE
   task_id: TASK-R12-002
   story_id: STORY-R12-008
   actor_id: codex-root-r12-data
@@ -538,47 +798,19 @@ recent_sessions: - session_id: SES-20260724T144831Z-B2E27A89
   closed_at: '2026-07-26T11:34:02Z'
   latest_checkpoint: .continuity/checkpoints/SES-20260726T110209Z-C9DC8AD5/0005.yaml
   handoff_bundle: null
-task_claims: - claim_id: CLM-533B7974289D
-  session_id: SES-20260723T122953Z-52EBA51E
-  task_id: TASK-R10-007
-  story_id: STORY-R10-004
-  actor_id: codex-root-r10-candidate
-  status: CLOSED
-  claimed_at: '2026-07-23T12:29:53Z'
-  allowed_paths:
-  - apps/**
-  - services/**
-  - packages/**
-  - contracts/**
-  - database/**
-  - config/**
-  - catalogs/**
-  - tests/**
-  - infra/**
-  - design/**
-  - docs/**
-  - releases/**
-  - scripts/**
-  - templates/**
-  - .github/**
-  - .githooks/**
-  - .codex/**
-  - AGENTS.md
-  - START_HERE.md
-  - README.md
-  - CHANGELOG.md
-  - Makefile
-  - .gitignore
-  - .gitattributes
-  - .dockerignore
-  - package.json
-  - pnpm-lock.yaml
-  - pnpm-workspace.yaml
-  - requirements-dev.txt
-  - PROJECT_*.yaml
-  - PROJECT_*.json
-  closed_at: '2026-07-23T16:49:16Z'
-- claim_id: CLM-2010FC683EA9
+- session_id: SES-20260726T113800Z-4EDAA918
+  task_id: TASK-R13-002
+  story_id: STORY-R13-003
+  actor_id: codex-root-r13-data-20260726
+  status: ACTIVE
+  started_at: '2026-07-26T11:38:00Z'
+  record: .continuity/sessions/SES-20260726T113800Z-4EDAA918.yaml
+  session_log: docs/03-continuity/sessions/2026-07/SES-20260726T113800Z-4EDAA918.md
+  updated_at: '2026-07-26T12:20:41Z'
+  closed_at: null
+  latest_checkpoint: .continuity/checkpoints/SES-20260726T113800Z-4EDAA918/0002.yaml
+  handoff_bundle: null
+task_claims: - claim_id: CLM-2010FC683EA9
   session_id: SES-20260723T165113Z-58C6D99A
   task_id: TASK-R10-008
   story_id: STORY-R10-004
@@ -1305,17 +1537,46 @@ task_claims: - claim_id: CLM-533B7974289D
   - scripts/**
   - CHANGELOG.md
   closed_at: '2026-07-26T11:34:02Z'
-recent_task_transitions: - transition_id: TRN-EED5520BDCDA
-  timestamp: '2026-07-23T12:29:55Z'
-  release: R10
-  task_id: TASK-R10-007
-  story_id: STORY-R10-004
-  from_status: READY
-  to_status: IN_PROGRESS
-  session_id: SES-20260723T122953Z-52EBA51E
-  actor_id: codex-root-r10-candidate
-  reason: 会话领取任务
-- transition_id: TRN-78FA8331EDDF
+- claim_id: CLM-47DFED8C22CB
+  session_id: SES-20260726T113800Z-4EDAA918
+  task_id: TASK-R13-002
+  story_id: STORY-R13-003
+  actor_id: codex-root-r13-data-20260726
+  status: ACTIVE
+  claimed_at: '2026-07-26T11:38:00Z'
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+recent_task_transitions: - transition_id: TRN-78FA8331EDDF
   timestamp: '2026-07-23T16:51:15Z'
   release: R10
   task_id: TASK-R10-008
@@ -1505,6 +1766,16 @@ recent_task_transitions: - transition_id: TRN-EED5520BDCDA
   session_id: SES-20260726T110209Z-C9DC8AD5
   actor_id: codex-root-r13-20260726
   reason: 会话领取任务
+- transition_id: TRN-F5F5B4136DA3
+  timestamp: '2026-07-26T11:38:02Z'
+  release: R13
+  task_id: TASK-R13-002
+  story_id: STORY-R13-003
+  from_status: READY
+  to_status: IN_PROGRESS
+  session_id: SES-20260726T113800Z-4EDAA918
+  actor_id: codex-root-r13-data-20260726
+  reason: 会话领取任务
 ```
 
 ## Git 状态
@@ -1512,29 +1783,40 @@ recent_task_transitions: - transition_id: TRN-EED5520BDCDA
 ```yaml
 initialized: true
 branch: task/TASK-R03-001
-head: 6d74ca24440daabb8a5abf4b34e0d5d52eb7e33d
+head: aeda26ad525af23f5e26a855b78e03f7c412a5f9
 upstream: origin/task/TASK-R03-001
-ahead: 2
+ahead: 0
 behind: 0
 dirty: true
 status_porcelain:
 - ' M .continuity/ACTIVE_SESSION.yaml'
+- ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
 - ' M .continuity/EVENT_LOG.jsonl'
 - ' M .continuity/SESSION_INDEX.yaml'
 - ' M .continuity/STATE.yaml'
 - ' M .continuity/TASK_CLAIMS.yaml'
-- ' M .continuity/sessions/SES-20260726T110209Z-C9DC8AD5.yaml'
-- ' M CHANGELOG.md'
+- ' M .continuity/TASK_TRANSITIONS.yaml'
 - ' M CURRENT_STATUS.yaml'
-- ' M NEXT_TASK.yaml'
 - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
 - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
 - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+- ' M catalogs/change_request_index.csv'
 - ' M catalogs/session_index.csv'
-- ' M docs/03-continuity/sessions/2026-07/SES-20260726T110209Z-C9DC8AD5.md'
-- ' M releases/R13/TASKS.yaml'
-- ?? .continuity/checkpoints/SES-20260726T110209Z-C9DC8AD5/0005.yaml
+- ' M catalogs/task_transition_ledger.csv'
+- ?? .continuity/change_requests/CR-0366.yaml
+- ?? .continuity/checkpoints/SES-20260726T113800Z-4EDAA918/0001.yaml
+- ?? .continuity/checkpoints/SES-20260726T113800Z-4EDAA918/0002.yaml
+- ?? .continuity/sessions/SES-20260726T113800Z-4EDAA918.yaml
+- ?? database/migrations/V042__r13_activity_invariants.sql
+- ?? database/rollback/U042__r13_activity_invariants.sql
+- ?? database/tests/r13_activity_invariants.sql
+- ?? docs/03-continuity/change-requests/CR-0366-补齐R13活动数据不变量并复用通用审计事实源.md
+- ?? docs/03-continuity/sessions/2026-07/SES-20260726T113800Z-4EDAA918.md
+- ?? services/backend/boot/src/main/resources/db/migration/V042__r13_activity_invariants.sql
+- ?? tests/test_r13_activity_migration.py
 recent_commits:
+- "aeda26ad525af23f5e26a855b78e03f7c412a5f9\t2026-07-26T19:35:50+08:00\tHHY Continuity Bootstrap\t[STORY-R13-001] chore(continuity): close TASK-R13-001\
+  \ as completed"
 - "6d74ca24440daabb8a5abf4b34e0d5d52eb7e33d\t2026-07-26T19:33:35+08:00\tHHY Continuity Bootstrap\t[STORY-R13-001] chore(r13): bind entry implementation\
   \ evidence"
 - "29ad2bcc6c1dae68a42ea9147110dc4b9dd29745\t2026-07-26T19:29:21+08:00\tHHY Continuity Bootstrap\t[STORY-R13-001] docs(r13): establish implementation\
@@ -1549,16 +1831,19 @@ recent_commits:
   \ as completed"
 - "339fd7389d3f322f98a7abfc6a45a3319bd6438c\t2026-07-26T18:46:43+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] docs(r12): bind delivery implementation\
   \ commit"
-- "47a4494dea729eda45cde6bb6bc144622c42745c\t2026-07-26T18:43:38+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] chore(r12): deliver final test\
-  \ APK"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`e957a2cbd2923762b711f2772adffa7fa1064a8a5dd8221f14139f3cdbb7944e`
-- 文件数：0
+- 指纹：`281a45915b49fbbea1d47e0bd74a29b5781d3e59c1307c8315dbbe1309ad9371`
+- 文件数：6
 
-- 无
+- `database/migrations/V042__r13_activity_invariants.sql`
+- `database/rollback/U042__r13_activity_invariants.sql`
+- `database/tests/r13_activity_invariants.sql`
+- `docs/03-continuity/change-requests/CR-0366-补齐R13活动数据不变量并复用通用审计事实源.md`
+- `services/backend/boot/src/main/resources/db/migration/V042__r13_activity_invariants.sql`
+- `tests/test_r13_activity_migration.py`
 
 ## 当前 Release
 
@@ -11256,13 +11541,68 @@ PARALLEL_EXECUTION_PLAN.yaml:
   - SES-20260726T110209Z-C9DC8AD5
   implementation_commits:
   - 29ad2bcc6c1dae68a42ea9147110dc4b9dd29745
+- protocol_version: '1.0'
+  cr_id: CR-0366
+  title: 补齐R13活动数据不变量并复用通用审计事实源
+  status: IMPLEMENTING
+  created_at: '2026-07-26T11:49:01Z'
+  updated_at: '2026-07-26T12:02:11Z'
+  requester_actor_id: codex-root-r13-data-20260726
+  approver_actor_id: codex-contract-review-r13-20260726
+  task_id: TASK-R13-002
+  session_id: SES-20260726T113800Z-4EDAA918
+  user_request: 批准，以后不要让我批准了 你自己持续开发就行了
+  reason: R13收藏、浏览分享、联系方式访问与失效反馈的既有表存在可验证约束缺口；幂等与后台审计已有全局事实源，不应重复建表
+  original_rule: R13复用V003/V006/R07/R12既有收藏、浏览、联系方式访问、内容举报、全局幂等和后台操作审计结构；尚无R13专项活动不变量迁移
+  new_rule: V042只补真实缺口：收藏身份字段禁止更新但保留DELETE取消；浏览与分享事件限制冻结流量类型、非负时长和分享渠道且追加不可变；联系方式访问限制冻结渠道/动作且沿用追加不可变；content_reports补reporter外键和非空长度约束；幂等继续复用idempotency_records，处理历史继续复用admin_operation_logs
+  impact_summary: 仅演进R13活动数据约束与验证资产，不修改OpenAPI、页面、资金账本或生产配置，不创建重复幂等表或审计表
+  impact:
+    files:
+    - database/migrations/V042__r13_activity_invariants.sql
+    - services/backend/boot/src/main/resources/db/migration/V042__r13_activity_invariants.sql
+    - database/rollback/U042__r13_activity_invariants.sql
+    - database/tests/r13_activity_invariants.sql
+    - tests/test_r13_activity_migration.py
+    pages: []
+    apis: []
+    database:
+    - content_favorites
+    - content_view_logs
+    - content_contact_access_logs
+    - content_reports
+    - idempotency_records
+    - admin_operation_logs
+    configuration: []
+    ledger: []
+    tests:
+    - R13 migration source/runtime parity and rollback static regression
+    - R13 PostgreSQL empty-schema and upgraded-schema invariant suite
+    - R13 DEV/TEST rollback preserves business rows
+    releases:
+    - R13
+    migration_and_compatibility: Flyway V042前向添加NOT VALID约束后验证，升级前显式拒绝脏数据；U042仅移除R13新增触发器、函数、索引、约束和外键，不删除业务数据；既有合法R07-R12数据兼容
+  user_confirmation: 项目所有者已明确批准并要求后续日常开发无需逐次批准；本CR未越过生产、资金或真实秘密门禁
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-26T11:50:14Z'
+    note: 独立复核确认V042范围只覆盖冻结活动数据真实缺口；不新增平行幂等或审计事实源，回滚不删除业务数据，R15状态机保持独立演进
+  machine_record: .continuity/change_requests/CR-0366.yaml
+  document: docs/03-continuity/change-requests/CR-0366-补齐R13活动数据不变量并复用通用审计事实源.md
+  decision_log:
+  - at: '2026-07-26T12:02:11Z'
+    actor_id: codex-root-r13-data-20260726
+    status: IMPLEMENTING
+    note: V042/U042、SQL不变量与静态回归已实现；空库、升级库和无数据删除回滚在obx-test一次性PostgreSQL 16容器通过，进入MODULE门禁
+    session_id: SES-20260726T113800Z-4EDAA918
+  session_ids:
+  - SES-20260726T113800Z-4EDAA918
 ```
 
 ## 上下文来源及哈希
 
 - `AGENTS.md` — `306026d4706dfd3cae0a3db2b1c56e294700326bc3a13ca095c3987a267d390b`
 - `START_HERE.md` — `22de14029ce47beb41ea569e36ce223fbc9d11b86f8676f28d5fbbd83896af5c`
-- `CURRENT_STATUS.yaml` — `8b411f9db22fc4783fd4214b431dc23fc77d2dc7295ccee441450d0fb2a1b4f5`
+- `CURRENT_STATUS.yaml` — `6d0802d0ae270be247ad795af1aeb37038120fb631a597014c8fed8855ad27e4`
 - `NEXT_TASK.yaml` — `589a2061e3ee6c0c291d72204e6bf827b987599880ecbad77060892ae9e2ae5f`
 - `DEVELOPMENT_RISK_REGISTER.md` — `8304c91492e4ee2abea0522a06541c8688d39c7fc532b5d0cde499bf09fffb87`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
@@ -11273,12 +11613,12 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `config/REPOSITORY_TRANSPORT.yaml` — `8c4a21f3e204d46e7ffb467d804a53ed26cda61cd088dadfddb50b69eea657fc`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `38e04ed812c8df0d353c2b91993d31e53b471e9c457f06b426bd2260c470aa92`
-- `.continuity/EVENT_LOG.jsonl` — `1669f4e7cc9d25cc465a52dfbaeee42b08a3b16c5f4e0755615a31d158e92e5a`
-- `.continuity/SESSION_INDEX.yaml` — `ed8b01aa99b5dab6642afebaf696b7bcbc9e32c5c92887632f47c524a51b99bf`
-- `.continuity/TASK_CLAIMS.yaml` — `7ac84bb39e812c05b2fa81f6e38baed023f4db83ab521b1158e2af1463494834`
-- `.continuity/TASK_TRANSITIONS.yaml` — `73fcb3f508ce8a2d712fb1024fc0b382dbcd811a7334e7531a229994acb9aedf`
-- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `eac4e97e1785cb109ec1bcc0afd88879c9e16d6c6cb387add23986e76557af7f`
-- `.continuity/ACTIVE_SESSION.yaml` — `96b214e287bc38e01c3030dafce72ee63cab493156586757f2769bc9b6735096`
+- `.continuity/EVENT_LOG.jsonl` — `bb7233574f515f404edee2e419fecf36316cea354b2654affc7cb65a2942de3f`
+- `.continuity/SESSION_INDEX.yaml` — `33614c8cb4da1bd9b353bd5dda2e5779b325ba41eef26d0e9195180e8bb88ced`
+- `.continuity/TASK_CLAIMS.yaml` — `88b2e38f41e33a51ea25599a6f986eba2f03e90d7a39d3fd0ac79423d3411f06`
+- `.continuity/TASK_TRANSITIONS.yaml` — `8c79bd0521f587195b4db34efb94baff2ea4569240b7b5fe13ebd3052352e972`
+- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `73f0729dc8044c8dddb9055c3cc47cadfa71130dadf63f57283d03a1490fd00d`
+- `.continuity/ACTIVE_SESSION.yaml` — `4ecc1b6b89197c3a6a49c16cd261ab53e5d6cc1cbc4296e34fb5a7e41ca3a6ec`
 - `docs/00-baseline/正式商业系统全局硬性开发边界.md` — `b1d965b019e632fbe1a259831201be7c82f79c26836fa161fd1d41855fcdb7c8`
 - `docs/02-ui/UI参考图使用与开发约束_V1.2.2.md` — `d14367586aa2067b059df58798acd20ab982459cdb35ff27fc7922a3896e4933`
 - `docs/03-continuity/持续开发无状态接续强制门禁_V1.2.3.md` — `d0ed3ed68bdd93b06500eecdfb5baa3245e6ca8b685a486788abb6eee39b3d51`
@@ -11289,6 +11629,9 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `releases/R13/TASKS.yaml` — `1a337a373fbb780ffcd92ed496452c0592e9e28c1a56986caee858b04912c397`
 - `releases/R13/ACCEPTANCE_MATRIX.csv` — `d15e7b61b5756b2173c714bb75d3bbd753c16c6d130628fb4bd297dfe5d14bc5`
 - `releases/R13/PARALLEL_EXECUTION_PLAN.yaml` — `192844a37221f84e42f714fa209260976c81685e094733390664168e34ef5887`
+- `docs/03-continuity/sessions/2026-07/SES-20260726T113800Z-4EDAA918.md` — `c762d4819a8c79e9c9ed4a166898100f2e10aaf011750143ad2567289712d174`
+- `.continuity/checkpoints/SES-20260726T113800Z-4EDAA918/0002.yaml` — `33859f1faa92c171a0ce61c20c6f2389cf415dfef3707e7c466b9a55121aac00`
+- `docs/03-continuity/change-requests/CR-0366-补齐R13活动数据不变量并复用通用审计事实源.md` — `3c2a8e91ef1bb8322c439609bd6618f1edf5f3ec2e90a766fa434e87d72a4878`
 
 ## 接手硬规则
 
