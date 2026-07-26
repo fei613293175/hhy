@@ -1,9 +1,9 @@
 protocol_version: '1.0'
 cr_id: CR-0347
 title: 纠正主开发文档定位指针并阻断事实源断链
-status: IMPLEMENTING
+status: IMPLEMENTED
 created_at: '2026-07-26T03:03:29Z'
-updated_at: '2026-07-26T03:08:19Z'
+updated_at: '2026-07-26T03:14:45Z'
 requester_actor_id: codex-root-r12-candidate-20260726
 approver_actor_id: project-owner
 task_id: TASK-R12-007
@@ -48,5 +48,12 @@ decision_log:
   status: IMPLEMENTING
   note: 主开发文档定位已原位纠正；V1.2.2/V1.2.3指针回归5项与严格R12文档合同PASS，等待统一检查点、严格Doctor和提交。
   session_id: SES-20260725T192048Z-668BD05D
+- at: '2026-07-26T03:14:45Z'
+  actor_id: codex-root-r12-candidate-20260726
+  status: IMPLEMENTED
+  note: 断链指针、双版本严格检查器、PROB-0119、复用与踩坑记录已由Commit fbde523e实现，全部专项回归PASS。
+  session_id: SES-20260725T192048Z-668BD05D
 session_ids:
 - SES-20260725T192048Z-668BD05D
+implementation_commits:
+- fbde523e8e751b74f7300ef125c70fa9eb4d03fd
