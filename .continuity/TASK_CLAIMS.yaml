@@ -4132,7 +4132,7 @@ claims:
   task_id: TASK-R13-006
   story_id: STORY-R13-003
   actor_id: codex-root-r13-staging-20260727
-  status: ACTIVE
+  status: CLOSED
   claimed_at: '2026-07-26T18:22:31Z'
   allowed_paths:
   - apps/**
@@ -4166,3 +4166,4 @@ claims:
   - requirements-dev.txt
   - PROJECT_*.yaml
   - PROJECT_*.json
+  closed_at: '2026-07-26T19:08:35Z'

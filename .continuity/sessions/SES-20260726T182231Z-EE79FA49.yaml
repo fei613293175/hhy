@@ -1,7 +1,7 @@
 protocol_version: '1.0'
 package_version: 1.2.3
 session_id: SES-20260726T182231Z-EE79FA49
-status: ACTIVE
+status: CLOSED
 actor:
   id: codex-root-r13-staging-20260727
   kind: AI_OR_HUMAN
@@ -11,7 +11,7 @@ task_id: TASK-R13-006
 story_id: STORY-R13-003
 goal: 收藏、历史、分享与行为审计可观测性与预发布验收
 started_at: '2026-07-26T18:22:31Z'
-updated_at: '2026-07-26T19:07:34Z'
+updated_at: '2026-07-26T19:08:35Z'
 takeover_of: null
 change_requests:
 - CR-0373
@@ -105,22 +105,36 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-26T19:07:27Z'
-  expires_at: '2026-07-26T23:07:27Z'
-checkpoint_sequence: 5
-latest_checkpoint: .continuity/checkpoints/SES-20260726T182231Z-EE79FA49/0005.yaml
+  renewed_at: '2026-07-26T19:08:28Z'
+  expires_at: '2026-07-26T23:08:28Z'
+checkpoint_sequence: 6
+latest_checkpoint: .continuity/checkpoints/SES-20260726T182231Z-EE79FA49/0006.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260726T182231Z-EE79FA49.md
-next_step: 提交CR关闭元数据，然后关闭TASK-R13-006并切换到TASK-R13-007
+next_step: 提交关闭元数据Commit，然后运行pre-push/CI门禁
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: 2f918fe85df65daf169248434b0dc0599fe00f1e772fe8eaa5261fc3f56d0385
-  generated_at: '2026-07-26T19:07:31Z'
+  context_hash: 6379192b09125a38655969142255ef1d948eff81d66586f68087b4eaa2935477
+  generated_at: '2026-07-26T19:08:32Z'
 handoff_bundle: null
-closure: null
+closure:
+  result: COMPLETED
+  summary: TASK-R13-006完成：精确Commit 410aef53通过Java21模块测试与obx-test隔离Staging现场演练；七项Gauge、七条告警、日志脱敏、TraceId、V042应用回切、活动事实保留和25项证据归档均PASS，AC-R13-004已签署。
+  code_commit: ab98e341
+  next_release: R13
+  next_task: TASK-R13-007
+  blocked_advance: false
+  completed_independent_advance: false
+  user_confirmation: null
+  metadata_commit: PENDING
+  push_verification: CI_REQUIRED_AFTER_METADATA_COMMIT
+  started_at: '2026-07-26T19:08:23Z'
+  closure_checkpoint_id: CP-SES-20260726T182231Z-EE79FA49-0006
+  closed_at: '2026-07-26T19:08:35Z'
 parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
   reason: CR关闭元数据与当前唯一Session强耦合，必须由主控串行维护事件哈希链和Context Pack。
+closed_at: '2026-07-26T19:08:35Z'
