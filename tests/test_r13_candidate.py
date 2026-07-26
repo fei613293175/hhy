@@ -112,11 +112,24 @@ class R13CandidateTest(unittest.TestCase):
         self.assertIn('testTag("r13.media.${item.id}.$mediaState")', source)
         self.assertIn('onSuccess = { mediaState = "loaded" }', source)
         self.assertIn('onError = { mediaState = "error" }', source)
-        wait = 'waitForLoadedMedia("r13.media.", expectedCount = 3)'
+        for description in (
+            '"loaded" -> "内容图片：$mediaDescription"',
+            '"error" -> "内容图片加载失败：${item.title}"',
+            'else -> "内容图片加载中：${item.title}"',
+        ):
+            self.assertIn(description, source)
+        wait = 'waitForLoadedMedia(expectedCount = 3)'
         capture = 'captureStable("01-favorites.png")'
         self.assertIn(wait, self.journey)
-        self.assertIn('device.hasObject(failed)', self.journey)
-        self.assertIn('device.findObjects(loaded).size >= expectedCount', self.journey)
+        self.assertIn('By.desc(Pattern.compile("内容图片：.+"))', self.journey)
+        self.assertIn('By.desc(Pattern.compile("内容图片加载失败：.+"))', self.journey)
+        self.assertIn('By.desc(Pattern.compile("内容图片加载中：.+"))', self.journey)
+        self.assertIn('assertTrue("Candidate media failed to load: errors=$failedCount", failedCount == 0)', self.journey)
+        self.assertIn('if (loadedCount >= expectedCount)', self.journey)
+        self.assertIn('"success=${device.findObjects(loaded).size} "', self.journey)
+        self.assertIn('"errors=${device.findObjects(failed).size} "', self.journey)
+        self.assertIn('"loading=${device.findObjects(loading).size}"', self.journey)
+        self.assertNotIn('By.res(Pattern.compile("${Pattern.quote(prefix)}', self.journey)
         self.assertLess(self.journey.index(wait), self.journey.index(capture))
 
     def test_visual_manifest_matches_the_four_frozen_r13_surfaces(self) -> None:

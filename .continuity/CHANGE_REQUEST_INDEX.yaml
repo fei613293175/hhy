@@ -23857,3 +23857,58 @@ change_requests:
   - SES-20260726T191158Z-2B506AB7
   implementation_commits:
   - f8239c989fd9d17e74273ab5eaaa5d4349488882
+- protocol_version: '1.0'
+  cr_id: CR-0386
+  title: 修复R13候选媒体状态未进入UiAutomator无障碍树
+  status: APPROVED
+  created_at: '2026-07-26T23:39:11Z'
+  updated_at: '2026-07-26T23:42:42Z'
+  requester_actor_id: codex-root-r13-candidate-20260727
+  approver_actor_id: codex-independent-r13-visual-review-20260727
+  task_id: TASK-R13-007
+  session_id: SES-20260726T191158Z-2B506AB7
+  user_request: 项目所有者批准AI持续开发并要求不再逐项确认；候选失败后自主分析、最小修复并继续。
+  reason: Run 30225016379 attempt5编译、Lint、单测和打包通过，但收藏页等待三条媒体loaded 30秒后超时；公共媒体HTTP 200且日志无Coil/网络/SSL错误，loaded/error资源正则均未命中，需把既有加载终态映射为业务可读的无障碍描述并精确诊断数量。
+  original_rule: R13媒体只以动态testTag表达loading/loaded/error，候选用By.res正则计数；Run 30225016379证明这些子节点状态没有被UiAutomator无障碍树稳定识别，30秒内loaded和error均为0。
+  new_rule: 不新增平行媒体门禁：保留按内容ID的testTag，同时让AsyncImage按状态暴露业务可读的无障碍描述：加载中、已加载和加载失败均包含内容标题；候选以UiAutomator description正则分别计数成功和失败，任一失败立即拒绝，三条成功后才截图，超时必须报告success/error/loading实际数量。attempt5保持已消费且不得重跑；代码和模块证据通过后才可精确建立R13
+    attempt6/request006/max1。
+  impact_summary: 修复R13媒体加载终态无法被候选UiAutomator识别，并增强失败诊断；不改变可见UI、接口、数据库、图片URL、加载器、资金、安全或生产权限。
+  impact:
+    files:
+    - apps/android/feature/activity/src/main/java/cc/orbexa/hhy/activity/R13ActivityScreens.kt
+    - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+    - tests/test_r13_candidate.py
+    - docs/03-continuity/PROBLEM_REGISTRY.yaml
+    - docs/03-continuity/PITFALLS.md
+    - docs/03-continuity/REUSABLE_PATTERNS.md
+    - docs/08-testing/Android自动开发测试修复交付体系_V1.0.md
+    - config/android-automation.yaml
+    - config/android-candidate-request.yaml
+    - tests/test_android_candidate_request.py
+    - tests/test_android_ci_gate.py
+    - CHANGELOG.md
+    pages:
+    - SCR-FAV-001
+    - SCR-HIS-001
+    apis: []
+    database: []
+    configuration:
+    - config/android-automation.yaml:remediation.approved_attempt_exceptions
+    ledger:
+    - Run 30225016379、attempt5、request005、Commit 37a65a5be2eec38ac2a89647964b3c3206ab0460与runtime artifact SHA f7a4c597cffb13b4c8dcad4cd299e26537e8944dd756df3c3053cff8ab7e4437保持已消费失败证据
+    tests:
+    - python -m unittest tests.test_r13_candidate tests.test_android_candidate_request tests.test_android_ci_gate
+    - python scripts/check_android_ui_foundation.py
+    - obx-test :feature:activity:testDebugUnitTest :app:compileDebugAndroidTestKotlin
+    releases:
+    - R13
+    migration_and_compatibility: 仅新增业务可读无障碍描述和测试选择器诊断；视觉像素、真实媒体来源与Coil加载行为不变。无媒体内容仍使用既有类型占位图；Run 30225016379及attempt5保持不可变失败证据。
+  user_confirmation: 项目所有者已批准AI持续开发并明确要求后续不再逐项确认；CR-0358站立授权适用于独立根因修复后的精确候选，但不放宽全局三轮上限、不复用attempt5、不预授权attempt6。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-26T23:42:42Z'
+    note: 独立复核确认Run 30225016379 runtime工件SHA为f7a4c597cffb13b4c8dcad4cd299e26537e8944dd756df3c3053cff8ab7e4437，报告精确绑定R13 attempt5/request005/CR-0385/37a65a5b且状态FAIL；instrumentation在首张截图前因By.res未识别任何loaded/error状态而30秒超时，公共夹具PNG当前HTTP
+      200 image/png且logcat无Coil、SSL、DNS、连接、崩溃或ANR异常。CR-0386保留按内容ID testTag并补充包含内容标题的加载中/已加载/加载失败无障碍描述，候选改用description计数且报告success/error/loading数量，范围包含Android实现、仪器测试、专项回归、既有治理记录与后续精确候选合同。attempt5保持已消费不可重跑，R13
+      attempt6/request006当前未登记，仅允许修复和模块证据完成后再精确建立max1。
+  machine_record: .continuity/change_requests/CR-0386.yaml
+  document: docs/03-continuity/change-requests/CR-0386-修复R13候选媒体状态未进入UiAutomator无障碍树.md

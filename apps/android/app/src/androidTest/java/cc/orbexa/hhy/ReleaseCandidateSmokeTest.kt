@@ -88,7 +88,7 @@ class ReleaseCandidateSmokeTest {
         listOf("我的收藏", "全部", "项目", "APP", "群聊", "团队长", activityTargetTitle).forEach { label ->
             assertTrue("R13 favorites missed: $label", device.wait(Until.hasObject(By.text(label)), 20_000))
         }
-        waitForLoadedMedia("r13.media.", expectedCount = 3)
+        waitForLoadedMedia(expectedCount = 3)
         captureStable("01-favorites.png")
         assertNoForbiddenVisibleText()
 
@@ -229,19 +229,27 @@ class ReleaseCandidateSmokeTest {
         error("Screen pixels did not become stable and distinct for $name")
     }
 
-    private fun waitForLoadedMedia(prefix: String, expectedCount: Int) {
-        val loaded = By.res(Pattern.compile("${Pattern.quote(prefix)}[^.]+\\.loaded"))
-        val failed = By.res(Pattern.compile("${Pattern.quote(prefix)}[^.]+\\.error"))
+    private fun waitForLoadedMedia(expectedCount: Int) {
+        val loaded = By.desc(Pattern.compile("内容图片：.+"))
+        val failed = By.desc(Pattern.compile("内容图片加载失败：.+"))
+        val loading = By.desc(Pattern.compile("内容图片加载中：.+"))
         val deadline = SystemClock.uptimeMillis() + 30_000
         while (SystemClock.uptimeMillis() < deadline) {
-            assertFalse("Candidate media failed to load: $prefix", device.hasObject(failed))
-            if (device.findObjects(loaded).size >= expectedCount) {
+            val failedCount = device.findObjects(failed).size
+            assertTrue("Candidate media failed to load: errors=$failedCount", failedCount == 0)
+            val loadedCount = device.findObjects(loaded).size
+            if (loadedCount >= expectedCount) {
                 device.waitForIdle(2_000)
                 return
             }
             SystemClock.sleep(250)
         }
-        error("Candidate media did not finish loading: $prefix expected=$expectedCount")
+        error(
+            "Candidate media did not finish loading: expected=$expectedCount " +
+                "success=${device.findObjects(loaded).size} " +
+                "errors=${device.findObjects(failed).size} " +
+                "loading=${device.findObjects(loading).size}",
+        )
     }
 
     private fun dismissSystemAnrIfPresent() {

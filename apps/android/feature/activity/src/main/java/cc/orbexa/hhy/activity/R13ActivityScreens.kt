@@ -336,6 +336,7 @@ private fun R13ActivityRow(
     onUnfavorite: (() -> Unit)?,
 ) {
     val mediaUrl = secureActivityMediaUrl(item.media.firstOrNull()?.thumbnailUrl ?: item.media.firstOrNull()?.url)
+    val mediaDescription = item.media.firstOrNull()?.altText?.takeIf { it.isNotBlank() } ?: item.title
     var mediaState by remember(mediaUrl) { mutableStateOf(if (mediaUrl == null) "unavailable" else "loading") }
     Row(
         modifier = Modifier.fillMaxWidth().background(HhyColors.Surface).clickable(onClick = onClick)
@@ -352,7 +353,11 @@ private fun R13ActivityRow(
             mediaUrl?.let {
                 AsyncImage(
                     model = it,
-                    contentDescription = item.media.firstOrNull()?.altText ?: "${item.title}缩略图",
+                    contentDescription = when (mediaState) {
+                        "loaded" -> "内容图片：$mediaDescription"
+                        "error" -> "内容图片加载失败：${item.title}"
+                        else -> "内容图片加载中：${item.title}"
+                    },
                     modifier = Modifier.fillMaxSize().testTag("r13.media.${item.id}.$mediaState"),
                     contentScale = ContentScale.Crop,
                     onSuccess = { mediaState = "loaded" },

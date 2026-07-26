@@ -1752,3 +1752,18 @@ problems:
   - 页面声明真实READY媒体时不得接受占位图作为首版视觉基线
   - 候选必须显式等待成功语义并对error和超时硬失败，不能用固定sleep猜测加载完成
   - 视觉拒绝的旧Run不得晋升、重跑或交付APK
+- id: PROB-0125
+  title: R13候选媒体状态资源标识未进入UiAutomator无障碍匹配
+  status: REMEDIATING
+  root_cause: Run 30225016379 已通过候选请求、编译、Lint、单测、打包、OIDC和Staging准备，但收藏页在首张截图前等待三条loaded 30秒超时。runtime artifact SHA-256为f7a4c597cffb13b4c8dcad4cd299e26537e8944dd756df3c3053cff8ab7e4437；公共夹具PNG当前HTTP 200 image/png，logcat无Coil、DNS、SSL、连接、崩溃或ANR异常，且loaded和error资源正则都未命中。根因是Compose动态testTag虽然适合Compose测试，但AsyncImage子节点没有以该资源标识稳定进入UiAutomator可见无障碍树，候选无法观察实际加载终态。
+  resolution: CR-0386保留按内容ID的loading/loaded/error testTag，同时把加载中、加载成功和加载失败映射为包含业务内容标题的无障碍description；候选改为按description分别计数成功、失败和加载中，任一失败立即拒绝，三条成功后才截图，超时报告三类实际数量。Run 30225016379和attempt5保持已消费且不得重跑；代码和模块证据完成后才允许建立精确R13 attempt6/request006/max1。
+  regression_checks:
+  - tests.test_r13_candidate必须锁定三种业务可读description、description选择器、失败硬拒绝和超时三类计数
+  - obx-test固定Android镜像必须通过feature:activity单测和app AndroidTest Kotlin编译
+  - 新候选必须在01-favorites.png前识别三条成功description并显示三张真实媒体
+  - R13 attempt6必须精确绑定CR-0386、唯一request006、首个修复Commit完整SHA和单次运行上限
+  do_not_repeat:
+  - 不得假设Compose testTag一定会作为UiAutomator可见资源标识进入无障碍树
+  - 跨框架候选等待必须使用业务可读无障碍语义并输出成功、失败和进行中数量
+  - 选择器观测不到终态时不得简单延长超时或把网络正常误判为图片仍在加载
+  - 被确定性仪器缺陷消费的Run不得重跑或交付其中间APK
