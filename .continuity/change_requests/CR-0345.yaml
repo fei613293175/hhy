@@ -1,9 +1,9 @@
 protocol_version: '1.0'
 cr_id: CR-0345
 title: 修复R12候选OIDC启动前提交目标夹具未确定性重建
-status: APPROVED
+status: IMPLEMENTED
 created_at: '2026-07-26T00:05:01Z'
-updated_at: '2026-07-26T01:19:49Z'
+updated_at: '2026-07-26T02:56:53Z'
 requester_actor_id: codex-root-r12-candidate-20260726
 approver_actor_id: codex-carson-r12-android-review-20260726
 task_id: TASK-R12-007
@@ -47,3 +47,16 @@ approval:
   note: 独立复核确认OIDC验证后、发码前的Staging事务夹具准备可直接修复缺失草稿根因；实施必须使用PostgreSQL跨实例事务锁，固定标题恰好一个DRAFT，归一化version0且不复制审核历史，完整性/并发/无效Release/非R12/OIDC失败/夹具回滚均有回归。CR-0345不授权重跑候选。
 machine_record: .continuity/change_requests/CR-0345.yaml
 document: docs/03-continuity/change-requests/CR-0345-修复R12候选OIDC启动前提交目标夹具未确定性重建.md
+decision_log:
+- at: '2026-07-26T02:34:15Z'
+  actor_id: codex-root-r12-candidate-20260726
+  status: IMPLEMENTING
+  note: 开始实现OIDC验证后同事务R12草稿准备、Release透传与完整负向回归
+  session_id: SES-20260725T192048Z-668BD05D
+- at: '2026-07-26T02:56:53Z'
+  actor_id: codex-root-r12-candidate-20260726
+  status: IMPLEMENTED
+  note: Release透传、OIDC后同事务R12草稿重建已实现；Java21九项、PostgreSQL17五项、Python二十九项与严格R12文档PASS，未重跑候选
+  session_id: SES-20260725T192048Z-668BD05D
+session_ids:
+- SES-20260725T192048Z-668BD05D

@@ -1,0 +1,52 @@
+protocol_version: '1.0'
+cr_id: CR-0347
+title: 纠正主开发文档定位指针并阻断事实源断链
+status: IMPLEMENTING
+created_at: '2026-07-26T03:03:29Z'
+updated_at: '2026-07-26T03:08:19Z'
+requester_actor_id: codex-root-r12-candidate-20260726
+approver_actor_id: project-owner
+task_id: TASK-R12-007
+session_id: SES-20260725T192048Z-668BD05D
+user_request: 项目所有者要求全局检查开发文档、硬门禁、开发进度、优点复用和踩坑记录，发现漂移立即原位加固。
+reason: docs/00-baseline中的现有定位指针仍引用仓库不存在的旧开发就绪版文件名，而SOURCE_OF_TRUTH与文档门禁使用页面与运营规格冻结版；当前严格文档门禁未检查该指针，跨AI接手存在断链风险。
+original_rule: SOURCE_OF_TRUTH已将根目录页面与运营规格冻结版列为产品业务权威主文档，docs/00-baseline内定位文件仅应指向该唯一事实源，派生指针不得形成第二套规则。
+new_rule: 原位纠正既有定位文件，使其精确指向根目录合伙云Pro_完整项目开发文档_V1.2.2_页面与运营规格冻结版.md；V1.2.2与V1.2.3严格文档门禁同时验证定位文件存在、目标存在及文件名完全一致，防止跨AI接手断链。PATTERN-CONTINUITY-001和既有踩坑记录只补充可复用经验，不建立平行硬规则。
+impact_summary: 消除一个已确认的主开发文档断链；不改变任何产品功能、页面、API、数据库、版本归属或当前R12实现，只加固现有事实源定位和严格文档回归。
+impact:
+  files:
+  - docs/00-baseline/合伙云Pro_完整项目开发文档_V1.2.2_开发就绪版.md
+  - scripts/check_v122_documentation.py
+  - scripts/check_v123_documentation.py
+  - tests/test_documentation_baseline_version.py
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/REUSABLE_PATTERNS.md
+  - docs/03-continuity/PITFALLS.md
+  - CHANGELOG.md
+  pages: []
+  apis: []
+  database: []
+  configuration: []
+  ledger: []
+  tests:
+  - python -m unittest -v tests.test_documentation_baseline_version
+  - python scripts/check_v123_documentation.py --strict --release R12
+  - python scripts/check_v123_continuity.py --strict --release R12
+  releases:
+  - R12
+  migration_and_compatibility: 纯文档定位与门禁修复；旧书签应改用现有根目录页面与运营规格冻结版。现有主文档内容和全部机器目录不迁移。
+user_confirmation: 项目所有者要求全局检查并在发现漂移时立即加固优化相关规则。
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-26T03:05:01Z'
+  note: 项目所有者本轮已明确授权发现漂移后立即原位加固；本CR只纠正既有唯一事实源指针并补严格回归，不新增同义规则。
+machine_record: .continuity/change_requests/CR-0347.yaml
+document: docs/03-continuity/change-requests/CR-0347-纠正主开发文档定位指针并阻断事实源断链.md
+decision_log:
+- at: '2026-07-26T03:08:19Z'
+  actor_id: codex-root-r12-candidate-20260726
+  status: IMPLEMENTING
+  note: 主开发文档定位已原位纠正；V1.2.2/V1.2.3指针回归5项与严格R12文档合同PASS，等待统一检查点、严格Doctor和提交。
+  session_id: SES-20260725T192048Z-668BD05D
+session_ids:
+- SES-20260725T192048Z-668BD05D

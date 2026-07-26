@@ -45,6 +45,12 @@
 
 `config/android-candidate-request.yaml` 必须包含：`schema_version: 1`、`status: REQUESTED`、`R06-R32` Release、`candidate: true`、普通范围 1 至 3 的 `remediation_attempt`、以及每次候选唯一的 `request_id`。全局 `max_ai_attempts` 必须始终为 3；只有 `config/android-automation.yaml` 中经过批准且精确绑定 Release、轮次、request ID、CR、根因修复 Commit 和单次运行上限的例外，才允许相应请求超过普通范围。例外不得改写全局上限、伪造为新 attempt 1、扩展到其他 Release 或产生 attempt 5；候选运行报告必须同时记录全局上限与本次有效上限。普通 CI 的 build artifact 不是候选，任何人或 AI 都不得把它复制到桌面冒充候选。
 
+### 2.2 候选可消费业务夹具
+
+候选旅程会改变业务状态时，夹具不能只在部署时准备一次。OIDC bootstrap 必须显式携带已校验 Release；服务端只能在 GitHub OIDC 身份验证成功、CI automation 已启用、Spring `staging` 且非生产环境时，在创建一次性登录码之前调用该 Release 的专用准备器，准备与发码必须属于同一事务。OIDC 失败、非法 Release、夹具不完整或准备失败时不得产生登录码。
+
+R12 的提交旅程固定消费标题为“R12候选发布预览项目”的草稿。每次 bootstrap 必须用 PostgreSQL 事务级 advisory lock 跨实例串行化，回收同一专用 CI 用户的非 DRAFT 旧目标，并从已验证模板克隆项目详情、最新版本快照、统计和有效媒体，最终确定性保持恰好一个 `status=DRAFT`、`version=0`、`review_status=NULL` 的完整提交目标。不得复制审核记录；模板缺失、重复 DRAFT、BANNED、详情/版本/统计/有效媒体缺失必须整事务失败。非 R12 候选不得执行 R12 数据写入。
+
 ## 3. 自动修复闭环
 
 失败时 Actions 必须保留构建报告、JUnit、截图、`logcat`、退出原因和机器可读运行报告，并创建或更新 `[Android CI] <Release> 自动门禁失败，禁止真机验收` 修复项。

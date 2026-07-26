@@ -3,9 +3,12 @@ package cc.orbexa.hhy.access.user;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
 import cc.orbexa.hhy.access.user.CiAutomationService.VerifiedWorkflow;
@@ -49,20 +52,22 @@ class CiAutomationServiceTest {
         MockEnvironment staging = new MockEnvironment();
         staging.setActiveProfiles("staging");
         CiAutomationStore store = mock(CiAutomationStore.class);
+        CiAutomationFixtureStore fixtures = mock(CiAutomationFixtureStore.class);
         UserAuthStore users = mock(UserAuthStore.class);
         UserAuthService authentication = mock(UserAuthService.class);
         when(users.findUser("13800000006")).thenReturn(Optional.of(new UserAuthStore.UserRow(7L, "ACTIVE")));
-        CiAutomationService service = service(properties(), staging, store, users, authentication);
+        CiAutomationService service = service(properties(), staging, store, fixtures, users, authentication);
 
         VerifiedWorkflow identity = new VerifiedWorkflow(
                 "fei613293175/hhy", ".github/workflows/android-candidate-request.yml@refs/heads/task/R06",
                 "a".repeat(40), "12345");
-        CiAutomationService.BootstrapCode bootstrap = service.issue(identity);
+        CiAutomationService.BootstrapCode bootstrap = service.issue(identity, "R12");
         String codeHash = HexFormat.of().formatHex(MessageDigest.getInstance("SHA-256")
                 .digest(bootstrap.code().getBytes(StandardCharsets.UTF_8)));
         assertEquals(NOW.plus(Duration.ofMinutes(10)), bootstrap.expiresAt());
         verify(store).create(eq(7L), eq(codeHash), eq(identity.repository()), eq(identity.workflow()),
                 eq(identity.commit()), eq(identity.runId()), eq(bootstrap.expiresAt()));
+        verify(fixtures).prepareR12SubmitTarget(7L);
         when(store.findForUpdate(codeHash)).thenReturn(Optional.of(new CiAutomationStore.BootstrapRow(
                 9L, 7L, identity.commit(), identity.runId(), bootstrap.expiresAt())));
         when(store.consume(9L, NOW)).thenReturn(true);
@@ -76,11 +81,72 @@ class CiAutomationServiceTest {
         verify(store).consume(9L, NOW);
     }
 
+    @Test
+    void nonR12BootstrapDoesNotPrepareR12Fixture() {
+        MockEnvironment staging = new MockEnvironment();
+        staging.setActiveProfiles("staging");
+        CiAutomationStore store = mock(CiAutomationStore.class);
+        CiAutomationFixtureStore fixtures = mock(CiAutomationFixtureStore.class);
+        UserAuthStore users = mock(UserAuthStore.class);
+        when(users.findUser("13800000006")).thenReturn(Optional.of(new UserAuthStore.UserRow(7L, "ACTIVE")));
+        CiAutomationService service = service(properties(), staging, store, fixtures, users,
+                mock(UserAuthService.class));
+
+        service.issue(identity(), "R11");
+
+        verify(fixtures, never()).prepareR12SubmitTarget(anyLong());
+        verify(store).create(eq(7L), any(), any(), any(), any(), any(), any());
+    }
+
+    @Test
+    void invalidReleaseFailsBeforeUserOrFixtureMutation() {
+        MockEnvironment staging = new MockEnvironment();
+        staging.setActiveProfiles("staging");
+        CiAutomationStore store = mock(CiAutomationStore.class);
+        CiAutomationFixtureStore fixtures = mock(CiAutomationFixtureStore.class);
+        UserAuthStore users = mock(UserAuthStore.class);
+        CiAutomationService service = service(properties(), staging, store, fixtures, users,
+                mock(UserAuthService.class));
+
+        assertThrows(IllegalArgumentException.class, () -> service.issue(identity(), "R33"));
+
+        verifyNoInteractions(users, fixtures, store);
+    }
+
+    @Test
+    void fixtureFailurePreventsBootstrapCodeCreation() {
+        MockEnvironment staging = new MockEnvironment();
+        staging.setActiveProfiles("staging");
+        CiAutomationStore store = mock(CiAutomationStore.class);
+        CiAutomationFixtureStore fixtures = mock(CiAutomationFixtureStore.class);
+        UserAuthStore users = mock(UserAuthStore.class);
+        when(users.findUser("13800000006")).thenReturn(Optional.of(new UserAuthStore.UserRow(7L, "ACTIVE")));
+        when(fixtures.prepareR12SubmitTarget(7L)).thenThrow(new IllegalStateException("incomplete fixture"));
+        CiAutomationService service = service(properties(), staging, store, fixtures, users,
+                mock(UserAuthService.class));
+
+        assertThrows(IllegalStateException.class, () -> service.issue(identity(), "R12"));
+
+        verifyNoInteractions(store);
+    }
+
     private static CiAutomationService service(CiAutomationProperties properties, MockEnvironment environment,
                                                CiAutomationStore store, UserAuthStore users,
                                                UserAuthService authentication) {
-        return new CiAutomationService(properties, store, users, authentication,
+        return service(properties, environment, store, mock(CiAutomationFixtureStore.class), users, authentication);
+    }
+
+    private static CiAutomationService service(CiAutomationProperties properties, MockEnvironment environment,
+                                               CiAutomationStore store, CiAutomationFixtureStore fixtures,
+                                               UserAuthStore users, UserAuthService authentication) {
+        return new CiAutomationService(properties, store, fixtures, users, authentication,
                 Clock.fixed(NOW, ZoneOffset.UTC), environment);
+    }
+
+    private static VerifiedWorkflow identity() {
+        return new VerifiedWorkflow("fei613293175/hhy",
+                ".github/workflows/android-candidate-request.yml@refs/heads/task/R12",
+                "a".repeat(40), "12345");
     }
 
     private static CiAutomationProperties properties() {

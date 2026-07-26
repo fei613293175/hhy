@@ -16,16 +16,19 @@ import org.springframework.transaction.annotation.Transactional;
 public class CiAutomationService {
     private final CiAutomationProperties properties;
     private final CiAutomationStore store;
+    private final CiAutomationFixtureStore fixtures;
     private final UserAuthStore users;
     private final UserAuthService authentication;
     private final Clock clock;
     private final SecureRandom random = new SecureRandom();
 
     public CiAutomationService(CiAutomationProperties properties, CiAutomationStore store,
+                               CiAutomationFixtureStore fixtures,
                                UserAuthStore users, UserAuthService authentication,
                                Clock clock, Environment environment) {
         this.properties = properties;
         this.store = store;
+        this.fixtures = fixtures;
         this.users = users;
         this.authentication = authentication;
         this.clock = clock;
@@ -45,12 +48,16 @@ public class CiAutomationService {
     }
 
     @Transactional
-    public BootstrapCode issue(VerifiedWorkflow identity) {
+    public BootstrapCode issue(VerifiedWorkflow identity, String release) {
         requireEnabled();
+        requireRelease(release);
         UserAuthStore.UserRow user = users.findUser(properties.userPhone())
                 .orElseThrow(() -> new IllegalStateException("Configured CI automation user does not exist"));
         if (!"ACTIVE".equals(user.status())) {
             throw new IllegalStateException("Configured CI automation user is not eligible for a session");
+        }
+        if ("R12".equals(release)) {
+            fixtures.prepareR12SubmitTarget(user.id());
         }
         byte[] material = new byte[32];
         random.nextBytes(material);
@@ -86,6 +93,12 @@ public class CiAutomationService {
 
     private static void requireConfigured(String value, String label) {
         if (value == null || value.isBlank()) throw new IllegalStateException(label + " is required");
+    }
+
+    private static void requireRelease(String release) {
+        if (release == null || !release.matches("^R(?:0[1-9]|[12][0-9]|3[0-2])$")) {
+            throw new IllegalArgumentException("CI automation release is invalid");
+        }
     }
 
     private static void requireDuration(java.time.Duration value, java.time.Duration maximum, String label) {

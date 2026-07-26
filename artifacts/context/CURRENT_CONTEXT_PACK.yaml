@@ -1,5 +1,5 @@
 context_version: '1.0'
-generated_at: '2026-07-26T02:22:54Z'
+generated_at: '2026-07-26T03:10:19Z'
 conversation_dependency: PROHIBITED
 source_of_truth: REPOSITORY_ONLY
 project: hhy-pro-platform
@@ -132,7 +132,7 @@ current_status:
   - TASK-R06-008
   - TASK-R07-008
   next_task: TASK-R12-007
-  updated_at: '2026-07-26T02:22:50Z'
+  updated_at: '2026-07-26T03:10:14Z'
   notes:
   - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
   - 全部REST/WebSocket操作均有页面或系统所有者
@@ -167,15 +167,15 @@ current_status:
     active_session_id: SES-20260725T192048Z-668BD05D
     actor_id: codex-root-r12-candidate-20260726
     story_id: STORY-R12-008
-    lease_expires_at: '2026-07-26T06:22:50Z'
-    latest_checkpoint: .continuity/checkpoints/SES-20260725T192048Z-668BD05D/0016.yaml
-    project_fingerprint: c920130279d1324175deefaddb9781f38ccce96a0cbf2c3733d61aec5a1a9ca1
+    lease_expires_at: '2026-07-26T07:10:14Z'
+    latest_checkpoint: .continuity/checkpoints/SES-20260725T192048Z-668BD05D/0018.yaml
+    project_fingerprint: 691ea1df60be611b5307959c72769f64fd334609bc811d41bc74cbfd598e9a18
     context_pack:
       yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
       markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
       manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-      context_hash: 228d0cefd77be1da8ac6a2e7938acb11d5829dee1b5abe99754ba1a376415fa3
-      generated_at: '2026-07-26T02:21:30Z'
+      context_hash: a00e6cbf55f5c68d35102c8be075398ccd607809c6795ffd365801744949bc52
+      generated_at: '2026-07-26T03:09:18Z'
     handoff_bundle: null
 next_task:
   id: TASK-R12-007
@@ -224,7 +224,7 @@ active_session:
   story_id: STORY-R12-008
   goal: 完成R12最终Android候选、真实模拟器截图AI验收、固定签名测试APK与桌面交付
   started_at: '2026-07-25T19:20:48Z'
-  updated_at: '2026-07-26T02:22:50Z'
+  updated_at: '2026-07-26T03:10:14Z'
   takeover_of: null
   change_requests:
   - CR-0339
@@ -235,6 +235,7 @@ active_session:
   - CR-0344
   - CR-0345
   - CR-0346
+  - CR-0347
   scope:
     allowed_paths:
     - apps/**
@@ -303,7 +304,13 @@ active_session:
     - tests/test_context_pack_parallel_policy.py
     - docs/03-continuity/REUSABLE_PATTERNS.md
     - docs/03-continuity/PITFALLS.md
-    source: story+explicit+approved-cr:CR-0340+approved-cr:CR-0344+approved-cr:CR-0346
+    - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/CiAutomationService.java
+    - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/CiAutomationFixtureStore.java
+    - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/CiAutomationController.java
+    - services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/CiAutomationServiceTest.java
+    - services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/CiAutomationFixtureStorePostgresTest.java
+    - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/CiAutomationControllerTest.java
+    source: story+explicit+approved-cr:CR-0340+approved-cr:CR-0344+approved-cr:CR-0346+approved-cr:CR-0345
   git:
     initialized: true
     branch: task/TASK-R03-001
@@ -313,112 +320,92 @@ active_session:
     initial_worktree_state: CLEAN
   lease:
     duration_minutes: 240
-    renewed_at: '2026-07-26T02:22:50Z'
-    expires_at: '2026-07-26T06:22:50Z'
-  checkpoint_sequence: 16
-  latest_checkpoint: .continuity/checkpoints/SES-20260725T192048Z-668BD05D/0016.yaml
+    renewed_at: '2026-07-26T03:10:14Z'
+    expires_at: '2026-07-26T07:10:14Z'
+  checkpoint_sequence: 18
+  latest_checkpoint: .continuity/checkpoints/SES-20260725T192048Z-668BD05D/0018.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260725T192048Z-668BD05D.md
-  next_step: 运行最终严格Doctor与pre-commit，提交并推送一次；随后实施CR-0345
+  next_step: 暂存全部项目变化，运行pre-commit并提交推送一次；不得启动已消耗的Android候选
   context_pack: THIS_CONTEXT_PACK
   handoff_bundle: null
   closure: null
   parallel_execution:
-    assessment: NO_SAFE_PARALLEL
+    assessment: CAPABILITY_UNAVAILABLE
     delegated_workers: 0
     workers: []
-    reason: 全局规则、事件链、检查点和生成物同属单一治理事实链，必须串行收口
+    reason: 当前主控运行约束不允许新建执行代理；最终连续性检查点和提交必须由唯一事实主控串行完成。
 latest_checkpoint:
   protocol_version: '1.0'
-  checkpoint_id: CP-SES-20260725T192048Z-668BD05D-0016
+  checkpoint_id: CP-SES-20260725T192048Z-668BD05D-0018
   session_id: SES-20260725T192048Z-668BD05D
   task_id: TASK-R12-007
   story_id: STORY-R12-008
-  sequence: 16
-  created_at: '2026-07-26T02:22:49Z'
-  summary: CR-0346全局防漂移加固、LF证据与严格Doctor最终PASS已闭环
-  next_step: 运行最终严格Doctor与pre-commit，提交并推送一次；随后实施CR-0345
+  sequence: 18
+  created_at: '2026-07-26T03:10:13Z'
+  summary: 最终严格Doctor确认CR-0345与CR-0347后的开发文档、连续性、问题登记、复用模式和踩坑结构全部PASS
+  next_step: 暂存全部项目变化，运行pre-commit并提交推送一次；不得启动已消耗的Android候选
   blockers: []
   decisions: []
   note: ''
   tests:
   - name: PROJECT_DOCTOR
     result: PASS
-    evidence: .continuity/runtime/project-doctor-v1.2.3-final.json
-    note: 0 errors 0 warnings
-  - name: GOVERNANCE_UNIT
+    evidence: scripts/continuity_gate.py --mode doctor --strict
+    note: 0 errors 0 warnings rule_readiness PASS
+  - name: V123_STRICT_AUDIT
     result: PASS
-    evidence: 45 unittest cases
-    note: 全局治理专项回归
-  - name: RELEASE_CLOSE_GATE
-    result: PASS
-    evidence: 11 unittest cases
-    note: 累计视觉与六项审计负向门禁
-  - name: DOCUMENTATION_CONTRACT
-    result: PASS
-    evidence: 84 requirements 319 REST 0 gaps
-    note: 严格开发文档合同
-  - name: CONTINUITY_LIFECYCLE
-    result: PASS
-    evidence: 12 reconstruction and 15 lifecycle checks
-    note: 无状态接续完整生命周期
-  - name: DIFF_CHECK
-    result: PASS
-    evidence: git diff --cached --check
-    note: 证据LF归一化后无空白错误
+    evidence: .continuity/runtime/global-continuity-audit-r12.json
+    note: 119 problems 11 reusable patterns 29 pitfalls 84 requirements 319 REST
   git:
     initialized: true
     branch: task/TASK-R03-001
-    head: 4243f970096f5ee92d6c867bd3a123c3600ed035
+    head: 761dafb684be5aadffa42a29bed835e0904dd98a
     upstream: origin/task/TASK-R03-001
     ahead: 0
     behind: 0
     dirty: true
     status_porcelain:
-    - M  .continuity/ACTIVE_SESSION.yaml
-    - M  .continuity/CHANGE_REQUEST_INDEX.yaml
-    - M  .continuity/CONTINUITY_POLICY.yaml
-    - M  .continuity/EVENT_LOG.jsonl
-    - M  .continuity/SESSION_INDEX.yaml
-    - M  .continuity/STATE.yaml
-    - A  .continuity/change_requests/CR-0345.yaml
-    - A  .continuity/change_requests/CR-0346.yaml
-    - A  .continuity/checkpoints/SES-20260725T192048Z-668BD05D/0013.yaml
-    - A  .continuity/checkpoints/SES-20260725T192048Z-668BD05D/0014.yaml
-    - A  .continuity/checkpoints/SES-20260725T192048Z-668BD05D/0015.yaml
-    - M  .continuity/sessions/SES-20260725T192048Z-668BD05D.yaml
-    - M  AGENTS.md
-    - M  CHANGELOG.md
-    - M  CURRENT_STATUS.yaml
-    - M  PROJECT_EXECUTION_PLAN.md
-    - M  artifacts/context/CURRENT_CONTEXT_PACK.md
-    - M  artifacts/context/CURRENT_CONTEXT_PACK.yaml
-    - M  artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    - M  artifacts/validation/continuity-integration-v1.2.3.json
-    - M  artifacts/validation/continuity-lifecycle-integration-v1.2.3.json
-    - M  artifacts/validation/continuity-lifecycle-integration-v1.2.3.log
-    - M  artifacts/validation/project-doctor-v1.2.3-documentation.json
-    - M  artifacts/validation/project-doctor-v1.2.3.json
-    - M  catalogs/change_request_index.csv
-    - M  catalogs/session_index.csv
-    - M  docs/00-baseline/正式商业系统全局硬性开发边界.md
-    - M  docs/03-continuity/PITFALLS.md
-    - M  docs/03-continuity/PROBLEM_REGISTRY.yaml
-    - M  docs/03-continuity/REUSABLE_PATTERNS.md
-    - A  docs/03-continuity/change-requests/CR-0345-修复R12候选OIDC启动前提交目标夹具未确定性重建.md
-    - A  docs/03-continuity/change-requests/CR-0346-加固滚动计划跨版本视觉债务与经验记录防漂移门禁.md
-    - M  docs/03-continuity/sessions/2026-07/SES-20260725T192048Z-668BD05D.md
-    - M  docs/09-development/统一开发与交付效率规范.md
-    - M  releases/PROGRAM_EXECUTION_PLAN.yaml
-    - M  scripts/check_program_execution_plan.py
-    - M  scripts/check_release_artifacts.py
-    - M  scripts/check_ui_visual_acceptance.py
-    - M  scripts/check_v123_continuity.py
-    - M  scripts/generate_program_execution_plan.py
-    - M  templates/AGENTS.md
-    - M  tests/test_context_pack_parallel_policy.py
-    - M  tests/test_program_execution_plan.py
-    - M  tests/test_release_close_gate.py
+    - ' M .continuity/ACTIVE_SESSION.yaml'
+    - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
+    - ' M .continuity/EVENT_LOG.jsonl'
+    - ' M .continuity/SESSION_INDEX.yaml'
+    - ' M .continuity/STATE.yaml'
+    - ' M .continuity/change_requests/CR-0345.yaml'
+    - ' M .continuity/change_requests/CR-0346.yaml'
+    - ' M .continuity/sessions/SES-20260725T192048Z-668BD05D.yaml'
+    - ' M .github/workflows/android-quality-gate.yml'
+    - ' M CHANGELOG.md'
+    - ' M CURRENT_STATUS.yaml'
+    - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+    - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+    - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+    - ' M artifacts/validation/continuity-gate-v1.2.3.json'
+    - ' M catalogs/change_request_index.csv'
+    - ' M catalogs/session_index.csv'
+    - ' M docs/00-baseline/合伙云Pro_完整项目开发文档_V1.2.2_开发就绪版.md'
+    - ' M docs/03-continuity/PITFALLS.md'
+    - ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
+    - ' M docs/03-continuity/REUSABLE_PATTERNS.md'
+    - ' M docs/03-continuity/change-requests/CR-0345-修复R12候选OIDC启动前提交目标夹具未确定性重建.md'
+    - ' M docs/03-continuity/change-requests/CR-0346-加固滚动计划跨版本视觉债务与经验记录防漂移门禁.md'
+    - ' M docs/03-continuity/sessions/2026-07/SES-20260725T192048Z-668BD05D.md'
+    - ' M docs/08-testing/Android自动开发测试修复交付体系_V1.0.md'
+    - ' M scripts/check_v122_documentation.py'
+    - ' M scripts/check_v123_documentation.py'
+    - ' A services/backend/access/src/main/java/cc/orbexa/hhy/access/user/CiAutomationFixtureStore.java'
+    - ' M services/backend/access/src/main/java/cc/orbexa/hhy/access/user/CiAutomationService.java'
+    - ' M services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/CiAutomationController.java'
+    - ' A services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/CiAutomationFixtureStorePostgresTest.java'
+    - ' M services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/CiAutomationServiceTest.java'
+    - ' A services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/CiAutomationControllerTest.java'
+    - ' M tests/test_documentation_baseline_version.py'
+    - ' M tests/test_r12_candidate.py'
+    - ?? .continuity/change_requests/CR-0347.yaml
+    - ?? .continuity/checkpoints/SES-20260725T192048Z-668BD05D/0017.yaml
+    - ?? docs/03-continuity/change-requests/CR-0347-纠正主开发文档定位指针并阻断事实源断链.md
     recent_commits:
+    - "761dafb684be5aadffa42a29bed835e0904dd98a\t2026-07-26T10:25:01+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] chore(governance): harden\
+      \ cross-release drift gates"
     - "4243f970096f5ee92d6c867bd3a123c3600ed035\t2026-07-26T07:27:45+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] test(r12): authorize exact\
       \ candidate attempt 4"
     - "daae207af319008411995b7ac23a13c9042fc5a2\t2026-07-26T07:04:47+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] fix(r12): restore review\
@@ -433,10 +420,8 @@ latest_checkpoint:
       \ failure observability"
     - "f6d53d0b67f5eba6381303b3927dc1eea971a859\t2026-07-26T04:27:02+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] test(r12): prepare final\
       \ Android candidate"
-    - "8b20e881c6a72fc1e1deb11e86f3212e36ea7941\t2026-07-26T03:19:13+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] chore(continuity): close\
-      \ TASK-R12-006 as completed"
   project_fingerprint:
-    sha256: c920130279d1324175deefaddb9781f38ccce96a0cbf2c3733d61aec5a1a9ca1
+    sha256: 691ea1df60be611b5307959c72769f64fd334609bc811d41bc74cbfd598e9a18
     files:
     - .github/workflows/android-candidate-request.yml
     - .github/workflows/android-quality-gate.yml
@@ -453,6 +438,7 @@ latest_checkpoint:
     - apps/android/feature/content-management/src/test/java/cc/orbexa/hhy/contentmanagement/R12ContentManagementListStateTest.kt
     - config/android-automation.yaml
     - config/android-candidate-request.yaml
+    - docs/00-baseline/合伙云Pro_完整项目开发文档_V1.2.2_开发就绪版.md
     - docs/00-baseline/正式商业系统全局硬性开发边界.md
     - docs/03-continuity/PITFALLS.md
     - docs/03-continuity/PROBLEM_REGISTRY.yaml
@@ -465,6 +451,7 @@ latest_checkpoint:
     - docs/03-continuity/change-requests/CR-0344-允许R12修复提交执行一次精确绑定的第四次Android候选.md
     - docs/03-continuity/change-requests/CR-0345-修复R12候选OIDC启动前提交目标夹具未确定性重建.md
     - docs/03-continuity/change-requests/CR-0346-加固滚动计划跨版本视觉债务与经验记录防漂移门禁.md
+    - docs/03-continuity/change-requests/CR-0347-纠正主开发文档定位指针并阻断事实源断链.md
     - docs/08-testing/Android自动开发测试修复交付体系_V1.0.md
     - docs/09-development/统一开发与交付效率规范.md
     - releases/PROGRAM_EXECUTION_PLAN.yaml
@@ -473,21 +460,30 @@ latest_checkpoint:
     - scripts/check_program_execution_plan.py
     - scripts/check_release_artifacts.py
     - scripts/check_ui_visual_acceptance.py
+    - scripts/check_v122_documentation.py
     - scripts/check_v123_continuity.py
+    - scripts/check_v123_documentation.py
     - scripts/generate_program_execution_plan.py
     - scripts/prepare_r12_ci_fixture.sh
     - scripts/run_android_emulator_gate.sh
+    - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/CiAutomationFixtureStore.java
+    - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/CiAutomationService.java
+    - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/CiAutomationController.java
     - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/web/GlobalExceptionHandler.java
+    - services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/CiAutomationFixtureStorePostgresTest.java
+    - services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/CiAutomationServiceTest.java
+    - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/CiAutomationControllerTest.java
     - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/web/GlobalExceptionHandlerTest.java
     - templates/AGENTS.md
     - tests/android/visual-manifests/R12.yaml
     - tests/test_android_candidate_request.py
     - tests/test_android_ci_gate.py
     - tests/test_context_pack_parallel_policy.py
+    - tests/test_documentation_baseline_version.py
     - tests/test_program_execution_plan.py
     - tests/test_r12_candidate.py
     - tests/test_release_close_gate.py
-    file_count: 49
+    file_count: 60
     payload:
       base_commit: 8b20e881c6a72fc1e1deb11e86f3212e36ea7941
       files:
@@ -497,16 +493,16 @@ latest_checkpoint:
         sha256: a97de688be10965fb7a9a13d8bf75f2b8e70090ee253eb77f26fa0530ab77625
       - path: .github/workflows/android-quality-gate.yml
         state: FILE
-        size: 14485
-        sha256: 549bd4d58d0508ece290e30892993bc89e3984a46fd6e259338620b3b654faea
+        size: 14525
+        sha256: c6b9ffeb8c23f6cd59767e1674adb7006d11d960055e267701d0e32c6dab5e81
       - path: AGENTS.md
         state: FILE
         size: 14707
         sha256: 306026d4706dfd3cae0a3db2b1c56e294700326bc3a13ca095c3987a267d390b
       - path: CHANGELOG.md
         state: FILE
-        size: 148354
-        sha256: 6a3462e438329a5684f76508733a37dafee149d9138c4c5fcbb975f23e1f0ec4
+        size: 149546
+        sha256: f3bd90c05498d79fe7950d664d94af07985f02e1e3bda053e52036893a069ccb
       - path: PROJECT_EXECUTION_PLAN.md
         state: FILE
         size: 939
@@ -551,22 +547,26 @@ latest_checkpoint:
         state: FILE
         size: 590
         sha256: efe8c236c26352dbb5c096187db279db51f9404cb7d107c2b1b26239f7138334
+      - path: docs/00-baseline/合伙云Pro_完整项目开发文档_V1.2.2_开发就绪版.md
+        state: FILE
+        size: 203
+        sha256: 01b6879420f8c90617a1dc3bf45270f9605162765d96fba43d584de777076f0a
       - path: docs/00-baseline/正式商业系统全局硬性开发边界.md
         state: FILE
         size: 13487
         sha256: b1d965b019e632fbe1a259831201be7c82f79c26836fa161fd1d41855fcdb7c8
       - path: docs/03-continuity/PITFALLS.md
         state: FILE
-        size: 8593
-        sha256: 034bf5e2ee3ef1e818ffd6dc244135f46d19869a69a9d741c593b35866a224b3
+        size: 8948
+        sha256: a9d45b0ce3caef5b55f5f7f0d09639322dc27e1921100d5f0c4d1b76eb31f023
       - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
         state: FILE
-        size: 169890
-        sha256: c9ba3bf30f0a83b10222e140820f0d7b9af21f0cc4c85e2a725c24b57698d359
+        size: 173596
+        sha256: 60fa2ffbac41237603cf4b928c551fb86c7027096812679a21a5b6fbc7bef1b1
       - path: docs/03-continuity/REUSABLE_PATTERNS.md
         state: FILE
-        size: 3931
-        sha256: a5f963015203b94f819790709ff1cb00d00b4b495533fc5d655e1f3070ad5b90
+        size: 4093
+        sha256: 7e8266b1dae3a5741143faea682db8a0dd3cf0a382afe5ff05a27a06cad041f2
       - path: docs/03-continuity/change-requests/CR-0339-补齐R12统一发布Android最终候选与产物追溯.md
         state: FILE
         size: 4099
@@ -593,16 +593,20 @@ latest_checkpoint:
         sha256: 97ccef4ae91f005ebd0d114e5e4863c27599884b02f7ea00f434048b2717a593
       - path: docs/03-continuity/change-requests/CR-0345-修复R12候选OIDC启动前提交目标夹具未确定性重建.md
         state: FILE
-        size: 4362
-        sha256: 1248359703e12f290d8f2857c589f720553cc151d7177f5c4474d4ade45196c4
+        size: 4936
+        sha256: e69e5b86b5ce37dc5a496ed72124412c9aef2d43ff34fba14f9208170b2411f7
       - path: docs/03-continuity/change-requests/CR-0346-加固滚动计划跨版本视觉债务与经验记录防漂移门禁.md
         state: FILE
-        size: 5089
-        sha256: a985b1626edb83550e84017eb876264f5294ed273db5fc34ad4d322f5382cf61
+        size: 5368
+        sha256: bc35d37f653c32794888f93609b47ab7250e75ddb9c94937001d2a587bdccc65
+      - path: docs/03-continuity/change-requests/CR-0347-纠正主开发文档定位指针并阻断事实源断链.md
+        state: FILE
+        size: 3382
+        sha256: f3f4d8cb82e71f04747c124c8014258cb355ee78a13a6ae956ebe32423df8003
       - path: docs/08-testing/Android自动开发测试修复交付体系_V1.0.md
         state: FILE
-        size: 9914
-        sha256: d54f8a8a361a4a6263121e25664ace0e8e36e6496021b69d0d5333f9765a6762
+        size: 11003
+        sha256: 65393f72629deafb49abdfa7e521af79b36936d6a6f90d9d02a337193f5c6361
       - path: docs/09-development/统一开发与交付效率规范.md
         state: FILE
         size: 17399
@@ -631,10 +635,18 @@ latest_checkpoint:
         state: FILE
         size: 13330
         sha256: 2909ca67a0048b4bf0f00b3a118504cde4be10ae69b5718317ad5b6569faae39
+      - path: scripts/check_v122_documentation.py
+        state: FILE
+        size: 15859
+        sha256: 584b4736d3b72433b3d09cb207ffd9733b888caff657948fcbc60171cb38c17c
       - path: scripts/check_v123_continuity.py
         state: FILE
         size: 40763
         sha256: e19804b3aea98d3db61b593503f87ce59e29680e6f7b3d8a03b4686fd0101b8e
+      - path: scripts/check_v123_documentation.py
+        state: FILE
+        size: 16053
+        sha256: ed833f2046543c6556d77aca84d5f1bb7875da09c6790d31e28467abfd4fd62f
       - path: scripts/generate_program_execution_plan.py
         state: FILE
         size: 17128
@@ -647,10 +659,34 @@ latest_checkpoint:
         state: FILE
         size: 2853
         sha256: b982ca0944f865b6d5b576636d454ed59a2e19ff1da586d79267a9eee86670bc
+      - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/user/CiAutomationFixtureStore.java
+        state: FILE
+        size: 10380
+        sha256: ccc3b6838dd42260835c55c4a2f67851a9f61bdbb7e75616c2117ac378d3133d
+      - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/user/CiAutomationService.java
+        state: FILE
+        size: 5967
+        sha256: cbc84b1a64d5ce53dc4133f03a49f0dcf4c63ae15bac52f52c9ee5acdfd55fd8
+      - path: services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/CiAutomationController.java
+        state: FILE
+        size: 3494
+        sha256: 016278ae56999444401e4a1dc2c131d853dd783f774a672141f40c05c918e687
       - path: services/backend/boot/src/main/java/cc/orbexa/hhy/boot/web/GlobalExceptionHandler.java
         state: FILE
         size: 4776
         sha256: 9b8fc37b04ccd7261922303a95f4feed4cd71d1e6614189c6e37690ecd3ad14f
+      - path: services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/CiAutomationFixtureStorePostgresTest.java
+        state: FILE
+        size: 13946
+        sha256: 21e38f68507fbf752053252dadc00917cc68ac8fe20e8e855cefe630f1ba9dba
+      - path: services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/CiAutomationServiceTest.java
+        state: FILE
+        size: 8206
+        sha256: d18504ecbf7cc09938f53c3eee9e2e61f053d94bcb04f0a416f0a5083f2cfc93
+      - path: services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/CiAutomationControllerTest.java
+        state: FILE
+        size: 3333
+        sha256: 6bb893adbc66e3f6b10331bbdf2e01dc400ac7c4fcac9b0cc13ffa57c10a7346
       - path: services/backend/boot/src/test/java/cc/orbexa/hhy/boot/web/GlobalExceptionHandlerTest.java
         state: FILE
         size: 3692
@@ -675,14 +711,18 @@ latest_checkpoint:
         state: FILE
         size: 11081
         sha256: ebc8d60814e9759270e465bb037b8cfb0a8ff5590b7f9ad935ecb733ba198e6c
+      - path: tests/test_documentation_baseline_version.py
+        state: FILE
+        size: 3880
+        sha256: 5c94cede2912c001ddb20024166d41e34fb1a44b18bf43ec306a6f0b8578c9ed
       - path: tests/test_program_execution_plan.py
         state: FILE
         size: 4222
         sha256: daeb57fa4d2cf309644acbcc38a39d31797ce68788e4539f98a2409ac51c71cd
       - path: tests/test_r12_candidate.py
         state: FILE
-        size: 8859
-        sha256: ecb048bee9a5b2bd4c0b22ec47cbd4d5803f9224e74eecfa0ae74647fd27b648
+        size: 10634
+        sha256: 2e103a5b48c27a8449fbcc50a05bef55f7f87f257105689a5da0bfa69796bea9
       - path: tests/test_release_close_gate.py
         state: FILE
         size: 24775
@@ -715,11 +755,19 @@ latest_checkpoint:
     - scripts/check_program_execution_plan.py
     - scripts/check_release_artifacts.py
     - scripts/check_ui_visual_acceptance.py
+    - scripts/check_v122_documentation.py
     - scripts/check_v123_continuity.py
+    - scripts/check_v123_documentation.py
     - scripts/generate_program_execution_plan.py
     - scripts/prepare_r12_ci_fixture.sh
     - scripts/run_android_emulator_gate.sh
+    - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/CiAutomationFixtureStore.java
+    - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/CiAutomationService.java
+    - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/CiAutomationController.java
     - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/web/GlobalExceptionHandler.java
+    - services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/CiAutomationFixtureStorePostgresTest.java
+    - services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/CiAutomationServiceTest.java
+    - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/CiAutomationControllerTest.java
     - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/web/GlobalExceptionHandlerTest.java
     user_visible:
     - apps/android/app/build.gradle.kts
@@ -731,6 +779,7 @@ latest_checkpoint:
     - apps/android/feature/content-management/src/main/java/cc/orbexa/hhy/contentmanagement/R12ContentManagementListState.kt
     - apps/android/feature/content-management/src/test/java/cc/orbexa/hhy/contentmanagement/R12ContentManagementListStateTest.kt
     source_of_truth:
+    - docs/00-baseline/合伙云Pro_完整项目开发文档_V1.2.2_开发就绪版.md
     - docs/00-baseline/正式商业系统全局硬性开发边界.md
     continuity:
     - docs/03-continuity/PITFALLS.md
@@ -744,11 +793,13 @@ latest_checkpoint:
     - docs/03-continuity/change-requests/CR-0344-允许R12修复提交执行一次精确绑定的第四次Android候选.md
     - docs/03-continuity/change-requests/CR-0345-修复R12候选OIDC启动前提交目标夹具未确定性重建.md
     - docs/03-continuity/change-requests/CR-0346-加固滚动计划跨版本视觉债务与经验记录防漂移门禁.md
+    - docs/03-continuity/change-requests/CR-0347-纠正主开发文档定位指针并阻断事实源断链.md
     tests:
     - tests/android/visual-manifests/R12.yaml
     - tests/test_android_candidate_request.py
     - tests/test_android_ci_gate.py
     - tests/test_context_pack_parallel_policy.py
+    - tests/test_documentation_baseline_version.py
     - tests/test_program_execution_plan.py
     - tests/test_r12_candidate.py
     - tests/test_release_close_gate.py
@@ -769,6 +820,7 @@ latest_checkpoint:
   - CR-0344
   - CR-0345
   - CR-0346
+  - CR-0347
   scope:
     allowed_paths:
     - apps/**
@@ -837,68 +889,70 @@ latest_checkpoint:
     - tests/test_context_pack_parallel_policy.py
     - docs/03-continuity/REUSABLE_PATTERNS.md
     - docs/03-continuity/PITFALLS.md
-    source: story+explicit+approved-cr:CR-0340+approved-cr:CR-0344+approved-cr:CR-0346
+    - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/CiAutomationService.java
+    - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/CiAutomationFixtureStore.java
+    - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/CiAutomationController.java
+    - services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/CiAutomationServiceTest.java
+    - services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/CiAutomationFixtureStorePostgresTest.java
+    - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/CiAutomationControllerTest.java
+    source: story+explicit+approved-cr:CR-0340+approved-cr:CR-0344+approved-cr:CR-0346+approved-cr:CR-0345
   parallel_execution:
-    assessment: NO_SAFE_PARALLEL
+    assessment: CAPABILITY_UNAVAILABLE
     delegated_workers: 0
     workers: []
-    reason: 全局规则、事件链、检查点和生成物同属单一治理事实链，必须串行收口
-  event_hash: 4100cac49db058054bd15f40a4ec82a3daa54491f25f1de54a34cf3a613c528f
+    reason: 当前主控运行约束不允许新建执行代理；最终连续性检查点和提交必须由唯一事实主控串行完成。
+  event_hash: bb2ea02799f7d39bf7af5a4245674f39a6c3237f1ceb9f4d7b830e9361747dcd
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: 4243f970096f5ee92d6c867bd3a123c3600ed035
+  head: 761dafb684be5aadffa42a29bed835e0904dd98a
   upstream: origin/task/TASK-R03-001
   ahead: 0
   behind: 0
   dirty: true
   status_porcelain:
-  - MM .continuity/ACTIVE_SESSION.yaml
-  - M  .continuity/CHANGE_REQUEST_INDEX.yaml
-  - M  .continuity/CONTINUITY_POLICY.yaml
-  - MM .continuity/EVENT_LOG.jsonl
-  - MM .continuity/SESSION_INDEX.yaml
-  - MM .continuity/STATE.yaml
-  - A  .continuity/change_requests/CR-0345.yaml
-  - A  .continuity/change_requests/CR-0346.yaml
-  - A  .continuity/checkpoints/SES-20260725T192048Z-668BD05D/0013.yaml
-  - A  .continuity/checkpoints/SES-20260725T192048Z-668BD05D/0014.yaml
-  - A  .continuity/checkpoints/SES-20260725T192048Z-668BD05D/0015.yaml
-  - MM .continuity/sessions/SES-20260725T192048Z-668BD05D.yaml
-  - M  AGENTS.md
-  - M  CHANGELOG.md
-  - MM CURRENT_STATUS.yaml
-  - M  PROJECT_EXECUTION_PLAN.md
-  - M  artifacts/context/CURRENT_CONTEXT_PACK.md
-  - M  artifacts/context/CURRENT_CONTEXT_PACK.yaml
-  - M  artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  - M  artifacts/validation/continuity-integration-v1.2.3.json
-  - M  artifacts/validation/continuity-lifecycle-integration-v1.2.3.json
-  - M  artifacts/validation/continuity-lifecycle-integration-v1.2.3.log
-  - M  artifacts/validation/project-doctor-v1.2.3-documentation.json
-  - M  artifacts/validation/project-doctor-v1.2.3.json
-  - M  catalogs/change_request_index.csv
-  - MM catalogs/session_index.csv
-  - M  docs/00-baseline/正式商业系统全局硬性开发边界.md
-  - M  docs/03-continuity/PITFALLS.md
-  - M  docs/03-continuity/PROBLEM_REGISTRY.yaml
-  - M  docs/03-continuity/REUSABLE_PATTERNS.md
-  - A  docs/03-continuity/change-requests/CR-0345-修复R12候选OIDC启动前提交目标夹具未确定性重建.md
-  - A  docs/03-continuity/change-requests/CR-0346-加固滚动计划跨版本视觉债务与经验记录防漂移门禁.md
-  - MM docs/03-continuity/sessions/2026-07/SES-20260725T192048Z-668BD05D.md
-  - M  docs/09-development/统一开发与交付效率规范.md
-  - M  releases/PROGRAM_EXECUTION_PLAN.yaml
-  - M  scripts/check_program_execution_plan.py
-  - M  scripts/check_release_artifacts.py
-  - M  scripts/check_ui_visual_acceptance.py
-  - M  scripts/check_v123_continuity.py
-  - M  scripts/generate_program_execution_plan.py
-  - M  templates/AGENTS.md
-  - M  tests/test_context_pack_parallel_policy.py
-  - M  tests/test_program_execution_plan.py
-  - M  tests/test_release_close_gate.py
-  - ?? .continuity/checkpoints/SES-20260725T192048Z-668BD05D/0016.yaml
+  - ' M .continuity/ACTIVE_SESSION.yaml'
+  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/SESSION_INDEX.yaml'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/change_requests/CR-0345.yaml'
+  - ' M .continuity/change_requests/CR-0346.yaml'
+  - ' M .continuity/sessions/SES-20260725T192048Z-668BD05D.yaml'
+  - ' M .github/workflows/android-quality-gate.yml'
+  - ' M CHANGELOG.md'
+  - ' M CURRENT_STATUS.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+  - ' M artifacts/validation/continuity-gate-v1.2.3.json'
+  - ' M catalogs/change_request_index.csv'
+  - ' M catalogs/session_index.csv'
+  - ' M docs/00-baseline/合伙云Pro_完整项目开发文档_V1.2.2_开发就绪版.md'
+  - ' M docs/03-continuity/PITFALLS.md'
+  - ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
+  - ' M docs/03-continuity/REUSABLE_PATTERNS.md'
+  - ' M docs/03-continuity/change-requests/CR-0345-修复R12候选OIDC启动前提交目标夹具未确定性重建.md'
+  - ' M docs/03-continuity/change-requests/CR-0346-加固滚动计划跨版本视觉债务与经验记录防漂移门禁.md'
+  - ' M docs/03-continuity/sessions/2026-07/SES-20260725T192048Z-668BD05D.md'
+  - ' M docs/08-testing/Android自动开发测试修复交付体系_V1.0.md'
+  - ' M scripts/check_v122_documentation.py'
+  - ' M scripts/check_v123_documentation.py'
+  - ' A services/backend/access/src/main/java/cc/orbexa/hhy/access/user/CiAutomationFixtureStore.java'
+  - ' M services/backend/access/src/main/java/cc/orbexa/hhy/access/user/CiAutomationService.java'
+  - ' M services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/CiAutomationController.java'
+  - ' A services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/CiAutomationFixtureStorePostgresTest.java'
+  - ' M services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/CiAutomationServiceTest.java'
+  - ' A services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/CiAutomationControllerTest.java'
+  - ' M tests/test_documentation_baseline_version.py'
+  - ' M tests/test_r12_candidate.py'
+  - ?? .continuity/change_requests/CR-0347.yaml
+  - ?? .continuity/checkpoints/SES-20260725T192048Z-668BD05D/0017.yaml
+  - ?? .continuity/checkpoints/SES-20260725T192048Z-668BD05D/0018.yaml
+  - ?? docs/03-continuity/change-requests/CR-0347-纠正主开发文档定位指针并阻断事实源断链.md
   recent_commits:
+  - "761dafb684be5aadffa42a29bed835e0904dd98a\t2026-07-26T10:25:01+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] chore(governance): harden\
+    \ cross-release drift gates"
   - "4243f970096f5ee92d6c867bd3a123c3600ed035\t2026-07-26T07:27:45+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] test(r12): authorize exact\
     \ candidate attempt 4"
   - "daae207af319008411995b7ac23a13c9042fc5a2\t2026-07-26T07:04:47+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] fix(r12): restore review context\
@@ -913,10 +967,8 @@ git:
     \ observability"
   - "f6d53d0b67f5eba6381303b3927dc1eea971a859\t2026-07-26T04:27:02+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] test(r12): prepare final Android\
     \ candidate"
-  - "8b20e881c6a72fc1e1deb11e86f3212e36ea7941\t2026-07-26T03:19:13+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] chore(continuity): close TASK-R12-006\
-    \ as completed"
 project_fingerprint:
-  sha256: c920130279d1324175deefaddb9781f38ccce96a0cbf2c3733d61aec5a1a9ca1
+  sha256: 691ea1df60be611b5307959c72769f64fd334609bc811d41bc74cbfd598e9a18
   files:
   - .github/workflows/android-candidate-request.yml
   - .github/workflows/android-quality-gate.yml
@@ -933,6 +985,7 @@ project_fingerprint:
   - apps/android/feature/content-management/src/test/java/cc/orbexa/hhy/contentmanagement/R12ContentManagementListStateTest.kt
   - config/android-automation.yaml
   - config/android-candidate-request.yaml
+  - docs/00-baseline/合伙云Pro_完整项目开发文档_V1.2.2_开发就绪版.md
   - docs/00-baseline/正式商业系统全局硬性开发边界.md
   - docs/03-continuity/PITFALLS.md
   - docs/03-continuity/PROBLEM_REGISTRY.yaml
@@ -945,6 +998,7 @@ project_fingerprint:
   - docs/03-continuity/change-requests/CR-0344-允许R12修复提交执行一次精确绑定的第四次Android候选.md
   - docs/03-continuity/change-requests/CR-0345-修复R12候选OIDC启动前提交目标夹具未确定性重建.md
   - docs/03-continuity/change-requests/CR-0346-加固滚动计划跨版本视觉债务与经验记录防漂移门禁.md
+  - docs/03-continuity/change-requests/CR-0347-纠正主开发文档定位指针并阻断事实源断链.md
   - docs/08-testing/Android自动开发测试修复交付体系_V1.0.md
   - docs/09-development/统一开发与交付效率规范.md
   - releases/PROGRAM_EXECUTION_PLAN.yaml
@@ -953,21 +1007,30 @@ project_fingerprint:
   - scripts/check_program_execution_plan.py
   - scripts/check_release_artifacts.py
   - scripts/check_ui_visual_acceptance.py
+  - scripts/check_v122_documentation.py
   - scripts/check_v123_continuity.py
+  - scripts/check_v123_documentation.py
   - scripts/generate_program_execution_plan.py
   - scripts/prepare_r12_ci_fixture.sh
   - scripts/run_android_emulator_gate.sh
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/CiAutomationFixtureStore.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/CiAutomationService.java
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/CiAutomationController.java
   - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/web/GlobalExceptionHandler.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/CiAutomationFixtureStorePostgresTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/CiAutomationServiceTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/CiAutomationControllerTest.java
   - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/web/GlobalExceptionHandlerTest.java
   - templates/AGENTS.md
   - tests/android/visual-manifests/R12.yaml
   - tests/test_android_candidate_request.py
   - tests/test_android_ci_gate.py
   - tests/test_context_pack_parallel_policy.py
+  - tests/test_documentation_baseline_version.py
   - tests/test_program_execution_plan.py
   - tests/test_r12_candidate.py
   - tests/test_release_close_gate.py
-  file_count: 49
+  file_count: 60
   payload:
     base_commit: 8b20e881c6a72fc1e1deb11e86f3212e36ea7941
     files:
@@ -977,16 +1040,16 @@ project_fingerprint:
       sha256: a97de688be10965fb7a9a13d8bf75f2b8e70090ee253eb77f26fa0530ab77625
     - path: .github/workflows/android-quality-gate.yml
       state: FILE
-      size: 14485
-      sha256: 549bd4d58d0508ece290e30892993bc89e3984a46fd6e259338620b3b654faea
+      size: 14525
+      sha256: c6b9ffeb8c23f6cd59767e1674adb7006d11d960055e267701d0e32c6dab5e81
     - path: AGENTS.md
       state: FILE
       size: 14707
       sha256: 306026d4706dfd3cae0a3db2b1c56e294700326bc3a13ca095c3987a267d390b
     - path: CHANGELOG.md
       state: FILE
-      size: 148354
-      sha256: 6a3462e438329a5684f76508733a37dafee149d9138c4c5fcbb975f23e1f0ec4
+      size: 149546
+      sha256: f3bd90c05498d79fe7950d664d94af07985f02e1e3bda053e52036893a069ccb
     - path: PROJECT_EXECUTION_PLAN.md
       state: FILE
       size: 939
@@ -1031,22 +1094,26 @@ project_fingerprint:
       state: FILE
       size: 590
       sha256: efe8c236c26352dbb5c096187db279db51f9404cb7d107c2b1b26239f7138334
+    - path: docs/00-baseline/合伙云Pro_完整项目开发文档_V1.2.2_开发就绪版.md
+      state: FILE
+      size: 203
+      sha256: 01b6879420f8c90617a1dc3bf45270f9605162765d96fba43d584de777076f0a
     - path: docs/00-baseline/正式商业系统全局硬性开发边界.md
       state: FILE
       size: 13487
       sha256: b1d965b019e632fbe1a259831201be7c82f79c26836fa161fd1d41855fcdb7c8
     - path: docs/03-continuity/PITFALLS.md
       state: FILE
-      size: 8593
-      sha256: 034bf5e2ee3ef1e818ffd6dc244135f46d19869a69a9d741c593b35866a224b3
+      size: 8948
+      sha256: a9d45b0ce3caef5b55f5f7f0d09639322dc27e1921100d5f0c4d1b76eb31f023
     - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
       state: FILE
-      size: 169890
-      sha256: c9ba3bf30f0a83b10222e140820f0d7b9af21f0cc4c85e2a725c24b57698d359
+      size: 173596
+      sha256: 60fa2ffbac41237603cf4b928c551fb86c7027096812679a21a5b6fbc7bef1b1
     - path: docs/03-continuity/REUSABLE_PATTERNS.md
       state: FILE
-      size: 3931
-      sha256: a5f963015203b94f819790709ff1cb00d00b4b495533fc5d655e1f3070ad5b90
+      size: 4093
+      sha256: 7e8266b1dae3a5741143faea682db8a0dd3cf0a382afe5ff05a27a06cad041f2
     - path: docs/03-continuity/change-requests/CR-0339-补齐R12统一发布Android最终候选与产物追溯.md
       state: FILE
       size: 4099
@@ -1073,16 +1140,20 @@ project_fingerprint:
       sha256: 97ccef4ae91f005ebd0d114e5e4863c27599884b02f7ea00f434048b2717a593
     - path: docs/03-continuity/change-requests/CR-0345-修复R12候选OIDC启动前提交目标夹具未确定性重建.md
       state: FILE
-      size: 4362
-      sha256: 1248359703e12f290d8f2857c589f720553cc151d7177f5c4474d4ade45196c4
+      size: 4936
+      sha256: e69e5b86b5ce37dc5a496ed72124412c9aef2d43ff34fba14f9208170b2411f7
     - path: docs/03-continuity/change-requests/CR-0346-加固滚动计划跨版本视觉债务与经验记录防漂移门禁.md
       state: FILE
-      size: 5089
-      sha256: a985b1626edb83550e84017eb876264f5294ed273db5fc34ad4d322f5382cf61
+      size: 5368
+      sha256: bc35d37f653c32794888f93609b47ab7250e75ddb9c94937001d2a587bdccc65
+    - path: docs/03-continuity/change-requests/CR-0347-纠正主开发文档定位指针并阻断事实源断链.md
+      state: FILE
+      size: 3382
+      sha256: f3f4d8cb82e71f04747c124c8014258cb355ee78a13a6ae956ebe32423df8003
     - path: docs/08-testing/Android自动开发测试修复交付体系_V1.0.md
       state: FILE
-      size: 9914
-      sha256: d54f8a8a361a4a6263121e25664ace0e8e36e6496021b69d0d5333f9765a6762
+      size: 11003
+      sha256: 65393f72629deafb49abdfa7e521af79b36936d6a6f90d9d02a337193f5c6361
     - path: docs/09-development/统一开发与交付效率规范.md
       state: FILE
       size: 17399
@@ -1111,10 +1182,18 @@ project_fingerprint:
       state: FILE
       size: 13330
       sha256: 2909ca67a0048b4bf0f00b3a118504cde4be10ae69b5718317ad5b6569faae39
+    - path: scripts/check_v122_documentation.py
+      state: FILE
+      size: 15859
+      sha256: 584b4736d3b72433b3d09cb207ffd9733b888caff657948fcbc60171cb38c17c
     - path: scripts/check_v123_continuity.py
       state: FILE
       size: 40763
       sha256: e19804b3aea98d3db61b593503f87ce59e29680e6f7b3d8a03b4686fd0101b8e
+    - path: scripts/check_v123_documentation.py
+      state: FILE
+      size: 16053
+      sha256: ed833f2046543c6556d77aca84d5f1bb7875da09c6790d31e28467abfd4fd62f
     - path: scripts/generate_program_execution_plan.py
       state: FILE
       size: 17128
@@ -1127,10 +1206,34 @@ project_fingerprint:
       state: FILE
       size: 2853
       sha256: b982ca0944f865b6d5b576636d454ed59a2e19ff1da586d79267a9eee86670bc
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/user/CiAutomationFixtureStore.java
+      state: FILE
+      size: 10380
+      sha256: ccc3b6838dd42260835c55c4a2f67851a9f61bdbb7e75616c2117ac378d3133d
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/user/CiAutomationService.java
+      state: FILE
+      size: 5967
+      sha256: cbc84b1a64d5ce53dc4133f03a49f0dcf4c63ae15bac52f52c9ee5acdfd55fd8
+    - path: services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/CiAutomationController.java
+      state: FILE
+      size: 3494
+      sha256: 016278ae56999444401e4a1dc2c131d853dd783f774a672141f40c05c918e687
     - path: services/backend/boot/src/main/java/cc/orbexa/hhy/boot/web/GlobalExceptionHandler.java
       state: FILE
       size: 4776
       sha256: 9b8fc37b04ccd7261922303a95f4feed4cd71d1e6614189c6e37690ecd3ad14f
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/CiAutomationFixtureStorePostgresTest.java
+      state: FILE
+      size: 13946
+      sha256: 21e38f68507fbf752053252dadc00917cc68ac8fe20e8e855cefe630f1ba9dba
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/CiAutomationServiceTest.java
+      state: FILE
+      size: 8206
+      sha256: d18504ecbf7cc09938f53c3eee9e2e61f053d94bcb04f0a416f0a5083f2cfc93
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/CiAutomationControllerTest.java
+      state: FILE
+      size: 3333
+      sha256: 6bb893adbc66e3f6b10331bbdf2e01dc400ac7c4fcac9b0cc13ffa57c10a7346
     - path: services/backend/boot/src/test/java/cc/orbexa/hhy/boot/web/GlobalExceptionHandlerTest.java
       state: FILE
       size: 3692
@@ -1155,14 +1258,18 @@ project_fingerprint:
       state: FILE
       size: 11081
       sha256: ebc8d60814e9759270e465bb037b8cfb0a8ff5590b7f9ad935ecb733ba198e6c
+    - path: tests/test_documentation_baseline_version.py
+      state: FILE
+      size: 3880
+      sha256: 5c94cede2912c001ddb20024166d41e34fb1a44b18bf43ec306a6f0b8578c9ed
     - path: tests/test_program_execution_plan.py
       state: FILE
       size: 4222
       sha256: daeb57fa4d2cf309644acbcc38a39d31797ce68788e4539f98a2409ac51c71cd
     - path: tests/test_r12_candidate.py
       state: FILE
-      size: 8859
-      sha256: ecb048bee9a5b2bd4c0b22ec47cbd4d5803f9224e74eecfa0ae74647fd27b648
+      size: 10634
+      sha256: 2e103a5b48c27a8449fbcc50a05bef55f7f87f257105689a5da0bfa69796bea9
     - path: tests/test_release_close_gate.py
       state: FILE
       size: 24775
@@ -2667,8 +2774,8 @@ continuity_state:
   last_session_id: SES-20260725T180922Z-D7231210
   last_session_result: COMPLETED
   last_closure_checkpoint_id: CP-SES-20260725T180922Z-D7231210-0008
-  event_count: 3382
-  event_head_hash: 4100cac49db058054bd15f40a4ec82a3daa54491f25f1de54a34cf3a613c528f
+  event_count: 3392
+  event_head_hash: bb2ea02799f7d39bf7af5a4245674f39a6c3237f1ceb9f4d7b830e9361747dcd
   event_chain_valid: true
 recent_sessions:
 - session_id: SES-20260724T032308Z-98D6D10A
@@ -2787,9 +2894,9 @@ recent_sessions:
   started_at: '2026-07-25T19:20:48Z'
   record: .continuity/sessions/SES-20260725T192048Z-668BD05D.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260725T192048Z-668BD05D.md
-  updated_at: '2026-07-26T02:22:50Z'
+  updated_at: '2026-07-26T03:10:14Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260725T192048Z-668BD05D/0016.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260725T192048Z-668BD05D/0018.yaml
   handoff_bundle: null
 task_claims:
 - claim_id: CLM-9F0481F9E6A2
@@ -11972,9 +12079,9 @@ open_change_requests:
 - protocol_version: '1.0'
   cr_id: CR-0345
   title: 修复R12候选OIDC启动前提交目标夹具未确定性重建
-  status: APPROVED
+  status: IMPLEMENTED
   created_at: '2026-07-26T00:05:01Z'
-  updated_at: '2026-07-26T01:19:49Z'
+  updated_at: '2026-07-26T02:56:53Z'
   requester_actor_id: codex-root-r12-candidate-20260726
   approver_actor_id: codex-carson-r12-android-review-20260726
   task_id: TASK-R12-007
@@ -12018,12 +12125,25 @@ open_change_requests:
     note: 独立复核确认OIDC验证后、发码前的Staging事务夹具准备可直接修复缺失草稿根因；实施必须使用PostgreSQL跨实例事务锁，固定标题恰好一个DRAFT，归一化version0且不复制审核历史，完整性/并发/无效Release/非R12/OIDC失败/夹具回滚均有回归。CR-0345不授权重跑候选。
   machine_record: .continuity/change_requests/CR-0345.yaml
   document: docs/03-continuity/change-requests/CR-0345-修复R12候选OIDC启动前提交目标夹具未确定性重建.md
+  decision_log:
+  - at: '2026-07-26T02:34:15Z'
+    actor_id: codex-root-r12-candidate-20260726
+    status: IMPLEMENTING
+    note: 开始实现OIDC验证后同事务R12草稿准备、Release透传与完整负向回归
+    session_id: SES-20260725T192048Z-668BD05D
+  - at: '2026-07-26T02:56:53Z'
+    actor_id: codex-root-r12-candidate-20260726
+    status: IMPLEMENTED
+    note: Release透传、OIDC后同事务R12草稿重建已实现；Java21九项、PostgreSQL17五项、Python二十九项与严格R12文档PASS，未重跑候选
+    session_id: SES-20260725T192048Z-668BD05D
+  session_ids:
+  - SES-20260725T192048Z-668BD05D
 - protocol_version: '1.0'
   cr_id: CR-0346
   title: 加固滚动计划跨版本视觉债务与经验记录防漂移门禁
-  status: IMPLEMENTING
+  status: IMPLEMENTED
   created_at: '2026-07-26T01:30:01Z'
-  updated_at: '2026-07-26T02:11:14Z'
+  updated_at: '2026-07-26T02:56:48Z'
   requester_actor_id: codex-root-r12-candidate-20260726
   approver_actor_id: project-owner
   task_id: TASK-R12-007
@@ -12084,6 +12204,65 @@ open_change_requests:
     status: IMPLEMENTING
     note: 规则、动态计划、累计视觉关闭、六项治理审计和经验结构门禁已实施；轻量单测与连续性全生命周期PASS，等待检查点和严格Doctor。
     session_id: SES-20260725T192048Z-668BD05D
+  - at: '2026-07-26T02:56:48Z'
+    actor_id: codex-root-r12-candidate-20260726
+    status: IMPLEMENTED
+    note: 全局六项审计与动态计划、累计视觉和经验结构门禁已提交并推送，全部治理回归PASS
+    session_id: SES-20260725T192048Z-668BD05D
+  session_ids:
+  - SES-20260725T192048Z-668BD05D
+  implementation_commits:
+  - 761dafb684be5aadffa42a29bed835e0904dd98a
+- protocol_version: '1.0'
+  cr_id: CR-0347
+  title: 纠正主开发文档定位指针并阻断事实源断链
+  status: IMPLEMENTING
+  created_at: '2026-07-26T03:03:29Z'
+  updated_at: '2026-07-26T03:08:19Z'
+  requester_actor_id: codex-root-r12-candidate-20260726
+  approver_actor_id: project-owner
+  task_id: TASK-R12-007
+  session_id: SES-20260725T192048Z-668BD05D
+  user_request: 项目所有者要求全局检查开发文档、硬门禁、开发进度、优点复用和踩坑记录，发现漂移立即原位加固。
+  reason: docs/00-baseline中的现有定位指针仍引用仓库不存在的旧开发就绪版文件名，而SOURCE_OF_TRUTH与文档门禁使用页面与运营规格冻结版；当前严格文档门禁未检查该指针，跨AI接手存在断链风险。
+  original_rule: SOURCE_OF_TRUTH已将根目录页面与运营规格冻结版列为产品业务权威主文档，docs/00-baseline内定位文件仅应指向该唯一事实源，派生指针不得形成第二套规则。
+  new_rule: 原位纠正既有定位文件，使其精确指向根目录合伙云Pro_完整项目开发文档_V1.2.2_页面与运营规格冻结版.md；V1.2.2与V1.2.3严格文档门禁同时验证定位文件存在、目标存在及文件名完全一致，防止跨AI接手断链。PATTERN-CONTINUITY-001和既有踩坑记录只补充可复用经验，不建立平行硬规则。
+  impact_summary: 消除一个已确认的主开发文档断链；不改变任何产品功能、页面、API、数据库、版本归属或当前R12实现，只加固现有事实源定位和严格文档回归。
+  impact:
+    files:
+    - docs/00-baseline/合伙云Pro_完整项目开发文档_V1.2.2_开发就绪版.md
+    - scripts/check_v122_documentation.py
+    - scripts/check_v123_documentation.py
+    - tests/test_documentation_baseline_version.py
+    - docs/03-continuity/PROBLEM_REGISTRY.yaml
+    - docs/03-continuity/REUSABLE_PATTERNS.md
+    - docs/03-continuity/PITFALLS.md
+    - CHANGELOG.md
+    pages: []
+    apis: []
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - python -m unittest -v tests.test_documentation_baseline_version
+    - python scripts/check_v123_documentation.py --strict --release R12
+    - python scripts/check_v123_continuity.py --strict --release R12
+    releases:
+    - R12
+    migration_and_compatibility: 纯文档定位与门禁修复；旧书签应改用现有根目录页面与运营规格冻结版。现有主文档内容和全部机器目录不迁移。
+  user_confirmation: 项目所有者要求全局检查并在发现漂移时立即加固优化相关规则。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-26T03:05:01Z'
+    note: 项目所有者本轮已明确授权发现漂移后立即原位加固；本CR只纠正既有唯一事实源指针并补严格回归，不新增同义规则。
+  machine_record: .continuity/change_requests/CR-0347.yaml
+  document: docs/03-continuity/change-requests/CR-0347-纠正主开发文档定位指针并阻断事实源断链.md
+  decision_log:
+  - at: '2026-07-26T03:08:19Z'
+    actor_id: codex-root-r12-candidate-20260726
+    status: IMPLEMENTING
+    note: 主开发文档定位已原位纠正；V1.2.2/V1.2.3指针回归5项与严格R12文档合同PASS，等待统一检查点、严格Doctor和提交。
+    session_id: SES-20260725T192048Z-668BD05D
   session_ids:
   - SES-20260725T192048Z-668BD05D
 source_manifest:
@@ -12094,7 +12273,7 @@ source_manifest:
   sha256: 22de14029ce47beb41ea569e36ce223fbc9d11b86f8676f28d5fbbd83896af5c
   bytes: 4556
 - path: CURRENT_STATUS.yaml
-  sha256: fd9d57d2ec287f6a82cf114ce5a5f306eda7b1be62defaab1e5d9fe0b6528cbb
+  sha256: f3bc2f5a7aba8cc1cab4d2f6635004c7a6a68ff91e6884125d0f7736b484d57c
   bytes: 4480
 - path: NEXT_TASK.yaml
   sha256: 1f03675aa74266e5c95220a1296010172ca5527e763602ee4ef876d1001f9507
@@ -12106,14 +12285,14 @@ source_manifest:
   sha256: 045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511
   bytes: 1442
 - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
-  sha256: c9ba3bf30f0a83b10222e140820f0d7b9af21f0cc4c85e2a725c24b57698d359
-  bytes: 169890
+  sha256: 60fa2ffbac41237603cf4b928c551fb86c7027096812679a21a5b6fbc7bef1b1
+  bytes: 173596
 - path: docs/03-continuity/REUSABLE_PATTERNS.md
-  sha256: a5f963015203b94f819790709ff1cb00d00b4b495533fc5d655e1f3070ad5b90
-  bytes: 3931
+  sha256: 7e8266b1dae3a5741143faea682db8a0dd3cf0a382afe5ff05a27a06cad041f2
+  bytes: 4093
 - path: docs/03-continuity/PITFALLS.md
-  sha256: 034bf5e2ee3ef1e818ffd6dc244135f46d19869a69a9d741c593b35866a224b3
-  bytes: 8593
+  sha256: a9d45b0ce3caef5b55f5f7f0d09639322dc27e1921100d5f0c4d1b76eb31f023
+  bytes: 8948
 - path: releases/PROGRAM_EXECUTION_PLAN.yaml
   sha256: 542911104a0feb22d6d37ef92448bfc1b140b2f07d9fbf861440642f7f3d29d9
   bytes: 36456
@@ -12127,10 +12306,10 @@ source_manifest:
   sha256: 38e04ed812c8df0d353c2b91993d31e53b471e9c457f06b426bd2260c470aa92
   bytes: 13936
 - path: .continuity/EVENT_LOG.jsonl
-  sha256: dbb0204f204e1ebb12c436055da19607ac0da6c42a7ff46c1e9f602c90f83bd8
-  bytes: 1910849
+  sha256: 8d69c5d05d0a879ed30af1864fb5b5311be0b56f6053064a8efd07fa29cd6215
+  bytes: 1916549
 - path: .continuity/SESSION_INDEX.yaml
-  sha256: 6a468794110bd9076f53e1c13fe6d3735311108c7d4c455db617580dfd46b36e
+  sha256: 06ccccf8ec87cf24cc471cc55fc0fd6f4ad7773688d082f8ee3e6853a1fd3392
   bytes: 54867
 - path: .continuity/TASK_CLAIMS.yaml
   sha256: 5948f9d27d01996570044a191a32d7a1803736d6fe2c1c0d1a4a0e16d8716541
@@ -12139,10 +12318,10 @@ source_manifest:
   sha256: 07c10f929db719a9014aa25face3c259d96dc1793f448f33dc3012b4d5babdc4
   bytes: 31229
 - path: .continuity/CHANGE_REQUEST_INDEX.yaml
-  sha256: d89fff6520113483458a39c771e9cc7b776db8b480da2514366d47ac4dd68e65
-  bytes: 1193194
+  sha256: 82ef8fa8874723fe65a612d77b7d8adc8d8e0bf40a07380f4dac464697263ed7
+  bytes: 1197561
 - path: .continuity/ACTIVE_SESSION.yaml
-  sha256: a792dd6ff472df1cbd788813442c798f26de3f58b04bfbb93cd5aa50d12e2a6c
+  sha256: d1ceb17b591216ef85ecb2357cbfcde9f3957abbdd8d8aedb96239083bbb2f51
   bytes: 548
 - path: docs/00-baseline/正式商业系统全局硬性开发边界.md
   sha256: b1d965b019e632fbe1a259831201be7c82f79c26836fa161fd1d41855fcdb7c8
@@ -12175,11 +12354,11 @@ source_manifest:
   sha256: 2ddbee414a51a868b63331992e2e04c5400846cf6012474aab406e067e532e98
   bytes: 2797
 - path: docs/03-continuity/sessions/2026-07/SES-20260725T192048Z-668BD05D.md
-  sha256: 88f1bb678725c67cc84b990b05541eb257c40a4f618bb17b2536ce8e025315f0
-  bytes: 43934
-- path: .continuity/checkpoints/SES-20260725T192048Z-668BD05D/0016.yaml
-  sha256: 86a43f2f4088e4cfe1254d40dda71bc01a9fd521263d98aef85aebf495b58e3e
-  bytes: 23784
+  sha256: 70c5b38d5c46ec3216b27555688f166687c6d731f599b3501af0b4961f8f5bed
+  bytes: 54364
+- path: .continuity/checkpoints/SES-20260725T192048Z-668BD05D/0018.yaml
+  sha256: db23b80625c6fa2d85e4e17d59c2e49b924c394c377809bf2f9b1cff50b65c9d
+  bytes: 28312
 - path: docs/03-continuity/change-requests/CR-0339-补齐R12统一发布Android最终候选与产物追溯.md
   sha256: 6d0cfb4e067edebc263badbf91bd560127467ff7ee4dd6c5f9cef82baee002d7
   bytes: 4099
@@ -12199,11 +12378,14 @@ source_manifest:
   sha256: 97ccef4ae91f005ebd0d114e5e4863c27599884b02f7ea00f434048b2717a593
   bytes: 4700
 - path: docs/03-continuity/change-requests/CR-0345-修复R12候选OIDC启动前提交目标夹具未确定性重建.md
-  sha256: 1248359703e12f290d8f2857c589f720553cc151d7177f5c4474d4ade45196c4
-  bytes: 4362
+  sha256: e69e5b86b5ce37dc5a496ed72124412c9aef2d43ff34fba14f9208170b2411f7
+  bytes: 4936
 - path: docs/03-continuity/change-requests/CR-0346-加固滚动计划跨版本视觉债务与经验记录防漂移门禁.md
-  sha256: a985b1626edb83550e84017eb876264f5294ed273db5fc34ad4d322f5382cf61
-  bytes: 5089
+  sha256: bc35d37f653c32794888f93609b47ab7250e75ddb9c94937001d2a587bdccc65
+  bytes: 5368
+- path: docs/03-continuity/change-requests/CR-0347-纠正主开发文档定位指针并阻断事实源断链.md
+  sha256: f3f4d8cb82e71f04747c124c8014258cb355ee78a13a6ae956ebe32423df8003
+  bytes: 3382
 rule_readiness:
   status: PASS
   evidence: HASHED_CONTEXT_MANIFEST
@@ -12239,4 +12421,4 @@ hard_rules:
 - 除非项目所有者明确报告未连接，默认Codex已连接obx-test且既有项目环境可用；预检失败必须阻断并报告
 - 禁止以无服务器状态继续开发或重建本地Android SDK，必须复用登记的远端镜像和Gradle缓存
 - Git remote/upstream仅按tracked transport descriptor受控恢复；推送前必须预检且禁止force push
-context_hash: 72cc8be59509866ac9466007f56b573d651fec65e0c15001f08e6b5681f4502c
+context_hash: 27df04b87fc7a3ae6b4291d335a4490d848c8e332e1208bc61245a2f072e54cc

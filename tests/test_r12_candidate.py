@@ -12,6 +12,10 @@ BUILD = ROOT / "apps/android/app/build.gradle.kts"
 RELEASE_POLICY = ROOT / "apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt"
 VERSION_TEST = ROOT / "apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt"
 REQUEST = ROOT / "config/android-candidate-request.yaml"
+WORKFLOW = ROOT / ".github/workflows/android-quality-gate.yml"
+CI_SERVICE = ROOT / "services/backend/access/src/main/java/cc/orbexa/hhy/access/user/CiAutomationService.java"
+CI_FIXTURE_STORE = ROOT / "services/backend/access/src/main/java/cc/orbexa/hhy/access/user/CiAutomationFixtureStore.java"
+CI_CONTROLLER = ROOT / "services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/CiAutomationController.java"
 
 
 class R12CandidateTest(unittest.TestCase):
@@ -90,6 +94,28 @@ class R12CandidateTest(unittest.TestCase):
         self.assertNotIn("environment='PROD'", self.fixture)
         self.assertEqual(1, self.fixture.count("'official','STAGING'"))
         self.assertIn("count(DISTINCT release.id)=1", self.fixture)
+
+    def test_oidc_bootstrap_rebuilds_consumable_r12_target_before_issuing_code(self) -> None:
+        workflow = WORKFLOW.read_text(encoding="utf-8")
+        service = CI_SERVICE.read_text(encoding="utf-8")
+        fixture_store = CI_FIXTURE_STORE.read_text(encoding="utf-8")
+        controller = CI_CONTROLLER.read_text(encoding="utf-8")
+
+        self.assertIn('"release":os.environ["ANDROID_RELEASE"]', workflow)
+        self.assertIn("body.release()", controller)
+        self.assertIn("prepareR12SubmitTarget(user.id())", service)
+        self.assertLess(service.index("prepareR12SubmitTarget(user.id())"), service.index("store.create("))
+        self.assertIn("pg_advisory_xact_lock", fixture_store)
+        self.assertIn("R12候选发布预览项目", fixture_store)
+        self.assertIn("'DRAFT',NULL,0,0", fixture_store)
+        self.assertIn("version_no,snapshot_json,created_by", fixture_store)
+        self.assertIn("content_stats", fixture_store)
+        self.assertIn("content_media", fixture_store)
+        self.assertIn("media.status='READY'", fixture_store)
+        self.assertIn("duplicate active submit targets", fixture_store)
+        self.assertIn("Banned R12 candidate submit target", fixture_store)
+        self.assertNotIn("INSERT INTO hhy.content_review_records", fixture_store)
+        self.assertIn('if ("R12".equals(release))', service)
 
     def test_journey_captures_the_exact_ten_r12_android_pages(self) -> None:
         expected = (

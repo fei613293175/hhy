@@ -21245,9 +21245,9 @@ change_requests:
 - protocol_version: '1.0'
   cr_id: CR-0345
   title: 修复R12候选OIDC启动前提交目标夹具未确定性重建
-  status: APPROVED
+  status: IMPLEMENTED
   created_at: '2026-07-26T00:05:01Z'
-  updated_at: '2026-07-26T01:19:49Z'
+  updated_at: '2026-07-26T02:56:53Z'
   requester_actor_id: codex-root-r12-candidate-20260726
   approver_actor_id: codex-carson-r12-android-review-20260726
   task_id: TASK-R12-007
@@ -21291,12 +21291,25 @@ change_requests:
     note: 独立复核确认OIDC验证后、发码前的Staging事务夹具准备可直接修复缺失草稿根因；实施必须使用PostgreSQL跨实例事务锁，固定标题恰好一个DRAFT，归一化version0且不复制审核历史，完整性/并发/无效Release/非R12/OIDC失败/夹具回滚均有回归。CR-0345不授权重跑候选。
   machine_record: .continuity/change_requests/CR-0345.yaml
   document: docs/03-continuity/change-requests/CR-0345-修复R12候选OIDC启动前提交目标夹具未确定性重建.md
+  decision_log:
+  - at: '2026-07-26T02:34:15Z'
+    actor_id: codex-root-r12-candidate-20260726
+    status: IMPLEMENTING
+    note: 开始实现OIDC验证后同事务R12草稿准备、Release透传与完整负向回归
+    session_id: SES-20260725T192048Z-668BD05D
+  - at: '2026-07-26T02:56:53Z'
+    actor_id: codex-root-r12-candidate-20260726
+    status: IMPLEMENTED
+    note: Release透传、OIDC后同事务R12草稿重建已实现；Java21九项、PostgreSQL17五项、Python二十九项与严格R12文档PASS，未重跑候选
+    session_id: SES-20260725T192048Z-668BD05D
+  session_ids:
+  - SES-20260725T192048Z-668BD05D
 - protocol_version: '1.0'
   cr_id: CR-0346
   title: 加固滚动计划跨版本视觉债务与经验记录防漂移门禁
-  status: IMPLEMENTING
+  status: IMPLEMENTED
   created_at: '2026-07-26T01:30:01Z'
-  updated_at: '2026-07-26T02:11:14Z'
+  updated_at: '2026-07-26T02:56:48Z'
   requester_actor_id: codex-root-r12-candidate-20260726
   approver_actor_id: project-owner
   task_id: TASK-R12-007
@@ -21356,6 +21369,65 @@ change_requests:
     actor_id: codex-root-r12-candidate-20260726
     status: IMPLEMENTING
     note: 规则、动态计划、累计视觉关闭、六项治理审计和经验结构门禁已实施；轻量单测与连续性全生命周期PASS，等待检查点和严格Doctor。
+    session_id: SES-20260725T192048Z-668BD05D
+  - at: '2026-07-26T02:56:48Z'
+    actor_id: codex-root-r12-candidate-20260726
+    status: IMPLEMENTED
+    note: 全局六项审计与动态计划、累计视觉和经验结构门禁已提交并推送，全部治理回归PASS
+    session_id: SES-20260725T192048Z-668BD05D
+  session_ids:
+  - SES-20260725T192048Z-668BD05D
+  implementation_commits:
+  - 761dafb684be5aadffa42a29bed835e0904dd98a
+- protocol_version: '1.0'
+  cr_id: CR-0347
+  title: 纠正主开发文档定位指针并阻断事实源断链
+  status: IMPLEMENTING
+  created_at: '2026-07-26T03:03:29Z'
+  updated_at: '2026-07-26T03:08:19Z'
+  requester_actor_id: codex-root-r12-candidate-20260726
+  approver_actor_id: project-owner
+  task_id: TASK-R12-007
+  session_id: SES-20260725T192048Z-668BD05D
+  user_request: 项目所有者要求全局检查开发文档、硬门禁、开发进度、优点复用和踩坑记录，发现漂移立即原位加固。
+  reason: docs/00-baseline中的现有定位指针仍引用仓库不存在的旧开发就绪版文件名，而SOURCE_OF_TRUTH与文档门禁使用页面与运营规格冻结版；当前严格文档门禁未检查该指针，跨AI接手存在断链风险。
+  original_rule: SOURCE_OF_TRUTH已将根目录页面与运营规格冻结版列为产品业务权威主文档，docs/00-baseline内定位文件仅应指向该唯一事实源，派生指针不得形成第二套规则。
+  new_rule: 原位纠正既有定位文件，使其精确指向根目录合伙云Pro_完整项目开发文档_V1.2.2_页面与运营规格冻结版.md；V1.2.2与V1.2.3严格文档门禁同时验证定位文件存在、目标存在及文件名完全一致，防止跨AI接手断链。PATTERN-CONTINUITY-001和既有踩坑记录只补充可复用经验，不建立平行硬规则。
+  impact_summary: 消除一个已确认的主开发文档断链；不改变任何产品功能、页面、API、数据库、版本归属或当前R12实现，只加固现有事实源定位和严格文档回归。
+  impact:
+    files:
+    - docs/00-baseline/合伙云Pro_完整项目开发文档_V1.2.2_开发就绪版.md
+    - scripts/check_v122_documentation.py
+    - scripts/check_v123_documentation.py
+    - tests/test_documentation_baseline_version.py
+    - docs/03-continuity/PROBLEM_REGISTRY.yaml
+    - docs/03-continuity/REUSABLE_PATTERNS.md
+    - docs/03-continuity/PITFALLS.md
+    - CHANGELOG.md
+    pages: []
+    apis: []
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - python -m unittest -v tests.test_documentation_baseline_version
+    - python scripts/check_v123_documentation.py --strict --release R12
+    - python scripts/check_v123_continuity.py --strict --release R12
+    releases:
+    - R12
+    migration_and_compatibility: 纯文档定位与门禁修复；旧书签应改用现有根目录页面与运营规格冻结版。现有主文档内容和全部机器目录不迁移。
+  user_confirmation: 项目所有者要求全局检查并在发现漂移时立即加固优化相关规则。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-26T03:05:01Z'
+    note: 项目所有者本轮已明确授权发现漂移后立即原位加固；本CR只纠正既有唯一事实源指针并补严格回归，不新增同义规则。
+  machine_record: .continuity/change_requests/CR-0347.yaml
+  document: docs/03-continuity/change-requests/CR-0347-纠正主开发文档定位指针并阻断事实源断链.md
+  decision_log:
+  - at: '2026-07-26T03:08:19Z'
+    actor_id: codex-root-r12-candidate-20260726
+    status: IMPLEMENTING
+    note: 主开发文档定位已原位纠正；V1.2.2/V1.2.3指针回归5项与严格R12文档合同PASS，等待统一检查点、严格Doctor和提交。
     session_id: SES-20260725T192048Z-668BD05D
   session_ids:
   - SES-20260725T192048Z-668BD05D

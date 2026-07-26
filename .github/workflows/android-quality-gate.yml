@@ -244,7 +244,7 @@ jobs:
             --header "Authorization: bearer ${ACTIONS_ID_TOKEN_REQUEST_TOKEN}" \
             "${ACTIONS_ID_TOKEN_REQUEST_URL}&audience=hhy-android-e2e")"
           oidc_token="$(python -c 'import json,sys; print(json.load(sys.stdin)["value"])' <<<"$oidc_response")"
-          bootstrap_payload="$(python -c 'import json,os; print(json.dumps({"commit":os.environ["GITHUB_SHA"],"runId":os.environ["GITHUB_RUN_ID"]}))')"
+          bootstrap_payload="$(python -c 'import json,os; print(json.dumps({"commit":os.environ["GITHUB_SHA"],"runId":os.environ["GITHUB_RUN_ID"],"release":os.environ["ANDROID_RELEASE"]}))')"
           bootstrap_response="$(curl --fail --silent --show-error \
             --header "Authorization: Bearer ${oidc_token}" \
             --header 'Content-Type: application/json' \

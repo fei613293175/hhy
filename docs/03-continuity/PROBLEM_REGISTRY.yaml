@@ -1631,3 +1631,32 @@ problems:
   - 不得只检查当前Release页面而忽略被后续CR重新打开的历史视觉债务
   - 经验文件进入哈希清单不等于内容可复用，必须校验编号、状态和闭环字段
   - 每个大版本不得在六项治理审计未绑定最终候选Commit时关闭或进入下一版
+- id: PROB-0118
+  title: R12候选真实提交消费唯一草稿后后续运行缺少提交目标
+  status: SOLVED
+  root_cause: R12专用夹具只在候选后端部署时执行一次，OIDC bootstrap仅验证GitHub身份并发放一次性登录码。attempt 4的真实旅程已把固定标题的唯一DRAFT提交为PENDING_REVIEW；后续候选即使认证成功也不会重建会被旅程消费的业务状态，因此草稿箱中确定性缺少R12提交目标。重复运行部署脚本或GitHub模拟器只能暂时碰运气，且不能证明跨实例并发、失败回滚和非R12隔离。
+  resolution: CR-0345让bootstrap显式携带Release，并在OIDC验证成功后、发码前的同一事务内执行R12专用准备器。准备器使用PostgreSQL事务级advisory lock，拒绝BANNED、重复DRAFT和不完整模板，回收非DRAFT旧目标，从已验证模板克隆项目详情、最新版本快照、统计和READY媒体，最终只保留一个version0且review_status为空的DRAFT，不复制审核记录；非法Release、非R12、OIDC失败和夹具异常均不得产生R12写入或登录码。
+  regression_checks:
+  - CiAutomationServiceTest必须证明R12先准备夹具再发码、非R12跳过准备、非法Release和夹具失败不创建登录码
+  - CiAutomationControllerTest必须证明OIDC失败不调用CiAutomationService，BootstrapRequest拒绝R01-R32以外的Release
+  - CiAutomationFixtureStorePostgresTest必须覆盖重复bootstrap幂等、跨事务并发恰好一个DRAFT、BANNED和重复DRAFT拒绝、模板缺失或不完整整事务回滚
+  - tests.test_r12_candidate必须锁定工作流Release透传、PostgreSQL事务锁、固定标题、完整子资源克隆和不复制审核历史
+  do_not_repeat:
+  - 会消费草稿或一次性状态的候选旅程不得把夹具准备限定为部署时一次性人工步骤
+  - 不得在OIDC验证前写入候选业务数据，也不得在夹具失败后继续发放登录码
+  - 跨实例候选准备不得只使用JVM锁或先查后写，必须使用同一数据库事务锁和最终唯一性断言
+  - 不得通过复用已消耗候选轮次验证修复；代码与模块门禁通过后仍需独立候选证据授权
+- id: PROB-0119
+  title: 主开发文档定位指针仍引用已不存在的旧文件名
+  status: SOLVED
+  root_cause: SOURCE_OF_TRUTH和严格文档合同已经使用根目录页面与运营规格冻结版，但docs/00-baseline下的开发就绪版定位文件仍保留同名旧目标；既有门禁只验证权威主文档存在和内容合同，没有验证面向新AI的导航指针能否解析，因此文档整体PASS仍可能在冷启动阅读路径中断链。
+  resolution: CR-0347原位纠正既有定位文件，使其唯一指向根目录合伙云Pro_完整项目开发文档_V1.2.2_页面与运营规格冻结版.md；V1.2.2和V1.2.3严格文档检查器共同验证指针存在、目标存在及反引号内唯一Markdown文件名精确一致，并把经验补入既有PATTERN-CONTINUITY-001和连续编号踩坑记录，不新增平行硬规则。
+  regression_checks:
+  - tests.test_documentation_baseline_version必须同时验证V1.2.2和V1.2.3检查器接受正确指针
+  - tests.test_documentation_baseline_version必须证明旧文件名或任意错误目标触发MAIN_DOC_POINTER_DRIFT
+  - python scripts/check_v123_documentation.py --strict --release R12
+  - python scripts/check_v123_continuity.py --strict --release R12
+  do_not_repeat:
+  - 不得只验证权威主文档存在而忽略面向接手者的定位文件
+  - 重命名或冻结主文档后必须同步更新既有指针和严格文档回归
+  - 不得为修复旧指针复制主文档或新建第二套事实源

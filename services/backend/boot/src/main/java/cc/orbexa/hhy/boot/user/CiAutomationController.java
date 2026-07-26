@@ -42,7 +42,7 @@ public class CiAutomationController {
             HttpServletRequest request) {
         if (!authorization.startsWith("Bearer ")) throw new IllegalArgumentException("Bearer token required");
         BootstrapCode code = service.issue(verifier.verify(
-                authorization.substring("Bearer ".length()), body.commit(), body.runId()));
+                authorization.substring("Bearer ".length()), body.commit(), body.runId()), body.release());
         return success(request, code);
     }
 
@@ -66,7 +66,8 @@ public class CiAutomationController {
 
     public record BootstrapRequest(
             @NotBlank @Pattern(regexp = "^[0-9a-f]{40}$") String commit,
-            @NotBlank @Pattern(regexp = "^[0-9]+$") @Size(max = 64) String runId) { }
+            @NotBlank @Pattern(regexp = "^[0-9]+$") @Size(max = 64) String runId,
+            @NotBlank @Pattern(regexp = "^R(?:0[1-9]|[12][0-9]|3[0-2])$") String release) { }
 
     public record SessionRequest(
             @NotBlank @Size(max = 128) String code,

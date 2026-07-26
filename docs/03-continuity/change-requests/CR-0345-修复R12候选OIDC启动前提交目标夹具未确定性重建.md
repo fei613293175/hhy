@@ -86,3 +86,17 @@ R12 attempt 4数据库证据显示候选真实提交已把唯一目标草稿变�
 - 决定：`APPROVED`
 - 时间：`2026-07-26T01:19:49Z`
 - 说明：独立复核确认OIDC验证后、发码前的Staging事务夹具准备可直接修复缺失草稿根因；实施必须使用PostgreSQL跨实例事务锁，固定标题恰好一个DRAFT，归一化version0且不复制审核历史，完整性/并发/无效Release/非R12/OIDC失败/夹具回滚均有回归。CR-0345不授权重跑候选。
+
+## 状态记录 · 2026-07-26T02:34:15Z
+
+- Actor：`codex-root-r12-candidate-20260726`
+- Status：`IMPLEMENTING`
+- Session：`SES-20260725T192048Z-668BD05D`
+- Note：开始实现OIDC验证后同事务R12草稿准备、Release透传与完整负向回归
+
+## 状态记录 · 2026-07-26T02:56:53Z
+
+- Actor：`codex-root-r12-candidate-20260726`
+- Status：`IMPLEMENTED`
+- Session：`SES-20260725T192048Z-668BD05D`
+- Note：Release透传、OIDC后同事务R12草稿重建已实现；Java21九项、PostgreSQL17五项、Python二十九项与严格R12文档PASS，未重跑候选
