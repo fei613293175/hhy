@@ -1708,3 +1708,13 @@
 - Actor：`codex-root-r12-observability-20260726`
 - 摘要：TASK-R12-006完成：七项发布Gauge、七条告警、V041隔离Staging、Trace日志脱敏、告警送达、Outbox合法终结、同库同卷回切、AC-R12-004与25项原始字节证据全部闭环
 - 记录：`docs/03-continuity/sessions/2026-07/SES-20260725T180922Z-D7231210.md`
+
+## TASK-R12-007 · COMPLETED · 2026-07-26T10:46:57Z
+
+- Task close: TASK-R12-007 / SES-20260725T192048Z-668BD05D
+- Release：`R12`
+- Story：`STORY-R12-008`
+- Actor：`codex-root-r12-candidate-20260726`
+- 摘要：TASK-R12-007完成：R12最终Android候选和轻量视觉基线晋升PASS；十页AI视觉审核、固定签名APK、生产API、四方SHA-256交付、桌面测试说明、六项验收与全局治理审计全部闭环，Owner真机反馈保持异步。
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260725T192048Z-668BD05D.md`
+

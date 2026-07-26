@@ -1,19 +1,19 @@
 {
   "version": "1.0",
-  "generated_at": "2026-07-26T10:44:46Z",
-  "context_hash": "7910e1912a12fbc11024a1ba781ccb994d1393795bdcb40f0e2ad0a6ed5eaa0b",
-  "fingerprint_mode": "SESSION_DELTA",
+  "generated_at": "2026-07-26T10:47:17Z",
+  "context_hash": "5be23e9e24366e77cb36a296815d47635cc142228e04b1855cb7094c7b210bde",
+  "fingerprint_mode": "REPOSITORY_TREE",
   "project_fingerprint": {
-    "sha256": "429d4566d5793045b9a626af631cf099ca56b03f7dbb1f89fda813a91a2610d2",
-    "file_count": 101
+    "sha256": "44586e342bcf4c7d8de3ea86034be550ed9a75af98303a25eac7fbe892acde8f",
+    "file_count": 0
   },
   "yaml": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.yaml",
-    "sha256": "f8a5aba9049ba4da467ca1ae4c7ecef0f6f857ec4d45d5718bcb4718cf7283c2"
+    "sha256": "66ccc000a649552a64890a14151bf2d2cbc2da2bed21bafba729b74d9dfd2ef0"
   },
   "markdown": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.md",
-    "sha256": "00270f8ea6d0566e78ee79f8f05c4573840acb28016798dfae0bd85acdadc4f1"
+    "sha256": "b287a1cf8e86cf090fb063a47743b36196058ed909360d3ff1f4f25fdb3c08c2"
   },
   "sources": [
     {
@@ -28,13 +28,13 @@
     },
     {
       "path": "CURRENT_STATUS.yaml",
-      "sha256": "26bf4732bd0df6c1112c3914e11368a8a1056eb7fda8e7e681cc55bc45d639be",
-      "bytes": 4480
+      "sha256": "385e3bf2d210ccb8b538161771abba129df23494ca60885e4d439a89a228bafa",
+      "bytes": 4334
     },
     {
       "path": "NEXT_TASK.yaml",
-      "sha256": "1f03675aa74266e5c95220a1296010172ca5527e763602ee4ef876d1001f9507",
-      "bytes": 1581
+      "sha256": "5f0f8bc27f38973a426f514c88990642c21be090ca586841808b559bddbf8347",
+      "bytes": 1530
     },
     {
       "path": "DEVELOPMENT_RISK_REGISTER.md",
@@ -83,18 +83,18 @@
     },
     {
       "path": ".continuity/EVENT_LOG.jsonl",
-      "sha256": "07f386737d5e807a4f0f3d1a7b2b94e7fdf911b318fc6048ffd3b50f26f1d84f",
-      "bytes": 1987753
+      "sha256": "a5c0a178e8f792ee84242fe28593cb2940b042ffde6d74ff16d11dc090430fbe",
+      "bytes": 1989576
     },
     {
       "path": ".continuity/SESSION_INDEX.yaml",
-      "sha256": "cc396595804298bdb78acab45f7b17ecc23c13c987fb309fae3a2d7ea37893a6",
-      "bytes": 54867
+      "sha256": "79e10db44cfcc715e9457497d94388342e595769636858cdc88066dd4a5542fe",
+      "bytes": 54885
     },
     {
       "path": ".continuity/TASK_CLAIMS.yaml",
-      "sha256": "5948f9d27d01996570044a191a32d7a1803736d6fe2c1c0d1a4a0e16d8716541",
-      "bytes": 77094
+      "sha256": "0351448ef317655635002ef1c66675bf3aa2810cf86f9976f1ac0bb554fe7998",
+      "bytes": 77130
     },
     {
       "path": ".continuity/TASK_TRANSITIONS.yaml",
@@ -108,8 +108,8 @@
     },
     {
       "path": ".continuity/ACTIVE_SESSION.yaml",
-      "sha256": "96d078ee9cb7bc75cf370288983a485e3310a5651289b663eb4091c14a46ff42",
-      "bytes": 548
+      "sha256": "837917ffdef397f377cd5e2ccd6504155c0f3caa6b742de7ad1cc13e051c7027",
+      "bytes": 143
     },
     {
       "path": "docs/00-baseline/正式商业系统全局硬性开发边界.md",
@@ -148,8 +148,8 @@
     },
     {
       "path": "releases/R12/TASKS.yaml",
-      "sha256": "1ca7b627e103e1f54f2eb87f7087d848465a3c351169d186172c9055c11da709",
-      "bytes": 5738
+      "sha256": "b801cdc9ed98fd85958ba4f19573d3c7bc6ab116aef5729e1a8ae20fa5683324",
+      "bytes": 5774
     },
     {
       "path": "releases/R12/ACCEPTANCE_MATRIX.csv",
@@ -160,131 +160,6 @@
       "path": "releases/R12/PARALLEL_EXECUTION_PLAN.yaml",
       "sha256": "2ddbee414a51a868b63331992e2e04c5400846cf6012474aab406e067e532e98",
       "bytes": 2797
-    },
-    {
-      "path": "docs/03-continuity/sessions/2026-07/SES-20260725T192048Z-668BD05D.md",
-      "sha256": "f9f7c613e040feee0833d01bba7d4abb42f878f8a9605bfc4463248283e81855",
-      "bytes": 248859
-    },
-    {
-      "path": ".continuity/checkpoints/SES-20260725T192048Z-668BD05D/0048.yaml",
-      "sha256": "06e4b582a21608c4d6696b836b562de89a1219865a96a70460ea2457bf5bf757",
-      "bytes": 42827
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0339-补齐R12统一发布Android最终候选与产物追溯.md",
-      "sha256": "6d0cfb4e067edebc263badbf91bd560127467ff7ee4dd6c5f9cef82baee002d7",
-      "bytes": 4099
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0340-修复R12候选OIDC异常日志重复requestId遮蔽.md",
-      "sha256": "e36ceb50b8f45a22fffdb20fc599d5972c184170c9619290706b6c40da8aad6f",
-      "bytes": 3643
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0341-补齐R12隔离候选official-STAGING版本发布夹具.md",
-      "sha256": "0a222e781daea9cabe11b525f5f3522803f4c4122908afe94b81fea167b26c0d",
-      "bytes": 4533
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0342-修复R12审核记录当前内容摘要与真实时间线缺失.md",
-      "sha256": "d6465ed9e89f5be88b134dab6237e9e659ab76ff50ebb97502a683992bc1c2ec",
-      "bytes": 3759
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0343-补齐R12内容管理审核身份解析的直接JSON依赖.md",
-      "sha256": "03b623d7f2e63aaec50fcb3e87312f4413637c2299b60765651087309c317bd0",
-      "bytes": 3175
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0344-允许R12修复提交执行一次精确绑定的第四次Android候选.md",
-      "sha256": "97ccef4ae91f005ebd0d114e5e4863c27599884b02f7ea00f434048b2717a593",
-      "bytes": 4700
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0345-修复R12候选OIDC启动前提交目标夹具未确定性重建.md",
-      "sha256": "e69e5b86b5ce37dc5a496ed72124412c9aef2d43ff34fba14f9208170b2411f7",
-      "bytes": 4936
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0346-加固滚动计划跨版本视觉债务与经验记录防漂移门禁.md",
-      "sha256": "bc35d37f653c32794888f93609b47ab7250e75ddb9c94937001d2a587bdccc65",
-      "bytes": 5368
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0347-纠正主开发文档定位指针并阻断事实源断链.md",
-      "sha256": "2918a0402447a5df0a2ccb4dc6d481bfc2445dbb16ec32920155a8e9ed006f61",
-      "bytes": 3679
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0348-修复R12普通CI历史候选断言与Wrapper执行位漂移.md",
-      "sha256": "169fd8b6b6c10c1b2375509bb214adbc0b6bfdde86181f24982920a4311b2d00",
-      "bytes": 3769
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0349-补齐候选与治理测试的普通CI影响映射.md",
-      "sha256": "b68424495050b93e5b74a5d759419962bbe7b4559e7bac9c5238930ddead4d57",
-      "bytes": 3826
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0350-同步R10已批准首页证据并关闭R06历史视觉债务.md",
-      "sha256": "e9da73363ec9929b8155d782b197778dd4eac2e131fbf57de52e854dc8ab47c2",
-      "bytes": 3810
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0351-为CR-0345候选前夹具修复授权一次R12第五次候选.md",
-      "sha256": "741cbc6812bbd479d08ce2e43d11f5f711533a56733d9552767f798533073477",
-      "bytes": 3835
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0352-连续精确例外验证并授权R12第五次候选.md",
-      "sha256": "33f75ecb710d3c0b2cb89b17f785f91a839e57fd456a04b73982a0f612718fe3",
-      "bytes": 3999
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0353-加固Android候选公网路由切换与前置启动码门禁.md",
-      "sha256": "ab9242a83605ecce2a29e0c0b9540ea6bb03c9925cccff98872c69b67c232d14",
-      "bytes": 4355
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0354-完整加固Android候选公网路由与前置启动码门禁.md",
-      "sha256": "362df3d88d099969334c524e7d88a6ded0fdf55d99d8ed2c61ca44e8b04f482d",
-      "bytes": 4918
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0355-精确授权R12第六次最终候选验证已修复公网路由.md",
-      "sha256": "c6a8f3a57ece0272a17f931ad4df59a757421550b3028e1d92021aeb36f3dee2",
-      "bytes": 4581
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0356-修复R12候选视觉缺陷与过渡帧误采集.md",
-      "sha256": "5a5ee13fd165a4cba223224d429d3418a19f73f114eeedfdbf27f90fd4b8ef3b",
-      "bytes": 5058
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0357-同步CR-0356截图稳定窗口全量回归断言.md",
-      "sha256": "4c19935eef02d437aa12c0558ad58ab75de01893b6b01c346aa31e0ee4c0e1f4",
-      "bytes": 3191
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0358-申请R12第七次单次最终候选验证视觉修复.md",
-      "sha256": "9c2bd4ff5b0f31f20ab776a3fea1072aec77d980a974c9b408d5c53b0fe2b8cf",
-      "bytes": 4538
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0359-批准并轻量晋升R12首版视觉基线.md",
-      "sha256": "aaee8c74ba4e8a783bd14af5a1454bd65ba852103d3f4d63d12c1b93bdb9111e",
-      "bytes": 3870
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0360-登记R12固定签名APK视觉通过与四方交付证据.md",
-      "sha256": "e5bb867fb79d9b32547df124f9cb485c965fabac851979470269aed84784fc5e",
-      "bytes": 4025
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0361-登记R12六项全局治理漂移审计.md",
-      "sha256": "21489fd84ae0a0492e83bcc19f6f00f6f1e6aeccd52851059fd93a739e58d644",
-      "bytes": 3322
     }
   ]
 }

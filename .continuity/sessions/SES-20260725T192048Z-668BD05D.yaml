@@ -1,7 +1,7 @@
 protocol_version: '1.0'
 package_version: 1.2.3
 session_id: SES-20260725T192048Z-668BD05D
-status: ACTIVE
+status: CLOSED
 actor:
   id: codex-root-r12-candidate-20260726
   kind: AI_OR_HUMAN
@@ -11,7 +11,7 @@ task_id: TASK-R12-007
 story_id: STORY-R12-008
 goal: 完成R12最终Android候选、真实模拟器截图AI验收、固定签名测试APK与桌面交付
 started_at: '2026-07-25T19:20:48Z'
-updated_at: '2026-07-26T10:44:49Z'
+updated_at: '2026-07-26T10:47:12Z'
 takeover_of: null
 change_requests:
 - CR-0339
@@ -153,22 +153,36 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-26T10:44:42Z'
-  expires_at: '2026-07-26T14:44:42Z'
-checkpoint_sequence: 48
-latest_checkpoint: .continuity/checkpoints/SES-20260725T192048Z-668BD05D/0048.yaml
+  renewed_at: '2026-07-26T10:47:04Z'
+  expires_at: '2026-07-26T14:47:04Z'
+checkpoint_sequence: 49
+latest_checkpoint: .continuity/checkpoints/SES-20260725T192048Z-668BD05D/0049.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260725T192048Z-668BD05D.md
-next_step: 关闭TASK-R12-007并把TASK-R12-008置为可执行状态，随后运行R12最终机器关闭门禁。
+next_step: 提交关闭元数据Commit，然后运行pre-push/CI门禁
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: 7910e1912a12fbc11024a1ba781ccb994d1393795bdcb40f0e2ad0a6ed5eaa0b
-  generated_at: '2026-07-26T10:44:46Z'
+  context_hash: 796c8846a17b65a3db5462d8914f9883be0267cee87f2b3cca77c3a3d9bffb4d
+  generated_at: '2026-07-26T10:47:09Z'
 handoff_bundle: null
-closure: null
+closure:
+  result: COMPLETED
+  summary: TASK-R12-007完成：R12最终Android候选和轻量视觉基线晋升PASS；十页AI视觉审核、固定签名APK、生产API、四方SHA-256交付、桌面测试说明、六项验收与全局治理审计全部闭环，Owner真机反馈保持异步。
+  code_commit: 47a4494dea729eda45cde6bb6bc144622c42745c
+  next_release: R12
+  next_task: TASK-R12-008
+  blocked_advance: false
+  completed_independent_advance: false
+  user_confirmation: null
+  metadata_commit: PENDING
+  push_verification: CI_REQUIRED_AFTER_METADATA_COMMIT
+  started_at: '2026-07-26T10:46:57Z'
+  closure_checkpoint_id: CP-SES-20260725T192048Z-668BD05D-0049
+  closed_at: '2026-07-26T10:47:12Z'
 parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
   reason: 任务关闭与下一任务激活修改同一连续性指针和R12状态机，必须串行。
+closed_at: '2026-07-26T10:47:12Z'
