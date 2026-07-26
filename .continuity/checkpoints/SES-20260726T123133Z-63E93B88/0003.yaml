@@ -1,0 +1,203 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260726T123133Z-63E93B88-0003
+session_id: SES-20260726T123133Z-63E93B88
+task_id: TASK-R13-003
+story_id: STORY-R13-003
+sequence: 3
+created_at: '2026-07-26T13:28:38Z'
+summary: CR-0367已绑定实现Commit be9a99d9并标记IMPLEMENTED；R13后端六operationId实现与验证证据已进入仓库
+next_step: 提交CR实现绑定元数据，运行push-preflight并推送实现与绑定Commit
+blockers: []
+decisions: []
+note: ''
+tests:
+- name: cr-0367-implementation-binding
+  result: PASS
+  evidence: .continuity/change_requests/CR-0367.yaml
+  note: implementation commit be9a99d9
+- name: implementation-commit-hooks
+  result: PASS
+  evidence: be9a99d9
+  note: pre-commit and commit-msg strict pass
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: be9a99d9fbfe08aad2b98c6cd189119392b8564e
+  upstream: origin/task/TASK-R03-001
+  ahead: 1
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/change_requests/CR-0367.yaml'
+  - ' M catalogs/change_request_index.csv'
+  - ' M catalogs/session_index.csv'
+  - ' M docs/03-continuity/change-requests/CR-0367-实现R13收藏历史分享与失效反馈后端接口.md'
+  recent_commits:
+  - "be9a99d9fbfe08aad2b98c6cd189119392b8564e\t2026-07-26T21:27:29+08:00\tHHY Continuity Bootstrap\t[STORY-R13-003] feat(content): implement R13\
+    \ activity APIs"
+  - "c5e4ce7c3139823291896f9d1b8a26df147cad74\t2026-07-26T20:29:44+08:00\tHHY Continuity Bootstrap\t[STORY-R13-003] chore(continuity): close TASK-R13-002\
+    \ as completed"
+  - "20a8deadda14b3d5034b7f0b015c235235b565d8\t2026-07-26T20:26:22+08:00\tHHY Continuity Bootstrap\t[STORY-R13-003] chore(continuity): bind R13\
+    \ activity CR"
+  - "6b1da3779106ae9db5f454511c365111d85a8d62\t2026-07-26T20:24:53+08:00\tHHY Continuity Bootstrap\t[STORY-R13-003] feat(database): enforce R13\
+    \ activity invariants"
+  - "aeda26ad525af23f5e26a855b78e03f7c412a5f9\t2026-07-26T19:35:50+08:00\tHHY Continuity Bootstrap\t[STORY-R13-001] chore(continuity): close TASK-R13-001\
+    \ as completed"
+  - "6d74ca24440daabb8a5abf4b34e0d5d52eb7e33d\t2026-07-26T19:33:35+08:00\tHHY Continuity Bootstrap\t[STORY-R13-001] chore(r13): bind entry implementation\
+    \ evidence"
+  - "29ad2bcc6c1dae68a42ea9147110dc4b9dd29745\t2026-07-26T19:29:21+08:00\tHHY Continuity Bootstrap\t[STORY-R13-001] docs(r13): establish implementation\
+    \ entry baseline"
+  - "84eadad25a10321462f42fa9b63d448073590cab\t2026-07-26T18:58:57+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] chore(continuity): close TASK-R12-008\
+    \ as completed"
+project_fingerprint:
+  sha256: 6bc1a5f0a7187bbd8f45fdbc8d1ad7f2aed6a3a809fda94055c81938daccf1c7
+  files:
+  - docs/03-continuity/change-requests/CR-0367-实现R13收藏历史分享与失效反馈后端接口.md
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/R13Controller.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/R13ControllerContractTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/ContentServiceTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R13PostgresStoreTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R13ServiceTest.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentPostgresStore.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentService.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentStore.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R13Contracts.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R13PostgresStore.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R13Service.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R13Store.java
+  file_count: 13
+  payload:
+    base_commit: c5e4ce7c3139823291896f9d1b8a26df147cad74
+    files:
+    - path: docs/03-continuity/change-requests/CR-0367-实现R13收藏历史分享与失效反馈后端接口.md
+      state: FILE
+      size: 4368
+      sha256: af7450da1597d31aabc212495c2e9df16044e5cf323b7c8978c214fab66477f1
+    - path: services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/R13Controller.java
+      state: FILE
+      size: 4737
+      sha256: 98af5c7331c140e9197718aef02f7c7d7f1afaf9c3f33530d358b2facd74d4f5
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/R13ControllerContractTest.java
+      state: FILE
+      size: 2760
+      sha256: eb0ec9271127bff69551ebc6fa1aa5ddb481f17aaf0ad8526dac63d7833778ba
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/content/ContentServiceTest.java
+      state: FILE
+      size: 13490
+      sha256: 9efcf6cdf7a3df06b95459f9d444ee4fe0475aef362c786508d57e38404845be
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/content/R13PostgresStoreTest.java
+      state: FILE
+      size: 6146
+      sha256: 64569b6bcd512d3b2ca854d0cba4b0acdf343c9333ad6eeadfed82cbf67d4c25
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/content/R13ServiceTest.java
+      state: FILE
+      size: 8681
+      sha256: 8ac48aa76e11d56856e8a61a8a6df1432ce9c47c3905932a077050ba981a9614
+    - path: services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentPostgresStore.java
+      state: FILE
+      size: 20718
+      sha256: 4705d7b073ed4d5ae2b3f9bdd6877243415169106a38a60e85b800c5c71df2f8
+    - path: services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentService.java
+      state: FILE
+      size: 27572
+      sha256: 941b86ecb9a1ea1cc1b7fe5d8194f8773335e3ba6345fb71bb3d3d3caf573e57
+    - path: services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentStore.java
+      state: FILE
+      size: 2883
+      sha256: 3cf3dcca10e53646c1a1235dffd4149ba29a03a824284fa3eb8d1cb8951ce68f
+    - path: services/backend/content/src/main/java/cc/orbexa/hhy/content/R13Contracts.java
+      state: FILE
+      size: 413
+      sha256: a3d4dfa94703b5c15055a0428164f1b172c0f5f75ed55029dd37b4ab9845dbcf
+    - path: services/backend/content/src/main/java/cc/orbexa/hhy/content/R13PostgresStore.java
+      state: FILE
+      size: 5522
+      sha256: 122f6845aa661ca31a0a30a98e56cbedb41a7256fc510f6b9c392fc541e081ca
+    - path: services/backend/content/src/main/java/cc/orbexa/hhy/content/R13Service.java
+      state: FILE
+      size: 12564
+      sha256: bd79c6a7e47e9be8f48136ef9fe8c2946cd1a1e949e2395180cb43c632119a1e
+    - path: services/backend/content/src/main/java/cc/orbexa/hhy/content/R13Store.java
+      state: FILE
+      size: 886
+      sha256: 60997a17ce0b7b1f47bdd04dacfa7c2f4128fddd452ce0c49174931010357f7b
+change_classification:
+  continuity:
+  - docs/03-continuity/change-requests/CR-0367-实现R13收藏历史分享与失效反馈后端接口.md
+  code:
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/R13Controller.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/R13ControllerContractTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/ContentServiceTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R13PostgresStoreTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R13ServiceTest.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentPostgresStore.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentService.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentStore.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R13Contracts.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R13PostgresStore.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R13Service.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R13Store.java
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+change_requests:
+- CR-0367
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions:
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentStore.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentPostgresStore.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentService.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R13Contracts.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R13Store.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R13PostgresStore.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R13Service.java
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/R13Controller.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/ContentServiceTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R13ServiceTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R13PostgresStoreTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/R13ControllerContractTest.java
+  source: story+explicit+approved-cr:CR-0367
+parallel_execution:
+  assessment: CAPABILITY_UNAVAILABLE
+  delegated_workers: 0
+  workers: []
+  reason: 当前系统级协作约束禁止启动子代理；实现和绑定由主控串行复核
+event_hash: 5486538217487b7d32322979c5575d2aa14be6aac8230cb43ec1ea1f285933a9
