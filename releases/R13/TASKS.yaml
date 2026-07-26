@@ -43,7 +43,7 @@ tasks:
   completed_at: '2026-07-26T12:28:32Z'
 - id: TASK-R13-003
   title: 收藏、历史、分享与行为审计后端应用服务与接口
-  status: READY
+  status: DONE
   depends_on:
   - TASK-R13-002
   requirements: *id001
@@ -57,9 +57,10 @@ tasks:
   - OpenAPI契约测试
   - 权限/幂等/错误码/审计覆盖
   session_log_required: true
+  completed_at: '2026-07-26T13:33:25Z'
 - id: TASK-R13-004
   title: 收藏、历史、分享与行为审计客户端/H5/后台实现
-  status: BLOCKED
+  status: READY
   depends_on:
   - TASK-R13-003
   requirements: *id001
