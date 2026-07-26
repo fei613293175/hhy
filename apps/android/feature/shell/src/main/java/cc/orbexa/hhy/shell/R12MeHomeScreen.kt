@@ -46,6 +46,10 @@ import cc.orbexa.hhy.network.MembershipBenefitResource
 import cc.orbexa.hhy.network.MembershipResource
 import cc.orbexa.hhy.network.RewardAccountResource
 import cc.orbexa.hhy.network.UserSelfResource
+import java.time.Instant
+import java.time.OffsetDateTime
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
 
 private data class MeQuickAction(
     val label: String,
@@ -314,7 +318,8 @@ private fun MeMembershipSummary(state: R12MeModuleState<MembershipResource>, onR
                             fontWeight = FontWeight.SemiBold,
                         )
                         Text(
-                            membership.expiresAt?.let { "有效期至 $it" } ?: membershipStatusLabel(membership.status),
+                            membership.expiresAt?.let { "有效期至 ${it.r12MeBusinessTimeLabel()}" }
+                                ?: membershipStatusLabel(membership.status),
                             color = HhyColors.TextSecondary,
                             fontSize = HhyType.CaptionSize,
                             lineHeight = HhyType.CaptionLineHeight,
@@ -470,7 +475,7 @@ private fun MeSectionTitle(title: String, updatedAt: String?) {
         )
         updatedAt?.let {
             Text(
-                "更新于 $it",
+                "更新于 ${it.r12MeBusinessTimeLabel()}",
                 color = HhyColors.TextTertiary,
                 fontSize = HhyType.CaptionSize,
                 lineHeight = HhyType.CaptionLineHeight,
@@ -479,6 +484,17 @@ private fun MeSectionTitle(title: String, updatedAt: String?) {
             )
         }
     }
+}
+
+private val r12MeBusinessTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
+private val r12MeBusinessZone = ZoneId.of("Asia/Shanghai")
+
+internal fun String.r12MeBusinessTimeLabel(): String {
+    val instant = runCatching { Instant.parse(this) }
+        .recoverCatching { OffsetDateTime.parse(this).toInstant() }
+        .getOrNull()
+        ?: return "时间待同步"
+    return r12MeBusinessTimeFormatter.format(instant.atZone(r12MeBusinessZone))
 }
 
 @Composable

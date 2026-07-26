@@ -249,7 +249,7 @@ class ReleaseCandidateSmokeTest {
             assertTrue("Cannot capture visual sample for $name", device.takeScreenshot(temporary))
             val digest = sha256(temporary)
             stableMatches = if (digest == priorSample) stableMatches + 1 else 1
-            if (stableMatches >= 2 && digest != previousScreenDigest) {
+            if (stableMatches >= 4 && digest != previousScreenDigest) {
                 val output = File(target.cacheDir, name)
                 temporary.copyTo(output, overwrite = true)
                 publishScreenshot(output, name)

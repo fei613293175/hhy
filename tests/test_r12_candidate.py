@@ -16,6 +16,11 @@ WORKFLOW = ROOT / ".github/workflows/android-quality-gate.yml"
 CI_SERVICE = ROOT / "services/backend/access/src/main/java/cc/orbexa/hhy/access/user/CiAutomationService.java"
 CI_FIXTURE_STORE = ROOT / "services/backend/access/src/main/java/cc/orbexa/hhy/access/user/CiAutomationFixtureStore.java"
 CI_CONTROLLER = ROOT / "services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/CiAutomationController.java"
+HHY_MOTION = ROOT / "apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyMotion.kt"
+PROFILE_SCREEN = ROOT / "apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/R12ProfileScreen.kt"
+ME_SCREEN = ROOT / "apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/R12MeHomeScreen.kt"
+MANAGEMENT_LIST = ROOT / "apps/android/feature/content-management/src/main/java/cc/orbexa/hhy/contentmanagement/R12ContentManagementListScreens.kt"
+MANAGEMENT_DETAIL = ROOT / "apps/android/feature/content-management/src/main/java/cc/orbexa/hhy/contentmanagement/R12ContentManagementDetailScreen.kt"
 
 
 class R12CandidateTest(unittest.TestCase):
@@ -185,6 +190,21 @@ class R12CandidateTest(unittest.TestCase):
             self.assertIn("请求编号", row["forbidden_text"])
             self.assertIn("TraceId", row["forbidden_text"])
             self.assertIn("PROJECT", row["forbidden_text"])
+
+    def test_visual_capture_rejects_transition_residue_and_technical_time(self) -> None:
+        motion = HHY_MOTION.read_text(encoding="utf-8")
+        profile = PROFILE_SCREEN.read_text(encoding="utf-8")
+        me = ME_SCREEN.read_text(encoding="utf-8")
+        management_list = MANAGEMENT_LIST.read_text(encoding="utf-8")
+        management_detail = MANAGEMENT_DETAIL.read_text(encoding="utf-8")
+
+        self.assertIn("targetOffsetX = { width -> -width }", motion)
+        self.assertIn("targetOffsetX = { width -> width }", motion)
+        self.assertIn("stableMatches >= 4", self.journey)
+        self.assertNotIn("modifier = Modifier.height(HhySize.TopAppBarHeight)", profile)
+        self.assertIn("r12MeBusinessTimeLabel()", me)
+        self.assertIn("it.r12BusinessTimeLabel()", management_detail)
+        self.assertIn("R12InverseOutlinedButton", management_list)
 
     def test_candidate_identity_is_monotonic_and_unique(self) -> None:
         build = BUILD.read_text(encoding="utf-8")

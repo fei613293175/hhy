@@ -23,7 +23,7 @@ object HhyMotion {
 
     fun forwardExit(): ExitTransition = slideOutHorizontally(
         animationSpec = tween(StandardMillis),
-        targetOffsetX = { width -> -width / 8 },
+        targetOffsetX = { width -> -width },
     ) + fadeOut(tween(StandardMillis))
 
     fun backwardEnter(): EnterTransition = slideInHorizontally(
@@ -33,7 +33,7 @@ object HhyMotion {
 
     fun backwardExit(): ExitTransition = slideOutHorizontally(
         animationSpec = tween(StandardMillis),
-        targetOffsetX = { width -> width / 4 },
+        targetOffsetX = { width -> width },
     ) + fadeOut(tween(StandardMillis))
 
     fun forwardContent(): ContentTransform = forwardEnter().togetherWith(forwardExit())

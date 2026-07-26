@@ -73,4 +73,9 @@ class R12MeHomeStateTest {
         assertEquals("1,268.88", formatR12Cent(126_888))
         assertEquals("4,294,967,296.00", formatR12Cent(429_496_729_600L))
     }
+
+    @Test fun businessTimeNeverLeaksRawIsoText() {
+        assertEquals("2026-07-26 06:00", "2026-07-25T22:00:00Z".r12MeBusinessTimeLabel())
+        assertEquals("时间待同步", "not-a-time".r12MeBusinessTimeLabel())
+    }
 }

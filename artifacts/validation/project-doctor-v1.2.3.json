@@ -8,9 +8,9 @@
   "metrics": {
     "canonical_policy_sha256": "38e04ed812c8df0d353c2b91993d31e53b471e9c457f06b426bd2260c470aa92",
     "governance_knowledge": {
-      "problem_records": 121,
+      "problem_records": 122,
       "reusable_patterns": 11,
-      "pitfalls": 30
+      "pitfalls": 31
     },
     "documentation": {
       "android_surfaces": 102,
@@ -35,8 +35,8 @@
       "open_document_gaps": 0
     },
     "continuity": {
-      "event_count": 3464,
-      "event_head_hash": "e22b68ebff6a4c286a9e419ff1417e9664797724b3ef3548b091b7a8fb523ef1",
+      "event_count": 3473,
+      "event_head_hash": "defed3d96cb360a156f536263d34b50630a8813784c3be53ac3b010704acad91",
       "rule_readiness": "PASS",
       "required_rule_sources": 11,
       "document_gate": {
@@ -50,7 +50,7 @@
     "continuity_required_records": 20,
     "baseline_sessions": 108,
     "baseline_handoffs": 3,
-    "change_requests": 353,
+    "change_requests": 354,
     "task_transitions": 110,
     "continuity_integration_checks": 12,
     "continuity_lifecycle_checks": 15

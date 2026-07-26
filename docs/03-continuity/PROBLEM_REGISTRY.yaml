@@ -1698,3 +1698,19 @@ problems:
   - 不得在启动码尚未验证时安装Java、Android SDK、平台包或配置KVM
   - 不得因只修改候选策略、工作流或路由脚本而在普通CI重复编译Android
   - 同一Commit一次失败作业重跑仍失败后不得继续点击第三次重跑
+- id: PROB-0122
+  title: R12候选技术成功但视觉证据包含安全区压缩、转场残层和技术时间
+  status: SOLVED
+  root_cause: R12个人资料页给包含系统WindowInsets的TopAppBar再次设置固定56dp总高度，标题和状态栏被压缩；HhyMotion退出页只移动八分之一或四分之一屏宽，Navigation退出层结束时仍可能在边缘留下可见内容，而截图稳定器只要求两次相同像素，误把残层终态当作目标页；R12我的首页和发布管理详情又直接渲染ISO时间，蓝色品牌卡上的OutlinedButton沿用默认深色内容。
+  resolution: CR-0356移除个人资料TopAppBar固定总高度，HhyMotion前进和返回退出层统一完全移出视口，候选截图提高为至少四次连续相同像素；我的首页会员时间、模块更新时间和发布管理详情统一转换为Asia/Shanghai商业时间，解析失败显示时间待同步；蓝底刷新按钮统一使用反色文字、图标和边框。Run 30191193348保留为技术成功但AI视觉拒绝的已消费attempt6，不晋升基线且不交付APK。
+  regression_checks:
+  - R12MeHomeStateTest必须证明UTC时间转换为Asia/Shanghai的yyyy-MM-dd HH:mm且非法时间不泄露原值
+  - tests.test_r12_candidate必须锁定HhyMotion退出层全屏离场、四次稳定采样、个人资料TopAppBar不固定总高度、R12时间格式化和蓝底反色按钮
+  - obx-test固定Android镜像必须通过feature:shell与feature:content-management单测及app AndroidTest Kotlin编译
+  - 后续候选截图必须由AI逐图确认状态栏、顶栏、返回键、时间和按钮对比度，不得仅凭工作流SUCCESS批准基线
+  do_not_repeat:
+  - 不得给自动处理WindowInsets的TopAppBar设置只覆盖内容区高度的固定总高度
+  - 页面退出动画终点不得只移动部分屏宽后依赖透明度隐藏残层
+  - 两张相同截图不足以证明异步页面和导航退出层已经稳定
+  - 服务端ISO时间和默认深色OutlinedButton不得直接进入正式商业页面
+  - GitHub候选技术SUCCESS不等于视觉PASS，AI拒绝后不得交付同Run APK或复用已消费轮次

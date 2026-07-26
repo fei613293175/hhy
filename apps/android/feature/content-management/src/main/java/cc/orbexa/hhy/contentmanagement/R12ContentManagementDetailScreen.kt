@@ -268,7 +268,7 @@ private fun ManagementContent(
                 InformationRow("发布状态", contentStatusLabel(content.status))
                 content.reviewStatus?.let { InformationRow("审核状态", reviewStatusLabel(it)) }
                 content.createdAt?.let { InformationRow("创建时间", it) }
-                content.updatedAt?.let { InformationRow("最近更新", it) }
+                content.updatedAt?.let { InformationRow("最近更新", it.r12BusinessTimeLabel()) }
             }
         }
     }
@@ -307,7 +307,12 @@ private fun ManagementHero(content: ContentResource) = Card(
             content.summary?.takeIf(String::isNotBlank)?.let {
                 Text(it, color = HhyColors.TextSecondary, maxLines = 2, overflow = TextOverflow.Ellipsis)
             }
-            Text(content.updatedAt?.let { "更新于 $it" } ?: content.createdAt?.let { "创建于 $it" }.orEmpty(), color = HhyColors.TextTertiary, style = MaterialTheme.typography.bodySmall)
+            Text(
+                content.updatedAt?.let { "更新于 ${it.r12BusinessTimeLabel()}" }
+                    ?: content.createdAt?.let { "创建于 ${it.r12BusinessTimeLabel()}" }.orEmpty(),
+                color = HhyColors.TextTertiary,
+                style = MaterialTheme.typography.bodySmall,
+            )
         }
     }
 }

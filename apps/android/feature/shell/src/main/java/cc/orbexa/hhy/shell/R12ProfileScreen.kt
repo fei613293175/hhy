@@ -143,7 +143,6 @@ fun R12ProfileScreen(
         modifier = Modifier.semantics { testTagsAsResourceId = true }.testTag(screenTag),
         topBar = {
             TopAppBar(
-                modifier = Modifier.height(HhySize.TopAppBarHeight),
                 title = {
                     Text(
                         "个人资料",

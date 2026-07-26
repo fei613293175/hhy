@@ -1,5 +1,6 @@
 package cc.orbexa.hhy.contentmanagement
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
@@ -20,6 +21,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.AssistChip
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
@@ -770,7 +772,7 @@ private fun R12ListHeader(
                 Text("当前显示 $resultCount 条真实内容", color = HhyColors.TextInverse.copy(alpha = 0.84f), style = MaterialTheme.typography.bodySmall)
             }
             if (primaryAction != null) Button(onClick = primaryAction.second) { Text(primaryAction.first) }
-            else OutlinedButton(onClick = onRefresh, enabled = !refreshing) { HhyIcon(HhyIcons.Refresh, "刷新"); Text("刷新") }
+            else R12InverseOutlinedButton(onClick = onRefresh, enabled = !refreshing)
         }
     }
 }
@@ -938,7 +940,7 @@ private fun R12AnalyticsScaffold(
                             Text(content?.title ?: "内容数据", color = HhyColors.TextInverse, fontWeight = FontWeight.SemiBold)
                             Text("仅展示服务端已返回指标", color = HhyColors.TextInverse.copy(alpha = 0.84f), style = MaterialTheme.typography.bodySmall)
                         }
-                        OutlinedButton(onClick = onRefresh, enabled = !refreshing) { HhyIcon(HhyIcons.Refresh, "刷新"); Text("刷新") }
+                        R12InverseOutlinedButton(onClick = onRefresh, enabled = !refreshing)
                     }
                 }
             }
@@ -970,6 +972,25 @@ private fun R12AnalyticsScaffold(
                 }
             }
         }
+    }
+}
+
+@Composable
+private fun R12InverseOutlinedButton(
+    onClick: () -> Unit,
+    enabled: Boolean,
+) {
+    OutlinedButton(
+        onClick = onClick,
+        enabled = enabled,
+        border = BorderStroke(HhySize.Hairline, HhyColors.TextInverse.copy(alpha = 0.78f)),
+        colors = ButtonDefaults.outlinedButtonColors(
+            contentColor = HhyColors.TextInverse,
+            disabledContentColor = HhyColors.TextInverse.copy(alpha = 0.48f),
+        ),
+    ) {
+        HhyIcon(HhyIcons.Refresh, "刷新", tint = HhyColors.TextInverse)
+        Text("刷新")
     }
 }
 
