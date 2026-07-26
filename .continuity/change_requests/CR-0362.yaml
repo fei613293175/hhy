@@ -1,9 +1,9 @@
 protocol_version: '1.0'
 cr_id: CR-0362
 title: 完成R12机器关闭与异步真机交接
-status: IMPLEMENTING
+status: IMPLEMENTED
 created_at: '2026-07-26T10:51:33Z'
-updated_at: '2026-07-26T10:52:11Z'
+updated_at: '2026-07-26T10:56:08Z'
 requester_actor_id: codex-root-r12-close-20260726
 approver_actor_id: project-owner
 task_id: TASK-R12-008
@@ -43,5 +43,12 @@ decision_log:
   status: IMPLEMENTING
   note: 开始汇合R12候选、交付、视觉、治理和异步Owner边界，生成机器关闭报告并执行专用machine-close-gate。
   session_id: SES-20260726T105013Z-AE578D81
+- at: '2026-07-26T10:56:08Z'
+  actor_id: codex-root-r12-close-20260726
+  status: IMPLEMENTED
+  note: R12机器关闭Manifest与唯一报告已由Commit 60c547b9落库；machine-close-gate、严格文档、累计视觉、滚动计划和严格Doctor全部PASS。
+  session_id: SES-20260726T105013Z-AE578D81
 session_ids:
 - SES-20260726T105013Z-AE578D81
+implementation_commits:
+- 60c547b9cd0fc8c35a6567c744271ba23a593d41
