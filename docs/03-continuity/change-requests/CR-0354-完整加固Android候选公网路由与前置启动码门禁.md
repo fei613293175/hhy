@@ -103,3 +103,10 @@ CR-0353未实施即SUPERSEDED；现役api.orbexa.cc已从旧28099切至已验证
 - Status：`IMPLEMENTED`
 - Session：`SES-20260725T192048Z-668BD05D`
 - Note：受控切流脚本在obx-test bash -n及现役28098幂等执行PASS，公网requestId命中目标容器；Android策略/请求/路由/R12/影响映射64项PASS，严格文档PASS。候选治理变化只选择tooling+contracts，不选择android；apps/android变化仍选择android。attempt5不第三次重跑，attempt6未登记。
+
+## 状态记录 · 2026-07-26T05:36:43Z
+
+- Actor：`codex-root-r12-candidate-20260726`
+- Status：`CLOSED`
+- Session：`SES-20260725T192048Z-668BD05D`
+- Note：实现提交已推送；Continuity Run 30189553314 PASS，CI Run 30189553368 PASS，contracts/tooling PASS，android/backend/database/web均按影响映射SKIPPED。公网路由仍命中28098目标容器；attempt5未第三次重跑，attempt6未授权。

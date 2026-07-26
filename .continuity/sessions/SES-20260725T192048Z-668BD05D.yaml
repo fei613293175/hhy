@@ -11,7 +11,7 @@ task_id: TASK-R12-007
 story_id: STORY-R12-008
 goal: 完成R12最终Android候选、真实模拟器截图AI验收、固定签名测试APK与桌面交付
 started_at: '2026-07-25T19:20:48Z'
-updated_at: '2026-07-26T05:29:08Z'
+updated_at: '2026-07-26T05:36:59Z'
 takeover_of: null
 change_requests:
 - CR-0339
@@ -124,18 +124,18 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-26T05:29:02Z'
-  expires_at: '2026-07-26T09:29:02Z'
-checkpoint_sequence: 32
-latest_checkpoint: .continuity/checkpoints/SES-20260725T192048Z-668BD05D/0032.yaml
+  renewed_at: '2026-07-26T05:36:51Z'
+  expires_at: '2026-07-26T09:36:51Z'
+checkpoint_sequence: 33
+latest_checkpoint: .continuity/checkpoints/SES-20260725T192048Z-668BD05D/0033.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260725T192048Z-668BD05D.md
-next_step: 运行严格Doctor、预提交并提交推送，确认GitHub tooling/continuity PASS且Android跳过；随后在不违反attempt5重跑和attempt6禁令的前提下继续R12候选收口。
+next_step: 提交推送CR-0354关闭证据；随后继续R12收口，但不得第三次重跑attempt5或在没有新的项目所有者明确批准时登记attempt6。
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: ac3b4d4bf81576684114ecfc9ecaa6d7aeeefbf0779fbad30dcf11d49949c933
-  generated_at: '2026-07-26T05:29:06Z'
+  context_hash: d7cd47c69b9aa7f8561139cc9cdbd4cdaa7294622c1bebbcaeb8841815c4707b
+  generated_at: '2026-07-26T05:36:56Z'
 handoff_bundle: null
 closure: null
 parallel_execution:
