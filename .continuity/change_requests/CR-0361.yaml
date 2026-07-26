@@ -1,0 +1,49 @@
+protocol_version: '1.0'
+cr_id: CR-0361
+title: 登记R12六项全局治理漂移审计
+status: IMPLEMENTING
+created_at: '2026-07-26T10:33:35Z'
+updated_at: '2026-07-26T10:34:54Z'
+requester_actor_id: codex-root-r12-candidate-20260726
+approver_actor_id: project-owner
+task_id: TASK-R12-007
+session_id: SES-20260725T192048Z-668BD05D
+user_request: 项目所有者批准持续自主开发，不再为日常终端、测试、提交、推送和版本衔接重复批准；按既定CR-0346完成R12治理审计后关闭并进入R13。
+reason: CR-0346已规定R12起大版本关闭必须有绑定最终候选Commit及报告SHA-256的六项全局治理审计；CR-0360已进入IMPLEMENTING且无法扩展影响文件，因此独立建立精确证据CR，避免未授权文件漂移。
+original_rule: CR-0346规定R12起每个大版本机器关闭前必须完成开发文档、硬门禁、开发进度、复用模式、Problem Registry和踩坑记录六项全局审计，证据绑定最终候选源码Commit并登记报告SHA-256。
+new_rule: R12六项结论全部PASS；在Release Manifest登记精确六项键、最终候选Commit 8090001f064c304db08ca9886fe1b1d4d231ef00、仓库报告路径及报告SHA-256，作为机器关闭的唯一审计证据。
+impact_summary: 仅增加R12治理审计报告并在既有Release Manifest补齐审计引用；不新增平行规则，不修改业务、API、数据库、资金、密钥或生产数据。
+impact:
+  files:
+  - artifacts/reports/R12/R12-governance-drift-audit.md
+  - releases/R12/RELEASE_MANIFEST.yaml
+  pages: []
+  apis: []
+  database: []
+  configuration: []
+  ledger: []
+  tests:
+  - check_v123_documentation strict R12
+  - check_program_execution_plan
+  - check_v123_continuity strict R12
+  - project-doctor strict R12
+  - check_ui_visual_acceptance historical-through R12
+  - check_release_artifacts R12
+  releases:
+  - R12
+  migration_and_compatibility: 纯证据兼容变更；沿用CR-0346既定门禁与现有Problem Registry、Reusable Patterns、Pitfalls事实源，后续R13-R32按同一清单结构生成各自候选绑定证据。
+user_confirmation: 批准，以后不要让我批准了，你自己持续开发就行了。
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-26T10:34:24Z'
+  note: 项目所有者已明确批准持续自主开发并要求不再重复申请日常批准；本CR仅执行CR-0346既定R12关闭证据，不扩展业务或生产权限。
+machine_record: .continuity/change_requests/CR-0361.yaml
+document: docs/03-continuity/change-requests/CR-0361-登记R12六项全局治理漂移审计.md
+decision_log:
+- at: '2026-07-26T10:34:54Z'
+  actor_id: codex-root-r12-candidate-20260726
+  status: IMPLEMENTING
+  note: 六项审计报告及候选Commit、报告SHA-256和精确检查键已写入R12 Release Manifest，进入最终门禁验证。
+  session_id: SES-20260725T192048Z-668BD05D
+session_ids:
+- SES-20260725T192048Z-668BD05D

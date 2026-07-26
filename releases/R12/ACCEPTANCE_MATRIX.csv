@@ -1,7 +1,7 @@
 ﻿验收ID,版本,验收项,证据路径,状态,阻断级别
-AC-R12-001,R12,领域代码与前端真实闭环,artifacts/reports/R12/,NOT_RUN,BLOCKING
-AC-R12-002,R12,数据库迁移和不变量测试通过,artifacts/reports/R12/,NOT_RUN,BLOCKING
-AC-R12-003,R12,契约/单元/集成/E2E/安全专项测试通过,artifacts/reports/R12/,NOT_RUN,BLOCKING
+AC-R12-001,R12,领域代码与前端真实闭环,artifacts/reports/R12/TASK-R12-007-android-apk.md,PASS,BLOCKING
+AC-R12-002,R12,数据库迁移和不变量测试通过,docs/03-continuity/R12_TASK-002_DATABASE_GATE.md,PASS,BLOCKING
+AC-R12-003,R12,契约/单元/集成/E2E/安全专项测试通过,artifacts/validation/r12-task007-android/candidate-report.json,PASS,BLOCKING
 AC-R12-004,R12,日志指标链路和业务告警可验证,artifacts/reports/R12/TASK-R12-006-staging.md,PASS,BLOCKING
-AC-R12-005,R12,Session Log、追踪矩阵、产物Manifest和下一任务更新,artifacts/reports/R12/,NOT_RUN,BLOCKING
-AC-R12-006,R12,Staging APK可安装且SHA256、Commit、版本信息完整,artifacts/reports/R12/,NOT_RUN,BLOCKING
+AC-R12-005,R12,Session Log、追踪矩阵、产物Manifest和下一任务更新,artifacts/reports/R12/TASK-R12-007-android-apk.md,PASS,BLOCKING
+AC-R12-006,R12,Staging APK可安装且SHA256、Commit、版本信息完整,artifacts/validation/r12-apk-delivery/delivery-evidence.json,PASS,BLOCKING

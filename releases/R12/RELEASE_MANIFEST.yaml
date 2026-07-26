@@ -29,14 +29,14 @@ ui:
   - ADM-REVIEW-001
 contracts:
   client_api:
-  - GET /api/v1/me/contents
-  - GET /api/v1/me/drafts
-  - GET /api/v1/contents/{id}/reviews
+  - contentGetMeContents
+  - contentGetMeDrafts
+  - contentGetContentsByIdReviews
   admin_api:
-  - GET /admin-api/v1/reviews/queue
-  - GET /admin-api/v1/reviews/{id}
-  - POST /admin-api/v1/reviews/{id}/decide
-  - POST /admin-api/v1/reviews/{id}/assign
+  - adminReviewGetReviewsQueue
+  - adminReviewGetReviewsById
+  - adminReviewPostReviewsByIdDecide
+  - adminReviewPostReviewsByIdAssign
   websocket: []
 database_tables:
 - content_posts
@@ -58,6 +58,27 @@ database_tables:
 - content_reports
 - chat_reports
 - content_appeals
+android_delivery:
+  source_commit: 8090001f064c304db08ca9886fe1b1d4d231ef00
+android_automation:
+  policy_id: HHY-ANDROID-AUTOMATION-V1
+  status: PASS
+  owner_test_allowed: true
+  owner_physical_test: PENDING
+  commit: 8090001f064c304db08ca9886fe1b1d4d231ef00
+  candidate_report: artifacts/validation/r12-task007-android/candidate-report.json
+governance_audit:
+  status: PASS
+  source_commit: 8090001f064c304db08ca9886fe1b1d4d231ef00
+  checks:
+    development_documents: PASS
+    hard_gate_enforcement: PASS
+    development_progress: PASS
+    reusable_patterns: PASS
+    problem_registry: PASS
+    pitfalls: PASS
+  evidence: artifacts/reports/R12/R12-governance-drift-audit.md
+  evidence_sha256: a38e1336d09dd49db3c3409ffb79a33f1f102b9dcd866701776262c629d58442
 tests:
 - TST-CONTENT_002-HAPPY
 - TST-CONTENT_002-IDEMPOTENT
@@ -283,6 +304,52 @@ task_006_observability_gate:
   - assemble_signed_test_apk
   - install_smoke
   next_task: TASK-R12-007
+task_007_android_candidate_gate:
+  status: PASS
+  completed_at: '2026-07-26'
+  session_id: SES-20260725T192048Z-668BD05D
+  change_requests:
+  - CR-0339
+  - CR-0344
+  - CR-0358
+  - CR-0359
+  - CR-0360
+  source_commit: 8090001f064c304db08ca9886fe1b1d4d231ef00
+  report: artifacts/reports/R12/TASK-R12-007-android-apk.md
+  source_candidate:
+    github_run_id: '30194396225'
+    artifact_id: '8629749064'
+    status: BASELINE_REVIEW_REQUIRED_ONLY
+    build_lint_unit_package: PASS
+    oidc_authenticated_emulator_journey: PASS
+    screenshots: 10
+    crashes_anr_junit_failures: 0
+  visual_promotion:
+    github_run_id: '30195682023'
+    artifact_id: '8630028491'
+    status: PASS
+    rebuild_or_emulator_rerun: false
+    ai_visual_review: PASS_10_ANDROID_PAGES
+    cumulative_r12_catalog: PASS_11_PAGES
+  test_apk:
+    file: hhy-r12-8090001-debug.apk
+    version_name: 1.2.2-debug
+    version_code: 10221
+    sha256: b97bf8fd1a0306678f297da72c6b5b2e0b224aff2965a962a7db41167bc3e4f8
+    size_bytes: 21522280
+    signing_profile: hhy-staging-test-v1
+    signing_v2_v3: PASS
+    api_base_url: https://api.orbexa.cc
+    four_way_delivery: PASS
+    owner_physical_test: PENDING_ASYNC_NON_BLOCKING
+  acceptance:
+    AC-R12-001: PASS
+    AC-R12-002: PASS
+    AC-R12-003: PASS
+    AC-R12-004: PASS
+    AC-R12-005: PASS
+    AC-R12-006: PASS
+  next_task: TASK-R12-008
 entry_gate:
 - releases/R12/DEFINITION_OF_READY.yaml 全部适用项为PASS
 - releases/R12/STORIES.yaml 中每个故事均绑定页面/API/配置/数据/测试或显式N/A

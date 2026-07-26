@@ -11,7 +11,7 @@ task_id: TASK-R12-007
 story_id: STORY-R12-008
 goal: 完成R12最终Android候选、真实模拟器截图AI验收、固定签名测试APK与桌面交付
 started_at: '2026-07-25T19:20:48Z'
-updated_at: '2026-07-26T08:58:32Z'
+updated_at: '2026-07-26T10:38:43Z'
 takeover_of: null
 change_requests:
 - CR-0339
@@ -35,6 +35,8 @@ change_requests:
 - CR-0357
 - CR-0358
 - CR-0359
+- CR-0360
+- CR-0361
 scope:
   allowed_paths:
   - apps/**
@@ -130,7 +132,18 @@ scope:
   - tests/android/visual-baselines/R12/09-content-reviews.png
   - tests/android/visual-baselines/R12/10-content-analytics.png
   - tests/android/visual-baselines/R12/APPROVAL.yaml
-  source: story+explicit+approved-cr:CR-0340+approved-cr:CR-0344+approved-cr:CR-0346+approved-cr:CR-0345+approved-cr:CR-0348+approved-cr:CR-0349+approved-cr:CR-0350+approved-cr:CR-0351+approved-cr:CR-0352+approved-cr:CR-0353+approved-cr:CR-0354+approved-cr:CR-0355+approved-cr:CR-0359
+  - artifacts/apk/R12/APK_MANIFEST.yaml
+  - artifacts/apk/R12/hhy-r12-8090001-debug.apk
+  - artifacts/validation/r12-apk-delivery/delivery-evidence.json
+  - artifacts/validation/r12-task007-android/build-evidence.json
+  - artifacts/validation/r12-task007-android/candidate-report.json
+  - artifacts/validation/r12-task007-android/source-candidate-report.json
+  - artifacts/validation/r12-task007-android/APPROVAL.yaml
+  - artifacts/reports/R12/TASK-R12-007-android-apk.md
+  - artifacts/reports/R12/R12-version-test-guide.md
+  - releases/R12/ACCEPTANCE_MATRIX.csv
+  - artifacts/reports/R12/R12-governance-drift-audit.md
+  source: story+explicit+approved-cr:CR-0340+approved-cr:CR-0344+approved-cr:CR-0346+approved-cr:CR-0345+approved-cr:CR-0348+approved-cr:CR-0349+approved-cr:CR-0350+approved-cr:CR-0351+approved-cr:CR-0352+approved-cr:CR-0353+approved-cr:CR-0354+approved-cr:CR-0355+approved-cr:CR-0359+approved-cr:CR-0360+approved-cr:CR-0361
 git:
   initialized: true
   branch: task/TASK-R03-001
@@ -140,22 +153,22 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-26T08:58:25Z'
-  expires_at: '2026-07-26T12:58:25Z'
-checkpoint_sequence: 45
-latest_checkpoint: .continuity/checkpoints/SES-20260725T192048Z-668BD05D/0045.yaml
+  renewed_at: '2026-07-26T10:38:20Z'
+  expires_at: '2026-07-26T14:38:20Z'
+checkpoint_sequence: 47
+latest_checkpoint: .continuity/checkpoints/SES-20260725T192048Z-668BD05D/0047.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260725T192048Z-668BD05D.md
-next_step: 暂存后执行pre-commit；提交推送CR-0359基线晋升并监控GitHub轻量晋升结果。
+next_step: 运行只读严格门禁与pre-commit，提交推送TASK-R12-007交付证据；然后登记CR实现Commit并关闭TASK-R12-007，启动TASK-R12-008机器关闭。
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: d4ea2d4a30f883fa46b0afe659193fda62090279e3a93fcb8d3e1eb8b7f249ba
-  generated_at: '2026-07-26T08:58:29Z'
+  context_hash: 74bf9ece61e76c7b3872a901c394a2058a1ee3346a511ed769919e649a5facec
+  generated_at: '2026-07-26T10:38:40Z'
 handoff_bundle: null
 closure: null
 parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 基线哈希与唯一审批清单必须单线原子提交。
+  reason: 当前为单一Release关闭状态机与提交边界，必须串行保持Commit、CR、Session和指针一致。
