@@ -130,6 +130,31 @@ task_004_client_gate:
   - assemble_signed_test_apk
   - install_smoke
   next_task: TASK-R13-005
+task_005_specialized_test_gate:
+  status: PASS
+  completed_at: '2026-07-27'
+  session_id: SES-20260726T160157Z-6B5BC09A
+  source_commit: c97417591cfa5c1b069d0aaef9622e0f3dad8c8f
+  report: docs/03-continuity/R13_TASK-005_SPECIALIZED_TEST_GATE.md
+  evidence: artifacts/validation/r13-test-evidence/evidence.json
+  authoritative_tests:
+  - TST-ACTIVITY_001-HAPPY
+  - TST-ACTIVITY_001-REJECT
+  - TST-ACTIVITY_001-IDEMPOTENT
+  validation:
+    backend_java21: PASS_37_TESTS_0_FAILURES_0_ERRORS_0_SKIPPED
+    postgresql17: PASS_5_TESTS_3_ISOLATED_DATABASES_42_MIGRATIONS
+    android_activity: PASS_109_TASKS_63_EXECUTED_46_FROM_CACHE
+    matrix: PASS_3_TEST_IDS
+    critical_defects: P0_0_P1_0
+  isolation_rule: ONE_FLYWAY_MIGRATION_TEST_PER_EMPTY_DATABASE
+  deferred_final_candidate:
+  - full_release_gate
+  - emulator_real_screenshots
+  - ai_visual_review
+  - assemble_signed_test_apk
+  - install_smoke
+  next_task: TASK-R13-006
 exit_gate:
 - 领域代码与前端真实闭环
 - 数据库迁移和不变量测试通过

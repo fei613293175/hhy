@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## R13收藏、历史、分享与行为审计专项测试 · 2026-07-27
+
+- 三个既有`TST-ACTIVITY_001`测试ID全部转为可执行证据矩阵，覆盖收藏、历史、取消收藏、分享、联系方式审计、失效反馈、冻结控制器合同和Android稳定意图键，不建立第二套测试清单。
+- 精确Commit `c9741759`在`obx-test`通过Java 21的37项测试、PostgreSQL 17的5项真实事务/并发测试及Android activity的109个任务；三类原始日志远端与仓库SHA-256一致，P0/P1缺陷均为0。
+- PostgreSQL迁移型测试明确采用“一次Flyway迁移型测试一个空数据库”：R13活动、R08项目主路径和R08并发幂等分别使用隔离数据库，禁止用`baselineOnMigrate`或业务代码改动掩盖`search_path`导致的环境假失败。
+- 本任务只运行受影响模块，不启动GitHub模拟器、不生成截图或APK；完整候选继续固定在`TASK-R13-007`，项目所有者真机反馈保持异步。
+
 ## R13收藏、历史、分享与失效反馈Android客户端 · 2026-07-26
 
 - 新增独立`ContractR13Api`与收藏/历史功能模块，绑定取消收藏、收藏列表、浏览历史、分享及联系方式失效反馈五个冻结operationId；刷新、翻页和局部失败均保留已加载内容，写操作使用稳定幂等键重试。
@@ -1775,4 +1782,3 @@
 - Actor：`codex-root-r13-client-20260726`
 - 摘要：TASK-R13-004四页Android收藏历史分享与失效反馈客户端闭环完成；精确Commit f8df36e3在obx-test固定镜像579任务PASS，四页保持IN_REVIEW等待最终候选截图。
 - 记录：`docs/03-continuity/sessions/2026-07/SES-20260726T134047Z-F9A80405.md`
-

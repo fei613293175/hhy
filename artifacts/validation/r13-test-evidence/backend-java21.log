@@ -1,0 +1,237 @@
+[INFO] Scanning for projects...
+[INFO] ------------------------------------------------------------------------
+[INFO] Reactor Build Order:
+[INFO]
+[INFO] HHY Backend                                                        [pom]
+[INFO] hhy-shared-kernel                                                  [jar]
+[INFO] hhy-access                                                         [jar]
+[INFO] hhy-content                                                        [jar]
+[INFO] hhy-commerce                                                       [jar]
+[INFO] hhy-incentive                                                      [jar]
+[INFO] hhy-platform                                                       [jar]
+[INFO] hhy-boot                                                           [jar]
+[INFO]
+[INFO] ------------------< cc.orbexa.hhy:hhy-backend-parent >------------------
+[INFO] Building HHY Backend 1.2.2-SNAPSHOT                                [1/8]
+[INFO]   from pom.xml
+[INFO] --------------------------------[ pom ]---------------------------------
+[INFO]
+[INFO] ------------------< cc.orbexa.hhy:hhy-shared-kernel >-------------------
+[INFO] Building hhy-shared-kernel 1.2.2-SNAPSHOT                          [2/8]
+[INFO]   from shared-kernel/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO]
+[INFO] --- resources:3.3.1:resources (default-resources) @ hhy-shared-kernel ---
+[INFO] skip non existing resourceDirectory /workspace/services/backend/shared-kernel/src/main/resources
+[INFO]
+[INFO] --- compiler:3.14.1:compile (default-compile) @ hhy-shared-kernel ---
+[INFO] Recompiling the module because of changed source code.
+[INFO] Compiling 6 source files with javac [debug parameters release 21] to target/classes
+[INFO]
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ hhy-shared-kernel ---
+[INFO] skip non existing resourceDirectory /workspace/services/backend/shared-kernel/src/test/resources
+[INFO]
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ hhy-shared-kernel ---
+[INFO] No sources to compile
+[INFO]
+[INFO] --- surefire:3.5.4:test (default-test) @ hhy-shared-kernel ---
+[INFO] No tests to run.
+[INFO]
+[INFO] ----------------------< cc.orbexa.hhy:hhy-access >----------------------
+[INFO] Building hhy-access 1.2.2-SNAPSHOT                                 [3/8]
+[INFO]   from access/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO]
+[INFO] --- resources:3.3.1:resources (default-resources) @ hhy-access ---
+[INFO] skip non existing resourceDirectory /workspace/services/backend/access/src/main/resources
+[INFO]
+[INFO] --- compiler:3.14.1:compile (default-compile) @ hhy-access ---
+[INFO] Recompiling the module because of changed dependency.
+[INFO] Compiling 99 source files with javac [debug parameters release 21] to target/classes
+[WARNING] /workspace/services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04StoragePostgresStore.java:[81,27] trailing white space will be removed
+[INFO]
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ hhy-access ---
+[INFO] skip non existing resourceDirectory /workspace/services/backend/access/src/test/resources
+[INFO]
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ hhy-access ---
+[INFO] No sources to compile
+[INFO]
+[INFO] --- surefire:3.5.4:test (default-test) @ hhy-access ---
+[INFO] No tests to run.
+[INFO]
+[INFO] ---------------------< cc.orbexa.hhy:hhy-content >----------------------
+[INFO] Building hhy-content 1.2.2-SNAPSHOT                                [4/8]
+[INFO]   from content/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO]
+[INFO] --- resources:3.3.1:resources (default-resources) @ hhy-content ---
+[INFO] skip non existing resourceDirectory /workspace/services/backend/content/src/main/resources
+[INFO]
+[INFO] --- compiler:3.14.1:compile (default-compile) @ hhy-content ---
+[INFO] Recompiling the module because of changed dependency.
+[INFO] Compiling 39 source files with javac [debug parameters release 21] to target/classes
+[INFO]
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ hhy-content ---
+[INFO] skip non existing resourceDirectory /workspace/services/backend/content/src/test/resources
+[INFO]
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ hhy-content ---
+[INFO] No sources to compile
+[INFO]
+[INFO] --- surefire:3.5.4:test (default-test) @ hhy-content ---
+[INFO] No tests to run.
+[INFO]
+[INFO] ---------------------< cc.orbexa.hhy:hhy-commerce >---------------------
+[INFO] Building hhy-commerce 1.2.2-SNAPSHOT                               [5/8]
+[INFO]   from commerce/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO]
+[INFO] --- resources:3.3.1:resources (default-resources) @ hhy-commerce ---
+[INFO] skip non existing resourceDirectory /workspace/services/backend/commerce/src/main/resources
+[INFO]
+[INFO] --- compiler:3.14.1:compile (default-compile) @ hhy-commerce ---
+[INFO] Recompiling the module because of changed dependency.
+[INFO] Compiling 5 source files with javac [debug parameters release 21] to target/classes
+[INFO]
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ hhy-commerce ---
+[INFO] skip non existing resourceDirectory /workspace/services/backend/commerce/src/test/resources
+[INFO]
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ hhy-commerce ---
+[INFO] No sources to compile
+[INFO]
+[INFO] --- surefire:3.5.4:test (default-test) @ hhy-commerce ---
+[INFO] No tests to run.
+[INFO]
+[INFO] --------------------< cc.orbexa.hhy:hhy-incentive >---------------------
+[INFO] Building hhy-incentive 1.2.2-SNAPSHOT                              [6/8]
+[INFO]   from incentive/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO]
+[INFO] --- resources:3.3.1:resources (default-resources) @ hhy-incentive ---
+[INFO] skip non existing resourceDirectory /workspace/services/backend/incentive/src/main/resources
+[INFO]
+[INFO] --- compiler:3.14.1:compile (default-compile) @ hhy-incentive ---
+[INFO] Recompiling the module because of changed dependency.
+[INFO] Compiling 5 source files with javac [debug parameters release 21] to target/classes
+[INFO]
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ hhy-incentive ---
+[INFO] skip non existing resourceDirectory /workspace/services/backend/incentive/src/test/resources
+[INFO]
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ hhy-incentive ---
+[INFO] No sources to compile
+[INFO]
+[INFO] --- surefire:3.5.4:test (default-test) @ hhy-incentive ---
+[INFO] No tests to run.
+[INFO]
+[INFO] ---------------------< cc.orbexa.hhy:hhy-platform >---------------------
+[INFO] Building hhy-platform 1.2.2-SNAPSHOT                               [7/8]
+[INFO]   from platform/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO]
+[INFO] --- resources:3.3.1:resources (default-resources) @ hhy-platform ---
+[INFO] skip non existing resourceDirectory /workspace/services/backend/platform/src/main/resources
+[INFO]
+[INFO] --- compiler:3.14.1:compile (default-compile) @ hhy-platform ---
+[INFO] Recompiling the module because of changed dependency.
+[INFO] Compiling 13 source files with javac [debug parameters release 21] to target/classes
+[INFO]
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ hhy-platform ---
+[INFO] skip non existing resourceDirectory /workspace/services/backend/platform/src/test/resources
+[INFO]
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ hhy-platform ---
+[INFO] No sources to compile
+[INFO]
+[INFO] --- surefire:3.5.4:test (default-test) @ hhy-platform ---
+[INFO] No tests to run.
+[INFO]
+[INFO] -----------------------< cc.orbexa.hhy:hhy-boot >-----------------------
+[INFO] Building hhy-boot 1.2.2-SNAPSHOT                                   [8/8]
+[INFO]   from boot/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO]
+[INFO] --- resources:3.3.1:resources (default-resources) @ hhy-boot ---
+[INFO] Copying 47 resources from src/main/resources to target/classes
+[INFO]
+[INFO] --- compiler:3.14.1:compile (default-compile) @ hhy-boot ---
+[INFO] Recompiling the module because of changed dependency.
+[INFO] Compiling 33 source files with javac [debug parameters release 21] to target/classes
+[INFO]
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ hhy-boot ---
+[INFO] Copying 4 resources from src/test/resources to target/test-classes
+[INFO]
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ hhy-boot ---
+[INFO] Recompiling the module because of changed dependency.
+[INFO] Compiling 108 source files with javac [debug parameters release 21] to target/test-classes
+[WARNING] /workspace/services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminUserCommandServiceTest.java:[65,54] unchecked generic array creation for varargs parameter of type java.util.Optional<cc.orbexa.hhy.access.admin.AdminUserStore.UserRow>[]
+[WARNING] /workspace/services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminUserCommandServiceTest.java:[106,54] unchecked generic array creation for varargs parameter of type java.util.Optional<cc.orbexa.hhy.access.admin.AdminUserStore.UserRow>[]
+[WARNING] /workspace/services/backend/boot/src/test/java/cc/orbexa/hhy/content/R08ServiceTest.java:[72,87] unchecked method invocation: method forClass in class org.mockito.ArgumentCaptor is applied to given types
+  required: java.lang.Class<S>
+  found:    java.lang.Class<java.util.List>
+[WARNING] /workspace/services/backend/boot/src/test/java/cc/orbexa/hhy/content/R08ServiceTest.java:[72,87] unchecked conversion
+  required: org.mockito.ArgumentCaptor<java.util.List<cc.orbexa.hhy.content.R08Store.ContactWrite>>
+  found:    org.mockito.ArgumentCaptor
+[WARNING] /workspace/services/backend/boot/src/test/java/cc/orbexa/hhy/content/R09ServiceTest.java:[73,87] unchecked method invocation: method forClass in class org.mockito.ArgumentCaptor is applied to given types
+  required: java.lang.Class<S>
+  found:    java.lang.Class<java.util.List>
+[WARNING] /workspace/services/backend/boot/src/test/java/cc/orbexa/hhy/content/R09ServiceTest.java:[73,87] unchecked conversion
+  required: org.mockito.ArgumentCaptor<java.util.List<cc.orbexa.hhy.content.R08Store.ContactWrite>>
+  found:    org.mockito.ArgumentCaptor
+[WARNING] /workspace/services/backend/boot/src/test/java/cc/orbexa/hhy/content/R10ServiceTest.java:[69,87] unchecked method invocation: method forClass in class org.mockito.ArgumentCaptor is applied to given types
+  required: java.lang.Class<S>
+  found:    java.lang.Class<java.util.List>
+[WARNING] /workspace/services/backend/boot/src/test/java/cc/orbexa/hhy/content/R10ServiceTest.java:[69,87] unchecked conversion
+  required: org.mockito.ArgumentCaptor<java.util.List<cc.orbexa.hhy.content.R08Store.ContactWrite>>
+  found:    org.mockito.ArgumentCaptor
+[WARNING] /workspace/services/backend/boot/src/test/java/cc/orbexa/hhy/content/R11ServiceTest.java:[64,87] unchecked method invocation: method forClass in class org.mockito.ArgumentCaptor is applied to given types
+  required: java.lang.Class<S>
+  found:    java.lang.Class<java.util.List>
+[WARNING] /workspace/services/backend/boot/src/test/java/cc/orbexa/hhy/content/R11ServiceTest.java:[64,87] unchecked conversion
+  required: org.mockito.ArgumentCaptor<java.util.List<cc.orbexa.hhy.content.R08Store.ContactWrite>>
+  found:    org.mockito.ArgumentCaptor
+[WARNING] /workspace/services/backend/boot/src/test/java/cc/orbexa/hhy/content/R12PublishingServiceTest.java:[230,100] unchecked method invocation: method forClass in class org.mockito.ArgumentCaptor is applied to given types
+  required: java.lang.Class<S>
+  found:    java.lang.Class<java.util.List>
+[WARNING] /workspace/services/backend/boot/src/test/java/cc/orbexa/hhy/content/R12PublishingServiceTest.java:[230,100] unchecked conversion
+  required: org.mockito.ArgumentCaptor<java.util.List<cc.orbexa.hhy.content.R12PublishingStore.ContactEnvelope>>
+  found:    org.mockito.ArgumentCaptor
+[INFO]
+[INFO] --- surefire:3.5.4:test (default-test) @ hhy-boot ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO]
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running cc.orbexa.hhy.content.R13ServiceTest
+Mockito is currently self-attaching to enable the inline-mock-maker. This will no longer work in future releases of the JDK. Please add Mockito as an agent to your build as described in Mockito's documentation: https://javadoc.io/doc/org.mockito/mockito-core/latest/org.mockito/org/mockito/Mockito.html#0.3
+WARNING: A Java agent has been loaded dynamically (/root/.m2/repository/net/bytebuddy/byte-buddy-agent/1.18.10/byte-buddy-agent-1.18.10.jar)
+WARNING: If a serviceability tool is in use, please run with -XX:+EnableDynamicAgentLoading to hide this warning
+WARNING: If a serviceability tool is not in use, please run with -Djdk.instrument.traceUsage for more information
+WARNING: Dynamic loading of agents will be disallowed by default in a future release
+[INFO] Tests run: 9, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.766 s -- in cc.orbexa.hhy.content.R13ServiceTest
+[INFO] Running cc.orbexa.hhy.content.R07ServiceTest
+[INFO] Tests run: 18, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.407 s -- in cc.orbexa.hhy.content.R07ServiceTest
+[INFO] Running cc.orbexa.hhy.content.R08ServiceTest
+[INFO] Tests run: 9, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.295 s -- in cc.orbexa.hhy.content.R08ServiceTest
+[INFO] Running cc.orbexa.hhy.boot.user.R13ControllerContractTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.059 s -- in cc.orbexa.hhy.boot.user.R13ControllerContractTest
+[INFO]
+[INFO] Results:
+[INFO]
+[INFO] Tests run: 37, Failures: 0, Errors: 0, Skipped: 0
+[INFO]
+[INFO] ------------------------------------------------------------------------
+[INFO] Reactor Summary for HHY Backend 1.2.2-SNAPSHOT:
+[INFO]
+[INFO] HHY Backend ........................................ SUCCESS [  0.003 s]
+[INFO] hhy-shared-kernel .................................. SUCCESS [  3.029 s]
+[INFO] hhy-access ......................................... SUCCESS [  8.769 s]
+[INFO] hhy-content ........................................ SUCCESS [  2.397 s]
+[INFO] hhy-commerce ....................................... SUCCESS [  0.309 s]
+[INFO] hhy-incentive ...................................... SUCCESS [  0.124 s]
+[INFO] hhy-platform ....................................... SUCCESS [  0.316 s]
+[INFO] hhy-boot ........................................... SUCCESS [ 15.008 s]
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  30.627 s
+[INFO] Finished at: 2026-07-26T16:29:35Z
+[INFO] ------------------------------------------------------------------------
