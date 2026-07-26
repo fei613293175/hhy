@@ -1,19 +1,19 @@
 {
   "version": "1.0",
-  "generated_at": "2026-07-26T15:00:49Z",
-  "context_hash": "6bd72ef41fc2c817df9e77b75286986f0d3de1d9eba658c100fbc27b48ec1c1d",
+  "generated_at": "2026-07-26T15:21:38Z",
+  "context_hash": "79cd4771726e43ee65aee7bb22e09dbbc44376d1273bec43411b0e3fbcc227c9",
   "fingerprint_mode": "SESSION_DELTA",
   "project_fingerprint": {
-    "sha256": "aa61051a67c30ebabca2dcffddd57eb22d7918203ae67618b5237ac29ea25100",
-    "file_count": 23
+    "sha256": "32e2f742e044bd0c36370a1aac05050ea8dac8de632457eb44f4b7a8a1d4d8d2",
+    "file_count": 25
   },
   "yaml": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.yaml",
-    "sha256": "95f4ae1aa9cdb32d0a59987ed8ec80a4d4b893378384dafa662c03c22a758faa"
+    "sha256": "8cae508bdf70f4f1159d0331a33b3e7076c728cf803dc04a6b6779dd279066b7"
   },
   "markdown": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.md",
-    "sha256": "3326a40dc3b7da5d4af5f5d910096c3c5bb96df05c2d4840d365253902062482"
+    "sha256": "774429c6a6652a725f4e0cc7172b9004ce2fdfec3f24daabd3d71c28e1d3959d"
   },
   "sources": [
     {
@@ -28,7 +28,7 @@
     },
     {
       "path": "CURRENT_STATUS.yaml",
-      "sha256": "3007f360e607b3592a1c3bf68ea6e1794fa205b51d7f35117311267757cb4a49",
+      "sha256": "b548d70b94dd798dfc0d745fbe4c46bc9a9bdaaaa10707cfa64ce681998b716f",
       "bytes": 4520
     },
     {
@@ -83,12 +83,12 @@
     },
     {
       "path": ".continuity/EVENT_LOG.jsonl",
-      "sha256": "2035769fdf67df78a37cbab02b13479b7040c455e0530b3ba2e97985cdab7756",
-      "bytes": 2047355
+      "sha256": "79d3a2ec2d99f75dca6e61749176acf0000a3c290317b8cddab728d6f44a67a5",
+      "bytes": 2049308
     },
     {
       "path": ".continuity/SESSION_INDEX.yaml",
-      "sha256": "416317f160a359fac19fcd4d86988f08e803e991a07341a0ea6a412af8b0323d",
+      "sha256": "b8e567de73e25ad713600acd4a132505c949579810dd3fe3343a4707b80226e9",
       "bytes": 57468
     },
     {
@@ -103,12 +103,12 @@
     },
     {
       "path": ".continuity/CHANGE_REQUEST_INDEX.yaml",
-      "sha256": "4707f73f5532e215ec165bb1895083a1aa234ca334f762c5d2477e4f37db1150",
-      "bytes": 1291767
+      "sha256": "666028538ccf874533aa1ac62903e4d857e752700e7a473f181c182a371e4e13",
+      "bytes": 1292817
     },
     {
       "path": ".continuity/ACTIVE_SESSION.yaml",
-      "sha256": "e2393afa548a819ad0ef5cde23166877f873b8d75aa24ff09e2a9468ca73ed26",
+      "sha256": "31ed2928140e0ac47621e08746bc2d36290539045a41411bae47bb299acfb0eb",
       "bytes": 545
     },
     {
@@ -133,8 +133,8 @@
     },
     {
       "path": "releases/R13/RELEASE_MANIFEST.yaml",
-      "sha256": "9da70eeaff821007d592553c06735b8f30d81babaf2975f8720d51bc11399fb2",
-      "bytes": 3697
+      "sha256": "33b5685c41c0633735667039b1929b896563f0446f672c71919f4210da420758",
+      "bytes": 5261
     },
     {
       "path": "releases/R13/DEFINITION_OF_READY.yaml",
@@ -163,13 +163,13 @@
     },
     {
       "path": "docs/03-continuity/sessions/2026-07/SES-20260726T134047Z-F9A80405.md",
-      "sha256": "f2f6f1a4e8a7b305d3618d49b9c5a0f7bece2514908caf5423bac949245cb56c",
-      "bytes": 14789
+      "sha256": "c58d888d9cc81e0b9cbac8f6d4ab6405e0b15d3e9c41b5778bca8691ab83f917",
+      "bytes": 18038
     },
     {
-      "path": ".continuity/checkpoints/SES-20260726T134047Z-F9A80405/0005.yaml",
-      "sha256": "d5dd805b8a9701e141559c628fccf639990b73a7c407030214ac328fd68a0b11",
-      "bytes": 15941
+      "path": ".continuity/checkpoints/SES-20260726T134047Z-F9A80405/0006.yaml",
+      "sha256": "543af60ed559a47e8ffa7b3e4a1fdaea2a8bf26c20a78b8f5e9dbd060b94dcf6",
+      "bytes": 15878
     },
     {
       "path": "docs/03-continuity/change-requests/CR-0368-实现R13四页Android收藏历史分享与失效反馈闭环.md",
@@ -178,18 +178,18 @@
     },
     {
       "path": "docs/03-continuity/change-requests/CR-0369-实现R13四页Android收藏历史分享与失效反馈闭环.md",
-      "sha256": "1b39c75285fe60ac9747764152551f7f9d8ce86833132a99839d7ce88435186a",
-      "bytes": 4439
+      "sha256": "d8c4361248fb4b864273af647d747c38dfbde1d59b1f06e4756d4a3bebbe92c7",
+      "bytes": 4726
     },
     {
       "path": "docs/03-continuity/change-requests/CR-0370-补齐R13收藏星标语义图标.md",
-      "sha256": "e41a34b9c0bf55828e201733ac5798198b1396a4c95a912fd9b6283ce4e201ae",
-      "bytes": 2564
+      "sha256": "1362163908d956a1417dd428ca19b813b0e41554abdc257318ff624d5966dd2c",
+      "bytes": 2851
     },
     {
       "path": "docs/03-continuity/change-requests/CR-0371-修复R13请求编号回显复发并更新既有问题记录.md",
-      "sha256": "4f04cc6894ddf9f769ccfa7ee48d435072ab324f9257f0c413f9d54700086b19",
-      "bytes": 2798
+      "sha256": "43a35384e0b83dd91bcd97a50b6e5cfb0b5158875a7a5e21259583ec5ba52456",
+      "bytes": 3085
     }
   ]
 }

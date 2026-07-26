@@ -91,6 +91,45 @@ entry_gate:
 - 全部依赖版本为GREEN或按发布计划允许的并行依赖已记录
 - 冻结契约发生变化时已创建CR并重新生成追踪和SHA
 - 四页均绑定精确面板或批准补充规格；禁止TOKENS_ONLY、P01-P08范围和缺失绑定施工
+task_004_client_gate:
+  status: PASS
+  completed_at: '2026-07-26'
+  session_id: SES-20260726T134047Z-F9A80405
+  report: docs/03-continuity/R13_TASK-004_CLIENT_GATE.md
+  stories:
+    total: 3
+    completed: 3
+    commits:
+      STORY-R13-001: 97e3502a522512f863d5a0a3b5e2a1cb9533c002
+      STORY-R13-002: f8df36e3cbdcdb406b779e15da367591c1cd2fcc
+      STORY-R13-003: TASK_004_GATE_REPORT
+  pages:
+    total: 4
+    implementation_status: PASS
+    visual_catalog_status: IN_REVIEW
+    final_visual_pass: DEFERRED_TASK_R13_007_REAL_SCREENSHOT_AI_REVIEW
+  validation:
+    android_module: PASS_579_TASKS_410_EXECUTED_169_FROM_CACHE
+    android_image: hhy-android-toolchain:r01-46fb273
+    source_commit: f8df36e3cbdcdb406b779e15da367591c1cd2fcc
+    source_archive_sha256: a145ed0b0b85745a43c0f271dc4d08e93c26594a198ad412808b1a48fff429d5
+    module_log: obx-test:/tmp/hhy-r13-004-f8df36e3-android-module.log
+    module_log_sha256: 7c24d2b9b59411a0b642af6c752f45d75ac4b307bc845ea80aad277e336a3760
+    commercial_ui_boundary: PASS
+    android_ui_foundation: PASS
+    visual_catalog: PASS_4_PAGES_IN_REVIEW
+    documentation: PASS_0_ERRORS_0_WARNINGS
+  contract_fact_limits:
+    favorite_occurred_at: NOT_EXPOSED_BY_FROZEN_CONTENT_RESOURCE
+    history_occurred_at: NOT_EXPOSED_BY_FROZEN_CONTENT_RESOURCE
+    client_behavior: PRESERVE_SERVER_ACTIVITY_ORDER_AND_LABEL_ONLY_CONTENT_CREATED_UPDATED_TIME
+  deferred_final_candidate:
+  - full_release_gate
+  - emulator_real_screenshots
+  - ai_visual_review
+  - assemble_signed_test_apk
+  - install_smoke
+  next_task: TASK-R13-005
 exit_gate:
 - 领域代码与前端真实闭环
 - 数据库迁移和不变量测试通过

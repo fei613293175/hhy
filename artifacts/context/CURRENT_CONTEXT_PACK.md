@@ -1,7 +1,7 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-26T15:00:49Z
-- Context Hash：`6bd72ef41fc2c817df9e77b75286986f0d3de1d9eba658c100fbc27b48ec1c1d`
+- 生成时间：2026-07-26T15:21:38Z
+- Context Hash：`79cd4771726e43ee65aee7bb22e09dbbc44376d1273bec43411b0e3fbcc227c9`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 规则就绪：`PASS`（`HASHED_CONTEXT_MANIFEST`）
@@ -169,7 +169,7 @@ blocked_tasks:
 - TASK-R06-008
 - TASK-R07-008
 next_task: TASK-R13-004
-updated_at: '2026-07-26T15:00:44Z'
+updated_at: '2026-07-26T15:21:32Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -204,15 +204,15 @@ continuity:
   active_session_id: SES-20260726T134047Z-F9A80405
   actor_id: codex-root-r13-client-20260726
   story_id: STORY-R13-002
-  lease_expires_at: '2026-07-26T19:00:44Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260726T134047Z-F9A80405/0005.yaml
-  project_fingerprint: aa61051a67c30ebabca2dcffddd57eb22d7918203ae67618b5237ac29ea25100
+  lease_expires_at: '2026-07-26T19:21:32Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260726T134047Z-F9A80405/0006.yaml
+  project_fingerprint: 32e2f742e044bd0c36370a1aac05050ea8dac8de632457eb44f4b7a8a1d4d8d2
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: 6649f1c5a1b546dde68a91d0ec83e16f35b397096bb4f1cb6271fa6b45a8f521
-    generated_at: '2026-07-26T14:50:05Z'
+    context_hash: 6bd72ef41fc2c817df9e77b75286986f0d3de1d9eba658c100fbc27b48ec1c1d
+    generated_at: '2026-07-26T15:00:49Z'
   handoff_bundle: null
 ```
 
@@ -414,7 +414,7 @@ task_id: TASK-R13-004
 story_id: STORY-R13-002
 goal: 完成SCR-FAV-001与SCR-HIS-001收藏历史页面、我的入口、详情导航、视觉登记和MODULE证据。
 started_at: '2026-07-26T13:40:47Z'
-updated_at: '2026-07-26T15:00:44Z'
+updated_at: '2026-07-26T15:21:32Z'
 takeover_of: null
 change_requests:
 - CR-0368
@@ -452,12 +452,12 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-26T15:00:44Z'
-  expires_at: '2026-07-26T19:00:44Z'
-checkpoint_sequence: 5
-latest_checkpoint: .continuity/checkpoints/SES-20260726T134047Z-F9A80405/0005.yaml
+  renewed_at: '2026-07-26T15:21:32Z'
+  expires_at: '2026-07-26T19:21:32Z'
+checkpoint_sequence: 6
+latest_checkpoint: .continuity/checkpoints/SES-20260726T134047Z-F9A80405/0006.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260726T134047Z-F9A80405.md
-next_step: 提交精确源码Commit并在obx-test固定镜像运行受影响Android MODULE单测与lintDebug
+next_step: 提交客户端门禁与CR实现绑定元数据，随后关闭TASK-R13-004并立即领取TASK-R13-005
 context_pack: THIS_CONTEXT_PACK
 handoff_bundle: null
 closure: null
@@ -465,7 +465,7 @@ parallel_execution:
   assessment: CAPABILITY_UNAVAILABLE
   delegated_workers: 0
   workers: []
-  reason: 当前会话平台策略禁止在用户未显式要求子代理时委托；本阶段为同一Android事实分支的小范围串行集成与审计，不伪造并行证据
+  reason: 当前会话平台策略禁止在用户未显式要求子代理时委托；证据回填与CR状态绑定必须由事实主控串行完成
 story_history:
 - story_id: STORY-R13-001
   completed_at: '2026-07-26T14:29:38Z'
@@ -478,75 +478,69 @@ story_history:
 
 ```yaml
 protocol_version: '1.0'
-checkpoint_id: CP-SES-20260726T134047Z-F9A80405-0005
+checkpoint_id: CP-SES-20260726T134047Z-F9A80405-0006
 session_id: SES-20260726T134047Z-F9A80405
 task_id: TASK-R13-004
 story_id: STORY-R13-002
-sequence: 5
-created_at: '2026-07-26T15:00:44Z'
-summary: 完成STORY-R13-002最终可提交快照：收藏星标、成功反馈、R13技术字段禁显、真实内容时间语义、四页视觉目录与PROB-0088复发闭环
-next_step: 提交精确源码Commit并在obx-test固定镜像运行受影响Android MODULE单测与lintDebug
+sequence: 6
+created_at: '2026-07-26T15:21:31Z'
+summary: 完成TASK-R13-004客户端门禁证据回填：精确Commit f8df36e3云端579任务PASS、四页IN_REVIEW、Manifest与合同事实限制已固化
+next_step: 提交客户端门禁与CR实现绑定元数据，随后关闭TASK-R13-004并立即领取TASK-R13-005
 blockers: []
 decisions:
-- 冻结ContentResource不暴露收藏或浏览发生时间；保留服务端真实活动排序，只显示明确标注的内容发布或更新时间；PROB-0088原位记录R13复发而不新增平行问题
-note: 重新固化Problem Registry和生成证据格式后的最终提交前快照；Android单元与Lint在obx-test精确Commit运行。
+- R13-004不运行模拟器与APK；四页真实截图和视觉PASS仅在TASK-R13-007最终候选执行，项目所有者真机反馈异步
+note: 云端包装器SHA256=52635902571fc8c1cd8e20ee29efe27b0057056f142d60574e64a9cf02ee6a87；源归档SHA256=a145ed0b0b85745a43c0f271dc4d08e93c26594a198ad412808b1a48fff429d5；临时容器已删除。
 tests:
+- name: android-module
+  result: PASS
+  evidence: obx-test:/tmp/hhy-r13-004-f8df36e3-android-module.log sha256=7c24d2b9b59411a0b642af6c752f45d75ac4b307bc845ea80aad277e336a3760
+  note: commit=f8df36e3;579 tasks;410 executed;169 cache;10m35s
 - name: android-ui-foundation
   result: PASS
   evidence: scripts/check_android_ui_foundation.py
-  note: 共享HhyIcons与全量Android基础门禁通过
+  note: 全量Android基础门禁通过
 - name: commercial-ui-boundary
   result: PASS
   evidence: scripts/check_commercial_ui_boundaries.py
-  note: 72个正式前端源无请求编号等技术字段
+  note: 72个正式前端源通过
 - name: r13-documentation
   result: PASS
   evidence: scripts/check_v122_documentation.py --release R13
   note: 0 errors 0 warnings
+- name: r13-manifest-gate
+  result: PASS
+  evidence: releases/R13/RELEASE_MANIFEST.yaml task_004_client_gate
+  note: 精确Commit归档日志视觉状态和下一任务完整
 - name: r13-visual-catalog
   result: PASS
   evidence: scripts/check_ui_visual_acceptance.py --release R13 --catalog-only
-  note: 4页精确来源且保持IN_REVIEW
+  note: 4页精确绑定且IN_REVIEW
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: 97e3502a522512f863d5a0a3b5e2a1cb9533c002
+  head: f8df36e3cbdcdb406b779e15da367591c1cd2fcc
   upstream: origin/task/TASK-R03-001
-  ahead: 1
+  ahead: 2
   behind: 0
   dirty: true
   status_porcelain:
-  - M  .continuity/ACTIVE_SESSION.yaml
-  - M  .continuity/CHANGE_REQUEST_INDEX.yaml
-  - M  .continuity/EVENT_LOG.jsonl
-  - M  .continuity/SESSION_INDEX.yaml
-  - M  .continuity/STATE.yaml
-  - M  .continuity/TASK_CLAIMS.yaml
-  - A  .continuity/change_requests/CR-0370.yaml
-  - A  .continuity/change_requests/CR-0371.yaml
-  - A  .continuity/checkpoints/SES-20260726T134047Z-F9A80405/0003.yaml
-  - A  .continuity/checkpoints/SES-20260726T134047Z-F9A80405/0004.yaml
-  - M  .continuity/sessions/SES-20260726T134047Z-F9A80405.yaml
-  - M  CHANGELOG.md
-  - M  CURRENT_STATUS.yaml
-  - M  apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
-  - M  apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyIcons.kt
-  - M  apps/android/feature/activity/src/main/java/cc/orbexa/hhy/activity/R13ActivityScreens.kt
-  - M  apps/android/feature/activity/src/main/java/cc/orbexa/hhy/activity/R13ActivityState.kt
-  - M  apps/android/feature/activity/src/test/java/cc/orbexa/hhy/activity/R13ActivityStateTest.kt
-  - M  apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/R12MeHomeScreen.kt
-  - M  artifacts/context/CURRENT_CONTEXT_PACK.md
-  - M  artifacts/context/CURRENT_CONTEXT_PACK.yaml
-  - M  artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  - MM artifacts/validation/project-doctor-v1.2.2.json
-  - M  catalogs/change_request_index.csv
-  - M  catalogs/session_index.csv
-  - M  catalogs/ui_visual_acceptance.csv
-  - M  docs/03-continuity/PROBLEM_REGISTRY.yaml
-  - A  docs/03-continuity/change-requests/CR-0370-补齐R13收藏星标语义图标.md
-  - A  docs/03-continuity/change-requests/CR-0371-修复R13请求编号回显复发并更新既有问题记录.md
-  - M  docs/03-continuity/sessions/2026-07/SES-20260726T134047Z-F9A80405.md
+  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/change_requests/CR-0369.yaml'
+  - ' M .continuity/change_requests/CR-0370.yaml'
+  - ' M .continuity/change_requests/CR-0371.yaml'
+  - ' M artifacts/validation/project-doctor-v1.2.2.json'
+  - ' M catalogs/change_request_index.csv'
+  - ' M catalogs/session_index.csv'
+  - ' M docs/03-continuity/change-requests/CR-0369-实现R13四页Android收藏历史分享与失效反馈闭环.md'
+  - ' M docs/03-continuity/change-requests/CR-0370-补齐R13收藏星标语义图标.md'
+  - ' M docs/03-continuity/change-requests/CR-0371-修复R13请求编号回显复发并更新既有问题记录.md'
+  - ' M releases/R13/RELEASE_MANIFEST.yaml'
+  - ?? docs/03-continuity/R13_TASK-004_CLIENT_GATE.md
   recent_commits:
+  - "f8df36e3cbdcdb406b779e15da367591c1cd2fcc\t2026-07-26T23:01:20+08:00\tHHY Continuity Bootstrap\t[STORY-R13-002] fix(activity): align R13 client\
+    \ visual semantics"
   - "97e3502a522512f863d5a0a3b5e2a1cb9533c002\t2026-07-26T22:18:19+08:00\tHHY Continuity Bootstrap\t[STORY-R13-001] feat(activity): implement\
     \ R13 Android client surfaces"
   - "cdbbf232aa888d684c2ab434218d8c7afcb5f636\t2026-07-26T21:35:01+08:00\tHHY Continuity Bootstrap\t[STORY-R13-003] chore(continuity): close TASK-R13-003\
@@ -561,10 +555,8 @@ git:
     \ activity CR"
   - "6b1da3779106ae9db5f454511c365111d85a8d62\t2026-07-26T20:24:53+08:00\tHHY Continuity Bootstrap\t[STORY-R13-003] feat(database): enforce R13\
     \ activity invariants"
-  - "aeda26ad525af23f5e26a855b78e03f7c412a5f9\t2026-07-26T19:35:50+08:00\tHHY Continuity Bootstrap\t[STORY-R13-001] chore(continuity): close TASK-R13-001\
-    \ as completed"
 project_fingerprint:
-  sha256: aa61051a67c30ebabca2dcffddd57eb22d7918203ae67618b5237ac29ea25100
+  sha256: 32e2f742e044bd0c36370a1aac05050ea8dac8de632457eb44f4b7a8a1d4d8d2
   files:
   - CHANGELOG.md
   - apps/android/app/build.gradle.kts
@@ -585,11 +577,13 @@ project_fingerprint:
   - apps/android/settings.gradle.kts
   - catalogs/ui_visual_acceptance.csv
   - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/R13_TASK-004_CLIENT_GATE.md
   - docs/03-continuity/change-requests/CR-0368-实现R13四页Android收藏历史分享与失效反馈闭环.md
   - docs/03-continuity/change-requests/CR-0369-实现R13四页Android收藏历史分享与失效反馈闭环.md
   - docs/03-continuity/change-requests/CR-0370-补齐R13收藏星标语义图标.md
   - docs/03-continuity/change-requests/CR-0371-修复R13请求编号回显复发并更新既有问题记录.md
-  file_count: 23
+  - releases/R13/RELEASE_MANIFEST.yaml
+  file_count: 25
   payload:
     base_commit: cdbbf232aa888d684c2ab434218d8c7afcb5f636
     files:
@@ -669,22 +663,30 @@ project_fingerprint:
       state: FILE
       size: 183155
       sha256: 5fc58ada1cbb7e921b16e762d83a77be8df5b351f26d4feaf3d659f8ad5d23e5
+    - path: docs/03-continuity/R13_TASK-004_CLIENT_GATE.md
+      state: FILE
+      size: 4056
+      sha256: e694e923db4885392e442dd550ff9418faa307e5d09d4baf821876b989b9acc6
     - path: docs/03-continuity/change-requests/CR-0368-实现R13四页Android收藏历史分享与失效反馈闭环.md
       state: FILE
       size: 3076
       sha256: 2b58405951992e65b32d887d4539ae5b1c502e77f9c2a222420b9527c37a32ce
     - path: docs/03-continuity/change-requests/CR-0369-实现R13四页Android收藏历史分享与失效反馈闭环.md
       state: FILE
-      size: 4439
-      sha256: 1b39c75285fe60ac9747764152551f7f9d8ce86833132a99839d7ce88435186a
+      size: 4726
+      sha256: d8c4361248fb4b864273af647d747c38dfbde1d59b1f06e4756d4a3bebbe92c7
     - path: docs/03-continuity/change-requests/CR-0370-补齐R13收藏星标语义图标.md
       state: FILE
-      size: 2564
-      sha256: e41a34b9c0bf55828e201733ac5798198b1396a4c95a912fd9b6283ce4e201ae
+      size: 2851
+      sha256: 1362163908d956a1417dd428ca19b813b0e41554abdc257318ff624d5966dd2c
     - path: docs/03-continuity/change-requests/CR-0371-修复R13请求编号回显复发并更新既有问题记录.md
       state: FILE
-      size: 2798
-      sha256: 4f04cc6894ddf9f769ccfa7ee48d435072ab324f9257f0c413f9d54700086b19
+      size: 3085
+      sha256: 43a35384e0b83dd91bcd97a50b6e5cfb0b5158875a7a5e21259583ec5ba52456
+    - path: releases/R13/RELEASE_MANIFEST.yaml
+      state: FILE
+      size: 5261
+      sha256: 33b5685c41c0633735667039b1929b896563f0446f672c71919f4210da420758
 change_classification:
   other:
   - CHANGELOG.md
@@ -725,16 +727,20 @@ change_classification:
   - apps/android/settings.gradle.kts
   continuity:
   - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/R13_TASK-004_CLIENT_GATE.md
   - docs/03-continuity/change-requests/CR-0368-实现R13四页Android收藏历史分享与失效反馈闭环.md
   - docs/03-continuity/change-requests/CR-0369-实现R13四页Android收藏历史分享与失效反馈闭环.md
   - docs/03-continuity/change-requests/CR-0370-补齐R13收藏星标语义图标.md
   - docs/03-continuity/change-requests/CR-0371-修复R13请求编号回显复发并更新既有问题记录.md
+  source_of_truth:
+  - releases/R13/RELEASE_MANIFEST.yaml
 required_records:
 - SESSION_RECORD
 - SESSION_LOG
 - CHECKPOINT
 - CURRENT_STATUS
 - EVENT_LOG
+- APPROVED_CHANGE_REQUEST
 - CHANGELOG
 change_requests:
 - CR-0368
@@ -767,8 +773,8 @@ parallel_execution:
   assessment: CAPABILITY_UNAVAILABLE
   delegated_workers: 0
   workers: []
-  reason: 当前会话平台策略禁止在用户未显式要求子代理时委托；本阶段为同一Android事实分支的小范围串行集成与审计，不伪造并行证据
-event_hash: 924b73e9ed78e7d79762490aaba577fb7f5bd3d951b6606ddf96a097d770ac84
+  reason: 当前会话平台策略禁止在用户未显式要求子代理时委托；证据回填与CR状态绑定必须由事实主控串行完成
+event_hash: b8a315b66bb05df1b2e8644fd45a1cf9bdaf57ad66fd6b8469cf81ca23a794af
 ```
 
 ## 接续状态与事件头
@@ -780,8 +786,8 @@ active_session_id: SES-20260726T134047Z-F9A80405
 last_session_id: SES-20260726T123133Z-63E93B88
 last_session_result: COMPLETED
 last_closure_checkpoint_id: CP-SES-20260726T123133Z-63E93B88-0004
-event_count: 3624
-event_head_hash: 924b73e9ed78e7d79762490aaba577fb7f5bd3d951b6606ddf96a097d770ac84
+event_count: 3628
+event_head_hash: b8a315b66bb05df1b2e8644fd45a1cf9bdaf57ad66fd6b8469cf81ca23a794af
 event_chain_valid: true
 ```
 
@@ -904,9 +910,9 @@ recent_sessions: - session_id: SES-20260725T025042Z-A53070A0
   started_at: '2026-07-26T13:40:47Z'
   record: .continuity/sessions/SES-20260726T134047Z-F9A80405.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260726T134047Z-F9A80405.md
-  updated_at: '2026-07-26T15:00:44Z'
+  updated_at: '2026-07-26T15:21:32Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260726T134047Z-F9A80405/0005.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260726T134047Z-F9A80405/0006.yaml
   handoff_bundle: null
 task_claims: - claim_id: CLM-3D6F34DCEA9C
   session_id: SES-20260723T171219Z-D5E6B99E
@@ -1865,44 +1871,35 @@ recent_task_transitions: - transition_id: TRN-E1E762FB88A9
 ```yaml
 initialized: true
 branch: task/TASK-R03-001
-head: 97e3502a522512f863d5a0a3b5e2a1cb9533c002
+head: f8df36e3cbdcdb406b779e15da367591c1cd2fcc
 upstream: origin/task/TASK-R03-001
-ahead: 1
+ahead: 2
 behind: 0
 dirty: true
 status_porcelain:
-- MM .continuity/ACTIVE_SESSION.yaml
-- M  .continuity/CHANGE_REQUEST_INDEX.yaml
-- MM .continuity/EVENT_LOG.jsonl
-- MM .continuity/SESSION_INDEX.yaml
-- MM .continuity/STATE.yaml
-- M  .continuity/TASK_CLAIMS.yaml
-- A  .continuity/change_requests/CR-0370.yaml
-- A  .continuity/change_requests/CR-0371.yaml
-- A  .continuity/checkpoints/SES-20260726T134047Z-F9A80405/0003.yaml
-- A  .continuity/checkpoints/SES-20260726T134047Z-F9A80405/0004.yaml
-- MM .continuity/sessions/SES-20260726T134047Z-F9A80405.yaml
-- M  CHANGELOG.md
-- MM CURRENT_STATUS.yaml
-- M  apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
-- M  apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyIcons.kt
-- M  apps/android/feature/activity/src/main/java/cc/orbexa/hhy/activity/R13ActivityScreens.kt
-- M  apps/android/feature/activity/src/main/java/cc/orbexa/hhy/activity/R13ActivityState.kt
-- M  apps/android/feature/activity/src/test/java/cc/orbexa/hhy/activity/R13ActivityStateTest.kt
-- M  apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/R12MeHomeScreen.kt
-- M  artifacts/context/CURRENT_CONTEXT_PACK.md
-- M  artifacts/context/CURRENT_CONTEXT_PACK.yaml
-- M  artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-- MM artifacts/validation/project-doctor-v1.2.2.json
-- M  catalogs/change_request_index.csv
-- MM catalogs/session_index.csv
-- M  catalogs/ui_visual_acceptance.csv
-- M  docs/03-continuity/PROBLEM_REGISTRY.yaml
-- A  docs/03-continuity/change-requests/CR-0370-补齐R13收藏星标语义图标.md
-- A  docs/03-continuity/change-requests/CR-0371-修复R13请求编号回显复发并更新既有问题记录.md
-- MM docs/03-continuity/sessions/2026-07/SES-20260726T134047Z-F9A80405.md
-- ?? .continuity/checkpoints/SES-20260726T134047Z-F9A80405/0005.yaml
+- ' M .continuity/ACTIVE_SESSION.yaml'
+- ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
+- ' M .continuity/EVENT_LOG.jsonl'
+- ' M .continuity/SESSION_INDEX.yaml'
+- ' M .continuity/STATE.yaml'
+- ' M .continuity/change_requests/CR-0369.yaml'
+- ' M .continuity/change_requests/CR-0370.yaml'
+- ' M .continuity/change_requests/CR-0371.yaml'
+- ' M .continuity/sessions/SES-20260726T134047Z-F9A80405.yaml'
+- ' M CURRENT_STATUS.yaml'
+- ' M artifacts/validation/project-doctor-v1.2.2.json'
+- ' M catalogs/change_request_index.csv'
+- ' M catalogs/session_index.csv'
+- ' M docs/03-continuity/change-requests/CR-0369-实现R13四页Android收藏历史分享与失效反馈闭环.md'
+- ' M docs/03-continuity/change-requests/CR-0370-补齐R13收藏星标语义图标.md'
+- ' M docs/03-continuity/change-requests/CR-0371-修复R13请求编号回显复发并更新既有问题记录.md'
+- ' M docs/03-continuity/sessions/2026-07/SES-20260726T134047Z-F9A80405.md'
+- ' M releases/R13/RELEASE_MANIFEST.yaml'
+- ?? .continuity/checkpoints/SES-20260726T134047Z-F9A80405/0006.yaml
+- ?? docs/03-continuity/R13_TASK-004_CLIENT_GATE.md
 recent_commits:
+- "f8df36e3cbdcdb406b779e15da367591c1cd2fcc\t2026-07-26T23:01:20+08:00\tHHY Continuity Bootstrap\t[STORY-R13-002] fix(activity): align R13 client\
+  \ visual semantics"
 - "97e3502a522512f863d5a0a3b5e2a1cb9533c002\t2026-07-26T22:18:19+08:00\tHHY Continuity Bootstrap\t[STORY-R13-001] feat(activity): implement R13\
   \ Android client surfaces"
 - "cdbbf232aa888d684c2ab434218d8c7afcb5f636\t2026-07-26T21:35:01+08:00\tHHY Continuity Bootstrap\t[STORY-R13-003] chore(continuity): close TASK-R13-003\
@@ -1917,14 +1914,12 @@ recent_commits:
   \ activity CR"
 - "6b1da3779106ae9db5f454511c365111d85a8d62\t2026-07-26T20:24:53+08:00\tHHY Continuity Bootstrap\t[STORY-R13-003] feat(database): enforce R13\
   \ activity invariants"
-- "aeda26ad525af23f5e26a855b78e03f7c412a5f9\t2026-07-26T19:35:50+08:00\tHHY Continuity Bootstrap\t[STORY-R13-001] chore(continuity): close TASK-R13-001\
-  \ as completed"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`aa61051a67c30ebabca2dcffddd57eb22d7918203ae67618b5237ac29ea25100`
-- 文件数：23
+- 指纹：`32e2f742e044bd0c36370a1aac05050ea8dac8de632457eb44f4b7a8a1d4d8d2`
+- 文件数：25
 
 - `CHANGELOG.md`
 - `apps/android/app/build.gradle.kts`
@@ -1945,10 +1940,12 @@ recent_commits:
 - `apps/android/settings.gradle.kts`
 - `catalogs/ui_visual_acceptance.csv`
 - `docs/03-continuity/PROBLEM_REGISTRY.yaml`
+- `docs/03-continuity/R13_TASK-004_CLIENT_GATE.md`
 - `docs/03-continuity/change-requests/CR-0368-实现R13四页Android收藏历史分享与失效反馈闭环.md`
 - `docs/03-continuity/change-requests/CR-0369-实现R13四页Android收藏历史分享与失效反馈闭环.md`
 - `docs/03-continuity/change-requests/CR-0370-补齐R13收藏星标语义图标.md`
 - `docs/03-continuity/change-requests/CR-0371-修复R13请求编号回显复发并更新既有问题记录.md`
+- `releases/R13/RELEASE_MANIFEST.yaml`
 
 ## 当前 Release
 
@@ -2047,6 +2044,45 @@ RELEASE_MANIFEST.yaml:
   - 全部依赖版本为GREEN或按发布计划允许的并行依赖已记录
   - 冻结契约发生变化时已创建CR并重新生成追踪和SHA
   - 四页均绑定精确面板或批准补充规格；禁止TOKENS_ONLY、P01-P08范围和缺失绑定施工
+  task_004_client_gate:
+    status: PASS
+    completed_at: '2026-07-26'
+    session_id: SES-20260726T134047Z-F9A80405
+    report: docs/03-continuity/R13_TASK-004_CLIENT_GATE.md
+    stories:
+      total: 3
+      completed: 3
+      commits:
+        STORY-R13-001: 97e3502a522512f863d5a0a3b5e2a1cb9533c002
+        STORY-R13-002: f8df36e3cbdcdb406b779e15da367591c1cd2fcc
+        STORY-R13-003: TASK_004_GATE_REPORT
+    pages:
+      total: 4
+      implementation_status: PASS
+      visual_catalog_status: IN_REVIEW
+      final_visual_pass: DEFERRED_TASK_R13_007_REAL_SCREENSHOT_AI_REVIEW
+    validation:
+      android_module: PASS_579_TASKS_410_EXECUTED_169_FROM_CACHE
+      android_image: hhy-android-toolchain:r01-46fb273
+      source_commit: f8df36e3cbdcdb406b779e15da367591c1cd2fcc
+      source_archive_sha256: a145ed0b0b85745a43c0f271dc4d08e93c26594a198ad412808b1a48fff429d5
+      module_log: obx-test:/tmp/hhy-r13-004-f8df36e3-android-module.log
+      module_log_sha256: 7c24d2b9b59411a0b642af6c752f45d75ac4b307bc845ea80aad277e336a3760
+      commercial_ui_boundary: PASS
+      android_ui_foundation: PASS
+      visual_catalog: PASS_4_PAGES_IN_REVIEW
+      documentation: PASS_0_ERRORS_0_WARNINGS
+    contract_fact_limits:
+      favorite_occurred_at: NOT_EXPOSED_BY_FROZEN_CONTENT_RESOURCE
+      history_occurred_at: NOT_EXPOSED_BY_FROZEN_CONTENT_RESOURCE
+      client_behavior: PRESERVE_SERVER_ACTIVITY_ORDER_AND_LABEL_ONLY_CONTENT_CREATED_UPDATED_TIME
+    deferred_final_candidate:
+    - full_release_gate
+    - emulator_real_screenshots
+    - ai_visual_review
+    - assemble_signed_test_apk
+    - install_smoke
+    next_task: TASK-R13-005
   exit_gate:
   - 领域代码与前端真实闭环
   - 数据库迁移和不变量测试通过
@@ -11789,9 +11825,9 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - protocol_version: '1.0'
   cr_id: CR-0369
   title: 实现R13四页Android收藏历史分享与失效反馈闭环
-  status: IMPLEMENTING
+  status: IMPLEMENTED
   created_at: '2026-07-26T13:54:50Z'
-  updated_at: '2026-07-26T13:55:59Z'
+  updated_at: '2026-07-26T15:20:17Z'
   requester_actor_id: codex-root-r13-client-20260726
   approver_actor_id: codex-android-contract-review-r13-20260726
   task_id: TASK-R13-004
@@ -11856,14 +11892,21 @@ PARALLEL_EXECUTION_PLAN.yaml:
     status: IMPLEMENTING
     note: 开始实施R13类型化Android传输、四页状态与Compose UI、我的入口及四类内容详情动作回接。
     session_id: SES-20260726T134047Z-F9A80405
+  - at: '2026-07-26T15:20:17Z'
+    actor_id: codex-root-r13-client-20260726
+    status: IMPLEMENTED
+    note: R13客户端精确提交已通过obx-test固定镜像MODULE单测与Lint，视觉目录保持IN_REVIEW等待最终候选。
+    session_id: SES-20260726T134047Z-F9A80405
   session_ids:
   - SES-20260726T134047Z-F9A80405
+  implementation_commits:
+  - f8df36e3cbdcdb406b779e15da367591c1cd2fcc
 - protocol_version: '1.0'
   cr_id: CR-0370
   title: 补齐R13收藏星标语义图标
-  status: IMPLEMENTING
+  status: IMPLEMENTED
   created_at: '2026-07-26T14:38:53Z'
-  updated_at: '2026-07-26T14:40:02Z'
+  updated_at: '2026-07-26T15:20:26Z'
   requester_actor_id: codex-root-r13-client-20260726
   approver_actor_id: owner-standing-delegation-20260726
   task_id: TASK-R13-004
@@ -11902,14 +11945,21 @@ PARALLEL_EXECUTION_PLAN.yaml:
     status: IMPLEMENTING
     note: 开始在共享HhyIcons注册收藏星标并替换R13收藏语义引用。
     session_id: SES-20260726T134047Z-F9A80405
+  - at: '2026-07-26T15:20:26Z'
+    actor_id: codex-root-r13-client-20260726
+    status: IMPLEMENTED
+    note: R13客户端精确提交已通过obx-test固定镜像MODULE单测与Lint，视觉目录保持IN_REVIEW等待最终候选。
+    session_id: SES-20260726T134047Z-F9A80405
   session_ids:
   - SES-20260726T134047Z-F9A80405
+  implementation_commits:
+  - f8df36e3cbdcdb406b779e15da367591c1cd2fcc
 - protocol_version: '1.0'
   cr_id: CR-0371
   title: 修复R13请求编号回显复发并更新既有问题记录
-  status: IMPLEMENTING
+  status: IMPLEMENTED
   created_at: '2026-07-26T14:47:10Z'
-  updated_at: '2026-07-26T14:48:36Z'
+  updated_at: '2026-07-26T15:20:22Z'
   requester_actor_id: codex-root-r13-client-20260726
   approver_actor_id: owner-standing-delegation-20260726
   task_id: TASK-R13-004
@@ -11952,15 +12002,22 @@ PARALLEL_EXECUTION_PLAN.yaml:
     status: IMPLEMENTING
     note: 开始原位更新PROB-0088复发记录并绑定R13商业UI回归证据。
     session_id: SES-20260726T134047Z-F9A80405
+  - at: '2026-07-26T15:20:22Z'
+    actor_id: codex-root-r13-client-20260726
+    status: IMPLEMENTED
+    note: R13客户端精确提交已通过obx-test固定镜像MODULE单测与Lint，视觉目录保持IN_REVIEW等待最终候选。
+    session_id: SES-20260726T134047Z-F9A80405
   session_ids:
   - SES-20260726T134047Z-F9A80405
+  implementation_commits:
+  - f8df36e3cbdcdb406b779e15da367591c1cd2fcc
 ```
 
 ## 上下文来源及哈希
 
 - `AGENTS.md` — `306026d4706dfd3cae0a3db2b1c56e294700326bc3a13ca095c3987a267d390b`
 - `START_HERE.md` — `22de14029ce47beb41ea569e36ce223fbc9d11b86f8676f28d5fbbd83896af5c`
-- `CURRENT_STATUS.yaml` — `3007f360e607b3592a1c3bf68ea6e1794fa205b51d7f35117311267757cb4a49`
+- `CURRENT_STATUS.yaml` — `b548d70b94dd798dfc0d745fbe4c46bc9a9bdaaaa10707cfa64ce681998b716f`
 - `NEXT_TASK.yaml` — `84794d1ee0f44d18c670e2fc821193c6f181442aa884f3c57574936ad8e3314d`
 - `DEVELOPMENT_RISK_REGISTER.md` — `8304c91492e4ee2abea0522a06541c8688d39c7fc532b5d0cde499bf09fffb87`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
@@ -11971,28 +12028,28 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `config/REPOSITORY_TRANSPORT.yaml` — `8c4a21f3e204d46e7ffb467d804a53ed26cda61cd088dadfddb50b69eea657fc`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `38e04ed812c8df0d353c2b91993d31e53b471e9c457f06b426bd2260c470aa92`
-- `.continuity/EVENT_LOG.jsonl` — `2035769fdf67df78a37cbab02b13479b7040c455e0530b3ba2e97985cdab7756`
-- `.continuity/SESSION_INDEX.yaml` — `416317f160a359fac19fcd4d86988f08e803e991a07341a0ea6a412af8b0323d`
+- `.continuity/EVENT_LOG.jsonl` — `79d3a2ec2d99f75dca6e61749176acf0000a3c290317b8cddab728d6f44a67a5`
+- `.continuity/SESSION_INDEX.yaml` — `b8e567de73e25ad713600acd4a132505c949579810dd3fe3343a4707b80226e9`
 - `.continuity/TASK_CLAIMS.yaml` — `31b026b5bf52d6aee0e0c6b54d28d2fe3df8853607c367d9080ed575a59f0878`
 - `.continuity/TASK_TRANSITIONS.yaml` — `2608583c8c865c5f573df0f593f6cb40b7838ea48b6f8ad3f3fd0362bbaf060a`
-- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `4707f73f5532e215ec165bb1895083a1aa234ca334f762c5d2477e4f37db1150`
-- `.continuity/ACTIVE_SESSION.yaml` — `e2393afa548a819ad0ef5cde23166877f873b8d75aa24ff09e2a9468ca73ed26`
+- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `666028538ccf874533aa1ac62903e4d857e752700e7a473f181c182a371e4e13`
+- `.continuity/ACTIVE_SESSION.yaml` — `31ed2928140e0ac47621e08746bc2d36290539045a41411bae47bb299acfb0eb`
 - `docs/00-baseline/正式商业系统全局硬性开发边界.md` — `b1d965b019e632fbe1a259831201be7c82f79c26836fa161fd1d41855fcdb7c8`
 - `docs/02-ui/UI参考图使用与开发约束_V1.2.2.md` — `d14367586aa2067b059df58798acd20ab982459cdb35ff27fc7922a3896e4933`
 - `docs/03-continuity/持续开发无状态接续强制门禁_V1.2.3.md` — `d0ed3ed68bdd93b06500eecdfb5baa3245e6ca8b685a486788abb6eee39b3d51`
 - `docs/09-development/统一开发与交付效率规范.md` — `261efdf96ff72721f3b186b0ecfb75abbe21123f56ae94af98b2d53e00e2f150`
-- `releases/R13/RELEASE_MANIFEST.yaml` — `9da70eeaff821007d592553c06735b8f30d81babaf2975f8720d51bc11399fb2`
+- `releases/R13/RELEASE_MANIFEST.yaml` — `33b5685c41c0633735667039b1929b896563f0446f672c71919f4210da420758`
 - `releases/R13/DEFINITION_OF_READY.yaml` — `ba0fe58385ceb74fb62ecdde3b5a56c3871c5fc8234c0bd3fcbe8d72923cc995`
 - `releases/R13/STORIES.yaml` — `63c13176b456f804ab42ee350bd1c3496666cf13e3250d82b013ef73c8cd84fd`
 - `releases/R13/TASKS.yaml` — `67cd93402529cbe5f1bae694a3b326ec422cb27d9eb86d22b9103cff06dc905c`
 - `releases/R13/ACCEPTANCE_MATRIX.csv` — `d15e7b61b5756b2173c714bb75d3bbd753c16c6d130628fb4bd297dfe5d14bc5`
 - `releases/R13/PARALLEL_EXECUTION_PLAN.yaml` — `192844a37221f84e42f714fa209260976c81685e094733390664168e34ef5887`
-- `docs/03-continuity/sessions/2026-07/SES-20260726T134047Z-F9A80405.md` — `f2f6f1a4e8a7b305d3618d49b9c5a0f7bece2514908caf5423bac949245cb56c`
-- `.continuity/checkpoints/SES-20260726T134047Z-F9A80405/0005.yaml` — `d5dd805b8a9701e141559c628fccf639990b73a7c407030214ac328fd68a0b11`
+- `docs/03-continuity/sessions/2026-07/SES-20260726T134047Z-F9A80405.md` — `c58d888d9cc81e0b9cbac8f6d4ab6405e0b15d3e9c41b5778bca8691ab83f917`
+- `.continuity/checkpoints/SES-20260726T134047Z-F9A80405/0006.yaml` — `543af60ed559a47e8ffa7b3e4a1fdaea2a8bf26c20a78b8f5e9dbd060b94dcf6`
 - `docs/03-continuity/change-requests/CR-0368-实现R13四页Android收藏历史分享与失效反馈闭环.md` — `2b58405951992e65b32d887d4539ae5b1c502e77f9c2a222420b9527c37a32ce`
-- `docs/03-continuity/change-requests/CR-0369-实现R13四页Android收藏历史分享与失效反馈闭环.md` — `1b39c75285fe60ac9747764152551f7f9d8ce86833132a99839d7ce88435186a`
-- `docs/03-continuity/change-requests/CR-0370-补齐R13收藏星标语义图标.md` — `e41a34b9c0bf55828e201733ac5798198b1396a4c95a912fd9b6283ce4e201ae`
-- `docs/03-continuity/change-requests/CR-0371-修复R13请求编号回显复发并更新既有问题记录.md` — `4f04cc6894ddf9f769ccfa7ee48d435072ab324f9257f0c413f9d54700086b19`
+- `docs/03-continuity/change-requests/CR-0369-实现R13四页Android收藏历史分享与失效反馈闭环.md` — `d8c4361248fb4b864273af647d747c38dfbde1d59b1f06e4756d4a3bebbe92c7`
+- `docs/03-continuity/change-requests/CR-0370-补齐R13收藏星标语义图标.md` — `1362163908d956a1417dd428ca19b813b0e41554abdc257318ff624d5966dd2c`
+- `docs/03-continuity/change-requests/CR-0371-修复R13请求编号回显复发并更新既有问题记录.md` — `43a35384e0b83dd91bcd97a50b6e5cfb0b5158875a7a5e21259583ec5ba52456`
 
 ## 接手硬规则
 
