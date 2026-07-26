@@ -116,3 +116,17 @@ R13增加收藏总量、历史行数、近5分钟分享、联系方式访问/拒
 - 决定：`APPROVED`
 - 时间：`2026-07-26T18:27:05Z`
 - 说明：批准逐文件范围；仅限R13观测、隔离Staging、回滚证据和Release投影，不授权生产切流、真实秘密、模拟器或APK。
+
+## 状态记录 · 2026-07-26T18:57:36Z
+
+- Actor：`codex-root-r13-staging-20260727`
+- Status：`IMPLEMENTING`
+- Session：`SES-20260726T182231Z-EE79FA49`
+- Note：冻结Commit实现已推送，R13隔离Staging现场演练和本地证据归档已PASS，正在回填Release投影并完成关闭验证。
+
+## 状态记录 · 2026-07-26T18:59:39Z
+
+- Actor：`codex-root-r13-staging-20260727`
+- Status：`IMPLEMENTED`
+- Session：`SES-20260726T182231Z-EE79FA49`
+- Note：精确Commit 410aef53已在obx-test通过Java21模块测试与完整隔离Staging演练；七项Gauge、七条告警、V042回切、事实保留、日志脱敏和24项证据哈希全部PASS。

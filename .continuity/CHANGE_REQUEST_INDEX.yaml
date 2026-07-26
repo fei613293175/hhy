@@ -23154,9 +23154,9 @@ change_requests:
 - protocol_version: '1.0'
   cr_id: CR-0374
   title: 精确建立R13活动业务可观测性与隔离Staging回滚验收
-  status: APPROVED
+  status: IMPLEMENTED
   created_at: '2026-07-26T18:26:21Z'
-  updated_at: '2026-07-26T18:27:05Z'
+  updated_at: '2026-07-26T18:59:39Z'
   requester_actor_id: codex-root-r13-staging-20260727
   approver_actor_id: owner-standing-delegation-20260727
   task_id: TASK-R13-006
@@ -23226,3 +23226,116 @@ change_requests:
     note: 批准逐文件范围；仅限R13观测、隔离Staging、回滚证据和Release投影，不授权生产切流、真实秘密、模拟器或APK。
   machine_record: .continuity/change_requests/CR-0374.yaml
   document: docs/03-continuity/change-requests/CR-0374-精确建立R13活动业务可观测性与隔离Staging回滚验收.md
+  decision_log:
+  - at: '2026-07-26T18:57:36Z'
+    actor_id: codex-root-r13-staging-20260727
+    status: IMPLEMENTING
+    note: 冻结Commit实现已推送，R13隔离Staging现场演练和本地证据归档已PASS，正在回填Release投影并完成关闭验证。
+    session_id: SES-20260726T182231Z-EE79FA49
+  - at: '2026-07-26T18:59:39Z'
+    actor_id: codex-root-r13-staging-20260727
+    status: IMPLEMENTED
+    note: 精确Commit 410aef53已在obx-test通过Java21模块测试与完整隔离Staging演练；七项Gauge、七条告警、V042回切、事实保留、日志脱敏和24项证据哈希全部PASS。
+    session_id: SES-20260726T182231Z-EE79FA49
+  implementation_commits:
+  - 410aef5327ec460d87775a33b8d1f41927a3f29e
+  session_ids:
+  - SES-20260726T182231Z-EE79FA49
+- protocol_version: '1.0'
+  cr_id: CR-0375
+  title: 签署R13活动可观测性验收矩阵
+  status: IMPLEMENTED
+  created_at: '2026-07-26T18:55:44Z'
+  updated_at: '2026-07-26T18:59:44Z'
+  requester_actor_id: codex-root-r13-staging-20260727
+  approver_actor_id: owner-standing-delegation-20260727
+  task_id: TASK-R13-006
+  session_id: SES-20260726T182231Z-EE79FA49
+  user_request: 项目所有者批准持续开发并授权常规开发决策由AI自行执行，不再逐次确认。
+  reason: CR-0374已覆盖现场证据、报告、Release Manifest与Changelog，但未包含releases/R13/ACCEPTANCE_MATRIX.csv；TASK-R13-006验收要求必须将AC-R13-004从NOT_RUN更新为PASS，需最小精确扩展。
+  original_rule: AC-R13-004仍为NOT_RUN，且CR-0374未登记releases/R13/ACCEPTANCE_MATRIX.csv，尽管同一冻结Commit的现场演练和24项证据哈希已通过。
+  new_rule: 仅将AC-R13-004日志指标链路和业务告警可验证更新为PASS，证据路径精确指向TASK-R13-006现场报告和校验目录；其他R13验收项保持原状态。
+  impact_summary: 最小扩展一份R13验收矩阵，不修改业务代码、API、数据库、配置、页面、生产环境或其他验收项。
+  impact:
+    files:
+    - releases/R13/ACCEPTANCE_MATRIX.csv
+    pages: []
+    apis: []
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - check_program_execution_plan.py;continuity strict gate;SHA256SUMS verification
+    releases:
+    - R13
+    migration_and_compatibility: 纯验收状态投影；与CR-0374和冻结Commit 410aef5327ec460d87775a33b8d1f41927a3f29e证据一致，无运行时迁移。
+  user_confirmation: 批准，以后不要让我批准了 你自己持续开发就行了
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-26T18:56:13Z'
+    note: 批准最小精确范围，仅更新AC-R13-004证据状态；不扩大业务、生产或其他验收范围。
+  machine_record: .continuity/change_requests/CR-0375.yaml
+  document: docs/03-continuity/change-requests/CR-0375-签署R13活动可观测性验收矩阵.md
+  decision_log:
+  - at: '2026-07-26T18:57:42Z'
+    actor_id: codex-root-r13-staging-20260727
+    status: IMPLEMENTING
+    note: 按最小批准范围将AC-R13-004投影为PASS并绑定现场报告与证据目录。
+    session_id: SES-20260726T182231Z-EE79FA49
+  - at: '2026-07-26T18:59:44Z'
+    actor_id: codex-root-r13-staging-20260727
+    status: IMPLEMENTED
+    note: AC-R13-004已按批准范围更新为PASS并精确绑定TASK-R13-006报告和现场证据目录，其他验收项保持原状态。
+    session_id: SES-20260726T182231Z-EE79FA49
+  implementation_commits:
+  - 410aef5327ec460d87775a33b8d1f41927a3f29e
+  session_ids:
+  - SES-20260726T182231Z-EE79FA49
+- protocol_version: '1.0'
+  cr_id: CR-0376
+  title: 冻结现场证据字节并禁用文本空白差异
+  status: IMPLEMENTED
+  created_at: '2026-07-26T19:01:49Z'
+  updated_at: '2026-07-26T19:03:11Z'
+  requester_actor_id: codex-root-r13-staging-20260727
+  approver_actor_id: owner-standing-delegation-20260727
+  task_id: TASK-R13-006
+  session_id: SES-20260726T182231Z-EE79FA49
+  user_request: 项目所有者批准持续开发并要求可复用经验写入仓库事实源，常规开发决策不再逐次确认。
+  reason: 既有.gitattributes仅对artifacts/validation/**设置-text，能保留原始字节但仍按文本diff检查；Prometheus和HTTP原始协议证据含合法尾空格，新增文件会被git diff --check误拒绝，删除空格又会破坏远端本地SHA-256一致性。
+  original_rule: artifacts/validation/**仅设置-text保留原始字节，Git仍对新增Prometheus/HTTP协议证据执行文本空白差异检查。
+  new_rule: 在同一既有.gitattributes规则上追加-diff：现场验证证据继续逐字节冻结并参与SHA-256、Secret和Scope门禁，但不按源代码文本执行尾空格或行尾差异检查。
+  impact_summary: 原位更新一条既有Git属性规则，解决原始协议证据与源码空白门禁冲突；不修改任何证据字节、业务代码、测试结果或运行时。
+  impact:
+    files:
+    - .gitattributes
+    pages: []
+    apis: []
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - git check-attr diff;git diff --cached --check;remote-local SHA256 verification
+    releases:
+    - R13
+    migration_and_compatibility: Git属性仅影响后续diff展示和diff --check；已跟踪及新增证据原始字节、SHA-256和跨机器复核保持不变。
+  user_confirmation: 批准，以后不要让我批准了 你自己持续开发就行了
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-26T19:02:16Z'
+    note: 批准原位强化既有证据Git属性；只消除原始协议字节的文本空白误报，不削弱证据哈希、Secret、Scope或连续性门禁。
+  machine_record: .continuity/change_requests/CR-0376.yaml
+  document: docs/03-continuity/change-requests/CR-0376-冻结现场证据字节并禁用文本空白差异.md
+  decision_log:
+  - at: '2026-07-26T19:02:29Z'
+    actor_id: codex-root-r13-staging-20260727
+    status: IMPLEMENTING
+    note: 开始在既有artifacts/validation/**规则上追加-diff并复核原始证据SHA-256与暂存空白门禁。
+    session_id: SES-20260726T182231Z-EE79FA49
+  - at: '2026-07-26T19:03:11Z'
+    actor_id: codex-root-r13-staging-20260727
+    status: IMPLEMENTED
+    note: 既有artifacts/validation/**属性已从-text原位强化为-text -diff；三个原始证据文件均显示diff unset，24项SHA-256仍逐项一致，暂存空白检查PASS。
+    session_id: SES-20260726T182231Z-EE79FA49
+  session_ids:
+  - SES-20260726T182231Z-EE79FA49

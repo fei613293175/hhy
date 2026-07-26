@@ -11,11 +11,13 @@ task_id: TASK-R13-006
 story_id: STORY-R13-003
 goal: 收藏、历史、分享与行为审计可观测性与预发布验收
 started_at: '2026-07-26T18:22:31Z'
-updated_at: '2026-07-26T18:42:54Z'
+updated_at: '2026-07-26T19:03:42Z'
 takeover_of: null
 change_requests:
 - CR-0373
 - CR-0374
+- CR-0375
+- CR-0376
 scope:
   allowed_paths:
   - apps/**
@@ -91,7 +93,9 @@ scope:
   - artifacts/validation/r13-task006-staging/SHA256SUMS
   - releases/R13/RELEASE_MANIFEST.yaml
   - CHANGELOG.md
-  source: story+explicit+approved-cr:CR-0374
+  - releases/R13/ACCEPTANCE_MATRIX.csv
+  - .gitattributes
+  source: story+explicit+approved-cr:CR-0374+approved-cr:CR-0375+approved-cr:CR-0376
 git:
   initialized: true
   branch: task/TASK-R03-001
@@ -101,22 +105,22 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-26T18:42:47Z'
-  expires_at: '2026-07-26T22:42:47Z'
-checkpoint_sequence: 2
-latest_checkpoint: .continuity/checkpoints/SES-20260726T182231Z-EE79FA49/0002.yaml
+  renewed_at: '2026-07-26T19:03:26Z'
+  expires_at: '2026-07-26T23:03:26Z'
+checkpoint_sequence: 4
+latest_checkpoint: .continuity/checkpoints/SES-20260726T182231Z-EE79FA49/0004.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260726T182231Z-EE79FA49.md
-next_step: 提交观测实现Commit，构建c9741759基线与当前镜像并执行R13隔离Staging现场演练
+next_step: 提交R13现场证据Commit，关闭CR-0374、CR-0375、CR-0376，再关闭TASK-R13-006并启动TASK-R13-007最终候选
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: 9169e8adaeafb3663a931960fcdb247354adcac9b45ec3965647fa2c4d2b87fe
-  generated_at: '2026-07-26T18:42:52Z'
+  context_hash: d6bf4ce0f180837f624971e372b43a3c4601e9c6d363b54cd6f7574faf728221
+  generated_at: '2026-07-26T19:03:35Z'
 handoff_bundle: null
 closure: null
 parallel_execution:
-  assessment: CAPABILITY_UNAVAILABLE
+  assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 当前上位协作策略禁止未由用户显式要求的子代理委托；共享观测与Staging由主控串行集成复核
+  reason: 证据属性、哈希、CR、验收矩阵和Release事实是同一提交事务，最终集成必须由主控串行复核。

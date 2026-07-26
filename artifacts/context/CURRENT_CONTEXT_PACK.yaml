@@ -1,5 +1,5 @@
 context_version: '1.0'
-generated_at: '2026-07-26T18:42:52Z'
+generated_at: '2026-07-26T19:03:35Z'
 conversation_dependency: PROHIBITED
 source_of_truth: REPOSITORY_ONLY
 project: hhy-pro-platform
@@ -139,7 +139,7 @@ current_status:
   - TASK-R06-008
   - TASK-R07-008
   next_task: TASK-R13-006
-  updated_at: '2026-07-26T18:42:47Z'
+  updated_at: '2026-07-26T19:03:26Z'
   notes:
   - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
   - 全部REST/WebSocket操作均有页面或系统所有者
@@ -174,15 +174,15 @@ current_status:
     active_session_id: SES-20260726T182231Z-EE79FA49
     actor_id: codex-root-r13-staging-20260727
     story_id: STORY-R13-003
-    lease_expires_at: '2026-07-26T22:42:47Z'
-    latest_checkpoint: .continuity/checkpoints/SES-20260726T182231Z-EE79FA49/0002.yaml
-    project_fingerprint: 4b8c10624590e52c99b91819a3aaab9e031995875610d91a668f78167e0282e3
+    lease_expires_at: '2026-07-26T23:03:26Z'
+    latest_checkpoint: .continuity/checkpoints/SES-20260726T182231Z-EE79FA49/0004.yaml
+    project_fingerprint: 4f49b728f1d2f134934609ddbbdc81ea3ecad42cad3356b0de38c7963a4cd2be
     context_pack:
       yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
       markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
       manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-      context_hash: e2862067a814965bc808881ac6769b315bbff74ff96f9524605f7812060b0d59
-      generated_at: '2026-07-26T18:41:33Z'
+      context_hash: b43e6ddae845bbdfdafb45a6a27336f9f2f7e12b3b0e3ce23eb966fffcdad106
+      generated_at: '2026-07-26T19:00:20Z'
     handoff_bundle: null
 next_task:
   id: TASK-R13-006
@@ -231,11 +231,13 @@ active_session:
   story_id: STORY-R13-003
   goal: 收藏、历史、分享与行为审计可观测性与预发布验收
   started_at: '2026-07-26T18:22:31Z'
-  updated_at: '2026-07-26T18:42:47Z'
+  updated_at: '2026-07-26T19:03:26Z'
   takeover_of: null
   change_requests:
   - CR-0373
   - CR-0374
+  - CR-0375
+  - CR-0376
   scope:
     allowed_paths:
     - apps/**
@@ -311,7 +313,9 @@ active_session:
     - artifacts/validation/r13-task006-staging/SHA256SUMS
     - releases/R13/RELEASE_MANIFEST.yaml
     - CHANGELOG.md
-    source: story+explicit+approved-cr:CR-0374
+    - releases/R13/ACCEPTANCE_MATRIX.csv
+    - .gitattributes
+    source: story+explicit+approved-cr:CR-0374+approved-cr:CR-0375+approved-cr:CR-0376
   git:
     initialized: true
     branch: task/TASK-R03-001
@@ -321,102 +325,133 @@ active_session:
     initial_worktree_state: CLEAN
   lease:
     duration_minutes: 240
-    renewed_at: '2026-07-26T18:42:47Z'
-    expires_at: '2026-07-26T22:42:47Z'
-  checkpoint_sequence: 2
-  latest_checkpoint: .continuity/checkpoints/SES-20260726T182231Z-EE79FA49/0002.yaml
+    renewed_at: '2026-07-26T19:03:26Z'
+    expires_at: '2026-07-26T23:03:26Z'
+  checkpoint_sequence: 4
+  latest_checkpoint: .continuity/checkpoints/SES-20260726T182231Z-EE79FA49/0004.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260726T182231Z-EE79FA49.md
-  next_step: 提交观测实现Commit，构建c9741759基线与当前镜像并执行R13隔离Staging现场演练
+  next_step: 提交R13现场证据Commit，关闭CR-0374、CR-0375、CR-0376，再关闭TASK-R13-006并启动TASK-R13-007最终候选
   context_pack: THIS_CONTEXT_PACK
   handoff_bundle: null
   closure: null
   parallel_execution:
-    assessment: CAPABILITY_UNAVAILABLE
+    assessment: NO_SAFE_PARALLEL
     delegated_workers: 0
     workers: []
-    reason: 当前上位协作策略禁止未由用户显式要求的子代理委托；共享观测与Staging由主控串行集成复核
+    reason: 证据属性、哈希、CR、验收矩阵和Release事实是同一提交事务，最终集成必须由主控串行复核。
 latest_checkpoint:
   protocol_version: '1.0'
-  checkpoint_id: CP-SES-20260726T182231Z-EE79FA49-0002
+  checkpoint_id: CP-SES-20260726T182231Z-EE79FA49-0004
   session_id: SES-20260726T182231Z-EE79FA49
   task_id: TASK-R13-006
   story_id: STORY-R13-003
-  sequence: 2
-  created_at: '2026-07-26T18:42:46Z'
-  summary: 完成R13活动域可观测性实现及EOF格式修正，MODULE证据保持有效
-  next_step: 提交观测实现Commit，构建c9741759基线与当前镜像并执行R13隔离Staging现场演练
+  sequence: 4
+  created_at: '2026-07-26T19:03:25Z'
+  summary: TASK-R13-006现场证据与AC-R13-004已收口，并原位修复原始协议证据被源码空白门禁误判的问题
+  next_step: 提交R13现场证据Commit，关闭CR-0374、CR-0375、CR-0376，再关闭TASK-R13-006并启动TASK-R13-007最终候选
   blockers: []
-  decisions: []
+  decisions:
+  - 现场证据保持原始字节和SHA-256；artifacts/validation/**仅禁用文本diff，不禁用Scope、Secret、Commit或证据哈希门禁
   note: ''
   tests:
-  - name: r13-observability-config
+  - name: r13-staging-acceptance
     result: PASS
-    evidence: scripts/check_r13_observability.py:R13_OBSERVABILITY_CONFIG_OK
-    note: EOF修正后配置仍通过
-  - name: r13-staging-acceptance-unit
+    evidence: obx-test:/tmp/hhy-r13-006-staging.log
+    note: status=0,R13_STAGING_ACCEPTANCE_OK
+  - name: remote-local-sha256
     result: PASS
-    evidence: tests.test_r13_staging_acceptance:5 tests OK
-    note: 输入未变
-  - name: r13-staging-bash-syntax
+    evidence: artifacts/validation/r13-task006-staging/SHA256SUMS
+    note: 24个受校验文件逐项一致
+  - name: evidence-git-attributes
     result: PASS
-    evidence: obx-test:bash -n scripts/run_r13_staging_acceptance.sh
-    note: 输入未变
-  - name: r13-backend-java21-module
-    result: PASS
-    evidence: obx-test:/tmp/hhy-r13-006-java21-module.log:6 tests 0 failures 0 errors 0 skipped
-    note: Java输入未变
-  - name: r13-documentation
-    result: PASS
-    evidence: scripts/check_v122_documentation.py --release R13:0 errors 0 warnings
-    note: 文档输入未变
+    evidence: .gitattributes
+    note: text unset,diff unset for raw metrics and headers
   - name: git-diff-check
     result: PASS
-    evidence: git diff --check and cached --check
-    note: EOF修正
+    evidence: git diff --cached --check
+    note: raw evidence excluded from text whitespace diff;source files clean
+  - name: r13-observability-config
+    result: PASS
+    evidence: scripts/check_r13_observability.py
+    note: R13_OBSERVABILITY_CONFIG_OK
+  - name: r13-staging-unit
+    result: PASS
+    evidence: tests/test_r13_staging_acceptance.py
+    note: 5 tests PASS
+  - name: strict-r13-documentation
+    result: PASS
+    evidence: scripts/check_v123_documentation.py --strict --release R13
+    note: 0 errors,0 warnings
+  - name: release-artifacts
+    result: PASS
+    evidence: scripts/check_release_artifacts.py --release R13
+    note: RELEASE_ARTIFACTS_OK 1
+  - name: program-execution-plan
+    result: PASS
+    evidence: scripts/check_program_execution_plan.py --json
+    note: 31 releases,0 errors
   git:
     initialized: true
     branch: task/TASK-R03-001
-    head: 4088fbd07bcf50adbe9f158995bd91aa583f4ca3
+    head: 410aef5327ec460d87775a33b8d1f41927a3f29e
     upstream: origin/task/TASK-R03-001
     ahead: 0
     behind: 0
     dirty: true
     status_porcelain:
     - M  .continuity/ACTIVE_SESSION.yaml
-    - M  .continuity/CHANGE_REQUEST_INDEX.yaml
-    - M  .continuity/EVENT_LOG.jsonl
+    - MM .continuity/CHANGE_REQUEST_INDEX.yaml
+    - MM .continuity/EVENT_LOG.jsonl
     - M  .continuity/SESSION_INDEX.yaml
-    - M  .continuity/STATE.yaml
-    - M  .continuity/TASK_CLAIMS.yaml
-    - M  .continuity/TASK_TRANSITIONS.yaml
-    - A  .continuity/change_requests/CR-0373.yaml
-    - A  .continuity/change_requests/CR-0374.yaml
-    - A  .continuity/checkpoints/SES-20260726T182231Z-EE79FA49/0001.yaml
-    - A  .continuity/sessions/SES-20260726T182231Z-EE79FA49.yaml
+    - MM .continuity/STATE.yaml
+    - M  .continuity/change_requests/CR-0374.yaml
+    - A  .continuity/change_requests/CR-0375.yaml
+    - AM .continuity/change_requests/CR-0376.yaml
+    - A  .continuity/checkpoints/SES-20260726T182231Z-EE79FA49/0003.yaml
+    - M  .continuity/sessions/SES-20260726T182231Z-EE79FA49.yaml
+    - M  .gitattributes
+    - M  CHANGELOG.md
     - M  CURRENT_STATUS.yaml
     - M  artifacts/context/CURRENT_CONTEXT_PACK.md
     - M  artifacts/context/CURRENT_CONTEXT_PACK.yaml
     - M  artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    - M  catalogs/change_request_index.csv
+    - A  artifacts/reports/R13/TASK-R13-006-staging.md
+    - A  artifacts/validation/r13-task006-staging/SHA256SUMS
+    - A  artifacts/validation/r13-task006-staging/activity-facts-after.txt
+    - A  artifacts/validation/r13-task006-staging/activity-facts-before.txt
+    - A  artifacts/validation/r13-task006-staging/alert-deliveries.jsonl
+    - A  artifacts/validation/r13-task006-staging/alert-exercise.txt
+    - A  artifacts/validation/r13-task006-staging/backend-down-firing.json
+    - A  artifacts/validation/r13-task006-staging/compose-ps.txt
+    - A  artifacts/validation/r13-task006-staging/database.txt
+    - A  artifacts/validation/r13-task006-staging/final-metrics.txt
+    - A  artifacts/validation/r13-task006-staging/http-request-completed.jsonl
+    - A  artifacts/validation/r13-task006-staging/liveness.json
+    - A  artifacts/validation/r13-task006-staging/log-redaction.txt
+    - A  artifacts/validation/r13-task006-staging/machine-summary.txt
+    - A  artifacts/validation/r13-task006-staging/metadata.txt
+    - A  artifacts/validation/r13-task006-staging/metrics-summary.txt
+    - A  artifacts/validation/r13-task006-staging/metrics.txt
+    - A  artifacts/validation/r13-task006-staging/outbox-test-events.txt
+    - A  artifacts/validation/r13-task006-staging/prometheus-rules.json
+    - A  artifacts/validation/r13-task006-staging/prometheus-targets.json
+    - A  artifacts/validation/r13-task006-staging/public-status.json
+    - A  artifacts/validation/r13-task006-staging/r13-outbox-firing.json
+    - A  artifacts/validation/r13-task006-staging/readiness.json
+    - A  artifacts/validation/r13-task006-staging/rollback-rehearsal.txt
+    - A  artifacts/validation/r13-task006-staging/source-sha256.txt
+    - A  artifacts/validation/r13-task006-staging/trace-headers.txt
+    - MM catalogs/change_request_index.csv
     - M  catalogs/session_index.csv
-    - M  catalogs/task_transition_ledger.csv
-    - A  docs/03-continuity/change-requests/CR-0373-建立R13活动业务可观测性与隔离Staging回滚验收.md
-    - A  docs/03-continuity/change-requests/CR-0374-精确建立R13活动业务可观测性与隔离Staging回滚验收.md
-    - A  docs/03-continuity/sessions/2026-07/SES-20260726T182231Z-EE79FA49.md
-    - M  docs/07-operations/DEPLOYMENT_RUNBOOK.md
-    - M  docs/07-operations/ROLLBACK_RUNBOOK.md
-    - AM infra/staging/r13-smoke/alertmanager.yml
-    - A  infra/staging/r13-smoke/docker-compose.yml
-    - AM infra/staging/r13-smoke/nginx.conf
-    - AM infra/staging/r13-smoke/prometheus.yml
-    - A  infra/staging/r13-smoke/r13-alerts.yml
-    - A  scripts/check_r13_observability.py
-    - A  scripts/run_r13_staging_acceptance.sh
-    - M  services/backend/boot/src/main/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinder.java
-    - M  services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinderTest.java
-    - M  services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/ObservabilityEndpointsTest.java
-    - A  tests/test_r13_staging_acceptance.py
+    - M  docs/03-continuity/change-requests/CR-0374-精确建立R13活动业务可观测性与隔离Staging回滚验收.md
+    - A  docs/03-continuity/change-requests/CR-0375-签署R13活动可观测性验收矩阵.md
+    - AM docs/03-continuity/change-requests/CR-0376-冻结现场证据字节并禁用文本空白差异.md
+    - M  docs/03-continuity/sessions/2026-07/SES-20260726T182231Z-EE79FA49.md
+    - M  releases/R13/ACCEPTANCE_MATRIX.csv
+    - M  releases/R13/RELEASE_MANIFEST.yaml
     recent_commits:
+    - "410aef5327ec460d87775a33b8d1f41927a3f29e\t2026-07-27T02:43:29+08:00\tHHY Continuity Bootstrap\t[STORY-R13-003] feat(observability): add\
+      \ R13 activity staging gate"
     - "4088fbd07bcf50adbe9f158995bd91aa583f4ca3\t2026-07-27T02:19:58+08:00\tHHY Continuity Bootstrap\t[STORY-R13-003] chore(continuity): close\
       \ TASK-R13-005 as completed"
     - "39f6801ca7e5b308dce47efcab9dbfd2d9be45e4\t2026-07-27T02:15:41+08:00\tHHY Continuity Bootstrap\t[STORY-R13-003] chore(continuity): close\
@@ -431,13 +466,15 @@ latest_checkpoint:
       \ R13 client change requests"
     - "7865a46978d9afc6b220e8cf71863cc39b7901a5\t2026-07-26T23:22:53+08:00\tHHY Continuity Bootstrap\t[STORY-R13-002] chore(continuity): bind\
       \ R13 client gate"
-    - "f8df36e3cbdcdb406b779e15da367591c1cd2fcc\t2026-07-26T23:01:20+08:00\tHHY Continuity Bootstrap\t[STORY-R13-002] fix(activity): align R13\
-      \ client visual semantics"
   project_fingerprint:
-    sha256: 4b8c10624590e52c99b91819a3aaab9e031995875610d91a668f78167e0282e3
+    sha256: 4f49b728f1d2f134934609ddbbdc81ea3ecad42cad3356b0de38c7963a4cd2be
     files:
+    - .gitattributes
+    - CHANGELOG.md
     - docs/03-continuity/change-requests/CR-0373-建立R13活动业务可观测性与隔离Staging回滚验收.md
     - docs/03-continuity/change-requests/CR-0374-精确建立R13活动业务可观测性与隔离Staging回滚验收.md
+    - docs/03-continuity/change-requests/CR-0375-签署R13活动可观测性验收矩阵.md
+    - docs/03-continuity/change-requests/CR-0376-冻结现场证据字节并禁用文本空白差异.md
     - docs/07-operations/DEPLOYMENT_RUNBOOK.md
     - docs/07-operations/ROLLBACK_RUNBOOK.md
     - infra/staging/r13-smoke/alertmanager.yml
@@ -445,24 +482,42 @@ latest_checkpoint:
     - infra/staging/r13-smoke/nginx.conf
     - infra/staging/r13-smoke/prometheus.yml
     - infra/staging/r13-smoke/r13-alerts.yml
+    - releases/R13/ACCEPTANCE_MATRIX.csv
+    - releases/R13/RELEASE_MANIFEST.yaml
     - scripts/check_r13_observability.py
     - scripts/run_r13_staging_acceptance.sh
     - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinder.java
     - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinderTest.java
     - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/ObservabilityEndpointsTest.java
     - tests/test_r13_staging_acceptance.py
-    file_count: 15
+    file_count: 21
     payload:
       base_commit: 4088fbd07bcf50adbe9f158995bd91aa583f4ca3
       files:
+      - path: .gitattributes
+        state: FILE
+        size: 481
+        sha256: 04c06636f0ad1af3bfdec0c7b1de164b63aa34c27d8ed033486cc639e0cf2015
+      - path: CHANGELOG.md
+        state: FILE
+        size: 164238
+        sha256: 65bd67200111f8ce9f6d37d8e182f03a6bc85133422be6a908c0772a99aa36e5
       - path: docs/03-continuity/change-requests/CR-0373-建立R13活动业务可观测性与隔离Staging回滚验收.md
         state: FILE
         size: 3816
         sha256: 1ffb4a2c40898336bd2bb645ed81d39cc3ca9c30d74df66ea997cd182e18ed3c
       - path: docs/03-continuity/change-requests/CR-0374-精确建立R13活动业务可观测性与隔离Staging回滚验收.md
         state: FILE
-        size: 5005
-        sha256: 9093db3b87bb1c59d4015fdc81bf8f3641f085c01d7d1083d052131d9e4fdabc
+        size: 5666
+        sha256: 8ac8808531f9703df21eca63747b56b15a31f041a5869aef399b17f8e4b12034
+      - path: docs/03-continuity/change-requests/CR-0375-签署R13活动可观测性验收矩阵.md
+        state: FILE
+        size: 2728
+        sha256: 7617e79fac4a3ccb91921befc5274407d1463b4a1e5b594032b8ec6aaf6b3a3b
+      - path: docs/03-continuity/change-requests/CR-0376-冻结现场证据字节并禁用文本空白差异.md
+        state: FILE
+        size: 2951
+        sha256: db7be5e92102fe85e7913bd0e488c53291a51d3168b994e46c8295be24795ff7
       - path: docs/07-operations/DEPLOYMENT_RUNBOOK.md
         state: FILE
         size: 45828
@@ -491,6 +546,14 @@ latest_checkpoint:
         state: FILE
         size: 2071
         sha256: 243a830df623910435f015ef0d4541cd40242b60ff35e7cd2e45435087096c75
+      - path: releases/R13/ACCEPTANCE_MATRIX.csv
+        state: FILE
+        size: 746
+        sha256: f383e3cb6b77155e09469488812c34f20eef51253f30216590cdda46a1e30c65
+      - path: releases/R13/RELEASE_MANIFEST.yaml
+        state: FILE
+        size: 7589
+        sha256: ec92bcf2213b870e4d359eceaadc52f90467288d2fef62a28321ac9472fd2e05
       - path: scripts/check_r13_observability.py
         state: FILE
         size: 5875
@@ -516,18 +579,25 @@ latest_checkpoint:
         size: 2801
         sha256: 38cc9ac1059c0ccd2b6e791f03b1d5f7aa2cd6553532b117e948d8e1c48e97d0
   change_classification:
+    other:
+    - .gitattributes
+    - CHANGELOG.md
+    - docs/07-operations/DEPLOYMENT_RUNBOOK.md
+    - docs/07-operations/ROLLBACK_RUNBOOK.md
+    - releases/R13/ACCEPTANCE_MATRIX.csv
     continuity:
     - docs/03-continuity/change-requests/CR-0373-建立R13活动业务可观测性与隔离Staging回滚验收.md
     - docs/03-continuity/change-requests/CR-0374-精确建立R13活动业务可观测性与隔离Staging回滚验收.md
-    other:
-    - docs/07-operations/DEPLOYMENT_RUNBOOK.md
-    - docs/07-operations/ROLLBACK_RUNBOOK.md
+    - docs/03-continuity/change-requests/CR-0375-签署R13活动可观测性验收矩阵.md
+    - docs/03-continuity/change-requests/CR-0376-冻结现场证据字节并禁用文本空白差异.md
     infrastructure:
     - infra/staging/r13-smoke/alertmanager.yml
     - infra/staging/r13-smoke/docker-compose.yml
     - infra/staging/r13-smoke/nginx.conf
     - infra/staging/r13-smoke/prometheus.yml
     - infra/staging/r13-smoke/r13-alerts.yml
+    source_of_truth:
+    - releases/R13/RELEASE_MANIFEST.yaml
     code:
     - scripts/check_r13_observability.py
     - scripts/run_r13_staging_acceptance.sh
@@ -542,9 +612,12 @@ latest_checkpoint:
   - CHECKPOINT
   - CURRENT_STATUS
   - EVENT_LOG
+  - APPROVED_CHANGE_REQUEST
   change_requests:
   - CR-0373
   - CR-0374
+  - CR-0375
+  - CR-0376
   scope:
     allowed_paths:
     - apps/**
@@ -620,58 +693,78 @@ latest_checkpoint:
     - artifacts/validation/r13-task006-staging/SHA256SUMS
     - releases/R13/RELEASE_MANIFEST.yaml
     - CHANGELOG.md
-    source: story+explicit+approved-cr:CR-0374
+    - releases/R13/ACCEPTANCE_MATRIX.csv
+    - .gitattributes
+    source: story+explicit+approved-cr:CR-0374+approved-cr:CR-0375+approved-cr:CR-0376
   parallel_execution:
-    assessment: CAPABILITY_UNAVAILABLE
+    assessment: NO_SAFE_PARALLEL
     delegated_workers: 0
     workers: []
-    reason: 当前上位协作策略禁止未由用户显式要求的子代理委托；共享观测与Staging由主控串行集成复核
-  event_hash: 4ae4273d1467fadf182ff1709a23aaa9e2f8c3ca8c4596af0002336cf0a8fe83
+    reason: 证据属性、哈希、CR、验收矩阵和Release事实是同一提交事务，最终集成必须由主控串行复核。
+  event_hash: 9a7f40c16f1bc79d21704a67744c8413a3d5d016d651100a988bd8569faaeee5
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: 4088fbd07bcf50adbe9f158995bd91aa583f4ca3
+  head: 410aef5327ec460d87775a33b8d1f41927a3f29e
   upstream: origin/task/TASK-R03-001
   ahead: 0
   behind: 0
   dirty: true
   status_porcelain:
   - MM .continuity/ACTIVE_SESSION.yaml
-  - M  .continuity/CHANGE_REQUEST_INDEX.yaml
+  - MM .continuity/CHANGE_REQUEST_INDEX.yaml
   - MM .continuity/EVENT_LOG.jsonl
   - MM .continuity/SESSION_INDEX.yaml
   - MM .continuity/STATE.yaml
-  - M  .continuity/TASK_CLAIMS.yaml
-  - M  .continuity/TASK_TRANSITIONS.yaml
-  - A  .continuity/change_requests/CR-0373.yaml
-  - A  .continuity/change_requests/CR-0374.yaml
-  - A  .continuity/checkpoints/SES-20260726T182231Z-EE79FA49/0001.yaml
-  - AM .continuity/sessions/SES-20260726T182231Z-EE79FA49.yaml
+  - M  .continuity/change_requests/CR-0374.yaml
+  - A  .continuity/change_requests/CR-0375.yaml
+  - AM .continuity/change_requests/CR-0376.yaml
+  - A  .continuity/checkpoints/SES-20260726T182231Z-EE79FA49/0003.yaml
+  - MM .continuity/sessions/SES-20260726T182231Z-EE79FA49.yaml
+  - M  .gitattributes
+  - M  CHANGELOG.md
   - MM CURRENT_STATUS.yaml
   - M  artifacts/context/CURRENT_CONTEXT_PACK.md
   - M  artifacts/context/CURRENT_CONTEXT_PACK.yaml
   - M  artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  - M  catalogs/change_request_index.csv
-  - MM catalogs/session_index.csv
-  - M  catalogs/task_transition_ledger.csv
-  - A  docs/03-continuity/change-requests/CR-0373-建立R13活动业务可观测性与隔离Staging回滚验收.md
-  - A  docs/03-continuity/change-requests/CR-0374-精确建立R13活动业务可观测性与隔离Staging回滚验收.md
-  - AM docs/03-continuity/sessions/2026-07/SES-20260726T182231Z-EE79FA49.md
-  - M  docs/07-operations/DEPLOYMENT_RUNBOOK.md
-  - M  docs/07-operations/ROLLBACK_RUNBOOK.md
-  - AM infra/staging/r13-smoke/alertmanager.yml
-  - A  infra/staging/r13-smoke/docker-compose.yml
-  - AM infra/staging/r13-smoke/nginx.conf
-  - AM infra/staging/r13-smoke/prometheus.yml
-  - A  infra/staging/r13-smoke/r13-alerts.yml
-  - A  scripts/check_r13_observability.py
-  - A  scripts/run_r13_staging_acceptance.sh
-  - M  services/backend/boot/src/main/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinder.java
-  - M  services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinderTest.java
-  - M  services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/ObservabilityEndpointsTest.java
-  - A  tests/test_r13_staging_acceptance.py
-  - ?? .continuity/checkpoints/SES-20260726T182231Z-EE79FA49/0002.yaml
+  - A  artifacts/reports/R13/TASK-R13-006-staging.md
+  - A  artifacts/validation/r13-task006-staging/SHA256SUMS
+  - A  artifacts/validation/r13-task006-staging/activity-facts-after.txt
+  - A  artifacts/validation/r13-task006-staging/activity-facts-before.txt
+  - A  artifacts/validation/r13-task006-staging/alert-deliveries.jsonl
+  - A  artifacts/validation/r13-task006-staging/alert-exercise.txt
+  - A  artifacts/validation/r13-task006-staging/backend-down-firing.json
+  - A  artifacts/validation/r13-task006-staging/compose-ps.txt
+  - A  artifacts/validation/r13-task006-staging/database.txt
+  - A  artifacts/validation/r13-task006-staging/final-metrics.txt
+  - A  artifacts/validation/r13-task006-staging/http-request-completed.jsonl
+  - A  artifacts/validation/r13-task006-staging/liveness.json
+  - A  artifacts/validation/r13-task006-staging/log-redaction.txt
+  - A  artifacts/validation/r13-task006-staging/machine-summary.txt
+  - A  artifacts/validation/r13-task006-staging/metadata.txt
+  - A  artifacts/validation/r13-task006-staging/metrics-summary.txt
+  - A  artifacts/validation/r13-task006-staging/metrics.txt
+  - A  artifacts/validation/r13-task006-staging/outbox-test-events.txt
+  - A  artifacts/validation/r13-task006-staging/prometheus-rules.json
+  - A  artifacts/validation/r13-task006-staging/prometheus-targets.json
+  - A  artifacts/validation/r13-task006-staging/public-status.json
+  - A  artifacts/validation/r13-task006-staging/r13-outbox-firing.json
+  - A  artifacts/validation/r13-task006-staging/readiness.json
+  - A  artifacts/validation/r13-task006-staging/rollback-rehearsal.txt
+  - A  artifacts/validation/r13-task006-staging/source-sha256.txt
+  - A  artifacts/validation/r13-task006-staging/trace-headers.txt
+  - MM catalogs/change_request_index.csv
+  - M  catalogs/session_index.csv
+  - M  docs/03-continuity/change-requests/CR-0374-精确建立R13活动业务可观测性与隔离Staging回滚验收.md
+  - A  docs/03-continuity/change-requests/CR-0375-签署R13活动可观测性验收矩阵.md
+  - AM docs/03-continuity/change-requests/CR-0376-冻结现场证据字节并禁用文本空白差异.md
+  - MM docs/03-continuity/sessions/2026-07/SES-20260726T182231Z-EE79FA49.md
+  - M  releases/R13/ACCEPTANCE_MATRIX.csv
+  - M  releases/R13/RELEASE_MANIFEST.yaml
+  - ?? .continuity/checkpoints/SES-20260726T182231Z-EE79FA49/0004.yaml
   recent_commits:
+  - "410aef5327ec460d87775a33b8d1f41927a3f29e\t2026-07-27T02:43:29+08:00\tHHY Continuity Bootstrap\t[STORY-R13-003] feat(observability): add R13\
+    \ activity staging gate"
   - "4088fbd07bcf50adbe9f158995bd91aa583f4ca3\t2026-07-27T02:19:58+08:00\tHHY Continuity Bootstrap\t[STORY-R13-003] chore(continuity): close TASK-R13-005\
     \ as completed"
   - "39f6801ca7e5b308dce47efcab9dbfd2d9be45e4\t2026-07-27T02:15:41+08:00\tHHY Continuity Bootstrap\t[STORY-R13-003] chore(continuity): close R13\
@@ -686,13 +779,15 @@ git:
     \ client change requests"
   - "7865a46978d9afc6b220e8cf71863cc39b7901a5\t2026-07-26T23:22:53+08:00\tHHY Continuity Bootstrap\t[STORY-R13-002] chore(continuity): bind R13\
     \ client gate"
-  - "f8df36e3cbdcdb406b779e15da367591c1cd2fcc\t2026-07-26T23:01:20+08:00\tHHY Continuity Bootstrap\t[STORY-R13-002] fix(activity): align R13 client\
-    \ visual semantics"
 project_fingerprint:
-  sha256: 4b8c10624590e52c99b91819a3aaab9e031995875610d91a668f78167e0282e3
+  sha256: 4f49b728f1d2f134934609ddbbdc81ea3ecad42cad3356b0de38c7963a4cd2be
   files:
+  - .gitattributes
+  - CHANGELOG.md
   - docs/03-continuity/change-requests/CR-0373-建立R13活动业务可观测性与隔离Staging回滚验收.md
   - docs/03-continuity/change-requests/CR-0374-精确建立R13活动业务可观测性与隔离Staging回滚验收.md
+  - docs/03-continuity/change-requests/CR-0375-签署R13活动可观测性验收矩阵.md
+  - docs/03-continuity/change-requests/CR-0376-冻结现场证据字节并禁用文本空白差异.md
   - docs/07-operations/DEPLOYMENT_RUNBOOK.md
   - docs/07-operations/ROLLBACK_RUNBOOK.md
   - infra/staging/r13-smoke/alertmanager.yml
@@ -700,24 +795,42 @@ project_fingerprint:
   - infra/staging/r13-smoke/nginx.conf
   - infra/staging/r13-smoke/prometheus.yml
   - infra/staging/r13-smoke/r13-alerts.yml
+  - releases/R13/ACCEPTANCE_MATRIX.csv
+  - releases/R13/RELEASE_MANIFEST.yaml
   - scripts/check_r13_observability.py
   - scripts/run_r13_staging_acceptance.sh
   - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinder.java
   - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinderTest.java
   - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/ObservabilityEndpointsTest.java
   - tests/test_r13_staging_acceptance.py
-  file_count: 15
+  file_count: 21
   payload:
     base_commit: 4088fbd07bcf50adbe9f158995bd91aa583f4ca3
     files:
+    - path: .gitattributes
+      state: FILE
+      size: 481
+      sha256: 04c06636f0ad1af3bfdec0c7b1de164b63aa34c27d8ed033486cc639e0cf2015
+    - path: CHANGELOG.md
+      state: FILE
+      size: 164238
+      sha256: 65bd67200111f8ce9f6d37d8e182f03a6bc85133422be6a908c0772a99aa36e5
     - path: docs/03-continuity/change-requests/CR-0373-建立R13活动业务可观测性与隔离Staging回滚验收.md
       state: FILE
       size: 3816
       sha256: 1ffb4a2c40898336bd2bb645ed81d39cc3ca9c30d74df66ea997cd182e18ed3c
     - path: docs/03-continuity/change-requests/CR-0374-精确建立R13活动业务可观测性与隔离Staging回滚验收.md
       state: FILE
-      size: 5005
-      sha256: 9093db3b87bb1c59d4015fdc81bf8f3641f085c01d7d1083d052131d9e4fdabc
+      size: 5666
+      sha256: 8ac8808531f9703df21eca63747b56b15a31f041a5869aef399b17f8e4b12034
+    - path: docs/03-continuity/change-requests/CR-0375-签署R13活动可观测性验收矩阵.md
+      state: FILE
+      size: 2728
+      sha256: 7617e79fac4a3ccb91921befc5274407d1463b4a1e5b594032b8ec6aaf6b3a3b
+    - path: docs/03-continuity/change-requests/CR-0376-冻结现场证据字节并禁用文本空白差异.md
+      state: FILE
+      size: 2951
+      sha256: db7be5e92102fe85e7913bd0e488c53291a51d3168b994e46c8295be24795ff7
     - path: docs/07-operations/DEPLOYMENT_RUNBOOK.md
       state: FILE
       size: 45828
@@ -746,6 +859,14 @@ project_fingerprint:
       state: FILE
       size: 2071
       sha256: 243a830df623910435f015ef0d4541cd40242b60ff35e7cd2e45435087096c75
+    - path: releases/R13/ACCEPTANCE_MATRIX.csv
+      state: FILE
+      size: 746
+      sha256: f383e3cb6b77155e09469488812c34f20eef51253f30216590cdda46a1e30c65
+    - path: releases/R13/RELEASE_MANIFEST.yaml
+      state: FILE
+      size: 7589
+      sha256: ec92bcf2213b870e4d359eceaadc52f90467288d2fef62a28321ac9472fd2e05
     - path: scripts/check_r13_observability.py
       state: FILE
       size: 5875
@@ -929,6 +1050,43 @@ release_context:
       - assemble_signed_test_apk
       - install_smoke
       next_task: TASK-R13-006
+    task_006_staging_gate:
+      status: PASS
+      completed_at: '2026-07-27'
+      session_id: SES-20260726T182231Z-EE79FA49
+      source_commit: 410aef5327ec460d87775a33b8d1f41927a3f29e
+      report: artifacts/reports/R13/TASK-R13-006-staging.md
+      evidence: artifacts/validation/r13-task006-staging/
+      acceptance_id: AC-R13-004
+      validation:
+        staging_acceptance: PASS
+        java21_module: PASS_6_TESTS_0_FAILURES_0_ERRORS_0_SKIPPED
+        postgresql17: PASS_FLYWAY_V042_201_TABLES_200_BUSINESS
+        prometheus_target: PASS_UP_1
+        business_gauges: PASS_7
+        alert_rules: PASS_7
+        backend_down_alert: PASS_FIRING_AND_RESOLVED
+        r13_outbox_alert: PASS_FIRING_AND_RESOLVED
+        outbox_test_events: PASS_4_PUBLISHED_ATTEMPTS_1
+        trace_and_request_id: PASS
+        log_redaction: PASS
+        rollback: PASS_BASELINE_AND_CURRENT_IMAGES
+        activity_facts_preserved: PASS
+        evidence_sha256: PASS_24_FILES_REMOTE_AND_LOCAL
+      runtime:
+        compose_project: hhy-r13-staging
+        network_subnet: 172.31.239.0/24
+        current_image: sha256:30d4a7b3ab2fac69e27f4019035c050c889f9b7f20ee166fedda26960fae28e0
+        rollback_image: sha256:e4b6673ad0dbab261057017d3797051a14f6da403594c6850410b63ad8296717
+        postgres_volume: hhy-r13-staging_pgdata
+        flyway_version: '042'
+      deferred_final_candidate:
+      - full_release_gate
+      - emulator_real_screenshots
+      - ai_visual_review
+      - assemble_signed_test_apk
+      - install_smoke
+      next_task: TASK-R13-007
     exit_gate:
     - 领域代码与前端真实闭环
     - 数据库迁移和不变量测试通过
@@ -1686,8 +1844,8 @@ continuity_state:
   last_session_id: SES-20260726T160157Z-6B5BC09A
   last_session_result: COMPLETED
   last_closure_checkpoint_id: CP-SES-20260726T160157Z-6B5BC09A-0006
-  event_count: 3662
-  event_head_hash: 4ae4273d1467fadf182ff1709a23aaa9e2f8c3ca8c4596af0002336cf0a8fe83
+  event_count: 3678
+  event_head_hash: 9a7f40c16f1bc79d21704a67744c8413a3d5d016d651100a988bd8569faaeee5
   event_chain_valid: true
 recent_sessions:
 - session_id: SES-20260725T171320Z-7ACF9261
@@ -1806,9 +1964,9 @@ recent_sessions:
   started_at: '2026-07-26T18:22:31Z'
   record: .continuity/sessions/SES-20260726T182231Z-EE79FA49.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260726T182231Z-EE79FA49.md
-  updated_at: '2026-07-26T18:42:47Z'
+  updated_at: '2026-07-26T19:03:26Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260726T182231Z-EE79FA49/0002.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260726T182231Z-EE79FA49/0004.yaml
   handoff_bundle: null
 task_claims:
 - claim_id: CLM-68C0071B101C
@@ -11868,9 +12026,9 @@ open_change_requests:
 - protocol_version: '1.0'
   cr_id: CR-0374
   title: 精确建立R13活动业务可观测性与隔离Staging回滚验收
-  status: APPROVED
+  status: IMPLEMENTED
   created_at: '2026-07-26T18:26:21Z'
-  updated_at: '2026-07-26T18:27:05Z'
+  updated_at: '2026-07-26T18:59:39Z'
   requester_actor_id: codex-root-r13-staging-20260727
   approver_actor_id: owner-standing-delegation-20260727
   task_id: TASK-R13-006
@@ -11940,6 +12098,119 @@ open_change_requests:
     note: 批准逐文件范围；仅限R13观测、隔离Staging、回滚证据和Release投影，不授权生产切流、真实秘密、模拟器或APK。
   machine_record: .continuity/change_requests/CR-0374.yaml
   document: docs/03-continuity/change-requests/CR-0374-精确建立R13活动业务可观测性与隔离Staging回滚验收.md
+  decision_log:
+  - at: '2026-07-26T18:57:36Z'
+    actor_id: codex-root-r13-staging-20260727
+    status: IMPLEMENTING
+    note: 冻结Commit实现已推送，R13隔离Staging现场演练和本地证据归档已PASS，正在回填Release投影并完成关闭验证。
+    session_id: SES-20260726T182231Z-EE79FA49
+  - at: '2026-07-26T18:59:39Z'
+    actor_id: codex-root-r13-staging-20260727
+    status: IMPLEMENTED
+    note: 精确Commit 410aef53已在obx-test通过Java21模块测试与完整隔离Staging演练；七项Gauge、七条告警、V042回切、事实保留、日志脱敏和24项证据哈希全部PASS。
+    session_id: SES-20260726T182231Z-EE79FA49
+  implementation_commits:
+  - 410aef5327ec460d87775a33b8d1f41927a3f29e
+  session_ids:
+  - SES-20260726T182231Z-EE79FA49
+- protocol_version: '1.0'
+  cr_id: CR-0375
+  title: 签署R13活动可观测性验收矩阵
+  status: IMPLEMENTED
+  created_at: '2026-07-26T18:55:44Z'
+  updated_at: '2026-07-26T18:59:44Z'
+  requester_actor_id: codex-root-r13-staging-20260727
+  approver_actor_id: owner-standing-delegation-20260727
+  task_id: TASK-R13-006
+  session_id: SES-20260726T182231Z-EE79FA49
+  user_request: 项目所有者批准持续开发并授权常规开发决策由AI自行执行，不再逐次确认。
+  reason: CR-0374已覆盖现场证据、报告、Release Manifest与Changelog，但未包含releases/R13/ACCEPTANCE_MATRIX.csv；TASK-R13-006验收要求必须将AC-R13-004从NOT_RUN更新为PASS，需最小精确扩展。
+  original_rule: AC-R13-004仍为NOT_RUN，且CR-0374未登记releases/R13/ACCEPTANCE_MATRIX.csv，尽管同一冻结Commit的现场演练和24项证据哈希已通过。
+  new_rule: 仅将AC-R13-004日志指标链路和业务告警可验证更新为PASS，证据路径精确指向TASK-R13-006现场报告和校验目录；其他R13验收项保持原状态。
+  impact_summary: 最小扩展一份R13验收矩阵，不修改业务代码、API、数据库、配置、页面、生产环境或其他验收项。
+  impact:
+    files:
+    - releases/R13/ACCEPTANCE_MATRIX.csv
+    pages: []
+    apis: []
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - check_program_execution_plan.py;continuity strict gate;SHA256SUMS verification
+    releases:
+    - R13
+    migration_and_compatibility: 纯验收状态投影；与CR-0374和冻结Commit 410aef5327ec460d87775a33b8d1f41927a3f29e证据一致，无运行时迁移。
+  user_confirmation: 批准，以后不要让我批准了 你自己持续开发就行了
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-26T18:56:13Z'
+    note: 批准最小精确范围，仅更新AC-R13-004证据状态；不扩大业务、生产或其他验收范围。
+  machine_record: .continuity/change_requests/CR-0375.yaml
+  document: docs/03-continuity/change-requests/CR-0375-签署R13活动可观测性验收矩阵.md
+  decision_log:
+  - at: '2026-07-26T18:57:42Z'
+    actor_id: codex-root-r13-staging-20260727
+    status: IMPLEMENTING
+    note: 按最小批准范围将AC-R13-004投影为PASS并绑定现场报告与证据目录。
+    session_id: SES-20260726T182231Z-EE79FA49
+  - at: '2026-07-26T18:59:44Z'
+    actor_id: codex-root-r13-staging-20260727
+    status: IMPLEMENTED
+    note: AC-R13-004已按批准范围更新为PASS并精确绑定TASK-R13-006报告和现场证据目录，其他验收项保持原状态。
+    session_id: SES-20260726T182231Z-EE79FA49
+  implementation_commits:
+  - 410aef5327ec460d87775a33b8d1f41927a3f29e
+  session_ids:
+  - SES-20260726T182231Z-EE79FA49
+- protocol_version: '1.0'
+  cr_id: CR-0376
+  title: 冻结现场证据字节并禁用文本空白差异
+  status: IMPLEMENTED
+  created_at: '2026-07-26T19:01:49Z'
+  updated_at: '2026-07-26T19:03:11Z'
+  requester_actor_id: codex-root-r13-staging-20260727
+  approver_actor_id: owner-standing-delegation-20260727
+  task_id: TASK-R13-006
+  session_id: SES-20260726T182231Z-EE79FA49
+  user_request: 项目所有者批准持续开发并要求可复用经验写入仓库事实源，常规开发决策不再逐次确认。
+  reason: 既有.gitattributes仅对artifacts/validation/**设置-text，能保留原始字节但仍按文本diff检查；Prometheus和HTTP原始协议证据含合法尾空格，新增文件会被git diff --check误拒绝，删除空格又会破坏远端本地SHA-256一致性。
+  original_rule: artifacts/validation/**仅设置-text保留原始字节，Git仍对新增Prometheus/HTTP协议证据执行文本空白差异检查。
+  new_rule: 在同一既有.gitattributes规则上追加-diff：现场验证证据继续逐字节冻结并参与SHA-256、Secret和Scope门禁，但不按源代码文本执行尾空格或行尾差异检查。
+  impact_summary: 原位更新一条既有Git属性规则，解决原始协议证据与源码空白门禁冲突；不修改任何证据字节、业务代码、测试结果或运行时。
+  impact:
+    files:
+    - .gitattributes
+    pages: []
+    apis: []
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - git check-attr diff;git diff --cached --check;remote-local SHA256 verification
+    releases:
+    - R13
+    migration_and_compatibility: Git属性仅影响后续diff展示和diff --check；已跟踪及新增证据原始字节、SHA-256和跨机器复核保持不变。
+  user_confirmation: 批准，以后不要让我批准了 你自己持续开发就行了
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-26T19:02:16Z'
+    note: 批准原位强化既有证据Git属性；只消除原始协议字节的文本空白误报，不削弱证据哈希、Secret、Scope或连续性门禁。
+  machine_record: .continuity/change_requests/CR-0376.yaml
+  document: docs/03-continuity/change-requests/CR-0376-冻结现场证据字节并禁用文本空白差异.md
+  decision_log:
+  - at: '2026-07-26T19:02:29Z'
+    actor_id: codex-root-r13-staging-20260727
+    status: IMPLEMENTING
+    note: 开始在既有artifacts/validation/**规则上追加-diff并复核原始证据SHA-256与暂存空白门禁。
+    session_id: SES-20260726T182231Z-EE79FA49
+  - at: '2026-07-26T19:03:11Z'
+    actor_id: codex-root-r13-staging-20260727
+    status: IMPLEMENTED
+    note: 既有artifacts/validation/**属性已从-text原位强化为-text -diff；三个原始证据文件均显示diff unset，24项SHA-256仍逐项一致，暂存空白检查PASS。
+    session_id: SES-20260726T182231Z-EE79FA49
+  session_ids:
+  - SES-20260726T182231Z-EE79FA49
 source_manifest:
 - path: AGENTS.md
   sha256: 306026d4706dfd3cae0a3db2b1c56e294700326bc3a13ca095c3987a267d390b
@@ -11948,7 +12219,7 @@ source_manifest:
   sha256: 22de14029ce47beb41ea569e36ce223fbc9d11b86f8676f28d5fbbd83896af5c
   bytes: 4556
 - path: CURRENT_STATUS.yaml
-  sha256: 5ea45ccac987d3eadf8f83e9f1a137209407ecbd22ce78e80fb47f22f55f237a
+  sha256: e31f6163c4e3876782bf9a34728814481b626a634ed555a741df1fa9d959f61d
   bytes: 4583
 - path: NEXT_TASK.yaml
   sha256: 9deabdfb9b000796c18ae0c03e0a93c71f75aafcb2bf7b6a219519ec9ffcebd1
@@ -11981,10 +12252,10 @@ source_manifest:
   sha256: 38e04ed812c8df0d353c2b91993d31e53b471e9c457f06b426bd2260c470aa92
   bytes: 13936
 - path: .continuity/EVENT_LOG.jsonl
-  sha256: b9c1fcce99ef8d0468733a436b3b83ccb2a511228e3060e5e3b790c5b4c24563
-  bytes: 2073522
+  sha256: 7fd4010e0da64ed1bda8df805bd21275188d87251f32df34fb5586ebc87c4af1
+  bytes: 2080513
 - path: .continuity/SESSION_INDEX.yaml
-  sha256: 4e61839a859ca4230ccea21c6774acf49637cfe53f0a7b515b936366d802034c
+  sha256: 160bf3e435bb167f40edb7fbf9a08249412b117e6e70700b1e901a6f60ea08c0
   bytes: 58514
 - path: .continuity/TASK_CLAIMS.yaml
   sha256: 7c766d338076a3c291375e8a44f712fee6b17e9d6c859071e7f84abd4e6b08ab
@@ -11993,10 +12264,10 @@ source_manifest:
   sha256: a922b58ef207235f5b25d695e1609271b2531092fe1a2945fa6886c6386c6ac2
   bytes: 33301
 - path: .continuity/CHANGE_REQUEST_INDEX.yaml
-  sha256: 679d8a593ad70272f7ef7773b0f2b9f93f20250d2285a0e168c3a4ed65dbd4c9
-  bytes: 1307044
+  sha256: 834d5b9623ae1031e1dd054a17a1bd4b3eb56e113e3365fb96e624a36e55b59c
+  bytes: 1313492
 - path: .continuity/ACTIVE_SESSION.yaml
-  sha256: 05abd9260b2bab507a65d338fd6414480e39140369f92a3b92bf17f559aeeefc
+  sha256: 3e61082d652718e7f7fa3abf5bf8e6367186cb63ed9325ceb2dccead3e75ad05
   bytes: 546
 - path: docs/00-baseline/正式商业系统全局硬性开发边界.md
   sha256: b1d965b019e632fbe1a259831201be7c82f79c26836fa161fd1d41855fcdb7c8
@@ -12011,8 +12282,8 @@ source_manifest:
   sha256: 261efdf96ff72721f3b186b0ecfb75abbe21123f56ae94af98b2d53e00e2f150
   bytes: 17399
 - path: releases/R13/RELEASE_MANIFEST.yaml
-  sha256: 4166d3d90ccac90a760219bcfccbf8c727850c6862825aeb3fca40a690d1c01a
-  bytes: 6185
+  sha256: ec92bcf2213b870e4d359eceaadc52f90467288d2fef62a28321ac9472fd2e05
+  bytes: 7589
 - path: releases/R13/DEFINITION_OF_READY.yaml
   sha256: ba0fe58385ceb74fb62ecdde3b5a56c3871c5fc8234c0bd3fcbe8d72923cc995
   bytes: 7074
@@ -12023,23 +12294,29 @@ source_manifest:
   sha256: ce3c2d16c6cb0bfcebedc100e8e776cc1b3323b0d474957efa523b667b844a03
   bytes: 5856
 - path: releases/R13/ACCEPTANCE_MATRIX.csv
-  sha256: d15e7b61b5756b2173c714bb75d3bbd753c16c6d130628fb4bd297dfe5d14bc5
-  bytes: 684
+  sha256: f383e3cb6b77155e09469488812c34f20eef51253f30216590cdda46a1e30c65
+  bytes: 746
 - path: releases/R13/PARALLEL_EXECUTION_PLAN.yaml
   sha256: 192844a37221f84e42f714fa209260976c81685e094733390664168e34ef5887
   bytes: 2581
 - path: docs/03-continuity/sessions/2026-07/SES-20260726T182231Z-EE79FA49.md
-  sha256: 7ec3e1476cb3878e48c99b1b57a21b16f0d01f8e240e4ad706685cced2b0de88
-  bytes: 5915
-- path: .continuity/checkpoints/SES-20260726T182231Z-EE79FA49/0002.yaml
-  sha256: f1964a0e718a5bd3d69417da9093c530944b372e7fa188fd8c287583c4b088f6
-  bytes: 13260
+  sha256: c0db28d7ad114aca1f5a99e3a913928bbf3d3daef1a8aec995c51aaf856d31b8
+  bytes: 11149
+- path: .continuity/checkpoints/SES-20260726T182231Z-EE79FA49/0004.yaml
+  sha256: 0a30613a0f9520da2265c1fa0b975a34d2703a9de259f9c3db080102483511af
+  bytes: 16752
 - path: docs/03-continuity/change-requests/CR-0373-建立R13活动业务可观测性与隔离Staging回滚验收.md
   sha256: 1ffb4a2c40898336bd2bb645ed81d39cc3ca9c30d74df66ea997cd182e18ed3c
   bytes: 3816
 - path: docs/03-continuity/change-requests/CR-0374-精确建立R13活动业务可观测性与隔离Staging回滚验收.md
-  sha256: 9093db3b87bb1c59d4015fdc81bf8f3641f085c01d7d1083d052131d9e4fdabc
-  bytes: 5005
+  sha256: 8ac8808531f9703df21eca63747b56b15a31f041a5869aef399b17f8e4b12034
+  bytes: 5666
+- path: docs/03-continuity/change-requests/CR-0375-签署R13活动可观测性验收矩阵.md
+  sha256: 7617e79fac4a3ccb91921befc5274407d1463b4a1e5b594032b8ec6aaf6b3a3b
+  bytes: 2728
+- path: docs/03-continuity/change-requests/CR-0376-冻结现场证据字节并禁用文本空白差异.md
+  sha256: db7be5e92102fe85e7913bd0e488c53291a51d3168b994e46c8295be24795ff7
+  bytes: 2951
 rule_readiness:
   status: PASS
   evidence: HASHED_CONTEXT_MANIFEST
@@ -12075,4 +12352,4 @@ hard_rules:
 - 除非项目所有者明确报告未连接，默认Codex已连接obx-test且既有项目环境可用；预检失败必须阻断并报告
 - 禁止以无服务器状态继续开发或重建本地Android SDK，必须复用登记的远端镜像和Gradle缓存
 - Git remote/upstream仅按tracked transport descriptor受控恢复；推送前必须预检且禁止force push
-context_hash: 9169e8adaeafb3663a931960fcdb247354adcac9b45ec3965647fa2c4d2b87fe
+context_hash: d6bf4ce0f180837f624971e372b43a3c4601e9c6d363b54cd6f7574faf728221

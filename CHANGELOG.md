@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## R13活动业务可观测性与隔离Staging验收 · 2026-07-27
+
+- 新增收藏总量、历史行数、近5分钟分享、联系方式访问/拒绝、待处理失效反馈和活动Outbox积压七项低基数只读Gauge，并建立后端不可用、错误率、P95、Outbox、失效反馈、拒绝突增和指标查询失败七条告警。
+- 精确Commit `410aef53`在`obx-test`独立Compose project完成PostgreSQL 17 / Flyway V042、公开状态、健康检查、Prometheus、TraceId、结构化日志脱敏、告警firing/resolved送达及四条Outbox合法终结验收。
+- 当前镜像回切至`c9741759`功能基线并恢复，PostgreSQL容器、卷和V042全程不变；收藏、历史、分享、联系方式审计、失效反馈及活动Outbox事实前后完全一致。
+- 25项现场文件已归档并完成远端与本地逐文件SHA-256复核，`AC-R13-004=PASS`；模拟器、真实截图、AI视觉复核和候选APK继续固定在`TASK-R13-007`。
+
 ## R13收藏、历史、分享与行为审计专项测试 · 2026-07-27
 
 - 三个既有`TST-ACTIVITY_001`测试ID全部转为可执行证据矩阵，覆盖收藏、历史、取消收藏、分享、联系方式审计、失效反馈、冻结控制器合同和Android稳定意图键，不建立第二套测试清单。
@@ -1791,4 +1798,3 @@
 - Actor：`codex-root-r13-testing-20260726`
 - 摘要：TASK-R13-005完成：三个既有TST-ACTIVITY_001测试ID全部AUTOMATED；Java21 37项、PostgreSQL17隔离数据库5项、Android activity 109任务全部PASS，三类规范化日志远端本地哈希一致，P0/P1缺陷清零。
 - 记录：`docs/03-continuity/sessions/2026-07/SES-20260726T160157Z-6B5BC09A.md`
-

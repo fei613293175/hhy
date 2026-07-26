@@ -1,19 +1,19 @@
 {
   "version": "1.0",
-  "generated_at": "2026-07-26T18:42:52Z",
-  "context_hash": "9169e8adaeafb3663a931960fcdb247354adcac9b45ec3965647fa2c4d2b87fe",
+  "generated_at": "2026-07-26T19:03:35Z",
+  "context_hash": "d6bf4ce0f180837f624971e372b43a3c4601e9c6d363b54cd6f7574faf728221",
   "fingerprint_mode": "SESSION_DELTA",
   "project_fingerprint": {
-    "sha256": "4b8c10624590e52c99b91819a3aaab9e031995875610d91a668f78167e0282e3",
-    "file_count": 15
+    "sha256": "4f49b728f1d2f134934609ddbbdc81ea3ecad42cad3356b0de38c7963a4cd2be",
+    "file_count": 21
   },
   "yaml": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.yaml",
-    "sha256": "daa55a7e11c264ac917a9a40a73fdc14d6e158ff68ed7be7de970ad8a077db77"
+    "sha256": "1044895d59f571e346aee18f2ccc3480312cff0849d73697059a8f48a51f2b7f"
   },
   "markdown": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.md",
-    "sha256": "cfed25d4ef3b7f2f931b2ee01d843d1918b38132db55a5eab3b8eeb34233acb4"
+    "sha256": "91f05e58fa89747b5007814127335e94cbb3e63c810034b0a898b6b94387f05e"
   },
   "sources": [
     {
@@ -28,7 +28,7 @@
     },
     {
       "path": "CURRENT_STATUS.yaml",
-      "sha256": "5ea45ccac987d3eadf8f83e9f1a137209407ecbd22ce78e80fb47f22f55f237a",
+      "sha256": "e31f6163c4e3876782bf9a34728814481b626a634ed555a741df1fa9d959f61d",
       "bytes": 4583
     },
     {
@@ -83,12 +83,12 @@
     },
     {
       "path": ".continuity/EVENT_LOG.jsonl",
-      "sha256": "b9c1fcce99ef8d0468733a436b3b83ccb2a511228e3060e5e3b790c5b4c24563",
-      "bytes": 2073522
+      "sha256": "7fd4010e0da64ed1bda8df805bd21275188d87251f32df34fb5586ebc87c4af1",
+      "bytes": 2080513
     },
     {
       "path": ".continuity/SESSION_INDEX.yaml",
-      "sha256": "4e61839a859ca4230ccea21c6774acf49637cfe53f0a7b515b936366d802034c",
+      "sha256": "160bf3e435bb167f40edb7fbf9a08249412b117e6e70700b1e901a6f60ea08c0",
       "bytes": 58514
     },
     {
@@ -103,12 +103,12 @@
     },
     {
       "path": ".continuity/CHANGE_REQUEST_INDEX.yaml",
-      "sha256": "679d8a593ad70272f7ef7773b0f2b9f93f20250d2285a0e168c3a4ed65dbd4c9",
-      "bytes": 1307044
+      "sha256": "834d5b9623ae1031e1dd054a17a1bd4b3eb56e113e3365fb96e624a36e55b59c",
+      "bytes": 1313492
     },
     {
       "path": ".continuity/ACTIVE_SESSION.yaml",
-      "sha256": "05abd9260b2bab507a65d338fd6414480e39140369f92a3b92bf17f559aeeefc",
+      "sha256": "3e61082d652718e7f7fa3abf5bf8e6367186cb63ed9325ceb2dccead3e75ad05",
       "bytes": 546
     },
     {
@@ -133,8 +133,8 @@
     },
     {
       "path": "releases/R13/RELEASE_MANIFEST.yaml",
-      "sha256": "4166d3d90ccac90a760219bcfccbf8c727850c6862825aeb3fca40a690d1c01a",
-      "bytes": 6185
+      "sha256": "ec92bcf2213b870e4d359eceaadc52f90467288d2fef62a28321ac9472fd2e05",
+      "bytes": 7589
     },
     {
       "path": "releases/R13/DEFINITION_OF_READY.yaml",
@@ -153,8 +153,8 @@
     },
     {
       "path": "releases/R13/ACCEPTANCE_MATRIX.csv",
-      "sha256": "d15e7b61b5756b2173c714bb75d3bbd753c16c6d130628fb4bd297dfe5d14bc5",
-      "bytes": 684
+      "sha256": "f383e3cb6b77155e09469488812c34f20eef51253f30216590cdda46a1e30c65",
+      "bytes": 746
     },
     {
       "path": "releases/R13/PARALLEL_EXECUTION_PLAN.yaml",
@@ -163,13 +163,13 @@
     },
     {
       "path": "docs/03-continuity/sessions/2026-07/SES-20260726T182231Z-EE79FA49.md",
-      "sha256": "7ec3e1476cb3878e48c99b1b57a21b16f0d01f8e240e4ad706685cced2b0de88",
-      "bytes": 5915
+      "sha256": "c0db28d7ad114aca1f5a99e3a913928bbf3d3daef1a8aec995c51aaf856d31b8",
+      "bytes": 11149
     },
     {
-      "path": ".continuity/checkpoints/SES-20260726T182231Z-EE79FA49/0002.yaml",
-      "sha256": "f1964a0e718a5bd3d69417da9093c530944b372e7fa188fd8c287583c4b088f6",
-      "bytes": 13260
+      "path": ".continuity/checkpoints/SES-20260726T182231Z-EE79FA49/0004.yaml",
+      "sha256": "0a30613a0f9520da2265c1fa0b975a34d2703a9de259f9c3db080102483511af",
+      "bytes": 16752
     },
     {
       "path": "docs/03-continuity/change-requests/CR-0373-建立R13活动业务可观测性与隔离Staging回滚验收.md",
@@ -178,8 +178,18 @@
     },
     {
       "path": "docs/03-continuity/change-requests/CR-0374-精确建立R13活动业务可观测性与隔离Staging回滚验收.md",
-      "sha256": "9093db3b87bb1c59d4015fdc81bf8f3641f085c01d7d1083d052131d9e4fdabc",
-      "bytes": 5005
+      "sha256": "8ac8808531f9703df21eca63747b56b15a31f041a5869aef399b17f8e4b12034",
+      "bytes": 5666
+    },
+    {
+      "path": "docs/03-continuity/change-requests/CR-0375-签署R13活动可观测性验收矩阵.md",
+      "sha256": "7617e79fac4a3ccb91921befc5274407d1463b4a1e5b594032b8ec6aaf6b3a3b",
+      "bytes": 2728
+    },
+    {
+      "path": "docs/03-continuity/change-requests/CR-0376-冻结现场证据字节并禁用文本空白差异.md",
+      "sha256": "db7be5e92102fe85e7913bd0e488c53291a51d3168b994e46c8295be24795ff7",
+      "bytes": 2951
     }
   ]
 }
