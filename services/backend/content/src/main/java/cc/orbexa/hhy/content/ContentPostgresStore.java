@@ -7,10 +7,14 @@ import java.time.Instant;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowCallbackHandler;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -35,8 +39,12 @@ public class ContentPostgresStore implements ContentStore {
             ) stats ON true
             """;
     private final JdbcTemplate jdbc;
+    private final NamedParameterJdbcTemplate named;
 
-    public ContentPostgresStore(JdbcTemplate jdbc) { this.jdbc = jdbc; }
+    public ContentPostgresStore(JdbcTemplate jdbc) {
+        this.jdbc = jdbc;
+        this.named = new NamedParameterJdbcTemplate(jdbc);
+    }
 
     @Override
     public PageRows page(ContentQuery query) {
@@ -73,6 +81,12 @@ public class ContentPostgresStore implements ContentStore {
     }
 
     @Override
+    public List<ContentRow> details(List<Long> ids) {
+        if (ids.isEmpty()) return List.of();
+        return named.query(SELECT_CONTENT + " WHERE p.id IN (:ids)", Map.of("ids", ids), this::content);
+    }
+
+    @Override
     public List<MediaRow> media(long contentId) {
         return jdbc.query("""
                 SELECT media.id,
@@ -93,11 +107,47 @@ public class ContentPostgresStore implements ContentStore {
     }
 
     @Override
+    public Map<Long, List<MediaRow>> mediaBatch(List<Long> contentIds) {
+        Map<Long, List<MediaRow>> result = emptyLists(contentIds);
+        if (contentIds.isEmpty()) return result;
+        named.query("""
+                SELECT content_media.content_id,media.id,
+                       CASE WHEN media.mime LIKE 'image/%' THEN 'IMAGE'
+                            WHEN media.mime LIKE 'video/%' THEN 'VIDEO' ELSE 'FILE' END AS media_type,
+                       binding.public_domain,media.object_key,content_media.sort_order
+                FROM hhy.content_media content_media
+                JOIN hhy.media_objects media ON media.id=content_media.media_id
+                JOIN hhy.storage_scope_bindings binding ON binding.id=media.storage_binding_id
+                WHERE content_media.content_id IN (:ids) AND content_media.removed_at IS NULL
+                  AND media.status='READY' AND media.deleted_at IS NULL
+                  AND media.visibility='PUBLIC' AND binding.status='ACTIVE'
+                  AND binding.public_domain IS NOT NULL AND btrim(binding.public_domain)<>''
+                ORDER BY content_media.content_id,content_media.sort_order,content_media.id
+                """, Map.of("ids", contentIds), (RowCallbackHandler) rs -> {
+            result.get(rs.getLong(1)).add(mediaRowAt(rs, 2));
+        });
+        return immutableLists(result);
+    }
+
+    @Override
     public List<ContactRow> contacts(long contentId) {
         return jdbc.query("""
                 SELECT channel,display_mask,sort_order FROM hhy.content_contacts
                 WHERE content_id=? AND removed_at IS NULL ORDER BY sort_order,id
                 """, (rs, row) -> new ContactRow(rs.getString(1), rs.getString(2), rs.getInt(3)), contentId);
+    }
+
+    @Override
+    public Map<Long, List<ContactRow>> contactsBatch(List<Long> contentIds) {
+        Map<Long, List<ContactRow>> result = emptyLists(contentIds);
+        if (contentIds.isEmpty()) return result;
+        named.query("""
+                SELECT content_id,channel,display_mask,sort_order FROM hhy.content_contacts
+                WHERE content_id IN (:ids) AND removed_at IS NULL
+                ORDER BY content_id,sort_order,id
+                """, Map.of("ids", contentIds), (RowCallbackHandler) rs -> result.get(rs.getLong(1)).add(
+                        new ContactRow(rs.getString(2), rs.getString(3), rs.getInt(4))));
+        return immutableLists(result);
     }
 
     @Override
@@ -306,7 +356,11 @@ public class ContentPostgresStore implements ContentStore {
     }
 
     private MediaRow mediaRow(ResultSet rs, int row) throws SQLException {
-        String domain = rs.getString(3).strip();
+        return mediaRowAt(rs, 1);
+    }
+
+    private MediaRow mediaRowAt(ResultSet rs, int offset) throws SQLException {
+        String domain = rs.getString(offset + 2).strip();
         String normalized = domain.contains("://") ? domain : "https://" + domain;
         if (!normalized.endsWith("/")) normalized += "/";
         URI base;
@@ -319,10 +373,22 @@ public class ContentPostgresStore implements ContentStore {
                 || base.getUserInfo() != null || base.getQuery() != null || base.getFragment() != null) {
             throw new IllegalStateException("Active public media domain is invalid");
         }
-        String key = rs.getString(4);
+        String key = rs.getString(offset + 3);
         if (key == null || key.isBlank()) throw new IllegalStateException("Public media object key is unavailable");
         URI url = base.resolve(key.startsWith("/") ? key.substring(1) : key);
-        return new MediaRow(rs.getLong(1), rs.getString(2), url.toString(), rs.getInt(5));
+        return new MediaRow(rs.getLong(offset), rs.getString(offset + 1), url.toString(), rs.getInt(offset + 4));
+    }
+
+    private static <T> Map<Long, List<T>> emptyLists(List<Long> contentIds) {
+        Map<Long, List<T>> result = new LinkedHashMap<>();
+        for (Long id : contentIds) result.putIfAbsent(id, new ArrayList<>());
+        return result;
+    }
+
+    private static <T> Map<Long, List<T>> immutableLists(Map<Long, List<T>> values) {
+        Map<Long, List<T>> result = new LinkedHashMap<>();
+        values.forEach((id, items) -> result.put(id, List.copyOf(items)));
+        return Map.copyOf(result);
     }
 
     private static void append(StringBuilder sql, List<Object> args, String expression, Object value) {

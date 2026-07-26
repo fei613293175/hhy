@@ -19,6 +19,7 @@ import java.time.Clock;
 import java.time.Instant;
 import java.time.ZoneOffset;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -52,6 +53,25 @@ class ContentServiceTest {
         verify(store).page(query.capture());
         assertEquals("GROUP", query.getValue().contentType());
         assertEquals("p.created_at DESC,p.id DESC", query.getValue().orderBy());
+    }
+
+    @Test
+    void batchMaterializationPreservesActivityOrderWithoutPerItemQueries() {
+        ContentStore.ContentRow first = row(1, "第一条");
+        ContentStore.ContentRow second = row(2, "第二条");
+        when(store.details(List.of(2L, 1L))).thenReturn(List.of(first, second));
+        when(store.mediaBatch(List.of(2L, 1L))).thenReturn(Map.of(
+                1L, List.of(),
+                2L, List.of(new ContentStore.MediaRow(21, "IMAGE", "https://cdn.example/2.png", 0))));
+        when(store.contactsBatch(List.of(2L, 1L))).thenReturn(Map.of(
+                1L, List.of(), 2L, List.of()));
+
+        var result = service.resourcesById(List.of(2L, 1L, 2L));
+
+        assertEquals(List.of("2", "1"), result.stream().map(ContentContracts.ContentResource::id).toList());
+        assertEquals("https://cdn.example/2.png", result.getFirst().media().getFirst().url());
+        verify(store, never()).media(anyLong());
+        verify(store, never()).contacts(anyLong());
     }
 
     @Test
@@ -127,6 +147,13 @@ class ContentServiceTest {
         verify(store, never()).audit(anyLong(), anyString(), anyLong(), any(), any(), anyString());
         verify(store, never()).outbox(anyLong(), anyString(), anyString(), anyString(), any());
         verify(store, never()).complete(anyLong(), anyString());
+    }
+
+    private static ContentStore.ContentRow row(long id, String title) {
+        return new ContentStore.ContentRow(id, 7, "PROJECT", title, "摘要", "ONLINE", "APPROVED",
+                3, NOW, NOW, "发布者", null, null,
+                "{\"description\":\"说明\",\"categoryCode\":\"COOP\"}",
+                "1", "2", "3", "4", "5");
     }
 
     @Test

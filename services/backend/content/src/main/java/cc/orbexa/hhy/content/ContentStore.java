@@ -2,13 +2,17 @@ package cc.orbexa.hhy.content;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public interface ContentStore {
     PageRows page(ContentQuery query);
     Optional<ContentRow> detail(long id);
+    List<ContentRow> details(List<Long> ids);
     List<MediaRow> media(long contentId);
+    Map<Long, List<MediaRow>> mediaBatch(List<Long> contentIds);
     List<ContactRow> contacts(long contentId);
+    Map<Long, List<ContactRow>> contactsBatch(List<Long> contentIds);
     List<DictionaryRow> dictionaries(int page, int pageSize, String keyword, Boolean enabled, String sort);
     long dictionaryCount(String keyword, Boolean enabled);
     IdempotencyClaim claim(String scope, String key, String requestHash, Instant expiresAt);

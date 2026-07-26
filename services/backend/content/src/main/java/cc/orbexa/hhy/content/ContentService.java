@@ -27,6 +27,7 @@ import java.time.Clock;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.HexFormat;
+import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Locale;
@@ -86,7 +87,7 @@ public class ContentService {
         ContentStore.PageRows rows = store.page(new ContentStore.ContentQuery(
                 page, pageSize, beforeId, clean(status), clean(keyword), order,
                 storedType, clean(categoryCode), clean(regionCode), optionalId(publisherId)));
-        List<ContentResource> items = rows.items().stream().map(this::resource).toList();
+        List<ContentResource> items = resources(rows.items());
         String next = rows.hasMore() && !rows.items().isEmpty()
                 ? Long.toString(rows.items().getLast().id()) : null;
         return new ContentPage(items, new PageMeta(
@@ -104,6 +105,18 @@ public class ContentService {
                 .orElseThrow(ContentService::notFound);
         if (!"ONLINE".equals(row.status())) throw notFound();
         return resource(row);
+    }
+
+    @Transactional(readOnly = true)
+    public List<ContentResource> resourcesById(List<Long> ids) {
+        if (ids == null || ids.isEmpty()) return List.of();
+        List<Long> orderedIds = ids.stream().filter(java.util.Objects::nonNull).distinct().toList();
+        if (orderedIds.isEmpty()) return List.of();
+        Map<Long, ContentStore.ContentRow> byId = new LinkedHashMap<>();
+        for (ContentStore.ContentRow row : store.details(orderedIds)) byId.put(row.id(), row);
+        List<ContentStore.ContentRow> rows = orderedIds.stream().map(byId::get)
+                .filter(java.util.Objects::nonNull).toList();
+        return resources(rows);
     }
 
     @Transactional
@@ -281,17 +294,33 @@ public class ContentService {
     }
 
     private ContentResource resource(ContentStore.ContentRow row) {
+        return resource(row, store.media(row.id()), store.contacts(row.id()));
+    }
+
+    private List<ContentResource> resources(List<ContentStore.ContentRow> rows) {
+        if (rows.isEmpty()) return List.of();
+        List<Long> ids = rows.stream().map(ContentStore.ContentRow::id).distinct().toList();
+        Map<Long, List<ContentStore.MediaRow>> media = store.mediaBatch(ids);
+        Map<Long, List<ContentStore.ContactRow>> contacts = store.contactsBatch(ids);
+        return rows.stream().map(row -> resource(row,
+                media.getOrDefault(row.id(), List.of()),
+                contacts.getOrDefault(row.id(), List.of()))).toList();
+    }
+
+    private ContentResource resource(
+            ContentStore.ContentRow row, List<ContentStore.MediaRow> media,
+            List<ContentStore.ContactRow> contacts) {
         Map<String, Object> attributes = object(row.attributesJson());
         return new ContentResource(
                 Long.toString(row.id()), outwardType(row.type()), row.title(), row.summary(),
                 string(attributes.get("description")), string(attributes.get("categoryCode")),
-                string(attributes.get("regionCode")), store.media(row.id()).stream().map(media ->
-                        new ContentContracts.MediaItem(Long.toString(media.id()), media.mediaType(), media.url(),
-                                null, null, null, null, null, media.sortOrder(), "PUBLIC")).toList(),
+                string(attributes.get("regionCode")), media.stream().map(item ->
+                        new ContentContracts.MediaItem(Long.toString(item.id()), item.mediaType(), item.url(),
+                                null, null, null, null, null, item.sortOrder(), "PUBLIC")).toList(),
                 new PublisherSummary(Long.toString(row.ownerId()),
                         clean(row.nickname()) == null ? "用户" + row.ownerId() : row.nickname(),
                         row.avatar(), row.bio(), false, null, null),
-                store.contacts(row.id()).stream().map(contact -> new ContactSummary(
+                contacts.stream().map(contact -> new ContactSummary(
                         contact.channel(), contact.displayMask(), true, "LOGIN", false)).toList(),
                 row.status(), row.reviewStatus(), new Statistics(
                         count(row.views()), count(row.favorites()), count(row.shares()),

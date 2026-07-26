@@ -1,0 +1,92 @@
+protocol_version: '1.0'
+package_version: 1.2.3
+session_id: SES-20260726T123133Z-63E93B88
+status: ACTIVE
+actor:
+  id: codex-root-r13-backend-20260726
+  kind: AI_OR_HUMAN
+  host: unknown
+release: R13
+task_id: TASK-R13-003
+story_id: STORY-R13-003
+goal: 实现并验证R13六个冻结operationId的后端应用服务、权限、幂等、错误码、审计和Outbox，保持控制器仅编排且不发明合同
+started_at: '2026-07-26T12:31:33Z'
+updated_at: '2026-07-26T13:26:05Z'
+takeover_of: null
+change_requests:
+- CR-0367
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions:
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentStore.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentPostgresStore.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentService.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R13Contracts.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R13Store.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R13PostgresStore.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R13Service.java
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/R13Controller.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/ContentServiceTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R13ServiceTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R13PostgresStoreTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/R13ControllerContractTest.java
+  source: story+explicit+approved-cr:CR-0367
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  base_commit: c5e4ce7c3139823291896f9d1b8a26df147cad74
+  start_head: c5e4ce7c3139823291896f9d1b8a26df147cad74
+  upstream: origin/task/TASK-R03-001
+  initial_worktree_state: CLEAN
+lease:
+  duration_minutes: 240
+  renewed_at: '2026-07-26T13:25:58Z'
+  expires_at: '2026-07-26T17:25:58Z'
+checkpoint_sequence: 2
+latest_checkpoint: .continuity/checkpoints/SES-20260726T123133Z-63E93B88/0002.yaml
+session_log: docs/03-continuity/sessions/2026-07/SES-20260726T123133Z-63E93B88.md
+next_step: 暂存精确范围并执行pre-commit，提交CR-0367实现Commit
+context_pack:
+  yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
+  markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
+  manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+  context_hash: 225070e10db2da5a655077940672d9727b36a7eaa776fbfea83acc2c889eebd6
+  generated_at: '2026-07-26T13:26:02Z'
+handoff_bundle: null
+closure: null
+parallel_execution:
+  assessment: CAPABILITY_UNAVAILABLE
+  delegated_workers: 0
+  workers: []
+  reason: 当前系统级协作约束禁止启动子代理；主控已完成串行复核和独立远端验证
