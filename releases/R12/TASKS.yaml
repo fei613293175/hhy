@@ -133,7 +133,7 @@ tasks:
   completed_at: '2026-07-26T10:46:57Z'
 - id: TASK-R12-008
   title: 统一发布与发布管理版本关闭与无状态交接
-  status: READY
+  status: DONE
   depends_on:
   - TASK-R12-007
   requirements: *id001
@@ -147,6 +147,7 @@ tasks:
   - 全新AI仅凭仓库可继续
   - 工作区干净且Tag可追溯
   session_log_required: true
+  completed_at: '2026-07-26T10:57:48Z'
 version: 1.2.2
 definition_of_ready: releases/R12/DEFINITION_OF_READY.yaml
 story_backlog: releases/R12/STORIES.yaml

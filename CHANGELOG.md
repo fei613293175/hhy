@@ -1718,3 +1718,12 @@
 - 摘要：TASK-R12-007完成：R12最终Android候选和轻量视觉基线晋升PASS；十页AI视觉审核、固定签名APK、生产API、四方SHA-256交付、桌面测试说明、六项验收与全局治理审计全部闭环，Owner真机反馈保持异步。
 - 记录：`docs/03-continuity/sessions/2026-07/SES-20260725T192048Z-668BD05D.md`
 
+## TASK-R12-008 · COMPLETED · 2026-07-26T10:57:48Z
+
+- Task close: TASK-R12-008 / SES-20260726T105013Z-AE578D81
+- Release：`R12`
+- Story：`STORY-R12-008`
+- Actor：`codex-root-r12-close-20260726`
+- 摘要：TASK-R12-008完成：R12八项任务、六项AC、七个operationId、累计65页视觉、最终候选、固定签名APK、四方交付和六项治理审计全部机器PASS；Owner真机保持异步PENDING，正式验收与生产激活继续阻断，按计划进入R13。
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260726T105013Z-AE578D81.md`
+

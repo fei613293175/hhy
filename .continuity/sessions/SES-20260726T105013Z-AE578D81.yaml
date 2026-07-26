@@ -1,7 +1,7 @@
 protocol_version: '1.0'
 package_version: 1.2.3
 session_id: SES-20260726T105013Z-AE578D81
-status: ACTIVE
+status: CLOSED
 actor:
   id: codex-root-r12-close-20260726
   kind: AI_OR_HUMAN
@@ -11,7 +11,7 @@ task_id: TASK-R12-008
 story_id: STORY-R12-008
 goal: 完成R12机器关闭、无状态交接并立即进入R13，保持Owner真机反馈异步且不触发生产激活。
 started_at: '2026-07-26T10:50:13Z'
-updated_at: '2026-07-26T10:56:21Z'
+updated_at: '2026-07-26T10:58:02Z'
 takeover_of: null
 change_requests:
 - CR-0362
@@ -61,22 +61,36 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-26T10:56:14Z'
-  expires_at: '2026-07-26T14:56:14Z'
-checkpoint_sequence: 2
-latest_checkpoint: .continuity/checkpoints/SES-20260726T105013Z-AE578D81/0002.yaml
+  renewed_at: '2026-07-26T10:57:54Z'
+  expires_at: '2026-07-26T14:57:54Z'
+checkpoint_sequence: 3
+latest_checkpoint: .continuity/checkpoints/SES-20260726T105013Z-AE578D81/0003.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260726T105013Z-AE578D81.md
-next_step: 提交CR实现状态元数据，关闭TASK-R12-008并把连续性指针推进至R13首任务。
+next_step: 提交关闭元数据Commit，然后运行pre-push/CI门禁
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: 61542fcc7845a2ee4940609ee48681e1d8a5a8f7c6c064df0af7b09c99b8015b
-  generated_at: '2026-07-26T10:56:18Z'
+  context_hash: 0137894450ad1a0db32756bb6f14ca29b76e7674e7d62ab03bcc52a0dd43b14b
+  generated_at: '2026-07-26T10:57:58Z'
 handoff_bundle: null
-closure: null
+closure:
+  result: COMPLETED
+  summary: TASK-R12-008完成：R12八项任务、六项AC、七个operationId、累计65页视觉、最终候选、固定签名APK、四方交付和六项治理审计全部机器PASS；Owner真机保持异步PENDING，正式验收与生产激活继续阻断，按计划进入R13。
+  code_commit: 60c547b9cd0fc8c35a6567c744271ba23a593d41
+  next_release: R13
+  next_task: TASK-R13-001
+  blocked_advance: false
+  completed_independent_advance: false
+  user_confirmation: null
+  metadata_commit: PENDING
+  push_verification: CI_REQUIRED_AFTER_METADATA_COMMIT
+  started_at: '2026-07-26T10:57:48Z'
+  closure_checkpoint_id: CP-SES-20260726T105013Z-AE578D81-0003
+  closed_at: '2026-07-26T10:58:02Z'
 parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
   reason: 最终任务关闭和跨版本指针迁移必须串行保持CR、Commit和Session一致。
+closed_at: '2026-07-26T10:58:02Z'
