@@ -5,19 +5,21 @@
   "strict": true,
   "status": "PASS",
   "metrics": {
-    "event_count": 3551,
-    "event_head_hash": "031a944cafba6dcc83722fc67294b0370cdb5e1896e7d55888917e4227262636",
+    "event_count": 3554,
+    "event_head_hash": "42b3f7be2f1ee0b63ce843c6e7e23131ea3bc008f53838868c94f0213d0651af",
     "rule_readiness": "PASS",
     "required_rule_sources": 11,
-    "changed_files": 23,
-    "project_changed_files": 3,
+    "changed_files": 16,
+    "project_changed_files": 2,
     "change_classification": {
-      "continuity": 3
+      "other": 2
     },
     "document_gate": {
-      "status": "SKIPPED_UNAFFECTED",
+      "status": "EXECUTED",
       "forced": false,
-      "affected_inputs": []
+      "affected_inputs": [
+        "releases/R13/TASKS.yaml"
+      ]
     }
   },
   "errors": [],

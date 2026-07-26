@@ -1,19 +1,19 @@
 {
   "version": "1.0",
-  "generated_at": "2026-07-26T11:32:52Z",
-  "context_hash": "621f5bc533570896a615845c2ac559c8e22fd599c6e27a5dbfa9aa02d28d6ba1",
-  "fingerprint_mode": "SESSION_DELTA",
+  "generated_at": "2026-07-26T11:34:06Z",
+  "context_hash": "18e9ca5a4a5f01fe2f3f672e08d9a670e86cce45a80bb31461e9298e5e68466b",
+  "fingerprint_mode": "REPOSITORY_TREE",
   "project_fingerprint": {
-    "sha256": "d4654335774033f4fec9066d910e1c8609de39d5646b7fceb155749926a1701c",
-    "file_count": 22
+    "sha256": "e957a2cbd2923762b711f2772adffa7fa1064a8a5dd8221f14139f3cdbb7944e",
+    "file_count": 0
   },
   "yaml": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.yaml",
-    "sha256": "0f070dce901fd5d32e2f5743078656ff3ca2e19baab558503df1967fef221085"
+    "sha256": "78f1123f7380c0a7853b5aa2064bd293508d4c59d7305aacca1bd0cdd7d1ad01"
   },
   "markdown": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.md",
-    "sha256": "0452de7d0f4e49f11bd06823869b993aa9752934dc67eb8c4203e7d81cec4582"
+    "sha256": "b27a7f2b19585da80ca21ecd99d5d499353df46c81b47fa48bf5b122229ce355"
   },
   "sources": [
     {
@@ -28,13 +28,13 @@
     },
     {
       "path": "CURRENT_STATUS.yaml",
-      "sha256": "0f4936e8b8dccbbfc0f2756de823087090a884e675c989ea707a1eb2304bce5a",
-      "bytes": 4500
+      "sha256": "8b411f9db22fc4783fd4214b431dc23fc77d2dc7295ccee441450d0fb2a1b4f5",
+      "bytes": 4364
     },
     {
       "path": "NEXT_TASK.yaml",
-      "sha256": "939185923aad157770ddd7a6cfac0c4de647186b8d359138ce88f04b18e2616e",
-      "bytes": 1894
+      "sha256": "589a2061e3ee6c0c291d72204e6bf827b987599880ecbad77060892ae9e2ae5f",
+      "bytes": 1555
     },
     {
       "path": "DEVELOPMENT_RISK_REGISTER.md",
@@ -83,18 +83,18 @@
     },
     {
       "path": ".continuity/EVENT_LOG.jsonl",
-      "sha256": "6cdcffba0f185141d73df771d4e36982ce8d60d697c6bb8854194307cf7db576",
-      "bytes": 2007955
+      "sha256": "1669f4e7cc9d25cc465a52dfbaeee42b08a3b16c5f4e0755615a31d158e92e5a",
+      "bytes": 2009694
     },
     {
       "path": ".continuity/SESSION_INDEX.yaml",
-      "sha256": "2e8d8b06ae188200b4b549a223e193ef5e1c87c39b58d338743ec503ff5db5b9",
-      "bytes": 55903
+      "sha256": "ed8b01aa99b5dab6642afebaf696b7bcbc9e32c5c92887632f47c524a51b99bf",
+      "bytes": 55921
     },
     {
       "path": ".continuity/TASK_CLAIMS.yaml",
-      "sha256": "3656a0768ea3e8d843e1d5a876ce87f8cc29f61fa70b4e1cf41d96b587e13bbd",
-      "bytes": 78346
+      "sha256": "7ac84bb39e812c05b2fa81f6e38baed023f4db83ab521b1158e2af1463494834",
+      "bytes": 78382
     },
     {
       "path": ".continuity/TASK_TRANSITIONS.yaml",
@@ -108,8 +108,8 @@
     },
     {
       "path": ".continuity/ACTIVE_SESSION.yaml",
-      "sha256": "8b4d59b6ad5d8848ed6f8230c9a593b250c68c407e74f803e9ad4cff4c4c54e4",
-      "bytes": 538
+      "sha256": "96b214e287bc38e01c3030dafce72ee63cab493156586757f2769bc9b6735096",
+      "bytes": 143
     },
     {
       "path": "docs/00-baseline/正式商业系统全局硬性开发边界.md",
@@ -148,8 +148,8 @@
     },
     {
       "path": "releases/R13/TASKS.yaml",
-      "sha256": "69ba9334ffbb3eb1b84843cb6e3bfe1801992ad6ef70bd86cd9c16b4c7626950",
-      "bytes": 5676
+      "sha256": "1a337a373fbb780ffcd92ed496452c0592e9e28c1a56986caee858b04912c397",
+      "bytes": 5712
     },
     {
       "path": "releases/R13/ACCEPTANCE_MATRIX.csv",
@@ -160,31 +160,6 @@
       "path": "releases/R13/PARALLEL_EXECUTION_PLAN.yaml",
       "sha256": "192844a37221f84e42f714fa209260976c81685e094733390664168e34ef5887",
       "bytes": 2581
-    },
-    {
-      "path": "docs/03-continuity/sessions/2026-07/SES-20260726T110209Z-C9DC8AD5.md",
-      "sha256": "a163a1d4bf9d4ebc9558ce699f8cba53517b0b368a47c3517bdde4b9673ea3bf",
-      "bytes": 10475
-    },
-    {
-      "path": ".continuity/checkpoints/SES-20260726T110209Z-C9DC8AD5/0004.yaml",
-      "sha256": "ce2557217877871964dda066f38526348f48e786a2bdbe40429773380bcde253",
-      "bytes": 12238
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0363-建立R13开发入口计划与四页精确视觉基线.md",
-      "sha256": "28e53b5785f8a5e9c560b5752cc56d22e728484a9bcf4869cc7f28d4bda8d280",
-      "bytes": 4634
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0364-刷新R13动态滚动执行计划.md",
-      "sha256": "0a045088e36b758337b2921191e30115caefb16437330f338da3110243252014",
-      "bytes": 2395
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0365-同步R13-OpenAPI生成客户端消除确定性漂移.md",
-      "sha256": "d17fe55ec458322b28f957df495543c5174b65543b05f66b99b49b653a223c48",
-      "bytes": 2786
     }
   ]
 }
