@@ -1,9 +1,9 @@
 protocol_version: '1.0'
 cr_id: CR-0366
 title: 补齐R13活动数据不变量并复用通用审计事实源
-status: IMPLEMENTING
+status: IMPLEMENTED
 created_at: '2026-07-26T11:49:01Z'
-updated_at: '2026-07-26T12:02:11Z'
+updated_at: '2026-07-26T12:25:37Z'
 requester_actor_id: codex-root-r13-data-20260726
 approver_actor_id: codex-contract-review-r13-20260726
 task_id: TASK-R13-002
@@ -51,5 +51,12 @@ decision_log:
   status: IMPLEMENTING
   note: V042/U042、SQL不变量与静态回归已实现；空库、升级库和无数据删除回滚在obx-test一次性PostgreSQL 16容器通过，进入MODULE门禁
   session_id: SES-20260726T113800Z-4EDAA918
+- at: '2026-07-26T12:25:37Z'
+  actor_id: codex-root-r13-data-20260726
+  status: IMPLEMENTED
+  note: V042活动不变量、Flyway同步、U042回滚和正反例测试已由Commit绑定；空库、升级库、回滚及Java21 MODULE全部通过
+  session_id: SES-20260726T113800Z-4EDAA918
 session_ids:
 - SES-20260726T113800Z-4EDAA918
+implementation_commits:
+- 6b1da3779106ae9db5f454511c365111d85a8d62
