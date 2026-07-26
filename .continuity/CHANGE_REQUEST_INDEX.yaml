@@ -23154,9 +23154,9 @@ change_requests:
 - protocol_version: '1.0'
   cr_id: CR-0374
   title: 精确建立R13活动业务可观测性与隔离Staging回滚验收
-  status: IMPLEMENTED
+  status: CLOSED
   created_at: '2026-07-26T18:26:21Z'
-  updated_at: '2026-07-26T18:59:39Z'
+  updated_at: '2026-07-26T19:06:59Z'
   requester_actor_id: codex-root-r13-staging-20260727
   approver_actor_id: owner-standing-delegation-20260727
   task_id: TASK-R13-006
@@ -23237,16 +23237,22 @@ change_requests:
     status: IMPLEMENTED
     note: 精确Commit 410aef53已在obx-test通过Java21模块测试与完整隔离Staging演练；七项Gauge、七条告警、V042回切、事实保留、日志脱敏和24项证据哈希全部PASS。
     session_id: SES-20260726T182231Z-EE79FA49
+  - at: '2026-07-26T19:06:59Z'
+    actor_id: codex-root-r13-staging-20260727
+    status: CLOSED
+    note: R13活动可观测实现、隔离Staging、告警送达、V042应用回切及25项现场证据已由Commit ab98e341完整归档，全部门禁PASS。
+    session_id: SES-20260726T182231Z-EE79FA49
   implementation_commits:
   - 410aef5327ec460d87775a33b8d1f41927a3f29e
+  - ab98e341
   session_ids:
   - SES-20260726T182231Z-EE79FA49
 - protocol_version: '1.0'
   cr_id: CR-0375
   title: 签署R13活动可观测性验收矩阵
-  status: IMPLEMENTED
+  status: CLOSED
   created_at: '2026-07-26T18:55:44Z'
-  updated_at: '2026-07-26T18:59:44Z'
+  updated_at: '2026-07-26T19:07:04Z'
   requester_actor_id: codex-root-r13-staging-20260727
   approver_actor_id: owner-standing-delegation-20260727
   task_id: TASK-R13-006
@@ -23287,16 +23293,22 @@ change_requests:
     status: IMPLEMENTED
     note: AC-R13-004已按批准范围更新为PASS并精确绑定TASK-R13-006报告和现场证据目录，其他验收项保持原状态。
     session_id: SES-20260726T182231Z-EE79FA49
+  - at: '2026-07-26T19:07:04Z'
+    actor_id: codex-root-r13-staging-20260727
+    status: CLOSED
+    note: AC-R13-004验收矩阵签署和精确证据绑定已由Commit ab98e341归档，其他验收项未变。
+    session_id: SES-20260726T182231Z-EE79FA49
   implementation_commits:
   - 410aef5327ec460d87775a33b8d1f41927a3f29e
+  - ab98e341
   session_ids:
   - SES-20260726T182231Z-EE79FA49
 - protocol_version: '1.0'
   cr_id: CR-0376
   title: 冻结现场证据字节并禁用文本空白差异
-  status: IMPLEMENTED
+  status: CLOSED
   created_at: '2026-07-26T19:01:49Z'
-  updated_at: '2026-07-26T19:03:11Z'
+  updated_at: '2026-07-26T19:07:10Z'
   requester_actor_id: codex-root-r13-staging-20260727
   approver_actor_id: owner-standing-delegation-20260727
   task_id: TASK-R13-006
@@ -23337,5 +23349,12 @@ change_requests:
     status: IMPLEMENTED
     note: 既有artifacts/validation/**属性已从-text原位强化为-text -diff；三个原始证据文件均显示diff unset，24项SHA-256仍逐项一致，暂存空白检查PASS。
     session_id: SES-20260726T182231Z-EE79FA49
+  - at: '2026-07-26T19:07:10Z'
+    actor_id: codex-root-r13-staging-20260727
+    status: CLOSED
+    note: 现场证据保留原始字节且禁用文本diff的既有规则强化已由Commit ab98e341归档，原始SHA-256未变化。
+    session_id: SES-20260726T182231Z-EE79FA49
   session_ids:
   - SES-20260726T182231Z-EE79FA49
+  implementation_commits:
+  - ab98e341

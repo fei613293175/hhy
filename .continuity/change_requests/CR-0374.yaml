@@ -1,9 +1,9 @@
 protocol_version: '1.0'
 cr_id: CR-0374
 title: 精确建立R13活动业务可观测性与隔离Staging回滚验收
-status: IMPLEMENTED
+status: CLOSED
 created_at: '2026-07-26T18:26:21Z'
-updated_at: '2026-07-26T18:59:39Z'
+updated_at: '2026-07-26T19:06:59Z'
 requester_actor_id: codex-root-r13-staging-20260727
 approver_actor_id: owner-standing-delegation-20260727
 task_id: TASK-R13-006
@@ -84,7 +84,13 @@ decision_log:
   status: IMPLEMENTED
   note: 精确Commit 410aef53已在obx-test通过Java21模块测试与完整隔离Staging演练；七项Gauge、七条告警、V042回切、事实保留、日志脱敏和24项证据哈希全部PASS。
   session_id: SES-20260726T182231Z-EE79FA49
+- at: '2026-07-26T19:06:59Z'
+  actor_id: codex-root-r13-staging-20260727
+  status: CLOSED
+  note: R13活动可观测实现、隔离Staging、告警送达、V042应用回切及25项现场证据已由Commit ab98e341完整归档，全部门禁PASS。
+  session_id: SES-20260726T182231Z-EE79FA49
 implementation_commits:
 - 410aef5327ec460d87775a33b8d1f41927a3f29e
+- ab98e341
 session_ids:
 - SES-20260726T182231Z-EE79FA49
