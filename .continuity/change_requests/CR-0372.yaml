@@ -1,9 +1,9 @@
 protocol_version: '1.0'
 cr_id: CR-0372
 title: 自动化R13三项活动专项测试与故障证据矩阵
-status: IMPLEMENTED
+status: CLOSED
 created_at: '2026-07-26T16:07:05Z'
-updated_at: '2026-07-26T18:13:23Z'
+updated_at: '2026-07-26T18:14:47Z'
 requester_actor_id: codex-root-r13-testing-20260726
 approver_actor_id: owner-standing-delegation-20260726
 task_id: TASK-R13-005
@@ -61,5 +61,12 @@ decision_log:
   status: IMPLEMENTED
   note: 精确Commit c9741759已在obx-test通过Java21、PostgreSQL17隔离数据库和Android固定工具链；三类日志规范化后远端本地哈希一致，三项矩阵PASS。
   session_id: SES-20260726T160157Z-6B5BC09A
+- at: '2026-07-26T18:14:47Z'
+  actor_id: codex-root-r13-testing-20260726
+  status: CLOSED
+  note: TASK-R13-005专项测试实现与规范化证据已由Commit 609cf0f9完整归档，矩阵和全部门禁PASS。
+  session_id: SES-20260726T160157Z-6B5BC09A
 session_ids:
 - SES-20260726T160157Z-6B5BC09A
+implementation_commits:
+- 609cf0f9
