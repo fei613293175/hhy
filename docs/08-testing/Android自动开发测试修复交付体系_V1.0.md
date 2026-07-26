@@ -43,7 +43,7 @@
 2. **CONTINUITY 核心门禁**：每次提交校验身份、范围、检查点、CR、Trailer 和 Context Pack；只有连续性核心事实变化才执行完整临时 Git 生命周期。
 3. **RELEASE CANDIDATE**：候选请求验证通过后运行完整 Android 构建、模拟器、旅程、截图、视觉、日志、候选报告与 APK 上传。
 
-`config/android-candidate-request.yaml` 必须包含：`schema_version: 1`、`status: REQUESTED`、`R06-R32` Release、`candidate: true`、普通范围 1 至 3 的 `remediation_attempt`、以及每次候选唯一的 `request_id`。全局 `max_ai_attempts` 必须始终为 3；只有 `config/android-automation.yaml` 中经过批准且精确绑定 Release、轮次、request ID、CR、根因修复 Commit 和单次运行上限的例外，才允许相应请求超过普通范围。例外不得改写全局上限、伪造为新 attempt 1、扩展到其他 Release 或产生 attempt 5；候选运行报告必须同时记录全局上限与本次有效上限。普通 CI 的 build artifact 不是候选，任何人或 AI 都不得把它复制到桌面冒充候选。
+`config/android-candidate-request.yaml` 必须包含：`schema_version: 1`、`status: REQUESTED`、`R06-R32` Release、`candidate: true`、普通范围 1 至 3 的 `remediation_attempt`、以及每次候选唯一的 `request_id`。全局 `max_ai_attempts` 必须始终为 3；只有 `config/android-automation.yaml` 中经过批准且精确绑定 Release、轮次、request ID、CR、根因修复 Commit 和单次运行上限的例外，才允许相应请求超过普通范围。例外不得改写全局上限、伪造为新 attempt 1、扩展到其他 Release、复用已消费请求或产生未审批的下一轮；候选运行报告必须同时记录全局上限与本次有效上限。一个精确例外只允许验证其绑定修复提交之后的单次候选，新增独立根因必须另建 CR 和新 request ID，禁止把旧例外静默扩容。普通 CI 的 build artifact 不是候选，任何人或 AI 都不得把它复制到桌面冒充候选。
 
 ### 2.2 候选可消费业务夹具
 

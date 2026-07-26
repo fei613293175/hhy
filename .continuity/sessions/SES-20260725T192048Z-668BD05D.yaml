@@ -11,7 +11,7 @@ task_id: TASK-R12-007
 story_id: STORY-R12-008
 goal: 完成R12最终Android候选、真实模拟器截图AI验收、固定签名测试APK与桌面交付
 started_at: '2026-07-25T19:20:48Z'
-updated_at: '2026-07-26T04:42:35Z'
+updated_at: '2026-07-26T04:55:46Z'
 takeover_of: null
 change_requests:
 - CR-0339
@@ -26,6 +26,8 @@ change_requests:
 - CR-0348
 - CR-0349
 - CR-0350
+- CR-0351
+- CR-0352
 scope:
   allowed_paths:
   - apps/**
@@ -106,7 +108,7 @@ scope:
   - tests/test_run_affected_tests.py
   - catalogs/ui_visual_acceptance.csv
   - tests/test_home_contract_alignment.py
-  source: story+explicit+approved-cr:CR-0340+approved-cr:CR-0344+approved-cr:CR-0346+approved-cr:CR-0345+approved-cr:CR-0348+approved-cr:CR-0349+approved-cr:CR-0350
+  source: story+explicit+approved-cr:CR-0340+approved-cr:CR-0344+approved-cr:CR-0346+approved-cr:CR-0345+approved-cr:CR-0348+approved-cr:CR-0349+approved-cr:CR-0350+approved-cr:CR-0351+approved-cr:CR-0352
 git:
   initialized: true
   branch: task/TASK-R03-001
@@ -116,22 +118,22 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-26T04:42:28Z'
-  expires_at: '2026-07-26T08:42:28Z'
-checkpoint_sequence: 27
-latest_checkpoint: .continuity/checkpoints/SES-20260725T192048Z-668BD05D/0027.yaml
+  renewed_at: '2026-07-26T04:55:40Z'
+  expires_at: '2026-07-26T08:55:40Z'
+checkpoint_sequence: 28
+latest_checkpoint: .continuity/checkpoints/SES-20260725T192048Z-668BD05D/0028.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260725T192048Z-668BD05D.md
-next_step: 提交CR-0350 IMPLEMENTED元数据，执行Git传输预检并一次推送；观察普通CI tooling，继续R12非候选收口。
+next_step: 运行严格Doctor和pre-commit，提交推送CR-0352；普通CI通过后只触发一次R12 attempt5候选，AI逐图审核十页后决定晋升或修复。
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: 15143ea53f8db9457a2db0c5e819ca7ca43b3c9cfbaec5f773389ac13389db64
-  generated_at: '2026-07-26T04:42:32Z'
+  context_hash: 44be2ded97a7f4a107dae1897a6caf5d4d9ce1fb5fd0a917a001508496289dc3
+  generated_at: '2026-07-26T04:55:43Z'
 handoff_bundle: null
 closure: null
 parallel_execution:
   assessment: USER_SERIAL_OVERRIDE
   delegated_workers: 0
   workers: []
-  reason: 连续性元数据与实现提交需由当前唯一会话串行封口。
+  reason: 候选请求、策略CR和同一连续性会话需要串行封口，且本轮未授权子代理。

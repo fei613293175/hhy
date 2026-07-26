@@ -1607,18 +1607,18 @@ problems:
   title: 全局三轮上限无法准确表达R12三个不同根因后的第四次候选
   status: SOLVED
   root_cause: R12前三次候选依次暴露结构化日志遮蔽、隔离Staging启动发布链缺失和审核记录页面错误建模三个不同根因；既有候选请求和运行时校验把任何attempt 4一律拒绝。永久把全局上限改为4会削弱所有后续版本，重置为attempt 1又会伪造历史，而只靠聊天同意无法跨电脑和AI审计。
-  resolution: CR-0344保留全局max_ai_attempts=3和普通1至3不变，仅在android-automation唯一事实源登记release=R12、attempt=4、request_id=R12-CANDIDATE-20260726-004、exception_id=CR-0344、required_fix_commit=daae207af319008411995b7ac23a13c9042fc5a2、max_candidate_runs=1的精确例外。候选校验、运行时报告和两个工作流端到端透传全部字段；GitHub在安装Android环境前验证政策并以完整Git历史证明修复Commit为候选祖先，attempt 5和任一字段漂移均硬拒绝。
+  resolution: CR-0344保留全局max_ai_attempts=3和普通1至3不变，仅在android-automation唯一事实源登记release=R12、attempt=4、request_id=R12-CANDIDATE-20260726-004、exception_id=CR-0344、required_fix_commit=daae207af319008411995b7ac23a13c9042fc5a2、max_candidate_runs=1的精确例外。attempt 4随后暴露候选前可消费草稿未重建这一第四个独立根因，CR-0345已在fbde523e8e751b74f7300ef125c70fa9eb4d03fd完成事务夹具修复；CR-0351因遗漏策略加载器被SUPERSEDED且从未提交、推送或运行候选，CR-0352改为验证从4开始连续无缺口且request/CR/Commit分别唯一的例外历史，只新增release=R12、attempt=5、request_id=R12-CANDIDATE-20260726-005、exception_id=CR-0352、required_fix_commit=fbde523e8e751b74f7300ef125c70fa9eb4d03fd、max_candidate_runs=1的精确单次例外。候选校验、运行时报告和两个工作流端到端透传全部字段；GitHub在安装Android环境前验证政策并以完整Git历史证明修复Commit为候选祖先，attempt 6、缺口、乱序、复用004请求和任一字段漂移均硬拒绝。
   regression_checks:
-  - config/android-automation.yaml的max_ai_attempts必须严格等于3且唯一例外max_candidate_runs必须等于1
+  - config/android-automation.yaml的max_ai_attempts必须严格等于3且每个已批准例外的max_candidate_runs必须等于1
   - tests.test_android_candidate_request必须覆盖精确例外PASS及Release、request、CR、Commit、attempt任一漂移FAIL
-  - tests.test_android_ci_gate必须证明运行报告同时记录max_ai_attempts=3与effective_attempt_limit=4
+  - tests.test_android_ci_gate必须证明历史attempt4和当前attempt5运行报告分别记录max_ai_attempts=3与effective_attempt_limit=4/5
   - android-candidate-request工作流必须fetch-depth=0并执行git merge-base --is-ancestor验证required_fix_commit
   - android-quality-gate必须在setup-java、setup-android和模拟器之前执行attempt-check
   do_not_repeat:
   - 不得为单版例外永久提高全局三轮上限
   - 不得把真实第四次候选伪写成attempt 1或复用旧request_id
   - 不得仅在模拟器运行后才检查例外字段或根因修复Commit
-  - 不得允许错误Release、request、CR、Commit、attempt 5或无批准例外的attempt 4
+  - 不得允许错误Release、request、CR、Commit、attempt 6、复用已消费004请求或无批准例外的attempt 4/5
 - id: PROB-0117
   title: 滚动计划与累计治理门禁实现落后于权威规则仍返回假PASS
   status: SOLVED
@@ -1638,7 +1638,7 @@ problems:
   title: R12候选真实提交消费唯一草稿后后续运行缺少提交目标
   status: SOLVED
   root_cause: R12专用夹具只在候选后端部署时执行一次，OIDC bootstrap仅验证GitHub身份并发放一次性登录码。attempt 4的真实旅程已把固定标题的唯一DRAFT提交为PENDING_REVIEW；后续候选即使认证成功也不会重建会被旅程消费的业务状态，因此草稿箱中确定性缺少R12提交目标。重复运行部署脚本或GitHub模拟器只能暂时碰运气，且不能证明跨实例并发、失败回滚和非R12隔离。
-  resolution: CR-0345让bootstrap显式携带Release，并在OIDC验证成功后、发码前的同一事务内执行R12专用准备器。准备器使用PostgreSQL事务级advisory lock，拒绝BANNED、重复DRAFT和不完整模板，回收非DRAFT旧目标，从已验证模板克隆项目详情、最新版本快照、统计和READY媒体，最终只保留一个version0且review_status为空的DRAFT，不复制审核记录；非法Release、非R12、OIDC失败和夹具异常均不得产生R12写入或登录码。
+  resolution: CR-0345让bootstrap显式携带Release，并在OIDC验证成功后、发码前的同一事务内执行R12专用准备器。准备器使用PostgreSQL事务级advisory lock，拒绝BANNED、重复DRAFT和不完整模板，回收非DRAFT旧目标，从已验证模板克隆项目详情、最新版本快照、统计和READY媒体，最终只保留一个version0且review_status为空的DRAFT，不复制审核记录；非法Release、非R12、OIDC失败和夹具异常均不得产生R12写入或登录码。CR-0352仅以新request ID和单次attempt5验证该修复，不复用已消费的attempt4；全局三轮策略未改变。
   regression_checks:
   - CiAutomationServiceTest必须证明R12先准备夹具再发码、非R12跳过准备、非法Release和夹具失败不创建登录码
   - CiAutomationControllerTest必须证明OIDC失败不调用CiAutomationService，BootstrapRequest拒绝R01-R32以外的Release

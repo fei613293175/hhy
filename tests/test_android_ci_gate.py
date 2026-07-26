@@ -66,14 +66,24 @@ class AndroidCiGateTest(unittest.TestCase):
         self.assertFalse(bootstrap["promotion_emulator_allowed"])
         self.assertEqual(0.005, policy["visual"]["minimum_cross_screen_changed_pixel_ratio"])
         self.assertEqual(3, policy["remediation"]["max_ai_attempts"])
-        self.assertEqual([{
-            "exception_id": "CR-0344",
-            "release": "R12",
-            "attempt": 4,
-            "request_id": "R12-CANDIDATE-20260726-004",
-            "required_fix_commit": "daae207af319008411995b7ac23a13c9042fc5a2",
-            "max_candidate_runs": 1,
-        }], policy["remediation"]["approved_attempt_exceptions"])
+        self.assertEqual([
+            {
+                "exception_id": "CR-0344",
+                "release": "R12",
+                "attempt": 4,
+                "request_id": "R12-CANDIDATE-20260726-004",
+                "required_fix_commit": "daae207af319008411995b7ac23a13c9042fc5a2",
+                "max_candidate_runs": 1,
+            },
+            {
+                "exception_id": "CR-0352",
+                "release": "R12",
+                "attempt": 5,
+                "request_id": "R12-CANDIDATE-20260726-005",
+                "required_fix_commit": "fbde523e8e751b74f7300ef125c70fa9eb4d03fd",
+                "max_candidate_runs": 1,
+            },
+        ], policy["remediation"]["approved_attempt_exceptions"])
 
     def test_attempt_exception_is_exact_and_never_changes_the_global_limit(self) -> None:
         policy = load_policy()
@@ -108,6 +118,37 @@ class AndroidCiGateTest(unittest.TestCase):
         with self.assertRaises(GateError):
             resolve_attempt_policy(policy, release="R12", attempt=4)
 
+    def test_attempt_five_exception_is_exact_and_rejects_attempt_six(self) -> None:
+        policy = load_policy()
+        exact = resolve_attempt_policy(
+            policy,
+            release="R12",
+            attempt=5,
+            request_id="R12-CANDIDATE-20260726-005",
+            exception_id="CR-0352",
+            required_fix_commit="fbde523e8e751b74f7300ef125c70fa9eb4d03fd",
+        )
+        self.assertEqual(3, exact["max_ai_attempts"])
+        self.assertEqual(5, exact["effective_attempt_limit"])
+        self.assertEqual(1, exact["max_candidate_runs"])
+        base = {
+            "release": "R12",
+            "attempt": 5,
+            "request_id": "R12-CANDIDATE-20260726-005",
+            "exception_id": "CR-0352",
+            "required_fix_commit": "fbde523e8e751b74f7300ef125c70fa9eb4d03fd",
+        }
+        invalid = (
+            {"release": "R13"},
+            {"request_id": "R12-CANDIDATE-20260726-004"},
+            {"exception_id": "CR-0344"},
+            {"required_fix_commit": "b" * 40},
+            {"attempt": 6},
+        )
+        for override in invalid:
+            with self.subTest(override=override), self.assertRaises(GateError):
+                resolve_attempt_policy(policy, **(base | override))
+
     def test_policy_rejects_a_global_limit_other_than_three(self) -> None:
         with TemporaryDirectory() as temp:
             policy = yaml.safe_load((ROOT / "config/android-automation.yaml").read_text(encoding="utf-8"))
@@ -116,6 +157,33 @@ class AndroidCiGateTest(unittest.TestCase):
             path.write_text(yaml.safe_dump(policy, allow_unicode=True), encoding="utf-8")
             with self.assertRaises(GateError):
                 load_policy(path)
+
+    def test_attempt_exception_history_must_be_contiguous_ordered_and_unique(self) -> None:
+        source = yaml.safe_load(
+            (ROOT / "config/android-automation.yaml").read_text(encoding="utf-8")
+        )
+        mutations = {
+            "gap": lambda rows: rows.pop(0),
+            "reordered": lambda rows: rows.reverse(),
+            "duplicate_cr": lambda rows: rows[1].update(
+                exception_id=rows[0]["exception_id"]
+            ),
+            "duplicate_request": lambda rows: rows[1].update(
+                request_id=rows[0]["request_id"]
+            ),
+            "duplicate_commit": lambda rows: rows[1].update(
+                required_fix_commit=rows[0]["required_fix_commit"]
+            ),
+            "more_than_one_run": lambda rows: rows[1].update(max_candidate_runs=2),
+        }
+        for name, mutate in mutations.items():
+            with self.subTest(name=name), TemporaryDirectory() as temp:
+                policy = yaml.safe_load(yaml.safe_dump(source))
+                mutate(policy["remediation"]["approved_attempt_exceptions"])
+                path = Path(temp) / "policy.yaml"
+                path.write_text(yaml.safe_dump(policy, allow_unicode=True), encoding="utf-8")
+                with self.assertRaises(GateError):
+                    load_policy(path)
 
     def test_first_release_visuals_require_ai_review_without_forcing_emulator_rerun(self) -> None:
         with TemporaryDirectory() as temp:
@@ -189,6 +257,44 @@ class AndroidCiGateTest(unittest.TestCase):
             self.assertEqual(3, payload["max_ai_attempts"])
             self.assertEqual(4, payload["effective_attempt_limit"])
             self.assertEqual("CR-0344", payload["attempt_exception_id"])
+            self.assertEqual(1, payload["max_candidate_runs"])
+
+    def test_attempt_five_runtime_report_keeps_global_and_effective_limits(self) -> None:
+        with TemporaryDirectory() as temp:
+            root = Path(temp)
+            (root / "exit.txt").write_text("0\n", encoding="utf-8")
+            (root / "logcat.txt").write_text("I HHY candidate started\n", encoding="utf-8")
+            junit = root / "junit"
+            junit.mkdir()
+            (junit / "TEST-smoke.xml").write_text(
+                '<testsuite tests="1" failures="0" errors="0"/>', encoding="utf-8",
+            )
+            screenshots = root / "screenshots"
+            screenshots.mkdir()
+            Image.new("RGB", (10, 10), "white").save(screenshots / "01.png")
+            Image.new("RGB", (10, 10), "black").save(screenshots / "02.png")
+            manifests = root / "manifests"
+            manifests.mkdir()
+            (manifests / "R12.yaml").write_text(yaml.safe_dump({
+                "schema": "hhy.android-visual-manifest/v1",
+                "release": "R12",
+                "screens": [{"file": "01.png"}, {"file": "02.png"}],
+            }), encoding="utf-8")
+            output = root / "runtime.json"
+            result = analyze(SimpleNamespace(
+                policy=str(ROOT / "config/android-automation.yaml"), release="R12", commit="c" * 40,
+                run_id="555", attempt=5, request_id="R12-CANDIDATE-20260726-005",
+                attempt_exception_id="CR-0352",
+                required_fix_commit="fbde523e8e751b74f7300ef125c70fa9eb4d03fd",
+                test_exit_code_file=str(root / "exit.txt"), junit_root=str(junit),
+                logcat=str(root / "logcat.txt"), screenshots=str(screenshots),
+                baseline_root=str(root / "baseline"), visual_manifest_root=str(manifests), output=str(output),
+            ))
+            payload = json.loads(output.read_text(encoding="utf-8"))
+            self.assertEqual(0, result)
+            self.assertEqual(3, payload["max_ai_attempts"])
+            self.assertEqual(5, payload["effective_attempt_limit"])
+            self.assertEqual("CR-0352", payload["attempt_exception_id"])
             self.assertEqual(1, payload["max_candidate_runs"])
 
     def test_runtime_failure_creates_remediation_queue(self) -> None:

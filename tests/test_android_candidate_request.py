@@ -8,7 +8,8 @@ from scripts.android_candidate_request import CandidateRequestError, load_reques
 
 
 class AndroidCandidateRequestTest(unittest.TestCase):
-    R12_FIX_COMMIT = "daae207af319008411995b7ac23a13c9042fc5a2"
+    R12_ATTEMPT4_FIX_COMMIT = "daae207af319008411995b7ac23a13c9042fc5a2"
+    R12_ATTEMPT5_FIX_COMMIT = "fbde523e8e751b74f7300ef125c70fa9eb4d03fd"
 
     def write_request(self, text: str) -> Path:
         temp = TemporaryDirectory()
@@ -62,19 +63,48 @@ class AndroidCandidateRequestTest(unittest.TestCase):
             "candidate: true\nremediation_attempt: 4\n"
             "request_id: R12-CANDIDATE-20260726-004\n"
             "attempt_exception_id: CR-0344\n"
-            f"required_fix_commit: {self.R12_FIX_COMMIT}\n"
+            f"required_fix_commit: {self.R12_ATTEMPT4_FIX_COMMIT}\n"
         ))
         self.assertEqual(4, payload["effective_attempt_limit"])
         self.assertEqual("CR-0344", payload["attempt_exception_id"])
-        self.assertEqual(self.R12_FIX_COMMIT, payload["required_fix_commit"])
+        self.assertEqual(self.R12_ATTEMPT4_FIX_COMMIT, payload["required_fix_commit"])
+
+    def test_exact_r12_attempt_five_exception_is_normalized(self) -> None:
+        payload = load_request(self.write_request(
+            "schema_version: 1\nstatus: REQUESTED\nrelease: R12\n"
+            "candidate: true\nremediation_attempt: 5\n"
+            "request_id: R12-CANDIDATE-20260726-005\n"
+            "attempt_exception_id: CR-0352\n"
+            f"required_fix_commit: {self.R12_ATTEMPT5_FIX_COMMIT}\n"
+        ))
+        self.assertEqual(5, payload["effective_attempt_limit"])
+        self.assertEqual("CR-0352", payload["attempt_exception_id"])
+        self.assertEqual(self.R12_ATTEMPT5_FIX_COMMIT, payload["required_fix_commit"])
 
     def test_attempt_four_requires_every_approved_binding(self) -> None:
         cases = {
-            "release": ("R13", "R12-CANDIDATE-20260726-004", "CR-0344", self.R12_FIX_COMMIT, 4),
-            "request": ("R12", "R12-CANDIDATE-20260726-999", "CR-0344", self.R12_FIX_COMMIT, 4),
-            "cr": ("R12", "R12-CANDIDATE-20260726-004", "CR-9999", self.R12_FIX_COMMIT, 4),
+            "release": ("R13", "R12-CANDIDATE-20260726-004", "CR-0344", self.R12_ATTEMPT4_FIX_COMMIT, 4),
+            "request": ("R12", "R12-CANDIDATE-20260726-999", "CR-0344", self.R12_ATTEMPT4_FIX_COMMIT, 4),
+            "cr": ("R12", "R12-CANDIDATE-20260726-004", "CR-9999", self.R12_ATTEMPT4_FIX_COMMIT, 4),
             "commit": ("R12", "R12-CANDIDATE-20260726-004", "CR-0344", "b" * 40, 4),
-            "attempt": ("R12", "R12-CANDIDATE-20260726-004", "CR-0344", self.R12_FIX_COMMIT, 5),
+            "attempt": ("R12", "R12-CANDIDATE-20260726-004", "CR-0344", self.R12_ATTEMPT4_FIX_COMMIT, 5),
+        }
+        for name, (release, request_id, cr, commit, attempt) in cases.items():
+            with self.subTest(name=name), self.assertRaises(CandidateRequestError):
+                load_request(self.write_request(
+                    "schema_version: 1\nstatus: REQUESTED\n"
+                    f"release: {release}\ncandidate: true\nremediation_attempt: {attempt}\n"
+                    f"request_id: {request_id}\nattempt_exception_id: {cr}\n"
+                    f"required_fix_commit: {commit}\n"
+                ))
+
+    def test_attempt_five_requires_every_approved_binding_and_rejects_six(self) -> None:
+        cases = {
+            "release": ("R13", "R12-CANDIDATE-20260726-005", "CR-0352", self.R12_ATTEMPT5_FIX_COMMIT, 5),
+            "request": ("R12", "R12-CANDIDATE-20260726-004", "CR-0352", self.R12_ATTEMPT5_FIX_COMMIT, 5),
+            "cr": ("R12", "R12-CANDIDATE-20260726-005", "CR-0344", self.R12_ATTEMPT5_FIX_COMMIT, 5),
+            "commit": ("R12", "R12-CANDIDATE-20260726-005", "CR-0352", "b" * 40, 5),
+            "attempt": ("R12", "R12-CANDIDATE-20260726-005", "CR-0352", self.R12_ATTEMPT5_FIX_COMMIT, 6),
         }
         for name, (release, request_id, cr, commit, attempt) in cases.items():
             with self.subTest(name=name), self.assertRaises(CandidateRequestError):

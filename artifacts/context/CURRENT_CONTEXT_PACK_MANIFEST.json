@@ -1,19 +1,19 @@
 {
   "version": "1.0",
-  "generated_at": "2026-07-26T04:42:32Z",
-  "context_hash": "15143ea53f8db9457a2db0c5e819ca7ca43b3c9cfbaec5f773389ac13389db64",
+  "generated_at": "2026-07-26T04:55:43Z",
+  "context_hash": "44be2ded97a7f4a107dae1897a6caf5d4d9ce1fb5fd0a917a001508496289dc3",
   "fingerprint_mode": "SESSION_DELTA",
   "project_fingerprint": {
-    "sha256": "018ca6d0dd3647d957dde7ebd790faa797ca33ef4c2b8a3acbe6bcf3bcd84175",
-    "file_count": 69
+    "sha256": "34d4321baf96187972a0e295951411048e715b51295d72b6b83f5d2794140b26",
+    "file_count": 71
   },
   "yaml": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.yaml",
-    "sha256": "afedba1e5663cc54424d7ec8bcb237b5fdd0ea27c46985d2b3b2947b7984fbae"
+    "sha256": "ec788c4713315a2585c40a4c57c579418d40a0b9297e0f45f8bf976c141a5862"
   },
   "markdown": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.md",
-    "sha256": "d0d29c6835b0bd96271a7ba39d6e58d049ebce58a4abd4c2af1d10e20a211a94"
+    "sha256": "077e39f43c46afbac0f95f14bd815807a91821a8fcbca4dfde8e8bfa27b3f226"
   },
   "sources": [
     {
@@ -28,7 +28,7 @@
     },
     {
       "path": "CURRENT_STATUS.yaml",
-      "sha256": "890f9e5befbd59651a5d4cfe7dd4b2ea9a3c11c48dbb0708d94f6c74a8bada40",
+      "sha256": "7bb5568e1a24a81cbc01b8bfc769724b180d75bc553230a1335b062915f74535",
       "bytes": 4480
     },
     {
@@ -48,8 +48,8 @@
     },
     {
       "path": "docs/03-continuity/PROBLEM_REGISTRY.yaml",
-      "sha256": "e0e725bbb57337ef297da7418ee312ec4aa9a9cfe5072beb64ae68065b8e1c9c",
-      "bytes": 176282
+      "sha256": "83348603ce91a5ed8e696d606fa1721b1a52255f1156ac1fe6267a9b2fd7d88f",
+      "bytes": 177064
     },
     {
       "path": "docs/03-continuity/REUSABLE_PATTERNS.md",
@@ -58,8 +58,8 @@
     },
     {
       "path": "docs/03-continuity/PITFALLS.md",
-      "sha256": "a8e7f1a127cfd3ec0f1f38ee7184a40cef1d3d7bc95201030c520cec049af4f7",
-      "bytes": 9951
+      "sha256": "83465c8b3ff56f6a2189226b287607d39e9845a39140ca605c01242251e8a7a2",
+      "bytes": 10279
     },
     {
       "path": "releases/PROGRAM_EXECUTION_PLAN.yaml",
@@ -83,12 +83,12 @@
     },
     {
       "path": ".continuity/EVENT_LOG.jsonl",
-      "sha256": "7dbc6cce45b6f9d10820a8d1b5413a25e292421281494dea1d7ab07c9407fe71",
-      "bytes": 1933504
+      "sha256": "d4d3983c7ff9bcd861aa17655002521bc538552c708da8f21e77de15647b1406",
+      "bytes": 1940328
     },
     {
       "path": ".continuity/SESSION_INDEX.yaml",
-      "sha256": "7c2e6721e362292c5a4845621c65ceccb485cb466b6edadc1d250b3b9e311a6f",
+      "sha256": "b3bf47573cae6dec79c4996ec75562755855f99056952ebcc638a119f0c3ca83",
       "bytes": 54867
     },
     {
@@ -103,12 +103,12 @@
     },
     {
       "path": ".continuity/CHANGE_REQUEST_INDEX.yaml",
-      "sha256": "33ce16845876b981b393c948bcfeeca12eb8143043e6a2a5d8af51dae7599fdc",
-      "bytes": 1209381
+      "sha256": "5f212d1f452d61abfeb3349e4456950ac6260a7a446e2e94355c7e40f5d466b0",
+      "bytes": 1217420
     },
     {
       "path": ".continuity/ACTIVE_SESSION.yaml",
-      "sha256": "a79a778fa746391cc4377b4d4d42449458c4bf0576705c2cbb54c3f4976de3e1",
+      "sha256": "33b1196d250426ae62b36a6e06f592d8a4b37a4394da4094fd67f40e95e790fa",
       "bytes": 548
     },
     {
@@ -163,13 +163,13 @@
     },
     {
       "path": "docs/03-continuity/sessions/2026-07/SES-20260725T192048Z-668BD05D.md",
-      "sha256": "5fcb1517d04a0226787af39930b97a7cfcdc2d9ad1a26010e130e38d5fdad280",
-      "bytes": 102569
+      "sha256": "7b57800d149bb4fc4853258ff5deeed671dfc4a503584852bfe5cbf962cfbae7",
+      "bytes": 108476
     },
     {
-      "path": ".continuity/checkpoints/SES-20260725T192048Z-668BD05D/0027.yaml",
-      "sha256": "6a93cc5f971304144a55f33d76607cd7b6715f5660244175ea921c7347cc1144",
-      "bytes": 29196
+      "path": ".continuity/checkpoints/SES-20260725T192048Z-668BD05D/0028.yaml",
+      "sha256": "e2c9e256a809d340cb10ed41b01c321ec12dae7a266fc43447d3920f4141616b",
+      "bytes": 31401
     },
     {
       "path": "docs/03-continuity/change-requests/CR-0339-补齐R12统一发布Android最终候选与产物追溯.md",
@@ -228,8 +228,18 @@
     },
     {
       "path": "docs/03-continuity/change-requests/CR-0350-同步R10已批准首页证据并关闭R06历史视觉债务.md",
-      "sha256": "361b8acbcf6e6e4ebdd78336b776190f1573aca2d973c6e6bcf05ab8fe334edc",
-      "bytes": 3449
+      "sha256": "e9da73363ec9929b8155d782b197778dd4eac2e131fbf57de52e854dc8ab47c2",
+      "bytes": 3810
+    },
+    {
+      "path": "docs/03-continuity/change-requests/CR-0351-为CR-0345候选前夹具修复授权一次R12第五次候选.md",
+      "sha256": "741cbc6812bbd479d08ce2e43d11f5f711533a56733d9552767f798533073477",
+      "bytes": 3835
+    },
+    {
+      "path": "docs/03-continuity/change-requests/CR-0352-连续精确例外验证并授权R12第五次候选.md",
+      "sha256": "309497075113938911f2f978826d7e62c7aa11ef2c473e9ab90c03fe0c669e7a",
+      "bytes": 3589
     }
   ]
 }

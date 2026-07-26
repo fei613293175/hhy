@@ -2,8 +2,8 @@ schema_version: 1
 status: REQUESTED
 release: R12
 candidate: true
-remediation_attempt: 4
-request_id: R12-CANDIDATE-20260726-004
-attempt_exception_id: CR-0344
-required_fix_commit: daae207af319008411995b7ac23a13c9042fc5a2
-reason: R12前三次候选分别发现可观测性、隔离启动发布链和审核记录页面三个不同根因；CR-0342/CR-0343已在修复提交daae207a恢复SCR-MYC-004真实当前内容摘要与审核时间线，并通过obx-test单测、Lint和App编译。CR-0344仅批准该修复提交后的单次attempt 4完整十页候选，全局三轮上限保持不变。
+remediation_attempt: 5
+request_id: R12-CANDIDATE-20260726-005
+attempt_exception_id: CR-0352
+required_fix_commit: fbde523e8e751b74f7300ef125c70fa9eb4d03fd
+reason: R12 attempt 4真实提交消费唯一目标草稿后暴露候选OIDC启动前未确定性重建可消费业务夹具这一第四个独立根因；CR-0345已在修复提交fbde523e实现Release透传、OIDC后同事务R12草稿重建，并通过Java21九项、PostgreSQL17五项与Python二十九项验证。CR-0352仅批准该修复提交后的单次attempt 5完整候选，全局三轮上限保持不变且不得复用attempt 4。
