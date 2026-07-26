@@ -1,9 +1,9 @@
 protocol_version: '1.0'
 cr_id: CR-0365
 title: 同步R13 OpenAPI生成客户端消除确定性漂移
-status: IMPLEMENTING
+status: IMPLEMENTED
 created_at: '2026-07-26T11:19:09Z'
-updated_at: '2026-07-26T11:20:08Z'
+updated_at: '2026-07-26T11:30:10Z'
 requester_actor_id: codex-root-r13-20260726
 approver_actor_id: project-owner
 task_id: TASK-R13-001
@@ -40,5 +40,12 @@ decision_log:
   status: IMPLEMENTING
   note: 开始使用锁定工具链机械重生成客户端，并运行生成漂移与类型门禁。
   session_id: SES-20260726T110209Z-C9DC8AD5
+- at: '2026-07-26T11:30:10Z'
+  actor_id: codex-root-r13-20260726
+  status: IMPLEMENTED
+  note: OpenAPI客户端已按锁定工具链机械同步423响应类型；生成资产、API客户端类型、后台与H5回归全部PASS。
+  session_id: SES-20260726T110209Z-C9DC8AD5
 session_ids:
 - SES-20260726T110209Z-C9DC8AD5
+implementation_commits:
+- 29ad2bcc6c1dae68a42ea9147110dc4b9dd29745

@@ -1,9 +1,9 @@
 protocol_version: '1.0'
 cr_id: CR-0363
 title: 建立R13开发入口计划与四页精确视觉基线
-status: IMPLEMENTING
+status: IMPLEMENTED
 created_at: '2026-07-26T11:06:25Z'
-updated_at: '2026-07-26T11:07:23Z'
+updated_at: '2026-07-26T11:29:58Z'
 requester_actor_id: codex-root-r13-20260726
 approver_actor_id: project-owner
 task_id: TASK-R13-001
@@ -70,5 +70,12 @@ decision_log:
   status: IMPLEMENTING
   note: 开始建立R13执行计划、六operationId Manifest、四页精确/补充视觉规格与入口证据。
   session_id: SES-20260726T110209Z-C9DC8AD5
+- at: '2026-07-26T11:29:58Z'
+  actor_id: codex-root-r13-20260726
+  status: IMPLEMENTED
+  note: R13入口计划、六operationId Manifest、四页精确视觉绑定与逐页补充规格已在实现Commit落库；严格R13文档、计划、生成资产、Release产物和Doctor均PASS。
+  session_id: SES-20260726T110209Z-C9DC8AD5
 session_ids:
 - SES-20260726T110209Z-C9DC8AD5
+implementation_commits:
+- 29ad2bcc6c1dae68a42ea9147110dc4b9dd29745
