@@ -11,7 +11,7 @@ task_id: TASK-R12-007
 story_id: STORY-R12-008
 goal: 完成R12最终Android候选、真实模拟器截图AI验收、固定签名测试APK与桌面交付
 started_at: '2026-07-25T19:20:48Z'
-updated_at: '2026-07-26T08:15:29Z'
+updated_at: '2026-07-26T08:58:32Z'
 takeover_of: null
 change_requests:
 - CR-0339
@@ -34,6 +34,7 @@ change_requests:
 - CR-0356
 - CR-0357
 - CR-0358
+- CR-0359
 scope:
   allowed_paths:
   - apps/**
@@ -118,7 +119,18 @@ scope:
   - tests/test_android_candidate_route.py
   - docs/03-continuity/change-requests/CR-0353-加固Android候选公网路由切换与前置启动码门禁.md
   - docs/03-continuity/change-requests/CR-0354-完整加固Android候选公网路由与前置启动码门禁.md
-  source: story+explicit+approved-cr:CR-0340+approved-cr:CR-0344+approved-cr:CR-0346+approved-cr:CR-0345+approved-cr:CR-0348+approved-cr:CR-0349+approved-cr:CR-0350+approved-cr:CR-0351+approved-cr:CR-0352+approved-cr:CR-0353+approved-cr:CR-0354+approved-cr:CR-0355
+  - tests/android/visual-baselines/R12/01-publish-center.png
+  - tests/android/visual-baselines/R12/02-me-home.png
+  - tests/android/visual-baselines/R12/03-profile.png
+  - tests/android/visual-baselines/R12/04-drafts.png
+  - tests/android/visual-baselines/R12/05-content-management-detail.png
+  - tests/android/visual-baselines/R12/06-publish-preview.png
+  - tests/android/visual-baselines/R12/07-submit-result.png
+  - tests/android/visual-baselines/R12/08-my-contents.png
+  - tests/android/visual-baselines/R12/09-content-reviews.png
+  - tests/android/visual-baselines/R12/10-content-analytics.png
+  - tests/android/visual-baselines/R12/APPROVAL.yaml
+  source: story+explicit+approved-cr:CR-0340+approved-cr:CR-0344+approved-cr:CR-0346+approved-cr:CR-0345+approved-cr:CR-0348+approved-cr:CR-0349+approved-cr:CR-0350+approved-cr:CR-0351+approved-cr:CR-0352+approved-cr:CR-0353+approved-cr:CR-0354+approved-cr:CR-0355+approved-cr:CR-0359
 git:
   initialized: true
   branch: task/TASK-R03-001
@@ -128,22 +140,22 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-26T08:15:23Z'
-  expires_at: '2026-07-26T12:15:23Z'
-checkpoint_sequence: 42
-latest_checkpoint: .continuity/checkpoints/SES-20260725T192048Z-668BD05D/0042.yaml
+  renewed_at: '2026-07-26T08:58:25Z'
+  expires_at: '2026-07-26T12:58:25Z'
+checkpoint_sequence: 45
+latest_checkpoint: .continuity/checkpoints/SES-20260725T192048Z-668BD05D/0045.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260725T192048Z-668BD05D.md
-next_step: 刷新Context Pack并运行严格Project Doctor；通过后提交推送，监控普通CI与唯一attempt7候选，AI逐图验收十页截图。
+next_step: 暂存后执行pre-commit；提交推送CR-0359基线晋升并监控GitHub轻量晋升结果。
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: 3779dd0f4f9aa883e49ef3b2099b6ff6c96120d4802a1f054fd7f4a4b158636d
-  generated_at: '2026-07-26T08:15:26Z'
+  context_hash: d4ea2d4a30f883fa46b0afe659193fda62090279e3a93fcb8d3e1eb8b7f249ba
+  generated_at: '2026-07-26T08:58:29Z'
 handoff_bundle: null
 closure: null
 parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 候选授权、唯一请求、提交与远端一次性运行共享同一状态链，拆分会产生重复候选风险。
+  reason: 基线哈希与唯一审批清单必须单线原子提交。
