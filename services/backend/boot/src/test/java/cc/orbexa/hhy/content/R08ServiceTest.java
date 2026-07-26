@@ -16,6 +16,7 @@ import cc.orbexa.hhy.content.ContentContracts.ContentResource;
 import cc.orbexa.hhy.content.R08Contracts.ContactInput;
 import cc.orbexa.hhy.content.R08Contracts.CreateProjectRequest;
 import cc.orbexa.hhy.content.R08Contracts.DirectConversationRequest;
+import cc.orbexa.hhy.content.R08Contracts.FavoriteRequest;
 import cc.orbexa.hhy.content.R08Contracts.ShareRequest;
 import cc.orbexa.hhy.shared.api.BusinessException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -101,6 +102,52 @@ class R08ServiceTest {
         assertEquals("COPY_LINK", result.channel());
         verify(store).share(11, 42, "COPY_LINK", NOW);
         verify(store).outbox(11, "CONTENT", "content.shared.v1", "42", "COPY_LINK", NOW);
+    }
+
+    @Test
+    void favoriteVersionConflictStopsFavoriteOutboxAndCompletion() {
+        when(store.claim(anyString(), eq(KEY), anyString(), any())).thenAnswer(invocation ->
+                new R08Store.IdempotencyClaim(12, invocation.getArgument(2), null, null, null, false));
+        when(store.lockProject(42)).thenReturn(Optional.of(project(42, 7, "ONLINE", 3)));
+
+        BusinessException error = assertThrows(BusinessException.class, () ->
+                service.favorite(11, "42", new FavoriteRequest(null, 2L, Map.of()), KEY));
+
+        assertEquals("COMMON-409-VERSION_CONFLICT", error.code());
+        verify(store, never()).favorite(anyLong(), anyLong(), any());
+        verify(store, never()).outbox(anyLong(), anyString(), anyString(), anyString(), anyString(), any());
+        verify(store, never()).complete(anyLong(), anyString(), anyString(), anyString());
+    }
+
+    @Test
+    void shareReplayReturnsFrozenSnapshotWithoutDuplicateAuditOrOutbox() {
+        AtomicInteger claims = new AtomicInteger();
+        AtomicReference<String> responseType = new AtomicReference<>();
+        AtomicReference<String> responsePayload = new AtomicReference<>();
+        when(store.claim(anyString(), eq(KEY), anyString(), any())).thenAnswer(invocation -> {
+            String requestHash = invocation.getArgument(2);
+            boolean replay = claims.getAndIncrement() > 0;
+            return new R08Store.IdempotencyClaim(13, requestHash,
+                    replay ? "stored" : null, replay ? responseType.get() : null,
+                    replay ? responsePayload.get() : null, replay);
+        });
+        org.mockito.Mockito.doAnswer(invocation -> {
+            responseType.set(invocation.getArgument(2));
+            responsePayload.set(invocation.getArgument(3));
+            return null;
+        }).when(store).complete(eq(13L), anyString(), anyString(), anyString());
+        when(store.project(42)).thenReturn(Optional.of(project(42, 7, "ONLINE", 3)));
+        when(store.textConfig("domain.h5.host")).thenReturn("h5.orbexa.cc");
+        var request = new ShareRequest("copy_link");
+
+        var first = service.share(11, "42", request, KEY);
+        var replay = service.share(11, "42", request, KEY);
+
+        assertEquals(first, replay);
+        verify(store, times(1)).share(11, 42, "COPY_LINK", NOW);
+        verify(store, times(1)).outbox(11, "CONTENT", "content.shared.v1", "42", "COPY_LINK", NOW);
+        verify(store, times(1)).project(42);
+        verify(store, times(1)).complete(eq(13L), anyString(), eq("r08.share-result.v1"), anyString());
     }
 
     @Test

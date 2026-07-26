@@ -1,0 +1,225 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260726T160157Z-6B5BC09A-0002
+session_id: SES-20260726T160157Z-6B5BC09A
+task_id: TASK-R13-005
+story_id: STORY-R13-003
+sequence: 2
+created_at: '2026-07-26T16:22:48Z'
+summary: R13专项测试源码快照与严格连续性均已通过，准备提交精确Commit执行三环境MODULE
+next_step: 提交后将精确Commit分别归档到obx-test运行Java21、PostgreSQL17和Android固定工具链
+blockers: []
+decisions: []
+note: 本提交不含最终证据；三类原始日志只在精确Commit远程PASS后归档并生成evidence.json。
+tests:
+- name: continuity-strict
+  result: PASS
+  evidence: scripts/check_v123_continuity.py --strict
+  note: 0 errors 0 warnings
+- name: diff-integrity
+  result: PASS
+  evidence: git diff --check
+  note: 无空白错误
+- name: r13-documentation
+  result: PASS
+  evidence: scripts/check_v122_documentation.py --release R13
+  note: 0 errors 0 warnings
+- name: r13-specialized-inventory
+  result: PASS
+  evidence: scripts/run_r13_specialized_matrix.py
+  note: 3个权威ID与全部selector有效
+- name: r13-specialized-unit
+  result: PASS
+  evidence: python -m unittest tests.test_r13_specialized_matrix -v
+  note: 4 tests OK
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: 02d2dee4b67b27559b55a5369fd14992b41c9b5c
+  upstream: origin/task/TASK-R03-001
+  ahead: 0
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/ACTIVE_SESSION.yaml'
+  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/SESSION_INDEX.yaml'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/TASK_CLAIMS.yaml'
+  - ' M .continuity/TASK_TRANSITIONS.yaml'
+  - ' M CURRENT_STATUS.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+  - ' M artifacts/validation/project-doctor-v1.2.3.json'
+  - ' M catalogs/change_request_index.csv'
+  - ' M catalogs/session_index.csv'
+  - ' M catalogs/task_transition_ledger.csv'
+  - ' M catalogs/test_cases.csv'
+  - ' M services/backend/boot/src/test/java/cc/orbexa/hhy/content/R08ServiceTest.java'
+  - ' M services/backend/boot/src/test/java/cc/orbexa/hhy/content/R13ServiceTest.java'
+  - ?? .continuity/change_requests/CR-0372.yaml
+  - ?? .continuity/checkpoints/SES-20260726T160157Z-6B5BC09A/0001.yaml
+  - ?? .continuity/sessions/SES-20260726T160157Z-6B5BC09A.yaml
+  - ?? docs/03-continuity/change-requests/CR-0372-自动化R13三项活动专项测试与故障证据矩阵.md
+  - ?? docs/03-continuity/sessions/2026-07/SES-20260726T160157Z-6B5BC09A.md
+  - ?? scripts/run_r13_specialized_matrix.py
+  - ?? tests/r13/README.md
+  - ?? tests/r13/req-activity-001_happy
+  - ?? tests/r13/req-activity-001_idempotent
+  - ?? tests/r13/req-activity-001_reject
+  - ?? tests/test_r13_specialized_matrix.py
+  recent_commits:
+  - "02d2dee4b67b27559b55a5369fd14992b41c9b5c\t2026-07-26T23:55:39+08:00\tHHY Continuity Bootstrap\t[STORY-R13-002] chore(continuity): close TASK-R13-004\
+    \ as completed"
+  - "38514e9e47cff7456026217009e92d16bbfbef6c\t2026-07-26T23:50:56+08:00\tHHY Continuity Bootstrap\t[STORY-R13-002] chore(continuity): close R13\
+    \ client change requests"
+  - "7865a46978d9afc6b220e8cf71863cc39b7901a5\t2026-07-26T23:22:53+08:00\tHHY Continuity Bootstrap\t[STORY-R13-002] chore(continuity): bind R13\
+    \ client gate"
+  - "f8df36e3cbdcdb406b779e15da367591c1cd2fcc\t2026-07-26T23:01:20+08:00\tHHY Continuity Bootstrap\t[STORY-R13-002] fix(activity): align R13 client\
+    \ visual semantics"
+  - "97e3502a522512f863d5a0a3b5e2a1cb9533c002\t2026-07-26T22:18:19+08:00\tHHY Continuity Bootstrap\t[STORY-R13-001] feat(activity): implement\
+    \ R13 Android client surfaces"
+  - "cdbbf232aa888d684c2ab434218d8c7afcb5f636\t2026-07-26T21:35:01+08:00\tHHY Continuity Bootstrap\t[STORY-R13-003] chore(continuity): close TASK-R13-003\
+    \ as completed"
+  - "bb869d2ef4bcea8dbfba3b7d579db997f96034e1\t2026-07-26T21:29:21+08:00\tHHY Continuity Bootstrap\t[STORY-R13-003] chore(continuity): bind R13\
+    \ backend implementation"
+  - "be9a99d9fbfe08aad2b98c6cd189119392b8564e\t2026-07-26T21:27:29+08:00\tHHY Continuity Bootstrap\t[STORY-R13-003] feat(content): implement R13\
+    \ activity APIs"
+project_fingerprint:
+  sha256: 14f9ab5e9b7f0b0aa8a90a086817cf268fcc2b74663b9851e07028dd2ec085ca
+  files:
+  - catalogs/test_cases.csv
+  - docs/03-continuity/change-requests/CR-0372-自动化R13三项活动专项测试与故障证据矩阵.md
+  - scripts/run_r13_specialized_matrix.py
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R08ServiceTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R13ServiceTest.java
+  - tests/r13/README.md
+  - tests/r13/req-activity-001_happy
+  - tests/r13/req-activity-001_idempotent
+  - tests/r13/req-activity-001_reject
+  - tests/test_r13_specialized_matrix.py
+  file_count: 10
+  payload:
+    base_commit: 02d2dee4b67b27559b55a5369fd14992b41c9b5c
+    files:
+    - path: catalogs/test_cases.csv
+      state: FILE
+      size: 227760
+      sha256: 384e685b24ce2e9b7898b6e9778d23ca5a0a486291e451ade90b0016cdbe7f51
+    - path: docs/03-continuity/change-requests/CR-0372-自动化R13三项活动专项测试与故障证据矩阵.md
+      state: FILE
+      size: 3899
+      sha256: d8406c32350a9b4e26d4abded39312c1226b8ba4f01ce44a0cf95ea3b9d3f8a2
+    - path: scripts/run_r13_specialized_matrix.py
+      state: FILE
+      size: 9101
+      sha256: b0316718054271f3d804b92a31cc4ded1a03b70b789380a117d006e4ac936e61
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/content/R08ServiceTest.java
+      state: FILE
+      size: 13962
+      sha256: f74b50b110dab6197a6f3509298c663a0880570df61be3e31cb24c6ebc021e44
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/content/R13ServiceTest.java
+      state: FILE
+      size: 12651
+      sha256: e214aa59194b76f0be32153aa836d5bc05c82548d623662783648e24b66ab0fc
+    - path: tests/r13/README.md
+      state: FILE
+      size: 1052
+      sha256: 34b9ae858cbf790171f5e44e5d62271ddffe72fb9af9391d414588077a2945f8
+    - path: tests/r13/req-activity-001_happy
+      state: FILE
+      size: 1535
+      sha256: 74334e6005776289bce2ef8943ad6cadb61cc86007dc45404e186d011ae6e778
+    - path: tests/r13/req-activity-001_idempotent
+      state: FILE
+      size: 1459
+      sha256: 03fac65fa9feddf80785638b15f1a7906ce6b7734d28bcbe6be44059757c76b0
+    - path: tests/r13/req-activity-001_reject
+      state: FILE
+      size: 1414
+      sha256: 6afce2037baf522c6672345e0dda0cbe5e8bf4b0c6c44a3d4c46a44ce4a7717c
+    - path: tests/test_r13_specialized_matrix.py
+      state: FILE
+      size: 3168
+      sha256: f4ed0f64cc803eb8133b35d759d397f6b3c9f4027065a72660fcab3d8cf82d30
+change_classification:
+  other:
+  - catalogs/test_cases.csv
+  continuity:
+  - docs/03-continuity/change-requests/CR-0372-自动化R13三项活动专项测试与故障证据矩阵.md
+  code:
+  - scripts/run_r13_specialized_matrix.py
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R08ServiceTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R13ServiceTest.java
+  tests:
+  - tests/r13/README.md
+  - tests/r13/req-activity-001_happy
+  - tests/r13/req-activity-001_idempotent
+  - tests/r13/req-activity-001_reject
+  - tests/test_r13_specialized_matrix.py
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+change_requests:
+- CR-0372
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions:
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R13ServiceTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R08ServiceTest.java
+  - tests/r13/README.md
+  - tests/r13/req-activity-001_happy
+  - tests/r13/req-activity-001_reject
+  - tests/r13/req-activity-001_idempotent
+  - tests/test_r13_specialized_matrix.py
+  - scripts/run_r13_specialized_matrix.py
+  - catalogs/test_cases.csv
+  - artifacts/validation/r13-test-evidence/evidence.json
+  - artifacts/validation/r13-test-evidence/backend-java21.log
+  - artifacts/validation/r13-test-evidence/postgresql17.log
+  - artifacts/validation/r13-test-evidence/android-module.log
+  - docs/03-continuity/R13_TASK-005_SPECIALIZED_TEST_GATE.md
+  - releases/R13/RELEASE_MANIFEST.yaml
+  - CHANGELOG.md
+  source: story+explicit+approved-cr:CR-0372
+parallel_execution:
+  assessment: CAPABILITY_UNAVAILABLE
+  delegated_workers: 0
+  workers: []
+  reason: 当前会话平台策略禁止在用户未显式要求子代理时委托；测试源码与三环境证据需绑定同一精确Commit并由主控串行提交
+event_hash: a20caff18ac36c3f36ef9c2423effe5d9fda88edaa295575b0178134b6d96976

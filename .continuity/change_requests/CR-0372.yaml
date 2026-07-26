@@ -1,0 +1,60 @@
+protocol_version: '1.0'
+cr_id: CR-0372
+title: 自动化R13三项活动专项测试与故障证据矩阵
+status: IMPLEMENTING
+created_at: '2026-07-26T16:07:05Z'
+updated_at: '2026-07-26T16:09:35Z'
+requester_actor_id: codex-root-r13-testing-20260726
+approver_actor_id: owner-standing-delegation-20260726
+task_id: TASK-R13-005
+session_id: SES-20260726T160157Z-6B5BC09A
+user_request: 项目所有者批准按R01-R32持续开发并要求日常开发不再逐次申请批准；每个大版本只在最终候选运行模拟器和APK。
+reason: TST-ACTIVITY_001-HAPPY、REJECT、IDEMPOTENT仍为READY_TO_AUTOMATE，缺少统一适配器、R13反馈响应丢失/处理中/超时零副作用断言、共享收藏分享重放与版本冲突映射，以及Java21/PostgreSQL17/Android日志哈希证据。
+original_rule: R13三项权威测试仍为READY_TO_AUTOMATE，现有分散测试没有统一证明完整主路径、拒绝零副作用、响应丢失重放、处理中冲突、共享幂等真实并发与客户端稳定意图键。
+new_rule: 只自动化既有三项TST-ACTIVITY_001测试ID；统一矩阵绑定R07联系方式审计、R08共享收藏分享、R13收藏历史反馈、Java21故障注入、PostgreSQL17真实事务与并发、Android稳定意图键及非空日志哈希。响应丢失重放只产生一次报告/收藏/分享/Outbox，同键异体冲突，处理中与存储/配置超时零成功副作用；不得虚构供应商或消息消费者。
+impact_summary: 补充R13与共享R08服务测试，新增三项适配器、矩阵自测、三类原始日志和PASS证据，更新测试目录、Release Manifest、门禁报告与Changelog；不修改生产业务、API、数据库Schema、UI或候选策略。
+impact:
+  files:
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R13ServiceTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R08ServiceTest.java
+  - tests/r13/README.md
+  - tests/r13/req-activity-001_happy
+  - tests/r13/req-activity-001_reject
+  - tests/r13/req-activity-001_idempotent
+  - tests/test_r13_specialized_matrix.py
+  - scripts/run_r13_specialized_matrix.py
+  - catalogs/test_cases.csv
+  - artifacts/validation/r13-test-evidence/evidence.json
+  - artifacts/validation/r13-test-evidence/backend-java21.log
+  - artifacts/validation/r13-test-evidence/postgresql17.log
+  - artifacts/validation/r13-test-evidence/android-module.log
+  - docs/03-continuity/R13_TASK-005_SPECIALIZED_TEST_GATE.md
+  - releases/R13/RELEASE_MANIFEST.yaml
+  - CHANGELOG.md
+  pages: []
+  apis: []
+  database: []
+  configuration: []
+  ledger: []
+  tests:
+  - TST-ACTIVITY_001-HAPPY
+  - TST-ACTIVITY_001-REJECT
+  - TST-ACTIVITY_001-IDEMPOTENT
+  releases:
+  - R13
+  migration_and_compatibility: 纯测试与证据治理变更；复用既有R07/R08/R13生产实现、共享幂等表和事务Outbox，无数据/API/配置迁移；完整模拟器、截图与APK继续延后到TASK-R13-007。
+user_confirmation: 项目所有者原文：批准，以后不要让我批准了 你自己持续开发就行了。
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-26T16:08:26Z'
+  note: Owner持续授权覆盖R13冻结测试自动化；范围仅为既有三项测试ID、测试补强、真实环境证据和Release投影，不改生产合同、UI或候选频率。
+machine_record: .continuity/change_requests/CR-0372.yaml
+document: docs/03-continuity/change-requests/CR-0372-自动化R13三项活动专项测试与故障证据矩阵.md
+decision_log:
+- at: '2026-07-26T16:09:35Z'
+  actor_id: codex-root-r13-testing-20260726
+  status: IMPLEMENTING
+  note: 开始补充R13/R08故障断言、三项适配器与统一证据矩阵；完整模拟器与APK仍延后到TASK-R13-007。
+  session_id: SES-20260726T160157Z-6B5BC09A
+session_ids:
+- SES-20260726T160157Z-6B5BC09A

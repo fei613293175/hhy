@@ -143,6 +143,76 @@ class R13ServiceTest {
     }
 
     @Test
+    void invalidFeedbackReplayReturnsFrozenSnapshotWithoutDuplicateReportOrOutbox() {
+        when(shared.activeUser(11)).thenReturn(true);
+        AtomicInteger claims = new AtomicInteger();
+        AtomicReference<String> responseType = new AtomicReference<>();
+        AtomicReference<String> responsePayload = new AtomicReference<>();
+        when(shared.claim(anyString(), eq(KEY), anyString(), any())).thenAnswer(invocation -> {
+            String requestHash = invocation.getArgument(2);
+            boolean replay = claims.getAndIncrement() > 0;
+            return new R08Store.IdempotencyClaim(34, requestHash,
+                    replay ? "stored" : null, replay ? responseType.get() : null,
+                    replay ? responsePayload.get() : null, replay);
+        });
+        doAnswer(invocation -> {
+            responseType.set(invocation.getArgument(2));
+            responsePayload.set(invocation.getArgument(3));
+            return null;
+        }).when(shared).complete(eq(34L), anyString(), anyString(), anyString());
+        when(shared.lockContent(71)).thenReturn(Optional.of(
+                new R08Store.ContentRow(71, 7, "GROUP", "ONLINE", 4)));
+        when(store.invalidFeedback(11, 71, "QR_CODE", "二维码已失效", NOW)).thenReturn(52L);
+        var request = new InvalidFeedbackRequest("qr_code", " 二维码已失效 ");
+
+        var first = service.invalidFeedback(11, "71", request, KEY);
+        var replay = service.invalidFeedback(11, "71", request, KEY);
+
+        assertEquals(first, replay);
+        assertEquals("PENDING", replay.status());
+        verify(store, times(1)).invalidFeedback(11, 71, "QR_CODE", "二维码已失效", NOW);
+        verify(shared, times(1)).lockContent(71);
+        verify(shared, times(1)).outbox(11, "CONTENT_REPORT", "content.invalid-feedback.created.v1",
+                "52", "PENDING", NOW);
+        verify(shared, times(1)).complete(eq(34L), anyString(),
+                eq("r13.invalid-feedback-command.v1"), anyString());
+    }
+
+    @Test
+    void pendingFeedbackReplayReturnsVersionConflictBeforeAnyWrite() {
+        when(shared.activeUser(11)).thenReturn(true);
+        when(shared.claim(anyString(), eq(KEY), anyString(), any())).thenAnswer(invocation ->
+                new R08Store.IdempotencyClaim(35, invocation.getArgument(2),
+                        null, null, null, true));
+
+        BusinessException error = assertThrows(BusinessException.class, () ->
+                service.invalidFeedback(11, "71", new InvalidFeedbackRequest("LINK", null), KEY));
+
+        assertEquals("COMMON-409-VERSION_CONFLICT", error.code());
+        verify(shared, never()).lockContent(anyLong());
+        verify(store, never()).invalidFeedback(anyLong(), anyLong(), anyString(), any(), any());
+        verify(shared, never()).outbox(anyLong(), anyString(), anyString(), anyString(), anyString(), any());
+    }
+
+    @Test
+    void invalidFeedbackStoreTimeoutLeavesNoOutboxOrCompletedSnapshot() {
+        when(shared.activeUser(11)).thenReturn(true);
+        when(shared.claim(anyString(), eq(KEY), anyString(), any())).thenAnswer(invocation ->
+                new R08Store.IdempotencyClaim(36, invocation.getArgument(2), null, null, null, false));
+        when(shared.lockContent(71)).thenReturn(Optional.of(
+                new R08Store.ContentRow(71, 7, "GROUP", "ONLINE", 4)));
+        when(store.invalidFeedback(11, 71, "PHONE", null, NOW))
+                .thenThrow(new IllegalStateException("activity store timeout"));
+
+        IllegalStateException error = assertThrows(IllegalStateException.class, () ->
+                service.invalidFeedback(11, "71", new InvalidFeedbackRequest("phone", null), KEY));
+
+        assertEquals("activity store timeout", error.getMessage());
+        verify(shared, never()).outbox(anyLong(), anyString(), anyString(), anyString(), anyString(), any());
+        verify(shared, never()).complete(anyLong(), anyString(), anyString(), anyString());
+    }
+
+    @Test
     void changedFeedbackBodyWithSameKeyIsRejectedBeforeInsert() {
         when(shared.activeUser(11)).thenReturn(true);
         when(shared.claim(anyString(), eq(KEY), anyString(), any())).thenReturn(
