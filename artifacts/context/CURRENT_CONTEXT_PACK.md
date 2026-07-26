@@ -1,7 +1,7 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-26T04:04:20Z
-- Context Hash：`6551590e065c3099f91add164e6552323d36ab3e259e66744e16bada1d003b6f`
+- 生成时间：2026-07-26T04:07:37Z
+- Context Hash：`0052b2a01f882ad13da63bca356f8c1ccc56f4c23fabe77653ef6b8d48845344`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 规则就绪：`PASS`（`HASHED_CONTEXT_MANIFEST`）
@@ -164,7 +164,7 @@ blocked_tasks:
 - TASK-R06-008
 - TASK-R07-008
 next_task: TASK-R12-007
-updated_at: '2026-07-26T04:04:16Z'
+updated_at: '2026-07-26T04:07:34Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -199,15 +199,15 @@ continuity:
   active_session_id: SES-20260725T192048Z-668BD05D
   actor_id: codex-root-r12-candidate-20260726
   story_id: STORY-R12-008
-  lease_expires_at: '2026-07-26T08:04:16Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260725T192048Z-668BD05D/0020.yaml
-  project_fingerprint: bb2852e768729f6a9536acf779a0d02c8e63650899ecc2979f4fbb10e5109c12
+  lease_expires_at: '2026-07-26T08:07:34Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260725T192048Z-668BD05D/0021.yaml
+  project_fingerprint: 3eb76d50645ca1def0a62071114c955df364b053df8e811d8eddf3483dfe17bd
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: 80d1a124578db6fc149c16e9765dff1766ed392665015cafbc77b957045130d1
-    generated_at: '2026-07-26T03:21:33Z'
+    context_hash: 6551590e065c3099f91add164e6552323d36ab3e259e66744e16bada1d003b6f
+    generated_at: '2026-07-26T04:04:20Z'
   handoff_bundle: null
 ```
 
@@ -405,7 +405,7 @@ task_id: TASK-R12-007
 story_id: STORY-R12-008
 goal: 完成R12最终Android候选、真实模拟器截图AI验收、固定签名测试APK与桌面交付
 started_at: '2026-07-25T19:20:48Z'
-updated_at: '2026-07-26T04:04:16Z'
+updated_at: '2026-07-26T04:07:34Z'
 takeover_of: null
 change_requests:
 - CR-0339
@@ -504,12 +504,12 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-26T04:04:16Z'
-  expires_at: '2026-07-26T08:04:16Z'
-checkpoint_sequence: 20
-latest_checkpoint: .continuity/checkpoints/SES-20260725T192048Z-668BD05D/0020.yaml
+  renewed_at: '2026-07-26T04:07:34Z'
+  expires_at: '2026-07-26T08:07:34Z'
+checkpoint_sequence: 21
+latest_checkpoint: .continuity/checkpoints/SES-20260725T192048Z-668BD05D/0021.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260725T192048Z-668BD05D.md
-next_step: 重跑严格V1.2.3 Doctor，暂存并执行pre-commit，提交推送后只核验普通CI tooling/backend，不启动Android候选。
+next_step: 严格Doctor复核状态记录，提交CR实现元数据，执行Git传输预检并一次推送；随后只观察普通CI tooling/backend，不启动Android候选。
 context_pack: THIS_CONTEXT_PACK
 handoff_bundle: null
 closure: null
@@ -517,68 +517,57 @@ parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 同一活动会话、共享Git索引、Context Pack与全量接续测试会竞争同一连续性状态，必须串行完成。
+  reason: CR状态、检查点、Context Pack和Git索引为同一串行事实链，不允许并行写入。
 ```
 
 ## 最新检查点
 
 ```yaml
 protocol_version: '1.0'
-checkpoint_id: CP-SES-20260725T192048Z-668BD05D-0020
+checkpoint_id: CP-SES-20260725T192048Z-668BD05D-0021
 session_id: SES-20260725T192048Z-668BD05D
 task_id: TASK-R12-007
 story_id: STORY-R12-008
-sequence: 20
-created_at: '2026-07-26T04:04:16Z'
-summary: CR-0348已修复R11历史候选测试对当前版本号、候选请求及共享R12旅程的错误绑定；R11改由归档构建、候选与截图哈希证据验证。后端mvnw Git模式已恢复100755，严格Doctor新增双Wrapper模式门禁，PROB-0120与既有PATTERN-APK-001、踩坑30已原位加固。
-next_step: 重跑严格V1.2.3 Doctor，暂存并执行pre-commit，提交推送后只核验普通CI tooling/backend，不启动Android候选。
+sequence: 21
+created_at: '2026-07-26T04:07:34Z'
+summary: CR-0348已由Commit e2be41a20eac92ead295b2f6a1979f863c325142实现并登记IMPLEMENTED；历史候选回归、共享旅程解绑、双Wrapper 100755、PROB-0120、PATTERN-APK-001和踩坑30均已闭环。
+next_step: 严格Doctor复核状态记录，提交CR实现元数据，执行Git传输预检并一次推送；随后只观察普通CI tooling/backend，不启动Android候选。
 blockers: []
 decisions:
-- 普通CI失败属于历史门禁和Git模式漂移，不消耗或复用R12 Android候选轮次。
+- 保持R12候选次数与请求不变；普通CI只验证本次门禁修复。
 note: ''
 tests:
-- name: R11及治理专项
+- name: 专项回归
   result: PASS
-  evidence: 22 tests in 6.243s
-  note: 归档身份、截图哈希和双Wrapper模式全部通过
-- name: 全量tooling回归
+  evidence: 22 tests
+  note: R11归档身份、页面截图哈希、双Wrapper模式
+- name: 全量tooling
   result: PASS
   evidence: 357 tests in 623.101s, skipped=1
-  note: 无失败
-- name: Wrapper索引模式
+  note: 普通tooling本地等价回归
+- name: 严格Doctor
   result: PASS
-  evidence: apps/android/gradlew=100755; services/backend/mvnw=100755
-  note: Linux干净检出可执行
+  evidence: 120 problems, 11 patterns, 30 pitfalls, 84 requirements, 319 REST, 0 gaps
+  note: R12严格门禁
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: a54e4ac8c4e3da1a9690147bd8203c369ebb5b43
+  head: e2be41a20eac92ead295b2f6a1979f863c325142
   upstream: origin/task/TASK-R03-001
-  ahead: 0
+  ahead: 1
   behind: 0
   dirty: true
   status_porcelain:
   - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
   - ' M .continuity/EVENT_LOG.jsonl'
   - ' M .continuity/STATE.yaml'
-  - ' M .continuity/sessions/SES-20260725T192048Z-668BD05D.yaml'
-  - ' M CHANGELOG.md'
-  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
-  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
-  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
-  - ' M artifacts/validation/project-doctor-v1.2.3.json'
+  - ' M .continuity/change_requests/CR-0348.yaml'
   - ' M catalogs/change_request_index.csv'
   - ' M catalogs/session_index.csv'
-  - ' M docs/03-continuity/PITFALLS.md'
-  - ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
-  - ' M docs/03-continuity/REUSABLE_PATTERNS.md'
-  - ' M scripts/check_v123_continuity.py'
-  - M  services/backend/mvnw
-  - ' M tests/test_context_pack_parallel_policy.py'
-  - ' M tests/test_r11_candidate.py'
-  - ?? .continuity/change_requests/CR-0348.yaml
-  - ?? docs/03-continuity/change-requests/CR-0348-修复R12普通CI历史候选断言与Wrapper执行位漂移.md
+  - ' M docs/03-continuity/change-requests/CR-0348-修复R12普通CI历史候选断言与Wrapper执行位漂移.md'
   recent_commits:
+  - "e2be41a20eac92ead295b2f6a1979f863c325142\t2026-07-26T12:06:52+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] fix(ci): preserve historical\
+    \ candidate evidence"
   - "a54e4ac8c4e3da1a9690147bd8203c369ebb5b43\t2026-07-26T11:15:33+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] chore(continuity): bind drift\
     \ audit implementation commit"
   - "fbde523e8e751b74f7300ef125c70fa9eb4d03fd\t2026-07-26T11:13:37+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] fix(r12): rebuild candidate\
@@ -593,10 +582,8 @@ git:
     \ candidate attempt 3"
   - "a16a75e6f3e03e08893c0398b4af2596550cbeaf\t2026-07-26T05:45:59+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] fix(r12): seed candidate startup\
     \ release policy"
-  - "2b51aa89739efc8d195ee7c4991f28bee98d0126\t2026-07-26T05:13:11+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] test(r12): request Android\
-    \ candidate attempt 2"
 project_fingerprint:
-  sha256: bb2852e768729f6a9536acf779a0d02c8e63650899ecc2979f4fbb10e5109c12
+  sha256: 3eb76d50645ca1def0a62071114c955df364b053df8e811d8eddf3483dfe17bd
   files:
   - .github/workflows/android-candidate-request.yml
   - .github/workflows/android-quality-gate.yml
@@ -783,8 +770,8 @@ project_fingerprint:
       sha256: 2918a0402447a5df0a2ccb4dc6d481bfc2445dbb16ec32920155a8e9ed006f61
     - path: docs/03-continuity/change-requests/CR-0348-修复R12普通CI历史候选断言与Wrapper执行位漂移.md
       state: FILE
-      size: 3069
-      sha256: d74f116b91eea234db27a47e4b74f4ebd170f68c069eafab7167093227c5ff8c
+      size: 3418
+      sha256: 62211dd8f58f3ad6f0aa656533f80e39e25641b87dac26fdf2002a5ae34e9b79
     - path: docs/08-testing/Android自动开发测试修复交付体系_V1.0.md
       state: FILE
       size: 11003
@@ -1096,8 +1083,8 @@ parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 同一活动会话、共享Git索引、Context Pack与全量接续测试会竞争同一连续性状态，必须串行完成。
-event_hash: 6a5b1b37ea2bb66cb560ddcbf94cb05db6cce47a82e8cfe8963f9308ebc8313f
+  reason: CR状态、检查点、Context Pack和Git索引为同一串行事实链，不允许并行写入。
+event_hash: 3f694d0c6eaf827f13cd3c48407294032ef6df348b1cd1f63cfef43163e287bb
 ```
 
 ## 接续状态与事件头
@@ -1109,8 +1096,8 @@ active_session_id: SES-20260725T192048Z-668BD05D
 last_session_id: SES-20260725T180922Z-D7231210
 last_session_result: COMPLETED
 last_closure_checkpoint_id: CP-SES-20260725T180922Z-D7231210-0008
-event_count: 3400
-event_head_hash: 6a5b1b37ea2bb66cb560ddcbf94cb05db6cce47a82e8cfe8963f9308ebc8313f
+event_count: 3402
+event_head_hash: 3f694d0c6eaf827f13cd3c48407294032ef6df348b1cd1f63cfef43163e287bb
 event_chain_valid: true
 ```
 
@@ -1233,9 +1220,9 @@ recent_sessions: - session_id: SES-20260724T032308Z-98D6D10A
   started_at: '2026-07-25T19:20:48Z'
   record: .continuity/sessions/SES-20260725T192048Z-668BD05D.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260725T192048Z-668BD05D.md
-  updated_at: '2026-07-26T04:04:16Z'
+  updated_at: '2026-07-26T04:07:34Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260725T192048Z-668BD05D/0020.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260725T192048Z-668BD05D/0021.yaml
   handoff_bundle: null
 task_claims: - claim_id: CLM-9F0481F9E6A2
   session_id: SES-20260723T114316Z-44EBE3C1
@@ -2229,9 +2216,9 @@ recent_task_transitions: - transition_id: TRN-7D4AC37706EB
 ```yaml
 initialized: true
 branch: task/TASK-R03-001
-head: a54e4ac8c4e3da1a9690147bd8203c369ebb5b43
+head: e2be41a20eac92ead295b2f6a1979f863c325142
 upstream: origin/task/TASK-R03-001
-ahead: 0
+ahead: 1
 behind: 0
 dirty: true
 status_porcelain:
@@ -2240,27 +2227,17 @@ status_porcelain:
 - ' M .continuity/EVENT_LOG.jsonl'
 - ' M .continuity/SESSION_INDEX.yaml'
 - ' M .continuity/STATE.yaml'
+- ' M .continuity/change_requests/CR-0348.yaml'
 - ' M .continuity/sessions/SES-20260725T192048Z-668BD05D.yaml'
-- ' M CHANGELOG.md'
 - ' M CURRENT_STATUS.yaml'
-- ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
-- ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
-- ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
-- ' M artifacts/validation/project-doctor-v1.2.3.json'
 - ' M catalogs/change_request_index.csv'
 - ' M catalogs/session_index.csv'
-- ' M docs/03-continuity/PITFALLS.md'
-- ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
-- ' M docs/03-continuity/REUSABLE_PATTERNS.md'
+- ' M docs/03-continuity/change-requests/CR-0348-修复R12普通CI历史候选断言与Wrapper执行位漂移.md'
 - ' M docs/03-continuity/sessions/2026-07/SES-20260725T192048Z-668BD05D.md'
-- ' M scripts/check_v123_continuity.py'
-- M  services/backend/mvnw
-- ' M tests/test_context_pack_parallel_policy.py'
-- ' M tests/test_r11_candidate.py'
-- ?? .continuity/change_requests/CR-0348.yaml
-- ?? .continuity/checkpoints/SES-20260725T192048Z-668BD05D/0020.yaml
-- ?? docs/03-continuity/change-requests/CR-0348-修复R12普通CI历史候选断言与Wrapper执行位漂移.md
+- ?? .continuity/checkpoints/SES-20260725T192048Z-668BD05D/0021.yaml
 recent_commits:
+- "e2be41a20eac92ead295b2f6a1979f863c325142\t2026-07-26T12:06:52+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] fix(ci): preserve historical\
+  \ candidate evidence"
 - "a54e4ac8c4e3da1a9690147bd8203c369ebb5b43\t2026-07-26T11:15:33+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] chore(continuity): bind drift\
   \ audit implementation commit"
 - "fbde523e8e751b74f7300ef125c70fa9eb4d03fd\t2026-07-26T11:13:37+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] fix(r12): rebuild candidate\
@@ -2275,13 +2252,11 @@ recent_commits:
   \ attempt 3"
 - "a16a75e6f3e03e08893c0398b4af2596550cbeaf\t2026-07-26T05:45:59+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] fix(r12): seed candidate startup\
   \ release policy"
-- "2b51aa89739efc8d195ee7c4991f28bee98d0126\t2026-07-26T05:13:11+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] test(r12): request Android candidate\
-  \ attempt 2"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`bb2852e768729f6a9536acf779a0d02c8e63650899ecc2979f4fbb10e5109c12`
+- 指纹：`3eb76d50645ca1def0a62071114c955df364b053df8e811d8eddf3483dfe17bd`
 - 文件数：63
 
 - `.github/workflows/android-candidate-request.yml`
@@ -12121,9 +12096,9 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - protocol_version: '1.0'
   cr_id: CR-0348
   title: 修复R12普通CI历史候选断言与Wrapper执行位漂移
-  status: IMPLEMENTING
+  status: IMPLEMENTED
   created_at: '2026-07-26T03:48:43Z'
-  updated_at: '2026-07-26T03:49:27Z'
+  updated_at: '2026-07-26T04:07:12Z'
   requester_actor_id: codex-root-r12-candidate-20260726
   approver_actor_id: project-owner
   task_id: TASK-R12-007
@@ -12170,15 +12145,22 @@ PARALLEL_EXECUTION_PLAN.yaml:
     status: IMPLEMENTING
     note: 已修复R11历史候选断言并恢复Maven Wrapper执行位，正在运行专项和严格回归。
     session_id: SES-20260725T192048Z-668BD05D
+  - at: '2026-07-26T04:07:12Z'
+    actor_id: codex-root-r12-candidate-20260726
+    status: IMPLEMENTED
+    note: Commit e2be41a2实现历史候选归档证据回归、共享旅程解绑、Maven Wrapper 100755及严格Doctor模式门禁；专项22项、全量tooling 357项和严格Doctor PASS。
+    session_id: SES-20260725T192048Z-668BD05D
   session_ids:
   - SES-20260725T192048Z-668BD05D
+  implementation_commits:
+  - e2be41a20eac92ead295b2f6a1979f863c325142
 ```
 
 ## 上下文来源及哈希
 
 - `AGENTS.md` — `306026d4706dfd3cae0a3db2b1c56e294700326bc3a13ca095c3987a267d390b`
 - `START_HERE.md` — `22de14029ce47beb41ea569e36ce223fbc9d11b86f8676f28d5fbbd83896af5c`
-- `CURRENT_STATUS.yaml` — `68fd7addac4f539ab83203cac068f9b3ad7024a251a77c1263e2cb89bb0640f5`
+- `CURRENT_STATUS.yaml` — `71e10c46de991e08fff45a56b41d2a8a6c25e003f203acc83595db1f44c14e53`
 - `NEXT_TASK.yaml` — `1f03675aa74266e5c95220a1296010172ca5527e763602ee4ef876d1001f9507`
 - `DEVELOPMENT_RISK_REGISTER.md` — `8304c91492e4ee2abea0522a06541c8688d39c7fc532b5d0cde499bf09fffb87`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
@@ -12189,12 +12171,12 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `config/REPOSITORY_TRANSPORT.yaml` — `8c4a21f3e204d46e7ffb467d804a53ed26cda61cd088dadfddb50b69eea657fc`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `38e04ed812c8df0d353c2b91993d31e53b471e9c457f06b426bd2260c470aa92`
-- `.continuity/EVENT_LOG.jsonl` — `2d9169d55f585897798410d9e916f2cffae43a924b6ccd1bf043a20f51600caa`
-- `.continuity/SESSION_INDEX.yaml` — `3facefd7226f52a00b308b46db86e72dada1d8a1e98a230c222bd2bed2feedc4`
+- `.continuity/EVENT_LOG.jsonl` — `1538743f86f446d55dc816aefca897b0cff0300420733f2a16f55b1b90f81156`
+- `.continuity/SESSION_INDEX.yaml` — `3335f6114133b6d48b9349bd63bf92f251c1a59e7f6e864c4185699713009b27`
 - `.continuity/TASK_CLAIMS.yaml` — `5948f9d27d01996570044a191a32d7a1803736d6fe2c1c0d1a4a0e16d8716541`
 - `.continuity/TASK_TRANSITIONS.yaml` — `07c10f929db719a9014aa25face3c259d96dc1793f448f33dc3012b4d5babdc4`
-- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `2f585a39f127b827c55b88aae276827cd3a7ccae4246853bfe4f3a4b05274432`
-- `.continuity/ACTIVE_SESSION.yaml` — `1cf3a8bc268e363ac17466ed31b1b44d10357f55c02d82ffad62bb8fdbf4b11e`
+- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `7ef4c7840f553a49b328a3af881bb68130fd03e48702ae3fe1d43183f88b7fe3`
+- `.continuity/ACTIVE_SESSION.yaml` — `e1247cc4e014f19ceaa089191c66d54f819250ed5acce43f93495a7469472f83`
 - `docs/00-baseline/正式商业系统全局硬性开发边界.md` — `b1d965b019e632fbe1a259831201be7c82f79c26836fa161fd1d41855fcdb7c8`
 - `docs/02-ui/UI参考图使用与开发约束_V1.2.2.md` — `d14367586aa2067b059df58798acd20ab982459cdb35ff27fc7922a3896e4933`
 - `docs/03-continuity/持续开发无状态接续强制门禁_V1.2.3.md` — `d0ed3ed68bdd93b06500eecdfb5baa3245e6ca8b685a486788abb6eee39b3d51`
@@ -12205,8 +12187,8 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `releases/R12/TASKS.yaml` — `1ca7b627e103e1f54f2eb87f7087d848465a3c351169d186172c9055c11da709`
 - `releases/R12/ACCEPTANCE_MATRIX.csv` — `0fa8c9e830600bb02b4b6b729bc6d400dcc14fa1a2e7e4c5fb3f83d46c01abca`
 - `releases/R12/PARALLEL_EXECUTION_PLAN.yaml` — `2ddbee414a51a868b63331992e2e04c5400846cf6012474aab406e067e532e98`
-- `docs/03-continuity/sessions/2026-07/SES-20260725T192048Z-668BD05D.md` — `d2349b5059d2a2632f4d107be12412e16b9e0bde227bc9ed60364b8ee8cb8712`
-- `.continuity/checkpoints/SES-20260725T192048Z-668BD05D/0020.yaml` — `86e18365f8c4fe9311812c1b0e1d7099508162dae13956352fe4096d69e2d02c`
+- `docs/03-continuity/sessions/2026-07/SES-20260725T192048Z-668BD05D.md` — `72b3857ac225d9fae910e2fdc49559abb98a0fafc4000861595c6f57e81df017`
+- `.continuity/checkpoints/SES-20260725T192048Z-668BD05D/0021.yaml` — `96c824a3a7077820a6d10bda46f18faf5ed6cbc0ff7f270aff20655375695c2f`
 - `docs/03-continuity/change-requests/CR-0339-补齐R12统一发布Android最终候选与产物追溯.md` — `6d0cfb4e067edebc263badbf91bd560127467ff7ee4dd6c5f9cef82baee002d7`
 - `docs/03-continuity/change-requests/CR-0340-修复R12候选OIDC异常日志重复requestId遮蔽.md` — `e36ceb50b8f45a22fffdb20fc599d5972c184170c9619290706b6c40da8aad6f`
 - `docs/03-continuity/change-requests/CR-0341-补齐R12隔离候选official-STAGING版本发布夹具.md` — `0a222e781daea9cabe11b525f5f3522803f4c4122908afe94b81fea167b26c0d`
@@ -12216,7 +12198,7 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `docs/03-continuity/change-requests/CR-0345-修复R12候选OIDC启动前提交目标夹具未确定性重建.md` — `e69e5b86b5ce37dc5a496ed72124412c9aef2d43ff34fba14f9208170b2411f7`
 - `docs/03-continuity/change-requests/CR-0346-加固滚动计划跨版本视觉债务与经验记录防漂移门禁.md` — `bc35d37f653c32794888f93609b47ab7250e75ddb9c94937001d2a587bdccc65`
 - `docs/03-continuity/change-requests/CR-0347-纠正主开发文档定位指针并阻断事实源断链.md` — `2918a0402447a5df0a2ccb4dc6d481bfc2445dbb16ec32920155a8e9ed006f61`
-- `docs/03-continuity/change-requests/CR-0348-修复R12普通CI历史候选断言与Wrapper执行位漂移.md` — `d74f116b91eea234db27a47e4b74f4ebd170f68c069eafab7167093227c5ff8c`
+- `docs/03-continuity/change-requests/CR-0348-修复R12普通CI历史候选断言与Wrapper执行位漂移.md` — `62211dd8f58f3ad6f0aa656533f80e39e25641b87dac26fdf2002a5ae34e9b79`
 
 ## 接手硬规则
 
