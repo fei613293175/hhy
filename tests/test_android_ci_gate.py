@@ -157,6 +157,14 @@ class AndroidCiGateTest(unittest.TestCase):
                 "required_fix_commit": "c602d2f0194980efcf19f233148f0b0932254ba6",
                 "max_candidate_runs": 1,
             },
+            {
+                "exception_id": "CR-0385",
+                "release": "R13",
+                "attempt": 5,
+                "request_id": "R13-CANDIDATE-20260727-005",
+                "required_fix_commit": "f8239c989fd9d17e74273ab5eaaa5d4349488882",
+                "max_candidate_runs": 1,
+            },
         ], policy["remediation"]["approved_attempt_exceptions"])
 
     def test_attempt_exception_is_exact_and_never_changes_the_global_limit(self) -> None:
@@ -223,7 +231,7 @@ class AndroidCiGateTest(unittest.TestCase):
             with self.subTest(override=override), self.assertRaises(GateError):
                 resolve_attempt_policy(policy, **(base | override))
 
-    def test_r13_attempt_four_sequence_is_independent_and_attempt_five_is_rejected(self) -> None:
+    def test_r13_attempt_sequence_is_independent_and_attempt_six_is_rejected(self) -> None:
         policy = load_policy()
         exact = resolve_attempt_policy(
             policy,
@@ -236,14 +244,25 @@ class AndroidCiGateTest(unittest.TestCase):
         self.assertEqual(3, exact["max_ai_attempts"])
         self.assertEqual(4, exact["effective_attempt_limit"])
         self.assertEqual(1, exact["max_candidate_runs"])
+        attempt_five = resolve_attempt_policy(
+            policy,
+            release="R13",
+            attempt=5,
+            request_id="R13-CANDIDATE-20260727-005",
+            exception_id="CR-0385",
+            required_fix_commit="f8239c989fd9d17e74273ab5eaaa5d4349488882",
+        )
+        self.assertEqual(3, attempt_five["max_ai_attempts"])
+        self.assertEqual(5, attempt_five["effective_attempt_limit"])
+        self.assertEqual(1, attempt_five["max_candidate_runs"])
         with self.assertRaises(GateError):
             resolve_attempt_policy(
                 policy,
                 release="R13",
-                attempt=5,
-                request_id="R13-CANDIDATE-20260727-005",
-                exception_id="CR-0383",
-                required_fix_commit="c602d2f0194980efcf19f233148f0b0932254ba6",
+                attempt=6,
+                request_id="R13-CANDIDATE-20260727-006",
+                exception_id="CR-0385",
+                required_fix_commit="f8239c989fd9d17e74273ab5eaaa5d4349488882",
             )
 
     def test_attempt_six_exception_is_exact(self) -> None:

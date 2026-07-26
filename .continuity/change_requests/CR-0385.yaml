@@ -1,9 +1,9 @@
 protocol_version: '1.0'
 cr_id: CR-0385
 title: 修复R13收藏页候选媒体未加载即截图并建立attempt5
-status: IMPLEMENTING
+status: IMPLEMENTED
 created_at: '2026-07-26T22:52:58Z'
-updated_at: '2026-07-26T23:06:25Z'
+updated_at: '2026-07-26T23:12:08Z'
 requester_actor_id: codex-root-r13-candidate-20260727
 approver_actor_id: codex-independent-r13-visual-review-20260727
 task_id: TASK-R13-007
@@ -59,5 +59,12 @@ decision_log:
   status: IMPLEMENTING
   note: 已实现R13媒体loading/loaded/error语义和收藏页三媒体成功等待；本地44项专项及治理回归、Android UI基础门禁和obx-test固定镜像223任务通过，准备形成首个修复Commit，尚未建立attempt5请求或运行候选。
   session_id: SES-20260726T191158Z-2B506AB7
+- at: '2026-07-26T23:12:08Z'
+  actor_id: codex-root-r13-candidate-20260727
+  status: IMPLEMENTED
+  note: R13媒体状态标识和收藏页三媒体成功等待已进入首个修复Commit f8239c98；obx-test固定镜像223任务、本地专项与治理回归通过。精确attempt5例外和request005已绑定该Commit，当前尚未推送或运行新候选。
+  session_id: SES-20260726T191158Z-2B506AB7
 session_ids:
 - SES-20260726T191158Z-2B506AB7
+implementation_commits:
+- f8239c989fd9d17e74273ab5eaaa5d4349488882

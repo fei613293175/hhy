@@ -2,8 +2,8 @@ schema_version: 1
 status: REQUESTED
 release: R13
 candidate: true
-remediation_attempt: 4
-request_id: R13-CANDIDATE-20260727-004
-reason: R13 attempt 3 Run 30220806413已通过OIDC登录、启动门禁、收藏页和历史页，但UIAutomator点击了Compose TextButton内部不可点击的“分享”文字子节点。该Run已消费且不得重跑；CR-0383已用稳定资源标识和可点击祖先回退修复此独立根因，并把每个Release的例外轮次独立编号。本请求只允许对修复Commit执行一次精确attempt 4，不授权attempt 5。
-attempt_exception_id: CR-0383
-required_fix_commit: c602d2f0194980efcf19f233148f0b0932254ba6
+remediation_attempt: 5
+request_id: R13-CANDIDATE-20260727-005
+reason: R13 attempt 4 Run 30222792524已完成机器旅程，但AI逐图拒绝01-favorites.png：三条真实READY媒体尚未加载即被像素稳定器采集为占位图。该Run已消费且不得重跑或晋升；CR-0385复用R09的loaded/error语义并在收藏页等待三条媒体全部成功。本请求只允许对首个修复Commit执行一次精确attempt 5，不授权attempt 6。
+attempt_exception_id: CR-0385
+required_fix_commit: f8239c989fd9d17e74273ab5eaaa5d4349488882
