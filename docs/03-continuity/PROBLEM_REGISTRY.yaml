@@ -935,12 +935,14 @@ problems:
 - id: PROB-0070
   title: R07页面残留Compose原始颜色绕过冻结设计令牌
   status: SOLVED
-  root_cause: TASK-R07-004的受影响MODULE编译、单测和Lint均通过，但候选阶段才执行的全局UI令牌门禁发现R07DiscoveryScreens在发布者、搜索结果、内容卡片和空状态中共四处直接使用Color.White；编译器无法识别这种设计系统违规，普通任务的比例化门禁也没有运行全局视觉基础检查。
-  resolution: CR-0192将四处等值白色统一替换为HhyColors.Surface并移除原始Color import；候选前先执行check_ui_tokens.py，使确定性设计令牌问题在触发GitHub完整编译和模拟器之前本地失败。
+  root_cause: TASK-R07-004的受影响MODULE编译、单测和Lint均通过，但候选阶段才执行的全局UI令牌门禁发现R07DiscoveryScreens在发布者、搜索结果、内容卡片和空状态中共四处直接使用Color.White；编译器无法识别这种设计系统违规，普通任务的比例化门禁也没有运行全局视觉基础检查。R13候选前再次只运行check_android_ui_foundation.py而漏跑check_ui_tokens.py，使分类指示线的Color.Transparent直到attempt1 Run 30218800712才被GitHub在Android编译和模拟器前确定性阻断。
+  resolution: CR-0192将四处等值白色统一替换为HhyColors.Surface并移除原始Color import；候选前先执行check_ui_tokens.py，使确定性设计令牌问题在触发GitHub完整编译和模拟器之前本地失败。CR-0379原位补强同一问题：R13指示线改用HhyColors.BrandPrimary的0f透明度派生值，专项测试禁止原始Color import，并在attempt2推送前同时执行UI Foundation与UI Token门禁；Run 30218800712保持已消费且不重跑。
   regression_checks:
   - python scripts/check_ui_tokens.py
   - python scripts/check_android_ui_foundation.py
   - Android feature/discovery受影响MODULE编译与单测
+  - tests.test_r13_candidate必须禁止R13ActivityScreens使用Color.Transparent或原始Color import
+  - R13候选attempt2推送前必须同时通过check_ui_tokens.py与check_android_ui_foundation.py
   do_not_repeat:
   - Compose业务页面禁止直接使用Color.White、Color.Black、十六进制Color或裸dp/sp，必须引用冻结Hhy令牌
   - 大版本候选请求推送前必须先运行UI基础和令牌静态门禁，确定性失败不得交给GitHub发现

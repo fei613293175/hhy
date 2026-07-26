@@ -52,7 +52,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -317,7 +316,10 @@ private fun R13CategoryTabs(selected: String?, onSelected: (String?) -> Unit) {
                 Spacer(Modifier.height(HhySpacing.Sm))
                 Box(
                     Modifier.fillMaxWidth().height(HhySize.Hairline * 2)
-                        .background(if (active) HhyColors.BrandPrimary else Color.Transparent),
+                        .background(
+                            if (active) HhyColors.BrandPrimary
+                            else HhyColors.BrandPrimary.copy(alpha = 0f),
+                        ),
                 )
             }
         }

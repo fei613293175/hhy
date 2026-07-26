@@ -129,8 +129,8 @@ class R13CandidateTest(unittest.TestCase):
         request = yaml.safe_load(REQUEST.read_text(encoding="utf-8"))
         self.assertEqual("R13", request["release"])
         self.assertTrue(request["candidate"])
-        self.assertEqual(1, request["remediation_attempt"])
-        self.assertEqual("R13-CANDIDATE-20260727-001", request["request_id"])
+        self.assertEqual(2, request["remediation_attempt"])
+        self.assertEqual("R13-CANDIDATE-20260727-002", request["request_id"])
         self.assertNotIn("attempt_exception_id", request)
         self.assertNotIn("required_fix_commit", request)
 
@@ -140,6 +140,9 @@ class R13CandidateTest(unittest.TestCase):
         sheet = source[source.index("fun R13ContentActionSheet"):source.index("private data class R13ShareChannel")]
         self.assertNotIn("FilterChip(", tabs)
         self.assertIn("HhyColors.BrandPrimary", tabs)
+        self.assertIn("HhyColors.BrandPrimary.copy(alpha = 0f)", tabs)
+        self.assertNotIn("Color.Transparent", source)
+        self.assertNotIn("androidx.compose.ui.graphics.Color", source)
         self.assertIn("FontWeight.Bold", tabs)
         self.assertIn("testTagsAsResourceId = true", sheet)
         self.assertIn("hhy.sheet.r13.", sheet)

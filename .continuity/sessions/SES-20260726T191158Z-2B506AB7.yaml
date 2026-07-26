@@ -11,11 +11,12 @@ task_id: TASK-R13-007
 story_id: STORY-R13-003
 goal: 收藏、历史、分享与行为审计Android测试APK与产物追溯
 started_at: '2026-07-26T19:11:58Z'
-updated_at: '2026-07-26T20:13:13Z'
+updated_at: '2026-07-26T20:32:19Z'
 takeover_of: null
 change_requests:
 - CR-0377
 - CR-0378
+- CR-0379
 scope:
   allowed_paths:
   - apps/**
@@ -67,7 +68,7 @@ scope:
   - docs/03-continuity/PROBLEM_REGISTRY.yaml
   - docs/03-continuity/REUSABLE_PATTERNS.md
   - docs/03-continuity/PITFALLS.md
-  source: story+explicit+approved-cr:CR-0377+approved-cr:CR-0378
+  source: story+explicit+approved-cr:CR-0377+approved-cr:CR-0378+approved-cr:CR-0379
 git:
   initialized: true
   branch: task/TASK-R03-001
@@ -77,22 +78,22 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-26T20:13:05Z'
-  expires_at: '2026-07-27T00:13:05Z'
-checkpoint_sequence: 3
-latest_checkpoint: .continuity/checkpoints/SES-20260726T191158Z-2B506AB7/0003.yaml
+  renewed_at: '2026-07-26T20:32:04Z'
+  expires_at: '2026-07-27T00:32:04Z'
+checkpoint_sequence: 5
+latest_checkpoint: .continuity/checkpoints/SES-20260726T191158Z-2B506AB7/0005.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260726T191158Z-2B506AB7.md
-next_step: 提交CR-0378修复；以新精确Commit在obx-test重建候选身份、双跑R13夹具和传输预检，仅推送一次触发R13最终候选。
+next_step: 提交CR-0379实现Commit，在obx-test固定Android容器对精确Commit运行feature:activity编译和单测，通过后形成测试检查点、传输预检并单次推送attempt2。
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: 63eb430250550e2fe4f94cb4a94187e64bb4e0efe0648623d52bee47cbe3e02f
-  generated_at: '2026-07-26T20:13:09Z'
+  context_hash: 5fad0675375881c994f008ef80ba8338d510170d5f779f337d1f49ff2eee42fa
+  generated_at: '2026-07-26T20:32:11Z'
 handoff_bundle: null
 closure: null
 parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 切流脚本、同一CR治理事实源和真实Nginx切换属于单一强顺序安全边界，且最终生产入口变更必须由主控串行复核。
+  reason: 单一Compose Token替换、候选请求轮次、CHANGELOG和同一问题事实源必须原子保持一致，且候选失败处置由主控串行复核。

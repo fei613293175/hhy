@@ -2,6 +2,6 @@ schema_version: 1
 status: REQUESTED
 release: R13
 candidate: true
-remediation_attempt: 1
-request_id: R13-CANDIDATE-20260727-001
-reason: R13收藏、浏览记录、分享与联系方式失效反馈四个冻结交互面已经完成候选前实现和专项回归；本请求只允许运行一次普通attempt 1，在隔离Staging夹具上通过OIDC自动登录采集四张真实业务截图，并由AI自主完成视觉审核。
+remediation_attempt: 2
+request_id: R13-CANDIDATE-20260727-002
+reason: R13 attempt 1 Run 30218800712在Android编译和模拟器前被UI Token门禁阻断，已消费且不得重跑；本请求只允许运行一次普通attempt 2，绑定移除分类指示线原始Color.Transparent的最小修复，在隔离Staging夹具上采集同一四张真实业务截图并由AI自主审核。
