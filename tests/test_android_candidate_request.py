@@ -10,6 +10,7 @@ from scripts.android_candidate_request import CandidateRequestError, load_reques
 class AndroidCandidateRequestTest(unittest.TestCase):
     R12_ATTEMPT4_FIX_COMMIT = "daae207af319008411995b7ac23a13c9042fc5a2"
     R12_ATTEMPT5_FIX_COMMIT = "fbde523e8e751b74f7300ef125c70fa9eb4d03fd"
+    R12_ATTEMPT6_FIX_COMMIT = "f11901ea1d3c61ccbcc59ec4cab3e77e24b1f1b0"
 
     def write_request(self, text: str) -> Path:
         temp = TemporaryDirectory()
@@ -81,6 +82,18 @@ class AndroidCandidateRequestTest(unittest.TestCase):
         self.assertEqual("CR-0352", payload["attempt_exception_id"])
         self.assertEqual(self.R12_ATTEMPT5_FIX_COMMIT, payload["required_fix_commit"])
 
+    def test_exact_r12_attempt_six_exception_is_normalized(self) -> None:
+        payload = load_request(self.write_request(
+            "schema_version: 1\nstatus: REQUESTED\nrelease: R12\n"
+            "candidate: true\nremediation_attempt: 6\n"
+            "request_id: R12-CANDIDATE-20260726-006\n"
+            "attempt_exception_id: CR-0355\n"
+            f"required_fix_commit: {self.R12_ATTEMPT6_FIX_COMMIT}\n"
+        ))
+        self.assertEqual(6, payload["effective_attempt_limit"])
+        self.assertEqual("CR-0355", payload["attempt_exception_id"])
+        self.assertEqual(self.R12_ATTEMPT6_FIX_COMMIT, payload["required_fix_commit"])
+
     def test_attempt_four_requires_every_approved_binding(self) -> None:
         cases = {
             "release": ("R13", "R12-CANDIDATE-20260726-004", "CR-0344", self.R12_ATTEMPT4_FIX_COMMIT, 4),
@@ -98,13 +111,30 @@ class AndroidCandidateRequestTest(unittest.TestCase):
                     f"required_fix_commit: {commit}\n"
                 ))
 
-    def test_attempt_five_requires_every_approved_binding_and_rejects_six(self) -> None:
+    def test_attempt_five_requires_every_approved_binding(self) -> None:
         cases = {
             "release": ("R13", "R12-CANDIDATE-20260726-005", "CR-0352", self.R12_ATTEMPT5_FIX_COMMIT, 5),
             "request": ("R12", "R12-CANDIDATE-20260726-004", "CR-0352", self.R12_ATTEMPT5_FIX_COMMIT, 5),
             "cr": ("R12", "R12-CANDIDATE-20260726-005", "CR-0344", self.R12_ATTEMPT5_FIX_COMMIT, 5),
             "commit": ("R12", "R12-CANDIDATE-20260726-005", "CR-0352", "b" * 40, 5),
             "attempt": ("R12", "R12-CANDIDATE-20260726-005", "CR-0352", self.R12_ATTEMPT5_FIX_COMMIT, 6),
+        }
+        for name, (release, request_id, cr, commit, attempt) in cases.items():
+            with self.subTest(name=name), self.assertRaises(CandidateRequestError):
+                load_request(self.write_request(
+                    "schema_version: 1\nstatus: REQUESTED\n"
+                    f"release: {release}\ncandidate: true\nremediation_attempt: {attempt}\n"
+                    f"request_id: {request_id}\nattempt_exception_id: {cr}\n"
+                    f"required_fix_commit: {commit}\n"
+                ))
+
+    def test_attempt_six_requires_every_approved_binding_and_rejects_seven(self) -> None:
+        cases = {
+            "release": ("R13", "R12-CANDIDATE-20260726-006", "CR-0355", self.R12_ATTEMPT6_FIX_COMMIT, 6),
+            "request": ("R12", "R12-CANDIDATE-20260726-005", "CR-0355", self.R12_ATTEMPT6_FIX_COMMIT, 6),
+            "cr": ("R12", "R12-CANDIDATE-20260726-006", "CR-0352", self.R12_ATTEMPT6_FIX_COMMIT, 6),
+            "commit": ("R12", "R12-CANDIDATE-20260726-006", "CR-0355", "b" * 40, 6),
+            "attempt": ("R12", "R12-CANDIDATE-20260726-006", "CR-0355", self.R12_ATTEMPT6_FIX_COMMIT, 7),
         }
         for name, (release, request_id, cr, commit, attempt) in cases.items():
             with self.subTest(name=name), self.assertRaises(CandidateRequestError):

@@ -11,7 +11,7 @@ task_id: TASK-R12-007
 story_id: STORY-R12-008
 goal: 完成R12最终Android候选、真实模拟器截图AI验收、固定签名测试APK与桌面交付
 started_at: '2026-07-25T19:20:48Z'
-updated_at: '2026-07-26T06:14:07Z'
+updated_at: '2026-07-26T06:26:03Z'
 takeover_of: null
 change_requests:
 - CR-0339
@@ -30,6 +30,7 @@ change_requests:
 - CR-0352
 - CR-0353
 - CR-0354
+- CR-0355
 scope:
   allowed_paths:
   - apps/**
@@ -114,7 +115,7 @@ scope:
   - tests/test_android_candidate_route.py
   - docs/03-continuity/change-requests/CR-0353-加固Android候选公网路由切换与前置启动码门禁.md
   - docs/03-continuity/change-requests/CR-0354-完整加固Android候选公网路由与前置启动码门禁.md
-  source: story+explicit+approved-cr:CR-0340+approved-cr:CR-0344+approved-cr:CR-0346+approved-cr:CR-0345+approved-cr:CR-0348+approved-cr:CR-0349+approved-cr:CR-0350+approved-cr:CR-0351+approved-cr:CR-0352+approved-cr:CR-0353+approved-cr:CR-0354
+  source: story+explicit+approved-cr:CR-0340+approved-cr:CR-0344+approved-cr:CR-0346+approved-cr:CR-0345+approved-cr:CR-0348+approved-cr:CR-0349+approved-cr:CR-0350+approved-cr:CR-0351+approved-cr:CR-0352+approved-cr:CR-0353+approved-cr:CR-0354+approved-cr:CR-0355
 git:
   initialized: true
   branch: task/TASK-R03-001
@@ -124,22 +125,22 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-26T06:14:00Z'
-  expires_at: '2026-07-26T10:14:00Z'
-checkpoint_sequence: 36
-latest_checkpoint: .continuity/checkpoints/SES-20260725T192048Z-668BD05D/0036.yaml
+  renewed_at: '2026-07-26T06:25:49Z'
+  expires_at: '2026-07-26T10:25:49Z'
+checkpoint_sequence: 37
+latest_checkpoint: .continuity/checkpoints/SES-20260725T192048Z-668BD05D/0037.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260725T192048Z-668BD05D.md
-next_step: R12仅剩最终候选外部授权项：保持attempt5与其一次同Commit失败作业重跑不可复用；等待项目所有者明确批准新的精确attempt6后，才登记单次候选并执行十页模拟器截图、AI逐图审核、轻量基线晋升和桌面APK/文档交付。在此之前不得伪造30项视觉PASS或进入R13。
+next_step: 复跑严格Doctor与pre-commit，提交并推送唯一request006，然后监控R12最终候选十页证据。
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: 4af8f5d872e9e16bcab0d92578065dce9d9a343de4f5cc4930f0a0cce99881c9
-  generated_at: '2026-07-26T06:14:04Z'
+  context_hash: 0d92cc06b3966f0d2bec3331bf9aca3bf18f2092f578a5e224cbf2fee3e40034
+  generated_at: '2026-07-26T06:25:58Z'
 handoff_bundle: null
 closure: null
 parallel_execution:
-  assessment: CAPABILITY_UNAVAILABLE
+  assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 当前运行时规则禁止在用户未明确要求时创建子代理；逐页静态核对由主代理完成。
+  reason: 候选授权、连续性状态、单次请求提交与远端运行必须按唯一事实源串行，且当前规则不允许创建并行子代理。

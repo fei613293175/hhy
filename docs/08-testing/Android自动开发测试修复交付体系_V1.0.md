@@ -43,7 +43,7 @@
 2. **CONTINUITY 核心门禁**：每次提交校验身份、范围、检查点、CR、Trailer 和 Context Pack；只有连续性核心事实变化才执行完整临时 Git 生命周期。
 3. **RELEASE CANDIDATE**：候选请求验证通过后运行完整 Android 构建、模拟器、旅程、截图、视觉、日志、候选报告与 APK 上传。
 
-`config/android-candidate-request.yaml` 必须包含：`schema_version: 1`、`status: REQUESTED`、`R06-R32` Release、`candidate: true`、普通范围 1 至 3 的 `remediation_attempt`、以及每次候选唯一的 `request_id`。全局 `max_ai_attempts` 必须始终为 3；只有 `config/android-automation.yaml` 中经过批准且精确绑定 Release、轮次、request ID、CR、根因修复 Commit 和单次运行上限的例外，才允许相应请求超过普通范围。例外不得改写全局上限、伪造为新 attempt 1、扩展到其他 Release、复用已消费请求或产生未审批的下一轮；候选运行报告必须同时记录全局上限与本次有效上限。一个精确例外只允许验证其绑定修复提交之后的单次候选，新增独立根因必须另建 CR 和新 request ID，禁止把旧例外静默扩容。普通 CI 的 build artifact 不是候选，任何人或 AI 都不得把它复制到桌面冒充候选。
+`config/android-candidate-request.yaml` 必须包含：`schema_version: 1`、`status: REQUESTED`、`R06-R32` Release、`candidate: true`、普通范围 1 至 3 的 `remediation_attempt`、以及每次候选唯一的 `request_id`。全局 `max_ai_attempts` 必须始终为 3；只有项目所有者明确批准，且 `config/android-automation.yaml` 中精确绑定 Release、轮次、request ID、CR、根因修复 Commit 和单次运行上限的例外，才允许相应请求超过普通范围。例外不得改写全局上限、伪造为新 attempt 1、扩展到其他 Release、复用已消费请求或产生未审批的下一轮；候选运行报告必须同时记录全局上限与本次有效上限。一个精确例外只允许验证其绑定修复提交之后的一次候选运行，基础设施或代码修复本身不构成授权；新增独立根因或已消费例外之后的下一轮必须取得新的项目所有者确认、另建 CR 和新 request ID，禁止把旧例外静默扩容。普通 CI 的 build artifact 不是候选，任何人或 AI 都不得把它复制到桌面冒充候选。
 
 ### 2.2 候选可消费业务夹具
 
@@ -70,7 +70,7 @@ R12 的提交旅程固定消费标题为“R12候选发布预览项目”的草�
 
 候选后端“容器健康”和公网状态接口“HTTP 200”不能分别作为切流完成证据，因为公网可能仍命中旧容器。`api.orbexa.cc` 候选切流只能使用 `scripts/switch_android_candidate_route.sh`：显式确认精确旧/新 loopback upstream 与目标候选容器，先验证容器运行、8080 精确端口映射和目标本机状态 200，再备份唯一 Nginx 配置并替换精确 upstream；只有 `nginx -t` 通过才允许 reload。切流后必须携带唯一 `X-Request-ID` 访问公网状态接口，并在目标容器结构化日志中找到同一 requestId；任一步失败自动恢复备份并 reload，禁止以人工 `sed` 后只看公网 200 作为成功。
 
-GitHub 模拟器 Job 必须在安装 Java、Android SDK、平台包和 KVM 之前完成 OIDC 与 Staging bootstrap 两阶段预检。两阶段分别记录安全的 HTTP 状态，响应体、Bearer Token、一次性码和 JWT 声明不得进入日志。预检失败即停止重型准备；同一 Commit 仍只允许一次瞬态失败重跑，重复失败按既有规则停止重跑并诊断，不得因为路由已修复而静默增加第三次 rerun 或未批准候选轮次。
+GitHub 模拟器 Job 必须在安装 Java、Android SDK、平台包和 KVM 之前完成 OIDC 与 Staging bootstrap 两阶段预检。两阶段分别记录安全的 HTTP 状态，响应体、Bearer Token、一次性码和 JWT 声明不得进入日志。预检失败即停止重型准备；同一 Commit 仍只允许一次瞬态失败重跑，重复失败按既有规则停止重跑并诊断，不得因为路由已修复而静默增加第三次 rerun 或未批准候选轮次。项目所有者明确批准下一轮后，也只能登记其确认内容对应的精确 CR/request/修复 Commit/单次运行例外，之前失败运行和重跑仍保持已消费。
 
 Android候选策略、工作流、请求校验器、路由脚本及其Python专项测试发生变化时，普通提交只运行`android-governance-unit` tooling；只有`apps/android/**`、共享合同或领域类型实际影响客户端编译时才进入`android-module`。候选工作流变化必须在最终大版本候选验证，禁止为了验证YAML、策略或Shell文本而在同一普通推送额外运行一次完整Android编译。
 

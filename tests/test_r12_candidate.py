@@ -197,11 +197,11 @@ class R12CandidateTest(unittest.TestCase):
         self.assertNotIn("10220", build + release_policy + version_test)
         self.assertEqual("R12", request["release"])
         self.assertTrue(request["candidate"])
-        self.assertEqual(5, request["remediation_attempt"])
-        self.assertEqual("R12-CANDIDATE-20260726-005", request["request_id"])
-        self.assertEqual("CR-0352", request["attempt_exception_id"])
+        self.assertEqual(6, request["remediation_attempt"])
+        self.assertEqual("R12-CANDIDATE-20260726-006", request["request_id"])
+        self.assertEqual("CR-0355", request["attempt_exception_id"])
         self.assertEqual(
-            "fbde523e8e751b74f7300ef125c70fa9eb4d03fd",
+            "f11901ea1d3c61ccbcc59ec4cab3e77e24b1f1b0",
             request["required_fix_commit"],
         )
 

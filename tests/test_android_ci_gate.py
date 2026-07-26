@@ -111,6 +111,14 @@ class AndroidCiGateTest(unittest.TestCase):
                 "required_fix_commit": "fbde523e8e751b74f7300ef125c70fa9eb4d03fd",
                 "max_candidate_runs": 1,
             },
+            {
+                "exception_id": "CR-0355",
+                "release": "R12",
+                "attempt": 6,
+                "request_id": "R12-CANDIDATE-20260726-006",
+                "required_fix_commit": "f11901ea1d3c61ccbcc59ec4cab3e77e24b1f1b0",
+                "max_candidate_runs": 1,
+            },
         ], policy["remediation"]["approved_attempt_exceptions"])
 
     def test_attempt_exception_is_exact_and_never_changes_the_global_limit(self) -> None:
@@ -146,7 +154,7 @@ class AndroidCiGateTest(unittest.TestCase):
         with self.assertRaises(GateError):
             resolve_attempt_policy(policy, release="R12", attempt=4)
 
-    def test_attempt_five_exception_is_exact_and_rejects_attempt_six(self) -> None:
+    def test_attempt_five_exception_is_exact(self) -> None:
         policy = load_policy()
         exact = resolve_attempt_policy(
             policy,
@@ -172,6 +180,37 @@ class AndroidCiGateTest(unittest.TestCase):
             {"exception_id": "CR-0344"},
             {"required_fix_commit": "b" * 40},
             {"attempt": 6},
+        )
+        for override in invalid:
+            with self.subTest(override=override), self.assertRaises(GateError):
+                resolve_attempt_policy(policy, **(base | override))
+
+    def test_attempt_six_exception_is_exact_and_rejects_attempt_seven(self) -> None:
+        policy = load_policy()
+        exact = resolve_attempt_policy(
+            policy,
+            release="R12",
+            attempt=6,
+            request_id="R12-CANDIDATE-20260726-006",
+            exception_id="CR-0355",
+            required_fix_commit="f11901ea1d3c61ccbcc59ec4cab3e77e24b1f1b0",
+        )
+        self.assertEqual(3, exact["max_ai_attempts"])
+        self.assertEqual(6, exact["effective_attempt_limit"])
+        self.assertEqual(1, exact["max_candidate_runs"])
+        base = {
+            "release": "R12",
+            "attempt": 6,
+            "request_id": "R12-CANDIDATE-20260726-006",
+            "exception_id": "CR-0355",
+            "required_fix_commit": "f11901ea1d3c61ccbcc59ec4cab3e77e24b1f1b0",
+        }
+        invalid = (
+            {"release": "R13"},
+            {"request_id": "R12-CANDIDATE-20260726-005"},
+            {"exception_id": "CR-0352"},
+            {"required_fix_commit": "b" * 40},
+            {"attempt": 7},
         )
         for override in invalid:
             with self.subTest(override=override), self.assertRaises(GateError):
@@ -310,7 +349,7 @@ class AndroidCiGateTest(unittest.TestCase):
             self.assertEqual("CR-0344", payload["attempt_exception_id"])
             self.assertEqual(1, payload["max_candidate_runs"])
 
-    def test_attempt_five_runtime_report_keeps_global_and_effective_limits(self) -> None:
+    def test_attempt_six_runtime_report_keeps_global_and_effective_limits(self) -> None:
         with TemporaryDirectory() as temp:
             root = Path(temp)
             (root / "exit.txt").write_text("0\n", encoding="utf-8")
@@ -334,9 +373,9 @@ class AndroidCiGateTest(unittest.TestCase):
             output = root / "runtime.json"
             result = analyze(SimpleNamespace(
                 policy=str(ROOT / "config/android-automation.yaml"), release="R12", commit="c" * 40,
-                run_id="555", attempt=5, request_id="R12-CANDIDATE-20260726-005",
-                attempt_exception_id="CR-0352",
-                required_fix_commit="fbde523e8e751b74f7300ef125c70fa9eb4d03fd",
+                run_id="666", attempt=6, request_id="R12-CANDIDATE-20260726-006",
+                attempt_exception_id="CR-0355",
+                required_fix_commit="f11901ea1d3c61ccbcc59ec4cab3e77e24b1f1b0",
                 test_exit_code_file=str(root / "exit.txt"), junit_root=str(junit),
                 logcat=str(root / "logcat.txt"), screenshots=str(screenshots),
                 baseline_root=str(root / "baseline"), visual_manifest_root=str(manifests), output=str(output),
@@ -344,8 +383,8 @@ class AndroidCiGateTest(unittest.TestCase):
             payload = json.loads(output.read_text(encoding="utf-8"))
             self.assertEqual(0, result)
             self.assertEqual(3, payload["max_ai_attempts"])
-            self.assertEqual(5, payload["effective_attempt_limit"])
-            self.assertEqual("CR-0352", payload["attempt_exception_id"])
+            self.assertEqual(6, payload["effective_attempt_limit"])
+            self.assertEqual("CR-0355", payload["attempt_exception_id"])
             self.assertEqual(1, payload["max_candidate_runs"])
 
     def test_runtime_failure_creates_remediation_queue(self) -> None:
