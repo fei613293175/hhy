@@ -1,9 +1,9 @@
 protocol_version: '1.0'
 cr_id: CR-0379
 title: 修复R13分类指示线原始透明色并建立候选attempt2
-status: IMPLEMENTING
+status: IMPLEMENTED
 created_at: '2026-07-26T20:26:50Z'
-updated_at: '2026-07-26T20:27:41Z'
+updated_at: '2026-07-26T20:38:21Z'
 requester_actor_id: codex-root-r13-candidate-20260727
 approver_actor_id: owner-standing-delegation-20260727
 task_id: TASK-R13-007
@@ -48,5 +48,12 @@ decision_log:
   status: IMPLEMENTING
   note: 已应用CR-0379精确范围，开始替换原始透明色、锁定attempt2候选请求并原位补强PROB-0070与R13专项回归。
   session_id: SES-20260726T191158Z-2B506AB7
+- at: '2026-07-26T20:38:21Z'
+  actor_id: codex-root-r13-candidate-20260727
+  status: IMPLEMENTED
+  note: Token替换、attempt2请求、R13专项回归、UI双门禁和obx-test精确Commit activity模块编译单测已全部PASS，准备单次推送候选。
+  session_id: SES-20260726T191158Z-2B506AB7
 session_ids:
 - SES-20260726T191158Z-2B506AB7
+implementation_commits:
+- 5dc6d49b7bdbc03ae8edbf785169f6bcc4f6a047
