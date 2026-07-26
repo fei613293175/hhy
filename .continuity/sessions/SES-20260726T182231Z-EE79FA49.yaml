@@ -1,0 +1,122 @@
+protocol_version: '1.0'
+package_version: 1.2.3
+session_id: SES-20260726T182231Z-EE79FA49
+status: ACTIVE
+actor:
+  id: codex-root-r13-staging-20260727
+  kind: AI_OR_HUMAN
+  host: unknown
+release: R13
+task_id: TASK-R13-006
+story_id: STORY-R13-003
+goal: 收藏、历史、分享与行为审计可观测性与预发布验收
+started_at: '2026-07-26T18:22:31Z'
+updated_at: '2026-07-26T18:42:54Z'
+takeover_of: null
+change_requests:
+- CR-0373
+- CR-0374
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions:
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinder.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinderTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/ObservabilityEndpointsTest.java
+  - infra/staging/r13-smoke/docker-compose.yml
+  - infra/staging/r13-smoke/prometheus.yml
+  - infra/staging/r13-smoke/alertmanager.yml
+  - infra/staging/r13-smoke/nginx.conf
+  - infra/staging/r13-smoke/r13-alerts.yml
+  - scripts/check_r13_observability.py
+  - scripts/run_r13_staging_acceptance.sh
+  - tests/test_r13_staging_acceptance.py
+  - docs/07-operations/DEPLOYMENT_RUNBOOK.md
+  - docs/07-operations/ROLLBACK_RUNBOOK.md
+  - artifacts/reports/R13/TASK-R13-006-staging.md
+  - artifacts/validation/r13-task006-staging/alert-deliveries.jsonl
+  - artifacts/validation/r13-task006-staging/alert-exercise.txt
+  - artifacts/validation/r13-task006-staging/backend-down-firing.json
+  - artifacts/validation/r13-task006-staging/compose-ps.txt
+  - artifacts/validation/r13-task006-staging/database.txt
+  - artifacts/validation/r13-task006-staging/final-metrics.txt
+  - artifacts/validation/r13-task006-staging/http-request-completed.jsonl
+  - artifacts/validation/r13-task006-staging/liveness.json
+  - artifacts/validation/r13-task006-staging/log-redaction.txt
+  - artifacts/validation/r13-task006-staging/machine-summary.txt
+  - artifacts/validation/r13-task006-staging/metadata.txt
+  - artifacts/validation/r13-task006-staging/metrics-summary.txt
+  - artifacts/validation/r13-task006-staging/metrics.txt
+  - artifacts/validation/r13-task006-staging/outbox-test-events.txt
+  - artifacts/validation/r13-task006-staging/prometheus-rules.json
+  - artifacts/validation/r13-task006-staging/prometheus-targets.json
+  - artifacts/validation/r13-task006-staging/public-status.json
+  - artifacts/validation/r13-task006-staging/r13-outbox-firing.json
+  - artifacts/validation/r13-task006-staging/readiness.json
+  - artifacts/validation/r13-task006-staging/rollback-rehearsal.txt
+  - artifacts/validation/r13-task006-staging/activity-facts-before.txt
+  - artifacts/validation/r13-task006-staging/activity-facts-after.txt
+  - artifacts/validation/r13-task006-staging/source-sha256.txt
+  - artifacts/validation/r13-task006-staging/trace-headers.txt
+  - artifacts/validation/r13-task006-staging/SHA256SUMS
+  - releases/R13/RELEASE_MANIFEST.yaml
+  - CHANGELOG.md
+  source: story+explicit+approved-cr:CR-0374
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  base_commit: 4088fbd07bcf50adbe9f158995bd91aa583f4ca3
+  start_head: 4088fbd07bcf50adbe9f158995bd91aa583f4ca3
+  upstream: origin/task/TASK-R03-001
+  initial_worktree_state: CLEAN
+lease:
+  duration_minutes: 240
+  renewed_at: '2026-07-26T18:42:47Z'
+  expires_at: '2026-07-26T22:42:47Z'
+checkpoint_sequence: 2
+latest_checkpoint: .continuity/checkpoints/SES-20260726T182231Z-EE79FA49/0002.yaml
+session_log: docs/03-continuity/sessions/2026-07/SES-20260726T182231Z-EE79FA49.md
+next_step: 提交观测实现Commit，构建c9741759基线与当前镜像并执行R13隔离Staging现场演练
+context_pack:
+  yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
+  markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
+  manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+  context_hash: 9169e8adaeafb3663a931960fcdb247354adcac9b45ec3965647fa2c4d2b87fe
+  generated_at: '2026-07-26T18:42:52Z'
+handoff_bundle: null
+closure: null
+parallel_execution:
+  assessment: CAPABILITY_UNAVAILABLE
+  delegated_workers: 0
+  workers: []
+  reason: 当前上位协作策略禁止未由用户显式要求的子代理委托；共享观测与Staging由主控串行集成复核

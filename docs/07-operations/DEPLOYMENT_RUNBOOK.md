@@ -357,3 +357,17 @@ R12 使用 `infra/staging/r12-smoke/docker-compose.yml`，默认隔离子网 `17
 5. 证据统一归档到 `artifacts/validation/r12-task006-staging/` 并生成逐文件 `SHA256SUMS`。只有现场证据和专项报告精确绑定冻结 Commit 后，`AC-R12-004` 才能签为 PASS。
 
 本任务不运行 Android 模拟器、页面截图或候选 APK；完整 Android 最终候选只在 TASK-R12-007 执行。
+
+## 18. R13 活动域隔离预发布验收
+
+R13 使用 `infra/staging/r13-smoke/docker-compose.yml`，默认隔离子网 `172.31.239.0/24`，仅在回环地址发布 HTTP `38113`、Prometheus `39616` 和 Alertmanager `39617`。执行前必须核对既有 Docker 网络和端口没有冲突；不得修改、重启或复用公网及 R01-R12 的 Compose project、网络、卷或容器。测试 Secret 只注入隔离进程环境，实名认证沙箱与 CI 自动登录保持关闭。
+
+现场演练必须绑定 `HHY_R13_FROZEN_COMMIT`，并由 `scripts/run_r13_staging_acceptance.sh` 单一入口完成：
+
+1. PostgreSQL 17 完整迁移到 V042，liveness、readiness、公开状态、RequestId/TraceId 和结构化日志脱敏通过。
+2. Prometheus target 为 UP，RED 与收藏总量、非分享历史行数、近五分钟分享、联系方式访问/拒绝、待处理失效反馈及 `hhy_r13_outbox_backlog` 七项只读 Gauge 可采集，业务指标查询失败累计值为零。
+3. 七条 R13 告警必须通过规则加载检查；`HhyR13BackendDown` 与 `HhyR13OutboxBacklog` 必须取得 firing、resolved 和 alert-sink 回执。四条隔离 Outbox 测试事实只能合法经历 `PENDING -> PUBLISHING -> PUBLISHED`，不得删除或直接伪造终态。
+4. 应用回切只允许使用从精确功能基线 Commit `c9741759` 构建的 `hhy-backend-r13-baseline:c9741759`，随后恢复冻结实现镜像。全过程保持同一 PostgreSQL 容器、数据卷和 Flyway V042，并逐项比较收藏、浏览/分享、联系方式访问、失效反馈及 R13 Outbox 快照。
+5. 证据统一归档到 `artifacts/validation/r13-task006-staging/` 并生成逐文件 `SHA256SUMS`。只有现场报告精确绑定冻结 Commit、镜像 ID、数据库容器/卷和完整证据后，`AC-R13-004` 才能签为 PASS。
+
+本任务不运行 Android 模拟器、页面截图或候选 APK；完整 Android 最终候选只在 TASK-R13-007 执行，项目所有者真机反馈继续异步处理。

@@ -447,6 +447,48 @@ public final class BusinessGaugeBinder implements MeterBinder {
                 'content.r12.stage.alert.v1'
             ) AND status IN ('PENDING', 'RETRY_WAIT')
             """;
+    static final String ACTIVITY_FAVORITES_SQL = """
+            SELECT COUNT(*)
+            FROM hhy.content_favorites
+            """;
+    static final String ACTIVITY_HISTORY_ROWS_SQL = """
+            SELECT COUNT(*)
+            FROM hhy.content_view_logs
+            WHERE traffic_type <> 'SHARE'
+            """;
+    static final String ACTIVITY_SHARES_5M_SQL = """
+            SELECT COUNT(*)
+            FROM hhy.content_view_logs
+            WHERE traffic_type = 'SHARE'
+              AND created_at >= CURRENT_TIMESTAMP - INTERVAL '5' MINUTE
+            """;
+    static final String ACTIVITY_CONTACT_ACCESSES_5M_SQL = """
+            SELECT COUNT(*)
+            FROM hhy.content_contact_access_logs
+            WHERE action IN ('VIEW', 'COPY', 'REPLAY')
+              AND created_at >= CURRENT_TIMESTAMP - INTERVAL '5' MINUTE
+            """;
+    static final String ACTIVITY_CONTACT_REJECTIONS_5M_SQL = """
+            SELECT COUNT(*)
+            FROM hhy.content_contact_access_logs
+            WHERE action LIKE 'REJECTED_%'
+              AND created_at >= CURRENT_TIMESTAMP - INTERVAL '5' MINUTE
+            """;
+    static final String ACTIVITY_INVALID_FEEDBACK_PENDING_SQL = """
+            SELECT COUNT(*)
+            FROM hhy.content_reports
+            WHERE status = 'PENDING'
+            """;
+    static final String R13_OUTBOX_BACKLOG_SQL = """
+            SELECT COUNT(*)
+            FROM hhy.outbox_events
+            WHERE event_type IN (
+                'content.favorited.v1', 'content.favorite.replayed.v1',
+                'content.unfavorited.v1', 'content.shared.v1',
+                'content.contact.accessed.v1', 'content.invalid-feedback.created.v1',
+                'content.r13.stage.alert.v1'
+            ) AND status IN ('PENDING', 'RETRY_WAIT')
+            """;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(BusinessGaugeBinder.class);
     private final JdbcTemplate jdbcTemplate;
@@ -525,6 +567,13 @@ public final class BusinessGaugeBinder implements MeterBinder {
         register(registry, "hhy.publish.rejected.count", "Unified publishing submissions rejected by review", PUBLISH_REJECTED_SQL);
         register(registry, "hhy.publish.online.count", "Unified publishing content currently online", PUBLISH_ONLINE_SQL);
         register(registry, "hhy.r12.outbox.backlog", "R12 publishing and review events waiting for delivery", R12_OUTBOX_BACKLOG_SQL);
+        register(registry, "hhy.activity.favorites.count", "Favorite rows across content activity", ACTIVITY_FAVORITES_SQL);
+        register(registry, "hhy.activity.history.rows", "Non-share content activity history rows", ACTIVITY_HISTORY_ROWS_SQL);
+        register(registry, "hhy.activity.shares.5m", "Content share events in the last five minutes", ACTIVITY_SHARES_5M_SQL);
+        register(registry, "hhy.activity.contact.accesses.5m", "Successful activity contact accesses in the last five minutes", ACTIVITY_CONTACT_ACCESSES_5M_SQL);
+        register(registry, "hhy.activity.contact.rejections.5m", "Rejected activity contact accesses in the last five minutes", ACTIVITY_CONTACT_REJECTIONS_5M_SQL);
+        register(registry, "hhy.activity.invalid.feedback.pending", "Invalid-contact feedback awaiting handling", ACTIVITY_INVALID_FEEDBACK_PENDING_SQL);
+        register(registry, "hhy.r13.outbox.backlog", "R13 activity events waiting for delivery", R13_OUTBOX_BACKLOG_SQL);
     }
 
     private void register(MeterRegistry registry, String name, String description, String sql) {

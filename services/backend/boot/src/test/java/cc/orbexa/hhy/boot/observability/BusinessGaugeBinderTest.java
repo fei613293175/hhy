@@ -39,6 +39,8 @@ class BusinessGaugeBinderTest {
         jdbc.execute("CREATE TABLE hhy.users (id bigint PRIMARY KEY, status varchar(64) NOT NULL)");
         jdbc.execute("CREATE TABLE hhy.content_posts (id bigint PRIMARY KEY, owner_id bigint NOT NULL, type varchar(64) NOT NULL, status varchar(64) NOT NULL, review_status varchar(64))");
         jdbc.execute("CREATE TABLE hhy.content_favorites (id bigint PRIMARY KEY, user_id bigint NOT NULL, content_id bigint NOT NULL)");
+        jdbc.execute("CREATE TABLE hhy.content_view_logs (id bigint PRIMARY KEY, user_id bigint NOT NULL, content_id bigint, traffic_type varchar(64), duration integer, source varchar(255), created_at timestamp with time zone NOT NULL)");
+        jdbc.execute("CREATE TABLE hhy.content_reports (id bigint PRIMARY KEY, reporter_id bigint NOT NULL, content_id bigint, type varchar(64), description text, status varchar(64) NOT NULL, created_at timestamp with time zone NOT NULL)");
         jdbc.execute("CREATE TABLE hhy.home_modules (id bigint PRIMARY KEY, source_type varchar(64), enabled boolean NOT NULL)");
         jdbc.execute("CREATE TABLE hhy.search_histories (id bigint PRIMARY KEY, user_id bigint NOT NULL, keyword varchar(255), created_at timestamp with time zone NOT NULL)");
         jdbc.execute("CREATE TABLE hhy.hot_search_terms (id bigint PRIMARY KEY, keyword varchar(255) NOT NULL, enabled boolean NOT NULL, starts_at timestamp with time zone, ends_at timestamp with time zone)");
@@ -58,7 +60,11 @@ class BusinessGaugeBinderTest {
                 + "(11, 'CONTENT', 'content.created.v1', 'PENDING'), "
                 + "(12, 'CONTENT', 'content.submitted.v1', 'RETRY_WAIT'), "
                 + "(13, 'CONTENT', 'content.review.decided.v1', 'PENDING'), "
-                + "(14, 'CONTENT', 'content.review.assigned.v1', 'PUBLISHED')");
+                + "(14, 'CONTENT', 'content.review.assigned.v1', 'PUBLISHED'), "
+                + "(17, 'R13_ACTIVITY', 'content.unfavorited.v1', 'RETRY_WAIT'), "
+                + "(19, 'R13_ACTIVITY', 'content.contact.accessed.v1', 'RETRY_WAIT'), "
+                + "(20, 'R13_ACTIVITY', 'content.invalid-feedback.created.v1', 'PENDING'), "
+                + "(21, 'R13_ACTIVITY', 'content.r13.stage.alert.v1', 'PENDING')");
         jdbc.update("INSERT INTO hhy.ledger_accounts(id, currency) VALUES (10, 'CNY'), (11, 'CNY')");
         jdbc.update("INSERT INTO hhy.accounting_transactions(id, status) VALUES (20, 'POSTED'), (21, 'POSTED')");
         jdbc.update("INSERT INTO hhy.accounting_entries(id, transaction_id, account_id, amount_cent, currency, direction) VALUES "
@@ -136,6 +142,16 @@ class BusinessGaugeBinderTest {
         jdbc.update("INSERT INTO hhy.content_favorites(id, user_id, content_id) VALUES "
                 + "(213, 230, 210), (214, 231, 210), (215, 230, 212), (216, 230, 218), "
                 + "(217, 231, 223)");
+        jdbc.update("INSERT INTO hhy.content_view_logs(id, user_id, content_id, traffic_type, duration, source, created_at) VALUES "
+                + "(280, 230, 210, 'ORGANIC_TRAFFIC', 10, NULL, CURRENT_TIMESTAMP), "
+                + "(281, 230, 212, 'INCENTIVIZED_TASK_TRAFFIC', 20, NULL, CURRENT_TIMESTAMP), "
+                + "(282, 231, 218, 'ORGANIC_TRAFFIC', 30, NULL, CURRENT_TIMESTAMP - INTERVAL '10' MINUTE), "
+                + "(283, 230, 210, 'SHARE', 0, 'WECHAT', CURRENT_TIMESTAMP), "
+                + "(284, 230, 210, 'SHARE', 0, 'COPY_LINK', CURRENT_TIMESTAMP - INTERVAL '10' MINUTE)");
+        jdbc.update("INSERT INTO hhy.content_reports(id, reporter_id, content_id, type, description, status, created_at) VALUES "
+                + "(290, 230, 210, 'QR_CODE', '二维码失效', 'PENDING', CURRENT_TIMESTAMP), "
+                + "(291, 231, 212, 'LINK', '链接失效', 'PENDING', CURRENT_TIMESTAMP), "
+                + "(292, 230, 218, 'OTHER', '已处理', 'RESOLVED', CURRENT_TIMESTAMP)");
         jdbc.update("INSERT INTO hhy.home_modules(id, source_type, enabled) VALUES "
                 + "(220, 'CONTENT', TRUE), (221, 'DICTIONARY', TRUE), (222, 'CONTENT', FALSE)");
         jdbc.update("INSERT INTO hhy.search_histories(id, user_id, keyword, created_at) VALUES "
@@ -167,7 +183,7 @@ class BusinessGaugeBinderTest {
         SimpleMeterRegistry registry = new SimpleMeterRegistry();
         new BusinessGaugeBinder(jdbc).bindTo(registry);
 
-        assertThat(registry.get("hhy.outbox.backlog").gauge().value()).isEqualTo(10.0);
+        assertThat(registry.get("hhy.outbox.backlog").gauge().value()).isEqualTo(14.0);
         assertThat(registry.get("hhy.outbox.dead.letter").gauge().value()).isEqualTo(1.0);
         assertThat(registry.get("hhy.ledger.unbalanced.transactions").gauge().value()).isEqualTo(1.0);
         assertThat(registry.get("hhy.reconciliation.open.differences").gauge().value()).isEqualTo(1.0);
@@ -235,6 +251,13 @@ class BusinessGaugeBinderTest {
         assertThat(registry.get("hhy.publish.rejected.count").gauge().value()).isEqualTo(1.0);
         assertThat(registry.get("hhy.publish.online.count").gauge().value()).isEqualTo(4.0);
         assertThat(registry.get("hhy.r12.outbox.backlog").gauge().value()).isEqualTo(3.0);
+        assertThat(registry.get("hhy.activity.favorites.count").gauge().value()).isEqualTo(5.0);
+        assertThat(registry.get("hhy.activity.history.rows").gauge().value()).isEqualTo(3.0);
+        assertThat(registry.get("hhy.activity.shares.5m").gauge().value()).isEqualTo(1.0);
+        assertThat(registry.get("hhy.activity.contact.accesses.5m").gauge().value()).isEqualTo(12.0);
+        assertThat(registry.get("hhy.activity.contact.rejections.5m").gauge().value()).isEqualTo(4.0);
+        assertThat(registry.get("hhy.activity.invalid.feedback.pending").gauge().value()).isEqualTo(2.0);
+        assertThat(registry.get("hhy.r13.outbox.backlog").gauge().value()).isEqualTo(5.0);
         assertThat(registry.get("hhy.business.metric.query.failures")
                 .tag("metric", "hhy.admin.active.sessions").counter().count()).isZero();
     }

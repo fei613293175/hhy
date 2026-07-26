@@ -1,0 +1,75 @@
+protocol_version: '1.0'
+cr_id: CR-0374
+title: 精确建立R13活动业务可观测性与隔离Staging回滚验收
+status: APPROVED
+created_at: '2026-07-26T18:26:21Z'
+updated_at: '2026-07-26T18:27:05Z'
+requester_actor_id: codex-root-r13-staging-20260727
+approver_actor_id: owner-standing-delegation-20260727
+task_id: TASK-R13-006
+session_id: SES-20260726T182231Z-EE79FA49
+user_request: 项目所有者要求按仓库计划持续开发，普通版本不打断，模拟器与APK仅在最终候选执行。
+reason: 替代未应用的CR-0373；逐文件登记R13活动Gauge、告警、隔离Staging、回滚手册和现场证据，消除目录级范围。
+original_rule: R13复用通用HTTP RED、TraceId与R12发布指标，但没有R13活动域独立Gauge、告警、隔离Staging和V042回切证据。
+new_rule: R13增加收藏总量、历史行数、近5分钟分享、联系方式访问/拒绝、待处理失效反馈和活动Outbox积压七项低基数只读Gauge；建立七条告警、精确Commit隔离Staging、结构化日志脱敏、告警送达、Outbox合法终结与只回切应用镜像的V042演练。
+impact_summary: 新增R13观测指标、静态与模块测试、隔离Compose/Prometheus/Alertmanager、单一现场脚本、运行及回滚手册、逐文件证据报告和Release投影；不修改API、数据库Schema、页面、模拟器或APK。
+impact:
+  files:
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinder.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinderTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/ObservabilityEndpointsTest.java
+  - infra/staging/r13-smoke/docker-compose.yml
+  - infra/staging/r13-smoke/prometheus.yml
+  - infra/staging/r13-smoke/alertmanager.yml
+  - infra/staging/r13-smoke/nginx.conf
+  - infra/staging/r13-smoke/r13-alerts.yml
+  - scripts/check_r13_observability.py
+  - scripts/run_r13_staging_acceptance.sh
+  - tests/test_r13_staging_acceptance.py
+  - docs/07-operations/DEPLOYMENT_RUNBOOK.md
+  - docs/07-operations/ROLLBACK_RUNBOOK.md
+  - artifacts/reports/R13/TASK-R13-006-staging.md
+  - artifacts/validation/r13-task006-staging/alert-deliveries.jsonl
+  - artifacts/validation/r13-task006-staging/alert-exercise.txt
+  - artifacts/validation/r13-task006-staging/backend-down-firing.json
+  - artifacts/validation/r13-task006-staging/compose-ps.txt
+  - artifacts/validation/r13-task006-staging/database.txt
+  - artifacts/validation/r13-task006-staging/final-metrics.txt
+  - artifacts/validation/r13-task006-staging/http-request-completed.jsonl
+  - artifacts/validation/r13-task006-staging/liveness.json
+  - artifacts/validation/r13-task006-staging/log-redaction.txt
+  - artifacts/validation/r13-task006-staging/machine-summary.txt
+  - artifacts/validation/r13-task006-staging/metadata.txt
+  - artifacts/validation/r13-task006-staging/metrics-summary.txt
+  - artifacts/validation/r13-task006-staging/metrics.txt
+  - artifacts/validation/r13-task006-staging/outbox-test-events.txt
+  - artifacts/validation/r13-task006-staging/prometheus-rules.json
+  - artifacts/validation/r13-task006-staging/prometheus-targets.json
+  - artifacts/validation/r13-task006-staging/public-status.json
+  - artifacts/validation/r13-task006-staging/r13-outbox-firing.json
+  - artifacts/validation/r13-task006-staging/readiness.json
+  - artifacts/validation/r13-task006-staging/rollback-rehearsal.txt
+  - artifacts/validation/r13-task006-staging/activity-facts-before.txt
+  - artifacts/validation/r13-task006-staging/activity-facts-after.txt
+  - artifacts/validation/r13-task006-staging/source-sha256.txt
+  - artifacts/validation/r13-task006-staging/trace-headers.txt
+  - artifacts/validation/r13-task006-staging/SHA256SUMS
+  - releases/R13/RELEASE_MANIFEST.yaml
+  - CHANGELOG.md
+  pages: []
+  apis: []
+  database: []
+  configuration: []
+  ledger: []
+  tests:
+  - BusinessGaugeBinderTest;ObservabilityEndpointsTest;check_r13_observability.py;test_r13_staging_acceptance.py;obx-test run_r13_staging_acceptance.sh
+  releases:
+  - R13
+  migration_and_compatibility: 无新增数据库迁移；所有Gauge只读V042既有表。应用回切基线固定为包含V042的R13功能Commit c9741759，保持同一PostgreSQL容器和卷，禁止U042、降版本DDL或删除业务/审计/Outbox事实。
+user_confirmation: 项目所有者原文：批准，以后不要让我批准了 你自己持续开发就行了。
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-26T18:27:05Z'
+  note: 批准逐文件范围；仅限R13观测、隔离Staging、回滚证据和Release投影，不授权生产切流、真实秘密、模拟器或APK。
+machine_record: .continuity/change_requests/CR-0374.yaml
+document: docs/03-continuity/change-requests/CR-0374-精确建立R13活动业务可观测性与隔离Staging回滚验收.md
