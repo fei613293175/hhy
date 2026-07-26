@@ -81,7 +81,7 @@ tasks:
   completed_at: '2026-07-26T15:51:51Z'
 - id: TASK-R13-005
   title: 收藏、历史、分享与行为审计专项测试与故障注入
-  status: READY
+  status: DONE
   depends_on:
   - TASK-R13-003
   - TASK-R13-004
@@ -96,9 +96,10 @@ tasks:
   - 测试报告和失败证据归档
   - 关键缺陷清零
   session_log_required: true
+  completed_at: '2026-07-26T18:16:33Z'
 - id: TASK-R13-006
   title: 收藏、历史、分享与行为审计可观测性与预发布验收
-  status: BLOCKED
+  status: READY
   depends_on:
   - TASK-R13-005
   requirements: *id001
