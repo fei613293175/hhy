@@ -11,7 +11,7 @@ task_id: TASK-R12-007
 story_id: STORY-R12-008
 goal: 完成R12最终Android候选、真实模拟器截图AI验收、固定签名测试APK与桌面交付
 started_at: '2026-07-25T19:20:48Z'
-updated_at: '2026-07-26T04:20:07Z'
+updated_at: '2026-07-26T04:26:03Z'
 takeover_of: null
 change_requests:
 - CR-0339
@@ -113,22 +113,22 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-26T04:19:57Z'
-  expires_at: '2026-07-26T08:19:57Z'
-checkpoint_sequence: 24
-latest_checkpoint: .continuity/checkpoints/SES-20260725T192048Z-668BD05D/0024.yaml
+  renewed_at: '2026-07-26T04:25:56Z'
+  expires_at: '2026-07-26T08:25:56Z'
+checkpoint_sequence: 25
+latest_checkpoint: .continuity/checkpoints/SES-20260725T192048Z-668BD05D/0025.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260725T192048Z-668BD05D.md
-next_step: 提交CR-0349实现元数据，执行传输预检并一次推送，观察GitHub tooling与continuity结果。
+next_step: 保持R12 TASK-R12-007；不得复用已消耗的attempt 4。下一步需先形成新的候选次数与证据授权，或继续不依赖候选的R12收口工作。
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: 6e8aedf0de9f1da52eecba4ce627371435092e36b4f3524c72af7dc5fe07da91
-  generated_at: '2026-07-26T04:20:03Z'
+  context_hash: be6716bf7da0344e02ec373a2ae383253693f9b5ca8c25c3579d2e9f2476e515
+  generated_at: '2026-07-26T04:26:00Z'
 handoff_bundle: null
 closure: null
 parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: CR实现Commit、状态记录、检查点和推送必须串行绑定。
+  reason: 远端证据、CR关闭、检查点和Context Pack必须绑定同一串行事实链。

@@ -21441,9 +21441,9 @@ change_requests:
 - protocol_version: '1.0'
   cr_id: CR-0348
   title: 修复R12普通CI历史候选断言与Wrapper执行位漂移
-  status: IMPLEMENTED
+  status: CLOSED
   created_at: '2026-07-26T03:48:43Z'
-  updated_at: '2026-07-26T04:07:12Z'
+  updated_at: '2026-07-26T04:25:43Z'
   requester_actor_id: codex-root-r12-candidate-20260726
   approver_actor_id: project-owner
   task_id: TASK-R12-007
@@ -21495,6 +21495,11 @@ change_requests:
     status: IMPLEMENTED
     note: Commit e2be41a2实现历史候选归档证据回归、共享旅程解绑、Maven Wrapper 100755及严格Doctor模式门禁；专项22项、全量tooling 357项和严格Doctor PASS。
     session_id: SES-20260725T192048Z-668BD05D
+  - at: '2026-07-26T04:25:43Z'
+    actor_id: codex-root-r12-candidate-20260726
+    status: CLOSED
+    note: 远端CI run 30187349464 backend PASS，证明Maven Wrapper 100755在Linux干净检出直接执行；本地357项tooling PASS。该run的tooling skipped缺口由CR-0349独立原位补齐。
+    session_id: SES-20260725T192048Z-668BD05D
   session_ids:
   - SES-20260725T192048Z-668BD05D
   implementation_commits:
@@ -21502,9 +21507,9 @@ change_requests:
 - protocol_version: '1.0'
   cr_id: CR-0349
   title: 补齐候选与治理测试的普通CI影响映射
-  status: IMPLEMENTED
+  status: CLOSED
   created_at: '2026-07-26T04:13:36Z'
-  updated_at: '2026-07-26T04:17:50Z'
+  updated_at: '2026-07-26T04:25:49Z'
   requester_actor_id: codex-root-r12-candidate-20260726
   approver_actor_id: project-owner
   task_id: TASK-R12-007
@@ -21552,6 +21557,11 @@ change_requests:
     actor_id: codex-root-r12-candidate-20260726
     status: IMPLEMENTED
     note: Commit 34c8351c在既有影响映射增加candidate-history-unit和governance-knowledge-unit；46项专项、两类MODULE计划与严格Doctor PASS，run 30187349464的tooling skipped事实已登记。
+    session_id: SES-20260725T192048Z-668BD05D
+  - at: '2026-07-26T04:25:49Z'
+    actor_id: codex-root-r12-candidate-20260726
+    status: CLOSED
+    note: 远端Continuity Gate 30187649607 PASS；CI 30187649670整体PASS，tooling真实执行PASS、contracts PASS，Android/database/web/backend按影响正确skipped。
     session_id: SES-20260725T192048Z-668BD05D
   session_ids:
   - SES-20260725T192048Z-668BD05D
