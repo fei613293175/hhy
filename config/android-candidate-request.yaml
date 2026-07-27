@@ -2,8 +2,8 @@ schema_version: 1
 status: REQUESTED
 release: R13
 candidate: true
-remediation_attempt: 16
-request_id: R13-CANDIDATE-20260727-016
-reason: R13 attempt 15 Run 30255527377的请求校验、编译、Lint、单测和打包通过，但模拟器在应用可见后等待30秒并失败于认证主框架入口，runtime artifact SHA-256为8963204C8FC7E4B66F306FFA58F07C9115BD140D046470CD90703044ACFBD96E；四张R13截图未生成，exit-info为空且无应用崩溃或ANR。CR-0399改为直接要求hhy.shell.authenticated与启用可点击的shell.navigation.me同时成立，首页loaded、error、loading只作为失败诊断；启动门禁、登录、R13收藏历史详情、三张真实媒体、四张截图和视觉门槛不变。首个修复Commit 80dd3e68b010ef5218154b7362cd7a6835ae9607已通过40项候选回归、35项治理回归、Android UI基础门禁、严格连续性、提交门禁和obx-test固定镜像app:compileDebugAndroidTestKotlin 212任务；最终编译日志SHA-256为BD2CB5DFF99198E88924FD384FC03D4CF708D95CD937A886469E42233252FEAE。本请求只允许该Commit后继候选提交执行一次精确attempt 16，不授权attempt 17。
-attempt_exception_id: CR-0400
-required_fix_commit: 80dd3e68b010ef5218154b7362cd7a6835ae9607
+remediation_attempt: 17
+request_id: R13-CANDIDATE-20260727-017
+reason: R13 attempt 16 Run 30259083711的请求校验、编译、Lint、单测和打包通过，但模拟器在一次性会话兑换、GET /api/v1/me、平台状态和版本检查均200后仍未触发GET /api/v1/home，30秒后诊断为shell=false home=none meVisible=false；runtime artifact SHA-256为5B0FE48639698C10DFFC7503D14BEACFC0BC69914DF33FFE9769F38389993FE6，四张R13截图未生成，exit-info为空且无应用崩溃或ANR。CR-0401纠正Attempt15入口资源误判，在手工启动目标Activity并确认窗口可见后显式执行composeRule.waitForIdle，再进入UiAutomator认证主框架等待；登录、启动门禁、R13收藏历史详情、三张真实媒体、四张截图和视觉门槛不变。首个修复Commit dd28660f5e2f043cf09afa308042428f651e521a已通过40项R13与共享候选回归、28项候选历史回归、17项治理知识回归、Android UI基础门禁、严格连续性、V1.2.3联合门禁和obx-test固定镜像app:compileDebugAndroidTestKotlin 212任务；源文件SHA-256为11F55B856A44E6A9231E53BC9C2A9EA3C6076A070865782C5FE881C53FB3B38E，构建日志SHA-256为7CFCEAC07D7ED90A4E0C4E9757FDCD7998E32EC29743867BF8D74544F5C80F16。本请求只允许该Commit后继候选提交执行一次精确attempt 17，不授权attempt 18。
+attempt_exception_id: CR-0402
+required_fix_commit: dd28660f5e2f043cf09afa308042428f651e521a
