@@ -1,6 +1,6 @@
 release: R13
 title: 收藏、历史、分享与行为审计
-status: DEVELOPMENT_READY
+status: TASK_007_COMPLETE_OWNER_PENDING
 milestone: M1_CONTENT_MARKETPLACE
 depends_on:
 - R07
@@ -69,6 +69,29 @@ test_signing_rotation:
   previous_profile_status: RETIRED_PRIVATE_KEY_UNAVAILABLE
   first_install_migration: UNINSTALL_PRE_R13_TEST_APK_ONCE
   production_signing_affected: false
+android_delivery:
+  source_commit: ccdb5d39b22498a5d0f5082f8210f9fb59b4a2ae
+  apk_file: hhy-r13-ccdb5d3-debug.apk
+  version_name: 1.2.2-debug
+  version_code: 10222
+  sha256: ccffcd89e116ee2bab0fb55961126a5bcc0c01bd34375ebf542b78cbcd9daba0
+  signing_profile_id: hhy-staging-test-v2
+  signing_fingerprint: e32a9d7ff8a209d2903db6383b461b259f0018a698d1f3646e6ed7f1112671be
+  machine_delivery: PASS
+  owner_physical_test: PENDING
+  next_release_development: ALLOWED
+  evidence: artifacts/validation/r13-apk-delivery/delivery-evidence.json
+  build_evidence: artifacts/validation/r13-task007-android/build-evidence.json
+  test_guide: artifacts/reports/R13/R13-version-test-guide.md
+android_automation:
+  policy_id: HHY-ANDROID-AUTOMATION-V1
+  mode: ON_DEMAND_NON_BLOCKING_SPECIALTY
+  status: NOT_RUN_NOT_REQUIRED_FOR_TEST_APK
+  attempt_21_authorized: false
+  automated_candidate_status: REMEDIATION_REQUIRED_HISTORICAL_ATTEMPTS_1_TO_20
+  ai_visual_review: NOT_CLAIMED_PASS
+  owner_physical_test: PENDING
+  next_release_development: ALLOWED
 entry_baseline:
   checked_at: '2026-07-26'
   session_id: SES-20260726T110209Z-C9DC8AD5
@@ -200,6 +223,25 @@ task_006_staging_gate:
   - assemble_signed_test_apk
   - install_smoke
   next_task: TASK-R13-007
+task_007_android_gate:
+  status: PASS_TEST_APK_DELIVERED_OWNER_PENDING
+  completed_at: '2026-07-27'
+  session_id: SES-20260726T191158Z-2B506AB7
+  source_commit: ccdb5d39b22498a5d0f5082f8210f9fb59b4a2ae
+  report: artifacts/reports/R13/TASK-R13-007-android-apk.md
+  evidence: artifacts/validation/r13-task007-android/
+  delivery_evidence: artifacts/validation/r13-apk-delivery/delivery-evidence.json
+  acceptance_id: AC-R13-006
+  validation:
+    public_api_status: PASS_HTTP_200
+    gradle: PASS_710_TASKS
+    stable_signing: PASS_V2_V3_SINGLE_SIGNER
+    package_identity: PASS_CC_ORBEXA_HHY_DEBUG_10222
+    embedded_api: PASS_HTTPS_API_ORBEXA_CC
+    four_way_sha256: PASS
+    github_emulator: NOT_RUN_ON_DEMAND_NON_BLOCKING_SPECIALTY
+    owner_physical_test: PENDING_ASYNC_NON_BLOCKING
+  next_task: TASK-R13-008
 exit_gate:
 - 领域代码与前端真实闭环
 - 数据库迁移和不变量测试通过

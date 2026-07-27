@@ -1,7 +1,7 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-27T15:40:24Z
-- Context Hash：`db5d1a75b7c33ac961d4b1cd8aab4e2b32be6cdec977e550e0c4d93bc702f997`
+- 生成时间：2026-07-27T16:24:50Z
+- Context Hash：`9f5dcba400b5402b2a2f220aec0d05ff0c7241b24278e3dadede7e45fdbd63e1`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 规则就绪：`PASS`（`HASHED_CONTEXT_MANIFEST`）
@@ -172,7 +172,7 @@ blocked_tasks:
 - TASK-R06-008
 - TASK-R07-008
 next_task: TASK-R13-007
-updated_at: '2026-07-27T15:40:19Z'
+updated_at: '2026-07-27T16:24:47Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -207,15 +207,15 @@ continuity:
   active_session_id: SES-20260726T191158Z-2B506AB7
   actor_id: codex-root-r13-candidate-20260727
   story_id: STORY-R13-003
-  lease_expires_at: '2026-07-27T19:40:19Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260726T191158Z-2B506AB7/0065.yaml
-  project_fingerprint: cbcd376106ea3752e1dcba3cbdc51fc7f5483f73bb25029a289063f95227ec56
+  lease_expires_at: '2026-07-27T20:24:47Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260726T191158Z-2B506AB7/0068.yaml
+  project_fingerprint: b4cec11e0e7c439265dacbbbd7747487025f4ae5b50cb3643849b214476b9294
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: 3f2b7e116dd905e71e6ce0b2c474bed690b01ad51a34c857ee1e2e3312a6b030
-    generated_at: '2026-07-27T15:24:00Z'
+    context_hash: 20b8642afd0ad268f7d8e772a5e93daba3c8061dfdbb130a2802f315f9ef8aa6
+    generated_at: '2026-07-27T16:21:32Z'
   handoff_bundle: null
 ```
 
@@ -413,7 +413,7 @@ task_id: TASK-R13-007
 story_id: STORY-R13-003
 goal: 收藏、历史、分享与行为审计Android测试APK与产物追溯
 started_at: '2026-07-26T19:11:58Z'
-updated_at: '2026-07-27T15:40:19Z'
+updated_at: '2026-07-27T16:24:47Z'
 takeover_of: null
 change_requests:
 - CR-0377
@@ -537,12 +537,12 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-27T15:40:19Z'
-  expires_at: '2026-07-27T19:40:19Z'
-checkpoint_sequence: 65
-latest_checkpoint: .continuity/checkpoints/SES-20260726T191158Z-2B506AB7/0065.yaml
+  renewed_at: '2026-07-27T16:24:47Z'
+  expires_at: '2026-07-27T20:24:47Z'
+checkpoint_sequence: 68
+latest_checkpoint: .continuity/checkpoints/SES-20260726T191158Z-2B506AB7/0068.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260726T191158Z-2B506AB7.md
-next_step: 提交并推送签名基线Commit，再从该冻结Commit在obx-test构建、签名、校验并交付R13 TEST_APK
+next_step: 提交并推送TASK-R13-007交付证据，然后执行TASK-R13-008机器收尾并无等待进入R14
 context_pack: THIS_CONTEXT_PACK
 handoff_bundle: null
 closure: null
@@ -550,63 +550,78 @@ parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 签名身份、SecretRef和冻结构建Commit必须由唯一主控串行登记
+  reason: APK Manifest、交付证据、Release状态和Checkpoint必须由唯一主控串行绑定同一Commit
 ```
 
 ## 最新检查点
 
 ```yaml
 protocol_version: '1.0'
-checkpoint_id: CP-SES-20260726T191158Z-2B506AB7-0065
+checkpoint_id: CP-SES-20260726T191158Z-2B506AB7-0068
 session_id: SES-20260726T191158Z-2B506AB7
 task_id: TASK-R13-007
 story_id: STORY-R13-003
-sequence: 65
-created_at: '2026-07-27T15:40:18Z'
-summary: CR-0413签名基线已建立：obx-test持久化hhy-staging-test-v2，仓库登记SecretRef、证书指纹、权限、退役旧Profile和一次性卸载迁移
-next_step: 提交并推送签名基线Commit，再从该冻结Commit在obx-test构建、签名、校验并交付R13 TEST_APK
+sequence: 68
+created_at: '2026-07-27T16:24:46Z'
+summary: R13 TEST_APK交付证据复核完成：固定工具链、稳定签名、正式API、四方SHA和桌面说明继续保持PASS
+next_step: 提交并推送TASK-R13-007交付证据，然后执行TASK-R13-008机器收尾并无等待进入R14
 blockers: []
-decisions:
-- R13起证书SHA-256固定为e32a9d7ff8a209d2903db6383b461b259f0018a698d1f3646e6ed7f1112671be；旧v1私钥不可恢复且不得生成随机替代签名
+decisions: []
 note: ''
 tests:
-- name: android-signing-policy
+- name: r13-stable-toolchain-apk
   result: PASS
-  evidence: python -m unittest tests.test_android_ci_gate (30 tests)
-  note: Profile SecretRef fingerprint permissions and migration locked
-- name: signing-secretref
+  evidence: obx-test 710 Gradle tasks, zipalign, v2/v3, package 10222, official API
+  note: APK SHA ccffcd89e116ee2bab0fb55961126a5bcc0c01bd34375ebf542b78cbcd9daba0
+- name: r13-four-way-delivery
   result: PASS
-  evidence: obx-test root-only reference and keytool alias resolution
-  note: 0700 directory 0600 files fingerprint matched
-- name: yaml-ui-diff
+  evidence: deliver_android_test_apk prepare and verify
+  note: repository desktop server HTTPS 200/206 same SHA and size
+- name: r13-delivery-regression
   result: PASS
-  evidence: 4 YAML parsed; Android UI Foundation; git diff --check
-  note: repository policy inputs valid
+  evidence: 41 unit tests, YAML/JSON, UI foundation, secret scan, diff check
+  note: owner feedback remains async PENDING
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: 78e02938faad6c81d86ab09724f60b22643f574a
+  head: ccdb5d39b22498a5d0f5082f8210f9fb59b4a2ae
   upstream: origin/task/TASK-R03-001
   ahead: 0
   behind: 0
   dirty: true
   status_porcelain:
-  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
-  - ' M .continuity/EVENT_LOG.jsonl'
-  - ' M .continuity/STATE.yaml'
-  - ' M .continuity/sessions/SES-20260726T191158Z-2B506AB7.yaml'
-  - ' M CHANGELOG.md'
-  - ' M catalogs/change_request_index.csv'
-  - ' M catalogs/session_index.csv'
-  - ' M config/android-automation.yaml'
-  - ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
-  - ' M docs/05-app-build/APK持续交付强制规则_V1.2.2.md'
-  - ' M releases/R13/RELEASE_MANIFEST.yaml'
-  - ' M scripts/android_ci_gate.py'
-  - ' M tests/test_android_ci_gate.py'
-  - ?? .continuity/change_requests/CR-0413.yaml
-  - ?? docs/03-continuity/change-requests/CR-0413-轮换并持久化R13起固定测试APK签名身份.md
+  - M  .continuity/ACTIVE_SESSION.yaml
+  - M  .continuity/CHANGE_REQUEST_INDEX.yaml
+  - M  .continuity/EVENT_LOG.jsonl
+  - M  .continuity/SESSION_INDEX.yaml
+  - M  .continuity/STATE.yaml
+  - M  .continuity/change_requests/CR-0413.yaml
+  - A  .continuity/checkpoints/SES-20260726T191158Z-2B506AB7/0066.yaml
+  - A  .continuity/checkpoints/SES-20260726T191158Z-2B506AB7/0067.yaml
+  - M  .continuity/sessions/SES-20260726T191158Z-2B506AB7.yaml
+  - M  CURRENT_STATUS.yaml
+  - A  artifacts/apk/R13/APK_MANIFEST.yaml
+  - M  artifacts/context/CURRENT_CONTEXT_PACK.md
+  - M  artifacts/context/CURRENT_CONTEXT_PACK.yaml
+  - M  artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+  - A  artifacts/reports/R13/R13-version-test-guide.md
+  - A  artifacts/reports/R13/TASK-R13-007-android-apk.md
+  - M  artifacts/validation/continuity-gate-v1.2.3.json
+  - A  artifacts/validation/r13-apk-delivery/delivery-evidence.json
+  - A  artifacts/validation/r13-task007-android/apk-badging.txt
+  - A  artifacts/validation/r13-task007-android/apk-signing.txt
+  - A  artifacts/validation/r13-task007-android/build-evidence.json
+  - A  artifacts/validation/r13-task007-android/embedded-api.txt
+  - A  artifacts/validation/r13-task007-android/gradle-build.log
+  - A  artifacts/validation/r13-task007-android/zipalign.txt
+  - M  catalogs/change_request_index.csv
+  - M  catalogs/session_index.csv
+  - M  docs/03-continuity/change-requests/CR-0413-轮换并持久化R13起固定测试APK签名身份.md
+  - M  docs/03-continuity/sessions/2026-07/SES-20260726T191158Z-2B506AB7.md
+  - M  releases/R13/RELEASE_MANIFEST.yaml
   recent_commits:
+  - "ccdb5d39b22498a5d0f5082f8210f9fb59b4a2ae\t2026-07-27T23:41:36+08:00\tHHY Continuity Bootstrap\t[STORY-R13-003] chore(signing): persist R13\
+    \ test APK identity"
   - "78e02938faad6c81d86ab09724f60b22643f574a\t2026-07-27T23:27:40+08:00\tHHY Continuity Bootstrap\t[STORY-R13-003] chore(delivery): record async\
     \ TEST_APK policy"
   - "78cf6c9197a6558d77481154c5d12859e729bf4e\t2026-07-27T22:37:34+08:00\tHHY Continuity Bootstrap\t[STORY-R13-003] fix(android): render shared\
@@ -621,10 +636,8 @@ git:
     \ 19"
   - "5cd3dabee40aadd8c906d4307fa3d4c502360011\t2026-07-27T21:04:20+08:00\tHHY Continuity Bootstrap\t[STORY-R13-003] fix(android): drive compose\
     \ across candidate journey"
-  - "11b601b2689a632aa97f7fd12efc5e300373e76b\t2026-07-27T20:53:15+08:00\tHHY Continuity Bootstrap\t[STORY-R13-003] fix(android): synchronize\
-    \ candidate page transitions"
 project_fingerprint:
-  sha256: cbcd376106ea3752e1dcba3cbdc51fc7f5483f73bb25029a289063f95227ec56
+  sha256: b4cec11e0e7c439265dacbbbd7747487025f4ae5b50cb3643849b214476b9294
   files:
   - AGENTS.md
   - CHANGELOG.md
@@ -635,6 +648,7 @@ project_fingerprint:
   - apps/android/feature/activity/src/main/java/cc/orbexa/hhy/activity/R13ActivityScreens.kt
   - apps/android/feature/project/src/main/java/cc/orbexa/hhy/project/R08ProjectScreens.kt
   - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+  - artifacts/apk/R13/APK_MANIFEST.yaml
   - config/android-automation.yaml
   - config/android-candidate-request.yaml
   - config/development-workflow.yaml
@@ -694,7 +708,7 @@ project_fingerprint:
   - tests/test_android_ci_gate.py
   - tests/test_r12_candidate.py
   - tests/test_r13_candidate.py
-  file_count: 68
+  file_count: 69
   payload:
     base_commit: 05fe13da3dded5a41321de78bff0f08c34d2f647
     files:
@@ -734,6 +748,10 @@ project_fingerprint:
       state: FILE
       size: 39429
       sha256: 4be6aef2980ada1e82114417f46ed4ce05d7ea1c828342092c90769ef5612c87
+    - path: artifacts/apk/R13/APK_MANIFEST.yaml
+      state: FILE
+      size: 673
+      sha256: 2a12d5f5a87e87f62fa312deddafcdbae0ffe15f70e4f390c7a8d2aaf2c0f966
     - path: config/android-automation.yaml
       state: FILE
       size: 12943
@@ -908,8 +926,8 @@ project_fingerprint:
       sha256: 8983cc4f4d2b473c1cfc877f2ff94ce7d8d208edf158e6e7df1ab7d617d6e6bf
     - path: docs/03-continuity/change-requests/CR-0413-轮换并持久化R13起固定测试APK签名身份.md
       state: FILE
-      size: 3794
-      sha256: 0fa78723c53da98dd4fa3d197df48d548b9bc47464cc2ace9c99bd92506559cc
+      size: 4138
+      sha256: f99cb85041eb4b649aae3de47a0c1728401e395b135e380358d254f79967c35e
     - path: docs/05-app-build/APK持续交付强制规则_V1.2.2.md
       state: FILE
       size: 6533
@@ -928,8 +946,8 @@ project_fingerprint:
       sha256: a3b89ec53907aa1624c9936f117c2979c26104097aacba1b851e8ddd2b26c867
     - path: releases/R13/RELEASE_MANIFEST.yaml
       state: FILE
-      size: 7982
-      sha256: 664ce3188100bd32ba8f374067c7c8a1a15b4741b6f406b1a43be6de2d6bdc30
+      size: 9840
+      sha256: b6364809695602e9f4c8606799f9e0e4d24a1d09c421bce88f4540918109f7b5
     - path: scripts/android_ci_gate.py
       state: FILE
       size: 36596
@@ -974,6 +992,7 @@ change_classification:
   other:
   - AGENTS.md
   - CHANGELOG.md
+  - artifacts/apk/R13/APK_MANIFEST.yaml
   - config/android-automation.yaml
   - config/android-candidate-request.yaml
   - config/development-workflow.yaml
@@ -1177,8 +1196,8 @@ parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 签名身份、SecretRef和冻结构建Commit必须由唯一主控串行登记
-event_hash: 4e00c0fc76a9053e26bc81bce70a0c609ff920fd1d6110e7595815d453fc211f
+  reason: APK Manifest、交付证据、Release状态和Checkpoint必须由唯一主控串行绑定同一Commit
+event_hash: c22895017fc1cc45365587b4ea1cd3cf02087788dbd1b1818072a7d60b61bbed
 ```
 
 ## 接续状态与事件头
@@ -1190,8 +1209,8 @@ active_session_id: SES-20260726T191158Z-2B506AB7
 last_session_id: SES-20260726T182231Z-EE79FA49
 last_session_result: COMPLETED
 last_closure_checkpoint_id: CP-SES-20260726T182231Z-EE79FA49-0006
-event_count: 3935
-event_head_hash: 4e00c0fc76a9053e26bc81bce70a0c609ff920fd1d6110e7595815d453fc211f
+event_count: 3939
+event_head_hash: c22895017fc1cc45365587b4ea1cd3cf02087788dbd1b1818072a7d60b61bbed
 event_chain_valid: true
 ```
 
@@ -1314,9 +1333,9 @@ recent_sessions: - session_id: SES-20260725T180922Z-D7231210
   started_at: '2026-07-26T19:11:58Z'
   record: .continuity/sessions/SES-20260726T191158Z-2B506AB7.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260726T191158Z-2B506AB7.md
-  updated_at: '2026-07-27T15:40:19Z'
+  updated_at: '2026-07-27T16:24:47Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260726T191158Z-2B506AB7/0065.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260726T191158Z-2B506AB7/0068.yaml
   handoff_bundle: null
 task_claims: - claim_id: CLM-031273AB5A51
   session_id: SES-20260723T231210Z-409B970E
@@ -2291,33 +2310,45 @@ recent_task_transitions: - transition_id: TRN-A3150050CD9D
 ```yaml
 initialized: true
 branch: task/TASK-R03-001
-head: 78e02938faad6c81d86ab09724f60b22643f574a
+head: ccdb5d39b22498a5d0f5082f8210f9fb59b4a2ae
 upstream: origin/task/TASK-R03-001
 ahead: 0
 behind: 0
 dirty: true
 status_porcelain:
-- ' M .continuity/ACTIVE_SESSION.yaml'
-- ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
-- ' M .continuity/EVENT_LOG.jsonl'
-- ' M .continuity/SESSION_INDEX.yaml'
-- ' M .continuity/STATE.yaml'
-- ' M .continuity/sessions/SES-20260726T191158Z-2B506AB7.yaml'
-- ' M CHANGELOG.md'
-- ' M CURRENT_STATUS.yaml'
-- ' M catalogs/change_request_index.csv'
-- ' M catalogs/session_index.csv'
-- ' M config/android-automation.yaml'
-- ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
-- ' M docs/03-continuity/sessions/2026-07/SES-20260726T191158Z-2B506AB7.md'
-- ' M docs/05-app-build/APK持续交付强制规则_V1.2.2.md'
-- ' M releases/R13/RELEASE_MANIFEST.yaml'
-- ' M scripts/android_ci_gate.py'
-- ' M tests/test_android_ci_gate.py'
-- ?? .continuity/change_requests/CR-0413.yaml
-- ?? .continuity/checkpoints/SES-20260726T191158Z-2B506AB7/0065.yaml
-- ?? docs/03-continuity/change-requests/CR-0413-轮换并持久化R13起固定测试APK签名身份.md
+- MM .continuity/ACTIVE_SESSION.yaml
+- M  .continuity/CHANGE_REQUEST_INDEX.yaml
+- MM .continuity/EVENT_LOG.jsonl
+- MM .continuity/SESSION_INDEX.yaml
+- MM .continuity/STATE.yaml
+- M  .continuity/change_requests/CR-0413.yaml
+- A  .continuity/checkpoints/SES-20260726T191158Z-2B506AB7/0066.yaml
+- A  .continuity/checkpoints/SES-20260726T191158Z-2B506AB7/0067.yaml
+- MM .continuity/sessions/SES-20260726T191158Z-2B506AB7.yaml
+- MM CURRENT_STATUS.yaml
+- A  artifacts/apk/R13/APK_MANIFEST.yaml
+- M  artifacts/context/CURRENT_CONTEXT_PACK.md
+- M  artifacts/context/CURRENT_CONTEXT_PACK.yaml
+- M  artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+- A  artifacts/reports/R13/R13-version-test-guide.md
+- A  artifacts/reports/R13/TASK-R13-007-android-apk.md
+- M  artifacts/validation/continuity-gate-v1.2.3.json
+- A  artifacts/validation/r13-apk-delivery/delivery-evidence.json
+- A  artifacts/validation/r13-task007-android/apk-badging.txt
+- A  artifacts/validation/r13-task007-android/apk-signing.txt
+- A  artifacts/validation/r13-task007-android/build-evidence.json
+- A  artifacts/validation/r13-task007-android/embedded-api.txt
+- A  artifacts/validation/r13-task007-android/gradle-build.log
+- A  artifacts/validation/r13-task007-android/zipalign.txt
+- M  catalogs/change_request_index.csv
+- MM catalogs/session_index.csv
+- M  docs/03-continuity/change-requests/CR-0413-轮换并持久化R13起固定测试APK签名身份.md
+- MM docs/03-continuity/sessions/2026-07/SES-20260726T191158Z-2B506AB7.md
+- M  releases/R13/RELEASE_MANIFEST.yaml
+- ?? .continuity/checkpoints/SES-20260726T191158Z-2B506AB7/0068.yaml
 recent_commits:
+- "ccdb5d39b22498a5d0f5082f8210f9fb59b4a2ae\t2026-07-27T23:41:36+08:00\tHHY Continuity Bootstrap\t[STORY-R13-003] chore(signing): persist R13\
+  \ test APK identity"
 - "78e02938faad6c81d86ab09724f60b22643f574a\t2026-07-27T23:27:40+08:00\tHHY Continuity Bootstrap\t[STORY-R13-003] chore(delivery): record async\
   \ TEST_APK policy"
 - "78cf6c9197a6558d77481154c5d12859e729bf4e\t2026-07-27T22:37:34+08:00\tHHY Continuity Bootstrap\t[STORY-R13-003] fix(android): render shared\
@@ -2332,14 +2363,12 @@ recent_commits:
   \ 19"
 - "5cd3dabee40aadd8c906d4307fa3d4c502360011\t2026-07-27T21:04:20+08:00\tHHY Continuity Bootstrap\t[STORY-R13-003] fix(android): drive compose\
   \ across candidate journey"
-- "11b601b2689a632aa97f7fd12efc5e300373e76b\t2026-07-27T20:53:15+08:00\tHHY Continuity Bootstrap\t[STORY-R13-003] fix(android): synchronize candidate\
-  \ page transitions"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`cbcd376106ea3752e1dcba3cbdc51fc7f5483f73bb25029a289063f95227ec56`
-- 文件数：68
+- 指纹：`b4cec11e0e7c439265dacbbbd7747487025f4ae5b50cb3643849b214476b9294`
+- 文件数：69
 
 - `AGENTS.md`
 - `CHANGELOG.md`
@@ -2350,6 +2379,7 @@ recent_commits:
 - `apps/android/feature/activity/src/main/java/cc/orbexa/hhy/activity/R13ActivityScreens.kt`
 - `apps/android/feature/project/src/main/java/cc/orbexa/hhy/project/R08ProjectScreens.kt`
 - `apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt`
+- `artifacts/apk/R13/APK_MANIFEST.yaml`
 - `config/android-automation.yaml`
 - `config/android-candidate-request.yaml`
 - `config/development-workflow.yaml`
@@ -2416,7 +2446,7 @@ recent_commits:
 RELEASE_MANIFEST.yaml:
   release: R13
   title: 收藏、历史、分享与行为审计
-  status: DEVELOPMENT_READY
+  status: TASK_007_COMPLETE_OWNER_PENDING
   milestone: M1_CONTENT_MARKETPLACE
   depends_on:
   - R07
@@ -2485,6 +2515,29 @@ RELEASE_MANIFEST.yaml:
     previous_profile_status: RETIRED_PRIVATE_KEY_UNAVAILABLE
     first_install_migration: UNINSTALL_PRE_R13_TEST_APK_ONCE
     production_signing_affected: false
+  android_delivery:
+    source_commit: ccdb5d39b22498a5d0f5082f8210f9fb59b4a2ae
+    apk_file: hhy-r13-ccdb5d3-debug.apk
+    version_name: 1.2.2-debug
+    version_code: 10222
+    sha256: ccffcd89e116ee2bab0fb55961126a5bcc0c01bd34375ebf542b78cbcd9daba0
+    signing_profile_id: hhy-staging-test-v2
+    signing_fingerprint: e32a9d7ff8a209d2903db6383b461b259f0018a698d1f3646e6ed7f1112671be
+    machine_delivery: PASS
+    owner_physical_test: PENDING
+    next_release_development: ALLOWED
+    evidence: artifacts/validation/r13-apk-delivery/delivery-evidence.json
+    build_evidence: artifacts/validation/r13-task007-android/build-evidence.json
+    test_guide: artifacts/reports/R13/R13-version-test-guide.md
+  android_automation:
+    policy_id: HHY-ANDROID-AUTOMATION-V1
+    mode: ON_DEMAND_NON_BLOCKING_SPECIALTY
+    status: NOT_RUN_NOT_REQUIRED_FOR_TEST_APK
+    attempt_21_authorized: false
+    automated_candidate_status: REMEDIATION_REQUIRED_HISTORICAL_ATTEMPTS_1_TO_20
+    ai_visual_review: NOT_CLAIMED_PASS
+    owner_physical_test: PENDING
+    next_release_development: ALLOWED
   entry_baseline:
     checked_at: '2026-07-26'
     session_id: SES-20260726T110209Z-C9DC8AD5
@@ -2616,6 +2669,25 @@ RELEASE_MANIFEST.yaml:
     - assemble_signed_test_apk
     - install_smoke
     next_task: TASK-R13-007
+  task_007_android_gate:
+    status: PASS_TEST_APK_DELIVERED_OWNER_PENDING
+    completed_at: '2026-07-27'
+    session_id: SES-20260726T191158Z-2B506AB7
+    source_commit: ccdb5d39b22498a5d0f5082f8210f9fb59b4a2ae
+    report: artifacts/reports/R13/TASK-R13-007-android-apk.md
+    evidence: artifacts/validation/r13-task007-android/
+    delivery_evidence: artifacts/validation/r13-apk-delivery/delivery-evidence.json
+    acceptance_id: AC-R13-006
+    validation:
+      public_api_status: PASS_HTTP_200
+      gradle: PASS_710_TASKS
+      stable_signing: PASS_V2_V3_SINGLE_SIGNER
+      package_identity: PASS_CC_ORBEXA_HHY_DEBUG_10222
+      embedded_api: PASS_HTTPS_API_ORBEXA_CC
+      four_way_sha256: PASS
+      github_emulator: NOT_RUN_ON_DEMAND_NON_BLOCKING_SPECIALTY
+      owner_physical_test: PENDING_ASYNC_NON_BLOCKING
+    next_task: TASK-R13-008
   exit_gate:
   - 领域代码与前端真实闭环
   - 数据库迁移和不变量测试通过
@@ -14154,9 +14226,9 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - protocol_version: '1.0'
   cr_id: CR-0413
   title: 轮换并持久化R13起固定测试APK签名身份
-  status: IMPLEMENTING
+  status: IMPLEMENTED
   created_at: '2026-07-27T15:32:18Z'
-  updated_at: '2026-07-27T15:39:04Z'
+  updated_at: '2026-07-27T16:11:16Z'
   requester_actor_id: codex-root-r13-candidate-20260727
   approver_actor_id: codex-reviewer-r13-signing-20260727
   task_id: TASK-R13-007
@@ -14212,6 +14284,11 @@ PARALLEL_EXECUTION_PLAN.yaml:
     status: IMPLEMENTING
     note: 已建立obx-test root-only v2签名Profile并开始写入SecretRef、证书指纹、迁移边界和机器防回退校验
     session_id: SES-20260726T191158Z-2B506AB7
+  - at: '2026-07-27T16:11:16Z'
+    actor_id: codex-root-r13-candidate-20260727
+    status: IMPLEMENTED
+    note: v2签名Profile已持久化；R13固定Commit完成710任务构建、v2/v3签名、正式API、身份和四方SHA交付，桌面APK与说明已生成，真机保持异步PENDING
+    session_id: SES-20260726T191158Z-2B506AB7
   session_ids:
   - SES-20260726T191158Z-2B506AB7
 ```
@@ -14220,7 +14297,7 @@ PARALLEL_EXECUTION_PLAN.yaml:
 
 - `AGENTS.md` — `e9f1cf3739a97b47a4de96166ebd17eb2206b7231adb22dbfa23f7687c9809bc`
 - `START_HERE.md` — `22de14029ce47beb41ea569e36ce223fbc9d11b86f8676f28d5fbbd83896af5c`
-- `CURRENT_STATUS.yaml` — `e598da774033389de0dd357fbef14e68a1c94f1025fddd4c54cf5b324f3a2c88`
+- `CURRENT_STATUS.yaml` — `2451a7933c3f135d9f10abfb1edb2e70b44ffe1f752368e4afc368d84381a408`
 - `NEXT_TASK.yaml` — `fa8d420c64c0eb56328d7143b5566325c27477da0390e6c2080d4077fe29bf82`
 - `DEVELOPMENT_RISK_REGISTER.md` — `8304c91492e4ee2abea0522a06541c8688d39c7fc532b5d0cde499bf09fffb87`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
@@ -14231,24 +14308,24 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `config/REPOSITORY_TRANSPORT.yaml` — `8c4a21f3e204d46e7ffb467d804a53ed26cda61cd088dadfddb50b69eea657fc`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `38e04ed812c8df0d353c2b91993d31e53b471e9c457f06b426bd2260c470aa92`
-- `.continuity/EVENT_LOG.jsonl` — `0584f75c5fdb66741bb9b9d81f05dd6b1b3c8bf9f0371fcc5d7ff3291af9d7a2`
-- `.continuity/SESSION_INDEX.yaml` — `bf85e66c7e4cda28d0c7b0bb3e88eddd1c547fc89d7890dcfafd3bdc6615e3b6`
+- `.continuity/EVENT_LOG.jsonl` — `2206b73d09a41c48c7199aa1920fe189a8b00a34c34356ec70e745f33a369dfa`
+- `.continuity/SESSION_INDEX.yaml` — `a7d6ce0c32a45a0bcef80d6be27371929f52b92c4f73809952a3c083f15f87d0`
 - `.continuity/TASK_CLAIMS.yaml` — `3ab3ee8985a3902b5452c73546976885e61d40f5bb5c3415d9419ff00c624410`
 - `.continuity/TASK_TRANSITIONS.yaml` — `9619636ddbf63d4939d6a0b780ebfec677694ffcb8d985cd7c5af04a2379ec9c`
-- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `921d1aebcf9d468c9ad1000a6940d405010741a3ce7643d15a50a09382b9ce66`
-- `.continuity/ACTIVE_SESSION.yaml` — `129ce887f58429d8b9bd1afe66132666b37e7072fd10049ce65512c677516f0c`
+- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `d855deef829299638affb99ec8f19a847ead5d648140a277d27b86ac401ab3de`
+- `.continuity/ACTIVE_SESSION.yaml` — `158b7d47b375744cac0b8d2764455e4d962894bcf4476507b39cbb5e2c27e94a`
 - `docs/00-baseline/正式商业系统全局硬性开发边界.md` — `d8a77eddf520659b1d6b57e16ecc0739fa93dbd39cf9903dbaf798fc631ae6fe`
 - `docs/02-ui/UI参考图使用与开发约束_V1.2.2.md` — `d14367586aa2067b059df58798acd20ab982459cdb35ff27fc7922a3896e4933`
 - `docs/03-continuity/持续开发无状态接续强制门禁_V1.2.3.md` — `d0ed3ed68bdd93b06500eecdfb5baa3245e6ca8b685a486788abb6eee39b3d51`
 - `docs/09-development/统一开发与交付效率规范.md` — `74beb58e6d6ea4cd4322ff75676f321bc7be669e729ca876f3be73ac98a6d31c`
-- `releases/R13/RELEASE_MANIFEST.yaml` — `664ce3188100bd32ba8f374067c7c8a1a15b4741b6f406b1a43be6de2d6bdc30`
+- `releases/R13/RELEASE_MANIFEST.yaml` — `b6364809695602e9f4c8606799f9e0e4d24a1d09c421bce88f4540918109f7b5`
 - `releases/R13/DEFINITION_OF_READY.yaml` — `ba0fe58385ceb74fb62ecdde3b5a56c3871c5fc8234c0bd3fcbe8d72923cc995`
 - `releases/R13/STORIES.yaml` — `63c13176b456f804ab42ee350bd1c3496666cf13e3250d82b013ef73c8cd84fd`
 - `releases/R13/TASKS.yaml` — `5a5ddecbfff379b1459e5ee612fd6c4075720d4b8cfa9c00bb7ab4b41e5f3d93`
 - `releases/R13/ACCEPTANCE_MATRIX.csv` — `f383e3cb6b77155e09469488812c34f20eef51253f30216590cdda46a1e30c65`
 - `releases/R13/PARALLEL_EXECUTION_PLAN.yaml` — `a3b89ec53907aa1624c9936f117c2979c26104097aacba1b851e8ddd2b26c867`
-- `docs/03-continuity/sessions/2026-07/SES-20260726T191158Z-2B506AB7.md` — `ca487f717ae7df4c5805c0ae075193e90a4fb782f885bad6d2c6844c7624cc47`
-- `.continuity/checkpoints/SES-20260726T191158Z-2B506AB7/0065.yaml` — `32c11cec3bd4de51393e6e8502311c0c81e9f26b31df41ecb84b52e33bbb4052`
+- `docs/03-continuity/sessions/2026-07/SES-20260726T191158Z-2B506AB7.md` — `11dc379414f713b8b4561111e6b4b16562c7e6522e25b4734847ed78e006d357`
+- `.continuity/checkpoints/SES-20260726T191158Z-2B506AB7/0068.yaml` — `1f83366d47483755acb8ab0001ef6cba6f06c799286797c587c73b5e80ee1227`
 - `docs/03-continuity/change-requests/CR-0377-建立R13收藏历史分享最终Android候选.md` — `1c479ee4a79fcf710b3693522024ba4fbb071a79573339a9c131fa4fcb30c981`
 - `docs/03-continuity/change-requests/CR-0378-修复候选公网命中证明的请求号提取.md` — `4e93c1dc88a48e96f3b4a561b06f999a7ef0be5f5c1fc9d1b62800299c82f7bc`
 - `docs/03-continuity/change-requests/CR-0379-修复R13分类指示线原始透明色并建立候选attempt2.md` — `a903477526b416c47adcea229f03335406ce4efcb5013db22c02462b02c3d89e`
@@ -14285,7 +14362,7 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `docs/03-continuity/change-requests/CR-0410-消除R13每行独立painter永久loading并集中复用Coil真实结果.md` — `58eb098160e6eca3748e8bfb90ec76bd6db7d4456baf8ca599bc0c4ae93c592a`
 - `docs/03-continuity/change-requests/CR-0411-纠正CR-0410不可用Coil-painter并用Compose-ImageBitmap渲染真实结果.md` — `f2b13b0f2b5b2974e836623bcbc21f0125772f48516713099813151e524432e4`
 - `docs/03-continuity/change-requests/CR-0412-将GitHub模拟器降为按需专项并以固定环境APK交付后异步真机反馈.md` — `8983cc4f4d2b473c1cfc877f2ff94ce7d8d208edf158e6e7df1ab7d617d6e6bf`
-- `docs/03-continuity/change-requests/CR-0413-轮换并持久化R13起固定测试APK签名身份.md` — `0fa78723c53da98dd4fa3d197df48d548b9bc47464cc2ace9c99bd92506559cc`
+- `docs/03-continuity/change-requests/CR-0413-轮换并持久化R13起固定测试APK签名身份.md` — `f99cb85041eb4b649aae3de47a0c1728401e395b135e380358d254f79967c35e`
 
 ## 接手硬规则
 
