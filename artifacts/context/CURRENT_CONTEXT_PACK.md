@@ -1,7 +1,7 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-27T10:31:06Z
-- Context Hash：`df7e29cadb91bfea3b425f4585b273c4cac3f9e5e9e774168082a009dc2336c7`
+- 生成时间：2026-07-27T10:39:49Z
+- Context Hash：`0f0971a96c567f778f512de99340f2566e12a6dcf464163ee9e159442645c9ad`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 规则就绪：`PASS`（`HASHED_CONTEXT_MANIFEST`）
@@ -172,7 +172,7 @@ blocked_tasks:
 - TASK-R06-008
 - TASK-R07-008
 next_task: TASK-R13-007
-updated_at: '2026-07-27T10:31:03Z'
+updated_at: '2026-07-27T10:39:45Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -207,15 +207,15 @@ continuity:
   active_session_id: SES-20260726T191158Z-2B506AB7
   actor_id: codex-root-r13-candidate-20260727
   story_id: STORY-R13-003
-  lease_expires_at: '2026-07-27T14:31:03Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260726T191158Z-2B506AB7/0041.yaml
-  project_fingerprint: a728887eac3821b9beed62a60def079ef5bdab293016a9700019167f42b3bc83
+  lease_expires_at: '2026-07-27T14:39:45Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260726T191158Z-2B506AB7/0042.yaml
+  project_fingerprint: e50e594d2012da608cb5a288b5cdd8b6e833ec06a7e19555918482e5a8037cc1
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: b2f96509d8a1833ee69956e3fdfec021027099a2cb6feb76224dd50eb62a9c5a
-    generated_at: '2026-07-27T10:12:07Z'
+    context_hash: df7e29cadb91bfea3b425f4585b273c4cac3f9e5e9e774168082a009dc2336c7
+    generated_at: '2026-07-27T10:31:06Z'
   handoff_bundle: null
 ```
 
@@ -413,7 +413,7 @@ task_id: TASK-R13-007
 story_id: STORY-R13-003
 goal: 收藏、历史、分享与行为审计Android测试APK与产物追溯
 started_at: '2026-07-26T19:11:58Z'
-updated_at: '2026-07-27T10:31:03Z'
+updated_at: '2026-07-27T10:39:45Z'
 takeover_of: null
 change_requests:
 - CR-0377
@@ -439,6 +439,7 @@ change_requests:
 - CR-0397
 - CR-0398
 - CR-0399
+- CR-0400
 scope:
   allowed_paths:
   - apps/**
@@ -494,7 +495,7 @@ scope:
   - tests/test_android_candidate_request.py
   - docs/08-testing/Android自动开发测试修复交付体系_V1.0.md
   - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
-  source: story+explicit+approved-cr:CR-0377+approved-cr:CR-0378+approved-cr:CR-0379+approved-cr:CR-0380+approved-cr:CR-0381+approved-cr:CR-0385+approved-cr:CR-0387+approved-cr:CR-0388+approved-cr:CR-0389+approved-cr:CR-0390+approved-cr:CR-0396+approved-cr:CR-0397+approved-cr:CR-0398+approved-cr:CR-0399
+  source: story+explicit+approved-cr:CR-0377+approved-cr:CR-0378+approved-cr:CR-0379+approved-cr:CR-0380+approved-cr:CR-0381+approved-cr:CR-0385+approved-cr:CR-0387+approved-cr:CR-0388+approved-cr:CR-0389+approved-cr:CR-0390+approved-cr:CR-0396+approved-cr:CR-0397+approved-cr:CR-0398+approved-cr:CR-0399+approved-cr:CR-0400
 git:
   initialized: true
   branch: task/TASK-R03-001
@@ -504,12 +505,12 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-27T10:31:03Z'
-  expires_at: '2026-07-27T14:31:03Z'
-checkpoint_sequence: 41
-latest_checkpoint: .continuity/checkpoints/SES-20260726T191158Z-2B506AB7/0041.yaml
+  renewed_at: '2026-07-27T10:39:45Z'
+  expires_at: '2026-07-27T14:39:45Z'
+checkpoint_sequence: 42
+latest_checkpoint: .continuity/checkpoints/SES-20260726T191158Z-2B506AB7/0042.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260726T191158Z-2B506AB7.md
-next_step: 执行严格连续性与提交门禁；提交CR-0399首个修复Commit后才建立唯一Attempt16候选授权，禁止重跑Attempt15
+next_step: 提交CR-0400候选授权Commit，执行Git transport与push preflight后单次推送并只监控Attempt16新Run
 context_pack: THIS_CONTEXT_PACK
 handoff_bundle: null
 closure: null
@@ -517,50 +518,37 @@ parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 单一候选修复同时修改共享测试、唯一Problem Registry和唯一连续性会话，且Android固定镜像受唯一构建锁保护；拆分会制造相互覆盖或重复构建
+  reason: 候选请求、例外策略、三处断言和唯一连续性事实源必须原子绑定；拆分会导致请求在策略或测试未同步时触发
 ```
 
 ## 最新检查点
 
 ```yaml
 protocol_version: '1.0'
-checkpoint_id: CP-SES-20260726T191158Z-2B506AB7-0041
+checkpoint_id: CP-SES-20260726T191158Z-2B506AB7-0042
 session_id: SES-20260726T191158Z-2B506AB7
 task_id: TASK-R13-007
 story_id: STORY-R13-003
-sequence: 41
-created_at: '2026-07-27T10:31:02Z'
-summary: Attempt15取证完成并实施CR-0399：候选入口改为认证主框架与我的导航双资源可操作性，首页三态仅诊断；Attempt15保持已消费
-next_step: 执行严格连续性与提交门禁；提交CR-0399首个修复Commit后才建立唯一Attempt16候选授权，禁止重跑Attempt15
+sequence: 42
+created_at: '2026-07-27T10:39:44Z'
+summary: CR-0400完成：唯一R13 attempt16精确绑定request016、CR-0399修复Commit 80dd3e68与max1，Attempt15保持已消费且Attempt17未授权
+next_step: 提交CR-0400候选授权Commit，执行Git transport与push preflight后单次推送并只监控Attempt16新Run
 blockers: []
-decisions:
-- Run 30255527377 runtime artifact SHA256=8963204c8fc7e4b66f306ffa58f07c9115bd140d046470cd90703044acfbd96e；失败在R13旅程前且无崩溃ANR，CR-0399不放宽目标接口媒体截图视觉门槛
+decisions: []
 note: ''
 tests:
-- name: r13-candidate-and-shared
+- name: r13-attempt16-candidate-governance
   result: PASS
-  evidence: 40 tests
-  note: tests.test_r13_candidate tests.test_android_ci_gate
-- name: governance-affected
+  evidence: 79 tests
+  note: android candidate request, shared CI gate and R13 candidate
+- name: git-diff-check
   result: PASS
-  evidence: 35 tests
-  note: context pack parallel policy and affected test runner
-- name: android-ui-foundation
-  result: PASS
-  evidence: ANDROID_UI_FOUNDATION_GATE=PASS
-  note: production shell testTag uses existing semantics bridge
-- name: obx-androidtest-compile
-  result: PASS
-  evidence: BUILD SUCCESSFUL in 1m26s;212 tasks;log sha256 bd2cb5dff99198e88924fd384fc03d4cf708d95cd937a886469e42233252feae
-  note: fixed image and unique lock
-- name: source-transfer-integrity
-  result: PASS
-  evidence: ReleaseCandidateSmokeTest 9cf35492005bf3694fdebb5b565f08dbeb53ef811e24eea27467b64d47b0c9e6;HhyShellScreen 4be6aef2980ada1e82114417f46ed4ce05d7ea1c828342092c90769ef5612c87
-  note: local and obx-test hashes equal
+  evidence: no errors
+  note: candidate governance only
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: 1dd7e921e8eb57f7e2162c05d4d6700e39c24043
+  head: 80dd3e68b010ef5218154b7362cd7a6835ae9607
   upstream: origin/task/TASK-R03-001
   ahead: 0
   behind: 0
@@ -571,20 +559,19 @@ git:
   - ' M .continuity/STATE.yaml'
   - ' M .continuity/sessions/SES-20260726T191158Z-2B506AB7.yaml'
   - ' M CHANGELOG.md'
-  - ' M apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt'
-  - ' M apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt'
-  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
-  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
-  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
-  - ' M artifacts/validation/project-doctor-v1.2.3.json'
   - ' M catalogs/change_request_index.csv'
   - ' M catalogs/session_index.csv'
+  - ' M config/android-automation.yaml'
+  - ' M config/android-candidate-request.yaml'
   - ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
+  - ' M tests/test_android_candidate_request.py'
   - ' M tests/test_android_ci_gate.py'
   - ' M tests/test_r13_candidate.py'
-  - ?? .continuity/change_requests/CR-0399.yaml
-  - ?? docs/03-continuity/change-requests/CR-0399-修复R13候选把已认证首页loading误判为主框架不可用.md
+  - ?? .continuity/change_requests/CR-0400.yaml
+  - ?? docs/03-continuity/change-requests/CR-0400-授权CR-0399修复后的唯一R13候选attempt16.md
   recent_commits:
+  - "80dd3e68b010ef5218154b7362cd7a6835ae9607\t2026-07-27T18:33:22+08:00\tHHY Continuity Bootstrap\t[STORY-R13-003] fix(android): require actionable\
+    \ authenticated shell"
   - "1dd7e921e8eb57f7e2162c05d4d6700e39c24043\t2026-07-27T17:46:59+08:00\tHHY Continuity Bootstrap\t[STORY-R13-003] chore(ci): authorize R13 attempt\
     \ 15"
   - "035a80b21b51f6652cc1bf107a12e457eb06620b\t2026-07-27T17:38:40+08:00\tHHY Continuity Bootstrap\t[STORY-R13-003] fix(android): decouple candidate\
@@ -599,10 +586,8 @@ git:
     \ candidate media scan"
   - "1c2b6ae22cf90a13d21bbac5e6e7cbe5f28919d4\t2026-07-27T13:51:57+08:00\tHHY Continuity Bootstrap\t[STORY-R13-003] chore(ci): authorize R13 attempt\
     \ 12"
-  - "10c904b02750641892e35616f162319867e7f0c9\t2026-07-27T13:48:39+08:00\tHHY Continuity Bootstrap\t[STORY-R13-003] fix(android): diagnose candidate\
-    \ navigation phases"
 project_fingerprint:
-  sha256: a728887eac3821b9beed62a60def079ef5bdab293016a9700019167f42b3bc83
+  sha256: e50e594d2012da608cb5a288b5cdd8b6e833ec06a7e19555918482e5a8037cc1
   files:
   - CHANGELOG.md
   - apps/android/app/build.gradle.kts
@@ -640,6 +625,7 @@ project_fingerprint:
   - docs/03-continuity/change-requests/CR-0397-同步CR-0396共享Android候选门禁断言.md
   - docs/03-continuity/change-requests/CR-0398-授权CR-0396修复后的唯一R13候选attempt15.md
   - docs/03-continuity/change-requests/CR-0399-修复R13候选把已认证首页loading误判为主框架不可用.md
+  - docs/03-continuity/change-requests/CR-0400-授权CR-0399修复后的唯一R13候选attempt16.md
   - docs/08-testing/Android自动开发测试修复交付体系_V1.0.md
   - scripts/android_ci_gate.py
   - scripts/prepare_r13_ci_fixture.sh
@@ -650,14 +636,14 @@ project_fingerprint:
   - tests/test_android_ci_gate.py
   - tests/test_r12_candidate.py
   - tests/test_r13_candidate.py
-  file_count: 46
+  file_count: 47
   payload:
     base_commit: 05fe13da3dded5a41321de78bff0f08c34d2f647
     files:
     - path: CHANGELOG.md
       state: FILE
-      size: 178371
-      sha256: 2452b5548262f0082baed633a96e27f18f2c33435150f0e92466054a424e15a4
+      size: 178581
+      sha256: 0d89d3bb911f1d35bf1a094c5c367a7f7b0164841b4b1d7f7c89c1e68c39e4bd
     - path: apps/android/app/build.gradle.kts
       state: FILE
       size: 5406
@@ -688,20 +674,20 @@ project_fingerprint:
       sha256: 4be6aef2980ada1e82114417f46ed4ce05d7ea1c828342092c90769ef5612c87
     - path: config/android-automation.yaml
       state: FILE
-      size: 10114
-      sha256: 96a4af733b7032df36017970877b1359ea85dd825eb1abe09f0217a53528708f
+      size: 10308
+      sha256: c341d6aff32f72e5b861d7367f7216a17e5557a566debd43468e47b0ca16b55b
     - path: config/android-candidate-request.yaml
       state: FILE
-      size: 1323
-      sha256: 62b30d6d52c5b752c9eb0fa3b357eea251a5925f9f5c9b9fa893003de40dd17b
+      size: 1244
+      sha256: 30561ea3e879845f40a3d7151deedb472c13b0a5799535e6d350d5efc491df39
     - path: docs/03-continuity/PITFALLS.md
       state: FILE
       size: 15560
       sha256: 157661b42953f94c67934bd541c7583662ae0ca53bf401d6c5b5f6f5f2bd0288
     - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
       state: FILE
-      size: 204528
-      sha256: 89d65a92b7edea9bb5b80a056ecf446c16d2b7ceec680abe77247671997a4788
+      size: 204840
+      sha256: 8f7f605cd0730164f8c60e204cd0c306f0d621e4772dee089800ea040cc506b6
     - path: docs/03-continuity/REUSABLE_PATTERNS.md
       state: FILE
       size: 9159
@@ -798,6 +784,10 @@ project_fingerprint:
       state: FILE
       size: 4147
       sha256: e1ee0e53b54ca10ad8c5a8fdf908138b7213da542518454c915598e63665c24b
+    - path: docs/03-continuity/change-requests/CR-0400-授权CR-0399修复后的唯一R13候选attempt16.md
+      state: FILE
+      size: 3334
+      sha256: f6e47fcc243e5847e380bfb0a48cf9291f108d62c3d46076e7026241268b5202
     - path: docs/08-testing/Android自动开发测试修复交付体系_V1.0.md
       state: FILE
       size: 16513
@@ -820,16 +810,16 @@ project_fingerprint:
       sha256: 4bd2e96c87ff3c91703aa37f6ba3c2337f1a0a4d815249e92d655162a5d9e12f
     - path: tests/test_android_candidate_request.py
       state: FILE
-      size: 33229
-      sha256: d0ffbefe9bfdb81984a30253410fcc9e058cc587fb61b5523c5a2bb94544b70e
+      size: 35125
+      sha256: 4fa031756e8505d6f1c10182475073a2eec701225942600efb458e854de0b439
     - path: tests/test_android_candidate_route.py
       state: FILE
       size: 4255
       sha256: 279e8d36fa4b9983e83e0748b298cbf81c6b7071f73ed8d8053a7c7a818eca32
     - path: tests/test_android_ci_gate.py
       state: FILE
-      size: 66025
-      sha256: 97c4c1a049b44efade6f0a26a21f603014376a938352d8cdb5329e3223167023
+      size: 66846
+      sha256: 22c2ae886ffeb819d61c7f047e5e34fcf509bf546de69c65b34646f338cedb8e
     - path: tests/test_r12_candidate.py
       state: FILE
       size: 11089
@@ -837,7 +827,7 @@ project_fingerprint:
     - path: tests/test_r13_candidate.py
       state: FILE
       size: 16713
-      sha256: 5cac9566e4c25d2faac536d1d70d0af56a158b8c391f3c2cdc624eb4e41f45f0
+      sha256: 8a7c61e2aecda53dcdbf60dfb231fea4f37cc7e78efec615a0b763764ee90895
 change_classification:
   other:
   - CHANGELOG.md
@@ -890,6 +880,7 @@ change_classification:
   - docs/03-continuity/change-requests/CR-0397-同步CR-0396共享Android候选门禁断言.md
   - docs/03-continuity/change-requests/CR-0398-授权CR-0396修复后的唯一R13候选attempt15.md
   - docs/03-continuity/change-requests/CR-0399-修复R13候选把已认证首页loading误判为主框架不可用.md
+  - docs/03-continuity/change-requests/CR-0400-授权CR-0399修复后的唯一R13候选attempt16.md
   tests:
   - tests/android/visual-manifests/R13.yaml
   - tests/test_android_candidate_request.py
@@ -928,6 +919,7 @@ change_requests:
 - CR-0397
 - CR-0398
 - CR-0399
+- CR-0400
 scope:
   allowed_paths:
   - apps/**
@@ -983,13 +975,13 @@ scope:
   - tests/test_android_candidate_request.py
   - docs/08-testing/Android自动开发测试修复交付体系_V1.0.md
   - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
-  source: story+explicit+approved-cr:CR-0377+approved-cr:CR-0378+approved-cr:CR-0379+approved-cr:CR-0380+approved-cr:CR-0381+approved-cr:CR-0385+approved-cr:CR-0387+approved-cr:CR-0388+approved-cr:CR-0389+approved-cr:CR-0390+approved-cr:CR-0396+approved-cr:CR-0397+approved-cr:CR-0398+approved-cr:CR-0399
+  source: story+explicit+approved-cr:CR-0377+approved-cr:CR-0378+approved-cr:CR-0379+approved-cr:CR-0380+approved-cr:CR-0381+approved-cr:CR-0385+approved-cr:CR-0387+approved-cr:CR-0388+approved-cr:CR-0389+approved-cr:CR-0390+approved-cr:CR-0396+approved-cr:CR-0397+approved-cr:CR-0398+approved-cr:CR-0399+approved-cr:CR-0400
 parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 单一候选修复同时修改共享测试、唯一Problem Registry和唯一连续性会话，且Android固定镜像受唯一构建锁保护；拆分会制造相互覆盖或重复构建
-event_hash: 3a514bc91dee6b3e5b93c4e4553eeb9b888a209983dd7efe2ef51497d5a9e8d8
+  reason: 候选请求、例外策略、三处断言和唯一连续性事实源必须原子绑定；拆分会导致请求在策略或测试未同步时触发
+event_hash: 0a471f43068078bbf8759046c4e72e803829359cbb80a1b86a7fa0d7a9cbe837
 ```
 
 ## 接续状态与事件头
@@ -1001,8 +993,8 @@ active_session_id: SES-20260726T191158Z-2B506AB7
 last_session_id: SES-20260726T182231Z-EE79FA49
 last_session_result: COMPLETED
 last_closure_checkpoint_id: CP-SES-20260726T182231Z-EE79FA49-0006
-event_count: 3843
-event_head_hash: 3a514bc91dee6b3e5b93c4e4553eeb9b888a209983dd7efe2ef51497d5a9e8d8
+event_count: 3850
+event_head_hash: 0a471f43068078bbf8759046c4e72e803829359cbb80a1b86a7fa0d7a9cbe837
 event_chain_valid: true
 ```
 
@@ -1125,9 +1117,9 @@ recent_sessions: - session_id: SES-20260725T180922Z-D7231210
   started_at: '2026-07-26T19:11:58Z'
   record: .continuity/sessions/SES-20260726T191158Z-2B506AB7.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260726T191158Z-2B506AB7.md
-  updated_at: '2026-07-27T10:31:03Z'
+  updated_at: '2026-07-27T10:39:45Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260726T191158Z-2B506AB7/0041.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260726T191158Z-2B506AB7/0042.yaml
   handoff_bundle: null
 task_claims: - claim_id: CLM-031273AB5A51
   session_id: SES-20260723T231210Z-409B970E
@@ -2102,7 +2094,7 @@ recent_task_transitions: - transition_id: TRN-A3150050CD9D
 ```yaml
 initialized: true
 branch: task/TASK-R03-001
-head: 1dd7e921e8eb57f7e2162c05d4d6700e39c24043
+head: 80dd3e68b010ef5218154b7362cd7a6835ae9607
 upstream: origin/task/TASK-R03-001
 ahead: 0
 behind: 0
@@ -2116,22 +2108,21 @@ status_porcelain:
 - ' M .continuity/sessions/SES-20260726T191158Z-2B506AB7.yaml'
 - ' M CHANGELOG.md'
 - ' M CURRENT_STATUS.yaml'
-- ' M apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt'
-- ' M apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt'
-- ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
-- ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
-- ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
-- ' M artifacts/validation/project-doctor-v1.2.3.json'
 - ' M catalogs/change_request_index.csv'
 - ' M catalogs/session_index.csv'
+- ' M config/android-automation.yaml'
+- ' M config/android-candidate-request.yaml'
 - ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
 - ' M docs/03-continuity/sessions/2026-07/SES-20260726T191158Z-2B506AB7.md'
+- ' M tests/test_android_candidate_request.py'
 - ' M tests/test_android_ci_gate.py'
 - ' M tests/test_r13_candidate.py'
-- ?? .continuity/change_requests/CR-0399.yaml
-- ?? .continuity/checkpoints/SES-20260726T191158Z-2B506AB7/0041.yaml
-- ?? docs/03-continuity/change-requests/CR-0399-修复R13候选把已认证首页loading误判为主框架不可用.md
+- ?? .continuity/change_requests/CR-0400.yaml
+- ?? .continuity/checkpoints/SES-20260726T191158Z-2B506AB7/0042.yaml
+- ?? docs/03-continuity/change-requests/CR-0400-授权CR-0399修复后的唯一R13候选attempt16.md
 recent_commits:
+- "80dd3e68b010ef5218154b7362cd7a6835ae9607\t2026-07-27T18:33:22+08:00\tHHY Continuity Bootstrap\t[STORY-R13-003] fix(android): require actionable\
+  \ authenticated shell"
 - "1dd7e921e8eb57f7e2162c05d4d6700e39c24043\t2026-07-27T17:46:59+08:00\tHHY Continuity Bootstrap\t[STORY-R13-003] chore(ci): authorize R13 attempt\
   \ 15"
 - "035a80b21b51f6652cc1bf107a12e457eb06620b\t2026-07-27T17:38:40+08:00\tHHY Continuity Bootstrap\t[STORY-R13-003] fix(android): decouple candidate\
@@ -2146,14 +2137,12 @@ recent_commits:
   \ candidate media scan"
 - "1c2b6ae22cf90a13d21bbac5e6e7cbe5f28919d4\t2026-07-27T13:51:57+08:00\tHHY Continuity Bootstrap\t[STORY-R13-003] chore(ci): authorize R13 attempt\
   \ 12"
-- "10c904b02750641892e35616f162319867e7f0c9\t2026-07-27T13:48:39+08:00\tHHY Continuity Bootstrap\t[STORY-R13-003] fix(android): diagnose candidate\
-  \ navigation phases"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`a728887eac3821b9beed62a60def079ef5bdab293016a9700019167f42b3bc83`
-- 文件数：46
+- 指纹：`e50e594d2012da608cb5a288b5cdd8b6e833ec06a7e19555918482e5a8037cc1`
+- 文件数：47
 
 - `CHANGELOG.md`
 - `apps/android/app/build.gradle.kts`
@@ -2191,6 +2180,7 @@ recent_commits:
 - `docs/03-continuity/change-requests/CR-0397-同步CR-0396共享Android候选门禁断言.md`
 - `docs/03-continuity/change-requests/CR-0398-授权CR-0396修复后的唯一R13候选attempt15.md`
 - `docs/03-continuity/change-requests/CR-0399-修复R13候选把已认证首页loading误判为主框架不可用.md`
+- `docs/03-continuity/change-requests/CR-0400-授权CR-0399修复后的唯一R13候选attempt16.md`
 - `docs/08-testing/Android自动开发测试修复交付体系_V1.0.md`
 - `scripts/android_ci_gate.py`
 - `scripts/prepare_r13_ci_fixture.sh`
@@ -13380,29 +13370,88 @@ PARALLEL_EXECUTION_PLAN.yaml:
     session_id: SES-20260726T191158Z-2B506AB7
   session_ids:
   - SES-20260726T191158Z-2B506AB7
+- protocol_version: '1.0'
+  cr_id: CR-0400
+  title: 授权CR-0399修复后的唯一R13候选attempt16
+  status: IMPLEMENTED
+  created_at: '2026-07-27T10:35:41Z'
+  updated_at: '2026-07-27T10:39:27Z'
+  requester_actor_id: codex-root-r13-candidate-20260727
+  approver_actor_id: project-owner-standing-authorization
+  task_id: TASK-R13-007
+  session_id: SES-20260726T191158Z-2B506AB7
+  user_request: 项目所有者要求结束原地循环并持续开发，候选失败后由AI自行修复和推进
+  reason: Attempt15 Run 30255527377已消费且失败于认证主框架入口误判；CR-0399首个修复Commit 80dd3e68b010ef5218154b7362cd7a6835ae9607已通过40项候选回归、35项治理回归、UI基础门禁、严格连续性和obx-test固定镜像212任务，需独立授权一次精确attempt16验证真实R13旅程
+  original_rule: CR-0398只授权request015绑定CR-0396修复Commit和单次运行上限，Attempt15已消费且明确拒绝Attempt16
+  new_rule: 新增且仅新增R13-CANDIDATE-20260727-016：精确绑定CR-0400、CR-0399首个修复Commit 80dd3e68b010ef5218154b7362cd7a6835ae9607和max_candidate_runs=1；Attempt15不得重跑，Attempt17不授权
+  impact_summary: 只更新R13连续候选例外、请求、失败追溯和防漂移回归；不修改生产代码、API、数据库、夹具、登录、媒体、截图或视觉标准
+  impact:
+    files:
+    - config/android-automation.yaml
+    - config/android-candidate-request.yaml
+    - tests/test_android_candidate_request.py
+    - tests/test_android_ci_gate.py
+    - tests/test_r13_candidate.py
+    - docs/03-continuity/PROBLEM_REGISTRY.yaml
+    - CHANGELOG.md
+    pages:
+    - SCR-FAV-001/SCR-HIS-001/项目详情分享反馈候选旅程
+    apis:
+    - R13目标API保持真实验证，无放宽
+    database:
+    - 无变化
+    configuration:
+    - R13 attempt16/request016/CR-0400/80dd3e68/max1精确绑定
+    ledger:
+    - Run 30255527377 attempt15已消费，attempt16单次授权
+    tests:
+    - tests.test_android_candidate_request;tests.test_android_ci_gate;tests.test_r13_candidate
+    releases:
+    - R13
+    migration_and_compatibility: 纯CI候选治理变更；生产APK与服务端不变。Attempt16仍使用真实一次性登录和原R13四页面旅程，任何启动认证、目标接口、媒体、日志或视觉失败继续硬失败
+  user_confirmation: 项目所有者已长期授权AI在候选失败后自行精确修复、审批并持续推进，禁止原地重复和中途等待
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-27T10:36:20Z'
+    note: CR-0400只授权CR-0399已验证修复后的唯一attempt16，精确绑定不可变Commit、连续request016与max1；Attempt15不得重跑且不预授权attempt17
+  machine_record: .continuity/change_requests/CR-0400.yaml
+  document: docs/03-continuity/change-requests/CR-0400-授权CR-0399修复后的唯一R13候选attempt16.md
+  decision_log:
+  - at: '2026-07-27T10:36:28Z'
+    actor_id: codex-root-r13-candidate-20260727
+    status: IMPLEMENTING
+    note: 开始登记唯一attempt16例外、request016与防漂移回归；Attempt15保持已消费
+    session_id: SES-20260726T191158Z-2B506AB7
+  - at: '2026-07-27T10:39:27Z'
+    actor_id: codex-root-r13-candidate-20260727
+    status: IMPLEMENTED
+    note: 唯一R13 attempt16例外、request016、Attempt15失败追溯和三处防漂移回归已实现；79项候选治理回归PASS，未重复Android构建或模拟器
+    session_id: SES-20260726T191158Z-2B506AB7
+  session_ids:
+  - SES-20260726T191158Z-2B506AB7
 ```
 
 ## 上下文来源及哈希
 
 - `AGENTS.md` — `306026d4706dfd3cae0a3db2b1c56e294700326bc3a13ca095c3987a267d390b`
 - `START_HERE.md` — `22de14029ce47beb41ea569e36ce223fbc9d11b86f8676f28d5fbbd83896af5c`
-- `CURRENT_STATUS.yaml` — `711ce28df5b336ad4773d615b0e1c23560237a8b74bddc1b95313ab8c3be73d3`
+- `CURRENT_STATUS.yaml` — `96d2fa09072088077457e2f8dbb2e42124ba96776bfaf2cd2b55f55e782ec449`
 - `NEXT_TASK.yaml` — `fa8d420c64c0eb56328d7143b5566325c27477da0390e6c2080d4077fe29bf82`
 - `DEVELOPMENT_RISK_REGISTER.md` — `8304c91492e4ee2abea0522a06541c8688d39c7fc532b5d0cde499bf09fffb87`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
-- `docs/03-continuity/PROBLEM_REGISTRY.yaml` — `89d65a92b7edea9bb5b80a056ecf446c16d2b7ceec680abe77247671997a4788`
+- `docs/03-continuity/PROBLEM_REGISTRY.yaml` — `8f7f605cd0730164f8c60e204cd0c306f0d621e4772dee089800ea040cc506b6`
 - `docs/03-continuity/REUSABLE_PATTERNS.md` — `d577c9a2b70063aa32ca5faef6243bb47c10ef85f309391aeb442bcc5134941b`
 - `docs/03-continuity/PITFALLS.md` — `157661b42953f94c67934bd541c7583662ae0ca53bf401d6c5b5f6f5f2bd0288`
 - `releases/PROGRAM_EXECUTION_PLAN.yaml` — `f96cc0a89a5f3ae9bc849a200bfc697c0b53a3a00fb3034c66cc0f3610391c4d`
 - `config/REPOSITORY_TRANSPORT.yaml` — `8c4a21f3e204d46e7ffb467d804a53ed26cda61cd088dadfddb50b69eea657fc`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `38e04ed812c8df0d353c2b91993d31e53b471e9c457f06b426bd2260c470aa92`
-- `.continuity/EVENT_LOG.jsonl` — `5123bf31793f97ce3adb0b9df4f4dace36c7f0b03bbec6cb19c58947a54507fd`
-- `.continuity/SESSION_INDEX.yaml` — `56697b4e75b943542bc980e201a0ff7595b03d939e530a8ddd732da44f5b5db6`
+- `.continuity/EVENT_LOG.jsonl` — `3c16058f0cb848a6b1e3a13bbef36f403ff35ea96a14a322adde52ee3d55dfc4`
+- `.continuity/SESSION_INDEX.yaml` — `56bcc05d088b4a8189c8d1fc58ac4a73d86c2e04fed76348292e1ca4bd79bee8`
 - `.continuity/TASK_CLAIMS.yaml` — `3ab3ee8985a3902b5452c73546976885e61d40f5bb5c3415d9419ff00c624410`
 - `.continuity/TASK_TRANSITIONS.yaml` — `9619636ddbf63d4939d6a0b780ebfec677694ffcb8d985cd7c5af04a2379ec9c`
-- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `a69367ffc70cc2b973bf7b55410f1ae0a8a04ec5cab3ab7bd823a2552258425d`
-- `.continuity/ACTIVE_SESSION.yaml` — `03b72ddd3242e3d563256aa26fb119abc77eb36da9964145346e6a51c086476f`
+- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `eacd7032f1ab08b13f1df0fe56044fa9fe0c22c12ef16281cb58c2ff6fe71045`
+- `.continuity/ACTIVE_SESSION.yaml` — `0df3d961519a205917daa22deb2676e19b64cd1bebdc5492b4c8d76eb3d98dcd`
 - `docs/00-baseline/正式商业系统全局硬性开发边界.md` — `b1d965b019e632fbe1a259831201be7c82f79c26836fa161fd1d41855fcdb7c8`
 - `docs/02-ui/UI参考图使用与开发约束_V1.2.2.md` — `d14367586aa2067b059df58798acd20ab982459cdb35ff27fc7922a3896e4933`
 - `docs/03-continuity/持续开发无状态接续强制门禁_V1.2.3.md` — `d0ed3ed68bdd93b06500eecdfb5baa3245e6ca8b685a486788abb6eee39b3d51`
@@ -13413,8 +13462,8 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `releases/R13/TASKS.yaml` — `5a5ddecbfff379b1459e5ee612fd6c4075720d4b8cfa9c00bb7ab4b41e5f3d93`
 - `releases/R13/ACCEPTANCE_MATRIX.csv` — `f383e3cb6b77155e09469488812c34f20eef51253f30216590cdda46a1e30c65`
 - `releases/R13/PARALLEL_EXECUTION_PLAN.yaml` — `192844a37221f84e42f714fa209260976c81685e094733390664168e34ef5887`
-- `docs/03-continuity/sessions/2026-07/SES-20260726T191158Z-2B506AB7.md` — `d09501700e1140c1ecd3c073fb3c39fa31fed949a911a912a307122969ab7f02`
-- `.continuity/checkpoints/SES-20260726T191158Z-2B506AB7/0041.yaml` — `56579319b3e8d65f67109899d26ab455cf23586f1162648a871659e1ab3dd260`
+- `docs/03-continuity/sessions/2026-07/SES-20260726T191158Z-2B506AB7.md` — `28cf964d47d2cd63d388c5c28cbd7c830cf5b9807fc8f87598434b2b18a0f27e`
+- `.continuity/checkpoints/SES-20260726T191158Z-2B506AB7/0042.yaml` — `2a8b62ef5ed053cbd55977f4da1bc4060ac443c26187a5d2bbee51301c2c3d98`
 - `docs/03-continuity/change-requests/CR-0377-建立R13收藏历史分享最终Android候选.md` — `1c479ee4a79fcf710b3693522024ba4fbb071a79573339a9c131fa4fcb30c981`
 - `docs/03-continuity/change-requests/CR-0378-修复候选公网命中证明的请求号提取.md` — `4e93c1dc88a48e96f3b4a561b06f999a7ef0be5f5c1fc9d1b62800299c82f7bc`
 - `docs/03-continuity/change-requests/CR-0379-修复R13分类指示线原始透明色并建立候选attempt2.md` — `a903477526b416c47adcea229f03335406ce4efcb5013db22c02462b02c3d89e`
@@ -13438,6 +13487,7 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `docs/03-continuity/change-requests/CR-0397-同步CR-0396共享Android候选门禁断言.md` — `a710867b1292d8660e167108db1c52d1a2cb378c18d8560b9f0e83424102cf82`
 - `docs/03-continuity/change-requests/CR-0398-授权CR-0396修复后的唯一R13候选attempt15.md` — `bae5b55f69d5372b283c49265935b3748c785a01f18b589ad055faeabcb52976`
 - `docs/03-continuity/change-requests/CR-0399-修复R13候选把已认证首页loading误判为主框架不可用.md` — `e1ee0e53b54ca10ad8c5a8fdf908138b7213da542518454c915598e63665c24b`
+- `docs/03-continuity/change-requests/CR-0400-授权CR-0399修复后的唯一R13候选attempt16.md` — `f6e47fcc243e5847e380bfb0a48cf9291f108d62c3d46076e7026241268b5202`
 
 ## 接手硬规则
 

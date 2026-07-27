@@ -2,8 +2,8 @@ schema_version: 1
 status: REQUESTED
 release: R13
 candidate: true
-remediation_attempt: 15
-request_id: R13-CANDIDATE-20260727-015
-reason: R13 attempt 14 Run 30246999437的编译、Lint、单测和打包通过，但首次运行及唯一允许的失败Job重跑都在R13旅程前被首页loaded单态断言阻断；第二次runtime artifact SHA-256为E8B4881EFCD76D1F486FA40D42C9CD072E1AF720F0305B80B60C5C0CA6348EE5，应用正常启动并保持前台30秒，无崩溃或ANR，四张R13截图未生成，CR-0395媒体激活代码尚未执行。CR-0396把候选入口收敛为可操作的已认证主框架，home.loaded或home.error均可继续，登录、会话验证中和启动失败仍阻断；R13收藏、历史、详情、真实媒体、分享、反馈、四张截图和视觉门槛不变。首个修复Commit 035a80b21b51f6652cc1bf107a12e457eb06620b已通过40项候选与共享治理回归、17项治理知识回归、Android UI基础门禁、git diff检查和obx-test固定镜像app:compileDebugAndroidTestKotlin 212任务；本机与远端Kotlin SHA-256均为F3CA9934A993ED8310E9C79E8964F58D4F85F38E37D12670CAA3AF381B337F22。本请求只允许该Commit后继候选提交执行一次精确attempt 15，不授权attempt 16。
-attempt_exception_id: CR-0398
-required_fix_commit: 035a80b21b51f6652cc1bf107a12e457eb06620b
+remediation_attempt: 16
+request_id: R13-CANDIDATE-20260727-016
+reason: R13 attempt 15 Run 30255527377的请求校验、编译、Lint、单测和打包通过，但模拟器在应用可见后等待30秒并失败于认证主框架入口，runtime artifact SHA-256为8963204C8FC7E4B66F306FFA58F07C9115BD140D046470CD90703044ACFBD96E；四张R13截图未生成，exit-info为空且无应用崩溃或ANR。CR-0399改为直接要求hhy.shell.authenticated与启用可点击的shell.navigation.me同时成立，首页loaded、error、loading只作为失败诊断；启动门禁、登录、R13收藏历史详情、三张真实媒体、四张截图和视觉门槛不变。首个修复Commit 80dd3e68b010ef5218154b7362cd7a6835ae9607已通过40项候选回归、35项治理回归、Android UI基础门禁、严格连续性、提交门禁和obx-test固定镜像app:compileDebugAndroidTestKotlin 212任务；最终编译日志SHA-256为BD2CB5DFF99198E88924FD384FC03D4CF708D95CD937A886469E42233252FEAE。本请求只允许该Commit后继候选提交执行一次精确attempt 16，不授权attempt 17。
+attempt_exception_id: CR-0400
+required_fix_commit: 80dd3e68b010ef5218154b7362cd7a6835ae9607

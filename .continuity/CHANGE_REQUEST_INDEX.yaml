@@ -24690,3 +24690,62 @@ change_requests:
     session_id: SES-20260726T191158Z-2B506AB7
   session_ids:
   - SES-20260726T191158Z-2B506AB7
+- protocol_version: '1.0'
+  cr_id: CR-0400
+  title: 授权CR-0399修复后的唯一R13候选attempt16
+  status: IMPLEMENTED
+  created_at: '2026-07-27T10:35:41Z'
+  updated_at: '2026-07-27T10:39:27Z'
+  requester_actor_id: codex-root-r13-candidate-20260727
+  approver_actor_id: project-owner-standing-authorization
+  task_id: TASK-R13-007
+  session_id: SES-20260726T191158Z-2B506AB7
+  user_request: 项目所有者要求结束原地循环并持续开发，候选失败后由AI自行修复和推进
+  reason: Attempt15 Run 30255527377已消费且失败于认证主框架入口误判；CR-0399首个修复Commit 80dd3e68b010ef5218154b7362cd7a6835ae9607已通过40项候选回归、35项治理回归、UI基础门禁、严格连续性和obx-test固定镜像212任务，需独立授权一次精确attempt16验证真实R13旅程
+  original_rule: CR-0398只授权request015绑定CR-0396修复Commit和单次运行上限，Attempt15已消费且明确拒绝Attempt16
+  new_rule: 新增且仅新增R13-CANDIDATE-20260727-016：精确绑定CR-0400、CR-0399首个修复Commit 80dd3e68b010ef5218154b7362cd7a6835ae9607和max_candidate_runs=1；Attempt15不得重跑，Attempt17不授权
+  impact_summary: 只更新R13连续候选例外、请求、失败追溯和防漂移回归；不修改生产代码、API、数据库、夹具、登录、媒体、截图或视觉标准
+  impact:
+    files:
+    - config/android-automation.yaml
+    - config/android-candidate-request.yaml
+    - tests/test_android_candidate_request.py
+    - tests/test_android_ci_gate.py
+    - tests/test_r13_candidate.py
+    - docs/03-continuity/PROBLEM_REGISTRY.yaml
+    - CHANGELOG.md
+    pages:
+    - SCR-FAV-001/SCR-HIS-001/项目详情分享反馈候选旅程
+    apis:
+    - R13目标API保持真实验证，无放宽
+    database:
+    - 无变化
+    configuration:
+    - R13 attempt16/request016/CR-0400/80dd3e68/max1精确绑定
+    ledger:
+    - Run 30255527377 attempt15已消费，attempt16单次授权
+    tests:
+    - tests.test_android_candidate_request;tests.test_android_ci_gate;tests.test_r13_candidate
+    releases:
+    - R13
+    migration_and_compatibility: 纯CI候选治理变更；生产APK与服务端不变。Attempt16仍使用真实一次性登录和原R13四页面旅程，任何启动认证、目标接口、媒体、日志或视觉失败继续硬失败
+  user_confirmation: 项目所有者已长期授权AI在候选失败后自行精确修复、审批并持续推进，禁止原地重复和中途等待
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-27T10:36:20Z'
+    note: CR-0400只授权CR-0399已验证修复后的唯一attempt16，精确绑定不可变Commit、连续request016与max1；Attempt15不得重跑且不预授权attempt17
+  machine_record: .continuity/change_requests/CR-0400.yaml
+  document: docs/03-continuity/change-requests/CR-0400-授权CR-0399修复后的唯一R13候选attempt16.md
+  decision_log:
+  - at: '2026-07-27T10:36:28Z'
+    actor_id: codex-root-r13-candidate-20260727
+    status: IMPLEMENTING
+    note: 开始登记唯一attempt16例外、request016与防漂移回归；Attempt15保持已消费
+    session_id: SES-20260726T191158Z-2B506AB7
+  - at: '2026-07-27T10:39:27Z'
+    actor_id: codex-root-r13-candidate-20260727
+    status: IMPLEMENTED
+    note: 唯一R13 attempt16例外、request016、Attempt15失败追溯和三处防漂移回归已实现；79项候选治理回归PASS，未重复Android构建或模拟器
+    session_id: SES-20260726T191158Z-2B506AB7
+  session_ids:
+  - SES-20260726T191158Z-2B506AB7
