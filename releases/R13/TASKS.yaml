@@ -116,7 +116,7 @@ tasks:
   completed_at: '2026-07-26T19:08:23Z'
 - id: TASK-R13-007
   title: 收藏、历史、分享与行为审计Android测试APK与产物追溯
-  status: READY
+  status: DONE
   depends_on:
   - TASK-R13-006
   requirements: *id001
@@ -130,9 +130,10 @@ tasks:
   - APK可下载/可安装
   - SHA256、Commit、versionName/versionCode、测试结果齐全
   session_log_required: true
+  completed_at: '2026-07-27T16:28:13Z'
 - id: TASK-R13-008
   title: 收藏、历史、分享与行为审计版本关闭与无状态交接
-  status: BLOCKED
+  status: READY
   depends_on:
   - TASK-R13-007
   requirements: *id001
