@@ -25572,3 +25572,49 @@ change_requests:
     session_id: SES-20260727T163211Z-EDFF7E87
   session_ids:
   - SES-20260727T163211Z-EDFF7E87
+- protocol_version: '1.0'
+  cr_id: CR-0416
+  title: 补齐历史异步真机依赖后缀与R02机器事实投影
+  status: APPROVED
+  created_at: '2026-07-27T17:52:36Z'
+  updated_at: '2026-07-27T17:53:26Z'
+  requester_actor_id: codex-root-r13-close-20260728
+  approver_actor_id: codex-reviewer-r13-cr0416-20260728
+  task_id: TASK-R13-008
+  session_id: SES-20260727T163211Z-EDFF7E87
+  user_request: 项目所有者要求真机反馈异步且不得阻断后续版本持续开发
+  reason: CR-0412/0414允许机器交付完成后保留owner PENDING继续开发，但跨版本依赖校验只豁免历史Release最后一个BLOCKED任务；R02实际同时保留APK任务007和其后关闭任务008为连续阻塞后缀，且旧Manifest未投影已存在的机器APK与交接证据，导致R14依赖判断错误
+  original_rule: 历史依赖Release只有最后一个任务为BLOCKED且Manifest已具备现代machine_completion字段时才视为异步owner门禁；R02在旧流程中把APK任务007和关闭任务008同时保留BLOCKED，Manifest未回填已有机器交付与交接证据，因此后续直接依赖R02的Release被误判为不GREEN
+  new_rule: 不得伪改历史真机PENDING或把阻塞任务标DONE。对已有完整机器交付、交接与owner异步边界的历史Release，先把现存证据投影到Acceptance、Manifest和机器关闭报告；跨版本校验仅允许全部前置任务DONE且剩余任务构成连续BLOCKED后缀、该后缀从APK/真机交付任务开始并只延伸到最终关闭任务时视为非阻断。任一中间业务任务BLOCKED、非连续后缀、缺机器异步证据或目标首任务非READY仍拒绝
+  impact_summary: 以R02现存固定工具链APK、四方SHA、会话关闭与R03后续事实回填机器状态，不改owner PENDING；修正continuity历史依赖判断并补正负回归，使R13可诚实BLOCKED_EXTERNAL_GATE后进入R14；不放宽生产验收或任意业务依赖
+  impact:
+    files:
+    - scripts/continuity.py
+    - tests/test_continuity_cross_release_close.py
+    - releases/R02/RELEASE_MANIFEST.yaml
+    - releases/R02/ACCEPTANCE_MATRIX.csv
+    - artifacts/reports/R02/TASK-R02-008-machine-close.md
+    - docs/03-continuity/PROBLEM_REGISTRY.yaml
+    - CHANGELOG.md
+    pages: []
+    apis: []
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - R02 acceptance and manifest machine facts match existing APK manifest, delivery evidence, session closure and owner PENDING
+    - prior dependency accepts only a contiguous blocked suffix beginning at APK/owner gate after every earlier task is DONE
+    - tampering async evidence, inserting blocked business task, creating non-contiguous suffix or changing target READY state remains rejected
+    - existing cross-release close regression suite remains PASS
+    releases:
+    - R02
+    - R13
+    - R14
+    migration_and_compatibility: R06以后单个最终关闭任务BLOCKED的既有路径继续兼容；R02旧双任务后缀通过严格连续后缀识别兼容。历史失败APK和真机FAILED事实不改写，只有最终7b425c4机器交付作为PASS证据，项目所有者真机仍PENDING
+  user_confirmation: 项目所有者已明确真机反馈异步、不得阻断后续版本，且要求持续推进开发直至项目落地
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-27T17:53:26Z'
+    note: 独立复核确认：该变更不把R02真机PENDING改为PASS，只以现有固定APK、签名、四方SHA和会话事实补齐机器投影；continuity仅豁免全部前置DONE后的APK/真机到最终关闭连续BLOCKED后缀，任意业务阻塞、证据缺失或非连续状态仍拒绝
+  machine_record: .continuity/change_requests/CR-0416.yaml
+  document: docs/03-continuity/change-requests/CR-0416-补齐历史异步真机依赖后缀与R02机器事实投影.md

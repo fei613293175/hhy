@@ -917,6 +917,51 @@ def release_has_continuable_test_apk(root: Path, release: str, manifest: dict[st
     return https.get("http_status") == 200 and https.get("range_status") == 206
 
 
+def prior_async_owner_blocked_suffix(
+    root: Path, release: str, tasks: list[dict[str, Any]]
+) -> set[str]:
+    """Return the only historical blocked suffix that may remain non-blocking.
+
+    Older releases could leave both the APK owner-test task and the terminal
+    close task blocked.  Accept only that contiguous tail after every business
+    task is done; never treat an arbitrary blocked task as a green dependency.
+    """
+    if not tasks or not release_has_async_owner_gate(root, release):
+        return set()
+    first_unfinished = next(
+        (index for index, task in enumerate(tasks) if task.get("status") != "DONE"),
+        len(tasks),
+    )
+    suffix = tasks[first_unfinished:]
+    if not suffix or any(task.get("status") != "BLOCKED" for task in suffix):
+        return set()
+    if first_unfinished + len(suffix) != len(tasks):
+        return set()
+    if len(suffix) == 1:
+        return {str(suffix[0].get("id") or "")}
+    if len(suffix) != 2:
+        return set()
+    delivery_text = " ".join(
+        str(value)
+        for value in (
+            suffix[0].get("title"), suffix[0].get("description"),
+            suffix[0].get("deliverables"), suffix[0].get("blocker"),
+        )
+    )
+    close_text = " ".join(
+        str(value)
+        for value in (
+            suffix[1].get("title"), suffix[1].get("description"),
+            suffix[1].get("deliverables"),
+        )
+    )
+    if "APK" not in delivery_text and "真机" not in delivery_text:
+        return set()
+    if "关闭" not in close_text and "交接" not in close_text:
+        return set()
+    return {str(task.get("id") or "") for task in suffix}
+
+
 def validate_independent_release_start(
     root: Path,
     *,
@@ -994,8 +1039,9 @@ def validate_independent_release_start(
             continue
         plan = yaml.safe_load(plan_path.read_text(encoding="utf-8")) or {}
         dependency_tasks = list(plan.get("tasks", []))
-        final_dependency_task = (
-            str(dependency_tasks[-1].get("id") or "") if dependency_tasks else ""
+        prior_async_suffix = (
+            prior_async_owner_blocked_suffix(root, dependency, dependency_tasks)
+            if dependency != current_release else set()
         )
         unfinished: list[str] = []
         for row in dependency_tasks:
@@ -1009,9 +1055,7 @@ def validate_independent_release_start(
             ))
             is_prior_async_owner_gate = all((
                 dependency != current_release,
-                release_has_async_owner_gate(root, dependency),
-                task_id == final_dependency_task,
-                row.get("status") == "BLOCKED",
+                task_id in prior_async_suffix,
             ))
             if not is_current_async_owner_gate and not is_prior_async_owner_gate:
                 unfinished.append(task_id)

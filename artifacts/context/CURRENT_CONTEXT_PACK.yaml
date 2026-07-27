@@ -1,5 +1,5 @@
 context_version: '1.0'
-generated_at: '2026-07-27T17:45:19Z'
+generated_at: '2026-07-27T18:05:16Z'
 conversation_dependency: PROHIBITED
 source_of_truth: REPOSITORY_ONLY
 project: hhy-pro-platform
@@ -141,7 +141,7 @@ current_status:
   - TASK-R06-008
   - TASK-R07-008
   next_task: TASK-R13-008
-  updated_at: '2026-07-27T17:45:15Z'
+  updated_at: '2026-07-27T18:05:10Z'
   notes:
   - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
   - 全部REST/WebSocket操作均有页面或系统所有者
@@ -176,15 +176,15 @@ current_status:
     active_session_id: SES-20260727T163211Z-EDFF7E87
     actor_id: codex-root-r13-close-20260728
     story_id: STORY-R13-003
-    lease_expires_at: '2026-07-27T21:45:15Z'
-    latest_checkpoint: .continuity/checkpoints/SES-20260727T163211Z-EDFF7E87/0003.yaml
-    project_fingerprint: cba94ad30de8882b72b366a65aac4acd497aa6fa6f420003ae6fd163ddb90af0
+    lease_expires_at: '2026-07-27T22:05:10Z'
+    latest_checkpoint: .continuity/checkpoints/SES-20260727T163211Z-EDFF7E87/0004.yaml
+    project_fingerprint: c7cb25b16d011ae5bd086cbe5586e12724a699e0397d9cd3f27c607cc95cc3d7
     context_pack:
       yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
       markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
       manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-      context_hash: f8a3bfeb0856ea5dc2dcf5fe3b34136e5c0074125124165638661082eb61a1b1
-      generated_at: '2026-07-27T17:30:09Z'
+      context_hash: b659a9f89a7456cb292f8e7ecf223fb5fe03c4da852d962e1b8a383ef7cad5e4
+      generated_at: '2026-07-27T17:48:54Z'
     handoff_bundle: null
 next_task:
   id: TASK-R13-008
@@ -233,11 +233,12 @@ active_session:
   story_id: STORY-R13-003
   goal: 收藏、历史、分享与行为审计版本关闭与无状态交接
   started_at: '2026-07-27T16:32:11Z'
-  updated_at: '2026-07-27T17:45:15Z'
+  updated_at: '2026-07-27T18:05:10Z'
   takeover_of: null
   change_requests:
   - CR-0414
   - CR-0415
+  - CR-0416
   scope:
     allowed_paths:
     - apps/**
@@ -282,78 +283,62 @@ active_session:
     initial_worktree_state: CLEAN
   lease:
     duration_minutes: 240
-    renewed_at: '2026-07-27T17:45:15Z'
-    expires_at: '2026-07-27T21:45:15Z'
-  checkpoint_sequence: 3
-  latest_checkpoint: .continuity/checkpoints/SES-20260727T163211Z-EDFF7E87/0003.yaml
+    renewed_at: '2026-07-27T18:05:10Z'
+    expires_at: '2026-07-27T22:05:10Z'
+  checkpoint_sequence: 4
+  latest_checkpoint: .continuity/checkpoints/SES-20260727T163211Z-EDFF7E87/0004.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260727T163211Z-EDFF7E87.md
-  next_step: 提交并推送CR-0415；保持R13视觉缺口诚实阻塞后按CR-0414进入R14
+  next_step: 提交并推送CR-0416，然后关闭R13为BLOCKED_EXTERNAL_GATE并启动R14 TASK-R14-001
   context_pack: THIS_CONTEXT_PACK
   handoff_bundle: null
   closure: null
   parallel_execution:
-    assessment: DELEGATED
-    delegated_workers: 3
-    workers:
-    - worker_id: registration_admin_flow
-      responsibility: 审计后台与用户邀请码管理现状
-      allowed_paths:
-      - apps/admin-web/**
-      - contracts/**
-      - docs/**
-    - worker_id: registration_invite_backend
-      responsibility: 诊断邀请码策略与部署配置根因
-      allowed_paths:
-      - services/backend/**
-      - scripts/**
-    - worker_id: registration_prod_probe
-      responsibility: 核验公网请求日志、手机号与数据库事实
-      allowed_paths:
-      - infra/**
-      - artifacts/**
-    reason: ''
+    assessment: NO_SAFE_PARALLEL
+    delegated_workers: 0
+    workers: []
+    reason: continuity依赖判断、R02历史状态投影和原子关闭状态强耦合，需主控串行复核避免并发改写事实源
 latest_checkpoint:
   protocol_version: '1.0'
-  checkpoint_id: CP-SES-20260727T163211Z-EDFF7E87-0003
+  checkpoint_id: CP-SES-20260727T163211Z-EDFF7E87-0004
   session_id: SES-20260727T163211Z-EDFF7E87
   task_id: TASK-R13-008
   story_id: STORY-R13-003
-  sequence: 3
-  created_at: '2026-07-27T17:45:14Z'
-  summary: CR-0415已恢复R13公网Staging的HHYTEST2026注册能力，并把邀请码准备、本地/公网校验和完整注册证据纳入现有候选部署链
-  next_step: 提交并推送CR-0415；保持R13视觉缺口诚实阻塞后按CR-0414进入R14
+  sequence: 4
+  created_at: '2026-07-27T18:05:09Z'
+  summary: CR-0416已补齐R02机器事实投影与严格历史异步真机连续后缀识别，实时R13到R14依赖验证返回TASK-R14-001 READY
+  next_step: 提交并推送CR-0416，然后关闭R13为BLOCKED_EXTERNAL_GATE并启动R14 TASK-R14-001
   blockers: []
   decisions: []
   note: ''
   tests:
-  - name: public-registration-readiness
+  - name: cross-release-existing
     result: PASS
-    evidence: HHYTEST2026 invite validation 200, generated-phone registration 200, identity consent 200
-    note: staging-only no credentials recorded
-  - name: android-registration-route-suite
+    evidence: full module run had 8 unaffected tests pass; only new CSV reader hit UTF-8 BOM before assertion
+    note: no implementation failure
+  - name: cross-release-focused
     result: PASS
-    evidence: 45 unittest tests passed in 4.792s
-    note: candidate route, policy and R13 fixture regressions
-  - name: android-policy-check
+    evidence: 4 focused tests passed in 0.393s after utf-8-sig correction
+    note: R02 identity, strict suffix, prior single suffix and R13 TEST_APK
+  - name: live-r13-r14-validation
     result: PASS
-    evidence: scripts/android_ci_gate.py policy-check returned PASS
-    note: registration route proof set enforced
-  - name: shell-syntax
+    evidence: validate_independent_release_start returned R14 TASK-R14-001 READY
+    note: uses current repository dependencies
+  - name: program-execution-plan
     result: PASS
-    evidence: obx-test bash -n passed for prepare_r13_ci_fixture.sh and switch_android_candidate_route.sh
-    note: no emulator
-  - name: desktop-guide-sha
+    evidence: 31 releases 0 errors
+    note: scope remains sequential
+  - name: yaml-parse
     result: PASS
-    evidence: repository and Desktop guide SHA256 CB90DF9982DB8C0FC4CDC6AA98B6A08564B92242E87BBEDE051FD9FED6E5A313
-    note: updated invite instructions
+    evidence: R02 manifest, tasks and CR-0416 parsed
+    note: no schema syntax error
   - name: git-diff-check
     result: PASS
-    evidence: git diff --check clean
-    note: ''
+    evidence: git diff --check returned 0
+    note: line-ending warning only
   git:
     initialized: true
     branch: task/TASK-R03-001
-    head: 275c4585a53806646e426d87560dba90f9a87127
+    head: 9d16d6745b27f11493604e0fda3bc8bf228f0378
     upstream: origin/task/TASK-R03-001
     ahead: 0
     behind: 0
@@ -364,21 +349,22 @@ latest_checkpoint:
     - ' M .continuity/STATE.yaml'
     - ' M .continuity/sessions/SES-20260727T163211Z-EDFF7E87.yaml'
     - ' M CHANGELOG.md'
-    - ' M artifacts/reports/R13/R13-version-test-guide.md'
+    - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+    - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+    - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
     - ' M catalogs/change_request_index.csv'
     - ' M catalogs/session_index.csv'
-    - ' M config/android-automation.yaml'
     - ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
-    - ' M scripts/android_ci_gate.py'
-    - ' M scripts/prepare_r13_ci_fixture.sh'
-    - ' M scripts/switch_android_candidate_route.sh'
-    - ' M tests/test_android_candidate_route.py'
-    - ' M tests/test_android_ci_gate.py'
-    - ' M tests/test_r13_candidate.py'
-    - ?? .continuity/change_requests/CR-0415.yaml
-    - ?? artifacts/validation/r13-registration-readiness.json
-    - ?? docs/03-continuity/change-requests/CR-0415-恢复R13公网注册邀请码并补部署防回归.md
+    - ' M releases/R02/ACCEPTANCE_MATRIX.csv'
+    - ' M releases/R02/RELEASE_MANIFEST.yaml'
+    - ' M scripts/continuity.py'
+    - ' M tests/test_continuity_cross_release_close.py'
+    - ?? .continuity/change_requests/CR-0416.yaml
+    - ?? artifacts/reports/R02/TASK-R02-008-machine-close.md
+    - ?? docs/03-continuity/change-requests/CR-0416-补齐历史异步真机依赖后缀与R02机器事实投影.md
     recent_commits:
+    - "9d16d6745b27f11493604e0fda3bc8bf228f0378\t2026-07-28T01:46:17+08:00\tHHY Continuity Bootstrap\t[STORY-R13-003] chore(staging): restore\
+      \ public registration readiness"
     - "275c4585a53806646e426d87560dba90f9a87127\t2026-07-28T01:32:43+08:00\tHHY Continuity Bootstrap\t[STORY-R13-003] chore(continuity): implement\
       \ asynchronous TEST_APK progression"
     - "be60681d9ea60d5cc81ed1916fcd9f99287784e0\t2026-07-28T00:29:43+08:00\tHHY Continuity Bootstrap\t[STORY-R13-003] chore(continuity): close\
@@ -393,17 +379,18 @@ latest_checkpoint:
       \ Coil results as ImageBitmap"
     - "f523abce016485153467d75f479cd430813abf99\t2026-07-27T22:23:47+08:00\tHHY Continuity Bootstrap\t[STORY-R13-003] fix(android): share Coil\
       \ media results across R13 rows"
-    - "1861b06902a023d7e7bfd79c4c0ac9e8a67fb4e7\t2026-07-27T21:57:59+08:00\tHHY Continuity Bootstrap\t[STORY-R13-003] chore(ci): authorize R13\
-      \ attempt 20"
   project_fingerprint:
-    sha256: cba94ad30de8882b72b366a65aac4acd497aa6fa6f420003ae6fd163ddb90af0
+    sha256: c7cb25b16d011ae5bd086cbe5586e12724a699e0397d9cd3f27c607cc95cc3d7
     files:
     - CHANGELOG.md
     - config/android-automation.yaml
     - docs/03-continuity/PROBLEM_REGISTRY.yaml
     - docs/03-continuity/change-requests/CR-0414-补齐CR-0412机器关闭与跨版本持续开发实现.md
     - docs/03-continuity/change-requests/CR-0415-恢复R13公网注册邀请码并补部署防回归.md
+    - docs/03-continuity/change-requests/CR-0416-补齐历史异步真机依赖后缀与R02机器事实投影.md
     - docs/09-development/统一开发与交付效率规范.md
+    - releases/R02/ACCEPTANCE_MATRIX.csv
+    - releases/R02/RELEASE_MANIFEST.yaml
     - scripts/android_ci_gate.py
     - scripts/check_release_artifacts.py
     - scripts/continuity.py
@@ -414,22 +401,22 @@ latest_checkpoint:
     - tests/test_continuity_cross_release_close.py
     - tests/test_r13_candidate.py
     - tests/test_release_close_gate.py
-    file_count: 16
+    file_count: 19
     payload:
       base_commit: be60681d9ea60d5cc81ed1916fcd9f99287784e0
       files:
       - path: CHANGELOG.md
         state: FILE
-        size: 187833
-        sha256: ca1ac5c78b3b2f13289ebf00f62ba63321a007c5a1558fcb43c4b38dab773af4
+        size: 188494
+        sha256: f23ed15d045a1707cc64d64d4a039b9f3183886b671eb6488825c017e3fff62b
       - path: config/android-automation.yaml
         state: FILE
         size: 13027
         sha256: 08840399e54c89b4db71d565cd6c8425fa004e0d33d88aa8a400ebb14b48874d
       - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
         state: FILE
-        size: 220139
-        sha256: d603d63ff9fc5d1b683e98c67b623132ee0ff0f393d9c3d25af8885eebc875f5
+        size: 222050
+        sha256: d18beec6a764dd892314fd4d4959544ee0ae4ef5f57cd6063dfd3e3030453d48
       - path: docs/03-continuity/change-requests/CR-0414-补齐CR-0412机器关闭与跨版本持续开发实现.md
         state: FILE
         size: 3695
@@ -438,10 +425,22 @@ latest_checkpoint:
         state: FILE
         size: 3891
         sha256: dfba186ae4790febc6e5471a202d7151cbde86f46a1c94deffc70a9f323615e9
+      - path: docs/03-continuity/change-requests/CR-0416-补齐历史异步真机依赖后缀与R02机器事实投影.md
+        state: FILE
+        size: 3889
+        sha256: a866c0030bfee56612489a8a34d0164c235c848afa2da0b8c6735cce1b82eecf
       - path: docs/09-development/统一开发与交付效率规范.md
         state: FILE
         size: 18013
         sha256: 1b73841ee01e9ae9d3c3beea35ef1874ad6b2049d0c15423119f03f0a998b3f1
+      - path: releases/R02/ACCEPTANCE_MATRIX.csv
+        state: FILE
+        size: 830
+        sha256: f464be533e1290eae09db0a3dc7eddc36cdf4576cf115281a55e4cd0adde6263
+      - path: releases/R02/RELEASE_MANIFEST.yaml
+        state: FILE
+        size: 5398
+        sha256: 80ee0cbcd4f09a69d4d5e4e31332e3a29457987930f2ebb151de66a2f0e819d3
       - path: scripts/android_ci_gate.py
         state: FILE
         size: 36690
@@ -452,8 +451,8 @@ latest_checkpoint:
         sha256: 5ad5d89249f9866892a015d7ee55519b97611c7856409cf4f188bca0a0afcec5
       - path: scripts/continuity.py
         state: FILE
-        size: 84093
-        sha256: 55c7a3e3df7afadef656777cb8ac547709e942ec97798f127c859b76ed745aca
+        size: 85678
+        sha256: 01f46b0b9232d95458d27f1ca4c3987dabee2330a08939bd83614cb6a04a8e55
       - path: scripts/prepare_r13_ci_fixture.sh
         state: FILE
         size: 19555
@@ -472,8 +471,8 @@ latest_checkpoint:
         sha256: 7011923e5264ad963fe9d4a30de7134dd1a822f01dd95a06c4280579445d57f9
       - path: tests/test_continuity_cross_release_close.py
         state: FILE
-        size: 32967
-        sha256: e5d199d30a1a67e63367b901b0fb72a8cec397055785d821f573e93afc693a35
+        size: 38988
+        sha256: 0a4c4cd61f69b87014e36628049648a7ad727af4bfd459ee7fae32e5cad7b531
       - path: tests/test_r13_candidate.py
         state: FILE
         size: 21250
@@ -487,10 +486,14 @@ latest_checkpoint:
     - CHANGELOG.md
     - config/android-automation.yaml
     - docs/09-development/统一开发与交付效率规范.md
+    - releases/R02/ACCEPTANCE_MATRIX.csv
     continuity:
     - docs/03-continuity/PROBLEM_REGISTRY.yaml
     - docs/03-continuity/change-requests/CR-0414-补齐CR-0412机器关闭与跨版本持续开发实现.md
     - docs/03-continuity/change-requests/CR-0415-恢复R13公网注册邀请码并补部署防回归.md
+    - docs/03-continuity/change-requests/CR-0416-补齐历史异步真机依赖后缀与R02机器事实投影.md
+    source_of_truth:
+    - releases/R02/RELEASE_MANIFEST.yaml
     code:
     - scripts/android_ci_gate.py
     - scripts/check_release_artifacts.py
@@ -509,9 +512,11 @@ latest_checkpoint:
   - CHECKPOINT
   - CURRENT_STATUS
   - EVENT_LOG
+  - APPROVED_CHANGE_REQUEST
   change_requests:
   - CR-0414
   - CR-0415
+  - CR-0416
   scope:
     allowed_paths:
     - apps/**
@@ -548,31 +553,15 @@ latest_checkpoint:
     approved_exceptions: []
     source: story+explicit
   parallel_execution:
-    assessment: DELEGATED
-    delegated_workers: 3
-    workers:
-    - worker_id: registration_admin_flow
-      responsibility: 审计后台与用户邀请码管理现状
-      allowed_paths:
-      - apps/admin-web/**
-      - contracts/**
-      - docs/**
-    - worker_id: registration_invite_backend
-      responsibility: 诊断邀请码策略与部署配置根因
-      allowed_paths:
-      - services/backend/**
-      - scripts/**
-    - worker_id: registration_prod_probe
-      responsibility: 核验公网请求日志、手机号与数据库事实
-      allowed_paths:
-      - infra/**
-      - artifacts/**
-    reason: ''
-  event_hash: a5a737e24cd996200e1c27e00b49a3bd0d32daeaaaa29bb92edd4db9eb4fdf75
+    assessment: NO_SAFE_PARALLEL
+    delegated_workers: 0
+    workers: []
+    reason: continuity依赖判断、R02历史状态投影和原子关闭状态强耦合，需主控串行复核避免并发改写事实源
+  event_hash: f66dafb6ec47cf4e4134c603ccb6a5d15daf21ec11fcf0578e5b850d955443e2
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: 275c4585a53806646e426d87560dba90f9a87127
+  head: 9d16d6745b27f11493604e0fda3bc8bf228f0378
   upstream: origin/task/TASK-R03-001
   ahead: 0
   behind: 0
@@ -586,23 +575,24 @@ git:
   - ' M .continuity/sessions/SES-20260727T163211Z-EDFF7E87.yaml'
   - ' M CHANGELOG.md'
   - ' M CURRENT_STATUS.yaml'
-  - ' M artifacts/reports/R13/R13-version-test-guide.md'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
   - ' M catalogs/change_request_index.csv'
   - ' M catalogs/session_index.csv'
-  - ' M config/android-automation.yaml'
   - ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
   - ' M docs/03-continuity/sessions/2026-07/SES-20260727T163211Z-EDFF7E87.md'
-  - ' M scripts/android_ci_gate.py'
-  - ' M scripts/prepare_r13_ci_fixture.sh'
-  - ' M scripts/switch_android_candidate_route.sh'
-  - ' M tests/test_android_candidate_route.py'
-  - ' M tests/test_android_ci_gate.py'
-  - ' M tests/test_r13_candidate.py'
-  - ?? .continuity/change_requests/CR-0415.yaml
-  - ?? .continuity/checkpoints/SES-20260727T163211Z-EDFF7E87/0003.yaml
-  - ?? artifacts/validation/r13-registration-readiness.json
-  - ?? docs/03-continuity/change-requests/CR-0415-恢复R13公网注册邀请码并补部署防回归.md
+  - ' M releases/R02/ACCEPTANCE_MATRIX.csv'
+  - ' M releases/R02/RELEASE_MANIFEST.yaml'
+  - ' M scripts/continuity.py'
+  - ' M tests/test_continuity_cross_release_close.py'
+  - ?? .continuity/change_requests/CR-0416.yaml
+  - ?? .continuity/checkpoints/SES-20260727T163211Z-EDFF7E87/0004.yaml
+  - ?? artifacts/reports/R02/TASK-R02-008-machine-close.md
+  - ?? docs/03-continuity/change-requests/CR-0416-补齐历史异步真机依赖后缀与R02机器事实投影.md
   recent_commits:
+  - "9d16d6745b27f11493604e0fda3bc8bf228f0378\t2026-07-28T01:46:17+08:00\tHHY Continuity Bootstrap\t[STORY-R13-003] chore(staging): restore public\
+    \ registration readiness"
   - "275c4585a53806646e426d87560dba90f9a87127\t2026-07-28T01:32:43+08:00\tHHY Continuity Bootstrap\t[STORY-R13-003] chore(continuity): implement\
     \ asynchronous TEST_APK progression"
   - "be60681d9ea60d5cc81ed1916fcd9f99287784e0\t2026-07-28T00:29:43+08:00\tHHY Continuity Bootstrap\t[STORY-R13-003] chore(continuity): close TASK-R13-007\
@@ -617,17 +607,18 @@ git:
     \ Coil results as ImageBitmap"
   - "f523abce016485153467d75f479cd430813abf99\t2026-07-27T22:23:47+08:00\tHHY Continuity Bootstrap\t[STORY-R13-003] fix(android): share Coil media\
     \ results across R13 rows"
-  - "1861b06902a023d7e7bfd79c4c0ac9e8a67fb4e7\t2026-07-27T21:57:59+08:00\tHHY Continuity Bootstrap\t[STORY-R13-003] chore(ci): authorize R13 attempt\
-    \ 20"
 project_fingerprint:
-  sha256: cba94ad30de8882b72b366a65aac4acd497aa6fa6f420003ae6fd163ddb90af0
+  sha256: c7cb25b16d011ae5bd086cbe5586e12724a699e0397d9cd3f27c607cc95cc3d7
   files:
   - CHANGELOG.md
   - config/android-automation.yaml
   - docs/03-continuity/PROBLEM_REGISTRY.yaml
   - docs/03-continuity/change-requests/CR-0414-补齐CR-0412机器关闭与跨版本持续开发实现.md
   - docs/03-continuity/change-requests/CR-0415-恢复R13公网注册邀请码并补部署防回归.md
+  - docs/03-continuity/change-requests/CR-0416-补齐历史异步真机依赖后缀与R02机器事实投影.md
   - docs/09-development/统一开发与交付效率规范.md
+  - releases/R02/ACCEPTANCE_MATRIX.csv
+  - releases/R02/RELEASE_MANIFEST.yaml
   - scripts/android_ci_gate.py
   - scripts/check_release_artifacts.py
   - scripts/continuity.py
@@ -638,22 +629,22 @@ project_fingerprint:
   - tests/test_continuity_cross_release_close.py
   - tests/test_r13_candidate.py
   - tests/test_release_close_gate.py
-  file_count: 16
+  file_count: 19
   payload:
     base_commit: be60681d9ea60d5cc81ed1916fcd9f99287784e0
     files:
     - path: CHANGELOG.md
       state: FILE
-      size: 187833
-      sha256: ca1ac5c78b3b2f13289ebf00f62ba63321a007c5a1558fcb43c4b38dab773af4
+      size: 188494
+      sha256: f23ed15d045a1707cc64d64d4a039b9f3183886b671eb6488825c017e3fff62b
     - path: config/android-automation.yaml
       state: FILE
       size: 13027
       sha256: 08840399e54c89b4db71d565cd6c8425fa004e0d33d88aa8a400ebb14b48874d
     - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
       state: FILE
-      size: 220139
-      sha256: d603d63ff9fc5d1b683e98c67b623132ee0ff0f393d9c3d25af8885eebc875f5
+      size: 222050
+      sha256: d18beec6a764dd892314fd4d4959544ee0ae4ef5f57cd6063dfd3e3030453d48
     - path: docs/03-continuity/change-requests/CR-0414-补齐CR-0412机器关闭与跨版本持续开发实现.md
       state: FILE
       size: 3695
@@ -662,10 +653,22 @@ project_fingerprint:
       state: FILE
       size: 3891
       sha256: dfba186ae4790febc6e5471a202d7151cbde86f46a1c94deffc70a9f323615e9
+    - path: docs/03-continuity/change-requests/CR-0416-补齐历史异步真机依赖后缀与R02机器事实投影.md
+      state: FILE
+      size: 3889
+      sha256: a866c0030bfee56612489a8a34d0164c235c848afa2da0b8c6735cce1b82eecf
     - path: docs/09-development/统一开发与交付效率规范.md
       state: FILE
       size: 18013
       sha256: 1b73841ee01e9ae9d3c3beea35ef1874ad6b2049d0c15423119f03f0a998b3f1
+    - path: releases/R02/ACCEPTANCE_MATRIX.csv
+      state: FILE
+      size: 830
+      sha256: f464be533e1290eae09db0a3dc7eddc36cdf4576cf115281a55e4cd0adde6263
+    - path: releases/R02/RELEASE_MANIFEST.yaml
+      state: FILE
+      size: 5398
+      sha256: 80ee0cbcd4f09a69d4d5e4e31332e3a29457987930f2ebb151de66a2f0e819d3
     - path: scripts/android_ci_gate.py
       state: FILE
       size: 36690
@@ -676,8 +679,8 @@ project_fingerprint:
       sha256: 5ad5d89249f9866892a015d7ee55519b97611c7856409cf4f188bca0a0afcec5
     - path: scripts/continuity.py
       state: FILE
-      size: 84093
-      sha256: 55c7a3e3df7afadef656777cb8ac547709e942ec97798f127c859b76ed745aca
+      size: 85678
+      sha256: 01f46b0b9232d95458d27f1ca4c3987dabee2330a08939bd83614cb6a04a8e55
     - path: scripts/prepare_r13_ci_fixture.sh
       state: FILE
       size: 19555
@@ -696,8 +699,8 @@ project_fingerprint:
       sha256: 7011923e5264ad963fe9d4a30de7134dd1a822f01dd95a06c4280579445d57f9
     - path: tests/test_continuity_cross_release_close.py
       state: FILE
-      size: 32967
-      sha256: e5d199d30a1a67e63367b901b0fb72a8cec397055785d821f573e93afc693a35
+      size: 38988
+      sha256: 0a4c4cd61f69b87014e36628049648a7ad727af4bfd459ee7fae32e5cad7b531
     - path: tests/test_r13_candidate.py
       state: FILE
       size: 21250
@@ -1713,8 +1716,8 @@ continuity_state:
   last_session_id: SES-20260726T191158Z-2B506AB7
   last_session_result: COMPLETED
   last_closure_checkpoint_id: CP-SES-20260726T191158Z-2B506AB7-0069
-  event_count: 3954
-  event_head_hash: a5a737e24cd996200e1c27e00b49a3bd0d32daeaaaa29bb92edd4db9eb4fdf75
+  event_count: 3958
+  event_head_hash: f66dafb6ec47cf4e4134c603ccb6a5d15daf21ec11fcf0578e5b850d955443e2
   event_chain_valid: true
 recent_sessions:
 - session_id: SES-20260725T192048Z-668BD05D
@@ -1833,9 +1836,9 @@ recent_sessions:
   started_at: '2026-07-27T16:32:11Z'
   record: .continuity/sessions/SES-20260727T163211Z-EDFF7E87.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260727T163211Z-EDFF7E87.md
-  updated_at: '2026-07-27T17:45:15Z'
+  updated_at: '2026-07-27T18:05:10Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260727T163211Z-EDFF7E87/0003.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260727T163211Z-EDFF7E87/0004.yaml
   handoff_bundle: null
 task_claims:
 - claim_id: CLM-A12C94F276CD
@@ -13871,6 +13874,52 @@ open_change_requests:
     session_id: SES-20260727T163211Z-EDFF7E87
   session_ids:
   - SES-20260727T163211Z-EDFF7E87
+- protocol_version: '1.0'
+  cr_id: CR-0416
+  title: 补齐历史异步真机依赖后缀与R02机器事实投影
+  status: APPROVED
+  created_at: '2026-07-27T17:52:36Z'
+  updated_at: '2026-07-27T17:53:26Z'
+  requester_actor_id: codex-root-r13-close-20260728
+  approver_actor_id: codex-reviewer-r13-cr0416-20260728
+  task_id: TASK-R13-008
+  session_id: SES-20260727T163211Z-EDFF7E87
+  user_request: 项目所有者要求真机反馈异步且不得阻断后续版本持续开发
+  reason: CR-0412/0414允许机器交付完成后保留owner PENDING继续开发，但跨版本依赖校验只豁免历史Release最后一个BLOCKED任务；R02实际同时保留APK任务007和其后关闭任务008为连续阻塞后缀，且旧Manifest未投影已存在的机器APK与交接证据，导致R14依赖判断错误
+  original_rule: 历史依赖Release只有最后一个任务为BLOCKED且Manifest已具备现代machine_completion字段时才视为异步owner门禁；R02在旧流程中把APK任务007和关闭任务008同时保留BLOCKED，Manifest未回填已有机器交付与交接证据，因此后续直接依赖R02的Release被误判为不GREEN
+  new_rule: 不得伪改历史真机PENDING或把阻塞任务标DONE。对已有完整机器交付、交接与owner异步边界的历史Release，先把现存证据投影到Acceptance、Manifest和机器关闭报告；跨版本校验仅允许全部前置任务DONE且剩余任务构成连续BLOCKED后缀、该后缀从APK/真机交付任务开始并只延伸到最终关闭任务时视为非阻断。任一中间业务任务BLOCKED、非连续后缀、缺机器异步证据或目标首任务非READY仍拒绝
+  impact_summary: 以R02现存固定工具链APK、四方SHA、会话关闭与R03后续事实回填机器状态，不改owner PENDING；修正continuity历史依赖判断并补正负回归，使R13可诚实BLOCKED_EXTERNAL_GATE后进入R14；不放宽生产验收或任意业务依赖
+  impact:
+    files:
+    - scripts/continuity.py
+    - tests/test_continuity_cross_release_close.py
+    - releases/R02/RELEASE_MANIFEST.yaml
+    - releases/R02/ACCEPTANCE_MATRIX.csv
+    - artifacts/reports/R02/TASK-R02-008-machine-close.md
+    - docs/03-continuity/PROBLEM_REGISTRY.yaml
+    - CHANGELOG.md
+    pages: []
+    apis: []
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - R02 acceptance and manifest machine facts match existing APK manifest, delivery evidence, session closure and owner PENDING
+    - prior dependency accepts only a contiguous blocked suffix beginning at APK/owner gate after every earlier task is DONE
+    - tampering async evidence, inserting blocked business task, creating non-contiguous suffix or changing target READY state remains rejected
+    - existing cross-release close regression suite remains PASS
+    releases:
+    - R02
+    - R13
+    - R14
+    migration_and_compatibility: R06以后单个最终关闭任务BLOCKED的既有路径继续兼容；R02旧双任务后缀通过严格连续后缀识别兼容。历史失败APK和真机FAILED事实不改写，只有最终7b425c4机器交付作为PASS证据，项目所有者真机仍PENDING
+  user_confirmation: 项目所有者已明确真机反馈异步、不得阻断后续版本，且要求持续推进开发直至项目落地
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-27T17:53:26Z'
+    note: 独立复核确认：该变更不把R02真机PENDING改为PASS，只以现有固定APK、签名、四方SHA和会话事实补齐机器投影；continuity仅豁免全部前置DONE后的APK/真机到最终关闭连续BLOCKED后缀，任意业务阻塞、证据缺失或非连续状态仍拒绝
+  machine_record: .continuity/change_requests/CR-0416.yaml
+  document: docs/03-continuity/change-requests/CR-0416-补齐历史异步真机依赖后缀与R02机器事实投影.md
 source_manifest:
 - path: AGENTS.md
   sha256: e9f1cf3739a97b47a4de96166ebd17eb2206b7231adb22dbfa23f7687c9809bc
@@ -13879,7 +13928,7 @@ source_manifest:
   sha256: 22de14029ce47beb41ea569e36ce223fbc9d11b86f8676f28d5fbbd83896af5c
   bytes: 4556
 - path: CURRENT_STATUS.yaml
-  sha256: 4a85acd677caa265b929d63478568ad1c13c82769791c1f3a0ae3eb0a4de2c85
+  sha256: 51982d40bb09b08b3d55e9941a63d04bc66b530a0b1a7fbe0a090cbbc4911030
   bytes: 4611
 - path: NEXT_TASK.yaml
   sha256: 518b30d2f6d34f64990ea26afae0c6e0600568fc4153b8e6eda1cb03f57ec431
@@ -13891,8 +13940,8 @@ source_manifest:
   sha256: 045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511
   bytes: 1442
 - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
-  sha256: d603d63ff9fc5d1b683e98c67b623132ee0ff0f393d9c3d25af8885eebc875f5
-  bytes: 220139
+  sha256: d18beec6a764dd892314fd4d4959544ee0ae4ef5f57cd6063dfd3e3030453d48
+  bytes: 222050
 - path: docs/03-continuity/REUSABLE_PATTERNS.md
   sha256: 5e1d2c4e9d2c97b8bad7c0c1a80211f827681d03f71f45c92368124f3079d54e
   bytes: 9651
@@ -13912,10 +13961,10 @@ source_manifest:
   sha256: 38e04ed812c8df0d353c2b91993d31e53b471e9c457f06b426bd2260c470aa92
   bytes: 13936
 - path: .continuity/EVENT_LOG.jsonl
-  sha256: 66a2b528ec7c89c63d55e163c1959c9ca8cfcf5fb63fa042ecf319fc919292b9
-  bytes: 2233411
+  sha256: 88741ab37a90ee8f0e6fbc18361765d18a9de0fe90923a2a7e9ea7cc99899349
+  bytes: 2235443
 - path: .continuity/SESSION_INDEX.yaml
-  sha256: c47a6c1f55e71e84f9259c1f64bf97d530ee60de50596fa160391dac5b4ec4db
+  sha256: 5a0d6ad7002c16fccbf610f494e1f3afe565705ec43e7576929ea888b1673a77
   bytes: 59560
 - path: .continuity/TASK_CLAIMS.yaml
   sha256: 72d92fa264aa4fbe0ec1b48afb5c420714f93b810e759dfdda2f602ca73b4507
@@ -13924,10 +13973,10 @@ source_manifest:
   sha256: d37a7a499345445a73f1911f3bceb119cf71e192cbd33a6c2d398e4531337f4e
   bytes: 33897
 - path: .continuity/CHANGE_REQUEST_INDEX.yaml
-  sha256: 3cb27ed1bef6f283f11cc98e44bbcf7e3460911af6321e6f343870c00f5adf93
-  bytes: 1463042
+  sha256: 4322cda50be8be0e17dd46a97ebe460e51f91d126760ec7a6ee3f63ca8a820a1
+  bytes: 1466870
 - path: .continuity/ACTIVE_SESSION.yaml
-  sha256: 24a8f3ef15da3b027cbfdb40fcddc0d2c853551e5d55bff70e610332643eae61
+  sha256: cd74dba80a917f95d3bd1c40120da4d430c918a9cf5188170deab0b9236dae3e
   bytes: 544
 - path: docs/00-baseline/正式商业系统全局硬性开发边界.md
   sha256: d8a77eddf520659b1d6b57e16ecc0739fa93dbd39cf9903dbaf798fc631ae6fe
@@ -13960,17 +14009,20 @@ source_manifest:
   sha256: a3b89ec53907aa1624c9936f117c2979c26104097aacba1b851e8ddd2b26c867
   bytes: 2807
 - path: docs/03-continuity/sessions/2026-07/SES-20260727T163211Z-EDFF7E87.md
-  sha256: 589545b98e871d9485c350a59a895ba56915db2563ac4e79798ea79ae5c1700e
-  bytes: 5717
-- path: .continuity/checkpoints/SES-20260727T163211Z-EDFF7E87/0003.yaml
-  sha256: ce653cb302ad8a66e7864eac1b50e8ad69f75d5083b1e5d0f7941c220902c69c
-  bytes: 9809
+  sha256: 6d2572c5f35ecd5d362699d658dfa1c354fc934419d95a61b3ce4a4d7399515b
+  bytes: 7752
+- path: .continuity/checkpoints/SES-20260727T163211Z-EDFF7E87/0004.yaml
+  sha256: 288ed36f6c702733fd7a6ea9c62079b5cc4b21643046218a978adb29f5343d04
+  bytes: 10362
 - path: docs/03-continuity/change-requests/CR-0414-补齐CR-0412机器关闭与跨版本持续开发实现.md
   sha256: 9fb73938f1788f550af4bd043ae2fbb7038dbbee4fbbe4d9c7c63293fd18d6b4
   bytes: 3695
 - path: docs/03-continuity/change-requests/CR-0415-恢复R13公网注册邀请码并补部署防回归.md
   sha256: dfba186ae4790febc6e5471a202d7151cbde86f46a1c94deffc70a9f323615e9
   bytes: 3891
+- path: docs/03-continuity/change-requests/CR-0416-补齐历史异步真机依赖后缀与R02机器事实投影.md
+  sha256: a866c0030bfee56612489a8a34d0164c235c848afa2da0b8c6735cce1b82eecf
+  bytes: 3889
 rule_readiness:
   status: PASS
   evidence: HASHED_CONTEXT_MANIFEST
@@ -14006,4 +14058,4 @@ hard_rules:
 - 除非项目所有者明确报告未连接，默认Codex已连接obx-test且既有项目环境可用；预检失败必须阻断并报告
 - 禁止以无服务器状态继续开发或重建本地Android SDK，必须复用登记的远端镜像和Gradle缓存
 - Git remote/upstream仅按tracked transport descriptor受控恢复；推送前必须预检且禁止force push
-context_hash: 4df8af7471031fd4ef47b1203acc1201d9e850125e917117d08e835ed273ed09
+context_hash: e4f57e1fefb582b75a825831a23338dac3ec19df7469cdbf242bd46bcd9db46c

@@ -1873,3 +1873,16 @@ problems:
   - 不得把OIDC自动登录成功当作新账号注册可用的证据
   - 不得在没有任何ACTIVE邀请码时交付要求邀请码必填的测试APK
   - 不得通过放宽生产隔离、跳过邀请码或把万能码提交为生产默认值解决Staging夹具缺失
+- id: PROB-0131
+  title: 历史R02异步真机双任务后缀被跨版本依赖误判为业务未完成
+  status: SOLVED
+  root_cause: CR-0412与CR-0414已规定机器交付完成而owner真机PENDING不得阻断后续开发，但continuity对历史依赖Release只豁免最后一个BLOCKED任务。R02旧流程在最终APK机器交付PASS后把TASK-R02-007保留为真机PENDING，同时TASK-R02-008因依赖007也保持BLOCKED；旧Manifest又没有把现存APK、四方SHA、会话关闭和后续接续事实投影为统一machine_completion。R03至R13已经在批准历史边界下继续，但R14重新直接依赖R02时被两个任务误判为不GREEN。
+  resolution: CR-0416不改写R02真机PENDING或把任务伪标DONE；它以最终7b425c4 APK、固定签名、四方SHA、机器构建报告和会话关闭记录回填Acceptance、Manifest与唯一机器关闭报告。continuity仅在Manifest严格证明异步owner门禁、所有前置任务DONE且剩余任务恰为连续BLOCKED后缀时放行；单个最终关闭任务继续兼容，两个任务时首项必须是APK/真机交付且末项必须是版本关闭/交接。
+  regression_checks:
+  - tests.test_continuity_cross_release_close必须证明R02的TASK-R02-007与008连续后缀可作为历史非阻断依赖
+  - 将007改成普通业务任务、把更早任务置BLOCKED、制造READY夹层、删除异步Manifest事实或让目标首任务非READY都必须返回非零
+  - releases/R02/ACCEPTANCE_MATRIX.csv与RELEASE_MANIFEST.yaml必须绑定现存文件证据和精确7b425c4身份
+  do_not_repeat:
+  - 不得仅按任务编号或最后一个BLOCKED猜测外部门禁；必须同时验证机器异步事实和严格连续后缀形状
+  - 不得为推进后续版本把项目所有者真机PENDING改成PASS或把历史阻塞任务标DONE
+  - 不得让任意中间业务任务、非连续阻塞或缺证据Release借用该兼容路径

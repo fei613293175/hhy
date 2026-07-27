@@ -1,6 +1,6 @@
 release: R02
 title: 账号、登录、注册与安全会话
-status: READY_WHEN_DEPENDENCIES_GREEN
+status: MACHINE_COMPLETE_OWNER_PENDING
 milestone: M0_ENGINEERING_FOUNDATION
 depends_on:
 - R01
@@ -116,6 +116,30 @@ tests:
 - TST-V122-011
 test_count: 25
 parallel_execution_plan: releases/R02/PARALLEL_EXECUTION_PLAN.yaml
+android_delivery:
+  source_commit: 7b425c4e4ca7aa53eef142fd00172bbdc761afd5
+  apk_file: hhy-r02-7b425c4-debug.apk
+  version_name: 1.2.2-debug
+  version_code: 10202
+  sha256: 3104c3de17efc175512a7e4466844450362285ad79b03d7c3e845e72dcbb9768
+  signing_fingerprint: f17b040789a845244ff9e2a9d8aedc1e7412adea0539d99c5cc036baf5dbb873
+  machine_delivery: PASS
+  owner_physical_test: PENDING
+  evidence: artifacts/validation/r02-apk-delivery/delivery-evidence.json
+  test_guide: artifacts/reports/R02/TASK-R02-007-android-apk.md
+machine_completion:
+  status: PASS
+  owner_feedback_mode: ASYNC_NON_BLOCKING
+  formal_release_acceptance: PENDING_OWNER_PHYSICAL_TEST
+  production_activation: BLOCKED_OWNER_PHYSICAL_TEST
+  next_release_development: ALLOWED
+  evidence: artifacts/reports/R02/TASK-R02-008-machine-close.md
+machine_closure:
+  closure_kind: HISTORICAL_EVIDENCE_BACKFILL
+  task_status: BLOCKED_EXTERNAL_GATE
+  owner_physical_test: PENDING
+  evidence_commit: 7b425c4e4ca7aa53eef142fd00172bbdc761afd5
+  rule: 机器交付与交接证据PASS不等于项目所有者真机PASS或生产验收
 entry_gate:
 - releases/R02/DEFINITION_OF_READY.yaml 全部适用项为PASS
 - releases/R02/STORIES.yaml 中每个故事均绑定页面/API/配置/数据/测试或显式N/A
