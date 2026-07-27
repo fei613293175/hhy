@@ -165,6 +165,14 @@ class AndroidCiGateTest(unittest.TestCase):
                 "required_fix_commit": "f8239c989fd9d17e74273ab5eaaa5d4349488882",
                 "max_candidate_runs": 1,
             },
+            {
+                "exception_id": "CR-0386",
+                "release": "R13",
+                "attempt": 6,
+                "request_id": "R13-CANDIDATE-20260727-006",
+                "required_fix_commit": "808ee1d13bc15812609a2d2275318f5c1edae8e9",
+                "max_candidate_runs": 1,
+            },
         ], policy["remediation"]["approved_attempt_exceptions"])
 
     def test_attempt_exception_is_exact_and_never_changes_the_global_limit(self) -> None:
@@ -231,7 +239,7 @@ class AndroidCiGateTest(unittest.TestCase):
             with self.subTest(override=override), self.assertRaises(GateError):
                 resolve_attempt_policy(policy, **(base | override))
 
-    def test_r13_attempt_sequence_is_independent_and_attempt_six_is_rejected(self) -> None:
+    def test_r13_attempt_sequence_is_independent_and_attempt_six_is_exact(self) -> None:
         policy = load_policy()
         exact = resolve_attempt_policy(
             policy,
@@ -255,15 +263,34 @@ class AndroidCiGateTest(unittest.TestCase):
         self.assertEqual(3, attempt_five["max_ai_attempts"])
         self.assertEqual(5, attempt_five["effective_attempt_limit"])
         self.assertEqual(1, attempt_five["max_candidate_runs"])
-        with self.assertRaises(GateError):
-            resolve_attempt_policy(
-                policy,
-                release="R13",
-                attempt=6,
-                request_id="R13-CANDIDATE-20260727-006",
-                exception_id="CR-0385",
-                required_fix_commit="f8239c989fd9d17e74273ab5eaaa5d4349488882",
-            )
+        attempt_six = resolve_attempt_policy(
+            policy,
+            release="R13",
+            attempt=6,
+            request_id="R13-CANDIDATE-20260727-006",
+            exception_id="CR-0386",
+            required_fix_commit="808ee1d13bc15812609a2d2275318f5c1edae8e9",
+        )
+        self.assertEqual(3, attempt_six["max_ai_attempts"])
+        self.assertEqual(6, attempt_six["effective_attempt_limit"])
+        self.assertEqual(1, attempt_six["max_candidate_runs"])
+        base = {
+            "release": "R13",
+            "attempt": 6,
+            "request_id": "R13-CANDIDATE-20260727-006",
+            "exception_id": "CR-0386",
+            "required_fix_commit": "808ee1d13bc15812609a2d2275318f5c1edae8e9",
+        }
+        invalid = (
+            {"release": "R12"},
+            {"request_id": "R13-CANDIDATE-20260727-007"},
+            {"exception_id": "CR-0385"},
+            {"required_fix_commit": "b" * 40},
+            {"attempt": 7},
+        )
+        for override in invalid:
+            with self.subTest(override=override), self.assertRaises(GateError):
+                resolve_attempt_policy(policy, **(base | override))
 
     def test_attempt_six_exception_is_exact(self) -> None:
         policy = load_policy()

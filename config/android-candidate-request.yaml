@@ -2,8 +2,8 @@ schema_version: 1
 status: REQUESTED
 release: R13
 candidate: true
-remediation_attempt: 5
-request_id: R13-CANDIDATE-20260727-005
-reason: R13 attempt 4 Run 30222792524已完成机器旅程，但AI逐图拒绝01-favorites.png：三条真实READY媒体尚未加载即被像素稳定器采集为占位图。该Run已消费且不得重跑或晋升；CR-0385复用R09的loaded/error语义并在收藏页等待三条媒体全部成功。本请求只允许对首个修复Commit执行一次精确attempt 5，不授权attempt 6。
-attempt_exception_id: CR-0385
-required_fix_commit: f8239c989fd9d17e74273ab5eaaa5d4349488882
+remediation_attempt: 6
+request_id: R13-CANDIDATE-20260727-006
+reason: R13 attempt 5 Run 30225016379的候选请求、编译、Lint、单测、打包、OIDC和Staging准备通过，但Compose动态媒体testTag未作为UiAutomator可见资源进入无障碍树，首张截图前等待30秒失败。该Run已消费且不得重跑或晋升；CR-0386保留动态testTag并新增包含内容标题的加载中、成功和失败description，候选按description分别计数并在失败时报告实际数量。本请求只允许对首个修复Commit执行一次精确attempt 6，不授权attempt 7。
+attempt_exception_id: CR-0386
+required_fix_commit: 808ee1d13bc15812609a2d2275318f5c1edae8e9

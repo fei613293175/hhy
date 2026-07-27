@@ -12,7 +12,7 @@
 - attempt 3 Run `30220806413`已通过登录、启动门禁、收藏和历史旅程，但UIAutomator点击了Compose `TextButton`内部不可点击的“分享”文字节点。项目详情的分享与反馈动作现暴露稳定资源标识，候选文字定位也只点击首个启用且可点击的真实祖先；旧Run保持已消费且不得重跑。
 - CR-0382因遗漏跨版本例外编号逻辑由独立审查拒绝且未触发候选；CR-0383保留全局三轮上限和全局身份唯一性，把超限例外改为每个Release独立从attempt 4连续编号。唯一R13 attempt 4请求精确绑定稳定点击修复Commit `c602d2f0`、`CR-0383`和单次运行上限，不预授权attempt 5。
 - attempt 4 Run `30222792524`机器旅程完成但AI视觉拒绝：收藏页在三条READY媒体完成异步加载前误采了稳定占位图，同夹具历史页随后已显示真实媒体。`CR-0384`不批准且不晋升；`CR-0385`复用R09的`loaded/error`语义，收藏页等待三条媒体全部成功后才允许像素稳定采集。旧Run保持已消费且不得重跑，唯一attempt 5请求精确绑定首个修复Commit `f8239c98`、`CR-0385`和单次运行上限，不预授权attempt 6。
-- attempt 5 Run `30225016379`的候选请求、编译、Lint、单测、打包、OIDC和Staging准备通过，但Compose动态媒体testTag没有作为UiAutomator可见资源标识进入无障碍树，首张截图前loaded/error均未命中并在30秒后硬失败。`CR-0386`保留原状态标识并新增业务可读的加载中、成功、失败动态description；候选按description计数并在超时报告三类数量。旧Run保持已消费且不得重跑，attempt 6只能在修复与模块证据完成后精确授权。
+- attempt 5 Run `30225016379`的候选请求、编译、Lint、单测、打包、OIDC和Staging准备通过，但Compose动态媒体testTag没有作为UiAutomator可见资源标识进入无障碍树，首张截图前loaded/error均未命中并在30秒后硬失败。`CR-0386`保留原状态标识并新增业务可读的加载中、成功、失败动态description；候选按description计数并在超时报告三类数量。旧Run保持已消费且不得重跑，唯一attempt 6请求精确绑定首个修复Commit `808ee1d1`、`CR-0386`和单次运行上限，不预授权attempt 7。
 
 ## R13活动业务可观测性与隔离Staging验收 · 2026-07-27
 
