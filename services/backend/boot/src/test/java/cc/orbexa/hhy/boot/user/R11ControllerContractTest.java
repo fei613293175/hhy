@@ -30,7 +30,8 @@ class R11ControllerContractTest {
         for (String operation : r11Operations) {
             assertEquals(1, source.lines().map(String::strip)
                     .filter(("operationId: " + operation)::equals).count(), operation);
-            long controllerCount = Arrays.stream(new Class<?>[] {ContentController.class, R07Controller.class, R08Controller.class})
+            long controllerCount = Arrays.stream(new Class<?>[] {
+                            ContentController.class, R07Controller.class, R08Controller.class, R14Controller.class})
                     .flatMap(type -> Arrays.stream(type.getDeclaredMethods()))
                     .map(Method::getName).filter(operation::equals).count();
             assertEquals(1, controllerCount, operation);

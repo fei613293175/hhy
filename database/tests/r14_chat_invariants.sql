@@ -11,6 +11,7 @@ DECLARE
   outsider_id bigint;
   conversation_id bigint;
   message_id bigint;
+  contact_message_id bigint;
   image_message_id bigint;
   media_id bigint;
   report_id bigint;
@@ -68,6 +69,35 @@ BEGIN
       conversation_id,sender_id,type,body_json,status,client_msg_id)
     VALUES (conversation_id,outsider_id,'TEXT','{"text":"outsider"}','SENT','r14-outsider');
     RAISE EXCEPTION 'R14_OUTSIDER_MESSAGE_WAS_ACCEPTED';
+  EXCEPTION WHEN check_violation THEN NULL;
+  END;
+  INSERT INTO hhy.chat_messages(
+    conversation_id,sender_id,type,body_json,status,client_msg_id)
+  VALUES (
+    conversation_id,alice_id,'CONTACT_CARD',jsonb_build_object(
+      'fields',jsonb_build_array(jsonb_build_object(
+        'type','OTHER','value','hhy-contact-v1.'||repeat('A',16)||'.'||repeat('B',1400)))),
+    'SENT','r14-contact-envelope')
+  RETURNING id INTO contact_message_id;
+  BEGIN
+    INSERT INTO hhy.chat_messages(
+      conversation_id,sender_id,type,body_json,status,client_msg_id)
+    VALUES (
+      conversation_id,alice_id,'CONTACT_CARD',
+      '{"fields":[{"type":"PHONE","value":"13800138000"}]}'::jsonb,
+      'SENT','r14-contact-plaintext');
+    RAISE EXCEPTION 'R14_CONTACT_PLAINTEXT_WAS_ACCEPTED';
+  EXCEPTION WHEN check_violation THEN NULL;
+  END;
+  BEGIN
+    INSERT INTO hhy.chat_messages(
+      conversation_id,sender_id,type,body_json,status,client_msg_id)
+    VALUES (
+      conversation_id,alice_id,'CONTACT_CARD',jsonb_build_object(
+        'fields',jsonb_build_array(jsonb_build_object(
+          'type','OTHER','value','hhy-contact-v1.'||repeat('A',16)||'.'||repeat('B',2020)))),
+      'SENT','r14-contact-envelope-oversized');
+    RAISE EXCEPTION 'R14_CONTACT_OVERSIZED_ENVELOPE_WAS_ACCEPTED';
   EXCEPTION WHEN check_violation THEN NULL;
   END;
   BEGIN

@@ -224,7 +224,7 @@ public class R08PostgresStore implements R08Store {
     @Override
     public Optional<ConversationRow> directConversation(long userId, long peerId) {
         return jdbc.query("""
-                SELECT conversation.id,conversation.updated_at,0::bigint AS version
+                SELECT conversation.id,conversation.updated_at,conversation.version
                 FROM hhy.conversations conversation
                 WHERE conversation.type='DIRECT'
                   AND EXISTS(SELECT 1 FROM hhy.conversation_members member
@@ -299,10 +299,11 @@ public class R08PostgresStore implements R08Store {
                        String aggregateId, String status, Instant now) {
         String payload = "{\"actorId\":" + actorId + ",\"resourceId\":\"" + aggregateId
                 + "\",\"status\":\"" + status + "\",\"occurredAt\":\"" + now + "\"}";
+        String source = "chat.direct.created.v1".equals(eventType) ? "r14-api" : "r08-api";
         jdbc.update("""
                 INSERT INTO hhy.outbox_events(aggregate_id,aggregate_type,event_id,event_type,event_version,headers,payload)
-                VALUES (?,?,?,?,1,'{"source":"r08-api"}'::jsonb,CAST(? AS jsonb))
-                """, aggregateId, aggregateType, UUID.randomUUID().toString(), eventType, payload);
+                VALUES (?,?,?,?,1,jsonb_build_object('source',?),CAST(? AS jsonb))
+                """, aggregateId, aggregateType, UUID.randomUUID().toString(), eventType, source, payload);
     }
 
     private ProjectRow projectRow(ResultSet rs, int row) throws SQLException {

@@ -58,6 +58,14 @@ class R14DatabaseContractTest(unittest.TestCase):
                 self.assertIn(expression, sql)
         self.assertIn("RETURN COALESCE", sql)
 
+    def test_contact_payload_requires_versioned_ciphertext_capacity(self) -> None:
+        sql = SOURCE.read_text(encoding="utf-8")
+        self.assertIn("char_length(field->>'value') NOT BETWEEN 1 AND 2048", sql)
+        self.assertIn("^hhy-contact-v1\\.[A-Za-z0-9_-]{16}\\.[A-Za-z0-9_-]{23,}$", sql)
+        matrix = INVARIANTS.read_text(encoding="utf-8")
+        self.assertIn("R14_CONTACT_PLAINTEXT_WAS_ACCEPTED", matrix)
+        self.assertIn("R14_CONTACT_OVERSIZED_ENVELOPE_WAS_ACCEPTED", matrix)
+
     def test_u043_is_empty_database_only_and_removes_every_r14_object(self) -> None:
         source = SOURCE.read_text(encoding="utf-8")
         rollback = ROLLBACK.read_text(encoding="utf-8")
@@ -89,6 +97,8 @@ class R14DatabaseContractTest(unittest.TestCase):
             "R14_DUPLICATE_CLIENT_MESSAGE_ID_WAS_ACCEPTED",
             "R14_MISSING_REQUIRED_PAYLOAD_FIELD_WAS_ACCEPTED",
             "R14_MISSING_IMAGE_MEDIA_ID_WAS_ACCEPTED",
+            "R14_CONTACT_PLAINTEXT_WAS_ACCEPTED",
+            "R14_CONTACT_OVERSIZED_ENVELOPE_WAS_ACCEPTED",
             "R14_ATTACHMENT_MUTATION_WAS_ACCEPTED",
             "R14_ATTACHED_MEDIA_INVALIDATION_WAS_ACCEPTED",
             "R14_FOREIGN_REPORT_MESSAGE_WAS_ACCEPTED",

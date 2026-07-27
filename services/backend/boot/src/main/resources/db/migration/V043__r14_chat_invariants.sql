@@ -308,7 +308,8 @@ BEGIN
          OR jsonb_typeof(field->'type')<>'string'
          OR field->>'type' NOT IN ('PHONE','WECHAT','QQ','EMAIL','OTHER')
          OR jsonb_typeof(field->'value')<>'string'
-         OR char_length(field->>'value') NOT BETWEEN 1 AND 256
+         OR char_length(field->>'value') NOT BETWEEN 1 AND 2048
+         OR field->>'value' !~ '^hhy-contact-v1\.[A-Za-z0-9_-]{16}\.[A-Za-z0-9_-]{23,}$'
          OR (field ? 'label' AND (
            jsonb_typeof(field->'label')<>'string' OR char_length(field->>'label')>32
          )) THEN RETURN false; END IF;

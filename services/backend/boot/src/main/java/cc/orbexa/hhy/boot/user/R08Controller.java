@@ -2,9 +2,7 @@ package cc.orbexa.hhy.boot.user;
 
 import cc.orbexa.hhy.access.user.UserPrincipal;
 import cc.orbexa.hhy.content.ContentContracts.ContentResource;
-import cc.orbexa.hhy.content.R08Contracts.Conversation;
 import cc.orbexa.hhy.content.R08Contracts.CreateProjectRequest;
-import cc.orbexa.hhy.content.R08Contracts.DirectConversationRequest;
 import cc.orbexa.hhy.content.R08Contracts.FavoriteRequest;
 import cc.orbexa.hhy.content.R08Contracts.PatchProjectRequest;
 import cc.orbexa.hhy.content.R08Contracts.PublicPage;
@@ -116,15 +114,6 @@ public class R08Controller {
             @RequestHeader("X-Idempotency-Key") @NotBlank @Size(min = 16, max = 128) String key,
             HttpServletRequest request) {
         return success(request, service.share(principal.userId(), id, body, key));
-    }
-
-    @PostMapping("/api/v1/conversations/direct")
-    public ApiResponse<Conversation> chatPostConversationsDirect(
-            @AuthenticationPrincipal UserPrincipal principal,
-            @Valid @RequestBody DirectConversationRequest body,
-            @RequestHeader("X-Idempotency-Key") @NotBlank @Size(min = 16, max = 128) String key,
-            HttpServletRequest request) {
-        return success(request, service.direct(principal.userId(), body, key));
     }
 
     @GetMapping("/public-api/v1/share/contents/{id}")

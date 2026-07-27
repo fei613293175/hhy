@@ -12,14 +12,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 class R08ControllerContractTest {
     @Test
-    void controllerExposesAllSevenPreviouslyMissingFrozenOperations() throws Exception {
+    void controllerExposesSixR08ContentAndPublicOperations() throws Exception {
         Map<String, String> methods = Map.of(
                 "contentPostContents", "/api/v1/contents",
                 "contentGetContentsById", "/api/v1/contents/{id}",
                 "contentPatchContentsById", "/api/v1/contents/{id}",
                 "contentPostContentsByIdFavorite", "/api/v1/contents/{id}/favorite",
                 "contentPostContentsByIdShare", "/api/v1/contents/{id}/share",
-                "chatPostConversationsDirect", "/api/v1/conversations/direct",
                 "publicGetShareContentsById", "/public-api/v1/share/contents/{id}");
         for (Map.Entry<String, String> expected : methods.entrySet()) {
             Method method = java.util.Arrays.stream(R08Controller.class.getDeclaredMethods())

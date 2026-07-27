@@ -25865,3 +25865,107 @@ change_requests:
   - SES-20260727T193842Z-C948B6FC
   implementation_commits:
   - 83d65cfb47006e18055397de0320efeeb9d6f844
+- protocol_version: '1.0'
+  cr_id: CR-0420
+  title: 实现R14一对一聊天核心后端九接口
+  status: APPROVED
+  created_at: '2026-07-27T21:16:51Z'
+  updated_at: '2026-07-27T21:35:44Z'
+  requester_actor_id: codex-root-r14-backend-20260728
+  approver_actor_id: codex-r14-cr-review-20260728
+  task_id: TASK-R14-003
+  session_id: SES-20260727T203754Z-DCE3090A
+  user_request: 按R14冻结开发文档持续实现一对一聊天后端，不停止开发
+  reason: 冻结的9个Chat operationId已有OpenAPI与V043数据不变量，但缺少统一应用服务、Store、控制器及权限幂等审计测试
+  original_rule: 冻结OpenAPI定义R14九个Chat operationId，V043定义双人会话、消息、已读、拉黑与举报不变量，现有R08仅实现创建直接会话
+  new_rule: 由R14Controller单一落地九个冻结operationId，控制器只编排R14Service；R14Service强制成员权限、双向拉黑、配置限流、图片大小与媒体授权、幂等快照和R14专属Outbox审计；删除仅写本端hidden_at
+  impact_summary: 新增R14合同类、Store/PostgreSQL Store、应用服务和统一控制器，从R08Controller迁移直接会话入口并修复conversation.version读取，同步CHANGELOG；不修改OpenAPI、V043或配置合同
+  impact:
+    files:
+    - CHANGELOG.md
+    - services/backend/content/src/main/java/cc/orbexa/hhy/content/R14Contracts.java
+    - services/backend/content/src/main/java/cc/orbexa/hhy/content/R14Store.java
+    - services/backend/content/src/main/java/cc/orbexa/hhy/content/R14PostgresStore.java
+    - services/backend/content/src/main/java/cc/orbexa/hhy/content/R14Service.java
+    - services/backend/content/src/main/java/cc/orbexa/hhy/content/R08PostgresStore.java
+    - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/R08Controller.java
+    - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/R14Controller.java
+    - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R14ServiceTest.java
+    - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R14PostgresStoreTest.java
+    - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/R08ControllerContractTest.java
+    - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/R11ControllerContractTest.java
+    - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/R14ControllerContractTest.java
+    pages: []
+    apis:
+    - chatGetConversations
+    - chatPostConversationsDirect
+    - chatGetConversationsByIdMessages
+    - chatPostConversationsByIdMessages
+    - chatPostConversationsByIdRead
+    - chatDeleteConversationsById
+    - chatPostUsersByIdBlock
+    - chatDeleteUsersByIdBlock
+    - chatPostConversationsByIdReport
+    database:
+    - 无Schema变更，仅使用V043冻结表与不变量
+    configuration: []
+    ledger: []
+    tests:
+    - Java21模块编译；R14ServiceTest 10项；R14/R11/R08 Controller合同13项；PostgreSQL17真实生命周期与R14 Outbox来源1项；check_api_contract；check_generated_assets；check_r14_entry_contract；check_v122_documentation
+      --release R14
+    releases:
+    - R14
+    migration_and_compatibility: 无新数据迁移。保持原有URL、operationId和JSON字段不变；R08Service直接会话逻辑被R14Service复用，旧客户端无需升级即可继续调用
+  user_confirmation: 项目所有者已明确授权持续推进开发且无需逐项批准
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-27T21:35:44Z'
+    note: 独立审查通过：九个冻结operationId单一落地R14Controller并由R14Service编排；成员权限、双向拉黑、配置限流、chat.image.max_mb媒体大小与授权、加密幂等快照、R14专属Outbox及本端hidden_at语义已核对。Java21定向编译与13项非数据库测试PASS，PostgreSQL17/Flyway
+      V043生命周期及direct/report Outbox source=r14-api断言PASS，API、生成资产、R14入口与R14文档门禁PASS。
+  machine_record: .continuity/change_requests/CR-0420.yaml
+  document: docs/03-continuity/change-requests/CR-0420-实现R14一对一聊天核心后端九接口.md
+- protocol_version: '1.0'
+  cr_id: CR-0421
+  title: 修复R14联系方式密文容量与冻结明文合同不一致
+  status: APPROVED
+  created_at: '2026-07-27T21:41:26Z'
+  updated_at: '2026-07-27T21:45:56Z'
+  requester_actor_id: codex-root-r14-backend-20260728
+  approver_actor_id: codex-r14-cr-review-20260728
+  task_id: TASK-R14-003
+  session_id: SES-20260727T203754Z-DCE3090A
+  user_request: 持续推进R14开发并确保功能与开发文档一一对应
+  reason: ChatContactField.value允许1至256字符，AES-GCM密文信封更长，但V043仍按256字符校验持久化payload，导致最大合法输入写库失败
+  original_rule: ChatContactField.value冻结为1至256字符；当前R14Service回读密文时仍按256校验，V043也把持久化AES-GCM信封错误限制为256，最大合法明文无法完成发送到回读闭环
+  new_rule: 三段边界必须分别执行：客户端及加密前明文1至256字符；V043持久化只接受长度不超过2048且匹配hhy-contact-v1三段Base64URL结构的AES-GCM信封，直接明文写库拒绝；回读先按2048验证信封并解密，再次验证解密明文1至256字符后才返回授权成员
+  impact_summary: 修正R14Service三态联系方式处理及V043双副本的密文格式与容量；补最大256多字节字符发送、持久化、回读成功，第257字符、超长或非法信封拒绝，真实PostgreSQL写入、数据库合同、Problem Registry与CHANGELOG；不修改OpenAPI或客户端生成物
+  impact:
+    files:
+    - database/migrations/V043__r14_chat_invariants.sql
+    - services/backend/boot/src/main/resources/db/migration/V043__r14_chat_invariants.sql
+    - database/tests/r14_chat_invariants.sql
+    - tests/test_r14_database_contract.py
+    - services/backend/content/src/main/java/cc/orbexa/hhy/content/R14Service.java
+    - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R14ServiceTest.java
+    - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R14PostgresStoreTest.java
+    - docs/03-continuity/PROBLEM_REGISTRY.yaml
+    - CHANGELOG.md
+    pages: []
+    apis:
+    - chatPostConversationsByIdMessages
+    database:
+    - chat_messages
+    configuration: []
+    ledger: []
+    tests:
+    - 最大256多字节明文发送到AES-GCM持久化再回读成功；第257字符在claim/write前拒绝；非法或超过2048信封拒绝；解密后超过256拒绝；真实PostgreSQL接受最大合法密文且拒绝明文；数据库合同锁定hhy-contact-v1格式、2048容量及双副本一致；现有R14数据库矩阵回归
+    releases:
+    - R14
+    migration_and_compatibility: V043尚处R14开发期且未发布；仅把CONTACT_CARD持久化字段从错误的明文长度检查改为hhy-contact-v1密文信封格式和2048容量，兼容服务生成的既有短密文并拒绝直接明文。API及解密后明文仍限制256，U043无需变化
+  user_confirmation: 项目所有者已明确授权持续推进开发且无需逐项批准
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-27T21:45:56Z'
+    note: 计划审查通过：公开API与加密前明文保持1至256字符；R14Service纳入影响范围并明确持久化前生成hhy-contact-v1信封、回读先按2048校验后解密且再次校验明文1至256；V043双副本只接受结构化三段Base64URL信封并拒绝明文；测试覆盖最大256多字节闭环、257前置拒绝、非法/超长信封、解密后超限、双副本一致、数据库合同及真实PostgreSQL回归。批准该边界方案进入实现，实施仍须按声明测试全部通过。
+  machine_record: .continuity/change_requests/CR-0421.yaml
+  document: docs/03-continuity/change-requests/CR-0421-修复R14联系方式密文容量与冻结明文合同不一致.md
