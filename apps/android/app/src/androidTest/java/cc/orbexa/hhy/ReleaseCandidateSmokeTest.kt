@@ -88,7 +88,7 @@ class ReleaseCandidateSmokeTest {
         listOf("我的收藏", "全部", "项目", "APP", "群聊", "团队长", activityTargetTitle).forEach { label ->
             assertTrue("R13 favorites missed: $label", device.wait(Until.hasObject(By.text(label)), 20_000))
         }
-        waitForLoadedMedia(expectedCount = 3)
+        prepareLoadedMediaForCapture(expectedCount = 3)
         captureStable("01-favorites.png")
         assertNoForbiddenVisibleText()
 
@@ -229,23 +229,54 @@ class ReleaseCandidateSmokeTest {
         error("Screen pixels did not become stable and distinct for $name")
     }
 
-    private fun waitForLoadedMedia(expectedCount: Int) {
+    private fun prepareLoadedMediaForCapture(expectedCount: Int) {
         val loaded = By.desc(Pattern.compile("内容图片：.+"))
         val failed = By.desc(Pattern.compile("内容图片加载失败：.+"))
         val loading = By.desc(Pattern.compile("内容图片加载中：.+"))
         val deadline = SystemClock.uptimeMillis() + 30_000
+        val scrollables = device.findObjects(By.scrollable(true))
+        assertTrue(
+            "Expected exactly one R13 activity list while activating candidate media: count=${scrollables.size}",
+            scrollables.size == 1,
+        )
+        val scrollable = scrollables.single()
+        val activatedDescriptions = mutableSetOf<String>()
         while (SystemClock.uptimeMillis() < deadline) {
             val failedCount = device.findObjects(failed).size
             assertTrue("Candidate media failed to load: errors=$failedCount", failedCount == 0)
+            activatedDescriptions += device.findObjects(loaded).mapNotNull { it.contentDescription }
+            if (activatedDescriptions.size >= expectedCount) {
+                break
+            }
+            scrollable.scroll(Direction.DOWN, 0.35f)
+            device.waitForIdle(500)
+        }
+        if (activatedDescriptions.size < expectedCount) {
+            error(
+                "Candidate media activation did not finish: expected=$expectedCount " +
+                    "observedSuccess=${activatedDescriptions.size} " +
+                    "visibleSuccess=${device.findObjects(loaded).size} " +
+                    "errors=${device.findObjects(failed).size} " +
+                    "loading=${device.findObjects(loading).size}",
+            )
+        }
+        repeat(6) {
+            scrollable.scroll(Direction.UP, 1.0f)
+            device.waitForIdle(350)
+        }
+        while (SystemClock.uptimeMillis() < deadline) {
+            val failedCount = device.findObjects(failed).size
+            assertTrue("Candidate media failed after returning to list start: errors=$failedCount", failedCount == 0)
             val loadedCount = device.findObjects(loaded).size
-            if (loadedCount >= expectedCount) {
+            val loadingCount = device.findObjects(loading).size
+            if (loadedCount == expectedCount && loadingCount == 0) {
                 device.waitForIdle(2_000)
                 return
             }
-            SystemClock.sleep(250)
+            device.waitForIdle(250)
         }
         error(
-            "Candidate media did not finish loading: expected=$expectedCount " +
+            "Candidate media was not ready at list start: expected=$expectedCount " +
                 "success=${device.findObjects(loaded).size} " +
                 "errors=${device.findObjects(failed).size} " +
                 "loading=${device.findObjects(loading).size}",

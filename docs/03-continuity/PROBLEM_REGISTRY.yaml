@@ -1768,18 +1768,18 @@ problems:
   - 选择器观测不到终态时不得简单延长超时或把网络正常误判为图片仍在加载
   - 被确定性仪器缺陷消费的Run不得重跑或交付其中间APK
 - id: PROB-0126
-  title: R13固定尺寸Lazy列表预组合媒体因尚未测量而持续loading
+  title: R13固定尺寸Lazy列表预组合媒体未进入活动视口而持续loading
   status: REMEDIATING
-  root_cause: Run 30226547910 attempt6的请求、编译、Lint、单测、打包、OIDC和Staging准备均通过，CR-0386新增的description也被UiAutomator正确识别；收藏页30秒后精确报告expected=3 success=2 errors=0 loading=1。三个内容共用同一HTTP 200 READY媒体，零error且两项已成功，排除网络和选择器根因；第三个LazyColumn节点已预组合进入无障碍树但尚未获得实际布局尺寸，AsyncImage默认约束SizeResolver未启动该请求，因此永久保留loading。
-  resolution: CR-0387为R13固定宽高媒体容器创建与容器一致像素尺寸的稳定ImageRequest，使预组合节点不依赖首次实际测量即可启动真实请求；继续保留30秒、三条success、零error、零loading和截图前硬门禁，禁止延长超时、固定sleep或把expectedCount降为2。Run 30226547910与attempt6保持已消费且不得重跑或晋升；专项回归、UI基础门禁和obx-test固定镜像223任务已通过，首个修复Commit为0769abff1ecb12e4f4cd6415f66cdef8c92d0209。唯一R13 attempt7/request007/CR-0387/max1仅绑定该不可变SHA，attempt8未授权。
+  root_cause: Run 30226547910 attempt6的请求、编译、Lint、单测、打包、OIDC和Staging准备均通过，CR-0386新增的description也被UiAutomator正确识别；收藏页30秒后精确报告expected=3 success=2 errors=0 loading=1。CR-0387随后给固定媒体容器提供确定像素尺寸并通过固定镜像模块验证，但Run 30228016402 attempt7仍报告相同2/0/1，证明尺寸解析不是最终根因。第三个LazyColumn节点虽已预组合进入语义树，却未进入活动视口，图片生命周期仍未启动；断言后的DNS和Google联网探针错误晚于业务失败，不是根因。
+  resolution: 保留CR-0387的确定尺寸ImageRequest；CR-0388把候选旅程改为在原30秒总期限内定位唯一滚动列表，按业务description累计确认真实媒体成功并受控向下滚动激活预组合项，三项全部成功后回到列表顶部，再要求当前语义树严格三条success、零error、零loading才允许首张截图。Run 30226547910/attempt6与Run 30228016402/attempt7均保持已消费且不得重跑、晋升或交付；attempt8只能在首个测试修复Commit及专项、固定镜像证据通过后精确登记。
   regression_checks:
-  - tests.test_r13_candidate必须锁定与容器一致的确定像素尺寸ImageRequest、三条预期媒体、30秒上限和截图前等待顺序
+  - tests.test_r13_candidate必须锁定与容器一致的确定像素尺寸ImageRequest、唯一滚动容器、按业务description累计三条成功、受控下滚激活、回顶严格三态复验、30秒单一期限和截图前等待顺序
   - scripts/check_android_ui_foundation.py必须PASS且git diff --check无错误
   - obx-test固定Android镜像必须通过feature:activity:testDebugUnitTest和app:compileDebugAndroidTestKotlin
-  - R13 attempt7必须精确绑定CR-0387、唯一request007、首个修复Commit完整SHA和单次运行上限
+  - R13 attempt7必须保留精确绑定CR-0387、唯一request007、首个修复Commit完整SHA和单次运行上限的已消费失败事实；attempt8必须在CR-0388实现证据完成后绑定新的唯一request008与首个测试修复Commit完整SHA
   - 新候选必须报告三条success且四张截图由AI逐图确认真实媒体、安全区、顶栏、底部面板、截断、遮挡和品牌对比度
   do_not_repeat:
   - 不得把部分success且零error的持续loading继续误判为选择器不可观测或公网媒体失败
-  - 固定尺寸Lazy媒体不得依赖首次布局测量才启动候选必须验证的预组合图片请求
+  - 固定尺寸Lazy媒体不得假设进入语义树等同于进入活动视口；候选必须确定性激活后回到冻结截图起点复验
   - 不得通过增加超时、固定sleep、降低expectedCount或接受占位图绕过真实媒体门禁
-  - Run 30226547910不得重跑、晋升、交付或作为视觉基线来源
+  - Run 30226547910和Run 30228016402不得重跑、晋升、交付或作为视觉基线来源

@@ -124,19 +124,32 @@ class R13CandidateTest(unittest.TestCase):
             'else -> "内容图片加载中：${item.title}"',
         ):
             self.assertIn(description, source)
-        wait = 'waitForLoadedMedia(expectedCount = 3)'
+        wait = 'prepareLoadedMediaForCapture(expectedCount = 3)'
         capture = 'captureStable("01-favorites.png")'
         self.assertIn(wait, self.journey)
         self.assertIn('By.desc(Pattern.compile("内容图片：.+"))', self.journey)
         self.assertIn('By.desc(Pattern.compile("内容图片加载失败：.+"))', self.journey)
         self.assertIn('By.desc(Pattern.compile("内容图片加载中：.+"))', self.journey)
         self.assertIn('assertTrue("Candidate media failed to load: errors=$failedCount", failedCount == 0)', self.journey)
-        self.assertIn('if (loadedCount >= expectedCount)', self.journey)
+        self.assertIn('val scrollables = device.findObjects(By.scrollable(true))', self.journey)
+        self.assertIn('scrollables.size == 1', self.journey)
+        self.assertIn('val activatedDescriptions = mutableSetOf<String>()', self.journey)
+        self.assertIn('activatedDescriptions += device.findObjects(loaded).mapNotNull { it.contentDescription }', self.journey)
+        self.assertIn('scrollable.scroll(Direction.DOWN, 0.35f)', self.journey)
+        self.assertIn('scrollable.scroll(Direction.UP, 1.0f)', self.journey)
+        self.assertIn('"Candidate media activation did not finish: expected=$expectedCount "', self.journey)
+        self.assertIn('"Candidate media was not ready at list start: expected=$expectedCount "', self.journey)
+        self.assertIn('assertTrue("Candidate media failed after returning to list start: errors=$failedCount"', self.journey)
+        self.assertIn('if (loadedCount == expectedCount && loadingCount == 0)', self.journey)
+        self.assertIn('"observedSuccess=${activatedDescriptions.size} "', self.journey)
+        self.assertIn('"visibleSuccess=${device.findObjects(loaded).size} "', self.journey)
         self.assertIn('"success=${device.findObjects(loaded).size} "', self.journey)
         self.assertIn('"errors=${device.findObjects(failed).size} "', self.journey)
         self.assertIn('"loading=${device.findObjects(loading).size}"', self.journey)
         self.assertIn('val deadline = SystemClock.uptimeMillis() + 30_000', self.journey)
-        self.assertNotIn('waitForLoadedMedia(expectedCount = 2)', self.journey)
+        self.assertEqual(1, self.journey.count('val deadline = SystemClock.uptimeMillis() + 30_000'))
+        self.assertNotIn('prepareLoadedMediaForCapture(expectedCount = 2)', self.journey)
+        self.assertNotIn('SystemClock.sleep(250)', self.journey)
         self.assertNotIn('By.res(Pattern.compile("${Pattern.quote(prefix)}', self.journey)
         self.assertLess(self.journey.index(wait), self.journey.index(capture))
 
