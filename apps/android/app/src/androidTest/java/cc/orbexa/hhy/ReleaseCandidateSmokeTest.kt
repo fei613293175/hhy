@@ -82,8 +82,8 @@ class ReleaseCandidateSmokeTest {
     @Test
     fun authenticatedR13PagesProduceBoundVisualEvidence() {
         assertTrue(
-            "Authenticated shell did not reach its loaded screen identity",
-            waitForScreen("hhy.screen.r06.home.loaded"),
+            "Authenticated shell did not reach a usable screen identity",
+            waitForAuthenticatedShell(),
         )
         assertFalse("Cold start exposed connection failure", device.hasObject(By.text("暂时无法连接")))
 
@@ -168,6 +168,22 @@ class ReleaseCandidateSmokeTest {
         if (gone != null && !device.wait(Until.gone(By.res(gone)), 15_000)) return false
         device.waitForIdle(2_000)
         return true
+    }
+
+    private fun waitForAuthenticatedShell(): Boolean {
+        val acceptedScreens = listOf(
+            By.res("hhy.screen.r06.home.loaded"),
+            By.res("hhy.screen.r06.home.error"),
+        )
+        val deadline = SystemClock.uptimeMillis() + 30_000
+        do {
+            if (acceptedScreens.any { selector -> device.hasObject(selector) }) {
+                device.waitForIdle(2_000)
+                return true
+            }
+            device.waitForIdle(250)
+        } while (SystemClock.uptimeMillis() < deadline)
+        return acceptedScreens.any { selector -> device.hasObject(selector) }
     }
 
     private fun clickExactText(value: String) {

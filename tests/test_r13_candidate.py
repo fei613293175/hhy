@@ -123,6 +123,21 @@ class R13CandidateTest(unittest.TestCase):
         self.assertIn('clickExactText("再检查一下")', self.journey)
         self.assertNotIn("authenticatedR12PagesProduceBoundVisualEvidence", self.journey)
 
+    def test_candidate_entry_accepts_only_usable_authenticated_shell_states(self) -> None:
+        self.assertIn('waitForAuthenticatedShell()', self.journey)
+        helper = self.journey[
+            self.journey.index("private fun waitForAuthenticatedShell"):
+            self.journey.index("private fun clickExactText")
+        ]
+        self.assertIn('By.res("hhy.screen.r06.home.loaded")', helper)
+        self.assertIn('By.res("hhy.screen.r06.home.error")', helper)
+        self.assertEqual(2, helper.count('By.res("hhy.screen.r06.home.'))
+        self.assertIn("SystemClock.uptimeMillis() + 30_000", helper)
+        self.assertNotIn("SystemClock.sleep", helper)
+        self.assertLess(self.journey.index("waitForAuthenticatedShell()"), self.journey.index('clickExactText("我的")'))
+        self.assertIn('waitForScreen("hhy.screen.r12.me"', self.journey)
+        self.assertNotIn('waitForScreen("hhy.screen.r06.home.loaded")', self.journey)
+
     def test_project_detail_exposes_stable_resources_for_candidate_actions(self) -> None:
         source = PROJECT_SCREEN.read_text(encoding="utf-8")
         self.assertIn('Modifier.testTag("r13.action.project.share")', source)
@@ -183,7 +198,7 @@ class R13CandidateTest(unittest.TestCase):
         self.assertIn('"errors=${device.findObjects(failed).size} "', self.journey)
         self.assertIn('"loading=${device.findObjects(loading).size}"', self.journey)
         self.assertIn('val deadline = SystemClock.uptimeMillis() + 30_000', self.journey)
-        self.assertEqual(2, self.journey.count('val deadline = SystemClock.uptimeMillis() + 30_000'))
+        self.assertEqual(3, self.journey.count('val deadline = SystemClock.uptimeMillis() + 30_000'))
         self.assertNotIn('prepareLoadedMediaForCapture(expectedCount = 2)', self.journey)
         self.assertNotIn('SystemClock.sleep(250)', self.journey)
         media_helper = self.journey[self.journey.index('private fun prepareLoadedMediaForCapture'):]

@@ -24461,3 +24461,115 @@ change_requests:
     note: 夹具源代码证明三个条目均为PROJECT，因此CR-0394不得实施；Compose performScrollTo直接命中唯一业务标题并调用LazyColumn原生语义滚动，是当前证据支持的最小修复，保留全部原候选硬门槛
   machine_record: .continuity/change_requests/CR-0395.yaml
   document: docs/03-continuity/change-requests/CR-0395-纠正CR-0394无效分类假设并用Compose精确激活R13媒体.md
+- protocol_version: '1.0'
+  cr_id: CR-0396
+  title: 修复R13候选被非目标首页加载状态阻断
+  status: IMPLEMENTED
+  created_at: '2026-07-27T09:04:03Z'
+  updated_at: '2026-07-27T09:35:27Z'
+  requester_actor_id: codex-root-r13-candidate-20260727
+  approver_actor_id: project-owner-standing-authorization
+  task_id: TASK-R13-007
+  session_id: SES-20260726T191158Z-2B506AB7
+  user_request: 项目所有者要求检查并终止原地打转，持续推进R13至R32
+  reason: Run 30246999437 attempt14及唯一允许的瞬态Job重跑均在R13旅程前被首页loaded单态断言阻断；最新runtime artifact证明应用正常启动且无崩溃ANR，R13媒体修复未执行，候选必须把认证主框架与首页业务加载结果分离
+  original_rule: R13候选启动后只接受hhy.screen.r06.home.loaded，首页推荐接口处于error时即使已完成认证并可进入R13目标页面也在旅程前失败
+  new_rule: R13候选入口以已认证主框架为边界：首页loaded或home.error均证明主框架可操作并允许继续点击我的；登录页、会话验证中、启动门禁失败仍严格阻断。首页error只豁免非R13推荐数据，不豁免收藏、历史、详情、分享、反馈、真实媒体、四张截图或30秒期限中的任何门禁
+  impact_summary: 仅调整R13 Android候选测试入口判定和既有治理事实源；不改生产页面、API、数据库、夹具、媒体、业务数量、截图或视觉门槛。Attempt14两次运行保持已消费，不重跑
+  impact:
+    files:
+    - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+    - tests/test_r13_candidate.py
+    - docs/03-continuity/PROBLEM_REGISTRY.yaml
+    - docs/03-continuity/PITFALLS.md
+    - docs/03-continuity/REUSABLE_PATTERNS.md
+    - docs/08-testing/Android自动开发测试修复交付体系_V1.0.md
+    - CHANGELOG.md
+    pages:
+    - SCR-HOME-001候选入口与SCR-FAV-001/SCR-HIS-001目标旅程
+    apis:
+    - 首页推荐失败可旁路；R13收藏历史及详情接口仍必须真实通过
+    database:
+    - 无变化
+    configuration:
+    - attempt14及其单次Job重跑保持已消费；不得第三次重跑
+    ledger:
+    - 登记Run 30246999437两次首页入口失败、runtime artifact SHA-256和CR-0395未被执行事实
+    tests:
+    - tests.test_r13_candidate、Android UI foundation、app:compileDebugAndroidTestKotlin
+    releases:
+    - R13
+    migration_and_compatibility: 生产APK与服务端不变；候选仍使用真实一次性会话及真实R13接口。若公网整体不可用，后续收藏或历史目标页仍会按原门禁失败，不会产生假通过
+  user_confirmation: 项目所有者已明确授权自主持续开发、无需逐次批准，并要求同一错误切换方案而非原地打转
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-27T09:05:22Z'
+    note: 项目所有者持续Goal明确禁止原地检查和重复重试；本CR仅解除非目标首页数据对R13旅程的错误耦合，R13真实接口、媒体、截图及视觉标准全部保持，且Attempt14不得再次重跑
+  machine_record: .continuity/change_requests/CR-0396.yaml
+  document: docs/03-continuity/change-requests/CR-0396-修复R13候选被非目标首页加载状态阻断.md
+  decision_log:
+  - at: '2026-07-27T09:23:32Z'
+    actor_id: codex-root-r13-candidate-20260727
+    status: IMPLEMENTING
+    note: 开始实施R13候选认证主框架入口修复；Attempt14保持已消费
+    session_id: SES-20260726T191158Z-2B506AB7
+  - at: '2026-07-27T09:35:27Z'
+    actor_id: codex-root-r13-candidate-20260727
+    status: IMPLEMENTED
+    note: R13认证主框架入口修复完成；本地40项治理回归、17项知识回归、Android UI基础及obx-test固定镜像AndroidTest编译PASS
+    session_id: SES-20260726T191158Z-2B506AB7
+  session_ids:
+  - SES-20260726T191158Z-2B506AB7
+- protocol_version: '1.0'
+  cr_id: CR-0397
+  title: 同步CR-0396共享Android候选门禁断言
+  status: IMPLEMENTED
+  created_at: '2026-07-27T09:15:04Z'
+  updated_at: '2026-07-27T09:35:33Z'
+  requester_actor_id: codex-root-r13-candidate-20260727
+  approver_actor_id: project-owner-standing-authorization
+  task_id: TASK-R13-007
+  session_id: SES-20260726T191158Z-2B506AB7
+  user_request: 项目所有者要求终止原地打转并持续推进R13
+  reason: CR-0396实现后共享tests.test_android_ci_gate仍硬编码旧home.loaded单态字符串，导致受影响治理回归确定性失败；该CR只同步既有CR-0396，不建立第二套入口规则
+  original_rule: 共享Android候选回归直接断言ReleaseCandidateSmokeTest仍调用waitForScreen(hhy.screen.r06.home.loaded)，与已批准CR-0396冲突
+  new_rule: 共享Android候选回归只锁定CR-0396唯一入口helper、home.loaded与home.error两个可操作主框架状态，并明确拒绝旧home.loaded单态调用；不重复定义业务规则
+  impact_summary: 仅同步一处共享Python静态回归到CR-0396；不改候选实现、生产代码、配置、接口、数据或视觉标准
+  impact:
+    files:
+    - tests/test_android_ci_gate.py
+    pages:
+    - 无页面实现变化
+    apis:
+    - 无影响
+    database:
+    - 无变化
+    configuration:
+    - 无变化
+    ledger:
+    - CR-0397仅作为CR-0396遗漏测试文件的补充审计
+    tests:
+    - tests.test_android_ci_gate
+    releases:
+    - R13
+    migration_and_compatibility: 纯测试合同同步；CR-0396继续是入口行为唯一事实源
+  user_confirmation: 项目所有者已授权自主持续开发并要求避免重复规则与原地循环
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-27T09:15:48Z'
+    note: 该CR不建立新行为规则，只把共享门禁同步到CR-0396唯一事实，防止旧断言继续制造假失败
+  machine_record: .continuity/change_requests/CR-0397.yaml
+  document: docs/03-continuity/change-requests/CR-0397-同步CR-0396共享Android候选门禁断言.md
+  decision_log:
+  - at: '2026-07-27T09:23:39Z'
+    actor_id: codex-root-r13-candidate-20260727
+    status: IMPLEMENTING
+    note: 同步共享Android候选门禁断言到CR-0396唯一规则
+    session_id: SES-20260726T191158Z-2B506AB7
+  - at: '2026-07-27T09:35:33Z'
+    actor_id: codex-root-r13-candidate-20260727
+    status: IMPLEMENTED
+    note: 共享Android候选断言已同步CR-0396唯一入口规则并通过回归
+    session_id: SES-20260726T191158Z-2B506AB7
+  session_ids:
+  - SES-20260726T191158Z-2B506AB7

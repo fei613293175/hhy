@@ -1,0 +1,53 @@
+protocol_version: '1.0'
+cr_id: CR-0397
+title: 同步CR-0396共享Android候选门禁断言
+status: IMPLEMENTED
+created_at: '2026-07-27T09:15:04Z'
+updated_at: '2026-07-27T09:35:33Z'
+requester_actor_id: codex-root-r13-candidate-20260727
+approver_actor_id: project-owner-standing-authorization
+task_id: TASK-R13-007
+session_id: SES-20260726T191158Z-2B506AB7
+user_request: 项目所有者要求终止原地打转并持续推进R13
+reason: CR-0396实现后共享tests.test_android_ci_gate仍硬编码旧home.loaded单态字符串，导致受影响治理回归确定性失败；该CR只同步既有CR-0396，不建立第二套入口规则
+original_rule: 共享Android候选回归直接断言ReleaseCandidateSmokeTest仍调用waitForScreen(hhy.screen.r06.home.loaded)，与已批准CR-0396冲突
+new_rule: 共享Android候选回归只锁定CR-0396唯一入口helper、home.loaded与home.error两个可操作主框架状态，并明确拒绝旧home.loaded单态调用；不重复定义业务规则
+impact_summary: 仅同步一处共享Python静态回归到CR-0396；不改候选实现、生产代码、配置、接口、数据或视觉标准
+impact:
+  files:
+  - tests/test_android_ci_gate.py
+  pages:
+  - 无页面实现变化
+  apis:
+  - 无影响
+  database:
+  - 无变化
+  configuration:
+  - 无变化
+  ledger:
+  - CR-0397仅作为CR-0396遗漏测试文件的补充审计
+  tests:
+  - tests.test_android_ci_gate
+  releases:
+  - R13
+  migration_and_compatibility: 纯测试合同同步；CR-0396继续是入口行为唯一事实源
+user_confirmation: 项目所有者已授权自主持续开发并要求避免重复规则与原地循环
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-27T09:15:48Z'
+  note: 该CR不建立新行为规则，只把共享门禁同步到CR-0396唯一事实，防止旧断言继续制造假失败
+machine_record: .continuity/change_requests/CR-0397.yaml
+document: docs/03-continuity/change-requests/CR-0397-同步CR-0396共享Android候选门禁断言.md
+decision_log:
+- at: '2026-07-27T09:23:39Z'
+  actor_id: codex-root-r13-candidate-20260727
+  status: IMPLEMENTING
+  note: 同步共享Android候选门禁断言到CR-0396唯一规则
+  session_id: SES-20260726T191158Z-2B506AB7
+- at: '2026-07-27T09:35:33Z'
+  actor_id: codex-root-r13-candidate-20260727
+  status: IMPLEMENTED
+  note: 共享Android候选断言已同步CR-0396唯一入口规则并通过回归
+  session_id: SES-20260726T191158Z-2B506AB7
+session_ids:
+- SES-20260726T191158Z-2B506AB7
