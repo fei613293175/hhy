@@ -1771,7 +1771,7 @@ problems:
   title: R13固定尺寸Lazy列表预组合媒体未进入活动视口而持续loading
   status: REMEDIATING
   root_cause: Run 30226547910 attempt6的请求、编译、Lint、单测、打包、OIDC和Staging准备均通过，CR-0386新增的description也被UiAutomator正确识别；收藏页30秒后精确报告expected=3 success=2 errors=0 loading=1。CR-0387随后给固定媒体容器提供确定像素尺寸并通过固定镜像模块验证，但Run 30228016402 attempt7仍报告相同2/0/1，证明尺寸解析不是最终根因。第三个LazyColumn节点虽已预组合进入语义树，却未进入活动视口，图片生命周期仍未启动；断言后的DNS和Google联网探针错误晚于业务失败，不是根因。
-  resolution: 保留CR-0387的确定尺寸ImageRequest；CR-0388把候选旅程改为在原30秒总期限内定位唯一滚动列表，按业务description累计确认真实媒体成功并受控向下滚动激活预组合项，三项全部成功后回到列表顶部，再要求当前语义树严格三条success、零error、零loading才允许首张截图。Run 30226547910/attempt6与Run 30228016402/attempt7均保持已消费且不得重跑、晋升或交付；attempt8只能在首个测试修复Commit及专项、固定镜像证据通过后精确登记。
+  resolution: 保留CR-0387的确定尺寸ImageRequest；CR-0388把候选旅程改为在原30秒总期限内定位唯一滚动列表，按业务description累计确认真实媒体成功并受控向下滚动激活预组合项，三项全部成功后回到列表顶部，再要求当前语义树严格三条success、零error、零loading才允许首张截图。Run 30226547910/attempt6与Run 30228016402/attempt7均保持已消费且不得重跑、晋升或交付；专项回归、UI基础门禁和obx-test固定镜像212任务通过，首个修复Commit为02f3dc856b2dc6de4df0c1f94730b80388b5d563。唯一R13 attempt8/request008/CR-0388/max1仅绑定该不可变SHA，attempt9未授权。
   regression_checks:
   - tests.test_r13_candidate必须锁定与容器一致的确定像素尺寸ImageRequest、唯一滚动容器、按业务description累计三条成功、受控下滚激活、回顶严格三态复验、30秒单一期限和截图前等待顺序
   - scripts/check_android_ui_foundation.py必须PASS且git diff --check无错误

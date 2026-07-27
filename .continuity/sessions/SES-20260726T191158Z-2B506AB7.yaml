@@ -11,7 +11,7 @@ task_id: TASK-R13-007
 story_id: STORY-R13-003
 goal: 收藏、历史、分享与行为审计Android测试APK与产物追溯
 started_at: '2026-07-26T19:11:58Z'
-updated_at: '2026-07-27T01:09:19Z'
+updated_at: '2026-07-27T01:15:11Z'
 takeover_of: null
 change_requests:
 - CR-0377
@@ -90,22 +90,22 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-27T01:09:08Z'
-  expires_at: '2026-07-27T05:09:08Z'
-checkpoint_sequence: 22
-latest_checkpoint: .continuity/checkpoints/SES-20260726T191158Z-2B506AB7/0022.yaml
+  renewed_at: '2026-07-27T01:14:49Z'
+  expires_at: '2026-07-27T05:14:49Z'
+checkpoint_sequence: 23
+latest_checkpoint: .continuity/checkpoints/SES-20260726T191158Z-2B506AB7/0023.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260726T191158Z-2B506AB7.md
-next_step: 提交不含attempt8请求的首个修复Commit；以完整SHA登记R13 request008/CR-0388/attempt8/max1并执行正反向治理回归、授权提交和单次推送。
+next_step: 提交attempt8候选授权Commit，执行Git transport与push preflight后单次推送；只监控新Run并消费其日志和构件。
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: 45dd93a99c1b91e1b6b9420bee524ae9457c3bba47b33eda34165e67c098582c
-  generated_at: '2026-07-27T01:09:14Z'
+  context_hash: 0cebeea2317f4567b9f846f127d72a52b61e1c11450753110f87d301a74e8b8c
+  generated_at: '2026-07-27T01:15:01Z'
 handoff_bundle: null
 closure: null
 parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 当前修复集中于单一候选旅程、同一CR事实链与首个修复Commit SHA，拆分会产生交叉编辑和候选身份竞态。
+  reason: 候选请求、精确例外、负向测试和授权Commit必须原子绑定同一修复SHA；拆分会产生短暂可绕过或不可解析状态。

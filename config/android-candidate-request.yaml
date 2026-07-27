@@ -2,8 +2,8 @@ schema_version: 1
 status: REQUESTED
 release: R13
 candidate: true
-remediation_attempt: 7
-request_id: R13-CANDIDATE-20260727-007
-reason: R13 attempt 6 Run 30226547910的候选请求、编译、Lint、单测、打包、OIDC和Staging准备通过，CR-0386媒体三态description也被正确识别，但收藏页30秒后精确报告success=2、errors=0、loading=1；第三个固定尺寸Lazy列表媒体已预组合但尚未测量，默认约束SizeResolver未启动真实请求。该Run已消费且不得重跑或晋升；CR-0387使用与容器一致像素尺寸的稳定ImageRequest，同时保留三条success、零error、零loading和截图前硬门禁。本请求只允许对首个修复Commit执行一次精确attempt 7，不授权attempt 8。
-attempt_exception_id: CR-0387
-required_fix_commit: 0769abff1ecb12e4f4cd6415f66cdef8c92d0209
+remediation_attempt: 8
+request_id: R13-CANDIDATE-20260727-008
+reason: R13 attempt 7 Run 30228016402的候选请求、编译、Lint、单测、打包、OIDC和Staging准备通过，但确定尺寸ImageRequest仍在收藏页精确报告success=2、errors=0、loading=1；第三个Lazy预组合节点虽进入语义树却未进入活动视口，断言后的DNS与Google联网探针错误不是业务根因。该Run已消费且不得重跑、晋升或交付；CR-0388在原30秒期限内按业务description累计确认媒体成功并受控下滚激活，三项成功后回顶严格复验三条success、零error、零loading。本请求只允许对首个修复Commit执行一次精确attempt 8，不授权attempt 9。
+attempt_exception_id: CR-0388
+required_fix_commit: 02f3dc856b2dc6de4df0c1f94730b80388b5d563
