@@ -11,7 +11,7 @@ task_id: TASK-R13-007
 story_id: STORY-R13-003
 goal: 收藏、历史、分享与行为审计Android测试APK与产物追溯
 started_at: '2026-07-26T19:11:58Z'
-updated_at: '2026-07-27T05:51:12Z'
+updated_at: '2026-07-27T06:41:36Z'
 takeover_of: null
 change_requests:
 - CR-0377
@@ -30,6 +30,7 @@ change_requests:
 - CR-0390
 - CR-0391
 - CR-0392
+- CR-0393
 scope:
   allowed_paths:
   - apps/**
@@ -94,22 +95,22 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-27T05:51:05Z'
-  expires_at: '2026-07-27T09:51:05Z'
-checkpoint_sequence: 33
-latest_checkpoint: .continuity/checkpoints/SES-20260726T191158Z-2B506AB7/0033.yaml
+  renewed_at: '2026-07-27T06:41:29Z'
+  expires_at: '2026-07-27T10:41:29Z'
+checkpoint_sequence: 34
+latest_checkpoint: .continuity/checkpoints/SES-20260726T191158Z-2B506AB7/0034.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260726T191158Z-2B506AB7.md
-next_step: 提交候选授权Commit，执行Git transport与push preflight后单次推送并只监控新Run
+next_step: 提交不含attempt13请求的首个修复Commit；随后用其完整SHA登记唯一attempt13候选授权
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: dbd99fcf04ee5ae81e7658fbdede7a38aeeeff42e87daee7f8d9f7153ef6b483
-  generated_at: '2026-07-27T05:51:09Z'
+  context_hash: df384823573d409e3b9f6d1be4902fc7fff93f0125992f743c1dea7fc7642c50
+  generated_at: '2026-07-27T06:41:33Z'
 handoff_bundle: null
 closure: null
 parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 候选请求、例外列表和正反合同构成单一原子授权，必须在同一Session串行提交
+  reason: instrumentation辅助方法、对应静态合同和同一问题事实记录构成单一原子修复，候选授权必须在首个修复Commit后串行绑定其完整SHA

@@ -319,20 +319,31 @@ class ReleaseCandidateSmokeTest {
         val list = device.findObject(By.res("r13.favorites.list"))
             ?: error("Cannot find R13 favorites list while activating candidate media")
         val bounds = list.visibleBounds
-        val verticalInset = maxOf(24, bounds.height() / 8)
-        val centerX = bounds.centerX()
-        val topY = bounds.top + verticalInset
-        val bottomY = bounds.bottom - verticalInset
-        assertTrue("R13 favorites list has no safe swipe area: $bounds", bottomY > topY)
+        val gestureMargin = maxOf(24, bounds.height() / 8)
+        assertTrue(
+            "R13 favorites list has no safe gesture area: $bounds",
+            bounds.height() > gestureMargin * 2,
+        )
+        list.setGestureMargin(gestureMargin)
         val activatedDescriptions = mutableSetOf<String>()
+        var direction = Direction.DOWN
+        var stagnantRounds = 0
+        var structuredScrolls = 0
         while (SystemClock.uptimeMillis() < deadline) {
             val failedCount = device.findObjects(failed).size
             assertTrue("Candidate media failed to load: errors=$failedCount", failedCount == 0)
+            val priorSuccessCount = activatedDescriptions.size
             activatedDescriptions += device.findObjects(loaded).mapNotNull { it.contentDescription }
             if (activatedDescriptions.size >= expectedCount) {
                 break
             }
-            device.swipe(centerX, bottomY, centerX, topY, 24)
+            stagnantRounds = if (activatedDescriptions.size == priorSuccessCount) stagnantRounds + 1 else 0
+            if (stagnantRounds >= 4) {
+                direction = if (direction == Direction.DOWN) Direction.UP else Direction.DOWN
+                stagnantRounds = 0
+            }
+            list.scroll(direction, 0.72f)
+            structuredScrolls += 1
             device.waitForIdle(500)
         }
         if (activatedDescriptions.size < expectedCount) {
@@ -341,11 +352,12 @@ class ReleaseCandidateSmokeTest {
                     "observedSuccess=${activatedDescriptions.size} " +
                     "visibleSuccess=${device.findObjects(loaded).size} " +
                     "errors=${device.findObjects(failed).size} " +
-                    "loading=${device.findObjects(loading).size}",
+                    "loading=${device.findObjects(loading).size} " +
+                    "structuredScrolls=$structuredScrolls direction=$direction",
             )
         }
         repeat(6) {
-            device.swipe(centerX, topY, centerX, bottomY, 24)
+            list.scroll(Direction.UP, 0.72f)
             device.waitForIdle(350)
         }
         while (SystemClock.uptimeMillis() < deadline) {
