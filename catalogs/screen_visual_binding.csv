@@ -49,10 +49,12 @@ SCR-MYC-003,内容管理详情,/me/contents/{id},B08,P03,EXACT_CONSTRUCTION_REFE
 SCR-MYC-004,审核记录,/me/contents/{id}/reviews,B08,P03,APPROVED_SUPPLEMENT,批准补充规格复用B08/P03内容上下文与B06/P07/P08审核状态
 SCR-MYC-005,内容数据,/me/contents/{id}/analytics,B08,P06,EXACT_CONSTRUCTION_REFERENCE,数据统计精确施工面板；指标和趋势只来自真实接口
 SCR-MSG-001,消息中心,/messages,TOKENS_ONLY,-,STYLE_LAYOUT_REFERENCE,无精确面板；使用Design Token和组件库
-SCR-CHAT-001,会话列表,/messages/chats,B07,P01-P08,STYLE_LAYOUT_REFERENCE,聊天、通知与公告
-SCR-CHAT-002,私聊页,/messages/chat/{conversationId},B07,P01-P08,STYLE_LAYOUT_REFERENCE,聊天、通知与公告
-SHEET-CHAT-001,发送联系方式,sheet://chat-contact,B07,P01-P08,STYLE_LAYOUT_REFERENCE,聊天、通知与公告
-SHEET-CHAT-002,聊天举报,sheet://chat-report,B07,P01-P08,STYLE_LAYOUT_REFERENCE,聊天、通知与公告
+SCR-CHAT-001,会话列表,/messages/chats,B07,P01,EXACT_PANEL,精确复用会话列表；过滤通知公告客服系统快捷区与示例数据
+SCR-CHAT-002,私聊页,/messages/chat/{conversationId},B07,P02;P04,APPROVED_SUPPLEMENT,补充规格复用P02会话骨架和P04内容卡；补齐四类消息与完整状态
+SHEET-CHAT-001,发送联系方式,sheet://chat-contact,B07,P03,APPROVED_SUPPLEMENT,补充规格复用联系方式选择语言；过滤项目快捷语并补字段选择备注与提交状态
+SHEET-CHAT-002,聊天举报,sheet://chat-report,B07,P07,APPROVED_SUPPLEMENT,补充规格复用举报弹层并补消息媒体证据二次确认与恢复状态
+DIALOG-CHAT-BLOCK-001,拉黑与解除拉黑确认,dialog://chat-block,B07,P07;P08,APPROVED_SUPPLEMENT,补充规格以P07为确认结构并仅复用P08影响和结果语义
+DIALOG-CHAT-DELETE-001,删除会话确认,dialog://chat-delete,B07,P07,APPROVED_SUPPLEMENT,补充规格复用P07弹层结构并明确仅删除当前用户会话视图
 SCR-NOTICE-001,通知列表,/messages/notifications,TOKENS_ONLY,-,STYLE_LAYOUT_REFERENCE,无精确面板；使用Design Token和组件库
 SCR-NOTICE-002,通知详情,/messages/notifications/{id},TOKENS_ONLY,-,STYLE_LAYOUT_REFERENCE,无精确面板；使用Design Token和组件库
 SCR-ANN-001,公告列表,/messages/announcements,B07,P01-P08,STYLE_LAYOUT_REFERENCE,聊天、通知与公告

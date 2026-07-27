@@ -26,33 +26,26 @@
 
 | 字段ID | 区域 | 字段键 | 显示名称 | 字段角色 | 语义类型 | 控件类型 | 数据来源 | 必填条件 | 显示条件 | 可编辑条件 | 校验规则 | 敏感级别 | 脱敏规则 | 错误提示 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| FLD-02195 | 页面头部 | pageTitle | 页面标题 | UI_META | ui | TEXT | LOCAL_UI | 必需 | 按页面状态显示 | 本地UI字段不可写入业务事实 | 按页面模板 | NORMAL | 无需特殊掩码；仍遵守最小展示 | 页面标题不符合页面规格 |
-| FLD-02196 | 路由与筛选 | id | ID | PATH_PARAM | string | TEXT_INPUT | chatDeleteConversationsById.path | 必填 | 执行“删除会话视图”时显示 | 用户具备权限且页面状态允许 | 必填；正则:^[A-Za-z0-9_-]{1,64}$ | NORMAL | 无需特殊掩码；仍遵守最小展示 | ID格式或范围不正确 |
-| FLD-02197 | 请求头 | X-Idempotency-Key | X-Idempotency-Key | REQUEST_HEADER | string | TEXT_INPUT | chatDeleteConversationsById.header | 必填 | 执行“删除会话视图”时显示 | 用户具备权限且页面状态允许 | 必填；最多128字符 | NORMAL | 无需特殊掩码；仍遵守最小展示 | X-Idempotency-Key格式或范围不正确 |
-| FLD-02198 | 表单输入 | id | ID | INPUT | string | TEXT_INPUT | chatDeleteConversationsById.request | 必填 | 执行“删除会话视图”且字段适用时显示 | 具备 登录+成员 且资源状态允许 | 必填；正则:^[A-Za-z0-9_-]{1,64}$ | NORMAL | 无需特殊掩码；仍遵守最小展示 | ID不符合要求 |
-| FLD-02199 | 表单输入 | xIdempotencyKey | x Idempotency Key | INPUT | string | TEXT_INPUT | chatDeleteConversationsById.request | 必填 | 执行“删除会话视图”且字段适用时显示 | 具备 登录+成员 且资源状态允许 | 必填；最少16字符；最多128字符 | NORMAL | 无需特殊掩码；仍遵守最小展示 | x Idempotency Key不符合要求 |
-| FLD-02200 | 主要内容 | resourceId | resource Id | DISPLAY | string | TEXT | chatDeleteConversationsById.response.data.CommandResultResource | 服务端返回时展示 | 有值且当前角色拥有字段访问权限 | 只读；通过明确写操作更新 | 最多64字符 | NORMAL | 无需特殊掩码；仍遵守最小展示 | resource Id加载失败时显示字段级占位或隐藏 |
-| FLD-02201 | 主要内容 | businessNo | business No | DISPLAY | string | TEXT | chatDeleteConversationsById.response.data.CommandResultResource | 服务端返回时展示 | 有值且当前角色拥有字段访问权限 | 只读；通过明确写操作更新 | 最多2000字符 | NORMAL | 无需特殊掩码；仍遵守最小展示 | business No加载失败时显示字段级占位或隐藏 |
-| FLD-02202 | 主要内容 | status | 状态 | DISPLAY | string | TEXT | chatDeleteConversationsById.response.data.CommandResultResource | 服务端返回时展示 | 有值且当前角色拥有字段访问权限 | 只读；通过明确写操作更新 | 必填；最多2000字符 | NORMAL | 无需特殊掩码；仍遵守最小展示 | 状态加载失败时显示字段级占位或隐藏 |
-| FLD-02203 | 主要内容 | version | 版本 | DISPLAY | integer | NUMBER_TEXT | chatDeleteConversationsById.response.data.CommandResultResource | 服务端返回时展示 | 有值且当前角色拥有字段访问权限 | 只读；通过明确写操作更新 | 格式:int64 | NORMAL | 无需特殊掩码；仍遵守最小展示 | 版本加载失败时显示字段级占位或隐藏 |
-| FLD-02204 | 主要内容 | acceptedAt | accepted At | DISPLAY | string | DATETIME_TEXT | chatDeleteConversationsById.response.data.CommandResultResource | 服务端返回时展示 | 有值且当前角色拥有字段访问权限 | 只读；通过明确写操作更新 | 必填；格式:date-time | NORMAL | 无需特殊掩码；仍遵守最小展示 | accepted At加载失败时显示字段级占位或隐藏 |
+| FLD-02195 | 页面头部 | pageTitle | 删除会话 | UI_META | ui | TEXT | LOCAL_UI | 必需 | 始终显示 | 只读 | 按页面模板 | NORMAL | 无需特殊掩码；仍遵守最小展示 | 页面标题加载失败 |
+| FLD-02196 | 目标摘要 | targetSummary | 会话对象 | DISPLAY | PublisherSummaryResource | USER_SUMMARY | TRUSTED_CALLER_CONTEXT | 必需 | 弹层打开时显示 | 只读 | 必须来自受信任调用页快照 | NORMAL | 无需特殊掩码；仍遵守最小展示 | 会话对象暂时无法显示 |
+| FLD-02197 | 影响说明 | impactNotice | 删除影响 | UI_META | ui | IMPACT_NOTICE | LOCAL_UI | 必需 | 弹层打开时显示 | 只读 | 固定说明仅删除当前账号会话视图，不删除对方消息记录 | NORMAL | 无需特殊掩码；仍遵守最小展示 | 影响说明加载失败 |
 
 ## 4. 页面状态与恢复
 
 | 状态码 | 进入条件 | 展示行为 | 允许操作 | 禁用操作 | 恢复策略 | 是否终态 |
 | --- | --- | --- | --- | --- | --- | --- |
-| OPEN | 由页面业务状态机进入 | 按“OPEN”状态展示标准状态区 | 按页面动作矩阵 | 与当前状态、权限或服务端version冲突的所有写操作 | 重新查询服务端事实 | 否 |
-| EDITING | 用户正在编辑表单 | 显示字段、帮助、脏状态和保存/提交入口 | 编辑/保存/提交/取消 | 与当前状态、权限或服务端version冲突的所有写操作 | 离开时执行脏表单保护 | 否 |
-| SUBMITTING | 写请求已提交，结果未确定 | 锁定同资源写操作，保留输入，展示进度 | 查询结果/取消（业务允许时） | 与当前状态、权限或服务端version冲突的所有写操作 | 不得重复生成新业务意图 | 否 |
-| SUCCESS | 操作成功且服务端已返回事实 | 展示明确结果并刷新关联数据 | 继续/返回/查看详情 | 与当前状态、权限或服务端version冲突的所有写操作 | 一次性敏感输入立即清除 | 是 |
-| ERROR | 请求失败且无法展示可靠内容 | 展示稳定错误码、requestId、重试和返回 | 重试/返回 | 与当前状态、权限或服务端version冲突的所有写操作 | 按错误码恢复 | 否 |
-| OFFLINE | 网络不可用 | 只读页面可展示标记为缓存的数据；写操作禁用 | 重试网络 | 与当前状态、权限或服务端version冲突的所有写操作 | 恢复网络后主动刷新 | 否 |
+| OPEN | 由页面业务状态机进入 | 按“OPEN”状态展示标准状态区 | 按页面动作矩阵 | 与当前状态或权限冲突的写操作 | 重新查询服务端事实 | 否 |
+| EDITING | 用户正在编辑表单 | 显示字段、帮助、脏状态和保存/提交入口 | 编辑/保存/提交/取消 | 与当前状态或权限冲突的写操作 | 离开时执行脏表单保护 | 否 |
+| SUBMITTING | 写请求已提交，结果未确定 | 锁定同资源写操作，保留输入，展示进度 | 查询结果/取消（业务允许时） | 与当前状态或权限冲突的写操作 | 不得重复生成新业务意图 | 否 |
+| SUCCESS | 操作成功且服务端已返回事实 | 展示明确结果并刷新关联数据 | 继续/返回/查看详情 | 与当前状态或权限冲突的写操作 | 一次性敏感输入立即清除 | 是 |
+| ERROR | 请求失败且无法展示可靠内容 | 展示面向用户的失败原因、重试和返回，不显示内部诊断信息 | 重试/返回 | 与当前状态或权限冲突的写操作 | 按用户可见错误类型恢复 | 否 |
+| OFFLINE | 网络不可用 | 只读页面可展示标记为缓存的数据；写操作禁用 | 重试网络 | 与当前状态或权限冲突的写操作 | 恢复网络后主动刷新 | 否 |
 
 ## 5. 页面动作
 
 | 动作ID | 动作 | 动作类型 | 入口组件 | 触发条件 | 显示条件 | 可用条件 | 前置校验 | 二次确认 | 请求映射 | 并发控制 | 加载表现 | 成功状态 | 失败状态 | 重试策略 | 成功后导航 | 审计要求 | 敏感处理 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| ACT-V122-007 | 删除会话视图 | DESTRUCTIVE_COMMAND | 页面主按钮/行操作/更多菜单/标准弹层，具体位置由模板和页面操作规格确定 | 用户显式点击操作入口，且本地字段校验、权限、状态机前置条件全部满足 | 具备权限 登录+成员，且资源状态允许“删除会话视图”；按钮显示条件由页面状态表和状态机共同决定 | 不存在同资源写请求；必填字段有效；服务端 version 未被本地标记过期；需要审批时已选择审批单 | 校验 id,X-Idempotency-Key,xIdempotencyKey；同一业务意图生成稳定 X-Idempotency-Key；请求体变化必须换键 | 必须二次确认；确认框展示目标、影响、不可逆性、原因、审批要求和将触发的通知 | DELETE /api/v1/conversations/{id}；请求模型 ChatDeleteConversationsByIdParameters；响应模型 ChatDeleteConversationsByIdResponse | X-Idempotency-Key + 服务端结果查询 | 提交期间锁定同资源写操作，保留输入并显示明确进度；禁止全页无反馈等待 | 按状态机更新资源并移除或禁用不再可用的操作；展示“删除会话视图成功”；保留操作记录入口 | 400逐字段映射；401要求重新认证；403隐藏后续写入口并记录越权拒绝；409提示数据已变化并重新加载；422展示业务原因且保留输入；429显示可重试时间；500保留上下文并提供 requestId | 使用同一幂等键仅重试同一请求体；若服务端已受理则先查询结果；409版本冲突不得盲重试 | 默认留在当前页并刷新；创建成功进入详情，支付/认证/发布结果按对应流程导航 | 记录操作人、角色、目标、前后状态/版本、原因、审批单、requestId、IP/设备和结果 | 遵循最小采集；仅记录业务标识和状态，不记录自由文本中的个人信息 |
+| ACT-V122-007 | 删除会话视图 | DESTRUCTIVE_COMMAND | 页面主按钮/行操作/更多菜单/标准弹层，具体位置由模板和页面操作规格确定 | 用户显式点击操作入口，且本地字段校验、权限、状态机前置条件全部满足 | 具备权限 登录+成员，且资源状态允许“删除会话视图”；按钮显示条件由页面状态表和状态机共同决定 | 不存在同资源写请求；必填字段有效；服务端状态未被本地标记过期 | 确认目标会话仍可由当前账号删除；幂等信息由网络层维护 | 确认仅删除当前账号会话视图，不删除对方消息记录 | DELETE /api/v1/conversations/{id}；请求模型 ChatDeleteConversationsByIdParameters；响应模型 ChatDeleteConversationsByIdResponse | X-Idempotency-Key + 服务端结果查询 | 提交期间锁定同资源写操作，保留输入并显示明确进度；禁止全页无反馈等待 | 从当前账号会话列表移除该会话视图并关闭确认弹层；不影响对方消息记录 | 400逐字段映射；401要求重新认证；403隐藏后续写入口并记录越权拒绝；409提示数据已变化并重新加载；422展示业务原因且保留输入；429显示可重试时间；500保留可安全恢复的上下文并提示稍后重试 | 使用同一幂等键仅重试同一请求体；若服务端已受理则先查询结果；409版本冲突不得盲重试 | 关闭弹层并返回真实来源；来源为会话列表时移除对应条目 | 记录操作人、角色、目标、前后状态/版本、原因、审批单、requestId、IP/设备和结果 | 遵循最小采集；仅记录业务标识和状态，不记录自由文本中的个人信息 |
 
 ## 6. 导航、深链与缓存
 
@@ -72,7 +65,8 @@
 - 配置组：`chat;notification`
 - 关键配置：`chat.stranger.daily_conversation_limit;chat.message.per_minute_limit;chat.image.max_mb;chat.history.retention_days;notification.marketing.default_enabled;notification.quiet_hours.start;notification.quiet_hours.end`
 - 测试：`TST-V122-006`
-- UI参考：`TOKENS_AND_TEMPLATE`
+- UI参考：`SPEC:design/R14-UI-FROZEN/specs/DIALOG-CHAT-DELETE-001.md`
+- 视觉覆盖状态：`IN_REVIEW`（编码完成并取得实现截图前不得标记 PASS）
 
 ## 8. 开发就绪检查
 

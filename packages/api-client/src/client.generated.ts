@@ -2347,6 +2347,52 @@ export interface components {
             /** Format: int64 */
             version: number;
         };
+        ChatTextPayload: {
+            text: string;
+        };
+        ChatImagePayload: {
+            mediaId: string;
+            /** Format: uri */
+            thumbnailUrl?: string;
+            width?: number;
+            height?: number;
+        };
+        ChatContentCardPayload: {
+            contentId: string;
+            /** @enum {string} */
+            contentType: "PROJECT" | "APP" | "GROUP_CHAT" | "TEAM_LEADER";
+            title: string;
+            /** Format: uri */
+            coverUrl?: string;
+        };
+        ChatContactField: {
+            /** @enum {string} */
+            type: "PHONE" | "WECHAT" | "QQ" | "EMAIL" | "OTHER";
+            label?: string;
+            value: string;
+        };
+        ChatContactCardPayload: {
+            fields: components["schemas"]["ChatContactField"][];
+            note?: string;
+        };
+        ChatMessagePayload: components["schemas"]["ChatTextPayload"] | components["schemas"]["ChatImagePayload"] | components["schemas"]["ChatContentCardPayload"] | components["schemas"]["ChatContactCardPayload"];
+        ChatMessageResource: {
+            id: string;
+            conversationId: string;
+            sender: components["schemas"]["PublisherSummaryResource"];
+            clientMessageId: string;
+            /** @enum {string} */
+            messageType: "TEXT" | "IMAGE" | "CONTENT_CARD" | "CONTACT_CARD";
+            payload: components["schemas"]["ChatMessagePayload"];
+            /** @enum {string} */
+            status: "SENT" | "DELIVERED" | "READ";
+            /** Format: int64 */
+            serverSequence?: number;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            readAt?: string;
+        };
         NotificationResource: {
             id: string;
             type: string;
@@ -3864,7 +3910,7 @@ export interface components {
             /** Format: date-time */
             timestamp?: string;
             data: {
-                items: components["schemas"]["ConversationResource"][];
+                items: components["schemas"]["ChatMessageResource"][];
                 page: components["schemas"]["PageMeta"];
             };
         };
@@ -3890,13 +3936,42 @@ export interface components {
             /** @description 白名单排序字段，例如 createdAt:desc */
             sort?: string;
         };
-        ChatPostConversationsByIdMessagesRequest: {
+        ChatPostConversationsByIdMessagesRequest: components["schemas"]["ChatTextMessageRequest"] | components["schemas"]["ChatImageMessageRequest"] | components["schemas"]["ChatContentCardMessageRequest"] | components["schemas"]["ChatContactCardMessageRequest"];
+        ChatTextMessageRequest: {
             clientMessageId: string;
-            /** @enum {string} */
-            messageType: "TEXT" | "IMAGE" | "CONTENT_CARD" | "CONTACT_CARD";
-            payload: {
-                [key: string]: components["schemas"]["JsonValue"];
-            };
+            /**
+             * @description discriminator enum property added by openapi-typescript
+             * @enum {string}
+             */
+            messageType: "TEXT";
+            payload: components["schemas"]["ChatTextPayload"];
+        };
+        ChatImageMessageRequest: {
+            clientMessageId: string;
+            /**
+             * @description discriminator enum property added by openapi-typescript
+             * @enum {string}
+             */
+            messageType: "IMAGE";
+            payload: components["schemas"]["ChatImagePayload"];
+        };
+        ChatContentCardMessageRequest: {
+            clientMessageId: string;
+            /**
+             * @description discriminator enum property added by openapi-typescript
+             * @enum {string}
+             */
+            messageType: "CONTENT_CARD";
+            payload: components["schemas"]["ChatContentCardPayload"];
+        };
+        ChatContactCardMessageRequest: {
+            clientMessageId: string;
+            /**
+             * @description discriminator enum property added by openapi-typescript
+             * @enum {string}
+             */
+            messageType: "CONTACT_CARD";
+            payload: components["schemas"]["ChatContactCardPayload"];
         };
         ChatPostConversationsByIdMessagesResponse: {
             /** @constant */
@@ -3904,7 +3979,7 @@ export interface components {
             requestId: string;
             /** Format: date-time */
             timestamp?: string;
-            data: components["schemas"]["ConversationResource"] | components["schemas"]["CommandResultResource"];
+            data: components["schemas"]["ChatMessageResource"];
         };
         ChatPostConversationsByIdReadRequest: {
             lastReadMessageId: string;

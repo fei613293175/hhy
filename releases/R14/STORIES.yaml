@@ -266,6 +266,10 @@ stories:
   - devops_engineer
   acceptance_criteria:
   - OpenAPI、状态机、数据库迁移、配置Schema和页面契约引用一致，代码生成不得产生手工分叉
+  - 六个Android交互面均绑定唯一精确面板或批准补充视觉规格；编码前保持IN_REVIEW，禁止提前标记视觉PASS
+  - REST与WebSocket统一使用ChatMessageResource及TEXT、IMAGE、CONTENT_CARD、CONTACT_CARD四类封闭payload
+  - requestId、幂等键、clientMessageId、expectedVersion、资源ID和版本只用于网络层、幂等与诊断，不进入正式UI
+  - 聊天举报只实现用户提交、证据选择和结果提示，不包含R15后台队列、分配、SLA或审核决定状态
   - 每个需求可追溯到页面/API/表/配置/测试/故事；不适用项必须显式N/A并说明
   - 版本DoR全部PASS后方可编码；出口仍按原RELEASE_MANIFEST和ACCEPTANCE_MATRIX执行
   - 变更必须通过CR，更新唯一事实源并重新生成全部派生目录和哈希

@@ -108,6 +108,22 @@ class UiVisualAcceptanceTest(unittest.TestCase):
             self.assertIn("UI_VISUAL_REFERENCE_EVIDENCE_MISSING", codes)
             self.assertIn("UI_VISUAL_SCREENSHOT_EVIDENCE_MISSING", codes)
 
+    def test_catalog_only_allows_planned_implementation_path(self) -> None:
+        with tempfile.TemporaryDirectory(prefix="hhy-ui-visual-") as temp:
+            root = Path(temp)
+            fixture(root, status="IN_REVIEW")
+            implementation = root / "apps/android/feature/test/TestScreen.kt"
+            implementation.unlink()
+
+            catalog_errors, _count = validate_release(root, "R99", require_pass=False)
+            self.assertEqual([], catalog_errors)
+
+            close_errors, _count = validate_release(root, "R99", require_pass=True)
+            self.assertIn(
+                "UI_VISUAL_IMPLEMENTATION_MISSING",
+                {code for code, _message in close_errors},
+            )
+
     def test_every_release_page_requires_one_visual_contract(self) -> None:
         with tempfile.TemporaryDirectory(prefix="hhy-ui-visual-") as temp:
             root = Path(temp)

@@ -23,8 +23,8 @@ portfolio_totals:
   admin_surfaces: 71
   client_api_references: 92
   admin_api_references: 162
-  websocket_references: 0
-  manifest_endpoint_references: 254
+  websocket_references: 4
+  manifest_endpoint_references: 258
   story_operation_references: 712
   story_unique_operation_ids: 396
   database_table_references: 646
@@ -65,14 +65,13 @@ operating_model:
     - tests/**
     - artifacts/validation/**
 rolling_window:
-  current_release: R13
+  current_release: R14
   execution_ready:
-  - R13
-  story_ready:
   - R14
+  story_ready:
   - R15
-  portfolio_ready:
   - R16
+  portfolio_ready:
   - R17
   - R18
   - R19
@@ -679,7 +678,7 @@ release_plan:
   depends_on:
   - R07
   - R12
-  planning_depth: EXECUTION_READY
+  planning_depth: ROLLING_WINDOW_PASSED
   android_test_apk_required: true
   risk_tier: P2_STANDARD
   risk_domains:
@@ -717,7 +716,7 @@ release_plan:
   - R02
   - R04
   - R06
-  planning_depth: STORY_READY
+  planning_depth: EXECUTION_READY
   android_test_apk_required: true
   risk_tier: P1_HIGH
   risk_domains:
@@ -738,8 +737,8 @@ release_plan:
     admin_surfaces: 0
     client_api_references: 9
     admin_api_references: 0
-    websocket_references: 0
-    manifest_endpoint_references: 9
+    websocket_references: 4
+    manifest_endpoint_references: 13
     story_operation_references: 18
     story_unique_operation_ids: 9
     database_table_references: 10
@@ -749,6 +748,7 @@ release_plan:
     stories: releases/R14/STORIES.yaml
     tasks: releases/R14/TASKS.yaml
     acceptance: releases/R14/ACCEPTANCE_MATRIX.csv
+  parallel_execution_plan: releases/R14/PARALLEL_EXECUTION_PLAN.yaml
 - release: R15
   title: 通知、公告、举报与客服
   milestone: M1_CONTENT_MARKETPLACE
@@ -792,7 +792,7 @@ release_plan:
   depends_on:
   - R02
   - R06
-  planning_depth: PORTFOLIO_READY
+  planning_depth: STORY_READY
   android_test_apk_required: true
   risk_tier: P1_HIGH
   risk_domains:

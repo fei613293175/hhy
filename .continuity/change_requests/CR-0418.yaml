@@ -1,0 +1,44 @@
+protocol_version: '1.0'
+cr_id: CR-0418
+title: 纠正视觉catalog-only误要求未实现代码
+status: IMPLEMENTING
+created_at: '2026-07-27T18:41:49Z'
+updated_at: '2026-07-27T18:42:38Z'
+requester_actor_id: codex-root-r14-20260728
+approver_actor_id: codex-reviewer-r14-entry-20260728
+task_id: TASK-R14-001
+session_id: SES-20260727T181928Z-B51C7408
+user_request: 项目所有者要求门禁不能过度拖慢开发，同时UI必须在编码前具备精确视觉合同。
+reason: check_ui_visual_acceptance.py的--catalog-only帮助语义是仅验证合同覆盖与来源，但实现仍无条件要求实现路径文件存在，导致编码前入口检查无法验证IN_REVIEW合同。
+original_rule: catalog-only声明仅验证视觉合同覆盖、精确来源和阻断原因，但实现路径存在性仍按关闭门禁执行。
+new_rule: catalog-only仍要求实现路径字段非空，但在页面尚未编码时不要求目标文件存在；完整release和historical-through继续硬要求实现文件、参考证据、截图、PASS和肉眼质量标记。
+impact_summary: 修复入口门禁阶段语义，不放宽页面实现或版本关闭视觉门禁。
+impact:
+  files:
+  - scripts/check_ui_visual_acceptance.py
+  - tests/test_ui_visual_acceptance.py
+  pages: []
+  apis: []
+  database: []
+  configuration: []
+  ledger: []
+  tests:
+  - test_ui_visual_acceptance catalog-only implementation deferral
+  releases:
+  - R14
+  migration_and_compatibility: 命令行兼容；仅require_pass=false时跳过实现文件存在性，完整门禁行为不变。
+user_confirmation: 项目所有者已明确要求优化冗余门禁但不得影响最终开发效果，并长期授权持续推进。
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-27T18:42:33Z'
+  note: 独立复核确认catalog-only应在编码前验证合同而非实现存在性；完整release/historical门禁保持原严格行为，因此无验收弱化。
+machine_record: .continuity/change_requests/CR-0418.yaml
+document: docs/03-continuity/change-requests/CR-0418-纠正视觉catalog-only误要求未实现代码.md
+decision_log:
+- at: '2026-07-27T18:42:38Z'
+  actor_id: codex-root-r14-20260728
+  status: IMPLEMENTING
+  note: 开始修正catalog-only实现路径阶段语义并补回归。
+  session_id: SES-20260727T181928Z-B51C7408
+session_ids:
+- SES-20260727T181928Z-B51C7408

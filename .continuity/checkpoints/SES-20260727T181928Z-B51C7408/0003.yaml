@@ -1,0 +1,420 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260727T181928Z-B51C7408-0003
+session_id: SES-20260727T181928Z-B51C7408
+task_id: TASK-R14-001
+story_id: STORY-R14-004
+sequence: 3
+created_at: '2026-07-27T19:20:40Z'
+summary: TASK-R14-001全部入口合同、生成资产、连续性报告和最终严格门禁PASS证据已固化
+next_step: 提交并推送TASK-R14-001实现Commit；更新CR为IMPLEMENTED并关闭任务进入TASK-R14-002
+blockers: []
+decisions: []
+note: ''
+tests:
+- name: project-doctor-final
+  result: PASS
+  evidence: R14 strict 0 errors 0 warnings
+  note: event 3973 and refreshed reports
+- name: continuity-doctor-final
+  result: PASS
+  evidence: strict 0 errors 0 warnings
+  note: rule readiness and Context Pack consistent
+- name: r14-entry-contract-final
+  result: PASS
+  evidence: 6 pages 4 payloads
+  note: manifest DEVELOPMENT_READY
+- name: git-diff-check
+  result: PASS
+  evidence: no whitespace errors
+  note: 43 tracked modifications before untracked additions
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: 2d633d11fa98ea253a9183df8ada9c4d9a023521
+  upstream: origin/task/TASK-R03-001
+  ahead: 0
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/ACTIVE_SESSION.yaml'
+  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/SESSION_INDEX.yaml'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/TASK_CLAIMS.yaml'
+  - ' M .continuity/TASK_TRANSITIONS.yaml'
+  - ' M CHANGELOG.md'
+  - ' M CURRENT_STATUS.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+  - ' M artifacts/validation/continuity-gate-v1.2.3.json'
+  - ' M artifacts/validation/continuity-integration-v1.2.3.json'
+  - ' M artifacts/validation/continuity-lifecycle-integration-v1.2.3.json'
+  - ' M artifacts/validation/continuity-lifecycle-integration-v1.2.3.log'
+  - ' M artifacts/validation/project-doctor-v1.2.2.json'
+  - ' M artifacts/validation/project-doctor-v1.2.3.json'
+  - ' M catalogs/change_request_index.csv'
+  - ' M catalogs/screen_visual_binding.csv'
+  - ' M catalogs/session_index.csv'
+  - ' M catalogs/task_transition_ledger.csv'
+  - ' M catalogs/ui_action_matrix.csv'
+  - ' M catalogs/ui_page_fields.csv'
+  - ' M catalogs/ui_page_specifications.csv'
+  - ' M catalogs/ui_page_states.csv'
+  - ' M catalogs/ui_visual_acceptance.csv'
+  - ' M contracts/contract_status.csv'
+  - ' M contracts/openapi.yaml'
+  - ' M contracts/websocket-events.yaml'
+  - ' M docs/02-ui/page-specs/android/DIALOG-CHAT-BLOCK-001_拉黑与解除拉黑确认.md'
+  - ' M docs/02-ui/page-specs/android/DIALOG-CHAT-DELETE-001_删除会话确认.md'
+  - ' M docs/02-ui/page-specs/android/SCR-CHAT-001_会话列表.md'
+  - ' M docs/02-ui/page-specs/android/SCR-CHAT-002_私聊页.md'
+  - ' M docs/02-ui/page-specs/android/SHEET-CHAT-001_发送联系方式.md'
+  - ' M docs/02-ui/page-specs/android/SHEET-CHAT-002_聊天举报.md'
+  - ' M packages/api-client/src/client.generated.ts'
+  - ' M releases/PROGRAM_EXECUTION_PLAN.yaml'
+  - ' M releases/R14/RELEASE_MANIFEST.yaml'
+  - ' M releases/R14/STORIES.yaml'
+  - ' M scripts/check_ui_visual_acceptance.py'
+  - ' M services/backend/boot/src/main/resources/contracts/openapi.yaml'
+  - ' M services/backend/boot/src/main/resources/contracts/websocket-events.yaml'
+  - ' M tests/test_ui_visual_acceptance.py'
+  - ?? .continuity/change_requests/CR-0417.yaml
+  - ?? .continuity/change_requests/CR-0418.yaml
+  - ?? .continuity/checkpoints/SES-20260727T181928Z-B51C7408/0001.yaml
+  - ?? .continuity/checkpoints/SES-20260727T181928Z-B51C7408/0002.yaml
+  - ?? .continuity/sessions/SES-20260727T181928Z-B51C7408.yaml
+  - ?? design/R14-UI-FROZEN/VISUAL_COVERAGE_AUDIT.md
+  - ?? design/R14-UI-FROZEN/specs/DIALOG-CHAT-BLOCK-001.md
+  - ?? design/R14-UI-FROZEN/specs/DIALOG-CHAT-DELETE-001.md
+  - ?? design/R14-UI-FROZEN/specs/SCR-CHAT-002.md
+  - ?? design/R14-UI-FROZEN/specs/SHEET-CHAT-001.md
+  - ?? design/R14-UI-FROZEN/specs/SHEET-CHAT-002.md
+  - ?? docs/03-continuity/R14_TASK-001_ENTRY_GATE.md
+  - ?? docs/03-continuity/change-requests/CR-0417-建立R14聊天开发入口与六页精确视觉合同.md
+  - ?? docs/03-continuity/change-requests/CR-0418-纠正视觉catalog-only误要求未实现代码.md
+  - ?? docs/03-continuity/sessions/2026-07/SES-20260727T181928Z-B51C7408.md
+  - ?? releases/R14/PARALLEL_EXECUTION_PLAN.yaml
+  - ?? scripts/check_r14_entry_contract.py
+  - ?? tests/test_r14_entry_contract.py
+  recent_commits:
+  - "2d633d11fa98ea253a9183df8ada9c4d9a023521\t2026-07-28T02:18:00+08:00\tHHY Continuity Bootstrap\t[STORY-R13-003] chore(continuity): close TASK-R13-008\
+    \ as blocked"
+  - "020890521cbc5b1c6a58ea1da3aec4c0173168b7\t2026-07-28T02:05:42+08:00\tHHY Continuity Bootstrap\t[STORY-R13-003] chore(continuity): accept\
+    \ strict async owner suffix"
+  - "9d16d6745b27f11493604e0fda3bc8bf228f0378\t2026-07-28T01:46:17+08:00\tHHY Continuity Bootstrap\t[STORY-R13-003] chore(staging): restore public\
+    \ registration readiness"
+  - "275c4585a53806646e426d87560dba90f9a87127\t2026-07-28T01:32:43+08:00\tHHY Continuity Bootstrap\t[STORY-R13-003] chore(continuity): implement\
+    \ asynchronous TEST_APK progression"
+  - "be60681d9ea60d5cc81ed1916fcd9f99287784e0\t2026-07-28T00:29:43+08:00\tHHY Continuity Bootstrap\t[STORY-R13-003] chore(continuity): close TASK-R13-007\
+    \ as completed"
+  - "b354505716b3e40a05708d47bfd02603d65faccc\t2026-07-28T00:25:58+08:00\tHHY Continuity Bootstrap\t[STORY-R13-003] chore(apk): deliver stable-toolchain\
+    \ R13 test package"
+  - "ccdb5d39b22498a5d0f5082f8210f9fb59b4a2ae\t2026-07-27T23:41:36+08:00\tHHY Continuity Bootstrap\t[STORY-R13-003] chore(signing): persist R13\
+    \ test APK identity"
+  - "78e02938faad6c81d86ab09724f60b22643f574a\t2026-07-27T23:27:40+08:00\tHHY Continuity Bootstrap\t[STORY-R13-003] chore(delivery): record async\
+    \ TEST_APK policy"
+project_fingerprint:
+  sha256: f88f75f71bef584138b5826fbee41ce4b56bfaf29dde506c5d033e2b5f259594
+  files:
+  - CHANGELOG.md
+  - catalogs/screen_visual_binding.csv
+  - catalogs/ui_action_matrix.csv
+  - catalogs/ui_page_fields.csv
+  - catalogs/ui_page_specifications.csv
+  - catalogs/ui_page_states.csv
+  - catalogs/ui_visual_acceptance.csv
+  - contracts/contract_status.csv
+  - contracts/openapi.yaml
+  - contracts/websocket-events.yaml
+  - design/R14-UI-FROZEN/VISUAL_COVERAGE_AUDIT.md
+  - design/R14-UI-FROZEN/specs/DIALOG-CHAT-BLOCK-001.md
+  - design/R14-UI-FROZEN/specs/DIALOG-CHAT-DELETE-001.md
+  - design/R14-UI-FROZEN/specs/SCR-CHAT-002.md
+  - design/R14-UI-FROZEN/specs/SHEET-CHAT-001.md
+  - design/R14-UI-FROZEN/specs/SHEET-CHAT-002.md
+  - docs/02-ui/page-specs/android/DIALOG-CHAT-BLOCK-001_拉黑与解除拉黑确认.md
+  - docs/02-ui/page-specs/android/DIALOG-CHAT-DELETE-001_删除会话确认.md
+  - docs/02-ui/page-specs/android/SCR-CHAT-001_会话列表.md
+  - docs/02-ui/page-specs/android/SCR-CHAT-002_私聊页.md
+  - docs/02-ui/page-specs/android/SHEET-CHAT-001_发送联系方式.md
+  - docs/02-ui/page-specs/android/SHEET-CHAT-002_聊天举报.md
+  - docs/03-continuity/R14_TASK-001_ENTRY_GATE.md
+  - docs/03-continuity/change-requests/CR-0417-建立R14聊天开发入口与六页精确视觉合同.md
+  - docs/03-continuity/change-requests/CR-0418-纠正视觉catalog-only误要求未实现代码.md
+  - packages/api-client/src/client.generated.ts
+  - releases/PROGRAM_EXECUTION_PLAN.yaml
+  - releases/R14/PARALLEL_EXECUTION_PLAN.yaml
+  - releases/R14/RELEASE_MANIFEST.yaml
+  - releases/R14/STORIES.yaml
+  - scripts/check_r14_entry_contract.py
+  - scripts/check_ui_visual_acceptance.py
+  - services/backend/boot/src/main/resources/contracts/openapi.yaml
+  - services/backend/boot/src/main/resources/contracts/websocket-events.yaml
+  - tests/test_r14_entry_contract.py
+  - tests/test_ui_visual_acceptance.py
+  file_count: 36
+  payload:
+    base_commit: 2d633d11fa98ea253a9183df8ada9c4d9a023521
+    files:
+    - path: CHANGELOG.md
+      state: FILE
+      size: 190146
+      sha256: 2d92a7a66b084c34788b24c0eed1ddaada4fa1d41b4a52a9dfc5135fc2eed70d
+    - path: catalogs/screen_visual_binding.csv
+      state: FILE
+      size: 15557
+      sha256: a339ce976df33ab8b0c377750ff1df4bcb2fe89dd83da7c4795a514dae3f525c
+    - path: catalogs/ui_action_matrix.csv
+      state: FILE
+      size: 1419059
+      sha256: a825c306d7617e5ad9438bec13b757227d1c7f98bdfe5e1501f268bc102e6205
+    - path: catalogs/ui_page_fields.csv
+      state: FILE
+      size: 2849824
+      sha256: 249628bb326c3fa7670ce26dcde1821c62591fb4367c513eef465ea622a8e910
+    - path: catalogs/ui_page_specifications.csv
+      state: FILE
+      size: 293838
+      sha256: f3b54df95be4e48e1e72fa8390f0bde3382c095a338423e5853369943a2e7c8a
+    - path: catalogs/ui_page_states.csv
+      state: FILE
+      size: 483222
+      sha256: cb1e3c362cf09601c4deff6a7ed7146f702b27a355c68a0cab19816f29121923
+    - path: catalogs/ui_visual_acceptance.csv
+      state: FILE
+      size: 69655
+      sha256: 056598a56086746bde8b093db7249ff4e2ef8977cfbc5601500e36fd9beb6a22
+    - path: contracts/contract_status.csv
+      state: FILE
+      size: 140050
+      sha256: 5a93e0d36dab7e28759d44c2561c84431d46a31ce954e39eb61930c9736dce06
+    - path: contracts/openapi.yaml
+      state: FILE
+      size: 607861
+      sha256: 971846819a8266d60b518b660ca264f5ee4e60e880816246136daf07e7aacfde
+    - path: contracts/websocket-events.yaml
+      state: FILE
+      size: 10100
+      sha256: 01d3c6e556cbf5defd41270b33016a8e4b5455f8dd28d6e314bd7e69610f9218
+    - path: design/R14-UI-FROZEN/VISUAL_COVERAGE_AUDIT.md
+      state: FILE
+      size: 1449
+      sha256: ed8cc39e1ef269b8b27b053bd108b2cde6cb8801a849a4d873a3686100d566a2
+    - path: design/R14-UI-FROZEN/specs/DIALOG-CHAT-BLOCK-001.md
+      state: FILE
+      size: 968
+      sha256: d54ff6113dccc99f54dc04bd4265eb3975a10777ca682f96068d49134897ac28
+    - path: design/R14-UI-FROZEN/specs/DIALOG-CHAT-DELETE-001.md
+      state: FILE
+      size: 887
+      sha256: 778b0bff8901b23ba3c39d6f4519d080b789575b6fd85e27041f31a9975b5d66
+    - path: design/R14-UI-FROZEN/specs/SCR-CHAT-002.md
+      state: FILE
+      size: 1494
+      sha256: 9f1e8b5f95ba3b058afc70b8fe4e0ab6e37d5bcfad06f3eb1c9e638c41d893f5
+    - path: design/R14-UI-FROZEN/specs/SHEET-CHAT-001.md
+      state: FILE
+      size: 960
+      sha256: 8ff69c69c468252c27b8a03371059c0f2d13114b8f52cdbfbcfea123eb38fcda
+    - path: design/R14-UI-FROZEN/specs/SHEET-CHAT-002.md
+      state: FILE
+      size: 981
+      sha256: 1ba9f5770ee2831e90a148ed2d534bb51d404c505ad6bb3c3d84bd4245a54416
+    - path: docs/02-ui/page-specs/android/DIALOG-CHAT-BLOCK-001_拉黑与解除拉黑确认.md
+      state: FILE
+      size: 10535
+      sha256: fbe8a90873231302b8ada41d0430e8c4e4bc27e2ceb153e9f94a5cad4f512915
+    - path: docs/02-ui/page-specs/android/DIALOG-CHAT-DELETE-001_删除会话确认.md
+      state: FILE
+      size: 8572
+      sha256: 73a3f2c123934d218de54a51ddb69b38f84bb3e5c75e5fa68689ea9ccda18cee
+    - path: docs/02-ui/page-specs/android/SCR-CHAT-001_会话列表.md
+      state: FILE
+      size: 8929
+      sha256: 8d4aac66edc3ba8e315216075b6da450c0c741e83330d0c9481a08488c729dc9
+    - path: docs/02-ui/page-specs/android/SCR-CHAT-002_私聊页.md
+      state: FILE
+      size: 13877
+      sha256: c526d7450fd5a9449d62f63fca6711bc7661a0bd63b4285408736a748cc3a774
+    - path: docs/02-ui/page-specs/android/SHEET-CHAT-001_发送联系方式.md
+      state: FILE
+      size: 8555
+      sha256: f8ec2c9e1219f700bc68684717ca1d88373d544b6d65f7e15d61d51cbca180e7
+    - path: docs/02-ui/page-specs/android/SHEET-CHAT-002_聊天举报.md
+      state: FILE
+      size: 9316
+      sha256: 9a42bddcaa85c5817cc67c88e75937afb0a35ddee9cb53231cbb7b3bd1c5eea6
+    - path: docs/03-continuity/R14_TASK-001_ENTRY_GATE.md
+      state: FILE
+      size: 1718
+      sha256: bbe0df59e424bd27540a344173b67af103c70bfebd9de25199015e81fc9530a4
+    - path: docs/03-continuity/change-requests/CR-0417-建立R14聊天开发入口与六页精确视觉合同.md
+      state: FILE
+      size: 5417
+      sha256: b05b419491db64f8a4d19057add09896860277a5eb8212eb5aa29ca8856d3482
+    - path: docs/03-continuity/change-requests/CR-0418-纠正视觉catalog-only误要求未实现代码.md
+      state: FILE
+      size: 2470
+      sha256: 11ca7bc725b5da4e19a69096fd68be22d1a662e43d1a0aec33bcaeceb7eb80fe
+    - path: packages/api-client/src/client.generated.ts
+      state: FILE
+      size: 624511
+      sha256: 7b39d0bc31116879677b1b978e69be835e21f76184ed5df4e5d434b64f0e1577
+    - path: releases/PROGRAM_EXECUTION_PLAN.yaml
+      state: FILE
+      size: 36591
+      sha256: 8f1ab5d3936141163c133f2398c125079a4e9a01bf5d48d8ba50db2a5953a1f9
+    - path: releases/R14/PARALLEL_EXECUTION_PLAN.yaml
+      state: FILE
+      size: 2539
+      sha256: cd1f0c96ffd7562acb214edba80a2bbb12b79f06c19032d1b133936ff6abd74f
+    - path: releases/R14/RELEASE_MANIFEST.yaml
+      state: FILE
+      size: 3940
+      sha256: c6ef78d8397b473600154f663c5951159c31c1e17fa580f1b388b17197044cfd
+    - path: releases/R14/STORIES.yaml
+      state: FILE
+      size: 10316
+      sha256: 3b729775c059536400e44acecc2b2728019ff7ecb0ae60a0ddbbd943dc5d8951
+    - path: scripts/check_r14_entry_contract.py
+      state: FILE
+      size: 8916
+      sha256: 5069c5fe8339327530214541f07bcc7626ddf8b7110edfe0fa9128b8c75dcfab
+    - path: scripts/check_ui_visual_acceptance.py
+      state: FILE
+      size: 13347
+      sha256: d79d7e81832ec7470f1fd561905b827619b9d74dae3f6cd937a655cf8550bc0a
+    - path: services/backend/boot/src/main/resources/contracts/openapi.yaml
+      state: FILE
+      size: 607861
+      sha256: 971846819a8266d60b518b660ca264f5ee4e60e880816246136daf07e7aacfde
+    - path: services/backend/boot/src/main/resources/contracts/websocket-events.yaml
+      state: FILE
+      size: 10100
+      sha256: 01d3c6e556cbf5defd41270b33016a8e4b5455f8dd28d6e314bd7e69610f9218
+    - path: tests/test_r14_entry_contract.py
+      state: FILE
+      size: 885
+      sha256: a8926d457dda1a64eb599167bf6b2955e119cefae81c0708b01f8392c7b215c6
+    - path: tests/test_ui_visual_acceptance.py
+      state: FILE
+      size: 10797
+      sha256: fa29da371b664d6c65df828df62ec9b939106c032bfbe6caf2df65274fb0ed16
+change_classification:
+  other:
+  - CHANGELOG.md
+  - catalogs/screen_visual_binding.csv
+  - catalogs/ui_visual_acceptance.csv
+  - design/R14-UI-FROZEN/VISUAL_COVERAGE_AUDIT.md
+  - design/R14-UI-FROZEN/specs/DIALOG-CHAT-BLOCK-001.md
+  - design/R14-UI-FROZEN/specs/DIALOG-CHAT-DELETE-001.md
+  - design/R14-UI-FROZEN/specs/SCR-CHAT-002.md
+  - design/R14-UI-FROZEN/specs/SHEET-CHAT-001.md
+  - design/R14-UI-FROZEN/specs/SHEET-CHAT-002.md
+  - releases/PROGRAM_EXECUTION_PLAN.yaml
+  - releases/R14/PARALLEL_EXECUTION_PLAN.yaml
+  source_of_truth:
+  - catalogs/ui_action_matrix.csv
+  - catalogs/ui_page_fields.csv
+  - catalogs/ui_page_specifications.csv
+  - catalogs/ui_page_states.csv
+  - contracts/contract_status.csv
+  - contracts/openapi.yaml
+  - contracts/websocket-events.yaml
+  - docs/02-ui/page-specs/android/DIALOG-CHAT-BLOCK-001_拉黑与解除拉黑确认.md
+  - docs/02-ui/page-specs/android/DIALOG-CHAT-DELETE-001_删除会话确认.md
+  - docs/02-ui/page-specs/android/SCR-CHAT-001_会话列表.md
+  - docs/02-ui/page-specs/android/SCR-CHAT-002_私聊页.md
+  - docs/02-ui/page-specs/android/SHEET-CHAT-001_发送联系方式.md
+  - docs/02-ui/page-specs/android/SHEET-CHAT-002_聊天举报.md
+  - releases/R14/RELEASE_MANIFEST.yaml
+  - releases/R14/STORIES.yaml
+  contracts:
+  - contracts/contract_status.csv
+  - contracts/openapi.yaml
+  - contracts/websocket-events.yaml
+  user_visible:
+  - contracts/contract_status.csv
+  - contracts/openapi.yaml
+  - contracts/websocket-events.yaml
+  - docs/02-ui/page-specs/android/DIALOG-CHAT-BLOCK-001_拉黑与解除拉黑确认.md
+  - docs/02-ui/page-specs/android/DIALOG-CHAT-DELETE-001_删除会话确认.md
+  - docs/02-ui/page-specs/android/SCR-CHAT-001_会话列表.md
+  - docs/02-ui/page-specs/android/SCR-CHAT-002_私聊页.md
+  - docs/02-ui/page-specs/android/SHEET-CHAT-001_发送联系方式.md
+  - docs/02-ui/page-specs/android/SHEET-CHAT-002_聊天举报.md
+  continuity:
+  - docs/03-continuity/R14_TASK-001_ENTRY_GATE.md
+  - docs/03-continuity/change-requests/CR-0417-建立R14聊天开发入口与六页精确视觉合同.md
+  - docs/03-continuity/change-requests/CR-0418-纠正视觉catalog-only误要求未实现代码.md
+  code:
+  - packages/api-client/src/client.generated.ts
+  - scripts/check_r14_entry_contract.py
+  - scripts/check_ui_visual_acceptance.py
+  - services/backend/boot/src/main/resources/contracts/openapi.yaml
+  - services/backend/boot/src/main/resources/contracts/websocket-events.yaml
+  tests:
+  - tests/test_r14_entry_contract.py
+  - tests/test_ui_visual_acceptance.py
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+- APPROVED_CHANGE_REQUEST
+- CONTRACT_TEST_EVIDENCE
+- GENERATED_CLIENTS_OR_GENERATION_RECORD
+- CHANGELOG
+change_requests:
+- CR-0417
+- CR-0418
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions: []
+  source: story+explicit
+parallel_execution:
+  assessment: DELEGATED
+  delegated_workers: 1
+  workers:
+  - worker_id: codex-reviewer-r14-entry-20260728
+    responsibility: independent read-only review of R14 visual and message contracts
+    allowed_paths:
+    - design/R14-UI-FROZEN
+    - contracts/openapi.yaml
+    - contracts/websocket-events.yaml
+  reason: ''
+event_hash: 096690500546ac827dd6e11cfc96f9f817211cca61467047aacfe282dfd8c08f

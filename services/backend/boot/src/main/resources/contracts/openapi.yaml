@@ -13804,6 +13804,156 @@ components:
       - id
       - unreadCount
       - version
+    ChatTextPayload:
+      type: object
+      additionalProperties: false
+      properties:
+        text:
+          type: string
+          minLength: 1
+          maxLength: 5000
+      required:
+      - text
+    ChatImagePayload:
+      type: object
+      additionalProperties: false
+      properties:
+        mediaId:
+          type: string
+          maxLength: 64
+        thumbnailUrl:
+          type: string
+          format: uri
+          maxLength: 2048
+        width:
+          type: integer
+          minimum: 1
+          maximum: 10000
+        height:
+          type: integer
+          minimum: 1
+          maximum: 10000
+      required:
+      - mediaId
+    ChatContentCardPayload:
+      type: object
+      additionalProperties: false
+      properties:
+        contentId:
+          type: string
+          maxLength: 64
+        contentType:
+          type: string
+          enum:
+          - PROJECT
+          - APP
+          - GROUP_CHAT
+          - TEAM_LEADER
+        title:
+          type: string
+          minLength: 1
+          maxLength: 160
+        coverUrl:
+          type: string
+          format: uri
+          maxLength: 2048
+      required:
+      - contentId
+      - contentType
+      - title
+    ChatContactField:
+      type: object
+      additionalProperties: false
+      properties:
+        type:
+          type: string
+          enum:
+          - PHONE
+          - WECHAT
+          - QQ
+          - EMAIL
+          - OTHER
+        label:
+          type: string
+          maxLength: 32
+        value:
+          type: string
+          minLength: 1
+          maxLength: 256
+          x-sensitive: true
+      required:
+      - type
+      - value
+    ChatContactCardPayload:
+      type: object
+      additionalProperties: false
+      properties:
+        fields:
+          type: array
+          minItems: 1
+          maxItems: 5
+          items:
+            $ref: '#/components/schemas/ChatContactField'
+        note:
+          type: string
+          maxLength: 200
+      required:
+      - fields
+    ChatMessagePayload:
+      oneOf:
+      - $ref: '#/components/schemas/ChatTextPayload'
+      - $ref: '#/components/schemas/ChatImagePayload'
+      - $ref: '#/components/schemas/ChatContentCardPayload'
+      - $ref: '#/components/schemas/ChatContactCardPayload'
+    ChatMessageResource:
+      type: object
+      additionalProperties: false
+      properties:
+        id:
+          type: string
+          maxLength: 64
+        conversationId:
+          type: string
+          maxLength: 64
+        sender:
+          $ref: '#/components/schemas/PublisherSummaryResource'
+        clientMessageId:
+          type: string
+          maxLength: 64
+        messageType:
+          type: string
+          enum:
+          - TEXT
+          - IMAGE
+          - CONTENT_CARD
+          - CONTACT_CARD
+        payload:
+          $ref: '#/components/schemas/ChatMessagePayload'
+        status:
+          type: string
+          enum:
+          - SENT
+          - DELIVERED
+          - READ
+        serverSequence:
+          type: integer
+          format: int64
+          minimum: 1
+        createdAt:
+          type: string
+          format: date-time
+        readAt:
+          type: string
+          format: date-time
+      required:
+      - id
+      - conversationId
+      - sender
+      - clientMessageId
+      - messageType
+      - payload
+      - status
+      - createdAt
     NotificationResource:
       type: object
       additionalProperties: false
@@ -17660,7 +17810,7 @@ components:
             items:
               type: array
               items:
-                $ref: '#/components/schemas/ConversationResource'
+                $ref: '#/components/schemas/ChatMessageResource'
             page:
               $ref: '#/components/schemas/PageMeta'
     ChatGetConversationsByIdMessagesParameters:
@@ -17701,6 +17851,19 @@ components:
       required:
       - id
     ChatPostConversationsByIdMessagesRequest:
+      oneOf:
+      - $ref: '#/components/schemas/ChatTextMessageRequest'
+      - $ref: '#/components/schemas/ChatImageMessageRequest'
+      - $ref: '#/components/schemas/ChatContentCardMessageRequest'
+      - $ref: '#/components/schemas/ChatContactCardMessageRequest'
+      discriminator:
+        propertyName: messageType
+        mapping:
+          TEXT: '#/components/schemas/ChatTextMessageRequest'
+          IMAGE: '#/components/schemas/ChatImageMessageRequest'
+          CONTENT_CARD: '#/components/schemas/ChatContentCardMessageRequest'
+          CONTACT_CARD: '#/components/schemas/ChatContactCardMessageRequest'
+    ChatTextMessageRequest:
       type: object
       additionalProperties: false
       properties:
@@ -17709,16 +17872,57 @@ components:
           maxLength: 64
         messageType:
           type: string
-          maxLength: 2000
-          enum:
-          - TEXT
-          - IMAGE
-          - CONTENT_CARD
-          - CONTACT_CARD
+          const: TEXT
         payload:
-          type: object
-          additionalProperties:
-            $ref: '#/components/schemas/JsonValue'
+          $ref: '#/components/schemas/ChatTextPayload'
+      required:
+      - clientMessageId
+      - messageType
+      - payload
+    ChatImageMessageRequest:
+      type: object
+      additionalProperties: false
+      properties:
+        clientMessageId:
+          type: string
+          maxLength: 64
+        messageType:
+          type: string
+          const: IMAGE
+        payload:
+          $ref: '#/components/schemas/ChatImagePayload'
+      required:
+      - clientMessageId
+      - messageType
+      - payload
+    ChatContentCardMessageRequest:
+      type: object
+      additionalProperties: false
+      properties:
+        clientMessageId:
+          type: string
+          maxLength: 64
+        messageType:
+          type: string
+          const: CONTENT_CARD
+        payload:
+          $ref: '#/components/schemas/ChatContentCardPayload'
+      required:
+      - clientMessageId
+      - messageType
+      - payload
+    ChatContactCardMessageRequest:
+      type: object
+      additionalProperties: false
+      properties:
+        clientMessageId:
+          type: string
+          maxLength: 64
+        messageType:
+          type: string
+          const: CONTACT_CARD
+        payload:
+          $ref: '#/components/schemas/ChatContactCardPayload'
       required:
       - clientMessageId
       - messageType
@@ -17741,9 +17945,7 @@ components:
           type: string
           format: date-time
         data:
-          oneOf:
-          - $ref: '#/components/schemas/ConversationResource'
-          - $ref: '#/components/schemas/CommandResultResource'
+          $ref: '#/components/schemas/ChatMessageResource'
     ChatPostConversationsByIdReadRequest:
       type: object
       additionalProperties: false

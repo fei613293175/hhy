@@ -1,0 +1,59 @@
+version: '1.0'
+release: R14
+change_request: CR-0417
+mode: SINGLE_AUTHORITATIVE_SESSION_WITH_SAFE_DELEGATION_REVIEW
+authoritative_session_count: 1
+max_parallel_workers: 3
+simultaneous_claim_limit: 1
+worker_parallelism_scope: DISJOINT_PATH_SCRATCH_WORKTREES_ONLY
+default_delegation_mode: AUTO_WHEN_SAFE_PARALLEL_WORK_EXISTS
+review_triggers: [TASK_START, SCOPE_CHANGE]
+non_delegation_requires_checkpoint_reason: true
+capability_fallback: KEEP_SINGLE_AUTHORITATIVE_SESSION_AND_DO_NOT_FABRICATE_PARALLEL_EVIDENCE
+source_of_truth_branch: task/TASK-R03-001
+rules:
+- 主控一次只保留一个ACTIVE Session和Task/Story Claim；执行代理不得形成第二事实源。
+- R14消息Schema、数据库约束、幂等、消息顺序、拉黑关系和最终集成由主控串行复核。
+- 执行代理仅可在路径互斥的scratch worktree工作，不得修改连续性、Release、合同或目录事实源。
+- 六页只使用Release Manifest登记的精确面板或批准补充规格，禁止整批B07、TOKENS_ONLY或R15的P05/P06施工。
+- 正式UI不得展示requestId、幂等键、clientMessageId、expectedVersion、资源ID、版本或后台审核流转状态。
+- 普通Task只运行受影响FAST/MODULE；TASK-R14-007才在obx-test固定工具链构建并交付TEST_APK。
+- GitHub模拟器与截图属于按需专项；项目所有者真机反馈保持异步PENDING，不阻断后续依赖已满足的开发。
+coordinator_owned_paths:
+- .continuity/**
+- CURRENT_STATUS.yaml
+- NEXT_TASK.yaml
+- releases/**
+- contracts/**
+- catalogs/**
+- docs/03-continuity/**
+- apps/android/app/**
+- apps/android/core/network/**
+lanes:
+- lane: CHAT-DATA-FOUNDATION
+  task_id: TASK-R14-002
+  stories: [STORY-R14-004]
+- lane: CHAT-SERVICES-AND-TRANSPORT
+  task_id: TASK-R14-003
+  stories: [STORY-R14-001, STORY-R14-002, STORY-R14-003, STORY-R14-004]
+- lane: CHAT-ANDROID
+  task_id: TASK-R14-004
+  stories: [STORY-R14-001, STORY-R14-002, STORY-R14-003]
+- lane: R14-QUALITY
+  task_id: TASK-R14-005
+  stories: [STORY-R14-001, STORY-R14-002, STORY-R14-003, STORY-R14-004]
+integration:
+  task_id: TASK-R14-005
+  depends_on: [TASK-R14-003, TASK-R14-004]
+  profiles: [MODULE, INTEGRATION, SECURITY]
+apk:
+  task_id: TASK-R14-007
+  fixed_toolchain_test_apk: REQUIRED
+  github_emulator: ON_DEMAND_NON_BLOCKING_SPECIALTY
+  desktop_copy_required: true
+  stable_test_signing_required: true
+  owner_physical_test_initial_status: PENDING
+closure:
+  task_id: TASK-R14-008
+  owner_feedback_mode: ASYNC_NON_BLOCKING
+  machine_completion_may_continue_next_release: true

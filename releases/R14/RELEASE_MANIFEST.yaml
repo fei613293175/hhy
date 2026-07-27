@@ -1,6 +1,6 @@
 release: R14
 title: 一对一聊天核心
-status: READY_WHEN_DEPENDENCIES_GREEN
+status: DEVELOPMENT_READY
 milestone: M1_CONTENT_MARKETPLACE
 depends_on:
 - R02
@@ -33,7 +33,11 @@ contracts:
   - DELETE /api/v1/users/{id}/block
   - POST /api/v1/conversations/{id}/report
   admin_api: []
-  websocket: []
+  websocket:
+  - chat.message.send
+  - chat.message.ack
+  - chat.message.new
+  - chat.message.read
 database_tables:
 - conversations
 - conversation_members
@@ -73,6 +77,35 @@ documentation_baseline: V1.2.2
 document_gap_status: ZERO_BLOCKING_DOCUMENT_GAPS
 definition_of_ready: releases/R14/DEFINITION_OF_READY.yaml
 story_backlog: releases/R14/STORIES.yaml
+entry_baseline:
+  checked_at: '2026-07-28'
+  session_id: SES-20260727T181928Z-B51C7408
+  story_id: STORY-R14-004
+  change_request: CR-0417
+  documentation_status: DEVELOPMENT_READY
+  strict_documentation: PASS_0_ERRORS_0_WARNINGS
+  r14_entry_contract: PASS_6_PAGES_4_PAYLOADS
+  visual_catalog: PASS_6_IN_REVIEW_CONTRACTS
+  program_execution_plan: PASS_31_RELEASES_0_ERRORS
+  generated_assets: PASS_OPENAPI_FRONTEND_ANDROID_RUNTIME
+  release_artifacts: PASS
+  cloud_environment_status: PASS
+  dependency_machine_status:
+    R02: MACHINE_COMPLETE_OWNER_PENDING
+    R04: DONE
+    R06: MACHINE_COMPLETE_OWNER_PENDING
+  exact_visual_bindings:
+    SCR-CHAT-001: B07/P01
+    SCR-CHAT-002: SPEC:design/R14-UI-FROZEN/specs/SCR-CHAT-002.md
+    SHEET-CHAT-001: SPEC:design/R14-UI-FROZEN/specs/SHEET-CHAT-001.md
+    SHEET-CHAT-002: SPEC:design/R14-UI-FROZEN/specs/SHEET-CHAT-002.md
+    DIALOG-CHAT-BLOCK-001: SPEC:design/R14-UI-FROZEN/specs/DIALOG-CHAT-BLOCK-001.md
+    DIALOG-CHAT-DELETE-001: SPEC:design/R14-UI-FROZEN/specs/DIALOG-CHAT-DELETE-001.md
+  message_contract:
+    resource: ChatMessageResource
+    payload_types: [TEXT, IMAGE, CONTENT_CARD, CONTACT_CARD]
+    transport_consistency: REST_AND_WEBSOCKET
+  visual_acceptance_status: IN_REVIEW_NOT_IMPLEMENTED
 continuity:
   policy: .continuity/CONTINUITY_POLICY.yaml
   protocol_version: '1.0'

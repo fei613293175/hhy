@@ -1,0 +1,87 @@
+protocol_version: '1.0'
+package_version: 1.2.3
+session_id: SES-20260727T181928Z-B51C7408
+status: ACTIVE
+actor:
+  id: codex-root-r14-20260728
+  kind: AI_OR_HUMAN
+  host: unknown
+release: R14
+task_id: TASK-R14-001
+story_id: STORY-R14-004
+goal: 一对一聊天核心开发就绪核验、故事领取与变更基线
+started_at: '2026-07-27T18:19:28Z'
+updated_at: '2026-07-27T19:20:47Z'
+takeover_of: null
+change_requests:
+- CR-0417
+- CR-0418
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions: []
+  source: story+explicit
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  base_commit: 2d633d11fa98ea253a9183df8ada9c4d9a023521
+  start_head: 2d633d11fa98ea253a9183df8ada9c4d9a023521
+  upstream: origin/task/TASK-R03-001
+  initial_worktree_state: CLEAN
+lease:
+  duration_minutes: 240
+  renewed_at: '2026-07-27T19:20:41Z'
+  expires_at: '2026-07-27T23:20:41Z'
+checkpoint_sequence: 3
+latest_checkpoint: .continuity/checkpoints/SES-20260727T181928Z-B51C7408/0003.yaml
+session_log: docs/03-continuity/sessions/2026-07/SES-20260727T181928Z-B51C7408.md
+next_step: 提交并推送TASK-R14-001实现Commit；更新CR为IMPLEMENTED并关闭任务进入TASK-R14-002
+context_pack:
+  yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
+  markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
+  manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+  context_hash: 63233f44617a2078846cb6423c136190484cb79ac1169c77743320f3f394dad2
+  generated_at: '2026-07-27T19:20:44Z'
+handoff_bundle: null
+closure: null
+parallel_execution:
+  assessment: DELEGATED
+  delegated_workers: 1
+  workers:
+  - worker_id: codex-reviewer-r14-entry-20260728
+    responsibility: independent read-only review of R14 visual and message contracts
+    allowed_paths:
+    - design/R14-UI-FROZEN
+    - contracts/openapi.yaml
+    - contracts/websocket-events.yaml
+  reason: ''

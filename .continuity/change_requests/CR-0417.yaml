@@ -1,0 +1,94 @@
+protocol_version: '1.0'
+cr_id: CR-0417
+title: 建立R14聊天开发入口与六页精确视觉合同
+status: IMPLEMENTING
+created_at: '2026-07-27T18:24:55Z'
+updated_at: '2026-07-27T18:38:52Z'
+requester_actor_id: codex-root-r14-20260728
+approver_actor_id: codex-reviewer-r14-entry-20260728
+task_id: TASK-R14-001
+session_id: SES-20260727T181928Z-B51C7408
+user_request: 项目所有者要求持续按R01-R32开发，全部页面功能一一对应开发文档，并按效果图丰富度与精确视觉规则施工。
+reason: R14六个Android页面仍使用B07/P01-P08整批绑定或完全缺失视觉合同，check_ui_visual_acceptance.py --release R14以6项UI_VISUAL_CONTRACT_MISSING失败；直接编码会违反现有精确面板硬规则。
+original_rule: 现有全局UI规则要求每页编码前绑定精确效果图面板或批准补充规格；R14六页当前仍为B07/P01-P08整批绑定或空白，逐页视觉验收目录无R14记录。R14-DOR-06声称核心请求响应禁止自由对象，但REST消息列表错返ConversationResource，发送payload为任意JsonValue；六页规格还把技术字段投影为正式UI。
+new_rule: 不新增平行规则：SCR-CHAT-001精确绑定B07/P01并过滤R15快捷入口；其余五页使用批准补充规格，分别复用B07/P02+P04、P03、P07、P07+P08、P07结构，同时补齐冻结状态。REST与WebSocket统一显式ChatMessageResource及TEXT/IMAGE/CONTENT_CARD/CONTACT_CARD四类封闭payload，其中联系方式卡片支持手机号、微信、QQ、邮箱、其他及备注。requestId、幂等键、clientMessageId、expectedVersion、资源ID和版本只作为网络层内部事实，不进入正式UI。建立R14执行计划、入口门禁和专项非零验证。
+impact_summary: 消除R14六页视觉合同缺失、消息资源/自由payload合同错误和技术字段外泄；不实现运行时代码、不迁移数据库、不运行模拟器或APK候选。
+impact:
+  files:
+  - contracts/openapi.yaml
+  - contracts/websocket-events.yaml
+  - packages/api-client/src/client.generated.ts
+  - releases/PROGRAM_EXECUTION_PLAN.yaml
+  - releases/R14/PARALLEL_EXECUTION_PLAN.yaml
+  - releases/R14/RELEASE_MANIFEST.yaml
+  - releases/R14/STORIES.yaml
+  - catalogs/ui_page_specifications.csv
+  - catalogs/screen_visual_binding.csv
+  - catalogs/ui_visual_acceptance.csv
+  - catalogs/ui_page_fields.csv
+  - catalogs/ui_page_states.csv
+  - catalogs/ui_action_matrix.csv
+  - design/R14-UI-FROZEN/VISUAL_COVERAGE_AUDIT.md
+  - design/R14-UI-FROZEN/specs/SCR-CHAT-002.md
+  - design/R14-UI-FROZEN/specs/SHEET-CHAT-001.md
+  - design/R14-UI-FROZEN/specs/SHEET-CHAT-002.md
+  - design/R14-UI-FROZEN/specs/DIALOG-CHAT-BLOCK-001.md
+  - design/R14-UI-FROZEN/specs/DIALOG-CHAT-DELETE-001.md
+  - docs/02-ui/page-specs/android/SCR-CHAT-001_会话列表.md
+  - docs/02-ui/page-specs/android/SCR-CHAT-002_私聊页.md
+  - docs/02-ui/page-specs/android/SHEET-CHAT-001_发送联系方式.md
+  - docs/02-ui/page-specs/android/SHEET-CHAT-002_聊天举报.md
+  - docs/02-ui/page-specs/android/DIALOG-CHAT-BLOCK-001_拉黑与解除拉黑确认.md
+  - docs/02-ui/page-specs/android/DIALOG-CHAT-DELETE-001_删除会话确认.md
+  - docs/03-continuity/R14_TASK-001_ENTRY_GATE.md
+  - scripts/check_r14_entry_contract.py
+  - tests/test_r14_entry_contract.py
+  - CHANGELOG.md
+  pages:
+  - SCR-CHAT-001
+  - SCR-CHAT-002
+  - SHEET-CHAT-001
+  - SHEET-CHAT-002
+  - DIALOG-CHAT-BLOCK-001
+  - DIALOG-CHAT-DELETE-001
+  apis:
+  - chatGetConversations
+  - chatPostConversationsDirect
+  - chatGetConversationsByIdMessages
+  - chatPostConversationsByIdMessages
+  - chatPostConversationsByIdRead
+  - chatDeleteConversationsById
+  - chatPostUsersByIdBlock
+  - chatDeleteUsersByIdBlock
+  - chatPostConversationsByIdReport
+  database: []
+  configuration: []
+  ledger: []
+  tests:
+  - check_r14_entry_contract
+  - test_r14_entry_contract
+  - check_ui_visual_acceptance R14 catalog-only
+  - check_v122_documentation strict R14
+  - check_program_execution_plan
+  - check_generated_assets
+  - check_release_artifacts R14
+  - project-doctor strict R14
+  - verify_cloud_environment read-only
+  releases:
+  - R14
+  migration_and_compatibility: REST/WebSocket聊天合同在R14实现前收紧为封闭Schema；尚无R14正式消费者，不需要兼容窗口。既有R08-R11仅调用创建会话接口不受影响。页面实现阶段登记IN_REVIEW，最终候选截图经AI对照后才可PASS。
+user_confirmation: 项目所有者已明确要求所有版本功能一一对应开发文档、UI达到效果图丰富度，并长期授权AI自行持续开发且不再逐次请求批准。
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-27T18:38:29Z'
+  note: 独立只读复核确认六页视觉入口、REST消息资源、四类payload与技术字段可见性均为真实DoR阻断；修订方案复用B07精确视觉语言且不虚构业务，显式Schema与主文档4.10.1及既有WebSocket意图一致。
+machine_record: .continuity/change_requests/CR-0417.yaml
+document: docs/03-continuity/change-requests/CR-0417-建立R14聊天开发入口与六页精确视觉合同.md
+decision_log:
+- at: '2026-07-27T18:38:52Z'
+  actor_id: codex-root-r14-20260728
+  status: IMPLEMENTING
+  note: 开始修复R14视觉入口、聊天REST/WebSocket显式Schema、技术字段可见性和专项非零门禁。
+  session_id: SES-20260727T181928Z-B51C7408
+session_ids:
+- SES-20260727T181928Z-B51C7408

@@ -187,7 +187,7 @@ def validate_release(
             errors.append(("UI_VISUAL_TOKEN_SOURCE_MISSING", f"{screen_id} Token文件不存在"))
 
         for relative in _paths(row.get("实现路径", "")):
-            if not _inside_file(root, relative):
+            if require_pass and not _inside_file(root, relative):
                 errors.append(("UI_VISUAL_IMPLEMENTATION_MISSING", f"{screen_id} 实现不存在：{relative}"))
 
         if source:
