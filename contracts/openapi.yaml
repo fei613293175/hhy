@@ -13919,6 +13919,7 @@ components:
           $ref: '#/components/schemas/PublisherSummaryResource'
         clientMessageId:
           type: string
+          minLength: 1
           maxLength: 64
         messageType:
           type: string
@@ -17869,6 +17870,7 @@ components:
       properties:
         clientMessageId:
           type: string
+          minLength: 1
           maxLength: 64
         messageType:
           type: string
@@ -17885,6 +17887,7 @@ components:
       properties:
         clientMessageId:
           type: string
+          minLength: 1
           maxLength: 64
         messageType:
           type: string
@@ -17901,6 +17904,7 @@ components:
       properties:
         clientMessageId:
           type: string
+          minLength: 1
           maxLength: 64
         messageType:
           type: string
@@ -17917,6 +17921,7 @@ components:
       properties:
         clientMessageId:
           type: string
+          minLength: 1
           maxLength: 64
         messageType:
           type: string

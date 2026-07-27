@@ -314,6 +314,75 @@ if all((ROOT / relative).is_file() for relative in r12_required_files):
         if marker not in migration_smoke:
             errors.append(f"migration smoke missing R12 chain marker: {marker}")
 
+r14_required_files = (
+    "database/migrations/V043__r14_chat_invariants.sql",
+    "services/backend/boot/src/main/resources/db/migration/V043__r14_chat_invariants.sql",
+    "database/rollback/U043__r14_chat_invariants.sql",
+    "database/tests/r14_chat_invariants.sql",
+    "scripts/run_r14_database_invariants.sh",
+    "docs/01-architecture/adr/ADR-009-R14一对一聊天数据不变量.md",
+)
+for relative in r14_required_files:
+    if not (ROOT / relative).is_file():
+        errors.append(f"missing R14 database closure asset: {relative}")
+
+if all((ROOT / relative).is_file() for relative in r14_required_files):
+    r14_migration = (ROOT / r14_required_files[0]).read_text(encoding="utf-8")
+    for marker in (
+        "R14_DIRTY_UPGRADE_DIRECT_MEMBERS_MISSING",
+        "R14_DIRTY_UPGRADE_DUPLICATE_DIRECT_PAIR",
+        "R14_DIRTY_UPGRADE_INVALID_CLIENT_MESSAGE_ID",
+        "R14_DIRTY_UPGRADE_REPORT_CONTRACT_MISSING",
+        "r14_chat_payload_valid",
+        "guard_r14_conversation_member",
+        "assert_r14_direct_conversation",
+        "assert_r14_attachment_media",
+        "assert_r14_report_evidence",
+        "record_platform_status_history",
+        "DEFERRABLE INITIALLY DEFERRED",
+    ):
+        if marker not in r14_migration:
+            errors.append(f"V043 missing R14 invariant marker: {marker}")
+
+    r14_rollback = (ROOT / r14_required_files[2]).read_text(encoding="utf-8")
+    for marker in (
+        "R14_U043_BUSINESS_FACTS_PRESENT",
+        "DROP TRIGGER IF EXISTS trg_r14_report_media_commit",
+        "DROP FUNCTION IF EXISTS hhy.assert_r14_report_evidence",
+        "DROP FUNCTION IF EXISTS hhy.assert_r14_attachment_media",
+        "DROP FUNCTION IF EXISTS hhy.r14_chat_payload_valid",
+    ):
+        if marker not in r14_rollback:
+            errors.append(f"U043 missing R14 rollback marker: {marker}")
+    if re.search(r"(?im)^\s*(DELETE|TRUNCATE)\s+(FROM\s+)?hhy\.", r14_rollback):
+        errors.append("U043 must not delete or truncate R14 business facts")
+
+    r14_test = (ROOT / r14_required_files[3]).read_text(encoding="utf-8")
+    for marker in (
+        "R14_MISSING_REQUIRED_PAYLOAD_FIELD_WAS_ACCEPTED",
+        "R14_ATTACHMENT_MUTATION_WAS_ACCEPTED",
+        "R14_ATTACHED_MEDIA_INVALIDATION_WAS_ACCEPTED",
+        "R14_MEMBER_IDENTITY_MUTATION_WAS_ACCEPTED",
+        "R14_CHAT_INVARIANT_PROPERTY_MATRIX PASS",
+    ):
+        if marker not in r14_test:
+            errors.append(f"R14 invariant test missing closure marker: {marker}")
+
+    r14_runner = (ROOT / r14_required_files[4]).read_text(encoding="utf-8")
+    for marker in (
+        "R14_EMPTY_DATABASE_MIGRATION PASS",
+        "R14_V042_UPGRADE PASS",
+        "R14_DIRTY_UPGRADE_ATOMIC_MATRIX PASS",
+        "R14_U043_ROLLBACK_WITH_FACTS_REJECTED_ATOMICALLY PASS",
+        "R14_U043_ROLLBACK_V043_REPLAY PASS",
+        "R14_DATABASE_INVARIANTS PASS",
+    ):
+        if marker not in r14_runner:
+            errors.append(f"R14 database runner missing closure marker: {marker}")
+
+    if "run_r14_database_invariants.sh" not in migration_smoke:
+        errors.append("migration smoke missing R14 invariant runner")
+
 if errors:
     print("DB_SCHEMA_FAIL")
     print("\n".join(errors))

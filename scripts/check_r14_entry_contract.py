@@ -154,6 +154,17 @@ def validate(root: Path) -> list[str]:
         "ChatContentCardMessageRequest", "ChatContactCardMessageRequest",
     }:
         errors.append(f"R14_MESSAGE_REQUEST_SET {sorted(request_refs)}")
+    for schema_name in (
+        "ChatMessageResource", "ChatTextMessageRequest", "ChatImageMessageRequest",
+        "ChatContentCardMessageRequest", "ChatContactCardMessageRequest",
+    ):
+        client_message_id = schemas.get(schema_name, {}).get("properties", {}).get(
+            "clientMessageId", {}
+        )
+        if client_message_id.get("type") != "string" \
+                or client_message_id.get("minLength") != 1 \
+                or client_message_id.get("maxLength") != 64:
+            errors.append(f"R14_CLIENT_MESSAGE_ID_CONTRACT {schema_name}")
     contact = schemas.get("ChatContactCardPayload", {})
     if set(contact.get("properties", {})) != {"fields", "note"}:
         errors.append("R14_CONTACT_CARD_FIELDS")

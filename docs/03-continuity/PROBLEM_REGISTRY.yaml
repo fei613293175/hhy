@@ -1886,3 +1886,15 @@ problems:
   - 不得仅按任务编号或最后一个BLOCKED猜测外部门禁；必须同时验证机器异步事实和严格连续后缀形状
   - 不得为推进后续版本把项目所有者真机PENDING改成PASS或把历史阻塞任务标DONE
   - 不得让任意中间业务任务、非连续阻塞或缺证据Release借用该兼容路径
+- id: PROB-0132
+  title: R15管理端聊天举报合同错误复用会话资源
+  status: OPEN
+  root_cause: admin-openapi中的举报列表items和举报决定响应直接复用了ConversationResource，无法表达举报原因、说明、消息证据、媒体证据、举报双方、处理状态与乐观锁版本；若按该合同实现R15，后台无法形成可审核、可追溯的聊天举报管理闭环。
+  resolution: R14仅登记为R15开发前阻断，不提前修改R15冻结合同。进入R15前必须通过独立批准CR定义唯一ChatReportResource及列表、详情、决定响应，逐项对齐V043的chat_reports字段、证据授权规则、状态迁移与version，并重新生成管理端客户端和合同哈希。
+  regression_checks:
+  - R15入口门禁必须拒绝AdminChatGetChatReportsResponse.items继续引用ConversationResource
+  - R15入口门禁必须拒绝AdminChatPostChatReportsByIdDecideResponse继续引用ConversationResource
+  - 新ChatReportResource必须覆盖reporter、targetUser、conversation、messageIds、evidenceMediaIds、reasonCode、description、status、version和审计时间
+  do_not_repeat:
+  - 不得在R14数据任务中越界修改R15后台合同或伪称该问题已解决
+  - 不得用ConversationResource、自由JsonValue或前端临时拼接代替聊天举报领域资源

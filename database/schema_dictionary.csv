@@ -354,32 +354,36 @@
 聊天,conversations,4,last_message_at,timestamptz,是,,INDEX,首版仅direct,R14,FROZEN
 聊天,conversations,5,created_at,timestamptz,否,now(),INDEX,统一审计字段,R14,FROZEN
 聊天,conversations,6,updated_at,timestamptz,否,now(),,统一审计字段,R14,FROZEN
+聊天,conversations,7,direct_user_low_id,bigint,是,,UNIQUE,事务提交时与双成员规范对一致,R14,FROZEN
+聊天,conversations,8,direct_user_high_id,bigint,是,,UNIQUE,事务提交时与双成员规范对一致,R14,FROZEN
+聊天,conversations,9,version,bigint,否,0,,乐观锁版本不得为负,R14,FROZEN
 聊天,conversation_members,1,id,bigint,否,generated,PRIMARY KEY,技术主键,R14,FROZEN
 聊天,conversation_members,2,conversation_id,bigint,否,,INDEX,会话+用户唯一,R14,FROZEN
 聊天,conversation_members,3,user_id,bigint,否,,INDEX,会话+用户唯一,R14,FROZEN
-聊天,conversation_members,4,unread_count,integer,是,,,会话+用户唯一,R14,FROZEN
+聊天,conversation_members,4,unread_count,integer,否,0,,会话+用户唯一；未读数不得为负,R14,FROZEN
 聊天,conversation_members,5,last_read_message_id,bigint,是,,INDEX,会话+用户唯一,R14,FROZEN
 聊天,conversation_members,6,created_at,timestamptz,否,now(),INDEX,统一审计字段,R14,FROZEN
 聊天,conversation_members,7,updated_at,timestamptz,否,now(),,统一审计字段,R14,FROZEN
+聊天,conversation_members,8,hidden_at,timestamptz,是,,INDEX,仅隐藏当前用户会话视图；不删除成员或消息,R14,FROZEN
 聊天,chat_messages,1,id,bigint,否,generated,PRIMARY KEY,技术主键,R14,FROZEN
 聊天,chat_messages,2,conversation_id,bigint,否,,INDEX,发送者+client_msg_id唯一,R14,FROZEN
 聊天,chat_messages,3,sender_id,bigint,否,,INDEX,发送者+client_msg_id唯一,R14,FROZEN
-聊天,chat_messages,4,type,varchar(64),是,,,发送者+client_msg_id唯一,R14,FROZEN
-聊天,chat_messages,5,body_json,jsonb,是,,,发送者+client_msg_id唯一,R14,FROZEN
+聊天,chat_messages,4,type,varchar(64),否,,,四类封闭消息Schema,R14,FROZEN
+聊天,chat_messages,5,body_json,jsonb,否,,,必须匹配type的封闭payload,R14,FROZEN
 聊天,chat_messages,6,status,varchar(64),否,,,发送者+client_msg_id唯一,R14,FROZEN
-聊天,chat_messages,7,client_msg_id,bigint,是,,INDEX,发送者+client_msg_id唯一,R14,FROZEN
+聊天,chat_messages,7,client_msg_id,varchar(64),否,,INDEX,发送者+client_msg_id唯一；1至64字符,R14,FROZEN
 聊天,chat_messages,8,created_at,timestamptz,否,now(),INDEX,统一审计字段,R14,FROZEN
 聊天,chat_messages,9,updated_at,timestamptz,否,now(),,统一审计字段,R14,FROZEN
 聊天,chat_message_attachments,1,id,bigint,否,generated,PRIMARY KEY,私有媒体,R14,FROZEN
 聊天,chat_message_attachments,2,message_id,bigint,否,,INDEX,私有媒体,R14,FROZEN
-聊天,chat_message_attachments,3,media_id,bigint,是,,INDEX,私有媒体,R14,FROZEN
-聊天,chat_message_attachments,4,sort_order,integer,是,,,私有媒体,R14,FROZEN
+聊天,chat_message_attachments,3,media_id,bigint,否,,INDEX,发送者READY的private_chat媒体,R14,FROZEN
+聊天,chat_message_attachments,4,sort_order,integer,否,0,,消息内顺序唯一且不得为负,R14,FROZEN
 聊天,chat_message_attachments,5,created_at,timestamptz,否,now(),INDEX,统一审计字段,R14,FROZEN
 聊天,chat_message_attachments,6,updated_at,timestamptz,否,now(),,统一审计字段,R14,FROZEN
 聊天,chat_read_receipts,1,id,bigint,否,generated,PRIMARY KEY,技术主键,R14,FROZEN
 聊天,chat_read_receipts,2,message_id,bigint,否,,INDEX,消息+用户唯一,R14,FROZEN
 聊天,chat_read_receipts,3,user_id,bigint,否,,INDEX,消息+用户唯一,R14,FROZEN
-聊天,chat_read_receipts,4,read_at,timestamptz,是,,INDEX,消息+用户唯一,R14,FROZEN
+聊天,chat_read_receipts,4,read_at,timestamptz,否,,INDEX,消息+用户唯一；仅对方成员可写,R14,FROZEN
 聊天,chat_read_receipts,5,created_at,timestamptz,否,now(),INDEX,统一审计字段,R14,FROZEN
 聊天,chat_read_receipts,6,updated_at,timestamptz,否,now(),,统一审计字段,R14,FROZEN
 聊天,user_blocks,1,id,bigint,否,generated,PRIMARY KEY,技术主键,R14,FROZEN
@@ -390,12 +394,16 @@
 聊天,user_blocks,6,updated_at,timestamptz,否,now(),,统一审计字段,R14,FROZEN
 聊天,chat_reports,1,id,bigint,否,generated,PRIMARY KEY,证据,R14,FROZEN
 聊天,chat_reports,2,reporter_id,bigint,否,,INDEX,证据,R14,FROZEN
-聊天,chat_reports,3,target_user_id,bigint,是,,INDEX,证据,R14,FROZEN
-聊天,chat_reports,4,conversation_id,bigint,是,,INDEX,证据,R14,FROZEN
-聊天,chat_reports,5,message_ids,jsonb,是,,,证据,R14,FROZEN
+聊天,chat_reports,3,target_user_id,bigint,否,,INDEX,必须为同会话对方成员,R14,FROZEN
+聊天,chat_reports,4,conversation_id,bigint,否,,INDEX,举报人与目标用户必须为成员,R14,FROZEN
+聊天,chat_reports,5,message_ids,jsonb,否,[],,最多100个唯一且属于当前会话的消息ID,R14,FROZEN
 聊天,chat_reports,6,status,varchar(64),否,,,证据,R14,FROZEN
 聊天,chat_reports,7,created_at,timestamptz,否,now(),INDEX,统一审计字段,R14,FROZEN
 聊天,chat_reports,8,updated_at,timestamptz,否,now(),,统一审计字段,R14,FROZEN
+聊天,chat_reports,9,reason_code,varchar(2000),否,,,用户提交的举报原因代码,R14,FROZEN
+聊天,chat_reports,10,description,text,否,,,用户提交的举报说明；最多2000字符,R14,FROZEN
+聊天,chat_reports,11,evidence_media_ids,jsonb,否,[],,最多100个唯一且授权可见的READY私有媒体ID,R14,FROZEN
+聊天,chat_reports,12,version,bigint,否,0,,R15后台处理乐观锁版本不得为负,R14,FROZEN
 通知,notifications,1,id,bigint,否,generated,PRIMARY KEY,用户+时间索引,R15,FROZEN
 通知,notifications,2,user_id,bigint,否,,INDEX,用户+时间索引,R15,FROZEN
 通知,notifications,3,type,varchar(64),是,,,用户+时间索引,R15,FROZEN
