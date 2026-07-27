@@ -174,10 +174,10 @@ class R13CandidateTest(unittest.TestCase):
         request = yaml.safe_load(REQUEST.read_text(encoding="utf-8"))
         self.assertEqual("R13", request["release"])
         self.assertTrue(request["candidate"])
-        self.assertEqual(6, request["remediation_attempt"])
-        self.assertEqual("R13-CANDIDATE-20260727-006", request["request_id"])
-        self.assertEqual("CR-0386", request["attempt_exception_id"])
-        self.assertEqual("808ee1d13bc15812609a2d2275318f5c1edae8e9", request["required_fix_commit"])
+        self.assertEqual(7, request["remediation_attempt"])
+        self.assertEqual("R13-CANDIDATE-20260727-007", request["request_id"])
+        self.assertEqual("CR-0387", request["attempt_exception_id"])
+        self.assertEqual("0769abff1ecb12e4f4cd6415f66cdef8c92d0209", request["required_fix_commit"])
 
     def test_tabs_and_sheet_markers_follow_the_frozen_visual_contract(self) -> None:
         source = ACTIVITY_SCREEN.read_text(encoding="utf-8")

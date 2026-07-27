@@ -1771,7 +1771,7 @@ problems:
   title: R13固定尺寸Lazy列表预组合媒体因尚未测量而持续loading
   status: REMEDIATING
   root_cause: Run 30226547910 attempt6的请求、编译、Lint、单测、打包、OIDC和Staging准备均通过，CR-0386新增的description也被UiAutomator正确识别；收藏页30秒后精确报告expected=3 success=2 errors=0 loading=1。三个内容共用同一HTTP 200 READY媒体，零error且两项已成功，排除网络和选择器根因；第三个LazyColumn节点已预组合进入无障碍树但尚未获得实际布局尺寸，AsyncImage默认约束SizeResolver未启动该请求，因此永久保留loading。
-  resolution: CR-0387为R13固定宽高媒体容器创建与容器一致像素尺寸的稳定ImageRequest，使预组合节点不依赖首次实际测量即可启动真实请求；继续保留30秒、三条success、零error、零loading和截图前硬门禁，禁止延长超时、固定sleep或把expectedCount降为2。Run 30226547910与attempt6保持已消费且不得重跑或晋升；专项回归、UI基础门禁和obx-test固定镜像223任务已通过，形成首个修复Commit后才允许精确建立R13 attempt7/request007/max1。
+  resolution: CR-0387为R13固定宽高媒体容器创建与容器一致像素尺寸的稳定ImageRequest，使预组合节点不依赖首次实际测量即可启动真实请求；继续保留30秒、三条success、零error、零loading和截图前硬门禁，禁止延长超时、固定sleep或把expectedCount降为2。Run 30226547910与attempt6保持已消费且不得重跑或晋升；专项回归、UI基础门禁和obx-test固定镜像223任务已通过，首个修复Commit为0769abff1ecb12e4f4cd6415f66cdef8c92d0209。唯一R13 attempt7/request007/CR-0387/max1仅绑定该不可变SHA，attempt8未授权。
   regression_checks:
   - tests.test_r13_candidate必须锁定与容器一致的确定像素尺寸ImageRequest、三条预期媒体、30秒上限和截图前等待顺序
   - scripts/check_android_ui_foundation.py必须PASS且git diff --check无错误

@@ -1827,4 +1827,5 @@
 - Release：`R13`
 - Task：`TASK-R13-007`
 - 摘要：Run 30226547910 attempt6已消费失败，编译链路通过且媒体三态可观测性生效，但收藏页精确报告`success=2 errors=0 loading=1`；固定尺寸Lazy列表的预组合节点尚未测量，默认约束SizeResolver未启动第三个真实请求。
-- 修复：R13媒体改用与固定容器一致像素尺寸的稳定`ImageRequest`，保留三条success、零error、零loading、30秒和截图前硬门禁；专项回归、UI基础门禁及obx-test固定镜像223任务通过，尚未授权attempt7。
+- 修复：R13媒体改用与固定容器一致像素尺寸的稳定`ImageRequest`，保留三条success、零error、零loading、30秒和截图前硬门禁；专项回归、UI基础门禁及obx-test固定镜像223任务通过。
+- 候选：首个修复Commit `0769abff1ecb12e4f4cd6415f66cdef8c92d0209`冻结后，唯一`R13-CANDIDATE-20260727-007 / CR-0387 / attempt7 / max1`通过69项正反向治理回归；attempt8未授权。
