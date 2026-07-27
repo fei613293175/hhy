@@ -126,6 +126,11 @@ class R13CandidateTest(unittest.TestCase):
 
     def test_candidate_entry_requires_actionable_authenticated_shell(self) -> None:
         self.assertIn('waitForAuthenticatedShell()', self.journey)
+        launch = self.journey.index("target.startActivity(launchIntent)")
+        compose_idle = self.journey.index("composeRule.waitForIdle()")
+        shell_wait = self.journey.index("val authenticatedShellReady = waitForAuthenticatedShell()")
+        self.assertLess(launch, compose_idle)
+        self.assertLess(compose_idle, shell_wait)
         helper = self.journey[
             self.journey.index("private fun waitForAuthenticatedShell"):
             self.journey.index("private fun clickExactText")
@@ -137,6 +142,8 @@ class R13CandidateTest(unittest.TestCase):
         self.assertIn('By.res("hhy.screen.r06.home.loaded")', helper)
         self.assertIn('By.res("hhy.screen.r06.home.error")', helper)
         self.assertIn('By.res("hhy.screen.r06.home.loading")', helper)
+        self.assertIn('"正在启动", "系统维护中", "暂时无法连接", "立即更新", "下载更新", "登录"', helper)
+        self.assertIn("visibleBlockers=", helper)
         self.assertEqual(3, helper.count('By.res("hhy.screen.r06.home.'))
         self.assertIn("SystemClock.uptimeMillis() + 30_000", helper)
         self.assertNotIn("SystemClock.sleep", helper)

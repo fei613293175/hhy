@@ -77,6 +77,7 @@ class ReleaseCandidateSmokeTest {
             "Candidate app did not become visible",
             device.wait(Until.hasObject(By.pkg(target.packageName).depth(0)), 20_000),
         )
+        composeRule.waitForIdle()
     }
 
     @Test
@@ -203,10 +204,16 @@ class ReleaseCandidateSmokeTest {
             generateSequence(node) { current -> current.parent }
                 .any { it.isClickable && it.isEnabled }
         } ?: false
+        val visibleBlockers = listOf(
+            "正在启动", "系统维护中", "暂时无法连接", "立即更新", "下载更新", "登录",
+        ).filter { device.hasText(it) }
         return "shell=${device.hasObject(By.res("hhy.shell.authenticated"))} " +
             "home=${homeStates.ifEmpty { listOf("none") }.joinToString()} " +
-            "meVisible=${meNode != null} meActionable=$meActionable"
+            "meVisible=${meNode != null} meActionable=$meActionable " +
+            "visibleBlockers=${visibleBlockers.ifEmpty { listOf("none") }.joinToString()}"
     }
+
+    private fun UiDevice.hasText(value: String): Boolean = hasObject(By.text(value))
 
     private fun clickExactText(value: String) {
         val textNode = device.wait(Until.findObject(By.text(value)), 15_000)
