@@ -26002,9 +26002,9 @@ change_requests:
 - protocol_version: '1.0'
   cr_id: CR-0422
   title: 实现R14 Android私聊详情与真实会话导航
-  status: IMPLEMENTED
+  status: CLOSED
   created_at: '2026-07-27T22:23:17Z'
-  updated_at: '2026-07-27T23:17:57Z'
+  updated_at: '2026-07-27T23:23:23Z'
   requester_actor_id: codex-root-r14-client-20260728
   approver_actor_id: codex-r14-cr-review-20260728
   task_id: TASK-R14-004
@@ -26072,5 +26072,12 @@ change_requests:
     status: IMPLEMENTED
     note: obx-test固定镜像编译、三组单测及聊天模块和App Lint通过；R14入口、API、生成资产、Android UI与视觉目录静态门禁通过，最终截图留在大版本候选阶段
     session_id: SES-20260727T221444Z-FD353AD3
+  - at: '2026-07-27T23:23:23Z'
+    actor_id: codex-root-r14-client-20260728
+    status: CLOSED
+    note: 实现Commit 77e0061f已通过预推送严格门禁并推送至origin/task/TASK-R03-001；CR批准范围全部落地，最终截图仍按R14候选阶段执行
+    session_id: SES-20260727T221444Z-FD353AD3
   session_ids:
   - SES-20260727T221444Z-FD353AD3
+  implementation_commits:
+  - 77e0061f5c70b776ac62d83ff7b8d572c22b051a
