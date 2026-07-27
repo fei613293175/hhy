@@ -205,6 +205,14 @@ class AndroidCiGateTest(unittest.TestCase):
                 "required_fix_commit": "8393b35464b16083833e7c9d95e7d303ce8a11a2",
                 "max_candidate_runs": 1,
             },
+            {
+                "exception_id": "CR-0391",
+                "release": "R13",
+                "attempt": 11,
+                "request_id": "R13-CANDIDATE-20260727-011",
+                "required_fix_commit": "7d53f3863b64ca1d2bc31baf7fd03ae36f6e3642",
+                "max_candidate_runs": 1,
+            },
         ], policy["remediation"]["approved_attempt_exceptions"])
 
     def test_attempt_exception_is_exact_and_never_changes_the_global_limit(self) -> None:
@@ -350,19 +358,30 @@ class AndroidCiGateTest(unittest.TestCase):
         self.assertEqual(3, attempt_ten["max_ai_attempts"])
         self.assertEqual(10, attempt_ten["effective_attempt_limit"])
         self.assertEqual(1, attempt_ten["max_candidate_runs"])
+        attempt_eleven = resolve_attempt_policy(
+            policy,
+            release="R13",
+            attempt=11,
+            request_id="R13-CANDIDATE-20260727-011",
+            exception_id="CR-0391",
+            required_fix_commit="7d53f3863b64ca1d2bc31baf7fd03ae36f6e3642",
+        )
+        self.assertEqual(3, attempt_eleven["max_ai_attempts"])
+        self.assertEqual(11, attempt_eleven["effective_attempt_limit"])
+        self.assertEqual(1, attempt_eleven["max_candidate_runs"])
         base = {
             "release": "R13",
-            "attempt": 10,
-            "request_id": "R13-CANDIDATE-20260727-010",
-            "exception_id": "CR-0390",
-            "required_fix_commit": "8393b35464b16083833e7c9d95e7d303ce8a11a2",
+            "attempt": 11,
+            "request_id": "R13-CANDIDATE-20260727-011",
+            "exception_id": "CR-0391",
+            "required_fix_commit": "7d53f3863b64ca1d2bc31baf7fd03ae36f6e3642",
         }
         invalid = (
             {"release": "R12"},
-            {"request_id": "R13-CANDIDATE-20260727-011"},
-            {"exception_id": "CR-0389"},
+            {"request_id": "R13-CANDIDATE-20260727-012"},
+            {"exception_id": "CR-0390"},
             {"required_fix_commit": "b" * 40},
-            {"attempt": 11},
+            {"attempt": 12},
         )
         for override in invalid:
             with self.subTest(override=override), self.assertRaises(GateError):
