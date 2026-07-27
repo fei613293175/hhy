@@ -1,19 +1,19 @@
 {
   "version": "1.0",
-  "generated_at": "2026-07-27T13:42:53Z",
-  "context_hash": "9c6c9de7f4702f294122c269234cbf4bf8277eb24adb67c763ae891d549be3c0",
+  "generated_at": "2026-07-27T13:57:28Z",
+  "context_hash": "4c39b570fa15c33604990070a0a18475e273e46d3db05409bd271ec0974ef2a1",
   "fingerprint_mode": "SESSION_DELTA",
   "project_fingerprint": {
-    "sha256": "8338956a9dac06b61bb7be5a854a7434e76614cdb6c1aec4d43cba1aece3b5ce",
-    "file_count": 55
+    "sha256": "c145385e7d2381be90bb5fbce58f686d57c349809849d2dd5976589fa6f92e42",
+    "file_count": 56
   },
   "yaml": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.yaml",
-    "sha256": "5547276b5d8c393ab3e52064b9d4533d51073283f43843a9d4fb64b47e2cd373"
+    "sha256": "d499c6e2cc4cbdfc65271503c4f8b2f83221697418578e175a7002d2954c3038"
   },
   "markdown": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.md",
-    "sha256": "8a43db3f9d722d4bcf44588337a0e3d16f47317828f7e408022c59bda41bc043"
+    "sha256": "973a86af8921e683fb074f64d478226a2d36a9ecdcfe0c18aac1c4dabad9aaf2"
   },
   "sources": [
     {
@@ -28,7 +28,7 @@
     },
     {
       "path": "CURRENT_STATUS.yaml",
-      "sha256": "3be053622bf785bf2e58b31edbeb1c2f09634a9c8f5a0f172386c1de5f351d55",
+      "sha256": "cadd0fbf254416d036d61d442644e187bec7964aa23736bfb273353d1151737d",
       "bytes": 4568
     },
     {
@@ -48,8 +48,8 @@
     },
     {
       "path": "docs/03-continuity/PROBLEM_REGISTRY.yaml",
-      "sha256": "46b3fa0f79de3fcff130a78efde09e0ea78a9f1435fee94339d156a6fa586e4c",
-      "bytes": 210186
+      "sha256": "5424fe9a8de39fd14ac757bc74bcde0050c96775bb182ccac8717e0ae95a9de9",
+      "bytes": 210407
     },
     {
       "path": "docs/03-continuity/REUSABLE_PATTERNS.md",
@@ -83,12 +83,12 @@
     },
     {
       "path": ".continuity/EVENT_LOG.jsonl",
-      "sha256": "b3f6d46549c8d8b5d25b583326589ef17b16b304e2da0f43ad92e26e3c624a9f",
-      "bytes": 2204512
+      "sha256": "da6e211eb945e435d1df76fead399eceafac4911de0633dd28d3a3a345982cbe",
+      "bytes": 2207986
     },
     {
       "path": ".continuity/SESSION_INDEX.yaml",
-      "sha256": "9c432c5ba996319d7717f2f0eea35f8a0c5403698569e84f449df7428661e704",
+      "sha256": "6b6c76f71163fdc7585627a148e111361734c02aeaedecfea970626425c3e078",
       "bytes": 59039
     },
     {
@@ -103,12 +103,12 @@
     },
     {
       "path": ".continuity/CHANGE_REQUEST_INDEX.yaml",
-      "sha256": "0a7ef8344302c9bfd2a9f511e81b0bb51968cf83774e90289b3a80860cb32a9e",
-      "bytes": 1436094
+      "sha256": "54d14fb8a50735f15093a147cfa41ee2d308104737ebda9f8245681ee5bb36d0",
+      "bytes": 1439749
     },
     {
       "path": ".continuity/ACTIVE_SESSION.yaml",
-      "sha256": "23feee9f337f1d267becebba0b5e809de07d80837684c356dd0269e3066f5402",
+      "sha256": "20c09b681985c2cfea69dadbe5736e321786d620815a7824475587c47b202128",
       "bytes": 548
     },
     {
@@ -163,13 +163,13 @@
     },
     {
       "path": "docs/03-continuity/sessions/2026-07/SES-20260726T191158Z-2B506AB7.md",
-      "sha256": "6d26c803e89fdb44e00cfe7bcbc0d8558872111a0e0dd84c966e135713c3ebad",
-      "bytes": 222065
+      "sha256": "d6087f6297448e569a39db61fe4895261aa588c0e614a7b2692f416870582921",
+      "bytes": 233880
     },
     {
-      "path": ".continuity/checkpoints/SES-20260726T191158Z-2B506AB7/0057.yaml",
-      "sha256": "54f2be7b3d028c1b46c0e8e906de55c3079248ac51f6d0f704e101739e837d6f",
-      "bytes": 28014
+      "path": ".continuity/checkpoints/SES-20260726T191158Z-2B506AB7/0059.yaml",
+      "sha256": "80907020fe17124fd4287f0b9fc908be3b040463b4d8c7324451a71db992f5b6",
+      "bytes": 29250
     },
     {
       "path": "docs/03-continuity/change-requests/CR-0377-建立R13收藏历史分享最终Android候选.md",
@@ -328,8 +328,13 @@
     },
     {
       "path": "docs/03-continuity/change-requests/CR-0408-修复R13候选第三张真实媒体未激活并切换为Coil数据驱动预取.md",
-      "sha256": "5ceb71f7e762de1bde399b181f93721f57d8d4a3a5769e5c0e750d4e0f3066dc",
-      "bytes": 2777
+      "sha256": "eefada989796ee7f8eee9e24f43054d1b474d8d2fbc54f2dd4b6ae6aeb9a38fe",
+      "bytes": 3608
+    },
+    {
+      "path": "docs/03-continuity/change-requests/CR-0409-授权CR-0408数据驱动预取后的唯一R13候选attempt20.md",
+      "sha256": "5d48dd0da028c5bc6bdf5e7dee54f883562067cfa2565e28d93cc87a190d0489",
+      "bytes": 2717
     }
   ]
 }

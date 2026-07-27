@@ -1800,6 +1800,7 @@ problems:
   - Run 30265602004 attempt18必须保留runtime artifact digest、认证主框架已可操作、点击我的后目标页未出现、四截图缺失和owner_test_allowed=false事实；tests.test_r13_candidate必须锁定页面转换的30秒/15秒时窗、逐轮Compose同步及required/gone失败诊断
   - CR-0406完整修复必须锁定所有候选资源点击、R13 phase轮询、异步媒体终态等待和截图稳定采样均先同步Compose；不得只修首个我的页等待后把同一调度根因推迟到收藏、历史、媒体或截图阶段
   - R13 Attempt19必须精确绑定CR-0407、唯一request019、CR-0406完整修复Commit 5cd3dabee40aadd8c906d4307fa3d4c502360011和单次运行上限；任何绑定漂移、Attempt18重跑或Attempt20必须拒绝
+  - R13 Attempt20必须精确绑定CR-0409、唯一request020、CR-0408数据驱动预取Commit 4d6fd4d7a61cbdb6db465534bebbe5c8375c45e4和单次运行上限；任何绑定漂移、Attempt19重跑或Attempt21必须拒绝
   - 新候选必须报告三条success且四张截图由AI逐图确认真实媒体、安全区、顶栏、底部面板、截断、遮挡和品牌对比度
   do_not_repeat:
   - 不得把部分success且零error的持续loading继续误判为选择器不可观测或公网媒体失败
