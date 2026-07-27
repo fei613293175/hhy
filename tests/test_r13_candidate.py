@@ -109,6 +109,12 @@ class R13CandidateTest(unittest.TestCase):
     def test_favorites_waits_for_all_real_media_before_visual_capture(self) -> None:
         source = ACTIVITY_SCREEN.read_text(encoding="utf-8")
         self.assertIn('remember(mediaUrl)', source)
+        self.assertIn('val mediaWidthPx = with(density)', source)
+        self.assertIn('val mediaHeightPx = with(density)', source)
+        self.assertIn('ImageRequest.Builder(context)', source)
+        self.assertIn('.size(Size(mediaWidthPx, mediaHeightPx))', source)
+        self.assertIn('val mediaRequest = remember(mediaUrl, context, mediaWidthPx, mediaHeightPx)', source)
+        self.assertIn('mediaRequest?.let', source)
         self.assertIn('testTag("r13.media.${item.id}.$mediaState")', source)
         self.assertIn('onSuccess = { mediaState = "loaded" }', source)
         self.assertIn('onError = { mediaState = "error" }', source)
@@ -129,6 +135,8 @@ class R13CandidateTest(unittest.TestCase):
         self.assertIn('"success=${device.findObjects(loaded).size} "', self.journey)
         self.assertIn('"errors=${device.findObjects(failed).size} "', self.journey)
         self.assertIn('"loading=${device.findObjects(loading).size}"', self.journey)
+        self.assertIn('val deadline = SystemClock.uptimeMillis() + 30_000', self.journey)
+        self.assertNotIn('waitForLoadedMedia(expectedCount = 2)', self.journey)
         self.assertNotIn('By.res(Pattern.compile("${Pattern.quote(prefix)}', self.journey)
         self.assertLess(self.journey.index(wait), self.journey.index(capture))
 

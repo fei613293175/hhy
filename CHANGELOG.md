@@ -1821,3 +1821,10 @@
 - Actor：`codex-root-r13-staging-20260727`
 - 摘要：TASK-R13-006完成：精确Commit 410aef53通过Java21模块测试与obx-test隔离Staging现场演练；七项Gauge、七条告警、日志脱敏、TraceId、V042应用回切、活动事实保留和25项证据归档均PASS，AC-R13-004已签署。
 - 记录：`docs/03-continuity/sessions/2026-07/SES-20260726T182231Z-EE79FA49.md`
+
+## CR-0387 · IMPLEMENTING · 2026-07-27T00:24:40Z
+
+- Release：`R13`
+- Task：`TASK-R13-007`
+- 摘要：Run 30226547910 attempt6已消费失败，编译链路通过且媒体三态可观测性生效，但收藏页精确报告`success=2 errors=0 loading=1`；固定尺寸Lazy列表的预组合节点尚未测量，默认约束SizeResolver未启动第三个真实请求。
+- 修复：R13媒体改用与固定容器一致像素尺寸的稳定`ImageRequest`，保留三条success、零error、零loading、30秒和截图前硬门禁；专项回归、UI基础门禁及obx-test固定镜像223任务通过，尚未授权attempt7。

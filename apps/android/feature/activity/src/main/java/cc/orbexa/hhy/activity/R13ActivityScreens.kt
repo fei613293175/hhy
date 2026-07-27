@@ -55,6 +55,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.testTagsAsResourceId
@@ -62,6 +63,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.style.TextOverflow
 import coil.compose.AsyncImage
+import coil.request.ImageRequest
+import coil.size.Size
 import cc.orbexa.hhy.designsystem.HhyBackButton
 import cc.orbexa.hhy.designsystem.HhyColors
 import cc.orbexa.hhy.designsystem.HhyElevation
@@ -337,6 +340,18 @@ private fun R13ActivityRow(
 ) {
     val mediaUrl = secureActivityMediaUrl(item.media.firstOrNull()?.thumbnailUrl ?: item.media.firstOrNull()?.url)
     val mediaDescription = item.media.firstOrNull()?.altText?.takeIf { it.isNotBlank() } ?: item.title
+    val context = LocalContext.current
+    val density = LocalDensity.current
+    val mediaWidthPx = with(density) { (HhySize.TopAppBarHeight * 1.55f).roundToPx() }
+    val mediaHeightPx = with(density) { HhySize.TopAppBarHeight.roundToPx() }
+    val mediaRequest = remember(mediaUrl, context, mediaWidthPx, mediaHeightPx) {
+        mediaUrl?.let {
+            ImageRequest.Builder(context)
+                .data(it)
+                .size(Size(mediaWidthPx, mediaHeightPx))
+                .build()
+        }
+    }
     var mediaState by remember(mediaUrl) { mutableStateOf(if (mediaUrl == null) "unavailable" else "loading") }
     Row(
         modifier = Modifier.fillMaxWidth().background(HhyColors.Surface).clickable(onClick = onClick)
@@ -350,7 +365,7 @@ private fun R13ActivityRow(
             contentAlignment = Alignment.Center,
         ) {
             HhyIcon(contentTypeIcon(item.contentType), null, tint = HhyColors.BrandPrimary)
-            mediaUrl?.let {
+            mediaRequest?.let {
                 AsyncImage(
                     model = it,
                     contentDescription = when (mediaState) {

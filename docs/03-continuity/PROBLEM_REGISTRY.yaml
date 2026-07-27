@@ -1754,9 +1754,9 @@ problems:
   - 视觉拒绝的旧Run不得晋升、重跑或交付APK
 - id: PROB-0125
   title: R13候选媒体状态资源标识未进入UiAutomator无障碍匹配
-  status: REMEDIATING
+  status: SOLVED
   root_cause: Run 30225016379 已通过候选请求、编译、Lint、单测、打包、OIDC和Staging准备，但收藏页在首张截图前等待三条loaded 30秒超时。runtime artifact SHA-256为f7a4c597cffb13b4c8dcad4cd299e26537e8944dd756df3c3053cff8ab7e4437；公共夹具PNG当前HTTP 200 image/png，logcat无Coil、DNS、SSL、连接、崩溃或ANR异常，且loaded和error资源正则都未命中。根因是Compose动态testTag虽然适合Compose测试，但AsyncImage子节点没有以该资源标识稳定进入UiAutomator可见无障碍树，候选无法观察实际加载终态。
-  resolution: CR-0386保留按内容ID的loading/loaded/error testTag，同时把加载中、加载成功和加载失败映射为包含业务内容标题的无障碍description；候选改为按description分别计数成功、失败和加载中，任一失败立即拒绝，三条成功后才截图，超时报告三类实际数量。Run 30225016379和attempt5保持已消费且不得重跑；代码和模块证据完成后才允许建立精确R13 attempt6/request006/max1。
+  resolution: CR-0386保留按内容ID的loading/loaded/error testTag，同时把加载中、加载成功和加载失败映射为包含业务内容标题的无障碍description；候选改为按description分别计数成功、失败和加载中，任一失败立即拒绝，三条成功后才截图，超时报告三类实际数量。Run 30225016379和attempt5保持已消费且不得重跑。Run 30226547910 attempt6已精确识别success=2、errors=0、loading=1，证明跨Compose与UiAutomator的三态可观测性修复生效；该Run随后暴露的是独立的预组合尺寸解析根因，转由CR-0387处理。
   regression_checks:
   - tests.test_r13_candidate必须锁定三种业务可读description、description选择器、失败硬拒绝和超时三类计数
   - obx-test固定Android镜像必须通过feature:activity单测和app AndroidTest Kotlin编译
@@ -1767,3 +1767,19 @@ problems:
   - 跨框架候选等待必须使用业务可读无障碍语义并输出成功、失败和进行中数量
   - 选择器观测不到终态时不得简单延长超时或把网络正常误判为图片仍在加载
   - 被确定性仪器缺陷消费的Run不得重跑或交付其中间APK
+- id: PROB-0126
+  title: R13固定尺寸Lazy列表预组合媒体因尚未测量而持续loading
+  status: REMEDIATING
+  root_cause: Run 30226547910 attempt6的请求、编译、Lint、单测、打包、OIDC和Staging准备均通过，CR-0386新增的description也被UiAutomator正确识别；收藏页30秒后精确报告expected=3 success=2 errors=0 loading=1。三个内容共用同一HTTP 200 READY媒体，零error且两项已成功，排除网络和选择器根因；第三个LazyColumn节点已预组合进入无障碍树但尚未获得实际布局尺寸，AsyncImage默认约束SizeResolver未启动该请求，因此永久保留loading。
+  resolution: CR-0387为R13固定宽高媒体容器创建与容器一致像素尺寸的稳定ImageRequest，使预组合节点不依赖首次实际测量即可启动真实请求；继续保留30秒、三条success、零error、零loading和截图前硬门禁，禁止延长超时、固定sleep或把expectedCount降为2。Run 30226547910与attempt6保持已消费且不得重跑或晋升；专项回归、UI基础门禁和obx-test固定镜像223任务已通过，形成首个修复Commit后才允许精确建立R13 attempt7/request007/max1。
+  regression_checks:
+  - tests.test_r13_candidate必须锁定与容器一致的确定像素尺寸ImageRequest、三条预期媒体、30秒上限和截图前等待顺序
+  - scripts/check_android_ui_foundation.py必须PASS且git diff --check无错误
+  - obx-test固定Android镜像必须通过feature:activity:testDebugUnitTest和app:compileDebugAndroidTestKotlin
+  - R13 attempt7必须精确绑定CR-0387、唯一request007、首个修复Commit完整SHA和单次运行上限
+  - 新候选必须报告三条success且四张截图由AI逐图确认真实媒体、安全区、顶栏、底部面板、截断、遮挡和品牌对比度
+  do_not_repeat:
+  - 不得把部分success且零error的持续loading继续误判为选择器不可观测或公网媒体失败
+  - 固定尺寸Lazy媒体不得依赖首次布局测量才启动候选必须验证的预组合图片请求
+  - 不得通过增加超时、固定sleep、降低expectedCount或接受占位图绕过真实媒体门禁
+  - Run 30226547910不得重跑、晋升、交付或作为视觉基线来源
