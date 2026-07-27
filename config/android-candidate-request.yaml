@@ -2,8 +2,8 @@ schema_version: 1
 status: REQUESTED
 release: R13
 candidate: true
-remediation_attempt: 11
-request_id: R13-CANDIDATE-20260727-011
-reason: R13 attempt 10 Run 30235906567的编译、Lint、单测、打包、收藏入口点击、Compose导航和GET /api/v1/me/favorites 200均通过，但三张同URL真实媒体只有两个回调镜像进入loaded，第三个持续loading，精确报告expected=3 observedSuccess=2 visibleSuccess=2 errors=0 loading=1。该Run及runtime artifact 0898FE8661959294F7CD25D25B41F901F01D2E5275AE696EBF1D08C679E495CD已消费且不得重跑、晋升或交付；CR-0391删除AsyncImage onSuccess/onError独立状态镜像，候选语义直接派生各自AsyncImagePainter.State，同时保留URL、尺寸、缓存、布局、30秒上限、三媒体和四截图合同。修复Commit 7d53f3863b64ca1d2bc31baf7fd03ae36f6e3642已通过66项治理回归、Android UI基础门禁和obx-test固定镜像223任务。本请求只允许该Commit后继候选提交执行一次精确attempt 11，不授权attempt 12。
-attempt_exception_id: CR-0391
-required_fix_commit: 7d53f3863b64ca1d2bc31baf7fd03ae36f6e3642
+remediation_attempt: 12
+request_id: R13-CANDIDATE-20260727-012
+reason: R13 attempt 11 Run 30238024222的编译、Lint、单测和打包通过，但在第一张截图前精确消费收藏页首个30秒content等待并失败于R13 favorites did not become visible；runtime artifact C8D61C0B631A79D1961DA66BB30760700E6448D073C89C9DC4C95FA33A3F0DC0已消费且不得重跑、晋升或交付，四张截图均未生成，且无应用崩溃、ANR、Coil或媒体错误。artifact没有服务端请求日志，禁止猜测favorites请求是否发出。CR-0392在同一30秒总期限内观察全部R13导出phase，仅当3秒内无目标phase且源页仍在时重新解析资源与enabled且clickable祖先并重试一次；其他终态或超时输出phase、源页、资源和祖先诊断。修复Commit 10c904b02750641892e35616f162319867e7f0c9已通过68项治理回归、Android UI基础门禁、git diff检查和obx-test固定镜像212任务；本地/远端Kotlin SHA-256均为A6C8979EE9C1B8A5667A5871BA7510D8064255A0B911C9CB2227D8D794384A19。本请求只允许该Commit后继候选提交执行一次精确attempt 12，不授权attempt 13。
+attempt_exception_id: CR-0392
+required_fix_commit: 10c904b02750641892e35616f162319867e7f0c9

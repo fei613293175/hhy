@@ -20,6 +20,7 @@ class AndroidCandidateRequestTest(unittest.TestCase):
     R13_ATTEMPT9_FIX_COMMIT = "2832d47d5c2a27d73c7a7d2b4f63bc0f331a5e54"
     R13_ATTEMPT10_FIX_COMMIT = "8393b35464b16083833e7c9d95e7d303ce8a11a2"
     R13_ATTEMPT11_FIX_COMMIT = "7d53f3863b64ca1d2bc31baf7fd03ae36f6e3642"
+    R13_ATTEMPT12_FIX_COMMIT = "10c904b02750641892e35616f162319867e7f0c9"
 
     def write_request(self, text: str) -> Path:
         temp = TemporaryDirectory()
@@ -313,6 +314,35 @@ class AndroidCandidateRequestTest(unittest.TestCase):
             "cr": ("R13", "R13-CANDIDATE-20260727-011", "CR-0390", self.R13_ATTEMPT11_FIX_COMMIT, 11),
             "commit": ("R13", "R13-CANDIDATE-20260727-011", "CR-0391", "b" * 40, 11),
             "attempt": ("R13", "R13-CANDIDATE-20260727-011", "CR-0391", self.R13_ATTEMPT11_FIX_COMMIT, 12),
+        }
+        for name, (release, request_id, cr, commit, attempt) in cases.items():
+            with self.subTest(name=name), self.assertRaises(CandidateRequestError):
+                load_request(self.write_request(
+                    "schema_version: 1\nstatus: REQUESTED\n"
+                    f"release: {release}\ncandidate: true\nremediation_attempt: {attempt}\n"
+                    f"request_id: {request_id}\nattempt_exception_id: {cr}\n"
+                    f"required_fix_commit: {commit}\n"
+                ))
+
+    def test_exact_r13_attempt_twelve_exception_is_normalized_per_release(self) -> None:
+        payload = load_request(self.write_request(
+            "schema_version: 1\nstatus: REQUESTED\nrelease: R13\n"
+            "candidate: true\nremediation_attempt: 12\n"
+            "request_id: R13-CANDIDATE-20260727-012\n"
+            "attempt_exception_id: CR-0392\n"
+            f"required_fix_commit: {self.R13_ATTEMPT12_FIX_COMMIT}\n"
+        ))
+        self.assertEqual(12, payload["effective_attempt_limit"])
+        self.assertEqual("CR-0392", payload["attempt_exception_id"])
+        self.assertEqual(self.R13_ATTEMPT12_FIX_COMMIT, payload["required_fix_commit"])
+
+    def test_r13_attempt_twelve_rejects_binding_drift_and_attempt_thirteen(self) -> None:
+        cases = {
+            "release": ("R12", "R13-CANDIDATE-20260727-012", "CR-0392", self.R13_ATTEMPT12_FIX_COMMIT, 12),
+            "request": ("R13", "R13-CANDIDATE-20260727-013", "CR-0392", self.R13_ATTEMPT12_FIX_COMMIT, 12),
+            "cr": ("R13", "R13-CANDIDATE-20260727-012", "CR-0391", self.R13_ATTEMPT12_FIX_COMMIT, 12),
+            "commit": ("R13", "R13-CANDIDATE-20260727-012", "CR-0392", "b" * 40, 12),
+            "attempt": ("R13", "R13-CANDIDATE-20260727-012", "CR-0392", self.R13_ATTEMPT12_FIX_COMMIT, 13),
         }
         for name, (release, request_id, cr, commit, attempt) in cases.items():
             with self.subTest(name=name), self.assertRaises(CandidateRequestError):
