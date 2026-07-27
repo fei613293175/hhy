@@ -1768,10 +1768,10 @@ problems:
   - 选择器观测不到终态时不得简单延长超时或把网络正常误判为图片仍在加载
   - 被确定性仪器缺陷消费的Run不得重跑或交付其中间APK
 - id: PROB-0126
-  title: R13固定尺寸Lazy列表预组合媒体未进入活动视口而持续loading
+  title: R13 Lazy媒体活动视口、候选点击与painter状态一致性失效
   status: REMEDIATING
   root_cause: Run 30226547910 attempt6的请求、编译、Lint、单测、打包、OIDC和Staging准备均通过，CR-0386新增的description也被UiAutomator正确识别；收藏页30秒后精确报告expected=3 success=2 errors=0 loading=1。CR-0387随后给固定媒体容器提供确定像素尺寸并通过固定镜像模块验证，但Run 30228016402 attempt7仍报告相同2/0/1，证明尺寸解析不是最终根因。第三个LazyColumn节点虽已预组合进入语义树，却未进入活动视口，图片生命周期仍未启动；断言后的DNS和Google联网探针错误晚于业务失败，不是根因。CR-0388按此加入滚动激活，但Run 30229476784 attempt8在激活前即精确失败于Expected exactly one R13 activity list count=0，证明Compose LazyColumn未以scrollable=true属性进入UiAutomator树；runtime artifact SHA-256为cb6907f5b5903d650d74cc586ea22328a66769503e9f31d844e1dc42e233d897。CR-0389暴露稳定列表资源后，Run 30231157257 attempt9又在媒体激活前失败于R13 favorites did not become visible；目标容器结构化日志在02:11:11至02:11:13 UTC只收到会话、平台状态、版本、首页和我的页请求，完全没有GET /api/v1/me/favorites，证明资源testTag虽可被UiAutomator找到，但直接node.click没有触发实际Compose clickable祖先。runtime artifact SHA-256为1e16b7319ffe94e0970f4e0393295c44224d27622e985b81f8b54f993deb6f6c。
-  resolution: 保留CR-0387的确定尺寸ImageRequest、CR-0388的同期限激活、累计成功和回顶复验，以及CR-0389的稳定列表资源与节点边界手势；CR-0390把所有候选关键资源点击统一为从资源节点向上选择首个enabled且clickable祖先，找不到立即失败，不改为文字、坐标、固定sleep或放宽marker。Run 30226547910/attempt6、30228016402/attempt7、30229476784/attempt8与30231157257/attempt9均保持已消费且不得重跑、晋升或交付；attempt10只能在首个CR-0390修复Commit和模块证据完成后精确绑定。
+  resolution: 保留CR-0387的确定尺寸ImageRequest、CR-0388的同期限激活、累计成功和回顶复验，以及CR-0389的稳定列表资源与节点边界手势；CR-0390把所有候选关键资源点击统一为从资源节点向上选择首个enabled且clickable祖先。Run 30235906567/attempt10已证明收藏入口、Compose导航、GET /api/v1/me/favorites 200和两张同源媒体成功，但第三张真实painter已参与渲染时独立onSuccess/onError镜像仍停留loading。CR-0391删除回调镜像，候选语义直接派生rememberAsyncImagePainter的AsyncImagePainter.State：Success才loaded、Error立即失败、Empty/Loading保持loading；不改变URL、尺寸、缓存、布局、三媒体和四截图合同。attempt6至attempt10均保持已消费且不得重跑、晋升或交付；attempt11只可在首个CR-0391修复Commit和模块证据完成后精确绑定。
   regression_checks:
   - tests.test_r13_candidate必须锁定与容器一致的确定像素尺寸ImageRequest、稳定列表资源、资源节点边界内坐标滑动、按业务description累计三条成功、受控下滚激活、回顶严格三态复验、30秒单一期限和截图前等待顺序
   - scripts/check_android_ui_foundation.py必须PASS且git diff --check无错误
@@ -1779,11 +1779,14 @@ problems:
   - R13 attempt7与attempt8必须分别保留精确绑定CR-0387/request007和CR-0388/request008的已消费失败事实；attempt9必须在CR-0389实现证据完成后绑定新的唯一request009与首个修复Commit完整SHA
   - tests.test_r13_candidate与tests.test_android_ci_gate必须锁定资源节点向上选择首个enabled且clickable祖先，禁止直接resourceNode.click
   - R13 attempt9必须保留精确Run、runtime artifact SHA-256和目标容器无favorites请求证据；attempt10仅可绑定CR-0390、唯一request010、首个修复Commit完整SHA和单次运行上限
+  - tests.test_r13_candidate必须要求候选语义直接派生AsyncImagePainter.State并拒绝onSuccess/onError复制到独立mutableState
+  - R13 attempt10必须保留Run 30235906567及expected=3 observedSuccess=2 visibleSuccess=2 errors=0 loading=1的已消费事实；attempt11仅可绑定CR-0391、唯一request011、首个修复Commit完整SHA和单次运行上限
   - 新候选必须报告三条success且四张截图由AI逐图确认真实媒体、安全区、顶栏、底部面板、截断、遮挡和品牌对比度
   do_not_repeat:
   - 不得把部分success且零error的持续loading继续误判为选择器不可观测或公网媒体失败
   - 固定尺寸Lazy媒体不得假设进入语义树等同于进入活动视口；候选必须确定性激活后回到冻结截图起点复验
   - 不得假设Compose LazyColumn必然向UiAutomator暴露scrollable=true；跨框架手势必须绑定稳定资源及其可见边界
   - 不得假设UiAutomator找到的Compose testTag资源节点自身可点击；关键资源动作必须向上解析实际enabled且clickable祖先
+  - 不得用AsyncImage回调复制painter终态到独立mutableState作为候选事实源；相同URL并发项必须直接读取各自AsyncImagePainter.State
   - 不得通过增加超时、固定sleep、降低expectedCount或接受占位图绕过真实媒体门禁
-  - Run 30226547910、Run 30228016402、Run 30229476784和Run 30231157257不得重跑、晋升、交付或作为视觉基线来源
+  - Run 30226547910、Run 30228016402、Run 30229476784、Run 30231157257和Run 30235906567不得重跑、晋升、交付或作为视觉基线来源

@@ -11,7 +11,7 @@ task_id: TASK-R13-007
 story_id: STORY-R13-003
 goal: 收藏、历史、分享与行为审计Android测试APK与产物追溯
 started_at: '2026-07-26T19:11:58Z'
-updated_at: '2026-07-27T03:43:56Z'
+updated_at: '2026-07-27T04:40:25Z'
 takeover_of: null
 change_requests:
 - CR-0377
@@ -28,6 +28,7 @@ change_requests:
 - CR-0388
 - CR-0389
 - CR-0390
+- CR-0391
 scope:
   allowed_paths:
   - apps/**
@@ -92,22 +93,22 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-27T03:43:48Z'
-  expires_at: '2026-07-27T07:43:48Z'
-checkpoint_sequence: 28
-latest_checkpoint: .continuity/checkpoints/SES-20260726T191158Z-2B506AB7/0028.yaml
+  renewed_at: '2026-07-27T04:40:16Z'
+  expires_at: '2026-07-27T08:40:16Z'
+checkpoint_sequence: 29
+latest_checkpoint: .continuity/checkpoints/SES-20260726T191158Z-2B506AB7/0029.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260726T191158Z-2B506AB7.md
-next_step: 提交attempt10候选授权Commit，执行Git transport与push preflight后单次推送；只监控新Run并消费其日志、构件和截图。
+next_step: 提交首个CR-0391修复Commit，使用其完整SHA登记唯一R13 attempt11/request011
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: 9cc42737f1a784502586869678009ac8c28e4b5d3cb092e1aa91e5193713d1d5
-  generated_at: '2026-07-27T03:43:53Z'
+  context_hash: ef406d8d63fd3081f84637b3b190ae2902c6c5dca9e91ca9ff2f7d8fa199f8fc
+  generated_at: '2026-07-27T04:40:21Z'
 handoff_bundle: null
 closure: null
 parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 候选请求、精确例外、负向测试和授权Commit必须原子绑定同一修复SHA，拆分会产生候选身份竞态。
+  reason: 单一生产Kotlin状态源、对应合同与连续性事实必须在同一Session串行一致更新，且远程Android构建受唯一锁约束

@@ -24181,3 +24181,54 @@ change_requests:
     session_id: SES-20260726T191158Z-2B506AB7
   session_ids:
   - SES-20260726T191158Z-2B506AB7
+- protocol_version: '1.0'
+  cr_id: CR-0391
+  title: 修复R13候选相同媒体并发回调状态漂移并建立attempt11
+  status: APPROVED
+  created_at: '2026-07-27T04:26:37Z'
+  updated_at: '2026-07-27T04:27:24Z'
+  requester_actor_id: codex-root-r13-candidate-20260727
+  approver_actor_id: codex-review-r13-candidate-20260727
+  task_id: TASK-R13-007
+  session_id: SES-20260726T191158Z-2B506AB7
+  user_request: 项目所有者已批准AI持续开发、无需逐项批准；自动门禁失败后由AI自主分析、最小修复并继续。
+  reason: Run 30235906567 attempt10已消费且不得重跑；编译Lint单测打包通过，收藏导航与GET /api/v1/me/favorites 200已通过，但三张同URL媒体仅两个onSuccess状态可见、一个持续loading，需以AsyncImagePainter真实状态替代回调镜像并在修复证据后授权唯一attempt11。
+  original_rule: R13媒体组件用AsyncImage onSuccess/onError回调复制加载状态到独立mutableState，并由该镜像状态暴露候选语义；同URL并发请求中回调镜像可能滞后于真实painter渲染状态。
+  new_rule: R13媒体候选语义必须直接派生自rememberAsyncImagePainter的AsyncImagePainter.State；Success才标记已加载，Error立即失败，Empty/Loading保持加载中。Run 30235906567/attempt10保持已消费且禁止重跑；首个修复Commit完成模块证据后只允许R13
+    attempt11/request011/CR-0391/max1，不授权attempt12。
+  impact_summary: 只修复R13收藏/历史媒体加载状态的事实来源和对应候选回归，保留图片URL、尺寸、缓存、页面布局、等待上限、三媒体和四截图合同；不改变API、数据库、业务导航或生产数据。
+  impact:
+    files:
+    - apps/android/feature/activity/src/main/java/cc/orbexa/hhy/activity/R13ActivityScreens.kt
+    - tests/test_r13_candidate.py
+    - docs/03-continuity/PROBLEM_REGISTRY.yaml
+    - docs/03-continuity/PITFALLS.md
+    - docs/03-continuity/REUSABLE_PATTERNS.md
+    - docs/08-testing/Android自动开发测试修复交付体系_V1.0.md
+    - config/android-automation.yaml
+    - config/android-candidate-request.yaml
+    - tests/test_android_candidate_request.py
+    - tests/test_android_ci_gate.py
+    - CHANGELOG.md
+    pages:
+    - R13收藏与浏览历史内容图片
+    apis:
+    - 无直接影响（GET /api/v1/me/favorites已在72ms返回200）
+    database:
+    - 无变化（三条候选内容仍复用同一合法媒体对象）
+    configuration:
+    - R13 attempt11候选请求（仅在首个修复Commit后登记）
+    ledger:
+    - TASK-R13-007 attempt10失败与attempt11单次授权
+    tests:
+    - tests.test_r13_candidate;feature:activity:testDebugUnitTest;app:compileDebugAndroidTestKotlin;android-ui-foundation
+    releases:
+    - R13
+    migration_and_compatibility: 现有HTTPS媒体请求与Coil缓存完全兼容；仅删除回调镜像状态，改用painter的官方状态流。旧Run和旧APK不改写，attempt11绑定首个修复Commit。
+  user_confirmation: 项目所有者已明确批准AI持续开发、终端与门禁自主执行、不再逐项批准；CR-0358站立授权继续适用。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-27T04:27:24Z'
+    note: 独立合同复核通过：Run 30235906567证明导航、favorites API和两张同源媒体均成功，无HTTP/Coil错误；唯一残留是第三个回调镜像状态持续loading。改用官方AsyncImagePainter.State是最小且更接近真实渲染的修复，保留所有业务与候选阈值，并要求attempt11后置绑定首个修复SHA。
+  machine_record: .continuity/change_requests/CR-0391.yaml
+  document: docs/03-continuity/change-requests/CR-0391-修复R13候选相同媒体并发回调状态漂移并建立attempt11.md

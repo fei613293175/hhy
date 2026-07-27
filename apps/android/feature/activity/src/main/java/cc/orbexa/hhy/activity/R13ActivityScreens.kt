@@ -4,6 +4,7 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -62,7 +63,8 @@ import androidx.compose.ui.semantics.testTagsAsResourceId
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.style.TextOverflow
-import coil.compose.AsyncImage
+import coil.compose.AsyncImagePainter
+import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import coil.size.Size
 import cc.orbexa.hhy.designsystem.HhyBackButton
@@ -352,7 +354,13 @@ private fun R13ActivityRow(
                 .build()
         }
     }
-    var mediaState by remember(mediaUrl) { mutableStateOf(if (mediaUrl == null) "unavailable" else "loading") }
+    val mediaPainter = rememberAsyncImagePainter(model = mediaRequest)
+    val mediaState = when {
+        mediaUrl == null -> "unavailable"
+        mediaPainter.state is AsyncImagePainter.State.Success -> "loaded"
+        mediaPainter.state is AsyncImagePainter.State.Error -> "error"
+        else -> "loading"
+    }
     Row(
         modifier = Modifier.fillMaxWidth().background(HhyColors.Surface).clickable(onClick = onClick)
             .padding(horizontal = HhySpacing.Lg, vertical = HhySpacing.Md),
@@ -365,9 +373,9 @@ private fun R13ActivityRow(
             contentAlignment = Alignment.Center,
         ) {
             HhyIcon(contentTypeIcon(item.contentType), null, tint = HhyColors.BrandPrimary)
-            mediaRequest?.let {
-                AsyncImage(
-                    model = it,
+            if (mediaRequest != null) {
+                Image(
+                    painter = mediaPainter,
                     contentDescription = when (mediaState) {
                         "loaded" -> "内容图片：$mediaDescription"
                         "error" -> "内容图片加载失败：${item.title}"
@@ -375,8 +383,6 @@ private fun R13ActivityRow(
                     },
                     modifier = Modifier.fillMaxSize().testTag("r13.media.${item.id}.$mediaState"),
                     contentScale = ContentScale.Crop,
-                    onSuccess = { mediaState = "loaded" },
-                    onError = { mediaState = "error" },
                 )
             }
         }
