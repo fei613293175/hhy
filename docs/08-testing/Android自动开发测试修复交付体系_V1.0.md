@@ -30,7 +30,7 @@
 1. **源码与策略检查**：校验 `config/android-automation.yaml`、UI 基础设施、Design Token 和正式 API 地址。
 2. **编译与单元门禁**：运行 `verifyApiBaseUrl`、`lintDebug`、`testDebugUnitTest`、`assembleDebug`、`assembleDebugAndroidTest`。
 3. **模拟器门禁**：在固定 Pixel 7 / Android API 35 / 中文 / 竖屏环境安装并运行 APK。
-4. **功能旅程**：GitHub OIDC 向仅 Staging 启用的内部端点申请一次性短时引导码，模拟器兑换正常用户会话后执行 `tests/android/visual-manifests/<Release>.yaml` 登记的本版本关键旅程。引导码固定 10 分钟硬上限，绑定 repository、workflow_ref、Commit 与 Run 并只允许原子消费一次；它只覆盖 GitHub 模拟器冷启动与测试 APK 编译，兑换后的会话仍固定 15 分钟，生产环境必须拒绝启用。认证专项只在认证影响或定时全量回归时运行，不得固定附加到所有版本。
+4. **功能旅程**：GitHub OIDC 向仅 Staging 启用的内部端点申请一次性短时引导码，模拟器兑换正常用户会话后执行 `tests/android/visual-manifests/<Release>.yaml` 登记的本版本关键旅程。引导码固定 10 分钟硬上限，绑定 repository、workflow_ref、Commit 与 Run 并只允许原子消费一次；它只覆盖 GitHub 模拟器冷启动与测试 APK 编译，兑换后的会话仍固定 15 分钟，生产环境必须拒绝启用。认证专项只在认证影响或定时全量回归时运行，不得固定附加到所有版本。Compose关键动作按稳定资源定位后，必须向上选择首个`enabled + clickable`祖先再点击；`testTag`只证明可定位，不证明资源节点自身承载点击动作，找不到实际可点击祖先必须立即失败。
 5. **视觉门禁**：每张截图绑定页面 TestTag、加载状态、文件名和 SHA-256；像素必须至少连续四次相同，不同页面不得出现重复哈希或低于阈值的像素差异。AI 实现代理还必须逐图核对系统安全区、顶栏、返回键、退出层残影、业务时间格式和品牌底按钮对比度，再依据冻结效果图、Design Token、页面规格和机器证据自主判定并登记基线，不得暂停等待项目所有者逐轮核实。工作流技术SUCCESS但任一截图被AI拒绝时，同Run APK不得晋升或交付，候选轮次仍保持已消费。
 6. **运行门禁**：采集目标进程 `logcat`、Android 退出原因、JUnit XML，扫描崩溃、ANR、异常退出和技术性用户提示。
 7. **候选门禁**：`scripts/android_ci_gate.py finalize` 只有在构建和运行报告均通过时才生成 PASS 报告并上传候选 APK。

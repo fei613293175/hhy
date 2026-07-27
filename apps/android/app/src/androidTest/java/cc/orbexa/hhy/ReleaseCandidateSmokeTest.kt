@@ -177,8 +177,11 @@ class ReleaseCandidateSmokeTest {
     }
 
     private fun clickResource(value: String) {
-        val node = device.wait(Until.findObject(By.res(value)), 15_000)
+        val resourceNode = device.wait(Until.findObject(By.res(value)), 15_000)
             ?: error("Cannot find UI resource: $value")
+        val node = generateSequence(resourceNode) { current -> current.parent }
+            .firstOrNull { it.isClickable && it.isEnabled }
+            ?: error("Cannot find clickable UI ancestor for resource: $value")
         node.click()
         device.waitForIdle(2_000)
     }

@@ -1022,7 +1022,14 @@ class AndroidCiGateTest(unittest.TestCase):
         self.assertIn('clickResource("r13.action.project.share")', smoke_test)
         self.assertIn('clickResource("r13.action.project.invalid-feedback")', smoke_test)
         self.assertIn("generateSequence(textNode) { current -> current.parent }", smoke_test)
+        self.assertIn("generateSequence(resourceNode) { current -> current.parent }", smoke_test)
         self.assertIn(".firstOrNull { it.isClickable && it.isEnabled }", smoke_test)
+        resource_helper = smoke_test[
+            smoke_test.index("private fun clickResource"):
+            smoke_test.index("private fun scrollUntilResource")
+        ]
+        self.assertIn('error("Cannot find clickable UI ancestor for resource: $value")', resource_helper)
+        self.assertNotIn("resourceNode.click()", resource_helper)
         self.assertIn('clickExactText("再检查一下")', smoke_test)
         self.assertIn("assertR13BusinessLabels", smoke_test)
         self.assertIn('"PROJECT", "GROUP_CHAT", "TEAM_LEADER"', smoke_test)

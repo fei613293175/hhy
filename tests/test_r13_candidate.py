@@ -97,7 +97,14 @@ class R13CandidateTest(unittest.TestCase):
         self.assertIn('clickResource("r13.action.project.share")', self.journey)
         self.assertIn('clickResource("r13.action.project.invalid-feedback")', self.journey)
         self.assertIn("generateSequence(textNode) { current -> current.parent }", self.journey)
+        self.assertIn("generateSequence(resourceNode) { current -> current.parent }", self.journey)
         self.assertIn(".firstOrNull { it.isClickable && it.isEnabled }", self.journey)
+        resource_helper = self.journey[
+            self.journey.index("private fun clickResource"):
+            self.journey.index("private fun scrollUntilResource")
+        ]
+        self.assertIn('error("Cannot find clickable UI ancestor for resource: $value")', resource_helper)
+        self.assertNotIn("resourceNode.click()", resource_helper)
         self.assertIn('clickExactText("再检查一下")', self.journey)
         self.assertNotIn("authenticatedR12PagesProduceBoundVisualEvidence", self.journey)
 
