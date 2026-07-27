@@ -84,15 +84,13 @@ class R13CandidateTest(unittest.TestCase):
         self.assertEqual(4, self.journey.count('captureStable("'))
         for capture in captures:
             self.assertIn(capture, self.journey)
-        for marker in (
-            "hhy.screen.r13.favorites.content",
-            "hhy.screen.r13.history.content",
-            "hhy.sheet.r13.share",
-            "hhy.sheet.r13.invalid-feedback",
-        ):
+        for marker in ("hhy.sheet.r13.share", "hhy.sheet.r13.invalid-feedback"):
             self.assertIn(marker, self.journey)
-        self.assertIn('clickResource("mine.favorites")', self.journey)
-        self.assertIn('clickResource("mine.history")', self.journey)
+        self.assertIn('resource = "mine.favorites"', self.journey)
+        self.assertIn('resource = "mine.history"', self.journey)
+        self.assertIn('mode = "favorites"', self.journey)
+        self.assertIn('mode = "history"', self.journey)
+        self.assertEqual(2, self.journey.count("navigateToR13Content(\n            resource"))
         self.assertIn('clickExactText(activityTargetTitle)', self.journey)
         self.assertIn('clickResource("r13.action.project.share")', self.journey)
         self.assertIn('clickResource("r13.action.project.invalid-feedback")', self.journey)
@@ -105,6 +103,23 @@ class R13CandidateTest(unittest.TestCase):
         ]
         self.assertIn('error("Cannot find clickable UI ancestor for resource: $value")', resource_helper)
         self.assertNotIn("resourceNode.click()", resource_helper)
+        navigation_helper = self.journey[
+            self.journey.index("private fun navigateToR13Content"):
+            self.journey.index("private fun scrollUntilResource")
+        ]
+        self.assertIn("SystemClock.uptimeMillis() + 30_000", navigation_helper)
+        self.assertEqual(2, navigation_helper.count("minOf(3_000, remaining(deadline))"))
+        self.assertIn('phase in setOf("loading", "refreshing", "appending")', navigation_helper)
+        self.assertIn('phase != "content"', navigation_helper)
+        self.assertIn('device.hasObject(By.res("hhy.screen.r13.$mode.$phase"))', navigation_helper)
+        self.assertIn('"loading", "content", "empty"', navigation_helper)
+        self.assertIn('sourceVisible=${device.hasObject(By.res(source))}', navigation_helper)
+        self.assertIn('resourceVisible=${device.hasObject(By.res(resource))}', navigation_helper)
+        self.assertIn('diagnostics=${clickDiagnostics.joinToString(" | ")}', navigation_helper)
+        self.assertIn('"partial_error"', navigation_helper)
+        self.assertIn('"offline"', navigation_helper)
+        self.assertIn('"not_found"', navigation_helper)
+        self.assertNotIn("SystemClock.sleep", navigation_helper)
         self.assertIn('clickExactText("再检查一下")', self.journey)
         self.assertNotIn("authenticatedR12PagesProduceBoundVisualEvidence", self.journey)
 
@@ -161,10 +176,11 @@ class R13CandidateTest(unittest.TestCase):
         self.assertIn('"errors=${device.findObjects(failed).size} "', self.journey)
         self.assertIn('"loading=${device.findObjects(loading).size}"', self.journey)
         self.assertIn('val deadline = SystemClock.uptimeMillis() + 30_000', self.journey)
-        self.assertEqual(1, self.journey.count('val deadline = SystemClock.uptimeMillis() + 30_000'))
+        self.assertEqual(2, self.journey.count('val deadline = SystemClock.uptimeMillis() + 30_000'))
         self.assertNotIn('prepareLoadedMediaForCapture(expectedCount = 2)', self.journey)
         self.assertNotIn('SystemClock.sleep(250)', self.journey)
         media_helper = self.journey[self.journey.index('private fun prepareLoadedMediaForCapture'):]
+        self.assertEqual(1, media_helper.count('val deadline = SystemClock.uptimeMillis() + 30_000'))
         self.assertNotIn('By.scrollable(true)', media_helper)
         self.assertNotIn('By.res(Pattern.compile("${Pattern.quote(prefix)}', self.journey)
         self.assertLess(self.journey.index(wait), self.journey.index(capture))

@@ -72,7 +72,7 @@ R12 的提交旅程固定消费标题为“R12候选发布预览项目”的草�
 
 GitHub 模拟器 Job 必须在安装 Java、Android SDK、平台包和 KVM 之前完成 OIDC 与 Staging bootstrap 两阶段预检。两阶段分别记录安全的 HTTP 状态，响应体、Bearer Token、一次性码和 JWT 声明不得进入日志。预检失败即停止重型准备；同一 Commit 仍只允许一次瞬态失败重跑，重复失败按既有规则停止重跑并诊断，不得因为路由已修复而静默增加第三次 rerun。CR-0358 之后，下一轮由 AI 在独立根因已有修复 Commit、模块证据和普通 CI 证据后，基于站立授权建立并审批精确 CR/request/修复 Commit/单次运行例外；之前失败运行和重跑仍保持已消费，不得预授权未知未来轮次。
 
-Android候选策略、工作流、请求校验器、路由脚本及其Python专项测试发生变化时，普通提交只运行`android-governance-unit` tooling；只有`apps/android/**`、共享合同或领域类型实际影响客户端编译时才进入`android-module`。候选工作流变化必须在最终大版本候选验证，禁止为了验证YAML、策略或Shell文本而在同一普通推送额外运行一次完整Android编译。
+Android候选策略、工作流、请求校验器、路由脚本及其Python专项测试发生变化时，普通提交只运行`android-governance-unit` tooling；只有`apps/android/**`、共享合同或领域类型实际影响客户端编译时才进入`android-module`。候选工作流变化必须在最终大版本候选验证，禁止为了验证YAML、策略或Shell文本而在同一普通推送额外运行一次完整Android编译。跨Compose与UiAutomator的关键导航不能只等待最终`content`后返回布尔失败：页面已导出`loading/content/empty/error`等phase时，点击后先用最多3秒观察任一目标phase；只有没有目标phase且源页仍存在，才重新解析资源节点到当前enabled且clickable祖先并重试一次。整个过程共享原30秒内容期限，只有`content`放行，终态或超时必须输出实际phase、源页是否仍在、资源是否可见及点击祖先诊断；禁止固定sleep、无条件双击或延长总期限。
 
 项目所有者不承担逐版本即时反馈义务。桌面候选可按版本累积，项目所有者在任意时间安装并反馈；未反馈版本保持 `owner_physical_test=PENDING`，只阻断对应 Release 的正式验收和生产激活，不得阻断后续依赖已满足版本的编码、机器候选和桌面 APK 交付。后续反馈的问题进入当前适用版本或批准热修队列，不得要求项目所有者先补齐所有旧版本结论。
 

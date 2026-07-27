@@ -80,10 +80,10 @@ class ReleaseCandidateSmokeTest {
             "R13 me home did not become visible",
             waitForScreen("hhy.screen.r12.me", gone = "hhy.screen.r06.home.loaded"),
         )
-        clickResource("mine.favorites")
-        assertTrue(
-            "R13 favorites did not become visible",
-            waitForScreen("hhy.screen.r13.favorites.content", gone = "hhy.screen.r12.me"),
+        navigateToR13Content(
+            resource = "mine.favorites",
+            mode = "favorites",
+            source = "hhy.screen.r12.me",
         )
         listOf("我的收藏", "全部", "项目", "APP", "群聊", "团队长", activityTargetTitle).forEach { label ->
             assertTrue("R13 favorites missed: $label", device.wait(Until.hasObject(By.text(label)), 20_000))
@@ -94,10 +94,10 @@ class ReleaseCandidateSmokeTest {
 
         device.pressBack()
         assertTrue("R13 favorites did not return to me home", waitForScreen("hhy.screen.r12.me"))
-        clickResource("mine.history")
-        assertTrue(
-            "R13 history did not become visible",
-            waitForScreen("hhy.screen.r13.history.content", gone = "hhy.screen.r12.me"),
+        navigateToR13Content(
+            resource = "mine.history",
+            mode = "history",
+            source = "hhy.screen.r12.me",
         )
         listOf("浏览记录", "全部", "项目", "APP", "群聊", "团队长", activityTargetTitle).forEach { label ->
             assertTrue("R13 history missed: $label", device.wait(Until.hasObject(By.text(label)), 20_000))
@@ -176,14 +176,93 @@ class ReleaseCandidateSmokeTest {
         device.waitForIdle(2_000)
     }
 
-    private fun clickResource(value: String) {
-        val resourceNode = device.wait(Until.findObject(By.res(value)), 15_000)
+    private fun clickResource(
+        value: String,
+        timeoutMillis: Long = 15_000,
+        settleMillis: Long = 2_000,
+    ): String {
+        val resourceNode = device.wait(Until.findObject(By.res(value)), timeoutMillis)
             ?: error("Cannot find UI resource: $value")
         val node = generateSequence(resourceNode) { current -> current.parent }
             .firstOrNull { it.isClickable && it.isEnabled }
             ?: error("Cannot find clickable UI ancestor for resource: $value")
+        val diagnostic =
+            "resource=$value resourceClass=${resourceNode.className} " +
+                "resourceClickable=${resourceNode.isClickable} resourceEnabled=${resourceNode.isEnabled} " +
+                "ancestorClass=${node.className} ancestorBounds=${node.visibleBounds}"
         node.click()
+        if (settleMillis > 0) device.waitForIdle(settleMillis)
+        return diagnostic
+    }
+
+    private fun navigateToR13Content(resource: String, mode: String, source: String) {
+        val deadline = SystemClock.uptimeMillis() + 30_000
+        val clickDiagnostics = mutableListOf(
+            clickResource(resource, timeoutMillis = remaining(deadline), settleMillis = 0),
+        )
+        var phase = waitForR13Phase(mode, timeoutMillis = minOf(3_000, remaining(deadline)))
+        if (phase == null && device.hasObject(By.res(source))) {
+            clickDiagnostics += clickResource(
+                resource,
+                timeoutMillis = remaining(deadline),
+                settleMillis = 0,
+            )
+            phase = waitForR13Phase(mode, timeoutMillis = minOf(3_000, remaining(deadline)))
+        }
+        if (phase == null) {
+            error(r13NavigationFailure(resource, mode, source, phase, clickDiagnostics))
+        }
+        while (phase in setOf("loading", "refreshing", "appending")) {
+            phase = waitForR13Phase(
+                mode = mode,
+                timeoutMillis = remaining(deadline),
+                excludedPhase = phase,
+            ) ?: error(r13NavigationFailure(resource, mode, source, phase, clickDiagnostics))
+        }
+        if (phase != "content") {
+            error(r13NavigationFailure(resource, mode, source, phase, clickDiagnostics))
+        }
+        if (!device.wait(Until.gone(By.res(source)), remaining(deadline))) {
+            error(r13NavigationFailure(resource, mode, source, phase, clickDiagnostics))
+        }
         device.waitForIdle(2_000)
+    }
+
+    private fun waitForR13Phase(mode: String, timeoutMillis: Long, excludedPhase: String? = null): String? {
+        if (timeoutMillis <= 0) return r13Phase(mode)?.takeUnless { it == excludedPhase }
+        val deadline = SystemClock.uptimeMillis() + timeoutMillis.coerceAtLeast(0)
+        do {
+            val phase = r13Phase(mode)
+            if (phase != null && phase != excludedPhase) return phase
+            device.waitForIdle(250)
+        } while (SystemClock.uptimeMillis() < deadline)
+        return r13Phase(mode)?.takeUnless { it == excludedPhase }
+    }
+
+    private fun r13Phase(mode: String): String? = R13_PHASES.firstOrNull { phase ->
+        device.hasObject(By.res("hhy.screen.r13.$mode.$phase"))
+    }
+
+    private fun remaining(deadline: Long): Long =
+        (deadline - SystemClock.uptimeMillis()).coerceAtLeast(0)
+
+    private fun r13NavigationFailure(
+        resource: String,
+        mode: String,
+        source: String,
+        phase: String?,
+        clickDiagnostics: List<String>,
+    ): String =
+        "R13 $mode navigation failed: phase=${phase ?: "none"} " +
+            "sourceVisible=${device.hasObject(By.res(source))} " +
+            "resourceVisible=${device.hasObject(By.res(resource))} " +
+            "clicks=${clickDiagnostics.size} diagnostics=${clickDiagnostics.joinToString(" | ")}"
+
+    private companion object {
+        val R13_PHASES = listOf(
+            "loading", "content", "empty", "refreshing", "appending", "partial_error",
+            "error", "offline", "forbidden", "not_found",
+        )
     }
 
     private fun scrollUntilResource(value: String) {
