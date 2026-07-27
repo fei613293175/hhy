@@ -138,6 +138,8 @@ class R13CandidateTest(unittest.TestCase):
         self.assertIn('By.res("hhy.shell.authenticated")', helper)
         self.assertIn('By.res("shell.navigation.me")', helper)
         self.assertIn('it.isClickable && it.isEnabled', helper)
+        self.assertEqual(1, helper.count("composeRule.waitForIdle()"))
+        self.assertLess(helper.index("composeRule.waitForIdle()"), helper.index("val meNode = device.findObject(me)"))
         self.assertNotIn("acceptedScreens", helper)
         self.assertIn('By.res("hhy.screen.r06.home.loaded")', helper)
         self.assertIn('By.res("hhy.screen.r06.home.error")', helper)

@@ -177,6 +177,7 @@ class ReleaseCandidateSmokeTest {
         val me = By.res("shell.navigation.me")
         val deadline = SystemClock.uptimeMillis() + 30_000
         do {
+            composeRule.waitForIdle()
             val meNode = device.findObject(me)
             val actionableMe = meNode?.let { node ->
                 generateSequence(node) { current -> current.parent }
