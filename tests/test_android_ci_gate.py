@@ -261,6 +261,14 @@ class AndroidCiGateTest(unittest.TestCase):
                 "required_fix_commit": "dd28660f5e2f043cf09afa308042428f651e521a",
                 "max_candidate_runs": 1,
             },
+            {
+                "exception_id": "CR-0405",
+                "release": "R13",
+                "attempt": 18,
+                "request_id": "R13-CANDIDATE-20260727-018",
+                "required_fix_commit": "97c74a75a293527d83a865df10d6c580e307f83f",
+                "max_candidate_runs": 1,
+            },
         ], policy["remediation"]["approved_attempt_exceptions"])
 
     def test_attempt_exception_is_exact_and_never_changes_the_global_limit(self) -> None:
@@ -483,6 +491,17 @@ class AndroidCiGateTest(unittest.TestCase):
         self.assertEqual(3, attempt_seventeen["max_ai_attempts"])
         self.assertEqual(17, attempt_seventeen["effective_attempt_limit"])
         self.assertEqual(1, attempt_seventeen["max_candidate_runs"])
+        attempt_eighteen = resolve_attempt_policy(
+            policy,
+            release="R13",
+            attempt=18,
+            request_id="R13-CANDIDATE-20260727-018",
+            exception_id="CR-0405",
+            required_fix_commit="97c74a75a293527d83a865df10d6c580e307f83f",
+        )
+        self.assertEqual(3, attempt_eighteen["max_ai_attempts"])
+        self.assertEqual(18, attempt_eighteen["effective_attempt_limit"])
+        self.assertEqual(1, attempt_eighteen["max_candidate_runs"])
         base = {
             "release": "R13",
             "attempt": 12,

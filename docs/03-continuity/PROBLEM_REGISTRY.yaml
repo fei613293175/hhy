@@ -1793,8 +1793,9 @@ problems:
   - R13 attempt16必须精确绑定CR-0400、唯一request016、CR-0399首个修复Commit 80dd3e68b010ef5218154b7362cd7a6835ae9607和单次运行上限；任何绑定漂移或attempt17必须拒绝
   - Run 30259083711 attempt16必须保留runtime artifact SHA-256、四个前置接口200、ACTIVE用户、NONE更新策略、无首页请求、四截图缺失及无崩溃ANR事实；CR-0399入口误判归因必须被原位纠正
   - tests.test_r13_candidate必须锁定target.startActivity、窗口可见、composeRule.waitForIdle和waitForAuthenticatedShell的先后顺序，并保留启动、维护、网络、更新和登录可见阻断态诊断
-  - R13 attempt17必须精确绑定CR-0402、唯一request017、CR-0401首个修复Commit dd28660f5e2f043cf09afa308042428f651e521a和单次运行上限；任何绑定漂移或attempt18必须拒绝
+  - R13 attempt17必须精确绑定CR-0402、唯一request017、CR-0401首个修复Commit dd28660f5e2f043cf09afa308042428f651e521a和单次运行上限；该已消费请求的任何绑定漂移或重跑必须拒绝
   - Run 30262304986 attempt17必须保留runtime artifact SHA-256、visibleBlockers=正在启动、四个前置接口200、无首页请求和四截图缺失事实；tests.test_r13_candidate必须锁定认证轮询每轮先同步Compose再读取me节点，且仍拒绝SystemClock.sleep和延长30秒
+  - R13 attempt18必须精确绑定CR-0405、唯一request018、CR-0403首个修复Commit 97c74a75a293527d83a865df10d6c580e307f83f和单次运行上限；任何绑定漂移或attempt19必须拒绝
   - 新候选必须报告三条success且四张截图由AI逐图确认真实媒体、安全区、顶栏、底部面板、截断、遮挡和品牌对比度
   do_not_repeat:
   - 不得把部分success且零error的持续loading继续误判为选择器不可观测或公网媒体失败

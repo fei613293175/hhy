@@ -11,7 +11,7 @@ task_id: TASK-R13-007
 story_id: STORY-R13-003
 goal: 收藏、历史、分享与行为审计Android测试APK与产物追溯
 started_at: '2026-07-26T19:11:58Z'
-updated_at: '2026-07-27T12:03:34Z'
+updated_at: '2026-07-27T12:18:36Z'
 takeover_of: null
 change_requests:
 - CR-0377
@@ -41,6 +41,8 @@ change_requests:
 - CR-0401
 - CR-0402
 - CR-0403
+- CR-0404
+- CR-0405
 scope:
   allowed_paths:
   - apps/**
@@ -96,7 +98,7 @@ scope:
   - tests/test_android_candidate_request.py
   - docs/08-testing/Android自动开发测试修复交付体系_V1.0.md
   - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
-  source: story+explicit+approved-cr:CR-0377+approved-cr:CR-0378+approved-cr:CR-0379+approved-cr:CR-0380+approved-cr:CR-0381+approved-cr:CR-0385+approved-cr:CR-0387+approved-cr:CR-0388+approved-cr:CR-0389+approved-cr:CR-0390+approved-cr:CR-0396+approved-cr:CR-0397+approved-cr:CR-0398+approved-cr:CR-0399+approved-cr:CR-0400+approved-cr:CR-0402+approved-cr:CR-0403
+  source: story+explicit+approved-cr:CR-0377+approved-cr:CR-0378+approved-cr:CR-0379+approved-cr:CR-0380+approved-cr:CR-0381+approved-cr:CR-0385+approved-cr:CR-0387+approved-cr:CR-0388+approved-cr:CR-0389+approved-cr:CR-0390+approved-cr:CR-0396+approved-cr:CR-0397+approved-cr:CR-0398+approved-cr:CR-0399+approved-cr:CR-0400+approved-cr:CR-0402+approved-cr:CR-0403+approved-cr:CR-0405
 git:
   initialized: true
   branch: task/TASK-R03-001
@@ -106,22 +108,22 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-27T12:03:27Z'
-  expires_at: '2026-07-27T16:03:27Z'
-checkpoint_sequence: 47
-latest_checkpoint: .continuity/checkpoints/SES-20260726T191158Z-2B506AB7/0047.yaml
+  renewed_at: '2026-07-27T12:18:29Z'
+  expires_at: '2026-07-27T16:18:29Z'
+checkpoint_sequence: 49
+latest_checkpoint: .continuity/checkpoints/SES-20260726T191158Z-2B506AB7/0049.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260726T191158Z-2B506AB7.md
-next_step: 提交并推送CR-0403首个修复Commit；之后独立建立唯一Attempt18候选授权
+next_step: 提交候选授权Commit，执行Git transport与push preflight后单次推送并监控Attempt18
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: d7d5293f264ce0eb4f3875bf7ced84adb19c3e3d2f4bca55e4f49d7d3d3adf19
-  generated_at: '2026-07-27T12:03:31Z'
+  context_hash: 364e77b0da3190c6f284191d8d758061beab8af6e3212027ee95e9e32383f512
+  generated_at: '2026-07-27T12:18:32Z'
 handoff_bundle: null
 closure: null
 parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 单一AndroidTest认证轮询、Attempt17证据和既有治理记录必须由事实主控原子绑定；拆分会造成代码与候选追溯漂移
+  reason: 候选授权涉及同一组连续性与机器请求事实源，必须由主控串行保持唯一request和Commit绑定

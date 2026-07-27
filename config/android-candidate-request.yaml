@@ -2,8 +2,8 @@ schema_version: 1
 status: REQUESTED
 release: R13
 candidate: true
-remediation_attempt: 17
-request_id: R13-CANDIDATE-20260727-017
-reason: R13 attempt 16 Run 30259083711的请求校验、编译、Lint、单测和打包通过，但模拟器在一次性会话兑换、GET /api/v1/me、平台状态和版本检查均200后仍未触发GET /api/v1/home，30秒后诊断为shell=false home=none meVisible=false；runtime artifact SHA-256为5B0FE48639698C10DFFC7503D14BEACFC0BC69914DF33FFE9769F38389993FE6，四张R13截图未生成，exit-info为空且无应用崩溃或ANR。CR-0401纠正Attempt15入口资源误判，在手工启动目标Activity并确认窗口可见后显式执行composeRule.waitForIdle，再进入UiAutomator认证主框架等待；登录、启动门禁、R13收藏历史详情、三张真实媒体、四张截图和视觉门槛不变。首个修复Commit dd28660f5e2f043cf09afa308042428f651e521a已通过40项R13与共享候选回归、28项候选历史回归、17项治理知识回归、Android UI基础门禁、严格连续性、V1.2.3联合门禁和obx-test固定镜像app:compileDebugAndroidTestKotlin 212任务；源文件SHA-256为11F55B856A44E6A9231E53BC9C2A9EA3C6076A070865782C5FE881C53FB3B38E，构建日志SHA-256为7CFCEAC07D7ED90A4E0C4E9757FDCD7998E32EC29743867BF8D74544F5C80F16。本请求只允许该Commit后继候选提交执行一次精确attempt 17，不授权attempt 18。
-attempt_exception_id: CR-0402
-required_fix_commit: dd28660f5e2f043cf09afa308042428f651e521a
+remediation_attempt: 18
+request_id: R13-CANDIDATE-20260727-018
+reason: R13 attempt 17 Run 30262304986的候选请求、编译、Lint、单测和打包通过，runtime artifact SHA-256为1B7C6802C08DB76FA2E488725DAF7AF0E4F8C7674461AD6090C7B0E49C061FFA；模拟器一次性会话、GET /api/v1/me、平台状态和版本检查均200，但30秒后精确失败为shell=false home=none meVisible=false meActionable=false visibleBlockers=正在启动，仍无GET /api/v1/home，四张截图未生成且无应用崩溃或ANR。CR-0403保持原30秒、认证可操作性和全部R13门禁，只在认证轮询每轮读取页面身份前执行composeRule.waitForIdle，覆盖真实网络完成后的Compose调度，不延长超时、不固定等待。首个修复Commit 97c74a75a293527d83a865df10d6c580e307f83f已通过40项R13与共享候选回归、17项治理知识回归、Android UI基础门禁、严格连续性和obx-test固定镜像app:compileDebugAndroidTestKotlin 212任务；源文件SHA-256为673872CD8B9BD2604F9FD3E927802666CFCA2915C48712D6689F2654A526F1C7，构建日志SHA-256为483BFD6A267DD3F3842EFDE734AAAA272E9FC44FBA782226B3BFC8AF6F857668。本请求只允许该Commit后继候选提交执行一次精确attempt 18，不授权attempt 19。
+attempt_exception_id: CR-0405
+required_fix_commit: 97c74a75a293527d83a865df10d6c580e307f83f
