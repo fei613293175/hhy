@@ -1859,3 +1859,17 @@ problems:
   - 已批准规则必须投影到所有真实消费者及其正负回归，禁止只修改策略文档或单一门禁后宣称完成
   - 不得用自动候选旧字段阻断按需模式TEST_APK，也不得因为按需模式而放宽生产关闭
   - 不得把视觉或自动候选待办伪写为机器完成PASS；继续开发必须保留BLOCKED_EXTERNAL_GATE和精确恢复条件
+- id: PROB-0130
+  title: R13公网Staging没有有效邀请码导致所有新账号注册失败
+  status: SOLVED
+  root_cause: R13候选部署只准备了自动登录用户和活动业务夹具，公网路由门禁也只验证平台状态与目标容器日志；当前容器虽为staging，但没有HHY_TEST_UNIVERSAL_INVITE_CODE配置，持久数据库的invite_codes也没有任何ACTIVE记录。因此项目所有者使用测试说明中的HHYTEST2026时，邀请码校验连续返回422 AUTH-422-INVITE_CODE_INVALID，所有新手机号都会在注册前置校验被拒绝。
+  resolution: CR-0415先在当前Staging数据库幂等恢复唯一ACTIVE的HHYTEST2026并绑定ACTIVE邀请人，公网邀请码校验、完整注册和注册后身份授权均返回HTTP 200；随后原位加固R13候选夹具和候选路由门禁，要求夹具保证邀请码唯一有效，路由激活前后分别验证目标容器与公网邀请码HTTP 200，失败时禁止激活或自动回滚。生产Profile硬拒绝测试万能邀请码的实现保持不变，正式用户和后台邀请码管理继续属于R25。
+  regression_checks:
+  - tests.test_r13_candidate必须锁定HHYTEST2026唯一ACTIVE映射、重复行拒绝和CI用户绑定
+  - tests.test_android_candidate_route必须要求显式邀请码、staging Profile以及本地和公网两个邀请码校验端点
+  - tests.test_android_ci_gate必须把target_registration_invite_http_200和public_registration_invite_http_200列为不可删除的路由证明
+  - 每次切换公网候选前必须使用完整注册烟测证明随机新手机号注册HTTP 200，不得只验证平台状态或自动登录
+  do_not_repeat:
+  - 不得把OIDC自动登录成功当作新账号注册可用的证据
+  - 不得在没有任何ACTIVE邀请码时交付要求邀请码必填的测试APK
+  - 不得通过放宽生产隔离、跳过邀请码或把万能码提交为生产默认值解决Staging夹具缺失

@@ -58,6 +58,21 @@ BEGIN
   SELECT user_id INTO ci_user FROM hhy_r13_ci_fixture_context;
   IF ci_user IS NULL THEN RAISE EXCEPTION 'Dedicated CI user is missing or inactive'; END IF;
 
+  IF (SELECT count(*) FROM hhy.invite_codes WHERE code='HHYTEST2026') > 1 THEN
+    RAISE EXCEPTION 'R13 staging registration invite is duplicated';
+  END IF;
+  UPDATE hhy.invite_codes
+     SET user_id=ci_user,status='ACTIVE',updated_at=clock_timestamp()
+   WHERE code='HHYTEST2026';
+  IF NOT FOUND THEN
+    INSERT INTO hhy.invite_codes(user_id,code,status)
+    VALUES (ci_user,'HHYTEST2026','ACTIVE');
+  END IF;
+  IF (SELECT count(*) FROM hhy.invite_codes
+      WHERE code='HHYTEST2026' AND user_id=ci_user AND status='ACTIVE') <> 1 THEN
+    RAISE EXCEPTION 'R13 staging registration invite is not ready';
+  END IF;
+
   SELECT id INTO fixture_build_profile FROM hhy.app_build_profiles
   WHERE environment='STAGING' AND name='r13-ci-startup-policy';
   IF fixture_build_profile IS NULL THEN

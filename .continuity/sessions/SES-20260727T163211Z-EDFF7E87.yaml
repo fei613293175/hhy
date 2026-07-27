@@ -11,10 +11,11 @@ task_id: TASK-R13-008
 story_id: STORY-R13-003
 goal: 收藏、历史、分享与行为审计版本关闭与无状态交接
 started_at: '2026-07-27T16:32:11Z'
-updated_at: '2026-07-27T17:30:12Z'
+updated_at: '2026-07-27T17:45:22Z'
 takeover_of: null
 change_requests:
 - CR-0414
+- CR-0415
 scope:
   allowed_paths:
   - apps/**
@@ -59,37 +60,38 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-27T17:30:05Z'
-  expires_at: '2026-07-27T21:30:05Z'
-checkpoint_sequence: 2
-latest_checkpoint: .continuity/checkpoints/SES-20260727T163211Z-EDFF7E87/0002.yaml
+  renewed_at: '2026-07-27T17:45:15Z'
+  expires_at: '2026-07-27T21:45:15Z'
+checkpoint_sequence: 3
+latest_checkpoint: .continuity/checkpoints/SES-20260727T163211Z-EDFF7E87/0003.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260727T163211Z-EDFF7E87.md
-next_step: 提交并推送CR-0414；随后记录R13线上注册邀请码部署回归并补公网防回归验证
+next_step: 提交并推送CR-0415；保持R13视觉缺口诚实阻塞后按CR-0414进入R14
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: f8a3bfeb0856ea5dc2dcf5fe3b34136e5c0074125124165638661082eb61a1b1
-  generated_at: '2026-07-27T17:30:09Z'
+  context_hash: 4df8af7471031fd4ef47b1203acc1201d9e850125e917117d08e835ed273ed09
+  generated_at: '2026-07-27T17:45:19Z'
 handoff_bundle: null
 closure: null
 parallel_execution:
   assessment: DELEGATED
   delegated_workers: 3
   workers:
-  - worker_id: r13_gate_audit
-    responsibility: 审计CR-0412与release gate漂移
+  - worker_id: registration_admin_flow
+    responsibility: 审计后台与用户邀请码管理现状
     allowed_paths:
-    - scripts/check_release_artifacts.py
-    - tests/test_release_close_gate.py
-  - worker_id: r13_visual_evidence
-    responsibility: 定位R13真实截图与视觉证据
+    - apps/admin-web/**
+    - contracts/**
+    - docs/**
+  - worker_id: registration_invite_backend
+    responsibility: 诊断邀请码策略与部署配置根因
     allowed_paths:
-    - catalogs/ui_visual_acceptance.csv
-    - artifacts/validation/**
-  - worker_id: r13_close_pattern
-    responsibility: 提取最近版本关闭证据结构
+    - services/backend/**
+    - scripts/**
+  - worker_id: registration_prod_probe
+    responsibility: 核验公网请求日志、手机号与数据库事实
     allowed_paths:
-    - releases/R12/**
-    - artifacts/reports/R12/**
+    - infra/**
+    - artifacts/**
   reason: ''

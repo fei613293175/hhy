@@ -103,8 +103,10 @@ class AndroidCiGateTest(unittest.TestCase):
         self.assertEqual(
             {
                 "target_container_local_http_200",
+                "target_registration_invite_http_200",
                 "nginx_upstream_exact",
                 "nginx_config_test_pass",
+                "public_registration_invite_http_200",
                 "public_request_id_in_target_container_log",
                 "automatic_rollback_on_failure",
             },

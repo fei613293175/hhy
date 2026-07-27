@@ -5,6 +5,7 @@ set -euo pipefail
 : "${HHY_CANDIDATE_CONTAINER:?HHY_CANDIDATE_CONTAINER is required}"
 : "${HHY_EXPECTED_OLD_UPSTREAM:?HHY_EXPECTED_OLD_UPSTREAM is required}"
 : "${HHY_TARGET_UPSTREAM:?HHY_TARGET_UPSTREAM is required}"
+: "${HHY_CANDIDATE_REGISTRATION_INVITE_CODE:?HHY_CANDIDATE_REGISTRATION_INVITE_CODE is required}"
 
 if [[ "$HHY_CANDIDATE_ROUTE_CONFIRM" != "YES" ]]; then
   echo "Refusing candidate route activation without HHY_CANDIDATE_ROUTE_CONFIRM=YES" >&2
@@ -20,10 +21,21 @@ if [[ ! "$HHY_EXPECTED_OLD_UPSTREAM" =~ ^127\.0\.0\.1:[1-9][0-9]{3,4}$ ]] \
   echo "Candidate upstreams must be distinct explicit loopback ports" >&2
   exit 2
 fi
+if [[ ! "$HHY_CANDIDATE_REGISTRATION_INVITE_CODE" =~ ^[A-Za-z0-9_-]{6,64}$ ]]; then
+  echo "Unsafe candidate registration invite code format" >&2
+  exit 2
+fi
+if [[ "$(docker exec "$HHY_CANDIDATE_CONTAINER" printenv SPRING_PROFILES_ACTIVE)" != "staging" ]]; then
+  echo "Candidate registration readiness is restricted to the staging profile" >&2
+  exit 2
+fi
 
 nginx_config="/www/server/panel/vhost/nginx/api.orbexa.cc.conf"
 public_probe_url="https://api.orbexa.cc/public-api/v1/platform/status"
 local_probe_url="http://${HHY_TARGET_UPSTREAM}/public-api/v1/platform/status"
+public_invite_url="https://api.orbexa.cc/api/v1/auth/invite-codes/validate"
+local_invite_url="http://${HHY_TARGET_UPSTREAM}/api/v1/auth/invite-codes/validate"
+invite_payload="{\"inviteCode\":\"${HHY_CANDIDATE_REGISTRATION_INVITE_CODE}\"}"
 expected_port="${HHY_TARGET_UPSTREAM##*:}"
 published_port="$(docker port "$HHY_CANDIDATE_CONTAINER" 8080/tcp 2>/dev/null || true)"
 if [[ "$published_port" != "127.0.0.1:${expected_port}" ]]; then
@@ -35,6 +47,10 @@ if [[ "$(docker inspect --format '{{.State.Running}}' "$HHY_CANDIDATE_CONTAINER"
   exit 2
 fi
 curl --fail --silent --show-error --max-time 20 "$local_probe_url" >/dev/null
+curl --fail --silent --show-error --max-time 20 \
+  --header 'Content-Type: application/json' \
+  --data "$invite_payload" \
+  "$local_invite_url" >/dev/null
 
 old_pattern="^[[:space:]]*proxy_pass http://${HHY_EXPECTED_OLD_UPSTREAM//./\\.};[[:space:]]*$"
 target_pattern="^[[:space:]]*proxy_pass http://${HHY_TARGET_UPSTREAM//./\\.};[[:space:]]*$"
@@ -69,6 +85,10 @@ cleanup_headers() {
   rm -f "$response_headers"
 }
 trap cleanup_headers EXIT
+curl --fail --silent --show-error --max-time 20 \
+  --header 'Content-Type: application/json' \
+  --data "$invite_payload" \
+  "$public_invite_url" >/dev/null
 matched="false"
 for probe_attempt in {1..10}; do
   sent_request_id="hhy-route-$(date -u +%Y%m%dT%H%M%SZ)-${probe_attempt}-${RANDOM}${RANDOM}"
