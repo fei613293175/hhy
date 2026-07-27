@@ -213,7 +213,7 @@ private fun R13ActivityListScreen(
                 ) -> R13FullError(state, onBack) { load() }
                 visible.isEmpty() -> R13FilteredEmptyState { selectedCategory = null }
                 else -> LazyColumn(
-                    modifier = Modifier.fillMaxSize(),
+                    modifier = Modifier.fillMaxSize().testTag("r13.${mode.tag}.list"),
                     contentPadding = PaddingValues(bottom = HhySpacing.Xl),
                 ) {
                     if (state.phase == R13ListPhase.REFRESHING) item {

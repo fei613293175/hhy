@@ -1837,3 +1837,11 @@
 - 摘要：Run `30228016402` attempt7已消费失败；确定尺寸ImageRequest仍精确报告`success=2 errors=0 loading=1`，证明第三个Lazy预组合节点虽进入语义树但未进入活动视口，断言后的DNS与Google联网探针错误不是业务根因。
 - 修复：候选在原30秒总期限内定位唯一滚动列表，按业务description累计确认媒体成功并受控下滚激活；三项全部成功后回到冻结列表顶部，严格复验三条success、零error、零loading后才允许首张截图。禁止延长超时、固定等待、降低数量或改变截图起点。
 - 候选：首个测试修复Commit `02f3dc856b2dc6de4df0c1f94730b80388b5d563`形成后，专项回归、UI基础门禁及obx-test固定镜像212任务均通过；唯一`R13-CANDIDATE-20260727-008 / CR-0388 / attempt8 / max1`只绑定该不可变SHA，attempt9未授权。
+
+## CR-0389 · IMPLEMENTING · 2026-07-27T01:34:05Z
+
+- Release：`R13`
+- Task：`TASK-R13-007`
+- 摘要：Run `30229476784` attempt8已消费失败；请求、编译、Lint、单测和打包通过，但模拟器在媒体激活前精确报告`Expected exactly one R13 activity list ... count=0`。Compose LazyColumn未向UiAutomator暴露`scrollable=true`，SurfaceFlinger权限噪声不是业务根因；runtime artifact SHA-256为`cb6907f5b5903d650d74cc586ea22328a66769503e9f31d844e1dc42e233d897`。
+- 修复：R13活动列表按模式暴露稳定资源，候选用`By.res`定位收藏列表并根据节点`visibleBounds`执行内容区上下滑动；保留原30秒、按description累计三条成功、回顶严格三态复验和截图起点。
+- 候选：attempt9尚未授权；必须先形成首个修复Commit并通过专项回归、UI基础门禁和obx-test固定镜像模块编译。

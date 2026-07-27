@@ -234,12 +234,14 @@ class ReleaseCandidateSmokeTest {
         val failed = By.desc(Pattern.compile("内容图片加载失败：.+"))
         val loading = By.desc(Pattern.compile("内容图片加载中：.+"))
         val deadline = SystemClock.uptimeMillis() + 30_000
-        val scrollables = device.findObjects(By.scrollable(true))
-        assertTrue(
-            "Expected exactly one R13 activity list while activating candidate media: count=${scrollables.size}",
-            scrollables.size == 1,
-        )
-        val scrollable = scrollables.single()
+        val list = device.findObject(By.res("r13.favorites.list"))
+            ?: error("Cannot find R13 favorites list while activating candidate media")
+        val bounds = list.visibleBounds
+        val verticalInset = maxOf(24, bounds.height() / 8)
+        val centerX = bounds.centerX()
+        val topY = bounds.top + verticalInset
+        val bottomY = bounds.bottom - verticalInset
+        assertTrue("R13 favorites list has no safe swipe area: $bounds", bottomY > topY)
         val activatedDescriptions = mutableSetOf<String>()
         while (SystemClock.uptimeMillis() < deadline) {
             val failedCount = device.findObjects(failed).size
@@ -248,7 +250,7 @@ class ReleaseCandidateSmokeTest {
             if (activatedDescriptions.size >= expectedCount) {
                 break
             }
-            scrollable.scroll(Direction.DOWN, 0.35f)
+            device.swipe(centerX, bottomY, centerX, topY, 24)
             device.waitForIdle(500)
         }
         if (activatedDescriptions.size < expectedCount) {
@@ -261,7 +263,7 @@ class ReleaseCandidateSmokeTest {
             )
         }
         repeat(6) {
-            scrollable.scroll(Direction.UP, 1.0f)
+            device.swipe(centerX, topY, centerX, bottomY, 24)
             device.waitForIdle(350)
         }
         while (SystemClock.uptimeMillis() < deadline) {

@@ -1770,16 +1770,17 @@ problems:
 - id: PROB-0126
   title: R13固定尺寸Lazy列表预组合媒体未进入活动视口而持续loading
   status: REMEDIATING
-  root_cause: Run 30226547910 attempt6的请求、编译、Lint、单测、打包、OIDC和Staging准备均通过，CR-0386新增的description也被UiAutomator正确识别；收藏页30秒后精确报告expected=3 success=2 errors=0 loading=1。CR-0387随后给固定媒体容器提供确定像素尺寸并通过固定镜像模块验证，但Run 30228016402 attempt7仍报告相同2/0/1，证明尺寸解析不是最终根因。第三个LazyColumn节点虽已预组合进入语义树，却未进入活动视口，图片生命周期仍未启动；断言后的DNS和Google联网探针错误晚于业务失败，不是根因。
-  resolution: 保留CR-0387的确定尺寸ImageRequest；CR-0388把候选旅程改为在原30秒总期限内定位唯一滚动列表，按业务description累计确认真实媒体成功并受控向下滚动激活预组合项，三项全部成功后回到列表顶部，再要求当前语义树严格三条success、零error、零loading才允许首张截图。Run 30226547910/attempt6与Run 30228016402/attempt7均保持已消费且不得重跑、晋升或交付；专项回归、UI基础门禁和obx-test固定镜像212任务通过，首个修复Commit为02f3dc856b2dc6de4df0c1f94730b80388b5d563。唯一R13 attempt8/request008/CR-0388/max1仅绑定该不可变SHA，attempt9未授权。
+  root_cause: Run 30226547910 attempt6的请求、编译、Lint、单测、打包、OIDC和Staging准备均通过，CR-0386新增的description也被UiAutomator正确识别；收藏页30秒后精确报告expected=3 success=2 errors=0 loading=1。CR-0387随后给固定媒体容器提供确定像素尺寸并通过固定镜像模块验证，但Run 30228016402 attempt7仍报告相同2/0/1，证明尺寸解析不是最终根因。第三个LazyColumn节点虽已预组合进入语义树，却未进入活动视口，图片生命周期仍未启动；断言后的DNS和Google联网探针错误晚于业务失败，不是根因。CR-0388按此加入滚动激活，但Run 30229476784 attempt8在激活前即精确失败于Expected exactly one R13 activity list count=0，证明Compose LazyColumn未以scrollable=true属性进入UiAutomator树；runtime artifact SHA-256为cb6907f5b5903d650d74cc586ea22328a66769503e9f31d844e1dc42e233d897。
+  resolution: 保留CR-0387的确定尺寸ImageRequest与CR-0388的同期限激活、累计成功和回顶复验；CR-0389为R13活动LazyColumn按模式暴露稳定资源r13.<mode>.list，候选通过By.res定位收藏列表并根据该节点visibleBounds在内容区执行UiDevice.swipe，不再依赖scrollable属性或全屏固定坐标。Run 30226547910/attempt6、30228016402/attempt7与30229476784/attempt8均保持已消费且不得重跑、晋升或交付；attempt9只能在首个修复Commit及专项、固定镜像证据通过后精确登记。
   regression_checks:
-  - tests.test_r13_candidate必须锁定与容器一致的确定像素尺寸ImageRequest、唯一滚动容器、按业务description累计三条成功、受控下滚激活、回顶严格三态复验、30秒单一期限和截图前等待顺序
+  - tests.test_r13_candidate必须锁定与容器一致的确定像素尺寸ImageRequest、稳定列表资源、资源节点边界内坐标滑动、按业务description累计三条成功、受控下滚激活、回顶严格三态复验、30秒单一期限和截图前等待顺序
   - scripts/check_android_ui_foundation.py必须PASS且git diff --check无错误
   - obx-test固定Android镜像必须通过feature:activity:testDebugUnitTest和app:compileDebugAndroidTestKotlin
-  - R13 attempt7必须保留精确绑定CR-0387、唯一request007、首个修复Commit完整SHA和单次运行上限的已消费失败事实；attempt8必须在CR-0388实现证据完成后绑定新的唯一request008与首个测试修复Commit完整SHA
+  - R13 attempt7与attempt8必须分别保留精确绑定CR-0387/request007和CR-0388/request008的已消费失败事实；attempt9必须在CR-0389实现证据完成后绑定新的唯一request009与首个修复Commit完整SHA
   - 新候选必须报告三条success且四张截图由AI逐图确认真实媒体、安全区、顶栏、底部面板、截断、遮挡和品牌对比度
   do_not_repeat:
   - 不得把部分success且零error的持续loading继续误判为选择器不可观测或公网媒体失败
   - 固定尺寸Lazy媒体不得假设进入语义树等同于进入活动视口；候选必须确定性激活后回到冻结截图起点复验
+  - 不得假设Compose LazyColumn必然向UiAutomator暴露scrollable=true；跨框架手势必须绑定稳定资源及其可见边界
   - 不得通过增加超时、固定sleep、降低expectedCount或接受占位图绕过真实媒体门禁
-  - Run 30226547910和Run 30228016402不得重跑、晋升、交付或作为视觉基线来源
+  - Run 30226547910、Run 30228016402和Run 30229476784不得重跑、晋升、交付或作为视觉基线来源
