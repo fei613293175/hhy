@@ -1,9 +1,9 @@
 protocol_version: '1.0'
 cr_id: CR-0410
 title: 消除R13每行独立painter永久loading并集中复用Coil真实结果
-status: APPROVED
+status: SUPERSEDED
 created_at: '2026-07-27T14:18:28Z'
-updated_at: '2026-07-27T14:19:04Z'
+updated_at: '2026-07-27T14:27:57Z'
 requester_actor_id: codex-root-r13-candidate-20260727
 approver_actor_id: codex-reviewer-r13-media-result-20260727
 task_id: TASK-R13-007
@@ -40,3 +40,14 @@ approval:
   note: Attempt20以同一2/0/1指纹否定缓存预取；三条夹具共享一个READY媒体对象，列表级真实ImageResult复用可消除重复行painter生命周期竞态，成功仍绑定Coil实际解码Drawable且不降低任何候选门槛
 machine_record: .continuity/change_requests/CR-0410.yaml
 document: docs/03-continuity/change-requests/CR-0410-消除R13每行独立painter永久loading并集中复用Coil真实结果.md
+decision_log:
+- at: '2026-07-27T14:27:57Z'
+  actor_id: codex-root-r13-candidate-20260727
+  status: SUPERSEDED
+  note: obx-test固定镜像在feature:activity:compileDebugKotlin精确失败：Coil 2.7现有依赖未导出rememberDrawablePainter；列表级ImageResult方案保留，但渲染投影必须改为不新增依赖的Drawable到Compose
+    ImageBitmap，转由后继CR纠正后重新编译
+  session_id: SES-20260726T191158Z-2B506AB7
+implementation_commits:
+- f523abce016485153467d75f479cd430813abf99
+session_ids:
+- SES-20260726T191158Z-2B506AB7

@@ -4,6 +4,10 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.Drawable
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -54,18 +58,20 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.testTagsAsResourceId
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.style.TextOverflow
 import coil.imageLoader
-import coil.compose.rememberDrawablePainter
 import coil.request.ErrorResult
 import coil.request.ImageRequest
 import coil.request.ImageResult
@@ -370,7 +376,9 @@ private fun R13ActivityRow(
 ) {
     val mediaUrl = secureActivityMediaUrl(item.media.firstOrNull()?.thumbnailUrl ?: item.media.firstOrNull()?.url)
     val mediaDescription = item.media.firstOrNull()?.altText?.takeIf { it.isNotBlank() } ?: item.title
-    val mediaPainter = rememberDrawablePainter((mediaResult as? SuccessResult)?.drawable)
+    val mediaBitmap = remember(mediaResult) {
+        (mediaResult as? SuccessResult)?.drawable?.toR13ImageBitmap()
+    }
     val mediaState = when {
         mediaUrl == null -> "unavailable"
         mediaResult is SuccessResult -> "loaded"
@@ -385,19 +393,24 @@ private fun R13ActivityRow(
     ) {
         Box(
             modifier = Modifier.size(width = HhySize.TopAppBarHeight * 1.55f, height = HhySize.TopAppBarHeight)
-                .clip(RoundedCornerShape(HhyRadius.Tag)).background(HhyColors.SoftBlue),
-            contentAlignment = Alignment.Center,
-        ) {
-            HhyIcon(contentTypeIcon(item.contentType), null, tint = HhyColors.BrandPrimary)
-            if (mediaUrl != null) {
-                Image(
-                    painter = mediaPainter,
+                .clip(RoundedCornerShape(HhyRadius.Tag)).background(HhyColors.SoftBlue)
+                .semantics {
                     contentDescription = when (mediaState) {
                         "loaded" -> "内容图片：$mediaDescription"
                         "error" -> "内容图片加载失败：${item.title}"
+                        "unavailable" -> "内容图片不可用：${item.title}"
                         else -> "内容图片加载中：${item.title}"
-                    },
-                    modifier = Modifier.fillMaxSize().testTag("r13.media.${item.id}.$mediaState"),
+                    }
+                }
+                .testTag("r13.media.${item.id}.$mediaState"),
+            contentAlignment = Alignment.Center,
+        ) {
+            HhyIcon(contentTypeIcon(item.contentType), null, tint = HhyColors.BrandPrimary)
+            if (mediaBitmap != null) {
+                Image(
+                    bitmap = mediaBitmap,
+                    contentDescription = null,
+                    modifier = Modifier.fillMaxSize(),
                     contentScale = ContentScale.Crop,
                 )
             }
@@ -459,6 +472,17 @@ private fun r13MediaRequest(
     .data(mediaUrl)
     .size(Size(mediaWidthPx, mediaHeightPx))
     .build()
+
+private fun Drawable.toR13ImageBitmap(): ImageBitmap {
+    val source = constantState?.newDrawable()?.mutate() ?: mutate()
+    if (source is BitmapDrawable) return source.bitmap.asImageBitmap()
+    val width = source.intrinsicWidth.coerceAtLeast(1)
+    val height = source.intrinsicHeight.coerceAtLeast(1)
+    val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+    source.setBounds(0, 0, width, height)
+    source.draw(Canvas(bitmap))
+    return bitmap.asImageBitmap()
+}
 
 @Composable
 private fun R13TimeHeader(label: String) {

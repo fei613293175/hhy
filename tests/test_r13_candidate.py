@@ -199,7 +199,13 @@ class R13CandidateTest(unittest.TestCase):
         self.assertIn("mediaResults[mediaUrl] = context.imageLoader.execute(", source)
         self.assertIn("mediaResult = secureActivityMediaUrl(", source)
         self.assertIn(")?.let(mediaResults::get)", source)
-        self.assertIn("val mediaPainter = rememberDrawablePainter((mediaResult as? SuccessResult)?.drawable)", source)
+        self.assertIn("val mediaBitmap = remember(mediaResult)", source)
+        self.assertIn("(mediaResult as? SuccessResult)?.drawable?.toR13ImageBitmap()", source)
+        self.assertIn("private fun Drawable.toR13ImageBitmap(): ImageBitmap", source)
+        self.assertIn("constantState?.newDrawable()?.mutate() ?: mutate()", source)
+        self.assertIn("if (source is BitmapDrawable) return source.bitmap.asImageBitmap()", source)
+        self.assertIn("Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)", source)
+        self.assertIn("source.draw(Canvas(bitmap))", source)
         self.assertIn('mediaResult is SuccessResult -> "loaded"', source)
         self.assertIn('mediaResult is ErrorResult -> "error"', source)
         self.assertEqual(1, source.count("ImageRequest.Builder(context)"))
@@ -209,8 +215,10 @@ class R13CandidateTest(unittest.TestCase):
         self.assertIn('.size(Size(mediaWidthPx, mediaHeightPx))', source)
         self.assertNotIn('rememberAsyncImagePainter', source)
         self.assertNotIn('AsyncImagePainter.State', source)
-        self.assertIn('if (mediaUrl != null)', source)
-        self.assertIn('painter = mediaPainter', source)
+        self.assertNotIn('rememberDrawablePainter', source)
+        self.assertIn('if (mediaBitmap != null)', source)
+        self.assertIn('bitmap = mediaBitmap', source)
+        self.assertIn('contentDescription = null', source)
         self.assertIn('testTag("r13.media.${item.id}.$mediaState")', source)
         self.assertIn('Modifier.fillMaxSize().testTag("r13.${mode.tag}.list")', source)
         self.assertNotIn('onSuccess = { mediaState = "loaded" }', source)
@@ -222,9 +230,11 @@ class R13CandidateTest(unittest.TestCase):
         for description in (
             '"loaded" -> "内容图片：$mediaDescription"',
             '"error" -> "内容图片加载失败：${item.title}"',
+            '"unavailable" -> "内容图片不可用：${item.title}"',
             'else -> "内容图片加载中：${item.title}"',
         ):
             self.assertIn(description, source)
+        self.assertIn(".semantics {", source)
         wait = 'prepareLoadedMediaForCapture(expectedCount = 3)'
         capture = 'captureStable("01-favorites.png")'
         self.assertIn(wait, self.journey)

@@ -81,3 +81,10 @@ Attempt20 Run 30272884567/Job90000972687在列表级预取后仍复现expected=3
 - 决定：`APPROVED`
 - 时间：`2026-07-27T14:19:04Z`
 - 说明：Attempt20以同一2/0/1指纹否定缓存预取；三条夹具共享一个READY媒体对象，列表级真实ImageResult复用可消除重复行painter生命周期竞态，成功仍绑定Coil实际解码Drawable且不降低任何候选门槛
+
+## 状态记录 · 2026-07-27T14:27:57Z
+
+- Actor：`codex-root-r13-candidate-20260727`
+- Status：`SUPERSEDED`
+- Session：`SES-20260726T191158Z-2B506AB7`
+- Note：obx-test固定镜像在feature:activity:compileDebugKotlin精确失败：Coil 2.7现有依赖未导出rememberDrawablePainter；列表级ImageResult方案保留，但渲染投影必须改为不新增依赖的Drawable到Compose ImageBitmap，转由后继CR纠正后重新编译
