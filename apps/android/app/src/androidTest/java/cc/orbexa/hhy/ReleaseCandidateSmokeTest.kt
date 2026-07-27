@@ -254,6 +254,7 @@ class ReleaseCandidateSmokeTest {
             .firstOrNull { it.isClickable && it.isEnabled }
             ?: error("Cannot find clickable UI ancestor: $value")
         node.click()
+        composeRule.waitForIdle()
         device.waitForIdle(2_000)
     }
 
@@ -262,6 +263,7 @@ class ReleaseCandidateSmokeTest {
             .lastOrNull { it.isEnabled }
             ?: error("Cannot find enabled UI element: $value")
         node.click()
+        composeRule.waitForIdle()
         device.waitForIdle(2_000)
     }
 
@@ -280,6 +282,7 @@ class ReleaseCandidateSmokeTest {
                 "resourceClickable=${resourceNode.isClickable} resourceEnabled=${resourceNode.isEnabled} " +
                 "ancestorClass=${node.className} ancestorBounds=${node.visibleBounds}"
         node.click()
+        composeRule.waitForIdle()
         if (settleMillis > 0) device.waitForIdle(settleMillis)
         return diagnostic
     }
@@ -321,6 +324,7 @@ class ReleaseCandidateSmokeTest {
         if (timeoutMillis <= 0) return r13Phase(mode)?.takeUnless { it == excludedPhase }
         val deadline = SystemClock.uptimeMillis() + timeoutMillis.coerceAtLeast(0)
         do {
+            composeRule.waitForIdle()
             val phase = r13Phase(mode)
             if (phase != null && phase != excludedPhase) return phase
             device.waitForIdle(250)
@@ -380,6 +384,7 @@ class ReleaseCandidateSmokeTest {
         var priorSample: String? = null
         var stableMatches = 0
         repeat(20) { sample ->
+            composeRule.waitForIdle()
             dismissSystemAnrIfPresent()
             val temporary = File(target.cacheDir, "visual-sample-$sample.png")
             assertTrue("Cannot capture visual sample for $name", device.takeScreenshot(temporary))
@@ -414,6 +419,7 @@ class ReleaseCandidateSmokeTest {
             composeRule.onNodeWithText(title).performScrollTo()
             composeRule.waitForIdle()
             while (SystemClock.uptimeMillis() < deadline) {
+                composeRule.waitForIdle()
                 val failedCount = device.findObjects(failed).size
                 assertTrue("Candidate media failed to load: title=$title errors=$failedCount", failedCount == 0)
                 activatedDescriptions += device.findObjects(loaded).mapNotNull { it.contentDescription }
@@ -435,6 +441,7 @@ class ReleaseCandidateSmokeTest {
         composeRule.onNodeWithText(activityMediaTitles.first()).performScrollTo()
         composeRule.waitForIdle()
         while (SystemClock.uptimeMillis() < deadline) {
+            composeRule.waitForIdle()
             val failedCount = device.findObjects(failed).size
             assertTrue("Candidate media failed after returning to list start: errors=$failedCount", failedCount == 0)
             val loadedCount = device.findObjects(loaded).size

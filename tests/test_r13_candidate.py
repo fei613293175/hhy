@@ -104,6 +104,7 @@ class R13CandidateTest(unittest.TestCase):
         ]
         self.assertIn('error("Cannot find clickable UI ancestor for resource: $value")', resource_helper)
         self.assertNotIn("resourceNode.click()", resource_helper)
+        self.assertLess(resource_helper.index("node.click()"), resource_helper.index("composeRule.waitForIdle()"))
         navigation_helper = self.journey[
             self.journey.index("private fun navigateToR13Content"):
             self.journey.index("private fun scrollUntilResource")
@@ -117,6 +118,7 @@ class R13CandidateTest(unittest.TestCase):
         self.assertIn('sourceVisible=${device.hasObject(By.res(source))}', navigation_helper)
         self.assertIn('resourceVisible=${device.hasObject(By.res(resource))}', navigation_helper)
         self.assertIn('diagnostics=${clickDiagnostics.joinToString(" | ")}', navigation_helper)
+        self.assertIn("composeRule.waitForIdle()", navigation_helper)
         self.assertIn('"partial_error"', navigation_helper)
         self.assertIn('"offline"', navigation_helper)
         self.assertIn('"not_found"', navigation_helper)
@@ -242,6 +244,7 @@ class R13CandidateTest(unittest.TestCase):
         self.assertNotIn('SystemClock.sleep(250)', self.journey)
         media_helper = self.journey[self.journey.index('private fun prepareLoadedMediaForCapture'):]
         self.assertEqual(1, media_helper.count('val deadline = SystemClock.uptimeMillis() + 30_000'))
+        self.assertGreaterEqual(media_helper.count('composeRule.waitForIdle()'), 4)
         self.assertNotIn('By.scrollable(true)', media_helper)
         self.assertNotIn('device.swipe(', media_helper)
         self.assertNotIn('By.res(Pattern.compile("${Pattern.quote(prefix)}', self.journey)
