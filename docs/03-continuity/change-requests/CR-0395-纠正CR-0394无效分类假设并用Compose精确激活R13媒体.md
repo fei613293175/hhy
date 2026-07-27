@@ -97,3 +97,10 @@ CR-0395替代且禁止实施CR-0394的分类假设；R13候选在原30秒期限�
 - Status：`IMPLEMENTED`
 - Session：`SES-20260726T191158Z-2B506AB7`
 - Note：三个唯一标题逐项performScrollTo、回首项和UiAutomator三态复验已实现；72项R13候选治理回归、Android UI基础门禁与git diff检查通过，obx-test固定镜像app:compileDebugAndroidTestKotlin以212任务在1分26秒通过，本机与远端Kotlin SHA-256均为A8EDB9B969F19FD635CE8C228BC700810A601F4C62648F8DF42EE0BAC0731E20；一次性目录和容器已清理，attempt14尚未登记
+
+## 状态记录 · 2026-07-27T07:28:00Z
+
+- Actor：`codex-root-r13-candidate-20260727`
+- Status：`CANDIDATE_AUTHORIZED`
+- Session：`SES-20260726T191158Z-2B506AB7`
+- Note：首个修复Commit 8a73630d7cda118fa7fb88942e38b06939dc95a4完成后，唯一R13-CANDIDATE-20260727-014和CR-0395例外后置登记；74项治理回归PASS，max_candidate_runs=1，不授权attempt15

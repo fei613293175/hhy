@@ -2,8 +2,8 @@ schema_version: 1
 status: REQUESTED
 release: R13
 candidate: true
-remediation_attempt: 13
-request_id: R13-CANDIDATE-20260727-013
-reason: R13 attempt 12 Run 30241127938的候选请求、编译、Lint、单测、打包、自动登录和收藏页导航均通过，但第一张截图前精确失败为expected=3 observedSuccess=2 visibleSuccess=2 errors=0 loading=1；GitHub runtime artifact digest 27089D2A0283D37760631CB1B79C2E270A5CFDAA24731754F478FD7442E04753已消费且不得重跑、晋升或交付，四张截图均未生成，分析器未报告应用崩溃、ANR、Coil或媒体错误。CR-0393保留三张真实媒体、30秒总期限、零错误和回顶三态复验，把裸坐标单向滑动改为绑定r13.favorites.list、安全gesture margin及停滞后切换方向的结构化DOWN/UP扫描。首个修复Commit fedda55654a256db02877e1fdc7be25b3ba1ba4f已通过70项候选治理回归、Android UI基础门禁、git diff检查和obx-test固定镜像app:compileDebugAndroidTestKotlin 212任务；本机/远端Kotlin SHA-256均为765AB89B8207FC031DFBF2BD5E304C51723A5A4F2DAE809DEC6F33C35D97CF53。本请求只允许该Commit后继候选提交执行一次精确attempt 13，不授权attempt 14。
-attempt_exception_id: CR-0393
-required_fix_commit: fedda55654a256db02877e1fdc7be25b3ba1ba4f
+remediation_attempt: 14
+request_id: R13-CANDIDATE-20260727-014
+reason: R13 attempt 13 Run 30244068773的候选请求、编译、Lint、单测、打包、自动登录和收藏导航均通过，但19次结构化DOWN/UP扫描后仍在第一张截图前精确失败为expected=3 observedSuccess=2 visibleSuccess=2 errors=0 loading=1；runtime artifact digest 1D8972F08ADB4F9DEAFBF911CADEBDF58A4DFAA6E510B17C28E4B9A79AC37F已消费且不得重跑、晋升或交付，四张截图未生成，无应用崩溃、ANR、Coil或媒体错误。夹具核验确认三个候选条目均为PROJECT，CR-0394分类轮换方案未实施并由CR-0395纠正；候选改用Compose LazyColumn原生performScrollTo按三个唯一业务标题逐项进入活动视口，再回到首项并由UiAutomator在原30秒内严格复验三条Success、零Loading、零Error。首个修复Commit 8a73630d7cda118fa7fb88942e38b06939dc95a4已通过72项候选治理回归、Android UI基础门禁、git diff检查和obx-test固定镜像app:compileDebugAndroidTestKotlin 212任务；本机与远端Kotlin SHA-256均为A8EDB9B969F19FD635CE8C228BC700810A601F4C62648F8DF42EE0BAC0731E20。本请求只允许该Commit后继候选提交执行一次精确attempt 14，不授权attempt 15。
+attempt_exception_id: CR-0395
+required_fix_commit: 8a73630d7cda118fa7fb88942e38b06939dc95a4
