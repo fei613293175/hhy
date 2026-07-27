@@ -1,7 +1,7 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-27T22:03:20Z
-- Context Hash：`4961055b5169032add6638aeee0c7139944c29f02ba03742f8b627632643dc2d`
+- 生成时间：2026-07-27T22:09:15Z
+- Context Hash：`b454fa14ef2cccfae4640af90ee4131213159ffc04af7e03547e57f081d4e172`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 规则就绪：`PASS`（`HASHED_CONTEXT_MANIFEST`）
@@ -176,7 +176,7 @@ blocked_tasks:
 - TASK-R07-008
 - TASK-R13-008
 next_task: TASK-R14-003
-updated_at: '2026-07-27T22:03:16Z'
+updated_at: '2026-07-27T22:09:11Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -211,15 +211,15 @@ continuity:
   active_session_id: SES-20260727T203754Z-DCE3090A
   actor_id: codex-root-r14-backend-20260728
   story_id: STORY-R14-004
-  lease_expires_at: '2026-07-28T02:03:16Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260727T203754Z-DCE3090A/0001.yaml
-  project_fingerprint: 555dbad92fbc1f873466165364ba76b60de24e543e255707be91b02eae58c559
+  lease_expires_at: '2026-07-28T02:09:11Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260727T203754Z-DCE3090A/0002.yaml
+  project_fingerprint: f385bb8af84a90e4a739fd45a164da2d99d1c5f3512fcd934f13e9485631c29a
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: 5e0316bc65b4e4a07ca6719ce8508fb3f87c8f52612cc16c30c6aadc101d3c9d
-    generated_at: '2026-07-27T21:42:20Z'
+    context_hash: 4961055b5169032add6638aeee0c7139944c29f02ba03742f8b627632643dc2d
+    generated_at: '2026-07-27T22:03:20Z'
   handoff_bundle: null
 ```
 
@@ -417,7 +417,7 @@ task_id: TASK-R14-003
 story_id: STORY-R14-004
 goal: 一对一聊天核心后端应用服务与接口
 started_at: '2026-07-27T20:37:54Z'
-updated_at: '2026-07-27T22:03:16Z'
+updated_at: '2026-07-27T22:09:11Z'
 takeover_of: null
 change_requests:
 - CR-0420
@@ -466,12 +466,12 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-27T22:03:16Z'
-  expires_at: '2026-07-28T02:03:16Z'
-checkpoint_sequence: 1
-latest_checkpoint: .continuity/checkpoints/SES-20260727T203754Z-DCE3090A/0001.yaml
+  renewed_at: '2026-07-27T22:09:11Z'
+  expires_at: '2026-07-28T02:09:11Z'
+checkpoint_sequence: 2
+latest_checkpoint: .continuity/checkpoints/SES-20260727T203754Z-DCE3090A/0002.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260727T203754Z-DCE3090A.md
-next_step: 提交并推送TASK-R14-003实现Commit，绑定CR-0420与CR-0421后关闭任务并进入TASK-R14-004
+next_step: 提交并推送CR机器绑定治理Commit，然后执行continuity close完成TASK-R14-003并进入TASK-R14-004
 context_pack: THIS_CONTEXT_PACK
 handoff_bundle: null
 closure: null
@@ -480,103 +480,63 @@ parallel_execution:
   delegated_workers: 1
   workers:
   - worker_id: codex-r14-cr-review-20260728
-    responsibility: 独立审批CR-0420与CR-0421并复核实现边界
+    responsibility: 独立审批与最终diff复核
     allowed_paths:
     - .continuity/change_requests/CR-0420.yaml
     - .continuity/change_requests/CR-0421.yaml
-  reason: 冻结API与数据库敏感数据边界由独立Actor审查，主控串行完成实现、真实PostgreSQL验证和最终集成
+  reason: 独立Actor已确认CR-0421最终实现无阻断，主控完成机器绑定与关闭
 ```
 
 ## 最新检查点
 
 ```yaml
 protocol_version: '1.0'
-checkpoint_id: CP-SES-20260727T203754Z-DCE3090A-0001
+checkpoint_id: CP-SES-20260727T203754Z-DCE3090A-0002
 session_id: SES-20260727T203754Z-DCE3090A
 task_id: TASK-R14-003
 story_id: STORY-R14-004
-sequence: 1
-created_at: '2026-07-27T22:03:15Z'
-summary: TASK-R14-003实现完成：九个冻结聊天接口、权限幂等敏感数据与R14 Outbox完成，并修复最大联系方式密文写入回读边界
-next_step: 提交并推送TASK-R14-003实现Commit，绑定CR-0420与CR-0421后关闭任务并进入TASK-R14-004
+sequence: 2
+created_at: '2026-07-27T22:09:11Z'
+summary: TASK-R14-003实现Commit已推送，CR-0420与CR-0421均绑定2df87e99并进入IMPLEMENTED
+next_step: 提交并推送CR机器绑定治理Commit，然后执行continuity close完成TASK-R14-003并进入TASK-R14-004
 blockers: []
 decisions:
-- 联系方式执行三段边界：明文1至256、hhy-contact-v1密文信封不超过2048、解密后明文再次限制256
+- 两个CR均严格按APPROVED到IMPLEMENTING再到IMPLEMENTED迁移并绑定同一实现Commit
 note: ''
 tests:
-- name: java21-r14-service-controller
+- name: implementation-push
   result: PASS
-  evidence: obx-test maven Java21 targeted suite
-  note: R14ServiceTest 14项及R08/R11/R14控制器合同合计17项零失败
-- name: java21-full-boot-regression
+  evidence: origin/task/TASK-R03-001
+  note: Commit 2df87e99d07af9cbd123d375f0717cb7abaae004已推送，pre-push strict PASS
+- name: cr-machine-binding
   result: PASS
-  evidence: obx-test maven Java21 full boot suite
-  note: 457 tests,0 failures,0 errors,22 conditional skips; CR-0421后受影响模块另行重跑PASS
-- name: postgres17-r14-store
+  evidence: CR-0420 and CR-0421
+  note: implementation_commits均唯一绑定2df87e99且状态IMPLEMENTED
+- name: r14-regression-evidence
   result: PASS
-  evidence: obx-test PostgreSQL17 Flyway V043
-  note: 最大256多字节联系方式密文长度超过256仍写入成功，完整聊天生命周期PASS
-- name: postgres17-r14-invariants
-  result: PASS
-  evidence: obx-test run_r14_database_invariants.sh
-  note: 空库、V042升级、6类脏升级、回滚重放、联系方式明文和超长信封拒绝、32组属性矩阵PASS
-- name: r14-contract-gates
-  result: PASS
-  evidence: local controlled Python runtime
-  note: API合同、生成资产、R14入口、DB schema、6项数据库合同和git diff check均PASS
-- name: r14-documentation
-  result: PASS
-  evidence: check_v122_documentation.py --release R14
-  note: 0 errors,0 warnings,0 open document gaps
+  evidence: CP-0001 carried evidence
+  note: Java21、PostgreSQL17、API、数据库、文档门禁全部PASS
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: d851ca4432d3a372732bdf983e6bfb57bd605c1e
+  head: 2df87e99d07af9cbd123d375f0717cb7abaae004
   upstream: origin/task/TASK-R03-001
   ahead: 0
   behind: 0
   dirty: true
   status_porcelain:
-  - ' M .continuity/ACTIVE_SESSION.yaml'
   - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
   - ' M .continuity/EVENT_LOG.jsonl'
-  - ' M .continuity/SESSION_INDEX.yaml'
   - ' M .continuity/STATE.yaml'
-  - ' M .continuity/TASK_CLAIMS.yaml'
-  - ' M .continuity/TASK_TRANSITIONS.yaml'
-  - ' M CHANGELOG.md'
-  - ' M CURRENT_STATUS.yaml'
-  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
-  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
-  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
-  - ' M artifacts/validation/project-doctor-v1.2.2.json'
+  - ' M .continuity/change_requests/CR-0420.yaml'
+  - ' M .continuity/change_requests/CR-0421.yaml'
   - ' M catalogs/change_request_index.csv'
   - ' M catalogs/session_index.csv'
-  - ' M catalogs/task_transition_ledger.csv'
-  - ' M database/migrations/V043__r14_chat_invariants.sql'
-  - ' M database/tests/r14_chat_invariants.sql'
-  - ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
-  - ' M services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/R08Controller.java'
-  - ' M services/backend/boot/src/main/resources/db/migration/V043__r14_chat_invariants.sql'
-  - ' M services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/R08ControllerContractTest.java'
-  - ' M services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/R11ControllerContractTest.java'
-  - ' M services/backend/content/src/main/java/cc/orbexa/hhy/content/R08PostgresStore.java'
-  - ' M tests/test_r14_database_contract.py'
-  - ?? .continuity/change_requests/CR-0420.yaml
-  - ?? .continuity/change_requests/CR-0421.yaml
-  - ?? .continuity/sessions/SES-20260727T203754Z-DCE3090A.yaml
-  - ?? docs/03-continuity/change-requests/CR-0420-实现R14一对一聊天核心后端九接口.md
-  - ?? docs/03-continuity/change-requests/CR-0421-修复R14联系方式密文容量与冻结明文合同不一致.md
-  - ?? docs/03-continuity/sessions/2026-07/SES-20260727T203754Z-DCE3090A.md
-  - ?? services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/R14Controller.java
-  - ?? services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/R14ControllerContractTest.java
-  - ?? services/backend/boot/src/test/java/cc/orbexa/hhy/content/R14PostgresStoreTest.java
-  - ?? services/backend/boot/src/test/java/cc/orbexa/hhy/content/R14ServiceTest.java
-  - ?? services/backend/content/src/main/java/cc/orbexa/hhy/content/R14Contracts.java
-  - ?? services/backend/content/src/main/java/cc/orbexa/hhy/content/R14PostgresStore.java
-  - ?? services/backend/content/src/main/java/cc/orbexa/hhy/content/R14Service.java
-  - ?? services/backend/content/src/main/java/cc/orbexa/hhy/content/R14Store.java
+  - ' M docs/03-continuity/change-requests/CR-0420-实现R14一对一聊天核心后端九接口.md'
+  - ' M docs/03-continuity/change-requests/CR-0421-修复R14联系方式密文容量与冻结明文合同不一致.md'
   recent_commits:
+  - "2df87e99d07af9cbd123d375f0717cb7abaae004\t2026-07-28T06:06:10+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] feat(chat): implement R14\
+    \ direct messaging backend"
   - "d851ca4432d3a372732bdf983e6bfb57bd605c1e\t2026-07-28T04:36:11+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(continuity): close TASK-R14-002\
     \ as completed"
   - "34386e20bc32a889b1fa516ff4ad819509272ec4\t2026-07-28T04:34:01+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(continuity): bind R14\
@@ -591,10 +551,8 @@ git:
     \ implementation entry"
   - "2d633d11fa98ea253a9183df8ada9c4d9a023521\t2026-07-28T02:18:00+08:00\tHHY Continuity Bootstrap\t[STORY-R13-003] chore(continuity): close TASK-R13-008\
     \ as blocked"
-  - "020890521cbc5b1c6a58ea1da3aec4c0173168b7\t2026-07-28T02:05:42+08:00\tHHY Continuity Bootstrap\t[STORY-R13-003] chore(continuity): accept\
-    \ strict async owner suffix"
 project_fingerprint:
-  sha256: 555dbad92fbc1f873466165364ba76b60de24e543e255707be91b02eae58c559
+  sha256: f385bb8af84a90e4a739fd45a164da2d99d1c5f3512fcd934f13e9485631c29a
   files:
   - CHANGELOG.md
   - database/migrations/V043__r14_chat_invariants.sql
@@ -638,12 +596,12 @@ project_fingerprint:
       sha256: 383ea08624128e841c0f21244c320b91529a3476a05a3b6b9c0a6c98bc87ccd3
     - path: docs/03-continuity/change-requests/CR-0420-实现R14一对一聊天核心后端九接口.md
       state: FILE
-      size: 4038
-      sha256: 507d00b13aa1270f84c80b1bef4aeaba88e507d89a85fab1676f0728639a3c33
+      size: 4600
+      sha256: 69fc3c1f7222be0aef4beeb6317c69e761b4267a8088e8b8049618adb7a678e0
     - path: docs/03-continuity/change-requests/CR-0421-修复R14联系方式密文容量与冻结明文合同不一致.md
       state: FILE
-      size: 3707
-      sha256: 7128a1e13ed46162ff6b2114b9575eab5895ab681200e17b95ddcdec75ba1766
+      size: 4304
+      sha256: 3af5340bc680699a556dcb3ef34e59aae791a0e93219374ed4201d90e0e6a85e
     - path: services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/R08Controller.java
       state: FILE
       size: 6675
@@ -777,12 +735,12 @@ parallel_execution:
   delegated_workers: 1
   workers:
   - worker_id: codex-r14-cr-review-20260728
-    responsibility: 独立审批CR-0420与CR-0421并复核实现边界
+    responsibility: 独立审批与最终diff复核
     allowed_paths:
     - .continuity/change_requests/CR-0420.yaml
     - .continuity/change_requests/CR-0421.yaml
-  reason: 冻结API与数据库敏感数据边界由独立Actor审查，主控串行完成实现、真实PostgreSQL验证和最终集成
-event_hash: 670b9964f733f044add3601f362241921d947029564bc7f43e90ea67e30aaeba
+  reason: 独立Actor已确认CR-0421最终实现无阻断，主控完成机器绑定与关闭
+event_hash: 4209cb25701ae32998a6d827512e0a55c1c462d323b206c4f72f9dae3a97cf64
 ```
 
 ## 接续状态与事件头
@@ -794,8 +752,8 @@ active_session_id: SES-20260727T203754Z-DCE3090A
 last_session_id: SES-20260727T193842Z-C948B6FC
 last_session_result: COMPLETED
 last_closure_checkpoint_id: CP-SES-20260727T193842Z-C948B6FC-0005
-event_count: 4008
-event_head_hash: 670b9964f733f044add3601f362241921d947029564bc7f43e90ea67e30aaeba
+event_count: 4013
+event_head_hash: 4209cb25701ae32998a6d827512e0a55c1c462d323b206c4f72f9dae3a97cf64
 event_chain_valid: true
 ```
 
@@ -918,9 +876,9 @@ recent_sessions: - session_id: SES-20260726T113800Z-4EDAA918
   started_at: '2026-07-27T20:37:54Z'
   record: .continuity/sessions/SES-20260727T203754Z-DCE3090A.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260727T203754Z-DCE3090A.md
-  updated_at: '2026-07-27T22:03:16Z'
+  updated_at: '2026-07-27T22:09:11Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260727T203754Z-DCE3090A/0001.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260727T203754Z-DCE3090A/0002.yaml
   handoff_bundle: null
 task_claims: - claim_id: CLM-934255B497B2
   session_id: SES-20260724T144831Z-B2E27A89
@@ -1895,7 +1853,7 @@ recent_task_transitions: - transition_id: TRN-93DAF4407356
 ```yaml
 initialized: true
 branch: task/TASK-R03-001
-head: d851ca4432d3a372732bdf983e6bfb57bd605c1e
+head: 2df87e99d07af9cbd123d375f0717cb7abaae004
 upstream: origin/task/TASK-R03-001
 ahead: 0
 behind: 0
@@ -1906,42 +1864,19 @@ status_porcelain:
 - ' M .continuity/EVENT_LOG.jsonl'
 - ' M .continuity/SESSION_INDEX.yaml'
 - ' M .continuity/STATE.yaml'
-- ' M .continuity/TASK_CLAIMS.yaml'
-- ' M .continuity/TASK_TRANSITIONS.yaml'
-- ' M CHANGELOG.md'
+- ' M .continuity/change_requests/CR-0420.yaml'
+- ' M .continuity/change_requests/CR-0421.yaml'
+- ' M .continuity/sessions/SES-20260727T203754Z-DCE3090A.yaml'
 - ' M CURRENT_STATUS.yaml'
-- ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
-- ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
-- ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
-- ' M artifacts/validation/project-doctor-v1.2.2.json'
 - ' M catalogs/change_request_index.csv'
 - ' M catalogs/session_index.csv'
-- ' M catalogs/task_transition_ledger.csv'
-- ' M database/migrations/V043__r14_chat_invariants.sql'
-- ' M database/tests/r14_chat_invariants.sql'
-- ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
-- ' M services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/R08Controller.java'
-- ' M services/backend/boot/src/main/resources/db/migration/V043__r14_chat_invariants.sql'
-- ' M services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/R08ControllerContractTest.java'
-- ' M services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/R11ControllerContractTest.java'
-- ' M services/backend/content/src/main/java/cc/orbexa/hhy/content/R08PostgresStore.java'
-- ' M tests/test_r14_database_contract.py'
-- ?? .continuity/change_requests/CR-0420.yaml
-- ?? .continuity/change_requests/CR-0421.yaml
-- ?? .continuity/checkpoints/SES-20260727T203754Z-DCE3090A/0001.yaml
-- ?? .continuity/sessions/SES-20260727T203754Z-DCE3090A.yaml
-- ?? docs/03-continuity/change-requests/CR-0420-实现R14一对一聊天核心后端九接口.md
-- ?? docs/03-continuity/change-requests/CR-0421-修复R14联系方式密文容量与冻结明文合同不一致.md
-- ?? docs/03-continuity/sessions/2026-07/SES-20260727T203754Z-DCE3090A.md
-- ?? services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/R14Controller.java
-- ?? services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/R14ControllerContractTest.java
-- ?? services/backend/boot/src/test/java/cc/orbexa/hhy/content/R14PostgresStoreTest.java
-- ?? services/backend/boot/src/test/java/cc/orbexa/hhy/content/R14ServiceTest.java
-- ?? services/backend/content/src/main/java/cc/orbexa/hhy/content/R14Contracts.java
-- ?? services/backend/content/src/main/java/cc/orbexa/hhy/content/R14PostgresStore.java
-- ?? services/backend/content/src/main/java/cc/orbexa/hhy/content/R14Service.java
-- ?? services/backend/content/src/main/java/cc/orbexa/hhy/content/R14Store.java
+- ' M docs/03-continuity/change-requests/CR-0420-实现R14一对一聊天核心后端九接口.md'
+- ' M docs/03-continuity/change-requests/CR-0421-修复R14联系方式密文容量与冻结明文合同不一致.md'
+- ' M docs/03-continuity/sessions/2026-07/SES-20260727T203754Z-DCE3090A.md'
+- ?? .continuity/checkpoints/SES-20260727T203754Z-DCE3090A/0002.yaml
 recent_commits:
+- "2df87e99d07af9cbd123d375f0717cb7abaae004\t2026-07-28T06:06:10+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] feat(chat): implement R14 direct\
+  \ messaging backend"
 - "d851ca4432d3a372732bdf983e6bfb57bd605c1e\t2026-07-28T04:36:11+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(continuity): close TASK-R14-002\
   \ as completed"
 - "34386e20bc32a889b1fa516ff4ad819509272ec4\t2026-07-28T04:34:01+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(continuity): bind R14\
@@ -1956,13 +1891,11 @@ recent_commits:
   \ entry"
 - "2d633d11fa98ea253a9183df8ada9c4d9a023521\t2026-07-28T02:18:00+08:00\tHHY Continuity Bootstrap\t[STORY-R13-003] chore(continuity): close TASK-R13-008\
   \ as blocked"
-- "020890521cbc5b1c6a58ea1da3aec4c0173168b7\t2026-07-28T02:05:42+08:00\tHHY Continuity Bootstrap\t[STORY-R13-003] chore(continuity): accept strict\
-  \ async owner suffix"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`555dbad92fbc1f873466165364ba76b60de24e543e255707be91b02eae58c559`
+- 指纹：`f385bb8af84a90e4a739fd45a164da2d99d1c5f3512fcd934f13e9485631c29a`
 - 文件数：20
 
 - `CHANGELOG.md`
@@ -14124,9 +14057,9 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - protocol_version: '1.0'
   cr_id: CR-0420
   title: 实现R14一对一聊天核心后端九接口
-  status: APPROVED
+  status: IMPLEMENTED
   created_at: '2026-07-27T21:16:51Z'
-  updated_at: '2026-07-27T21:35:44Z'
+  updated_at: '2026-07-27T22:08:20Z'
   requester_actor_id: codex-root-r14-backend-20260728
   approver_actor_id: codex-r14-cr-review-20260728
   task_id: TASK-R14-003
@@ -14180,12 +14113,27 @@ PARALLEL_EXECUTION_PLAN.yaml:
       V043生命周期及direct/report Outbox source=r14-api断言PASS，API、生成资产、R14入口与R14文档门禁PASS。
   machine_record: .continuity/change_requests/CR-0420.yaml
   document: docs/03-continuity/change-requests/CR-0420-实现R14一对一聊天核心后端九接口.md
+  decision_log:
+  - at: '2026-07-27T22:08:02Z'
+    actor_id: codex-root-r14-backend-20260728
+    status: IMPLEMENTING
+    note: 实现已落入并推送Commit 2df87e99d07af9cbd123d375f0717cb7abaae004，进入机器绑定阶段
+    session_id: SES-20260727T203754Z-DCE3090A
+  - at: '2026-07-27T22:08:20Z'
+    actor_id: codex-root-r14-backend-20260728
+    status: IMPLEMENTED
+    note: 九个冻结Chat接口、成员权限、配置限流、加密幂等快照与R14事务Outbox已由Java21和PostgreSQL17验证并推送
+    session_id: SES-20260727T203754Z-DCE3090A
+  implementation_commits:
+  - 2df87e99d07af9cbd123d375f0717cb7abaae004
+  session_ids:
+  - SES-20260727T203754Z-DCE3090A
 - protocol_version: '1.0'
   cr_id: CR-0421
   title: 修复R14联系方式密文容量与冻结明文合同不一致
-  status: APPROVED
+  status: IMPLEMENTED
   created_at: '2026-07-27T21:41:26Z'
-  updated_at: '2026-07-27T21:45:56Z'
+  updated_at: '2026-07-27T22:08:52Z'
   requester_actor_id: codex-root-r14-backend-20260728
   approver_actor_id: codex-r14-cr-review-20260728
   task_id: TASK-R14-003
@@ -14225,13 +14173,28 @@ PARALLEL_EXECUTION_PLAN.yaml:
     note: 计划审查通过：公开API与加密前明文保持1至256字符；R14Service纳入影响范围并明确持久化前生成hhy-contact-v1信封、回读先按2048校验后解密且再次校验明文1至256；V043双副本只接受结构化三段Base64URL信封并拒绝明文；测试覆盖最大256多字节闭环、257前置拒绝、非法/超长信封、解密后超限、双副本一致、数据库合同及真实PostgreSQL回归。批准该边界方案进入实现，实施仍须按声明测试全部通过。
   machine_record: .continuity/change_requests/CR-0421.yaml
   document: docs/03-continuity/change-requests/CR-0421-修复R14联系方式密文容量与冻结明文合同不一致.md
+  decision_log:
+  - at: '2026-07-27T22:08:37Z'
+    actor_id: codex-root-r14-backend-20260728
+    status: IMPLEMENTING
+    note: 三段联系方式边界实现已落入并推送Commit 2df87e99d07af9cbd123d375f0717cb7abaae004，进入机器绑定阶段
+    session_id: SES-20260727T203754Z-DCE3090A
+  - at: '2026-07-27T22:08:52Z'
+    actor_id: codex-root-r14-backend-20260728
+    status: IMPLEMENTED
+    note: 联系方式明文、结构化密文信封和解密后明文三段边界已实现，14项服务测试、真实PostgreSQL17与完整R14矩阵PASS
+    session_id: SES-20260727T203754Z-DCE3090A
+  implementation_commits:
+  - 2df87e99d07af9cbd123d375f0717cb7abaae004
+  session_ids:
+  - SES-20260727T203754Z-DCE3090A
 ```
 
 ## 上下文来源及哈希
 
 - `AGENTS.md` — `e9f1cf3739a97b47a4de96166ebd17eb2206b7231adb22dbfa23f7687c9809bc`
 - `START_HERE.md` — `22de14029ce47beb41ea569e36ce223fbc9d11b86f8676f28d5fbbd83896af5c`
-- `CURRENT_STATUS.yaml` — `66b0f080b37eaa0efd23e076cd43af6a33266d5fd19021e5aad9ec2d02a41712`
+- `CURRENT_STATUS.yaml` — `201797da1dcc46616daed666a900893d818ee4f8df5f7e2eb8ff3f9e1b1e8e73`
 - `NEXT_TASK.yaml` — `147b4bc98ade24feeb2287075427fb0ec193198b135870c8fcfb41d2f17e305b`
 - `DEVELOPMENT_RISK_REGISTER.md` — `8304c91492e4ee2abea0522a06541c8688d39c7fc532b5d0cde499bf09fffb87`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
@@ -14242,12 +14205,12 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `config/REPOSITORY_TRANSPORT.yaml` — `8c4a21f3e204d46e7ffb467d804a53ed26cda61cd088dadfddb50b69eea657fc`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `38e04ed812c8df0d353c2b91993d31e53b471e9c457f06b426bd2260c470aa92`
-- `.continuity/EVENT_LOG.jsonl` — `931dffaf894762970c027de52d86fd4107665c53d72bfcb29771b07fccdaa67a`
-- `.continuity/SESSION_INDEX.yaml` — `bfcea323a5add337764794544d2845de4869a538b6e3377a6f87136f3f600df8`
+- `.continuity/EVENT_LOG.jsonl` — `631bee8340b9fa793805ff08b47ca143ea433279ff9860a873816e544a02c78b`
+- `.continuity/SESSION_INDEX.yaml` — `65c03542217a0573811fa5f3d6028ad9a25b5479a87789b0317925043941dc70`
 - `.continuity/TASK_CLAIMS.yaml` — `458a6c48da27d4e4a20de914232320669b0eb8afb9f51bba3534e20934676e39`
 - `.continuity/TASK_TRANSITIONS.yaml` — `aecebe82ab59f18e940f11f90263b45d26e7652c461ae2a8a1561858b51f7888`
-- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `42a880e42437fa72704b56ae850a8b6e1353421ea66caed79de4b77bdb91731d`
-- `.continuity/ACTIVE_SESSION.yaml` — `55c5325aa82c73dd9d90a531613e42e1d9843f1966150ca6cf50768af4082b20`
+- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `a78bc92f14fcc24229a9667a36ecbefc2a200cad166d5e7bf9cd7abd5b16e2e7`
+- `.continuity/ACTIVE_SESSION.yaml` — `8c2f7a389d98cdcb1d0621dfa850a6600ad0dcda69f6c424be376f19a75191f2`
 - `docs/00-baseline/正式商业系统全局硬性开发边界.md` — `d8a77eddf520659b1d6b57e16ecc0739fa93dbd39cf9903dbaf798fc631ae6fe`
 - `docs/02-ui/UI参考图使用与开发约束_V1.2.2.md` — `d14367586aa2067b059df58798acd20ab982459cdb35ff27fc7922a3896e4933`
 - `docs/03-continuity/持续开发无状态接续强制门禁_V1.2.3.md` — `d0ed3ed68bdd93b06500eecdfb5baa3245e6ca8b685a486788abb6eee39b3d51`
@@ -14258,10 +14221,10 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `releases/R14/TASKS.yaml` — `cb107493e818c967e43d5a9e24adee96ba9d190511e427e8709f406eb4c64369`
 - `releases/R14/ACCEPTANCE_MATRIX.csv` — `d747f5c176d1eb94d685134d6bbddb12e1961529824471d6e969e9f10679a2b1`
 - `releases/R14/PARALLEL_EXECUTION_PLAN.yaml` — `cd1f0c96ffd7562acb214edba80a2bbb12b79f06c19032d1b133936ff6abd74f`
-- `docs/03-continuity/sessions/2026-07/SES-20260727T203754Z-DCE3090A.md` — `7fb1ed771ca6a9f27baf0d82b8e61b67e51f4fc41ec56a86325aa527c9c19c4a`
-- `.continuity/checkpoints/SES-20260727T203754Z-DCE3090A/0001.yaml` — `1646373611b76e6b1a612bf536ea6ee8c621b1eecf651a95b52d292abb67c7f0`
-- `docs/03-continuity/change-requests/CR-0420-实现R14一对一聊天核心后端九接口.md` — `507d00b13aa1270f84c80b1bef4aeaba88e507d89a85fab1676f0728639a3c33`
-- `docs/03-continuity/change-requests/CR-0421-修复R14联系方式密文容量与冻结明文合同不一致.md` — `7128a1e13ed46162ff6b2114b9575eab5895ab681200e17b95ddcdec75ba1766`
+- `docs/03-continuity/sessions/2026-07/SES-20260727T203754Z-DCE3090A.md` — `70a6d8030b3d5d36eba11dc4f19be7187219b0f270e24411ed2693abd4983f13`
+- `.continuity/checkpoints/SES-20260727T203754Z-DCE3090A/0002.yaml` — `36263ab5b7e926b1b5aff0e1d79fa362763fdc118dd529bafbadf45329a0b13a`
+- `docs/03-continuity/change-requests/CR-0420-实现R14一对一聊天核心后端九接口.md` — `69fc3c1f7222be0aef4beeb6317c69e761b4267a8088e8b8049618adb7a678e0`
+- `docs/03-continuity/change-requests/CR-0421-修复R14联系方式密文容量与冻结明文合同不一致.md` — `3af5340bc680699a556dcb3ef34e59aae791a0e93219374ed4201d90e0e6a85e`
 
 ## 接手硬规则
 
