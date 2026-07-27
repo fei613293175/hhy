@@ -1,6 +1,8 @@
 package cc.orbexa.hhy
 
 import cc.orbexa.hhy.designsystem.HhyMotion
+import cc.orbexa.hhy.network.ContentResource
+import cc.orbexa.hhy.network.PublisherSummaryResource
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
@@ -44,5 +46,29 @@ class NavigationPolicyTest {
         assertTrue(home is AuthenticatedRoute.Home)
         assertTrue(me is AuthenticatedRoute.Me)
         assertTrue(home != me)
+    }
+
+    @Test
+    fun chatRouteRejectsMissingOrUnsafeConversationIds() {
+        assertEquals(null, chatDetailRoute(""))
+        assertEquals(null, chatDetailRoute("../conversation"))
+        assertTrue(chatDetailRoute("conversation_42") is AuthenticatedRoute.ChatDetail)
+    }
+
+    @Test
+    fun realContentContextIsCarriedWithoutInventingChatData() {
+        val content = ContentResource(
+            id = "content_1",
+            contentType = "PROJECT",
+            title = "真实项目",
+            status = "ONLINE",
+            publisher = PublisherSummaryResource("user_7", "真实发布者", verified = true),
+            version = 1,
+        )
+        val route = chatDetailRoute("conversation_42", content)!!
+
+        assertEquals("真实发布者", route.peerNickname)
+        assertEquals("真实项目", route.sourceTitle)
+        assertEquals("PROJECT", route.sourceContentType)
     }
 }

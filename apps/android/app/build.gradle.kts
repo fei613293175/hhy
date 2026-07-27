@@ -123,6 +123,7 @@ dependencies {
     implementation(project(":feature:team-leader"))
     implementation(project(":feature:content-management"))
     implementation(project(":feature:activity"))
+    implementation(project(":feature:chat"))
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.navigation.compose)

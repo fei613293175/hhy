@@ -215,6 +215,7 @@ fun R09AppDetailScreen(
     currentUserId: String,
     onBack: () -> Unit,
     onEdit: (String) -> Unit,
+    onConversationReady: (String, ContentResource) -> Unit = { _, _ -> },
     onShare: (String) -> Unit = {},
     onInvalidFeedback: (String, List<String>) -> Unit = { _, _ -> },
     onSessionExpired: () -> Unit,
@@ -323,7 +324,10 @@ fun R09AppDetailScreen(
                                 val body = "$publisher:${item.id}"
                                 scope.launch {
                                     when (val result = api.direct(accessToken, keys.forBody("direct", body), R08DirectConversationRequest(publisher, item.id))) {
-                                        is R07CallResult.Success -> { keys.consume("direct", body); message = "私聊会话已创建，可从消息页查看" }
+                                        is R07CallResult.Success -> {
+                                            keys.consume("direct", body)
+                                            onConversationReady(result.data.id, item)
+                                        }
                                         is R07CallResult.Failure -> fail(result)
                                     }
                                 }

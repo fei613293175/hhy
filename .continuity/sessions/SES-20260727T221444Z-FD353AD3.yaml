@@ -1,0 +1,67 @@
+protocol_version: '1.0'
+package_version: 1.2.3
+session_id: SES-20260727T221444Z-FD353AD3
+status: ACTIVE
+actor:
+  id: codex-root-r14-client-20260728
+  kind: AI_OR_HUMAN
+  host: unknown
+release: R14
+task_id: TASK-R14-004
+story_id: STORY-R14-001
+goal: 一对一聊天核心客户端/H5/后台实现
+started_at: '2026-07-27T22:14:44Z'
+updated_at: '2026-07-27T23:18:37Z'
+takeover_of: null
+change_requests:
+- CR-0422
+scope:
+  allowed_paths:
+  - apps/android/**
+  - services/backend/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - tests/**
+  - docs/**
+  - catalogs/**
+  - releases/**
+  - design/**
+  - scripts/**
+  - CHANGELOG.md
+  approved_exceptions: []
+  source: story+explicit
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  base_commit: 2c39d9cd68f2ad48808c1bb99c467aab689e7adc
+  start_head: 2c39d9cd68f2ad48808c1bb99c467aab689e7adc
+  upstream: origin/task/TASK-R03-001
+  initial_worktree_state: CLEAN
+lease:
+  duration_minutes: 240
+  renewed_at: '2026-07-27T23:18:26Z'
+  expires_at: '2026-07-28T03:18:26Z'
+checkpoint_sequence: 1
+latest_checkpoint: .continuity/checkpoints/SES-20260727T221444Z-FD353AD3/0001.yaml
+session_log: docs/03-continuity/sessions/2026-07/SES-20260727T221444Z-FD353AD3.md
+next_step: 提交并推送STORY-R14-001后原子切换到STORY-R14-002会话列表实现
+context_pack:
+  yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
+  markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
+  manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+  context_hash: f573c9e678f3163027844ce43ee745e3c0b0e10e64aae13b9887e86615311877
+  generated_at: '2026-07-27T23:18:33Z'
+handoff_bundle: null
+closure: null
+parallel_execution:
+  assessment: DELEGATED
+  delegated_workers: 1
+  workers:
+  - worker_id: codex-r14-cr-review-20260728
+    responsibility: CR-0422独立计划复核
+    allowed_paths:
+    - .continuity/change_requests/CR-0422.yaml
+    - docs/03-continuity/change-requests/CR-0422-实现R14-Android私聊详情与真实会话导航.md
+  reason: 独立Actor已完成CR范围与测试计划复核；实现、真实编译和门禁由主控串行收口

@@ -39,6 +39,7 @@ import cc.orbexa.hhy.auth.AccountBlockedScreen
 import cc.orbexa.hhy.auth.AccountCancellationScreen
 import cc.orbexa.hhy.AboutScreen
 import cc.orbexa.hhy.auth.LoginDevicesScreen
+import cc.orbexa.hhy.chat.R14ChatDetailScreen
 import cc.orbexa.hhy.designsystem.HhyColors
 import cc.orbexa.hhy.designsystem.HhyElevation
 import cc.orbexa.hhy.designsystem.HhyIcon
@@ -58,6 +59,9 @@ import cc.orbexa.hhy.network.HomeNavigationTargetSnapshot
 import cc.orbexa.hhy.network.ContractAuthApi
 import cc.orbexa.hhy.network.ContractIdentityApi
 import cc.orbexa.hhy.network.ContractR13Api
+import cc.orbexa.hhy.network.ChatContentCardPayload
+import cc.orbexa.hhy.network.ContentResource
+import cc.orbexa.hhy.network.PublisherSummaryResource
 import cc.orbexa.hhy.network.UserSelfResource
 import cc.orbexa.hhy.network.StartupGate
 import cc.orbexa.hhy.network.StartupGateRequest
@@ -75,6 +79,7 @@ import cc.orbexa.hhy.network.UrlConnectionContractR12Api
 import cc.orbexa.hhy.network.UrlConnectionContractR12MeApi
 import cc.orbexa.hhy.network.UrlConnectionContractR12ProfileApi
 import cc.orbexa.hhy.network.UrlConnectionContractR13Api
+import cc.orbexa.hhy.network.UrlConnectionContractR14Api
 import cc.orbexa.hhy.network.sessionOrNull
 import cc.orbexa.hhy.network.userSelfOrNull
 import java.net.URI
@@ -257,6 +262,18 @@ internal sealed interface AuthenticatedRoute {
     @Serializable data object MyDrafts : AuthenticatedRoute
     @Serializable data object Favorites : AuthenticatedRoute
     @Serializable data object History : AuthenticatedRoute
+    @Serializable
+    data class ChatDetail(
+        val conversationId: String,
+        val peerUserId: String? = null,
+        val peerNickname: String? = null,
+        val peerAvatarUrl: String? = null,
+        val peerVerified: Boolean = false,
+        val sourceContentId: String? = null,
+        val sourceContentType: String? = null,
+        val sourceTitle: String? = null,
+        val sourceCoverUrl: String? = null,
+    ) : AuthenticatedRoute
     @Serializable data class ContentReviews(val contentId: String) : AuthenticatedRoute
     @Serializable data class ContentAnalytics(val contentId: String) : AuthenticatedRoute
     @Serializable data object PublishCenter : AuthenticatedRoute
@@ -291,6 +308,7 @@ private fun AuthenticatedNavHost(
     val r12MeApi = remember { UrlConnectionContractR12MeApi(BuildConfig.API_BASE_URL) }
     val r12ProfileApi = remember { UrlConnectionContractR12ProfileApi(BuildConfig.API_BASE_URL) }
     val r13Api = remember { UrlConnectionContractR13Api(BuildConfig.API_BASE_URL) }
+    val r14Api = remember { UrlConnectionContractR14Api(BuildConfig.API_BASE_URL) }
     val mediaApi = remember { UrlConnectionContractMediaApi(BuildConfig.API_BASE_URL) }
     val uriHandler = androidx.compose.ui.platform.LocalUriHandler.current
     val currentBackStackEntry by navController.currentBackStackEntryAsState()
@@ -346,6 +364,8 @@ private fun AuthenticatedNavHost(
                         navController.navigate(AuthenticatedRoute.GroupDetail(route.substringAfterLast('/')))
                     target.targetType == "IN_APP_ROUTE" && route.startsWith("/content/team-leader/") ->
                         navController.navigate(AuthenticatedRoute.TeamLeaderDetail(route.substringAfterLast('/')))
+                    target.targetType == "IN_APP_ROUTE" && route.startsWith("/messages/chat/") ->
+                        chatDetailRoute(route.substringAfterLast('/'))?.let(navController::navigate)
                     target.targetType in setOf("H5_URL", "DOWNLOAD") && isSafeHomeUrl(target.url) ->
                         uriHandler.openUri(target.url.orEmpty())
                 }
@@ -455,6 +475,53 @@ private fun AuthenticatedNavHost(
                 onSessionExpired = onSessionInvalidated,
             )
         }
+        composable<AuthenticatedRoute.ChatDetail> { backStackEntry ->
+            val route = backStackEntry.toRoute<AuthenticatedRoute.ChatDetail>()
+            if (!isValidChatConversationId(route.conversationId)) {
+                LaunchedEffect(route.conversationId) {
+                    if (!navController.popBackStack()) navController.navigate(AuthenticatedRoute.Home)
+                }
+            } else {
+                val peer = route.peerUserId?.let { userId ->
+                    route.peerNickname?.let { nickname ->
+                        PublisherSummaryResource(
+                            userId = userId,
+                            nickname = nickname,
+                            avatarUrl = route.peerAvatarUrl,
+                            verified = route.peerVerified,
+                        )
+                    }
+                }
+                val content = runCatching {
+                    val id = requireNotNull(route.sourceContentId)
+                    val type = requireNotNull(route.sourceContentType)
+                    val title = requireNotNull(route.sourceTitle)
+                    ChatContentCardPayload(id, type, title, route.sourceCoverUrl)
+                }.getOrNull()
+                R14ChatDetailScreen(
+                    api = r14Api,
+                    mediaApi = mediaApi,
+                    accessToken = authenticated.session.accessToken,
+                    conversationId = route.conversationId,
+                    currentUserId = authenticated.user.id,
+                    initialPeer = peer,
+                    initialContentCard = content,
+                    onBack = { navController.popBackStack() },
+                    onOpenContent = { contentType, contentId ->
+                        when (contentType) {
+                            "PROJECT" -> navController.navigate(AuthenticatedRoute.ProjectDetail(contentId))
+                            "APP" -> navController.navigate(AuthenticatedRoute.AppDetail(contentId))
+                            "GROUP_CHAT" -> navController.navigate(AuthenticatedRoute.GroupDetail(contentId))
+                            "TEAM_LEADER" -> navController.navigate(AuthenticatedRoute.TeamLeaderDetail(contentId))
+                        }
+                    },
+                    onSessionExpired = onSessionInvalidated,
+                    onConversationUnavailable = {
+                        if (!navController.popBackStack()) navController.navigate(AuthenticatedRoute.Home)
+                    },
+                )
+            }
+        }
         composable<AuthenticatedRoute.Projects> {
             R08ProjectListScreen(
                 api = r08Api,
@@ -477,6 +544,9 @@ private fun AuthenticatedNavHost(
                 currentUserId = authenticated.user.id,
                 onBack = { navController.popBackStack() },
                 onEdit = { navController.navigate(AuthenticatedRoute.ProjectEditor(it)) },
+                onConversationReady = { conversationId, content ->
+                    chatDetailRoute(conversationId, content)?.let(navController::navigate)
+                },
                 onShare = { actionTitle = it; actionSheet = R13ContentSheet.SHARE },
                 onInvalidFeedback = { title, channels -> actionTitle = title; feedbackChannels = channels; actionSheet = R13ContentSheet.INVALID_FEEDBACK },
                 onSessionExpired = onSessionInvalidated,
@@ -520,6 +590,9 @@ private fun AuthenticatedNavHost(
                 currentUserId = authenticated.user.id,
                 onBack = { navController.popBackStack() },
                 onEdit = { navController.navigate(AuthenticatedRoute.AppEditor(it)) },
+                onConversationReady = { conversationId, content ->
+                    chatDetailRoute(conversationId, content)?.let(navController::navigate)
+                },
                 onShare = { actionTitle = it; actionSheet = R13ContentSheet.SHARE },
                 onInvalidFeedback = { title, channels -> actionTitle = title; feedbackChannels = channels; actionSheet = R13ContentSheet.INVALID_FEEDBACK },
                 onSessionExpired = onSessionInvalidated,
@@ -563,6 +636,9 @@ private fun AuthenticatedNavHost(
                 currentUserId = authenticated.user.id,
                 onBack = { navController.popBackStack() },
                 onEdit = { navController.navigate(AuthenticatedRoute.GroupEditor(it)) },
+                onConversationReady = { conversationId, content ->
+                    chatDetailRoute(conversationId, content)?.let(navController::navigate)
+                },
                 onShare = { actionTitle = it; actionSheet = R13ContentSheet.SHARE },
                 onInvalidFeedback = { title, channels -> actionTitle = title; feedbackChannels = channels; actionSheet = R13ContentSheet.INVALID_FEEDBACK },
                 onSessionExpired = onSessionInvalidated,
@@ -606,7 +682,9 @@ private fun AuthenticatedNavHost(
                 currentUserId = authenticated.user.id,
                 onBack = { navController.popBackStack() },
                 onEdit = { navController.navigate(AuthenticatedRoute.TeamLeaderEditor(it)) },
-                onConversationReady = { },
+                onConversationReady = { conversationId, content ->
+                    chatDetailRoute(conversationId, content)?.let(navController::navigate)
+                },
                 onShare = { actionTitle = it; actionSheet = R13ContentSheet.SHARE },
                 onInvalidFeedback = { title, channels -> actionTitle = title; feedbackChannels = channels; actionSheet = R13ContentSheet.INVALID_FEEDBACK },
                 onSessionExpired = onSessionInvalidated,
@@ -866,12 +944,33 @@ private fun canOpenHomeTarget(target: HomeNavigationTargetSnapshot): Boolean {
         "IN_APP_ROUTE" -> route in setOf("/search", "/content/projects", "/content/apps", "/content/groups", "/content/team-leaders") ||
             (route.startsWith("/content/project/") && route.substringAfterLast('/').isNotBlank()) ||
             (route.startsWith("/content/app/") && route.substringAfterLast('/').isNotBlank()) ||
-              (route.startsWith("/content/group/") && route.substringAfterLast('/').isNotBlank())
-              || (route.startsWith("/content/team-leader/") && route.substringAfterLast('/').isNotBlank())
+            (route.startsWith("/content/group/") && route.substringAfterLast('/').isNotBlank()) ||
+            (route.startsWith("/content/team-leader/") && route.substringAfterLast('/').isNotBlank()) ||
+            (route.startsWith("/messages/chat/") && isValidChatConversationId(route.substringAfterLast('/')))
         "H5_URL", "DOWNLOAD" -> isSafeHomeUrl(target.url)
         else -> false
     }
 }
+
+internal fun chatDetailRoute(conversationId: String, content: ContentResource? = null): AuthenticatedRoute.ChatDetail? {
+    if (!isValidChatConversationId(conversationId)) return null
+    val publisher = content?.publisher
+    val cover = content?.media?.firstOrNull()?.let { it.thumbnailUrl ?: it.url }?.takeIf(::isSafeHomeUrl)
+    return AuthenticatedRoute.ChatDetail(
+        conversationId = conversationId,
+        peerUserId = publisher?.userId,
+        peerNickname = publisher?.nickname,
+        peerAvatarUrl = publisher?.avatarUrl?.takeIf(::isSafeHomeUrl),
+        peerVerified = publisher?.verified ?: false,
+        sourceContentId = content?.id,
+        sourceContentType = content?.contentType,
+        sourceTitle = content?.title?.take(255),
+        sourceCoverUrl = cover,
+    )
+}
+
+internal fun isValidChatConversationId(value: String): Boolean =
+    Regex("^[A-Za-z0-9_-]{1,64}$").matches(value)
 
 private fun isSafeHomeUrl(value: String?): Boolean = runCatching {
     val uri = URI.create(value.orEmpty())

@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## R14 Android私聊详情与真实会话导航 · 2026-07-28
+
+- `CR-0422`新增独立`feature:chat`与严格`ContractR14Api`，只实现冻结的`TEXT/IMAGE/CONTENT_CARD/CONTACT_CARD`四类消息；分页、刷新、局部失败、离线、限频、拉黑、发送重试、送达和已读状态均保留真实服务端语义，正式UI不暴露技术字段或虚构内容。
+- 私聊图片复用`PRIVATE_CHAT`媒体上传闭环；R08至R11的真实内容详情在直接会话创建成功后进入类型安全`ChatDetail`，合法内容上下文可带入内容卡，非法会话参数与403/404均安全返回。
+- `core:network`、`feature:chat`和`app`编译单测在`obx-test`固定Android镜像通过，聊天模块与App Lint通过；R14入口合同、API合同、生成资产、Android UI基础、视觉目录和Git差异检查均通过。最终设备截图与AI视觉PASS继续留在R14大版本候选阶段，不提前关闭。
+
 ## R14一对一聊天核心后端九接口 · 2026-07-28
 
 - `CR-0420`由`R14Controller`单一落地冻结的9个Chat operationId；原R08直接会话入口已迁移，URL、operationId和客户端JSON合同保持不变。
@@ -1962,4 +1968,3 @@
 - Actor：`codex-root-r14-backend-20260728`
 - 摘要：R14一对一聊天九个冻结后端接口、成员权限、配置限流、幂等、敏感联系方式三段边界、Outbox与真实PostgreSQL17回归全部完成
 - 记录：`docs/03-continuity/sessions/2026-07/SES-20260727T203754Z-DCE3090A.md`
-

@@ -1220,3 +1220,13 @@ transitions:
   session_id: SES-20260727T203754Z-DCE3090A
   actor_id: codex-root-r14-backend-20260728
   reason: 会话领取任务
+- transition_id: TRN-3D7C14098F05
+  timestamp: '2026-07-27T22:14:47Z'
+  release: R14
+  task_id: TASK-R14-004
+  story_id: STORY-R14-001
+  from_status: READY
+  to_status: IN_PROGRESS
+  session_id: SES-20260727T221444Z-FD353AD3
+  actor_id: codex-root-r14-client-20260728
+  reason: 会话领取任务

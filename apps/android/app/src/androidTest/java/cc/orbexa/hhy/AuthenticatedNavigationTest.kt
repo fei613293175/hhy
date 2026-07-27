@@ -64,4 +64,34 @@ class AuthenticatedNavigationTest {
         }
         composeRule.onNodeWithText("我的").assertIsDisplayed()
     }
+
+    @Test
+    fun chatDetailReturnsToItsRealBusinessSource() {
+        lateinit var navController: TestNavHostController
+        composeRule.setContent {
+            navController = TestNavHostController(LocalContext.current).apply {
+                navigatorProvider.addNavigator(ComposeNavigator())
+            }
+            NavHost(
+                navController = navController,
+                startDestination = AuthenticatedRoute.Home,
+                enterTransition = { HhyMotion.forwardEnter() },
+                exitTransition = { HhyMotion.forwardExit() },
+                popEnterTransition = { HhyMotion.backwardEnter() },
+                popExitTransition = { HhyMotion.backwardExit() },
+            ) {
+                composable<AuthenticatedRoute.Home> { Text("首页") }
+                composable<AuthenticatedRoute.Projects> { Text("项目列表") }
+                composable<AuthenticatedRoute.ChatDetail> { Text("私聊") }
+            }
+        }
+
+        composeRule.runOnUiThread {
+            navController.navigate(AuthenticatedRoute.Projects)
+            navController.navigate(AuthenticatedRoute.ChatDetail("conversation_42"))
+        }
+        composeRule.onNodeWithText("私聊").assertIsDisplayed()
+        composeRule.runOnUiThread { navController.popBackStack() }
+        composeRule.onNodeWithText("项目列表").assertIsDisplayed()
+    }
 }

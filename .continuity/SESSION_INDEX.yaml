@@ -1440,3 +1440,15 @@ sessions:
   closed_at: '2026-07-27T22:11:23Z'
   latest_checkpoint: .continuity/checkpoints/SES-20260727T203754Z-DCE3090A/0003.yaml
   handoff_bundle: null
+- session_id: SES-20260727T221444Z-FD353AD3
+  task_id: TASK-R14-004
+  story_id: STORY-R14-001
+  actor_id: codex-root-r14-client-20260728
+  status: ACTIVE
+  started_at: '2026-07-27T22:14:44Z'
+  record: .continuity/sessions/SES-20260727T221444Z-FD353AD3.yaml
+  session_log: docs/03-continuity/sessions/2026-07/SES-20260727T221444Z-FD353AD3.md
+  updated_at: '2026-07-27T23:18:26Z'
+  closed_at: null
+  latest_checkpoint: .continuity/checkpoints/SES-20260727T221444Z-FD353AD3/0001.yaml
+  handoff_bundle: null
