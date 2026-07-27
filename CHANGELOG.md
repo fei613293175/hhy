@@ -1852,4 +1852,4 @@
 - Task：`TASK-R13-007`
 - 摘要：Run `30231157257` attempt9已消费失败；请求、编译、Lint、单测和打包通过，但模拟器在收藏入口后精确失败于`R13 favorites did not become visible`。目标容器同时间段收到会话、平台状态、版本、首页和我的页请求，却没有任何`GET /api/v1/me/favorites`，证明失败在Compose导航前；runtime artifact SHA-256为`1e16b7319ffe94e0970f4e0393295c44224d27622e985b81f8b54f993deb6f6c`。
 - 修复：候选关键资源命中后向上选择首个`enabled + clickable`祖先并点击，找不到立即失败；保留稳定资源、页面marker、原等待上限、三媒体和四张截图合同，禁止改为文字、坐标、固定sleep或延长等待。
-- 候选：attempt9与Run `30231157257`不得重跑、晋升或交付；首个修复Commit与专项模块证据形成前，attempt10仍未登记。
+- 候选：attempt9与Run `30231157257`不得重跑、晋升或交付；首个修复Commit `8393b35464b16083833e7c9d95e7d303ce8a11a2`形成后，39项专项治理回归、UI基础门禁和obx-test固定镜像212任务通过；唯一`R13-CANDIDATE-20260727-010 / CR-0390 / attempt10 / max1`只绑定该不可变SHA，attempt11未授权。
