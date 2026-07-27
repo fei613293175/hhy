@@ -42,7 +42,7 @@
 - `FAST`：每次本地变化与提交，校验 Session、Scope、Secret、CR、Fingerprint、Trailer 和受影响的轻量测试。
 - `MODULE`：执行代理交付补丁前，运行其修改模块的单元、类型、契约或静态检查。
 - `INTEGRATION`：每天一次或纵向切片汇合时，运行后端、Web、数据库、Android 和连续性全量集成。
-- `RELEASE`：大版本最终候选阶段在 `obx-test` / GitHub 固定工具链运行一次全量集成、Staging/E2E、Android 构建与模拟器、APK 四方哈希；项目所有者真机验收保持异步。相同源码 Commit 的候选证据已 PASS 后，`TASK-xx-008` 机器收尾只能核验这些不可变证据，不得在本机安装 Java/Android SDK 或重复 Maven、PostgreSQL、Android 和模拟器。
+- `RELEASE`：大版本开发交付阶段在 `obx-test` 固定工具链对冻结 Commit 运行一次正式 API、编译、单测、Lint、APK 构建、稳定签名与四方哈希；项目所有者真机验收保持异步且不得阻断下一版本。GitHub 模拟器只在认证、支付、升级等高风险变更、集中视觉审计或项目所有者明确要求时作为按需专项运行，其失败只阻断自动候选/生产自动证据，不阻断 `TEST_APK` 交付和持续开发。`TASK-xx-008` 不得在本机安装 Java/Android SDK 或重复已绑定同一源码 Commit 的重型门禁。
 - 完整文档 Doctor 仅在其事实输入变化、手动 Doctor、集成或发布阶段运行；不得因此跳过任何连续性核心校验。
 - GitHub 普通提交不得运行 Android 模拟器、截图、候选报告或候选 APK；`candidate=false` 只执行受影响的源码策略、正式 API、编译、单测、Lint 与打包。完整 Android 自动化仅由已验证的 `config/android-candidate-request.yaml` 或默认分支注册后的 `workflow_dispatch(candidate=true)` 触发。
 - Continuity Gate 每次提交都必须执行 Commit/Session/Checkpoint/CR/Scope/Trailer 和严格 Doctor；只有连续性核心策略、脚本、Hook、运行时/传输描述或连续性工作流变化时，才运行临时 Git 仓库的完整交接、恢复、关闭和篡改生命周期演练。不得用跳过核心门禁换取速度。
@@ -55,7 +55,7 @@
 - 每项开发先运行 `python scripts/hhy_workflow.py plan --intent <意图>`，以 `config/development-workflow.yaml` 自动选择 `SIMPLE`、`STANDARD`、`CROSS_LAYER`、`TEST_APK` 或 `RELEASE_CLOSE`。
 - 单模块、低风险、小范围Bug默认走 `SIMPLE`，只运行受影响模块回归；不得无理由运行全量集成、拆分多个CR、重建APK或执行版本关闭，禁止“用大炮打蚊子”。
 - 数据库、冻结契约、安全、资金、生产基础设施、APK身份和版本关闭必须自动升级；升级输出必须列出具体触发路径，不得只用“为了保险”解释。
-- `TEST_APK` 与 `RELEASE_CLOSE` 是不同状态。测试包不得触发大版本关闭；最终候选不得省略全量门禁，机器收尾也不得重复已经绑定同一源码 Commit 且 PASS 的重型门禁。
+- `TEST_APK` 与 `RELEASE_CLOSE` 是不同状态。测试包通过固定环境质量、正式 API、稳定签名、身份和 SHA 门禁后即可交付并继续下一版本，但不得冒充自动候选、正式验收或生产关闭；按需自动候选和机器收尾不得重复已经绑定同一源码 Commit 且 PASS 的重型门禁。
 - 统一流程和例外规则以 `docs/09-development/统一开发与交付效率规范.md` 为事实源，聊天中的临时做法不得覆盖。
 
 ## 3. 变更控制
@@ -100,8 +100,8 @@
 - Android 全部既有和后续页面统一使用稳定 Jetpack Navigation Compose 真实返回栈；顶栏、系统键、手势返回必须同源并返回实际来源，底部栏目和页面状态必须保存恢复，禁止 `mutableState`/枚举切页和写死返回首页。
 - Android 图标必须从 `HhyIcons` 引用矢量资源，页面转场必须从 `HhyMotion` 引用冻结 Token；任何文字、汉字、Unicode、Emoji占位图标或页面私有动画数字阻断提交与APK。
 - Android 改动必须通过 `python scripts/check_android_ui_foundation.py`；该门禁同时检查所有已开发页面，不得只检查当前版本新增页。
-- R06 起所有 Android 版本和产生 APK 的 Bug 修复候选必须先通过 `.github/workflows/android-quality-gate.yml`：编译、打包、模拟器安装、功能旅程、截图、视觉基线、日志、崩溃/ANR和回归全部 PASS 后，才允许生成项目所有者最终候选 APK。
-- 自动门禁失败时，当前或接续 AI 必须读取 Actions 证据和机器修复队列，自行分析、最小修复、重新打包并重测；PASS 前不得标记完成、不得邀请项目所有者真机测试。同一根因最多三轮，真实外部秘密/权限/商业决策才可升级。
+- R06 起每个 Android 大版本必须交付 `TEST_APK`：冻结 Commit 在 `obx-test` 固定工具链通过正式 API、编译、单测、Lint、打包后，继续通过稳定测试签名、版本身份、四方 SHA 和桌面说明门禁；项目所有者按自己的时间真机测试，`PENDING` 不得阻断下一版本。`.github/workflows/android-quality-gate.yml` 的模拟器、旅程、截图和日志链降为按需专项，不再是 `TEST_APK` 或继续开发的前置条件。
+- 按需自动候选失败时，当前或接续 AI 必须读取 Actions 证据并记录问题；只有仍需该专项证据时才最小修复后重测，不得因模拟器失败循环阻断固定环境 APK 交付。自动候选自身在 PASS 前仍不得标记完成或冒充候选；真实外部秘密/权限/商业决策才可升级。
 - Android 自动化唯一事实源为 `config/android-automation.yaml` 和 `docs/08-testing/Android自动开发测试修复交付体系_V1.0.md`；跨电脑、跨 AI 接手不得绕过或另起一次性流程。
 - 开发分支尚未在 GitHub 默认分支注册候选工作流时，必须通过 `.github/workflows/android-candidate-request.yml` 监听机器可读候选请求，并调用同一 `.github/workflows/android-quality-gate.yml`；禁止人工复制普通 CI 中间 APK 冒充候选，也禁止为了触发候选把未审查变更直接推入默认分支。
 

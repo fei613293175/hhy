@@ -31,6 +31,16 @@ class AndroidCiGateTest(unittest.TestCase):
         self.assertTrue(policy["delivery"]["forbid_owner_request_before_pass"])
         self.assertTrue(policy["delivery"]["desktop_copy_after_actions_pass"])
         self.assertTrue(policy["delivery"]["desktop_test_guide_required"])
+        self.assertFalse(policy["enforcement"]["test_apk_requires_candidate_status"])
+        test_apk = policy["delivery"]["test_apk"]
+        self.assertEqual("OBX_TEST_FIXED_TOOLCHAIN", test_apk["mode"])
+        self.assertFalse(test_apk["github_emulator_required"])
+        self.assertTrue(test_apk["continue_next_release_when_owner_pending"])
+        self.assertEqual("AUTOMATED_CANDIDATE_ONLY", policy["delivery"]["candidate_fields_scope"])
+        automated_candidate = policy["delivery"]["automated_candidate"]
+        self.assertEqual("ON_DEMAND_NON_BLOCKING_SPECIALTY", automated_candidate["mode"])
+        self.assertFalse(automated_candidate["required_for_test_apk_delivery"])
+        self.assertFalse(automated_candidate["required_for_next_release_development"])
         self.assertEqual("GITHUB_OIDC_ONE_TIME", policy["authentication"]["mode"])
         self.assertEqual(600, policy["authentication"]["bootstrap_ttl_seconds"])
         self.assertEqual(600, policy["authentication"]["bootstrap_ttl_max_seconds"])
@@ -44,7 +54,7 @@ class AndroidCiGateTest(unittest.TestCase):
             set(policy["enforcement"]["owner_pending_blocks"]),
         )
         self.assertEqual(
-            {"NEXT_RELEASE_DEVELOPMENT", "MACHINE_CANDIDATE", "DESKTOP_CANDIDATE_ACCUMULATION"},
+            {"NEXT_RELEASE_DEVELOPMENT", "MACHINE_CANDIDATE", "DESKTOP_CANDIDATE_ACCUMULATION", "TEST_APK_DELIVERY"},
             set(policy["enforcement"]["owner_pending_does_not_block"]),
         )
         transient_retry = policy["remediation"]["transient_retry"]

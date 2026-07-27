@@ -147,6 +147,31 @@ def load_policy(path: Path = DEFAULT_POLICY) -> dict[str, Any]:
         raise GateError("Desktop candidate delivery must happen only after Actions PASS")
     if not document["delivery"].get("desktop_test_guide_required"):
         raise GateError("Every Desktop candidate must include the version test guide")
+    if document["enforcement"].get("test_apk_requires_candidate_status") is not False:
+        raise GateError("Fixed-toolchain TEST_APK delivery must not depend on automated candidate status")
+    test_apk = document["delivery"].get("test_apk") or {}
+    required_test_apk_evidence = {
+        "frozen_commit", "official_api_base_url", "compile", "unit_tests", "lint",
+        "assemble_apk", "stable_test_signing", "version_identity",
+        "repository_desktop_server_https_sha256", "desktop_test_guide",
+    }
+    if test_apk.get("mode") != "OBX_TEST_FIXED_TOOLCHAIN":
+        raise GateError("TEST_APK delivery must use the obx-test fixed toolchain")
+    if test_apk.get("github_emulator_required") is not False:
+        raise GateError("GitHub emulator must remain optional for TEST_APK delivery")
+    if test_apk.get("continue_next_release_when_owner_pending") is not True:
+        raise GateError("Pending owner feedback must not block next-release development")
+    if set(test_apk.get("required_evidence") or []) != required_test_apk_evidence:
+        raise GateError("TEST_APK fixed-toolchain evidence contract drift")
+    if document["delivery"].get("candidate_fields_scope") != "AUTOMATED_CANDIDATE_ONLY":
+        raise GateError("Legacy candidate-only delivery fields must not govern TEST_APK delivery")
+    automated_candidate = document["delivery"].get("automated_candidate") or {}
+    if automated_candidate.get("mode") != "ON_DEMAND_NON_BLOCKING_SPECIALTY":
+        raise GateError("GitHub emulator candidate must remain an on-demand specialty")
+    if automated_candidate.get("required_for_test_apk_delivery") is not False:
+        raise GateError("Automated candidate must not block TEST_APK delivery")
+    if automated_candidate.get("required_for_next_release_development") is not False:
+        raise GateError("Automated candidate must not block next-release development")
     if document["visual"].get("review_authority") != "AI_IMPLEMENTATION_AGENT":
         raise GateError("Visual review authority must be AI_IMPLEMENTATION_AGENT")
     bootstrap = document["visual"].get("baseline_bootstrap") or {}

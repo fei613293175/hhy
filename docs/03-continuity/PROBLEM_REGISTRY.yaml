@@ -1818,3 +1818,17 @@ problems:
   - 新增createEmptyComposeRule后不得继续只用UiAutomator等待手工启动的Activity；窗口可见后必须先同步Compose测试调度器。服务端前置接口成功但首页请求缺失时不得继续修改入口资源或延长等待
   - 不得通过增加超时、固定sleep、降低expectedCount或接受占位图绕过真实媒体门禁
   - Run 30226547910、Run 30228016402、Run 30229476784、Run 30231157257、Run 30235906567、Run 30238024222、Run 30241127938、Run 30244068773和Run 30246999437不得重跑、晋升、交付或作为视觉基线来源
+- id: PROB-0127
+  title: GitHub模拟器候选循环阻断大版本测试APK交付与持续开发
+  status: SOLVED
+  root_cause: 既有规则把自动候选APK、桌面TEST_APK、机器收尾和生产验收混为一个门禁；R13在编译、Lint、单测和打包持续PASS的情况下，仍因Compose与UiAutomator图片生命周期竞态连续消耗20次GitHub候选，导致桌面没有可供项目所有者异步真机测试的R13 APK，也阻断后续版本开发。完整模拟器每轮还重复准备Runner、OIDC、Staging、Android环境、旅程、截图和日志，成本与开发反馈目的不相称。
+  resolution: CR-0412只原位修订既有Android自动化、统一效率、根规则及其模板投影，明确TEST_APK和自动候选两层。冻结Commit在obx-test固定工具链通过正式API、编译、单测、Lint、打包、稳定签名、身份和四方SHA后即可交付并继续下一版本；GitHub模拟器降为高风险、集中视觉审计或项目所有者明确要求时的按需非阻断专项。历史Attempt1至20保持不可变且Attempt21不授权；自动候选失败仍阻断候选自身和生产自动证据，不得伪造PASS。
+  regression_checks:
+  - scripts.android_ci_gate.load_policy必须要求OBX_TEST_FIXED_TOOLCHAIN的TEST_APK合同并拒绝GitHub模拟器成为其前置条件
+  - tests.test_android_ci_gate必须锁定TEST_APK、自动候选、真机PENDING和下一版本开发的非阻断关系
+  - AGENTS.md与templates/AGENTS.md必须字节一致，统一规范、商业边界和Android测试体系不得保留桌面TEST_APK必须先通过模拟器的旧事实
+  - releases/R13/PARALLEL_EXECUTION_PLAN.yaml必须明确Attempt21未授权并转固定环境TEST_APK交付
+  do_not_repeat:
+  - 不得把普通构建APK冒充自动候选，也不得把自动候选PASS继续作为TEST_APK交付和下一版本开发的强制前置
+  - 不得因项目所有者未即时反馈真机结果停止开发、反复询问或阻断后续桌面APK累积交付
+  - 不得为了验证同一固定环境构建结果反复启动GitHub模拟器、OIDC、Staging或截图链

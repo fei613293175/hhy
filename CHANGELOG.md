@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## Android固定环境测试APK交付与异步真机反馈 · 2026-07-27
+
+- `CR-0412`原位修订既有Android自动化和统一交付事实源：每个大版本冻结Commit在`obx-test`通过正式API、编译、单测、Lint、打包、稳定签名、版本身份和四方SHA后即可交付`TEST_APK`，项目所有者真机反馈保持异步PENDING且不阻断下一版本开发。
+- GitHub模拟器候选降为认证、支付、升级等高风险变更、集中视觉审计或项目所有者明确要求时运行的按需非阻断专项；历史R13 Attempt 1至20和失败证据保持不可变，Attempt 21不授权，自动候选自身仍不得在PASS前冒充合格候选或生产证据。
+- `CR-0411`精确Commit `78cf6c91`已在`obx-test`固定镜像通过activity单测与AndroidTest编译，223任务`BUILD SUCCESSFUL in 2m49s`；R13精确APK下载路由已备份Nginx配置、通过`nginx -t`、reload及仓库`preflight-route`验证。
+
 ## R13四页Android最终候选基础 · 2026-07-27
 
 - 唯一Android候选从R12切换为R13普通attempt 1，测试包`versionCode`单调递增至10222；历史R12候选改为只读取已归档PASS证据，不再锁死当前共享旅程和版本身份。

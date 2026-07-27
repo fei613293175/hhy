@@ -37,7 +37,7 @@ modes:
     full_integration: false
     release_gate: false
     apk_route_preflight: required_before_build
-    rule: 只增加真机回归所需的签名、端点、路由和四方SHA门禁，不冒充版本关闭
+    rule: 在obx-test固定工具链完成正式API、编译、单测、Lint和打包，再通过稳定签名、端点、路由和四方SHA门禁后直接交付；GitHub模拟器不是该模式前置条件，真机PENDING不阻断下一版本，且测试包不得冒充自动候选或版本关闭
   RELEASE_CLOSE:
     quality_profile: MACHINE_CLOSE
     full_integration: verified_by_final_candidate

@@ -17,8 +17,8 @@ rules:
 - 执行代理仅可在路径互斥的scratch worktree工作，不得修改连续性、Release或状态事实文件。
 - 功能、字段、动作、数据、权限和版本归属逐项对应仓库开发文档；效果图只约束正确功能的页面建模与视觉。
 - R13四页必须使用Release Manifest登记的精确面板或批准补充规格，禁止TOKENS_ONLY、P01-P08范围和缺失绑定施工。
-- 普通Story只运行受影响FAST/MODULE；完整模拟器、截图和候选APK仅在TASK-R13-007最终候选阶段运行。
-- TASK-R13-008只核验相同候选Commit的不可变证据，不重复Java、数据库、Android或模拟器门禁。
+- 普通Story只运行受影响FAST/MODULE；TASK-R13-007在obx-test固定工具链完成正式API、编译、单测、Lint、打包、稳定签名和四方SHA后交付TEST_APK，不授权Attempt21。
+- GitHub模拟器和截图降为按需非阻断专项；TASK-R13-008只核验冻结Commit的不可变交付证据，不重复Java、数据库或Android门禁，真机PENDING不得阻断R14开发。
 - 项目所有者真机反馈保持异步PENDING，不阻断依赖满足的后续开发。
 coordinator_owned_paths:
 - .continuity/**
@@ -49,7 +49,9 @@ integration:
   profiles: [MODULE, INTEGRATION, SECURITY]
 apk:
   task_id: TASK-R13-007
-  full_gate_and_emulator: FINAL_CANDIDATE_ONLY
+  fixed_toolchain_test_apk: REQUIRED
+  github_emulator: ON_DEMAND_NON_BLOCKING_SPECIALTY
+  attempt_21_authorized: false
   desktop_copy_required: true
   stable_test_signing_required: true
   owner_physical_test_initial_status: PENDING

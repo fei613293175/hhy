@@ -10,6 +10,7 @@ enforcement:
   - VERSION_CANDIDATE
   - APK_BUGFIX_CANDIDATE
   owner_test_requires_candidate_status: PASS
+  test_apk_requires_candidate_status: false
   release_complete_requires_owner_status: PASS
   next_release_development_requires_owner_status: false
   production_activation_requires_owner_status: PASS
@@ -22,6 +23,7 @@ enforcement:
   - NEXT_RELEASE_DEVELOPMENT
   - MACHINE_CANDIDATE
   - DESKTOP_CANDIDATE_ACCUMULATION
+  - TEST_APK_DELIVERY
 build:
   api_base_url: https://api.orbexa.cc
   java_version: 21
@@ -288,6 +290,36 @@ delivery:
   - apk-sha256
   forbid_owner_request_before_pass: true
   forbid_release_completion_before_pass: true
+  candidate_fields_scope: AUTOMATED_CANDIDATE_ONLY
+  test_apk:
+    mode: OBX_TEST_FIXED_TOOLCHAIN
+    github_emulator_required: false
+    owner_feedback_mode: ASYNC_NON_BLOCKING
+    continue_next_release_when_owner_pending: true
+    required_evidence:
+    - frozen_commit
+    - official_api_base_url
+    - compile
+    - unit_tests
+    - lint
+    - assemble_apk
+    - stable_test_signing
+    - version_identity
+    - repository_desktop_server_https_sha256
+    - desktop_test_guide
+  automated_candidate:
+    mode: ON_DEMAND_NON_BLOCKING_SPECIALTY
+    required_for_test_apk_delivery: false
+    required_for_next_release_development: false
+    trigger_classes:
+    - AUTHENTICATION_HIGH_RISK
+    - PAYMENT_OR_LEDGER_HIGH_RISK
+    - APP_UPGRADE_HIGH_RISK
+    - HISTORICAL_VISUAL_AUDIT
+    - OWNER_EXPLICIT_REQUEST
+    failure_blocks:
+    - AUTOMATED_CANDIDATE_ACCEPTANCE
+    - PRODUCTION_AUTOMATION_EVIDENCE
 execution_tiers:
   fast_commit:
     trigger: affected Android source or workflow_call with candidate=false
@@ -299,8 +331,17 @@ execution_tiers:
     - lint
     emulator_allowed: false
     candidate_artifact_allowed: false
+  test_apk:
+    trigger: completed major release or explicit owner test package request
+    required:
+    - fast_commit
+    - obx_test_fixed_toolchain
+    - stable_test_signing
+    - version_identity_and_four_way_sha
+    emulator_allowed: false
+    next_release_blocking: false
   release_candidate:
-    trigger: validated config/android-candidate-request.yaml or workflow_dispatch with candidate=true
+    trigger: on-demand validated config/android-candidate-request.yaml or workflow_dispatch with candidate=true
     required:
     - fast_commit
     - emulator_install_and_journeys
@@ -315,4 +356,4 @@ candidate_request:
   reusable_quality_gate: .github/workflows/android-quality-gate.yml
   allowed_releases: R06-R32
   remediation_attempt_range: 1-3
-  rule: 候选请求必须进入事实分支并通过同一权威质量门禁；普通请求仅允许1至3，只有approved_attempt_exceptions全字段精确匹配时才允许其登记的单次轮次，且不得改变全局max_ai_attempts=3；视觉证据由AI按版本矩阵自主验收，桌面真机反馈异步进入后续修复队列且不阻断下一版本编码；不得用普通CI的中间APK替代候选产物
+  rule: 候选请求是按需非阻断专项，必须进入事实分支并通过同一权威质量门禁；普通请求仅允许1至3，只有approved_attempt_exceptions全字段精确匹配时才允许其登记的单次轮次，且不得改变全局max_ai_attempts=3；候选失败只阻断候选自身和生产自动证据，不阻断固定环境TEST_APK交付或下一版本编码；不得用普通CI的中间APK替代候选产物
