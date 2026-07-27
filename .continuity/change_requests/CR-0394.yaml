@@ -1,0 +1,50 @@
+protocol_version: '1.0'
+cr_id: CR-0394
+title: 修复R13候选结构化滚动仍未激活第三媒体并建立attempt14
+status: APPROVED
+created_at: '2026-07-27T07:11:26Z'
+updated_at: '2026-07-27T07:11:38Z'
+requester_actor_id: codex-root-r13-candidate-20260727
+approver_actor_id: codex-review-r13-candidate-20260727
+task_id: TASK-R13-007
+session_id: SES-20260726T191158Z-2B506AB7
+user_request: 项目所有者批准持续自主开发且候选失败后直接精确修复
+reason: Run 30244068773 attempt13确认19次结构化双向滚动后仍为2 Success、1 Loading、0 Error，需改用页面真实分类将三个媒体条目逐项置于唯一活动视口
+original_rule: R13候选在全部收藏列表内通过绑定r13.favorites.list的结构化DOWN/UP滚动激活三个Lazy媒体
+new_rule: R13候选在同一30秒期限内依次点击项目、APP、群聊三个真实分类资源，使每个候选媒体条目成为唯一可见项并等待其独立Success，随后点击全部并严格复验三条Success、零Loading、零Error后才截图
+impact_summary: 仅修复R13候选真实媒体激活策略；不修改生产页面、接口、数据库、媒体URL、图片数量、等待期限或视觉门槛。attempt13保持已消费且不得重跑，attempt14只能在首个修复Commit和固定镜像证据完成后登记
+impact:
+  files:
+  - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+  - tests/test_r13_candidate.py
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/PITFALLS.md
+  - docs/03-continuity/REUSABLE_PATTERNS.md
+  - docs/08-testing/Android自动开发测试修复交付体系_V1.0.md
+  - config/android-automation.yaml
+  - config/android-candidate-request.yaml
+  - tests/test_android_candidate_request.py
+  - tests/test_android_ci_gate.py
+  - CHANGELOG.md
+  pages:
+  - SCR-FAV-001候选真实媒体激活
+  apis:
+  - 无直接影响；同一Run已通过自动登录和收藏数据加载
+  database:
+  - 无变化；沿用三条候选内容及其合法READY媒体
+  configuration:
+  - attempt14候选请求只可在修复Commit和模块证据完成后登记
+  ledger:
+  - TASK-R13-007 attempt13失败与attempt14单次授权追溯
+  tests:
+  - tests.test_r13_candidate、tests.test_android_candidate_request、tests.test_android_ci_gate、app:compileDebugAndroidTestKotlin
+  releases:
+  - R13
+  migration_and_compatibility: 生产APK与服务端无变化；自动化使用页面已有分类交互替代无效滚动扫描，并保留同一期限及三态硬门禁
+user_confirmation: 项目所有者已明确批准持续自主开发，不再逐项批准
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-27T07:11:38Z'
+  note: Run 30244068773已证明结构化双向滚动执行19次仍无法激活第三媒体；依次使用已有分类使三个条目各自进入唯一活动视口是更小且可观测的用户级激活策略，保留三媒体、30秒、零错误与回到全部后的严格复验
+machine_record: .continuity/change_requests/CR-0394.yaml
+document: docs/03-continuity/change-requests/CR-0394-修复R13候选结构化滚动仍未激活第三媒体并建立attempt14.md

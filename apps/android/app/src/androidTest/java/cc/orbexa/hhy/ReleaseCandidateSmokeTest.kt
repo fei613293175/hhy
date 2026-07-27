@@ -6,6 +6,9 @@ import android.content.Intent
 import android.os.Build
 import android.os.SystemClock
 import android.provider.MediaStore
+import androidx.compose.ui.test.junit4.createEmptyComposeRule
+import androidx.compose.ui.test.onNodeWithText
+import androidx.compose.ui.test.performScrollTo
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.uiautomator.By
@@ -25,18 +28,27 @@ import org.json.JSONObject
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 class ReleaseCandidateSmokeTest {
+    @get:Rule
+    val composeRule = createEmptyComposeRule()
+
     private lateinit var device: UiDevice
     private lateinit var target: Context
     private lateinit var sessionJson: String
     private var previousScreenDigest: String? = null
     private val screenshotDirectory = "Pictures/hhy-ci-screenshots"
 
-    private val activityTargetTitle = "R13候选协作项目"
+    private val activityMediaTitles = listOf(
+        "R13候选协作项目",
+        "R13品牌联合增长计划",
+        "R13产品共创伙伴招募",
+    )
+    private val activityTargetTitle = activityMediaTitles.first()
 
     @Before
     fun prepareAuthenticatedCandidate() {
@@ -316,50 +328,35 @@ class ReleaseCandidateSmokeTest {
         val failed = By.desc(Pattern.compile("内容图片加载失败：.+"))
         val loading = By.desc(Pattern.compile("内容图片加载中：.+"))
         val deadline = SystemClock.uptimeMillis() + 30_000
-        val list = device.findObject(By.res("r13.favorites.list"))
-            ?: error("Cannot find R13 favorites list while activating candidate media")
-        val bounds = list.visibleBounds
-        val gestureMargin = maxOf(24, bounds.height() / 8)
         assertTrue(
-            "R13 favorites list has no safe gesture area: $bounds",
-            bounds.height() > gestureMargin * 2,
+            "Candidate media title contract drifted: expected=$expectedCount actual=${activityMediaTitles.size}",
+            expectedCount == activityMediaTitles.size,
         )
-        list.setGestureMargin(gestureMargin)
         val activatedDescriptions = mutableSetOf<String>()
-        var direction = Direction.DOWN
-        var stagnantRounds = 0
-        var structuredScrolls = 0
-        while (SystemClock.uptimeMillis() < deadline) {
-            val failedCount = device.findObjects(failed).size
-            assertTrue("Candidate media failed to load: errors=$failedCount", failedCount == 0)
-            val priorSuccessCount = activatedDescriptions.size
-            activatedDescriptions += device.findObjects(loaded).mapNotNull { it.contentDescription }
-            if (activatedDescriptions.size >= expectedCount) {
-                break
+        activityMediaTitles.forEach { title ->
+            composeRule.onNodeWithText(title).performScrollTo()
+            composeRule.waitForIdle()
+            while (SystemClock.uptimeMillis() < deadline) {
+                val failedCount = device.findObjects(failed).size
+                assertTrue("Candidate media failed to load: title=$title errors=$failedCount", failedCount == 0)
+                activatedDescriptions += device.findObjects(loaded).mapNotNull { it.contentDescription }
+                if (device.hasObject(By.desc("内容图片：$title"))) {
+                    break
+                }
+                device.waitForIdle(250)
             }
-            stagnantRounds = if (activatedDescriptions.size == priorSuccessCount) stagnantRounds + 1 else 0
-            if (stagnantRounds >= 4) {
-                direction = if (direction == Direction.DOWN) Direction.UP else Direction.DOWN
-                stagnantRounds = 0
+            if (!device.hasObject(By.desc("内容图片：$title"))) {
+                error(
+                    "Candidate media activation did not finish: title=$title expected=$expectedCount " +
+                        "observedSuccess=${activatedDescriptions.size} " +
+                        "visibleSuccess=${device.findObjects(loaded).size} " +
+                        "errors=${device.findObjects(failed).size} " +
+                        "loading=${device.findObjects(loading).size}",
+                )
             }
-            list.scroll(direction, 0.72f)
-            structuredScrolls += 1
-            device.waitForIdle(500)
         }
-        if (activatedDescriptions.size < expectedCount) {
-            error(
-                "Candidate media activation did not finish: expected=$expectedCount " +
-                    "observedSuccess=${activatedDescriptions.size} " +
-                    "visibleSuccess=${device.findObjects(loaded).size} " +
-                    "errors=${device.findObjects(failed).size} " +
-                    "loading=${device.findObjects(loading).size} " +
-                    "structuredScrolls=$structuredScrolls direction=$direction",
-            )
-        }
-        repeat(6) {
-            list.scroll(Direction.UP, 0.72f)
-            device.waitForIdle(350)
-        }
+        composeRule.onNodeWithText(activityMediaTitles.first()).performScrollTo()
+        composeRule.waitForIdle()
         while (SystemClock.uptimeMillis() < deadline) {
             val failedCount = device.findObjects(failed).size
             assertTrue("Candidate media failed after returning to list start: errors=$failedCount", failedCount == 0)

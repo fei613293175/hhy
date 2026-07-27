@@ -11,7 +11,7 @@ task_id: TASK-R13-007
 story_id: STORY-R13-003
 goal: 收藏、历史、分享与行为审计Android测试APK与产物追溯
 started_at: '2026-07-26T19:11:58Z'
-updated_at: '2026-07-27T06:48:32Z'
+updated_at: '2026-07-27T07:30:11Z'
 takeover_of: null
 change_requests:
 - CR-0377
@@ -31,6 +31,8 @@ change_requests:
 - CR-0391
 - CR-0392
 - CR-0393
+- CR-0394
+- CR-0395
 scope:
   allowed_paths:
   - apps/**
@@ -95,22 +97,22 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-27T06:48:25Z'
-  expires_at: '2026-07-27T10:48:25Z'
-checkpoint_sequence: 35
-latest_checkpoint: .continuity/checkpoints/SES-20260726T191158Z-2B506AB7/0035.yaml
+  renewed_at: '2026-07-27T07:30:01Z'
+  expires_at: '2026-07-27T11:30:01Z'
+checkpoint_sequence: 36
+latest_checkpoint: .continuity/checkpoints/SES-20260726T191158Z-2B506AB7/0036.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260726T191158Z-2B506AB7.md
-next_step: 提交候选授权Commit，执行Git transport与push preflight后单次推送并只监控新Run
+next_step: 提交不含attempt14请求的首个修复Commit；用其完整SHA后置登记唯一attempt14候选请求
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: 21a3156aeff079f6d58a80e73fab074e0fca9b7fbf4972c042798ea0df4ae04d
-  generated_at: '2026-07-27T06:48:29Z'
+  context_hash: 2780ad07ebd7b583ed6f9485a6add5776f539ca2a337d56852205bdc177b9b90
+  generated_at: '2026-07-27T07:30:08Z'
 handoff_bundle: null
 closure: null
 parallel_execution:
-  assessment: NO_SAFE_PARALLEL
+  assessment: CAPABILITY_UNAVAILABLE
   delegated_workers: 0
   workers: []
-  reason: 候选请求、例外列表和正反合同构成单一原子授权，必须在同一Session串行提交
+  reason: 当前执行指令禁止创建子代理，本修复为单文件AndroidTest与同一事实源的串行原子变更
