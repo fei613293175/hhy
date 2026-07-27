@@ -11,7 +11,7 @@ task_id: TASK-R14-002
 story_id: STORY-R14-004
 goal: 一对一聊天核心数据迁移与领域不变量
 started_at: '2026-07-27T19:38:42Z'
-updated_at: '2026-07-27T20:30:07Z'
+updated_at: '2026-07-27T20:33:34Z'
 takeover_of: null
 change_requests:
 - CR-0419
@@ -76,22 +76,22 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-27T20:29:59Z'
-  expires_at: '2026-07-28T00:29:59Z'
-checkpoint_sequence: 3
-latest_checkpoint: .continuity/checkpoints/SES-20260727T193842Z-C948B6FC/0003.yaml
+  renewed_at: '2026-07-27T20:33:27Z'
+  expires_at: '2026-07-28T00:33:27Z'
+checkpoint_sequence: 4
+latest_checkpoint: .continuity/checkpoints/SES-20260727T193842Z-C948B6FC/0004.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260727T193842Z-C948B6FC.md
-next_step: 提交并推送TASK-R14-002实现Commit，绑定CR-0419后关闭任务并进入TASK-R14-003
+next_step: 关闭TASK-R14-002并切换到依赖图中的下一R14任务
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: c2635083684b1da5bdf21ad9b35842a3368c01934732ce47d331d47dd567fd49
-  generated_at: '2026-07-27T20:30:04Z'
+  context_hash: 36206f31d88822edd71e81fe46e3ba7164f8454f31ad8f1648108737e1529388
+  generated_at: '2026-07-27T20:33:31Z'
 handoff_bundle: null
 closure: null
 parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 数据库破坏性迁移、跨表延迟约束、回滚与最终集成必须由主控串行复核；无路径互斥的安全写包
+  reason: 任务关闭、CR绑定与下一任务原子切换属于主控连续性事实，禁止并行写入

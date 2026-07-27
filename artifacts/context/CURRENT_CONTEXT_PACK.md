@@ -1,7 +1,7 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-27T20:30:04Z
-- Context Hash：`c2635083684b1da5bdf21ad9b35842a3368c01934732ce47d331d47dd567fd49`
+- 生成时间：2026-07-27T20:33:31Z
+- Context Hash：`36206f31d88822edd71e81fe46e3ba7164f8454f31ad8f1648108737e1529388`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 规则就绪：`PASS`（`HASHED_CONTEXT_MANIFEST`）
@@ -175,7 +175,7 @@ blocked_tasks:
 - TASK-R07-008
 - TASK-R13-008
 next_task: TASK-R14-002
-updated_at: '2026-07-27T20:29:59Z'
+updated_at: '2026-07-27T20:33:27Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -210,15 +210,15 @@ continuity:
   active_session_id: SES-20260727T193842Z-C948B6FC
   actor_id: codex-root-r14-data-20260728
   story_id: STORY-R14-004
-  lease_expires_at: '2026-07-28T00:29:59Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260727T193842Z-C948B6FC/0003.yaml
-  project_fingerprint: 21e76905d8d9fb7f07bfa7e0595f40fe1e8a529345c88b01a9506ac62eb52b58
+  lease_expires_at: '2026-07-28T00:33:27Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260727T193842Z-C948B6FC/0004.yaml
+  project_fingerprint: 8fdd187844dedbe326d7e2925427577c77fac51944bb9c02f5f3a198bb4c5f1a
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: 089b514e6252e7340b1a376ef1cf346ea8cec7b18f7e3faf4fa853cd9876587f
-    generated_at: '2026-07-27T20:26:34Z'
+    context_hash: c2635083684b1da5bdf21ad9b35842a3368c01934732ce47d331d47dd567fd49
+    generated_at: '2026-07-27T20:30:04Z'
   handoff_bundle: null
 ```
 
@@ -416,7 +416,7 @@ task_id: TASK-R14-002
 story_id: STORY-R14-004
 goal: 一对一聊天核心数据迁移与领域不变量
 started_at: '2026-07-27T19:38:42Z'
-updated_at: '2026-07-27T20:29:59Z'
+updated_at: '2026-07-27T20:33:27Z'
 takeover_of: null
 change_requests:
 - CR-0419
@@ -481,12 +481,12 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-27T20:29:59Z'
-  expires_at: '2026-07-28T00:29:59Z'
-checkpoint_sequence: 3
-latest_checkpoint: .continuity/checkpoints/SES-20260727T193842Z-C948B6FC/0003.yaml
+  renewed_at: '2026-07-27T20:33:27Z'
+  expires_at: '2026-07-28T00:33:27Z'
+checkpoint_sequence: 4
+latest_checkpoint: .continuity/checkpoints/SES-20260727T193842Z-C948B6FC/0004.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260727T193842Z-C948B6FC.md
-next_step: 提交并推送TASK-R14-002实现Commit，绑定CR-0419后关闭任务并进入TASK-R14-003
+next_step: 关闭TASK-R14-002并切换到依赖图中的下一R14任务
 context_pack: THIS_CONTEXT_PACK
 handoff_bundle: null
 closure: null
@@ -494,87 +494,56 @@ parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 数据库破坏性迁移、跨表延迟约束、回滚与最终集成必须由主控串行复核；无路径互斥的安全写包
+  reason: 任务关闭、CR绑定与下一任务原子切换属于主控连续性事实，禁止并行写入
 ```
 
 ## 最新检查点
 
 ```yaml
 protocol_version: '1.0'
-checkpoint_id: CP-SES-20260727T193842Z-C948B6FC-0003
+checkpoint_id: CP-SES-20260727T193842Z-C948B6FC-0004
 session_id: SES-20260727T193842Z-C948B6FC
 task_id: TASK-R14-002
 story_id: STORY-R14-004
-sequence: 3
-created_at: '2026-07-27T20:29:59Z'
-summary: TASK-R14-002实现与可见变更记录完成：补齐CHANGELOG并保留全部PostgreSQL17和合同PASS证据
-next_step: 提交并推送TASK-R14-002实现Commit，绑定CR-0419后关闭任务并进入TASK-R14-003
+sequence: 4
+created_at: '2026-07-27T20:33:26Z'
+summary: CR-0419已绑定实现Commit 83d65cfb并标记IMPLEMENTED，TASK-R14-002满足关闭条件
+next_step: 关闭TASK-R14-002并切换到依赖图中的下一R14任务
 blockers: []
 decisions: []
 note: ''
 tests:
-- name: r14-contract-and-static
+- name: implementation-commit
   result: PASS
-  evidence: check_r14_entry_contract、check_db_schema、7项R14单测、check_api_contract、check_generated_assets全部通过
-  note: OpenAPI、运行时副本、生成客户端与43迁移链一致
+  evidence: 83d65cfb47006e18055397de0320efeeb9d6f844已推送origin/task/TASK-R03-001
+  note: pre-commit、commit-msg、pre-push全部PASS
+- name: cr-implementation-binding
+  result: PASS
+  evidence: CR-0419 IMPLEMENTED且implementation_commits包含83d65cfb
+  note: 状态按APPROVED到IMPLEMENTING到IMPLEMENTED合法推进
 - name: r14-postgresql17
   result: PASS
-  evidence: obx-test postgres:17.10执行R14_DATABASE_INVARIANTS PASS
-  note: 空库、V042升级、6类脏升级、U043拒绝与重放、32组属性矩阵全部通过
-- name: runtime-asset-sync
-  result: PASS
-  evidence: sync_runtime_assets --check asset_count=47 errors=0
-  note: V043与OpenAPI运行时副本字节一致
-- name: pre-commit-remediation
-  result: PASS
-  evidence: CHANGELOG_REQUIRED已补齐R14聊天数据合同与领域不变量记录
-  note: 未绕过Git Hook
+  evidence: R14_DATABASE_INVARIANTS PASS
+  note: 真实PostgreSQL17完整矩阵通过
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: d03ab06cd9d8c4552b8b8e5f57f3ccca3f6bba6d
+  head: 83d65cfb47006e18055397de0320efeeb9d6f844
   upstream: origin/task/TASK-R03-001
   ahead: 0
   behind: 0
   dirty: true
   status_porcelain:
-  - M  .continuity/ACTIVE_SESSION.yaml
-  - M  .continuity/CHANGE_REQUEST_INDEX.yaml
-  - M  .continuity/EVENT_LOG.jsonl
-  - M  .continuity/SESSION_INDEX.yaml
-  - M  .continuity/STATE.yaml
-  - M  .continuity/TASK_CLAIMS.yaml
-  - M  .continuity/TASK_TRANSITIONS.yaml
-  - A  .continuity/change_requests/CR-0419.yaml
-  - A  .continuity/checkpoints/SES-20260727T193842Z-C948B6FC/0001.yaml
-  - A  .continuity/checkpoints/SES-20260727T193842Z-C948B6FC/0002.yaml
-  - A  .continuity/sessions/SES-20260727T193842Z-C948B6FC.yaml
-  - ' M CHANGELOG.md'
-  - M  CURRENT_STATUS.yaml
-  - M  artifacts/context/CURRENT_CONTEXT_PACK.md
-  - M  artifacts/context/CURRENT_CONTEXT_PACK.yaml
-  - M  artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  - M  catalogs/change_request_index.csv
-  - M  catalogs/session_index.csv
-  - M  catalogs/task_transition_ledger.csv
-  - M  contracts/contract_status.csv
-  - M  contracts/openapi.yaml
-  - A  database/migrations/V043__r14_chat_invariants.sql
-  - A  database/rollback/U043__r14_chat_invariants.sql
-  - M  database/schema_dictionary.csv
-  - A  database/tests/r14_chat_invariants.sql
-  - A  docs/01-architecture/adr/ADR-009-R14一对一聊天数据不变量.md
-  - M  docs/03-continuity/PROBLEM_REGISTRY.yaml
-  - A  docs/03-continuity/change-requests/CR-0419-对齐R14聊天数据库与冻结消息合同并补齐领域不变量.md
-  - A  docs/03-continuity/sessions/2026-07/SES-20260727T193842Z-C948B6FC.md
-  - M  scripts/check_db_schema.py
-  - M  scripts/check_r14_entry_contract.py
-  - M  scripts/run_postgres_migration_smoke.sh
-  - A  scripts/run_r14_database_invariants.sh
-  - M  services/backend/boot/src/main/resources/contracts/openapi.yaml
-  - A  services/backend/boot/src/main/resources/db/migration/V043__r14_chat_invariants.sql
-  - A  tests/test_r14_database_contract.py
+  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/change_requests/CR-0419.yaml'
+  - ' M catalogs/change_request_index.csv'
+  - ' M catalogs/session_index.csv'
+  - ' M docs/03-continuity/change-requests/CR-0419-对齐R14聊天数据库与冻结消息合同并补齐领域不变量.md'
   recent_commits:
+  - "83d65cfb47006e18055397de0320efeeb9d6f844\t2026-07-28T04:31:06+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] feat(chat): enforce R14 data\
+    \ invariants"
   - "d03ab06cd9d8c4552b8b8e5f57f3ccca3f6bba6d\t2026-07-28T03:36:58+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(continuity): close TASK-R14-001\
     \ as completed"
   - "ccd87aa7bd04618d03bfb65e9d8cc19162ad1831\t2026-07-28T03:27:19+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(continuity): bind R14\
@@ -589,10 +558,8 @@ git:
     \ registration readiness"
   - "275c4585a53806646e426d87560dba90f9a87127\t2026-07-28T01:32:43+08:00\tHHY Continuity Bootstrap\t[STORY-R13-003] chore(continuity): implement\
     \ asynchronous TEST_APK progression"
-  - "be60681d9ea60d5cc81ed1916fcd9f99287784e0\t2026-07-28T00:29:43+08:00\tHHY Continuity Bootstrap\t[STORY-R13-003] chore(continuity): close TASK-R13-007\
-    \ as completed"
 project_fingerprint:
-  sha256: 21e76905d8d9fb7f07bfa7e0595f40fe1e8a529345c88b01a9506ac62eb52b58
+  sha256: 8fdd187844dedbe326d7e2925427577c77fac51944bb9c02f5f3a198bb4c5f1a
   files:
   - CHANGELOG.md
   - contracts/contract_status.csv
@@ -653,8 +620,8 @@ project_fingerprint:
       sha256: 9eca8a30f4ba7f81708ba535f28109a6baaaae789fc89f140f56120ca9ced262
     - path: docs/03-continuity/change-requests/CR-0419-对齐R14聊天数据库与冻结消息合同并补齐领域不变量.md
       state: FILE
-      size: 6363
-      sha256: 7ce0cb0d46a50ed8b244a942b6cc41bf38636acbaef1a5a944b92ad2e9d57fe1
+      size: 6871
+      sha256: 01144c5b7a3123f74002956411580f61db350d4a40b57c402cc3d35764317506
     - path: scripts/check_db_schema.py
       state: FILE
       size: 18778
@@ -784,8 +751,8 @@ parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 数据库破坏性迁移、跨表延迟约束、回滚与最终集成必须由主控串行复核；无路径互斥的安全写包
-event_hash: 7a7bfd4c5c512d036dc9b4ac8e1e5130ffcb2d93cee8a594df13f0dc73a888af
+  reason: 任务关闭、CR绑定与下一任务原子切换属于主控连续性事实，禁止并行写入
+event_hash: 577a8d4e3697d2193ceab88136c1c873984efc77b71141336176400536a93b8e
 ```
 
 ## 接续状态与事件头
@@ -797,8 +764,8 @@ active_session_id: SES-20260727T193842Z-C948B6FC
 last_session_id: SES-20260727T181928Z-B51C7408
 last_session_result: COMPLETED
 last_closure_checkpoint_id: CP-SES-20260727T181928Z-B51C7408-0005
-event_count: 3990
-event_head_hash: 7a7bfd4c5c512d036dc9b4ac8e1e5130ffcb2d93cee8a594df13f0dc73a888af
+event_count: 3993
+event_head_hash: 577a8d4e3697d2193ceab88136c1c873984efc77b71141336176400536a93b8e
 event_chain_valid: true
 ```
 
@@ -921,9 +888,9 @@ recent_sessions: - session_id: SES-20260726T110209Z-C9DC8AD5
   started_at: '2026-07-27T19:38:42Z'
   record: .continuity/sessions/SES-20260727T193842Z-C948B6FC.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260727T193842Z-C948B6FC.md
-  updated_at: '2026-07-27T20:29:59Z'
+  updated_at: '2026-07-27T20:33:27Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260727T193842Z-C948B6FC/0003.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260727T193842Z-C948B6FC/0004.yaml
   handoff_bundle: null
 task_claims: - claim_id: CLM-96CC844017C2
   session_id: SES-20260724T110611Z-0D26E8D5
@@ -1898,50 +1865,28 @@ recent_task_transitions: - transition_id: TRN-CFCB70247974
 ```yaml
 initialized: true
 branch: task/TASK-R03-001
-head: d03ab06cd9d8c4552b8b8e5f57f3ccca3f6bba6d
+head: 83d65cfb47006e18055397de0320efeeb9d6f844
 upstream: origin/task/TASK-R03-001
 ahead: 0
 behind: 0
 dirty: true
 status_porcelain:
-- MM .continuity/ACTIVE_SESSION.yaml
-- M  .continuity/CHANGE_REQUEST_INDEX.yaml
-- MM .continuity/EVENT_LOG.jsonl
-- MM .continuity/SESSION_INDEX.yaml
-- MM .continuity/STATE.yaml
-- M  .continuity/TASK_CLAIMS.yaml
-- M  .continuity/TASK_TRANSITIONS.yaml
-- A  .continuity/change_requests/CR-0419.yaml
-- A  .continuity/checkpoints/SES-20260727T193842Z-C948B6FC/0001.yaml
-- A  .continuity/checkpoints/SES-20260727T193842Z-C948B6FC/0002.yaml
-- AM .continuity/sessions/SES-20260727T193842Z-C948B6FC.yaml
-- ' M CHANGELOG.md'
-- MM CURRENT_STATUS.yaml
-- M  artifacts/context/CURRENT_CONTEXT_PACK.md
-- M  artifacts/context/CURRENT_CONTEXT_PACK.yaml
-- M  artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-- M  catalogs/change_request_index.csv
-- MM catalogs/session_index.csv
-- M  catalogs/task_transition_ledger.csv
-- M  contracts/contract_status.csv
-- M  contracts/openapi.yaml
-- A  database/migrations/V043__r14_chat_invariants.sql
-- A  database/rollback/U043__r14_chat_invariants.sql
-- M  database/schema_dictionary.csv
-- A  database/tests/r14_chat_invariants.sql
-- A  docs/01-architecture/adr/ADR-009-R14一对一聊天数据不变量.md
-- M  docs/03-continuity/PROBLEM_REGISTRY.yaml
-- A  docs/03-continuity/change-requests/CR-0419-对齐R14聊天数据库与冻结消息合同并补齐领域不变量.md
-- AM docs/03-continuity/sessions/2026-07/SES-20260727T193842Z-C948B6FC.md
-- M  scripts/check_db_schema.py
-- M  scripts/check_r14_entry_contract.py
-- M  scripts/run_postgres_migration_smoke.sh
-- A  scripts/run_r14_database_invariants.sh
-- M  services/backend/boot/src/main/resources/contracts/openapi.yaml
-- A  services/backend/boot/src/main/resources/db/migration/V043__r14_chat_invariants.sql
-- A  tests/test_r14_database_contract.py
-- ?? .continuity/checkpoints/SES-20260727T193842Z-C948B6FC/0003.yaml
+- ' M .continuity/ACTIVE_SESSION.yaml'
+- ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
+- ' M .continuity/EVENT_LOG.jsonl'
+- ' M .continuity/SESSION_INDEX.yaml'
+- ' M .continuity/STATE.yaml'
+- ' M .continuity/change_requests/CR-0419.yaml'
+- ' M .continuity/sessions/SES-20260727T193842Z-C948B6FC.yaml'
+- ' M CURRENT_STATUS.yaml'
+- ' M catalogs/change_request_index.csv'
+- ' M catalogs/session_index.csv'
+- ' M docs/03-continuity/change-requests/CR-0419-对齐R14聊天数据库与冻结消息合同并补齐领域不变量.md'
+- ' M docs/03-continuity/sessions/2026-07/SES-20260727T193842Z-C948B6FC.md'
+- ?? .continuity/checkpoints/SES-20260727T193842Z-C948B6FC/0004.yaml
 recent_commits:
+- "83d65cfb47006e18055397de0320efeeb9d6f844\t2026-07-28T04:31:06+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] feat(chat): enforce R14 data\
+  \ invariants"
 - "d03ab06cd9d8c4552b8b8e5f57f3ccca3f6bba6d\t2026-07-28T03:36:58+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(continuity): close TASK-R14-001\
   \ as completed"
 - "ccd87aa7bd04618d03bfb65e9d8cc19162ad1831\t2026-07-28T03:27:19+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(continuity): bind R14\
@@ -1956,13 +1901,11 @@ recent_commits:
   \ registration readiness"
 - "275c4585a53806646e426d87560dba90f9a87127\t2026-07-28T01:32:43+08:00\tHHY Continuity Bootstrap\t[STORY-R13-003] chore(continuity): implement\
   \ asynchronous TEST_APK progression"
-- "be60681d9ea60d5cc81ed1916fcd9f99287784e0\t2026-07-28T00:29:43+08:00\tHHY Continuity Bootstrap\t[STORY-R13-003] chore(continuity): close TASK-R13-007\
-  \ as completed"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`21e76905d8d9fb7f07bfa7e0595f40fe1e8a529345c88b01a9506ac62eb52b58`
+- 指纹：`8fdd187844dedbe326d7e2925427577c77fac51944bb9c02f5f3a198bb4c5f1a`
 - 文件数：17
 
 - `CHANGELOG.md`
@@ -14025,9 +13968,9 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - protocol_version: '1.0'
   cr_id: CR-0419
   title: 对齐R14聊天数据库与冻结消息合同并补齐领域不变量
-  status: APPROVED
+  status: IMPLEMENTED
   created_at: '2026-07-27T19:45:29Z'
-  updated_at: '2026-07-27T19:56:36Z'
+  updated_at: '2026-07-27T20:33:01Z'
   requester_actor_id: codex-root-r14-data-20260728
   approver_actor_id: codex-reviewer-r14-entry-20260728
   task_id: TASK-R14-002
@@ -14102,13 +14045,28 @@ PARALLEL_EXECUTION_PLAN.yaml:
     note: 第二版已逐项解决独立只读审查阻断：OpenAPI统一minLength=1；双侧DEFERRABLE会话完整性与规范pair唯一；JSONB证据按消息归属、媒体READY私有scope及所有者或会话附件授权可证明；精确消息和举报状态矩阵仅复用V010 Outbox历史；R15管理端资源错误登记Problem；新增脏升级与带事实回滚原子矩阵。影响范围与TASK-R14-002一致。
   machine_record: .continuity/change_requests/CR-0419.yaml
   document: docs/03-continuity/change-requests/CR-0419-对齐R14聊天数据库与冻结消息合同并补齐领域不变量.md
+  decision_log:
+  - at: '2026-07-27T20:32:55Z'
+    actor_id: codex-root-r14-data-20260728
+    status: IMPLEMENTING
+    note: 实现已落入Commit 83d65cfb47006e18055397de0320efeeb9d6f844，进入机器绑定阶段
+    session_id: SES-20260727T193842Z-C948B6FC
+  - at: '2026-07-27T20:33:01Z'
+    actor_id: codex-root-r14-data-20260728
+    status: IMPLEMENTED
+    note: V043、U043、R14数据库专项、OpenAPI与生成物已实现；PostgreSQL17完整矩阵PASS
+    session_id: SES-20260727T193842Z-C948B6FC
+  session_ids:
+  - SES-20260727T193842Z-C948B6FC
+  implementation_commits:
+  - 83d65cfb47006e18055397de0320efeeb9d6f844
 ```
 
 ## 上下文来源及哈希
 
 - `AGENTS.md` — `e9f1cf3739a97b47a4de96166ebd17eb2206b7231adb22dbfa23f7687c9809bc`
 - `START_HERE.md` — `22de14029ce47beb41ea569e36ce223fbc9d11b86f8676f28d5fbbd83896af5c`
-- `CURRENT_STATUS.yaml` — `a09a7a5a5ab087d6d6a15d1c33cf9542390a06fb5bf164711d7a8472e4dad354`
+- `CURRENT_STATUS.yaml` — `15e8c2ad5941f537d6804f399118957bebf2e03b7e7466e4bcf1c74cfae00145`
 - `NEXT_TASK.yaml` — `d1b9990a426508ee85fc444e826e02622cdc55646cda9f5754ee57b2dc20acdb`
 - `DEVELOPMENT_RISK_REGISTER.md` — `8304c91492e4ee2abea0522a06541c8688d39c7fc532b5d0cde499bf09fffb87`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
@@ -14119,12 +14077,12 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `config/REPOSITORY_TRANSPORT.yaml` — `8c4a21f3e204d46e7ffb467d804a53ed26cda61cd088dadfddb50b69eea657fc`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `38e04ed812c8df0d353c2b91993d31e53b471e9c457f06b426bd2260c470aa92`
-- `.continuity/EVENT_LOG.jsonl` — `b5604dbbb15e14afa61837e34e50c7187cbd558dfcf2e8c06110668e439f66b6`
-- `.continuity/SESSION_INDEX.yaml` — `92824f113ec147346207a4307c322e0ebff551e547d501770395362a42298c85`
+- `.continuity/EVENT_LOG.jsonl` — `727eb67fc89fd78bbba6c8167dd0e94480c69c4097e6e33e18617b0fd8ccc269`
+- `.continuity/SESSION_INDEX.yaml` — `7e034fd36bfe057c0e1b0dee16dad20e1866c905600ad23093f83fa339444235`
 - `.continuity/TASK_CLAIMS.yaml` — `41c199d8f9d3b09c848e0d7575711af1c85b1bb11864acfc829661019a381dcd`
 - `.continuity/TASK_TRANSITIONS.yaml` — `56057a7a58d682ffd889b3ba7c5b2be437caf0b69c91332e6beb5dd6074fdc22`
-- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `60de956d4f4d9237ffcd264b9ba49f2f8cfa6fcb394d182cb6df7fa61ffb7d2f`
-- `.continuity/ACTIVE_SESSION.yaml` — `26445c85cae6a2c21ea12db853ceeae580e0332dd89991020ac9fab83ec75715`
+- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `baf8f2d7fe5ca5203e855bb6f6bb6a2aee35551b2d5967ba298d323d44a14173`
+- `.continuity/ACTIVE_SESSION.yaml` — `b6adfbd626d1c8c091dbe45362c02d4a44a03713bc54a3500b8c75ceabda26b8`
 - `docs/00-baseline/正式商业系统全局硬性开发边界.md` — `d8a77eddf520659b1d6b57e16ecc0739fa93dbd39cf9903dbaf798fc631ae6fe`
 - `docs/02-ui/UI参考图使用与开发约束_V1.2.2.md` — `d14367586aa2067b059df58798acd20ab982459cdb35ff27fc7922a3896e4933`
 - `docs/03-continuity/持续开发无状态接续强制门禁_V1.2.3.md` — `d0ed3ed68bdd93b06500eecdfb5baa3245e6ca8b685a486788abb6eee39b3d51`
@@ -14135,9 +14093,9 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `releases/R14/TASKS.yaml` — `a87113142b7c519094dd4098493f98b3faa0bac00e119753c3ba50719d5636d1`
 - `releases/R14/ACCEPTANCE_MATRIX.csv` — `d747f5c176d1eb94d685134d6bbddb12e1961529824471d6e969e9f10679a2b1`
 - `releases/R14/PARALLEL_EXECUTION_PLAN.yaml` — `cd1f0c96ffd7562acb214edba80a2bbb12b79f06c19032d1b133936ff6abd74f`
-- `docs/03-continuity/sessions/2026-07/SES-20260727T193842Z-C948B6FC.md` — `7213f614263aa3ff11a566d3cd6028d1a1d13c2badf35e34cf6f4283ce088f16`
-- `.continuity/checkpoints/SES-20260727T193842Z-C948B6FC/0003.yaml` — `a191cc85d038cf9afc9e857ce06237ccd3371b45aa7f73759cc027c369bf4d81`
-- `docs/03-continuity/change-requests/CR-0419-对齐R14聊天数据库与冻结消息合同并补齐领域不变量.md` — `7ce0cb0d46a50ed8b244a942b6cc41bf38636acbaef1a5a944b92ad2e9d57fe1`
+- `docs/03-continuity/sessions/2026-07/SES-20260727T193842Z-C948B6FC.md` — `f2ad5e671358e567f37de04b99b6ec2c71ab86955f7841cb169f923f14f4de50`
+- `.continuity/checkpoints/SES-20260727T193842Z-C948B6FC/0004.yaml` — `65f734ec97905267b7cacfd981b2de33957e29a65d8ed8296d150f3a0dad5ec6`
+- `docs/03-continuity/change-requests/CR-0419-对齐R14聊天数据库与冻结消息合同并补齐领域不变量.md` — `01144c5b7a3123f74002956411580f61db350d4a40b57c402cc3d35764317506`
 
 ## 接手硬规则
 

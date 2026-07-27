@@ -1,9 +1,9 @@
 protocol_version: '1.0'
 cr_id: CR-0419
 title: 对齐R14聊天数据库与冻结消息合同并补齐领域不变量
-status: APPROVED
+status: IMPLEMENTED
 created_at: '2026-07-27T19:45:29Z'
-updated_at: '2026-07-27T19:56:36Z'
+updated_at: '2026-07-27T20:33:01Z'
 requester_actor_id: codex-root-r14-data-20260728
 approver_actor_id: codex-reviewer-r14-entry-20260728
 task_id: TASK-R14-002
@@ -78,3 +78,18 @@ approval:
   note: 第二版已逐项解决独立只读审查阻断：OpenAPI统一minLength=1；双侧DEFERRABLE会话完整性与规范pair唯一；JSONB证据按消息归属、媒体READY私有scope及所有者或会话附件授权可证明；精确消息和举报状态矩阵仅复用V010 Outbox历史；R15管理端资源错误登记Problem；新增脏升级与带事实回滚原子矩阵。影响范围与TASK-R14-002一致。
 machine_record: .continuity/change_requests/CR-0419.yaml
 document: docs/03-continuity/change-requests/CR-0419-对齐R14聊天数据库与冻结消息合同并补齐领域不变量.md
+decision_log:
+- at: '2026-07-27T20:32:55Z'
+  actor_id: codex-root-r14-data-20260728
+  status: IMPLEMENTING
+  note: 实现已落入Commit 83d65cfb47006e18055397de0320efeeb9d6f844，进入机器绑定阶段
+  session_id: SES-20260727T193842Z-C948B6FC
+- at: '2026-07-27T20:33:01Z'
+  actor_id: codex-root-r14-data-20260728
+  status: IMPLEMENTED
+  note: V043、U043、R14数据库专项、OpenAPI与生成物已实现；PostgreSQL17完整矩阵PASS
+  session_id: SES-20260727T193842Z-C948B6FC
+session_ids:
+- SES-20260727T193842Z-C948B6FC
+implementation_commits:
+- 83d65cfb47006e18055397de0320efeeb9d6f844
