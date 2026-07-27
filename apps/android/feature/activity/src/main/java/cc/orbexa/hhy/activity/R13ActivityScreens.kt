@@ -46,6 +46,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -64,9 +65,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.style.TextOverflow
 import coil.imageLoader
-import coil.compose.AsyncImagePainter
-import coil.compose.rememberAsyncImagePainter
+import coil.compose.rememberDrawablePainter
+import coil.request.ErrorResult
 import coil.request.ImageRequest
+import coil.request.ImageResult
+import coil.request.SuccessResult
 import coil.size.Size
 import cc.orbexa.hhy.designsystem.HhyBackButton
 import cc.orbexa.hhy.designsystem.HhyColors
@@ -153,6 +156,7 @@ private fun R13ActivityListScreen(
     val density = LocalDensity.current
     val mediaWidthPx = with(density) { (HhySize.TopAppBarHeight * 1.55f).roundToPx() }
     val mediaHeightPx = with(density) { HhySize.TopAppBarHeight.roundToPx() }
+    val mediaResults = remember(mode, accessToken) { mutableStateMapOf<String, ImageResult>() }
     val keys = remember { R13IntentKeys() }
     var state by remember(mode) { mutableStateOf(R13ActivityListState()) }
     var selectedCategory by remember { mutableStateOf<String?>(null) }
@@ -187,10 +191,13 @@ private fun R13ActivityListScreen(
         }.distinct()
     }
     LaunchedEffect(context, mediaUrls, mediaWidthPx, mediaHeightPx) {
-        mediaUrls.forEach { mediaUrl ->
-            context.imageLoader.execute(
-                r13MediaRequest(context, mediaUrl, mediaWidthPx, mediaHeightPx),
-            )
+        mediaResults.keys.filterNot(mediaUrls::contains).forEach(mediaResults::remove)
+        mediaUrls.filterNot(mediaResults::containsKey).forEach { mediaUrl ->
+            launch {
+                mediaResults[mediaUrl] = context.imageLoader.execute(
+                    r13MediaRequest(context, mediaUrl, mediaWidthPx, mediaHeightPx),
+                )
+            }
         }
     }
     val visible = state.items.filter { selectedCategory == null || it.contentType == selectedCategory }
@@ -250,6 +257,9 @@ private fun R13ActivityListScreen(
                         R13ActivityRow(
                             item = item,
                             mode = mode,
+                            mediaResult = secureActivityMediaUrl(
+                                item.media.firstOrNull()?.thumbnailUrl ?: item.media.firstOrNull()?.url,
+                            )?.let(mediaResults::get),
                             busy = busyFavoriteId == item.id,
                             onClick = { onContentSelected(item) },
                             onUnfavorite = if (mode == R13ListMode.FAVORITES) {{
@@ -353,24 +363,18 @@ private fun R13CategoryTabs(selected: String?, onSelected: (String?) -> Unit) {
 private fun R13ActivityRow(
     item: ContentResource,
     mode: R13ListMode,
+    mediaResult: ImageResult?,
     busy: Boolean,
     onClick: () -> Unit,
     onUnfavorite: (() -> Unit)?,
 ) {
     val mediaUrl = secureActivityMediaUrl(item.media.firstOrNull()?.thumbnailUrl ?: item.media.firstOrNull()?.url)
     val mediaDescription = item.media.firstOrNull()?.altText?.takeIf { it.isNotBlank() } ?: item.title
-    val context = LocalContext.current
-    val density = LocalDensity.current
-    val mediaWidthPx = with(density) { (HhySize.TopAppBarHeight * 1.55f).roundToPx() }
-    val mediaHeightPx = with(density) { HhySize.TopAppBarHeight.roundToPx() }
-    val mediaRequest = remember(mediaUrl, context, mediaWidthPx, mediaHeightPx) {
-        mediaUrl?.let { r13MediaRequest(context, it, mediaWidthPx, mediaHeightPx) }
-    }
-    val mediaPainter = rememberAsyncImagePainter(model = mediaRequest)
+    val mediaPainter = rememberDrawablePainter((mediaResult as? SuccessResult)?.drawable)
     val mediaState = when {
         mediaUrl == null -> "unavailable"
-        mediaPainter.state is AsyncImagePainter.State.Success -> "loaded"
-        mediaPainter.state is AsyncImagePainter.State.Error -> "error"
+        mediaResult is SuccessResult -> "loaded"
+        mediaResult is ErrorResult -> "error"
         else -> "loading"
     }
     Row(
@@ -385,7 +389,7 @@ private fun R13ActivityRow(
             contentAlignment = Alignment.Center,
         ) {
             HhyIcon(contentTypeIcon(item.contentType), null, tint = HhyColors.BrandPrimary)
-            if (mediaRequest != null) {
+            if (mediaUrl != null) {
                 Image(
                     painter = mediaPainter,
                     contentDescription = when (mediaState) {

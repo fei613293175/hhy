@@ -27,6 +27,7 @@
 - `CR-0406`完整修复Commit `5cd3dabee40aadd8c906d4307fa3d4c502360011`已在`obx-test`固定镜像完成212任务AndroidTest编译，`BUILD SUCCESSFUL in 1m20s`，本机/远端源码SHA-256均为`E658EFC4BDC96406F156556155564323D4B7EBB363ED5ABDB4081785D6E8FA20`。`CR-0407`只授权唯一`request019`执行一次Attempt 19；Attempt 18不得重跑，Attempt 20不授权，全部业务与视觉门槛保持不变。
 - Attempt 19 Run `30269439274`已通过候选请求、编译、Lint、单测和打包，并越过自动登录、我的页及收藏导航，但第一张截图前再次精确失败为`expected=3 observedSuccess=2 visibleSuccess=2 errors=0 loading=1`；runtime artifact digest为`7D7FB9DE918BFE435159F2234F801640823606972ED6DFBC43AFDE7070CA54E9`，四张截图未生成且不得交付APK。`CR-0408`停止继续猜测滚动行为，改为从正式`state.items`提取经安全过滤、去重的真实媒体URL，使用项目既有Coil按与页面painter完全一致的确定尺寸预取；页面仍以独立`AsyncImagePainter.State`和三张真实媒体门禁判定，不接受占位图或降低数量。
 - `CR-0408`修复Commit `4d6fd4d7a61cbdb6db465534bebbe5c8375c45e4`已通过90项候选治理、Android UI基础、严格连续性和`obx-test`固定镜像223任务，`BUILD SUCCESSFUL in 1m48s`，本机/远端源码SHA-256均为`154C23A1C52FF22BF19D93CCF8134DFCED4C4901F54B202B44813DD9A65AC690`。`CR-0409`只授权唯一`request020`执行一次Attempt 20；Attempt 19不得重跑，Attempt 21不授权，全部业务与视觉门槛保持不变。
+- Attempt 20 Run `30272884567`的候选请求、编译、Lint、单测和打包通过，但模拟器Job `90000972687`在第一张截图前仍报告`expected=3 observedSuccess=2 visibleSuccess=2 errors=0 loading=1`；三条夹具内容确认共用同一READY媒体对象，证明缓存预取不能消除每行独立`rememberAsyncImagePainter`生命周期竞态。`CR-0410`改为由列表级官方Coil `ImageResult`作为唯一真实加载事实：相同安全URL只加载一次，`SuccessResult`直接渲染真实Drawable并供三行复用，`ErrorResult`保持硬失败；四张截图未生成，Attempt 20不得重跑或交付。
 
 ## R13活动业务可观测性与隔离Staging验收 · 2026-07-27
 

@@ -1,19 +1,19 @@
 {
   "version": "1.0",
-  "generated_at": "2026-07-27T13:57:28Z",
-  "context_hash": "4c39b570fa15c33604990070a0a18475e273e46d3db05409bd271ec0974ef2a1",
+  "generated_at": "2026-07-27T14:22:33Z",
+  "context_hash": "9861f58b1d5cbc429d50c09663944c4eeb668193b0f87984ff1e031c7b73cb10",
   "fingerprint_mode": "SESSION_DELTA",
   "project_fingerprint": {
-    "sha256": "c145385e7d2381be90bb5fbce58f686d57c349809849d2dd5976589fa6f92e42",
-    "file_count": 56
+    "sha256": "ca655b92043f772585773f2dd40e83cf92bc3fcdefca81fd230f1b2465471bdf",
+    "file_count": 57
   },
   "yaml": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.yaml",
-    "sha256": "d499c6e2cc4cbdfc65271503c4f8b2f83221697418578e175a7002d2954c3038"
+    "sha256": "57116f27442b5bf72439099ca69ce96a285aaef13055cd7960f5eca36600305f"
   },
   "markdown": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.md",
-    "sha256": "973a86af8921e683fb074f64d478226a2d36a9ecdcfe0c18aac1c4dabad9aaf2"
+    "sha256": "7f433979bed134e65619f93f04d8407d854043f1b5d92f90236a918791f6667f"
   },
   "sources": [
     {
@@ -28,7 +28,7 @@
     },
     {
       "path": "CURRENT_STATUS.yaml",
-      "sha256": "cadd0fbf254416d036d61d442644e187bec7964aa23736bfb273353d1151737d",
+      "sha256": "6d5d2e209a8f9c260874ae2653ac3e8ccdeb992ee7669289726d96ae693cbe27",
       "bytes": 4568
     },
     {
@@ -48,8 +48,8 @@
     },
     {
       "path": "docs/03-continuity/PROBLEM_REGISTRY.yaml",
-      "sha256": "5424fe9a8de39fd14ac757bc74bcde0050c96775bb182ccac8717e0ae95a9de9",
-      "bytes": 210407
+      "sha256": "f91420b3621e869f97453bc56357c88609ff35c500c308414443569c88429767",
+      "bytes": 211606
     },
     {
       "path": "docs/03-continuity/REUSABLE_PATTERNS.md",
@@ -83,12 +83,12 @@
     },
     {
       "path": ".continuity/EVENT_LOG.jsonl",
-      "sha256": "da6e211eb945e435d1df76fead399eceafac4911de0633dd28d3a3a345982cbe",
-      "bytes": 2207986
+      "sha256": "f2362663f0e05aa647c84b1a3d0c6393c934154f3f380e014480f1f29ca3db75",
+      "bytes": 2210594
     },
     {
       "path": ".continuity/SESSION_INDEX.yaml",
-      "sha256": "6b6c76f71163fdc7585627a148e111361734c02aeaedecfea970626425c3e078",
+      "sha256": "87d543b371d908e774882268e07d9f35ee282556a1211dc1bb1aafa4bf6c69e1",
       "bytes": 59039
     },
     {
@@ -103,12 +103,12 @@
     },
     {
       "path": ".continuity/CHANGE_REQUEST_INDEX.yaml",
-      "sha256": "54d14fb8a50735f15093a147cfa41ee2d308104737ebda9f8245681ee5bb36d0",
-      "bytes": 1439749
+      "sha256": "35b54ee2f2853a5d14a3e8e6e8babb59aedf7fc436f3085736f958030f34d49b",
+      "bytes": 1442924
     },
     {
       "path": ".continuity/ACTIVE_SESSION.yaml",
-      "sha256": "20c09b681985c2cfea69dadbe5736e321786d620815a7824475587c47b202128",
+      "sha256": "f555d70ba520c56265fb7867edd5369bb99062941589d6b6b57c53ee2d7fee3d",
       "bytes": 548
     },
     {
@@ -163,13 +163,13 @@
     },
     {
       "path": "docs/03-continuity/sessions/2026-07/SES-20260726T191158Z-2B506AB7.md",
-      "sha256": "d6087f6297448e569a39db61fe4895261aa588c0e614a7b2692f416870582921",
-      "bytes": 233880
+      "sha256": "3f45734fafebfc7385249271e0d29a684f09b7f2a1ef6b03de66ac00fbfb1ca4",
+      "bytes": 245639
     },
     {
-      "path": ".continuity/checkpoints/SES-20260726T191158Z-2B506AB7/0059.yaml",
-      "sha256": "80907020fe17124fd4287f0b9fc908be3b040463b4d8c7324451a71db992f5b6",
-      "bytes": 29250
+      "path": ".continuity/checkpoints/SES-20260726T191158Z-2B506AB7/0061.yaml",
+      "sha256": "d637f2b8fb04b03cc0d4b12aa557d2d3f14b36ece0255b52399684b0a98e1471",
+      "bytes": 29172
     },
     {
       "path": "docs/03-continuity/change-requests/CR-0377-建立R13收藏历史分享最终Android候选.md",
@@ -335,6 +335,11 @@
       "path": "docs/03-continuity/change-requests/CR-0409-授权CR-0408数据驱动预取后的唯一R13候选attempt20.md",
       "sha256": "5d48dd0da028c5bc6bdf5e7dee54f883562067cfa2565e28d93cc87a190d0489",
       "bytes": 2717
+    },
+    {
+      "path": "docs/03-continuity/change-requests/CR-0410-消除R13每行独立painter永久loading并集中复用Coil真实结果.md",
+      "sha256": "fe7a452414268b4dea7939f9635ca7293d53d8071c5814f691ad298603fc87b0",
+      "bytes": 3191
     }
   ]
 }
