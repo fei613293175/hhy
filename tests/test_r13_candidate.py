@@ -14,6 +14,7 @@ VERSION_TEST = ROOT / "apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetad
 REQUEST = ROOT / "config/android-candidate-request.yaml"
 ACTIVITY_SCREEN = ROOT / "apps/android/feature/activity/src/main/java/cc/orbexa/hhy/activity/R13ActivityScreens.kt"
 PROJECT_SCREEN = ROOT / "apps/android/feature/project/src/main/java/cc/orbexa/hhy/project/R08ProjectScreens.kt"
+SHELL_SCREEN = ROOT / "apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt"
 
 
 class R13CandidateTest(unittest.TestCase):
@@ -123,20 +124,30 @@ class R13CandidateTest(unittest.TestCase):
         self.assertIn('clickExactText("再检查一下")', self.journey)
         self.assertNotIn("authenticatedR12PagesProduceBoundVisualEvidence", self.journey)
 
-    def test_candidate_entry_accepts_only_usable_authenticated_shell_states(self) -> None:
+    def test_candidate_entry_requires_actionable_authenticated_shell(self) -> None:
         self.assertIn('waitForAuthenticatedShell()', self.journey)
         helper = self.journey[
             self.journey.index("private fun waitForAuthenticatedShell"):
             self.journey.index("private fun clickExactText")
         ]
+        self.assertIn('By.res("hhy.shell.authenticated")', helper)
+        self.assertIn('By.res("shell.navigation.me")', helper)
+        self.assertIn('it.isClickable && it.isEnabled', helper)
+        self.assertNotIn("acceptedScreens", helper)
         self.assertIn('By.res("hhy.screen.r06.home.loaded")', helper)
         self.assertIn('By.res("hhy.screen.r06.home.error")', helper)
-        self.assertEqual(2, helper.count('By.res("hhy.screen.r06.home.'))
+        self.assertIn('By.res("hhy.screen.r06.home.loading")', helper)
+        self.assertEqual(3, helper.count('By.res("hhy.screen.r06.home.'))
         self.assertIn("SystemClock.uptimeMillis() + 30_000", helper)
         self.assertNotIn("SystemClock.sleep", helper)
-        self.assertLess(self.journey.index("waitForAuthenticatedShell()"), self.journey.index('clickExactText("我的")'))
+        self.assertLess(self.journey.index("waitForAuthenticatedShell()"), self.journey.index('clickResource("shell.navigation.me")'))
+        self.assertLess(self.journey.index("val authenticatedShellReady = waitForAuthenticatedShell()"), self.journey.index("authenticatedShellDiagnostics()"))
         self.assertIn('waitForScreen("hhy.screen.r12.me"', self.journey)
         self.assertNotIn('waitForScreen("hhy.screen.r06.home.loaded")', self.journey)
+
+        shell = SHELL_SCREEN.read_text(encoding="utf-8")
+        self.assertIn('.testTag("hhy.shell.authenticated")', shell)
+        self.assertIn('.testTag("shell.navigation.${item.destination.name.lowercase()}")', shell)
 
     def test_project_detail_exposes_stable_resources_for_candidate_actions(self) -> None:
         source = PROJECT_SCREEN.read_text(encoding="utf-8")

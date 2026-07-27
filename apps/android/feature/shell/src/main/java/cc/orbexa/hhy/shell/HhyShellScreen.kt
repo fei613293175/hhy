@@ -233,8 +233,13 @@ fun HhyShellScreen(
         HomeCategory("团队长", HhyIcons.Profile, "home.category.team-leader", onOpenTeamLeaders),
     )
 
+    Box(
+        modifier = Modifier.fillMaxSize()
+            .semantics { testTagsAsResourceId = true }
+            .testTag("hhy.shell.authenticated"),
+    ) {
     Scaffold(
-        modifier = Modifier.semantics { testTagsAsResourceId = true }.testTag(screenMarker),
+        modifier = Modifier.fillMaxSize().testTag(screenMarker),
         topBar = {
             if (selectedDestination == HhyTopLevelDestination.HOME) TopAppBar(
                 title = {
@@ -261,7 +266,8 @@ fun HhyShellScreen(
             NavigationBar(modifier = Modifier.fillMaxWidth()) {
                 navigationItems.forEach { item ->
                     NavigationBarItem(
-                        modifier = Modifier.weight(1f),
+                        modifier = Modifier.weight(1f)
+                            .testTag("shell.navigation.${item.destination.name.lowercase()}"),
                         selected = selectedDestination == item.destination,
                         enabled = item.enabled,
                         onClick = {
@@ -347,6 +353,7 @@ fun HhyShellScreen(
                 )
             }
         }
+    }
     }
 }
 

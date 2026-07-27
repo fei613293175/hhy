@@ -81,13 +81,14 @@ class ReleaseCandidateSmokeTest {
 
     @Test
     fun authenticatedR13PagesProduceBoundVisualEvidence() {
+        val authenticatedShellReady = waitForAuthenticatedShell()
         assertTrue(
-            "Authenticated shell did not reach a usable screen identity",
-            waitForAuthenticatedShell(),
+            "Authenticated shell did not become actionable: ${authenticatedShellDiagnostics()}",
+            authenticatedShellReady,
         )
         assertFalse("Cold start exposed connection failure", device.hasObject(By.text("暂时无法连接")))
 
-        clickExactText("我的")
+        clickResource("shell.navigation.me")
         assertTrue(
             "R13 me home did not become visible",
             waitForScreen("hhy.screen.r12.me", gone = "hhy.screen.r06.home.loaded"),
@@ -171,19 +172,40 @@ class ReleaseCandidateSmokeTest {
     }
 
     private fun waitForAuthenticatedShell(): Boolean {
-        val acceptedScreens = listOf(
-            By.res("hhy.screen.r06.home.loaded"),
-            By.res("hhy.screen.r06.home.error"),
-        )
+        val shell = By.res("hhy.shell.authenticated")
+        val me = By.res("shell.navigation.me")
         val deadline = SystemClock.uptimeMillis() + 30_000
         do {
-            if (acceptedScreens.any { selector -> device.hasObject(selector) }) {
+            val meNode = device.findObject(me)
+            val actionableMe = meNode?.let { node ->
+                generateSequence(node) { current -> current.parent }
+                    .firstOrNull { it.isClickable && it.isEnabled }
+            }
+            if (device.hasObject(shell) && actionableMe != null) {
                 device.waitForIdle(2_000)
                 return true
             }
             device.waitForIdle(250)
         } while (SystemClock.uptimeMillis() < deadline)
-        return acceptedScreens.any { selector -> device.hasObject(selector) }
+        return false
+    }
+
+    private fun authenticatedShellDiagnostics(): String {
+        val homeStates = listOf(
+            By.res("hhy.screen.r06.home.loaded"),
+            By.res("hhy.screen.r06.home.error"),
+            By.res("hhy.screen.r06.home.loading"),
+        ).mapIndexedNotNull { index, selector ->
+            if (device.hasObject(selector)) listOf("loaded", "error", "loading")[index] else null
+        }
+        val meNode = device.findObject(By.res("shell.navigation.me"))
+        val meActionable = meNode?.let { node ->
+            generateSequence(node) { current -> current.parent }
+                .any { it.isClickable && it.isEnabled }
+        } ?: false
+        return "shell=${device.hasObject(By.res("hhy.shell.authenticated"))} " +
+            "home=${homeStates.ifEmpty { listOf("none") }.joinToString()} " +
+            "meVisible=${meNode != null} meActionable=$meActionable"
     }
 
     private fun clickExactText(value: String) {
