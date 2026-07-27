@@ -1,9 +1,9 @@
 protocol_version: '1.0'
 cr_id: CR-0418
 title: 纠正视觉catalog-only误要求未实现代码
-status: IMPLEMENTING
+status: IMPLEMENTED
 created_at: '2026-07-27T18:41:49Z'
-updated_at: '2026-07-27T18:42:38Z'
+updated_at: '2026-07-27T19:25:50Z'
 requester_actor_id: codex-root-r14-20260728
 approver_actor_id: codex-reviewer-r14-entry-20260728
 task_id: TASK-R14-001
@@ -40,5 +40,12 @@ decision_log:
   status: IMPLEMENTING
   note: 开始修正catalog-only实现路径阶段语义并补回归。
   session_id: SES-20260727T181928Z-B51C7408
+- at: '2026-07-27T19:25:50Z'
+  actor_id: codex-root-r14-20260728
+  status: IMPLEMENTED
+  note: catalog-only编码前语义修正及完整门禁不变回归已在实现提交中完成
+  session_id: SES-20260727T181928Z-B51C7408
 session_ids:
 - SES-20260727T181928Z-B51C7408
+implementation_commits:
+- 11bc72411230506a2c6cf696d546621c5efc7124

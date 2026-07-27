@@ -1,9 +1,9 @@
 protocol_version: '1.0'
 cr_id: CR-0417
 title: 建立R14聊天开发入口与六页精确视觉合同
-status: IMPLEMENTING
+status: IMPLEMENTED
 created_at: '2026-07-27T18:24:55Z'
-updated_at: '2026-07-27T18:38:52Z'
+updated_at: '2026-07-27T19:25:45Z'
 requester_actor_id: codex-root-r14-20260728
 approver_actor_id: codex-reviewer-r14-entry-20260728
 task_id: TASK-R14-001
@@ -90,5 +90,12 @@ decision_log:
   status: IMPLEMENTING
   note: 开始修复R14视觉入口、聊天REST/WebSocket显式Schema、技术字段可见性和专项非零门禁。
   session_id: SES-20260727T181928Z-B51C7408
+- at: '2026-07-27T19:25:45Z'
+  actor_id: codex-root-r14-20260728
+  status: IMPLEMENTED
+  note: R14六页视觉、页面目录、REST/WebSocket消息合同、执行计划和专项门禁已在实现提交中完成
+  session_id: SES-20260727T181928Z-B51C7408
 session_ids:
 - SES-20260727T181928Z-B51C7408
+implementation_commits:
+- 11bc72411230506a2c6cf696d546621c5efc7124

@@ -84,3 +84,10 @@ check_ui_visual_acceptance.py的--catalog-only帮助语义是仅验证合同覆�
 - Status：`IMPLEMENTING`
 - Session：`SES-20260727T181928Z-B51C7408`
 - Note：开始修正catalog-only实现路径阶段语义并补回归。
+
+## 状态记录 · 2026-07-27T19:25:50Z
+
+- Actor：`codex-root-r14-20260728`
+- Status：`IMPLEMENTED`
+- Session：`SES-20260727T181928Z-B51C7408`
+- Note：catalog-only编码前语义修正及完整门禁不变回归已在实现提交中完成
