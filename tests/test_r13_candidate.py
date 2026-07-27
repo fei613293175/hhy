@@ -158,6 +158,25 @@ class R13CandidateTest(unittest.TestCase):
         self.assertIn('.testTag("hhy.shell.authenticated")', shell)
         self.assertIn('.testTag("shell.navigation.${item.destination.name.lowercase()}")', shell)
 
+    def test_screen_transitions_continue_driving_compose(self) -> None:
+        helper = self.journey[
+            self.journey.index("private fun waitForScreen"):
+            self.journey.index("private fun waitForAuthenticatedShell")
+        ]
+        self.assertIn("val requiredDeadline = SystemClock.uptimeMillis() + 30_000", helper)
+        self.assertIn("val goneDeadline = SystemClock.uptimeMillis() + 15_000", helper)
+        self.assertEqual(2, helper.count("composeRule.waitForIdle()"))
+        self.assertIn("requiredVisible=$requiredVisible", helper)
+        self.assertIn('gone=${gone ?: "none"}', helper)
+        self.assertIn("goneVisible=$goneVisible", helper)
+        self.assertIn("requiredVisible=true gone=$gone goneVisible=true", helper)
+        self.assertEqual(2, helper.count('throw AssertionError("Screen transition failed: $screenWaitDiagnostics")'))
+        self.assertNotIn("Until.hasObject", helper)
+        self.assertNotIn("Until.gone", helper)
+        self.assertNotIn("SystemClock.sleep", helper)
+        self.assertIn("R13 me home did not become visible: $screenWaitDiagnostics", self.journey)
+        self.assertIn("R13 favorites did not return to me home: $screenWaitDiagnostics", self.journey)
+
     def test_project_detail_exposes_stable_resources_for_candidate_actions(self) -> None:
         source = PROJECT_SCREEN.read_text(encoding="utf-8")
         self.assertIn('Modifier.testTag("r13.action.project.share")', source)

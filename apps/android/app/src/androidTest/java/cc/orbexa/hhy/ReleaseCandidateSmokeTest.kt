@@ -41,6 +41,7 @@ class ReleaseCandidateSmokeTest {
     private lateinit var target: Context
     private lateinit var sessionJson: String
     private var previousScreenDigest: String? = null
+    private var screenWaitDiagnostics: String = "not-run"
     private val screenshotDirectory = "Pictures/hhy-ci-screenshots"
 
     private val activityMediaTitles = listOf(
@@ -91,7 +92,7 @@ class ReleaseCandidateSmokeTest {
 
         clickResource("shell.navigation.me")
         assertTrue(
-            "R13 me home did not become visible",
+            "R13 me home did not become visible: $screenWaitDiagnostics",
             waitForScreen("hhy.screen.r12.me", gone = "hhy.screen.r06.home.loaded"),
         )
         navigateToR13Content(
@@ -107,7 +108,10 @@ class ReleaseCandidateSmokeTest {
         assertNoForbiddenVisibleText()
 
         device.pressBack()
-        assertTrue("R13 favorites did not return to me home", waitForScreen("hhy.screen.r12.me"))
+        assertTrue(
+            "R13 favorites did not return to me home: $screenWaitDiagnostics",
+            waitForScreen("hhy.screen.r12.me"),
+        )
         navigateToR13Content(
             resource = "mine.history",
             mode = "history",
@@ -166,8 +170,35 @@ class ReleaseCandidateSmokeTest {
     }
 
     private fun waitForScreen(required: String, gone: String? = null): Boolean {
-        if (!device.wait(Until.hasObject(By.res(required)), 30_000)) return false
-        if (gone != null && !device.wait(Until.gone(By.res(gone)), 15_000)) return false
+        val requiredDeadline = SystemClock.uptimeMillis() + 30_000
+        do {
+            composeRule.waitForIdle()
+            val requiredVisible = device.hasObject(By.res(required))
+            val goneVisible = gone?.let { device.hasObject(By.res(it)) } ?: false
+            screenWaitDiagnostics =
+                "required=$required requiredVisible=$requiredVisible " +
+                    "gone=${gone ?: "none"} goneVisible=$goneVisible"
+            if (requiredVisible) break
+            device.waitForIdle(250)
+        } while (SystemClock.uptimeMillis() < requiredDeadline)
+        if (!device.hasObject(By.res(required))) {
+            throw AssertionError("Screen transition failed: $screenWaitDiagnostics")
+        }
+
+        if (gone != null) {
+            val goneDeadline = SystemClock.uptimeMillis() + 15_000
+            while (device.hasObject(By.res(gone)) && SystemClock.uptimeMillis() < goneDeadline) {
+                composeRule.waitForIdle()
+                screenWaitDiagnostics =
+                    "required=$required requiredVisible=true gone=$gone goneVisible=true"
+                device.waitForIdle(250)
+            }
+            if (device.hasObject(By.res(gone))) {
+                throw AssertionError("Screen transition failed: $screenWaitDiagnostics")
+            }
+        }
+        screenWaitDiagnostics =
+            "required=$required requiredVisible=true gone=${gone ?: "none"} goneVisible=false"
         device.waitForIdle(2_000)
         return true
     }

@@ -25019,3 +25019,44 @@ change_requests:
     session_id: SES-20260726T191158Z-2B506AB7
   session_ids:
   - SES-20260726T191158Z-2B506AB7
+- protocol_version: '1.0'
+  cr_id: CR-0406
+  title: 修复R13候选切页等待未驱动Compose调度
+  status: APPROVED
+  created_at: '2026-07-27T12:46:12Z'
+  updated_at: '2026-07-27T12:46:38Z'
+  requester_actor_id: codex-root-r13-candidate-20260727
+  approver_actor_id: codex-reviewer-r13-candidate-20260727
+  task_id: TASK-R13-007
+  session_id: SES-20260726T191158Z-2B506AB7
+  user_request: R13版本必须完成桌面交付并持续推进，不得原地循环
+  reason: Attempt18已经进入认证主框架，但点击我的后waitForScreen仅轮询UiAutomator，未像认证入口一样驱动Compose调度，导致hhy.screen.r12.me未出现且四张截图未生成
+  original_rule: R13候选waitForScreen只调用UiDevice.wait，Compose同步仅在waitForAuthenticatedShell执行；Attempt18点击shell.navigation.me后hhy.screen.r12.me未出现
+  new_rule: 候选所有页面转换等待必须在限定时窗内持续调用Compose测试规则同步，并同时等待目标marker出现及来源marker消失；失败必须输出required/gone可见性诊断，页面、登录、接口、媒体、四张截图和视觉门禁保持不变
+  impact_summary: 仅修复ReleaseCandidateSmokeTest页面转换同步与诊断，并记录Attempt18运行事实；不修改业务功能、正式UI、API、数据库或候选门槛
+  impact:
+    files:
+    - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+    - tests/test_r13_candidate.py
+    - docs/03-continuity/PROBLEM_REGISTRY.yaml
+    - CHANGELOG.md
+    pages: []
+    apis: []
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - R13 waitForScreen Compose同步源码回归
+    - Android UI基础门禁
+    - R13候选治理回归
+    - obx-test AndroidTest编译
+    releases:
+    - R13
+    migration_and_compatibility: 纯androidTest兼容修复；正式APK运行时代码和数据契约不变，旧候选记录保持不可变，Attempt18不得重跑
+  user_confirmation: 项目所有者已长期授权持续开发并要求R13完成桌面交付，不逐次审批修复
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-27T12:46:38Z'
+    note: Attempt18日志明确为R13 me home did not become visible，修复边界仅为候选测试同步与诊断，未降低任何验收门槛
+  machine_record: .continuity/change_requests/CR-0406.yaml
+  document: docs/03-continuity/change-requests/CR-0406-修复R13候选切页等待未驱动Compose调度.md
