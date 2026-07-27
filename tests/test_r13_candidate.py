@@ -186,6 +186,15 @@ class R13CandidateTest(unittest.TestCase):
 
     def test_favorites_waits_for_all_real_media_before_visual_capture(self) -> None:
         source = ACTIVITY_SCREEN.read_text(encoding="utf-8")
+        self.assertIn("import coil.imageLoader", source)
+        self.assertIn("val mediaUrls = remember(state.items)", source)
+        self.assertIn("state.items.mapNotNull { item ->", source)
+        self.assertIn("secureActivityMediaUrl(item.media.firstOrNull()?.thumbnailUrl ?: item.media.firstOrNull()?.url)", source)
+        self.assertIn("}.distinct()", source)
+        self.assertIn("LaunchedEffect(context, mediaUrls, mediaWidthPx, mediaHeightPx)", source)
+        self.assertIn("context.imageLoader.execute(", source)
+        self.assertIn("r13MediaRequest(context, mediaUrl, mediaWidthPx, mediaHeightPx)", source)
+        self.assertEqual(1, source.count("ImageRequest.Builder(context)"))
         self.assertIn('val mediaWidthPx = with(density)', source)
         self.assertIn('val mediaHeightPx = with(density)', source)
         self.assertIn('ImageRequest.Builder(context)', source)
@@ -201,6 +210,8 @@ class R13CandidateTest(unittest.TestCase):
         self.assertNotIn('onSuccess = { mediaState = "loaded" }', source)
         self.assertNotIn('onError = { mediaState = "error" }', source)
         self.assertNotIn('var mediaState by remember(mediaUrl)', source)
+        self.assertNotIn("prefetchState", source)
+        self.assertNotIn('prepareLoadedMediaForCapture(expectedCount = 2)', self.journey)
         for description in (
             '"loaded" -> "内容图片：$mediaDescription"',
             '"error" -> "内容图片加载失败：${item.title}"',

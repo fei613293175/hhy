@@ -63,6 +63,7 @@ import androidx.compose.ui.semantics.testTagsAsResourceId
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.style.TextOverflow
+import coil.imageLoader
 import coil.compose.AsyncImagePainter
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
@@ -148,6 +149,10 @@ private fun R13ActivityListScreen(
     onSessionExpired: () -> Unit,
 ) {
     val scope = rememberCoroutineScope()
+    val context = LocalContext.current
+    val density = LocalDensity.current
+    val mediaWidthPx = with(density) { (HhySize.TopAppBarHeight * 1.55f).roundToPx() }
+    val mediaHeightPx = with(density) { HhySize.TopAppBarHeight.roundToPx() }
     val keys = remember { R13IntentKeys() }
     var state by remember(mode) { mutableStateOf(R13ActivityListState()) }
     var selectedCategory by remember { mutableStateOf<String?>(null) }
@@ -176,6 +181,18 @@ private fun R13ActivityListScreen(
     }
 
     LaunchedEffect(mode, accessToken) { load() }
+    val mediaUrls = remember(state.items) {
+        state.items.mapNotNull { item ->
+            secureActivityMediaUrl(item.media.firstOrNull()?.thumbnailUrl ?: item.media.firstOrNull()?.url)
+        }.distinct()
+    }
+    LaunchedEffect(context, mediaUrls, mediaWidthPx, mediaHeightPx) {
+        mediaUrls.forEach { mediaUrl ->
+            context.imageLoader.execute(
+                r13MediaRequest(context, mediaUrl, mediaWidthPx, mediaHeightPx),
+            )
+        }
+    }
     val visible = state.items.filter { selectedCategory == null || it.contentType == selectedCategory }
 
     Scaffold(
@@ -347,12 +364,7 @@ private fun R13ActivityRow(
     val mediaWidthPx = with(density) { (HhySize.TopAppBarHeight * 1.55f).roundToPx() }
     val mediaHeightPx = with(density) { HhySize.TopAppBarHeight.roundToPx() }
     val mediaRequest = remember(mediaUrl, context, mediaWidthPx, mediaHeightPx) {
-        mediaUrl?.let {
-            ImageRequest.Builder(context)
-                .data(it)
-                .size(Size(mediaWidthPx, mediaHeightPx))
-                .build()
-        }
+        mediaUrl?.let { r13MediaRequest(context, it, mediaWidthPx, mediaHeightPx) }
     }
     val mediaPainter = rememberAsyncImagePainter(model = mediaRequest)
     val mediaState = when {
@@ -433,6 +445,16 @@ private fun R13ActivityRow(
     }
     HorizontalDivider(modifier = Modifier.padding(start = HhySpacing.Lg + HhySize.TopAppBarHeight * 1.55f), color = HhyColors.Border)
 }
+
+private fun r13MediaRequest(
+    context: Context,
+    mediaUrl: String,
+    mediaWidthPx: Int,
+    mediaHeightPx: Int,
+): ImageRequest = ImageRequest.Builder(context)
+    .data(mediaUrl)
+    .size(Size(mediaWidthPx, mediaHeightPx))
+    .build()
 
 @Composable
 private fun R13TimeHeader(label: String) {

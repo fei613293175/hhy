@@ -25,6 +25,7 @@
 - attempt 18 Run `30265602004`的请求校验、编译、Lint、单测和打包通过，模拟器也已越过“正在启动”并进入可操作认证主框架，但点击`shell.navigation.me`后失败于`R13 me home did not become visible`；runtime artifact digest为`dee092bdd5b372c5cf4179ab8f9ab6b24e6a528336230c051fad90e641987722`，四张截图均未生成，`owner_test_allowed=false`。`CR-0406`保持原30秒目标页与15秒来源页消失时窗，在每轮页面转换观测前持续同步Compose调度并输出required/gone可见性诊断；Attempt 18不得重跑，Attempt 19仍须等待独立精确授权。
 - 为避免同一Compose调度根因从“我的”页转移到收藏、历史、异步媒体或截图阶段后再次消耗GitHub候选，`CR-0406`在同一批准范围内进一步让所有候选资源点击、R13 phase轮询、媒体终态等待和截图稳定采样先同步Compose；84项候选与共享治理回归、Android UI基础和diff检查通过，待精确Commit固定镜像复编后再决定Attempt 19。
 - `CR-0406`完整修复Commit `5cd3dabee40aadd8c906d4307fa3d4c502360011`已在`obx-test`固定镜像完成212任务AndroidTest编译，`BUILD SUCCESSFUL in 1m20s`，本机/远端源码SHA-256均为`E658EFC4BDC96406F156556155564323D4B7EBB363ED5ABDB4081785D6E8FA20`。`CR-0407`只授权唯一`request019`执行一次Attempt 19；Attempt 18不得重跑，Attempt 20不授权，全部业务与视觉门槛保持不变。
+- Attempt 19 Run `30269439274`已通过候选请求、编译、Lint、单测和打包，并越过自动登录、我的页及收藏导航，但第一张截图前再次精确失败为`expected=3 observedSuccess=2 visibleSuccess=2 errors=0 loading=1`；runtime artifact digest为`7D7FB9DE918BFE435159F2234F801640823606972ED6DFBC43AFDE7070CA54E9`，四张截图未生成且不得交付APK。`CR-0408`停止继续猜测滚动行为，改为从正式`state.items`提取经安全过滤、去重的真实媒体URL，使用项目既有Coil按与页面painter完全一致的确定尺寸预取；页面仍以独立`AsyncImagePainter.State`和三张真实媒体门禁判定，不接受占位图或降低数量。
 
 ## R13活动业务可观测性与隔离Staging验收 · 2026-07-27
 
