@@ -2,8 +2,8 @@ schema_version: 1
 status: REQUESTED
 release: R13
 candidate: true
-remediation_attempt: 14
-request_id: R13-CANDIDATE-20260727-014
-reason: R13 attempt 13 Run 30244068773的候选请求、编译、Lint、单测、打包、自动登录和收藏导航均通过，但19次结构化DOWN/UP扫描后仍在第一张截图前精确失败为expected=3 observedSuccess=2 visibleSuccess=2 errors=0 loading=1；runtime artifact digest 1D8972F08ADB4F9DEAFBF911CADEBDF58A4DFAA6E510B17C28E4B9A79AC37F已消费且不得重跑、晋升或交付，四张截图未生成，无应用崩溃、ANR、Coil或媒体错误。夹具核验确认三个候选条目均为PROJECT，CR-0394分类轮换方案未实施并由CR-0395纠正；候选改用Compose LazyColumn原生performScrollTo按三个唯一业务标题逐项进入活动视口，再回到首项并由UiAutomator在原30秒内严格复验三条Success、零Loading、零Error。首个修复Commit 8a73630d7cda118fa7fb88942e38b06939dc95a4已通过72项候选治理回归、Android UI基础门禁、git diff检查和obx-test固定镜像app:compileDebugAndroidTestKotlin 212任务；本机与远端Kotlin SHA-256均为A8EDB9B969F19FD635CE8C228BC700810A601F4C62648F8DF42EE0BAC0731E20。本请求只允许该Commit后继候选提交执行一次精确attempt 14，不授权attempt 15。
-attempt_exception_id: CR-0395
-required_fix_commit: 8a73630d7cda118fa7fb88942e38b06939dc95a4
+remediation_attempt: 15
+request_id: R13-CANDIDATE-20260727-015
+reason: R13 attempt 14 Run 30246999437的编译、Lint、单测和打包通过，但首次运行及唯一允许的失败Job重跑都在R13旅程前被首页loaded单态断言阻断；第二次runtime artifact SHA-256为E8B4881EFCD76D1F486FA40D42C9CD072E1AF720F0305B80B60C5C0CA6348EE5，应用正常启动并保持前台30秒，无崩溃或ANR，四张R13截图未生成，CR-0395媒体激活代码尚未执行。CR-0396把候选入口收敛为可操作的已认证主框架，home.loaded或home.error均可继续，登录、会话验证中和启动失败仍阻断；R13收藏、历史、详情、真实媒体、分享、反馈、四张截图和视觉门槛不变。首个修复Commit 035a80b21b51f6652cc1bf107a12e457eb06620b已通过40项候选与共享治理回归、17项治理知识回归、Android UI基础门禁、git diff检查和obx-test固定镜像app:compileDebugAndroidTestKotlin 212任务；本机与远端Kotlin SHA-256均为F3CA9934A993ED8310E9C79E8964F58D4F85F38E37D12670CAA3AF381B337F22。本请求只允许该Commit后继候选提交执行一次精确attempt 15，不授权attempt 16。
+attempt_exception_id: CR-0398
+required_fix_commit: 035a80b21b51f6652cc1bf107a12e457eb06620b
