@@ -1,28 +1,31 @@
-id: TASK-R13-008
-title: 收藏、历史、分享与行为审计版本关闭与无状态交接
+id: TASK-R14-001
+title: 一对一聊天核心开发就绪核验、故事领取与变更基线
 status: READY
-release: R13
+release: R14
 requirements:
-- REQ-PUBLISHER-001
-- REQ-ACTIVITY-001
+- REQ-CHAT-001
+- REQ-CHAT-002
 - REQ-APK-001
-depends_on:
-- TASK-R13-007
-definition_of_ready: releases/R13/DEFINITION_OF_READY.yaml
-stories: releases/R13/STORIES.yaml
+depends_on: []
+definition_of_ready: releases/R14/DEFINITION_OF_READY.yaml
+stories: releases/R14/STORIES.yaml
 steps:
-- 全新AI仅凭仓库可继续
-- 工作区干净且Tag可追溯
+- releases/R14/DEFINITION_OF_READY.yaml 全部适用项PASS
+- releases/R14/STORIES.yaml 故事责任人和依赖已领取
+- 更新Release Manifest与CR记录
+- python scripts/check_v122_documentation.py --release R14
 acceptance:
-- 无TODO/生产Mock
-- 代码、文档、测试、追踪同步更新
-- 全新AI仅凭仓库可继续
-- 工作区干净且Tag可追溯
+- 页面、字段、状态、动作、API、配置、数据和测试无TBD
+- 不适用项明确N/A及原因
+- releases/R14/DEFINITION_OF_READY.yaml 全部适用项PASS
+- releases/R14/STORIES.yaml 故事责任人和依赖已领取
+- 更新Release Manifest与CR记录
+- python scripts/check_v122_documentation.py --release R14
 claim_required: true
-start_command: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R13-008
+start_command: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R14-001
 commands:
   resume: python3 scripts/continuity.py resume
-  start: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R13-008
+  start: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R14-001
   checkpoint: python3 scripts/continuity.py checkpoint --summary '<阶段完成>' --next-step '<精确下一步>' --test 'name|PASS|evidence|note' --parallel-assessment
     <ASSESSMENT> --parallel-reason '<未委托原因>'
   handoff: python3 scripts/continuity.py handoff --actor <ACTOR_ID> --reason '<移交原因>' --next-step '<精确下一步>'
@@ -30,3 +33,9 @@ commands:
   cr_amend: python3 scripts/continuity.py cr-amend --actor <ACTOR_ID> --cr <CR_ID> --original-rule '<原规则>' --new-rule '<新规则>' --impact-summary
     '<影响摘要>' --migration-and-compatibility '<迁移兼容说明>' --file <PATH> --test '<TEST>' --release <RELEASE>
 next_after: 由当前TASKS.yaml依赖关系决定
+deferred_task:
+  id: TASK-R13-008
+  release: R13
+  status: BLOCKED
+  reason: R13固定工具链TEST_APK、稳定签名、版本身份、四方SHA、桌面说明和公网注册恢复均已PASS；当前Commit缺SCR-FAV-001、SCR-HIS-001、SHEET-SHARE-001、SHEET-CONTENT-INVALID-001四页截图，AC-R13-001/002/003/005/006未回填，AC-R13-004证据路径需结构化，六项治理审计缺失，因此保持BLOCKED_EXTERNAL_GATE，恢复条件为补齐当前Commit视觉证据、验收矩阵、治理审计并重跑machine-close；项目所有者真机反馈继续异步PENDING
+  resume_after: 项目所有者真机反馈到达后，在当前安全检查点恢复验收与关闭

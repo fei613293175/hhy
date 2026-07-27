@@ -133,7 +133,7 @@ tasks:
   completed_at: '2026-07-27T16:28:13Z'
 - id: TASK-R13-008
   title: 收藏、历史、分享与行为审计版本关闭与无状态交接
-  status: READY
+  status: BLOCKED
   depends_on:
   - TASK-R13-007
   requirements: *id001
@@ -147,6 +147,8 @@ tasks:
   - 全新AI仅凭仓库可继续
   - 工作区干净且Tag可追溯
   session_log_required: true
+  blocker: R13固定工具链TEST_APK、稳定签名、版本身份、四方SHA、桌面说明和公网注册恢复均已PASS；当前Commit缺SCR-FAV-001、SCR-HIS-001、SHEET-SHARE-001、SHEET-CONTENT-INVALID-001四页截图，AC-R13-001/002/003/005/006未回填，AC-R13-004证据路径需结构化，六项治理审计缺失，因此保持BLOCKED_EXTERNAL_GATE，恢复条件为补齐当前Commit视觉证据、验收矩阵、治理审计并重跑machine-close；项目所有者真机反馈继续异步PENDING
+  blocked_at: '2026-07-27T18:15:05Z'
 version: 1.2.2
 definition_of_ready: releases/R13/DEFINITION_OF_READY.yaml
 story_backlog: releases/R13/STORIES.yaml

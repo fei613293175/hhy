@@ -1904,3 +1904,13 @@
 - Actor：`codex-root-r13-candidate-20260727`
 - 摘要：R13 TEST_APK已完成固定工具链构建、稳定签名、正式API和四方SHA交付，owner真机反馈保持异步PENDING
 - 记录：`docs/03-continuity/sessions/2026-07/SES-20260726T191158Z-2B506AB7.md`
+
+## TASK-R13-008 · BLOCKED · 2026-07-27T18:15:05Z
+
+- Task close: TASK-R13-008 / SES-20260727T163211Z-EDFF7E87
+- Release：`R13`
+- Story：`STORY-R13-003`
+- Actor：`codex-root-r13-close-20260728`
+- 摘要：R13固定工具链TEST_APK、稳定签名、版本身份、四方SHA、桌面说明和公网注册恢复均已PASS；当前Commit缺SCR-FAV-001、SCR-HIS-001、SHEET-SHARE-001、SHEET-CONTENT-INVALID-001四页截图，AC-R13-001/002/003/005/006未回填，AC-R13-004证据路径需结构化，六项治理审计缺失，因此保持BLOCKED_EXTERNAL_GATE，恢复条件为补齐当前Commit视觉证据、验收矩阵、治理审计并重跑machine-close；项目所有者真机反馈继续异步PENDING
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260727T163211Z-EDFF7E87.md`
+

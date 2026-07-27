@@ -1,14 +1,14 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-27T18:05:16Z
-- Context Hash：`e4f57e1fefb582b75a825831a23338dac3ec19df7469cdbf242bd46bcd9db46c`
+- 生成时间：2026-07-27T18:15:27Z
+- Context Hash：`8bbd68d13539e6ccde099136dd6eece046e4116adbc381a9dd473e43c45bb615`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 规则就绪：`PASS`（`HASHED_CONTEXT_MANIFEST`）
 - 精确恢复命令：
 
 ```bash
-python3 scripts/continuity.py checkpoint --summary '<完成内容>' --next-step '<下一步>' --parallel-assessment <ASSESSMENT> --parallel-reason '<未委托原因>'
+python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R14-001
 ```
 
 ## 规则就绪
@@ -39,10 +39,10 @@ missing_sources: []
 ```yaml
 project: hhy-pro-platform
 baseline_version: 1.2.3
-phase: R13
-active_release: R13
-active_task: TASK-R13-008
-status: IN_PROGRESS
+phase: R14
+active_release: R14
+active_task: TASK-R14-001
+status: READY
 documentation_status: ZERO_BLOCKING_DOCUMENT_GAPS
 last_green_commit: b354505716b3e40a05708d47bfd02603d65faccc
 last_staging_apk: null
@@ -165,15 +165,15 @@ completed_tasks:
 - TASK-R13-005
 - TASK-R13-006
 - TASK-R13-007
-in_progress_tasks:
-- TASK-R13-008
+in_progress_tasks: []
 blocked_tasks:
 - TASK-R02-007
 - TASK-R03-007
 - TASK-R06-008
 - TASK-R07-008
-next_task: TASK-R13-008
-updated_at: '2026-07-27T18:05:10Z'
+- TASK-R13-008
+next_task: TASK-R14-001
+updated_at: '2026-07-27T18:15:21Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -205,19 +205,17 @@ validation:
 continuity:
   protocol_version: '1.0'
   mode: ENFORCED
-  active_session_id: SES-20260727T163211Z-EDFF7E87
-  actor_id: codex-root-r13-close-20260728
-  story_id: STORY-R13-003
-  lease_expires_at: '2026-07-27T22:05:10Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260727T163211Z-EDFF7E87/0004.yaml
-  project_fingerprint: c7cb25b16d011ae5bd086cbe5586e12724a699e0397d9cd3f27c607cc95cc3d7
+  active_session_id: null
+  last_session_id: SES-20260727T163211Z-EDFF7E87
+  last_session_result: BLOCKED
+  last_checkpoint: .continuity/checkpoints/SES-20260727T163211Z-EDFF7E87/0005.yaml
+  last_handoff_bundle: null
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: b659a9f89a7456cb292f8e7ecf223fb5fe03c4da852d962e1b8a383ef7cad5e4
-    generated_at: '2026-07-27T17:48:54Z'
-  handoff_bundle: null
+    context_hash: 9579b0b1c16c84c1c29e17f05b1682071b7a191b59e451b88e2bff5127f18359
+    generated_at: '2026-07-27T18:15:17Z'
 ```
 
 ## 默认并行规则
@@ -364,31 +362,34 @@ push_preflight:
 ## 下一任务
 
 ```yaml
-id: TASK-R13-008
-title: 收藏、历史、分享与行为审计版本关闭与无状态交接
+id: TASK-R14-001
+title: 一对一聊天核心开发就绪核验、故事领取与变更基线
 status: READY
-release: R13
+release: R14
 requirements:
-- REQ-PUBLISHER-001
-- REQ-ACTIVITY-001
+- REQ-CHAT-001
+- REQ-CHAT-002
 - REQ-APK-001
-depends_on:
-- TASK-R13-007
-definition_of_ready: releases/R13/DEFINITION_OF_READY.yaml
-stories: releases/R13/STORIES.yaml
+depends_on: []
+definition_of_ready: releases/R14/DEFINITION_OF_READY.yaml
+stories: releases/R14/STORIES.yaml
 steps:
-- 全新AI仅凭仓库可继续
-- 工作区干净且Tag可追溯
+- releases/R14/DEFINITION_OF_READY.yaml 全部适用项PASS
+- releases/R14/STORIES.yaml 故事责任人和依赖已领取
+- 更新Release Manifest与CR记录
+- python scripts/check_v122_documentation.py --release R14
 acceptance:
-- 无TODO/生产Mock
-- 代码、文档、测试、追踪同步更新
-- 全新AI仅凭仓库可继续
-- 工作区干净且Tag可追溯
+- 页面、字段、状态、动作、API、配置、数据和测试无TBD
+- 不适用项明确N/A及原因
+- releases/R14/DEFINITION_OF_READY.yaml 全部适用项PASS
+- releases/R14/STORIES.yaml 故事责任人和依赖已领取
+- 更新Release Manifest与CR记录
+- python scripts/check_v122_documentation.py --release R14
 claim_required: true
-start_command: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R13-008
+start_command: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R14-001
 commands:
   resume: python3 scripts/continuity.py resume
-  start: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R13-008
+  start: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R14-001
   checkpoint: python3 scripts/continuity.py checkpoint --summary '<阶段完成>' --next-step '<精确下一步>' --test 'name|PASS|evidence|note' --parallel-assessment
     <ASSESSMENT> --parallel-reason '<未委托原因>'
   handoff: python3 scripts/continuity.py handoff --actor <ACTOR_ID> --reason '<移交原因>' --next-step '<精确下一步>'
@@ -396,353 +397,24 @@ commands:
   cr_amend: python3 scripts/continuity.py cr-amend --actor <ACTOR_ID> --cr <CR_ID> --original-rule '<原规则>' --new-rule '<新规则>' --impact-summary
     '<影响摘要>' --migration-and-compatibility '<迁移兼容说明>' --file <PATH> --test '<TEST>' --release <RELEASE>
 next_after: 由当前TASKS.yaml依赖关系决定
+deferred_task:
+  id: TASK-R13-008
+  release: R13
+  status: BLOCKED
+  reason: R13固定工具链TEST_APK、稳定签名、版本身份、四方SHA、桌面说明和公网注册恢复均已PASS；当前Commit缺SCR-FAV-001、SCR-HIS-001、SHEET-SHARE-001、SHEET-CONTENT-INVALID-001四页截图，AC-R13-001/002/003/005/006未回填，AC-R13-004证据路径需结构化，六项治理审计缺失，因此保持BLOCKED_EXTERNAL_GATE，恢复条件为补齐当前Commit视觉证据、验收矩阵、治理审计并重跑machine-close；项目所有者真机反馈继续异步PENDING
+  resume_after: 项目所有者真机反馈到达后，在当前安全检查点恢复验收与关闭
 ```
 
 ## 活跃会话
 
 ```yaml
-protocol_version: '1.0'
-package_version: 1.2.3
-session_id: SES-20260727T163211Z-EDFF7E87
-status: ACTIVE
-actor:
-  id: codex-root-r13-close-20260728
-  kind: AI_OR_HUMAN
-  host: unknown
-release: R13
-task_id: TASK-R13-008
-story_id: STORY-R13-003
-goal: 收藏、历史、分享与行为审计版本关闭与无状态交接
-started_at: '2026-07-27T16:32:11Z'
-updated_at: '2026-07-27T18:05:10Z'
-takeover_of: null
-change_requests:
-- CR-0414
-- CR-0415
-- CR-0416
-scope:
-  allowed_paths:
-  - apps/**
-  - services/**
-  - packages/**
-  - contracts/**
-  - database/**
-  - config/**
-  - catalogs/**
-  - tests/**
-  - infra/**
-  - design/**
-  - docs/**
-  - releases/**
-  - scripts/**
-  - templates/**
-  - .github/**
-  - .githooks/**
-  - .codex/**
-  - AGENTS.md
-  - START_HERE.md
-  - README.md
-  - CHANGELOG.md
-  - Makefile
-  - .gitignore
-  - .gitattributes
-  - .dockerignore
-  - package.json
-  - pnpm-lock.yaml
-  - pnpm-workspace.yaml
-  - requirements-dev.txt
-  - PROJECT_*.yaml
-  - PROJECT_*.json
-  approved_exceptions: []
-  source: story+explicit
-git:
-  initialized: true
-  branch: task/TASK-R03-001
-  base_commit: be60681d9ea60d5cc81ed1916fcd9f99287784e0
-  start_head: be60681d9ea60d5cc81ed1916fcd9f99287784e0
-  upstream: origin/task/TASK-R03-001
-  initial_worktree_state: CLEAN
-lease:
-  duration_minutes: 240
-  renewed_at: '2026-07-27T18:05:10Z'
-  expires_at: '2026-07-27T22:05:10Z'
-checkpoint_sequence: 4
-latest_checkpoint: .continuity/checkpoints/SES-20260727T163211Z-EDFF7E87/0004.yaml
-session_log: docs/03-continuity/sessions/2026-07/SES-20260727T163211Z-EDFF7E87.md
-next_step: 提交并推送CR-0416，然后关闭R13为BLOCKED_EXTERNAL_GATE并启动R14 TASK-R14-001
-context_pack: THIS_CONTEXT_PACK
-handoff_bundle: null
-closure: null
-parallel_execution:
-  assessment: NO_SAFE_PARALLEL
-  delegated_workers: 0
-  workers: []
-  reason: continuity依赖判断、R02历史状态投影和原子关闭状态强耦合，需主控串行复核避免并发改写事实源
+status: NONE
 ```
 
 ## 最新检查点
 
 ```yaml
-protocol_version: '1.0'
-checkpoint_id: CP-SES-20260727T163211Z-EDFF7E87-0004
-session_id: SES-20260727T163211Z-EDFF7E87
-task_id: TASK-R13-008
-story_id: STORY-R13-003
-sequence: 4
-created_at: '2026-07-27T18:05:09Z'
-summary: CR-0416已补齐R02机器事实投影与严格历史异步真机连续后缀识别，实时R13到R14依赖验证返回TASK-R14-001 READY
-next_step: 提交并推送CR-0416，然后关闭R13为BLOCKED_EXTERNAL_GATE并启动R14 TASK-R14-001
-blockers: []
-decisions: []
-note: ''
-tests:
-- name: cross-release-existing
-  result: PASS
-  evidence: full module run had 8 unaffected tests pass; only new CSV reader hit UTF-8 BOM before assertion
-  note: no implementation failure
-- name: cross-release-focused
-  result: PASS
-  evidence: 4 focused tests passed in 0.393s after utf-8-sig correction
-  note: R02 identity, strict suffix, prior single suffix and R13 TEST_APK
-- name: live-r13-r14-validation
-  result: PASS
-  evidence: validate_independent_release_start returned R14 TASK-R14-001 READY
-  note: uses current repository dependencies
-- name: program-execution-plan
-  result: PASS
-  evidence: 31 releases 0 errors
-  note: scope remains sequential
-- name: yaml-parse
-  result: PASS
-  evidence: R02 manifest, tasks and CR-0416 parsed
-  note: no schema syntax error
-- name: git-diff-check
-  result: PASS
-  evidence: git diff --check returned 0
-  note: line-ending warning only
-git:
-  initialized: true
-  branch: task/TASK-R03-001
-  head: 9d16d6745b27f11493604e0fda3bc8bf228f0378
-  upstream: origin/task/TASK-R03-001
-  ahead: 0
-  behind: 0
-  dirty: true
-  status_porcelain:
-  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
-  - ' M .continuity/EVENT_LOG.jsonl'
-  - ' M .continuity/STATE.yaml'
-  - ' M .continuity/sessions/SES-20260727T163211Z-EDFF7E87.yaml'
-  - ' M CHANGELOG.md'
-  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
-  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
-  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
-  - ' M catalogs/change_request_index.csv'
-  - ' M catalogs/session_index.csv'
-  - ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
-  - ' M releases/R02/ACCEPTANCE_MATRIX.csv'
-  - ' M releases/R02/RELEASE_MANIFEST.yaml'
-  - ' M scripts/continuity.py'
-  - ' M tests/test_continuity_cross_release_close.py'
-  - ?? .continuity/change_requests/CR-0416.yaml
-  - ?? artifacts/reports/R02/TASK-R02-008-machine-close.md
-  - ?? docs/03-continuity/change-requests/CR-0416-补齐历史异步真机依赖后缀与R02机器事实投影.md
-  recent_commits:
-  - "9d16d6745b27f11493604e0fda3bc8bf228f0378\t2026-07-28T01:46:17+08:00\tHHY Continuity Bootstrap\t[STORY-R13-003] chore(staging): restore public\
-    \ registration readiness"
-  - "275c4585a53806646e426d87560dba90f9a87127\t2026-07-28T01:32:43+08:00\tHHY Continuity Bootstrap\t[STORY-R13-003] chore(continuity): implement\
-    \ asynchronous TEST_APK progression"
-  - "be60681d9ea60d5cc81ed1916fcd9f99287784e0\t2026-07-28T00:29:43+08:00\tHHY Continuity Bootstrap\t[STORY-R13-003] chore(continuity): close TASK-R13-007\
-    \ as completed"
-  - "b354505716b3e40a05708d47bfd02603d65faccc\t2026-07-28T00:25:58+08:00\tHHY Continuity Bootstrap\t[STORY-R13-003] chore(apk): deliver stable-toolchain\
-    \ R13 test package"
-  - "ccdb5d39b22498a5d0f5082f8210f9fb59b4a2ae\t2026-07-27T23:41:36+08:00\tHHY Continuity Bootstrap\t[STORY-R13-003] chore(signing): persist R13\
-    \ test APK identity"
-  - "78e02938faad6c81d86ab09724f60b22643f574a\t2026-07-27T23:27:40+08:00\tHHY Continuity Bootstrap\t[STORY-R13-003] chore(delivery): record async\
-    \ TEST_APK policy"
-  - "78cf6c9197a6558d77481154c5d12859e729bf4e\t2026-07-27T22:37:34+08:00\tHHY Continuity Bootstrap\t[STORY-R13-003] fix(android): render shared\
-    \ Coil results as ImageBitmap"
-  - "f523abce016485153467d75f479cd430813abf99\t2026-07-27T22:23:47+08:00\tHHY Continuity Bootstrap\t[STORY-R13-003] fix(android): share Coil media\
-    \ results across R13 rows"
-project_fingerprint:
-  sha256: c7cb25b16d011ae5bd086cbe5586e12724a699e0397d9cd3f27c607cc95cc3d7
-  files:
-  - CHANGELOG.md
-  - config/android-automation.yaml
-  - docs/03-continuity/PROBLEM_REGISTRY.yaml
-  - docs/03-continuity/change-requests/CR-0414-补齐CR-0412机器关闭与跨版本持续开发实现.md
-  - docs/03-continuity/change-requests/CR-0415-恢复R13公网注册邀请码并补部署防回归.md
-  - docs/03-continuity/change-requests/CR-0416-补齐历史异步真机依赖后缀与R02机器事实投影.md
-  - docs/09-development/统一开发与交付效率规范.md
-  - releases/R02/ACCEPTANCE_MATRIX.csv
-  - releases/R02/RELEASE_MANIFEST.yaml
-  - scripts/android_ci_gate.py
-  - scripts/check_release_artifacts.py
-  - scripts/continuity.py
-  - scripts/prepare_r13_ci_fixture.sh
-  - scripts/switch_android_candidate_route.sh
-  - tests/test_android_candidate_route.py
-  - tests/test_android_ci_gate.py
-  - tests/test_continuity_cross_release_close.py
-  - tests/test_r13_candidate.py
-  - tests/test_release_close_gate.py
-  file_count: 19
-  payload:
-    base_commit: be60681d9ea60d5cc81ed1916fcd9f99287784e0
-    files:
-    - path: CHANGELOG.md
-      state: FILE
-      size: 188494
-      sha256: f23ed15d045a1707cc64d64d4a039b9f3183886b671eb6488825c017e3fff62b
-    - path: config/android-automation.yaml
-      state: FILE
-      size: 13027
-      sha256: 08840399e54c89b4db71d565cd6c8425fa004e0d33d88aa8a400ebb14b48874d
-    - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
-      state: FILE
-      size: 222050
-      sha256: d18beec6a764dd892314fd4d4959544ee0ae4ef5f57cd6063dfd3e3030453d48
-    - path: docs/03-continuity/change-requests/CR-0414-补齐CR-0412机器关闭与跨版本持续开发实现.md
-      state: FILE
-      size: 3695
-      sha256: 9fb73938f1788f550af4bd043ae2fbb7038dbbee4fbbe4d9c7c63293fd18d6b4
-    - path: docs/03-continuity/change-requests/CR-0415-恢复R13公网注册邀请码并补部署防回归.md
-      state: FILE
-      size: 3891
-      sha256: dfba186ae4790febc6e5471a202d7151cbde86f46a1c94deffc70a9f323615e9
-    - path: docs/03-continuity/change-requests/CR-0416-补齐历史异步真机依赖后缀与R02机器事实投影.md
-      state: FILE
-      size: 3889
-      sha256: a866c0030bfee56612489a8a34d0164c235c848afa2da0b8c6735cce1b82eecf
-    - path: docs/09-development/统一开发与交付效率规范.md
-      state: FILE
-      size: 18013
-      sha256: 1b73841ee01e9ae9d3c3beea35ef1874ad6b2049d0c15423119f03f0a998b3f1
-    - path: releases/R02/ACCEPTANCE_MATRIX.csv
-      state: FILE
-      size: 830
-      sha256: f464be533e1290eae09db0a3dc7eddc36cdf4576cf115281a55e4cd0adde6263
-    - path: releases/R02/RELEASE_MANIFEST.yaml
-      state: FILE
-      size: 5398
-      sha256: 80ee0cbcd4f09a69d4d5e4e31332e3a29457987930f2ebb151de66a2f0e819d3
-    - path: scripts/android_ci_gate.py
-      state: FILE
-      size: 36690
-      sha256: fae7187ab11afcc62db915625ba235c37543fcc2f299d65239a38fb45233352c
-    - path: scripts/check_release_artifacts.py
-      state: FILE
-      size: 37438
-      sha256: 5ad5d89249f9866892a015d7ee55519b97611c7856409cf4f188bca0a0afcec5
-    - path: scripts/continuity.py
-      state: FILE
-      size: 85678
-      sha256: 01f46b0b9232d95458d27f1ca4c3987dabee2330a08939bd83614cb6a04a8e55
-    - path: scripts/prepare_r13_ci_fixture.sh
-      state: FILE
-      size: 19555
-      sha256: e577527574fbb5c0b947775fcace6a8e945e7a1752177b85c3afd2307d630f49
-    - path: scripts/switch_android_candidate_route.sh
-      state: FILE
-      size: 5421
-      sha256: 11db30e515136239f9b234273bf8f6625a1e7f59d346c152fd93ff4dc3671bec
-    - path: tests/test_android_candidate_route.py
-      state: FILE
-      size: 4839
-      sha256: 1a3bfddc98775364a220042bb5ca48ae3c692ab8f5d4badf9b3d672301ea7ea8
-    - path: tests/test_android_ci_gate.py
-      state: FILE
-      size: 71816
-      sha256: 7011923e5264ad963fe9d4a30de7134dd1a822f01dd95a06c4280579445d57f9
-    - path: tests/test_continuity_cross_release_close.py
-      state: FILE
-      size: 38988
-      sha256: 0a4c4cd61f69b87014e36628049648a7ad727af4bfd459ee7fae32e5cad7b531
-    - path: tests/test_r13_candidate.py
-      state: FILE
-      size: 21250
-      sha256: 36897c5dd331ec8b052c4089b0ab1a2bc6b1a0e3a245ac6e47c68897b028ea00
-    - path: tests/test_release_close_gate.py
-      state: FILE
-      size: 31463
-      sha256: 92f0cf4a55e70a7be5a1425250cebccf3e3e8033bcd5aa4acef495d4888d1d2a
-change_classification:
-  other:
-  - CHANGELOG.md
-  - config/android-automation.yaml
-  - docs/09-development/统一开发与交付效率规范.md
-  - releases/R02/ACCEPTANCE_MATRIX.csv
-  continuity:
-  - docs/03-continuity/PROBLEM_REGISTRY.yaml
-  - docs/03-continuity/change-requests/CR-0414-补齐CR-0412机器关闭与跨版本持续开发实现.md
-  - docs/03-continuity/change-requests/CR-0415-恢复R13公网注册邀请码并补部署防回归.md
-  - docs/03-continuity/change-requests/CR-0416-补齐历史异步真机依赖后缀与R02机器事实投影.md
-  source_of_truth:
-  - releases/R02/RELEASE_MANIFEST.yaml
-  code:
-  - scripts/android_ci_gate.py
-  - scripts/check_release_artifacts.py
-  - scripts/continuity.py
-  - scripts/prepare_r13_ci_fixture.sh
-  - scripts/switch_android_candidate_route.sh
-  tests:
-  - tests/test_android_candidate_route.py
-  - tests/test_android_ci_gate.py
-  - tests/test_continuity_cross_release_close.py
-  - tests/test_r13_candidate.py
-  - tests/test_release_close_gate.py
-required_records:
-- SESSION_RECORD
-- SESSION_LOG
-- CHECKPOINT
-- CURRENT_STATUS
-- EVENT_LOG
-- APPROVED_CHANGE_REQUEST
-change_requests:
-- CR-0414
-- CR-0415
-- CR-0416
-scope:
-  allowed_paths:
-  - apps/**
-  - services/**
-  - packages/**
-  - contracts/**
-  - database/**
-  - config/**
-  - catalogs/**
-  - tests/**
-  - infra/**
-  - design/**
-  - docs/**
-  - releases/**
-  - scripts/**
-  - templates/**
-  - .github/**
-  - .githooks/**
-  - .codex/**
-  - AGENTS.md
-  - START_HERE.md
-  - README.md
-  - CHANGELOG.md
-  - Makefile
-  - .gitignore
-  - .gitattributes
-  - .dockerignore
-  - package.json
-  - pnpm-lock.yaml
-  - pnpm-workspace.yaml
-  - requirements-dev.txt
-  - PROJECT_*.yaml
-  - PROJECT_*.json
-  approved_exceptions: []
-  source: story+explicit
-parallel_execution:
-  assessment: NO_SAFE_PARALLEL
-  delegated_workers: 0
-  workers: []
-  reason: continuity依赖判断、R02历史状态投影和原子关闭状态强耦合，需主控串行复核避免并发改写事实源
-event_hash: f66dafb6ec47cf4e4134c603ccb6a5d15daf21ec11fcf0578e5b850d955443e2
+status: NO_CHECKPOINT
 ```
 
 ## 接续状态与事件头
@@ -750,12 +422,12 @@ event_hash: f66dafb6ec47cf4e4134c603ccb6a5d15daf21ec11fcf0578e5b850d955443e2
 ```yaml
 mode: ENFORCED
 protocol_version: '1.0'
-active_session_id: SES-20260727T163211Z-EDFF7E87
-last_session_id: SES-20260726T191158Z-2B506AB7
-last_session_result: COMPLETED
-last_closure_checkpoint_id: CP-SES-20260726T191158Z-2B506AB7-0069
-event_count: 3958
-event_head_hash: f66dafb6ec47cf4e4134c603ccb6a5d15daf21ec11fcf0578e5b850d955443e2
+active_session_id: null
+last_session_id: SES-20260727T163211Z-EDFF7E87
+last_session_result: BLOCKED
+last_closure_checkpoint_id: CP-SES-20260727T163211Z-EDFF7E87-0005
+event_count: 3961
+event_head_hash: b2c05580d56524e8fc0d2a4be3200856fceb9027be257641e64d499dcb068d10
 event_chain_valid: true
 ```
 
@@ -874,13 +546,13 @@ recent_sessions: - session_id: SES-20260725T192048Z-668BD05D
   task_id: TASK-R13-008
   story_id: STORY-R13-003
   actor_id: codex-root-r13-close-20260728
-  status: ACTIVE
+  status: CLOSED
   started_at: '2026-07-27T16:32:11Z'
   record: .continuity/sessions/SES-20260727T163211Z-EDFF7E87.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260727T163211Z-EDFF7E87.md
-  updated_at: '2026-07-27T18:05:10Z'
-  closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260727T163211Z-EDFF7E87/0004.yaml
+  updated_at: '2026-07-27T18:15:21Z'
+  closed_at: '2026-07-27T18:15:21Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260727T163211Z-EDFF7E87/0005.yaml
   handoff_bundle: null
 task_claims: - claim_id: CLM-A12C94F276CD
   session_id: SES-20260724T021901Z-603D54F5
@@ -1614,7 +1286,7 @@ task_claims: - claim_id: CLM-A12C94F276CD
   task_id: TASK-R13-008
   story_id: STORY-R13-003
   actor_id: codex-root-r13-close-20260728
-  status: ACTIVE
+  status: CLOSED
   claimed_at: '2026-07-27T16:32:11Z'
   allowed_paths:
   - apps/**
@@ -1648,6 +1320,7 @@ task_claims: - claim_id: CLM-A12C94F276CD
   - requirements-dev.txt
   - PROJECT_*.yaml
   - PROJECT_*.json
+  closed_at: '2026-07-27T18:15:21Z'
 recent_task_transitions: - transition_id: TRN-0C402220EEE8
   timestamp: '2026-07-24T02:19:03Z'
   release: R11
@@ -1855,36 +1528,31 @@ recent_task_transitions: - transition_id: TRN-0C402220EEE8
 ```yaml
 initialized: true
 branch: task/TASK-R03-001
-head: 9d16d6745b27f11493604e0fda3bc8bf228f0378
+head: 020890521cbc5b1c6a58ea1da3aec4c0173168b7
 upstream: origin/task/TASK-R03-001
 ahead: 0
 behind: 0
 dirty: true
 status_porcelain:
 - ' M .continuity/ACTIVE_SESSION.yaml'
-- ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
 - ' M .continuity/EVENT_LOG.jsonl'
 - ' M .continuity/SESSION_INDEX.yaml'
 - ' M .continuity/STATE.yaml'
+- ' M .continuity/TASK_CLAIMS.yaml'
 - ' M .continuity/sessions/SES-20260727T163211Z-EDFF7E87.yaml'
 - ' M CHANGELOG.md'
 - ' M CURRENT_STATUS.yaml'
+- ' M NEXT_TASK.yaml'
 - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
 - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
 - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
-- ' M catalogs/change_request_index.csv'
 - ' M catalogs/session_index.csv'
-- ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
 - ' M docs/03-continuity/sessions/2026-07/SES-20260727T163211Z-EDFF7E87.md'
-- ' M releases/R02/ACCEPTANCE_MATRIX.csv'
-- ' M releases/R02/RELEASE_MANIFEST.yaml'
-- ' M scripts/continuity.py'
-- ' M tests/test_continuity_cross_release_close.py'
-- ?? .continuity/change_requests/CR-0416.yaml
-- ?? .continuity/checkpoints/SES-20260727T163211Z-EDFF7E87/0004.yaml
-- ?? artifacts/reports/R02/TASK-R02-008-machine-close.md
-- ?? docs/03-continuity/change-requests/CR-0416-补齐历史异步真机依赖后缀与R02机器事实投影.md
+- ' M releases/R13/TASKS.yaml'
+- ?? .continuity/checkpoints/SES-20260727T163211Z-EDFF7E87/0005.yaml
 recent_commits:
+- "020890521cbc5b1c6a58ea1da3aec4c0173168b7\t2026-07-28T02:05:42+08:00\tHHY Continuity Bootstrap\t[STORY-R13-003] chore(continuity): accept strict\
+  \ async owner suffix"
 - "9d16d6745b27f11493604e0fda3bc8bf228f0378\t2026-07-28T01:46:17+08:00\tHHY Continuity Bootstrap\t[STORY-R13-003] chore(staging): restore public\
   \ registration readiness"
 - "275c4585a53806646e426d87560dba90f9a87127\t2026-07-28T01:32:43+08:00\tHHY Continuity Bootstrap\t[STORY-R13-003] chore(continuity): implement\
@@ -1899,283 +1567,82 @@ recent_commits:
   \ TEST_APK policy"
 - "78cf6c9197a6558d77481154c5d12859e729bf4e\t2026-07-27T22:37:34+08:00\tHHY Continuity Bootstrap\t[STORY-R13-003] fix(android): render shared\
   \ Coil results as ImageBitmap"
-- "f523abce016485153467d75f479cd430813abf99\t2026-07-27T22:23:47+08:00\tHHY Continuity Bootstrap\t[STORY-R13-003] fix(android): share Coil media\
-  \ results across R13 rows"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`c7cb25b16d011ae5bd086cbe5586e12724a699e0397d9cd3f27c607cc95cc3d7`
-- 文件数：19
+- 指纹：`f126b69f4205496be630da099cee8b370d2e7ab2941b29c79369ad8cd49d8c82`
+- 文件数：0
 
-- `CHANGELOG.md`
-- `config/android-automation.yaml`
-- `docs/03-continuity/PROBLEM_REGISTRY.yaml`
-- `docs/03-continuity/change-requests/CR-0414-补齐CR-0412机器关闭与跨版本持续开发实现.md`
-- `docs/03-continuity/change-requests/CR-0415-恢复R13公网注册邀请码并补部署防回归.md`
-- `docs/03-continuity/change-requests/CR-0416-补齐历史异步真机依赖后缀与R02机器事实投影.md`
-- `docs/09-development/统一开发与交付效率规范.md`
-- `releases/R02/ACCEPTANCE_MATRIX.csv`
-- `releases/R02/RELEASE_MANIFEST.yaml`
-- `scripts/android_ci_gate.py`
-- `scripts/check_release_artifacts.py`
-- `scripts/continuity.py`
-- `scripts/prepare_r13_ci_fixture.sh`
-- `scripts/switch_android_candidate_route.sh`
-- `tests/test_android_candidate_route.py`
-- `tests/test_android_ci_gate.py`
-- `tests/test_continuity_cross_release_close.py`
-- `tests/test_r13_candidate.py`
-- `tests/test_release_close_gate.py`
+- 无
 
 ## 当前 Release
 
 ```yaml
 RELEASE_MANIFEST.yaml:
-  release: R13
-  title: 收藏、历史、分享与行为审计
-  status: TASK_007_COMPLETE_OWNER_PENDING
+  release: R14
+  title: 一对一聊天核心
+  status: READY_WHEN_DEPENDENCIES_GREEN
   milestone: M1_CONTENT_MARKETPLACE
   depends_on:
-  - R07
-  - R12
-  scope: 收藏、浏览记录、H5分享、联系方式/外链/二维码行为统计
+  - R02
+  - R04
+  - R06
+  scope: 会话、文本、图片、内容/联系方式卡片、WebSocket可靠性和未读
   android_test_apk_required: true
   requirements:
-  - REQ-PUBLISHER-001
-  - REQ-ACTIVITY-001
+  - REQ-CHAT-001
+  - REQ-CHAT-002
   ui:
     android:
-    - SHEET-SHARE-001
-    - SCR-FAV-001
-    - SCR-HIS-001
-    - SHEET-CONTENT-INVALID-001
+    - SCR-CHAT-001
+    - SCR-CHAT-002
+    - SHEET-CHAT-001
+    - SHEET-CHAT-002
+    - DIALOG-CHAT-BLOCK-001
+    - DIALOG-CHAT-DELETE-001
     h5: []
     admin: []
   contracts:
     client_api:
-    - contentPostContentsByIdFavorite
-    - contentDeleteContentsByIdFavorite
-    - contentGetMeFavorites
-    - contentGetMeHistory
-    - contentPostContentsByIdShare
-    - contentPostContentsByIdInvalidFeedback
+    - GET /api/v1/conversations
+    - POST /api/v1/conversations/direct
+    - GET /api/v1/conversations/{id}/messages
+    - POST /api/v1/conversations/{id}/messages
+    - POST /api/v1/conversations/{id}/read
+    - DELETE /api/v1/conversations/{id}
+    - POST /api/v1/users/{id}/block
+    - DELETE /api/v1/users/{id}/block
+    - POST /api/v1/conversations/{id}/report
     admin_api: []
     websocket: []
   database_tables:
-  - users
-  - user_profiles
-  - user_settings
-  - user_status_logs
-  - content_posts
-  - content_versions
-  - content_status_logs
-  - content_review_records
-  - content_media
-  - content_contacts
-  - content_stats
-  - content_favorites
-  - content_view_logs
-  - content_contact_access_logs
-  - membership_plans
-  - membership_skus
-  - user_memberships
-  - membership_entitlement_segments
-  - membership_benefit_snapshots
-  - membership_upgrade_quotes
-  - reward_accounts
-  - reward_ledger
-  - reward_settlements
-  - reward_freezes
-  - accounting_entries
+  - conversations
+  - conversation_members
+  - chat_messages
+  - chat_read_receipts
+  - user_blocks
+  - chat_reports
+  - notifications
+  - notification_deliveries
+  - announcements
+  - announcement_reads
   tests:
-  - TST-ACTIVITY_001-HAPPY
-  - TST-ACTIVITY_001-IDEMPOTENT
-  - TST-ACTIVITY_001-REJECT
-  test_count: 3
-  planning_depth: STORY_READY
-  apk_gate: TEST_APK_FIXED_TOOLCHAIN_OWNER_FEEDBACK_ASYNC
-  test_signing_rotation:
-    status: APPROVED_CR_0413
-    profile_id: hhy-staging-test-v2
-    secret_ref: secretref://obx-test/hhy/android/test-signing/v2
-    certificate_sha256: e32a9d7ff8a209d2903db6383b461b259f0018a698d1f3646e6ed7f1112671be
-    previous_profile_status: RETIRED_PRIVATE_KEY_UNAVAILABLE
-    first_install_migration: UNINSTALL_PRE_R13_TEST_APK_ONCE
-    production_signing_affected: false
-  android_delivery:
-    source_commit: ccdb5d39b22498a5d0f5082f8210f9fb59b4a2ae
-    apk_file: hhy-r13-ccdb5d3-debug.apk
-    version_name: 1.2.2-debug
-    version_code: 10222
-    sha256: ccffcd89e116ee2bab0fb55961126a5bcc0c01bd34375ebf542b78cbcd9daba0
-    signing_profile_id: hhy-staging-test-v2
-    signing_fingerprint: e32a9d7ff8a209d2903db6383b461b259f0018a698d1f3646e6ed7f1112671be
-    machine_delivery: PASS
-    owner_physical_test: PENDING
-    next_release_development: ALLOWED
-    evidence: artifacts/validation/r13-apk-delivery/delivery-evidence.json
-    build_evidence: artifacts/validation/r13-task007-android/build-evidence.json
-    test_guide: artifacts/reports/R13/R13-version-test-guide.md
-  android_automation:
-    policy_id: HHY-ANDROID-AUTOMATION-V1
-    mode: ON_DEMAND_NON_BLOCKING_SPECIALTY
-    status: NOT_RUN_NOT_REQUIRED_FOR_TEST_APK
-    attempt_21_authorized: false
-    automated_candidate_status: REMEDIATION_REQUIRED_HISTORICAL_ATTEMPTS_1_TO_20
-    ai_visual_review: NOT_CLAIMED_PASS
-    owner_physical_test: PENDING
-    next_release_development: ALLOWED
-  entry_baseline:
-    checked_at: '2026-07-26'
-    session_id: SES-20260726T110209Z-C9DC8AD5
-    story_id: STORY-R13-001
-    change_request: CR-0363
-    documentation_status: PASS_DOCUMENTATION_READY
-    strict_documentation: PASS_0_ERRORS_0_WARNINGS
-    program_execution_plan: PASS_31_RELEASES_0_ERRORS
-    release_artifacts: PASS
-    continuity_gate: PASS
-    cloud_environment_status: PASS
-    dependency_machine_status:
-      R07: MACHINE_COMPLETE_OWNER_PENDING
-      R12: MACHINE_COMPLETE_OWNER_PENDING
-    contract_boundary:
-      release_owned_operation_ids: 5
-      shared_story_operation_ids: 1
-      total_implementation_operation_ids: 6
-    exact_visual_bindings:
-      SHEET-SHARE-001: SPEC:design/R13-UI-FROZEN/specs/SHEET-SHARE-001.md
-      SCR-FAV-001: B08/P07
-      SCR-HIS-001: B08/P08
-      SHEET-CONTENT-INVALID-001: SPEC:design/R13-UI-FROZEN/specs/SHEET-CONTENT-INVALID-001.md
+  - TST-CHAT_001-HAPPY
+  - TST-CHAT_001-IDEMPOTENT
+  - TST-CHAT_001-REJECT
+  - TST-CHAT_002-HAPPY
+  - TST-CHAT_002-IDEMPOTENT
+  - TST-CHAT_002-REJECT
+  - TST-V122-006
+  - TST-V122-007
+  - TST-V122-008
   entry_gate:
-  - releases/R13/DEFINITION_OF_READY.yaml 全部适用项为PASS
-  - releases/R13/STORIES.yaml 中每个故事均绑定页面/API/配置/数据/测试或显式N/A
+  - releases/R14/DEFINITION_OF_READY.yaml 全部适用项为PASS
+  - releases/R14/STORIES.yaml 中每个故事均绑定页面/API/配置/数据/测试或显式N/A
   - 本版本页面字段、状态、动作、导航和后台运营规格不存在TBD/RELEASE_BOUND
   - 全部依赖版本为GREEN或按发布计划允许的并行依赖已记录
   - 冻结契约发生变化时已创建CR并重新生成追踪和SHA
-  - 四页均绑定精确面板或批准补充规格；禁止TOKENS_ONLY、P01-P08范围和缺失绑定施工
-  task_004_client_gate:
-    status: PASS
-    completed_at: '2026-07-26'
-    session_id: SES-20260726T134047Z-F9A80405
-    report: docs/03-continuity/R13_TASK-004_CLIENT_GATE.md
-    stories:
-      total: 3
-      completed: 3
-      commits:
-        STORY-R13-001: 97e3502a522512f863d5a0a3b5e2a1cb9533c002
-        STORY-R13-002: f8df36e3cbdcdb406b779e15da367591c1cd2fcc
-        STORY-R13-003: TASK_004_GATE_REPORT
-    pages:
-      total: 4
-      implementation_status: PASS
-      visual_catalog_status: IN_REVIEW
-      final_visual_pass: DEFERRED_TASK_R13_007_REAL_SCREENSHOT_AI_REVIEW
-    validation:
-      android_module: PASS_579_TASKS_410_EXECUTED_169_FROM_CACHE
-      android_image: hhy-android-toolchain:r01-46fb273
-      source_commit: f8df36e3cbdcdb406b779e15da367591c1cd2fcc
-      source_archive_sha256: a145ed0b0b85745a43c0f271dc4d08e93c26594a198ad412808b1a48fff429d5
-      module_log: obx-test:/tmp/hhy-r13-004-f8df36e3-android-module.log
-      module_log_sha256: 7c24d2b9b59411a0b642af6c752f45d75ac4b307bc845ea80aad277e336a3760
-      commercial_ui_boundary: PASS
-      android_ui_foundation: PASS
-      visual_catalog: PASS_4_PAGES_IN_REVIEW
-      documentation: PASS_0_ERRORS_0_WARNINGS
-    contract_fact_limits:
-      favorite_occurred_at: NOT_EXPOSED_BY_FROZEN_CONTENT_RESOURCE
-      history_occurred_at: NOT_EXPOSED_BY_FROZEN_CONTENT_RESOURCE
-      client_behavior: PRESERVE_SERVER_ACTIVITY_ORDER_AND_LABEL_ONLY_CONTENT_CREATED_UPDATED_TIME
-    deferred_final_candidate:
-    - full_release_gate
-    - emulator_real_screenshots
-    - ai_visual_review
-    - assemble_signed_test_apk
-    - install_smoke
-    next_task: TASK-R13-005
-  task_005_specialized_test_gate:
-    status: PASS
-    completed_at: '2026-07-27'
-    session_id: SES-20260726T160157Z-6B5BC09A
-    source_commit: c97417591cfa5c1b069d0aaef9622e0f3dad8c8f
-    report: docs/03-continuity/R13_TASK-005_SPECIALIZED_TEST_GATE.md
-    evidence: artifacts/validation/r13-test-evidence/evidence.json
-    authoritative_tests:
-    - TST-ACTIVITY_001-HAPPY
-    - TST-ACTIVITY_001-REJECT
-    - TST-ACTIVITY_001-IDEMPOTENT
-    validation:
-      backend_java21: PASS_37_TESTS_0_FAILURES_0_ERRORS_0_SKIPPED
-      postgresql17: PASS_5_TESTS_3_ISOLATED_DATABASES_42_MIGRATIONS
-      android_activity: PASS_109_TASKS_63_EXECUTED_46_FROM_CACHE
-      matrix: PASS_3_TEST_IDS
-      critical_defects: P0_0_P1_0
-    isolation_rule: ONE_FLYWAY_MIGRATION_TEST_PER_EMPTY_DATABASE
-    deferred_final_candidate:
-    - full_release_gate
-    - emulator_real_screenshots
-    - ai_visual_review
-    - assemble_signed_test_apk
-    - install_smoke
-    next_task: TASK-R13-006
-  task_006_staging_gate:
-    status: PASS
-    completed_at: '2026-07-27'
-    session_id: SES-20260726T182231Z-EE79FA49
-    source_commit: 410aef5327ec460d87775a33b8d1f41927a3f29e
-    report: artifacts/reports/R13/TASK-R13-006-staging.md
-    evidence: artifacts/validation/r13-task006-staging/
-    acceptance_id: AC-R13-004
-    validation:
-      staging_acceptance: PASS
-      java21_module: PASS_6_TESTS_0_FAILURES_0_ERRORS_0_SKIPPED
-      postgresql17: PASS_FLYWAY_V042_201_TABLES_200_BUSINESS
-      prometheus_target: PASS_UP_1
-      business_gauges: PASS_7
-      alert_rules: PASS_7
-      backend_down_alert: PASS_FIRING_AND_RESOLVED
-      r13_outbox_alert: PASS_FIRING_AND_RESOLVED
-      outbox_test_events: PASS_4_PUBLISHED_ATTEMPTS_1
-      trace_and_request_id: PASS
-      log_redaction: PASS
-      rollback: PASS_BASELINE_AND_CURRENT_IMAGES
-      activity_facts_preserved: PASS
-      evidence_sha256: PASS_24_FILES_REMOTE_AND_LOCAL
-    runtime:
-      compose_project: hhy-r13-staging
-      network_subnet: 172.31.239.0/24
-      current_image: sha256:30d4a7b3ab2fac69e27f4019035c050c889f9b7f20ee166fedda26960fae28e0
-      rollback_image: sha256:e4b6673ad0dbab261057017d3797051a14f6da403594c6850410b63ad8296717
-      postgres_volume: hhy-r13-staging_pgdata
-      flyway_version: '042'
-    deferred_final_candidate:
-    - full_release_gate
-    - emulator_real_screenshots
-    - ai_visual_review
-    - assemble_signed_test_apk
-    - install_smoke
-    next_task: TASK-R13-007
-  task_007_android_gate:
-    status: PASS_TEST_APK_DELIVERED_OWNER_PENDING
-    completed_at: '2026-07-27'
-    session_id: SES-20260726T191158Z-2B506AB7
-    source_commit: ccdb5d39b22498a5d0f5082f8210f9fb59b4a2ae
-    report: artifacts/reports/R13/TASK-R13-007-android-apk.md
-    evidence: artifacts/validation/r13-task007-android/
-    delivery_evidence: artifacts/validation/r13-apk-delivery/delivery-evidence.json
-    acceptance_id: AC-R13-006
-    validation:
-      public_api_status: PASS_HTTP_200
-      gradle: PASS_710_TASKS
-      stable_signing: PASS_V2_V3_SINGLE_SIGNER
-      package_identity: PASS_CC_ORBEXA_HHY_DEBUG_10222
-      embedded_api: PASS_HTTPS_API_ORBEXA_CC
-      four_way_sha256: PASS
-      github_emulator: NOT_RUN_ON_DEMAND_NON_BLOCKING_SPECIALTY
-      owner_physical_test: PENDING_ASYNC_NON_BLOCKING
-    next_task: TASK-R13-008
   exit_gate:
   - 领域代码与前端真实闭环
   - 数据库迁移和不变量测试通过
@@ -2186,8 +1653,8 @@ RELEASE_MANIFEST.yaml:
   change_policy: V1.2.2 页面、字段、状态、动作、API、配置和数据目录是唯一事实源；破坏性变更必须CR+版本升级+迁移+消费者兼容窗口
   documentation_baseline: V1.2.2
   document_gap_status: ZERO_BLOCKING_DOCUMENT_GAPS
-  definition_of_ready: releases/R13/DEFINITION_OF_READY.yaml
-  story_backlog: releases/R13/STORIES.yaml
+  definition_of_ready: releases/R14/DEFINITION_OF_READY.yaml
+  story_backlog: releases/R14/STORIES.yaml
   continuity:
     policy: .continuity/CONTINUITY_POLICY.yaml
     protocol_version: '1.0'
@@ -2198,93 +1665,93 @@ RELEASE_MANIFEST.yaml:
     handoff_bundle_required_for_actor_switch: true
 DEFINITION_OF_READY.yaml:
   version: 1.2.2
-  release: R13
-  title: 收藏、历史、分享与行为审计
+  release: R14
+  title: 一对一聊天核心
   status: PASS_DOCUMENTATION_READY
   interpretation: 该结论仅表示开发前文档和施工契约完整；软件编译、运行、供应商联调、压测和上线验收仍在对应实施/退出门禁完成。
   gates:
-  - 版本: R13
-    门禁ID: R13-DOR-01
+  - 版本: R14
+    门禁ID: R14-DOR-01
     类别: 范围与需求
     门禁条件: 本版本需求、非目标、业务规则和变更边界已冻结；每个需求在追踪矩阵有明确行
     适用性: 是
     证据: catalogs/requirements_catalog.csv;catalogs/TRACEABILITY_MATRIX.csv
     当前结论: PASS
-    说明: 需求2条，页面/交互面4个，接口5个，故事3个
+    说明: 需求2条，页面/交互面6个，接口9个，故事4个
     阻断规则: 适用项非PASS时不得进入该版本编码；不适用必须有说明
     成熟度: FROZEN_DOR_V1.2.2
-  - 版本: R13
-    门禁ID: R13-DOR-02
+  - 版本: R14
+    门禁ID: R14-DOR-02
     类别: 页面与模板
     门禁条件: 本版本所有页面/弹层已绑定标准模板，入口、退出、角色、数据分级和主要区域无TBD
     适用性: 是
     证据: catalogs/ui_page_specifications.csv;catalogs/ui_templates.csv
     当前结论: PASS
-    说明: 需求2条，页面/交互面4个，接口5个，故事3个
+    说明: 需求2条，页面/交互面6个，接口9个，故事4个
     阻断规则: 适用项非PASS时不得进入该版本编码；不适用必须有说明
     成熟度: FROZEN_DOR_V1.2.2
-  - 版本: R13
-    门禁ID: R13-DOR-03
+  - 版本: R14
+    门禁ID: R14-DOR-03
     类别: 字段施工规格
     门禁条件: 每个页面展示、输入、筛选、路由、敏感字段均有类型、控件、必填、校验、显示/编辑条件和错误文案
     适用性: 是
     证据: catalogs/ui_page_fields.csv
     当前结论: PASS
-    说明: 需求2条，页面/交互面4个，接口5个，故事3个
+    说明: 需求2条，页面/交互面6个，接口9个，故事4个
     阻断规则: 适用项非PASS时不得进入该版本编码；不适用必须有说明
     成熟度: FROZEN_DOR_V1.2.2
-  - 版本: R13
-    门禁ID: R13-DOR-04
+  - 版本: R14
+    门禁ID: R14-DOR-04
     类别: 状态与恢复
     门禁条件: 首屏、内容、空、刷新、局部失败、无权限、404、离线、提交、成功、冲突和领域状态已定义
     适用性: 是
     证据: catalogs/ui_page_states.csv
     当前结论: PASS
-    说明: 需求2条，页面/交互面4个，接口5个，故事3个
+    说明: 需求2条，页面/交互面6个，接口9个，故事4个
     阻断规则: 适用项非PASS时不得进入该版本编码；不适用必须有说明
     成熟度: FROZEN_DOR_V1.2.2
-  - 版本: R13
-    门禁ID: R13-DOR-05
+  - 版本: R14
+    门禁ID: R14-DOR-05
     类别: 动作与导航
     门禁条件: 每个操作定义触发、显示/可用、确认、请求映射、幂等/版本、加载、成功、错误、重试、导航和审计
     适用性: 是
     证据: catalogs/ui_action_matrix.csv;catalogs/ui_navigation_specifications.csv
     当前结论: PASS
-    说明: 需求2条，页面/交互面4个，接口5个，故事3个
+    说明: 需求2条，页面/交互面6个，接口9个，故事4个
     阻断规则: 适用项非PASS时不得进入该版本编码；不适用必须有说明
     成熟度: FROZEN_DOR_V1.2.2
-  - 版本: R13
-    门禁ID: R13-DOR-06
+  - 版本: R14
+    门禁ID: R14-DOR-06
     类别: 接口所有权
     门禁条件: 本版本每个OpenAPI operationId均有页面动作或显式系统所有者；核心请求响应禁止自由对象代替领域Schema
     适用性: 是
     证据: catalogs/api_ui_ownership.csv;contracts/openapi.yaml;contracts/admin-openapi.yaml
     当前结论: PASS
-    说明: 需求2条，页面/交互面4个，接口5个，故事3个
+    说明: 需求2条，页面/交互面6个，接口9个，故事4个
     阻断规则: 适用项非PASS时不得进入该版本编码；不适用必须有说明
     成熟度: FROZEN_DOR_V1.2.2
-  - 版本: R13
-    门禁ID: R13-DOR-07
+  - 版本: R14
+    门禁ID: R14-DOR-07
     类别: 数据与状态机
     门禁条件: 涉及表、约束、状态机、历史、幂等和账务不变量已登记；新增运营能力有明确数据事实源
     适用性: 是
     证据: catalogs/data_tables.csv;database/schema_dictionary.csv;database/state_machines.yaml
     当前结论: PASS
-    说明: 需求2条，页面/交互面4个，接口5个，故事3个
+    说明: 需求2条，页面/交互面6个，接口9个，故事4个
     阻断规则: 适用项非PASS时不得进入该版本编码；不适用必须有说明
     成熟度: FROZEN_DOR_V1.2.2
-  - 版本: R13
-    门禁ID: R13-DOR-08
+  - 版本: R14
+    门禁ID: R14-DOR-08
     类别: 配置与权限
     门禁条件: 相关配置具有控件、单位、范围、依赖、跨字段规则、编辑角色、复核角色、生效预览和回滚；权限与数据分级明确
     适用性: 是
     证据: catalogs/config_registry.csv;catalogs/config_cross_field_rules.csv;catalogs/config_role_matrix.csv
     当前结论: PASS
-    说明: 需求2条，页面/交互面4个，接口5个，故事3个
+    说明: 需求2条，页面/交互面6个，接口9个，故事4个
     阻断规则: 适用项非PASS时不得进入该版本编码；不适用必须有说明
     成熟度: FROZEN_DOR_V1.2.2
-  - 版本: R13
-    门禁ID: R13-DOR-09
+  - 版本: R14
+    门禁ID: R14-DOR-09
     类别: 后台运营规格
     门禁条件: 涉及后台页面时，筛选、表格列、排序、批量/行操作、Tab、导出、脱敏、审批、确认和审计已冻结
     适用性: 不适用
@@ -2293,38 +1760,38 @@ DEFINITION_OF_READY.yaml:
     说明: 本版本无后台页面；仍需确认无后台操作遗漏
     阻断规则: 适用项非PASS时不得进入该版本编码；不适用必须有说明
     成熟度: FROZEN_DOR_V1.2.2
-  - 版本: R13
-    门禁ID: R13-DOR-10
+  - 版本: R14
+    门禁ID: R14-DOR-10
     类别: 测试与验收
     门禁条件: 主路径、拒绝、幂等、并发、故障、安全和防漂移测试ID已存在并绑定到页面/动作/需求
     适用性: 是
     证据: catalogs/test_cases.csv
     当前结论: PASS
-    说明: 需求2条，页面/交互面4个，接口5个，故事3个
+    说明: 需求2条，页面/交互面6个，接口9个，故事4个
     阻断规则: 适用项非PASS时不得进入该版本编码；不适用必须有说明
     成熟度: FROZEN_DOR_V1.2.2
-  - 版本: R13
-    门禁ID: R13-DOR-11
+  - 版本: R14
+    门禁ID: R14-DOR-11
     类别: 故事与责任
     门禁条件: 本版本工作已拆为可领取的用户故事/工程治理故事，包含责任角色、依赖、页面、接口、数据、配置和验收条件
     适用性: 是
-    证据: catalogs/release_story_backlog.csv;releases/R13/STORIES.yaml
+    证据: catalogs/release_story_backlog.csv;releases/R14/STORIES.yaml
     当前结论: PASS
-    说明: 需求2条，页面/交互面4个，接口5个，故事3个
+    说明: 需求2条，页面/交互面6个，接口9个，故事4个
     阻断规则: 适用项非PASS时不得进入该版本编码；不适用必须有说明
     成熟度: FROZEN_DOR_V1.2.2
-  - 版本: R13
-    门禁ID: R13-DOR-12
+  - 版本: R14
+    门禁ID: R14-DOR-12
     类别: 外部事项记录
     门禁条件: 需要SDK、数据库、供应商、域名、证书、签名、法务或上线验证的事项已分类到实施/外部/生产门禁；不再误标为开发前文档缺口
     适用性: 是
     证据: DEVELOPMENT_RISK_REGISTER.md;catalogs/development_risk_register.csv
     当前结论: PASS
-    说明: 需求2条，页面/交互面4个，接口5个，故事3个
+    说明: 需求2条，页面/交互面6个，接口9个，故事4个
     阻断规则: 适用项非PASS时不得进入该版本编码；不适用必须有说明
     成熟度: FROZEN_DOR_V1.2.2
-  - 版本: R13
-    门禁ID: R13-DOR-CONTINUITY
+  - 版本: R14
+    门禁ID: R14-DOR-CONTINUITY
     类别: 持续开发无状态接续
     门禁条件: 编码前必须可仅凭仓库恢复任务；唯一Session/Claim、检查点、Commit Trailer、CR、Context Pack和交接协议已启用
     适用性: 是
@@ -2339,234 +1806,265 @@ DEFINITION_OF_READY.yaml:
     conversation_context_required: false
 STORIES.yaml:
   version: 1.2.2
-  release: R13
-  title: 收藏、历史、分享与行为审计
+  release: R14
+  title: 一对一聊天核心
   source_of_truth: catalogs/release_story_backlog.csv
   rules:
   - 故事未通过definition_of_ready不得进入编码
   - 页面故事不得增加未登记字段、状态、按钮、接口或配置
   - 工程治理故事负责契约、数据、配置、测试、观测和交接
   stories:
-  - story_id: STORY-R13-001
-    release: R13
-    title: 内容：分享面板、联系方式失效反馈
-    user_story: 作为已登录用户；公开能力仅限文档明确的H5页面，我需要完成分享面板、联系方式失效反馈的完整业务流程，以便在不依赖研发临时决策的情况下实现链接、海报、渠道。
+  - story_id: STORY-R14-001
+    release: R14
+    title: 消息：私聊页
+    user_story: 作为已登录用户；公开能力仅限文档明确的H5页面，我需要完成私聊页的完整业务流程，以便在不依赖研发临时决策的情况下实现文本、图片、卡片。
     platform: ANDROID
-    module: 内容
-    template_id: MOB-SHEET
+    module: 消息
+    template_id: MOB-CHAT-DETAIL
     page_ids:
-    - SHEET-SHARE-001
-    - SHEET-CONTENT-INVALID-001
+    - SCR-CHAT-002
     operation_ids:
-    - contentPostContentsByIdShare
-    - contentPostContentsByIdInvalidFeedback
+    - chatGetConversationsByIdMessages
+    - chatPostConversationsByIdMessages
+    - chatPostConversationsByIdRead
     api_contracts:
-    - POST /api/v1/contents/{id}/share
-    - POST /api/v1/contents/{id}/invalid-feedback
+    - GET /api/v1/conversations/{id}/messages
+    - POST /api/v1/conversations/{id}/messages
+    - POST /api/v1/conversations/{id}/read
     requirement_ids:
-    - REQ-ACTIVITY-001
-    - REQ-H5-001
-    - REQ-CONTACT-001
+    - REQ-CHAT-001
+    - REQ-CHAT-002
     config_keys:
-    - content.limit.normal.online
-    - content.limit.month.online
-    - content.limit.quarter.online
-    - content.limit.year.online
-    - content.team_leader_per_account
-    - content.limit.normal.pending
-    - content.limit.normal.drafts
-    - content.limit.normal.daily_submissions
-    - storage.default_provider
-    - storage.scope.public_media.provider
-    - storage.scope.private_kyc.provider
-    - storage.scope.private_chat.provider
-    - storage.scope.audit_evidence.provider
-    - storage.scope.apk_release.provider
-    - storage.scope.backup.provider
-    - storage.r2.account_id
-    - analytics.event.retention_days
-    - analytics.traffic_types
+    - chat.stranger.daily_conversation_limit
+    - chat.message.per_minute_limit
+    - chat.image.max_mb
+    - chat.history.retention_days
     data_tables:
-    - content_posts
-    - content_versions
-    - content_status_logs
-    - content_review_records
-    - content_media
-    - content_contacts
-    - content_stats
-    - content_favorites
-    - content_view_logs
-    - content_contact_access_logs
-    - h5_page_configs
-    - cms_articles
-    - agreements
-    - app_versions
     - conversations
     - conversation_members
     - chat_messages
     - chat_read_receipts
     - user_blocks
     - chat_reports
+    - notifications
+    - notification_deliveries
+    - announcements
+    - announcement_reads
     test_ids:
-    - TST-ACTIVITY_001-HAPPY
-    - TST-H5_001-HAPPY
-    - TST-ACTIVITY_001-IDEMPOTENT
-    - TST-H5_001-IDEMPOTENT
-    - TST-V122-005
+    - TST-CHAT_001-HAPPY
+    - TST-CHAT_002-HAPPY
+    - TST-CHAT_001-IDEMPOTENT
+    - TST-CHAT_002-IDEMPOTENT
     dependencies:
-    - R07
-    - R12
+    - R02
+    - R04
+    - R06
     owner_roles:
     - android_engineer
     - backend_engineer
     - test_engineer
     acceptance_criteria:
-    - SHEET-SHARE-001;SHEET-CONTENT-INVALID-001 全部绑定模板 MOB-SHEET，字段、状态、动作、导航和错误恢复无TBD
-    - 页面调用 operationId：contentPostContentsByIdShare;contentPostContentsByIdInvalidFeedback；请求/响应字段不得另行发明
+    - SCR-CHAT-002 全部绑定模板 MOB-CHAT-DETAIL，字段、状态、动作、导航和错误恢复无TBD
+    - 页面调用 operationId：chatGetConversationsByIdMessages;chatPostConversationsByIdMessages;chatPostConversationsByIdRead；请求/响应字段不得另行发明
     - 按钮显示、可用和确认条件与服务端状态机、权限、expectedVersion、幂等策略一致
     - 首屏、空、刷新、翻页/局部失败、无权限、404、离线和版本冲突状态按页面状态目录实现
     - 敏感字段按分级脱敏；高敏读取和后台写操作完整审计
-    - 自动化覆盖：TST-ACTIVITY_001-HAPPY;TST-H5_001-HAPPY;TST-ACTIVITY_001-IDEMPOTENT;TST-H5_001-IDEMPOTENT;TST-V122-005
+    - 自动化覆盖：TST-CHAT_001-HAPPY;TST-CHAT_002-HAPPY;TST-CHAT_001-IDEMPOTENT;TST-CHAT_002-IDEMPOTENT
     definition_of_ready: 全部引用的页面/字段/状态/动作/API/配置/数据/测试均为FROZEN且无空缺
     status: READY_FOR_IMPLEMENTATION
-  - story_id: STORY-R13-002
-    release: R13
-    title: 我的：我的收藏、浏览记录
-    user_story: 作为已登录用户；公开能力仅限文档明确的H5页面，我需要完成我的收藏、浏览记录的完整业务流程，以便在不依赖研发临时决策的情况下实现收藏列表。
+  - story_id: STORY-R14-002
+    release: R14
+    title: 消息：会话列表
+    user_story: 作为已登录用户；公开能力仅限文档明确的H5页面，我需要完成会话列表的完整业务流程，以便在不依赖研发临时决策的情况下实现未读和最后消息。
     platform: ANDROID
-    module: 我的
-    template_id: MOB-LIST
+    module: 消息
+    template_id: MOB-CHAT-LIST
     page_ids:
-    - SCR-FAV-001
-    - SCR-HIS-001
+    - SCR-CHAT-001
     operation_ids:
-    - contentGetMeFavorites
-    - contentDeleteContentsByIdFavorite
-    - contentGetMeHistory
+    - chatGetConversations
     api_contracts:
-    - GET /api/v1/me/favorites
-    - DELETE /api/v1/contents/{id}/favorite
-    - GET /api/v1/me/history
+    - GET /api/v1/conversations
     requirement_ids:
-    - REQ-ACTIVITY-001
+    - REQ-CHAT-001
+    - REQ-CHAT-002
     config_keys:
-    - content.limit.normal.online
-    - content.limit.month.online
-    - content.limit.quarter.online
-    - content.limit.year.online
-    - content.team_leader_per_account
-    - content.limit.normal.pending
-    - content.limit.normal.drafts
-    - content.limit.normal.daily_submissions
+    - chat.stranger.daily_conversation_limit
+    - chat.message.per_minute_limit
+    - chat.image.max_mb
+    - chat.history.retention_days
     data_tables:
-    - content_posts
-    - content_versions
-    - content_status_logs
-    - content_review_records
-    - content_media
-    - content_contacts
-    - content_stats
-    - content_favorites
-    - content_view_logs
-    - content_contact_access_logs
+    - conversations
+    - conversation_members
+    - chat_messages
+    - chat_read_receipts
+    - user_blocks
+    - chat_reports
+    - notifications
+    - notification_deliveries
+    - announcements
+    - announcement_reads
     test_ids:
-    - TST-ACTIVITY_001-HAPPY
-    - TST-ACTIVITY_001-IDEMPOTENT
+    - TST-CHAT_001-HAPPY
+    - TST-CHAT_002-HAPPY
     dependencies:
-    - R07
-    - R12
+    - R02
+    - R04
+    - R06
     owner_roles:
     - android_engineer
     - backend_engineer
     - test_engineer
     acceptance_criteria:
-    - SCR-FAV-001;SCR-HIS-001 全部绑定模板 MOB-LIST，字段、状态、动作、导航和错误恢复无TBD
-    - 页面调用 operationId：contentGetMeFavorites;contentDeleteContentsByIdFavorite;contentGetMeHistory；请求/响应字段不得另行发明
+    - SCR-CHAT-001 全部绑定模板 MOB-CHAT-LIST，字段、状态、动作、导航和错误恢复无TBD
+    - 页面调用 operationId：chatGetConversations；请求/响应字段不得另行发明
     - 按钮显示、可用和确认条件与服务端状态机、权限、expectedVersion、幂等策略一致
     - 首屏、空、刷新、翻页/局部失败、无权限、404、离线和版本冲突状态按页面状态目录实现
     - 敏感字段按分级脱敏；高敏读取和后台写操作完整审计
-    - 自动化覆盖：TST-ACTIVITY_001-HAPPY;TST-ACTIVITY_001-IDEMPOTENT
+    - 自动化覆盖：TST-CHAT_001-HAPPY;TST-CHAT_002-HAPPY
     definition_of_ready: 全部引用的页面/字段/状态/动作/API/配置/数据/测试均为FROZEN且无空缺
     status: READY_FOR_IMPLEMENTATION
-  - story_id: STORY-R13-003
-    release: R13
-    title: 收藏、历史、分享与行为审计：契约、数据、配置、测试与交接
-    user_story: 作为技术负责人，我需要按冻结的 R13 契约和DoR完成数据、后端、配置、测试、观测与交接，使前端故事能够稳定落地并可追溯。
+  - story_id: STORY-R14-003
+    release: R14
+    title: 消息：发送联系方式、聊天举报、拉黑与解除拉黑确认、删除会话确认
+    user_story: 作为已登录用户；公开能力仅限文档明确的H5页面，我需要完成发送联系方式、聊天举报、拉黑与解除拉黑确认、删除会话确认的完整业务流程，以便在不依赖研发临时决策的情况下实现选择字段和备注。
+    platform: ANDROID
+    module: 消息
+    template_id: MOB-SHEET
+    page_ids:
+    - SHEET-CHAT-001
+    - SHEET-CHAT-002
+    - DIALOG-CHAT-BLOCK-001
+    - DIALOG-CHAT-DELETE-001
+    operation_ids:
+    - chatPostConversationsByIdMessages
+    - chatPostConversationsByIdReport
+    - chatPostUsersByIdBlock
+    - chatDeleteUsersByIdBlock
+    - chatDeleteConversationsById
+    api_contracts:
+    - POST /api/v1/conversations/{id}/messages
+    - POST /api/v1/conversations/{id}/report
+    - POST /api/v1/users/{id}/block
+    - DELETE /api/v1/users/{id}/block
+    - DELETE /api/v1/conversations/{id}
+    requirement_ids:
+    - REQ-CHAT-001
+    - REQ-CHAT-002
+    config_keys:
+    - chat.stranger.daily_conversation_limit
+    - chat.message.per_minute_limit
+    - chat.image.max_mb
+    - chat.history.retention_days
+    - notification.marketing.default_enabled
+    - notification.quiet_hours.start
+    - notification.quiet_hours.end
+    data_tables:
+    - conversations
+    - conversation_members
+    - chat_messages
+    - chat_read_receipts
+    - user_blocks
+    - chat_reports
+    - notifications
+    - notification_deliveries
+    - announcements
+    - announcement_reads
+    test_ids:
+    - TST-CHAT_001-HAPPY
+    - TST-CHAT_002-HAPPY
+    - TST-CHAT_001-IDEMPOTENT
+    - TST-CHAT_002-IDEMPOTENT
+    - TST-V122-007
+    - TST-V122-008
+    - TST-V122-006
+    dependencies:
+    - R02
+    - R04
+    - R06
+    owner_roles:
+    - android_engineer
+    - backend_engineer
+    - test_engineer
+    acceptance_criteria:
+    - SHEET-CHAT-001;SHEET-CHAT-002;DIALOG-CHAT-BLOCK-001;DIALOG-CHAT-DELETE-001 全部绑定模板 MOB-SHEET，字段、状态、动作、导航和错误恢复无TBD
+    - 页面调用 operationId：chatPostConversationsByIdMessages;chatPostConversationsByIdReport;chatPostUsersByIdBlock;chatDeleteUsersByIdBlock;chatDeleteConversationsById；请求/响应字段不得另行发明
+    - 按钮显示、可用和确认条件与服务端状态机、权限、expectedVersion、幂等策略一致
+    - 首屏、空、刷新、翻页/局部失败、无权限、404、离线和版本冲突状态按页面状态目录实现
+    - 敏感字段按分级脱敏；高敏读取和后台写操作完整审计
+    - 自动化覆盖：TST-CHAT_001-HAPPY;TST-CHAT_002-HAPPY;TST-CHAT_001-IDEMPOTENT;TST-CHAT_002-IDEMPOTENT;TST-V122-007;TST-V122-008;TST-V122-006
+    definition_of_ready: 全部引用的页面/字段/状态/动作/API/配置/数据/测试均为FROZEN且无空缺
+    status: READY_FOR_IMPLEMENTATION
+  - story_id: STORY-R14-004
+    release: R14
+    title: 一对一聊天核心：契约、数据、配置、测试与交接
+    user_story: 作为技术负责人，我需要按冻结的 R14 契约和DoR完成数据、后端、配置、测试、观测与交接，使前端故事能够稳定落地并可追溯。
     platform: CROSS_PLATFORM
     module: 工程治理
     template_id: N/A
     page_ids:
-    - SHEET-SHARE-001
-    - SCR-FAV-001
-    - SCR-HIS-001
-    - SHEET-CONTENT-INVALID-001
+    - SCR-CHAT-001
+    - SCR-CHAT-002
+    - SHEET-CHAT-001
+    - SHEET-CHAT-002
+    - DIALOG-CHAT-BLOCK-001
+    - DIALOG-CHAT-DELETE-001
     operation_ids:
-    - contentPostContentsByIdFavorite
-    - contentDeleteContentsByIdFavorite
-    - contentGetMeFavorites
-    - contentGetMeHistory
-    - contentPostContentsByIdShare
+    - chatGetConversations
+    - chatPostConversationsDirect
+    - chatGetConversationsByIdMessages
+    - chatPostConversationsByIdMessages
+    - chatPostConversationsByIdRead
+    - chatDeleteConversationsById
+    - chatPostUsersByIdBlock
+    - chatDeleteUsersByIdBlock
+    - chatPostConversationsByIdReport
     api_contracts:
-    - POST /api/v1/contents/{id}/favorite
-    - DELETE /api/v1/contents/{id}/favorite
-    - GET /api/v1/me/favorites
-    - GET /api/v1/me/history
-    - POST /api/v1/contents/{id}/share
+    - GET /api/v1/conversations
+    - POST /api/v1/conversations/direct
+    - GET /api/v1/conversations/{id}/messages
+    - POST /api/v1/conversations/{id}/messages
+    - POST /api/v1/conversations/{id}/read
+    - DELETE /api/v1/conversations/{id}
+    - POST /api/v1/users/{id}/block
+    - DELETE /api/v1/users/{id}/block
+    - POST /api/v1/conversations/{id}/report
     requirement_ids:
-    - REQ-PUBLISHER-001
-    - REQ-ACTIVITY-001
+    - REQ-CHAT-001
+    - REQ-CHAT-002
     config_keys:
-    - content.limit.normal.online
-    - content.limit.month.online
-    - content.limit.quarter.online
-    - content.limit.year.online
-    - content.team_leader_per_account
-    - content.limit.normal.pending
-    - content.limit.normal.drafts
-    - content.limit.normal.daily_submissions
-    - storage.default_provider
-    - storage.scope.public_media.provider
-    - storage.scope.private_kyc.provider
-    - storage.scope.private_chat.provider
-    - storage.scope.audit_evidence.provider
-    - storage.scope.apk_release.provider
-    - storage.scope.backup.provider
-    - storage.r2.account_id
-    - analytics.event.retention_days
-    - analytics.traffic_types
+    - chat.stranger.daily_conversation_limit
+    - chat.message.per_minute_limit
+    - chat.image.max_mb
+    - chat.history.retention_days
+    - notification.marketing.default_enabled
+    - notification.quiet_hours.start
+    - notification.quiet_hours.end
     data_tables:
-    - users
-    - user_profiles
-    - user_settings
-    - user_status_logs
-    - content_posts
-    - content_versions
-    - content_status_logs
-    - content_review_records
-    - content_media
-    - content_contacts
-    - content_stats
-    - content_favorites
-    - content_view_logs
-    - content_contact_access_logs
-    - membership_plans
-    - membership_skus
-    - user_memberships
-    - membership_entitlement_segments
-    - membership_benefit_snapshots
-    - membership_upgrade_quotes
-    - reward_accounts
-    - reward_ledger
-    - reward_settlements
-    - reward_freezes
-    - accounting_entries
+    - conversations
+    - conversation_members
+    - chat_messages
+    - chat_read_receipts
+    - user_blocks
+    - chat_reports
+    - notifications
+    - notification_deliveries
+    - announcements
+    - announcement_reads
     test_ids:
-    - TST-ACTIVITY_001-HAPPY
-    - TST-ACTIVITY_001-IDEMPOTENT
-    - TST-ACTIVITY_001-REJECT
+    - TST-CHAT_001-HAPPY
+    - TST-CHAT_001-IDEMPOTENT
+    - TST-CHAT_001-REJECT
+    - TST-CHAT_002-HAPPY
+    - TST-CHAT_002-IDEMPOTENT
+    - TST-CHAT_002-REJECT
+    - TST-V122-006
+    - TST-V122-007
+    - TST-V122-008
     dependencies:
-    - R07
-    - R12
+    - R02
+    - R04
+    - R06
     owner_roles:
     - tech_lead
     - backend_engineer
@@ -2577,45 +2075,43 @@ STORIES.yaml:
     - OpenAPI、状态机、数据库迁移、配置Schema和页面契约引用一致，代码生成不得产生手工分叉
     - 每个需求可追溯到页面/API/表/配置/测试/故事；不适用项必须显式N/A并说明
     - 版本DoR全部PASS后方可编码；出口仍按原RELEASE_MANIFEST和ACCEPTANCE_MATRIX执行
-    - 四页视觉来源与CR-0363、页面目录、逐页施工规格和Release Manifest一致；TASK-R13-004登记IN_REVIEW，TASK-R13-007真实截图经AI复核后才可PASS
     - 变更必须通过CR，更新唯一事实源并重新生成全部派生目录和哈希
     - 完成Session Log、追踪矩阵、发布证据和下一任务交接
     definition_of_ready: DEFINITION_OF_READY.yaml全部阻断项PASS
     status: READY_FOR_IMPLEMENTATION
 TASKS.yaml:
-  release: R13
-  title: 收藏、历史、分享与行为审计
+  release: R14
+  title: 一对一聊天核心
   tasks:
-  - id: TASK-R13-001
-    title: 收藏、历史、分享与行为审计开发就绪核验、故事领取与变更基线
-    status: DONE
+  - id: TASK-R14-001
+    title: 一对一聊天核心开发就绪核验、故事领取与变更基线
+    status: READY
     depends_on: []
     requirements: &id001
-    - REQ-PUBLISHER-001
-    - REQ-ACTIVITY-001
+    - REQ-CHAT-001
+    - REQ-CHAT-002
     - REQ-APK-001
-    description: 核验 2 项本版需求、5 个R13归属接口、1 个Story复用共享接口、25 张相关表、4 个页面/交互面和 3 个故事；全部适用DoR必须PASS。
+    description: 核验 2 项需求、9 个接口、10 张相关表、6 个页面/交互面和 4 个故事；全部适用DoR必须PASS。
     deliverables:
-    - releases/R13/DEFINITION_OF_READY.yaml 全部适用项PASS
-    - releases/R13/STORIES.yaml 故事责任人和依赖已领取
+    - releases/R14/DEFINITION_OF_READY.yaml 全部适用项PASS
+    - releases/R14/STORIES.yaml 故事责任人和依赖已领取
     - 更新Release Manifest与CR记录
-    - python scripts/check_v122_documentation.py --release R13
+    - python scripts/check_v122_documentation.py --release R14
     acceptance:
     - 页面、字段、状态、动作、API、配置、数据和测试无TBD
     - 不适用项明确N/A及原因
-    - releases/R13/DEFINITION_OF_READY.yaml 全部适用项PASS
-    - releases/R13/STORIES.yaml 故事责任人和依赖已领取
+    - releases/R14/DEFINITION_OF_READY.yaml 全部适用项PASS
+    - releases/R14/STORIES.yaml 故事责任人和依赖已领取
     - 更新Release Manifest与CR记录
-    - python scripts/check_v122_documentation.py --release R13
+    - python scripts/check_v122_documentation.py --release R14
     session_log_required: true
-    completed_at: '2026-07-26T11:33:50Z'
-  - id: TASK-R13-002
-    title: 收藏、历史、分享与行为审计数据迁移与领域不变量
-    status: DONE
+  - id: TASK-R14-002
+    title: 一对一聊天核心数据迁移与领域不变量
+    status: BLOCKED
     depends_on:
-    - TASK-R13-001
+    - TASK-R14-001
     requirements: *id001
-    description: 实现/演进content_posts, project_details, app_details, group_details, team_leader_details, content_media, content_contacts, content_versions等，补齐唯一约束、状态历史、幂等键和回滚验证
+    description: 实现/演进conversations, conversation_members, chat_messages, chat_message_attachments, chat_read_receipts, user_blocks, chat_reports，补齐唯一约束、状态历史、幂等键和回滚验证
     deliverables:
     - Flyway前向迁移与空库/升级库测试
     - 不变量属性测试
@@ -2625,14 +2121,13 @@ TASKS.yaml:
     - Flyway前向迁移与空库/升级库测试
     - 不变量属性测试
     session_log_required: true
-    completed_at: '2026-07-26T12:28:32Z'
-  - id: TASK-R13-003
-    title: 收藏、历史、分享与行为审计后端应用服务与接口
-    status: DONE
+  - id: TASK-R14-003
+    title: 一对一聊天核心后端应用服务与接口
+    status: BLOCKED
     depends_on:
-    - TASK-R13-002
+    - TASK-R14-002
     requirements: *id001
-    description: 实现范围内6个operationId；控制器仅编排应用服务，跨模块副作用写Outbox
+    description: 实现范围内9个operationId；控制器仅编排应用服务，跨模块副作用写Outbox
     deliverables:
     - OpenAPI契约测试
     - 权限/幂等/错误码/审计覆盖
@@ -2642,14 +2137,13 @@ TASKS.yaml:
     - OpenAPI契约测试
     - 权限/幂等/错误码/审计覆盖
     session_log_required: true
-    completed_at: '2026-07-26T13:33:25Z'
-  - id: TASK-R13-004
-    title: 收藏、历史、分享与行为审计客户端/H5/后台实现
-    status: DONE
+  - id: TASK-R14-004
+    title: 一对一聊天核心客户端/H5/后台实现
+    status: BLOCKED
     depends_on:
-    - TASK-R13-003
+    - TASK-R14-003
     requirements: *id001
-    description: 按 4 个页面/交互面的逐页施工规格和 3 个故事实现；禁止从参考图或通用摘要自行发明业务字段和按钮。
+    description: 按 6 个页面/交互面的逐页施工规格和 4 个故事实现；禁止从参考图或通用摘要自行发明业务字段和按钮。
     deliverables:
     - 全部页面绑定catalogs/ui_page_specifications.csv
     - 字段/状态/动作/导航与后台运营规格通过契约测试
@@ -2663,15 +2157,14 @@ TASKS.yaml:
     - 禁止页面级手写重复DTO
     - 全部动作绑定生成API类型
     session_log_required: true
-    completed_at: '2026-07-26T15:51:51Z'
-  - id: TASK-R13-005
-    title: 收藏、历史、分享与行为审计专项测试与故障注入
-    status: DONE
+  - id: TASK-R14-005
+    title: 一对一聊天核心专项测试与故障注入
+    status: BLOCKED
     depends_on:
-    - TASK-R13-003
-    - TASK-R13-004
+    - TASK-R14-003
+    - TASK-R14-004
     requirements: *id001
-    description: 执行3项测试，覆盖重复请求、并发、超时、消息重复和供应商异常
+    description: 执行6项测试，覆盖重复请求、并发、超时、消息重复和供应商异常
     deliverables:
     - 测试报告和失败证据归档
     - 关键缺陷清零
@@ -2681,12 +2174,11 @@ TASKS.yaml:
     - 测试报告和失败证据归档
     - 关键缺陷清零
     session_log_required: true
-    completed_at: '2026-07-26T18:16:33Z'
-  - id: TASK-R13-006
-    title: 收藏、历史、分享与行为审计可观测性与预发布验收
-    status: DONE
+  - id: TASK-R14-006
+    title: 一对一聊天核心可观测性与预发布验收
+    status: BLOCKED
     depends_on:
-    - TASK-R13-005
+    - TASK-R14-005
     requirements: *id001
     description: 部署Staging，验证结构化日志、TraceId、RED指标、业务指标、告警和回滚
     deliverables:
@@ -2698,12 +2190,11 @@ TASKS.yaml:
     - 运行手册演练
     - 验收矩阵签字
     session_log_required: true
-    completed_at: '2026-07-26T19:08:23Z'
-  - id: TASK-R13-007
-    title: 收藏、历史、分享与行为审计Android测试APK与产物追溯
-    status: DONE
+  - id: TASK-R14-007
+    title: 一对一聊天核心Android测试APK与产物追溯
+    status: BLOCKED
     depends_on:
-    - TASK-R13-006
+    - TASK-R14-006
     requirements: *id001
     description: 使用固定工具链构建、签名、安装冒烟并生成APK_MANIFEST
     deliverables:
@@ -2715,12 +2206,11 @@ TASKS.yaml:
     - APK可下载/可安装
     - SHA256、Commit、versionName/versionCode、测试结果齐全
     session_log_required: true
-    completed_at: '2026-07-27T16:28:13Z'
-  - id: TASK-R13-008
-    title: 收藏、历史、分享与行为审计版本关闭与无状态交接
-    status: READY
+  - id: TASK-R14-008
+    title: 一对一聊天核心版本关闭与无状态交接
+    status: BLOCKED
     depends_on:
-    - TASK-R13-007
+    - TASK-R14-007
     requirements: *id001
     description: 回填追踪矩阵、Session Log、问题登记、可复用模式、CURRENT_STATUS和NEXT_TASK
     deliverables:
@@ -2733,87 +2223,9 @@ TASKS.yaml:
     - 工作区干净且Tag可追溯
     session_log_required: true
   version: 1.2.2
-  definition_of_ready: releases/R13/DEFINITION_OF_READY.yaml
-  story_backlog: releases/R13/STORIES.yaml
+  definition_of_ready: releases/R14/DEFINITION_OF_READY.yaml
+  story_backlog: releases/R14/STORIES.yaml
   execution_rule: TASKS定义治理顺序，STORIES定义可领取纵向工作；二者必须同时满足，不得以通用任务替代页面故事验收。
-PARALLEL_EXECUTION_PLAN.yaml:
-  version: '1.0'
-  release: R13
-  change_request: CR-0363
-  mode: SINGLE_AUTHORITATIVE_SESSION_WITH_SAFE_DELEGATION_REVIEW
-  authoritative_session_count: 1
-  max_parallel_workers: 3
-  simultaneous_claim_limit: 1
-  worker_parallelism_scope: DISJOINT_PATH_SCRATCH_WORKTREES_ONLY
-  default_delegation_mode: AUTO_WHEN_SAFE_PARALLEL_WORK_EXISTS
-  review_triggers:
-  - TASK_START
-  - SCOPE_CHANGE
-  non_delegation_requires_checkpoint_reason: true
-  capability_fallback: KEEP_SINGLE_AUTHORITATIVE_SESSION_AND_DO_NOT_FABRICATE_PARALLEL_EVIDENCE
-  source_of_truth_branch: task/TASK-R03-001
-  rules:
-  - 主控一次只保留一个ACTIVE Session和Task/Story Claim；执行代理不得形成第二事实源。
-  - Task开始或范围变化时评估安全并行；状态机、数据库迁移、导航、审计和最终集成由主控串行复核。
-  - 执行代理仅可在路径互斥的scratch worktree工作，不得修改连续性、Release或状态事实文件。
-  - 功能、字段、动作、数据、权限和版本归属逐项对应仓库开发文档；效果图只约束正确功能的页面建模与视觉。
-  - R13四页必须使用Release Manifest登记的精确面板或批准补充规格，禁止TOKENS_ONLY、P01-P08范围和缺失绑定施工。
-  - 普通Story只运行受影响FAST/MODULE；TASK-R13-007在obx-test固定工具链完成正式API、编译、单测、Lint、打包、稳定签名和四方SHA后交付TEST_APK，不授权Attempt21。
-  - GitHub模拟器和截图降为按需非阻断专项；TASK-R13-008只核验冻结Commit的不可变交付证据，不重复Java、数据库或Android门禁，真机PENDING不得阻断R14开发。
-  - 项目所有者真机反馈保持异步PENDING，不阻断依赖满足的后续开发。
-  coordinator_owned_paths:
-  - .continuity/**
-  - CURRENT_STATUS.yaml
-  - NEXT_TASK.yaml
-  - releases/**
-  - contracts/**
-  - catalogs/**
-  - docs/03-continuity/**
-  - apps/android/app/**
-  - apps/android/core/network/**
-  lanes:
-  - lane: ACTIVITY-DATA-FOUNDATION
-    task_id: TASK-R13-002
-    stories:
-    - STORY-R13-003
-  - lane: ACTIVITY-SERVICES
-    task_id: TASK-R13-003
-    stories:
-    - STORY-R13-001
-    - STORY-R13-002
-    - STORY-R13-003
-  - lane: ACTIVITY-ANDROID
-    task_id: TASK-R13-004
-    stories:
-    - STORY-R13-001
-    - STORY-R13-002
-  - lane: R13-QUALITY
-    task_id: TASK-R13-005
-    stories:
-    - STORY-R13-001
-    - STORY-R13-002
-    - STORY-R13-003
-  integration:
-    task_id: TASK-R13-005
-    depends_on:
-    - TASK-R13-003
-    - TASK-R13-004
-    profiles:
-    - MODULE
-    - INTEGRATION
-    - SECURITY
-  apk:
-    task_id: TASK-R13-007
-    fixed_toolchain_test_apk: REQUIRED
-    github_emulator: ON_DEMAND_NON_BLOCKING_SPECIALTY
-    attempt_21_authorized: false
-    desktop_copy_required: true
-    stable_test_signing_required: true
-    owner_physical_test_initial_status: PENDING
-  closure:
-    task_id: TASK-R13-008
-    owner_feedback_mode: ASYNC_NON_BLOCKING
-    machine_completion_may_continue_next_release: true
 ```
 
 ## 开放 CR
@@ -13936,8 +13348,8 @@ PARALLEL_EXECUTION_PLAN.yaml:
 
 - `AGENTS.md` — `e9f1cf3739a97b47a4de96166ebd17eb2206b7231adb22dbfa23f7687c9809bc`
 - `START_HERE.md` — `22de14029ce47beb41ea569e36ce223fbc9d11b86f8676f28d5fbbd83896af5c`
-- `CURRENT_STATUS.yaml` — `51982d40bb09b08b3d55e9941a63d04bc66b530a0b1a7fbe0a090cbbc4911030`
-- `NEXT_TASK.yaml` — `518b30d2f6d34f64990ea26afae0c6e0600568fc4153b8e6eda1cb03f57ec431`
+- `CURRENT_STATUS.yaml` — `66ce8bb828dfa8f4daeff407a365e9b957476bab0531d155a04ad7db5653272b`
+- `NEXT_TASK.yaml` — `0859185ea2e4b091ef1634777c5040ef21e7342b14afbfcda4f7fa8ad38c435f`
 - `DEVELOPMENT_RISK_REGISTER.md` — `8304c91492e4ee2abea0522a06541c8688d39c7fc532b5d0cde499bf09fffb87`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
 - `docs/03-continuity/PROBLEM_REGISTRY.yaml` — `d18beec6a764dd892314fd4d4959544ee0ae4ef5f57cd6063dfd3e3030453d48`
@@ -13947,27 +13359,21 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `config/REPOSITORY_TRANSPORT.yaml` — `8c4a21f3e204d46e7ffb467d804a53ed26cda61cd088dadfddb50b69eea657fc`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `38e04ed812c8df0d353c2b91993d31e53b471e9c457f06b426bd2260c470aa92`
-- `.continuity/EVENT_LOG.jsonl` — `88741ab37a90ee8f0e6fbc18361765d18a9de0fe90923a2a7e9ea7cc99899349`
-- `.continuity/SESSION_INDEX.yaml` — `5a0d6ad7002c16fccbf610f494e1f3afe565705ec43e7576929ea888b1673a77`
-- `.continuity/TASK_CLAIMS.yaml` — `72d92fa264aa4fbe0ec1b48afb5c420714f93b810e759dfdda2f602ca73b4507`
+- `.continuity/EVENT_LOG.jsonl` — `d5e3cd68134da0544575d92ca0f24cee4610fdd13bd18e5a3be9b31242eac5af`
+- `.continuity/SESSION_INDEX.yaml` — `a8477cbae526cc365ecd1e38fa2f21daf13daa5a01dca0bde17caec1fa7aa6a1`
+- `.continuity/TASK_CLAIMS.yaml` — `6535b3e07f38e078cf512069f9f233efe5ed93658bc61d33c04a9123e817ba8c`
 - `.continuity/TASK_TRANSITIONS.yaml` — `d37a7a499345445a73f1911f3bceb119cf71e192cbd33a6c2d398e4531337f4e`
 - `.continuity/CHANGE_REQUEST_INDEX.yaml` — `4322cda50be8be0e17dd46a97ebe460e51f91d126760ec7a6ee3f63ca8a820a1`
-- `.continuity/ACTIVE_SESSION.yaml` — `cd74dba80a917f95d3bd1c40120da4d430c918a9cf5188170deab0b9236dae3e`
+- `.continuity/ACTIVE_SESSION.yaml` — `9673189debec6dc792e4a4be2c3695bdfd24faacc7066b028fc9e89100a7da14`
 - `docs/00-baseline/正式商业系统全局硬性开发边界.md` — `d8a77eddf520659b1d6b57e16ecc0739fa93dbd39cf9903dbaf798fc631ae6fe`
 - `docs/02-ui/UI参考图使用与开发约束_V1.2.2.md` — `d14367586aa2067b059df58798acd20ab982459cdb35ff27fc7922a3896e4933`
 - `docs/03-continuity/持续开发无状态接续强制门禁_V1.2.3.md` — `d0ed3ed68bdd93b06500eecdfb5baa3245e6ca8b685a486788abb6eee39b3d51`
 - `docs/09-development/统一开发与交付效率规范.md` — `1b73841ee01e9ae9d3c3beea35ef1874ad6b2049d0c15423119f03f0a998b3f1`
-- `releases/R13/RELEASE_MANIFEST.yaml` — `b6364809695602e9f4c8606799f9e0e4d24a1d09c421bce88f4540918109f7b5`
-- `releases/R13/DEFINITION_OF_READY.yaml` — `ba0fe58385ceb74fb62ecdde3b5a56c3871c5fc8234c0bd3fcbe8d72923cc995`
-- `releases/R13/STORIES.yaml` — `63c13176b456f804ab42ee350bd1c3496666cf13e3250d82b013ef73c8cd84fd`
-- `releases/R13/TASKS.yaml` — `7dbbf9eab956f61bd7a7d3df30391b1de9f4570e92264f219b5fb3d889ce1b86`
-- `releases/R13/ACCEPTANCE_MATRIX.csv` — `f383e3cb6b77155e09469488812c34f20eef51253f30216590cdda46a1e30c65`
-- `releases/R13/PARALLEL_EXECUTION_PLAN.yaml` — `a3b89ec53907aa1624c9936f117c2979c26104097aacba1b851e8ddd2b26c867`
-- `docs/03-continuity/sessions/2026-07/SES-20260727T163211Z-EDFF7E87.md` — `6d2572c5f35ecd5d362699d658dfa1c354fc934419d95a61b3ce4a4d7399515b`
-- `.continuity/checkpoints/SES-20260727T163211Z-EDFF7E87/0004.yaml` — `288ed36f6c702733fd7a6ea9c62079b5cc4b21643046218a978adb29f5343d04`
-- `docs/03-continuity/change-requests/CR-0414-补齐CR-0412机器关闭与跨版本持续开发实现.md` — `9fb73938f1788f550af4bd043ae2fbb7038dbbee4fbbe4d9c7c63293fd18d6b4`
-- `docs/03-continuity/change-requests/CR-0415-恢复R13公网注册邀请码并补部署防回归.md` — `dfba186ae4790febc6e5471a202d7151cbde86f46a1c94deffc70a9f323615e9`
-- `docs/03-continuity/change-requests/CR-0416-补齐历史异步真机依赖后缀与R02机器事实投影.md` — `a866c0030bfee56612489a8a34d0164c235c848afa2da0b8c6735cce1b82eecf`
+- `releases/R14/RELEASE_MANIFEST.yaml` — `29b901bd2c58842232d13023de27f55086ed5a90d214322ffeef0e640de181c5`
+- `releases/R14/DEFINITION_OF_READY.yaml` — `c704682cbf23b60766f803327d9702bffca8d19184d655f5e1fcbdbe110476eb`
+- `releases/R14/STORIES.yaml` — `cf9aff375cec6de476cdd940975950e82417564bab74fce5056821978ce397c4`
+- `releases/R14/TASKS.yaml` — `2ba9dc5cd874f9cd0116a89c50069cae7d578a5d3ce9df46c1f0abc7e88c7104`
+- `releases/R14/ACCEPTANCE_MATRIX.csv` — `d747f5c176d1eb94d685134d6bbddb12e1961529824471d6e969e9f10679a2b1`
 
 ## 接手硬规则
 
