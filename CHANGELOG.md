@@ -1844,4 +1844,4 @@
 - Task：`TASK-R13-007`
 - 摘要：Run `30229476784` attempt8已消费失败；请求、编译、Lint、单测和打包通过，但模拟器在媒体激活前精确报告`Expected exactly one R13 activity list ... count=0`。Compose LazyColumn未向UiAutomator暴露`scrollable=true`，SurfaceFlinger权限噪声不是业务根因；runtime artifact SHA-256为`cb6907f5b5903d650d74cc586ea22328a66769503e9f31d844e1dc42e233d897`。
 - 修复：R13活动列表按模式暴露稳定资源，候选用`By.res`定位收藏列表并根据节点`visibleBounds`执行内容区上下滑动；保留原30秒、按description累计三条成功、回顶严格三态复验和截图起点。
-- 候选：attempt9尚未授权；必须先形成首个修复Commit并通过专项回归、UI基础门禁和obx-test固定镜像模块编译。
+- 候选：首个修复Commit `2832d47d5c2a27d73c7a7d2b4f63bc0f331a5e54`形成后，62项治理回归、UI基础门禁和obx-test固定镜像223任务通过；唯一`R13-CANDIDATE-20260727-009 / CR-0389 / attempt9 / max1`只绑定该不可变SHA，attempt10未授权。

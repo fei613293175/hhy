@@ -1771,7 +1771,7 @@ problems:
   title: R13固定尺寸Lazy列表预组合媒体未进入活动视口而持续loading
   status: REMEDIATING
   root_cause: Run 30226547910 attempt6的请求、编译、Lint、单测、打包、OIDC和Staging准备均通过，CR-0386新增的description也被UiAutomator正确识别；收藏页30秒后精确报告expected=3 success=2 errors=0 loading=1。CR-0387随后给固定媒体容器提供确定像素尺寸并通过固定镜像模块验证，但Run 30228016402 attempt7仍报告相同2/0/1，证明尺寸解析不是最终根因。第三个LazyColumn节点虽已预组合进入语义树，却未进入活动视口，图片生命周期仍未启动；断言后的DNS和Google联网探针错误晚于业务失败，不是根因。CR-0388按此加入滚动激活，但Run 30229476784 attempt8在激活前即精确失败于Expected exactly one R13 activity list count=0，证明Compose LazyColumn未以scrollable=true属性进入UiAutomator树；runtime artifact SHA-256为cb6907f5b5903d650d74cc586ea22328a66769503e9f31d844e1dc42e233d897。
-  resolution: 保留CR-0387的确定尺寸ImageRequest与CR-0388的同期限激活、累计成功和回顶复验；CR-0389为R13活动LazyColumn按模式暴露稳定资源r13.<mode>.list，候选通过By.res定位收藏列表并根据该节点visibleBounds在内容区执行UiDevice.swipe，不再依赖scrollable属性或全屏固定坐标。Run 30226547910/attempt6、30228016402/attempt7与30229476784/attempt8均保持已消费且不得重跑、晋升或交付；attempt9只能在首个修复Commit及专项、固定镜像证据通过后精确登记。
+  resolution: 保留CR-0387的确定尺寸ImageRequest与CR-0388的同期限激活、累计成功和回顶复验；CR-0389为R13活动LazyColumn按模式暴露稳定资源r13.<mode>.list，候选通过By.res定位收藏列表并根据该节点visibleBounds在内容区执行UiDevice.swipe，不再依赖scrollable属性或全屏固定坐标。Run 30226547910/attempt6、30228016402/attempt7与30229476784/attempt8均保持已消费且不得重跑、晋升或交付；62项治理回归、UI基础门禁和obx-test固定镜像223任务通过，首个修复Commit为2832d47d5c2a27d73c7a7d2b4f63bc0f331a5e54。唯一R13 attempt9/request009/CR-0389/max1仅绑定该不可变SHA，attempt10未授权。
   regression_checks:
   - tests.test_r13_candidate必须锁定与容器一致的确定像素尺寸ImageRequest、稳定列表资源、资源节点边界内坐标滑动、按业务description累计三条成功、受控下滚激活、回顶严格三态复验、30秒单一期限和截图前等待顺序
   - scripts/check_android_ui_foundation.py必须PASS且git diff --check无错误

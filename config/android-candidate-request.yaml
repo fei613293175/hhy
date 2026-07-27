@@ -2,8 +2,8 @@ schema_version: 1
 status: REQUESTED
 release: R13
 candidate: true
-remediation_attempt: 8
-request_id: R13-CANDIDATE-20260727-008
-reason: R13 attempt 7 Run 30228016402的候选请求、编译、Lint、单测、打包、OIDC和Staging准备通过，但确定尺寸ImageRequest仍在收藏页精确报告success=2、errors=0、loading=1；第三个Lazy预组合节点虽进入语义树却未进入活动视口，断言后的DNS与Google联网探针错误不是业务根因。该Run已消费且不得重跑、晋升或交付；CR-0388在原30秒期限内按业务description累计确认媒体成功并受控下滚激活，三项成功后回顶严格复验三条success、零error、零loading。本请求只允许对首个修复Commit执行一次精确attempt 8，不授权attempt 9。
-attempt_exception_id: CR-0388
-required_fix_commit: 02f3dc856b2dc6de4df0c1f94730b80388b5d563
+remediation_attempt: 9
+request_id: R13-CANDIDATE-20260727-009
+reason: R13 attempt 8 Run 30229476784的候选请求、编译、Lint、单测和打包通过，但模拟器在媒体激活前精确报告Expected exactly one R13 activity list count=0；Compose LazyColumn未向UiAutomator暴露scrollable=true，SurfaceFlinger权限日志不是业务根因。该Run与runtime artifact cb6907f5b5903d650d74cc586ea22328a66769503e9f31d844e1dc42e233d897已消费且不得重跑、晋升或交付；CR-0389为列表暴露稳定资源并按节点visibleBounds执行内容区UiDevice.swipe，同时保留原30秒、三媒体和回顶复验。本请求只允许对首个修复Commit执行一次精确attempt 9，不授权attempt 10。
+attempt_exception_id: CR-0389
+required_fix_commit: 2832d47d5c2a27d73c7a7d2b4f63bc0f331a5e54
