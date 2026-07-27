@@ -232,6 +232,98 @@ class CrossReleaseCloseTest(unittest.TestCase):
             dump_yaml(manifest_path, manifest)
             self.assertFalse(release_has_async_owner_gate(root, "R06"))
 
+    def test_on_demand_test_apk_allows_blocked_close_to_continue_next_release(self) -> None:
+        with tempfile.TemporaryDirectory(prefix="hhy-on-demand-test-apk-") as directory:
+            root = Path(directory)
+            for release in ("R13", "R14"):
+                (root / f"releases/{release}").mkdir(parents=True)
+            (root / "artifacts/apk/R13").mkdir(parents=True)
+            (root / "artifacts/validation/r13-test-apk").mkdir(parents=True)
+            (root / "artifacts/reports/R13").mkdir(parents=True)
+            commit = "a" * 40
+            sha = "b" * 64
+            fingerprint = "c" * 64
+            size = 1024
+            apk = {
+                "release": "R13", "commit": commit, "apk_file": "hhy-r13.apk",
+                "version_name": "1.2.2-debug", "version_code": 10222,
+                "sha256": sha, "size_bytes": size, "signing_fingerprint": fingerprint,
+            }
+            dump_yaml(root / "artifacts/apk/R13/APK_MANIFEST.yaml", apk)
+            build_path = root / "artifacts/validation/r13-test-apk/build-evidence.json"
+            build = {
+                "release": "R13", "commit": commit, "version_name": apk["version_name"],
+                "version_code": apk["version_code"], "build_status": "PASS",
+                "checks": [
+                    "verifyApiBaseUrl", "testDebugUnitTest", "lintDebug", "assembleDebug",
+                    "apksigner", "zipalign", "embeddedApiBaseUrl", "packageIdentity",
+                ],
+                "stable_signing": True, "api_base_url": "https://api.orbexa.cc",
+                "apk_sha256": sha, "apk_size_bytes": size,
+                "signing_profile_id": "hhy-staging-test-v2", "signing_fingerprint": fingerprint,
+            }
+            build_path.write_text(json.dumps(build), encoding="utf-8")
+            delivery_path = root / "artifacts/validation/r13-test-apk/delivery-evidence.json"
+            delivery_evidence = {
+                **{key: apk[key] for key in ("release", "apk_file", "version_name", "version_code", "sha256", "size_bytes")},
+                "commit": commit,
+                "signing": {"status": "PASS", "stable": True, "profile_id": "hhy-staging-test-v2", "fingerprint": fingerprint},
+                "local": {"status": "PASS"},
+                "desktop": {"status": "PASS", "sha256": sha},
+                "remote": {"status": "PASS", "sha256": sha, "size_bytes": size},
+                "https": {"status": "PASS", "sha256": sha, "size_bytes": size, "http_status": 200, "range_status": 206},
+            }
+            delivery_path.write_text(json.dumps(delivery_evidence), encoding="utf-8")
+            (root / "artifacts/reports/R13/R13-version-test-guide.md").write_text("PASS\n", encoding="utf-8")
+            manifest = {
+                "android_delivery": {
+                    "source_commit": commit, "apk_file": apk["apk_file"],
+                    "version_name": apk["version_name"], "version_code": apk["version_code"],
+                    "sha256": sha, "signing_profile_id": "hhy-staging-test-v2",
+                    "signing_fingerprint": fingerprint, "machine_delivery": "PASS",
+                    "owner_physical_test": "PENDING", "next_release_development": "ALLOWED",
+                    "build_evidence": "artifacts/validation/r13-test-apk/build-evidence.json",
+                    "evidence": "artifacts/validation/r13-test-apk/delivery-evidence.json",
+                    "test_guide": "artifacts/reports/R13/R13-version-test-guide.md",
+                },
+                "android_automation": {
+                    "policy_id": "HHY-ANDROID-AUTOMATION-V1",
+                    "mode": "ON_DEMAND_NON_BLOCKING_SPECIALTY",
+                    "status": "NOT_RUN_NOT_REQUIRED_FOR_TEST_APK",
+                    "owner_physical_test": "PENDING",
+                    "next_release_development": "ALLOWED",
+                },
+            }
+            manifest_path = root / "releases/R13/RELEASE_MANIFEST.yaml"
+            dump_yaml(manifest_path, manifest)
+            dump_yaml(root / "releases/R13/TASKS.yaml", {
+                "release": "R13",
+                "tasks": [
+                    {"id": "TASK-R13-007", "status": "DONE"},
+                    {"id": "TASK-R13-008", "status": "READY", "title": "版本关闭与无状态交接"},
+                ],
+            })
+            dump_yaml(root / "releases/R14/TASKS.yaml", {
+                "release": "R14", "tasks": [{"id": "TASK-R14-001", "status": "READY"}],
+            })
+            dump_yaml(root / "releases/RELEASE_DEPENDENCIES.yaml", {"dependencies": {"R14": ["R13"]}})
+
+            self.assertTrue(release_has_async_owner_gate(root, "R13"))
+            next_task = validate_independent_release_start(
+                root, current_release="R13", current_task="TASK-R13-008",
+                next_release="R14", next_task="TASK-R14-001",
+            )
+            self.assertEqual((next_task["release"], next_task["id"]), ("R14", "TASK-R14-001"))
+
+            delivery_evidence["sha256"] = "d" * 64
+            delivery_path.write_text(json.dumps(delivery_evidence), encoding="utf-8")
+            self.assertFalse(release_has_async_owner_gate(root, "R13"))
+            with self.assertRaisesRegex(ContinuityError, "只有APK/项目所有者真机等外部交付门禁"):
+                validate_independent_release_start(
+                    root, current_release="R13", current_task="TASK-R13-008",
+                    next_release="R14", next_task="TASK-R14-001",
+                )
+
     def test_prior_machine_complete_owner_pending_dependency_allows_later_release(self) -> None:
         with tempfile.TemporaryDirectory(prefix="hhy-prior-async-owner-dependency-") as directory:
             root = Path(directory)

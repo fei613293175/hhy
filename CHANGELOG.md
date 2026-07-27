@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## R13 TEST_APK关闭门禁投影修正 · 2026-07-28
+
+- `CR-0414`补齐`CR-0412`遗漏的机器关闭与跨版本执行入口：按需自动化模式改为核验完整固定工具链`TEST_APK`证据，不再错误要求GitHub自动候选PASS。
+- 生产关闭继续要求自动候选、候选报告和项目所有者真机PASS；R13缺失的四页当前Commit截图保持未通过，不会被伪造为机器完成或生产验收。
+- 合格`TEST_APK`交付后，未完成的按需专项可保留为`BLOCKED_EXTERNAL_GATE`并继续下一版本；构建、正式API、必需检查、稳定签名、Commit、版本、SHA、四方端点或桌面说明任一篡改仍硬失败。
+
 ## Android固定环境测试APK交付与异步真机反馈 · 2026-07-27
 
 - `CR-0413`从R13起把固定测试签名轮换为`hhy-staging-test-v2`：秘密仅在`obx-test`以root-only SecretRef持久化，仓库只保存Profile ID、证书指纹和一次性安装迁移边界；旧v1私钥缺失事实及历史APK证据保持不改写。
@@ -1886,4 +1892,3 @@
 - Actor：`codex-root-r13-candidate-20260727`
 - 摘要：R13 TEST_APK已完成固定工具链构建、稳定签名、正式API和四方SHA交付，owner真机反馈保持异步PENDING
 - 记录：`docs/03-continuity/sessions/2026-07/SES-20260726T191158Z-2B506AB7.md`
-

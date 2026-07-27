@@ -1846,3 +1846,16 @@ problems:
   - 不得把keystore、口令、私钥或其内容写入仓库、聊天、日志、构建证据或命令参数
   - 不得用默认debug、临时生成或每版随机签名冒充稳定测试签名
   - 旧私钥不可恢复时不得伪称可覆盖安装，必须明确一次性卸载迁移边界
+- id: PROB-0129
+  title: CR-0412已批准的TEST_APK持续开发规则未投影到关闭与跨版本门禁
+  status: SOLVED
+  root_cause: CR-0412已经把GitHub模拟器降为按需非阻断专项，并规定固定环境TEST_APK通过正式API、编译、单测、Lint、打包、稳定签名、身份和四方SHA后不得阻断下一版本；但实施只更新android_ci_gate及其策略测试，check_release_artifacts仍在machine-close无条件要求自动候选PASS、owner_test_allowed和candidate report，continuity跨版本判断也只接受machine_completion=PASS。R13合格TEST_APK已交付后，TASK-R13-008因此被五项过期自动候选错误阻断，无法诚实保留视觉专项缺口并继续R14。
+  resolution: CR-0414不建立新规则，只补齐CR-0412遗漏投影。machine-close在ON_DEMAND_NON_BLOCKING_SPECIALTY分支改为严格核验android_delivery、APK Manifest、固定工具链build evidence、正式API、完整检查集合、稳定签名、版本身份、四方delivery evidence和桌面测试说明；production-close继续要求自动候选与owner真机PASS。continuity只有在同一完整TEST_APK证据链PASS、owner保持PENDING且next_release_development=ALLOWED时，才允许把未完成关闭任务标为BLOCKED_EXTERNAL_GATE并继续下一Release，机器完成、视觉、自动候选和生产验收均不得伪标PASS。
+  regression_checks:
+  - tests.test_release_close_gate必须证明按需TEST_APK可通过machine-close自动化分支但仍被production-close拒绝
+  - 参数化篡改必须分别拒绝构建状态、必需检查、正式API、稳定签名、Commit、版本、SHA、四方端点和测试说明缺失
+  - tests.test_continuity_cross_release_close必须证明完整TEST_APK可继续下一Release，缺失或不一致交付证据仍拒绝
+  do_not_repeat:
+  - 已批准规则必须投影到所有真实消费者及其正负回归，禁止只修改策略文档或单一门禁后宣称完成
+  - 不得用自动候选旧字段阻断按需模式TEST_APK，也不得因为按需模式而放宽生产关闭
+  - 不得把视觉或自动候选待办伪写为机器完成PASS；继续开发必须保留BLOCKED_EXTERNAL_GATE和精确恢复条件

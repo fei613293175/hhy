@@ -25468,3 +25468,49 @@ change_requests:
     session_id: SES-20260726T191158Z-2B506AB7
   session_ids:
   - SES-20260726T191158Z-2B506AB7
+- protocol_version: '1.0'
+  cr_id: CR-0414
+  title: 补齐CR-0412机器关闭与跨版本持续开发实现
+  status: APPROVED
+  created_at: '2026-07-27T16:39:25Z'
+  updated_at: '2026-07-27T16:45:20Z'
+  requester_actor_id: codex-root-r13-close-20260728
+  approver_actor_id: codex-reviewer-r13-cr0414-20260728
+  task_id: TASK-R13-008
+  session_id: SES-20260727T163211Z-EDFF7E87
+  user_request: 项目所有者要求真机异步反馈且AI持续推进，GitHub模拟器不得反复阻断版本开发
+  reason: CR-0412已批准规则没有投影到release-close和continuity跨版本判断，导致TEST_APK已PASS仍被旧自动候选条件阻断
+  original_rule: 关闭脚本仍按CR-0412之前的逻辑要求machine-close具备GitHub自动候选PASS；跨版本切换仍只接受machine_completion=PASS，导致合格TEST_APK和异步真机不能按既有规则继续下一版本
+  new_rule: 严格实现CR-0412既有分层：machine-close验证固定工具链TEST_APK交付闭环且不要求按需自动候选PASS；production-close继续保持自动候选与owner真机严格边界。若TASK-xx-008仅因按需专项或owner反馈未完成，可在TEST_APK正式API、构建、测试、Lint、稳定签名、身份、四方SHA和桌面说明全部PASS且next_release_development=ALLOWED时诚实标记BLOCKED_EXTERNAL_GATE并继续下一Release，不得把该版machine
+    completion、自动候选或生产验收标为PASS
+  impact_summary: 只补齐CR-0412遗漏的两个执行入口、统一效率规范投影和完整篡改回归；不新增平行规则、不删除历史Attempt、不重建APK、不放宽生产关闭
+  impact:
+    files:
+    - scripts/check_release_artifacts.py
+    - tests/test_release_close_gate.py
+    - scripts/continuity.py
+    - tests/test_continuity_cross_release_close.py
+    - docs/09-development/统一开发与交付效率规范.md
+    - docs/03-continuity/PROBLEM_REGISTRY.yaml
+    - CHANGELOG.md
+    pages: []
+    apis: []
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - machine close accepts complete on-demand TEST_APK without optional candidate while production rejects
+    - parameterized TEST_APK tamper regression rejects build status, required checks, official API, stable signing, identity, commit/version/SHA,
+      four delivery endpoints and missing guide
+    - cross-release blocked advance accepts complete TEST_APK facts and rejects missing or mismatched delivery evidence
+    releases:
+    - R13
+    migration_and_compatibility: R06-R12既有自动候选PASS继续兼容；R13起可使用ON_DEMAND_NON_BLOCKING_SPECIALTY的TEST_APK闭环推进。机器TEST_APK以android_delivery、APK Manifest、build
+      evidence和delivery evidence一致为准；仅声明自动候选时校验candidate report。生产关闭仍要求owner真机PASS及原有严格证据
+  user_confirmation: 项目所有者已明确：真机测试采用异步反馈，AI持续推进开发，GitHub模拟器不得反复阻断TEST_APK交付和后续版本开发。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-27T16:45:20Z'
+    note: 独立复核确认：CR-0414仅补齐CR-0412遗漏的机器关闭和跨版本实现；机器阶段以TEST_APK固定工具链及完整交付证据为准，参数化负向回归覆盖构建、正式API、稳定签名、身份、Commit/版本/SHA、四方交付和说明篡改；production-close继续要求自动候选与项目所有者真机PASS，未放宽生产边界。
+  machine_record: .continuity/change_requests/CR-0414.yaml
+  document: docs/03-continuity/change-requests/CR-0414-补齐CR-0412机器关闭与跨版本持续开发实现.md

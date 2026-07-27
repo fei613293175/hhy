@@ -299,6 +299,82 @@ def promote_fixture_to_r06(repo: Path, candidate_commit: str) -> str:
     return release_commit
 
 
+def configure_on_demand_test_apk(repo: Path, candidate_commit: str) -> None:
+    apk_path = repo / "artifacts/apk/R06/APK_MANIFEST.yaml"
+    apk = load_yaml(apk_path)
+    apk.update({"test_status": "PENDING", "owner_physical_test": "PENDING"})
+    dump_yaml(apk_path, apk)
+
+    guide = repo / "artifacts/reports/R06/R06-version-test-guide.md"
+    guide.write_text("# R06 TEST_APK\n\nOwner verification is asynchronous.\n", encoding="utf-8")
+    build_path = repo / "artifacts/validation/r06-test-apk/build-evidence.json"
+    build_path.parent.mkdir(parents=True, exist_ok=True)
+    build_path.write_text(json.dumps({
+        "release": "R06",
+        "commit": candidate_commit,
+        "version_name": apk["version_name"],
+        "version_code": apk["version_code"],
+        "build_status": "PASS",
+        "checks": sorted(release_gate.REQUIRED_TEST_APK_CHECKS),
+        "stable_signing": True,
+        "signing_profile_id": "hhy-staging-test-v2",
+        "signing_fingerprint": "b" * 64,
+        "api_base_url": "https://api.orbexa.cc",
+        "apk_sha256": apk["sha256"],
+        "apk_size_bytes": apk["size_bytes"],
+    }), encoding="utf-8")
+    delivery_path = repo / "artifacts/validation/r06-test-apk/delivery-evidence.json"
+    delivery_path.write_text(json.dumps({
+        "release": "R06",
+        "commit": candidate_commit,
+        "apk_file": apk["apk_file"],
+        "version_name": apk["version_name"],
+        "version_code": apk["version_code"],
+        "sha256": apk["sha256"],
+        "size_bytes": apk["size_bytes"],
+        "signing": {
+            "status": "PASS", "stable": True,
+            "profile_id": "hhy-staging-test-v2", "fingerprint": "b" * 64,
+        },
+        "local": {"status": "PASS"},
+        "desktop": {"status": "PASS", "sha256": apk["sha256"]},
+        "remote": {"status": "PASS", "sha256": apk["sha256"], "size_bytes": apk["size_bytes"]},
+        "https": {
+            "status": "PASS", "sha256": apk["sha256"], "size_bytes": apk["size_bytes"],
+            "http_status": 200, "range_status": 206,
+        },
+    }), encoding="utf-8")
+
+    apk["signing_fingerprint"] = "b" * 64
+    dump_yaml(apk_path, apk)
+    manifest_path = repo / "releases/R06/RELEASE_MANIFEST.yaml"
+    manifest = load_yaml(manifest_path)
+    manifest.update({"status": "MACHINE_COMPLETE_OWNER_PENDING"})
+    manifest["android_delivery"] = {
+        "source_commit": candidate_commit,
+        "apk_file": apk["apk_file"],
+        "version_name": apk["version_name"],
+        "version_code": apk["version_code"],
+        "sha256": apk["sha256"],
+        "signing_profile_id": "hhy-staging-test-v2",
+        "signing_fingerprint": "b" * 64,
+        "machine_delivery": "PASS",
+        "owner_physical_test": "PENDING",
+        "next_release_development": "ALLOWED",
+        "build_evidence": "artifacts/validation/r06-test-apk/build-evidence.json",
+        "evidence": "artifacts/validation/r06-test-apk/delivery-evidence.json",
+        "test_guide": "artifacts/reports/R06/R06-version-test-guide.md",
+    }
+    manifest["android_automation"] = {
+        "policy_id": "HHY-ANDROID-AUTOMATION-V1",
+        "mode": release_gate.ON_DEMAND_ANDROID_MODE,
+        "status": "NOT_RUN_NOT_REQUIRED_FOR_TEST_APK",
+        "owner_physical_test": "PENDING",
+        "next_release_development": "ALLOWED",
+    }
+    dump_yaml(manifest_path, manifest)
+
+
 class ReleaseCloseGateTest(unittest.TestCase):
     def run_gate(self, repo: Path, *args: str, expected: int) -> subprocess.CompletedProcess[str]:
         result = subprocess.run(
@@ -384,6 +460,55 @@ class ReleaseCloseGateTest(unittest.TestCase):
             self.assertIn("RELEASE_MACHINE_CLOSE_GATE_OK R06", machine.stdout)
             production = self.run_gate(repo, "--production-close-gate", "--release", "R06", expected=1)
             self.assertIn("ANDROID_OWNER_TEST_NOT_PASS", production.stdout)
+
+    def test_machine_close_accepts_complete_on_demand_test_apk_without_candidate(self) -> None:
+        temp, repo, candidate_commit = self.fixture()
+        with temp:
+            promote_fixture_to_r06(repo, candidate_commit)
+            configure_on_demand_test_apk(repo, candidate_commit)
+            machine = self.run_gate(repo, "--machine-close-gate", "--release", "R06", expected=0)
+            self.assertIn("RELEASE_MACHINE_CLOSE_GATE_OK R06", machine.stdout)
+            production = self.run_gate(repo, "--production-close-gate", "--release", "R06", expected=1)
+            self.assertIn("ANDROID_AUTOMATION_NOT_PASS", production.stdout)
+
+    def test_machine_close_rejects_tampered_on_demand_test_apk_evidence(self) -> None:
+        cases = [
+            ("build-status", "build", lambda value: value.update({"build_status": "FAIL"})),
+            ("required-check", "build", lambda value: value.update({"checks": ["assembleDebug"]})),
+            ("official-api", "build", lambda value: value.update({"api_base_url": "https://api.example.invalid"})),
+            ("stable-signing", "build", lambda value: value.update({"stable_signing": False})),
+            ("build-commit", "build", lambda value: value.update({"commit": "c" * 40})),
+            ("build-version", "build", lambda value: value.update({"version_code": 1})),
+            ("delivery-sha", "delivery", lambda value: value.update({"sha256": "d" * 64})),
+            ("delivery-signing", "delivery", lambda value: value["signing"].update({"stable": False})),
+            ("local", "delivery", lambda value: value["local"].update({"status": "FAIL"})),
+            ("desktop", "delivery", lambda value: value["desktop"].update({"status": "FAIL"})),
+            ("remote", "delivery", lambda value: value["remote"].update({"status": "FAIL"})),
+            ("https", "delivery", lambda value: value["https"].update({"status": "FAIL"})),
+            ("guide", "manifest", lambda value: value["android_delivery"].update({"test_guide": "artifacts/reports/R06/missing.md"})),
+        ]
+        for name, target, mutate in cases:
+            with self.subTest(name=name):
+                temp, repo, candidate_commit = self.fixture()
+                with temp:
+                    promote_fixture_to_r06(repo, candidate_commit)
+                    configure_on_demand_test_apk(repo, candidate_commit)
+                    paths = {
+                        "build": repo / "artifacts/validation/r06-test-apk/build-evidence.json",
+                        "delivery": repo / "artifacts/validation/r06-test-apk/delivery-evidence.json",
+                        "manifest": repo / "releases/R06/RELEASE_MANIFEST.yaml",
+                    }
+                    path = paths[target]
+                    if path.suffix == ".yaml":
+                        document = load_yaml(path)
+                        mutate(document)
+                        dump_yaml(path, document)
+                    else:
+                        document = json.loads(path.read_text(encoding="utf-8"))
+                        mutate(document)
+                        path.write_text(json.dumps(document), encoding="utf-8")
+                    result = self.run_gate(repo, "--machine-close-gate", "--release", "R06", expected=1)
+                    self.assertIn("TEST_APK_", result.stdout)
 
     def test_ambiguous_legacy_close_flag_is_rejected_with_guidance(self) -> None:
         temp, repo, _commit = self.fixture()

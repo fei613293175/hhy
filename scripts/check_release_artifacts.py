@@ -41,6 +41,17 @@ GOVERNANCE_AUDIT_CHECKS = {
     "problem_registry",
     "pitfalls",
 }
+ON_DEMAND_ANDROID_MODE = "ON_DEMAND_NON_BLOCKING_SPECIALTY"
+REQUIRED_TEST_APK_CHECKS = {
+    "verifyApiBaseUrl",
+    "testDebugUnitTest",
+    "lintDebug",
+    "assembleDebug",
+    "apksigner",
+    "zipalign",
+    "embeddedApiBaseUrl",
+    "packageIdentity",
+}
 
 
 def git_executable() -> str:
@@ -330,6 +341,12 @@ class CloseGate:
         if not isinstance(automation, dict):
             return
         self.require(automation.get("policy_id") == "HHY-ANDROID-AUTOMATION-V1", "ANDROID_POLICY_MISMATCH", "Android自动化策略版本不一致")
+        if not self.production and automation.get("mode") == ON_DEMAND_ANDROID_MODE:
+            self.validate_test_apk_delivery(manifest, expected_candidate_commit)
+            owner_status = str(automation.get("owner_physical_test") or "").upper()
+            self.require(owner_status in {"PENDING", "PASS"}, "ANDROID_OWNER_TEST_STATE_INVALID", f"项目所有者真机验收状态不符合machine关闭要求：{owner_status or 'EMPTY'}")
+            self.require(automation.get("next_release_development") == "ALLOWED", "ANDROID_NEXT_RELEASE_BLOCKED", "按需自动化模式必须允许合格TEST_APK继续下一版本")
+            return
         self.require(str(automation.get("status") or "").upper() == "PASS", "ANDROID_AUTOMATION_NOT_PASS", "Android自动门禁不是PASS")
         self.require(automation.get("owner_test_allowed") is True, "ANDROID_OWNER_TEST_NOT_ALLOWED", "自动门禁尚未允许项目所有者真机测试")
         owner_status = str(automation.get("owner_physical_test") or "").upper()
@@ -386,6 +403,109 @@ class CloseGate:
                         "ANDROID_CANDIDATE_REPORT_SHA_MISMATCH",
                         "候选APK到稳定签名交付APK的Commit、SHA、大小或PASS转换证据不完整",
                     )
+
+    def repository_file(self, value: Any, code: str, label: str) -> Path | None:
+        relative = str(value or "").strip().replace("\\", "/")
+        if not relative:
+            self.require(False, code, f"{label}路径为空")
+            return None
+        candidate = (ROOT / relative).resolve()
+        try:
+            candidate.relative_to(ROOT.resolve())
+            inside = True
+        except ValueError:
+            inside = False
+        self.require(inside and candidate.is_file(), code, f"{label}不存在：{relative}")
+        return candidate if inside and candidate.is_file() else None
+
+    def json_evidence(self, value: Any, code: str, label: str) -> dict[str, Any]:
+        path = self.repository_file(value, code, label)
+        if path is None:
+            return {}
+        try:
+            document = json.loads(path.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError) as exc:
+            self.require(False, code, f"{label}不可解析：{exc}")
+            return {}
+        self.require(isinstance(document, dict), code, f"{label}顶层必须为对象")
+        return document if isinstance(document, dict) else {}
+
+    def validate_test_apk_delivery(self, manifest: dict[str, Any], candidate_commit: str | None) -> None:
+        delivery = manifest.get("android_delivery") if isinstance(manifest.get("android_delivery"), dict) else {}
+        apk_path = ROOT / "artifacts" / "apk" / self.release / "APK_MANIFEST.yaml"
+        apk = load_yaml(apk_path) if apk_path.is_file() else {}
+        sha = str(apk.get("sha256") or "").lower()
+        version_name = apk.get("version_name")
+        version_code = apk.get("version_code")
+        apk_file = apk.get("apk_file")
+        size = apk.get("size_bytes")
+        fingerprint = str(apk.get("signing_fingerprint") or "").lower()
+
+        self.require(delivery.get("machine_delivery") == "PASS", "TEST_APK_MACHINE_DELIVERY_NOT_PASS", "TEST_APK机器交付不是PASS")
+        self.require(delivery.get("next_release_development") == "ALLOWED", "TEST_APK_NEXT_RELEASE_BLOCKED", "TEST_APK交付未允许继续下一版本")
+        self.require(str(delivery.get("owner_physical_test") or "").upper() in {"PENDING", "PASS"}, "TEST_APK_OWNER_STATE_INVALID", "TEST_APK真机状态必须为PENDING或PASS")
+        for field, expected in {
+            "apk_file": apk_file,
+            "version_name": version_name,
+            "version_code": version_code,
+            "sha256": sha,
+            "signing_fingerprint": fingerprint,
+        }.items():
+            actual = delivery.get(field)
+            if field in {"sha256", "signing_fingerprint"}:
+                actual = str(actual or "").lower()
+            self.require(actual == expected, "TEST_APK_IDENTITY_MISMATCH", f"android_delivery.{field}与APK Manifest不一致")
+        if candidate_commit:
+            self.require(str(delivery.get("source_commit") or "").lower() == candidate_commit, "TEST_APK_COMMIT_MISMATCH", "TEST_APK source_commit与APK Manifest不一致")
+
+        build = self.json_evidence(delivery.get("build_evidence"), "TEST_APK_BUILD_EVIDENCE_INVALID", "TEST_APK构建证据")
+        self.require(build.get("release") == self.release, "TEST_APK_BUILD_RELEASE_MISMATCH", "TEST_APK构建证据Release不一致")
+        self.require(str(build.get("commit") or "").lower() == (candidate_commit or ""), "TEST_APK_BUILD_COMMIT_MISMATCH", "TEST_APK构建证据Commit不一致")
+        self.require(build.get("build_status") == "PASS", "TEST_APK_BUILD_NOT_PASS", "TEST_APK固定工具链构建不是PASS")
+        self.require(set(build.get("checks") or []) >= REQUIRED_TEST_APK_CHECKS, "TEST_APK_BUILD_CHECKS_MISSING", "TEST_APK构建证据缺少正式API、编译、单测、Lint、打包、签名或身份检查")
+        self.require(build.get("stable_signing") is True, "TEST_APK_SIGNING_NOT_STABLE", "TEST_APK未使用稳定测试签名")
+        self.require(build.get("api_base_url") == "https://api.orbexa.cc", "TEST_APK_API_INVALID", "TEST_APK未绑定正式HTTPS API")
+        for field, expected in {
+            "version_name": version_name,
+            "version_code": version_code,
+            "apk_sha256": sha,
+            "apk_size_bytes": size,
+            "signing_fingerprint": fingerprint,
+            "signing_profile_id": delivery.get("signing_profile_id"),
+        }.items():
+            actual = build.get(field)
+            if field in {"apk_sha256", "signing_fingerprint"}:
+                actual = str(actual or "").lower()
+            self.require(actual == expected, "TEST_APK_BUILD_IDENTITY_MISMATCH", f"TEST_APK构建证据{field}不一致")
+
+        evidence = self.json_evidence(delivery.get("evidence"), "TEST_APK_DELIVERY_EVIDENCE_INVALID", "TEST_APK四方交付证据")
+        for field, expected in {
+            "release": self.release,
+            "commit": candidate_commit,
+            "apk_file": apk_file,
+            "version_name": version_name,
+            "version_code": version_code,
+            "sha256": sha,
+            "size_bytes": size,
+        }.items():
+            actual = evidence.get(field)
+            if field in {"commit", "sha256"}:
+                actual = str(actual or "").lower()
+            self.require(actual == expected, "TEST_APK_DELIVERY_IDENTITY_MISMATCH", f"TEST_APK四方交付证据{field}不一致")
+        signing = evidence.get("signing") if isinstance(evidence.get("signing"), dict) else {}
+        self.require(signing.get("status") == "PASS" and signing.get("stable") is True, "TEST_APK_DELIVERY_SIGNING_NOT_PASS", "TEST_APK四方证据签名不是稳定PASS")
+        self.require(signing.get("profile_id") == delivery.get("signing_profile_id"), "TEST_APK_DELIVERY_SIGNING_MISMATCH", "TEST_APK签名Profile不一致")
+        self.require(str(signing.get("fingerprint") or "").lower() == fingerprint, "TEST_APK_DELIVERY_SIGNING_MISMATCH", "TEST_APK签名指纹不一致")
+        for endpoint in ("local", "desktop", "remote", "https"):
+            row = evidence.get(endpoint) if isinstance(evidence.get(endpoint), dict) else {}
+            self.require(row.get("status") == "PASS", "TEST_APK_FOUR_WAY_NOT_PASS", f"TEST_APK {endpoint}交付不是PASS")
+            if endpoint != "local":
+                self.require(str(row.get("sha256") or "").lower() == sha, "TEST_APK_FOUR_WAY_SHA_MISMATCH", f"TEST_APK {endpoint} SHA不一致")
+            if endpoint in {"remote", "https"}:
+                self.require(row.get("size_bytes") == size, "TEST_APK_FOUR_WAY_SIZE_MISMATCH", f"TEST_APK {endpoint}大小不一致")
+        https = evidence.get("https") if isinstance(evidence.get("https"), dict) else {}
+        self.require(https.get("http_status") == 200 and https.get("range_status") == 206, "TEST_APK_HTTPS_STATUS_INVALID", "TEST_APK HTTPS 200/Range 206证据不完整")
+        self.repository_file(delivery.get("test_guide"), "TEST_APK_GUIDE_MISSING", "TEST_APK桌面测试说明")
 
     def validate_pointers(self, task_ids: list[str], release_commit: str | None) -> None:
         current = load_yaml(ROOT / "CURRENT_STATUS.yaml")

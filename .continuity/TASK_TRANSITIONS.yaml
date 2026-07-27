@@ -1180,3 +1180,13 @@ transitions:
   session_id: SES-20260726T191158Z-2B506AB7
   actor_id: codex-root-r13-candidate-20260727
   reason: 会话领取任务
+- transition_id: TRN-005608E4C9E4
+  timestamp: '2026-07-27T16:32:13Z'
+  release: R13
+  task_id: TASK-R13-008
+  story_id: STORY-R13-003
+  from_status: READY
+  to_status: IN_PROGRESS
+  session_id: SES-20260727T163211Z-EDFF7E87
+  actor_id: codex-root-r13-close-20260728
+  reason: 会话领取任务

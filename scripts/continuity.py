@@ -793,7 +793,7 @@ def release_has_async_owner_gate(root: Path, release: str) -> bool:
     manifest = yaml.safe_load(manifest_path.read_text(encoding="utf-8")) or {}
     delivery = manifest.get("android_delivery") if isinstance(manifest.get("android_delivery"), dict) else {}
     completion = manifest.get("machine_completion") if isinstance(manifest.get("machine_completion"), dict) else {}
-    return all((
+    machine_complete_owner_pending = all((
         delivery.get("machine_delivery") == "PASS",
         delivery.get("owner_physical_test") == "PENDING",
         completion.get("status") == "PASS",
@@ -802,6 +802,119 @@ def release_has_async_owner_gate(root: Path, release: str) -> bool:
         completion.get("production_activation") == "BLOCKED_OWNER_PHYSICAL_TEST",
         completion.get("next_release_development") == "ALLOWED",
     ))
+    if machine_complete_owner_pending:
+        return True
+    return release_has_continuable_test_apk(root, release, manifest)
+
+
+def release_has_continuable_test_apk(root: Path, release: str, manifest: dict[str, Any]) -> bool:
+    delivery = manifest.get("android_delivery") if isinstance(manifest.get("android_delivery"), dict) else {}
+    automation = manifest.get("android_automation") if isinstance(manifest.get("android_automation"), dict) else {}
+    if not all((
+        delivery.get("machine_delivery") == "PASS",
+        delivery.get("owner_physical_test") == "PENDING",
+        delivery.get("next_release_development") == "ALLOWED",
+        automation.get("policy_id") == "HHY-ANDROID-AUTOMATION-V1",
+        automation.get("mode") == "ON_DEMAND_NON_BLOCKING_SPECIALTY",
+        automation.get("owner_physical_test") == "PENDING",
+        automation.get("next_release_development") == "ALLOWED",
+    )):
+        return False
+
+    commit = str(delivery.get("source_commit") or "").lower()
+    sha = str(delivery.get("sha256") or "").lower()
+    fingerprint = str(delivery.get("signing_fingerprint") or "").lower()
+    if not re.fullmatch(r"[0-9a-f]{40}", commit):
+        return False
+    if not re.fullmatch(r"[0-9a-f]{64}", sha) or not re.fullmatch(r"[0-9a-f]{64}", fingerprint):
+        return False
+
+    def repository_file(value: Any) -> Path | None:
+        relative = str(value or "").strip().replace("\\", "/")
+        if not relative:
+            return None
+        path = (root / relative).resolve()
+        try:
+            path.relative_to(root.resolve())
+        except ValueError:
+            return None
+        return path if path.is_file() else None
+
+    def json_evidence(value: Any) -> dict[str, Any] | None:
+        path = repository_file(value)
+        if path is None:
+            return None
+        try:
+            document = json.loads(path.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            return None
+        return document if isinstance(document, dict) else None
+
+    apk_path = root / "artifacts" / "apk" / release / "APK_MANIFEST.yaml"
+    if not apk_path.is_file():
+        return False
+    apk = yaml.safe_load(apk_path.read_text(encoding="utf-8")) or {}
+    identity_pairs = (
+        (apk.get("release"), release),
+        (str(apk.get("commit") or "").lower(), commit),
+        (apk.get("apk_file"), delivery.get("apk_file")),
+        (apk.get("version_name"), delivery.get("version_name")),
+        (apk.get("version_code"), delivery.get("version_code")),
+        (str(apk.get("sha256") or "").lower(), sha),
+        (str(apk.get("signing_fingerprint") or "").lower(), fingerprint),
+    )
+    if not all(actual == expected for actual, expected in identity_pairs):
+        return False
+
+    build = json_evidence(delivery.get("build_evidence"))
+    evidence = json_evidence(delivery.get("evidence"))
+    if build is None or evidence is None or repository_file(delivery.get("test_guide")) is None:
+        return False
+    required_checks = {
+        "verifyApiBaseUrl", "testDebugUnitTest", "lintDebug", "assembleDebug",
+        "apksigner", "zipalign", "embeddedApiBaseUrl", "packageIdentity",
+    }
+    if not all((
+        build.get("release") == release,
+        str(build.get("commit") or "").lower() == commit,
+        build.get("version_name") == apk.get("version_name"),
+        build.get("version_code") == apk.get("version_code"),
+        build.get("build_status") == "PASS",
+        set(build.get("checks") or []) >= required_checks,
+        build.get("stable_signing") is True,
+        build.get("api_base_url") == "https://api.orbexa.cc",
+        str(build.get("apk_sha256") or "").lower() == sha,
+        build.get("apk_size_bytes") == apk.get("size_bytes"),
+        build.get("signing_profile_id") == delivery.get("signing_profile_id"),
+        str(build.get("signing_fingerprint") or "").lower() == fingerprint,
+    )):
+        return False
+
+    signing = evidence.get("signing") if isinstance(evidence.get("signing"), dict) else {}
+    if not all((
+        evidence.get("release") == release,
+        str(evidence.get("commit") or "").lower() == commit,
+        evidence.get("apk_file") == apk.get("apk_file"),
+        evidence.get("version_name") == apk.get("version_name"),
+        evidence.get("version_code") == apk.get("version_code"),
+        str(evidence.get("sha256") or "").lower() == sha,
+        evidence.get("size_bytes") == apk.get("size_bytes"),
+        signing.get("status") == "PASS",
+        signing.get("stable") is True,
+        signing.get("profile_id") == delivery.get("signing_profile_id"),
+        str(signing.get("fingerprint") or "").lower() == fingerprint,
+    )):
+        return False
+    for name in ("local", "desktop", "remote", "https"):
+        row = evidence.get(name) if isinstance(evidence.get(name), dict) else {}
+        if row.get("status") != "PASS":
+            return False
+        if name != "local" and str(row.get("sha256") or "").lower() != sha:
+            return False
+        if name in {"remote", "https"} and row.get("size_bytes") != apk.get("size_bytes"):
+            return False
+    https = evidence.get("https") if isinstance(evidence.get("https"), dict) else {}
+    return https.get("http_status") == 200 and https.get("range_status") == 206
 
 
 def validate_independent_release_start(

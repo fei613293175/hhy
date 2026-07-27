@@ -1,0 +1,128 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260727T163211Z-EDFF7E87-0001
+session_id: SES-20260727T163211Z-EDFF7E87
+task_id: TASK-R13-008
+story_id: STORY-R13-003
+sequence: 1
+created_at: '2026-07-27T16:37:42Z'
+summary: R13 TASK-008机器收尾首次核验完成：TEST_APK已PASS，但验收矩阵、四页截图、治理审计待补；关闭脚本与CR-0412按需自动化规则存在实现漂移
+next_step: 修复CR-0412既有规则的机器关闭与跨版本继续开发实现，补回归后回填R13可复用证据
+blockers: []
+decisions: []
+note: ''
+tests:
+- name: r13-machine-close
+  result: FAIL
+  evidence: check_release_artifacts --machine-close-gate returned 29 structured gaps in 0.797s
+  note: No heavy build rerun; categorized acceptance, visual, governance and stale automation-policy errors
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: be60681d9ea60d5cc81ed1916fcd9f99287784e0
+  upstream: origin/task/TASK-R03-001
+  ahead: 0
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/ACTIVE_SESSION.yaml'
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/SESSION_INDEX.yaml'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/TASK_CLAIMS.yaml'
+  - ' M .continuity/TASK_TRANSITIONS.yaml'
+  - ' M CURRENT_STATUS.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+  - ' M catalogs/session_index.csv'
+  - ' M catalogs/task_transition_ledger.csv'
+  - ?? .continuity/sessions/SES-20260727T163211Z-EDFF7E87.yaml
+  - ?? docs/03-continuity/sessions/2026-07/SES-20260727T163211Z-EDFF7E87.md
+  recent_commits:
+  - "be60681d9ea60d5cc81ed1916fcd9f99287784e0\t2026-07-28T00:29:43+08:00\tHHY Continuity Bootstrap\t[STORY-R13-003] chore(continuity): close TASK-R13-007\
+    \ as completed"
+  - "b354505716b3e40a05708d47bfd02603d65faccc\t2026-07-28T00:25:58+08:00\tHHY Continuity Bootstrap\t[STORY-R13-003] chore(apk): deliver stable-toolchain\
+    \ R13 test package"
+  - "ccdb5d39b22498a5d0f5082f8210f9fb59b4a2ae\t2026-07-27T23:41:36+08:00\tHHY Continuity Bootstrap\t[STORY-R13-003] chore(signing): persist R13\
+    \ test APK identity"
+  - "78e02938faad6c81d86ab09724f60b22643f574a\t2026-07-27T23:27:40+08:00\tHHY Continuity Bootstrap\t[STORY-R13-003] chore(delivery): record async\
+    \ TEST_APK policy"
+  - "78cf6c9197a6558d77481154c5d12859e729bf4e\t2026-07-27T22:37:34+08:00\tHHY Continuity Bootstrap\t[STORY-R13-003] fix(android): render shared\
+    \ Coil results as ImageBitmap"
+  - "f523abce016485153467d75f479cd430813abf99\t2026-07-27T22:23:47+08:00\tHHY Continuity Bootstrap\t[STORY-R13-003] fix(android): share Coil media\
+    \ results across R13 rows"
+  - "1861b06902a023d7e7bfd79c4c0ac9e8a67fb4e7\t2026-07-27T21:57:59+08:00\tHHY Continuity Bootstrap\t[STORY-R13-003] chore(ci): authorize R13 attempt\
+    \ 20"
+  - "4d6fd4d7a61cbdb6db465534bebbe5c8375c45e4\t2026-07-27T21:44:54+08:00\tHHY Continuity Bootstrap\t[STORY-R13-003] fix(android): prefetch R13\
+    \ activity media with Coil"
+project_fingerprint:
+  sha256: 725f3c4bfdbcf4756acd1f1b78a558e930450012f3bce9b46c69243560eb9fae
+  files: []
+  file_count: 0
+  payload:
+    base_commit: be60681d9ea60d5cc81ed1916fcd9f99287784e0
+    files: []
+change_classification: {}
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+change_requests: []
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions: []
+  source: story+explicit
+parallel_execution:
+  assessment: DELEGATED
+  delegated_workers: 3
+  workers:
+  - worker_id: r13_gate_audit
+    responsibility: 审计CR-0412与release gate漂移
+    allowed_paths:
+    - scripts/check_release_artifacts.py
+    - tests/test_release_close_gate.py
+  - worker_id: r13_visual_evidence
+    responsibility: 定位R13真实截图与视觉证据
+    allowed_paths:
+    - catalogs/ui_visual_acceptance.csv
+    - artifacts/validation/**
+  - worker_id: r13_close_pattern
+    responsibility: 提取最近版本关闭证据结构
+    allowed_paths:
+    - releases/R12/**
+    - artifacts/reports/R12/**
+  reason: ''
+event_hash: 666b49e4436ca6d5f921a2b9dbbd93ca48c90f62b86eb31a9aea13bf65d97198
