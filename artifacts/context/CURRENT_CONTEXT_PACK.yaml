@@ -1,5 +1,5 @@
 context_version: '1.0'
-generated_at: '2026-07-27T20:33:31Z'
+generated_at: '2026-07-27T20:35:16Z'
 conversation_dependency: PROHIBITED
 source_of_truth: REPOSITORY_ONLY
 project: hhy-pro-platform
@@ -9,10 +9,10 @@ current_status:
   baseline_version: 1.2.3
   phase: R14
   active_release: R14
-  active_task: TASK-R14-002
-  status: IN_PROGRESS
+  active_task: TASK-R14-003
+  status: READY
   documentation_status: ZERO_BLOCKING_DOCUMENT_GAPS
-  last_green_commit: 11bc72411230506a2c6cf696d546621c5efc7124
+  last_green_commit: 83d65cfb47006e18055397de0320efeeb9d6f844
   last_staging_apk: null
   completed_tasks:
   - V1.2.2_ENGINEERING_BASELINE
@@ -134,16 +134,16 @@ current_status:
   - TASK-R13-006
   - TASK-R13-007
   - TASK-R14-001
-  in_progress_tasks:
   - TASK-R14-002
+  in_progress_tasks: []
   blocked_tasks:
   - TASK-R02-007
   - TASK-R03-007
   - TASK-R06-008
   - TASK-R07-008
   - TASK-R13-008
-  next_task: TASK-R14-002
-  updated_at: '2026-07-27T20:33:27Z'
+  next_task: TASK-R14-003
+  updated_at: '2026-07-27T20:35:11Z'
   notes:
   - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
   - 全部REST/WebSocket操作均有页面或系统所有者
@@ -175,22 +175,20 @@ current_status:
   continuity:
     protocol_version: '1.0'
     mode: ENFORCED
-    active_session_id: SES-20260727T193842Z-C948B6FC
-    actor_id: codex-root-r14-data-20260728
-    story_id: STORY-R14-004
-    lease_expires_at: '2026-07-28T00:33:27Z'
-    latest_checkpoint: .continuity/checkpoints/SES-20260727T193842Z-C948B6FC/0004.yaml
-    project_fingerprint: 8fdd187844dedbe326d7e2925427577c77fac51944bb9c02f5f3a198bb4c5f1a
+    active_session_id: null
+    last_session_id: SES-20260727T193842Z-C948B6FC
+    last_session_result: COMPLETED
+    last_checkpoint: .continuity/checkpoints/SES-20260727T193842Z-C948B6FC/0005.yaml
+    last_handoff_bundle: null
     context_pack:
       yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
       markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
       manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-      context_hash: c2635083684b1da5bdf21ad9b35842a3368c01934732ce47d331d47dd567fd49
-      generated_at: '2026-07-27T20:30:04Z'
-    handoff_bundle: null
+      context_hash: 0f758776eda0169ac81566899c01265c4de9d41f64f1b8e49b4314694836a1af
+      generated_at: '2026-07-27T20:35:06Z'
 next_task:
-  id: TASK-R14-002
-  title: 一对一聊天核心数据迁移与领域不变量
+  id: TASK-R14-003
+  title: 一对一聊天核心后端应用服务与接口
   status: READY
   release: R14
   requirements:
@@ -198,22 +196,22 @@ next_task:
   - REQ-CHAT-002
   - REQ-APK-001
   depends_on:
-  - TASK-R14-001
+  - TASK-R14-002
   definition_of_ready: releases/R14/DEFINITION_OF_READY.yaml
   stories: releases/R14/STORIES.yaml
   steps:
-  - Flyway前向迁移与空库/升级库测试
-  - 不变量属性测试
+  - OpenAPI契约测试
+  - 权限/幂等/错误码/审计覆盖
   acceptance:
   - 无TODO/生产Mock
   - 代码、文档、测试、追踪同步更新
-  - Flyway前向迁移与空库/升级库测试
-  - 不变量属性测试
+  - OpenAPI契约测试
+  - 权限/幂等/错误码/审计覆盖
   claim_required: true
-  start_command: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R14-002
+  start_command: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R14-003
   commands:
     resume: python3 scripts/continuity.py resume
-    start: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R14-002
+    start: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R14-003
     checkpoint: python3 scripts/continuity.py checkpoint --summary '<阶段完成>' --next-step '<精确下一步>' --test 'name|PASS|evidence|note' --parallel-assessment
       <ASSESSMENT> --parallel-reason '<未委托原因>'
     handoff: python3 scripts/continuity.py handoff --actor <ACTOR_ID> --reason '<移交原因>' --next-step '<精确下一步>'
@@ -221,376 +219,36 @@ next_task:
     cr_amend: python3 scripts/continuity.py cr-amend --actor <ACTOR_ID> --cr <CR_ID> --original-rule '<原规则>' --new-rule '<新规则>' --impact-summary
       '<影响摘要>' --migration-and-compatibility '<迁移兼容说明>' --file <PATH> --test '<TEST>' --release <RELEASE>
   next_after: 由当前TASKS.yaml依赖关系决定
-active_session:
-  protocol_version: '1.0'
-  package_version: 1.2.3
-  session_id: SES-20260727T193842Z-C948B6FC
-  status: ACTIVE
-  actor:
-    id: codex-root-r14-data-20260728
-    kind: AI_OR_HUMAN
-    host: unknown
-  release: R14
-  task_id: TASK-R14-002
-  story_id: STORY-R14-004
-  goal: 一对一聊天核心数据迁移与领域不变量
-  started_at: '2026-07-27T19:38:42Z'
-  updated_at: '2026-07-27T20:33:27Z'
-  takeover_of: null
-  change_requests:
-  - CR-0419
-  scope:
-    allowed_paths:
-    - apps/**
-    - services/**
-    - packages/**
-    - contracts/**
-    - database/**
-    - config/**
-    - catalogs/**
-    - tests/**
-    - infra/**
-    - design/**
-    - docs/**
-    - releases/**
-    - scripts/**
-    - templates/**
-    - .github/**
-    - .githooks/**
-    - .codex/**
-    - AGENTS.md
-    - START_HERE.md
-    - README.md
-    - CHANGELOG.md
-    - Makefile
-    - .gitignore
-    - .gitattributes
-    - .dockerignore
-    - package.json
-    - pnpm-lock.yaml
-    - pnpm-workspace.yaml
-    - requirements-dev.txt
-    - PROJECT_*.yaml
-    - PROJECT_*.json
-    approved_exceptions:
-    - contracts/openapi.yaml
-    - services/backend/boot/src/main/resources/contracts/openapi.yaml
-    - packages/api-client/src/client.generated.ts
-    - contracts/contract_status.csv
-    - scripts/check_r14_entry_contract.py
-    - tests/test_r14_entry_contract.py
-    - database/schema_dictionary.csv
-    - database/migrations/V043__r14_chat_invariants.sql
-    - services/backend/boot/src/main/resources/db/migration/V043__r14_chat_invariants.sql
-    - database/rollback/U043__r14_chat_invariants.sql
-    - database/tests/r14_chat_invariants.sql
-    - scripts/run_r14_database_invariants.sh
-    - scripts/run_postgres_migration_smoke.sh
-    - scripts/check_db_schema.py
-    - tests/test_r14_database_contract.py
-    - docs/01-architecture/adr/ADR-009-R14一对一聊天数据不变量.md
-    - docs/03-continuity/PROBLEM_REGISTRY.yaml
-    source: story+explicit+approved-cr:CR-0419
-  git:
-    initialized: true
-    branch: task/TASK-R03-001
-    base_commit: d03ab06cd9d8c4552b8b8e5f57f3ccca3f6bba6d
-    start_head: d03ab06cd9d8c4552b8b8e5f57f3ccca3f6bba6d
-    upstream: origin/task/TASK-R03-001
-    initial_worktree_state: CLEAN
-  lease:
-    duration_minutes: 240
-    renewed_at: '2026-07-27T20:33:27Z'
-    expires_at: '2026-07-28T00:33:27Z'
-  checkpoint_sequence: 4
-  latest_checkpoint: .continuity/checkpoints/SES-20260727T193842Z-C948B6FC/0004.yaml
-  session_log: docs/03-continuity/sessions/2026-07/SES-20260727T193842Z-C948B6FC.md
-  next_step: 关闭TASK-R14-002并切换到依赖图中的下一R14任务
-  context_pack: THIS_CONTEXT_PACK
-  handoff_bundle: null
-  closure: null
-  parallel_execution:
-    assessment: NO_SAFE_PARALLEL
-    delegated_workers: 0
-    workers: []
-    reason: 任务关闭、CR绑定与下一任务原子切换属于主控连续性事实，禁止并行写入
-latest_checkpoint:
-  protocol_version: '1.0'
-  checkpoint_id: CP-SES-20260727T193842Z-C948B6FC-0004
-  session_id: SES-20260727T193842Z-C948B6FC
-  task_id: TASK-R14-002
-  story_id: STORY-R14-004
-  sequence: 4
-  created_at: '2026-07-27T20:33:26Z'
-  summary: CR-0419已绑定实现Commit 83d65cfb并标记IMPLEMENTED，TASK-R14-002满足关闭条件
-  next_step: 关闭TASK-R14-002并切换到依赖图中的下一R14任务
-  blockers: []
-  decisions: []
-  note: ''
-  tests:
-  - name: implementation-commit
-    result: PASS
-    evidence: 83d65cfb47006e18055397de0320efeeb9d6f844已推送origin/task/TASK-R03-001
-    note: pre-commit、commit-msg、pre-push全部PASS
-  - name: cr-implementation-binding
-    result: PASS
-    evidence: CR-0419 IMPLEMENTED且implementation_commits包含83d65cfb
-    note: 状态按APPROVED到IMPLEMENTING到IMPLEMENTED合法推进
-  - name: r14-postgresql17
-    result: PASS
-    evidence: R14_DATABASE_INVARIANTS PASS
-    note: 真实PostgreSQL17完整矩阵通过
-  git:
-    initialized: true
-    branch: task/TASK-R03-001
-    head: 83d65cfb47006e18055397de0320efeeb9d6f844
-    upstream: origin/task/TASK-R03-001
-    ahead: 0
-    behind: 0
-    dirty: true
-    status_porcelain:
-    - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
-    - ' M .continuity/EVENT_LOG.jsonl'
-    - ' M .continuity/STATE.yaml'
-    - ' M .continuity/change_requests/CR-0419.yaml'
-    - ' M catalogs/change_request_index.csv'
-    - ' M catalogs/session_index.csv'
-    - ' M docs/03-continuity/change-requests/CR-0419-对齐R14聊天数据库与冻结消息合同并补齐领域不变量.md'
-    recent_commits:
-    - "83d65cfb47006e18055397de0320efeeb9d6f844\t2026-07-28T04:31:06+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] feat(chat): enforce R14\
-      \ data invariants"
-    - "d03ab06cd9d8c4552b8b8e5f57f3ccca3f6bba6d\t2026-07-28T03:36:58+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(continuity): close\
-      \ TASK-R14-001 as completed"
-    - "ccd87aa7bd04618d03bfb65e9d8cc19162ad1831\t2026-07-28T03:27:19+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(continuity): bind\
-      \ R14 entry CRs"
-    - "11bc72411230506a2c6cf696d546621c5efc7124\t2026-07-28T03:22:45+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] feat(chat): establish R14\
-      \ implementation entry"
-    - "2d633d11fa98ea253a9183df8ada9c4d9a023521\t2026-07-28T02:18:00+08:00\tHHY Continuity Bootstrap\t[STORY-R13-003] chore(continuity): close\
-      \ TASK-R13-008 as blocked"
-    - "020890521cbc5b1c6a58ea1da3aec4c0173168b7\t2026-07-28T02:05:42+08:00\tHHY Continuity Bootstrap\t[STORY-R13-003] chore(continuity): accept\
-      \ strict async owner suffix"
-    - "9d16d6745b27f11493604e0fda3bc8bf228f0378\t2026-07-28T01:46:17+08:00\tHHY Continuity Bootstrap\t[STORY-R13-003] chore(staging): restore\
-      \ public registration readiness"
-    - "275c4585a53806646e426d87560dba90f9a87127\t2026-07-28T01:32:43+08:00\tHHY Continuity Bootstrap\t[STORY-R13-003] chore(continuity): implement\
-      \ asynchronous TEST_APK progression"
-  project_fingerprint:
-    sha256: 8fdd187844dedbe326d7e2925427577c77fac51944bb9c02f5f3a198bb4c5f1a
-    files:
-    - CHANGELOG.md
-    - contracts/contract_status.csv
-    - contracts/openapi.yaml
-    - database/migrations/V043__r14_chat_invariants.sql
-    - database/rollback/U043__r14_chat_invariants.sql
-    - database/schema_dictionary.csv
-    - database/tests/r14_chat_invariants.sql
-    - docs/01-architecture/adr/ADR-009-R14一对一聊天数据不变量.md
-    - docs/03-continuity/PROBLEM_REGISTRY.yaml
-    - docs/03-continuity/change-requests/CR-0419-对齐R14聊天数据库与冻结消息合同并补齐领域不变量.md
-    - scripts/check_db_schema.py
-    - scripts/check_r14_entry_contract.py
-    - scripts/run_postgres_migration_smoke.sh
-    - scripts/run_r14_database_invariants.sh
-    - services/backend/boot/src/main/resources/contracts/openapi.yaml
-    - services/backend/boot/src/main/resources/db/migration/V043__r14_chat_invariants.sql
-    - tests/test_r14_database_contract.py
-    file_count: 17
-    payload:
-      base_commit: d03ab06cd9d8c4552b8b8e5f57f3ccca3f6bba6d
-      files:
-      - path: CHANGELOG.md
-        state: FILE
-        size: 191531
-        sha256: 5db610c01ffc6a2a3d95a2872b998715b6afe7a8a7bb029a35bcf2d4bf26b233
-      - path: contracts/contract_status.csv
-        state: FILE
-        size: 140050
-        sha256: 536d77bf3833cd46ad6f3d14090b1557df76865ffeb41119330ebc199776afb6
-      - path: contracts/openapi.yaml
-        state: FILE
-        size: 607976
-        sha256: d0e6ca09d4b49ccb15d41f2c82e4525d4ff88cb3b4b4689bd6005ab36653bce0
-      - path: database/migrations/V043__r14_chat_invariants.sql
-        state: FILE
-        size: 30170
-        sha256: 35b429a675292b5d8c9efb99287c32282e19e4dad767fb5b6f7606bc73d7347a
-      - path: database/rollback/U043__r14_chat_invariants.sql
-        state: FILE
-        size: 6298
-        sha256: 8cd00e7bce58ff0f6a5fe180ad32e5b75d39b0b950e9778c87269c7977d73dda
-      - path: database/schema_dictionary.csv
-        state: FILE
-        size: 150337
-        sha256: 4cb2f35888a95e45795bf3907ce552f28683401849b37255b4a13db8f09a698f
-      - path: database/tests/r14_chat_invariants.sql
-        state: FILE
-        size: 10013
-        sha256: fce41f312aa8678cc138c326874c6f06b52a518789ddc19499c5590c87de15a7
-      - path: docs/01-architecture/adr/ADR-009-R14一对一聊天数据不变量.md
-        state: FILE
-        size: 4744
-        sha256: 81d3777f6544d94c46842f711b91bde4c62350df665a7972e5297ab54ef1ebf5
-      - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
-        state: FILE
-        size: 223391
-        sha256: 9eca8a30f4ba7f81708ba535f28109a6baaaae789fc89f140f56120ca9ced262
-      - path: docs/03-continuity/change-requests/CR-0419-对齐R14聊天数据库与冻结消息合同并补齐领域不变量.md
-        state: FILE
-        size: 6871
-        sha256: 01144c5b7a3123f74002956411580f61db350d4a40b57c402cc3d35764317506
-      - path: scripts/check_db_schema.py
-        state: FILE
-        size: 18778
-        sha256: 77d6a76237e09e4fe8abf2c1b9cd62255c598ed6399a83c74a603e288befb44b
-      - path: scripts/check_r14_entry_contract.py
-        state: FILE
-        size: 9486
-        sha256: ab86a8ce79fa1882425d9be6aba780a7e09897aec32f14233771adf9fdf01d78
-      - path: scripts/run_postgres_migration_smoke.sh
-        state: FILE
-        size: 15647
-        sha256: a3f1566dff571bfd8dd27284552ec0c5605838eb7e45ae6863a6d03640ef0348
-      - path: scripts/run_r14_database_invariants.sh
-        state: FILE
-        size: 15212
-        sha256: c14a61b17afecdfb2ecfc1d926fa6b8ca720c823893abc1f1f0e751355c4bb72
-      - path: services/backend/boot/src/main/resources/contracts/openapi.yaml
-        state: FILE
-        size: 607976
-        sha256: d0e6ca09d4b49ccb15d41f2c82e4525d4ff88cb3b4b4689bd6005ab36653bce0
-      - path: services/backend/boot/src/main/resources/db/migration/V043__r14_chat_invariants.sql
-        state: FILE
-        size: 30170
-        sha256: 35b429a675292b5d8c9efb99287c32282e19e4dad767fb5b6f7606bc73d7347a
-      - path: tests/test_r14_database_contract.py
-        state: FILE
-        size: 5412
-        sha256: cd68ec0de25d1514687c35824ce6895db0664a205662c245137ff66f91c408a2
-  change_classification:
-    other:
-    - CHANGELOG.md
-    source_of_truth:
-    - contracts/contract_status.csv
-    - contracts/openapi.yaml
-    - database/schema_dictionary.csv
-    - docs/01-architecture/adr/ADR-009-R14一对一聊天数据不变量.md
-    contracts:
-    - contracts/contract_status.csv
-    - contracts/openapi.yaml
-    user_visible:
-    - contracts/contract_status.csv
-    - contracts/openapi.yaml
-    database:
-    - database/migrations/V043__r14_chat_invariants.sql
-    - database/rollback/U043__r14_chat_invariants.sql
-    - database/schema_dictionary.csv
-    - database/tests/r14_chat_invariants.sql
-    continuity:
-    - docs/03-continuity/PROBLEM_REGISTRY.yaml
-    - docs/03-continuity/change-requests/CR-0419-对齐R14聊天数据库与冻结消息合同并补齐领域不变量.md
-    code:
-    - scripts/check_db_schema.py
-    - scripts/check_r14_entry_contract.py
-    - scripts/run_postgres_migration_smoke.sh
-    - scripts/run_r14_database_invariants.sh
-    - services/backend/boot/src/main/resources/contracts/openapi.yaml
-    - services/backend/boot/src/main/resources/db/migration/V043__r14_chat_invariants.sql
-    tests:
-    - tests/test_r14_database_contract.py
-  required_records:
-  - SESSION_RECORD
-  - SESSION_LOG
-  - CHECKPOINT
-  - CURRENT_STATUS
-  - EVENT_LOG
-  - APPROVED_CHANGE_REQUEST
-  - DATABASE_TEST_EVIDENCE
-  - SCHEMA_TRACEABILITY
-  - CONTRACT_TEST_EVIDENCE
-  - GENERATED_CLIENTS_OR_GENERATION_RECORD
-  - CHANGELOG
-  change_requests:
-  - CR-0419
-  scope:
-    allowed_paths:
-    - apps/**
-    - services/**
-    - packages/**
-    - contracts/**
-    - database/**
-    - config/**
-    - catalogs/**
-    - tests/**
-    - infra/**
-    - design/**
-    - docs/**
-    - releases/**
-    - scripts/**
-    - templates/**
-    - .github/**
-    - .githooks/**
-    - .codex/**
-    - AGENTS.md
-    - START_HERE.md
-    - README.md
-    - CHANGELOG.md
-    - Makefile
-    - .gitignore
-    - .gitattributes
-    - .dockerignore
-    - package.json
-    - pnpm-lock.yaml
-    - pnpm-workspace.yaml
-    - requirements-dev.txt
-    - PROJECT_*.yaml
-    - PROJECT_*.json
-    approved_exceptions:
-    - contracts/openapi.yaml
-    - services/backend/boot/src/main/resources/contracts/openapi.yaml
-    - packages/api-client/src/client.generated.ts
-    - contracts/contract_status.csv
-    - scripts/check_r14_entry_contract.py
-    - tests/test_r14_entry_contract.py
-    - database/schema_dictionary.csv
-    - database/migrations/V043__r14_chat_invariants.sql
-    - services/backend/boot/src/main/resources/db/migration/V043__r14_chat_invariants.sql
-    - database/rollback/U043__r14_chat_invariants.sql
-    - database/tests/r14_chat_invariants.sql
-    - scripts/run_r14_database_invariants.sh
-    - scripts/run_postgres_migration_smoke.sh
-    - scripts/check_db_schema.py
-    - tests/test_r14_database_contract.py
-    - docs/01-architecture/adr/ADR-009-R14一对一聊天数据不变量.md
-    - docs/03-continuity/PROBLEM_REGISTRY.yaml
-    source: story+explicit+approved-cr:CR-0419
-  parallel_execution:
-    assessment: NO_SAFE_PARALLEL
-    delegated_workers: 0
-    workers: []
-    reason: 任务关闭、CR绑定与下一任务原子切换属于主控连续性事实，禁止并行写入
-  event_hash: 577a8d4e3697d2193ceab88136c1c873984efc77b71141336176400536a93b8e
+active_session: null
+latest_checkpoint: null
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: 83d65cfb47006e18055397de0320efeeb9d6f844
+  head: 34386e20bc32a889b1fa516ff4ad819509272ec4
   upstream: origin/task/TASK-R03-001
-  ahead: 0
+  ahead: 1
   behind: 0
   dirty: true
   status_porcelain:
   - ' M .continuity/ACTIVE_SESSION.yaml'
-  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
   - ' M .continuity/EVENT_LOG.jsonl'
   - ' M .continuity/SESSION_INDEX.yaml'
   - ' M .continuity/STATE.yaml'
-  - ' M .continuity/change_requests/CR-0419.yaml'
+  - ' M .continuity/TASK_CLAIMS.yaml'
   - ' M .continuity/sessions/SES-20260727T193842Z-C948B6FC.yaml'
+  - ' M CHANGELOG.md'
   - ' M CURRENT_STATUS.yaml'
-  - ' M catalogs/change_request_index.csv'
+  - ' M NEXT_TASK.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
   - ' M catalogs/session_index.csv'
-  - ' M docs/03-continuity/change-requests/CR-0419-对齐R14聊天数据库与冻结消息合同并补齐领域不变量.md'
   - ' M docs/03-continuity/sessions/2026-07/SES-20260727T193842Z-C948B6FC.md'
-  - ?? .continuity/checkpoints/SES-20260727T193842Z-C948B6FC/0004.yaml
+  - ' M releases/R14/TASKS.yaml'
+  - ?? .continuity/checkpoints/SES-20260727T193842Z-C948B6FC/0005.yaml
   recent_commits:
+  - "34386e20bc32a889b1fa516ff4ad819509272ec4\t2026-07-28T04:34:01+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(continuity): bind R14\
+    \ data implementation"
   - "83d65cfb47006e18055397de0320efeeb9d6f844\t2026-07-28T04:31:06+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] feat(chat): enforce R14 data\
     \ invariants"
   - "d03ab06cd9d8c4552b8b8e5f57f3ccca3f6bba6d\t2026-07-28T03:36:58+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(continuity): close TASK-R14-001\
@@ -605,100 +263,10 @@ git:
     \ strict async owner suffix"
   - "9d16d6745b27f11493604e0fda3bc8bf228f0378\t2026-07-28T01:46:17+08:00\tHHY Continuity Bootstrap\t[STORY-R13-003] chore(staging): restore public\
     \ registration readiness"
-  - "275c4585a53806646e426d87560dba90f9a87127\t2026-07-28T01:32:43+08:00\tHHY Continuity Bootstrap\t[STORY-R13-003] chore(continuity): implement\
-    \ asynchronous TEST_APK progression"
 project_fingerprint:
-  sha256: 8fdd187844dedbe326d7e2925427577c77fac51944bb9c02f5f3a198bb4c5f1a
-  files:
-  - CHANGELOG.md
-  - contracts/contract_status.csv
-  - contracts/openapi.yaml
-  - database/migrations/V043__r14_chat_invariants.sql
-  - database/rollback/U043__r14_chat_invariants.sql
-  - database/schema_dictionary.csv
-  - database/tests/r14_chat_invariants.sql
-  - docs/01-architecture/adr/ADR-009-R14一对一聊天数据不变量.md
-  - docs/03-continuity/PROBLEM_REGISTRY.yaml
-  - docs/03-continuity/change-requests/CR-0419-对齐R14聊天数据库与冻结消息合同并补齐领域不变量.md
-  - scripts/check_db_schema.py
-  - scripts/check_r14_entry_contract.py
-  - scripts/run_postgres_migration_smoke.sh
-  - scripts/run_r14_database_invariants.sh
-  - services/backend/boot/src/main/resources/contracts/openapi.yaml
-  - services/backend/boot/src/main/resources/db/migration/V043__r14_chat_invariants.sql
-  - tests/test_r14_database_contract.py
-  file_count: 17
-  payload:
-    base_commit: d03ab06cd9d8c4552b8b8e5f57f3ccca3f6bba6d
-    files:
-    - path: CHANGELOG.md
-      state: FILE
-      size: 191531
-      sha256: 5db610c01ffc6a2a3d95a2872b998715b6afe7a8a7bb029a35bcf2d4bf26b233
-    - path: contracts/contract_status.csv
-      state: FILE
-      size: 140050
-      sha256: 536d77bf3833cd46ad6f3d14090b1557df76865ffeb41119330ebc199776afb6
-    - path: contracts/openapi.yaml
-      state: FILE
-      size: 607976
-      sha256: d0e6ca09d4b49ccb15d41f2c82e4525d4ff88cb3b4b4689bd6005ab36653bce0
-    - path: database/migrations/V043__r14_chat_invariants.sql
-      state: FILE
-      size: 30170
-      sha256: 35b429a675292b5d8c9efb99287c32282e19e4dad767fb5b6f7606bc73d7347a
-    - path: database/rollback/U043__r14_chat_invariants.sql
-      state: FILE
-      size: 6298
-      sha256: 8cd00e7bce58ff0f6a5fe180ad32e5b75d39b0b950e9778c87269c7977d73dda
-    - path: database/schema_dictionary.csv
-      state: FILE
-      size: 150337
-      sha256: 4cb2f35888a95e45795bf3907ce552f28683401849b37255b4a13db8f09a698f
-    - path: database/tests/r14_chat_invariants.sql
-      state: FILE
-      size: 10013
-      sha256: fce41f312aa8678cc138c326874c6f06b52a518789ddc19499c5590c87de15a7
-    - path: docs/01-architecture/adr/ADR-009-R14一对一聊天数据不变量.md
-      state: FILE
-      size: 4744
-      sha256: 81d3777f6544d94c46842f711b91bde4c62350df665a7972e5297ab54ef1ebf5
-    - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
-      state: FILE
-      size: 223391
-      sha256: 9eca8a30f4ba7f81708ba535f28109a6baaaae789fc89f140f56120ca9ced262
-    - path: docs/03-continuity/change-requests/CR-0419-对齐R14聊天数据库与冻结消息合同并补齐领域不变量.md
-      state: FILE
-      size: 6871
-      sha256: 01144c5b7a3123f74002956411580f61db350d4a40b57c402cc3d35764317506
-    - path: scripts/check_db_schema.py
-      state: FILE
-      size: 18778
-      sha256: 77d6a76237e09e4fe8abf2c1b9cd62255c598ed6399a83c74a603e288befb44b
-    - path: scripts/check_r14_entry_contract.py
-      state: FILE
-      size: 9486
-      sha256: ab86a8ce79fa1882425d9be6aba780a7e09897aec32f14233771adf9fdf01d78
-    - path: scripts/run_postgres_migration_smoke.sh
-      state: FILE
-      size: 15647
-      sha256: a3f1566dff571bfd8dd27284552ec0c5605838eb7e45ae6863a6d03640ef0348
-    - path: scripts/run_r14_database_invariants.sh
-      state: FILE
-      size: 15212
-      sha256: c14a61b17afecdfb2ecfc1d926fa6b8ca720c823893abc1f1f0e751355c4bb72
-    - path: services/backend/boot/src/main/resources/contracts/openapi.yaml
-      state: FILE
-      size: 607976
-      sha256: d0e6ca09d4b49ccb15d41f2c82e4525d4ff88cb3b4b4689bd6005ab36653bce0
-    - path: services/backend/boot/src/main/resources/db/migration/V043__r14_chat_invariants.sql
-      state: FILE
-      size: 30170
-      sha256: 35b429a675292b5d8c9efb99287c32282e19e4dad767fb5b6f7606bc73d7347a
-    - path: tests/test_r14_database_contract.py
-      state: FILE
-      size: 5412
-      sha256: cd68ec0de25d1514687c35824ce6895db0664a205662c245137ff66f91c408a2
+  sha256: 9b67aacbc1d0919f529113239d42ab0d21183de97fa501294d72597229dbe60c
+  files: []
+  file_count: 0
 release_context:
   RELEASE_MANIFEST.yaml:
     release: R14
@@ -1270,7 +838,7 @@ release_context:
       completed_at: '2026-07-27T19:29:14Z'
     - id: TASK-R14-002
       title: 一对一聊天核心数据迁移与领域不变量
-      status: READY
+      status: DONE
       depends_on:
       - TASK-R14-001
       requirements: *id001
@@ -1284,9 +852,10 @@ release_context:
       - Flyway前向迁移与空库/升级库测试
       - 不变量属性测试
       session_log_required: true
+      completed_at: '2026-07-27T20:34:53Z'
     - id: TASK-R14-003
       title: 一对一聊天核心后端应用服务与接口
-      status: BLOCKED
+      status: READY
       depends_on:
       - TASK-R14-002
       requirements: *id001
@@ -1587,12 +1156,12 @@ repository_transport:
 continuity_state:
   mode: ENFORCED
   protocol_version: '1.0'
-  active_session_id: SES-20260727T193842Z-C948B6FC
-  last_session_id: SES-20260727T181928Z-B51C7408
+  active_session_id: null
+  last_session_id: SES-20260727T193842Z-C948B6FC
   last_session_result: COMPLETED
-  last_closure_checkpoint_id: CP-SES-20260727T181928Z-B51C7408-0005
-  event_count: 3993
-  event_head_hash: 577a8d4e3697d2193ceab88136c1c873984efc77b71141336176400536a93b8e
+  last_closure_checkpoint_id: CP-SES-20260727T193842Z-C948B6FC-0005
+  event_count: 3996
+  event_head_hash: 2140b388c3c04d8346dca2459c400efa35913585743b872ddbf9d89658a1e152
   event_chain_valid: true
 recent_sessions:
 - session_id: SES-20260726T110209Z-C9DC8AD5
@@ -1707,13 +1276,13 @@ recent_sessions:
   task_id: TASK-R14-002
   story_id: STORY-R14-004
   actor_id: codex-root-r14-data-20260728
-  status: ACTIVE
+  status: CLOSED
   started_at: '2026-07-27T19:38:42Z'
   record: .continuity/sessions/SES-20260727T193842Z-C948B6FC.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260727T193842Z-C948B6FC.md
-  updated_at: '2026-07-27T20:33:27Z'
-  closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260727T193842Z-C948B6FC/0004.yaml
+  updated_at: '2026-07-27T20:35:11Z'
+  closed_at: '2026-07-27T20:35:11Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260727T193842Z-C948B6FC/0005.yaml
   handoff_bundle: null
 task_claims:
 - claim_id: CLM-96CC844017C2
@@ -2448,7 +2017,7 @@ task_claims:
   task_id: TASK-R14-002
   story_id: STORY-R14-004
   actor_id: codex-root-r14-data-20260728
-  status: ACTIVE
+  status: CLOSED
   claimed_at: '2026-07-27T19:38:42Z'
   allowed_paths:
   - apps/**
@@ -2482,6 +2051,7 @@ task_claims:
   - requirements-dev.txt
   - PROJECT_*.yaml
   - PROJECT_*.json
+  closed_at: '2026-07-27T20:35:11Z'
 recent_task_transitions:
 - transition_id: TRN-CFCB70247974
   timestamp: '2026-07-24T11:06:13Z'
@@ -14050,11 +13620,11 @@ source_manifest:
   sha256: 22de14029ce47beb41ea569e36ce223fbc9d11b86f8676f28d5fbbd83896af5c
   bytes: 4556
 - path: CURRENT_STATUS.yaml
-  sha256: 15e8c2ad5941f537d6804f399118957bebf2e03b7e7466e4bcf1c74cfae00145
-  bytes: 4640
+  sha256: c0e6d377f5078bf59c54d8ae73257f6eb0b796517eb879e0116563343583909d
+  bytes: 4499
 - path: NEXT_TASK.yaml
-  sha256: d1b9990a426508ee85fc444e826e02622cdc55646cda9f5754ee57b2dc20acdb
-  bytes: 1528
+  sha256: 147b4bc98ade24feeb2287075427fb0ec193198b135870c8fcfb41d2f17e305b
+  bytes: 1507
 - path: DEVELOPMENT_RISK_REGISTER.md
   sha256: 8304c91492e4ee2abea0522a06541c8688d39c7fc532b5d0cde499bf09fffb87
   bytes: 8289
@@ -14083,14 +13653,14 @@ source_manifest:
   sha256: 38e04ed812c8df0d353c2b91993d31e53b471e9c457f06b426bd2260c470aa92
   bytes: 13936
 - path: .continuity/EVENT_LOG.jsonl
-  sha256: 727eb67fc89fd78bbba6c8167dd0e94480c69c4097e6e33e18617b0fd8ccc269
-  bytes: 2257704
+  sha256: d140b4cf89ad189992ea9dab3a2e905433a687e4102d28c35299afe24762c523
+  bytes: 2259420
 - path: .continuity/SESSION_INDEX.yaml
-  sha256: 7e034fd36bfe057c0e1b0dee16dad20e1866c905600ad23093f83fa339444235
-  bytes: 60595
+  sha256: 93dce8e3bd244d458d0c3efd6028e524394f42933f8f12fbfe7dbb6d91830691
+  bytes: 60613
 - path: .continuity/TASK_CLAIMS.yaml
-  sha256: 41c199d8f9d3b09c848e0d7575711af1c85b1bb11864acfc829661019a381dcd
-  bytes: 85283
+  sha256: bf79baa2b27f16830d8bd2044ddad3d0f0e5061ba944bcf6c44dfccdd732482a
+  bytes: 85319
 - path: .continuity/TASK_TRANSITIONS.yaml
   sha256: 56057a7a58d682ffd889b3ba7c5b2be437caf0b69c91332e6beb5dd6074fdc22
   bytes: 34482
@@ -14098,8 +13668,8 @@ source_manifest:
   sha256: baf8f2d7fe5ca5203e855bb6f6bb6a2aee35551b2d5967ba298d323d44a14173
   bytes: 1482647
 - path: .continuity/ACTIVE_SESSION.yaml
-  sha256: b6adfbd626d1c8c091dbe45362c02d4a44a03713bc54a3500b8c75ceabda26b8
-  bytes: 543
+  sha256: 3c44f0bc73108752859df167e986315fc9a8f4ea4d3666e601624f6174e905d8
+  bytes: 143
 - path: docs/00-baseline/正式商业系统全局硬性开发边界.md
   sha256: d8a77eddf520659b1d6b57e16ecc0739fa93dbd39cf9903dbaf798fc631ae6fe
   bytes: 13718
@@ -14122,23 +13692,14 @@ source_manifest:
   sha256: 3b729775c059536400e44acecc2b2728019ff7ecb0ae60a0ddbbd943dc5d8951
   bytes: 10316
 - path: releases/R14/TASKS.yaml
-  sha256: a87113142b7c519094dd4098493f98b3faa0bac00e119753c3ba50719d5636d1
-  bytes: 5485
+  sha256: cb107493e818c967e43d5a9e24adee96ba9d190511e427e8709f406eb4c64369
+  bytes: 5521
 - path: releases/R14/ACCEPTANCE_MATRIX.csv
   sha256: d747f5c176d1eb94d685134d6bbddb12e1961529824471d6e969e9f10679a2b1
   bytes: 684
 - path: releases/R14/PARALLEL_EXECUTION_PLAN.yaml
   sha256: cd1f0c96ffd7562acb214edba80a2bbb12b79f06c19032d1b133936ff6abd74f
   bytes: 2539
-- path: docs/03-continuity/sessions/2026-07/SES-20260727T193842Z-C948B6FC.md
-  sha256: f2ad5e671358e567f37de04b99b6ec2c71ab86955f7841cb169f923f14f4de50
-  bytes: 7828
-- path: .continuity/checkpoints/SES-20260727T193842Z-C948B6FC/0004.yaml
-  sha256: 65f734ec97905267b7cacfd981b2de33957e29a65d8ed8296d150f3a0dad5ec6
-  bytes: 9975
-- path: docs/03-continuity/change-requests/CR-0419-对齐R14聊天数据库与冻结消息合同并补齐领域不变量.md
-  sha256: 01144c5b7a3123f74002956411580f61db350d4a40b57c402cc3d35764317506
-  bytes: 6871
 rule_readiness:
   status: PASS
   evidence: HASHED_CONTEXT_MANIFEST
@@ -14158,8 +13719,7 @@ rule_readiness:
   - docs/03-continuity/PITFALLS.md
   - docs/09-development/统一开发与交付效率规范.md
   missing_sources: []
-exact_resume_command: python3 scripts/continuity.py checkpoint --summary '<完成内容>' --next-step '<下一步>' --parallel-assessment <ASSESSMENT> --parallel-reason
-  '<未委托原因>'
+exact_resume_command: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R14-003
 hard_rules:
 - 不得依赖旧对话补充仓库已有需求
 - 未领取任务和会话不得编辑项目文件
@@ -14174,4 +13734,4 @@ hard_rules:
 - 除非项目所有者明确报告未连接，默认Codex已连接obx-test且既有项目环境可用；预检失败必须阻断并报告
 - 禁止以无服务器状态继续开发或重建本地Android SDK，必须复用登记的远端镜像和Gradle缓存
 - Git remote/upstream仅按tracked transport descriptor受控恢复；推送前必须预检且禁止force push
-context_hash: 36206f31d88822edd71e81fe46e3ba7164f8454f31ad8f1648108737e1529388
+context_hash: 7c6ee59364d281ac61e385f9265c5102482b762c9205bd36a5ce094e1ea43e25

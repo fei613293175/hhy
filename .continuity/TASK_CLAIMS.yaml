@@ -4292,7 +4292,7 @@ claims:
   task_id: TASK-R14-002
   story_id: STORY-R14-004
   actor_id: codex-root-r14-data-20260728
-  status: ACTIVE
+  status: CLOSED
   claimed_at: '2026-07-27T19:38:42Z'
   allowed_paths:
   - apps/**
@@ -4326,3 +4326,4 @@ claims:
   - requirements-dev.txt
   - PROJECT_*.yaml
   - PROJECT_*.json
+  closed_at: '2026-07-27T20:35:11Z'

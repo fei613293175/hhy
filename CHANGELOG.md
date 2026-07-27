@@ -1936,3 +1936,13 @@
 - Actor：`codex-root-r14-20260728`
 - 摘要：TASK-R14-001已建立六页精确视觉合同、用户可见页面目录、四类聊天消息Schema和R14可恢复执行入口，全部适用轻量门禁通过
 - 记录：`docs/03-continuity/sessions/2026-07/SES-20260727T181928Z-B51C7408.md`
+
+## TASK-R14-002 · COMPLETED · 2026-07-27T20:34:53Z
+
+- Task close: TASK-R14-002 / SES-20260727T193842Z-C948B6FC
+- Release：`R14`
+- Story：`STORY-R14-004`
+- Actor：`codex-root-r14-data-20260728`
+- 摘要：TASK-R14-002完成：R14聊天数据迁移、领域不变量、回滚、合同同步、真实PostgreSQL17矩阵与R15前置问题登记全部通过
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260727T193842Z-C948B6FC.md`
+

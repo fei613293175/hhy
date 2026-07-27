@@ -1,19 +1,19 @@
 {
   "version": "1.0",
-  "generated_at": "2026-07-27T20:33:31Z",
-  "context_hash": "36206f31d88822edd71e81fe46e3ba7164f8454f31ad8f1648108737e1529388",
-  "fingerprint_mode": "SESSION_DELTA",
+  "generated_at": "2026-07-27T20:35:16Z",
+  "context_hash": "7c6ee59364d281ac61e385f9265c5102482b762c9205bd36a5ce094e1ea43e25",
+  "fingerprint_mode": "REPOSITORY_TREE",
   "project_fingerprint": {
-    "sha256": "8fdd187844dedbe326d7e2925427577c77fac51944bb9c02f5f3a198bb4c5f1a",
-    "file_count": 17
+    "sha256": "9b67aacbc1d0919f529113239d42ab0d21183de97fa501294d72597229dbe60c",
+    "file_count": 0
   },
   "yaml": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.yaml",
-    "sha256": "ca5fe71c5bc33743c67bdde7778b1d7158b88f66c978eb6d286a3279ec18e27c"
+    "sha256": "cd2fb2beb2e8fe84589d037f7f3e21829c7293a90f4c5717ed57096905bb0758"
   },
   "markdown": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.md",
-    "sha256": "e18b6d1dc626ead6028a819a5c848e831ca8597e0a573b05fd2dc9f2cf62f8bc"
+    "sha256": "69ad2417e48794a86805aad3629dc757d4b507fe3490807a72c3a71b687fcfa6"
   },
   "sources": [
     {
@@ -28,13 +28,13 @@
     },
     {
       "path": "CURRENT_STATUS.yaml",
-      "sha256": "15e8c2ad5941f537d6804f399118957bebf2e03b7e7466e4bcf1c74cfae00145",
-      "bytes": 4640
+      "sha256": "c0e6d377f5078bf59c54d8ae73257f6eb0b796517eb879e0116563343583909d",
+      "bytes": 4499
     },
     {
       "path": "NEXT_TASK.yaml",
-      "sha256": "d1b9990a426508ee85fc444e826e02622cdc55646cda9f5754ee57b2dc20acdb",
-      "bytes": 1528
+      "sha256": "147b4bc98ade24feeb2287075427fb0ec193198b135870c8fcfb41d2f17e305b",
+      "bytes": 1507
     },
     {
       "path": "DEVELOPMENT_RISK_REGISTER.md",
@@ -83,18 +83,18 @@
     },
     {
       "path": ".continuity/EVENT_LOG.jsonl",
-      "sha256": "727eb67fc89fd78bbba6c8167dd0e94480c69c4097e6e33e18617b0fd8ccc269",
-      "bytes": 2257704
+      "sha256": "d140b4cf89ad189992ea9dab3a2e905433a687e4102d28c35299afe24762c523",
+      "bytes": 2259420
     },
     {
       "path": ".continuity/SESSION_INDEX.yaml",
-      "sha256": "7e034fd36bfe057c0e1b0dee16dad20e1866c905600ad23093f83fa339444235",
-      "bytes": 60595
+      "sha256": "93dce8e3bd244d458d0c3efd6028e524394f42933f8f12fbfe7dbb6d91830691",
+      "bytes": 60613
     },
     {
       "path": ".continuity/TASK_CLAIMS.yaml",
-      "sha256": "41c199d8f9d3b09c848e0d7575711af1c85b1bb11864acfc829661019a381dcd",
-      "bytes": 85283
+      "sha256": "bf79baa2b27f16830d8bd2044ddad3d0f0e5061ba944bcf6c44dfccdd732482a",
+      "bytes": 85319
     },
     {
       "path": ".continuity/TASK_TRANSITIONS.yaml",
@@ -108,8 +108,8 @@
     },
     {
       "path": ".continuity/ACTIVE_SESSION.yaml",
-      "sha256": "b6adfbd626d1c8c091dbe45362c02d4a44a03713bc54a3500b8c75ceabda26b8",
-      "bytes": 543
+      "sha256": "3c44f0bc73108752859df167e986315fc9a8f4ea4d3666e601624f6174e905d8",
+      "bytes": 143
     },
     {
       "path": "docs/00-baseline/正式商业系统全局硬性开发边界.md",
@@ -148,8 +148,8 @@
     },
     {
       "path": "releases/R14/TASKS.yaml",
-      "sha256": "a87113142b7c519094dd4098493f98b3faa0bac00e119753c3ba50719d5636d1",
-      "bytes": 5485
+      "sha256": "cb107493e818c967e43d5a9e24adee96ba9d190511e427e8709f406eb4c64369",
+      "bytes": 5521
     },
     {
       "path": "releases/R14/ACCEPTANCE_MATRIX.csv",
@@ -160,21 +160,6 @@
       "path": "releases/R14/PARALLEL_EXECUTION_PLAN.yaml",
       "sha256": "cd1f0c96ffd7562acb214edba80a2bbb12b79f06c19032d1b133936ff6abd74f",
       "bytes": 2539
-    },
-    {
-      "path": "docs/03-continuity/sessions/2026-07/SES-20260727T193842Z-C948B6FC.md",
-      "sha256": "f2ad5e671358e567f37de04b99b6ec2c71ab86955f7841cb169f923f14f4de50",
-      "bytes": 7828
-    },
-    {
-      "path": ".continuity/checkpoints/SES-20260727T193842Z-C948B6FC/0004.yaml",
-      "sha256": "65f734ec97905267b7cacfd981b2de33957e29a65d8ed8296d150f3a0dad5ec6",
-      "bytes": 9975
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0419-对齐R14聊天数据库与冻结消息合同并补齐领域不变量.md",
-      "sha256": "01144c5b7a3123f74002956411580f61db350d4a40b57c402cc3d35764317506",
-      "bytes": 6871
     }
   ]
 }
