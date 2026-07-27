@@ -296,6 +296,18 @@ delivery:
     github_emulator_required: false
     owner_feedback_mode: ASYNC_NON_BLOCKING
     continue_next_release_when_owner_pending: true
+    signing_profile:
+      profile_id: hhy-staging-test-v2
+      secret_ref: secretref://obx-test/hhy/android/test-signing/v2
+      certificate_sha256: e32a9d7ff8a209d2903db6383b461b259f0018a698d1f3646e6ed7f1112671be
+      effective_from_release: R13
+      server_directory_mode: '0700'
+      secret_file_mode: '0600'
+      previous_profile:
+        profile_id: hhy-staging-test-v1
+        certificate_sha256: f17b040789a845244ff9e2a9d8aedc1e7412adea0539d99c5cc036baf5dbb873
+        status: RETIRED_PRIVATE_KEY_UNAVAILABLE
+      first_install_migration: UNINSTALL_PRE_R13_TEST_APK_ONCE
     required_evidence:
     - frozen_commit
     - official_api_base_url

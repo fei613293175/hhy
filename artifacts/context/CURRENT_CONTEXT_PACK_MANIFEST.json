@@ -1,19 +1,19 @@
 {
   "version": "1.0",
-  "generated_at": "2026-07-27T15:24:00Z",
-  "context_hash": "3f2b7e116dd905e71e6ce0b2c474bed690b01ad51a34c857ee1e2e3312a6b030",
+  "generated_at": "2026-07-27T15:40:24Z",
+  "context_hash": "db5d1a75b7c33ac961d4b1cd8aab4e2b32be6cdec977e550e0c4d93bc702f997",
   "fingerprint_mode": "SESSION_DELTA",
   "project_fingerprint": {
-    "sha256": "e6dd4341ddd2b038266b7d52cd46accdb636365385bae34131bb0ba4990acfcd",
-    "file_count": 65
+    "sha256": "cbcd376106ea3752e1dcba3cbdc51fc7f5483f73bb25029a289063f95227ec56",
+    "file_count": 68
   },
   "yaml": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.yaml",
-    "sha256": "faa0ae131be9dbc4f332c324d527b78f872adc6d1cebdda5b3cae99396a11245"
+    "sha256": "f702765a13c2c37914076a139076c2fecd72d77343647bae4242734d2f187a45"
   },
   "markdown": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.md",
-    "sha256": "c918f1ccc56df22b0e1b13c26b7451dca9d4018293460dd617aae58e2d7d4117"
+    "sha256": "4e3caeae7cff3ac162834211a9f0d7a4ae9a14d8af9cb5196ba814ee56c08785"
   },
   "sources": [
     {
@@ -28,7 +28,7 @@
     },
     {
       "path": "CURRENT_STATUS.yaml",
-      "sha256": "cf88ef3c5df3e7159d84c29e363f5d8f8cd9ef5ea9c7796d9901849f6f6be972",
+      "sha256": "e598da774033389de0dd357fbef14e68a1c94f1025fddd4c54cf5b324f3a2c88",
       "bytes": 4568
     },
     {
@@ -48,8 +48,8 @@
     },
     {
       "path": "docs/03-continuity/PROBLEM_REGISTRY.yaml",
-      "sha256": "98d4b677c0a88520f6e2507312f3a4933bb62dc9ce604e5dc2471d1082c2b718",
-      "bytes": 214318
+      "sha256": "15072c34223ffb3eb23d30a534a30b4a775ed0fa83fdc75dadb6c3f8018dff91",
+      "bytes": 215986
     },
     {
       "path": "docs/03-continuity/REUSABLE_PATTERNS.md",
@@ -83,12 +83,12 @@
     },
     {
       "path": ".continuity/EVENT_LOG.jsonl",
-      "sha256": "98acb7817c50a8638d56b714bd20c7f18953880d7dea0318dc28a745893b7f4c",
-      "bytes": 2218364
+      "sha256": "0584f75c5fdb66741bb9b9d81f05dd6b1b3c8bf9f0371fcc5d7ff3291af9d7a2",
+      "bytes": 2222652
     },
     {
       "path": ".continuity/SESSION_INDEX.yaml",
-      "sha256": "d21fb92490c5c88e0d8be2221aedb2eef636249b4377702f3ad410614456496d",
+      "sha256": "bf85e66c7e4cda28d0c7b0bb3e88eddd1c547fc89d7890dcfafd3bdc6615e3b6",
       "bytes": 59039
     },
     {
@@ -103,12 +103,12 @@
     },
     {
       "path": ".continuity/CHANGE_REQUEST_INDEX.yaml",
-      "sha256": "787c2c291efcb0331af686bc554a4bc047a05388e8505be6f6fe77946922b6bc",
-      "bytes": 1451236
+      "sha256": "921d1aebcf9d468c9ad1000a6940d405010741a3ce7643d15a50a09382b9ce66",
+      "bytes": 1455084
     },
     {
       "path": ".continuity/ACTIVE_SESSION.yaml",
-      "sha256": "391c68b6d4efa7de71855ddaef9393359dc6786d72872060cde48e7b0aba2204",
+      "sha256": "129ce887f58429d8b9bd1afe66132666b37e7072fd10049ce65512c677516f0c",
       "bytes": 548
     },
     {
@@ -133,8 +133,8 @@
     },
     {
       "path": "releases/R13/RELEASE_MANIFEST.yaml",
-      "sha256": "ec92bcf2213b870e4d359eceaadc52f90467288d2fef62a28321ac9472fd2e05",
-      "bytes": 7589
+      "sha256": "664ce3188100bd32ba8f374067c7c8a1a15b4741b6f406b1a43be6de2d6bdc30",
+      "bytes": 7982
     },
     {
       "path": "releases/R13/DEFINITION_OF_READY.yaml",
@@ -163,13 +163,13 @@
     },
     {
       "path": "docs/03-continuity/sessions/2026-07/SES-20260726T191158Z-2B506AB7.md",
-      "sha256": "c7cb24583f01a8db17fedc4c08c1e1a36548dea4050431699f9fd4ef284cd01c",
-      "bytes": 264116
+      "sha256": "ca487f717ae7df4c5805c0ae075193e90a4fb782f885bad6d2c6844c7624cc47",
+      "bytes": 270908
     },
     {
-      "path": ".continuity/checkpoints/SES-20260726T191158Z-2B506AB7/0064.yaml",
-      "sha256": "db4b6cdee6710ca7b5b55ccbdbf26c9d05351ec3e2110de74bef1d2ce76a08a3",
-      "bytes": 31986
+      "path": ".continuity/checkpoints/SES-20260726T191158Z-2B506AB7/0065.yaml",
+      "sha256": "32c11cec3bd4de51393e6e8502311c0c81e9f26b31df41ecb84b52e33bbb4052",
+      "bytes": 33272
     },
     {
       "path": "docs/03-continuity/change-requests/CR-0377-建立R13收藏历史分享最终Android候选.md",
@@ -350,6 +350,11 @@
       "path": "docs/03-continuity/change-requests/CR-0412-将GitHub模拟器降为按需专项并以固定环境APK交付后异步真机反馈.md",
       "sha256": "8983cc4f4d2b473c1cfc877f2ff94ce7d8d208edf158e6e7df1ab7d617d6e6bf",
       "bytes": 4201
+    },
+    {
+      "path": "docs/03-continuity/change-requests/CR-0413-轮换并持久化R13起固定测试APK签名身份.md",
+      "sha256": "0fa78723c53da98dd4fa3d197df48d548b9bc47464cc2ace9c99bd92506559cc",
+      "bytes": 3794
     }
   ]
 }

@@ -8,7 +8,7 @@
 6. App前端有改动但申请APK豁免必须通过CR和用户确认；默认不允许。
 7. 生产APK只能来自全绿CI、受保护Tag和生产签名Profile。
 8. 每个标记 `Android测试APK=YES` 的版本，由Codex完成构建、签名、SHA256、下载校验，并将测试APK副本保留到项目所有者电脑桌面；`Android测试APK=NO` 的版本不适用。
-9. 项目所有者负责在真机执行安装和启动验收。自动构建、模拟器或服务器容器结果不能替代真机结论；只有收到项目所有者明确的通过结果后，APK安装门禁才可标记 `PASS` 并关闭该版本。
+9. 项目所有者按自己的时间在真机执行安装和启动验收。自动构建、模拟器或服务器容器结果不能替代真机结论；未反馈时保持 `owner_physical_test=PENDING`，只阻断正式验收和生产激活，不阻断机器收尾、下一版本开发或后续桌面 `TEST_APK` 交付。
 
 ## 自动交付状态机
 
@@ -35,6 +35,8 @@ apksigner verify --verbose --print-certs <apk>
 - `HHY_API_BASE_URL=https://api.orbexa.cc`；
 - 当前 Release、完整 Git Commit 和该 Release 对应的单调 `versionCode`。
 
+R13 起固定测试签名 Profile 为 `hhy-staging-test-v2`，SecretRef 为 `secretref://obx-test/hhy/android/test-signing/v2`，批准证书 SHA-256 为 `e32a9d7ff8a209d2903db6383b461b259f0018a698d1f3646e6ed7f1112671be`。该引用只能在 `obx-test` 的 root-only 环境解析，秘密目录必须为 `0700`，keystore、口令文件和引用文件必须为 `0600`；任何接手者不得生成临时替代签名。R06 至 R12 的旧 Profile `hhy-staging-test-v1` 仅保留历史指纹 `f17b040789a845244ff9e2a9d8aedc1e7412adea0539d99c5cc036baf5dbb873`，因私钥不可恢复已退役。首次安装 R13 前需卸载旧测试 APK 一次，R13 及后续包必须持续复用 v2 并通过递增 `versionCode` 覆盖安装。
+
 Build Evidence 最小格式如下。证书 SHA-256 指纹和签名 Profile ID 是可审计元数据，不是签名秘密：
 
 ```json
@@ -53,7 +55,7 @@ Build Evidence 最小格式如下。证书 SHA-256 指纹和签名 Profile ID �
 }
 ```
 
-正式 `prepare` 缺少该证据、使用临时/default debug 签名、证据指纹与批准指纹不同、`versionCode` 不符合 `10200 + R序号`、API 使用 `.invalid` 域名或证据中的 Release/Commit 不一致时必须失败。P00 使用 `10200`，R01 使用 `10201`，R02 使用 `10202`，以此类推。
+正式 `prepare` 缺少该证据、使用临时/default debug 签名、证据指纹与批准指纹不同、`versionCode` 低于 `10200 + R序号`、与客户端冻结 `ReleasePolicy` 不一致或不单调、API 使用 `.invalid` 域名、证据中的 Release/Commit 不一致时必须失败。P00 最低 `10200`，R01 最低 `10201`，R02 最低 `10202`；已因测试包替换递增的版本号不得回退。
 
 ## 操作命令
 

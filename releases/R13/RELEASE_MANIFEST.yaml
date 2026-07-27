@@ -60,7 +60,15 @@ tests:
 - TST-ACTIVITY_001-REJECT
 test_count: 3
 planning_depth: STORY_READY
-apk_gate: FINAL_CANDIDATE_ONLY_OWNER_FEEDBACK_ASYNC
+apk_gate: TEST_APK_FIXED_TOOLCHAIN_OWNER_FEEDBACK_ASYNC
+test_signing_rotation:
+  status: APPROVED_CR_0413
+  profile_id: hhy-staging-test-v2
+  secret_ref: secretref://obx-test/hhy/android/test-signing/v2
+  certificate_sha256: e32a9d7ff8a209d2903db6383b461b259f0018a698d1f3646e6ed7f1112671be
+  previous_profile_status: RETIRED_PRIVATE_KEY_UNAVAILABLE
+  first_install_migration: UNINSTALL_PRE_R13_TEST_APK_ONCE
+  production_signing_affected: false
 entry_baseline:
   checked_at: '2026-07-26'
   session_id: SES-20260726T110209Z-C9DC8AD5

@@ -11,7 +11,7 @@ task_id: TASK-R13-007
 story_id: STORY-R13-003
 goal: 收藏、历史、分享与行为审计Android测试APK与产物追溯
 started_at: '2026-07-26T19:11:58Z'
-updated_at: '2026-07-27T15:24:04Z'
+updated_at: '2026-07-27T15:40:27Z'
 takeover_of: null
 change_requests:
 - CR-0377
@@ -50,6 +50,7 @@ change_requests:
 - CR-0410
 - CR-0411
 - CR-0412
+- CR-0413
 scope:
   allowed_paths:
   - apps/**
@@ -112,7 +113,19 @@ scope:
   - config/development-workflow.yaml
   - scripts/android_ci_gate.py
   - releases/R13/PARALLEL_EXECUTION_PLAN.yaml
-  source: story+explicit+approved-cr:CR-0377+approved-cr:CR-0378+approved-cr:CR-0379+approved-cr:CR-0380+approved-cr:CR-0381+approved-cr:CR-0385+approved-cr:CR-0387+approved-cr:CR-0388+approved-cr:CR-0389+approved-cr:CR-0390+approved-cr:CR-0396+approved-cr:CR-0397+approved-cr:CR-0398+approved-cr:CR-0399+approved-cr:CR-0400+approved-cr:CR-0402+approved-cr:CR-0403+approved-cr:CR-0405+approved-cr:CR-0412
+  - docs/05-app-build/APK持续交付强制规则_V1.2.2.md
+  - releases/R13/RELEASE_MANIFEST.yaml
+  - artifacts/validation/r13-task007-android/build-evidence.json
+  - artifacts/validation/r13-task007-android/apk-signing.txt
+  - artifacts/validation/r13-task007-android/zipalign.txt
+  - artifacts/validation/r13-task007-android/apk-badging.txt
+  - artifacts/validation/r13-task007-android/embedded-api.txt
+  - artifacts/validation/r13-task007-android/gradle-build.log
+  - artifacts/apk/R13/APK_MANIFEST.yaml
+  - artifacts/validation/r13-apk-delivery/delivery-evidence.json
+  - artifacts/reports/R13/TASK-R13-007-android-apk.md
+  - artifacts/reports/R13/R13-version-test-guide.md
+  source: story+explicit+approved-cr:CR-0377+approved-cr:CR-0378+approved-cr:CR-0379+approved-cr:CR-0380+approved-cr:CR-0381+approved-cr:CR-0385+approved-cr:CR-0387+approved-cr:CR-0388+approved-cr:CR-0389+approved-cr:CR-0390+approved-cr:CR-0396+approved-cr:CR-0397+approved-cr:CR-0398+approved-cr:CR-0399+approved-cr:CR-0400+approved-cr:CR-0402+approved-cr:CR-0403+approved-cr:CR-0405+approved-cr:CR-0412+approved-cr:CR-0413
 git:
   initialized: true
   branch: task/TASK-R03-001
@@ -122,22 +135,22 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-27T15:23:55Z'
-  expires_at: '2026-07-27T19:23:55Z'
-checkpoint_sequence: 64
-latest_checkpoint: .continuity/checkpoints/SES-20260726T191158Z-2B506AB7/0064.yaml
+  renewed_at: '2026-07-27T15:40:19Z'
+  expires_at: '2026-07-27T19:40:19Z'
+checkpoint_sequence: 65
+latest_checkpoint: .continuity/checkpoints/SES-20260726T191158Z-2B506AB7/0065.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260726T191158Z-2B506AB7.md
-next_step: 提交并推送CR-0412后建立R13起长期固定测试签名，构建并交付R13桌面APK，然后进入R14
+next_step: 提交并推送签名基线Commit，再从该冻结Commit在obx-test构建、签名、校验并交付R13 TEST_APK
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: 3f2b7e116dd905e71e6ce0b2c474bed690b01ad51a34c857ee1e2e3312a6b030
-  generated_at: '2026-07-27T15:24:00Z'
+  context_hash: db5d1a75b7c33ac961d4b1cd8aab4e2b32be6cdec977e550e0c4d93bc702f997
+  generated_at: '2026-07-27T15:40:24Z'
 handoff_bundle: null
 closure: null
 parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: CR状态、Checkpoint、Context Pack和版本交付事实必须由唯一主控串行写入
+  reason: 签名身份、SecretRef和冻结构建Commit必须由唯一主控串行登记

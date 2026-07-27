@@ -25400,3 +25400,66 @@ change_requests:
     session_id: SES-20260726T191158Z-2B506AB7
   session_ids:
   - SES-20260726T191158Z-2B506AB7
+- protocol_version: '1.0'
+  cr_id: CR-0413
+  title: 轮换并持久化R13起固定测试APK签名身份
+  status: IMPLEMENTING
+  created_at: '2026-07-27T15:32:18Z'
+  updated_at: '2026-07-27T15:39:04Z'
+  requester_actor_id: codex-root-r13-candidate-20260727
+  approver_actor_id: codex-reviewer-r13-signing-20260727
+  task_id: TASK-R13-007
+  session_id: SES-20260726T191158Z-2B506AB7
+  user_request: 项目所有者要求完成R13桌面APK交付并持续推进；旧固定测试签名私钥缺失，必须建立可跨电脑和AI复用的新长期测试签名
+  reason: R06至R12仅留证书指纹且本机、obx-test常用目录、Docker卷和GitHub Secrets均无对应私钥；旧APK无法恢复私钥，随机debug签名也不能作为稳定交付身份
+  original_rule: R06至R12固定测试签名指纹为f17b0407，但仓库只有证据且没有可解析SecretRef，私钥遗失后无法继续稳定覆盖签名
+  new_rule: 从R13起固定使用hhy-staging-test-v2；私钥与随机口令仅保存在obx-test root-only持久目录，仓库只记录secretref://obx-test/hhy/android/test-signing/v2、证书SHA-256和轮换边界。所有R13至后续TEST_APK必须复用该Profile，禁止临时debug或随机签名
+  impact_summary: 建立可跨电脑和AI恢复的长期测试签名身份，并明确旧签名到v2的不可逆轮换；不影响生产签名或应用业务数据
+  impact:
+    files:
+    - config/android-automation.yaml
+    - docs/05-app-build/APK持续交付强制规则_V1.2.2.md
+    - docs/03-continuity/PROBLEM_REGISTRY.yaml
+    - scripts/android_ci_gate.py
+    - tests/test_android_ci_gate.py
+    - releases/R13/RELEASE_MANIFEST.yaml
+    - artifacts/validation/r13-task007-android/build-evidence.json
+    - artifacts/validation/r13-task007-android/apk-signing.txt
+    - artifacts/validation/r13-task007-android/zipalign.txt
+    - artifacts/validation/r13-task007-android/apk-badging.txt
+    - artifacts/validation/r13-task007-android/embedded-api.txt
+    - artifacts/validation/r13-task007-android/gradle-build.log
+    - artifacts/apk/R13/APK_MANIFEST.yaml
+    - artifacts/validation/r13-apk-delivery/delivery-evidence.json
+    - artifacts/reports/R13/TASK-R13-007-android-apk.md
+    - artifacts/reports/R13/R13-version-test-guide.md
+    - CHANGELOG.md
+    pages: []
+    apis: []
+    database: []
+    configuration:
+    - android.automation.delivery.test_apk.signing_profile
+    ledger: []
+    tests:
+    - server root-only permissions and SecretRef resolution
+    - keytool/apksigner fingerprint and v2/v3 verification
+    - android signing policy regression
+    - R13 Gradle/API/identity/four-way SHA delivery
+    releases:
+    - R13
+    migration_and_compatibility: 旧测试APK与R13 v2签名不兼容；项目所有者首次安装R13前必须卸载R12及更早测试APK，之后R13及后续versionCode递增包可覆盖安装。旧APK与历史证据保持不改写
+  user_confirmation: 项目所有者已明确要求完成交付记录、桌面APK由其异步真机测试且AI持续推进；并长期授权项目内终端与服务器操作，无需逐步批准
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-27T15:33:13Z'
+    note: 旧私钥不可恢复且随机debug签名不满足稳定交付；v2仅作用于测试APK并以root-only SecretRef持久化，生产签名和历史证据不变
+  machine_record: .continuity/change_requests/CR-0413.yaml
+  document: docs/03-continuity/change-requests/CR-0413-轮换并持久化R13起固定测试APK签名身份.md
+  decision_log:
+  - at: '2026-07-27T15:39:04Z'
+    actor_id: codex-root-r13-candidate-20260727
+    status: IMPLEMENTING
+    note: 已建立obx-test root-only v2签名Profile并开始写入SecretRef、证书指纹、迁移边界和机器防回退校验
+    session_id: SES-20260726T191158Z-2B506AB7
+  session_ids:
+  - SES-20260726T191158Z-2B506AB7

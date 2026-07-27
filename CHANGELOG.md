@@ -2,6 +2,8 @@
 
 ## Android固定环境测试APK交付与异步真机反馈 · 2026-07-27
 
+- `CR-0413`从R13起把固定测试签名轮换为`hhy-staging-test-v2`：秘密仅在`obx-test`以root-only SecretRef持久化，仓库只保存Profile ID、证书指纹和一次性安装迁移边界；旧v1私钥缺失事实及历史APK证据保持不改写。
+- 项目所有者首次安装R13前需卸载R12及更早测试APK一次；R13及后续测试包持续复用v2并递增`versionCode`，禁止默认debug、临时生成或每版随机签名。
 - `CR-0412`原位修订既有Android自动化和统一交付事实源：每个大版本冻结Commit在`obx-test`通过正式API、编译、单测、Lint、打包、稳定签名、版本身份和四方SHA后即可交付`TEST_APK`，项目所有者真机反馈保持异步PENDING且不阻断下一版本开发。
 - GitHub模拟器候选降为认证、支付、升级等高风险变更、集中视觉审计或项目所有者明确要求时运行的按需非阻断专项；历史R13 Attempt 1至20和失败证据保持不可变，Attempt 21不授权，自动候选自身仍不得在PASS前冒充合格候选或生产证据。
 - `CR-0411`精确Commit `78cf6c91`已在`obx-test`固定镜像通过activity单测与AndroidTest编译，223任务`BUILD SUCCESSFUL in 2m49s`；R13精确APK下载路由已备份Nginx配置、通过`nginx -t`、reload及仓库`preflight-route`验证。

@@ -1832,3 +1832,17 @@ problems:
   - 不得把普通构建APK冒充自动候选，也不得把自动候选PASS继续作为TEST_APK交付和下一版本开发的强制前置
   - 不得因项目所有者未即时反馈真机结果停止开发、反复询问或阻断后续桌面APK累积交付
   - 不得为了验证同一固定环境构建结果反复启动GitHub模拟器、OIDC、Staging或截图链
+- id: PROB-0128
+  title: R06至R12固定测试签名仅留指纹且私钥未持久化
+  status: SOLVED
+  root_cause: R06至R12交付证据都绑定hhy-staging-test-v1与证书指纹f17b0407，但仓库只记录了不可逆指纹，没有可解析SecretRef；本机、obx-test常用目录、Docker卷和GitHub Secrets均无对应私钥。旧APK只能证明证书身份，不能恢复私钥，随机debug签名又会导致每版无法覆盖安装。
+  resolution: CR-0413从R13起轮换为hhy-staging-test-v2，在obx-test建立root-only持久签名目录和secretref://obx-test/hhy/android/test-signing/v2，仓库只保存Profile ID、SecretRef、证书SHA-256与轮换兼容边界。目录权限固定0700，keystore、口令和引用文件固定0600；旧v1明确退役且历史证据不改写。项目所有者首次安装R13前卸载旧测试APK一次，R13及后续持续复用v2和递增versionCode。
+  regression_checks:
+  - scripts.android_ci_gate.load_policy必须锁定R13起Profile ID、SecretRef、证书指纹、权限和首次卸载迁移
+  - obx-test必须能通过root-only引用解析同一keystore，并由keytool与apksigner得到批准指纹
+  - R13 APK必须通过zipalign、v2/v3、单一签名者、正式API、versionCode 10222和四方SHA门禁
+  do_not_repeat:
+  - 不得只保存证书指纹而遗漏可跨电脑和AI解析的受保护SecretRef
+  - 不得把keystore、口令、私钥或其内容写入仓库、聊天、日志、构建证据或命令参数
+  - 不得用默认debug、临时生成或每版随机签名冒充稳定测试签名
+  - 旧私钥不可恢复时不得伪称可覆盖安装，必须明确一次性卸载迁移边界

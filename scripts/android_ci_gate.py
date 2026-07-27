@@ -161,6 +161,24 @@ def load_policy(path: Path = DEFAULT_POLICY) -> dict[str, Any]:
         raise GateError("GitHub emulator must remain optional for TEST_APK delivery")
     if test_apk.get("continue_next_release_when_owner_pending") is not True:
         raise GateError("Pending owner feedback must not block next-release development")
+    signing_profile = test_apk.get("signing_profile") or {}
+    expected_signing_profile = {
+        "profile_id": "hhy-staging-test-v2",
+        "secret_ref": "secretref://obx-test/hhy/android/test-signing/v2",
+        "certificate_sha256": "e32a9d7ff8a209d2903db6383b461b259f0018a698d1f3646e6ed7f1112671be",
+        "effective_from_release": "R13",
+        "server_directory_mode": "0700",
+        "secret_file_mode": "0600",
+        "first_install_migration": "UNINSTALL_PRE_R13_TEST_APK_ONCE",
+    }
+    for field, expected_value in expected_signing_profile.items():
+        if signing_profile.get(field) != expected_value:
+            raise GateError(f"Stable TEST_APK signing profile drift: {field}")
+    previous_profile = signing_profile.get("previous_profile") or {}
+    if previous_profile.get("status") != "RETIRED_PRIVATE_KEY_UNAVAILABLE":
+        raise GateError("Lost legacy TEST_APK signing key must remain explicitly retired")
+    if previous_profile.get("certificate_sha256") != "f17b040789a845244ff9e2a9d8aedc1e7412adea0539d99c5cc036baf5dbb873":
+        raise GateError("Legacy TEST_APK signing fingerprint history drift")
     if set(test_apk.get("required_evidence") or []) != required_test_apk_evidence:
         raise GateError("TEST_APK fixed-toolchain evidence contract drift")
     if document["delivery"].get("candidate_fields_scope") != "AUTOMATED_CANDIDATE_ONLY":

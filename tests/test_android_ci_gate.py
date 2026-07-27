@@ -37,6 +37,18 @@ class AndroidCiGateTest(unittest.TestCase):
         self.assertFalse(test_apk["github_emulator_required"])
         self.assertTrue(test_apk["continue_next_release_when_owner_pending"])
         self.assertEqual("AUTOMATED_CANDIDATE_ONLY", policy["delivery"]["candidate_fields_scope"])
+        signing = test_apk["signing_profile"]
+        self.assertEqual("hhy-staging-test-v2", signing["profile_id"])
+        self.assertEqual("secretref://obx-test/hhy/android/test-signing/v2", signing["secret_ref"])
+        self.assertEqual(
+            "e32a9d7ff8a209d2903db6383b461b259f0018a698d1f3646e6ed7f1112671be",
+            signing["certificate_sha256"],
+        )
+        self.assertEqual("R13", signing["effective_from_release"])
+        self.assertEqual("0700", signing["server_directory_mode"])
+        self.assertEqual("0600", signing["secret_file_mode"])
+        self.assertEqual("UNINSTALL_PRE_R13_TEST_APK_ONCE", signing["first_install_migration"])
+        self.assertEqual("RETIRED_PRIVATE_KEY_UNAVAILABLE", signing["previous_profile"]["status"])
         automated_candidate = policy["delivery"]["automated_candidate"]
         self.assertEqual("ON_DEMAND_NON_BLOCKING_SPECIALTY", automated_candidate["mode"])
         self.assertFalse(automated_candidate["required_for_test_apk_delivery"])
