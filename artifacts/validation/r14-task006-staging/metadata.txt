@@ -1,0 +1,13 @@
+task=TASK-R14-006
+story=STORY-R14-004
+release=R14
+frozen_commit=b6f5e285faabbcd2ce7539d01e502b199ade7580
+rollback_commit=f4b7d4854e10dedd40d4b40cdb2d79e57687e9b7
+compose_project=hhy-r14-staging
+network_subnet=172.31.238.0/24
+current_image=sha256:4ed75c60c1fce091e5d552ff0dc4bf9fb6eb7da24541eaacb3ff64a15509aca0
+current_image_tag=hhy-backend-r14-smoke:b6f5e285
+current_image_digest=sha256:4ed75c60c1fce091e5d552ff0dc4bf9fb6eb7da24541eaacb3ff64a15509aca0
+rollback_image=hhy-backend-r14-baseline:f4b7d485
+rollback_image_digest=sha256:671986eb6f31984efba73334de9dc9237500b4b2de35be6ba00716d7ea6d51c9
+postgres_volume=hhy-r14-staging_pgdata

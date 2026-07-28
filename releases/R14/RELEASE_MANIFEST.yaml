@@ -124,6 +124,25 @@ entry_baseline:
     delivery: USER_SEQUENCE_ACK_RETRY_72H
     gap_fill: CHAT_READY_NOTIFICATIONS_DEFERRED_TO_R15
     proxy_activation: TEMPLATE_ONLY_NOT_ACTIVATED
+  staging_acceptance:
+    change_requests:
+    - CR-0434
+    - CR-0435
+    - CR-0436
+    frozen_commit: b6f5e285faabbcd2ce7539d01e502b199ade7580
+    compose_project: hhy-r14-staging
+    isolated_subnet: 172.31.238.0/24
+    flyway_version: V044
+    observability_acceptance: PASS
+    business_gauges: 8
+    alert_rules: 8
+    mandatory_alert_lifecycles: PASS_3_FIRING_3_RESOLVED_WITH_RECEIPTS
+    application_rollback: PASS_SAME_POSTGRES_CONTAINER_VOLUME_AND_V044
+    evidence: artifacts/validation/r14-task006-staging/
+    report: artifacts/reports/R14/TASK-R14-006-staging.md
+    task_status: BLOCKED_BY_TASK_R14_005
+    public_websocket: BLOCKED_EXTERNAL_DNS
+    report_catalog: BLOCKED_PRODUCT_CATALOG
   visual_acceptance_status: IN_REVIEW_NOT_IMPLEMENTED
 continuity:
   policy: .continuity/CONTINUITY_POLICY.yaml

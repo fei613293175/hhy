@@ -1,9 +1,9 @@
 protocol_version: '1.0'
 cr_id: CR-0436
 title: 修正R14隔离Staging网段冲突
-status: IMPLEMENTING
+status: IMPLEMENTED
 created_at: '2026-07-28T07:37:56Z'
-updated_at: '2026-07-28T07:39:11Z'
+updated_at: '2026-07-28T08:00:31Z'
 requester_actor_id: codex-root-r14-client-20260728
 approver_actor_id: codex-r14-staging-network-independent-review-20260728
 task_id: TASK-R14-004
@@ -43,5 +43,12 @@ decision_log:
   status: IMPLEMENTING
   note: 独立审批通过，开始将R14独占网段修正为172.31.238.0/24并从空项目重跑。
   session_id: SES-20260727T221444Z-FD353AD3
+- at: '2026-07-28T08:00:31Z'
+  actor_id: codex-root-r14-client-20260728
+  status: IMPLEMENTED
+  note: R14独占网段172.31.238.0/24已在空hhy-r14-staging项目真实创建，未修改R12/R13/公网资源；精确Commit完成完整Staging验收，现场证据已回收并通过双端SHA256。
+  session_id: SES-20260727T221444Z-FD353AD3
 session_ids:
 - SES-20260727T221444Z-FD353AD3
+implementation_commits:
+- b6f5e285faabbcd2ce7539d01e502b199ade7580
