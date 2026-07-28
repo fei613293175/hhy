@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## R14替换测试包版本身份准备 · 2026-07-29
+
+- `CR-0471`按既有APK替换规则把R14测试包`versionCode`从10223严格递增到10224，并同步Gradle、`ReleasePolicy`与`VersionMetadataTest`三个既有身份投影。
+- 新包继续使用`hhy-staging-test-v2`、`1.2.2-debug`、`https://api.orbexa.cc`和`wss://ws.orbexa.cc`，用于交付已补齐举报原因目录及R14消息修复的当前源码；不改变业务合同、数据库、包名或生产签名。
+- 10224允许在同一测试签名下覆盖安装10223；项目所有者真机反馈继续异步`PENDING`，构建、签名、下载与桌面成对交付证据由`TASK-R14-007`完成。
+
 ## R14聊天举报原因目录单源冻结 · 2026-07-29
 
 - `CR-0464`以`ChatPostConversationsByIdReportRequest.reasonCode.x-hhy-options`作为唯一人工事实源，冻结骚扰、相同文案批量发送、危险链接三项正式原因及稳定代码、启停和顺序；OpenAPI枚举、Java后端允许集和Android展示列表均由该源确定性生成。
@@ -2149,4 +2155,3 @@
 - Actor：`codex-r14-observability-20260729`
 - 摘要：R14隔离Staging在f58be15f通过Flyway044、举报目录、可观测性、告警生命周期、回滚与数据保持验收；证据已按SHA回收且68021505远端双门禁PASS
 - 记录：`docs/03-continuity/sessions/2026-07/SES-20260728T195020Z-B1DAB2D3.md`
-

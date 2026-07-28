@@ -3,7 +3,7 @@ baseline_version: 1.2.3
 phase: R14
 active_release: R14
 active_task: TASK-R14-007
-status: READY
+status: IN_PROGRESS
 documentation_status: ZERO_BLOCKING_DOCUMENT_GAPS
 last_green_commit: 68021505de667d801b29022967ce78513706daef
 last_staging_apk: null
@@ -132,7 +132,8 @@ completed_tasks:
 - TASK-R14-004
 - TASK-R14-005
 - TASK-R14-006
-in_progress_tasks: []
+in_progress_tasks:
+- TASK-R14-007
 blocked_tasks:
 - TASK-R02-007
 - TASK-R06-008
@@ -146,7 +147,7 @@ blocked_tasks:
 - TASK-R16-007
 - TASK-R16-008
 next_task: TASK-R14-007
-updated_at: '2026-07-28T20:56:44Z'
+updated_at: '2026-07-28T21:05:46Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -178,14 +179,16 @@ validation:
 continuity:
   protocol_version: '1.0'
   mode: ENFORCED
-  active_session_id: null
-  last_session_id: SES-20260728T195020Z-B1DAB2D3
-  last_session_result: COMPLETED
-  last_checkpoint: .continuity/checkpoints/SES-20260728T195020Z-B1DAB2D3/0006.yaml
-  last_handoff_bundle: null
+  active_session_id: SES-20260728T205917Z-52E3B6B1
+  actor_id: codex-r14-apk-20260729
+  story_id: STORY-R14-004
+  lease_expires_at: '2026-07-29T01:05:46Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260728T205917Z-52E3B6B1/0002.yaml
+  project_fingerprint: 98434a8d982b25adb95f15dda0e64a80c61d68c79aed0b7bb7468632a3e913b2
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: e8c174e83b04b52fa34bd51a9bf8a87ecb6bf9c0ce83401291455e174700eed5
-    generated_at: '2026-07-28T20:56:40Z'
+    context_hash: 046dc77a5a0185799ef863bded075b65d8f11d998fcdf843a64fdeae1adfd606
+    generated_at: '2026-07-28T21:03:53Z'
+  handoff_bundle: null
