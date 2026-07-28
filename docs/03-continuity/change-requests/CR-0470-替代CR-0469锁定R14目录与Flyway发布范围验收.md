@@ -1,12 +1,12 @@
 ---
 cr_id: CR-0470
-status: APPROVED
+status: IMPLEMENTED
 requester_actor_id: codex-r14-observability-20260729
 approver_actor_id: project-owner-continuous-development-20260729
 task_id: TASK-R14-006
 session_id: SES-20260728T195020Z-B1DAB2D3
 created_at: 2026-07-28T20:32:27Z
-updated_at: 2026-07-28T20:33:14Z
+updated_at: 2026-07-28T20:46:15Z
 ---
 # CR-0470 — 替代CR-0469锁定R14目录与Flyway发布范围验收
 
@@ -92,3 +92,10 @@ CR-0469只覆盖目录源重建，第二轮现场发现当前主分支的历史R
 - Status：`IMPLEMENTING`
 - Session：`SES-20260728T195020Z-B1DAB2D3`
 - Note：已在R14 Compose前置固定Flyway target 44，脚本记录target并验证现场044，新增PROB-0143与发布范围回归；第三轮将从全新隔离卷验证当前主分支含V045至V047时仍只应用V001至V044。
+
+## 状态记录 · 2026-07-28T20:46:15Z
+
+- Actor：`codex-r14-observability-20260729`
+- Status：`IMPLEMENTED`
+- Session：`SES-20260728T195020Z-B1DAB2D3`
+- Note：第三轮隔离Staging在冻结Commit f58be15f通过；Flyway target 44和现场版本044一致，举报目录源与三份消费者校验PASS，八项Gauge、八条告警、三组firing/resolved、回滚及数据保持全部PASS。29个清单文件已回收到仓库并逐项SHA-256一致，公网候选容器保持健康且未被操作。

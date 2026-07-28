@@ -1,7 +1,7 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-28T20:35:31Z
-- Context Hash：`6582f6b204057e4d37f8cf2a872cf3f685b2ec9bc7eca86dd5e147f566d3ee33`
+- 生成时间：2026-07-28T20:48:19Z
+- Context Hash：`5d70ce1ac803def88f646754653c8704b366f857c22bebd1b71719d3eaa1c25d`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 规则就绪：`PASS`（`HASHED_CONTEXT_MANIFEST`）
@@ -185,7 +185,7 @@ blocked_tasks:
 - TASK-R16-007
 - TASK-R16-008
 next_task: TASK-R14-006
-updated_at: '2026-07-28T20:35:27Z'
+updated_at: '2026-07-28T20:48:15Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -220,15 +220,15 @@ continuity:
   active_session_id: SES-20260728T195020Z-B1DAB2D3
   actor_id: codex-r14-observability-20260729
   story_id: STORY-R14-004
-  lease_expires_at: '2026-07-29T00:35:27Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260728T195020Z-B1DAB2D3/0004.yaml
-  project_fingerprint: d3b43f63789b87358c91d7c32ac95863fbf0bdf89108461326b479d658eda4ef
+  lease_expires_at: '2026-07-29T00:48:15Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260728T195020Z-B1DAB2D3/0005.yaml
+  project_fingerprint: ba87705750720f4cbf2f9bdeb2d4a2953d41e3a82de14292737f225509ad5c78
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: 9919210f118c8545f090b81634803a8ca4e11b1bed4404d31bfcb63b0f45f8de
-    generated_at: '2026-07-28T20:26:34Z'
+    context_hash: 6582f6b204057e4d37f8cf2a872cf3f685b2ec9bc7eca86dd5e147f566d3ee33
+    generated_at: '2026-07-28T20:35:31Z'
   handoff_bundle: null
 ```
 
@@ -426,7 +426,7 @@ task_id: TASK-R14-006
 story_id: STORY-R14-004
 goal: 一对一聊天核心可观测性与预发布验收
 started_at: '2026-07-28T19:50:20Z'
-updated_at: '2026-07-28T20:35:27Z'
+updated_at: '2026-07-28T20:48:15Z'
 takeover_of: null
 change_requests:
 - CR-0468
@@ -476,12 +476,12 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-28T20:35:27Z'
-  expires_at: '2026-07-29T00:35:27Z'
-checkpoint_sequence: 4
-latest_checkpoint: .continuity/checkpoints/SES-20260728T195020Z-B1DAB2D3/0004.yaml
+  renewed_at: '2026-07-28T20:48:15Z'
+  expires_at: '2026-07-29T00:48:15Z'
+checkpoint_sequence: 5
+latest_checkpoint: .continuity/checkpoints/SES-20260728T195020Z-B1DAB2D3/0005.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260728T195020Z-B1DAB2D3.md
-next_step: 提交推送CR-0470实现，清理第二轮隔离容器与卷，远端更新到新冻结Commit后执行第三轮且最后一次R14 Staging完整验收
+next_step: 提交并推送TASK-R14-006验收证据，确认GitHub双门禁后关闭任务并进入TASK-R14-007
 context_pack: THIS_CONTEXT_PACK
 handoff_bundle: null
 closure: null
@@ -489,69 +489,82 @@ parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 第三轮共享同一隔离Compose project和告警注入状态，且属于跨版本迁移边界与最终集成，必须主控串行
+  reason: 远端验收已结束，本阶段是单一事实源的证据回收、哈希核验和连续性状态更新，不可拆分修改共享发布元数据
 ```
 
 ## 最新检查点
 
 ```yaml
 protocol_version: '1.0'
-checkpoint_id: CP-SES-20260728T195020Z-B1DAB2D3-0004
+checkpoint_id: CP-SES-20260728T195020Z-B1DAB2D3-0005
 session_id: SES-20260728T195020Z-B1DAB2D3
 task_id: TASK-R14-006
 story_id: STORY-R14-004
-sequence: 4
-created_at: '2026-07-28T20:35:26Z'
-summary: CR-0470唯一替代CR-0469：R14隔离候选已前置锁定Flyway 44并加入跨版本迁移污染回归与PROB-0143
-next_step: 提交推送CR-0470实现，清理第二轮隔离容器与卷，远端更新到新冻结Commit后执行第三轮且最后一次R14 Staging完整验收
+sequence: 5
+created_at: '2026-07-28T20:48:15Z'
+summary: R14第三轮隔离Staging通过并回收CR-0470完整证据
+next_step: 提交并推送TASK-R14-006验收证据，确认GitHub双门禁后关闭任务并进入TASK-R14-007
 blockers: []
 decisions: []
 note: ''
 tests:
-- name: r14-staging-release-scope
+- name: R14 staging acceptance
   result: PASS
-  evidence: python -m unittest tests.test_r14_staging_release_scope
-  note: 2 tests PASS
-- name: report-catalog-generated-check
+  evidence: artifacts/validation/r14-task006-staging/machine-summary.txt
+  note: 冻结f58be15f、Flyway044、目录、八Gauge八告警、三组生命周期、回滚及数据保持通过
+- name: R14 staging release scope
   result: PASS
-  evidence: python scripts/generate_chat_report_reason_catalog.py --check
-  note: R14_REPORT_REASON_CATALOG_OK
-- name: report-catalog-source-fallback
+  evidence: tests/test_r14_staging_release_scope.py
+  note: 2项通过
+- name: R14-R32 continuity sequence
   result: PASS
-  evidence: git diff CR-0464-source..HEAD -- catalog files
-  note: three catalog files unchanged
-- name: program-execution-plan
+  evidence: tests/test_continuity_version_sequence.py
+  note: 10项通过，覆盖全链相邻、跳版拒绝、R32全前序和中段失败阻断
+- name: Staging evidence SHA256
   result: PASS
-  evidence: python scripts/check_program_execution_plan.py --json
-  note: 31 releases, 0 errors
-- name: r14-staging-script-syntax
+  evidence: artifacts/validation/r14-task006-staging/SHA256SUMS
+  note: 29个清单文件本地逐项一致
+- name: Program execution plan
   result: PASS
-  evidence: ssh obx-test bash -n -s
-  note: bash syntax PASS
+  evidence: releases/PROGRAM_EXECUTION_PLAN.yaml
+  note: 31个版本0错误
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: 89416d1e59cb8dbc61322ad15587e24a34784276
+  head: f58be15f82ed1e9eb95355d8e4df363417fff023
   upstream: origin/task/TASK-R03-001
   ahead: 0
   behind: 0
   dirty: true
   status_porcelain:
-  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
-  - ' M .continuity/EVENT_LOG.jsonl'
-  - ' M .continuity/STATE.yaml'
-  - ' M .continuity/change_requests/CR-0469.yaml'
-  - ' M .continuity/sessions/SES-20260728T195020Z-B1DAB2D3.yaml'
-  - ' M catalogs/change_request_index.csv'
-  - ' M catalogs/session_index.csv'
-  - ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
-  - ' M docs/03-continuity/change-requests/CR-0469-按CR-0464目录源重建R14隔离Staging验收.md'
-  - ' M infra/staging/r14-smoke/docker-compose.yml'
-  - ' M scripts/run_r14_staging_acceptance.sh'
-  - ?? .continuity/change_requests/CR-0470.yaml
-  - ?? docs/03-continuity/change-requests/CR-0470-替代CR-0469锁定R14目录与Flyway发布范围验收.md
-  - ?? tests/test_r14_staging_release_scope.py
+  - ' M artifacts/reports/R14/TASK-R14-006-staging.md'
+  - ' M artifacts/validation/r14-task006-staging/SHA256SUMS'
+  - ' M artifacts/validation/r14-task006-staging/alert-deliveries.jsonl'
+  - ' M artifacts/validation/r14-task006-staging/backend-down-firing.json'
+  - ' M artifacts/validation/r14-task006-staging/backend-down-resolved.json'
+  - ' M artifacts/validation/r14-task006-staging/compose-ps.txt'
+  - ' M artifacts/validation/r14-task006-staging/final-metrics.txt'
+  - ' M artifacts/validation/r14-task006-staging/gap-users-firing.json'
+  - ' M artifacts/validation/r14-task006-staging/gap-users-resolved.json'
+  - ' M artifacts/validation/r14-task006-staging/http-request-completed.jsonl'
+  - ' M artifacts/validation/r14-task006-staging/machine-summary.txt'
+  - ' M artifacts/validation/r14-task006-staging/metadata.txt'
+  - ' M artifacts/validation/r14-task006-staging/metrics-summary.txt'
+  - ' M artifacts/validation/r14-task006-staging/metrics.txt'
+  - ' M artifacts/validation/r14-task006-staging/prometheus-rules.json'
+  - ' M artifacts/validation/r14-task006-staging/prometheus-targets.json'
+  - ' M artifacts/validation/r14-task006-staging/public-status.json'
+  - ' M artifacts/validation/r14-task006-staging/retry-exhausted-firing.json'
+  - ' M artifacts/validation/r14-task006-staging/retry-exhausted-resolved.json'
+  - ' M artifacts/validation/r14-task006-staging/rollback-rehearsal.txt'
+  - ' M artifacts/validation/r14-task006-staging/source-sha256.txt'
+  - ' M artifacts/validation/r14-task006-staging/trace-headers.txt'
+  - ' M docs/03-continuity/change-requests/CR-0470-替代CR-0469锁定R14目录与Flyway发布范围验收.md'
+  - ' M releases/R14/RELEASE_MANIFEST.yaml'
+  - ?? artifacts/validation/r14-task006-staging/report-catalog.txt
   recent_commits:
+  - "f58be15f82ed1e9eb95355d8e4df363417fff023\t2026-07-29T04:36:02+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] fix(r14): pin staging migration\
+    \ scope"
   - "89416d1e59cb8dbc61322ad15587e24a34784276\t2026-07-29T04:27:21+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] test(r14): verify catalog\
     \ without host Python"
   - "09d337e272faedc23154a15e42adbf22dd692e72\t2026-07-29T04:17:22+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] test(r14): bind staging to\
@@ -566,20 +579,19 @@ git:
     \ evidence"
   - "dbd71c6673808e3f8a9e37f7f77efa97bef9ead9\t2026-07-29T03:03:42+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] test(r14): isolate replay\
     \ stubbing"
-  - "5aa6ce3b76afaa5addeadca3d38e9bcf9ccebb94\t2026-07-29T02:57:02+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] test(r14): import PostgreSQL\
-    \ assertion"
 project_fingerprint:
-  sha256: d3b43f63789b87358c91d7c32ac95863fbf0bdf89108461326b479d658eda4ef
+  sha256: ba87705750720f4cbf2f9bdeb2d4a2953d41e3a82de14292737f225509ad5c78
   files:
   - docs/03-continuity/PROBLEM_REGISTRY.yaml
   - docs/03-continuity/change-requests/CR-0468-修复历史序列恢复测试绑定当前会话导致后续任务CI失败.md
   - docs/03-continuity/change-requests/CR-0469-按CR-0464目录源重建R14隔离Staging验收.md
   - docs/03-continuity/change-requests/CR-0470-替代CR-0469锁定R14目录与Flyway发布范围验收.md
   - infra/staging/r14-smoke/docker-compose.yml
+  - releases/R14/RELEASE_MANIFEST.yaml
   - scripts/run_r14_staging_acceptance.sh
   - tests/test_continuity_sequence_recovery.py
   - tests/test_r14_staging_release_scope.py
-  file_count: 8
+  file_count: 9
   payload:
     base_commit: e61cdcd4493ccf86d53682da10b23c516ebe8925
     files:
@@ -597,12 +609,16 @@ project_fingerprint:
       sha256: 6a202fac936d842c9852159d0b049865f7c6db4a5a000b8c08feb9ef355a7cd6
     - path: docs/03-continuity/change-requests/CR-0470-替代CR-0469锁定R14目录与Flyway发布范围验收.md
       state: FILE
-      size: 3539
-      sha256: 519c44e59be7ddb604e7463d1d8580231c50a919ebbda98e5de74a354df9da9f
+      size: 4047
+      sha256: ffd4125153362421cdfbfa3b7f0d82bcfd922a0d6f871faffb53e52989cdfdd7
     - path: infra/staging/r14-smoke/docker-compose.yml
       state: FILE
       size: 4520
       sha256: 716b42201ed95adab6bff5df891354b069327716ae9998652c29292ad25e9f05
+    - path: releases/R14/RELEASE_MANIFEST.yaml
+      state: FILE
+      size: 8039
+      sha256: ba91abcf963918fa594d84004d8f0f83688d7a0bfca3fc6688cd05c5d022b5ac
     - path: scripts/run_r14_staging_acceptance.sh
       state: FILE
       size: 21122
@@ -623,6 +639,8 @@ change_classification:
   - docs/03-continuity/change-requests/CR-0470-替代CR-0469锁定R14目录与Flyway发布范围验收.md
   infrastructure:
   - infra/staging/r14-smoke/docker-compose.yml
+  source_of_truth:
+  - releases/R14/RELEASE_MANIFEST.yaml
   code:
   - scripts/run_r14_staging_acceptance.sh
   tests:
@@ -634,6 +652,7 @@ required_records:
 - CHECKPOINT
 - CURRENT_STATUS
 - EVENT_LOG
+- APPROVED_CHANGE_REQUEST
 change_requests:
 - CR-0468
 - CR-0469
@@ -677,8 +696,8 @@ parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 第三轮共享同一隔离Compose project和告警注入状态，且属于跨版本迁移边界与最终集成，必须主控串行
-event_hash: 788823476f63fdb7325a994f8a366c21e597e830699d540624066dfe2e047d34
+  reason: 远端验收已结束，本阶段是单一事实源的证据回收、哈希核验和连续性状态更新，不可拆分修改共享发布元数据
+event_hash: 8a72a1a83688cb1c6a2d2f94f444e9b3d83f9908aa47145a714317c5fd0e11ea
 ```
 
 ## 接续状态与事件头
@@ -690,8 +709,8 @@ active_session_id: SES-20260728T195020Z-B1DAB2D3
 last_session_id: SES-20260728T182015Z-7EB6FEF2
 last_session_result: COMPLETED
 last_closure_checkpoint_id: CP-SES-20260728T182015Z-7EB6FEF2-0006
-event_count: 4449
-event_head_hash: 788823476f63fdb7325a994f8a366c21e597e830699d540624066dfe2e047d34
+event_count: 4450
+event_head_hash: 8a72a1a83688cb1c6a2d2f94f444e9b3d83f9908aa47145a714317c5fd0e11ea
 event_chain_valid: true
 ```
 
@@ -814,9 +833,9 @@ recent_sessions: - session_id: SES-20260727T193842Z-C948B6FC
   started_at: '2026-07-28T19:50:20Z'
   record: .continuity/sessions/SES-20260728T195020Z-B1DAB2D3.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260728T195020Z-B1DAB2D3.md
-  updated_at: '2026-07-28T20:35:27Z'
+  updated_at: '2026-07-28T20:48:15Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260728T195020Z-B1DAB2D3/0004.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260728T195020Z-B1DAB2D3/0005.yaml
   handoff_bundle: null
 task_claims: - claim_id: CLM-2DA939E90089
   session_id: SES-20260726T105013Z-AE578D81
@@ -1750,32 +1769,49 @@ recent_task_transitions: - transition_id: TRN-715FAFD9F9FA
 ```yaml
 initialized: true
 branch: task/TASK-R03-001
-head: 89416d1e59cb8dbc61322ad15587e24a34784276
+head: f58be15f82ed1e9eb95355d8e4df363417fff023
 upstream: origin/task/TASK-R03-001
 ahead: 0
 behind: 0
 dirty: true
 status_porcelain:
 - ' M .continuity/ACTIVE_SESSION.yaml'
-- ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
 - ' M .continuity/EVENT_LOG.jsonl'
 - ' M .continuity/SESSION_INDEX.yaml'
 - ' M .continuity/STATE.yaml'
-- ' M .continuity/change_requests/CR-0469.yaml'
 - ' M .continuity/sessions/SES-20260728T195020Z-B1DAB2D3.yaml'
 - ' M CURRENT_STATUS.yaml'
-- ' M catalogs/change_request_index.csv'
+- ' M artifacts/reports/R14/TASK-R14-006-staging.md'
+- ' M artifacts/validation/r14-task006-staging/SHA256SUMS'
+- ' M artifacts/validation/r14-task006-staging/alert-deliveries.jsonl'
+- ' M artifacts/validation/r14-task006-staging/backend-down-firing.json'
+- ' M artifacts/validation/r14-task006-staging/backend-down-resolved.json'
+- ' M artifacts/validation/r14-task006-staging/compose-ps.txt'
+- ' M artifacts/validation/r14-task006-staging/final-metrics.txt'
+- ' M artifacts/validation/r14-task006-staging/gap-users-firing.json'
+- ' M artifacts/validation/r14-task006-staging/gap-users-resolved.json'
+- ' M artifacts/validation/r14-task006-staging/http-request-completed.jsonl'
+- ' M artifacts/validation/r14-task006-staging/machine-summary.txt'
+- ' M artifacts/validation/r14-task006-staging/metadata.txt'
+- ' M artifacts/validation/r14-task006-staging/metrics-summary.txt'
+- ' M artifacts/validation/r14-task006-staging/metrics.txt'
+- ' M artifacts/validation/r14-task006-staging/prometheus-rules.json'
+- ' M artifacts/validation/r14-task006-staging/prometheus-targets.json'
+- ' M artifacts/validation/r14-task006-staging/public-status.json'
+- ' M artifacts/validation/r14-task006-staging/retry-exhausted-firing.json'
+- ' M artifacts/validation/r14-task006-staging/retry-exhausted-resolved.json'
+- ' M artifacts/validation/r14-task006-staging/rollback-rehearsal.txt'
+- ' M artifacts/validation/r14-task006-staging/source-sha256.txt'
+- ' M artifacts/validation/r14-task006-staging/trace-headers.txt'
 - ' M catalogs/session_index.csv'
-- ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
-- ' M docs/03-continuity/change-requests/CR-0469-按CR-0464目录源重建R14隔离Staging验收.md'
+- ' M docs/03-continuity/change-requests/CR-0470-替代CR-0469锁定R14目录与Flyway发布范围验收.md'
 - ' M docs/03-continuity/sessions/2026-07/SES-20260728T195020Z-B1DAB2D3.md'
-- ' M infra/staging/r14-smoke/docker-compose.yml'
-- ' M scripts/run_r14_staging_acceptance.sh'
-- ?? .continuity/change_requests/CR-0470.yaml
-- ?? .continuity/checkpoints/SES-20260728T195020Z-B1DAB2D3/0004.yaml
-- ?? docs/03-continuity/change-requests/CR-0470-替代CR-0469锁定R14目录与Flyway发布范围验收.md
-- ?? tests/test_r14_staging_release_scope.py
+- ' M releases/R14/RELEASE_MANIFEST.yaml'
+- ?? .continuity/checkpoints/SES-20260728T195020Z-B1DAB2D3/0005.yaml
+- ?? artifacts/validation/r14-task006-staging/report-catalog.txt
 recent_commits:
+- "f58be15f82ed1e9eb95355d8e4df363417fff023\t2026-07-29T04:36:02+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] fix(r14): pin staging migration\
+  \ scope"
 - "89416d1e59cb8dbc61322ad15587e24a34784276\t2026-07-29T04:27:21+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] test(r14): verify catalog without\
   \ host Python"
 - "09d337e272faedc23154a15e42adbf22dd692e72\t2026-07-29T04:17:22+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] test(r14): bind staging to report\
@@ -1789,20 +1825,19 @@ recent_commits:
 - "f9ed32b1d8d167ab5553401eb1f79c4a8eb0e5f2\t2026-07-29T03:22:40+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] docs(r14): archive chat reliability\
   \ evidence"
 - "dbd71c6673808e3f8a9e37f7f77efa97bef9ead9\t2026-07-29T03:03:42+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] test(r14): isolate replay stubbing"
-- "5aa6ce3b76afaa5addeadca3d38e9bcf9ccebb94\t2026-07-29T02:57:02+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] test(r14): import PostgreSQL\
-  \ assertion"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`d3b43f63789b87358c91d7c32ac95863fbf0bdf89108461326b479d658eda4ef`
-- 文件数：8
+- 指纹：`ba87705750720f4cbf2f9bdeb2d4a2953d41e3a82de14292737f225509ad5c78`
+- 文件数：9
 
 - `docs/03-continuity/PROBLEM_REGISTRY.yaml`
 - `docs/03-continuity/change-requests/CR-0468-修复历史序列恢复测试绑定当前会话导致后续任务CI失败.md`
 - `docs/03-continuity/change-requests/CR-0469-按CR-0464目录源重建R14隔离Staging验收.md`
 - `docs/03-continuity/change-requests/CR-0470-替代CR-0469锁定R14目录与Flyway发布范围验收.md`
 - `infra/staging/r14-smoke/docker-compose.yml`
+- `releases/R14/RELEASE_MANIFEST.yaml`
 - `scripts/run_r14_staging_acceptance.sh`
 - `tests/test_continuity_sequence_recovery.py`
 - `tests/test_r14_staging_release_scope.py`
@@ -2003,7 +2038,9 @@ RELEASE_MANIFEST.yaml:
       - CR-0434
       - CR-0435
       - CR-0436
-      frozen_commit: b6f5e285faabbcd2ce7539d01e502b199ade7580
+      - CR-0464
+      - CR-0470
+      frozen_commit: f58be15f82ed1e9eb95355d8e4df363417fff023
       compose_project: hhy-r14-staging
       isolated_subnet: 172.31.238.0/24
       flyway_version: V044
@@ -2014,12 +2051,13 @@ RELEASE_MANIFEST.yaml:
       application_rollback: PASS_SAME_POSTGRES_CONTAINER_VOLUME_AND_V044
       evidence: artifacts/validation/r14-task006-staging/
       report: artifacts/reports/R14/TASK-R14-006-staging.md
-      task_status: BLOCKED_BY_TASK_R14_005
+      task_status: PASS_READY_FOR_TASK_CLOSE
       public_websocket: BLOCKED_EXTERNAL_DNS
-      report_catalog: PASS_CR_0464_SOURCE_IMPLEMENTED_REDEPLOY_REQUIRED
+      report_catalog: PASS_CR_0464_SOURCE_INCLUDED
       report_catalog_source_commit: 054da178f90b752e23b33b8de49c22c6c8421026
-      staging_contains_report_catalog: false
-      staging_redeploy_required: true
+      report_catalog_generated_check: PASS_SOURCE_BYTES_UNCHANGED
+      staging_contains_report_catalog: true
+      staging_redeploy_required: false
     visual_acceptance_status: IN_REVIEW_NOT_IMPLEMENTED
   continuity:
     policy: .continuity/CONTINUITY_POLICY.yaml
@@ -15044,7 +15082,7 @@ PARALLEL_EXECUTION_PLAN.yaml:
 
 - `AGENTS.md` — `bde93afcdb788b601aeffcf2369a1aeda8eeb391f165429d501d7ba8895ba4a6`
 - `START_HERE.md` — `22de14029ce47beb41ea569e36ce223fbc9d11b86f8676f28d5fbbd83896af5c`
-- `CURRENT_STATUS.yaml` — `067147a894a31c37e291cc47553a2f17c6f5e4a7b5beba4318d41e194d7f7cb6`
+- `CURRENT_STATUS.yaml` — `4f4502e35dc55a0c25165d632c95d794fa435945a9ee89d0325cb5e321ccf224`
 - `NEXT_TASK.yaml` — `0f9d416869c618da8110a8211fe0a6382fd87401e14b572352c4addd00c19bf0`
 - `DEVELOPMENT_RISK_REGISTER.md` — `8304c91492e4ee2abea0522a06541c8688d39c7fc532b5d0cde499bf09fffb87`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `5213b166f464a4415abe064e0ebcd99da8f1f8d23569b49ae4e9787007e83314`
@@ -15055,27 +15093,27 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `config/REPOSITORY_TRANSPORT.yaml` — `8c4a21f3e204d46e7ffb467d804a53ed26cda61cd088dadfddb50b69eea657fc`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `38e04ed812c8df0d353c2b91993d31e53b471e9c457f06b426bd2260c470aa92`
-- `.continuity/EVENT_LOG.jsonl` — `4496c2308deb8efce2456d2b178f0d0fcafe71f611eb3621ded77769a32886c4`
-- `.continuity/SESSION_INDEX.yaml` — `0b25b6aa0a316a6189dd7a4f64eaf94e76b811eeb3d063e14fbf750dfb7c5dd6`
+- `.continuity/EVENT_LOG.jsonl` — `09e135861bd0fb7477cb07375d6c9b96e37c2a5e5086407efcbd6403484efbb3`
+- `.continuity/SESSION_INDEX.yaml` — `543cca9ef1832640a57802a8ae78ec825a93f3f69dd731bbe14bb277fef42a30`
 - `.continuity/TASK_CLAIMS.yaml` — `d4b040fb3775e0595d8aeb643c500804ab9dd2da05367f5c7d4c23313001d7e5`
 - `.continuity/TASK_TRANSITIONS.yaml` — `2e684f99648469e060b4cd5f6df39835d30929e22dfa485dea9a94c9d1bb0ba0`
 - `.continuity/CHANGE_REQUEST_INDEX.yaml` — `bb9a6b40dcac4cd7626be9a21345c0ea44e4236848eb579703de6d2eecd4ff68`
-- `.continuity/ACTIVE_SESSION.yaml` — `05e0fb8603fd4f881b1836245863b7ab8b7b26a070573d35b6c03318c666a442`
+- `.continuity/ACTIVE_SESSION.yaml` — `de3f7924b1be15a0b6a23ad49e96bca4fec9cd1db73b1dfdf5fedd60eb7f98f4`
 - `docs/00-baseline/正式商业系统全局硬性开发边界.md` — `30c07716c31d6d09621b6f6d119063b1fcb35e78d9b266423ed333d92b8262db`
 - `docs/02-ui/UI参考图使用与开发约束_V1.2.2.md` — `d14367586aa2067b059df58798acd20ab982459cdb35ff27fc7922a3896e4933`
 - `docs/03-continuity/持续开发无状态接续强制门禁_V1.2.3.md` — `d0ed3ed68bdd93b06500eecdfb5baa3245e6ca8b685a486788abb6eee39b3d51`
 - `docs/09-development/统一开发与交付效率规范.md` — `037dc805755d06c3fd1d628ddee8297fcc8c6e067d6cf520240696daa8ec72a6`
-- `releases/R14/RELEASE_MANIFEST.yaml` — `d37e608bb565b94366ade7183cedc2770ef7c27fafbc8024d1aa45681547b545`
+- `releases/R14/RELEASE_MANIFEST.yaml` — `ba91abcf963918fa594d84004d8f0f83688d7a0bfca3fc6688cd05c5d022b5ac`
 - `releases/R14/DEFINITION_OF_READY.yaml` — `c704682cbf23b60766f803327d9702bffca8d19184d655f5e1fcbdbe110476eb`
 - `releases/R14/STORIES.yaml` — `f0e6b2f3ba5e0853317e136d7244d8b5e34161428e2ca623cb48161cca6c805c`
 - `releases/R14/TASKS.yaml` — `d5070f5b64684f7a1cb689fb3f5f1f6f5c6bbd71a46e4db9b5f3d03a01ef9fa9`
 - `releases/R14/ACCEPTANCE_MATRIX.csv` — `ffc0fd23b945544de8fe2a37774a94675c0d60b73d88517abe69c68d326ad6f4`
 - `releases/R14/PARALLEL_EXECUTION_PLAN.yaml` — `cd1f0c96ffd7562acb214edba80a2bbb12b79f06c19032d1b133936ff6abd74f`
-- `docs/03-continuity/sessions/2026-07/SES-20260728T195020Z-B1DAB2D3.md` — `bcfcc1144baf77394b6836dd9ae64c85802fdbc308e9d8c3543e37f1a76fa8ac`
-- `.continuity/checkpoints/SES-20260728T195020Z-B1DAB2D3/0004.yaml` — `8bccd3cc7a1b520958a1d35921b1ce683de312bb1a9d81a547f057b23f7f99df`
+- `docs/03-continuity/sessions/2026-07/SES-20260728T195020Z-B1DAB2D3.md` — `e2920438f347c9b8a1520470919f7415b1e95f708dcba1209be527beef49e6f9`
+- `.continuity/checkpoints/SES-20260728T195020Z-B1DAB2D3/0005.yaml` — `0c62dcddd6c08eb41dfac6f68f4f470852e7154ea6c3ac8af38c3be4054583e4`
 - `docs/03-continuity/change-requests/CR-0468-修复历史序列恢复测试绑定当前会话导致后续任务CI失败.md` — `dc1a9a8709de4a7fac29dc41fc14148874f6a10ab287194df9fce806c168562e`
 - `docs/03-continuity/change-requests/CR-0469-按CR-0464目录源重建R14隔离Staging验收.md` — `6a202fac936d842c9852159d0b049865f7c6db4a5a000b8c08feb9ef355a7cd6`
-- `docs/03-continuity/change-requests/CR-0470-替代CR-0469锁定R14目录与Flyway发布范围验收.md` — `519c44e59be7ddb604e7463d1d8580231c50a919ebbda98e5de74a354df9da9f`
+- `docs/03-continuity/change-requests/CR-0470-替代CR-0469锁定R14目录与Flyway发布范围验收.md` — `ffd4125153362421cdfbfa3b7f0d82bcfd922a0d6f871faffb53e52989cdfdd7`
 
 ## 接手硬规则
 

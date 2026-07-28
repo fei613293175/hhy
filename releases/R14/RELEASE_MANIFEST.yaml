@@ -186,7 +186,9 @@ entry_baseline:
     - CR-0434
     - CR-0435
     - CR-0436
-    frozen_commit: b6f5e285faabbcd2ce7539d01e502b199ade7580
+    - CR-0464
+    - CR-0470
+    frozen_commit: f58be15f82ed1e9eb95355d8e4df363417fff023
     compose_project: hhy-r14-staging
     isolated_subnet: 172.31.238.0/24
     flyway_version: V044
@@ -197,12 +199,13 @@ entry_baseline:
     application_rollback: PASS_SAME_POSTGRES_CONTAINER_VOLUME_AND_V044
     evidence: artifacts/validation/r14-task006-staging/
     report: artifacts/reports/R14/TASK-R14-006-staging.md
-    task_status: BLOCKED_BY_TASK_R14_005
+    task_status: PASS_READY_FOR_TASK_CLOSE
     public_websocket: BLOCKED_EXTERNAL_DNS
-    report_catalog: PASS_CR_0464_SOURCE_IMPLEMENTED_REDEPLOY_REQUIRED
+    report_catalog: PASS_CR_0464_SOURCE_INCLUDED
     report_catalog_source_commit: 054da178f90b752e23b33b8de49c22c6c8421026
-    staging_contains_report_catalog: false
-    staging_redeploy_required: true
+    report_catalog_generated_check: PASS_SOURCE_BYTES_UNCHANGED
+    staging_contains_report_catalog: true
+    staging_redeploy_required: false
   visual_acceptance_status: IN_REVIEW_NOT_IMPLEMENTED
 continuity:
   policy: .continuity/CONTINUITY_POLICY.yaml

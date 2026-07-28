@@ -1,15 +1,15 @@
 # HELP application_ready_time_seconds Time taken for the application to be ready to service requests
 # TYPE application_ready_time_seconds gauge
-application_ready_time_seconds{main_application_class="cc.orbexa.hhy.HhyApplication"} 20.214
+application_ready_time_seconds{main_application_class="cc.orbexa.hhy.HhyApplication"} 18.234
 # HELP application_started_time_seconds Time taken to start the application
 # TYPE application_started_time_seconds gauge
-application_started_time_seconds{main_application_class="cc.orbexa.hhy.HhyApplication"} 20.103
+application_started_time_seconds{main_application_class="cc.orbexa.hhy.HhyApplication"} 18.083
 # HELP disk_free_bytes Usable space for path
 # TYPE disk_free_bytes gauge
-disk_free_bytes{path="/app/."} 5.631873024E10
+disk_free_bytes{path="/app/."} 2.542713856E11
 # HELP disk_total_bytes Total space for path
 # TYPE disk_total_bytes gauge
-disk_total_bytes{path="/app/."} 2.11242950656E11
+disk_total_bytes{path="/app/."} 4.22620602368E11
 # HELP executor_active_threads The approximate number of threads that are actively executing tasks
 # TYPE executor_active_threads gauge
 executor_active_threads{name="applicationTaskExecutor"} 0.0
@@ -17,7 +17,7 @@ executor_active_threads{name="taskScheduler"} 0.0
 # HELP executor_completed_tasks_total The approximate total number of tasks that have completed execution
 # TYPE executor_completed_tasks_total counter
 executor_completed_tasks_total{name="applicationTaskExecutor"} 0.0
-executor_completed_tasks_total{name="taskScheduler"} 16.0
+executor_completed_tasks_total{name="taskScheduler"} 13.0
 # HELP executor_pool_core_threads The core number of threads for the pool
 # TYPE executor_pool_core_threads gauge
 executor_pool_core_threads{name="applicationTaskExecutor"} 8.0
@@ -377,11 +377,11 @@ hhy_websocket_gap_users 0.0
 hikaricp_connections{pool="HikariPool-1"} 3.0
 # HELP hikaricp_connections_acquire_seconds Connection acquire time
 # TYPE hikaricp_connections_acquire_seconds summary
-hikaricp_connections_acquire_seconds_count{pool="HikariPool-1"} 148
-hikaricp_connections_acquire_seconds_sum{pool="HikariPool-1"} 0.019718707
+hikaricp_connections_acquire_seconds_count{pool="HikariPool-1"} 117
+hikaricp_connections_acquire_seconds_sum{pool="HikariPool-1"} 0.015479173
 # HELP hikaricp_connections_acquire_seconds_max Connection acquire time
 # TYPE hikaricp_connections_acquire_seconds_max gauge
-hikaricp_connections_acquire_seconds_max{pool="HikariPool-1"} 0.003738163
+hikaricp_connections_acquire_seconds_max{pool="HikariPool-1"} 0.002999689
 # HELP hikaricp_connections_active Active connections
 # TYPE hikaricp_connections_active gauge
 hikaricp_connections_active{pool="HikariPool-1"} 0.0
@@ -409,11 +409,11 @@ hikaricp_connections_pending{pool="HikariPool-1"} 0.0
 hikaricp_connections_timeout_total{pool="HikariPool-1"} 0.0
 # HELP hikaricp_connections_usage_seconds Connection usage time
 # TYPE hikaricp_connections_usage_seconds summary
-hikaricp_connections_usage_seconds_count{pool="HikariPool-1"} 176
+hikaricp_connections_usage_seconds_count{pool="HikariPool-1"} 128
 hikaricp_connections_usage_seconds_sum{pool="HikariPool-1"} 0.256
 # HELP hikaricp_connections_usage_seconds_max Connection usage time
 # TYPE hikaricp_connections_usage_seconds_max gauge
-hikaricp_connections_usage_seconds_max{pool="HikariPool-1"} 0.024
+hikaricp_connections_usage_seconds_max{pool="HikariPool-1"} 0.032
 # HELP http_server_requests_active_seconds  
 # TYPE http_server_requests_active_seconds histogram
 http_server_requests_active_seconds_bucket{exception="none",method="GET",outcome="SUCCESS",status="200",uri="UNKNOWN",le="120.0"} 0
@@ -480,7 +480,7 @@ http_server_requests_seconds_bucket{error="none",exception="none",method="GET",o
 http_server_requests_seconds_bucket{error="none",exception="none",method="GET",outcome="SUCCESS",status="200",uri="/public-api/v1/platform/status",le="0.027962026"} 1
 http_server_requests_seconds_bucket{error="none",exception="none",method="GET",outcome="SUCCESS",status="200",uri="/public-api/v1/platform/status",le="0.033554431"} 1
 http_server_requests_seconds_bucket{error="none",exception="none",method="GET",outcome="SUCCESS",status="200",uri="/public-api/v1/platform/status",le="0.039146836"} 1
-http_server_requests_seconds_bucket{error="none",exception="none",method="GET",outcome="SUCCESS",status="200",uri="/public-api/v1/platform/status",le="0.044739241"} 2
+http_server_requests_seconds_bucket{error="none",exception="none",method="GET",outcome="SUCCESS",status="200",uri="/public-api/v1/platform/status",le="0.044739241"} 1
 http_server_requests_seconds_bucket{error="none",exception="none",method="GET",outcome="SUCCESS",status="200",uri="/public-api/v1/platform/status",le="0.050331646"} 2
 http_server_requests_seconds_bucket{error="none",exception="none",method="GET",outcome="SUCCESS",status="200",uri="/public-api/v1/platform/status",le="0.055924051"} 2
 http_server_requests_seconds_bucket{error="none",exception="none",method="GET",outcome="SUCCESS",status="200",uri="/public-api/v1/platform/status",le="0.061516456"} 2
@@ -526,10 +526,10 @@ http_server_requests_seconds_bucket{error="none",exception="none",method="GET",o
 http_server_requests_seconds_bucket{error="none",exception="none",method="GET",outcome="SUCCESS",status="200",uri="/public-api/v1/platform/status",le="30.0"} 2
 http_server_requests_seconds_bucket{error="none",exception="none",method="GET",outcome="SUCCESS",status="200",uri="/public-api/v1/platform/status",le="+Inf"} 2
 http_server_requests_seconds_count{error="none",exception="none",method="GET",outcome="SUCCESS",status="200",uri="/public-api/v1/platform/status"} 2
-http_server_requests_seconds_sum{error="none",exception="none",method="GET",outcome="SUCCESS",status="200",uri="/public-api/v1/platform/status"} 0.050281848
+http_server_requests_seconds_sum{error="none",exception="none",method="GET",outcome="SUCCESS",status="200",uri="/public-api/v1/platform/status"} 0.057108479
 # HELP http_server_requests_seconds_max  
 # TYPE http_server_requests_seconds_max gauge
-http_server_requests_seconds_max{error="none",exception="none",method="GET",outcome="SUCCESS",status="200",uri="/public-api/v1/platform/status"} 0.042721209
+http_server_requests_seconds_max{error="none",exception="none",method="GET",outcome="SUCCESS",status="200",uri="/public-api/v1/platform/status"} 0.048917883
 # HELP jdbc_connections_active Current number of active connections that have been allocated from the data source.
 # TYPE jdbc_connections_active gauge
 jdbc_connections_active{name="dataSource"} 0.0
@@ -547,86 +547,86 @@ jdbc_connections_min{name="dataSource"} 2.0
 jvm_info{runtime="OpenJDK Runtime Environment",vendor="Eclipse Adoptium",version="21.0.11+10-LTS"} 1
 # HELP jvm_buffer_count_buffers An estimate of the number of buffers in the pool
 # TYPE jvm_buffer_count_buffers gauge
-jvm_buffer_count_buffers{id="direct"} 14.0
+jvm_buffer_count_buffers{id="direct"} 15.0
 jvm_buffer_count_buffers{id="mapped"} 0.0
 jvm_buffer_count_buffers{id="mapped - 'non-volatile memory'"} 0.0
 # HELP jvm_buffer_memory_used_bytes An estimate of the memory that the Java virtual machine is using for this buffer pool
 # TYPE jvm_buffer_memory_used_bytes gauge
-jvm_buffer_memory_used_bytes{id="direct"} 116736.0
+jvm_buffer_memory_used_bytes{id="direct"} 124928.0
 jvm_buffer_memory_used_bytes{id="mapped"} 0.0
 jvm_buffer_memory_used_bytes{id="mapped - 'non-volatile memory'"} 0.0
 # HELP jvm_buffer_total_capacity_bytes An estimate of the total capacity of the buffers in this pool
 # TYPE jvm_buffer_total_capacity_bytes gauge
-jvm_buffer_total_capacity_bytes{id="direct"} 116736.0
+jvm_buffer_total_capacity_bytes{id="direct"} 124928.0
 jvm_buffer_total_capacity_bytes{id="mapped"} 0.0
 jvm_buffer_total_capacity_bytes{id="mapped - 'non-volatile memory'"} 0.0
 # HELP jvm_classes_loaded_classes The number of classes that are currently loaded in the Java virtual machine
 # TYPE jvm_classes_loaded_classes gauge
-jvm_classes_loaded_classes 14493.0
+jvm_classes_loaded_classes 14546.0
 # HELP jvm_classes_loaded_count_classes_total The number of classes loaded in the Java virtual machine
 # TYPE jvm_classes_loaded_count_classes_total counter
-jvm_classes_loaded_count_classes_total 14493.0
+jvm_classes_loaded_count_classes_total 14546.0
 # HELP jvm_classes_unloaded_classes_total The number of classes unloaded in the Java virtual machine
 # TYPE jvm_classes_unloaded_classes_total counter
 jvm_classes_unloaded_classes_total 0.0
 # HELP jvm_compilation_time_ms_total The approximate accumulated elapsed time spent in compilation
 # TYPE jvm_compilation_time_ms_total counter
-jvm_compilation_time_ms_total{compiler="HotSpot 64-Bit Tiered Compilers"} 39120.0
+jvm_compilation_time_ms_total{compiler="HotSpot 64-Bit Tiered Compilers"} 43067.0
 # HELP jvm_gc_live_data_size_bytes Size of long-lived heap memory pool after reclamation
 # TYPE jvm_gc_live_data_size_bytes gauge
 jvm_gc_live_data_size_bytes 0.0
 # HELP jvm_gc_max_data_size_bytes Max size of long-lived heap memory pool
 # TYPE jvm_gc_max_data_size_bytes gauge
-jvm_gc_max_data_size_bytes 1.245708288E10
+jvm_gc_max_data_size_bytes 1.8807259136E10
 # HELP jvm_gc_memory_allocated_bytes_total Incremented for an increase in the size of the (young) heap memory pool after one GC to before the next
 # TYPE jvm_gc_memory_allocated_bytes_total counter
-jvm_gc_memory_allocated_bytes_total 6.7108864E7
+jvm_gc_memory_allocated_bytes_total 8.388608E7
 # HELP jvm_gc_memory_promoted_bytes_total Count of positive increases in the size of the old generation memory pool before GC to after GC
 # TYPE jvm_gc_memory_promoted_bytes_total counter
-jvm_gc_memory_promoted_bytes_total 2254696.0
+jvm_gc_memory_promoted_bytes_total 3208288.0
 # HELP jvm_gc_overhead An approximation of the percent of CPU time used by GC activities over the last lookback period or since monitoring began, whichever is shorter, in the range [0..1]
 # TYPE jvm_gc_overhead gauge
-jvm_gc_overhead 0.0010737913141115726
+jvm_gc_overhead 0.001541332770969235
 # HELP jvm_gc_pause_seconds Time spent in GC pause
 # TYPE jvm_gc_pause_seconds summary
 jvm_gc_pause_seconds_count{action="end of minor GC",cause="G1 Evacuation Pause",gc="G1 Young Generation"} 1
-jvm_gc_pause_seconds_sum{action="end of minor GC",cause="G1 Evacuation Pause",gc="G1 Young Generation"} 0.017
+jvm_gc_pause_seconds_sum{action="end of minor GC",cause="G1 Evacuation Pause",gc="G1 Young Generation"} 0.02
 # HELP jvm_gc_pause_seconds_max Time spent in GC pause
 # TYPE jvm_gc_pause_seconds_max gauge
-jvm_gc_pause_seconds_max{action="end of minor GC",cause="G1 Evacuation Pause",gc="G1 Young Generation"} 0.017
+jvm_gc_pause_seconds_max{action="end of minor GC",cause="G1 Evacuation Pause",gc="G1 Young Generation"} 0.02
 # HELP jvm_memory_committed_bytes The amount of memory in bytes that is committed for the Java virtual machine to use
 # TYPE jvm_memory_committed_bytes gauge
-jvm_memory_committed_bytes{area="heap",id="G1 Eden Space"} 7.5497472E7
-jvm_memory_committed_bytes{area="heap",id="G1 Old Gen"} 5.8720256E7
+jvm_memory_committed_bytes{area="heap",id="G1 Eden Space"} 1.00663296E8
+jvm_memory_committed_bytes{area="heap",id="G1 Old Gen"} 5.0331648E7
 jvm_memory_committed_bytes{area="heap",id="G1 Survivor Space"} 1.6777216E7
 jvm_memory_committed_bytes{area="nonheap",id="CodeHeap 'non-nmethods'"} 2555904.0
-jvm_memory_committed_bytes{area="nonheap",id="CodeHeap 'non-profiled nmethods'"} 6422528.0
-jvm_memory_committed_bytes{area="nonheap",id="CodeHeap 'profiled nmethods'"} 1.6318464E7
-jvm_memory_committed_bytes{area="nonheap",id="Compressed Class Space"} 9437184.0
-jvm_memory_committed_bytes{area="nonheap",id="Metaspace"} 7.0909952E7
+jvm_memory_committed_bytes{area="nonheap",id="CodeHeap 'non-profiled nmethods'"} 7798784.0
+jvm_memory_committed_bytes{area="nonheap",id="CodeHeap 'profiled nmethods'"} 1.7301504E7
+jvm_memory_committed_bytes{area="nonheap",id="Compressed Class Space"} 9502720.0
+jvm_memory_committed_bytes{area="nonheap",id="Metaspace"} 7.1368704E7
 # HELP jvm_memory_max_bytes The maximum amount of memory in bytes that can be used for memory management
 # TYPE jvm_memory_max_bytes gauge
 jvm_memory_max_bytes{area="heap",id="G1 Eden Space"} -1.0
-jvm_memory_max_bytes{area="heap",id="G1 Old Gen"} 1.245708288E10
+jvm_memory_max_bytes{area="heap",id="G1 Old Gen"} 1.8807259136E10
 jvm_memory_max_bytes{area="heap",id="G1 Survivor Space"} -1.0
-jvm_memory_max_bytes{area="nonheap",id="CodeHeap 'non-nmethods'"} 5836800.0
-jvm_memory_max_bytes{area="nonheap",id="CodeHeap 'non-profiled nmethods'"} 1.22912768E8
+jvm_memory_max_bytes{area="nonheap",id="CodeHeap 'non-nmethods'"} 5840896.0
+jvm_memory_max_bytes{area="nonheap",id="CodeHeap 'non-profiled nmethods'"} 1.22908672E8
 jvm_memory_max_bytes{area="nonheap",id="CodeHeap 'profiled nmethods'"} 1.22908672E8
 jvm_memory_max_bytes{area="nonheap",id="Compressed Class Space"} 1.073741824E9
 jvm_memory_max_bytes{area="nonheap",id="Metaspace"} -1.0
 # HELP jvm_memory_usage_after_gc The percentage of long-lived heap pool used after the last GC event, in the range [0..1]
 # TYPE jvm_memory_usage_after_gc gauge
-jvm_memory_usage_after_gc{area="heap",pool="long-lived"} 0.002380365956110585
+jvm_memory_usage_after_gc{area="heap",pool="long-lived"} 0.0016428337471491518
 # HELP jvm_memory_used_bytes The amount of used memory
 # TYPE jvm_memory_used_bytes gauge
-jvm_memory_used_bytes{area="heap",id="G1 Eden Space"} 5.0331648E7
-jvm_memory_used_bytes{area="heap",id="G1 Old Gen"} 2.9652416E7
-jvm_memory_used_bytes{area="heap",id="G1 Survivor Space"} 1.0729208E7
-jvm_memory_used_bytes{area="nonheap",id="CodeHeap 'non-nmethods'"} 1781760.0
-jvm_memory_used_bytes{area="nonheap",id="CodeHeap 'non-profiled nmethods'"} 6395520.0
-jvm_memory_used_bytes{area="nonheap",id="CodeHeap 'profiled nmethods'"} 1.6199424E7
-jvm_memory_used_bytes{area="nonheap",id="Compressed Class Space"} 8914656.0
-jvm_memory_used_bytes{area="nonheap",id="Metaspace"} 6.9733664E7
+jvm_memory_used_bytes{area="heap",id="G1 Eden Space"} 3.3554432E7
+jvm_memory_used_bytes{area="heap",id="G1 Old Gen"} 3.08972E7
+jvm_memory_used_bytes{area="heap",id="G1 Survivor Space"} 8934168.0
+jvm_memory_used_bytes{area="nonheap",id="CodeHeap 'non-nmethods'"} 1781504.0
+jvm_memory_used_bytes{area="nonheap",id="CodeHeap 'non-profiled nmethods'"} 7776000.0
+jvm_memory_used_bytes{area="nonheap",id="CodeHeap 'profiled nmethods'"} 1.7204096E7
+jvm_memory_used_bytes{area="nonheap",id="Compressed Class Space"} 8945152.0
+jvm_memory_used_bytes{area="nonheap",id="Metaspace"} 7.013876E7
 # HELP jvm_threads_daemon_threads The current number of live daemon threads
 # TYPE jvm_threads_daemon_threads gauge
 jvm_threads_daemon_threads 36.0
@@ -656,10 +656,10 @@ logback_events_total{level="trace"} 0.0
 logback_events_total{level="warn"} 0.0
 # HELP process_cpu_time_ns_total The "cpu time" used by the Java Virtual Machine process
 # TYPE process_cpu_time_ns_total counter
-process_cpu_time_ns_total 4.75E10
+process_cpu_time_ns_total 5.762E10
 # HELP process_cpu_usage The "recent cpu usage" for the Java Virtual Machine process
 # TYPE process_cpu_usage gauge
-process_cpu_usage 0.03141711229946524
+process_cpu_usage 0.018181818181818184
 # HELP process_files_max_files The maximum file descriptor count
 # TYPE process_files_max_files gauge
 process_files_max_files 1048576.0
@@ -668,10 +668,10 @@ process_files_max_files 1048576.0
 process_files_open_files 28.0
 # HELP process_start_time_seconds Start time of the process since unix epoch.
 # TYPE process_start_time_seconds gauge
-process_start_time_seconds 1.785225052602E9
+process_start_time_seconds 1.785271110021E9
 # HELP process_uptime_seconds The uptime of the Java virtual machine
 # TYPE process_uptime_seconds gauge
-process_uptime_seconds 36.952
+process_uptime_seconds 31.805
 # HELP spring_security_authorizations_active_seconds  
 # TYPE spring_security_authorizations_active_seconds summary
 spring_security_authorizations_active_seconds_count{spring_security_authentication_type="n/a",spring_security_authorization_decision="unknown",spring_security_object="request"} 0
@@ -682,10 +682,10 @@ spring_security_authorizations_active_seconds_max{spring_security_authentication
 # HELP spring_security_authorizations_seconds  
 # TYPE spring_security_authorizations_seconds summary
 spring_security_authorizations_seconds_count{error="none",spring_security_authentication_type="n/a",spring_security_authorization_decision="true",spring_security_object="request"} 10
-spring_security_authorizations_seconds_sum{error="none",spring_security_authentication_type="n/a",spring_security_authorization_decision="true",spring_security_object="request"} 0.003051085
+spring_security_authorizations_seconds_sum{error="none",spring_security_authentication_type="n/a",spring_security_authorization_decision="true",spring_security_object="request"} 0.003210144
 # HELP spring_security_authorizations_seconds_max  
 # TYPE spring_security_authorizations_seconds_max gauge
-spring_security_authorizations_seconds_max{error="none",spring_security_authentication_type="n/a",spring_security_authorization_decision="true",spring_security_object="request"} 7.53824E-4
+spring_security_authorizations_seconds_max{error="none",spring_security_authentication_type="n/a",spring_security_authorization_decision="true",spring_security_object="request"} 8.52683E-4
 # HELP spring_security_filterchains_AdminBearerAuthenticationFilter_after_total  
 # TYPE spring_security_filterchains_AdminBearerAuthenticationFilter_after_total counter
 spring_security_filterchains_AdminBearerAuthenticationFilter_after_total{spring_security_filterchain_position="0",spring_security_filterchain_size="0",spring_security_reached_filter_name="none",spring_security_reached_filter_section="after"} 9.0
@@ -771,13 +771,13 @@ spring_security_filterchains_requestcache_before_total{spring_security_filtercha
 # HELP spring_security_filterchains_seconds  
 # TYPE spring_security_filterchains_seconds summary
 spring_security_filterchains_seconds_count{error="none",spring_security_filterchain_position="14",spring_security_filterchain_size="14",spring_security_reached_filter_name="AuthorizationFilter",spring_security_reached_filter_section="before"} 10
-spring_security_filterchains_seconds_sum{error="none",spring_security_filterchain_position="14",spring_security_filterchain_size="14",spring_security_reached_filter_name="AuthorizationFilter",spring_security_reached_filter_section="before"} 0.080772249
+spring_security_filterchains_seconds_sum{error="none",spring_security_filterchain_position="14",spring_security_filterchain_size="14",spring_security_reached_filter_name="AuthorizationFilter",spring_security_reached_filter_section="before"} 0.073633961
 spring_security_filterchains_seconds_count{error="none",spring_security_filterchain_position="14",spring_security_filterchain_size="14",spring_security_reached_filter_name="DisableEncodeUrlFilter",spring_security_reached_filter_section="after"} 9
-spring_security_filterchains_seconds_sum{error="none",spring_security_filterchain_position="14",spring_security_filterchain_size="14",spring_security_reached_filter_name="DisableEncodeUrlFilter",spring_security_reached_filter_section="after"} 0.008234542
+spring_security_filterchains_seconds_sum{error="none",spring_security_filterchain_position="14",spring_security_filterchain_size="14",spring_security_reached_filter_name="DisableEncodeUrlFilter",spring_security_reached_filter_section="after"} 0.009360182
 # HELP spring_security_filterchains_seconds_max  
 # TYPE spring_security_filterchains_seconds_max gauge
-spring_security_filterchains_seconds_max{error="none",spring_security_filterchain_position="14",spring_security_filterchain_size="14",spring_security_reached_filter_name="AuthorizationFilter",spring_security_reached_filter_section="before"} 0.046530794
-spring_security_filterchains_seconds_max{error="none",spring_security_filterchain_position="14",spring_security_filterchain_size="14",spring_security_reached_filter_name="DisableEncodeUrlFilter",spring_security_reached_filter_section="after"} 0.002646754
+spring_security_filterchains_seconds_max{error="none",spring_security_filterchain_position="14",spring_security_filterchain_size="14",spring_security_reached_filter_name="AuthorizationFilter",spring_security_reached_filter_section="before"} 0.039189016
+spring_security_filterchains_seconds_max{error="none",spring_security_filterchain_position="14",spring_security_filterchain_size="14",spring_security_reached_filter_name="DisableEncodeUrlFilter",spring_security_reached_filter_section="after"} 0.002299764
 # HELP spring_security_filterchains_session_management_after_total  
 # TYPE spring_security_filterchains_session_management_after_total counter
 spring_security_filterchains_session_management_after_total{spring_security_filterchain_position="0",spring_security_filterchain_size="0",spring_security_reached_filter_name="none",spring_security_reached_filter_section="after"} 9.0
@@ -793,26 +793,26 @@ spring_security_filterchains_session_urlencoding_before_total{spring_security_fi
 # HELP spring_security_http_secured_requests_active_seconds  
 # TYPE spring_security_http_secured_requests_active_seconds summary
 spring_security_http_secured_requests_active_seconds_count 1
-spring_security_http_secured_requests_active_seconds_sum 0.046879325
+spring_security_http_secured_requests_active_seconds_sum 0.009583246
 # HELP spring_security_http_secured_requests_active_seconds_max  
 # TYPE spring_security_http_secured_requests_active_seconds_max gauge
-spring_security_http_secured_requests_active_seconds_max 0.046890244
+spring_security_http_secured_requests_active_seconds_max 0.00959984
 # HELP spring_security_http_secured_requests_seconds  
 # TYPE spring_security_http_secured_requests_seconds summary
 spring_security_http_secured_requests_seconds_count{error="none"} 9
-spring_security_http_secured_requests_seconds_sum{error="none"} 0.556460186
+spring_security_http_secured_requests_seconds_sum{error="none"} 0.579439561
 # HELP spring_security_http_secured_requests_seconds_max  
 # TYPE spring_security_http_secured_requests_seconds_max gauge
-spring_security_http_secured_requests_seconds_max{error="none"} 0.361171581
+spring_security_http_secured_requests_seconds_max{error="none"} 0.372819082
 # HELP system_cpu_count The number of processors available to the Java virtual machine
 # TYPE system_cpu_count gauge
-system_cpu_count 4.0
+system_cpu_count 8.0
 # HELP system_cpu_usage The "recent cpu usage" of the system the application is running in
 # TYPE system_cpu_usage gauge
-system_cpu_usage 0.36602209944751385
+system_cpu_usage 0.22995239838886855
 # HELP system_load_average_1m The sum of the number of runnable entities queued to available processors and the number of runnable entities running on the available processors averaged over a period of time
 # TYPE system_load_average_1m gauge
-system_load_average_1m 2.951171875
+system_load_average_1m 3.2236328125
 # HELP tasks_scheduled_execution_active_seconds  
 # TYPE tasks_scheduled_execution_active_seconds summary
 tasks_scheduled_execution_active_seconds_count{code_function="redeliverDueEvents",code_namespace="cc.orbexa.hhy.boot.realtime.R14RealtimeDeliveryListener",exception="none",outcome="UNKNOWN"} 0
@@ -822,11 +822,11 @@ tasks_scheduled_execution_active_seconds_sum{code_function="redeliverDueEvents",
 tasks_scheduled_execution_active_seconds_max{code_function="redeliverDueEvents",code_namespace="cc.orbexa.hhy.boot.realtime.R14RealtimeDeliveryListener",exception="none",outcome="UNKNOWN"} 0.0
 # HELP tasks_scheduled_execution_seconds  
 # TYPE tasks_scheduled_execution_seconds summary
-tasks_scheduled_execution_seconds_count{code_function="redeliverDueEvents",code_namespace="cc.orbexa.hhy.boot.realtime.R14RealtimeDeliveryListener",error="none",exception="none",outcome="SUCCESS"} 16
-tasks_scheduled_execution_seconds_sum{code_function="redeliverDueEvents",code_namespace="cc.orbexa.hhy.boot.realtime.R14RealtimeDeliveryListener",error="none",exception="none",outcome="SUCCESS"} 0.116727877
+tasks_scheduled_execution_seconds_count{code_function="redeliverDueEvents",code_namespace="cc.orbexa.hhy.boot.realtime.R14RealtimeDeliveryListener",error="none",exception="none",outcome="SUCCESS"} 13
+tasks_scheduled_execution_seconds_sum{code_function="redeliverDueEvents",code_namespace="cc.orbexa.hhy.boot.realtime.R14RealtimeDeliveryListener",error="none",exception="none",outcome="SUCCESS"} 0.119072032
 # HELP tasks_scheduled_execution_seconds_max  
 # TYPE tasks_scheduled_execution_seconds_max gauge
-tasks_scheduled_execution_seconds_max{code_function="redeliverDueEvents",code_namespace="cc.orbexa.hhy.boot.realtime.R14RealtimeDeliveryListener",error="none",exception="none",outcome="SUCCESS"} 0.039349297
+tasks_scheduled_execution_seconds_max{code_function="redeliverDueEvents",code_namespace="cc.orbexa.hhy.boot.realtime.R14RealtimeDeliveryListener",error="none",exception="none",outcome="SUCCESS"} 0.057363782
 # HELP tomcat_sessions_active_current_sessions  
 # TYPE tomcat_sessions_active_current_sessions gauge
 tomcat_sessions_active_current_sessions 0.0

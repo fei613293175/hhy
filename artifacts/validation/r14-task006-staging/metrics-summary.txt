@@ -113,7 +113,7 @@ http_server_requests_seconds_bucket{error="none",exception="none",method="GET",o
 http_server_requests_seconds_bucket{error="none",exception="none",method="GET",outcome="SUCCESS",status="200",uri="/public-api/v1/platform/status",le="0.027962026"} 1
 http_server_requests_seconds_bucket{error="none",exception="none",method="GET",outcome="SUCCESS",status="200",uri="/public-api/v1/platform/status",le="0.033554431"} 1
 http_server_requests_seconds_bucket{error="none",exception="none",method="GET",outcome="SUCCESS",status="200",uri="/public-api/v1/platform/status",le="0.039146836"} 1
-http_server_requests_seconds_bucket{error="none",exception="none",method="GET",outcome="SUCCESS",status="200",uri="/public-api/v1/platform/status",le="0.044739241"} 2
+http_server_requests_seconds_bucket{error="none",exception="none",method="GET",outcome="SUCCESS",status="200",uri="/public-api/v1/platform/status",le="0.044739241"} 1
 http_server_requests_seconds_bucket{error="none",exception="none",method="GET",outcome="SUCCESS",status="200",uri="/public-api/v1/platform/status",le="0.050331646"} 2
 http_server_requests_seconds_bucket{error="none",exception="none",method="GET",outcome="SUCCESS",status="200",uri="/public-api/v1/platform/status",le="0.055924051"} 2
 http_server_requests_seconds_bucket{error="none",exception="none",method="GET",outcome="SUCCESS",status="200",uri="/public-api/v1/platform/status",le="0.061516456"} 2
