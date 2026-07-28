@@ -1,9 +1,9 @@
 protocol_version: '1.0'
 cr_id: CR-0472
 title: 补齐CR-0471替换APK精确下载路由作用域
-status: IMPLEMENTED
+status: CLOSED
 created_at: '2026-07-28T21:21:08Z'
-updated_at: '2026-07-28T21:24:55Z'
+updated_at: '2026-07-28T21:36:39Z'
 requester_actor_id: codex-r14-apk-20260729
 approver_actor_id: project-owner-continuous-development-20260729
 task_id: TASK-R14-007
@@ -46,5 +46,12 @@ decision_log:
   status: IMPLEMENTED
   note: 既有R14精确location已替换为2eb8ac7文件名；仓库与服务器include SHA256=5c8b2a1e一致，备份保留，nginx-t、reload和deliver_android_test_apk preflight-route全部PASS，旧精确路由不再活动
   session_id: SES-20260728T205917Z-52E3B6B1
+- at: '2026-07-28T21:36:39Z'
+  actor_id: codex-r14-apk-20260729
+  status: CLOSED
+  note: 新2eb8ac7精确路由经交付脚本真实完成HTTPS200/Range206/MIME和随机路径404验证；仓库服务器include一致且备份保留，作用域遗漏已关闭
+  session_id: SES-20260728T205917Z-52E3B6B1
 session_ids:
 - SES-20260728T205917Z-52E3B6B1
+implementation_commits:
+- 32522a9da99366d320bc6bb65f7ca0b86867512d

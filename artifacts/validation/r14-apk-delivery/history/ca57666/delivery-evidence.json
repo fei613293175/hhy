@@ -1,0 +1,71 @@
+{
+  "schema_version": 2,
+  "release": "R14",
+  "commit": "ca5766600937e1bed056210b8579ee7f8269561b",
+  "route_config_commit": "05d738171911d31d382d8cf5b40dfaab9dacf5b4",
+  "apk_file": "hhy-r14-ca57666-debug.apk",
+  "version_name": "1.2.2-debug",
+  "version_code": 10223,
+  "sha256": "46f050310143d5968864c5aacd9ad38b1fb7290931bc113c76429ebc7ecf126d",
+  "size_bytes": 21903068,
+  "signing": {
+    "status": "PASS",
+    "profile_id": "hhy-staging-test-v2",
+    "fingerprint": "e32a9d7ff8a209d2903db6383b461b259f0018a698d1f3646e6ed7f1112671be",
+    "stable": true
+  },
+  "local": {
+    "status": "PASS",
+    "artifact_copy": "C:\\Users\\小白\\Desktop\\workspace\\hhy-v1.2.3-handoff\\合伙云Pro_Codex直接开发包_V1.2.3_持续开发无状态接续强制门禁最终版\\artifacts\\apk\\R14\\hhy-r14-ca57666-debug.apk",
+    "sha256": "46f050310143d5968864c5aacd9ad38b1fb7290931bc113c76429ebc7ecf126d"
+  },
+  "desktop": {
+    "status": "PASS",
+    "path": "C:\\Users\\小白\\Desktop\\hhy-r14-ca57666-debug.apk",
+    "sha256": "46f050310143d5968864c5aacd9ad38b1fb7290931bc113c76429ebc7ecf126d"
+  },
+  "test_guide": {
+    "source_path": "artifacts/reports/R14/R14-version-test-guide.md",
+    "desktop_path": "C:\\Users\\小白\\Desktop\\hhy-r14-ca57666-test-guide.md",
+    "file_name": "hhy-r14-ca57666-test-guide.md",
+    "size_bytes": 3498,
+    "sha256": "b75448953e9ff254e086f6be601c13fe99310016368469a86c79ec105fa26d4a",
+    "status": "PASS",
+    "verified_at": "2026-07-28T12:50:00Z"
+  },
+  "route_preflight": {
+    "status": "PASS",
+    "route": "/r14-artifacts/hhy-r14-ca57666-debug.apk",
+    "include_sha256": "47edcebfe30e0909bef485734f106bf58c98788277846c347e84f7e4b54db64f",
+    "backup": "/www/server/panel/vhost/nginx/download.orbexa.cc.conf.before-CR-0438-20260728T0833Z",
+    "nginx_test": "PASS",
+    "default_other_path_http_status": 404
+  },
+  "remote": {
+    "status": "PASS",
+    "sha256": "46f050310143d5968864c5aacd9ad38b1fb7290931bc113c76429ebc7ecf126d",
+    "size_bytes": 21903068,
+    "path": "/www/wwwroot/download.orbexa.cc/r14-artifacts/hhy-r14-ca57666-debug.apk",
+    "publish_state": "CREATED"
+  },
+  "https": {
+    "status": "PASS",
+    "http_status": 200,
+    "range_status": 206,
+    "content_type": "application/vnd.android.package-archive",
+    "sha256": "46f050310143d5968864c5aacd9ad38b1fb7290931bc113c76429ebc7ecf126d",
+    "size_bytes": 21903068,
+    "verified_at": "2026-07-28T08:38:39Z",
+    "url": "https://download.orbexa.cc/r14-artifacts/hhy-r14-ca57666-debug.apk"
+  },
+  "public_websocket": {
+    "status": "BLOCKED_EXTERNAL_DNS"
+  },
+  "report_catalog": {
+    "status": "BLOCKED_PRODUCT_CATALOG"
+  },
+  "owner_physical_test": {
+    "status": "PENDING"
+  },
+  "last_verified_at": "2026-07-28T08:41:58Z"
+}

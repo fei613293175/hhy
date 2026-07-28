@@ -29388,9 +29388,9 @@ change_requests:
 - protocol_version: '1.0'
   cr_id: CR-0471
   title: 递增R14替换TEST_APK身份并交付举报目录最终包
-  status: IMPLEMENTING
+  status: IMPLEMENTED
   created_at: '2026-07-28T21:01:35Z'
-  updated_at: '2026-07-28T21:02:48Z'
+  updated_at: '2026-07-28T21:36:33Z'
   requester_actor_id: codex-r14-apk-20260729
   approver_actor_id: project-owner-continuous-development-20260729
   task_id: TASK-R14-007
@@ -29437,14 +29437,21 @@ change_requests:
     status: IMPLEMENTING
     note: 开始同步R14 versionCode 10224三处既有身份投影；随后在obx-test固定镜像进行唯一完整构建并使用replace-existing交付
     session_id: SES-20260728T205917Z-52E3B6B1
+  - at: '2026-07-28T21:36:33Z'
+    actor_id: codex-r14-apk-20260729
+    status: IMPLEMENTED
+    note: R14替换包10224在固定工具链完整构建PASS，稳定签名、身份、正式API/WSS、四方SHA、HTTPS200/Range206及桌面APK/测试说明成对交付全部通过；旧ca57666状态原子归档，owner真机保持异步PENDING
+    session_id: SES-20260728T205917Z-52E3B6B1
   session_ids:
   - SES-20260728T205917Z-52E3B6B1
+  implementation_commits:
+  - 2eb8ac74b55c35833609c6eb6f330268a289bf3a
 - protocol_version: '1.0'
   cr_id: CR-0472
   title: 补齐CR-0471替换APK精确下载路由作用域
-  status: IMPLEMENTED
+  status: CLOSED
   created_at: '2026-07-28T21:21:08Z'
-  updated_at: '2026-07-28T21:24:55Z'
+  updated_at: '2026-07-28T21:36:39Z'
   requester_actor_id: codex-r14-apk-20260729
   approver_actor_id: project-owner-continuous-development-20260729
   task_id: TASK-R14-007
@@ -29486,6 +29493,111 @@ change_requests:
     actor_id: codex-r14-apk-20260729
     status: IMPLEMENTED
     note: 既有R14精确location已替换为2eb8ac7文件名；仓库与服务器include SHA256=5c8b2a1e一致，备份保留，nginx-t、reload和deliver_android_test_apk preflight-route全部PASS，旧精确路由不再活动
+    session_id: SES-20260728T205917Z-52E3B6B1
+  - at: '2026-07-28T21:36:39Z'
+    actor_id: codex-r14-apk-20260729
+    status: CLOSED
+    note: 新2eb8ac7精确路由经交付脚本真实完成HTTPS200/Range206/MIME和随机路径404验证；仓库服务器include一致且备份保留，作用域遗漏已关闭
+    session_id: SES-20260728T205917Z-52E3B6B1
+  session_ids:
+  - SES-20260728T205917Z-52E3B6B1
+  implementation_commits:
+  - 32522a9da99366d320bc6bb65f7ca0b86867512d
+- protocol_version: '1.0'
+  cr_id: CR-0473
+  title: 补齐CR-0471替换交付历史归档作用域
+  status: IMPLEMENTED
+  created_at: '2026-07-28T21:38:06Z'
+  updated_at: '2026-07-28T21:39:42Z'
+  requester_actor_id: codex-r14-apk-20260729
+  approver_actor_id: project-owner-continuous-development-20260729
+  task_id: TASK-R14-007
+  session_id: SES-20260728T205917Z-52E3B6B1
+  user_request: 持续交付每个大版本最新APK并保留可追溯历史
+  reason: deliver_android_test_apk --replace-existing已原子归档ca57666 Manifest与Evidence，但CR-0471只登记当前文件路径，连续性门禁正确拒绝未登记历史目录
+  original_rule: CR-0471登记当前R14 APK Manifest与Delivery Evidence，但未登记replace-existing成功后由既有交付器自动生成的旧交付历史路径
+  new_rule: 只允许将旧ca57666的原Manifest和Evidence原字节归档到各自history/ca57666目录；当前交付仍唯一指向2eb8ac7，历史不得改写、冒充当前或恢复owner PASS
+  impact_summary: 补齐既有替换交付事务的两个确定性历史输出路径，不新增交付规则、不修改APK、服务器、桌面或当前Manifest
+  impact:
+    files:
+    - artifacts/apk/R14/history/ca57666/APK_MANIFEST.yaml
+    - artifacts/validation/r14-apk-delivery/history/ca57666/delivery-evidence.json
+    pages: []
+    apis: []
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - tests/test_android_apk_delivery.py替换成功后归档旧状态且失败时不产生归档
+    releases:
+    - R14
+    migration_and_compatibility: 归档仅保留旧10223交付身份与PENDING状态；10224继续是当前交付，验证失败时交付器必须保持旧当前状态且不得产生归档
+  user_confirmation: 项目所有者要求持续交付、跨AI可追溯且无需逐次批准
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-28T21:38:46Z'
+    note: 两个路径是已批准replace-existing事务的确定性只读历史输出；精确登记可防旧交付丢失或被误当当前，不扩大产品和交付边界
+  machine_record: .continuity/change_requests/CR-0473.yaml
+  document: docs/03-continuity/change-requests/CR-0473-补齐CR-0471替换交付历史归档作用域.md
+  decision_log:
+  - at: '2026-07-28T21:39:35Z'
+    actor_id: codex-r14-apk-20260729
+    status: IMPLEMENTING
+    note: 应用两个精确历史归档路径并核验旧状态原字节保留
+    session_id: SES-20260728T205917Z-52E3B6B1
+  - at: '2026-07-28T21:39:42Z'
+    actor_id: codex-r14-apk-20260729
+    status: IMPLEMENTED
+    note: 交付器已把ca57666原Manifest与Evidence归档到两个精确history路径；当前2eb8ac7交付verify PASS，22项回归证明失败替换不产生归档
+    session_id: SES-20260728T205917Z-52E3B6B1
+  session_ids:
+  - SES-20260728T205917Z-52E3B6B1
+- protocol_version: '1.0'
+  cr_id: CR-0474
+  title: 补齐替换交付历史归档问题记录与原字节回归
+  status: IMPLEMENTED
+  created_at: '2026-07-28T21:47:49Z'
+  updated_at: '2026-07-28T21:49:55Z'
+  requester_actor_id: codex-r14-apk-20260729
+  approver_actor_id: project-owner-continuity-directive-20260729
+  task_id: TASK-R14-007
+  session_id: SES-20260728T205917Z-52E3B6B1
+  user_request: 持续开发至R32不得漂移，规则与问题经验必须跨AI复用
+  reason: CR-0473补齐两个确定性归档路径后，提交门禁要求同根因PROB-0144和既有替换事务回归同步覆盖历史原字节归档
+  original_rule: PROB-0144只记录替换APK精确下载路由作用域遗漏；既有成功回归仅解析旧Manifest并检查旧Evidence存在
+  new_rule: 仍以PROB-0144为同一问题唯一事实源，原位补充CR-0473暴露的历史归档作用域遗漏；成功替换必须断言旧Manifest和Evidence均按原字节归档，失败替换必须断言两类历史目录均不存在
+  impact_summary: 只修改既有问题记录与既有替换交付回归，不新增平行硬规则、不修改交付实现、APK身份、服务器或产品
+  impact:
+    files:
+    - docs/03-continuity/PROBLEM_REGISTRY.yaml
+    - tests/test_android_apk_delivery.py
+    pages: []
+    apis: []
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - tests.test_android_apk_delivery成功替换双文件原字节归档且失败双目录零归档
+    releases:
+    - R14
+    migration_and_compatibility: 现有ca57666两份归档已与替换前Git blob一致；回归兼容现有schema2/1历史并只强化字节保真和失败零归档
+  user_confirmation: 项目所有者明确要求持续开发到R32不再漂移、经验跨AI复用且无需逐次批准
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-28T21:48:26Z'
+    note: 同一问题原位补充和原字节回归是提交门禁要求，范围仅两文件且不新增平行规则
+  machine_record: .continuity/change_requests/CR-0474.yaml
+  document: docs/03-continuity/change-requests/CR-0474-补齐替换交付历史归档问题记录与原字节回归.md
+  decision_log:
+  - at: '2026-07-28T21:48:36Z'
+    actor_id: codex-r14-apk-20260729
+    status: IMPLEMENTING
+    note: 开始原位更新PROB-0144并增强既有替换交付原字节回归
+    session_id: SES-20260728T205917Z-52E3B6B1
+  - at: '2026-07-28T21:49:55Z'
+    actor_id: codex-r14-apk-20260729
+    status: IMPLEMENTED
+    note: PROB-0144已原位覆盖路由与双历史归档作用域根因；32项连续性和交付回归PASS，成功替换证明Manifest/Evidence原字节归档，失败替换证明双目录零归档
     session_id: SES-20260728T205917Z-52E3B6B1
   session_ids:
   - SES-20260728T205917Z-52E3B6B1

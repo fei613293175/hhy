@@ -405,6 +405,10 @@ class AndroidApkDeliveryTest(unittest.TestCase):
         with TemporaryDirectory() as temporary:
             fixture = DeliveryFixture(Path(temporary))
             delivery.prepare_delivery(fixture.config(), FakePublisher(), https_verifier=passing_https)
+            manifest_path = fixture.artifact_root / "R02" / "APK_MANIFEST.yaml"
+            evidence_path = fixture.evidence_root / "r02-apk-delivery" / "delivery-evidence.json"
+            original_manifest = manifest_path.read_bytes()
+            original_evidence = evidence_path.read_bytes()
             fixture.write_build_evidence(commit=COMMIT_2, version_code=10203)
             fixture.write_release_manifest(COMMIT_2)
             replacement = FakePublisher()
@@ -418,14 +422,13 @@ class AndroidApkDeliveryTest(unittest.TestCase):
             current = yaml.safe_load(
                 (fixture.artifact_root / "R02" / "APK_MANIFEST.yaml").read_text(encoding="utf-8")
             )
-            archived = yaml.safe_load(
-                (fixture.artifact_root / "R02" / "history" / COMMIT[:7] / "APK_MANIFEST.yaml").read_text(encoding="utf-8")
-            )
+            archived_manifest_path = fixture.artifact_root / "R02" / "history" / COMMIT[:7] / "APK_MANIFEST.yaml"
+            archived_evidence_path = fixture.evidence_root / "r02-apk-delivery" / "history" / COMMIT[:7] / "delivery-evidence.json"
+            archived = yaml.safe_load(archived_manifest_path.read_text(encoding="utf-8"))
             self.assertEqual(COMMIT_2, current["commit"])
             self.assertEqual(COMMIT, archived["commit"])
-            self.assertTrue(
-                (fixture.evidence_root / "r02-apk-delivery" / "history" / COMMIT[:7] / "delivery-evidence.json").is_file()
-            )
+            self.assertEqual(original_manifest, archived_manifest_path.read_bytes())
+            self.assertEqual(original_evidence, archived_evidence_path.read_bytes())
 
     def test_failed_replacement_preserves_current_delivery(self) -> None:
         with TemporaryDirectory() as temporary:
@@ -448,6 +451,7 @@ class AndroidApkDeliveryTest(unittest.TestCase):
             )
             self.assertEqual(COMMIT, current["commit"])
             self.assertFalse((fixture.artifact_root / "R02" / "history" / COMMIT[:7]).exists())
+            self.assertFalse((fixture.evidence_root / "r02-apk-delivery" / "history" / COMMIT[:7]).exists())
 
     def test_verify_and_accept_reject_test_guide_drift_including_idempotent_accept(self) -> None:
         with TemporaryDirectory() as temporary:

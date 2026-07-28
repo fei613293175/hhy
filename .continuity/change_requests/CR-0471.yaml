@@ -1,9 +1,9 @@
 protocol_version: '1.0'
 cr_id: CR-0471
 title: 递增R14替换TEST_APK身份并交付举报目录最终包
-status: IMPLEMENTING
+status: IMPLEMENTED
 created_at: '2026-07-28T21:01:35Z'
-updated_at: '2026-07-28T21:02:48Z'
+updated_at: '2026-07-28T21:36:33Z'
 requester_actor_id: codex-r14-apk-20260729
 approver_actor_id: project-owner-continuous-development-20260729
 task_id: TASK-R14-007
@@ -50,5 +50,12 @@ decision_log:
   status: IMPLEMENTING
   note: 开始同步R14 versionCode 10224三处既有身份投影；随后在obx-test固定镜像进行唯一完整构建并使用replace-existing交付
   session_id: SES-20260728T205917Z-52E3B6B1
+- at: '2026-07-28T21:36:33Z'
+  actor_id: codex-r14-apk-20260729
+  status: IMPLEMENTED
+  note: R14替换包10224在固定工具链完整构建PASS，稳定签名、身份、正式API/WSS、四方SHA、HTTPS200/Range206及桌面APK/测试说明成对交付全部通过；旧ca57666状态原子归档，owner真机保持异步PENDING
+  session_id: SES-20260728T205917Z-52E3B6B1
 session_ids:
 - SES-20260728T205917Z-52E3B6B1
+implementation_commits:
+- 2eb8ac74b55c35833609c6eb6f330268a289bf3a

@@ -1,29 +1,23 @@
 manifest_schema: 3
 release: R14
-apk_file: hhy-r14-ca57666-debug.apk
+apk_file: hhy-r14-2eb8ac7-debug.apk
 version_name: 1.2.2-debug
-version_code: 10223
-commit: ca5766600937e1bed056210b8579ee7f8269561b
-route_config_commit: 05d738171911d31d382d8cf5b40dfaab9dacf5b4
-sha256: 46f050310143d5968864c5aacd9ad38b1fb7290931bc113c76429ebc7ecf126d
-size_bytes: 21903068
-signing_profile_id: hhy-staging-test-v2
+version_code: 10224
+commit: 2eb8ac74b55c35833609c6eb6f330268a289bf3a
+sha256: 6ce8494e46d3a831c3ca9629d78bad97c445e9d93d084d8c0cd1c7292a885481
+size_bytes: 21915555
 signing_fingerprint: e32a9d7ff8a209d2903db6383b461b259f0018a698d1f3646e6ed7f1112671be
-api_base_url: https://api.orbexa.cc
-websocket_base_url: wss://ws.orbexa.cc
-built_at: '2026-07-28T08:25:40Z'
+built_at: '2026-07-28T21:17:39Z'
 delivery_status: PASS
 test_status: PENDING
 owner_physical_test: PENDING
-public_websocket: BLOCKED_EXTERNAL_DNS
-report_catalog: BLOCKED_PRODUCT_CATALOG
-download_url: https://download.orbexa.cc/r14-artifacts/hhy-r14-ca57666-debug.apk
-desktop_copy: C:\Users\小白\Desktop\hhy-r14-ca57666-debug.apk
+download_url: https://download.orbexa.cc/r14-artifacts/hhy-r14-2eb8ac7-debug.apk
+desktop_copy: C:\Users\小白\Desktop\hhy-r14-2eb8ac7-debug.apk
 test_guide:
   source_path: artifacts/reports/R14/R14-version-test-guide.md
-  desktop_path: C:\Users\小白\Desktop\hhy-r14-ca57666-test-guide.md
-  file_name: hhy-r14-ca57666-test-guide.md
-  size_bytes: 3498
-  sha256: b75448953e9ff254e086f6be601c13fe99310016368469a86c79ec105fa26d4a
+  desktop_path: C:\Users\小白\Desktop\hhy-r14-2eb8ac7-test-guide.md
+  file_name: hhy-r14-2eb8ac7-test-guide.md
+  size_bytes: 3586
+  sha256: 1b106db40fca1014b8cad212f2bf6dbd6d484a2ce736b92b5cb3a2a507a55f76
   status: PASS
 delivery_evidence: artifacts\validation\r14-apk-delivery\delivery-evidence.json
