@@ -1,9 +1,9 @@
 protocol_version: '1.0'
 cr_id: CR-0434
 title: 交付R14可执行Staging候选与稳定签名TEST_APK
-status: IMPLEMENTED
+status: CLOSED
 created_at: '2026-07-28T06:52:37Z'
-updated_at: '2026-07-28T08:45:14Z'
+updated_at: '2026-07-28T08:53:20Z'
 requester_actor_id: codex-root-r14-client-20260728
 approver_actor_id: codex-r14-staging-apk-independent-review-20260728
 task_id: TASK-R14-004
@@ -67,7 +67,13 @@ decision_log:
   status: IMPLEMENTED
   note: 八Gauge隔离Staging、三告警生命周期、V044保留式回切及10223稳定签名TEST_APK四方交付均已实现；外部WS DNS和举报目录继续保持阻断。
   session_id: SES-20260727T221444Z-FD353AD3
+- at: '2026-07-28T08:53:20Z'
+  actor_id: codex-root-r14-client-20260728
+  status: CLOSED
+  note: R14隔离Staging验收、稳定签名TEST_APK、证据清单与桌面/HTTPS交付均已归档并推送
+  session_id: SES-20260727T221444Z-FD353AD3
 session_ids:
 - SES-20260727T221444Z-FD353AD3
 implementation_commits:
 - 05d738171911d31d382d8cf5b40dfaab9dacf5b4
+- f5b9b1ff2b4f728dce937cf5e04770e3235951fd

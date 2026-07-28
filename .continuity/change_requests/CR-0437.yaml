@@ -1,9 +1,9 @@
 protocol_version: '1.0'
 cr_id: CR-0437
 title: 补齐R14 TEST_APK版本身份双事实源
-status: IMPLEMENTED
+status: CLOSED
 created_at: '2026-07-28T08:11:38Z'
-updated_at: '2026-07-28T08:45:01Z'
+updated_at: '2026-07-28T08:53:37Z'
 requester_actor_id: codex-root-r14-client-20260728
 approver_actor_id: codex-r14-version-identity-independent-review-20260728
 task_id: TASK-R14-004
@@ -45,7 +45,13 @@ decision_log:
   status: IMPLEMENTED
   note: 10223已同步到ReleasePolicy与VersionMetadataTest，Android UI基础门禁和固定工具链完整构建于同一Commit PASS。
   session_id: SES-20260727T221444Z-FD353AD3
+- at: '2026-07-28T08:53:37Z'
+  actor_id: codex-root-r14-client-20260728
+  status: CLOSED
+  note: R14 Android版本身份已统一为versionCode 10223，并通过全量构建、单测、lint与APK身份检查
+  session_id: SES-20260727T221444Z-FD353AD3
 session_ids:
 - SES-20260727T221444Z-FD353AD3
 implementation_commits:
 - ca5766600937e1bed056210b8579ee7f8269561b
+- f5b9b1ff2b4f728dce937cf5e04770e3235951fd

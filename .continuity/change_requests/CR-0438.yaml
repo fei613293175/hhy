@@ -1,9 +1,9 @@
 protocol_version: '1.0'
 cr_id: CR-0438
 title: 补齐R14 TEST_APK精确HTTPS下载白名单
-status: IMPLEMENTED
+status: CLOSED
 created_at: '2026-07-28T08:30:47Z'
-updated_at: '2026-07-28T08:45:07Z'
+updated_at: '2026-07-28T08:53:43Z'
 requester_actor_id: codex-root-r14-client-20260728
 approver_actor_id: codex-r14-apk-download-independent-review-20260728
 task_id: TASK-R14-004
@@ -51,7 +51,13 @@ decision_log:
   status: IMPLEMENTED
   note: 仓库精确include与服务器字节一致，活动配置有可恢复备份，nginx-t/reload、HTTPS200、Range206、MIME、其他路径404与四方SHA全部PASS。
   session_id: SES-20260727T221444Z-FD353AD3
+- at: '2026-07-28T08:53:43Z'
+  actor_id: codex-root-r14-client-20260728
+  status: CLOSED
+  note: 精确R14 APK HTTPS白名单已部署，nginx配置校验、200/206/默认404与四方SHA均PASS
+  session_id: SES-20260727T221444Z-FD353AD3
 session_ids:
 - SES-20260727T221444Z-FD353AD3
 implementation_commits:
 - 05d738171911d31d382d8cf5b40dfaab9dacf5b4
+- f5b9b1ff2b4f728dce937cf5e04770e3235951fd

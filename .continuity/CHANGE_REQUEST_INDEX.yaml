@@ -26832,9 +26832,9 @@ change_requests:
 - protocol_version: '1.0'
   cr_id: CR-0434
   title: 交付R14可执行Staging候选与稳定签名TEST_APK
-  status: IMPLEMENTED
+  status: CLOSED
   created_at: '2026-07-28T06:52:37Z'
-  updated_at: '2026-07-28T08:45:14Z'
+  updated_at: '2026-07-28T08:53:20Z'
   requester_actor_id: codex-root-r14-client-20260728
   approver_actor_id: codex-r14-staging-apk-independent-review-20260728
   task_id: TASK-R14-004
@@ -26898,16 +26898,22 @@ change_requests:
     status: IMPLEMENTED
     note: 八Gauge隔离Staging、三告警生命周期、V044保留式回切及10223稳定签名TEST_APK四方交付均已实现；外部WS DNS和举报目录继续保持阻断。
     session_id: SES-20260727T221444Z-FD353AD3
+  - at: '2026-07-28T08:53:20Z'
+    actor_id: codex-root-r14-client-20260728
+    status: CLOSED
+    note: R14隔离Staging验收、稳定签名TEST_APK、证据清单与桌面/HTTPS交付均已归档并推送
+    session_id: SES-20260727T221444Z-FD353AD3
   session_ids:
   - SES-20260727T221444Z-FD353AD3
   implementation_commits:
   - 05d738171911d31d382d8cf5b40dfaab9dacf5b4
+  - f5b9b1ff2b4f728dce937cf5e04770e3235951fd
 - protocol_version: '1.0'
   cr_id: CR-0435
   title: 修正CR-0434为可执行精确文件作用域
-  status: IMPLEMENTED
+  status: CLOSED
   created_at: '2026-07-28T07:00:26Z'
-  updated_at: '2026-07-28T08:45:20Z'
+  updated_at: '2026-07-28T08:53:26Z'
   requester_actor_id: codex-root-r14-client-20260728
   approver_actor_id: codex-r14-scope-expansion-independent-review-20260728
   task_id: TASK-R14-004
@@ -27003,16 +27009,22 @@ change_requests:
     status: IMPLEMENTED
     note: CR-0434精确文件作用域内的Staging与Android证据、Manifest和报告已生成并通过门禁。
     session_id: SES-20260727T221444Z-FD353AD3
+  - at: '2026-07-28T08:53:26Z'
+    actor_id: codex-root-r14-client-20260728
+    status: CLOSED
+    note: CR-0434精确文件作用域已按批准边界实施，交付证据已归档并推送
+    session_id: SES-20260727T221444Z-FD353AD3
   session_ids:
   - SES-20260727T221444Z-FD353AD3
   implementation_commits:
   - 05d738171911d31d382d8cf5b40dfaab9dacf5b4
+  - f5b9b1ff2b4f728dce937cf5e04770e3235951fd
 - protocol_version: '1.0'
   cr_id: CR-0436
   title: 修正R14隔离Staging网段冲突
-  status: IMPLEMENTED
+  status: CLOSED
   created_at: '2026-07-28T07:37:56Z'
-  updated_at: '2026-07-28T08:00:31Z'
+  updated_at: '2026-07-28T08:53:32Z'
   requester_actor_id: codex-root-r14-client-20260728
   approver_actor_id: codex-r14-staging-network-independent-review-20260728
   task_id: TASK-R14-004
@@ -27057,16 +27069,22 @@ change_requests:
     status: IMPLEMENTED
     note: R14独占网段172.31.238.0/24已在空hhy-r14-staging项目真实创建，未修改R12/R13/公网资源；精确Commit完成完整Staging验收，现场证据已回收并通过双端SHA256。
     session_id: SES-20260727T221444Z-FD353AD3
+  - at: '2026-07-28T08:53:32Z'
+    actor_id: codex-root-r14-client-20260728
+    status: CLOSED
+    note: Staging验收脚本数值测试用户ID纠偏已通过真实隔离验收并随证据提交关闭
+    session_id: SES-20260727T221444Z-FD353AD3
   session_ids:
   - SES-20260727T221444Z-FD353AD3
   implementation_commits:
   - b6f5e285faabbcd2ce7539d01e502b199ade7580
+  - f5b9b1ff2b4f728dce937cf5e04770e3235951fd
 - protocol_version: '1.0'
   cr_id: CR-0437
   title: 补齐R14 TEST_APK版本身份双事实源
-  status: IMPLEMENTED
+  status: CLOSED
   created_at: '2026-07-28T08:11:38Z'
-  updated_at: '2026-07-28T08:45:01Z'
+  updated_at: '2026-07-28T08:53:37Z'
   requester_actor_id: codex-root-r14-client-20260728
   approver_actor_id: codex-r14-version-identity-independent-review-20260728
   task_id: TASK-R14-004
@@ -27108,16 +27126,22 @@ change_requests:
     status: IMPLEMENTED
     note: 10223已同步到ReleasePolicy与VersionMetadataTest，Android UI基础门禁和固定工具链完整构建于同一Commit PASS。
     session_id: SES-20260727T221444Z-FD353AD3
+  - at: '2026-07-28T08:53:37Z'
+    actor_id: codex-root-r14-client-20260728
+    status: CLOSED
+    note: R14 Android版本身份已统一为versionCode 10223，并通过全量构建、单测、lint与APK身份检查
+    session_id: SES-20260727T221444Z-FD353AD3
   session_ids:
   - SES-20260727T221444Z-FD353AD3
   implementation_commits:
   - ca5766600937e1bed056210b8579ee7f8269561b
+  - f5b9b1ff2b4f728dce937cf5e04770e3235951fd
 - protocol_version: '1.0'
   cr_id: CR-0438
   title: 补齐R14 TEST_APK精确HTTPS下载白名单
-  status: IMPLEMENTED
+  status: CLOSED
   created_at: '2026-07-28T08:30:47Z'
-  updated_at: '2026-07-28T08:45:07Z'
+  updated_at: '2026-07-28T08:53:43Z'
   requester_actor_id: codex-root-r14-client-20260728
   approver_actor_id: codex-r14-apk-download-independent-review-20260728
   task_id: TASK-R14-004
@@ -27165,7 +27189,13 @@ change_requests:
     status: IMPLEMENTED
     note: 仓库精确include与服务器字节一致，活动配置有可恢复备份，nginx-t/reload、HTTPS200、Range206、MIME、其他路径404与四方SHA全部PASS。
     session_id: SES-20260727T221444Z-FD353AD3
+  - at: '2026-07-28T08:53:43Z'
+    actor_id: codex-root-r14-client-20260728
+    status: CLOSED
+    note: 精确R14 APK HTTPS白名单已部署，nginx配置校验、200/206/默认404与四方SHA均PASS
+    session_id: SES-20260727T221444Z-FD353AD3
   session_ids:
   - SES-20260727T221444Z-FD353AD3
   implementation_commits:
   - 05d738171911d31d382d8cf5b40dfaab9dacf5b4
+  - f5b9b1ff2b4f728dce937cf5e04770e3235951fd

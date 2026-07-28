@@ -94,3 +94,10 @@ obx-test真实现场证明172.31.240.0/24已由hhy-r12-staging-a2_smoke占用，
 - Status：`IMPLEMENTED`
 - Session：`SES-20260727T221444Z-FD353AD3`
 - Note：R14独占网段172.31.238.0/24已在空hhy-r14-staging项目真实创建，未修改R12/R13/公网资源；精确Commit完成完整Staging验收，现场证据已回收并通过双端SHA256。
+
+## 状态记录 · 2026-07-28T08:53:32Z
+
+- Actor：`codex-root-r14-client-20260728`
+- Status：`CLOSED`
+- Session：`SES-20260727T221444Z-FD353AD3`
+- Note：Staging验收脚本数值测试用户ID纠偏已通过真实隔离验收并随证据提交关闭

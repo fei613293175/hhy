@@ -1,7 +1,7 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-28T08:51:07Z
-- Context Hash：`812fe8eaa17bde56ac23c154dca2b3a1e95ff5fa064e85339ee66674d5d96199`
+- 生成时间：2026-07-28T08:54:49Z
+- Context Hash：`dca558eaa2e63ffdedfeabae959c5f6d62b4ec61efd7499566658a6ac2f74611`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 规则就绪：`PASS`（`HASHED_CONTEXT_MANIFEST`）
@@ -177,7 +177,7 @@ blocked_tasks:
 - TASK-R07-008
 - TASK-R13-008
 next_task: TASK-R14-004
-updated_at: '2026-07-28T08:51:03Z'
+updated_at: '2026-07-28T08:54:44Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -212,15 +212,15 @@ continuity:
   active_session_id: SES-20260727T221444Z-FD353AD3
   actor_id: codex-root-r14-client-20260728
   story_id: STORY-R14-004
-  lease_expires_at: '2026-07-28T12:51:03Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260727T221444Z-FD353AD3/0038.yaml
-  project_fingerprint: 96259c2083a16af07196ce6bb1fe3cae3ad658b32a7f9bba245a4daa6ed3c776
+  lease_expires_at: '2026-07-28T12:54:44Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260727T221444Z-FD353AD3/0039.yaml
+  project_fingerprint: 93b604dda99b12a925ff8f1697571bb66684a61fda74c6bb9b255e7370f087a3
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: 06ada94fb50aa5d76b873599f16516895ffdc82a64ef4bfa1ca7d0cddcebd5d0
-    generated_at: '2026-07-28T08:47:55Z'
+    context_hash: 812fe8eaa17bde56ac23c154dca2b3a1e95ff5fa064e85339ee66674d5d96199
+    generated_at: '2026-07-28T08:51:07Z'
   handoff_bundle: null
 ```
 
@@ -422,7 +422,7 @@ task_id: TASK-R14-004
 story_id: STORY-R14-004
 goal: 逐项审计R14六个交互面、九接口、状态错误恢复、测试和追踪证据，补齐不依赖举报原因目录的客户端与治理缺口；保持PROB-0135开放且不提前关闭TASK
 started_at: '2026-07-27T22:14:44Z'
-updated_at: '2026-07-28T08:51:03Z'
+updated_at: '2026-07-28T08:54:44Z'
 takeover_of: null
 change_requests:
 - CR-0422
@@ -611,12 +611,12 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-28T08:51:03Z'
-  expires_at: '2026-07-28T12:51:03Z'
-checkpoint_sequence: 38
-latest_checkpoint: .continuity/checkpoints/SES-20260727T221444Z-FD353AD3/0038.yaml
+  renewed_at: '2026-07-28T08:54:44Z'
+  expires_at: '2026-07-28T12:54:44Z'
+checkpoint_sequence: 39
+latest_checkpoint: .continuity/checkpoints/SES-20260727T221444Z-FD353AD3/0039.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260727T221444Z-FD353AD3.md
-next_step: 提交并推送R14 Android构建、签名、下载和桌面交付证据；随后关闭已实施CR并继续按仓库状态处理R14剩余非阻塞工作
+next_step: 提交并推送CR关闭治理记录，然后读取CURRENT_STATUS与NEXT_TASK，继续R14剩余可执行工作并保留真实外部阻断
 context_pack: THIS_CONTEXT_PACK
 handoff_bundle: null
 closure: null
@@ -624,7 +624,7 @@ parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 当前只剩共享连续性状态、证据清单与单一Git提交收口，拆分会竞争同一治理文件并增加状态冲突
+  reason: CR状态关闭、检查点与后续单一提交均修改共享连续性索引和事件哈希链，不适合并行写入
 story_history:
 - story_id: STORY-R14-001
   completed_at: '2026-07-27T23:25:19Z'
@@ -647,86 +647,55 @@ story_history:
 
 ```yaml
 protocol_version: '1.0'
-checkpoint_id: CP-SES-20260727T221444Z-FD353AD3-0038
+checkpoint_id: CP-SES-20260727T221444Z-FD353AD3-0039
 session_id: SES-20260727T221444Z-FD353AD3
 task_id: TASK-R14-004
 story_id: STORY-R14-004
-sequence: 38
-created_at: '2026-07-28T08:51:02Z'
-summary: R14钉住工具链Android门禁、稳定签名TEST_APK、精确HTTPS下载白名单与桌面交付均完成；BUILD SUCCESSFUL 6m57s/772 tasks，签名v2/v3与API/WSS内嵌值通过，HTTPS 200/Range 206/非授权路径404，仓库副本/桌面/服务器/HTTPS四方SHA256一致；AC-R14-006已PASS，CR-0434/0435/0437/0438已IMPLEMENTED
-next_step: 提交并推送R14 Android构建、签名、下载和桌面交付证据；随后关闭已实施CR并继续按仓库状态处理R14剩余非阻塞工作
+sequence: 39
+created_at: '2026-07-28T08:54:44Z'
+summary: R14隔离Staging、Android钉住工具链、稳定签名TEST_APK、精确HTTPS下载与桌面交付证据已在f5b9b1ff提交并推送；CR-0434/0435/0436/0437/0438已按真实实施结果关闭，TASK-R14-004与R14仍保持未关闭
+next_step: 提交并推送CR关闭治理记录，然后读取CURRENT_STATUS与NEXT_TASK，继续R14剩余可执行工作并保留真实外部阻断
 blockers:
-- ws.orbexa.cc仍BLOCKED_EXTERNAL_DNS；PROB-0135举报原因目录仍BLOCKED_PRODUCT_CATALOG；真机反馈为异步PENDING且不阻塞持续开发；TASK-R14-007不得因单项APK交付而误关闭
+- ws.orbexa.cc为BLOCKED_EXTERNAL_DNS；PROB-0135为BLOCKED_PRODUCT_CATALOG；真机反馈异步PENDING且不阻塞
 decisions:
-- 不运行GitHub模拟器；采用钉住工具链全量构建门禁与用户异步真机反馈，精确下载路由仅放行固定R14 APK，不扩张公共服务范围
-note: 桌面文件C:\Users\小白\Desktop\hhy-r14-ca57666-debug.apk已存在；下载URL https://download.orbexa.cc/r14-artifacts/hhy-r14-ca57666-debug.apk
+- 只关闭已完成的实施CR，不关闭TASK-R14-004、TASK-R14-007或完整R14，不伪造公网WebSocket或举报目录通过状态
+note: APK继续可从桌面与精确HTTPS地址安装测试
 tests:
-- name: android-pinned-toolchain
+- name: r14-apk-evidence-commit
   result: PASS
-  evidence: artifacts/validation/r14-task007-android/gradle-build.log
-  note: 6m57s; 772 tasks; verifyApiBaseUrl testDebugUnitTest lintDebug assembleDebug
-- name: apk-signing
-  result: PASS
-  evidence: artifacts/validation/r14-task007-android/apk-signing.txt
-  note: v2/v3 true; stable RSA3072 fingerprint
-- name: apk-identity-and-endpoints
-  result: PASS
-  evidence: artifacts/validation/r14-task007-android/apk-badging.txt
-  note: versionCode 10223; API HTTPS and WSS embedded evidence archived
-- name: apk-four-way-sha-and-https
+  evidence: f5b9b1ff2b4f728dce937cf5e04770e3235951fd
+  note: 证据提交已推送GitHub
+- name: r14-apk-four-way-sha
   result: PASS
   evidence: artifacts/validation/r14-apk-delivery/delivery-evidence.json
-  note: four copies SHA256 identical; HTTPS 200; range 206; default 404
-- name: r14-release-artifacts
-  result: PASS
-  evidence: releases/R14/RELEASE_MANIFEST.yaml
-  note: release artifact and documentation checks pass
+  note: 仓库忽略副本、桌面、服务器和HTTPS SHA256一致
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: 05d738171911d31d382d8cf5b40dfaab9dacf5b4
+  head: f5b9b1ff2b4f728dce937cf5e04770e3235951fd
   upstream: origin/task/TASK-R03-001
   ahead: 0
   behind: 0
   dirty: true
   status_porcelain:
-  - M  .continuity/ACTIVE_SESSION.yaml
-  - M  .continuity/CHANGE_REQUEST_INDEX.yaml
-  - M  .continuity/EVENT_LOG.jsonl
-  - M  .continuity/SESSION_INDEX.yaml
-  - M  .continuity/STATE.yaml
-  - M  .continuity/change_requests/CR-0434.yaml
-  - M  .continuity/change_requests/CR-0435.yaml
-  - M  .continuity/change_requests/CR-0437.yaml
-  - M  .continuity/change_requests/CR-0438.yaml
-  - A  .continuity/checkpoints/SES-20260727T221444Z-FD353AD3/0037.yaml
-  - M  .continuity/sessions/SES-20260727T221444Z-FD353AD3.yaml
-  - M  CHANGELOG.md
-  - M  CURRENT_STATUS.yaml
-  - A  artifacts/apk/R14/APK_MANIFEST.yaml
-  - M  artifacts/context/CURRENT_CONTEXT_PACK.md
-  - M  artifacts/context/CURRENT_CONTEXT_PACK.yaml
-  - M  artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  - A  artifacts/reports/R14/R14-version-test-guide.md
-  - A  artifacts/reports/R14/TASK-R14-007-android-apk.md
-  - A  artifacts/validation/r14-apk-delivery/delivery-evidence.json
-  - A  artifacts/validation/r14-task007-android/apk-badging.txt
-  - A  artifacts/validation/r14-task007-android/apk-signing.txt
-  - A  artifacts/validation/r14-task007-android/build-evidence.json
-  - A  artifacts/validation/r14-task007-android/embedded-api.txt
-  - A  artifacts/validation/r14-task007-android/embedded-ws.txt
-  - A  artifacts/validation/r14-task007-android/gradle-build.log
-  - A  artifacts/validation/r14-task007-android/zipalign.txt
-  - M  catalogs/change_request_index.csv
-  - M  catalogs/session_index.csv
-  - M  docs/03-continuity/change-requests/CR-0434-交付R14可执行Staging候选与稳定签名TEST_APK.md
-  - M  docs/03-continuity/change-requests/CR-0435-修正CR-0434为可执行精确文件作用域.md
-  - M  docs/03-continuity/change-requests/CR-0437-补齐R14-TEST_APK版本身份双事实源.md
-  - M  docs/03-continuity/change-requests/CR-0438-补齐R14-TEST_APK精确HTTPS下载白名单.md
-  - M  docs/03-continuity/sessions/2026-07/SES-20260727T221444Z-FD353AD3.md
-  - M  releases/R14/ACCEPTANCE_MATRIX.csv
-  - M  releases/R14/RELEASE_MANIFEST.yaml
+  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/change_requests/CR-0434.yaml'
+  - ' M .continuity/change_requests/CR-0435.yaml'
+  - ' M .continuity/change_requests/CR-0436.yaml'
+  - ' M .continuity/change_requests/CR-0437.yaml'
+  - ' M .continuity/change_requests/CR-0438.yaml'
+  - ' M catalogs/change_request_index.csv'
+  - ' M catalogs/session_index.csv'
+  - ' M docs/03-continuity/change-requests/CR-0434-交付R14可执行Staging候选与稳定签名TEST_APK.md'
+  - ' M docs/03-continuity/change-requests/CR-0435-修正CR-0434为可执行精确文件作用域.md'
+  - ' M docs/03-continuity/change-requests/CR-0436-修正R14隔离Staging网段冲突.md'
+  - ' M docs/03-continuity/change-requests/CR-0437-补齐R14-TEST_APK版本身份双事实源.md'
+  - ' M docs/03-continuity/change-requests/CR-0438-补齐R14-TEST_APK精确HTTPS下载白名单.md'
   recent_commits:
+  - "f5b9b1ff2b4f728dce937cf5e04770e3235951fd\t2026-07-28T16:51:29+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(delivery): archive r14\
+    \ test apk evidence"
   - "05d738171911d31d382d8cf5b40dfaab9dacf5b4\t2026-07-28T16:33:56+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(delivery): add exact\
     \ r14 apk route"
   - "ca5766600937e1bed056210b8579ee7f8269561b\t2026-07-28T16:16:51+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(android): align test\
@@ -741,10 +710,8 @@ git:
     \ realtime acceptance"
   - "f4b7d4854e10dedd40d4b40cdb2d79e57687e9b7\t2026-07-28T14:44:32+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(governance): bind realtime\
     \ implementation"
-  - "7ce3c2169925fef717c051e16e09f556ce619aa6\t2026-07-28T14:42:01+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] feat(realtime): implement\
-    \ reliable websocket vertical slice"
 project_fingerprint:
-  sha256: 96259c2083a16af07196ce6bb1fe3cae3ad658b32a7f9bba245a4daa6ed3c776
+  sha256: 93b604dda99b12a925ff8f1697571bb66684a61fda74c6bb9b255e7370f087a3
   files:
   - CHANGELOG.md
   - PROJECT_BASELINE.json
@@ -1120,24 +1087,24 @@ project_fingerprint:
       sha256: 058be4a820a85587ccc9ed9e57c4e702273da9029fd39252bd9c9452dc0c2417
     - path: docs/03-continuity/change-requests/CR-0434-交付R14可执行Staging候选与稳定签名TEST_APK.md
       state: FILE
-      size: 7123
-      sha256: cdf215090ae989d75065a3b5843e2d846ea8f61154b565a6705fea93e5bbf98a
+      size: 7384
+      sha256: 9d9534934159feb1f07bc7987ef4c38153be435b7246d60705ecf2c3a9ea5fcb
     - path: docs/03-continuity/change-requests/CR-0435-修正CR-0434为可执行精确文件作用域.md
       state: FILE
-      size: 6279
-      sha256: 91aec9a8091842e4c9e748a81c9bc09a08d307596a4c3f19bc8c34a2413ca010
+      size: 6523
+      sha256: 48634a5cf0e0b7456b3838fcd483e56eab419118f77ab699cc98c6046ec6a825
     - path: docs/03-continuity/change-requests/CR-0436-修正R14隔离Staging网段冲突.md
       state: FILE
-      size: 3307
-      sha256: b0a3d1f07f44a206186d1be1aa2498909ecad3a0eccf2262a38c18201a98860d
+      size: 3562
+      sha256: a008bd7045fa1028516ab116945fdaf34dbeffb0609736c070addcb4655a41a2
     - path: docs/03-continuity/change-requests/CR-0437-补齐R14-TEST_APK版本身份双事实源.md
       state: FILE
-      size: 3660
-      sha256: 32f9ac8b1ab1198bb976c0a0a270bbae4d1b7a74c854b9abe0d9972021cd5af6
+      size: 3929
+      sha256: 35a2073585766aeadb9d71ad6f9f4fde1c703eca2f444c78c8761e68984a1e53
     - path: docs/03-continuity/change-requests/CR-0438-补齐R14-TEST_APK精确HTTPS下载白名单.md
       state: FILE
-      size: 4080
-      sha256: a3c51f2d3e685b0629f9f182315256843df64d7b0c7878487c4be659522c28a6
+      size: 4335
+      sha256: 35bb3c764d765565ecc51c68d11fe285519bd0ca8d182ea8e806525fbafc26e7
     - path: infra/nginx/r14-apk-location.inc
       state: FILE
       size: 287
@@ -1691,8 +1658,8 @@ parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 当前只剩共享连续性状态、证据清单与单一Git提交收口，拆分会竞争同一治理文件并增加状态冲突
-event_hash: 0318f29a0269e428b3c029689ad1f68800f8cbc505124b2df78d22759efeb9fc
+  reason: CR状态关闭、检查点与后续单一提交均修改共享连续性索引和事件哈希链，不适合并行写入
+event_hash: f6f89630be6de2a786d3d2b76a04ba14ba48d75920c8b00e4195008472fede49
 ```
 
 ## 接续状态与事件头
@@ -1704,8 +1671,8 @@ active_session_id: SES-20260727T221444Z-FD353AD3
 last_session_id: SES-20260727T203754Z-DCE3090A
 last_session_result: COMPLETED
 last_closure_checkpoint_id: CP-SES-20260727T203754Z-DCE3090A-0003
-event_count: 4169
-event_head_hash: 0318f29a0269e428b3c029689ad1f68800f8cbc505124b2df78d22759efeb9fc
+event_count: 4175
+event_head_hash: f6f89630be6de2a786d3d2b76a04ba14ba48d75920c8b00e4195008472fede49
 event_chain_valid: true
 ```
 
@@ -1828,9 +1795,9 @@ recent_sessions: - session_id: SES-20260726T123133Z-63E93B88
   started_at: '2026-07-27T22:14:44Z'
   record: .continuity/sessions/SES-20260727T221444Z-FD353AD3.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260727T221444Z-FD353AD3.md
-  updated_at: '2026-07-28T08:51:03Z'
+  updated_at: '2026-07-28T08:54:44Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260727T221444Z-FD353AD3/0038.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260727T221444Z-FD353AD3/0039.yaml
   handoff_bundle: null
 task_claims: - claim_id: CLM-1B86680BE956
   session_id: SES-20260724T195501Z-13F8DFDE
@@ -2809,50 +2776,36 @@ recent_task_transitions: - transition_id: TRN-684AB934BA4C
 ```yaml
 initialized: true
 branch: task/TASK-R03-001
-head: 05d738171911d31d382d8cf5b40dfaab9dacf5b4
+head: f5b9b1ff2b4f728dce937cf5e04770e3235951fd
 upstream: origin/task/TASK-R03-001
 ahead: 0
 behind: 0
 dirty: true
 status_porcelain:
-- MM .continuity/ACTIVE_SESSION.yaml
-- M  .continuity/CHANGE_REQUEST_INDEX.yaml
-- MM .continuity/EVENT_LOG.jsonl
-- MM .continuity/SESSION_INDEX.yaml
-- MM .continuity/STATE.yaml
-- M  .continuity/change_requests/CR-0434.yaml
-- M  .continuity/change_requests/CR-0435.yaml
-- M  .continuity/change_requests/CR-0437.yaml
-- M  .continuity/change_requests/CR-0438.yaml
-- A  .continuity/checkpoints/SES-20260727T221444Z-FD353AD3/0037.yaml
-- MM .continuity/sessions/SES-20260727T221444Z-FD353AD3.yaml
-- M  CHANGELOG.md
-- MM CURRENT_STATUS.yaml
-- A  artifacts/apk/R14/APK_MANIFEST.yaml
-- M  artifacts/context/CURRENT_CONTEXT_PACK.md
-- M  artifacts/context/CURRENT_CONTEXT_PACK.yaml
-- M  artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-- A  artifacts/reports/R14/R14-version-test-guide.md
-- A  artifacts/reports/R14/TASK-R14-007-android-apk.md
-- A  artifacts/validation/r14-apk-delivery/delivery-evidence.json
-- A  artifacts/validation/r14-task007-android/apk-badging.txt
-- A  artifacts/validation/r14-task007-android/apk-signing.txt
-- A  artifacts/validation/r14-task007-android/build-evidence.json
-- A  artifacts/validation/r14-task007-android/embedded-api.txt
-- A  artifacts/validation/r14-task007-android/embedded-ws.txt
-- A  artifacts/validation/r14-task007-android/gradle-build.log
-- A  artifacts/validation/r14-task007-android/zipalign.txt
-- M  catalogs/change_request_index.csv
-- MM catalogs/session_index.csv
-- M  docs/03-continuity/change-requests/CR-0434-交付R14可执行Staging候选与稳定签名TEST_APK.md
-- M  docs/03-continuity/change-requests/CR-0435-修正CR-0434为可执行精确文件作用域.md
-- M  docs/03-continuity/change-requests/CR-0437-补齐R14-TEST_APK版本身份双事实源.md
-- M  docs/03-continuity/change-requests/CR-0438-补齐R14-TEST_APK精确HTTPS下载白名单.md
-- MM docs/03-continuity/sessions/2026-07/SES-20260727T221444Z-FD353AD3.md
-- M  releases/R14/ACCEPTANCE_MATRIX.csv
-- M  releases/R14/RELEASE_MANIFEST.yaml
-- ?? .continuity/checkpoints/SES-20260727T221444Z-FD353AD3/0038.yaml
+- ' M .continuity/ACTIVE_SESSION.yaml'
+- ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
+- ' M .continuity/EVENT_LOG.jsonl'
+- ' M .continuity/SESSION_INDEX.yaml'
+- ' M .continuity/STATE.yaml'
+- ' M .continuity/change_requests/CR-0434.yaml'
+- ' M .continuity/change_requests/CR-0435.yaml'
+- ' M .continuity/change_requests/CR-0436.yaml'
+- ' M .continuity/change_requests/CR-0437.yaml'
+- ' M .continuity/change_requests/CR-0438.yaml'
+- ' M .continuity/sessions/SES-20260727T221444Z-FD353AD3.yaml'
+- ' M CURRENT_STATUS.yaml'
+- ' M catalogs/change_request_index.csv'
+- ' M catalogs/session_index.csv'
+- ' M docs/03-continuity/change-requests/CR-0434-交付R14可执行Staging候选与稳定签名TEST_APK.md'
+- ' M docs/03-continuity/change-requests/CR-0435-修正CR-0434为可执行精确文件作用域.md'
+- ' M docs/03-continuity/change-requests/CR-0436-修正R14隔离Staging网段冲突.md'
+- ' M docs/03-continuity/change-requests/CR-0437-补齐R14-TEST_APK版本身份双事实源.md'
+- ' M docs/03-continuity/change-requests/CR-0438-补齐R14-TEST_APK精确HTTPS下载白名单.md'
+- ' M docs/03-continuity/sessions/2026-07/SES-20260727T221444Z-FD353AD3.md'
+- ?? .continuity/checkpoints/SES-20260727T221444Z-FD353AD3/0039.yaml
 recent_commits:
+- "f5b9b1ff2b4f728dce937cf5e04770e3235951fd\t2026-07-28T16:51:29+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(delivery): archive r14\
+  \ test apk evidence"
 - "05d738171911d31d382d8cf5b40dfaab9dacf5b4\t2026-07-28T16:33:56+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(delivery): add exact r14\
   \ apk route"
 - "ca5766600937e1bed056210b8579ee7f8269561b\t2026-07-28T16:16:51+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(android): align test apk\
@@ -2867,13 +2820,11 @@ recent_commits:
   \ realtime acceptance"
 - "f4b7d4854e10dedd40d4b40cdb2d79e57687e9b7\t2026-07-28T14:44:32+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(governance): bind realtime\
   \ implementation"
-- "7ce3c2169925fef717c051e16e09f556ce619aa6\t2026-07-28T14:42:01+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] feat(realtime): implement reliable\
-  \ websocket vertical slice"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`96259c2083a16af07196ce6bb1fe3cae3ad658b32a7f9bba245a4daa6ed3c776`
+- 指纹：`93b604dda99b12a925ff8f1697571bb66684a61fda74c6bb9b255e7370f087a3`
 - 文件数：116
 
 - `CHANGELOG.md`
@@ -15547,353 +15498,13 @@ PARALLEL_EXECUTION_PLAN.yaml:
   - SES-20260727T221444Z-FD353AD3
   implementation_commits:
   - 962056a078a763ceb8bf1d59ca579b1fb45b6e72
-- protocol_version: '1.0'
-  cr_id: CR-0434
-  title: 交付R14可执行Staging候选与稳定签名TEST_APK
-  status: IMPLEMENTED
-  created_at: '2026-07-28T06:52:37Z'
-  updated_at: '2026-07-28T08:45:14Z'
-  requester_actor_id: codex-root-r14-client-20260728
-  approver_actor_id: codex-r14-staging-apk-independent-review-20260728
-  task_id: TASK-R14-004
-  session_id: SES-20260727T221444Z-FD353AD3
-  user_request: 持续开发且真机反馈异步，不因外部依赖停止；测试APK放到桌面
-  reason: R14可执行代码和分层门禁已完成，但公网api仍运行R13后端、ws.orbexa.cc无DNS、举报原因目录缺产品权威值。必须继续验证和交付不受影响的REST/数据库/观测与APK，同时明确隔离两项外部门禁，禁止伪报完整R14关闭或WebSocket公网激活。
-  original_rule: R14完成代码后必须在隔离Staging验证数据库、RED、业务指标、告警和回滚，再以obx-test固定工具链、正式API、稳定签名和四方SHA交付TEST_APK；项目所有者真机反馈异步。ws.orbexa.cc与举报原因目录缺失属于真实外部依赖，不得伪造。
-  new_rule: R14可观测性严格冻结八个无高基数标签的只读Gauge：hhy.chat.conversations.count统计全部会话，hhy.chat.messages.5m统计近5分钟消息，hhy.chat.unread.total汇总成员未读，hhy.chat.reports.pending统计PENDING举报，hhy.websocket.deliveries.unacked统计未到期且需ACK未ACK投递，hhy.websocket.deliveries.retry.exhausted统计未到期且delivery_attempts=6的需ACK投递，hhy.websocket.gap.users统计存在正过期水位与非空补洞范围的用户，hhy.r14.outbox.backlog统计chat.message.sent.v1、chat.conversation.read.v1、chat.conversation.hidden.v1、chat.user.blocked.v1、chat.user.unblocked.v1、chat.report.created.v1、chat.r14.stage.alert.v1中PENDING或RETRY_WAIT事件；查询失败只进入既有低基数hhy.business.metric.query.failures计数。告警严格为HhyR14BackendDown(up=0,15s)、HhyR14HighServerErrorRate(5xx比率>2%,1m)、HhyR14HighP95Latency(P95>0.5s,2m)、HhyR14UnackedDeliveryBacklog(unacked>50,1m)、HhyR14RetryExhausted(retry.exhausted>0,15s)、HhyR14GapUsers(gap.users>0,15s)、HhyR14PendingReportBacklog(pending>100,5m)、HhyR14BusinessMetricQueryFailure(R14指标查询失败总和>0,15s)；BackendDown、RetryExhausted、GapUsers必须各取得firing、resolved和alert-sink回执。隔离环境固定Compose
-    project hhy-r14-staging、172.31.240.0/24、Nginx 38114、Prometheus 39618、Alertmanager 39619及该project独占pgdata/mfa-secrets/prometheus-data/alertmanager-data/alert-sink-data卷，禁止复用或修改R13和任何公网容器、网络、端口或卷。回滚基线固定Commit
-    f4b7d4854e10dedd40d4b40cdb2d79e57687e9b7并记录镜像tag与digest；只回切应用镜像，PostgreSQL17卷保持V044，禁止U044和删卷；回切前后conversations、conversation_members、chat_messages、chat_message_attachments、chat_read_receipts、user_blocks、chat_reports、outbox_events、websocket_user_sequences、websocket_deliveries、websocket_gap_watermarks逐表事实摘要必须一致。随后Android
-    versionCode仅从10222递增10223，复用hhy-staging-test-v2、正式API和安全wss://ws.orbexa.cc构建TEST_APK并验证四方SHA；DNS缺失时WebSocket专项保持BLOCKED_EXTERNAL_DNS，只验证退避和REST可用，禁止写公网实时链路PASS。举报目录为空继续禁用提交。本CR不执行任何公网后端、DNS、TLS、Nginx或WebSocket激活，不关闭TASK-R14-004或完整R14。
-  impact_summary: 补齐精确R14可观测性、隔离Staging和测试APK机器交付；复用既有R13验收与稳定签名规则。只读指标不改业务事实，测试APK只递增versionCode；公网和两个外部门禁保持原状。
-  impact:
-    files:
-    - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinder.java
-    - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinderTest.java
-    - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/ObservabilityEndpointsTest.java
-    - infra/staging/r14-smoke/**
-    - scripts/run_r14_staging_acceptance.sh
-    - apps/android/app/build.gradle.kts
-    - releases/R14/RELEASE_MANIFEST.yaml
-    - releases/R14/TASKS.yaml
-    - releases/R14/ACCEPTANCE_MATRIX.csv
-    - artifacts/validation/r14-task006-staging/**
-    - artifacts/validation/r14-task007-android/**
-    - artifacts/validation/r14-apk-delivery/**
-    - artifacts/apk/R14/**
-    - artifacts/reports/R14/TASK-R14-006-staging.md
-    - artifacts/reports/R14/TASK-R14-007-android-apk.md
-    - artifacts/reports/R14/R14-version-test-guide.md
-    - docs/03-continuity/PROBLEM_REGISTRY.yaml
-    - CHANGELOG.md
-    pages: []
-    apis: []
-    database: []
-    configuration: []
-    ledger: []
-    tests:
-    - BusinessGaugeBinderTest锁定八项指标SQL数值、无高基数标签和查询失败计数；ObservabilityEndpointsTest锁定Prometheus名称
-    - run_r14_staging_acceptance锁定hhy-r14-staging、172.31.240.0/24、38114/39618/39619、V001-V044、RED/TraceId/脱敏、八指标、八告警、三类告警firing/resolved/sink与11表回切摘要
-    - 固定工具链锁定10223、hhy-staging-test-v2、正式API、安全wss、单测、Lint、assemble、apksigner、zipalign、内嵌端点、包名及四方SHA；WebSocket公网状态明确为BLOCKED_EXTERNAL_DNS
-    releases:
-    - R14
-    migration_and_compatibility: 独立Staging新卷运行V001-V044；回滚只在同一V044卷把当前应用镜像回切到f4b7d485基线镜像，禁止U044、删卷或触碰R13/公网资源，11类R14事实摘要前后相等。TEST_APK沿用R13起固定签名并递增versionCode，可覆盖安装R13；ws
-      DNS缺失时指数退避且REST继续可用，举报目录为空继续安全禁用。
-  user_confirmation: 用户已明确要求持续开发、异步真机反馈和桌面交付APK，不因真实外部依赖停止
-  approval:
-    decision: APPROVED
-    decided_at: '2026-07-28T06:58:10Z'
-    note: 复审确认八项低基数Gauge、八项告警及三类完整回执、独立Compose资源、f4b7d485基线V044保留式11表回滚、禁止公网变更和TEST_APK外部DNS边界全部冻结；不虚构举报原因、不关闭TASK或R14。
-  machine_record: .continuity/change_requests/CR-0434.yaml
-  document: docs/03-continuity/change-requests/CR-0434-交付R14可执行Staging候选与稳定签名TEST_APK.md
-  decision_log:
-  - at: '2026-07-28T06:58:17Z'
-    actor_id: codex-root-r14-client-20260728
-    status: IMPLEMENTING
-    note: 独立审查通过，开始实现R14八项业务指标、隔离Staging和稳定签名TEST_APK。
-    session_id: SES-20260727T221444Z-FD353AD3
-  - at: '2026-07-28T08:45:14Z'
-    actor_id: codex-root-r14-client-20260728
-    status: IMPLEMENTED
-    note: 八Gauge隔离Staging、三告警生命周期、V044保留式回切及10223稳定签名TEST_APK四方交付均已实现；外部WS DNS和举报目录继续保持阻断。
-    session_id: SES-20260727T221444Z-FD353AD3
-  session_ids:
-  - SES-20260727T221444Z-FD353AD3
-  implementation_commits:
-  - 05d738171911d31d382d8cf5b40dfaab9dacf5b4
-- protocol_version: '1.0'
-  cr_id: CR-0435
-  title: 修正CR-0434为可执行精确文件作用域
-  status: IMPLEMENTED
-  created_at: '2026-07-28T07:00:26Z'
-  updated_at: '2026-07-28T08:45:20Z'
-  requester_actor_id: codex-root-r14-client-20260728
-  approver_actor_id: codex-r14-scope-expansion-independent-review-20260728
-  task_id: TASK-R14-004
-  session_id: SES-20260727T221444Z-FD353AD3
-  user_request: 持续推进R14隔离Staging和稳定签名TEST_APK，不因治理工具通配符限制停止
-  reason: CR-0434语义已独立批准并进入IMPLEMENTING，但scope-apply-cr拒绝目录通配符，需仅将已批准边界展开为精确文件清单，不改变任何指标、告警、隔离、回滚、APK或外部依赖规则。
-  original_rule: CR-0434已独立批准精确语义，但影响文件中的目录通配符不能被scope-apply-cr消费。
-  new_rule: 不改变CR-0434任何业务语义，仅把其所有实现、隔离Staging证据、Android构建证据和报告路径展开为逐文件精确作用域；禁止借本CR扩大公网、DNS、TLS、R13资源、举报目录或R14关闭边界。
-  impact_summary: 治理工具兼容性修正：用精确文件列表承载CR-0434已批准边界，消除通配符导致的实现停滞。
-  impact:
-    files:
-    - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinder.java
-    - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinderTest.java
-    - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/ObservabilityEndpointsTest.java
-    - infra/staging/r14-smoke/docker-compose.yml
-    - infra/staging/r14-smoke/nginx.conf
-    - infra/staging/r14-smoke/prometheus.yml
-    - infra/staging/r14-smoke/r14-alerts.yml
-    - infra/staging/r14-smoke/alertmanager.yml
-    - scripts/run_r14_staging_acceptance.sh
-    - apps/android/app/build.gradle.kts
-    - releases/R14/RELEASE_MANIFEST.yaml
-    - releases/R14/TASKS.yaml
-    - releases/R14/ACCEPTANCE_MATRIX.csv
-    - artifacts/validation/r14-task006-staging/chat-facts-before.txt
-    - artifacts/validation/r14-task006-staging/chat-facts-after.txt
-    - artifacts/validation/r14-task006-staging/alert-deliveries.jsonl
-    - artifacts/validation/r14-task006-staging/alert-exercise.txt
-    - artifacts/validation/r14-task006-staging/backend-down-firing.json
-    - artifacts/validation/r14-task006-staging/backend-down-resolved.json
-    - artifacts/validation/r14-task006-staging/retry-exhausted-firing.json
-    - artifacts/validation/r14-task006-staging/retry-exhausted-resolved.json
-    - artifacts/validation/r14-task006-staging/gap-users-firing.json
-    - artifacts/validation/r14-task006-staging/gap-users-resolved.json
-    - artifacts/validation/r14-task006-staging/compose-ps.txt
-    - artifacts/validation/r14-task006-staging/database.txt
-    - artifacts/validation/r14-task006-staging/final-metrics.txt
-    - artifacts/validation/r14-task006-staging/http-request-completed.jsonl
-    - artifacts/validation/r14-task006-staging/liveness.json
-    - artifacts/validation/r14-task006-staging/log-redaction.txt
-    - artifacts/validation/r14-task006-staging/machine-summary.txt
-    - artifacts/validation/r14-task006-staging/metadata.txt
-    - artifacts/validation/r14-task006-staging/metrics-summary.txt
-    - artifacts/validation/r14-task006-staging/metrics.txt
-    - artifacts/validation/r14-task006-staging/outbox-test-events.txt
-    - artifacts/validation/r14-task006-staging/prometheus-rules.json
-    - artifacts/validation/r14-task006-staging/prometheus-targets.json
-    - artifacts/validation/r14-task006-staging/public-status.json
-    - artifacts/validation/r14-task006-staging/readiness.json
-    - artifacts/validation/r14-task006-staging/rollback-rehearsal.txt
-    - artifacts/validation/r14-task006-staging/SHA256SUMS
-    - artifacts/validation/r14-task006-staging/source-sha256.txt
-    - artifacts/validation/r14-task006-staging/trace-headers.txt
-    - artifacts/validation/r14-task007-android/apk-badging.txt
-    - artifacts/validation/r14-task007-android/apk-signing.txt
-    - artifacts/validation/r14-task007-android/build-evidence.json
-    - artifacts/validation/r14-task007-android/embedded-api.txt
-    - artifacts/validation/r14-task007-android/embedded-ws.txt
-    - artifacts/validation/r14-task007-android/gradle-build.log
-    - artifacts/validation/r14-task007-android/zipalign.txt
-    - artifacts/validation/r14-apk-delivery/delivery-evidence.json
-    - artifacts/apk/R14/APK_MANIFEST.yaml
-    - artifacts/reports/R14/TASK-R14-006-staging.md
-    - artifacts/reports/R14/TASK-R14-007-android-apk.md
-    - artifacts/reports/R14/R14-version-test-guide.md
-    - docs/03-continuity/PROBLEM_REGISTRY.yaml
-    - CHANGELOG.md
-    pages: []
-    apis: []
-    database: []
-    configuration: []
-    ledger: []
-    tests:
-    - scope-apply-cr CR-0435必须成功，且精确文件集合不得超出CR-0434已批准语义。
-    releases:
-    - R14
-    migration_and_compatibility: 与CR-0434完全相同；本CR不新增迁移，不改变隔离资源、V044保留式回切、10223稳定签名或两个外部门禁。
-  user_confirmation: 用户已明确要求持续开发、自主执行且不因治理工具限制停止；本CR仅技术性展开已批准范围。
-  approval:
-    decision: APPROVED
-    decided_at: '2026-07-28T07:01:45Z'
-    note: 独立复审确认CR-0435仅将CR-0434原范围展开为精确文件，未新增API、迁移、公网基础设施、R13资源、举报原因或R14关闭边界，并完整承载原八指标、八告警、隔离回切及TEST_APK证据。
-  machine_record: .continuity/change_requests/CR-0435.yaml
-  document: docs/03-continuity/change-requests/CR-0435-修正CR-0434为可执行精确文件作用域.md
-  decision_log:
-  - at: '2026-07-28T07:02:02Z'
-    actor_id: codex-root-r14-client-20260728
-    status: IMPLEMENTING
-    note: 精确文件作用域已独立审批并成功应用，开始按CR-0434原边界实施。
-    session_id: SES-20260727T221444Z-FD353AD3
-  - at: '2026-07-28T08:45:20Z'
-    actor_id: codex-root-r14-client-20260728
-    status: IMPLEMENTED
-    note: CR-0434精确文件作用域内的Staging与Android证据、Manifest和报告已生成并通过门禁。
-    session_id: SES-20260727T221444Z-FD353AD3
-  session_ids:
-  - SES-20260727T221444Z-FD353AD3
-  implementation_commits:
-  - 05d738171911d31d382d8cf5b40dfaab9dacf5b4
-- protocol_version: '1.0'
-  cr_id: CR-0436
-  title: 修正R14隔离Staging网段冲突
-  status: IMPLEMENTED
-  created_at: '2026-07-28T07:37:56Z'
-  updated_at: '2026-07-28T08:00:31Z'
-  requester_actor_id: codex-root-r14-client-20260728
-  approver_actor_id: codex-r14-staging-network-independent-review-20260728
-  task_id: TASK-R14-004
-  session_id: SES-20260727T221444Z-FD353AD3
-  user_request: 持续推进R14隔离Staging和TEST_APK，不修改旧版本或公网资源
-  reason: obx-test真实现场证明172.31.240.0/24已由hhy-r12-staging-a2_smoke占用，Docker在R14创建网络前以Pool overlaps拒绝。必须改用未占用的172.31.238.0/24，保留所有端口、项目名、独占卷及不触碰旧版本资源的规则。
-  original_rule: CR-0434将R14隔离Staging网段冻结为172.31.240.0/24。
-  new_rule: 仅将R14隔离Staging网段修正为现场已验证未占用的172.31.238.0/24；Compose project仍为hhy-r14-staging，端口仍为38114/39618/39619，所有卷仍为该project独占。禁止删除、断开、复用或修改占用172.31.240.0/24的R12网络以及R13和任何公网资源。CR-0434其余指标、告警、回滚、APK和外部门禁规则全部不变。
-  impact_summary: 消除Docker地址池冲突，使R14在不清理旧版本资源的前提下创建真正独占网络。
-  impact:
-    files:
-    - infra/staging/r14-smoke/docker-compose.yml
-    - scripts/run_r14_staging_acceptance.sh
-    - artifacts/validation/r14-task006-staging/metadata.txt
-    - artifacts/reports/R14/TASK-R14-006-staging.md
-    - CHANGELOG.md
-    pages: []
-    apis: []
-    database: []
-    configuration: []
-    ledger: []
-    tests:
-    - docker network inventory证明172.31.240.0/24冲突且172.31.238.0/24未占用；compose config、空项目启动和完整R14 Staging验收必须重跑通过。
-    releases:
-    - R14
-    migration_and_compatibility: 无数据库或API迁移；失败尝试在创建R14网络前终止且未产生R14容器或卷。改用新网段后从空hhy-r14-staging项目完整重跑。
-  user_confirmation: 用户已要求持续推进且所有终端自主执行；该修正用于避免修改旧版本资源。
-  approval:
-    decision: APPROVED
-    decided_at: '2026-07-28T07:39:01Z'
-    note: 现场清单确认240被旧R12网络占用且238未占用；仅更换R14隔离网段是最小修正，并明确禁止清理R12、R13或公网资源，其余CR-0434边界不变。
-  machine_record: .continuity/change_requests/CR-0436.yaml
-  document: docs/03-continuity/change-requests/CR-0436-修正R14隔离Staging网段冲突.md
-  decision_log:
-  - at: '2026-07-28T07:39:11Z'
-    actor_id: codex-root-r14-client-20260728
-    status: IMPLEMENTING
-    note: 独立审批通过，开始将R14独占网段修正为172.31.238.0/24并从空项目重跑。
-    session_id: SES-20260727T221444Z-FD353AD3
-  - at: '2026-07-28T08:00:31Z'
-    actor_id: codex-root-r14-client-20260728
-    status: IMPLEMENTED
-    note: R14独占网段172.31.238.0/24已在空hhy-r14-staging项目真实创建，未修改R12/R13/公网资源；精确Commit完成完整Staging验收，现场证据已回收并通过双端SHA256。
-    session_id: SES-20260727T221444Z-FD353AD3
-  session_ids:
-  - SES-20260727T221444Z-FD353AD3
-  implementation_commits:
-  - b6f5e285faabbcd2ce7539d01e502b199ade7580
-- protocol_version: '1.0'
-  cr_id: CR-0437
-  title: 补齐R14 TEST_APK版本身份双事实源
-  status: IMPLEMENTED
-  created_at: '2026-07-28T08:11:38Z'
-  updated_at: '2026-07-28T08:45:01Z'
-  requester_actor_id: codex-root-r14-client-20260728
-  approver_actor_id: codex-r14-version-identity-independent-review-20260728
-  task_id: TASK-R14-004
-  session_id: SES-20260727T221444Z-FD353AD3
-  user_request: 持续开发R14并交付桌面TEST_APK，不因可修复确定性门禁停止
-  reason: CR-0434已把Android versionCode冻结为10223并更新build.gradle，但遗漏ReleasePolicy及VersionMetadataTest两处R13旧值，固定工具链全量单测因此正确失败；需仅投影同一已批准版本身份，不建立第二套规则或扩大业务范围。
-  original_rule: CR-0434已批准R14 TEST_APK versionCode从10222递增为10223，但实施范围只更新apps/android/app/build.gradle.kts；ReleasePolicy.VERSION_CODE和VersionMetadataTest仍冻结R13的10222及R13说明。
-  new_rule: 不新增版本策略，只把CR-0434已批准的R14 versionCode 10223精确投影到ReleasePolicy.VERSION_CODE和VersionMetadataTest；测试提示同步改为R14，BuildConfig、ReleasePolicy和单测三方必须相等。versionName、合同版本、渠道、环境、API、WSS、签名和所有业务行为保持不变。
-  impact_summary: 修复固定工具链发现的确定性版本身份不一致，仅改两处既有版本事实消费者，使10223单调升级门禁真实生效。
-  impact:
-    files:
-    - apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
-    - apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
-    pages: []
-    apis: []
-    database: []
-    configuration: []
-    ledger: []
-    tests:
-    - VersionMetadataTest锁定R14 versionCode=10223且BuildConfig.VERSION_CODE=ReleasePolicy.VERSION_CODE；python scripts/check_android_ui_foundation.py与固定Android工具链verifyApiBaseUrl、testDebugUnitTest、lintDebug、assembleDebug必须全部PASS
-    releases:
-    - R14
-    migration_and_compatibility: 无数据库、API或业务迁移；R13及更早APK不改写。R14继续复用hhy-staging-test-v2并以10223覆盖10222；改动后必须先通过python scripts/check_android_ui_foundation.py，再在固定工具链重跑verifyApiBaseUrl、testDebugUnitTest、lintDebug和assembleDebug。
-  user_confirmation: 项目所有者已明确要求持续开发R14、自动解决确定性门禁并交付桌面TEST_APK，不因可修复问题停止。
-  approval:
-    decision: APPROVED
-    decided_at: '2026-07-28T08:14:02Z'
-    note: 独立复审确认仅同步CR-0434已批准的10223到两个既有消费者；Android UI基础门禁与固定工具链四项门禁齐全，未改变版本名、合同、渠道、环境、API、WSS、签名或业务。
-  machine_record: .continuity/change_requests/CR-0437.yaml
-  document: docs/03-continuity/change-requests/CR-0437-补齐R14-TEST_APK版本身份双事实源.md
-  decision_log:
-  - at: '2026-07-28T08:14:26Z'
-    actor_id: codex-root-r14-client-20260728
-    status: IMPLEMENTING
-    note: 独立审批通过，开始同步R14 versionCode双事实源并重跑Android UI基础与固定工具链完整门禁。
-    session_id: SES-20260727T221444Z-FD353AD3
-  - at: '2026-07-28T08:45:01Z'
-    actor_id: codex-root-r14-client-20260728
-    status: IMPLEMENTED
-    note: 10223已同步到ReleasePolicy与VersionMetadataTest，Android UI基础门禁和固定工具链完整构建于同一Commit PASS。
-    session_id: SES-20260727T221444Z-FD353AD3
-  session_ids:
-  - SES-20260727T221444Z-FD353AD3
-  implementation_commits:
-  - ca5766600937e1bed056210b8579ee7f8269561b
-- protocol_version: '1.0'
-  cr_id: CR-0438
-  title: 补齐R14 TEST_APK精确HTTPS下载白名单
-  status: IMPLEMENTED
-  created_at: '2026-07-28T08:30:47Z'
-  updated_at: '2026-07-28T08:45:07Z'
-  requester_actor_id: codex-root-r14-client-20260728
-  approver_actor_id: codex-r14-apk-download-independent-review-20260728
-  task_id: TASK-R14-004
-  session_id: SES-20260727T221444Z-FD353AD3
-  user_request: 持续开发并把可真机安装的R14测试APK交付到桌面，按项目既有四方SHA门禁完成机器交付
-  reason: R14 APK已在固定工具链完成构建签名并复制到下载站文件系统，但download.orbexa.cc默认location返回404且只允许逐版本精确白名单；CR-0434要求四方SHA同时禁止泛化公网激活，需仅为单个不可变APK增加精确下载location。
-  original_rule: CR-0434要求R14 TEST_APK完成仓库忽略副本、项目所有者桌面、服务器文件和HTTPS完整下载四方SHA一致，同时禁止对公网后端、DNS、TLS、通用Nginx或WebSocket进行范围外激活。当前下载站默认拒绝全部未登记路径，单纯复制APK仍返回404。
-  new_rule: 不放宽下载站默认404，不建立目录通配或通用静态路由；只登记精确GET/Range路径/r14-artifacts/hhy-r14-ca57666-debug.apk，文件固定为SHA256 46f050310143d5968864c5aacd9ad38b1fb7290931bc113c76429ebc7ecf126d，MIME固定application/vnd.android.package-archive并设置nosniff与attachment。禁止修改API、WebSocket、DNS、TLS、其他版本路由或任何业务反代；nginx
-    -t失败不得reload。
-  impact_summary: 为已签名不可变R14 TEST_APK补齐既有四方SHA交付所需的最小精确下载白名单，默认拒绝策略和其他公网能力保持不变。
-  impact:
-    files:
-    - infra/nginx/r14-apk-location.inc
-    - artifacts/validation/r14-apk-delivery/delivery-evidence.json
-    - artifacts/apk/R14/APK_MANIFEST.yaml
-    - artifacts/reports/R14/TASK-R14-007-android-apk.md
-    - artifacts/reports/R14/R14-version-test-guide.md
-    - CHANGELOG.md
-    pages: []
-    apis: []
-    database: []
-    configuration: []
-    ledger: []
-    tests:
-    - 仓库include与服务器include SHA256一致；活动配置只新增该精确include；nginx -t与reload PASS；HTTPS完整请求200、Range请求206、MIME正确，服务器/HTTPS/仓库/桌面四方大小和SHA256均一致；任意其他r14路径继续404
-    releases:
-    - R14
-    migration_and_compatibility: 部署前备份download.orbexa.cc活动配置，安装与仓库字节一致的r14精确location include并仅追加一个include；nginx -t通过后reload。失败或回退时恢复备份并移除仅CR-0438创建的include，再次nginx
-      -t与reload；APK文件可保留但未授权路由继续404。
-  user_confirmation: 项目所有者已明确要求持续开发、桌面交付测试APK并按全局交付门禁自主执行，不因可恢复交付步骤停止。
-  approval:
-    decision: APPROVED
-    decided_at: '2026-07-28T08:32:20Z'
-    note: 独立复审确认这是CR-0434四方SHA所需的单文件精确白名单，不属于泛化公网激活；默认404、禁止通配与其他公网边界、备份/nginx-t/reload/回退均完整。
-  machine_record: .continuity/change_requests/CR-0438.yaml
-  document: docs/03-continuity/change-requests/CR-0438-补齐R14-TEST_APK精确HTTPS下载白名单.md
-  decision_log:
-  - at: '2026-07-28T08:32:29Z'
-    actor_id: codex-root-r14-client-20260728
-    status: IMPLEMENTING
-    note: 独立审批通过，开始生成仓库精确location、备份并最小部署下载白名单，随后验证四方SHA和默认404。
-    session_id: SES-20260727T221444Z-FD353AD3
-  - at: '2026-07-28T08:45:07Z'
-    actor_id: codex-root-r14-client-20260728
-    status: IMPLEMENTED
-    note: 仓库精确include与服务器字节一致，活动配置有可恢复备份，nginx-t/reload、HTTPS200、Range206、MIME、其他路径404与四方SHA全部PASS。
-    session_id: SES-20260727T221444Z-FD353AD3
-  session_ids:
-  - SES-20260727T221444Z-FD353AD3
-  implementation_commits:
-  - 05d738171911d31d382d8cf5b40dfaab9dacf5b4
 ```
 
 ## 上下文来源及哈希
 
 - `AGENTS.md` — `e9f1cf3739a97b47a4de96166ebd17eb2206b7231adb22dbfa23f7687c9809bc`
 - `START_HERE.md` — `22de14029ce47beb41ea569e36ce223fbc9d11b86f8676f28d5fbbd83896af5c`
-- `CURRENT_STATUS.yaml` — `4c58d702a1a6b0df41a9a63f453cd080b7573a3fdf9779760837a6080ec9b07b`
+- `CURRENT_STATUS.yaml` — `81b88708c0979e5cb515f50383d1ec1bb913a74ee6ed3950a41e8f4dd1b61da8`
 - `NEXT_TASK.yaml` — `bac6995e3e612ed7920cc2ec3b7d4592c3c6641eca0147fa90eddd08eaddb829`
 - `DEVELOPMENT_RISK_REGISTER.md` — `8304c91492e4ee2abea0522a06541c8688d39c7fc532b5d0cde499bf09fffb87`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
@@ -15904,12 +15515,12 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `config/REPOSITORY_TRANSPORT.yaml` — `8c4a21f3e204d46e7ffb467d804a53ed26cda61cd088dadfddb50b69eea657fc`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `38e04ed812c8df0d353c2b91993d31e53b471e9c457f06b426bd2260c470aa92`
-- `.continuity/EVENT_LOG.jsonl` — `2423ad25a5a2d9e86bc322bb1d99ef9182fdb03258d17837cea1205f80cb909e`
-- `.continuity/SESSION_INDEX.yaml` — `842aeb34db46519c33c4ef3717ee01941e4c5e9f140a8281a494bb0312ee2976`
+- `.continuity/EVENT_LOG.jsonl` — `4533fec4c492fbf951161412224b4934a4dba967ea92aa35e95f3e8681560931`
+- `.continuity/SESSION_INDEX.yaml` — `ad4f67a79dc832bf3e3e24bcde602e91c71085835a36287f9069195d455e7f80`
 - `.continuity/TASK_CLAIMS.yaml` — `e116643519fd9085ad3807c53d5a2d93e1494dd7f060cc6476a10ff3ee9c0a62`
 - `.continuity/TASK_TRANSITIONS.yaml` — `29bc240c8b0452ec63c5d64f31fa5d2a7e5d804b95c92b238be5a8769734a138`
-- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `7c46ac91015d707e1bc257bc9674bd5a6819bdb31f216f26a094e553782593c5`
-- `.continuity/ACTIVE_SESSION.yaml` — `30c70d319a66c25e326f6c0ff20aeef3f203183aaccabfd15072d59ee4a6848f`
+- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `829429857416ac9d34e377b0b9d58ae3b95f4bb1d99b884dd7d9370eba944110`
+- `.continuity/ACTIVE_SESSION.yaml` — `f9c36dac7ef049a2147d36c40ec242287b11181f29802837cf174a6d2f56a8c4`
 - `docs/00-baseline/正式商业系统全局硬性开发边界.md` — `d8a77eddf520659b1d6b57e16ecc0739fa93dbd39cf9903dbaf798fc631ae6fe`
 - `docs/02-ui/UI参考图使用与开发约束_V1.2.2.md` — `d14367586aa2067b059df58798acd20ab982459cdb35ff27fc7922a3896e4933`
 - `docs/03-continuity/持续开发无状态接续强制门禁_V1.2.3.md` — `d0ed3ed68bdd93b06500eecdfb5baa3245e6ca8b685a486788abb6eee39b3d51`
@@ -15920,8 +15531,8 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `releases/R14/TASKS.yaml` — `0b5332594a1591352faf7d98850f15d07a612a64cdf5dc62bc054008eb13d6b1`
 - `releases/R14/ACCEPTANCE_MATRIX.csv` — `ffc0fd23b945544de8fe2a37774a94675c0d60b73d88517abe69c68d326ad6f4`
 - `releases/R14/PARALLEL_EXECUTION_PLAN.yaml` — `cd1f0c96ffd7562acb214edba80a2bbb12b79f06c19032d1b133936ff6abd74f`
-- `docs/03-continuity/sessions/2026-07/SES-20260727T221444Z-FD353AD3.md` — `538b7bea92ef58c043048ae3f2311a744a2bac8467a2fc21dbb9975d54905bb5`
-- `.continuity/checkpoints/SES-20260727T221444Z-FD353AD3/0038.yaml` — `5efc3ada1c9917e12042bd53ac7208ff754665ad5ff479878b51fbe172bb3f49`
+- `docs/03-continuity/sessions/2026-07/SES-20260727T221444Z-FD353AD3.md` — `41b24817a7ad0ebacf4c9d43d8005c085813f24d1798359a20468d54088b74c5`
+- `.continuity/checkpoints/SES-20260727T221444Z-FD353AD3/0039.yaml` — `cd25aa667b873817708907130cfd4a40bdb89e28bd9553448e4c5ff914bd45dd`
 - `docs/03-continuity/change-requests/CR-0422-实现R14-Android私聊详情与真实会话导航.md` — `426588ba45f18916890ade8c428e1b1c0d168eae8af4fec7eb9957eb5f792617`
 - `docs/03-continuity/change-requests/CR-0423-实现R14-Android会话列表与消息主导航.md` — `e2e2b533fda82f9cdd13eb8f529f36572eba62da73e50b760b911277317788a0`
 - `docs/03-continuity/change-requests/CR-0424-补齐R14-Android会话列表状态与消息主导航.md` — `7e33507fd5daac6e6c6bb1064e5bd9aad3efb5ff4fab289f0faff34fc36c14b0`
@@ -15934,11 +15545,11 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `docs/03-continuity/change-requests/CR-0431-补齐V044新增数据表权威目录范围.md` — `610f8fc83f67b387845fd7ade6de2565ac61816aaf228cb56fde379c102c31eb`
 - `docs/03-continuity/change-requests/CR-0432-补齐R14-Android-CHAT权威补洞运行时文件范围.md` — `6863a703b96af28141b61fb52c3a37e8ac18f3951fd8a5f70b45432d4cd7391d`
 - `docs/03-continuity/change-requests/CR-0433-同步R14变更后的全版本确定性执行计划.md` — `058be4a820a85587ccc9ed9e57c4e702273da9029fd39252bd9c9452dc0c2417`
-- `docs/03-continuity/change-requests/CR-0434-交付R14可执行Staging候选与稳定签名TEST_APK.md` — `cdf215090ae989d75065a3b5843e2d846ea8f61154b565a6705fea93e5bbf98a`
-- `docs/03-continuity/change-requests/CR-0435-修正CR-0434为可执行精确文件作用域.md` — `91aec9a8091842e4c9e748a81c9bc09a08d307596a4c3f19bc8c34a2413ca010`
-- `docs/03-continuity/change-requests/CR-0436-修正R14隔离Staging网段冲突.md` — `b0a3d1f07f44a206186d1be1aa2498909ecad3a0eccf2262a38c18201a98860d`
-- `docs/03-continuity/change-requests/CR-0437-补齐R14-TEST_APK版本身份双事实源.md` — `32f9ac8b1ab1198bb976c0a0a270bbae4d1b7a74c854b9abe0d9972021cd5af6`
-- `docs/03-continuity/change-requests/CR-0438-补齐R14-TEST_APK精确HTTPS下载白名单.md` — `a3c51f2d3e685b0629f9f182315256843df64d7b0c7878487c4be659522c28a6`
+- `docs/03-continuity/change-requests/CR-0434-交付R14可执行Staging候选与稳定签名TEST_APK.md` — `9d9534934159feb1f07bc7987ef4c38153be435b7246d60705ecf2c3a9ea5fcb`
+- `docs/03-continuity/change-requests/CR-0435-修正CR-0434为可执行精确文件作用域.md` — `48634a5cf0e0b7456b3838fcd483e56eab419118f77ab699cc98c6046ec6a825`
+- `docs/03-continuity/change-requests/CR-0436-修正R14隔离Staging网段冲突.md` — `a008bd7045fa1028516ab116945fdaf34dbeffb0609736c070addcb4655a41a2`
+- `docs/03-continuity/change-requests/CR-0437-补齐R14-TEST_APK版本身份双事实源.md` — `35a2073585766aeadb9d71ad6f9f4fde1c703eca2f444c78c8761e68984a1e53`
+- `docs/03-continuity/change-requests/CR-0438-补齐R14-TEST_APK精确HTTPS下载白名单.md` — `35bb3c764d765565ecc51c68d11fe285519bd0ca8d182ea8e806525fbafc26e7`
 
 ## 接手硬规则
 
