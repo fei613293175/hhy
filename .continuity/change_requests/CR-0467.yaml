@@ -1,9 +1,9 @@
 protocol_version: '1.0'
 cr_id: CR-0467
 title: 补录R14专项测试原始日志归档范围
-status: IMPLEMENTING
+status: CLOSED
 created_at: '2026-07-28T19:20:14Z'
-updated_at: '2026-07-28T19:21:41Z'
+updated_at: '2026-07-28T19:26:34Z'
 requester_actor_id: codex-r14-testing-20260729
 approver_actor_id: codex-r14-evidence-review-20260729
 task_id: TASK-R14-005
@@ -41,5 +41,17 @@ decision_log:
   status: IMPLEMENTING
   note: 三份dbd71c66固定环境日志已复制到批准路径，evidence.json对每份日志执行SHA-256绑定并由六项矩阵校验PASS
   session_id: SES-20260728T182015Z-7EB6FEF2
+- at: '2026-07-28T19:26:27Z'
+  actor_id: codex-r14-testing-20260729
+  status: IMPLEMENTED
+  note: 三份原始日志、报告和evidence已提交；六项矩阵校验6/6 PASS
+  session_id: SES-20260728T182015Z-7EB6FEF2
+- at: '2026-07-28T19:26:34Z'
+  actor_id: codex-r14-testing-20260729
+  status: CLOSED
+  note: 日志范围补录完成，GitHub CI 30391746212与Continuity Gate 30391745316均PASS
+  session_id: SES-20260728T182015Z-7EB6FEF2
 session_ids:
 - SES-20260728T182015Z-7EB6FEF2
+implementation_commits:
+- f9ed32b1d8d167ab5553401eb1f79c4a8eb0e5f2

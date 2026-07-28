@@ -29010,9 +29010,9 @@ change_requests:
 - protocol_version: '1.0'
   cr_id: CR-0465
   title: R14六项聊天专项测试自动化与故障证据闭环
-  status: IMPLEMENTED
+  status: CLOSED
   created_at: '2026-07-28T18:28:03Z'
-  updated_at: '2026-07-28T19:18:40Z'
+  updated_at: '2026-07-28T19:26:40Z'
   requester_actor_id: codex-r14-testing-20260729
   approver_actor_id: codex-r14-quality-review-20260729
   task_id: TASK-R14-005
@@ -29067,6 +29067,11 @@ change_requests:
     status: IMPLEMENTED
     note: 六项正式测试均已绑定真实选择器；精确Commit dbd71c66在obx-test Java21后端31项、PostgreSQL17五个隔离真实用例、Android固定镜像247任务全部PASS，日志SHA与evidence已归档
     session_id: SES-20260728T182015Z-7EB6FEF2
+  - at: '2026-07-28T19:26:40Z'
+    actor_id: codex-r14-testing-20260729
+    status: CLOSED
+    note: 六项聊天专项测试实现、固定环境证据和机器报告完成；GitHub CI 30391746212与Continuity Gate 30391745316均PASS
+    session_id: SES-20260728T182015Z-7EB6FEF2
   session_ids:
   - SES-20260728T182015Z-7EB6FEF2
   implementation_commits:
@@ -29074,9 +29079,9 @@ change_requests:
 - protocol_version: '1.0'
   cr_id: CR-0466
   title: 补齐R14至R32全链路版本连续性回归
-  status: IMPLEMENTED
+  status: CLOSED
   created_at: '2026-07-28T18:37:40Z'
-  updated_at: '2026-07-28T18:40:12Z'
+  updated_at: '2026-07-28T19:26:46Z'
   requester_actor_id: codex-r14-testing-20260729
   approver_actor_id: project-owner-continuity-directive-20260729
   task_id: TASK-R14-005
@@ -29135,14 +29140,21 @@ change_requests:
     status: IMPLEMENTED
     note: R14至R32相邻转换、跳级拒绝、全前序机器闭环及中段R27破坏阻断共10项专项回归PASS；核心门禁语义未改。
     session_id: SES-20260728T182015Z-7EB6FEF2
+  - at: '2026-07-28T19:26:46Z'
+    actor_id: codex-r14-testing-20260729
+    status: CLOSED
+    note: R14至R32相邻顺序、跳级拒绝、全前序闭环和中段破坏阻断回归10项PASS；GitHub双门禁PASS
+    session_id: SES-20260728T182015Z-7EB6FEF2
   session_ids:
   - SES-20260728T182015Z-7EB6FEF2
+  implementation_commits:
+  - d9492684607e8ec73df186a7d036901abbacbffb
 - protocol_version: '1.0'
   cr_id: CR-0467
   title: 补录R14专项测试原始日志归档范围
-  status: IMPLEMENTING
+  status: CLOSED
   created_at: '2026-07-28T19:20:14Z'
-  updated_at: '2026-07-28T19:21:41Z'
+  updated_at: '2026-07-28T19:26:34Z'
   requester_actor_id: codex-r14-testing-20260729
   approver_actor_id: codex-r14-evidence-review-20260729
   task_id: TASK-R14-005
@@ -29180,5 +29192,17 @@ change_requests:
     status: IMPLEMENTING
     note: 三份dbd71c66固定环境日志已复制到批准路径，evidence.json对每份日志执行SHA-256绑定并由六项矩阵校验PASS
     session_id: SES-20260728T182015Z-7EB6FEF2
+  - at: '2026-07-28T19:26:27Z'
+    actor_id: codex-r14-testing-20260729
+    status: IMPLEMENTED
+    note: 三份原始日志、报告和evidence已提交；六项矩阵校验6/6 PASS
+    session_id: SES-20260728T182015Z-7EB6FEF2
+  - at: '2026-07-28T19:26:34Z'
+    actor_id: codex-r14-testing-20260729
+    status: CLOSED
+    note: 日志范围补录完成，GitHub CI 30391746212与Continuity Gate 30391745316均PASS
+    session_id: SES-20260728T182015Z-7EB6FEF2
   session_ids:
   - SES-20260728T182015Z-7EB6FEF2
+  implementation_commits:
+  - f9ed32b1d8d167ab5553401eb1f79c4a8eb0e5f2
