@@ -105,3 +105,10 @@ R14/R15 WebSocket请求必须且只能各携带一个hhy.v1与hhy.access.<compac
 - Status：`IMPLEMENTED`
 - Session：`SES-20260727T221444Z-FD353AD3`
 - Note：12事件合同、定向生成器、runtime副本、R14事实源与严格门禁已在实现Commit中完成；运行时纵向链路按批准边界另立CR
+
+## 状态记录 · 2026-07-28T08:59:25Z
+
+- Actor：`codex-root-r14-client-20260728`
+- Status：`CLOSED`
+- Session：`SES-20260727T221444Z-FD353AD3`
+- Note：十二事件WebSocket合同、定向生成器、runtime副本与严格合同回归均已完成；运行时纵向链路由已关闭CR-0430独立实施，公网DNS阻断不影响本合同CR关闭
