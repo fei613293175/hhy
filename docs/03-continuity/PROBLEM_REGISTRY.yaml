@@ -1927,9 +1927,9 @@ problems:
   - 不得为消除假失败跳过CHECKPOINT_STALE或绕过pre-push；必须统一工作区与历史提交指纹语义并保留正负回归
 - id: PROB-0135
   title: R14聊天举报缺少受控原因目录
-  status: OPEN
+  status: SOLVED
   root_cause: SHEET-CHAT-002冻结为RADIO_GROUP并要求reasonCode来自受控枚举映射，字段来源规则只允许OpenAPI枚举或配置注册表；但当前ChatPostConversationsByIdReportRequest仅定义必填string和长度，配置与后端也没有原因code、用户文案、启停或排序目录。B07/P07中的原因属于明确要求过滤的示例内容，不能成为业务事实。
-  resolution: CR-0427先实现真实举报API、面板结构、说明、证据、确认与错误状态；CR-0428继续接入AUDIT_EVIDENCE图片证据和服务端conversation.version，缺真实版本时同样禁用举报编辑与提交。权威目录为空时明确禁止提交，不提供自由reasonCode，不把SHEET-CHAT-002或STORY-R14-003标记完成。解除前必须由产品事实源冻结code、用户文案、启停与排序，并同步OpenAPI枚举或配置注册表、Android生成资产、后端校验和正负合同测试。
+  resolution: CR-0427先实现真实举报API、面板结构、说明、证据、确认与错误状态；CR-0428继续接入AUDIT_EVIDENCE图片证据和服务端conversation.version。CR-0464最终以contracts/openapi.yaml中ChatPostConversationsByIdReportRequest.reasonCode.x-hhy-options为唯一人工事实源，按正式开发文档冻结HARASSMENT、DUPLICATE_BULK_MESSAGE、DANGEROUS_LINK三项代码、用户文案、启停和顺序；同步器确定性生成OpenAPI enum、Java后端允许集和Android展示列表，后端在证据校验与持久化前拒绝未知、停用及大小写变体。精确Commit 054da178已通过生成资产、Python目录回归、Java 21服务/控制器测试、PostgreSQL 17真实迁移与Store测试、Android网络/聊天单测、主源码与AndroidTest编译及聊天Lint；R14最终APK和Staging仍须基于包含该Commit的新冻结版本重建部署。
   regression_checks:
   - Android举报面板在权威目录为空时必须显示配置不可用并禁用提交，不得出现P07示例原因或reasonCode自由输入框
   - Android举报必须使用会话列表或直聊创建响应的非负conversation.version，旧深链或缺版本路径仅可查看聊天且不得提交举报

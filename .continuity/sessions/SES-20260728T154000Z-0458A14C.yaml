@@ -11,7 +11,7 @@ task_id: TASK-R14-004
 story_id: STORY-R14-004
 goal: 恢复并完成R14全部剩余任务、真实交互候选、APK与测试文档，再顺序进入R15
 started_at: '2026-07-28T15:53:44Z'
-updated_at: '2026-07-28T17:56:08Z'
+updated_at: '2026-07-28T18:08:40Z'
 takeover_of: SES-20260728T125934Z-F3DED330
 change_requests:
 - CR-0458
@@ -97,22 +97,22 @@ git:
   initial_worktree_state: DIRTY_TAKEOVER
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-28T17:56:00Z'
-  expires_at: '2026-07-28T21:56:00Z'
-checkpoint_sequence: 11
-latest_checkpoint: .continuity/checkpoints/SES-20260728T154000Z-0458A14C/0011.yaml
+  renewed_at: '2026-07-28T18:08:33Z'
+  expires_at: '2026-07-28T22:08:33Z'
+checkpoint_sequence: 12
+latest_checkpoint: .continuity/checkpoints/SES-20260728T154000Z-0458A14C/0012.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260728T154000Z-0458A14C.md
-next_step: 提交导入修复并在obx-test使用无BOM且pipefail生效的命令重跑同一后端测试，禁止进入R15/R16
+next_step: 提交并推送CR-0464验证证据，等待GitHub基础门禁后关闭CR，再继续TASK-R14-004且禁止进入R15/R16
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: fe7adea32316bdb382266bf88d7e65f4cecb9f9e75e57a7b1ff1afb6cd5e1466
-  generated_at: '2026-07-28T17:56:05Z'
+  context_hash: 608294e928d227d45fbd7a46865f95cebf92bb15668010e54dfda9832d24070f
+  generated_at: '2026-07-28T18:08:37Z'
 handoff_bundle: null
 closure: null
 parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 单行测试导入修复与同一失败证据直接绑定，不可拆分
+  reason: CR状态、问题登记、Story与Manifest必须绑定同一已验证Commit原子更新

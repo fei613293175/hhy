@@ -91,7 +91,16 @@ android_delivery:
   owner_physical_test: PENDING
   next_release_development: ALLOWED
   public_websocket: BLOCKED_EXTERNAL_DNS
-  report_catalog: BLOCKED_PRODUCT_CATALOG
+  report_catalog: PASS_CR_0464_SOURCE_IMPLEMENTED_REBUILD_REQUIRED
+  report_catalog_source_commit: 054da178f90b752e23b33b8de49c22c6c8421026
+  report_catalog_source: contracts/openapi.yaml#components.schemas.ChatPostConversationsByIdReportRequest.properties.reasonCode.x-hhy-options
+  report_catalog_evidence:
+  - tests/test_r14_chat_report_reason_catalog.py
+  - obx-test:/tmp/hhy-r14-cr0464-054da178/backend.log
+  - obx-test:/tmp/hhy-r14-cr0464-054da178/postgres.log
+  - obx-test:/tmp/hhy-r14-cr0464-android-054da178/android.log
+  apk_contains_report_catalog: false
+  final_apk_rebuild_required: true
   evidence: artifacts/validation/r14-apk-delivery/delivery-evidence.json
   public_conversations_hotfix:
     change_request: CR-0447
@@ -190,7 +199,10 @@ entry_baseline:
     report: artifacts/reports/R14/TASK-R14-006-staging.md
     task_status: BLOCKED_BY_TASK_R14_005
     public_websocket: BLOCKED_EXTERNAL_DNS
-    report_catalog: BLOCKED_PRODUCT_CATALOG
+    report_catalog: PASS_CR_0464_SOURCE_IMPLEMENTED_REDEPLOY_REQUIRED
+    report_catalog_source_commit: 054da178f90b752e23b33b8de49c22c6c8421026
+    staging_contains_report_catalog: false
+    staging_redeploy_required: true
   visual_acceptance_status: IN_REVIEW_NOT_IMPLEMENTED
 continuity:
   policy: .continuity/CONTINUITY_POLICY.yaml

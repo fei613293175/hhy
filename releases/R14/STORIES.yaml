@@ -186,6 +186,7 @@ stories:
   - SHEET-CHAT-001;SHEET-CHAT-002;DIALOG-CHAT-BLOCK-001;DIALOG-CHAT-DELETE-001 全部绑定模板 MOB-SHEET，字段、状态、动作、导航和错误恢复无TBD
   - 页面调用 operationId：chatPostConversationsByIdMessages;chatPostConversationsByIdReport;chatPostUsersByIdBlock;chatDeleteUsersByIdBlock;chatDeleteConversationsById；请求/响应字段不得另行发明
   - 按钮显示、可用和确认条件与服务端状态机、权限、expectedVersion、幂等策略一致
+  - SHEET-CHAT-002举报原因只允许来自ChatPostConversationsByIdReportRequest.reasonCode.x-hhy-options启用项；OpenAPI enum、后端允许集与Android展示列表必须由该唯一人工源生成，禁止页面私有硬编码或自由reasonCode
   - 首屏、空、刷新、翻页/局部失败、无权限、404、离线和版本冲突状态按页面状态目录实现
   - 敏感字段按分级脱敏；高敏读取和后台写操作完整审计
   - 自动化覆盖：TST-CHAT_001-HAPPY;TST-CHAT_002-HAPPY;TST-CHAT_001-IDEMPOTENT;TST-CHAT_002-IDEMPOTENT;TST-V122-007;TST-V122-008;TST-V122-006
@@ -279,6 +280,7 @@ stories:
   - Android仅可在CHAT固定分页全部补洞完成后确认服务端水位；R15通知能力落地前不得确认NOTIFICATIONS缺口
   - requestId、幂等键、clientMessageId、expectedVersion、资源ID和版本只用于网络层、幂等与诊断，不进入正式UI
   - 聊天举报只实现用户提交、证据选择和结果提示，不包含R15后台队列、分配、SLA或审核决定状态
+  - 聊天举报原因目录以ChatPostConversationsByIdReportRequest.reasonCode.x-hhy-options为唯一人工事实源，enum及Java/Kotlin消费者必须确定性生成并由正负合同测试证明未知、停用、顺序和大小写漂移均被拒绝
   - 每个需求可追溯到页面/API/表/配置/测试/故事；不适用项必须显式N/A并说明
   - 版本DoR全部PASS后方可编码；出口仍按原RELEASE_MANIFEST和ACCEPTANCE_MATRIX执行
   - 变更必须通过CR，更新唯一事实源并重新生成全部派生目录和哈希
