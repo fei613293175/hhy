@@ -2026,3 +2026,8 @@
 - 摘要：TASK-R14-004可实施的会话列表、私聊、联系方式、拉黑解除、删除、举报证据结构、九接口、十二事件实时链路、隔离Staging与稳定签名TEST_APK均已完成；但PROB-0135缺少产品事实源冻结的举报原因code/用户文案/启停/排序，SHEET-CHAT-002与STORY-R14-003不得用效果图示例或测试值冒充完成，且ws.orbexa.cc仍BLOCKED_EXTERNAL_DNS，因此R14保持BLOCKED_EXTERNAL_GATE并保留CR-0427/0428为IMPLEMENTED待恢复
 - 记录：`docs/03-continuity/sessions/2026-07/SES-20260727T221444Z-FD353AD3.md`
 
+## CR-0440 · R16 ENTRY BASELINE · 2026-07-28
+
+- 修正 R16 十接口的商品、SKU、订单、订单项、价格快照与不退款证据显式资源，删除错误资源复用和写响应 `oneOf` 歧义。
+- `SCR-ORDER-001` 精确绑定 B08/P04；详情与后台订单页建立独立批准补充规格，过滤效果图示例内容和所有未登记动作。
+- 同步 OpenAPI、运行时副本、生成客户端、合同哈希、页面字段/状态/动作、前后端矩阵和施工文档。

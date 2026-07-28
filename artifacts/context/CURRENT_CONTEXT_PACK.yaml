@@ -1,5 +1,5 @@
 context_version: '1.0'
-generated_at: '2026-07-28T09:10:13Z'
+generated_at: '2026-07-28T09:42:29Z'
 conversation_dependency: PROHIBITED
 source_of_truth: REPOSITORY_ONLY
 project: hhy-pro-platform
@@ -10,7 +10,7 @@ current_status:
   phase: R16
   active_release: R16
   active_task: TASK-R16-001
-  status: READY
+  status: IN_PROGRESS
   documentation_status: ZERO_BLOCKING_DOCUMENT_GAPS
   last_green_commit: 2df87e99d07af9cbd123d375f0717cb7abaae004
   last_staging_apk: null
@@ -136,7 +136,8 @@ current_status:
   - TASK-R14-001
   - TASK-R14-002
   - TASK-R14-003
-  in_progress_tasks: []
+  in_progress_tasks:
+  - TASK-R16-001
   blocked_tasks:
   - TASK-R02-007
   - TASK-R03-007
@@ -145,7 +146,7 @@ current_status:
   - TASK-R13-008
   - TASK-R14-004
   next_task: TASK-R16-001
-  updated_at: '2026-07-28T09:10:09Z'
+  updated_at: '2026-07-28T09:42:26Z'
   notes:
   - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
   - 全部REST/WebSocket操作均有页面或系统所有者
@@ -177,17 +178,19 @@ current_status:
   continuity:
     protocol_version: '1.0'
     mode: ENFORCED
-    active_session_id: null
-    last_session_id: SES-20260727T221444Z-FD353AD3
-    last_session_result: BLOCKED
-    last_checkpoint: .continuity/checkpoints/SES-20260727T221444Z-FD353AD3/0043.yaml
-    last_handoff_bundle: null
+    active_session_id: SES-20260728T091447Z-9A245BB4
+    actor_id: codex-root-r16-entry-20260728
+    story_id: STORY-R16-004
+    lease_expires_at: '2026-07-28T13:42:26Z'
+    latest_checkpoint: .continuity/checkpoints/SES-20260728T091447Z-9A245BB4/0001.yaml
+    project_fingerprint: 2f10cf7627e1c59b88a64968ef47cb68381f159303ff139ae7c6735c93cc2b0c
     context_pack:
       yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
       markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
       manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-      context_hash: 4baed8157a71b433a9d00b8eecb12ab8b4d2811b4182a5605373918656f99e68
-      generated_at: '2026-07-28T09:10:04Z'
+      context_hash: 531ecbdc07c84c8e17bb73fd7a441a5e7d63a75ec50ce62a852d57381cbcf791
+      generated_at: '2026-07-28T09:14:54Z'
+    handoff_bundle: null
 next_task:
   id: TASK-R16-001
   title: 商品、SKU、报价与统一订单开发就绪核验、故事领取与变更基线
@@ -231,34 +234,604 @@ next_task:
     status: BLOCKED
     reason: TASK-R14-004可实施的会话列表、私聊、联系方式、拉黑解除、删除、举报证据结构、九接口、十二事件实时链路、隔离Staging与稳定签名TEST_APK均已完成；但PROB-0135缺少产品事实源冻结的举报原因code/用户文案/启停/排序，SHEET-CHAT-002与STORY-R14-003不得用效果图示例或测试值冒充完成，且ws.orbexa.cc仍BLOCKED_EXTERNAL_DNS，因此R14保持BLOCKED_EXTERNAL_GATE并保留CR-0427/0428为IMPLEMENTED待恢复
     resume_after: 项目所有者真机反馈到达后，在当前安全检查点恢复验收与关闭
-active_session: null
-latest_checkpoint: null
+active_session:
+  protocol_version: '1.0'
+  package_version: 1.2.3
+  session_id: SES-20260728T091447Z-9A245BB4
+  status: ACTIVE
+  actor:
+    id: codex-root-r16-entry-20260728
+    kind: AI_OR_HUMAN
+    host: unknown
+  release: R16
+  task_id: TASK-R16-001
+  story_id: STORY-R16-004
+  goal: 核验R16三需求、十接口、七表、三页面与四故事，建立严格开发基线与视觉合同后进入商品、SKU、报价和统一订单纵向开发
+  started_at: '2026-07-28T09:14:47Z'
+  updated_at: '2026-07-28T09:42:26Z'
+  takeover_of: null
+  change_requests:
+  - CR-0440
+  scope:
+    allowed_paths:
+    - apps/**
+    - services/**
+    - packages/**
+    - contracts/**
+    - database/**
+    - config/**
+    - catalogs/**
+    - tests/**
+    - infra/**
+    - design/**
+    - docs/**
+    - releases/**
+    - scripts/**
+    - templates/**
+    - .github/**
+    - .githooks/**
+    - .codex/**
+    - AGENTS.md
+    - START_HERE.md
+    - README.md
+    - CHANGELOG.md
+    - Makefile
+    - .gitignore
+    - .gitattributes
+    - .dockerignore
+    - package.json
+    - pnpm-lock.yaml
+    - pnpm-workspace.yaml
+    - requirements-dev.txt
+    - PROJECT_*.yaml
+    - PROJECT_*.json
+    - releases/R16/**
+    - design/R16-UI-FROZEN/**
+    - docs/02-ui/**
+    - docs/03-continuity/**
+    - artifacts/reports/R16/**
+    - artifacts/validation/r16-entry/**
+    - PROJECT_BASELINE.yaml
+    - PROJECT_BASELINE.json
+    approved_exceptions:
+    - scripts/generate_contracts.py
+    - scripts/check_r16_entry_contract.py
+    - contracts/openapi.yaml
+    - contracts/admin-openapi.yaml
+    - contracts/contract_status.csv
+    - services/backend/boot/src/main/resources/contracts/openapi.yaml
+    - services/backend/boot/src/main/resources/contracts/admin-openapi.yaml
+    - packages/api-client/src/client.generated.ts
+    - packages/api-client/src/admin.generated.ts
+    - catalogs/ui_page_fields.csv
+    - catalogs/ui_page_states.csv
+    - catalogs/ui_action_matrix.csv
+    - catalogs/admin_page_operation_specs.csv
+    - catalogs/ui_page_specifications.csv
+    - catalogs/frontend_backend_matrix.csv
+    - catalogs/screen_visual_binding.csv
+    - catalogs/ui_visual_acceptance.csv
+    - design/R16-UI-FROZEN/VISUAL_COVERAGE_AUDIT.md
+    - design/R16-UI-FROZEN/specs/SCR-ORDER-001.md
+    - design/R16-UI-FROZEN/specs/SCR-ORDER-002.md
+    - design/R16-UI-FROZEN/specs/ADM-ORDER-001.md
+    - docs/02-ui/page-specs/android/SCR-ORDER-001_订单列表.md
+    - docs/02-ui/page-specs/android/SCR-ORDER-002_订单详情.md
+    - docs/02-ui/page-specs/admin/ADM-ORDER-001_订单列表.md
+    - docs/02-ui/page-specs/admin/ADM-PROD-001_商品与SKU.md
+    - releases/R16/DEFINITION_OF_READY.yaml
+    - releases/R16/RELEASE_MANIFEST.yaml
+    - releases/R16/STORIES.yaml
+    - artifacts/validation/r16-entry/entry-contract.json
+    - artifacts/reports/R16/TASK-R16-001-entry-baseline.md
+    - CHANGELOG.md
+    source: story+explicit+approved-cr:CR-0440
+  git:
+    initialized: true
+    branch: task/TASK-R03-001
+    base_commit: 7a14540402771055a4ffb770c0210c84428947f7
+    start_head: 7a14540402771055a4ffb770c0210c84428947f7
+    upstream: origin/task/TASK-R03-001
+    initial_worktree_state: CLEAN
+  lease:
+    duration_minutes: 240
+    renewed_at: '2026-07-28T09:42:26Z'
+    expires_at: '2026-07-28T13:42:26Z'
+  checkpoint_sequence: 1
+  latest_checkpoint: .continuity/checkpoints/SES-20260728T091447Z-9A245BB4/0001.yaml
+  session_log: docs/03-continuity/sessions/2026-07/SES-20260728T091447Z-9A245BB4.md
+  next_step: 提交并推送TASK-R16-001入口基线，关闭任务后立即进入TASK-R16-002数据库迁移与领域不变量
+  context_pack: THIS_CONTEXT_PACK
+  handoff_bundle: null
+  closure: null
+  parallel_execution:
+    assessment: NO_SAFE_PARALLEL
+    delegated_workers: 0
+    workers: []
+    reason: 合同、目录、派生客户端与文档必须原子同步；仅独立治理审查委托，实施保持单写者以避免事实源竞争
+latest_checkpoint:
+  protocol_version: '1.0'
+  checkpoint_id: CP-SES-20260728T091447Z-9A245BB4-0001
+  session_id: SES-20260728T091447Z-9A245BB4
+  task_id: TASK-R16-001
+  story_id: STORY-R16-004
+  sequence: 1
+  created_at: '2026-07-28T09:42:25Z'
+  summary: CR-0440独立审批后完成R16十接口显式商品SKU订单合同、三页视觉施工基线、页面目录和生成资产同步，全部入口门禁PASS
+  next_step: 提交并推送TASK-R16-001入口基线，关闭任务后立即进入TASK-R16-002数据库迁移与领域不变量
+  blockers: []
+  decisions:
+  - 订单/SKU核心响应不得使用通用资源或oneOf；B08/P04仅作为列表结构且过滤示例内容和未授权动作
+  note: ''
+  tests:
+  - name: R16 entry contract
+    result: PASS
+    evidence: artifacts/validation/r16-entry/entry-contract.json
+    note: 7个显式资源和10个响应通过
+  - name: R16 visual catalog
+    result: PASS
+    evidence: catalogs/ui_visual_acceptance.csv
+    note: 三页精确或批准补充合同
+  - name: R16 documentation
+    result: PASS
+    evidence: artifacts/validation/project-doctor-v1.2.2.json
+    note: 0 errors 0 warnings
+  - name: API contract
+    result: PASS
+    evidence: contracts/openapi.yaml;contracts/admin-openapi.yaml
+    note: client131 admin184 runtime hashes PASS
+  - name: Generated assets
+    result: PASS
+    evidence: packages/api-client/src/client.generated.ts;packages/api-client/src/admin.generated.ts
+    note: OpenAPI类型、后台脚手架、Android和runtime全部一致
+  - name: Release artifacts
+    result: PASS
+    evidence: releases/R16/RELEASE_MANIFEST.yaml
+    note: R16入口产物规则通过
+  git:
+    initialized: true
+    branch: task/TASK-R03-001
+    head: 7a14540402771055a4ffb770c0210c84428947f7
+    upstream: origin/task/TASK-R03-001
+    ahead: 0
+    behind: 0
+    dirty: true
+    status_porcelain:
+    - ' M .continuity/ACTIVE_SESSION.yaml'
+    - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
+    - ' M .continuity/EVENT_LOG.jsonl'
+    - ' M .continuity/SESSION_INDEX.yaml'
+    - ' M .continuity/STATE.yaml'
+    - ' M .continuity/TASK_CLAIMS.yaml'
+    - ' M .continuity/TASK_TRANSITIONS.yaml'
+    - ' M CHANGELOG.md'
+    - ' M CURRENT_STATUS.yaml'
+    - ' M apps/admin-web/src/generated/admin-pages.json'
+    - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+    - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+    - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+    - ' M artifacts/validation/project-doctor-v1.2.2.json'
+    - ' M catalogs/admin_page_operation_specs.csv'
+    - ' M catalogs/change_request_index.csv'
+    - ' M catalogs/frontend_backend_matrix.csv'
+    - ' M catalogs/screen_visual_binding.csv'
+    - ' M catalogs/session_index.csv'
+    - ' M catalogs/task_transition_ledger.csv'
+    - ' M catalogs/ui_action_matrix.csv'
+    - ' M catalogs/ui_page_fields.csv'
+    - ' M catalogs/ui_page_specifications.csv'
+    - ' M catalogs/ui_page_states.csv'
+    - ' M catalogs/ui_visual_acceptance.csv'
+    - ' M contracts/admin-openapi.yaml'
+    - ' M contracts/contract_status.csv'
+    - ' M contracts/openapi.yaml'
+    - ' M docs/02-ui/page-specs/admin/ADM-ORDER-001_订单列表.md'
+    - ' M docs/02-ui/page-specs/admin/ADM-PROD-001_商品与SKU.md'
+    - ' M docs/02-ui/page-specs/android/SCR-ORDER-001_订单列表.md'
+    - ' M docs/02-ui/page-specs/android/SCR-ORDER-002_订单详情.md'
+    - ' M packages/api-client/src/admin.generated.ts'
+    - ' M packages/api-client/src/client.generated.ts'
+    - ' M releases/R16/DEFINITION_OF_READY.yaml'
+    - ' M releases/R16/RELEASE_MANIFEST.yaml'
+    - ' M releases/R16/STORIES.yaml'
+    - ' M scripts/generate_contracts.py'
+    - ' M services/backend/boot/src/main/resources/contracts/admin-openapi.yaml'
+    - ' M services/backend/boot/src/main/resources/contracts/openapi.yaml'
+    - ?? .continuity/change_requests/CR-0440.yaml
+    - ?? .continuity/sessions/SES-20260728T091447Z-9A245BB4.yaml
+    - ?? artifacts/reports/R16/TASK-R16-001-entry-baseline.md
+    - ?? artifacts/validation/r16-entry/entry-contract.json
+    - ?? design/R16-UI-FROZEN/VISUAL_COVERAGE_AUDIT.md
+    - ?? design/R16-UI-FROZEN/specs/ADM-ORDER-001.md
+    - ?? design/R16-UI-FROZEN/specs/SCR-ORDER-001.md
+    - ?? design/R16-UI-FROZEN/specs/SCR-ORDER-002.md
+    - ?? docs/03-continuity/change-requests/CR-0440-建立R16显式商品订单合同与三页视觉施工基线.md
+    - ?? docs/03-continuity/sessions/2026-07/SES-20260728T091447Z-9A245BB4.md
+    - ?? scripts/check_r16_entry_contract.py
+    recent_commits:
+    - "7a14540402771055a4ffb770c0210c84428947f7\t2026-07-28T17:12:51+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(continuity): close\
+      \ TASK-R14-004 as blocked"
+    - "4d6ab2f9d9bf3e962c1787ff9a4ea6df33078bba\t2026-07-28T17:08:37+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(governance): close\
+      \ async apk projection"
+    - "5502ad81ba09c6530812ea04f58d6b67f71f0d10\t2026-07-28T17:06:25+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(continuity): project\
+      \ async apk policy"
+    - "a18701c432bf60f0c4c50009fd0382ce8f00efeb\t2026-07-28T16:59:41+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(governance): close\
+      \ websocket contract change"
+    - "71986b89ac7fce822389dc7d0eb374d59b9bf3bf\t2026-07-28T16:54:53+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(governance): close\
+      \ r14 delivery change requests"
+    - "f5b9b1ff2b4f728dce937cf5e04770e3235951fd\t2026-07-28T16:51:29+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(delivery): archive\
+      \ r14 test apk evidence"
+    - "05d738171911d31d382d8cf5b40dfaab9dacf5b4\t2026-07-28T16:33:56+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(delivery): add exact\
+      \ r14 apk route"
+    - "ca5766600937e1bed056210b8579ee7f8269561b\t2026-07-28T16:16:51+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(android): align test\
+      \ apk version identity"
+  project_fingerprint:
+    sha256: 2f10cf7627e1c59b88a64968ef47cb68381f159303ff139ae7c6735c93cc2b0c
+    files:
+    - CHANGELOG.md
+    - apps/admin-web/src/generated/admin-pages.json
+    - catalogs/admin_page_operation_specs.csv
+    - catalogs/frontend_backend_matrix.csv
+    - catalogs/screen_visual_binding.csv
+    - catalogs/ui_action_matrix.csv
+    - catalogs/ui_page_fields.csv
+    - catalogs/ui_page_specifications.csv
+    - catalogs/ui_page_states.csv
+    - catalogs/ui_visual_acceptance.csv
+    - contracts/admin-openapi.yaml
+    - contracts/contract_status.csv
+    - contracts/openapi.yaml
+    - design/R16-UI-FROZEN/VISUAL_COVERAGE_AUDIT.md
+    - design/R16-UI-FROZEN/specs/ADM-ORDER-001.md
+    - design/R16-UI-FROZEN/specs/SCR-ORDER-001.md
+    - design/R16-UI-FROZEN/specs/SCR-ORDER-002.md
+    - docs/02-ui/page-specs/admin/ADM-ORDER-001_订单列表.md
+    - docs/02-ui/page-specs/admin/ADM-PROD-001_商品与SKU.md
+    - docs/02-ui/page-specs/android/SCR-ORDER-001_订单列表.md
+    - docs/02-ui/page-specs/android/SCR-ORDER-002_订单详情.md
+    - docs/03-continuity/change-requests/CR-0440-建立R16显式商品订单合同与三页视觉施工基线.md
+    - packages/api-client/src/admin.generated.ts
+    - packages/api-client/src/client.generated.ts
+    - releases/R16/DEFINITION_OF_READY.yaml
+    - releases/R16/RELEASE_MANIFEST.yaml
+    - releases/R16/STORIES.yaml
+    - scripts/check_r16_entry_contract.py
+    - scripts/generate_contracts.py
+    - services/backend/boot/src/main/resources/contracts/admin-openapi.yaml
+    - services/backend/boot/src/main/resources/contracts/openapi.yaml
+    file_count: 31
+    payload:
+      base_commit: 7a14540402771055a4ffb770c0210c84428947f7
+      files:
+      - path: CHANGELOG.md
+        state: FILE
+        size: 203095
+        sha256: f80b4ca350a242eaa12286823caad46da830099d826ebb930a38711d21194fe0
+      - path: apps/admin-web/src/generated/admin-pages.json
+        state: FILE
+        size: 57121
+        sha256: fad90f451f8f27966e65f9a82e53af3f5af9d23e8a717592a0c5b7596853b587
+      - path: catalogs/admin_page_operation_specs.csv
+        state: FILE
+        size: 126642
+        sha256: 6465bff6e55815a2c956a399752864f54d0595fd6d6789c7f2de56a04bdb6397
+      - path: catalogs/frontend_backend_matrix.csv
+        state: FILE
+        size: 206117
+        sha256: 7ff2f557e64eceb156524d5196b993acd48d4ff0ddcab8330b22f44290ab1e63
+      - path: catalogs/screen_visual_binding.csv
+        state: FILE
+        size: 15806
+        sha256: 112a13af7f44c59489defd6ea95a9c05ca59705fd0ce25701d120234ce2742a4
+      - path: catalogs/ui_action_matrix.csv
+        state: FILE
+        size: 1419034
+        sha256: 60a42a9a8e6865ad38bd079027bc8c5cf0376abd3c10700d991c6b3a4e65d731
+      - path: catalogs/ui_page_fields.csv
+        state: FILE
+        size: 2864656
+        sha256: 7d8d454b82ff3a19eedf37241ccc39af9eb0f2cfb4cd1be54ac01b28e4c98347
+      - path: catalogs/ui_page_specifications.csv
+        state: FILE
+        size: 293881
+        sha256: 9e20c0f789cb5ed7d56479a7d3f69549288bef140ce1ac36f91bfc7b8acc835f
+      - path: catalogs/ui_page_states.csv
+        state: FILE
+        size: 483294
+        sha256: 6e1db2fbe3500713a11619e25cbea9df56d1c43e1eeb1ebbfd1a868f4b414de6
+      - path: catalogs/ui_visual_acceptance.csv
+        state: FILE
+        size: 71507
+        sha256: 9c8a375f1ba5e2a0ec141f4f6f538ae0e696bd1eb382046d5e83824b0e0bfcf4
+      - path: contracts/admin-openapi.yaml
+        state: FILE
+        size: 857212
+        sha256: d33038a72b60922d243c38f624b3f4f25d7f841c3233b8d091a450d485cabfde
+      - path: contracts/contract_status.csv
+        state: FILE
+        size: 140946
+        sha256: e1d7bc04c15d86f8099f55455b642d3b825b7ed23cc87d0f9b4de56cc444eeda
+      - path: contracts/openapi.yaml
+        state: FILE
+        size: 611319
+        sha256: 81e92293b5663656f6818d9c58a6c629151692278a61021c0996ecb40ed4c901
+      - path: design/R16-UI-FROZEN/VISUAL_COVERAGE_AUDIT.md
+        state: FILE
+        size: 1188
+        sha256: f8ddccf4582ef1c6209d2ea8d2b1802f54a3f148b1293e79c30f1120fd91bda5
+      - path: design/R16-UI-FROZEN/specs/ADM-ORDER-001.md
+        state: FILE
+        size: 1515
+        sha256: 9c8522dea196096d16220052ef2b4c221ae1eccdecc67bc3665c3833c73a31a4
+      - path: design/R16-UI-FROZEN/specs/SCR-ORDER-001.md
+        state: FILE
+        size: 1447
+        sha256: 30c96ae61643015503900f812d28af6dba8fd227c279401284883f6079d0374a
+      - path: design/R16-UI-FROZEN/specs/SCR-ORDER-002.md
+        state: FILE
+        size: 1321
+        sha256: d8986b61d958e18aa5fa675bc5349c4226ac395d28e1b19f78f435fe57e4f5ad
+      - path: docs/02-ui/page-specs/admin/ADM-ORDER-001_订单列表.md
+        state: FILE
+        size: 23349
+        sha256: 16a9e64a1d20af6647edea86434a9f51ca38a111beb35acff5eb79c76ac8ea65
+      - path: docs/02-ui/page-specs/admin/ADM-PROD-001_商品与SKU.md
+        state: FILE
+        size: 38198
+        sha256: 27c8c58a5e66deefacc063574d8fe7fdf12d49453fda1485f0bcc284333cbcbb
+      - path: docs/02-ui/page-specs/android/SCR-ORDER-001_订单列表.md
+        state: FILE
+        size: 16116
+        sha256: 62c9c8c95d36e4887588f0dcaf80b2a9bf0802ff6c5809851ef07bd7b6558615
+      - path: docs/02-ui/page-specs/android/SCR-ORDER-002_订单详情.md
+        state: FILE
+        size: 15420
+        sha256: 589070e9a675c0d2956f2de7f2fce37aaf8adacc6f9908589dfa2314d64e3205
+      - path: docs/03-continuity/change-requests/CR-0440-建立R16显式商品订单合同与三页视觉施工基线.md
+        state: FILE
+        size: 7123
+        sha256: 5a7187df46e1c5cb2f82671c944386b486c0f4f929b9aa9a51c50a87ea3ade4d
+      - path: packages/api-client/src/admin.generated.ts
+        state: FILE
+        size: 888945
+        sha256: acd2311a7f2813bdfd83c26ec63fa45062bbe9fb4e1f8b246bdac5f2fd29464a
+      - path: packages/api-client/src/client.generated.ts
+        state: FILE
+        size: 626293
+        sha256: bd01eb413fd46e453199929b483fb035da17b94bc3daca58d82b22a64ad121bd
+      - path: releases/R16/DEFINITION_OF_READY.yaml
+        state: FILE
+        size: 7576
+        sha256: 9c4c9f85b879fe5b73a85cbea370c773f11e8a302f0570a92cb9916cf5e0805e
+      - path: releases/R16/RELEASE_MANIFEST.yaml
+        state: FILE
+        size: 2899
+        sha256: aaf9a0fb7c89227efe8cd930536d6f0f1a4c3826c52e329922a48bd0bfa6f153
+      - path: releases/R16/STORIES.yaml
+        state: FILE
+        size: 8351
+        sha256: eb3eb2cb6e50133d1a90cef7484759d29e1b739f6876c9cbf50dfc33757cd7fc
+      - path: scripts/check_r16_entry_contract.py
+        state: FILE
+        size: 9398
+        sha256: 0400a5caf3735e1303b3658493f105df7408a46c4ad0593538bdbe985808e954
+      - path: scripts/generate_contracts.py
+        state: FILE
+        size: 99504
+        sha256: f82082f9ae0eca79912accfb9d7b33317f9d2141ce2ebae0ea5cdadae3929ae7
+      - path: services/backend/boot/src/main/resources/contracts/admin-openapi.yaml
+        state: FILE
+        size: 857212
+        sha256: d33038a72b60922d243c38f624b3f4f25d7f841c3233b8d091a450d485cabfde
+      - path: services/backend/boot/src/main/resources/contracts/openapi.yaml
+        state: FILE
+        size: 611319
+        sha256: 81e92293b5663656f6818d9c58a6c629151692278a61021c0996ecb40ed4c901
+  change_classification:
+    other:
+    - CHANGELOG.md
+    - catalogs/frontend_backend_matrix.csv
+    - catalogs/screen_visual_binding.csv
+    - catalogs/ui_visual_acceptance.csv
+    - design/R16-UI-FROZEN/VISUAL_COVERAGE_AUDIT.md
+    - design/R16-UI-FROZEN/specs/ADM-ORDER-001.md
+    - design/R16-UI-FROZEN/specs/SCR-ORDER-001.md
+    - design/R16-UI-FROZEN/specs/SCR-ORDER-002.md
+    code:
+    - apps/admin-web/src/generated/admin-pages.json
+    - packages/api-client/src/admin.generated.ts
+    - packages/api-client/src/client.generated.ts
+    - scripts/check_r16_entry_contract.py
+    - scripts/generate_contracts.py
+    - services/backend/boot/src/main/resources/contracts/admin-openapi.yaml
+    - services/backend/boot/src/main/resources/contracts/openapi.yaml
+    user_visible:
+    - apps/admin-web/src/generated/admin-pages.json
+    - contracts/admin-openapi.yaml
+    - contracts/contract_status.csv
+    - contracts/openapi.yaml
+    - docs/02-ui/page-specs/admin/ADM-ORDER-001_订单列表.md
+    - docs/02-ui/page-specs/admin/ADM-PROD-001_商品与SKU.md
+    - docs/02-ui/page-specs/android/SCR-ORDER-001_订单列表.md
+    - docs/02-ui/page-specs/android/SCR-ORDER-002_订单详情.md
+    source_of_truth:
+    - catalogs/admin_page_operation_specs.csv
+    - catalogs/ui_action_matrix.csv
+    - catalogs/ui_page_fields.csv
+    - catalogs/ui_page_specifications.csv
+    - catalogs/ui_page_states.csv
+    - contracts/admin-openapi.yaml
+    - contracts/contract_status.csv
+    - contracts/openapi.yaml
+    - docs/02-ui/page-specs/admin/ADM-ORDER-001_订单列表.md
+    - docs/02-ui/page-specs/admin/ADM-PROD-001_商品与SKU.md
+    - docs/02-ui/page-specs/android/SCR-ORDER-001_订单列表.md
+    - docs/02-ui/page-specs/android/SCR-ORDER-002_订单详情.md
+    - releases/R16/DEFINITION_OF_READY.yaml
+    - releases/R16/RELEASE_MANIFEST.yaml
+    - releases/R16/STORIES.yaml
+    contracts:
+    - contracts/admin-openapi.yaml
+    - contracts/contract_status.csv
+    - contracts/openapi.yaml
+    continuity:
+    - docs/03-continuity/change-requests/CR-0440-建立R16显式商品订单合同与三页视觉施工基线.md
+  required_records:
+  - SESSION_RECORD
+  - SESSION_LOG
+  - CHECKPOINT
+  - CURRENT_STATUS
+  - EVENT_LOG
+  - APPROVED_CHANGE_REQUEST
+  - CONTRACT_TEST_EVIDENCE
+  - GENERATED_CLIENTS_OR_GENERATION_RECORD
+  - CHANGELOG
+  change_requests:
+  - CR-0440
+  scope:
+    allowed_paths:
+    - apps/**
+    - services/**
+    - packages/**
+    - contracts/**
+    - database/**
+    - config/**
+    - catalogs/**
+    - tests/**
+    - infra/**
+    - design/**
+    - docs/**
+    - releases/**
+    - scripts/**
+    - templates/**
+    - .github/**
+    - .githooks/**
+    - .codex/**
+    - AGENTS.md
+    - START_HERE.md
+    - README.md
+    - CHANGELOG.md
+    - Makefile
+    - .gitignore
+    - .gitattributes
+    - .dockerignore
+    - package.json
+    - pnpm-lock.yaml
+    - pnpm-workspace.yaml
+    - requirements-dev.txt
+    - PROJECT_*.yaml
+    - PROJECT_*.json
+    - releases/R16/**
+    - design/R16-UI-FROZEN/**
+    - docs/02-ui/**
+    - docs/03-continuity/**
+    - artifacts/reports/R16/**
+    - artifacts/validation/r16-entry/**
+    - PROJECT_BASELINE.yaml
+    - PROJECT_BASELINE.json
+    approved_exceptions:
+    - scripts/generate_contracts.py
+    - scripts/check_r16_entry_contract.py
+    - contracts/openapi.yaml
+    - contracts/admin-openapi.yaml
+    - contracts/contract_status.csv
+    - services/backend/boot/src/main/resources/contracts/openapi.yaml
+    - services/backend/boot/src/main/resources/contracts/admin-openapi.yaml
+    - packages/api-client/src/client.generated.ts
+    - packages/api-client/src/admin.generated.ts
+    - catalogs/ui_page_fields.csv
+    - catalogs/ui_page_states.csv
+    - catalogs/ui_action_matrix.csv
+    - catalogs/admin_page_operation_specs.csv
+    - catalogs/ui_page_specifications.csv
+    - catalogs/frontend_backend_matrix.csv
+    - catalogs/screen_visual_binding.csv
+    - catalogs/ui_visual_acceptance.csv
+    - design/R16-UI-FROZEN/VISUAL_COVERAGE_AUDIT.md
+    - design/R16-UI-FROZEN/specs/SCR-ORDER-001.md
+    - design/R16-UI-FROZEN/specs/SCR-ORDER-002.md
+    - design/R16-UI-FROZEN/specs/ADM-ORDER-001.md
+    - docs/02-ui/page-specs/android/SCR-ORDER-001_订单列表.md
+    - docs/02-ui/page-specs/android/SCR-ORDER-002_订单详情.md
+    - docs/02-ui/page-specs/admin/ADM-ORDER-001_订单列表.md
+    - docs/02-ui/page-specs/admin/ADM-PROD-001_商品与SKU.md
+    - releases/R16/DEFINITION_OF_READY.yaml
+    - releases/R16/RELEASE_MANIFEST.yaml
+    - releases/R16/STORIES.yaml
+    - artifacts/validation/r16-entry/entry-contract.json
+    - artifacts/reports/R16/TASK-R16-001-entry-baseline.md
+    - CHANGELOG.md
+    source: story+explicit+approved-cr:CR-0440
+  parallel_execution:
+    assessment: NO_SAFE_PARALLEL
+    delegated_workers: 0
+    workers: []
+    reason: 合同、目录、派生客户端与文档必须原子同步；仅独立治理审查委托，实施保持单写者以避免事实源竞争
+  event_hash: 9ddf0cc5e448a58f28b38d7f2046889fd971d54a352762cb9c9844d1debe6bf2
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: 4d6ab2f9d9bf3e962c1787ff9a4ea6df33078bba
+  head: 7a14540402771055a4ffb770c0210c84428947f7
   upstream: origin/task/TASK-R03-001
   ahead: 0
   behind: 0
   dirty: true
   status_porcelain:
   - ' M .continuity/ACTIVE_SESSION.yaml'
+  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
   - ' M .continuity/EVENT_LOG.jsonl'
   - ' M .continuity/SESSION_INDEX.yaml'
   - ' M .continuity/STATE.yaml'
   - ' M .continuity/TASK_CLAIMS.yaml'
-  - ' M .continuity/sessions/SES-20260727T221444Z-FD353AD3.yaml'
+  - ' M .continuity/TASK_TRANSITIONS.yaml'
   - ' M CHANGELOG.md'
   - ' M CURRENT_STATUS.yaml'
-  - ' M NEXT_TASK.yaml'
+  - ' M apps/admin-web/src/generated/admin-pages.json'
   - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
   - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
   - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+  - ' M artifacts/validation/project-doctor-v1.2.2.json'
+  - ' M catalogs/admin_page_operation_specs.csv'
+  - ' M catalogs/change_request_index.csv'
+  - ' M catalogs/frontend_backend_matrix.csv'
+  - ' M catalogs/screen_visual_binding.csv'
   - ' M catalogs/session_index.csv'
-  - ' M docs/03-continuity/sessions/2026-07/SES-20260727T221444Z-FD353AD3.md'
-  - ' M releases/R14/TASKS.yaml'
-  - ?? .continuity/checkpoints/SES-20260727T221444Z-FD353AD3/0043.yaml
+  - ' M catalogs/task_transition_ledger.csv'
+  - ' M catalogs/ui_action_matrix.csv'
+  - ' M catalogs/ui_page_fields.csv'
+  - ' M catalogs/ui_page_specifications.csv'
+  - ' M catalogs/ui_page_states.csv'
+  - ' M catalogs/ui_visual_acceptance.csv'
+  - ' M contracts/admin-openapi.yaml'
+  - ' M contracts/contract_status.csv'
+  - ' M contracts/openapi.yaml'
+  - ' M docs/02-ui/page-specs/admin/ADM-ORDER-001_订单列表.md'
+  - ' M docs/02-ui/page-specs/admin/ADM-PROD-001_商品与SKU.md'
+  - ' M docs/02-ui/page-specs/android/SCR-ORDER-001_订单列表.md'
+  - ' M docs/02-ui/page-specs/android/SCR-ORDER-002_订单详情.md'
+  - ' M packages/api-client/src/admin.generated.ts'
+  - ' M packages/api-client/src/client.generated.ts'
+  - ' M releases/R16/DEFINITION_OF_READY.yaml'
+  - ' M releases/R16/RELEASE_MANIFEST.yaml'
+  - ' M releases/R16/STORIES.yaml'
+  - ' M scripts/generate_contracts.py'
+  - ' M services/backend/boot/src/main/resources/contracts/admin-openapi.yaml'
+  - ' M services/backend/boot/src/main/resources/contracts/openapi.yaml'
+  - ?? .continuity/change_requests/CR-0440.yaml
+  - ?? .continuity/checkpoints/SES-20260728T091447Z-9A245BB4/0001.yaml
+  - ?? .continuity/sessions/SES-20260728T091447Z-9A245BB4.yaml
+  - ?? artifacts/reports/R16/TASK-R16-001-entry-baseline.md
+  - ?? artifacts/validation/r16-entry/entry-contract.json
+  - ?? design/R16-UI-FROZEN/VISUAL_COVERAGE_AUDIT.md
+  - ?? design/R16-UI-FROZEN/specs/ADM-ORDER-001.md
+  - ?? design/R16-UI-FROZEN/specs/SCR-ORDER-001.md
+  - ?? design/R16-UI-FROZEN/specs/SCR-ORDER-002.md
+  - ?? docs/03-continuity/change-requests/CR-0440-建立R16显式商品订单合同与三页视觉施工基线.md
+  - ?? docs/03-continuity/sessions/2026-07/SES-20260728T091447Z-9A245BB4.md
+  - ?? scripts/check_r16_entry_contract.py
   recent_commits:
+  - "7a14540402771055a4ffb770c0210c84428947f7\t2026-07-28T17:12:51+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(continuity): close TASK-R14-004\
+    \ as blocked"
   - "4d6ab2f9d9bf3e962c1787ff9a4ea6df33078bba\t2026-07-28T17:08:37+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(governance): close async\
     \ apk projection"
   - "5502ad81ba09c6530812ea04f58d6b67f71f0d10\t2026-07-28T17:06:25+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(continuity): project\
@@ -273,17 +846,173 @@ git:
     \ r14 apk route"
   - "ca5766600937e1bed056210b8579ee7f8269561b\t2026-07-28T16:16:51+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(android): align test\
     \ apk version identity"
-  - "25d9eb44f328e57d4326a9d3d08f018fa3bc0bec\t2026-07-28T16:01:06+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] test(staging): archive realtime\
-    \ acceptance"
 project_fingerprint:
-  sha256: 01a7525ca53bd4e8c74854c7677cbabd79654ef6ba5391b24131d3540f5d22a2
-  files: []
-  file_count: 0
+  sha256: 2f10cf7627e1c59b88a64968ef47cb68381f159303ff139ae7c6735c93cc2b0c
+  files:
+  - CHANGELOG.md
+  - apps/admin-web/src/generated/admin-pages.json
+  - catalogs/admin_page_operation_specs.csv
+  - catalogs/frontend_backend_matrix.csv
+  - catalogs/screen_visual_binding.csv
+  - catalogs/ui_action_matrix.csv
+  - catalogs/ui_page_fields.csv
+  - catalogs/ui_page_specifications.csv
+  - catalogs/ui_page_states.csv
+  - catalogs/ui_visual_acceptance.csv
+  - contracts/admin-openapi.yaml
+  - contracts/contract_status.csv
+  - contracts/openapi.yaml
+  - design/R16-UI-FROZEN/VISUAL_COVERAGE_AUDIT.md
+  - design/R16-UI-FROZEN/specs/ADM-ORDER-001.md
+  - design/R16-UI-FROZEN/specs/SCR-ORDER-001.md
+  - design/R16-UI-FROZEN/specs/SCR-ORDER-002.md
+  - docs/02-ui/page-specs/admin/ADM-ORDER-001_订单列表.md
+  - docs/02-ui/page-specs/admin/ADM-PROD-001_商品与SKU.md
+  - docs/02-ui/page-specs/android/SCR-ORDER-001_订单列表.md
+  - docs/02-ui/page-specs/android/SCR-ORDER-002_订单详情.md
+  - docs/03-continuity/change-requests/CR-0440-建立R16显式商品订单合同与三页视觉施工基线.md
+  - packages/api-client/src/admin.generated.ts
+  - packages/api-client/src/client.generated.ts
+  - releases/R16/DEFINITION_OF_READY.yaml
+  - releases/R16/RELEASE_MANIFEST.yaml
+  - releases/R16/STORIES.yaml
+  - scripts/check_r16_entry_contract.py
+  - scripts/generate_contracts.py
+  - services/backend/boot/src/main/resources/contracts/admin-openapi.yaml
+  - services/backend/boot/src/main/resources/contracts/openapi.yaml
+  file_count: 31
+  payload:
+    base_commit: 7a14540402771055a4ffb770c0210c84428947f7
+    files:
+    - path: CHANGELOG.md
+      state: FILE
+      size: 203095
+      sha256: f80b4ca350a242eaa12286823caad46da830099d826ebb930a38711d21194fe0
+    - path: apps/admin-web/src/generated/admin-pages.json
+      state: FILE
+      size: 57121
+      sha256: fad90f451f8f27966e65f9a82e53af3f5af9d23e8a717592a0c5b7596853b587
+    - path: catalogs/admin_page_operation_specs.csv
+      state: FILE
+      size: 126642
+      sha256: 6465bff6e55815a2c956a399752864f54d0595fd6d6789c7f2de56a04bdb6397
+    - path: catalogs/frontend_backend_matrix.csv
+      state: FILE
+      size: 206117
+      sha256: 7ff2f557e64eceb156524d5196b993acd48d4ff0ddcab8330b22f44290ab1e63
+    - path: catalogs/screen_visual_binding.csv
+      state: FILE
+      size: 15806
+      sha256: 112a13af7f44c59489defd6ea95a9c05ca59705fd0ce25701d120234ce2742a4
+    - path: catalogs/ui_action_matrix.csv
+      state: FILE
+      size: 1419034
+      sha256: 60a42a9a8e6865ad38bd079027bc8c5cf0376abd3c10700d991c6b3a4e65d731
+    - path: catalogs/ui_page_fields.csv
+      state: FILE
+      size: 2864656
+      sha256: 7d8d454b82ff3a19eedf37241ccc39af9eb0f2cfb4cd1be54ac01b28e4c98347
+    - path: catalogs/ui_page_specifications.csv
+      state: FILE
+      size: 293881
+      sha256: 9e20c0f789cb5ed7d56479a7d3f69549288bef140ce1ac36f91bfc7b8acc835f
+    - path: catalogs/ui_page_states.csv
+      state: FILE
+      size: 483294
+      sha256: 6e1db2fbe3500713a11619e25cbea9df56d1c43e1eeb1ebbfd1a868f4b414de6
+    - path: catalogs/ui_visual_acceptance.csv
+      state: FILE
+      size: 71507
+      sha256: 9c8a375f1ba5e2a0ec141f4f6f538ae0e696bd1eb382046d5e83824b0e0bfcf4
+    - path: contracts/admin-openapi.yaml
+      state: FILE
+      size: 857212
+      sha256: d33038a72b60922d243c38f624b3f4f25d7f841c3233b8d091a450d485cabfde
+    - path: contracts/contract_status.csv
+      state: FILE
+      size: 140946
+      sha256: e1d7bc04c15d86f8099f55455b642d3b825b7ed23cc87d0f9b4de56cc444eeda
+    - path: contracts/openapi.yaml
+      state: FILE
+      size: 611319
+      sha256: 81e92293b5663656f6818d9c58a6c629151692278a61021c0996ecb40ed4c901
+    - path: design/R16-UI-FROZEN/VISUAL_COVERAGE_AUDIT.md
+      state: FILE
+      size: 1188
+      sha256: f8ddccf4582ef1c6209d2ea8d2b1802f54a3f148b1293e79c30f1120fd91bda5
+    - path: design/R16-UI-FROZEN/specs/ADM-ORDER-001.md
+      state: FILE
+      size: 1515
+      sha256: 9c8522dea196096d16220052ef2b4c221ae1eccdecc67bc3665c3833c73a31a4
+    - path: design/R16-UI-FROZEN/specs/SCR-ORDER-001.md
+      state: FILE
+      size: 1447
+      sha256: 30c96ae61643015503900f812d28af6dba8fd227c279401284883f6079d0374a
+    - path: design/R16-UI-FROZEN/specs/SCR-ORDER-002.md
+      state: FILE
+      size: 1321
+      sha256: d8986b61d958e18aa5fa675bc5349c4226ac395d28e1b19f78f435fe57e4f5ad
+    - path: docs/02-ui/page-specs/admin/ADM-ORDER-001_订单列表.md
+      state: FILE
+      size: 23349
+      sha256: 16a9e64a1d20af6647edea86434a9f51ca38a111beb35acff5eb79c76ac8ea65
+    - path: docs/02-ui/page-specs/admin/ADM-PROD-001_商品与SKU.md
+      state: FILE
+      size: 38198
+      sha256: 27c8c58a5e66deefacc063574d8fe7fdf12d49453fda1485f0bcc284333cbcbb
+    - path: docs/02-ui/page-specs/android/SCR-ORDER-001_订单列表.md
+      state: FILE
+      size: 16116
+      sha256: 62c9c8c95d36e4887588f0dcaf80b2a9bf0802ff6c5809851ef07bd7b6558615
+    - path: docs/02-ui/page-specs/android/SCR-ORDER-002_订单详情.md
+      state: FILE
+      size: 15420
+      sha256: 589070e9a675c0d2956f2de7f2fce37aaf8adacc6f9908589dfa2314d64e3205
+    - path: docs/03-continuity/change-requests/CR-0440-建立R16显式商品订单合同与三页视觉施工基线.md
+      state: FILE
+      size: 7123
+      sha256: 5a7187df46e1c5cb2f82671c944386b486c0f4f929b9aa9a51c50a87ea3ade4d
+    - path: packages/api-client/src/admin.generated.ts
+      state: FILE
+      size: 888945
+      sha256: acd2311a7f2813bdfd83c26ec63fa45062bbe9fb4e1f8b246bdac5f2fd29464a
+    - path: packages/api-client/src/client.generated.ts
+      state: FILE
+      size: 626293
+      sha256: bd01eb413fd46e453199929b483fb035da17b94bc3daca58d82b22a64ad121bd
+    - path: releases/R16/DEFINITION_OF_READY.yaml
+      state: FILE
+      size: 7576
+      sha256: 9c4c9f85b879fe5b73a85cbea370c773f11e8a302f0570a92cb9916cf5e0805e
+    - path: releases/R16/RELEASE_MANIFEST.yaml
+      state: FILE
+      size: 2899
+      sha256: aaf9a0fb7c89227efe8cd930536d6f0f1a4c3826c52e329922a48bd0bfa6f153
+    - path: releases/R16/STORIES.yaml
+      state: FILE
+      size: 8351
+      sha256: eb3eb2cb6e50133d1a90cef7484759d29e1b739f6876c9cbf50dfc33757cd7fc
+    - path: scripts/check_r16_entry_contract.py
+      state: FILE
+      size: 9398
+      sha256: 0400a5caf3735e1303b3658493f105df7408a46c4ad0593538bdbe985808e954
+    - path: scripts/generate_contracts.py
+      state: FILE
+      size: 99504
+      sha256: f82082f9ae0eca79912accfb9d7b33317f9d2141ce2ebae0ea5cdadae3929ae7
+    - path: services/backend/boot/src/main/resources/contracts/admin-openapi.yaml
+      state: FILE
+      size: 857212
+      sha256: d33038a72b60922d243c38f624b3f4f25d7f841c3233b8d091a450d485cabfde
+    - path: services/backend/boot/src/main/resources/contracts/openapi.yaml
+      state: FILE
+      size: 611319
+      sha256: 81e92293b5663656f6818d9c58a6c629151692278a61021c0996ecb40ed4c901
 release_context:
   RELEASE_MANIFEST.yaml:
     release: R16
     title: 商品、SKU、报价与统一订单
-    status: READY_WHEN_DEPENDENCIES_GREEN
+    status: IMPLEMENTING
     milestone: M2_COMMERCE
     depends_on:
     - R02
@@ -349,6 +1078,13 @@ release_context:
     change_policy: V1.2.2 页面、字段、状态、动作、API、配置和数据目录是唯一事实源；破坏性变更必须CR+版本升级+迁移+消费者兼容窗口
     documentation_baseline: V1.2.2
     document_gap_status: ZERO_BLOCKING_DOCUMENT_GAPS
+    entry_baseline:
+      cr_id: CR-0440
+      status: PASS
+      evidence: artifacts/validation/r16-entry/entry-contract.json
+      report: artifacts/reports/R16/TASK-R16-001-entry-baseline.md
+      contract_rule: R16十接口使用显式商品、SKU和订单资源；禁止oneOf或CommandResultResource回退
+      visual_rule: 三页具备精确或批准补充视觉合同；效果图示例数据与未登记动作全部过滤
     definition_of_ready: releases/R16/DEFINITION_OF_READY.yaml
     story_backlog: releases/R16/STORIES.yaml
     continuity:
@@ -365,6 +1101,22 @@ release_context:
     title: 商品、SKU、报价与统一订单
     status: PASS_DOCUMENTATION_READY
     interpretation: 该结论仅表示开发前文档和施工契约完整；软件编译、运行、供应商联调、压测和上线验收仍在对应实施/退出门禁完成。
+    entry_contract_correction:
+      cr_id: CR-0440
+      verified_at: '2026-07-28'
+      evidence: artifacts/validation/r16-entry/entry-contract.json
+      explicit_resources:
+      - ProductResource
+      - ProductSkuResource
+      - BenefitResource
+      - OrderResource
+      - OrderItemResource
+      - OrderPriceSnapshotResource
+      - NoRefundEvidenceResource
+      visual_contracts:
+      - SCR-ORDER-001=B08/P04
+      - SCR-ORDER-002=SPEC:design/R16-UI-FROZEN/specs/SCR-ORDER-002.md
+      - ADM-ORDER-001=SPEC:design/R16-UI-FROZEN/specs/ADM-ORDER-001.md
     gates:
     - 版本: R16
       门禁ID: R16-DOR-01
@@ -739,7 +1491,7 @@ release_context:
       - 变更必须通过CR，更新唯一事实源并重新生成全部派生目录和哈希
       - 完成Session Log、追踪矩阵、发布证据和下一任务交接
       definition_of_ready: DEFINITION_OF_READY.yaml全部阻断项PASS
-      status: READY_FOR_IMPLEMENTATION
+      status: IMPLEMENTING
   TASKS.yaml:
     release: R16
     title: 商品、SKU、报价与统一订单
@@ -1007,26 +1759,14 @@ repository_transport:
 continuity_state:
   mode: ENFORCED
   protocol_version: '1.0'
-  active_session_id: null
+  active_session_id: SES-20260728T091447Z-9A245BB4
   last_session_id: SES-20260727T221444Z-FD353AD3
   last_session_result: BLOCKED
   last_closure_checkpoint_id: CP-SES-20260727T221444Z-FD353AD3-0043
-  event_count: 4189
-  event_head_hash: 993aa8b844df899004006241250b73e16a7baeccf1d0c7bbabc1e8a1bc820083
+  event_count: 4198
+  event_head_hash: 9ddf0cc5e448a58f28b38d7f2046889fd971d54a352762cb9c9844d1debe6bf2
   event_chain_valid: true
 recent_sessions:
-- session_id: SES-20260726T123133Z-63E93B88
-  task_id: TASK-R13-003
-  story_id: STORY-R13-003
-  actor_id: codex-root-r13-backend-20260726
-  status: CLOSED
-  started_at: '2026-07-26T12:31:33Z'
-  record: .continuity/sessions/SES-20260726T123133Z-63E93B88.yaml
-  session_log: docs/03-continuity/sessions/2026-07/SES-20260726T123133Z-63E93B88.md
-  updated_at: '2026-07-26T13:33:35Z'
-  closed_at: '2026-07-26T13:33:35Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260726T123133Z-63E93B88/0004.yaml
-  handoff_bundle: null
 - session_id: SES-20260726T134047Z-F9A80405
   task_id: TASK-R13-004
   story_id: STORY-R13-002
@@ -1135,47 +1875,19 @@ recent_sessions:
   closed_at: '2026-07-28T09:10:08Z'
   latest_checkpoint: .continuity/checkpoints/SES-20260727T221444Z-FD353AD3/0043.yaml
   handoff_bundle: null
+- session_id: SES-20260728T091447Z-9A245BB4
+  task_id: TASK-R16-001
+  story_id: STORY-R16-004
+  actor_id: codex-root-r16-entry-20260728
+  status: ACTIVE
+  started_at: '2026-07-28T09:14:47Z'
+  record: .continuity/sessions/SES-20260728T091447Z-9A245BB4.yaml
+  session_log: docs/03-continuity/sessions/2026-07/SES-20260728T091447Z-9A245BB4.md
+  updated_at: '2026-07-28T09:42:26Z'
+  closed_at: null
+  latest_checkpoint: .continuity/checkpoints/SES-20260728T091447Z-9A245BB4/0001.yaml
+  handoff_bundle: null
 task_claims:
-- claim_id: CLM-1B86680BE956
-  session_id: SES-20260724T195501Z-13F8DFDE
-  task_id: TASK-R12-002
-  story_id: STORY-R12-008
-  actor_id: codex-root-r12-data
-  status: ABANDONED
-  claimed_at: '2026-07-24T19:55:01Z'
-  allowed_paths:
-  - apps/**
-  - services/**
-  - packages/**
-  - contracts/**
-  - database/**
-  - config/**
-  - catalogs/**
-  - tests/**
-  - infra/**
-  - design/**
-  - docs/**
-  - releases/**
-  - scripts/**
-  - templates/**
-  - .github/**
-  - .githooks/**
-  - .codex/**
-  - AGENTS.md
-  - START_HERE.md
-  - README.md
-  - CHANGELOG.md
-  - Makefile
-  - .gitignore
-  - .gitattributes
-  - .dockerignore
-  - package.json
-  - pnpm-lock.yaml
-  - pnpm-workspace.yaml
-  - requirements-dev.txt
-  - PROJECT_*.yaml
-  - PROJECT_*.json
-  closed_at: '2026-07-24T23:57:48Z'
 - claim_id: CLM-4F63CAEC90C0
   session_id: SES-20260724T235749Z-6EC9DB09
   task_id: TASK-R12-002
@@ -1907,17 +2619,54 @@ task_claims:
   - releases/R14/**
   updated_at: '2026-07-28T02:20:00Z'
   closed_at: '2026-07-28T09:10:08Z'
+- claim_id: CLM-EBF33A9F8EC9
+  session_id: SES-20260728T091447Z-9A245BB4
+  task_id: TASK-R16-001
+  story_id: STORY-R16-004
+  actor_id: codex-root-r16-entry-20260728
+  status: ACTIVE
+  claimed_at: '2026-07-28T09:14:47Z'
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  - releases/R16/**
+  - design/R16-UI-FROZEN/**
+  - docs/02-ui/**
+  - docs/03-continuity/**
+  - artifacts/reports/R16/**
+  - artifacts/validation/r16-entry/**
+  - PROJECT_BASELINE.yaml
+  - PROJECT_BASELINE.json
 recent_task_transitions:
-- transition_id: TRN-684AB934BA4C
-  timestamp: '2026-07-24T19:55:03Z'
-  release: R12
-  task_id: TASK-R12-002
-  story_id: STORY-R12-008
-  from_status: READY
-  to_status: IN_PROGRESS
-  session_id: SES-20260724T195501Z-13F8DFDE
-  actor_id: codex-root-r12-data
-  reason: 会话领取任务
 - transition_id: TRN-B689C4DB262F
   timestamp: '2026-07-24T23:57:51Z'
   release: R12
@@ -2107,6 +2856,16 @@ recent_task_transitions:
   to_status: IN_PROGRESS
   session_id: SES-20260727T221444Z-FD353AD3
   actor_id: codex-root-r14-client-20260728
+  reason: 会话领取任务
+- transition_id: TRN-0D8FF57BDAA6
+  timestamp: '2026-07-28T09:14:50Z'
+  release: R16
+  task_id: TASK-R16-001
+  story_id: STORY-R16-004
+  from_status: READY
+  to_status: IN_PROGRESS
+  session_id: SES-20260728T091447Z-9A245BB4
+  actor_id: codex-root-r16-entry-20260728
   reason: 会话领取任务
 open_change_requests:
 - protocol_version: '1.0'
@@ -13737,6 +14496,104 @@ open_change_requests:
   - SES-20260727T221444Z-FD353AD3
   implementation_commits:
   - 987bf263
+- protocol_version: '1.0'
+  cr_id: CR-0440
+  title: 建立R16显式商品订单合同与三页视觉施工基线
+  status: IMPLEMENTED
+  created_at: '2026-07-28T09:21:35Z'
+  updated_at: '2026-07-28T09:41:58Z'
+  requester_actor_id: codex-root-r16-entry-20260728
+  approver_actor_id: codex-r16-entry-independent-review-20260728
+  task_id: TASK-R16-001
+  session_id: SES-20260728T091447Z-9A245BB4
+  user_request: 严格按完整开发文档逐一落地功能；所有页面肉眼接近效果图的丰富度和精致度，效果图虚构内容不得进入功能；持续推进开发且不等待邀请码注册问题
+  reason: R16 DoR声称页面和契约无TBD，但当前后台订单错误返回CommandResultResource、SKU错误返回ProductResource、商品和SKU写响应存在oneOf歧义，三张R16页面缺少可执行视觉合同，无法支撑真实后端字段和效果图级UI施工
+  original_rule: R16 DoR将十个API与三张页面标为可实施，但通用生成规则按模块粗映射：SKU列表复用ProductResource，后台订单返回CommandResultResource，四个商品/SKU写响应允许业务资源或命令结果二选一；SCR-ORDER-001、SCR-ORDER-002仅笼统绑定B08全部八面板，ADM-ORDER-001仅TOKENS_ONLY，页面状态、动作和前后端矩阵继续投影旧类型。
+  new_rule: 在R16-002持久化前冻结完整显式合同。ProductResource={id,productCode,name,productType,description?,displayOrder?,status,skus:ProductSkuResource[],version}；ProductSkuResource={id,productId,skuCode,name,priceCent,memberPriceCent?,durationDays?,benefits:BenefitResource[],commissionEnabled,level1Bps?,level2Bps?,saleStartsAt?,saleEndsAt?,status,version}；BenefitResource严格复用R12的{benefitCode,name,value:JsonValue,unit?}。OrderItemResource={skuId?,itemName,quantity>=1,unitPriceCent,subtotalAmountCent}；OrderPriceSnapshotResource={originalAmountCent,discountAmountCent,serviceFeeCent,payableAmountCent,ruleVersions:string[]}；NoRefundEvidenceResource={confirmed,agreementVersion,confirmedAt?}；OrderResource={orderNo,userId,orderType,status:ORDER_STATUS,currency,items,priceSnapshot,noRefundEvidence,paidAmountCent?,createdAt,paidAt?,version}。所有商品接口只返回ProductResource，SKU只返回ProductSkuResource，客户端与后台订单只返回OrderResource，写响应禁用oneOf/CommandResultResource。未冻结商品/SKU状态枚举继续使用受限string而不得臆造枚举。SCR-ORDER-001只精确绑定B08/P04；SCR-ORDER-002和ADM-ORDER-001分别绑定自己的批准补充规格。B08/P04仅提供订单视觉结构，示例订单号、金额、商品内容、联系客服以及任何未登记动作全部过滤。
+  impact_summary: 修正R16资源类型、字段、必填/可空边界、ORDER_STATUS枚举投影和三页视觉事实源；同步契约哈希、页面字段、状态、动作、前后端矩阵、未来R30商品后台字段以及生成客户端，增加R16入口门禁。不得增加退款、客服、支付、示例商品或其他未登记能力。
+  impact:
+    files:
+    - scripts/generate_contracts.py
+    - scripts/check_r16_entry_contract.py
+    - contracts/openapi.yaml
+    - contracts/admin-openapi.yaml
+    - contracts/contract_status.csv
+    - services/backend/boot/src/main/resources/contracts/openapi.yaml
+    - services/backend/boot/src/main/resources/contracts/admin-openapi.yaml
+    - packages/api-client/src/client.generated.ts
+    - packages/api-client/src/admin.generated.ts
+    - catalogs/ui_page_fields.csv
+    - catalogs/ui_page_states.csv
+    - catalogs/ui_action_matrix.csv
+    - catalogs/admin_page_operation_specs.csv
+    - catalogs/ui_page_specifications.csv
+    - catalogs/frontend_backend_matrix.csv
+    - catalogs/screen_visual_binding.csv
+    - catalogs/ui_visual_acceptance.csv
+    - design/R16-UI-FROZEN/VISUAL_COVERAGE_AUDIT.md
+    - design/R16-UI-FROZEN/specs/SCR-ORDER-001.md
+    - design/R16-UI-FROZEN/specs/SCR-ORDER-002.md
+    - design/R16-UI-FROZEN/specs/ADM-ORDER-001.md
+    - docs/02-ui/page-specs/android/SCR-ORDER-001_订单列表.md
+    - docs/02-ui/page-specs/android/SCR-ORDER-002_订单详情.md
+    - docs/02-ui/page-specs/admin/ADM-ORDER-001_订单列表.md
+    - docs/02-ui/page-specs/admin/ADM-PROD-001_商品与SKU.md
+    - releases/R16/DEFINITION_OF_READY.yaml
+    - releases/R16/RELEASE_MANIFEST.yaml
+    - releases/R16/STORIES.yaml
+    - artifacts/validation/r16-entry/entry-contract.json
+    - artifacts/reports/R16/TASK-R16-001-entry-baseline.md
+    - CHANGELOG.md
+    pages:
+    - SCR-ORDER-001
+    - SCR-ORDER-002
+    - ADM-ORDER-001
+    - ADM-PROD-001
+    apis:
+    - GET /api/v1/me/orders
+    - GET /api/v1/me/orders/{orderNo}
+    - GET /admin-api/v1/products
+    - POST /admin-api/v1/products
+    - PATCH /admin-api/v1/products/{id}
+    - GET /admin-api/v1/skus
+    - POST /admin-api/v1/skus
+    - PATCH /admin-api/v1/skus/{id}
+    - GET /admin-api/v1/orders
+    - GET /admin-api/v1/orders/{orderNo}
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - python scripts/check_r16_entry_contract.py
+    - python scripts/check_ui_visual_acceptance.py --release R16 --catalog-only
+    - python scripts/check_v122_documentation.py --release R16
+    - python scripts/check_api_contract.py
+    - python scripts/check_generated_assets.py
+    - python scripts/check_release_artifacts.py --release R16
+    releases:
+    - R16
+    - R30
+    migration_and_compatibility: R16尚无运行时消费者，歧义合同在首次实现前纠偏。R16-002仅按本CR做向前数据库迁移与历史空值兼容，不再决定API字段。旧迁移不改写；旧记录的memberPrice、销售时段或不退款确认缺失时返回null/confirmed=false并在UI明确降级，禁止伪造。商品/SKU状态仍为受限string，待独立权威枚举CR后才可收窄。
+  user_confirmation: 项目所有者已明确要求功能逐一对应完整开发文档、UI接近效果图但禁止虚构内容，并授权持续推进开发。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-28T09:29:40Z'
+    note: 独立复审确认显式合同已冻结必要字段/类型/可空边界，影响文件与兼容策略完整；B08/P04仅作为列表视觉结构并过滤示例内容与未授权动作，详情和后台各自补充规格。
+  machine_record: .continuity/change_requests/CR-0440.yaml
+  document: docs/03-continuity/change-requests/CR-0440-建立R16显式商品订单合同与三页视觉施工基线.md
+  decision_log:
+  - at: '2026-07-28T09:41:52Z'
+    actor_id: codex-root-r16-entry-20260728
+    status: IMPLEMENTING
+    note: 独立审批后按精确范围实施R16显式合同与三页视觉施工基线
+    session_id: SES-20260728T091447Z-9A245BB4
+  - at: '2026-07-28T09:41:58Z'
+    actor_id: codex-root-r16-entry-20260728
+    status: IMPLEMENTED
+    note: 十接口显式Product/ProductSku/Order合同、结构化权益、订单项/价格快照/不退款证据、三页视觉合同及全部目录派生资产已落地；R16入口、视觉目录、文档、API、运行时副本、生成资产和Release artifacts门禁全部PASS。admin-pages.json为admin_page_operation_specs的确定性派生产物并已同步复验。
+    session_id: SES-20260728T091447Z-9A245BB4
+  session_ids:
+  - SES-20260728T091447Z-9A245BB4
 source_manifest:
 - path: AGENTS.md
   sha256: e9f1cf3739a97b47a4de96166ebd17eb2206b7231adb22dbfa23f7687c9809bc
@@ -13745,8 +14602,8 @@ source_manifest:
   sha256: 22de14029ce47beb41ea569e36ce223fbc9d11b86f8676f28d5fbbd83896af5c
   bytes: 4556
 - path: CURRENT_STATUS.yaml
-  sha256: be9af23bbbefb82fe2bc8c8f1518c37f8d04a49ec81c0a9239f84d93573381ce
-  bytes: 4527
+  sha256: 44a18ef9d60b439b97ad1ce675b1e3296cf4d650029158202736bd18c19f7c76
+  bytes: 4686
 - path: NEXT_TASK.yaml
   sha256: 004c842d882597032ec61704b215cbd7a5b6bcc0619836aacc9ca37063f69091
   bytes: 2572
@@ -13778,23 +14635,23 @@ source_manifest:
   sha256: 38e04ed812c8df0d353c2b91993d31e53b471e9c457f06b426bd2260c470aa92
   bytes: 13936
 - path: .continuity/EVENT_LOG.jsonl
-  sha256: db2fb1e53faef69d72e12148a549009a22645a80a70d2947c9c33ed0ce5708f4
-  bytes: 2387299
+  sha256: d61b7360d72207734967d7d74285fdb78bad48ac06e32b7257b642d66c2230fd
+  bytes: 2394978
 - path: .continuity/SESSION_INDEX.yaml
-  sha256: 7dede97e97efe0456a01a25a3636de0a4d49cee2100881e47743ad70ea6dac3a
-  bytes: 61658
+  sha256: feac757c5df8c6f82640b09e71b0db9330b704300bcd8763aff5e62cd69d3697
+  bytes: 62161
 - path: .continuity/TASK_CLAIMS.yaml
-  sha256: 83c339f41ada9545cd986153b85fa8c89ca3d75374a817e4370e0b50890dcd9b
-  bytes: 86980
+  sha256: 392517ed151deaa97edfbfaccd68339adb2ef1925579a8dc09e9096065f3997a
+  bytes: 87931
 - path: .continuity/TASK_TRANSITIONS.yaml
-  sha256: 29bc240c8b0452ec63c5d64f31fa5d2a7e5d804b95c92b238be5a8769734a138
-  bytes: 35077
+  sha256: ed8c28aaa13958d27c0cbbcdcb72aeae4821ce39bd8b73050254819e8edad6f5
+  bytes: 35373
 - path: .continuity/CHANGE_REQUEST_INDEX.yaml
-  sha256: 9502498ef0e4764bfce9a4b2b7163e384b04174ec0fee38f3451afa9d5e40b52
-  bytes: 1593048
+  sha256: 15d04b0f3d0846bb64693760004d68ba3e199f264473e9b6617aad197cc8505b
+  bytes: 1600323
 - path: .continuity/ACTIVE_SESSION.yaml
-  sha256: 590dcdfcb02b9dea639b9a3e1c2ee9db5f43396611f46b8d0e5f9373c92c572b
-  bytes: 143
+  sha256: c48d38dcb2d25b1744fad1b26ff735db54cbb2f7303286bb7db843e08d1ac953
+  bytes: 544
 - path: docs/00-baseline/正式商业系统全局硬性开发边界.md
   sha256: d8a77eddf520659b1d6b57e16ecc0739fa93dbd39cf9903dbaf798fc631ae6fe
   bytes: 13718
@@ -13808,20 +14665,29 @@ source_manifest:
   sha256: 1b73841ee01e9ae9d3c3beea35ef1874ad6b2049d0c15423119f03f0a998b3f1
   bytes: 18013
 - path: releases/R16/RELEASE_MANIFEST.yaml
-  sha256: a08c742672392e9740558f36b87f5cf46be97da75ba942811e3be393ebc3d591
-  bytes: 2514
+  sha256: aaf9a0fb7c89227efe8cd930536d6f0f1a4c3826c52e329922a48bd0bfa6f153
+  bytes: 2899
 - path: releases/R16/DEFINITION_OF_READY.yaml
-  sha256: 549ee3d5d4a26ee0ac74391141a5df8ba9d58c5eae10ca3594d756a63532b40a
-  bytes: 7076
+  sha256: 9c4c9f85b879fe5b73a85cbea370c773f11e8a302f0570a92cb9916cf5e0805e
+  bytes: 7576
 - path: releases/R16/STORIES.yaml
-  sha256: da48d7a3c3602f820fe1b5599f89c35d9617b58d6cee191362e00b583bcc1b03
-  bytes: 8363
+  sha256: eb3eb2cb6e50133d1a90cef7484759d29e1b739f6876c9cbf50dfc33757cd7fc
+  bytes: 8351
 - path: releases/R16/TASKS.yaml
   sha256: d8ca6296524bf8ae6993ed81c532c7f22abbc3c1232c4e2767b86c7341b841ce
   bytes: 5601
 - path: releases/R16/ACCEPTANCE_MATRIX.csv
   sha256: 6c6b0104146b52bb78d72e9f0db5b389d43dc5fc1fdf8fa054437b4150452625
   bytes: 684
+- path: docs/03-continuity/sessions/2026-07/SES-20260728T091447Z-9A245BB4.md
+  sha256: 434d5998c12dda2bb3db110a7ef733dd72998269aacee78a9cbf2fd88a3114fe
+  bytes: 4694
+- path: .continuity/checkpoints/SES-20260728T091447Z-9A245BB4/0001.yaml
+  sha256: fa85619218a29a980ca2f0a13fdae61d382346988439db54977c1a8a0b87287e
+  bytes: 17351
+- path: docs/03-continuity/change-requests/CR-0440-建立R16显式商品订单合同与三页视觉施工基线.md
+  sha256: 5a7187df46e1c5cb2f82671c944386b486c0f4f929b9aa9a51c50a87ea3ade4d
+  bytes: 7123
 rule_readiness:
   status: PASS
   evidence: HASHED_CONTEXT_MANIFEST
@@ -13841,7 +14707,8 @@ rule_readiness:
   - docs/03-continuity/PITFALLS.md
   - docs/09-development/统一开发与交付效率规范.md
   missing_sources: []
-exact_resume_command: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R16-001
+exact_resume_command: python3 scripts/continuity.py checkpoint --summary '<完成内容>' --next-step '<下一步>' --parallel-assessment <ASSESSMENT> --parallel-reason
+  '<未委托原因>'
 hard_rules:
 - 不得依赖旧对话补充仓库已有需求
 - 未领取任务和会话不得编辑项目文件
@@ -13856,4 +14723,4 @@ hard_rules:
 - 除非项目所有者明确报告未连接，默认Codex已连接obx-test且既有项目环境可用；预检失败必须阻断并报告
 - 禁止以无服务器状态继续开发或重建本地Android SDK，必须复用登记的远端镜像和Gradle缓存
 - Git remote/upstream仅按tracked transport descriptor受控恢复；推送前必须预检且禁止force push
-context_hash: b689382cfd4c6f23851217f963bef9f1a81c31b911bbedfc23a566cae42f0722
+context_hash: 7098a3d0555a391725c5174ecb4890a37c127019fd93f9c2f5324dac84e80378

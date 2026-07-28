@@ -3059,20 +3059,18 @@ export interface components {
         };
         OrderResource: {
             orderNo: string;
-            userId?: string;
+            userId: string;
             orderType: string;
-            status: string;
+            /** @enum {string} */
+            status: "PENDING_PAYMENT" | "PAYMENT_PROCESSING" | "PAID" | "FULFILLING" | "COMPLETED" | "PAYMENT_FAILED" | "CLOSED" | "CHANNEL_REVERSAL";
             currency: string;
-            /** Format: int64 */
-            originalAmountCent?: number;
-            /** Format: int64 */
-            discountAmountCent?: number;
-            /** Format: int64 */
-            payableAmountCent: number;
+            items: components["schemas"]["OrderItemResource"][];
+            priceSnapshot: components["schemas"]["OrderPriceSnapshotResource"];
+            noRefundEvidence: components["schemas"]["NoRefundEvidenceResource"];
             /** Format: int64 */
             paidAmountCent?: number;
             /** Format: date-time */
-            createdAt?: string;
+            createdAt: string;
             /** Format: date-time */
             paidAt?: string;
             /** Format: int64 */
@@ -3270,18 +3268,12 @@ export interface components {
             id: string;
             productCode: string;
             name: string;
-            productType?: string;
+            productType: string;
+            description?: string;
+            /** Format: int32 */
+            displayOrder?: number;
             status: string;
-            skus?: {
-                id: string;
-                skuCode: string;
-                name: string;
-                /** Format: int64 */
-                priceCent: number;
-                /** Format: int64 */
-                durationDays?: number;
-                status: string;
-            }[];
+            skus: components["schemas"]["ProductSkuResource"][];
             /** Format: int64 */
             version: number;
         };
@@ -4309,7 +4301,9 @@ export interface components {
             name: string;
             productType: string;
             description?: string;
-            status?: string;
+            /** Format: int32 */
+            displayOrder?: number;
+            status: string;
         };
         AdminProductsPostProductsResponse: {
             /** @constant */
@@ -4317,11 +4311,14 @@ export interface components {
             requestId: string;
             /** Format: date-time */
             timestamp?: string;
-            data: components["schemas"]["ProductResource"] | components["schemas"]["CommandResultResource"];
+            data: components["schemas"]["ProductResource"];
         };
         AdminProductsPatchProductsByIdRequest: {
             name?: string;
+            productType?: string;
             description?: string;
+            /** Format: int32 */
+            displayOrder?: number;
             status?: string;
             /** Format: int64 */
             expectedVersion: number;
@@ -4332,7 +4329,7 @@ export interface components {
             requestId: string;
             /** Format: date-time */
             timestamp?: string;
-            data: components["schemas"]["ProductResource"] | components["schemas"]["CommandResultResource"];
+            data: components["schemas"]["ProductResource"];
         };
         AdminProductsGetSkusResponse: {
             /** @constant */
@@ -4341,7 +4338,7 @@ export interface components {
             /** Format: date-time */
             timestamp?: string;
             data: {
-                items: components["schemas"]["ProductResource"][];
+                items: components["schemas"]["ProductSkuResource"][];
                 page: components["schemas"]["PageMeta"];
             };
         };
@@ -4372,11 +4369,18 @@ export interface components {
             /** Format: int64 */
             priceCent: number;
             /** Format: int64 */
+            memberPriceCent?: number;
+            /** Format: int64 */
             durationDays?: number;
-            benefits?: {
-                [key: string]: components["schemas"]["JsonValue"];
-            };
-            status?: string;
+            benefits: components["schemas"]["BenefitResource"][];
+            commissionEnabled: boolean;
+            level1Bps?: number;
+            level2Bps?: number;
+            /** Format: date-time */
+            saleStartsAt?: string;
+            /** Format: date-time */
+            saleEndsAt?: string;
+            status: string;
         };
         AdminProductsPostSkusResponse: {
             /** @constant */
@@ -4384,17 +4388,24 @@ export interface components {
             requestId: string;
             /** Format: date-time */
             timestamp?: string;
-            data: components["schemas"]["ProductResource"] | components["schemas"]["CommandResultResource"];
+            data: components["schemas"]["ProductSkuResource"];
         };
         AdminProductsPatchSkusByIdRequest: {
             name?: string;
             /** Format: int64 */
             priceCent?: number;
             /** Format: int64 */
+            memberPriceCent?: number;
+            /** Format: int64 */
             durationDays?: number;
-            benefits?: {
-                [key: string]: components["schemas"]["JsonValue"];
-            };
+            benefits?: components["schemas"]["BenefitResource"][];
+            commissionEnabled?: boolean;
+            level1Bps?: number;
+            level2Bps?: number;
+            /** Format: date-time */
+            saleStartsAt?: string;
+            /** Format: date-time */
+            saleEndsAt?: string;
             status?: string;
             /** Format: int64 */
             expectedVersion: number;
@@ -4405,7 +4416,7 @@ export interface components {
             requestId: string;
             /** Format: date-time */
             timestamp?: string;
-            data: components["schemas"]["ProductResource"] | components["schemas"]["CommandResultResource"];
+            data: components["schemas"]["ProductSkuResource"];
         };
         AdminOrdersGetOrdersResponse: {
             /** @constant */
@@ -4414,7 +4425,7 @@ export interface components {
             /** Format: date-time */
             timestamp?: string;
             data: {
-                items: components["schemas"]["CommandResultResource"][];
+                items: components["schemas"]["OrderResource"][];
                 page: components["schemas"]["PageMeta"];
             };
         };
@@ -4444,7 +4455,7 @@ export interface components {
             requestId: string;
             /** Format: date-time */
             timestamp?: string;
-            data: components["schemas"]["CommandResultResource"];
+            data: components["schemas"]["OrderResource"];
         };
         AdminOrdersGetOrdersByOrdernoParameters: {
             /** @description 路径资源标识：orderNo */
@@ -6924,6 +6935,61 @@ export interface components {
             /** Format: date-time */
             timestamp?: string;
             data: components["schemas"]["SigningProfileResource"] | components["schemas"]["CommandResultResource"];
+        };
+        BenefitResource: {
+            benefitCode: string;
+            name: string;
+            value: components["schemas"]["JsonValue"];
+            unit?: string;
+        };
+        ProductSkuResource: {
+            id: string;
+            productId: string;
+            skuCode: string;
+            name: string;
+            /** Format: int64 */
+            priceCent: number;
+            /** Format: int64 */
+            memberPriceCent?: number;
+            /** Format: int64 */
+            durationDays?: number;
+            benefits: components["schemas"]["BenefitResource"][];
+            commissionEnabled: boolean;
+            level1Bps?: number;
+            level2Bps?: number;
+            /** Format: date-time */
+            saleStartsAt?: string;
+            /** Format: date-time */
+            saleEndsAt?: string;
+            status: string;
+            /** Format: int64 */
+            version: number;
+        };
+        OrderItemResource: {
+            skuId?: string;
+            itemName: string;
+            quantity: number;
+            /** Format: int64 */
+            unitPriceCent: number;
+            /** Format: int64 */
+            subtotalAmountCent: number;
+        };
+        OrderPriceSnapshotResource: {
+            /** Format: int64 */
+            originalAmountCent: number;
+            /** Format: int64 */
+            discountAmountCent: number;
+            /** Format: int64 */
+            serviceFeeCent: number;
+            /** Format: int64 */
+            payableAmountCent: number;
+            ruleVersions: string[];
+        };
+        NoRefundEvidenceResource: {
+            confirmed: boolean;
+            agreementVersion: string;
+            /** Format: date-time */
+            confirmedAt?: string;
         };
         /** @description 仅用于扩展属性的标量值；核心业务字段不得依赖自由结构。 */
         JsonScalar: string | number | boolean | null;

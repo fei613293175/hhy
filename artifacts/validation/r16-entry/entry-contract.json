@@ -1,0 +1,35 @@
+{
+  "status": "PASS",
+  "release": "R16",
+  "cr": "CR-0440",
+  "verified_at": "2026-07-28T09:41:13.950135+00:00",
+  "contracts": {
+    "client_sha256": "81e92293b5663656f6818d9c58a6c629151692278a61021c0996ecb40ed4c901",
+    "admin_sha256": "d33038a72b60922d243c38f624b3f4f25d7f841c3233b8d091a450d485cabfde",
+    "explicit_resources": [
+      "BenefitResource",
+      "NoRefundEvidenceResource",
+      "OrderItemResource",
+      "OrderPriceSnapshotResource",
+      "OrderResource",
+      "ProductResource",
+      "ProductSkuResource"
+    ],
+    "explicit_responses": 10
+  },
+  "visual_contracts": {
+    "SCR-ORDER-001": [
+      "B08/P04",
+      "EXACT"
+    ],
+    "SCR-ORDER-002": [
+      "SPEC:design/R16-UI-FROZEN/specs/SCR-ORDER-002.md",
+      "APPROVED_SUPPLEMENT"
+    ],
+    "ADM-ORDER-001": [
+      "SPEC:design/R16-UI-FROZEN/specs/ADM-ORDER-001.md",
+      "APPROVED_SUPPLEMENT"
+    ]
+  },
+  "errors": []
+}

@@ -44,13 +44,25 @@
 | FLD-02960 | 表单输入 | status | 状态 | INPUT | string | TEXT_INPUT | adminOrdersGetOrders.request | 可选；按业务条件或页面状态决定 | 执行“订单列表”且字段适用时显示 | 具备 order.read 且资源状态允许 | 最多64字符 | NORMAL | 无需特殊掩码；仍遵守最小展示 | 状态不符合要求 |
 | FLD-02961 | 表单输入 | keyword | 关键词 | INPUT | string | TEXT_INPUT | adminOrdersGetOrders.request | 可选；按业务条件或页面状态决定 | 执行“订单列表”且字段适用时显示 | 具备 order.read 且资源状态允许 | 最多100字符 | NORMAL | 无需特殊掩码；仍遵守最小展示 | 关键词不符合要求 |
 | FLD-02962 | 表单输入 | sort | 排序 | INPUT | string | TEXT_INPUT | adminOrdersGetOrders.request | 可选；按业务条件或页面状态决定 | 执行“订单列表”且字段适用时显示 | 具备 order.read 且资源状态允许 | 最多64字符 | NORMAL | 无需特殊掩码；仍遵守最小展示 | 排序不符合要求 |
-| FLD-02963 | 主要内容 | resourceId | resource Id | DISPLAY | string | TEXT | adminOrdersGetOrders.response.data.CommandResultResource | 服务端返回时展示 | 有值且当前角色拥有字段访问权限 | 只读；通过明确写操作更新 | 最多64字符 | NORMAL | 无需特殊掩码；仍遵守最小展示 | resource Id加载失败时显示字段级占位或隐藏 |
-| FLD-02964 | 主要内容 | businessNo | business No | DISPLAY | string | TEXT | adminOrdersGetOrders.response.data.CommandResultResource | 服务端返回时展示 | 有值且当前角色拥有字段访问权限 | 只读；通过明确写操作更新 | 最多2000字符 | NORMAL | 无需特殊掩码；仍遵守最小展示 | business No加载失败时显示字段级占位或隐藏 |
-| FLD-02965 | 主要内容 | status | 状态 | DISPLAY | string | TEXT | adminOrdersGetOrders.response.data.CommandResultResource | 服务端返回时展示 | 有值且当前角色拥有字段访问权限 | 只读；通过明确写操作更新 | 必填；最多2000字符 | NORMAL | 无需特殊掩码；仍遵守最小展示 | 状态加载失败时显示字段级占位或隐藏 |
-| FLD-02966 | 主要内容 | version | 版本 | DISPLAY | integer | NUMBER_TEXT | adminOrdersGetOrders.response.data.CommandResultResource | 服务端返回时展示 | 有值且当前角色拥有字段访问权限 | 只读；通过明确写操作更新 | 格式:int64 | NORMAL | 无需特殊掩码；仍遵守最小展示 | 版本加载失败时显示字段级占位或隐藏 |
-| FLD-02967 | 主要内容 | acceptedAt | accepted At | DISPLAY | string | DATETIME_TEXT | adminOrdersGetOrders.response.data.CommandResultResource | 服务端返回时展示 | 有值且当前角色拥有字段访问权限 | 只读；通过明确写操作更新 | 必填；格式:date-time | NORMAL | 无需特殊掩码；仍遵守最小展示 | accepted At加载失败时显示字段级占位或隐藏 |
+| FLD-02926 | 主要内容 | orderNo | 订单号 | DISPLAY | string | TEXT | adminOrdersGetOrders.response.data.OrderResource | 服务端返回时展示 | 有值且当前角色拥有字段访问权限 | 只读；通过明确写操作更新 | 按显式OpenAPI Schema校验 | NORMAL | 无需特殊掩码；仍遵守最小展示 | 订单号暂时无法显示 |
+| FLD-02927 | 主要内容 | userId | 用户ID | DISPLAY | string | TEXT | adminOrdersGetOrders.response.data.OrderResource | 服务端返回时展示 | 有值且当前角色拥有字段访问权限 | 只读；通过明确写操作更新 | 按显式OpenAPI Schema校验 | NORMAL | 无需特殊掩码；仍遵守最小展示 | 用户ID暂时无法显示 |
+| FLD-02928 | 主要内容 | orderType | 订单类型 | DISPLAY | string | STATUS_TAG | adminOrdersGetOrders.response.data.OrderResource | 服务端返回时展示 | 有值且当前角色拥有字段访问权限 | 只读；通过明确写操作更新 | 按显式OpenAPI Schema校验 | NORMAL | 无需特殊掩码；仍遵守最小展示 | 订单类型暂时无法显示 |
+| FLD-02929 | 主要内容 | status | 订单状态 | DISPLAY | ORDER_STATUS | STATUS_TAG | adminOrdersGetOrders.response.data.OrderResource | 服务端返回时展示 | 有值且当前角色拥有字段访问权限 | 只读；通过明确写操作更新 | 按显式OpenAPI Schema校验 | NORMAL | 无需特殊掩码；仍遵守最小展示 | 订单状态暂时无法显示 |
+| FLD-02930 | 主要内容 | currency | 币种 | DISPLAY | string | TEXT | adminOrdersGetOrders.response.data.OrderResource | 服务端返回时展示 | 有值且当前角色拥有字段访问权限 | 只读；通过明确写操作更新 | 按显式OpenAPI Schema校验 | NORMAL | 无需特殊掩码；仍遵守最小展示 | 币种暂时无法显示 |
 | FLD-02968 | 路由与筛选 | orderNo | order No | PATH_PARAM | string | TEXT_INPUT | adminOrdersGetOrdersByOrderno.path | 必填 | 执行“订单详情”时显示 | 用户具备权限且页面状态允许 | 必填；最少1字符；最多128字符 | NORMAL | 无需特殊掩码；仍遵守最小展示 | order No格式或范围不正确 |
+| FLD-02931 | 主要内容 | items | 订单项 | DISPLAY | OrderItemResource[] | STRUCTURED_LIST | adminOrdersGetOrders.response.data.OrderResource | 服务端返回时展示 | 有值且当前角色拥有字段访问权限 | 只读；通过明确写操作更新 | 按显式OpenAPI Schema校验 | NORMAL | 无需特殊掩码；仍遵守最小展示 | 订单项暂时无法显示 |
 | FLD-02969 | 表单输入 | orderNo | order No | INPUT | string | TEXT_INPUT | adminOrdersGetOrdersByOrderno.request | 必填 | 执行“订单详情”且字段适用时显示 | 具备 order.read 且资源状态允许 | 必填；最少1字符；最多128字符 | NORMAL | 无需特殊掩码；仍遵守最小展示 | order No不符合要求 |
+| FLD-02932 | 主要内容 | priceSnapshot.originalAmountCent | 原价 | DISPLAY | integer | MONEY_CENT | adminOrdersGetOrders.response.data.OrderResource | 服务端返回时展示 | 有值且当前角色拥有字段访问权限 | 只读；通过明确写操作更新 | 按显式OpenAPI Schema校验 | NORMAL | 无需特殊掩码；仍遵守最小展示 | 原价暂时无法显示 |
+| FLD-02963 | 主要内容 | priceSnapshot.discountAmountCent | 优惠金额 | DISPLAY | integer | MONEY_CENT | adminOrdersGetOrders.response.data.OrderResource | 服务端返回时展示 | 有值且当前角色拥有字段访问权限 | 只读；通过明确写操作更新 | 按显式OpenAPI Schema校验 | NORMAL | 无需特殊掩码；仍遵守最小展示 | 优惠金额暂时无法显示 |
+| FLD-02964 | 主要内容 | priceSnapshot.serviceFeeCent | 服务费 | DISPLAY | integer | MONEY_CENT | adminOrdersGetOrders.response.data.OrderResource | 服务端返回时展示 | 有值且当前角色拥有字段访问权限 | 只读；通过明确写操作更新 | 按显式OpenAPI Schema校验 | NORMAL | 无需特殊掩码；仍遵守最小展示 | 服务费暂时无法显示 |
+| FLD-02965 | 主要内容 | priceSnapshot.payableAmountCent | 应付金额 | DISPLAY | integer | MONEY_CENT | adminOrdersGetOrders.response.data.OrderResource | 服务端返回时展示 | 有值且当前角色拥有字段访问权限 | 只读；通过明确写操作更新 | 按显式OpenAPI Schema校验 | NORMAL | 无需特殊掩码；仍遵守最小展示 | 应付金额暂时无法显示 |
+| FLD-02966 | 主要内容 | paidAmountCent | 实付金额 | DISPLAY | integer | MONEY_CENT | adminOrdersGetOrders.response.data.OrderResource | 服务端返回时展示 | 有值且当前角色拥有字段访问权限 | 只读；通过明确写操作更新 | 按显式OpenAPI Schema校验 | NORMAL | 无需特殊掩码；仍遵守最小展示 | 实付金额暂时无法显示 |
+| FLD-02967 | 主要内容 | noRefundEvidence.confirmed | 不退款确认 | DISPLAY | boolean | STATUS_TAG | adminOrdersGetOrders.response.data.OrderResource | 服务端返回时展示 | 有值且当前角色拥有字段访问权限 | 只读；通过明确写操作更新 | 按显式OpenAPI Schema校验 | NORMAL | 无需特殊掩码；仍遵守最小展示 | 不退款确认暂时无法显示 |
+| FLD-05183 | 主要内容 | noRefundEvidence.agreementVersion | 不退款协议版本 | DISPLAY | string | TEXT | adminOrdersGetOrders.response.data.OrderResource | 服务端返回时展示 | 有值且当前角色拥有字段访问权限 | 只读；通过明确写操作更新 | 按显式OpenAPI Schema校验 | NORMAL | 无需特殊掩码；仍遵守最小展示 | 不退款协议版本暂时无法显示 |
+| FLD-05184 | 主要内容 | noRefundEvidence.confirmedAt | 确认时间 | DISPLAY | string | DATETIME_TEXT | adminOrdersGetOrders.response.data.OrderResource | 服务端返回时展示 | 有值且当前角色拥有字段访问权限 | 只读；通过明确写操作更新 | 按显式OpenAPI Schema校验 | NORMAL | 无需特殊掩码；仍遵守最小展示 | 确认时间暂时无法显示 |
+| FLD-05185 | 主要内容 | createdAt | 创建时间 | DISPLAY | string | DATETIME_TEXT | adminOrdersGetOrders.response.data.OrderResource | 服务端返回时展示 | 有值且当前角色拥有字段访问权限 | 只读；通过明确写操作更新 | 按显式OpenAPI Schema校验 | NORMAL | 无需特殊掩码；仍遵守最小展示 | 创建时间暂时无法显示 |
+| FLD-05186 | 主要内容 | paidAt | 支付时间 | DISPLAY | string | DATETIME_TEXT | adminOrdersGetOrders.response.data.OrderResource | 服务端返回时展示 | 有值且当前角色拥有字段访问权限 | 只读；通过明确写操作更新 | 按显式OpenAPI Schema校验 | NORMAL | 无需特殊掩码；仍遵守最小展示 | 支付时间暂时无法显示 |
+| FLD-05187 | 主要内容 | version | 版本 | DISPLAY | integer | NUMBER_TEXT | adminOrdersGetOrders.response.data.OrderResource | 服务端返回时展示 | 有值且当前角色拥有字段访问权限 | 只读；通过明确写操作更新 | 按显式OpenAPI Schema校验 | NORMAL | 无需特殊掩码；仍遵守最小展示 | 版本暂时无法显示 |
 
 ## 4. 页面状态与恢复
 
@@ -90,13 +102,14 @@
 - 配置组：`platform`
 - 关键配置：`platform.brand.name;platform.brand.slogan;platform.brand.logo_media_id;platform.customer_service.name;platform.customer_service.contact`
 - 测试：`TST-ORDER_001-HAPPY`
-- UI参考：`TOKENS_ONLY`
+- UI参考：`SPEC:design/R16-UI-FROZEN/specs/ADM-ORDER-001.md`
+- 视觉覆盖状态：`IN_REVIEW`（实现和真实候选截图完成前不得标记 PASS）
 
 ## 8. 后台运营操作规格
 
 | 筛选项 | 默认排序 | 表格列 | 批量操作 | 行操作 | 详情Tab | 导出策略 | 脱敏规则 | 审批规则 | 确认规则 | 成功反馈 | 失败恢复 | 空状态 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 页码;每页数量;游标;状态;关键词;排序 | createdAt:desc | resource Id;business No;状态;版本;accepted At | 无批量写操作 | 查看详情 | 概览;业务数据;状态历史;关联对象;操作审计 | 具备页面读取和 export.create 权限可异步导出当前筛选；禁止导出未展示或无权限字段 | 手机号/身份证/支付账号/IP/设备指纹/SecretRef默认脱敏；查看原文需字段权限、会话升级、目的说明和访问审计 | 普通保存按页面权限；涉及资金、秘密、生产发布、永久处罚或高风险导出时自动升级为双人审批 | 不可逆或高影响操作展示目标、影响范围、原因、审批单、服务端version；确认文案不得使用含糊的“确定” | 更新当前行/详情、状态计数和待办；显示操作结果、requestId和审计入口；禁止仅Toast不更新数据 | 字段错误就地提示；409重新加载差异；422保留输入；权限变化立即收回入口；首屏/翻页采用不同错误态 | 展示当前筛选、无数据原因和可执行下一步；不得使用无上下文的空白表格 |
+| 页码;每页数量;游标;状态;关键词;排序 | createdAt:desc | 订单号;用户ID;订单类型;状态;应付金额;实付金额;创建时间;操作 | 无批量写操作 | 查看详情 | 订单项;价格快照;不退款证据;时间与版本 | 当前 R16 不提供导出动作；后续只有真实 `export.create` 能力登记后方可出现 | 手机号/身份证/支付账号/IP/设备指纹/SecretRef默认脱敏；本页不展示这些高敏原值 | 只读页面无业务审批动作 | 只读查看不需要二次确认 | 刷新当前行或详情抽屉并显示 requestId 诊断入口 | 字段错误就地提示；权限变化立即收回入口；首屏/翻页采用不同错误态 | 展示当前筛选、暂无订单说明和返回路径；不得出现创建订单或联系客服 |
 
 ## 9. 开发就绪检查
 
@@ -107,4 +120,4 @@
 - [ ] 无权限、404、离线、局部失败、429、409 和 422 均按规格处理。
 - [ ] 敏感字段、审计、埋点、返回栈和测试证据齐全。
 
-**成熟度：** `FROZEN_CONSTRUCTION_V1.2.2`
+**成熟度：** `FROZEN_R16_CR0440`

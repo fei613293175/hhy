@@ -42,18 +42,14 @@
 | FLD-01499 | 表单输入 | status | 状态 | INPUT | string | TEXT_INPUT | orderGetMeOrders.request | 可选；按业务条件或页面状态决定 | 执行“订单列表”且字段适用时显示 | 具备 登录 且资源状态允许 | 最多64字符 | NORMAL | 无需特殊掩码；仍遵守最小展示 | 状态不符合要求 |
 | FLD-01500 | 表单输入 | keyword | 关键词 | INPUT | string | TEXT_INPUT | orderGetMeOrders.request | 可选；按业务条件或页面状态决定 | 执行“订单列表”且字段适用时显示 | 具备 登录 且资源状态允许 | 最多100字符 | NORMAL | 无需特殊掩码；仍遵守最小展示 | 关键词不符合要求 |
 | FLD-01501 | 表单输入 | sort | 排序 | INPUT | string | TEXT_INPUT | orderGetMeOrders.request | 可选；按业务条件或页面状态决定 | 执行“订单列表”且字段适用时显示 | 具备 登录 且资源状态允许 | 最多64字符 | NORMAL | 无需特殊掩码；仍遵守最小展示 | 排序不符合要求 |
-| FLD-01502 | 主要内容 | orderNo | order No | DISPLAY | string | TEXT | orderGetMeOrders.response.data.OrderResource | 服务端返回时展示 | 有值且当前角色拥有字段访问权限 | 只读；通过明确写操作更新 | 必填；最多2000字符 | NORMAL | 无需特殊掩码；仍遵守最小展示 | order No加载失败时显示字段级占位或隐藏 |
-| FLD-01503 | 主要内容 | userId | 用户ID | DISPLAY | string | TEXT | orderGetMeOrders.response.data.OrderResource | 服务端返回时展示 | 有值且当前角色拥有字段访问权限 | 只读；通过明确写操作更新 | 最多64字符 | NORMAL | 无需特殊掩码；仍遵守最小展示 | 用户ID加载失败时显示字段级占位或隐藏 |
-| FLD-01504 | 主要内容 | orderType | order Type | DISPLAY | string | TEXT | orderGetMeOrders.response.data.OrderResource | 服务端返回时展示 | 有值且当前角色拥有字段访问权限 | 只读；通过明确写操作更新 | 必填；最多2000字符 | NORMAL | 无需特殊掩码；仍遵守最小展示 | order Type加载失败时显示字段级占位或隐藏 |
-| FLD-01505 | 主要内容 | status | 状态 | DISPLAY | string | TEXT | orderGetMeOrders.response.data.OrderResource | 服务端返回时展示 | 有值且当前角色拥有字段访问权限 | 只读；通过明确写操作更新 | 必填；最多2000字符 | NORMAL | 无需特殊掩码；仍遵守最小展示 | 状态加载失败时显示字段级占位或隐藏 |
-| FLD-01506 | 主要内容 | currency | 币种 | DISPLAY | string | TEXT | orderGetMeOrders.response.data.OrderResource | 服务端返回时展示 | 有值且当前角色拥有字段访问权限 | 只读；通过明确写操作更新 | 必填；最多2000字符 | NORMAL | 无需特殊掩码；仍遵守最小展示 | 币种加载失败时显示字段级占位或隐藏 |
-| FLD-01507 | 主要内容 | originalAmountCent | original Amount Cent | DISPLAY | integer | MONEY_TEXT | orderGetMeOrders.response.data.OrderResource | 服务端返回时展示 | 有值且当前角色拥有字段访问权限 | 只读；通过明确写操作更新 | ≥0；格式:int64 | NORMAL | 无需特殊掩码；仍遵守最小展示 | original Amount Cent加载失败时显示字段级占位或隐藏 |
-| FLD-01508 | 主要内容 | discountAmountCent | discount Amount Cent | DISPLAY | integer | MONEY_TEXT | orderGetMeOrders.response.data.OrderResource | 服务端返回时展示 | 有值且当前角色拥有字段访问权限 | 只读；通过明确写操作更新 | ≥0；格式:int64 | NORMAL | 无需特殊掩码；仍遵守最小展示 | discount Amount Cent加载失败时显示字段级占位或隐藏 |
-| FLD-01509 | 主要内容 | payableAmountCent | payable Amount Cent | DISPLAY | integer | MONEY_TEXT | orderGetMeOrders.response.data.OrderResource | 服务端返回时展示 | 有值且当前角色拥有字段访问权限 | 只读；通过明确写操作更新 | 必填；≥0；格式:int64 | NORMAL | 无需特殊掩码；仍遵守最小展示 | payable Amount Cent加载失败时显示字段级占位或隐藏 |
-| FLD-01510 | 主要内容 | paidAmountCent | paid Amount Cent | DISPLAY | integer | MONEY_TEXT | orderGetMeOrders.response.data.OrderResource | 服务端返回时展示 | 有值且当前角色拥有字段访问权限 | 只读；通过明确写操作更新 | ≥0；格式:int64 | NORMAL | 无需特殊掩码；仍遵守最小展示 | paid Amount Cent加载失败时显示字段级占位或隐藏 |
-| FLD-01511 | 主要内容 | createdAt | 创建时间 | DISPLAY | string | DATETIME_TEXT | orderGetMeOrders.response.data.OrderResource | 服务端返回时展示 | 有值且当前角色拥有字段访问权限 | 只读；通过明确写操作更新 | 格式:date-time | NORMAL | 无需特殊掩码；仍遵守最小展示 | 创建时间加载失败时显示字段级占位或隐藏 |
-| FLD-01512 | 主要内容 | paidAt | paid At | DISPLAY | string | DATETIME_TEXT | orderGetMeOrders.response.data.OrderResource | 服务端返回时展示 | 有值且当前角色拥有字段访问权限 | 只读；通过明确写操作更新 | 格式:date-time | NORMAL | 无需特殊掩码；仍遵守最小展示 | paid At加载失败时显示字段级占位或隐藏 |
-| FLD-01513 | 主要内容 | version | 版本 | DISPLAY | integer | NUMBER_TEXT | orderGetMeOrders.response.data.OrderResource | 服务端返回时展示 | 有值且当前角色拥有字段访问权限 | 只读；通过明确写操作更新 | 必填；格式:int64 | NORMAL | 无需特殊掩码；仍遵守最小展示 | 版本加载失败时显示字段级占位或隐藏 |
+| FLD-01502 | 订单卡片 | orderNo | 订单号 | DISPLAY | string | TEXT | orderGetMeOrders.response.data.OrderResource | 服务端返回时展示 | 有值且当前角色拥有字段访问权限 | 只读；通过明确写操作更新 | 按显式OpenAPI Schema校验 | NORMAL | 无需特殊掩码；仍遵守最小展示 | 订单号暂时无法显示 |
+| FLD-01503 | 订单卡片 | orderType | 订单类型 | DISPLAY | string | STATUS_TAG | orderGetMeOrders.response.data.OrderResource | 服务端返回时展示 | 有值且当前角色拥有字段访问权限 | 只读；通过明确写操作更新 | 按显式OpenAPI Schema校验 | NORMAL | 无需特殊掩码；仍遵守最小展示 | 订单类型暂时无法显示 |
+| FLD-01504 | 订单卡片 | status | 订单状态 | DISPLAY | ORDER_STATUS | STATUS_TAG | orderGetMeOrders.response.data.OrderResource | 服务端返回时展示 | 有值且当前角色拥有字段访问权限 | 只读；通过明确写操作更新 | 按显式OpenAPI Schema校验 | NORMAL | 无需特殊掩码；仍遵守最小展示 | 订单状态暂时无法显示 |
+| FLD-01505 | 订单卡片 | items | 订单项 | DISPLAY | OrderItemResource[] | STRUCTURED_LIST | orderGetMeOrders.response.data.OrderResource | 服务端返回时展示 | 有值且当前角色拥有字段访问权限 | 只读；通过明确写操作更新 | 按显式OpenAPI Schema校验 | NORMAL | 无需特殊掩码；仍遵守最小展示 | 订单项暂时无法显示 |
+| FLD-01506 | 订单卡片 | priceSnapshot.payableAmountCent | 应付金额 | DISPLAY | integer | MONEY_CENT | orderGetMeOrders.response.data.OrderResource | 服务端返回时展示 | 有值且当前角色拥有字段访问权限 | 只读；通过明确写操作更新 | 按显式OpenAPI Schema校验 | NORMAL | 无需特殊掩码；仍遵守最小展示 | 应付金额暂时无法显示 |
+| FLD-01507 | 订单卡片 | paidAmountCent | 实付金额 | DISPLAY | integer | MONEY_CENT | orderGetMeOrders.response.data.OrderResource | 服务端返回时展示 | 有值且当前角色拥有字段访问权限 | 只读；通过明确写操作更新 | 按显式OpenAPI Schema校验 | NORMAL | 无需特殊掩码；仍遵守最小展示 | 实付金额暂时无法显示 |
+| FLD-01508 | 订单卡片 | noRefundEvidence.confirmed | 不退款确认 | DISPLAY | boolean | STATUS_TAG | orderGetMeOrders.response.data.OrderResource | 服务端返回时展示 | 有值且当前角色拥有字段访问权限 | 只读；通过明确写操作更新 | 按显式OpenAPI Schema校验 | NORMAL | 无需特殊掩码；仍遵守最小展示 | 不退款确认暂时无法显示 |
+| FLD-01509 | 订单卡片 | createdAt | 创建时间 | DISPLAY | string | DATETIME_TEXT | orderGetMeOrders.response.data.OrderResource | 服务端返回时展示 | 有值且当前角色拥有字段访问权限 | 只读；通过明确写操作更新 | 按显式OpenAPI Schema校验 | NORMAL | 无需特殊掩码；仍遵守最小展示 | 创建时间暂时无法显示 |
 
 ## 4. 页面状态与恢复
 
@@ -92,7 +88,9 @@
 - 配置组：`payment`
 - 关键配置：`payment.active_gateway;payment.caihong.base_url;payment.caihong.merchant_id;payment.caihong.merchant_key;payment.caihong.sign_type;payment.caihong.enabled_channels;payment.notify_url;payment.return_url`
 - 测试：`TST-ORDER_001-HAPPY;TST-NOREFUND_001-HAPPY`
-- UI参考：`B08/P01-P08`
+- UI参考：`B08/P04`
+- 视觉施工合同：`design/R16-UI-FROZEN/specs/SCR-ORDER-001.md`
+- 视觉覆盖状态：`IN_REVIEW`（实现和真实候选截图完成前不得标记 PASS）
 
 ## 8. 开发就绪检查
 
@@ -103,4 +101,4 @@
 - [ ] 无权限、404、离线、局部失败、429、409 和 422 均按规格处理。
 - [ ] 敏感字段、审计、埋点、返回栈和测试证据齐全。
 
-**成熟度：** `FROZEN_CONSTRUCTION_V1.2.2`
+**成熟度：** `FROZEN_R16_CR0440`

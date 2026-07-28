@@ -64,8 +64,6 @@ SCR-ME-002,个人资料,/me/profile,B08,P01,APPROVED_SUPPLEMENT,批准补充规�
 SCR-FAV-001,我的收藏,/me/favorites,B08,P07,EXACT_PANEL,精确复用B08/P07我的收藏页面层级与卡片布局
 SCR-HIS-001,浏览记录,/me/history,B08,P08,EXACT_PANEL,精确复用B08/P08浏览记录时间分组与列表布局
 SHEET-CONTENT-INVALID-001,联系方式失效反馈,sheet://content-invalid-feedback,B03,P08,APPROVED_SUPPLEMENT,批准补充规格复用B03/P08失效语境与B07/P07原因反馈底部面板
-SCR-ORDER-001,订单列表,/me/orders,B08,P01-P08,STYLE_LAYOUT_REFERENCE,我的、订单、收藏和历史
-SCR-ORDER-002,订单详情,/me/orders/{id},B08,P01-P08,STYLE_LAYOUT_REFERENCE,我的、订单、收藏和历史
 SCR-MEMBER-001,会员中心,/me/membership,B11,P01-P08,STYLE_LAYOUT_REFERENCE,单一Pro会员和道具；忽略多会员身份
 SCR-MEMBER-002,会员购买确认,/me/membership/buy/{skuId},B11,P01-P08,STYLE_LAYOUT_REFERENCE,单一Pro会员和道具；忽略多会员身份
 SCR-MEMBER-003,会员升级,/me/membership/upgrade,B11,P01-P08,STYLE_LAYOUT_REFERENCE,单一Pro会员和道具；忽略多会员身份
@@ -111,3 +109,6 @@ H5-009,支付结果,/payment/result,TOKENS_ONLY,-,STYLE_LAYOUT_REFERENCE,H5无�
 H5-010,协议与规则,/agreement/{code},TOKENS_ONLY,-,STYLE_LAYOUT_REFERENCE,H5无专属高保真批次，按H5科技品牌规范、Design Token和功能文档实现
 H5-011,帮助文章,/help/{id},TOKENS_ONLY,-,STYLE_LAYOUT_REFERENCE,H5无专属高保真批次，按H5科技品牌规范、Design Token和功能文档实现
 H5-012,活体回跳,/identity/callback,TOKENS_ONLY,-,STYLE_LAYOUT_REFERENCE,H5无专属高保真批次，按H5科技品牌规范、Design Token和功能文档实现
+SCR-ORDER-001,订单列表,/me/orders,B08,P04,EXACT,仅复用订单中心结构；过滤示例订单号金额商品内容和联系客服
+SCR-ORDER-002,订单详情,/me/orders/{id},R16-SPEC,SCR-ORDER-002,APPROVED_SUPPLEMENT,复用B08/P04视觉语言并严格显示显式订单项报价和不退款证据
+ADM-ORDER-001,订单列表,/commerce/orders,R16-SPEC,ADM-ORDER-001,APPROVED_SUPPLEMENT,复用商业后台ADM-LIST设计系统；无批量写、退款或联系客服

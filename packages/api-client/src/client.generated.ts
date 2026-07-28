@@ -2463,20 +2463,18 @@ export interface components {
         };
         OrderResource: {
             orderNo: string;
-            userId?: string;
+            userId: string;
             orderType: string;
-            status: string;
+            /** @enum {string} */
+            status: "PENDING_PAYMENT" | "PAYMENT_PROCESSING" | "PAID" | "FULFILLING" | "COMPLETED" | "PAYMENT_FAILED" | "CLOSED" | "CHANNEL_REVERSAL";
             currency: string;
-            /** Format: int64 */
-            originalAmountCent?: number;
-            /** Format: int64 */
-            discountAmountCent?: number;
-            /** Format: int64 */
-            payableAmountCent: number;
+            items: components["schemas"]["OrderItemResource"][];
+            priceSnapshot: components["schemas"]["OrderPriceSnapshotResource"];
+            noRefundEvidence: components["schemas"]["NoRefundEvidenceResource"];
             /** Format: int64 */
             paidAmountCent?: number;
             /** Format: date-time */
-            createdAt?: string;
+            createdAt: string;
             /** Format: date-time */
             paidAt?: string;
             /** Format: int64 */
@@ -2692,18 +2690,12 @@ export interface components {
             id: string;
             productCode: string;
             name: string;
-            productType?: string;
+            productType: string;
+            description?: string;
+            /** Format: int32 */
+            displayOrder?: number;
             status: string;
-            skus?: {
-                id: string;
-                skuCode: string;
-                name: string;
-                /** Format: int64 */
-                priceCent: number;
-                /** Format: int64 */
-                durationDays?: number;
-                status: string;
-            }[];
+            skus: components["schemas"]["ProductSkuResource"][];
             /** Format: int64 */
             version: number;
         };
@@ -5461,6 +5453,61 @@ export interface components {
         PublicGetHelpArticlesByIdParameters: {
             /** @description 路径资源标识：id */
             id: string;
+        };
+        BenefitResource: {
+            benefitCode: string;
+            name: string;
+            value: components["schemas"]["JsonValue"];
+            unit?: string;
+        };
+        ProductSkuResource: {
+            id: string;
+            productId: string;
+            skuCode: string;
+            name: string;
+            /** Format: int64 */
+            priceCent: number;
+            /** Format: int64 */
+            memberPriceCent?: number;
+            /** Format: int64 */
+            durationDays?: number;
+            benefits: components["schemas"]["BenefitResource"][];
+            commissionEnabled: boolean;
+            level1Bps?: number;
+            level2Bps?: number;
+            /** Format: date-time */
+            saleStartsAt?: string;
+            /** Format: date-time */
+            saleEndsAt?: string;
+            status: string;
+            /** Format: int64 */
+            version: number;
+        };
+        OrderItemResource: {
+            skuId?: string;
+            itemName: string;
+            quantity: number;
+            /** Format: int64 */
+            unitPriceCent: number;
+            /** Format: int64 */
+            subtotalAmountCent: number;
+        };
+        OrderPriceSnapshotResource: {
+            /** Format: int64 */
+            originalAmountCent: number;
+            /** Format: int64 */
+            discountAmountCent: number;
+            /** Format: int64 */
+            serviceFeeCent: number;
+            /** Format: int64 */
+            payableAmountCent: number;
+            ruleVersions: string[];
+        };
+        NoRefundEvidenceResource: {
+            confirmed: boolean;
+            agreementVersion: string;
+            /** Format: date-time */
+            confirmedAt?: string;
         };
         /** @description 仅用于扩展属性的标量值；核心业务字段不得依赖自由结构。 */
         JsonScalar: string | number | boolean | null;

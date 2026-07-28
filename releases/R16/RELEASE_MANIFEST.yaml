@@ -1,6 +1,6 @@
 release: R16
 title: 商品、SKU、报价与统一订单
-status: READY_WHEN_DEPENDENCIES_GREEN
+status: IMPLEMENTING
 milestone: M2_COMMERCE
 depends_on:
 - R02
@@ -66,6 +66,13 @@ exit_gate:
 change_policy: V1.2.2 页面、字段、状态、动作、API、配置和数据目录是唯一事实源；破坏性变更必须CR+版本升级+迁移+消费者兼容窗口
 documentation_baseline: V1.2.2
 document_gap_status: ZERO_BLOCKING_DOCUMENT_GAPS
+entry_baseline:
+  cr_id: CR-0440
+  status: PASS
+  evidence: artifacts/validation/r16-entry/entry-contract.json
+  report: artifacts/reports/R16/TASK-R16-001-entry-baseline.md
+  contract_rule: R16十接口使用显式商品、SKU和订单资源；禁止oneOf或CommandResultResource回退
+  visual_rule: 三页具备精确或批准补充视觉合同；效果图示例数据与未登记动作全部过滤
 definition_of_ready: releases/R16/DEFINITION_OF_READY.yaml
 story_backlog: releases/R16/STORIES.yaml
 continuity:

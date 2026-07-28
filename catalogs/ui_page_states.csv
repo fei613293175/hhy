@@ -547,7 +547,7 @@ STA-00550,SCR-HIS-001,ANDROID,浏览记录,ERROR,请求失败且无法展示可�
 STA-00551,SCR-HIS-001,ANDROID,浏览记录,OFFLINE,网络不可用,只读页面可展示标记为缓存的数据；写操作禁用,重试网络,与当前状态、权限或服务端version冲突的所有写操作,恢复网络后主动刷新,page_state_scr_his_001_offline,否,FROZEN_V1.2.2
 STA-00552,SCR-ORDER-001,ANDROID,订单列表,LOADING,首屏数据请求进行中,显示与最终布局一致的骨架屏,返回,与当前状态、权限或服务端version冲突的所有写操作,失败后显示重试,page_state_scr_order_001_loading,否,FROZEN_V1.2.2
 STA-00553,SCR-ORDER-001,ANDROID,订单列表,CONTENT,核心数据完整且可交互,展示内容并按权限/状态机计算操作入口,页面定义的读写动作,与当前状态、权限或服务端version冲突的所有写操作,刷新或执行操作,page_state_scr_order_001_content,否,FROZEN_V1.2.2
-STA-00554,SCR-ORDER-001,ANDROID,订单列表,EMPTY,查询成功但无符合条件的数据,展示业务化空状态、当前筛选和明确下一步,清除筛选/创建/返回,与当前状态、权限或服务端version冲突的所有写操作,修改筛选或执行主行动,page_state_scr_order_001_empty,否,FROZEN_V1.2.2
+STA-00554,SCR-ORDER-001,ANDROID,订单列表,EMPTY,查询成功但无符合条件的数据,展示当前筛选、暂无订单说明和返回路径；不得出现创建订单或联系客服,清除筛选/返回,与当前状态、权限或服务端version冲突的所有写操作,修改筛选或执行主行动,page_state_scr_order_001_empty,否,FROZEN_R16_CR0440
 STA-00555,SCR-ORDER-001,ANDROID,订单列表,REFRESHING,已有内容上执行刷新,保留内容并显示轻量刷新指示,取消刷新,与当前状态、权限或服务端version冲突的所有写操作,失败保留旧数据,page_state_scr_order_001_refreshing,否,FROZEN_V1.2.2
 STA-00556,SCR-ORDER-001,ANDROID,订单列表,APPENDING,列表加载下一页,列表尾部加载器；已加载项保持可用,取消翻页,与当前状态、权限或服务端version冲突的所有写操作,失败提供尾部重试,page_state_scr_order_001_appending,否,FROZEN_V1.2.2
 STA-00557,SCR-ORDER-001,ANDROID,订单列表,PARTIAL_ERROR,非首屏请求或单模块失败,保留现有内容并在对应区域提示,局部重试,与当前状态、权限或服务端version冲突的所有写操作,成功后回到CONTENT,page_state_scr_order_001_partial_error,否,FROZEN_V1.2.2
@@ -1077,7 +1077,7 @@ STA-01080,ADM-PROD-001,ADMIN,商品与SKU,ERROR,请求失败且无法展示可�
 STA-01081,ADM-PROD-001,ADMIN,商品与SKU,OFFLINE,网络不可用,只读页面可展示标记为缓存的数据；写操作禁用,重试网络,与当前状态、权限或服务端version冲突的所有写操作,恢复网络后主动刷新,page_state_adm_prod_001_offline,否,FROZEN_V1.2.2
 STA-01082,ADM-ORDER-001,ADMIN,订单列表,LOADING,首屏数据请求进行中,显示与最终布局一致的骨架屏,返回,与当前状态、权限或服务端version冲突的所有写操作,失败后显示重试,page_state_adm_order_001_loading,否,FROZEN_V1.2.2
 STA-01083,ADM-ORDER-001,ADMIN,订单列表,CONTENT,核心数据完整且可交互,展示内容并按权限/状态机计算操作入口,页面定义的读写动作,与当前状态、权限或服务端version冲突的所有写操作,刷新或执行操作,page_state_adm_order_001_content,否,FROZEN_V1.2.2
-STA-01084,ADM-ORDER-001,ADMIN,订单列表,EMPTY,查询成功但无符合条件的数据,展示业务化空状态、当前筛选和明确下一步,清除筛选/创建/返回,与当前状态、权限或服务端version冲突的所有写操作,修改筛选或执行主行动,page_state_adm_order_001_empty,否,FROZEN_V1.2.2
+STA-01084,ADM-ORDER-001,ADMIN,订单列表,EMPTY,查询成功但无符合条件的数据,展示当前筛选、暂无订单说明和返回路径；不得出现创建订单或联系客服,清除筛选/返回,与当前状态、权限或服务端version冲突的所有写操作,修改筛选或执行主行动,page_state_adm_order_001_empty,否,FROZEN_R16_CR0440
 STA-01085,ADM-ORDER-001,ADMIN,订单列表,REFRESHING,已有内容上执行刷新,保留内容并显示轻量刷新指示,取消刷新,与当前状态、权限或服务端version冲突的所有写操作,失败保留旧数据,page_state_adm_order_001_refreshing,否,FROZEN_V1.2.2
 STA-01086,ADM-ORDER-001,ADMIN,订单列表,PARTIAL_ERROR,非首屏请求或单模块失败,保留现有内容并在对应区域提示,局部重试,与当前状态、权限或服务端version冲突的所有写操作,成功后回到CONTENT,page_state_adm_order_001_partial_error,否,FROZEN_V1.2.2
 STA-01087,ADM-ORDER-001,ADMIN,订单列表,NO_PERMISSION,后台角色或数据范围不足,隐藏敏感内容并记录访问拒绝,返回/申请权限,与当前状态、权限或服务端version冲突的所有写操作,禁止仅靠前端绕过,page_state_adm_order_001_no_permission,是,FROZEN_V1.2.2
