@@ -76,7 +76,7 @@ class R14ServiceTest {
 
     @Test
     void completedSendReplayReturnsFrozenSnapshotWithoutDuplicateMessageOutboxOrRealtime() {
-        arrangeSender();
+        arrangeSenderWithoutClaim();
         arrangePublisher();
         SendMessageRequest request = new SendMessageRequest(
                 "client-replay-1", "TEXT", Map.of("text", "网络超时后重试"));
@@ -426,13 +426,17 @@ class R14ServiceTest {
     }
 
     private void arrangeSender() {
+        arrangeSenderWithoutClaim();
+        arrangeClaim();
+    }
+
+    private void arrangeSenderWithoutClaim() {
         when(shared.activeUser(11)).thenReturn(true);
         when(store.membership(42, 11, true)).thenReturn(Optional.of(new R14Store.MembershipRow(42, 7, 2)));
         when(shared.blockedEitherWay(11, 7)).thenReturn(false);
         when(store.messageByClient(eq(11L), org.mockito.ArgumentMatchers.anyString())).thenReturn(Optional.empty());
         when(shared.integerConfig("chat.message.per_minute_limit")).thenReturn(60);
         when(store.messagesSentSince(42, 11, NOW.minusSeconds(60))).thenReturn(0L);
-        arrangeClaim();
     }
 
     private void arrangePublisher() {

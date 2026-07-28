@@ -1,7 +1,7 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-28T18:54:55Z
-- Context Hash：`7099176521060a951a6442c0b06c0473a9e672bb4f30f9d251bfb8750155a5ca`
+- 生成时间：2026-07-28T19:03:01Z
+- Context Hash：`c1671a643b1c4b393b628c49b466bc0ee84aae60894371fee818f0867fb1fcb2`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 规则就绪：`PASS`（`HASHED_CONTEXT_MANIFEST`）
@@ -184,7 +184,7 @@ blocked_tasks:
 - TASK-R16-007
 - TASK-R16-008
 next_task: TASK-R14-005
-updated_at: '2026-07-28T18:54:51Z'
+updated_at: '2026-07-28T19:02:57Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -219,15 +219,15 @@ continuity:
   active_session_id: SES-20260728T182015Z-7EB6FEF2
   actor_id: codex-r14-testing-20260729
   story_id: STORY-R14-004
-  lease_expires_at: '2026-07-28T22:54:51Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260728T182015Z-7EB6FEF2/0002.yaml
-  project_fingerprint: d7c8b2840b64c5f9ea30774459fb517fb10ed13cdc780394c5bfde26ecd1b560
+  lease_expires_at: '2026-07-28T23:02:57Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260728T182015Z-7EB6FEF2/0003.yaml
+  project_fingerprint: e4f181e2ae7aaa51f53068d5def3f66f3c1d7c61f1fd0f061c1340e13971f4d5
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: f7551e071b0a35ab5aeec67b4dde88e19ce5164471745661c39849bf14d6d823
-    generated_at: '2026-07-28T18:43:23Z'
+    context_hash: 7099176521060a951a6442c0b06c0473a9e672bb4f30f9d251bfb8750155a5ca
+    generated_at: '2026-07-28T18:54:55Z'
   handoff_bundle: null
 ```
 
@@ -426,7 +426,7 @@ task_id: TASK-R14-005
 story_id: STORY-R14-004
 goal: 一对一聊天核心专项测试与故障注入
 started_at: '2026-07-28T18:20:15Z'
-updated_at: '2026-07-28T18:54:51Z'
+updated_at: '2026-07-28T19:02:57Z'
 takeover_of: null
 change_requests:
 - CR-0465
@@ -476,12 +476,12 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-28T18:54:51Z'
-  expires_at: '2026-07-28T22:54:51Z'
-checkpoint_sequence: 2
-latest_checkpoint: .continuity/checkpoints/SES-20260728T182015Z-7EB6FEF2/0002.yaml
+  renewed_at: '2026-07-28T19:02:57Z'
+  expires_at: '2026-07-28T23:02:57Z'
+checkpoint_sequence: 3
+latest_checkpoint: .continuity/checkpoints/SES-20260728T182015Z-7EB6FEF2/0003.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260728T182015Z-7EB6FEF2.md
-next_step: 提交导入修复并推送，在新精确Commit重跑Java21、PostgreSQL17和Android三组证据
+next_step: 提交推送精确测试修复，运行第三轮Java21、PostgreSQL17、Android固定环境验证并生成正式证据
 context_pack: THIS_CONTEXT_PACK
 handoff_bundle: null
 closure: null
@@ -489,42 +489,33 @@ parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 单行Java测试导入修复与重新冻结提交不可再拆分
+  reason: 单个Mockito测试准备函数精确修复不可安全拆分
 ```
 
 ## 最新检查点
 
 ```yaml
 protocol_version: '1.0'
-checkpoint_id: CP-SES-20260728T182015Z-7EB6FEF2-0002
+checkpoint_id: CP-SES-20260728T182015Z-7EB6FEF2-0003
 session_id: SES-20260728T182015Z-7EB6FEF2
 task_id: TASK-R14-005
 story_id: STORY-R14-004
-sequence: 2
-created_at: '2026-07-28T18:54:51Z'
-summary: obx-test首轮证明Android聊天模块247任务PASS，并暴露R14PostgresStoreTest缺少assertThrows静态导入；已精确补齐
-next_step: 提交导入修复并推送，在新精确Commit重跑Java21、PostgreSQL17和Android三组证据
+sequence: 3
+created_at: '2026-07-28T19:02:57Z'
+summary: obx-test第二轮Java21已编译并运行31项，唯一失败为completedSendReplay测试重复桩触发Mockito严格校验；已拆分无Claim准备函数消除无效桩
+next_step: 提交推送精确测试修复，运行第三轮Java21、PostgreSQL17、Android固定环境验证并生成正式证据
 blockers: []
-decisions:
-- 首轮失败是新增测试编译遗漏，不是产品逻辑失败；旧失败日志不进入正式证据
+decisions: []
 note: ''
 tests:
 - name: r14-specialized-and-sequence
   result: PASS
   evidence: python -m unittest tests.test_r14_specialized_matrix tests.test_continuity_version_sequence
   note: 14 tests PASS
-- name: backend-java21-round1
+- name: backend-java21-round2
   result: FAIL
-  evidence: obx-test:/tmp/hhy-r14-task005-d9492684.B0MccO/backend-java21.log
-  note: missing static assertThrows import
-- name: postgresql17-round1
-  result: FAIL
-  evidence: obx-test:/tmp/hhy-r14-task005-d9492684.B0MccO/postgresql17.log
-  note: same compile failure before execution
-- name: android-module-round1
-  result: PASS
-  evidence: obx-test:/tmp/hhy-r14-task005-d9492684.B0MccO/android-module.log
-  note: 247 tasks BUILD SUCCESSFUL
+  evidence: obx-test:/tmp/hhy-r14-task005-5aa6ce3b.FgNIz6/backend-java21.log
+  note: 31 tests, one Mockito unnecessary stubbing error
 - name: diff-check
   result: PASS
   evidence: git diff --check
@@ -532,17 +523,16 @@ tests:
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: d9492684607e8ec73df186a7d036901abbacbffb
+  head: 5aa6ce3b76afaa5addeadca3d38e9bcf9ccebb94
   upstream: origin/task/TASK-R03-001
   ahead: 0
   behind: 0
   dirty: true
   status_porcelain:
-  - ' M services/backend/boot/src/test/java/cc/orbexa/hhy/content/R14PostgresStoreTest.java'
-  - ?? artifacts/validation/r14-test-evidence/android-module.log
-  - ?? artifacts/validation/r14-test-evidence/backend-java21.log
-  - ?? artifacts/validation/r14-test-evidence/postgresql17.log
+  - ' M services/backend/boot/src/test/java/cc/orbexa/hhy/content/R14ServiceTest.java'
   recent_commits:
+  - "5aa6ce3b76afaa5addeadca3d38e9bcf9ccebb94\t2026-07-29T02:57:02+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] test(r14): import PostgreSQL\
+    \ assertion"
   - "d9492684607e8ec73df186a7d036901abbacbffb\t2026-07-29T02:45:03+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] test(chat): automate six R14\
     \ reliability matrices"
   - "7a6ae5be9d6bde9ca9144794f3ef7cc754269313\t2026-07-29T02:18:45+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(continuity): close TASK-R14-004\
@@ -556,10 +546,8 @@ git:
     \ reason catalog"
   - "4517a36a0a75d925ad8181b5f51479b2212a6f78\t2026-07-29T01:15:01+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(continuity): record\
     \ anti-drift GitHub verification"
-  - "d0daa039d5632cdaee73a61c3ad18ac67ead3af9\t2026-07-29T00:58:45+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(continuity): record\
-    \ historical release assertion isolation"
 project_fingerprint:
-  sha256: d7c8b2840b64c5f9ea30774459fb517fb10ed13cdc780394c5bfde26ecd1b560
+  sha256: e4f181e2ae7aaa51f53068d5def3f66f3c1d7c61f1fd0f061c1340e13971f4d5
   files:
   - catalogs/test_cases.csv
   - docs/03-continuity/change-requests/CR-0465-R14六项聊天专项测试自动化与故障证据闭环.md
@@ -607,8 +595,8 @@ project_fingerprint:
       sha256: 4b500df3f39ced1b004a6a752aa4eae5a30e1b2915282c69ddc3873e09728d7c
     - path: services/backend/boot/src/test/java/cc/orbexa/hhy/content/R14ServiceTest.java
       state: FILE
-      size: 24305
-      sha256: 3f6cde8df50d3c8f528993a194c0ca1027034ea1ea1a8b8d8204555f292ad729
+      size: 24408
+      sha256: 269ea663a7fd1b9ee04b39866c43acb5773e2ccda399bffed7bc1e72a7be4b49
     - path: tests/r14/README.md
       state: FILE
       size: 1389
@@ -715,8 +703,8 @@ parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 单行Java测试导入修复与重新冻结提交不可再拆分
-event_hash: df7bbc6c0b334893ee2e935a0c57f039859817acfb6799437683d281bc1d66f8
+  reason: 单个Mockito测试准备函数精确修复不可安全拆分
+event_hash: b618d5eeeccc75e788d4b9ab6dce8439cbe5a903c98aa54386f9f71b48e12c55
 ```
 
 ## 接续状态与事件头
@@ -728,8 +716,8 @@ active_session_id: SES-20260728T182015Z-7EB6FEF2
 last_session_id: SES-20260728T154000Z-0458A14C
 last_session_result: COMPLETED
 last_closure_checkpoint_id: CP-SES-20260728T154000Z-0458A14C-0014
-event_count: 4414
-event_head_hash: df7bbc6c0b334893ee2e935a0c57f039859817acfb6799437683d281bc1d66f8
+event_count: 4415
+event_head_hash: b618d5eeeccc75e788d4b9ab6dce8439cbe5a903c98aa54386f9f71b48e12c55
 event_chain_valid: true
 ```
 
@@ -852,9 +840,9 @@ recent_sessions: - session_id: SES-20260727T181928Z-B51C7408
   started_at: '2026-07-28T18:20:15Z'
   record: .continuity/sessions/SES-20260728T182015Z-7EB6FEF2.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260728T182015Z-7EB6FEF2.md
-  updated_at: '2026-07-28T18:54:51Z'
+  updated_at: '2026-07-28T19:02:57Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260728T182015Z-7EB6FEF2/0002.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260728T182015Z-7EB6FEF2/0003.yaml
   handoff_bundle: null
 task_claims: - claim_id: CLM-487327A56688
   session_id: SES-20260725T192048Z-668BD05D
@@ -1788,7 +1776,7 @@ recent_task_transitions: - transition_id: TRN-DECCC79D7057
 ```yaml
 initialized: true
 branch: task/TASK-R03-001
-head: d9492684607e8ec73df186a7d036901abbacbffb
+head: 5aa6ce3b76afaa5addeadca3d38e9bcf9ccebb94
 upstream: origin/task/TASK-R03-001
 ahead: 0
 behind: 0
@@ -1802,12 +1790,11 @@ status_porcelain:
 - ' M CURRENT_STATUS.yaml'
 - ' M catalogs/session_index.csv'
 - ' M docs/03-continuity/sessions/2026-07/SES-20260728T182015Z-7EB6FEF2.md'
-- ' M services/backend/boot/src/test/java/cc/orbexa/hhy/content/R14PostgresStoreTest.java'
-- ?? .continuity/checkpoints/SES-20260728T182015Z-7EB6FEF2/0002.yaml
-- ?? artifacts/validation/r14-test-evidence/android-module.log
-- ?? artifacts/validation/r14-test-evidence/backend-java21.log
-- ?? artifacts/validation/r14-test-evidence/postgresql17.log
+- ' M services/backend/boot/src/test/java/cc/orbexa/hhy/content/R14ServiceTest.java'
+- ?? .continuity/checkpoints/SES-20260728T182015Z-7EB6FEF2/0003.yaml
 recent_commits:
+- "5aa6ce3b76afaa5addeadca3d38e9bcf9ccebb94\t2026-07-29T02:57:02+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] test(r14): import PostgreSQL\
+  \ assertion"
 - "d9492684607e8ec73df186a7d036901abbacbffb\t2026-07-29T02:45:03+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] test(chat): automate six R14\
   \ reliability matrices"
 - "7a6ae5be9d6bde9ca9144794f3ef7cc754269313\t2026-07-29T02:18:45+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(continuity): close TASK-R14-004\
@@ -1821,13 +1808,11 @@ recent_commits:
   \ reason catalog"
 - "4517a36a0a75d925ad8181b5f51479b2212a6f78\t2026-07-29T01:15:01+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(continuity): record anti-drift\
   \ GitHub verification"
-- "d0daa039d5632cdaee73a61c3ad18ac67ead3af9\t2026-07-29T00:58:45+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(continuity): record historical\
-  \ release assertion isolation"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`d7c8b2840b64c5f9ea30774459fb517fb10ed13cdc780394c5bfde26ecd1b560`
+- 指纹：`e4f181e2ae7aaa51f53068d5def3f66f3c1d7c61f1fd0f061c1340e13971f4d5`
 - 文件数：16
 
 - `catalogs/test_cases.csv`
@@ -15154,7 +15139,7 @@ PARALLEL_EXECUTION_PLAN.yaml:
 
 - `AGENTS.md` — `bde93afcdb788b601aeffcf2369a1aeda8eeb391f165429d501d7ba8895ba4a6`
 - `START_HERE.md` — `22de14029ce47beb41ea569e36ce223fbc9d11b86f8676f28d5fbbd83896af5c`
-- `CURRENT_STATUS.yaml` — `f63aa51d1b908485b47f3787ac887fdac3f89c40f1af72de35b30a941d513f6c`
+- `CURRENT_STATUS.yaml` — `440d6547a63277aa214c0e4bd8287e3cdc66c0cf68b573856ee01dcf94718a68`
 - `NEXT_TASK.yaml` — `53d49180cf243888f1febeeaeaca91d9024c5482f5280790e1436a7bc1cd9281`
 - `DEVELOPMENT_RISK_REGISTER.md` — `8304c91492e4ee2abea0522a06541c8688d39c7fc532b5d0cde499bf09fffb87`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `5213b166f464a4415abe064e0ebcd99da8f1f8d23569b49ae4e9787007e83314`
@@ -15165,12 +15150,12 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `config/REPOSITORY_TRANSPORT.yaml` — `8c4a21f3e204d46e7ffb467d804a53ed26cda61cd088dadfddb50b69eea657fc`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `38e04ed812c8df0d353c2b91993d31e53b471e9c457f06b426bd2260c470aa92`
-- `.continuity/EVENT_LOG.jsonl` — `05da6db3de2cf34c66e7e0db4d0b036d7de4373c620d456e38bfe40f0d43b35c`
-- `.continuity/SESSION_INDEX.yaml` — `ba6816a15cd1a597a32614b719042cae927f2750cb8260a1c51c71a53a4eece2`
+- `.continuity/EVENT_LOG.jsonl` — `a90938b5b45106a0380bc923be28efa9e38400dfd4358aa267a34799405dee92`
+- `.continuity/SESSION_INDEX.yaml` — `32296552bdbd587415f62bc0f2d8622528c32faa6100a811afae16ff64bbf67a`
 - `.continuity/TASK_CLAIMS.yaml` — `4cd1ed9162271c298bda2d9582cf1c8fceec2044b7abdea7bfecc616fb2395c5`
 - `.continuity/TASK_TRANSITIONS.yaml` — `9f89ff0f47cb16b031efe760ec44fd9e469d026a4d246bdd0a5d63a274da41f4`
 - `.continuity/CHANGE_REQUEST_INDEX.yaml` — `0b04506a8a6246fb91d0df7062528829f07dbe5297b226eda89717337cff73ad`
-- `.continuity/ACTIVE_SESSION.yaml` — `53eec1a2160591054f5de96b06501e06fba3ab62475922ff264177027625bee7`
+- `.continuity/ACTIVE_SESSION.yaml` — `f99811c2f6eaef0852a24d81738ab2eae4bf4af4d5d529bee25bb1d7bf72a3eb`
 - `docs/00-baseline/正式商业系统全局硬性开发边界.md` — `30c07716c31d6d09621b6f6d119063b1fcb35e78d9b266423ed333d92b8262db`
 - `docs/02-ui/UI参考图使用与开发约束_V1.2.2.md` — `d14367586aa2067b059df58798acd20ab982459cdb35ff27fc7922a3896e4933`
 - `docs/03-continuity/持续开发无状态接续强制门禁_V1.2.3.md` — `d0ed3ed68bdd93b06500eecdfb5baa3245e6ca8b685a486788abb6eee39b3d51`
@@ -15181,8 +15166,8 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `releases/R14/TASKS.yaml` — `33ed8aab1fc05c674df96d61cf3b770445c16d10e5e66f973b152e46f485fb2f`
 - `releases/R14/ACCEPTANCE_MATRIX.csv` — `ffc0fd23b945544de8fe2a37774a94675c0d60b73d88517abe69c68d326ad6f4`
 - `releases/R14/PARALLEL_EXECUTION_PLAN.yaml` — `cd1f0c96ffd7562acb214edba80a2bbb12b79f06c19032d1b133936ff6abd74f`
-- `docs/03-continuity/sessions/2026-07/SES-20260728T182015Z-7EB6FEF2.md` — `671fc6741f483490256ee3eafa5a8d5e6bf71be545f01c934f1a7cb87a73c81b`
-- `.continuity/checkpoints/SES-20260728T182015Z-7EB6FEF2/0002.yaml` — `6401109fcfd1303917987cce4b021f39bf820a06de1e07ca2c5a4e420a939013`
+- `docs/03-continuity/sessions/2026-07/SES-20260728T182015Z-7EB6FEF2.md` — `3ac4cfc110e025a9ac5f514d41a79015423fe2e51d57340803149ddbd5d263d5`
+- `.continuity/checkpoints/SES-20260728T182015Z-7EB6FEF2/0003.yaml` — `ee45a687f51ddb0e7a5806c0753d3b22e5f3c4b28046512ac692ebca7e7352bb`
 - `docs/03-continuity/change-requests/CR-0465-R14六项聊天专项测试自动化与故障证据闭环.md` — `fc97503e990243e3cf74d049934b3467f1c337514e11e9bba6698152792574fd`
 - `docs/03-continuity/change-requests/CR-0466-补齐R14至R32全链路版本连续性回归.md` — `075604f4e7b07a1bd9b4dd5c503891f4e072098e24697dc772967b09d6e7eeab`
 
