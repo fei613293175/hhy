@@ -1,9 +1,9 @@
 protocol_version: '1.0'
 cr_id: CR-0445
 title: 隔离后端Spring测试上下文的H2内存数据库
-status: IMPLEMENTING
+status: CLOSED
 created_at: '2026-07-28T11:57:56Z'
-updated_at: '2026-07-28T11:59:21Z'
+updated_at: '2026-07-28T12:55:10Z'
 requester_actor_id: codex-r16-backend-20260728
 approver_actor_id: codex-r16-h2-test-isolation-independent-review-20260728
 task_id: TASK-R16-003
@@ -40,5 +40,17 @@ decision_log:
   status: IMPLEMENTING
   note: 独立审批通过后实施默认测试库按ApplicationContext隔离。
   session_id: SES-20260728T102501Z-3189682B
+- at: '2026-07-28T12:55:04Z'
+  actor_id: codex-r16-backend-20260728
+  status: IMPLEMENTED
+  note: 测试H2使用每上下文唯一内存库，生产PostgreSQL和显式测试URL不变，491项Java回归通过。
+  session_id: SES-20260728T102501Z-3189682B
+- at: '2026-07-28T12:55:10Z'
+  actor_id: codex-r16-backend-20260728
+  status: CLOSED
+  note: Spring测试上下文数据库污染已消除并形成回归保护。
+  session_id: SES-20260728T102501Z-3189682B
 session_ids:
 - SES-20260728T102501Z-3189682B
+implementation_commits:
+- 63ebeca8ca54f087b18e0b9605dc879dd10bc4c4

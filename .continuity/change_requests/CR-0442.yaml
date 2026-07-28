@@ -1,9 +1,9 @@
 protocol_version: '1.0'
 cr_id: CR-0442
 title: 落地R16商品SKU报价与统一订单后端纵向链路
-status: APPROVED
+status: CLOSED
 created_at: '2026-07-28T10:27:03Z'
-updated_at: '2026-07-28T10:37:48Z'
+updated_at: '2026-07-28T12:54:32Z'
 requester_actor_id: codex-r16-backend-20260728
 approver_actor_id: codex-r16-backend-independent-review-20260728
 task_id: TASK-R16-003
@@ -82,3 +82,23 @@ approval:
   note: CR-0442已闭合固定长度且强绑定的管理员幂等scope、细粒度RBAC、模块边界、事务原子性、并发上限、乐观锁、订单owner隔离及历史数据不伪造要求；影响文件与测试范围充分。
 machine_record: .continuity/change_requests/CR-0442.yaml
 document: docs/03-continuity/change-requests/CR-0442-落地R16商品SKU报价与统一订单后端纵向链路.md
+decision_log:
+- at: '2026-07-28T12:54:21Z'
+  actor_id: codex-r16-backend-20260728
+  status: IMPLEMENTING
+  note: 独立审批后已落地R16十个冻结operationId纵向链路。
+  session_id: SES-20260728T102501Z-3189682B
+- at: '2026-07-28T12:54:27Z'
+  actor_id: codex-r16-backend-20260728
+  status: IMPLEMENTED
+  note: R16商品、SKU与订单后端实现及回归已提交。
+  session_id: SES-20260728T102501Z-3189682B
+- at: '2026-07-28T12:54:32Z'
+  actor_id: codex-r16-backend-20260728
+  status: CLOSED
+  note: 权限、幂等、错误码、审计、Outbox与真实PostgreSQL回归均PASS。
+  session_id: SES-20260728T102501Z-3189682B
+session_ids:
+- SES-20260728T102501Z-3189682B
+implementation_commits:
+- 63ebeca8ca54f087b18e0b9605dc879dd10bc4c4

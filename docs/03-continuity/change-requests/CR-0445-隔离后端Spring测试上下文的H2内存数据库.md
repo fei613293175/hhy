@@ -83,3 +83,17 @@ application-test.yml固定使用jdbc:h2:mem:hhy;MODE=PostgreSQL;DB_CLOSE_DELAY=-
 - Status：`IMPLEMENTING`
 - Session：`SES-20260728T102501Z-3189682B`
 - Note：独立审批通过后实施默认测试库按ApplicationContext隔离。
+
+## 状态记录 · 2026-07-28T12:55:04Z
+
+- Actor：`codex-r16-backend-20260728`
+- Status：`IMPLEMENTED`
+- Session：`SES-20260728T102501Z-3189682B`
+- Note：测试H2使用每上下文唯一内存库，生产PostgreSQL和显式测试URL不变，491项Java回归通过。
+
+## 状态记录 · 2026-07-28T12:55:10Z
+
+- Actor：`codex-r16-backend-20260728`
+- Status：`CLOSED`
+- Session：`SES-20260728T102501Z-3189682B`
+- Note：Spring测试上下文数据库污染已消除并形成回归保护。

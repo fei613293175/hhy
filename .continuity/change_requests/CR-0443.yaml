@@ -1,9 +1,9 @@
 protocol_version: '1.0'
 cr_id: CR-0443
 title: 前向对齐R16权益与时长冻结字段边界
-status: APPROVED
+status: CLOSED
 created_at: '2026-07-28T11:16:27Z'
-updated_at: '2026-07-28T11:18:44Z'
+updated_at: '2026-07-28T12:54:48Z'
 requester_actor_id: codex-r16-contract-alignment-20260728
 approver_actor_id: codex-r16-contract-alignment-independent-review-20260728
 task_id: TASK-R16-003
@@ -53,3 +53,23 @@ approval:
   note: 独立审查确认V047精确对齐冻结OpenAPI的255/64/0边界，不改写V045；U047对新合法事实原子拒绝，影响文件与测试充分且无范围漂移。
 machine_record: .continuity/change_requests/CR-0443.yaml
 document: docs/03-continuity/change-requests/CR-0443-前向对齐R16权益与时长冻结字段边界.md
+decision_log:
+- at: '2026-07-28T12:54:37Z'
+  actor_id: codex-r16-backend-20260728
+  status: IMPLEMENTING
+  note: 独立审批后以前向V047对齐冻结权益与时长边界。
+  session_id: SES-20260728T102501Z-3189682B
+- at: '2026-07-28T12:54:42Z'
+  actor_id: codex-r16-backend-20260728
+  status: IMPLEMENTED
+  note: V047及应用边界同步实现并通过升级、回滚和属性测试。
+  session_id: SES-20260728T102501Z-3189682B
+- at: '2026-07-28T12:54:48Z'
+  actor_id: codex-r16-backend-20260728
+  status: CLOSED
+  note: 冻结OpenAPI合法边界已与数据库和应用一致。
+  session_id: SES-20260728T102501Z-3189682B
+session_ids:
+- SES-20260728T102501Z-3189682B
+implementation_commits:
+- 63ebeca8ca54f087b18e0b9605dc879dd10bc4c4

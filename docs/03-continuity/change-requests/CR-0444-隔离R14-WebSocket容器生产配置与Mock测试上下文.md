@@ -85,3 +85,17 @@ WebSocket处理器注册继续默认启用；仅Servlet容器缓冲与空闲超�
 - Status：`IMPLEMENTING`
 - Session：`SES-20260728T102501Z-3189682B`
 - Note：独立审批通过后开始实施测试上下文隔离。
+
+## 状态记录 · 2026-07-28T12:54:53Z
+
+- Actor：`codex-r16-backend-20260728`
+- Status：`IMPLEMENTED`
+- Session：`SES-20260728T102501Z-3189682B`
+- Note：R14 WebSocket容器工厂在test profile安全隔离，生产限制不变，完整Java回归通过。
+
+## 状态记录 · 2026-07-28T12:54:59Z
+
+- Actor：`codex-r16-backend-20260728`
+- Status：`CLOSED`
+- Session：`SES-20260728T102501Z-3189682B`
+- Note：Mock ServletContext级联故障已消除且生产WebSocket配置保持。

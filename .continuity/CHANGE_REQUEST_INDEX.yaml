@@ -27451,9 +27451,9 @@ change_requests:
 - protocol_version: '1.0'
   cr_id: CR-0442
   title: 落地R16商品SKU报价与统一订单后端纵向链路
-  status: APPROVED
+  status: CLOSED
   created_at: '2026-07-28T10:27:03Z'
-  updated_at: '2026-07-28T10:37:48Z'
+  updated_at: '2026-07-28T12:54:32Z'
   requester_actor_id: codex-r16-backend-20260728
   approver_actor_id: codex-r16-backend-independent-review-20260728
   task_id: TASK-R16-003
@@ -27532,12 +27532,32 @@ change_requests:
     note: CR-0442已闭合固定长度且强绑定的管理员幂等scope、细粒度RBAC、模块边界、事务原子性、并发上限、乐观锁、订单owner隔离及历史数据不伪造要求；影响文件与测试范围充分。
   machine_record: .continuity/change_requests/CR-0442.yaml
   document: docs/03-continuity/change-requests/CR-0442-落地R16商品SKU报价与统一订单后端纵向链路.md
+  decision_log:
+  - at: '2026-07-28T12:54:21Z'
+    actor_id: codex-r16-backend-20260728
+    status: IMPLEMENTING
+    note: 独立审批后已落地R16十个冻结operationId纵向链路。
+    session_id: SES-20260728T102501Z-3189682B
+  - at: '2026-07-28T12:54:27Z'
+    actor_id: codex-r16-backend-20260728
+    status: IMPLEMENTED
+    note: R16商品、SKU与订单后端实现及回归已提交。
+    session_id: SES-20260728T102501Z-3189682B
+  - at: '2026-07-28T12:54:32Z'
+    actor_id: codex-r16-backend-20260728
+    status: CLOSED
+    note: 权限、幂等、错误码、审计、Outbox与真实PostgreSQL回归均PASS。
+    session_id: SES-20260728T102501Z-3189682B
+  session_ids:
+  - SES-20260728T102501Z-3189682B
+  implementation_commits:
+  - 63ebeca8ca54f087b18e0b9605dc879dd10bc4c4
 - protocol_version: '1.0'
   cr_id: CR-0443
   title: 前向对齐R16权益与时长冻结字段边界
-  status: APPROVED
+  status: CLOSED
   created_at: '2026-07-28T11:16:27Z'
-  updated_at: '2026-07-28T11:18:44Z'
+  updated_at: '2026-07-28T12:54:48Z'
   requester_actor_id: codex-r16-contract-alignment-20260728
   approver_actor_id: codex-r16-contract-alignment-independent-review-20260728
   task_id: TASK-R16-003
@@ -27587,12 +27607,32 @@ change_requests:
     note: 独立审查确认V047精确对齐冻结OpenAPI的255/64/0边界，不改写V045；U047对新合法事实原子拒绝，影响文件与测试充分且无范围漂移。
   machine_record: .continuity/change_requests/CR-0443.yaml
   document: docs/03-continuity/change-requests/CR-0443-前向对齐R16权益与时长冻结字段边界.md
+  decision_log:
+  - at: '2026-07-28T12:54:37Z'
+    actor_id: codex-r16-backend-20260728
+    status: IMPLEMENTING
+    note: 独立审批后以前向V047对齐冻结权益与时长边界。
+    session_id: SES-20260728T102501Z-3189682B
+  - at: '2026-07-28T12:54:42Z'
+    actor_id: codex-r16-backend-20260728
+    status: IMPLEMENTED
+    note: V047及应用边界同步实现并通过升级、回滚和属性测试。
+    session_id: SES-20260728T102501Z-3189682B
+  - at: '2026-07-28T12:54:48Z'
+    actor_id: codex-r16-backend-20260728
+    status: CLOSED
+    note: 冻结OpenAPI合法边界已与数据库和应用一致。
+    session_id: SES-20260728T102501Z-3189682B
+  session_ids:
+  - SES-20260728T102501Z-3189682B
+  implementation_commits:
+  - 63ebeca8ca54f087b18e0b9605dc879dd10bc4c4
 - protocol_version: '1.0'
   cr_id: CR-0444
   title: 隔离R14 WebSocket容器生产配置与Mock测试上下文
-  status: IMPLEMENTING
+  status: CLOSED
   created_at: '2026-07-28T11:42:13Z'
-  updated_at: '2026-07-28T11:47:15Z'
+  updated_at: '2026-07-28T12:54:59Z'
   requester_actor_id: codex-r16-implementation-20260728
   approver_actor_id: codex-r14-websocket-container-independent-review-20260728
   task_id: TASK-R16-003
@@ -27632,14 +27672,26 @@ change_requests:
     status: IMPLEMENTING
     note: 独立审批通过后开始实施测试上下文隔离。
     session_id: SES-20260728T102501Z-3189682B
+  - at: '2026-07-28T12:54:53Z'
+    actor_id: codex-r16-backend-20260728
+    status: IMPLEMENTED
+    note: R14 WebSocket容器工厂在test profile安全隔离，生产限制不变，完整Java回归通过。
+    session_id: SES-20260728T102501Z-3189682B
+  - at: '2026-07-28T12:54:59Z'
+    actor_id: codex-r16-backend-20260728
+    status: CLOSED
+    note: Mock ServletContext级联故障已消除且生产WebSocket配置保持。
+    session_id: SES-20260728T102501Z-3189682B
   session_ids:
   - SES-20260728T102501Z-3189682B
+  implementation_commits:
+  - 63ebeca8ca54f087b18e0b9605dc879dd10bc4c4
 - protocol_version: '1.0'
   cr_id: CR-0445
   title: 隔离后端Spring测试上下文的H2内存数据库
-  status: IMPLEMENTING
+  status: CLOSED
   created_at: '2026-07-28T11:57:56Z'
-  updated_at: '2026-07-28T11:59:21Z'
+  updated_at: '2026-07-28T12:55:10Z'
   requester_actor_id: codex-r16-backend-20260728
   approver_actor_id: codex-r16-h2-test-isolation-independent-review-20260728
   task_id: TASK-R16-003
@@ -27676,8 +27728,20 @@ change_requests:
     status: IMPLEMENTING
     note: 独立审批通过后实施默认测试库按ApplicationContext隔离。
     session_id: SES-20260728T102501Z-3189682B
+  - at: '2026-07-28T12:55:04Z'
+    actor_id: codex-r16-backend-20260728
+    status: IMPLEMENTED
+    note: 测试H2使用每上下文唯一内存库，生产PostgreSQL和显式测试URL不变，491项Java回归通过。
+    session_id: SES-20260728T102501Z-3189682B
+  - at: '2026-07-28T12:55:10Z'
+    actor_id: codex-r16-backend-20260728
+    status: CLOSED
+    note: Spring测试上下文数据库污染已消除并形成回归保护。
+    session_id: SES-20260728T102501Z-3189682B
   session_ids:
   - SES-20260728T102501Z-3189682B
+  implementation_commits:
+  - 63ebeca8ca54f087b18e0b9605dc879dd10bc4c4
 - protocol_version: '1.0'
   cr_id: CR-0446
   title: 强制Android版本APK与桌面测试文档成对交付
