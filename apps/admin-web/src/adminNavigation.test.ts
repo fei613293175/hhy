@@ -16,8 +16,10 @@ describe('admin navigation', () => {
     expect(isImplementedMenuPage(page('ADM-CONFIG-004'))).toBe(true)
     expect(isImplementedMenuPage(page('ADM-DASH-001'))).toBe(false)
     expect(isImplementedMenuPage(page('ADM-REVIEW-001'))).toBe(true)
+    expect(isImplementedMenuPage(page('ADM-ORDER-001'))).toBe(true)
     expect(menuGroupLabels.system).toBe('系统管理')
     expect(menuGroupLabels.contents).toBe('内容运营')
+    expect(menuGroupLabels.commerce).toBe('交易管理')
   })
 
   it('uses provider and domain permissions instead of requiring config.manage', () => {
@@ -36,6 +38,15 @@ describe('admin navigation', () => {
       permissionCodes: ['review.read'], mfaRequired: 'NONE',
     })
     expect(canAccessPage(page('ADM-REVIEW-001'))).toBe(true)
+    expect(canAccessPage(page('ADM-USER-001'))).toBe(false)
+  })
+
+  it('uses the granular order read permission for the order menu', () => {
+    adminSession.apply({
+      accessToken: 'access', adminUserId: '16', displayName: '订单管理员',
+      permissionCodes: ['order.read'], mfaRequired: 'NONE',
+    })
+    expect(canAccessPage(page('ADM-ORDER-001'))).toBe(true)
     expect(canAccessPage(page('ADM-USER-001'))).toBe(false)
   })
 })

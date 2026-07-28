@@ -1,5 +1,5 @@
 context_version: '1.0'
-generated_at: '2026-07-28T13:00:15Z'
+generated_at: '2026-07-28T13:13:03Z'
 conversation_dependency: PROHIBITED
 source_of_truth: REPOSITORY_ONLY
 project: hhy-pro-platform
@@ -149,7 +149,7 @@ current_status:
   - TASK-R13-008
   - TASK-R14-004
   next_task: TASK-R16-004
-  updated_at: '2026-07-28T13:00:11Z'
+  updated_at: '2026-07-28T13:12:59Z'
   notes:
   - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
   - 全部REST/WebSocket操作均有页面或系统所有者
@@ -184,15 +184,15 @@ current_status:
     active_session_id: SES-20260728T125934Z-F3DED330
     actor_id: codex-r16-client-admin-20260728
     story_id: STORY-R16-001
-    lease_expires_at: '2026-07-28T17:00:11Z'
-    latest_checkpoint: .continuity/checkpoints/SES-20260728T125934Z-F3DED330/0001.yaml
-    project_fingerprint: 7920376ac78b3184553413073fe26d4a486bf8927245d5783002d2a39b9307b9
+    lease_expires_at: '2026-07-28T17:12:59Z'
+    latest_checkpoint: .continuity/checkpoints/SES-20260728T125934Z-F3DED330/0003.yaml
+    project_fingerprint: c0a6d29e2e182cbb4d966ee6dae31f8bec8b9764fe3d25d31f86f8731012975b
     context_pack:
       yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
       markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
       manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-      context_hash: 14a1759d48aad91bddd918fcd814b1bae33f3f59ff9d02ea8703b2707fb65c51
-      generated_at: '2026-07-28T12:59:40Z'
+      context_hash: 6ad1d3691e5e0c2d81a9e8476e1851a5dca8bd7760956142b525009580f5a3fe
+      generated_at: '2026-07-28T13:12:36Z'
     handoff_bundle: null
 next_task:
   id: TASK-R16-004
@@ -246,9 +246,10 @@ active_session:
   story_id: STORY-R16-001
   goal: 按冻结ADM-ORDER-001效果与大型商业后台标准实现R16订单列表，并继续完成R16客户端/H5/后台任务
   started_at: '2026-07-28T12:59:34Z'
-  updated_at: '2026-07-28T13:00:11Z'
+  updated_at: '2026-07-28T13:12:59Z'
   takeover_of: null
-  change_requests: []
+  change_requests:
+  - CR-0448
   scope:
     allowed_paths:
     - apps/admin-web/**
@@ -265,8 +266,22 @@ active_session:
     - scripts/**
     - releases/R16/**
     - CHANGELOG.md
-    approved_exceptions: []
-    source: story+explicit
+    approved_exceptions:
+    - apps/admin-web/src/views/CommerceOrdersPage.vue
+    - apps/admin-web/src/services/adminOrders.ts
+    - apps/admin-web/src/services/adminOrders.test.ts
+    - apps/admin-web/src/r16CommerceOrders.test.ts
+    - apps/admin-web/src/services/index.ts
+    - apps/admin-web/src/router.ts
+    - apps/admin-web/src/adminNavigation.ts
+    - apps/admin-web/src/adminNavigation.test.ts
+    - apps/admin-web/src/styles.css
+    - catalogs/ui_visual_acceptance.csv
+    - releases/R16/STORIES.yaml
+    - releases/R16/RELEASE_MANIFEST.yaml
+    - artifacts/reports/R16/TASK-R16-004-admin-orders.md
+    - CHANGELOG.md
+    source: story+explicit+approved-cr:CR-0448
   git:
     initialized: true
     branch: task/TASK-R03-001
@@ -276,62 +291,88 @@ active_session:
     initial_worktree_state: CLEAN
   lease:
     duration_minutes: 240
-    renewed_at: '2026-07-28T13:00:11Z'
-    expires_at: '2026-07-28T17:00:11Z'
-  checkpoint_sequence: 1
-  latest_checkpoint: .continuity/checkpoints/SES-20260728T125934Z-F3DED330/0001.yaml
+    renewed_at: '2026-07-28T13:12:59Z'
+    expires_at: '2026-07-28T17:12:59Z'
+  checkpoint_sequence: 3
+  latest_checkpoint: .continuity/checkpoints/SES-20260728T125934Z-F3DED330/0003.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260728T125934Z-F3DED330.md
-  next_step: 审计现有CommerceOrdersPage与管理端API生成类型，创建实现CR后按冻结规格施工订单列表和详情抽屉
+  next_step: 提交推送CR-0448实现后标记IMPLEMENTED并切换STORY-R16-002。
   context_pack: THIS_CONTEXT_PACK
   handoff_bundle: null
   closure: null
   parallel_execution:
-    assessment: NO_SAFE_PARALLEL
-    delegated_workers: 0
-    workers: []
-    reason: 当前先确定单页现状与CR精确范围，尚无可安全拆分的独立实现
+    assessment: DELEGATED
+    delegated_workers: 1
+    workers:
+    - worker_id: codex-r16-admin-orders-independent-review-20260728
+      responsibility: CR-0448独立范围审查
+      allowed_paths:
+      - .continuity/change_requests/CR-0448.yaml
+    reason: ''
 latest_checkpoint:
   protocol_version: '1.0'
-  checkpoint_id: CP-SES-20260728T125934Z-F3DED330-0001
+  checkpoint_id: CP-SES-20260728T125934Z-F3DED330-0003
   session_id: SES-20260728T125934Z-F3DED330
   task_id: TASK-R16-004
   story_id: STORY-R16-001
-  sequence: 1
-  created_at: '2026-07-28T13:00:11Z'
-  summary: TASK-R16-004已进入STORY-R16-001，锁定ADM-ORDER-001后台订单列表规格、真实双接口、页面状态与商业后台UI边界
-  next_step: 审计现有CommerceOrdersPage与管理端API生成类型，创建实现CR后按冻结规格施工订单列表和详情抽屉
+  sequence: 3
+  created_at: '2026-07-28T13:12:58Z'
+  summary: CR-0448已批准并完成ADM-ORDER-001真实订单列表、URL筛选、分页与只读详情抽屉；admin typecheck和121项测试PASS。
+  next_step: 提交推送CR-0448实现后标记IMPLEMENTED并切换STORY-R16-002。
   blockers: []
-  decisions: []
-  note: ''
+  decisions:
+  - 仅使用OrderResource与两个只读GET合同，视觉目录保持IN_REVIEW到R16候选截图。
+  note: R14消息页公网热修保持有效；邀请码和注册问题未触碰。
   tests:
-  - name: 本阶段未执行测试
-    result: NOT_RUN
-    evidence: ''
-    note: NOT_RUN：本检查点仅完成新任务领取与事实源核对，尚未修改前端代码
+  - name: admin typecheck
+    result: PASS
+    evidence: pnpm --filter @hhy/admin-web typecheck
+    note: Vue TypeScript检查通过
+  - name: admin tests
+    result: PASS
+    evidence: 27 files 121 tests
+    note: 订单服务、页面、路由与全量回归通过
   git:
     initialized: true
     branch: task/TASK-R03-001
-    head: 517654949a3cd79c345deaed6387e52fe13fec56
+    head: 28c875d42b5bde36f2286b7cd22ff451c28b3d69
     upstream: origin/task/TASK-R03-001
     ahead: 0
     behind: 0
     dirty: true
     status_porcelain:
     - ' M .continuity/ACTIVE_SESSION.yaml'
+    - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
     - ' M .continuity/EVENT_LOG.jsonl'
     - ' M .continuity/SESSION_INDEX.yaml'
     - ' M .continuity/STATE.yaml'
-    - ' M .continuity/TASK_CLAIMS.yaml'
-    - ' M .continuity/TASK_TRANSITIONS.yaml'
+    - ' M .continuity/sessions/SES-20260728T125934Z-F3DED330.yaml'
+    - ' M CHANGELOG.md'
     - ' M CURRENT_STATUS.yaml'
+    - ' M apps/admin-web/src/adminNavigation.test.ts'
+    - ' M apps/admin-web/src/adminNavigation.ts'
+    - ' M apps/admin-web/src/router.ts'
+    - ' M apps/admin-web/src/services/index.ts'
     - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
     - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
     - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+    - ' M catalogs/change_request_index.csv'
     - ' M catalogs/session_index.csv'
-    - ' M catalogs/task_transition_ledger.csv'
-    - ?? .continuity/sessions/SES-20260728T125934Z-F3DED330.yaml
-    - ?? docs/03-continuity/sessions/2026-07/SES-20260728T125934Z-F3DED330.md
+    - ' M catalogs/ui_visual_acceptance.csv'
+    - ' M docs/03-continuity/sessions/2026-07/SES-20260728T125934Z-F3DED330.md'
+    - ' M releases/R16/RELEASE_MANIFEST.yaml'
+    - ' M releases/R16/STORIES.yaml'
+    - ?? .continuity/change_requests/CR-0448.yaml
+    - ?? .continuity/checkpoints/SES-20260728T125934Z-F3DED330/0002.yaml
+    - ?? apps/admin-web/src/r16CommerceOrders.test.ts
+    - ?? apps/admin-web/src/services/adminOrders.test.ts
+    - ?? apps/admin-web/src/services/adminOrders.ts
+    - ?? apps/admin-web/src/views/CommerceOrdersPage.vue
+    - ?? artifacts/reports/R16/TASK-R16-004-admin-orders.md
+    - ?? docs/03-continuity/change-requests/CR-0448-实现R16后台订单列表与详情抽屉.md
     recent_commits:
+    - "28c875d42b5bde36f2286b7cd22ff451c28b3d69\t2026-07-28T21:00:28+08:00\tHHY Continuity Bootstrap\t[STORY-R16-001] chore(r16): start admin\
+      \ order experience"
     - "517654949a3cd79c345deaed6387e52fe13fec56\t2026-07-28T20:58:10+08:00\tHHY Continuity Bootstrap\t[STORY-R16-001] chore(continuity): close\
       \ TASK-R16-003 as completed"
     - "d2959ef725480e7d4c6b3937380b83dd7461d56f\t2026-07-28T20:55:48+08:00\tHHY Continuity Bootstrap\t[STORY-R16-001] chore(r16): close backend\
@@ -346,23 +387,115 @@ latest_checkpoint:
       \ TASK-R16-002 as completed"
     - "0f2abe482cd1ac4bc8cc2fd403dbdd3a80674f76\t2026-07-28T18:21:11+08:00\tHHY Continuity Bootstrap\t[STORY-R16-001] chore(governance): close\
       \ R16 data baseline"
-    - "7b956ed2896f32981a875dad1b76ce9f0d44e532\t2026-07-28T18:18:57+08:00\tHHY Continuity Bootstrap\t[STORY-R16-001] feat(database): freeze R16\
-      \ commerce invariants"
   project_fingerprint:
-    sha256: 7920376ac78b3184553413073fe26d4a486bf8927245d5783002d2a39b9307b9
-    files: []
-    file_count: 0
+    sha256: c0a6d29e2e182cbb4d966ee6dae31f8bec8b9764fe3d25d31f86f8731012975b
+    files:
+    - CHANGELOG.md
+    - apps/admin-web/src/adminNavigation.test.ts
+    - apps/admin-web/src/adminNavigation.ts
+    - apps/admin-web/src/r16CommerceOrders.test.ts
+    - apps/admin-web/src/router.ts
+    - apps/admin-web/src/services/adminOrders.test.ts
+    - apps/admin-web/src/services/adminOrders.ts
+    - apps/admin-web/src/services/index.ts
+    - apps/admin-web/src/views/CommerceOrdersPage.vue
+    - catalogs/ui_visual_acceptance.csv
+    - docs/03-continuity/change-requests/CR-0448-实现R16后台订单列表与详情抽屉.md
+    - releases/R16/RELEASE_MANIFEST.yaml
+    - releases/R16/STORIES.yaml
+    file_count: 13
     payload:
       base_commit: 517654949a3cd79c345deaed6387e52fe13fec56
-      files: []
-  change_classification: {}
+      files:
+      - path: CHANGELOG.md
+        state: FILE
+        size: 210030
+        sha256: 234b87d7e8391258f6160981299aa38e3d414ba5c8e7e1730ff50f9ece5c8d2a
+      - path: apps/admin-web/src/adminNavigation.test.ts
+        state: FILE
+        size: 2219
+        sha256: 5b0d4001869fe9ccb265041a09c274db1c04c5def9a2da573d50f19f9e28d900
+      - path: apps/admin-web/src/adminNavigation.ts
+        state: FILE
+        size: 2005
+        sha256: 7909c4d4b685a0189df5465a44409eaf8323e1abe2dd73a319ddfc018d6c3539
+      - path: apps/admin-web/src/r16CommerceOrders.test.ts
+        state: FILE
+        size: 4193
+        sha256: 3fbf477dee50bdd5226bcee09cf47d9922693bbd1bb06e296556c0723490d990
+      - path: apps/admin-web/src/router.ts
+        state: FILE
+        size: 5525
+        sha256: 622fd20fbe0e952d509a70d389fa229c04213130cb205e225d3303c433650014
+      - path: apps/admin-web/src/services/adminOrders.test.ts
+        state: FILE
+        size: 2421
+        sha256: c2e787cacb8f4d3946626592e56150eb79ddfa295e16c770cf999905123049ad
+      - path: apps/admin-web/src/services/adminOrders.ts
+        state: FILE
+        size: 4422
+        sha256: a74cee0ed2b39801dde006882fd8a9de13fa4ed69b6f89017a2446e924a79a0b
+      - path: apps/admin-web/src/services/index.ts
+        state: FILE
+        size: 402
+        sha256: cf09ec68d416540f527c628d606ae035658395b21c43ea86d01d05bb434b73f6
+      - path: apps/admin-web/src/views/CommerceOrdersPage.vue
+        state: FILE
+        size: 22910
+        sha256: 62a8cea73feee295d98b362ea1327d2c18a0346b361c09dfd62539163ed64968
+      - path: catalogs/ui_visual_acceptance.csv
+        state: FILE
+        size: 71542
+        sha256: d54fd05f38640f01e44d1e15d66d3598058e7cda22c11203188b729ac3897baf
+      - path: docs/03-continuity/change-requests/CR-0448-实现R16后台订单列表与详情抽屉.md
+        state: FILE
+        size: 4530
+        sha256: dce3a6e0d2d117ca96f5b5b579acda3ef092ce6441e277f598f5c3fa4b192dff
+      - path: releases/R16/RELEASE_MANIFEST.yaml
+        state: FILE
+        size: 4811
+        sha256: 0347c1db30c74cbe7fa09ab2b45202be219c85f2905f87693286989cb9faee88
+      - path: releases/R16/STORIES.yaml
+        state: FILE
+        size: 9040
+        sha256: a7030747a5767a35c2127530b402b6550d37e86e5435b03b68fa8a8ee9f1ac42
+  change_classification:
+    other:
+    - CHANGELOG.md
+    - catalogs/ui_visual_acceptance.csv
+    code:
+    - apps/admin-web/src/adminNavigation.test.ts
+    - apps/admin-web/src/adminNavigation.ts
+    - apps/admin-web/src/r16CommerceOrders.test.ts
+    - apps/admin-web/src/router.ts
+    - apps/admin-web/src/services/adminOrders.test.ts
+    - apps/admin-web/src/services/adminOrders.ts
+    - apps/admin-web/src/services/index.ts
+    - apps/admin-web/src/views/CommerceOrdersPage.vue
+    user_visible:
+    - apps/admin-web/src/adminNavigation.test.ts
+    - apps/admin-web/src/adminNavigation.ts
+    - apps/admin-web/src/r16CommerceOrders.test.ts
+    - apps/admin-web/src/router.ts
+    - apps/admin-web/src/services/adminOrders.test.ts
+    - apps/admin-web/src/services/adminOrders.ts
+    - apps/admin-web/src/services/index.ts
+    - apps/admin-web/src/views/CommerceOrdersPage.vue
+    continuity:
+    - docs/03-continuity/change-requests/CR-0448-实现R16后台订单列表与详情抽屉.md
+    source_of_truth:
+    - releases/R16/RELEASE_MANIFEST.yaml
+    - releases/R16/STORIES.yaml
   required_records:
   - SESSION_RECORD
   - SESSION_LOG
   - CHECKPOINT
   - CURRENT_STATUS
   - EVENT_LOG
-  change_requests: []
+  - APPROVED_CHANGE_REQUEST
+  - CHANGELOG
+  change_requests:
+  - CR-0448
   scope:
     allowed_paths:
     - apps/admin-web/**
@@ -379,39 +512,74 @@ latest_checkpoint:
     - scripts/**
     - releases/R16/**
     - CHANGELOG.md
-    approved_exceptions: []
-    source: story+explicit
+    approved_exceptions:
+    - apps/admin-web/src/views/CommerceOrdersPage.vue
+    - apps/admin-web/src/services/adminOrders.ts
+    - apps/admin-web/src/services/adminOrders.test.ts
+    - apps/admin-web/src/r16CommerceOrders.test.ts
+    - apps/admin-web/src/services/index.ts
+    - apps/admin-web/src/router.ts
+    - apps/admin-web/src/adminNavigation.ts
+    - apps/admin-web/src/adminNavigation.test.ts
+    - apps/admin-web/src/styles.css
+    - catalogs/ui_visual_acceptance.csv
+    - releases/R16/STORIES.yaml
+    - releases/R16/RELEASE_MANIFEST.yaml
+    - artifacts/reports/R16/TASK-R16-004-admin-orders.md
+    - CHANGELOG.md
+    source: story+explicit+approved-cr:CR-0448
   parallel_execution:
-    assessment: NO_SAFE_PARALLEL
-    delegated_workers: 0
-    workers: []
-    reason: 当前先确定单页现状与CR精确范围，尚无可安全拆分的独立实现
-  event_hash: 3f21e670682135f55948b2675d16fb056e86325121e647b033fb00ae7a63969f
+    assessment: DELEGATED
+    delegated_workers: 1
+    workers:
+    - worker_id: codex-r16-admin-orders-independent-review-20260728
+      responsibility: CR-0448独立范围审查
+      allowed_paths:
+      - .continuity/change_requests/CR-0448.yaml
+    reason: ''
+  event_hash: 458fb5fc870e699a29dbf77741c5292071ce86265b4f8b8cb5a98cdaefcab6e1
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: 517654949a3cd79c345deaed6387e52fe13fec56
+  head: 28c875d42b5bde36f2286b7cd22ff451c28b3d69
   upstream: origin/task/TASK-R03-001
   ahead: 0
   behind: 0
   dirty: true
   status_porcelain:
   - ' M .continuity/ACTIVE_SESSION.yaml'
+  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
   - ' M .continuity/EVENT_LOG.jsonl'
   - ' M .continuity/SESSION_INDEX.yaml'
   - ' M .continuity/STATE.yaml'
-  - ' M .continuity/TASK_CLAIMS.yaml'
-  - ' M .continuity/TASK_TRANSITIONS.yaml'
+  - ' M .continuity/sessions/SES-20260728T125934Z-F3DED330.yaml'
+  - ' M CHANGELOG.md'
   - ' M CURRENT_STATUS.yaml'
+  - ' M apps/admin-web/src/adminNavigation.test.ts'
+  - ' M apps/admin-web/src/adminNavigation.ts'
+  - ' M apps/admin-web/src/router.ts'
+  - ' M apps/admin-web/src/services/index.ts'
   - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
   - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
   - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+  - ' M catalogs/change_request_index.csv'
   - ' M catalogs/session_index.csv'
-  - ' M catalogs/task_transition_ledger.csv'
-  - ?? .continuity/checkpoints/SES-20260728T125934Z-F3DED330/0001.yaml
-  - ?? .continuity/sessions/SES-20260728T125934Z-F3DED330.yaml
-  - ?? docs/03-continuity/sessions/2026-07/SES-20260728T125934Z-F3DED330.md
+  - ' M catalogs/ui_visual_acceptance.csv'
+  - ' M docs/03-continuity/sessions/2026-07/SES-20260728T125934Z-F3DED330.md'
+  - ' M releases/R16/RELEASE_MANIFEST.yaml'
+  - ' M releases/R16/STORIES.yaml'
+  - ?? .continuity/change_requests/CR-0448.yaml
+  - ?? .continuity/checkpoints/SES-20260728T125934Z-F3DED330/0002.yaml
+  - ?? .continuity/checkpoints/SES-20260728T125934Z-F3DED330/0003.yaml
+  - ?? apps/admin-web/src/r16CommerceOrders.test.ts
+  - ?? apps/admin-web/src/services/adminOrders.test.ts
+  - ?? apps/admin-web/src/services/adminOrders.ts
+  - ?? apps/admin-web/src/views/CommerceOrdersPage.vue
+  - ?? artifacts/reports/R16/TASK-R16-004-admin-orders.md
+  - ?? docs/03-continuity/change-requests/CR-0448-实现R16后台订单列表与详情抽屉.md
   recent_commits:
+  - "28c875d42b5bde36f2286b7cd22ff451c28b3d69\t2026-07-28T21:00:28+08:00\tHHY Continuity Bootstrap\t[STORY-R16-001] chore(r16): start admin order\
+    \ experience"
   - "517654949a3cd79c345deaed6387e52fe13fec56\t2026-07-28T20:58:10+08:00\tHHY Continuity Bootstrap\t[STORY-R16-001] chore(continuity): close TASK-R16-003\
     \ as completed"
   - "d2959ef725480e7d4c6b3937380b83dd7461d56f\t2026-07-28T20:55:48+08:00\tHHY Continuity Bootstrap\t[STORY-R16-001] chore(r16): close backend\
@@ -426,15 +594,78 @@ git:
     \ as completed"
   - "0f2abe482cd1ac4bc8cc2fd403dbdd3a80674f76\t2026-07-28T18:21:11+08:00\tHHY Continuity Bootstrap\t[STORY-R16-001] chore(governance): close R16\
     \ data baseline"
-  - "7b956ed2896f32981a875dad1b76ce9f0d44e532\t2026-07-28T18:18:57+08:00\tHHY Continuity Bootstrap\t[STORY-R16-001] feat(database): freeze R16\
-    \ commerce invariants"
 project_fingerprint:
-  sha256: 7920376ac78b3184553413073fe26d4a486bf8927245d5783002d2a39b9307b9
-  files: []
-  file_count: 0
+  sha256: c0a6d29e2e182cbb4d966ee6dae31f8bec8b9764fe3d25d31f86f8731012975b
+  files:
+  - CHANGELOG.md
+  - apps/admin-web/src/adminNavigation.test.ts
+  - apps/admin-web/src/adminNavigation.ts
+  - apps/admin-web/src/r16CommerceOrders.test.ts
+  - apps/admin-web/src/router.ts
+  - apps/admin-web/src/services/adminOrders.test.ts
+  - apps/admin-web/src/services/adminOrders.ts
+  - apps/admin-web/src/services/index.ts
+  - apps/admin-web/src/views/CommerceOrdersPage.vue
+  - catalogs/ui_visual_acceptance.csv
+  - docs/03-continuity/change-requests/CR-0448-实现R16后台订单列表与详情抽屉.md
+  - releases/R16/RELEASE_MANIFEST.yaml
+  - releases/R16/STORIES.yaml
+  file_count: 13
   payload:
     base_commit: 517654949a3cd79c345deaed6387e52fe13fec56
-    files: []
+    files:
+    - path: CHANGELOG.md
+      state: FILE
+      size: 210030
+      sha256: 234b87d7e8391258f6160981299aa38e3d414ba5c8e7e1730ff50f9ece5c8d2a
+    - path: apps/admin-web/src/adminNavigation.test.ts
+      state: FILE
+      size: 2219
+      sha256: 5b0d4001869fe9ccb265041a09c274db1c04c5def9a2da573d50f19f9e28d900
+    - path: apps/admin-web/src/adminNavigation.ts
+      state: FILE
+      size: 2005
+      sha256: 7909c4d4b685a0189df5465a44409eaf8323e1abe2dd73a319ddfc018d6c3539
+    - path: apps/admin-web/src/r16CommerceOrders.test.ts
+      state: FILE
+      size: 4193
+      sha256: 3fbf477dee50bdd5226bcee09cf47d9922693bbd1bb06e296556c0723490d990
+    - path: apps/admin-web/src/router.ts
+      state: FILE
+      size: 5525
+      sha256: 622fd20fbe0e952d509a70d389fa229c04213130cb205e225d3303c433650014
+    - path: apps/admin-web/src/services/adminOrders.test.ts
+      state: FILE
+      size: 2421
+      sha256: c2e787cacb8f4d3946626592e56150eb79ddfa295e16c770cf999905123049ad
+    - path: apps/admin-web/src/services/adminOrders.ts
+      state: FILE
+      size: 4422
+      sha256: a74cee0ed2b39801dde006882fd8a9de13fa4ed69b6f89017a2446e924a79a0b
+    - path: apps/admin-web/src/services/index.ts
+      state: FILE
+      size: 402
+      sha256: cf09ec68d416540f527c628d606ae035658395b21c43ea86d01d05bb434b73f6
+    - path: apps/admin-web/src/views/CommerceOrdersPage.vue
+      state: FILE
+      size: 22910
+      sha256: 62a8cea73feee295d98b362ea1327d2c18a0346b361c09dfd62539163ed64968
+    - path: catalogs/ui_visual_acceptance.csv
+      state: FILE
+      size: 71542
+      sha256: d54fd05f38640f01e44d1e15d66d3598058e7cda22c11203188b729ac3897baf
+    - path: docs/03-continuity/change-requests/CR-0448-实现R16后台订单列表与详情抽屉.md
+      state: FILE
+      size: 4530
+      sha256: dce3a6e0d2d117ca96f5b5b579acda3ef092ce6441e277f598f5c3fa4b192dff
+    - path: releases/R16/RELEASE_MANIFEST.yaml
+      state: FILE
+      size: 4811
+      sha256: 0347c1db30c74cbe7fa09ab2b45202be219c85f2905f87693286989cb9faee88
+    - path: releases/R16/STORIES.yaml
+      state: FILE
+      size: 9040
+      sha256: a7030747a5767a35c2127530b402b6550d37e86e5435b03b68fa8a8ee9f1ac42
 release_context:
   RELEASE_MANIFEST.yaml:
     release: R16
@@ -537,6 +768,18 @@ release_context:
       contract_alignment: BenefitResource名称255、单位64且durationDays最小0；V047前向对齐且不改写V045
       regression: Java 21后端全量491项，0失败、0错误、27项按外部PostgreSQL条件跳过
       test_isolation: Spring控制器保持可代理；WebSocket容器工厂在test profile关闭；默认H2按ApplicationContext使用UUID隔离
+    admin_order_baseline:
+      cr_id: CR-0448
+      status: MACHINE_VERIFIED
+      page: apps/admin-web/src/views/CommerceOrdersPage.vue
+      service: apps/admin-web/src/services/adminOrders.ts
+      report: artifacts/reports/R16/TASK-R16-004-admin-orders.md
+      permission: order.read
+      operations:
+      - adminOrdersGetOrders
+      - adminOrdersGetOrdersByOrderno
+      regression: admin Vue typecheck、27个测试文件和121项测试全部PASS
+      visual_status: IN_REVIEW；R16大版本候选阶段生成真实数据截图后由AI判定，不阻塞后续Android故事
     definition_of_ready: releases/R16/DEFINITION_OF_READY.yaml
     story_backlog: releases/R16/STORIES.yaml
     continuity:
@@ -759,7 +1002,14 @@ release_context:
       - 敏感字段按分级脱敏；高敏读取和后台写操作完整审计
       - 自动化覆盖：TST-ORDER_001-HAPPY
       definition_of_ready: 全部引用的页面/字段/状态/动作/API/配置/数据/测试均为FROZEN且无空缺
-      status: READY_FOR_IMPLEMENTATION
+      implementation_baseline:
+        cr_id: CR-0448
+        page: apps/admin-web/src/views/CommerceOrdersPage.vue
+        service: apps/admin-web/src/services/adminOrders.ts
+        report: artifacts/reports/R16/TASK-R16-004-admin-orders.md
+        machine_gate: admin typecheck and 121 tests PASS
+        visual_status: IN_REVIEW until R16 candidate screenshot
+      status: MACHINE_VERIFIED
     - story_id: STORY-R16-002
       release: R16
       title: 订单：订单详情
@@ -1230,8 +1480,8 @@ continuity_state:
   last_session_id: SES-20260728T102501Z-3189682B
   last_session_result: COMPLETED
   last_closure_checkpoint_id: CP-SES-20260728T102501Z-3189682B-0007
-  event_count: 4278
-  event_head_hash: 3f21e670682135f55948b2675d16fb056e86325121e647b033fb00ae7a63969f
+  event_count: 4285
+  event_head_hash: 458fb5fc870e699a29dbf77741c5292071ce86265b4f8b8cb5a98cdaefcab6e1
   event_chain_valid: true
 recent_sessions:
 - session_id: SES-20260726T191158Z-2B506AB7
@@ -1350,9 +1600,9 @@ recent_sessions:
   started_at: '2026-07-28T12:59:34Z'
   record: .continuity/sessions/SES-20260728T125934Z-F3DED330.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260728T125934Z-F3DED330.md
-  updated_at: '2026-07-28T13:00:11Z'
+  updated_at: '2026-07-28T13:12:59Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260728T125934Z-F3DED330/0001.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260728T125934Z-F3DED330/0003.yaml
   handoff_bundle: null
 task_claims:
 - claim_id: CLM-D7D9BE594C03
@@ -13909,6 +14159,68 @@ open_change_requests:
   - SES-20260727T221444Z-FD353AD3
   implementation_commits:
   - 987bf263
+- protocol_version: '1.0'
+  cr_id: CR-0448
+  title: 实现R16后台订单列表与详情抽屉
+  status: IMPLEMENTING
+  created_at: '2026-07-28T13:03:55Z'
+  updated_at: '2026-07-28T13:12:52Z'
+  requester_actor_id: codex-r16-client-admin-20260728
+  approver_actor_id: codex-r16-admin-orders-independent-review-20260728
+  task_id: TASK-R16-004
+  session_id: SES-20260728T125934Z-F3DED330
+  user_request: 持续推进R16并按商业后台标准补齐前后端对应管理能力；当前R14消息页热修不阻塞R16
+  reason: R16订单后端合同与实现已完成，但ADM-ORDER-001仍由CatalogPage占位，后台无法通过真实接口查看订单列表和详情
+  original_rule: R16后端已提供订单列表和详情合同，但后台ADM-ORDER-001仍由CatalogPage占位；视觉目录遗留React TSX实现路径，与当前Vue SFC架构不一致。
+  new_rule: ADM-ORDER-001必须使用当前Vue 3架构和生成合同类型，通过真实GET /admin-api/v1/orders与GET /admin-api/v1/orders/{orderNo}展示订单。固定左侧导航与右侧独立滚动；页面具备中文标题、真实统计、URL同步关键词/订单号/状态/排序、表格、分页、刷新时间、加载/空/失败/离线/无权限状态和只读详情抽屉。金额、状态、时间及商品快照仅来自OrderResource；订单号与用户ID可复制；禁止虚构退款、余额、支付、客服、批量和删除操作。
+  impact_summary: 新增类型安全订单服务和ADM-ORDER-001 Vue页面，接入真实后端列表与详情，更新路由与菜单实施状态，纠正视觉验收目录实现路径并新增服务、页面、导航测试和R16任务报告。
+  impact:
+    files:
+    - apps/admin-web/src/views/CommerceOrdersPage.vue
+    - apps/admin-web/src/services/adminOrders.ts
+    - apps/admin-web/src/services/adminOrders.test.ts
+    - apps/admin-web/src/r16CommerceOrders.test.ts
+    - apps/admin-web/src/services/index.ts
+    - apps/admin-web/src/router.ts
+    - apps/admin-web/src/adminNavigation.ts
+    - apps/admin-web/src/adminNavigation.test.ts
+    - apps/admin-web/src/styles.css
+    - catalogs/ui_visual_acceptance.csv
+    - releases/R16/STORIES.yaml
+    - releases/R16/RELEASE_MANIFEST.yaml
+    - artifacts/reports/R16/TASK-R16-004-admin-orders.md
+    - CHANGELOG.md
+    pages:
+    - ADM-ORDER-001
+    apis:
+    - GET /admin-api/v1/orders
+    - GET /admin-api/v1/orders/{orderNo}
+    database: []
+    configuration:
+    - admin router and implemented navigation registry
+    ledger:
+    - CR-0448,R16 TASK-R16-004 admin orders evidence
+    tests:
+    - 类型安全服务路径/查询白名单/重试/认证；页面加载、真实统计、URL筛选、中文状态、分页、详情抽屉、复制、离线/403/404/网络失败；路由权限order.read；禁止虚构写操作；admin typecheck/test与R16 manifest/story一致性。
+    releases:
+    - R16
+    migration_and_compatibility: 无数据库、后端API或配置迁移。保持既有生成合同与权限order.read兼容；视觉目录仅把不存在的TSX路径纠正为当前Vue SFC真实路径。查询参数只使用合同允许字段，详情抽屉为只读；失败保持列表上下文且可重试。
+  user_confirmation: 项目所有者已明确要求持续推进R16，并要求后台按大型商业系统标准补齐与前端真实能力对应的上帝视角管理功能，禁止虚构未实现能力。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-28T13:06:36Z'
+    note: 独立审查确认：ADM-ORDER-001仅接入已冻结的两个R16 GET合同与生成OrderResource类型，列表查询限制在page/pageSize/cursor/status/keyword/sort合同字段；路由与菜单读取权限固定order.read，403不得泄露资源；页面使用当前Vue
+      3 SFC真实路径并纠正遗留TSX目录路径；详情抽屉严格只读，金额、状态、时间、商品及价格快照和不退款证据均来自真实OrderResource，明确禁止退款、余额、支付、客服、批量、删除和导出占位；测试覆盖服务认证/白名单/重试、页面状态、URL/分页/详情/复制、403/404/离线/网络失败、权限和禁止写操作，并纳入typecheck、全量admin测试及R16故事清单一致性。
+  machine_record: .continuity/change_requests/CR-0448.yaml
+  document: docs/03-continuity/change-requests/CR-0448-实现R16后台订单列表与详情抽屉.md
+  decision_log:
+  - at: '2026-07-28T13:12:52Z'
+    actor_id: codex-r16-client-admin-20260728
+    status: IMPLEMENTING
+    note: 独立审批后完成ADM-ORDER-001候选实现，进入提交前状态与证据收口。
+    session_id: SES-20260728T125934Z-F3DED330
+  session_ids:
+  - SES-20260728T125934Z-F3DED330
 source_manifest:
 - path: AGENTS.md
   sha256: a110d6552e32deddbf58743c3012fbad2d038594d4792051be7190df7db29aa9
@@ -13917,7 +14229,7 @@ source_manifest:
   sha256: 22de14029ce47beb41ea569e36ce223fbc9d11b86f8676f28d5fbbd83896af5c
   bytes: 4556
 - path: CURRENT_STATUS.yaml
-  sha256: d018201e8c0b39619e09017e7ffbd04d4d582cf6c40871857d6594c0f7d0c87e
+  sha256: 91902d57cf97cc2d262ae4c628d0f8c40d77e2729cd671351c514a654ddf9025
   bytes: 4733
 - path: NEXT_TASK.yaml
   sha256: 098e3473cabfab4b4cecb672782dc80007d2d554f478bb33805f4bb2c57faf09
@@ -13950,10 +14262,10 @@ source_manifest:
   sha256: 38e04ed812c8df0d353c2b91993d31e53b471e9c457f06b426bd2260c470aa92
   bytes: 13936
 - path: .continuity/EVENT_LOG.jsonl
-  sha256: 88049988b75b9e055898953ec56a6a8fe57024224cf8c8efdccc58b987a96105
-  bytes: 2444036
+  sha256: 3ebb2758c708c38e7f03f9a755797b90a2530f1be35e18593656eda1adfd6aa1
+  bytes: 2448465
 - path: .continuity/SESSION_INDEX.yaml
-  sha256: 9bc786ca1a2d0cd0ad64b4e2bf33abf097c1b8014efc8fed90e85da5c87d070d
+  sha256: 0d26a16ab5e365d958e3399c8c01b63f0e0afb935ad1c463fe9045ab2f1bffb2
   bytes: 63722
 - path: .continuity/TASK_CLAIMS.yaml
   sha256: 7ef9e5fc7c020e4019e001fa0cf428c2c429baf658a086ad256bf9b9f0a0d464
@@ -13962,10 +14274,10 @@ source_manifest:
   sha256: 4dab6426698947a1e4aaa0e4f696aee70bd433b55ed1a06754fcd5495721086d
   bytes: 36259
 - path: .continuity/CHANGE_REQUEST_INDEX.yaml
-  sha256: db5f8b93a94fc4040d3a268c2386801f8eb772e732371eac26fd42465907d5db
-  bytes: 1642253
+  sha256: e5105380cf9fb4651a3fc5691c9d085527c76cb2d094771f466b9fbe1f321741
+  bytes: 1646950
 - path: .continuity/ACTIVE_SESSION.yaml
-  sha256: d60024d193972faebd74911c61ad9e0000d3762a0d1ee0571569b54325db5a56
+  sha256: c15d0b0b8e9fbfb7c2818306bd99e6af80eaf36fc83906443c1413b92725d63d
   bytes: 546
 - path: docs/00-baseline/正式商业系统全局硬性开发边界.md
   sha256: d8a77eddf520659b1d6b57e16ecc0739fa93dbd39cf9903dbaf798fc631ae6fe
@@ -13980,14 +14292,14 @@ source_manifest:
   sha256: 1b73841ee01e9ae9d3c3beea35ef1874ad6b2049d0c15423119f03f0a998b3f1
   bytes: 18013
 - path: releases/R16/RELEASE_MANIFEST.yaml
-  sha256: b13dfbfaf16fb61e3977658f2d919aa328dc50aa281923c380a22ce4c09407e6
-  bytes: 4274
+  sha256: 0347c1db30c74cbe7fa09ab2b45202be219c85f2905f87693286989cb9faee88
+  bytes: 4811
 - path: releases/R16/DEFINITION_OF_READY.yaml
   sha256: 9c4c9f85b879fe5b73a85cbea370c773f11e8a302f0570a92cb9916cf5e0805e
   bytes: 7576
 - path: releases/R16/STORIES.yaml
-  sha256: ef975f358047faa0e2e71f511bff8ee66046f84c5e38cb2a8fec8d77acfddfd0
-  bytes: 8712
+  sha256: a7030747a5767a35c2127530b402b6550d37e86e5435b03b68fa8a8ee9f1ac42
+  bytes: 9040
 - path: releases/R16/TASKS.yaml
   sha256: e66656c7c431a032916c4783c571000f3d238ee636f7fe01c4b881c01b0385c0
   bytes: 5709
@@ -13995,11 +14307,14 @@ source_manifest:
   sha256: 6c6b0104146b52bb78d72e9f0db5b389d43dc5fc1fdf8fa054437b4150452625
   bytes: 684
 - path: docs/03-continuity/sessions/2026-07/SES-20260728T125934Z-F3DED330.md
-  sha256: 1f5a05c9f0e6d266c9a9010f587b4887bce8cc7f3b23d12cf767f38a3ec8642a
-  bytes: 2217
-- path: .continuity/checkpoints/SES-20260728T125934Z-F3DED330/0001.yaml
-  sha256: 028073012c6332854b0869f4524482f92defdec7cda6b659bb14ff047968f939
-  bytes: 3884
+  sha256: 0aaa400465ca24244b0366ce3ca851f3defc459909ccd68a86651388e2916a5c
+  bytes: 4936
+- path: .continuity/checkpoints/SES-20260728T125934Z-F3DED330/0003.yaml
+  sha256: 857c411076f1a7da66c03fe1e37dc4ef195d72f262e59928597f5c803491b196
+  bytes: 9335
+- path: docs/03-continuity/change-requests/CR-0448-实现R16后台订单列表与详情抽屉.md
+  sha256: dce3a6e0d2d117ca96f5b5b579acda3ef092ce6441e277f598f5c3fa4b192dff
+  bytes: 4530
 rule_readiness:
   status: PASS
   evidence: HASHED_CONTEXT_MANIFEST
@@ -14035,4 +14350,4 @@ hard_rules:
 - 除非项目所有者明确报告未连接，默认Codex已连接obx-test且既有项目环境可用；预检失败必须阻断并报告
 - 禁止以无服务器状态继续开发或重建本地Android SDK，必须复用登记的远端镜像和Gradle缓存
 - Git remote/upstream仅按tracked transport descriptor受控恢复；推送前必须预检且禁止force push
-context_hash: 470af5f38dda2e7f2f0e862dd236cb0ad5200c958ac761e6df018f5594d0d6fa
+context_hash: b9afcba6a9714c61cb1ae50eeebea824427ed1675b679082e775a5cbd277da70

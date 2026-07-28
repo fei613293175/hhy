@@ -1,0 +1,62 @@
+protocol_version: '1.0'
+cr_id: CR-0448
+title: 实现R16后台订单列表与详情抽屉
+status: IMPLEMENTING
+created_at: '2026-07-28T13:03:55Z'
+updated_at: '2026-07-28T13:12:52Z'
+requester_actor_id: codex-r16-client-admin-20260728
+approver_actor_id: codex-r16-admin-orders-independent-review-20260728
+task_id: TASK-R16-004
+session_id: SES-20260728T125934Z-F3DED330
+user_request: 持续推进R16并按商业后台标准补齐前后端对应管理能力；当前R14消息页热修不阻塞R16
+reason: R16订单后端合同与实现已完成，但ADM-ORDER-001仍由CatalogPage占位，后台无法通过真实接口查看订单列表和详情
+original_rule: R16后端已提供订单列表和详情合同，但后台ADM-ORDER-001仍由CatalogPage占位；视觉目录遗留React TSX实现路径，与当前Vue SFC架构不一致。
+new_rule: ADM-ORDER-001必须使用当前Vue 3架构和生成合同类型，通过真实GET /admin-api/v1/orders与GET /admin-api/v1/orders/{orderNo}展示订单。固定左侧导航与右侧独立滚动；页面具备中文标题、真实统计、URL同步关键词/订单号/状态/排序、表格、分页、刷新时间、加载/空/失败/离线/无权限状态和只读详情抽屉。金额、状态、时间及商品快照仅来自OrderResource；订单号与用户ID可复制；禁止虚构退款、余额、支付、客服、批量和删除操作。
+impact_summary: 新增类型安全订单服务和ADM-ORDER-001 Vue页面，接入真实后端列表与详情，更新路由与菜单实施状态，纠正视觉验收目录实现路径并新增服务、页面、导航测试和R16任务报告。
+impact:
+  files:
+  - apps/admin-web/src/views/CommerceOrdersPage.vue
+  - apps/admin-web/src/services/adminOrders.ts
+  - apps/admin-web/src/services/adminOrders.test.ts
+  - apps/admin-web/src/r16CommerceOrders.test.ts
+  - apps/admin-web/src/services/index.ts
+  - apps/admin-web/src/router.ts
+  - apps/admin-web/src/adminNavigation.ts
+  - apps/admin-web/src/adminNavigation.test.ts
+  - apps/admin-web/src/styles.css
+  - catalogs/ui_visual_acceptance.csv
+  - releases/R16/STORIES.yaml
+  - releases/R16/RELEASE_MANIFEST.yaml
+  - artifacts/reports/R16/TASK-R16-004-admin-orders.md
+  - CHANGELOG.md
+  pages:
+  - ADM-ORDER-001
+  apis:
+  - GET /admin-api/v1/orders
+  - GET /admin-api/v1/orders/{orderNo}
+  database: []
+  configuration:
+  - admin router and implemented navigation registry
+  ledger:
+  - CR-0448,R16 TASK-R16-004 admin orders evidence
+  tests:
+  - 类型安全服务路径/查询白名单/重试/认证；页面加载、真实统计、URL筛选、中文状态、分页、详情抽屉、复制、离线/403/404/网络失败；路由权限order.read；禁止虚构写操作；admin typecheck/test与R16 manifest/story一致性。
+  releases:
+  - R16
+  migration_and_compatibility: 无数据库、后端API或配置迁移。保持既有生成合同与权限order.read兼容；视觉目录仅把不存在的TSX路径纠正为当前Vue SFC真实路径。查询参数只使用合同允许字段，详情抽屉为只读；失败保持列表上下文且可重试。
+user_confirmation: 项目所有者已明确要求持续推进R16，并要求后台按大型商业系统标准补齐与前端真实能力对应的上帝视角管理功能，禁止虚构未实现能力。
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-28T13:06:36Z'
+  note: 独立审查确认：ADM-ORDER-001仅接入已冻结的两个R16 GET合同与生成OrderResource类型，列表查询限制在page/pageSize/cursor/status/keyword/sort合同字段；路由与菜单读取权限固定order.read，403不得泄露资源；页面使用当前Vue
+    3 SFC真实路径并纠正遗留TSX目录路径；详情抽屉严格只读，金额、状态、时间、商品及价格快照和不退款证据均来自真实OrderResource，明确禁止退款、余额、支付、客服、批量、删除和导出占位；测试覆盖服务认证/白名单/重试、页面状态、URL/分页/详情/复制、403/404/离线/网络失败、权限和禁止写操作，并纳入typecheck、全量admin测试及R16故事清单一致性。
+machine_record: .continuity/change_requests/CR-0448.yaml
+document: docs/03-continuity/change-requests/CR-0448-实现R16后台订单列表与详情抽屉.md
+decision_log:
+- at: '2026-07-28T13:12:52Z'
+  actor_id: codex-r16-client-admin-20260728
+  status: IMPLEMENTING
+  note: 独立审批后完成ADM-ORDER-001候选实现，进入提交前状态与证据收口。
+  session_id: SES-20260728T125934Z-F3DED330
+session_ids:
+- SES-20260728T125934Z-F3DED330

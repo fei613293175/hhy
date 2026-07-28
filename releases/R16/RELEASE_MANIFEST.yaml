@@ -98,6 +98,18 @@ backend_baseline:
   contract_alignment: BenefitResource名称255、单位64且durationDays最小0；V047前向对齐且不改写V045
   regression: Java 21后端全量491项，0失败、0错误、27项按外部PostgreSQL条件跳过
   test_isolation: Spring控制器保持可代理；WebSocket容器工厂在test profile关闭；默认H2按ApplicationContext使用UUID隔离
+admin_order_baseline:
+  cr_id: CR-0448
+  status: MACHINE_VERIFIED
+  page: apps/admin-web/src/views/CommerceOrdersPage.vue
+  service: apps/admin-web/src/services/adminOrders.ts
+  report: artifacts/reports/R16/TASK-R16-004-admin-orders.md
+  permission: order.read
+  operations:
+  - adminOrdersGetOrders
+  - adminOrdersGetOrdersByOrderno
+  regression: admin Vue typecheck、27个测试文件和121项测试全部PASS
+  visual_status: IN_REVIEW；R16大版本候选阶段生成真实数据截图后由AI判定，不阻塞后续Android故事
 definition_of_ready: releases/R16/DEFINITION_OF_READY.yaml
 story_backlog: releases/R16/STORIES.yaml
 continuity:
