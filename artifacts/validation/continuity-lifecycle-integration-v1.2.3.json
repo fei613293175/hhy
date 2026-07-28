@@ -1,7 +1,7 @@
 {
   "version": "1.2.3",
   "status": "PASS",
-  "generated_at": "2026-07-28T04:04:07Z",
+  "generated_at": "2026-07-28T16:09:06Z",
   "conversation_context_required": false,
   "repository_only_handoff": true,
   "source_manifest": [
@@ -23,7 +23,7 @@
     },
     {
       "path": "scripts/continuity.py",
-      "sha256": "01f46b0b9232d95458d27f1ca4c3987dabee2330a08939bd83614cb6a04a8e55"
+      "sha256": "0df599a7fad22c6efb593955a45fdd27e423d96d0ddf57c7f83d10c10124c264"
     },
     {
       "path": "scripts/continuity_gate.py",
@@ -70,16 +70,16 @@
       "sha256": "8ea08d11764a313318fef560694cbf6db45f34ee96561c060c693664b3993d27"
     }
   ],
-  "base_commit": "b24aecdd52fa0e5285f2d638826eef370859cfa9",
-  "final_commit": "23fd2f53272c092db6a0ad87b2dcac655aee73f0",
-  "session_a": "SES-20260728T035824Z-52212413",
-  "session_b": "SES-20260728T040119Z-A3F3E5A0",
-  "change_request": "CR-0430",
+  "base_commit": "3dce7915d0ca6e1f858887f55730334dbdb14720",
+  "final_commit": "83334fc09c8ae06d6de2bc2733f1cdcd26b16e56",
+  "session_a": "SES-20260728T160312Z-CA153816",
+  "session_b": "SES-20260728T160606Z-3B6A6817",
+  "change_request": "CR-0461",
   "checks": [
     {
       "check": "bootstrap_atomic",
       "status": "PASS",
-      "detail": "b24aecdd52fa0e5285f2d638826eef370859cfa9"
+      "detail": "3dce7915d0ca6e1f858887f55730334dbdb14720"
     },
     {
       "check": "no_session_commit_blocked",
@@ -89,7 +89,7 @@
     {
       "check": "unique_active_session_and_claim",
       "status": "PASS",
-      "detail": "SES-20260728T035824Z-52212413"
+      "detail": "SES-20260728T160312Z-CA153816"
     },
     {
       "check": "checkpoint_test_required",
@@ -99,12 +99,12 @@
     {
       "check": "checkpoint_pointer_and_commit_trailers",
       "status": "PASS",
-      "detail": "40aef530b5d3e40dbba68db9703f19331c0cc13b"
+      "detail": "bbee78c0d315d940dad0389bd7657aafc994bf03"
     },
     {
       "check": "atomic_same_task_story_switch",
       "status": "PASS",
-      "detail": "7bf57b46b99fef49e5a0fd4db9ee007d75c57e0b"
+      "detail": "876635e9b9182204b1719fe3fe0797497496af30"
     },
     {
       "check": "stale_checkpoint_blocked",
@@ -114,7 +114,7 @@
     {
       "check": "historical_checkpoint_commit",
       "status": "PASS",
-      "detail": "ca6f1ed660e9201d017277a7afb837e05309a39e"
+      "detail": "3af9162fbad1cc1f011b9564e12fb001760e56f5"
     },
     {
       "check": "frozen_fact_requires_cr",
@@ -124,17 +124,17 @@
     {
       "check": "complete_cr_contract_and_separation",
       "status": "PASS",
-      "detail": "3767cb9134289b4c9d9a6f1d66165aff8bafa795"
+      "detail": "8b19cf3238fac6fecb18a78e10159e7f748ed54e"
     },
     {
       "check": "wip_handoff_and_takeover",
       "status": "PASS",
-      "detail": "01dbcccb1994b50d301adaa7968b1e2bec9e4894"
+      "detail": "2be777cd653313089315588ca965898e1e63e590"
     },
     {
       "check": "closure_checkpoint_and_metadata_commit",
       "status": "PASS",
-      "detail": "23fd2f53272c092db6a0ad87b2dcac655aee73f0"
+      "detail": "83334fc09c8ae06d6de2bc2733f1cdcd26b16e56"
     },
     {
       "check": "per_commit_prepush_and_ci",
@@ -144,7 +144,7 @@
     {
       "check": "clean_committed_export",
       "status": "PASS",
-      "detail": "bbf7722f6dcc0fa6dc288038128bfd7e67753c0997481dfc626a13a9415e1777"
+      "detail": "7bb8d37e48b6a263e602cd2b8cea1ae0c3c376cb22327ec17116e6867506d0ef"
     },
     {
       "check": "event_hash_chain_tamper_detected",
@@ -173,7 +173,7 @@
         "smoke@example.invalid"
       ],
       "returncode": 0,
-      "duration_seconds": 123.906
+      "duration_seconds": 128.671
     },
     {
       "label": "01_base_head",
@@ -193,7 +193,7 @@
         "--porcelain"
       ],
       "returncode": 0,
-      "duration_seconds": 0.141
+      "duration_seconds": 0.093
     },
     {
       "label": "01_transport_remote",
@@ -202,10 +202,10 @@
         "remote",
         "add",
         "origin",
-        "file:///C:/Users/%E5%B0%8F%E7%99%BD/AppData/Local/Temp/hhy-v123-reconstruct-35c6xz4m/lifecycle/transport-remote.git"
+        "file:///C:/Users/%E5%B0%8F%E7%99%BD/AppData/Local/Temp/hhy-v123-reconstruct-gv8_zc7w/lifecycle/transport-remote.git"
       ],
       "returncode": 0,
-      "duration_seconds": 0.078
+      "duration_seconds": 0.062
     },
     {
       "label": "01_transport_upstream",
@@ -219,7 +219,7 @@
         "task/TASK-P00-001"
       ],
       "returncode": 0,
-      "duration_seconds": 17.093
+      "duration_seconds": 16.438
     },
     {
       "label": "02_no_session_add",
@@ -229,7 +229,7 @@
         "-A"
       ],
       "returncode": 0,
-      "duration_seconds": 0.344
+      "duration_seconds": 0.281
     },
     {
       "label": "02_no_session_rejected",
@@ -240,10 +240,10 @@
         "pre-commit",
         "--strict",
         "--json-out",
-        "C:\\Users\\小白\\AppData\\Local\\Temp\\hhy-v123-reconstruct-35c6xz4m\\lifecycle\\outputs\\no-session.json"
+        "C:\\Users\\小白\\AppData\\Local\\Temp\\hhy-v123-reconstruct-gv8_zc7w\\lifecycle\\outputs\\no-session.json"
       ],
       "returncode": 1,
-      "duration_seconds": 3.953
+      "duration_seconds": 3.922
     },
     {
       "label": "02_reset",
@@ -254,7 +254,7 @@
         "HEAD"
       ],
       "returncode": 0,
-      "duration_seconds": 0.641
+      "duration_seconds": 0.594
     },
     {
       "label": "03_start",
@@ -272,7 +272,7 @@
         "验证持续开发无状态接续协议"
       ],
       "returncode": 0,
-      "duration_seconds": 10.719
+      "duration_seconds": 8.39
     },
     {
       "label": "03_double_claim_rejected",
@@ -308,7 +308,7 @@
         "生命周期演练按单一状态链串行验证"
       ],
       "returncode": 2,
-      "duration_seconds": 1.078
+      "duration_seconds": 1.11
     },
     {
       "label": "05_checkpoint",
@@ -328,7 +328,7 @@
         "生命周期演练按单一状态链串行验证"
       ],
       "returncode": 0,
-      "duration_seconds": 7.969
+      "duration_seconds": 6.859
     },
     {
       "label": "06_first_add",
@@ -338,7 +338,7 @@
         "-A"
       ],
       "returncode": 0,
-      "duration_seconds": 0.344
+      "duration_seconds": 0.328
     },
     {
       "label": "06_first_commit",
@@ -349,7 +349,7 @@
         "chore(continuity): add protocol smoke probe"
       ],
       "returncode": 0,
-      "duration_seconds": 9.375
+      "duration_seconds": 8.672
     },
     {
       "label": "06_first_message",
@@ -360,7 +360,7 @@
         "--pretty=%B"
       ],
       "returncode": 0,
-      "duration_seconds": 0.047
+      "duration_seconds": 0.062
     },
     {
       "label": "06_first_head",
@@ -386,7 +386,7 @@
         "非法脏工作树切换"
       ],
       "returncode": 2,
-      "duration_seconds": 0.704
+      "duration_seconds": 0.656
     },
     {
       "label": "06_story_switch_restore",
@@ -397,7 +397,7 @@
         "scripts/smoke/protocol_probe.txt"
       ],
       "returncode": 0,
-      "duration_seconds": 0.078
+      "duration_seconds": 0.047
     },
     {
       "label": "06_story_switch_missing_rejected",
@@ -413,7 +413,7 @@
         "非法不存在Story切换"
       ],
       "returncode": 2,
-      "duration_seconds": 0.875
+      "duration_seconds": 0.703
     },
     {
       "label": "06_story_switch",
@@ -431,7 +431,7 @@
         "验证同一Task多Story原子切换"
       ],
       "returncode": 0,
-      "duration_seconds": 8.766
+      "duration_seconds": 7.531
     },
     {
       "label": "06_story_switch_checkpoint",
@@ -451,7 +451,7 @@
         "生命周期演练按单一状态链串行验证"
       ],
       "returncode": 0,
-      "duration_seconds": 7.531
+      "duration_seconds": 6.953
     },
     {
       "label": "06_story_switch_commit_add",
@@ -461,7 +461,7 @@
         "-A"
       ],
       "returncode": 0,
-      "duration_seconds": 0.485
+      "duration_seconds": 0.359
     },
     {
       "label": "06_story_switch_commit_commit",
@@ -472,7 +472,7 @@
         "chore(continuity): switch story within active task"
       ],
       "returncode": 0,
-      "duration_seconds": 9.172
+      "duration_seconds": 9.016
     },
     {
       "label": "06_story_switch_commit_message",
@@ -483,7 +483,7 @@
         "--pretty=%B"
       ],
       "returncode": 0,
-      "duration_seconds": 0.078
+      "duration_seconds": 0.047
     },
     {
       "label": "06_story_switch_commit_head",
@@ -493,7 +493,7 @@
         "HEAD"
       ],
       "returncode": 0,
-      "duration_seconds": 0.062
+      "duration_seconds": 0.047
     },
     {
       "label": "07_stale_add",
@@ -503,7 +503,7 @@
         "-A"
       ],
       "returncode": 0,
-      "duration_seconds": 0.438
+      "duration_seconds": 0.234
     },
     {
       "label": "07_stale_rejected",
@@ -514,10 +514,10 @@
         "pre-commit",
         "--strict",
         "--json-out",
-        "C:\\Users\\小白\\AppData\\Local\\Temp\\hhy-v123-reconstruct-35c6xz4m\\lifecycle\\outputs\\stale-checkpoint.json"
+        "C:\\Users\\小白\\AppData\\Local\\Temp\\hhy-v123-reconstruct-gv8_zc7w\\lifecycle\\outputs\\stale-checkpoint.json"
       ],
       "returncode": 1,
-      "duration_seconds": 4.656
+      "duration_seconds": 4.375
     },
     {
       "label": "08_checkpoint",
@@ -530,14 +530,14 @@
         "--next-step",
         "验证完整CR合同",
         "--test",
-        "stale-gate|PASS|C:\\Users\\小白\\AppData\\Local\\Temp\\hhy-v123-reconstruct-35c6xz4m\\lifecycle\\outputs\\stale-checkpoint.json|旧检查点已阻断",
+        "stale-gate|PASS|C:\\Users\\小白\\AppData\\Local\\Temp\\hhy-v123-reconstruct-gv8_zc7w\\lifecycle\\outputs\\stale-checkpoint.json|旧检查点已阻断",
         "--parallel-assessment",
         "NO_SAFE_PARALLEL",
         "--parallel-reason",
         "生命周期演练按单一状态链串行验证"
       ],
       "returncode": 0,
-      "duration_seconds": 6.703
+      "duration_seconds": 7.594
     },
     {
       "label": "09_second_add",
@@ -547,7 +547,7 @@
         "-A"
       ],
       "returncode": 0,
-      "duration_seconds": 0.297
+      "duration_seconds": 0.344
     },
     {
       "label": "09_second_commit",
@@ -558,7 +558,7 @@
         "test(continuity): verify stale checkpoint rejection"
       ],
       "returncode": 0,
-      "duration_seconds": 9.641
+      "duration_seconds": 9.687
     },
     {
       "label": "09_second_message",
@@ -579,7 +579,7 @@
         "HEAD"
       ],
       "returncode": 0,
-      "duration_seconds": 0.062
+      "duration_seconds": 0.047
     },
     {
       "label": "10_no_cr_rejected",
@@ -599,7 +599,7 @@
         "生命周期演练按单一状态链串行验证"
       ],
       "returncode": 2,
-      "duration_seconds": 2.593
+      "duration_seconds": 2.625
     },
     {
       "label": "11_cr_create",
@@ -619,7 +619,7 @@
         "集成演练"
       ],
       "returncode": 0,
-      "duration_seconds": 5.422
+      "duration_seconds": 5.093
     },
     {
       "label": "11_incomplete_cr_rejected",
@@ -630,7 +630,7 @@
         "--actor",
         "smoke-approver",
         "--cr",
-        "CR-0430",
+        "CR-0461",
         "--decision",
         "APPROVED",
         "--note",
@@ -639,7 +639,7 @@
         "integration user confirmation"
       ],
       "returncode": 2,
-      "duration_seconds": 1.781
+      "duration_seconds": 2.063
     },
     {
       "label": "12_cr_amend",
@@ -650,7 +650,7 @@
         "--actor",
         "smoke-requester",
         "--cr",
-        "CR-0430",
+        "CR-0461",
         "--original-rule",
         "SOURCE_OF_TRUTH文档没有集成演练标记",
         "--new-rule",
@@ -667,7 +667,7 @@
         "P00"
       ],
       "returncode": 0,
-      "duration_seconds": 5.844
+      "duration_seconds": 5.094
     },
     {
       "label": "12_self_approval_rejected",
@@ -678,7 +678,7 @@
         "--actor",
         "smoke-requester",
         "--cr",
-        "CR-0430",
+        "CR-0461",
         "--decision",
         "APPROVED",
         "--note",
@@ -687,7 +687,7 @@
         "integration user confirmation"
       ],
       "returncode": 2,
-      "duration_seconds": 1.953
+      "duration_seconds": 1.921
     },
     {
       "label": "13_cr_approve",
@@ -698,7 +698,7 @@
         "--actor",
         "smoke-approver",
         "--cr",
-        "CR-0430",
+        "CR-0461",
         "--decision",
         "APPROVED",
         "--note",
@@ -707,7 +707,7 @@
         "integration user confirmation recorded in repository"
       ],
       "returncode": 0,
-      "duration_seconds": 5.625
+      "duration_seconds": 5.172
     },
     {
       "label": "14_cr_checkpoint",
@@ -727,7 +727,7 @@
         "生命周期演练按单一状态链串行验证"
       ],
       "returncode": 0,
-      "duration_seconds": 9.64
+      "duration_seconds": 8.828
     },
     {
       "label": "15_cr_add",
@@ -748,7 +748,7 @@
         "docs(continuity): verify approved change request path"
       ],
       "returncode": 0,
-      "duration_seconds": 29.594
+      "duration_seconds": 29.656
     },
     {
       "label": "15_cr_message",
@@ -789,7 +789,7 @@
         "生命周期演练按单一状态链串行验证"
       ],
       "returncode": 0,
-      "duration_seconds": 8.328
+      "duration_seconds": 10.5
     },
     {
       "label": "17_handoff",
@@ -804,10 +804,10 @@
         "--next-step",
         "验证Manifest后提交WIP",
         "--portable-zip",
-        "C:\\Users\\小白\\AppData\\Local\\Temp\\hhy-v123-reconstruct-35c6xz4m\\lifecycle\\outputs\\wip-handoff.zip"
+        "C:\\Users\\小白\\AppData\\Local\\Temp\\hhy-v123-reconstruct-gv8_zc7w\\lifecycle\\outputs\\wip-handoff.zip"
       ],
       "returncode": 0,
-      "duration_seconds": 21.938
+      "duration_seconds": 26.734
     },
     {
       "label": "18_takeover",
@@ -818,14 +818,14 @@
         "--actor",
         "smoke-b",
         "--session",
-        "SES-20260728T035824Z-52212413",
+        "SES-20260728T160312Z-CA153816",
         "--reason",
         "无旧对话接管",
         "--next-step",
         "重新检查点并提交WIP"
       ],
       "returncode": 0,
-      "duration_seconds": 16.422
+      "duration_seconds": 21.453
     },
     {
       "label": "19_takeover_checkpoint",
@@ -845,7 +845,7 @@
         "生命周期演练按单一状态链串行验证"
       ],
       "returncode": 0,
-      "duration_seconds": 9.625
+      "duration_seconds": 10.125
     },
     {
       "label": "20_takeover_add",
@@ -855,7 +855,7 @@
         "-A"
       ],
       "returncode": 0,
-      "duration_seconds": 2.671
+      "duration_seconds": 2.469
     },
     {
       "label": "20_takeover_commit",
@@ -866,7 +866,7 @@
         "chore(continuity): continue handed-off work without dialog"
       ],
       "returncode": 0,
-      "duration_seconds": 9.0
+      "duration_seconds": 9.656
     },
     {
       "label": "20_takeover_message",
@@ -905,7 +905,7 @@
         "TASK-P00-002"
       ],
       "returncode": 0,
-      "duration_seconds": 18.453
+      "duration_seconds": 18.735
     },
     {
       "label": "22_close_metadata_add",
@@ -915,7 +915,7 @@
         "-A"
       ],
       "returncode": 0,
-      "duration_seconds": 0.344
+      "duration_seconds": 0.343
     },
     {
       "label": "22_close_metadata_commit",
@@ -926,7 +926,7 @@
         "chore(continuity): close completed smoke task"
       ],
       "returncode": 0,
-      "duration_seconds": 17.938
+      "duration_seconds": 21.563
     },
     {
       "label": "22_close_metadata_message",
@@ -937,7 +937,7 @@
         "--pretty=%B"
       ],
       "returncode": 0,
-      "duration_seconds": 0.046
+      "duration_seconds": 0.062
     },
     {
       "label": "22_close_metadata_head",
@@ -947,7 +947,7 @@
         "HEAD"
       ],
       "returncode": 0,
-      "duration_seconds": 0.063
+      "duration_seconds": 0.047
     },
     {
       "label": "23_prepush",
@@ -958,10 +958,10 @@
         "pre-push",
         "--strict",
         "--json-out",
-        "C:\\Users\\小白\\AppData\\Local\\Temp\\hhy-v123-reconstruct-35c6xz4m\\lifecycle\\outputs\\prepush-report.json"
+        "C:\\Users\\小白\\AppData\\Local\\Temp\\hhy-v123-reconstruct-gv8_zc7w\\lifecycle\\outputs\\prepush-report.json"
       ],
       "returncode": 0,
-      "duration_seconds": 18.421
+      "duration_seconds": 20.547
     },
     {
       "label": "24_ci",
@@ -974,10 +974,10 @@
         "--head-ref",
         "HEAD",
         "--json-out",
-        "C:\\Users\\小白\\AppData\\Local\\Temp\\hhy-v123-reconstruct-35c6xz4m\\lifecycle\\outputs\\ci-report.json"
+        "C:\\Users\\小白\\AppData\\Local\\Temp\\hhy-v123-reconstruct-gv8_zc7w\\lifecycle\\outputs\\ci-report.json"
       ],
       "returncode": 0,
-      "duration_seconds": 17.313
+      "duration_seconds": 18.968
     },
     {
       "label": "25_export_clean",
@@ -986,10 +986,10 @@
         "scripts/continuity.py",
         "export-clean",
         "--portable-zip",
-        "C:\\Users\\小白\\AppData\\Local\\Temp\\hhy-v123-reconstruct-35c6xz4m\\lifecycle\\outputs\\clean-project-export.zip"
+        "C:\\Users\\小白\\AppData\\Local\\Temp\\hhy-v123-reconstruct-gv8_zc7w\\lifecycle\\outputs\\clean-project-export.zip"
       ],
       "returncode": 0,
-      "duration_seconds": 29.828
+      "duration_seconds": 30.453
     },
     {
       "label": "25_clean_after_export",
@@ -999,7 +999,7 @@
         "--porcelain"
       ],
       "returncode": 0,
-      "duration_seconds": 0.125
+      "duration_seconds": 0.109
     },
     {
       "label": "27_final_head",
@@ -1009,7 +1009,7 @@
         "HEAD"
       ],
       "returncode": 0,
-      "duration_seconds": 0.062
+      "duration_seconds": 0.047
     },
     {
       "label": "27_commit_count",
@@ -1020,13 +1020,13 @@
         "HEAD"
       ],
       "returncode": 0,
-      "duration_seconds": 0.062
+      "duration_seconds": 0.063
     }
   ],
   "metrics": {
     "checks": 15,
     "commits": 7,
-    "wip_handoff_sha256": "ccb76a9259d67ed35601629239d5f93d25343d649ef98e80f4ddc917a81aed9e",
-    "clean_export_sha256": "bbf7722f6dcc0fa6dc288038128bfd7e67753c0997481dfc626a13a9415e1777"
+    "wip_handoff_sha256": "709070258d10634c770730408a39b615ed2a0ebbb2d50a20c094010a8d04e9a0",
+    "clean_export_sha256": "7bb8d37e48b6a263e602cd2b8cea1ae0c3c376cb22327ec17116e6867506d0ef"
   }
 }

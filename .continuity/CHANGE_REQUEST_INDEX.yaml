@@ -28385,9 +28385,9 @@ change_requests:
 - protocol_version: '1.0'
   cr_id: CR-0455
   title: 替代CR-0454封死全部跨版本续接旁路
-  status: IMPLEMENTING
+  status: IMPLEMENTED
   created_at: '2026-07-28T14:53:34Z'
-  updated_at: '2026-07-28T14:55:06Z'
+  updated_at: '2026-07-28T15:28:42Z'
   requester_actor_id: codex-r16-client-admin-20260728
   approver_actor_id: codex-r14-sequence-independent-review-20260728
   task_id: TASK-R16-004
@@ -28447,14 +28447,21 @@ change_requests:
     status: IMPLEMENTING
     note: 独立审查APPROVED后进入实施；先统一既有规则投影，再实现start/resume/close/takeover/recover版本序列与机器证据零写入门禁。
     session_id: SES-20260728T125934Z-F3DED330
+  - at: '2026-07-28T15:28:42Z'
+    actor_id: codex-r16-client-admin-20260728
+    status: IMPLEMENTED
+    note: 连续版本机器闭环门禁、全部续接入口非零拒绝与回归已实现
+    session_id: SES-20260728T125934Z-F3DED330
   session_ids:
   - SES-20260728T125934Z-F3DED330
+  implementation_commits:
+  - c47d1906
 - protocol_version: '1.0'
   cr_id: CR-0456
   title: 补齐CR-0455发布产物准入门禁范围
-  status: IMPLEMENTING
+  status: IMPLEMENTED
   created_at: '2026-07-28T15:07:01Z'
-  updated_at: '2026-07-28T15:09:58Z'
+  updated_at: '2026-07-28T15:28:49Z'
   requester_actor_id: codex-r16-client-admin-20260728
   approver_actor_id: codex-r14-sequence-independent-review-20260728
   task_id: TASK-R16-004
@@ -28495,5 +28502,240 @@ change_requests:
     status: IMPLEMENTING
     note: 独立审批后开始补齐发布产物检查器与回归测试
     session_id: SES-20260728T125934Z-F3DED330
+  - at: '2026-07-28T15:28:49Z'
+    actor_id: codex-r16-client-admin-20260728
+    status: IMPLEMENTED
+    note: 发布产物检查器已补齐R14同版本候选和机器完成组合准入
+    session_id: SES-20260728T125934Z-F3DED330
   session_ids:
   - SES-20260728T125934Z-F3DED330
+  implementation_commits:
+  - c47d1906
+- protocol_version: '1.0'
+  cr_id: CR-0457
+  title: 显式恢复错误跨序开发指针并保留R16实现
+  status: REJECTED
+  created_at: '2026-07-28T15:28:54Z'
+  updated_at: '2026-07-28T15:34:14Z'
+  requester_actor_id: codex-r16-client-admin-20260728
+  approver_actor_id: codex-sequence-recovery-independent-review-20260728
+  task_id: TASK-R16-004
+  session_id: SES-20260728T125934Z-F3DED330
+  user_request: 纠正R14未完成且R15未开发却进入R16的连续性错误；恢复R14继续开发，不依赖聊天记录且不得丢失已产生的R16代码。
+  reason: 新门禁已正确拒绝resume，但当前仓库仍停留在历史错误R16 ACTIVE状态，需要一次受审计、可测试、保留实现的状态迁移回R14。
+  original_rule: 新门禁能拒绝错误R16指针，但没有唯一的受审计退回命令；人工直接编辑CURRENT_STATUS/NEXT_TASK/Session/Task状态会破坏事件链，也可能丢失R16代码或把未完成任务伪标完成。
+  new_rule: 新增sequence-recover唯一命令：仅当当前R14+会话被前序机器闭环门禁拒绝时，自动定位最早未完成Release并且只允许退回其第一个未完成Task；执行前要求产品工作区干净、指定的R16 stash真实存在。命令原子保存恢复证据，终止错误会话和Claim，将错误跨序完成的R16
+    Task恢复为READY/BLOCKED待日后重验，保留所有Commit与stash；恢复R14 Task、CURRENT_STATUS、NEXT_TASK、事件链并立即创建R14 ACTIVE会话和检查点。失败必须零写入，不得人工伪改DONE。
+  impact_summary: 新增一次性且可复用的版本序列恢复命令与原子回归，用仓库证据把当前指针从R16恢复到R14，同时保留R16实现供完成R15后重新验证。
+  impact:
+    files:
+    - scripts/continuity.py
+    - tests/test_continuity_sequence_recovery.py
+    - CURRENT_STATUS.yaml
+    - NEXT_TASK.yaml
+    - releases/R14/TASKS.yaml
+    - releases/R16/TASKS.yaml
+    - .continuity/ACTIVE_SESSION.yaml
+    - .continuity/STATE.yaml
+    - .continuity/EVENT_LOG.jsonl
+    - .continuity/SESSION_INDEX.yaml
+    - .continuity/TASK_CLAIMS.yaml
+    - .continuity/TASK_TRANSITIONS.yaml
+    - .continuity/sessions/**
+    - .continuity/checkpoints/**
+    - .continuity/sequence_recoveries/**
+    - docs/03-continuity/sessions/**
+    - catalogs/session_index.csv
+    - catalogs/task_transition_ledger.csv
+    - artifacts/context/CURRENT_CONTEXT_PACK.yaml
+    - artifacts/context/CURRENT_CONTEXT_PACK.md
+    - artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+    pages: []
+    apis: []
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - 错误R16 active且R14最早未完时恢复R14-004并创建新会话；R16 001-003撤销跨序DONE但保留Commit/stash记录；目标不是最早未完Release/Task、stash缺失、产品脏文件、合法顺序状态均零写入拒绝；恢复后resume通过且R15/R16仍受门禁阻断
+    releases:
+    - R14
+    - R15
+    - R16
+    migration_and_compatibility: 正常顺序开发不调用本命令；R13及以前不受影响。当前R16的Commit不删除、不重写历史，stash@{0}不弹出；R16任务状态回退只撤销跨序完成声明，代码证据写入恢复记录。R14完成后严格进入R15，再由标准关闭门禁进入R16并重验保留实现。
+  user_confirmation: PENDING
+  approval:
+    decision: REJECTED
+    decided_at: '2026-07-28T15:34:14Z'
+    note: 独立计划审查REJECTED：恢复方向、影响状态族和保留R16 Commit/stash的原则正确，但当前合同不足以证明“原子恢复且失败零写入”。第一，测试只覆盖前置条件拒绝，未覆盖多文件写入中途异常；必须对旧Session/Claim终止、R16/R14 TASKS与CURRENT/NEXT改写、补偿Transition/Event、创建新Session/Claim、写Checkpoint、重建Context各阶段注入失败，并断言所有既有文件字节级还原、新建session/checkpoint/recovery目录删除、EVENT/STATE头不变、HEAD与stash不变。第二，状态不变量未冻结完整：R16-001~003须从DONE撤销并从CURRENT_STATUS.completed_tasks移除；R16-004须终止ACTIVE会话/Claim、清除in_progress并落为明确BLOCKED或READY；R14-004须从blocked移除，经补偿Transition恢复READY后由新会话进入IN_PROGRESS，任何任务不得同时出现在completed/in_progress/blocked；旧Session应冻结终态与recovery_id，SESSION_INDEX和catalog同步。第三，新R14会话需冻结actor、STORY-R14-004选择、CR-0457关联及恢复范围，且断言STATE/ACTIVE_SESSION/NEXT_TASK/Session
+      Index/Claims/Transitions及两个CSV投影一致、恰好一个ACTIVE Session和Claim、事件链有效、Context Pack fresh并绑定新Checkpoint。第四，stash@{0}是可漂移名称，必须以命令参数或恢复合同钉住当前stash对象OID
+      c85e7088464eb2c0d12885aa8a39e2cd10c53d9b及主题，执行前后stash列表/OID完全一致；HEAD c47d19064bec57bd751f1cfa06a0fa7a75844790亦必须前后相同，禁止checkout/reset/rebase/pop/drop。第五，sequence_recovery记录须冻结from/to会话、Release/Task、前后任务状态、HEAD、stash
+      OID、事件头、新Checkpoint/Context哈希并保证重跑幂等拒绝。若为跨文件回滚新增通用事务助手并修改continuity_lib.py，必须把该文件和测试纳入影响范围。补齐后重新独立审批。
+  machine_record: .continuity/change_requests/CR-0457.yaml
+  document: docs/03-continuity/change-requests/CR-0457-显式恢复错误跨序开发指针并保留R16实现.md
+- protocol_version: '1.0'
+  cr_id: CR-0458
+  title: 替代CR-0457原子恢复跨序状态并锁定R16代码证据
+  status: IMPLEMENTING
+  created_at: '2026-07-28T15:36:23Z'
+  updated_at: '2026-07-28T15:39:25Z'
+  requester_actor_id: codex-r16-client-admin-20260728
+  approver_actor_id: codex-sequence-recovery-atomic-review-20260728
+  task_id: TASK-R16-004
+  session_id: SES-20260728T125934Z-F3DED330
+  user_request: 纠正R14未完成且R15未开发却进入R16的连续性错误；恢复R14持续开发，不依赖聊天，且不得丢失或篡改R16代码。
+  reason: CR-0457独立审查REJECTED并保留审计：缺少各写入阶段故障注入回滚、完整任务不变量、新会话全索引一致、stash对象钉住及幂等拒绝。替代CR补齐。
+  original_rule: CR-0457只提出恢复指针，未冻结全状态不变量，也未保证旧Session终止、任务计划、CURRENT/NEXT、Transition/Event、新Session/Checkpoint/Context任一中途异常时全部文件字节级回滚；stash还只用可漂移引用。
+  new_rule: 新增sequence-recover事务命令并作为CR-0457唯一替代：仅当前R14+ ACTIVE会话因前序机器闭环失败时可用，目标必须是自动计算的最早未完成Release及其首个未完成Task。实际恢复固定从SES-20260728T125934Z-F3DED330/R16-004退回R14-004，固定新Actor
+    codex-r14-continuation-20260728、Story STORY-R14-004、CR仅CR-0458和由该Story派生的R14 scope。命令钉住执行HEAD c47d19064bec57bd751f1cfa06a0fa7a75844790、stash对象c85e7088464eb2c0d12885aa8a39e2cd10c53d9b及完整主题，前后HEAD/stash对象/主题必须一致，代码禁止checkout/reset/rebase/stash
+    pop/drop。R16-001至003从TASKS DONE和CURRENT.completed同时撤销，R16-001=READY，R16-002至008=BLOCKED，R16-004旧Session和Claim终止且从CURRENT.in_progress移除；R14-004保留旧blocker为prior_blocker、从blocked移除，经补偿Transition
+    BLOCKED->READY后由新会话记录READY->IN_PROGRESS。completed/in_progress/blocked三表禁止重叠。事务记录完整before/after、失败原因、HEAD、stash、旧新Session、Task状态、Event序号；对旧Session终止、Task/CURRENT/NEXT、Transition/Event、Pointer/State/Index/Claim、R14新Session/Checkpoint/Context、最终记录逐阶段故障注入，任一异常恢复所有既有文件原字节并删除事务中新文件/目录。成功后仅一个ACTIVE
+    Session/Claim/Pointer，State/Index/CSV/Event/Context一致；重跑按旧Session或Recovery ID非零零写入拒绝。
+  impact_summary: 以带文件系统快照回滚的唯一sequence-recover命令修复当前跨序状态；保留Git历史和R16 stash内容，把跨序R16完成声明降为待重验，并原子创建R14-004新会话与首个检查点。
+  impact:
+    files:
+    - scripts/continuity.py
+    - tests/test_continuity_sequence_recovery.py
+    - CURRENT_STATUS.yaml
+    - NEXT_TASK.yaml
+    - releases/R14/TASKS.yaml
+    - releases/R16/TASKS.yaml
+    - .continuity/ACTIVE_SESSION.yaml
+    - .continuity/STATE.yaml
+    - .continuity/EVENT_LOG.jsonl
+    - .continuity/SESSION_INDEX.yaml
+    - .continuity/TASK_CLAIMS.yaml
+    - .continuity/TASK_TRANSITIONS.yaml
+    - .continuity/sessions/**
+    - .continuity/checkpoints/**
+    - .continuity/sequence_recoveries/**
+    - docs/03-continuity/sessions/**
+    - catalogs/session_index.csv
+    - catalogs/task_transition_ledger.csv
+    - artifacts/context/CURRENT_CONTEXT_PACK.yaml
+    - artifacts/context/CURRENT_CONTEXT_PACK.md
+    - artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+    pages: []
+    apis: []
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - 纯验证失败：非最早Release/Task、合法顺序状态、HEAD错、stash OID/主题错、范围外产品脏文件、重复恢复均返回非零且全仓快照不变
+    - 逐阶段故障注入：旧Session终止、Task/CURRENT/NEXT、补偿Transition/Event、Pointer/State/Index/Claim、新Session各写点、Checkpoint、Context、最终Recovery Record任一点抛错后所有既有文件字节相同且新文件/目录消失
+    - 成功不变量：R16-001 READY、002至008 BLOCKED且001至003不在CURRENT.completed、004不在in_progress；R14-004 TASKS READY但CURRENT in_progress且不在blocked；三任务表互斥；旧session/claim终止；新session
+      actor/story/CR/scope精确；唯一ACTIVE session/claim/pointer；State/Index/CSV/Event/Context一致；HEAD/stash不变；resume R14通过，R15/R16仍按门禁阻断
+    releases:
+    - R14
+    - R15
+    - R16
+    migration_and_compatibility: 正常顺序开发不调用；R13以前不受影响。恢复实现与状态将在同一后续Commit固化，因此命令执行期间HEAD必须仍为已审查基线c47d19064bec57bd751f1cfa06a0fa7a75844790且前后不变；工作区只允许CR-0458批准范围内变更。R16代码Commit不删除或改写，stash不pop/drop；R14完成后必须R15，再标准进入R16，从R16-001开始按保留Commit重验。
+  user_confirmation: 项目所有者本轮明确要求：纠正R14未完成、R15未开发却进入R16的连续性错误，恢复R14持续开发，开发不得依赖聊天，并且不得丢失或篡改已经产生的R16代码。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-28T15:38:42Z'
+    note: APPROVED：CR-0458完整替代并保留CR-0457的REJECTED审计历史，五类缺口均已冻结。事务对旧Session、TASK/CURRENT/NEXT、补偿Transition/Event、Pointer/State/Index/Claim、新Session、Checkpoint、Context和最终Recovery
+      Record逐阶段故障注入，任一点异常须字节级回滚全部既有文件并删除新目录；失败原因仅作为非持久化错误输出，保持失败零写入。R16-001=READY、002至008=BLOCKED，001至003撤销TASKS/CURRENT.completed，004终止旧Session/Claim并清in_progress；R14-004保留prior_blocker，经BLOCKED->READY与新会话READY->IN_PROGRESS，三任务列表互斥。新会话actor/story/CR/scope固定，State/Pointer/Index/Claims/Transitions/CSV/Event/Context及唯一ACTIVE不变量完整。HEAD固定c47d19064bec57bd751f1cfa06a0fa7a75844790，stash对象固定c85e7088464eb2c0d12885aa8a39e2cd10c53d9b并验证完整主题，前后不变且禁止checkout/reset/rebase/pop/drop。Recovery
+      Record和重复执行零写入拒绝明确。影响文件覆盖实现、测试及全部直接/派生状态写入；若实现选择修改continuity_lib.py则必须另行CR，当前批准仅授权continuity.py内事务实现。批准实施并执行一次精确恢复。
+  machine_record: .continuity/change_requests/CR-0458.yaml
+  document: docs/03-continuity/change-requests/CR-0458-替代CR-0457原子恢复跨序状态并锁定R16代码证据.md
+  decision_log:
+  - at: '2026-07-28T15:39:25Z'
+    actor_id: codex-r16-client-admin-20260728
+    status: IMPLEMENTING
+    note: 独立原子性审查APPROVED后开始实现sequence-recover事务与故障注入回归
+    session_id: SES-20260728T125934Z-F3DED330
+  session_ids:
+  - SES-20260728T125934Z-F3DED330
+- protocol_version: '1.0'
+  cr_id: CR-0459
+  title: 刷新CR-0458连续性原子恢复后的重建证据
+  status: REJECTED
+  created_at: '2026-07-28T15:56:22Z'
+  updated_at: '2026-07-28T15:58:01Z'
+  requester_actor_id: codex-r14-continuation-20260728
+  approver_actor_id: codex-continuity-evidence-independent-review-20260728
+  task_id: TASK-R14-004
+  session_id: SES-20260728T154000Z-0458A14C
+  user_request: 强制更新连续性规则并恢复R14，开发不得依赖聊天记录。
+  reason: CR-0458修改scripts/continuity.py后，严格门禁准确报告integration与lifecycle证据源哈希过期；需真实重跑而非绕过。
+  original_rule: continuity.py源哈希变化后，旧integration/lifecycle报告仍绑定旧源，严格门禁必须失败。
+  new_rule: 只运行scripts/run_continuity_self_test.py一次，真实刷新无对话重建和完整生命周期JSON/LOG；随后check_v123_continuity.py --strict必须PASS。不得手工改报告状态或哈希，不把该重型演练扩散到普通产品提交。
+  impact_summary: 仅刷新CR-0458直接导致过期的四个连续性生成证据，不改产品、规则、API、数据库或任务状态。
+  impact:
+    files:
+    - artifacts/validation/continuity-integration-v1.2.3.json
+    - artifacts/validation/continuity-integration-v1.2.3.log
+    - artifacts/validation/continuity-lifecycle-integration-v1.2.3.json
+    - artifacts/validation/continuity-lifecycle-integration-v1.2.3.log
+    pages: []
+    apis: []
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - python scripts/run_continuity_self_test.py PASS且仓库无对话重建检查全绿、生命周期检查全绿；python scripts/check_v123_continuity.py --strict PASS
+    releases:
+    - R14
+    - R15
+    - R16
+    migration_and_compatibility: 报告格式与路径不变；旧AI/电脑继续通过相同固定路径读取。刷新完成后普通R14提交只有连续性源脚本再次变化才需重跑。
+  user_confirmation: PENDING
+  approval:
+    decision: REJECTED
+    decided_at: '2026-07-28T15:58:01Z'
+    note: 独立计划审查REJECTED：真实运行run_continuity_self_test一次、禁止手改报告且仅连续性源脚本变化才刷新这一方向正确，四个integration/lifecycle报告也是self-test的直接生成物；但当前测试命令“python scripts/check_v123_continuity.py
+      --strict”使用默认--json-out，会额外改写已跟踪的artifacts/validation/project-doctor-v1.2.3.json，现有工作区已证明该文件因此发生变化，与“影响范围只有四个报告”冲突。请用替代CR二选一冻结：推荐保持四文件范围，把严格复验命令改为python
+      scripts/check_v123_continuity.py --strict --json-out .continuity/runtime/cr-0459-strict.json（该目录已被.gitignore忽略），并断言严格门禁PASS且除四个报告外无新增tracked
+      diff；或若必须保留默认命令，则把artifacts/validation/project-doctor-v1.2.3.json纳入影响文件。其余无产品/API/DB/任务状态扩展及普通提交不重复重型演练条款可保留。
+  machine_record: .continuity/change_requests/CR-0459.yaml
+  document: docs/03-continuity/change-requests/CR-0459-刷新CR-0458连续性原子恢复后的重建证据.md
+- protocol_version: '1.0'
+  cr_id: CR-0460
+  title: 替代CR-0459无副作用刷新连续性重建证据
+  status: IMPLEMENTING
+  created_at: '2026-07-28T15:58:57Z'
+  updated_at: '2026-07-28T16:00:18Z'
+  requester_actor_id: codex-r14-continuation-20260728
+  approver_actor_id: codex-continuity-evidence-v2-independent-review-20260728
+  task_id: TASK-R14-004
+  session_id: SES-20260728T154000Z-0458A14C
+  user_request: 强制更新连续性规则并恢复R14，开发不得依赖聊天记录。
+  reason: CR-0459独立REJECTED并保留审计：默认strict复验会额外改写project-doctor；替代CR把json-out指向gitignore runtime，保持四文件范围。
+  original_rule: CR-0459的四报告范围正确，但默认strict复验会产生第五个tracked diff，违反精确影响范围。
+  new_rule: 真实运行run_continuity_self_test一次只刷新四个固定integration/lifecycle JSON/LOG；严格复验必须使用--json-out .continuity/runtime/cr-0460-strict.json，并断言除四报告和正常CR治理记录外没有新增tracked产物差异。禁止手改状态/哈希，普通产品提交不重复。
+  impact_summary: 无副作用刷新CR-0458导致过期的四个连续性生成报告。
+  impact:
+    files:
+    - artifacts/validation/continuity-integration-v1.2.3.json
+    - artifacts/validation/continuity-integration-v1.2.3.log
+    - artifacts/validation/continuity-lifecycle-integration-v1.2.3.json
+    - artifacts/validation/continuity-lifecycle-integration-v1.2.3.log
+    pages: []
+    apis: []
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - python scripts/run_continuity_self_test.py PASS；python scripts/check_v123_continuity.py --strict --json-out .continuity/runtime/cr-0460-strict.json
+      PASS；除四报告和CR治理记录外无新增tracked diff
+    releases:
+    - R14
+    - R15
+    - R16
+    migration_and_compatibility: 报告固定路径和格式不变；临时strict JSON位于已gitignore runtime，不进入交付。只有连续性源脚本再次变化才重跑。
+  user_confirmation: 项目所有者已明确要求：连续性规则更新和R14恢复必须以仓库真实证据为准，不依赖聊天；本次只刷新过期的连续性重建证据，不得把重型演练扩散到普通提交。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-28T15:59:52Z'
+    note: APPROVED：CR-0460完整替代并保留CR-0459的REJECTED审计历史，唯一缺口已补齐。影响仍严格限定四个由run_continuity_self_test真实生成的integration/lifecycle JSON与LOG；strict复验显式写入已由.gitignore覆盖的.continuity/runtime/cr-0460-strict.json，不再改写tracked
+      project-doctor或产生第五个交付差异。测试同时要求self-test单次PASS、无对话重建和生命周期全绿、strict PASS，并断言除四报告与正常CR治理记录外无新增tracked diff。禁止手工修改状态/哈希，只有连续性源脚本再次变化才允许重跑，不扩散到普通产品提交。无产品、规则、API、数据库、任务状态或报告格式变化，批准执行。
+  machine_record: .continuity/change_requests/CR-0460.yaml
+  document: docs/03-continuity/change-requests/CR-0460-替代CR-0459无副作用刷新连续性重建证据.md
+  decision_log:
+  - at: '2026-07-28T16:00:18Z'
+    actor_id: codex-r14-continuation-20260728
+    status: IMPLEMENTING
+    note: 独立审查APPROVED后真实刷新四报告并使用runtime临时strict输出
+    session_id: SES-20260728T154000Z-0458A14C
+  session_ids:
+  - SES-20260728T154000Z-0458A14C

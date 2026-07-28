@@ -1,9 +1,9 @@
 protocol_version: '1.0'
 cr_id: CR-0456
 title: 补齐CR-0455发布产物准入门禁范围
-status: IMPLEMENTING
+status: IMPLEMENTED
 created_at: '2026-07-28T15:07:01Z'
-updated_at: '2026-07-28T15:09:58Z'
+updated_at: '2026-07-28T15:28:49Z'
 requester_actor_id: codex-r16-client-admin-20260728
 approver_actor_id: codex-r14-sequence-independent-review-20260728
 task_id: TASK-R16-004
@@ -44,5 +44,12 @@ decision_log:
   status: IMPLEMENTING
   note: 独立审批后开始补齐发布产物检查器与回归测试
   session_id: SES-20260728T125934Z-F3DED330
+- at: '2026-07-28T15:28:49Z'
+  actor_id: codex-r16-client-admin-20260728
+  status: IMPLEMENTED
+  note: 发布产物检查器已补齐R14同版本候选和机器完成组合准入
+  session_id: SES-20260728T125934Z-F3DED330
 session_ids:
 - SES-20260728T125934Z-F3DED330
+implementation_commits:
+- c47d1906

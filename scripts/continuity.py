@@ -9,7 +9,8 @@ from __future__ import annotations
 from argparse import ArgumentParser, Namespace
 from datetime import timedelta
 from pathlib import Path
-from typing import Any
+from typing import Any, Callable
+from fnmatch import fnmatchcase
 import json
 import os
 import re
@@ -168,7 +169,13 @@ def create_session(
     allow_dirty: bool,
     base_commit_override: str | None = None,
     takeover_of: str | None = None,
+    session_id_override: str | None = None,
+    stage_hook: Callable[[str], None] | None = None,
 ) -> dict[str, Any]:
+    def reached(stage: str) -> None:
+        if stage_hook:
+            stage_hook(stage)
+
     status = read_current_status(root)
     next_task = read_next_task(root)
     release = next_task.get("release") or status.get("active_release")
@@ -202,7 +209,9 @@ def create_session(
         raise ContinuityError("开始新会话前工作区必须干净；中途接管请使用 takeover/recover")
     base_commit = base_commit_override or git_state["head"]
     allowed_paths = derive_scope(policy, story, explicit_scope)
-    session_id = make_session_id()
+    session_id = session_id_override or make_session_id()
+    if session_record_path(root, session_id).exists():
+        raise ContinuityError(f"会话ID已经存在：{session_id}")
     started = iso_utc()
     session_log = (
         Path("docs/03-continuity/sessions")
@@ -253,10 +262,13 @@ def create_session(
     session_path = session_record_path(root, session_id)
     session_path.parent.mkdir(parents=True, exist_ok=True)
     atomic_write_yaml(session_path, session)
+    reached("new_session_record")
     log_path = root / session_log
     log_path.parent.mkdir(parents=True, exist_ok=True)
     atomic_write_text(log_path, markdown_session_log(session))
+    reached("new_session_log")
     claim_task(root, session)
+    reached("new_session_claim")
     save_active_pointer(
         root,
         {
@@ -274,10 +286,13 @@ def create_session(
     state["active_session_id"] = session_id
     state["mode"] = "ENFORCED"
     save_state(root, state)
+    reached("new_session_pointer_state")
     from continuity_lib import append_session_index
 
     append_session_index(root, session)
+    reached("new_session_index")
     update_current_status_for_session(root, session)
+    reached("new_session_current_status")
     append_event(
         root,
         "SESSION_STARTED" if not takeover_of else "SESSION_TAKEN_OVER",
@@ -295,7 +310,9 @@ def create_session(
         root, task_id=task_id, release=release, from_status=next_task.get("status"), to_status="IN_PROGRESS",
         session_id=session_id, actor_id=actor, reason="会话领取任务", story_id=session.get("story_id")
     )
+    reached("new_session_event_transition")
     build_context_pack(root, session)
+    reached("new_session_context")
     save_session(root, session)
     return session
 
@@ -1095,6 +1112,575 @@ def release_has_continuable_test_apk(root: Path, release: str, manifest: dict[st
             return False
     https = evidence.get("https") if isinstance(evidence.get("https"), dict) else {}
     return https.get("http_status") == 200 and https.get("range_status") == 206
+
+
+SEQUENCE_RECOVERY_ALLOWED_DIRTY = (
+    ".continuity/**",
+    "artifacts/context/**",
+    "catalogs/change_request_index.csv",
+    "catalogs/session_index.csv",
+    "docs/03-continuity/change-requests/**",
+    "scripts/continuity.py",
+    "tests/test_continuity_sequence_recovery.py",
+)
+
+
+class RecoveryFileTransaction:
+    """Restore all managed recovery paths byte-for-byte after any exception."""
+
+    def __init__(self, root: Path, paths: list[str]) -> None:
+        self.root = root
+        self.paths = list(dict.fromkeys(paths))
+        self.before_files: dict[str, bytes] = {}
+        self.before_dirs: set[str] = set()
+
+    def _capture_path(self, relative: str) -> None:
+        path = self.root / relative
+        if path.is_file():
+            self.before_files[relative] = path.read_bytes()
+            return
+        if not path.is_dir():
+            return
+        self.before_dirs.add(relative)
+        for item in sorted(path.rglob("*")):
+            item_relative = item.relative_to(self.root).as_posix()
+            if item.is_dir():
+                self.before_dirs.add(item_relative)
+            elif item.is_file():
+                self.before_files[item_relative] = item.read_bytes()
+
+    def __enter__(self) -> "RecoveryFileTransaction":
+        for relative in self.paths:
+            parent = Path(relative).parent
+            while parent != Path("."):
+                if (self.root / parent).is_dir():
+                    self.before_dirs.add(parent.as_posix())
+                parent = parent.parent
+            self._capture_path(relative)
+        return self
+
+    def restore(self) -> None:
+        current_files: set[str] = set()
+        current_dirs: set[str] = set()
+        for relative in self.paths:
+            path = self.root / relative
+            parent = Path(relative).parent
+            while parent != Path("."):
+                if (self.root / parent).is_dir():
+                    current_dirs.add(parent.as_posix())
+                parent = parent.parent
+            if path.is_file():
+                current_files.add(relative)
+            elif path.is_dir():
+                current_dirs.add(relative)
+                for item in path.rglob("*"):
+                    item_relative = item.relative_to(self.root).as_posix()
+                    if item.is_dir():
+                        current_dirs.add(item_relative)
+                    elif item.is_file():
+                        current_files.add(item_relative)
+        for relative in sorted(current_files - set(self.before_files)):
+            (self.root / relative).unlink(missing_ok=True)
+        for relative, content in self.before_files.items():
+            path = self.root / relative
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_bytes(content)
+        for relative in sorted(current_dirs - self.before_dirs, key=lambda value: value.count("/"), reverse=True):
+            path = self.root / relative
+            if path.is_dir():
+                try:
+                    path.rmdir()
+                except OSError:
+                    pass
+
+    def __exit__(self, exc_type: Any, exc: Any, traceback: Any) -> bool:
+        if exc_type is not None:
+            self.restore()
+        return False
+
+
+def sequence_recovery_paths(
+    old_session_id: str,
+    new_session_id: str,
+    recovery_id: str,
+) -> list[str]:
+    session_match = re.match(r"SES-(\d{4})(\d{2})\d{2}T", new_session_id)
+    month = (
+        f"{session_match.group(1)}-{session_match.group(2)}"
+        if session_match
+        else now_utc().strftime("%Y-%m")
+    )
+    return [
+        "CURRENT_STATUS.yaml",
+        "NEXT_TASK.yaml",
+        "releases/R14/TASKS.yaml",
+        "releases/R16/TASKS.yaml",
+        ACTIVE_FILE,
+        STATE_FILE,
+        f"{CONTINUITY_DIR}/EVENT_LOG.jsonl",
+        f"{CONTINUITY_DIR}/SESSION_INDEX.yaml",
+        f"{CONTINUITY_DIR}/TASK_CLAIMS.yaml",
+        f"{CONTINUITY_DIR}/TASK_TRANSITIONS.yaml",
+        f"{CONTINUITY_DIR}/sessions/{old_session_id}.yaml",
+        f"{CONTINUITY_DIR}/sessions/{new_session_id}.yaml",
+        f"{CONTINUITY_DIR}/checkpoints/{new_session_id}",
+        f"{CONTINUITY_DIR}/sequence_recoveries/{recovery_id}.yaml",
+        f"docs/03-continuity/sessions/{month}/{new_session_id}.md",
+        "catalogs/session_index.csv",
+        "catalogs/task_transition_ledger.csv",
+        "artifacts/context/CURRENT_CONTEXT_PACK.yaml",
+        "artifacts/context/CURRENT_CONTEXT_PACK.md",
+        "artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json",
+    ]
+
+
+def sequence_recovery_stash_facts(root: Path, stash_ref: str) -> dict[str, str]:
+    result = run_command(
+        ["git", "stash", "list", "--format=%gd%x09%H%x09%gs"],
+        cwd=root,
+        timeout=60,
+    )
+    if result.returncode != 0:
+        raise ContinuityError("无法读取Git stash证据：" + result.stderr.strip())
+    for line in result.stdout.splitlines():
+        fields = line.split("\t", 2)
+        if len(fields) == 3 and fields[0] == stash_ref:
+            return {"ref": fields[0], "oid": fields[1].lower(), "subject": fields[2]}
+    raise ContinuityError(f"指定stash不存在：{stash_ref}")
+
+
+def earliest_incomplete_release_task(root: Path, current_release: str) -> tuple[str, str, list[str]]:
+    current_number = release_number(current_release)
+    if current_number is None or current_number <= 14:
+        raise ContinuityError("当前会话不存在可退回的R14+前序Release")
+    for number in range(14, current_number):
+        release = f"R{number:02d}"
+        errors = strict_release_machine_completion_errors(root, release)
+        if not errors:
+            continue
+        task_path = root / "releases" / release / "TASKS.yaml"
+        document = yaml.safe_load(task_path.read_text(encoding="utf-8")) or {}
+        first = next(
+            (str(row.get("id") or "") for row in document.get("tasks", []) if row.get("status") != "DONE"),
+            "",
+        )
+        if not first:
+            raise ContinuityError(f"{release}机器闭环失败但找不到未完成Task")
+        return release, first, errors
+    raise ContinuityError("当前Release的全部R14+前序版本已机器闭环，禁止执行序列恢复")
+
+
+def ensure_sequence_recovery_task_lists(status: dict[str, Any]) -> None:
+    completed = set(status.get("completed_tasks") or [])
+    in_progress = set(status.get("in_progress_tasks") or [])
+    blocked = set(status.get("blocked_tasks") or [])
+    overlaps = (completed & in_progress) | (completed & blocked) | (in_progress & blocked)
+    if overlaps:
+        raise ContinuityError("恢复后任务状态列表发生重叠：" + ", ".join(sorted(overlaps)))
+
+
+def validate_sequence_recovery_result(
+    root: Path,
+    *,
+    old_session_id: str,
+    new_session_id: str,
+    target_task: str,
+    target_story: str,
+    cr_id: str,
+) -> None:
+    r14 = yaml.safe_load((root / "releases/R14/TASKS.yaml").read_text(encoding="utf-8")) or {}
+    r16 = yaml.safe_load((root / "releases/R16/TASKS.yaml").read_text(encoding="utf-8")) or {}
+    r14_status = {row.get("id"): row.get("status") for row in r14.get("tasks", [])}
+    r16_status = {row.get("id"): row.get("status") for row in r16.get("tasks", [])}
+    if r14_status.get(target_task) != "READY":
+        raise ContinuityError(f"恢复后{target_task}在TASKS中必须为READY")
+    expected_r16 = {"TASK-R16-001": "READY", **{f"TASK-R16-{number:03d}": "BLOCKED" for number in range(2, 9)}}
+    if any(r16_status.get(task_id) != expected for task_id, expected in expected_r16.items()):
+        raise ContinuityError("恢复后R16任务状态不符合READY/BLOCKED重验规则")
+
+    status = read_current_status(root)
+    ensure_sequence_recovery_task_lists(status)
+    completed = set(status.get("completed_tasks") or [])
+    in_progress = set(status.get("in_progress_tasks") or [])
+    blocked = set(status.get("blocked_tasks") or [])
+    if completed & {"TASK-R16-001", "TASK-R16-002", "TASK-R16-003"}:
+        raise ContinuityError("恢复后CURRENT_STATUS仍把跨序R16任务标为DONE")
+    if target_task not in in_progress or target_task in blocked:
+        raise ContinuityError("恢复后R14目标Task没有唯一处于IN_PROGRESS")
+    if "TASK-R16-004" in in_progress or not {f"TASK-R16-{number:03d}" for number in range(2, 9)} <= blocked:
+        raise ContinuityError("恢复后R16阻塞任务列表不完整")
+
+    old = load_session(root, old_session_id)
+    new = load_session(root, new_session_id)
+    if old.get("status") != "SEQUENCE_RECOVERED":
+        raise ContinuityError("旧R16会话未终止为SEQUENCE_RECOVERED")
+    if not all((
+        new.get("status") == "ACTIVE",
+        new.get("release") == "R14",
+        new.get("task_id") == target_task,
+        new.get("story_id") == target_story,
+        new.get("actor", {}).get("id") == "codex-r14-continuation-20260728",
+        new.get("change_requests") == [cr_id],
+    )):
+        raise ContinuityError("新R14会话Actor/Task/Story/CR不符合冻结恢复规则")
+    expected_scope = derive_scope(load_policy(root), release_story(root, "R14", target_story), [])
+    if new.get("scope", {}).get("allowed_paths") != expected_scope:
+        raise ContinuityError("新R14会话scope不是由STORY-R14-004唯一派生")
+
+    pointer = load_active_pointer(root)
+    state = load_state(root)
+    if pointer.get("active_session_id") != new_session_id or state.get("active_session_id") != new_session_id:
+        raise ContinuityError("Pointer/State未唯一指向新R14会话")
+    index = yaml.safe_load((root / CONTINUITY_DIR / "SESSION_INDEX.yaml").read_text(encoding="utf-8")) or {}
+    active_rows = [row for row in index.get("sessions", []) if row.get("status") == "ACTIVE"]
+    claims = yaml.safe_load((root / CONTINUITY_DIR / "TASK_CLAIMS.yaml").read_text(encoding="utf-8")) or {}
+    active_claims = [row for row in claims.get("claims", []) if row.get("status") == "ACTIVE"]
+    if [row.get("session_id") for row in active_rows] != [new_session_id]:
+        raise ContinuityError("SESSION_INDEX没有且仅有新R14 ACTIVE会话")
+    if [row.get("session_id") for row in active_claims] != [new_session_id]:
+        raise ContinuityError("TASK_CLAIMS没有且仅有新R14 ACTIVE Claim")
+    if not new.get("latest_checkpoint") or not (root / str(new["latest_checkpoint"])).is_file():
+        raise ContinuityError("新R14会话缺少首个恢复检查点")
+    chain = validate_event_chain(root)
+    if not chain.get("valid"):
+        raise ContinuityError("恢复后事件哈希链无效：" + "; ".join(chain.get("errors") or []))
+    if not context_is_fresh(root, new):
+        raise ContinuityError("恢复后Context Pack不是新R14会话的新鲜事实")
+
+
+def perform_sequence_recovery(
+    root: Path,
+    policy: dict[str, Any],
+    *,
+    actor: str,
+    old_session_id: str,
+    new_session_id: str,
+    target_release: str,
+    target_task: str,
+    target_story: str,
+    cr_id: str,
+    expected_head: str,
+    stash_ref: str,
+    expected_stash_oid: str,
+    expected_stash_subject: str,
+    reason: str,
+    fault_after: str | None = None,
+) -> dict[str, Any]:
+    def reached(stage: str) -> None:
+        if fault_after == stage:
+            raise ContinuityError(f"SEQUENCE_RECOVERY_FAULT_INJECTED:{stage}")
+
+    old = load_session(root, old_session_id)
+    pointer = load_active_pointer(root)
+    if old.get("status") != "ACTIVE" or pointer.get("active_session_id") != old_session_id:
+        raise ContinuityError("指定旧会话不是当前唯一ACTIVE会话，恢复可能已执行")
+    if old.get("actor", {}).get("id") != actor:
+        raise ContinuityError("只有当前R16会话Actor可以执行序列恢复")
+    if old.get("release") != "R16" or old.get("task_id") != "TASK-R16-004":
+        raise ContinuityError("本次受审计恢复只允许从R16/TASK-R16-004执行")
+    if target_story != "STORY-R14-004" or cr_id != "CR-0458":
+        raise ContinuityError("恢复Story或CR不符合独立审批冻结值")
+    earliest_release, earliest_task, predecessor_errors = earliest_incomplete_release_task(root, old["release"])
+    if (target_release, target_task) != (earliest_release, earliest_task):
+        raise ContinuityError(
+            f"恢复目标必须是最早未完成任务：{earliest_release}/{earliest_task}"
+        )
+    if target_release != "R14" or target_task != "TASK-R14-004":
+        raise ContinuityError("本次恢复事实与独立审批冻结的R14-004不一致")
+
+    head_before = str(git_info(root).get("head") or "").lower()
+    if head_before != expected_head.lower():
+        raise ContinuityError(f"恢复HEAD不一致：期望{expected_head}，实际{head_before}")
+    stash_before = sequence_recovery_stash_facts(root, stash_ref)
+    if stash_before["oid"] != expected_stash_oid.lower() or stash_before["subject"] != expected_stash_subject:
+        raise ContinuityError("R16 stash对象OID或完整主题与冻结证据不一致")
+    outside = [
+        path for path in git_changed_files(root)
+        if not any(fnmatchcase(path, pattern) for pattern in SEQUENCE_RECOVERY_ALLOWED_DIRTY)
+    ]
+    if outside:
+        raise ContinuityError("恢复前存在CR-0458范围外工作区变更：" + ", ".join(outside[:30]))
+
+    recovery_id = f"SEQREC-{old_session_id}-R14"
+    recovery_relative = f"{CONTINUITY_DIR}/sequence_recoveries/{recovery_id}.yaml"
+    recovery_path = root / recovery_relative
+    if recovery_path.exists():
+        raise ContinuityError(f"恢复记录已存在，禁止重复执行：{recovery_id}")
+    if session_record_path(root, new_session_id).exists():
+        raise ContinuityError(f"新会话ID已存在，禁止覆盖：{new_session_id}")
+    paths = sequence_recovery_paths(old_session_id, new_session_id, recovery_id)
+    event_before = load_state(root).get("event_log", {}).get("sequence")
+    r14_path = root / "releases/R14/TASKS.yaml"
+    r16_path = root / "releases/R16/TASKS.yaml"
+    r14_before = yaml.safe_load(r14_path.read_text(encoding="utf-8")) or {}
+    r16_before = yaml.safe_load(r16_path.read_text(encoding="utf-8")) or {}
+    status_before = read_current_status(root)
+
+    with RecoveryFileTransaction(root, paths):
+        terminate_old_session(root, old, "SEQUENCE_RECOVERED", reason)
+        reached("old_session_terminated")
+
+        r14 = yaml.safe_load(r14_path.read_text(encoding="utf-8")) or {}
+        r16 = yaml.safe_load(r16_path.read_text(encoding="utf-8")) or {}
+        for row in r14.get("tasks", []):
+            if row.get("id") == target_task:
+                if row.get("blocker"):
+                    row["prior_blocker"] = row.pop("blocker")
+                if row.get("blocked_at"):
+                    row["prior_blocked_at"] = row.pop("blocked_at")
+                row["status"] = "READY"
+                row["sequence_recovery"] = recovery_relative
+        for index, row in enumerate(r16.get("tasks", []), start=1):
+            row["status"] = "READY" if index == 1 else "BLOCKED"
+            row.pop("completed_at", None)
+            row["sequence_recovery"] = recovery_relative
+        r16["sequence_recovery"] = {
+            "status": "PRESERVED_REQUIRES_ORDERED_REVALIDATION",
+            "recovery": recovery_relative,
+            "head": expected_head.lower(),
+            "stash_oid": expected_stash_oid.lower(),
+        }
+        atomic_write_yaml(r14_path, r14)
+        atomic_write_yaml(r16_path, r16)
+        reached("task_plans_rewritten")
+
+        status = read_current_status(root)
+        status["completed_tasks"] = [
+            task for task in status.get("completed_tasks", [])
+            if task not in {"TASK-R16-001", "TASK-R16-002", "TASK-R16-003"}
+        ]
+        completed_set = set(status["completed_tasks"])
+        status["in_progress_tasks"] = [
+            task for task in status.get("in_progress_tasks", [])
+            if task != "TASK-R16-004" and task not in completed_set
+        ]
+        in_progress_set = set(status["in_progress_tasks"])
+        blocked = [
+            task for task in status.get("blocked_tasks", [])
+            if (
+                task != target_task
+                and not task.startswith("TASK-R16-")
+                and task not in completed_set
+                and task not in in_progress_set
+            )
+        ]
+        blocked.extend(f"TASK-R16-{number:03d}" for number in range(2, 9))
+        status["blocked_tasks"] = list(dict.fromkeys(blocked))
+        status.update({
+            "phase": target_release,
+            "active_release": target_release,
+            "active_task": target_task,
+            "status": "READY",
+            "next_task": target_task,
+            "updated_at": iso_utc(),
+            "continuity": {
+                "protocol_version": PROTOCOL_VERSION,
+                "mode": "ENFORCED",
+                "active_session_id": None,
+                "sequence_recovery": recovery_relative,
+            },
+        })
+        ensure_sequence_recovery_task_lists(status)
+        atomic_write_yaml(root / "CURRENT_STATUS.yaml", status)
+        next_document = resolve_next_task(root, target_release, target_task)
+        next_document["status"] = "READY"
+        next_document["sequence_recovery"] = recovery_relative
+        atomic_write_yaml(root / "NEXT_TASK.yaml", next_document)
+        reached("current_next_rewritten")
+
+        for task_id, from_status, to_status in (
+            ("TASK-R16-001", "DONE", "READY"),
+            ("TASK-R16-002", "DONE", "BLOCKED"),
+            ("TASK-R16-003", "DONE", "BLOCKED"),
+            ("TASK-R16-004", "IN_PROGRESS", "BLOCKED"),
+            (target_task, "BLOCKED", "READY"),
+        ):
+            record_task_transition(
+                root,
+                task_id=task_id,
+                release="R14" if task_id == target_task else "R16",
+                from_status=from_status,
+                to_status=to_status,
+                session_id=old_session_id,
+                actor_id=actor,
+                reason=f"CR-0458序列恢复：{reason}",
+                story_id=target_story if task_id == target_task else old.get("story_id"),
+            )
+        append_event(root, "SEQUENCE_RECOVERY_STARTED", {
+            "recovery_id": recovery_id,
+            "old_session": old_session_id,
+            "from_release": "R16",
+            "to_release": target_release,
+            "to_task": target_task,
+            "head": expected_head.lower(),
+            "stash_oid": expected_stash_oid.lower(),
+        })
+        reached("compensation_transitions_event")
+
+        save_active_pointer(root, {
+            "protocol_version": PROTOCOL_VERSION,
+            "active_session_id": None,
+            "status": "SEQUENCE_RECOVERY",
+            "last_session_id": old_session_id,
+        })
+        state = load_state(root)
+        state["active_session_id"] = None
+        state["last_session_id"] = old_session_id
+        state["last_session_result"] = "SEQUENCE_RECOVERED"
+        save_state(root, state)
+        reached("pointer_state_cleared")
+
+        session = create_session(
+            root,
+            policy,
+            actor="codex-r14-continuation-20260728",
+            task_id=target_task,
+            story_id=target_story,
+            goal="恢复并完成R14全部剩余任务、真实交互候选、APK与测试文档，再顺序进入R15",
+            crs=[cr_id],
+            explicit_scope=[],
+            allow_dirty=True,
+            base_commit_override=expected_head.lower(),
+            takeover_of=old_session_id,
+            session_id_override=new_session_id,
+            stage_hook=reached,
+        )
+        checkpoint = write_checkpoint(
+            root,
+            session,
+            policy,
+            summary="CR-0458已原子终止错误R16会话并恢复R14-004连续开发",
+            next_step="处理R14-004剩余事实缺口并执行R14版本专属GitHub真实交互候选",
+            blockers=[],
+            decisions=[
+                "R16实现Commit与stash完整保留，R16-001起待完成R15后顺序重验",
+                "R14-004恢复为当前唯一IN_PROGRESS任务",
+                "Owner真机反馈异步，不阻断机器闭环后的顺序开发",
+            ],
+            tests=[{
+                "name": "sequence recovery atomic rollback",
+                "result": "PASS",
+                "evidence": "tests/test_continuity_sequence_recovery.py",
+                "note": "全部写入阶段故障注入均字节级回滚",
+            }],
+            parallel_execution={
+                "assessment": "NO_SAFE_PARALLEL",
+                "workers": [],
+                "reason": "跨版本状态恢复与事件链迁移必须由唯一主控串行完成",
+            },
+            note=reason,
+        )
+        reached("checkpoint_written")
+
+        completion_event = append_event(root, "SEQUENCE_RECOVERY_COMPLETED", {
+            "recovery_id": recovery_id,
+            "old_session": old_session_id,
+            "new_session": new_session_id,
+            "checkpoint": checkpoint["checkpoint_id"],
+            "to_release": target_release,
+            "to_task": target_task,
+        })
+        reached("completion_event_written")
+        record = {
+            "schema": "hhy.sequence-recovery/v1",
+            "recovery_id": recovery_id,
+            "status": "PASS",
+            "created_at": iso_utc(),
+            "actor_id": actor,
+            "new_actor_id": "codex-r14-continuation-20260728",
+            "reason": reason,
+            "from": {
+                "release": "R16",
+                "task": "TASK-R16-004",
+                "session": old_session_id,
+            },
+            "to": {
+                "release": target_release,
+                "task": target_task,
+                "story": target_story,
+                "session": new_session_id,
+            },
+            "git": {
+                "head_before": head_before,
+                "head_after": head_before,
+                "stash_before": stash_before,
+                "stash_after": stash_before,
+            },
+            "predecessor_errors": predecessor_errors,
+            "task_status_before": {
+                "R14": {row.get("id"): row.get("status") for row in r14_before.get("tasks", [])},
+                "R16": {row.get("id"): row.get("status") for row in r16_before.get("tasks", [])},
+            },
+            "task_status_after": {
+                "R14": {row.get("id"): row.get("status") for row in r14.get("tasks", [])},
+                "R16": {row.get("id"): row.get("status") for row in r16.get("tasks", [])},
+            },
+            "current_status_before": {
+                "release": status_before.get("active_release"),
+                "task": status_before.get("active_task"),
+                "status": status_before.get("status"),
+            },
+            "current_status_after": {
+                "release": target_release,
+                "task": target_task,
+                "status": "IN_PROGRESS",
+            },
+            "event_sequence_before": event_before,
+            "event_sequence_after": completion_event["sequence"],
+            "checkpoint": checkpoint["checkpoint_id"],
+        }
+        recovery_path.parent.mkdir(parents=True, exist_ok=True)
+        atomic_write_yaml(recovery_path, record)
+        reached("recovery_record_written")
+        build_context_pack(root, session)
+        save_session(root, session)
+        reached("final_context_built")
+
+        validate_sequence_recovery_result(
+            root,
+            old_session_id=old_session_id,
+            new_session_id=new_session_id,
+            target_task=target_task,
+            target_story=target_story,
+            cr_id=cr_id,
+        )
+        head_after = str(git_info(root).get("head") or "").lower()
+        stash_after = sequence_recovery_stash_facts(root, stash_ref)
+        if head_after != head_before or stash_after != stash_before:
+            raise ContinuityError("序列恢复改变了HEAD或R16 stash证据")
+        return {
+            "status": "SEQUENCE_RECOVERY_COMPLETED",
+            "recovery_id": recovery_id,
+            "record": recovery_relative,
+            "old_session": old_session_id,
+            "new_session": new_session_id,
+            "checkpoint": checkpoint["checkpoint_id"],
+            "head": head_after,
+            "stash": stash_after,
+            "next_step": session["next_step"],
+        }
+
+
+def command_sequence_recover(args: Namespace) -> None:
+    actor = get_actor(args)
+    with continuity_lock(ROOT):
+        result = perform_sequence_recovery(
+            ROOT,
+            load_policy(ROOT),
+            actor=actor,
+            old_session_id=args.session,
+            new_session_id=args.new_session,
+            target_release=args.to_release,
+            target_task=args.to_task,
+            target_story=args.story,
+            cr_id=args.cr,
+            expected_head=args.expected_head,
+            stash_ref=args.stash_ref,
+            expected_stash_oid=args.stash_oid,
+            expected_stash_subject=args.stash_subject,
+            reason=args.reason,
+        )
+    print_yaml(result)
 
 
 def prior_async_owner_blocked_suffix(
@@ -2063,6 +2649,24 @@ def build_parser() -> ArgumentParser:
     recover.add_argument("--reason", required=True)
     recover.add_argument("--next-step", default="")
     recover.set_defaults(func=command_recover)
+
+    sequence_recover = sub.add_parser(
+        "sequence-recover",
+        help="事务化退回最早未完成R14+ Release，并保留错误跨序实现证据",
+    )
+    sequence_recover.add_argument("--actor")
+    sequence_recover.add_argument("--session", required=True)
+    sequence_recover.add_argument("--new-session", required=True)
+    sequence_recover.add_argument("--to-release", required=True)
+    sequence_recover.add_argument("--to-task", required=True)
+    sequence_recover.add_argument("--story", required=True)
+    sequence_recover.add_argument("--cr", required=True)
+    sequence_recover.add_argument("--expected-head", required=True)
+    sequence_recover.add_argument("--stash-ref", required=True)
+    sequence_recover.add_argument("--stash-oid", required=True)
+    sequence_recover.add_argument("--stash-subject", required=True)
+    sequence_recover.add_argument("--reason", required=True)
+    sequence_recover.set_defaults(func=command_sequence_recover)
 
     close = sub.add_parser("close", help="关闭会话并切换NEXT_TASK")
     close.add_argument("--actor")

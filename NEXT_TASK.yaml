@@ -1,16 +1,15 @@
-id: TASK-R16-004
-title: 商品、SKU、报价与统一订单客户端/H5/后台实现
+id: TASK-R14-004
+title: 一对一聊天核心客户端/H5/后台实现
 status: READY
-release: R16
+release: R14
 requirements:
-- REQ-NOREFUND-001
-- REQ-PRODUCT-001
-- REQ-ORDER-001
+- REQ-CHAT-001
+- REQ-CHAT-002
 - REQ-APK-001
 depends_on:
-- TASK-R16-003
-definition_of_ready: releases/R16/DEFINITION_OF_READY.yaml
-stories: releases/R16/STORIES.yaml
+- TASK-R14-003
+definition_of_ready: releases/R14/DEFINITION_OF_READY.yaml
+stories: releases/R14/STORIES.yaml
 steps:
 - 全部页面绑定catalogs/ui_page_specifications.csv
 - 字段/状态/动作/导航与后台运营规格通过契约测试
@@ -24,10 +23,10 @@ acceptance:
 - 禁止页面级手写重复DTO
 - 全部动作绑定生成API类型
 claim_required: true
-start_command: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R16-004
+start_command: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R14-004
 commands:
   resume: python3 scripts/continuity.py resume
-  start: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R16-004
+  start: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R14-004
   checkpoint: python3 scripts/continuity.py checkpoint --summary '<阶段完成>' --next-step '<精确下一步>' --test 'name|PASS|evidence|note' --parallel-assessment
     <ASSESSMENT> --parallel-reason '<未委托原因>'
   handoff: python3 scripts/continuity.py handoff --actor <ACTOR_ID> --reason '<移交原因>' --next-step '<精确下一步>'
@@ -35,3 +34,4 @@ commands:
   cr_amend: python3 scripts/continuity.py cr-amend --actor <ACTOR_ID> --cr <CR_ID> --original-rule '<原规则>' --new-rule '<新规则>' --impact-summary
     '<影响摘要>' --migration-and-compatibility '<迁移兼容说明>' --file <PATH> --test '<TEST>' --release <RELEASE>
 next_after: 由当前TASKS.yaml依赖关系决定
+sequence_recovery: .continuity/sequence_recoveries/SEQREC-SES-20260728T125934Z-F3DED330-R14.yaml

@@ -4508,7 +4508,7 @@ claims:
   task_id: TASK-R16-004
   story_id: STORY-R16-002
   actor_id: codex-r16-client-admin-20260728
-  status: ACTIVE
+  status: SEQUENCE_RECOVERED
   claimed_at: '2026-07-28T12:59:34Z'
   allowed_paths:
   - apps/android/**
@@ -4526,3 +4526,43 @@ claims:
   - apps/android相关R16订单详情页面、类型安全网络与专项测试；不提前做支付或虚构订单。
   - CHANGELOG.md
   updated_at: '2026-07-28T13:15:40Z'
+  closed_at: '2026-07-28T15:53:30Z'
+- claim_id: CLM-45586BAEE8FE
+  session_id: SES-20260728T154000Z-0458A14C
+  task_id: TASK-R14-004
+  story_id: STORY-R14-004
+  actor_id: codex-r14-continuation-20260728
+  status: ACTIVE
+  claimed_at: '2026-07-28T15:53:44Z'
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json

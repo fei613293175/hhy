@@ -1,7 +1,7 @@
 protocol_version: '1.0'
 package_version: 1.2.3
 session_id: SES-20260728T125934Z-F3DED330
-status: ACTIVE
+status: SEQUENCE_RECOVERED
 actor:
   id: codex-r16-client-admin-20260728
   kind: AI_OR_HUMAN
@@ -11,7 +11,7 @@ task_id: TASK-R16-004
 story_id: STORY-R16-002
 goal: 实现SCR-ORDER-002真实订单详情，严格绑定orderGetMeOrdersByOrderno与OrderResource。
 started_at: '2026-07-28T12:59:34Z'
-updated_at: '2026-07-28T15:27:02Z'
+updated_at: '2026-07-28T15:53:30Z'
 takeover_of: null
 change_requests:
 - CR-0448
@@ -23,6 +23,8 @@ change_requests:
 - CR-0454
 - CR-0455
 - CR-0456
+- CR-0457
+- CR-0458
 scope:
   allowed_paths:
   - apps/android/**
@@ -135,7 +137,10 @@ context_pack:
   context_hash: 7257ff15a68cea99db0b880c8b7742da25ac0ee22553d0311d195f942e580e84
   generated_at: '2026-07-28T15:26:59Z'
 handoff_bundle: null
-closure: null
+closure:
+  result: SEQUENCE_RECOVERED
+  reason: R14未完成且R15未开发时错误进入R16；事务退回R14并保留R16实现证据
+  closed_at: '2026-07-28T15:53:30Z'
 parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
@@ -147,3 +152,4 @@ story_history:
   checkpoint_id: CP-SES-20260728T125934Z-F3DED330-0004
   commit: 2d9f0c9ca4eb4d37140a7d5126e990a97c569cc2
   summary: STORY-R16-001后台订单列表已由CR-0448机器验证完成并推送，切换Android订单详情。
+closed_at: '2026-07-28T15:53:30Z'

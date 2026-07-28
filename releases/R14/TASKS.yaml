@@ -60,7 +60,7 @@ tasks:
   completed_at: '2026-07-27T22:11:13Z'
 - id: TASK-R14-004
   title: 一对一聊天核心客户端/H5/后台实现
-  status: BLOCKED
+  status: READY
   depends_on:
   - TASK-R14-003
   requirements: *id001
@@ -78,8 +78,9 @@ tasks:
   - 禁止页面级手写重复DTO
   - 全部动作绑定生成API类型
   session_log_required: true
-  blocker: TASK-R14-004可实施的会话列表、私聊、联系方式、拉黑解除、删除、举报证据结构、九接口、十二事件实时链路、隔离Staging与稳定签名TEST_APK均已完成；但PROB-0135缺少产品事实源冻结的举报原因code/用户文案/启停/排序，SHEET-CHAT-002与STORY-R14-003不得用效果图示例或测试值冒充完成，且ws.orbexa.cc仍BLOCKED_EXTERNAL_DNS，因此R14保持BLOCKED_EXTERNAL_GATE并保留CR-0427/0428为IMPLEMENTED待恢复
-  blocked_at: '2026-07-28T09:09:55Z'
+  prior_blocker: TASK-R14-004可实施的会话列表、私聊、联系方式、拉黑解除、删除、举报证据结构、九接口、十二事件实时链路、隔离Staging与稳定签名TEST_APK均已完成；但PROB-0135缺少产品事实源冻结的举报原因code/用户文案/启停/排序，SHEET-CHAT-002与STORY-R14-003不得用效果图示例或测试值冒充完成，且ws.orbexa.cc仍BLOCKED_EXTERNAL_DNS，因此R14保持BLOCKED_EXTERNAL_GATE并保留CR-0427/0428为IMPLEMENTED待恢复
+  prior_blocked_at: '2026-07-28T09:09:55Z'
+  sequence_recovery: .continuity/sequence_recoveries/SEQREC-SES-20260728T125934Z-F3DED330-R14.yaml
 - id: TASK-R14-005
   title: 一对一聊天核心专项测试与故障注入
   status: BLOCKED

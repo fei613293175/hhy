@@ -1,0 +1,61 @@
+protocol_version: '1.0'
+cr_id: CR-0457
+title: 显式恢复错误跨序开发指针并保留R16实现
+status: REJECTED
+created_at: '2026-07-28T15:28:54Z'
+updated_at: '2026-07-28T15:34:14Z'
+requester_actor_id: codex-r16-client-admin-20260728
+approver_actor_id: codex-sequence-recovery-independent-review-20260728
+task_id: TASK-R16-004
+session_id: SES-20260728T125934Z-F3DED330
+user_request: 纠正R14未完成且R15未开发却进入R16的连续性错误；恢复R14继续开发，不依赖聊天记录且不得丢失已产生的R16代码。
+reason: 新门禁已正确拒绝resume，但当前仓库仍停留在历史错误R16 ACTIVE状态，需要一次受审计、可测试、保留实现的状态迁移回R14。
+original_rule: 新门禁能拒绝错误R16指针，但没有唯一的受审计退回命令；人工直接编辑CURRENT_STATUS/NEXT_TASK/Session/Task状态会破坏事件链，也可能丢失R16代码或把未完成任务伪标完成。
+new_rule: 新增sequence-recover唯一命令：仅当当前R14+会话被前序机器闭环门禁拒绝时，自动定位最早未完成Release并且只允许退回其第一个未完成Task；执行前要求产品工作区干净、指定的R16 stash真实存在。命令原子保存恢复证据，终止错误会话和Claim，将错误跨序完成的R16
+  Task恢复为READY/BLOCKED待日后重验，保留所有Commit与stash；恢复R14 Task、CURRENT_STATUS、NEXT_TASK、事件链并立即创建R14 ACTIVE会话和检查点。失败必须零写入，不得人工伪改DONE。
+impact_summary: 新增一次性且可复用的版本序列恢复命令与原子回归，用仓库证据把当前指针从R16恢复到R14，同时保留R16实现供完成R15后重新验证。
+impact:
+  files:
+  - scripts/continuity.py
+  - tests/test_continuity_sequence_recovery.py
+  - CURRENT_STATUS.yaml
+  - NEXT_TASK.yaml
+  - releases/R14/TASKS.yaml
+  - releases/R16/TASKS.yaml
+  - .continuity/ACTIVE_SESSION.yaml
+  - .continuity/STATE.yaml
+  - .continuity/EVENT_LOG.jsonl
+  - .continuity/SESSION_INDEX.yaml
+  - .continuity/TASK_CLAIMS.yaml
+  - .continuity/TASK_TRANSITIONS.yaml
+  - .continuity/sessions/**
+  - .continuity/checkpoints/**
+  - .continuity/sequence_recoveries/**
+  - docs/03-continuity/sessions/**
+  - catalogs/session_index.csv
+  - catalogs/task_transition_ledger.csv
+  - artifacts/context/CURRENT_CONTEXT_PACK.yaml
+  - artifacts/context/CURRENT_CONTEXT_PACK.md
+  - artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+  pages: []
+  apis: []
+  database: []
+  configuration: []
+  ledger: []
+  tests:
+  - 错误R16 active且R14最早未完时恢复R14-004并创建新会话；R16 001-003撤销跨序DONE但保留Commit/stash记录；目标不是最早未完Release/Task、stash缺失、产品脏文件、合法顺序状态均零写入拒绝；恢复后resume通过且R15/R16仍受门禁阻断
+  releases:
+  - R14
+  - R15
+  - R16
+  migration_and_compatibility: 正常顺序开发不调用本命令；R13及以前不受影响。当前R16的Commit不删除、不重写历史，stash@{0}不弹出；R16任务状态回退只撤销跨序完成声明，代码证据写入恢复记录。R14完成后严格进入R15，再由标准关闭门禁进入R16并重验保留实现。
+user_confirmation: PENDING
+approval:
+  decision: REJECTED
+  decided_at: '2026-07-28T15:34:14Z'
+  note: 独立计划审查REJECTED：恢复方向、影响状态族和保留R16 Commit/stash的原则正确，但当前合同不足以证明“原子恢复且失败零写入”。第一，测试只覆盖前置条件拒绝，未覆盖多文件写入中途异常；必须对旧Session/Claim终止、R16/R14 TASKS与CURRENT/NEXT改写、补偿Transition/Event、创建新Session/Claim、写Checkpoint、重建Context各阶段注入失败，并断言所有既有文件字节级还原、新建session/checkpoint/recovery目录删除、EVENT/STATE头不变、HEAD与stash不变。第二，状态不变量未冻结完整：R16-001~003须从DONE撤销并从CURRENT_STATUS.completed_tasks移除；R16-004须终止ACTIVE会话/Claim、清除in_progress并落为明确BLOCKED或READY；R14-004须从blocked移除，经补偿Transition恢复READY后由新会话进入IN_PROGRESS，任何任务不得同时出现在completed/in_progress/blocked；旧Session应冻结终态与recovery_id，SESSION_INDEX和catalog同步。第三，新R14会话需冻结actor、STORY-R14-004选择、CR-0457关联及恢复范围，且断言STATE/ACTIVE_SESSION/NEXT_TASK/Session
+    Index/Claims/Transitions及两个CSV投影一致、恰好一个ACTIVE Session和Claim、事件链有效、Context Pack fresh并绑定新Checkpoint。第四，stash@{0}是可漂移名称，必须以命令参数或恢复合同钉住当前stash对象OID
+    c85e7088464eb2c0d12885aa8a39e2cd10c53d9b及主题，执行前后stash列表/OID完全一致；HEAD c47d19064bec57bd751f1cfa06a0fa7a75844790亦必须前后相同，禁止checkout/reset/rebase/pop/drop。第五，sequence_recovery记录须冻结from/to会话、Release/Task、前后任务状态、HEAD、stash
+    OID、事件头、新Checkpoint/Context哈希并保证重跑幂等拒绝。若为跨文件回滚新增通用事务助手并修改continuity_lib.py，必须把该文件和测试纳入影响范围。补齐后重新独立审批。
+machine_record: .continuity/change_requests/CR-0457.yaml
+document: docs/03-continuity/change-requests/CR-0457-显式恢复错误跨序开发指针并保留R16实现.md

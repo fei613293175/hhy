@@ -1,8 +1,8 @@
 project: hhy-pro-platform
 baseline_version: 1.2.3
-phase: R16
-active_release: R16
-active_task: TASK-R16-004
+phase: R14
+active_release: R14
+active_task: TASK-R14-004
 status: IN_PROGRESS
 documentation_status: ZERO_BLOCKING_DOCUMENT_GAPS
 last_green_commit: 63ebeca8ca54f087b18e0b9605dc879dd10bc4c4
@@ -129,20 +129,22 @@ completed_tasks:
 - TASK-R14-001
 - TASK-R14-002
 - TASK-R14-003
-- TASK-R16-001
-- TASK-R16-002
-- TASK-R16-003
 in_progress_tasks:
-- TASK-R16-004
+- TASK-R14-004
 blocked_tasks:
 - TASK-R02-007
-- TASK-R03-007
 - TASK-R06-008
 - TASK-R07-008
 - TASK-R13-008
-- TASK-R14-004
-next_task: TASK-R16-004
-updated_at: '2026-07-28T15:26:55Z'
+- TASK-R16-002
+- TASK-R16-003
+- TASK-R16-004
+- TASK-R16-005
+- TASK-R16-006
+- TASK-R16-007
+- TASK-R16-008
+next_task: TASK-R14-004
+updated_at: '2026-07-28T16:11:16Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -174,16 +176,16 @@ validation:
 continuity:
   protocol_version: '1.0'
   mode: ENFORCED
-  active_session_id: SES-20260728T125934Z-F3DED330
-  actor_id: codex-r16-client-admin-20260728
-  story_id: STORY-R16-002
-  lease_expires_at: '2026-07-28T19:26:55Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260728T125934Z-F3DED330/0011.yaml
-  project_fingerprint: 0a051077cdc64aff3895f5db204f787df3ba94c21400ed2e1a4d306145acadd2
+  active_session_id: SES-20260728T154000Z-0458A14C
+  actor_id: codex-r14-continuation-20260728
+  story_id: STORY-R14-004
+  lease_expires_at: '2026-07-28T20:11:16Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260728T154000Z-0458A14C/0002.yaml
+  project_fingerprint: d2d778d30904ecd471a8f996a255710e6c088643e77edf62fbc6e11dc1a12a8b
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: 31c2071d599154ea3a1799b3ccf12e86479f8cc01b6c89a3863798c5b9875758
-    generated_at: '2026-07-28T14:45:55Z'
+    context_hash: 833ef8a23d37a9a8fed522d6abd9d608af2574865f77be869b757af2b07bfa35
+    generated_at: '2026-07-28T15:54:32Z'
   handoff_bundle: null
