@@ -1,5 +1,6 @@
 package cc.orbexa.hhy.network
 
+import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.jsonObject
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
@@ -119,5 +120,20 @@ class ContractR14ApiTest {
         assertThrows(IllegalArgumentException::class.java) { UrlConnectionContractR14Api("http://api.orbexa.cc") }
         assertThrows(IllegalArgumentException::class.java) { UrlConnectionContractR14Api("https://api.invalid") }
         assertThrows(IllegalArgumentException::class.java) { requireFrozenR14Id("../conversation") }
+    }
+
+    @Test
+    fun safetyActionRequestsFollowTheFrozenSchema() {
+        val report = ChatReportRequest("SPAM", "", listOf("media_1"), listOf("message_1"), 3)
+        assertEquals(
+            "{\"reasonCode\":\"SPAM\",\"description\":\"\",\"evidenceMediaIds\":[\"media_1\"],\"messageIds\":[\"message_1\"],\"expectedVersion\":3}",
+            HhyNetworkJson.value.encodeToString(report),
+        )
+        assertEquals("{}", HhyNetworkJson.value.encodeToString(ChatBlockRequest()))
+        assertThrows(IllegalArgumentException::class.java) { ChatReportRequest("", "") }
+        assertThrows(IllegalArgumentException::class.java) { ChatBlockRequest("x".repeat(2_001)) }
+        assertThrows(IllegalArgumentException::class.java) {
+            ChatReportRequest("SPAM", "", messageIds = List(101) { "m_$it" })
+        }
     }
 }

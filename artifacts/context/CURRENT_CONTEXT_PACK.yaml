@@ -1,5 +1,5 @@
 context_version: '1.0'
-generated_at: '2026-07-28T00:52:52Z'
+generated_at: '2026-07-28T02:12:16Z'
 conversation_dependency: PROHIBITED
 source_of_truth: REPOSITORY_ONLY
 project: hhy-pro-platform
@@ -145,7 +145,7 @@ current_status:
   - TASK-R07-008
   - TASK-R13-008
   next_task: TASK-R14-004
-  updated_at: '2026-07-28T00:52:49Z'
+  updated_at: '2026-07-28T02:12:11Z'
   notes:
   - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
   - 全部REST/WebSocket操作均有页面或系统所有者
@@ -180,15 +180,15 @@ current_status:
     active_session_id: SES-20260727T221444Z-FD353AD3
     actor_id: codex-root-r14-client-20260728
     story_id: STORY-R14-003
-    lease_expires_at: '2026-07-28T04:52:49Z'
-    latest_checkpoint: .continuity/checkpoints/SES-20260727T221444Z-FD353AD3/0008.yaml
-    project_fingerprint: 75df362d79ececb9be0b09db0c349d90a25747254c612d572ed39da3aef4ba66
+    lease_expires_at: '2026-07-28T06:12:11Z'
+    latest_checkpoint: .continuity/checkpoints/SES-20260727T221444Z-FD353AD3/0010.yaml
+    project_fingerprint: ad8d10f8945315e0a5a30c06ee1b1de333cf6c8335a76e731e742aafd6b58ab6
     context_pack:
       yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
       markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
       manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-      context_hash: ce6a14ef324f73c7f9af4fb46162fa8757aefb3fd5bed694931f589258bddb36
-      generated_at: '2026-07-28T00:52:04Z'
+      context_hash: 0122a370effc4247bc059f2b92a614c22dca6c184c449a4cd18e63ea6b8f99aa
+      generated_at: '2026-07-28T01:31:14Z'
     handoff_bundle: null
 next_task:
   id: TASK-R14-004
@@ -241,7 +241,7 @@ active_session:
   story_id: STORY-R14-003
   goal: 严格按四个冻结交互面实现联系方式发送、聊天举报、拉黑与解除拉黑确认、删除会话确认，复用R14真实API与Design Token，不虚构字段或动作
   started_at: '2026-07-27T22:14:44Z'
-  updated_at: '2026-07-28T00:52:49Z'
+  updated_at: '2026-07-28T02:12:11Z'
   takeover_of: null
   change_requests:
   - CR-0422
@@ -249,6 +249,7 @@ active_session:
   - CR-0424
   - CR-0425
   - CR-0426
+  - CR-0427
   scope:
     allowed_paths:
     - apps/android/**
@@ -265,8 +266,18 @@ active_session:
     - scripts/**
     - apps/android/**;docs/**;catalogs/**;releases/**;design/**;scripts/**;CHANGELOG.md
     - CHANGELOG.md
-    approved_exceptions: []
-    source: story-switch+explicit
+    approved_exceptions:
+    - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR14Api.kt
+    - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ContractR14ApiTest.kt
+    - apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ChatActionState.kt
+    - apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ChatSheets.kt
+    - apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ChatDialogs.kt
+    - apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ChatDetailScreen.kt
+    - apps/android/feature/chat/src/test/java/cc/orbexa/hhy/chat/R14ChatActionStateTest.kt
+    - apps/android/feature/chat/src/androidTest/java/cc/orbexa/hhy/chat/R14ChatSurfacesTest.kt
+    - docs/03-continuity/PROBLEM_REGISTRY.yaml
+    - CHANGELOG.md
+    source: story-switch+explicit+approved-cr:CR-0427
   git:
     initialized: true
     branch: task/TASK-R03-001
@@ -276,20 +287,20 @@ active_session:
     initial_worktree_state: CLEAN
   lease:
     duration_minutes: 240
-    renewed_at: '2026-07-28T00:52:49Z'
-    expires_at: '2026-07-28T04:52:49Z'
-  checkpoint_sequence: 8
-  latest_checkpoint: .continuity/checkpoints/SES-20260727T221444Z-FD353AD3/0008.yaml
+    renewed_at: '2026-07-28T02:12:11Z'
+    expires_at: '2026-07-28T06:12:11Z'
+  checkpoint_sequence: 10
+  latest_checkpoint: .continuity/checkpoints/SES-20260727T221444Z-FD353AD3/0010.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260727T221444Z-FD353AD3.md
-  next_step: 审计现有R14网络合同与ChatDetail入口，创建精确CR后实现R14ChatSheets和R14ChatDialogs
+  next_step: 提交并推送已验证的CR-0427部分进度；继续TASK-R14-004中不依赖举报原因目录的可执行工作，不关闭STORY-R14-003
   context_pack: THIS_CONTEXT_PACK
   handoff_bundle: null
   closure: null
   parallel_execution:
-    assessment: NO_SAFE_PARALLEL
+    assessment: CAPABILITY_UNAVAILABLE
     delegated_workers: 0
     workers: []
-    reason: 四个交互面共享ChatDetail状态、同一ContractR14Api和写操作互斥状态，需先串行冻结统一实现边界
+    reason: 当前执行环境未授权启动新的执行代理；本轮为同一chat/network纵向接入，主控串行完成并并行运行互不依赖的静态门禁
   story_history:
   - story_id: STORY-R14-001
     completed_at: '2026-07-27T23:25:19Z'
@@ -303,43 +314,72 @@ active_session:
     summary: STORY-R14-002真实会话列表、消息主导航和Token纠偏已实现验证提交推送，CR与门禁误判修复均已闭环
 latest_checkpoint:
   protocol_version: '1.0'
-  checkpoint_id: CP-SES-20260727T221444Z-FD353AD3-0008
+  checkpoint_id: CP-SES-20260727T221444Z-FD353AD3-0010
   session_id: SES-20260727T221444Z-FD353AD3
   task_id: TASK-R14-004
   story_id: STORY-R14-003
-  sequence: 8
-  created_at: '2026-07-28T00:52:48Z'
-  summary: 已切换STORY-R14-003并核对四个页面规格：P03联系方式面板、P07举报与确认结构、P08拉黑影响语义，全部过滤示例和技术字段
-  next_step: 审计现有R14网络合同与ChatDetail入口，创建精确CR后实现R14ChatSheets和R14ChatDialogs
-  blockers: []
-  decisions: []
-  note: ''
+  sequence: 10
+  created_at: '2026-07-28T02:12:11Z'
+  summary: CR-0427已完成R14联系方式、安全操作、拉黑解除拉黑和删除会话Android接入；举报面板结构完成但权威原因目录为空时强制禁用，PROB-0135保持OPEN
+  next_step: 提交并推送已验证的CR-0427部分进度；继续TASK-R14-004中不依赖举报原因目录的可执行工作，不关闭STORY-R14-003
+  blockers:
+  - PROB-0135：举报reasonCode权威目录尚未冻结，阻断SHEET-CHAT-002与STORY-R14-003关闭，但不阻断其他R14工作
+  decisions:
+  - 不硬编码B07/P07示例原因；只实现真实结构、证据与二次确认，目录为空时禁用输入和提交
+  note: 远端默认Java8不可用于Gradle；Android必须继续使用固定容器。挂载既有hhy-android-sdk-platform-36到/opt/android-sdk/platforms/android-36可避免每轮重新安装平台。Compose旧createComposeRule仅产生弃用警告，不阻断当前编译。
   tests:
-  - name: 本阶段未执行测试
-    result: NOT_RUN
-    evidence: ''
-    note: 本检查点仅冻结Story切换与视觉规格读取结果，尚未修改产品代码
+  - name: R14 Android module
+    result: PASS
+    evidence: obx-test hhy-android-toolchain:r01-46fb273 with hhy-r01-android-gradle-cache and hhy-android-sdk-platform-36; core network/chat
+      unit tests + chat main/AndroidTest compile + lintDebug
+    note: fixed remote container
+  - name: R14 static contracts
+    result: PASS
+    evidence: check_ui_tokens; check_generated_assets; check_android_ui_foundation; check_r14_entry_contract; check_api_contract; check_ui_visual_acceptance
+      --release R14 --catalog-only
+    note: all PASS
+  - name: Git whitespace
+    result: PASS
+    evidence: git diff --check
+    note: clean
   git:
     initialized: true
     branch: task/TASK-R03-001
-    head: f8a1706fcc6ae4ae35bee6ea695bbae3c5453728
+    head: ec22818e02b0c7e51be2e82ae723214e1cb5c28e
     upstream: origin/task/TASK-R03-001
     ahead: 0
     behind: 0
     dirty: true
     status_porcelain:
     - ' M .continuity/ACTIVE_SESSION.yaml'
+    - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
     - ' M .continuity/EVENT_LOG.jsonl'
     - ' M .continuity/SESSION_INDEX.yaml'
     - ' M .continuity/STATE.yaml'
-    - ' M .continuity/TASK_CLAIMS.yaml'
     - ' M .continuity/sessions/SES-20260727T221444Z-FD353AD3.yaml'
+    - ' M CHANGELOG.md'
     - ' M CURRENT_STATUS.yaml'
+    - ' M apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR14Api.kt'
+    - ' M apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ContractR14ApiTest.kt'
+    - ' M apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ChatDetailScreen.kt'
     - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
     - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
     - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+    - ' M catalogs/change_request_index.csv'
     - ' M catalogs/session_index.csv'
+    - ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
+    - ' M docs/03-continuity/sessions/2026-07/SES-20260727T221444Z-FD353AD3.md'
+    - ?? .continuity/change_requests/CR-0427.yaml
+    - ?? .continuity/checkpoints/SES-20260727T221444Z-FD353AD3/0009.yaml
+    - ?? apps/android/feature/chat/src/androidTest/java/cc/orbexa/hhy/chat/R14ChatSurfacesTest.kt
+    - ?? apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ChatActionState.kt
+    - ?? apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ChatDialogs.kt
+    - ?? apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ChatSheets.kt
+    - ?? apps/android/feature/chat/src/test/java/cc/orbexa/hhy/chat/R14ChatActionStateTest.kt
+    - ?? docs/03-continuity/change-requests/CR-0427-实现R14聊天安全交互并隔离举报原因目录缺口.md
     recent_commits:
+    - "ec22818e02b0c7e51be2e82ae723214e1cb5c28e\t2026-07-28T08:57:41+08:00\tHHY Continuity Bootstrap\t[STORY-R14-003] chore(continuity): start\
+      \ chat safety actions"
     - "f8a1706fcc6ae4ae35bee6ea695bbae3c5453728\t2026-07-28T08:50:28+08:00\tHHY Continuity Bootstrap\t[STORY-R14-002] chore(continuity): bind\
       \ conversation list implementation"
     - "a62d664434958765fda36fb2ba12938d0a841274\t2026-07-28T08:47:51+08:00\tHHY Continuity Bootstrap\t[STORY-R14-002] feat(android): implement\
@@ -354,10 +394,8 @@ latest_checkpoint:
       \ R14 chat implementation"
     - "2df87e99d07af9cbd123d375f0717cb7abaae004\t2026-07-28T06:06:10+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] feat(chat): implement R14\
       \ direct messaging backend"
-    - "d851ca4432d3a372732bdf983e6bfb57bd605c1e\t2026-07-28T04:36:11+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(continuity): close\
-      \ TASK-R14-002 as completed"
   project_fingerprint:
-    sha256: 75df362d79ececb9be0b09db0c349d90a25747254c612d572ed39da3aef4ba66
+    sha256: ad8d10f8945315e0a5a30c06ee1b1de333cf6c8335a76e731e742aafd6b58ab6
     files:
     - CHANGELOG.md
     - apps/android/app/build.gradle.kts
@@ -370,11 +408,16 @@ latest_checkpoint:
     - apps/android/feature/app-promotion/src/main/java/cc/orbexa/hhy/apppromotion/R09AppScreens.kt
     - apps/android/feature/chat/build.gradle.kts
     - apps/android/feature/chat/src/androidTest/java/cc/orbexa/hhy/chat/R14ChatDetailScreenTest.kt
+    - apps/android/feature/chat/src/androidTest/java/cc/orbexa/hhy/chat/R14ChatSurfacesTest.kt
     - apps/android/feature/chat/src/androidTest/java/cc/orbexa/hhy/chat/R14ConversationListScreenTest.kt
+    - apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ChatActionState.kt
     - apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ChatDetailScreen.kt
+    - apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ChatDialogs.kt
+    - apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ChatSheets.kt
     - apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ChatState.kt
     - apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ConversationListScreen.kt
     - apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ConversationListState.kt
+    - apps/android/feature/chat/src/test/java/cc/orbexa/hhy/chat/R14ChatActionStateTest.kt
     - apps/android/feature/chat/src/test/java/cc/orbexa/hhy/chat/R14ChatStateTest.kt
     - apps/android/feature/chat/src/test/java/cc/orbexa/hhy/chat/R14ConversationListStateTest.kt
     - apps/android/feature/group-promotion/src/main/java/cc/orbexa/hhy/grouppromotion/R10GroupScreens.kt
@@ -389,17 +432,18 @@ latest_checkpoint:
     - docs/03-continuity/change-requests/CR-0424-补齐R14-Android会话列表状态与消息主导航.md
     - docs/03-continuity/change-requests/CR-0425-修复R14聊天尺寸脱离Design-Token生成事实.md
     - docs/03-continuity/change-requests/CR-0426-修复检查点对任务内净回退的误判.md
+    - docs/03-continuity/change-requests/CR-0427-实现R14聊天安全交互并隔离举报原因目录缺口.md
     - scripts/continuity_gate.py
     - scripts/continuity_lib.py
     - tests/test_continuity_worktree_fingerprint.py
-    file_count: 33
+    file_count: 39
     payload:
       base_commit: 2c39d9cd68f2ad48808c1bb99c467aab689e7adc
       files:
       - path: CHANGELOG.md
         state: FILE
-        size: 195665
-        sha256: e9209abfe20dff31fd0d1e6a0b6864308b35f0ca12288f35ab4816043fcb2581
+        size: 196980
+        sha256: 7a2d9c59f8ebd775cce7b61fecc9a0ce54c5af75785c73aad1c26b7f48d8dad0
       - path: apps/android/app/build.gradle.kts
         state: FILE
         size: 5451
@@ -422,12 +466,12 @@ latest_checkpoint:
         sha256: 5e297a8b36f9779b3b98d362a7ccf5a0cf5f46ec2788ff4401276cd3331e27a7
       - path: apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR14Api.kt
         state: FILE
-        size: 19738
-        sha256: ce54d2014a02bdb5360ddb39ad5827aa26bdd29481ee675cdafaf5efcc12f57d
+        size: 22637
+        sha256: 04b76c9e0888509a0c064bec075ec682e46a2f8e28a3865350d7408c03ee91dc
       - path: apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ContractR14ApiTest.kt
         state: FILE
-        size: 6190
-        sha256: 9efba9e921ddc3ab1e04cb0017a77c59b470b36e83b0ffe454091cb5d911e250
+        size: 7059
+        sha256: 1aabe44780722ba51d958a5dfa162afe6edda66bf7eb12527b0c2c836e9d562f
       - path: apps/android/feature/app-promotion/src/main/java/cc/orbexa/hhy/apppromotion/R09AppScreens.kt
         state: FILE
         size: 44367
@@ -440,14 +484,30 @@ latest_checkpoint:
         state: FILE
         size: 4576
         sha256: be3642a30517564ffb1019200c388a92889acfa94ec265fbbb2c7b53da75dd64
+      - path: apps/android/feature/chat/src/androidTest/java/cc/orbexa/hhy/chat/R14ChatSurfacesTest.kt
+        state: FILE
+        size: 3011
+        sha256: bdd145b2bbceb6eb209f354da6fd552960a6a5925f4fe220bd2c05dee79b9f4d
       - path: apps/android/feature/chat/src/androidTest/java/cc/orbexa/hhy/chat/R14ConversationListScreenTest.kt
         state: FILE
         size: 4224
         sha256: 48295811c748477c7fdcc4588b85a8b9d368cc960a1bc40c70f2e6ad82d213c9
+      - path: apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ChatActionState.kt
+        state: FILE
+        size: 1643
+        sha256: 199a9395331d66c129734dd6ce2db14a21fb1c2cf27c6c2292f27df1884fed47
       - path: apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ChatDetailScreen.kt
         state: FILE
-        size: 35390
-        sha256: 746d372209a9d0e9314d37ebef9f62dcd9d5cc6c1b55ed58b33f46972c2eeb29
+        size: 43471
+        sha256: 2f2b54e76405e61a6b878b0091998632e9b801a6408907624444137e0c062014
+      - path: apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ChatDialogs.kt
+        state: FILE
+        size: 2841
+        sha256: d54a859b78205b4885569d41ce5cb4b638f76f02244ce4f0f1d4960b02e602c9
+      - path: apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ChatSheets.kt
+        state: FILE
+        size: 10225
+        sha256: 3c47b7fd765905b6d9931819f79664ccf8700d12be127f01dc514b615506f32f
       - path: apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ChatState.kt
         state: FILE
         size: 7444
@@ -460,6 +520,10 @@ latest_checkpoint:
         state: FILE
         size: 5115
         sha256: 5f4e47b61624a4aeba02b296ea1377da56adac52b75786bca9ed093ec7b9627d
+      - path: apps/android/feature/chat/src/test/java/cc/orbexa/hhy/chat/R14ChatActionStateTest.kt
+        state: FILE
+        size: 1339
+        sha256: f0a6a353fea07acca78627ae6657e3e943bd2ff2a4ab4c734ba88c61499e67ba
       - path: apps/android/feature/chat/src/test/java/cc/orbexa/hhy/chat/R14ChatStateTest.kt
         state: FILE
         size: 3782
@@ -494,8 +558,8 @@ latest_checkpoint:
         sha256: c709d8b32145a1b11876592d5f6350445b066eda2bc79f6a750fdf5847646e8c
       - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
         state: FILE
-        size: 226992
-        sha256: d92896e8561ee5d7b6b2e4a04db28e9a2764dc549c4feb563a8166c79f3f76bd
+        size: 228586
+        sha256: 44eadbc5ee363ddfe85f46f3daae10690a199bde899cc0a8312534e8b583b68c
       - path: docs/03-continuity/change-requests/CR-0422-实现R14-Android私聊详情与真实会话导航.md
         state: FILE
         size: 7160
@@ -516,6 +580,10 @@ latest_checkpoint:
         state: FILE
         size: 4914
         sha256: e145ce5644eb6f0ee1f930003d8fc3092c917ada78e1951a057fd623d57bcd80
+      - path: docs/03-continuity/change-requests/CR-0427-实现R14聊天安全交互并隔离举报原因目录缺口.md
+        state: FILE
+        size: 5913
+        sha256: 587ee0bf0c2d61089d3273469909e25de963628e8b30c28f513af7a7622189b4
       - path: scripts/continuity_gate.py
         state: FILE
         size: 43991
@@ -542,11 +610,16 @@ latest_checkpoint:
     - apps/android/feature/app-promotion/src/main/java/cc/orbexa/hhy/apppromotion/R09AppScreens.kt
     - apps/android/feature/chat/build.gradle.kts
     - apps/android/feature/chat/src/androidTest/java/cc/orbexa/hhy/chat/R14ChatDetailScreenTest.kt
+    - apps/android/feature/chat/src/androidTest/java/cc/orbexa/hhy/chat/R14ChatSurfacesTest.kt
     - apps/android/feature/chat/src/androidTest/java/cc/orbexa/hhy/chat/R14ConversationListScreenTest.kt
+    - apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ChatActionState.kt
     - apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ChatDetailScreen.kt
+    - apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ChatDialogs.kt
+    - apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ChatSheets.kt
     - apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ChatState.kt
     - apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ConversationListScreen.kt
     - apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ConversationListState.kt
+    - apps/android/feature/chat/src/test/java/cc/orbexa/hhy/chat/R14ChatActionStateTest.kt
     - apps/android/feature/chat/src/test/java/cc/orbexa/hhy/chat/R14ChatStateTest.kt
     - apps/android/feature/chat/src/test/java/cc/orbexa/hhy/chat/R14ConversationListStateTest.kt
     - apps/android/feature/group-promotion/src/main/java/cc/orbexa/hhy/grouppromotion/R10GroupScreens.kt
@@ -568,11 +641,16 @@ latest_checkpoint:
     - apps/android/feature/app-promotion/src/main/java/cc/orbexa/hhy/apppromotion/R09AppScreens.kt
     - apps/android/feature/chat/build.gradle.kts
     - apps/android/feature/chat/src/androidTest/java/cc/orbexa/hhy/chat/R14ChatDetailScreenTest.kt
+    - apps/android/feature/chat/src/androidTest/java/cc/orbexa/hhy/chat/R14ChatSurfacesTest.kt
     - apps/android/feature/chat/src/androidTest/java/cc/orbexa/hhy/chat/R14ConversationListScreenTest.kt
+    - apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ChatActionState.kt
     - apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ChatDetailScreen.kt
+    - apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ChatDialogs.kt
+    - apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ChatSheets.kt
     - apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ChatState.kt
     - apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ConversationListScreen.kt
     - apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ConversationListState.kt
+    - apps/android/feature/chat/src/test/java/cc/orbexa/hhy/chat/R14ChatActionStateTest.kt
     - apps/android/feature/chat/src/test/java/cc/orbexa/hhy/chat/R14ChatStateTest.kt
     - apps/android/feature/chat/src/test/java/cc/orbexa/hhy/chat/R14ConversationListStateTest.kt
     - apps/android/feature/group-promotion/src/main/java/cc/orbexa/hhy/grouppromotion/R10GroupScreens.kt
@@ -588,6 +666,7 @@ latest_checkpoint:
     - docs/03-continuity/change-requests/CR-0424-补齐R14-Android会话列表状态与消息主导航.md
     - docs/03-continuity/change-requests/CR-0425-修复R14聊天尺寸脱离Design-Token生成事实.md
     - docs/03-continuity/change-requests/CR-0426-修复检查点对任务内净回退的误判.md
+    - docs/03-continuity/change-requests/CR-0427-实现R14聊天安全交互并隔离举报原因目录缺口.md
     tests:
     - tests/test_continuity_worktree_fingerprint.py
   required_records:
@@ -603,6 +682,7 @@ latest_checkpoint:
   - CR-0424
   - CR-0425
   - CR-0426
+  - CR-0427
   scope:
     allowed_paths:
     - apps/android/**
@@ -619,37 +699,63 @@ latest_checkpoint:
     - scripts/**
     - apps/android/**;docs/**;catalogs/**;releases/**;design/**;scripts/**;CHANGELOG.md
     - CHANGELOG.md
-    approved_exceptions: []
-    source: story-switch+explicit
+    approved_exceptions:
+    - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR14Api.kt
+    - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ContractR14ApiTest.kt
+    - apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ChatActionState.kt
+    - apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ChatSheets.kt
+    - apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ChatDialogs.kt
+    - apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ChatDetailScreen.kt
+    - apps/android/feature/chat/src/test/java/cc/orbexa/hhy/chat/R14ChatActionStateTest.kt
+    - apps/android/feature/chat/src/androidTest/java/cc/orbexa/hhy/chat/R14ChatSurfacesTest.kt
+    - docs/03-continuity/PROBLEM_REGISTRY.yaml
+    - CHANGELOG.md
+    source: story-switch+explicit+approved-cr:CR-0427
   parallel_execution:
-    assessment: NO_SAFE_PARALLEL
+    assessment: CAPABILITY_UNAVAILABLE
     delegated_workers: 0
     workers: []
-    reason: 四个交互面共享ChatDetail状态、同一ContractR14Api和写操作互斥状态，需先串行冻结统一实现边界
-  event_hash: a5786bf3bdc0366782acee7df4e0e8a1b3bde98602fec36aac8083b1cf67e4d5
+    reason: 当前执行环境未授权启动新的执行代理；本轮为同一chat/network纵向接入，主控串行完成并并行运行互不依赖的静态门禁
+  event_hash: 7585ea91923fef59b331539c3a257fdea420249e4a5affd76dee57db105c904f
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: f8a1706fcc6ae4ae35bee6ea695bbae3c5453728
+  head: ec22818e02b0c7e51be2e82ae723214e1cb5c28e
   upstream: origin/task/TASK-R03-001
   ahead: 0
   behind: 0
   dirty: true
   status_porcelain:
   - ' M .continuity/ACTIVE_SESSION.yaml'
+  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
   - ' M .continuity/EVENT_LOG.jsonl'
   - ' M .continuity/SESSION_INDEX.yaml'
   - ' M .continuity/STATE.yaml'
-  - ' M .continuity/TASK_CLAIMS.yaml'
   - ' M .continuity/sessions/SES-20260727T221444Z-FD353AD3.yaml'
+  - ' M CHANGELOG.md'
   - ' M CURRENT_STATUS.yaml'
+  - ' M apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR14Api.kt'
+  - ' M apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ContractR14ApiTest.kt'
+  - ' M apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ChatDetailScreen.kt'
   - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
   - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
   - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+  - ' M catalogs/change_request_index.csv'
   - ' M catalogs/session_index.csv'
+  - ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
   - ' M docs/03-continuity/sessions/2026-07/SES-20260727T221444Z-FD353AD3.md'
-  - ?? .continuity/checkpoints/SES-20260727T221444Z-FD353AD3/0008.yaml
+  - ?? .continuity/change_requests/CR-0427.yaml
+  - ?? .continuity/checkpoints/SES-20260727T221444Z-FD353AD3/0009.yaml
+  - ?? .continuity/checkpoints/SES-20260727T221444Z-FD353AD3/0010.yaml
+  - ?? apps/android/feature/chat/src/androidTest/java/cc/orbexa/hhy/chat/R14ChatSurfacesTest.kt
+  - ?? apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ChatActionState.kt
+  - ?? apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ChatDialogs.kt
+  - ?? apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ChatSheets.kt
+  - ?? apps/android/feature/chat/src/test/java/cc/orbexa/hhy/chat/R14ChatActionStateTest.kt
+  - ?? docs/03-continuity/change-requests/CR-0427-实现R14聊天安全交互并隔离举报原因目录缺口.md
   recent_commits:
+  - "ec22818e02b0c7e51be2e82ae723214e1cb5c28e\t2026-07-28T08:57:41+08:00\tHHY Continuity Bootstrap\t[STORY-R14-003] chore(continuity): start chat\
+    \ safety actions"
   - "f8a1706fcc6ae4ae35bee6ea695bbae3c5453728\t2026-07-28T08:50:28+08:00\tHHY Continuity Bootstrap\t[STORY-R14-002] chore(continuity): bind conversation\
     \ list implementation"
   - "a62d664434958765fda36fb2ba12938d0a841274\t2026-07-28T08:47:51+08:00\tHHY Continuity Bootstrap\t[STORY-R14-002] feat(android): implement conversation\
@@ -664,10 +770,8 @@ git:
     \ chat implementation"
   - "2df87e99d07af9cbd123d375f0717cb7abaae004\t2026-07-28T06:06:10+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] feat(chat): implement R14\
     \ direct messaging backend"
-  - "d851ca4432d3a372732bdf983e6bfb57bd605c1e\t2026-07-28T04:36:11+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(continuity): close TASK-R14-002\
-    \ as completed"
 project_fingerprint:
-  sha256: 75df362d79ececb9be0b09db0c349d90a25747254c612d572ed39da3aef4ba66
+  sha256: ad8d10f8945315e0a5a30c06ee1b1de333cf6c8335a76e731e742aafd6b58ab6
   files:
   - CHANGELOG.md
   - apps/android/app/build.gradle.kts
@@ -680,11 +784,16 @@ project_fingerprint:
   - apps/android/feature/app-promotion/src/main/java/cc/orbexa/hhy/apppromotion/R09AppScreens.kt
   - apps/android/feature/chat/build.gradle.kts
   - apps/android/feature/chat/src/androidTest/java/cc/orbexa/hhy/chat/R14ChatDetailScreenTest.kt
+  - apps/android/feature/chat/src/androidTest/java/cc/orbexa/hhy/chat/R14ChatSurfacesTest.kt
   - apps/android/feature/chat/src/androidTest/java/cc/orbexa/hhy/chat/R14ConversationListScreenTest.kt
+  - apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ChatActionState.kt
   - apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ChatDetailScreen.kt
+  - apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ChatDialogs.kt
+  - apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ChatSheets.kt
   - apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ChatState.kt
   - apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ConversationListScreen.kt
   - apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ConversationListState.kt
+  - apps/android/feature/chat/src/test/java/cc/orbexa/hhy/chat/R14ChatActionStateTest.kt
   - apps/android/feature/chat/src/test/java/cc/orbexa/hhy/chat/R14ChatStateTest.kt
   - apps/android/feature/chat/src/test/java/cc/orbexa/hhy/chat/R14ConversationListStateTest.kt
   - apps/android/feature/group-promotion/src/main/java/cc/orbexa/hhy/grouppromotion/R10GroupScreens.kt
@@ -699,17 +808,18 @@ project_fingerprint:
   - docs/03-continuity/change-requests/CR-0424-补齐R14-Android会话列表状态与消息主导航.md
   - docs/03-continuity/change-requests/CR-0425-修复R14聊天尺寸脱离Design-Token生成事实.md
   - docs/03-continuity/change-requests/CR-0426-修复检查点对任务内净回退的误判.md
+  - docs/03-continuity/change-requests/CR-0427-实现R14聊天安全交互并隔离举报原因目录缺口.md
   - scripts/continuity_gate.py
   - scripts/continuity_lib.py
   - tests/test_continuity_worktree_fingerprint.py
-  file_count: 33
+  file_count: 39
   payload:
     base_commit: 2c39d9cd68f2ad48808c1bb99c467aab689e7adc
     files:
     - path: CHANGELOG.md
       state: FILE
-      size: 195665
-      sha256: e9209abfe20dff31fd0d1e6a0b6864308b35f0ca12288f35ab4816043fcb2581
+      size: 196980
+      sha256: 7a2d9c59f8ebd775cce7b61fecc9a0ce54c5af75785c73aad1c26b7f48d8dad0
     - path: apps/android/app/build.gradle.kts
       state: FILE
       size: 5451
@@ -732,12 +842,12 @@ project_fingerprint:
       sha256: 5e297a8b36f9779b3b98d362a7ccf5a0cf5f46ec2788ff4401276cd3331e27a7
     - path: apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR14Api.kt
       state: FILE
-      size: 19738
-      sha256: ce54d2014a02bdb5360ddb39ad5827aa26bdd29481ee675cdafaf5efcc12f57d
+      size: 22637
+      sha256: 04b76c9e0888509a0c064bec075ec682e46a2f8e28a3865350d7408c03ee91dc
     - path: apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ContractR14ApiTest.kt
       state: FILE
-      size: 6190
-      sha256: 9efba9e921ddc3ab1e04cb0017a77c59b470b36e83b0ffe454091cb5d911e250
+      size: 7059
+      sha256: 1aabe44780722ba51d958a5dfa162afe6edda66bf7eb12527b0c2c836e9d562f
     - path: apps/android/feature/app-promotion/src/main/java/cc/orbexa/hhy/apppromotion/R09AppScreens.kt
       state: FILE
       size: 44367
@@ -750,14 +860,30 @@ project_fingerprint:
       state: FILE
       size: 4576
       sha256: be3642a30517564ffb1019200c388a92889acfa94ec265fbbb2c7b53da75dd64
+    - path: apps/android/feature/chat/src/androidTest/java/cc/orbexa/hhy/chat/R14ChatSurfacesTest.kt
+      state: FILE
+      size: 3011
+      sha256: bdd145b2bbceb6eb209f354da6fd552960a6a5925f4fe220bd2c05dee79b9f4d
     - path: apps/android/feature/chat/src/androidTest/java/cc/orbexa/hhy/chat/R14ConversationListScreenTest.kt
       state: FILE
       size: 4224
       sha256: 48295811c748477c7fdcc4588b85a8b9d368cc960a1bc40c70f2e6ad82d213c9
+    - path: apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ChatActionState.kt
+      state: FILE
+      size: 1643
+      sha256: 199a9395331d66c129734dd6ce2db14a21fb1c2cf27c6c2292f27df1884fed47
     - path: apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ChatDetailScreen.kt
       state: FILE
-      size: 35390
-      sha256: 746d372209a9d0e9314d37ebef9f62dcd9d5cc6c1b55ed58b33f46972c2eeb29
+      size: 43471
+      sha256: 2f2b54e76405e61a6b878b0091998632e9b801a6408907624444137e0c062014
+    - path: apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ChatDialogs.kt
+      state: FILE
+      size: 2841
+      sha256: d54a859b78205b4885569d41ce5cb4b638f76f02244ce4f0f1d4960b02e602c9
+    - path: apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ChatSheets.kt
+      state: FILE
+      size: 10225
+      sha256: 3c47b7fd765905b6d9931819f79664ccf8700d12be127f01dc514b615506f32f
     - path: apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ChatState.kt
       state: FILE
       size: 7444
@@ -770,6 +896,10 @@ project_fingerprint:
       state: FILE
       size: 5115
       sha256: 5f4e47b61624a4aeba02b296ea1377da56adac52b75786bca9ed093ec7b9627d
+    - path: apps/android/feature/chat/src/test/java/cc/orbexa/hhy/chat/R14ChatActionStateTest.kt
+      state: FILE
+      size: 1339
+      sha256: f0a6a353fea07acca78627ae6657e3e943bd2ff2a4ab4c734ba88c61499e67ba
     - path: apps/android/feature/chat/src/test/java/cc/orbexa/hhy/chat/R14ChatStateTest.kt
       state: FILE
       size: 3782
@@ -804,8 +934,8 @@ project_fingerprint:
       sha256: c709d8b32145a1b11876592d5f6350445b066eda2bc79f6a750fdf5847646e8c
     - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
       state: FILE
-      size: 226992
-      sha256: d92896e8561ee5d7b6b2e4a04db28e9a2764dc549c4feb563a8166c79f3f76bd
+      size: 228586
+      sha256: 44eadbc5ee363ddfe85f46f3daae10690a199bde899cc0a8312534e8b583b68c
     - path: docs/03-continuity/change-requests/CR-0422-实现R14-Android私聊详情与真实会话导航.md
       state: FILE
       size: 7160
@@ -826,6 +956,10 @@ project_fingerprint:
       state: FILE
       size: 4914
       sha256: e145ce5644eb6f0ee1f930003d8fc3092c917ada78e1951a057fd623d57bcd80
+    - path: docs/03-continuity/change-requests/CR-0427-实现R14聊天安全交互并隔离举报原因目录缺口.md
+      state: FILE
+      size: 5913
+      sha256: 587ee0bf0c2d61089d3273469909e25de963628e8b30c28f513af7a7622189b4
     - path: scripts/continuity_gate.py
       state: FILE
       size: 43991
@@ -1732,8 +1866,8 @@ continuity_state:
   last_session_id: SES-20260727T203754Z-DCE3090A
   last_session_result: COMPLETED
   last_closure_checkpoint_id: CP-SES-20260727T203754Z-DCE3090A-0003
-  event_count: 4059
-  event_head_hash: a5786bf3bdc0366782acee7df4e0e8a1b3bde98602fec36aac8083b1cf67e4d5
+  event_count: 4066
+  event_head_hash: 7585ea91923fef59b331539c3a257fdea420249e4a5affd76dee57db105c904f
   event_chain_valid: true
 recent_sessions:
 - session_id: SES-20260726T123133Z-63E93B88
@@ -1852,9 +1986,9 @@ recent_sessions:
   started_at: '2026-07-27T22:14:44Z'
   record: .continuity/sessions/SES-20260727T221444Z-FD353AD3.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260727T221444Z-FD353AD3.md
-  updated_at: '2026-07-28T00:52:49Z'
+  updated_at: '2026-07-28T02:12:11Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260727T221444Z-FD353AD3/0008.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260727T221444Z-FD353AD3/0010.yaml
   handoff_bundle: null
 task_claims:
 - claim_id: CLM-1B86680BE956
@@ -14301,6 +14435,69 @@ open_change_requests:
   - 2df87e99d07af9cbd123d375f0717cb7abaae004
   session_ids:
   - SES-20260727T203754Z-DCE3090A
+- protocol_version: '1.0'
+  cr_id: CR-0427
+  title: 实现R14聊天安全交互并隔离举报原因目录缺口
+  status: IMPLEMENTING
+  created_at: '2026-07-28T01:01:19Z'
+  updated_at: '2026-07-28T01:13:46Z'
+  requester_actor_id: codex-root-r14-client-20260728
+  approver_actor_id: codex-r14-cr-review-20260728
+  task_id: TASK-R14-004
+  session_id: SES-20260727T221444Z-FD353AD3
+  user_request: 按R14开发文档和效果图持续实现联系方式、举报、拉黑与删除会话，不虚构业务内容
+  reason: STORY-R14-003四个交互面尚未接线，ContractR14Api也缺少举报、拉黑、解除拉黑和删除会话；同时举报原因被页面规格要求来自受控枚举，但权威OpenAPI、配置与后端未定义该目录
+  original_rule: R14私聊页仅能发送文本、图片和内容卡，联系方式入口与安全菜单未接线；ContractR14Api没有report、block、unblock、deleteConversation方法；四个冻结交互面无实现。SHEET-CHAT-002又要求reasonCode来自受控枚举，但事实源未提供枚举值或配置端点
+  new_rule: 在现有ContractR14Api补充严格序列化的ChatReportRequest和ChatBlockRequest，以及report、block、unblock、deleteConversation四个真实写操作，全部使用稳定幂等键并只解码CommandResultResource。ChatDetail内部接入P03联系方式面板、P07/P08安全操作层、拉黑与解除拉黑确认、删除会话确认；只展示真实peer摘要，成功分别回传消息、禁发状态或移除当前用户会话视图，错误保留安全输入。举报面板按P07结构实现说明、证据和二次确认状态，但reasonCode选项必须由后续批准的权威目录注入；目录为空时显示配置不可用并禁止提交，不得硬编码或自由输入原因代码，不得把该页或STORY-R14-003标记完成。PROB-0135登记唯一解除条件：产品事实源冻结code、用户文案、启停与排序并同步OpenAPI或配置注册表
+  impact_summary: 扩展R14 Android网络动作与chat模块状态/UI，在ChatDetail复用现有消息发送状态和真实peer上下文；不修改后端、数据库或现有OpenAPI，不虚构举报原因，不提前实现R15后台审核状态
+  impact:
+    files:
+    - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR14Api.kt
+    - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ContractR14ApiTest.kt
+    - apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ChatActionState.kt
+    - apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ChatSheets.kt
+    - apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ChatDialogs.kt
+    - apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ChatDetailScreen.kt
+    - apps/android/feature/chat/src/test/java/cc/orbexa/hhy/chat/R14ChatActionStateTest.kt
+    - apps/android/feature/chat/src/androidTest/java/cc/orbexa/hhy/chat/R14ChatSurfacesTest.kt
+    - docs/03-continuity/PROBLEM_REGISTRY.yaml
+    - CHANGELOG.md
+    pages:
+    - SHEET-CHAT-001
+    - SHEET-CHAT-002
+    - DIALOG-CHAT-BLOCK-001
+    - DIALOG-CHAT-DELETE-001
+    apis:
+    - chatPostConversationsByIdMessages
+    - chatPostConversationsByIdReport
+    - chatPostUsersByIdBlock
+    - chatDeleteUsersByIdBlock
+    - chatDeleteConversationsById
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - 严格请求序列化、路由与幂等头；联系方式至少一项和200字限制；拉黑原因2000字、解除不带body；删除只移除本端；写操作互斥、相同意图稳定重试、401/403/404/409/422/429/500映射；举报原因目录为空时不可提交且不出现自由reasonCode；四面Compose字段、主次操作、敏感与技术字段过滤；core-network与feature-chat单测编译Lint、Android
+      UI基础、R14入口与视觉目录门禁
+    releases:
+    - R14
+    migration_and_compatibility: 纯Android增量，无数据迁移；旧ChatDetail路由和消息类型保持兼容。联系方式、拉黑/解除拉黑和删除会话可独立完成；举报动作在权威原因目录到位前保持明确不可提交并保留开放Problem
+  user_confirmation: 项目所有者已授权按仓库事实持续开发且禁止虚构效果图内容；无需逐项确认
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-28T01:13:38Z'
+    note: 独立计划审查通过：CR-0427仅实现现有冻结事实源能够证明的R14能力。联系方式继续通过chatPostConversationsByIdMessages发送CONTACT_CARD；举报、拉黑、解除拉黑和删除会话按既有OpenAPI真实路由、严格请求模型、CommandResultResource响应、稳定幂等键、单写互斥及401/403/404/409/422/429/500恢复语义接线；拉黑成功切换禁发状态，解除不携带请求体，删除仅移除当前账号会话视图。SHEET-CHAT-002要求reasonCode来自受控枚举，但OpenAPI当前仅定义必填string且未冻结enum，目录字段规则又禁止客户端暗设默认或散落硬编码，因此目录为空时实现结构和状态但明确禁用提交、不提供自由reasonCode，登记PROB-0135并保持STORY-R14-003未完成，是符合禁止虚构的正确隔离方案。影响文件覆盖network、chat状态/UI、单测、Compose测试、Problem
+      Registry与Changelog；测试覆盖序列化、路由/幂等、字段边界、状态互斥与稳定重试、错误映射、敏感/技术字段过滤及目录缺失负向。无需扩大到后端、数据库、OpenAPI或R15审核状态，批准按当前范围实施。
+  machine_record: .continuity/change_requests/CR-0427.yaml
+  document: docs/03-continuity/change-requests/CR-0427-实现R14聊天安全交互并隔离举报原因目录缺口.md
+  decision_log:
+  - at: '2026-07-28T01:13:46Z'
+    actor_id: codex-root-r14-client-20260728
+    status: IMPLEMENTING
+    note: 独立复审通过后应用精确Android范围，开始实现真实写操作和四个冻结交互面
+    session_id: SES-20260727T221444Z-FD353AD3
+  session_ids:
+  - SES-20260727T221444Z-FD353AD3
 source_manifest:
 - path: AGENTS.md
   sha256: e9f1cf3739a97b47a4de96166ebd17eb2206b7231adb22dbfa23f7687c9809bc
@@ -14309,7 +14506,7 @@ source_manifest:
   sha256: 22de14029ce47beb41ea569e36ce223fbc9d11b86f8676f28d5fbbd83896af5c
   bytes: 4556
 - path: CURRENT_STATUS.yaml
-  sha256: b3ff816b2d162bb71dd949ac4fc9ae7c9e5bf081bdf426b8d2ae3acd7b9a0135
+  sha256: aab0bcb482b35303bef777c9f2111ac5006af3049cfc22798806fedfd761ef44
   bytes: 4672
 - path: NEXT_TASK.yaml
   sha256: bac6995e3e612ed7920cc2ec3b7d4592c3c6641eca0147fa90eddd08eaddb829
@@ -14321,8 +14518,8 @@ source_manifest:
   sha256: 045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511
   bytes: 1442
 - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
-  sha256: d92896e8561ee5d7b6b2e4a04db28e9a2764dc549c4feb563a8166c79f3f76bd
-  bytes: 226992
+  sha256: 44eadbc5ee363ddfe85f46f3daae10690a199bde899cc0a8312534e8b583b68c
+  bytes: 228586
 - path: docs/03-continuity/REUSABLE_PATTERNS.md
   sha256: 5e1d2c4e9d2c97b8bad7c0c1a80211f827681d03f71f45c92368124f3079d54e
   bytes: 9651
@@ -14342,10 +14539,10 @@ source_manifest:
   sha256: 38e04ed812c8df0d353c2b91993d31e53b471e9c457f06b426bd2260c470aa92
   bytes: 13936
 - path: .continuity/EVENT_LOG.jsonl
-  sha256: b8237598fa3c8acb2c9aa10d2af9832ab5ba95378196ae8bc73ec50038eecd30
-  bytes: 2298516
+  sha256: 6cd030ebc85c31b511b3148297fdf439d06053849a9d62527e3803c703db0099
+  bytes: 2303476
 - path: .continuity/SESSION_INDEX.yaml
-  sha256: 365577850de089fff0053066b952b6af7ca3314af13eaae247aec2287dfd918c
+  sha256: da8e552a176c5998847a3888e78fa5dc119e68b84cf5d3d3f111c6ca25759d70
   bytes: 61640
 - path: .continuity/TASK_CLAIMS.yaml
   sha256: 8cd92141b66996adbe57efa703f71219f01f4b674bb349b5ba182a4c53295e53
@@ -14354,10 +14551,10 @@ source_manifest:
   sha256: 29bc240c8b0452ec63c5d64f31fa5d2a7e5d804b95c92b238be5a8769734a138
   bytes: 35077
 - path: .continuity/CHANGE_REQUEST_INDEX.yaml
-  sha256: debe8add6c8ebd198e01385bd951a055353d729638559064d110bd871fd0ad88
-  bytes: 1520310
+  sha256: 9b6ad5d121abdd50ae4423263ad1fe06dbcbf283120bc58ee54d28f86693666c
+  bytes: 1526346
 - path: .continuity/ACTIVE_SESSION.yaml
-  sha256: d5c91f4d33b7604c184f09e0a9767b94611e46e46f78b67cdcd681cf3ee719d1
+  sha256: 60a768e878e4e4b8a53c9e46546c29de6d13717ffca35f33853732c98f7c0523
   bytes: 545
 - path: docs/00-baseline/正式商业系统全局硬性开发边界.md
   sha256: d8a77eddf520659b1d6b57e16ecc0739fa93dbd39cf9903dbaf798fc631ae6fe
@@ -14390,11 +14587,11 @@ source_manifest:
   sha256: cd1f0c96ffd7562acb214edba80a2bbb12b79f06c19032d1b133936ff6abd74f
   bytes: 2539
 - path: docs/03-continuity/sessions/2026-07/SES-20260727T221444Z-FD353AD3.md
-  sha256: 9f7d8b6994651b3b2e92f73c1a767af47503111d25c7b2a3a714b86fb274e03e
-  bytes: 26780
-- path: .continuity/checkpoints/SES-20260727T221444Z-FD353AD3/0008.yaml
-  sha256: db7e50dd8ef13a0370116133be1d67b446acbc4cc463a9d48a1fd0007f05b4db
-  bytes: 17611
+  sha256: 5058cca131233d88d30afd35386d15ef7e4ab25e249bade12eb930ce0fcc8b58
+  bytes: 34970
+- path: .continuity/checkpoints/SES-20260727T221444Z-FD353AD3/0010.yaml
+  sha256: 7b846bd329301d9ef779fa8562c564e200a574a8d3c3aeb4086f70deb2611893
+  bytes: 23365
 - path: docs/03-continuity/change-requests/CR-0422-实现R14-Android私聊详情与真实会话导航.md
   sha256: 426588ba45f18916890ade8c428e1b1c0d168eae8af4fec7eb9957eb5f792617
   bytes: 7160
@@ -14410,6 +14607,9 @@ source_manifest:
 - path: docs/03-continuity/change-requests/CR-0426-修复检查点对任务内净回退的误判.md
   sha256: e145ce5644eb6f0ee1f930003d8fc3092c917ada78e1951a057fd623d57bcd80
   bytes: 4914
+- path: docs/03-continuity/change-requests/CR-0427-实现R14聊天安全交互并隔离举报原因目录缺口.md
+  sha256: 587ee0bf0c2d61089d3273469909e25de963628e8b30c28f513af7a7622189b4
+  bytes: 5913
 rule_readiness:
   status: PASS
   evidence: HASHED_CONTEXT_MANIFEST
@@ -14445,4 +14645,4 @@ hard_rules:
 - 除非项目所有者明确报告未连接，默认Codex已连接obx-test且既有项目环境可用；预检失败必须阻断并报告
 - 禁止以无服务器状态继续开发或重建本地Android SDK，必须复用登记的远端镜像和Gradle缓存
 - Git remote/upstream仅按tracked transport descriptor受控恢复；推送前必须预检且禁止force push
-context_hash: e78dc2a5fa922138e3e502acdc6a87c97bb2abaa988d5a079867a9ed68fe07e1
+context_hash: ceddaabc2c0f842476963a19b301333f748f9ba4eaa09cf25f4cbc26f11cdf92

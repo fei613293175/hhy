@@ -178,6 +178,29 @@ data class ChatPostConversationsByIdReadRequest(val lastReadMessageId: String) {
     init { requireFrozenR14Id(lastReadMessageId) }
 }
 
+@Serializable
+data class ChatBlockRequest(val reason: String? = null) {
+    init { require(reason == null || reason.length <= 2_000) }
+}
+
+@Serializable
+data class ChatReportRequest(
+    val reasonCode: String,
+    val description: String,
+    val evidenceMediaIds: List<String> = emptyList(),
+    val messageIds: List<String> = emptyList(),
+    val expectedVersion: Long? = null,
+) {
+    init {
+        require(reasonCode.isNotBlank() && reasonCode.length <= 2_000)
+        require(description.length <= 2_000)
+        require(evidenceMediaIds.size <= 100 && messageIds.size <= 100)
+        evidenceMediaIds.forEach(::requireFrozenR14Id)
+        messageIds.forEach(::requireFrozenR14Id)
+        require(expectedVersion == null || expectedVersion >= 0)
+    }
+}
+
 interface ContractR14Api {
     suspend fun conversations(
         accessToken: String,
@@ -213,7 +236,15 @@ interface ContractR14Api {
         idempotencyKey: String,
         request: ChatPostConversationsByIdReadRequest,
     ): R07CallResult<CommandResultResource>
+
+    suspend fun report(accessToken: String, conversationId: String, idempotencyKey: String, request: ChatReportRequest): R07CallResult<CommandResultResource> = unsupportedR14Action()
+    suspend fun block(accessToken: String, userId: String, idempotencyKey: String, request: ChatBlockRequest): R07CallResult<CommandResultResource> = unsupportedR14Action()
+    suspend fun unblock(accessToken: String, userId: String, idempotencyKey: String): R07CallResult<CommandResultResource> = unsupportedR14Action()
+    suspend fun deleteConversation(accessToken: String, conversationId: String, idempotencyKey: String): R07CallResult<CommandResultResource> = unsupportedR14Action()
 }
+
+private fun unsupportedR14Action(): R07CallResult<CommandResultResource> =
+    R07CallResult.Failure(statusCode = 501, retryable = false)
 
 class UrlConnectionContractR14Api(baseUrl: String) : ContractR14Api {
     private val root = validateR14Root(baseUrl)
@@ -285,6 +316,22 @@ class UrlConnectionContractR14Api(baseUrl: String) : ContractR14Api {
         idempotencyKey = requireR14Key(idempotencyKey),
         body = HhyNetworkJson.value.encodeToString(request),
     ).decodeR14 { data -> HhyNetworkJson.value.decodeFromJsonElement(CommandResultResource.serializer(), data) }
+
+    override suspend fun report(accessToken: String, conversationId: String, idempotencyKey: String, request: ChatReportRequest) =
+        command("POST", "/api/v1/conversations/${requireFrozenR14Id(conversationId)}/report", accessToken, idempotencyKey, HhyNetworkJson.value.encodeToString(request))
+
+    override suspend fun block(accessToken: String, userId: String, idempotencyKey: String, request: ChatBlockRequest) =
+        command("POST", "/api/v1/users/${requireFrozenR14Id(userId)}/block", accessToken, idempotencyKey, HhyNetworkJson.value.encodeToString(request))
+
+    override suspend fun unblock(accessToken: String, userId: String, idempotencyKey: String) =
+        command("DELETE", "/api/v1/users/${requireFrozenR14Id(userId)}/block", accessToken, idempotencyKey)
+
+    override suspend fun deleteConversation(accessToken: String, conversationId: String, idempotencyKey: String) =
+        command("DELETE", "/api/v1/conversations/${requireFrozenR14Id(conversationId)}", accessToken, idempotencyKey)
+
+    private suspend fun command(method: String, route: String, accessToken: String, key: String, body: String? = null) =
+        callJson(method, route, accessToken, requireR14Key(key), body)
+            .decodeR14 { data -> HhyNetworkJson.value.decodeFromJsonElement(CommandResultResource.serializer(), data) }
 
     private suspend fun callJson(
         method: String,

@@ -1925,3 +1925,16 @@ problems:
   - 不得用任务基线已提交路径与全部status路径的并集代表最终工作树净差异
   - 不得只比较暂存与脏文件路径集合而忽略同一路径的索引工作树内容分叉
   - 不得为消除假失败跳过CHECKPOINT_STALE或绕过pre-push；必须统一工作区与历史提交指纹语义并保留正负回归
+- id: PROB-0135
+  title: R14聊天举报缺少受控原因目录
+  status: OPEN
+  root_cause: SHEET-CHAT-002冻结为RADIO_GROUP并要求reasonCode来自受控枚举映射，字段来源规则只允许OpenAPI枚举或配置注册表；但当前ChatPostConversationsByIdReportRequest仅定义必填string和长度，配置与后端也没有原因code、用户文案、启停或排序目录。B07/P07中的原因属于明确要求过滤的示例内容，不能成为业务事实。
+  resolution: CR-0427先实现真实举报API、面板结构、说明、证据、确认与错误状态；权威目录为空时明确禁止提交，不提供自由reasonCode，不把SHEET-CHAT-002或STORY-R14-003标记完成。解除前必须由产品事实源冻结code、用户文案、启停与排序，并同步OpenAPI枚举或配置注册表、Android生成资产、后端校验和正负合同测试。
+  regression_checks:
+  - Android举报面板在权威目录为空时必须显示配置不可用并禁用提交，不得出现P07示例原因或reasonCode自由输入框
+  - OpenAPI或配置注册表补齐后必须由生成器产生Android原因目录并验证未知、停用和顺序漂移
+  - 后端必须拒绝未知或停用reasonCode，客户端与管理端必须共享同一code语义
+  do_not_repeat:
+  - 不得把效果图中的虚假信息、欺诈、骚扰广告、违法违规或其他原因示例直接硬编码为正式业务枚举
+  - 不得用自由文本reasonCode绕过RADIO_GROUP和受控目录要求
+  - 不得在原因目录缺失时关闭SHEET-CHAT-002、STORY-R14-003或R14机器验收

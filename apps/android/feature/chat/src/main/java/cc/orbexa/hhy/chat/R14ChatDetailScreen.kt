@@ -72,7 +72,9 @@ import cc.orbexa.hhy.designsystem.HhySpacing
 import cc.orbexa.hhy.designsystem.HhyType
 import cc.orbexa.hhy.media.MediaUploadSelection
 import cc.orbexa.hhy.media.MediaUploadSheet
+import cc.orbexa.hhy.network.ChatBlockRequest
 import cc.orbexa.hhy.network.ChatContactCardPayload
+import cc.orbexa.hhy.network.ChatContactCardMessageRequest
 import cc.orbexa.hhy.network.ChatContentCardMessageRequest
 import cc.orbexa.hhy.network.ChatContentCardPayload
 import cc.orbexa.hhy.network.ChatImageMessageRequest
@@ -80,11 +82,13 @@ import cc.orbexa.hhy.network.ChatImagePayload
 import cc.orbexa.hhy.network.ChatMessagePayload
 import cc.orbexa.hhy.network.ChatMessageResource
 import cc.orbexa.hhy.network.ChatPostConversationsByIdReadRequest
+import cc.orbexa.hhy.network.ChatReportRequest
 import cc.orbexa.hhy.network.ChatSendMessageRequest
 import cc.orbexa.hhy.network.ChatTextMessageRequest
 import cc.orbexa.hhy.network.ChatTextPayload
 import cc.orbexa.hhy.network.ContractMediaApi
 import cc.orbexa.hhy.network.ContractR14Api
+import cc.orbexa.hhy.network.CommandResultResource
 import cc.orbexa.hhy.network.PublisherSummaryResource
 import cc.orbexa.hhy.network.R07CallResult
 import coil.compose.AsyncImage
@@ -107,8 +111,6 @@ fun R14ChatDetailScreen(
     initialContentCard: ChatContentCardPayload? = null,
     onBack: () -> Unit,
     onOpenContent: (contentType: String, contentId: String) -> Unit = { _, _ -> },
-    onOpenContactComposer: (() -> Unit)? = null,
-    onOpenSafetyActions: (() -> Unit)? = null,
     onSessionExpired: () -> Unit,
     onConversationUnavailable: () -> Unit = onBack,
 ) {
@@ -121,6 +123,16 @@ fun R14ChatDetailScreen(
     var showImagePicker by remember { mutableStateOf(false) }
     var previewImage by remember { mutableStateOf<String?>(null) }
     var imageNotice by remember { mutableStateOf<String?>(null) }
+    var actionNotice by remember { mutableStateOf<String?>(null) }
+    var actionState by remember(conversationId) { mutableStateOf(R14ChatActionState()) }
+    var showContactSheet by remember(conversationId) { mutableStateOf(false) }
+    var showSafetySheet by remember(conversationId) { mutableStateOf(false) }
+    var showReportSheet by remember(conversationId) { mutableStateOf(false) }
+    var showBlockDialog by remember(conversationId) { mutableStateOf(false) }
+    var showDeleteDialog by remember(conversationId) { mutableStateOf(false) }
+    var contactSubmitting by remember(conversationId) { mutableStateOf(false) }
+    var contactFailure by remember(conversationId) { mutableStateOf<String?>(null) }
+    var contactIntent by remember(conversationId) { mutableStateOf<ChatContactCardMessageRequest?>(null) }
 
     fun handleFailure(failure: R07CallResult.Failure, firstLoad: Boolean = false) {
         if (failure.statusCode == 401) onSessionExpired()
@@ -166,7 +178,12 @@ fun R14ChatDetailScreen(
         }
     }
 
-    fun send(request: ChatSendMessageRequest, existingKey: String? = null, onSuccess: () -> Unit = {}) {
+    fun send(
+        request: ChatSendMessageRequest,
+        existingKey: String? = null,
+        onSuccess: () -> Unit = {},
+        onFailure: (R07CallResult.Failure) -> Unit = {},
+    ) {
         if (!state.canSend()) return
         val fingerprint = request.clientMessageId
         val key = existingKey ?: keys.key("send", fingerprint)
@@ -181,6 +198,7 @@ fun R14ChatDetailScreen(
                 is R07CallResult.Failure -> {
                     state = state.sendFailed(request.clientMessageId, result)
                     handleFailure(result)
+                    onFailure(result)
                 }
             }
         }
@@ -201,6 +219,89 @@ fun R14ChatDetailScreen(
         if (count > 0 && !state.hasMore) listState.animateScrollToItem(count - 1)
     }
 
+    val peer = initialPeer ?: state.peer(currentUserId)
+    val blocked = actionState.blocked || state.phase == R14ChatPhase.BLOCKED
+
+    fun executeAction(
+        action: R14ChatAction,
+        request: suspend () -> R07CallResult<CommandResultResource>,
+        onSuccess: () -> Unit,
+    ) {
+        if (!actionState.canSubmit()) return
+        actionState = actionState.started(action)
+        scope.launch {
+            when (val result = request()) {
+                is R07CallResult.Success -> {
+                    actionState = actionState.succeeded(action)
+                    onSuccess()
+                }
+                is R07CallResult.Failure -> {
+                    actionState = actionState.failed(result)
+                    handleFailure(result)
+                }
+            }
+        }
+    }
+
+    fun submitBlock(reason: String?) {
+        val target = peer ?: return
+        val action = if (blocked) R14ChatAction.UNBLOCK else R14ChatAction.BLOCK
+        val fingerprint = "${target.userId}:${reason.orEmpty()}"
+        val operation = if (blocked) "unblock" else "block"
+        val key = keys.key(operation, fingerprint)
+        executeAction(
+            action = action,
+            request = {
+                if (blocked) api.unblock(accessToken, target.userId, key)
+                else api.block(accessToken, target.userId, key, ChatBlockRequest(reason))
+            },
+            onSuccess = {
+                keys.complete(operation, fingerprint)
+                showBlockDialog = false
+                state = state.copy(
+                    phase = if (action == R14ChatAction.BLOCK) R14ChatPhase.BLOCKED
+                    else if (state.messages.isEmpty()) R14ChatPhase.EMPTY else R14ChatPhase.CONTENT,
+                    failure = null,
+                )
+                actionNotice = if (action == R14ChatAction.BLOCK) "已拉黑 ${target.nickname}" else "已解除拉黑"
+            },
+        )
+    }
+
+    fun submitReport(reasonCode: String, description: String, messageIds: List<String>) {
+        val fingerprint = listOf(reasonCode, description, messageIds.sorted().joinToString(",")).joinToString(":")
+        val key = keys.key("report", fingerprint)
+        executeAction(
+            action = R14ChatAction.REPORT,
+            request = {
+                api.report(
+                    accessToken,
+                    conversationId,
+                    key,
+                    ChatReportRequest(reasonCode, description, messageIds = messageIds),
+                )
+            },
+            onSuccess = {
+                keys.complete("report", fingerprint)
+                showReportSheet = false
+                actionNotice = "举报已提交"
+            },
+        )
+    }
+
+    fun submitDeleteConversation() {
+        val key = keys.key("delete-conversation", conversationId)
+        executeAction(
+            action = R14ChatAction.DELETE_CONVERSATION,
+            request = { api.deleteConversation(accessToken, conversationId, key) },
+            onSuccess = {
+                keys.complete("delete-conversation", conversationId)
+                showDeleteDialog = false
+                onConversationUnavailable()
+            },
+        )
+    }
+
     if (showImagePicker) {
         MediaUploadSheet(
             api = mediaApi,
@@ -219,6 +320,100 @@ fun R14ChatDetailScreen(
         )
     }
 
+    if (showContactSheet && peer != null) {
+        R14ContactSheet(
+            peer = peer,
+            submitting = contactSubmitting,
+            failure = contactFailure,
+            onDismiss = {
+                showContactSheet = false
+                contactFailure = null
+            },
+            onSubmit = { fields, note ->
+                if (state.canSend()) {
+                    val payload = ChatContactCardPayload(fields, note)
+                    val previous = contactIntent
+                    val request = previous?.takeIf { it.payload == payload }
+                        ?: ChatContactCardMessageRequest(UUID.randomUUID().toString(), payload = payload)
+                    if (previous != null && previous.clientMessageId != request.clientMessageId) {
+                        state = state.removeFailed(previous.clientMessageId)
+                    }
+                    contactIntent = request
+                    contactSubmitting = true
+                    contactFailure = null
+                    send(
+                        request = request,
+                        onSuccess = {
+                            contactSubmitting = false
+                            contactIntent = null
+                            showContactSheet = false
+                        },
+                        onFailure = { failure ->
+                            contactSubmitting = false
+                            contactFailure = failure.r14UserMessage()
+                        },
+                    )
+                }
+            },
+        )
+    }
+
+    if (showSafetySheet && peer != null) {
+        R14SafetySheet(
+            peer = peer,
+            blocked = blocked,
+            onDismiss = { showSafetySheet = false },
+            onReport = {
+                showSafetySheet = false
+                actionState = actionState.copy(failure = null)
+                showReportSheet = true
+            },
+            onBlock = {
+                showSafetySheet = false
+                actionState = actionState.copy(failure = null)
+                showBlockDialog = true
+            },
+            onDelete = {
+                showSafetySheet = false
+                actionState = actionState.copy(failure = null)
+                showDeleteDialog = true
+            },
+        )
+    }
+
+    if (showReportSheet && peer != null) {
+        R14ReportSheet(
+            peer = peer,
+            reasons = emptyList(),
+            messages = state.messages,
+            submitting = actionState.active == R14ChatAction.REPORT,
+            failure = actionState.failure?.r14ActionMessage(),
+            onDismiss = { showReportSheet = false },
+            onSubmit = ::submitReport,
+        )
+    }
+
+    if (showBlockDialog && peer != null) {
+        R14BlockDialog(
+            peer = peer,
+            unblock = blocked,
+            submitting = actionState.active in setOf(R14ChatAction.BLOCK, R14ChatAction.UNBLOCK),
+            failure = actionState.failure?.r14ActionMessage(),
+            onDismiss = { showBlockDialog = false },
+            onConfirm = ::submitBlock,
+        )
+    }
+
+    if (showDeleteDialog && peer != null) {
+        R14DeleteConversationDialog(
+            peer = peer,
+            submitting = actionState.active == R14ChatAction.DELETE_CONVERSATION,
+            failure = actionState.failure?.r14ActionMessage(),
+            onDismiss = { showDeleteDialog = false },
+            onConfirm = ::submitDeleteConversation,
+        )
+    }
+
     previewImage?.let { url ->
         ChatImagePreview(
             url = url,
@@ -230,7 +425,6 @@ fun R14ChatDetailScreen(
         )
     }
 
-    val peer = initialPeer ?: state.peer(currentUserId)
     Scaffold(
         containerColor = HhyColors.PageBackground,
         topBar = {
@@ -238,7 +432,12 @@ fun R14ChatDetailScreen(
                 peer = peer,
                 phase = state.phase,
                 onBack = onBack,
-                onOpenSafetyActions = onOpenSafetyActions,
+                onOpenSafetyActions = peer?.let {
+                    {
+                        actionState = actionState.copy(failure = null)
+                        showSafetySheet = true
+                    }
+                },
             )
         },
         bottomBar = {
@@ -247,7 +446,7 @@ fun R14ChatDetailScreen(
                 enabled = state.canSend(),
                 blocked = state.phase == R14ChatPhase.BLOCKED,
                 initialContentCard = initialContentCard,
-                contactEnabled = onOpenContactComposer != null,
+                contactEnabled = peer != null,
                 onValueChange = { if (it.length <= 5_000) composer = it },
                 onImage = { showImagePicker = true },
                 onContent = {
@@ -255,7 +454,10 @@ fun R14ChatDetailScreen(
                         send(ChatContentCardMessageRequest(UUID.randomUUID().toString(), payload = payload))
                     }
                 },
-                onContact = { onOpenContactComposer?.invoke() },
+                onContact = {
+                    contactFailure = null
+                    showContactSheet = true
+                },
                 onSend = {
                     val text = composer.trim()
                     if (text.isNotEmpty()) {
@@ -270,6 +472,9 @@ fun R14ChatDetailScreen(
         Column(Modifier.fillMaxSize().padding(padding)) {
             imageNotice?.let { notice ->
                 InlineNotice(notice, HhyColors.SuccessSoft, HhyColors.Success) { imageNotice = null }
+            }
+            actionNotice?.let { notice ->
+                InlineNotice(notice, HhyColors.SuccessSoft, HhyColors.Success) { actionNotice = null }
             }
             when (state.phase) {
                 R14ChatPhase.OFFLINE -> InlineNotice(state.failure?.r14UserMessage().orEmpty(), HhyColors.WarningSoft, HhyColors.Warning) { load() }

@@ -11,7 +11,7 @@ task_id: TASK-R14-004
 story_id: STORY-R14-003
 goal: 严格按四个冻结交互面实现联系方式发送、聊天举报、拉黑与解除拉黑确认、删除会话确认，复用R14真实API与Design Token，不虚构字段或动作
 started_at: '2026-07-27T22:14:44Z'
-updated_at: '2026-07-28T00:52:55Z'
+updated_at: '2026-07-28T02:12:19Z'
 takeover_of: null
 change_requests:
 - CR-0422
@@ -19,6 +19,7 @@ change_requests:
 - CR-0424
 - CR-0425
 - CR-0426
+- CR-0427
 scope:
   allowed_paths:
   - apps/android/**
@@ -35,8 +36,18 @@ scope:
   - scripts/**
   - apps/android/**;docs/**;catalogs/**;releases/**;design/**;scripts/**;CHANGELOG.md
   - CHANGELOG.md
-  approved_exceptions: []
-  source: story-switch+explicit
+  approved_exceptions:
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR14Api.kt
+  - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ContractR14ApiTest.kt
+  - apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ChatActionState.kt
+  - apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ChatSheets.kt
+  - apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ChatDialogs.kt
+  - apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ChatDetailScreen.kt
+  - apps/android/feature/chat/src/test/java/cc/orbexa/hhy/chat/R14ChatActionStateTest.kt
+  - apps/android/feature/chat/src/androidTest/java/cc/orbexa/hhy/chat/R14ChatSurfacesTest.kt
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - CHANGELOG.md
+  source: story-switch+explicit+approved-cr:CR-0427
 git:
   initialized: true
   branch: task/TASK-R03-001
@@ -46,25 +57,25 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-28T00:52:49Z'
-  expires_at: '2026-07-28T04:52:49Z'
-checkpoint_sequence: 8
-latest_checkpoint: .continuity/checkpoints/SES-20260727T221444Z-FD353AD3/0008.yaml
+  renewed_at: '2026-07-28T02:12:11Z'
+  expires_at: '2026-07-28T06:12:11Z'
+checkpoint_sequence: 10
+latest_checkpoint: .continuity/checkpoints/SES-20260727T221444Z-FD353AD3/0010.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260727T221444Z-FD353AD3.md
-next_step: 审计现有R14网络合同与ChatDetail入口，创建精确CR后实现R14ChatSheets和R14ChatDialogs
+next_step: 提交并推送已验证的CR-0427部分进度；继续TASK-R14-004中不依赖举报原因目录的可执行工作，不关闭STORY-R14-003
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: e78dc2a5fa922138e3e502acdc6a87c97bb2abaa988d5a079867a9ed68fe07e1
-  generated_at: '2026-07-28T00:52:52Z'
+  context_hash: ceddaabc2c0f842476963a19b301333f748f9ba4eaa09cf25f4cbc26f11cdf92
+  generated_at: '2026-07-28T02:12:16Z'
 handoff_bundle: null
 closure: null
 parallel_execution:
-  assessment: NO_SAFE_PARALLEL
+  assessment: CAPABILITY_UNAVAILABLE
   delegated_workers: 0
   workers: []
-  reason: 四个交互面共享ChatDetail状态、同一ContractR14Api和写操作互斥状态，需先串行冻结统一实现边界
+  reason: 当前执行环境未授权启动新的执行代理；本轮为同一chat/network纵向接入，主控串行完成并并行运行互不依赖的静态门禁
 story_history:
 - story_id: STORY-R14-001
   completed_at: '2026-07-27T23:25:19Z'
