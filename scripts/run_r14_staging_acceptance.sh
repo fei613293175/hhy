@@ -208,9 +208,9 @@ capture_baseline() {
 }
 
 prepare_alert_facts() {
-  TEST_USER_ID=$(docker exec -i "$POSTGRES" psql -U hhy_r14_smoke -d hhy_r14_smoke -At -v ON_ERROR_STOP=1 <<'SQL'
-INSERT INTO hhy.users(phone,status,invite_code)
-VALUES ('19900001414','ACTIVE','R14-STAGE-ONLY')
+  TEST_USER_ID=$(docker exec -i "$POSTGRES" psql -U hhy_r14_smoke -d hhy_r14_smoke -Atq -v ON_ERROR_STOP=1 <<'SQL'
+INSERT INTO hhy.users(phone,status)
+VALUES ('19900001414','ACTIVE')
 ON CONFLICT (phone) DO UPDATE SET status='ACTIVE'
 RETURNING id;
 SQL

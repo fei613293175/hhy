@@ -11,7 +11,7 @@ task_id: TASK-R14-004
 story_id: STORY-R14-004
 goal: 逐项审计R14六个交互面、九接口、状态错误恢复、测试和追踪证据，补齐不依赖举报原因目录的客户端与治理缺口；保持PROB-0135开放且不提前关闭TASK
 started_at: '2026-07-27T22:14:44Z'
-updated_at: '2026-07-28T07:40:15Z'
+updated_at: '2026-07-28T07:47:16Z'
 takeover_of: null
 change_requests:
 - CR-0422
@@ -195,25 +195,25 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-28T07:40:07Z'
-  expires_at: '2026-07-28T11:40:07Z'
-checkpoint_sequence: 29
-latest_checkpoint: .continuity/checkpoints/SES-20260727T221444Z-FD353AD3/0029.yaml
+  renewed_at: '2026-07-28T07:47:09Z'
+  expires_at: '2026-07-28T11:47:09Z'
+checkpoint_sequence: 30
+latest_checkpoint: .continuity/checkpoints/SES-20260727T221444Z-FD353AD3/0030.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260727T221444Z-FD353AD3.md
-next_step: 提交推送网段修正，以新冻结Commit从空hhy-r14-staging项目完整重跑。
+next_step: 提交并推送单值ID修正，清理且仅清理hhy-r14-staging隔离项目和专属卷，从空数据库重跑完整Staging验收
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: cce8fb1dcae06a6e4f54d21e7b56ef6c71fcb6279303cc66dd49cded832e7333
-  generated_at: '2026-07-28T07:40:12Z'
+  context_hash: 162af2fafc9b9c4f5b980a01ba0e6cc33722c424fae08a08926b277d30d6619b
+  generated_at: '2026-07-28T07:47:13Z'
 handoff_bundle: null
 closure: null
 parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 网段修正必须提交形成新冻结Commit后才能重跑镜像和现场证据。
+  reason: 当前为同一隔离环境的顺序清理、精确提交和完整重跑，拆分会竞争同一Compose项目与证据目录
 story_history:
 - story_id: STORY-R14-001
   completed_at: '2026-07-27T23:25:19Z'
