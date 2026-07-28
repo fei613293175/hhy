@@ -26133,9 +26133,9 @@ change_requests:
 - protocol_version: '1.0'
   cr_id: CR-0424
   title: 补齐R14 Android会话列表状态与消息主导航
-  status: IMPLEMENTED
+  status: CLOSED
   created_at: '2026-07-27T23:32:03Z'
-  updated_at: '2026-07-28T00:11:38Z'
+  updated_at: '2026-07-28T00:49:03Z'
   requester_actor_id: codex-root-r14-client-20260728
   approver_actor_id: codex-r14-cr-review-20260728
   task_id: TASK-R14-004
@@ -26190,14 +26190,21 @@ change_requests:
     status: IMPLEMENTED
     note: R14真实会话列表、六态状态机、搜索竞态、分页去重、消息主导航及返回栈已实现；远程编译单测与chat/shell/app Lint、本地合同及UI静态门禁全部通过
     session_id: SES-20260727T221444Z-FD353AD3
+  - at: '2026-07-28T00:49:03Z'
+    actor_id: codex-root-r14-client-20260728
+    status: CLOSED
+    note: 实现Commit已通过Android编译单测、chat/shell/app Lint、R14合同与UI静态门禁并推送，最终设备截图仍按R14候选阶段执行
+    session_id: SES-20260727T221444Z-FD353AD3
   session_ids:
   - SES-20260727T221444Z-FD353AD3
+  implementation_commits:
+  - a62d664434958765fda36fb2ba12938d0a841274
 - protocol_version: '1.0'
   cr_id: CR-0425
   title: 修复R14聊天尺寸脱离Design Token生成事实
-  status: IMPLEMENTED
+  status: CLOSED
   created_at: '2026-07-27T23:48:01Z'
-  updated_at: '2026-07-28T00:11:55Z'
+  updated_at: '2026-07-28T00:49:23Z'
   requester_actor_id: codex-root-r14-client-20260728
   approver_actor_id: codex-r14-cr-review-20260728
   task_id: TASK-R14-004
@@ -26243,14 +26250,21 @@ change_requests:
     status: IMPLEMENTED
     note: HhyTokens已恢复生成幂等，R14聊天页面裸dp已全部替换为既有Token等值表达；Token、生成资产、UI基础、编译单测与chat Lint全部通过
     session_id: SES-20260727T221444Z-FD353AD3
+  - at: '2026-07-28T00:49:23Z'
+    actor_id: codex-root-r14-client-20260728
+    status: CLOSED
+    note: 实现Commit已恢复Token生成幂等、清除R14聊天裸dp并通过Token、生成资产、Android UI基础、编译单测和Lint门禁
+    session_id: SES-20260727T221444Z-FD353AD3
   session_ids:
   - SES-20260727T221444Z-FD353AD3
+  implementation_commits:
+  - a62d664434958765fda36fb2ba12938d0a841274
 - protocol_version: '1.0'
   cr_id: CR-0426
   title: 修复检查点对任务内净回退的误判
-  status: IMPLEMENTED
+  status: CLOSED
   created_at: '2026-07-28T00:19:23Z'
-  updated_at: '2026-07-28T00:45:34Z'
+  updated_at: '2026-07-28T00:49:39Z'
   requester_actor_id: codex-root-r14-client-20260728
   approver_actor_id: codex-r14-cr-review-20260728
   task_id: TASK-R14-004
@@ -26297,5 +26311,12 @@ change_requests:
     status: IMPLEMENTED
     note: 工作区项目指纹已改为任务基线净差异并只补未跟踪文件，严格提交阶段已拒绝索引工作树内容分叉；4项快速指纹测试和15项完整生命周期协议测试全部通过
     session_id: SES-20260727T221444Z-FD353AD3
+  - at: '2026-07-28T00:49:39Z'
+    actor_id: codex-root-r14-client-20260728
+    status: CLOSED
+    note: 实现Commit已统一工作区和历史提交净差异指纹，严格拒绝索引工作树分叉；快速矩阵、完整protocol、实际pre-push与GitHub推送均通过
+    session_id: SES-20260727T221444Z-FD353AD3
   session_ids:
   - SES-20260727T221444Z-FD353AD3
+  implementation_commits:
+  - a62d664434958765fda36fb2ba12938d0a841274

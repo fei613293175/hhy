@@ -1,19 +1,19 @@
 {
   "version": "1.0",
-  "generated_at": "2026-07-28T00:47:28Z",
-  "context_hash": "a9f6ce7df1c961a0ff1bcb4bd8eff8622e86002dda1a3297a6bf45145f4a65b1",
+  "generated_at": "2026-07-28T00:50:06Z",
+  "context_hash": "3b3cf129eb4eb2f0a927d28069316f6f8137ff8ed2b63c1594b69e924e4cdd0f",
   "fingerprint_mode": "SESSION_DELTA",
   "project_fingerprint": {
-    "sha256": "73656539c2ae0ffd38af3fb48f2418a0055660d136ce80fb312bcfe15b075882",
+    "sha256": "75df362d79ececb9be0b09db0c349d90a25747254c612d572ed39da3aef4ba66",
     "file_count": 33
   },
   "yaml": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.yaml",
-    "sha256": "2192d1cbc3b50c47c59104025e5018835baa5e3d2b861ce9a2c863d0dc954092"
+    "sha256": "85819119ba5149c99274cf09fbda737cac7fa794864feb0436d9c469568dc9d6"
   },
   "markdown": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.md",
-    "sha256": "0625b4349d3534212d90db38a643098c051936ad10dec0db5192a952fb125404"
+    "sha256": "5a4c4a50ab165265964b27b99c9c6116d9b9c9945aff6eee4e5f84d5c98c855b"
   },
   "sources": [
     {
@@ -28,7 +28,7 @@
     },
     {
       "path": "CURRENT_STATUS.yaml",
-      "sha256": "5f8dccfa23ce39a8ded7c226b968eb65c405183b263a4d7b514f2bcc5218a324",
+      "sha256": "b115f033ce7b8427b8f5e20c939bdb799de51fa076fff920ee9c547e268b9079",
       "bytes": 4672
     },
     {
@@ -83,12 +83,12 @@
     },
     {
       "path": ".continuity/EVENT_LOG.jsonl",
-      "sha256": "f9e9cf3098b0266ad8eefc0640aad8cd1e2c836841379e57c1ff872cd67d3cfc",
-      "bytes": 2295239
+      "sha256": "a10f9ceaa9f44c04616e2454c574acb1e196f62f9fbfa5f5ac66212e1dd68b60",
+      "bytes": 2297067
     },
     {
       "path": ".continuity/SESSION_INDEX.yaml",
-      "sha256": "979a7985ce6578ad3857522d5dd5991aa9c43a86e51be3af12afaa227841bc95",
+      "sha256": "dc2fad1e104f523a16dcbbe2206e47b00fa631058786e3668ca807635ec1ae16",
       "bytes": 61640
     },
     {
@@ -103,12 +103,12 @@
     },
     {
       "path": ".continuity/CHANGE_REQUEST_INDEX.yaml",
-      "sha256": "22f46c5e52a204b6b0368ff1d952930a1d4d52f7552aa3724bc2efce151c7fef",
-      "bytes": 1519202
+      "sha256": "debe8add6c8ebd198e01385bd951a055353d729638559064d110bd871fd0ad88",
+      "bytes": 1520310
     },
     {
       "path": ".continuity/ACTIVE_SESSION.yaml",
-      "sha256": "bb626f1e2d577ac6b5bae07631fa82be2b32af548a4221e9f447c0d38f225990",
+      "sha256": "09aafd72de14b85ba34b2a7ce5a6f3be3cd8c745a7545592dfe899d6c0fbc12c",
       "bytes": 545
     },
     {
@@ -163,13 +163,13 @@
     },
     {
       "path": "docs/03-continuity/sessions/2026-07/SES-20260727T221444Z-FD353AD3.md",
-      "sha256": "7106ac406ae5385c7613fc6bddbcde3d0513b463ff0ede01886497433b18a4d0",
-      "bytes": 20254
+      "sha256": "e230562d91a29fef2348bddd6dbf52fa9e670b4bc1378ad1c1cc815559f616bf",
+      "bytes": 23429
     },
     {
-      "path": ".continuity/checkpoints/SES-20260727T221444Z-FD353AD3/0006.yaml",
-      "sha256": "598bc62a2044f189250a86725c62d831448f6e96c95288264f366daf7c79d111",
-      "bytes": 21796
+      "path": ".continuity/checkpoints/SES-20260727T221444Z-FD353AD3/0007.yaml",
+      "sha256": "3dfb2046f699c46328a631dbe57f5f5503706b90090ecddfadea9f457ec85c69",
+      "bytes": 18979
     },
     {
       "path": "docs/03-continuity/change-requests/CR-0422-实现R14-Android私聊详情与真实会话导航.md",
@@ -183,18 +183,18 @@
     },
     {
       "path": "docs/03-continuity/change-requests/CR-0424-补齐R14-Android会话列表状态与消息主导航.md",
-      "sha256": "54f6730508cb2103a6cb5ff7dd39f06e7a25469fd815cb7b2932c44930b4ba79",
-      "bytes": 6391
+      "sha256": "7e33507fd5daac6e6c6bb1064e5bd9aad3efb5ff4fab289f0faff34fc36c14b0",
+      "bytes": 6698
     },
     {
       "path": "docs/03-continuity/change-requests/CR-0425-修复R14聊天尺寸脱离Design-Token生成事实.md",
-      "sha256": "4cc9ab73b00d71afa7c424303d07616748fc40037fb6b6fa7b91b21e89663db6",
-      "bytes": 3998
+      "sha256": "847adffa375f5c47ad818a1b956ba980fd05ae06c90e874fe8fcd89889d2d9c9",
+      "bytes": 4294
     },
     {
       "path": "docs/03-continuity/change-requests/CR-0426-修复检查点对任务内净回退的误判.md",
-      "sha256": "a9555a194cde6d9e314e2bd9690916e7d3e72e0d66e4335d7b17294378c7058b",
-      "bytes": 4586
+      "sha256": "e145ce5644eb6f0ee1f930003d8fc3092c917ada78e1951a057fd623d57bcd80",
+      "bytes": 4914
     }
   ]
 }

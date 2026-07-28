@@ -93,3 +93,10 @@ check_ui_tokens精确发现CR-0422手工加入ChatAvatar与ChatComposerHeight导
 - Status：`IMPLEMENTED`
 - Session：`SES-20260727T221444Z-FD353AD3`
 - Note：HhyTokens已恢复生成幂等，R14聊天页面裸dp已全部替换为既有Token等值表达；Token、生成资产、UI基础、编译单测与chat Lint全部通过
+
+## 状态记录 · 2026-07-28T00:49:23Z
+
+- Actor：`codex-root-r14-client-20260728`
+- Status：`CLOSED`
+- Session：`SES-20260727T221444Z-FD353AD3`
+- Note：实现Commit已恢复Token生成幂等、清除R14聊天裸dp并通过Token、生成资产、Android UI基础、编译单测和Lint门禁
