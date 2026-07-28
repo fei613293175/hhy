@@ -88,3 +88,10 @@ R14 APK已在固定工具链完成构建签名并复制到下载站文件系统�
 - Status：`IMPLEMENTING`
 - Session：`SES-20260727T221444Z-FD353AD3`
 - Note：独立审批通过，开始生成仓库精确location、备份并最小部署下载白名单，随后验证四方SHA和默认404。
+
+## 状态记录 · 2026-07-28T08:45:07Z
+
+- Actor：`codex-root-r14-client-20260728`
+- Status：`IMPLEMENTED`
+- Session：`SES-20260727T221444Z-FD353AD3`
+- Note：仓库精确include与服务器字节一致，活动配置有可恢复备份，nginx-t/reload、HTTPS200、Range206、MIME、其他路径404与四方SHA全部PASS。

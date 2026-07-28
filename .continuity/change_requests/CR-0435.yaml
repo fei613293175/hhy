@@ -1,9 +1,9 @@
 protocol_version: '1.0'
 cr_id: CR-0435
 title: 修正CR-0434为可执行精确文件作用域
-status: IMPLEMENTING
+status: IMPLEMENTED
 created_at: '2026-07-28T07:00:26Z'
-updated_at: '2026-07-28T07:02:02Z'
+updated_at: '2026-07-28T08:45:20Z'
 requester_actor_id: codex-root-r14-client-20260728
 approver_actor_id: codex-r14-scope-expansion-independent-review-20260728
 task_id: TASK-R14-004
@@ -94,5 +94,12 @@ decision_log:
   status: IMPLEMENTING
   note: 精确文件作用域已独立审批并成功应用，开始按CR-0434原边界实施。
   session_id: SES-20260727T221444Z-FD353AD3
+- at: '2026-07-28T08:45:20Z'
+  actor_id: codex-root-r14-client-20260728
+  status: IMPLEMENTED
+  note: CR-0434精确文件作用域内的Staging与Android证据、Manifest和报告已生成并通过门禁。
+  session_id: SES-20260727T221444Z-FD353AD3
 session_ids:
 - SES-20260727T221444Z-FD353AD3
+implementation_commits:
+- 05d738171911d31d382d8cf5b40dfaab9dacf5b4
