@@ -1,9 +1,9 @@
 protocol_version: '1.0'
 cr_id: CR-0451
 title: 替代CR-0450修复R14消息体验并升级大版本交互候选
-status: IMPLEMENTING
+status: IMPLEMENTED
 created_at: '2026-07-28T13:52:26Z'
-updated_at: '2026-07-28T14:43:27Z'
+updated_at: '2026-07-28T14:45:25Z'
 requester_actor_id: codex-r16-client-admin-20260728
 approver_actor_id: codex-r14-scope-independent-review-20260728
 task_id: TASK-R16-004
@@ -100,5 +100,12 @@ decision_log:
   status: IMPLEMENTING
   note: 六项R14消息缺陷、隔离CI夹具和大版本真实交互候选链已实现；固定Android工具链编译、单测、测试APK及lint通过，待冻结提交、部署候选后端并执行GitHub候选。
   session_id: SES-20260728T125934Z-F3DED330
+- at: '2026-07-28T14:45:25Z'
+  actor_id: codex-r16-client-admin-20260728
+  status: IMPLEMENTED
+  note: R14六项消息缺陷、隔离CI夹具和按release分派的真实交互候选链已实现；PostgreSQL17集成与固定Android工具链构建、单测、测试APK、lint均PASS，待GitHub候选运行决定machine completion。
+  session_id: SES-20260728T125934Z-F3DED330
 session_ids:
 - SES-20260728T125934Z-F3DED330
+implementation_commits:
+- 0bf4c9a8
