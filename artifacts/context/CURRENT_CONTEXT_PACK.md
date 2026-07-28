@@ -1,7 +1,7 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-28T00:50:06Z
-- Context Hash：`3b3cf129eb4eb2f0a927d28069316f6f8137ff8ed2b63c1594b69e924e4cdd0f`
+- 生成时间：2026-07-28T00:52:52Z
+- Context Hash：`e78dc2a5fa922138e3e502acdc6a87c97bb2abaa988d5a079867a9ed68fe07e1`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 规则就绪：`PASS`（`HASHED_CONTEXT_MANIFEST`）
@@ -177,7 +177,7 @@ blocked_tasks:
 - TASK-R07-008
 - TASK-R13-008
 next_task: TASK-R14-004
-updated_at: '2026-07-28T00:50:01Z'
+updated_at: '2026-07-28T00:52:49Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -211,16 +211,16 @@ continuity:
   mode: ENFORCED
   active_session_id: SES-20260727T221444Z-FD353AD3
   actor_id: codex-root-r14-client-20260728
-  story_id: STORY-R14-002
-  lease_expires_at: '2026-07-28T04:50:01Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260727T221444Z-FD353AD3/0007.yaml
+  story_id: STORY-R14-003
+  lease_expires_at: '2026-07-28T04:52:49Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260727T221444Z-FD353AD3/0008.yaml
   project_fingerprint: 75df362d79ececb9be0b09db0c349d90a25747254c612d572ed39da3aef4ba66
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: a9f6ce7df1c961a0ff1bcb4bd8eff8622e86002dda1a3297a6bf45145f4a65b1
-    generated_at: '2026-07-28T00:47:28Z'
+    context_hash: ce6a14ef324f73c7f9af4fb46162fa8757aefb3fd5bed694931f589258bddb36
+    generated_at: '2026-07-28T00:52:04Z'
   handoff_bundle: null
 ```
 
@@ -419,10 +419,10 @@ actor:
   host: unknown
 release: R14
 task_id: TASK-R14-004
-story_id: STORY-R14-002
-goal: 按SCR-CHAT-001与B07/P01唯一视觉合同实现真实会话列表、未读和最后消息，并接入现有ChatDetail类型安全路由
+story_id: STORY-R14-003
+goal: 严格按四个冻结交互面实现联系方式发送、聊天举报、拉黑与解除拉黑确认、删除会话确认，复用R14真实API与Design Token，不虚构字段或动作
 started_at: '2026-07-27T22:14:44Z'
-updated_at: '2026-07-28T00:50:01Z'
+updated_at: '2026-07-28T00:52:49Z'
 takeover_of: null
 change_requests:
 - CR-0422
@@ -446,26 +446,8 @@ scope:
   - scripts/**
   - apps/android/**;docs/**;catalogs/**;releases/**;design/**;scripts/**;CHANGELOG.md
   - CHANGELOG.md
-  approved_exceptions:
-  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR14Api.kt
-  - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ContractR14ApiTest.kt
-  - apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ConversationListState.kt
-  - apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ConversationListScreen.kt
-  - apps/android/feature/chat/src/test/java/cc/orbexa/hhy/chat/R14ConversationListStateTest.kt
-  - apps/android/feature/chat/src/androidTest/java/cc/orbexa/hhy/chat/R14ConversationListScreenTest.kt
-  - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
-  - apps/android/feature/shell/src/test/java/cc/orbexa/hhy/shell/HhyShellScreenTest.kt
-  - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
-  - apps/android/app/src/test/java/cc/orbexa/hhy/NavigationPolicyTest.kt
-  - apps/android/app/src/androidTest/java/cc/orbexa/hhy/AuthenticatedNavigationTest.kt
-  - CHANGELOG.md
-  - apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyTokens.kt
-  - apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ChatDetailScreen.kt
-  - scripts/continuity_lib.py
-  - scripts/continuity_gate.py
-  - tests/test_continuity_worktree_fingerprint.py
-  - docs/03-continuity/PROBLEM_REGISTRY.yaml
-  source: story-switch+explicit+approved-cr:CR-0424+approved-cr:CR-0425+approved-cr:CR-0426
+  approved_exceptions: []
+  source: story-switch+explicit
 git:
   initialized: true
   branch: task/TASK-R03-001
@@ -475,12 +457,12 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-28T00:50:01Z'
-  expires_at: '2026-07-28T04:50:01Z'
-checkpoint_sequence: 7
-latest_checkpoint: .continuity/checkpoints/SES-20260727T221444Z-FD353AD3/0007.yaml
+  renewed_at: '2026-07-28T00:52:49Z'
+  expires_at: '2026-07-28T04:52:49Z'
+checkpoint_sequence: 8
+latest_checkpoint: .continuity/checkpoints/SES-20260727T221444Z-FD353AD3/0008.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260727T221444Z-FD353AD3.md
-next_step: 提交推送CR关闭记录后原子切换STORY-R14-003继续开发
+next_step: 审计现有R14网络合同与ChatDetail入口，创建精确CR后实现R14ChatSheets和R14ChatDialogs
 context_pack: THIS_CONTEXT_PACK
 handoff_bundle: null
 closure: null
@@ -488,56 +470,63 @@ parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: CR关闭账本、Context Pack和提交身份属于同一共享哈希链，必须串行提交
+  reason: 四个交互面共享ChatDetail状态、同一ContractR14Api和写操作互斥状态，需先串行冻结统一实现边界
 story_history:
 - story_id: STORY-R14-001
   completed_at: '2026-07-27T23:25:19Z'
   checkpoint_id: CP-SES-20260727T221444Z-FD353AD3-0002
   commit: d301a1a219da99140cd586784f06aa611dcbed92
   summary: STORY-R14-001私聊详情已实现、验证、提交并推送，继续R14会话列表
+- story_id: STORY-R14-002
+  completed_at: '2026-07-28T00:52:00Z'
+  checkpoint_id: CP-SES-20260727T221444Z-FD353AD3-0007
+  commit: f8a1706fcc6ae4ae35bee6ea695bbae3c5453728
+  summary: STORY-R14-002真实会话列表、消息主导航和Token纠偏已实现验证提交推送，CR与门禁误判修复均已闭环
 ```
 
 ## 最新检查点
 
 ```yaml
 protocol_version: '1.0'
-checkpoint_id: CP-SES-20260727T221444Z-FD353AD3-0007
+checkpoint_id: CP-SES-20260727T221444Z-FD353AD3-0008
 session_id: SES-20260727T221444Z-FD353AD3
 task_id: TASK-R14-004
-story_id: STORY-R14-002
-sequence: 7
-created_at: '2026-07-28T00:50:00Z'
-summary: CR-0424、CR-0425与CR-0426已精确绑定推送Commit a62d6644并关闭
-next_step: 提交推送CR关闭记录后原子切换STORY-R14-003继续开发
+story_id: STORY-R14-003
+sequence: 8
+created_at: '2026-07-28T00:52:48Z'
+summary: 已切换STORY-R14-003并核对四个页面规格：P03联系方式面板、P07举报与确认结构、P08拉黑影响语义，全部过滤示例和技术字段
+next_step: 审计现有R14网络合同与ChatDetail入口，创建精确CR后实现R14ChatSheets和R14ChatDialogs
 blockers: []
 decisions: []
 note: ''
 tests:
-- name: IMPLEMENTATION_COMMIT
-  result: PASS
-  evidence: a62d664434958765fda36fb2ba12938d0a841274
-  note: GitHub远端分支已包含实现且严格pre-push PASS
+- name: 本阶段未执行测试
+  result: NOT_RUN
+  evidence: ''
+  note: 本检查点仅冻结Story切换与视觉规格读取结果，尚未修改产品代码
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: a62d664434958765fda36fb2ba12938d0a841274
+  head: f8a1706fcc6ae4ae35bee6ea695bbae3c5453728
   upstream: origin/task/TASK-R03-001
   ahead: 0
   behind: 0
   dirty: true
   status_porcelain:
-  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
+  - ' M .continuity/ACTIVE_SESSION.yaml'
   - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/SESSION_INDEX.yaml'
   - ' M .continuity/STATE.yaml'
-  - ' M .continuity/change_requests/CR-0424.yaml'
-  - ' M .continuity/change_requests/CR-0425.yaml'
-  - ' M .continuity/change_requests/CR-0426.yaml'
-  - ' M catalogs/change_request_index.csv'
+  - ' M .continuity/TASK_CLAIMS.yaml'
+  - ' M .continuity/sessions/SES-20260727T221444Z-FD353AD3.yaml'
+  - ' M CURRENT_STATUS.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
   - ' M catalogs/session_index.csv'
-  - ' M docs/03-continuity/change-requests/CR-0424-补齐R14-Android会话列表状态与消息主导航.md'
-  - ' M docs/03-continuity/change-requests/CR-0425-修复R14聊天尺寸脱离Design-Token生成事实.md'
-  - ' M docs/03-continuity/change-requests/CR-0426-修复检查点对任务内净回退的误判.md'
   recent_commits:
+  - "f8a1706fcc6ae4ae35bee6ea695bbae3c5453728\t2026-07-28T08:50:28+08:00\tHHY Continuity Bootstrap\t[STORY-R14-002] chore(continuity): bind conversation\
+    \ list implementation"
   - "a62d664434958765fda36fb2ba12938d0a841274\t2026-07-28T08:47:51+08:00\tHHY Continuity Bootstrap\t[STORY-R14-002] feat(android): implement conversation\
     \ list and harden continuity checkpoint"
   - "d301a1a219da99140cd586784f06aa611dcbed92\t2026-07-28T07:24:18+08:00\tHHY Continuity Bootstrap\t[STORY-R14-001] chore(continuity): bind R14\
@@ -552,8 +541,6 @@ git:
     \ direct messaging backend"
   - "d851ca4432d3a372732bdf983e6bfb57bd605c1e\t2026-07-28T04:36:11+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(continuity): close TASK-R14-002\
     \ as completed"
-  - "34386e20bc32a889b1fa516ff4ad819509272ec4\t2026-07-28T04:34:01+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(continuity): bind R14\
-    \ data implementation"
 project_fingerprint:
   sha256: 75df362d79ececb9be0b09db0c349d90a25747254c612d572ed39da3aef4ba66
   files:
@@ -817,32 +804,14 @@ scope:
   - scripts/**
   - apps/android/**;docs/**;catalogs/**;releases/**;design/**;scripts/**;CHANGELOG.md
   - CHANGELOG.md
-  approved_exceptions:
-  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR14Api.kt
-  - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ContractR14ApiTest.kt
-  - apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ConversationListState.kt
-  - apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ConversationListScreen.kt
-  - apps/android/feature/chat/src/test/java/cc/orbexa/hhy/chat/R14ConversationListStateTest.kt
-  - apps/android/feature/chat/src/androidTest/java/cc/orbexa/hhy/chat/R14ConversationListScreenTest.kt
-  - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
-  - apps/android/feature/shell/src/test/java/cc/orbexa/hhy/shell/HhyShellScreenTest.kt
-  - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
-  - apps/android/app/src/test/java/cc/orbexa/hhy/NavigationPolicyTest.kt
-  - apps/android/app/src/androidTest/java/cc/orbexa/hhy/AuthenticatedNavigationTest.kt
-  - CHANGELOG.md
-  - apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyTokens.kt
-  - apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ChatDetailScreen.kt
-  - scripts/continuity_lib.py
-  - scripts/continuity_gate.py
-  - tests/test_continuity_worktree_fingerprint.py
-  - docs/03-continuity/PROBLEM_REGISTRY.yaml
-  source: story-switch+explicit+approved-cr:CR-0424+approved-cr:CR-0425+approved-cr:CR-0426
+  approved_exceptions: []
+  source: story-switch+explicit
 parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: CR关闭账本、Context Pack和提交身份属于同一共享哈希链，必须串行提交
-event_hash: bffa5a9ec5b331e1145fde17045541577cdff6bacfaaea05f783fdb9f905daf9
+  reason: 四个交互面共享ChatDetail状态、同一ContractR14Api和写操作互斥状态，需先串行冻结统一实现边界
+event_hash: a5786bf3bdc0366782acee7df4e0e8a1b3bde98602fec36aac8083b1cf67e4d5
 ```
 
 ## 接续状态与事件头
@@ -854,8 +823,8 @@ active_session_id: SES-20260727T221444Z-FD353AD3
 last_session_id: SES-20260727T203754Z-DCE3090A
 last_session_result: COMPLETED
 last_closure_checkpoint_id: CP-SES-20260727T203754Z-DCE3090A-0003
-event_count: 4057
-event_head_hash: bffa5a9ec5b331e1145fde17045541577cdff6bacfaaea05f783fdb9f905daf9
+event_count: 4059
+event_head_hash: a5786bf3bdc0366782acee7df4e0e8a1b3bde98602fec36aac8083b1cf67e4d5
 event_chain_valid: true
 ```
 
@@ -972,15 +941,15 @@ recent_sessions: - session_id: SES-20260726T123133Z-63E93B88
   handoff_bundle: null
 - session_id: SES-20260727T221444Z-FD353AD3
   task_id: TASK-R14-004
-  story_id: STORY-R14-002
+  story_id: STORY-R14-003
   actor_id: codex-root-r14-client-20260728
   status: ACTIVE
   started_at: '2026-07-27T22:14:44Z'
   record: .continuity/sessions/SES-20260727T221444Z-FD353AD3.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260727T221444Z-FD353AD3.md
-  updated_at: '2026-07-28T00:50:01Z'
+  updated_at: '2026-07-28T00:52:49Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260727T221444Z-FD353AD3/0007.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260727T221444Z-FD353AD3/0008.yaml
   handoff_bundle: null
 task_claims: - claim_id: CLM-1B86680BE956
   session_id: SES-20260724T195501Z-13F8DFDE
@@ -1712,7 +1681,7 @@ task_claims: - claim_id: CLM-1B86680BE956
 - claim_id: CLM-87ECA3DE9F87
   session_id: SES-20260727T221444Z-FD353AD3
   task_id: TASK-R14-004
-  story_id: STORY-R14-002
+  story_id: STORY-R14-003
   actor_id: codex-root-r14-client-20260728
   status: ACTIVE
   claimed_at: '2026-07-27T22:14:44Z'
@@ -1731,7 +1700,7 @@ task_claims: - claim_id: CLM-1B86680BE956
   - scripts/**
   - apps/android/**;docs/**;catalogs/**;releases/**;design/**;scripts/**;CHANGELOG.md
   - CHANGELOG.md
-  updated_at: '2026-07-27T23:25:20Z'
+  updated_at: '2026-07-28T00:52:00Z'
 recent_task_transitions: - transition_id: TRN-684AB934BA4C
   timestamp: '2026-07-24T19:55:03Z'
   release: R12
@@ -1939,30 +1908,28 @@ recent_task_transitions: - transition_id: TRN-684AB934BA4C
 ```yaml
 initialized: true
 branch: task/TASK-R03-001
-head: a62d664434958765fda36fb2ba12938d0a841274
+head: f8a1706fcc6ae4ae35bee6ea695bbae3c5453728
 upstream: origin/task/TASK-R03-001
 ahead: 0
 behind: 0
 dirty: true
 status_porcelain:
 - ' M .continuity/ACTIVE_SESSION.yaml'
-- ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
 - ' M .continuity/EVENT_LOG.jsonl'
 - ' M .continuity/SESSION_INDEX.yaml'
 - ' M .continuity/STATE.yaml'
-- ' M .continuity/change_requests/CR-0424.yaml'
-- ' M .continuity/change_requests/CR-0425.yaml'
-- ' M .continuity/change_requests/CR-0426.yaml'
+- ' M .continuity/TASK_CLAIMS.yaml'
 - ' M .continuity/sessions/SES-20260727T221444Z-FD353AD3.yaml'
 - ' M CURRENT_STATUS.yaml'
-- ' M catalogs/change_request_index.csv'
+- ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+- ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+- ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
 - ' M catalogs/session_index.csv'
-- ' M docs/03-continuity/change-requests/CR-0424-补齐R14-Android会话列表状态与消息主导航.md'
-- ' M docs/03-continuity/change-requests/CR-0425-修复R14聊天尺寸脱离Design-Token生成事实.md'
-- ' M docs/03-continuity/change-requests/CR-0426-修复检查点对任务内净回退的误判.md'
 - ' M docs/03-continuity/sessions/2026-07/SES-20260727T221444Z-FD353AD3.md'
-- ?? .continuity/checkpoints/SES-20260727T221444Z-FD353AD3/0007.yaml
+- ?? .continuity/checkpoints/SES-20260727T221444Z-FD353AD3/0008.yaml
 recent_commits:
+- "f8a1706fcc6ae4ae35bee6ea695bbae3c5453728\t2026-07-28T08:50:28+08:00\tHHY Continuity Bootstrap\t[STORY-R14-002] chore(continuity): bind conversation\
+  \ list implementation"
 - "a62d664434958765fda36fb2ba12938d0a841274\t2026-07-28T08:47:51+08:00\tHHY Continuity Bootstrap\t[STORY-R14-002] feat(android): implement conversation\
   \ list and harden continuity checkpoint"
 - "d301a1a219da99140cd586784f06aa611dcbed92\t2026-07-28T07:24:18+08:00\tHHY Continuity Bootstrap\t[STORY-R14-001] chore(continuity): bind R14\
@@ -1977,8 +1944,6 @@ recent_commits:
   \ messaging backend"
 - "d851ca4432d3a372732bdf983e6bfb57bd605c1e\t2026-07-28T04:36:11+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(continuity): close TASK-R14-002\
   \ as completed"
-- "34386e20bc32a889b1fa516ff4ad819509272ec4\t2026-07-28T04:34:01+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(continuity): bind R14\
-  \ data implementation"
 ```
 
 ## 会话累计项目变更
@@ -14296,7 +14261,7 @@ PARALLEL_EXECUTION_PLAN.yaml:
 
 - `AGENTS.md` — `e9f1cf3739a97b47a4de96166ebd17eb2206b7231adb22dbfa23f7687c9809bc`
 - `START_HERE.md` — `22de14029ce47beb41ea569e36ce223fbc9d11b86f8676f28d5fbbd83896af5c`
-- `CURRENT_STATUS.yaml` — `b115f033ce7b8427b8f5e20c939bdb799de51fa076fff920ee9c547e268b9079`
+- `CURRENT_STATUS.yaml` — `b3ff816b2d162bb71dd949ac4fc9ae7c9e5bf081bdf426b8d2ae3acd7b9a0135`
 - `NEXT_TASK.yaml` — `bac6995e3e612ed7920cc2ec3b7d4592c3c6641eca0147fa90eddd08eaddb829`
 - `DEVELOPMENT_RISK_REGISTER.md` — `8304c91492e4ee2abea0522a06541c8688d39c7fc532b5d0cde499bf09fffb87`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
@@ -14307,12 +14272,12 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `config/REPOSITORY_TRANSPORT.yaml` — `8c4a21f3e204d46e7ffb467d804a53ed26cda61cd088dadfddb50b69eea657fc`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `38e04ed812c8df0d353c2b91993d31e53b471e9c457f06b426bd2260c470aa92`
-- `.continuity/EVENT_LOG.jsonl` — `a10f9ceaa9f44c04616e2454c574acb1e196f62f9fbfa5f5ac66212e1dd68b60`
-- `.continuity/SESSION_INDEX.yaml` — `dc2fad1e104f523a16dcbbe2206e47b00fa631058786e3668ca807635ec1ae16`
-- `.continuity/TASK_CLAIMS.yaml` — `897b4d5052608428072e7b404eeabda190743b5f2bdd09e43749bc121a4a8dee`
+- `.continuity/EVENT_LOG.jsonl` — `b8237598fa3c8acb2c9aa10d2af9832ab5ba95378196ae8bc73ec50038eecd30`
+- `.continuity/SESSION_INDEX.yaml` — `365577850de089fff0053066b952b6af7ca3314af13eaae247aec2287dfd918c`
+- `.continuity/TASK_CLAIMS.yaml` — `8cd92141b66996adbe57efa703f71219f01f4b674bb349b5ba182a4c53295e53`
 - `.continuity/TASK_TRANSITIONS.yaml` — `29bc240c8b0452ec63c5d64f31fa5d2a7e5d804b95c92b238be5a8769734a138`
 - `.continuity/CHANGE_REQUEST_INDEX.yaml` — `debe8add6c8ebd198e01385bd951a055353d729638559064d110bd871fd0ad88`
-- `.continuity/ACTIVE_SESSION.yaml` — `09aafd72de14b85ba34b2a7ce5a6f3be3cd8c745a7545592dfe899d6c0fbc12c`
+- `.continuity/ACTIVE_SESSION.yaml` — `d5c91f4d33b7604c184f09e0a9767b94611e46e46f78b67cdcd681cf3ee719d1`
 - `docs/00-baseline/正式商业系统全局硬性开发边界.md` — `d8a77eddf520659b1d6b57e16ecc0739fa93dbd39cf9903dbaf798fc631ae6fe`
 - `docs/02-ui/UI参考图使用与开发约束_V1.2.2.md` — `d14367586aa2067b059df58798acd20ab982459cdb35ff27fc7922a3896e4933`
 - `docs/03-continuity/持续开发无状态接续强制门禁_V1.2.3.md` — `d0ed3ed68bdd93b06500eecdfb5baa3245e6ca8b685a486788abb6eee39b3d51`
@@ -14323,8 +14288,8 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `releases/R14/TASKS.yaml` — `0b5332594a1591352faf7d98850f15d07a612a64cdf5dc62bc054008eb13d6b1`
 - `releases/R14/ACCEPTANCE_MATRIX.csv` — `d747f5c176d1eb94d685134d6bbddb12e1961529824471d6e969e9f10679a2b1`
 - `releases/R14/PARALLEL_EXECUTION_PLAN.yaml` — `cd1f0c96ffd7562acb214edba80a2bbb12b79f06c19032d1b133936ff6abd74f`
-- `docs/03-continuity/sessions/2026-07/SES-20260727T221444Z-FD353AD3.md` — `e230562d91a29fef2348bddd6dbf52fa9e670b4bc1378ad1c1cc815559f616bf`
-- `.continuity/checkpoints/SES-20260727T221444Z-FD353AD3/0007.yaml` — `3dfb2046f699c46328a631dbe57f5f5503706b90090ecddfadea9f457ec85c69`
+- `docs/03-continuity/sessions/2026-07/SES-20260727T221444Z-FD353AD3.md` — `9f7d8b6994651b3b2e92f73c1a767af47503111d25c7b2a3a714b86fb274e03e`
+- `.continuity/checkpoints/SES-20260727T221444Z-FD353AD3/0008.yaml` — `db7e50dd8ef13a0370116133be1d67b446acbc4cc463a9d48a1fd0007f05b4db`
 - `docs/03-continuity/change-requests/CR-0422-实现R14-Android私聊详情与真实会话导航.md` — `426588ba45f18916890ade8c428e1b1c0d168eae8af4fec7eb9957eb5f792617`
 - `docs/03-continuity/change-requests/CR-0423-实现R14-Android会话列表与消息主导航.md` — `e2e2b533fda82f9cdd13eb8f529f36572eba62da73e50b760b911277317788a0`
 - `docs/03-continuity/change-requests/CR-0424-补齐R14-Android会话列表状态与消息主导航.md` — `7e33507fd5daac6e6c6bb1064e5bd9aad3efb5ff4fab289f0faff34fc36c14b0`

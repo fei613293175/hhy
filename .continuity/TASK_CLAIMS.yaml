@@ -4370,7 +4370,7 @@ claims:
 - claim_id: CLM-87ECA3DE9F87
   session_id: SES-20260727T221444Z-FD353AD3
   task_id: TASK-R14-004
-  story_id: STORY-R14-002
+  story_id: STORY-R14-003
   actor_id: codex-root-r14-client-20260728
   status: ACTIVE
   claimed_at: '2026-07-27T22:14:44Z'
@@ -4389,4 +4389,4 @@ claims:
   - scripts/**
   - apps/android/**;docs/**;catalogs/**;releases/**;design/**;scripts/**;CHANGELOG.md
   - CHANGELOG.md
-  updated_at: '2026-07-27T23:25:20Z'
+  updated_at: '2026-07-28T00:52:00Z'
