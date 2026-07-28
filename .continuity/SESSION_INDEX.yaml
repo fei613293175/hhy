@@ -1490,13 +1490,13 @@ sessions:
   handoff_bundle: null
 - session_id: SES-20260728T125934Z-F3DED330
   task_id: TASK-R16-004
-  story_id: STORY-R16-001
+  story_id: STORY-R16-002
   actor_id: codex-r16-client-admin-20260728
   status: ACTIVE
   started_at: '2026-07-28T12:59:34Z'
   record: .continuity/sessions/SES-20260728T125934Z-F3DED330.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260728T125934Z-F3DED330.md
-  updated_at: '2026-07-28T13:14:30Z'
+  updated_at: '2026-07-28T13:16:17Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260728T125934Z-F3DED330/0004.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260728T125934Z-F3DED330/0005.yaml
   handoff_bundle: null

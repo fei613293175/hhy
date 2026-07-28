@@ -8,16 +8,16 @@ actor:
   host: unknown
 release: R16
 task_id: TASK-R16-004
-story_id: STORY-R16-001
-goal: 按冻结ADM-ORDER-001效果与大型商业后台标准实现R16订单列表，并继续完成R16客户端/H5/后台任务
+story_id: STORY-R16-002
+goal: 实现SCR-ORDER-002真实订单详情，严格绑定orderGetMeOrdersByOrderno与OrderResource。
 started_at: '2026-07-28T12:59:34Z'
-updated_at: '2026-07-28T13:14:36Z'
+updated_at: '2026-07-28T13:16:24Z'
 takeover_of: null
 change_requests:
 - CR-0448
 scope:
   allowed_paths:
-  - apps/admin-web/**
+  - apps/android/**
   - services/backend/**
   - packages/**
   - contracts/**
@@ -29,7 +29,7 @@ scope:
   - releases/**
   - design/**
   - scripts/**
-  - releases/R16/**
+  - apps/android相关R16订单详情页面、类型安全网络与专项测试；不提前做支付或虚构订单。
   - CHANGELOG.md
   approved_exceptions:
   - apps/admin-web/src/views/CommerceOrdersPage.vue
@@ -46,7 +46,7 @@ scope:
   - releases/R16/RELEASE_MANIFEST.yaml
   - artifacts/reports/R16/TASK-R16-004-admin-orders.md
   - CHANGELOG.md
-  source: story+explicit+approved-cr:CR-0448
+  source: story-switch+explicit+approved-cr:CR-0448
 git:
   initialized: true
   branch: task/TASK-R03-001
@@ -56,22 +56,28 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-28T13:14:30Z'
-  expires_at: '2026-07-28T17:14:30Z'
-checkpoint_sequence: 4
-latest_checkpoint: .continuity/checkpoints/SES-20260728T125934Z-F3DED330/0004.yaml
+  renewed_at: '2026-07-28T13:16:17Z'
+  expires_at: '2026-07-28T17:16:17Z'
+checkpoint_sequence: 5
+latest_checkpoint: .continuity/checkpoints/SES-20260728T125934Z-F3DED330/0005.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260728T125934Z-F3DED330.md
-next_step: 读取SCR-ORDER-002冻结规格和现有Android导航/网络架构，创建精确CR后实现。
+next_step: 读取SCR-ORDER-002冻结规格和现有Android导航/网络架构，创建精确CR。
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: 99e5b18847596c9639d6129c3efec2f7c52905ad270db0f2d39b8578ea0eafa3
-  generated_at: '2026-07-28T13:14:34Z'
+  context_hash: 3a7d6ea823b5294238c8f5ba4f0e86605bcea21d153fe38e93c7ed0ae8e9da8d
+  generated_at: '2026-07-28T13:16:21Z'
 handoff_bundle: null
 closure: null
 parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 下一故事需先由主代理读取冻结规格并确定精确范围，当前没有可安全并行的已批准写范围。
+  reason: 需先读取冻结规格并确定精确范围。
+story_history:
+- story_id: STORY-R16-001
+  completed_at: '2026-07-28T13:15:40Z'
+  checkpoint_id: CP-SES-20260728T125934Z-F3DED330-0004
+  commit: 2d9f0c9ca4eb4d37140a7d5126e990a97c569cc2
+  summary: STORY-R16-001后台订单列表已由CR-0448机器验证完成并推送，切换Android订单详情。

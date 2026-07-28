@@ -1,5 +1,5 @@
 context_version: '1.0'
-generated_at: '2026-07-28T13:14:34Z'
+generated_at: '2026-07-28T13:16:21Z'
 conversation_dependency: PROHIBITED
 source_of_truth: REPOSITORY_ONLY
 project: hhy-pro-platform
@@ -149,7 +149,7 @@ current_status:
   - TASK-R13-008
   - TASK-R14-004
   next_task: TASK-R16-004
-  updated_at: '2026-07-28T13:14:30Z'
+  updated_at: '2026-07-28T13:16:17Z'
   notes:
   - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
   - 全部REST/WebSocket操作均有页面或系统所有者
@@ -183,16 +183,16 @@ current_status:
     mode: ENFORCED
     active_session_id: SES-20260728T125934Z-F3DED330
     actor_id: codex-r16-client-admin-20260728
-    story_id: STORY-R16-001
-    lease_expires_at: '2026-07-28T17:14:30Z'
-    latest_checkpoint: .continuity/checkpoints/SES-20260728T125934Z-F3DED330/0004.yaml
+    story_id: STORY-R16-002
+    lease_expires_at: '2026-07-28T17:16:17Z'
+    latest_checkpoint: .continuity/checkpoints/SES-20260728T125934Z-F3DED330/0005.yaml
     project_fingerprint: fddec8ec60df7fb13952640c45188320fe1ac79f265eb439916cd7ff46bbabb6
     context_pack:
       yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
       markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
       manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-      context_hash: b9afcba6a9714c61cb1ae50eeebea824427ed1675b679082e775a5cbd277da70
-      generated_at: '2026-07-28T13:13:03Z'
+      context_hash: b4d5e5f9b2f00fdafa040de40c78d0d87006a5362e69e10720caa55b83c477ee
+      generated_at: '2026-07-28T13:15:44Z'
     handoff_bundle: null
 next_task:
   id: TASK-R16-004
@@ -243,16 +243,16 @@ active_session:
     host: unknown
   release: R16
   task_id: TASK-R16-004
-  story_id: STORY-R16-001
-  goal: 按冻结ADM-ORDER-001效果与大型商业后台标准实现R16订单列表，并继续完成R16客户端/H5/后台任务
+  story_id: STORY-R16-002
+  goal: 实现SCR-ORDER-002真实订单详情，严格绑定orderGetMeOrdersByOrderno与OrderResource。
   started_at: '2026-07-28T12:59:34Z'
-  updated_at: '2026-07-28T13:14:30Z'
+  updated_at: '2026-07-28T13:16:17Z'
   takeover_of: null
   change_requests:
   - CR-0448
   scope:
     allowed_paths:
-    - apps/admin-web/**
+    - apps/android/**
     - services/backend/**
     - packages/**
     - contracts/**
@@ -264,7 +264,7 @@ active_session:
     - releases/**
     - design/**
     - scripts/**
-    - releases/R16/**
+    - apps/android相关R16订单详情页面、类型安全网络与专项测试；不提前做支付或虚构订单。
     - CHANGELOG.md
     approved_exceptions:
     - apps/admin-web/src/views/CommerceOrdersPage.vue
@@ -281,7 +281,7 @@ active_session:
     - releases/R16/RELEASE_MANIFEST.yaml
     - artifacts/reports/R16/TASK-R16-004-admin-orders.md
     - CHANGELOG.md
-    source: story+explicit+approved-cr:CR-0448
+    source: story-switch+explicit+approved-cr:CR-0448
   git:
     initialized: true
     branch: task/TASK-R03-001
@@ -291,12 +291,12 @@ active_session:
     initial_worktree_state: CLEAN
   lease:
     duration_minutes: 240
-    renewed_at: '2026-07-28T13:14:30Z'
-    expires_at: '2026-07-28T17:14:30Z'
-  checkpoint_sequence: 4
-  latest_checkpoint: .continuity/checkpoints/SES-20260728T125934Z-F3DED330/0004.yaml
+    renewed_at: '2026-07-28T13:16:17Z'
+    expires_at: '2026-07-28T17:16:17Z'
+  checkpoint_sequence: 5
+  latest_checkpoint: .continuity/checkpoints/SES-20260728T125934Z-F3DED330/0005.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260728T125934Z-F3DED330.md
-  next_step: 读取SCR-ORDER-002冻结规格和现有Android导航/网络架构，创建精确CR后实现。
+  next_step: 读取SCR-ORDER-002冻结规格和现有Android导航/网络架构，创建精确CR。
   context_pack: THIS_CONTEXT_PACK
   handoff_bundle: null
   closure: null
@@ -304,47 +304,55 @@ active_session:
     assessment: NO_SAFE_PARALLEL
     delegated_workers: 0
     workers: []
-    reason: 下一故事需先由主代理读取冻结规格并确定精确范围，当前没有可安全并行的已批准写范围。
+    reason: 需先读取冻结规格并确定精确范围。
+  story_history:
+  - story_id: STORY-R16-001
+    completed_at: '2026-07-28T13:15:40Z'
+    checkpoint_id: CP-SES-20260728T125934Z-F3DED330-0004
+    commit: 2d9f0c9ca4eb4d37140a7d5126e990a97c569cc2
+    summary: STORY-R16-001后台订单列表已由CR-0448机器验证完成并推送，切换Android订单详情。
 latest_checkpoint:
   protocol_version: '1.0'
-  checkpoint_id: CP-SES-20260728T125934Z-F3DED330-0004
+  checkpoint_id: CP-SES-20260728T125934Z-F3DED330-0005
   session_id: SES-20260728T125934Z-F3DED330
   task_id: TASK-R16-004
-  story_id: STORY-R16-001
-  sequence: 4
-  created_at: '2026-07-28T13:14:29Z'
-  summary: CR-0448已CLOSED，ADM-ORDER-001提交ea65f701完成；当前故事切换为STORY-R16-002 Android订单详情。
-  next_step: 读取SCR-ORDER-002冻结规格和现有Android导航/网络架构，创建精确CR后实现。
+  story_id: STORY-R16-002
+  sequence: 5
+  created_at: '2026-07-28T13:16:16Z'
+  summary: 当前故事已切换为STORY-R16-002；CR-0448历史实现已提交推送且新故事尚未修改Android代码。
+  next_step: 读取SCR-ORDER-002冻结规格和现有Android导航/网络架构，创建精确CR。
   blockers: []
   decisions:
-  - 后台视觉最终截图并入R16大版本候选；当前不重复运行全量大版本门禁。
+  - 新故事沿用同一R16任务Session，历史CR范围仅用于基线净差异识别。
   note: ''
   tests:
-  - name: admin typecheck
-    result: PASS
-    evidence: pnpm --filter @hhy/admin-web typecheck
-    note: Vue TypeScript检查通过
-  - name: admin tests
-    result: PASS
-    evidence: 27 files 121 tests
-    note: 后台订单与全量回归通过
+  - name: 本阶段未执行测试
+    result: NOT_RUN
+    evidence: ''
+    note: 仅切换已批准故事，尚未修改Android运行时代码。
   git:
     initialized: true
     branch: task/TASK-R03-001
-    head: ea65f7013ab87223087be4389ffae0a7accc5949
+    head: 2d9f0c9ca4eb4d37140a7d5126e990a97c569cc2
     upstream: origin/task/TASK-R03-001
-    ahead: 1
+    ahead: 0
     behind: 0
     dirty: true
     status_porcelain:
-    - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
+    - ' M .continuity/ACTIVE_SESSION.yaml'
     - ' M .continuity/EVENT_LOG.jsonl'
+    - ' M .continuity/SESSION_INDEX.yaml'
     - ' M .continuity/STATE.yaml'
-    - ' M .continuity/change_requests/CR-0448.yaml'
-    - ' M catalogs/change_request_index.csv'
+    - ' M .continuity/TASK_CLAIMS.yaml'
+    - ' M .continuity/sessions/SES-20260728T125934Z-F3DED330.yaml'
+    - ' M CURRENT_STATUS.yaml'
+    - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+    - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+    - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
     - ' M catalogs/session_index.csv'
-    - ' M docs/03-continuity/change-requests/CR-0448-实现R16后台订单列表与详情抽屉.md'
     recent_commits:
+    - "2d9f0c9ca4eb4d37140a7d5126e990a97c569cc2\t2026-07-28T21:14:45+08:00\tHHY Continuity Bootstrap\t[STORY-R16-001] chore(r16): close admin\
+      \ order change"
     - "ea65f7013ab87223087be4389ffae0a7accc5949\t2026-07-28T21:13:16+08:00\tHHY Continuity Bootstrap\t[STORY-R16-001] feat(r16): implement admin\
       \ order workspace"
     - "28c875d42b5bde36f2286b7cd22ff451c28b3d69\t2026-07-28T21:00:28+08:00\tHHY Continuity Bootstrap\t[STORY-R16-001] chore(r16): start admin\
@@ -359,8 +367,6 @@ latest_checkpoint:
       \ conversation route and paired guide delivery"
     - "63ebeca8ca54f087b18e0b9605dc879dd10bc4c4\t2026-07-28T20:05:28+08:00\tHHY Continuity Bootstrap\t[STORY-R16-001] feat(commerce): implement\
       \ R16 product and order backend"
-    - "770563179ea2bd7f0bc391cd20fff0f8280cc511\t2026-07-28T18:22:18+08:00\tHHY Continuity Bootstrap\t[STORY-R16-001] chore(continuity): close\
-      \ TASK-R16-002 as completed"
   project_fingerprint:
     sha256: fddec8ec60df7fb13952640c45188320fe1ac79f265eb439916cd7ff46bbabb6
     files:
@@ -472,7 +478,7 @@ latest_checkpoint:
   - CR-0448
   scope:
     allowed_paths:
-    - apps/admin-web/**
+    - apps/android/**
     - services/backend/**
     - packages/**
     - contracts/**
@@ -484,7 +490,7 @@ latest_checkpoint:
     - releases/**
     - design/**
     - scripts/**
-    - releases/R16/**
+    - apps/android相关R16订单详情页面、类型安全网络与专项测试；不提前做支付或虚构订单。
     - CHANGELOG.md
     approved_exceptions:
     - apps/admin-web/src/views/CommerceOrdersPage.vue
@@ -501,36 +507,38 @@ latest_checkpoint:
     - releases/R16/RELEASE_MANIFEST.yaml
     - artifacts/reports/R16/TASK-R16-004-admin-orders.md
     - CHANGELOG.md
-    source: story+explicit+approved-cr:CR-0448
+    source: story-switch+explicit+approved-cr:CR-0448
   parallel_execution:
     assessment: NO_SAFE_PARALLEL
     delegated_workers: 0
     workers: []
-    reason: 下一故事需先由主代理读取冻结规格并确定精确范围，当前没有可安全并行的已批准写范围。
-  event_hash: 6499621b107424b6107797af93fd27d2c5b26984bb09328c4877f50a96190f2a
+    reason: 需先读取冻结规格并确定精确范围。
+  event_hash: 0962e793b1861fb48c9aed23e323c89e6c2e09e11af16990b60a2e72fe5d31a3
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: ea65f7013ab87223087be4389ffae0a7accc5949
+  head: 2d9f0c9ca4eb4d37140a7d5126e990a97c569cc2
   upstream: origin/task/TASK-R03-001
-  ahead: 1
+  ahead: 0
   behind: 0
   dirty: true
   status_porcelain:
   - ' M .continuity/ACTIVE_SESSION.yaml'
-  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
   - ' M .continuity/EVENT_LOG.jsonl'
   - ' M .continuity/SESSION_INDEX.yaml'
   - ' M .continuity/STATE.yaml'
-  - ' M .continuity/change_requests/CR-0448.yaml'
+  - ' M .continuity/TASK_CLAIMS.yaml'
   - ' M .continuity/sessions/SES-20260728T125934Z-F3DED330.yaml'
   - ' M CURRENT_STATUS.yaml'
-  - ' M catalogs/change_request_index.csv'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
   - ' M catalogs/session_index.csv'
-  - ' M docs/03-continuity/change-requests/CR-0448-实现R16后台订单列表与详情抽屉.md'
   - ' M docs/03-continuity/sessions/2026-07/SES-20260728T125934Z-F3DED330.md'
-  - ?? .continuity/checkpoints/SES-20260728T125934Z-F3DED330/0004.yaml
+  - ?? .continuity/checkpoints/SES-20260728T125934Z-F3DED330/0005.yaml
   recent_commits:
+  - "2d9f0c9ca4eb4d37140a7d5126e990a97c569cc2\t2026-07-28T21:14:45+08:00\tHHY Continuity Bootstrap\t[STORY-R16-001] chore(r16): close admin order\
+    \ change"
   - "ea65f7013ab87223087be4389ffae0a7accc5949\t2026-07-28T21:13:16+08:00\tHHY Continuity Bootstrap\t[STORY-R16-001] feat(r16): implement admin\
     \ order workspace"
   - "28c875d42b5bde36f2286b7cd22ff451c28b3d69\t2026-07-28T21:00:28+08:00\tHHY Continuity Bootstrap\t[STORY-R16-001] chore(r16): start admin order\
@@ -545,8 +553,6 @@ git:
     \ route and paired guide delivery"
   - "63ebeca8ca54f087b18e0b9605dc879dd10bc4c4\t2026-07-28T20:05:28+08:00\tHHY Continuity Bootstrap\t[STORY-R16-001] feat(commerce): implement\
     \ R16 product and order backend"
-  - "770563179ea2bd7f0bc391cd20fff0f8280cc511\t2026-07-28T18:22:18+08:00\tHHY Continuity Bootstrap\t[STORY-R16-001] chore(continuity): close TASK-R16-002\
-    \ as completed"
 project_fingerprint:
   sha256: fddec8ec60df7fb13952640c45188320fe1ac79f265eb439916cd7ff46bbabb6
   files:
@@ -1433,8 +1439,8 @@ continuity_state:
   last_session_id: SES-20260728T102501Z-3189682B
   last_session_result: COMPLETED
   last_closure_checkpoint_id: CP-SES-20260728T102501Z-3189682B-0007
-  event_count: 4288
-  event_head_hash: 6499621b107424b6107797af93fd27d2c5b26984bb09328c4877f50a96190f2a
+  event_count: 4291
+  event_head_hash: 0962e793b1861fb48c9aed23e323c89e6c2e09e11af16990b60a2e72fe5d31a3
   event_chain_valid: true
 recent_sessions:
 - session_id: SES-20260726T191158Z-2B506AB7
@@ -1547,15 +1553,15 @@ recent_sessions:
   handoff_bundle: null
 - session_id: SES-20260728T125934Z-F3DED330
   task_id: TASK-R16-004
-  story_id: STORY-R16-001
+  story_id: STORY-R16-002
   actor_id: codex-r16-client-admin-20260728
   status: ACTIVE
   started_at: '2026-07-28T12:59:34Z'
   record: .continuity/sessions/SES-20260728T125934Z-F3DED330.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260728T125934Z-F3DED330.md
-  updated_at: '2026-07-28T13:14:30Z'
+  updated_at: '2026-07-28T13:16:17Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260728T125934Z-F3DED330/0004.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260728T125934Z-F3DED330/0005.yaml
   handoff_bundle: null
 task_claims:
 - claim_id: CLM-D7D9BE594C03
@@ -2263,12 +2269,12 @@ task_claims:
 - claim_id: CLM-80E7240ECF64
   session_id: SES-20260728T125934Z-F3DED330
   task_id: TASK-R16-004
-  story_id: STORY-R16-001
+  story_id: STORY-R16-002
   actor_id: codex-r16-client-admin-20260728
   status: ACTIVE
   claimed_at: '2026-07-28T12:59:34Z'
   allowed_paths:
-  - apps/admin-web/**
+  - apps/android/**
   - services/backend/**
   - packages/**
   - contracts/**
@@ -2280,8 +2286,9 @@ task_claims:
   - releases/**
   - design/**
   - scripts/**
-  - releases/R16/**
+  - apps/android相关R16订单详情页面、类型安全网络与专项测试；不提前做支付或虚构订单。
   - CHANGELOG.md
+  updated_at: '2026-07-28T13:15:40Z'
 recent_task_transitions:
 - transition_id: TRN-E8A2C8699F08
   timestamp: '2026-07-25T17:13:24Z'
@@ -14120,7 +14127,7 @@ source_manifest:
   sha256: 22de14029ce47beb41ea569e36ce223fbc9d11b86f8676f28d5fbbd83896af5c
   bytes: 4556
 - path: CURRENT_STATUS.yaml
-  sha256: 1aec495544ff3d11ed2d8687ce46acf2b1ad89b4a42e9a7a36d726434f373873
+  sha256: 8175273e2743fc64406a485740be5c1f6e4e8b68026896fe9ddd6e438727011e
   bytes: 4733
 - path: NEXT_TASK.yaml
   sha256: 098e3473cabfab4b4cecb672782dc80007d2d554f478bb33805f4bb2c57faf09
@@ -14153,14 +14160,14 @@ source_manifest:
   sha256: 38e04ed812c8df0d353c2b91993d31e53b471e9c457f06b426bd2260c470aa92
   bytes: 13936
 - path: .continuity/EVENT_LOG.jsonl
-  sha256: 8617d8ab94f8dd5b7f901eeabb16c14c2498316108b3834c2de79ec872130c72
-  bytes: 2449971
+  sha256: 9932fc98151d7ef4ab23655b2c3b68bd6b0ce04007bea312218daea903050889
+  bytes: 2452318
 - path: .continuity/SESSION_INDEX.yaml
-  sha256: b44e9fc855d3113015daa8cfec7d95719387e61645e8de8a0a5bbb504bd5a90f
+  sha256: ef0d2cd9a1afe81a607258757191e97bee561a216538289d9f7e68be2c9cbf42
   bytes: 63722
 - path: .continuity/TASK_CLAIMS.yaml
-  sha256: 7ef9e5fc7c020e4019e001fa0cf428c2c429baf658a086ad256bf9b9f0a0d464
-  bytes: 89401
+  sha256: 9832bd4a81785147e97a085ae07ad0e710dcf4b6561c6ed65b274d157250a3c6
+  bytes: 89535
 - path: .continuity/TASK_TRANSITIONS.yaml
   sha256: 4dab6426698947a1e4aaa0e4f696aee70bd433b55ed1a06754fcd5495721086d
   bytes: 36259
@@ -14168,7 +14175,7 @@ source_manifest:
   sha256: fcaa8872e2b3d9e07f2117ccce020f023c506952c4eabd39be79fab0f173f3f9
   bytes: 1647528
 - path: .continuity/ACTIVE_SESSION.yaml
-  sha256: d9c6fafc0fb926169a47d0a50ffb62355a5370b40666dc2b8c019a16d63454ca
+  sha256: bc1ea8d470a03696bbb2bdce31cb91e2e33de72224340258683fa52bc49b72c9
   bytes: 546
 - path: docs/00-baseline/正式商业系统全局硬性开发边界.md
   sha256: d8a77eddf520659b1d6b57e16ecc0739fa93dbd39cf9903dbaf798fc631ae6fe
@@ -14198,11 +14205,11 @@ source_manifest:
   sha256: 6c6b0104146b52bb78d72e9f0db5b389d43dc5fc1fdf8fa054437b4150452625
   bytes: 684
 - path: docs/03-continuity/sessions/2026-07/SES-20260728T125934Z-F3DED330.md
-  sha256: 083ccc01c9445019a076fb549362e2fddc751fb0612dbed95b6bd8f8954c3f21
-  bytes: 6289
-- path: .continuity/checkpoints/SES-20260728T125934Z-F3DED330/0004.yaml
-  sha256: 0c57e8846a14bee98e3d0dd6d0a54f1939d040e71ea72bbc8d87a37e6fb31d57
-  bytes: 8112
+  sha256: 45ff1ea6cafe278f2eef804f3dd0bdc9ab712b8f679240b399f139484c3aa3f0
+  bytes: 7618
+- path: .continuity/checkpoints/SES-20260728T125934Z-F3DED330/0005.yaml
+  sha256: 5b488fa10825c44cc900b0d63caadf0decd3dc78592f3ff51ac04bcdec6c3ad8
+  bytes: 8158
 - path: docs/03-continuity/change-requests/CR-0448-实现R16后台订单列表与详情抽屉.md
   sha256: c82e9b2905384c98eb21f21f7696ab9930e29124db7a2839805188030fc7a1ca
   bytes: 5057
@@ -14241,4 +14248,4 @@ hard_rules:
 - 除非项目所有者明确报告未连接，默认Codex已连接obx-test且既有项目环境可用；预检失败必须阻断并报告
 - 禁止以无服务器状态继续开发或重建本地Android SDK，必须复用登记的远端镜像和Gradle缓存
 - Git remote/upstream仅按tracked transport descriptor受控恢复；推送前必须预检且禁止force push
-context_hash: 99e5b18847596c9639d6129c3efec2f7c52905ad270db0f2d39b8578ea0eafa3
+context_hash: 3a7d6ea823b5294238c8f5ba4f0e86605bcea21d153fe38e93c7ed0ae8e9da8d
