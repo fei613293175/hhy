@@ -27448,3 +27448,233 @@ change_requests:
   - SES-20260728T095044Z-DCF99F77
   implementation_commits:
   - 7b956ed2896f32981a875dad1b76ce9f0d44e532
+- protocol_version: '1.0'
+  cr_id: CR-0442
+  title: 落地R16商品SKU报价与统一订单后端纵向链路
+  status: APPROVED
+  created_at: '2026-07-28T10:27:03Z'
+  updated_at: '2026-07-28T10:37:48Z'
+  requester_actor_id: codex-r16-backend-20260728
+  approver_actor_id: codex-r16-backend-independent-review-20260728
+  task_id: TASK-R16-003
+  session_id: SES-20260728T102501Z-3189682B
+  user_request: 持续推进合伙云Pro开发；R16数据不变量完成后立即实现10个冻结operationId，不重复处理邀请码问题
+  reason: R16数据库合同已经落地，但commerce模块尚无Product、ProductSku、Order应用服务、PostgreSQL存储、用户及后台控制器，10个冻结operationId均没有真实实现
+  original_rule: R16已冻结10个operationId与显式ProductResource、ProductSkuResource、OrderResource合同，V045提供真实表结构和不变量；但commerce模块尚无R16应用链，数据库RBAC仍只有product.manage，与OpenAPI
+    product.read/product.write不一致。
+  new_rule: 新增前向V046且不改写旧迁移：创建product.read和product.write，所有已有product.manage角色安全映射到两个细粒度权限，ACTIVE SUPER_ADMIN必得两项；权限不完整原子失败。DEV/TEST回滚只在不存在脱离product.manage的独立细粒度授权时删除V046映射和权限，否则原子拒绝。完整实现10个冻结operationId且不改变OpenAPI。用户订单列表和详情均在SQL层按认证userId绑定owner；跨用户与不存在订单统一COMMON-404-NOT_FOUND。后台商品/SKU读写强制product.read/product.write，后台订单强制order.read。控制器只做HTTP映射、Bean
+    Validation、身份、requestId/IP和ApiResponse编排。商品与SKU状态保持非空受限string，不臆造枚举；查询只允许冻结字段和白名单排序，cursor严格解码并绑定排序。后台写幂等由Boot中性SnapshotCodec适配AdminIdempotencySnapshotCipher，commerce不得依赖access。scope使用r16adm:<Base64URL(SHA-256(length-prefix(adminId,operationId,resourceKey)))>固定确定性编码，始终小于64字符；create资源键为productCode或skuCode，patch为不可变id。规范请求SHA-256覆盖HTTP方法、规范路径、管理员、operationId、资源键和完整请求体。同scope/key/hash重放加密首次响应，同键异哈希409；篡改密文拒绝，密钥轮换可用previous
+    key解密。PATCH expectedVersion原子乐观锁且零字段补丁拒绝；productCode、skuCode和SKU productId不可变。SKU权益严格为BenefitResource；金额非负，durationDays为null或正数，销售窗口有序，分佣各级及合计不超10000；commissionEnabled=false只允许空或零费率并落零。创建SKU事务先FOR
+    UPDATE锁商品并计数，已有100个即422，因此并发也不得超100。商品/SKU业务写、admin_operation_logs、Outbox、幂等领取和首次响应快照均在同一数据库事务；任一点失败全部回滚，重放不重复审计/事件。订单由orders/items/唯一price
+    snapshot构造，超过100项、商品超过100 SKU、重复/缺失快照或非法JSON均拒绝，禁止截断/补造。历史confirmed=false且协议版本为空时输出空字符串满足冻结必填字段，confirmed仍为false且confirmedAt为空。
+  impact_summary: 新增V046 RBAC对齐、运行时副本、DEV回滚和权限测试；新增R16 commerce合同、服务、PostgreSQL存储、管理员密文适配与用户/后台控制器，覆盖10个operationId。专项验证固定长度幂等scope、细粒度权限、跨管理员隔离和轮换、事务故障原子性、PATCH并发、SKU
+    100上限、订单owner统一404与合同上限。复用V045及既有事实表，不触碰邀请码注册链。
+  impact:
+    files:
+    - database/migrations/V046__r16_product_permission_alignment.sql
+    - services/backend/boot/src/main/resources/db/migration/V046__r16_product_permission_alignment.sql
+    - database/rollback/U046__r16_product_permission_alignment_DEV_ONLY.sql
+    - database/tests/r16_product_permission_alignment.sql
+    - scripts/run_r16_database_invariants.sh
+    - scripts/check_db_schema.py
+    - services/backend/commerce/src/main/java/cc/orbexa/hhy/commerce/R16CommerceContracts.java
+    - services/backend/commerce/src/main/java/cc/orbexa/hhy/commerce/R16CommerceStore.java
+    - services/backend/commerce/src/main/java/cc/orbexa/hhy/commerce/R16CommercePostgresStore.java
+    - services/backend/commerce/src/main/java/cc/orbexa/hhy/commerce/R16CommerceService.java
+    - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/R16OrderController.java
+    - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/admin/R16CommerceAdminController.java
+    - services/backend/boot/src/test/java/cc/orbexa/hhy/commerce/R16CommerceServiceTest.java
+    - services/backend/boot/src/test/java/cc/orbexa/hhy/commerce/R16CommercePostgresStoreTest.java
+    - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/R16CommerceControllerContractTest.java
+    - services/backend/boot/src/test/java/cc/orbexa/hhy/R16CommerceModuleBoundaryTest.java
+    - tests/test_r16_backend_contract.py
+    - releases/R16/TASKS.yaml
+    - releases/R16/STORIES.yaml
+    - releases/R16/RELEASE_MANIFEST.yaml
+    - artifacts/reports/R16/TASK-R16-003-backend.md
+    - CHANGELOG.md
+    pages: []
+    apis:
+    - orderGetMeOrders
+    - orderGetMeOrdersByOrderno
+    - adminProductsGetProducts
+    - adminProductsPostProducts
+    - adminProductsPatchProductsById
+    - adminProductsGetSkus
+    - adminProductsPostSkus
+    - adminProductsPatchSkusById
+    - adminOrdersGetOrders
+    - adminOrdersGetOrdersByOrderno
+    database:
+    - admin_permissions,admin_role_permissions,admin_roles,products,product_skus,sku_commission_policies,orders,order_items,order_price_snapshots,idempotency_records,admin_operation_logs,outbox_events
+    configuration: []
+    ledger:
+    - 商品/SKU写、审计、Outbox、幂等领取和首次响应快照同事务；订单本任务只读V045权威快照
+    tests:
+    - mvn -pl boot -am test
+    - python tests/test_r16_backend_contract.py
+    - python scripts/check_db_schema.py
+    - PostgreSQL 17 V046迁移/旧product.manage映射/SUPER_ADMIN授权/独立细粒度授权回滚拒绝/空库回滚重放
+    - PostgreSQL 17 R16真实存储：读写权限、用户列表与详情双重owner隔离并统一404、查询上限拒绝
+    - 管理员幂等scope边界：最长operationId、64字符resourceKey、Long.MAX_VALUE管理员ID仍小于64字符，并覆盖稳定重放及跨管理员/操作/资源隔离
+    - 管理员首次响应密文：同键异哈希冲突、篡改拒绝、旧密钥轮换解密
+    - 逐点故障注入：商品或SKU写、审计、Outbox、幂等领取与快照任一点失败均全事务回滚且重放无重复副作用
+    - PATCH同expectedVersion并发仅一个提交；单商品并发创建SKU最多100个
+    - python scripts/check_api_contract.py
+    - python scripts/check_v122_documentation.py --release R16
+    releases:
+    - R16
+    migration_and_compatibility: 前向追加V046，仅新增权限数据和角色映射，不改变表结构或既有product.manage。已有粗粒度角色无缝获得read/write，SUPER_ADMIN兜底获得；新角色可独立授予。U046仅DEV/TEST使用，发现不具product.manage的非SUPER_ADMIN角色独立使用细粒度权限即拒绝；安全状态可回滚重放。应用要求数据库至少V046。固定长度scope兼容V014的varchar(128)且自身保持小于64字符。历史订单只读兼容且不补造；部署回滚保留合法业务事实。
+  user_confirmation: 项目所有者已明确要求持续推进全部版本且以后无需逐次批准；本CR属于TASK-R16-003既定后端范围
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-28T10:37:48Z'
+    note: CR-0442已闭合固定长度且强绑定的管理员幂等scope、细粒度RBAC、模块边界、事务原子性、并发上限、乐观锁、订单owner隔离及历史数据不伪造要求；影响文件与测试范围充分。
+  machine_record: .continuity/change_requests/CR-0442.yaml
+  document: docs/03-continuity/change-requests/CR-0442-落地R16商品SKU报价与统一订单后端纵向链路.md
+- protocol_version: '1.0'
+  cr_id: CR-0443
+  title: 前向对齐R16权益与时长冻结字段边界
+  status: APPROVED
+  created_at: '2026-07-28T11:16:27Z'
+  updated_at: '2026-07-28T11:18:44Z'
+  requester_actor_id: codex-r16-contract-alignment-20260728
+  approver_actor_id: codex-r16-contract-alignment-independent-review-20260728
+  task_id: TASK-R16-003
+  session_id: SES-20260728T102501Z-3189682B
+  user_request: 持续开发且所有功能一比一对应开发文档和冻结合同，不得出现实现漂移
+  reason: TASK-R16-003真实实现核对发现OpenAPI BenefitResource.name最大255、unit最大64且durationDays允许0，但V045函数仅允许120/32且数据库只允许正数，应用服务也沿用了较窄边界，合法冻结请求会被错误拒绝
+  original_rule: 冻结OpenAPI允许BenefitResource.name最长255、unit最长64且durationDays最小0；V045和当前应用却分别限制120、32和正数，导致合同允许但数据库或服务拒绝。
+  new_rule: 只追加V047且不改写V045：原子重建hhy.r16_benefits_valid，使name为1至255、unit最大64并保留对象键、必填字段、100项上限；将ck_r16_product_skus_duration改为duration_days为null或大于等于0。应用服务同步接受同一边界。DEV回滚在存在name超过120、unit超过32或duration_days=0时原子拒绝，安全数据下恢复V045边界。合同对齐测试必须证明255/64/0接受，256/65/负数拒绝，非法JSON和多余字段仍拒绝，source/runtime迁移字节一致。
+  impact_summary: 新增V047、运行时副本、DEV回滚和真实PostgreSQL属性测试；收敛R16CommerceService边界及专项静态和Java测试，不改变OpenAPI、既有事实数据或邀请码链。
+  impact:
+    files:
+    - database/migrations/V047__r16_commerce_contract_alignment.sql
+    - services/backend/boot/src/main/resources/db/migration/V047__r16_commerce_contract_alignment.sql
+    - database/rollback/U047__r16_commerce_contract_alignment_DEV_ONLY.sql
+    - database/tests/r16_commerce_contract_alignment.sql
+    - scripts/run_r16_database_invariants.sh
+    - scripts/check_db_schema.py
+    - services/backend/commerce/src/main/java/cc/orbexa/hhy/commerce/R16CommerceService.java
+    - services/backend/boot/src/test/java/cc/orbexa/hhy/commerce/R16CommerceServiceTest.java
+    - services/backend/boot/src/test/java/cc/orbexa/hhy/commerce/R16CommercePostgresStoreTest.java
+    - tests/test_r16_backend_contract.py
+    - releases/R16/TASKS.yaml
+    - releases/R16/STORIES.yaml
+    - releases/R16/RELEASE_MANIFEST.yaml
+    - artifacts/reports/R16/TASK-R16-003-backend.md
+    - CHANGELOG.md
+    pages: []
+    apis:
+    - adminProductsPostSkus
+    - adminProductsPatchSkusById
+    database:
+    - product_skus
+    configuration: []
+    ledger: []
+    tests:
+    - PostgreSQL 17 V047空库升级、合法255/64/0接受、越界与非法JSON拒绝、U047安全回滚及有新合法事实时回滚拒绝
+    - R16CommerceServiceTest冻结字段边界
+    - python tests/test_r16_backend_contract.py
+    - python scripts/check_db_schema.py
+    releases:
+    - R16
+    migration_and_compatibility: 前向V047仅放宽到冻结合同边界，所有V045合法数据继续合法；应用要求数据库至少V047。回滚仅在数据仍满足旧边界时允许，否则原子拒绝，避免破坏合法新事实。
+  user_confirmation: 项目所有者已明确要求持续开发且功能一比一对应开发文档和冻结合同，本修正属于消除实现漂移。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-28T11:18:44Z'
+    note: 独立审查确认V047精确对齐冻结OpenAPI的255/64/0边界，不改写V045；U047对新合法事实原子拒绝，影响文件与测试充分且无范围漂移。
+  machine_record: .continuity/change_requests/CR-0443.yaml
+  document: docs/03-continuity/change-requests/CR-0443-前向对齐R16权益与时长冻结字段边界.md
+- protocol_version: '1.0'
+  cr_id: CR-0444
+  title: 隔离R14 WebSocket容器生产配置与Mock测试上下文
+  status: IMPLEMENTING
+  created_at: '2026-07-28T11:42:13Z'
+  updated_at: '2026-07-28T11:47:15Z'
+  requester_actor_id: codex-r16-implementation-20260728
+  approver_actor_id: codex-r14-websocket-container-independent-review-20260728
+  task_id: TASK-R16-003
+  session_id: SES-20260728T102501Z-3189682B
+  user_request: 持续推进R16开发并完成真实回归，不因既有配置故障停止
+  reason: 完整后端回归确认R14 ServletServerContainerFactoryBean在Mock ServletContext中无ServerContainer属性，导致47个Spring上下文用例级联失败；需要保留生产容器限制并在test profile禁用该容器工厂Bean
+  original_rule: R14WebSocketConfiguration无条件创建ServletServerContainerFactoryBean，Mock ServletContext缺少jakarta.websocket.server.ServerContainer属性时上下文启动失败。
+  new_rule: WebSocket处理器注册继续默认启用；仅Servlet容器缓冲与空闲超时工厂Bean受hhy.websocket.container.enabled控制，生产默认true，test profile固定false；真实容器部署行为不变，Mock上下文不得伪造生产ServerContainer。
+  impact_summary: 为容器工厂Bean增加显式配置条件，并在统一测试配置关闭该Bean；新增配置边界合同测试，修复47个由同一上下文根因引发的级联错误。
+  impact:
+    files:
+    - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/realtime/R14WebSocketConfiguration.java
+    - services/backend/boot/src/test/resources/application-test.yml
+    - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/realtime/R14WebSocketConfigurationTest.java
+    pages: []
+    apis: []
+    database: []
+    configuration:
+    - hhy.websocket.container.enabled
+    ledger: []
+    tests:
+    - R14WebSocketConfigurationTest必须直接断言无配置时容器工厂存在且文本/二进制缓冲均为10485760字节、空闲超时75000毫秒；WebApplicationContextRunner在配置false时必须断言仅缺失ServletServerContainerFactoryBean，同时WebSocketHandlerMapping仍含/ws，WebSocketHttpRequestHandler持有原处理器和握手拦截器；完整mvn
+      -pl boot -am test须489项0失败0错误。
+    releases:
+    - R16
+    migration_and_compatibility: 无数据库或API变更。生产缺省值true保持10MiB缓冲和75秒空闲超时；仅test profile覆盖false。现有WebSocket协议、握手、路由及Android客户端不变。
+  user_confirmation: 项目所有者已明确要求持续推进R16并完成真实回归，本修正仅隔离Mock测试容器且不改变生产WebSocket行为。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-28T11:46:50Z'
+    note: 独立审查确认生产缺省仍创建ServletServerContainerFactoryBean并保持10MiB文本/二进制缓冲和75000毫秒空闲超时；test profile仅关闭该Bean，专项测试精确验证/ws映射、原处理器与握手拦截器仍注册，影响范围准确。
+  machine_record: .continuity/change_requests/CR-0444.yaml
+  document: docs/03-continuity/change-requests/CR-0444-隔离R14-WebSocket容器生产配置与Mock测试上下文.md
+  decision_log:
+  - at: '2026-07-28T11:47:15Z'
+    actor_id: codex-r16-implementation-20260728
+    status: IMPLEMENTING
+    note: 独立审批通过后开始实施测试上下文隔离。
+    session_id: SES-20260728T102501Z-3189682B
+  session_ids:
+  - SES-20260728T102501Z-3189682B
+- protocol_version: '1.0'
+  cr_id: CR-0445
+  title: 隔离后端Spring测试上下文的H2内存数据库
+  status: IMPLEMENTING
+  created_at: '2026-07-28T11:57:56Z'
+  updated_at: '2026-07-28T11:59:21Z'
+  requester_actor_id: codex-r16-backend-20260728
+  approver_actor_id: codex-r16-h2-test-isolation-independent-review-20260728
+  task_id: TASK-R16-003
+  session_id: SES-20260728T102501Z-3189682B
+  user_request: 持续推进R16开发并完成真实回归，不因既有测试基础设施污染停止
+  reason: 完整回归确认多个不同Spring测试上下文复用jdbc:h2:mem:hhy且DB_CLOSE_DELAY=-1，schema.sql在后续上下文重复建表，造成PublicEndpointsTest等8项级联错误；生产PostgreSQL与显式测试URL不受影响
+  original_rule: application-test.yml固定使用jdbc:h2:mem:hhy;MODE=PostgreSQL;DB_CLOSE_DELAY=-1，不同Spring上下文共享同一JVM内存库并重复执行schema.sql。
+  new_rule: 默认test profile的H2数据库名必须包含Spring RandomValuePropertySource生成的UUID，使每个独立ApplicationContext拥有隔离数据库；同一缓存上下文保持同一URL；测试显式声明的spring.datasource.url继续优先且不变。
+  impact_summary: 仅修改统一测试配置中的默认H2 URL，从固定hhy改为hhy-${random.uuid}，消除上下文间重复建表和状态串扰。
+  impact:
+    files:
+    - services/backend/boot/src/test/resources/application-test.yml
+    pages: []
+    apis: []
+    database: []
+    configuration:
+    - spring.datasource.url
+    ledger: []
+    tests:
+    - 完整mvn -pl boot -am test须491项0失败0错误；PublicEndpointsTest及其他默认test profile上下文不得再出现APP_BUILD_ARTIFACTS already exists。
+    releases:
+    - R16
+    migration_and_compatibility: 无生产配置、数据库迁移、API或运行时代码变化。所有显式声明测试数据库URL的测试保持原行为；默认测试上下文仍使用H2 PostgreSQL兼容模式和DB_CLOSE_DELAY=-1，但隔离到各自UUID数据库。
+  user_confirmation: 项目所有者已明确要求持续推进R16并完成真实回归，本变更仅修复测试上下文数据库污染。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-28T11:59:01Z'
+    note: 独立审查确认变更仅作用于src/test/resources默认test profile：UUID内存库隔离不同ApplicationContext，同时保留MODE=PostgreSQL与DB_CLOSE_DELAY=-1；Spring高优先级显式spring.datasource.url继续覆盖默认值，生产配置与运行时代码不受影响，完整后端回归范围足够。
+  machine_record: .continuity/change_requests/CR-0445.yaml
+  document: docs/03-continuity/change-requests/CR-0445-隔离后端Spring测试上下文的H2内存数据库.md
+  decision_log:
+  - at: '2026-07-28T11:59:21Z'
+    actor_id: codex-r16-backend-20260728
+    status: IMPLEMENTING
+    note: 独立审批通过后实施默认测试库按ApplicationContext隔离。
+    session_id: SES-20260728T102501Z-3189682B
+  session_ids:
+  - SES-20260728T102501Z-3189682B

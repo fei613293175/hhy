@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:h2:mem:hhy;MODE=PostgreSQL;DB_CLOSE_DELAY=-1
+    url: jdbc:h2:mem:hhy-${random.uuid};MODE=PostgreSQL;DB_CLOSE_DELAY=-1
     username: sa
     password:
   flyway:
@@ -14,6 +14,9 @@ management:
   server:
     port: 8080
 hhy:
+  websocket:
+    container:
+      enabled: false
   content-security:
     contact-root-secret: ${HHY_TEST_CONTENT_CONTACT_ROOT_SECRET:test-only-content-contact-root-secret-at-least-32-characters}
   user-security:

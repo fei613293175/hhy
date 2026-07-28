@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## R16商品、SKU、报价与统一订单后端纵向链路 · 2026-07-28
+
+- `CR-0442`完整实现R16冻结的10个operationId：用户订单列表/详情在SQL层绑定当前用户，后台商品、SKU与订单按`product.read`、`product.write`、`order.read`精确授权；V046把既有`product.manage`角色和`SUPER_ADMIN`安全映射到细粒度权限。
+- 商品/SKU写、管理员审计、Outbox、幂等领取和AES-256-GCM首次响应快照保持同事务；固定长度`r16adm` scope绑定管理员、operationId与资源，同键异哈希冲突，重放不重复副作用，PATCH采用原子乐观锁，SKU并发上限由商品行锁保护。
+- 订单读取严格构造订单项、唯一报价快照和不退款证据，超过100项、快照缺失/重复或非法JSON均拒绝；历史未确认且无协议版本只输出空字符串满足冻结必填字段，不伪造确认。
+- `CR-0443`发现并前向修正V045与冻结OpenAPI的边界漂移：V047允许权益名称255、单位64及`durationDays=0`，继续拒绝256、65和负数；旧迁移未改写，DEV回滚遇到新合法事实时原子拒绝。
+- Java 21专项15项、PostgreSQL Store 3项零跳过、API/数据库/后端静态门禁以及PostgreSQL 17完整V045/V046/V047迁移、回滚、重放、权限和并发矩阵全部PASS。
+
 ## R16商品、SKU、报价与统一订单数据不变量 · 2026-07-28
 
 - `CR-0441`在不改写V001至V044的前提下新增V045，补齐显式商品编码、SKU名称/会员价/期限/权益/销售时段、订单币种/实付/不退款证据/创建幂等、订单项小计和报价规则版本数组。
@@ -2057,3 +2065,9 @@
 - 摘要：TASK-R16-002完成：V045商品、SKU、报价与统一订单前向迁移、历史无伪造兼容、完整ORDER_STATUS、不退款证据、创建幂等、不可变快照和PostgreSQL 17属性验证全部通过
 - 记录：`docs/03-continuity/sessions/2026-07/SES-20260728T095044Z-DCF99F77.md`
 
+## TASK-R16-003 · BACKEND READY · 2026-07-28
+
+- R16十个冻结接口、商品与SKU写链、用户订单owner隔离、管理员权限、审计、Outbox、加密幂等快照和乐观锁已落地。
+- V046补齐`product.read`/`product.write`权限，V047前向对齐冻结OpenAPI边界且不改写V045。
+- PostgreSQL 17完整迁移、回滚、属性与8路并发矩阵PASS；Java 21后端全量491项，0失败、0错误。
+- CR-0444保持生产WebSocket容器限制并隔离Mock上下文；CR-0445让默认H2按ApplicationContext隔离，消除测试状态串扰。

@@ -1,5 +1,6 @@
 package cc.orbexa.hhy.boot.realtime;
 
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -30,6 +31,10 @@ public class R14WebSocketConfiguration implements WebSocketConfigurer {
     }
 
     @Bean
+    @ConditionalOnProperty(
+            name = "hhy.websocket.container.enabled",
+            havingValue = "true",
+            matchIfMissing = true)
     ServletServerContainerFactoryBean webSocketContainer() {
         ServletServerContainerFactoryBean container = new ServletServerContainerFactoryBean();
         container.setMaxTextMessageBufferSize(MAX_PAYLOAD_BYTES);

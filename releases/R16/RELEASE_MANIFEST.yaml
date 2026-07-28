@@ -81,6 +81,23 @@ data_baseline:
   invariant_matrix: database/tests/r16_commerce_order_invariants.sql
   report: artifacts/reports/R16/TASK-R16-002-data-invariants.md
   compatibility_rule: 历史事实只做确定性转换，无法确定时升级原子拒绝；禁止伪造展示名称、权益或不退款证据
+backend_baseline:
+  cr_ids:
+  - CR-0442
+  - CR-0443
+  - CR-0444
+  - CR-0445
+  status: PASS
+  migrations:
+  - database/migrations/V046__r16_product_permission_alignment.sql
+  - database/migrations/V047__r16_commerce_contract_alignment.sql
+  report: artifacts/reports/R16/TASK-R16-003-backend.md
+  operation_ids: 10
+  owner_isolation: 用户订单列表与详情在SQL层绑定认证userId，跨用户和不存在统一404
+  transaction_rule: 商品与SKU业务写、管理员审计、Outbox、幂等领取和加密首次响应快照同事务
+  contract_alignment: BenefitResource名称255、单位64且durationDays最小0；V047前向对齐且不改写V045
+  regression: Java 21后端全量491项，0失败、0错误、27项按外部PostgreSQL条件跳过
+  test_isolation: Spring控制器保持可代理；WebSocket容器工厂在test profile关闭；默认H2按ApplicationContext使用UUID隔离
 definition_of_ready: releases/R16/DEFINITION_OF_READY.yaml
 story_backlog: releases/R16/STORIES.yaml
 continuity:

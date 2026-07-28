@@ -434,6 +434,14 @@ r16_required_files = (
     "services/backend/boot/src/main/resources/db/migration/V045__r16_commerce_order_invariants.sql",
     "database/rollback/U045__r16_commerce_order_invariants_DEV_ONLY.sql",
     "database/tests/r16_commerce_order_invariants.sql",
+    "database/migrations/V046__r16_product_permission_alignment.sql",
+    "services/backend/boot/src/main/resources/db/migration/V046__r16_product_permission_alignment.sql",
+    "database/rollback/U046__r16_product_permission_alignment_DEV_ONLY.sql",
+    "database/tests/r16_product_permission_alignment.sql",
+    "database/migrations/V047__r16_commerce_contract_alignment.sql",
+    "services/backend/boot/src/main/resources/db/migration/V047__r16_commerce_contract_alignment.sql",
+    "database/rollback/U047__r16_commerce_contract_alignment_DEV_ONLY.sql",
+    "database/tests/r16_commerce_contract_alignment.sql",
     "scripts/run_r16_database_invariants.sh",
     "tests/test_r16_database_contract.py",
 )
@@ -490,7 +498,62 @@ if all((ROOT / relative).is_file() for relative in r16_required_files):
         if marker not in r16_test:
             errors.append(f"R16 invariant test missing marker: {marker}")
 
-    r16_runner = (ROOT / r16_required_files[4]).read_text(encoding="utf-8")
+    r16_permission = (ROOT / r16_required_files[4]).read_text(encoding="utf-8")
+    for marker in (
+        "product.read",
+        "product.write",
+        "product.manage",
+        "SUPER_ADMIN",
+        "R16_PRODUCT_MANAGER_PERMISSION_MAPPING_INCOMPLETE",
+    ):
+        if marker not in r16_permission:
+            errors.append(f"V046 missing R16 product permission marker: {marker}")
+
+    r16_permission_rollback = (ROOT / r16_required_files[6]).read_text(encoding="utf-8")
+    for marker in (
+        "DEV/TEST only",
+        "R16_U046_INDEPENDENT_GRANULAR_GRANTS_PRESENT",
+        "product.read",
+        "product.write",
+    ):
+        if marker not in r16_permission_rollback:
+            errors.append(f"U046 missing R16 permission rollback marker: {marker}")
+
+    r16_permission_test = (ROOT / r16_required_files[7]).read_text(encoding="utf-8")
+    if "R16_PRODUCT_PERMISSION_ALIGNMENT PASS" not in r16_permission_test:
+        errors.append("R16 product permission test missing PASS marker")
+
+    r16_alignment = (ROOT / r16_required_files[8]).read_text(encoding="utf-8")
+    for marker in (
+        "NOT BETWEEN 1 AND 255",
+        "char_length(benefit.value->>'unit') > 64",
+        "duration_days >= 0",
+    ):
+        if marker not in r16_alignment:
+            errors.append(f"V047 missing R16 contract alignment marker: {marker}")
+
+    r16_alignment_rollback = (ROOT / r16_required_files[10]).read_text(encoding="utf-8")
+    for marker in (
+        "DEV/TEST only",
+        "R16_V047_ROLLBACK_NEW_CONTRACT_FACTS_PRESENT",
+        "NOT BETWEEN 1 AND 120",
+        "duration_days > 0",
+    ):
+        if marker not in r16_alignment_rollback:
+            errors.append(f"U047 missing R16 safe rollback marker: {marker}")
+
+    r16_alignment_test = (ROOT / r16_required_files[11]).read_text(encoding="utf-8")
+    for marker in (
+        "R16_V047_NAME_256_WAS_ACCEPTED",
+        "R16_V047_UNIT_65_WAS_ACCEPTED",
+        "R16_V047_NEGATIVE_DURATION_WAS_ACCEPTED",
+        "R16_V047_EXTRA_BENEFIT_FIELD_WAS_ACCEPTED",
+        "R16_COMMERCE_CONTRACT_ALIGNMENT PASS",
+    ):
+        if marker not in r16_alignment_test:
+            errors.append(f"R16 V047 alignment test missing marker: {marker}")
+
+    r16_runner = (ROOT / r16_required_files[12]).read_text(encoding="utf-8")
     for marker in (
         "server_version >= 170000",
         "R16_EMPTY_DATABASE_MIGRATION PASS",
@@ -498,6 +561,12 @@ if all((ROOT / relative).is_file() for relative in r16_required_files):
         "R16_DIRTY_UPGRADE_ATOMIC_MATRIX PASS",
         "R16_U045_ROLLBACK_WITH_FACTS_REJECTED_ATOMICALLY PASS",
         "R16_U045_ROLLBACK_V045_REPLAY PASS",
+        "R16_PRODUCT_PERMISSION_ALIGNMENT PASS",
+        "R16_U046_INDEPENDENT_GRANT_REJECTED PASS",
+        "R16_U046_ROLLBACK_V046_REPLAY PASS",
+        "R16_COMMERCE_CONTRACT_ALIGNMENT PASS",
+        "R16_U047_NEW_FACT_ROLLBACK_REJECTED PASS",
+        "R16_U047_ROLLBACK_V047_REPLAY PASS",
         "R16_ORDER_CONCURRENT_IDEMPOTENCY PASS",
         "R16_DATABASE_INVARIANTS PASS",
     ):
@@ -510,6 +579,14 @@ if all((ROOT / relative).is_file() for relative in r16_required_files):
         path.name for path in root_migrations
     }:
         errors.append("migration chain is missing V045 R16 commerce/order invariants")
+    if "V046__r16_product_permission_alignment.sql" not in {
+        path.name for path in root_migrations
+    }:
+        errors.append("migration chain is missing V046 R16 product permission alignment")
+    if "V047__r16_commerce_contract_alignment.sql" not in {
+        path.name for path in root_migrations
+    }:
+        errors.append("migration chain is missing V047 R16 commerce contract alignment")
 
 if errors:
     print("DB_SCHEMA_FAIL")

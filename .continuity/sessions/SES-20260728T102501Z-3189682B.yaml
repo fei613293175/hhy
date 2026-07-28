@@ -1,0 +1,99 @@
+protocol_version: '1.0'
+package_version: 1.2.3
+session_id: SES-20260728T102501Z-3189682B
+status: ACTIVE
+actor:
+  id: codex-r16-backend-20260728
+  kind: AI_OR_HUMAN
+  host: unknown
+release: R16
+task_id: TASK-R16-003
+story_id: STORY-R16-001
+goal: 持续完成R16至R32，当前完整落地10个商品、SKU、报价与统一订单后端operationId
+started_at: '2026-07-28T10:25:01Z'
+updated_at: '2026-07-28T12:04:26Z'
+takeover_of: null
+change_requests:
+- CR-0442
+- CR-0443
+- CR-0444
+- CR-0445
+scope:
+  allowed_paths:
+  - apps/admin-web/**
+  - services/backend/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - tests/**
+  - docs/**
+  - catalogs/**
+  - releases/**
+  - design/**
+  - scripts/**
+  - CHANGELOG.md
+  approved_exceptions:
+  - database/migrations/V046__r16_product_permission_alignment.sql
+  - services/backend/boot/src/main/resources/db/migration/V046__r16_product_permission_alignment.sql
+  - database/rollback/U046__r16_product_permission_alignment_DEV_ONLY.sql
+  - database/tests/r16_product_permission_alignment.sql
+  - scripts/run_r16_database_invariants.sh
+  - scripts/check_db_schema.py
+  - services/backend/commerce/src/main/java/cc/orbexa/hhy/commerce/R16CommerceContracts.java
+  - services/backend/commerce/src/main/java/cc/orbexa/hhy/commerce/R16CommerceStore.java
+  - services/backend/commerce/src/main/java/cc/orbexa/hhy/commerce/R16CommercePostgresStore.java
+  - services/backend/commerce/src/main/java/cc/orbexa/hhy/commerce/R16CommerceService.java
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/R16OrderController.java
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/admin/R16CommerceAdminController.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/commerce/R16CommerceServiceTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/commerce/R16CommercePostgresStoreTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/R16CommerceControllerContractTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/R16CommerceModuleBoundaryTest.java
+  - tests/test_r16_backend_contract.py
+  - releases/R16/TASKS.yaml
+  - releases/R16/STORIES.yaml
+  - releases/R16/RELEASE_MANIFEST.yaml
+  - artifacts/reports/R16/TASK-R16-003-backend.md
+  - CHANGELOG.md
+  - database/migrations/V047__r16_commerce_contract_alignment.sql
+  - services/backend/boot/src/main/resources/db/migration/V047__r16_commerce_contract_alignment.sql
+  - database/rollback/U047__r16_commerce_contract_alignment_DEV_ONLY.sql
+  - database/tests/r16_commerce_contract_alignment.sql
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/realtime/R14WebSocketConfiguration.java
+  - services/backend/boot/src/test/resources/application-test.yml
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/realtime/R14WebSocketConfigurationTest.java
+  source: story+explicit+approved-cr:CR-0442+approved-cr:CR-0443+approved-cr:CR-0444+approved-cr:CR-0445
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  base_commit: 770563179ea2bd7f0bc391cd20fff0f8280cc511
+  start_head: 770563179ea2bd7f0bc391cd20fff0f8280cc511
+  upstream: origin/task/TASK-R03-001
+  initial_worktree_state: CLEAN
+lease:
+  duration_minutes: 240
+  renewed_at: '2026-07-28T12:04:18Z'
+  expires_at: '2026-07-28T16:04:18Z'
+checkpoint_sequence: 2
+latest_checkpoint: .continuity/checkpoints/SES-20260728T102501Z-3189682B/0002.yaml
+session_log: docs/03-continuity/sessions/2026-07/SES-20260728T102501Z-3189682B.md
+next_step: 提交并推送TASK-R16-003实现与治理记录，关闭CR-0442至CR-0445和当前Task，然后直接领取TASK-R16-004。
+context_pack:
+  yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
+  markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
+  manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+  context_hash: 7625bdb9058eed6513902c3135cde8dbe5bdcc9605d25a6ac83d485c77b75eed
+  generated_at: '2026-07-28T12:04:22Z'
+handoff_bundle: null
+closure: null
+parallel_execution:
+  assessment: DELEGATED
+  delegated_workers: 1
+  workers:
+  - worker_id: r14_scope_review
+    responsibility: 独立审查CR-0444与CR-0445
+    allowed_paths:
+    - .continuity/change_requests/CR-0444.yaml
+    - .continuity/change_requests/CR-0445.yaml
+  reason: ''

@@ -1250,3 +1250,13 @@ transitions:
   session_id: SES-20260728T095044Z-DCF99F77
   actor_id: codex-root-r16-data-20260728
   reason: 会话领取任务
+- transition_id: TRN-E2F1430D8190
+  timestamp: '2026-07-28T10:25:03Z'
+  release: R16
+  task_id: TASK-R16-003
+  story_id: STORY-R16-001
+  from_status: READY
+  to_status: IN_PROGRESS
+  session_id: SES-20260728T102501Z-3189682B
+  actor_id: codex-r16-backend-20260728
+  reason: 会话领取任务

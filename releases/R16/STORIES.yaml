@@ -241,4 +241,11 @@ stories:
     migration: database/migrations/V045__r16_commerce_order_invariants.sql
     invariant_report: artifacts/reports/R16/TASK-R16-002-data-invariants.md
     status: PASS
+  backend_baseline:
+    cr_ids:
+    - CR-0442
+    - CR-0443
+    operation_ids: 10
+    report: artifacts/reports/R16/TASK-R16-003-backend.md
+    status: PASS
   status: IMPLEMENTING

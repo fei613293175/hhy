@@ -60,8 +60,31 @@ apply_through "${template_url}" 44
 drop_database "${empty_db}"
 "${PSQL[@]}" -q -c "CREATE DATABASE ${empty_db} TEMPLATE ${template_db}" >/dev/null
 empty_url="${database_url_prefix}/${empty_db}"
+psql "${empty_url}" -X -v ON_ERROR_STOP=1 <<'SQL' >/dev/null
+WITH role_row AS (
+  INSERT INTO hhy.admin_roles(code,name,status)
+  VALUES ('R16_PRODUCT_LEGACY_TEST','R16商品旧权限测试','ACTIVE')
+  ON CONFLICT (code) DO UPDATE SET status='ACTIVE'
+  RETURNING id
+)
+INSERT INTO hhy.admin_role_permissions(role_id,permission_id)
+SELECT role_row.id,permission.id
+FROM role_row
+JOIN hhy.admin_permissions permission ON permission.code='product.manage'
+ON CONFLICT (role_id,permission_id) DO NOTHING;
+SQL
 psql "${empty_url}" -X -v ON_ERROR_STOP=1 --single-transaction \
   -f "${ROOT}/database/migrations/V045__r16_commerce_order_invariants.sql" >/dev/null
+psql "${empty_url}" -X -v ON_ERROR_STOP=1 --single-transaction \
+  -f "${ROOT}/database/migrations/V046__r16_product_permission_alignment.sql" >/dev/null
+psql "${empty_url}" -X -v ON_ERROR_STOP=1 --single-transaction \
+  -f "${ROOT}/database/migrations/V047__r16_commerce_contract_alignment.sql" >/dev/null
+psql "${empty_url}" -X -v ON_ERROR_STOP=1 \
+  -f "${ROOT}/database/tests/r16_product_permission_alignment.sql" >/dev/null
+psql "${empty_url}" -X -v ON_ERROR_STOP=1 \
+  -f "${ROOT}/database/tests/r16_commerce_contract_alignment.sql" >/dev/null
+echo "R16_PRODUCT_PERMISSION_ALIGNMENT PASS"
+echo "R16_COMMERCE_CONTRACT_ALIGNMENT PASS"
 empty_state="$(psql "${empty_url}" -X -qAt -c "
   SELECT
     (SELECT count(*) FROM information_schema.columns
@@ -127,6 +150,10 @@ $$;
 SQL
 psql "${upgrade_url}" -X -v ON_ERROR_STOP=1 --single-transaction \
   -f "${ROOT}/database/migrations/V045__r16_commerce_order_invariants.sql" >/dev/null
+psql "${upgrade_url}" -X -v ON_ERROR_STOP=1 --single-transaction \
+  -f "${ROOT}/database/migrations/V046__r16_product_permission_alignment.sql" >/dev/null
+psql "${upgrade_url}" -X -v ON_ERROR_STOP=1 --single-transaction \
+  -f "${ROOT}/database/migrations/V047__r16_commerce_contract_alignment.sql" >/dev/null
 upgrade_state="$(psql "${upgrade_url}" -X -qAt -c "
   SELECT product.product_code||'|'||sku.name||'|'||
     jsonb_array_length(sku.benefits_json)||'|'||sku.duration_days||'|'||
@@ -296,6 +323,61 @@ facts_after="$(psql "${upgrade_url}" -X -qAt -c "
 }
 echo "R16_U045_ROLLBACK_WITH_FACTS_REJECTED_ATOMICALLY PASS state=${facts_after}"
 
+psql "${empty_url}" -X -v ON_ERROR_STOP=1 <<'SQL' >/dev/null
+WITH product AS (
+  INSERT INTO hhy.products(product_code,type,name,status,version)
+  VALUES ('R16-U047-PRODUCT','APP','U047拒绝测试','ACTIVE',0)
+  RETURNING id
+)
+INSERT INTO hhy.product_skus(
+  product_id,code,price_cent,duration,attributes_json,status,
+  name,duration_days,benefits_json,version
+)
+SELECT id,'R16-U047-SKU',0,0,
+  '{"name":"U047合法新事实","benefits":[]}'::jsonb,'ACTIVE',
+  'U047合法新事实',0,'[]'::jsonb,0
+FROM product;
+SQL
+u047_log="$(mktemp)"
+set +e
+psql "${empty_url}" -X -v ON_ERROR_STOP=1 --single-transaction \
+  -f "${ROOT}/database/rollback/U047__r16_commerce_contract_alignment_DEV_ONLY.sql" \
+  >"${u047_log}" 2>&1
+u047_rc=$?
+set -e
+if [[ "${u047_rc}" -eq 0 ]] \
+   || ! grep -q 'R16_V047_ROLLBACK_NEW_CONTRACT_FACTS_PRESENT' "${u047_log}"; then
+  cat "${u047_log}" >&2
+  rm -f "${u047_log}"
+  echo "U047 accepted facts valid only under the frozen widened contract" >&2
+  exit 1
+fi
+rm -f "${u047_log}"
+u047_state="$(psql "${empty_url}" -X -qAt -c "
+  SELECT duration_days||'|'||
+    (pg_get_constraintdef(oid) LIKE '%duration_days >= 0%')
+  FROM hhy.product_skus,
+       pg_constraint
+  WHERE code='R16-U047-SKU'
+    AND conname='ck_r16_product_skus_duration';")"
+[[ "${u047_state}" == "0|true" ]] || {
+  echo "Rejected U047 changed valid new facts state=${u047_state}" >&2
+  exit 1
+}
+echo "R16_U047_NEW_FACT_ROLLBACK_REJECTED PASS state=${u047_state}"
+psql "${empty_url}" -X -v ON_ERROR_STOP=1 -c "
+  DELETE FROM hhy.product_skus WHERE code='R16-U047-SKU';
+  DELETE FROM hhy.products WHERE product_code='R16-U047-PRODUCT';" >/dev/null
+psql "${empty_url}" -X -v ON_ERROR_STOP=1 --single-transaction \
+  -f "${ROOT}/database/rollback/U047__r16_commerce_contract_alignment_DEV_ONLY.sql" >/dev/null
+psql "${empty_url}" -X -v ON_ERROR_STOP=1 --single-transaction \
+  -f "${ROOT}/database/migrations/V047__r16_commerce_contract_alignment.sql" >/dev/null
+psql "${empty_url}" -X -v ON_ERROR_STOP=1 \
+  -f "${ROOT}/database/tests/r16_commerce_contract_alignment.sql" >/dev/null
+echo "R16_U047_ROLLBACK_V047_REPLAY PASS"
+
+psql "${empty_url}" -X -v ON_ERROR_STOP=1 --single-transaction \
+  -f "${ROOT}/database/rollback/U047__r16_commerce_contract_alignment_DEV_ONLY.sql" >/dev/null
 psql "${empty_url}" -X -v ON_ERROR_STOP=1 --single-transaction \
   -f "${ROOT}/database/rollback/U045__r16_commerce_order_invariants_DEV_ONLY.sql" >/dev/null
 rolled_back_columns="$(psql "${empty_url}" -X -qAt -c "
@@ -312,6 +394,8 @@ rolled_back_columns="$(psql "${empty_url}" -X -qAt -c "
 }
 psql "${empty_url}" -X -v ON_ERROR_STOP=1 --single-transaction \
   -f "${ROOT}/database/migrations/V045__r16_commerce_order_invariants.sql" >/dev/null
+psql "${empty_url}" -X -v ON_ERROR_STOP=1 --single-transaction \
+  -f "${ROOT}/database/migrations/V047__r16_commerce_contract_alignment.sql" >/dev/null
 replayed_columns="$(psql "${empty_url}" -X -qAt -c "
   SELECT count(*) FROM information_schema.columns
   WHERE table_schema='hhy' AND (
@@ -331,9 +415,62 @@ replayed_columns="$(psql "${empty_url}" -X -qAt -c "
 }
 echo "R16_U045_ROLLBACK_V045_REPLAY PASS columns=${replayed_columns}"
 
+independent_role="$(
+  psql "${empty_url}" -X -qAt -v ON_ERROR_STOP=1 -c "
+    INSERT INTO hhy.admin_roles(code,name,status)
+    VALUES ('R16_PRODUCT_FINE_TEST','R16商品细粒度权限测试','ACTIVE')
+    ON CONFLICT (code) DO UPDATE SET status='ACTIVE'
+    RETURNING id"
+)"
+psql "${empty_url}" -X -v ON_ERROR_STOP=1 -c "
+  INSERT INTO hhy.admin_role_permissions(role_id,permission_id)
+  SELECT ${independent_role},id FROM hhy.admin_permissions WHERE code='product.read'
+  ON CONFLICT (role_id,permission_id) DO NOTHING" >/dev/null
+u046_log="$(mktemp)"
+set +e
+psql "${empty_url}" -X -v ON_ERROR_STOP=1 \
+  -f "${ROOT}/database/rollback/U046__r16_product_permission_alignment_DEV_ONLY.sql" \
+  >"${u046_log}" 2>&1
+u046_rc=$?
+set -e
+if [[ "${u046_rc}" -eq 0 ]] || ! grep -q 'R16_U046_INDEPENDENT_GRANULAR_GRANTS_PRESENT' "${u046_log}"; then
+  cat "${u046_log}" >&2
+  rm -f "${u046_log}"
+  echo "U046 accepted an independent granular product grant" >&2
+  exit 1
+fi
+rm -f "${u046_log}"
+permission_state="$(psql "${empty_url}" -X -qAt -c "
+  SELECT count(*)||'|'||
+    (SELECT count(*) FROM hhy.admin_role_permissions WHERE role_id=${independent_role})
+  FROM hhy.admin_permissions WHERE code IN ('product.read','product.write');")"
+[[ "${permission_state}" == "2|1" ]] || {
+  echo "Rejected U046 changed permission state=${permission_state}" >&2
+  exit 1
+}
+echo "R16_U046_INDEPENDENT_GRANT_REJECTED PASS state=${permission_state}"
+
+psql "${empty_url}" -X -v ON_ERROR_STOP=1 -c \
+  "DELETE FROM hhy.admin_role_permissions WHERE role_id=${independent_role};
+   DELETE FROM hhy.admin_roles WHERE id=${independent_role};" >/dev/null
+psql "${empty_url}" -X -v ON_ERROR_STOP=1 --single-transaction \
+  -f "${ROOT}/database/rollback/U046__r16_product_permission_alignment_DEV_ONLY.sql" >/dev/null
+rolled_back_permissions="$(psql "${empty_url}" -X -qAt -c "
+  SELECT count(*) FROM hhy.admin_permissions
+  WHERE code IN ('product.read','product.write');")"
+[[ "${rolled_back_permissions}" == "0" ]] || {
+  echo "R16 U046 rollback left permissions=${rolled_back_permissions}" >&2
+  exit 1
+}
+psql "${empty_url}" -X -v ON_ERROR_STOP=1 --single-transaction \
+  -f "${ROOT}/database/migrations/V046__r16_product_permission_alignment.sql" >/dev/null
+psql "${empty_url}" -X -v ON_ERROR_STOP=1 \
+  -f "${ROOT}/database/tests/r16_product_permission_alignment.sql" >/dev/null
+echo "R16_U046_ROLLBACK_V046_REPLAY PASS"
+
 if [[ "$("${PSQL[@]}" -qAt -c \
   "SELECT count(*) FROM information_schema.schemata WHERE schema_name='hhy'")" == "0" ]]; then
-  apply_through "${DATABASE_URL}" 45
+  apply_through "${DATABASE_URL}" 47
 elif [[ "$("${PSQL[@]}" -qAt -c "
   SELECT count(*) FROM information_schema.columns
   WHERE table_schema='hhy' AND table_name='orders'
@@ -341,8 +478,39 @@ elif [[ "$("${PSQL[@]}" -qAt -c "
   "${PSQL[@]}" --single-transaction \
     -f "${ROOT}/database/migrations/V045__r16_commerce_order_invariants.sql" >/dev/null
 fi
+if [[ "$("${PSQL[@]}" -qAt -c "
+  SELECT count(*) FROM hhy.admin_permissions
+  WHERE code IN ('product.read','product.write')")" != "2" ]]; then
+  "${PSQL[@]}" --single-transaction \
+    -f "${ROOT}/database/migrations/V046__r16_product_permission_alignment.sql" >/dev/null
+fi
+if [[ "$("${PSQL[@]}" -qAt -c "
+  SELECT count(*) FROM pg_constraint
+  WHERE conrelid='hhy.product_skus'::regclass
+    AND conname='ck_r16_product_skus_duration'
+    AND pg_get_constraintdef(oid) LIKE '%duration_days >= 0%'")" != "1" ]]; then
+  "${PSQL[@]}" --single-transaction \
+    -f "${ROOT}/database/migrations/V047__r16_commerce_contract_alignment.sql" >/dev/null
+fi
+"${PSQL[@]}" <<'SQL' >/dev/null
+WITH role_row AS (
+  INSERT INTO hhy.admin_roles(code,name,status)
+  VALUES ('R16_PRODUCT_LEGACY_TEST','R16商品旧权限测试','ACTIVE')
+  ON CONFLICT (code) DO UPDATE SET status='ACTIVE'
+  RETURNING id
+)
+INSERT INTO hhy.admin_role_permissions(role_id,permission_id)
+SELECT role_row.id,permission.id
+FROM role_row
+JOIN hhy.admin_permissions permission ON permission.code='product.manage'
+ON CONFLICT (role_id,permission_id) DO NOTHING;
+SQL
+"${PSQL[@]}" --single-transaction \
+  -f "${ROOT}/database/migrations/V046__r16_product_permission_alignment.sql" >/dev/null
 
 "${PSQL[@]}" -f "${ROOT}/database/tests/r16_commerce_order_invariants.sql" >/dev/null
+"${PSQL[@]}" -f "${ROOT}/database/tests/r16_product_permission_alignment.sql" >/dev/null
+"${PSQL[@]}" -f "${ROOT}/database/tests/r16_commerce_contract_alignment.sql" >/dev/null
 echo "R16_COMMERCE_ORDER_INVARIANT_PROPERTY_MATRIX PASS"
 
 concurrent_actor="$("${PSQL[@]}" -qAt -c "

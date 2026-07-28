@@ -1,0 +1,380 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260728T102501Z-3189682B-0002
+session_id: SES-20260728T102501Z-3189682B
+task_id: TASK-R16-003
+story_id: STORY-R16-001
+sequence: 2
+created_at: '2026-07-28T12:04:18Z'
+summary: TASK-R16-003后端纵向链路完成：十接口、V046/V047、事务幂等审计Outbox、owner隔离与完整回归均已PASS；CR-0444/0445修复既有Spring测试上下文级联故障且不改变生产合同。
+next_step: 提交并推送TASK-R16-003实现与治理记录，关闭CR-0442至CR-0445和当前Task，然后直接领取TASK-R16-004。
+blockers: []
+decisions:
+- 生产WebSocket容器默认保持10MiB/10MiB/75000ms；test profile关闭容器工厂；默认H2按ApplicationContext UUID隔离。
+note: 邀请码与注册链按项目所有者要求永久排除，未分析、未修改、未验证。
+tests:
+- name: R16 PostgreSQL 17总矩阵
+  result: PASS
+  evidence: database/tests/r16_commerce_contract_alignment.sql
+  note: V045-V047升级回滚、权限、属性和8路并发全部通过
+- name: Java 21后端全量回归
+  result: PASS
+  evidence: artifacts/reports/R16/TASK-R16-003-backend.md
+  note: 491项0失败0错误27项条件跳过
+- name: R16后端合同
+  result: PASS
+  evidence: tests/test_r16_backend_contract.py
+  note: 10个operationId、SQL owner隔离、模块边界
+- name: API与文档门禁
+  result: PASS
+  evidence: artifacts/reports/R16/TASK-R16-003-backend.md
+  note: client131 admin184 websocket12，R16文档0错误0警告
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: 770563179ea2bd7f0bc391cd20fff0f8280cc511
+  upstream: origin/task/TASK-R03-001
+  ahead: 0
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/ACTIVE_SESSION.yaml'
+  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/SESSION_INDEX.yaml'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/TASK_CLAIMS.yaml'
+  - ' M .continuity/TASK_TRANSITIONS.yaml'
+  - ' M CHANGELOG.md'
+  - ' M CURRENT_STATUS.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+  - ' M catalogs/change_request_index.csv'
+  - ' M catalogs/session_index.csv'
+  - ' M catalogs/task_transition_ledger.csv'
+  - ' M releases/R16/RELEASE_MANIFEST.yaml'
+  - ' M releases/R16/STORIES.yaml'
+  - ' M scripts/check_db_schema.py'
+  - ' M scripts/run_r16_database_invariants.sh'
+  - ' M services/backend/boot/src/main/java/cc/orbexa/hhy/boot/realtime/R14WebSocketConfiguration.java'
+  - ' M services/backend/boot/src/test/resources/application-test.yml'
+  - ?? .continuity/change_requests/CR-0442.yaml
+  - ?? .continuity/change_requests/CR-0443.yaml
+  - ?? .continuity/change_requests/CR-0444.yaml
+  - ?? .continuity/change_requests/CR-0445.yaml
+  - ?? .continuity/checkpoints/SES-20260728T102501Z-3189682B/0001.yaml
+  - ?? .continuity/sessions/SES-20260728T102501Z-3189682B.yaml
+  - ?? artifacts/reports/R16/TASK-R16-003-backend.md
+  - ?? database/migrations/V046__r16_product_permission_alignment.sql
+  - ?? database/migrations/V047__r16_commerce_contract_alignment.sql
+  - ?? database/rollback/U046__r16_product_permission_alignment_DEV_ONLY.sql
+  - ?? database/rollback/U047__r16_commerce_contract_alignment_DEV_ONLY.sql
+  - ?? database/tests/r16_commerce_contract_alignment.sql
+  - ?? database/tests/r16_product_permission_alignment.sql
+  - ?? docs/03-continuity/change-requests/CR-0442-落地R16商品SKU报价与统一订单后端纵向链路.md
+  - ?? docs/03-continuity/change-requests/CR-0443-前向对齐R16权益与时长冻结字段边界.md
+  - ?? docs/03-continuity/change-requests/CR-0444-隔离R14-WebSocket容器生产配置与Mock测试上下文.md
+  - ?? docs/03-continuity/change-requests/CR-0445-隔离后端Spring测试上下文的H2内存数据库.md
+  - ?? docs/03-continuity/sessions/2026-07/SES-20260728T102501Z-3189682B.md
+  - ?? services/backend/boot/src/main/java/cc/orbexa/hhy/boot/admin/R16CommerceAdminController.java
+  - ?? services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/R16OrderController.java
+  - ?? services/backend/boot/src/main/resources/db/migration/V046__r16_product_permission_alignment.sql
+  - ?? services/backend/boot/src/main/resources/db/migration/V047__r16_commerce_contract_alignment.sql
+  - ?? services/backend/boot/src/test/java/cc/orbexa/hhy/R16CommerceModuleBoundaryTest.java
+  - ?? services/backend/boot/src/test/java/cc/orbexa/hhy/boot/R16CommerceControllerContractTest.java
+  - ?? services/backend/boot/src/test/java/cc/orbexa/hhy/boot/realtime/R14WebSocketConfigurationTest.java
+  - ?? services/backend/boot/src/test/java/cc/orbexa/hhy/commerce/R16CommercePostgresStoreTest.java
+  - ?? services/backend/boot/src/test/java/cc/orbexa/hhy/commerce/R16CommerceServiceTest.java
+  - ?? services/backend/commerce/src/main/java/cc/orbexa/hhy/commerce/R16CommerceContracts.java
+  - ?? services/backend/commerce/src/main/java/cc/orbexa/hhy/commerce/R16CommercePostgresStore.java
+  - ?? services/backend/commerce/src/main/java/cc/orbexa/hhy/commerce/R16CommerceService.java
+  - ?? services/backend/commerce/src/main/java/cc/orbexa/hhy/commerce/R16CommerceStore.java
+  - ?? tests/test_r16_backend_contract.py
+  recent_commits:
+  - "770563179ea2bd7f0bc391cd20fff0f8280cc511\t2026-07-28T18:22:18+08:00\tHHY Continuity Bootstrap\t[STORY-R16-001] chore(continuity): close TASK-R16-002\
+    \ as completed"
+  - "0f2abe482cd1ac4bc8cc2fd403dbdd3a80674f76\t2026-07-28T18:21:11+08:00\tHHY Continuity Bootstrap\t[STORY-R16-001] chore(governance): close R16\
+    \ data baseline"
+  - "7b956ed2896f32981a875dad1b76ce9f0d44e532\t2026-07-28T18:18:57+08:00\tHHY Continuity Bootstrap\t[STORY-R16-001] feat(database): freeze R16\
+    \ commerce invariants"
+  - "478e9a872f0c3596f8460ffb04fefaa0e9d73ae5\t2026-07-28T17:52:50+08:00\tHHY Continuity Bootstrap\t[STORY-R16-001] chore(continuity): start R16\
+    \ data invariants"
+  - "af7532bf4d6379c47f1dc123f4f37243d3760d77\t2026-07-28T17:49:45+08:00\tHHY Continuity Bootstrap\t[STORY-R16-004] chore(continuity): close TASK-R16-001\
+    \ as completed"
+  - "f67f78f86d9994ad85bf3d8deda9566e5f40df98\t2026-07-28T17:47:30+08:00\tHHY Continuity Bootstrap\t[STORY-R16-004] chore(governance): close R16\
+    \ entry baseline"
+  - "a0ffe13ec2294c4af79da5d185887f1ad6053175\t2026-07-28T17:43:43+08:00\tHHY Continuity Bootstrap\t[STORY-R16-004] feat(contract): freeze explicit\
+    \ commerce baseline"
+  - "7a14540402771055a4ffb770c0210c84428947f7\t2026-07-28T17:12:51+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(continuity): close TASK-R14-004\
+    \ as blocked"
+project_fingerprint:
+  sha256: 37e6383b1665e62d02e1af6525b15987858cde10a4efbb89b698bcd44d5791da
+  files:
+  - CHANGELOG.md
+  - database/migrations/V046__r16_product_permission_alignment.sql
+  - database/migrations/V047__r16_commerce_contract_alignment.sql
+  - database/rollback/U046__r16_product_permission_alignment_DEV_ONLY.sql
+  - database/rollback/U047__r16_commerce_contract_alignment_DEV_ONLY.sql
+  - database/tests/r16_commerce_contract_alignment.sql
+  - database/tests/r16_product_permission_alignment.sql
+  - docs/03-continuity/change-requests/CR-0442-落地R16商品SKU报价与统一订单后端纵向链路.md
+  - docs/03-continuity/change-requests/CR-0443-前向对齐R16权益与时长冻结字段边界.md
+  - docs/03-continuity/change-requests/CR-0444-隔离R14-WebSocket容器生产配置与Mock测试上下文.md
+  - docs/03-continuity/change-requests/CR-0445-隔离后端Spring测试上下文的H2内存数据库.md
+  - releases/R16/RELEASE_MANIFEST.yaml
+  - releases/R16/STORIES.yaml
+  - scripts/check_db_schema.py
+  - scripts/run_r16_database_invariants.sh
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/admin/R16CommerceAdminController.java
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/realtime/R14WebSocketConfiguration.java
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/R16OrderController.java
+  - services/backend/boot/src/main/resources/db/migration/V046__r16_product_permission_alignment.sql
+  - services/backend/boot/src/main/resources/db/migration/V047__r16_commerce_contract_alignment.sql
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/R16CommerceModuleBoundaryTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/R16CommerceControllerContractTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/realtime/R14WebSocketConfigurationTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/commerce/R16CommercePostgresStoreTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/commerce/R16CommerceServiceTest.java
+  - services/backend/boot/src/test/resources/application-test.yml
+  - services/backend/commerce/src/main/java/cc/orbexa/hhy/commerce/R16CommerceContracts.java
+  - services/backend/commerce/src/main/java/cc/orbexa/hhy/commerce/R16CommercePostgresStore.java
+  - services/backend/commerce/src/main/java/cc/orbexa/hhy/commerce/R16CommerceService.java
+  - services/backend/commerce/src/main/java/cc/orbexa/hhy/commerce/R16CommerceStore.java
+  - tests/test_r16_backend_contract.py
+  file_count: 31
+  payload:
+    base_commit: 770563179ea2bd7f0bc391cd20fff0f8280cc511
+    files:
+    - path: CHANGELOG.md
+      state: FILE
+      size: 207156
+      sha256: 8d591728ebfacc3efa6dea53f267fd5c9a33442127ebd448b1e4ae4146da5a41
+    - path: database/migrations/V046__r16_product_permission_alignment.sql
+      state: FILE
+      size: 3206
+      sha256: 08d2dfb1ffaaf8e779dd92630166f7a8ffa9befb70dff62048a6d81a16504d22
+    - path: database/migrations/V047__r16_commerce_contract_alignment.sql
+      state: FILE
+      size: 1605
+      sha256: 709dad21763233b8f6f0852626be94f0adf07dbef3aa539dbcdc27531f7c9912
+    - path: database/rollback/U046__r16_product_permission_alignment_DEV_ONLY.sql
+      state: FILE
+      size: 1170
+      sha256: d676d590838394734f6ac873db83a9849061edf86d82646bed4f0ad926677e91
+    - path: database/rollback/U047__r16_commerce_contract_alignment_DEV_ONLY.sql
+      state: FILE
+      size: 1806
+      sha256: 40e2c39889ed79455ea7c3f2c7a5f87a4a00355b51667b91a8cf6318edb003cb
+    - path: database/tests/r16_commerce_contract_alignment.sql
+      state: FILE
+      size: 3004
+      sha256: 31ed40d3648afccfa05d621c1048ffda05d6eb57a6f06426181805faf5a05ab7
+    - path: database/tests/r16_product_permission_alignment.sql
+      state: FILE
+      size: 1318
+      sha256: bb97b7194d313d7c69a0a90936d7fb65f859b4294593a81726818c649311aec9
+    - path: docs/03-continuity/change-requests/CR-0442-落地R16商品SKU报价与统一订单后端纵向链路.md
+      state: FILE
+      size: 8101
+      sha256: 01f2ea5ca7204704d73098187ffdd2a8bcce08fd881196eac185bb93b775581a
+    - path: docs/03-continuity/change-requests/CR-0443-前向对齐R16权益与时长冻结字段边界.md
+      state: FILE
+      size: 3900
+      sha256: 966546d0c0493501a625119d6b3ab45797bd622ef843494932252c962a820e9c
+    - path: docs/03-continuity/change-requests/CR-0444-隔离R14-WebSocket容器生产配置与Mock测试上下文.md
+      state: FILE
+      size: 3460
+      sha256: 56dbca9282550636c55501ce37465e9d7b1940452c12cb155c5e0ac669fa06be
+    - path: docs/03-continuity/change-requests/CR-0445-隔离后端Spring测试上下文的H2内存数据库.md
+      state: FILE
+      size: 3023
+      sha256: f4674e52b0d8a8336da2cb52f82a7ab28a1b819af245d1d6222439cab9c1bc7c
+    - path: releases/R16/RELEASE_MANIFEST.yaml
+      state: FILE
+      size: 4274
+      sha256: b13dfbfaf16fb61e3977658f2d919aa328dc50aa281923c380a22ce4c09407e6
+    - path: releases/R16/STORIES.yaml
+      state: FILE
+      size: 8712
+      sha256: ef975f358047faa0e2e71f511bff8ee66046f84c5e38cb2a8fec8d77acfddfd0
+    - path: scripts/check_db_schema.py
+      state: FILE
+      size: 28033
+      sha256: 13fe33114052db16b97a4ff50ced6abc2ecb0d335947458be1162b48994516e8
+    - path: scripts/run_r16_database_invariants.sh
+      state: FILE
+      size: 24168
+      sha256: b7402267ca7dfa315adf706751b91262c686078a46fe70ced05b81cc5a9070c2
+    - path: services/backend/boot/src/main/java/cc/orbexa/hhy/boot/admin/R16CommerceAdminController.java
+      state: FILE
+      size: 12533
+      sha256: 0775ed6fc7d0bf7d0f55f7c13732a49708395a55d325687def2602348d33825a
+    - path: services/backend/boot/src/main/java/cc/orbexa/hhy/boot/realtime/R14WebSocketConfiguration.java
+      state: FILE
+      size: 1930
+      sha256: 58b6dddef2dba8835626c3f94e025b1c6a5827dd7442a06824ec99b356bb3e4d
+    - path: services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/R16OrderController.java
+      state: FILE
+      size: 3427
+      sha256: 54c51fd73f0e2152f8a24f66d070096a0f1d8e2f3406331642757e1ee231c2c6
+    - path: services/backend/boot/src/main/resources/db/migration/V046__r16_product_permission_alignment.sql
+      state: FILE
+      size: 3206
+      sha256: 08d2dfb1ffaaf8e779dd92630166f7a8ffa9befb70dff62048a6d81a16504d22
+    - path: services/backend/boot/src/main/resources/db/migration/V047__r16_commerce_contract_alignment.sql
+      state: FILE
+      size: 1605
+      sha256: 709dad21763233b8f6f0852626be94f0adf07dbef3aa539dbcdc27531f7c9912
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/R16CommerceModuleBoundaryTest.java
+      state: FILE
+      size: 1027
+      sha256: 92bced65e2d51af6b418cd7d37492f6f5a065b11baf3ea755e5214304703af25
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/boot/R16CommerceControllerContractTest.java
+      state: FILE
+      size: 2834
+      sha256: 2ade0d51792fcf3506fda8cc30afd76bc8e72241172bec3289a4d7082053a70c
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/boot/realtime/R14WebSocketConfigurationTest.java
+      state: FILE
+      size: 3709
+      sha256: c74c97b0ade3bb410f87226187c1f2fd6b84724dd9e5cfc2ae0b0da8761b0f8a
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/commerce/R16CommercePostgresStoreTest.java
+      state: FILE
+      size: 16362
+      sha256: 3845a4df8fe52db9ee6b59958f2733f6354f39bf098cec6164558df58c65a370
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/commerce/R16CommerceServiceTest.java
+      state: FILE
+      size: 7859
+      sha256: 6626f8465b1ce92aa2eb492c829b5bb39ce83b1093b217a1a20d44191a1d9290
+    - path: services/backend/boot/src/test/resources/application-test.yml
+      state: FILE
+      size: 1607
+      sha256: 51fe2ef6123c4a34ef6b37eade10c08bde91d99038663c00f8b56f184e7dc5b1
+    - path: services/backend/commerce/src/main/java/cc/orbexa/hhy/commerce/R16CommerceContracts.java
+      state: FILE
+      size: 4982
+      sha256: fcd82eebbeb0b6a0bd2239d54566fb46a4b110eee9aaccdd28f9eafbdd619db0
+    - path: services/backend/commerce/src/main/java/cc/orbexa/hhy/commerce/R16CommercePostgresStore.java
+      state: FILE
+      size: 44462
+      sha256: b9e203a0d7cb0bbc1d6473156da26c7056148f72440dc9d0ef0886b3fbde56ce
+    - path: services/backend/commerce/src/main/java/cc/orbexa/hhy/commerce/R16CommerceService.java
+      state: FILE
+      size: 22658
+      sha256: 79d13e7db78bb85008facc2dedb4c8017fc78e818cdda75a9a944b7afcee2685
+    - path: services/backend/commerce/src/main/java/cc/orbexa/hhy/commerce/R16CommerceStore.java
+      state: FILE
+      size: 3429
+      sha256: e78f09ff6041c0b029ecee7faf431477919cb1ddce78a2cc570be5df49a9efc5
+    - path: tests/test_r16_backend_contract.py
+      state: FILE
+      size: 4420
+      sha256: d1fcc5dfd2773bd642e002246578b9463cc2be09d09ac723b23678a990132189
+change_classification:
+  other:
+  - CHANGELOG.md
+  database:
+  - database/migrations/V046__r16_product_permission_alignment.sql
+  - database/migrations/V047__r16_commerce_contract_alignment.sql
+  - database/rollback/U046__r16_product_permission_alignment_DEV_ONLY.sql
+  - database/rollback/U047__r16_commerce_contract_alignment_DEV_ONLY.sql
+  - database/tests/r16_commerce_contract_alignment.sql
+  - database/tests/r16_product_permission_alignment.sql
+  continuity:
+  - docs/03-continuity/change-requests/CR-0442-落地R16商品SKU报价与统一订单后端纵向链路.md
+  - docs/03-continuity/change-requests/CR-0443-前向对齐R16权益与时长冻结字段边界.md
+  - docs/03-continuity/change-requests/CR-0444-隔离R14-WebSocket容器生产配置与Mock测试上下文.md
+  - docs/03-continuity/change-requests/CR-0445-隔离后端Spring测试上下文的H2内存数据库.md
+  source_of_truth:
+  - releases/R16/RELEASE_MANIFEST.yaml
+  - releases/R16/STORIES.yaml
+  code:
+  - scripts/check_db_schema.py
+  - scripts/run_r16_database_invariants.sh
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/admin/R16CommerceAdminController.java
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/realtime/R14WebSocketConfiguration.java
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/R16OrderController.java
+  - services/backend/boot/src/main/resources/db/migration/V046__r16_product_permission_alignment.sql
+  - services/backend/boot/src/main/resources/db/migration/V047__r16_commerce_contract_alignment.sql
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/R16CommerceModuleBoundaryTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/R16CommerceControllerContractTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/realtime/R14WebSocketConfigurationTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/commerce/R16CommercePostgresStoreTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/commerce/R16CommerceServiceTest.java
+  - services/backend/boot/src/test/resources/application-test.yml
+  - services/backend/commerce/src/main/java/cc/orbexa/hhy/commerce/R16CommerceContracts.java
+  - services/backend/commerce/src/main/java/cc/orbexa/hhy/commerce/R16CommercePostgresStore.java
+  - services/backend/commerce/src/main/java/cc/orbexa/hhy/commerce/R16CommerceService.java
+  - services/backend/commerce/src/main/java/cc/orbexa/hhy/commerce/R16CommerceStore.java
+  tests:
+  - tests/test_r16_backend_contract.py
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+- APPROVED_CHANGE_REQUEST
+- DATABASE_TEST_EVIDENCE
+- SCHEMA_TRACEABILITY
+change_requests:
+- CR-0442
+- CR-0443
+- CR-0444
+- CR-0445
+scope:
+  allowed_paths:
+  - apps/admin-web/**
+  - services/backend/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - tests/**
+  - docs/**
+  - catalogs/**
+  - releases/**
+  - design/**
+  - scripts/**
+  - CHANGELOG.md
+  approved_exceptions:
+  - database/migrations/V046__r16_product_permission_alignment.sql
+  - services/backend/boot/src/main/resources/db/migration/V046__r16_product_permission_alignment.sql
+  - database/rollback/U046__r16_product_permission_alignment_DEV_ONLY.sql
+  - database/tests/r16_product_permission_alignment.sql
+  - scripts/run_r16_database_invariants.sh
+  - scripts/check_db_schema.py
+  - services/backend/commerce/src/main/java/cc/orbexa/hhy/commerce/R16CommerceContracts.java
+  - services/backend/commerce/src/main/java/cc/orbexa/hhy/commerce/R16CommerceStore.java
+  - services/backend/commerce/src/main/java/cc/orbexa/hhy/commerce/R16CommercePostgresStore.java
+  - services/backend/commerce/src/main/java/cc/orbexa/hhy/commerce/R16CommerceService.java
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/R16OrderController.java
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/admin/R16CommerceAdminController.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/commerce/R16CommerceServiceTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/commerce/R16CommercePostgresStoreTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/R16CommerceControllerContractTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/R16CommerceModuleBoundaryTest.java
+  - tests/test_r16_backend_contract.py
+  - releases/R16/TASKS.yaml
+  - releases/R16/STORIES.yaml
+  - releases/R16/RELEASE_MANIFEST.yaml
+  - artifacts/reports/R16/TASK-R16-003-backend.md
+  - CHANGELOG.md
+  - database/migrations/V047__r16_commerce_contract_alignment.sql
+  - services/backend/boot/src/main/resources/db/migration/V047__r16_commerce_contract_alignment.sql
+  - database/rollback/U047__r16_commerce_contract_alignment_DEV_ONLY.sql
+  - database/tests/r16_commerce_contract_alignment.sql
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/realtime/R14WebSocketConfiguration.java
+  - services/backend/boot/src/test/resources/application-test.yml
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/realtime/R14WebSocketConfigurationTest.java
+  source: story+explicit+approved-cr:CR-0442+approved-cr:CR-0443+approved-cr:CR-0444+approved-cr:CR-0445
+parallel_execution:
+  assessment: DELEGATED
+  delegated_workers: 1
+  workers:
+  - worker_id: r14_scope_review
+    responsibility: 独立审查CR-0444与CR-0445
+    allowed_paths:
+    - .continuity/change_requests/CR-0444.yaml
+    - .continuity/change_requests/CR-0445.yaml
+  reason: ''
+event_hash: a34c1893b3cefb6384d5a0204fee4637a22c91a0e31efb826ceab4ea9a015cd6
