@@ -1,7 +1,7 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-28T17:50:35Z
-- Context Hash：`1d8378dec3886e19b12be997bf26676769556db440ae404c06be52bf1ee2bf7c`
+- 生成时间：2026-07-28T17:56:05Z
+- Context Hash：`fe7adea32316bdb382266bf88d7e65f4cecb9f9e75e57a7b1ff1afb6cd5e1466`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 规则就绪：`PASS`（`HASHED_CONTEXT_MANIFEST`）
@@ -183,7 +183,7 @@ blocked_tasks:
 - TASK-R16-007
 - TASK-R16-008
 next_task: TASK-R14-004
-updated_at: '2026-07-28T17:50:29Z'
+updated_at: '2026-07-28T17:56:00Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -218,15 +218,15 @@ continuity:
   active_session_id: SES-20260728T154000Z-0458A14C
   actor_id: codex-r14-continuation-20260728
   story_id: STORY-R14-004
-  lease_expires_at: '2026-07-28T21:50:29Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260728T154000Z-0458A14C/0010.yaml
-  project_fingerprint: 8a2445e367160d3cd0da805dd0c0b3d6e937932073933d78e10e992fcb34e245
+  lease_expires_at: '2026-07-28T21:56:00Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260728T154000Z-0458A14C/0011.yaml
+  project_fingerprint: 51765b90db29ba5eeefbc06582a4e4d9bd0df5ee9b4e057f4df1b66de18bc740
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: c6c72d6ab28691976409c8712e8fa1818418f5cd8cc76bcc810090a7606c2358
-    generated_at: '2026-07-28T17:48:47Z'
+    context_hash: 1d8378dec3886e19b12be997bf26676769556db440ae404c06be52bf1ee2bf7c
+    generated_at: '2026-07-28T17:50:35Z'
   handoff_bundle: null
 ```
 
@@ -429,7 +429,7 @@ task_id: TASK-R14-004
 story_id: STORY-R14-004
 goal: 恢复并完成R14全部剩余任务、真实交互候选、APK与测试文档，再顺序进入R15
 started_at: '2026-07-28T15:53:44Z'
-updated_at: '2026-07-28T17:50:29Z'
+updated_at: '2026-07-28T17:56:00Z'
 takeover_of: SES-20260728T125934Z-F3DED330
 change_requests:
 - CR-0458
@@ -515,12 +515,12 @@ git:
   initial_worktree_state: DIRTY_TAKEOVER
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-28T17:50:29Z'
-  expires_at: '2026-07-28T21:50:29Z'
-checkpoint_sequence: 10
-latest_checkpoint: .continuity/checkpoints/SES-20260728T154000Z-0458A14C/0010.yaml
+  renewed_at: '2026-07-28T17:56:00Z'
+  expires_at: '2026-07-28T21:56:00Z'
+checkpoint_sequence: 11
+latest_checkpoint: .continuity/checkpoints/SES-20260728T154000Z-0458A14C/0011.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260728T154000Z-0458A14C.md
-next_step: 提交精确快照并在obx-test运行R14后端与Android模块测试，失败则最小修复，禁止进入R15/R16
+next_step: 提交导入修复并在obx-test使用无BOM且pipefail生效的命令重跑同一后端测试，禁止进入R15/R16
 context_pack: THIS_CONTEXT_PACK
 handoff_bundle: null
 closure: null
@@ -528,86 +528,42 @@ parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: CR-0464是同一OpenAPI事实源与两端生成物的原子实现，拆分会造成中间合同漂移
+  reason: 单行测试导入修复与同一失败证据直接绑定，不可拆分
 ```
 
 ## 最新检查点
 
 ```yaml
 protocol_version: '1.0'
-checkpoint_id: CP-SES-20260728T154000Z-0458A14C-0010
+checkpoint_id: CP-SES-20260728T154000Z-0458A14C-0011
 session_id: SES-20260728T154000Z-0458A14C
 task_id: TASK-R14-004
 story_id: STORY-R14-004
-sequence: 10
-created_at: '2026-07-28T17:50:28Z'
-summary: CR-0464已完成OpenAPI单源举报原因目录、两端生成校验并补齐用户可见变更日志
-next_step: 提交精确快照并在obx-test运行R14后端与Android模块测试，失败则最小修复，禁止进入R15/R16
+sequence: 11
+created_at: '2026-07-28T17:55:59Z'
+summary: CR-0464后端首轮专项测试发现并修复R14ServiceTest缺少Mockito anyList静态导入
+next_step: 提交导入修复并在obx-test使用无BOM且pipefail生效的命令重跑同一后端测试，禁止进入R15/R16
 blockers: []
 decisions: []
 note: ''
 tests:
-- name: r14-report-catalog-unittest
-  result: PASS
-  evidence: tests/test_r14_chat_report_reason_catalog.py
-  note: 5 tests passed
-- name: generated-assets
-  result: PASS
-  evidence: scripts/check_generated_assets.py
-  note: all generated assets verified
-- name: contract-registry
-  result: PASS
-  evidence: scripts/generate_contracts.py --check
-  note: 0 stale rows
-- name: cloud-android-preflight
-  result: PASS
-  evidence: scripts/verify_cloud_environment.py --check-android
-  note: fixed toolchain available
+- name: backend-r14-cr0464-first
+  result: FAIL
+  evidence: obx-test:/tmp/hhy-r14-cr0464.uYazHb/backend-cr0464.log
+  note: 'testCompile 4 errors: missing anyList import; code fix applied'
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: 4517a36a0a75d925ad8181b5f51479b2212a6f78
+  head: 088c96d059d49183888998f77f487ac4f4bac13d
   upstream: origin/task/TASK-R03-001
   ahead: 0
   behind: 0
   dirty: true
   status_porcelain:
-  - M  .continuity/ACTIVE_SESSION.yaml
-  - M  .continuity/CHANGE_REQUEST_INDEX.yaml
-  - M  .continuity/EVENT_LOG.jsonl
-  - M  .continuity/SESSION_INDEX.yaml
-  - M  .continuity/STATE.yaml
-  - A  .continuity/change_requests/CR-0464.yaml
-  - A  .continuity/checkpoints/SES-20260728T154000Z-0458A14C/0009.yaml
-  - M  .continuity/sessions/SES-20260728T154000Z-0458A14C.yaml
-  - ' M CHANGELOG.md'
-  - M  CURRENT_STATUS.yaml
-  - M  apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ContractR14ApiTest.kt
-  - M  apps/android/feature/chat/src/androidTest/java/cc/orbexa/hhy/chat/R14ChatSurfacesTest.kt
-  - M  apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ChatDetailScreen.kt
-  - A  apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ChatReportReasons.kt
-  - A  apps/android/feature/chat/src/test/java/cc/orbexa/hhy/chat/R14ChatReportReasonsTest.kt
-  - M  artifacts/context/CURRENT_CONTEXT_PACK.md
-  - M  artifacts/context/CURRENT_CONTEXT_PACK.yaml
-  - M  artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  - M  catalogs/change_request_index.csv
-  - M  catalogs/session_index.csv
-  - M  contracts/contract_status.csv
-  - M  contracts/openapi.yaml
-  - M  docs/00-baseline/SOURCE_OF_TRUTH.md
-  - A  docs/03-continuity/change-requests/CR-0464-冻结R14聊天举报原因目录并贯通客户端后端校验.md
-  - M  docs/03-continuity/sessions/2026-07/SES-20260728T154000Z-0458A14C.md
-  - M  packages/api-client/src/client.generated.ts
-  - M  scripts/check_generated_assets.py
-  - A  scripts/generate_chat_report_reason_catalog.py
-  - M  scripts/generate_contracts.py
-  - M  services/backend/boot/src/main/resources/contracts/openapi.yaml
-  - M  services/backend/boot/src/test/java/cc/orbexa/hhy/content/R14PostgresStoreTest.java
-  - M  services/backend/boot/src/test/java/cc/orbexa/hhy/content/R14ServiceTest.java
-  - A  services/backend/content/src/main/java/cc/orbexa/hhy/content/R14ChatReportReasonCatalog.java
-  - M  services/backend/content/src/main/java/cc/orbexa/hhy/content/R14Service.java
-  - A  tests/test_r14_chat_report_reason_catalog.py
+  - ' M services/backend/boot/src/test/java/cc/orbexa/hhy/content/R14ServiceTest.java'
   recent_commits:
+  - "088c96d059d49183888998f77f487ac4f4bac13d\t2026-07-29T01:50:50+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] feat(r14): freeze chat report\
+    \ reason catalog"
   - "4517a36a0a75d925ad8181b5f51479b2212a6f78\t2026-07-29T01:15:01+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(continuity): record\
     \ anti-drift GitHub verification"
   - "d0daa039d5632cdaee73a61c3ad18ac67ead3af9\t2026-07-29T00:58:45+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(continuity): record\
@@ -622,10 +578,8 @@ git:
     \ implementation evidence"
   - "311e94a740a6babc6bbcfc9d77f11495f2245ab7\t2026-07-29T00:12:35+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] feat(continuity): add atomic\
     \ sequential release recovery"
-  - "c47d19064bec57bd751f1cfa06a0fa7a75844790\t2026-07-28T23:27:16+08:00\tHHY Continuity Bootstrap\t[STORY-R16-002] fix(continuity): enforce sequential\
-    \ major release machine closure"
 project_fingerprint:
-  sha256: 8a2445e367160d3cd0da805dd0c0b3d6e937932073933d78e10e992fcb34e245
+  sha256: 51765b90db29ba5eeefbc06582a4e4d9bd0df5ee9b4e057f4df1b66de18bc740
   files:
   - CHANGELOG.md
   - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ContractR14ApiTest.kt
@@ -786,8 +740,8 @@ project_fingerprint:
       sha256: 326661621db69d06a3134847b4051c269e685f7cf353c02adaf16193e5b69bed
     - path: services/backend/boot/src/test/java/cc/orbexa/hhy/content/R14ServiceTest.java
       state: FILE
-      size: 16122
-      sha256: cc6485ddb79e3b0ec0261b153284da8b07b7f4de83b3bd00358b0fe6649a099c
+      size: 16174
+      sha256: 584181e04a5456caa78bd0648b90fa61dd9f8d37595393220c42115d96403a49
     - path: services/backend/content/src/main/java/cc/orbexa/hhy/content/R14ChatReportReasonCatalog.java
       state: FILE
       size: 931
@@ -959,8 +913,8 @@ parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: CR-0464是同一OpenAPI事实源与两端生成物的原子实现，拆分会造成中间合同漂移
-event_hash: c7acd498c38f6e5ae575eb6bab33082b92485bacd8512d10f00de82272009adf
+  reason: 单行测试导入修复与同一失败证据直接绑定，不可拆分
+event_hash: e6b27504e5df5d31e27ff7c7d90a24d0575ce44b48e4f5ed089cd2cbe0f42334
 ```
 
 ## 接续状态与事件头
@@ -972,8 +926,8 @@ active_session_id: SES-20260728T154000Z-0458A14C
 last_session_id: SES-20260728T125934Z-F3DED330
 last_session_result: SEQUENCE_RECOVERED
 last_closure_checkpoint_id: CP-SES-20260728T102501Z-3189682B-0007
-event_count: 4393
-event_head_hash: c7acd498c38f6e5ae575eb6bab33082b92485bacd8512d10f00de82272009adf
+event_count: 4394
+event_head_hash: e6b27504e5df5d31e27ff7c7d90a24d0575ce44b48e4f5ed089cd2cbe0f42334
 event_chain_valid: true
 ```
 
@@ -1096,9 +1050,9 @@ recent_sessions: - session_id: SES-20260727T163211Z-EDFF7E87
   started_at: '2026-07-28T15:53:44Z'
   record: .continuity/sessions/SES-20260728T154000Z-0458A14C.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260728T154000Z-0458A14C.md
-  updated_at: '2026-07-28T17:50:29Z'
+  updated_at: '2026-07-28T17:56:00Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260728T154000Z-0458A14C/0010.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260728T154000Z-0458A14C/0011.yaml
   handoff_bundle: null
 task_claims: - claim_id: CLM-B1FA5D5F6CC0
   session_id: SES-20260725T180922Z-D7231210
@@ -2032,49 +1986,25 @@ recent_task_transitions: - transition_id: TRN-B419231C23E8
 ```yaml
 initialized: true
 branch: task/TASK-R03-001
-head: 4517a36a0a75d925ad8181b5f51479b2212a6f78
+head: 088c96d059d49183888998f77f487ac4f4bac13d
 upstream: origin/task/TASK-R03-001
 ahead: 0
 behind: 0
 dirty: true
 status_porcelain:
-- MM .continuity/ACTIVE_SESSION.yaml
-- M  .continuity/CHANGE_REQUEST_INDEX.yaml
-- MM .continuity/EVENT_LOG.jsonl
-- MM .continuity/SESSION_INDEX.yaml
-- MM .continuity/STATE.yaml
-- A  .continuity/change_requests/CR-0464.yaml
-- A  .continuity/checkpoints/SES-20260728T154000Z-0458A14C/0009.yaml
-- MM .continuity/sessions/SES-20260728T154000Z-0458A14C.yaml
-- ' M CHANGELOG.md'
-- MM CURRENT_STATUS.yaml
-- M  apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ContractR14ApiTest.kt
-- M  apps/android/feature/chat/src/androidTest/java/cc/orbexa/hhy/chat/R14ChatSurfacesTest.kt
-- M  apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ChatDetailScreen.kt
-- A  apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ChatReportReasons.kt
-- A  apps/android/feature/chat/src/test/java/cc/orbexa/hhy/chat/R14ChatReportReasonsTest.kt
-- M  artifacts/context/CURRENT_CONTEXT_PACK.md
-- M  artifacts/context/CURRENT_CONTEXT_PACK.yaml
-- M  artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-- M  catalogs/change_request_index.csv
-- MM catalogs/session_index.csv
-- M  contracts/contract_status.csv
-- M  contracts/openapi.yaml
-- M  docs/00-baseline/SOURCE_OF_TRUTH.md
-- A  docs/03-continuity/change-requests/CR-0464-冻结R14聊天举报原因目录并贯通客户端后端校验.md
-- MM docs/03-continuity/sessions/2026-07/SES-20260728T154000Z-0458A14C.md
-- M  packages/api-client/src/client.generated.ts
-- M  scripts/check_generated_assets.py
-- A  scripts/generate_chat_report_reason_catalog.py
-- M  scripts/generate_contracts.py
-- M  services/backend/boot/src/main/resources/contracts/openapi.yaml
-- M  services/backend/boot/src/test/java/cc/orbexa/hhy/content/R14PostgresStoreTest.java
-- M  services/backend/boot/src/test/java/cc/orbexa/hhy/content/R14ServiceTest.java
-- A  services/backend/content/src/main/java/cc/orbexa/hhy/content/R14ChatReportReasonCatalog.java
-- M  services/backend/content/src/main/java/cc/orbexa/hhy/content/R14Service.java
-- A  tests/test_r14_chat_report_reason_catalog.py
-- ?? .continuity/checkpoints/SES-20260728T154000Z-0458A14C/0010.yaml
+- ' M .continuity/ACTIVE_SESSION.yaml'
+- ' M .continuity/EVENT_LOG.jsonl'
+- ' M .continuity/SESSION_INDEX.yaml'
+- ' M .continuity/STATE.yaml'
+- ' M .continuity/sessions/SES-20260728T154000Z-0458A14C.yaml'
+- ' M CURRENT_STATUS.yaml'
+- ' M catalogs/session_index.csv'
+- ' M docs/03-continuity/sessions/2026-07/SES-20260728T154000Z-0458A14C.md'
+- ' M services/backend/boot/src/test/java/cc/orbexa/hhy/content/R14ServiceTest.java'
+- ?? .continuity/checkpoints/SES-20260728T154000Z-0458A14C/0011.yaml
 recent_commits:
+- "088c96d059d49183888998f77f487ac4f4bac13d\t2026-07-29T01:50:50+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] feat(r14): freeze chat report\
+  \ reason catalog"
 - "4517a36a0a75d925ad8181b5f51479b2212a6f78\t2026-07-29T01:15:01+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(continuity): record anti-drift\
   \ GitHub verification"
 - "d0daa039d5632cdaee73a61c3ad18ac67ead3af9\t2026-07-29T00:58:45+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(continuity): record historical\
@@ -2089,13 +2019,11 @@ recent_commits:
   \ implementation evidence"
 - "311e94a740a6babc6bbcfc9d77f11495f2245ab7\t2026-07-29T00:12:35+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] feat(continuity): add atomic\
   \ sequential release recovery"
-- "c47d19064bec57bd751f1cfa06a0fa7a75844790\t2026-07-28T23:27:16+08:00\tHHY Continuity Bootstrap\t[STORY-R16-002] fix(continuity): enforce sequential\
-  \ major release machine closure"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`8a2445e367160d3cd0da805dd0c0b3d6e937932073933d78e10e992fcb34e245`
+- 指纹：`51765b90db29ba5eeefbc06582a4e4d9bd0df5ee9b4e057f4df1b66de18bc740`
 - 文件数：37
 
 - `CHANGELOG.md`
@@ -15378,7 +15306,7 @@ PARALLEL_EXECUTION_PLAN.yaml:
 
 - `AGENTS.md` — `bde93afcdb788b601aeffcf2369a1aeda8eeb391f165429d501d7ba8895ba4a6`
 - `START_HERE.md` — `22de14029ce47beb41ea569e36ce223fbc9d11b86f8676f28d5fbbd83896af5c`
-- `CURRENT_STATUS.yaml` — `6fe9289e51579a5f3f71768ab04cb901353e51ea258da4ab85cae9d3ae58bbd7`
+- `CURRENT_STATUS.yaml` — `532b76408f3eccad5432b200bbf5348abdb039d848e671a4a5edf6d0e09b5626`
 - `NEXT_TASK.yaml` — `83620cf8bc2f10f75ef20b3af2c126a60697347cb6354e741ca2fc9b50a8ade4`
 - `DEVELOPMENT_RISK_REGISTER.md` — `8304c91492e4ee2abea0522a06541c8688d39c7fc532b5d0cde499bf09fffb87`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `5213b166f464a4415abe064e0ebcd99da8f1f8d23569b49ae4e9787007e83314`
@@ -15389,12 +15317,12 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `config/REPOSITORY_TRANSPORT.yaml` — `8c4a21f3e204d46e7ffb467d804a53ed26cda61cd088dadfddb50b69eea657fc`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `38e04ed812c8df0d353c2b91993d31e53b471e9c457f06b426bd2260c470aa92`
-- `.continuity/EVENT_LOG.jsonl` — `c1c8341da6ac8e6000b1e9aa780ba2c0ed4eab73d873affaab2f9bfebece52a0`
-- `.continuity/SESSION_INDEX.yaml` — `71df9d51721fbdc3c81ad4d3580b4e62a3e7f9b95c28a7b7d97c1f890e8f7632`
+- `.continuity/EVENT_LOG.jsonl` — `67aa98e8bcc60c4b915c70ad1be1b12403abf5393c4bc24f6af5b212db2da754`
+- `.continuity/SESSION_INDEX.yaml` — `83ec22103df42bf24e29f615fda1944d078f83301d3cb5dc7821e94edd280050`
 - `.continuity/TASK_CLAIMS.yaml` — `722f3826286f2f3ce0f91a3d2c37fcab780e5bd204de6a85f143aa0b0773a668`
 - `.continuity/TASK_TRANSITIONS.yaml` — `8ba3f9d39e2cfe0b504b19cbe7e905b2b50512f58b858a23534732a5de72b20b`
 - `.continuity/CHANGE_REQUEST_INDEX.yaml` — `292fd4c402c8da3ca448781953f14fae7f69f1cf0c5a728e234891fdd80b63ff`
-- `.continuity/ACTIVE_SESSION.yaml` — `a4f5a07797f38846ad98b18cabee431e6057438d9777404c1163ebdf03ec4570`
+- `.continuity/ACTIVE_SESSION.yaml` — `d1f3bc4582d526e7c60772a17fa5aa15d2053ef41caa3359a45bbdada687816a`
 - `docs/00-baseline/正式商业系统全局硬性开发边界.md` — `30c07716c31d6d09621b6f6d119063b1fcb35e78d9b266423ed333d92b8262db`
 - `docs/02-ui/UI参考图使用与开发约束_V1.2.2.md` — `d14367586aa2067b059df58798acd20ab982459cdb35ff27fc7922a3896e4933`
 - `docs/03-continuity/持续开发无状态接续强制门禁_V1.2.3.md` — `d0ed3ed68bdd93b06500eecdfb5baa3245e6ca8b685a486788abb6eee39b3d51`
@@ -15405,8 +15333,8 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `releases/R14/TASKS.yaml` — `3c22aabda13f389c3b7b63b9d462ea7721fae78e166d8f878cf6ced8173ea69c`
 - `releases/R14/ACCEPTANCE_MATRIX.csv` — `ffc0fd23b945544de8fe2a37774a94675c0d60b73d88517abe69c68d326ad6f4`
 - `releases/R14/PARALLEL_EXECUTION_PLAN.yaml` — `cd1f0c96ffd7562acb214edba80a2bbb12b79f06c19032d1b133936ff6abd74f`
-- `docs/03-continuity/sessions/2026-07/SES-20260728T154000Z-0458A14C.md` — `ec29c1b6aab65bd505e70c60406aeb45338befefee6377e47e13b9b302921245`
-- `.continuity/checkpoints/SES-20260728T154000Z-0458A14C/0010.yaml` — `59e282f7d1ef9df8c0af81a24429f6a03abf6383f4bdc71b44ae97dc92fb193a`
+- `docs/03-continuity/sessions/2026-07/SES-20260728T154000Z-0458A14C.md` — `d63b0d4355468066a5aa147096cf551ffab6e12bd699b1bfe9847e75e6bced3a`
+- `.continuity/checkpoints/SES-20260728T154000Z-0458A14C/0011.yaml` — `8ebbf9334711719562e8c1459cd2ed01c174706dc493cae565ab4d47398e7d5b`
 - `docs/03-continuity/change-requests/CR-0458-替代CR-0457原子恢复跨序状态并锁定R16代码证据.md` — `b0424db452ec82579f19113264010967e3cd49912fb447c05566727df5ee98e9`
 - `docs/03-continuity/change-requests/CR-0459-刷新CR-0458连续性原子恢复后的重建证据.md` — `113ef3a145bba8622e7e11066381bcac95c57d644b0de59f468be2edb3bf5cf1`
 - `docs/03-continuity/change-requests/CR-0460-替代CR-0459无副作用刷新连续性重建证据.md` — `852b16f8cd911cd3a5e63e888d176fda07bc2996906002d626553c5ead95ec2f`

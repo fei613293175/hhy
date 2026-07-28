@@ -11,7 +11,7 @@ task_id: TASK-R14-004
 story_id: STORY-R14-004
 goal: 恢复并完成R14全部剩余任务、真实交互候选、APK与测试文档，再顺序进入R15
 started_at: '2026-07-28T15:53:44Z'
-updated_at: '2026-07-28T17:50:40Z'
+updated_at: '2026-07-28T17:56:08Z'
 takeover_of: SES-20260728T125934Z-F3DED330
 change_requests:
 - CR-0458
@@ -97,22 +97,22 @@ git:
   initial_worktree_state: DIRTY_TAKEOVER
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-28T17:50:29Z'
-  expires_at: '2026-07-28T21:50:29Z'
-checkpoint_sequence: 10
-latest_checkpoint: .continuity/checkpoints/SES-20260728T154000Z-0458A14C/0010.yaml
+  renewed_at: '2026-07-28T17:56:00Z'
+  expires_at: '2026-07-28T21:56:00Z'
+checkpoint_sequence: 11
+latest_checkpoint: .continuity/checkpoints/SES-20260728T154000Z-0458A14C/0011.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260728T154000Z-0458A14C.md
-next_step: 提交精确快照并在obx-test运行R14后端与Android模块测试，失败则最小修复，禁止进入R15/R16
+next_step: 提交导入修复并在obx-test使用无BOM且pipefail生效的命令重跑同一后端测试，禁止进入R15/R16
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: 1d8378dec3886e19b12be997bf26676769556db440ae404c06be52bf1ee2bf7c
-  generated_at: '2026-07-28T17:50:35Z'
+  context_hash: fe7adea32316bdb382266bf88d7e65f4cecb9f9e75e57a7b1ff1afb6cd5e1466
+  generated_at: '2026-07-28T17:56:05Z'
 handoff_bundle: null
 closure: null
 parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: CR-0464是同一OpenAPI事实源与两端生成物的原子实现，拆分会造成中间合同漂移
+  reason: 单行测试导入修复与同一失败证据直接绑定，不可拆分
