@@ -1,7 +1,7 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-28T07:27:10Z
-- Context Hash：`900b195bf1288e62ca06a11730b80220f842690b2af717734893f62acfec5c51`
+- 生成时间：2026-07-28T07:40:12Z
+- Context Hash：`cce8fb1dcae06a6e4f54d21e7b56ef6c71fcb6279303cc66dd49cded832e7333`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 规则就绪：`PASS`（`HASHED_CONTEXT_MANIFEST`）
@@ -177,7 +177,7 @@ blocked_tasks:
 - TASK-R07-008
 - TASK-R13-008
 next_task: TASK-R14-004
-updated_at: '2026-07-28T07:27:05Z'
+updated_at: '2026-07-28T07:40:07Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -212,15 +212,15 @@ continuity:
   active_session_id: SES-20260727T221444Z-FD353AD3
   actor_id: codex-root-r14-client-20260728
   story_id: STORY-R14-004
-  lease_expires_at: '2026-07-28T11:27:05Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260727T221444Z-FD353AD3/0028.yaml
-  project_fingerprint: 06cdfa3fa112fd9cd16c168f1287c459b9933a5b9f424e3498c186ee7392f367
+  lease_expires_at: '2026-07-28T11:40:07Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260727T221444Z-FD353AD3/0029.yaml
+  project_fingerprint: 8e873bcc999b93e2bc41228377bdd194d66de6575d236205501fc130275705e0
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: 8a0e69f9608378d102087f20540da3adb4fa9103d4783c16e2310a5e3ad164e8
-    generated_at: '2026-07-28T07:26:07Z'
+    context_hash: 900b195bf1288e62ca06a11730b80220f842690b2af717734893f62acfec5c51
+    generated_at: '2026-07-28T07:27:10Z'
   handoff_bundle: null
 ```
 
@@ -422,7 +422,7 @@ task_id: TASK-R14-004
 story_id: STORY-R14-004
 goal: 逐项审计R14六个交互面、九接口、状态错误恢复、测试和追踪证据，补齐不依赖举报原因目录的客户端与治理缺口；保持PROB-0135开放且不提前关闭TASK
 started_at: '2026-07-27T22:14:44Z'
-updated_at: '2026-07-28T07:27:05Z'
+updated_at: '2026-07-28T07:40:07Z'
 takeover_of: null
 change_requests:
 - CR-0422
@@ -439,6 +439,7 @@ change_requests:
 - CR-0433
 - CR-0434
 - CR-0435
+- CR-0436
 scope:
   allowed_paths:
   - apps/**
@@ -595,7 +596,7 @@ scope:
   - artifacts/reports/R14/TASK-R14-006-staging.md
   - artifacts/reports/R14/TASK-R14-007-android-apk.md
   - artifacts/reports/R14/R14-version-test-guide.md
-  source: story-switch+explicit+approved-cr:CR-0428+approved-cr:CR-0429+approved-cr:CR-0430+approved-cr:CR-0431+approved-cr:CR-0432+approved-cr:CR-0433+approved-cr:CR-0435
+  source: story-switch+explicit+approved-cr:CR-0428+approved-cr:CR-0429+approved-cr:CR-0430+approved-cr:CR-0431+approved-cr:CR-0432+approved-cr:CR-0433+approved-cr:CR-0435+approved-cr:CR-0436
 git:
   initialized: true
   branch: task/TASK-R03-001
@@ -605,12 +606,12 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-28T07:27:05Z'
-  expires_at: '2026-07-28T11:27:05Z'
-checkpoint_sequence: 28
-latest_checkpoint: .continuity/checkpoints/SES-20260727T221444Z-FD353AD3/0028.yaml
+  renewed_at: '2026-07-28T07:40:07Z'
+  expires_at: '2026-07-28T11:40:07Z'
+checkpoint_sequence: 29
+latest_checkpoint: .continuity/checkpoints/SES-20260727T221444Z-FD353AD3/0029.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260727T221444Z-FD353AD3.md
-next_step: 提交并推送R14 Staging实现Commit，在obx-test执行隔离现场验收。
+next_step: 提交推送网段修正，以新冻结Commit从空hhy-r14-staging项目完整重跑。
 context_pack: THIS_CONTEXT_PACK
 handoff_bundle: null
 closure: null
@@ -618,7 +619,7 @@ parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 冻结Commit、服务器镜像构建、数据库现场验收、证据回传和APK构建存在严格顺序依赖。
+  reason: 网段修正必须提交形成新冻结Commit后才能重跑镜像和现场证据。
 story_history:
 - story_id: STORY-R14-001
   completed_at: '2026-07-27T23:25:19Z'
@@ -641,70 +642,49 @@ story_history:
 
 ```yaml
 protocol_version: '1.0'
-checkpoint_id: CP-SES-20260727T221444Z-FD353AD3-0028
+checkpoint_id: CP-SES-20260727T221444Z-FD353AD3-0029
 session_id: SES-20260727T221444Z-FD353AD3
 task_id: TASK-R14-004
 story_id: STORY-R14-004
-sequence: 28
-created_at: '2026-07-28T07:27:05Z'
-summary: 补齐R14隔离Staging、八项实时观测、versionCode 10223与精确治理作用域的用户可见变更日志。
-next_step: 提交并推送R14 Staging实现Commit，在obx-test执行隔离现场验收。
+sequence: 29
+created_at: '2026-07-28T07:40:06Z'
+summary: CR-0436已独立批准并实施：R14独占网段从被旧R12占用的172.31.240.0/24修正为现场未占用的172.31.238.0/24；不删除或修改任何旧版本资源。
+next_step: 提交推送网段修正，以新冻结Commit从空hhy-r14-staging项目完整重跑。
 blockers: []
 decisions: []
 note: ''
 tests:
-- name: backend-observability
+- name: first-staging-attempt
+  result: FAIL
+  evidence: Docker Pool overlaps before R14 network creation
+  note: safe failure created no R14 containers or volumes and led to CR-0436
+- name: r14-network-static
   result: PASS
-  evidence: BusinessGaugeBinderTest 2 tests and ObservabilityEndpointsTest 4 tests
-  note: fixed Java 21 Maven image on obx-test
-- name: staging-static
-  result: PASS
-  evidence: bash -n and docker compose config
-  note: isolated hhy-r14-staging static validation
-- name: diff-check
-  result: PASS
-  evidence: git diff --check
-  note: no whitespace errors
+  evidence: bash -n, compose config, and live subnet availability
+  note: 172.31.238.0/24 unused at validation time
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: f4b7d4854e10dedd40d4b40cdb2d79e57687e9b7
+  head: 4fd4c6193fe53dde4a6c3f2b30b06511c4d04f71
   upstream: origin/task/TASK-R03-001
   ahead: 0
   behind: 0
   dirty: true
   status_porcelain:
-  - M  .continuity/ACTIVE_SESSION.yaml
-  - M  .continuity/CHANGE_REQUEST_INDEX.yaml
-  - M  .continuity/EVENT_LOG.jsonl
-  - M  .continuity/SESSION_INDEX.yaml
-  - M  .continuity/STATE.yaml
-  - A  .continuity/change_requests/CR-0434.yaml
-  - A  .continuity/change_requests/CR-0435.yaml
-  - A  .continuity/checkpoints/SES-20260727T221444Z-FD353AD3/0026.yaml
-  - A  .continuity/checkpoints/SES-20260727T221444Z-FD353AD3/0027.yaml
-  - M  .continuity/sessions/SES-20260727T221444Z-FD353AD3.yaml
+  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/sessions/SES-20260727T221444Z-FD353AD3.yaml'
   - ' M CHANGELOG.md'
-  - M  CURRENT_STATUS.yaml
-  - M  apps/android/app/build.gradle.kts
-  - M  artifacts/context/CURRENT_CONTEXT_PACK.md
-  - M  artifacts/context/CURRENT_CONTEXT_PACK.yaml
-  - M  artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  - M  catalogs/change_request_index.csv
-  - M  catalogs/session_index.csv
-  - A  docs/03-continuity/change-requests/CR-0434-交付R14可执行Staging候选与稳定签名TEST_APK.md
-  - A  docs/03-continuity/change-requests/CR-0435-修正CR-0434为可执行精确文件作用域.md
-  - M  docs/03-continuity/sessions/2026-07/SES-20260727T221444Z-FD353AD3.md
-  - A  infra/staging/r14-smoke/alertmanager.yml
-  - A  infra/staging/r14-smoke/docker-compose.yml
-  - A  infra/staging/r14-smoke/nginx.conf
-  - A  infra/staging/r14-smoke/prometheus.yml
-  - A  infra/staging/r14-smoke/r14-alerts.yml
-  - A  scripts/run_r14_staging_acceptance.sh
-  - M  services/backend/boot/src/main/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinder.java
-  - M  services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinderTest.java
-  - M  services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/ObservabilityEndpointsTest.java
+  - ' M catalogs/change_request_index.csv'
+  - ' M catalogs/session_index.csv'
+  - ' M infra/staging/r14-smoke/docker-compose.yml'
+  - ' M scripts/run_r14_staging_acceptance.sh'
+  - ?? .continuity/change_requests/CR-0436.yaml
+  - ?? docs/03-continuity/change-requests/CR-0436-修正R14隔离Staging网段冲突.md
   recent_commits:
+  - "4fd4c6193fe53dde4a6c3f2b30b06511c4d04f71\t2026-07-28T15:27:16+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] feat(staging): add isolated\
+    \ realtime acceptance"
   - "f4b7d4854e10dedd40d4b40cdb2d79e57687e9b7\t2026-07-28T14:44:32+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(governance): bind realtime\
     \ implementation"
   - "7ce3c2169925fef717c051e16e09f556ce619aa6\t2026-07-28T14:42:01+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] feat(realtime): implement\
@@ -719,10 +699,8 @@ git:
     \ evidence contract"
   - "7de3c74d383276637e2c80df601757dfacfaec5a\t2026-07-28T10:26:12+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] docs(audit): record report\
     \ client gaps"
-  - "1c161db823136acf33a9f43c3e2c39f7d7cda6b0\t2026-07-28T10:20:57+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(continuity): audit client\
-    \ contracts"
 project_fingerprint:
-  sha256: 06cdfa3fa112fd9cd16c168f1287c459b9933a5b9f424e3498c186ee7392f367
+  sha256: 8e873bcc999b93e2bc41228377bdd194d66de6575d236205501fc130275705e0
   files:
   - CHANGELOG.md
   - PROJECT_BASELINE.json
@@ -786,6 +764,7 @@ project_fingerprint:
   - docs/03-continuity/change-requests/CR-0433-同步R14变更后的全版本确定性执行计划.md
   - docs/03-continuity/change-requests/CR-0434-交付R14可执行Staging候选与稳定签名TEST_APK.md
   - docs/03-continuity/change-requests/CR-0435-修正CR-0434为可执行精确文件作用域.md
+  - docs/03-continuity/change-requests/CR-0436-修正R14隔离Staging网段冲突.md
   - infra/nginx/ws.orbexa.cc.conf
   - infra/staging/r14-smoke/alertmanager.yml
   - infra/staging/r14-smoke/docker-compose.yml
@@ -832,14 +811,14 @@ project_fingerprint:
   - tests/test_r14_realtime_migration.py
   - tests/test_r14_realtime_proxy.py
   - tests/test_r14_websocket_contract.py
-  file_count: 108
+  file_count: 109
   payload:
     base_commit: 2c39d9cd68f2ad48808c1bb99c467aab689e7adc
     files:
     - path: CHANGELOG.md
       state: FILE
-      size: 200539
-      sha256: c0cf5829c5ef97a31bbdcc3533cb0fbadaa5fcb438c89c2dbee606a144a607a2
+      size: 200623
+      sha256: 7dcb449d5f537e07ff1a07108f243b1c3ae19a8788fba43c30367e24e1ac3102
     - path: PROJECT_BASELINE.json
       state: FILE
       size: 2201
@@ -1084,6 +1063,10 @@ project_fingerprint:
       state: FILE
       size: 6011
       sha256: 3e80650b445e82ad45ebf87ff8a2869dbd6cd69230912acea31569ccf152c5ca
+    - path: docs/03-continuity/change-requests/CR-0436-修正R14隔离Staging网段冲突.md
+      state: FILE
+      size: 2951
+      sha256: b1cbb33342973aa9bdddd5bdeee03b49fceb5c3c547d6dc269dc19b255532d13
     - path: infra/nginx/ws.orbexa.cc.conf
       state: FILE
       size: 1225
@@ -1095,7 +1078,7 @@ project_fingerprint:
     - path: infra/staging/r14-smoke/docker-compose.yml
       state: FILE
       size: 4463
-      sha256: 46da5bbc5329175bc6e2e8a7b225c8f50545e8574d89fe5fc2e0f5f04d0f0b1f
+      sha256: 3aecc854e4559d4ce44d89d73b3a1f07b08cebdda4c57dd05249b180e471d597
     - path: infra/staging/r14-smoke/nginx.conf
       state: FILE
       size: 952
@@ -1155,7 +1138,7 @@ project_fingerprint:
     - path: scripts/run_r14_staging_acceptance.sh
       state: FILE
       size: 18917
-      sha256: c13e1386dc8994a6cefaa7fdc90c6b99c05d000546c49c8d773c5c2679fb06b9
+      sha256: 5a0669b472eb5def4868acb3dcec0ddb180ce43d0edd96f9e4d0a38082b7b3a0
     - path: services/backend/boot/pom.xml
       state: FILE
       size: 3525
@@ -1413,6 +1396,7 @@ change_classification:
   - docs/03-continuity/change-requests/CR-0433-同步R14变更后的全版本确定性执行计划.md
   - docs/03-continuity/change-requests/CR-0434-交付R14可执行Staging候选与稳定签名TEST_APK.md
   - docs/03-continuity/change-requests/CR-0435-修正CR-0434为可执行精确文件作用域.md
+  - docs/03-continuity/change-requests/CR-0436-修正R14隔离Staging网段冲突.md
   infrastructure:
   - infra/nginx/ws.orbexa.cc.conf
   - infra/staging/r14-smoke/alertmanager.yml
@@ -1452,6 +1436,7 @@ change_requests:
 - CR-0433
 - CR-0434
 - CR-0435
+- CR-0436
 scope:
   allowed_paths:
   - apps/**
@@ -1608,13 +1593,13 @@ scope:
   - artifacts/reports/R14/TASK-R14-006-staging.md
   - artifacts/reports/R14/TASK-R14-007-android-apk.md
   - artifacts/reports/R14/R14-version-test-guide.md
-  source: story-switch+explicit+approved-cr:CR-0428+approved-cr:CR-0429+approved-cr:CR-0430+approved-cr:CR-0431+approved-cr:CR-0432+approved-cr:CR-0433+approved-cr:CR-0435
+  source: story-switch+explicit+approved-cr:CR-0428+approved-cr:CR-0429+approved-cr:CR-0430+approved-cr:CR-0431+approved-cr:CR-0432+approved-cr:CR-0433+approved-cr:CR-0435+approved-cr:CR-0436
 parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 冻结Commit、服务器镜像构建、数据库现场验收、证据回传和APK构建存在严格顺序依赖。
-event_hash: 00ab618123519ae527639d1f54a7db07fc65d2be2bf49189f40380cae777f517
+  reason: 网段修正必须提交形成新冻结Commit后才能重跑镜像和现场证据。
+event_hash: 329a10e223814e666fcd3ad26a084f459e0d17d702f48ffa4c55f890147911f1
 ```
 
 ## 接续状态与事件头
@@ -1626,8 +1611,8 @@ active_session_id: SES-20260727T221444Z-FD353AD3
 last_session_id: SES-20260727T203754Z-DCE3090A
 last_session_result: COMPLETED
 last_closure_checkpoint_id: CP-SES-20260727T203754Z-DCE3090A-0003
-event_count: 4138
-event_head_hash: 00ab618123519ae527639d1f54a7db07fc65d2be2bf49189f40380cae777f517
+event_count: 4144
+event_head_hash: 329a10e223814e666fcd3ad26a084f459e0d17d702f48ffa4c55f890147911f1
 event_chain_valid: true
 ```
 
@@ -1750,9 +1735,9 @@ recent_sessions: - session_id: SES-20260726T123133Z-63E93B88
   started_at: '2026-07-27T22:14:44Z'
   record: .continuity/sessions/SES-20260727T221444Z-FD353AD3.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260727T221444Z-FD353AD3.md
-  updated_at: '2026-07-28T07:27:05Z'
+  updated_at: '2026-07-28T07:40:07Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260727T221444Z-FD353AD3/0028.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260727T221444Z-FD353AD3/0029.yaml
   handoff_bundle: null
 task_claims: - claim_id: CLM-1B86680BE956
   session_id: SES-20260724T195501Z-13F8DFDE
@@ -2731,44 +2716,31 @@ recent_task_transitions: - transition_id: TRN-684AB934BA4C
 ```yaml
 initialized: true
 branch: task/TASK-R03-001
-head: f4b7d4854e10dedd40d4b40cdb2d79e57687e9b7
+head: 4fd4c6193fe53dde4a6c3f2b30b06511c4d04f71
 upstream: origin/task/TASK-R03-001
 ahead: 0
 behind: 0
 dirty: true
 status_porcelain:
-- MM .continuity/ACTIVE_SESSION.yaml
-- M  .continuity/CHANGE_REQUEST_INDEX.yaml
-- MM .continuity/EVENT_LOG.jsonl
-- MM .continuity/SESSION_INDEX.yaml
-- MM .continuity/STATE.yaml
-- A  .continuity/change_requests/CR-0434.yaml
-- A  .continuity/change_requests/CR-0435.yaml
-- A  .continuity/checkpoints/SES-20260727T221444Z-FD353AD3/0026.yaml
-- A  .continuity/checkpoints/SES-20260727T221444Z-FD353AD3/0027.yaml
-- MM .continuity/sessions/SES-20260727T221444Z-FD353AD3.yaml
+- ' M .continuity/ACTIVE_SESSION.yaml'
+- ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
+- ' M .continuity/EVENT_LOG.jsonl'
+- ' M .continuity/SESSION_INDEX.yaml'
+- ' M .continuity/STATE.yaml'
+- ' M .continuity/sessions/SES-20260727T221444Z-FD353AD3.yaml'
 - ' M CHANGELOG.md'
-- MM CURRENT_STATUS.yaml
-- M  apps/android/app/build.gradle.kts
-- M  artifacts/context/CURRENT_CONTEXT_PACK.md
-- M  artifacts/context/CURRENT_CONTEXT_PACK.yaml
-- M  artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-- M  catalogs/change_request_index.csv
-- MM catalogs/session_index.csv
-- A  docs/03-continuity/change-requests/CR-0434-交付R14可执行Staging候选与稳定签名TEST_APK.md
-- A  docs/03-continuity/change-requests/CR-0435-修正CR-0434为可执行精确文件作用域.md
-- MM docs/03-continuity/sessions/2026-07/SES-20260727T221444Z-FD353AD3.md
-- A  infra/staging/r14-smoke/alertmanager.yml
-- A  infra/staging/r14-smoke/docker-compose.yml
-- A  infra/staging/r14-smoke/nginx.conf
-- A  infra/staging/r14-smoke/prometheus.yml
-- A  infra/staging/r14-smoke/r14-alerts.yml
-- A  scripts/run_r14_staging_acceptance.sh
-- M  services/backend/boot/src/main/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinder.java
-- M  services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinderTest.java
-- M  services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/ObservabilityEndpointsTest.java
-- ?? .continuity/checkpoints/SES-20260727T221444Z-FD353AD3/0028.yaml
+- ' M CURRENT_STATUS.yaml'
+- ' M catalogs/change_request_index.csv'
+- ' M catalogs/session_index.csv'
+- ' M docs/03-continuity/sessions/2026-07/SES-20260727T221444Z-FD353AD3.md'
+- ' M infra/staging/r14-smoke/docker-compose.yml'
+- ' M scripts/run_r14_staging_acceptance.sh'
+- ?? .continuity/change_requests/CR-0436.yaml
+- ?? .continuity/checkpoints/SES-20260727T221444Z-FD353AD3/0029.yaml
+- ?? docs/03-continuity/change-requests/CR-0436-修正R14隔离Staging网段冲突.md
 recent_commits:
+- "4fd4c6193fe53dde4a6c3f2b30b06511c4d04f71\t2026-07-28T15:27:16+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] feat(staging): add isolated\
+  \ realtime acceptance"
 - "f4b7d4854e10dedd40d4b40cdb2d79e57687e9b7\t2026-07-28T14:44:32+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(governance): bind realtime\
   \ implementation"
 - "7ce3c2169925fef717c051e16e09f556ce619aa6\t2026-07-28T14:42:01+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] feat(realtime): implement reliable\
@@ -2783,14 +2755,12 @@ recent_commits:
   \ evidence contract"
 - "7de3c74d383276637e2c80df601757dfacfaec5a\t2026-07-28T10:26:12+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] docs(audit): record report client\
   \ gaps"
-- "1c161db823136acf33a9f43c3e2c39f7d7cda6b0\t2026-07-28T10:20:57+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(continuity): audit client\
-  \ contracts"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`06cdfa3fa112fd9cd16c168f1287c459b9933a5b9f424e3498c186ee7392f367`
-- 文件数：108
+- 指纹：`8e873bcc999b93e2bc41228377bdd194d66de6575d236205501fc130275705e0`
+- 文件数：109
 
 - `CHANGELOG.md`
 - `PROJECT_BASELINE.json`
@@ -2854,6 +2824,7 @@ recent_commits:
 - `docs/03-continuity/change-requests/CR-0433-同步R14变更后的全版本确定性执行计划.md`
 - `docs/03-continuity/change-requests/CR-0434-交付R14可执行Staging候选与稳定签名TEST_APK.md`
 - `docs/03-continuity/change-requests/CR-0435-修正CR-0434为可执行精确文件作用域.md`
+- `docs/03-continuity/change-requests/CR-0436-修正R14隔离Staging网段冲突.md`
 - `infra/nginx/ws.orbexa.cc.conf`
 - `infra/staging/r14-smoke/alertmanager.yml`
 - `infra/staging/r14-smoke/docker-compose.yml`
@@ -15571,13 +15542,60 @@ PARALLEL_EXECUTION_PLAN.yaml:
     session_id: SES-20260727T221444Z-FD353AD3
   session_ids:
   - SES-20260727T221444Z-FD353AD3
+- protocol_version: '1.0'
+  cr_id: CR-0436
+  title: 修正R14隔离Staging网段冲突
+  status: IMPLEMENTING
+  created_at: '2026-07-28T07:37:56Z'
+  updated_at: '2026-07-28T07:39:11Z'
+  requester_actor_id: codex-root-r14-client-20260728
+  approver_actor_id: codex-r14-staging-network-independent-review-20260728
+  task_id: TASK-R14-004
+  session_id: SES-20260727T221444Z-FD353AD3
+  user_request: 持续推进R14隔离Staging和TEST_APK，不修改旧版本或公网资源
+  reason: obx-test真实现场证明172.31.240.0/24已由hhy-r12-staging-a2_smoke占用，Docker在R14创建网络前以Pool overlaps拒绝。必须改用未占用的172.31.238.0/24，保留所有端口、项目名、独占卷及不触碰旧版本资源的规则。
+  original_rule: CR-0434将R14隔离Staging网段冻结为172.31.240.0/24。
+  new_rule: 仅将R14隔离Staging网段修正为现场已验证未占用的172.31.238.0/24；Compose project仍为hhy-r14-staging，端口仍为38114/39618/39619，所有卷仍为该project独占。禁止删除、断开、复用或修改占用172.31.240.0/24的R12网络以及R13和任何公网资源。CR-0434其余指标、告警、回滚、APK和外部门禁规则全部不变。
+  impact_summary: 消除Docker地址池冲突，使R14在不清理旧版本资源的前提下创建真正独占网络。
+  impact:
+    files:
+    - infra/staging/r14-smoke/docker-compose.yml
+    - scripts/run_r14_staging_acceptance.sh
+    - artifacts/validation/r14-task006-staging/metadata.txt
+    - artifacts/reports/R14/TASK-R14-006-staging.md
+    - CHANGELOG.md
+    pages: []
+    apis: []
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - docker network inventory证明172.31.240.0/24冲突且172.31.238.0/24未占用；compose config、空项目启动和完整R14 Staging验收必须重跑通过。
+    releases:
+    - R14
+    migration_and_compatibility: 无数据库或API迁移；失败尝试在创建R14网络前终止且未产生R14容器或卷。改用新网段后从空hhy-r14-staging项目完整重跑。
+  user_confirmation: 用户已要求持续推进且所有终端自主执行；该修正用于避免修改旧版本资源。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-28T07:39:01Z'
+    note: 现场清单确认240被旧R12网络占用且238未占用；仅更换R14隔离网段是最小修正，并明确禁止清理R12、R13或公网资源，其余CR-0434边界不变。
+  machine_record: .continuity/change_requests/CR-0436.yaml
+  document: docs/03-continuity/change-requests/CR-0436-修正R14隔离Staging网段冲突.md
+  decision_log:
+  - at: '2026-07-28T07:39:11Z'
+    actor_id: codex-root-r14-client-20260728
+    status: IMPLEMENTING
+    note: 独立审批通过，开始将R14独占网段修正为172.31.238.0/24并从空项目重跑。
+    session_id: SES-20260727T221444Z-FD353AD3
+  session_ids:
+  - SES-20260727T221444Z-FD353AD3
 ```
 
 ## 上下文来源及哈希
 
 - `AGENTS.md` — `e9f1cf3739a97b47a4de96166ebd17eb2206b7231adb22dbfa23f7687c9809bc`
 - `START_HERE.md` — `22de14029ce47beb41ea569e36ce223fbc9d11b86f8676f28d5fbbd83896af5c`
-- `CURRENT_STATUS.yaml` — `f51eee93a6082dfec7058f952dd103bb17144b2112a5bf2b00dac714df092efe`
+- `CURRENT_STATUS.yaml` — `6035a36925c8e073b98e0cd5163a9c02dc4a28468c7a4f2a27898426b13dc572`
 - `NEXT_TASK.yaml` — `bac6995e3e612ed7920cc2ec3b7d4592c3c6641eca0147fa90eddd08eaddb829`
 - `DEVELOPMENT_RISK_REGISTER.md` — `8304c91492e4ee2abea0522a06541c8688d39c7fc532b5d0cde499bf09fffb87`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
@@ -15588,12 +15606,12 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `config/REPOSITORY_TRANSPORT.yaml` — `8c4a21f3e204d46e7ffb467d804a53ed26cda61cd088dadfddb50b69eea657fc`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `38e04ed812c8df0d353c2b91993d31e53b471e9c457f06b426bd2260c470aa92`
-- `.continuity/EVENT_LOG.jsonl` — `89330a345e73c9ad724b7884b09630c00b5b3f4616f741fa047d2346247e8b98`
-- `.continuity/SESSION_INDEX.yaml` — `173a54ea347bbfffaf1dca4943e595423edecdb64d722855b69e08bc009d0e37`
+- `.continuity/EVENT_LOG.jsonl` — `12667851ae23d3359fe04798282e6fb30fa3ec6d11d2ef60870a6e17afc453bd`
+- `.continuity/SESSION_INDEX.yaml` — `3642aba2ee0bcbeaf59fe27bc52b8086d977bf2c5b75d652628f8e8118cf13e0`
 - `.continuity/TASK_CLAIMS.yaml` — `e116643519fd9085ad3807c53d5a2d93e1494dd7f060cc6476a10ff3ee9c0a62`
 - `.continuity/TASK_TRANSITIONS.yaml` — `29bc240c8b0452ec63c5d64f31fa5d2a7e5d804b95c92b238be5a8769734a138`
-- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `93952a0efcd33e1ba12b5ddd5058df962c1f4bdab4c6e517426b2ee3756ac966`
-- `.continuity/ACTIVE_SESSION.yaml` — `6061c9d5a40384535b475bd7d6e1c5906709c50019b454646a90cbbdb3172828`
+- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `aba189af6a64519a54128af3af04bacaabc10d95cee8ebc90343cbab87eabdc8`
+- `.continuity/ACTIVE_SESSION.yaml` — `160aeec72b139c67ead0287634c562697aa3705a873efd6df5175e433294998f`
 - `docs/00-baseline/正式商业系统全局硬性开发边界.md` — `d8a77eddf520659b1d6b57e16ecc0739fa93dbd39cf9903dbaf798fc631ae6fe`
 - `docs/02-ui/UI参考图使用与开发约束_V1.2.2.md` — `d14367586aa2067b059df58798acd20ab982459cdb35ff27fc7922a3896e4933`
 - `docs/03-continuity/持续开发无状态接续强制门禁_V1.2.3.md` — `d0ed3ed68bdd93b06500eecdfb5baa3245e6ca8b685a486788abb6eee39b3d51`
@@ -15604,8 +15622,8 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `releases/R14/TASKS.yaml` — `0b5332594a1591352faf7d98850f15d07a612a64cdf5dc62bc054008eb13d6b1`
 - `releases/R14/ACCEPTANCE_MATRIX.csv` — `d747f5c176d1eb94d685134d6bbddb12e1961529824471d6e969e9f10679a2b1`
 - `releases/R14/PARALLEL_EXECUTION_PLAN.yaml` — `cd1f0c96ffd7562acb214edba80a2bbb12b79f06c19032d1b133936ff6abd74f`
-- `docs/03-continuity/sessions/2026-07/SES-20260727T221444Z-FD353AD3.md` — `8d2e984483f9f9375dff2644e07131198dc9f305a745c46438a9368cb732951d`
-- `.continuity/checkpoints/SES-20260727T221444Z-FD353AD3/0028.yaml` — `a6c73f40556b8316a442a41ebc942df2b9937e27f3844730311367639eecabdf`
+- `docs/03-continuity/sessions/2026-07/SES-20260727T221444Z-FD353AD3.md` — `60a57757e9209d11213da70ba0e0923ca4102030a77e5b2be9128e560a438b10`
+- `.continuity/checkpoints/SES-20260727T221444Z-FD353AD3/0029.yaml` — `256706b883579a3251d8e2b2d9840c75db4105c8b6e35f3d1c8d51c54368f9eb`
 - `docs/03-continuity/change-requests/CR-0422-实现R14-Android私聊详情与真实会话导航.md` — `426588ba45f18916890ade8c428e1b1c0d168eae8af4fec7eb9957eb5f792617`
 - `docs/03-continuity/change-requests/CR-0423-实现R14-Android会话列表与消息主导航.md` — `e2e2b533fda82f9cdd13eb8f529f36572eba62da73e50b760b911277317788a0`
 - `docs/03-continuity/change-requests/CR-0424-补齐R14-Android会话列表状态与消息主导航.md` — `7e33507fd5daac6e6c6bb1064e5bd9aad3efb5ff4fab289f0faff34fc36c14b0`
@@ -15620,6 +15638,7 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `docs/03-continuity/change-requests/CR-0433-同步R14变更后的全版本确定性执行计划.md` — `058be4a820a85587ccc9ed9e57c4e702273da9029fd39252bd9c9452dc0c2417`
 - `docs/03-continuity/change-requests/CR-0434-交付R14可执行Staging候选与稳定签名TEST_APK.md` — `8dfaa80bc2338fe32252b116cc03a1b5dd94b9c154e10905edd6a408097acbc2`
 - `docs/03-continuity/change-requests/CR-0435-修正CR-0434为可执行精确文件作用域.md` — `3e80650b445e82ad45ebf87ff8a2869dbd6cd69230912acea31569ccf152c5ca`
+- `docs/03-continuity/change-requests/CR-0436-修正R14隔离Staging网段冲突.md` — `b1cbb33342973aa9bdddd5bdeee03b49fceb5c3c547d6dc269dc19b255532d13`
 
 ## 接手硬规则
 

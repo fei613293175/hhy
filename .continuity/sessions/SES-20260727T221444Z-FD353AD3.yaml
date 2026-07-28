@@ -11,7 +11,7 @@ task_id: TASK-R14-004
 story_id: STORY-R14-004
 goal: 逐项审计R14六个交互面、九接口、状态错误恢复、测试和追踪证据，补齐不依赖举报原因目录的客户端与治理缺口；保持PROB-0135开放且不提前关闭TASK
 started_at: '2026-07-27T22:14:44Z'
-updated_at: '2026-07-28T07:27:15Z'
+updated_at: '2026-07-28T07:40:15Z'
 takeover_of: null
 change_requests:
 - CR-0422
@@ -28,6 +28,7 @@ change_requests:
 - CR-0433
 - CR-0434
 - CR-0435
+- CR-0436
 scope:
   allowed_paths:
   - apps/**
@@ -184,7 +185,7 @@ scope:
   - artifacts/reports/R14/TASK-R14-006-staging.md
   - artifacts/reports/R14/TASK-R14-007-android-apk.md
   - artifacts/reports/R14/R14-version-test-guide.md
-  source: story-switch+explicit+approved-cr:CR-0428+approved-cr:CR-0429+approved-cr:CR-0430+approved-cr:CR-0431+approved-cr:CR-0432+approved-cr:CR-0433+approved-cr:CR-0435
+  source: story-switch+explicit+approved-cr:CR-0428+approved-cr:CR-0429+approved-cr:CR-0430+approved-cr:CR-0431+approved-cr:CR-0432+approved-cr:CR-0433+approved-cr:CR-0435+approved-cr:CR-0436
 git:
   initialized: true
   branch: task/TASK-R03-001
@@ -194,25 +195,25 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-28T07:27:05Z'
-  expires_at: '2026-07-28T11:27:05Z'
-checkpoint_sequence: 28
-latest_checkpoint: .continuity/checkpoints/SES-20260727T221444Z-FD353AD3/0028.yaml
+  renewed_at: '2026-07-28T07:40:07Z'
+  expires_at: '2026-07-28T11:40:07Z'
+checkpoint_sequence: 29
+latest_checkpoint: .continuity/checkpoints/SES-20260727T221444Z-FD353AD3/0029.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260727T221444Z-FD353AD3.md
-next_step: 提交并推送R14 Staging实现Commit，在obx-test执行隔离现场验收。
+next_step: 提交推送网段修正，以新冻结Commit从空hhy-r14-staging项目完整重跑。
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: 900b195bf1288e62ca06a11730b80220f842690b2af717734893f62acfec5c51
-  generated_at: '2026-07-28T07:27:10Z'
+  context_hash: cce8fb1dcae06a6e4f54d21e7b56ef6c71fcb6279303cc66dd49cded832e7333
+  generated_at: '2026-07-28T07:40:12Z'
 handoff_bundle: null
 closure: null
 parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 冻结Commit、服务器镜像构建、数据库现场验收、证据回传和APK构建存在严格顺序依赖。
+  reason: 网段修正必须提交形成新冻结Commit后才能重跑镜像和现场证据。
 story_history:
 - story_id: STORY-R14-001
   completed_at: '2026-07-27T23:25:19Z'
