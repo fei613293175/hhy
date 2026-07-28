@@ -93,3 +93,17 @@ R06-R13的manifest2/evidence1保持只读兼容且不补写；load/verify/accept
 - Status：`IMPLEMENTING`
 - Session：`SES-20260728T102501Z-3189682B`
 - Note：独立审批通过后修复现有APK交付脚本与关闭门禁的桌面测试说明执行缺口。
+
+## 状态记录 · 2026-07-28T12:52:17Z
+
+- Actor：`codex-r16-backend-20260728`
+- Status：`IMPLEMENTED`
+- Session：`SES-20260728T102501Z-3189682B`
+- Note：APK与桌面测试说明3+2成对交付门禁已实现；45项联合回归与R14真实桌面副本验证PASS，实施提交405b7fea。
+
+## 状态记录 · 2026-07-28T12:52:23Z
+
+- Actor：`codex-r16-backend-20260728`
+- Status：`CLOSED`
+- Session：`SES-20260728T102501Z-3189682B`
+- Note：R14规范测试说明已更新并与Manifest/Evidence/Release五方一致，桌面交付完整。

@@ -1,19 +1,19 @@
 {
   "version": "1.0",
-  "generated_at": "2026-07-28T12:50:16Z",
-  "context_hash": "3ceb1f0debcc87db570b52970a77436e177135a1a90d241e4ec2bfd00d44b7f7",
+  "generated_at": "2026-07-28T12:52:54Z",
+  "context_hash": "6517126b7dc8377cb6c8f84219fad83a2ea5d2d4ea8d215ec00854b1093de5c9",
   "fingerprint_mode": "SESSION_DELTA",
   "project_fingerprint": {
-    "sha256": "84709e038538ab63c9e8c39170beafca3896857e5b5d6e58414a4df7d9f8576b",
+    "sha256": "9dd2c1f1136c6675723fbe21233ce5caab93feb8edf047c35724a3199d4589be",
     "file_count": 46
   },
   "yaml": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.yaml",
-    "sha256": "7dd4d5dbd9650a697cd777207088a6ea75351a5ebc294d20ad7db8c25e30d409"
+    "sha256": "b20f321c07aee41124fa0fd19598c8a7c8f7f7ac6fbb0c545986843819c40b61"
   },
   "markdown": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.md",
-    "sha256": "1e47b4f937ba5920ed5e2697e8d714a4029a84157927c2e219f983ed54deac76"
+    "sha256": "d70fe406ece9d4439346873d334da3032c4c1c2047098f3f0396ce06a5efe627"
   },
   "sources": [
     {
@@ -28,7 +28,7 @@
     },
     {
       "path": "CURRENT_STATUS.yaml",
-      "sha256": "fda329abc28a2231780f1c9a7e49a944239a12cde3838e17b17a68de2bc1777f",
+      "sha256": "ed1bcc4d237016ce9ba7d108aaee59842625c582a7479d4e8a92399fa71af396",
       "bytes": 4713
     },
     {
@@ -83,12 +83,12 @@
     },
     {
       "path": ".continuity/EVENT_LOG.jsonl",
-      "sha256": "b3c22c02bae9b0ca8c166038dcfe017ce6707f721175fff43a012ef6c765bacd",
-      "bytes": 2434019
+      "sha256": "e081b2f90193216f6f44b596e107acc8dd527719f0b3fbf754aec662c95b03a5",
+      "bytes": 2436308
     },
     {
       "path": ".continuity/SESSION_INDEX.yaml",
-      "sha256": "7f3c59ee1fdea158e7e664f88cbfc64a1f9b13b6a2204fbcc4a3631ea2e1a50f",
+      "sha256": "07d8eb420dbf22d02f774969d127d66cefe5449bcda0aa60e7a546043738e8a5",
       "bytes": 63199
     },
     {
@@ -103,12 +103,12 @@
     },
     {
       "path": ".continuity/CHANGE_REQUEST_INDEX.yaml",
-      "sha256": "cd4b5fd65c02f13d98ef378719bbb3c859edf8514facebd7576f1b37f67ec9d4",
-      "bytes": 1638496
+      "sha256": "25e29f05ce9b87e6d27b686b06be4d89f9fbb89efdf7e22e4acb967a3f495c0b",
+      "bytes": 1639591
     },
     {
       "path": ".continuity/ACTIVE_SESSION.yaml",
-      "sha256": "c131dd53c0c3f393c44874403f59af21ceaaded05f1589af7bfab640f499507f",
+      "sha256": "5580fe7a059c97e8082db5eb8176c17aa38125202048e7f68c8a59a91179908b",
       "bytes": 541
     },
     {
@@ -158,13 +158,13 @@
     },
     {
       "path": "docs/03-continuity/sessions/2026-07/SES-20260728T102501Z-3189682B.md",
-      "sha256": "72030e104bc31036a500a310e0999a56190fcfc5ab90bc9944d5ac9d10685a46",
-      "bytes": 13787
+      "sha256": "21347a2eaf7049f52c1d736f52c55df913e48ccd71654c79d3f5754de11a62fd",
+      "bytes": 17698
     },
     {
-      "path": ".continuity/checkpoints/SES-20260728T102501Z-3189682B/0004.yaml",
-      "sha256": "58b722211e608a5e7930bcd44e83f9cef0409110e65ebb6f04b9f8d77d29c823",
-      "bytes": 23332
+      "path": ".continuity/checkpoints/SES-20260728T102501Z-3189682B/0005.yaml",
+      "sha256": "7d3a21b14da7926bff32dbf6c65e454ead0e7e6105fecb397e6574849d6bbb7b",
+      "bytes": 21832
     },
     {
       "path": "docs/03-continuity/change-requests/CR-0442-落地R16商品SKU报价与统一订单后端纵向链路.md",
@@ -188,13 +188,13 @@
     },
     {
       "path": "docs/03-continuity/change-requests/CR-0446-强制Android版本APK与桌面测试文档成对交付.md",
-      "sha256": "a310e023ae81ffef86863c58b1f93ab4850b80555d5a1186621bb06372cad0c4",
-      "bytes": 5041
+      "sha256": "1482d87383e2ba9ea92e5e7dab73442b2aec5c0bee75107da76c3cbf53a2a1d2",
+      "bytes": 5587
     },
     {
       "path": "docs/03-continuity/change-requests/CR-0447-修正R14真机消息页公网后端版本错位.md",
-      "sha256": "f5492576e7a154860b019dba3992c3041ac02bc08c1119120acdf64ff2765853",
-      "bytes": 5601
+      "sha256": "9d61b0c6e7fda2e82216f8090b75fc3b1b7e2c5ad0b38cb96e01c1932ce0cb1c",
+      "bytes": 6190
     }
   ]
 }
