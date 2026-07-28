@@ -11,7 +11,7 @@ task_id: TASK-R14-004
 story_id: STORY-R14-004
 goal: 逐项审计R14六个交互面、九接口、状态错误恢复、测试和追踪证据，补齐不依赖举报原因目录的客户端与治理缺口；保持PROB-0135开放且不提前关闭TASK
 started_at: '2026-07-27T22:14:44Z'
-updated_at: '2026-07-28T08:00:57Z'
+updated_at: '2026-07-28T08:16:41Z'
 takeover_of: null
 change_requests:
 - CR-0422
@@ -29,6 +29,7 @@ change_requests:
 - CR-0434
 - CR-0435
 - CR-0436
+- CR-0437
 scope:
   allowed_paths:
   - apps/**
@@ -185,7 +186,9 @@ scope:
   - artifacts/reports/R14/TASK-R14-006-staging.md
   - artifacts/reports/R14/TASK-R14-007-android-apk.md
   - artifacts/reports/R14/R14-version-test-guide.md
-  source: story-switch+explicit+approved-cr:CR-0428+approved-cr:CR-0429+approved-cr:CR-0430+approved-cr:CR-0431+approved-cr:CR-0432+approved-cr:CR-0433+approved-cr:CR-0435+approved-cr:CR-0436
+  - apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+  - apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+  source: story-switch+explicit+approved-cr:CR-0428+approved-cr:CR-0429+approved-cr:CR-0430+approved-cr:CR-0431+approved-cr:CR-0432+approved-cr:CR-0433+approved-cr:CR-0435+approved-cr:CR-0436+approved-cr:CR-0437
 git:
   initialized: true
   branch: task/TASK-R03-001
@@ -195,25 +198,25 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-28T08:00:50Z'
-  expires_at: '2026-07-28T12:00:50Z'
-checkpoint_sequence: 32
-latest_checkpoint: .continuity/checkpoints/SES-20260727T221444Z-FD353AD3/0032.yaml
+  renewed_at: '2026-07-28T08:16:33Z'
+  expires_at: '2026-07-28T12:16:33Z'
+checkpoint_sequence: 34
+latest_checkpoint: .continuity/checkpoints/SES-20260727T221444Z-FD353AD3/0034.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260727T221444Z-FD353AD3.md
-next_step: 提交并推送Staging证据、报告、验收矩阵和CR-0436实施记录，随后进入固定Android工具链TEST_APK构建与桌面交付
+next_step: 提交推送版本身份修正，更新远端精确Commit后重跑完整Android固定工具链
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: e67c557b17d932e85284636038e5dfb15d77abba633ac077b344cc75ea208da1
-  generated_at: '2026-07-28T08:00:54Z'
+  context_hash: e573c617e40b2caeb4b400150bdd360e62877281985e150cf1b9bb2b7089926b
+  generated_at: '2026-07-28T08:16:37Z'
 handoff_bundle: null
 closure: null
 parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 证据签字与CR实施记录必须组成同一精确提交，APK需绑定该提交后串行构建
+  reason: 必须先形成精确可追溯Commit再远端重跑
 story_history:
 - story_id: STORY-R14-001
   completed_at: '2026-07-27T23:25:19Z'
