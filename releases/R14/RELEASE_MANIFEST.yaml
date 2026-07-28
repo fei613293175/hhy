@@ -89,16 +89,19 @@ android_delivery:
   websocket_base_url: wss://ws.orbexa.cc
   machine_delivery: PASS
   owner_physical_test: PENDING
+  next_release_development: ALLOWED
   public_websocket: BLOCKED_EXTERNAL_DNS
   report_catalog: BLOCKED_PRODUCT_CATALOG
   evidence: artifacts/validation/r14-apk-delivery/delivery-evidence.json
   build_evidence: artifacts/validation/r14-task007-android/build-evidence.json
   test_guide: artifacts/reports/R14/R14-version-test-guide.md
 android_automation:
+  policy_id: HHY-ANDROID-AUTOMATION-V1
   mode: ON_DEMAND_NON_BLOCKING_SPECIALTY
   status: NOT_RUN_NOT_REQUIRED_FOR_TEST_APK
   ai_visual_review: NOT_CLAIMED_PASS
   owner_physical_test: PENDING
+  next_release_development: ALLOWED
 entry_gate:
 - releases/R14/DEFINITION_OF_READY.yaml 全部适用项为PASS
 - releases/R14/STORIES.yaml 中每个故事均绑定页面/API/配置/数据/测试或显式N/A

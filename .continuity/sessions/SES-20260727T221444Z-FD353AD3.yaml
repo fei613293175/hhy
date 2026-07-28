@@ -11,7 +11,7 @@ task_id: TASK-R14-004
 story_id: STORY-R14-004
 goal: 逐项审计R14六个交互面、九接口、状态错误恢复、测试和追踪证据，补齐不依赖举报原因目录的客户端与治理缺口；保持PROB-0135开放且不提前关闭TASK
 started_at: '2026-07-27T22:14:44Z'
-updated_at: '2026-07-28T08:59:40Z'
+updated_at: '2026-07-28T09:06:24Z'
 takeover_of: null
 change_requests:
 - CR-0422
@@ -31,6 +31,7 @@ change_requests:
 - CR-0436
 - CR-0437
 - CR-0438
+- CR-0439
 scope:
   allowed_paths:
   - apps/**
@@ -190,7 +191,7 @@ scope:
   - apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
   - apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
   - infra/nginx/r14-apk-location.inc
-  source: story-switch+explicit+approved-cr:CR-0428+approved-cr:CR-0429+approved-cr:CR-0430+approved-cr:CR-0431+approved-cr:CR-0432+approved-cr:CR-0433+approved-cr:CR-0435+approved-cr:CR-0436+approved-cr:CR-0437+approved-cr:CR-0438
+  source: story-switch+explicit+approved-cr:CR-0428+approved-cr:CR-0429+approved-cr:CR-0430+approved-cr:CR-0431+approved-cr:CR-0432+approved-cr:CR-0433+approved-cr:CR-0435+approved-cr:CR-0436+approved-cr:CR-0437+approved-cr:CR-0438+approved-cr:CR-0439
 git:
   initialized: true
   branch: task/TASK-R03-001
@@ -200,25 +201,25 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-28T08:59:32Z'
-  expires_at: '2026-07-28T12:59:32Z'
-checkpoint_sequence: 40
-latest_checkpoint: .continuity/checkpoints/SES-20260727T221444Z-FD353AD3/0040.yaml
+  renewed_at: '2026-07-28T09:06:17Z'
+  expires_at: '2026-07-28T13:06:17Z'
+checkpoint_sequence: 41
+latest_checkpoint: .continuity/checkpoints/SES-20260727T221444Z-FD353AD3/0041.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260727T221444Z-FD353AD3.md
-next_step: 提交推送CR-0429关闭记录，然后将TASK-R14-004按真实产品目录阻断挂起并切换到依赖已全绿的独立R16首任务持续开发
+next_step: 提交推送CR-0439实施记录，随后关闭CR并将受阻R14挂起为BLOCKED_EXTERNAL_GATE，转入依赖已全绿的R16首任务
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: 05a37a5c0c8937fc14c9afdd4dbc72498da50dc5a9dcdce17c6e5cdd599d777a
-  generated_at: '2026-07-28T08:59:37Z'
+  context_hash: b16c8b15384c3dbe26a993a01a6a0750958b3e020b19905043dd8cf9baa299da
+  generated_at: '2026-07-28T09:06:21Z'
 handoff_bundle: null
 closure: null
 parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 当前只更新同一连续性事件链、CR索引和任务切换元数据，必须串行保持哈希链一致
+  reason: Manifest、CR索引和连续性事件链属于同一原子治理提交，拆分会造成状态竞争
 story_history:
 - story_id: STORY-R14-001
   completed_at: '2026-07-27T23:25:19Z'
