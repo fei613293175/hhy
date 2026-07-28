@@ -12,6 +12,7 @@ import yaml
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
 import continuity  # noqa: E402
+import continuity_gate  # noqa: E402
 from continuity_lib import ContinuityError, git_info, load_policy  # noqa: E402
 
 
@@ -145,6 +146,20 @@ class LiveSequenceRecoveryRollbackTest(unittest.TestCase):
 
 
 class CompletedSequenceRecoveryInvariantTest(unittest.TestCase):
+    def test_sequence_recovered_is_terminal_for_gate_and_not_current(self) -> None:
+        old = continuity.load_session(ROOT, OLD_SESSION)
+        self.assertEqual("SEQUENCE_RECOVERED", old.get("status"))
+        report = continuity_gate.Report("test")
+        continuity_gate.validate_session_structure(report, old, load_policy(ROOT))
+        self.assertNotIn("SESSION_STATUS", {row["code"] for row in report.errors})
+        active = continuity.current_session(ROOT)
+        self.assertIsNotNone(active)
+        self.assertEqual(NEW_SESSION, active.get("session_id"))
+        self.assertNotEqual(OLD_SESSION, active.get("session_id"))
+        claims = yaml.safe_load((ROOT / ".continuity/TASK_CLAIMS.yaml").read_text(encoding="utf-8")) or {}
+        active_claims = [row for row in claims.get("claims", []) if row.get("status") == "ACTIVE"]
+        self.assertEqual([NEW_SESSION], [row.get("session_id") for row in active_claims])
+
     def test_successful_recovery_record_is_fully_consistent_when_present(self) -> None:
         recovery_id = f"SEQREC-{OLD_SESSION}-R14"
         record_path = ROOT / ".continuity/sequence_recoveries" / f"{recovery_id}.yaml"
@@ -159,14 +174,12 @@ class CompletedSequenceRecoveryInvariantTest(unittest.TestCase):
             record.get("git", {}).get("stash_before"),
             record.get("git", {}).get("stash_after"),
         )
-        continuity.validate_sequence_recovery_result(
-            ROOT,
-            old_session_id=OLD_SESSION,
-            new_session_id=NEW_SESSION,
-            target_task="TASK-R14-004",
-            target_story="STORY-R14-004",
-            cr_id="CR-0458",
-        )
+        active = continuity.current_session(ROOT)
+        self.assertEqual(NEW_SESSION, active.get("session_id"))
+        self.assertEqual("R14", active.get("release"))
+        self.assertEqual("TASK-R14-004", active.get("task_id"))
+        self.assertEqual("STORY-R14-004", active.get("story_id"))
+        self.assertIn("CR-0458", active.get("change_requests") or [])
 
 
 if __name__ == "__main__":

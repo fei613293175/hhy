@@ -229,7 +229,19 @@ def validate_session_structure(report: Report, session: dict[str, Any], policy: 
         report.require(bool(session.get(key)), "SESSION_FIELD", f"会话缺少字段：{key}")
     actor = session.get("actor", {})
     report.require(bool(actor.get("id")), "SESSION_ACTOR", "会话必须记录Actor ID")
-    report.require(session.get("status") in {"ACTIVE", "HANDED_OFF", "CLOSING", "CLOSED", "ABANDONED", "TRANSFERRED"}, "SESSION_STATUS", f"非法会话状态：{session.get('status')}")
+    report.require(
+        session.get("status") in {
+            "ACTIVE",
+            "HANDED_OFF",
+            "CLOSING",
+            "CLOSED",
+            "ABANDONED",
+            "TRANSFERRED",
+            "SEQUENCE_RECOVERED",
+        },
+        "SESSION_STATUS",
+        f"非法会话状态：{session.get('status')}",
+    )
     report.require(bool(session.get("scope", {}).get("allowed_paths")), "SESSION_SCOPE", "会话必须有允许路径")
     session_path = ROOT / CONTINUITY_DIR / "sessions" / f"{session.get('session_id')}.yaml"
     report.require(session_path.is_file(), "SESSION_RECORD", f"会话机器记录不存在：{session_path.relative_to(ROOT)}")

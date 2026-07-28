@@ -1,7 +1,7 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-28T16:13:23Z
-- Context Hash：`c500d2cf810b158f6c3e47b14725f1fe0219c8554eb6a370fc25692242a3c758`
+- 生成时间：2026-07-28T16:32:00Z
+- Context Hash：`1ec2ec2e0037f38d6c3997ede5d1c304ce25d9dbc436379e7c53ab5fe835c146`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 规则就绪：`PASS`（`HASHED_CONTEXT_MANIFEST`）
@@ -183,7 +183,7 @@ blocked_tasks:
 - TASK-R16-007
 - TASK-R16-008
 next_task: TASK-R14-004
-updated_at: '2026-07-28T16:13:19Z'
+updated_at: '2026-07-28T16:31:55Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -218,15 +218,15 @@ continuity:
   active_session_id: SES-20260728T154000Z-0458A14C
   actor_id: codex-r14-continuation-20260728
   story_id: STORY-R14-004
-  lease_expires_at: '2026-07-28T20:13:19Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260728T154000Z-0458A14C/0003.yaml
-  project_fingerprint: 1ba447f701ccc80d242f16f3828794c53e39aba2af3cb812116461b094e65468
+  lease_expires_at: '2026-07-28T20:31:55Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260728T154000Z-0458A14C/0004.yaml
+  project_fingerprint: 96446bdb1235150564dcc1d8685db7d97e30b1b1f2307ffd1da9347f18818b47
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: 5c01fbee29088267296141379fb42cdeb38baf66e1a52b529cd11be0427bad0c
-    generated_at: '2026-07-28T16:11:20Z'
+    context_hash: c500d2cf810b158f6c3e47b14725f1fe0219c8554eb6a370fc25692242a3c758
+    generated_at: '2026-07-28T16:13:23Z'
   handoff_bundle: null
 ```
 
@@ -429,12 +429,14 @@ task_id: TASK-R14-004
 story_id: STORY-R14-004
 goal: 恢复并完成R14全部剩余任务、真实交互候选、APK与测试文档，再顺序进入R15
 started_at: '2026-07-28T15:53:44Z'
-updated_at: '2026-07-28T16:13:19Z'
+updated_at: '2026-07-28T16:31:55Z'
 takeover_of: SES-20260728T125934Z-F3DED330
 change_requests:
 - CR-0458
 - CR-0459
 - CR-0460
+- CR-0461
+- CR-0462
 scope:
   allowed_paths:
   - apps/**
@@ -473,7 +475,9 @@ scope:
   - artifacts/validation/continuity-integration-v1.2.3.log
   - artifacts/validation/continuity-lifecycle-integration-v1.2.3.json
   - artifacts/validation/continuity-lifecycle-integration-v1.2.3.log
-  source: story+explicit+approved-cr:CR-0460
+  - scripts/continuity_gate.py
+  - tests/test_continuity_sequence_recovery.py
+  source: story+explicit+approved-cr:CR-0460+approved-cr:CR-0461+approved-cr:CR-0462
 git:
   initialized: true
   branch: task/TASK-R03-001
@@ -483,66 +487,83 @@ git:
   initial_worktree_state: DIRTY_TAKEOVER
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-28T16:13:19Z'
-  expires_at: '2026-07-28T20:13:19Z'
-checkpoint_sequence: 3
-latest_checkpoint: .continuity/checkpoints/SES-20260728T154000Z-0458A14C/0003.yaml
+  renewed_at: '2026-07-28T16:31:55Z'
+  expires_at: '2026-07-28T20:31:55Z'
+checkpoint_sequence: 4
+latest_checkpoint: .continuity/checkpoints/SES-20260728T154000Z-0458A14C/0004.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260728T154000Z-0458A14C.md
-next_step: 提交CR状态元数据并推送，然后继续R14-004
+next_step: 执行strict门禁，提交CR-0461/CR-0462并真实pre-push与push，然后继续R14收口
 context_pack: THIS_CONTEXT_PACK
 handoff_bundle: null
 closure: null
 parallel_execution:
-  assessment: NO_SAFE_PARALLEL
-  delegated_workers: 0
-  workers: []
-  reason: CR状态与其实施Commit必须串行绑定
+  assessment: DELEGATED
+  delegated_workers: 1
+  workers:
+  - worker_id: codex-cr0462-independent-review-20260729
+    responsibility: CR-0462独立范围与必要性审核
+    allowed_paths:
+    - .continuity/change_requests/CR-0462.yaml
+    - docs/03-continuity/change-requests/CR-0462-刷新CR-0461门禁终态枚举后的重建证据.md
+  reason: 独立审核与主代理实施职责分离，审核已落库APPROVED
 ```
 
 ## 最新检查点
 
 ```yaml
 protocol_version: '1.0'
-checkpoint_id: CP-SES-20260728T154000Z-0458A14C-0003
+checkpoint_id: CP-SES-20260728T154000Z-0458A14C-0004
 session_id: SES-20260728T154000Z-0458A14C
 task_id: TASK-R14-004
 story_id: STORY-R14-004
-sequence: 3
-created_at: '2026-07-28T16:13:19Z'
-summary: 固化CR-0458和CR-0460实施Commit与严格门禁结果
-next_step: 提交CR状态元数据并推送，然后继续R14-004
+sequence: 4
+created_at: '2026-07-28T16:31:55Z'
+summary: CR-0461补齐SEQUENCE_RECOVERED合法终态，CR-0462单次刷新连续性集成报告并完成仓库无对话重建验证
+next_step: 执行strict门禁，提交CR-0461/CR-0462并真实pre-push与push，然后继续R14收口
 blockers: []
 decisions:
-- CR-0458与CR-0460实施Commit为311e94a7
-note: 下一步只提交治理元数据，不重跑重型门禁
+- R14至R32顺序开发必须由仓库机器闭环证明，所有入口不可依赖聊天或仅信任状态指针
+note: ''
 tests:
-- name: continuity-strict
+- name: sequence_recovery_terminal_tests
   result: PASS
-  evidence: .continuity/runtime/cr-0460-strict.json
-  note: 严格门禁0错误0警告
-- name: implementation-commit
+  evidence: tests/test_continuity_sequence_recovery.py 6 passed 2 live-only skipped
+  note: SEQUENCE_RECOVERED仅为合法终态且不进入active session集合
+- name: continuity_repository_reconstruction
   result: PASS
-  evidence: 311e94a7
-  note: 原子恢复实现与仓库状态已提交
+  evidence: artifacts/validation/continuity-integration-v1.2.3.json 12 checks PASS
+  note: conversation_context_required=false
+- name: continuity_lifecycle
+  result: PASS
+  evidence: artifacts/validation/continuity-lifecycle-integration-v1.2.3.json 15 checks PASS
+  note: 真实单次刷新
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: 311e94a740a6babc6bbcfc9d77f11495f2245ab7
+  head: 980d57e4616bed44e5762404b166b0d7ecd6a74f
   upstream: origin/task/TASK-R03-001
-  ahead: 4
+  ahead: 5
   behind: 0
   dirty: true
   status_porcelain:
   - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
   - ' M .continuity/EVENT_LOG.jsonl'
   - ' M .continuity/STATE.yaml'
-  - ' M .continuity/change_requests/CR-0458.yaml'
-  - ' M .continuity/change_requests/CR-0460.yaml'
+  - ' M .continuity/sessions/SES-20260728T154000Z-0458A14C.yaml'
+  - ' M artifacts/validation/continuity-integration-v1.2.3.json'
+  - ' M artifacts/validation/continuity-lifecycle-integration-v1.2.3.json'
+  - ' M artifacts/validation/continuity-lifecycle-integration-v1.2.3.log'
   - ' M catalogs/change_request_index.csv'
   - ' M catalogs/session_index.csv'
-  - ' M docs/03-continuity/change-requests/CR-0458-替代CR-0457原子恢复跨序状态并锁定R16代码证据.md'
-  - ' M docs/03-continuity/change-requests/CR-0460-替代CR-0459无副作用刷新连续性重建证据.md'
+  - ' M scripts/continuity_gate.py'
+  - ' M tests/test_continuity_sequence_recovery.py'
+  - ?? .continuity/change_requests/CR-0461.yaml
+  - ?? .continuity/change_requests/CR-0462.yaml
+  - ?? docs/03-continuity/change-requests/CR-0461-补齐序列恢复终态的连续性门禁枚举.md
+  - ?? docs/03-continuity/change-requests/CR-0462-刷新CR-0461门禁终态枚举后的重建证据.md
   recent_commits:
+  - "980d57e4616bed44e5762404b166b0d7ecd6a74f\t2026-07-29T00:13:36+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(continuity): bind recovery\
+    \ implementation evidence"
   - "311e94a740a6babc6bbcfc9d77f11495f2245ab7\t2026-07-29T00:12:35+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] feat(continuity): add atomic\
     \ sequential release recovery"
   - "c47d19064bec57bd751f1cfa06a0fa7a75844790\t2026-07-28T23:27:16+08:00\tHHY Continuity Bootstrap\t[STORY-R16-002] fix(continuity): enforce sequential\
@@ -557,10 +578,8 @@ git:
     \ change"
   - "ea65f7013ab87223087be4389ffae0a7accc5949\t2026-07-28T21:13:16+08:00\tHHY Continuity Bootstrap\t[STORY-R16-001] feat(r16): implement admin\
     \ order workspace"
-  - "28c875d42b5bde36f2286b7cd22ff451c28b3d69\t2026-07-28T21:00:28+08:00\tHHY Continuity Bootstrap\t[STORY-R16-001] chore(r16): start admin order\
-    \ experience"
 project_fingerprint:
-  sha256: 1ba447f701ccc80d242f16f3828794c53e39aba2af3cb812116461b094e65468
+  sha256: 96446bdb1235150564dcc1d8685db7d97e30b1b1f2307ffd1da9347f18818b47
   files:
   - docs/03-continuity/change-requests/CR-0455-替代CR-0454封死全部跨版本续接旁路.md
   - docs/03-continuity/change-requests/CR-0456-补齐CR-0455发布产物准入门禁范围.md
@@ -568,11 +587,14 @@ project_fingerprint:
   - docs/03-continuity/change-requests/CR-0458-替代CR-0457原子恢复跨序状态并锁定R16代码证据.md
   - docs/03-continuity/change-requests/CR-0459-刷新CR-0458连续性原子恢复后的重建证据.md
   - docs/03-continuity/change-requests/CR-0460-替代CR-0459无副作用刷新连续性重建证据.md
+  - docs/03-continuity/change-requests/CR-0461-补齐序列恢复终态的连续性门禁枚举.md
+  - docs/03-continuity/change-requests/CR-0462-刷新CR-0461门禁终态枚举后的重建证据.md
   - releases/R14/TASKS.yaml
   - releases/R16/TASKS.yaml
   - scripts/continuity.py
+  - scripts/continuity_gate.py
   - tests/test_continuity_sequence_recovery.py
-  file_count: 10
+  file_count: 13
   payload:
     base_commit: c47d19064bec57bd751f1cfa06a0fa7a75844790
     files:
@@ -600,6 +622,14 @@ project_fingerprint:
       state: FILE
       size: 3848
       sha256: 852b16f8cd911cd3a5e63e888d176fda07bc2996906002d626553c5ead95ec2f
+    - path: docs/03-continuity/change-requests/CR-0461-补齐序列恢复终态的连续性门禁枚举.md
+      state: FILE
+      size: 3139
+      sha256: 2e61577966ebed8a386cd4c5686e6a0f18e3aceb17a59dbada1c6e3a6270c47f
+    - path: docs/03-continuity/change-requests/CR-0462-刷新CR-0461门禁终态枚举后的重建证据.md
+      state: FILE
+      size: 3258
+      sha256: e0de58ca8d7f437f6b417591e02ecea73997da3caa7f2dc0b7390fad9fff5a17
     - path: releases/R14/TASKS.yaml
       state: FILE
       size: 6205
@@ -612,10 +642,14 @@ project_fingerprint:
       state: FILE
       size: 121905
       sha256: 0df599a7fad22c6efb593955a45fdd27e423d96d0ddf57c7f83d10c10124c264
+    - path: scripts/continuity_gate.py
+      state: FILE
+      size: 44139
+      sha256: 301362b3f34e8cfcfbcdde0fa5301ab9bf965e28f3c0446bbf19740a53e6df19
     - path: tests/test_continuity_sequence_recovery.py
       state: FILE
-      size: 7153
-      sha256: b3b8a5fd200a400dec49e0d7d76122b3428dd3dd780d90b5ceb9da98d3a8fde1
+      size: 8222
+      sha256: 5a0c0cdd023a6c3ae036d36076bbf61641cecf7ce2b7fcaf8c9f6fdb84607b3c
 change_classification:
   continuity:
   - docs/03-continuity/change-requests/CR-0455-替代CR-0454封死全部跨版本续接旁路.md
@@ -624,11 +658,14 @@ change_classification:
   - docs/03-continuity/change-requests/CR-0458-替代CR-0457原子恢复跨序状态并锁定R16代码证据.md
   - docs/03-continuity/change-requests/CR-0459-刷新CR-0458连续性原子恢复后的重建证据.md
   - docs/03-continuity/change-requests/CR-0460-替代CR-0459无副作用刷新连续性重建证据.md
+  - docs/03-continuity/change-requests/CR-0461-补齐序列恢复终态的连续性门禁枚举.md
+  - docs/03-continuity/change-requests/CR-0462-刷新CR-0461门禁终态枚举后的重建证据.md
   other:
   - releases/R14/TASKS.yaml
   - releases/R16/TASKS.yaml
   code:
   - scripts/continuity.py
+  - scripts/continuity_gate.py
   tests:
   - tests/test_continuity_sequence_recovery.py
 required_records:
@@ -641,6 +678,8 @@ change_requests:
 - CR-0458
 - CR-0459
 - CR-0460
+- CR-0461
+- CR-0462
 scope:
   allowed_paths:
   - apps/**
@@ -679,13 +718,20 @@ scope:
   - artifacts/validation/continuity-integration-v1.2.3.log
   - artifacts/validation/continuity-lifecycle-integration-v1.2.3.json
   - artifacts/validation/continuity-lifecycle-integration-v1.2.3.log
-  source: story+explicit+approved-cr:CR-0460
+  - scripts/continuity_gate.py
+  - tests/test_continuity_sequence_recovery.py
+  source: story+explicit+approved-cr:CR-0460+approved-cr:CR-0461+approved-cr:CR-0462
 parallel_execution:
-  assessment: NO_SAFE_PARALLEL
-  delegated_workers: 0
-  workers: []
-  reason: CR状态与其实施Commit必须串行绑定
-event_hash: f451afe4d60380ddaa83b5a0018d435f4149dfedeb79000717e075f018f3b94b
+  assessment: DELEGATED
+  delegated_workers: 1
+  workers:
+  - worker_id: codex-cr0462-independent-review-20260729
+    responsibility: CR-0462独立范围与必要性审核
+    allowed_paths:
+    - .continuity/change_requests/CR-0462.yaml
+    - docs/03-continuity/change-requests/CR-0462-刷新CR-0461门禁终态枚举后的重建证据.md
+  reason: 独立审核与主代理实施职责分离，审核已落库APPROVED
+event_hash: 6ac8c627682b6feee96dfc06a45de5ec9e7d21c3ae178ee056878e5383e29fa0
 ```
 
 ## 接续状态与事件头
@@ -697,8 +743,8 @@ active_session_id: SES-20260728T154000Z-0458A14C
 last_session_id: SES-20260728T125934Z-F3DED330
 last_session_result: SEQUENCE_RECOVERED
 last_closure_checkpoint_id: CP-SES-20260728T102501Z-3189682B-0007
-event_count: 4360
-event_head_hash: f451afe4d60380ddaa83b5a0018d435f4149dfedeb79000717e075f018f3b94b
+event_count: 4371
+event_head_hash: 6ac8c627682b6feee96dfc06a45de5ec9e7d21c3ae178ee056878e5383e29fa0
 event_chain_valid: true
 ```
 
@@ -821,9 +867,9 @@ recent_sessions: - session_id: SES-20260727T163211Z-EDFF7E87
   started_at: '2026-07-28T15:53:44Z'
   record: .continuity/sessions/SES-20260728T154000Z-0458A14C.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260728T154000Z-0458A14C.md
-  updated_at: '2026-07-28T16:13:19Z'
+  updated_at: '2026-07-28T16:31:55Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260728T154000Z-0458A14C/0003.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260728T154000Z-0458A14C/0004.yaml
   handoff_bundle: null
 task_claims: - claim_id: CLM-B1FA5D5F6CC0
   session_id: SES-20260725T180922Z-D7231210
@@ -1757,9 +1803,9 @@ recent_task_transitions: - transition_id: TRN-B419231C23E8
 ```yaml
 initialized: true
 branch: task/TASK-R03-001
-head: 311e94a740a6babc6bbcfc9d77f11495f2245ab7
+head: 980d57e4616bed44e5762404b166b0d7ecd6a74f
 upstream: origin/task/TASK-R03-001
-ahead: 4
+ahead: 5
 behind: 0
 dirty: true
 status_porcelain:
@@ -1768,17 +1814,24 @@ status_porcelain:
 - ' M .continuity/EVENT_LOG.jsonl'
 - ' M .continuity/SESSION_INDEX.yaml'
 - ' M .continuity/STATE.yaml'
-- ' M .continuity/change_requests/CR-0458.yaml'
-- ' M .continuity/change_requests/CR-0460.yaml'
 - ' M .continuity/sessions/SES-20260728T154000Z-0458A14C.yaml'
 - ' M CURRENT_STATUS.yaml'
+- ' M artifacts/validation/continuity-integration-v1.2.3.json'
+- ' M artifacts/validation/continuity-lifecycle-integration-v1.2.3.json'
+- ' M artifacts/validation/continuity-lifecycle-integration-v1.2.3.log'
 - ' M catalogs/change_request_index.csv'
 - ' M catalogs/session_index.csv'
-- ' M docs/03-continuity/change-requests/CR-0458-替代CR-0457原子恢复跨序状态并锁定R16代码证据.md'
-- ' M docs/03-continuity/change-requests/CR-0460-替代CR-0459无副作用刷新连续性重建证据.md'
 - ' M docs/03-continuity/sessions/2026-07/SES-20260728T154000Z-0458A14C.md'
-- ?? .continuity/checkpoints/SES-20260728T154000Z-0458A14C/0003.yaml
+- ' M scripts/continuity_gate.py'
+- ' M tests/test_continuity_sequence_recovery.py'
+- ?? .continuity/change_requests/CR-0461.yaml
+- ?? .continuity/change_requests/CR-0462.yaml
+- ?? .continuity/checkpoints/SES-20260728T154000Z-0458A14C/0004.yaml
+- ?? docs/03-continuity/change-requests/CR-0461-补齐序列恢复终态的连续性门禁枚举.md
+- ?? docs/03-continuity/change-requests/CR-0462-刷新CR-0461门禁终态枚举后的重建证据.md
 recent_commits:
+- "980d57e4616bed44e5762404b166b0d7ecd6a74f\t2026-07-29T00:13:36+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(continuity): bind recovery\
+  \ implementation evidence"
 - "311e94a740a6babc6bbcfc9d77f11495f2245ab7\t2026-07-29T00:12:35+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] feat(continuity): add atomic\
   \ sequential release recovery"
 - "c47d19064bec57bd751f1cfa06a0fa7a75844790\t2026-07-28T23:27:16+08:00\tHHY Continuity Bootstrap\t[STORY-R16-002] fix(continuity): enforce sequential\
@@ -1793,14 +1846,12 @@ recent_commits:
   \ change"
 - "ea65f7013ab87223087be4389ffae0a7accc5949\t2026-07-28T21:13:16+08:00\tHHY Continuity Bootstrap\t[STORY-R16-001] feat(r16): implement admin order\
   \ workspace"
-- "28c875d42b5bde36f2286b7cd22ff451c28b3d69\t2026-07-28T21:00:28+08:00\tHHY Continuity Bootstrap\t[STORY-R16-001] chore(r16): start admin order\
-  \ experience"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`1ba447f701ccc80d242f16f3828794c53e39aba2af3cb812116461b094e65468`
-- 文件数：10
+- 指纹：`96446bdb1235150564dcc1d8685db7d97e30b1b1f2307ffd1da9347f18818b47`
+- 文件数：13
 
 - `docs/03-continuity/change-requests/CR-0455-替代CR-0454封死全部跨版本续接旁路.md`
 - `docs/03-continuity/change-requests/CR-0456-补齐CR-0455发布产物准入门禁范围.md`
@@ -1808,9 +1859,12 @@ recent_commits:
 - `docs/03-continuity/change-requests/CR-0458-替代CR-0457原子恢复跨序状态并锁定R16代码证据.md`
 - `docs/03-continuity/change-requests/CR-0459-刷新CR-0458连续性原子恢复后的重建证据.md`
 - `docs/03-continuity/change-requests/CR-0460-替代CR-0459无副作用刷新连续性重建证据.md`
+- `docs/03-continuity/change-requests/CR-0461-补齐序列恢复终态的连续性门禁枚举.md`
+- `docs/03-continuity/change-requests/CR-0462-刷新CR-0461门禁终态枚举后的重建证据.md`
 - `releases/R14/TASKS.yaml`
 - `releases/R16/TASKS.yaml`
 - `scripts/continuity.py`
+- `scripts/continuity_gate.py`
 - `tests/test_continuity_sequence_recovery.py`
 
 ## 当前 Release
@@ -14809,13 +14863,111 @@ PARALLEL_EXECUTION_PLAN.yaml:
   - SES-20260728T154000Z-0458A14C
   implementation_commits:
   - 311e94a7
+- protocol_version: '1.0'
+  cr_id: CR-0461
+  title: 补齐序列恢复终态的连续性门禁枚举
+  status: IMPLEMENTING
+  created_at: '2026-07-28T16:15:49Z'
+  updated_at: '2026-07-28T16:17:42Z'
+  requester_actor_id: codex-r14-continuation-20260728
+  approver_actor_id: codex-sequence-terminal-independent-review-20260729
+  task_id: TASK-R14-004
+  session_id: SES-20260728T154000Z-0458A14C
+  user_request: 强制修复连续性错误并确保后续不依赖聊天且门禁真实生效。
+  reason: pre-push真实逐Commit校验发现continuity_gate仍拒绝CR-0458新增的终态SEQUENCE_RECOVERED；必须补齐同一状态机投影，不能绕过推送门禁。
+  original_rule: 旧会话合法终态枚举只有CLOSED/ABANDONED/TRANSFERRED等，不认识经CR-0458审计新增的SEQUENCE_RECOVERED，因此恢复记录正确但pre-push拒绝。
+  new_rule: 在既有validate_session_structure终态枚举中加入SEQUENCE_RECOVERED；它仅是终态，不得被current_session视为ACTIVE/HANDED_OFF/CLOSING，也不得产生ACTIVE Claim。测试同时断言门禁接受该终态、旧会话不再被领取、当前唯一R14会话/Claim不变，并真实重跑pre-push。
+  impact_summary: 只补齐连续性门禁对已批准序列恢复终态的识别，不改恢复状态、产品、API、数据库或版本计划。
+  impact:
+    files:
+    - scripts/continuity_gate.py
+    - tests/test_continuity_sequence_recovery.py
+    pages: []
+    apis: []
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - validate_session_structure接受SEQUENCE_RECOVERED；current_session不返回旧会话；SESSION_INDEX/TASK_CLAIMS只有R14新会话ACTIVE；pre-push五个未推Commit全部PASS
+    releases:
+    - R14
+    - R15
+    - R16
+    migration_and_compatibility: 旧状态保持不变；历史会话无需迁移。SEQUENCE_RECOVERED只适用于带恢复记录的终止会话。
+  user_confirmation: 项目所有者已明确要求：强制修复跨版本连续性错误，确保仓库门禁真实生效且后续开发不依赖聊天记录。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-28T16:17:22Z'
+    note: APPROVED：范围精确且完整。仅将 SEQUENCE_RECOVERED 加入 continuity_gate.validate_session_structure 的合法终态枚举；continuity_lib.current_session 的活动集合保持
+      ACTIVE/HANDED_OFF/CLOSING，不得纳入该终态；测试必须证明旧 R16 会话及 claim 均非 ACTIVE、唯一活动会话和 claim 仍为新的 R14 会话，并对五个未推送提交执行真实 pre-push。无需修改产品、API、数据库、配置、版本计划或
+      continuity_lib.py。
+  machine_record: .continuity/change_requests/CR-0461.yaml
+  document: docs/03-continuity/change-requests/CR-0461-补齐序列恢复终态的连续性门禁枚举.md
+  decision_log:
+  - at: '2026-07-28T16:17:42Z'
+    actor_id: codex-r14-continuation-20260728
+    status: IMPLEMENTING
+    note: 独立审查APPROVED后补齐终态枚举并执行专项测试与pre-push
+    session_id: SES-20260728T154000Z-0458A14C
+  session_ids:
+  - SES-20260728T154000Z-0458A14C
+- protocol_version: '1.0'
+  cr_id: CR-0462
+  title: 刷新CR-0461门禁终态枚举后的重建证据
+  status: IMPLEMENTING
+  created_at: '2026-07-28T16:19:23Z'
+  updated_at: '2026-07-28T16:22:24Z'
+  requester_actor_id: codex-r14-continuation-20260728
+  approver_actor_id: codex-cr0462-independent-review-20260729
+  task_id: TASK-R14-004
+  session_id: SES-20260728T154000Z-0458A14C
+  user_request: 连续性强制规则必须真实生效且后续开发不得依赖聊天。
+  reason: CR-0461修改属于integration source_manifest的continuity_gate.py，按CR-0460规则必须真实重跑；这是终态枚举补漏后的最后一次连续性源刷新。
+  original_rule: CR-0460报告绑定CR-0461修改前的continuity_gate.py哈希，终态枚举补齐后旧报告必然过期。
+  new_rule: 真实单次运行run_continuity_self_test刷新四报告；strict/doctor输出均写入gitignore runtime；随后不得再修改连续性源，直接checkpoint、提交、pre-push。
+  impact_summary: 刷新CR-0461唯一源哈希变化导致过期的四份连续性证据。
+  impact:
+    files:
+    - artifacts/validation/continuity-integration-v1.2.3.json
+    - artifacts/validation/continuity-integration-v1.2.3.log
+    - artifacts/validation/continuity-lifecycle-integration-v1.2.3.json
+    - artifacts/validation/continuity-lifecycle-integration-v1.2.3.log
+    pages: []
+    apis: []
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - run_continuity_self_test PASS；checkpoint后continuity_gate doctor strict和check_v123 strict均以runtime json-out PASS；pre-push全部未推提交PASS
+    releases:
+    - R14
+    - R15
+    - R16
+    migration_and_compatibility: 固定报告路径和格式不变；普通R14产品开发不运行。
+  user_confirmation: 项目所有者已明确要求：连续性强制规则必须真实生效，开发接续不得依赖聊天；本次仅允许刷新CR-0461导致过期的四份连续性集成报告。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-28T16:21:48Z'
+    note: APPROVED：CR-0462具备必要性且范围完整。CR-0461已实际修改scripts/continuity_gate.py，其当前SHA-256与两个既有JSON报告source_manifest中的旧哈希均不一致，因此四份integration/lifecycle
+      JSON与LOG必须由run_continuity_self_test真实单次刷新。实施范围严格限定这四份生成报告及正常CR治理记录；continuity_gate doctor strict和check_v123 strict必须将json-out写入已由.gitignore覆盖的.continuity/runtime，严禁改写tracked
+      project-doctor，严禁新增或修改任何源码、配置、产品文件或其他验证产物。刷新后不得再修改连续性源，必须直接checkpoint、提交并真实pre-push。
+  machine_record: .continuity/change_requests/CR-0462.yaml
+  document: docs/03-continuity/change-requests/CR-0462-刷新CR-0461门禁终态枚举后的重建证据.md
+  decision_log:
+  - at: '2026-07-28T16:22:24Z'
+    actor_id: codex-r14-continuation-20260728
+    status: IMPLEMENTING
+    note: 独立审核已批准；按冻结范围单次刷新四份连续性报告，随后不再修改连续性源。
+    session_id: SES-20260728T154000Z-0458A14C
+  session_ids:
+  - SES-20260728T154000Z-0458A14C
 ```
 
 ## 上下文来源及哈希
 
 - `AGENTS.md` — `bde93afcdb788b601aeffcf2369a1aeda8eeb391f165429d501d7ba8895ba4a6`
 - `START_HERE.md` — `22de14029ce47beb41ea569e36ce223fbc9d11b86f8676f28d5fbbd83896af5c`
-- `CURRENT_STATUS.yaml` — `fa74ecaba1b4199daec49f983bef137843b8aa9a37827572c6d047d9ad51e24d`
+- `CURRENT_STATUS.yaml` — `7ca589954f4cfaf56b032ffdbbc5b823b8805976c1d3403faaed82155d07322c`
 - `NEXT_TASK.yaml` — `83620cf8bc2f10f75ef20b3af2c126a60697347cb6354e741ca2fc9b50a8ade4`
 - `DEVELOPMENT_RISK_REGISTER.md` — `8304c91492e4ee2abea0522a06541c8688d39c7fc532b5d0cde499bf09fffb87`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
@@ -14826,12 +14978,12 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `config/REPOSITORY_TRANSPORT.yaml` — `8c4a21f3e204d46e7ffb467d804a53ed26cda61cd088dadfddb50b69eea657fc`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `38e04ed812c8df0d353c2b91993d31e53b471e9c457f06b426bd2260c470aa92`
-- `.continuity/EVENT_LOG.jsonl` — `988b50c36377602431e63f7a5655dd91460283ff1058bdf14ad6f7d65c70d7e3`
-- `.continuity/SESSION_INDEX.yaml` — `7069a79a473d036c713c980f276c499bc27d49936d53fe52769313c9980572b8`
+- `.continuity/EVENT_LOG.jsonl` — `213191a762c9c0bc0e4a141532119a7ef4c889d9f097e8492c75937ab4eaeab2`
+- `.continuity/SESSION_INDEX.yaml` — `d0830a3eb5417f2a56dd9f798636d8d87098996f70b5636f71dc8ffd5220ad1c`
 - `.continuity/TASK_CLAIMS.yaml` — `722f3826286f2f3ce0f91a3d2c37fcab780e5bd204de6a85f143aa0b0773a668`
 - `.continuity/TASK_TRANSITIONS.yaml` — `8ba3f9d39e2cfe0b504b19cbe7e905b2b50512f58b858a23534732a5de72b20b`
-- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `322c238e8aa198a01e24e19e85d895dc3a9d5d7d1497f312c0782a87424cbf33`
-- `.continuity/ACTIVE_SESSION.yaml` — `aef9798f8b3ca05e3245e01ce5fc7c38e79e59b7217ec0bb46f29ff57af71b97`
+- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `3e00c9d6cb306d6b35b61e491ce52c3c25b2c2650694547737547fa44b63ebc6`
+- `.continuity/ACTIVE_SESSION.yaml` — `c63ae0ce7c09d6c5649a13b8fa87eefcbfd71abea6ce9bd03c93015523b62840`
 - `docs/00-baseline/正式商业系统全局硬性开发边界.md` — `30c07716c31d6d09621b6f6d119063b1fcb35e78d9b266423ed333d92b8262db`
 - `docs/02-ui/UI参考图使用与开发约束_V1.2.2.md` — `d14367586aa2067b059df58798acd20ab982459cdb35ff27fc7922a3896e4933`
 - `docs/03-continuity/持续开发无状态接续强制门禁_V1.2.3.md` — `d0ed3ed68bdd93b06500eecdfb5baa3245e6ca8b685a486788abb6eee39b3d51`
@@ -14842,11 +14994,13 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `releases/R14/TASKS.yaml` — `3c22aabda13f389c3b7b63b9d462ea7721fae78e166d8f878cf6ced8173ea69c`
 - `releases/R14/ACCEPTANCE_MATRIX.csv` — `ffc0fd23b945544de8fe2a37774a94675c0d60b73d88517abe69c68d326ad6f4`
 - `releases/R14/PARALLEL_EXECUTION_PLAN.yaml` — `cd1f0c96ffd7562acb214edba80a2bbb12b79f06c19032d1b133936ff6abd74f`
-- `docs/03-continuity/sessions/2026-07/SES-20260728T154000Z-0458A14C.md` — `81b728e099f80e64b65062f6283292e475c937c3c76c19445219b1c3813b983c`
-- `.continuity/checkpoints/SES-20260728T154000Z-0458A14C/0003.yaml` — `1248d1645026ed60af838c44057a5301ec83e31f9373b8af4b044a419588cacf`
+- `docs/03-continuity/sessions/2026-07/SES-20260728T154000Z-0458A14C.md` — `6c51604120550e480a8997376d77b12ee4477333f1d8b33d94b98bb802a18c2c`
+- `.continuity/checkpoints/SES-20260728T154000Z-0458A14C/0004.yaml` — `2c6a8fa4242b311990ba8bc3a1a22050c71847b77030505ab601c00290a370b6`
 - `docs/03-continuity/change-requests/CR-0458-替代CR-0457原子恢复跨序状态并锁定R16代码证据.md` — `b0424db452ec82579f19113264010967e3cd49912fb447c05566727df5ee98e9`
 - `docs/03-continuity/change-requests/CR-0459-刷新CR-0458连续性原子恢复后的重建证据.md` — `113ef3a145bba8622e7e11066381bcac95c57d644b0de59f468be2edb3bf5cf1`
 - `docs/03-continuity/change-requests/CR-0460-替代CR-0459无副作用刷新连续性重建证据.md` — `852b16f8cd911cd3a5e63e888d176fda07bc2996906002d626553c5ead95ec2f`
+- `docs/03-continuity/change-requests/CR-0461-补齐序列恢复终态的连续性门禁枚举.md` — `2e61577966ebed8a386cd4c5686e6a0f18e3aceb17a59dbada1c6e3a6270c47f`
+- `docs/03-continuity/change-requests/CR-0462-刷新CR-0461门禁终态枚举后的重建证据.md` — `e0de58ca8d7f437f6b417591e02ecea73997da3caa7f2dc0b7390fad9fff5a17`
 
 ## 接手硬规则
 

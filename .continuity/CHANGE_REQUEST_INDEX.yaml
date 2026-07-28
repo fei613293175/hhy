@@ -28754,3 +28754,101 @@ change_requests:
   - SES-20260728T154000Z-0458A14C
   implementation_commits:
   - 311e94a7
+- protocol_version: '1.0'
+  cr_id: CR-0461
+  title: 补齐序列恢复终态的连续性门禁枚举
+  status: IMPLEMENTING
+  created_at: '2026-07-28T16:15:49Z'
+  updated_at: '2026-07-28T16:17:42Z'
+  requester_actor_id: codex-r14-continuation-20260728
+  approver_actor_id: codex-sequence-terminal-independent-review-20260729
+  task_id: TASK-R14-004
+  session_id: SES-20260728T154000Z-0458A14C
+  user_request: 强制修复连续性错误并确保后续不依赖聊天且门禁真实生效。
+  reason: pre-push真实逐Commit校验发现continuity_gate仍拒绝CR-0458新增的终态SEQUENCE_RECOVERED；必须补齐同一状态机投影，不能绕过推送门禁。
+  original_rule: 旧会话合法终态枚举只有CLOSED/ABANDONED/TRANSFERRED等，不认识经CR-0458审计新增的SEQUENCE_RECOVERED，因此恢复记录正确但pre-push拒绝。
+  new_rule: 在既有validate_session_structure终态枚举中加入SEQUENCE_RECOVERED；它仅是终态，不得被current_session视为ACTIVE/HANDED_OFF/CLOSING，也不得产生ACTIVE Claim。测试同时断言门禁接受该终态、旧会话不再被领取、当前唯一R14会话/Claim不变，并真实重跑pre-push。
+  impact_summary: 只补齐连续性门禁对已批准序列恢复终态的识别，不改恢复状态、产品、API、数据库或版本计划。
+  impact:
+    files:
+    - scripts/continuity_gate.py
+    - tests/test_continuity_sequence_recovery.py
+    pages: []
+    apis: []
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - validate_session_structure接受SEQUENCE_RECOVERED；current_session不返回旧会话；SESSION_INDEX/TASK_CLAIMS只有R14新会话ACTIVE；pre-push五个未推Commit全部PASS
+    releases:
+    - R14
+    - R15
+    - R16
+    migration_and_compatibility: 旧状态保持不变；历史会话无需迁移。SEQUENCE_RECOVERED只适用于带恢复记录的终止会话。
+  user_confirmation: 项目所有者已明确要求：强制修复跨版本连续性错误，确保仓库门禁真实生效且后续开发不依赖聊天记录。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-28T16:17:22Z'
+    note: APPROVED：范围精确且完整。仅将 SEQUENCE_RECOVERED 加入 continuity_gate.validate_session_structure 的合法终态枚举；continuity_lib.current_session 的活动集合保持
+      ACTIVE/HANDED_OFF/CLOSING，不得纳入该终态；测试必须证明旧 R16 会话及 claim 均非 ACTIVE、唯一活动会话和 claim 仍为新的 R14 会话，并对五个未推送提交执行真实 pre-push。无需修改产品、API、数据库、配置、版本计划或
+      continuity_lib.py。
+  machine_record: .continuity/change_requests/CR-0461.yaml
+  document: docs/03-continuity/change-requests/CR-0461-补齐序列恢复终态的连续性门禁枚举.md
+  decision_log:
+  - at: '2026-07-28T16:17:42Z'
+    actor_id: codex-r14-continuation-20260728
+    status: IMPLEMENTING
+    note: 独立审查APPROVED后补齐终态枚举并执行专项测试与pre-push
+    session_id: SES-20260728T154000Z-0458A14C
+  session_ids:
+  - SES-20260728T154000Z-0458A14C
+- protocol_version: '1.0'
+  cr_id: CR-0462
+  title: 刷新CR-0461门禁终态枚举后的重建证据
+  status: IMPLEMENTING
+  created_at: '2026-07-28T16:19:23Z'
+  updated_at: '2026-07-28T16:22:24Z'
+  requester_actor_id: codex-r14-continuation-20260728
+  approver_actor_id: codex-cr0462-independent-review-20260729
+  task_id: TASK-R14-004
+  session_id: SES-20260728T154000Z-0458A14C
+  user_request: 连续性强制规则必须真实生效且后续开发不得依赖聊天。
+  reason: CR-0461修改属于integration source_manifest的continuity_gate.py，按CR-0460规则必须真实重跑；这是终态枚举补漏后的最后一次连续性源刷新。
+  original_rule: CR-0460报告绑定CR-0461修改前的continuity_gate.py哈希，终态枚举补齐后旧报告必然过期。
+  new_rule: 真实单次运行run_continuity_self_test刷新四报告；strict/doctor输出均写入gitignore runtime；随后不得再修改连续性源，直接checkpoint、提交、pre-push。
+  impact_summary: 刷新CR-0461唯一源哈希变化导致过期的四份连续性证据。
+  impact:
+    files:
+    - artifacts/validation/continuity-integration-v1.2.3.json
+    - artifacts/validation/continuity-integration-v1.2.3.log
+    - artifacts/validation/continuity-lifecycle-integration-v1.2.3.json
+    - artifacts/validation/continuity-lifecycle-integration-v1.2.3.log
+    pages: []
+    apis: []
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - run_continuity_self_test PASS；checkpoint后continuity_gate doctor strict和check_v123 strict均以runtime json-out PASS；pre-push全部未推提交PASS
+    releases:
+    - R14
+    - R15
+    - R16
+    migration_and_compatibility: 固定报告路径和格式不变；普通R14产品开发不运行。
+  user_confirmation: 项目所有者已明确要求：连续性强制规则必须真实生效，开发接续不得依赖聊天；本次仅允许刷新CR-0461导致过期的四份连续性集成报告。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-28T16:21:48Z'
+    note: APPROVED：CR-0462具备必要性且范围完整。CR-0461已实际修改scripts/continuity_gate.py，其当前SHA-256与两个既有JSON报告source_manifest中的旧哈希均不一致，因此四份integration/lifecycle
+      JSON与LOG必须由run_continuity_self_test真实单次刷新。实施范围严格限定这四份生成报告及正常CR治理记录；continuity_gate doctor strict和check_v123 strict必须将json-out写入已由.gitignore覆盖的.continuity/runtime，严禁改写tracked
+      project-doctor，严禁新增或修改任何源码、配置、产品文件或其他验证产物。刷新后不得再修改连续性源，必须直接checkpoint、提交并真实pre-push。
+  machine_record: .continuity/change_requests/CR-0462.yaml
+  document: docs/03-continuity/change-requests/CR-0462-刷新CR-0461门禁终态枚举后的重建证据.md
+  decision_log:
+  - at: '2026-07-28T16:22:24Z'
+    actor_id: codex-r14-continuation-20260728
+    status: IMPLEMENTING
+    note: 独立审核已批准；按冻结范围单次刷新四份连续性报告，随后不再修改连续性源。
+    session_id: SES-20260728T154000Z-0458A14C
+  session_ids:
+  - SES-20260728T154000Z-0458A14C
