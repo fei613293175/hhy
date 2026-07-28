@@ -102,7 +102,7 @@ tasks:
   completed_at: '2026-07-28T19:30:10Z'
 - id: TASK-R14-006
   title: 一对一聊天核心可观测性与预发布验收
-  status: READY
+  status: DONE
   depends_on:
   - TASK-R14-005
   requirements: *id001
@@ -116,9 +116,10 @@ tasks:
   - 运行手册演练
   - 验收矩阵签字
   session_log_required: true
+  completed_at: '2026-07-28T20:56:31Z'
 - id: TASK-R14-007
   title: 一对一聊天核心Android测试APK与产物追溯
-  status: BLOCKED
+  status: READY
   depends_on:
   - TASK-R14-006
   requirements: *id001

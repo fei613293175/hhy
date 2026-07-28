@@ -1,0 +1,206 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260728T195020Z-B1DAB2D3-0006
+session_id: SES-20260728T195020Z-B1DAB2D3
+task_id: TASK-R14-006
+story_id: STORY-R14-004
+sequence: 6
+created_at: '2026-07-28T20:56:36Z'
+summary: 关闭 TASK-R14-006：R14隔离Staging在f58be15f通过Flyway044、举报目录、可观测性、告警生命周期、回滚与数据保持验收；证据已按SHA回收且68021505远端双门禁PASS
+next_step: 提交关闭元数据Commit，然后运行pre-push/CI门禁
+blockers: []
+decisions:
+- 任务结果：COMPLETED
+- 实现Commit：68021505de667d801b29022967ce78513706daef
+- 任务转换：TRN-20260728T205631Z-SES-20260728T195020Z-B1DAB2D3
+- 下一Release：R14
+note: 该检查点专门绑定最终关闭元数据Commit
+tests:
+- name: R14 staging acceptance
+  result: PASS
+  evidence: artifacts/validation/r14-task006-staging/machine-summary.txt
+  note: 冻结f58be15f、Flyway044、目录、八Gauge八告警、三组生命周期、回滚及数据保持通过
+- name: R14 staging release scope
+  result: PASS
+  evidence: tests/test_r14_staging_release_scope.py
+  note: 2项通过
+- name: R14-R32 continuity sequence
+  result: PASS
+  evidence: tests/test_continuity_version_sequence.py
+  note: 10项通过，覆盖全链相邻、跳版拒绝、R32全前序和中段失败阻断
+- name: Staging evidence SHA256
+  result: PASS
+  evidence: artifacts/validation/r14-task006-staging/SHA256SUMS
+  note: 29个清单文件本地逐项一致
+- name: Program execution plan
+  result: PASS
+  evidence: releases/PROGRAM_EXECUTION_PLAN.yaml
+  note: 31个版本0错误
+- name: continuity closure metadata
+  result: PASS
+  evidence: catalogs/task_transition_ledger.csv;CHANGELOG.md;CURRENT_STATUS.yaml;NEXT_TASK.yaml
+  note: 关闭元数据、任务转换和下一任务已原子生成
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: 68021505de667d801b29022967ce78513706daef
+  upstream: origin/task/TASK-R03-001
+  ahead: 0
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/sessions/SES-20260728T195020Z-B1DAB2D3.yaml'
+  - ' M CHANGELOG.md'
+  - ' M NEXT_TASK.yaml'
+  - ' M catalogs/session_index.csv'
+  - ' M releases/R14/TASKS.yaml'
+  recent_commits:
+  - "68021505de667d801b29022967ce78513706daef\t2026-07-29T04:50:32+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] test(r14): record scoped staging\
+    \ pass"
+  - "f58be15f82ed1e9eb95355d8e4df363417fff023\t2026-07-29T04:36:02+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] fix(r14): pin staging migration\
+    \ scope"
+  - "89416d1e59cb8dbc61322ad15587e24a34784276\t2026-07-29T04:27:21+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] test(r14): verify catalog\
+    \ without host Python"
+  - "09d337e272faedc23154a15e42adbf22dd692e72\t2026-07-29T04:17:22+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] test(r14): bind staging to\
+    \ report catalog source"
+  - "446316f0c1d6347e300fb7c6544bd762dd430286\t2026-07-29T04:02:22+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] test(continuity): decouple\
+    \ recovery history from active session"
+  - "e61cdcd4493ccf86d53682da10b23c516ebe8925\t2026-07-29T03:31:48+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(continuity): close TASK-R14-005\
+    \ as completed"
+  - "109c0294843f696327c9a0f777826018bf562fc0\t2026-07-29T03:27:46+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(r14): close chat test\
+    \ changes"
+  - "f9ed32b1d8d167ab5553401eb1f79c4a8eb0e5f2\t2026-07-29T03:22:40+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] docs(r14): archive chat reliability\
+    \ evidence"
+project_fingerprint:
+  sha256: 92a530a436d7610af357164890336be2195df71a761082bcb0afcdeeec1b924a
+  files:
+  - CHANGELOG.md
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/change-requests/CR-0468-修复历史序列恢复测试绑定当前会话导致后续任务CI失败.md
+  - docs/03-continuity/change-requests/CR-0469-按CR-0464目录源重建R14隔离Staging验收.md
+  - docs/03-continuity/change-requests/CR-0470-替代CR-0469锁定R14目录与Flyway发布范围验收.md
+  - infra/staging/r14-smoke/docker-compose.yml
+  - releases/R14/RELEASE_MANIFEST.yaml
+  - releases/R14/TASKS.yaml
+  - scripts/run_r14_staging_acceptance.sh
+  - tests/test_continuity_sequence_recovery.py
+  - tests/test_r14_staging_release_scope.py
+  file_count: 11
+  payload:
+    base_commit: e61cdcd4493ccf86d53682da10b23c516ebe8925
+    files:
+    - path: CHANGELOG.md
+      state: FILE
+      size: 214588
+      sha256: b23f0d736cd768a95559790a4f6049249c4922efa19353f2f09b299a2f7ca199
+    - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
+      state: FILE
+      size: 243395
+      sha256: fc555bd10fb9fa9cbce7eb8c636306a98c7b4bea527bd360925f9dc2d87e11e9
+    - path: docs/03-continuity/change-requests/CR-0468-修复历史序列恢复测试绑定当前会话导致后续任务CI失败.md
+      state: FILE
+      size: 3759
+      sha256: dc1a9a8709de4a7fac29dc41fc14148874f6a10ab287194df9fce806c168562e
+    - path: docs/03-continuity/change-requests/CR-0469-按CR-0464目录源重建R14隔离Staging验收.md
+      state: FILE
+      size: 3771
+      sha256: 6a202fac936d842c9852159d0b049865f7c6db4a5a000b8c08feb9ef355a7cd6
+    - path: docs/03-continuity/change-requests/CR-0470-替代CR-0469锁定R14目录与Flyway发布范围验收.md
+      state: FILE
+      size: 4047
+      sha256: ffd4125153362421cdfbfa3b7f0d82bcfd922a0d6f871faffb53e52989cdfdd7
+    - path: infra/staging/r14-smoke/docker-compose.yml
+      state: FILE
+      size: 4520
+      sha256: 716b42201ed95adab6bff5df891354b069327716ae9998652c29292ad25e9f05
+    - path: releases/R14/RELEASE_MANIFEST.yaml
+      state: FILE
+      size: 8039
+      sha256: ba91abcf963918fa594d84004d8f0f83688d7a0bfca3fc6688cd05c5d022b5ac
+    - path: releases/R14/TASKS.yaml
+      state: FILE
+      size: 6313
+      sha256: f1797eeeee98610dc4491eb1329c66c240f7992a0ff7a4535e957f101d8b01b1
+    - path: scripts/run_r14_staging_acceptance.sh
+      state: FILE
+      size: 21122
+      sha256: 05e408fcb8535913bab2ff7af9c29dc9b0b1e8477b850a3deade550b489b0a15
+    - path: tests/test_continuity_sequence_recovery.py
+      state: FILE
+      size: 8703
+      sha256: d717e5c8a96295473d4b214bdf73e4ba99f11736bb550efa7007aca7cb7e6e8a
+    - path: tests/test_r14_staging_release_scope.py
+      state: FILE
+      size: 1153
+      sha256: dad9751ebe2a8b66e8ebffe6fc1353106646855ebbd56cf422205eb26a50f2c3
+change_classification:
+  other:
+  - CHANGELOG.md
+  - releases/R14/TASKS.yaml
+  continuity:
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/change-requests/CR-0468-修复历史序列恢复测试绑定当前会话导致后续任务CI失败.md
+  - docs/03-continuity/change-requests/CR-0469-按CR-0464目录源重建R14隔离Staging验收.md
+  - docs/03-continuity/change-requests/CR-0470-替代CR-0469锁定R14目录与Flyway发布范围验收.md
+  infrastructure:
+  - infra/staging/r14-smoke/docker-compose.yml
+  source_of_truth:
+  - releases/R14/RELEASE_MANIFEST.yaml
+  code:
+  - scripts/run_r14_staging_acceptance.sh
+  tests:
+  - tests/test_continuity_sequence_recovery.py
+  - tests/test_r14_staging_release_scope.py
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+- APPROVED_CHANGE_REQUEST
+change_requests:
+- CR-0468
+- CR-0469
+- CR-0470
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions: []
+  source: story+explicit
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 远端验收已结束，本阶段是单一事实源的证据回收、哈希核验和连续性状态更新，不可拆分修改共享发布元数据
+event_hash: ee37be9b6ac02b5d87f6f90a33d21e935f306b258c47cc9069f61f36785491f4

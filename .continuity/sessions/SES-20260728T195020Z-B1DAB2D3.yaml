@@ -1,7 +1,7 @@
 protocol_version: '1.0'
 package_version: 1.2.3
 session_id: SES-20260728T195020Z-B1DAB2D3
-status: ACTIVE
+status: CLOSED
 actor:
   id: codex-r14-observability-20260729
   kind: AI_OR_HUMAN
@@ -11,7 +11,7 @@ task_id: TASK-R14-006
 story_id: STORY-R14-004
 goal: 一对一聊天核心可观测性与预发布验收
 started_at: '2026-07-28T19:50:20Z'
-updated_at: '2026-07-28T20:48:23Z'
+updated_at: '2026-07-28T20:56:44Z'
 takeover_of: null
 change_requests:
 - CR-0468
@@ -61,22 +61,36 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-28T20:48:15Z'
-  expires_at: '2026-07-29T00:48:15Z'
-checkpoint_sequence: 5
-latest_checkpoint: .continuity/checkpoints/SES-20260728T195020Z-B1DAB2D3/0005.yaml
+  renewed_at: '2026-07-28T20:56:36Z'
+  expires_at: '2026-07-29T00:56:36Z'
+checkpoint_sequence: 6
+latest_checkpoint: .continuity/checkpoints/SES-20260728T195020Z-B1DAB2D3/0006.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260728T195020Z-B1DAB2D3.md
-next_step: 提交并推送TASK-R14-006验收证据，确认GitHub双门禁后关闭任务并进入TASK-R14-007
+next_step: 提交关闭元数据Commit，然后运行pre-push/CI门禁
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: 5d70ce1ac803def88f646754653c8704b366f857c22bebd1b71719d3eaa1c25d
-  generated_at: '2026-07-28T20:48:19Z'
+  context_hash: e8c174e83b04b52fa34bd51a9bf8a87ecb6bf9c0ce83401291455e174700eed5
+  generated_at: '2026-07-28T20:56:40Z'
 handoff_bundle: null
-closure: null
+closure:
+  result: COMPLETED
+  summary: R14隔离Staging在f58be15f通过Flyway044、举报目录、可观测性、告警生命周期、回滚与数据保持验收；证据已按SHA回收且68021505远端双门禁PASS
+  code_commit: 68021505de667d801b29022967ce78513706daef
+  next_release: R14
+  next_task: TASK-R14-007
+  blocked_advance: false
+  completed_independent_advance: false
+  user_confirmation: null
+  metadata_commit: PENDING
+  push_verification: CI_REQUIRED_AFTER_METADATA_COMMIT
+  started_at: '2026-07-28T20:56:31Z'
+  closure_checkpoint_id: CP-SES-20260728T195020Z-B1DAB2D3-0006
+  closed_at: '2026-07-28T20:56:44Z'
 parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
   reason: 远端验收已结束，本阶段是单一事实源的证据回收、哈希核验和连续性状态更新，不可拆分修改共享发布元数据
+closed_at: '2026-07-28T20:56:44Z'

@@ -1,19 +1,19 @@
 {
   "version": "1.0",
-  "generated_at": "2026-07-28T20:48:19Z",
-  "context_hash": "5d70ce1ac803def88f646754653c8704b366f857c22bebd1b71719d3eaa1c25d",
-  "fingerprint_mode": "SESSION_DELTA",
+  "generated_at": "2026-07-28T20:56:48Z",
+  "context_hash": "da80827a86fb9beaf88a55ff2939bb97a0801211d6b3792e446f0d54224ee9cd",
+  "fingerprint_mode": "REPOSITORY_TREE",
   "project_fingerprint": {
-    "sha256": "ba87705750720f4cbf2f9bdeb2d4a2953d41e3a82de14292737f225509ad5c78",
-    "file_count": 9
+    "sha256": "a3573f5f55e4f93e38a1c50c98ee28c0fe648ad52daf0f3e4687635635d3dc2f",
+    "file_count": 0
   },
   "yaml": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.yaml",
-    "sha256": "b379cc3707712f6d2915c2d8e46b606b55bacd9c2e80bad93b78a8900c33e14a"
+    "sha256": "a3c978234cefdb5f3190408356d03a2c0eae3055bb233a0269349c7837c34cc5"
   },
   "markdown": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.md",
-    "sha256": "41b0ef3b9b0e0b5d7cbbaa947a1679ef84146cf79dd970bf9d76c8f20d89c857"
+    "sha256": "f85594800b3b71559a723fb978067f0db07807883b62a89ab8f4a756578e969c"
   },
   "sources": [
     {
@@ -28,13 +28,13 @@
     },
     {
       "path": "CURRENT_STATUS.yaml",
-      "sha256": "4f4502e35dc55a0c25165d632c95d794fa435945a9ee89d0325cb5e321ccf224",
-      "bytes": 4794
+      "sha256": "bbac5a84d30ea8d108a6cc9b2a30c5866e86be895cdd2886d738a13e583e76e4",
+      "bytes": 4649
     },
     {
       "path": "NEXT_TASK.yaml",
-      "sha256": "0f9d416869c618da8110a8211fe0a6382fd87401e14b572352c4addd00c19bf0",
-      "bytes": 1472
+      "sha256": "09f85a1e3ebffce3fc30980dd0d62cf4e13295a771738caa4cfd60d2591ab18d",
+      "bytes": 1569
     },
     {
       "path": "DEVELOPMENT_RISK_REGISTER.md",
@@ -83,18 +83,18 @@
     },
     {
       "path": ".continuity/EVENT_LOG.jsonl",
-      "sha256": "09e135861bd0fb7477cb07375d6c9b96e37c2a5e5086407efcbd6403484efbb3",
-      "bytes": 2550288
+      "sha256": "8480c4511bcf399a465da6b2fa05bf2d24721111708bfb727339d50bdac07f80",
+      "bytes": 2552034
     },
     {
       "path": ".continuity/SESSION_INDEX.yaml",
-      "sha256": "543cca9ef1832640a57802a8ae78ec825a93f3f69dd731bbe14bb277fef42a30",
-      "bytes": 65299
+      "sha256": "a53424c7c8c5f66b47b4dc8241381c8250009822dfa852457895ab4449e4cb03",
+      "bytes": 65317
     },
     {
       "path": ".continuity/TASK_CLAIMS.yaml",
-      "sha256": "d4b040fb3775e0595d8aeb643c500804ab9dd2da05367f5c7d4c23313001d7e5",
-      "bytes": 91877
+      "sha256": "d9a1b4827b8152bdfb53195f9d137f664f59a49f1fe979bdec1311b756e9bfed",
+      "bytes": 91913
     },
     {
       "path": ".continuity/TASK_TRANSITIONS.yaml",
@@ -108,8 +108,8 @@
     },
     {
       "path": ".continuity/ACTIVE_SESSION.yaml",
-      "sha256": "de3f7924b1be15a0b6a23ad49e96bca4fec9cd1db73b1dfdf5fedd60eb7f98f4",
-      "bytes": 547
+      "sha256": "f89b165813f86292fffdf6d193cecf96693bc434637a94dfb22834b476b1142d",
+      "bytes": 143
     },
     {
       "path": "docs/00-baseline/正式商业系统全局硬性开发边界.md",
@@ -148,8 +148,8 @@
     },
     {
       "path": "releases/R14/TASKS.yaml",
-      "sha256": "d5070f5b64684f7a1cb689fb3f5f1f6f5c6bbd71a46e4db9b5f3d03a01ef9fa9",
-      "bytes": 6277
+      "sha256": "f1797eeeee98610dc4491eb1329c66c240f7992a0ff7a4535e957f101d8b01b1",
+      "bytes": 6313
     },
     {
       "path": "releases/R14/ACCEPTANCE_MATRIX.csv",
@@ -160,31 +160,6 @@
       "path": "releases/R14/PARALLEL_EXECUTION_PLAN.yaml",
       "sha256": "cd1f0c96ffd7562acb214edba80a2bbb12b79f06c19032d1b133936ff6abd74f",
       "bytes": 2539
-    },
-    {
-      "path": "docs/03-continuity/sessions/2026-07/SES-20260728T195020Z-B1DAB2D3.md",
-      "sha256": "e2920438f347c9b8a1520470919f7415b1e95f708dcba1209be527beef49e6f9",
-      "bytes": 8251
-    },
-    {
-      "path": ".continuity/checkpoints/SES-20260728T195020Z-B1DAB2D3/0005.yaml",
-      "sha256": "0c62dcddd6c08eb41dfac6f68f4f470852e7154ea6c3ac8af38c3be4054583e4",
-      "bytes": 8839
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0468-修复历史序列恢复测试绑定当前会话导致后续任务CI失败.md",
-      "sha256": "dc1a9a8709de4a7fac29dc41fc14148874f6a10ab287194df9fce806c168562e",
-      "bytes": 3759
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0469-按CR-0464目录源重建R14隔离Staging验收.md",
-      "sha256": "6a202fac936d842c9852159d0b049865f7c6db4a5a000b8c08feb9ef355a7cd6",
-      "bytes": 3771
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0470-替代CR-0469锁定R14目录与Flyway发布范围验收.md",
-      "sha256": "ffd4125153362421cdfbfa3b7f0d82bcfd922a0d6f871faffb53e52989cdfdd7",
-      "bytes": 4047
     }
   ]
 }
