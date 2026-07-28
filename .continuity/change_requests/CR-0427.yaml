@@ -1,9 +1,9 @@
 protocol_version: '1.0'
 cr_id: CR-0427
 title: 实现R14聊天安全交互并隔离举报原因目录缺口
-status: IMPLEMENTING
+status: IMPLEMENTED
 created_at: '2026-07-28T01:01:19Z'
-updated_at: '2026-07-28T01:13:46Z'
+updated_at: '2026-07-28T02:17:02Z'
 requester_actor_id: codex-root-r14-client-20260728
 approver_actor_id: codex-r14-cr-review-20260728
 task_id: TASK-R14-004
@@ -59,5 +59,12 @@ decision_log:
   status: IMPLEMENTING
   note: 独立复审通过后应用精确Android范围，开始实现真实写操作和四个冻结交互面
   session_id: SES-20260727T221444Z-FD353AD3
+- at: '2026-07-28T02:17:02Z'
+  actor_id: codex-root-r14-client-20260728
+  status: IMPLEMENTED
+  note: Commit e20fa69a已实现并验证联系方式、拉黑解除拉黑、删除会话及举报受控禁用态；PROB-0135继续阻断SHEET-CHAT-002与STORY关闭，CR不进入CLOSED
+  session_id: SES-20260727T221444Z-FD353AD3
 session_ids:
 - SES-20260727T221444Z-FD353AD3
+implementation_commits:
+- e20fa69ae752e1f7530547bcc9864a9ba35624d3
