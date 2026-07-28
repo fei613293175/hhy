@@ -28924,9 +28924,9 @@ change_requests:
 - protocol_version: '1.0'
   cr_id: CR-0464
   title: 冻结R14聊天举报原因目录并贯通客户端后端校验
-  status: IMPLEMENTED
+  status: CLOSED
   created_at: '2026-07-28T17:20:48Z'
-  updated_at: '2026-07-28T18:07:32Z'
+  updated_at: '2026-07-28T18:14:38Z'
   requester_actor_id: codex-r14-continuation-20260728
   approver_actor_id: codex-r14-report-catalog-review-20260729
   task_id: TASK-R14-004
@@ -28997,7 +28997,13 @@ change_requests:
     status: IMPLEMENTED
     note: OpenAPI单源目录、Java/Kotlin生成消费者、后端拒绝校验和Android正式列表已完成；固定Commit 054da178通过生成资产、Java21、PostgreSQL17与Android模块门禁，最终APK和Staging仍按R14收尾重建部署
     session_id: SES-20260728T154000Z-0458A14C
+  - at: '2026-07-28T18:14:38Z'
+    actor_id: codex-r14-continuation-20260728
+    status: CLOSED
+    note: CR-0464实现与验证证据已提交；GitHub CI 30386203684与Continuity Gate 30386204472对Commit 801d7d63均PASS，目录问题关闭，旧APK和Staging重建义务保留在R14 Manifest
+    session_id: SES-20260728T154000Z-0458A14C
   session_ids:
   - SES-20260728T154000Z-0458A14C
   implementation_commits:
   - 054da178f90b752e23b33b8de49c22c6c8421026
+  - 801d7d636ae833e2e4fa762c9ffe78350527c9d4
