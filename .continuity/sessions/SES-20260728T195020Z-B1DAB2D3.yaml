@@ -1,0 +1,80 @@
+protocol_version: '1.0'
+package_version: 1.2.3
+session_id: SES-20260728T195020Z-B1DAB2D3
+status: ACTIVE
+actor:
+  id: codex-r14-observability-20260729
+  kind: AI_OR_HUMAN
+  host: unknown
+release: R14
+task_id: TASK-R14-006
+story_id: STORY-R14-004
+goal: 一对一聊天核心可观测性与预发布验收
+started_at: '2026-07-28T19:50:20Z'
+updated_at: '2026-07-28T20:01:58Z'
+takeover_of: null
+change_requests:
+- CR-0468
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions: []
+  source: story+explicit
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  base_commit: e61cdcd4493ccf86d53682da10b23c516ebe8925
+  start_head: e61cdcd4493ccf86d53682da10b23c516ebe8925
+  upstream: origin/task/TASK-R03-001
+  initial_worktree_state: CLEAN
+lease:
+  duration_minutes: 240
+  renewed_at: '2026-07-28T20:01:50Z'
+  expires_at: '2026-07-29T00:01:50Z'
+checkpoint_sequence: 1
+latest_checkpoint: .continuity/checkpoints/SES-20260728T195020Z-B1DAB2D3/0001.yaml
+session_log: docs/03-continuity/sessions/2026-07/SES-20260728T195020Z-B1DAB2D3.md
+next_step: 提交并推送CR-0468修复，等待GitHub CI tooling与Continuity Gate双PASS后继续TASK-R14-006可观测性和预发布验收
+context_pack:
+  yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
+  markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
+  manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+  context_hash: 097577ff9ee050406fb14c022385d74f09410aec81e88ebe25b0ba5f852ed0f0
+  generated_at: '2026-07-28T20:01:55Z'
+handoff_bundle: null
+closure: null
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 单个历史连续性测试与同一Problem Registry的原子修复，路径和事实不可安全拆分；最终集成与状态机由主控串行复核

@@ -2025,3 +2025,14 @@ problems:
   - 不得用依赖图中的独立Release旁路跳过编号中间版本，也不得把TEST_APK先行交付冒充机器闭环
   - 不得只修冷启动入口而遗漏ACTIVE resume、HANDED_OFF takeover、过期recover或close原子时序
   - 不得人工把缺失任务改成DONE来消除门禁；必须完成真实代码、测试、候选和交付证据
+- id: PROB-0142
+  title: 历史序列恢复测试把已关闭恢复会话永久绑定为当前ACTIVE
+  status: SOLVED
+  root_cause: CR-0458恢复完成后的专项测试直接断言NEW_SESSION永远是current_session和唯一ACTIVE Claim；后续R14任务按协议正常关闭并清空ACTIVE指针后，恢复记录与归档会话仍完整，但GitHub tooling确定性误报NoneType和ACTIVE缺失。
+  resolution: CR-0468不新增平行防漂移规则，继续复用CR-0455与CR-0466的R14至R32全链事实源；序列恢复测试改为永久校验OLD_SESSION已SEQUENCE_RECOVERED、NEW_SESSION归档链和恢复记录一致，当前ACTIVE与ACTIVE Claim仅按实时指针相互一致且永远不得重新指向OLD_SESSION。
+  regression_checks:
+  - tests/test_continuity_sequence_recovery.py必须同时通过无ACTIVE、后继ACTIVE和恢复会话已CLOSED的合法生命周期状态
+  - tests/test_continuity_version_sequence.py必须继续覆盖R14至R32全部相邻转换、任意跳版拒绝、R32全前序闭环和中间R27失败阻断
+  do_not_repeat:
+  - 历史恢复、交接或关闭记录测试不得把曾经ACTIVE的会话永久断言为当前会话
+  - 不得为消除生命周期假失败放宽R14至R32顺序门禁或删除跳版负向回归

@@ -29206,3 +29206,70 @@ change_requests:
   - SES-20260728T182015Z-7EB6FEF2
   implementation_commits:
   - f9ed32b1d8d167ab5553401eb1f79c4a8eb0e5f2
+- protocol_version: '1.0'
+  cr_id: CR-0468
+  title: 修复历史序列恢复测试绑定当前会话导致后续任务CI失败
+  status: IMPLEMENTED
+  created_at: '2026-07-28T19:52:20Z'
+  updated_at: '2026-07-28T20:01:16Z'
+  requester_actor_id: codex-r14-observability-20260729
+  approver_actor_id: project-owner-continuity-directive-20260729
+  task_id: TASK-R14-006
+  session_id: SES-20260728T195020Z-B1DAB2D3
+  user_request: 防漂移必须覆盖R14至R32且后续持续开发不能再次发生开发漂移
+  reason: CR-0466全链回归已通过，但旧序列恢复测试把历史恢复会话永久绑定为当前ACTIVE，任务正常关闭后在GitHub tooling产生确定性假失败
+  original_rule: 旧回归固定断言序列恢复生成的NEW_SESSION永久保持当前ACTIVE并拥有唯一ACTIVE Claim
+  new_rule: 不新增平行硬规则；继续以CR-0455和CR-0466为R14至R32唯一防漂移事实源。历史序列恢复回归改为校验OLD_SESSION终止、NEW_SESSION归档链及恢复记录永久一致；当前ACTIVE与ACTIVE Claim只按实时指针一致性验证，允许后续任务正常关闭或新建会话，但永远不得重新激活OLD_SESSION。
+  impact_summary: 仅修正连续性测试对会话生命周期的错误时间假设，保留并重验R14至R32相邻放行、任意跳版拒绝、全前序机器闭环和中段失败阻断。
+  impact:
+    files:
+    - tests/test_continuity_sequence_recovery.py
+    - docs/03-continuity/PROBLEM_REGISTRY.yaml
+    pages: []
+    apis: []
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - python -m unittest tests.test_continuity_sequence_recovery tests.test_continuity_version_sequence
+    releases:
+    - R14
+    - R15
+    - R16
+    - R17
+    - R18
+    - R19
+    - R20
+    - R21
+    - R22
+    - R23
+    - R24
+    - R25
+    - R26
+    - R27
+    - R28
+    - R29
+    - R30
+    - R31
+    - R32
+    migration_and_compatibility: 无产品、数据、API或版本状态迁移；兼容无ACTIVE、后继ACTIVE及恢复会话已CLOSED的正常仓库状态。
+  user_confirmation: 用户本轮明确要求：不仅针对R14漂移到R16，而是保证后续持续开发到R32都不能再出现开发漂移。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-28T19:53:05Z'
+    note: 项目所有者明确要求R14至R32持续开发全过程不得再发生版本或任务漂移；本修复只消除历史会话时间假设，不新增规则事实源、不降低任何顺序门禁。
+  machine_record: .continuity/change_requests/CR-0468.yaml
+  document: docs/03-continuity/change-requests/CR-0468-修复历史序列恢复测试绑定当前会话导致后续任务CI失败.md
+  decision_log:
+  - at: '2026-07-28T20:01:10Z'
+    actor_id: codex-r14-observability-20260729
+    status: IMPLEMENTING
+    note: 已按批准范围修正历史恢复会话断言并登记PROB-0142。
+    session_id: SES-20260728T195020Z-B1DAB2D3
+  - at: '2026-07-28T20:01:16Z'
+    actor_id: codex-r14-observability-20260729
+    status: IMPLEMENTED
+    note: 序列恢复与R14至R32全链专项16项PASS；Problem Registry结构与142个唯一编号PASS；Windows全量tooling在304秒执行器超时且未记PASS，交由GitHub Linux完整门禁验证。
+    session_id: SES-20260728T195020Z-B1DAB2D3
+  session_ids:
+  - SES-20260728T195020Z-B1DAB2D3

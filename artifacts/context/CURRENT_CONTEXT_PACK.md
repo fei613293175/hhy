@@ -1,14 +1,14 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-28T19:30:27Z
-- Context Hash：`2da237168116420e4e25d723ecb6d6a45c5daaf5537151d144f721fd993d7c16`
+- 生成时间：2026-07-28T20:01:55Z
+- Context Hash：`097577ff9ee050406fb14c022385d74f09410aec81e88ebe25b0ba5f852ed0f0`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 规则就绪：`PASS`（`HASHED_CONTEXT_MANIFEST`）
 - 精确恢复命令：
 
 ```bash
-python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R14-006
+python3 scripts/continuity.py checkpoint --summary '<完成内容>' --next-step '<下一步>' --parallel-assessment <ASSESSMENT> --parallel-reason '<未委托原因>'
 ```
 
 ## 规则就绪
@@ -42,7 +42,7 @@ baseline_version: 1.2.3
 phase: R14
 active_release: R14
 active_task: TASK-R14-006
-status: READY
+status: IN_PROGRESS
 documentation_status: ZERO_BLOCKING_DOCUMENT_GAPS
 last_green_commit: dbd71c6673808e3f8a9e37f7f77efa97bef9ead9
 last_staging_apk: null
@@ -170,7 +170,8 @@ completed_tasks:
 - TASK-R14-003
 - TASK-R14-004
 - TASK-R14-005
-in_progress_tasks: []
+in_progress_tasks:
+- TASK-R14-006
 blocked_tasks:
 - TASK-R02-007
 - TASK-R06-008
@@ -184,7 +185,7 @@ blocked_tasks:
 - TASK-R16-007
 - TASK-R16-008
 next_task: TASK-R14-006
-updated_at: '2026-07-28T19:30:22Z'
+updated_at: '2026-07-28T20:01:50Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -216,17 +217,19 @@ validation:
 continuity:
   protocol_version: '1.0'
   mode: ENFORCED
-  active_session_id: null
-  last_session_id: SES-20260728T182015Z-7EB6FEF2
-  last_session_result: COMPLETED
-  last_checkpoint: .continuity/checkpoints/SES-20260728T182015Z-7EB6FEF2/0006.yaml
-  last_handoff_bundle: null
+  active_session_id: SES-20260728T195020Z-B1DAB2D3
+  actor_id: codex-r14-observability-20260729
+  story_id: STORY-R14-004
+  lease_expires_at: '2026-07-29T00:01:50Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260728T195020Z-B1DAB2D3/0001.yaml
+  project_fingerprint: ea059e78c92cefe06208c062d9d7c36130c48607f89ce15c67920e6990b9385e
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: 0e2ca70834910ad4aad7caf505853ee16e7859acff5f3e6143b58e5c9dd6cd3f
-    generated_at: '2026-07-28T19:30:19Z'
+    context_hash: 3a433bf0d1df5aa2cb15ee836fb8e81330ebe083985fa63ad8a580ce3981310d
+    generated_at: '2026-07-28T19:50:27Z'
+  handoff_bundle: null
 ```
 
 ## 默认并行规则
@@ -410,13 +413,230 @@ next_after: 由当前TASKS.yaml依赖关系决定
 ## 活跃会话
 
 ```yaml
-status: NONE
+protocol_version: '1.0'
+package_version: 1.2.3
+session_id: SES-20260728T195020Z-B1DAB2D3
+status: ACTIVE
+actor:
+  id: codex-r14-observability-20260729
+  kind: AI_OR_HUMAN
+  host: unknown
+release: R14
+task_id: TASK-R14-006
+story_id: STORY-R14-004
+goal: 一对一聊天核心可观测性与预发布验收
+started_at: '2026-07-28T19:50:20Z'
+updated_at: '2026-07-28T20:01:50Z'
+takeover_of: null
+change_requests:
+- CR-0468
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions: []
+  source: story+explicit
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  base_commit: e61cdcd4493ccf86d53682da10b23c516ebe8925
+  start_head: e61cdcd4493ccf86d53682da10b23c516ebe8925
+  upstream: origin/task/TASK-R03-001
+  initial_worktree_state: CLEAN
+lease:
+  duration_minutes: 240
+  renewed_at: '2026-07-28T20:01:50Z'
+  expires_at: '2026-07-29T00:01:50Z'
+checkpoint_sequence: 1
+latest_checkpoint: .continuity/checkpoints/SES-20260728T195020Z-B1DAB2D3/0001.yaml
+session_log: docs/03-continuity/sessions/2026-07/SES-20260728T195020Z-B1DAB2D3.md
+next_step: 提交并推送CR-0468修复，等待GitHub CI tooling与Continuity Gate双PASS后继续TASK-R14-006可观测性和预发布验收
+context_pack: THIS_CONTEXT_PACK
+handoff_bundle: null
+closure: null
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 单个历史连续性测试与同一Problem Registry的原子修复，路径和事实不可安全拆分；最终集成与状态机由主控串行复核
 ```
 
 ## 最新检查点
 
 ```yaml
-status: NO_CHECKPOINT
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260728T195020Z-B1DAB2D3-0001
+session_id: SES-20260728T195020Z-B1DAB2D3
+task_id: TASK-R14-006
+story_id: STORY-R14-004
+sequence: 1
+created_at: '2026-07-28T20:01:50Z'
+summary: CR-0468已修复历史序列恢复测试的永久ACTIVE假设，并登记PROB-0142；R14至R32全链门禁语义保持不变
+next_step: 提交并推送CR-0468修复，等待GitHub CI tooling与Continuity Gate双PASS后继续TASK-R14-006可观测性和预发布验收
+blockers: []
+decisions: []
+note: ''
+tests:
+- name: continuity-sequence-and-R14-R32-chain
+  result: PASS
+  evidence: python -m unittest tests.test_continuity_sequence_recovery tests.test_continuity_version_sequence
+  note: 16 tests PASS, 2 live-only skipped
+- name: problem-registry-structure
+  result: PASS
+  evidence: docs/03-continuity/PROBLEM_REGISTRY.yaml
+  note: 142 unique problem ids and YAML parse PASS
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: e61cdcd4493ccf86d53682da10b23c516ebe8925
+  upstream: origin/task/TASK-R03-001
+  ahead: 0
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/ACTIVE_SESSION.yaml'
+  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/SESSION_INDEX.yaml'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/TASK_CLAIMS.yaml'
+  - ' M .continuity/TASK_TRANSITIONS.yaml'
+  - ' M CURRENT_STATUS.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+  - ' M catalogs/change_request_index.csv'
+  - ' M catalogs/session_index.csv'
+  - ' M catalogs/task_transition_ledger.csv'
+  - ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
+  - ' M tests/test_continuity_sequence_recovery.py'
+  - ?? .continuity/change_requests/CR-0468.yaml
+  - ?? .continuity/sessions/SES-20260728T195020Z-B1DAB2D3.yaml
+  - ?? docs/03-continuity/change-requests/CR-0468-修复历史序列恢复测试绑定当前会话导致后续任务CI失败.md
+  - ?? docs/03-continuity/sessions/2026-07/SES-20260728T195020Z-B1DAB2D3.md
+  recent_commits:
+  - "e61cdcd4493ccf86d53682da10b23c516ebe8925\t2026-07-29T03:31:48+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(continuity): close TASK-R14-005\
+    \ as completed"
+  - "109c0294843f696327c9a0f777826018bf562fc0\t2026-07-29T03:27:46+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(r14): close chat test\
+    \ changes"
+  - "f9ed32b1d8d167ab5553401eb1f79c4a8eb0e5f2\t2026-07-29T03:22:40+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] docs(r14): archive chat reliability\
+    \ evidence"
+  - "dbd71c6673808e3f8a9e37f7f77efa97bef9ead9\t2026-07-29T03:03:42+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] test(r14): isolate replay\
+    \ stubbing"
+  - "5aa6ce3b76afaa5addeadca3d38e9bcf9ccebb94\t2026-07-29T02:57:02+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] test(r14): import PostgreSQL\
+    \ assertion"
+  - "d9492684607e8ec73df186a7d036901abbacbffb\t2026-07-29T02:45:03+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] test(chat): automate six R14\
+    \ reliability matrices"
+  - "7a6ae5be9d6bde9ca9144794f3ef7cc754269313\t2026-07-29T02:18:45+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(continuity): close TASK-R14-004\
+    \ as completed"
+  - "33f544c20172ca42ca2de79556e22a12c0d714af\t2026-07-29T02:15:25+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(r14): close report catalog\
+    \ change"
+project_fingerprint:
+  sha256: ea059e78c92cefe06208c062d9d7c36130c48607f89ce15c67920e6990b9385e
+  files:
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/change-requests/CR-0468-修复历史序列恢复测试绑定当前会话导致后续任务CI失败.md
+  - tests/test_continuity_sequence_recovery.py
+  file_count: 3
+  payload:
+    base_commit: e61cdcd4493ccf86d53682da10b23c516ebe8925
+    files:
+    - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
+      state: FILE
+      size: 242234
+      sha256: a462ede401c92b239c4898c7131af068be535f0567225b77bec439a60e447edf
+    - path: docs/03-continuity/change-requests/CR-0468-修复历史序列恢复测试绑定当前会话导致后续任务CI失败.md
+      state: FILE
+      size: 3302
+      sha256: 6e3d69258b3e91511d5d73391930a79bcf792c54a5d6bbdb09acf742efb532c9
+    - path: tests/test_continuity_sequence_recovery.py
+      state: FILE
+      size: 8703
+      sha256: d717e5c8a96295473d4b214bdf73e4ba99f11736bb550efa7007aca7cb7e6e8a
+change_classification:
+  continuity:
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/change-requests/CR-0468-修复历史序列恢复测试绑定当前会话导致后续任务CI失败.md
+  tests:
+  - tests/test_continuity_sequence_recovery.py
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+change_requests:
+- CR-0468
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions: []
+  source: story+explicit
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 单个历史连续性测试与同一Problem Registry的原子修复，路径和事实不可安全拆分；最终集成与状态机由主控串行复核
+event_hash: 278416585747cb5e69e22f960b9462b8670f38abe619508a6aca1464402472bd
 ```
 
 ## 接续状态与事件头
@@ -424,31 +644,19 @@ status: NO_CHECKPOINT
 ```yaml
 mode: ENFORCED
 protocol_version: '1.0'
-active_session_id: null
+active_session_id: SES-20260728T195020Z-B1DAB2D3
 last_session_id: SES-20260728T182015Z-7EB6FEF2
 last_session_result: COMPLETED
 last_closure_checkpoint_id: CP-SES-20260728T182015Z-7EB6FEF2-0006
-event_count: 4429
-event_head_hash: 8c8a81349fbbdb3b7b123a1a2068214dc841a5c6bb0e3e85c5b82ea59e0d6048
+event_count: 4436
+event_head_hash: 278416585747cb5e69e22f960b9462b8670f38abe619508a6aca1464402472bd
 event_chain_valid: true
 ```
 
 ## 最近会话与任务迁移
 
 ```yaml
-recent_sessions: - session_id: SES-20260727T181928Z-B51C7408
-  task_id: TASK-R14-001
-  story_id: STORY-R14-004
-  actor_id: codex-root-r14-20260728
-  status: CLOSED
-  started_at: '2026-07-27T18:19:28Z'
-  record: .continuity/sessions/SES-20260727T181928Z-B51C7408.yaml
-  session_log: docs/03-continuity/sessions/2026-07/SES-20260727T181928Z-B51C7408.md
-  updated_at: '2026-07-27T19:29:28Z'
-  closed_at: '2026-07-27T19:29:28Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260727T181928Z-B51C7408/0005.yaml
-  handoff_bundle: null
-- session_id: SES-20260727T193842Z-C948B6FC
+recent_sessions: - session_id: SES-20260727T193842Z-C948B6FC
   task_id: TASK-R14-002
   story_id: STORY-R14-004
   actor_id: codex-root-r14-data-20260728
@@ -556,47 +764,19 @@ recent_sessions: - session_id: SES-20260727T181928Z-B51C7408
   closed_at: '2026-07-28T19:30:22Z'
   latest_checkpoint: .continuity/checkpoints/SES-20260728T182015Z-7EB6FEF2/0006.yaml
   handoff_bundle: null
-task_claims: - claim_id: CLM-487327A56688
-  session_id: SES-20260725T192048Z-668BD05D
-  task_id: TASK-R12-007
-  story_id: STORY-R12-008
-  actor_id: codex-root-r12-candidate-20260726
-  status: CLOSED
-  claimed_at: '2026-07-25T19:20:48Z'
-  allowed_paths:
-  - apps/**
-  - services/**
-  - packages/**
-  - contracts/**
-  - database/**
-  - config/**
-  - catalogs/**
-  - tests/**
-  - infra/**
-  - design/**
-  - docs/**
-  - releases/**
-  - scripts/**
-  - templates/**
-  - .github/**
-  - .githooks/**
-  - .codex/**
-  - AGENTS.md
-  - START_HERE.md
-  - README.md
-  - CHANGELOG.md
-  - Makefile
-  - .gitignore
-  - .gitattributes
-  - .dockerignore
-  - package.json
-  - pnpm-lock.yaml
-  - pnpm-workspace.yaml
-  - requirements-dev.txt
-  - PROJECT_*.yaml
-  - PROJECT_*.json
-  closed_at: '2026-07-26T10:47:13Z'
-- claim_id: CLM-2DA939E90089
+- session_id: SES-20260728T195020Z-B1DAB2D3
+  task_id: TASK-R14-006
+  story_id: STORY-R14-004
+  actor_id: codex-r14-observability-20260729
+  status: ACTIVE
+  started_at: '2026-07-28T19:50:20Z'
+  record: .continuity/sessions/SES-20260728T195020Z-B1DAB2D3.yaml
+  session_log: docs/03-continuity/sessions/2026-07/SES-20260728T195020Z-B1DAB2D3.md
+  updated_at: '2026-07-28T20:01:50Z'
+  closed_at: null
+  latest_checkpoint: .continuity/checkpoints/SES-20260728T195020Z-B1DAB2D3/0001.yaml
+  handoff_bundle: null
+task_claims: - claim_id: CLM-2DA939E90089
   session_id: SES-20260726T105013Z-AE578D81
   task_id: TASK-R12-008
   story_id: STORY-R12-008
@@ -1282,17 +1462,46 @@ task_claims: - claim_id: CLM-487327A56688
   - PROJECT_*.yaml
   - PROJECT_*.json
   closed_at: '2026-07-28T19:30:22Z'
-recent_task_transitions: - transition_id: TRN-DECCC79D7057
-  timestamp: '2026-07-26T13:40:50Z'
-  release: R13
-  task_id: TASK-R13-004
-  story_id: STORY-R13-001
-  from_status: READY
-  to_status: IN_PROGRESS
-  session_id: SES-20260726T134047Z-F9A80405
-  actor_id: codex-root-r13-client-20260726
-  reason: 会话领取任务
-- transition_id: TRN-715FAFD9F9FA
+- claim_id: CLM-D1A95C874597
+  session_id: SES-20260728T195020Z-B1DAB2D3
+  task_id: TASK-R14-006
+  story_id: STORY-R14-004
+  actor_id: codex-r14-observability-20260729
+  status: ACTIVE
+  claimed_at: '2026-07-28T19:50:20Z'
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+recent_task_transitions: - transition_id: TRN-715FAFD9F9FA
   timestamp: '2026-07-26T16:01:59Z'
   release: R13
   task_id: TASK-R13-005
@@ -1482,6 +1691,16 @@ recent_task_transitions: - transition_id: TRN-DECCC79D7057
   session_id: SES-20260728T182015Z-7EB6FEF2
   actor_id: codex-r14-testing-20260729
   reason: 会话领取任务
+- transition_id: TRN-31AFD18092FA
+  timestamp: '2026-07-28T19:50:23Z'
+  release: R14
+  task_id: TASK-R14-006
+  story_id: STORY-R14-004
+  from_status: READY
+  to_status: IN_PROGRESS
+  session_id: SES-20260728T195020Z-B1DAB2D3
+  actor_id: codex-r14-observability-20260729
+  reason: 会话领取任务
 ```
 
 ## Git 状态
@@ -1489,29 +1708,36 @@ recent_task_transitions: - transition_id: TRN-DECCC79D7057
 ```yaml
 initialized: true
 branch: task/TASK-R03-001
-head: 109c0294843f696327c9a0f777826018bf562fc0
+head: e61cdcd4493ccf86d53682da10b23c516ebe8925
 upstream: origin/task/TASK-R03-001
 ahead: 0
 behind: 0
 dirty: true
 status_porcelain:
 - ' M .continuity/ACTIVE_SESSION.yaml'
+- ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
 - ' M .continuity/EVENT_LOG.jsonl'
 - ' M .continuity/SESSION_INDEX.yaml'
 - ' M .continuity/STATE.yaml'
 - ' M .continuity/TASK_CLAIMS.yaml'
-- ' M .continuity/sessions/SES-20260728T182015Z-7EB6FEF2.yaml'
-- ' M CHANGELOG.md'
+- ' M .continuity/TASK_TRANSITIONS.yaml'
 - ' M CURRENT_STATUS.yaml'
-- ' M NEXT_TASK.yaml'
 - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
 - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
 - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+- ' M catalogs/change_request_index.csv'
 - ' M catalogs/session_index.csv'
-- ' M docs/03-continuity/sessions/2026-07/SES-20260728T182015Z-7EB6FEF2.md'
-- ' M releases/R14/TASKS.yaml'
-- ?? .continuity/checkpoints/SES-20260728T182015Z-7EB6FEF2/0006.yaml
+- ' M catalogs/task_transition_ledger.csv'
+- ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
+- ' M tests/test_continuity_sequence_recovery.py'
+- ?? .continuity/change_requests/CR-0468.yaml
+- ?? .continuity/checkpoints/SES-20260728T195020Z-B1DAB2D3/0001.yaml
+- ?? .continuity/sessions/SES-20260728T195020Z-B1DAB2D3.yaml
+- ?? docs/03-continuity/change-requests/CR-0468-修复历史序列恢复测试绑定当前会话导致后续任务CI失败.md
+- ?? docs/03-continuity/sessions/2026-07/SES-20260728T195020Z-B1DAB2D3.md
 recent_commits:
+- "e61cdcd4493ccf86d53682da10b23c516ebe8925\t2026-07-29T03:31:48+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(continuity): close TASK-R14-005\
+  \ as completed"
 - "109c0294843f696327c9a0f777826018bf562fc0\t2026-07-29T03:27:46+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(r14): close chat test\
   \ changes"
 - "f9ed32b1d8d167ab5553401eb1f79c4a8eb0e5f2\t2026-07-29T03:22:40+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] docs(r14): archive chat reliability\
@@ -1525,16 +1751,16 @@ recent_commits:
   \ as completed"
 - "33f544c20172ca42ca2de79556e22a12c0d714af\t2026-07-29T02:15:25+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(r14): close report catalog\
   \ change"
-- "801d7d636ae833e2e4fa762c9ffe78350527c9d4\t2026-07-29T02:08:51+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] docs(r14): record report catalog\
-  \ verification"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`d5cc8fd60c533cd9b9a3fe9b98090372876ac756106061c82b6d01d95b0f77a1`
-- 文件数：0
+- 指纹：`ea059e78c92cefe06208c062d9d7c36130c48607f89ce15c67920e6990b9385e`
+- 文件数：3
 
-- 无
+- `docs/03-continuity/PROBLEM_REGISTRY.yaml`
+- `docs/03-continuity/change-requests/CR-0468-修复历史序列恢复测试绑定当前会话导致后续任务CI失败.md`
+- `tests/test_continuity_sequence_recovery.py`
 
 ## 当前 Release
 
@@ -14715,29 +14941,96 @@ PARALLEL_EXECUTION_PLAN.yaml:
   - SES-20260728T154000Z-0458A14C
   implementation_commits:
   - 61be7593
+- protocol_version: '1.0'
+  cr_id: CR-0468
+  title: 修复历史序列恢复测试绑定当前会话导致后续任务CI失败
+  status: IMPLEMENTED
+  created_at: '2026-07-28T19:52:20Z'
+  updated_at: '2026-07-28T20:01:16Z'
+  requester_actor_id: codex-r14-observability-20260729
+  approver_actor_id: project-owner-continuity-directive-20260729
+  task_id: TASK-R14-006
+  session_id: SES-20260728T195020Z-B1DAB2D3
+  user_request: 防漂移必须覆盖R14至R32且后续持续开发不能再次发生开发漂移
+  reason: CR-0466全链回归已通过，但旧序列恢复测试把历史恢复会话永久绑定为当前ACTIVE，任务正常关闭后在GitHub tooling产生确定性假失败
+  original_rule: 旧回归固定断言序列恢复生成的NEW_SESSION永久保持当前ACTIVE并拥有唯一ACTIVE Claim
+  new_rule: 不新增平行硬规则；继续以CR-0455和CR-0466为R14至R32唯一防漂移事实源。历史序列恢复回归改为校验OLD_SESSION终止、NEW_SESSION归档链及恢复记录永久一致；当前ACTIVE与ACTIVE Claim只按实时指针一致性验证，允许后续任务正常关闭或新建会话，但永远不得重新激活OLD_SESSION。
+  impact_summary: 仅修正连续性测试对会话生命周期的错误时间假设，保留并重验R14至R32相邻放行、任意跳版拒绝、全前序机器闭环和中段失败阻断。
+  impact:
+    files:
+    - tests/test_continuity_sequence_recovery.py
+    - docs/03-continuity/PROBLEM_REGISTRY.yaml
+    pages: []
+    apis: []
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - python -m unittest tests.test_continuity_sequence_recovery tests.test_continuity_version_sequence
+    releases:
+    - R14
+    - R15
+    - R16
+    - R17
+    - R18
+    - R19
+    - R20
+    - R21
+    - R22
+    - R23
+    - R24
+    - R25
+    - R26
+    - R27
+    - R28
+    - R29
+    - R30
+    - R31
+    - R32
+    migration_and_compatibility: 无产品、数据、API或版本状态迁移；兼容无ACTIVE、后继ACTIVE及恢复会话已CLOSED的正常仓库状态。
+  user_confirmation: 用户本轮明确要求：不仅针对R14漂移到R16，而是保证后续持续开发到R32都不能再出现开发漂移。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-28T19:53:05Z'
+    note: 项目所有者明确要求R14至R32持续开发全过程不得再发生版本或任务漂移；本修复只消除历史会话时间假设，不新增规则事实源、不降低任何顺序门禁。
+  machine_record: .continuity/change_requests/CR-0468.yaml
+  document: docs/03-continuity/change-requests/CR-0468-修复历史序列恢复测试绑定当前会话导致后续任务CI失败.md
+  decision_log:
+  - at: '2026-07-28T20:01:10Z'
+    actor_id: codex-r14-observability-20260729
+    status: IMPLEMENTING
+    note: 已按批准范围修正历史恢复会话断言并登记PROB-0142。
+    session_id: SES-20260728T195020Z-B1DAB2D3
+  - at: '2026-07-28T20:01:16Z'
+    actor_id: codex-r14-observability-20260729
+    status: IMPLEMENTED
+    note: 序列恢复与R14至R32全链专项16项PASS；Problem Registry结构与142个唯一编号PASS；Windows全量tooling在304秒执行器超时且未记PASS，交由GitHub Linux完整门禁验证。
+    session_id: SES-20260728T195020Z-B1DAB2D3
+  session_ids:
+  - SES-20260728T195020Z-B1DAB2D3
 ```
 
 ## 上下文来源及哈希
 
 - `AGENTS.md` — `bde93afcdb788b601aeffcf2369a1aeda8eeb391f165429d501d7ba8895ba4a6`
 - `START_HERE.md` — `22de14029ce47beb41ea569e36ce223fbc9d11b86f8676f28d5fbbd83896af5c`
-- `CURRENT_STATUS.yaml` — `4eeff12ddb6be21c885d2896f4778737d4e6b22be29e5c8d82edd79d6037a05e`
+- `CURRENT_STATUS.yaml` — `65a24d8b15c9b43caa659a31915c4372164737071f4d24e94440cd695ea15177`
 - `NEXT_TASK.yaml` — `0f9d416869c618da8110a8211fe0a6382fd87401e14b572352c4addd00c19bf0`
 - `DEVELOPMENT_RISK_REGISTER.md` — `8304c91492e4ee2abea0522a06541c8688d39c7fc532b5d0cde499bf09fffb87`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `5213b166f464a4415abe064e0ebcd99da8f1f8d23569b49ae4e9787007e83314`
-- `docs/03-continuity/PROBLEM_REGISTRY.yaml` — `898fc29b69bc7c8169075d5dd9a06d2c3064d376c8100428d60de7c78621eba8`
+- `docs/03-continuity/PROBLEM_REGISTRY.yaml` — `a462ede401c92b239c4898c7131af068be535f0567225b77bec439a60e447edf`
 - `docs/03-continuity/REUSABLE_PATTERNS.md` — `1e5721c0b17a820e642aabbb35f350631caf83afbd10b2cc52ccc73a443873c6`
 - `docs/03-continuity/PITFALLS.md` — `bc269635bccab745808a7509ffcff75c805afb390b06498a3c2b8fc7d42c147f`
 - `releases/PROGRAM_EXECUTION_PLAN.yaml` — `4d91d6dbfdae1c49ead2f9c3eb0f96559a0a45905041dd5891571f0e36418a1e`
 - `config/REPOSITORY_TRANSPORT.yaml` — `8c4a21f3e204d46e7ffb467d804a53ed26cda61cd088dadfddb50b69eea657fc`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `38e04ed812c8df0d353c2b91993d31e53b471e9c457f06b426bd2260c470aa92`
-- `.continuity/EVENT_LOG.jsonl` — `27b4db5ab77b84b08770a0230abd3d6620d83710f19e15463436550a0ff2f92e`
-- `.continuity/SESSION_INDEX.yaml` — `55e782d5a1e6a2ebf93003bbe816aae911d1b48cd22fda54d95f5686c77f3600`
-- `.continuity/TASK_CLAIMS.yaml` — `e86bf4f9888dc52fb1aab4bb291ab0e55d06803b198ff5e4b69bc6e2cd56dba7`
-- `.continuity/TASK_TRANSITIONS.yaml` — `9f89ff0f47cb16b031efe760ec44fd9e469d026a4d246bdd0a5d63a274da41f4`
-- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `eeda22bb090a2d97c6129b789fb0425b5d8bf1dc3353a4c8ae10f9f8a688cb5d`
-- `.continuity/ACTIVE_SESSION.yaml` — `395bb982d0a413f45b8c571c63b1ed33c6a8d3fbd165b00add2b3273e05568ab`
+- `.continuity/EVENT_LOG.jsonl` — `f810404d4dca85f56056f3b94032df8976e67cc9fbe5836126e8e4f0adacdc07`
+- `.continuity/SESSION_INDEX.yaml` — `f74164fba9903d16f9ae59cd90590f97b6a2a4f15386cac3fbe3091ec6ae8fee`
+- `.continuity/TASK_CLAIMS.yaml` — `d4b040fb3775e0595d8aeb643c500804ab9dd2da05367f5c7d4c23313001d7e5`
+- `.continuity/TASK_TRANSITIONS.yaml` — `2e684f99648469e060b4cd5f6df39835d30929e22dfa485dea9a94c9d1bb0ba0`
+- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `ad96b5dec8ea17a435d67c396a6cc426bfc432570745975453a10d0f9224dcf5`
+- `.continuity/ACTIVE_SESSION.yaml` — `51e294de69e5722349832867bafd239f4319d213278048419a10d3808d837dca`
 - `docs/00-baseline/正式商业系统全局硬性开发边界.md` — `30c07716c31d6d09621b6f6d119063b1fcb35e78d9b266423ed333d92b8262db`
 - `docs/02-ui/UI参考图使用与开发约束_V1.2.2.md` — `d14367586aa2067b059df58798acd20ab982459cdb35ff27fc7922a3896e4933`
 - `docs/03-continuity/持续开发无状态接续强制门禁_V1.2.3.md` — `d0ed3ed68bdd93b06500eecdfb5baa3245e6ca8b685a486788abb6eee39b3d51`
@@ -14748,6 +15041,9 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `releases/R14/TASKS.yaml` — `d5070f5b64684f7a1cb689fb3f5f1f6f5c6bbd71a46e4db9b5f3d03a01ef9fa9`
 - `releases/R14/ACCEPTANCE_MATRIX.csv` — `ffc0fd23b945544de8fe2a37774a94675c0d60b73d88517abe69c68d326ad6f4`
 - `releases/R14/PARALLEL_EXECUTION_PLAN.yaml` — `cd1f0c96ffd7562acb214edba80a2bbb12b79f06c19032d1b133936ff6abd74f`
+- `docs/03-continuity/sessions/2026-07/SES-20260728T195020Z-B1DAB2D3.md` — `c2b256708134743c174eefb49dba3c556751f18b9752645c01088814e1e460fe`
+- `.continuity/checkpoints/SES-20260728T195020Z-B1DAB2D3/0001.yaml` — `760a6ca9be8745f0b121b65b80ca9f993ab4860a8f8a430cd58ef2f95fca5398`
+- `docs/03-continuity/change-requests/CR-0468-修复历史序列恢复测试绑定当前会话导致后续任务CI失败.md` — `6e3d69258b3e91511d5d73391930a79bcf792c54a5d6bbdb09acf742efb532c9`
 
 ## 接手硬规则
 

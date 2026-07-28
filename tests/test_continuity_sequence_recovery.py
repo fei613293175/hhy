@@ -146,19 +146,25 @@ class LiveSequenceRecoveryRollbackTest(unittest.TestCase):
 
 
 class CompletedSequenceRecoveryInvariantTest(unittest.TestCase):
-    def test_sequence_recovered_is_terminal_for_gate_and_not_current(self) -> None:
+    def test_sequence_recovered_is_terminal_for_gate_and_never_current_again(self) -> None:
         old = continuity.load_session(ROOT, OLD_SESSION)
         self.assertEqual("SEQUENCE_RECOVERED", old.get("status"))
         report = continuity_gate.Report("test")
         continuity_gate.validate_session_structure(report, old, load_policy(ROOT))
         self.assertNotIn("SESSION_STATUS", {row["code"] for row in report.errors})
+
+        recovered = continuity.load_session(ROOT, NEW_SESSION)
+        self.assertEqual(NEW_SESSION, recovered.get("session_id"))
+        self.assertEqual(OLD_SESSION, recovered.get("takeover_of"))
+        self.assertIn(recovered.get("status"), {"ACTIVE", "HANDED_OFF", "CLOSED"})
+
         active = continuity.current_session(ROOT)
-        self.assertIsNotNone(active)
-        self.assertEqual(NEW_SESSION, active.get("session_id"))
-        self.assertNotEqual(OLD_SESSION, active.get("session_id"))
+        self.assertNotEqual(OLD_SESSION, (active or {}).get("session_id"))
         claims = yaml.safe_load((ROOT / ".continuity/TASK_CLAIMS.yaml").read_text(encoding="utf-8")) or {}
         active_claims = [row for row in claims.get("claims", []) if row.get("status") == "ACTIVE"]
-        self.assertEqual([NEW_SESSION], [row.get("session_id") for row in active_claims])
+        expected_active_sessions = [] if active is None else [active.get("session_id")]
+        self.assertEqual(expected_active_sessions, [row.get("session_id") for row in active_claims])
+        self.assertNotIn(OLD_SESSION, expected_active_sessions)
 
     def test_successful_recovery_record_is_fully_consistent_when_present(self) -> None:
         recovery_id = f"SEQREC-{OLD_SESSION}-R14"
@@ -174,12 +180,13 @@ class CompletedSequenceRecoveryInvariantTest(unittest.TestCase):
             record.get("git", {}).get("stash_before"),
             record.get("git", {}).get("stash_after"),
         )
-        active = continuity.current_session(ROOT)
-        self.assertEqual(NEW_SESSION, active.get("session_id"))
-        self.assertEqual("R14", active.get("release"))
-        self.assertEqual("TASK-R14-004", active.get("task_id"))
-        self.assertEqual("STORY-R14-004", active.get("story_id"))
-        self.assertIn("CR-0458", active.get("change_requests") or [])
+        recovered = continuity.load_session(ROOT, NEW_SESSION)
+        self.assertEqual(record.get("to", {}).get("session"), recovered.get("session_id"))
+        self.assertEqual(OLD_SESSION, recovered.get("takeover_of"))
+        self.assertEqual("R14", recovered.get("release"))
+        self.assertEqual("TASK-R14-004", recovered.get("task_id"))
+        self.assertEqual("STORY-R14-004", recovered.get("story_id"))
+        self.assertIn("CR-0458", recovered.get("change_requests") or [])
 
 
 if __name__ == "__main__":
