@@ -1,7 +1,7 @@
 protocol_version: '1.0'
 package_version: 1.2.3
 session_id: SES-20260728T205917Z-52E3B6B1
-status: ACTIVE
+status: CLOSED
 actor:
   id: codex-r14-apk-20260729
   kind: AI_OR_HUMAN
@@ -11,7 +11,7 @@ task_id: TASK-R14-007
 story_id: STORY-R14-004
 goal: 使用obx-test固定Android工具链基于当前R14冻结源码重建包含举报目录的TEST_APK，完成签名、安装、正式API与WSS嵌入校验、Manifest、桌面APK和测试说明成对交付
 started_at: '2026-07-28T20:59:17Z'
-updated_at: '2026-07-28T21:57:34Z'
+updated_at: '2026-07-28T22:00:06Z'
 takeover_of: null
 change_requests:
 - CR-0471
@@ -76,22 +76,37 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-28T21:57:26Z'
-  expires_at: '2026-07-29T01:57:26Z'
-checkpoint_sequence: 7
-latest_checkpoint: .continuity/checkpoints/SES-20260728T205917Z-52E3B6B1/0007.yaml
+  renewed_at: '2026-07-28T21:59:57Z'
+  expires_at: '2026-07-29T01:59:57Z'
+checkpoint_sequence: 8
+latest_checkpoint: .continuity/checkpoints/SES-20260728T205917Z-52E3B6B1/0008.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260728T205917Z-52E3B6B1.md
-next_step: 提交并推送CR关闭记录，然后以COMPLETED关闭TASK-R14-007并仅指向TASK-R14-008
+next_step: 提交关闭元数据Commit，然后运行pre-push/CI门禁
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: 41ed60f9784faa0edc55b82a6b908af783433a9c77935f3096cccc9bdf39345b
-  generated_at: '2026-07-28T21:57:30Z'
+  context_hash: f643df03f084b845907a4f949dfde24202d49d1d45160bc232c7bd389591d7b0
+  generated_at: '2026-07-28T22:00:02Z'
 handoff_bundle: null
-closure: null
+closure:
+  result: COMPLETED
+  summary: TASK-R14-007完成：R14 versionCode10224测试APK在obx-test固定工具链构建，稳定签名、正式API/WSS、精确下载路由、仓库/桌面/服务器/公网四方SHA和测试说明全部PASS；旧ca57666双文件原字节归档，GitHub
+    CI 30402394274与Continuity Gate 30402394075均PASS，owner真机保持异步PENDING
+  code_commit: 89d9b2da1e27e49e39b1a203d0aef0115071de2b
+  next_release: R14
+  next_task: TASK-R14-008
+  blocked_advance: false
+  completed_independent_advance: false
+  user_confirmation: null
+  metadata_commit: PENDING
+  push_verification: CI_REQUIRED_AFTER_METADATA_COMMIT
+  started_at: '2026-07-28T21:59:52Z'
+  closure_checkpoint_id: CP-SES-20260728T205917Z-52E3B6B1-0008
+  closed_at: '2026-07-28T22:00:06Z'
 parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
   reason: CR关闭、Task关闭和版本顺序指针属于同一连续性事实源，必须串行
+closed_at: '2026-07-28T22:00:06Z'

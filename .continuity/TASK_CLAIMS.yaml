@@ -4652,7 +4652,7 @@ claims:
   task_id: TASK-R14-007
   story_id: STORY-R14-004
   actor_id: codex-r14-apk-20260729
-  status: ACTIVE
+  status: CLOSED
   claimed_at: '2026-07-28T20:59:17Z'
   allowed_paths:
   - apps/**
@@ -4686,3 +4686,4 @@ claims:
   - requirements-dev.txt
   - PROJECT_*.yaml
   - PROJECT_*.json
+  closed_at: '2026-07-28T22:00:06Z'

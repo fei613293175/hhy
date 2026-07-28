@@ -119,7 +119,7 @@ tasks:
   completed_at: '2026-07-28T20:56:31Z'
 - id: TASK-R14-007
   title: 一对一聊天核心Android测试APK与产物追溯
-  status: READY
+  status: DONE
   depends_on:
   - TASK-R14-006
   requirements: *id001
@@ -133,9 +133,10 @@ tasks:
   - APK可下载/可安装
   - SHA256、Commit、versionName/versionCode、测试结果齐全
   session_log_required: true
+  completed_at: '2026-07-28T21:59:52Z'
 - id: TASK-R14-008
   title: 一对一聊天核心版本关闭与无状态交接
-  status: BLOCKED
+  status: READY
   depends_on:
   - TASK-R14-007
   requirements: *id001
