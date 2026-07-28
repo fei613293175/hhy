@@ -2062,3 +2062,16 @@ problems:
   - 替换交付CR必须从交付器事务推导并登记精确Nginx include、当前Manifest/Evidence及成功替换确定性生成的双历史归档路径，不得只登记调用方直接编辑的文件
   - 不得先构建或上传后再放宽为目录通配来绕过精确路由预检
   - 不得在新路由未通过前归档或覆盖项目所有者尚未验收的当前交付
+- id: PROB-0145
+  title: 历史版本候选测试永久绑定当前全局候选请求
+  status: SOLVED
+  root_cause: tests/test_r13_candidate.py在验证R13夹具、旅程和视觉合同时，又直接读取可被后续版本顺序接管的config/android-candidate-request.yaml，并永久断言其release、attempt、request_id和例外字段必须等于R13 Attempt20；R14合法写入Attempt1后，GitHub CI 30404133115因此产生确定性假失败。
+  resolution: CR-0476删除R13历史测试对当前全局请求的时间绑定，只保留R13自身夹具、旅程、视觉合同和全局versionCode三投影单调一致性；当前候选请求继续由scripts/android_candidate_request.py和tests/test_android_candidate_request.py按当前release、普通1至3轮及精确例外策略严格验证。
+  regression_checks:
+  - tests.test_r13_candidate在当前请求为R14及后续R15至R32时仍必须验证R13历史旅程且通过
+  - tests.test_android_candidate_request必须继续拒绝非法release、非布尔candidate、越界普通轮次、无效request_id及未批准例外
+  - tests.test_continuity_version_sequence必须继续覆盖R14至R32相邻顺序、任意跳版拒绝和全部前序机器闭环
+  do_not_repeat:
+  - 历史版本专项测试不得读取并断言可由后续版本合法更新的当前指针、当前请求、当前Session或NEXT_TASK为旧值
+  - 需要保留旧请求事实时必须读取该版本不可变归档或固定夹具，不得占用全局当前配置
+  - 不得通过放宽专用候选请求校验来修复历史测试时间绑定

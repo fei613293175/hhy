@@ -12,7 +12,6 @@ VISUAL_MANIFEST = ROOT / "tests/android/visual-manifests/R13.yaml"
 BUILD = ROOT / "apps/android/app/build.gradle.kts"
 RELEASE_POLICY = ROOT / "apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt"
 VERSION_TEST = ROOT / "apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt"
-REQUEST = ROOT / "config/android-candidate-request.yaml"
 ACTIVITY_SCREEN = ROOT / "apps/android/feature/activity/src/main/java/cc/orbexa/hhy/activity/R13ActivityScreens.kt"
 PROJECT_SCREEN = ROOT / "apps/android/feature/project/src/main/java/cc/orbexa/hhy/project/R08ProjectScreens.kt"
 SHELL_SCREEN = ROOT / "apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt"
@@ -311,7 +310,7 @@ class R13CandidateTest(unittest.TestCase):
             self.assertIn("PROJECT", row["forbidden_text"])
             self.assertNotIn("APP", row["forbidden_text"])
 
-    def test_candidate_identity_and_request_are_new_and_monotonic(self) -> None:
+    def test_candidate_identity_is_monotonic(self) -> None:
         build = BUILD.read_text(encoding="utf-8")
         current_version_match = re.search(r"\bversionCode\s*=\s*(\d+)", build)
         self.assertIsNotNone(current_version_match)
@@ -329,13 +328,6 @@ class R13CandidateTest(unittest.TestCase):
         self.assertIsNotNone(metadata_version_match)
         self.assertEqual(current_version, int(policy_version_match.group(1)))
         self.assertEqual(current_version, int(metadata_version_match.group(1)))
-        request = yaml.safe_load(REQUEST.read_text(encoding="utf-8"))
-        self.assertEqual("R13", request["release"])
-        self.assertTrue(request["candidate"])
-        self.assertEqual(20, request["remediation_attempt"])
-        self.assertEqual("R13-CANDIDATE-20260727-020", request["request_id"])
-        self.assertEqual("CR-0409", request["attempt_exception_id"])
-        self.assertEqual("4d6fd4d7a61cbdb6db465534bebbe5c8375c45e4", request["required_fix_commit"])
 
     def test_tabs_and_sheet_markers_follow_the_frozen_visual_contract(self) -> None:
         source = ACTIVITY_SCREEN.read_text(encoding="utf-8")
