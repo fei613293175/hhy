@@ -505,7 +505,51 @@ class CloseGate:
                 self.require(row.get("size_bytes") == size, "TEST_APK_FOUR_WAY_SIZE_MISMATCH", f"TEST_APK {endpoint}大小不一致")
         https = evidence.get("https") if isinstance(evidence.get("https"), dict) else {}
         self.require(https.get("http_status") == 200 and https.get("range_status") == 206, "TEST_APK_HTTPS_STATUS_INVALID", "TEST_APK HTTPS 200/Range 206证据不完整")
-        self.repository_file(delivery.get("test_guide"), "TEST_APK_GUIDE_MISSING", "TEST_APK桌面测试说明")
+        guide_source = self.repository_file(delivery.get("test_guide"), "TEST_APK_GUIDE_MISSING", "TEST_APK测试说明源文件")
+        if (release_number(self.release) or 0) >= 14:
+            self.require(apk.get("manifest_schema") == 3, "TEST_APK_GUIDE_SCHEMA_INVALID", "R14及后续APK Manifest必须为schema 3")
+            self.require(evidence.get("schema_version") == 2, "TEST_APK_GUIDE_SCHEMA_INVALID", "R14及后续交付Evidence必须为schema 2")
+            apk_guide = apk.get("test_guide") if isinstance(apk.get("test_guide"), dict) else {}
+            evidence_guide = evidence.get("test_guide") if isinstance(evidence.get("test_guide"), dict) else {}
+            release_guide = delivery.get("desktop_test_guide") if isinstance(delivery.get("desktop_test_guide"), dict) else {}
+            expected_name = (
+                f"hhy-{self.release.lower()}-{str(candidate_commit or '')[:7]}-test-guide.md"
+            )
+            source_relative = str(delivery.get("test_guide") or "").replace("\\", "/")
+            for field, expected in {
+                "source_path": source_relative,
+                "file_name": expected_name,
+                "status": "PASS",
+            }.items():
+                self.require(apk_guide.get(field) == expected, "TEST_APK_GUIDE_METADATA_MISMATCH", f"APK Manifest测试说明{field}不一致")
+                self.require(evidence_guide.get(field) == expected, "TEST_APK_GUIDE_METADATA_MISMATCH", f"Evidence测试说明{field}不一致")
+            for field in ("desktop_path", "file_name", "size_bytes", "sha256", "status"):
+                self.require(release_guide.get(field) == apk_guide.get(field), "TEST_APK_GUIDE_METADATA_MISMATCH", f"Release Manifest桌面测试说明{field}不一致")
+                self.require(evidence_guide.get(field) == apk_guide.get(field), "TEST_APK_GUIDE_METADATA_MISMATCH", f"Evidence桌面测试说明{field}不一致")
+            guide_size = apk_guide.get("size_bytes")
+            guide_sha = str(apk_guide.get("sha256") or "").lower()
+            self.require(
+                isinstance(guide_size, int) and not isinstance(guide_size, bool) and guide_size > 0,
+                "TEST_APK_GUIDE_SIZE_INVALID",
+                "桌面测试说明大小必须为正整数",
+            )
+            self.require(
+                bool(re.fullmatch(r"[0-9a-f]{64}", guide_sha)) and set(guide_sha) != {"0"},
+                "TEST_APK_GUIDE_SHA_INVALID",
+                "桌面测试说明SHA-256非法",
+            )
+            desktop_path = Path(str(apk_guide.get("desktop_path") or ""))
+            self.require(desktop_path.name == expected_name, "TEST_APK_GUIDE_NAME_INVALID", "桌面测试说明未使用规范文件名")
+            for label, path in (("仓库", guide_source), ("桌面", desktop_path)):
+                valid = (
+                    path is not None
+                    and path.is_file()
+                    and isinstance(guide_size, int)
+                    and guide_size > 0
+                    and path.stat().st_size == guide_size
+                    and hashlib.sha256(path.read_bytes()).hexdigest() == guide_sha
+                )
+                self.require(valid, "TEST_APK_GUIDE_FILE_MISMATCH", f"{label}测试说明缺失、为空或大小/SHA不一致")
 
     def validate_pointers(self, task_ids: list[str], release_commit: str | None) -> None:
         current = load_yaml(ROOT / "CURRENT_STATUS.yaml")

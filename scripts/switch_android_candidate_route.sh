@@ -5,7 +5,25 @@ set -euo pipefail
 : "${HHY_CANDIDATE_CONTAINER:?HHY_CANDIDATE_CONTAINER is required}"
 : "${HHY_EXPECTED_OLD_UPSTREAM:?HHY_EXPECTED_OLD_UPSTREAM is required}"
 : "${HHY_TARGET_UPSTREAM:?HHY_TARGET_UPSTREAM is required}"
-: "${HHY_CANDIDATE_REGISTRATION_INVITE_CODE:?HHY_CANDIDATE_REGISTRATION_INVITE_CODE is required}"
+
+probe_mode="${HHY_CANDIDATE_ROUTE_PROBE_MODE:-LEGACY_INVITE}"
+case "$probe_mode" in
+  LEGACY_INVITE)
+    : "${HHY_CANDIDATE_REGISTRATION_INVITE_CODE:?HHY_CANDIDATE_REGISTRATION_INVITE_CODE is required}"
+    ;;
+  R14_CONVERSATIONS)
+    : "${HHY_CANDIDATE_ACCESS_TOKEN:?HHY_CANDIDATE_ACCESS_TOKEN is required}"
+    : "${HHY_EXPECTED_CANDIDATE_IMAGE_ID:?HHY_EXPECTED_CANDIDATE_IMAGE_ID is required}"
+    : "${HHY_EXPECTED_OLD_CONTAINER:?HHY_EXPECTED_OLD_CONTAINER is required}"
+    : "${HHY_CANDIDATE_DATABASE_CONTAINER:?HHY_CANDIDATE_DATABASE_CONTAINER is required}"
+    : "${HHY_CANDIDATE_DATABASE_USER:?HHY_CANDIDATE_DATABASE_USER is required}"
+    : "${HHY_CANDIDATE_DATABASE_NAME:?HHY_CANDIDATE_DATABASE_NAME is required}"
+    ;;
+  *)
+    echo "Unsupported candidate route probe mode" >&2
+    exit 2
+    ;;
+esac
 
 if [[ "$HHY_CANDIDATE_ROUTE_CONFIRM" != "YES" ]]; then
   echo "Refusing candidate route activation without HHY_CANDIDATE_ROUTE_CONFIRM=YES" >&2
@@ -21,21 +39,52 @@ if [[ ! "$HHY_EXPECTED_OLD_UPSTREAM" =~ ^127\.0\.0\.1:[1-9][0-9]{3,4}$ ]] \
   echo "Candidate upstreams must be distinct explicit loopback ports" >&2
   exit 2
 fi
-if [[ ! "$HHY_CANDIDATE_REGISTRATION_INVITE_CODE" =~ ^[A-Za-z0-9_-]{6,64}$ ]]; then
+if [[ "$(docker exec "$HHY_CANDIDATE_CONTAINER" printenv SPRING_PROFILES_ACTIVE)" != "staging" ]]; then
+  echo "Candidate readiness is restricted to the staging profile" >&2
+  exit 2
+fi
+if [[ "$probe_mode" == "LEGACY_INVITE" ]] \
+  && [[ ! "$HHY_CANDIDATE_REGISTRATION_INVITE_CODE" =~ ^[A-Za-z0-9_-]{6,64}$ ]]; then
   echo "Unsafe candidate registration invite code format" >&2
   exit 2
 fi
-if [[ "$(docker exec "$HHY_CANDIDATE_CONTAINER" printenv SPRING_PROFILES_ACTIVE)" != "staging" ]]; then
-  echo "Candidate registration readiness is restricted to the staging profile" >&2
-  exit 2
+if [[ "$probe_mode" == "R14_CONVERSATIONS" ]]; then
+  if [[ ! "$HHY_EXPECTED_CANDIDATE_IMAGE_ID" =~ ^sha256:[a-f0-9]{64}$ ]] \
+    || [[ "$(docker inspect --format '{{.Image}}' "$HHY_CANDIDATE_CONTAINER")" \
+      != "$HHY_EXPECTED_CANDIDATE_IMAGE_ID" ]]; then
+    echo "Candidate image does not match the frozen R14 image ID" >&2
+    exit 2
+  fi
+  if [[ "$(docker inspect --format '{{index .Config.Labels "hhy.release"}}' \
+      "$HHY_CANDIDATE_CONTAINER")" != "R14" ]]; then
+    echo "Candidate release label is not R14" >&2
+    exit 2
+  fi
+  if [[ "$(docker inspect --format '{{.State.Health.Status}}' \
+      "$HHY_EXPECTED_OLD_CONTAINER")" != "healthy" ]]; then
+    echo "Expected old candidate is not healthy" >&2
+    exit 2
+  fi
+  flyway_version="$(docker exec "$HHY_CANDIDATE_DATABASE_CONTAINER" psql \
+    -U "$HHY_CANDIDATE_DATABASE_USER" -d "$HHY_CANDIDATE_DATABASE_NAME" \
+    -Atc "SELECT max(version) FROM hhy.flyway_schema_history WHERE success")"
+  if [[ "$flyway_version" != "044" ]]; then
+    echo "Candidate database has not reached Flyway V044" >&2
+    exit 2
+  fi
 fi
 
 nginx_config="/www/server/panel/vhost/nginx/api.orbexa.cc.conf"
 public_probe_url="https://api.orbexa.cc/public-api/v1/platform/status"
 local_probe_url="http://${HHY_TARGET_UPSTREAM}/public-api/v1/platform/status"
-public_invite_url="https://api.orbexa.cc/api/v1/auth/invite-codes/validate"
-local_invite_url="http://${HHY_TARGET_UPSTREAM}/api/v1/auth/invite-codes/validate"
-invite_payload="{\"inviteCode\":\"${HHY_CANDIDATE_REGISTRATION_INVITE_CODE}\"}"
+if [[ "$probe_mode" == "LEGACY_INVITE" ]]; then
+  public_readiness_url="https://api.orbexa.cc/api/v1/auth/invite-codes/validate"
+  local_readiness_url="http://${HHY_TARGET_UPSTREAM}/api/v1/auth/invite-codes/validate"
+  readiness_payload="{\"inviteCode\":\"${HHY_CANDIDATE_REGISTRATION_INVITE_CODE}\"}"
+else
+  public_readiness_url="https://api.orbexa.cc/api/v1/conversations?page=1&pageSize=20&sort=updatedAt%3Adesc"
+  local_readiness_url="http://${HHY_TARGET_UPSTREAM}/api/v1/conversations?page=1&pageSize=20&sort=updatedAt%3Adesc"
+fi
 expected_port="${HHY_TARGET_UPSTREAM##*:}"
 published_port="$(docker port "$HHY_CANDIDATE_CONTAINER" 8080/tcp 2>/dev/null || true)"
 if [[ "$published_port" != "127.0.0.1:${expected_port}" ]]; then
@@ -47,10 +96,16 @@ if [[ "$(docker inspect --format '{{.State.Running}}' "$HHY_CANDIDATE_CONTAINER"
   exit 2
 fi
 curl --fail --silent --show-error --max-time 20 "$local_probe_url" >/dev/null
-curl --fail --silent --show-error --max-time 20 \
-  --header 'Content-Type: application/json' \
-  --data "$invite_payload" \
-  "$local_invite_url" >/dev/null
+if [[ "$probe_mode" == "LEGACY_INVITE" ]]; then
+  curl --fail --silent --show-error --max-time 20 \
+    --header 'Content-Type: application/json' \
+    --data "$readiness_payload" \
+    "$local_readiness_url" >/dev/null
+else
+  curl --fail --silent --show-error --max-time 20 \
+    --header "Authorization: Bearer ${HHY_CANDIDATE_ACCESS_TOKEN}" \
+    "$local_readiness_url" >/dev/null
+fi
 
 old_pattern="^[[:space:]]*proxy_pass http://${HHY_EXPECTED_OLD_UPSTREAM//./\\.};[[:space:]]*$"
 target_pattern="^[[:space:]]*proxy_pass http://${HHY_TARGET_UPSTREAM//./\\.};[[:space:]]*$"
@@ -63,7 +118,14 @@ if [[ "$old_count" == "1" && "$target_count" == "0" ]]; then
   rollback() {
     if [[ "${activated:-false}" == "true" ]]; then
       cp --preserve=mode,ownership,timestamps "$backup" "$nginx_config"
-      nginx -t >/dev/null 2>&1 && systemctl reload nginx
+      nginx -t >/dev/null 2>&1
+      systemctl reload nginx
+      [[ "$(grep -Ec "$old_pattern" "$nginx_config" || true)" == "1" ]]
+      if [[ "$probe_mode" == "R14_CONVERSATIONS" ]]; then
+        [[ "$(docker inspect --format '{{.State.Health.Status}}' \
+          "$HHY_EXPECTED_OLD_CONTAINER")" == "healthy" ]]
+      fi
+      curl --fail --silent --show-error --max-time 20 "$public_probe_url" >/dev/null
     fi
   }
   trap rollback ERR
@@ -85,10 +147,16 @@ cleanup_headers() {
   rm -f "$response_headers"
 }
 trap cleanup_headers EXIT
-curl --fail --silent --show-error --max-time 20 \
-  --header 'Content-Type: application/json' \
-  --data "$invite_payload" \
-  "$public_invite_url" >/dev/null
+if [[ "$probe_mode" == "LEGACY_INVITE" ]]; then
+  curl --fail --silent --show-error --max-time 20 \
+    --header 'Content-Type: application/json' \
+    --data "$readiness_payload" \
+    "$public_readiness_url" >/dev/null
+else
+  curl --fail --silent --show-error --max-time 20 \
+    --header "Authorization: Bearer ${HHY_CANDIDATE_ACCESS_TOKEN}" \
+    "$public_readiness_url" >/dev/null
+fi
 matched="false"
 for probe_attempt in {1..10}; do
   sent_request_id="hhy-route-$(date -u +%Y%m%dT%H%M%SZ)-${probe_attempt}-${RANDOM}${RANDOM}"
@@ -128,4 +196,4 @@ fi
 
 activated="false"
 trap - ERR
-echo "ANDROID_CANDIDATE_ROUTE_OK container=${HHY_CANDIDATE_CONTAINER} upstream=${HHY_TARGET_UPSTREAM} backup=${backup} sent_request_id=${sent_request_id} response_request_id=${response_request_id}"
+echo "ANDROID_CANDIDATE_ROUTE_OK mode=${probe_mode} container=${HHY_CANDIDATE_CONTAINER} upstream=${HHY_TARGET_UPSTREAM} backup=${backup} sent_request_id=${sent_request_id} response_request_id=${response_request_id}"

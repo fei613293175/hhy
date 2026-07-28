@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## R14真机消息页公网后端错位热修 · 2026-07-28
+
+- `CR-0447`确认客户端“会话列表暂不可用”对应认证后404，根因是`api.orbexa.cc`仍指向R13/V042候选，而R14会话接口和可靠性表位于V043/V044；邀请码与注册链路完全排除。
+- 对共享开发测试库生成custom-format可恢复备份并通过`pg_restore --list`、大小和SHA-256验证；使用冻结R14镜像启动28115候选，原用户数、有效会话数及同一会话非敏感指纹在V042→V044前后保持一致。
+- 本机与公网原库有效会话列表均返回HTTP 200，Nginx切至28115且唯一Request-ID在目标R14容器日志命中；平台状态200、匿名会话401、旧R13容器healthy，Nginx与数据库备份均保留。
+- Android源码、资源、依赖、BuildConfig、版本号及APK哈希未变化，现有10223测试包无需无意义重打；R14测试说明已补充直接重试步骤。
+
 ## R16商品、SKU、报价与统一订单后端纵向链路 · 2026-07-28
 
 - `CR-0442`完整实现R16冻结的10个operationId：用户订单列表/详情在SQL层绑定当前用户，后台商品、SKU与订单按`product.read`、`product.write`、`order.read`精确授权；V046把既有`product.manage`角色和`SUPER_ADMIN`安全映射到细粒度权限。
@@ -2071,3 +2078,9 @@
 - V046补齐`product.read`/`product.write`权限，V047前向对齐冻结OpenAPI边界且不改写V045。
 - PostgreSQL 17完整迁移、回滚、属性与8路并发矩阵PASS；Java 21后端全量491项，0失败、0错误。
 - CR-0444保持生产WebSocket容器限制并隔离Mock上下文；CR-0445让默认H2按ApplicationContext隔离，消除测试状态串扰。
+
+## CR-0446 · APK与桌面测试说明成对交付 · 2026-07-28
+
+- 修复既有规则与机器执行脱节：R14及后续新`TEST_APK`必须同时复制对应版本测试说明，桌面说明绑定同一Release和Commit。
+- 新交付使用APK Manifest schema 3与Evidence schema 2，五方核对仓库说明、Release Manifest、APK Manifest、Evidence和桌面副本；缺失、改名、空文件、大小或SHA漂移均非零失败。
+- R06–R13 schema 2+1历史记录保持只读兼容；R14已真实补交`hhy-r14-ca57666-test-guide.md`并以实测大小和SHA-256升级证据。

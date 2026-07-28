@@ -93,8 +93,24 @@ android_delivery:
   public_websocket: BLOCKED_EXTERNAL_DNS
   report_catalog: BLOCKED_PRODUCT_CATALOG
   evidence: artifacts/validation/r14-apk-delivery/delivery-evidence.json
+  public_conversations_hotfix:
+    change_request: CR-0447
+    status: PASS
+    previous_upstream: 127.0.0.1:28114
+    active_upstream: 127.0.0.1:28115
+    flyway_version: V044
+    authenticated_local_http: 200
+    authenticated_public_http: 200
+    android_rebuild_required: false
+    evidence: artifacts/validation/r14-public-conversations/hotfix-evidence.json
   build_evidence: artifacts/validation/r14-task007-android/build-evidence.json
   test_guide: artifacts/reports/R14/R14-version-test-guide.md
+  desktop_test_guide:
+    desktop_path: C:\Users\小白\Desktop\hhy-r14-ca57666-test-guide.md
+    file_name: hhy-r14-ca57666-test-guide.md
+    size_bytes: 3498
+    sha256: b75448953e9ff254e086f6be601c13fe99310016368469a86c79ec105fa26d4a
+    status: PASS
 android_automation:
   policy_id: HHY-ANDROID-AUTOMATION-V1
   mode: ON_DEMAND_NON_BLOCKING_SPECIALTY

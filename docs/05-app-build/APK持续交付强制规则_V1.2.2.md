@@ -7,7 +7,7 @@
 5. 每版验收后把 Artifact Manifest 写入 `artifacts/apk/<release>/APK_MANIFEST.yaml`。
 6. App前端有改动但申请APK豁免必须通过CR和用户确认；默认不允许。
 7. 生产APK只能来自全绿CI、受保护Tag和生产签名Profile。
-8. 每个标记 `Android测试APK=YES` 的版本，由Codex完成构建、签名、SHA256、下载校验，并将测试APK副本保留到项目所有者电脑桌面；`Android测试APK=NO` 的版本不适用。
+8. 每个标记 `Android测试APK=YES` 的版本，由Codex完成构建、签名、SHA256、下载校验，并将测试APK与该版本完整测试说明成对保留到项目所有者电脑桌面；R14起说明文件固定命名为`hhy-<release小写>-<Commit前7位>-test-guide.md`，Manifest、Evidence、Release Manifest、仓库说明源和桌面说明必须在路径、文件名、大小、SHA256与PASS状态上逐项一致，任一缺失或漂移必须非零失败；`Android测试APK=NO` 的版本不适用。
 9. 项目所有者按自己的时间在真机执行安装和启动验收。自动构建、模拟器或服务器容器结果不能替代真机结论；未反馈时保持 `owner_physical_test=PENDING`，只阻断正式验收和生产激活，不阻断机器收尾、下一版本开发或后续桌面 `TEST_APK` 交付。
 
 ## 自动交付状态机
@@ -69,6 +69,7 @@ python scripts/deliver_android_test_apk.py prepare `
   --version-code 10202 `
   --apk <已构建APK路径> `
   --build-evidence <Build-Evidence-JSON路径> `
+  --test-guide <仓库内该版本测试说明.md或.txt> `
   --expected-signing-fingerprint <批准的64位证书SHA-256> `
   --ssh-alias <已配置SSH别名> `
   --remote-root /www/wwwroot/download.orbexa.cc `

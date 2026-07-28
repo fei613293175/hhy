@@ -1,5 +1,5 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "release": "R14",
   "commit": "ca5766600937e1bed056210b8579ee7f8269561b",
   "route_config_commit": "05d738171911d31d382d8cf5b40dfaab9dacf5b4",
@@ -23,6 +23,15 @@
     "status": "PASS",
     "path": "C:\\Users\\小白\\Desktop\\hhy-r14-ca57666-debug.apk",
     "sha256": "46f050310143d5968864c5aacd9ad38b1fb7290931bc113c76429ebc7ecf126d"
+  },
+  "test_guide": {
+    "source_path": "artifacts/reports/R14/R14-version-test-guide.md",
+    "desktop_path": "C:\\Users\\小白\\Desktop\\hhy-r14-ca57666-test-guide.md",
+    "file_name": "hhy-r14-ca57666-test-guide.md",
+    "size_bytes": 3498,
+    "sha256": "b75448953e9ff254e086f6be601c13fe99310016368469a86c79ec105fa26d4a",
+    "status": "PASS",
+    "verified_at": "2026-07-28T12:50:00Z"
   },
   "route_preflight": {
     "status": "PASS",

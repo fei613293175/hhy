@@ -1,4 +1,4 @@
-manifest_schema: 2
+manifest_schema: 3
 release: R14
 apk_file: hhy-r14-ca57666-debug.apk
 version_name: 1.2.2-debug
@@ -19,4 +19,11 @@ public_websocket: BLOCKED_EXTERNAL_DNS
 report_catalog: BLOCKED_PRODUCT_CATALOG
 download_url: https://download.orbexa.cc/r14-artifacts/hhy-r14-ca57666-debug.apk
 desktop_copy: C:\Users\小白\Desktop\hhy-r14-ca57666-debug.apk
+test_guide:
+  source_path: artifacts/reports/R14/R14-version-test-guide.md
+  desktop_path: C:\Users\小白\Desktop\hhy-r14-ca57666-test-guide.md
+  file_name: hhy-r14-ca57666-test-guide.md
+  size_bytes: 3498
+  sha256: b75448953e9ff254e086f6be601c13fe99310016368469a86c79ec105fa26d4a
+  status: PASS
 delivery_evidence: artifacts\validation\r14-apk-delivery\delivery-evidence.json

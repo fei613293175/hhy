@@ -1,25 +1,25 @@
 {
   "version": "1.0",
-  "generated_at": "2026-07-28T12:04:22Z",
-  "context_hash": "7625bdb9058eed6513902c3135cde8dbe5bdcc9605d25a6ac83d485c77b75eed",
+  "generated_at": "2026-07-28T12:50:16Z",
+  "context_hash": "3ceb1f0debcc87db570b52970a77436e177135a1a90d241e4ec2bfd00d44b7f7",
   "fingerprint_mode": "SESSION_DELTA",
   "project_fingerprint": {
-    "sha256": "37e6383b1665e62d02e1af6525b15987858cde10a4efbb89b698bcd44d5791da",
-    "file_count": 31
+    "sha256": "84709e038538ab63c9e8c39170beafca3896857e5b5d6e58414a4df7d9f8576b",
+    "file_count": 46
   },
   "yaml": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.yaml",
-    "sha256": "a99e255b634926c995ec2a6ca20690372f47ef7e0bce5692a8f7265c020e1343"
+    "sha256": "7dd4d5dbd9650a697cd777207088a6ea75351a5ebc294d20ad7db8c25e30d409"
   },
   "markdown": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.md",
-    "sha256": "55d34eb277da6600cecfeeb0d1a0d188783c0071402b4aaeaa41b4ee17525d04"
+    "sha256": "1e47b4f937ba5920ed5e2697e8d714a4029a84157927c2e219f983ed54deac76"
   },
   "sources": [
     {
       "path": "AGENTS.md",
-      "sha256": "e9f1cf3739a97b47a4de96166ebd17eb2206b7231adb22dbfa23f7687c9809bc",
-      "bytes": 15243
+      "sha256": "a110d6552e32deddbf58743c3012fbad2d038594d4792051be7190df7db29aa9",
+      "bytes": 15536
     },
     {
       "path": "START_HERE.md",
@@ -28,7 +28,7 @@
     },
     {
       "path": "CURRENT_STATUS.yaml",
-      "sha256": "b8a0665a288d034b7b8866fd2336f79e86cdc9108a453eaedf7080d6402dd249",
+      "sha256": "fda329abc28a2231780f1c9a7e49a944239a12cde3838e17b17a68de2bc1777f",
       "bytes": 4713
     },
     {
@@ -48,8 +48,8 @@
     },
     {
       "path": "docs/03-continuity/PROBLEM_REGISTRY.yaml",
-      "sha256": "85cc35f97d0735465d484d07fd632a0771ac4e9b397953f0decc756891e2bd05",
-      "bytes": 233690
+      "sha256": "feae1fd3e9d8b03fbf0d889ad63c0845b2c3629e29d87380a664223b46db0422",
+      "bytes": 235303
     },
     {
       "path": "docs/03-continuity/REUSABLE_PATTERNS.md",
@@ -83,12 +83,12 @@
     },
     {
       "path": ".continuity/EVENT_LOG.jsonl",
-      "sha256": "a714bc1042043722c5000c211a955588f5b3a0fe555c398d0fdc6b6c351a02d7",
-      "bytes": 2425203
+      "sha256": "b3c22c02bae9b0ca8c166038dcfe017ce6707f721175fff43a012ef6c765bacd",
+      "bytes": 2434019
     },
     {
       "path": ".continuity/SESSION_INDEX.yaml",
-      "sha256": "d2306a321e1d2ddf10e1d0a1769f74ab7b8e121d986a3012f6ad14133e76d7e0",
+      "sha256": "7f3c59ee1fdea158e7e664f88cbfc64a1f9b13b6a2204fbcc4a3631ea2e1a50f",
       "bytes": 63199
     },
     {
@@ -103,12 +103,12 @@
     },
     {
       "path": ".continuity/CHANGE_REQUEST_INDEX.yaml",
-      "sha256": "927b44e16b89cb1107c8ea358204c10d6004753aa1612d09be98419513579cb0",
-      "bytes": 1627596
+      "sha256": "cd4b5fd65c02f13d98ef378719bbb3c859edf8514facebd7576f1b37f67ec9d4",
+      "bytes": 1638496
     },
     {
       "path": ".continuity/ACTIVE_SESSION.yaml",
-      "sha256": "56a56ebc5eb3fdd4288155d7186870b6ac6e4d2b92965e69568131d194e347a7",
+      "sha256": "c131dd53c0c3f393c44874403f59af21ceaaded05f1589af7bfab640f499507f",
       "bytes": 541
     },
     {
@@ -158,13 +158,13 @@
     },
     {
       "path": "docs/03-continuity/sessions/2026-07/SES-20260728T102501Z-3189682B.md",
-      "sha256": "5010afd1d634eabb15e0c9740583a965ddc05bc13a510438affa5d908d9f591e",
-      "bytes": 6012
+      "sha256": "72030e104bc31036a500a310e0999a56190fcfc5ab90bc9944d5ac9d10685a46",
+      "bytes": 13787
     },
     {
-      "path": ".continuity/checkpoints/SES-20260728T102501Z-3189682B/0002.yaml",
-      "sha256": "be9912c29bc1c385ce34e8eaedc163378f0f9cb10e3da31930fc4a47833ca36e",
-      "bytes": 20972
+      "path": ".continuity/checkpoints/SES-20260728T102501Z-3189682B/0004.yaml",
+      "sha256": "58b722211e608a5e7930bcd44e83f9cef0409110e65ebb6f04b9f8d77d29c823",
+      "bytes": 23332
     },
     {
       "path": "docs/03-continuity/change-requests/CR-0442-落地R16商品SKU报价与统一订单后端纵向链路.md",
@@ -185,6 +185,16 @@
       "path": "docs/03-continuity/change-requests/CR-0445-隔离后端Spring测试上下文的H2内存数据库.md",
       "sha256": "f4674e52b0d8a8336da2cb52f82a7ab28a1b819af245d1d6222439cab9c1bc7c",
       "bytes": 3023
+    },
+    {
+      "path": "docs/03-continuity/change-requests/CR-0446-强制Android版本APK与桌面测试文档成对交付.md",
+      "sha256": "a310e023ae81ffef86863c58b1f93ab4850b80555d5a1186621bb06372cad0c4",
+      "bytes": 5041
+    },
+    {
+      "path": "docs/03-continuity/change-requests/CR-0447-修正R14真机消息页公网后端版本错位.md",
+      "sha256": "f5492576e7a154860b019dba3992c3041ac02bc08c1119120acdf64ff2765853",
+      "bytes": 5601
     }
   ]
 }

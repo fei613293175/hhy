@@ -396,6 +396,112 @@ class ReleaseCloseGateTest(unittest.TestCase):
         commit = build_fixture(repo)
         return temp, repo, commit
 
+    def schema_three_guide_fixture(self, repo: Path) -> tuple[dict, str, dict[str, Path]]:
+        commit = "a" * 40
+        guide_name = f"hhy-r14-{commit[:7]}-test-guide.md"
+        source = repo / "artifacts/reports/R14/R14-version-test-guide.md"
+        desktop = repo.parent / "Desktop" / guide_name
+        source.parent.mkdir(parents=True, exist_ok=True)
+        desktop.parent.mkdir(parents=True, exist_ok=True)
+        source.write_text("# R14 test guide\n\nInstall and verify the frozen R14 paths.\n", encoding="utf-8")
+        shutil.copy2(source, desktop)
+        guide_size = source.stat().st_size
+        guide_sha = hashlib.sha256(source.read_bytes()).hexdigest()
+        guide = {
+            "source_path": "artifacts/reports/R14/R14-version-test-guide.md",
+            "desktop_path": str(desktop),
+            "file_name": guide_name,
+            "size_bytes": guide_size,
+            "sha256": guide_sha,
+            "status": "PASS",
+        }
+        apk = {
+            "manifest_schema": 3,
+            "release": "R14",
+            "commit": commit,
+            "apk_file": "hhy-r14-aaaaaaa-debug.apk",
+            "version_name": "1.2.2-debug",
+            "version_code": 10214,
+            "sha256": "c" * 64,
+            "size_bytes": 1234,
+            "signing_fingerprint": "b" * 64,
+            "test_guide": dict(guide),
+        }
+        apk_path = repo / "artifacts/apk/R14/APK_MANIFEST.yaml"
+        dump_yaml(apk_path, apk)
+        build_path = repo / "artifacts/validation/r14-test-apk/build-evidence.json"
+        build_path.parent.mkdir(parents=True, exist_ok=True)
+        build_path.write_text(json.dumps({
+            "release": "R14",
+            "commit": commit,
+            "build_status": "PASS",
+            "checks": sorted(release_gate.REQUIRED_TEST_APK_CHECKS),
+            "stable_signing": True,
+            "api_base_url": "https://api.orbexa.cc",
+            "version_name": apk["version_name"],
+            "version_code": apk["version_code"],
+            "apk_sha256": apk["sha256"],
+            "apk_size_bytes": apk["size_bytes"],
+            "signing_fingerprint": apk["signing_fingerprint"],
+            "signing_profile_id": "hhy-staging-test-v2",
+        }), encoding="utf-8")
+        evidence_path = repo / "artifacts/validation/r14-test-apk/delivery-evidence.json"
+        evidence_guide = {**guide, "verified_at": "2026-07-28T12:20:56Z"}
+        evidence_path.write_text(json.dumps({
+            "schema_version": 2,
+            "release": "R14",
+            "commit": commit,
+            "apk_file": apk["apk_file"],
+            "version_name": apk["version_name"],
+            "version_code": apk["version_code"],
+            "sha256": apk["sha256"],
+            "size_bytes": apk["size_bytes"],
+            "signing": {
+                "status": "PASS",
+                "stable": True,
+                "profile_id": "hhy-staging-test-v2",
+                "fingerprint": apk["signing_fingerprint"],
+            },
+            "local": {"status": "PASS"},
+            "desktop": {"status": "PASS", "sha256": apk["sha256"]},
+            "remote": {"status": "PASS", "sha256": apk["sha256"], "size_bytes": apk["size_bytes"]},
+            "https": {
+                "status": "PASS",
+                "sha256": apk["sha256"],
+                "size_bytes": apk["size_bytes"],
+                "http_status": 200,
+                "range_status": 206,
+            },
+            "test_guide": evidence_guide,
+        }), encoding="utf-8")
+        manifest = {
+            "android_delivery": {
+                "source_commit": commit,
+                "apk_file": apk["apk_file"],
+                "version_name": apk["version_name"],
+                "version_code": apk["version_code"],
+                "sha256": apk["sha256"],
+                "signing_profile_id": "hhy-staging-test-v2",
+                "signing_fingerprint": apk["signing_fingerprint"],
+                "machine_delivery": "PASS",
+                "owner_physical_test": "PENDING",
+                "next_release_development": "ALLOWED",
+                "build_evidence": "artifacts/validation/r14-test-apk/build-evidence.json",
+                "evidence": "artifacts/validation/r14-test-apk/delivery-evidence.json",
+                "test_guide": guide["source_path"],
+                "desktop_test_guide": {
+                    key: guide[key]
+                    for key in ("desktop_path", "file_name", "size_bytes", "sha256", "status")
+                },
+            }
+        }
+        return manifest, commit, {
+            "source": source,
+            "desktop": desktop,
+            "apk": apk_path,
+            "evidence": evidence_path,
+        }
+
     def test_complete_p00_release_passes_close_gate(self) -> None:
         temp, repo, _commit = self.fixture()
         with temp:
@@ -509,6 +615,46 @@ class ReleaseCloseGateTest(unittest.TestCase):
                         path.write_text(json.dumps(document), encoding="utf-8")
                     result = self.run_gate(repo, "--machine-close-gate", "--release", "R06", expected=1)
                     self.assertIn("TEST_APK_", result.stdout)
+
+    def test_schema_three_desktop_guide_five_way_contract_passes(self) -> None:
+        with tempfile.TemporaryDirectory(prefix="hhy-guide-gate-") as temporary:
+            repo = Path(temporary) / "repository"
+            manifest, commit, _paths = self.schema_three_guide_fixture(repo)
+            original_root = release_gate.ROOT
+            try:
+                release_gate.ROOT = repo
+                gate = release_gate.CloseGate("R14", "machine")
+                gate.validate_test_apk_delivery(manifest, commit)
+            finally:
+                release_gate.ROOT = original_root
+            self.assertEqual([], gate.errors)
+
+    def test_schema_three_desktop_guide_drift_is_rejected(self) -> None:
+        mutations = {
+            "missing": lambda manifest, paths: paths["desktop"].unlink(),
+            "renamed": lambda manifest, paths: paths["desktop"].rename(paths["desktop"].with_name("renamed.md")),
+            "empty": lambda manifest, paths: paths["desktop"].write_bytes(b""),
+            "size": lambda manifest, paths: paths["desktop"].write_bytes(paths["desktop"].read_bytes() + b"x"),
+            "sha": lambda manifest, paths: paths["desktop"].write_bytes(b"x" * paths["desktop"].stat().st_size),
+            "source-missing": lambda manifest, paths: paths["source"].unlink(),
+            "status": lambda manifest, paths: manifest["android_delivery"]["desktop_test_guide"].update({"status": "FAIL"}),
+        }
+        for name, mutate in mutations.items():
+            with self.subTest(name=name), tempfile.TemporaryDirectory(prefix="hhy-guide-gate-") as temporary:
+                repo = Path(temporary) / "repository"
+                manifest, commit, paths = self.schema_three_guide_fixture(repo)
+                mutate(manifest, paths)
+                original_root = release_gate.ROOT
+                try:
+                    release_gate.ROOT = repo
+                    gate = release_gate.CloseGate("R14", "machine")
+                    gate.validate_test_apk_delivery(manifest, commit)
+                finally:
+                    release_gate.ROOT = original_root
+                self.assertTrue(
+                    any(code.startswith("TEST_APK_GUIDE_") for code, _message in gate.errors),
+                    gate.errors,
+                )
 
     def test_ambiguous_legacy_close_flag_is_rejected_with_guidance(self) -> None:
         temp, repo, _commit = self.fixture()

@@ -118,10 +118,33 @@ class DeliveryFixture:
         self.apk.parent.mkdir(parents=True)
         self.apk.write_bytes((b"hhy-android-test-apk\n" * 5000) + b"end")
         self.build_evidence = root / "input" / "build-evidence.json"
-        self.artifact_root = root / "repo" / "artifacts" / "apk"
-        self.evidence_root = root / "repo" / "artifacts" / "validation"
+        self.repository_root = root / "repo"
+        self.artifact_root = self.repository_root / "artifacts" / "apk"
+        self.evidence_root = self.repository_root / "artifacts" / "validation"
         self.desktop = root / "Desktop"
+        self.test_guide = self.repository_root / "artifacts" / "reports" / "R02" / "R02-version-test-guide.md"
+        self.test_guide.parent.mkdir(parents=True)
+        self.test_guide.write_text("# R02 真机测试说明\n\n测试安装、启动和核心路径。\n", encoding="utf-8")
+        self.write_release_manifest()
         self.write_build_evidence()
+
+    def write_release_manifest(self, commit: str = COMMIT) -> None:
+        release_manifest = self.repository_root / "releases" / "R02" / "RELEASE_MANIFEST.yaml"
+        release_manifest.parent.mkdir(parents=True, exist_ok=True)
+        guide_name = delivery.canonical_test_guide_name("R02", commit)
+        release_manifest.write_text(yaml.safe_dump({
+            "release": "R02",
+            "android_delivery": {
+                "test_guide": "artifacts/reports/R02/R02-version-test-guide.md",
+                "desktop_test_guide": {
+                    "desktop_path": str(self.desktop / guide_name),
+                    "file_name": guide_name,
+                    "size_bytes": self.test_guide.stat().st_size,
+                    "sha256": delivery.stream_sha256(self.test_guide),
+                    "status": "PASS",
+                },
+            },
+        }), encoding="utf-8")
 
     def evidence_value(self) -> dict[str, Any]:
         return {
@@ -151,11 +174,13 @@ class DeliveryFixture:
             "version_code": 10202,
             "apk": self.apk,
             "build_evidence": self.build_evidence,
+            "test_guide": self.test_guide,
             "expected_signing_fingerprint": FINGERPRINT,
             "desktop_dir": self.desktop,
             "artifact_root": self.artifact_root,
             "evidence_root": self.evidence_root,
             "public_base_url": "https://download.orbexa.cc",
+            "repository_root": self.repository_root,
         }
         value.update(updates)
         return delivery.PrepareConfig(**value)
@@ -252,10 +277,40 @@ class AndroidApkDeliveryTest(unittest.TestCase):
             evidence_path = fixture.evidence_root / "r02-apk-delivery" / "delivery-evidence.json"
             evidence = json.loads(evidence_path.read_text(encoding="utf-8"))
             self.assertEqual("PASS", evidence["route_preflight"]["status"])
+            self.assertEqual(3, manifest["manifest_schema"])
+            self.assertEqual(2, evidence["schema_version"])
             artifact = fixture.artifact_root / "R02" / manifest["apk_file"]
             desktop = fixture.desktop / manifest["apk_file"]
+            desktop_guide = fixture.desktop / delivery.canonical_test_guide_name("R02", COMMIT)
             self.assertEqual(manifest["sha256"], delivery.stream_sha256(artifact))
             self.assertEqual(manifest["sha256"], delivery.stream_sha256(desktop))
+            self.assertEqual(manifest["test_guide"]["sha256"], delivery.stream_sha256(desktop_guide))
+            self.assertEqual(manifest["test_guide"]["size_bytes"], desktop_guide.stat().st_size)
+
+    def test_prepare_rejects_invalid_test_guides_before_publish(self) -> None:
+        with TemporaryDirectory() as temporary:
+            fixture = DeliveryFixture(Path(temporary))
+            outside = Path(temporary) / "outside.md"
+            outside.write_text("outside", encoding="utf-8")
+            cases = [
+                fixture.repository_root / "missing.md",
+                outside,
+            ]
+            invalid_extension = fixture.repository_root / "artifacts" / "reports" / "R02" / "guide.html"
+            invalid_extension.write_text("invalid", encoding="utf-8")
+            empty = fixture.repository_root / "artifacts" / "reports" / "R02" / "empty.md"
+            empty.write_bytes(b"")
+            cases.extend([invalid_extension, empty])
+            for path in cases:
+                with self.subTest(path=path):
+                    publisher = FakePublisher()
+                    with self.assertRaises(delivery.DeliveryError):
+                        delivery.prepare_delivery(
+                            fixture.config(test_guide=path),
+                            publisher,
+                            https_verifier=passing_https,
+                        )
+                    self.assertEqual(0, publisher.publish_calls)
 
     def test_prepare_rejects_unstable_or_wrong_signing_before_publish(self) -> None:
         for updates in [
@@ -349,6 +404,7 @@ class AndroidApkDeliveryTest(unittest.TestCase):
             fixture = DeliveryFixture(Path(temporary))
             delivery.prepare_delivery(fixture.config(), FakePublisher(), https_verifier=passing_https)
             fixture.write_build_evidence(commit=COMMIT_2, version_code=10203)
+            fixture.write_release_manifest(COMMIT_2)
             result = delivery.prepare_delivery(
                 fixture.config(commit=COMMIT_2, version_code=10203, replace_existing=True),
                 FakePublisher(),
@@ -372,6 +428,7 @@ class AndroidApkDeliveryTest(unittest.TestCase):
             fixture = DeliveryFixture(Path(temporary))
             delivery.prepare_delivery(fixture.config(), FakePublisher(), https_verifier=passing_https)
             fixture.write_build_evidence(commit=COMMIT_2, version_code=10203)
+            fixture.write_release_manifest(COMMIT_2)
 
             def fail_https(url: str, path: Path, sha256: str, size: int) -> dict[str, Any]:
                 raise delivery.DeliveryError("simulated replacement failure")
@@ -387,6 +444,58 @@ class AndroidApkDeliveryTest(unittest.TestCase):
             )
             self.assertEqual(COMMIT, current["commit"])
             self.assertFalse((fixture.artifact_root / "R02" / "history" / COMMIT[:7]).exists())
+
+    def test_verify_and_accept_reject_test_guide_drift_including_idempotent_accept(self) -> None:
+        with TemporaryDirectory() as temporary:
+            fixture = DeliveryFixture(Path(temporary))
+            delivery.prepare_delivery(
+                fixture.config(), FakePublisher(), https_verifier=passing_https
+            )
+            confirmation = "项目所有者明确确认真机安装、启动与核心导航通过"
+            delivery.accept_owner_test(
+                "R02", fixture.artifact_root, fixture.evidence_root, confirmation
+            )
+            desktop_guide = fixture.desktop / delivery.canonical_test_guide_name("R02", COMMIT)
+            desktop_guide.write_text("tampered", encoding="utf-8")
+            with self.assertRaises(delivery.DeliveryError):
+                delivery.verify_existing_delivery(
+                    "R02",
+                    fixture.artifact_root,
+                    fixture.evidence_root,
+                    FakePublisher(),
+                    https_verifier=passing_https,
+                )
+            with self.assertRaises(delivery.DeliveryError):
+                delivery.accept_owner_test(
+                    "R02", fixture.artifact_root, fixture.evidence_root, confirmation
+                )
+
+    def test_schema_two_and_one_history_remains_read_only_compatible(self) -> None:
+        with TemporaryDirectory() as temporary:
+            fixture = DeliveryFixture(Path(temporary))
+            delivery.prepare_delivery(
+                fixture.config(), FakePublisher(), https_verifier=passing_https
+            )
+            manifest_path = fixture.artifact_root / "R02" / "APK_MANIFEST.yaml"
+            evidence_path = fixture.evidence_root / "r02-apk-delivery" / "delivery-evidence.json"
+            manifest = yaml.safe_load(manifest_path.read_text(encoding="utf-8"))
+            evidence = json.loads(evidence_path.read_text(encoding="utf-8"))
+            manifest["manifest_schema"] = 2
+            manifest.pop("test_guide")
+            evidence["schema_version"] = 1
+            evidence.pop("test_guide")
+            manifest_path.write_text(yaml.safe_dump(manifest), encoding="utf-8")
+            evidence_path.write_text(json.dumps(evidence), encoding="utf-8")
+            result = delivery.verify_existing_delivery(
+                "R02",
+                fixture.artifact_root,
+                fixture.evidence_root,
+                FakePublisher(),
+                https_verifier=passing_https,
+            )
+            self.assertEqual("PASS", result["status"])
+            reloaded = yaml.safe_load(manifest_path.read_text(encoding="utf-8"))
+            self.assertEqual(2, reloaded["manifest_schema"])
 
     def test_accept_transitions_pending_to_pass_and_is_idempotent(self) -> None:
         with TemporaryDirectory() as temporary:

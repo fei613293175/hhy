@@ -26,10 +26,10 @@ class AndroidCandidateRouteTest(unittest.TestCase):
         self.assertIn("HHY_CANDIDATE_REGISTRATION_INVITE_CODE is required", self.script)
         self.assertIn('printenv SPRING_PROFILES_ACTIVE', self.script)
         self.assertIn('!= "staging"', self.script)
-        self.assertIn('local_invite_url="http://${HHY_TARGET_UPSTREAM}/api/v1/auth/invite-codes/validate"', self.script)
-        self.assertIn('public_invite_url="https://api.orbexa.cc/api/v1/auth/invite-codes/validate"', self.script)
-        self.assertIn('"$local_invite_url" >/dev/null', self.script)
-        self.assertIn('"$public_invite_url" >/dev/null', self.script)
+        self.assertIn('local_readiness_url="http://${HHY_TARGET_UPSTREAM}/api/v1/auth/invite-codes/validate"', self.script)
+        self.assertIn('public_readiness_url="https://api.orbexa.cc/api/v1/auth/invite-codes/validate"', self.script)
+        self.assertIn('"$local_readiness_url" >/dev/null', self.script)
+        self.assertIn('"$public_readiness_url" >/dev/null', self.script)
         self.assertIn('cp --preserve=mode,ownership,timestamps "$nginx_config" "$backup"', self.script)
         self.assertIn("nginx -t", self.script)
         self.assertIn("systemctl reload nginx", self.script)
@@ -61,6 +61,32 @@ class AndroidCandidateRouteTest(unittest.TestCase):
             "Public request did not reach the intended candidate container",
             self.script,
         )
+
+    def test_r14_probe_is_authenticated_and_excludes_invite_readiness(self) -> None:
+        self.assertIn("HHY_CANDIDATE_ACCESS_TOKEN is required", self.script)
+        self.assertIn("HHY_EXPECTED_CANDIDATE_IMAGE_ID is required", self.script)
+        self.assertIn(
+            "Candidate image does not match the frozen R14 image ID",
+            self.script,
+        )
+        self.assertIn("Candidate release label is not R14", self.script)
+        self.assertIn(
+            "Candidate database has not reached Flyway V044",
+            self.script,
+        )
+        self.assertIn(
+            'public_readiness_url="https://api.orbexa.cc/api/v1/conversations?',
+            self.script,
+        )
+        self.assertIn(
+            '--header "Authorization: Bearer ${HHY_CANDIDATE_ACCESS_TOKEN}"',
+            self.script,
+        )
+        r14_guard = self.script[
+            self.script.index('if [[ "$probe_mode" == "R14_CONVERSATIONS" ]]'):
+            self.script.index('nginx_config=')
+        ]
+        self.assertNotIn("invite-codes", r14_guard)
 
     def test_bootstrap_preflight_runs_before_heavy_android_setup(self) -> None:
         bootstrap = self.workflow.index(

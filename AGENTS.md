@@ -94,7 +94,7 @@
 - 每个页面必须在 `catalogs/ui_visual_acceptance.csv` 绑定精确面板或批准的补充视觉规格。`P01-P08`、`TOKENS_ONLY`、相邻页面参考等粗粒度绑定不得作为施工依据；无精确覆盖时必须先补视觉规格，禁止自行构思 UI。
 - 页面或版本只有在视觉合同、Token 静态检查、参考图对照和真机/浏览器截图证据全部为 `PASS` 后才可关闭；单版检查使用 `scripts/check_ui_visual_acceptance.py --release <版本>`，R12 起机器关闭必须执行累计 `--historical-through <版本>` 语义。
 - 每个版本必须逐项核对开发文档和 Acceptance；任何遗漏都阻止版本关闭。
-- 每个大版本关闭前必须把正式 APK 和完整“功能清单 + 文档核对 + 详细测试 + 反馈方式”TXT/MD 放到项目所有者桌面。
+- 每个大版本关闭前必须把正式 APK 和完整“功能清单 + 文档核对 + 详细测试 + 反馈方式”TXT/MD 成对放到项目所有者桌面；R14 起两者必须绑定同一 Release 和源码 Commit，测试说明使用 `hhy-<release>-<commit7>-test-guide.md` 规范名，并由 Manifest、Evidence、仓库源文件与桌面副本的路径、大小和 SHA-256 硬门禁证明，任一缺失或漂移均不得标记交付 PASS。
 - 万能邀请码等测试能力只允许在 DEV/TEST/STAGING 显式启用，PROD 必须硬拒绝。
 - 全项目基础能力必须优先使用大型商业 App 广泛验证的官方 Stable 主流方案；禁止自行构思导航框架、返回栈、图标系统或引入预发布/小众基础库，例外必须 ADR + 批准 CR。
 - Android 全部既有和后续页面统一使用稳定 Jetpack Navigation Compose 真实返回栈；顶栏、系统键、手势返回必须同源并返回实际来源，底部栏目和页面状态必须保存恢复，禁止 `mutableState`/枚举切页和写死返回首页。

@@ -108,6 +108,65 @@ def canonical_apk_name(release: str, commit: str) -> str:
     return f"hhy-{validate_release(release).lower()}-{validate_commit(commit)[:7]}-debug.apk"
 
 
+def canonical_test_guide_name(release: str, commit: str) -> str:
+    return f"hhy-{validate_release(release).lower()}-{validate_commit(commit)[:7]}-test-guide.md"
+
+
+def repository_test_guide(
+    path: Path, repository_root: Path, release: str,
+) -> tuple[Path, str, int, str]:
+    root = repository_root.resolve()
+    source = (path if path.is_absolute() else root / path).resolve()
+    try:
+        relative = source.relative_to(root).as_posix()
+    except ValueError as exc:
+        raise DeliveryError("test guide must stay inside the repository root") from exc
+    if source.suffix.lower() not in {".md", ".txt"}:
+        raise DeliveryError("test guide must be a .md or .txt file")
+    if not source.is_file():
+        raise DeliveryError(f"test guide file does not exist: {source}")
+    size = source.stat().st_size
+    if size <= 0:
+        raise DeliveryError("test guide must not be empty")
+    release_manifest = load_mapping(
+        root / "releases" / validate_release(release) / "RELEASE_MANIFEST.yaml",
+        "release manifest",
+    )
+    android_delivery = release_manifest.get("android_delivery")
+    declared = android_delivery.get("test_guide") if isinstance(android_delivery, dict) else None
+    if str(declared or "").replace("\\", "/") != relative:
+        raise DeliveryError("test guide does not match RELEASE_MANIFEST android_delivery.test_guide")
+    return source, relative, size, stream_sha256(source)
+
+
+def validate_release_test_guide_declaration(
+    repository_root: Path,
+    release: str,
+    source_path: str,
+    desktop_path: Path,
+    file_name: str,
+    size_bytes: int,
+    sha256: str,
+) -> None:
+    release_manifest = load_mapping(
+        repository_root.resolve() / "releases" / release / "RELEASE_MANIFEST.yaml",
+        "release manifest",
+    )
+    delivery = release_manifest.get("android_delivery")
+    if not isinstance(delivery, dict) or str(delivery.get("test_guide") or "").replace("\\", "/") != source_path:
+        raise DeliveryError("release manifest test guide source does not match")
+    desktop = delivery.get("desktop_test_guide")
+    expected = {
+        "desktop_path": str(desktop_path),
+        "file_name": file_name,
+        "size_bytes": size_bytes,
+        "sha256": sha256,
+        "status": "PASS",
+    }
+    if not isinstance(desktop, dict) or any(desktop.get(key) != value for key, value in expected.items()):
+        raise DeliveryError("release manifest desktop test guide metadata does not match")
+
+
 def validate_public_base_url(value: str) -> str:
     parsed = urlsplit(value.strip())
     if (
@@ -647,12 +706,14 @@ class PrepareConfig:
     version_code: int
     apk: Path
     build_evidence: Path
+    test_guide: Path
     expected_signing_fingerprint: str
     desktop_dir: Path
     artifact_root: Path
     evidence_root: Path
     public_base_url: str
     replace_existing: bool = False
+    repository_root: Path = ROOT
 
 
 class Publisher(Protocol):
@@ -699,13 +760,27 @@ def prepare_delivery(
     build_evidence = validate_build_evidence(
         config.build_evidence, release, commit, version_name, version_code, expected_fingerprint,
     )
+    test_guide, test_guide_source, test_guide_size, test_guide_sha = repository_test_guide(
+        config.test_guide, config.repository_root, release,
+    )
     apk_file = canonical_apk_name(release, commit)
+    test_guide_file = canonical_test_guide_name(release, commit)
     identity = ArtifactIdentity(
         release, commit, version_name, version_code, apk_file, sha, size, expected_fingerprint,
     )
     artifact_dir = config.artifact_root / release
     artifact_apk = artifact_dir / apk_file
     desktop_apk = config.desktop_dir / apk_file
+    desktop_test_guide = config.desktop_dir / test_guide_file
+    validate_release_test_guide_declaration(
+        config.repository_root,
+        release,
+        test_guide_source,
+        desktop_test_guide,
+        test_guide_file,
+        test_guide_size,
+        test_guide_sha,
+    )
     evidence_path = config.evidence_root / delivery_slug / "delivery-evidence.json"
     manifest_path = artifact_dir / "APK_MANIFEST.yaml"
     remote_relative = f"{release.lower()}-artifacts/{apk_file}"
@@ -718,6 +793,8 @@ def prepare_delivery(
         "size_bytes": size,
         "artifact_copy": str(artifact_apk),
         "desktop_copy": str(desktop_apk),
+        "test_guide_source": test_guide_source,
+        "desktop_test_guide": str(desktop_test_guide),
         "download_url": download_url,
         "manifest": str(manifest_path),
         "delivery_evidence": str(evidence_path),
@@ -764,6 +841,7 @@ def prepare_delivery(
         raise DeliveryError("exact APK download route preflight did not pass")
     verified_copy(config.apk, artifact_apk, sha, size)
     verified_copy(config.apk, desktop_apk, sha, size)
+    verified_copy(test_guide, desktop_test_guide, test_guide_sha, test_guide_size)
     publication: RemotePublication | None = None
     created_archives: list[Path] = []
     try:
@@ -774,7 +852,7 @@ def prepare_delivery(
             raise DeliveryError("remote or HTTPS verification did not pass")
         created_at = utc_now()
         evidence: dict[str, Any] = {
-            "schema_version": 1,
+            "schema_version": 2,
             "release": release,
             "commit": commit,
             "apk_file": apk_file,
@@ -790,6 +868,15 @@ def prepare_delivery(
             },
             "local": {"status": "PASS", "artifact_copy": str(artifact_apk)},
             "desktop": {"status": "PASS", "path": str(desktop_apk), "sha256": sha},
+            "test_guide": {
+                "source_path": test_guide_source,
+                "desktop_path": str(desktop_test_guide),
+                "file_name": test_guide_file,
+                "size_bytes": test_guide_size,
+                "sha256": test_guide_sha,
+                "status": "PASS",
+                "verified_at": created_at,
+            },
             "route_preflight": route_evidence,
             "remote": {**remote_evidence, "path": publication.remote_path, "publish_state": publication.state},
             "https": {**https_evidence, "url": download_url},
@@ -797,7 +884,7 @@ def prepare_delivery(
             "created_at": created_at,
         }
         manifest: dict[str, Any] = {
-            "manifest_schema": 2,
+            "manifest_schema": 3,
             "release": release,
             "apk_file": apk_file,
             "version_name": version_name,
@@ -812,6 +899,14 @@ def prepare_delivery(
             "owner_physical_test": "PENDING",
             "download_url": download_url,
             "desktop_copy": str(desktop_apk),
+            "test_guide": {
+                "source_path": test_guide_source,
+                "desktop_path": str(desktop_test_guide),
+                "file_name": test_guide_file,
+                "size_bytes": test_guide_size,
+                "sha256": test_guide_sha,
+                "status": "PASS",
+            },
             "delivery_evidence": str(evidence_path.relative_to(ROOT) if evidence_path.is_relative_to(ROOT) else evidence_path),
         }
         if existing_manifest_bytes is not None and existing_evidence_bytes is not None:
@@ -864,7 +959,8 @@ def load_manifest_delivery(
     manifest_path, evidence_path = manifest_and_evidence_paths(release, artifact_root, evidence_root)
     manifest = load_mapping(manifest_path, "APK manifest")
     evidence = load_mapping(evidence_path, "delivery evidence")
-    if manifest.get("manifest_schema") != 2 or evidence.get("schema_version") != 1:
+    schema_pair = (manifest.get("manifest_schema"), evidence.get("schema_version"))
+    if schema_pair not in {(2, 1), (3, 2)}:
         raise DeliveryError("APK manifest/evidence schema is unsupported")
     if validate_release(str(manifest.get("release") or "")) != release:
         raise DeliveryError("APK manifest release does not match")
@@ -874,6 +970,79 @@ def load_manifest_delivery(
         if manifest.get(field) != evidence.get(field):
             raise DeliveryError(f"APK manifest/evidence mismatch: {field}")
     return manifest_path, manifest, evidence_path, evidence
+
+
+def repository_root_for_artifacts(artifact_root: Path) -> Path:
+    resolved = artifact_root.resolve()
+    if resolved.name == "apk" and resolved.parent.name == "artifacts":
+        return resolved.parent.parent
+    return ROOT.resolve()
+
+
+def validate_test_guide_delivery(
+    release: str,
+    commit: str,
+    artifact_root: Path,
+    manifest: Mapping[str, Any],
+    evidence: Mapping[str, Any],
+) -> None:
+    if manifest.get("manifest_schema") == 2 and evidence.get("schema_version") == 1:
+        return
+    manifest_guide = manifest.get("test_guide")
+    evidence_guide = evidence.get("test_guide")
+    if not isinstance(manifest_guide, dict) or not isinstance(evidence_guide, dict):
+        raise DeliveryError("schema 3 delivery requires test guide metadata")
+    expected_name = canonical_test_guide_name(release, commit)
+    for field in ("source_path", "desktop_path", "file_name", "size_bytes", "sha256", "status"):
+        if manifest_guide.get(field) != evidence_guide.get(field):
+            raise DeliveryError(f"test guide manifest/evidence mismatch: {field}")
+    if manifest_guide.get("file_name") != expected_name:
+        raise DeliveryError("desktop test guide filename is not canonical")
+    if manifest_guide.get("status") != "PASS":
+        raise DeliveryError("desktop test guide status is not PASS")
+    size = manifest_guide.get("size_bytes")
+    sha = str(manifest_guide.get("sha256") or "").lower()
+    if (
+        not isinstance(size, int)
+        or isinstance(size, bool)
+        or size <= 0
+        or not FINGERPRINT_PATTERN.fullmatch(sha)
+        or set(sha) == {"0"}
+    ):
+        raise DeliveryError("desktop test guide size or SHA-256 is invalid")
+    repository_root = repository_root_for_artifacts(artifact_root)
+    source_path = repository_root / complete_text(manifest_guide.get("source_path"), "test guide source")
+    try:
+        source_path.resolve().relative_to(repository_root)
+    except ValueError as exc:
+        raise DeliveryError("test guide source escapes repository root") from exc
+    desktop_path = Path(complete_text(manifest_guide.get("desktop_path"), "desktop test guide"))
+    if desktop_path.name != expected_name:
+        raise DeliveryError("desktop test guide path does not use canonical filename")
+    for label, path in (("repository", source_path), ("desktop", desktop_path)):
+        if (
+            not path.is_file()
+            or path.stat().st_size != size
+            or stream_sha256(path) != sha
+        ):
+            raise DeliveryError(f"{label} test guide no longer matches the manifest")
+    release_manifest = load_mapping(
+        repository_root / "releases" / release / "RELEASE_MANIFEST.yaml",
+        "release manifest",
+    )
+    delivery = release_manifest.get("android_delivery")
+    if not isinstance(delivery, dict):
+        raise DeliveryError("release manifest android_delivery is missing")
+    if str(delivery.get("test_guide") or "").replace("\\", "/") != str(
+        manifest_guide["source_path"]
+    ).replace("\\", "/"):
+        raise DeliveryError("release manifest test guide source does not match")
+    release_desktop = delivery.get("desktop_test_guide")
+    if not isinstance(release_desktop, dict):
+        raise DeliveryError("release manifest desktop_test_guide is missing")
+    for field in ("desktop_path", "file_name", "size_bytes", "sha256", "status"):
+        if release_desktop.get(field) != manifest_guide.get(field):
+            raise DeliveryError(f"release manifest desktop test guide mismatch: {field}")
 
 
 def verify_existing_delivery(
@@ -904,6 +1073,7 @@ def verify_existing_delivery(
     for label, path in [("artifact", artifact_apk), ("desktop", desktop_apk)]:
         if not path.is_file() or path.stat().st_size != size or stream_sha256(path) != sha:
             raise DeliveryError(f"{label} APK no longer matches the manifest")
+    validate_test_guide_delivery(release, commit, artifact_root, manifest, evidence)
     if dry_run:
         return {"status": "DRY_RUN", "manifest": str(manifest_path), "evidence": str(evidence_path)}
     remote = evidence.get("remote") if isinstance(evidence.get("remote"), dict) else {}
@@ -938,6 +1108,13 @@ def accept_owner_test(
     if len(confirmation) < 10:
         raise DeliveryError("owner confirmation is too short")
     manifest_path, manifest, evidence_path, evidence = load_manifest_delivery(release, artifact_root, evidence_root)
+    validate_test_guide_delivery(
+        release,
+        validate_commit(str(manifest.get("commit") or "")),
+        artifact_root,
+        manifest,
+        evidence,
+    )
     for section in ["signing", "local", "desktop", "remote", "https"]:
         value = evidence.get(section)
         if not isinstance(value, dict) or value.get("status") != "PASS":
@@ -1001,6 +1178,7 @@ def build_parser() -> ArgumentParser:
     prepare.add_argument("--version-code", required=True, type=int)
     prepare.add_argument("--apk", required=True, type=Path)
     prepare.add_argument("--build-evidence", required=True, type=Path)
+    prepare.add_argument("--test-guide", required=True, type=Path)
     prepare.add_argument("--expected-signing-fingerprint", required=True)
     prepare.add_argument("--desktop-dir", type=Path, default=Path.home() / "Desktop")
     prepare.add_argument("--public-base-url", default=f"https://{PUBLIC_DOWNLOAD_HOST}")
@@ -1066,6 +1244,7 @@ def main(argv: Sequence[str] | None = None) -> int:
                     args.version_code,
                     args.apk,
                     args.build_evidence,
+                    args.test_guide,
                     args.expected_signing_fingerprint,
                     args.desktop_dir,
                     args.artifact_root,

@@ -11,13 +11,15 @@ task_id: TASK-R16-003
 story_id: STORY-R16-001
 goal: 持续完成R16至R32，当前完整落地10个商品、SKU、报价与统一订单后端operationId
 started_at: '2026-07-28T10:25:01Z'
-updated_at: '2026-07-28T12:04:26Z'
+updated_at: '2026-07-28T12:50:19Z'
 takeover_of: null
 change_requests:
 - CR-0442
 - CR-0443
 - CR-0444
 - CR-0445
+- CR-0446
+- CR-0447
 scope:
   allowed_paths:
   - apps/admin-web/**
@@ -63,7 +65,23 @@ scope:
   - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/realtime/R14WebSocketConfiguration.java
   - services/backend/boot/src/test/resources/application-test.yml
   - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/realtime/R14WebSocketConfigurationTest.java
-  source: story+explicit+approved-cr:CR-0442+approved-cr:CR-0443+approved-cr:CR-0444+approved-cr:CR-0445
+  - AGENTS.md
+  - docs/05-app-build/APK持续交付强制规则_V1.2.2.md
+  - scripts/deliver_android_test_apk.py
+  - scripts/check_release_artifacts.py
+  - tests/test_android_apk_delivery.py
+  - tests/test_release_close_gate.py
+  - artifacts/apk/R14/APK_MANIFEST.yaml
+  - artifacts/validation/r14-apk-delivery/delivery-evidence.json
+  - releases/R14/RELEASE_MANIFEST.yaml
+  - scripts/switch_android_candidate_route.sh
+  - tests/test_android_candidate_route.py
+  - scripts/check_r14_public_conversations.py
+  - tests/test_r14_public_conversations.py
+  - artifacts/validation/r14-public-conversations/hotfix-evidence.json
+  - artifacts/reports/R14/R14-version-test-guide.md
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  source: story+explicit+approved-cr:CR-0442+approved-cr:CR-0443+approved-cr:CR-0444+approved-cr:CR-0445+approved-cr:CR-0446+approved-cr:CR-0447
 git:
   initialized: true
   branch: task/TASK-R03-001
@@ -73,27 +91,22 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-28T12:04:18Z'
-  expires_at: '2026-07-28T16:04:18Z'
-checkpoint_sequence: 2
-latest_checkpoint: .continuity/checkpoints/SES-20260728T102501Z-3189682B/0002.yaml
+  renewed_at: '2026-07-28T12:50:11Z'
+  expires_at: '2026-07-28T16:50:11Z'
+checkpoint_sequence: 4
+latest_checkpoint: .continuity/checkpoints/SES-20260728T102501Z-3189682B/0004.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260728T102501Z-3189682B.md
-next_step: 提交并推送TASK-R16-003实现与治理记录，关闭CR-0442至CR-0445和当前Task，然后直接领取TASK-R16-004。
+next_step: 复核CR-0446与CR-0447实现，提交推送后恢复TASK-R16-003关闭流程
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: 7625bdb9058eed6513902c3135cde8dbe5bdcc9605d25a6ac83d485c77b75eed
-  generated_at: '2026-07-28T12:04:22Z'
+  context_hash: 3ceb1f0debcc87db570b52970a77436e177135a1a90d241e4ec2bfd00d44b7f7
+  generated_at: '2026-07-28T12:50:16Z'
 handoff_bundle: null
 closure: null
 parallel_execution:
-  assessment: DELEGATED
-  delegated_workers: 1
-  workers:
-  - worker_id: r14_scope_review
-    responsibility: 独立审查CR-0444与CR-0445
-    allowed_paths:
-    - .continuity/change_requests/CR-0444.yaml
-    - .continuity/change_requests/CR-0445.yaml
-  reason: ''
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 公网切流已完成，剩余为同一变更集的治理收口与提交，拆分会造成检查点和索引竞争
