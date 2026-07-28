@@ -13,6 +13,7 @@ import cc.orbexa.hhy.content.R14RealtimeContracts.Scope;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.time.Clock;
 import java.time.Instant;
+import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -66,6 +67,13 @@ class R14RealtimePostgresStoreTest {
         assertTrue(!store.acknowledge(userId, eventId, sequence + 1, created.plusSeconds(2)));
         assertTrue(!store.acknowledge(userId + 1, eventId, sequence, created.plusSeconds(2)));
         assertTrue(store.acknowledge(userId, eventId, sequence, created.plusSeconds(2)));
+        assertTrue(store.acknowledge(userId, eventId, sequence, created.plusSeconds(9)));
+        assertEquals(created.plusSeconds(2), jdbc.queryForObject(
+                "SELECT acked_at FROM hhy.websocket_deliveries WHERE event_id=?",
+                OffsetDateTime.class, eventId).toInstant());
+        assertTrue(store.dueRedeliveries(
+                created.plusSeconds(20), created.plusSeconds(20), 10).stream()
+                .noneMatch(item -> item.eventId().equals(eventId)));
 
         long retrySequence = store.nextSequence(userId, created.plusSeconds(3));
         UUID retryEvent = UUID.randomUUID();

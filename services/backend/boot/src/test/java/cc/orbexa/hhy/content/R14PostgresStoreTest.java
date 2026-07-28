@@ -118,6 +118,49 @@ class R14PostgresStoreTest {
         });
     }
 
+    @Test
+    void duplicateClientMessageConstraintRollsBackBothRowsInRealPostgres() {
+        String url = System.getenv("HHY_DB_MIGRATION_TEST_URL");
+        Assumptions.assumeTrue(url != null && !url.isBlank()
+                        && "YES".equals(System.getenv("HHY_DB_SMOKE_CONFIRM")),
+                "requires an explicitly confirmed disposable PostgreSQL database");
+        var dataSource = new DriverManagerDataSource(url,
+                System.getenv().getOrDefault("HHY_DB_MIGRATION_TEST_USER", ""),
+                System.getenv().getOrDefault("HHY_DB_MIGRATION_TEST_PASSWORD", ""));
+        Flyway.configure().dataSource(dataSource).locations("classpath:db/migration").load().migrate();
+        var jdbc = new JdbcTemplate(dataSource);
+        String suffix = UUID.randomUUID().toString().replace("-", "");
+        long sender = user(jdbc, "16" + suffix.substring(0, 9), "R14C" + suffix.substring(0, 12));
+        long peer = user(jdbc, "15" + suffix.substring(0, 9), "R14D" + suffix.substring(0, 12));
+        long conversationId = jdbc.queryForObject("""
+                WITH conversation AS (
+                  INSERT INTO hhy.conversations(type) VALUES ('DIRECT') RETURNING id
+                ), members AS (
+                  INSERT INTO hhy.conversation_members(conversation_id,user_id)
+                  SELECT id,? FROM conversation
+                  UNION ALL
+                  SELECT id,? FROM conversation
+                  RETURNING conversation_id
+                )
+                SELECT max(conversation_id) FROM members
+                """, Long.class, sender, peer);
+        var store = new R14PostgresStore(jdbc);
+        var transaction = new TransactionTemplate(new DataSourceTransactionManager(dataSource));
+        Instant now = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+
+        assertThrows(org.springframework.dao.DataIntegrityViolationException.class,
+                () -> transaction.executeWithoutResult(status -> {
+                    store.insertMessage(conversationId, sender, "duplicate-client-1", "TEXT",
+                            "{\"text\":\"第一条\"}", now);
+                    store.insertMessage(conversationId, sender, "duplicate-client-1", "TEXT",
+                            "{\"text\":\"第二条\"}", now.plusSeconds(1));
+                }));
+
+        assertEquals(0L, jdbc.queryForObject(
+                "SELECT count(*) FROM hhy.chat_messages WHERE conversation_id=?",
+                Long.class, conversationId));
+    }
+
     private static long user(JdbcTemplate jdbc, String phone, String invite) {
         Long id = jdbc.queryForObject("""
                 INSERT INTO hhy.users(phone,status,invite_code) VALUES (?,'ACTIVE',?) RETURNING id

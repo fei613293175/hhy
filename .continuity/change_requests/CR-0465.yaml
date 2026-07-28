@@ -1,0 +1,57 @@
+protocol_version: '1.0'
+cr_id: CR-0465
+title: R14六项聊天专项测试自动化与故障证据闭环
+status: IMPLEMENTING
+created_at: '2026-07-28T18:28:03Z'
+updated_at: '2026-07-28T18:40:52Z'
+requester_actor_id: codex-r14-testing-20260729
+approver_actor_id: codex-r14-quality-review-20260729
+task_id: TASK-R14-005
+session_id: SES-20260728T182015Z-7EB6FEF2
+user_request: 持续推进R14至R32且不得发生开发漂移；当前完成TASK-R14-005专项测试
+reason: 现有六个TST-CHAT测试目录仍为READY_TO_AUTOMATE，缺少正式适配器、固定环境证据和部分故障注入用例
+original_rule: catalogs/test_cases.csv中的六个R14聊天测试仅声明READY_TO_AUTOMATE路径，现有零散测试类没有测试ID到真实选择器、故障类别和固定环境证据的一一映射
+new_rule: 六个既有TST-CHAT测试ID各自绑定仓库内可执行选择器，覆盖主路径、拒绝零副作用、响应丢失重放、同键异体冲突、真实PostgreSQL并发、超时重试、重复消息与ACK重投上限；统一runner校验Java21、PostgreSQL17、Android JDK21日志哈希与源码Commit新鲜度后才可标记AUTOMATED
+impact_summary: 只强化R14既有测试自动化和证据，不修改产品功能、API、数据库Schema、UI或R15以后范围
+impact:
+  files:
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R14ServiceTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R14RealtimePostgresStoreTest.java
+  - apps/android/feature/chat/src/test/java/cc/orbexa/hhy/chat/R14ChatStateTest.kt
+  - tests/r14/README.md
+  - tests/r14/req-chat-001_happy
+  - tests/r14/req-chat-001_reject
+  - tests/r14/req-chat-001_idempotent
+  - tests/r14/req-chat-002_happy
+  - tests/r14/req-chat-002_reject
+  - tests/r14/req-chat-002_idempotent
+  - scripts/run_r14_specialized_matrix.py
+  - tests/test_r14_specialized_matrix.py
+  - catalogs/test_cases.csv
+  - artifacts/reports/R14/TASK-R14-005-specialized-test-report.md
+  - artifacts/validation/r14-test-evidence/evidence.json
+  pages: []
+  apis: []
+  database: []
+  configuration: []
+  ledger: []
+  tests:
+  - 六适配器精确清单与选择器存在性；缺证据、错误环境、路径逃逸、过期Commit均失败；Java21单元与PostgreSQL17并发/回滚；Android聊天状态重试和去重
+  releases:
+  - R14
+  migration_and_compatibility: 无生产迁移；沿用既有六个测试ID和自动化路径，只把占位路径落成适配器并更新状态；历史测试和R14业务合同保持兼容
+user_confirmation: 项目所有者已明确要求持续推进开发并保证R14至R32不再漂移，本任务属于既定TASK-R14-005
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-28T18:29:17Z'
+  note: 范围仅补齐既有测试自动化事实与固定环境证据；六测试ID、故障类别、选择器新鲜度和零副作用断言完整，不改变产品合同或降低门禁
+machine_record: .continuity/change_requests/CR-0465.yaml
+document: docs/03-continuity/change-requests/CR-0465-R14六项聊天专项测试自动化与故障证据闭环.md
+decision_log:
+- at: '2026-07-28T18:40:52Z'
+  actor_id: codex-r14-testing-20260729
+  status: IMPLEMENTING
+  note: 六项测试适配器、统一runner和新增Java故障注入用例已实现；本地清单与选择器4项PASS，准备冻结首个Commit并在obx-test验证
+  session_id: SES-20260728T182015Z-7EB6FEF2
+session_ids:
+- SES-20260728T182015Z-7EB6FEF2

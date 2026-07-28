@@ -1,0 +1,14 @@
+{
+  "schema": "hhy.r14.test-adapter/v1",
+  "test_id": "TST-CHAT_002-IDEMPOTENT",
+  "central_runner": "scripts/run_r14_specialized_matrix.py",
+  "runner": "r14-java21-postgresql17-android-chat",
+  "selectors": [
+    "services/backend/boot/src/test/java/cc/orbexa/hhy/content/R14RealtimePostgresStoreTest.java#realPostgresAllocatesConcurrentUserSequencesAndPersistsGapWatermark",
+    "services/backend/boot/src/test/java/cc/orbexa/hhy/content/R14ServiceTest.java#completedBlockReplayReturnsEncryptedSnapshotWithoutDuplicateWriteOrOutbox",
+    "apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ContractR14WebSocketTest.kt#duplicateIsNotDeliveredButIsAcknowledgedAgain",
+    "apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ContractR14WebSocketTest.kt#replayCompletesOnlyAtTheContiguousHighWatermark",
+    "apps/android/feature/chat/src/test/java/cc/orbexa/hhy/chat/R14ConversationListStateTest.kt#syncingMergesOutOfOrderDuplicatesWithoutInventingLocalSorting"
+  ],
+  "fault_classes": ["duplicate-ack", "redelivery-attempt-cap", "duplicate-event-suppression", "contiguous-replay", "duplicate-list-merge"]
+}

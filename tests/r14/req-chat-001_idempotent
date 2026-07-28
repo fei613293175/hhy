@@ -1,0 +1,15 @@
+{
+  "schema": "hhy.r14.test-adapter/v1",
+  "test_id": "TST-CHAT_001-IDEMPOTENT",
+  "central_runner": "scripts/run_r14_specialized_matrix.py",
+  "runner": "r14-java21-postgresql17-android-chat",
+  "selectors": [
+    "services/backend/boot/src/test/java/cc/orbexa/hhy/content/R14ServiceTest.java#completedSendReplayReturnsFrozenSnapshotWithoutDuplicateMessageOutboxOrRealtime",
+    "services/backend/boot/src/test/java/cc/orbexa/hhy/content/R14ServiceTest.java#changedSendBodyWithSameIdempotencyKeyIsRejectedBeforeBusinessWrites",
+    "services/backend/boot/src/test/java/cc/orbexa/hhy/content/R14ServiceTest.java#duplicateClientMessageWithAnotherKeyIsRejectedWithoutSecondBusinessWrite",
+    "services/backend/boot/src/test/java/cc/orbexa/hhy/content/R14PostgresStoreTest.java#duplicateClientMessageConstraintRollsBackBothRowsInRealPostgres",
+    "services/backend/boot/src/test/java/cc/orbexa/hhy/content/R08PostgresStoreTest.java#concurrentIdenticalClaimsHaveExactlyOneOwnerInRealPostgres",
+    "apps/android/feature/chat/src/test/java/cc/orbexa/hhy/chat/R14ChatStateTest.kt#failedSendRetainsRequestAndStableRetryIdentity"
+  ],
+  "fault_classes": ["network-timeout-replay", "request-body-key-conflict", "duplicate-client-message", "real-postgresql-concurrency", "stable-business-intent-key"]
+}

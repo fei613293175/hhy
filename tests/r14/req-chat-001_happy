@@ -1,0 +1,14 @@
+{
+  "schema": "hhy.r14.test-adapter/v1",
+  "test_id": "TST-CHAT_001-HAPPY",
+  "central_runner": "scripts/run_r14_specialized_matrix.py",
+  "runner": "r14-java21-postgresql17-android-chat",
+  "selectors": [
+    "services/backend/boot/src/test/java/cc/orbexa/hhy/content/R14ServiceTest.java#textMessageChecksMembershipRateAndWritesOneOutboxEvent",
+    "services/backend/boot/src/test/java/cc/orbexa/hhy/content/R14ServiceTest.java#contactCardIsEncryptedBeforeDatabaseAndDecryptedForAuthorizedResponse",
+    "services/backend/boot/src/test/java/cc/orbexa/hhy/content/R14PostgresStoreTest.java#directChatLifecycleUsesRealPostgresInvariants",
+    "apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ContractR14ApiTest.kt#fourFrozenRequestsEncodeWithTheirDiscriminator",
+    "apps/android/feature/chat/src/test/java/cc/orbexa/hhy/chat/R14ChatStateTest.kt#historyAppendDeduplicatesAndKeepsServerOrder"
+  ],
+  "fault_classes": ["four-message-types", "contact-encryption", "conversation-pagination", "real-postgresql-lifecycle"]
+}

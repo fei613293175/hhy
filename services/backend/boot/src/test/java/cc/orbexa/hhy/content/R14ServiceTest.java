@@ -75,6 +75,139 @@ class R14ServiceTest {
     }
 
     @Test
+    void completedSendReplayReturnsFrozenSnapshotWithoutDuplicateMessageOutboxOrRealtime() {
+        arrangeSender();
+        arrangePublisher();
+        SendMessageRequest request = new SendMessageRequest(
+                "client-replay-1", "TEXT", Map.of("text", "网络超时后重试"));
+        when(store.insertMessage(eq(42L), eq(11L), eq("client-replay-1"), eq("TEXT"), anyString(), eq(NOW)))
+                .thenAnswer(invocation -> new R14Store.MessageRow(
+                        104, 42, 11, "client-replay-1", "TEXT", invocation.getArgument(4),
+                        "SENT", NOW, null));
+        AtomicInteger claims = new AtomicInteger();
+        AtomicReference<String> requestHash = new AtomicReference<>();
+        AtomicReference<String> responseType = new AtomicReference<>();
+        AtomicReference<String> responsePayload = new AtomicReference<>();
+        when(shared.claim(anyString(), eq(KEY), anyString(), any())).thenAnswer(invocation -> {
+            String currentHash = invocation.getArgument(2);
+            if (claims.getAndIncrement() == 0) requestHash.set(currentHash);
+            boolean replay = claims.get() > 1;
+            return new R08Store.IdempotencyClaim(12, requestHash.get(), replay ? "stored" : null,
+                    replay ? responseType.get() : null, replay ? responsePayload.get() : null, replay);
+        });
+        org.mockito.Mockito.doAnswer(invocation -> {
+            responseType.set(invocation.getArgument(2));
+            responsePayload.set(invocation.getArgument(3));
+            return null;
+        }).when(shared).complete(eq(12L), anyString(), anyString(), anyString());
+
+        var first = service.send(11, "42", request, KEY);
+        var replay = service.send(11, "42", request, KEY);
+
+        assertEquals(first, replay);
+        verify(store, times(1)).insertMessage(
+                eq(42L), eq(11L), eq("client-replay-1"), eq("TEXT"), anyString(), eq(NOW));
+        verify(store, times(1)).outbox(11, "CHAT_MESSAGE", "chat.message.sent.v1", "104", "SENT", NOW);
+        verify(realtime, times(1)).messagePersisted(eq(11L), eq(7L), any());
+        verify(shared, times(1)).complete(eq(12L), anyString(), eq("r14.chat-message.v1"), anyString());
+    }
+
+    @Test
+    void changedSendBodyWithSameIdempotencyKeyIsRejectedBeforeBusinessWrites() {
+        when(shared.activeUser(11)).thenReturn(true);
+        when(store.membership(42, 11, true)).thenReturn(Optional.of(new R14Store.MembershipRow(42, 7, 2)));
+        when(shared.blockedEitherWay(11, 7)).thenReturn(false);
+        when(shared.claim(anyString(), eq(KEY), anyString(), any())).thenReturn(
+                new R08Store.IdempotencyClaim(13, "different-request-hash", "stored",
+                        "r14.chat-message.v1", "encrypted", true));
+
+        BusinessException error = assertThrows(BusinessException.class, () -> service.send(
+                11, "42", new SendMessageRequest("client-conflict-1", "TEXT", Map.of("text", "已变化")), KEY));
+
+        assertEquals("COMMON-409-IDEMPOTENCY_CONFLICT", error.code());
+        verify(store, never()).messageByClient(anyLong(), anyString());
+        verify(store, never()).insertMessage(anyLong(), anyLong(), anyString(), anyString(), anyString(), any());
+        verify(store, never()).outbox(anyLong(), anyString(), anyString(), anyString(), anyString(), any());
+        verify(realtime, never()).messagePersisted(anyLong(), anyLong(), any());
+    }
+
+    @Test
+    void duplicateClientMessageWithAnotherKeyIsRejectedWithoutSecondBusinessWrite() {
+        when(shared.activeUser(11)).thenReturn(true);
+        when(store.membership(42, 11, true)).thenReturn(Optional.of(new R14Store.MembershipRow(42, 7, 2)));
+        when(shared.blockedEitherWay(11, 7)).thenReturn(false);
+        arrangeClaim();
+        when(store.messageByClient(11, "client-duplicate-1")).thenReturn(Optional.of(
+                new R14Store.MessageRow(105, 42, 11, "client-duplicate-1", "TEXT",
+                        "{\"text\":\"原消息\"}", "SENT", NOW, null)));
+
+        BusinessException error = assertThrows(BusinessException.class, () -> service.send(
+                11, "42", new SendMessageRequest("client-duplicate-1", "TEXT", Map.of("text", "重复消息")), KEY));
+
+        assertEquals("COMMON-409-IDEMPOTENCY_CONFLICT", error.code());
+        verify(store, never()).insertMessage(anyLong(), anyLong(), anyString(), anyString(), anyString(), any());
+        verify(store, never()).outbox(anyLong(), anyString(), anyString(), anyString(), anyString(), any());
+        verify(shared, never()).complete(anyLong(), anyString(), anyString(), anyString());
+        verify(realtime, never()).messagePersisted(anyLong(), anyLong(), any());
+    }
+
+    @Test
+    void messageStorageTimeoutDoesNotCompleteOutboxOrRealtimeDelivery() {
+        arrangeSender();
+        when(store.insertMessage(eq(42L), eq(11L), eq("client-timeout-1"), eq("TEXT"), anyString(), eq(NOW)))
+                .thenThrow(new IllegalStateException("chat storage timeout"));
+
+        IllegalStateException error = assertThrows(IllegalStateException.class, () -> service.send(
+                11, "42", new SendMessageRequest("client-timeout-1", "TEXT", Map.of("text", "等待重试")), KEY));
+
+        assertEquals("chat storage timeout", error.getMessage());
+        verify(store, never()).advanceConversation(anyLong(), anyLong(), anyLong(), any());
+        verify(store, never()).outbox(anyLong(), anyString(), anyString(), anyString(), anyString(), any());
+        verify(shared, never()).complete(anyLong(), anyString(), anyString(), anyString());
+        verify(realtime, never()).messagePersisted(anyLong(), anyLong(), any());
+    }
+
+    @Test
+    void rateConfigurationTimeoutDoesNotStartMessageBusinessWrites() {
+        when(shared.activeUser(11)).thenReturn(true);
+        when(store.membership(42, 11, true)).thenReturn(Optional.of(new R14Store.MembershipRow(42, 7, 2)));
+        when(shared.blockedEitherWay(11, 7)).thenReturn(false);
+        arrangeClaim();
+        when(store.messageByClient(11, "client-config-timeout-1")).thenReturn(Optional.empty());
+        when(shared.integerConfig("chat.message.per_minute_limit"))
+                .thenThrow(new IllegalStateException("configuration provider timeout"));
+
+        IllegalStateException error = assertThrows(IllegalStateException.class, () -> service.send(
+                11, "42", new SendMessageRequest(
+                        "client-config-timeout-1", "TEXT", Map.of("text", "等待配置恢复")), KEY));
+
+        assertEquals("configuration provider timeout", error.getMessage());
+        verify(store, never()).messagesSentSince(anyLong(), anyLong(), any());
+        verify(store, never()).insertMessage(anyLong(), anyLong(), anyString(), anyString(), anyString(), any());
+        verify(store, never()).outbox(anyLong(), anyString(), anyString(), anyString(), anyString(), any());
+        verify(shared, never()).complete(anyLong(), anyString(), anyString(), anyString());
+        verify(realtime, never()).messagePersisted(anyLong(), anyLong(), any());
+    }
+
+    @Test
+    void mediaStorageTimeoutDoesNotInsertAttachmentMessageOrRealtimeDelivery() {
+        arrangeSender();
+        when(store.privateChatMedia(11, 88))
+                .thenThrow(new IllegalStateException("media storage timeout"));
+
+        IllegalStateException error = assertThrows(IllegalStateException.class, () -> service.send(
+                11, "42", new SendMessageRequest(
+                        "client-media-timeout-1", "IMAGE", Map.of("mediaId", "88")), KEY));
+
+        assertEquals("media storage timeout", error.getMessage());
+        verify(store, never()).insertMessage(anyLong(), anyLong(), anyString(), anyString(), anyString(), any());
+        verify(store, never()).insertAttachment(anyLong(), anyLong(), any());
+        verify(store, never()).outbox(anyLong(), anyString(), anyString(), anyString(), anyString(), any());
+        verify(shared, never()).complete(anyLong(), anyString(), anyString(), anyString());
+        verify(realtime, never()).messagePersisted(anyLong(), anyLong(), any());
+    }
+
+    @Test
     void contactCardIsEncryptedBeforeDatabaseAndDecryptedForAuthorizedResponse() {
         arrangeSender();
         arrangePublisher();

@@ -1,19 +1,19 @@
 {
   "version": "1.0",
-  "generated_at": "2026-07-28T18:18:11Z",
-  "context_hash": "f57480ee37db4c998608e9028b294645cd092a8b6563fabc128b779861149b57",
-  "fingerprint_mode": "REPOSITORY_TREE",
+  "generated_at": "2026-07-28T18:43:23Z",
+  "context_hash": "f7551e071b0a35ab5aeec67b4dde88e19ce5164471745661c39849bf14d6d823",
+  "fingerprint_mode": "SESSION_DELTA",
   "project_fingerprint": {
-    "sha256": "6b625b459688c43268f228f3d2e51c568e3a1053eac5ca448a826893ab05521f",
-    "file_count": 0
+    "sha256": "f3fffa59b54473865e1a74b9e13bd2a172676fd9d3d1a9dacec4a1e514aa8f7a",
+    "file_count": 16
   },
   "yaml": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.yaml",
-    "sha256": "4916a8a8a66d53d13de3d24b76b3f34bae21a445c379ce7d86ba73b6c5f125cd"
+    "sha256": "de117db08fe212701fdcd78cf8f1c1fe16fcd683b69b62d5b73a9f174adb7b2d"
   },
   "markdown": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.md",
-    "sha256": "1d882a5eb58cabcde6bc9f55afa0fed79481f5f127228057a84e661ac4e1ce93"
+    "sha256": "b684eccd3fd1f1e87c4946c921590e40bc35e83b60f00dcc1b3214f716165a9b"
   },
   "sources": [
     {
@@ -28,8 +28,8 @@
     },
     {
       "path": "CURRENT_STATUS.yaml",
-      "sha256": "252b2656eced8dbe74345a64dd2dc06d0c730b7713f3c6a78fc4d278e8b1f2bc",
-      "bytes": 4619
+      "sha256": "57db52905d0a1a9cbf5d43f7eb5b8ba514cc51d80d5d9a2b52ebbe050a334aff",
+      "bytes": 4773
     },
     {
       "path": "NEXT_TASK.yaml",
@@ -83,33 +83,33 @@
     },
     {
       "path": ".continuity/EVENT_LOG.jsonl",
-      "sha256": "690ebb73a7f51a005586e48a1622a6bc14ef745894ccaacb386dde139036c8cb",
-      "bytes": 2525685
+      "sha256": "0e2aef5e8433623d1c2567c5350f30b20a5e7b175166b19ede9f894678526823",
+      "bytes": 2531465
     },
     {
       "path": ".continuity/SESSION_INDEX.yaml",
-      "sha256": "1a92d35c4b72bc7e5eb9c041238c606069ca7ce4acdf5917ce6441ee2c83d814",
-      "bytes": 64275
+      "sha256": "74a99544a2679212ae697056ef97426fa6a400182501faa0974d8fce744fd6a8",
+      "bytes": 64775
     },
     {
       "path": ".continuity/TASK_CLAIMS.yaml",
-      "sha256": "dcc2a8d2e8b9d18e57bf253210ac486562f458293321c97a574db9c2d971bb2a",
-      "bytes": 90361
+      "sha256": "4cd1ed9162271c298bda2d9582cf1c8fceec2044b7abdea7bfecc616fb2395c5",
+      "bytes": 91098
     },
     {
       "path": ".continuity/TASK_TRANSITIONS.yaml",
-      "sha256": "8ba3f9d39e2cfe0b504b19cbe7e905b2b50512f58b858a23534732a5de72b20b",
-      "bytes": 38483
+      "sha256": "9f89ff0f47cb16b031efe760ec44fd9e469d026a4d246bdd0a5d63a274da41f4",
+      "bytes": 38776
     },
     {
       "path": ".continuity/CHANGE_REQUEST_INDEX.yaml",
-      "sha256": "17555ac0b74cd2ab72f83ad1f65fa7efd41ee72b92a4c8d299732263bbd0947d",
-      "bytes": 1732866
+      "sha256": "0b04506a8a6246fb91d0df7062528829f07dbe5297b226eda89717337cff73ad",
+      "bytes": 1739685
     },
     {
       "path": ".continuity/ACTIVE_SESSION.yaml",
-      "sha256": "a7c94375f608b2ba715b5caefca7ef0f4730f7006fdf9d3e434e8102eaaad731",
-      "bytes": 143
+      "sha256": "80f2fca3b02a22bbda58d35f71237cf713e636e848f3c4ebaabc3370413f93a0",
+      "bytes": 541
     },
     {
       "path": "docs/00-baseline/正式商业系统全局硬性开发边界.md",
@@ -160,6 +160,26 @@
       "path": "releases/R14/PARALLEL_EXECUTION_PLAN.yaml",
       "sha256": "cd1f0c96ffd7562acb214edba80a2bbb12b79f06c19032d1b133936ff6abd74f",
       "bytes": 2539
+    },
+    {
+      "path": "docs/03-continuity/sessions/2026-07/SES-20260728T182015Z-7EB6FEF2.md",
+      "sha256": "01127441309735e063b61c36d08362102720450f938fb6b054ff539c8162fc64",
+      "bytes": 3458
+    },
+    {
+      "path": ".continuity/checkpoints/SES-20260728T182015Z-7EB6FEF2/0001.yaml",
+      "sha256": "d62a5a77ae07787681779447c770c7f154cdd861c30c0abd1c16987f39e00a5d",
+      "bytes": 10340
+    },
+    {
+      "path": "docs/03-continuity/change-requests/CR-0465-R14六项聊天专项测试自动化与故障证据闭环.md",
+      "sha256": "fc97503e990243e3cf74d049934b3467f1c337514e11e9bba6698152792574fd",
+      "bytes": 3545
+    },
+    {
+      "path": "docs/03-continuity/change-requests/CR-0466-补齐R14至R32全链路版本连续性回归.md",
+      "sha256": "075604f4e7b07a1bd9b4dd5c503891f4e072098e24697dc772967b09d6e7eeab",
+      "bytes": 3286
     }
   ]
 }

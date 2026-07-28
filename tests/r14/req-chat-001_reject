@@ -1,0 +1,16 @@
+{
+  "schema": "hhy.r14.test-adapter/v1",
+  "test_id": "TST-CHAT_001-REJECT",
+  "central_runner": "scripts/run_r14_specialized_matrix.py",
+  "runner": "r14-java21-postgresql17-android-chat",
+  "selectors": [
+    "services/backend/boot/src/test/java/cc/orbexa/hhy/content/R14ServiceTest.java#eitherDirectionBlockRejectsMessageBeforeClaimOrWrite",
+    "services/backend/boot/src/test/java/cc/orbexa/hhy/content/R14ServiceTest.java#imageMessageRequiresOwnedReadyPrivateChatMedia",
+    "services/backend/boot/src/test/java/cc/orbexa/hhy/content/R14ServiceTest.java#messageStorageTimeoutDoesNotCompleteOutboxOrRealtimeDelivery",
+    "services/backend/boot/src/test/java/cc/orbexa/hhy/content/R14ServiceTest.java#rateConfigurationTimeoutDoesNotStartMessageBusinessWrites",
+    "services/backend/boot/src/test/java/cc/orbexa/hhy/content/R14ServiceTest.java#mediaStorageTimeoutDoesNotInsertAttachmentMessageOrRealtimeDelivery",
+    "services/backend/boot/src/test/java/cc/orbexa/hhy/content/R14RealtimePostgresStoreTest.java#messageRollbackAlsoRollsBackOutboxSequenceAndRealtimeDeliveries",
+    "apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ContractR14ApiTest.kt#transportRejectsUnsafeRootsAndInvalidConversationIds"
+  ],
+  "fault_classes": ["authorization-rejection", "media-storage-rejection", "configuration-provider-timeout", "database-timeout", "transaction-rollback", "zero-success-side-effects"]
+}

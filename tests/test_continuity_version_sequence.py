@@ -219,6 +219,38 @@ class ContinuityVersionSequenceTest(unittest.TestCase):
             complete_release(root, "R15", "d")
             validate_release_machine_chain(root, "R16")
 
+    def test_every_transition_from_r14_through_r32_must_be_adjacent(self) -> None:
+        for current_number in range(14, 32):
+            current = f"R{current_number:02d}"
+            adjacent = f"R{current_number + 1:02d}"
+            with self.subTest(current=current, target=adjacent):
+                validate_sequential_release_number(current, adjacent)
+
+            if current_number < 31:
+                skipped = f"R{current_number + 2:02d}"
+                with self.subTest(current=current, target=skipped):
+                    with self.assertRaisesRegex(ContinuityError, "禁止跨版本跳跃"):
+                        validate_sequential_release_number(current, skipped)
+
+    def test_r32_requires_every_r14_through_r31_machine_close(self) -> None:
+        with tempfile.TemporaryDirectory(prefix="hhy-sequence-r32-") as directory:
+            root = Path(directory)
+            for number in range(14, 32):
+                complete_release(root, f"R{number:02d}", "a")
+
+            validate_release_machine_chain(root, "R32")
+
+            tasks_path = root / "releases/R27/TASKS.yaml"
+            tasks = yaml.safe_load(tasks_path.read_text(encoding="utf-8"))
+            tasks["tasks"][0]["status"] = "BLOCKED"
+            write_yaml(tasks_path, tasks)
+
+            with self.assertRaisesRegex(
+                ContinuityError,
+                "R27:TASK_NOT_DONE:TASK-R27-001",
+            ):
+                validate_release_machine_chain(root, "R32")
+
     def test_candidate_release_and_commit_mismatch_fail_without_writes(self) -> None:
         with tempfile.TemporaryDirectory(prefix="hhy-sequence-candidate-") as directory:
             root = Path(directory)
