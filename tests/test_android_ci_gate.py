@@ -118,6 +118,7 @@ class AndroidCiGateTest(unittest.TestCase):
         )
         self.assertEqual(
             {
+                "candidate_source_commit_exact",
                 "target_container_local_http_200",
                 "target_registration_invite_http_200",
                 "nginx_upstream_exact",

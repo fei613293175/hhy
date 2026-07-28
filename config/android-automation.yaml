@@ -58,6 +58,7 @@ authentication:
     nginx_config: /www/server/panel/vhost/nginx/api.orbexa.cc.conf
     public_probe_url: https://api.orbexa.cc/public-api/v1/platform/status
     required_proofs:
+    - candidate_source_commit_exact
     - target_container_local_http_200
     - target_registration_invite_http_200
     - nginx_upstream_exact

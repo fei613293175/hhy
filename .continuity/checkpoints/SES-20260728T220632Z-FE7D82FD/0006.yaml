@@ -1,0 +1,211 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260728T220632Z-FE7D82FD-0006
+session_id: SES-20260728T220632Z-FE7D82FD
+task_id: TASK-R14-008
+story_id: STORY-R14-004
+sequence: 6
+created_at: '2026-07-28T22:59:01Z'
+summary: CR-0477已创建、完整修订并由项目所有者持续开发指令审批；根因锁定为公网旧候选容器源码b6f5e285早于R14夹具实现0bf4c9a8
+next_step: 实现候选路由源码Commit三方一致门禁、专项回归和Attempt1失败证据，再从冻结Commit部署后端候选并发起Attempt2
+blockers: []
+decisions: []
+note: ''
+tests:
+- name: R14_R32_VERSION_SEQUENCE
+  result: PASS
+  evidence: 10 tests OK
+  note: 全链防漂移保持
+- name: R14_ATTEMPT1_DB_AUDIT
+  result: FAIL
+  evidence: session user 3 visible=2 r14_peer=0; public container label b6f5e285
+  note: 预期记录Attempt1真实失败，证明旧后端未创建R14夹具
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: 4156e9a38b2e49ad5a52bc8bd172b036253fd32c
+  upstream: origin/task/TASK-R03-001
+  ahead: 0
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/ACTIVE_SESSION.yaml'
+  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/SESSION_INDEX.yaml'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/sessions/SES-20260728T220632Z-FE7D82FD.yaml'
+  - ' M CURRENT_STATUS.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+  - ' M catalogs/change_request_index.csv'
+  - ' M catalogs/session_index.csv'
+  - ' M docs/03-continuity/sessions/2026-07/SES-20260728T220632Z-FE7D82FD.md'
+  - ?? .continuity/change_requests/CR-0477.yaml
+  - ?? .continuity/checkpoints/SES-20260728T220632Z-FE7D82FD/0005.yaml
+  - ?? docs/03-continuity/change-requests/CR-0477-阻断R14候选旧后端路由与夹具语义漂移.md
+  recent_commits:
+  - "4156e9a38b2e49ad5a52bc8bd172b036253fd32c\t2026-07-29T06:35:41+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] test(continuity): decouple\
+    \ R13 candidate request"
+  - "906a3b14bff981279d47f712d9faf0f474d0818e\t2026-07-29T06:18:38+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] test(android): request R14\
+    \ machine candidate"
+  - "8d12d3653fb58d1d1c212f7357f77c3ec29b33cd\t2026-07-29T06:10:23+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(continuity): start R14\
+    \ machine close"
+  - "0a100b86f63829ef38ede5571d3e511219e67769\t2026-07-29T06:01:18+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(continuity): close TASK-R14-007\
+    \ as completed"
+  - "955ef0d95003a2a7ec81c9c518f85430838c803d\t2026-07-29T05:58:18+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(continuity): close APK\
+    \ delivery changes"
+  - "89d9b2da1e27e49e39b1a203d0aef0115071de2b\t2026-07-29T05:50:47+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(delivery): finalize\
+    \ R14 test APK"
+  - "32522a9da99366d320bc6bb65f7ca0b86867512d\t2026-07-29T05:29:17+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] fix(delivery): bind replacement\
+    \ apk route"
+  - "2eb8ac74b55c35833609c6eb6f330268a289bf3a\t2026-07-29T05:06:09+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(android): bump replacement\
+    \ apk identity"
+project_fingerprint:
+  sha256: 811aefce461fe28216688189217e8f15a10d1ef5c4de9444f5aa1bae0e9d86d2
+  files:
+  - CHANGELOG.md
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+  - apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+  - config/android-candidate-request.yaml
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/change-requests/CR-0475-绑定R14最终交互候选与稳定TEST_APK同一提交.md
+  - docs/03-continuity/change-requests/CR-0476-解除R13历史候选测试对当前请求的永久绑定.md
+  - docs/03-continuity/change-requests/CR-0477-阻断R14候选旧后端路由与夹具语义漂移.md
+  - tests/test_r13_candidate.py
+  file_count: 10
+  payload:
+    base_commit: 0a100b86f63829ef38ede5571d3e511219e67769
+    files:
+    - path: CHANGELOG.md
+      state: FILE
+      size: 216608
+      sha256: 8fcf68c8035b207ab90fbac7ec65d4492d33cc7f5b84845740c253ecdd2b9ea0
+    - path: apps/android/app/build.gradle.kts
+      state: FILE
+      size: 6171
+      sha256: 3ac97af334a5383915402827bf0a2274884e8f6ff3de413a0d77479a5117967d
+    - path: apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+      state: FILE
+      size: 520
+      sha256: ae6263e1f1266a73611bb88887e068c9463c525e65484fb5af10e17ca519d7b9
+    - path: apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+      state: FILE
+      size: 1261
+      sha256: b14161e25216b439dd08c37be88cc6e2d7883ef1a4f8acebc8f2408f1379d028
+    - path: config/android-candidate-request.yaml
+      state: FILE
+      size: 588
+      sha256: 47fefc1b8f247e3bc6ab1f269943eab718dbeb136fb783f4d44d1fbdc0122511
+    - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
+      state: FILE
+      size: 247154
+      sha256: d30f2ae5e8ae8f39fb61b013c39c019012442d0ed5496b0bb6a9dc82c987d5f1
+    - path: docs/03-continuity/change-requests/CR-0475-绑定R14最终交互候选与稳定TEST_APK同一提交.md
+      state: FILE
+      size: 3792
+      sha256: 4d6c35fd99ef585a4802fb664ac2e2819d4a2fe93fc5d1747ca73496ae69387e
+    - path: docs/03-continuity/change-requests/CR-0476-解除R13历史候选测试对当前请求的永久绑定.md
+      state: FILE
+      size: 2850
+      sha256: 098711406c0bc8b2574f2388ab6ed76242e7df1d3fb442a67593a13f76871e11
+    - path: docs/03-continuity/change-requests/CR-0477-阻断R14候选旧后端路由与夹具语义漂移.md
+      state: FILE
+      size: 3445
+      sha256: 1353875b29a0e10b475cd851c1134502ad2345e78e8ec99b0416f17749cbcabf
+    - path: tests/test_r13_candidate.py
+      state: FILE
+      size: 21538
+      sha256: 2f9f064396d5269b1a939c8a73874c6dbd3be5c7d950baa73f6707f0527322b0
+change_classification:
+  other:
+  - CHANGELOG.md
+  - config/android-candidate-request.yaml
+  code:
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+  - apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+  user_visible:
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+  - apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+  continuity:
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/change-requests/CR-0475-绑定R14最终交互候选与稳定TEST_APK同一提交.md
+  - docs/03-continuity/change-requests/CR-0476-解除R13历史候选测试对当前请求的永久绑定.md
+  - docs/03-continuity/change-requests/CR-0477-阻断R14候选旧后端路由与夹具语义漂移.md
+  tests:
+  - tests/test_r13_candidate.py
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+- CHANGELOG
+change_requests:
+- CR-0475
+- CR-0476
+- CR-0477
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions:
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+  - apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+  - config/android-candidate-request.yaml
+  - artifacts/apk/R14/APK_MANIFEST.yaml
+  - artifacts/apk/R14/history/2eb8ac7/APK_MANIFEST.yaml
+  - artifacts/validation/r14-apk-delivery/delivery-evidence.json
+  - artifacts/validation/r14-apk-delivery/history/2eb8ac7/delivery-evidence.json
+  - artifacts/validation/r14-task008-android/build-evidence.json
+  - artifacts/validation/r14-task008-candidate
+  - artifacts/reports/R14/R14-version-test-guide.md
+  - artifacts/reports/R14/TASK-R14-007-android-apk.md
+  - artifacts/reports/R14/TASK-R14-008-machine-close.md
+  - releases/R14/RELEASE_MANIFEST.yaml
+  - releases/R14/ACCEPTANCE_MATRIX.csv
+  - catalogs/ui_visual_acceptance.csv
+  - tests/android/visual-baselines/R14
+  - infra/nginx/r14-apk-location.inc
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - tests/test_r13_candidate.py
+  source: story+explicit+approved-cr:CR-0475+approved-cr:CR-0476
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 路由脚本、策略集合和专项断言属于同一小范围tooling不变量，需在一个事实分支串行修改并由同一现场部署验证
+event_hash: 85eb248257bd58e24d47596cec2e929b5619fcf118958e42b7a6eca6a2143984

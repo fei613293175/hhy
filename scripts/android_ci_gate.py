@@ -133,6 +133,7 @@ def load_policy(path: Path = DEFAULT_POLICY) -> dict[str, Any]:
     if route_activation.get("public_probe_url") != "https://api.orbexa.cc/public-api/v1/platform/status":
         raise GateError("Android candidate route activation public probe URL drift")
     required_route_proofs = {
+        "candidate_source_commit_exact",
         "target_container_local_http_200",
         "target_registration_invite_http_200",
         "nginx_upstream_exact",

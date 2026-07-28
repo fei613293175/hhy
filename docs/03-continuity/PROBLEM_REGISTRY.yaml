@@ -2075,3 +2075,17 @@ problems:
   - 历史版本专项测试不得读取并断言可由后续版本合法更新的当前指针、当前请求、当前Session或NEXT_TASK为旧值
   - 需要保留旧请求事实时必须读取该版本不可变归档或固定夹具，不得占用全局当前配置
   - 不得通过放宽专用候选请求校验来修复历史测试时间绑定
+- id: PROB-0146
+  title: R14候选公网路由复用早于聊天夹具实现的旧后端镜像
+  status: SOLVED
+  root_cause: R14 Attempt1的OIDC bootstrap、自动登录和会话列表HTTP均成功，但公网api.orbexa.cc仍指向源码标签b6f5e285的旧候选容器；R14聊天夹具直到后续0bf4c9a8才实现，因此数据库中自动登录用户有两个可见旧会话但R14候选体验用户为0。既有路由脚本只校验人工指定镜像ID、R14标签、Flyway V044、HTTP 200、Nginx upstream和请求日志命中，未把容器源码Commit与执行脚本的冻结Git HEAD绑定，健康旧镜像因此通过预检。
+  resolution: CR-0477在既有路由门禁原位增加完整40位HHY_EXPECTED_SOURCE_COMMIT、干净Git HEAD和容器hhy.source_commit标签三方完全一致校验，策略及专项测试把candidate_source_commit_exact列为必需证明；Attempt1原始失败、服务器日志和无秘密数据库计数写入仓库。旧短标签容器保留审计但不得再用于正式候选，Attempt2必须从同一冻结Commit重建后端并在模拟器前证明夹具可见。
+  regression_checks:
+  - scripts/switch_android_candidate_route.sh在R14模式必须要求完整40位小写HHY_EXPECTED_SOURCE_COMMIT，并拒绝脏工作区、HEAD错配、缺失或短hhy.source_commit标签及容器标签错配
+  - config/android-automation.yaml、scripts/android_ci_gate.py和tests/test_android_ci_gate.py必须共同要求candidate_source_commit_exact
+  - tests/test_android_candidate_route.py必须锁定源码Commit三方一致门禁，且既有镜像、Flyway、R14标签、鉴权会话探针、Nginx回滚和请求日志命中证明不得删除
+  - 每轮R14候选bootstrap后必须在Android重型步骤前证明唯一可见R14候选体验用户及R14候选会话已准备消息来自同一隔离数据库
+  do_not_repeat:
+  - 不得把HTTP 200、容器healthy、镜像ID或Release标签当作后端源码身份
+  - 不得使用8位Commit标签或人工指定旧镜像绕过冻结Commit绑定
+  - 候选失败后不得无修复重跑；必须先保存JUnit、日志、数据库语义和路由身份原始证据

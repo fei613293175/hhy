@@ -2,6 +2,6 @@ schema_version: 1
 status: REQUESTED
 release: R14
 candidate: true
-remediation_attempt: 1
-request_id: R14-CANDIDATE-20260729-001
-reason: R14大版本机器关闭首次正式交互候选。该提交同时冻结versionCode 10225和既有R14六项消息修复；候选必须执行自动登录、会话搜索、发送消息未读状态、拉黑后重进、解除拉黑、列表长按删除、截图、JUnit及目标进程日志审核。候选PASS后才允许从同一提交在obx-test固定工具链构建稳定签名TEST_APK并原子替换10224交付；owner真机反馈保持异步PENDING。
+remediation_attempt: 2
+request_id: R14-CANDIDATE-20260729-002
+reason: R14 Attempt1在自动登录及会话HTTP均成功后因R14夹具用户缺失失败；CR-0477证明公网仍路由到早于夹具实现的旧后端，并新增候选容器完整源码Commit、干净Git HEAD与冻结Commit三方一致门禁。本轮只在同一冻结提交后端完成路由和夹具语义预检后触发，继续完整执行会话搜索、发送消息未读状态、拉黑后重进、解除拉黑、列表长按删除、截图、JUnit及目标进程日志审核。候选PASS后才允许从同一提交在obx-test固定工具链构建稳定签名TEST_APK并原子替换10224交付；owner真机反馈保持异步PENDING。

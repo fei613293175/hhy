@@ -1,0 +1,54 @@
+protocol_version: '1.0'
+cr_id: CR-0477
+title: 阻断R14候选旧后端路由与夹具语义漂移
+status: IMPLEMENTING
+created_at: '2026-07-28T22:55:42Z'
+updated_at: '2026-07-28T23:02:48Z'
+requester_actor_id: codex-r14-close-20260729
+approver_actor_id: project-owner-continuity-directive-20260729
+task_id: TASK-R14-008
+session_id: SES-20260728T220632Z-FE7D82FD
+user_request: 持续完成R14并保证后续开发至R32不再发生开发漂移，候选失败后基于真实证据修复再重测
+reason: Attempt1公网bootstrap和会话请求均为200，但数据库0个R14夹具对端；公网仍路由到源码b6f5e285旧容器，早于0bf4c9a8夹具实现，现有门禁未核对源码Commit与夹具语义
+original_rule: R14候选路由仅校验候选镜像ID、R14标签、Flyway V044、HTTP 200、Nginx精确upstream和请求日志命中；不校验容器源码Commit，旧镜像可被人工登记为期望镜像并通过。
+new_rule: R14及后续复用候选路由时，候选容器必须标注完整40位hhy.source_commit，且与执行脚本的干净Git HEAD及明确HHY_EXPECTED_SOURCE_COMMIT三方完全一致；R14候选重新路由和Attempt2前必须用同冻结Commit后端创建真实夹具，并以数据库与受鉴权会话响应证明R14候选用户、消息和可见成员存在。任一身份或语义不一致在Android模拟器前阻断。
+impact_summary: 在既有Android候选路由事实源原位加固源码身份并登记Attempt1原始失败；部署同冻结提交后端候选，更新Attempt2请求，不改变产品API、业务数据库结构、正式页面或R14-R32顺序门禁。
+impact:
+  files:
+  - scripts/switch_android_candidate_route.sh
+  - tests/test_android_candidate_route.py
+  - config/android-automation.yaml
+  - scripts/android_ci_gate.py
+  - tests/test_android_ci_gate.py
+  - config/android-candidate-request.yaml
+  - artifacts/validation/r14-candidate-attempt1/failure-evidence.json
+  - artifacts/validation/r14-candidate-attempt2/route-activation-evidence.json
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - CHANGELOG.md
+  pages: []
+  apis: []
+  database: []
+  configuration:
+  - HHY_EXPECTED_SOURCE_COMMIT
+  ledger: []
+  tests:
+  - Android候选路由/策略专项测试：源码Commit三方一致、旧短标签拒绝、R14现有安全证明保持
+  - R14 Attempt2路由现场：公网请求命中新容器、bootstrap后数据库及受鉴权会话响应包含唯一R14夹具用户和消息
+  releases:
+  - R14
+  migration_and_compatibility: 旧8位hhy.source_commit候选容器不再可用于R14+正式候选；保留其审计证据但需从冻结Commit重建完整标签容器。R06-R13历史候选记录不追溯改写；现有生产数据不迁移。
+user_confirmation: 项目所有者要求持续完成开发至R32、防止后续开发漂移，并已明确无需逐次批准；当前精确修复不扩大产品范围。
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-28T22:58:15Z'
+  note: 项目所有者已明确授权持续开发且候选失败由AI自行判断修复，不得因逐次确认停止；本CR原位加固现有候选路由并保留R14至R32顺序门禁，不新增平行规则。
+machine_record: .continuity/change_requests/CR-0477.yaml
+document: docs/03-continuity/change-requests/CR-0477-阻断R14候选旧后端路由与夹具语义漂移.md
+decision_log:
+- at: '2026-07-28T23:02:48Z'
+  actor_id: codex-r14-close-20260729
+  status: IMPLEMENTING
+  note: 源码Commit三方一致门禁、策略投影、Attempt1证据、Problem Registry和Attempt2请求已实现；82项Android候选治理、17项上下文治理和10项R14至R32顺序回归PASS，待冻结提交并完成obx-test现场路由。
+  session_id: SES-20260728T220632Z-FE7D82FD
+session_ids:
+- SES-20260728T220632Z-FE7D82FD

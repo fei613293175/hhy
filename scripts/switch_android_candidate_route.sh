@@ -14,6 +14,7 @@ case "$probe_mode" in
   R14_CONVERSATIONS)
     : "${HHY_CANDIDATE_ACCESS_TOKEN:?HHY_CANDIDATE_ACCESS_TOKEN is required}"
     : "${HHY_EXPECTED_CANDIDATE_IMAGE_ID:?HHY_EXPECTED_CANDIDATE_IMAGE_ID is required}"
+    : "${HHY_EXPECTED_SOURCE_COMMIT:?HHY_EXPECTED_SOURCE_COMMIT is required}"
     : "${HHY_EXPECTED_OLD_CONTAINER:?HHY_EXPECTED_OLD_CONTAINER is required}"
     : "${HHY_CANDIDATE_DATABASE_CONTAINER:?HHY_CANDIDATE_DATABASE_CONTAINER is required}"
     : "${HHY_CANDIDATE_DATABASE_USER:?HHY_CANDIDATE_DATABASE_USER is required}"
@@ -49,6 +50,22 @@ if [[ "$probe_mode" == "LEGACY_INVITE" ]] \
   exit 2
 fi
 if [[ "$probe_mode" == "R14_CONVERSATIONS" ]]; then
+  if [[ ! "$HHY_EXPECTED_SOURCE_COMMIT" =~ ^[a-f0-9]{40}$ ]]; then
+    echo "Expected candidate source commit must be a full lowercase Git commit" >&2
+    exit 2
+  fi
+  repository_commit="$(git rev-parse --verify HEAD)"
+  if [[ "$repository_commit" != "$HHY_EXPECTED_SOURCE_COMMIT" ]] \
+    || [[ -n "$(git status --porcelain --untracked-files=normal)" ]]; then
+    echo "Candidate route repository is not the clean frozen source commit" >&2
+    exit 2
+  fi
+  container_source_commit="$(docker inspect --format '{{index .Config.Labels "hhy.source_commit"}}' \
+    "$HHY_CANDIDATE_CONTAINER")"
+  if [[ "$container_source_commit" != "$HHY_EXPECTED_SOURCE_COMMIT" ]]; then
+    echo "Candidate container source commit does not match the frozen repository commit" >&2
+    exit 2
+  fi
   if [[ ! "$HHY_EXPECTED_CANDIDATE_IMAGE_ID" =~ ^sha256:[a-f0-9]{64}$ ]] \
     || [[ "$(docker inspect --format '{{.Image}}' "$HHY_CANDIDATE_CONTAINER")" \
       != "$HHY_EXPECTED_CANDIDATE_IMAGE_ID" ]]; then

@@ -65,6 +65,22 @@ class AndroidCandidateRouteTest(unittest.TestCase):
     def test_r14_probe_is_authenticated_and_excludes_invite_readiness(self) -> None:
         self.assertIn("HHY_CANDIDATE_ACCESS_TOKEN is required", self.script)
         self.assertIn("HHY_EXPECTED_CANDIDATE_IMAGE_ID is required", self.script)
+        self.assertIn("HHY_EXPECTED_SOURCE_COMMIT is required", self.script)
+        self.assertIn('^[a-f0-9]{40}$', self.script)
+        self.assertIn('repository_commit="$(git rev-parse --verify HEAD)"', self.script)
+        self.assertIn('git status --porcelain --untracked-files=normal', self.script)
+        self.assertIn(
+            '{{index .Config.Labels "hhy.source_commit"}}',
+            self.script,
+        )
+        self.assertIn(
+            'container_source_commit" != "$HHY_EXPECTED_SOURCE_COMMIT',
+            self.script,
+        )
+        self.assertIn(
+            "Candidate container source commit does not match the frozen repository commit",
+            self.script,
+        )
         self.assertIn(
             "Candidate image does not match the frozen R14 image ID",
             self.script,

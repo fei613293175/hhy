@@ -11,11 +11,12 @@ task_id: TASK-R14-008
 story_id: STORY-R14-004
 goal: 一对一聊天核心版本关闭与无状态交接
 started_at: '2026-07-28T22:06:32Z'
-updated_at: '2026-07-28T22:35:13Z'
+updated_at: '2026-07-28T23:03:16Z'
 takeover_of: null
 change_requests:
 - CR-0475
 - CR-0476
+- CR-0477
 scope:
   allowed_paths:
   - apps/**
@@ -80,22 +81,22 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-28T22:35:05Z'
-  expires_at: '2026-07-29T02:35:05Z'
-checkpoint_sequence: 4
-latest_checkpoint: .continuity/checkpoints/SES-20260728T220632Z-FE7D82FD/0004.yaml
+  renewed_at: '2026-07-28T23:03:07Z'
+  expires_at: '2026-07-29T03:03:07Z'
+checkpoint_sequence: 7
+latest_checkpoint: .continuity/checkpoints/SES-20260728T220632Z-FE7D82FD/0007.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260728T220632Z-FE7D82FD.md
-next_step: 提交并推送tooling漂移修复且不触发候选；继续跟踪Run 30404133160模拟器旅程、截图和日志
+next_step: 提交冻结Commit但暂不推送；在obx-test从该Commit重建R14候选后端、切换公网路由并验证夹具，再推送触发Attempt2
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: ea8a17710cf725ebe362dffd4809a23ffd10d2bd1b3755bcf132de29f6fcae45
-  generated_at: '2026-07-28T22:35:10Z'
+  context_hash: f7a8e96070cbfe392998ad98fee322bbbfa4677aca9903b3c2b9db9c838dbce7
+  generated_at: '2026-07-28T23:03:12Z'
 handoff_bundle: null
 closure: null
 parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 历史测试与当前候选请求的事实所有权修复、Problem Registry和候选运行审核必须由主控串行
+  reason: 冻结提交、同提交后端部署、精确路由与随后单次候选触发存在严格身份顺序，不能并行
