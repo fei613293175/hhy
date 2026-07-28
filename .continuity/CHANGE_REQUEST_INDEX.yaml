@@ -29439,3 +29439,53 @@ change_requests:
     session_id: SES-20260728T205917Z-52E3B6B1
   session_ids:
   - SES-20260728T205917Z-52E3B6B1
+- protocol_version: '1.0'
+  cr_id: CR-0472
+  title: 补齐CR-0471替换APK精确下载路由作用域
+  status: IMPLEMENTED
+  created_at: '2026-07-28T21:21:08Z'
+  updated_at: '2026-07-28T21:24:55Z'
+  requester_actor_id: codex-r14-apk-20260729
+  approver_actor_id: project-owner-continuous-development-20260729
+  task_id: TASK-R14-007
+  session_id: SES-20260728T205917Z-52E3B6B1
+  user_request: 持续开发并将每个大版本最新APK与测试文档交付桌面
+  reason: CR-0471已要求新文件名精确下载路由，但影响文件遗漏既有infra/nginx/r14-apk-location.inc，交付预检会正确拒绝旧路径
+  original_rule: CR-0471要求新R14替换包使用精确新下载路由，但影响清单只含交付证据，既有Nginx单文件include仍冻结旧ca57666文件名
+  new_rule: 只把既有infra/nginx/r14-apk-location.inc中的精确location与attachment文件名替换为hhy-r14-2eb8ac7-debug.apk；继续禁止目录通配，保持默认404、APK MIME、nosniff、TLS和其他路由不变
+  impact_summary: 补齐CR-0471遗漏的唯一Nginx精确路由文件作用域；不新增平行下载规则，不修改业务反代、API、WebSocket、DNS、TLS或其他版本
+  impact:
+    files:
+    - infra/nginx/r14-apk-location.inc
+    pages: []
+    apis: []
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - 仓库与服务器include SHA256一致
+    - nginx -t与reload PASS
+    - 新精确路由200和Range206且其他随机R14路径404
+    releases:
+    - R14
+    migration_and_compatibility: 部署前备份活动include；仓库与服务器include字节一致后运行nginx -t，只有PASS才reload；失败恢复备份，旧APK文件可保留但旧精确路由不再公开
+  user_confirmation: 项目所有者已要求持续开发并自主完成最新APK和测试文档交付，无需逐次批准
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-28T21:21:47Z'
+    note: CR-0471已批准新精确下载路由，CR-0472只补齐遗漏的既有include文件且保持默认404与禁止通配边界
+  machine_record: .continuity/change_requests/CR-0472.yaml
+  document: docs/03-continuity/change-requests/CR-0472-补齐CR-0471替换APK精确下载路由作用域.md
+  decision_log:
+  - at: '2026-07-28T21:22:20Z'
+    actor_id: codex-r14-apk-20260729
+    status: IMPLEMENTING
+    note: 开始将既有R14单文件location从旧ca57666替换为新2eb8ac7；随后部署字节一致include并执行nginx-t、reload与200/206/404验证
+    session_id: SES-20260728T205917Z-52E3B6B1
+  - at: '2026-07-28T21:24:55Z'
+    actor_id: codex-r14-apk-20260729
+    status: IMPLEMENTED
+    note: 既有R14精确location已替换为2eb8ac7文件名；仓库与服务器include SHA256=5c8b2a1e一致，备份保留，nginx-t、reload和deliver_android_test_apk preflight-route全部PASS，旧精确路由不再活动
+    session_id: SES-20260728T205917Z-52E3B6B1
+  session_ids:
+  - SES-20260728T205917Z-52E3B6B1

@@ -38,10 +38,12 @@ class FakePublisher:
         self.verify_calls = 0
         self.retract_calls = 0
         self.preflight_calls = 0
+        self.preflight_requests: list[tuple[str, str]] = []
         self.preflight_error: Exception | None = None
 
     def preflight_route(self, release: str, commit: str) -> dict[str, Any]:
         self.preflight_calls += 1
+        self.preflight_requests.append((release, commit))
         if self.preflight_error is not None:
             raise self.preflight_error
         apk_file = delivery.canonical_apk_name(release, commit)
@@ -405,12 +407,14 @@ class AndroidApkDeliveryTest(unittest.TestCase):
             delivery.prepare_delivery(fixture.config(), FakePublisher(), https_verifier=passing_https)
             fixture.write_build_evidence(commit=COMMIT_2, version_code=10203)
             fixture.write_release_manifest(COMMIT_2)
+            replacement = FakePublisher()
             result = delivery.prepare_delivery(
                 fixture.config(commit=COMMIT_2, version_code=10203, replace_existing=True),
-                FakePublisher(),
+                replacement,
                 https_verifier=passing_https,
             )
             self.assertEqual(COMMIT, result["replaced_commit"])
+            self.assertEqual([("R02", COMMIT_2)], replacement.preflight_requests)
             current = yaml.safe_load(
                 (fixture.artifact_root / "R02" / "APK_MANIFEST.yaml").read_text(encoding="utf-8")
             )

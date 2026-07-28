@@ -11,10 +11,11 @@ task_id: TASK-R14-007
 story_id: STORY-R14-004
 goal: 使用obx-test固定Android工具链基于当前R14冻结源码重建包含举报目录的TEST_APK，完成签名、安装、正式API与WSS嵌入校验、Manifest、桌面APK和测试说明成对交付
 started_at: '2026-07-28T20:59:17Z'
-updated_at: '2026-07-28T21:05:53Z'
+updated_at: '2026-07-28T21:28:58Z'
 takeover_of: null
 change_requests:
 - CR-0471
+- CR-0472
 scope:
   allowed_paths:
   - apps/**
@@ -58,7 +59,8 @@ scope:
   - artifacts/reports/R14/TASK-R14-007-android-apk.md
   - artifacts/reports/R14/R14-version-test-guide.md
   - releases/R14/RELEASE_MANIFEST.yaml
-  source: story+explicit+approved-cr:CR-0471
+  - infra/nginx/r14-apk-location.inc
+  source: story+explicit+approved-cr:CR-0471+approved-cr:CR-0472
 git:
   initialized: true
   branch: task/TASK-R03-001
@@ -68,22 +70,22 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-28T21:05:46Z'
-  expires_at: '2026-07-29T01:05:46Z'
-checkpoint_sequence: 2
-latest_checkpoint: .continuity/checkpoints/SES-20260728T205917Z-52E3B6B1/0002.yaml
+  renewed_at: '2026-07-28T21:28:50Z'
+  expires_at: '2026-07-29T01:28:50Z'
+checkpoint_sequence: 4
+latest_checkpoint: .continuity/checkpoints/SES-20260728T205917Z-52E3B6B1/0004.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260728T205917Z-52E3B6B1.md
-next_step: 提交推送10224身份Commit，在obx-test固定镜像执行唯一完整Android构建
+next_step: 提交构建与路由证据并取得route_config_commit，随后更新说明和Release Manifest并执行replace-existing四方交付
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: 43f7b80eab89336d936209c3f0ca5ddd00fc7e7f2b55fffc2204b7b40351b748
-  generated_at: '2026-07-28T21:05:50Z'
+  context_hash: db9f8d129f243331e67a3c621b84f8d150aa12c2d6f3d98085e901dc7a2d4bf8
+  generated_at: '2026-07-28T21:28:54Z'
 handoff_bundle: null
 closure: null
 parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 版本身份三处投影与用户可见Changelog必须在同一Commit保持一致，且会话、CR和版本事实源由唯一主控修改
+  reason: 构建已由服务器全局锁串行完成；当前构建证据、精确路由、回归和交付身份共享同一APK与Commit，必须由唯一主控原子核验

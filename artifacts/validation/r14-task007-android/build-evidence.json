@@ -1,10 +1,10 @@
 {
   "schema_version": 2,
   "release": "R14",
-  "commit": "ca5766600937e1bed056210b8579ee7f8269561b",
-  "route_config_commit": "05d738171911d31d382d8cf5b40dfaab9dacf5b4",
+  "commit": "2eb8ac74b55c35833609c6eb6f330268a289bf3a",
+  "route_config_commit": "PENDING_REPLACEMENT_DELIVERY",
   "version_name": "1.2.2-debug",
-  "version_code": 10223,
+  "version_code": 10224,
   "build_status": "PASS",
   "checks": [
     "check_android_ui_foundation",
@@ -24,12 +24,12 @@
   "signing_fingerprint": "e32a9d7ff8a209d2903db6383b461b259f0018a698d1f3646e6ed7f1112671be",
   "api_base_url": "https://api.orbexa.cc",
   "websocket_base_url": "wss://ws.orbexa.cc",
-  "built_at": "2026-07-28T08:25:40Z",
-  "apk_sha256": "46f050310143d5968864c5aacd9ad38b1fb7290931bc113c76429ebc7ecf126d",
-  "apk_size_bytes": 21903068,
+  "built_at": "2026-07-28T21:17:39Z",
+  "apk_sha256": "6ce8494e46d3a831c3ca9629d78bad97c445e9d93d084d8c0cd1c7292a885481",
+  "apk_size_bytes": 21915555,
   "toolchain_image": "hhy-android-toolchain:r01-46fb273",
   "toolchain_image_id": "sha256:97a5b2d7ae4d6c4abab0c985b502597d0612f3a1e0941fd842008e30a4632607",
-  "gradle_summary": "BUILD SUCCESSFUL in 6m 57s; 772 actionable tasks: 194 executed, 578 up-to-date",
+  "gradle_summary": "BUILD SUCCESSFUL in 3m 44s; 772 actionable tasks: 470 executed, 302 from cache",
   "github_emulator": "NOT_RUN_ON_DEMAND_NON_BLOCKING_SPECIALTY",
   "owner_physical_test": "PENDING"
 }

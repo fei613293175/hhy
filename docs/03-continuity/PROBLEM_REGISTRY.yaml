@@ -2048,3 +2048,16 @@ problems:
   do_not_repeat:
   - 不得用应用启动后的版本断言替代启动前发布范围约束
   - 不得为了让旧版本验收通过而把后续迁移版本放宽为该旧版本的合法现场状态
+- id: PROB-0144
+  title: 替换测试APK时CR影响范围遗漏精确下载路由文件
+  status: SOLVED
+  root_cause: CR-0471已要求R14替换包使用新文件名的单文件精确下载路由，但影响文件只登记构建、Manifest、交付证据和说明，没有登记既有infra/nginx/r14-apk-location.inc；固定工具链构建与签名通过后，交付预检仍会因活动Nginx只允许旧ca57666路径而正确拒绝。
+  resolution: CR-0472只补齐既有R14单文件location的作用域，把location与attachment文件名原子替换为2eb8ac7，继续保持默认404、禁止目录通配、APK MIME和nosniff；仓库与服务器include字节一致，备份、nginx -t、reload及交付预检均通过。Android交付回归同时固定replace-existing必须用新Commit计算并预检新精确路由，预检通过后才允许归档旧交付。
+  regression_checks:
+  - tests/test_android_apk_delivery.py必须证明replace-existing只向publisher预检新Commit对应的规范文件名和精确路由
+  - 精确路由预检失败时不得复制桌面或仓库APK、不得发布、不得归档或改写旧Manifest和Evidence
+  - 仓库include与服务器活动include必须SHA-256一致，nginx -t通过后才可reload；新路径验证200/206，随机R14路径继续404
+  do_not_repeat:
+  - 不得只在CR文字中声明新下载路径而遗漏既有Nginx include影响文件
+  - 不得先构建或上传后再放宽为目录通配来绕过精确路由预检
+  - 不得在新路由未通过前归档或覆盖项目所有者尚未验收的当前交付
