@@ -1,7 +1,7 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-28T14:45:55Z
-- Context Hash：`31c2071d599154ea3a1799b3ccf12e86479f8cc01b6c89a3863798c5b9875758`
+- 生成时间：2026-07-28T15:26:59Z
+- Context Hash：`7257ff15a68cea99db0b880c8b7742da25ac0ee22553d0311d195f942e580e84`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 规则就绪：`PASS`（`HASHED_CONTEXT_MANIFEST`）
@@ -181,7 +181,7 @@ blocked_tasks:
 - TASK-R13-008
 - TASK-R14-004
 next_task: TASK-R16-004
-updated_at: '2026-07-28T14:45:51Z'
+updated_at: '2026-07-28T15:26:55Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -216,15 +216,15 @@ continuity:
   active_session_id: SES-20260728T125934Z-F3DED330
   actor_id: codex-r16-client-admin-20260728
   story_id: STORY-R16-002
-  lease_expires_at: '2026-07-28T18:45:51Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260728T125934Z-F3DED330/0010.yaml
-  project_fingerprint: 2df5d2089adf299d2e6cfcc519f51c4124f55243a159a1a4e8c4137a34d5be2d
+  lease_expires_at: '2026-07-28T19:26:55Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260728T125934Z-F3DED330/0011.yaml
+  project_fingerprint: 0a051077cdc64aff3895f5db204f787df3ba94c21400ed2e1a4d306145acadd2
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: ecfc27241d22671485e7196e5c77c08c089d4bb110cd526d76ff266a779323d7
-    generated_at: '2026-07-28T14:44:00Z'
+    context_hash: 31c2071d599154ea3a1799b3ccf12e86479f8cc01b6c89a3863798c5b9875758
+    generated_at: '2026-07-28T14:45:55Z'
   handoff_bundle: null
 ```
 
@@ -427,7 +427,7 @@ task_id: TASK-R16-004
 story_id: STORY-R16-002
 goal: 实现SCR-ORDER-002真实订单详情，严格绑定orderGetMeOrdersByOrderno与OrderResource。
 started_at: '2026-07-28T12:59:34Z'
-updated_at: '2026-07-28T14:45:51Z'
+updated_at: '2026-07-28T15:26:55Z'
 takeover_of: null
 change_requests:
 - CR-0448
@@ -435,6 +435,10 @@ change_requests:
 - CR-0450
 - CR-0451
 - CR-0452
+- CR-0453
+- CR-0454
+- CR-0455
+- CR-0456
 scope:
   allowed_paths:
   - apps/android/**
@@ -521,7 +525,10 @@ scope:
   - docs/03-continuity/PROBLEM_REGISTRY.yaml
   - docs/08-quality/全局优点复用与踩坑闭环记录.md
   - apps/android/feature/chat/src/androidTest/java/cc/orbexa/hhy/chat/R14ChatSurfacesTest.kt
-  source: story-switch+explicit+approved-cr:CR-0448+approved-cr:CR-0449+approved-cr:CR-0451+approved-cr:CR-0452
+  - tests/test_continuity_version_sequence.py
+  - docs/03-continuity/PITFALLS.md
+  - docs/03-continuity/REUSABLE_PATTERNS.md
+  source: story-switch+explicit+approved-cr:CR-0448+approved-cr:CR-0449+approved-cr:CR-0451+approved-cr:CR-0452+approved-cr:CR-0455+approved-cr:CR-0456
 git:
   initialized: true
   branch: task/TASK-R03-001
@@ -531,20 +538,20 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-28T14:45:51Z'
-  expires_at: '2026-07-28T18:45:51Z'
-checkpoint_sequence: 10
-latest_checkpoint: .continuity/checkpoints/SES-20260728T125934Z-F3DED330/0010.yaml
+  renewed_at: '2026-07-28T15:26:55Z'
+  expires_at: '2026-07-28T19:26:55Z'
+checkpoint_sequence: 11
+latest_checkpoint: .continuity/checkpoints/SES-20260728T125934Z-F3DED330/0011.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260728T125934Z-F3DED330.md
-next_step: 提交并推送治理状态，部署0bf4c9a8候选后端，创建R14 GitHub交互候选请求。
+next_step: 提交CR-0455/CR-0456规则实现并执行显式版本序列恢复
 context_pack: THIS_CONTEXT_PACK
 handoff_bundle: null
 closure: null
 parallel_execution:
-  assessment: USER_SERIAL_OVERRIDE
+  assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 同一R14候选冻结与部署链必须串行绑定同一提交。
+  reason: 连续性状态链与规则事实源属于同一原子修改，必须串行提交
 story_history:
 - story_id: STORY-R16-001
   completed_at: '2026-07-28T13:15:40Z'
@@ -557,41 +564,72 @@ story_history:
 
 ```yaml
 protocol_version: '1.0'
-checkpoint_id: CP-SES-20260728T125934Z-F3DED330-0010
+checkpoint_id: CP-SES-20260728T125934Z-F3DED330-0011
 session_id: SES-20260728T125934Z-F3DED330
 task_id: TASK-R16-004
 story_id: STORY-R16-002
-sequence: 10
-created_at: '2026-07-28T14:45:50Z'
-summary: CR-0451与CR-0452已绑定实现提交0bf4c9a8并标记IMPLEMENTED；R14候选前源码冻结。
-next_step: 提交并推送治理状态，部署0bf4c9a8候选后端，创建R14 GitHub交互候选请求。
+sequence: 11
+created_at: '2026-07-28T15:26:54Z'
+summary: 完成R14起连续版本机器闭环强制规则与全部入口非零拒绝实现
+next_step: 提交CR-0455/CR-0456规则实现并执行显式版本序列恢复
 blockers: []
-decisions: []
-note: ''
+decisions:
+- R14起TEST_APK只允许Owner反馈异步，不单独授权跨版本
+- R14起所有start/resume/takeover/recover/close入口均先验证R14至目标前序Release机器闭环
+note: CR-0453和CR-0454保留为拒绝记录；CR-0455及窄补丁CR-0456经独立Actor审批后实施
 tests:
-- name: 冻结实现提交
+- name: release-continuity-regression
   result: PASS
-  evidence: 0bf4c9a8
-  note: 60 files committed after pre-commit and commit-msg strict PASS
+  evidence: tests/test_release_close_gate.py,tests/test_continuity_version_sequence.py,tests/test_android_ci_gate.py,tests/test_continuity_cross_release_close.py
+  note: 66项完整相关回归通过
+- name: rule-source-consistency
+  result: PASS
+  evidence: AGENTS.md,templates/AGENTS.md
+  note: 两个入口规则SHA-256一致且无旧现行表述
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: 0bf4c9a8a933394a92fce0d14e62a1317f3a23f6
+  head: 2f50639b779f0db63b2a47fe936c7046096efb35
   upstream: origin/task/TASK-R03-001
-  ahead: 1
+  ahead: 2
   behind: 0
   dirty: true
   status_porcelain:
   - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
   - ' M .continuity/EVENT_LOG.jsonl'
   - ' M .continuity/STATE.yaml'
-  - ' M .continuity/change_requests/CR-0451.yaml'
-  - ' M .continuity/change_requests/CR-0452.yaml'
+  - ' M .continuity/sessions/SES-20260728T125934Z-F3DED330.yaml'
+  - ' M AGENTS.md'
+  - ' M CHANGELOG.md'
   - ' M catalogs/change_request_index.csv'
   - ' M catalogs/session_index.csv'
-  - ' M docs/03-continuity/change-requests/CR-0451-替代CR-0450修复R14消息体验并升级大版本交互候选.md'
-  - ' M docs/03-continuity/change-requests/CR-0452-补齐CR-0451消息安全菜单回归测试范围.md'
+  - ' M config/android-automation.yaml'
+  - ' M config/development-workflow.yaml'
+  - ' M docs/00-baseline/正式商业系统全局硬性开发边界.md'
+  - ' M docs/03-continuity/PITFALLS.md'
+  - ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
+  - ' M docs/03-continuity/REUSABLE_PATTERNS.md'
+  - ' M docs/08-testing/Android自动开发测试修复交付体系_V1.0.md'
+  - ' M docs/09-development/统一开发与交付效率规范.md'
+  - ' M scripts/android_ci_gate.py'
+  - ' M scripts/check_release_artifacts.py'
+  - ' M scripts/check_v123_continuity.py'
+  - ' M scripts/continuity.py'
+  - ' M templates/AGENTS.md'
+  - ' M tests/test_android_ci_gate.py'
+  - ' M tests/test_release_close_gate.py'
+  - ?? .continuity/change_requests/CR-0453.yaml
+  - ?? .continuity/change_requests/CR-0454.yaml
+  - ?? .continuity/change_requests/CR-0455.yaml
+  - ?? .continuity/change_requests/CR-0456.yaml
+  - ?? docs/03-continuity/change-requests/CR-0453-防止跨版本跳跃并强制仓库证据闭环.md
+  - ?? docs/03-continuity/change-requests/CR-0454-替代CR-0453强制R14后连续版本机器闭环.md
+  - ?? docs/03-continuity/change-requests/CR-0455-替代CR-0454封死全部跨版本续接旁路.md
+  - ?? docs/03-continuity/change-requests/CR-0456-补齐CR-0455发布产物准入门禁范围.md
+  - ?? tests/test_continuity_version_sequence.py
   recent_commits:
+  - "2f50639b779f0db63b2a47fe936c7046096efb35\t2026-07-28T22:46:25+08:00\tHHY Continuity Bootstrap\t[STORY-R16-002] docs(r14): record frozen implementation\
+    \ state"
   - "0bf4c9a8a933394a92fce0d14e62a1317f3a23f6\t2026-07-28T22:44:36+08:00\tHHY Continuity Bootstrap\t[STORY-R16-002] fix(r14): close chat interaction\
     \ defects and require major-release journey"
   - "4b0a58e635232d1e4c084e4cc274b52ebdf9d5b0\t2026-07-28T21:16:36+08:00\tHHY Continuity Bootstrap\t[STORY-R16-002] chore(r16): start android\
@@ -606,10 +644,8 @@ git:
     \ as completed"
   - "d2959ef725480e7d4c6b3937380b83dd7461d56f\t2026-07-28T20:55:48+08:00\tHHY Continuity Bootstrap\t[STORY-R16-001] chore(r16): close backend\
     \ implementation changes"
-  - "620a2caa6d6b267ccacfa20e5260688fb4ac0305\t2026-07-28T20:53:05+08:00\tHHY Continuity Bootstrap\t[STORY-R16-001] chore(r14): close public message\
-    \ hotfix governance"
 project_fingerprint:
-  sha256: 2df5d2089adf299d2e6cfcc519f51c4124f55243a159a1a4e8c4137a34d5be2d
+  sha256: 0a051077cdc64aff3895f5db204f787df3ba94c21400ed2e1a4d306145acadd2
   files:
   - AGENTS.md
   - CHANGELOG.md
@@ -639,18 +675,26 @@ project_fingerprint:
   - config/android-automation.yaml
   - config/development-workflow.yaml
   - docs/00-baseline/正式商业系统全局硬性开发边界.md
+  - docs/03-continuity/PITFALLS.md
   - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/REUSABLE_PATTERNS.md
   - docs/03-continuity/change-requests/CR-0448-实现R16后台订单列表与详情抽屉.md
   - docs/03-continuity/change-requests/CR-0449-实现R16-Android只读订单详情.md
   - docs/03-continuity/change-requests/CR-0450-修复R14消息体验并升级大版本GitHub交互验收.md
   - docs/03-continuity/change-requests/CR-0451-替代CR-0450修复R14消息体验并升级大版本交互候选.md
   - docs/03-continuity/change-requests/CR-0452-补齐CR-0451消息安全菜单回归测试范围.md
+  - docs/03-continuity/change-requests/CR-0453-防止跨版本跳跃并强制仓库证据闭环.md
+  - docs/03-continuity/change-requests/CR-0454-替代CR-0453强制R14后连续版本机器闭环.md
+  - docs/03-continuity/change-requests/CR-0455-替代CR-0454封死全部跨版本续接旁路.md
+  - docs/03-continuity/change-requests/CR-0456-补齐CR-0455发布产物准入门禁范围.md
   - docs/08-testing/Android自动开发测试修复交付体系_V1.0.md
   - docs/09-development/统一开发与交付效率规范.md
   - releases/R16/RELEASE_MANIFEST.yaml
   - releases/R16/STORIES.yaml
   - scripts/android_ci_gate.py
   - scripts/check_release_artifacts.py
+  - scripts/check_v123_continuity.py
+  - scripts/continuity.py
   - scripts/run_android_emulator_gate.sh
   - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/CiAutomationFixtureStore.java
   - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/CiAutomationService.java
@@ -661,19 +705,20 @@ project_fingerprint:
   - templates/AGENTS.md
   - tests/android/visual-manifests/R14.yaml
   - tests/test_android_ci_gate.py
+  - tests/test_continuity_version_sequence.py
   - tests/test_release_close_gate.py
-  file_count: 51
+  file_count: 60
   payload:
     base_commit: 517654949a3cd79c345deaed6387e52fe13fec56
     files:
     - path: AGENTS.md
       state: FILE
-      size: 15902
-      sha256: 997cfb1bf6b9c3a9e42c3227b9a382e98a65a9158724dbc6aceb2cfd01a31379
+      size: 16791
+      sha256: bde93afcdb788b601aeffcf2369a1aeda8eeb391f165429d501d7ba8895ba4a6
     - path: CHANGELOG.md
       state: FILE
-      size: 211348
-      sha256: c3b652642bfb0c808ea5b39d55a7e8f014098d9ce0d6dee8e222dee436fb73fe
+      size: 212415
+      sha256: ac6e66e32dc2b2fc6ca9a4eeaa8d3bb712aaac69dd7ae4998e89c9dbc868ff49
     - path: apps/admin-web/src/adminNavigation.test.ts
       state: FILE
       size: 2219
@@ -768,20 +813,28 @@ project_fingerprint:
       sha256: d54fd05f38640f01e44d1e15d66d3598058e7cda22c11203188b729ac3897baf
     - path: config/android-automation.yaml
       state: FILE
-      size: 13411
-      sha256: bb67a1cd2d0ea155996f132f496effb07e791b0091f74d8aadc9aa52b6640376
+      size: 13655
+      sha256: 74f97148f872102f3886d0a41753084d45040e4b5fd31955cdccf5ec48154de1
     - path: config/development-workflow.yaml
       state: FILE
-      size: 3833
-      sha256: f2cc5f3ed2fd916acc15eb47668506bbe3a91342cc0be2663433a4252e61e088
+      size: 4510
+      sha256: 3651d5812cc3b82a181beed24a25a3eb2338955c705bedc5bba87f3000f458e4
     - path: docs/00-baseline/正式商业系统全局硬性开发边界.md
       state: FILE
-      size: 13922
-      sha256: a30acc0c817b21364ba7ad95899b569444a198e76830ca8015f77eff3c98810d
+      size: 14474
+      sha256: 30c07716c31d6d09621b6f6d119063b1fcb35e78d9b266423ed333d92b8262db
+    - path: docs/03-continuity/PITFALLS.md
+      state: FILE
+      size: 16698
+      sha256: bc269635bccab745808a7509ffcff75c805afb390b06498a3c2b8fc7d42c147f
     - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
       state: FILE
-      size: 237982
-      sha256: 23497475e60cfd579e3d9081508b131841878087f1ae0c17436d3c453aa5ba53
+      size: 240610
+      sha256: cb399a69c046825b8aa802339249631d52275f83dd8094fc1c237e2e53a1ba7e
+    - path: docs/03-continuity/REUSABLE_PATTERNS.md
+      state: FILE
+      size: 10766
+      sha256: 1e5721c0b17a820e642aabbb35f350631caf83afbd10b2cc52ccc73a443873c6
     - path: docs/03-continuity/change-requests/CR-0448-实现R16后台订单列表与详情抽屉.md
       state: FILE
       size: 5057
@@ -802,14 +855,30 @@ project_fingerprint:
       state: FILE
       size: 3085
       sha256: fee25eef012c72b4d3a5124672f2ce988ef5f0f6e45fd5cf87c1bc31d34c3bf3
+    - path: docs/03-continuity/change-requests/CR-0453-防止跨版本跳跃并强制仓库证据闭环.md
+      state: FILE
+      size: 5438
+      sha256: 43636f065ff4be1a7c78ee611c72b3f6e964543202a1e0de239811fdebf18069
+    - path: docs/03-continuity/change-requests/CR-0454-替代CR-0453强制R14后连续版本机器闭环.md
+      state: FILE
+      size: 5222
+      sha256: 2ec8ace96cc71847b77f83ccbcf64b383efbf9c118e526b0bee63e957cc76a72
+    - path: docs/03-continuity/change-requests/CR-0455-替代CR-0454封死全部跨版本续接旁路.md
+      state: FILE
+      size: 5830
+      sha256: d45c12f06cd4713904a7ee54f4f1de5e6e9442fb009065719f18f00f8a75691c
+    - path: docs/03-continuity/change-requests/CR-0456-补齐CR-0455发布产物准入门禁范围.md
+      state: FILE
+      size: 3648
+      sha256: f0fb7c027cd550e1caf09b71cb63833dde51099f7d8cc73464a021b2c2634108
     - path: docs/08-testing/Android自动开发测试修复交付体系_V1.0.md
       state: FILE
-      size: 19058
-      sha256: 283a93bbbf567a4e4f9d7efbbdcc8dd4f17bf8b6a8bc6e91698f76c4dc621ee3
+      size: 19615
+      sha256: e8e34d3a76fd09379254a3a386468120a46822a5c63d08e72add506c01004d5c
     - path: docs/09-development/统一开发与交付效率规范.md
       state: FILE
-      size: 18175
-      sha256: a1bad5f44b646d134f5bee240473445a6f823d17e2a7f5adb770e2e6d0b8db7b
+      size: 18806
+      sha256: 037dc805755d06c3fd1d628ddee8297fcc8c6e067d6cf520240696daa8ec72a6
     - path: releases/R16/RELEASE_MANIFEST.yaml
       state: FILE
       size: 4811
@@ -820,12 +889,20 @@ project_fingerprint:
       sha256: a7030747a5767a35c2127530b402b6550d37e86e5435b03b68fa8a8ee9f1ac42
     - path: scripts/android_ci_gate.py
       state: FILE
-      size: 37857
-      sha256: 060fea27192682736f769ba76575b74556251a166580f73bcd2dab62c554fc11
+      size: 38602
+      sha256: 47d3db614d8bc4dfcf764823a1a14e876ddb2ace8f0d027b8a83bc6ac29558b3
     - path: scripts/check_release_artifacts.py
       state: FILE
-      size: 41191
-      sha256: 0d2d67232cd85c94e40db59b7f7b4d0bef3bbe247ee902db0ef887d803b3d3d6
+      size: 42655
+      sha256: b4e63870ff86e4d8449afc2683e3a03b69505d51b425b42ef2e287a25018b19b
+    - path: scripts/check_v123_continuity.py
+      state: FILE
+      size: 42184
+      sha256: 541e35bcfbf1e7d111b02301270132fd6a25a97b7f6eb7a1a700f49f0c085b8f
+    - path: scripts/continuity.py
+      state: FILE
+      size: 95149
+      sha256: 51fb953b1d956be0f5dc5633981493c8ffac59b92e160f6a0d9018f7f2b5ffde
     - path: scripts/run_android_emulator_gate.sh
       state: FILE
       size: 2963
@@ -856,20 +933,24 @@ project_fingerprint:
       sha256: 573058d6321916bc3c985c6e7c2a356058102770f220e15178010dd0e7a421d6
     - path: templates/AGENTS.md
       state: FILE
-      size: 15902
-      sha256: 997cfb1bf6b9c3a9e42c3227b9a382e98a65a9158724dbc6aceb2cfd01a31379
+      size: 16791
+      sha256: bde93afcdb788b601aeffcf2369a1aeda8eeb391f165429d501d7ba8895ba4a6
     - path: tests/android/visual-manifests/R14.yaml
       state: FILE
       size: 1730
       sha256: f50abb0ba25aa53482b241b0275b98a8fba190b5538ffa8b0876e095575156ba
     - path: tests/test_android_ci_gate.py
       state: FILE
-      size: 72732
-      sha256: e8fb4c9a4ba97d715bc3b9e9ab0e89e724923dae28a3586fec7e49d651f9525b
+      size: 73224
+      sha256: e0a77020d856ea178f09e5fa062898709a227054592af544b91216c53ca8b68b
+    - path: tests/test_continuity_version_sequence.py
+      state: FILE
+      size: 11107
+      sha256: 361df707c83d8f0fe54a6bb07ceb1fe397a440e1c6e383f05494dc67205cc38e
     - path: tests/test_release_close_gate.py
       state: FILE
-      size: 39417
-      sha256: 53f597abb60abefbaf5b45ecfaa02a0cc8e0d7b9c5c2689a3b11bca8f6f4186f
+      size: 44617
+      sha256: ab23fc447a8bb487ced675f4b629c145969fbad7562f9deb80e77a65773e9c73
 change_classification:
   other:
   - AGENTS.md
@@ -905,6 +986,8 @@ change_classification:
   - apps/android/feature/chat/src/test/java/cc/orbexa/hhy/chat/R14ConversationListStateTest.kt
   - scripts/android_ci_gate.py
   - scripts/check_release_artifacts.py
+  - scripts/check_v123_continuity.py
+  - scripts/continuity.py
   - scripts/run_android_emulator_gate.sh
   - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/CiAutomationFixtureStore.java
   - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/CiAutomationService.java
@@ -940,15 +1023,22 @@ change_classification:
   - releases/R16/RELEASE_MANIFEST.yaml
   - releases/R16/STORIES.yaml
   continuity:
+  - docs/03-continuity/PITFALLS.md
   - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/REUSABLE_PATTERNS.md
   - docs/03-continuity/change-requests/CR-0448-实现R16后台订单列表与详情抽屉.md
   - docs/03-continuity/change-requests/CR-0449-实现R16-Android只读订单详情.md
   - docs/03-continuity/change-requests/CR-0450-修复R14消息体验并升级大版本GitHub交互验收.md
   - docs/03-continuity/change-requests/CR-0451-替代CR-0450修复R14消息体验并升级大版本交互候选.md
   - docs/03-continuity/change-requests/CR-0452-补齐CR-0451消息安全菜单回归测试范围.md
+  - docs/03-continuity/change-requests/CR-0453-防止跨版本跳跃并强制仓库证据闭环.md
+  - docs/03-continuity/change-requests/CR-0454-替代CR-0453强制R14后连续版本机器闭环.md
+  - docs/03-continuity/change-requests/CR-0455-替代CR-0454封死全部跨版本续接旁路.md
+  - docs/03-continuity/change-requests/CR-0456-补齐CR-0455发布产物准入门禁范围.md
   tests:
   - tests/android/visual-manifests/R14.yaml
   - tests/test_android_ci_gate.py
+  - tests/test_continuity_version_sequence.py
   - tests/test_release_close_gate.py
 required_records:
 - SESSION_RECORD
@@ -964,6 +1054,10 @@ change_requests:
 - CR-0450
 - CR-0451
 - CR-0452
+- CR-0453
+- CR-0454
+- CR-0455
+- CR-0456
 scope:
   allowed_paths:
   - apps/android/**
@@ -1050,13 +1144,16 @@ scope:
   - docs/03-continuity/PROBLEM_REGISTRY.yaml
   - docs/08-quality/全局优点复用与踩坑闭环记录.md
   - apps/android/feature/chat/src/androidTest/java/cc/orbexa/hhy/chat/R14ChatSurfacesTest.kt
-  source: story-switch+explicit+approved-cr:CR-0448+approved-cr:CR-0449+approved-cr:CR-0451+approved-cr:CR-0452
+  - tests/test_continuity_version_sequence.py
+  - docs/03-continuity/PITFALLS.md
+  - docs/03-continuity/REUSABLE_PATTERNS.md
+  source: story-switch+explicit+approved-cr:CR-0448+approved-cr:CR-0449+approved-cr:CR-0451+approved-cr:CR-0452+approved-cr:CR-0455+approved-cr:CR-0456
 parallel_execution:
-  assessment: USER_SERIAL_OVERRIDE
+  assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 同一R14候选冻结与部署链必须串行绑定同一提交。
-event_hash: 4e3dab1c45c784d707bef43026537a63a2cfadf3b4bcadb16297aca2f3bb7912
+  reason: 连续性状态链与规则事实源属于同一原子修改，必须串行提交
+event_hash: c7dbfe2d35ebc1daed94d838481351f254805516fb872025933ff630704a6468
 ```
 
 ## 接续状态与事件头
@@ -1068,8 +1165,8 @@ active_session_id: SES-20260728T125934Z-F3DED330
 last_session_id: SES-20260728T102501Z-3189682B
 last_session_result: COMPLETED
 last_closure_checkpoint_id: CP-SES-20260728T102501Z-3189682B-0007
-event_count: 4318
-event_head_hash: 4e3dab1c45c784d707bef43026537a63a2cfadf3b4bcadb16297aca2f3bb7912
+event_count: 4335
+event_head_hash: c7dbfe2d35ebc1daed94d838481351f254805516fb872025933ff630704a6468
 event_chain_valid: true
 ```
 
@@ -1192,9 +1289,9 @@ recent_sessions: - session_id: SES-20260726T191158Z-2B506AB7
   started_at: '2026-07-28T12:59:34Z'
   record: .continuity/sessions/SES-20260728T125934Z-F3DED330.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260728T125934Z-F3DED330.md
-  updated_at: '2026-07-28T14:45:51Z'
+  updated_at: '2026-07-28T15:26:55Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260728T125934Z-F3DED330/0010.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260728T125934Z-F3DED330/0011.yaml
   handoff_bundle: null
 task_claims: - claim_id: CLM-D7D9BE594C03
   session_id: SES-20260725T171320Z-7ACF9261
@@ -2128,9 +2225,9 @@ recent_task_transitions: - transition_id: TRN-E8A2C8699F08
 ```yaml
 initialized: true
 branch: task/TASK-R03-001
-head: 0bf4c9a8a933394a92fce0d14e62a1317f3a23f6
+head: 2f50639b779f0db63b2a47fe936c7046096efb35
 upstream: origin/task/TASK-R03-001
-ahead: 1
+ahead: 2
 behind: 0
 dirty: true
 status_porcelain:
@@ -2139,17 +2236,41 @@ status_porcelain:
 - ' M .continuity/EVENT_LOG.jsonl'
 - ' M .continuity/SESSION_INDEX.yaml'
 - ' M .continuity/STATE.yaml'
-- ' M .continuity/change_requests/CR-0451.yaml'
-- ' M .continuity/change_requests/CR-0452.yaml'
 - ' M .continuity/sessions/SES-20260728T125934Z-F3DED330.yaml'
+- ' M AGENTS.md'
+- ' M CHANGELOG.md'
 - ' M CURRENT_STATUS.yaml'
 - ' M catalogs/change_request_index.csv'
 - ' M catalogs/session_index.csv'
-- ' M docs/03-continuity/change-requests/CR-0451-替代CR-0450修复R14消息体验并升级大版本交互候选.md'
-- ' M docs/03-continuity/change-requests/CR-0452-补齐CR-0451消息安全菜单回归测试范围.md'
+- ' M config/android-automation.yaml'
+- ' M config/development-workflow.yaml'
+- ' M docs/00-baseline/正式商业系统全局硬性开发边界.md'
+- ' M docs/03-continuity/PITFALLS.md'
+- ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
+- ' M docs/03-continuity/REUSABLE_PATTERNS.md'
 - ' M docs/03-continuity/sessions/2026-07/SES-20260728T125934Z-F3DED330.md'
-- ?? .continuity/checkpoints/SES-20260728T125934Z-F3DED330/0010.yaml
+- ' M docs/08-testing/Android自动开发测试修复交付体系_V1.0.md'
+- ' M docs/09-development/统一开发与交付效率规范.md'
+- ' M scripts/android_ci_gate.py'
+- ' M scripts/check_release_artifacts.py'
+- ' M scripts/check_v123_continuity.py'
+- ' M scripts/continuity.py'
+- ' M templates/AGENTS.md'
+- ' M tests/test_android_ci_gate.py'
+- ' M tests/test_release_close_gate.py'
+- ?? .continuity/change_requests/CR-0453.yaml
+- ?? .continuity/change_requests/CR-0454.yaml
+- ?? .continuity/change_requests/CR-0455.yaml
+- ?? .continuity/change_requests/CR-0456.yaml
+- ?? .continuity/checkpoints/SES-20260728T125934Z-F3DED330/0011.yaml
+- ?? docs/03-continuity/change-requests/CR-0453-防止跨版本跳跃并强制仓库证据闭环.md
+- ?? docs/03-continuity/change-requests/CR-0454-替代CR-0453强制R14后连续版本机器闭环.md
+- ?? docs/03-continuity/change-requests/CR-0455-替代CR-0454封死全部跨版本续接旁路.md
+- ?? docs/03-continuity/change-requests/CR-0456-补齐CR-0455发布产物准入门禁范围.md
+- ?? tests/test_continuity_version_sequence.py
 recent_commits:
+- "2f50639b779f0db63b2a47fe936c7046096efb35\t2026-07-28T22:46:25+08:00\tHHY Continuity Bootstrap\t[STORY-R16-002] docs(r14): record frozen implementation\
+  \ state"
 - "0bf4c9a8a933394a92fce0d14e62a1317f3a23f6\t2026-07-28T22:44:36+08:00\tHHY Continuity Bootstrap\t[STORY-R16-002] fix(r14): close chat interaction\
   \ defects and require major-release journey"
 - "4b0a58e635232d1e4c084e4cc274b52ebdf9d5b0\t2026-07-28T21:16:36+08:00\tHHY Continuity Bootstrap\t[STORY-R16-002] chore(r16): start android order\
@@ -2164,14 +2285,12 @@ recent_commits:
   \ as completed"
 - "d2959ef725480e7d4c6b3937380b83dd7461d56f\t2026-07-28T20:55:48+08:00\tHHY Continuity Bootstrap\t[STORY-R16-001] chore(r16): close backend implementation\
   \ changes"
-- "620a2caa6d6b267ccacfa20e5260688fb4ac0305\t2026-07-28T20:53:05+08:00\tHHY Continuity Bootstrap\t[STORY-R16-001] chore(r14): close public message\
-  \ hotfix governance"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`2df5d2089adf299d2e6cfcc519f51c4124f55243a159a1a4e8c4137a34d5be2d`
-- 文件数：51
+- 指纹：`0a051077cdc64aff3895f5db204f787df3ba94c21400ed2e1a4d306145acadd2`
+- 文件数：60
 
 - `AGENTS.md`
 - `CHANGELOG.md`
@@ -2201,18 +2320,26 @@ recent_commits:
 - `config/android-automation.yaml`
 - `config/development-workflow.yaml`
 - `docs/00-baseline/正式商业系统全局硬性开发边界.md`
+- `docs/03-continuity/PITFALLS.md`
 - `docs/03-continuity/PROBLEM_REGISTRY.yaml`
+- `docs/03-continuity/REUSABLE_PATTERNS.md`
 - `docs/03-continuity/change-requests/CR-0448-实现R16后台订单列表与详情抽屉.md`
 - `docs/03-continuity/change-requests/CR-0449-实现R16-Android只读订单详情.md`
 - `docs/03-continuity/change-requests/CR-0450-修复R14消息体验并升级大版本GitHub交互验收.md`
 - `docs/03-continuity/change-requests/CR-0451-替代CR-0450修复R14消息体验并升级大版本交互候选.md`
 - `docs/03-continuity/change-requests/CR-0452-补齐CR-0451消息安全菜单回归测试范围.md`
+- `docs/03-continuity/change-requests/CR-0453-防止跨版本跳跃并强制仓库证据闭环.md`
+- `docs/03-continuity/change-requests/CR-0454-替代CR-0453强制R14后连续版本机器闭环.md`
+- `docs/03-continuity/change-requests/CR-0455-替代CR-0454封死全部跨版本续接旁路.md`
+- `docs/03-continuity/change-requests/CR-0456-补齐CR-0455发布产物准入门禁范围.md`
 - `docs/08-testing/Android自动开发测试修复交付体系_V1.0.md`
 - `docs/09-development/统一开发与交付效率规范.md`
 - `releases/R16/RELEASE_MANIFEST.yaml`
 - `releases/R16/STORIES.yaml`
 - `scripts/android_ci_gate.py`
 - `scripts/check_release_artifacts.py`
+- `scripts/check_v123_continuity.py`
+- `scripts/continuity.py`
 - `scripts/run_android_emulator_gate.sh`
 - `services/backend/access/src/main/java/cc/orbexa/hhy/access/user/CiAutomationFixtureStore.java`
 - `services/backend/access/src/main/java/cc/orbexa/hhy/access/user/CiAutomationService.java`
@@ -2223,6 +2350,7 @@ recent_commits:
 - `templates/AGENTS.md`
 - `tests/android/visual-manifests/R14.yaml`
 - `tests/test_android_ci_gate.py`
+- `tests/test_continuity_version_sequence.py`
 - `tests/test_release_close_gate.py`
 
 ## 当前 Release
@@ -14775,45 +14903,164 @@ TASKS.yaml:
   - SES-20260728T125934Z-F3DED330
   implementation_commits:
   - 0bf4c9a8
+- protocol_version: '1.0'
+  cr_id: CR-0455
+  title: 替代CR-0454封死全部跨版本续接旁路
+  status: IMPLEMENTING
+  created_at: '2026-07-28T14:53:34Z'
+  updated_at: '2026-07-28T14:55:06Z'
+  requester_actor_id: codex-r16-client-admin-20260728
+  approver_actor_id: codex-r14-sequence-independent-review-20260728
+  task_id: TASK-R16-004
+  session_id: SES-20260728T125934Z-F3DED330
+  user_request: 总结R14未完成却跳过R15进入R16的连续性错误根因，并强制更新既有规则与机器门禁；开发不得依赖聊天记录。
+  reason: CR-0454已独立REJECTED并保留历史：虽覆盖冷resume/start/close，但ACTIVE resume、HANDED_OFF takeover和过期recover仍可继续错误R16会话；本CR补齐全部入口。
+  original_rule: 既有规则允许TEST_APK或候选失败后继续下一独立Release；continuity跨Release只看依赖，start与冷resume只信状态指针，ACTIVE resume、HANDED_OFF takeover、过期recover均未交叉核验直接前序Release；Android自动化规则还明确candidate失败不阻断下一版。
+  new_rule: R14起下一业务Release只能是当前Release编号+1；owner真机PENDING异步非阻断，但上一Release必须全部TASK完成（close仅把本次COMPLETED的当前最终TASK拟DONE）、同一冻结Commit的TEST_APK与测试文档/Manifest/Evidence身份一致、同Release同Commit
+    GitHub真实交互候选PASS、machine completion PASS后才能进入。candidate FAIL/缺失、任务未完、证据缺失或身份错配、R14直跳R16均硬失败。统一仓库证据门禁必须在任何写入前覆盖start、无会话和有会话resume、close、takeover、recover；CURRENT_STATUS/NEXT_TASK/现有Session均不能单独证明完成。发现历史错误会话只能在明确的sequence-recovery流程中退回最近未完成Release，不得继续目标Release业务代码。R13及以前owner异步尾部只保留历史兼容。
+  impact_summary: 完整原位统一连续性、Android自动化、测试体系与效率规则；新增唯一版本序列/机器闭环验证器并接入start/resume(active与cold)/close/takeover/recover，所有失败零写入；登记问题、踩坑、复用模式，当前恢复顺序固定R14、R15、R16。
+  impact:
+    files:
+    - AGENTS.md
+    - templates/AGENTS.md
+    - docs/00-baseline/正式商业系统全局硬性开发边界.md
+    - docs/09-development/统一开发与交付效率规范.md
+    - config/development-workflow.yaml
+    - config/android-automation.yaml
+    - docs/08-testing/Android自动开发测试修复交付体系_V1.0.md
+    - scripts/continuity.py
+    - scripts/check_v123_continuity.py
+    - scripts/android_ci_gate.py
+    - tests/test_continuity_cross_release_close.py
+    - tests/test_continuity_version_sequence.py
+    - tests/test_android_ci_gate.py
+    - docs/03-continuity/PROBLEM_REGISTRY.yaml
+    - docs/03-continuity/PITFALLS.md
+    - docs/03-continuity/REUSABLE_PATTERNS.md
+    - CHANGELOG.md
+    pages: []
+    apis: []
+    database: []
+    configuration:
+    - R14+ sequence gate covers start, cold/active resume, close, takeover, recover; requires sequential release, tasks DONE, paired TEST_APK
+      identity, same-release/commit candidate PASS, machine completion PASS; owner PENDING async only
+    ledger: []
+    tests:
+    - start/cold resume/ACTIVE resume/HANDED_OFF takeover/expired recover/close各入口；失败零写入；R14未完成；R15空缺状态指R16；R14到R16跳级；缺Manifest/Evidence/guide；SHA/Commit错配；candidate
+      FAIL/缺失/release或commit错配；close最终任务拟DONE；合法R14会话和R14全绿R15会话通过；R13历史兼容；android_ci投影一致
+    releases:
+    - R14
+    - R15
+    - R16
+    migration_and_compatibility: 不改产品API、数据库或线上运行时。R02-R13保留历史owner异步尾部兼容；R14+严格顺序。TEST_APK可先交付、owner PENDING仍异步，但不能绕过候选和machine completion领取下一Release。当前错误R16会话在CR实施提交后仅允许进入仓库记录的sequence-recovery：保存R16
+      stash，退回R14完成，再R15，最后恢复R16；该恢复不依赖聊天。
+  user_confirmation: 项目所有者本轮明确要求：总结R14未完成却跳过R15进入R16的根因，强制更新既有规则和机器门禁，开发连续性必须依赖仓库证据而不能依赖聊天记录。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-28T14:54:17Z'
+    note: APPROVED：CR-0455完整替代并保留CR-0453/0454的REJECTED审计历史。规则在既有连续性、Android自动化、测试体系和效率事实源内原位修订，无产品API、数据库或线上运行时扩展。R14+跨Release统一要求直接连续编号、上一版TASK全DONE、同冻结Commit的TEST_APK/测试说明/Manifest/Evidence身份闭环、同Release同Commit交互候选PASS及machine
+      completion PASS；owner真机PENDING仍异步，R02-R13历史兼容保留。统一门禁覆盖start、cold/active resume、close、takeover、recover且失败零写入；close拟DONE原子语义和ACTIVE/HANDED_OFF/expired错误R16会话负向测试完整。历史错误会话只能走仓库记录的sequence-recovery退回最近未完成Release，顺序恢复R14、R15、R16。批准实施；任何入口在证据不完整时不得继续目标Release业务代码。
+  machine_record: .continuity/change_requests/CR-0455.yaml
+  document: docs/03-continuity/change-requests/CR-0455-替代CR-0454封死全部跨版本续接旁路.md
+  decision_log:
+  - at: '2026-07-28T14:55:06Z'
+    actor_id: codex-r16-client-admin-20260728
+    status: IMPLEMENTING
+    note: 独立审查APPROVED后进入实施；先统一既有规则投影，再实现start/resume/close/takeover/recover版本序列与机器证据零写入门禁。
+    session_id: SES-20260728T125934Z-F3DED330
+  session_ids:
+  - SES-20260728T125934Z-F3DED330
+- protocol_version: '1.0'
+  cr_id: CR-0456
+  title: 补齐CR-0455发布产物准入门禁范围
+  status: IMPLEMENTING
+  created_at: '2026-07-28T15:07:01Z'
+  updated_at: '2026-07-28T15:09:58Z'
+  requester_actor_id: codex-r16-client-admin-20260728
+  approver_actor_id: codex-r14-sequence-independent-review-20260728
+  task_id: TASK-R16-004
+  session_id: SES-20260728T125934Z-F3DED330
+  user_request: 强制更新连续性规则，避免R14未完和R15空缺时进入R16，且不依赖聊天记录。
+  reason: CR-0455实施检索发现check_release_artifacts仍以TEST_APK next_release_development=ALLOWED表述下一版准入；必须补入同一规则投影，不能留下交付门禁旁路。
+  original_rule: check_release_artifacts把android_delivery.next_release_development=ALLOWED描述为合格TEST_APK即可继续下一版本，R14+虽另验候选但没有显式断言候选和machine completion共同控制下一版准入。
+  new_rule: R02-R13保留历史TEST_APK异步语义；R14起android_delivery.next_release_development=ALLOWED只表示owner PENDING本身不阻断，不能单独授权下一版。发布产物关闭门禁必须同时要求MAJOR_RELEASE候选PASS、同Commit候选报告、machine_completion
+    PASS与next_release_development=ALLOWED，并由continuity再核对全部Task和连续编号。错误信息和测试不得再暗示TEST_APK单独放行。
+  impact_summary: 窄范围补齐发布产物检查器和现有版本关闭回归，与CR-0455统一语义，不改产品代码或证据格式。
+  impact:
+    files:
+    - scripts/check_release_artifacts.py
+    - tests/test_release_close_gate.py
+    pages: []
+    apis: []
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - R13历史按需模式仍通过；R14 TEST_APK PASS但candidate或machine completion缺失必须失败；R14全组合PASS；错误文案不得声称TEST_APK单独允许下一版
+    releases:
+    - R14
+    - R15
+    - R16
+    migration_and_compatibility: R13及以前旧Manifest继续按历史模式；R14+现有字段不删除，只提高组合校验，不影响TEST_APK先行交付和owner PENDING异步。
+  user_confirmation: 项目所有者已明确要求：强制更新连续性规则，防止R14未完成、R15空缺时进入R16；owner真机反馈保持异步，但开发必须以仓库机器证据闭环而非聊天记录为准。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-28T15:08:04Z'
+    note: APPROVED：CR-0456是CR-0455的必要窄范围投影补正，仅修改发布产物检查器及其既有回归测试，无产品、API、数据库、配置格式或证据格式扩展。R02-R13保留历史TEST_APK异步兼容；R14+将android_delivery.next_release_development=ALLOWED严格解释为owner
+      PENDING本身不阻断，不能单独授权跨Release，必须与同Release同Commit交互候选报告PASS、machine_completion.status=PASS及TEST_APK身份闭环组合通过，并由continuity继续校验TASK全DONE和连续编号。测试覆盖R13兼容、R14候选/机器完成缺失失败、完整组合通过及错误文案不再宣称TEST_APK单独放行，范围完整。批准实施。
+  machine_record: .continuity/change_requests/CR-0456.yaml
+  document: docs/03-continuity/change-requests/CR-0456-补齐CR-0455发布产物准入门禁范围.md
+  decision_log:
+  - at: '2026-07-28T15:09:58Z'
+    actor_id: codex-r14-sequence-implementation-20260728
+    status: IMPLEMENTING
+    note: 独立审批后开始补齐发布产物检查器与回归测试
+    session_id: SES-20260728T125934Z-F3DED330
+  session_ids:
+  - SES-20260728T125934Z-F3DED330
 ```
 
 ## 上下文来源及哈希
 
-- `AGENTS.md` — `997cfb1bf6b9c3a9e42c3227b9a382e98a65a9158724dbc6aceb2cfd01a31379`
+- `AGENTS.md` — `bde93afcdb788b601aeffcf2369a1aeda8eeb391f165429d501d7ba8895ba4a6`
 - `START_HERE.md` — `22de14029ce47beb41ea569e36ce223fbc9d11b86f8676f28d5fbbd83896af5c`
-- `CURRENT_STATUS.yaml` — `a1a18a8230fa0032c42ca307549a71e47fefcd1b8b28b44cb3e1a209c241062d`
+- `CURRENT_STATUS.yaml` — `45dd87e6404ef69ed816ba060599550e2a7453c33183e8e6e5e51b904ebecd0c`
 - `NEXT_TASK.yaml` — `098e3473cabfab4b4cecb672782dc80007d2d554f478bb33805f4bb2c57faf09`
 - `DEVELOPMENT_RISK_REGISTER.md` — `8304c91492e4ee2abea0522a06541c8688d39c7fc532b5d0cde499bf09fffb87`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
-- `docs/03-continuity/PROBLEM_REGISTRY.yaml` — `23497475e60cfd579e3d9081508b131841878087f1ae0c17436d3c453aa5ba53`
-- `docs/03-continuity/REUSABLE_PATTERNS.md` — `5e1d2c4e9d2c97b8bad7c0c1a80211f827681d03f71f45c92368124f3079d54e`
-- `docs/03-continuity/PITFALLS.md` — `51bb53ebe64c4ab6db265faad6cf791250e9e27c8467069ab7a1415569052dcc`
+- `docs/03-continuity/PROBLEM_REGISTRY.yaml` — `cb399a69c046825b8aa802339249631d52275f83dd8094fc1c237e2e53a1ba7e`
+- `docs/03-continuity/REUSABLE_PATTERNS.md` — `1e5721c0b17a820e642aabbb35f350631caf83afbd10b2cc52ccc73a443873c6`
+- `docs/03-continuity/PITFALLS.md` — `bc269635bccab745808a7509ffcff75c805afb390b06498a3c2b8fc7d42c147f`
 - `releases/PROGRAM_EXECUTION_PLAN.yaml` — `4d91d6dbfdae1c49ead2f9c3eb0f96559a0a45905041dd5891571f0e36418a1e`
 - `config/REPOSITORY_TRANSPORT.yaml` — `8c4a21f3e204d46e7ffb467d804a53ed26cda61cd088dadfddb50b69eea657fc`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `38e04ed812c8df0d353c2b91993d31e53b471e9c457f06b426bd2260c470aa92`
-- `.continuity/EVENT_LOG.jsonl` — `5ce830633329f9a7ceee48de54bde857c3bba9b0c31d8b30ab503147b09e03c8`
-- `.continuity/SESSION_INDEX.yaml` — `178ddfdc132e2c924fe4919943027e490ad0d932bcecbcb68cc131b638b683db`
+- `.continuity/EVENT_LOG.jsonl` — `24c575086d5f6e50672b07358076917b9f65a12de0f4084bac72417cff391e42`
+- `.continuity/SESSION_INDEX.yaml` — `9a837ccba38f13059351f98c63c87d5ee217746ee2583b256004939a4b97b48e`
 - `.continuity/TASK_CLAIMS.yaml` — `9832bd4a81785147e97a085ae07ad0e710dcf4b6561c6ed65b274d157250a3c6`
 - `.continuity/TASK_TRANSITIONS.yaml` — `4dab6426698947a1e4aaa0e4f696aee70bd433b55ed1a06754fcd5495721086d`
-- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `a681d4d9e2636dcef938bf49add66db2eb34c34bcc86ace5e650fbcf287a33dd`
-- `.continuity/ACTIVE_SESSION.yaml` — `3b5f27b56ba47216beab3215067edb7683087f81092f7111992a9a9be97b1a8a`
-- `docs/00-baseline/正式商业系统全局硬性开发边界.md` — `a30acc0c817b21364ba7ad95899b569444a198e76830ca8015f77eff3c98810d`
+- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `6c0e0923ea07d570b4617ade2b28c8ea28feb6d13c49780599224da49e33bcb0`
+- `.continuity/ACTIVE_SESSION.yaml` — `104eb53ef43599eedd32b03c747736d7820b632f6a27eaaec463c744cec9e8e8`
+- `docs/00-baseline/正式商业系统全局硬性开发边界.md` — `30c07716c31d6d09621b6f6d119063b1fcb35e78d9b266423ed333d92b8262db`
 - `docs/02-ui/UI参考图使用与开发约束_V1.2.2.md` — `d14367586aa2067b059df58798acd20ab982459cdb35ff27fc7922a3896e4933`
 - `docs/03-continuity/持续开发无状态接续强制门禁_V1.2.3.md` — `d0ed3ed68bdd93b06500eecdfb5baa3245e6ca8b685a486788abb6eee39b3d51`
-- `docs/09-development/统一开发与交付效率规范.md` — `a1bad5f44b646d134f5bee240473445a6f823d17e2a7f5adb770e2e6d0b8db7b`
+- `docs/09-development/统一开发与交付效率规范.md` — `037dc805755d06c3fd1d628ddee8297fcc8c6e067d6cf520240696daa8ec72a6`
 - `releases/R16/RELEASE_MANIFEST.yaml` — `0347c1db30c74cbe7fa09ab2b45202be219c85f2905f87693286989cb9faee88`
 - `releases/R16/DEFINITION_OF_READY.yaml` — `9c4c9f85b879fe5b73a85cbea370c773f11e8a302f0570a92cb9916cf5e0805e`
 - `releases/R16/STORIES.yaml` — `a7030747a5767a35c2127530b402b6550d37e86e5435b03b68fa8a8ee9f1ac42`
 - `releases/R16/TASKS.yaml` — `e66656c7c431a032916c4783c571000f3d238ee636f7fe01c4b881c01b0385c0`
 - `releases/R16/ACCEPTANCE_MATRIX.csv` — `6c6b0104146b52bb78d72e9f0db5b389d43dc5fc1fdf8fa054437b4150452625`
-- `docs/03-continuity/sessions/2026-07/SES-20260728T125934Z-F3DED330.md` — `49a9d71255797904ee703817273c2dfedff154ba94d470a399f4367fbf62ae64`
-- `.continuity/checkpoints/SES-20260728T125934Z-F3DED330/0010.yaml` — `b6e74aa557ef8a5eb2c15164ac659b4df1c87f259b5511d4e991c0d9453e2674`
+- `docs/03-continuity/sessions/2026-07/SES-20260728T125934Z-F3DED330.md` — `8d984fecf351a2896a1127975fff444a0f2e7a77b68842912f48a43e703d12f7`
+- `.continuity/checkpoints/SES-20260728T125934Z-F3DED330/0011.yaml` — `5d107f27874224614c4c0f424cdb9a2672ccb80990dc0793a49adc496925211e`
 - `docs/03-continuity/change-requests/CR-0448-实现R16后台订单列表与详情抽屉.md` — `c82e9b2905384c98eb21f21f7696ab9930e29124db7a2839805188030fc7a1ca`
 - `docs/03-continuity/change-requests/CR-0449-实现R16-Android只读订单详情.md` — `b7f23cb9a22ef22afbf3fd0026b3f110cdf1c6f884d92f82a3a66725e18e5cab`
 - `docs/03-continuity/change-requests/CR-0450-修复R14消息体验并升级大版本GitHub交互验收.md` — `36d7257405d765424d0e9a3bfc828c938bd516ef5be5bb471ab977e5aa401ccc`
 - `docs/03-continuity/change-requests/CR-0451-替代CR-0450修复R14消息体验并升级大版本交互候选.md` — `fb05955a5302fa5549e14caf682415066a3d8fe40e5cc9d61a19de103facdd0c`
 - `docs/03-continuity/change-requests/CR-0452-补齐CR-0451消息安全菜单回归测试范围.md` — `fee25eef012c72b4d3a5124672f2ce988ef5f0f6e45fd5cf87c1bc31d34c3bf3`
+- `docs/03-continuity/change-requests/CR-0453-防止跨版本跳跃并强制仓库证据闭环.md` — `43636f065ff4be1a7c78ee611c72b3f6e964543202a1e0de239811fdebf18069`
+- `docs/03-continuity/change-requests/CR-0454-替代CR-0453强制R14后连续版本机器闭环.md` — `2ec8ace96cc71847b77f83ccbcf64b383efbf9c118e526b0bee63e957cc76a72`
+- `docs/03-continuity/change-requests/CR-0455-替代CR-0454封死全部跨版本续接旁路.md` — `d45c12f06cd4713904a7ee54f4f1de5e6e9442fb009065719f18f00f8a75691c`
+- `docs/03-continuity/change-requests/CR-0456-补齐CR-0455发布产物准入门禁范围.md` — `f0fb7c027cd550e1caf09b71cb63833dde51099f7d8cc73464a021b2c2634108`
 
 ## 接手硬规则
 

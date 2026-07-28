@@ -155,6 +155,12 @@ def load_policy(path: Path = DEFAULT_POLICY) -> dict[str, Any]:
         raise GateError("R14+ major-release machine completion must require candidate PASS")
     if document["enforcement"].get("machine_completion_candidate_effective_from_release") != "R14":
         raise GateError("Major-release candidate machine-completion boundary must start at R14")
+    if document["enforcement"].get("next_release_development_requires_machine_completion_status") != "PASS":
+        raise GateError("R14+ next-release development must require machine completion PASS")
+    if document["enforcement"].get("next_release_development_requires_candidate_status") != "PASS":
+        raise GateError("R14+ next-release development must require candidate PASS")
+    if document["enforcement"].get("sequential_release_gate_effective_from_release") != "R14":
+        raise GateError("Sequential release gate must start at R14")
     test_apk = document["delivery"].get("test_apk") or {}
     required_test_apk_evidence = {
         "frozen_commit", "official_api_base_url", "compile", "unit_tests", "lint",
@@ -194,10 +200,12 @@ def load_policy(path: Path = DEFAULT_POLICY) -> dict[str, Any]:
         raise GateError("GitHub emulator candidate must gate R14+ major-release machine completion")
     if automated_candidate.get("required_for_test_apk_delivery") is not False:
         raise GateError("Automated candidate must not block TEST_APK delivery")
-    if automated_candidate.get("required_for_next_release_development") is not False:
-        raise GateError("Automated candidate must not block next-release development")
+    if automated_candidate.get("required_for_next_release_development") is not True:
+        raise GateError("R14+ automated candidate must gate next-release development")
     if "MACHINE_COMPLETION" not in set(automated_candidate.get("failure_blocks") or []):
         raise GateError("Failed major-release candidate must block machine completion")
+    if "NEXT_RELEASE_DEVELOPMENT" not in set(automated_candidate.get("failure_blocks") or []):
+        raise GateError("Failed R14+ major-release candidate must block next-release development")
     if "MAJOR_RELEASE_MACHINE_COMPLETION" not in set(automated_candidate.get("trigger_classes") or []):
         raise GateError("Major-release machine completion trigger is missing")
     if document["visual"].get("review_authority") != "AI_IMPLEMENTATION_AGENT":

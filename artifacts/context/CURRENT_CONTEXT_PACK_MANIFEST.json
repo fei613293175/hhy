@@ -1,25 +1,25 @@
 {
   "version": "1.0",
-  "generated_at": "2026-07-28T14:45:55Z",
-  "context_hash": "31c2071d599154ea3a1799b3ccf12e86479f8cc01b6c89a3863798c5b9875758",
+  "generated_at": "2026-07-28T15:26:59Z",
+  "context_hash": "7257ff15a68cea99db0b880c8b7742da25ac0ee22553d0311d195f942e580e84",
   "fingerprint_mode": "SESSION_DELTA",
   "project_fingerprint": {
-    "sha256": "2df5d2089adf299d2e6cfcc519f51c4124f55243a159a1a4e8c4137a34d5be2d",
-    "file_count": 51
+    "sha256": "0a051077cdc64aff3895f5db204f787df3ba94c21400ed2e1a4d306145acadd2",
+    "file_count": 60
   },
   "yaml": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.yaml",
-    "sha256": "a1520626a68bfcfc674b930c9b4f4c5506b2759a26da39fb47520c2a80403ded"
+    "sha256": "30965a7c1147403e6fb172e70a121c9cbf68a50f7471d0d52bfd035588b7ef1d"
   },
   "markdown": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.md",
-    "sha256": "05a8b5d8bc8d376591d8ad128efca2f68e7e36a1550ac1cf632e6a4f429c8af8"
+    "sha256": "6c3ab155f6bab509309507778c1a14653fc1e869fe512cee528a8b4ba453f71e"
   },
   "sources": [
     {
       "path": "AGENTS.md",
-      "sha256": "997cfb1bf6b9c3a9e42c3227b9a382e98a65a9158724dbc6aceb2cfd01a31379",
-      "bytes": 15902
+      "sha256": "bde93afcdb788b601aeffcf2369a1aeda8eeb391f165429d501d7ba8895ba4a6",
+      "bytes": 16791
     },
     {
       "path": "START_HERE.md",
@@ -28,7 +28,7 @@
     },
     {
       "path": "CURRENT_STATUS.yaml",
-      "sha256": "a1a18a8230fa0032c42ca307549a71e47fefcd1b8b28b44cb3e1a209c241062d",
+      "sha256": "45dd87e6404ef69ed816ba060599550e2a7453c33183e8e6e5e51b904ebecd0c",
       "bytes": 4733
     },
     {
@@ -48,18 +48,18 @@
     },
     {
       "path": "docs/03-continuity/PROBLEM_REGISTRY.yaml",
-      "sha256": "23497475e60cfd579e3d9081508b131841878087f1ae0c17436d3c453aa5ba53",
-      "bytes": 237982
+      "sha256": "cb399a69c046825b8aa802339249631d52275f83dd8094fc1c237e2e53a1ba7e",
+      "bytes": 240610
     },
     {
       "path": "docs/03-continuity/REUSABLE_PATTERNS.md",
-      "sha256": "5e1d2c4e9d2c97b8bad7c0c1a80211f827681d03f71f45c92368124f3079d54e",
-      "bytes": 9651
+      "sha256": "1e5721c0b17a820e642aabbb35f350631caf83afbd10b2cc52ccc73a443873c6",
+      "bytes": 10766
     },
     {
       "path": "docs/03-continuity/PITFALLS.md",
-      "sha256": "51bb53ebe64c4ab6db265faad6cf791250e9e27c8467069ab7a1415569052dcc",
-      "bytes": 16074
+      "sha256": "bc269635bccab745808a7509ffcff75c805afb390b06498a3c2b8fc7d42c147f",
+      "bytes": 16698
     },
     {
       "path": "releases/PROGRAM_EXECUTION_PLAN.yaml",
@@ -83,12 +83,12 @@
     },
     {
       "path": ".continuity/EVENT_LOG.jsonl",
-      "sha256": "5ce830633329f9a7ceee48de54bde857c3bba9b0c31d8b30ab503147b09e03c8",
-      "bytes": 2477278
+      "sha256": "24c575086d5f6e50672b07358076917b9f65a12de0f4084bac72417cff391e42",
+      "bytes": 2486436
     },
     {
       "path": ".continuity/SESSION_INDEX.yaml",
-      "sha256": "178ddfdc132e2c924fe4919943027e490ad0d932bcecbcb68cc131b638b683db",
+      "sha256": "9a837ccba38f13059351f98c63c87d5ee217746ee2583b256004939a4b97b48e",
       "bytes": 63722
     },
     {
@@ -103,18 +103,18 @@
     },
     {
       "path": ".continuity/CHANGE_REQUEST_INDEX.yaml",
-      "sha256": "a681d4d9e2636dcef938bf49add66db2eb34c34bcc86ace5e650fbcf287a33dd",
-      "bytes": 1675523
+      "sha256": "6c0e0923ea07d570b4617ade2b28c8ea28feb6d13c49780599224da49e33bcb0",
+      "bytes": 1695686
     },
     {
       "path": ".continuity/ACTIVE_SESSION.yaml",
-      "sha256": "3b5f27b56ba47216beab3215067edb7683087f81092f7111992a9a9be97b1a8a",
+      "sha256": "104eb53ef43599eedd32b03c747736d7820b632f6a27eaaec463c744cec9e8e8",
       "bytes": 546
     },
     {
       "path": "docs/00-baseline/正式商业系统全局硬性开发边界.md",
-      "sha256": "a30acc0c817b21364ba7ad95899b569444a198e76830ca8015f77eff3c98810d",
-      "bytes": 13922
+      "sha256": "30c07716c31d6d09621b6f6d119063b1fcb35e78d9b266423ed333d92b8262db",
+      "bytes": 14474
     },
     {
       "path": "docs/02-ui/UI参考图使用与开发约束_V1.2.2.md",
@@ -128,8 +128,8 @@
     },
     {
       "path": "docs/09-development/统一开发与交付效率规范.md",
-      "sha256": "a1bad5f44b646d134f5bee240473445a6f823d17e2a7f5adb770e2e6d0b8db7b",
-      "bytes": 18175
+      "sha256": "037dc805755d06c3fd1d628ddee8297fcc8c6e067d6cf520240696daa8ec72a6",
+      "bytes": 18806
     },
     {
       "path": "releases/R16/RELEASE_MANIFEST.yaml",
@@ -158,13 +158,13 @@
     },
     {
       "path": "docs/03-continuity/sessions/2026-07/SES-20260728T125934Z-F3DED330.md",
-      "sha256": "49a9d71255797904ee703817273c2dfedff154ba94d470a399f4367fbf62ae64",
-      "bytes": 22274
+      "sha256": "8d984fecf351a2896a1127975fff444a0f2e7a77b68842912f48a43e703d12f7",
+      "bytes": 27304
     },
     {
-      "path": ".continuity/checkpoints/SES-20260728T125934Z-F3DED330/0010.yaml",
-      "sha256": "b6e74aa557ef8a5eb2c15164ac659b4df1c87f259b5511d4e991c0d9453e2674",
-      "bytes": 26336
+      "path": ".continuity/checkpoints/SES-20260728T125934Z-F3DED330/0011.yaml",
+      "sha256": "5d107f27874224614c4c0f424cdb9a2672ccb80990dc0793a49adc496925211e",
+      "bytes": 30997
     },
     {
       "path": "docs/03-continuity/change-requests/CR-0448-实现R16后台订单列表与详情抽屉.md",
@@ -190,6 +190,26 @@
       "path": "docs/03-continuity/change-requests/CR-0452-补齐CR-0451消息安全菜单回归测试范围.md",
       "sha256": "fee25eef012c72b4d3a5124672f2ce988ef5f0f6e45fd5cf87c1bc31d34c3bf3",
       "bytes": 3085
+    },
+    {
+      "path": "docs/03-continuity/change-requests/CR-0453-防止跨版本跳跃并强制仓库证据闭环.md",
+      "sha256": "43636f065ff4be1a7c78ee611c72b3f6e964543202a1e0de239811fdebf18069",
+      "bytes": 5438
+    },
+    {
+      "path": "docs/03-continuity/change-requests/CR-0454-替代CR-0453强制R14后连续版本机器闭环.md",
+      "sha256": "2ec8ace96cc71847b77f83ccbcf64b383efbf9c118e526b0bee63e957cc76a72",
+      "bytes": 5222
+    },
+    {
+      "path": "docs/03-continuity/change-requests/CR-0455-替代CR-0454封死全部跨版本续接旁路.md",
+      "sha256": "d45c12f06cd4713904a7ee54f4f1de5e6e9442fb009065719f18f00f8a75691c",
+      "bytes": 5830
+    },
+    {
+      "path": "docs/03-continuity/change-requests/CR-0456-补齐CR-0455发布产物准入门禁范围.md",
+      "sha256": "f0fb7c027cd550e1caf09b71cb63833dde51099f7d8cc73464a021b2c2634108",
+      "bytes": 3648
     }
   ]
 }

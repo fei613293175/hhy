@@ -470,6 +470,18 @@ def main() -> int:
     require("cr-amend" in cli_text and "command_cr_amend" in cli_text, "CR_AMEND_CLI", "统一CLI缺少CR完整合同补齐命令")
     require("change_request_completeness_errors" in gate_text and "CR_INCOMPLETE" in gate_text, "CR_COMPLETENESS_GATE", "Doctor/CI必须拒绝不完整的已批准CR")
     require("closure_checkpoint" in cli_text and "CLOSING" in cli_text, "CLOSE_PROTOCOL", "任务关闭必须生成关闭检查点")
+    require(
+        "validate_release_machine_chain" in cli_text
+        and "strict_release_machine_completion_errors" in cli_text
+        and "validate_sequential_release_number" in cli_text,
+        "SEQUENTIAL_RELEASE_GATE",
+        "统一CLI缺少R14+版本顺序与机器闭环证据门禁",
+    )
+    require(
+        cli_text.count("validate_release_machine_chain(") >= 8,
+        "SEQUENTIAL_RELEASE_ENTRYPOINTS",
+        "版本顺序门禁必须覆盖start、cold/active resume、close、takeover和recover",
+    )
 
     workflow_text = "\n".join((ROOT / p).read_text(encoding="utf-8") for p in [".github/workflows/continuity-gate.yml", ".github/workflows/ci.yml"])
     forbidden_cli = ["continuity_gate.py baseline", "continuity_gate.py ci", "--base-sha", "--head-sha", "continuity.py export", "close --outcome"]

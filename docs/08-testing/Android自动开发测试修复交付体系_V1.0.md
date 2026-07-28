@@ -6,7 +6,7 @@
 
 ## 1. 不可绕过的结果边界
 
-Android 交付分为 `TEST_APK` 与大版本自动候选两条边界。每个大版本完成后，从冻结 Commit 在 `obx-test` 固定工具链运行正式 API 校验、编译、单测、Lint 和 APK 打包，通过长期稳定测试签名、版本身份、仓库/桌面/服务器/HTTPS 四方 SHA-256 以及桌面测试说明后，即可交付 `TEST_APK`。R14 起每个 Android 大版本机器完成前还必须在 GitHub 固定模拟器运行一次该版专属真实交互候选；它逐步执行点击、输入、长按、返回、重进和关键业务状态断言，并审核截图、目标进程日志、JUnit 与机器报告。候选失败阻断该版机器完成和生产自动证据，但不阻断 `TEST_APK` 交付或下一版本独立开发。
+Android 交付分为 `TEST_APK` 与大版本自动候选两条边界。每个大版本完成后，从冻结 Commit 在 `obx-test` 固定工具链运行正式 API 校验、编译、单测、Lint 和 APK 打包，通过长期稳定测试签名、版本身份、仓库/桌面/服务器/HTTPS 四方 SHA-256 以及桌面测试说明后，即可先行交付 `TEST_APK`。R14 起每个 Android 大版本机器完成前还必须在 GitHub 固定模拟器运行一次该版专属真实交互候选；它逐步执行点击、输入、长按、返回、重进和关键业务状态断言，并审核截图、目标进程日志、JUnit 与机器报告。候选失败不阻断 `TEST_APK` 先行交付，但必须阻断该版机器完成、生产自动证据和下一业务版本领取。
 
 项目所有者真机体验为异步反馈：未测试或尚未反馈时保留 `owner_physical_test=PENDING`，不伪造正式 Release 关闭或生产验收，但立即继续后续版本编码和桌面测试包累积交付。编译成功不等于测试包交付合格，`TEST_APK` 合格也不等于自动候选或生产验收合格。
 
@@ -43,7 +43,7 @@ R14 起模拟器安装/冷启动、版本专属真实功能旅程、页面截图
 
 1. **FAST/MODULE 普通提交**：受影响模块的静态策略、正式 API、编译、单测、Lint 和打包；目标是快速发现确定性源码问题，结果不能授权真机测试。
 2. **CONTINUITY 核心门禁**：每次提交校验身份、范围、检查点、CR、Trailer 和 Context Pack；只有连续性核心事实变化才执行完整临时 Git 生命周期。
-3. **TEST_APK**：大版本完成或项目所有者明确需要测试包时，对冻结 Commit 在 `obx-test` 运行正式 API、编译、单测、Lint、打包、稳定签名、身份和四方 SHA 门禁；通过后交付桌面并继续下一版本，不等待真机反馈。
+3. **TEST_APK**：大版本完成或项目所有者明确需要测试包时，对冻结 Commit 在 `obx-test` 运行正式 API、编译、单测、Lint、打包、稳定签名、身份和四方 SHA 门禁；通过后可先行交付桌面且不等待真机反馈，但 R14 起不得仅凭测试包进入下一版本。
 4. **MAJOR RELEASE AUTOMATED CANDIDATE**：R14 起每个大版本机器完成时，候选请求验证通过后运行该版专属模拟器真实交互旅程、截图、视觉、日志、JUnit 和候选报告；其他高风险或集中审计仍可额外触发。失败不回滚已经独立合格的 `TEST_APK`，也不启动无新根因的连续重跑。
 
 `config/android-candidate-request.yaml` 必须包含：`schema_version: 1`、`status: REQUESTED`、`R06-R32` Release、`candidate: true`、普通范围 1 至 3 的 `remediation_attempt`、以及每次候选唯一的 `request_id`。全局 `max_ai_attempts` 必须始终为 3。CR-0358 记录项目所有者对 AI 候选持续决策的站立授权；AI 不再逐轮询问项目所有者，但任何超过普通范围的请求仍必须在 `config/android-automation.yaml` 中精确绑定 Release、该 Release 自身从 attempt 4 开始的连续轮次、全局唯一 request ID、独立 CR、全局唯一根因修复 Commit 和 `max_candidate_runs=1`。不同 Release 的例外轮次各自独立编号，不得把历史版本的 attempt 4 至 N 串接为新版本的起始轮次；同一 Release 内仍禁止跳号、倒序或重复。只有上一请求已消费、独立根因已修复且受影响模块与普通 CI 通过后，独立 AI 候选授权角色才可依据站立授权审批下一轮 CR；不得提前登记尚无根因和修复证据的未来轮次。例外不得改写全局上限、伪造为新 attempt 1、扩展到其他 Release、复用已消费请求或产生未审批的下一轮；候选运行报告必须同时记录全局上限与本次有效上限。新增秘密、第三方权限、资金/账本策略和生产激活仍必须由项目所有者决定。普通 CI 的 build artifact 不是候选，任何人或 AI 都不得把它复制到桌面冒充候选。
@@ -112,4 +112,5 @@ Android候选策略、工作流、请求校验器、路由脚本及其Python专�
 - 当前 Release Manifest 的 `android_automation` 和 `android_delivery`；
 - 尚未关闭的 `[Android CI]` 修复项。
 
-若 R14 起大版本自动候选修复项为 `REMEDIATION_REQUIRED`，它阻断该版机器完成、自动候选接受和生产自动证据；存在独立合格 `TEST_APK` 时不得把失败候选冒充交付，也不得因此阻断测试包交付和下一版本独立开发。候选由 AI 依据交互步骤、业务断言、截图和日志自主审核；通过后直接继续开发，不得等待截图确认或桌面真机反馈。
+若 R14 起大版本自动候选修复项为 `REMEDIATION_REQUIRED`，它阻断该版机器完成、自动候选接受、生产自动证据和下一业务版本领取；存在独立合格 `TEST_APK` 时不得把失败候选冒充交付，但不阻断测试包先行交付。候选由 AI 依据交互步骤、业务断言、截图和日志自主审核；通过并完成全部 Task、同 Commit 交付证据与 machine completion 后直接按编号继续下一版本，不得等待截图确认或桌面真机反馈。
+- R14 起 `start`、冷/热 `resume`、`close`、`takeover`、`recover` 共享同一版本连续性门禁：从仓库核对紧邻版本编号、全部 Task、TEST_APK/测试说明/Manifest/Evidence、候选 Release/Commit/PASS 与 machine completion；任何缺失或错配必须非零退出且零写入。聊天记录、`CURRENT_STATUS.yaml`、`NEXT_TASK.yaml` 或已有 Session 均不能单独替代这些证据。

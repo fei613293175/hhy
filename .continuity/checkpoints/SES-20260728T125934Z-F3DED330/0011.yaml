@@ -1,0 +1,591 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260728T125934Z-F3DED330-0011
+session_id: SES-20260728T125934Z-F3DED330
+task_id: TASK-R16-004
+story_id: STORY-R16-002
+sequence: 11
+created_at: '2026-07-28T15:26:54Z'
+summary: 完成R14起连续版本机器闭环强制规则与全部入口非零拒绝实现
+next_step: 提交CR-0455/CR-0456规则实现并执行显式版本序列恢复
+blockers: []
+decisions:
+- R14起TEST_APK只允许Owner反馈异步，不单独授权跨版本
+- R14起所有start/resume/takeover/recover/close入口均先验证R14至目标前序Release机器闭环
+note: CR-0453和CR-0454保留为拒绝记录；CR-0455及窄补丁CR-0456经独立Actor审批后实施
+tests:
+- name: release-continuity-regression
+  result: PASS
+  evidence: tests/test_release_close_gate.py,tests/test_continuity_version_sequence.py,tests/test_android_ci_gate.py,tests/test_continuity_cross_release_close.py
+  note: 66项完整相关回归通过
+- name: rule-source-consistency
+  result: PASS
+  evidence: AGENTS.md,templates/AGENTS.md
+  note: 两个入口规则SHA-256一致且无旧现行表述
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: 2f50639b779f0db63b2a47fe936c7046096efb35
+  upstream: origin/task/TASK-R03-001
+  ahead: 2
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/sessions/SES-20260728T125934Z-F3DED330.yaml'
+  - ' M AGENTS.md'
+  - ' M CHANGELOG.md'
+  - ' M catalogs/change_request_index.csv'
+  - ' M catalogs/session_index.csv'
+  - ' M config/android-automation.yaml'
+  - ' M config/development-workflow.yaml'
+  - ' M docs/00-baseline/正式商业系统全局硬性开发边界.md'
+  - ' M docs/03-continuity/PITFALLS.md'
+  - ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
+  - ' M docs/03-continuity/REUSABLE_PATTERNS.md'
+  - ' M docs/08-testing/Android自动开发测试修复交付体系_V1.0.md'
+  - ' M docs/09-development/统一开发与交付效率规范.md'
+  - ' M scripts/android_ci_gate.py'
+  - ' M scripts/check_release_artifacts.py'
+  - ' M scripts/check_v123_continuity.py'
+  - ' M scripts/continuity.py'
+  - ' M templates/AGENTS.md'
+  - ' M tests/test_android_ci_gate.py'
+  - ' M tests/test_release_close_gate.py'
+  - ?? .continuity/change_requests/CR-0453.yaml
+  - ?? .continuity/change_requests/CR-0454.yaml
+  - ?? .continuity/change_requests/CR-0455.yaml
+  - ?? .continuity/change_requests/CR-0456.yaml
+  - ?? docs/03-continuity/change-requests/CR-0453-防止跨版本跳跃并强制仓库证据闭环.md
+  - ?? docs/03-continuity/change-requests/CR-0454-替代CR-0453强制R14后连续版本机器闭环.md
+  - ?? docs/03-continuity/change-requests/CR-0455-替代CR-0454封死全部跨版本续接旁路.md
+  - ?? docs/03-continuity/change-requests/CR-0456-补齐CR-0455发布产物准入门禁范围.md
+  - ?? tests/test_continuity_version_sequence.py
+  recent_commits:
+  - "2f50639b779f0db63b2a47fe936c7046096efb35\t2026-07-28T22:46:25+08:00\tHHY Continuity Bootstrap\t[STORY-R16-002] docs(r14): record frozen implementation\
+    \ state"
+  - "0bf4c9a8a933394a92fce0d14e62a1317f3a23f6\t2026-07-28T22:44:36+08:00\tHHY Continuity Bootstrap\t[STORY-R16-002] fix(r14): close chat interaction\
+    \ defects and require major-release journey"
+  - "4b0a58e635232d1e4c084e4cc274b52ebdf9d5b0\t2026-07-28T21:16:36+08:00\tHHY Continuity Bootstrap\t[STORY-R16-002] chore(r16): start android\
+    \ order detail story"
+  - "2d9f0c9ca4eb4d37140a7d5126e990a97c569cc2\t2026-07-28T21:14:45+08:00\tHHY Continuity Bootstrap\t[STORY-R16-001] chore(r16): close admin order\
+    \ change"
+  - "ea65f7013ab87223087be4389ffae0a7accc5949\t2026-07-28T21:13:16+08:00\tHHY Continuity Bootstrap\t[STORY-R16-001] feat(r16): implement admin\
+    \ order workspace"
+  - "28c875d42b5bde36f2286b7cd22ff451c28b3d69\t2026-07-28T21:00:28+08:00\tHHY Continuity Bootstrap\t[STORY-R16-001] chore(r16): start admin order\
+    \ experience"
+  - "517654949a3cd79c345deaed6387e52fe13fec56\t2026-07-28T20:58:10+08:00\tHHY Continuity Bootstrap\t[STORY-R16-001] chore(continuity): close TASK-R16-003\
+    \ as completed"
+  - "d2959ef725480e7d4c6b3937380b83dd7461d56f\t2026-07-28T20:55:48+08:00\tHHY Continuity Bootstrap\t[STORY-R16-001] chore(r16): close backend\
+    \ implementation changes"
+project_fingerprint:
+  sha256: 0a051077cdc64aff3895f5db204f787df3ba94c21400ed2e1a4d306145acadd2
+  files:
+  - AGENTS.md
+  - CHANGELOG.md
+  - apps/admin-web/src/adminNavigation.test.ts
+  - apps/admin-web/src/adminNavigation.ts
+  - apps/admin-web/src/r16CommerceOrders.test.ts
+  - apps/admin-web/src/router.ts
+  - apps/admin-web/src/services/adminOrders.test.ts
+  - apps/admin-web/src/services/adminOrders.ts
+  - apps/admin-web/src/services/index.ts
+  - apps/admin-web/src/views/CommerceOrdersPage.vue
+  - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR14Api.kt
+  - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ContractR14ApiTest.kt
+  - apps/android/feature/chat/src/androidTest/java/cc/orbexa/hhy/chat/R14BlockStateStoreInstrumentedTest.kt
+  - apps/android/feature/chat/src/androidTest/java/cc/orbexa/hhy/chat/R14ChatDetailScreenTest.kt
+  - apps/android/feature/chat/src/androidTest/java/cc/orbexa/hhy/chat/R14ChatSurfacesTest.kt
+  - apps/android/feature/chat/src/androidTest/java/cc/orbexa/hhy/chat/R14ConversationListScreenTest.kt
+  - apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14BlockStateStore.kt
+  - apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ChatDetailScreen.kt
+  - apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ChatSheets.kt
+  - apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ConversationListScreen.kt
+  - apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ConversationListState.kt
+  - apps/android/feature/chat/src/test/java/cc/orbexa/hhy/chat/R14BlockStateStoreTest.kt
+  - apps/android/feature/chat/src/test/java/cc/orbexa/hhy/chat/R14ConversationListStateTest.kt
+  - catalogs/ui_visual_acceptance.csv
+  - config/android-automation.yaml
+  - config/development-workflow.yaml
+  - docs/00-baseline/正式商业系统全局硬性开发边界.md
+  - docs/03-continuity/PITFALLS.md
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/REUSABLE_PATTERNS.md
+  - docs/03-continuity/change-requests/CR-0448-实现R16后台订单列表与详情抽屉.md
+  - docs/03-continuity/change-requests/CR-0449-实现R16-Android只读订单详情.md
+  - docs/03-continuity/change-requests/CR-0450-修复R14消息体验并升级大版本GitHub交互验收.md
+  - docs/03-continuity/change-requests/CR-0451-替代CR-0450修复R14消息体验并升级大版本交互候选.md
+  - docs/03-continuity/change-requests/CR-0452-补齐CR-0451消息安全菜单回归测试范围.md
+  - docs/03-continuity/change-requests/CR-0453-防止跨版本跳跃并强制仓库证据闭环.md
+  - docs/03-continuity/change-requests/CR-0454-替代CR-0453强制R14后连续版本机器闭环.md
+  - docs/03-continuity/change-requests/CR-0455-替代CR-0454封死全部跨版本续接旁路.md
+  - docs/03-continuity/change-requests/CR-0456-补齐CR-0455发布产物准入门禁范围.md
+  - docs/08-testing/Android自动开发测试修复交付体系_V1.0.md
+  - docs/09-development/统一开发与交付效率规范.md
+  - releases/R16/RELEASE_MANIFEST.yaml
+  - releases/R16/STORIES.yaml
+  - scripts/android_ci_gate.py
+  - scripts/check_release_artifacts.py
+  - scripts/check_v123_continuity.py
+  - scripts/continuity.py
+  - scripts/run_android_emulator_gate.sh
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/CiAutomationFixtureStore.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/CiAutomationService.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/CiAutomationFixtureStorePostgresTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/CiAutomationServiceTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R14PostgresStoreTest.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R14PostgresStore.java
+  - templates/AGENTS.md
+  - tests/android/visual-manifests/R14.yaml
+  - tests/test_android_ci_gate.py
+  - tests/test_continuity_version_sequence.py
+  - tests/test_release_close_gate.py
+  file_count: 60
+  payload:
+    base_commit: 517654949a3cd79c345deaed6387e52fe13fec56
+    files:
+    - path: AGENTS.md
+      state: FILE
+      size: 16791
+      sha256: bde93afcdb788b601aeffcf2369a1aeda8eeb391f165429d501d7ba8895ba4a6
+    - path: CHANGELOG.md
+      state: FILE
+      size: 212415
+      sha256: ac6e66e32dc2b2fc6ca9a4eeaa8d3bb712aaac69dd7ae4998e89c9dbc868ff49
+    - path: apps/admin-web/src/adminNavigation.test.ts
+      state: FILE
+      size: 2219
+      sha256: 5b0d4001869fe9ccb265041a09c274db1c04c5def9a2da573d50f19f9e28d900
+    - path: apps/admin-web/src/adminNavigation.ts
+      state: FILE
+      size: 2005
+      sha256: 7909c4d4b685a0189df5465a44409eaf8323e1abe2dd73a319ddfc018d6c3539
+    - path: apps/admin-web/src/r16CommerceOrders.test.ts
+      state: FILE
+      size: 4193
+      sha256: 3fbf477dee50bdd5226bcee09cf47d9922693bbd1bb06e296556c0723490d990
+    - path: apps/admin-web/src/router.ts
+      state: FILE
+      size: 5525
+      sha256: 622fd20fbe0e952d509a70d389fa229c04213130cb205e225d3303c433650014
+    - path: apps/admin-web/src/services/adminOrders.test.ts
+      state: FILE
+      size: 2421
+      sha256: c2e787cacb8f4d3946626592e56150eb79ddfa295e16c770cf999905123049ad
+    - path: apps/admin-web/src/services/adminOrders.ts
+      state: FILE
+      size: 4422
+      sha256: a74cee0ed2b39801dde006882fd8a9de13fa4ed69b6f89017a2446e924a79a0b
+    - path: apps/admin-web/src/services/index.ts
+      state: FILE
+      size: 402
+      sha256: cf09ec68d416540f527c628d606ae035658395b21c43ea86d01d05bb434b73f6
+    - path: apps/admin-web/src/views/CommerceOrdersPage.vue
+      state: FILE
+      size: 22910
+      sha256: 62a8cea73feee295d98b362ea1327d2c18a0346b361c09dfd62539163ed64968
+    - path: apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+      state: FILE
+      size: 30232
+      sha256: 463388bb2055b113de070a11e0399841c152b9a7877507700b30f8def6bd6095
+    - path: apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR14Api.kt
+      state: FILE
+      size: 22643
+      sha256: bba9dd2a8f33a0e2c01f93ba21f5fdb88b39f885f80834c9e923fb276b261ab9
+    - path: apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ContractR14ApiTest.kt
+      state: FILE
+      size: 7942
+      sha256: 39f7600ed179a72be862edbf6e9de312257a9debbec356da92ddb936541bc6df
+    - path: apps/android/feature/chat/src/androidTest/java/cc/orbexa/hhy/chat/R14BlockStateStoreInstrumentedTest.kt
+      state: FILE
+      size: 1202
+      sha256: 05cfa3fd43717df255c30d10f34e0eb21a2872ba4576fdd0e63575f368b4f6fc
+    - path: apps/android/feature/chat/src/androidTest/java/cc/orbexa/hhy/chat/R14ChatDetailScreenTest.kt
+      state: FILE
+      size: 6161
+      sha256: b9b3d160691e9e2612c40c3719c4ec21a4e601045cabc04d8e86c5bfec4b5f39
+    - path: apps/android/feature/chat/src/androidTest/java/cc/orbexa/hhy/chat/R14ChatSurfacesTest.kt
+      state: FILE
+      size: 6238
+      sha256: f746e59efc1752361cbe308094a04b58edf8a428eff7a1b7b281a39fdbf780ee
+    - path: apps/android/feature/chat/src/androidTest/java/cc/orbexa/hhy/chat/R14ConversationListScreenTest.kt
+      state: FILE
+      size: 6049
+      sha256: 8a8088b9e41d6c39d1d37f02ca7e6b0f1914719e6d699b4a9cf6287c04caab25
+    - path: apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14BlockStateStore.kt
+      state: FILE
+      size: 1291
+      sha256: e6ab9d4544368c7b8d260af91b2b14560682e1b8d1760f4738a24213d6a393d1
+    - path: apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ChatDetailScreen.kt
+      state: FILE
+      size: 46274
+      sha256: ebe70b10d333f39a0248f3f27b0c09bd310d286fd3373126a14840ea9cad73a9
+    - path: apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ChatSheets.kt
+      state: FILE
+      size: 12777
+      sha256: 7cffb4cdb99828708ad14fd61f730f19296336e18239666c0350e661bd970c2d
+    - path: apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ConversationListScreen.kt
+      state: FILE
+      size: 21053
+      sha256: 7eff344cc83b719ae95371dce70be0b166a84acca21d6e63b6b6c84b3e09a661
+    - path: apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ConversationListState.kt
+      state: FILE
+      size: 5455
+      sha256: d82b1f352273729959ed700215bdded6b464097a62ece16bba318524e1b932f3
+    - path: apps/android/feature/chat/src/test/java/cc/orbexa/hhy/chat/R14BlockStateStoreTest.kt
+      state: FILE
+      size: 850
+      sha256: 73182fc0a9925b155a612373c3a157ce75136da1708e3719f8fafc9c32b53f1a
+    - path: apps/android/feature/chat/src/test/java/cc/orbexa/hhy/chat/R14ConversationListStateTest.kt
+      state: FILE
+      size: 5055
+      sha256: 0f11532f86076ebe886b35da0804fa75263569a561355e3b7eac9a0008c75f8d
+    - path: catalogs/ui_visual_acceptance.csv
+      state: FILE
+      size: 71542
+      sha256: d54fd05f38640f01e44d1e15d66d3598058e7cda22c11203188b729ac3897baf
+    - path: config/android-automation.yaml
+      state: FILE
+      size: 13655
+      sha256: 74f97148f872102f3886d0a41753084d45040e4b5fd31955cdccf5ec48154de1
+    - path: config/development-workflow.yaml
+      state: FILE
+      size: 4510
+      sha256: 3651d5812cc3b82a181beed24a25a3eb2338955c705bedc5bba87f3000f458e4
+    - path: docs/00-baseline/正式商业系统全局硬性开发边界.md
+      state: FILE
+      size: 14474
+      sha256: 30c07716c31d6d09621b6f6d119063b1fcb35e78d9b266423ed333d92b8262db
+    - path: docs/03-continuity/PITFALLS.md
+      state: FILE
+      size: 16698
+      sha256: bc269635bccab745808a7509ffcff75c805afb390b06498a3c2b8fc7d42c147f
+    - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
+      state: FILE
+      size: 240610
+      sha256: cb399a69c046825b8aa802339249631d52275f83dd8094fc1c237e2e53a1ba7e
+    - path: docs/03-continuity/REUSABLE_PATTERNS.md
+      state: FILE
+      size: 10766
+      sha256: 1e5721c0b17a820e642aabbb35f350631caf83afbd10b2cc52ccc73a443873c6
+    - path: docs/03-continuity/change-requests/CR-0448-实现R16后台订单列表与详情抽屉.md
+      state: FILE
+      size: 5057
+      sha256: c82e9b2905384c98eb21f21f7696ab9930e29124db7a2839805188030fc7a1ca
+    - path: docs/03-continuity/change-requests/CR-0449-实现R16-Android只读订单详情.md
+      state: FILE
+      size: 6486
+      sha256: b7f23cb9a22ef22afbf3fd0026b3f110cdf1c6f884d92f82a3a66725e18e5cab
+    - path: docs/03-continuity/change-requests/CR-0450-修复R14消息体验并升级大版本GitHub交互验收.md
+      state: FILE
+      size: 7961
+      sha256: 36d7257405d765424d0e9a3bfc828c938bd516ef5be5bb471ab977e5aa401ccc
+    - path: docs/03-continuity/change-requests/CR-0451-替代CR-0450修复R14消息体验并升级大版本交互候选.md
+      state: FILE
+      size: 9689
+      sha256: fb05955a5302fa5549e14caf682415066a3d8fe40e5cc9d61a19de103facdd0c
+    - path: docs/03-continuity/change-requests/CR-0452-补齐CR-0451消息安全菜单回归测试范围.md
+      state: FILE
+      size: 3085
+      sha256: fee25eef012c72b4d3a5124672f2ce988ef5f0f6e45fd5cf87c1bc31d34c3bf3
+    - path: docs/03-continuity/change-requests/CR-0453-防止跨版本跳跃并强制仓库证据闭环.md
+      state: FILE
+      size: 5438
+      sha256: 43636f065ff4be1a7c78ee611c72b3f6e964543202a1e0de239811fdebf18069
+    - path: docs/03-continuity/change-requests/CR-0454-替代CR-0453强制R14后连续版本机器闭环.md
+      state: FILE
+      size: 5222
+      sha256: 2ec8ace96cc71847b77f83ccbcf64b383efbf9c118e526b0bee63e957cc76a72
+    - path: docs/03-continuity/change-requests/CR-0455-替代CR-0454封死全部跨版本续接旁路.md
+      state: FILE
+      size: 5830
+      sha256: d45c12f06cd4713904a7ee54f4f1de5e6e9442fb009065719f18f00f8a75691c
+    - path: docs/03-continuity/change-requests/CR-0456-补齐CR-0455发布产物准入门禁范围.md
+      state: FILE
+      size: 3648
+      sha256: f0fb7c027cd550e1caf09b71cb63833dde51099f7d8cc73464a021b2c2634108
+    - path: docs/08-testing/Android自动开发测试修复交付体系_V1.0.md
+      state: FILE
+      size: 19615
+      sha256: e8e34d3a76fd09379254a3a386468120a46822a5c63d08e72add506c01004d5c
+    - path: docs/09-development/统一开发与交付效率规范.md
+      state: FILE
+      size: 18806
+      sha256: 037dc805755d06c3fd1d628ddee8297fcc8c6e067d6cf520240696daa8ec72a6
+    - path: releases/R16/RELEASE_MANIFEST.yaml
+      state: FILE
+      size: 4811
+      sha256: 0347c1db30c74cbe7fa09ab2b45202be219c85f2905f87693286989cb9faee88
+    - path: releases/R16/STORIES.yaml
+      state: FILE
+      size: 9040
+      sha256: a7030747a5767a35c2127530b402b6550d37e86e5435b03b68fa8a8ee9f1ac42
+    - path: scripts/android_ci_gate.py
+      state: FILE
+      size: 38602
+      sha256: 47d3db614d8bc4dfcf764823a1a14e876ddb2ace8f0d027b8a83bc6ac29558b3
+    - path: scripts/check_release_artifacts.py
+      state: FILE
+      size: 42655
+      sha256: b4e63870ff86e4d8449afc2683e3a03b69505d51b425b42ef2e287a25018b19b
+    - path: scripts/check_v123_continuity.py
+      state: FILE
+      size: 42184
+      sha256: 541e35bcfbf1e7d111b02301270132fd6a25a97b7f6eb7a1a700f49f0c085b8f
+    - path: scripts/continuity.py
+      state: FILE
+      size: 95149
+      sha256: 51fb953b1d956be0f5dc5633981493c8ffac59b92e160f6a0d9018f7f2b5ffde
+    - path: scripts/run_android_emulator_gate.sh
+      state: FILE
+      size: 2963
+      sha256: f6c6d21abbfcccc0bba181aedcb7113d3a7c297b8cc5246b21f1ea336412b366
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/user/CiAutomationFixtureStore.java
+      state: FILE
+      size: 17936
+      sha256: 207c9e66af03ebddc7a9ac30a6e7a548f831648e4e5bbfb572679f3ca08215e9
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/user/CiAutomationService.java
+      state: FILE
+      size: 6111
+      sha256: 647bd01c253c37514a5b073a61a6fdccc33df485474e5691e6c02abc34eb2223
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/CiAutomationFixtureStorePostgresTest.java
+      state: FILE
+      size: 5137
+      sha256: a6909d160689fcf37744c2ca8e72749fbb3a7695d26533821c1a6a3a15ce2a0e
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/CiAutomationServiceTest.java
+      state: FILE
+      size: 9345
+      sha256: 5020b72bba9ffefdef84a59a72529c07a65106f296f1586af993c31aa2f0d318
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/content/R14PostgresStoreTest.java
+      state: FILE
+      size: 7908
+      sha256: 6417421750473ca56127098db69a4c67a3cdade966e8580d901d9bf7ef51357c
+    - path: services/backend/content/src/main/java/cc/orbexa/hhy/content/R14PostgresStore.java
+      state: FILE
+      size: 17531
+      sha256: 573058d6321916bc3c985c6e7c2a356058102770f220e15178010dd0e7a421d6
+    - path: templates/AGENTS.md
+      state: FILE
+      size: 16791
+      sha256: bde93afcdb788b601aeffcf2369a1aeda8eeb391f165429d501d7ba8895ba4a6
+    - path: tests/android/visual-manifests/R14.yaml
+      state: FILE
+      size: 1730
+      sha256: f50abb0ba25aa53482b241b0275b98a8fba190b5538ffa8b0876e095575156ba
+    - path: tests/test_android_ci_gate.py
+      state: FILE
+      size: 73224
+      sha256: e0a77020d856ea178f09e5fa062898709a227054592af544b91216c53ca8b68b
+    - path: tests/test_continuity_version_sequence.py
+      state: FILE
+      size: 11107
+      sha256: 361df707c83d8f0fe54a6bb07ceb1fe397a440e1c6e383f05494dc67205cc38e
+    - path: tests/test_release_close_gate.py
+      state: FILE
+      size: 44617
+      sha256: ab23fc447a8bb487ced675f4b629c145969fbad7562f9deb80e77a65773e9c73
+change_classification:
+  other:
+  - AGENTS.md
+  - CHANGELOG.md
+  - catalogs/ui_visual_acceptance.csv
+  - config/android-automation.yaml
+  - config/development-workflow.yaml
+  - docs/08-testing/Android自动开发测试修复交付体系_V1.0.md
+  - docs/09-development/统一开发与交付效率规范.md
+  - templates/AGENTS.md
+  code:
+  - apps/admin-web/src/adminNavigation.test.ts
+  - apps/admin-web/src/adminNavigation.ts
+  - apps/admin-web/src/r16CommerceOrders.test.ts
+  - apps/admin-web/src/router.ts
+  - apps/admin-web/src/services/adminOrders.test.ts
+  - apps/admin-web/src/services/adminOrders.ts
+  - apps/admin-web/src/services/index.ts
+  - apps/admin-web/src/views/CommerceOrdersPage.vue
+  - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR14Api.kt
+  - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ContractR14ApiTest.kt
+  - apps/android/feature/chat/src/androidTest/java/cc/orbexa/hhy/chat/R14BlockStateStoreInstrumentedTest.kt
+  - apps/android/feature/chat/src/androidTest/java/cc/orbexa/hhy/chat/R14ChatDetailScreenTest.kt
+  - apps/android/feature/chat/src/androidTest/java/cc/orbexa/hhy/chat/R14ChatSurfacesTest.kt
+  - apps/android/feature/chat/src/androidTest/java/cc/orbexa/hhy/chat/R14ConversationListScreenTest.kt
+  - apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14BlockStateStore.kt
+  - apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ChatDetailScreen.kt
+  - apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ChatSheets.kt
+  - apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ConversationListScreen.kt
+  - apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ConversationListState.kt
+  - apps/android/feature/chat/src/test/java/cc/orbexa/hhy/chat/R14BlockStateStoreTest.kt
+  - apps/android/feature/chat/src/test/java/cc/orbexa/hhy/chat/R14ConversationListStateTest.kt
+  - scripts/android_ci_gate.py
+  - scripts/check_release_artifacts.py
+  - scripts/check_v123_continuity.py
+  - scripts/continuity.py
+  - scripts/run_android_emulator_gate.sh
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/CiAutomationFixtureStore.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/CiAutomationService.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/CiAutomationFixtureStorePostgresTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/CiAutomationServiceTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R14PostgresStoreTest.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R14PostgresStore.java
+  user_visible:
+  - apps/admin-web/src/adminNavigation.test.ts
+  - apps/admin-web/src/adminNavigation.ts
+  - apps/admin-web/src/r16CommerceOrders.test.ts
+  - apps/admin-web/src/router.ts
+  - apps/admin-web/src/services/adminOrders.test.ts
+  - apps/admin-web/src/services/adminOrders.ts
+  - apps/admin-web/src/services/index.ts
+  - apps/admin-web/src/views/CommerceOrdersPage.vue
+  - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR14Api.kt
+  - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ContractR14ApiTest.kt
+  - apps/android/feature/chat/src/androidTest/java/cc/orbexa/hhy/chat/R14BlockStateStoreInstrumentedTest.kt
+  - apps/android/feature/chat/src/androidTest/java/cc/orbexa/hhy/chat/R14ChatDetailScreenTest.kt
+  - apps/android/feature/chat/src/androidTest/java/cc/orbexa/hhy/chat/R14ChatSurfacesTest.kt
+  - apps/android/feature/chat/src/androidTest/java/cc/orbexa/hhy/chat/R14ConversationListScreenTest.kt
+  - apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14BlockStateStore.kt
+  - apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ChatDetailScreen.kt
+  - apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ChatSheets.kt
+  - apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ConversationListScreen.kt
+  - apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ConversationListState.kt
+  - apps/android/feature/chat/src/test/java/cc/orbexa/hhy/chat/R14BlockStateStoreTest.kt
+  - apps/android/feature/chat/src/test/java/cc/orbexa/hhy/chat/R14ConversationListStateTest.kt
+  source_of_truth:
+  - docs/00-baseline/正式商业系统全局硬性开发边界.md
+  - releases/R16/RELEASE_MANIFEST.yaml
+  - releases/R16/STORIES.yaml
+  continuity:
+  - docs/03-continuity/PITFALLS.md
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/REUSABLE_PATTERNS.md
+  - docs/03-continuity/change-requests/CR-0448-实现R16后台订单列表与详情抽屉.md
+  - docs/03-continuity/change-requests/CR-0449-实现R16-Android只读订单详情.md
+  - docs/03-continuity/change-requests/CR-0450-修复R14消息体验并升级大版本GitHub交互验收.md
+  - docs/03-continuity/change-requests/CR-0451-替代CR-0450修复R14消息体验并升级大版本交互候选.md
+  - docs/03-continuity/change-requests/CR-0452-补齐CR-0451消息安全菜单回归测试范围.md
+  - docs/03-continuity/change-requests/CR-0453-防止跨版本跳跃并强制仓库证据闭环.md
+  - docs/03-continuity/change-requests/CR-0454-替代CR-0453强制R14后连续版本机器闭环.md
+  - docs/03-continuity/change-requests/CR-0455-替代CR-0454封死全部跨版本续接旁路.md
+  - docs/03-continuity/change-requests/CR-0456-补齐CR-0455发布产物准入门禁范围.md
+  tests:
+  - tests/android/visual-manifests/R14.yaml
+  - tests/test_android_ci_gate.py
+  - tests/test_continuity_version_sequence.py
+  - tests/test_release_close_gate.py
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+- APPROVED_CHANGE_REQUEST
+- CHANGELOG
+change_requests:
+- CR-0448
+- CR-0449
+- CR-0450
+- CR-0451
+- CR-0452
+- CR-0453
+- CR-0454
+- CR-0455
+- CR-0456
+scope:
+  allowed_paths:
+  - apps/android/**
+  - services/backend/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - tests/**
+  - docs/**
+  - catalogs/**
+  - releases/**
+  - design/**
+  - scripts/**
+  - apps/android相关R16订单详情页面、类型安全网络与专项测试；不提前做支付或虚构订单。
+  - CHANGELOG.md
+  approved_exceptions:
+  - apps/admin-web/src/views/CommerceOrdersPage.vue
+  - apps/admin-web/src/services/adminOrders.ts
+  - apps/admin-web/src/services/adminOrders.test.ts
+  - apps/admin-web/src/r16CommerceOrders.test.ts
+  - apps/admin-web/src/services/index.ts
+  - apps/admin-web/src/router.ts
+  - apps/admin-web/src/adminNavigation.ts
+  - apps/admin-web/src/adminNavigation.test.ts
+  - apps/admin-web/src/styles.css
+  - catalogs/ui_visual_acceptance.csv
+  - releases/R16/STORIES.yaml
+  - releases/R16/RELEASE_MANIFEST.yaml
+  - artifacts/reports/R16/TASK-R16-004-admin-orders.md
+  - CHANGELOG.md
+  - apps/android/settings.gradle.kts
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+  - apps/android/app/src/test/java/cc/orbexa/hhy/NavigationPolicyTest.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR16Api.kt
+  - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ContractR16ApiTest.kt
+  - apps/android/feature/order/build.gradle.kts
+  - apps/android/feature/order/src/main/java/cc/orbexa/hhy/order/R16OrderState.kt
+  - apps/android/feature/order/src/main/java/cc/orbexa/hhy/order/R16OrderScreens.kt
+  - apps/android/feature/order/src/test/java/cc/orbexa/hhy/order/R16OrderStateTest.kt
+  - artifacts/reports/R16/TASK-R16-004-android-order-detail.md
+  - AGENTS.md
+  - templates/AGENTS.md
+  - docs/00-baseline/正式商业系统全局硬性开发边界.md
+  - config/android-automation.yaml
+  - docs/08-testing/Android自动开发测试修复交付体系_V1.0.md
+  - docs/09-development/统一开发与交付效率规范.md
+  - config/development-workflow.yaml
+  - scripts/android_ci_gate.py
+  - tests/test_android_ci_gate.py
+  - scripts/run_android_emulator_gate.sh
+  - .github/workflows/android-quality-gate.yml
+  - scripts/check_release_artifacts.py
+  - tests/test_release_close_gate.py
+  - scripts/continuity.py
+  - tests/test_continuity_cross_release_close.py
+  - scripts/check_v123_continuity.py
+  - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR14Api.kt
+  - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ContractR14ApiTest.kt
+  - apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ConversationListScreen.kt
+  - apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ConversationListState.kt
+  - apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ChatDetailScreen.kt
+  - apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ChatSheets.kt
+  - apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ChatDialogs.kt
+  - apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14BlockStateStore.kt
+  - apps/android/feature/chat/src/test/java/cc/orbexa/hhy/chat/R14ChatStateTest.kt
+  - apps/android/feature/chat/src/test/java/cc/orbexa/hhy/chat/R14ConversationListStateTest.kt
+  - apps/android/feature/chat/src/test/java/cc/orbexa/hhy/chat/R14BlockStateStoreTest.kt
+  - apps/android/feature/chat/src/androidTest/java/cc/orbexa/hhy/chat/R14ConversationListScreenTest.kt
+  - apps/android/feature/chat/src/androidTest/java/cc/orbexa/hhy/chat/R14ChatDetailScreenTest.kt
+  - apps/android/feature/chat/src/androidTest/java/cc/orbexa/hhy/chat/R14BlockStateStoreInstrumentedTest.kt
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R14PostgresStore.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R14PostgresStoreTest.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/CiAutomationFixtureStore.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/CiAutomationService.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/CiAutomationServiceTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/CiAutomationFixtureStorePostgresTest.java
+  - tests/android/visual-manifests/R14.yaml
+  - config/android-candidate-request.yaml
+  - releases/R14/RELEASE_MANIFEST.yaml
+  - releases/R14/TEST_APK_DELIVERY.yaml
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/08-quality/全局优点复用与踩坑闭环记录.md
+  - apps/android/feature/chat/src/androidTest/java/cc/orbexa/hhy/chat/R14ChatSurfacesTest.kt
+  - tests/test_continuity_version_sequence.py
+  - docs/03-continuity/PITFALLS.md
+  - docs/03-continuity/REUSABLE_PATTERNS.md
+  source: story-switch+explicit+approved-cr:CR-0448+approved-cr:CR-0449+approved-cr:CR-0451+approved-cr:CR-0452+approved-cr:CR-0455+approved-cr:CR-0456
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 连续性状态链与规则事实源属于同一原子修改，必须串行提交
+event_hash: c7dbfe2d35ebc1daed94d838481351f254805516fb872025933ff630704a6468

@@ -42,7 +42,7 @@
 - `FAST`：每次本地变化与提交，校验 Session、Scope、Secret、CR、Fingerprint、Trailer 和受影响的轻量测试。
 - `MODULE`：执行代理交付补丁前，运行其修改模块的单元、类型、契约或静态检查。
 - `INTEGRATION`：每天一次或纵向切片汇合时，运行后端、Web、数据库、Android 和连续性全量集成。
-- `RELEASE`：大版本开发交付阶段在 `obx-test` 固定工具链对冻结 Commit 运行一次正式 API、编译、单测、Lint、APK 构建、稳定签名与四方哈希；项目所有者真机验收保持异步且不得阻断下一版本。R14 起每个 Android 大版本机器完成前必须在 GitHub 固定模拟器运行一次该版本专属的真实交互候选，逐步执行点击、输入、长按、返回、重进和关键业务状态断言，并同时审核截图、目标进程日志和 JUnit 报告；只看截图不构成功能验收。候选失败阻断该版机器完成和生产自动证据，但不阻断独立合格的 `TEST_APK` 交付、项目所有者异步测试或下一版本独立开发。`TASK-xx-008` 不得在本机安装 Java/Android SDK 或重复已绑定同一源码 Commit 的重型门禁。
+- `RELEASE`：大版本开发交付阶段在 `obx-test` 固定工具链对冻结 Commit 运行一次正式 API、编译、单测、Lint、APK 构建、稳定签名与四方哈希；项目所有者真机验收保持异步。R14 起每个 Android 大版本机器完成前必须在 GitHub 固定模拟器运行一次该版本专属的真实交互候选，逐步执行点击、输入、长按、返回、重进和关键业务状态断言，并同时审核截图、目标进程日志和 JUnit 报告；只看截图不构成功能验收。候选失败不阻断独立合格的 `TEST_APK` 交付或项目所有者异步测试，但必须阻断该版机器完成和下一业务版本领取。只有本版全部 Task DONE、同一冻结 Commit 的 TEST_APK/测试说明/Manifest/Evidence 身份一致、版本专属候选 PASS 且 machine completion PASS 后，才可按编号进入紧邻下一版本；owner 真机 `PENDING` 不阻断这一已完成机器闭环后的顺序推进。`TASK-xx-008` 不得在本机安装 Java/Android SDK 或重复已绑定同一源码 Commit 的重型门禁。
 - 完整文档 Doctor 仅在其事实输入变化、手动 Doctor、集成或发布阶段运行；不得因此跳过任何连续性核心校验。
 - GitHub 普通提交不得运行 Android 模拟器、截图、候选报告或候选 APK；`candidate=false` 只执行受影响的源码策略、正式 API、编译、单测、Lint 与打包。完整 Android 自动化仅由已验证的 `config/android-candidate-request.yaml` 或默认分支注册后的 `workflow_dispatch(candidate=true)` 触发。
 - Continuity Gate 每次提交都必须执行 Commit/Session/Checkpoint/CR/Scope/Trailer 和严格 Doctor；只有连续性核心策略、脚本、Hook、运行时/传输描述或连续性工作流变化时，才运行临时 Git 仓库的完整交接、恢复、关闭和篡改生命周期演练。不得用跳过核心门禁换取速度。
@@ -55,7 +55,7 @@
 - 每项开发先运行 `python scripts/hhy_workflow.py plan --intent <意图>`，以 `config/development-workflow.yaml` 自动选择 `SIMPLE`、`STANDARD`、`CROSS_LAYER`、`TEST_APK` 或 `RELEASE_CLOSE`。
 - 单模块、低风险、小范围Bug默认走 `SIMPLE`，只运行受影响模块回归；不得无理由运行全量集成、拆分多个CR、重建APK或执行版本关闭，禁止“用大炮打蚊子”。
 - 数据库、冻结契约、安全、资金、生产基础设施、APK身份和版本关闭必须自动升级；升级输出必须列出具体触发路径，不得只用“为了保险”解释。
-- `TEST_APK` 与 `RELEASE_CLOSE` 是不同状态。测试包通过固定环境质量、正式 API、稳定签名、身份和 SHA 门禁后即可交付并继续下一版本，但不得冒充自动候选、正式验收或生产关闭；R14 起机器完成还必须复用同一冻结 Commit 的版本专属 GitHub 真实交互候选 PASS，不得重复已经绑定同一源码 Commit 且 PASS 的重型门禁。
+- `TEST_APK` 与 `RELEASE_CLOSE` 是不同状态。测试包通过固定环境质量、正式 API、稳定签名、身份和 SHA 门禁后即可先行交付，但不得冒充自动候选、正式验收、生产关闭或下一版本准入；R14 起机器完成及下一版本领取还必须复用同一冻结 Commit 的版本专属 GitHub 真实交互候选 PASS，并完成全部 Task 与 machine completion，不得重复已经绑定同一源码 Commit 且 PASS 的重型门禁。
 - 统一流程和例外规则以 `docs/09-development/统一开发与交付效率规范.md` 为事实源，聊天中的临时做法不得覆盖。
 
 ## 3. 变更控制
@@ -83,7 +83,7 @@
 
 测试 APK 必须使用跨版本稳定的测试签名 SecretRef 和单调递增的 `versionCode`；仓库副本、桌面副本、服务器文件和公网下载必须四方 SHA-256 一致。机器交付通过与项目所有者真机验收是两个独立状态，未经项目所有者明确反馈不得把真机状态写为 PASS。
 
-若当前任务仅等待项目所有者真机验收，不得把它伪标为完成。项目所有者明确要求继续开发时，可将该任务保留为 `BLOCKED`，并仅切换到依赖图中全部声明依赖已经 `DONE` 的独立 Release 首个 `READY` 任务；必须记录原任务、阻断原因和恢复条件，收到真机反馈后仍须恢复其验收与关闭。
+若当前任务仅等待项目所有者真机验收，不得把真机状态伪标为 `PASS`。R13 及以前已形成的异步尾部保留历史兼容；R14 起项目所有者 `PENDING` 不阻断机器闭环后的顺序推进，但不得再把 Task 保留为 `BLOCKED` 后旁路进入独立 Release，也不得跨过编号相邻版本。
 
 ## 5.1 正式商业系统全局硬边界
 
@@ -100,8 +100,9 @@
 - Android 全部既有和后续页面统一使用稳定 Jetpack Navigation Compose 真实返回栈；顶栏、系统键、手势返回必须同源并返回实际来源，底部栏目和页面状态必须保存恢复，禁止 `mutableState`/枚举切页和写死返回首页。
 - Android 图标必须从 `HhyIcons` 引用矢量资源，页面转场必须从 `HhyMotion` 引用冻结 Token；任何文字、汉字、Unicode、Emoji占位图标或页面私有动画数字阻断提交与APK。
 - Android 改动必须通过 `python scripts/check_android_ui_foundation.py`；该门禁同时检查所有已开发页面，不得只检查当前版本新增页。
-- R06 起每个 Android 大版本必须交付 `TEST_APK`：冻结 Commit 在 `obx-test` 固定工具链通过正式 API、编译、单测、Lint、打包后，继续通过稳定测试签名、版本身份、四方 SHA 和桌面说明门禁；项目所有者按自己的时间真机测试，`PENDING` 不得阻断下一版本。GitHub 模拟器不是 `TEST_APK` 或继续开发的前置条件，但 R14 起它是对应大版本机器完成的前置条件。
-- R14 起版本专属交互候选失败时，当前或接续 AI 必须读取 Actions 的逐步交互、JUnit、截图和日志证据并记录问题；最小修复后按准确递增轮次重测，同一根因最多三轮且禁止无新证据重跑。失败不阻断固定环境 APK 交付或下一版本独立开发，但该版在 PASS 前不得标记机器完成或冒充候选；真实外部秘密/权限/商业决策才可升级。
+- R06 起每个 Android 大版本必须交付 `TEST_APK`：冻结 Commit 在 `obx-test` 固定工具链通过正式 API、编译、单测、Lint、打包后，继续通过稳定测试签名、版本身份、四方 SHA 和桌面说明门禁；项目所有者按自己的时间真机测试。GitHub 模拟器不是 `TEST_APK` 先行交付的前置条件，但 R14 起它是对应大版本机器完成和进入下一业务版本的前置条件；`owner_physical_test=PENDING` 仅在机器闭环已经完成时不阻断顺序推进。
+- R14 起版本专属交互候选失败时，当前或接续 AI 必须读取 Actions 的逐步交互、JUnit、截图和日志证据并记录问题；最小修复后按准确递增轮次重测，同一根因最多三轮且禁止无新证据重跑。失败不阻断固定环境 APK 先行交付，但该版在 PASS 前不得标记机器完成、不得进入下一业务版本或冒充候选；真实外部秘密/权限/商业决策才可升级。
+- `CURRENT_STATUS.yaml`、`NEXT_TASK.yaml` 或现有 Session 只提供指针，不是版本完成证明。R14 起 `start`、冷/热 `resume`、`close`、`takeover`、`recover` 必须在写状态前由同一脚本交叉核验从 R14 到目标版本的全部 Task、TEST_APK/测试说明/Manifest/Evidence、候选 Release/Commit/PASS 与 machine completion；任何缺失、错配或跳级必须非零退出且零写入。检测到历史错误会话只能走仓库记录的顺序恢复流程退回最近未完成版本。
 - Android 自动化唯一事实源为 `config/android-automation.yaml` 和 `docs/08-testing/Android自动开发测试修复交付体系_V1.0.md`；跨电脑、跨 AI 接手不得绕过或另起一次性流程。
 - 开发分支尚未在 GitHub 默认分支注册候选工作流时，必须通过 `.github/workflows/android-candidate-request.yml` 监听机器可读候选请求，并调用同一 `.github/workflows/android-quality-gate.yml`；禁止人工复制普通 CI 中间 APK 冒充候选，也禁止为了触发候选把未审查变更直接推入默认分支。
 

@@ -174,6 +174,7 @@ def create_session(
     release = next_task.get("release") or status.get("active_release")
     if not release:
         raise ContinuityError("无法确定当前Release")
+    validate_release_machine_chain(root, release)
     if task_id != next_task.get("id"):
         raise ContinuityError(
             f"只能领取 NEXT_TASK.yaml 中的任务：期望 {next_task.get('id')}，收到 {task_id}"
@@ -452,6 +453,8 @@ def command_bootstrap(args: Namespace) -> None:
 def command_start(args: Namespace) -> None:
     actor = get_actor(args)
     with continuity_lock(ROOT):
+        target_release = read_next_task(ROOT).get("release") or read_current_status(ROOT).get("active_release")
+        validate_release_machine_chain(ROOT, target_release)
         initialize_continuity_files(ROOT)
         policy = load_policy(ROOT)
         pointer = load_active_pointer(ROOT)
@@ -598,6 +601,7 @@ def command_takeover(args: Namespace) -> None:
     with continuity_lock(ROOT):
         policy = load_policy(ROOT)
         old = load_session(ROOT, args.session)
+        validate_release_machine_chain(ROOT, old.get("release"))
         if old.get("status") != "HANDED_OFF" and not effective_lease_expired(ROOT, old):
             raise ContinuityError("只有HANDED_OFF或租约已过期的会话可以接管")
         if old.get("handoff_bundle"):
@@ -656,6 +660,7 @@ def command_recover(args: Namespace) -> None:
     with continuity_lock(ROOT):
         policy = load_policy(ROOT)
         old = load_session(ROOT, args.session)
+        validate_release_machine_chain(ROOT, old.get("release"))
         if not effective_lease_expired(ROOT, old):
             raise ContinuityError("会话租约尚未过期，禁止强行恢复")
         terminate_old_session(ROOT, old, "ABANDONED", args.reason)
@@ -749,6 +754,8 @@ def validate_next_task_transition(
             raise ContinuityError("下一任务不能与当前任务相同")
         return next_document
 
+    validate_sequential_release_number(current_release, next_release)
+
     current_path = root / "releases" / current_release / "TASKS.yaml"
     current_plan = yaml.safe_load(current_path.read_text(encoding="utf-8")) or {}
     current_tasks = list(current_plan.get("tasks", []))
@@ -783,7 +790,169 @@ def validate_next_task_transition(
         raise ContinuityError(
             f"下一Release未声明依赖当前Release：{next_release} !<- {current_release}"
         )
+    validate_release_machine_chain(
+        root,
+        next_release,
+        assumed_done={(current_release, current_task)},
+    )
     return next_document
+
+
+def release_number(release: str) -> int | None:
+    match = re.fullmatch(r"R([0-9]{2})", str(release or ""))
+    return int(match.group(1)) if match else None
+
+
+def validate_sequential_release_number(current_release: str, next_release: str) -> None:
+    current = release_number(current_release)
+    target = release_number(next_release)
+    if current is None or target is None or current < 14:
+        return
+    if target != current + 1:
+        raise ContinuityError(
+            f"R14起禁止跨版本跳跃：{current_release}只能进入R{current + 1:02d}，收到{next_release}"
+        )
+
+
+def repository_evidence_file(root: Path, value: Any) -> Path | None:
+    relative = str(value or "").strip().replace("\\", "/")
+    if not relative:
+        return None
+    path = (root / relative).resolve()
+    try:
+        path.relative_to(root.resolve())
+    except ValueError:
+        return None
+    return path if path.is_file() else None
+
+
+def read_json_evidence(root: Path, value: Any) -> dict[str, Any] | None:
+    path = repository_evidence_file(root, value)
+    if path is None:
+        return None
+    try:
+        payload = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return None
+    return payload if isinstance(payload, dict) else None
+
+
+def strict_release_machine_completion_errors(
+    root: Path,
+    release: str,
+    *,
+    assumed_done_tasks: set[str] | None = None,
+) -> list[str]:
+    """Return repository-grounded reasons why an R14+ release cannot hand off.
+
+    Owner physical verification is deliberately not required here.  The machine
+    close must still bind completed tasks, TEST_APK delivery, the interaction
+    candidate and machine-completion evidence to one frozen source commit.
+    """
+    number = release_number(release)
+    if number is None or number < 14:
+        return []
+    assumed = assumed_done_tasks or set()
+    errors: list[str] = []
+
+    tasks_path = root / "releases" / release / "TASKS.yaml"
+    if not tasks_path.is_file():
+        return [f"{release}:TASKS_MISSING"]
+    task_document = yaml.safe_load(tasks_path.read_text(encoding="utf-8")) or {}
+    tasks = list(task_document.get("tasks", []))
+    if not tasks:
+        errors.append(f"{release}:TASKS_EMPTY")
+    for task in tasks:
+        task_id = str(task.get("id") or "")
+        if task.get("status") != "DONE" and task_id not in assumed:
+            errors.append(f"{release}:TASK_NOT_DONE:{task_id or 'UNKNOWN'}")
+
+    manifest_path = root / "releases" / release / "RELEASE_MANIFEST.yaml"
+    if not manifest_path.is_file():
+        errors.append(f"{release}:MANIFEST_MISSING")
+        return errors
+    manifest = yaml.safe_load(manifest_path.read_text(encoding="utf-8")) or {}
+    delivery = manifest.get("android_delivery") if isinstance(manifest.get("android_delivery"), dict) else {}
+    automation = manifest.get("android_automation") if isinstance(manifest.get("android_automation"), dict) else {}
+    completion = manifest.get("machine_completion") if isinstance(manifest.get("machine_completion"), dict) else {}
+
+    commit = str(delivery.get("source_commit") or "").lower()
+    if not re.fullmatch(r"[0-9a-f]{40}", commit):
+        errors.append(f"{release}:DELIVERY_COMMIT_INVALID")
+    if delivery.get("machine_delivery") != "PASS":
+        errors.append(f"{release}:TEST_APK_DELIVERY_NOT_PASS")
+    if repository_evidence_file(root, delivery.get("test_guide")) is None:
+        errors.append(f"{release}:TEST_GUIDE_MISSING")
+    if repository_evidence_file(root, delivery.get("build_evidence")) is None:
+        errors.append(f"{release}:BUILD_EVIDENCE_MISSING")
+    if repository_evidence_file(root, delivery.get("evidence")) is None:
+        errors.append(f"{release}:DELIVERY_EVIDENCE_MISSING")
+    if not release_has_continuable_test_apk(root, release, manifest):
+        errors.append(f"{release}:TEST_APK_IDENTITY_MISMATCH")
+
+    candidate_commit = str(automation.get("commit") or "").lower()
+    if automation.get("status") != "PASS":
+        errors.append(f"{release}:CANDIDATE_NOT_PASS")
+    if automation.get("owner_test_allowed") is not True:
+        errors.append(f"{release}:CANDIDATE_OWNER_TEST_NOT_ALLOWED")
+    if candidate_commit != commit:
+        errors.append(f"{release}:CANDIDATE_COMMIT_MISMATCH")
+    candidate = read_json_evidence(
+        root,
+        automation.get("candidate_report") or automation.get("evidence"),
+    )
+    if candidate is None:
+        errors.append(f"{release}:CANDIDATE_REPORT_MISSING")
+    else:
+        if candidate.get("release") != release:
+            errors.append(f"{release}:CANDIDATE_RELEASE_MISMATCH")
+        if str(candidate.get("commit") or "").lower() != commit:
+            errors.append(f"{release}:CANDIDATE_REPORT_COMMIT_MISMATCH")
+        if candidate.get("status") != "PASS":
+            errors.append(f"{release}:CANDIDATE_REPORT_NOT_PASS")
+        if candidate.get("owner_test_allowed") is not True:
+            errors.append(f"{release}:CANDIDATE_REPORT_OWNER_TEST_NOT_ALLOWED")
+
+    if completion.get("status") != "PASS":
+        errors.append(f"{release}:MACHINE_COMPLETION_NOT_PASS")
+    if completion.get("owner_feedback_mode") != "ASYNC_NON_BLOCKING":
+        errors.append(f"{release}:OWNER_FEEDBACK_MODE_INVALID")
+    if completion.get("next_release_development") != "ALLOWED":
+        errors.append(f"{release}:NEXT_RELEASE_NOT_ALLOWED")
+    if repository_evidence_file(root, completion.get("evidence")) is None:
+        errors.append(f"{release}:MACHINE_COMPLETION_EVIDENCE_MISSING")
+    return errors
+
+
+def validate_release_machine_chain(
+    root: Path,
+    target_release: str,
+    *,
+    assumed_done: set[tuple[str, str]] | None = None,
+) -> None:
+    """Validate every R14+ predecessor before entering or resuming a release."""
+    target = release_number(target_release)
+    if target is None or target <= 14:
+        return
+    assumptions = assumed_done or set()
+    errors: list[str] = []
+    for number in range(14, target):
+        release = f"R{number:02d}"
+        errors.extend(
+            strict_release_machine_completion_errors(
+                root,
+                release,
+                assumed_done_tasks={
+                    task_id
+                    for assumed_release, task_id in assumptions
+                    if assumed_release == release
+                },
+            )
+        )
+    if errors:
+        raise ContinuityError(
+            f"版本连续性门禁失败，禁止进入{target_release}：" + "; ".join(errors)
+        )
 
 
 def release_has_async_owner_gate(root: Path, release: str) -> bool:
@@ -810,14 +979,25 @@ def release_has_async_owner_gate(root: Path, release: str) -> bool:
 def release_has_continuable_test_apk(root: Path, release: str, manifest: dict[str, Any]) -> bool:
     delivery = manifest.get("android_delivery") if isinstance(manifest.get("android_delivery"), dict) else {}
     automation = manifest.get("android_automation") if isinstance(manifest.get("android_automation"), dict) else {}
-    if not all((
-        delivery.get("machine_delivery") == "PASS",
-        delivery.get("owner_physical_test") == "PENDING",
-        delivery.get("next_release_development") == "ALLOWED",
+    legacy_automation = all((
         automation.get("policy_id") == "HHY-ANDROID-AUTOMATION-V1",
         automation.get("mode") == "ON_DEMAND_NON_BLOCKING_SPECIALTY",
         automation.get("owner_physical_test") == "PENDING",
         automation.get("next_release_development") == "ALLOWED",
+    ))
+    strict_automation = all((
+        automation.get("policy_id") == "HHY-ANDROID-AUTOMATION-V1",
+        automation.get("mode") == "MAJOR_RELEASE_MACHINE_CLOSE_REQUIRED",
+        automation.get("status") == "PASS",
+        automation.get("owner_test_allowed") is True,
+        automation.get("owner_physical_test") == "PENDING",
+        automation.get("next_release_development") == "ALLOWED",
+    ))
+    if not all((
+        delivery.get("machine_delivery") == "PASS",
+        delivery.get("owner_physical_test") == "PENDING",
+        delivery.get("next_release_development") == "ALLOWED",
+        legacy_automation or strict_automation,
     )):
         return False
 
@@ -981,6 +1161,12 @@ def validate_independent_release_start(
         raise ContinuityError("外部门禁挂起只能切换到独立Release")
     if not re.fullmatch(r"[A-Z][0-9]{2}", next_release):
         raise ContinuityError(f"非法下一Release：{next_release}")
+    validate_sequential_release_number(current_release, next_release)
+    current_number = release_number(current_release)
+    if current_number is not None and current_number >= 14 and not current_completed:
+        raise ContinuityError(
+            f"R14起候选失败、外部门禁或未完成任务不得旁路进入下一Release：{current_release}"
+        )
 
     current_plan_path = root / "releases" / current_release / "TASKS.yaml"
     current_plan = yaml.safe_load(current_plan_path.read_text(encoding="utf-8")) or {}
@@ -1065,6 +1251,11 @@ def validate_independent_release_start(
         raise ContinuityError(
             "目标Release依赖尚未全部GREEN：" + "; ".join(incomplete_dependencies)
         )
+    validate_release_machine_chain(
+        root,
+        next_release,
+        assumed_done={(current_release, current_task)} if current_completed else set(),
+    )
     return resolve_next_task(root, next_release, next_task)
 
 
@@ -1229,6 +1420,26 @@ def command_close(args: Namespace) -> None:
         if session["actor"]["id"] != actor:
             raise ContinuityError("只有当前Actor可以关闭会话")
         resuming_close = session.get("status") == "CLOSING"
+        preview_closure = session.get("closure", {}) if resuming_close else {}
+        preview_next_release = (
+            str(preview_closure.get("next_release") or session["release"])
+            if resuming_close else args.next_release or session["release"]
+        )
+        if preview_next_release != session["release"]:
+            preview_target_path = ROOT / "releases" / preview_next_release / "TASKS.yaml"
+            if not preview_target_path.is_file():
+                raise ContinuityError(
+                    f"下一Release不存在或缺少TASKS.yaml：{preview_next_release}"
+                )
+        validate_release_machine_chain(
+            ROOT,
+            preview_next_release,
+            assumed_done=(
+                {(session["release"], session["task_id"])}
+                if result == "COMPLETED" and preview_next_release != session["release"]
+                else set()
+            ),
+        )
         ensure_closure_scope(ROOT, session)
         checkpoint = latest_checkpoint(ROOT, session)
         if not checkpoint:
@@ -1581,6 +1792,7 @@ def read_only_no_session_resume_payload(root: Path) -> dict[str, Any]:
     git_state = git_info(root)
     policy = load_policy(root)
     release = status.get("active_release") or next_task.get("release")
+    validate_release_machine_chain(root, release)
     source_manifest = [
         portable_source_record(root, path)
         for path in context_source_paths(root, None, release)
@@ -1610,6 +1822,14 @@ def read_only_no_session_resume_payload(root: Path) -> dict[str, Any]:
 
 
 def command_resume(args: Namespace) -> None:
+    preview_session = current_session(ROOT)
+    preview_release = (
+        preview_session.get("release")
+        if preview_session
+        else read_current_status(ROOT).get("active_release")
+        or read_next_task(ROOT).get("release")
+    )
+    validate_release_machine_chain(ROOT, preview_release)
     initialize_continuity_files(ROOT)
     chain = validate_event_chain(ROOT)
     if not chain["valid"]:
@@ -1629,6 +1849,7 @@ def command_resume(args: Namespace) -> None:
             "repository_mutated": False,
         })
         return
+    validate_release_machine_chain(ROOT, session.get("release"))
     payload = build_context_pack(ROOT, session)
     if session.get("status") == "HANDED_OFF":
         print_yaml({

@@ -52,11 +52,21 @@ class AndroidCiGateTest(unittest.TestCase):
         automated_candidate = policy["delivery"]["automated_candidate"]
         self.assertEqual("MAJOR_RELEASE_MACHINE_CLOSE_REQUIRED", automated_candidate["mode"])
         self.assertFalse(automated_candidate["required_for_test_apk_delivery"])
-        self.assertFalse(automated_candidate["required_for_next_release_development"])
+        self.assertTrue(automated_candidate["required_for_next_release_development"])
         self.assertIn("MACHINE_COMPLETION", automated_candidate["failure_blocks"])
+        self.assertIn("NEXT_RELEASE_DEVELOPMENT", automated_candidate["failure_blocks"])
         self.assertIn("MAJOR_RELEASE_MACHINE_COMPLETION", automated_candidate["trigger_classes"])
         self.assertEqual("PASS", policy["enforcement"]["machine_completion_requires_candidate_status"])
         self.assertEqual("R14", policy["enforcement"]["machine_completion_candidate_effective_from_release"])
+        self.assertEqual(
+            "PASS",
+            policy["enforcement"]["next_release_development_requires_machine_completion_status"],
+        )
+        self.assertEqual(
+            "PASS",
+            policy["enforcement"]["next_release_development_requires_candidate_status"],
+        )
+        self.assertEqual("R14", policy["enforcement"]["sequential_release_gate_effective_from_release"])
         self.assertIn("release_functional_interactions", policy["emulator"]["required_journeys"])
         self.assertIn("release_functional_journey_pass", policy["visual"]["ai_acceptance_required_checks"])
         self.assertEqual("GITHUB_OIDC_ONE_TIME", policy["authentication"]["mode"])

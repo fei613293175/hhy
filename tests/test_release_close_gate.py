@@ -502,6 +502,38 @@ class ReleaseCloseGateTest(unittest.TestCase):
             "evidence": evidence_path,
         }
 
+    def complete_r14_machine_fixture(self, repo: Path) -> tuple[dict, str, dict[str, Path]]:
+        manifest, commit, paths = self.schema_three_guide_fixture(repo)
+        candidate_path = repo / "artifacts/validation/r14-android/candidate-report.json"
+        candidate_path.parent.mkdir(parents=True, exist_ok=True)
+        candidate_path.write_text(json.dumps({
+            "release": "R14",
+            "commit": commit,
+            "status": "PASS",
+            "owner_test_allowed": True,
+            "apk": {"sha256": "c" * 64},
+        }), encoding="utf-8")
+        close_path = repo / "artifacts/reports/R14/TASK-R14-008-machine-close.md"
+        close_path.parent.mkdir(parents=True, exist_ok=True)
+        close_path.write_text("# R14 machine close\n\nPASS\n", encoding="utf-8")
+        manifest["android_automation"] = {
+            "policy_id": "HHY-ANDROID-AUTOMATION-V1",
+            "mode": release_gate.MAJOR_RELEASE_ANDROID_MODE,
+            "status": "PASS",
+            "owner_test_allowed": True,
+            "owner_physical_test": "PENDING",
+            "commit": commit,
+            "candidate_report": candidate_path.relative_to(repo).as_posix(),
+        }
+        manifest["android_test_apk_required"] = True
+        manifest["machine_completion"] = {
+            "status": "PASS",
+            "owner_feedback_mode": "ASYNC_NON_BLOCKING",
+            "next_release_development": "ALLOWED",
+            "evidence": close_path.relative_to(repo).as_posix(),
+        }
+        return manifest, commit, {**paths, "candidate": candidate_path, "close": close_path}
+
     def test_complete_p00_release_passes_close_gate(self) -> None:
         temp, repo, _commit = self.fixture()
         with temp:
@@ -598,6 +630,70 @@ class ReleaseCloseGateTest(unittest.TestCase):
                 "ANDROID_AUTOMATION_NOT_PASS",
                 {code for code, _message in gate.errors},
             )
+
+    def test_r14_machine_close_requires_candidate_and_machine_completion_combination(self) -> None:
+        cases = {
+            "candidate-status": lambda manifest, paths: manifest["android_automation"].update({"status": "FAIL"}),
+            "candidate-release": lambda manifest, paths: paths["candidate"].write_text(json.dumps({
+                "release": "R15",
+                "commit": manifest["android_automation"]["commit"],
+                "status": "PASS",
+                "owner_test_allowed": True,
+                "apk": {"sha256": "c" * 64},
+            }), encoding="utf-8"),
+            "machine-status": lambda manifest, paths: manifest["machine_completion"].update({"status": "FAIL"}),
+            "machine-evidence": lambda manifest, paths: paths["close"].unlink(),
+        }
+        expected = {
+            "candidate-status": "ANDROID_AUTOMATION_NOT_PASS",
+            "candidate-release": "ANDROID_CANDIDATE_REPORT_RELEASE_MISMATCH",
+            "machine-status": "ANDROID_MACHINE_COMPLETION_NOT_PASS",
+            "machine-evidence": "ANDROID_MACHINE_COMPLETION_EVIDENCE_MISSING",
+        }
+        for name, mutate in cases.items():
+            with self.subTest(name=name), tempfile.TemporaryDirectory(prefix="hhy-r14-machine-close-") as temporary:
+                repo = Path(temporary) / "repository"
+                manifest, commit, paths = self.complete_r14_machine_fixture(repo)
+                mutate(manifest, paths)
+                original_root = release_gate.ROOT
+                try:
+                    release_gate.ROOT = repo
+                    gate = release_gate.CloseGate("R14", "machine")
+                    gate.validate_test_apk_delivery(manifest, commit)
+                    gate.validate_android_automation(manifest, commit)
+                finally:
+                    release_gate.ROOT = original_root
+                self.assertIn(expected[name], {code for code, _message in gate.errors})
+
+    def test_r14_machine_close_accepts_full_machine_combination_with_owner_pending(self) -> None:
+        with tempfile.TemporaryDirectory(prefix="hhy-r14-machine-close-pass-") as temporary:
+            repo = Path(temporary) / "repository"
+            manifest, commit, _paths = self.complete_r14_machine_fixture(repo)
+            original_root = release_gate.ROOT
+            try:
+                release_gate.ROOT = repo
+                gate = release_gate.CloseGate("R14", "machine")
+                gate.validate_test_apk_delivery(manifest, commit)
+                gate.validate_android_automation(manifest, commit)
+            finally:
+                release_gate.ROOT = original_root
+            self.assertEqual([], gate.errors)
+
+    def test_test_apk_next_release_field_only_means_owner_feedback_is_async(self) -> None:
+        with tempfile.TemporaryDirectory(prefix="hhy-r14-test-apk-policy-") as temporary:
+            repo = Path(temporary) / "repository"
+            manifest, commit, _paths = self.schema_three_guide_fixture(repo)
+            manifest["android_delivery"]["next_release_development"] = "BLOCKED"
+            original_root = release_gate.ROOT
+            try:
+                release_gate.ROOT = repo
+                gate = release_gate.CloseGate("R14", "machine")
+                gate.validate_test_apk_delivery(manifest, commit)
+            finally:
+                release_gate.ROOT = original_root
+            messages = dict(gate.errors)
+            self.assertIn("TEST_APK_OWNER_PENDING_POLICY_INVALID", messages)
+            self.assertIn("不能单独授权进入下一版本", messages["TEST_APK_OWNER_PENDING_POLICY_INVALID"])
 
     def test_machine_close_rejects_tampered_on_demand_test_apk_evidence(self) -> None:
         cases = [

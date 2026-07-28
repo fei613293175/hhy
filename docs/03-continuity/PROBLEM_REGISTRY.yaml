@@ -2008,4 +2008,20 @@ problems:
   - 不得把截图数量、页面存在或编译成功当作消息功能已验收
   - 不得在各页面重新写顶栏高度、把JSON null转成文本或只用Composable瞬时变量保存跨页面业务状态
   - 不得为了重建CI夹具删除不可变聊天消息、关闭数据库触发器或复用已消费会话
-  - 不得让普通提交和小版本运行模拟器，也不得因候选失败阻断独立合格TEST_APK或下一版本开发
+  - 不得让普通提交和小版本运行模拟器；候选失败不阻断独立合格TEST_APK先行交付，但R14起必须阻断机器完成和下一业务版本领取
+- id: PROB-0141
+  title: R14未闭环且R15无实现证据时状态指针错误进入R16
+  status: SOLVED
+  root_cause: 既有文字一方面要求逐版本核对，另一方面又允许TEST_APK交付或候选失败后继续独立Release；continuity跨Release只验证依赖图，start、resume、takeover和recover又把CURRENT_STATUS、NEXT_TASK或现有Session当作可执行事实，没有交叉验证直接前序版本全部Task、成对APK说明、Manifest/Evidence、候选与机器完成。因此R14仅001至003完成、004至008仍阻塞，R15只有规划文件无任何实现或交付证据时，错误R16指针仍可被领取和持续恢复。
+  resolution: CR-0453与CR-0454分别因遗漏Android事实源和ACTIVE/HANDED_OFF/expired会话旁路被独立拒绝并保留审计历史；CR-0455完整原位修订既有连续性、Android自动化、测试和效率事实源。R14起只允许编号紧邻跨版本，上一版必须全部Task DONE、TEST_APK与测试说明/Manifest/Evidence身份闭环、同Release同Commit交互候选PASS及machine completion PASS；owner真机PENDING仍异步。统一机器门禁覆盖start、cold/active resume、close、takeover、recover，失败非零且零写入；历史错误R16会话只能通过仓库记录的sequence-recovery退回R14，随后R15、R16。
+  regression_checks:
+  - tests/test_continuity_version_sequence.py必须覆盖R14到R16跳级、R15无证据、任务未完、说明缺失、候选Release/Commit错配和失败零写入
+  - start、cold/active resume、close、takeover、recover必须在首次状态写入前调用同一validate_release_machine_chain
+  - close跨版本校验只能把本次COMPLETED的当前最终Task拟DONE，不得先写状态或造成合法最终任务永远无法关闭
+  - config/android-automation.yaml与android_ci_gate.py必须同时声明R14起候选PASS和machine completion PASS是下一版本准入条件，owner PENDING仍不是准入阻断
+  - AGENTS.md与templates/AGENTS.md必须字节一致，所有现有事实源不得再出现R14候选失败不阻断下一版本的旧条款
+  do_not_repeat:
+  - 不得根据CURRENT_STATUS、NEXT_TASK、分支名、现有Session或聊天中已经做到R16判断R15已经完成
+  - 不得用依赖图中的独立Release旁路跳过编号中间版本，也不得把TEST_APK先行交付冒充机器闭环
+  - 不得只修冷启动入口而遗漏ACTIVE resume、HANDED_OFF takeover、过期recover或close原子时序
+  - 不得人工把缺失任务改成DONE来消除门禁；必须完成真实代码、测试、候选和交付证据

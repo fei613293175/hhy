@@ -388,7 +388,31 @@ class CloseGate:
             return
         self.require(report.get("status") == "PASS", "ANDROID_CANDIDATE_REPORT_NOT_PASS", "候选报告不是PASS")
         self.require(report.get("owner_test_allowed") is True, "ANDROID_CANDIDATE_REPORT_OWNER_BLOCKED", "候选报告未允许真机验收")
+        if (number or 0) >= MAJOR_RELEASE_CANDIDATE_EFFECTIVE_RELEASE:
+            self.require(report.get("release") == self.release, "ANDROID_CANDIDATE_REPORT_RELEASE_MISMATCH", "候选报告Release不一致")
         self.require(str(report.get("commit") or "").lower() == candidate_commit, "ANDROID_CANDIDATE_REPORT_COMMIT_MISMATCH", "候选报告Commit不一致")
+        if not self.production and (number or 0) >= MAJOR_RELEASE_CANDIDATE_EFFECTIVE_RELEASE:
+            completion = manifest.get("machine_completion") if isinstance(manifest.get("machine_completion"), dict) else {}
+            self.require(
+                completion.get("status") == "PASS",
+                "ANDROID_MACHINE_COMPLETION_NOT_PASS",
+                "R14起进入下一版本前必须完成当前大版本机器收尾",
+            )
+            self.require(
+                completion.get("owner_feedback_mode") == "ASYNC_NON_BLOCKING",
+                "ANDROID_OWNER_FEEDBACK_MODE_INVALID",
+                "R14起Owner真机反馈必须保持异步非阻塞",
+            )
+            self.require(
+                completion.get("next_release_development") == "ALLOWED",
+                "ANDROID_MACHINE_NEXT_RELEASE_BLOCKED",
+                "R14起机器收尾尚未允许连续进入下一版本",
+            )
+            self.repository_file(
+                completion.get("evidence"),
+                "ANDROID_MACHINE_COMPLETION_EVIDENCE_MISSING",
+                "大版本机器收尾证据",
+            )
         apk_manifest_path = ROOT / "artifacts" / "apk" / self.release / "APK_MANIFEST.yaml"
         if apk_manifest_path.is_file():
             apk_manifest = load_yaml(apk_manifest_path)
@@ -454,7 +478,11 @@ class CloseGate:
         fingerprint = str(apk.get("signing_fingerprint") or "").lower()
 
         self.require(delivery.get("machine_delivery") == "PASS", "TEST_APK_MACHINE_DELIVERY_NOT_PASS", "TEST_APK机器交付不是PASS")
-        self.require(delivery.get("next_release_development") == "ALLOWED", "TEST_APK_NEXT_RELEASE_BLOCKED", "TEST_APK交付未允许继续下一版本")
+        self.require(
+            delivery.get("next_release_development") == "ALLOWED",
+            "TEST_APK_OWNER_PENDING_POLICY_INVALID",
+            "TEST_APK交付未声明Owner真机反馈可异步；该字段不能单独授权进入下一版本",
+        )
         self.require(str(delivery.get("owner_physical_test") or "").upper() in {"PENDING", "PASS"}, "TEST_APK_OWNER_STATE_INVALID", "TEST_APK真机状态必须为PENDING或PASS")
         for field, expected in {
             "apk_file": apk_file,

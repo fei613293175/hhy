@@ -42,7 +42,20 @@ modes:
     quality_profile: MACHINE_CLOSE
     full_integration: verified_by_final_candidate
     release_gate: true
-    rule: R14起最终候选必须在GitHub固定模拟器完成该版本真实点击、输入、长按、返回、重进、业务状态断言、截图和日志审核并PASS；机器收尾只核验同一源码Commit的候选APK、Staging、视觉、文档和无状态交接证据，不重复Java/Android重型门禁；允许项目所有者真机结果异步PENDING，生产验收不在此模式内
+    sequential_release_gate:
+      effective_from_release: R14
+      next_release_increment: 1
+      required:
+      - all_release_tasks_done
+      - paired_test_apk_and_test_guide
+      - manifest_and_evidence_identity
+      - same_release_commit_candidate_pass
+      - machine_completion_pass
+      entrypoints: [start, cold_resume, active_resume, close, takeover, recover]
+      failure_exit_code: non_zero
+      failure_write_policy: ZERO_WRITES
+      owner_physical_test_pending: ASYNC_NON_BLOCKING_AFTER_MACHINE_CLOSE
+    rule: R14起最终候选必须在GitHub固定模拟器完成该版本真实点击、输入、长按、返回、重进、业务状态断言、截图和日志审核并PASS；机器收尾只核验同一源码Commit的候选APK、Staging、视觉、文档和无状态交接证据，不重复Java/Android重型门禁；允许项目所有者真机结果异步PENDING，生产验收不在此模式内；下一业务版本只能在本版全部TASK、成对TEST_APK说明、身份一致证据、候选PASS和machine completion PASS后按编号顺序进入
 
 simple_task:
   max_classified_files: 6
