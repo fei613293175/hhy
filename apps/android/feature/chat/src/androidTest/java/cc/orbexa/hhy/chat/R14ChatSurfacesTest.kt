@@ -83,7 +83,7 @@ class R14ChatSurfacesTest {
             HhyTheme {
                 R14ReportSheet(
                     peer = peer,
-                    reasons = listOf(R14ReportReasonOption("SPAM", "垃圾广告")),
+                    reasons = listOf(R14ReportReasonOption("HARASSMENT", "骚扰")),
                     messages = emptyList(),
                     draft = R14ReportDraft(),
                     versionAvailable = false,
@@ -109,9 +109,9 @@ class R14ChatSurfacesTest {
             HhyTheme {
                 R14ReportSheet(
                     peer = peer,
-                    reasons = listOf(R14ReportReasonOption("SPAM", "垃圾广告")),
+                    reasons = listOf(R14ReportReasonOption("HARASSMENT", "骚扰")),
                     messages = emptyList(),
-                    draft = R14ReportDraft(reasonCode = "SPAM", messageIds = setOf("message_1"), evidence = listOf(evidence)),
+                    draft = R14ReportDraft(reasonCode = "HARASSMENT", messageIds = setOf("message_1"), evidence = listOf(evidence)),
                     versionAvailable = true,
                     submitting = false,
                     failure = null,

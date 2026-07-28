@@ -14699,81 +14699,6 @@ components:
         reasonCode:
           type: string
           maxLength: 2000
-        status:
-          type: string
-          maxLength: 2000
-        decision:
-          type: string
-          maxLength: 2000
-        createdAt:
-          type: string
-          format: date-time
-        version:
-          type: integer
-          format: int64
-      required:
-      - id
-      - status
-      - version
-    AppealResource:
-      type: object
-      additionalProperties: false
-      properties:
-        id:
-          type: string
-          maxLength: 64
-        appellantId:
-          type: string
-          maxLength: 64
-        subjectType:
-          type: string
-          maxLength: 2000
-        subjectId:
-          type: string
-          maxLength: 64
-        reason:
-          type: string
-          maxLength: 2000
-        status:
-          type: string
-          maxLength: 2000
-        decision:
-          type: string
-          maxLength: 2000
-        createdAt:
-          type: string
-          format: date-time
-        version:
-          type: integer
-          format: int64
-      required:
-      - id
-      - status
-      - version
-    ProductResource:
-      type: object
-      additionalProperties: false
-      required:
-      - id
-      - productCode
-      - name
-      - productType
-      - status
-      - skus
-      - version
-      properties:
-        id:
-          type: string
-          maxLength: 64
-        productCode:
-          type: string
-          maxLength: 64
-        name:
-          type: string
-          maxLength: 255
-        productType:
-          type: string
-          maxLength: 64
         description:
           type: string
           maxLength: 2000
@@ -18075,7 +18000,24 @@ components:
       properties:
         reasonCode:
           type: string
-          maxLength: 2000
+          description: 聊天举报原因；enum由x-hhy-options中启用项按order生成
+          enum:
+          - HARASSMENT
+          - DUPLICATE_BULK_MESSAGE
+          - DANGEROUS_LINK
+          x-hhy-options:
+          - code: HARASSMENT
+            label: 骚扰
+            enabled: true
+            order: 10
+          - code: DUPLICATE_BULK_MESSAGE
+            label: 相同文案批量发送
+            enabled: true
+            order: 20
+          - code: DANGEROUS_LINK
+            label: 危险链接
+            enabled: true
+            order: 30
         description:
           type: string
           maxLength: 2000

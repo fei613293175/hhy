@@ -441,7 +441,7 @@ fun R14ChatDetailScreen(
     if (showReportSheet && !showEvidencePicker && peer != null) {
         R14ReportSheet(
             peer = peer,
-            reasons = emptyList(),
+            reasons = R14_CHAT_REPORT_REASONS,
             messages = state.messages,
             draft = reportDraft,
             versionAvailable = conversationVersion?.let { it >= 0 } == true,

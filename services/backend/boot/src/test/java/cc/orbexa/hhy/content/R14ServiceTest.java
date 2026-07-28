@@ -227,15 +227,30 @@ class R14ServiceTest {
         when(shared.activeUser(11)).thenReturn(true);
         when(store.membership(42, 11, true)).thenReturn(Optional.of(new R14Store.MembershipRow(42, 7, 5)));
         when(store.reportEvidenceValid(42, 11, List.of(100L), List.of(88L))).thenReturn(true);
-        when(store.report(11, 7, 42, "SPAM", "骚扰消息", List.of(100L), List.of(88L), NOW)).thenReturn(300L);
+        when(store.report(11, 7, 42, "HARASSMENT", "骚扰消息", List.of(100L), List.of(88L), NOW)).thenReturn(300L);
         arrangeClaim();
 
         var result = service.report(11, "42",
-                new ReportRequest("SPAM", "骚扰消息", List.of("88"), List.of("100"), 5L), KEY);
+                new ReportRequest("HARASSMENT", "骚扰消息", List.of("88"), List.of("100"), 5L), KEY);
 
         assertEquals("PENDING", result.status());
         assertEquals("300", result.resourceId());
         verify(store).outbox(11, "CHAT_REPORT", "chat.report.created.v1", "300", "PENDING", NOW);
+    }
+
+    @Test
+    void reportRejectsUnknownAndCaseChangedReasonsBeforeEvidenceOrPersistence() {
+        when(shared.activeUser(11)).thenReturn(true);
+        when(store.membership(42, 11, true)).thenReturn(Optional.of(new R14Store.MembershipRow(42, 7, 5)));
+
+        for (String reason : List.of("SPAM", "harassment")) {
+            BusinessException error = assertThrows(BusinessException.class, () -> service.report(
+                    11, "42", new ReportRequest(reason, "说明", List.of(), List.of(), 5L), KEY));
+            assertEquals("COMMON-400-VALIDATION", error.code());
+        }
+        verify(store, never()).reportEvidenceValid(anyLong(), anyLong(), anyList(), anyList());
+        verify(store, never()).report(anyLong(), anyLong(), anyLong(), anyString(), anyString(), anyList(), anyList(), any());
+        verify(store, never()).outbox(anyLong(), anyString(), anyString(), anyString(), anyString(), any());
     }
 
     @Test

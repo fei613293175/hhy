@@ -187,6 +187,7 @@ def _check_android_assets(temp_root: Path) -> list[Comparison]:
 def _run_read_only_contract_checks() -> None:
     commands = (
         ("contract registry", [sys.executable, "scripts/generate_contracts.py", "--check"]),
+        ("R14 chat report reasons", [sys.executable, "scripts/generate_chat_report_reason_catalog.py", "--check"]),
         ("runtime assets", [sys.executable, "scripts/sync_runtime_assets.py", "--check"]),
         ("API semantics", [sys.executable, "scripts/check_api_contract.py"]),
     )

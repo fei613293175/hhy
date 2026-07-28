@@ -91,7 +91,7 @@ class R14PostgresStoreTest {
 
             assertTrue(store.reportEvidenceValid(
                     conversation.id(), reader, List.of(message.id()), List.of()));
-            long reportId = store.report(reader, sender, conversation.id(), "SPAM", "骚扰消息",
+            long reportId = store.report(reader, sender, conversation.id(), "HARASSMENT", "骚扰消息",
                     List.of(message.id()), List.of(), now.plusSeconds(3));
             assertEquals("PENDING", jdbc.queryForObject(
                     "SELECT status FROM hhy.chat_reports WHERE id=?", String.class, reportId));

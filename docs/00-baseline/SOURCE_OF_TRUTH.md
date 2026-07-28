@@ -11,6 +11,8 @@
 7. **追踪与计划**：`catalogs/TRACEABILITY_MATRIX.csv`、`frontend_backend_matrix.csv`、`api_ui_ownership.csv`、逐版本 DoR 和 Stories。
 8. **派生文件**：HTML、JSON scaffold、汇总报告和索引，只能由上述事实源生成，不得手工形成第二套规则。
 
+R14聊天举报原因以`contracts/openapi.yaml`中`ChatPostConversationsByIdReportRequest.reasonCode.x-hhy-options`为唯一人工事实源；`enum`、后端允许集和Android展示列表均为确定性派生物。
+
 ## 冲突处理
 
 - 效果图与字段/动作冲突：以页面施工目录为准。

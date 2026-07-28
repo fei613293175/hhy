@@ -2661,43 +2661,18 @@ export interface components {
             version: number;
         };
         ReportResource: {
-            id: string;
+            id?: string;
             reporterId?: string;
             subjectType?: string;
             subjectId?: string;
             reasonCode?: string;
-            status: string;
-            decision?: string;
-            /** Format: date-time */
-            createdAt?: string;
-            /** Format: int64 */
-            version: number;
-        };
-        AppealResource: {
-            id: string;
-            appellantId?: string;
-            subjectType?: string;
-            subjectId?: string;
-            reason?: string;
-            status: string;
-            decision?: string;
-            /** Format: date-time */
-            createdAt?: string;
-            /** Format: int64 */
-            version: number;
-        };
-        ProductResource: {
-            id: string;
-            productCode: string;
-            name: string;
-            productType: string;
             description?: string;
             /** Format: int32 */
             displayOrder?: number;
-            status: string;
-            skus: components["schemas"]["ProductSkuResource"][];
+            status?: string;
+            skus?: components["schemas"]["ProductSkuResource"][];
             /** Format: int64 */
-            version: number;
+            version?: number;
         };
         CmsResource: {
             id?: string;
@@ -4022,7 +3997,11 @@ export interface components {
             xIdempotencyKey: string;
         };
         ChatPostConversationsByIdReportRequest: {
-            reasonCode: string;
+            /**
+             * @description 聊天举报原因；enum由x-hhy-options中启用项按order生成
+             * @enum {string}
+             */
+            reasonCode: "HARASSMENT" | "DUPLICATE_BULK_MESSAGE" | "DANGEROUS_LINK";
             description: string;
             evidenceMediaIds?: string[];
             messageIds?: string[];

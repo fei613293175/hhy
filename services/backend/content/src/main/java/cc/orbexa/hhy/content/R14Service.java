@@ -249,7 +249,10 @@ public class R14Service {
         if (request.expectedVersion() != null && request.expectedVersion() != membership.version()) {
             throw versionConflict();
         }
-        String reason = required(request.reasonCode(), 2000, "举报原因不符合要求");
+        String reason = required(request.reasonCode(), 64, "举报原因不符合要求");
+        if (!R14ChatReportReasonCatalog.isEnabled(reason)) {
+            throw validation("举报原因不符合要求");
+        }
         String description = required(request.description(), 2000, "举报说明不符合要求");
         List<Long> messageIds = ids(request.messageIds(), "举报消息标识无效");
         List<Long> mediaIds = ids(request.evidenceMediaIds(), "举报媒体标识无效");

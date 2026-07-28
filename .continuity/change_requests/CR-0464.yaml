@@ -1,0 +1,73 @@
+protocol_version: '1.0'
+cr_id: CR-0464
+title: 冻结R14聊天举报原因目录并贯通客户端后端校验
+status: IMPLEMENTING
+created_at: '2026-07-28T17:20:48Z'
+updated_at: '2026-07-28T17:34:46Z'
+requester_actor_id: codex-r14-continuation-20260728
+approver_actor_id: codex-r14-report-catalog-review-20260729
+task_id: TASK-R14-004
+session_id: SES-20260728T154000Z-0458A14C
+user_request: 持续完成R14且不得依赖聊天记忆或虚构效果图业务内容
+reason: 正式开发文档已明确骚扰、相同文案批量发送、危险链接三类风险，但PROB-0135尚缺机器可读code、用户文案、启停和排序，导致举报页面不可提交且R14无法机器闭环
+original_rule: SHEET-CHAT-002要求reasonCode来自OpenAPI枚举或配置注册表，但当前OpenAPI仅为maxLength=2000的任意字符串，Android生产路径传入空列表，后端同样接受任意非空字符串
+new_rule: 以contracts/openapi.yaml中ChatPostConversationsByIdReportRequest.reasonCode.x-hhy-options作为唯一人工事实源，冻结HARASSMENT/骚扰/启用/10、DUPLICATE_BULK_MESSAGE/相同文案批量发送/启用/20、DANGEROUS_LINK/危险链接/启用/30；同步器只从enabled=true选项按order确定性生成reasonCode.enum、后端允许集与Android展示列表，禁止人工另改enum、第二套CSV、页面私有硬编码和任意reasonCode
+impact_summary: 解除PROB-0135，使聊天举报页可选择正式原因并提交；后端在持久化前拒绝未知或停用code，OpenAPI、运行时副本、TS类型、注册表SHA、Java/Kotlin生成物和回归保持一致，不新增效果图虚构业务
+impact:
+  files:
+  - docs/00-baseline/SOURCE_OF_TRUTH.md
+  - contracts/openapi.yaml
+  - services/backend/boot/src/main/resources/contracts/openapi.yaml
+  - contracts/contract_status.csv
+  - packages/api-client/src/client.generated.ts
+  - scripts/generate_contracts.py
+  - scripts/generate_chat_report_reason_catalog.py
+  - scripts/check_generated_assets.py
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R14ChatReportReasonCatalog.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R14Service.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R14ServiceTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R14PostgresStoreTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/R14ControllerContractTest.java
+  - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ContractR14ApiTest.kt
+  - apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ChatReportReasons.kt
+  - apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ChatDetailScreen.kt
+  - apps/android/feature/chat/src/androidTest/java/cc/orbexa/hhy/chat/R14ChatSurfacesTest.kt
+  - apps/android/feature/chat/src/test/java/cc/orbexa/hhy/chat/R14ChatReportReasonsTest.kt
+  - tests/test_r14_chat_report_reason_catalog.py
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - releases/R14/STORIES.yaml
+  - releases/R14/RELEASE_MANIFEST.yaml
+  - CHANGELOG.md
+  pages:
+  - SHEET-CHAT-002
+  apis:
+  - POST /api/v1/conversations/{id}/report
+  database: []
+  configuration:
+  - OpenAPI:ChatPostConversationsByIdReportRequest.reasonCode.x-hhy-options
+  ledger: []
+  tests:
+  - python scripts/generate_contracts.py --sync-r14-report-reasons
+  - python scripts/generate_chat_report_reason_catalog.py --check
+  - python -m unittest tests.test_r14_chat_report_reason_catalog
+  - python scripts/check_generated_assets.py
+  - mvn -pl boot -am -Dtest=R14ServiceTest,R14PostgresStoreTest,R14ControllerContractTest test
+  - gradlew :core:network:testDebugUnitTest :feature:chat:testDebugUnitTest :feature:chat:connectedDebugAndroidTest
+  releases:
+  - R14
+  migration_and_compatibility: 既有数据库reason_code保持字符串且无需迁移；此前Android生产页无法提交，故收紧未知code不破坏可用客户端。三项label按主文档6.13原文、顺序按原文列举次序，enabled=true因正式列举且无停用标记；测试夹具SPAM替换为HARASSMENT；未来变更只修改x-hhy-options唯一人工源并重新同步生成enum及两端产物
+user_confirmation: 项目所有者已明确要求基于仓库事实连续完成R14至R32、不要停下等待逐次批准；本CR不新增文档外业务类别
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-28T17:34:20Z'
+  note: 独立复核的两项条件均已满足：x-hhy-options现为唯一人工事实源且enum仅由enabled项生成；ContractR14ApiTest已在影响范围。批准按修订后OpenAPI单源方案实施。
+machine_record: .continuity/change_requests/CR-0464.yaml
+document: docs/03-continuity/change-requests/CR-0464-冻结R14聊天举报原因目录并贯通客户端后端校验.md
+decision_log:
+- at: '2026-07-28T17:34:46Z'
+  actor_id: codex-r14-continuation-20260728
+  status: IMPLEMENTING
+  note: 独立复审完成，开始按OpenAPI单一人工事实源实施R14举报原因目录
+  session_id: SES-20260728T154000Z-0458A14C
+session_ids:
+- SES-20260728T154000Z-0458A14C

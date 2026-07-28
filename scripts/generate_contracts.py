@@ -22,6 +22,7 @@ LEGACY_WEBSOCKET_EVENT_CODES = (
 )
 NEW_WEBSOCKET_EVENT_CODES = ('system.delivery.ack', 'system.resume')
 R16_FREEZE_DATE = '2026-07-28'
+R14_REPORT_REASON_FREEZE_DATE = '2026-07-29'
 
 
 def read_csv(rel: str) -> list[dict[str,str]]:
@@ -1263,6 +1264,107 @@ def synchronize_r16_contract() -> int:
     }, ensure_ascii=False, indent=2))
     return 0
 
+
+def _r14_report_reason_property(options: list[dict]) -> str:
+    enabled = sorted(
+        (item for item in options if item.get('enabled') is True),
+        key=lambda item: item['order'],
+    )
+    lines = [
+        '        reasonCode:',
+        '          type: string',
+        '          description: 聊天举报原因；enum由x-hhy-options中启用项按order生成',
+        '          enum:',
+    ]
+    lines.extend(f"          - {item['code']}" for item in enabled)
+    lines.append('          x-hhy-options:')
+    for item in sorted(options, key=lambda value: value['order']):
+        lines.extend([
+            f"          - code: {item['code']}",
+            f"            label: {item['label']}",
+            f"            enabled: {'true' if item['enabled'] else 'false'}",
+            f"            order: {item['order']}",
+        ])
+    return '\n'.join(lines) + '\n'
+
+
+def _validate_r14_report_reason_options(options: object) -> list[dict]:
+    if not isinstance(options, list) or not options:
+        raise SystemExit('R14 report reason x-hhy-options must be a non-empty list')
+    expected_keys = {'code', 'label', 'enabled', 'order'}
+    codes: set[str] = set()
+    orders: set[int] = set()
+    normalized: list[dict] = []
+    for index, raw in enumerate(options, start=1):
+        if not isinstance(raw, dict) or set(raw) != expected_keys:
+            raise SystemExit(f'R14 report reason option {index} must contain exactly {sorted(expected_keys)}')
+        code = raw['code']
+        label = raw['label']
+        enabled = raw['enabled']
+        order = raw['order']
+        if not isinstance(code, str) or re.fullmatch(r'[A-Z][A-Z0-9_]{1,63}', code) is None:
+            raise SystemExit(f'R14 report reason option {index} has invalid code')
+        if not isinstance(label, str) or not label.strip() or label != label.strip():
+            raise SystemExit(f'R14 report reason option {index} has invalid label')
+        if type(enabled) is not bool:
+            raise SystemExit(f'R14 report reason option {index} has invalid enabled flag')
+        if type(order) is not int or order < 1:
+            raise SystemExit(f'R14 report reason option {index} has invalid order')
+        if code in codes or order in orders:
+            raise SystemExit('R14 report reason codes and orders must be unique')
+        codes.add(code)
+        orders.add(order)
+        normalized.append({'code': code, 'label': label, 'enabled': enabled, 'order': order})
+    if not any(item['enabled'] for item in normalized):
+        raise SystemExit('R14 report reason catalog must contain an enabled option')
+    return normalized
+
+
+def synchronize_r14_report_reasons_contract() -> int:
+    source_path = ROOT / 'contracts/openapi.yaml'
+    runtime_path = ROOT / 'services/backend/boot/src/main/resources/contracts/openapi.yaml'
+    source_text = source_path.read_text(encoding='utf-8')
+    document = yaml.safe_load(source_text)
+    reason = document['components']['schemas']['ChatPostConversationsByIdReportRequest']['properties']['reasonCode']
+    options = _validate_r14_report_reason_options(reason.get('x-hhy-options'))
+    schema_start_match = re.search(
+        r'(?m)^    ChatPostConversationsByIdReportRequest:\n', source_text,
+    )
+    if schema_start_match is None:
+        raise SystemExit('R14 report request schema could not be isolated')
+    schema_end_match = re.search(r'(?m)^    \S', source_text[schema_start_match.end():])
+    schema_end = (
+        schema_start_match.end() + schema_end_match.start()
+        if schema_end_match is not None else len(source_text)
+    )
+    schema_text = source_text[schema_start_match.start():schema_end]
+    pattern = re.compile(r'(?ms)^        reasonCode:\n.*?(?=^        description:\n)')
+    synchronized_schema, count = pattern.subn(
+        _r14_report_reason_property(options), schema_text, count=1,
+    )
+    if count != 1:
+        raise SystemExit('R14 report reason property could not be isolated')
+    synchronized = (
+        source_text[:schema_start_match.start()] + synchronized_schema + source_text[schema_end:]
+    )
+    changed = []
+    if synchronized != source_text:
+        source_path.write_text(synchronized, encoding='utf-8', newline='\n')
+        changed.append('contracts/openapi.yaml')
+    if not runtime_path.is_file() or runtime_path.read_bytes() != source_path.read_bytes():
+        runtime_path.parent.mkdir(parents=True, exist_ok=True)
+        runtime_path.write_bytes(source_path.read_bytes())
+        changed.append('services/backend/boot/src/main/resources/contracts/openapi.yaml')
+    refresh_contract_status(check=False)
+    print(json.dumps({
+        'status': 'PASS',
+        'mode': 'sync-r14-report-reasons',
+        'freeze_date': R14_REPORT_REASON_FREEZE_DATE,
+        'enabled_codes': [item['code'] for item in sorted(options, key=lambda value: value['order']) if item['enabled']],
+        'changed': changed,
+    }, ensure_ascii=False, indent=2))
+    return 0
+
 def update_ui_schema_refs(all_rows):
     mapping={(r['方法'],r['路径']):operation_id(r) for r in all_rows}
     ui=read_csv('catalogs/ui_action_matrix.csv')
@@ -1593,14 +1695,17 @@ def main() -> int:
     parser.add_argument('--check',action='store_true',help='fail when contract registry hashes are stale')
     parser.add_argument('--sync-websocket',action='store_true',help='safely update only WebSocket contract assets and registry rows')
     parser.add_argument('--sync-r16',action='store_true',help='safely update only the frozen R16 product/order schemas and responses')
+    parser.add_argument('--sync-r14-report-reasons',action='store_true',help='safely synchronize the R14 chat report reason enum and runtime contract')
     parser.add_argument('--allow-legacy-full-rebuild',action='store_true',help='explicitly run the legacy catalog rebuild; may replace enriched schemas')
     args=parser.parse_args()
-    if sum(bool(value) for value in (args.check, args.sync_websocket, args.sync_r16, args.allow_legacy_full_rebuild)) > 1:
-        parser.error('--check, --sync-websocket, --sync-r16 and --allow-legacy-full-rebuild are mutually exclusive')
+    if sum(bool(value) for value in (args.check, args.sync_websocket, args.sync_r16, args.sync_r14_report_reasons, args.allow_legacy_full_rebuild)) > 1:
+        parser.error('--check, sync modes and --allow-legacy-full-rebuild are mutually exclusive')
     if args.sync_websocket:
         return synchronize_websocket_contract()
     if args.sync_r16:
         return synchronize_r16_contract()
+    if args.sync_r14_report_reasons:
+        return synchronize_r14_report_reasons_contract()
     if args.allow_legacy_full_rebuild:
         full_rebuild()
         return 0

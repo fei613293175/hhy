@@ -11,7 +11,7 @@ task_id: TASK-R14-004
 story_id: STORY-R14-004
 goal: 恢复并完成R14全部剩余任务、真实交互候选、APK与测试文档，再顺序进入R15
 started_at: '2026-07-28T15:53:44Z'
-updated_at: '2026-07-28T17:14:22Z'
+updated_at: '2026-07-28T17:50:40Z'
 takeover_of: SES-20260728T125934Z-F3DED330
 change_requests:
 - CR-0458
@@ -20,6 +20,7 @@ change_requests:
 - CR-0461
 - CR-0462
 - CR-0463
+- CR-0464
 scope:
   allowed_paths:
   - apps/**
@@ -63,7 +64,30 @@ scope:
   - tests/r08/req-project-001_happy
   - tests/test_r12_candidate.py
   - tests/test_r13_candidate.py
-  source: story+explicit+approved-cr:CR-0460+approved-cr:CR-0461+approved-cr:CR-0462+approved-cr:CR-0463
+  - docs/00-baseline/SOURCE_OF_TRUTH.md
+  - contracts/openapi.yaml
+  - services/backend/boot/src/main/resources/contracts/openapi.yaml
+  - contracts/contract_status.csv
+  - packages/api-client/src/client.generated.ts
+  - scripts/generate_contracts.py
+  - scripts/generate_chat_report_reason_catalog.py
+  - scripts/check_generated_assets.py
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R14ChatReportReasonCatalog.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R14Service.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R14ServiceTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R14PostgresStoreTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/R14ControllerContractTest.java
+  - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ContractR14ApiTest.kt
+  - apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ChatReportReasons.kt
+  - apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ChatDetailScreen.kt
+  - apps/android/feature/chat/src/androidTest/java/cc/orbexa/hhy/chat/R14ChatSurfacesTest.kt
+  - apps/android/feature/chat/src/test/java/cc/orbexa/hhy/chat/R14ChatReportReasonsTest.kt
+  - tests/test_r14_chat_report_reason_catalog.py
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - releases/R14/STORIES.yaml
+  - releases/R14/RELEASE_MANIFEST.yaml
+  - CHANGELOG.md
+  source: story+explicit+approved-cr:CR-0460+approved-cr:CR-0461+approved-cr:CR-0462+approved-cr:CR-0463+approved-cr:CR-0464
 git:
   initialized: true
   branch: task/TASK-R03-001
@@ -73,22 +97,22 @@ git:
   initial_worktree_state: DIRTY_TAKEOVER
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-28T17:14:14Z'
-  expires_at: '2026-07-28T21:14:14Z'
-checkpoint_sequence: 8
-latest_checkpoint: .continuity/checkpoints/SES-20260728T154000Z-0458A14C/0008.yaml
+  renewed_at: '2026-07-28T17:50:29Z'
+  expires_at: '2026-07-28T21:50:29Z'
+checkpoint_sequence: 10
+latest_checkpoint: .continuity/checkpoints/SES-20260728T154000Z-0458A14C/0010.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260728T154000Z-0458A14C.md
-next_step: 继续TASK-R14-004，仅以正式文档冻结聊天举报原因目录并完成R14专属真实交互候选，禁止进入R15/R16
+next_step: 提交精确快照并在obx-test运行R14后端与Android模块测试，失败则最小修复，禁止进入R15/R16
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: 5813a648725cd6e03d46f109e81c3e5250762c5fe6a1e4506d32a89401a4b734
-  generated_at: '2026-07-28T17:14:19Z'
+  context_hash: 1d8378dec3886e19b12be997bf26676769556db440ae404c06be52bf1ee2bf7c
+  generated_at: '2026-07-28T17:50:35Z'
 handoff_bundle: null
 closure: null
 parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 当前为单一连续性收口与R14顺序恢复，不拆分事实源
+  reason: CR-0464是同一OpenAPI事实源与两端生成物的原子实现，拆分会造成中间合同漂移
