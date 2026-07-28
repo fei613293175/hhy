@@ -1,5 +1,5 @@
 context_version: '1.0'
-generated_at: '2026-07-28T06:44:14Z'
+generated_at: '2026-07-28T07:27:10Z'
 conversation_dependency: PROHIBITED
 source_of_truth: REPOSITORY_ONLY
 project: hhy-pro-platform
@@ -145,7 +145,7 @@ current_status:
   - TASK-R07-008
   - TASK-R13-008
   next_task: TASK-R14-004
-  updated_at: '2026-07-28T06:44:10Z'
+  updated_at: '2026-07-28T07:27:05Z'
   notes:
   - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
   - 全部REST/WebSocket操作均有页面或系统所有者
@@ -180,15 +180,15 @@ current_status:
     active_session_id: SES-20260727T221444Z-FD353AD3
     actor_id: codex-root-r14-client-20260728
     story_id: STORY-R14-004
-    lease_expires_at: '2026-07-28T10:44:10Z'
-    latest_checkpoint: .continuity/checkpoints/SES-20260727T221444Z-FD353AD3/0025.yaml
-    project_fingerprint: b630fc6580f1085efc917b6c77653d816bde01706badb03e447a864d12ff3b93
+    lease_expires_at: '2026-07-28T11:27:05Z'
+    latest_checkpoint: .continuity/checkpoints/SES-20260727T221444Z-FD353AD3/0028.yaml
+    project_fingerprint: 06cdfa3fa112fd9cd16c168f1287c459b9933a5b9f424e3498c186ee7392f367
     context_pack:
       yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
       markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
       manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-      context_hash: 5eb37c6133c92c0475c8ae28d7d325822c69598a916fd15be2a67fa7473c65ae
-      generated_at: '2026-07-28T06:40:41Z'
+      context_hash: 8a0e69f9608378d102087f20540da3adb4fa9103d4783c16e2310a5e3ad164e8
+      generated_at: '2026-07-28T07:26:07Z'
     handoff_bundle: null
 next_task:
   id: TASK-R14-004
@@ -241,7 +241,7 @@ active_session:
   story_id: STORY-R14-004
   goal: 逐项审计R14六个交互面、九接口、状态错误恢复、测试和追踪证据，补齐不依赖举报原因目录的客户端与治理缺口；保持PROB-0135开放且不提前关闭TASK
   started_at: '2026-07-27T22:14:44Z'
-  updated_at: '2026-07-28T06:44:10Z'
+  updated_at: '2026-07-28T07:27:05Z'
   takeover_of: null
   change_requests:
   - CR-0422
@@ -256,6 +256,8 @@ active_session:
   - CR-0431
   - CR-0432
   - CR-0433
+  - CR-0434
+  - CR-0435
   scope:
     allowed_paths:
     - apps/**
@@ -360,7 +362,59 @@ active_session:
     - catalogs/data_tables.csv
     - apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14RealtimeRefresh.kt
     - releases/PROGRAM_EXECUTION_PLAN.yaml
-    source: story-switch+explicit+approved-cr:CR-0428+approved-cr:CR-0429+approved-cr:CR-0430+approved-cr:CR-0431+approved-cr:CR-0432+approved-cr:CR-0433
+    - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinder.java
+    - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinderTest.java
+    - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/ObservabilityEndpointsTest.java
+    - infra/staging/r14-smoke/docker-compose.yml
+    - infra/staging/r14-smoke/nginx.conf
+    - infra/staging/r14-smoke/prometheus.yml
+    - infra/staging/r14-smoke/r14-alerts.yml
+    - infra/staging/r14-smoke/alertmanager.yml
+    - scripts/run_r14_staging_acceptance.sh
+    - releases/R14/TASKS.yaml
+    - releases/R14/ACCEPTANCE_MATRIX.csv
+    - artifacts/validation/r14-task006-staging/chat-facts-before.txt
+    - artifacts/validation/r14-task006-staging/chat-facts-after.txt
+    - artifacts/validation/r14-task006-staging/alert-deliveries.jsonl
+    - artifacts/validation/r14-task006-staging/alert-exercise.txt
+    - artifacts/validation/r14-task006-staging/backend-down-firing.json
+    - artifacts/validation/r14-task006-staging/backend-down-resolved.json
+    - artifacts/validation/r14-task006-staging/retry-exhausted-firing.json
+    - artifacts/validation/r14-task006-staging/retry-exhausted-resolved.json
+    - artifacts/validation/r14-task006-staging/gap-users-firing.json
+    - artifacts/validation/r14-task006-staging/gap-users-resolved.json
+    - artifacts/validation/r14-task006-staging/compose-ps.txt
+    - artifacts/validation/r14-task006-staging/database.txt
+    - artifacts/validation/r14-task006-staging/final-metrics.txt
+    - artifacts/validation/r14-task006-staging/http-request-completed.jsonl
+    - artifacts/validation/r14-task006-staging/liveness.json
+    - artifacts/validation/r14-task006-staging/log-redaction.txt
+    - artifacts/validation/r14-task006-staging/machine-summary.txt
+    - artifacts/validation/r14-task006-staging/metadata.txt
+    - artifacts/validation/r14-task006-staging/metrics-summary.txt
+    - artifacts/validation/r14-task006-staging/metrics.txt
+    - artifacts/validation/r14-task006-staging/outbox-test-events.txt
+    - artifacts/validation/r14-task006-staging/prometheus-rules.json
+    - artifacts/validation/r14-task006-staging/prometheus-targets.json
+    - artifacts/validation/r14-task006-staging/public-status.json
+    - artifacts/validation/r14-task006-staging/readiness.json
+    - artifacts/validation/r14-task006-staging/rollback-rehearsal.txt
+    - artifacts/validation/r14-task006-staging/SHA256SUMS
+    - artifacts/validation/r14-task006-staging/source-sha256.txt
+    - artifacts/validation/r14-task006-staging/trace-headers.txt
+    - artifacts/validation/r14-task007-android/apk-badging.txt
+    - artifacts/validation/r14-task007-android/apk-signing.txt
+    - artifacts/validation/r14-task007-android/build-evidence.json
+    - artifacts/validation/r14-task007-android/embedded-api.txt
+    - artifacts/validation/r14-task007-android/embedded-ws.txt
+    - artifacts/validation/r14-task007-android/gradle-build.log
+    - artifacts/validation/r14-task007-android/zipalign.txt
+    - artifacts/validation/r14-apk-delivery/delivery-evidence.json
+    - artifacts/apk/R14/APK_MANIFEST.yaml
+    - artifacts/reports/R14/TASK-R14-006-staging.md
+    - artifacts/reports/R14/TASK-R14-007-android-apk.md
+    - artifacts/reports/R14/R14-version-test-guide.md
+    source: story-switch+explicit+approved-cr:CR-0428+approved-cr:CR-0429+approved-cr:CR-0430+approved-cr:CR-0431+approved-cr:CR-0432+approved-cr:CR-0433+approved-cr:CR-0435
   git:
     initialized: true
     branch: task/TASK-R03-001
@@ -370,24 +424,20 @@ active_session:
     initial_worktree_state: CLEAN
   lease:
     duration_minutes: 240
-    renewed_at: '2026-07-28T06:44:10Z'
-    expires_at: '2026-07-28T10:44:10Z'
-  checkpoint_sequence: 25
-  latest_checkpoint: .continuity/checkpoints/SES-20260727T221444Z-FD353AD3/0025.yaml
+    renewed_at: '2026-07-28T07:27:05Z'
+    expires_at: '2026-07-28T11:27:05Z'
+  checkpoint_sequence: 28
+  latest_checkpoint: .continuity/checkpoints/SES-20260727T221444Z-FD353AD3/0028.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260727T221444Z-FD353AD3.md
-  next_step: 提交治理绑定记录并推送两个R14实时链路提交，然后继续TASK-R14-004剩余验收。
+  next_step: 提交并推送R14 Staging实现Commit，在obx-test执行隔离现场验收。
   context_pack: THIS_CONTEXT_PACK
   handoff_bundle: null
   closure: null
   parallel_execution:
-    assessment: DELEGATED
-    delegated_workers: 1
-    workers:
-    - worker_id: r14_android_realtime
-      responsibility: Android OkHttp WebSocket客户端、CHAT权威补洞与模块单测
-      allowed_paths:
-      - apps/android
-    reason: ''
+    assessment: NO_SAFE_PARALLEL
+    delegated_workers: 0
+    workers: []
+    reason: 冻结Commit、服务器镜像构建、数据库现场验收、证据回传和APK构建存在严格顺序依赖。
   story_history:
   - story_id: STORY-R14-001
     completed_at: '2026-07-27T23:25:19Z'
@@ -406,46 +456,72 @@ active_session:
     summary: STORY-R14-003可执行Android范围已实现，举报原因目录由PROB-0135独立阻断；继续同一TASK的客户端契约、测试与交接审计
 latest_checkpoint:
   protocol_version: '1.0'
-  checkpoint_id: CP-SES-20260727T221444Z-FD353AD3-0025
+  checkpoint_id: CP-SES-20260727T221444Z-FD353AD3-0028
   session_id: SES-20260727T221444Z-FD353AD3
   task_id: TASK-R14-004
   story_id: STORY-R14-004
-  sequence: 25
-  created_at: '2026-07-28T06:44:09Z'
-  summary: CR-0430至CR-0433已绑定实现提交7ce3c2169925fef717c051e16e09f556ce619aa6并关闭，R14任务保持ACTIVE。
-  next_step: 提交治理绑定记录并推送两个R14实时链路提交，然后继续TASK-R14-004剩余验收。
+  sequence: 28
+  created_at: '2026-07-28T07:27:05Z'
+  summary: 补齐R14隔离Staging、八项实时观测、versionCode 10223与精确治理作用域的用户可见变更日志。
+  next_step: 提交并推送R14 Staging实现Commit，在obx-test执行隔离现场验收。
   blockers: []
-  decisions:
-  - 关闭的是本批四个CR批准范围，不关闭TASK-R14-004；ws生产激活仍属于候选阶段。
-  note: 邀请码和注册问题继续排除。
+  decisions: []
+  note: ''
   tests:
-  - name: implementation-commit
+  - name: backend-observability
     result: PASS
-    evidence: 7ce3c2169925fef717c051e16e09f556ce619aa6
-    note: 实现提交已通过pre-commit和commit-msg门禁
+    evidence: BusinessGaugeBinderTest 2 tests and ObservabilityEndpointsTest 4 tests
+    note: fixed Java 21 Maven image on obx-test
+  - name: staging-static
+    result: PASS
+    evidence: bash -n and docker compose config
+    note: isolated hhy-r14-staging static validation
+  - name: diff-check
+    result: PASS
+    evidence: git diff --check
+    note: no whitespace errors
   git:
     initialized: true
     branch: task/TASK-R03-001
-    head: 7ce3c2169925fef717c051e16e09f556ce619aa6
+    head: f4b7d4854e10dedd40d4b40cdb2d79e57687e9b7
     upstream: origin/task/TASK-R03-001
-    ahead: 1
+    ahead: 0
     behind: 0
     dirty: true
     status_porcelain:
-    - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
-    - ' M .continuity/EVENT_LOG.jsonl'
-    - ' M .continuity/STATE.yaml'
-    - ' M .continuity/change_requests/CR-0430.yaml'
-    - ' M .continuity/change_requests/CR-0431.yaml'
-    - ' M .continuity/change_requests/CR-0432.yaml'
-    - ' M .continuity/change_requests/CR-0433.yaml'
-    - ' M catalogs/change_request_index.csv'
-    - ' M catalogs/session_index.csv'
-    - ' M docs/03-continuity/change-requests/CR-0430-落地R14-WebSocket后端与Android实时可靠性纵向链路.md'
-    - ' M docs/03-continuity/change-requests/CR-0431-补齐V044新增数据表权威目录范围.md'
-    - ' M docs/03-continuity/change-requests/CR-0432-补齐R14-Android-CHAT权威补洞运行时文件范围.md'
-    - ' M docs/03-continuity/change-requests/CR-0433-同步R14变更后的全版本确定性执行计划.md'
+    - M  .continuity/ACTIVE_SESSION.yaml
+    - M  .continuity/CHANGE_REQUEST_INDEX.yaml
+    - M  .continuity/EVENT_LOG.jsonl
+    - M  .continuity/SESSION_INDEX.yaml
+    - M  .continuity/STATE.yaml
+    - A  .continuity/change_requests/CR-0434.yaml
+    - A  .continuity/change_requests/CR-0435.yaml
+    - A  .continuity/checkpoints/SES-20260727T221444Z-FD353AD3/0026.yaml
+    - A  .continuity/checkpoints/SES-20260727T221444Z-FD353AD3/0027.yaml
+    - M  .continuity/sessions/SES-20260727T221444Z-FD353AD3.yaml
+    - ' M CHANGELOG.md'
+    - M  CURRENT_STATUS.yaml
+    - M  apps/android/app/build.gradle.kts
+    - M  artifacts/context/CURRENT_CONTEXT_PACK.md
+    - M  artifacts/context/CURRENT_CONTEXT_PACK.yaml
+    - M  artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+    - M  catalogs/change_request_index.csv
+    - M  catalogs/session_index.csv
+    - A  docs/03-continuity/change-requests/CR-0434-交付R14可执行Staging候选与稳定签名TEST_APK.md
+    - A  docs/03-continuity/change-requests/CR-0435-修正CR-0434为可执行精确文件作用域.md
+    - M  docs/03-continuity/sessions/2026-07/SES-20260727T221444Z-FD353AD3.md
+    - A  infra/staging/r14-smoke/alertmanager.yml
+    - A  infra/staging/r14-smoke/docker-compose.yml
+    - A  infra/staging/r14-smoke/nginx.conf
+    - A  infra/staging/r14-smoke/prometheus.yml
+    - A  infra/staging/r14-smoke/r14-alerts.yml
+    - A  scripts/run_r14_staging_acceptance.sh
+    - M  services/backend/boot/src/main/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinder.java
+    - M  services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinderTest.java
+    - M  services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/ObservabilityEndpointsTest.java
     recent_commits:
+    - "f4b7d4854e10dedd40d4b40cdb2d79e57687e9b7\t2026-07-28T14:44:32+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(governance): bind\
+      \ realtime implementation"
     - "7ce3c2169925fef717c051e16e09f556ce619aa6\t2026-07-28T14:42:01+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] feat(realtime): implement\
       \ reliable websocket vertical slice"
     - "291dc19ee5e38dc35859c8785bfbb5e20d4f4580\t2026-07-28T12:07:49+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(governance): bind\
@@ -460,10 +536,8 @@ latest_checkpoint:
       \ client gaps"
     - "1c161db823136acf33a9f43c3e2c39f7d7cda6b0\t2026-07-28T10:20:57+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(continuity): audit\
       \ client contracts"
-    - "539464f648973f8c27232b07fc3933aeb44178d5\t2026-07-28T10:18:56+08:00\tHHY Continuity Bootstrap\t[STORY-R14-003] chore(continuity): record\
-      \ safety implementation"
   project_fingerprint:
-    sha256: b630fc6580f1085efc917b6c77653d816bde01706badb03e447a864d12ff3b93
+    sha256: 06cdfa3fa112fd9cd16c168f1287c459b9933a5b9f424e3498c186ee7392f367
     files:
     - CHANGELOG.md
     - PROJECT_BASELINE.json
@@ -525,7 +599,14 @@ latest_checkpoint:
     - docs/03-continuity/change-requests/CR-0431-补齐V044新增数据表权威目录范围.md
     - docs/03-continuity/change-requests/CR-0432-补齐R14-Android-CHAT权威补洞运行时文件范围.md
     - docs/03-continuity/change-requests/CR-0433-同步R14变更后的全版本确定性执行计划.md
+    - docs/03-continuity/change-requests/CR-0434-交付R14可执行Staging候选与稳定签名TEST_APK.md
+    - docs/03-continuity/change-requests/CR-0435-修正CR-0434为可执行精确文件作用域.md
     - infra/nginx/ws.orbexa.cc.conf
+    - infra/staging/r14-smoke/alertmanager.yml
+    - infra/staging/r14-smoke/docker-compose.yml
+    - infra/staging/r14-smoke/nginx.conf
+    - infra/staging/r14-smoke/prometheus.yml
+    - infra/staging/r14-smoke/r14-alerts.yml
     - releases/PROGRAM_EXECUTION_PLAN.yaml
     - releases/R14/RELEASE_MANIFEST.yaml
     - releases/R14/STORIES.yaml
@@ -537,7 +618,9 @@ latest_checkpoint:
     - scripts/generate_contracts.py
     - scripts/run_postgres_migration_smoke.sh
     - scripts/run_r14_database_invariants.sh
+    - scripts/run_r14_staging_acceptance.sh
     - services/backend/boot/pom.xml
+    - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinder.java
     - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/realtime/R14RealtimeDeliveryListener.java
     - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/realtime/R14WebSocketConfiguration.java
     - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/realtime/R14WebSocketHandler.java
@@ -546,6 +629,8 @@ latest_checkpoint:
     - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/security/SecurityConfiguration.java
     - services/backend/boot/src/main/resources/contracts/websocket-events.yaml
     - services/backend/boot/src/main/resources/db/migration/V044__r14_websocket_reliability.sql
+    - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinderTest.java
+    - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/ObservabilityEndpointsTest.java
     - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/realtime/R14RealtimeTransactionBoundaryTest.java
     - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/realtime/R14WebSocketHandlerTest.java
     - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/realtime/R14WebSocketHandshakeInterceptorTest.java
@@ -562,14 +647,14 @@ latest_checkpoint:
     - tests/test_r14_realtime_migration.py
     - tests/test_r14_realtime_proxy.py
     - tests/test_r14_websocket_contract.py
-    file_count: 97
+    file_count: 108
     payload:
       base_commit: 2c39d9cd68f2ad48808c1bb99c467aab689e7adc
       files:
       - path: CHANGELOG.md
         state: FILE
-        size: 199523
-        sha256: eb38daec6c5a7cf8f5117dce63ac8f52dc3cd8a686251b52c7861acb82703c71
+        size: 200539
+        sha256: c0cf5829c5ef97a31bbdcc3533cb0fbadaa5fcb438c89c2dbee606a144a607a2
       - path: PROJECT_BASELINE.json
         state: FILE
         size: 2201
@@ -581,7 +666,7 @@ latest_checkpoint:
       - path: apps/android/app/build.gradle.kts
         state: FILE
         size: 6171
-        sha256: ba98847991cc28f52b53ecaeaa1bdbc35e6468dd57a06ea93d1dc466021d744d
+        sha256: da6126f3e24738c2ffe8f88925ba152b09b3dd4250f24c2975b4cc1970ca5024
       - path: apps/android/app/src/androidTest/java/cc/orbexa/hhy/AuthenticatedNavigationTest.kt
         state: FILE
         size: 5588
@@ -806,10 +891,38 @@ latest_checkpoint:
         state: FILE
         size: 3279
         sha256: 058be4a820a85587ccc9ed9e57c4e702273da9029fd39252bd9c9452dc0c2417
+      - path: docs/03-continuity/change-requests/CR-0434-交付R14可执行Staging候选与稳定签名TEST_APK.md
+        state: FILE
+        size: 6789
+        sha256: 8dfaa80bc2338fe32252b116cc03a1b5dd94b9c154e10905edd6a408097acbc2
+      - path: docs/03-continuity/change-requests/CR-0435-修正CR-0434为可执行精确文件作用域.md
+        state: FILE
+        size: 6011
+        sha256: 3e80650b445e82ad45ebf87ff8a2869dbd6cd69230912acea31569ccf152c5ca
       - path: infra/nginx/ws.orbexa.cc.conf
         state: FILE
         size: 1225
         sha256: ce27e4a2edc647543bb656e387eb02d21d65c9268a11f02e79b159983caa9bda
+      - path: infra/staging/r14-smoke/alertmanager.yml
+        state: FILE
+        size: 277
+        sha256: 3ecaa5186649f1cbea031759aee1bda45ee02825b3856be1820901be75259ff3
+      - path: infra/staging/r14-smoke/docker-compose.yml
+        state: FILE
+        size: 4463
+        sha256: 46da5bbc5329175bc6e2e8a7b225c8f50545e8574d89fe5fc2e0f5f04d0f0b1f
+      - path: infra/staging/r14-smoke/nginx.conf
+        state: FILE
+        size: 952
+        sha256: 8f7af2118aacc5e11a6332e05e52faddee02ecdce63c194cdb2569b2754b5749
+      - path: infra/staging/r14-smoke/prometheus.yml
+        state: FILE
+        size: 401
+        sha256: 2281e2edceb30c3b937279c450d23d8b92922444f62ffac3751cf94e5e695d4c
+      - path: infra/staging/r14-smoke/r14-alerts.yml
+        state: FILE
+        size: 2320
+        sha256: a9e4b6aba70342ec704616c537e649f66a732084f911e9c8d24c3c3cc92c22c6
       - path: releases/PROGRAM_EXECUTION_PLAN.yaml
         state: FILE
         size: 36593
@@ -854,10 +967,18 @@ latest_checkpoint:
         state: FILE
         size: 18844
         sha256: 3b760616a5cc764da422815536b5e18107ef9e0a81b294dc15e76b6074192485
+      - path: scripts/run_r14_staging_acceptance.sh
+        state: FILE
+        size: 18917
+        sha256: c13e1386dc8994a6cefaa7fdc90c6b99c05d000546c49c8d773c5c2679fb06b9
       - path: services/backend/boot/pom.xml
         state: FILE
         size: 3525
         sha256: 606f2f3679a424a15c0a477350b5dcd3a9e8419ab1b48fa41adbdd88e14d048c
+      - path: services/backend/boot/src/main/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinder.java
+        state: FILE
+        size: 36666
+        sha256: 269131ca2771f045ea5a822a5835577bb25ba0ff308d4e8174a3982ff2dedb8c
       - path: services/backend/boot/src/main/java/cc/orbexa/hhy/boot/realtime/R14RealtimeDeliveryListener.java
         state: FILE
         size: 1322
@@ -890,6 +1011,14 @@ latest_checkpoint:
         state: FILE
         size: 5647
         sha256: 5e1fc9dd84c9ef8fb25a1a3f6b4ff463521496869c298f318c0b7bd3183894bd
+      - path: services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinderTest.java
+        state: FILE
+        size: 28632
+        sha256: 50711263f1ad6da5edfc474c3965b7dce1180cb3dcdf7fa03dc83b0759adae25
+      - path: services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/ObservabilityEndpointsTest.java
+        state: FILE
+        size: 16750
+        sha256: 34a0974ee614f8be4d38c4625d10331d0072b01d91fbeb84492615733b35cb0a
       - path: services/backend/boot/src/test/java/cc/orbexa/hhy/boot/realtime/R14RealtimeTransactionBoundaryTest.java
         state: FILE
         size: 2028
@@ -1005,7 +1134,9 @@ latest_checkpoint:
     - scripts/generate_contracts.py
     - scripts/run_postgres_migration_smoke.sh
     - scripts/run_r14_database_invariants.sh
+    - scripts/run_r14_staging_acceptance.sh
     - services/backend/boot/pom.xml
+    - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinder.java
     - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/realtime/R14RealtimeDeliveryListener.java
     - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/realtime/R14WebSocketConfiguration.java
     - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/realtime/R14WebSocketHandler.java
@@ -1014,6 +1145,8 @@ latest_checkpoint:
     - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/security/SecurityConfiguration.java
     - services/backend/boot/src/main/resources/contracts/websocket-events.yaml
     - services/backend/boot/src/main/resources/db/migration/V044__r14_websocket_reliability.sql
+    - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinderTest.java
+    - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/ObservabilityEndpointsTest.java
     - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/realtime/R14RealtimeTransactionBoundaryTest.java
     - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/realtime/R14WebSocketHandlerTest.java
     - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/realtime/R14WebSocketHandshakeInterceptorTest.java
@@ -1093,8 +1226,15 @@ latest_checkpoint:
     - docs/03-continuity/change-requests/CR-0431-补齐V044新增数据表权威目录范围.md
     - docs/03-continuity/change-requests/CR-0432-补齐R14-Android-CHAT权威补洞运行时文件范围.md
     - docs/03-continuity/change-requests/CR-0433-同步R14变更后的全版本确定性执行计划.md
+    - docs/03-continuity/change-requests/CR-0434-交付R14可执行Staging候选与稳定签名TEST_APK.md
+    - docs/03-continuity/change-requests/CR-0435-修正CR-0434为可执行精确文件作用域.md
     infrastructure:
     - infra/nginx/ws.orbexa.cc.conf
+    - infra/staging/r14-smoke/alertmanager.yml
+    - infra/staging/r14-smoke/docker-compose.yml
+    - infra/staging/r14-smoke/nginx.conf
+    - infra/staging/r14-smoke/prometheus.yml
+    - infra/staging/r14-smoke/r14-alerts.yml
     tests:
     - tests/test_continuity_worktree_fingerprint.py
     - tests/test_r14_realtime_migration.py
@@ -1125,6 +1265,8 @@ latest_checkpoint:
   - CR-0431
   - CR-0432
   - CR-0433
+  - CR-0434
+  - CR-0435
   scope:
     allowed_paths:
     - apps/**
@@ -1229,46 +1371,108 @@ latest_checkpoint:
     - catalogs/data_tables.csv
     - apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14RealtimeRefresh.kt
     - releases/PROGRAM_EXECUTION_PLAN.yaml
-    source: story-switch+explicit+approved-cr:CR-0428+approved-cr:CR-0429+approved-cr:CR-0430+approved-cr:CR-0431+approved-cr:CR-0432+approved-cr:CR-0433
+    - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinder.java
+    - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinderTest.java
+    - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/ObservabilityEndpointsTest.java
+    - infra/staging/r14-smoke/docker-compose.yml
+    - infra/staging/r14-smoke/nginx.conf
+    - infra/staging/r14-smoke/prometheus.yml
+    - infra/staging/r14-smoke/r14-alerts.yml
+    - infra/staging/r14-smoke/alertmanager.yml
+    - scripts/run_r14_staging_acceptance.sh
+    - releases/R14/TASKS.yaml
+    - releases/R14/ACCEPTANCE_MATRIX.csv
+    - artifacts/validation/r14-task006-staging/chat-facts-before.txt
+    - artifacts/validation/r14-task006-staging/chat-facts-after.txt
+    - artifacts/validation/r14-task006-staging/alert-deliveries.jsonl
+    - artifacts/validation/r14-task006-staging/alert-exercise.txt
+    - artifacts/validation/r14-task006-staging/backend-down-firing.json
+    - artifacts/validation/r14-task006-staging/backend-down-resolved.json
+    - artifacts/validation/r14-task006-staging/retry-exhausted-firing.json
+    - artifacts/validation/r14-task006-staging/retry-exhausted-resolved.json
+    - artifacts/validation/r14-task006-staging/gap-users-firing.json
+    - artifacts/validation/r14-task006-staging/gap-users-resolved.json
+    - artifacts/validation/r14-task006-staging/compose-ps.txt
+    - artifacts/validation/r14-task006-staging/database.txt
+    - artifacts/validation/r14-task006-staging/final-metrics.txt
+    - artifacts/validation/r14-task006-staging/http-request-completed.jsonl
+    - artifacts/validation/r14-task006-staging/liveness.json
+    - artifacts/validation/r14-task006-staging/log-redaction.txt
+    - artifacts/validation/r14-task006-staging/machine-summary.txt
+    - artifacts/validation/r14-task006-staging/metadata.txt
+    - artifacts/validation/r14-task006-staging/metrics-summary.txt
+    - artifacts/validation/r14-task006-staging/metrics.txt
+    - artifacts/validation/r14-task006-staging/outbox-test-events.txt
+    - artifacts/validation/r14-task006-staging/prometheus-rules.json
+    - artifacts/validation/r14-task006-staging/prometheus-targets.json
+    - artifacts/validation/r14-task006-staging/public-status.json
+    - artifacts/validation/r14-task006-staging/readiness.json
+    - artifacts/validation/r14-task006-staging/rollback-rehearsal.txt
+    - artifacts/validation/r14-task006-staging/SHA256SUMS
+    - artifacts/validation/r14-task006-staging/source-sha256.txt
+    - artifacts/validation/r14-task006-staging/trace-headers.txt
+    - artifacts/validation/r14-task007-android/apk-badging.txt
+    - artifacts/validation/r14-task007-android/apk-signing.txt
+    - artifacts/validation/r14-task007-android/build-evidence.json
+    - artifacts/validation/r14-task007-android/embedded-api.txt
+    - artifacts/validation/r14-task007-android/embedded-ws.txt
+    - artifacts/validation/r14-task007-android/gradle-build.log
+    - artifacts/validation/r14-task007-android/zipalign.txt
+    - artifacts/validation/r14-apk-delivery/delivery-evidence.json
+    - artifacts/apk/R14/APK_MANIFEST.yaml
+    - artifacts/reports/R14/TASK-R14-006-staging.md
+    - artifacts/reports/R14/TASK-R14-007-android-apk.md
+    - artifacts/reports/R14/R14-version-test-guide.md
+    source: story-switch+explicit+approved-cr:CR-0428+approved-cr:CR-0429+approved-cr:CR-0430+approved-cr:CR-0431+approved-cr:CR-0432+approved-cr:CR-0433+approved-cr:CR-0435
   parallel_execution:
-    assessment: DELEGATED
-    delegated_workers: 1
-    workers:
-    - worker_id: r14_android_realtime
-      responsibility: Android OkHttp WebSocket客户端、CHAT权威补洞与模块单测
-      allowed_paths:
-      - apps/android
-    reason: ''
-  event_hash: 26d31d53e79cf04ae6eee02e3010e0754434fd55547d644f2ee301cb50c54ec7
+    assessment: NO_SAFE_PARALLEL
+    delegated_workers: 0
+    workers: []
+    reason: 冻结Commit、服务器镜像构建、数据库现场验收、证据回传和APK构建存在严格顺序依赖。
+  event_hash: 00ab618123519ae527639d1f54a7db07fc65d2be2bf49189f40380cae777f517
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: 7ce3c2169925fef717c051e16e09f556ce619aa6
+  head: f4b7d4854e10dedd40d4b40cdb2d79e57687e9b7
   upstream: origin/task/TASK-R03-001
-  ahead: 1
+  ahead: 0
   behind: 0
   dirty: true
   status_porcelain:
-  - ' M .continuity/ACTIVE_SESSION.yaml'
-  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
-  - ' M .continuity/EVENT_LOG.jsonl'
-  - ' M .continuity/SESSION_INDEX.yaml'
-  - ' M .continuity/STATE.yaml'
-  - ' M .continuity/change_requests/CR-0430.yaml'
-  - ' M .continuity/change_requests/CR-0431.yaml'
-  - ' M .continuity/change_requests/CR-0432.yaml'
-  - ' M .continuity/change_requests/CR-0433.yaml'
-  - ' M .continuity/sessions/SES-20260727T221444Z-FD353AD3.yaml'
-  - ' M CURRENT_STATUS.yaml'
-  - ' M catalogs/change_request_index.csv'
-  - ' M catalogs/session_index.csv'
-  - ' M docs/03-continuity/change-requests/CR-0430-落地R14-WebSocket后端与Android实时可靠性纵向链路.md'
-  - ' M docs/03-continuity/change-requests/CR-0431-补齐V044新增数据表权威目录范围.md'
-  - ' M docs/03-continuity/change-requests/CR-0432-补齐R14-Android-CHAT权威补洞运行时文件范围.md'
-  - ' M docs/03-continuity/change-requests/CR-0433-同步R14变更后的全版本确定性执行计划.md'
-  - ' M docs/03-continuity/sessions/2026-07/SES-20260727T221444Z-FD353AD3.md'
-  - ?? .continuity/checkpoints/SES-20260727T221444Z-FD353AD3/0025.yaml
+  - MM .continuity/ACTIVE_SESSION.yaml
+  - M  .continuity/CHANGE_REQUEST_INDEX.yaml
+  - MM .continuity/EVENT_LOG.jsonl
+  - MM .continuity/SESSION_INDEX.yaml
+  - MM .continuity/STATE.yaml
+  - A  .continuity/change_requests/CR-0434.yaml
+  - A  .continuity/change_requests/CR-0435.yaml
+  - A  .continuity/checkpoints/SES-20260727T221444Z-FD353AD3/0026.yaml
+  - A  .continuity/checkpoints/SES-20260727T221444Z-FD353AD3/0027.yaml
+  - MM .continuity/sessions/SES-20260727T221444Z-FD353AD3.yaml
+  - ' M CHANGELOG.md'
+  - MM CURRENT_STATUS.yaml
+  - M  apps/android/app/build.gradle.kts
+  - M  artifacts/context/CURRENT_CONTEXT_PACK.md
+  - M  artifacts/context/CURRENT_CONTEXT_PACK.yaml
+  - M  artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+  - M  catalogs/change_request_index.csv
+  - MM catalogs/session_index.csv
+  - A  docs/03-continuity/change-requests/CR-0434-交付R14可执行Staging候选与稳定签名TEST_APK.md
+  - A  docs/03-continuity/change-requests/CR-0435-修正CR-0434为可执行精确文件作用域.md
+  - MM docs/03-continuity/sessions/2026-07/SES-20260727T221444Z-FD353AD3.md
+  - A  infra/staging/r14-smoke/alertmanager.yml
+  - A  infra/staging/r14-smoke/docker-compose.yml
+  - A  infra/staging/r14-smoke/nginx.conf
+  - A  infra/staging/r14-smoke/prometheus.yml
+  - A  infra/staging/r14-smoke/r14-alerts.yml
+  - A  scripts/run_r14_staging_acceptance.sh
+  - M  services/backend/boot/src/main/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinder.java
+  - M  services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinderTest.java
+  - M  services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/ObservabilityEndpointsTest.java
+  - ?? .continuity/checkpoints/SES-20260727T221444Z-FD353AD3/0028.yaml
   recent_commits:
+  - "f4b7d4854e10dedd40d4b40cdb2d79e57687e9b7\t2026-07-28T14:44:32+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(governance): bind realtime\
+    \ implementation"
   - "7ce3c2169925fef717c051e16e09f556ce619aa6\t2026-07-28T14:42:01+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] feat(realtime): implement\
     \ reliable websocket vertical slice"
   - "291dc19ee5e38dc35859c8785bfbb5e20d4f4580\t2026-07-28T12:07:49+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(governance): bind CR-0429\
@@ -1283,10 +1487,8 @@ git:
     \ client gaps"
   - "1c161db823136acf33a9f43c3e2c39f7d7cda6b0\t2026-07-28T10:20:57+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(continuity): audit client\
     \ contracts"
-  - "539464f648973f8c27232b07fc3933aeb44178d5\t2026-07-28T10:18:56+08:00\tHHY Continuity Bootstrap\t[STORY-R14-003] chore(continuity): record\
-    \ safety implementation"
 project_fingerprint:
-  sha256: b630fc6580f1085efc917b6c77653d816bde01706badb03e447a864d12ff3b93
+  sha256: 06cdfa3fa112fd9cd16c168f1287c459b9933a5b9f424e3498c186ee7392f367
   files:
   - CHANGELOG.md
   - PROJECT_BASELINE.json
@@ -1348,7 +1550,14 @@ project_fingerprint:
   - docs/03-continuity/change-requests/CR-0431-补齐V044新增数据表权威目录范围.md
   - docs/03-continuity/change-requests/CR-0432-补齐R14-Android-CHAT权威补洞运行时文件范围.md
   - docs/03-continuity/change-requests/CR-0433-同步R14变更后的全版本确定性执行计划.md
+  - docs/03-continuity/change-requests/CR-0434-交付R14可执行Staging候选与稳定签名TEST_APK.md
+  - docs/03-continuity/change-requests/CR-0435-修正CR-0434为可执行精确文件作用域.md
   - infra/nginx/ws.orbexa.cc.conf
+  - infra/staging/r14-smoke/alertmanager.yml
+  - infra/staging/r14-smoke/docker-compose.yml
+  - infra/staging/r14-smoke/nginx.conf
+  - infra/staging/r14-smoke/prometheus.yml
+  - infra/staging/r14-smoke/r14-alerts.yml
   - releases/PROGRAM_EXECUTION_PLAN.yaml
   - releases/R14/RELEASE_MANIFEST.yaml
   - releases/R14/STORIES.yaml
@@ -1360,7 +1569,9 @@ project_fingerprint:
   - scripts/generate_contracts.py
   - scripts/run_postgres_migration_smoke.sh
   - scripts/run_r14_database_invariants.sh
+  - scripts/run_r14_staging_acceptance.sh
   - services/backend/boot/pom.xml
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinder.java
   - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/realtime/R14RealtimeDeliveryListener.java
   - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/realtime/R14WebSocketConfiguration.java
   - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/realtime/R14WebSocketHandler.java
@@ -1369,6 +1580,8 @@ project_fingerprint:
   - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/security/SecurityConfiguration.java
   - services/backend/boot/src/main/resources/contracts/websocket-events.yaml
   - services/backend/boot/src/main/resources/db/migration/V044__r14_websocket_reliability.sql
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinderTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/ObservabilityEndpointsTest.java
   - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/realtime/R14RealtimeTransactionBoundaryTest.java
   - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/realtime/R14WebSocketHandlerTest.java
   - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/realtime/R14WebSocketHandshakeInterceptorTest.java
@@ -1385,14 +1598,14 @@ project_fingerprint:
   - tests/test_r14_realtime_migration.py
   - tests/test_r14_realtime_proxy.py
   - tests/test_r14_websocket_contract.py
-  file_count: 97
+  file_count: 108
   payload:
     base_commit: 2c39d9cd68f2ad48808c1bb99c467aab689e7adc
     files:
     - path: CHANGELOG.md
       state: FILE
-      size: 199523
-      sha256: eb38daec6c5a7cf8f5117dce63ac8f52dc3cd8a686251b52c7861acb82703c71
+      size: 200539
+      sha256: c0cf5829c5ef97a31bbdcc3533cb0fbadaa5fcb438c89c2dbee606a144a607a2
     - path: PROJECT_BASELINE.json
       state: FILE
       size: 2201
@@ -1404,7 +1617,7 @@ project_fingerprint:
     - path: apps/android/app/build.gradle.kts
       state: FILE
       size: 6171
-      sha256: ba98847991cc28f52b53ecaeaa1bdbc35e6468dd57a06ea93d1dc466021d744d
+      sha256: da6126f3e24738c2ffe8f88925ba152b09b3dd4250f24c2975b4cc1970ca5024
     - path: apps/android/app/src/androidTest/java/cc/orbexa/hhy/AuthenticatedNavigationTest.kt
       state: FILE
       size: 5588
@@ -1629,10 +1842,38 @@ project_fingerprint:
       state: FILE
       size: 3279
       sha256: 058be4a820a85587ccc9ed9e57c4e702273da9029fd39252bd9c9452dc0c2417
+    - path: docs/03-continuity/change-requests/CR-0434-交付R14可执行Staging候选与稳定签名TEST_APK.md
+      state: FILE
+      size: 6789
+      sha256: 8dfaa80bc2338fe32252b116cc03a1b5dd94b9c154e10905edd6a408097acbc2
+    - path: docs/03-continuity/change-requests/CR-0435-修正CR-0434为可执行精确文件作用域.md
+      state: FILE
+      size: 6011
+      sha256: 3e80650b445e82ad45ebf87ff8a2869dbd6cd69230912acea31569ccf152c5ca
     - path: infra/nginx/ws.orbexa.cc.conf
       state: FILE
       size: 1225
       sha256: ce27e4a2edc647543bb656e387eb02d21d65c9268a11f02e79b159983caa9bda
+    - path: infra/staging/r14-smoke/alertmanager.yml
+      state: FILE
+      size: 277
+      sha256: 3ecaa5186649f1cbea031759aee1bda45ee02825b3856be1820901be75259ff3
+    - path: infra/staging/r14-smoke/docker-compose.yml
+      state: FILE
+      size: 4463
+      sha256: 46da5bbc5329175bc6e2e8a7b225c8f50545e8574d89fe5fc2e0f5f04d0f0b1f
+    - path: infra/staging/r14-smoke/nginx.conf
+      state: FILE
+      size: 952
+      sha256: 8f7af2118aacc5e11a6332e05e52faddee02ecdce63c194cdb2569b2754b5749
+    - path: infra/staging/r14-smoke/prometheus.yml
+      state: FILE
+      size: 401
+      sha256: 2281e2edceb30c3b937279c450d23d8b92922444f62ffac3751cf94e5e695d4c
+    - path: infra/staging/r14-smoke/r14-alerts.yml
+      state: FILE
+      size: 2320
+      sha256: a9e4b6aba70342ec704616c537e649f66a732084f911e9c8d24c3c3cc92c22c6
     - path: releases/PROGRAM_EXECUTION_PLAN.yaml
       state: FILE
       size: 36593
@@ -1677,10 +1918,18 @@ project_fingerprint:
       state: FILE
       size: 18844
       sha256: 3b760616a5cc764da422815536b5e18107ef9e0a81b294dc15e76b6074192485
+    - path: scripts/run_r14_staging_acceptance.sh
+      state: FILE
+      size: 18917
+      sha256: c13e1386dc8994a6cefaa7fdc90c6b99c05d000546c49c8d773c5c2679fb06b9
     - path: services/backend/boot/pom.xml
       state: FILE
       size: 3525
       sha256: 606f2f3679a424a15c0a477350b5dcd3a9e8419ab1b48fa41adbdd88e14d048c
+    - path: services/backend/boot/src/main/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinder.java
+      state: FILE
+      size: 36666
+      sha256: 269131ca2771f045ea5a822a5835577bb25ba0ff308d4e8174a3982ff2dedb8c
     - path: services/backend/boot/src/main/java/cc/orbexa/hhy/boot/realtime/R14RealtimeDeliveryListener.java
       state: FILE
       size: 1322
@@ -1713,6 +1962,14 @@ project_fingerprint:
       state: FILE
       size: 5647
       sha256: 5e1fc9dd84c9ef8fb25a1a3f6b4ff463521496869c298f318c0b7bd3183894bd
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinderTest.java
+      state: FILE
+      size: 28632
+      sha256: 50711263f1ad6da5edfc474c3965b7dce1180cb3dcdf7fa03dc83b0759adae25
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/ObservabilityEndpointsTest.java
+      state: FILE
+      size: 16750
+      sha256: 34a0974ee614f8be4d38c4625d10331d0072b01d91fbeb84492615733b35cb0a
     - path: services/backend/boot/src/test/java/cc/orbexa/hhy/boot/realtime/R14RealtimeTransactionBoundaryTest.java
       state: FILE
       size: 2028
@@ -2699,8 +2956,8 @@ continuity_state:
   last_session_id: SES-20260727T203754Z-DCE3090A
   last_session_result: COMPLETED
   last_closure_checkpoint_id: CP-SES-20260727T203754Z-DCE3090A-0003
-  event_count: 4125
-  event_head_hash: 26d31d53e79cf04ae6eee02e3010e0754434fd55547d644f2ee301cb50c54ec7
+  event_count: 4138
+  event_head_hash: 00ab618123519ae527639d1f54a7db07fc65d2be2bf49189f40380cae777f517
   event_chain_valid: true
 recent_sessions:
 - session_id: SES-20260726T123133Z-63E93B88
@@ -2819,9 +3076,9 @@ recent_sessions:
   started_at: '2026-07-27T22:14:44Z'
   record: .continuity/sessions/SES-20260727T221444Z-FD353AD3.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260727T221444Z-FD353AD3.md
-  updated_at: '2026-07-28T06:44:10Z'
+  updated_at: '2026-07-28T07:27:05Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260727T221444Z-FD353AD3/0025.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260727T221444Z-FD353AD3/0028.yaml
   handoff_bundle: null
 task_claims:
 - claim_id: CLM-1B86680BE956
@@ -15496,6 +15753,170 @@ open_change_requests:
   - SES-20260727T221444Z-FD353AD3
   implementation_commits:
   - 962056a078a763ceb8bf1d59ca579b1fb45b6e72
+- protocol_version: '1.0'
+  cr_id: CR-0434
+  title: 交付R14可执行Staging候选与稳定签名TEST_APK
+  status: IMPLEMENTING
+  created_at: '2026-07-28T06:52:37Z'
+  updated_at: '2026-07-28T06:58:17Z'
+  requester_actor_id: codex-root-r14-client-20260728
+  approver_actor_id: codex-r14-staging-apk-independent-review-20260728
+  task_id: TASK-R14-004
+  session_id: SES-20260727T221444Z-FD353AD3
+  user_request: 持续开发且真机反馈异步，不因外部依赖停止；测试APK放到桌面
+  reason: R14可执行代码和分层门禁已完成，但公网api仍运行R13后端、ws.orbexa.cc无DNS、举报原因目录缺产品权威值。必须继续验证和交付不受影响的REST/数据库/观测与APK，同时明确隔离两项外部门禁，禁止伪报完整R14关闭或WebSocket公网激活。
+  original_rule: R14完成代码后必须在隔离Staging验证数据库、RED、业务指标、告警和回滚，再以obx-test固定工具链、正式API、稳定签名和四方SHA交付TEST_APK；项目所有者真机反馈异步。ws.orbexa.cc与举报原因目录缺失属于真实外部依赖，不得伪造。
+  new_rule: R14可观测性严格冻结八个无高基数标签的只读Gauge：hhy.chat.conversations.count统计全部会话，hhy.chat.messages.5m统计近5分钟消息，hhy.chat.unread.total汇总成员未读，hhy.chat.reports.pending统计PENDING举报，hhy.websocket.deliveries.unacked统计未到期且需ACK未ACK投递，hhy.websocket.deliveries.retry.exhausted统计未到期且delivery_attempts=6的需ACK投递，hhy.websocket.gap.users统计存在正过期水位与非空补洞范围的用户，hhy.r14.outbox.backlog统计chat.message.sent.v1、chat.conversation.read.v1、chat.conversation.hidden.v1、chat.user.blocked.v1、chat.user.unblocked.v1、chat.report.created.v1、chat.r14.stage.alert.v1中PENDING或RETRY_WAIT事件；查询失败只进入既有低基数hhy.business.metric.query.failures计数。告警严格为HhyR14BackendDown(up=0,15s)、HhyR14HighServerErrorRate(5xx比率>2%,1m)、HhyR14HighP95Latency(P95>0.5s,2m)、HhyR14UnackedDeliveryBacklog(unacked>50,1m)、HhyR14RetryExhausted(retry.exhausted>0,15s)、HhyR14GapUsers(gap.users>0,15s)、HhyR14PendingReportBacklog(pending>100,5m)、HhyR14BusinessMetricQueryFailure(R14指标查询失败总和>0,15s)；BackendDown、RetryExhausted、GapUsers必须各取得firing、resolved和alert-sink回执。隔离环境固定Compose
+    project hhy-r14-staging、172.31.240.0/24、Nginx 38114、Prometheus 39618、Alertmanager 39619及该project独占pgdata/mfa-secrets/prometheus-data/alertmanager-data/alert-sink-data卷，禁止复用或修改R13和任何公网容器、网络、端口或卷。回滚基线固定Commit
+    f4b7d4854e10dedd40d4b40cdb2d79e57687e9b7并记录镜像tag与digest；只回切应用镜像，PostgreSQL17卷保持V044，禁止U044和删卷；回切前后conversations、conversation_members、chat_messages、chat_message_attachments、chat_read_receipts、user_blocks、chat_reports、outbox_events、websocket_user_sequences、websocket_deliveries、websocket_gap_watermarks逐表事实摘要必须一致。随后Android
+    versionCode仅从10222递增10223，复用hhy-staging-test-v2、正式API和安全wss://ws.orbexa.cc构建TEST_APK并验证四方SHA；DNS缺失时WebSocket专项保持BLOCKED_EXTERNAL_DNS，只验证退避和REST可用，禁止写公网实时链路PASS。举报目录为空继续禁用提交。本CR不执行任何公网后端、DNS、TLS、Nginx或WebSocket激活，不关闭TASK-R14-004或完整R14。
+  impact_summary: 补齐精确R14可观测性、隔离Staging和测试APK机器交付；复用既有R13验收与稳定签名规则。只读指标不改业务事实，测试APK只递增versionCode；公网和两个外部门禁保持原状。
+  impact:
+    files:
+    - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinder.java
+    - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinderTest.java
+    - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/ObservabilityEndpointsTest.java
+    - infra/staging/r14-smoke/**
+    - scripts/run_r14_staging_acceptance.sh
+    - apps/android/app/build.gradle.kts
+    - releases/R14/RELEASE_MANIFEST.yaml
+    - releases/R14/TASKS.yaml
+    - releases/R14/ACCEPTANCE_MATRIX.csv
+    - artifacts/validation/r14-task006-staging/**
+    - artifacts/validation/r14-task007-android/**
+    - artifacts/validation/r14-apk-delivery/**
+    - artifacts/apk/R14/**
+    - artifacts/reports/R14/TASK-R14-006-staging.md
+    - artifacts/reports/R14/TASK-R14-007-android-apk.md
+    - artifacts/reports/R14/R14-version-test-guide.md
+    - docs/03-continuity/PROBLEM_REGISTRY.yaml
+    - CHANGELOG.md
+    pages: []
+    apis: []
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - BusinessGaugeBinderTest锁定八项指标SQL数值、无高基数标签和查询失败计数；ObservabilityEndpointsTest锁定Prometheus名称
+    - run_r14_staging_acceptance锁定hhy-r14-staging、172.31.240.0/24、38114/39618/39619、V001-V044、RED/TraceId/脱敏、八指标、八告警、三类告警firing/resolved/sink与11表回切摘要
+    - 固定工具链锁定10223、hhy-staging-test-v2、正式API、安全wss、单测、Lint、assemble、apksigner、zipalign、内嵌端点、包名及四方SHA；WebSocket公网状态明确为BLOCKED_EXTERNAL_DNS
+    releases:
+    - R14
+    migration_and_compatibility: 独立Staging新卷运行V001-V044；回滚只在同一V044卷把当前应用镜像回切到f4b7d485基线镜像，禁止U044、删卷或触碰R13/公网资源，11类R14事实摘要前后相等。TEST_APK沿用R13起固定签名并递增versionCode，可覆盖安装R13；ws
+      DNS缺失时指数退避且REST继续可用，举报目录为空继续安全禁用。
+  user_confirmation: 用户已明确要求持续开发、异步真机反馈和桌面交付APK，不因真实外部依赖停止
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-28T06:58:10Z'
+    note: 复审确认八项低基数Gauge、八项告警及三类完整回执、独立Compose资源、f4b7d485基线V044保留式11表回滚、禁止公网变更和TEST_APK外部DNS边界全部冻结；不虚构举报原因、不关闭TASK或R14。
+  machine_record: .continuity/change_requests/CR-0434.yaml
+  document: docs/03-continuity/change-requests/CR-0434-交付R14可执行Staging候选与稳定签名TEST_APK.md
+  decision_log:
+  - at: '2026-07-28T06:58:17Z'
+    actor_id: codex-root-r14-client-20260728
+    status: IMPLEMENTING
+    note: 独立审查通过，开始实现R14八项业务指标、隔离Staging和稳定签名TEST_APK。
+    session_id: SES-20260727T221444Z-FD353AD3
+  session_ids:
+  - SES-20260727T221444Z-FD353AD3
+- protocol_version: '1.0'
+  cr_id: CR-0435
+  title: 修正CR-0434为可执行精确文件作用域
+  status: IMPLEMENTING
+  created_at: '2026-07-28T07:00:26Z'
+  updated_at: '2026-07-28T07:02:02Z'
+  requester_actor_id: codex-root-r14-client-20260728
+  approver_actor_id: codex-r14-scope-expansion-independent-review-20260728
+  task_id: TASK-R14-004
+  session_id: SES-20260727T221444Z-FD353AD3
+  user_request: 持续推进R14隔离Staging和稳定签名TEST_APK，不因治理工具通配符限制停止
+  reason: CR-0434语义已独立批准并进入IMPLEMENTING，但scope-apply-cr拒绝目录通配符，需仅将已批准边界展开为精确文件清单，不改变任何指标、告警、隔离、回滚、APK或外部依赖规则。
+  original_rule: CR-0434已独立批准精确语义，但影响文件中的目录通配符不能被scope-apply-cr消费。
+  new_rule: 不改变CR-0434任何业务语义，仅把其所有实现、隔离Staging证据、Android构建证据和报告路径展开为逐文件精确作用域；禁止借本CR扩大公网、DNS、TLS、R13资源、举报目录或R14关闭边界。
+  impact_summary: 治理工具兼容性修正：用精确文件列表承载CR-0434已批准边界，消除通配符导致的实现停滞。
+  impact:
+    files:
+    - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinder.java
+    - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinderTest.java
+    - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/ObservabilityEndpointsTest.java
+    - infra/staging/r14-smoke/docker-compose.yml
+    - infra/staging/r14-smoke/nginx.conf
+    - infra/staging/r14-smoke/prometheus.yml
+    - infra/staging/r14-smoke/r14-alerts.yml
+    - infra/staging/r14-smoke/alertmanager.yml
+    - scripts/run_r14_staging_acceptance.sh
+    - apps/android/app/build.gradle.kts
+    - releases/R14/RELEASE_MANIFEST.yaml
+    - releases/R14/TASKS.yaml
+    - releases/R14/ACCEPTANCE_MATRIX.csv
+    - artifacts/validation/r14-task006-staging/chat-facts-before.txt
+    - artifacts/validation/r14-task006-staging/chat-facts-after.txt
+    - artifacts/validation/r14-task006-staging/alert-deliveries.jsonl
+    - artifacts/validation/r14-task006-staging/alert-exercise.txt
+    - artifacts/validation/r14-task006-staging/backend-down-firing.json
+    - artifacts/validation/r14-task006-staging/backend-down-resolved.json
+    - artifacts/validation/r14-task006-staging/retry-exhausted-firing.json
+    - artifacts/validation/r14-task006-staging/retry-exhausted-resolved.json
+    - artifacts/validation/r14-task006-staging/gap-users-firing.json
+    - artifacts/validation/r14-task006-staging/gap-users-resolved.json
+    - artifacts/validation/r14-task006-staging/compose-ps.txt
+    - artifacts/validation/r14-task006-staging/database.txt
+    - artifacts/validation/r14-task006-staging/final-metrics.txt
+    - artifacts/validation/r14-task006-staging/http-request-completed.jsonl
+    - artifacts/validation/r14-task006-staging/liveness.json
+    - artifacts/validation/r14-task006-staging/log-redaction.txt
+    - artifacts/validation/r14-task006-staging/machine-summary.txt
+    - artifacts/validation/r14-task006-staging/metadata.txt
+    - artifacts/validation/r14-task006-staging/metrics-summary.txt
+    - artifacts/validation/r14-task006-staging/metrics.txt
+    - artifacts/validation/r14-task006-staging/outbox-test-events.txt
+    - artifacts/validation/r14-task006-staging/prometheus-rules.json
+    - artifacts/validation/r14-task006-staging/prometheus-targets.json
+    - artifacts/validation/r14-task006-staging/public-status.json
+    - artifacts/validation/r14-task006-staging/readiness.json
+    - artifacts/validation/r14-task006-staging/rollback-rehearsal.txt
+    - artifacts/validation/r14-task006-staging/SHA256SUMS
+    - artifacts/validation/r14-task006-staging/source-sha256.txt
+    - artifacts/validation/r14-task006-staging/trace-headers.txt
+    - artifacts/validation/r14-task007-android/apk-badging.txt
+    - artifacts/validation/r14-task007-android/apk-signing.txt
+    - artifacts/validation/r14-task007-android/build-evidence.json
+    - artifacts/validation/r14-task007-android/embedded-api.txt
+    - artifacts/validation/r14-task007-android/embedded-ws.txt
+    - artifacts/validation/r14-task007-android/gradle-build.log
+    - artifacts/validation/r14-task007-android/zipalign.txt
+    - artifacts/validation/r14-apk-delivery/delivery-evidence.json
+    - artifacts/apk/R14/APK_MANIFEST.yaml
+    - artifacts/reports/R14/TASK-R14-006-staging.md
+    - artifacts/reports/R14/TASK-R14-007-android-apk.md
+    - artifacts/reports/R14/R14-version-test-guide.md
+    - docs/03-continuity/PROBLEM_REGISTRY.yaml
+    - CHANGELOG.md
+    pages: []
+    apis: []
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - scope-apply-cr CR-0435必须成功，且精确文件集合不得超出CR-0434已批准语义。
+    releases:
+    - R14
+    migration_and_compatibility: 与CR-0434完全相同；本CR不新增迁移，不改变隔离资源、V044保留式回切、10223稳定签名或两个外部门禁。
+  user_confirmation: 用户已明确要求持续开发、自主执行且不因治理工具限制停止；本CR仅技术性展开已批准范围。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-28T07:01:45Z'
+    note: 独立复审确认CR-0435仅将CR-0434原范围展开为精确文件，未新增API、迁移、公网基础设施、R13资源、举报原因或R14关闭边界，并完整承载原八指标、八告警、隔离回切及TEST_APK证据。
+  machine_record: .continuity/change_requests/CR-0435.yaml
+  document: docs/03-continuity/change-requests/CR-0435-修正CR-0434为可执行精确文件作用域.md
+  decision_log:
+  - at: '2026-07-28T07:02:02Z'
+    actor_id: codex-root-r14-client-20260728
+    status: IMPLEMENTING
+    note: 精确文件作用域已独立审批并成功应用，开始按CR-0434原边界实施。
+    session_id: SES-20260727T221444Z-FD353AD3
+  session_ids:
+  - SES-20260727T221444Z-FD353AD3
 source_manifest:
 - path: AGENTS.md
   sha256: e9f1cf3739a97b47a4de96166ebd17eb2206b7231adb22dbfa23f7687c9809bc
@@ -15504,7 +15925,7 @@ source_manifest:
   sha256: 22de14029ce47beb41ea569e36ce223fbc9d11b86f8676f28d5fbbd83896af5c
   bytes: 4556
 - path: CURRENT_STATUS.yaml
-  sha256: 19cd41fb5f59ee80f9c0d4e65048182c663a34c524ec722c9d362d0cd85e2215
+  sha256: f51eee93a6082dfec7058f952dd103bb17144b2112a5bf2b00dac714df092efe
   bytes: 4672
 - path: NEXT_TASK.yaml
   sha256: bac6995e3e612ed7920cc2ec3b7d4592c3c6641eca0147fa90eddd08eaddb829
@@ -15537,10 +15958,10 @@ source_manifest:
   sha256: 38e04ed812c8df0d353c2b91993d31e53b471e9c457f06b426bd2260c470aa92
   bytes: 13936
 - path: .continuity/EVENT_LOG.jsonl
-  sha256: 61fef53c5016edea2933979843954484eea47910292a38589222f600100eae9a
-  bytes: 2344229
+  sha256: 89330a345e73c9ad724b7884b09630c00b5b3f4616f741fa047d2346247e8b98
+  bytes: 2358410
 - path: .continuity/SESSION_INDEX.yaml
-  sha256: 52243c4a1d6aa72b1bf7e668f4d7937c2f0797b91adbc299368c9260e44a92e9
+  sha256: 173a54ea347bbfffaf1dca4943e595423edecdb64d722855b69e08bc009d0e37
   bytes: 61640
 - path: .continuity/TASK_CLAIMS.yaml
   sha256: e116643519fd9085ad3807c53d5a2d93e1494dd7f060cc6476a10ff3ee9c0a62
@@ -15549,10 +15970,10 @@ source_manifest:
   sha256: 29bc240c8b0452ec63c5d64f31fa5d2a7e5d804b95c92b238be5a8769734a138
   bytes: 35077
 - path: .continuity/CHANGE_REQUEST_INDEX.yaml
-  sha256: ba0c0486ffef4f908f169cd70affe3cfb9f4e69b4acb7d321d27db007badc8b6
-  bytes: 1562026
+  sha256: 93952a0efcd33e1ba12b5ddd5058df962c1f4bdab4c6e517426b2ee3756ac966
+  bytes: 1574896
 - path: .continuity/ACTIVE_SESSION.yaml
-  sha256: 648b3390d8dbdd5a112c0920fe994d6682485920ac7ace5317cc57297b34290f
+  sha256: 6061c9d5a40384535b475bd7d6e1c5906709c50019b454646a90cbbdb3172828
   bytes: 545
 - path: docs/00-baseline/正式商业系统全局硬性开发边界.md
   sha256: d8a77eddf520659b1d6b57e16ecc0739fa93dbd39cf9903dbaf798fc631ae6fe
@@ -15585,11 +16006,11 @@ source_manifest:
   sha256: cd1f0c96ffd7562acb214edba80a2bbb12b79f06c19032d1b133936ff6abd74f
   bytes: 2539
 - path: docs/03-continuity/sessions/2026-07/SES-20260727T221444Z-FD353AD3.md
-  sha256: ebcc5b5faef4547510f80e3f43f0686b17bd6ce36600e55ab63aed245a65bab3
-  bytes: 111533
-- path: .continuity/checkpoints/SES-20260727T221444Z-FD353AD3/0025.yaml
-  sha256: c729a1d116c2bfc6ce9d2ab9a2340b991e488d676313022ad4b3200ab0be13c7
-  bytes: 45571
+  sha256: 8d2e984483f9f9375dff2644e07131198dc9f305a745c46438a9368cb732951d
+  bytes: 137565
+- path: .continuity/checkpoints/SES-20260727T221444Z-FD353AD3/0028.yaml
+  sha256: a6c73f40556b8316a442a41ebc942df2b9937e27f3844730311367639eecabdf
+  bytes: 53368
 - path: docs/03-continuity/change-requests/CR-0422-实现R14-Android私聊详情与真实会话导航.md
   sha256: 426588ba45f18916890ade8c428e1b1c0d168eae8af4fec7eb9957eb5f792617
   bytes: 7160
@@ -15626,6 +16047,12 @@ source_manifest:
 - path: docs/03-continuity/change-requests/CR-0433-同步R14变更后的全版本确定性执行计划.md
   sha256: 058be4a820a85587ccc9ed9e57c4e702273da9029fd39252bd9c9452dc0c2417
   bytes: 3279
+- path: docs/03-continuity/change-requests/CR-0434-交付R14可执行Staging候选与稳定签名TEST_APK.md
+  sha256: 8dfaa80bc2338fe32252b116cc03a1b5dd94b9c154e10905edd6a408097acbc2
+  bytes: 6789
+- path: docs/03-continuity/change-requests/CR-0435-修正CR-0434为可执行精确文件作用域.md
+  sha256: 3e80650b445e82ad45ebf87ff8a2869dbd6cd69230912acea31569ccf152c5ca
+  bytes: 6011
 rule_readiness:
   status: PASS
   evidence: HASHED_CONTEXT_MANIFEST
@@ -15661,4 +16088,4 @@ hard_rules:
 - 除非项目所有者明确报告未连接，默认Codex已连接obx-test且既有项目环境可用；预检失败必须阻断并报告
 - 禁止以无服务器状态继续开发或重建本地Android SDK，必须复用登记的远端镜像和Gradle缓存
 - Git remote/upstream仅按tracked transport descriptor受控恢复；推送前必须预检且禁止force push
-context_hash: 839b85e0dd2d3596cc7d4cbb400eb91df6b2191f9767ce1d39ffd857216cf041
+context_hash: 900b195bf1288e62ca06a11730b80220f842690b2af717734893f62acfec5c51

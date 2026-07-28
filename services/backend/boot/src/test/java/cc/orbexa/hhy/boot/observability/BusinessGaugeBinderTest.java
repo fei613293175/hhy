@@ -45,6 +45,12 @@ class BusinessGaugeBinderTest {
         jdbc.execute("CREATE TABLE hhy.search_histories (id bigint PRIMARY KEY, user_id bigint NOT NULL, keyword varchar(255), created_at timestamp with time zone NOT NULL)");
         jdbc.execute("CREATE TABLE hhy.hot_search_terms (id bigint PRIMARY KEY, keyword varchar(255) NOT NULL, enabled boolean NOT NULL, starts_at timestamp with time zone, ends_at timestamp with time zone)");
         jdbc.execute("CREATE TABLE hhy.content_contact_access_logs (id bigint PRIMARY KEY, user_id bigint NOT NULL, content_id bigint, channel varchar(64), action varchar(255), created_at timestamp with time zone NOT NULL)");
+        jdbc.execute("CREATE TABLE hhy.conversations (id bigint PRIMARY KEY)");
+        jdbc.execute("CREATE TABLE hhy.conversation_members (id bigint PRIMARY KEY, unread_count integer)");
+        jdbc.execute("CREATE TABLE hhy.chat_messages (id bigint PRIMARY KEY, created_at timestamp with time zone NOT NULL)");
+        jdbc.execute("CREATE TABLE hhy.chat_reports (id bigint PRIMARY KEY, status varchar(64) NOT NULL)");
+        jdbc.execute("CREATE TABLE hhy.websocket_deliveries (id bigint PRIMARY KEY, ack_required boolean NOT NULL, acked_at timestamp with time zone, delivery_attempts smallint NOT NULL, expires_at timestamp with time zone NOT NULL)");
+        jdbc.execute("CREATE TABLE hhy.websocket_gap_watermarks (user_id bigint PRIMARY KEY, expired_through_sequence bigint NOT NULL, affected_scopes varchar(32) ARRAY NOT NULL)");
 
         jdbc.update("INSERT INTO hhy.outbox_events(id, aggregate_type, event_type, status) VALUES "
                 + "(1, 'CONTENT', 'content.project.created.v1', 'PENDING'), "
@@ -64,7 +70,14 @@ class BusinessGaugeBinderTest {
                 + "(17, 'R13_ACTIVITY', 'content.unfavorited.v1', 'RETRY_WAIT'), "
                 + "(19, 'R13_ACTIVITY', 'content.contact.accessed.v1', 'RETRY_WAIT'), "
                 + "(20, 'R13_ACTIVITY', 'content.invalid-feedback.created.v1', 'PENDING'), "
-                + "(21, 'R13_ACTIVITY', 'content.r13.stage.alert.v1', 'PENDING')");
+                + "(21, 'R13_ACTIVITY', 'content.r13.stage.alert.v1', 'PENDING'), "
+                + "(22, 'CHAT', 'chat.message.sent.v1', 'PENDING'), "
+                + "(23, 'CHAT', 'chat.conversation.read.v1', 'RETRY_WAIT'), "
+                + "(24, 'CHAT', 'chat.conversation.hidden.v1', 'PENDING'), "
+                + "(25, 'CHAT', 'chat.user.blocked.v1', 'PENDING'), "
+                + "(26, 'CHAT', 'chat.user.unblocked.v1', 'PUBLISHED'), "
+                + "(27, 'CHAT', 'chat.report.created.v1', 'PENDING'), "
+                + "(28, 'CHAT', 'chat.r14.stage.alert.v1', 'RETRY_WAIT')");
         jdbc.update("INSERT INTO hhy.ledger_accounts(id, currency) VALUES (10, 'CNY'), (11, 'CNY')");
         jdbc.update("INSERT INTO hhy.accounting_transactions(id, status) VALUES (20, 'POSTED'), (21, 'POSTED')");
         jdbc.update("INSERT INTO hhy.accounting_entries(id, transaction_id, account_id, amount_cent, currency, direction) VALUES "
@@ -179,11 +192,24 @@ class BusinessGaugeBinderTest {
                 + "(274, 230, 223, 'WECHAT', 'COPY', CURRENT_TIMESTAMP), "
                 + "(275, 230, 223, 'WECHAT', 'REPLAY', CURRENT_TIMESTAMP), "
                 + "(276, 230, 223, 'WECHAT', 'REJECTED_LIMIT', CURRENT_TIMESTAMP)");
+        jdbc.update("INSERT INTO hhy.conversations(id) VALUES (300), (301)");
+        jdbc.update("INSERT INTO hhy.conversation_members(id, unread_count) VALUES (310, 3), (311, 2), (312, NULL)");
+        jdbc.update("INSERT INTO hhy.chat_messages(id, created_at) VALUES "
+                + "(320, CURRENT_TIMESTAMP), (321, CURRENT_TIMESTAMP - INTERVAL '10' MINUTE)");
+        jdbc.update("INSERT INTO hhy.chat_reports(id, status) VALUES (330, 'PENDING'), (331, 'RESOLVED')");
+        jdbc.update("INSERT INTO hhy.websocket_deliveries(id, ack_required, acked_at, delivery_attempts, expires_at) VALUES "
+                + "(340, TRUE, NULL, 2, CURRENT_TIMESTAMP + INTERVAL '1' HOUR), "
+                + "(341, TRUE, NULL, 6, CURRENT_TIMESTAMP + INTERVAL '1' HOUR), "
+                + "(342, TRUE, CURRENT_TIMESTAMP, 1, CURRENT_TIMESTAMP + INTERVAL '1' HOUR), "
+                + "(343, TRUE, NULL, 6, CURRENT_TIMESTAMP - INTERVAL '1' HOUR), "
+                + "(344, FALSE, NULL, 0, CURRENT_TIMESTAMP + INTERVAL '1' HOUR)");
+        jdbc.update("INSERT INTO hhy.websocket_gap_watermarks(user_id, expired_through_sequence, affected_scopes) VALUES "
+                + "(350, 8, ARRAY['CHAT']), (351, 0, ARRAY['CHAT']), (352, 9, ARRAY[])");
 
         SimpleMeterRegistry registry = new SimpleMeterRegistry();
         new BusinessGaugeBinder(jdbc).bindTo(registry);
 
-        assertThat(registry.get("hhy.outbox.backlog").gauge().value()).isEqualTo(14.0);
+        assertThat(registry.get("hhy.outbox.backlog").gauge().value()).isEqualTo(20.0);
         assertThat(registry.get("hhy.outbox.dead.letter").gauge().value()).isEqualTo(1.0);
         assertThat(registry.get("hhy.ledger.unbalanced.transactions").gauge().value()).isEqualTo(1.0);
         assertThat(registry.get("hhy.reconciliation.open.differences").gauge().value()).isEqualTo(1.0);
@@ -258,6 +284,14 @@ class BusinessGaugeBinderTest {
         assertThat(registry.get("hhy.activity.contact.rejections.5m").gauge().value()).isEqualTo(4.0);
         assertThat(registry.get("hhy.activity.invalid.feedback.pending").gauge().value()).isEqualTo(2.0);
         assertThat(registry.get("hhy.r13.outbox.backlog").gauge().value()).isEqualTo(5.0);
+        assertThat(registry.get("hhy.chat.conversations.count").gauge().value()).isEqualTo(2.0);
+        assertThat(registry.get("hhy.chat.messages.5m").gauge().value()).isEqualTo(1.0);
+        assertThat(registry.get("hhy.chat.unread.total").gauge().value()).isEqualTo(5.0);
+        assertThat(registry.get("hhy.chat.reports.pending").gauge().value()).isEqualTo(1.0);
+        assertThat(registry.get("hhy.websocket.deliveries.unacked").gauge().value()).isEqualTo(2.0);
+        assertThat(registry.get("hhy.websocket.deliveries.retry.exhausted").gauge().value()).isEqualTo(1.0);
+        assertThat(registry.get("hhy.websocket.gap.users").gauge().value()).isEqualTo(1.0);
+        assertThat(registry.get("hhy.r14.outbox.backlog").gauge().value()).isEqualTo(6.0);
         assertThat(registry.get("hhy.business.metric.query.failures")
                 .tag("metric", "hhy.admin.active.sessions").counter().count()).isZero();
     }

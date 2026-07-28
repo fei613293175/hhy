@@ -11,7 +11,7 @@ task_id: TASK-R14-004
 story_id: STORY-R14-004
 goal: 逐项审计R14六个交互面、九接口、状态错误恢复、测试和追踪证据，补齐不依赖举报原因目录的客户端与治理缺口；保持PROB-0135开放且不提前关闭TASK
 started_at: '2026-07-27T22:14:44Z'
-updated_at: '2026-07-28T06:44:17Z'
+updated_at: '2026-07-28T07:27:15Z'
 takeover_of: null
 change_requests:
 - CR-0422
@@ -26,6 +26,8 @@ change_requests:
 - CR-0431
 - CR-0432
 - CR-0433
+- CR-0434
+- CR-0435
 scope:
   allowed_paths:
   - apps/**
@@ -130,7 +132,59 @@ scope:
   - catalogs/data_tables.csv
   - apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14RealtimeRefresh.kt
   - releases/PROGRAM_EXECUTION_PLAN.yaml
-  source: story-switch+explicit+approved-cr:CR-0428+approved-cr:CR-0429+approved-cr:CR-0430+approved-cr:CR-0431+approved-cr:CR-0432+approved-cr:CR-0433
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinder.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinderTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/ObservabilityEndpointsTest.java
+  - infra/staging/r14-smoke/docker-compose.yml
+  - infra/staging/r14-smoke/nginx.conf
+  - infra/staging/r14-smoke/prometheus.yml
+  - infra/staging/r14-smoke/r14-alerts.yml
+  - infra/staging/r14-smoke/alertmanager.yml
+  - scripts/run_r14_staging_acceptance.sh
+  - releases/R14/TASKS.yaml
+  - releases/R14/ACCEPTANCE_MATRIX.csv
+  - artifacts/validation/r14-task006-staging/chat-facts-before.txt
+  - artifacts/validation/r14-task006-staging/chat-facts-after.txt
+  - artifacts/validation/r14-task006-staging/alert-deliveries.jsonl
+  - artifacts/validation/r14-task006-staging/alert-exercise.txt
+  - artifacts/validation/r14-task006-staging/backend-down-firing.json
+  - artifacts/validation/r14-task006-staging/backend-down-resolved.json
+  - artifacts/validation/r14-task006-staging/retry-exhausted-firing.json
+  - artifacts/validation/r14-task006-staging/retry-exhausted-resolved.json
+  - artifacts/validation/r14-task006-staging/gap-users-firing.json
+  - artifacts/validation/r14-task006-staging/gap-users-resolved.json
+  - artifacts/validation/r14-task006-staging/compose-ps.txt
+  - artifacts/validation/r14-task006-staging/database.txt
+  - artifacts/validation/r14-task006-staging/final-metrics.txt
+  - artifacts/validation/r14-task006-staging/http-request-completed.jsonl
+  - artifacts/validation/r14-task006-staging/liveness.json
+  - artifacts/validation/r14-task006-staging/log-redaction.txt
+  - artifacts/validation/r14-task006-staging/machine-summary.txt
+  - artifacts/validation/r14-task006-staging/metadata.txt
+  - artifacts/validation/r14-task006-staging/metrics-summary.txt
+  - artifacts/validation/r14-task006-staging/metrics.txt
+  - artifacts/validation/r14-task006-staging/outbox-test-events.txt
+  - artifacts/validation/r14-task006-staging/prometheus-rules.json
+  - artifacts/validation/r14-task006-staging/prometheus-targets.json
+  - artifacts/validation/r14-task006-staging/public-status.json
+  - artifacts/validation/r14-task006-staging/readiness.json
+  - artifacts/validation/r14-task006-staging/rollback-rehearsal.txt
+  - artifacts/validation/r14-task006-staging/SHA256SUMS
+  - artifacts/validation/r14-task006-staging/source-sha256.txt
+  - artifacts/validation/r14-task006-staging/trace-headers.txt
+  - artifacts/validation/r14-task007-android/apk-badging.txt
+  - artifacts/validation/r14-task007-android/apk-signing.txt
+  - artifacts/validation/r14-task007-android/build-evidence.json
+  - artifacts/validation/r14-task007-android/embedded-api.txt
+  - artifacts/validation/r14-task007-android/embedded-ws.txt
+  - artifacts/validation/r14-task007-android/gradle-build.log
+  - artifacts/validation/r14-task007-android/zipalign.txt
+  - artifacts/validation/r14-apk-delivery/delivery-evidence.json
+  - artifacts/apk/R14/APK_MANIFEST.yaml
+  - artifacts/reports/R14/TASK-R14-006-staging.md
+  - artifacts/reports/R14/TASK-R14-007-android-apk.md
+  - artifacts/reports/R14/R14-version-test-guide.md
+  source: story-switch+explicit+approved-cr:CR-0428+approved-cr:CR-0429+approved-cr:CR-0430+approved-cr:CR-0431+approved-cr:CR-0432+approved-cr:CR-0433+approved-cr:CR-0435
 git:
   initialized: true
   branch: task/TASK-R03-001
@@ -140,29 +194,25 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-28T06:44:10Z'
-  expires_at: '2026-07-28T10:44:10Z'
-checkpoint_sequence: 25
-latest_checkpoint: .continuity/checkpoints/SES-20260727T221444Z-FD353AD3/0025.yaml
+  renewed_at: '2026-07-28T07:27:05Z'
+  expires_at: '2026-07-28T11:27:05Z'
+checkpoint_sequence: 28
+latest_checkpoint: .continuity/checkpoints/SES-20260727T221444Z-FD353AD3/0028.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260727T221444Z-FD353AD3.md
-next_step: 提交治理绑定记录并推送两个R14实时链路提交，然后继续TASK-R14-004剩余验收。
+next_step: 提交并推送R14 Staging实现Commit，在obx-test执行隔离现场验收。
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: 839b85e0dd2d3596cc7d4cbb400eb91df6b2191f9767ce1d39ffd857216cf041
-  generated_at: '2026-07-28T06:44:14Z'
+  context_hash: 900b195bf1288e62ca06a11730b80220f842690b2af717734893f62acfec5c51
+  generated_at: '2026-07-28T07:27:10Z'
 handoff_bundle: null
 closure: null
 parallel_execution:
-  assessment: DELEGATED
-  delegated_workers: 1
-  workers:
-  - worker_id: r14_android_realtime
-    responsibility: Android OkHttp WebSocket客户端、CHAT权威补洞与模块单测
-    allowed_paths:
-    - apps/android
-  reason: ''
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 冻结Commit、服务器镜像构建、数据库现场验收、证据回传和APK构建存在严格顺序依赖。
 story_history:
 - story_id: STORY-R14-001
   completed_at: '2026-07-27T23:25:19Z'

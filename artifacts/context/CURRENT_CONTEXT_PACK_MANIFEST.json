@@ -1,19 +1,19 @@
 {
   "version": "1.0",
-  "generated_at": "2026-07-28T06:44:14Z",
-  "context_hash": "839b85e0dd2d3596cc7d4cbb400eb91df6b2191f9767ce1d39ffd857216cf041",
+  "generated_at": "2026-07-28T07:27:10Z",
+  "context_hash": "900b195bf1288e62ca06a11730b80220f842690b2af717734893f62acfec5c51",
   "fingerprint_mode": "SESSION_DELTA",
   "project_fingerprint": {
-    "sha256": "b630fc6580f1085efc917b6c77653d816bde01706badb03e447a864d12ff3b93",
-    "file_count": 97
+    "sha256": "06cdfa3fa112fd9cd16c168f1287c459b9933a5b9f424e3498c186ee7392f367",
+    "file_count": 108
   },
   "yaml": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.yaml",
-    "sha256": "8f1a8f43b558377f822daaecfca34ba5d4c711c233f6c528771b0d02d69d983f"
+    "sha256": "65495256416393837cf6a8207011c721d7a7b9579eeb4ab00cff3a36b8078271"
   },
   "markdown": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.md",
-    "sha256": "1657dd55059335690cba8e8a67d919e97f33b0bd7afad076a78e6d4bfe10ac6a"
+    "sha256": "e6dc432ac970e52a31acee85ded141c8579d099eb61365eaf890a2b0fda283dd"
   },
   "sources": [
     {
@@ -28,7 +28,7 @@
     },
     {
       "path": "CURRENT_STATUS.yaml",
-      "sha256": "19cd41fb5f59ee80f9c0d4e65048182c663a34c524ec722c9d362d0cd85e2215",
+      "sha256": "f51eee93a6082dfec7058f952dd103bb17144b2112a5bf2b00dac714df092efe",
       "bytes": 4672
     },
     {
@@ -83,12 +83,12 @@
     },
     {
       "path": ".continuity/EVENT_LOG.jsonl",
-      "sha256": "61fef53c5016edea2933979843954484eea47910292a38589222f600100eae9a",
-      "bytes": 2344229
+      "sha256": "89330a345e73c9ad724b7884b09630c00b5b3f4616f741fa047d2346247e8b98",
+      "bytes": 2358410
     },
     {
       "path": ".continuity/SESSION_INDEX.yaml",
-      "sha256": "52243c4a1d6aa72b1bf7e668f4d7937c2f0797b91adbc299368c9260e44a92e9",
+      "sha256": "173a54ea347bbfffaf1dca4943e595423edecdb64d722855b69e08bc009d0e37",
       "bytes": 61640
     },
     {
@@ -103,12 +103,12 @@
     },
     {
       "path": ".continuity/CHANGE_REQUEST_INDEX.yaml",
-      "sha256": "ba0c0486ffef4f908f169cd70affe3cfb9f4e69b4acb7d321d27db007badc8b6",
-      "bytes": 1562026
+      "sha256": "93952a0efcd33e1ba12b5ddd5058df962c1f4bdab4c6e517426b2ee3756ac966",
+      "bytes": 1574896
     },
     {
       "path": ".continuity/ACTIVE_SESSION.yaml",
-      "sha256": "648b3390d8dbdd5a112c0920fe994d6682485920ac7ace5317cc57297b34290f",
+      "sha256": "6061c9d5a40384535b475bd7d6e1c5906709c50019b454646a90cbbdb3172828",
       "bytes": 545
     },
     {
@@ -163,13 +163,13 @@
     },
     {
       "path": "docs/03-continuity/sessions/2026-07/SES-20260727T221444Z-FD353AD3.md",
-      "sha256": "ebcc5b5faef4547510f80e3f43f0686b17bd6ce36600e55ab63aed245a65bab3",
-      "bytes": 111533
+      "sha256": "8d2e984483f9f9375dff2644e07131198dc9f305a745c46438a9368cb732951d",
+      "bytes": 137565
     },
     {
-      "path": ".continuity/checkpoints/SES-20260727T221444Z-FD353AD3/0025.yaml",
-      "sha256": "c729a1d116c2bfc6ce9d2ab9a2340b991e488d676313022ad4b3200ab0be13c7",
-      "bytes": 45571
+      "path": ".continuity/checkpoints/SES-20260727T221444Z-FD353AD3/0028.yaml",
+      "sha256": "a6c73f40556b8316a442a41ebc942df2b9937e27f3844730311367639eecabdf",
+      "bytes": 53368
     },
     {
       "path": "docs/03-continuity/change-requests/CR-0422-实现R14-Android私聊详情与真实会话导航.md",
@@ -230,6 +230,16 @@
       "path": "docs/03-continuity/change-requests/CR-0433-同步R14变更后的全版本确定性执行计划.md",
       "sha256": "058be4a820a85587ccc9ed9e57c4e702273da9029fd39252bd9c9452dc0c2417",
       "bytes": 3279
+    },
+    {
+      "path": "docs/03-continuity/change-requests/CR-0434-交付R14可执行Staging候选与稳定签名TEST_APK.md",
+      "sha256": "8dfaa80bc2338fe32252b116cc03a1b5dd94b9c154e10905edd6a408097acbc2",
+      "bytes": 6789
+    },
+    {
+      "path": "docs/03-continuity/change-requests/CR-0435-修正CR-0434为可执行精确文件作用域.md",
+      "sha256": "3e80650b445e82ad45ebf87ff8a2869dbd6cd69230912acea31569ccf152c5ca",
+      "bytes": 6011
     }
   ]
 }

@@ -489,6 +489,55 @@ public final class BusinessGaugeBinder implements MeterBinder {
                 'content.r13.stage.alert.v1'
             ) AND status IN ('PENDING', 'RETRY_WAIT')
             """;
+    static final String CHAT_CONVERSATIONS_COUNT_SQL = """
+            SELECT COUNT(*)
+            FROM hhy.conversations
+            """;
+    static final String CHAT_MESSAGES_5M_SQL = """
+            SELECT COUNT(*)
+            FROM hhy.chat_messages
+            WHERE created_at >= CURRENT_TIMESTAMP - INTERVAL '5' MINUTE
+            """;
+    static final String CHAT_UNREAD_TOTAL_SQL = """
+            SELECT COALESCE(SUM(unread_count), 0)
+            FROM hhy.conversation_members
+            """;
+    static final String CHAT_REPORTS_PENDING_SQL = """
+            SELECT COUNT(*)
+            FROM hhy.chat_reports
+            WHERE status = 'PENDING'
+            """;
+    static final String WEBSOCKET_DELIVERIES_UNACKED_SQL = """
+            SELECT COUNT(*)
+            FROM hhy.websocket_deliveries
+            WHERE ack_required = TRUE
+              AND acked_at IS NULL
+              AND expires_at > CURRENT_TIMESTAMP
+            """;
+    static final String WEBSOCKET_DELIVERIES_RETRY_EXHAUSTED_SQL = """
+            SELECT COUNT(*)
+            FROM hhy.websocket_deliveries
+            WHERE ack_required = TRUE
+              AND acked_at IS NULL
+              AND delivery_attempts = 6
+              AND expires_at > CURRENT_TIMESTAMP
+            """;
+    static final String WEBSOCKET_GAP_USERS_SQL = """
+            SELECT COUNT(*)
+            FROM hhy.websocket_gap_watermarks
+            WHERE expired_through_sequence > 0
+              AND cardinality(affected_scopes) > 0
+            """;
+    static final String R14_OUTBOX_BACKLOG_SQL = """
+            SELECT COUNT(*)
+            FROM hhy.outbox_events
+            WHERE event_type IN (
+                'chat.message.sent.v1', 'chat.conversation.read.v1',
+                'chat.conversation.hidden.v1', 'chat.user.blocked.v1',
+                'chat.user.unblocked.v1', 'chat.report.created.v1',
+                'chat.r14.stage.alert.v1'
+            ) AND status IN ('PENDING', 'RETRY_WAIT')
+            """;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(BusinessGaugeBinder.class);
     private final JdbcTemplate jdbcTemplate;
@@ -574,6 +623,14 @@ public final class BusinessGaugeBinder implements MeterBinder {
         register(registry, "hhy.activity.contact.rejections.5m", "Rejected activity contact accesses in the last five minutes", ACTIVITY_CONTACT_REJECTIONS_5M_SQL);
         register(registry, "hhy.activity.invalid.feedback.pending", "Invalid-contact feedback awaiting handling", ACTIVITY_INVALID_FEEDBACK_PENDING_SQL);
         register(registry, "hhy.r13.outbox.backlog", "R13 activity events waiting for delivery", R13_OUTBOX_BACKLOG_SQL);
+        register(registry, "hhy.chat.conversations.count", "All persisted chat conversations", CHAT_CONVERSATIONS_COUNT_SQL);
+        register(registry, "hhy.chat.messages.5m", "Chat messages created in the last five minutes", CHAT_MESSAGES_5M_SQL);
+        register(registry, "hhy.chat.unread.total", "Unread chat messages across conversation memberships", CHAT_UNREAD_TOTAL_SQL);
+        register(registry, "hhy.chat.reports.pending", "Chat reports awaiting moderation", CHAT_REPORTS_PENDING_SQL);
+        register(registry, "hhy.websocket.deliveries.unacked", "Unexpired WebSocket deliveries awaiting acknowledgement", WEBSOCKET_DELIVERIES_UNACKED_SQL);
+        register(registry, "hhy.websocket.deliveries.retry.exhausted", "Unexpired WebSocket deliveries that exhausted acknowledgement retries", WEBSOCKET_DELIVERIES_RETRY_EXHAUSTED_SQL);
+        register(registry, "hhy.websocket.gap.users", "Users requiring authoritative REST recovery after expired WebSocket deliveries", WEBSOCKET_GAP_USERS_SQL);
+        register(registry, "hhy.r14.outbox.backlog", "R14 chat events waiting for delivery", R14_OUTBOX_BACKLOG_SQL);
     }
 
     private void register(MeterRegistry registry, String name, String description, String sql) {

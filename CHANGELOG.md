@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## R14隔离Staging、实时观测与TEST_APK准备 · 2026-07-28
+
+- `CR-0434`新增会话、近五分钟消息、未读、待处理举报、未ACK投递、重试耗尽、补洞用户和R14 Outbox八项低基数只读Gauge，并冻结后端不可用、错误率、P95及五项业务告警。
+- 新增完全独立的`hhy-r14-staging` Compose环境，固定使用`172.31.240.0/24`、38114/39618/39619和项目独占卷；验收脚本验证V044、日志及WebSocket协议头脱敏、三类告警完整回执和十一类聊天/实时事实的保留式应用镜像回切。
+- Android测试包`versionCode`递增至10223，继续使用正式API、安全`wss://ws.orbexa.cc`与固定`hhy-staging-test-v2`签名；公网WebSocket DNS和聊天举报原因目录仍保持真实外部门禁，不在本变更中伪造激活或关闭R14。
+- `CR-0435`只将CR-0434的目录通配符展开为治理工具可消费的精确文件作用域，没有建立第二套规则或扩大公网、R13资源、迁移和产品目录边界。
+
 ## R14 WebSocket运行时与可靠投递纵向链路 · 2026-07-28
 
 - `CR-0430`落地Spring WebSocket `/ws`：升级前严格验证`hhy.v1`与唯一`hhy.access.<compact-JWT>`、活动会话和非负`lastServerSequence`，服务端只回选`hhy.v1`；非法、重复、填充或污染协议均在升级前拒绝。

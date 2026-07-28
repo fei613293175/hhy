@@ -1,17 +1,25 @@
 package cc.orbexa.hhy.boot.observability;
 
 import cc.orbexa.hhy.boot.web.RequestIdFilter;
+import cc.orbexa.hhy.boot.realtime.R14RealtimeDeliveryListener;
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.Logger;
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.read.ListAppender;
+import jakarta.websocket.server.ServerContainer;
 import org.junit.jupiter.api.Test;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
+import org.springframework.context.ApplicationContextInitializer;
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.mock.web.MockServletContext;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.web.context.ConfigurableWebApplicationContext;
 
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -27,9 +35,26 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
+@ContextConfiguration(initializers = ObservabilityEndpointsTest.WebSocketTestContainerInitializer.class)
 class ObservabilityEndpointsTest {
     @Autowired
     MockMvc mvc;
+    @MockitoBean
+    R14RealtimeDeliveryListener realtimeDeliveryListener;
+
+    public static final class WebSocketTestContainerInitializer
+            implements ApplicationContextInitializer<ConfigurableApplicationContext> {
+        @Override
+        public void initialize(ConfigurableApplicationContext applicationContext) {
+            if (applicationContext instanceof ConfigurableWebApplicationContext webApplicationContext) {
+                MockServletContext servletContext = new MockServletContext();
+                servletContext.setAttribute(
+                        "jakarta.websocket.server.ServerContainer",
+                        org.mockito.Mockito.mock(ServerContainer.class));
+                webApplicationContext.setServletContext(servletContext);
+            }
+        }
+    }
 
     @Test
     void exposesOnlyHealthInfoAndPrometheusWithoutSensitiveHealthDetails() throws Exception {
@@ -114,6 +139,14 @@ class ObservabilityEndpointsTest {
                 .andExpect(content().string(org.hamcrest.Matchers.containsString("hhy_activity_contact_rejections_5m")))
                 .andExpect(content().string(org.hamcrest.Matchers.containsString("hhy_activity_invalid_feedback_pending")))
                 .andExpect(content().string(org.hamcrest.Matchers.containsString("hhy_r13_outbox_backlog")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("hhy_chat_conversations_count")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("hhy_chat_messages_5m")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("hhy_chat_unread")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("hhy_chat_reports_pending")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("hhy_websocket_deliveries_unacked")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("hhy_websocket_deliveries_retry_exhausted")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("hhy_websocket_gap_users")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("hhy_r14_outbox_backlog")))
                 .andExpect(content().string(org.hamcrest.Matchers.containsString("hhy_business_metric_query_failures_total")))
                 .andExpect(content().string(org.hamcrest.Matchers.containsString("http_server_requests_seconds_bucket")));
         mvc.perform(get("/actuator").with(user("observability-auditor")))
