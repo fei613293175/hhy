@@ -94,7 +94,7 @@ class AuthenticatedNavigationTest {
 
         composeRule.runOnUiThread {
             navController.navigate(AuthenticatedRoute.Projects)
-            navController.navigate(AuthenticatedRoute.ChatDetail("conversation_42"))
+            navController.navigate(AuthenticatedRoute.ChatDetail("conversation_42", conversationVersion = 8))
         }
         composeRule.onNodeWithText("私聊").assertIsDisplayed()
         composeRule.runOnUiThread { navController.popBackStack() }

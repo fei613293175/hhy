@@ -1929,9 +1929,11 @@ problems:
   title: R14聊天举报缺少受控原因目录
   status: OPEN
   root_cause: SHEET-CHAT-002冻结为RADIO_GROUP并要求reasonCode来自受控枚举映射，字段来源规则只允许OpenAPI枚举或配置注册表；但当前ChatPostConversationsByIdReportRequest仅定义必填string和长度，配置与后端也没有原因code、用户文案、启停或排序目录。B07/P07中的原因属于明确要求过滤的示例内容，不能成为业务事实。
-  resolution: CR-0427先实现真实举报API、面板结构、说明、证据、确认与错误状态；权威目录为空时明确禁止提交，不提供自由reasonCode，不把SHEET-CHAT-002或STORY-R14-003标记完成。解除前必须由产品事实源冻结code、用户文案、启停与排序，并同步OpenAPI枚举或配置注册表、Android生成资产、后端校验和正负合同测试。
+  resolution: CR-0427先实现真实举报API、面板结构、说明、证据、确认与错误状态；CR-0428继续接入AUDIT_EVIDENCE图片证据和服务端conversation.version，缺真实版本时同样禁用举报编辑与提交。权威目录为空时明确禁止提交，不提供自由reasonCode，不把SHEET-CHAT-002或STORY-R14-003标记完成。解除前必须由产品事实源冻结code、用户文案、启停与排序，并同步OpenAPI枚举或配置注册表、Android生成资产、后端校验和正负合同测试。
   regression_checks:
   - Android举报面板在权威目录为空时必须显示配置不可用并禁用提交，不得出现P07示例原因或reasonCode自由输入框
+  - Android举报必须使用会话列表或直聊创建响应的非负conversation.version，旧深链或缺版本路径仅可查看聊天且不得提交举报
+  - AUDIT_EVIDENCE只接受图片，累计去重最多100项，移除、二次确认及ChatReportRequest序列化必须保持同一证据集合
   - OpenAPI或配置注册表补齐后必须由生成器产生Android原因目录并验证未知、停用和顺序漂移
   - 后端必须拒绝未知或停用reasonCode，客户端与管理端必须共享同一code语义
   do_not_repeat:

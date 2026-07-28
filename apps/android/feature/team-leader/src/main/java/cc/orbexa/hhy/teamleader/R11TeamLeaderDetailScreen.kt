@@ -77,7 +77,7 @@ fun R11TeamLeaderDetailScreen(
     currentUserId: String,
     onBack: () -> Unit,
     onEdit: (String) -> Unit,
-    onConversationReady: (String, ContentResource) -> Unit,
+    onConversationReady: (String, Long, ContentResource) -> Unit,
     onShare: (String) -> Unit = {},
     onInvalidFeedback: (String, List<String>) -> Unit = { _, _ -> },
     onSessionExpired: () -> Unit,
@@ -217,7 +217,7 @@ fun R11TeamLeaderDetailScreen(
                                 is R07CallResult.Success -> {
                                     keys.consume("direct", fingerprint)
                                     notice = "私聊会话已准备"
-                        onConversationReady(result.data.id, item)
+                                    onConversationReady(result.data.id, result.data.version, item)
                                 }
                                 is R07CallResult.Failure -> failAction(result)
                             }

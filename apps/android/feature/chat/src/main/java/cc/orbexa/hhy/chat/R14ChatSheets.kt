@@ -29,6 +29,7 @@ import androidx.compose.ui.text.font.FontWeight
 import cc.orbexa.hhy.designsystem.HhyColors
 import cc.orbexa.hhy.designsystem.HhySpacing
 import cc.orbexa.hhy.designsystem.HhyType
+import cc.orbexa.hhy.media.MediaUploadSelection
 import cc.orbexa.hhy.network.ChatContactField
 import cc.orbexa.hhy.network.ChatContactCardPayload
 import cc.orbexa.hhy.network.ChatContentCardPayload
@@ -40,6 +41,20 @@ import cc.orbexa.hhy.network.PublisherSummaryResource
 private val contactTypes = listOf("PHONE" to "手机号", "WECHAT" to "微信", "QQ" to "QQ", "EMAIL" to "邮箱", "OTHER" to "其他")
 
 data class R14ReportReasonOption(val code: String, val label: String)
+
+data class R14ReportDraft(
+    val reasonCode: String? = null,
+    val description: String = "",
+    val messageIds: Set<String> = emptySet(),
+    val evidence: List<MediaUploadSelection> = emptyList(),
+) {
+    init {
+        require(description.length <= 2_000)
+        require(messageIds.size <= 100 && evidence.size <= 100)
+        require(evidence.distinctBy(MediaUploadSelection::mediaId).size == evidence.size)
+        require(evidence.all { it.contentType.startsWith("image/") })
+    }
+}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -107,37 +122,75 @@ fun R14ReportSheet(
     peer: PublisherSummaryResource,
     reasons: List<R14ReportReasonOption>,
     messages: List<ChatMessageResource>,
+    draft: R14ReportDraft,
+    versionAvailable: Boolean,
     submitting: Boolean,
     failure: String?,
     onDismiss: () -> Unit,
-    onSubmit: (String, String, List<String>) -> Unit,
+    onDraftChange: (R14ReportDraft) -> Unit,
+    onAddEvidence: () -> Unit,
+    onSubmit: (R14ReportDraft) -> Unit,
 ) {
-    var selectedReason by remember { mutableStateOf<String?>(null) }
-    var description by remember { mutableStateOf("") }
     var confirming by remember { mutableStateOf(false) }
-    val selectedMessages = remember { mutableStateMapOf<String, Boolean>() }
+    val canEdit = reasons.isNotEmpty() && versionAvailable && !submitting
     ModalBottomSheet(onDismissRequest = { if (!submitting) onDismiss() }) {
         Column(Modifier.fillMaxWidth().verticalScroll(rememberScrollState()).padding(horizontal = HhySpacing.Xl, vertical = HhySpacing.Lg), verticalArrangement = Arrangement.spacedBy(HhySpacing.Md)) {
             Text("举报聊天", fontSize = HhyType.PageTitleSize, lineHeight = HhyType.PageTitleLineHeight, fontWeight = FontWeight.Bold)
             Text("举报与 ${peer.nickname} 的聊天。提交内容仅用于核实本次举报。", color = HhyColors.TextSecondary)
             if (reasons.isEmpty()) Text("举报原因配置暂不可用，当前无法提交。", color = HhyColors.Warning)
-            reasons.forEach { reason -> Row(Modifier.fillMaxWidth()) { RadioButton(selectedReason == reason.code, { selectedReason = reason.code }); Text(reason.label, Modifier.padding(top = HhySpacing.Md)) } }
-            OutlinedTextField(description, { if (it.length <= 2_000) description = it }, Modifier.fillMaxWidth(), enabled = reasons.isNotEmpty(), label = { Text("补充说明（可选）") }, supportingText = { Text("${description.length}/2000") }, minLines = 3)
+            else if (!versionAvailable) Text("会话状态需要刷新，当前无法提交举报。", color = HhyColors.Warning)
+            reasons.forEach { reason ->
+                Row(Modifier.fillMaxWidth()) {
+                    RadioButton(
+                        selected = draft.reasonCode == reason.code,
+                        onClick = { onDraftChange(draft.copy(reasonCode = reason.code)) },
+                        enabled = canEdit,
+                    )
+                    Text(reason.label, Modifier.padding(top = HhySpacing.Md))
+                }
+            }
+            OutlinedTextField(
+                value = draft.description,
+                onValueChange = { if (it.length <= 2_000) onDraftChange(draft.copy(description = it)) },
+                modifier = Modifier.fillMaxWidth(),
+                enabled = canEdit,
+                label = { Text("补充说明（可选）") },
+                supportingText = { Text("${draft.description.length}/2000") },
+                minLines = 3,
+            )
             if (messages.isNotEmpty()) Text("消息证据", fontWeight = FontWeight.SemiBold)
             messages.take(100).forEach { message ->
                 Row(Modifier.fillMaxWidth()) {
                     Checkbox(
-                        checked = selectedMessages[message.id] == true,
-                        onCheckedChange = { selectedMessages[message.id] = it },
-                        enabled = reasons.isNotEmpty(),
+                        checked = message.id in draft.messageIds,
+                        onCheckedChange = { checked ->
+                            val selected = if (checked) draft.messageIds + message.id else draft.messageIds - message.id
+                            onDraftChange(draft.copy(messageIds = selected.take(100).toSet()))
+                        },
+                        enabled = canEdit,
                     )
                     Text(r14EvidencePreview(message), Modifier.padding(top = HhySpacing.Md), maxLines = 1)
                 }
             }
+            Text("图片证据 ${draft.evidence.size}/100", fontWeight = FontWeight.SemiBold)
+            draft.evidence.forEachIndexed { index, evidence ->
+                Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                    Text("图片证据 ${index + 1}", modifier = Modifier.weight(1f))
+                    TextButton(
+                        onClick = { onDraftChange(draft.copy(evidence = draft.evidence.filterNot { it.mediaId == evidence.mediaId })) },
+                        enabled = canEdit,
+                    ) { Text("移除") }
+                }
+            }
+            OutlinedButton(
+                onClick = onAddEvidence,
+                modifier = Modifier.fillMaxWidth(),
+                enabled = canEdit && draft.evidence.size < 100,
+            ) { Text(if (draft.evidence.isEmpty()) "添加图片证据" else "继续添加图片证据") }
             failure?.let { Text(it, color = HhyColors.Error) }
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(HhySpacing.Md)) {
                 OutlinedButton(onClick = onDismiss, enabled = !submitting, modifier = Modifier.weight(1f)) { Text("取消") }
-                Button(onClick = { confirming = true }, enabled = selectedReason != null && !submitting, modifier = Modifier.weight(1f)) { Text(if (submitting) "正在提交" else "提交举报") }
+                Button(onClick = { confirming = true }, enabled = draft.reasonCode != null && canEdit, modifier = Modifier.weight(1f)) { Text(if (submitting) "正在提交" else "提交举报") }
             }
         }
     }
@@ -145,12 +198,12 @@ fun R14ReportSheet(
         AlertDialog(
             onDismissRequest = { if (!submitting) confirming = false },
             title = { Text("确认举报") },
-            text = { Text("将提交所选原因、补充说明和 ${selectedMessages.count { it.value }} 条消息证据。") },
+            text = { Text("将提交所选原因、补充说明、${draft.messageIds.size} 条消息证据和 ${draft.evidence.size} 张图片证据。") },
             confirmButton = {
                 TextButton(
                     onClick = {
                         confirming = false
-                        onSubmit(selectedReason.orEmpty(), description, selectedMessages.filterValues { it }.keys.toList())
+                        onSubmit(draft)
                     },
                     enabled = !submitting,
                 ) { Text("确认提交") }
@@ -159,6 +212,14 @@ fun R14ReportSheet(
         )
     }
 }
+
+internal fun mergeR14Evidence(
+    current: List<MediaUploadSelection>,
+    incoming: List<MediaUploadSelection>,
+): List<MediaUploadSelection> = (current + incoming)
+    .filter { it.contentType.startsWith("image/") }
+    .distinctBy(MediaUploadSelection::mediaId)
+    .take(100)
 
 internal fun r14EvidencePreview(message: ChatMessageResource): String = when (val payload = message.payload) {
     is ChatTextPayload -> payload.text.take(60)

@@ -175,7 +175,7 @@ fun R08ProjectDetailScreen(
     currentUserId: String,
     onBack: () -> Unit,
     onEdit: (String) -> Unit,
-    onConversationReady: (String, ContentResource) -> Unit = { _, _ -> },
+    onConversationReady: (String, Long, ContentResource) -> Unit = { _, _, _ -> },
     onShare: (String) -> Unit = {},
     onInvalidFeedback: (String, List<String>) -> Unit = { _, _ -> },
     onSessionExpired: () -> Unit,
@@ -254,7 +254,7 @@ fun R08ProjectDetailScreen(
                                 when (val result = api.direct(accessToken, keys.forBody("direct", body), R08DirectConversationRequest(publisherId, item.id))) {
                                     is R07CallResult.Success -> {
                                         keys.consume("direct", body)
-                                        onConversationReady(result.data.id, item)
+                                        onConversationReady(result.data.id, result.data.version, item)
                                     }
                                     is R07CallResult.Failure -> accept(result)
                                 }

@@ -68,8 +68,9 @@ class NavigationPolicyTest {
             publisher = PublisherSummaryResource("user_7", "真实发布者", verified = true),
             version = 1,
         )
-        val route = chatDetailRoute("conversation_42", content)!!
+        val route = chatDetailRoute("conversation_42", content, conversationVersion = 8)!!
 
+        assertEquals(8L, route.conversationVersion)
         assertEquals("真实发布者", route.peerNickname)
         assertEquals("真实项目", route.sourceTitle)
         assertEquals("PROJECT", route.sourceContentType)
@@ -86,7 +87,15 @@ class NavigationPolicyTest {
         val route = chatDetailRoute(conversation)!!
 
         assertEquals("conversation_42", route.conversationId)
+        assertEquals(1L, route.conversationVersion)
         assertEquals("真实联系人", route.peerNickname)
         assertEquals(null, route.sourceTitle)
+    }
+
+    @Test
+    fun chatRouteNeverPropagatesAnInvalidConversationVersion() {
+        val route = chatDetailRoute("conversation_42", conversationVersion = -1)!!
+
+        assertEquals(null, route.conversationVersion)
     }
 }

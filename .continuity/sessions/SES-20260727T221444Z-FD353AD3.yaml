@@ -11,7 +11,7 @@ task_id: TASK-R14-004
 story_id: STORY-R14-004
 goal: 逐项审计R14六个交互面、九接口、状态错误恢复、测试和追踪证据，补齐不依赖举报原因目录的客户端与治理缺口；保持PROB-0135开放且不提前关闭TASK
 started_at: '2026-07-27T22:14:44Z'
-updated_at: '2026-07-28T02:25:55Z'
+updated_at: '2026-07-28T03:19:01Z'
 takeover_of: null
 change_requests:
 - CR-0422
@@ -20,6 +20,7 @@ change_requests:
 - CR-0425
 - CR-0426
 - CR-0427
+- CR-0428
 scope:
   allowed_paths:
   - apps/**
@@ -56,8 +57,21 @@ scope:
   - apps/android/**
   - artifacts/reports/R14/**
   - releases/R14/**
-  approved_exceptions: []
-  source: story-switch+explicit
+  approved_exceptions:
+  - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+  - apps/android/app/src/test/java/cc/orbexa/hhy/NavigationPolicyTest.kt
+  - apps/android/app/src/androidTest/java/cc/orbexa/hhy/AuthenticatedNavigationTest.kt
+  - apps/android/feature/project/src/main/java/cc/orbexa/hhy/project/R08ProjectScreens.kt
+  - apps/android/feature/app-promotion/src/main/java/cc/orbexa/hhy/apppromotion/R09AppScreens.kt
+  - apps/android/feature/group-promotion/src/main/java/cc/orbexa/hhy/grouppromotion/R10GroupScreens.kt
+  - apps/android/feature/team-leader/src/main/java/cc/orbexa/hhy/teamleader/R11TeamLeaderDetailScreen.kt
+  - apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ChatDetailScreen.kt
+  - apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ChatSheets.kt
+  - apps/android/feature/chat/src/androidTest/java/cc/orbexa/hhy/chat/R14ChatSurfacesTest.kt
+  - apps/android/feature/chat/src/androidTest/java/cc/orbexa/hhy/chat/R14ChatDetailScreenTest.kt
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - CHANGELOG.md
+  source: story-switch+explicit+approved-cr:CR-0428
 git:
   initialized: true
   branch: task/TASK-R03-001
@@ -67,25 +81,30 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-28T02:25:48Z'
-  expires_at: '2026-07-28T06:25:48Z'
-checkpoint_sequence: 13
-latest_checkpoint: .continuity/checkpoints/SES-20260727T221444Z-FD353AD3/0013.yaml
+  renewed_at: '2026-07-28T03:18:34Z'
+  expires_at: '2026-07-28T07:18:34Z'
+checkpoint_sequence: 15
+latest_checkpoint: .continuity/checkpoints/SES-20260727T221444Z-FD353AD3/0015.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260727T221444Z-FD353AD3.md
-next_step: 为R14举报媒体证据和会话版本传播创建精确CR并独立审批；接入AUDIT_EVIDENCE最多100项、携带最后读取版本并补路由/Compose/网络测试，继续保持举报原因目录禁用
+next_step: 提交并推送CR-0428实现Commit，然后回到STORY-R14-004继续客户端合同审计
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: afebd83da3fc472201155788506f01848375021d94f7388c8e97928845c48d33
-  generated_at: '2026-07-28T02:25:52Z'
+  context_hash: ed0b486f7ed2bcb97a23c52eaada03a6856ee604d97df8df0fa29c8bb1f2e48e
+  generated_at: '2026-07-28T03:18:58Z'
 handoff_bundle: null
 closure: null
 parallel_execution:
-  assessment: CAPABILITY_UNAVAILABLE
-  delegated_workers: 0
-  workers: []
-  reason: 当前执行环境未授权启动新的执行代理；本轮仅完成只读跨事实源审计
+  assessment: DELEGATED
+  delegated_workers: 1
+  workers:
+  - worker_id: codex-r14-independent-review-20260728
+    responsibility: CR-0428独立合同与范围审查
+    allowed_paths:
+    - .continuity/change_requests/CR-0428.yaml
+    - docs/03-continuity/change-requests/CR-0428-补齐R14举报媒体证据与真实会话版本传播.md
+  reason: ''
 story_history:
 - story_id: STORY-R14-001
   completed_at: '2026-07-27T23:25:19Z'

@@ -1984,3 +1984,11 @@
 - Actor：`codex-root-r14-backend-20260728`
 - 摘要：R14一对一聊天九个冻结后端接口、成员权限、配置限流、幂等、敏感联系方式三段边界、Outbox与真实PostgreSQL17回归全部完成
 - 记录：`docs/03-continuity/sessions/2026-07/SES-20260727T203754Z-DCE3090A.md`
+
+## CR-0428 · IMPLEMENTING · 2026-07-28T02:38:53Z
+
+- Release：`R14`
+- Task：`TASK-R14-004`
+- 摘要：举报面板复用既有媒体上传闭环，以 `AUDIT_EVIDENCE` 只接受图片并支持累计去重、移除和 100 项上限；消息与图片证据同时进入二次确认和真实请求。
+- 版本并发：会话列表和四类内容直聊入口传播服务端 `conversation.version`；旧深链或异常负版本仅允许查看聊天，举报编辑和提交明确禁用。
+- 边界：`PROB-0135` 仍保持 `OPEN`，不硬编码效果图示例原因，不关闭 `SHEET-CHAT-002` 或 R14 机器验收。

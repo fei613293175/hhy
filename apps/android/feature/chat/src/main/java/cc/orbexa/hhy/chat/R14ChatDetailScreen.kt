@@ -106,6 +106,7 @@ fun R14ChatDetailScreen(
     mediaApi: ContractMediaApi,
     accessToken: String,
     conversationId: String,
+    conversationVersion: Long? = null,
     currentUserId: String,
     initialPeer: PublisherSummaryResource? = null,
     initialContentCard: ChatContentCardPayload? = null,
@@ -128,6 +129,8 @@ fun R14ChatDetailScreen(
     var showContactSheet by remember(conversationId) { mutableStateOf(false) }
     var showSafetySheet by remember(conversationId) { mutableStateOf(false) }
     var showReportSheet by remember(conversationId) { mutableStateOf(false) }
+    var showEvidencePicker by remember(conversationId) { mutableStateOf(false) }
+    var reportDraft by remember(conversationId) { mutableStateOf(R14ReportDraft()) }
     var showBlockDialog by remember(conversationId) { mutableStateOf(false) }
     var showDeleteDialog by remember(conversationId) { mutableStateOf(false) }
     var contactSubmitting by remember(conversationId) { mutableStateOf(false) }
@@ -268,8 +271,18 @@ fun R14ChatDetailScreen(
         )
     }
 
-    fun submitReport(reasonCode: String, description: String, messageIds: List<String>) {
-        val fingerprint = listOf(reasonCode, description, messageIds.sorted().joinToString(",")).joinToString(":")
+    fun submitReport(draft: R14ReportDraft) {
+        val expectedVersion = conversationVersion?.takeIf { it >= 0 } ?: return
+        val evidenceMediaIds = draft.evidence.map(MediaUploadSelection::mediaId).sorted()
+        val messageIds = draft.messageIds.sorted()
+        val reasonCode = draft.reasonCode ?: return
+        val fingerprint = listOf(
+            reasonCode,
+            draft.description,
+            evidenceMediaIds.joinToString(","),
+            messageIds.joinToString(","),
+            expectedVersion.toString(),
+        ).joinToString(":")
         val key = keys.key("report", fingerprint)
         executeAction(
             action = R14ChatAction.REPORT,
@@ -278,12 +291,19 @@ fun R14ChatDetailScreen(
                     accessToken,
                     conversationId,
                     key,
-                    ChatReportRequest(reasonCode, description, messageIds = messageIds),
+                    ChatReportRequest(
+                        reasonCode = reasonCode,
+                        description = draft.description,
+                        evidenceMediaIds = evidenceMediaIds,
+                        messageIds = messageIds,
+                        expectedVersion = expectedVersion,
+                    ),
                 )
             },
             onSuccess = {
                 keys.complete("report", fingerprint)
                 showReportSheet = false
+                reportDraft = R14ReportDraft()
                 actionNotice = "举报已提交"
             },
         )
@@ -317,6 +337,24 @@ fun R14ChatDetailScreen(
             onDismiss = { showImagePicker = false },
             onAuthenticationRequired = onSessionExpired,
             onPreview = { selection -> previewImage = selection.readUrl },
+        )
+    }
+
+    if (showEvidencePicker) {
+        val remaining = (100 - reportDraft.evidence.size).coerceAtLeast(1)
+        MediaUploadSheet(
+            api = mediaApi,
+            accessToken = accessToken,
+            purpose = "AUDIT_EVIDENCE",
+            maxConcurrentUploads = 2,
+            maxSelectionCount = remaining,
+            acceptedTypes = arrayOf("image/*"),
+            onCompleted = { selections ->
+                reportDraft = reportDraft.copy(evidence = mergeR14Evidence(reportDraft.evidence, selections))
+                showEvidencePicker = false
+            },
+            onDismiss = { showEvidencePicker = false },
+            onAuthenticationRequired = onSessionExpired,
         )
     }
 
@@ -366,6 +404,7 @@ fun R14ChatDetailScreen(
             onReport = {
                 showSafetySheet = false
                 actionState = actionState.copy(failure = null)
+                reportDraft = R14ReportDraft()
                 showReportSheet = true
             },
             onBlock = {
@@ -381,14 +420,23 @@ fun R14ChatDetailScreen(
         )
     }
 
-    if (showReportSheet && peer != null) {
+    if (showReportSheet && !showEvidencePicker && peer != null) {
         R14ReportSheet(
             peer = peer,
             reasons = emptyList(),
             messages = state.messages,
+            draft = reportDraft,
+            versionAvailable = conversationVersion?.let { it >= 0 } == true,
             submitting = actionState.active == R14ChatAction.REPORT,
             failure = actionState.failure?.r14ActionMessage(),
-            onDismiss = { showReportSheet = false },
+            onDismiss = {
+                showReportSheet = false
+                reportDraft = R14ReportDraft()
+            },
+            onDraftChange = { reportDraft = it },
+            onAddEvidence = {
+                if (reportDraft.evidence.size < 100) showEvidencePicker = true
+            },
             onSubmit = ::submitReport,
         )
     }

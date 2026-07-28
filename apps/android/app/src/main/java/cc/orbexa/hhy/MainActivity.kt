@@ -268,6 +268,7 @@ internal sealed interface AuthenticatedRoute {
     @Serializable
     data class ChatDetail(
         val conversationId: String,
+        val conversationVersion: Long? = null,
         val peerUserId: String? = null,
         val peerNickname: String? = null,
         val peerAvatarUrl: String? = null,
@@ -528,6 +529,7 @@ private fun AuthenticatedNavHost(
                     mediaApi = mediaApi,
                     accessToken = authenticated.session.accessToken,
                     conversationId = route.conversationId,
+                    conversationVersion = route.conversationVersion?.takeIf { it >= 0 },
                     currentUserId = authenticated.user.id,
                     initialPeer = peer,
                     initialContentCard = content,
@@ -569,8 +571,8 @@ private fun AuthenticatedNavHost(
                 currentUserId = authenticated.user.id,
                 onBack = { navController.popBackStack() },
                 onEdit = { navController.navigate(AuthenticatedRoute.ProjectEditor(it)) },
-                onConversationReady = { conversationId, content ->
-                    chatDetailRoute(conversationId, content)?.let(navController::navigate)
+                onConversationReady = { conversationId, conversationVersion, content ->
+                    chatDetailRoute(conversationId, content, conversationVersion)?.let(navController::navigate)
                 },
                 onShare = { actionTitle = it; actionSheet = R13ContentSheet.SHARE },
                 onInvalidFeedback = { title, channels -> actionTitle = title; feedbackChannels = channels; actionSheet = R13ContentSheet.INVALID_FEEDBACK },
@@ -615,8 +617,8 @@ private fun AuthenticatedNavHost(
                 currentUserId = authenticated.user.id,
                 onBack = { navController.popBackStack() },
                 onEdit = { navController.navigate(AuthenticatedRoute.AppEditor(it)) },
-                onConversationReady = { conversationId, content ->
-                    chatDetailRoute(conversationId, content)?.let(navController::navigate)
+                onConversationReady = { conversationId, conversationVersion, content ->
+                    chatDetailRoute(conversationId, content, conversationVersion)?.let(navController::navigate)
                 },
                 onShare = { actionTitle = it; actionSheet = R13ContentSheet.SHARE },
                 onInvalidFeedback = { title, channels -> actionTitle = title; feedbackChannels = channels; actionSheet = R13ContentSheet.INVALID_FEEDBACK },
@@ -661,8 +663,8 @@ private fun AuthenticatedNavHost(
                 currentUserId = authenticated.user.id,
                 onBack = { navController.popBackStack() },
                 onEdit = { navController.navigate(AuthenticatedRoute.GroupEditor(it)) },
-                onConversationReady = { conversationId, content ->
-                    chatDetailRoute(conversationId, content)?.let(navController::navigate)
+                onConversationReady = { conversationId, conversationVersion, content ->
+                    chatDetailRoute(conversationId, content, conversationVersion)?.let(navController::navigate)
                 },
                 onShare = { actionTitle = it; actionSheet = R13ContentSheet.SHARE },
                 onInvalidFeedback = { title, channels -> actionTitle = title; feedbackChannels = channels; actionSheet = R13ContentSheet.INVALID_FEEDBACK },
@@ -707,8 +709,8 @@ private fun AuthenticatedNavHost(
                 currentUserId = authenticated.user.id,
                 onBack = { navController.popBackStack() },
                 onEdit = { navController.navigate(AuthenticatedRoute.TeamLeaderEditor(it)) },
-                onConversationReady = { conversationId, content ->
-                    chatDetailRoute(conversationId, content)?.let(navController::navigate)
+                onConversationReady = { conversationId, conversationVersion, content ->
+                    chatDetailRoute(conversationId, content, conversationVersion)?.let(navController::navigate)
                 },
                 onShare = { actionTitle = it; actionSheet = R13ContentSheet.SHARE },
                 onInvalidFeedback = { title, channels -> actionTitle = title; feedbackChannels = channels; actionSheet = R13ContentSheet.INVALID_FEEDBACK },
@@ -977,12 +979,17 @@ private fun canOpenHomeTarget(target: HomeNavigationTargetSnapshot): Boolean {
     }
 }
 
-internal fun chatDetailRoute(conversationId: String, content: ContentResource? = null): AuthenticatedRoute.ChatDetail? {
+internal fun chatDetailRoute(
+    conversationId: String,
+    content: ContentResource? = null,
+    conversationVersion: Long? = null,
+): AuthenticatedRoute.ChatDetail? {
     if (!isValidChatConversationId(conversationId)) return null
     val publisher = content?.publisher
     val cover = content?.media?.firstOrNull()?.let { it.thumbnailUrl ?: it.url }?.takeIf(::isSafeHomeUrl)
     return AuthenticatedRoute.ChatDetail(
         conversationId = conversationId,
+        conversationVersion = conversationVersion?.takeIf { it >= 0 },
         peerUserId = publisher?.userId,
         peerNickname = publisher?.nickname,
         peerAvatarUrl = publisher?.avatarUrl?.takeIf(::isSafeHomeUrl),
@@ -999,6 +1006,7 @@ internal fun chatDetailRoute(conversation: ChatConversationResource): Authentica
     if (!isValidChatConversationId(conversation.id)) return null
     return AuthenticatedRoute.ChatDetail(
         conversationId = conversation.id,
+        conversationVersion = conversation.version.takeIf { it >= 0 },
         peerUserId = peer.userId,
         peerNickname = peer.nickname,
         peerAvatarUrl = peer.avatarUrl?.takeIf(::isSafeHomeUrl),
