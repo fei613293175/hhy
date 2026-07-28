@@ -1,19 +1,19 @@
 {
   "version": "1.0",
-  "generated_at": "2026-07-28T19:27:20Z",
-  "context_hash": "e392076286f5ddf8097b40d56c8faa30a5cc5ae7639b85ddb1d581759b301796",
-  "fingerprint_mode": "SESSION_DELTA",
+  "generated_at": "2026-07-28T19:30:27Z",
+  "context_hash": "2da237168116420e4e25d723ecb6d6a45c5daaf5537151d144f721fd993d7c16",
+  "fingerprint_mode": "REPOSITORY_TREE",
   "project_fingerprint": {
-    "sha256": "5d064219bc9b66c49d890a298f546ba46dc33cdc2f2374b05ab44423841543b7",
-    "file_count": 17
+    "sha256": "d5cc8fd60c533cd9b9a3fe9b98090372876ac756106061c82b6d01d95b0f77a1",
+    "file_count": 0
   },
   "yaml": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.yaml",
-    "sha256": "77a4aef3587857912c096c2bb7309961b80a599d7ed0739c3fa4c4eca1d92edb"
+    "sha256": "2d8682ac56ae805bdd8399ffa99bce42a99d4771a0107d479802639517c315c3"
   },
   "markdown": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.md",
-    "sha256": "12e3c2bf30f7f23988a4fc7b6707f101d9c809e1161a82b527b94a36a4d09ab7"
+    "sha256": "b31227fef14caeb0a8ffd5759c342878b36cdc1e6ea96b9aa14c5a5fd3bdcc6b"
   },
   "sources": [
     {
@@ -28,13 +28,13 @@
     },
     {
       "path": "CURRENT_STATUS.yaml",
-      "sha256": "e1a9caf7607985ef47e05fc964d045bcf5b2f2bd438e15b7ce0c50b0606abf25",
-      "bytes": 4773
+      "sha256": "4eeff12ddb6be21c885d2896f4778737d4e6b22be29e5c8d82edd79d6037a05e",
+      "bytes": 4634
     },
     {
       "path": "NEXT_TASK.yaml",
-      "sha256": "53d49180cf243888f1febeeaeaca91d9024c5482f5280790e1436a7bc1cd9281",
-      "bytes": 1514
+      "sha256": "0f9d416869c618da8110a8211fe0a6382fd87401e14b572352c4addd00c19bf0",
+      "bytes": 1472
     },
     {
       "path": "DEVELOPMENT_RISK_REGISTER.md",
@@ -83,18 +83,18 @@
     },
     {
       "path": ".continuity/EVENT_LOG.jsonl",
-      "sha256": "773ac0b816371eadc7ac309870067b7b9bf8a653a1f5665ff8c6d46fd2a5e9d6",
-      "bytes": 2538149
+      "sha256": "27b4db5ab77b84b08770a0230abd3d6620d83710f19e15463436550a0ff2f92e",
+      "bytes": 2539888
     },
     {
       "path": ".continuity/SESSION_INDEX.yaml",
-      "sha256": "f105d98348430e983f4fab032abb593c0722529c90d09b3a4437d63ec08455e5",
-      "bytes": 64775
+      "sha256": "55e782d5a1e6a2ebf93003bbe816aae911d1b48cd22fda54d95f5686c77f3600",
+      "bytes": 64793
     },
     {
       "path": ".continuity/TASK_CLAIMS.yaml",
-      "sha256": "4cd1ed9162271c298bda2d9582cf1c8fceec2044b7abdea7bfecc616fb2395c5",
-      "bytes": 91098
+      "sha256": "e86bf4f9888dc52fb1aab4bb291ab0e55d06803b198ff5e4b69bc6e2cd56dba7",
+      "bytes": 91134
     },
     {
       "path": ".continuity/TASK_TRANSITIONS.yaml",
@@ -108,8 +108,8 @@
     },
     {
       "path": ".continuity/ACTIVE_SESSION.yaml",
-      "sha256": "c23d78ad73a0b97337d442980005be167053f5bac302334f08ad732c67cc4a10",
-      "bytes": 541
+      "sha256": "395bb982d0a413f45b8c571c63b1ed33c6a8d3fbd165b00add2b3273e05568ab",
+      "bytes": 143
     },
     {
       "path": "docs/00-baseline/正式商业系统全局硬性开发边界.md",
@@ -148,8 +148,8 @@
     },
     {
       "path": "releases/R14/TASKS.yaml",
-      "sha256": "33ed8aab1fc05c674df96d61cf3b770445c16d10e5e66f973b152e46f485fb2f",
-      "bytes": 6241
+      "sha256": "d5070f5b64684f7a1cb689fb3f5f1f6f5c6bbd71a46e4db9b5f3d03a01ef9fa9",
+      "bytes": 6277
     },
     {
       "path": "releases/R14/ACCEPTANCE_MATRIX.csv",
@@ -160,31 +160,6 @@
       "path": "releases/R14/PARALLEL_EXECUTION_PLAN.yaml",
       "sha256": "cd1f0c96ffd7562acb214edba80a2bbb12b79f06c19032d1b133936ff6abd74f",
       "bytes": 2539
-    },
-    {
-      "path": "docs/03-continuity/sessions/2026-07/SES-20260728T182015Z-7EB6FEF2.md",
-      "sha256": "2d7af2c3a4e73d7318e5d063601c94b9774bcfe4aa58398d7db8f80a0ff6bb11",
-      "bytes": 11322
-    },
-    {
-      "path": ".continuity/checkpoints/SES-20260728T182015Z-7EB6FEF2/0005.yaml",
-      "sha256": "0b67cc80ab9647e6b032aa79af948b4c66a51bc4f68b50f32f9f91887c462e3f",
-      "bytes": 9377
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0465-R14六项聊天专项测试自动化与故障证据闭环.md",
-      "sha256": "d0950844fcdf18a915d85736d4365e9dc22fe85b8a9c668f88b62dd7a0e7d603",
-      "bytes": 4203
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0466-补齐R14至R32全链路版本连续性回归.md",
-      "sha256": "69286c0fa8f0785ce9a341a55e2894eec93114e2b619a5277688bba71813c19b",
-      "bytes": 3553
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0467-补录R14专项测试原始日志归档范围.md",
-      "sha256": "8a3b84f8643ae8c5a7f0762ee8acddb6ddeebfb87967984ba2b2014056c37b90",
-      "bytes": 2976
     }
   ]
 }

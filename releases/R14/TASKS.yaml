@@ -84,7 +84,7 @@ tasks:
   completed_at: '2026-07-28T18:17:52Z'
 - id: TASK-R14-005
   title: 一对一聊天核心专项测试与故障注入
-  status: READY
+  status: DONE
   depends_on:
   - TASK-R14-003
   - TASK-R14-004
@@ -99,9 +99,10 @@ tasks:
   - 测试报告和失败证据归档
   - 关键缺陷清零
   session_log_required: true
+  completed_at: '2026-07-28T19:30:10Z'
 - id: TASK-R14-006
   title: 一对一聊天核心可观测性与预发布验收
-  status: BLOCKED
+  status: READY
   depends_on:
   - TASK-R14-005
   requirements: *id001

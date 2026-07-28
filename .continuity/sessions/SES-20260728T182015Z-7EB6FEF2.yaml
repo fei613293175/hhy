@@ -1,7 +1,7 @@
 protocol_version: '1.0'
 package_version: 1.2.3
 session_id: SES-20260728T182015Z-7EB6FEF2
-status: ACTIVE
+status: CLOSED
 actor:
   id: codex-r14-testing-20260729
   kind: AI_OR_HUMAN
@@ -11,7 +11,7 @@ task_id: TASK-R14-005
 story_id: STORY-R14-004
 goal: 一对一聊天核心专项测试与故障注入
 started_at: '2026-07-28T18:20:15Z'
-updated_at: '2026-07-28T19:27:24Z'
+updated_at: '2026-07-28T19:30:22Z'
 takeover_of: null
 change_requests:
 - CR-0465
@@ -62,22 +62,36 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-28T19:27:16Z'
-  expires_at: '2026-07-28T23:27:16Z'
-checkpoint_sequence: 5
-latest_checkpoint: .continuity/checkpoints/SES-20260728T182015Z-7EB6FEF2/0005.yaml
+  renewed_at: '2026-07-28T19:30:14Z'
+  expires_at: '2026-07-28T23:30:14Z'
+checkpoint_sequence: 6
+latest_checkpoint: .continuity/checkpoints/SES-20260728T182015Z-7EB6FEF2/0006.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260728T182015Z-7EB6FEF2.md
-next_step: 提交推送CR关闭元数据，随后执行continuity close完成TASK-R14-005并领取TASK-R14-006
+next_step: 提交关闭元数据Commit，然后运行pre-push/CI门禁
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: e392076286f5ddf8097b40d56c8faa30a5cc5ae7639b85ddb1d581759b301796
-  generated_at: '2026-07-28T19:27:20Z'
+  context_hash: 0e2ca70834910ad4aad7caf505853ee16e7859acff5f3e6143b58e5c9dd6cd3f
+  generated_at: '2026-07-28T19:30:19Z'
 handoff_bundle: null
-closure: null
+closure:
+  result: COMPLETED
+  summary: R14六项聊天专项测试全部自动化并由Java21、PostgreSQL17、Android固定环境、日志SHA与GitHub双门禁证明；R14至R32全链防漂移回归同步PASS
+  code_commit: dbd71c6673808e3f8a9e37f7f77efa97bef9ead9
+  next_release: R14
+  next_task: TASK-R14-006
+  blocked_advance: false
+  completed_independent_advance: false
+  user_confirmation: null
+  metadata_commit: PENDING
+  push_verification: CI_REQUIRED_AFTER_METADATA_COMMIT
+  started_at: '2026-07-28T19:30:10Z'
+  closure_checkpoint_id: CP-SES-20260728T182015Z-7EB6FEF2-0006
+  closed_at: '2026-07-28T19:30:22Z'
 parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
   reason: CR关闭元数据和任务状态切换必须由唯一事实主控串行完成
+closed_at: '2026-07-28T19:30:22Z'
