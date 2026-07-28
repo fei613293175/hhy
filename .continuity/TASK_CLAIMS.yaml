@@ -4416,7 +4416,7 @@ claims:
   task_id: TASK-R16-001
   story_id: STORY-R16-004
   actor_id: codex-root-r16-entry-20260728
-  status: ACTIVE
+  status: CLOSED
   claimed_at: '2026-07-28T09:14:47Z'
   allowed_paths:
   - apps/**
@@ -4458,3 +4458,4 @@ claims:
   - artifacts/validation/r16-entry/**
   - PROJECT_BASELINE.yaml
   - PROJECT_BASELINE.json
+  closed_at: '2026-07-28T09:48:37Z'

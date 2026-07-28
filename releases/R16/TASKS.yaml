@@ -3,7 +3,7 @@ title: 商品、SKU、报价与统一订单
 tasks:
 - id: TASK-R16-001
   title: 商品、SKU、报价与统一订单开发就绪核验、故事领取与变更基线
-  status: READY
+  status: DONE
   depends_on: []
   requirements: &id001
   - REQ-NOREFUND-001
@@ -24,9 +24,10 @@ tasks:
   - 更新Release Manifest与CR记录
   - python scripts/check_v122_documentation.py --release R16
   session_log_required: true
+  completed_at: '2026-07-28T09:48:22Z'
 - id: TASK-R16-002
   title: 商品、SKU、报价与统一订单数据迁移与领域不变量
-  status: BLOCKED
+  status: READY
   depends_on:
   - TASK-R16-001
   requirements: *id001

@@ -1,7 +1,7 @@
 protocol_version: '1.0'
 package_version: 1.2.3
 session_id: SES-20260728T091447Z-9A245BB4
-status: ACTIVE
+status: CLOSED
 actor:
   id: codex-root-r16-entry-20260728
   kind: AI_OR_HUMAN
@@ -11,7 +11,7 @@ task_id: TASK-R16-001
 story_id: STORY-R16-004
 goal: 核验R16三需求、十接口、七表、三页面与四故事，建立严格开发基线与视觉合同后进入商品、SKU、报价和统一订单纵向开发
 started_at: '2026-07-28T09:14:47Z'
-updated_at: '2026-07-28T09:46:45Z'
+updated_at: '2026-07-28T09:48:37Z'
 takeover_of: null
 change_requests:
 - CR-0440
@@ -98,22 +98,36 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-28T09:46:38Z'
-  expires_at: '2026-07-28T13:46:38Z'
-checkpoint_sequence: 2
-latest_checkpoint: .continuity/checkpoints/SES-20260728T091447Z-9A245BB4/0002.yaml
+  renewed_at: '2026-07-28T09:48:27Z'
+  expires_at: '2026-07-28T13:48:27Z'
+checkpoint_sequence: 3
+latest_checkpoint: .continuity/checkpoints/SES-20260728T091447Z-9A245BB4/0003.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260728T091447Z-9A245BB4.md
-next_step: 提交治理闭环，关闭TASK-R16-001并立即进入TASK-R16-002数据库迁移与领域不变量
+next_step: 提交关闭元数据Commit，然后运行pre-push/CI门禁
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: 330c6c31fcd31323ae4c07c4a3b720cb2eacd5a994ce1a9ea939b8246107226f
-  generated_at: '2026-07-28T09:46:42Z'
+  context_hash: 4e9bdfddbf933efee659eb12bc0077ecd2a40120bf0fc23083e77e2fec0547a7
+  generated_at: '2026-07-28T09:48:32Z'
 handoff_bundle: null
-closure: null
+closure:
+  result: COMPLETED
+  summary: TASK-R16-001完成：R16三需求、十接口、七表、三页面与四故事已核验，显式商品订单合同和三页视觉施工基线已冻结并通过全部入口门禁
+  code_commit: a0ffe13ec2294c4af79da5d185887f1ad6053175
+  next_release: R16
+  next_task: TASK-R16-002
+  blocked_advance: false
+  completed_independent_advance: false
+  user_confirmation: null
+  metadata_commit: PENDING
+  push_verification: CI_REQUIRED_AFTER_METADATA_COMMIT
+  started_at: '2026-07-28T09:48:22Z'
+  closure_checkpoint_id: CP-SES-20260728T091447Z-9A245BB4-0003
+  closed_at: '2026-07-28T09:48:37Z'
 parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
   reason: 治理闭环与任务状态迁移必须串行完成，避免会话和事实源竞争
+closed_at: '2026-07-28T09:48:37Z'

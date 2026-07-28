@@ -1,19 +1,19 @@
 {
   "version": "1.0",
-  "generated_at": "2026-07-28T09:46:42Z",
-  "context_hash": "330c6c31fcd31323ae4c07c4a3b720cb2eacd5a994ce1a9ea939b8246107226f",
-  "fingerprint_mode": "SESSION_DELTA",
+  "generated_at": "2026-07-28T09:48:42Z",
+  "context_hash": "9a7e67af9e77d5c0552ab301955a0e5d2c48f1eb9ca6358054436118f6e25623",
+  "fingerprint_mode": "REPOSITORY_TREE",
   "project_fingerprint": {
-    "sha256": "15514869f572fd487197533435c32bd604bd3ae1cde3bbe0d469b8498eeff49a",
-    "file_count": 31
+    "sha256": "bf86f70bdf690a103a937c6e7f729c1294aaffe9c4aad890b3cb0e3060e7a533",
+    "file_count": 0
   },
   "yaml": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.yaml",
-    "sha256": "409fa0903ee03af96da50fdaadb662cfdab0c07d06d9a377f12b815290dfbdce"
+    "sha256": "8b5d2247b0944fa749a53b899a216c9e2e0b13e258d3ace3d85aa957b759b05f"
   },
   "markdown": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.md",
-    "sha256": "4ae52539921fa6138fc6d53fd32d9c6b985fc32c17df460b5bc3af725da734d5"
+    "sha256": "5df12ee61d06210e7b6f3f21882e91afa9907042efe10799e7c0fb2298abef42"
   },
   "sources": [
     {
@@ -28,13 +28,13 @@
     },
     {
       "path": "CURRENT_STATUS.yaml",
-      "sha256": "de4a80aec84563286ec779178f552f7690b9c4442123930409426972f4006154",
-      "bytes": 4686
+      "sha256": "e0e77b0f51ce6e0ced746b154a91ced17aa950c4802fc6893f5a442b55b55c1e",
+      "bytes": 4544
     },
     {
       "path": "NEXT_TASK.yaml",
-      "sha256": "004c842d882597032ec61704b215cbd7a5b6bcc0619836aacc9ca37063f69091",
-      "bytes": 2572
+      "sha256": "ebe5137367387ddaaa800bf74adba4f72ddbbf090dc2da2d28f8679cd9ba95b5",
+      "bytes": 1566
     },
     {
       "path": "DEVELOPMENT_RISK_REGISTER.md",
@@ -83,18 +83,18 @@
     },
     {
       "path": ".continuity/EVENT_LOG.jsonl",
-      "sha256": "2763b8d2a5caaeb1568ec2da6ebc0aac72242cc95d5da4f964aa40f530bbf18a",
-      "bytes": 2396076
+      "sha256": "3ca531dd9f249814bd885d791e3d8e582a8929e4787832b020b0bb39b4b6d9c4",
+      "bytes": 2397822
     },
     {
       "path": ".continuity/SESSION_INDEX.yaml",
-      "sha256": "48b34be2b88ce25421e3b5045addad06e5f23bd0a1656638018933dd80419c29",
-      "bytes": 62161
+      "sha256": "f193259db819d29fc11c59ecc7170aa220c6009b6840481fbfcef495196069ab",
+      "bytes": 62179
     },
     {
       "path": ".continuity/TASK_CLAIMS.yaml",
-      "sha256": "392517ed151deaa97edfbfaccd68339adb2ef1925579a8dc09e9096065f3997a",
-      "bytes": 87931
+      "sha256": "dc1d2531ddc8b6edaa5f61abce3b9cbf0bbec926adfcf54cf2066f2affd1588f",
+      "bytes": 87967
     },
     {
       "path": ".continuity/TASK_TRANSITIONS.yaml",
@@ -108,8 +108,8 @@
     },
     {
       "path": ".continuity/ACTIVE_SESSION.yaml",
-      "sha256": "054f4549bf534ea023c3825b6593fe0beb2b25559a6295794206aa977327de01",
-      "bytes": 544
+      "sha256": "15e295239e927dacb18562f2d77291e14302b5a26ce535fed162cf22c218392e",
+      "bytes": 143
     },
     {
       "path": "docs/00-baseline/正式商业系统全局硬性开发边界.md",
@@ -148,28 +148,13 @@
     },
     {
       "path": "releases/R16/TASKS.yaml",
-      "sha256": "d8ca6296524bf8ae6993ed81c532c7f22abbc3c1232c4e2767b86c7341b841ce",
-      "bytes": 5601
+      "sha256": "fe5771c2c52479f0c4a9e72a43a69d4677c4839897fc727aa0dff05235d9be53",
+      "bytes": 5637
     },
     {
       "path": "releases/R16/ACCEPTANCE_MATRIX.csv",
       "sha256": "6c6b0104146b52bb78d72e9f0db5b389d43dc5fc1fdf8fa054437b4150452625",
       "bytes": 684
-    },
-    {
-      "path": "docs/03-continuity/sessions/2026-07/SES-20260728T091447Z-9A245BB4.md",
-      "sha256": "e8e161b7ee95deb8becc806af6837721d0697cfb0dcd463e83d72d06d168f4c1",
-      "bytes": 7195
-    },
-    {
-      "path": ".continuity/checkpoints/SES-20260728T091447Z-9A245BB4/0002.yaml",
-      "sha256": "29dae606cdbd266256be5d112095ef8cca31a542ccd1d96e2815d1dd4e47d115",
-      "bytes": 14823
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0440-建立R16显式商品订单合同与三页视觉施工基线.md",
-      "sha256": "c9ca96cd4ae419b43571ad1236e5fa4e0c46659447bc2668b053216f3488c170",
-      "bytes": 7406
     }
   ]
 }
