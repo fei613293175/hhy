@@ -11,9 +11,10 @@ task_id: TASK-R16-002
 story_id: STORY-R16-001
 goal: 实现商品、SKU、报价与统一订单的前向数据库迁移、领域不变量、空库与升级库验证，为R16后端服务建立可靠数据基线
 started_at: '2026-07-28T09:50:44Z'
-updated_at: '2026-07-28T09:52:32Z'
+updated_at: '2026-07-28T10:18:32Z'
 takeover_of: null
-change_requests: []
+change_requests:
+- CR-0441
 scope:
   allowed_paths:
   - apps/admin-web/**
@@ -29,8 +30,24 @@ scope:
   - design/**
   - scripts/**
   - CHANGELOG.md
-  approved_exceptions: []
-  source: story+explicit
+  approved_exceptions:
+  - database/migrations/V045__r16_commerce_order_invariants.sql
+  - services/backend/boot/src/main/resources/db/migration/V045__r16_commerce_order_invariants.sql
+  - database/rollback/U045__r16_commerce_order_invariants_DEV_ONLY.sql
+  - database/tests/r16_commerce_order_invariants.sql
+  - catalogs/data_tables.csv
+  - database/schema_dictionary.csv
+  - database/schema_traceability.csv
+  - scripts/run_r16_database_invariants.sh
+  - scripts/run_postgres_migration_smoke.sh
+  - scripts/check_db_schema.py
+  - tests/test_r16_database_contract.py
+  - releases/R16/TASKS.yaml
+  - releases/R16/RELEASE_MANIFEST.yaml
+  - releases/R16/STORIES.yaml
+  - artifacts/reports/R16/TASK-R16-002-data-invariants.md
+  - CHANGELOG.md
+  source: story+explicit+approved-cr:CR-0441
 git:
   initialized: true
   branch: task/TASK-R03-001
@@ -40,22 +57,22 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-28T09:52:25Z'
-  expires_at: '2026-07-28T13:52:25Z'
-checkpoint_sequence: 1
-latest_checkpoint: .continuity/checkpoints/SES-20260728T095044Z-DCF99F77/0001.yaml
+  renewed_at: '2026-07-28T10:18:24Z'
+  expires_at: '2026-07-28T14:18:24Z'
+checkpoint_sequence: 2
+latest_checkpoint: .continuity/checkpoints/SES-20260728T095044Z-DCF99F77/0002.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260728T095044Z-DCF99F77.md
-next_step: 提交会话启动检查点，切换到STORY-R16-004工程治理故事后创建R16数据迁移CR
+next_step: 提交并推送TASK-R16-002实现，绑定并关闭CR-0441，关闭任务后立即进入TASK-R16-003后端应用服务
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: 4f9c70c2cc9451116b27280c87b609f0bfed247873eb79110167f0b5a516c848
-  generated_at: '2026-07-28T09:52:29Z'
+  context_hash: cfd26e66a377e2345255be949768b75bc05b5bfb034b8edac317d7d38effcef2
+  generated_at: '2026-07-28T10:18:28Z'
 handoff_bundle: null
 closure: null
 parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 会话锚点与Story切换属于单一连续性状态机，必须串行
+  reason: V045、目录、运行时副本、回滚和属性测试必须保持原子单写者；方案已由独立审查角色审批

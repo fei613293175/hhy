@@ -73,6 +73,14 @@ entry_baseline:
   report: artifacts/reports/R16/TASK-R16-001-entry-baseline.md
   contract_rule: R16十接口使用显式商品、SKU和订单资源；禁止oneOf或CommandResultResource回退
   visual_rule: 三页具备精确或批准补充视觉合同；效果图示例数据与未登记动作全部过滤
+data_baseline:
+  cr_id: CR-0441
+  status: PASS
+  migration: database/migrations/V045__r16_commerce_order_invariants.sql
+  rollback: database/rollback/U045__r16_commerce_order_invariants_DEV_ONLY.sql
+  invariant_matrix: database/tests/r16_commerce_order_invariants.sql
+  report: artifacts/reports/R16/TASK-R16-002-data-invariants.md
+  compatibility_rule: 历史事实只做确定性转换，无法确定时升级原子拒绝；禁止伪造展示名称、权益或不退款证据
 definition_of_ready: releases/R16/DEFINITION_OF_READY.yaml
 story_backlog: releases/R16/STORIES.yaml
 continuity:

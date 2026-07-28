@@ -236,4 +236,9 @@ stories:
   - 变更必须通过CR，更新唯一事实源并重新生成全部派生目录和哈希
   - 完成Session Log、追踪矩阵、发布证据和下一任务交接
   definition_of_ready: DEFINITION_OF_READY.yaml全部阻断项PASS
+  data_baseline:
+    cr_id: CR-0441
+    migration: database/migrations/V045__r16_commerce_order_invariants.sql
+    invariant_report: artifacts/reports/R16/TASK-R16-002-data-invariants.md
+    status: PASS
   status: IMPLEMENTING

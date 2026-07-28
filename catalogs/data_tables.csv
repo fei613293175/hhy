@@ -55,14 +55,14 @@
 通知,push_tokens,推送令牌,"user_id, device_id, provider, token",token唯一,R15
 通知,announcements,公告,"title, content, status, published_at",CMS,R15
 通知,announcement_reads,公告已读,"announcement_id, user_id, read_at",唯一,R15
-商品,products,商品,"type, name, status, display_order",商品类型,R16
-商品,product_skus,SKU,"product_id, code, price_cent, duration, attributes_json, status",code唯一,R16
-商品,sku_commission_policies,SKU分佣,"sku_id, level1_bps, level2_bps, enabled, version",版本快照,R16
-商品,coupons,优惠券定义,"code, discount_type, value, scope, validity",可选模块,R16
-商品,user_coupons,用户优惠券,"user_id, coupon_id, status, expires_at",状态,R16
-订单,orders,订单主表,"order_no, user_id, biz_type, biz_id, amount_cent, status",order_no唯一,R16
-订单,order_items,订单项,"order_id, sku_id, quantity, unit_price, snapshot_json",快照,R16
-订单,order_price_snapshots,报价快照,"order_id, original, discount, service_fee, payable, rule_versions",order唯一,R16
+商品,products,商品,"product_code, type, name, description, status, display_order, version","product_code唯一；name/type/status非空；version非负",R16
+商品,product_skus,SKU,"product_id, code, name, price_cent, member_price_cent, duration_days, benefits_json, sale_starts_at, sale_ends_at, status, version","code唯一；显式权益数组；金额非负；销售时段有序",R16
+商品,sku_commission_policies,SKU分佣,"sku_id, level1_bps, level2_bps, enabled, version","每SKU唯一；两级bps合计不超过10000；version非负",R16
+商品,coupons,优惠券定义,"code, discount_type, value, scope, validity","code唯一非空；value非负；可选模块",R16
+商品,user_coupons,用户优惠券,"user_id, coupon_id, status, expires_at","status非空；不臆造永久唯一",R16
+订单,orders,订单主表,"order_no, user_id, biz_type, biz_id, amount_cent, status, currency, paid_amount_cent, no_refund_confirmed, idempotency_key, request_hash, version","order_no唯一；创建幂等三元组；完整ORDER_STATUS；不退款证据；报价提交一致",R16
+订单,order_items,订单项,"order_id, sku_id, item_name, quantity, unit_price, subtotal_amount_cent, snapshot_json","写入后不可变；quantity>=1；subtotal等于quantity乘unit_price",R16
+订单,order_price_snapshots,报价快照,"order_id, original, discount, service_fee, payable, rule_versions_json","每订单唯一且写入后不可变；original-discount+service_fee=payable",R16
 支付,payment_transactions,支付交易,"order_id, gateway, channel, provider_trade_no, amount, status",provider_trade_no唯一,R17
 支付,payment_callbacks,支付回调,"gateway, provider_trade_no, payload_cipher, signature_valid, processed",幂等,R17
 支付,payment_exception_orders,异常账务,"order_id, type, status, resolution",双人复核,R17

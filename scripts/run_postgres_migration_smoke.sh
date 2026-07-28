@@ -329,6 +329,8 @@ DATABASE_URL="$DATABASE_URL" HHY_DB_SMOKE_CONFIRM=YES \
   bash "$ROOT/scripts/run_r12_database_invariants.sh"
 DATABASE_URL="$DATABASE_URL" HHY_DB_SMOKE_CONFIRM=YES \
   bash "$ROOT/scripts/run_r14_database_invariants.sh"
+DATABASE_URL="$DATABASE_URL" HHY_DB_SMOKE_CONFIRM=YES \
+  bash "$ROOT/scripts/run_r16_database_invariants.sh"
 FINAL_TABLE_COUNT="$("${PSQL[@]}" -Atc "SELECT count(*) FROM information_schema.tables WHERE table_schema='hhy' AND table_type='BASE TABLE';")"
 [[ "$FINAL_TABLE_COUNT" == "203" ]] || {
   echo "Final schema must contain 203 tables, got $FINAL_TABLE_COUNT" >&2

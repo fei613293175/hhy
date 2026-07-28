@@ -429,6 +429,88 @@ if all((ROOT / relative).is_file() for relative in r14_required_files):
         if marker not in r14_runner:
             errors.append(f"R14 database runner missing WebSocket closure marker: {marker}")
 
+r16_required_files = (
+    "database/migrations/V045__r16_commerce_order_invariants.sql",
+    "services/backend/boot/src/main/resources/db/migration/V045__r16_commerce_order_invariants.sql",
+    "database/rollback/U045__r16_commerce_order_invariants_DEV_ONLY.sql",
+    "database/tests/r16_commerce_order_invariants.sql",
+    "scripts/run_r16_database_invariants.sh",
+    "tests/test_r16_database_contract.py",
+)
+for relative in r16_required_files:
+    if not (ROOT / relative).is_file():
+        errors.append(f"missing R16 database closure asset: {relative}")
+
+if all((ROOT / relative).is_file() for relative in r16_required_files):
+    r16_migration = (ROOT / r16_required_files[0]).read_text(encoding="utf-8")
+    for marker in (
+        "R16_DIRTY_UPGRADE_PRODUCT_REQUIRED_FACT_MISSING",
+        "R16_DIRTY_UPGRADE_SKU_EXPLICIT_FACT_MISSING",
+        "R16_DIRTY_UPGRADE_ORDER_ITEM_FACT_MISSING",
+        "R16_DIRTY_UPGRADE_PRICE_SNAPSHOT_INVALID",
+        "R16_DIRTY_UPGRADE_ORDER_QUOTE_MISSING",
+        "r16_benefits_valid",
+        "uq_r16_orders_creation_idempotency",
+        "R16_ORDER_INITIAL_STATUS_INVALID",
+        "R16_ORDER_INVALID_TRANSITION",
+        "R16_ORDER_NO_REFUND_EVIDENCE_REQUIRED",
+        "record_platform_status_history",
+        "prevent_immutable_mutation",
+        "assert_r16_order_quote",
+        "DEFERRABLE INITIALLY DEFERRED",
+    ):
+        if marker not in r16_migration:
+            errors.append(f"V045 missing R16 commerce/order invariant marker: {marker}")
+
+    r16_rollback = (ROOT / r16_required_files[2]).read_text(encoding="utf-8")
+    for marker in (
+        "DEV/TEST only",
+        "R16_U045_BUSINESS_FACTS_PRESENT",
+        "DROP TRIGGER IF EXISTS trg_r16_orders_guard",
+        "DROP FUNCTION IF EXISTS hhy.assert_r16_order_quote",
+        "DROP COLUMN IF EXISTS legacy_without_idempotency",
+        "DROP COLUMN IF EXISTS benefits_json",
+    ):
+        if marker not in r16_rollback:
+            errors.append(f"U045 missing R16 rollback marker: {marker}")
+    if re.search(r"(?im)^\s*(DELETE|TRUNCATE)\s+(FROM\s+)?hhy\.", r16_rollback):
+        errors.append("U045 must not delete or truncate R16 business facts")
+
+    r16_test = (ROOT / r16_required_files[3]).read_text(encoding="utf-8")
+    for marker in (
+        "R16_INVALID_BENEFIT_SHAPE_WAS_ACCEPTED",
+        "R16_DUPLICATE_IDEMPOTENCY_WAS_ACCEPTED",
+        "R16_PAYMENT_WITHOUT_NO_REFUND_EVIDENCE_WAS_ACCEPTED",
+        "R16_ILLEGAL_ORDER_TRANSITION_WAS_ACCEPTED",
+        "R16_ROLLED_BACK_TRANSITION_LEFT_HISTORY",
+        "R16_ORDER_ITEM_MUTATION_WAS_ACCEPTED",
+        "R16_PRICE_SNAPSHOT_MUTATION_WAS_ACCEPTED",
+        "R16_COMMERCE_ORDER_INVARIANT_PROPERTY_MATRIX PASS",
+    ):
+        if marker not in r16_test:
+            errors.append(f"R16 invariant test missing marker: {marker}")
+
+    r16_runner = (ROOT / r16_required_files[4]).read_text(encoding="utf-8")
+    for marker in (
+        "server_version >= 170000",
+        "R16_EMPTY_DATABASE_MIGRATION PASS",
+        "R16_V044_UPGRADE_NO_FABRICATION PASS",
+        "R16_DIRTY_UPGRADE_ATOMIC_MATRIX PASS",
+        "R16_U045_ROLLBACK_WITH_FACTS_REJECTED_ATOMICALLY PASS",
+        "R16_U045_ROLLBACK_V045_REPLAY PASS",
+        "R16_ORDER_CONCURRENT_IDEMPOTENCY PASS",
+        "R16_DATABASE_INVARIANTS PASS",
+    ):
+        if marker not in r16_runner:
+            errors.append(f"R16 database runner missing closure marker: {marker}")
+
+    if "run_r16_database_invariants.sh" not in migration_smoke:
+        errors.append("migration smoke missing R16 invariant runner")
+    if "V045__r16_commerce_order_invariants.sql" not in {
+        path.name for path in root_migrations
+    }:
+        errors.append("migration chain is missing V045 R16 commerce/order invariants")
+
 if errors:
     print("DB_SCHEMA_FAIL")
     print("\n".join(errors))
