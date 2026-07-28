@@ -2089,3 +2089,16 @@ problems:
   - 不得把HTTP 200、容器healthy、镜像ID或Release标签当作后端源码身份
   - 不得使用8位Commit标签或人工指定旧镜像绕过冻结Commit绑定
   - 候选失败后不得无修复重跑；必须先保存JUnit、日志、数据库语义和路由身份原始证据
+- id: PROB-0147
+  title: R14候选重复文字确认助手直接点击不可点击语义子节点
+  status: SOLVED
+  root_cause: R14 Attempt2已成功加载会话夹具、搜索、进入详情、发送消息并显示已发送，但ReleaseCandidateSmokeTest.clickLastExactText只从同文案节点中选择最后一个enabled节点后直接click，没有执行PITFALLS第32条和PATTERN-ANDROID-REMOTE-001既有的可点击祖先解析。Run 30407390156目标进程日志在23:22:24明确记录“确认拉黑”为clickable=false的TextView且UiObject2仍尝试点击；因此拉黑API未触发，10秒后禁发断言失败，不是产品拉黑状态、后端接口或夹具错误。
+  resolution: CR-0478原位让clickLastExactText从最后一个enabled文字节点向上选择首个enabled且clickable祖先，并在既有Android候选治理测试中锁定祖先解析、错误诊断和禁止textNode直接click；Attempt2运行包、instrumentation、logcat和runtime报告SHA写入失败证据。候选请求精确递增为Attempt3，必须绑定修复Commit并从同Commit重建候选后端后完整重跑R14旅程。
+  regression_checks:
+  - tests.test_android_ci_gate必须验证clickLastExactText包含generateSequence祖先解析与enabled/clickable筛选且禁止textNode.click
+  - R14 Attempt3必须真实通过确认拉黑、禁发、返回重进、解除拉黑和列表长按删除，不得把前两张截图或后端已有block记录冒充旅程PASS
+  - R14至R32后续候选使用重复文字确认按钮时必须复用同一助手语义，不得新增直接点击文字叶节点的旁路
+  do_not_repeat:
+  - Compose文字语义节点enabled不等于clickable，不能以lastOrNull enabled后直接click
+  - 候选断言失败不得先修改产品状态或延长等待；必须先读取目标进程UiAutomator点击诊断和服务端写入事实
+  - 同一失败Attempt不得重跑；必须保存原始证据、形成修复Commit并递增唯一request_id

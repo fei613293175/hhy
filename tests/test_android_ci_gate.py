@@ -1288,6 +1288,13 @@ class AndroidCiGateTest(unittest.TestCase):
         self.assertIn("generateSequence(textNode) { current -> current.parent }", smoke_test)
         self.assertIn("generateSequence(resourceNode) { current -> current.parent }", smoke_test)
         self.assertIn(".firstOrNull { it.isClickable && it.isEnabled }", smoke_test)
+        last_text_helper = smoke_test[
+            smoke_test.index("private fun clickLastExactText"):
+            smoke_test.index("private fun clickResource")
+        ]
+        self.assertIn("generateSequence(textNode) { current -> current.parent }", last_text_helper)
+        self.assertIn('error("Cannot find clickable UI ancestor: $value")', last_text_helper)
+        self.assertNotIn("textNode.click()", last_text_helper)
         resource_helper = smoke_test[
             smoke_test.index("private fun clickResource"):
             smoke_test.index("private fun scrollUntilResource")

@@ -29785,3 +29785,51 @@ change_requests:
     session_id: SES-20260728T220632Z-FE7D82FD
   session_ids:
   - SES-20260728T220632Z-FE7D82FD
+- protocol_version: '1.0'
+  cr_id: CR-0478
+  title: 修复R14候选确认按钮点击语义漂移并递增Attempt3
+  status: IMPLEMENTING
+  created_at: '2026-07-28T23:32:35Z'
+  updated_at: '2026-07-28T23:36:19Z'
+  requester_actor_id: codex-r14-close-20260729
+  approver_actor_id: project-owner-continuity-directive-20260729
+  task_id: TASK-R14-008
+  session_id: SES-20260728T220632Z-FE7D82FD
+  user_request: 持续完成R14并确保R14至R32开发不漂移；候选失败由AI读取真实日志后修复并继续，不得盲目重跑或停下等待确认
+  reason: Run 30407390156日志证明clickLastExactText直接点击不可点击Text语义子节点，违反既有PITFALLS第32条和PATTERN-ANDROID-REMOTE-001，导致确认拉黑请求未触发
+  original_rule: PITFALLS第32条与PATTERN-ANDROID-REMOTE-001已要求文字节点向上选择首个enabled且clickable祖先，但ReleaseCandidateSmokeTest.clickLastExactText仍直接点击最后一个enabled文字子节点
+  new_rule: 不新增平行规则；原位让clickLastExactText与clickExactText复用同一可点击祖先解析语义，并以源码治理回归阻断任何直接node.click旁路；Attempt2失败证据入库后只允许绑定修复Commit的Attempt3
+  impact_summary: 修复R14候选确认拉黑、解除拉黑和删除会话的重复文字确认按钮点击；登记Attempt2真实失败和PROB-0147；递增唯一候选请求到Attempt3，不修改产品UI、API、数据库或正式业务逻辑
+  impact:
+    files:
+    - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+    - tests/test_android_ci_gate.py
+    - config/android-candidate-request.yaml
+    - artifacts/validation/r14-candidate-attempt2/failure-evidence.json
+    - docs/03-continuity/PROBLEM_REGISTRY.yaml
+    - CHANGELOG.md
+    pages: []
+    apis: []
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - python -m unittest tests.test_android_ci_gate tests.test_continuity_version_sequence
+    releases:
+    - R14
+    migration_and_compatibility: 纯Android候选测试与治理证据变更；正式App行为、公共OpenAPI、数据库和线上数据不变。Attempt3仍需从新冻结Commit重建同Commit候选后端并通过完整旅程，禁止复用Attempt2结果或无修复重跑
+  user_confirmation: 项目所有者已要求持续完成R14至R32且候选失败由AI自行分析修复，后续不得发生开发漂移或因逐次确认停止
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-28T23:33:13Z'
+    note: 沿用既有点击祖先硬规则进行窄范围修复，证据与回归范围完整，不扩展产品行为；Attempt2已消费，批准绑定修复Commit后触发唯一Attempt3
+  machine_record: .continuity/change_requests/CR-0478.yaml
+  document: docs/03-continuity/change-requests/CR-0478-修复R14候选确认按钮点击语义漂移并递增Attempt3.md
+  decision_log:
+  - at: '2026-07-28T23:36:19Z'
+    actor_id: codex-r14-close-20260729
+    status: IMPLEMENTING
+    note: Attempt2证据、PROB-0147、点击祖先修复、治理回归与Attempt3请求已实现，进入冻结Commit及obx-test模块验证
+    session_id: SES-20260728T220632Z-FE7D82FD
+  session_ids:
+  - SES-20260728T220632Z-FE7D82FD

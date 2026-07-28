@@ -327,9 +327,12 @@ class ReleaseCandidateSmokeTest {
     }
 
     private fun clickLastExactText(value: String) {
-        val node = device.wait(Until.findObjects(By.text(value)), 15_000)
+        val textNode = device.wait(Until.findObjects(By.text(value)), 15_000)
             .lastOrNull { it.isEnabled }
             ?: error("Cannot find enabled UI element: $value")
+        val node = generateSequence(textNode) { current -> current.parent }
+            .firstOrNull { it.isClickable && it.isEnabled }
+            ?: error("Cannot find clickable UI ancestor: $value")
         node.click()
         composeRule.waitForIdle()
         device.waitForIdle(2_000)

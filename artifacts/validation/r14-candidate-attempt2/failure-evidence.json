@@ -1,0 +1,49 @@
+{
+  "schema": "hhy.android-candidate-failure-evidence/v1",
+  "release": "R14",
+  "attempt": 2,
+  "request_id": "R14-CANDIDATE-20260729-002",
+  "github_run_id": "30407390156",
+  "github_run_url": "https://github.com/fei613293175/hhy/actions/runs/30407390156",
+  "source_commit": "59331083864c0367a1a3a101e28dadf3b33180ee",
+  "status": "FAIL",
+  "failed_assertion": {
+    "message": "R14 block did not disable the composer",
+    "source": "apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt:210"
+  },
+  "root_cause": {
+    "classification": "AUTOMATION_CLICK_SEMANTICS",
+    "detail": "clickLastExactText selected the last enabled text node and clicked it directly instead of resolving its enabled clickable ancestor",
+    "target_process_log": "07-28 23:22:24.141 W UiObject2: Clicking on non-clickable object ... text: 确认拉黑 ... className: android.widget.TextView ... clickable: false; enabled: true",
+    "product_block_api_invoked": false,
+    "backend_or_fixture_regression": false
+  },
+  "progress_before_failure": [
+    "authenticated shell actionable",
+    "R14 fixture peer and message visible",
+    "conversation search settled without error",
+    "chat detail opened",
+    "new message appeared with sent state and without false read state"
+  ],
+  "artifacts": {
+    "runtime_zip_sha256": "cc511d752d39e5c980e8b09689474ee1ed52af9c2a3af34049ef81beaabc2ffc",
+    "instrumentation_log_sha256": "b71f6bb04c5e02ffb889f165c3ddeed82e5fd159500fa150f9c54ea541fee854",
+    "logcat_sha256": "c5ed48e552729f78643f778c88698e9c33f75e4000b96f12ba3efc5cbc5aa67a",
+    "runtime_report_sha256": "e02729d8e8664b648e86edefe65ededcc5ab262e1dc33f4f03d7bf2ed673ae15",
+    "captured_screenshots": [
+      "01-r14-conversations.png",
+      "02-r14-sent.png"
+    ],
+    "missing_after_failure": [
+      "03-r14-blocked-reentry.png",
+      "04-r14-long-press-menu.png"
+    ]
+  },
+  "remediation": {
+    "change_request": "CR-0478",
+    "problem": "PROB-0147",
+    "next_request_id": "R14-CANDIDATE-20260729-003",
+    "blind_rerun_allowed": false
+  },
+  "secrets_recorded": false
+}

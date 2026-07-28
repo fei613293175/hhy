@@ -2,6 +2,6 @@ schema_version: 1
 status: REQUESTED
 release: R14
 candidate: true
-remediation_attempt: 2
-request_id: R14-CANDIDATE-20260729-002
-reason: R14 Attempt1在自动登录及会话HTTP均成功后因R14夹具用户缺失失败；CR-0477证明公网仍路由到早于夹具实现的旧后端，并新增候选容器完整源码Commit、干净Git HEAD与冻结Commit三方一致门禁。本轮只在同一冻结提交后端完成路由和夹具语义预检后触发，继续完整执行会话搜索、发送消息未读状态、拉黑后重进、解除拉黑、列表长按删除、截图、JUnit及目标进程日志审核。候选PASS后才允许从同一提交在obx-test固定工具链构建稳定签名TEST_APK并原子替换10224交付；owner真机反馈保持异步PENDING。
+remediation_attempt: 3
+request_id: R14-CANDIDATE-20260729-003
+reason: R14 Attempt2已越过旧后端与夹具缺失问题，但Run 30407390156的目标进程日志明确显示clickLastExactText命中“确认拉黑”不可点击文字子节点并直接调用click，拉黑请求未触发，随后在禁发断言失败。CR-0478沿用既有文字节点必须向上解析enabled且clickable祖先的规则修复该助手并加入源码回归；本轮只允许绑定修复Commit、同Commit候选后端和已验证夹具触发，继续完整执行搜索、发送未读、拉黑后重进、解除拉黑、列表长按删除、截图、JUnit及目标进程日志审核。候选PASS后才允许从同一提交在obx-test固定工具链构建稳定签名TEST_APK并原子替换10224交付；owner真机反馈保持异步PENDING。
