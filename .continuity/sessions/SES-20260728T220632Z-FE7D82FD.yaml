@@ -11,9 +11,10 @@ task_id: TASK-R14-008
 story_id: STORY-R14-004
 goal: 一对一聊天核心版本关闭与无状态交接
 started_at: '2026-07-28T22:06:32Z'
-updated_at: '2026-07-28T22:09:49Z'
+updated_at: '2026-07-28T22:18:20Z'
 takeover_of: null
-change_requests: []
+change_requests:
+- CR-0475
 scope:
   allowed_paths:
   - apps/**
@@ -47,8 +48,27 @@ scope:
   - requirements-dev.txt
   - PROJECT_*.yaml
   - PROJECT_*.json
-  approved_exceptions: []
-  source: story+explicit
+  approved_exceptions:
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+  - apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+  - config/android-candidate-request.yaml
+  - artifacts/apk/R14/APK_MANIFEST.yaml
+  - artifacts/apk/R14/history/2eb8ac7/APK_MANIFEST.yaml
+  - artifacts/validation/r14-apk-delivery/delivery-evidence.json
+  - artifacts/validation/r14-apk-delivery/history/2eb8ac7/delivery-evidence.json
+  - artifacts/validation/r14-task008-android/build-evidence.json
+  - artifacts/validation/r14-task008-candidate
+  - artifacts/reports/R14/R14-version-test-guide.md
+  - artifacts/reports/R14/TASK-R14-007-android-apk.md
+  - artifacts/reports/R14/TASK-R14-008-machine-close.md
+  - releases/R14/RELEASE_MANIFEST.yaml
+  - releases/R14/ACCEPTANCE_MATRIX.csv
+  - catalogs/ui_visual_acceptance.csv
+  - tests/android/visual-baselines/R14
+  - infra/nginx/r14-apk-location.inc
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  source: story+explicit+approved-cr:CR-0475
 git:
   initialized: true
   branch: task/TASK-R03-001
@@ -58,22 +78,22 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-28T22:09:40Z'
-  expires_at: '2026-07-29T02:09:40Z'
-checkpoint_sequence: 1
-latest_checkpoint: .continuity/checkpoints/SES-20260728T220632Z-FE7D82FD/0001.yaml
+  renewed_at: '2026-07-28T22:18:11Z'
+  expires_at: '2026-07-29T02:18:11Z'
+checkpoint_sequence: 3
+latest_checkpoint: .continuity/checkpoints/SES-20260728T220632Z-FE7D82FD/0003.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260728T220632Z-FE7D82FD.md
-next_step: 提交会话领取记录，建立并推送r14-candidate-2eb8ac7可追溯Tag，在该Tag上workflow_dispatch R14 candidate=true
+next_step: 提交并推送唯一R14候选冻结提交，跟踪Android Candidate Request完整结果
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: 6d5850810aaec4f65f8fd022b81224f974ed085796ea318c90c1ffc164effc2e
-  generated_at: '2026-07-28T22:09:45Z'
+  context_hash: 792f3b075dab2a21830c8bcacf631f733d7d737120fc0243f1cd68e6e0ecaf43
+  generated_at: '2026-07-28T22:18:16Z'
 handoff_bundle: null
 closure: null
 parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: RELEASE_CLOSE计划明确禁用并行；候选Tag、GitHub Run、视觉裁决和机器关闭共享同一Commit证据链
+  reason: 候选冻结Commit必须原子绑定versionCode、请求、CHANGELOG、CR、Session和Checkpoint

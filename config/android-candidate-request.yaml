@@ -1,9 +1,7 @@
 schema_version: 1
 status: REQUESTED
-release: R13
+release: R14
 candidate: true
-remediation_attempt: 20
-request_id: R13-CANDIDATE-20260727-020
-reason: R13 Attempt19 Run 30269439274已通过候选请求、编译、Lint、单测和打包，并越过自动登录、我的页及收藏导航，但第一张截图前再次失败为expected=3 observedSuccess=2 visibleSuccess=2 errors=0 loading=1；runtime artifact digest为7D7FB9DE918BFE435159F2234F801640823606972ED6DFBC43AFDE7070CA54E9，四张截图未生成且owner_test_allowed=false。CR-0408停止继续猜测滚动行为，从正式state.items提取经secureActivityMediaUrl过滤并去重的真实媒体URL，使用既有Coil imageLoader.execute按与R13ActivityRow完全一致的确定尺寸预取；页面painter仍独立验证AsyncImagePainter.State，不降低登录、正式API、三张真实媒体、四张截图、日志或视觉门槛。精确修复Commit 4d6fd4d7a61cbdb6db465534bebbe5c8375c45e4已通过90项候选治理、Android UI基础、严格连续性与obx-test固定镜像feature:activity:testDebugUnitTest及app:compileDebugAndroidTestKotlin，223任务BUILD SUCCESSFUL in 1m48s；本机与远端源码SHA-256均为154C23A1C52FF22BF19D93CCF8134DFCED4C4901F54B202B44813DD9A65AC690。本请求只允许该Commit后继候选提交执行一次精确Attempt20，不得重跑Attempt19，不授权Attempt21。
-attempt_exception_id: CR-0409
-required_fix_commit: 4d6fd4d7a61cbdb6db465534bebbe5c8375c45e4
+remediation_attempt: 1
+request_id: R14-CANDIDATE-20260729-001
+reason: R14大版本机器关闭首次正式交互候选。该提交同时冻结versionCode 10225和既有R14六项消息修复；候选必须执行自动登录、会话搜索、发送消息未读状态、拉黑后重进、解除拉黑、列表长按删除、截图、JUnit及目标进程日志审核。候选PASS后才允许从同一提交在obx-test固定工具链构建稳定签名TEST_APK并原子替换10224交付；owner真机反馈保持异步PENDING。

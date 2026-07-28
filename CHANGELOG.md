@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## R14机器候选与稳定测试包同提交冻结 · 2026-07-29
+
+- `CR-0475`修正R14先交付测试包、后执行机器候选造成的提交身份错位；`versionCode`从10224单调递增到10225，并与`R14-CANDIDATE-20260729-001`放入同一冻结提交。
+- GitHub候选必须真实执行会话搜索、发送未读、拉黑后重进、解除拉黑、列表长按删除、截图、JUnit和目标进程日志审核；候选通过后才从同一提交在`obx-test`固定工具链构建稳定签名测试包。
+- 现有10224桌面和服务器交付在10225四方事务通过前保持不变；新包仍使用`hhy-staging-test-v2`与正式API/WSS，不修改业务、数据库、包名或项目所有者异步真机反馈规则。
+
 ## R14替换测试包版本身份准备 · 2026-07-29
 
 - `CR-0471`按既有APK替换规则把R14测试包`versionCode`从10223严格递增到10224，并同步Gradle、`ReleasePolicy`与`VersionMetadataTest`三个既有身份投影。
@@ -2164,4 +2170,3 @@
 - Actor：`codex-r14-apk-20260729`
 - 摘要：TASK-R14-007完成：R14 versionCode10224测试APK在obx-test固定工具链构建，稳定签名、正式API/WSS、精确下载路由、仓库/桌面/服务器/公网四方SHA和测试说明全部PASS；旧ca57666双文件原字节归档，GitHub CI 30402394274与Continuity Gate 30402394075均PASS，owner真机保持异步PENDING
 - 记录：`docs/03-continuity/sessions/2026-07/SES-20260728T205917Z-52E3B6B1.md`
-
