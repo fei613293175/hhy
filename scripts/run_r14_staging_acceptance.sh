@@ -8,6 +8,8 @@ CURRENT_TAG=${HHY_R14_CURRENT_TAG:-${FROZEN_COMMIT:0:8}}
 ROLLBACK_COMMIT=${HHY_R14_ROLLBACK_COMMIT:-f4b7d4854e10dedd40d4b40cdb2d79e57687e9b7}
 ROLLBACK_IMAGE=${HHY_R14_ROLLBACK_IMAGE:-hhy-backend-r14-baseline:f4b7d485}
 ROLLBACK_TAG=${HHY_R14_ROLLBACK_TAG:-rollback-f4b7d485}
+REPORT_CATALOG_SOURCE_COMMIT=${HHY_R14_REPORT_CATALOG_SOURCE_COMMIT:-054da178f90b752e23b33b8de49c22c6c8421026}
+REPORT_CATALOG_JAVA=services/backend/content/src/main/java/cc/orbexa/hhy/content/R14ChatReportReasonCatalog.java
 HTTP_PORT=${HHY_R14_SMOKE_HTTP_PORT:-38114}
 PROMETHEUS_PORT=${HHY_R14_PROMETHEUS_PORT:-39618}
 COMPOSE_FILE="$ROOT/infra/staging/r14-smoke/docker-compose.yml"
@@ -20,6 +22,7 @@ test "$HTTP_PORT" = 38114
 test "$PROMETHEUS_PORT" = 39618
 test "${HHY_R14_ALERTMANAGER_PORT:-39619}" = 39619
 test "$ROLLBACK_COMMIT" = f4b7d4854e10dedd40d4b40cdb2d79e57687e9b7
+test "$REPORT_CATALOG_SOURCE_COMMIT" = 054da178f90b752e23b33b8de49c22c6c8421026
 
 export HHY_SMOKE_ID=${HHY_SMOKE_ID:-$CURRENT_TAG}
 export POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-r14-compose-inspection-0000000000000000}
@@ -140,6 +143,19 @@ recover_runtime() {
 }
 trap recover_runtime EXIT
 
+validate_report_catalog() {
+  git cat-file -e "${REPORT_CATALOG_SOURCE_COMMIT}^{commit}"
+  git merge-base --is-ancestor "$REPORT_CATALOG_SOURCE_COMMIT" "$FROZEN_COMMIT"
+  python3 scripts/generate_chat_report_reason_catalog.py --check
+  test -s "$REPORT_CATALOG_JAVA"
+  {
+    echo report_catalog_status=PASS
+    echo report_catalog_source_commit="$REPORT_CATALOG_SOURCE_COMMIT"
+    echo report_catalog_java_sha256="$(sha256sum "$REPORT_CATALOG_JAVA" | awk '{print $1}')"
+    echo report_catalog_generated_check=PASS
+  } > "$EVIDENCE/report-catalog.txt"
+}
+
 start_isolated_stack() {
   test -z "$("${COMPOSE[@]}" ps -aq)"
   "${COMPOSE[@]}" up -d --build
@@ -161,6 +177,8 @@ capture_baseline() {
     echo release=R14
     echo frozen_commit="$FROZEN_COMMIT"
     echo rollback_commit="$ROLLBACK_COMMIT"
+    echo report_catalog_source_commit="$REPORT_CATALOG_SOURCE_COMMIT"
+    echo report_catalog_java_sha256="$(sha256sum "$REPORT_CATALOG_JAVA" | awk '{print $1}')"
     echo compose_project="$PROJECT"
     echo network_subnet="$HHY_R14_SMOKE_SUBNET"
     echo current_image="$current_image"
@@ -204,6 +222,8 @@ capture_baseline() {
     infra/staging/r14-smoke/docker-compose.yml infra/staging/r14-smoke/prometheus.yml \
     infra/staging/r14-smoke/alertmanager.yml infra/staging/r14-smoke/nginx.conf \
     infra/staging/r14-smoke/r14-alerts.yml scripts/run_r14_staging_acceptance.sh \
+    contracts/openapi.yaml "$REPORT_CATALOG_JAVA" \
+    apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ChatReportReasons.kt \
     > "$EVIDENCE/source-sha256.txt"
 }
 
@@ -326,6 +346,7 @@ finalize_evidence() {
     echo task=TASK-R14-006
     echo frozen_commit="$FROZEN_COMMIT"
     echo rollback_commit="$ROLLBACK_COMMIT"
+    cat "$EVIDENCE/report-catalog.txt"
     echo compose_project="$PROJECT"
     echo current_image="$current_image"
     echo postgres_volume="$pg_volume"
@@ -342,13 +363,14 @@ finalize_evidence() {
     grep '=PASS$' "$EVIDENCE/rollback-rehearsal.txt"
     echo log_and_protocol_redaction=PASS
     echo ws_public_status=BLOCKED_EXTERNAL_DNS
-    echo report_catalog_status=BLOCKED_PRODUCT_CATALOG
   } > "$EVIDENCE/machine-summary.txt"
   find "$EVIDENCE" -maxdepth 1 -type f ! -name SHA256SUMS -print0 | sort -z | xargs -0 sha256sum > "$EVIDENCE/SHA256SUMS"
 }
 
 cd "$ROOT"
 test "$(git rev-parse HEAD)" = "$FROZEN_COMMIT"
+mkdir -p "$EVIDENCE"
+validate_report_catalog
 start_isolated_stack
 capture_baseline
 exercise_backend_alert
