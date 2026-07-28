@@ -1,0 +1,223 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260728T095044Z-DCF99F77-0004
+session_id: SES-20260728T095044Z-DCF99F77
+task_id: TASK-R16-002
+story_id: STORY-R16-001
+sequence: 4
+created_at: '2026-07-28T10:21:52Z'
+summary: 关闭 TASK-R16-002：TASK-R16-002完成：V045商品、SKU、报价与统一订单前向迁移、历史无伪造兼容、完整ORDER_STATUS、不退款证据、创建幂等、不可变快照和PostgreSQL 17属性验证全部通过
+next_step: 提交关闭元数据Commit，然后运行pre-push/CI门禁
+blockers: []
+decisions:
+- 任务结果：COMPLETED
+- 实现Commit：7b956ed2896f32981a875dad1b76ce9f0d44e532
+- 任务转换：TRN-20260728T102148Z-SES-20260728T095044Z-DCF99F77
+- 下一Release：R16
+note: 该检查点专门绑定最终关闭元数据Commit
+tests:
+- name: Implementation commit
+  result: PASS
+  evidence: 7b956ed2896f32981a875dad1b76ce9f0d44e532
+  note: V045实现已推送
+- name: R16 data baseline
+  result: PASS
+  evidence: artifacts/reports/R16/TASK-R16-002-data-invariants.md
+  note: PostgreSQL17与静态门禁通过
+- name: continuity closure metadata
+  result: PASS
+  evidence: catalogs/task_transition_ledger.csv;CHANGELOG.md;CURRENT_STATUS.yaml;NEXT_TASK.yaml
+  note: 关闭元数据、任务转换和下一任务已原子生成
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: 0f2abe482cd1ac4bc8cc2fd403dbdd3a80674f76
+  upstream: origin/task/TASK-R03-001
+  ahead: 0
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/sessions/SES-20260728T095044Z-DCF99F77.yaml'
+  - ' M CHANGELOG.md'
+  - ' M NEXT_TASK.yaml'
+  - ' M catalogs/session_index.csv'
+  - ' M releases/R16/TASKS.yaml'
+  recent_commits:
+  - "0f2abe482cd1ac4bc8cc2fd403dbdd3a80674f76\t2026-07-28T18:21:11+08:00\tHHY Continuity Bootstrap\t[STORY-R16-001] chore(governance): close R16\
+    \ data baseline"
+  - "7b956ed2896f32981a875dad1b76ce9f0d44e532\t2026-07-28T18:18:57+08:00\tHHY Continuity Bootstrap\t[STORY-R16-001] feat(database): freeze R16\
+    \ commerce invariants"
+  - "478e9a872f0c3596f8460ffb04fefaa0e9d73ae5\t2026-07-28T17:52:50+08:00\tHHY Continuity Bootstrap\t[STORY-R16-001] chore(continuity): start R16\
+    \ data invariants"
+  - "af7532bf4d6379c47f1dc123f4f37243d3760d77\t2026-07-28T17:49:45+08:00\tHHY Continuity Bootstrap\t[STORY-R16-004] chore(continuity): close TASK-R16-001\
+    \ as completed"
+  - "f67f78f86d9994ad85bf3d8deda9566e5f40df98\t2026-07-28T17:47:30+08:00\tHHY Continuity Bootstrap\t[STORY-R16-004] chore(governance): close R16\
+    \ entry baseline"
+  - "a0ffe13ec2294c4af79da5d185887f1ad6053175\t2026-07-28T17:43:43+08:00\tHHY Continuity Bootstrap\t[STORY-R16-004] feat(contract): freeze explicit\
+    \ commerce baseline"
+  - "7a14540402771055a4ffb770c0210c84428947f7\t2026-07-28T17:12:51+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(continuity): close TASK-R14-004\
+    \ as blocked"
+  - "4d6ab2f9d9bf3e962c1787ff9a4ea6df33078bba\t2026-07-28T17:08:37+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(governance): close async\
+    \ apk projection"
+project_fingerprint:
+  sha256: 2d5cf53a3e4ebf1bf2f46989efa99a4919ee4d4f38e5e8bd78b4bd6e7e9071c7
+  files:
+  - CHANGELOG.md
+  - catalogs/data_tables.csv
+  - database/migrations/V045__r16_commerce_order_invariants.sql
+  - database/rollback/U045__r16_commerce_order_invariants_DEV_ONLY.sql
+  - database/schema_dictionary.csv
+  - database/schema_traceability.csv
+  - database/tests/r16_commerce_order_invariants.sql
+  - docs/03-continuity/change-requests/CR-0441-补齐R16商品订单前向迁移与数据库领域不变量.md
+  - releases/R16/RELEASE_MANIFEST.yaml
+  - releases/R16/STORIES.yaml
+  - releases/R16/TASKS.yaml
+  - scripts/check_db_schema.py
+  - scripts/run_postgres_migration_smoke.sh
+  - scripts/run_r16_database_invariants.sh
+  - services/backend/boot/src/main/resources/db/migration/V045__r16_commerce_order_invariants.sql
+  - tests/test_r16_database_contract.py
+  file_count: 16
+  payload:
+    base_commit: af7532bf4d6379c47f1dc123f4f37243d3760d77
+    files:
+    - path: CHANGELOG.md
+      state: FILE
+      size: 205275
+      sha256: 9e645cb095a4f10cb3ec6cfbb3a93be10f66b63ac77b8c4e549689fbe426bfaf
+    - path: catalogs/data_tables.csv
+      state: FILE
+      size: 28000
+      sha256: dbd59f86cc02928c0ed652c1b0e1eaf69865ec8308f69a27a5988370be01a0de
+    - path: database/migrations/V045__r16_commerce_order_invariants.sql
+      state: FILE
+      size: 15641
+      sha256: 3d4eebc25bbfaef96c095309e7f3825d194d7426933bc19ac4914e00d9cc1368
+    - path: database/rollback/U045__r16_commerce_order_invariants_DEV_ONLY.sql
+      state: FILE
+      size: 4715
+      sha256: a27a973ebfca2a9be8f961cae5639daa8e52f1b6b3f2e9e01e6436c8ba98633f
+    - path: database/schema_dictionary.csv
+      state: FILE
+      size: 155042
+      sha256: 55fcd77f607c40760541a003f0e9053f1614201f4f2f78a4c8e5425d32354f7e
+    - path: database/schema_traceability.csv
+      state: FILE
+      size: 21281
+      sha256: a93b1e333683779a66acb7912a68cf4d20348f0aedece30c0ee93c3a712ce244
+    - path: database/tests/r16_commerce_order_invariants.sql
+      state: FILE
+      size: 7241
+      sha256: 4d16d5a87e2483e3202da7a32edf0c5a39a6d0779e25a52b1d62bb12457d8a20
+    - path: docs/03-continuity/change-requests/CR-0441-补齐R16商品订单前向迁移与数据库领域不变量.md
+      state: FILE
+      size: 8106
+      sha256: 147d0cabb05327fb65a2ea70f88c4e5f84d0897ad2bfea3e194e539ef8f84417
+    - path: releases/R16/RELEASE_MANIFEST.yaml
+      state: FILE
+      size: 3377
+      sha256: 04e48ff3076ff995129cd528aab33456814b98fc77948e105fb7423341b32325
+    - path: releases/R16/STORIES.yaml
+      state: FILE
+      size: 8555
+      sha256: 071334221a9953e469ac8b0f26ef23964a6cc7f322839d0d12aed5a10b8be376
+    - path: releases/R16/TASKS.yaml
+      state: FILE
+      size: 5673
+      sha256: 34f47e7d37b09255aa0fef645ef8feed514ab90caeaf95a6c1f32e4ca1e94d10
+    - path: scripts/check_db_schema.py
+      state: FILE
+      size: 24507
+      sha256: 24678b903456e26f1fe93d0740ce43d16263454da3057c9de91981dd8ecee367
+    - path: scripts/run_postgres_migration_smoke.sh
+      state: FILE
+      size: 16101
+      sha256: 05a0d072142329394029d991dc4fa1416781ab80c5f331b4fbc0297043353a24
+    - path: scripts/run_r16_database_invariants.sh
+      state: FILE
+      size: 16456
+      sha256: 76f964a8d8fa23c7a6ff9af69421297b93bc0258d9dc5786c9e28a1bdda7cc53
+    - path: services/backend/boot/src/main/resources/db/migration/V045__r16_commerce_order_invariants.sql
+      state: FILE
+      size: 15641
+      sha256: 3d4eebc25bbfaef96c095309e7f3825d194d7426933bc19ac4914e00d9cc1368
+    - path: tests/test_r16_database_contract.py
+      state: FILE
+      size: 7388
+      sha256: 2036f74a0ffc27fec6151518d23c6baccbe7ec668c19784ccf9f50c61b32861e
+change_classification:
+  other:
+  - CHANGELOG.md
+  - catalogs/data_tables.csv
+  - releases/R16/TASKS.yaml
+  database:
+  - database/migrations/V045__r16_commerce_order_invariants.sql
+  - database/rollback/U045__r16_commerce_order_invariants_DEV_ONLY.sql
+  - database/schema_dictionary.csv
+  - database/schema_traceability.csv
+  - database/tests/r16_commerce_order_invariants.sql
+  source_of_truth:
+  - database/schema_dictionary.csv
+  - releases/R16/RELEASE_MANIFEST.yaml
+  - releases/R16/STORIES.yaml
+  continuity:
+  - docs/03-continuity/change-requests/CR-0441-补齐R16商品订单前向迁移与数据库领域不变量.md
+  code:
+  - scripts/check_db_schema.py
+  - scripts/run_postgres_migration_smoke.sh
+  - scripts/run_r16_database_invariants.sh
+  - services/backend/boot/src/main/resources/db/migration/V045__r16_commerce_order_invariants.sql
+  tests:
+  - tests/test_r16_database_contract.py
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+- APPROVED_CHANGE_REQUEST
+- DATABASE_TEST_EVIDENCE
+- SCHEMA_TRACEABILITY
+change_requests:
+- CR-0441
+scope:
+  allowed_paths:
+  - apps/admin-web/**
+  - services/backend/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - tests/**
+  - docs/**
+  - catalogs/**
+  - releases/**
+  - design/**
+  - scripts/**
+  - CHANGELOG.md
+  approved_exceptions:
+  - database/migrations/V045__r16_commerce_order_invariants.sql
+  - services/backend/boot/src/main/resources/db/migration/V045__r16_commerce_order_invariants.sql
+  - database/rollback/U045__r16_commerce_order_invariants_DEV_ONLY.sql
+  - database/tests/r16_commerce_order_invariants.sql
+  - catalogs/data_tables.csv
+  - database/schema_dictionary.csv
+  - database/schema_traceability.csv
+  - scripts/run_r16_database_invariants.sh
+  - scripts/run_postgres_migration_smoke.sh
+  - scripts/check_db_schema.py
+  - tests/test_r16_database_contract.py
+  - releases/R16/TASKS.yaml
+  - releases/R16/RELEASE_MANIFEST.yaml
+  - releases/R16/STORIES.yaml
+  - artifacts/reports/R16/TASK-R16-002-data-invariants.md
+  - CHANGELOG.md
+  source: story+explicit+approved-cr:CR-0441
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: CR状态绑定与任务关闭属于单一连续性状态机，必须串行
+event_hash: 55a2956a1ecbe1696509a8c6846ba2a229e0923d730f30f612ba1c32ebc474b4

@@ -1,7 +1,7 @@
 protocol_version: '1.0'
 package_version: 1.2.3
 session_id: SES-20260728T095044Z-DCF99F77
-status: ACTIVE
+status: CLOSED
 actor:
   id: codex-root-r16-data-20260728
   kind: AI_OR_HUMAN
@@ -11,7 +11,7 @@ task_id: TASK-R16-002
 story_id: STORY-R16-001
 goal: 实现商品、SKU、报价与统一订单的前向数据库迁移、领域不变量、空库与升级库验证，为R16后端服务建立可靠数据基线
 started_at: '2026-07-28T09:50:44Z'
-updated_at: '2026-07-28T10:20:58Z'
+updated_at: '2026-07-28T10:22:00Z'
 takeover_of: null
 change_requests:
 - CR-0441
@@ -57,22 +57,36 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-28T10:20:51Z'
-  expires_at: '2026-07-28T14:20:51Z'
-checkpoint_sequence: 3
-latest_checkpoint: .continuity/checkpoints/SES-20260728T095044Z-DCF99F77/0003.yaml
+  renewed_at: '2026-07-28T10:21:53Z'
+  expires_at: '2026-07-28T14:21:53Z'
+checkpoint_sequence: 4
+latest_checkpoint: .continuity/checkpoints/SES-20260728T095044Z-DCF99F77/0004.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260728T095044Z-DCF99F77.md
-next_step: 提交治理闭环，关闭TASK-R16-002并立即进入TASK-R16-003后端应用服务与十接口实现
+next_step: 提交关闭元数据Commit，然后运行pre-push/CI门禁
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: 5c0577bddddd3244608c2b3a6a0a8a69e023c438a81649692e91ebea3ee0ba2e
-  generated_at: '2026-07-28T10:20:55Z'
+  context_hash: 0e4860d4e31be48693869335ed9eefdbe77ec2f87e3e8f54c5e3d4d0d626320b
+  generated_at: '2026-07-28T10:21:57Z'
 handoff_bundle: null
-closure: null
+closure:
+  result: COMPLETED
+  summary: TASK-R16-002完成：V045商品、SKU、报价与统一订单前向迁移、历史无伪造兼容、完整ORDER_STATUS、不退款证据、创建幂等、不可变快照和PostgreSQL 17属性验证全部通过
+  code_commit: 7b956ed2896f32981a875dad1b76ce9f0d44e532
+  next_release: R16
+  next_task: TASK-R16-003
+  blocked_advance: false
+  completed_independent_advance: false
+  user_confirmation: null
+  metadata_commit: PENDING
+  push_verification: CI_REQUIRED_AFTER_METADATA_COMMIT
+  started_at: '2026-07-28T10:21:48Z'
+  closure_checkpoint_id: CP-SES-20260728T095044Z-DCF99F77-0004
+  closed_at: '2026-07-28T10:22:00Z'
 parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
   reason: CR状态绑定与任务关闭属于单一连续性状态机，必须串行
+closed_at: '2026-07-28T10:22:00Z'

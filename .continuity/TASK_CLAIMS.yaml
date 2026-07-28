@@ -4464,7 +4464,7 @@ claims:
   task_id: TASK-R16-002
   story_id: STORY-R16-001
   actor_id: codex-root-r16-data-20260728
-  status: ACTIVE
+  status: CLOSED
   claimed_at: '2026-07-28T09:50:44Z'
   allowed_paths:
   - apps/admin-web/**
@@ -4480,3 +4480,4 @@ claims:
   - design/**
   - scripts/**
   - CHANGELOG.md
+  closed_at: '2026-07-28T10:22:00Z'

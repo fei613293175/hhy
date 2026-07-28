@@ -2047,3 +2047,13 @@
 - Actor：`codex-root-r16-entry-20260728`
 - 摘要：TASK-R16-001完成：R16三需求、十接口、七表、三页面与四故事已核验，显式商品订单合同和三页视觉施工基线已冻结并通过全部入口门禁
 - 记录：`docs/03-continuity/sessions/2026-07/SES-20260728T091447Z-9A245BB4.md`
+
+## TASK-R16-002 · COMPLETED · 2026-07-28T10:21:48Z
+
+- Task close: TASK-R16-002 / SES-20260728T095044Z-DCF99F77
+- Release：`R16`
+- Story：`STORY-R16-001`
+- Actor：`codex-root-r16-data-20260728`
+- 摘要：TASK-R16-002完成：V045商品、SKU、报价与统一订单前向迁移、历史无伪造兼容、完整ORDER_STATUS、不退款证据、创建幂等、不可变快照和PostgreSQL 17属性验证全部通过
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260728T095044Z-DCF99F77.md`
+
