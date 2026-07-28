@@ -18,7 +18,7 @@
     "ui_action_matrix.csv": 606,
     "api_endpoints.csv": 131,
     "admin_api_endpoints.csv": 184,
-    "websocket_events": 10,
+    "websocket_events": 12,
     "data_tables.csv": 198,
     "config_registry.csv": 314,
     "config_cross_field_rules.csv": 58,

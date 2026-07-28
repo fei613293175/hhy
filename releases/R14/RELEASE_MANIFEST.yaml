@@ -38,6 +38,8 @@ contracts:
   - chat.message.ack
   - chat.message.new
   - chat.message.read
+  - system.delivery.ack
+  - system.resume
 database_tables:
 - conversations
 - conversation_members

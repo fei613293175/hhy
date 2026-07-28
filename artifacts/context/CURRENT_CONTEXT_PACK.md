@@ -1,7 +1,7 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-28T03:22:31Z
-- Context Hash：`8dd98bf4b5650625bc262e031f463ba55824d7a27f566255eaa3abe66055ad92`
+- 生成时间：2026-07-28T04:05:32Z
+- Context Hash：`29e243e039aa0007f4d0ec86a3055cf8fd078cec738573da178ab6e25bb3ecd9`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 规则就绪：`PASS`（`HASHED_CONTEXT_MANIFEST`）
@@ -177,7 +177,7 @@ blocked_tasks:
 - TASK-R07-008
 - TASK-R13-008
 next_task: TASK-R14-004
-updated_at: '2026-07-28T03:22:28Z'
+updated_at: '2026-07-28T04:05:28Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -212,15 +212,15 @@ continuity:
   active_session_id: SES-20260727T221444Z-FD353AD3
   actor_id: codex-root-r14-client-20260728
   story_id: STORY-R14-004
-  lease_expires_at: '2026-07-28T07:22:28Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260727T221444Z-FD353AD3/0016.yaml
-  project_fingerprint: 0e3dda571fc55ecf0b0c1abf593e3023dbcccc14ea0cb1d83ba6b397c433c615
+  lease_expires_at: '2026-07-28T08:05:28Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260727T221444Z-FD353AD3/0019.yaml
+  project_fingerprint: 93966870e149cb8b521491dc2d52299953ba6b6b854cdb3906b6bcacaf55b4b8
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: ed0b486f7ed2bcb97a23c52eaada03a6856ee604d97df8df0fa29c8bb1f2e48e
-    generated_at: '2026-07-28T03:18:58Z'
+    context_hash: ba3144d18976861791c17a22ba4a834e3c074b496643c93e9081024568f06497
+    generated_at: '2026-07-28T03:53:31Z'
   handoff_bundle: null
 ```
 
@@ -422,7 +422,7 @@ task_id: TASK-R14-004
 story_id: STORY-R14-004
 goal: 逐项审计R14六个交互面、九接口、状态错误恢复、测试和追踪证据，补齐不依赖举报原因目录的客户端与治理缺口；保持PROB-0135开放且不提前关闭TASK
 started_at: '2026-07-27T22:14:44Z'
-updated_at: '2026-07-28T03:22:28Z'
+updated_at: '2026-07-28T04:05:28Z'
 takeover_of: null
 change_requests:
 - CR-0422
@@ -432,6 +432,7 @@ change_requests:
 - CR-0426
 - CR-0427
 - CR-0428
+- CR-0429
 scope:
   allowed_paths:
   - apps/**
@@ -482,7 +483,19 @@ scope:
   - apps/android/feature/chat/src/androidTest/java/cc/orbexa/hhy/chat/R14ChatDetailScreenTest.kt
   - docs/03-continuity/PROBLEM_REGISTRY.yaml
   - CHANGELOG.md
-  source: story-switch+explicit+approved-cr:CR-0428
+  - scripts/generate_contracts.py
+  - contracts/websocket-events.yaml
+  - contracts/contract_status.csv
+  - services/backend/boot/src/main/resources/contracts/websocket-events.yaml
+  - scripts/check_api_contract.py
+  - scripts/check_r14_entry_contract.py
+  - tests/test_r14_websocket_contract.py
+  - PROJECT_BASELINE.yaml
+  - PROJECT_BASELINE.json
+  - releases/R14/RELEASE_MANIFEST.yaml
+  - releases/R14/STORIES.yaml
+  - catalogs/release_story_backlog.csv
+  source: story-switch+explicit+approved-cr:CR-0428+approved-cr:CR-0429
 git:
   initialized: true
   branch: task/TASK-R03-001
@@ -492,12 +505,12 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-28T03:22:28Z'
-  expires_at: '2026-07-28T07:22:28Z'
-checkpoint_sequence: 16
-latest_checkpoint: .continuity/checkpoints/SES-20260727T221444Z-FD353AD3/0016.yaml
+  renewed_at: '2026-07-28T04:05:28Z'
+  expires_at: '2026-07-28T08:05:28Z'
+checkpoint_sequence: 19
+latest_checkpoint: .continuity/checkpoints/SES-20260727T221444Z-FD353AD3/0019.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260727T221444Z-FD353AD3.md
-next_step: 提交并推送CR-0428状态记录，然后继续STORY-R14-004剩余客户端合同审计
+next_step: 提交并推送CR-0429实现Commit，绑定IMPLEMENTED后进入独立运行时CR
 context_pack: THIS_CONTEXT_PACK
 handoff_bundle: null
 closure: null
@@ -505,11 +518,11 @@ parallel_execution:
   assessment: DELEGATED
   delegated_workers: 1
   workers:
-  - worker_id: codex-r14-independent-review-20260728
-    responsibility: CR-0428独立合同与范围审查
+  - worker_id: r14_cr_review
+    responsibility: 完成CR-0429两轮独立计划审查并批准修订方案
     allowed_paths:
-    - .continuity/change_requests/CR-0428.yaml
-    - docs/03-continuity/change-requests/CR-0428-补齐R14举报媒体证据与真实会话版本传播.md
+    - .continuity/change_requests/CR-0429.yaml
+    - docs/03-continuity/change-requests/CR-0429-修正R14-WebSocket可实施鉴权、确认与续传合同.md
   reason: ''
 story_history:
 - story_id: STORY-R14-001
@@ -533,45 +546,95 @@ story_history:
 
 ```yaml
 protocol_version: '1.0'
-checkpoint_id: CP-SES-20260727T221444Z-FD353AD3-0016
+checkpoint_id: CP-SES-20260727T221444Z-FD353AD3-0019
 session_id: SES-20260727T221444Z-FD353AD3
 task_id: TASK-R14-004
 story_id: STORY-R14-004
-sequence: 16
-created_at: '2026-07-28T03:22:27Z'
-summary: CR-0428已绑定实现Commit 987bf263并标记IMPLEMENTED，保留PROB-0135和R14视觉阻断边界
-next_step: 提交并推送CR-0428状态记录，然后继续STORY-R14-004剩余客户端合同审计
-blockers:
-- PROB-0135权威举报原因目录仍缺失，只阻断SHEET-CHAT-002、相关Story和R14机器关闭
-- R14六页视觉目录仍为IN_REVIEW且缺机器截图
+sequence: 19
+created_at: '2026-07-28T04:05:27Z'
+summary: CR-0429提交前收口：WebSocket合同与全部门禁PASS，历史连续性验证报告已通过真实演练刷新
+next_step: 提交并推送CR-0429实现Commit，绑定IMPLEMENTED后进入独立运行时CR
+blockers: []
 decisions: []
-note: 状态绑定检查点，没有重复执行GitHub模拟器或APK构建
+note: 邀请与注册问题按用户要求完全排除；本Commit不包含WebSocket运行时，运行时另立CR。
 tests:
-- name: CR-0428 implementation binding
+- name: r14-websocket-contract
   result: PASS
-  evidence: implementation_commits=987bf263 status=IMPLEMENTED
-  note: business validation remains bound to checkpoint 0015
-- name: R14 Android module
+  evidence: 5 tests OK
+  note: 握手ACK续传及10到12事件隔离生成
+- name: api-contract
   result: PASS
-  evidence: obx-test hhy-android-toolchain:r01-46fb273 BUILD SUCCESSFUL 626 tasks
-  note: no business source changed after verified implementation commit
+  evidence: client=131 admin=184 websocket=12 runtime_hashes=PASS
+  note: 合同一致
+- name: generated-assets
+  result: PASS
+  evidence: all assets VERIFIED
+  note: 生成资产一致
+- name: v123-documentation
+  result: PASS
+  evidence: errors=0 warnings=0
+  note: 全版本文档门禁
+- name: continuity-self-test
+  result: PASS
+  evidence: 12 reconstruction checks and 15 lifecycle checks
+  note: 真实Git交接恢复演练
+- name: v123-continuity
+  result: PASS
+  evidence: errors=0 warnings=0
+  note: 严格连续性总门禁
+- name: continuity-doctor
+  result: PASS
+  evidence: errors=0 warnings=0
+  note: 当前会话健康
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: 987bf263744981a7456efffbecd569496eb3125c
+  head: 30c77c92cb628f50e44d7e22f0967429f818ba88
   upstream: origin/task/TASK-R03-001
-  ahead: 1
+  ahead: 0
   behind: 0
   dirty: true
   status_porcelain:
+  - ' M .continuity/ACTIVE_SESSION.yaml'
   - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
   - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/SESSION_INDEX.yaml'
   - ' M .continuity/STATE.yaml'
-  - ' M .continuity/change_requests/CR-0428.yaml'
+  - ' M .continuity/sessions/SES-20260727T221444Z-FD353AD3.yaml'
+  - ' M CHANGELOG.md'
+  - ' M CURRENT_STATUS.yaml'
+  - ' M PROJECT_BASELINE.json'
+  - ' M PROJECT_BASELINE.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+  - ' M artifacts/validation/continuity-gate-v1.2.3.json'
+  - ' M artifacts/validation/continuity-integration-v1.2.3.json'
+  - ' M artifacts/validation/continuity-lifecycle-integration-v1.2.3.json'
+  - ' M artifacts/validation/continuity-lifecycle-integration-v1.2.3.log'
+  - ' M artifacts/validation/project-doctor-v1.2.3-documentation.json'
+  - ' M artifacts/validation/project-doctor-v1.2.3.json'
   - ' M catalogs/change_request_index.csv'
+  - ' M catalogs/release_story_backlog.csv'
   - ' M catalogs/session_index.csv'
-  - ' M docs/03-continuity/change-requests/CR-0428-补齐R14举报媒体证据与真实会话版本传播.md'
+  - ' M contracts/contract_status.csv'
+  - ' M contracts/websocket-events.yaml'
+  - ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
+  - ' M docs/03-continuity/sessions/2026-07/SES-20260727T221444Z-FD353AD3.md'
+  - ' M releases/R14/RELEASE_MANIFEST.yaml'
+  - ' M releases/R14/STORIES.yaml'
+  - ' M scripts/check_api_contract.py'
+  - ' M scripts/check_r14_entry_contract.py'
+  - ' M scripts/generate_contracts.py'
+  - ' M services/backend/boot/src/main/resources/contracts/websocket-events.yaml'
+  - ?? .continuity/change_requests/CR-0429.yaml
+  - ?? .continuity/checkpoints/SES-20260727T221444Z-FD353AD3/0017.yaml
+  - ?? .continuity/checkpoints/SES-20260727T221444Z-FD353AD3/0018.yaml
+  - ?? docs/03-continuity/change-requests/CR-0429-修正R14-WebSocket可实施鉴权、确认与续传合同.md
+  - ?? tests/test_r14_websocket_contract.py
   recent_commits:
+  - "30c77c92cb628f50e44d7e22f0967429f818ba88\t2026-07-28T11:23:01+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(continuity): bind report\
+    \ evidence implementation"
   - "987bf263744981a7456efffbecd569496eb3125c\t2026-07-28T11:21:20+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] feat(chat): complete report\
     \ evidence contract"
   - "7de3c74d383276637e2c80df601757dfacfaec5a\t2026-07-28T10:26:12+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] docs(audit): record report\
@@ -586,12 +649,12 @@ git:
     \ safety actions"
   - "f8a1706fcc6ae4ae35bee6ea695bbae3c5453728\t2026-07-28T08:50:28+08:00\tHHY Continuity Bootstrap\t[STORY-R14-002] chore(continuity): bind conversation\
     \ list implementation"
-  - "a62d664434958765fda36fb2ba12938d0a841274\t2026-07-28T08:47:51+08:00\tHHY Continuity Bootstrap\t[STORY-R14-002] feat(android): implement conversation\
-    \ list and harden continuity checkpoint"
 project_fingerprint:
-  sha256: 0e3dda571fc55ecf0b0c1abf593e3023dbcccc14ea0cb1d83ba6b397c433c615
+  sha256: 93966870e149cb8b521491dc2d52299953ba6b6b854cdb3906b6bcacaf55b4b8
   files:
   - CHANGELOG.md
+  - PROJECT_BASELINE.json
+  - PROJECT_BASELINE.yaml
   - apps/android/app/build.gradle.kts
   - apps/android/app/src/androidTest/java/cc/orbexa/hhy/AuthenticatedNavigationTest.kt
   - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
@@ -620,6 +683,9 @@ project_fingerprint:
   - apps/android/feature/shell/src/test/java/cc/orbexa/hhy/shell/HhyShellScreenTest.kt
   - apps/android/feature/team-leader/src/main/java/cc/orbexa/hhy/teamleader/R11TeamLeaderDetailScreen.kt
   - apps/android/settings.gradle.kts
+  - catalogs/release_story_backlog.csv
+  - contracts/contract_status.csv
+  - contracts/websocket-events.yaml
   - docs/03-continuity/PROBLEM_REGISTRY.yaml
   - docs/03-continuity/change-requests/CR-0422-实现R14-Android私聊详情与真实会话导航.md
   - docs/03-continuity/change-requests/CR-0423-实现R14-Android会话列表与消息主导航.md
@@ -628,17 +694,33 @@ project_fingerprint:
   - docs/03-continuity/change-requests/CR-0426-修复检查点对任务内净回退的误判.md
   - docs/03-continuity/change-requests/CR-0427-实现R14聊天安全交互并隔离举报原因目录缺口.md
   - docs/03-continuity/change-requests/CR-0428-补齐R14举报媒体证据与真实会话版本传播.md
+  - docs/03-continuity/change-requests/CR-0429-修正R14-WebSocket可实施鉴权、确认与续传合同.md
+  - releases/R14/RELEASE_MANIFEST.yaml
+  - releases/R14/STORIES.yaml
+  - scripts/check_api_contract.py
+  - scripts/check_r14_entry_contract.py
   - scripts/continuity_gate.py
   - scripts/continuity_lib.py
+  - scripts/generate_contracts.py
+  - services/backend/boot/src/main/resources/contracts/websocket-events.yaml
   - tests/test_continuity_worktree_fingerprint.py
-  file_count: 40
+  - tests/test_r14_websocket_contract.py
+  file_count: 53
   payload:
     base_commit: 2c39d9cd68f2ad48808c1bb99c467aab689e7adc
     files:
     - path: CHANGELOG.md
       state: FILE
-      size: 197595
-      sha256: d10e4c246468d0e5e5f4f510b622a800ca1f6df4045df2b395e65be4311d0d09
+      size: 198398
+      sha256: 8e7d607b807e517394a3c156b13b4874d625cde14f39877d97e0d1ada21344e0
+    - path: PROJECT_BASELINE.json
+      state: FILE
+      size: 2201
+      sha256: bc90016efe91e0d89ca61b62df8e1c7a24fe07dce9261e65d8d70ef68c8740b5
+    - path: PROJECT_BASELINE.yaml
+      state: FILE
+      size: 1871
+      sha256: 3587749f2ee488638ebd39db587026a9ce1c7cf3fd44cd1a408de1e67d877365
     - path: apps/android/app/build.gradle.kts
       state: FILE
       size: 5451
@@ -751,10 +833,22 @@ project_fingerprint:
       state: FILE
       size: 773
       sha256: c709d8b32145a1b11876592d5f6350445b066eda2bc79f6a750fdf5847646e8c
+    - path: catalogs/release_story_backlog.csv
+      state: FILE
+      size: 349541
+      sha256: 373b2e1425f954049fba6b13cb798a05642e0cbe14e818bfec221a5e2ab87eea
+    - path: contracts/contract_status.csv
+      state: FILE
+      size: 140946
+      sha256: c9a7b3f64241085ca849f9fd36c9ad311a2698c573305c50fa2181a24e0ce100
+    - path: contracts/websocket-events.yaml
+      state: FILE
+      size: 13819
+      sha256: a87c615fc5dba3d29ad3866df69003171f3d867752f5b2225a54f735b2f6d185
     - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
       state: FILE
-      size: 229025
-      sha256: 96a71d5d5f834a3aed09508e4660bb7b15dcb84fe07afdd4ad3127564bbda37e
+      size: 230896
+      sha256: b9c5bb0fb739976a4ee8feea647fed96eca0f6c96ec3f5444a58fd49ddb1e713
     - path: docs/03-continuity/change-requests/CR-0422-实现R14-Android私聊详情与真实会话导航.md
       state: FILE
       size: 7160
@@ -783,6 +877,26 @@ project_fingerprint:
       state: FILE
       size: 5403
       sha256: 56a62916bc071982ee719ee5b0f68eb0356be599015faea09a0a4769823323a9
+    - path: docs/03-continuity/change-requests/CR-0429-修正R14-WebSocket可实施鉴权、确认与续传合同.md
+      state: FILE
+      size: 7752
+      sha256: e1f1dea43559291d03676baaaeb60d6bc776b22d8fae5b35156d8aeb074ab632
+    - path: releases/R14/RELEASE_MANIFEST.yaml
+      state: FILE
+      size: 3982
+      sha256: 510abe9162dae4ed1770584b5c3bcd3dd3b41f3d672db4aecbef9053a8703ed0
+    - path: releases/R14/STORIES.yaml
+      state: FILE
+      size: 10508
+      sha256: 8d00c2140a196d4450ef49907083b7b4dfae98d91e1d49c1f6322e02047cdb8c
+    - path: scripts/check_api_contract.py
+      state: FILE
+      size: 10642
+      sha256: c675f46c9a51908ee3841598ec5d972cc017cbe23a86afc8bb7c07c72a517c48
+    - path: scripts/check_r14_entry_contract.py
+      state: FILE
+      size: 11304
+      sha256: 3aba734bd2a4438e39af4437abd85026956b5a9a4c159f6d07c4e8066beeb6be
     - path: scripts/continuity_gate.py
       state: FILE
       size: 43991
@@ -791,13 +905,28 @@ project_fingerprint:
       state: FILE
       size: 115231
       sha256: 74661284a8c704eb3f8ae76a185893127a3bbc4fa1c86ce0d4dc4a170f9c49d3
+    - path: scripts/generate_contracts.py
+      state: FILE
+      size: 69350
+      sha256: ffcf1d2b38d23720432fd69119363cdfb9079cc9326e8f859cbb6254ecda9c94
+    - path: services/backend/boot/src/main/resources/contracts/websocket-events.yaml
+      state: FILE
+      size: 13819
+      sha256: a87c615fc5dba3d29ad3866df69003171f3d867752f5b2225a54f735b2f6d185
     - path: tests/test_continuity_worktree_fingerprint.py
       state: FILE
       size: 3522
       sha256: ef981bfec9eea317c5041a5968b2331385ba2626af2c86697f5390687501a9f0
+    - path: tests/test_r14_websocket_contract.py
+      state: FILE
+      size: 11530
+      sha256: 28c397d9d3f6d9a63339db6a46a8736bcb9910c9ede9b4a88e19288105ffb7e0
 change_classification:
   other:
   - CHANGELOG.md
+  - PROJECT_BASELINE.json
+  - PROJECT_BASELINE.yaml
+  - catalogs/release_story_backlog.csv
   code:
   - apps/android/app/build.gradle.kts
   - apps/android/app/src/androidTest/java/cc/orbexa/hhy/AuthenticatedNavigationTest.kt
@@ -827,8 +956,12 @@ change_classification:
   - apps/android/feature/shell/src/test/java/cc/orbexa/hhy/shell/HhyShellScreenTest.kt
   - apps/android/feature/team-leader/src/main/java/cc/orbexa/hhy/teamleader/R11TeamLeaderDetailScreen.kt
   - apps/android/settings.gradle.kts
+  - scripts/check_api_contract.py
+  - scripts/check_r14_entry_contract.py
   - scripts/continuity_gate.py
   - scripts/continuity_lib.py
+  - scripts/generate_contracts.py
+  - services/backend/boot/src/main/resources/contracts/websocket-events.yaml
   user_visible:
   - apps/android/app/build.gradle.kts
   - apps/android/app/src/androidTest/java/cc/orbexa/hhy/AuthenticatedNavigationTest.kt
@@ -858,6 +991,16 @@ change_classification:
   - apps/android/feature/shell/src/test/java/cc/orbexa/hhy/shell/HhyShellScreenTest.kt
   - apps/android/feature/team-leader/src/main/java/cc/orbexa/hhy/teamleader/R11TeamLeaderDetailScreen.kt
   - apps/android/settings.gradle.kts
+  - contracts/contract_status.csv
+  - contracts/websocket-events.yaml
+  source_of_truth:
+  - contracts/contract_status.csv
+  - contracts/websocket-events.yaml
+  - releases/R14/RELEASE_MANIFEST.yaml
+  - releases/R14/STORIES.yaml
+  contracts:
+  - contracts/contract_status.csv
+  - contracts/websocket-events.yaml
   continuity:
   - docs/03-continuity/PROBLEM_REGISTRY.yaml
   - docs/03-continuity/change-requests/CR-0422-实现R14-Android私聊详情与真实会话导航.md
@@ -867,14 +1010,19 @@ change_classification:
   - docs/03-continuity/change-requests/CR-0426-修复检查点对任务内净回退的误判.md
   - docs/03-continuity/change-requests/CR-0427-实现R14聊天安全交互并隔离举报原因目录缺口.md
   - docs/03-continuity/change-requests/CR-0428-补齐R14举报媒体证据与真实会话版本传播.md
+  - docs/03-continuity/change-requests/CR-0429-修正R14-WebSocket可实施鉴权、确认与续传合同.md
   tests:
   - tests/test_continuity_worktree_fingerprint.py
+  - tests/test_r14_websocket_contract.py
 required_records:
 - SESSION_RECORD
 - SESSION_LOG
 - CHECKPOINT
 - CURRENT_STATUS
 - EVENT_LOG
+- APPROVED_CHANGE_REQUEST
+- CONTRACT_TEST_EVIDENCE
+- GENERATED_CLIENTS_OR_GENERATION_RECORD
 - CHANGELOG
 change_requests:
 - CR-0422
@@ -884,6 +1032,7 @@ change_requests:
 - CR-0426
 - CR-0427
 - CR-0428
+- CR-0429
 scope:
   allowed_paths:
   - apps/**
@@ -934,18 +1083,30 @@ scope:
   - apps/android/feature/chat/src/androidTest/java/cc/orbexa/hhy/chat/R14ChatDetailScreenTest.kt
   - docs/03-continuity/PROBLEM_REGISTRY.yaml
   - CHANGELOG.md
-  source: story-switch+explicit+approved-cr:CR-0428
+  - scripts/generate_contracts.py
+  - contracts/websocket-events.yaml
+  - contracts/contract_status.csv
+  - services/backend/boot/src/main/resources/contracts/websocket-events.yaml
+  - scripts/check_api_contract.py
+  - scripts/check_r14_entry_contract.py
+  - tests/test_r14_websocket_contract.py
+  - PROJECT_BASELINE.yaml
+  - PROJECT_BASELINE.json
+  - releases/R14/RELEASE_MANIFEST.yaml
+  - releases/R14/STORIES.yaml
+  - catalogs/release_story_backlog.csv
+  source: story-switch+explicit+approved-cr:CR-0428+approved-cr:CR-0429
 parallel_execution:
   assessment: DELEGATED
   delegated_workers: 1
   workers:
-  - worker_id: codex-r14-independent-review-20260728
-    responsibility: CR-0428独立合同与范围审查
+  - worker_id: r14_cr_review
+    responsibility: 完成CR-0429两轮独立计划审查并批准修订方案
     allowed_paths:
-    - .continuity/change_requests/CR-0428.yaml
-    - docs/03-continuity/change-requests/CR-0428-补齐R14举报媒体证据与真实会话版本传播.md
+    - .continuity/change_requests/CR-0429.yaml
+    - docs/03-continuity/change-requests/CR-0429-修正R14-WebSocket可实施鉴权、确认与续传合同.md
   reason: ''
-event_hash: 263f7002e75399fd7856587ce0e8cc38598b2e7fc504398993dc36e07cb72823
+event_hash: 8c20a5bbe85749bb79261bb439d64ef492efa9b6d8c697bbb61d7591fd4d99a2
 ```
 
 ## 接续状态与事件头
@@ -957,8 +1118,8 @@ active_session_id: SES-20260727T221444Z-FD353AD3
 last_session_id: SES-20260727T203754Z-DCE3090A
 last_session_result: COMPLETED
 last_closure_checkpoint_id: CP-SES-20260727T203754Z-DCE3090A-0003
-event_count: 4080
-event_head_hash: 263f7002e75399fd7856587ce0e8cc38598b2e7fc504398993dc36e07cb72823
+event_count: 4089
+event_head_hash: 8c20a5bbe85749bb79261bb439d64ef492efa9b6d8c697bbb61d7591fd4d99a2
 event_chain_valid: true
 ```
 
@@ -1081,9 +1242,9 @@ recent_sessions: - session_id: SES-20260726T123133Z-63E93B88
   started_at: '2026-07-27T22:14:44Z'
   record: .continuity/sessions/SES-20260727T221444Z-FD353AD3.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260727T221444Z-FD353AD3.md
-  updated_at: '2026-07-28T03:22:28Z'
+  updated_at: '2026-07-28T04:05:28Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260727T221444Z-FD353AD3/0016.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260727T221444Z-FD353AD3/0019.yaml
   handoff_bundle: null
 task_claims: - claim_id: CLM-1B86680BE956
   session_id: SES-20260724T195501Z-13F8DFDE
@@ -2062,9 +2223,9 @@ recent_task_transitions: - transition_id: TRN-684AB934BA4C
 ```yaml
 initialized: true
 branch: task/TASK-R03-001
-head: 987bf263744981a7456efffbecd569496eb3125c
+head: 30c77c92cb628f50e44d7e22f0967429f818ba88
 upstream: origin/task/TASK-R03-001
-ahead: 1
+ahead: 0
 behind: 0
 dirty: true
 status_porcelain:
@@ -2073,15 +2234,42 @@ status_porcelain:
 - ' M .continuity/EVENT_LOG.jsonl'
 - ' M .continuity/SESSION_INDEX.yaml'
 - ' M .continuity/STATE.yaml'
-- ' M .continuity/change_requests/CR-0428.yaml'
 - ' M .continuity/sessions/SES-20260727T221444Z-FD353AD3.yaml'
+- ' M CHANGELOG.md'
 - ' M CURRENT_STATUS.yaml'
+- ' M PROJECT_BASELINE.json'
+- ' M PROJECT_BASELINE.yaml'
+- ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+- ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+- ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+- ' M artifacts/validation/continuity-gate-v1.2.3.json'
+- ' M artifacts/validation/continuity-integration-v1.2.3.json'
+- ' M artifacts/validation/continuity-lifecycle-integration-v1.2.3.json'
+- ' M artifacts/validation/continuity-lifecycle-integration-v1.2.3.log'
+- ' M artifacts/validation/project-doctor-v1.2.3-documentation.json'
+- ' M artifacts/validation/project-doctor-v1.2.3.json'
 - ' M catalogs/change_request_index.csv'
+- ' M catalogs/release_story_backlog.csv'
 - ' M catalogs/session_index.csv'
-- ' M docs/03-continuity/change-requests/CR-0428-补齐R14举报媒体证据与真实会话版本传播.md'
+- ' M contracts/contract_status.csv'
+- ' M contracts/websocket-events.yaml'
+- ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
 - ' M docs/03-continuity/sessions/2026-07/SES-20260727T221444Z-FD353AD3.md'
-- ?? .continuity/checkpoints/SES-20260727T221444Z-FD353AD3/0016.yaml
+- ' M releases/R14/RELEASE_MANIFEST.yaml'
+- ' M releases/R14/STORIES.yaml'
+- ' M scripts/check_api_contract.py'
+- ' M scripts/check_r14_entry_contract.py'
+- ' M scripts/generate_contracts.py'
+- ' M services/backend/boot/src/main/resources/contracts/websocket-events.yaml'
+- ?? .continuity/change_requests/CR-0429.yaml
+- ?? .continuity/checkpoints/SES-20260727T221444Z-FD353AD3/0017.yaml
+- ?? .continuity/checkpoints/SES-20260727T221444Z-FD353AD3/0018.yaml
+- ?? .continuity/checkpoints/SES-20260727T221444Z-FD353AD3/0019.yaml
+- ?? docs/03-continuity/change-requests/CR-0429-修正R14-WebSocket可实施鉴权、确认与续传合同.md
+- ?? tests/test_r14_websocket_contract.py
 recent_commits:
+- "30c77c92cb628f50e44d7e22f0967429f818ba88\t2026-07-28T11:23:01+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(continuity): bind report\
+  \ evidence implementation"
 - "987bf263744981a7456efffbecd569496eb3125c\t2026-07-28T11:21:20+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] feat(chat): complete report\
   \ evidence contract"
 - "7de3c74d383276637e2c80df601757dfacfaec5a\t2026-07-28T10:26:12+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] docs(audit): record report client\
@@ -2095,16 +2283,16 @@ recent_commits:
   \ safety actions"
 - "f8a1706fcc6ae4ae35bee6ea695bbae3c5453728\t2026-07-28T08:50:28+08:00\tHHY Continuity Bootstrap\t[STORY-R14-002] chore(continuity): bind conversation\
   \ list implementation"
-- "a62d664434958765fda36fb2ba12938d0a841274\t2026-07-28T08:47:51+08:00\tHHY Continuity Bootstrap\t[STORY-R14-002] feat(android): implement conversation\
-  \ list and harden continuity checkpoint"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`0e3dda571fc55ecf0b0c1abf593e3023dbcccc14ea0cb1d83ba6b397c433c615`
-- 文件数：40
+- 指纹：`93966870e149cb8b521491dc2d52299953ba6b6b854cdb3906b6bcacaf55b4b8`
+- 文件数：53
 
 - `CHANGELOG.md`
+- `PROJECT_BASELINE.json`
+- `PROJECT_BASELINE.yaml`
 - `apps/android/app/build.gradle.kts`
 - `apps/android/app/src/androidTest/java/cc/orbexa/hhy/AuthenticatedNavigationTest.kt`
 - `apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt`
@@ -2133,6 +2321,9 @@ recent_commits:
 - `apps/android/feature/shell/src/test/java/cc/orbexa/hhy/shell/HhyShellScreenTest.kt`
 - `apps/android/feature/team-leader/src/main/java/cc/orbexa/hhy/teamleader/R11TeamLeaderDetailScreen.kt`
 - `apps/android/settings.gradle.kts`
+- `catalogs/release_story_backlog.csv`
+- `contracts/contract_status.csv`
+- `contracts/websocket-events.yaml`
 - `docs/03-continuity/PROBLEM_REGISTRY.yaml`
 - `docs/03-continuity/change-requests/CR-0422-实现R14-Android私聊详情与真实会话导航.md`
 - `docs/03-continuity/change-requests/CR-0423-实现R14-Android会话列表与消息主导航.md`
@@ -2141,9 +2332,17 @@ recent_commits:
 - `docs/03-continuity/change-requests/CR-0426-修复检查点对任务内净回退的误判.md`
 - `docs/03-continuity/change-requests/CR-0427-实现R14聊天安全交互并隔离举报原因目录缺口.md`
 - `docs/03-continuity/change-requests/CR-0428-补齐R14举报媒体证据与真实会话版本传播.md`
+- `docs/03-continuity/change-requests/CR-0429-修正R14-WebSocket可实施鉴权、确认与续传合同.md`
+- `releases/R14/RELEASE_MANIFEST.yaml`
+- `releases/R14/STORIES.yaml`
+- `scripts/check_api_contract.py`
+- `scripts/check_r14_entry_contract.py`
 - `scripts/continuity_gate.py`
 - `scripts/continuity_lib.py`
+- `scripts/generate_contracts.py`
+- `services/backend/boot/src/main/resources/contracts/websocket-events.yaml`
 - `tests/test_continuity_worktree_fingerprint.py`
+- `tests/test_r14_websocket_contract.py`
 
 ## 当前 Release
 
@@ -2189,6 +2388,8 @@ RELEASE_MANIFEST.yaml:
     - chat.message.ack
     - chat.message.new
     - chat.message.read
+    - system.delivery.ack
+    - system.resume
   database_tables:
   - conversations
   - conversation_members
@@ -2681,6 +2882,7 @@ STORIES.yaml:
     - OpenAPI、状态机、数据库迁移、配置Schema和页面契约引用一致，代码生成不得产生手工分叉
     - 六个Android交互面均绑定唯一精确面板或批准补充视觉规格；编码前保持IN_REVIEW，禁止提前标记视觉PASS
     - REST与WebSocket统一使用ChatMessageResource及TEXT、IMAGE、CONTENT_CARD、CONTACT_CARD四类封闭payload
+    - WebSocket严格使用双子协议升级前鉴权、逐事件ACK、用户级连续序列与CHAT/NOTIFICATIONS服务端水位补洞；不得在URL传令牌或从REST结果猜测重连序列
     - requestId、幂等键、clientMessageId、expectedVersion、资源ID和版本只用于网络层、幂等与诊断，不进入正式UI
     - 聊天举报只实现用户提交、证据选择和结果提示，不包含R15后台队列、分配、SLA或审核决定状态
     - 每个需求可追溯到页面/API/表/配置/测试/故事；不适用项必须显式N/A并说明
@@ -14551,41 +14753,106 @@ PARALLEL_EXECUTION_PLAN.yaml:
   - SES-20260727T221444Z-FD353AD3
   implementation_commits:
   - 987bf263
+- protocol_version: '1.0'
+  cr_id: CR-0429
+  title: 修正R14 WebSocket可实施鉴权、确认与续传合同
+  status: IMPLEMENTING
+  created_at: '2026-07-28T03:32:38Z'
+  updated_at: '2026-07-28T03:52:05Z'
+  requester_actor_id: codex-root-r14-client-20260728
+  approver_actor_id: codex-r14-independent-review-20260728
+  task_id: TASK-R14-004
+  session_id: SES-20260727T221444Z-FD353AD3
+  user_request: 按R14冻结开发文档持续落地WebSocket实时可靠性，不虚构协议实现
+  reason: 审计确认当前WebSocket仅有生成合同无后端或Android实现，且合同未定义Bearer在Sec-WebSocket-Protocol的合法编码、lastServerSequence续传携带方式、S2C ackRequired的C2S确认事件以及超出保留期时的REST补洞指令，直接实现必然依赖猜测
+  original_rule: 当前合同只写Bearer access token in Sec-WebSocket-Protocol or wsTicket，未冻结合法子协议格式、握手拒绝与全链路脱敏；delivery.resume未定义lastServerSequence的0语义、连续处理口径、超前拒绝、服务端安全水位和聊天/通知补洞范围；S2C需确认事件没有C2S确认事件，C2S既有事件也未绑定对应确认；生成器与门禁将事件数写死为10且没有证明定向生成不破坏富化OpenAPI、非WS注册表行、既有事件和definitions。
+  new_rule: R14/R15 WebSocket请求必须且只能各携带一个hhy.v1与hhy.access.<compact-JWT>子协议；compact JWT限定为无填充base64url三段格式，拒绝等号、空白、重复或缺失认证协议，并在验证JWT与会话有效后才升级，服务端只回选hhy.v1。完整Sec-WebSocket-Protocol头必须在边缘/反向代理、握手异常、服务端和应用日志中脱敏，令牌不得进入URL、响应或错误文本；wsTicket在签发API冻结前为RESERVED_UNAVAILABLE。lastServerSequence为非负查询参数，0表示从未处理，正数表示客户端已连续处理且对需确认S2C事件完成有效ACK的最高用户级序列，超出服务端高水位必须拒绝。新增C2S
+    system.delivery.ack(eventId,serverSequence)，二元组必须匹配当前认证用户实际投递的同一事件，重复ACK幂等，未知或错配拒绝，只有有效ACK停止重投，事件本身ack_required=false；C2S chat.message.send由chat.message.ack按conversationId+clientMessageId确认，chat.message.read由chat.read.updated按conversationId+认证用户+lastReadMessageId确认。新增S2C
+    system.resume，返回mode、requestedLastServerSequence、serverHighWatermark、resumeFromServerSequence与affectedScopes；REPLAY_COMPLETE在保留窗口内重放完成后返回空scope和握手快照高水位，REST_GAP_FILL返回CHAT/NOTIFICATIONS受影响域及安全水位。CHAT固定穷尽chatGetConversations和各会话chatGetConversationsByIdMessages分页，NOTIFICATIONS固定穷尽notificationGetNotifications分页；全部补洞成功后只能以resumeFromServerSequence重连，禁止从REST数据猜测序列。生成器增加--sync-websocket，仅重建WebSocket合同及12条WEBSOCKET_EVENT行，并证明两个OpenAPI字节SHA、非WS注册表行内容与顺序、既有10事件及definitions除本CR批准字段外均不变。
+  impact_summary: 修正冻结WebSocket协议与生成/校验事实源，将事件数由10增至12并同步runtime副本、R14 manifest/story及story backlog和项目基线；本CR只冻结无歧义协议及隔离生成边界，不实现后端端点、Android网络层或数据库迁移，运行时由后续独立CR完成。
+  impact:
+    files:
+    - scripts/generate_contracts.py
+    - contracts/websocket-events.yaml
+    - contracts/contract_status.csv
+    - services/backend/boot/src/main/resources/contracts/websocket-events.yaml
+    - scripts/check_api_contract.py
+    - scripts/check_r14_entry_contract.py
+    - tests/test_r14_websocket_contract.py
+    - PROJECT_BASELINE.yaml
+    - PROJECT_BASELINE.json
+    - releases/R14/RELEASE_MANIFEST.yaml
+    - releases/R14/STORIES.yaml
+    - catalogs/release_story_backlog.csv
+    - docs/03-continuity/PROBLEM_REGISTRY.yaml
+    - CHANGELOG.md
+    pages:
+    - SCR-CHAT-001
+    - SCR-CHAT-002
+    apis:
+    - system.delivery.ack
+    - system.resume
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - 合同测试覆盖握手合法/等号/空白/重复/缺失认证协议、升级前JWT验证和全链路协议头脱敏；ACK二元组匹配、重复幂等、未知/错配拒绝、有效ACK停止重投及两个既有C2S确认映射；resume 0、合法连续值、超前拒绝、REPLAY_COMPLETE、CHAT与NOTIFICATIONS
+      gap scope、固定REST分页穷尽和安全水位重连；--sync-websocket前后两个OpenAPI字节SHA不变、非WS registry行内容与顺序不变、既有10事件与definitions深度不变、仅生成12条WS行且runtime副本哈希一致；R14入口、全局API合同、生成资产和文档门禁通过。
+    releases:
+    - R14
+    migration_and_compatibility: 新增system.delivery.ack和system.resume，不改变既有REST发送、已读和会话接口。当前仓库没有WebSocket生产消费者；既有10事件与definitions保持深度一致，只有本CR明确批准的合同元数据可扩展。后续服务端必须先验证唯一hhy.access.<compact-JWT>再升级且只回选hhy.v1；不得以URL
+      token、私有ACK、未声明scope或从REST结果猜序列方式兼容。
+  user_confirmation: 用户已明确要求持续开发并授权按独立复审通过方案推进
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-28T03:40:58Z'
+    note: 独立计划复审通过：修订已消除上一轮全部实施歧义。握手唯一允许各一个hhy.v1与hhy.access.<compact-JWT>，compact JWT限定无填充base64url三段并覆盖等号、空白、重复和缺失认证协议负例；JWT及会话有效性必须在升级前验证，服务端只回选hhy.v1，完整Sec-WebSocket-Protocol头在边缘、反向代理、握手异常、服务端和应用日志中统一脱敏，令牌不得进入URL、响应或错误文本，wsTicket保持RESERVED_UNAVAILABLE。system.delivery.ack以eventId+serverSequence匹配当前认证用户实际收到的同一S2C需确认事件，重复ACK幂等、未知或错配拒绝、仅有效ACK停止重投且ACK本身无需确认；现有chat.message.send与chat.message.read分别明确映射chat.message.ack和chat.read.updated。lastServerSequence已冻结为用户级最高连续已处理且完成必要ACK的序列，0表示从未处理、超前于服务端高水位拒绝；system.resume返回requestedLastServerSequence、serverHighWatermark、resumeFromServerSequence和affectedScopes，REPLAY_COMPLETE与REST_GAP_FILL语义分离，CHAT及NOTIFICATIONS均绑定固定REST分页补洞操作，完成后只能按服务端resumeFromServerSequence重连，禁止从REST数据猜测。--sync-websocket仅重建WebSocket合同和12条WS注册表行，并以回归证明两个富化OpenAPI字节SHA、非WS
+      registry内容与顺序、既有10事件及definitions均不退化，同时同步runtime副本。R14 manifest、Stories、声明事实源catalogs/release_story_backlog.csv、项目基线、门禁、Problem Registry和Changelog均纳入范围；当前仓库无生产WebSocket消费者，因此本CR只冻结合同、后续另立运行时CR的边界合理。批准按修订计划实施。
+  machine_record: .continuity/change_requests/CR-0429.yaml
+  document: docs/03-continuity/change-requests/CR-0429-修正R14-WebSocket可实施鉴权、确认与续传合同.md
+  decision_log:
+  - at: '2026-07-28T03:52:05Z'
+    actor_id: codex-root-r14-client-20260728
+    status: IMPLEMENTING
+    note: 合同、隔离生成器、runtime副本、R14清单与严格门禁已实现并通过首轮验证，进入提交前收口
+    session_id: SES-20260727T221444Z-FD353AD3
+  session_ids:
+  - SES-20260727T221444Z-FD353AD3
 ```
 
 ## 上下文来源及哈希
 
 - `AGENTS.md` — `e9f1cf3739a97b47a4de96166ebd17eb2206b7231adb22dbfa23f7687c9809bc`
 - `START_HERE.md` — `22de14029ce47beb41ea569e36ce223fbc9d11b86f8676f28d5fbbd83896af5c`
-- `CURRENT_STATUS.yaml` — `fe008c81462cf26cae8c955759d8673538e1186e272f841fdb719384c5e0368e`
+- `CURRENT_STATUS.yaml` — `fa9af26623f4b57eac9debb790f3ef56df58c4cd26269501b26d6634ebb198c6`
 - `NEXT_TASK.yaml` — `bac6995e3e612ed7920cc2ec3b7d4592c3c6641eca0147fa90eddd08eaddb829`
 - `DEVELOPMENT_RISK_REGISTER.md` — `8304c91492e4ee2abea0522a06541c8688d39c7fc532b5d0cde499bf09fffb87`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
-- `docs/03-continuity/PROBLEM_REGISTRY.yaml` — `96a71d5d5f834a3aed09508e4660bb7b15dcb84fe07afdd4ad3127564bbda37e`
+- `docs/03-continuity/PROBLEM_REGISTRY.yaml` — `b9c5bb0fb739976a4ee8feea647fed96eca0f6c96ec3f5444a58fd49ddb1e713`
 - `docs/03-continuity/REUSABLE_PATTERNS.md` — `5e1d2c4e9d2c97b8bad7c0c1a80211f827681d03f71f45c92368124f3079d54e`
 - `docs/03-continuity/PITFALLS.md` — `51bb53ebe64c4ab6db265faad6cf791250e9e27c8467069ab7a1415569052dcc`
 - `releases/PROGRAM_EXECUTION_PLAN.yaml` — `8f1ab5d3936141163c133f2398c125079a4e9a01bf5d48d8ba50db2a5953a1f9`
 - `config/REPOSITORY_TRANSPORT.yaml` — `8c4a21f3e204d46e7ffb467d804a53ed26cda61cd088dadfddb50b69eea657fc`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `38e04ed812c8df0d353c2b91993d31e53b471e9c457f06b426bd2260c470aa92`
-- `.continuity/EVENT_LOG.jsonl` — `ba5351c42405b5dd3e2830af23427c66173a062522615bbafabae70c8bd310f5`
-- `.continuity/SESSION_INDEX.yaml` — `38726a18b42f1d035f95ad3c78778be1cd6a9093f27e0d6a6362d3f4fd2e8845`
+- `.continuity/EVENT_LOG.jsonl` — `fbabf086a96150ea35345ef922864a88f2bd4709d3218918ed0fd8fa403a9975`
+- `.continuity/SESSION_INDEX.yaml` — `f34354eb4f33d8c3a9373d02614fd90111d1d8da9ea7facbff8be2bd1a82fd36`
 - `.continuity/TASK_CLAIMS.yaml` — `e116643519fd9085ad3807c53d5a2d93e1494dd7f060cc6476a10ff3ee9c0a62`
 - `.continuity/TASK_TRANSITIONS.yaml` — `29bc240c8b0452ec63c5d64f31fa5d2a7e5d804b95c92b238be5a8769734a138`
-- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `b55dfb271d2ae692d50367c35d8dffb4d311eb9b3db677d180643de1abb5d9dc`
-- `.continuity/ACTIVE_SESSION.yaml` — `2a0e56c48cf992b9e5e043f626a9e9108a9b96514fbb478004d0ebebb613ebfd`
+- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `40fab9782c7be542696589f6a0e3105499ae2b3110b33783a88acc71bc4e29da`
+- `.continuity/ACTIVE_SESSION.yaml` — `8d50834e2ddb20df56abcc55ea858c32b10aa87b29181fa5e9baebe725e0e121`
 - `docs/00-baseline/正式商业系统全局硬性开发边界.md` — `d8a77eddf520659b1d6b57e16ecc0739fa93dbd39cf9903dbaf798fc631ae6fe`
 - `docs/02-ui/UI参考图使用与开发约束_V1.2.2.md` — `d14367586aa2067b059df58798acd20ab982459cdb35ff27fc7922a3896e4933`
 - `docs/03-continuity/持续开发无状态接续强制门禁_V1.2.3.md` — `d0ed3ed68bdd93b06500eecdfb5baa3245e6ca8b685a486788abb6eee39b3d51`
 - `docs/09-development/统一开发与交付效率规范.md` — `1b73841ee01e9ae9d3c3beea35ef1874ad6b2049d0c15423119f03f0a998b3f1`
-- `releases/R14/RELEASE_MANIFEST.yaml` — `c6ef78d8397b473600154f663c5951159c31c1e17fa580f1b388b17197044cfd`
+- `releases/R14/RELEASE_MANIFEST.yaml` — `510abe9162dae4ed1770584b5c3bcd3dd3b41f3d672db4aecbef9053a8703ed0`
 - `releases/R14/DEFINITION_OF_READY.yaml` — `c704682cbf23b60766f803327d9702bffca8d19184d655f5e1fcbdbe110476eb`
-- `releases/R14/STORIES.yaml` — `3b729775c059536400e44acecc2b2728019ff7ecb0ae60a0ddbbd943dc5d8951`
+- `releases/R14/STORIES.yaml` — `8d00c2140a196d4450ef49907083b7b4dfae98d91e1d49c1f6322e02047cdb8c`
 - `releases/R14/TASKS.yaml` — `0b5332594a1591352faf7d98850f15d07a612a64cdf5dc62bc054008eb13d6b1`
 - `releases/R14/ACCEPTANCE_MATRIX.csv` — `d747f5c176d1eb94d685134d6bbddb12e1961529824471d6e969e9f10679a2b1`
 - `releases/R14/PARALLEL_EXECUTION_PLAN.yaml` — `cd1f0c96ffd7562acb214edba80a2bbb12b79f06c19032d1b133936ff6abd74f`
-- `docs/03-continuity/sessions/2026-07/SES-20260727T221444Z-FD353AD3.md` — `825997d530ca021586eede7b03adc7515bf0c44573e6660160a295c60ef42324`
-- `.continuity/checkpoints/SES-20260727T221444Z-FD353AD3/0016.yaml` — `295b260911c7b3eb5367b0350f6d14ac81583907184edb5322a75165c29e85ed`
+- `docs/03-continuity/sessions/2026-07/SES-20260727T221444Z-FD353AD3.md` — `745073b9c8a7e68ae8dd076bb2e23d67a7a76956bd9c40e0a984c32be3f89553`
+- `.continuity/checkpoints/SES-20260727T221444Z-FD353AD3/0019.yaml` — `66103c9fb3a63a8b007002f19c72571fee680459741170ccb3e4f07beeb7a40a`
 - `docs/03-continuity/change-requests/CR-0422-实现R14-Android私聊详情与真实会话导航.md` — `426588ba45f18916890ade8c428e1b1c0d168eae8af4fec7eb9957eb5f792617`
 - `docs/03-continuity/change-requests/CR-0423-实现R14-Android会话列表与消息主导航.md` — `e2e2b533fda82f9cdd13eb8f529f36572eba62da73e50b760b911277317788a0`
 - `docs/03-continuity/change-requests/CR-0424-补齐R14-Android会话列表状态与消息主导航.md` — `7e33507fd5daac6e6c6bb1064e5bd9aad3efb5ff4fab289f0faff34fc36c14b0`
@@ -14593,6 +14860,7 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `docs/03-continuity/change-requests/CR-0426-修复检查点对任务内净回退的误判.md` — `e145ce5644eb6f0ee1f930003d8fc3092c917ada78e1951a057fd623d57bcd80`
 - `docs/03-continuity/change-requests/CR-0427-实现R14聊天安全交互并隔离举报原因目录缺口.md` — `d1dfed3ae3cc221fbc7f16a0958783c64d19e12847cbeb54915e7bad2230de04`
 - `docs/03-continuity/change-requests/CR-0428-补齐R14举报媒体证据与真实会话版本传播.md` — `56a62916bc071982ee719ee5b0f68eb0356be599015faea09a0a4769823323a9`
+- `docs/03-continuity/change-requests/CR-0429-修正R14-WebSocket可实施鉴权、确认与续传合同.md` — `e1f1dea43559291d03676baaaeb60d6bc776b22d8fae5b35156d8aeb074ab632`
 
 ## 接手硬规则
 

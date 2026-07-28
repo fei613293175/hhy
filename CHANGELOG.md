@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## R14 WebSocket可实施合同纠偏 · 2026-07-28
+
+- `CR-0429`冻结`hhy.v1`与`hhy.access.<compact-JWT>`双子协议，JWT与会话必须在升级前验证，服务端只回选`hhy.v1`；完整协议头在边缘、代理、握手异常、服务端和应用日志统一脱敏，`wsTicket`在签发API出现前保持不可用。
+- 新增`system.delivery.ack`与`system.resume`，明确逐事件ACK匹配、重复幂等、错配拒绝、有效ACK停止重投，以及`lastServerSequence=0`、最高连续已处理序列、服务端高水位和`CHAT/NOTIFICATIONS`固定REST补洞流程。
+- `generate_contracts.py --sync-websocket`只更新WebSocket合同、runtime副本和12条WebSocket注册表行，并锁定两个富化OpenAPI、非WebSocket注册表行、既有10事件和definitions不退化。
+
 ## R14聊天安全交互真实写操作 · 2026-07-28
 
 - `CR-0427`为Android `ContractR14Api`补齐聊天举报、拉黑、解除拉黑和删除会话四个真实写操作，严格使用冻结路由、请求模型、幂等键和`CommandResultResource`，不建立页面私有DTO。

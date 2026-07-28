@@ -1940,3 +1940,16 @@ problems:
   - 不得把效果图中的虚假信息、欺诈、骚扰广告、违法违规或其他原因示例直接硬编码为正式业务枚举
   - 不得用自由文本reasonCode绕过RADIO_GROUP和受控目录要求
   - 不得在原因目录缺失时关闭SHEET-CHAT-002、STORY-R14-003或R14机器验收
+- id: PROB-0136
+  title: R14 WebSocket合同缺少可实施鉴权确认与跨域续传语义
+  status: SOLVED
+  root_cause: 原合同仅用自然语言声明Bearer可放入Sec-WebSocket-Protocol或wsTicket，没有合法子协议编码、升级前验证和全链路脱敏规则；S2C需确认事件没有C2S确认事件，lastServerSequence也没有0语义、连续处理口径、服务端高水位及聊天与通知补洞范围。生成器又将10事件写死且会重建富化OpenAPI，后端与Android只能依赖猜测实现。
+  resolution: CR-0429冻结唯一双子协议hhy.v1与hhy.access.<compact-JWT>、无填充三段base64url格式、升级前JWT和会话验证、服务端只回选hhy.v1及完整协议头多层脱敏；新增system.delivery.ack和system.resume，明确ACK匹配幂等、连续用户级序列、服务端安全水位、CHAT与NOTIFICATIONS固定分页补洞及按resumeFromServerSequence重连。安全--sync-websocket只更新WebSocket合同、runtime副本和12条注册表行。
+  regression_checks:
+  - tests/test_r14_websocket_contract.py必须覆盖合法与非法compact JWT、重复或缺失认证协议规则、升级前验证、日志脱敏、ACK匹配与重投停止语义
+  - lastServerSequence必须接受0和非负连续已处理序列、拒绝超前水位；CHAT与NOTIFICATIONS均绑定固定REST分页穷尽操作且禁止从REST结果猜测序列
+  - 定向生成前后两个OpenAPI字节SHA、非WebSocket注册表行内容与顺序、既有10事件及definitions必须保持不变，并同步runtime合同哈希
+  do_not_repeat:
+  - 不得把JWT放入URL、响应或错误文本，不得让服务端回选含令牌的认证子协议
+  - 不得建立私有ACK格式、只补聊天遗漏通知，或让客户端自行推算恢复水位
+  - 不得为新增WebSocket事件运行会覆盖已富化OpenAPI的旧全量生成器

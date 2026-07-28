@@ -7,6 +7,20 @@ import yaml
 
 ROOT = Path(__file__).resolve().parents[1]
 TODAY = '2026-07-16'
+WEBSOCKET_FREEZE_DATE = '2026-07-28'
+LEGACY_WEBSOCKET_EVENT_CODES = (
+    'chat.message.send',
+    'chat.message.ack',
+    'chat.message.new',
+    'chat.message.read',
+    'chat.read.updated',
+    'chat.typing',
+    'notification.new',
+    'system.kickout',
+    'system.ping',
+    'system.pong',
+)
+NEW_WEBSOCKET_EVENT_CODES = ('system.delivery.ack', 'system.resume')
 
 
 def read_csv(rel: str) -> list[dict[str,str]]:
@@ -682,46 +696,269 @@ def update_ui_schema_refs(all_rows):
         row['成熟度']='FROZEN'
     write_csv('catalogs/ui_action_matrix.csv',ui)
 
-def websocket_contract():
-    events=read_csv('catalogs/api_endpoints.csv') # only for stable execution context
-    ws={
-      'version':'1.2.2','contract_maturity':'FROZEN','transport':'WebSocket over TLS','endpoint':'wss://ws.orbexa.cc/ws',
-      'subprotocol':'hhy.v1','serialization':'application/json; charset=utf-8','max_payload_bytes':10485760,
-      'authentication':{'method':'Bearer access token in Sec-WebSocket-Protocol or short-lived wsTicket query parameter','ticket_ttl_seconds':60,'token_in_url_logging_forbidden':True},
-      'envelope':{
-        'required':['eventId','eventType','occurredAt','payload'],
-        'properties':{
-          'eventId':{'type':'string','format':'uuid'},'eventType':{'type':'string'},'occurredAt':{'type':'string','format':'date-time'},
-          'traceId':{'type':'string'},'clientMessageId':{'type':'string'},'serverSequence':{'type':'integer','minimum':1},
-          'conversationId':{'type':'string'},'ackRequired':{'type':'boolean'},'payload':{'type':'object'}
-        }
+def websocket_authentication_contract() -> dict:
+    return {
+      'request_subprotocols': {
+        'required_exactly_once': ['hhy.v1', 'hhy.access.<compact-JWT>'],
+        'compact_jwt_pattern': r'^[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+$',
+        'padding_allowed': False,
+        'whitespace_allowed': False,
+        'reject_duplicate_or_missing': True,
       },
-      'delivery':{
-        'client_message_id_unique_scope':'authenticatedUserId + conversationId + clientMessageId',
-        'server_sequence_scope':'authenticatedUserId','ack_timeout_seconds':10,'max_redeliveries':5,
-        'resume':'client reconnects with lastServerSequence; server replays retained events then instructs REST gap-fill when retention exceeded',
-        'retention_hours':72,'ordering':'strict within one conversation; no global ordering guarantee','typing_event_persisted':False
+      'selected_subprotocol': 'hhy.v1',
+      'validate_before_upgrade': ['jwt_signature', 'jwt_expiry', 'session_active'],
+      'ws_ticket': {
+        'status': 'RESERVED_UNAVAILABLE',
+        'query_parameter': 'wsTicket',
+        'ticket_ttl_seconds': 60,
       },
-      'heartbeat':{'client_interval_seconds':25,'server_timeout_seconds':75,'clock_source':'server time'},
-      'reconnect':{'strategy':'full jitter exponential backoff','initial_delay_ms':500,'max_delay_ms':30000,'reset_after_stable_seconds':60},
-      'errors':[{'code':'WS-400-BAD_ENVELOPE','closeCode':4400},{'code':'WS-401-UNAUTHENTICATED','closeCode':4401},{'code':'WS-403-FORBIDDEN','closeCode':4403},{'code':'WS-409-SEQUENCE_GAP','closeCode':4409},{'code':'WS-429-RATE_LIMITED','closeCode':4429}],
-      'events':[]
+      'credential_transport': {
+        'token_in_url_forbidden': True,
+        'token_in_response_forbidden': True,
+        'token_in_error_text_forbidden': True,
+      },
+      'log_redaction': {
+        'header': 'Sec-WebSocket-Protocol',
+        'replacement': '[REDACTED]',
+        'required_scopes': [
+          'edge', 'reverse_proxy', 'handshake_error', 'server', 'application',
+        ],
+      },
     }
-    definitions=[
-      ('chat.message.send','C2S','发送文本、图片、联系方式或内容卡片',['conversationId','clientMessageId','messageType','payload'],True,{'messageType':['TEXT','IMAGE','CONTENT_CARD','CONTACT_CARD']}),
-      ('chat.message.ack','S2C','服务端持久化确认',['conversationId','clientMessageId','messageId','serverSequence','sentAt'],False,{}),
-      ('chat.message.new','S2C','新消息',['conversationId','messageId','senderId','messageType','payload','serverSequence','sentAt'],True,{}),
-      ('chat.message.read','C2S','已读上报',['conversationId','lastReadMessageId','clientMessageId'],True,{}),
-      ('chat.read.updated','S2C','会话已读游标变化',['conversationId','userId','lastReadMessageId','serverSequence'],False,{}),
-      ('chat.typing','BIDIRECTIONAL','短暂输入状态',['conversationId','userId','typing','expiresAt'],False,{}),
-      ('notification.new','S2C','业务通知',['notificationId','type','title','body','target','serverSequence'],True,{}),
-      ('system.kickout','S2C','会话失效或被强制下线',['reasonCode','message','serverSequence'],False,{}),
-      ('system.ping','C2S','心跳',['clientTime'],False,{}),
-      ('system.pong','S2C','心跳响应',['serverTime'],False,{})]
-    for code,direction,description,required,ack,enums in definitions:
-        props={x:scalar(x,enum=enums.get(x)) for x in required}
-        ws['events'].append({'code':code,'direction':direction,'description':description,'release':'R14/R15','contract_maturity':'FROZEN','ack_required':ack,'payload':{'type':'object','additionalProperties':False,'required':required,'properties':props}})
-    dump_yaml(ROOT/'contracts/websocket-events.yaml',ws)
+
+
+def websocket_delivery_contract() -> dict:
+    return {
+      'client_message_id_unique_scope': 'authenticatedUserId + conversationId + clientMessageId',
+      'server_sequence_scope': 'authenticatedUserId',
+      'ack_timeout_seconds': 10,
+      'max_redeliveries': 5,
+      'ack': {
+        's2c_confirmation_event': 'system.delivery.ack',
+        'match_fields': ['eventId', 'serverSequence'],
+        'match_scope': 'same authenticated user and actually delivered event',
+        'duplicate_result': 'IDEMPOTENT_SUCCESS',
+        'unknown_or_mismatched_result': 'REJECT',
+        'stop_redelivery_only_after_valid_ack': True,
+        'ack_event_ack_required': False,
+        'c2s_confirmations': {
+          'chat.message.send': {
+            'event': 'chat.message.ack',
+            'match': ['conversationId', 'clientMessageId'],
+          },
+          'chat.message.read': {
+            'event': 'chat.read.updated',
+            'match': [
+              'conversationId',
+              'authenticatedUserId=userId',
+              'lastReadMessageId',
+            ],
+          },
+        },
+      },
+      'resume': {
+        'query_parameter': {
+          'name': 'lastServerSequence',
+          'type': 'integer',
+          'minimum': 0,
+          'zero_means': 'no event has been processed',
+          'positive_means': 'highest contiguous processed sequence with every required S2C ACK completed',
+          'reject_above_server_high_watermark': True,
+        },
+        'response_event': 'system.resume',
+        'modes': {
+          'REPLAY_COMPLETE': {
+            'affected_scopes': [],
+            'resume_from': 'serverHighWatermark captured when the handshake was accepted',
+          },
+          'REST_GAP_FILL': {
+            'allowed_affected_scopes': ['CHAT', 'NOTIFICATIONS'],
+            'resume_from': 'server supplied safe watermark after every affected scope is fully refreshed',
+          },
+        },
+        'gap_fill': {
+          'CHAT': {
+            'operations': [
+              'chatGetConversations', 'chatGetConversationsByIdMessages',
+            ],
+            'completion': 'exhaust every conversations page and every active conversation messages page',
+          },
+          'NOTIFICATIONS': {
+            'operations': ['notificationGetNotifications'],
+            'completion': 'exhaust every notifications page',
+          },
+          'reconnect_sequence_source': 'system.resume.payload.resumeFromServerSequence',
+          'infer_sequence_from_rest_forbidden': True,
+        },
+      },
+      'retention_hours': 72,
+      'ordering': 'strict within one conversation; no global ordering guarantee',
+      'typing_event_persisted': False,
+    }
+
+
+def new_websocket_events() -> list[dict]:
+    return [
+      {
+        'code': 'system.delivery.ack',
+        'direction': 'C2S',
+        'description': '确认当前认证用户收到的需确认服务端事件',
+        'release': 'R14/R15',
+        'contract_maturity': 'FROZEN_V1.2.2',
+        'ack_required': False,
+        'payload': {
+          'type': 'object',
+          'additionalProperties': False,
+          'required': ['eventId', 'serverSequence'],
+          'properties': {
+            'eventId': {'type': 'string', 'format': 'uuid'},
+            'serverSequence': {'type': 'integer', 'format': 'int64', 'minimum': 1},
+          },
+        },
+      },
+      {
+        'code': 'system.resume',
+        'direction': 'S2C',
+        'description': '声明重放完成或要求按服务端水位执行REST补洞',
+        'release': 'R14/R15',
+        'contract_maturity': 'FROZEN_V1.2.2',
+        'ack_required': False,
+        'payload': {
+          'type': 'object',
+          'additionalProperties': False,
+          'required': [
+            'mode', 'requestedLastServerSequence', 'serverHighWatermark',
+            'resumeFromServerSequence', 'affectedScopes',
+          ],
+          'properties': {
+            'mode': {'type': 'string', 'enum': ['REPLAY_COMPLETE', 'REST_GAP_FILL']},
+            'requestedLastServerSequence': {'type': 'integer', 'format': 'int64', 'minimum': 0},
+            'serverHighWatermark': {'type': 'integer', 'format': 'int64', 'minimum': 0},
+            'resumeFromServerSequence': {'type': 'integer', 'format': 'int64', 'minimum': 0},
+            'affectedScopes': {
+              'type': 'array',
+              'uniqueItems': True,
+              'maxItems': 2,
+              'items': {'type': 'string', 'enum': ['CHAT', 'NOTIFICATIONS']},
+            },
+          },
+        },
+      },
+    ]
+
+
+def websocket_status_row(event: dict, ws_sha: str) -> dict[str, str]:
+    owners = {
+      'system.delivery.ack': 'SCR-CHAT-001;SCR-CHAT-002;SYSTEM_RUNTIME',
+      'system.resume': 'SCR-CHAT-001;SCR-CHAT-002;SCR-MSG-001;SYSTEM_RUNTIME',
+    }
+    return {
+      '契约类型': 'WEBSOCKET',
+      '契约标识': event['code'],
+      'operationId': event['code'],
+      '计划版本': event['release'],
+      '成熟度': event['contract_maturity'],
+      '安全模型': 'Sec-WebSocket-Protocol:hhy.v1+hhy.access.<compact-JWT>;serverSequence',
+      '请求Schema': f"inline:{event['code']}.payload",
+      '响应Schema': f"inline:{event['code']}.payload",
+      '幂等': '是' if event['code'] == 'system.delivery.ack' else '否',
+      'UI/系统所有者': owners[event['code']],
+      '事实源': 'contracts/websocket-events.yaml',
+      '事实源SHA256': ws_sha,
+      '冻结日期': WEBSOCKET_FREEZE_DATE,
+      '变更策略': '只允许向后兼容新增事件/字段；序列语义和ACK协议不得破坏性变更',
+    }
+
+
+def synchronize_websocket_contract() -> int:
+    contract_path = ROOT / 'contracts/websocket-events.yaml'
+    runtime_path = ROOT / 'services/backend/boot/src/main/resources/contracts/websocket-events.yaml'
+    registry_path = 'contracts/contract_status.csv'
+    openapi_paths = (ROOT / 'contracts/openapi.yaml', ROOT / 'contracts/admin-openapi.yaml')
+    openapi_hashes = {path: hashlib.sha256(path.read_bytes()).hexdigest() for path in openapi_paths}
+
+    ws = yaml.safe_load(contract_path.read_text(encoding='utf-8'))
+    events_by_code = {event['code']: event for event in ws.get('events', [])}
+    allowed_codes = set(LEGACY_WEBSOCKET_EVENT_CODES + NEW_WEBSOCKET_EVENT_CODES)
+    if set(events_by_code) - allowed_codes:
+        raise SystemExit(f"unknown websocket events: {sorted(set(events_by_code) - allowed_codes)}")
+    missing_legacy = set(LEGACY_WEBSOCKET_EVENT_CODES) - set(events_by_code)
+    if missing_legacy:
+        raise SystemExit(f"missing legacy websocket events: {sorted(missing_legacy)}")
+    legacy_snapshot = {
+      code: json.dumps(events_by_code[code], ensure_ascii=False, sort_keys=True)
+      for code in LEGACY_WEBSOCKET_EVENT_CODES
+    }
+    definitions_snapshot = json.dumps(ws.get('definitions', {}), ensure_ascii=False, sort_keys=True)
+
+    ws['authentication'] = websocket_authentication_contract()
+    ws['delivery'] = websocket_delivery_contract()
+    ws['events'] = [events_by_code[code] for code in LEGACY_WEBSOCKET_EVENT_CODES] + new_websocket_events()
+    dump_yaml(contract_path, ws)
+
+    generated = yaml.safe_load(contract_path.read_text(encoding='utf-8'))
+    generated_by_code = {event['code']: event for event in generated['events']}
+    for code, snapshot in legacy_snapshot.items():
+        if json.dumps(generated_by_code[code], ensure_ascii=False, sort_keys=True) != snapshot:
+            raise SystemExit(f'legacy websocket event drift: {code}')
+    if json.dumps(generated.get('definitions', {}), ensure_ascii=False, sort_keys=True) != definitions_snapshot:
+        raise SystemExit('websocket definitions drift')
+
+    runtime_path.parent.mkdir(parents=True, exist_ok=True)
+    runtime_path.write_bytes(contract_path.read_bytes())
+    ws_sha = hashlib.sha256(contract_path.read_bytes()).hexdigest()
+    rows = read_csv(registry_path)
+    fields = list(rows[0])
+    ws_indexes = [
+      index for index, row in enumerate(rows)
+      if row.get('事实源') == 'contracts/websocket-events.yaml'
+    ]
+    if not ws_indexes:
+        raise SystemExit('contract registry has no websocket rows')
+    insertion_index = sum(
+      1 for row in rows[:ws_indexes[0]]
+      if row.get('事实源') != 'contracts/websocket-events.yaml'
+    )
+    existing_ws_rows = {
+      row['契约标识']: row for row in rows
+      if row.get('事实源') == 'contracts/websocket-events.yaml'
+    }
+    non_ws_before = [
+      row.copy() for row in rows
+      if row.get('事实源') != 'contracts/websocket-events.yaml'
+    ]
+    generated_rows = []
+    for event in generated['events']:
+        if event['code'] in existing_ws_rows:
+            row = existing_ws_rows[event['code']].copy()
+            row['事实源SHA256'] = ws_sha
+        else:
+            row = websocket_status_row(event, ws_sha)
+        generated_rows.append(row)
+    without_ws = [
+      row for row in rows
+      if row.get('事实源') != 'contracts/websocket-events.yaml'
+    ]
+    rebuilt = without_ws[:insertion_index] + generated_rows + without_ws[insertion_index:]
+    if [row for row in rebuilt if row.get('事实源') != 'contracts/websocket-events.yaml'] != non_ws_before:
+        raise SystemExit('non-websocket contract registry rows changed')
+    write_csv(registry_path, rebuilt, fields)
+
+    for path, expected in openapi_hashes.items():
+        actual = hashlib.sha256(path.read_bytes()).hexdigest()
+        if actual != expected:
+            raise SystemExit(f'OpenAPI changed during websocket sync: {path.name}')
+    print(json.dumps({
+      'status': 'PASS',
+      'mode': 'sync-websocket',
+      'websocket_events': len(generated['events']),
+      'runtime_sha256': ws_sha,
+      'openapi_unchanged': True,
+      'non_websocket_registry_rows_unchanged': True,
+      'legacy_events_unchanged': True,
+      'definitions_unchanged': True,
+    }, ensure_ascii=False, indent=2))
+    return 0
 
 def refresh_contract_status(*, check: bool) -> int:
     """Refresh only authoritative-file hashes in the frozen registry.
@@ -757,7 +994,7 @@ def full_rebuild():
     client=read_csv('catalogs/api_endpoints.csv'); admin=read_csv('catalogs/admin_api_endpoints.csv')
     cs=generate_spec(client,False); ads=generate_spec(admin,True)
     dump_yaml(ROOT/'contracts/openapi.yaml',cs); dump_yaml(ROOT/'contracts/admin-openapi.yaml',ads)
-    websocket_contract(); update_ui_schema_refs(client+admin)
+    synchronize_websocket_contract(); update_ui_schema_refs(client+admin)
     status=[]
     for kind,rows,rel in [('CLIENT_API',client,'contracts/openapi.yaml'),('ADMIN_API',admin,'contracts/admin-openapi.yaml')]:
         spec_path=ROOT/rel; spec_sha=hashlib.sha256(spec_path.read_bytes()).hexdigest()
@@ -774,11 +1011,14 @@ def full_rebuild():
 def main() -> int:
     parser=argparse.ArgumentParser(description='Safely synchronize frozen contract metadata.')
     parser.add_argument('--check',action='store_true',help='fail when contract registry hashes are stale')
+    parser.add_argument('--sync-websocket',action='store_true',help='safely update only WebSocket contract assets and registry rows')
     parser.add_argument('--allow-legacy-full-rebuild',action='store_true',help='explicitly run the legacy catalog rebuild; may replace enriched schemas')
     args=parser.parse_args()
+    if sum(bool(value) for value in (args.check, args.sync_websocket, args.allow_legacy_full_rebuild)) > 1:
+        parser.error('--check, --sync-websocket and --allow-legacy-full-rebuild are mutually exclusive')
+    if args.sync_websocket:
+        return synchronize_websocket_contract()
     if args.allow_legacy_full_rebuild:
-        if args.check:
-            parser.error('--check and --allow-legacy-full-rebuild are mutually exclusive')
         full_rebuild()
         return 0
     return refresh_contract_status(check=args.check)

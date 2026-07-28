@@ -11,7 +11,7 @@ task_id: TASK-R14-004
 story_id: STORY-R14-004
 goal: 逐项审计R14六个交互面、九接口、状态错误恢复、测试和追踪证据，补齐不依赖举报原因目录的客户端与治理缺口；保持PROB-0135开放且不提前关闭TASK
 started_at: '2026-07-27T22:14:44Z'
-updated_at: '2026-07-28T03:22:35Z'
+updated_at: '2026-07-28T04:05:35Z'
 takeover_of: null
 change_requests:
 - CR-0422
@@ -21,6 +21,7 @@ change_requests:
 - CR-0426
 - CR-0427
 - CR-0428
+- CR-0429
 scope:
   allowed_paths:
   - apps/**
@@ -71,7 +72,19 @@ scope:
   - apps/android/feature/chat/src/androidTest/java/cc/orbexa/hhy/chat/R14ChatDetailScreenTest.kt
   - docs/03-continuity/PROBLEM_REGISTRY.yaml
   - CHANGELOG.md
-  source: story-switch+explicit+approved-cr:CR-0428
+  - scripts/generate_contracts.py
+  - contracts/websocket-events.yaml
+  - contracts/contract_status.csv
+  - services/backend/boot/src/main/resources/contracts/websocket-events.yaml
+  - scripts/check_api_contract.py
+  - scripts/check_r14_entry_contract.py
+  - tests/test_r14_websocket_contract.py
+  - PROJECT_BASELINE.yaml
+  - PROJECT_BASELINE.json
+  - releases/R14/RELEASE_MANIFEST.yaml
+  - releases/R14/STORIES.yaml
+  - catalogs/release_story_backlog.csv
+  source: story-switch+explicit+approved-cr:CR-0428+approved-cr:CR-0429
 git:
   initialized: true
   branch: task/TASK-R03-001
@@ -81,29 +94,29 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-28T03:22:28Z'
-  expires_at: '2026-07-28T07:22:28Z'
-checkpoint_sequence: 16
-latest_checkpoint: .continuity/checkpoints/SES-20260727T221444Z-FD353AD3/0016.yaml
+  renewed_at: '2026-07-28T04:05:28Z'
+  expires_at: '2026-07-28T08:05:28Z'
+checkpoint_sequence: 19
+latest_checkpoint: .continuity/checkpoints/SES-20260727T221444Z-FD353AD3/0019.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260727T221444Z-FD353AD3.md
-next_step: 提交并推送CR-0428状态记录，然后继续STORY-R14-004剩余客户端合同审计
+next_step: 提交并推送CR-0429实现Commit，绑定IMPLEMENTED后进入独立运行时CR
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: 8dd98bf4b5650625bc262e031f463ba55824d7a27f566255eaa3abe66055ad92
-  generated_at: '2026-07-28T03:22:31Z'
+  context_hash: 29e243e039aa0007f4d0ec86a3055cf8fd078cec738573da178ab6e25bb3ecd9
+  generated_at: '2026-07-28T04:05:32Z'
 handoff_bundle: null
 closure: null
 parallel_execution:
   assessment: DELEGATED
   delegated_workers: 1
   workers:
-  - worker_id: codex-r14-independent-review-20260728
-    responsibility: CR-0428独立合同与范围审查
+  - worker_id: r14_cr_review
+    responsibility: 完成CR-0429两轮独立计划审查并批准修订方案
     allowed_paths:
-    - .continuity/change_requests/CR-0428.yaml
-    - docs/03-continuity/change-requests/CR-0428-补齐R14举报媒体证据与真实会话版本传播.md
+    - .continuity/change_requests/CR-0429.yaml
+    - docs/03-continuity/change-requests/CR-0429-修正R14-WebSocket可实施鉴权、确认与续传合同.md
   reason: ''
 story_history:
 - story_id: STORY-R14-001

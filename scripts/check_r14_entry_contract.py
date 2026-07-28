@@ -184,6 +184,33 @@ def validate(root: Path) -> list[str]:
         errors.append(f"R14_WEBSOCKET_PAYLOAD_SET {sorted(ws_payload_refs)}")
     if set(ws_defs.get("ChatContactCardPayload", {}).get("properties", {})) != {"fields", "note"}:
         errors.append("R14_WEBSOCKET_CONTACT_CARD_FIELDS")
+    ws_events = {event.get("code"): event for event in websocket.get("events", [])}
+    expected_ws_events = {
+        "chat.message.send", "chat.message.ack", "chat.message.new",
+        "chat.message.read", "chat.read.updated", "chat.typing",
+        "notification.new", "system.kickout", "system.ping", "system.pong",
+        "system.delivery.ack", "system.resume",
+    }
+    if set(ws_events) != expected_ws_events or len(websocket.get("events", [])) != 12:
+        errors.append(f"R14_WEBSOCKET_EVENT_SET {sorted(ws_events)}")
+    auth = websocket.get("authentication", {})
+    if auth.get("request_subprotocols", {}).get("required_exactly_once") != [
+        "hhy.v1", "hhy.access.<compact-JWT>",
+    ] or auth.get("selected_subprotocol") != "hhy.v1":
+        errors.append("R14_WEBSOCKET_AUTH_PROTOCOLS")
+    ack = websocket.get("delivery", {}).get("ack", {})
+    if ack.get("s2c_confirmation_event") != "system.delivery.ack" \
+            or ack.get("match_fields") != ["eventId", "serverSequence"] \
+            or ack.get("stop_redelivery_only_after_valid_ack") is not True:
+        errors.append("R14_WEBSOCKET_ACK_SEMANTICS")
+    resume = websocket.get("delivery", {}).get("resume", {})
+    if resume.get("query_parameter", {}).get("minimum") != 0 \
+            or resume.get("gap_fill", {}).get("reconnect_sequence_source") \
+            != "system.resume.payload.resumeFromServerSequence" \
+            or set(resume.get("modes", {}).get("REST_GAP_FILL", {}).get(
+                "allowed_affected_scopes", []
+            )) != {"CHAT", "NOTIFICATIONS"}:
+        errors.append("R14_WEBSOCKET_RESUME_SEMANTICS")
 
     manifest = load_yaml(root, "releases/R14/RELEASE_MANIFEST.yaml")
     if manifest.get("status") != "DEVELOPMENT_READY":
@@ -191,6 +218,10 @@ def validate(root: Path) -> list[str]:
     baseline = manifest.get("entry_baseline", {})
     if baseline.get("change_request") != "CR-0417":
         errors.append("R14_MANIFEST_ENTRY_BASELINE")
+    if not {"system.delivery.ack", "system.resume"}.issubset(
+        set(manifest.get("contracts", {}).get("websocket", []))
+    ):
+        errors.append("R14_MANIFEST_WEBSOCKET_RELIABILITY")
     if not (root / "releases/R14/PARALLEL_EXECUTION_PLAN.yaml").is_file():
         errors.append("R14_EXECUTION_PLAN_MISSING")
     return errors
