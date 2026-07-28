@@ -27264,9 +27264,9 @@ change_requests:
 - protocol_version: '1.0'
   cr_id: CR-0440
   title: 建立R16显式商品订单合同与三页视觉施工基线
-  status: IMPLEMENTED
+  status: CLOSED
   created_at: '2026-07-28T09:21:35Z'
-  updated_at: '2026-07-28T09:41:58Z'
+  updated_at: '2026-07-28T09:45:15Z'
   requester_actor_id: codex-root-r16-entry-20260728
   approver_actor_id: codex-r16-entry-independent-review-20260728
   task_id: TASK-R16-001
@@ -27357,5 +27357,12 @@ change_requests:
     status: IMPLEMENTED
     note: 十接口显式Product/ProductSku/Order合同、结构化权益、订单项/价格快照/不退款证据、三页视觉合同及全部目录派生资产已落地；R16入口、视觉目录、文档、API、运行时副本、生成资产和Release artifacts门禁全部PASS。admin-pages.json为admin_page_operation_specs的确定性派生产物并已同步复验。
     session_id: SES-20260728T091447Z-9A245BB4
+  - at: '2026-07-28T09:45:15Z'
+    actor_id: codex-root-r16-entry-20260728
+    status: CLOSED
+    note: 实现提交a0ffe13e已推送；R16入口、视觉、文档、API、派生资产和发布目录全部复验PASS，CR关闭。
+    session_id: SES-20260728T091447Z-9A245BB4
   session_ids:
   - SES-20260728T091447Z-9A245BB4
+  implementation_commits:
+  - a0ffe13ec2294c4af79da5d185887f1ad6053175
