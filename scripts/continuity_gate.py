@@ -50,6 +50,7 @@ from continuity_lib import (
     filter_project_files,
     git,
     git_changed_files,
+    git_index_worktree_divergence,
     git_info,
     is_git_repo,
     is_managed_record,
@@ -736,6 +737,9 @@ def main() -> int:
             full = git_changed_files(ROOT)
             staged_project = set(filter_project_files(staged))
             full_project = set(filter_project_files(full))
+            diverged_project = filter_project_files(git_index_worktree_divergence(ROOT))
+            report.metrics["index_worktree_divergence"] = diverged_project
+            report.require(not diverged_project, "INDEX_WORKTREE_DIVERGED", "项目工作树内容必须全部暂存后再提交：" + ", ".join(diverged_project))
             report.require(staged_project == full_project, "PARTIAL_COMMIT", "禁止部分提交项目内容；先创建检查点并一次性暂存全部项目变更")
             relevant = latest_relevant_session(staged)
             validate_change_set(report, policy, staged, relevant, mode=args.mode)
@@ -745,6 +749,9 @@ def main() -> int:
             if not args.commit_message_file:
                 report.errors.append({"code": "MESSAGE_FILE", "message": "commit-msg模式需要--commit-message-file"})
             changed = git_changed_files(ROOT, staged=True)
+            diverged_project = filter_project_files(git_index_worktree_divergence(ROOT))
+            report.metrics["index_worktree_divergence"] = diverged_project
+            report.require(not diverged_project, "INDEX_WORKTREE_DIVERGED", "项目工作树内容必须全部暂存后再提交：" + ", ".join(diverged_project))
             relevant = latest_relevant_session(changed)
             checkpoint, checkpoint_path = validate_commit_identity(
                 report, policy, message=message, changed=changed, session=relevant, commit_sha="STAGED"

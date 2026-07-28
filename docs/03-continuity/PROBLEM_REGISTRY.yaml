@@ -1912,3 +1912,16 @@ problems:
   - 不得把公开明文合同长度直接套用于加密信封持久化长度
   - 不得只测手机号等短值后宣称联系方式加密闭环完整
   - 不得只放宽数据库容量而遗漏回读解密前与解密后的独立边界
+- id: PROB-0134
+  title: 任务内净回退被工作区与历史提交指纹文件集合差异误判
+  status: SOLVED
+  root_cause: 工作区项目指纹把任务基线到HEAD的已提交路径与全部Git状态路径取并集，因此先前Story新增、后续Story合法恢复为任务基线内容的文件仍因当前脏状态保留在检查点；提交后的历史指纹只按任务基线到提交的净差异复算并排除该文件，同一最终内容由此产生不同文件集合并触发CHECKPOINT_STALE。原门禁还只比较部分提交的路径集合，无法识别同一路径已暂存后又继续修改的内容分叉。
+  resolution: CR-0426把检查点指纹明确为任务基线到最终工作树的净结果，tracked路径使用禁用重命名检测的基线工作树diff，未跟踪仅由Git未跟踪清单补入；严格pre-commit与commit-msg在检查点核对前拒绝项目文件索引与工作树分叉或遗漏未跟踪文件。标准checkpoint后git add -A流程保持不变，历史提交继续按同一任务基线净差异复算。
+  regression_checks:
+  - tests/test_continuity_worktree_fingerprint.py必须覆盖净回退排除、真实修改与删除、未跟踪、暂存新增修改删除、索引工作树分叉以及工作区和最终提交历史指纹相等
+  - tests/test_continuity_historical_fingerprint.py必须继续锁定禁用重命名检测后的删除与新增双路径
+  - scripts/test_continuity_protocol.py必须继续证明真实检查点过期被拒绝且完整生命周期门禁通过
+  do_not_repeat:
+  - 不得用任务基线已提交路径与全部status路径的并集代表最终工作树净差异
+  - 不得只比较暂存与脏文件路径集合而忽略同一路径的索引工作树内容分叉
+  - 不得为消除假失败跳过CHECKPOINT_STALE或绕过pre-push；必须统一工作区与历史提交指纹语义并保留正负回归

@@ -1,15 +1,14 @@
 package cc.orbexa.hhy.chat
 
 import androidx.compose.ui.test.assertIsDisplayed
-import androidx.compose.ui.test.assertDoesNotExist
 import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.junit4.createComposeRule
-import androidx.compose.ui.test.onAllNodes
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
 import cc.orbexa.hhy.designsystem.HhyTheme
 import cc.orbexa.hhy.network.ChatMessagePageResource
 import cc.orbexa.hhy.network.ChatMessageResource
+import cc.orbexa.hhy.network.ChatConversationPageResource
 import cc.orbexa.hhy.network.ChatPostConversationsByIdReadRequest
 import cc.orbexa.hhy.network.ChatSendMessageRequest
 import cc.orbexa.hhy.network.CommandResultResource
@@ -61,6 +60,9 @@ class R14ChatDetailScreenTest {
     }
 
     private object EmptyChatApi : ContractR14Api {
+        override suspend fun conversations(accessToken: String, page: Int, pageSize: Int, cursor: String?, status: String?, keyword: String?, sort: String?): R07CallResult<ChatConversationPageResource> =
+            R07CallResult.Failure(500)
+
         override suspend fun messages(accessToken: String, conversationId: String, page: Int, pageSize: Int, cursor: String?, status: String?, keyword: String?, sort: String?) =
             R07CallResult.Success(ChatMessagePageResource(emptyList(), R07PageMeta(page = 1, pageSize = 20, total = "0", hasMore = "false")), "req")
 

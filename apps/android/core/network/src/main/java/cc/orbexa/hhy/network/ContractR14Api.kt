@@ -14,6 +14,8 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.JsonObject
+import kotlinx.serialization.json.JsonNull
+import kotlinx.serialization.json.contentOrNull
 import kotlinx.serialization.json.decodeFromJsonElement
 import kotlinx.serialization.json.jsonArray
 import kotlinx.serialization.json.jsonObject
@@ -21,6 +23,29 @@ import kotlinx.serialization.json.jsonPrimitive
 import kotlinx.serialization.json.longOrNull
 
 sealed interface ChatMessagePayload
+
+data class ChatLastMessageResource(
+    val messageId: String,
+    val messageType: String,
+    val preview: String,
+    val senderId: String? = null,
+    val createdAt: String,
+)
+
+data class ChatConversationResource(
+    val id: String,
+    val peer: PublisherSummaryResource? = null,
+    val lastMessage: ChatLastMessageResource? = null,
+    val unreadCount: Long,
+    val lastReadMessageId: String? = null,
+    val updatedAt: String? = null,
+    val version: Long,
+)
+
+data class ChatConversationPageResource(
+    val items: List<ChatConversationResource>,
+    val page: R07PageMeta,
+)
 
 @Serializable
 data class ChatTextPayload(val text: String) : ChatMessagePayload {
@@ -154,6 +179,16 @@ data class ChatPostConversationsByIdReadRequest(val lastReadMessageId: String) {
 }
 
 interface ContractR14Api {
+    suspend fun conversations(
+        accessToken: String,
+        page: Int = 1,
+        pageSize: Int = 20,
+        cursor: String? = null,
+        status: String? = null,
+        keyword: String? = null,
+        sort: String? = null,
+    ): R07CallResult<ChatConversationPageResource>
+
     suspend fun messages(
         accessToken: String,
         conversationId: String,
@@ -182,6 +217,19 @@ interface ContractR14Api {
 
 class UrlConnectionContractR14Api(baseUrl: String) : ContractR14Api {
     private val root = validateR14Root(baseUrl)
+
+    override suspend fun conversations(
+        accessToken: String,
+        page: Int,
+        pageSize: Int,
+        cursor: String?,
+        status: String?,
+        keyword: String?,
+        sort: String?,
+    ): R07CallResult<ChatConversationPageResource> {
+        val route = r14ConversationRoute(page, pageSize, cursor, status, keyword, sort)
+        return callJson("GET", route, accessToken).decodeR14(::decodeChatConversationPage)
+    }
 
     override suspend fun messages(
         accessToken: String,
@@ -294,6 +342,45 @@ internal fun decodeChatMessagePage(data: JsonObject): ChatMessagePageResource {
     return ChatMessagePageResource(items, page)
 }
 
+internal fun decodeChatConversationPage(data: JsonObject): ChatConversationPageResource {
+    requireOnlyR14Keys(data, setOf("items", "page"))
+    val items = data.getValue("items").jsonArray.map { decodeChatConversationResource(it.jsonObject) }
+    val page = HhyNetworkJson.value.decodeFromJsonElement(R07PageMeta.serializer(), data.getValue("page"))
+    return ChatConversationPageResource(items, page)
+}
+
+internal fun decodeChatConversationResource(data: JsonObject): ChatConversationResource {
+    requireOnlyR14Keys(data, setOf("id", "peer", "lastMessage", "unreadCount", "lastReadMessageId", "updatedAt", "version"))
+    val peer = data["peer"]?.takeUnless { it is JsonNull }?.let {
+        HhyNetworkJson.value.decodeFromJsonElement(PublisherSummaryResource.serializer(), it)
+    }
+    val lastMessage = data["lastMessage"]?.takeUnless { it is JsonNull }?.jsonObject?.let(::decodeChatLastMessage)
+    return ChatConversationResource(
+        id = requireFrozenR14Id(data.requiredR14String("id")),
+        peer = peer,
+        lastMessage = lastMessage,
+        unreadCount = data.getValue("unreadCount").jsonPrimitive.longOrNull?.also { require(it >= 0) }
+            ?: throw IllegalArgumentException("Invalid unread count"),
+        lastReadMessageId = data["lastReadMessageId"]?.jsonPrimitive?.contentOrNull?.also(::requireFrozenR14Id),
+        updatedAt = data["updatedAt"]?.jsonPrimitive?.contentOrNull,
+        version = data.getValue("version").jsonPrimitive.longOrNull?.also { require(it >= 0) }
+            ?: throw IllegalArgumentException("Invalid conversation version"),
+    )
+}
+
+private fun decodeChatLastMessage(data: JsonObject): ChatLastMessageResource {
+    requireOnlyR14Keys(data, setOf("messageId", "messageType", "preview", "senderId", "createdAt"))
+    val type = data.requiredR14String("messageType")
+    require(type.length <= 32)
+    return ChatLastMessageResource(
+        messageId = requireFrozenR14Id(data.requiredR14String("messageId")),
+        messageType = type,
+        preview = data.requiredR14String("preview").also { require(it.length <= 300) },
+        senderId = data["senderId"]?.jsonPrimitive?.contentOrNull?.also(::requireFrozenR14Id),
+        createdAt = data.requiredR14String("createdAt"),
+    )
+}
+
 internal fun decodeChatMessageResource(data: JsonObject): ChatMessageResource {
     requireOnlyR14Keys(
         data,
@@ -369,6 +456,32 @@ private fun queryR14(route: String, values: List<Pair<String, String?>>): String
         value?.let { "${encodeR14(key)}=${encodeR14(it)}" }
     }.joinToString("&")
     return if (query.isEmpty()) route else "$route?$query"
+}
+
+internal fun r14ConversationRoute(
+    page: Int = 1,
+    pageSize: Int = 20,
+    cursor: String? = null,
+    status: String? = null,
+    keyword: String? = null,
+    sort: String? = null,
+): String {
+    require(page >= 1 && pageSize in 1..100)
+    require(cursor == null || cursor.length <= 256)
+    require(status == null || status.length <= 64)
+    require(keyword == null || keyword.length <= 100)
+    require(sort == null || sort.length <= 64)
+    return queryR14(
+        "/api/v1/conversations",
+        listOf(
+            "page" to page.toString(),
+            "pageSize" to pageSize.toString(),
+            "cursor" to cursor?.takeIf(String::isNotBlank),
+            "status" to status?.takeIf(String::isNotBlank),
+            "keyword" to keyword?.takeIf(String::isNotBlank),
+            "sort" to sort?.takeIf(String::isNotBlank),
+        ),
+    )
 }
 
 private fun encodeR14(value: String) = URLEncoder.encode(value, StandardCharsets.UTF_8.toString())

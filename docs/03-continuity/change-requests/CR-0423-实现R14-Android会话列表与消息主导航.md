@@ -1,0 +1,89 @@
+---
+cr_id: CR-0423
+status: REJECTED
+requester_actor_id: codex-root-r14-client-20260728
+approver_actor_id: codex-r14-cr-review-20260728
+task_id: TASK-R14-004
+session_id: SES-20260727T221444Z-FD353AD3
+created_at: 2026-07-27T23:27:28Z
+updated_at: 2026-07-27T23:31:13Z
+---
+# CR-0423 — 实现R14 Android会话列表与消息主导航
+
+## 用户需求摘要
+
+持续推进R14并严格按照开发文档和效果图实现所有前端页面
+
+## 原规则
+
+SCR-CHAT-001已冻结B07/P01视觉与chatGetConversations合同，但Android没有会话列表页面、列表状态机或可操作的消息底栏入口
+
+## 新规则
+
+以B07/P01为SCR-CHAT-001唯一视觉权威，只保留消息标题、搜索、真实会话行、最后消息时间和未读；过滤示例用户、通知公告客服系统快捷区、虚构角标和未登记新增按钮。ContractR14Api严格解码ConversationResource与分页，搜索最多100字符，分页按conversationId去重并保留刷新和翻页局部失败。新增类型安全Messages顶层路由并启用现有消息底栏；列表行仅在合法conversationId及真实peer存在时进入既有ChatDetail，返回列表后按服务端刷新。UI不得显示资源ID、version、lastReadMessageId、requestId或任意技术字段
+
+## 修改原因
+
+STORY-R14-002要求SCR-CHAT-001真实会话列表；当前Android未实现chatGetConversations，会话底栏仍禁用且没有进入已完成ChatDetail的列表入口
+
+## 影响摘要
+
+扩展R14网络合同和chat模块会话列表状态与页面；App增加Messages顶层路由并连接ChatDetail；Shell只开放已实现的MESSAGE底栏并通过注入内容复用同一底栏，不引入R15通知公告消息中心
+
+## 影响文件
+
+- `apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR14Api.kt`
+- `apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ContractR14ApiTest.kt`
+- `apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ConversationListState.kt`
+- `apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ConversationListScreen.kt`
+- `apps/android/feature/chat/src/test/java/cc/orbexa/hhy/chat/R14ConversationListStateTest.kt`
+- `apps/android/feature/chat/src/androidTest/java/cc/orbexa/hhy/chat/R14ConversationListScreenTest.kt`
+- `apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt`
+- `apps/android/feature/shell/src/test/java/cc/orbexa/hhy/shell/HhyShellScreenTest.kt`
+- `apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt`
+- `apps/android/app/src/test/java/cc/orbexa/hhy/NavigationPolicyTest.kt`
+- `apps/android/app/src/androidTest/java/cc/orbexa/hhy/AuthenticatedNavigationTest.kt`
+- `CHANGELOG.md`
+
+## 页面
+
+- `SCR-CHAT-001`
+
+## API
+
+- `chatGetConversations`
+
+## 数据库与迁移
+
+- 无直接影响（已在影响摘要说明）
+
+## 配置
+
+- 无直接影响（已在影响摘要说明）
+
+## 资金/账本与历史数据
+
+- 无直接影响（已在影响摘要说明）
+
+## 测试
+
+- `ConversationResource严格解码、GET搜索/分页参数与错误信封；首屏、内容、空、刷新、搜索、翻页局部失败、离线、401、403、409、422、429、500；会话去重与排序；真实昵称头像、最后消息、时间、未读和无技术字段；Messages顶层路由、底栏启用、列表到ChatDetail及返回刷新；Android UI基础、R14视觉目录、core-network、feature-chat、feature-shell与app单测、Compose测试、obx-test编译Lint`
+
+## 版本
+
+- `R14`
+
+## 迁移与兼容策略
+
+纯Android客户端增量；复用现有chat模块、共享Shell和ChatDetail；不修改OpenAPI、后端、数据库或配置，不提前实现R15通知与公告，不改变旧路由
+
+## 用户确认
+
+项目所有者已明确授权持续推进开发且无需逐项批准
+
+## 审批
+
+- 审批人：`codex-r14-cr-review-20260728`
+- 决定：`REJECTED`
+- 时间：`2026-07-27T23:31:13Z`
+- 说明：独立计划审查拒绝：B07/P01精确视觉、真实会话字段、MESSAGE底栏和R15通知公告隔离方向正确，但SCR-CHAT-001合同与测试仍不完整。必须把CONNECTING与SYNCING纳入状态机和重连、乱序、重复消息合并证据；补冻结GET合同的400与404映射，并覆盖相同查询去重、搜索变化取消旧请求、瞬断最多自动重试2次及旧响应不得覆盖新关键词。分页合并必须保持服务端顺序，不得以本地规则发明排序。视觉施工须明确复用design/tokens/hhy_design_tokens_v1.2.2.json与HhyTokens，保留标题、搜索、真实会话行、时间、真实unreadCount及底部消息栏目层级，仅过滤虚构红点和R15快捷区。导航测试须补Messages底栏选中态和各栏目状态保存恢复、ChatDetail返回Messages来源栈、顶栏/系统/手势返回同源。P05/P06及通知、公告、客服、系统快捷区继续严格留在R15。完成amend后再审。

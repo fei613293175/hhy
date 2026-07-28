@@ -2,6 +2,7 @@ package cc.orbexa.hhy
 
 import cc.orbexa.hhy.designsystem.HhyMotion
 import cc.orbexa.hhy.network.ContentResource
+import cc.orbexa.hhy.network.ChatConversationResource
 import cc.orbexa.hhy.network.PublisherSummaryResource
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
@@ -41,11 +42,13 @@ class NavigationPolicyTest {
     @Test
     fun homeAndMeAreDistinctTypedTopLevelDestinations() {
         val home: AuthenticatedRoute = AuthenticatedRoute.Home
+        val messages: AuthenticatedRoute = AuthenticatedRoute.Messages
         val me: AuthenticatedRoute = AuthenticatedRoute.Me
 
         assertTrue(home is AuthenticatedRoute.Home)
+        assertTrue(messages is AuthenticatedRoute.Messages)
         assertTrue(me is AuthenticatedRoute.Me)
-        assertTrue(home != me)
+        assertTrue(home != me && home != messages && messages != me)
     }
 
     @Test
@@ -70,5 +73,20 @@ class NavigationPolicyTest {
         assertEquals("真实发布者", route.peerNickname)
         assertEquals("真实项目", route.sourceTitle)
         assertEquals("PROJECT", route.sourceContentType)
+    }
+
+    @Test
+    fun conversationListRouteCarriesOnlyTheRealPeerIntoChatDetail() {
+        val conversation = ChatConversationResource(
+            id = "conversation_42",
+            peer = PublisherSummaryResource("user_7", "真实联系人", verified = false),
+            unreadCount = 2,
+            version = 1,
+        )
+        val route = chatDetailRoute(conversation)!!
+
+        assertEquals("conversation_42", route.conversationId)
+        assertEquals("真实联系人", route.peerNickname)
+        assertEquals(null, route.sourceTitle)
     }
 }

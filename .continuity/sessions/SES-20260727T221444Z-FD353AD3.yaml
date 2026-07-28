@@ -8,13 +8,17 @@ actor:
   host: unknown
 release: R14
 task_id: TASK-R14-004
-story_id: STORY-R14-001
-goal: 一对一聊天核心客户端/H5/后台实现
+story_id: STORY-R14-002
+goal: 按SCR-CHAT-001与B07/P01唯一视觉合同实现真实会话列表、未读和最后消息，并接入现有ChatDetail类型安全路由
 started_at: '2026-07-27T22:14:44Z'
-updated_at: '2026-07-27T23:23:53Z'
+updated_at: '2026-07-28T00:47:30Z'
 takeover_of: null
 change_requests:
 - CR-0422
+- CR-0423
+- CR-0424
+- CR-0425
+- CR-0426
 scope:
   allowed_paths:
   - apps/android/**
@@ -29,9 +33,28 @@ scope:
   - releases/**
   - design/**
   - scripts/**
+  - apps/android/**;docs/**;catalogs/**;releases/**;design/**;scripts/**;CHANGELOG.md
   - CHANGELOG.md
-  approved_exceptions: []
-  source: story+explicit
+  approved_exceptions:
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR14Api.kt
+  - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ContractR14ApiTest.kt
+  - apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ConversationListState.kt
+  - apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ConversationListScreen.kt
+  - apps/android/feature/chat/src/test/java/cc/orbexa/hhy/chat/R14ConversationListStateTest.kt
+  - apps/android/feature/chat/src/androidTest/java/cc/orbexa/hhy/chat/R14ConversationListScreenTest.kt
+  - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+  - apps/android/feature/shell/src/test/java/cc/orbexa/hhy/shell/HhyShellScreenTest.kt
+  - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+  - apps/android/app/src/test/java/cc/orbexa/hhy/NavigationPolicyTest.kt
+  - apps/android/app/src/androidTest/java/cc/orbexa/hhy/AuthenticatedNavigationTest.kt
+  - CHANGELOG.md
+  - apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyTokens.kt
+  - apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ChatDetailScreen.kt
+  - scripts/continuity_lib.py
+  - scripts/continuity_gate.py
+  - tests/test_continuity_worktree_fingerprint.py
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  source: story-switch+explicit+approved-cr:CR-0424+approved-cr:CR-0425+approved-cr:CR-0426
 git:
   initialized: true
   branch: task/TASK-R03-001
@@ -41,22 +64,28 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-27T23:23:42Z'
-  expires_at: '2026-07-28T03:23:42Z'
-checkpoint_sequence: 2
-latest_checkpoint: .continuity/checkpoints/SES-20260727T221444Z-FD353AD3/0002.yaml
+  renewed_at: '2026-07-28T00:47:24Z'
+  expires_at: '2026-07-28T04:47:24Z'
+checkpoint_sequence: 6
+latest_checkpoint: .continuity/checkpoints/SES-20260727T221444Z-FD353AD3/0006.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260727T221444Z-FD353AD3.md
-next_step: 提交推送CR关闭记录并切换到STORY-R14-002会话列表
+next_step: 一次性暂存最终检查点并提交推送，绑定关闭CR后切换STORY-R14-003
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: 4cc99ac690a19a62bc13c6dd834e29379ed63c46b4ad0221a4237ba3e071e2d7
-  generated_at: '2026-07-27T23:23:48Z'
+  context_hash: a9f6ce7df1c961a0ff1bcb4bd8eff8622e86002dda1a3297a6bf45145f4a65b1
+  generated_at: '2026-07-28T00:47:28Z'
 handoff_bundle: null
 closure: null
 parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 当前仅更新同一CR、Session与Context Pack机器事实，必须串行生成以保持事件哈希一致
+  reason: 最终原子提交和连续性哈希链共享同一索引，必须串行生成唯一提交身份
+story_history:
+- story_id: STORY-R14-001
+  completed_at: '2026-07-27T23:25:19Z'
+  checkpoint_id: CP-SES-20260727T221444Z-FD353AD3-0002
+  commit: d301a1a219da99140cd586784f06aa611dcbed92
+  summary: STORY-R14-001私聊详情已实现、验证、提交并推送，继续R14会话列表

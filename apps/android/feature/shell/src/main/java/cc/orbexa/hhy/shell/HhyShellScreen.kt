@@ -87,12 +87,20 @@ private data class HomeCategory(
 )
 
 private val navigationItems = listOf(
-    NavigationItem(HhyTopLevelDestination.HOME, "首页", HhyIcons.Home, true),
-    NavigationItem(HhyTopLevelDestination.REWARD, "红包", HhyIcons.Reward, false),
-    NavigationItem(HhyTopLevelDestination.PUBLISH, "发布", HhyIcons.Publish, true),
-    NavigationItem(HhyTopLevelDestination.MESSAGE, "消息", HhyIcons.Message, false),
-    NavigationItem(HhyTopLevelDestination.ME, "我的", HhyIcons.Profile, true),
+    NavigationItem(HhyTopLevelDestination.HOME, "首页", HhyIcons.Home, isTopLevelDestinationEnabled(HhyTopLevelDestination.HOME)),
+    NavigationItem(HhyTopLevelDestination.REWARD, "红包", HhyIcons.Reward, isTopLevelDestinationEnabled(HhyTopLevelDestination.REWARD)),
+    NavigationItem(HhyTopLevelDestination.PUBLISH, "发布", HhyIcons.Publish, isTopLevelDestinationEnabled(HhyTopLevelDestination.PUBLISH)),
+    NavigationItem(HhyTopLevelDestination.MESSAGE, "消息", HhyIcons.Message, isTopLevelDestinationEnabled(HhyTopLevelDestination.MESSAGE)),
+    NavigationItem(HhyTopLevelDestination.ME, "我的", HhyIcons.Profile, isTopLevelDestinationEnabled(HhyTopLevelDestination.ME)),
 )
+
+internal fun isTopLevelDestinationEnabled(destination: HhyTopLevelDestination): Boolean =
+    destination in setOf(
+        HhyTopLevelDestination.HOME,
+        HhyTopLevelDestination.PUBLISH,
+        HhyTopLevelDestination.MESSAGE,
+        HhyTopLevelDestination.ME,
+    )
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -106,6 +114,7 @@ fun HhyShellScreen(
     onOpenGroups: (() -> Unit)? = null,
     onOpenTeamLeaders: (() -> Unit)? = null,
     onOpenPublish: () -> Unit = {},
+    messageContent: @Composable (PaddingValues) -> Unit = {},
     canOpenHomeTarget: (HomeNavigationTargetSnapshot) -> Boolean = { false },
     onOpenHomeTarget: (HomeNavigationTargetSnapshot) -> Unit = {},
     onOpenLoginDevices: () -> Unit = {},
@@ -224,6 +233,7 @@ fun HhyShellScreen(
         selectedDestination == HhyTopLevelDestination.HOME && home != null -> "hhy.screen.r06.home.loaded"
         selectedDestination == HhyTopLevelDestination.HOME && homeError -> "hhy.screen.r06.home.error"
         selectedDestination == HhyTopLevelDestination.HOME -> "hhy.screen.r06.home.loading"
+        selectedDestination == HhyTopLevelDestination.MESSAGE -> "hhy.screen.r14.messages"
         else -> "hhy.screen.r12.me"
     }
     val categories = listOf(
@@ -326,6 +336,8 @@ fun HhyShellScreen(
                     }
                 }
                 }
+            } else if (destination == HhyTopLevelDestination.MESSAGE) {
+                messageContent(padding)
             } else {
                 R12MeHomeScreen(
                     user = userState,

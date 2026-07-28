@@ -336,7 +336,7 @@ private fun ChatTopBar(
             verticalAlignment = Alignment.CenterVertically,
         ) {
             HhyBackButton(onBack)
-            ChatAvatar(peer, Modifier.size(HhySize.ChatAvatar))
+            ChatAvatar(peer, Modifier.size(HhySize.MinimumTouchTarget - HhySpacing.Sm))
             Column(Modifier.weight(1f).padding(horizontal = HhySpacing.Md)) {
                 Text(
                     peer?.nickname?.takeIf(String::isNotBlank) ?: "对方信息暂时无法显示",
@@ -353,7 +353,7 @@ private fun ChatTopBar(
             }
             onOpenSafetyActions?.let { action ->
                 IconButton(onClick = action, modifier = Modifier.size(HhySize.MinimumTouchTarget)) {
-                    HhyIcon(HhyIcons.More, "会话操作", Modifier.size(HhySize.StandardIcon))
+                    HhyIcon(HhyIcons.More, "会话操作", Modifier.size(HhySize.StandardProgress))
                 }
             }
         }
@@ -367,7 +367,7 @@ private fun ChatAvatar(peer: PublisherSummaryResource?, modifier: Modifier = Mod
             AsyncImage(model = peer.avatarUrl, contentDescription = null, modifier = Modifier.fillMaxSize())
         } else {
             Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                HhyIcon(HhyIcons.Profile, null, Modifier.size(HhySize.StandardIcon), HhyColors.BrandPrimary)
+                HhyIcon(HhyIcons.Profile, null, Modifier.size(HhySize.StandardProgress), HhyColors.BrandPrimary)
             }
         }
     }
@@ -393,7 +393,7 @@ private fun ChatComposer(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(HhySpacing.Md),
             ) {
-                HhyIcon(HhyIcons.Error, null, Modifier.size(HhySize.StandardIcon), HhyColors.Error)
+                HhyIcon(HhyIcons.Error, null, Modifier.size(HhySize.StandardProgress), HhyColors.Error)
                 Text("当前无法发送消息", color = HhyColors.Error, modifier = Modifier.weight(1f))
             }
         } else {
@@ -409,7 +409,7 @@ private fun ChatComposer(
                     OutlinedTextField(
                         value = value,
                         onValueChange = onValueChange,
-                        modifier = Modifier.weight(1f).heightIn(min = HhySize.ChatComposerHeight),
+                        modifier = Modifier.weight(1f).heightIn(min = HhySize.PrimaryButtonHeight),
                         enabled = enabled,
                         placeholder = { Text(if (enabled) "输入消息" else "网络恢复后可发送") },
                         shape = RoundedCornerShape(HhyRadius.Input),
@@ -420,7 +420,7 @@ private fun ChatComposer(
                         enabled = enabled && value.isNotBlank(),
                         modifier = Modifier.size(HhySize.MinimumTouchTarget).clip(CircleShape).background(HhyColors.BrandPrimary),
                     ) {
-                        HhyIcon(HhyIcons.Send, "发送", Modifier.size(HhySize.StandardIcon), HhyColors.TextInverse)
+                        HhyIcon(HhyIcons.Send, "发送", Modifier.size(HhySize.StandardProgress), HhyColors.TextInverse)
                     }
                 }
             }
@@ -434,7 +434,7 @@ private fun ComposerAction(icon: androidx.compose.ui.graphics.vector.ImageVector
         onClick = onClick,
         enabled = enabled,
         modifier = Modifier.size(HhySize.MinimumTouchTarget).semantics { if (!enabled) stateDescription = "当前不可用" },
-    ) { HhyIcon(icon, label, Modifier.size(HhySize.StandardIcon)) }
+    ) { HhyIcon(icon, label, Modifier.size(HhySize.StandardProgress)) }
 }
 
 @Composable
@@ -446,7 +446,7 @@ private fun ChatMessageRow(
 ) {
     Row(Modifier.fillMaxWidth(), horizontalArrangement = if (own) Arrangement.End else Arrangement.Start, verticalAlignment = Alignment.Top) {
         if (!own) {
-            ChatAvatar(message.sender, Modifier.size(HhySize.ChatAvatar))
+            ChatAvatar(message.sender, Modifier.size(HhySize.MinimumTouchTarget - HhySpacing.Sm))
             Spacer(Modifier.width(HhySpacing.Sm))
         }
         Column(horizontalAlignment = if (own) Alignment.End else Alignment.Start, modifier = Modifier.fillMaxWidth(0.78f)) {
@@ -472,13 +472,13 @@ private fun OutgoingMessageRow(
             MessagePayloadCard(item.payload, true, onPreviewImage, onOpenContent)
             if (item.delivery == R14OutgoingDelivery.SENDING) {
                 Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(HhySpacing.Xs)) {
-                    CircularProgressIndicator(Modifier.size(HhySize.SmallIcon), strokeWidth = HhySize.Hairline)
+                    CircularProgressIndicator(Modifier.size(HhySize.StandardProgress - HhySpacing.Xs), strokeWidth = HhySize.Hairline)
                     Text("发送中", fontSize = HhyType.CaptionSize, color = HhyColors.TextSecondary)
                 }
             } else {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Text(item.failure?.r14UserMessage() ?: "发送失败", fontSize = HhyType.CaptionSize, color = HhyColors.Error)
-                    TextButton(onClick = onRetry) { HhyIcon(HhyIcons.Retry, "重试", Modifier.size(HhySize.SmallIcon)); Text("重试") }
+                    TextButton(onClick = onRetry) { HhyIcon(HhyIcons.Retry, "重试", Modifier.size(HhySize.StandardProgress - HhySpacing.Xs)); Text("重试") }
                     TextButton(onClick = onRemove) { Text("删除") }
                 }
             }
@@ -520,7 +520,7 @@ private fun ChatImageCard(payload: ChatImagePayload, onPreviewImage: (String) ->
         if (url == null) {
             Box(Modifier.fillMaxWidth().aspectRatio(4f / 3f), contentAlignment = Alignment.Center) {
                 Column(horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(HhySpacing.Sm)) {
-                    HhyIcon(HhyIcons.Image, null, Modifier.size(HhySize.StandardIcon), HhyColors.TextTertiary)
+                    HhyIcon(HhyIcons.Image, null, Modifier.size(HhySize.StandardProgress), HhyColors.TextTertiary)
                     Text("图片暂时无法显示", color = HhyColors.TextSecondary, fontSize = HhyType.SecondaryBodySize)
                 }
             }
@@ -529,7 +529,7 @@ private fun ChatImageCard(payload: ChatImagePayload, onPreviewImage: (String) ->
                 model = url,
                 contentDescription = "聊天图片",
                 modifier = Modifier.fillMaxWidth().aspectRatio(4f / 3f).clickable { onPreviewImage(url) },
-                loading = { Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) { CircularProgressIndicator(Modifier.size(HhySize.StandardIcon)) } },
+                loading = { Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) { CircularProgressIndicator(Modifier.size(HhySize.StandardProgress)) } },
                 error = { Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) { Text("图片加载失败", color = HhyColors.Error) } },
             )
         }
@@ -549,13 +549,13 @@ private fun ChatContentCard(payload: ChatContentCardPayload, onOpenContent: (Str
                 val cover = payload.coverUrl?.takeIf(::safeChatUrl)
                 Surface(Modifier.size(HhySize.AppLogo), shape = RoundedCornerShape(HhyRadius.Tag), color = HhyColors.SoftBlue) {
                     if (cover != null) AsyncImage(cover, null, Modifier.fillMaxSize())
-                    else Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) { HhyIcon(HhyIcons.Projects, null, Modifier.size(HhySize.StandardIcon), HhyColors.BrandPrimary) }
+                    else Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) { HhyIcon(HhyIcons.Projects, null, Modifier.size(HhySize.StandardProgress), HhyColors.BrandPrimary) }
                 }
                 Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(HhySpacing.Xs)) {
                     Text(payload.title, fontSize = HhyType.CardTitleSize, lineHeight = HhyType.CardTitleLineHeight, fontWeight = FontWeight.SemiBold, maxLines = 2, overflow = TextOverflow.Ellipsis)
                     Text(contentTypeLabel(payload.contentType), fontSize = HhyType.SecondaryBodySize, color = HhyColors.TextSecondary)
                 }
-                HhyIcon(HhyIcons.ChevronRight, null, Modifier.size(HhySize.SmallIcon), HhyColors.TextTertiary)
+                HhyIcon(HhyIcons.ChevronRight, null, Modifier.size(HhySize.StandardProgress - HhySpacing.Xs), HhyColors.TextTertiary)
             }
         }
     }
@@ -571,7 +571,7 @@ private fun ChatContactCard(payload: ChatContactCardPayload) {
     ) {
         Column(Modifier.fillMaxWidth().padding(HhySpacing.Lg), verticalArrangement = Arrangement.spacedBy(HhySpacing.Md)) {
             Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(HhySpacing.Sm)) {
-                HhyIcon(HhyIcons.Contact, null, Modifier.size(HhySize.StandardIcon), HhyColors.BrandPrimary)
+                HhyIcon(HhyIcons.Contact, null, Modifier.size(HhySize.StandardProgress), HhyColors.BrandPrimary)
                 Text("联系方式", fontSize = HhyType.CardTitleSize, lineHeight = HhyType.CardTitleLineHeight, fontWeight = FontWeight.SemiBold)
             }
             payload.fields.forEachIndexed { index, field ->
@@ -596,7 +596,7 @@ private fun ChatSkeleton() {
         items(5) { index ->
             Row(Modifier.fillMaxWidth(), horizontalArrangement = if (index % 2 == 0) Arrangement.Start else Arrangement.End) {
                 Surface(
-                    modifier = Modifier.fillMaxWidth(if (index % 2 == 0) 0.62f else 0.72f).height(HhySize.ChatComposerHeight),
+                    modifier = Modifier.fillMaxWidth(if (index % 2 == 0) 0.62f else 0.72f).height(HhySize.PrimaryButtonHeight),
                     shape = RoundedCornerShape(HhyRadius.NormalCard),
                     color = HhyColors.Border,
                 ) {}
@@ -609,7 +609,7 @@ private fun ChatSkeleton() {
 private fun ChatEmptyState() {
     Box(Modifier.fillMaxSize().padding(HhySpacing.Xl), contentAlignment = Alignment.Center) {
         Column(horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(HhySpacing.Md)) {
-            Surface(shape = CircleShape, color = HhyColors.SoftBlue) { HhyIcon(HhyIcons.Message, null, Modifier.padding(HhySpacing.Lg).size(HhySize.StandardIcon), HhyColors.BrandPrimary) }
+            Surface(shape = CircleShape, color = HhyColors.SoftBlue) { HhyIcon(HhyIcons.Message, null, Modifier.padding(HhySpacing.Lg).size(HhySize.StandardProgress), HhyColors.BrandPrimary) }
             Text("暂无消息", fontSize = HhyType.CardTitleSize, fontWeight = FontWeight.SemiBold)
             Text("发送第一条消息开始沟通", color = HhyColors.TextSecondary)
         }
@@ -626,7 +626,7 @@ private fun ChatFailureState(
     Box(Modifier.fillMaxSize().padding(HhySpacing.Lg), contentAlignment = Alignment.Center) {
         Card(colors = CardDefaults.cardColors(HhyColors.Surface), shape = RoundedCornerShape(HhyRadius.LargeCard)) {
             Column(Modifier.fillMaxWidth().padding(HhySpacing.Xl), verticalArrangement = Arrangement.spacedBy(HhySpacing.Md), horizontalAlignment = Alignment.CenterHorizontally) {
-                HhyIcon(HhyIcons.Error, null, Modifier.size(HhySize.StandardIcon), HhyColors.Error)
+                HhyIcon(HhyIcons.Error, null, Modifier.size(HhySize.StandardProgress), HhyColors.Error)
                 Text(failure?.r14UserMessage() ?: "消息暂时无法加载", color = HhyColors.TextSecondary)
                 if (failure?.statusCode in setOf(403, 404)) Button(modifier = Modifier.fillMaxWidth(), onClick = onUnavailable) { Text("返回安全上级") }
                 else Button(modifier = Modifier.fillMaxWidth(), onClick = onRetry) { Text("重新加载") }
@@ -649,7 +649,7 @@ private fun InlineNotice(text: String, background: Color, foreground: Color, onA
 @Composable
 private fun InlineProgress(text: String) {
     Row(Modifier.fillMaxWidth().padding(HhySpacing.Sm), horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically) {
-        CircularProgressIndicator(Modifier.size(HhySize.SmallIcon), strokeWidth = HhySize.Hairline)
+        CircularProgressIndicator(Modifier.size(HhySize.StandardProgress - HhySpacing.Xs), strokeWidth = HhySize.Hairline)
         Spacer(Modifier.width(HhySpacing.Sm))
         Text(text, fontSize = HhyType.CaptionSize, color = HhyColors.TextSecondary)
     }

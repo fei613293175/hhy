@@ -61,6 +61,60 @@ class ContractR14ApiTest {
     }
 
     @Test
+    fun conversationPageStrictlyDecodesRealPeerPreviewUnreadAndPage() {
+        val page = decodeChatConversationPage(
+            HhyNetworkJson.value.parseToJsonElement(
+                """{
+                  "items":[{
+                    "id":"conversation_42",
+                    "peer":{"userId":"user_7","nickname":"真实用户","avatarUrl":"https://media.orbexa.cc/avatar/7","verified":true},
+                    "lastMessage":{"messageId":"message_8","messageType":"TEXT","preview":"真实消息","senderId":"user_7","createdAt":"2026-07-28T01:00:00Z"},
+                    "unreadCount":3,"lastReadMessageId":"message_6","updatedAt":"2026-07-28T01:00:00Z","version":4
+                  }],
+                  "page":{"page":1,"pageSize":20,"total":"1","hasMore":"false"}
+                }""",
+            ).jsonObject,
+        )
+
+        assertEquals("conversation_42", page.items.single().id)
+        assertEquals("真实用户", page.items.single().peer?.nickname)
+        assertEquals("真实消息", page.items.single().lastMessage?.preview)
+        assertEquals(3L, page.items.single().unreadCount)
+        assertFalse(page.page.canLoadMore())
+    }
+
+    @Test
+    fun conversationDecoderRejectsNegativeUnreadAndUnknownFields() {
+        val negative = HhyNetworkJson.value.parseToJsonElement(
+            """{"id":"conversation_1","unreadCount":-1,"version":0}""",
+        ).jsonObject
+        assertThrows(IllegalArgumentException::class.java) { decodeChatConversationResource(negative) }
+
+        val extra = HhyNetworkJson.value.parseToJsonElement(
+            """{"id":"conversation_1","unreadCount":0,"version":0,"requestId":"hidden"}""",
+        ).jsonObject
+        assertThrows(IllegalArgumentException::class.java) { decodeChatConversationResource(extra) }
+    }
+
+    @Test
+    fun conversationRouteEncodesTheFrozenSearchAndCursorParameters() {
+        val route = r14ConversationRoute(
+            page = 2,
+            pageSize = 50,
+            cursor = "next/cursor",
+            keyword = "真实 联系人",
+            sort = "updatedAt:desc",
+        )
+
+        assertTrue(route.startsWith("/api/v1/conversations?"))
+        assertTrue(route.contains("page=2"))
+        assertTrue(route.contains("pageSize=50"))
+        assertTrue(route.contains("cursor=next%2Fcursor"))
+        assertTrue(route.contains("keyword=%E7%9C%9F%E5%AE%9E+%E8%81%94%E7%B3%BB%E4%BA%BA"))
+        assertThrows(IllegalArgumentException::class.java) { r14ConversationRoute(keyword = "x".repeat(101)) }
+    }
+
+    @Test
     fun transportRejectsUnsafeRootsAndInvalidConversationIds() {
         assertThrows(IllegalArgumentException::class.java) { UrlConnectionContractR14Api("http://api.orbexa.cc") }
         assertThrows(IllegalArgumentException::class.java) { UrlConnectionContractR14Api("https://api.invalid") }

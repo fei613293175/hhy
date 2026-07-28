@@ -1,10 +1,18 @@
 # CHANGELOG
 
+## 连续性检查点净回退误判修复 · 2026-07-28
+
+- `CR-0426`统一工作区与历史提交的任务基线净差异语义：合法恢复为基线内容的路径不再被状态并集重新纳入，真实修改、删除和未跟踪文件仍进入项目指纹。
+- 严格提交钩子新增索引与工作树内容一致性检查，拒绝同一路径暂存后继续修改或遗漏未跟踪项目文件；标准`checkpoint -> git add -A -> commit`流程保持不变。
+- 新增快速临时Git仓库回归矩阵并保留既有历史重命名与完整continuity protocol测试，不放宽真实`CHECKPOINT_STALE`、CR、Context或推送门禁。
+
 ## R14 Android私聊详情与真实会话导航 · 2026-07-28
 
 - `CR-0422`新增独立`feature:chat`与严格`ContractR14Api`，只实现冻结的`TEXT/IMAGE/CONTENT_CARD/CONTACT_CARD`四类消息；分页、刷新、局部失败、离线、限频、拉黑、发送重试、送达和已读状态均保留真实服务端语义，正式UI不暴露技术字段或虚构内容。
 - 私聊图片复用`PRIVATE_CHAT`媒体上传闭环；R08至R11的真实内容详情在直接会话创建成功后进入类型安全`ChatDetail`，合法内容上下文可带入内容卡，非法会话参数与403/404均安全返回。
-- `core:network`、`feature:chat`和`app`编译单测在`obx-test`固定Android镜像通过，聊天模块与App Lint通过；R14入口合同、API合同、生成资产、Android UI基础、视觉目录和Git差异检查均通过。最终设备截图与AI视觉PASS继续留在R14大版本候选阶段，不提前关闭。
+- `CR-0424`按`B07/P01`补齐真实会话列表、搜索、最后消息、时间和真实未读数，启用MESSAGE底栏并以类型安全`Messages`路由连接既有私聊详情；不混入R15通知公告、客服、系统快捷区、示例用户或虚构红点。
+- `CR-0425`移除脱离生成事实的聊天尺寸字段和页面裸`dp`，保持40/48等视觉数值不变，并恢复`HhyTokens`与权威Design Token生成结果完全幂等。
+- `core:network`、`feature:chat`、`feature:shell`和`app`编译单测在`obx-test`固定Android镜像通过，聊天、Shell与App Lint通过；R14入口合同、API合同、Token、生成资产、Android UI基础、视觉目录和Git差异检查均通过。最终设备截图与AI视觉PASS继续留在R14大版本候选阶段，不提前关闭。
 
 ## R14一对一聊天核心后端九接口 · 2026-07-28
 

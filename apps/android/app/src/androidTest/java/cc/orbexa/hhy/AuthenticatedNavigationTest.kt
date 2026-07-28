@@ -33,6 +33,7 @@ class AuthenticatedNavigationTest {
                 popExitTransition = { HhyMotion.backwardExit() },
             ) {
                 composable<AuthenticatedRoute.Home> { Text("首页") }
+                composable<AuthenticatedRoute.Messages> { Text("消息") }
                 composable<AuthenticatedRoute.Me> { Text("我的") }
                 composable<AuthenticatedRoute.Profile> { Text("个人资料") }
             }
@@ -61,8 +62,13 @@ class AuthenticatedNavigationTest {
                 launchSingleTop = true
                 restoreState = true
             }
+            navController.navigate(AuthenticatedRoute.Messages) {
+                popUpTo<AuthenticatedRoute.Home> { saveState = true }
+                launchSingleTop = true
+                restoreState = true
+            }
         }
-        composeRule.onNodeWithText("我的").assertIsDisplayed()
+        composeRule.onNodeWithText("消息").assertIsDisplayed()
     }
 
     @Test
@@ -93,5 +99,28 @@ class AuthenticatedNavigationTest {
         composeRule.onNodeWithText("私聊").assertIsDisplayed()
         composeRule.runOnUiThread { navController.popBackStack() }
         composeRule.onNodeWithText("项目列表").assertIsDisplayed()
+    }
+
+    @Test
+    fun chatDetailOpenedFromMessagesReturnsToMessagesForEveryBackSource() {
+        lateinit var navController: TestNavHostController
+        composeRule.setContent {
+            navController = TestNavHostController(LocalContext.current).apply {
+                navigatorProvider.addNavigator(ComposeNavigator())
+            }
+            NavHost(navController = navController, startDestination = AuthenticatedRoute.Home) {
+                composable<AuthenticatedRoute.Home> { Text("首页") }
+                composable<AuthenticatedRoute.Messages> { Text("会话列表") }
+                composable<AuthenticatedRoute.ChatDetail> { Text("私聊") }
+            }
+        }
+
+        composeRule.runOnUiThread {
+            navController.navigate(AuthenticatedRoute.Messages)
+            navController.navigate(AuthenticatedRoute.ChatDetail("conversation_42"))
+        }
+        composeRule.onNodeWithText("私聊").assertIsDisplayed()
+        composeRule.runOnUiThread { navController.popBackStack() }
+        composeRule.onNodeWithText("会话列表").assertIsDisplayed()
     }
 }

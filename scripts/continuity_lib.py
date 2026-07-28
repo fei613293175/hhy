@@ -369,6 +369,15 @@ def git_changed_files(root: Path, *, staged: bool = False) -> list[str]:
     return sorted({parse_porcelain_line(row)[1] for row in rows if parse_porcelain_line(row)[1]})
 
 
+def git_index_worktree_divergence(root: Path) -> list[str]:
+    """Return project paths whose final worktree content is not in the index."""
+    if not is_git_repo(root):
+        return []
+    unstaged = git(root, "diff", "--no-renames", "--name-only", "--diff-filter=ACDMRTUXB", "--")
+    untracked = git(root, "ls-files", "--others", "--exclude-standard")
+    return sorted({line.strip() for line in (unstaged + "\n" + untracked).splitlines() if line.strip()})
+
+
 def changed_since(root: Path, base_commit: str | None) -> list[str]:
     if not is_git_repo(root):
         return []
@@ -379,11 +388,18 @@ def changed_since(root: Path, base_commit: str | None) -> list[str]:
             return sorted(tracked | set(git_changed_files(root)))
         return git_changed_files(root)
     result = run_command(
-        ["git", "diff", "--name-only", "--diff-filter=ACDMRTUXB", f"{base_commit}..HEAD"],
+        ["git", "diff", "--no-renames", "--name-only", "--diff-filter=ACDMRTUXB", base_commit, "--"],
         cwd=root,
     )
-    committed = {line.strip() for line in result.stdout.splitlines() if line.strip()}
-    return sorted(committed | set(git_changed_files(root)))
+    if result.returncode != 0:
+        raise ContinuityError(f"无法计算工作区项目指纹：{base_commit}..WORKTREE")
+    tracked = {line.strip() for line in result.stdout.splitlines() if line.strip()}
+    untracked = {
+        line.strip()
+        for line in git(root, "ls-files", "--others", "--exclude-standard").splitlines()
+        if line.strip()
+    }
+    return sorted(tracked | untracked)
 
 
 def normalize_repo_path(value: str) -> str:

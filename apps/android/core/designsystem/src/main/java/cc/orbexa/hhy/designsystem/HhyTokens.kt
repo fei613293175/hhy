@@ -92,10 +92,6 @@ object HhySize {
     val ChallengeImageHeight = 72.dp
     val ChallengeCancelButtonWidth = 84.dp
     val IdentityLivenessFrame = 240.dp
-    val StandardIcon = 24.dp
-    val SmallIcon = 20.dp
-    val ChatAvatar = 40.dp
-    val ChatComposerHeight = 48.dp
 }
 
 object HhyElevation {

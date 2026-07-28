@@ -40,6 +40,7 @@ import cc.orbexa.hhy.auth.AccountCancellationScreen
 import cc.orbexa.hhy.AboutScreen
 import cc.orbexa.hhy.auth.LoginDevicesScreen
 import cc.orbexa.hhy.chat.R14ChatDetailScreen
+import cc.orbexa.hhy.chat.R14ConversationListScreen
 import cc.orbexa.hhy.designsystem.HhyColors
 import cc.orbexa.hhy.designsystem.HhyElevation
 import cc.orbexa.hhy.designsystem.HhyIcon
@@ -60,6 +61,7 @@ import cc.orbexa.hhy.network.ContractAuthApi
 import cc.orbexa.hhy.network.ContractIdentityApi
 import cc.orbexa.hhy.network.ContractR13Api
 import cc.orbexa.hhy.network.ChatContentCardPayload
+import cc.orbexa.hhy.network.ChatConversationResource
 import cc.orbexa.hhy.network.ContentResource
 import cc.orbexa.hhy.network.PublisherSummaryResource
 import cc.orbexa.hhy.network.UserSelfResource
@@ -236,6 +238,7 @@ private sealed interface SessionState {
 @Serializable
 internal sealed interface AuthenticatedRoute {
     @Serializable data object Home : AuthenticatedRoute
+    @Serializable data object Messages : AuthenticatedRoute
     @Serializable data object Me : AuthenticatedRoute
     @Serializable data object Profile : AuthenticatedRoute
     @Serializable data object LoginDevices : AuthenticatedRoute
@@ -312,10 +315,10 @@ private fun AuthenticatedNavHost(
     val mediaApi = remember { UrlConnectionContractMediaApi(BuildConfig.API_BASE_URL) }
     val uriHandler = androidx.compose.ui.platform.LocalUriHandler.current
     val currentBackStackEntry by navController.currentBackStackEntryAsState()
-    val selectedTopLevel = if (currentBackStackEntry?.destination?.hasRoute<AuthenticatedRoute.Me>() == true) {
-        HhyTopLevelDestination.ME
-    } else {
-        HhyTopLevelDestination.HOME
+    val selectedTopLevel = when {
+        currentBackStackEntry?.destination?.hasRoute<AuthenticatedRoute.Messages>() == true -> HhyTopLevelDestination.MESSAGE
+        currentBackStackEntry?.destination?.hasRoute<AuthenticatedRoute.Me>() == true -> HhyTopLevelDestination.ME
+        else -> HhyTopLevelDestination.HOME
     }
     val rootContent: @androidx.compose.runtime.Composable () -> Unit = {
         HhyShellScreen(
@@ -333,6 +336,11 @@ private fun AuthenticatedNavHost(
                         launchSingleTop = true
                         restoreState = true
                     }
+                    HhyTopLevelDestination.MESSAGE -> navController.navigate(AuthenticatedRoute.Messages) {
+                        popUpTo<AuthenticatedRoute.Home> { saveState = true }
+                        launchSingleTop = true
+                        restoreState = true
+                    }
                     else -> Unit
                 }
             },
@@ -342,6 +350,17 @@ private fun AuthenticatedNavHost(
             onOpenGroups = { navController.navigate(AuthenticatedRoute.Groups) },
             onOpenTeamLeaders = { navController.navigate(AuthenticatedRoute.TeamLeaders) },
             onOpenPublish = { navController.navigate(AuthenticatedRoute.PublishCenter) },
+            messageContent = { padding ->
+                R14ConversationListScreen(
+                    api = r14Api,
+                    accessToken = authenticated.session.accessToken,
+                    contentPadding = padding,
+                    onConversationSelected = { conversation ->
+                        chatDetailRoute(conversation)?.let(navController::navigate)
+                    },
+                    onSessionExpired = onSessionInvalidated,
+                )
+            },
             canOpenHomeTarget = { target -> canOpenHomeTarget(target) },
             onOpenHomeTarget = { target ->
                 val route = target.route.orEmpty()
@@ -402,6 +421,12 @@ private fun AuthenticatedNavHost(
             popExitTransition = { androidx.compose.animation.ExitTransition.None },
         ) { rootContent() }
         composable<AuthenticatedRoute.Me>(
+            enterTransition = { androidx.compose.animation.EnterTransition.None },
+            exitTransition = { androidx.compose.animation.ExitTransition.None },
+            popEnterTransition = { androidx.compose.animation.EnterTransition.None },
+            popExitTransition = { androidx.compose.animation.ExitTransition.None },
+        ) { rootContent() }
+        composable<AuthenticatedRoute.Messages>(
             enterTransition = { androidx.compose.animation.EnterTransition.None },
             exitTransition = { androidx.compose.animation.ExitTransition.None },
             popEnterTransition = { androidx.compose.animation.EnterTransition.None },
@@ -966,6 +991,18 @@ internal fun chatDetailRoute(conversationId: String, content: ContentResource? =
         sourceContentType = content?.contentType,
         sourceTitle = content?.title?.take(255),
         sourceCoverUrl = cover,
+    )
+}
+
+internal fun chatDetailRoute(conversation: ChatConversationResource): AuthenticatedRoute.ChatDetail? {
+    val peer = conversation.peer ?: return null
+    if (!isValidChatConversationId(conversation.id)) return null
+    return AuthenticatedRoute.ChatDetail(
+        conversationId = conversation.id,
+        peerUserId = peer.userId,
+        peerNickname = peer.nickname,
+        peerAvatarUrl = peer.avatarUrl?.takeIf(::isSafeHomeUrl),
+        peerVerified = peer.verified,
     )
 }
 
