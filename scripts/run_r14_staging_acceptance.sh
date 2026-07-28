@@ -10,6 +10,7 @@ ROLLBACK_IMAGE=${HHY_R14_ROLLBACK_IMAGE:-hhy-backend-r14-baseline:f4b7d485}
 ROLLBACK_TAG=${HHY_R14_ROLLBACK_TAG:-rollback-f4b7d485}
 REPORT_CATALOG_SOURCE_COMMIT=${HHY_R14_REPORT_CATALOG_SOURCE_COMMIT:-054da178f90b752e23b33b8de49c22c6c8421026}
 REPORT_CATALOG_JAVA=services/backend/content/src/main/java/cc/orbexa/hhy/content/R14ChatReportReasonCatalog.java
+REPORT_CATALOG_KOTLIN=apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ChatReportReasons.kt
 HTTP_PORT=${HHY_R14_SMOKE_HTTP_PORT:-38114}
 PROMETHEUS_PORT=${HHY_R14_PROMETHEUS_PORT:-39618}
 COMPOSE_FILE="$ROOT/infra/staging/r14-smoke/docker-compose.yml"
@@ -144,15 +145,28 @@ recover_runtime() {
 trap recover_runtime EXIT
 
 validate_report_catalog() {
+  local generated_check
   git cat-file -e "${REPORT_CATALOG_SOURCE_COMMIT}^{commit}"
   git merge-base --is-ancestor "$REPORT_CATALOG_SOURCE_COMMIT" "$FROZEN_COMMIT"
-  python3 scripts/generate_chat_report_reason_catalog.py --check
+  if command -v python3 >/dev/null 2>&1; then
+    python3 scripts/generate_chat_report_reason_catalog.py --check
+    generated_check=PASS_GENERATOR_PYTHON3
+  elif command -v python >/dev/null 2>&1; then
+    python scripts/generate_chat_report_reason_catalog.py --check
+    generated_check=PASS_GENERATOR_PYTHON
+  else
+    git diff --quiet "$REPORT_CATALOG_SOURCE_COMMIT" "$FROZEN_COMMIT" -- \
+      contracts/openapi.yaml "$REPORT_CATALOG_JAVA" "$REPORT_CATALOG_KOTLIN"
+    generated_check=PASS_SOURCE_BYTES_UNCHANGED
+  fi
   test -s "$REPORT_CATALOG_JAVA"
+  test -s "$REPORT_CATALOG_KOTLIN"
   {
     echo report_catalog_status=PASS
     echo report_catalog_source_commit="$REPORT_CATALOG_SOURCE_COMMIT"
     echo report_catalog_java_sha256="$(sha256sum "$REPORT_CATALOG_JAVA" | awk '{print $1}')"
-    echo report_catalog_generated_check=PASS
+    echo report_catalog_kotlin_sha256="$(sha256sum "$REPORT_CATALOG_KOTLIN" | awk '{print $1}')"
+    echo report_catalog_generated_check="$generated_check"
   } > "$EVIDENCE/report-catalog.txt"
 }
 
@@ -179,6 +193,7 @@ capture_baseline() {
     echo rollback_commit="$ROLLBACK_COMMIT"
     echo report_catalog_source_commit="$REPORT_CATALOG_SOURCE_COMMIT"
     echo report_catalog_java_sha256="$(sha256sum "$REPORT_CATALOG_JAVA" | awk '{print $1}')"
+    echo report_catalog_kotlin_sha256="$(sha256sum "$REPORT_CATALOG_KOTLIN" | awk '{print $1}')"
     echo compose_project="$PROJECT"
     echo network_subnet="$HHY_R14_SMOKE_SUBNET"
     echo current_image="$current_image"
@@ -223,7 +238,7 @@ capture_baseline() {
     infra/staging/r14-smoke/alertmanager.yml infra/staging/r14-smoke/nginx.conf \
     infra/staging/r14-smoke/r14-alerts.yml scripts/run_r14_staging_acceptance.sh \
     contracts/openapi.yaml "$REPORT_CATALOG_JAVA" \
-    apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ChatReportReasons.kt \
+    "$REPORT_CATALOG_KOTLIN" \
     > "$EVIDENCE/source-sha256.txt"
 }
 

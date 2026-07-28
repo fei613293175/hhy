@@ -1,7 +1,7 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-28T20:16:18Z
-- Context Hash：`6b6bfb5f3f6351b1e152aa47b500a74c4c647cfa035aad636f1b99702d8a2885`
+- 生成时间：2026-07-28T20:26:34Z
+- Context Hash：`9919210f118c8545f090b81634803a8ca4e11b1bed4404d31bfcb63b0f45f8de`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 规则就绪：`PASS`（`HASHED_CONTEXT_MANIFEST`）
@@ -185,7 +185,7 @@ blocked_tasks:
 - TASK-R16-007
 - TASK-R16-008
 next_task: TASK-R14-006
-updated_at: '2026-07-28T20:16:14Z'
+updated_at: '2026-07-28T20:26:30Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -220,15 +220,15 @@ continuity:
   active_session_id: SES-20260728T195020Z-B1DAB2D3
   actor_id: codex-r14-observability-20260729
   story_id: STORY-R14-004
-  lease_expires_at: '2026-07-29T00:16:14Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260728T195020Z-B1DAB2D3/0002.yaml
-  project_fingerprint: 59be5e3cb2b8f16cf5d06367c029c4186a2f4a314e497c40705bd7eba5005633
+  lease_expires_at: '2026-07-29T00:26:30Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260728T195020Z-B1DAB2D3/0003.yaml
+  project_fingerprint: 44f0e9aa7052e0d132fc09f4a99f52b54e063dc7dd24c0b44386e18b1da71dec
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: 097577ff9ee050406fb14c022385d74f09410aec81e88ebe25b0ba5f852ed0f0
-    generated_at: '2026-07-28T20:01:55Z'
+    context_hash: 6b6bfb5f3f6351b1e152aa47b500a74c4c647cfa035aad636f1b99702d8a2885
+    generated_at: '2026-07-28T20:16:18Z'
   handoff_bundle: null
 ```
 
@@ -426,7 +426,7 @@ task_id: TASK-R14-006
 story_id: STORY-R14-004
 goal: 一对一聊天核心可观测性与预发布验收
 started_at: '2026-07-28T19:50:20Z'
-updated_at: '2026-07-28T20:16:14Z'
+updated_at: '2026-07-28T20:26:30Z'
 takeover_of: null
 change_requests:
 - CR-0468
@@ -475,12 +475,12 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-28T20:16:14Z'
-  expires_at: '2026-07-29T00:16:14Z'
-checkpoint_sequence: 2
-latest_checkpoint: .continuity/checkpoints/SES-20260728T195020Z-B1DAB2D3/0002.yaml
+  renewed_at: '2026-07-28T20:26:30Z'
+  expires_at: '2026-07-29T00:26:30Z'
+checkpoint_sequence: 3
+latest_checkpoint: .continuity/checkpoints/SES-20260728T195020Z-B1DAB2D3/0003.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260728T195020Z-B1DAB2D3.md
-next_step: 提交推送验收入口，随后在obx-test仅清理并重建hhy-r14-staging隔离项目，执行TASK-R14-006完整现场验收
+next_step: 提交推送无Python兼容修复，更新远端隔离检出到新冻结Commit并重新执行R14 Staging验收
 context_pack: THIS_CONTEXT_PACK
 handoff_bundle: null
 closure: null
@@ -488,21 +488,21 @@ parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 冻结脚本、隔离Staging生命周期和最终证据共享同一Compose project与状态，需由主控串行防止重复清理或并发告警注入
+  reason: 同一验收入口的跨环境回退与共享隔离Compose状态必须串行修复和复验，避免重复清理或并发运行
 ```
 
 ## 最新检查点
 
 ```yaml
 protocol_version: '1.0'
-checkpoint_id: CP-SES-20260728T195020Z-B1DAB2D3-0002
+checkpoint_id: CP-SES-20260728T195020Z-B1DAB2D3-0003
 session_id: SES-20260728T195020Z-B1DAB2D3
 task_id: TASK-R14-006
 story_id: STORY-R14-004
-sequence: 2
-created_at: '2026-07-28T20:16:13Z'
-summary: CR-0468远程双门禁PASS并关闭；CR-0469已加固R14 Staging验收入口，禁止复用不含举报目录的旧冻结Commit
-next_step: 提交推送验收入口，随后在obx-test仅清理并重建hhy-r14-staging隔离项目，执行TASK-R14-006完整现场验收
+sequence: 3
+created_at: '2026-07-28T20:26:30Z'
+summary: CR-0469首轮远端在零容器副作用阶段确认宿主无python3；目录验收已改为有Python执行生成器、无Python则CR-0464三文件不可变字节证明，不安装工具且不降低门禁
+next_step: 提交推送无Python兼容修复，更新远端隔离检出到新冻结Commit并重新执行R14 Staging验收
 blockers: []
 decisions: []
 note: ''
@@ -511,10 +511,10 @@ tests:
   result: PASS
   evidence: python scripts/generate_chat_report_reason_catalog.py --check
   note: R14_REPORT_REASON_CATALOG_OK
-- name: program-execution-plan
+- name: report-catalog-source-fallback
   result: PASS
-  evidence: python scripts/check_program_execution_plan.py --json
-  note: 31 releases, 0 errors
+  evidence: git diff CR-0464-source..HEAD -- catalog files
+  note: three catalog files unchanged
 - name: r14-staging-script-syntax
   result: PASS
   evidence: ssh obx-test bash -n -s
@@ -522,24 +522,16 @@ tests:
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: 446316f0c1d6347e300fb7c6544bd762dd430286
+  head: 09d337e272faedc23154a15e42adbf22dd692e72
   upstream: origin/task/TASK-R03-001
   ahead: 0
   behind: 0
   dirty: true
   status_porcelain:
-  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
-  - ' M .continuity/EVENT_LOG.jsonl'
-  - ' M .continuity/STATE.yaml'
-  - ' M .continuity/change_requests/CR-0468.yaml'
-  - ' M .continuity/sessions/SES-20260728T195020Z-B1DAB2D3.yaml'
-  - ' M catalogs/change_request_index.csv'
-  - ' M catalogs/session_index.csv'
-  - ' M docs/03-continuity/change-requests/CR-0468-修复历史序列恢复测试绑定当前会话导致后续任务CI失败.md'
   - ' M scripts/run_r14_staging_acceptance.sh'
-  - ?? .continuity/change_requests/CR-0469.yaml
-  - ?? docs/03-continuity/change-requests/CR-0469-按CR-0464目录源重建R14隔离Staging验收.md
   recent_commits:
+  - "09d337e272faedc23154a15e42adbf22dd692e72\t2026-07-29T04:17:22+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] test(r14): bind staging to\
+    \ report catalog source"
   - "446316f0c1d6347e300fb7c6544bd762dd430286\t2026-07-29T04:02:22+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] test(continuity): decouple\
     \ recovery history from active session"
   - "e61cdcd4493ccf86d53682da10b23c516ebe8925\t2026-07-29T03:31:48+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(continuity): close TASK-R14-005\
@@ -554,10 +546,8 @@ git:
     \ assertion"
   - "d9492684607e8ec73df186a7d036901abbacbffb\t2026-07-29T02:45:03+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] test(chat): automate six R14\
     \ reliability matrices"
-  - "7a6ae5be9d6bde9ca9144794f3ef7cc754269313\t2026-07-29T02:18:45+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(continuity): close TASK-R14-004\
-    \ as completed"
 project_fingerprint:
-  sha256: 59be5e3cb2b8f16cf5d06367c029c4186a2f4a314e497c40705bd7eba5005633
+  sha256: 44f0e9aa7052e0d132fc09f4a99f52b54e063dc7dd24c0b44386e18b1da71dec
   files:
   - docs/03-continuity/PROBLEM_REGISTRY.yaml
   - docs/03-continuity/change-requests/CR-0468-修复历史序列恢复测试绑定当前会话导致后续任务CI失败.md
@@ -582,8 +572,8 @@ project_fingerprint:
       sha256: 7cdaad3bba956d85e1692ac9392a0d073b1c8568a1fca0356b0c5abd24e862fb
     - path: scripts/run_r14_staging_acceptance.sh
       state: FILE
-      size: 20081
-      sha256: 1d3708b49e2ad532af037169e8225e650b9d4720c4331ba7f3160de76649a048
+      size: 20853
+      sha256: 612029bf3a7ba07e2a732063f60b434d4955f1f33c917d019c2158247d277955
     - path: tests/test_continuity_sequence_recovery.py
       state: FILE
       size: 8703
@@ -645,8 +635,8 @@ parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 冻结脚本、隔离Staging生命周期和最终证据共享同一Compose project与状态，需由主控串行防止重复清理或并发告警注入
-event_hash: f80a56ef6f273f7103ad833b2ed6d5c6f5a425582bbc1cc264beacba48a45e54
+  reason: 同一验收入口的跨环境回退与共享隔离Compose状态必须串行修复和复验，避免重复清理或并发运行
+event_hash: e17bb14758523367e303a2cb6bc02ea3b865199fa5aad565bcc71ef0fd79b56f
 ```
 
 ## 接续状态与事件头
@@ -658,8 +648,8 @@ active_session_id: SES-20260728T195020Z-B1DAB2D3
 last_session_id: SES-20260728T182015Z-7EB6FEF2
 last_session_result: COMPLETED
 last_closure_checkpoint_id: CP-SES-20260728T182015Z-7EB6FEF2-0006
-event_count: 4442
-event_head_hash: f80a56ef6f273f7103ad833b2ed6d5c6f5a425582bbc1cc264beacba48a45e54
+event_count: 4443
+event_head_hash: e17bb14758523367e303a2cb6bc02ea3b865199fa5aad565bcc71ef0fd79b56f
 event_chain_valid: true
 ```
 
@@ -782,9 +772,9 @@ recent_sessions: - session_id: SES-20260727T193842Z-C948B6FC
   started_at: '2026-07-28T19:50:20Z'
   record: .continuity/sessions/SES-20260728T195020Z-B1DAB2D3.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260728T195020Z-B1DAB2D3.md
-  updated_at: '2026-07-28T20:16:14Z'
+  updated_at: '2026-07-28T20:26:30Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260728T195020Z-B1DAB2D3/0002.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260728T195020Z-B1DAB2D3/0003.yaml
   handoff_bundle: null
 task_claims: - claim_id: CLM-2DA939E90089
   session_id: SES-20260726T105013Z-AE578D81
@@ -1718,29 +1708,25 @@ recent_task_transitions: - transition_id: TRN-715FAFD9F9FA
 ```yaml
 initialized: true
 branch: task/TASK-R03-001
-head: 446316f0c1d6347e300fb7c6544bd762dd430286
+head: 09d337e272faedc23154a15e42adbf22dd692e72
 upstream: origin/task/TASK-R03-001
 ahead: 0
 behind: 0
 dirty: true
 status_porcelain:
 - ' M .continuity/ACTIVE_SESSION.yaml'
-- ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
 - ' M .continuity/EVENT_LOG.jsonl'
 - ' M .continuity/SESSION_INDEX.yaml'
 - ' M .continuity/STATE.yaml'
-- ' M .continuity/change_requests/CR-0468.yaml'
 - ' M .continuity/sessions/SES-20260728T195020Z-B1DAB2D3.yaml'
 - ' M CURRENT_STATUS.yaml'
-- ' M catalogs/change_request_index.csv'
 - ' M catalogs/session_index.csv'
-- ' M docs/03-continuity/change-requests/CR-0468-修复历史序列恢复测试绑定当前会话导致后续任务CI失败.md'
 - ' M docs/03-continuity/sessions/2026-07/SES-20260728T195020Z-B1DAB2D3.md'
 - ' M scripts/run_r14_staging_acceptance.sh'
-- ?? .continuity/change_requests/CR-0469.yaml
-- ?? .continuity/checkpoints/SES-20260728T195020Z-B1DAB2D3/0002.yaml
-- ?? docs/03-continuity/change-requests/CR-0469-按CR-0464目录源重建R14隔离Staging验收.md
+- ?? .continuity/checkpoints/SES-20260728T195020Z-B1DAB2D3/0003.yaml
 recent_commits:
+- "09d337e272faedc23154a15e42adbf22dd692e72\t2026-07-29T04:17:22+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] test(r14): bind staging to report\
+  \ catalog source"
 - "446316f0c1d6347e300fb7c6544bd762dd430286\t2026-07-29T04:02:22+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] test(continuity): decouple recovery\
   \ history from active session"
 - "e61cdcd4493ccf86d53682da10b23c516ebe8925\t2026-07-29T03:31:48+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(continuity): close TASK-R14-005\
@@ -1754,13 +1740,11 @@ recent_commits:
   \ assertion"
 - "d9492684607e8ec73df186a7d036901abbacbffb\t2026-07-29T02:45:03+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] test(chat): automate six R14\
   \ reliability matrices"
-- "7a6ae5be9d6bde9ca9144794f3ef7cc754269313\t2026-07-29T02:18:45+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(continuity): close TASK-R14-004\
-  \ as completed"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`59be5e3cb2b8f16cf5d06367c029c4186a2f4a314e497c40705bd7eba5005633`
+- 指纹：`44f0e9aa7052e0d132fc09f4a99f52b54e063dc7dd24c0b44386e18b1da71dec`
 - 文件数：5
 
 - `docs/03-continuity/PROBLEM_REGISTRY.yaml`
@@ -15002,7 +14986,7 @@ PARALLEL_EXECUTION_PLAN.yaml:
 
 - `AGENTS.md` — `bde93afcdb788b601aeffcf2369a1aeda8eeb391f165429d501d7ba8895ba4a6`
 - `START_HERE.md` — `22de14029ce47beb41ea569e36ce223fbc9d11b86f8676f28d5fbbd83896af5c`
-- `CURRENT_STATUS.yaml` — `59c7050b9fee888316624ac654b818e80261be7b1fc0e6cd16fada6d4d68537f`
+- `CURRENT_STATUS.yaml` — `5ab65a417ce710a393ff276b80b4a5959f97ee16428714647d6bfd2b8b489ab9`
 - `NEXT_TASK.yaml` — `0f9d416869c618da8110a8211fe0a6382fd87401e14b572352c4addd00c19bf0`
 - `DEVELOPMENT_RISK_REGISTER.md` — `8304c91492e4ee2abea0522a06541c8688d39c7fc532b5d0cde499bf09fffb87`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `5213b166f464a4415abe064e0ebcd99da8f1f8d23569b49ae4e9787007e83314`
@@ -15013,12 +14997,12 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `config/REPOSITORY_TRANSPORT.yaml` — `8c4a21f3e204d46e7ffb467d804a53ed26cda61cd088dadfddb50b69eea657fc`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `38e04ed812c8df0d353c2b91993d31e53b471e9c457f06b426bd2260c470aa92`
-- `.continuity/EVENT_LOG.jsonl` — `9c6fd28be7a45da426fbf51c325597736f671b88336809f644fd76ffe5088686`
-- `.continuity/SESSION_INDEX.yaml` — `21a1ace4899a2d6b477db1bc7677130bd8f0dca09501c40d13d075cf18758096`
+- `.continuity/EVENT_LOG.jsonl` — `177793e51298657614dce024d61a7277e5de277eb05545e3ad7169c6d52327e4`
+- `.continuity/SESSION_INDEX.yaml` — `ad245ecdeb01996c6241180c453310edde3c280a843a0085799196fbc4be5570`
 - `.continuity/TASK_CLAIMS.yaml` — `d4b040fb3775e0595d8aeb643c500804ab9dd2da05367f5c7d4c23313001d7e5`
 - `.continuity/TASK_TRANSITIONS.yaml` — `2e684f99648469e060b4cd5f6df39835d30929e22dfa485dea9a94c9d1bb0ba0`
 - `.continuity/CHANGE_REQUEST_INDEX.yaml` — `bec765f56a6be31cb63e06d08242dec86da741d058898794931eacaee34da54c`
-- `.continuity/ACTIVE_SESSION.yaml` — `305c56ffc1de30c40d21c3e6534c3e0eb9cd17f484546a59c1ffda1862250163`
+- `.continuity/ACTIVE_SESSION.yaml` — `3dfd6fcb48d2140351e367c249aa3adb40695cab4305075c464879547bbb7db8`
 - `docs/00-baseline/正式商业系统全局硬性开发边界.md` — `30c07716c31d6d09621b6f6d119063b1fcb35e78d9b266423ed333d92b8262db`
 - `docs/02-ui/UI参考图使用与开发约束_V1.2.2.md` — `d14367586aa2067b059df58798acd20ab982459cdb35ff27fc7922a3896e4933`
 - `docs/03-continuity/持续开发无状态接续强制门禁_V1.2.3.md` — `d0ed3ed68bdd93b06500eecdfb5baa3245e6ca8b685a486788abb6eee39b3d51`
@@ -15029,8 +15013,8 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `releases/R14/TASKS.yaml` — `d5070f5b64684f7a1cb689fb3f5f1f6f5c6bbd71a46e4db9b5f3d03a01ef9fa9`
 - `releases/R14/ACCEPTANCE_MATRIX.csv` — `ffc0fd23b945544de8fe2a37774a94675c0d60b73d88517abe69c68d326ad6f4`
 - `releases/R14/PARALLEL_EXECUTION_PLAN.yaml` — `cd1f0c96ffd7562acb214edba80a2bbb12b79f06c19032d1b133936ff6abd74f`
-- `docs/03-continuity/sessions/2026-07/SES-20260728T195020Z-B1DAB2D3.md` — `693656ceaa7d91aeff49629612acb96f235b651ca01e6a34e30e767f67963143`
-- `.continuity/checkpoints/SES-20260728T195020Z-B1DAB2D3/0002.yaml` — `1b5864651f9c23449deda1204faf77229a0c407a291391dfc57320ef5cb45973`
+- `docs/03-continuity/sessions/2026-07/SES-20260728T195020Z-B1DAB2D3.md` — `6916b8f2ba4720380403e5c948121d3e9eb14c327dc418457cc92c037362dc56`
+- `.continuity/checkpoints/SES-20260728T195020Z-B1DAB2D3/0003.yaml` — `31ef4ba10394114b19f1bea73e21547f0892a49038d0afdaa470c2b94f042b8b`
 - `docs/03-continuity/change-requests/CR-0468-修复历史序列恢复测试绑定当前会话导致后续任务CI失败.md` — `dc1a9a8709de4a7fac29dc41fc14148874f6a10ab287194df9fce806c168562e`
 - `docs/03-continuity/change-requests/CR-0469-按CR-0464目录源重建R14隔离Staging验收.md` — `7cdaad3bba956d85e1692ac9392a0d073b1c8568a1fca0356b0c5abd24e862fb`
 

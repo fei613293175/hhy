@@ -11,7 +11,7 @@ task_id: TASK-R14-006
 story_id: STORY-R14-004
 goal: 一对一聊天核心可观测性与预发布验收
 started_at: '2026-07-28T19:50:20Z'
-updated_at: '2026-07-28T20:16:21Z'
+updated_at: '2026-07-28T20:26:38Z'
 takeover_of: null
 change_requests:
 - CR-0468
@@ -60,22 +60,22 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-28T20:16:14Z'
-  expires_at: '2026-07-29T00:16:14Z'
-checkpoint_sequence: 2
-latest_checkpoint: .continuity/checkpoints/SES-20260728T195020Z-B1DAB2D3/0002.yaml
+  renewed_at: '2026-07-28T20:26:30Z'
+  expires_at: '2026-07-29T00:26:30Z'
+checkpoint_sequence: 3
+latest_checkpoint: .continuity/checkpoints/SES-20260728T195020Z-B1DAB2D3/0003.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260728T195020Z-B1DAB2D3.md
-next_step: 提交推送验收入口，随后在obx-test仅清理并重建hhy-r14-staging隔离项目，执行TASK-R14-006完整现场验收
+next_step: 提交推送无Python兼容修复，更新远端隔离检出到新冻结Commit并重新执行R14 Staging验收
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: 6b6bfb5f3f6351b1e152aa47b500a74c4c647cfa035aad636f1b99702d8a2885
-  generated_at: '2026-07-28T20:16:18Z'
+  context_hash: 9919210f118c8545f090b81634803a8ca4e11b1bed4404d31bfcb63b0f45f8de
+  generated_at: '2026-07-28T20:26:34Z'
 handoff_bundle: null
 closure: null
 parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 冻结脚本、隔离Staging生命周期和最终证据共享同一Compose project与状态，需由主控串行防止重复清理或并发告警注入
+  reason: 同一验收入口的跨环境回退与共享隔离Compose状态必须串行修复和复验，避免重复清理或并发运行

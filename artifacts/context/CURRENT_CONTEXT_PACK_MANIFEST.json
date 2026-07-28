@@ -1,19 +1,19 @@
 {
   "version": "1.0",
-  "generated_at": "2026-07-28T20:16:18Z",
-  "context_hash": "6b6bfb5f3f6351b1e152aa47b500a74c4c647cfa035aad636f1b99702d8a2885",
+  "generated_at": "2026-07-28T20:26:34Z",
+  "context_hash": "9919210f118c8545f090b81634803a8ca4e11b1bed4404d31bfcb63b0f45f8de",
   "fingerprint_mode": "SESSION_DELTA",
   "project_fingerprint": {
-    "sha256": "59be5e3cb2b8f16cf5d06367c029c4186a2f4a314e497c40705bd7eba5005633",
+    "sha256": "44f0e9aa7052e0d132fc09f4a99f52b54e063dc7dd24c0b44386e18b1da71dec",
     "file_count": 5
   },
   "yaml": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.yaml",
-    "sha256": "4e38f3845e5359b5ef5212b723d4b205431615c2f75c94bf559201196da80aeb"
+    "sha256": "57c16383eeac764bc9f2c0ff178f872217c76f9a0da1c248c8778437090045e7"
   },
   "markdown": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.md",
-    "sha256": "0d091e42015f8d4e768d7db8cea2a8d1cd0322b62fac67591a6b8b68cfc5cd5c"
+    "sha256": "625ee05acb34495f46a0932c224333e00645fa6df3e710d29035ff0a17fc7ea0"
   },
   "sources": [
     {
@@ -28,7 +28,7 @@
     },
     {
       "path": "CURRENT_STATUS.yaml",
-      "sha256": "59c7050b9fee888316624ac654b818e80261be7b1fc0e6cd16fada6d4d68537f",
+      "sha256": "5ab65a417ce710a393ff276b80b4a5959f97ee16428714647d6bfd2b8b489ab9",
       "bytes": 4794
     },
     {
@@ -83,12 +83,12 @@
     },
     {
       "path": ".continuity/EVENT_LOG.jsonl",
-      "sha256": "9c6fd28be7a45da426fbf51c325597736f671b88336809f644fd76ffe5088686",
-      "bytes": 2545889
+      "sha256": "177793e51298657614dce024d61a7277e5de277eb05545e3ad7169c6d52327e4",
+      "bytes": 2546698
     },
     {
       "path": ".continuity/SESSION_INDEX.yaml",
-      "sha256": "21a1ace4899a2d6b477db1bc7677130bd8f0dca09501c40d13d075cf18758096",
+      "sha256": "ad245ecdeb01996c6241180c453310edde3c280a843a0085799196fbc4be5570",
       "bytes": 65299
     },
     {
@@ -108,7 +108,7 @@
     },
     {
       "path": ".continuity/ACTIVE_SESSION.yaml",
-      "sha256": "305c56ffc1de30c40d21c3e6534c3e0eb9cd17f484546a59c1ffda1862250163",
+      "sha256": "3dfd6fcb48d2140351e367c249aa3adb40695cab4305075c464879547bbb7db8",
       "bytes": 547
     },
     {
@@ -163,13 +163,13 @@
     },
     {
       "path": "docs/03-continuity/sessions/2026-07/SES-20260728T195020Z-B1DAB2D3.md",
-      "sha256": "693656ceaa7d91aeff49629612acb96f235b651ca01e6a34e30e767f67963143",
-      "bytes": 3867
+      "sha256": "6916b8f2ba4720380403e5c948121d3e9eb14c327dc418457cc92c037362dc56",
+      "bytes": 5113
     },
     {
-      "path": ".continuity/checkpoints/SES-20260728T195020Z-B1DAB2D3/0002.yaml",
-      "sha256": "1b5864651f9c23449deda1204faf77229a0c407a291391dfc57320ef5cb45973",
-      "bytes": 6136
+      "path": ".continuity/checkpoints/SES-20260728T195020Z-B1DAB2D3/0003.yaml",
+      "sha256": "31ef4ba10394114b19f1bea73e21547f0892a49038d0afdaa470c2b94f042b8b",
+      "bytes": 5588
     },
     {
       "path": "docs/03-continuity/change-requests/CR-0468-修复历史序列恢复测试绑定当前会话导致后续任务CI失败.md",
