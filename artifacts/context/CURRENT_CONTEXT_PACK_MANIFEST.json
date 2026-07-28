@@ -1,19 +1,19 @@
 {
   "version": "1.0",
-  "generated_at": "2026-07-28T12:55:33Z",
-  "context_hash": "f7b0ec7aedb3f4b231bf64462c30bf50793892b35a46a0da94ee216604c5f285",
-  "fingerprint_mode": "SESSION_DELTA",
+  "generated_at": "2026-07-28T12:57:20Z",
+  "context_hash": "7ca97d1afe60d66ef047b96223e252862bce23da4074c7b34b7a0d55467e2214",
+  "fingerprint_mode": "REPOSITORY_TREE",
   "project_fingerprint": {
-    "sha256": "babbe3d3d30a6dece7d8891c08e609b41f5cbd985c65f5b36dfe8f370d8f536d",
-    "file_count": 46
+    "sha256": "0d656ef6731cac90215cc34263144621d01ff01cf1e659d91e07f0142a979209",
+    "file_count": 0
   },
   "yaml": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.yaml",
-    "sha256": "0e5f279c840569fcf43a057d089f914185848bd993cf315c0f96045d5f01bcf2"
+    "sha256": "64f89ee05a3d888df28c606286201cf1842baad35c66661a24be0c3afb35e2c7"
   },
   "markdown": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.md",
-    "sha256": "0d0373f3677e212da2398fbc668cd1b3cff703681dfa4b68f949d5c2ca2d03b0"
+    "sha256": "c88c4e3dc48db97eb48691dc23923dfa9b7316e1eb95586b01568abbbd3588a0"
   },
   "sources": [
     {
@@ -28,13 +28,13 @@
     },
     {
       "path": "CURRENT_STATUS.yaml",
-      "sha256": "aa4c002d96751dbbbf2d6251392c5a90014e12cce061685d125201671b98adc7",
-      "bytes": 4713
+      "sha256": "7953e967c9d1a1ace57ccb71a001a567aa1534b54f00c777e9b3498d7b1d5f98",
+      "bytes": 4574
     },
     {
       "path": "NEXT_TASK.yaml",
-      "sha256": "9b2bf8b8134dd624ce4ddf551bc266321b76f4295ed4d499f8d7278a117267b5",
-      "bytes": 1545
+      "sha256": "098e3473cabfab4b4cecb672782dc80007d2d554f478bb33805f4bb2c57faf09",
+      "bytes": 1872
     },
     {
       "path": "DEVELOPMENT_RISK_REGISTER.md",
@@ -83,18 +83,18 @@
     },
     {
       "path": ".continuity/EVENT_LOG.jsonl",
-      "sha256": "3334a5fe51511966ee56e085dc78b45cec0e50420fd60d64ca64c066fcb56755",
-      "bytes": 2441004
+      "sha256": "e002940ed0cd80f8ec59b508c3af08334dfee0548aeab61cdb6a7c63b75bca81",
+      "bytes": 2442787
     },
     {
       "path": ".continuity/SESSION_INDEX.yaml",
-      "sha256": "5bef8c46df86aede701f2137a1957f731ea0a0b5f57df048e9ccebf55c1b1d59",
-      "bytes": 63199
+      "sha256": "a0da1351d11da8d41c82e560b7866f02ab4ea1209aec2734c5d933c9d17d37b8",
+      "bytes": 63217
     },
     {
       "path": ".continuity/TASK_CLAIMS.yaml",
-      "sha256": "bca55383e0e90495dbe7b8744ccf2e200cc401fa464f26aaf637f8334ff6cc0b",
-      "bytes": 88895
+      "sha256": "830ed0e499f325150b09ef23591e27a6b43793282cfb49856fb6ed50faba4c56",
+      "bytes": 88931
     },
     {
       "path": ".continuity/TASK_TRANSITIONS.yaml",
@@ -108,8 +108,8 @@
     },
     {
       "path": ".continuity/ACTIVE_SESSION.yaml",
-      "sha256": "3c72d9cb4ace203e6c2681c1500cb9f5f877cd7dd2153707195ab12a6c36c97f",
-      "bytes": 541
+      "sha256": "7584e19249a746ec38986d9c93d9c0e8550e05c256d293473f5eab70bfb975bc",
+      "bytes": 143
     },
     {
       "path": "docs/00-baseline/正式商业系统全局硬性开发边界.md",
@@ -148,53 +148,13 @@
     },
     {
       "path": "releases/R16/TASKS.yaml",
-      "sha256": "34f47e7d37b09255aa0fef645ef8feed514ab90caeaf95a6c1f32e4ca1e94d10",
-      "bytes": 5673
+      "sha256": "e66656c7c431a032916c4783c571000f3d238ee636f7fe01c4b881c01b0385c0",
+      "bytes": 5709
     },
     {
       "path": "releases/R16/ACCEPTANCE_MATRIX.csv",
       "sha256": "6c6b0104146b52bb78d72e9f0db5b389d43dc5fc1fdf8fa054437b4150452625",
       "bytes": 684
-    },
-    {
-      "path": "docs/03-continuity/sessions/2026-07/SES-20260728T102501Z-3189682B.md",
-      "sha256": "b9245ff5a65f9169ec237289209de9f3565b29e0dd525238f2d99768fd2cc66b",
-      "bytes": 21642
-    },
-    {
-      "path": ".continuity/checkpoints/SES-20260728T102501Z-3189682B/0006.yaml",
-      "sha256": "f5bd15eb0125feeff95ab1949f2c5af7a5fbcddd3d03df2fdb388168699d9405",
-      "bytes": 22201
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0442-落地R16商品SKU报价与统一订单后端纵向链路.md",
-      "sha256": "b2c2fb58b56b2efb9885e9a239675e84b5b44bf87ec2b772ff73ec4cbd4f1bd5",
-      "bytes": 8779
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0443-前向对齐R16权益与时长冻结字段边界.md",
-      "sha256": "2d1a96326030bda0be4d1fe7c6911675a4798e250daf64cafc3db343d0909014",
-      "bytes": 4571
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0444-隔离R14-WebSocket容器生产配置与Mock测试上下文.md",
-      "sha256": "309705d4065766b27825f0120eb3a1254ac211d20d70e55bcd1f3503d93ba145",
-      "bytes": 3949
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0445-隔离后端Spring测试上下文的H2内存数据库.md",
-      "sha256": "181be8b098eef97575185797b9b1771ad0ceddc733d8f7862c9e17657dd8bf18",
-      "bytes": 3519
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0446-强制Android版本APK与桌面测试文档成对交付.md",
-      "sha256": "1482d87383e2ba9ea92e5e7dab73442b2aec5c0bee75107da76c3cbf53a2a1d2",
-      "bytes": 5587
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0447-修正R14真机消息页公网后端版本错位.md",
-      "sha256": "9d61b0c6e7fda2e82216f8090b75fc3b1b7e2c5ad0b38cb96e01c1932ce0cb1c",
-      "bytes": 6190
     }
   ]
 }

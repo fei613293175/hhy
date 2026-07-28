@@ -1,7 +1,7 @@
 protocol_version: '1.0'
 package_version: 1.2.3
 session_id: SES-20260728T102501Z-3189682B
-status: ACTIVE
+status: CLOSED
 actor:
   id: codex-r16-backend-20260728
   kind: AI_OR_HUMAN
@@ -11,7 +11,7 @@ task_id: TASK-R16-003
 story_id: STORY-R16-001
 goal: 持续完成R16至R32，当前完整落地10个商品、SKU、报价与统一订单后端operationId
 started_at: '2026-07-28T10:25:01Z'
-updated_at: '2026-07-28T12:55:36Z'
+updated_at: '2026-07-28T12:57:16Z'
 takeover_of: null
 change_requests:
 - CR-0442
@@ -91,22 +91,36 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-28T12:55:27Z'
-  expires_at: '2026-07-28T16:55:27Z'
-checkpoint_sequence: 6
-latest_checkpoint: .continuity/checkpoints/SES-20260728T102501Z-3189682B/0006.yaml
+  renewed_at: '2026-07-28T12:57:09Z'
+  expires_at: '2026-07-28T16:57:09Z'
+checkpoint_sequence: 7
+latest_checkpoint: .continuity/checkpoints/SES-20260728T102501Z-3189682B/0007.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260728T102501Z-3189682B.md
-next_step: 提交推送R16后端治理关闭记录并正式关闭TASK-R16-003进入TASK-R16-004客户端后台实现
+next_step: 提交关闭元数据Commit，然后运行pre-push/CI门禁
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: f7b0ec7aedb3f4b231bf64462c30bf50793892b35a46a0da94ee216604c5f285
-  generated_at: '2026-07-28T12:55:33Z'
+  context_hash: 88ed70b3af646b078c8aa8a2f1402c9a531486a0357036e9030102ae6ce2b3a9
+  generated_at: '2026-07-28T12:57:13Z'
 handoff_bundle: null
-closure: null
+closure:
+  result: COMPLETED
+  summary: TASK-R16-003完成：十个冻结后端operationId、V046/V047、权限幂等审计Outbox、订单owner隔离及完整Java/PostgreSQL回归通过；R14紧急公网消息热修已独立闭环且不改变R16验收。
+  code_commit: 63ebeca8ca54f087b18e0b9605dc879dd10bc4c4
+  next_release: R16
+  next_task: TASK-R16-004
+  blocked_advance: false
+  completed_independent_advance: false
+  user_confirmation: null
+  metadata_commit: PENDING
+  push_verification: CI_REQUIRED_AFTER_METADATA_COMMIT
+  started_at: '2026-07-28T12:57:04Z'
+  closure_checkpoint_id: CP-SES-20260728T102501Z-3189682B-0007
+  closed_at: '2026-07-28T12:57:16Z'
 parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
   reason: 当前为R16任务关闭机器事实单写，必须串行完成
+closed_at: '2026-07-28T12:57:16Z'

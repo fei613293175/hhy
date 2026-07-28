@@ -2084,3 +2084,13 @@
 - 修复既有规则与机器执行脱节：R14及后续新`TEST_APK`必须同时复制对应版本测试说明，桌面说明绑定同一Release和Commit。
 - 新交付使用APK Manifest schema 3与Evidence schema 2，五方核对仓库说明、Release Manifest、APK Manifest、Evidence和桌面副本；缺失、改名、空文件、大小或SHA漂移均非零失败。
 - R06–R13 schema 2+1历史记录保持只读兼容；R14已真实补交`hhy-r14-ca57666-test-guide.md`并以实测大小和SHA-256升级证据。
+
+## TASK-R16-003 · COMPLETED · 2026-07-28T12:57:04Z
+
+- Task close: TASK-R16-003 / SES-20260728T102501Z-3189682B
+- Release：`R16`
+- Story：`STORY-R16-001`
+- Actor：`codex-r16-backend-20260728`
+- 摘要：TASK-R16-003完成：十个冻结后端operationId、V046/V047、权限幂等审计Outbox、订单owner隔离及完整Java/PostgreSQL回归通过；R14紧急公网消息热修已独立闭环且不改变R16验收。
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260728T102501Z-3189682B.md`
+

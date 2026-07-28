@@ -1,5 +1,5 @@
-id: TASK-R16-003
-title: 商品、SKU、报价与统一订单后端应用服务与接口
+id: TASK-R16-004
+title: 商品、SKU、报价与统一订单客户端/H5/后台实现
 status: READY
 release: R16
 requirements:
@@ -8,22 +8,26 @@ requirements:
 - REQ-ORDER-001
 - REQ-APK-001
 depends_on:
-- TASK-R16-002
+- TASK-R16-003
 definition_of_ready: releases/R16/DEFINITION_OF_READY.yaml
 stories: releases/R16/STORIES.yaml
 steps:
-- OpenAPI契约测试
-- 权限/幂等/错误码/审计覆盖
+- 全部页面绑定catalogs/ui_page_specifications.csv
+- 字段/状态/动作/导航与后台运营规格通过契约测试
+- 禁止页面级手写重复DTO
+- 全部动作绑定生成API类型
 acceptance:
-- 无TODO/生产Mock
-- 代码、文档、测试、追踪同步更新
-- OpenAPI契约测试
-- 权限/幂等/错误码/审计覆盖
+- 所有页面故事验收条件通过
+- 加载、空、局部失败、无权限、404、离线、冲突和成功导航均有证据
+- 全部页面绑定catalogs/ui_page_specifications.csv
+- 字段/状态/动作/导航与后台运营规格通过契约测试
+- 禁止页面级手写重复DTO
+- 全部动作绑定生成API类型
 claim_required: true
-start_command: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R16-003
+start_command: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R16-004
 commands:
   resume: python3 scripts/continuity.py resume
-  start: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R16-003
+  start: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R16-004
   checkpoint: python3 scripts/continuity.py checkpoint --summary '<阶段完成>' --next-step '<精确下一步>' --test 'name|PASS|evidence|note' --parallel-assessment
     <ASSESSMENT> --parallel-reason '<未委托原因>'
   handoff: python3 scripts/continuity.py handoff --actor <ACTOR_ID> --reason '<移交原因>' --next-step '<精确下一步>'
