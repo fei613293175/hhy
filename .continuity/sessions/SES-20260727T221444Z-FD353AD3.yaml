@@ -11,7 +11,7 @@ task_id: TASK-R14-004
 story_id: STORY-R14-004
 goal: 逐项审计R14六个交互面、九接口、状态错误恢复、测试和追踪证据，补齐不依赖举报原因目录的客户端与治理缺口；保持PROB-0135开放且不提前关闭TASK
 started_at: '2026-07-27T22:14:44Z'
-updated_at: '2026-07-28T04:05:35Z'
+updated_at: '2026-07-28T04:07:31Z'
 takeover_of: null
 change_requests:
 - CR-0422
@@ -94,18 +94,18 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-28T04:05:28Z'
-  expires_at: '2026-07-28T08:05:28Z'
-checkpoint_sequence: 19
-latest_checkpoint: .continuity/checkpoints/SES-20260727T221444Z-FD353AD3/0019.yaml
+  renewed_at: '2026-07-28T04:07:24Z'
+  expires_at: '2026-07-28T08:07:24Z'
+checkpoint_sequence: 20
+latest_checkpoint: .continuity/checkpoints/SES-20260727T221444Z-FD353AD3/0020.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260727T221444Z-FD353AD3.md
-next_step: 提交并推送CR-0429实现Commit，绑定IMPLEMENTED后进入独立运行时CR
+next_step: 提交治理状态、执行Git传输预检并推送两个Commit，然后另立WebSocket运行时CR
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: 29e243e039aa0007f4d0ec86a3055cf8fd078cec738573da178ab6e25bb3ecd9
-  generated_at: '2026-07-28T04:05:32Z'
+  context_hash: 47e63d4b4e9a1616df33b0d5759e1626c88572fbbeeb1ffe044bb7e13ca6980c
+  generated_at: '2026-07-28T04:07:28Z'
 handoff_bundle: null
 closure: null
 parallel_execution:
@@ -113,10 +113,9 @@ parallel_execution:
   delegated_workers: 1
   workers:
   - worker_id: r14_cr_review
-    responsibility: 完成CR-0429两轮独立计划审查并批准修订方案
+    responsibility: CR-0429独立计划审批完成
     allowed_paths:
     - .continuity/change_requests/CR-0429.yaml
-    - docs/03-continuity/change-requests/CR-0429-修正R14-WebSocket可实施鉴权、确认与续传合同.md
   reason: ''
 story_history:
 - story_id: STORY-R14-001
