@@ -4372,7 +4372,7 @@ claims:
   task_id: TASK-R14-004
   story_id: STORY-R14-004
   actor_id: codex-root-r14-client-20260728
-  status: ACTIVE
+  status: CLOSED
   claimed_at: '2026-07-27T22:14:44Z'
   allowed_paths:
   - apps/**
@@ -4410,3 +4410,4 @@ claims:
   - artifacts/reports/R14/**
   - releases/R14/**
   updated_at: '2026-07-28T02:20:00Z'
+  closed_at: '2026-07-28T09:10:08Z'

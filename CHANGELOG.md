@@ -2016,3 +2016,13 @@
 - 摘要：举报面板复用既有媒体上传闭环，以 `AUDIT_EVIDENCE` 只接受图片并支持累计去重、移除和 100 项上限；消息与图片证据同时进入二次确认和真实请求。
 - 版本并发：会话列表和四类内容直聊入口传播服务端 `conversation.version`；旧深链或异常负版本仅允许查看聊天，举报编辑和提交明确禁用。
 - 边界：`PROB-0135` 仍保持 `OPEN`，不硬编码效果图示例原因，不关闭 `SHEET-CHAT-002` 或 R14 机器验收。
+
+## TASK-R14-004 · BLOCKED · 2026-07-28T09:09:55Z
+
+- Task close: TASK-R14-004 / SES-20260727T221444Z-FD353AD3
+- Release：`R14`
+- Story：`STORY-R14-004`
+- Actor：`codex-root-r14-client-20260728`
+- 摘要：TASK-R14-004可实施的会话列表、私聊、联系方式、拉黑解除、删除、举报证据结构、九接口、十二事件实时链路、隔离Staging与稳定签名TEST_APK均已完成；但PROB-0135缺少产品事实源冻结的举报原因code/用户文案/启停/排序，SHEET-CHAT-002与STORY-R14-003不得用效果图示例或测试值冒充完成，且ws.orbexa.cc仍BLOCKED_EXTERNAL_DNS，因此R14保持BLOCKED_EXTERNAL_GATE并保留CR-0427/0428为IMPLEMENTED待恢复
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260727T221444Z-FD353AD3.md`
+

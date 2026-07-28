@@ -1,7 +1,7 @@
 protocol_version: '1.0'
 package_version: 1.2.3
 session_id: SES-20260727T221444Z-FD353AD3
-status: ACTIVE
+status: CLOSED
 actor:
   id: codex-root-r14-client-20260728
   kind: AI_OR_HUMAN
@@ -11,7 +11,7 @@ task_id: TASK-R14-004
 story_id: STORY-R14-004
 goal: 逐项审计R14六个交互面、九接口、状态错误恢复、测试和追踪证据，补齐不依赖举报原因目录的客户端与治理缺口；保持PROB-0135开放且不提前关闭TASK
 started_at: '2026-07-27T22:14:44Z'
-updated_at: '2026-07-28T09:08:35Z'
+updated_at: '2026-07-28T09:10:08Z'
 takeover_of: null
 change_requests:
 - CR-0422
@@ -201,20 +201,33 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-28T09:08:28Z'
-  expires_at: '2026-07-28T13:08:28Z'
-checkpoint_sequence: 42
-latest_checkpoint: .continuity/checkpoints/SES-20260727T221444Z-FD353AD3/0042.yaml
+  renewed_at: '2026-07-28T09:10:00Z'
+  expires_at: '2026-07-28T13:10:00Z'
+checkpoint_sequence: 43
+latest_checkpoint: .continuity/checkpoints/SES-20260727T221444Z-FD353AD3/0043.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260727T221444Z-FD353AD3.md
-next_step: 提交推送CR-0439关闭记录，随后把TASK-R14-004挂起为BLOCKED_EXTERNAL_GATE并原子切换到R16/TASK-R16-001
+next_step: 提交关闭元数据Commit，然后运行pre-push/CI门禁
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: 271f4dc393a221efccb7eef0eda8c0df02f620a79fa989c26331afa334bf1a34
-  generated_at: '2026-07-28T09:08:32Z'
+  context_hash: 4baed8157a71b433a9d00b8eecb12ab8b4d2811b4182a5605373918656f99e68
+  generated_at: '2026-07-28T09:10:04Z'
 handoff_bundle: null
-closure: null
+closure:
+  result: BLOCKED
+  summary: TASK-R14-004可实施的会话列表、私聊、联系方式、拉黑解除、删除、举报证据结构、九接口、十二事件实时链路、隔离Staging与稳定签名TEST_APK均已完成；但PROB-0135缺少产品事实源冻结的举报原因code/用户文案/启停/排序，SHEET-CHAT-002与STORY-R14-003不得用效果图示例或测试值冒充完成，且ws.orbexa.cc仍BLOCKED_EXTERNAL_DNS，因此R14保持BLOCKED_EXTERNAL_GATE并保留CR-0427/0428为IMPLEMENTED待恢复
+  code_commit: 5502ad81ba09c6530812ea04f58d6b67f71f0d10
+  next_release: R16
+  next_task: TASK-R16-001
+  blocked_advance: true
+  completed_independent_advance: false
+  user_confirmation: 项目所有者已明确要求持续推进所有版本、遇到异步真机或外部门禁不得停止，并授权AI自主切换到可开发项目线；不得因未收到真机反馈中断开发
+  metadata_commit: PENDING
+  push_verification: CI_REQUIRED_AFTER_METADATA_COMMIT
+  started_at: '2026-07-28T09:09:55Z'
+  closure_checkpoint_id: CP-SES-20260727T221444Z-FD353AD3-0043
+  closed_at: '2026-07-28T09:10:08Z'
 parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
@@ -236,3 +249,4 @@ story_history:
   checkpoint_id: CP-SES-20260727T221444Z-FD353AD3-0011
   commit: 539464f648973f8c27232b07fc3933aeb44178d5
   summary: STORY-R14-003可执行Android范围已实现，举报原因目录由PROB-0135独立阻断；继续同一TASK的客户端契约、测试与交接审计
+closed_at: '2026-07-28T09:10:08Z'
