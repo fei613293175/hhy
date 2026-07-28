@@ -1360,3 +1360,13 @@ transitions:
   session_id: SES-20260728T205917Z-52E3B6B1
   actor_id: codex-r14-apk-20260729
   reason: 会话领取任务
+- transition_id: TRN-6BBFD5F7F4A1
+  timestamp: '2026-07-28T22:06:35Z'
+  release: R14
+  task_id: TASK-R14-008
+  story_id: STORY-R14-004
+  from_status: READY
+  to_status: IN_PROGRESS
+  session_id: SES-20260728T220632Z-FE7D82FD
+  actor_id: codex-r14-close-20260729
+  reason: 会话领取任务

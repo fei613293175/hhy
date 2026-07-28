@@ -1548,3 +1548,15 @@ sessions:
   closed_at: '2026-07-28T22:00:06Z'
   latest_checkpoint: .continuity/checkpoints/SES-20260728T205917Z-52E3B6B1/0008.yaml
   handoff_bundle: null
+- session_id: SES-20260728T220632Z-FE7D82FD
+  task_id: TASK-R14-008
+  story_id: STORY-R14-004
+  actor_id: codex-r14-close-20260729
+  status: ACTIVE
+  started_at: '2026-07-28T22:06:32Z'
+  record: .continuity/sessions/SES-20260728T220632Z-FE7D82FD.yaml
+  session_log: docs/03-continuity/sessions/2026-07/SES-20260728T220632Z-FE7D82FD.md
+  updated_at: '2026-07-28T22:09:40Z'
+  closed_at: null
+  latest_checkpoint: .continuity/checkpoints/SES-20260728T220632Z-FE7D82FD/0001.yaml
+  handoff_bundle: null

@@ -1,0 +1,79 @@
+protocol_version: '1.0'
+package_version: 1.2.3
+session_id: SES-20260728T220632Z-FE7D82FD
+status: ACTIVE
+actor:
+  id: codex-r14-close-20260729
+  kind: AI_OR_HUMAN
+  host: unknown
+release: R14
+task_id: TASK-R14-008
+story_id: STORY-R14-004
+goal: 一对一聊天核心版本关闭与无状态交接
+started_at: '2026-07-28T22:06:32Z'
+updated_at: '2026-07-28T22:09:49Z'
+takeover_of: null
+change_requests: []
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions: []
+  source: story+explicit
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  base_commit: 0a100b86f63829ef38ede5571d3e511219e67769
+  start_head: 0a100b86f63829ef38ede5571d3e511219e67769
+  upstream: origin/task/TASK-R03-001
+  initial_worktree_state: CLEAN
+lease:
+  duration_minutes: 240
+  renewed_at: '2026-07-28T22:09:40Z'
+  expires_at: '2026-07-29T02:09:40Z'
+checkpoint_sequence: 1
+latest_checkpoint: .continuity/checkpoints/SES-20260728T220632Z-FE7D82FD/0001.yaml
+session_log: docs/03-continuity/sessions/2026-07/SES-20260728T220632Z-FE7D82FD.md
+next_step: 提交会话领取记录，建立并推送r14-candidate-2eb8ac7可追溯Tag，在该Tag上workflow_dispatch R14 candidate=true
+context_pack:
+  yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
+  markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
+  manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+  context_hash: 6d5850810aaec4f65f8fd022b81224f974ed085796ea318c90c1ffc164effc2e
+  generated_at: '2026-07-28T22:09:45Z'
+handoff_bundle: null
+closure: null
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: RELEASE_CLOSE计划明确禁用并行；候选Tag、GitHub Run、视觉裁决和机器关闭共享同一Commit证据链

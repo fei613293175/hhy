@@ -1,0 +1,125 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260728T220632Z-FE7D82FD-0001
+session_id: SES-20260728T220632Z-FE7D82FD
+task_id: TASK-R14-008
+story_id: STORY-R14-004
+sequence: 1
+created_at: '2026-07-28T22:09:39Z'
+summary: TASK-R14-008已按唯一顺序领取；RELEASE_CLOSE计划确认R14需绑定2eb8ac74冻结TEST_APK源码执行一次GitHub真实交互候选，不重复本地重型构建
+next_step: 提交会话领取记录，建立并推送r14-candidate-2eb8ac7可追溯Tag，在该Tag上workflow_dispatch R14 candidate=true
+blockers: []
+decisions: []
+note: ''
+tests:
+- name: github-ci-r14-007-close
+  result: PASS
+  evidence: https://github.com/fei613293175/hhy/actions/runs/30403044197
+  note: R14-007关闭元数据CI成功
+- name: github-continuity-r14-007-close
+  result: PASS
+  evidence: https://github.com/fei613293175/hhy/actions/runs/30403044151
+  note: R14-007关闭元数据连续性成功
+- name: release-close-plan
+  result: PASS
+  evidence: scripts/hhy_workflow.py plan --intent release-close --release R14
+  note: MACHINE_CLOSE只运行一次候选并复用既有TEST_APK
+- name: candidate-commit-binding
+  result: PASS
+  evidence: releases/R14/RELEASE_MANIFEST.yaml+artifacts/apk/R14/APK_MANIFEST.yaml
+  note: 冻结候选Commit与TEST_APK均为2eb8ac74
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: 0a100b86f63829ef38ede5571d3e511219e67769
+  upstream: origin/task/TASK-R03-001
+  ahead: 0
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/ACTIVE_SESSION.yaml'
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/SESSION_INDEX.yaml'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/TASK_CLAIMS.yaml'
+  - ' M .continuity/TASK_TRANSITIONS.yaml'
+  - ' M CURRENT_STATUS.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+  - ' M catalogs/session_index.csv'
+  - ' M catalogs/task_transition_ledger.csv'
+  - ?? .continuity/sessions/SES-20260728T220632Z-FE7D82FD.yaml
+  - ?? docs/03-continuity/sessions/2026-07/SES-20260728T220632Z-FE7D82FD.md
+  recent_commits:
+  - "0a100b86f63829ef38ede5571d3e511219e67769\t2026-07-29T06:01:18+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(continuity): close TASK-R14-007\
+    \ as completed"
+  - "955ef0d95003a2a7ec81c9c518f85430838c803d\t2026-07-29T05:58:18+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(continuity): close APK\
+    \ delivery changes"
+  - "89d9b2da1e27e49e39b1a203d0aef0115071de2b\t2026-07-29T05:50:47+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(delivery): finalize\
+    \ R14 test APK"
+  - "32522a9da99366d320bc6bb65f7ca0b86867512d\t2026-07-29T05:29:17+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] fix(delivery): bind replacement\
+    \ apk route"
+  - "2eb8ac74b55c35833609c6eb6f330268a289bf3a\t2026-07-29T05:06:09+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(android): bump replacement\
+    \ apk identity"
+  - "8095d1e13f3961771a5364864a60c3d08d41340e\t2026-07-29T04:58:01+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(continuity): close TASK-R14-006\
+    \ as completed"
+  - "68021505de667d801b29022967ce78513706daef\t2026-07-29T04:50:32+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] test(r14): record scoped staging\
+    \ pass"
+  - "f58be15f82ed1e9eb95355d8e4df363417fff023\t2026-07-29T04:36:02+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] fix(r14): pin staging migration\
+    \ scope"
+project_fingerprint:
+  sha256: 851bcaaad6b9a1cde23cd52910b652d07ba2a4133869089e22fde415028a91f7
+  files: []
+  file_count: 0
+  payload:
+    base_commit: 0a100b86f63829ef38ede5571d3e511219e67769
+    files: []
+change_classification: {}
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+change_requests: []
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions: []
+  source: story+explicit
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: RELEASE_CLOSE计划明确禁用并行；候选Tag、GitHub Run、视觉裁决和机器关闭共享同一Commit证据链
+event_hash: f208d7679bf96c835d6b19cbda2b99a3eb2dec14cf0f8d6331763392d0ea06f8
