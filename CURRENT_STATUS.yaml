@@ -144,7 +144,7 @@ blocked_tasks:
 - TASK-R16-007
 - TASK-R16-008
 next_task: TASK-R14-004
-updated_at: '2026-07-28T16:33:34Z'
+updated_at: '2026-07-28T16:55:42Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -179,13 +179,13 @@ continuity:
   active_session_id: SES-20260728T154000Z-0458A14C
   actor_id: codex-r14-continuation-20260728
   story_id: STORY-R14-004
-  lease_expires_at: '2026-07-28T20:33:34Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260728T154000Z-0458A14C/0005.yaml
-  project_fingerprint: 96c08aec8fd08caf46028b05c901e84d1e34aa3e719b74dd5a8a47d5a2ff090e
+  lease_expires_at: '2026-07-28T20:55:42Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260728T154000Z-0458A14C/0006.yaml
+  project_fingerprint: c802051b3915d2256acf5148e389aedc18cdb11898483671e6c82764726de46f
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: 1ec2ec2e0037f38d6c3997ede5d1c304ce25d9dbc436379e7c53ab5fe835c146
-    generated_at: '2026-07-28T16:32:00Z'
+    context_hash: f3638b8970df44d55f7f191ac9d0a7fc7e3e8f7bc3a7f1551793f0c33749fe16
+    generated_at: '2026-07-28T16:35:49Z'
   handoff_bundle: null

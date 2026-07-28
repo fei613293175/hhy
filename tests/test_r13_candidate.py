@@ -1,4 +1,5 @@
 from pathlib import Path
+import re
 import unittest
 
 import yaml
@@ -80,13 +81,17 @@ class R13CandidateTest(unittest.TestCase):
         self.assertNotIn("candidate.phone||", self.fixture)
 
     def test_journey_captures_exactly_four_r13_surfaces(self) -> None:
+        r13_journey = self.journey[
+            self.journey.index("fun authenticatedReleaseJourneyProducesBoundFunctionalAndVisualEvidence"):
+            self.journey.index("private fun authenticatedR14ChatJourney")
+        ]
         captures = (
             'captureStable("01-favorites.png")',
             'captureStable("02-history.png")',
             'captureStable("03-share-sheet.png")',
             'captureStable("04-invalid-feedback-sheet.png")',
         )
-        self.assertEqual(4, self.journey.count('captureStable("'))
+        self.assertEqual(4, r13_journey.count('captureStable("'))
         for capture in captures:
             self.assertIn(capture, self.journey)
         for marker in ("hhy.sheet.r13.share", "hhy.sheet.r13.invalid-feedback"):
@@ -307,12 +312,23 @@ class R13CandidateTest(unittest.TestCase):
             self.assertNotIn("APP", row["forbidden_text"])
 
     def test_candidate_identity_and_request_are_new_and_monotonic(self) -> None:
-        self.assertIn("versionCode = 10222", BUILD.read_text(encoding="utf-8"))
-        self.assertIn("VERSION_CODE: Int = 10222", RELEASE_POLICY.read_text(encoding="utf-8"))
-        self.assertIn(
-            '"R13 test APK versionCode must remain monotonic", 10222',
+        build = BUILD.read_text(encoding="utf-8")
+        current_version_match = re.search(r"\bversionCode\s*=\s*(\d+)", build)
+        self.assertIsNotNone(current_version_match)
+        current_version = int(current_version_match.group(1))
+        self.assertGreaterEqual(current_version, 10222)
+        policy_version_match = re.search(
+            r"\bVERSION_CODE:\s*Int\s*=\s*(\d+)",
+            RELEASE_POLICY.read_text(encoding="utf-8"),
+        )
+        metadata_version_match = re.search(
+            r'assertEquals\("[^"]*versionCode must remain monotonic",\s*(\d+),\s*ReleasePolicy\.VERSION_CODE\)',
             VERSION_TEST.read_text(encoding="utf-8"),
         )
+        self.assertIsNotNone(policy_version_match)
+        self.assertIsNotNone(metadata_version_match)
+        self.assertEqual(current_version, int(policy_version_match.group(1)))
+        self.assertEqual(current_version, int(metadata_version_match.group(1)))
         request = yaml.safe_load(REQUEST.read_text(encoding="utf-8"))
         self.assertEqual("R13", request["release"])
         self.assertTrue(request["candidate"])

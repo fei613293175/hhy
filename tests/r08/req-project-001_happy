@@ -6,7 +6,7 @@
   "selectors": [
     "services/backend/boot/src/test/java/cc/orbexa/hhy/content/R08ServiceTest.java#createRequiresVerifiedOwnerEncryptsContactsAndWritesOneOutboxEvent",
     "services/backend/boot/src/test/java/cc/orbexa/hhy/content/R08PostgresStoreTest.java#projectFavoriteShareConversationIdempotencyAndOutboxUseRealPostgres",
-    "services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/R08ControllerContractTest.java#controllerExposesAllSevenPreviouslyMissingFrozenOperations",
+    "services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/R08ControllerContractTest.java#controllerExposesSixR08ContentAndPublicOperations",
     "apps/android/feature/project/src/test/java/cc/orbexa/hhy/project/R08ProjectStateTest.kt#formRequiresOnlyFrozenMandatoryFields"
   ],
   "fault_classes": ["project-lifecycle", "encrypted-contact", "real-postgresql", "frozen-android-form"]

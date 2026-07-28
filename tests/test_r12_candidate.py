@@ -1,5 +1,6 @@
 from pathlib import Path
 import json
+import re
 import unittest
 
 import yaml
@@ -197,10 +198,20 @@ class R12CandidateTest(unittest.TestCase):
         self.assertEqual("R12", archived["release"])
         self.assertEqual(10221, archived["version_code"])
         self.assertEqual("PASS", archived["build_status"])
-        self.assertIn("versionCode = 10222", build)
-        self.assertIn("VERSION_CODE: Int = 10222", release_policy)
-        self.assertIn('"R13 test APK versionCode must remain monotonic", 10222', version_test)
-        self.assertGreater(10222, archived["version_code"])
+        current_version_match = re.search(r"\bversionCode\s*=\s*(\d+)", build)
+        self.assertIsNotNone(current_version_match)
+        current_version = int(current_version_match.group(1))
+        self.assertGreaterEqual(current_version, 10222)
+        self.assertGreater(current_version, archived["version_code"])
+        policy_version_match = re.search(r"\bVERSION_CODE:\s*Int\s*=\s*(\d+)", release_policy)
+        metadata_version_match = re.search(
+            r'assertEquals\("[^"]*versionCode must remain monotonic",\s*(\d+),\s*ReleasePolicy\.VERSION_CODE\)',
+            version_test,
+        )
+        self.assertIsNotNone(policy_version_match)
+        self.assertIsNotNone(metadata_version_match)
+        self.assertEqual(current_version, int(policy_version_match.group(1)))
+        self.assertEqual(current_version, int(metadata_version_match.group(1)))
 
 
 if __name__ == "__main__":
