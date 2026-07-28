@@ -88,3 +88,10 @@ R14旧可观测性验收PASS但冻结Commit早于CR-0464举报原因目录，REL
 - Status：`IMPLEMENTING`
 - Session：`SES-20260728T195020Z-B1DAB2D3`
 - Note：验收入口已加入CR-0464祖先校验、生成一致性检查和目录源机器证据，准备冻结脚本Commit并在obx-test重跑隔离Staging。
+
+## 状态记录 · 2026-07-28T20:32:20Z
+
+- Actor：`codex-r14-observability-20260729`
+- Status：`SUPERSEDED`
+- Session：`SES-20260728T195020Z-B1DAB2D3`
+- Note：第二轮现场确认主分支保留V045至V047时R14空库会升级到V047；修复需新增Compose、回归测试和Problem Registry范围，CR-0469不能事后扩权，改由唯一替代CR-0470承接全部目录与发布范围验收。

@@ -11,6 +11,7 @@ ROLLBACK_TAG=${HHY_R14_ROLLBACK_TAG:-rollback-f4b7d485}
 REPORT_CATALOG_SOURCE_COMMIT=${HHY_R14_REPORT_CATALOG_SOURCE_COMMIT:-054da178f90b752e23b33b8de49c22c6c8421026}
 REPORT_CATALOG_JAVA=services/backend/content/src/main/java/cc/orbexa/hhy/content/R14ChatReportReasonCatalog.java
 REPORT_CATALOG_KOTLIN=apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ChatReportReasons.kt
+EXPECTED_FLYWAY_VERSION=044
 HTTP_PORT=${HHY_R14_SMOKE_HTTP_PORT:-38114}
 PROMETHEUS_PORT=${HHY_R14_PROMETHEUS_PORT:-39618}
 COMPOSE_FILE="$ROOT/infra/staging/r14-smoke/docker-compose.yml"
@@ -24,6 +25,7 @@ test "$PROMETHEUS_PORT" = 39618
 test "${HHY_R14_ALERTMANAGER_PORT:-39619}" = 39619
 test "$ROLLBACK_COMMIT" = f4b7d4854e10dedd40d4b40cdb2d79e57687e9b7
 test "$REPORT_CATALOG_SOURCE_COMMIT" = 054da178f90b752e23b33b8de49c22c6c8421026
+test "${HHY_R14_FLYWAY_TARGET:-44}" = 44
 
 export HHY_SMOKE_ID=${HHY_SMOKE_ID:-$CURRENT_TAG}
 export POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-r14-compose-inspection-0000000000000000}
@@ -35,6 +37,7 @@ export HHY_ADMIN_JWT_SECRET=${HHY_ADMIN_JWT_SECRET:-r14-admin-jwt-00000000000000
 export HHY_ADMIN_MFA_ROOT_SECRET=${HHY_ADMIN_MFA_ROOT_SECRET:-r14-admin-mfa-000000000000000000000000006}
 export HHY_ADMIN_IDEMPOTENCY_HMAC_SECRET=${HHY_ADMIN_IDEMPOTENCY_HMAC_SECRET:-r14-admin-idem-00000000000000000000000007}
 export HHY_R14_SMOKE_SUBNET=${HHY_R14_SMOKE_SUBNET:-172.31.238.0/24}
+export HHY_R14_FLYWAY_TARGET=${HHY_R14_FLYWAY_TARGET:-44}
 
 API=
 POSTGRES=
@@ -191,6 +194,7 @@ capture_baseline() {
     echo release=R14
     echo frozen_commit="$FROZEN_COMMIT"
     echo rollback_commit="$ROLLBACK_COMMIT"
+    echo flyway_target="$HHY_R14_FLYWAY_TARGET"
     echo report_catalog_source_commit="$REPORT_CATALOG_SOURCE_COMMIT"
     echo report_catalog_java_sha256="$(sha256sum "$REPORT_CATALOG_JAVA" | awk '{print $1}')"
     echo report_catalog_kotlin_sha256="$(sha256sum "$REPORT_CATALOG_KOTLIN" | awk '{print $1}')"
@@ -207,7 +211,7 @@ capture_baseline() {
   docker exec "$API" curl -fsS http://127.0.0.1:9091/actuator/health/liveness > "$EVIDENCE/liveness.json"
   docker exec "$API" curl -fsS http://127.0.0.1:9091/actuator/health/readiness > "$EVIDENCE/readiness.json"
   record_database_state > "$EVIDENCE/database.txt"
-  test "$(sed -n '1p' "$EVIDENCE/database.txt")" = 044
+  test "$(sed -n '1p' "$EVIDENCE/database.txt")" = "$EXPECTED_FLYWAY_VERSION"
   curl -sS -D "$EVIDENCE/trace-headers.txt" -o "$EVIDENCE/public-status.json" \
     -H 'X-Request-Id: r14-stage-request-001' \
     -H 'X-Trace-Id: 3344556677889900aabbccddeeff1122' \
@@ -328,7 +332,7 @@ exercise_rollback() {
     echo rollback_runtime_image="$rollback_image_id"
     test "$(docker inspect "$POSTGRES" --format '{{.Id}}')" = "$before_pg"
     test "$(docker inspect "$POSTGRES" --format '{{range .Mounts}}{{if eq .Destination "/var/lib/postgresql/data"}}{{.Name}}{{end}}{{end}}')" = "$before_volume"
-    test "$(record_database_state | sed -n '1p')" = 044
+    test "$(record_database_state | sed -n '1p')" = "$EXPECTED_FLYWAY_VERSION"
     export HHY_SMOKE_ID="$CURRENT_TAG"
     "${COMPOSE[@]}" up -d --no-deps --no-build api >/dev/null
     refresh_containers
@@ -361,6 +365,7 @@ finalize_evidence() {
     echo task=TASK-R14-006
     echo frozen_commit="$FROZEN_COMMIT"
     echo rollback_commit="$ROLLBACK_COMMIT"
+    echo flyway_target="$HHY_R14_FLYWAY_TARGET"
     cat "$EVIDENCE/report-catalog.txt"
     echo compose_project="$PROJECT"
     echo current_image="$current_image"

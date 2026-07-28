@@ -1,9 +1,9 @@
 protocol_version: '1.0'
 cr_id: CR-0469
 title: 按CR-0464目录源重建R14隔离Staging验收
-status: IMPLEMENTING
+status: SUPERSEDED
 created_at: '2026-07-28T20:13:49Z'
-updated_at: '2026-07-28T20:16:08Z'
+updated_at: '2026-07-28T20:32:20Z'
 requester_actor_id: codex-r14-observability-20260729
 approver_actor_id: project-owner-continuous-development-20260729
 task_id: TASK-R14-006
@@ -43,6 +43,11 @@ decision_log:
   actor_id: codex-r14-observability-20260729
   status: IMPLEMENTING
   note: 验收入口已加入CR-0464祖先校验、生成一致性检查和目录源机器证据，准备冻结脚本Commit并在obx-test重跑隔离Staging。
+  session_id: SES-20260728T195020Z-B1DAB2D3
+- at: '2026-07-28T20:32:20Z'
+  actor_id: codex-r14-observability-20260729
+  status: SUPERSEDED
+  note: 第二轮现场确认主分支保留V045至V047时R14空库会升级到V047；修复需新增Compose、回归测试和Problem Registry范围，CR-0469不能事后扩权，改由唯一替代CR-0470承接全部目录与发布范围验收。
   session_id: SES-20260728T195020Z-B1DAB2D3
 session_ids:
 - SES-20260728T195020Z-B1DAB2D3

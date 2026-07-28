@@ -1,0 +1,184 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260728T195020Z-B1DAB2D3-0004
+session_id: SES-20260728T195020Z-B1DAB2D3
+task_id: TASK-R14-006
+story_id: STORY-R14-004
+sequence: 4
+created_at: '2026-07-28T20:35:26Z'
+summary: CR-0470唯一替代CR-0469：R14隔离候选已前置锁定Flyway 44并加入跨版本迁移污染回归与PROB-0143
+next_step: 提交推送CR-0470实现，清理第二轮隔离容器与卷，远端更新到新冻结Commit后执行第三轮且最后一次R14 Staging完整验收
+blockers: []
+decisions: []
+note: ''
+tests:
+- name: r14-staging-release-scope
+  result: PASS
+  evidence: python -m unittest tests.test_r14_staging_release_scope
+  note: 2 tests PASS
+- name: report-catalog-generated-check
+  result: PASS
+  evidence: python scripts/generate_chat_report_reason_catalog.py --check
+  note: R14_REPORT_REASON_CATALOG_OK
+- name: report-catalog-source-fallback
+  result: PASS
+  evidence: git diff CR-0464-source..HEAD -- catalog files
+  note: three catalog files unchanged
+- name: program-execution-plan
+  result: PASS
+  evidence: python scripts/check_program_execution_plan.py --json
+  note: 31 releases, 0 errors
+- name: r14-staging-script-syntax
+  result: PASS
+  evidence: ssh obx-test bash -n -s
+  note: bash syntax PASS
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: 89416d1e59cb8dbc61322ad15587e24a34784276
+  upstream: origin/task/TASK-R03-001
+  ahead: 0
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/change_requests/CR-0469.yaml'
+  - ' M .continuity/sessions/SES-20260728T195020Z-B1DAB2D3.yaml'
+  - ' M catalogs/change_request_index.csv'
+  - ' M catalogs/session_index.csv'
+  - ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
+  - ' M docs/03-continuity/change-requests/CR-0469-按CR-0464目录源重建R14隔离Staging验收.md'
+  - ' M infra/staging/r14-smoke/docker-compose.yml'
+  - ' M scripts/run_r14_staging_acceptance.sh'
+  - ?? .continuity/change_requests/CR-0470.yaml
+  - ?? docs/03-continuity/change-requests/CR-0470-替代CR-0469锁定R14目录与Flyway发布范围验收.md
+  - ?? tests/test_r14_staging_release_scope.py
+  recent_commits:
+  - "89416d1e59cb8dbc61322ad15587e24a34784276\t2026-07-29T04:27:21+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] test(r14): verify catalog\
+    \ without host Python"
+  - "09d337e272faedc23154a15e42adbf22dd692e72\t2026-07-29T04:17:22+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] test(r14): bind staging to\
+    \ report catalog source"
+  - "446316f0c1d6347e300fb7c6544bd762dd430286\t2026-07-29T04:02:22+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] test(continuity): decouple\
+    \ recovery history from active session"
+  - "e61cdcd4493ccf86d53682da10b23c516ebe8925\t2026-07-29T03:31:48+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(continuity): close TASK-R14-005\
+    \ as completed"
+  - "109c0294843f696327c9a0f777826018bf562fc0\t2026-07-29T03:27:46+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(r14): close chat test\
+    \ changes"
+  - "f9ed32b1d8d167ab5553401eb1f79c4a8eb0e5f2\t2026-07-29T03:22:40+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] docs(r14): archive chat reliability\
+    \ evidence"
+  - "dbd71c6673808e3f8a9e37f7f77efa97bef9ead9\t2026-07-29T03:03:42+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] test(r14): isolate replay\
+    \ stubbing"
+  - "5aa6ce3b76afaa5addeadca3d38e9bcf9ccebb94\t2026-07-29T02:57:02+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] test(r14): import PostgreSQL\
+    \ assertion"
+project_fingerprint:
+  sha256: d3b43f63789b87358c91d7c32ac95863fbf0bdf89108461326b479d658eda4ef
+  files:
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/change-requests/CR-0468-修复历史序列恢复测试绑定当前会话导致后续任务CI失败.md
+  - docs/03-continuity/change-requests/CR-0469-按CR-0464目录源重建R14隔离Staging验收.md
+  - docs/03-continuity/change-requests/CR-0470-替代CR-0469锁定R14目录与Flyway发布范围验收.md
+  - infra/staging/r14-smoke/docker-compose.yml
+  - scripts/run_r14_staging_acceptance.sh
+  - tests/test_continuity_sequence_recovery.py
+  - tests/test_r14_staging_release_scope.py
+  file_count: 8
+  payload:
+    base_commit: e61cdcd4493ccf86d53682da10b23c516ebe8925
+    files:
+    - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
+      state: FILE
+      size: 243395
+      sha256: fc555bd10fb9fa9cbce7eb8c636306a98c7b4bea527bd360925f9dc2d87e11e9
+    - path: docs/03-continuity/change-requests/CR-0468-修复历史序列恢复测试绑定当前会话导致后续任务CI失败.md
+      state: FILE
+      size: 3759
+      sha256: dc1a9a8709de4a7fac29dc41fc14148874f6a10ab287194df9fce806c168562e
+    - path: docs/03-continuity/change-requests/CR-0469-按CR-0464目录源重建R14隔离Staging验收.md
+      state: FILE
+      size: 3771
+      sha256: 6a202fac936d842c9852159d0b049865f7c6db4a5a000b8c08feb9ef355a7cd6
+    - path: docs/03-continuity/change-requests/CR-0470-替代CR-0469锁定R14目录与Flyway发布范围验收.md
+      state: FILE
+      size: 3539
+      sha256: 519c44e59be7ddb604e7463d1d8580231c50a919ebbda98e5de74a354df9da9f
+    - path: infra/staging/r14-smoke/docker-compose.yml
+      state: FILE
+      size: 4520
+      sha256: 716b42201ed95adab6bff5df891354b069327716ae9998652c29292ad25e9f05
+    - path: scripts/run_r14_staging_acceptance.sh
+      state: FILE
+      size: 21122
+      sha256: 05e408fcb8535913bab2ff7af9c29dc9b0b1e8477b850a3deade550b489b0a15
+    - path: tests/test_continuity_sequence_recovery.py
+      state: FILE
+      size: 8703
+      sha256: d717e5c8a96295473d4b214bdf73e4ba99f11736bb550efa7007aca7cb7e6e8a
+    - path: tests/test_r14_staging_release_scope.py
+      state: FILE
+      size: 1153
+      sha256: dad9751ebe2a8b66e8ebffe6fc1353106646855ebbd56cf422205eb26a50f2c3
+change_classification:
+  continuity:
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/change-requests/CR-0468-修复历史序列恢复测试绑定当前会话导致后续任务CI失败.md
+  - docs/03-continuity/change-requests/CR-0469-按CR-0464目录源重建R14隔离Staging验收.md
+  - docs/03-continuity/change-requests/CR-0470-替代CR-0469锁定R14目录与Flyway发布范围验收.md
+  infrastructure:
+  - infra/staging/r14-smoke/docker-compose.yml
+  code:
+  - scripts/run_r14_staging_acceptance.sh
+  tests:
+  - tests/test_continuity_sequence_recovery.py
+  - tests/test_r14_staging_release_scope.py
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+change_requests:
+- CR-0468
+- CR-0469
+- CR-0470
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions: []
+  source: story+explicit
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 第三轮共享同一隔离Compose project和告警注入状态，且属于跨版本迁移边界与最终集成，必须主控串行
+event_hash: 788823476f63fdb7325a994f8a366c21e597e830699d540624066dfe2e047d34

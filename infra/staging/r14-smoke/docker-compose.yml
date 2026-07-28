@@ -25,6 +25,7 @@ services:
     restart: unless-stopped
     environment:
       SPRING_PROFILES_ACTIVE: staging
+      SPRING_FLYWAY_TARGET: ${HHY_R14_FLYWAY_TARGET:-44}
       HHY_PHASE: staging
       HHY_DB_URL: jdbc:postgresql://postgres:5432/hhy_r14_smoke
       HHY_DB_USER: hhy_r14_smoke

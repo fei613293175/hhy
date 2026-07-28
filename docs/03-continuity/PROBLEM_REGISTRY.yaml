@@ -2036,3 +2036,15 @@ problems:
   do_not_repeat:
   - 历史恢复、交接或关闭记录测试不得把曾经ACTIVE的会话永久断言为当前会话
   - 不得为消除生命周期假失败放宽R14至R32顺序门禁或删除跳版负向回归
+- id: PROB-0143
+  title: R14隔离Staging自动应用后续版本迁移导致发布范围漂移
+  status: SOLVED
+  root_cause: R14专用Compose未在应用启动前设置Flyway target，只在启动后断言数据库为V044；历史误入R16留下V045至V047后，当前主分支构建的R14镜像会把空库合法升级到V047，使后续版本数据库事实进入R14候选。
+  resolution: CR-0470唯一替代CR-0469，在R14 Compose前置固定SPRING_FLYWAY_TARGET=44，验收脚本固定导出该值并继续要求现场版本044；新增静态回归，后续R15至R32迁移可以留在主分支但不能进入R14隔离数据库。
+  regression_checks:
+  - tests/test_r14_staging_release_scope.py必须证明Compose在应用启动前固定Flyway target 44
+  - scripts/run_r14_staging_acceptance.sh必须同时记录flyway_target=44并验证数据库现场版本044
+  - obx-test隔离空库必须在当前主分支含V045至V047时仍只应用V001至V044
+  do_not_repeat:
+  - 不得用应用启动后的版本断言替代启动前发布范围约束
+  - 不得为了让旧版本验收通过而把后续迁移版本放宽为该旧版本的合法现场状态

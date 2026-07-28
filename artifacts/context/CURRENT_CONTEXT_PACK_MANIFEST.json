@@ -1,19 +1,19 @@
 {
   "version": "1.0",
-  "generated_at": "2026-07-28T20:26:34Z",
-  "context_hash": "9919210f118c8545f090b81634803a8ca4e11b1bed4404d31bfcb63b0f45f8de",
+  "generated_at": "2026-07-28T20:35:31Z",
+  "context_hash": "6582f6b204057e4d37f8cf2a872cf3f685b2ec9bc7eca86dd5e147f566d3ee33",
   "fingerprint_mode": "SESSION_DELTA",
   "project_fingerprint": {
-    "sha256": "44f0e9aa7052e0d132fc09f4a99f52b54e063dc7dd24c0b44386e18b1da71dec",
-    "file_count": 5
+    "sha256": "d3b43f63789b87358c91d7c32ac95863fbf0bdf89108461326b479d658eda4ef",
+    "file_count": 8
   },
   "yaml": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.yaml",
-    "sha256": "57c16383eeac764bc9f2c0ff178f872217c76f9a0da1c248c8778437090045e7"
+    "sha256": "0feb0ea1e4c7e1df7b64cfaf5d2a5f4e338949edd1291db0cbb1ffe79f7504c1"
   },
   "markdown": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.md",
-    "sha256": "625ee05acb34495f46a0932c224333e00645fa6df3e710d29035ff0a17fc7ea0"
+    "sha256": "f0cf0d82d5ef6c9d8d0d482265d052f8bf1811d0229fe0e9ebd994a1a065ec5a"
   },
   "sources": [
     {
@@ -28,7 +28,7 @@
     },
     {
       "path": "CURRENT_STATUS.yaml",
-      "sha256": "5ab65a417ce710a393ff276b80b4a5959f97ee16428714647d6bfd2b8b489ab9",
+      "sha256": "067147a894a31c37e291cc47553a2f17c6f5e4a7b5beba4318d41e194d7f7cb6",
       "bytes": 4794
     },
     {
@@ -48,8 +48,8 @@
     },
     {
       "path": "docs/03-continuity/PROBLEM_REGISTRY.yaml",
-      "sha256": "a462ede401c92b239c4898c7131af068be535f0567225b77bec439a60e447edf",
-      "bytes": 242234
+      "sha256": "fc555bd10fb9fa9cbce7eb8c636306a98c7b4bea527bd360925f9dc2d87e11e9",
+      "bytes": 243395
     },
     {
       "path": "docs/03-continuity/REUSABLE_PATTERNS.md",
@@ -83,12 +83,12 @@
     },
     {
       "path": ".continuity/EVENT_LOG.jsonl",
-      "sha256": "177793e51298657614dce024d61a7277e5de277eb05545e3ad7169c6d52327e4",
-      "bytes": 2546698
+      "sha256": "4496c2308deb8efce2456d2b178f0d0fcafe71f611eb3621ded77769a32886c4",
+      "bytes": 2549635
     },
     {
       "path": ".continuity/SESSION_INDEX.yaml",
-      "sha256": "ad245ecdeb01996c6241180c453310edde3c280a843a0085799196fbc4be5570",
+      "sha256": "0b25b6aa0a316a6189dd7a4f64eaf94e76b811eeb3d063e14fbf750dfb7c5dd6",
       "bytes": 65299
     },
     {
@@ -103,12 +103,12 @@
     },
     {
       "path": ".continuity/CHANGE_REQUEST_INDEX.yaml",
-      "sha256": "bec765f56a6be31cb63e06d08242dec86da741d058898794931eacaee34da54c",
-      "bytes": 1750880
+      "sha256": "bb9a6b40dcac4cd7626be9a21345c0ea44e4236848eb579703de6d2eecd4ff68",
+      "bytes": 1754794
     },
     {
       "path": ".continuity/ACTIVE_SESSION.yaml",
-      "sha256": "3dfd6fcb48d2140351e367c249aa3adb40695cab4305075c464879547bbb7db8",
+      "sha256": "05e0fb8603fd4f881b1836245863b7ab8b7b26a070573d35b6c03318c666a442",
       "bytes": 547
     },
     {
@@ -163,13 +163,13 @@
     },
     {
       "path": "docs/03-continuity/sessions/2026-07/SES-20260728T195020Z-B1DAB2D3.md",
-      "sha256": "6916b8f2ba4720380403e5c948121d3e9eb14c327dc418457cc92c037362dc56",
-      "bytes": 5113
+      "sha256": "bcfcc1144baf77394b6836dd9ae64c85802fdbc308e9d8c3543e37f1a76fa8ac",
+      "bytes": 6719
     },
     {
-      "path": ".continuity/checkpoints/SES-20260728T195020Z-B1DAB2D3/0003.yaml",
-      "sha256": "31ef4ba10394114b19f1bea73e21547f0892a49038d0afdaa470c2b94f042b8b",
-      "bytes": 5588
+      "path": ".continuity/checkpoints/SES-20260728T195020Z-B1DAB2D3/0004.yaml",
+      "sha256": "8bccd3cc7a1b520958a1d35921b1ce683de312bb1a9d81a547f057b23f7f99df",
+      "bytes": 7525
     },
     {
       "path": "docs/03-continuity/change-requests/CR-0468-修复历史序列恢复测试绑定当前会话导致后续任务CI失败.md",
@@ -178,8 +178,13 @@
     },
     {
       "path": "docs/03-continuity/change-requests/CR-0469-按CR-0464目录源重建R14隔离Staging验收.md",
-      "sha256": "7cdaad3bba956d85e1692ac9392a0d073b1c8568a1fca0356b0c5abd24e862fb",
-      "bytes": 3368
+      "sha256": "6a202fac936d842c9852159d0b049865f7c6db4a5a000b8c08feb9ef355a7cd6",
+      "bytes": 3771
+    },
+    {
+      "path": "docs/03-continuity/change-requests/CR-0470-替代CR-0469锁定R14目录与Flyway发布范围验收.md",
+      "sha256": "519c44e59be7ddb604e7463d1d8580231c50a919ebbda98e5de74a354df9da9f",
+      "bytes": 3539
     }
   ]
 }
