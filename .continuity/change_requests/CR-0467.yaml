@@ -1,0 +1,45 @@
+protocol_version: '1.0'
+cr_id: CR-0467
+title: 补录R14专项测试原始日志归档范围
+status: IMPLEMENTING
+created_at: '2026-07-28T19:20:14Z'
+updated_at: '2026-07-28T19:21:41Z'
+requester_actor_id: codex-r14-testing-20260729
+approver_actor_id: codex-r14-evidence-review-20260729
+task_id: TASK-R14-005
+session_id: SES-20260728T182015Z-7EB6FEF2
+user_request: 持续完成R14专项测试并保留可跨AI复核的机器证据
+reason: CR-0465已列evidence.json和报告但遗漏其三份原始日志精确路径；门禁要求先补齐范围再归档
+original_rule: CR-0465影响范围已包含专项报告和evidence.json，但未显式列出evidence引用的backend-java21.log、postgresql17.log和android-module.log
+new_rule: 不新增测试或规则，只把CR-0465机器证据已经引用的三份只读原始日志以精确路径和SHA-256归档，任何日志变化由evidence校验失败
+impact_summary: 补齐既有R14专项证据链的三份原始日志范围，不改代码、产品、合同、测试结论或门禁语义
+impact:
+  files:
+  - artifacts/validation/r14-test-evidence/backend-java21.log
+  - artifacts/validation/r14-test-evidence/postgresql17.log
+  - artifacts/validation/r14-test-evidence/android-module.log
+  pages: []
+  apis: []
+  database: []
+  configuration: []
+  ledger: []
+  tests:
+  - scripts/run_r14_specialized_matrix.py --check验证三日志存在、非空、SHA一致
+  releases:
+  - R14
+  migration_and_compatibility: 无迁移；日志绑定冻结Commit dbd71c66并由evidence.json哈希校验
+user_confirmation: 项目所有者要求开发过程由AI自行测试审核、保留文档并持续推进，机器证据不得依赖聊天
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-28T19:21:10Z'
+  note: 仅补录CR-0465已引用日志的精确归档路径；哈希、冻结Commit和校验器已存在，不形成第二测试事实源
+machine_record: .continuity/change_requests/CR-0467.yaml
+document: docs/03-continuity/change-requests/CR-0467-补录R14专项测试原始日志归档范围.md
+decision_log:
+- at: '2026-07-28T19:21:41Z'
+  actor_id: codex-r14-testing-20260729
+  status: IMPLEMENTING
+  note: 三份dbd71c66固定环境日志已复制到批准路径，evidence.json对每份日志执行SHA-256绑定并由六项矩阵校验PASS
+  session_id: SES-20260728T182015Z-7EB6FEF2
+session_ids:
+- SES-20260728T182015Z-7EB6FEF2

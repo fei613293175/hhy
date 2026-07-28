@@ -1,9 +1,9 @@
 protocol_version: '1.0'
 cr_id: CR-0465
 title: R14六项聊天专项测试自动化与故障证据闭环
-status: IMPLEMENTING
+status: IMPLEMENTED
 created_at: '2026-07-28T18:28:03Z'
-updated_at: '2026-07-28T18:40:52Z'
+updated_at: '2026-07-28T19:18:40Z'
 requester_actor_id: codex-r14-testing-20260729
 approver_actor_id: codex-r14-quality-review-20260729
 task_id: TASK-R14-005
@@ -53,5 +53,12 @@ decision_log:
   status: IMPLEMENTING
   note: 六项测试适配器、统一runner和新增Java故障注入用例已实现；本地清单与选择器4项PASS，准备冻结首个Commit并在obx-test验证
   session_id: SES-20260728T182015Z-7EB6FEF2
+- at: '2026-07-28T19:18:40Z'
+  actor_id: codex-r14-testing-20260729
+  status: IMPLEMENTED
+  note: 六项正式测试均已绑定真实选择器；精确Commit dbd71c66在obx-test Java21后端31项、PostgreSQL17五个隔离真实用例、Android固定镜像247任务全部PASS，日志SHA与evidence已归档
+  session_id: SES-20260728T182015Z-7EB6FEF2
 session_ids:
 - SES-20260728T182015Z-7EB6FEF2
+implementation_commits:
+- dbd71c6673808e3f8a9e37f7f77efa97bef9ead9
