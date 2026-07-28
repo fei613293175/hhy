@@ -1641,3 +1641,27 @@ App构建,app_release_approvals,9,updated_at,timestamptz,否,now(),,统一审计
 后台,export_download_logs,9,result,varchar(32),否,'ISSUED',INDEX,结果,R30,FROZEN_V1.2.2
 后台,export_download_logs,10,request_id,varchar(64),是,,INDEX,请求ID,R30,FROZEN_V1.2.2
 后台,export_download_logs,11,created_at,timestamptz,否,now(),INDEX,创建时间,R30,FROZEN_V1.2.2
+实时通信,websocket_user_sequences,1,user_id,bigint,否,,PRIMARY KEY;FOREIGN KEY hhy.users(id),用户,R14,FROZEN_V1.2.2
+实时通信,websocket_user_sequences,2,high_watermark,bigint,否,0,,非负且只增不减,R14,FROZEN_V1.2.2
+实时通信,websocket_user_sequences,3,created_at,timestamptz,否,now(),,创建时间,R14,FROZEN_V1.2.2
+实时通信,websocket_user_sequences,4,updated_at,timestamptz,否,now(),INDEX,更新时间,R14,FROZEN_V1.2.2
+实时通信,websocket_deliveries,1,id,bigint,否,generated,PRIMARY KEY,投递标识,R14,FROZEN_V1.2.2
+实时通信,websocket_deliveries,2,event_id,uuid,否,,UNIQUE,协议事件标识,R14,FROZEN_V1.2.2
+实时通信,websocket_deliveries,3,user_id,bigint,否,,INDEX;FOREIGN KEY hhy.users(id),目标用户,R14,FROZEN_V1.2.2
+实时通信,websocket_deliveries,4,server_sequence,bigint,否,,UNIQUE(user_id server_sequence),用户级连续序列,R14,FROZEN_V1.2.2
+实时通信,websocket_deliveries,5,event_type,varchar(64),否,,,冻结事件类型,R14,FROZEN_V1.2.2
+实时通信,websocket_deliveries,6,conversation_id,bigint,是,,INDEX;FOREIGN KEY hhy.conversations(id),会话,R14,FROZEN_V1.2.2
+实时通信,websocket_deliveries,7,affected_scope,varchar(32),否,,INDEX,CHAT或NOTIFICATIONS,R14,FROZEN_V1.2.2
+实时通信,websocket_deliveries,8,envelope,jsonb,否,,,完整冻结信封,R14,FROZEN_V1.2.2
+实时通信,websocket_deliveries,9,ack_required,boolean,否,false,INDEX,是否要求确认,R14,FROZEN_V1.2.2
+实时通信,websocket_deliveries,10,acked_at,timestamptz,是,,,有效ACK时间,R14,FROZEN_V1.2.2
+实时通信,websocket_deliveries,11,delivery_attempts,smallint,否,0,INDEX,初投加重投最多6次,R14,FROZEN_V1.2.2
+实时通信,websocket_deliveries,12,first_delivered_at,timestamptz,是,,,首次实际推送时间,R14,FROZEN_V1.2.2
+实时通信,websocket_deliveries,13,last_delivered_at,timestamptz,是,,INDEX,最近实际推送时间,R14,FROZEN_V1.2.2
+实时通信,websocket_deliveries,14,expires_at,timestamptz,否,,INDEX,至少保留72小时,R14,FROZEN_V1.2.2
+实时通信,websocket_deliveries,15,created_at,timestamptz,否,now(),INDEX,创建时间,R14,FROZEN_V1.2.2
+实时通信,websocket_gap_watermarks,1,user_id,bigint,否,,PRIMARY KEY;FOREIGN KEY hhy.users(id),用户,R14,FROZEN_V1.2.2
+实时通信,websocket_gap_watermarks,2,expired_through_sequence,bigint,否,0,,已过期安全水位只增不减,R14,FROZEN_V1.2.2
+实时通信,websocket_gap_watermarks,3,affected_scopes,varchar(32)[],否,{},,CHAT或NOTIFICATIONS集合,R14,FROZEN_V1.2.2
+实时通信,websocket_gap_watermarks,4,created_at,timestamptz,否,now(),,创建时间,R14,FROZEN_V1.2.2
+实时通信,websocket_gap_watermarks,5,updated_at,timestamptz,否,now(),INDEX,更新时间,R14,FROZEN_V1.2.2

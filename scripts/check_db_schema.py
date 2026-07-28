@@ -44,8 +44,8 @@ if "V014__r01_idempotency_scope_capacity.sql" not in {path.name for path in root
     errors.append("migration chain is missing V014 R01 idempotency scope capacity")
 if "V015__r01_totp_replay_guard.sql" not in {path.name for path in root_migrations}:
     errors.append("migration chain is missing V015 R01 TOTP replay guard")
-if len(catalog_tables) != 200:
-    errors.append(f"catalog table count expected=200 actual={len(catalog_tables)}")
+if len(catalog_tables) != 203:
+    errors.append(f"catalog table count expected=203 actual={len(catalog_tables)}")
 if catalog_tables != dictionary_tables:
     errors.append(f"dictionary drift missing={sorted(catalog_tables - dictionary_tables)[:10]} extra={sorted(dictionary_tables - catalog_tables)[:10]}")
 if catalog_tables != created_tables:
@@ -57,11 +57,11 @@ else:
         if sha256(source) != sha256(target):
             errors.append(f"runtime migration hash drift: {target.name}")
 verification = (ROOT / "database/verification/verify_baseline.sql").read_text(encoding="utf-8")
-if "v_count NOT IN (198,199,200)" not in verification:
-    errors.append("verify_baseline.sql does not preserve 198-to-200 migration compatibility")
+if "v_count NOT IN (198,199,200,203)" not in verification:
+    errors.append("verify_baseline.sql does not preserve 198/199/200-to-203 migration compatibility")
 migration_smoke = (ROOT / "scripts/run_postgres_migration_smoke.sh").read_text(encoding="utf-8")
-if '"$TABLE_COUNT" == "200"' not in migration_smoke:
-    errors.append("current migration smoke does not enforce exactly 200 tables")
+if '"$TABLE_COUNT" == "203"' not in migration_smoke:
+    errors.append("current migration smoke does not enforce exactly 203 tables")
 if "assert_balanced_transaction" not in verification or "balance_snapshots" not in verification:
     errors.append("verify_baseline.sql does not enforce P00 accounting/snapshot invariants")
 
@@ -321,6 +321,10 @@ r14_required_files = (
     "database/tests/r14_chat_invariants.sql",
     "scripts/run_r14_database_invariants.sh",
     "docs/01-architecture/adr/ADR-009-R14一对一聊天数据不变量.md",
+    "database/migrations/V044__r14_websocket_reliability.sql",
+    "services/backend/boot/src/main/resources/db/migration/V044__r14_websocket_reliability.sql",
+    "database/rollback/U044__r14_websocket_reliability_DEV_ONLY.sql",
+    "database/tests/r14_websocket_reliability.sql",
 )
 for relative in r14_required_files:
     if not (ROOT / relative).is_file():
@@ -382,6 +386,48 @@ if all((ROOT / relative).is_file() for relative in r14_required_files):
 
     if "run_r14_database_invariants.sh" not in migration_smoke:
         errors.append("migration smoke missing R14 invariant runner")
+
+    r14_ws_migration = (ROOT / r14_required_files[6]).read_text(encoding="utf-8")
+    for marker in (
+        "websocket_user_sequences",
+        "websocket_deliveries",
+        "websocket_gap_watermarks",
+        "uq_r14_ws_delivery_sequence",
+        "guard_r14_ws_sequence",
+        "guard_r14_ws_delivery",
+        "guard_r14_ws_gap_watermark",
+        "interval '72 hours'",
+    ):
+        if marker not in r14_ws_migration:
+            errors.append(f"V044 missing R14 WebSocket reliability marker: {marker}")
+
+    r14_ws_rollback = (ROOT / r14_required_files[8]).read_text(encoding="utf-8")
+    for marker in (
+        "DEV/TEST only",
+        "DROP TABLE IF EXISTS hhy.websocket_gap_watermarks",
+        "DROP TABLE IF EXISTS hhy.websocket_deliveries",
+        "DROP TABLE IF EXISTS hhy.websocket_user_sequences",
+    ):
+        if marker not in r14_ws_rollback:
+            errors.append(f"U044 missing R14 WebSocket rollback marker: {marker}")
+
+    r14_ws_test = (ROOT / r14_required_files[9]).read_text(encoding="utf-8")
+    for marker in (
+        "R14_WS_SEQUENCE_REGRESSION_WAS_ACCEPTED",
+        "R14_WS_DELIVERY_MUTATION_WAS_ACCEPTED",
+        "R14_WS_GAP_REGRESSION_WAS_ACCEPTED",
+        "R14_WEBSOCKET_RELIABILITY_INVARIANTS PASS",
+    ):
+        if marker not in r14_ws_test:
+            errors.append(f"R14 WebSocket invariant test missing marker: {marker}")
+
+    for marker in (
+        "R14_U044_ROLLBACK_V044_REPLAY PASS",
+        "R14_WS_CONCURRENT_SEQUENCE_ALLOCATION PASS",
+        "R14_WEBSOCKET_RELIABILITY_INVARIANTS PASS",
+    ):
+        if marker not in r14_runner:
+            errors.append(f"R14 database runner missing WebSocket closure marker: {marker}")
 
 if errors:
     print("DB_SCHEMA_FAIL")

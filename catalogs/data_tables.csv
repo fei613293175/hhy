@@ -199,3 +199,6 @@ App构建,app_release_approvals,生产发布复核,"release_record_id, applicant
 后台,export_jobs,高敏数据异步导出任务,"id, job_no, export_type, status, filter_snapshot, field_codes, mask_policy, row_limit, purpose, approval_request_id, created_by, expires_at, version, created_at, updated_at",导出条件和字段快照不可变；高敏导出需审批；行数和过期时间强制限制,R30
 后台,export_job_files,导出产物与完整性信息,"id, export_job_id, media_object_id, file_name, content_type, size_bytes, sha256, row_count, expires_at, created_at",文件私有存储；sha256必填；过期后删除对象并保留审计元数据,R30
 后台,export_download_logs,导出文件一次性令牌和下载审计,"id, export_job_file_id, admin_user_id, token_hash, purpose, ip, expires_at, used_at, result, request_id, created_at",令牌只存哈希且一次性；下载人必须与授权人一致；记录IP、目的和结果,R30
+实时通信,websocket_user_sequences,用户级WebSocket连续服务端序列,"user_id, high_watermark, created_at, updated_at",每用户一行；high_watermark只增不减；事务内原子分配,R14
+实时通信,websocket_deliveries,WebSocket持久投递与确认事实,"id, event_id, user_id, server_sequence, event_type, conversation_id, affected_scope, envelope, ack_required, acked_at, delivery_attempts, first_delivered_at, last_delivered_at, expires_at, created_at",event_id唯一；user_id+server_sequence唯一；72小时保留；ACK归属和重投有界,R14
+实时通信,websocket_gap_watermarks,WebSocket过期缺口安全水位,"user_id, expired_through_sequence, affected_scopes, created_at, updated_at",每用户一行；水位只增不减；scope只允许CHAT或NOTIFICATIONS,R14

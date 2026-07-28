@@ -311,11 +311,28 @@ replay_state="$(psql "${empty_url}" -X -qAt -c "
 [[ "${replay_state}" == "8" ]] || { echo "R14 U043/V043 replay state=${replay_state}" >&2; exit 1; }
 echo "R14_U043_ROLLBACK_V043_REPLAY PASS columns=${replay_state}"
 
+psql "${empty_url}" -X -v ON_ERROR_STOP=1 --single-transaction \
+  -f "${ROOT}/database/migrations/V044__r14_websocket_reliability.sql" >/dev/null
+v044_table_count="$(psql "${empty_url}" -X -qAt -c \
+  "SELECT count(*) FROM information_schema.tables WHERE table_schema='hhy' AND table_type='BASE TABLE'")"
+[[ "${v044_table_count}" == "203" ]] || { echo "R14 V044 table count=${v044_table_count}" >&2; exit 1; }
+psql "${empty_url}" -X -v ON_ERROR_STOP=1 --single-transaction \
+  -f "${ROOT}/database/rollback/U044__r14_websocket_reliability_DEV_ONLY.sql" >/dev/null
+u044_table_count="$(psql "${empty_url}" -X -qAt -c \
+  "SELECT count(*) FROM information_schema.tables WHERE table_schema='hhy' AND table_type='BASE TABLE'")"
+[[ "${u044_table_count}" == "200" ]] || { echo "R14 U044 table count=${u044_table_count}" >&2; exit 1; }
+psql "${empty_url}" -X -v ON_ERROR_STOP=1 --single-transaction \
+  -f "${ROOT}/database/migrations/V044__r14_websocket_reliability.sql" >/dev/null
+replayed_v044_count="$(psql "${empty_url}" -X -qAt -c \
+  "SELECT count(*) FROM information_schema.tables WHERE table_schema='hhy' AND table_type='BASE TABLE'")"
+[[ "${replayed_v044_count}" == "203" ]] || { echo "R14 replayed V044 table count=${replayed_v044_count}" >&2; exit 1; }
+echo "R14_U044_ROLLBACK_V044_REPLAY PASS tables=${replayed_v044_count}"
+
 # Standalone execution starts from an empty disposable database; the shared
 # migration smoke reaches V039 first. Both paths converge on the exact V043
 # schema before the executable property matrix.
 if [[ "$("${PSQL[@]}" -qAt -c "SELECT count(*) FROM information_schema.schemata WHERE schema_name='hhy'")" == "0" ]]; then
-  apply_through "${DATABASE_URL}" 43
+  apply_through "${DATABASE_URL}" 44
 else
   if [[ "$("${PSQL[@]}" -qAt -c "SELECT count(*) FROM pg_indexes WHERE schemaname='hhy' AND indexname='uq_r12_content_review_escalation_snapshot'")" == "0" ]]; then
     "${PSQL[@]}" --single-transaction -f "${ROOT}/database/migrations/V040__r12_review_escalation.sql" >/dev/null
@@ -329,7 +346,55 @@ else
   if [[ "$("${PSQL[@]}" -qAt -c "SELECT count(*) FROM information_schema.columns WHERE table_schema='hhy' AND table_name='conversations' AND column_name='version'")" == "0" ]]; then
     "${PSQL[@]}" --single-transaction -f "${ROOT}/database/migrations/V043__r14_chat_invariants.sql" >/dev/null
   fi
+  if [[ "$("${PSQL[@]}" -qAt -c "SELECT count(*) FROM information_schema.tables WHERE table_schema='hhy' AND table_name='websocket_deliveries'")" == "0" ]]; then
+    "${PSQL[@]}" --single-transaction -f "${ROOT}/database/migrations/V044__r14_websocket_reliability.sql" >/dev/null
+  fi
 fi
 "${PSQL[@]}" -f "${ROOT}/database/tests/r14_chat_invariants.sql" >/dev/null
 echo "R14_CHAT_INVARIANT_PROPERTY_MATRIX PASS"
+"${PSQL[@]}" -f "${ROOT}/database/tests/r14_websocket_reliability.sql" >/dev/null
+echo "R14_WEBSOCKET_RELIABILITY_INVARIANTS PASS"
+
+concurrent_actor="$("${PSQL[@]}" -qAt -c \
+  "INSERT INTO hhy.users(phone,status,invite_code) VALUES ('13900004402','ACTIVE','R14WSC') RETURNING id")"
+concurrency_dir="$(mktemp -d)"
+concurrency_pids=()
+for index in $(seq 1 8); do
+  psql "${DATABASE_URL}" -X -v ON_ERROR_STOP=1 -c "
+    WITH allocated AS (
+      INSERT INTO hhy.websocket_user_sequences(user_id,high_watermark)
+      VALUES (${concurrent_actor},1)
+      ON CONFLICT (user_id) DO UPDATE
+      SET high_watermark=hhy.websocket_user_sequences.high_watermark+1
+      RETURNING high_watermark
+    ), identified AS (
+      SELECT high_watermark, gen_random_uuid() AS event_id
+      FROM allocated
+    )
+    INSERT INTO hhy.websocket_deliveries(
+      event_id,user_id,server_sequence,event_type,affected_scope,envelope,ack_required,expires_at)
+    SELECT event_id,${concurrent_actor},high_watermark,'chat.message.new','CHAT',
+      jsonb_build_object('eventId',event_id,'eventType','chat.message.new',
+        'occurredAt',clock_timestamp(),'serverSequence',high_watermark,'payload',jsonb_build_object()),
+      true,clock_timestamp()+interval '72 hours'
+    FROM identified;" >"${concurrency_dir}/${index}.log" 2>&1 &
+  concurrency_pids+=("$!")
+done
+for pid in "${concurrency_pids[@]}"; do
+  if ! wait "${pid}"; then
+    cat "${concurrency_dir}"/*.log >&2
+    rm -rf "${concurrency_dir}"
+    echo "R14 concurrent sequence allocation failed" >&2
+    exit 1
+  fi
+done
+rm -rf "${concurrency_dir}"
+concurrent_state="$("${PSQL[@]}" -qAt -c "
+  SELECT count(*)||'|'||count(DISTINCT server_sequence)||'|'||min(server_sequence)||'|'||max(server_sequence)
+  FROM hhy.websocket_deliveries WHERE user_id=${concurrent_actor}")"
+[[ "${concurrent_state}" == "8|8|1|8" ]] || {
+  echo "R14 concurrent sequence allocation state=${concurrent_state}" >&2
+  exit 1
+}
+echo "R14_WS_CONCURRENT_SEQUENCE_ALLOCATION PASS state=${concurrent_state}"
 echo "R14_DATABASE_INVARIANTS PASS"

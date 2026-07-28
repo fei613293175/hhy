@@ -43,6 +43,9 @@ stories:
   - notification_deliveries
   - announcements
   - announcement_reads
+  - websocket_user_sequences
+  - websocket_deliveries
+  - websocket_gap_watermarks
   test_ids:
   - TST-CHAT_001-HAPPY
   - TST-CHAT_002-HAPPY
@@ -244,6 +247,9 @@ stories:
   - notification_deliveries
   - announcements
   - announcement_reads
+  - websocket_user_sequences
+  - websocket_deliveries
+  - websocket_gap_watermarks
   test_ids:
   - TST-CHAT_001-HAPPY
   - TST-CHAT_001-IDEMPOTENT
@@ -269,6 +275,8 @@ stories:
   - 六个Android交互面均绑定唯一精确面板或批准补充视觉规格；编码前保持IN_REVIEW，禁止提前标记视觉PASS
   - REST与WebSocket统一使用ChatMessageResource及TEXT、IMAGE、CONTENT_CARD、CONTACT_CARD四类封闭payload
   - WebSocket严格使用双子协议升级前鉴权、逐事件ACK、用户级连续序列与CHAT/NOTIFICATIONS服务端水位补洞；不得在URL传令牌或从REST结果猜测重连序列
+  - REST发送与已读、Outbox和WebSocket投递必须同事务提交或共同回滚；提交前不得推送，失败投递保留并按冻结次数重试
+  - Android仅可在CHAT固定分页全部补洞完成后确认服务端水位；R15通知能力落地前不得确认NOTIFICATIONS缺口
   - requestId、幂等键、clientMessageId、expectedVersion、资源ID和版本只用于网络层、幂等与诊断，不进入正式UI
   - 聊天举报只实现用户提交、证据选择和结果提示，不包含R15后台队列、分配、SLA或审核决定状态
   - 每个需求可追溯到页面/API/表/配置/测试/故事；不适用项必须显式N/A并说明

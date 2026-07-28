@@ -41,13 +41,14 @@ class R14ServiceTest {
     @Mock private R14Store store;
     @Mock private R08Store shared;
     @Mock private R08Service r08;
+    @Mock private R14RealtimeService realtime;
     private ContentContactCipher cipher;
     private R14Service service;
 
     @BeforeEach
     void setUp() {
         cipher = new ContentContactCipher("r14-test-contact-root-secret-at-least-32-characters");
-        service = new R14Service(store, shared, r08, cipher,
+        service = new R14Service(store, shared, r08, realtime, cipher,
                 new ObjectMapper().findAndRegisterModules(), Clock.fixed(NOW, ZoneOffset.UTC));
     }
 
@@ -68,6 +69,7 @@ class R14ServiceTest {
         assertEquals("你好", result.payload().get("text"));
         verify(store).advanceConversation(42, 11, 100, NOW);
         verify(store).outbox(11, "CHAT_MESSAGE", "chat.message.sent.v1", "100", "SENT", NOW);
+        verify(realtime).messagePersisted(eq(11L), eq(7L), any());
         verify(shared).complete(eq(1L), anyString(), eq("r14.chat-message.v1"), anyString());
     }
 

@@ -224,6 +224,46 @@ def validate(root: Path) -> list[str]:
         errors.append("R14_MANIFEST_WEBSOCKET_RELIABILITY")
     if not (root / "releases/R14/PARALLEL_EXECUTION_PLAN.yaml").is_file():
         errors.append("R14_EXECUTION_PLAN_MISSING")
+
+    runtime_markers = {
+        "services/backend/boot/src/main/java/cc/orbexa/hhy/boot/realtime/R14WebSocketHandler.java": (
+            "implements SubProtocolCapable", '"hhy.v1"', "system.delivery.ack",
+            "chat.message.send", "chat.message.read",
+        ),
+        "services/backend/boot/src/main/java/cc/orbexa/hhy/boot/realtime/R14WebSocketHandshakeInterceptor.java": (
+            "hhy.access.", "lastServerSequence", "UserTokenService", "UserAuthStore",
+        ),
+        "services/backend/content/src/main/java/cc/orbexa/hhy/content/R14RealtimeService.java": (
+            "Duration.ofHours(72)", "REST_GAP_FILL", "REPLAY_COMPLETE",
+            "publisher.publishEvent",
+        ),
+        "apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR14WebSocket.kt": (
+            "OkHttpClient", '"Sec-WebSocket-Protocol"', "hhy.access.",
+            "REPLAY_COMPLETE", "REST_GAP_FILL", "R14RealtimeScope.NOTIFICATIONS",
+            "isR14SelectedSubprotocol",
+        ),
+        "apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14RealtimeRefresh.kt": (
+            "pageSize = 100", "seenConversationCursors", "seenMessageCursors",
+        ),
+        "apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt": (
+            "OkHttpR14RealtimeClient", "refreshR14ChatAuthoritatively",
+            "completeGapFill",
+        ),
+        "infra/nginx/ws.orbexa.cc.conf": (
+            "deployment template only", "proxy_set_header Upgrade $http_upgrade",
+            "proxy_set_header Sec-WebSocket-Protocol $http_sec_websocket_protocol",
+            "hhy_ws_safe",
+        ),
+    }
+    for relative, markers in runtime_markers.items():
+        path = root / relative
+        if not path.is_file():
+            errors.append(f"R14_REALTIME_RUNTIME_MISSING {relative}")
+            continue
+        content = path.read_text(encoding="utf-8")
+        for marker in markers:
+            if marker not in content:
+                errors.append(f"R14_REALTIME_RUNTIME_MARKER {relative} {marker}")
     return errors
 
 

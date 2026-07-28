@@ -46,6 +46,7 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -91,12 +92,16 @@ import cc.orbexa.hhy.network.ContractR14Api
 import cc.orbexa.hhy.network.CommandResultResource
 import cc.orbexa.hhy.network.PublisherSummaryResource
 import cc.orbexa.hhy.network.R07CallResult
+import cc.orbexa.hhy.network.R14RealtimeEvent
+import cc.orbexa.hhy.network.R14RealtimeScope
 import coil.compose.AsyncImage
 import coil.compose.SubcomposeAsyncImage
 import java.net.URI
 import java.time.Duration
 import java.time.OffsetDateTime
 import java.util.UUID
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -110,6 +115,7 @@ fun R14ChatDetailScreen(
     currentUserId: String,
     initialPeer: PublisherSummaryResource? = null,
     initialContentCard: ChatContentCardPayload? = null,
+    realtimeEvents: Flow<R14RealtimeEvent> = emptyFlow(),
     onBack: () -> Unit,
     onOpenContent: (contentType: String, contentId: String) -> Unit = { _, _ -> },
     onSessionExpired: () -> Unit,
@@ -136,6 +142,7 @@ fun R14ChatDetailScreen(
     var contactSubmitting by remember(conversationId) { mutableStateOf(false) }
     var contactFailure by remember(conversationId) { mutableStateOf<String?>(null) }
     var contactIntent by remember(conversationId) { mutableStateOf<ChatContactCardMessageRequest?>(null) }
+    var realtimeRefreshKey by remember(conversationId) { mutableIntStateOf(0) }
 
     fun handleFailure(failure: R07CallResult.Failure, firstLoad: Boolean = false) {
         if (failure.statusCode == 401) onSessionExpired()
@@ -216,7 +223,18 @@ fun R14ChatDetailScreen(
         )
     }
 
-    LaunchedEffect(conversationId) { load() }
+    LaunchedEffect(realtimeEvents, conversationId) {
+        realtimeEvents.collect { event ->
+            if (
+                event is R14RealtimeEvent.ChatChanged && event.conversationId == conversationId ||
+                event is R14RealtimeEvent.GapFillRequired &&
+                R14RealtimeScope.CHAT in event.affectedScopes
+            ) {
+                realtimeRefreshKey += 1
+            }
+        }
+    }
+    LaunchedEffect(conversationId, realtimeRefreshKey) { load(refresh = realtimeRefreshKey > 0) }
     LaunchedEffect(state.messages.size, state.outgoing.size) {
         val count = state.messages.size + state.outgoing.size
         if (count > 0 && !state.hasMore) listState.animateScrollToItem(count - 1)

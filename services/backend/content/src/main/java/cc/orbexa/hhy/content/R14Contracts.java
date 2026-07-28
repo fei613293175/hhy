@@ -42,7 +42,7 @@ public final class R14Contracts {
             String messageType,
             Map<String, Object> payload,
             String status,
-            long serverSequence,
+            Long serverSequence,
             Instant createdAt,
             Instant readAt) { }
 

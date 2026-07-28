@@ -49,16 +49,18 @@ public class R14Service {
     private final R14Store store;
     private final R08Store shared;
     private final R08Service r08;
+    private final R14RealtimeService realtime;
     private final ContentContactCipher cipher;
     private final ObjectMapper mapper;
     private final Clock clock;
 
     public R14Service(
-            R14Store store, R08Store shared, R08Service r08,
+            R14Store store, R08Store shared, R08Service r08, R14RealtimeService realtime,
             ContentContactCipher cipher, ObjectMapper mapper, Clock clock) {
         this.store = store;
         this.shared = shared;
         this.r08 = r08;
+        this.realtime = realtime;
         this.cipher = cipher;
         this.mapper = mapper.copy().configure(SerializationFeature.ORDER_MAP_ENTRIES_BY_KEYS, true);
         this.clock = clock;
@@ -152,6 +154,7 @@ public class R14Service {
         store.outbox(userId, "CHAT_MESSAGE", "chat.message.sent.v1",
                 Long.toString(row.id()), "SENT", now);
         ChatMessage result = message(row);
+        realtime.messagePersisted(userId, membership.peerId(), result);
         complete(claim, scope, key, requestHash, MESSAGE_RESPONSE, result);
         return result;
     }
@@ -171,6 +174,7 @@ public class R14Service {
         store.markRead(conversationId, userId, messageId, now);
         store.outbox(userId, "CONVERSATION", "chat.conversation.read.v1",
                 Long.toString(conversationId), "READ", now);
+        realtime.readPersisted(userId, membership.peerId(), conversationId, messageId);
         CommandResult result = new CommandResult(Long.toString(conversationId),
                 Long.toString(message.id()), "READ", membership.version(), now);
         complete(claim, scope, key, requestHash, COMMAND_RESPONSE, result);
@@ -287,7 +291,7 @@ public class R14Service {
         }
         return new ChatMessage(Long.toString(row.id()), Long.toString(row.conversationId()),
                 publisher(row.senderId()), row.clientMessageId(), row.messageType(), payload,
-                row.status(), row.id(), row.createdAt(), row.readAt());
+                row.status(), null, row.createdAt(), row.readAt());
     }
 
     private PublisherSummary publisher(long userId) {

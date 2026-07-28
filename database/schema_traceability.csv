@@ -197,3 +197,6 @@ notification_delivery_attempts,通知,R30,database/migrations/V009__v122_operati
 export_jobs,后台,R30,database/migrations/V009__v122_operational_governance.sql,15,id,FROZEN_V1.2.2
 export_job_files,后台,R30,database/migrations/V009__v122_operational_governance.sql,10,id,FROZEN_V1.2.2
 export_download_logs,后台,R30,database/migrations/V009__v122_operational_governance.sql,11,id,FROZEN_V1.2.2
+websocket_user_sequences,实时通信,R14,database/migrations/V044__r14_websocket_reliability.sql,4,user_id,FROZEN_V1.2.2
+websocket_deliveries,实时通信,R14,database/migrations/V044__r14_websocket_reliability.sql,15,id,FROZEN_V1.2.2
+websocket_gap_watermarks,实时通信,R14,database/migrations/V044__r14_websocket_reliability.sql,5,user_id,FROZEN_V1.2.2

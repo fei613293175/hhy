@@ -23,11 +23,11 @@ portfolio_totals:
   admin_surfaces: 71
   client_api_references: 92
   admin_api_references: 162
-  websocket_references: 4
-  manifest_endpoint_references: 258
+  websocket_references: 12
+  manifest_endpoint_references: 266
   story_operation_references: 712
   story_unique_operation_ids: 396
-  database_table_references: 646
+  database_table_references: 649
   test_references: 330
 operating_model:
   actual_concurrency_slots: 4
@@ -737,11 +737,11 @@ release_plan:
     admin_surfaces: 0
     client_api_references: 9
     admin_api_references: 0
-    websocket_references: 4
-    manifest_endpoint_references: 13
+    websocket_references: 12
+    manifest_endpoint_references: 21
     story_operation_references: 18
     story_unique_operation_ids: 9
-    database_table_references: 10
+    database_table_references: 13
     test_references: 9
   facts:
     manifest: releases/R14/RELEASE_MANIFEST.yaml

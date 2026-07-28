@@ -61,8 +61,12 @@ import cc.orbexa.hhy.network.ChatConversationPageResource
 import cc.orbexa.hhy.network.ChatConversationResource
 import cc.orbexa.hhy.network.ContractR14Api
 import cc.orbexa.hhy.network.R07CallResult
+import cc.orbexa.hhy.network.R14RealtimeEvent
+import cc.orbexa.hhy.network.R14RealtimeScope
 import coil.compose.AsyncImage
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.first
 
@@ -72,6 +76,7 @@ fun R14ConversationListScreen(
     api: ContractR14Api,
     accessToken: String,
     contentPadding: PaddingValues = PaddingValues(),
+    realtimeEvents: Flow<R14RealtimeEvent> = emptyFlow(),
     onConversationSelected: (ChatConversationResource) -> Unit,
     onSessionExpired: () -> Unit,
 ) {
@@ -79,6 +84,18 @@ fun R14ConversationListScreen(
     var keyword by rememberSaveable { mutableStateOf("") }
     var refreshKey by rememberSaveable { mutableIntStateOf(0) }
     val listState = rememberLazyListState()
+
+    LaunchedEffect(realtimeEvents) {
+        realtimeEvents.collect { event ->
+            if (
+                event is R14RealtimeEvent.ChatChanged ||
+                event is R14RealtimeEvent.GapFillRequired &&
+                R14RealtimeScope.CHAT in event.affectedScopes
+            ) {
+                refreshKey += 1
+            }
+        }
+    }
 
     LaunchedEffect(keyword, refreshKey) {
         if (keyword.isNotEmpty()) delay(300)

@@ -38,6 +38,12 @@ contracts:
   - chat.message.ack
   - chat.message.new
   - chat.message.read
+  - chat.read.updated
+  - chat.typing
+  - notification.new
+  - system.kickout
+  - system.ping
+  - system.pong
   - system.delivery.ack
   - system.resume
 database_tables:
@@ -51,6 +57,9 @@ database_tables:
 - notification_deliveries
 - announcements
 - announcement_reads
+- websocket_user_sequences
+- websocket_deliveries
+- websocket_gap_watermarks
 tests:
 - TST-CHAT_001-HAPPY
 - TST-CHAT_001-IDEMPOTENT
@@ -107,6 +116,14 @@ entry_baseline:
     resource: ChatMessageResource
     payload_types: [TEXT, IMAGE, CONTENT_CARD, CONTACT_CARD]
     transport_consistency: REST_AND_WEBSOCKET
+  realtime_runtime:
+    change_request: CR-0430
+    database_migration: V044
+    endpoint: /ws
+    authentication: hhy.v1 + hhy.access.<compact-JWT>
+    delivery: USER_SEQUENCE_ACK_RETRY_72H
+    gap_fill: CHAT_READY_NOTIFICATIONS_DEFERRED_TO_R15
+    proxy_activation: TEMPLATE_ONLY_NOT_ACTIVATED
   visual_acceptance_status: IN_REVIEW_NOT_IMPLEMENTED
 continuity:
   policy: .continuity/CONTINUITY_POLICY.yaml

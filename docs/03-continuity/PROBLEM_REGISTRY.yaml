@@ -1953,3 +1953,28 @@ problems:
   - 不得把JWT放入URL、响应或错误文本，不得让服务端回选含令牌的认证子协议
   - 不得建立私有ACK格式、只补聊天遗漏通知，或让客户端自行推算恢复水位
   - 不得为新增WebSocket事件运行会覆盖已富化OpenAPI的旧全量生成器
+- id: PROB-0137
+  title: R14 WebSocket冻结合同缺少可运行纵向链路
+  status: SOLVED
+  root_cause: CR-0429只消除了协议歧义，后端仍没有升级端点、握手鉴权、用户级连续序列、持久投递、ACK重投和缺口水位，Android聊天页也只依赖进入页面时的REST请求；若直接关闭R14，合同、数据库、服务器和客户端将是彼此断开的四套事实。
+  resolution: CR-0430新增V044三张可靠性表、Spring WebSocket握手与活动会话认证、提交后投递监听、72小时保留和安全重投，并以稳定OkHttp单例把Android会话列表与聊天详情接入连续序列、重复ACK、断线恢复和CHAT权威REST补洞。ws.orbexa.cc只登记脱敏代理模板，本次不宣称域名已激活。
+  regression_checks:
+  - PostgreSQL 17必须通过V001至V044、200到203表升级、U044回退重放、用户并发连续序列、ACK归属、72小时缺口和事务共同回滚
+  - 后端必须拒绝缺失、重复、填充或污染的认证子协议及非法lastServerSequence，并只回选hhy.v1
+  - Android必须只在Sec-WebSocket-Protocol发送令牌，重复事件仍ACK但不重复推进水位，序列缺口必须断线恢复
+  - CHAT分页未全部补洞前不得确认服务端水位，NOTIFICATIONS在R15落地前必须保持未完成
+  do_not_repeat:
+  - 不得把WebSocket YAML存在、后端可以编译或页面能手动刷新当成实时纵向链路完成
+  - 不得把消息ID冒充用户级serverSequence，也不得在事务提交前向客户端推送
+  - 不得把代理模板存在写成公网域名已激活
+- id: PROB-0138
+  title: 全量迁移烟测在重建到V039后遗漏V041权限数据
+  status: SOLVED
+  root_cause: 全量脚本首次V001至V044迁移后会为回退矩阵重建数据库，并在R12阶段只恢复到V039；R12不变量末尾却直接验证V041新增的五项细粒度审核权限，导致正确的V044首次迁移已通过后仍在旧R12权限专项失败，R14不变量无法执行。
+  resolution: 在保持R12 V039对象数量断言和V040后续专项不变的前提下，全量脚本于R12 runner前显式应用仅包含权限数据对齐的V041；R14 runner随后按缺失检测应用V040及V042至V044。修复后同一PostgreSQL 17一次性通过完整迁移、旧版回归、R14属性矩阵和203表最终基线。
+  regression_checks:
+  - run_postgres_migration_smoke.sh必须在R12 runner前应用V041并保留R12对象数量断言
+  - 全链必须出现R12_REVIEW_PERMISSION_ALIGNMENT PASS、R14_DATABASE_INVARIANTS PASS、FINAL_TABLE_COUNT 203和POSTGRESQL_MIGRATION_SMOKE PASS
+  do_not_repeat:
+  - 不得只依据首次空库迁移成功忽略脚本后半段的回退重建路径
+  - 不得为绕过旧版失败跳过R12 runner或删除权限对齐测试

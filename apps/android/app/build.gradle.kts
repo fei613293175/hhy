@@ -8,6 +8,8 @@ plugins {
 
 val apiBaseUrl = providers.environmentVariable("HHY_API_BASE_URL")
     .orElse("https://api.example.invalid")
+val wsBaseUrl = providers.environmentVariable("HHY_WS_BASE_URL")
+    .orElse("wss://ws.orbexa.cc")
 val appChannel = providers.environmentVariable("HHY_APP_CHANNEL").orElse("official")
 // The publicly reachable development API publishes its test artefacts in STAGING.
 // Individual CI jobs can still override this with HHY_APP_ENVIRONMENT.
@@ -31,11 +33,24 @@ if (packagingTaskRequested) {
     ) {
         "APK packaging requires a safe HHY_API_BASE_URL; refusing placeholder or unsafe endpoint: $value"
     }
+    val wsValue = wsBaseUrl.get()
+    val wsUri = runCatching { URI(wsValue) }.getOrNull()
+    require(
+        wsUri?.scheme == "wss" &&
+            !wsUri.host.isNullOrBlank() &&
+            !wsUri.host.endsWith(".invalid") &&
+            wsUri.userInfo == null &&
+            wsUri.query == null &&
+            wsUri.fragment == null &&
+            (wsUri.path.isNullOrBlank() || wsUri.path == "/")
+    ) {
+        "APK packaging requires a safe HHY_WS_BASE_URL; refusing placeholder or unsafe endpoint"
+    }
 }
 
 val verifyApiBaseUrl by tasks.registering {
     group = "verification"
-    description = "Rejects APK packaging when HHY_API_BASE_URL is missing or unsafe."
+    description = "Rejects APK packaging when HHY_API_BASE_URL or HHY_WS_BASE_URL is missing or unsafe."
 }
 
 tasks.configureEach {
@@ -59,6 +74,7 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
         buildConfigField("String", "API_BASE_URL", "\"${apiBaseUrl.get()}\"")
+        buildConfigField("String", "WS_BASE_URL", "\"${wsBaseUrl.get().trimEnd('/')}\"")
         buildConfigField("String", "CONTRACT_VERSION", "\"1.2.2\"")
         buildConfigField("String", "APP_CHANNEL", "\"${appChannel.get()}\"")
         buildConfigField("String", "APP_ENVIRONMENT", "\"${appEnvironment.get()}\"")

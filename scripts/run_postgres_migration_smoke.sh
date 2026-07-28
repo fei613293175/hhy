@@ -58,7 +58,7 @@ TOTP_REPLAY_COLUMN_COUNT="$("${PSQL[@]}" -Atc "
 echo "R01_TOTP_REPLAY_COLUMN PASS"
 
 TABLE_COUNT="$("${PSQL[@]}" -Atc "SELECT count(*) FROM information_schema.tables WHERE table_schema='hhy' AND table_type='BASE TABLE';")"
-[[ "$TABLE_COUNT" == "200" ]] || { echo "Expected 200 hhy tables, got $TABLE_COUNT" >&2; exit 1; }
+[[ "$TABLE_COUNT" == "203" ]] || { echo "Expected 203 hhy tables, got $TABLE_COUNT" >&2; exit 1; }
 echo "TABLE_COUNT $TABLE_COUNT"
 
 "${PSQL[@]}" -f "$ROOT/database/tests/postgres_smoke_success.sql" >/dev/null
@@ -320,13 +320,18 @@ DATABASE_URL="$DATABASE_URL" HHY_DB_SMOKE_CONFIRM=YES \
   bash "$ROOT/scripts/run_r11_database_invariants.sh"
 "${PSQL[@]}" --single-transaction \
   -f "$ROOT/database/migrations/V039__r12_publish_management_invariants.sql" >/dev/null
+# The R12 invariant runner includes the granular permission projection test.
+# Its object-count assertions intentionally describe V039, so apply the
+# data-only V041 alignment here while V040 remains covered by the R14 chain.
+"${PSQL[@]}" --single-transaction \
+  -f "$ROOT/database/migrations/V041__r12_review_permission_alignment.sql" >/dev/null
 DATABASE_URL="$DATABASE_URL" HHY_DB_SMOKE_CONFIRM=YES \
   bash "$ROOT/scripts/run_r12_database_invariants.sh"
 DATABASE_URL="$DATABASE_URL" HHY_DB_SMOKE_CONFIRM=YES \
   bash "$ROOT/scripts/run_r14_database_invariants.sh"
 FINAL_TABLE_COUNT="$("${PSQL[@]}" -Atc "SELECT count(*) FROM information_schema.tables WHERE table_schema='hhy' AND table_type='BASE TABLE';")"
-[[ "$FINAL_TABLE_COUNT" == "200" ]] || {
-  echo "Final R03 schema must contain 200 tables, got $FINAL_TABLE_COUNT" >&2
+[[ "$FINAL_TABLE_COUNT" == "203" ]] || {
+  echo "Final schema must contain 203 tables, got $FINAL_TABLE_COUNT" >&2
   exit 1
 }
 echo "R02_ADMIN_USER_CONTROLS PASS"

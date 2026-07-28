@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## R14 WebSocket运行时与可靠投递纵向链路 · 2026-07-28
+
+- `CR-0430`落地Spring WebSocket `/ws`：升级前严格验证`hhy.v1`与唯一`hhy.access.<compact-JWT>`、活动会话和非负`lastServerSequence`，服务端只回选`hhy.v1`；非法、重复、填充或污染协议均在升级前拒绝。
+- `V044`新增用户级原子连续序列、持久投递/ACK/重试和CHAT或NOTIFICATIONS缺口水位三张表；REST发送与已读在原事务内创建双方实时投递，只有提交后才推送，失败仍保留delivery供10秒重试和72小时补洞。
+- Android使用稳定OkHttp单例连接，会话列表和聊天详情收到聊天事件后重新读取REST权威数据；重复事件可重ACK但不重复推进，序列缺口重连，CHAT只有在固定分页全部完成后确认水位，R15前不伪完成NOTIFICATIONS。
+- 新增`ws.orbexa.cc` Upgrade透传与协议头脱敏模板，不宣称已激活公网域名。PostgreSQL 17已通过V001至V044、200到203表、U044回退重放、并发连续序列和R14属性矩阵；同时修复重建链遗漏V041导致的旧R12权限专项假失败。
+
 ## R14 WebSocket可实施合同纠偏 · 2026-07-28
 
 - `CR-0429`冻结`hhy.v1`与`hhy.access.<compact-JWT>`双子协议，JWT与会话必须在升级前验证，服务端只回选`hhy.v1`；完整协议头在边缘、代理、握手异常、服务端和应用日志统一脱敏，`wsTicket`在签发API出现前保持不可用。

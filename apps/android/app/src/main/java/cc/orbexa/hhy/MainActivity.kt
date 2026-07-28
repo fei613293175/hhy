@@ -5,6 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.mutableStateOf
@@ -41,6 +42,8 @@ import cc.orbexa.hhy.AboutScreen
 import cc.orbexa.hhy.auth.LoginDevicesScreen
 import cc.orbexa.hhy.chat.R14ChatDetailScreen
 import cc.orbexa.hhy.chat.R14ConversationListScreen
+import cc.orbexa.hhy.chat.R14AuthoritativeRefreshResult
+import cc.orbexa.hhy.chat.refreshR14ChatAuthoritatively
 import cc.orbexa.hhy.designsystem.HhyColors
 import cc.orbexa.hhy.designsystem.HhyElevation
 import cc.orbexa.hhy.designsystem.HhyIcon
@@ -82,6 +85,9 @@ import cc.orbexa.hhy.network.UrlConnectionContractR12MeApi
 import cc.orbexa.hhy.network.UrlConnectionContractR12ProfileApi
 import cc.orbexa.hhy.network.UrlConnectionContractR13Api
 import cc.orbexa.hhy.network.UrlConnectionContractR14Api
+import cc.orbexa.hhy.network.OkHttpR14RealtimeClient
+import cc.orbexa.hhy.network.R14RealtimeEvent
+import cc.orbexa.hhy.network.R14RealtimeScope
 import cc.orbexa.hhy.network.sessionOrNull
 import cc.orbexa.hhy.network.userSelfOrNull
 import java.net.URI
@@ -115,6 +121,10 @@ import cc.orbexa.hhy.shell.R12ProfileScreen
 import cc.orbexa.hhy.startup.StartupGateScreen
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.decodeFromString
+import kotlinx.coroutines.awaitCancellation
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.isActive
+import kotlinx.coroutines.launch
 
 internal const val CI_SESSION_INTENT_EXTRA = "cc.orbexa.hhy.extra.CI_SESSION"
 
@@ -313,6 +323,7 @@ private fun AuthenticatedNavHost(
     val r12ProfileApi = remember { UrlConnectionContractR12ProfileApi(BuildConfig.API_BASE_URL) }
     val r13Api = remember { UrlConnectionContractR13Api(BuildConfig.API_BASE_URL) }
     val r14Api = remember { UrlConnectionContractR14Api(BuildConfig.API_BASE_URL) }
+    val r14Realtime = remember { OkHttpR14RealtimeClient(BuildConfig.WS_BASE_URL) }
     val mediaApi = remember { UrlConnectionContractMediaApi(BuildConfig.API_BASE_URL) }
     val uriHandler = androidx.compose.ui.platform.LocalUriHandler.current
     val currentBackStackEntry by navController.currentBackStackEntryAsState()
@@ -320,6 +331,53 @@ private fun AuthenticatedNavHost(
         currentBackStackEntry?.destination?.hasRoute<AuthenticatedRoute.Messages>() == true -> HhyTopLevelDestination.MESSAGE
         currentBackStackEntry?.destination?.hasRoute<AuthenticatedRoute.Me>() == true -> HhyTopLevelDestination.ME
         else -> HhyTopLevelDestination.HOME
+    }
+    DisposableEffect(r14Realtime) {
+        onDispose { r14Realtime.close() }
+    }
+    LaunchedEffect(r14Realtime, authenticated.session.accessToken) {
+        val eventCollector = launch {
+            r14Realtime.events.collect { event ->
+                when (event) {
+                    R14RealtimeEvent.SessionInvalidated -> onSessionInvalidated()
+                    is R14RealtimeEvent.GapFillRequired -> {
+                        if (event.affectedScopes != setOf(R14RealtimeScope.CHAT)) return@collect
+                        var retryDelayMillis = 1_000L
+                        while (isActive) {
+                            when (val result = refreshR14ChatAuthoritatively(
+                                api = r14Api,
+                                accessToken = authenticated.session.accessToken,
+                            )) {
+                                R14AuthoritativeRefreshResult.Success -> {
+                                    r14Realtime.completeGapFill(
+                                        event.resumeFromServerSequence,
+                                        setOf(R14RealtimeScope.CHAT),
+                                    )
+                                    break
+                                }
+                                is R14AuthoritativeRefreshResult.Failure -> {
+                                    if (result.statusCode == 401) {
+                                        onSessionInvalidated()
+                                        break
+                                    }
+                                    delay(retryDelayMillis)
+                                    retryDelayMillis = (retryDelayMillis * 2).coerceAtMost(30_000L)
+                                }
+                            }
+                        }
+                    }
+                    else -> Unit
+                }
+            }
+        }
+        runCatching { r14Realtime.connect(authenticated.session.accessToken) }
+            .onFailure { onSessionInvalidated() }
+        try {
+            awaitCancellation()
+        } finally {
+            eventCollector.cancel()
+            r14Realtime.disconnect()
+        }
     }
     val rootContent: @androidx.compose.runtime.Composable () -> Unit = {
         HhyShellScreen(
@@ -355,6 +413,7 @@ private fun AuthenticatedNavHost(
                 R14ConversationListScreen(
                     api = r14Api,
                     accessToken = authenticated.session.accessToken,
+                    realtimeEvents = r14Realtime.events,
                     contentPadding = padding,
                     onConversationSelected = { conversation ->
                         chatDetailRoute(conversation)?.let(navController::navigate)
@@ -533,6 +592,7 @@ private fun AuthenticatedNavHost(
                     currentUserId = authenticated.user.id,
                     initialPeer = peer,
                     initialContentCard = content,
+                    realtimeEvents = r14Realtime.events,
                     onBack = { navController.popBackStack() },
                     onOpenContent = { contentType, contentId ->
                         when (contentType) {
