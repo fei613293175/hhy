@@ -2,13 +2,13 @@
   "version": "1.2.3",
   "product_spec_baseline": "V1.2.2",
   "continuity_protocol_version": "1.0",
-  "status": "PASS",
+  "status": "FAIL",
   "strict": true,
   "release_filter": null,
   "metrics": {
     "canonical_policy_sha256": "38e04ed812c8df0d353c2b91993d31e53b471e9c457f06b426bd2260c470aa92",
     "governance_knowledge": {
-      "problem_records": 136,
+      "problem_records": 140,
       "reusable_patterns": 11,
       "pitfalls": 33
     },
@@ -18,7 +18,7 @@
       "admin_pages": 74,
       "ui_surfaces": 189,
       "templates": 30,
-      "fields": 5114,
+      "fields": 5143,
       "states": 1628,
       "actions": 609,
       "configs": 319,
@@ -28,15 +28,15 @@
       "tests": 376,
       "stories": 163,
       "dor_gates": 396,
-      "tables": 200,
+      "tables": 203,
       "rest_operations": 319,
       "websocket_events": 12,
       "unassigned_api_operations": 0,
       "open_document_gaps": 0
     },
     "continuity": {
-      "event_count": 4088,
-      "event_head_hash": "925bfc890d62e35130755d9df88cb18c0f5947427ece5bbde2e73b37bf7dbef5",
+      "event_count": 4312,
+      "event_head_hash": "6e605b20e5e9228498c2f0238dcdb749d094a253acd6a2d5c14692083aa1f22d",
       "rule_readiness": "PASS",
       "required_rule_sources": 11,
       "document_gate": {
@@ -48,13 +48,30 @@
     "continuity_gate_rules": 42,
     "continuity_event_types": 17,
     "continuity_required_records": 20,
-    "baseline_sessions": 121,
+    "baseline_sessions": 125,
     "baseline_handoffs": 3,
-    "change_requests": 427,
-    "task_transitions": 123,
+    "change_requests": 450,
+    "task_transitions": 127,
     "continuity_integration_checks": 12,
     "continuity_lifecycle_checks": 15
   },
-  "errors": [],
+  "errors": [
+    {
+      "code": "CONTINUITY_GATE",
+      "message": "{\n  \"version\": \"1.2.3\",\n  \"protocol_version\": \"1.0\",\n  \"mode\": \"doctor\",\n  \"strict\": true,\n  \"status\": \"FAIL\",\n  \"metrics\": {\n    \"event_count\": 4312,\n    \"event_head_hash\": \"6e605b20e5e9228498c2f0238dcdb749d094a253acd6a2d5c14692083aa1f22d\",\n    \"rule_readiness\": \"PASS\",\n    \"required_rule_sources\": 11,\n    \"document_gate\": {\n      \"status\": \"EXECUTED\",\n      \"forced\": true,\n      \"affected_inputs\": []\n    }\n  },\n  \"errors\": [\n    {\n      \"code\": \"CONTEXT_STALE\",\n      \"message\": \"Context Pack已过期：docs/03-continuity/PROBLEM_REGISTRY.yaml发生变化\"\n    },\n    {\n      \"code\": \"CHECKPOINT_STALE\",\n      \"message\": \"最新检查点与工作区不一致\"\n    }\n  ],\n  \"warnings\": []\n}"
+    },
+    {
+      "code": "CONTEXT_SOURCE_STALE",
+      "message": "docs/03-continuity/PROBLEM_REGISTRY.yaml"
+    },
+    {
+      "code": "CONTEXT_SOURCE_STALE",
+      "message": "docs/09-development/统一开发与交付效率规范.md"
+    },
+    {
+      "code": "CONTEXT_RELEASE_PARALLEL_PLAN",
+      "message": "Context Pack来源必须包含当前Release并行计划"
+    }
+  ],
   "warnings": []
 }

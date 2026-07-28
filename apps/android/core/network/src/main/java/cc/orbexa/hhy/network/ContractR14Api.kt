@@ -454,7 +454,7 @@ internal fun decodeChatMessageResource(data: JsonObject): ChatMessageResource {
         status = status,
         serverSequence = data["serverSequence"]?.jsonPrimitive?.longOrNull?.also { require(it >= 1) },
         createdAt = data.requiredR14String("createdAt"),
-        readAt = data["readAt"]?.jsonPrimitive?.content,
+        readAt = data["readAt"]?.jsonPrimitive?.contentOrNull,
     )
 }
 

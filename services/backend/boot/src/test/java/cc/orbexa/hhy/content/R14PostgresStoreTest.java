@@ -70,6 +70,13 @@ class R14PostgresStoreTest {
             assertEquals(1, conversations.items().size());
             assertEquals(1, conversations.items().getFirst().unreadCount());
             assertEquals("真实消息", conversations.items().getFirst().lastMessagePreview());
+            jdbc.update("UPDATE hhy.user_profiles SET nickname=? WHERE user_id=?",
+                    "搜索%下划_感叹!反斜\\联系人", sender);
+            for (String literalKeyword : List.of("%", "_", "!", "\\")) {
+                assertEquals(1, store.conversations(
+                        new R14Store.ConversationQuery(reader, 1, 20, null, literalKeyword)).items().size(),
+                        "literal LIKE keyword must remain searchable: " + literalKeyword);
+            }
             R14Store.MessagePageRow messages = store.messages(
                     new R14Store.MessageQuery(conversation.id(), 1, 20, null));
             assertEquals(message.id(), messages.items().getFirst().id());

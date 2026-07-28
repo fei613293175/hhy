@@ -81,6 +81,15 @@ data class R14ConversationListState(
         )
     }
 
+    fun removed(conversationId: String): R14ConversationListState {
+        val remaining = items.filterNot { it.id == conversationId }
+        return copy(
+            phase = if (remaining.isEmpty()) R14ConversationPhase.EMPTY else R14ConversationPhase.CONTENT,
+            items = remaining,
+            failure = null,
+        )
+    }
+
     fun canAppend(): Boolean = hasMore && !appending && !nextCursor.isNullOrBlank()
 }
 

@@ -42,6 +42,8 @@ GOVERNANCE_AUDIT_CHECKS = {
     "pitfalls",
 }
 ON_DEMAND_ANDROID_MODE = "ON_DEMAND_NON_BLOCKING_SPECIALTY"
+MAJOR_RELEASE_ANDROID_MODE = "MAJOR_RELEASE_MACHINE_CLOSE_REQUIRED"
+MAJOR_RELEASE_CANDIDATE_EFFECTIVE_RELEASE = 14
 REQUIRED_TEST_APK_CHECKS = {
     "verifyApiBaseUrl",
     "testDebugUnitTest",
@@ -341,12 +343,22 @@ class CloseGate:
         if not isinstance(automation, dict):
             return
         self.require(automation.get("policy_id") == "HHY-ANDROID-AUTOMATION-V1", "ANDROID_POLICY_MISMATCH", "Android自动化策略版本不一致")
-        if not self.production and automation.get("mode") == ON_DEMAND_ANDROID_MODE:
+        if (
+            not self.production
+            and automation.get("mode") == ON_DEMAND_ANDROID_MODE
+            and (number or 0) < MAJOR_RELEASE_CANDIDATE_EFFECTIVE_RELEASE
+        ):
             self.validate_test_apk_delivery(manifest, expected_candidate_commit)
             owner_status = str(automation.get("owner_physical_test") or "").upper()
             self.require(owner_status in {"PENDING", "PASS"}, "ANDROID_OWNER_TEST_STATE_INVALID", f"项目所有者真机验收状态不符合machine关闭要求：{owner_status or 'EMPTY'}")
             self.require(automation.get("next_release_development") == "ALLOWED", "ANDROID_NEXT_RELEASE_BLOCKED", "按需自动化模式必须允许合格TEST_APK继续下一版本")
             return
+        if not self.production and (number or 0) >= MAJOR_RELEASE_CANDIDATE_EFFECTIVE_RELEASE:
+            self.require(
+                automation.get("mode") == MAJOR_RELEASE_ANDROID_MODE,
+                "ANDROID_MAJOR_RELEASE_MODE_INVALID",
+                "R14起机器收尾必须使用大版本真实交互候选模式",
+            )
         self.require(str(automation.get("status") or "").upper() == "PASS", "ANDROID_AUTOMATION_NOT_PASS", "Android自动门禁不是PASS")
         self.require(automation.get("owner_test_allowed") is True, "ANDROID_OWNER_TEST_NOT_ALLOWED", "自动门禁尚未允许项目所有者真机测试")
         owner_status = str(automation.get("owner_physical_test") or "").upper()

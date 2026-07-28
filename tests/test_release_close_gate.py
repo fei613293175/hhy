@@ -577,6 +577,28 @@ class ReleaseCloseGateTest(unittest.TestCase):
             production = self.run_gate(repo, "--production-close-gate", "--release", "R06", expected=1)
             self.assertIn("ANDROID_AUTOMATION_NOT_PASS", production.stdout)
 
+    def test_r14_machine_close_rejects_test_apk_only_mode_without_candidate(self) -> None:
+        temp, repo, candidate_commit = self.fixture()
+        with temp:
+            promote_fixture_to_r06(repo, candidate_commit)
+            configure_on_demand_test_apk(repo, candidate_commit)
+            manifest = load_yaml(repo / "releases/R06/RELEASE_MANIFEST.yaml")
+            original_root = release_gate.ROOT
+            try:
+                release_gate.ROOT = repo
+                gate = release_gate.CloseGate("R14", "machine")
+                gate.validate_android_automation(manifest, candidate_commit)
+            finally:
+                release_gate.ROOT = original_root
+            self.assertIn(
+                "ANDROID_MAJOR_RELEASE_MODE_INVALID",
+                {code for code, _message in gate.errors},
+            )
+            self.assertIn(
+                "ANDROID_AUTOMATION_NOT_PASS",
+                {code for code, _message in gate.errors},
+            )
+
     def test_machine_close_rejects_tampered_on_demand_test_apk_evidence(self) -> None:
         cases = [
             ("build-status", "build", lambda value: value.update({"build_status": "FAIL"})),

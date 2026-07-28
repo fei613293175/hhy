@@ -95,7 +95,29 @@ class CiAutomationServiceTest {
         service.issue(identity(), "R11");
 
         verify(fixtures, never()).prepareR12SubmitTarget(anyLong());
+        verify(fixtures, never()).prepareR14ChatTarget(anyLong(), any(), any(), any());
         verify(store).create(eq(7L), any(), any(), any(), any(), any(), any());
+    }
+
+    @Test
+    void r14BootstrapPreparesCommitAndRunBoundChatFixtureBeforeIssuingCode() {
+        MockEnvironment staging = new MockEnvironment();
+        staging.setActiveProfiles("staging");
+        CiAutomationStore store = mock(CiAutomationStore.class);
+        CiAutomationFixtureStore fixtures = mock(CiAutomationFixtureStore.class);
+        UserAuthStore users = mock(UserAuthStore.class);
+        when(users.findUser("13800000006"))
+                .thenReturn(Optional.of(new UserAuthStore.UserRow(7L, "ACTIVE")));
+        CiAutomationService service = service(properties(), staging, store, fixtures, users,
+                mock(UserAuthService.class));
+        VerifiedWorkflow identity = identity();
+
+        service.issue(identity, "R14");
+
+        verify(fixtures).prepareR14ChatTarget(
+                7L, "R14", identity.commit(), identity.runId());
+        verify(fixtures, never()).prepareR12SubmitTarget(anyLong());
+        verify(store).create(eq(7L), any(), any(), any(), eq(identity.commit()), eq(identity.runId()), any());
     }
 
     @Test

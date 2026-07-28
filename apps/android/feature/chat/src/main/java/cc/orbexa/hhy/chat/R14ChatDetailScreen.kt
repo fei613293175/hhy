@@ -43,6 +43,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -56,9 +57,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.stateDescription
+import androidx.compose.ui.semantics.testTagsAsResourceId
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.window.Dialog
@@ -116,6 +119,7 @@ fun R14ChatDetailScreen(
     initialPeer: PublisherSummaryResource? = null,
     initialContentCard: ChatContentCardPayload? = null,
     realtimeEvents: Flow<R14RealtimeEvent> = emptyFlow(),
+    blockStateStore: R14BlockStateStore? = null,
     onBack: () -> Unit,
     onOpenContent: (contentType: String, contentId: String) -> Unit = { _, _ -> },
     onSessionExpired: () -> Unit,
@@ -123,6 +127,8 @@ fun R14ChatDetailScreen(
 ) {
     val scope = rememberCoroutineScope()
     val context = LocalContext.current
+    val defaultBlockStateStore = remember(context) { SharedPreferencesR14BlockStateStore(context) }
+    val resolvedBlockStateStore = blockStateStore ?: defaultBlockStateStore
     val listState = rememberLazyListState()
     val keys = remember { R14IntentKeys() }
     var state by remember(conversationId) { mutableStateOf(R14ChatState()) }
@@ -138,7 +144,6 @@ fun R14ChatDetailScreen(
     var showEvidencePicker by remember(conversationId) { mutableStateOf(false) }
     var reportDraft by remember(conversationId) { mutableStateOf(R14ReportDraft()) }
     var showBlockDialog by remember(conversationId) { mutableStateOf(false) }
-    var showDeleteDialog by remember(conversationId) { mutableStateOf(false) }
     var contactSubmitting by remember(conversationId) { mutableStateOf(false) }
     var contactFailure by remember(conversationId) { mutableStateOf<String?>(null) }
     var contactIntent by remember(conversationId) { mutableStateOf<ChatContactCardMessageRequest?>(null) }
@@ -243,6 +248,14 @@ fun R14ChatDetailScreen(
     val peer = initialPeer ?: state.peer(currentUserId)
     val blocked = actionState.blocked || state.phase == R14ChatPhase.BLOCKED
 
+    LaunchedEffect(currentUserId, peer?.userId) {
+        peer?.let { target ->
+            actionState = actionState.copy(
+                blocked = resolvedBlockStateStore.isBlockedByMe(currentUserId, target.userId),
+            )
+        }
+    }
+
     fun executeAction(
         action: R14ChatAction,
         request: suspend () -> R07CallResult<CommandResultResource>,
@@ -278,6 +291,11 @@ fun R14ChatDetailScreen(
             },
             onSuccess = {
                 keys.complete(operation, fingerprint)
+                resolvedBlockStateStore.setBlockedByMe(
+                    currentUserId = currentUserId,
+                    peerId = target.userId,
+                    blocked = action == R14ChatAction.BLOCK,
+                )
                 showBlockDialog = false
                 state = state.copy(
                     phase = if (action == R14ChatAction.BLOCK) R14ChatPhase.BLOCKED
@@ -323,19 +341,6 @@ fun R14ChatDetailScreen(
                 showReportSheet = false
                 reportDraft = R14ReportDraft()
                 actionNotice = "举报已提交"
-            },
-        )
-    }
-
-    fun submitDeleteConversation() {
-        val key = keys.key("delete-conversation", conversationId)
-        executeAction(
-            action = R14ChatAction.DELETE_CONVERSATION,
-            request = { api.deleteConversation(accessToken, conversationId, key) },
-            onSuccess = {
-                keys.complete("delete-conversation", conversationId)
-                showDeleteDialog = false
-                onConversationUnavailable()
             },
         )
     }
@@ -430,11 +435,6 @@ fun R14ChatDetailScreen(
                 actionState = actionState.copy(failure = null)
                 showBlockDialog = true
             },
-            onDelete = {
-                showSafetySheet = false
-                actionState = actionState.copy(failure = null)
-                showDeleteDialog = true
-            },
         )
     }
 
@@ -470,16 +470,6 @@ fun R14ChatDetailScreen(
         )
     }
 
-    if (showDeleteDialog && peer != null) {
-        R14DeleteConversationDialog(
-            peer = peer,
-            submitting = actionState.active == R14ChatAction.DELETE_CONVERSATION,
-            failure = actionState.failure?.r14ActionMessage(),
-            onDismiss = { showDeleteDialog = false },
-            onConfirm = ::submitDeleteConversation,
-        )
-    }
-
     previewImage?.let { url ->
         ChatImagePreview(
             url = url,
@@ -492,6 +482,7 @@ fun R14ChatDetailScreen(
     }
 
     Scaffold(
+        modifier = Modifier.semantics { testTagsAsResourceId = true }.testTag("hhy.screen.r14.chat"),
         containerColor = HhyColors.PageBackground,
         topBar = {
             ChatTopBar(
@@ -509,8 +500,8 @@ fun R14ChatDetailScreen(
         bottomBar = {
             ChatComposer(
                 value = composer,
-                enabled = state.canSend(),
-                blocked = state.phase == R14ChatPhase.BLOCKED,
+                enabled = state.canSend() && !blocked,
+                blocked = blocked || state.phase == R14ChatPhase.FORBIDDEN,
                 initialContentCard = initialContentCard,
                 contactEnabled = peer != null,
                 onValueChange = { if (it.length <= 5_000) composer = it },
@@ -594,6 +585,7 @@ fun R14ChatDetailScreen(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun ChatTopBar(
     peer: PublisherSummaryResource?,
@@ -601,14 +593,13 @@ private fun ChatTopBar(
     onBack: () -> Unit,
     onOpenSafetyActions: (() -> Unit)?,
 ) {
-    Surface(color = HhyColors.Surface, shadowElevation = HhyElevation.Card) {
-        Row(
-            Modifier.fillMaxWidth().height(HhySize.TopAppBarHeight).padding(horizontal = HhySpacing.Xs),
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            HhyBackButton(onBack)
-            ChatAvatar(peer, Modifier.size(HhySize.MinimumTouchTarget - HhySpacing.Sm))
-            Column(Modifier.weight(1f).padding(horizontal = HhySpacing.Md)) {
+    TopAppBar(
+        modifier = Modifier.testTag("r14.chat.topbar").semantics { contentDescription = "统一会话顶栏" },
+        navigationIcon = { HhyBackButton(onBack) },
+        title = {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                ChatAvatar(peer, Modifier.size(HhySize.MinimumTouchTarget - HhySpacing.Sm))
+                Column(Modifier.weight(1f).padding(horizontal = HhySpacing.Md)) {
                 Text(
                     peer?.nickname?.takeIf(String::isNotBlank) ?: "对方信息暂时无法显示",
                     fontSize = HhyType.CardTitleSize,
@@ -622,13 +613,16 @@ private fun ChatTopBar(
                     Text(it, fontSize = HhyType.CaptionSize, lineHeight = HhyType.CaptionLineHeight, color = connectionColor(phase))
                 }
             }
+            }
+        },
+        actions = {
             onOpenSafetyActions?.let { action ->
                 IconButton(onClick = action, modifier = Modifier.size(HhySize.MinimumTouchTarget)) {
                     HhyIcon(HhyIcons.More, "会话操作", Modifier.size(HhySize.StandardProgress))
                 }
             }
-        }
-    }
+        },
+    )
 }
 
 @Composable
@@ -680,7 +674,8 @@ private fun ChatComposer(
                     OutlinedTextField(
                         value = value,
                         onValueChange = onValueChange,
-                        modifier = Modifier.weight(1f).heightIn(min = HhySize.PrimaryButtonHeight),
+                        modifier = Modifier.weight(1f).heightIn(min = HhySize.PrimaryButtonHeight)
+                            .testTag("r14.chat.composer"),
                         enabled = enabled,
                         placeholder = { Text(if (enabled) "输入消息" else "网络恢复后可发送") },
                         shape = RoundedCornerShape(HhyRadius.Input),

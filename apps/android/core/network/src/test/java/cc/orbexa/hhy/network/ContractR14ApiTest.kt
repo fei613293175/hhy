@@ -49,6 +49,28 @@ class ContractR14ApiTest {
     }
 
     @Test
+    fun readReceiptDistinguishesMissingNullAndRealTimestamp() {
+        fun decode(readAt: String): ChatMessageResource = decodeChatMessageResource(
+            HhyNetworkJson.value.parseToJsonElement(
+                """{
+                  "id":"100","conversationId":"42",
+                  "sender":{"userId":"7","nickname":"真实用户","verified":false},
+                  "clientMessageId":"client-text","messageType":"TEXT",
+                  "payload":{"text":"真实消息"},"status":"SENT",
+                  "createdAt":"2026-07-28T01:00:00Z"$readAt
+                }""",
+            ).jsonObject,
+        )
+
+        assertEquals(null, decode("").readAt)
+        assertEquals(null, decode(""","readAt":null""").readAt)
+        assertEquals(
+            "2026-07-28T01:01:00Z",
+            decode(""","readAt":"2026-07-28T01:01:00Z"""").readAt,
+        )
+    }
+
+    @Test
     fun responseRejectsUnknownMessageDiscriminatorAndExtraFields() {
         val unknown = HhyNetworkJson.value.parseToJsonElement(
             """{"id":"1","conversationId":"2","sender":{"userId":"7","nickname":"用户","verified":false},"clientMessageId":"c","messageType":"VOICE","payload":{},"status":"SENT","createdAt":"2026-07-28T01:00:00Z"}""",

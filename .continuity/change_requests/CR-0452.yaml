@@ -1,0 +1,45 @@
+protocol_version: '1.0'
+cr_id: CR-0452
+title: 补齐CR-0451消息安全菜单回归测试范围
+status: IMPLEMENTING
+created_at: '2026-07-28T14:11:28Z'
+updated_at: '2026-07-28T14:43:33Z'
+requester_actor_id: codex-r16-client-admin-20260728
+approver_actor_id: codex-r14-scope-independent-review-20260728
+task_id: TASK-R16-004
+session_id: SES-20260728T125934Z-F3DED330
+user_request: 修复R14六项消息缺陷并由GitHub Actions真实交互审核
+reason: CR-0451批准范围漏列已存在的R14ChatSurfacesTest，必须在提交前补齐治理范围而不扩大产品行为
+original_rule: CR-0451已批准移除会话详情页删除动作，但其文件清单漏列既有R14ChatSurfacesTest。
+new_rule: 仅把R14ChatSurfacesTest纳入CR-0451同一回归范围，断言安全菜单不再展示删除会话；不改变任何产品接口、数据库、配置或页面行为。
+impact_summary: 补齐单个既有Android Compose仪器测试文件的治理范围，防止范围门禁遗漏；产品实现完全沿用CR-0451。
+impact:
+  files:
+  - apps/android/feature/chat/src/androidTest/java/cc/orbexa/hhy/chat/R14ChatSurfacesTest.kt
+  pages:
+  - R14会话详情安全菜单
+  apis: []
+  database: []
+  configuration:
+  - 无
+  ledger: []
+  tests:
+  - 断言安全菜单包含举报/拉黑且不包含删除会话。
+  releases:
+  - R14回归候选
+  migration_and_compatibility: 纯测试范围补正，无迁移、无公共契约变化、无生产兼容影响。
+user_confirmation: 项目所有者已明确要求修复R14消息六项缺陷，其中删除会话入口从详情移除并迁至会话列表长按操作；本CR仅补齐对应回归测试治理范围。
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-28T14:12:35Z'
+  note: APPROVED：本CR仅补列CR-0451漏掉的既有R14ChatSurfacesTest.kt，影响文件、页面和测试范围单一明确，apis/database/ledger均为空且配置为无，不扩展产品行为、公共API或数据库。安全菜单断言“包含举报聊天与拉黑/解除拉黑，不包含删除会话”与用户要求及CR-0451冻结行为一致：删除入口必须从会话详情移除并迁至会话列表长按菜单；独立的删除确认弹层测试可保留，因为弹层仍由列表长按触发。批准作为R14回归测试范围补正，不授权修改实现边界。
+machine_record: .continuity/change_requests/CR-0452.yaml
+document: docs/03-continuity/change-requests/CR-0452-补齐CR-0451消息安全菜单回归测试范围.md
+decision_log:
+- at: '2026-07-28T14:43:33Z'
+  actor_id: codex-r16-client-admin-20260728
+  status: IMPLEMENTING
+  note: R14ChatSurfacesTest范围补正已实现且Android测试源码编译通过，待随CR-0451候选验证。
+  session_id: SES-20260728T125934Z-F3DED330
+session_ids:
+- SES-20260728T125934Z-F3DED330

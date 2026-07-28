@@ -11,10 +11,14 @@ task_id: TASK-R16-004
 story_id: STORY-R16-002
 goal: 实现SCR-ORDER-002真实订单详情，严格绑定orderGetMeOrdersByOrderno与OrderResource。
 started_at: '2026-07-28T12:59:34Z'
-updated_at: '2026-07-28T13:16:24Z'
+updated_at: '2026-07-28T14:44:04Z'
 takeover_of: null
 change_requests:
 - CR-0448
+- CR-0449
+- CR-0450
+- CR-0451
+- CR-0452
 scope:
   allowed_paths:
   - apps/android/**
@@ -46,7 +50,62 @@ scope:
   - releases/R16/RELEASE_MANIFEST.yaml
   - artifacts/reports/R16/TASK-R16-004-admin-orders.md
   - CHANGELOG.md
-  source: story-switch+explicit+approved-cr:CR-0448
+  - apps/android/settings.gradle.kts
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+  - apps/android/app/src/test/java/cc/orbexa/hhy/NavigationPolicyTest.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR16Api.kt
+  - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ContractR16ApiTest.kt
+  - apps/android/feature/order/build.gradle.kts
+  - apps/android/feature/order/src/main/java/cc/orbexa/hhy/order/R16OrderState.kt
+  - apps/android/feature/order/src/main/java/cc/orbexa/hhy/order/R16OrderScreens.kt
+  - apps/android/feature/order/src/test/java/cc/orbexa/hhy/order/R16OrderStateTest.kt
+  - artifacts/reports/R16/TASK-R16-004-android-order-detail.md
+  - AGENTS.md
+  - templates/AGENTS.md
+  - docs/00-baseline/正式商业系统全局硬性开发边界.md
+  - config/android-automation.yaml
+  - docs/08-testing/Android自动开发测试修复交付体系_V1.0.md
+  - docs/09-development/统一开发与交付效率规范.md
+  - config/development-workflow.yaml
+  - scripts/android_ci_gate.py
+  - tests/test_android_ci_gate.py
+  - scripts/run_android_emulator_gate.sh
+  - .github/workflows/android-quality-gate.yml
+  - scripts/check_release_artifacts.py
+  - tests/test_release_close_gate.py
+  - scripts/continuity.py
+  - tests/test_continuity_cross_release_close.py
+  - scripts/check_v123_continuity.py
+  - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR14Api.kt
+  - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ContractR14ApiTest.kt
+  - apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ConversationListScreen.kt
+  - apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ConversationListState.kt
+  - apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ChatDetailScreen.kt
+  - apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ChatSheets.kt
+  - apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ChatDialogs.kt
+  - apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14BlockStateStore.kt
+  - apps/android/feature/chat/src/test/java/cc/orbexa/hhy/chat/R14ChatStateTest.kt
+  - apps/android/feature/chat/src/test/java/cc/orbexa/hhy/chat/R14ConversationListStateTest.kt
+  - apps/android/feature/chat/src/test/java/cc/orbexa/hhy/chat/R14BlockStateStoreTest.kt
+  - apps/android/feature/chat/src/androidTest/java/cc/orbexa/hhy/chat/R14ConversationListScreenTest.kt
+  - apps/android/feature/chat/src/androidTest/java/cc/orbexa/hhy/chat/R14ChatDetailScreenTest.kt
+  - apps/android/feature/chat/src/androidTest/java/cc/orbexa/hhy/chat/R14BlockStateStoreInstrumentedTest.kt
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R14PostgresStore.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R14PostgresStoreTest.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/CiAutomationFixtureStore.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/CiAutomationService.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/CiAutomationServiceTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/CiAutomationFixtureStorePostgresTest.java
+  - tests/android/visual-manifests/R14.yaml
+  - config/android-candidate-request.yaml
+  - releases/R14/RELEASE_MANIFEST.yaml
+  - releases/R14/TEST_APK_DELIVERY.yaml
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/08-quality/全局优点复用与踩坑闭环记录.md
+  - apps/android/feature/chat/src/androidTest/java/cc/orbexa/hhy/chat/R14ChatSurfacesTest.kt
+  source: story-switch+explicit+approved-cr:CR-0448+approved-cr:CR-0449+approved-cr:CR-0451+approved-cr:CR-0452
 git:
   initialized: true
   branch: task/TASK-R03-001
@@ -56,25 +115,25 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-28T13:16:17Z'
-  expires_at: '2026-07-28T17:16:17Z'
-checkpoint_sequence: 5
-latest_checkpoint: .continuity/checkpoints/SES-20260728T125934Z-F3DED330/0005.yaml
+  renewed_at: '2026-07-28T14:43:55Z'
+  expires_at: '2026-07-28T18:43:55Z'
+checkpoint_sequence: 9
+latest_checkpoint: .continuity/checkpoints/SES-20260728T125934Z-F3DED330/0009.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260728T125934Z-F3DED330.md
-next_step: 读取SCR-ORDER-002冻结规格和现有Android导航/网络架构，创建精确CR。
+next_step: 冻结R14修复提交并推送，部署绑定提交的候选后端，提交R14候选请求并由GitHub Actions真实点击验收；PASS后交付R14 APK和测试文档，再按R15后R16顺序继续。
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: 3a7d6ea823b5294238c8f5ba4f0e86605bcea21d153fe38e93c7ed0ae8e9da8d
-  generated_at: '2026-07-28T13:16:21Z'
+  context_hash: ecfc27241d22671485e7196e5c77c08c089d4bb110cd526d76ff266a779323d7
+  generated_at: '2026-07-28T14:44:00Z'
 handoff_bundle: null
 closure: null
 parallel_execution:
-  assessment: NO_SAFE_PARALLEL
+  assessment: USER_SERIAL_OVERRIDE
   delegated_workers: 0
   workers: []
-  reason: 需先读取冻结规格并确定精确范围。
+  reason: 用户要求当前持续推进且本阶段为同一冻结提交的串行构建、部署、候选与交付链，不启动新代理。
 story_history:
 - story_id: STORY-R16-001
   completed_at: '2026-07-28T13:15:40Z'

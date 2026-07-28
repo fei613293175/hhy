@@ -1,7 +1,8 @@
 package cc.orbexa.hhy.chat
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -13,7 +14,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -24,11 +24,14 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -36,6 +39,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
@@ -69,6 +73,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -83,7 +88,13 @@ fun R14ConversationListScreen(
     var state by remember { mutableStateOf(R14ConversationListState()) }
     var keyword by rememberSaveable { mutableStateOf("") }
     var refreshKey by rememberSaveable { mutableIntStateOf(0) }
+    var actionConversation by remember { mutableStateOf<ChatConversationResource?>(null) }
+    var deleteConversation by remember { mutableStateOf<ChatConversationResource?>(null) }
+    var deleteSubmitting by remember { mutableStateOf(false) }
+    var deleteFailure by remember { mutableStateOf<String?>(null) }
     val listState = rememberLazyListState()
+    val scope = rememberCoroutineScope()
+    val keys = remember { R14IntentKeys() }
 
     LaunchedEffect(realtimeEvents) {
         realtimeEvents.collect { event ->
@@ -145,32 +156,82 @@ fun R14ConversationListScreen(
         }
     }
 
-    Column(
+    actionConversation?.let { conversation ->
+        ConversationActionsSheet(
+            conversation = conversation,
+            onDismiss = { actionConversation = null },
+            onDelete = {
+                actionConversation = null
+                deleteFailure = null
+                deleteConversation = conversation
+            },
+        )
+    }
+    deleteConversation?.let { conversation ->
+        val peer = conversation.peer
+        if (peer != null) {
+            R14DeleteConversationDialog(
+                peer = peer,
+                submitting = deleteSubmitting,
+                failure = deleteFailure,
+                onDismiss = {
+                    if (!deleteSubmitting) {
+                        deleteConversation = null
+                        deleteFailure = null
+                    }
+                },
+                onConfirm = {
+                    if (!deleteSubmitting) {
+                        deleteSubmitting = true
+                        deleteFailure = null
+                        val key = keys.key("delete-conversation", conversation.id)
+                        scope.launch {
+                            when (val result = api.deleteConversation(accessToken, conversation.id, key)) {
+                                is R07CallResult.Success -> {
+                                    keys.complete("delete-conversation", conversation.id)
+                                    state = state.removed(conversation.id)
+                                    deleteSubmitting = false
+                                    deleteConversation = null
+                                }
+                                is R07CallResult.Failure -> {
+                                    deleteSubmitting = false
+                                    deleteFailure = result.r14ActionMessage()
+                                    if (result.statusCode == 401) onSessionExpired()
+                                }
+                            }
+                        }
+                    }
+                },
+            )
+        } else {
+            deleteConversation = null
+        }
+    }
+
+    Scaffold(
         modifier = Modifier.fillMaxSize()
-            .background(HhyColors.Surface)
-            .padding(contentPadding)
-            .statusBarsPadding()
+            .padding(bottom = contentPadding.calculateBottomPadding())
             .semantics { testTagsAsResourceId = true }
             .testTag("hhy.screen.r14.conversations"),
-    ) {
-        Text(
-            text = "消息",
-            modifier = Modifier.fillMaxWidth().padding(horizontal = HhySpacing.Lg, vertical = HhySpacing.Md),
-            fontSize = HhyType.PageTitleSize,
-            lineHeight = HhyType.PageTitleLineHeight,
-            fontWeight = FontWeight.Bold,
-            color = HhyColors.TextPrimary,
-        )
-        ConversationSearchField(
-            value = keyword,
-            onValueChange = { if (it.length <= 100) keyword = it },
-        )
-        PullToRefreshBox(
-            isRefreshing = state.phase == R14ConversationPhase.SYNCING && !state.appending,
-            onRefresh = { refreshKey += 1 },
-            modifier = Modifier.fillMaxSize(),
-        ) {
-            when {
+        topBar = {
+            TopAppBar(
+                modifier = Modifier.testTag("r14.conversations.topbar"),
+                title = { Text("消息") },
+            )
+        },
+        containerColor = HhyColors.Surface,
+    ) { screenPadding ->
+        Column(Modifier.fillMaxSize().padding(screenPadding).background(HhyColors.Surface)) {
+            ConversationSearchField(
+                value = keyword,
+                onValueChange = { if (it.length <= 100) keyword = it },
+            )
+            PullToRefreshBox(
+                isRefreshing = state.phase == R14ConversationPhase.SYNCING && !state.appending,
+                onRefresh = { refreshKey += 1 },
+                modifier = Modifier.fillMaxSize(),
+            ) {
+                when {
                 state.phase == R14ConversationPhase.CONNECTING && state.items.isEmpty() -> ConversationLoading()
                 state.phase == R14ConversationPhase.OFFLINE && state.items.isEmpty() -> ConversationFailure(
                     message = state.failure?.r14ConversationMessage().orEmpty(),
@@ -210,6 +271,7 @@ fun R14ConversationListScreen(
                         ConversationRow(
                             conversation = conversation,
                             onClick = { onConversationSelected(conversation) },
+                            onLongClick = { actionConversation = conversation },
                         )
                         HorizontalDivider(
                             color = HhyColors.Border,
@@ -228,6 +290,38 @@ fun R14ConversationListScreen(
                     }
                 }
             }
+        }
+    }
+}
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun ConversationActionsSheet(
+    conversation: ChatConversationResource,
+    onDismiss: () -> Unit,
+    onDelete: () -> Unit,
+) {
+    ModalBottomSheet(
+        onDismissRequest = onDismiss,
+        modifier = Modifier.semantics { testTagsAsResourceId = true }
+            .testTag("hhy.sheet.r14.conversation-actions"),
+    ) {
+        Column(
+            Modifier.fillMaxWidth().padding(horizontal = HhySpacing.Xl, vertical = HhySpacing.Lg),
+            verticalArrangement = Arrangement.spacedBy(HhySpacing.Sm),
+        ) {
+            Text(
+                conversation.peer?.nickname ?: "会话操作",
+                fontSize = HhyType.CardTitleSize,
+                fontWeight = FontWeight.SemiBold,
+            )
+            Text("会话管理", color = HhyColors.TextSecondary)
+            TextButton(
+                modifier = Modifier.fillMaxWidth().testTag("r14.conversation.delete"),
+                onClick = onDelete,
+            ) { Text("删除会话", color = HhyColors.Error) }
+            TextButton(modifier = Modifier.fillMaxWidth(), onClick = onDismiss) { Text("取消") }
         }
     }
 }
@@ -254,12 +348,21 @@ private fun ConversationSearchField(value: String, onValueChange: (String) -> Un
     )
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
-private fun ConversationRow(conversation: ChatConversationResource, onClick: () -> Unit) {
+private fun ConversationRow(
+    conversation: ChatConversationResource,
+    onClick: () -> Unit,
+    onLongClick: () -> Unit,
+) {
     val peer = conversation.peer
     Row(
         modifier = Modifier.fillMaxWidth()
-            .clickable(enabled = peer != null, onClick = onClick)
+            .combinedClickable(
+                enabled = peer != null,
+                onClick = onClick,
+                onLongClick = onLongClick,
+            )
             .padding(horizontal = HhySpacing.Lg, vertical = HhySpacing.Md)
             .semantics {
                 contentDescription = peer?.let { "与${it.nickname}的会话" } ?: "对方信息暂时无法显示"

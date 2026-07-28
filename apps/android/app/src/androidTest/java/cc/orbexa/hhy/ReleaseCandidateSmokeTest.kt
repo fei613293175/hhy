@@ -40,6 +40,7 @@ class ReleaseCandidateSmokeTest {
     private lateinit var device: UiDevice
     private lateinit var target: Context
     private lateinit var sessionJson: String
+    private lateinit var release: String
     private var previousScreenDigest: String? = null
     private var screenWaitDiagnostics: String = "not-run"
     private val screenshotDirectory = "Pictures/hhy-ci-screenshots"
@@ -59,6 +60,9 @@ class ReleaseCandidateSmokeTest {
         val arguments = InstrumentationRegistry.getArguments()
         val bootstrapCode = requireNotNull(arguments.getString("hhyCiBootstrapCode")?.takeIf(String::isNotBlank)) {
             "Missing one-time CI bootstrap code"
+        }
+        release = requireNotNull(arguments.getString("hhyCiRelease")?.takeIf(String::isNotBlank)) {
+            "Missing Android release identity"
         }
         val commit = requireNotNull(arguments.getString("hhyCiCommit")?.takeIf(String::isNotBlank)) {
             "Missing CI commit identity"
@@ -82,13 +86,19 @@ class ReleaseCandidateSmokeTest {
     }
 
     @Test
-    fun authenticatedR13PagesProduceBoundVisualEvidence() {
+    fun authenticatedReleaseJourneyProducesBoundFunctionalAndVisualEvidence() {
         val authenticatedShellReady = waitForAuthenticatedShell()
         assertTrue(
             "Authenticated shell did not become actionable: ${authenticatedShellDiagnostics()}",
             authenticatedShellReady,
         )
         assertFalse("Cold start exposed connection failure", device.hasObject(By.text("暂时无法连接")))
+
+        if (release == "R14") {
+            authenticatedR14ChatJourney()
+            return
+        }
+        check(release == "R13") { "Release-specific candidate journey is missing: $release" }
 
         clickResource("shell.navigation.me")
         assertTrue(
@@ -166,6 +176,64 @@ class ReleaseCandidateSmokeTest {
             device.wait(Until.gone(By.text("确认提交反馈")), 10_000),
         )
         assertR13BusinessLabels()
+        assertNoForbiddenVisibleText()
+    }
+
+    private fun authenticatedR14ChatJourney() {
+        val peer = "R14候选体验用户"
+        val sentText = "R14候选发送-${System.currentTimeMillis()}"
+        clickResource("shell.navigation.message")
+        assertTrue(
+            "R14 conversation list did not become visible",
+            waitForScreen("hhy.screen.r14.conversations"),
+        )
+        assertTrue("R14 fixture peer is missing", device.wait(Until.hasObject(By.text(peer)), 20_000))
+        assertTrue("R14 fixture message is missing", device.hasObject(By.text("R14候选会话已准备")))
+        captureStable("01-r14-conversations.png")
+
+        setResourceText("r14.conversations.search", peer)
+        assertTrue("R14 keyword search did not settle", device.wait(Until.hasObject(By.text(peer)), 10_000))
+        assertFalse("R14 keyword search exposed an error", device.hasObject(By.textContains("会话暂时无法加载")))
+        clickResource("r14.conversation.row")
+        assertTrue("R14 chat detail did not become visible", waitForScreen("hhy.screen.r14.chat"))
+
+        setResourceText("r14.chat.composer", sentText)
+        clickDescription("发送")
+        assertTrue("R14 sent message did not appear", device.wait(Until.hasObject(By.text(sentText)), 15_000))
+        assertTrue("R14 sent message did not show sent state", device.wait(Until.hasObject(By.text("已发送")), 10_000))
+        assertFalse("R14 new message was falsely rendered as read", device.hasObject(By.text("已读")))
+        captureStable("02-r14-sent.png")
+
+        clickDescription("会话操作")
+        clickExactText("拉黑该用户")
+        clickLastExactText("确认拉黑")
+        assertTrue("R14 block did not disable the composer", device.wait(Until.hasObject(By.text("当前无法发送消息")), 10_000))
+        assertFalse("R14 blocked detail still exposed the composer", device.hasObject(By.res("r14.chat.composer")))
+
+        device.pressBack()
+        assertTrue("R14 block did not return to list", waitForScreen("hhy.screen.r14.conversations"))
+        clickResource("r14.conversation.row")
+        assertTrue("R14 blocked chat did not reopen", waitForScreen("hhy.screen.r14.chat"))
+        assertTrue("R14 own block was not restored after reentry", device.wait(Until.hasObject(By.text("当前无法发送消息")), 10_000))
+        clickDescription("会话操作")
+        assertTrue("R14 own block menu did not switch to unblock", device.hasObject(By.text("解除拉黑")))
+        captureStable("03-r14-blocked-reentry.png")
+        clickExactText("解除拉黑")
+        clickLastExactText("解除拉黑")
+        assertTrue("R14 unblock did not restore composer", device.wait(Until.hasObject(By.res("r14.chat.composer")), 10_000))
+
+        device.pressBack()
+        assertTrue("R14 unblock did not return to list", waitForScreen("hhy.screen.r14.conversations"))
+        longClickResource("r14.conversation.row")
+        assertTrue("R14 list long press did not expose delete", device.wait(Until.hasObject(By.text("删除会话")), 10_000))
+        captureStable("04-r14-long-press-menu.png")
+        clickExactText("删除会话")
+        clickLastExactText("删除会话")
+        assertTrue(
+            "R14 confirmed delete did not remove the conversation",
+            device.wait(Until.gone(By.res("r14.conversation.row")), 10_000),
+        )
+        assertTrue("R14 filtered empty state is missing", device.hasObject(By.text("没有找到相关会话")))
         assertNoForbiddenVisibleText()
     }
 
@@ -285,6 +353,36 @@ class ReleaseCandidateSmokeTest {
         composeRule.waitForIdle()
         if (settleMillis > 0) device.waitForIdle(settleMillis)
         return diagnostic
+    }
+
+    private fun setResourceText(value: String, text: String) {
+        val node = device.wait(Until.findObject(By.res(value)), 15_000)
+            ?: error("Cannot find editable UI resource: $value")
+        node.text = text
+        composeRule.waitForIdle()
+        device.waitForIdle(1_000)
+    }
+
+    private fun clickDescription(value: String) {
+        val descriptionNode = device.wait(Until.findObject(By.desc(value)), 15_000)
+            ?: error("Cannot find UI description: $value")
+        val node = generateSequence(descriptionNode) { current -> current.parent }
+            .firstOrNull { it.isClickable && it.isEnabled }
+            ?: error("Cannot find clickable UI ancestor for description: $value")
+        node.click()
+        composeRule.waitForIdle()
+        device.waitForIdle(1_000)
+    }
+
+    private fun longClickResource(value: String) {
+        val resourceNode = device.wait(Until.findObject(By.res(value)), 15_000)
+            ?: error("Cannot find long-click UI resource: $value")
+        val node = generateSequence(resourceNode) { current -> current.parent }
+            .firstOrNull { it.isLongClickable && it.isEnabled }
+            ?: error("Cannot find long-clickable UI ancestor for resource: $value")
+        node.longClick()
+        composeRule.waitForIdle()
+        device.waitForIdle(1_000)
     }
 
     private fun navigateToR13Content(resource: String, mode: String, source: String) {

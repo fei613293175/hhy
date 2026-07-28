@@ -25,6 +25,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.testTagsAsResourceId
 import androidx.compose.ui.text.font.FontWeight
 import cc.orbexa.hhy.designsystem.HhyColors
 import cc.orbexa.hhy.designsystem.HhySpacing
@@ -103,14 +106,16 @@ fun R14ContactSheet(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun R14SafetySheet(peer: PublisherSummaryResource, blocked: Boolean, onDismiss: () -> Unit, onReport: () -> Unit, onBlock: () -> Unit, onDelete: () -> Unit) {
-    ModalBottomSheet(onDismissRequest = onDismiss) {
+fun R14SafetySheet(peer: PublisherSummaryResource, blocked: Boolean, onDismiss: () -> Unit, onReport: () -> Unit, onBlock: () -> Unit) {
+    ModalBottomSheet(
+        onDismissRequest = onDismiss,
+        modifier = Modifier.semantics { testTagsAsResourceId = true }.testTag("hhy.sheet.r14.safety"),
+    ) {
         Column(Modifier.fillMaxWidth().padding(horizontal = HhySpacing.Xl, vertical = HhySpacing.Lg), verticalArrangement = Arrangement.spacedBy(HhySpacing.Sm)) {
             Text(peer.nickname, fontSize = HhyType.PageTitleSize, lineHeight = HhyType.PageTitleLineHeight, fontWeight = FontWeight.Bold)
             Text("会话安全与管理", color = HhyColors.TextSecondary)
             TextButton(onClick = onReport, modifier = Modifier.fillMaxWidth()) { Text("举报聊天") }
             TextButton(onClick = onBlock, modifier = Modifier.fillMaxWidth()) { Text(if (blocked) "解除拉黑" else "拉黑该用户") }
-            TextButton(onClick = onDelete, modifier = Modifier.fillMaxWidth()) { Text("删除会话", color = HhyColors.Error) }
             OutlinedButton(onClick = onDismiss, modifier = Modifier.fillMaxWidth()) { Text("取消") }
         }
     }

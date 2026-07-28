@@ -151,6 +151,10 @@ def load_policy(path: Path = DEFAULT_POLICY) -> dict[str, Any]:
         raise GateError("Every Desktop candidate must include the version test guide")
     if document["enforcement"].get("test_apk_requires_candidate_status") is not False:
         raise GateError("Fixed-toolchain TEST_APK delivery must not depend on automated candidate status")
+    if document["enforcement"].get("machine_completion_requires_candidate_status") != "PASS":
+        raise GateError("R14+ major-release machine completion must require candidate PASS")
+    if document["enforcement"].get("machine_completion_candidate_effective_from_release") != "R14":
+        raise GateError("Major-release candidate machine-completion boundary must start at R14")
     test_apk = document["delivery"].get("test_apk") or {}
     required_test_apk_evidence = {
         "frozen_commit", "official_api_base_url", "compile", "unit_tests", "lint",
@@ -186,12 +190,16 @@ def load_policy(path: Path = DEFAULT_POLICY) -> dict[str, Any]:
     if document["delivery"].get("candidate_fields_scope") != "AUTOMATED_CANDIDATE_ONLY":
         raise GateError("Legacy candidate-only delivery fields must not govern TEST_APK delivery")
     automated_candidate = document["delivery"].get("automated_candidate") or {}
-    if automated_candidate.get("mode") != "ON_DEMAND_NON_BLOCKING_SPECIALTY":
-        raise GateError("GitHub emulator candidate must remain an on-demand specialty")
+    if automated_candidate.get("mode") != "MAJOR_RELEASE_MACHINE_CLOSE_REQUIRED":
+        raise GateError("GitHub emulator candidate must gate R14+ major-release machine completion")
     if automated_candidate.get("required_for_test_apk_delivery") is not False:
         raise GateError("Automated candidate must not block TEST_APK delivery")
     if automated_candidate.get("required_for_next_release_development") is not False:
         raise GateError("Automated candidate must not block next-release development")
+    if "MACHINE_COMPLETION" not in set(automated_candidate.get("failure_blocks") or []):
+        raise GateError("Failed major-release candidate must block machine completion")
+    if "MAJOR_RELEASE_MACHINE_COMPLETION" not in set(automated_candidate.get("trigger_classes") or []):
+        raise GateError("Major-release machine completion trigger is missing")
     if document["visual"].get("review_authority") != "AI_IMPLEMENTATION_AGENT":
         raise GateError("Visual review authority must be AI_IMPLEMENTATION_AGENT")
     bootstrap = document["visual"].get("baseline_bootstrap") or {}
@@ -207,6 +215,10 @@ def load_policy(path: Path = DEFAULT_POLICY) -> dict[str, Any]:
         raise GateError("Production activation must retain project-owner acceptance")
     if not document["emulator"].get("visual_manifest_root"):
         raise GateError("Every enforced release must resolve a visual manifest")
+    if "release_functional_interactions" not in set(document["emulator"].get("required_journeys") or []):
+        raise GateError("Every major-release candidate must execute real functional interactions")
+    if "release_functional_journey_pass" not in set(document["visual"].get("ai_acceptance_required_checks") or []):
+        raise GateError("AI acceptance must include the release functional journey")
     return document
 
 

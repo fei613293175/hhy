@@ -2,6 +2,7 @@ package cc.orbexa.hhy.chat
 
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertIsNotEnabled
+import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
@@ -42,13 +43,13 @@ class R14ChatSurfacesTest {
     fun safetySheetExposesOnlyFrozenActions() {
         composeRule.setContent {
             HhyTheme {
-                R14SafetySheet(peer, blocked = false, {}, {}, {}, {})
+                R14SafetySheet(peer, blocked = false, {}, {}, {})
             }
         }
 
         composeRule.onNodeWithText("举报聊天").assertIsDisplayed()
         composeRule.onNodeWithText("拉黑该用户").assertIsDisplayed()
-        composeRule.onNodeWithText("删除会话").assertIsDisplayed()
+        assertEquals(0, composeRule.onAllNodes(hasText("删除会话")).fetchSemanticsNodes().size)
     }
 
     @Test
@@ -73,7 +74,7 @@ class R14ChatSurfacesTest {
 
         composeRule.onNodeWithText("举报原因配置暂不可用，当前无法提交。").assertIsDisplayed()
         composeRule.onNodeWithText("提交举报").assertIsNotEnabled()
-        composeRule.onNodeWithText("reasonCode").assertDoesNotExist()
+        assertEquals(0, composeRule.onAllNodes(hasText("reasonCode")).fetchSemanticsNodes().size)
     }
 
     @Test
@@ -153,6 +154,6 @@ class R14ChatSurfacesTest {
 
         composeRule.onNodeWithText("删除会话").assertIsDisplayed()
         composeRule.onNodeWithText("将从当前账号的会话列表中删除与 真实用户 的会话视图，不会删除对方的消息记录。").assertIsDisplayed()
-        composeRule.onNodeWithText("requestId").assertDoesNotExist()
+        assertEquals(0, composeRule.onAllNodes(hasText("requestId")).fetchSemanticsNodes().size)
     }
 }

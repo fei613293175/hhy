@@ -11,6 +11,8 @@ enforcement:
   - APK_BUGFIX_CANDIDATE
   owner_test_requires_candidate_status: PASS
   test_apk_requires_candidate_status: false
+  machine_completion_requires_candidate_status: PASS
+  machine_completion_candidate_effective_from_release: R14
   release_complete_requires_owner_status: PASS
   next_release_development_requires_owner_status: false
   production_activation_requires_owner_status: PASS
@@ -71,6 +73,7 @@ emulator:
   required_journeys:
   - cold_start
   - staging_oidc_session
+  - release_functional_interactions
   - release_visual_matrix
 visual:
   baseline_root: tests/android/visual-baselines
@@ -101,6 +104,7 @@ visual:
   - stable_pixels
   - distinct_screenshot_sha256
   - no_sensitive_or_technical_text
+  - release_functional_journey_pass
   rule: 基线必须来自冻结设计施工后的合格模拟器截图；AI实现代理按强制检查自主判定并登记哈希，不得等待项目所有者逐轮核实
 logs:
   fatal_patterns:
@@ -322,16 +326,18 @@ delivery:
     - repository_desktop_server_https_sha256
     - desktop_test_guide
   automated_candidate:
-    mode: ON_DEMAND_NON_BLOCKING_SPECIALTY
+    mode: MAJOR_RELEASE_MACHINE_CLOSE_REQUIRED
     required_for_test_apk_delivery: false
     required_for_next_release_development: false
     trigger_classes:
+    - MAJOR_RELEASE_MACHINE_COMPLETION
     - AUTHENTICATION_HIGH_RISK
     - PAYMENT_OR_LEDGER_HIGH_RISK
     - APP_UPGRADE_HIGH_RISK
     - HISTORICAL_VISUAL_AUDIT
     - OWNER_EXPLICIT_REQUEST
     failure_blocks:
+    - MACHINE_COMPLETION
     - AUTOMATED_CANDIDATE_ACCEPTANCE
     - PRODUCTION_AUTOMATION_EVIDENCE
 execution_tiers:
@@ -355,7 +361,7 @@ execution_tiers:
     emulator_allowed: false
     next_release_blocking: false
   release_candidate:
-    trigger: on-demand validated config/android-candidate-request.yaml or workflow_dispatch with candidate=true
+    trigger: R14起大版本机器完成或其他已验证的config/android-candidate-request.yaml，或workflow_dispatch with candidate=true
     required:
     - fast_commit
     - emulator_install_and_journeys
@@ -370,4 +376,4 @@ candidate_request:
   reusable_quality_gate: .github/workflows/android-quality-gate.yml
   allowed_releases: R06-R32
   remediation_attempt_range: 1-3
-  rule: 候选请求是按需非阻断专项，必须进入事实分支并通过同一权威质量门禁；普通请求仅允许1至3，只有approved_attempt_exceptions全字段精确匹配时才允许其登记的单次轮次，且不得改变全局max_ai_attempts=3；候选失败只阻断候选自身和生产自动证据，不阻断固定环境TEST_APK交付或下一版本编码；不得用普通CI的中间APK替代候选产物
+  rule: R14起每个大版本机器完成必须通过一次该版本专属真实交互候选；请求必须进入事实分支并通过同一权威质量门禁，普通请求仅允许1至3，只有approved_attempt_exceptions全字段精确匹配时才允许其登记的单次轮次，且不得改变全局max_ai_attempts=3；候选失败阻断该版机器完成、候选接受和生产自动证据，但不阻断固定环境TEST_APK交付或下一版本独立编码；不得用普通CI的中间APK或截图数量替代交互候选产物

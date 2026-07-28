@@ -4,9 +4,12 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.junit4.createComposeRule
+import androidx.compose.ui.test.onAllNodesWithText
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.performTouchInput
+import androidx.compose.ui.test.longClick
 import cc.orbexa.hhy.designsystem.HhyTheme
 import cc.orbexa.hhy.network.ChatConversationPageResource
 import cc.orbexa.hhy.network.ChatConversationResource
@@ -53,8 +56,35 @@ class R14ConversationListScreenTest {
         composeRule.onNodeWithContentDescription("与真实联系人的会话").performClick()
         assertEquals("conversation_42", selected)
         listOf("requestId", "lastReadMessageId", "version", "通知中心", "公告中心", "官方客服", "系统消息").forEach {
-            composeRule.onNodeWithText(it).assertDoesNotExist()
+            assertEquals(0, composeRule.onAllNodes(hasText(it)).fetchSemanticsNodes().size)
         }
+    }
+
+    @Test
+    fun longPressOwnsConversationDeletionAndRemovesConfirmedRow() {
+        composeRule.setContent {
+            HhyTheme {
+                R14ConversationListScreen(
+                    api = ConversationApi,
+                    accessToken = "token",
+                    onConversationSelected = {},
+                    onSessionExpired = {},
+                )
+            }
+        }
+
+        composeRule.waitUntil(5_000) {
+            composeRule.onAllNodes(hasText("真实联系人")).fetchSemanticsNodes().isNotEmpty()
+        }
+        composeRule.onNodeWithContentDescription("与真实联系人的会话").performTouchInput { longClick() }
+        composeRule.onNodeWithText("删除会话").assertIsDisplayed().performClick()
+        composeRule.onNodeWithText("将从当前账号的会话列表中删除与 真实联系人 的会话视图，不会删除对方的消息记录。")
+            .assertIsDisplayed()
+        composeRule.onAllNodesWithText("删除会话")[1].performClick()
+        composeRule.waitUntil(5_000) {
+            composeRule.onAllNodes(hasText("真实联系人")).fetchSemanticsNodes().isEmpty()
+        }
+        assertEquals(0, composeRule.onAllNodes(hasText("真实联系人")).fetchSemanticsNodes().size)
     }
 
     private object ConversationApi : ContractR14Api {
@@ -79,5 +109,14 @@ class R14ConversationListScreenTest {
         override suspend fun messages(accessToken: String, conversationId: String, page: Int, pageSize: Int, cursor: String?, status: String?, keyword: String?, sort: String?): R07CallResult<ChatMessagePageResource> = R07CallResult.Failure(500)
         override suspend fun send(accessToken: String, conversationId: String, idempotencyKey: String, request: ChatSendMessageRequest): R07CallResult<ChatMessageResource> = R07CallResult.Failure(500)
         override suspend fun read(accessToken: String, conversationId: String, idempotencyKey: String, request: ChatPostConversationsByIdReadRequest): R07CallResult<CommandResultResource> = R07CallResult.Failure(500)
+        override suspend fun deleteConversation(accessToken: String, conversationId: String, idempotencyKey: String) =
+            R07CallResult.Success(
+                CommandResultResource(
+                    resourceId = conversationId,
+                    status = "HIDDEN",
+                    acceptedAt = "2026-07-28T02:31:00Z",
+                ),
+                "req",
+            )
     }
 }

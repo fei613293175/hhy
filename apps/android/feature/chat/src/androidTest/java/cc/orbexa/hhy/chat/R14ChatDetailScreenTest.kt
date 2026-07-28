@@ -5,6 +5,7 @@ import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
+import androidx.compose.ui.test.performClick
 import cc.orbexa.hhy.designsystem.HhyTheme
 import cc.orbexa.hhy.network.ChatMessagePageResource
 import cc.orbexa.hhy.network.ChatMessageResource
@@ -23,6 +24,7 @@ import cc.orbexa.hhy.network.PublisherSummaryResource
 import cc.orbexa.hhy.network.R07CallResult
 import cc.orbexa.hhy.network.R07PageMeta
 import java.io.InputStream
+import org.junit.Assert.assertEquals
 import org.junit.Rule
 import org.junit.Test
 
@@ -54,9 +56,40 @@ class R14ChatDetailScreenTest {
         composeRule.onNodeWithText("暂无消息").assertIsDisplayed()
         composeRule.onNodeWithContentDescription("发送图片").assertIsDisplayed()
         composeRule.onNodeWithContentDescription("发送").assertIsDisplayed()
-        composeRule.onNodeWithText("requestId").assertDoesNotExist()
-        composeRule.onNodeWithText("clientMessageId").assertDoesNotExist()
-        composeRule.onNodeWithText("expectedVersion").assertDoesNotExist()
+        assertEquals(0, composeRule.onAllNodes(hasText("requestId")).fetchSemanticsNodes().size)
+        assertEquals(0, composeRule.onAllNodes(hasText("clientMessageId")).fetchSemanticsNodes().size)
+        assertEquals(0, composeRule.onAllNodes(hasText("expectedVersion")).fetchSemanticsNodes().size)
+    }
+
+    @Test
+    fun persistedOwnBlockSurvivesDetailReentryAndExposesOnlyUnblock() {
+        val store = object : R14BlockStateStore {
+            override fun isBlockedByMe(currentUserId: String, peerId: String) = true
+            override fun setBlockedByMe(currentUserId: String, peerId: String, blocked: Boolean) = true
+        }
+        composeRule.setContent {
+            HhyTheme {
+                R14ChatDetailScreen(
+                    api = EmptyChatApi,
+                    mediaApi = UnusedMediaApi,
+                    accessToken = "token",
+                    conversationId = "42",
+                    currentUserId = "11",
+                    initialPeer = PublisherSummaryResource("7", "真实发布者", verified = false),
+                    blockStateStore = store,
+                    onBack = {},
+                    onSessionExpired = {},
+                )
+            }
+        }
+
+        composeRule.waitUntil(5_000) {
+            composeRule.onAllNodes(hasText("当前无法发送消息")).fetchSemanticsNodes().isNotEmpty()
+        }
+        assertEquals(0, composeRule.onAllNodes(hasText("输入消息")).fetchSemanticsNodes().size)
+        composeRule.onNodeWithContentDescription("会话操作").performClick()
+        composeRule.onNodeWithText("解除拉黑").assertIsDisplayed()
+        assertEquals(0, composeRule.onAllNodes(hasText("删除会话")).fetchSemanticsNodes().size)
     }
 
     private object EmptyChatApi : ContractR14Api {

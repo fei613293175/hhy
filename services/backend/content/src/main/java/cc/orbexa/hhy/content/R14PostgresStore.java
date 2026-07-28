@@ -49,7 +49,7 @@ public class R14PostgresStore implements R14Store {
             args.add(query.cursor().id());
         }
         if (query.keyword() != null) {
-            sql.append(" AND lower(COALESCE(profile.nickname,'')) LIKE ? ESCAPE '\\\\'");
+            sql.append(" AND lower(COALESCE(profile.nickname,'')) LIKE ? ESCAPE '!'");
             args.add("%" + escapeLike(query.keyword().toLowerCase(java.util.Locale.ROOT)) + "%");
         }
         sql.append(" ORDER BY conversation.updated_at DESC,conversation.id DESC LIMIT ? OFFSET ?");
@@ -324,7 +324,7 @@ public class R14PostgresStore implements R14Store {
     }
 
     private static String escapeLike(String value) {
-        return value.replace("\\", "\\\\").replace("%", "\\%").replace("_", "\\_");
+        return value.replace("!", "!!").replace("%", "!%").replace("_", "!_");
     }
 
     private static OffsetDateTime time(Instant value) { return OffsetDateTime.ofInstant(value, ZoneOffset.UTC); }

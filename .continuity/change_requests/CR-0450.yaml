@@ -1,0 +1,91 @@
+protocol_version: '1.0'
+cr_id: CR-0450
+title: 修复R14消息体验并升级大版本GitHub交互验收
+status: REJECTED
+created_at: '2026-07-28T13:42:13Z'
+updated_at: '2026-07-28T13:49:55Z'
+requester_actor_id: codex-r16-client-admin-20260728
+approver_actor_id: codex-r14-scope-independent-review-20260728
+task_id: TASK-R16-004
+session_id: SES-20260728T125934Z-F3DED330
+user_request: R14消息存在已读状态、系统栏重叠、拉黑状态丢失、删除入口错误、消息页头高度不统一、搜索失败六项缺陷；每个Android大版本结束必须由AI在GitHub Actions模拟器逐项点击操作审核，不能只看截图。
+reason: R14当前候选不满足真实功能与视觉验收；既有全局条款将GitHub模拟器定义为按需，需在原条款内升级为大版本结束强制交互候选且不增加普通提交负担。
+original_rule: CR-0412与CR-0414把GitHub模拟器候选降为按需非阻断专项，机器关闭可仅凭固定工具链TEST_APK推进；R14消息页各自维护顶栏、拉黑状态和删除入口，候选旅程仍硬编码R13。
+new_rule: R06至R32每个Android大版本最终机器关闭前必须运行一次绑定该版本冻结Commit的GitHub Actions交互候选：AI使用UiAutomator/Compose逐项点击、输入、长按、返回并核对业务状态、日志和截图，截图只能作为视觉证据而不能替代功能操作；普通提交、小版本和中间开发不得触发重型候选；AI独立判定PASS/FAIL，项目所有者真机反馈保持异步且不阻塞下一版本开发，生产激活仍保留项目所有者验收。R14必须补做并通过该验收后才恢复R16扩展。
+impact_summary: 原位修订CR-0412/CR-0414投影而不另建平行规则；机器关闭恢复要求大版本专属交互候选PASS，但TEST_APK仍可先交付且普通提交不跑模拟器。修复readAt JSON null假已读、统一Material TopAppBar与Insets、本人拉黑状态重进持久化及解除文案、删除迁至列表长按、PostgreSQL关键词搜索；建立R14
+  staging可重复夹具与发送/拉黑/重进/解除/搜索/长按删除真实旅程。
+impact:
+  files:
+  - AGENTS.md
+  - templates/AGENTS.md
+  - docs/00-baseline/正式商业系统全局硬性开发边界.md
+  - config/android-automation.yaml
+  - docs/08-testing/Android自动开发测试修复交付体系_V1.0.md
+  - docs/09-development/统一开发与交付效率规范.md
+  - config/development-workflow.yaml
+  - scripts/android_ci_gate.py
+  - tests/test_android_ci_gate.py
+  - scripts/run_android_emulator_gate.sh
+  - .github/workflows/android-quality-gate.yml
+  - scripts/check_release_artifacts.py
+  - tests/test_release_close_gate.py
+  - scripts/continuity.py
+  - tests/test_continuity_cross_release_close.py
+  - scripts/check_v123_continuity.py
+  - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR14Api.kt
+  - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ContractR14ApiTest.kt
+  - apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ConversationListScreen.kt
+  - apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ConversationListState.kt
+  - apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ChatDetailScreen.kt
+  - apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ChatSheets.kt
+  - apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ChatDialogs.kt
+  - apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14BlockStateStore.kt
+  - apps/android/feature/chat/src/test/java/cc/orbexa/hhy/chat/R14ChatStateTest.kt
+  - apps/android/feature/chat/src/test/java/cc/orbexa/hhy/chat/R14ConversationListStateTest.kt
+  - apps/android/feature/chat/src/androidTest/java/cc/orbexa/hhy/chat/R14ConversationListScreenTest.kt
+  - apps/android/feature/chat/src/androidTest/java/cc/orbexa/hhy/chat/R14ChatDetailScreenTest.kt
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R14PostgresStore.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R14PostgresStoreTest.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/CiAutomationFixtureStore.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/CiAutomationService.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/CiAutomationServiceTest.java
+  - tests/android/visual-manifests/R14.yaml
+  - config/android-candidate-request.yaml
+  - releases/R14/RELEASE_MANIFEST.yaml
+  - releases/R14/TEST_APK_DELIVERY.yaml
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/08-quality/全局优点复用与踩坑闭环记录.md
+  - CHANGELOG.md
+  pages:
+  - R14消息主页
+  - R14会话详情
+  - R14会话列表长按菜单
+  - GitHub R14候选模拟器
+  apis:
+  - GET /api/v1/conversations?keyword=...
+  - POST /api/v1/conversations/{id}/messages
+  - POST /api/v1/blocks/{peerId}
+  - DELETE /api/v1/blocks/{peerId}
+  - DELETE /api/v1/conversations/{id}
+  - POST /internal-ci/v1/android/bootstrap
+  database:
+  - 无结构迁移；修正R14会话关键词LIKE ESCAPE并增加仅staging可用候选夹具准备
+  configuration:
+  - Android大版本machine-close必须对应release交互候选PASS；普通提交、小版本、TEST_APK预交付和owner异步反馈仍不触发或阻塞
+  ledger: []
+  tests:
+  - 规则镜像/策略解析/关闭门禁负向测试；R14网络解码null、搜索SQL PostgreSQL17、拉黑持久化、列表长按删除、统一顶栏Compose测试；R14真实GitHub交互候选及日志/截图分析
+  releases:
+  - R14回归候选；R06-R32后续大版本机器关闭规则
+  migration_and_compatibility: 不修改生产数据库结构。搜索SQL仅修正PostgreSQL单字符ESCAPE；本人拉黑缓存按登录用户和对端用户隔离，只在服务端block/unblock成功后变化，不把对方拉黑误判为本人可解除；候选夹具仅在staging
+    CI自动化开关下事务准备并在每轮恢复确定状态；既有R06-R13历史证据不改写，R13旅程保留并按release分派。TEST_APK仍可在固定工具链PASS后先交付并继续非冲突开发，但大版本machine completion在对应GitHub交互候选PASS前不得宣称完成；production-close继续要求owner验收。
+user_confirmation: PENDING
+approval:
+  decision: REJECTED
+  decided_at: '2026-07-28T13:49:55Z'
+  note: 独立计划审查拒绝：大版本machine completion改为对应release交互候选PASS、owner异步反馈不阻塞下一版且仅production activation/production-close继续要求owner PASS的方向正确，补齐既有规则投影文件也正确；但当前API清单把冻结的POST/DELETE
+    /api/v1/users/{id}/block误写成/api/v1/blocks/{peerId}，必须纠正并明确六项缺陷不改公共OpenAPI和生产数据库结构。拉黑状态需冻结具体持久化机制与一致性边界：若用SharedPreferences须声明为同安装设备成功操作缓存、按currentUserId+peerId隔离、失败不写、切换账号不串、进程重建可恢复，并测试block/unblock失败与多用户多peer；若用DataStore或MainActivity注入须补build.gradle/版本目录/MainActivity影响文件。候选夹具需冻结每轮按release+commit+runId确定性清理并重建R14会话、消息、block状态，证明连续两次bootstrap/候选起点一致且production硬拒绝；旅程需明确null
+    readAt不得显示已读、重进后解除拉黑、搜索普通词及字面%/_/反斜杠、列表长按删除且详情无删除、下一轮恢复。测试还须明确readAt缺失/null/有效时间三态、PostgreSQL17真实集成、系统栏不重叠与列表/详情顶栏等高，以及候选逐步断言、日志、截图身份/SHA和报告，截图不得代替业务断言。完成amend后重新独立审批。
+machine_record: .continuity/change_requests/CR-0450.yaml
+document: docs/03-continuity/change-requests/CR-0450-修复R14消息体验并升级大版本GitHub交互验收.md

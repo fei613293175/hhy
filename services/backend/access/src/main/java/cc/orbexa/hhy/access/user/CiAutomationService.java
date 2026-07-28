@@ -58,6 +58,8 @@ public class CiAutomationService {
         }
         if ("R12".equals(release)) {
             fixtures.prepareR12SubmitTarget(user.id());
+        } else if ("R14".equals(release)) {
+            fixtures.prepareR14ChatTarget(user.id(), release, identity.commit(), identity.runId());
         }
         byte[] material = new byte[32];
         random.nextBytes(material);

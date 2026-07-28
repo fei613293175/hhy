@@ -94,6 +94,18 @@ class R14ConversationListStateTest {
         assertEquals("07-01", conversationTimeLabel("2026-07-01T02:30:00Z", zone, today))
     }
 
+    @Test
+    fun deletingConversationRemovesOnlyTheConfirmedRow() {
+        val state = R14ConversationListState(
+            phase = R14ConversationPhase.CONTENT,
+            items = listOf(conversation("a", "A"), conversation("b", "B")),
+        ).removed("a")
+
+        assertEquals(listOf("b"), state.items.map(ChatConversationResource::id))
+        assertEquals(R14ConversationPhase.CONTENT, state.phase)
+        assertEquals(R14ConversationPhase.EMPTY, state.removed("b").phase)
+    }
+
     private fun page(
         items: List<ChatConversationResource>,
         nextCursor: String? = null,

@@ -42,7 +42,7 @@ modes:
     quality_profile: MACHINE_CLOSE
     full_integration: verified_by_final_candidate
     release_gate: true
-    rule: 最终候选已在obx-test/GitHub固定工具链执行一次全量门禁后，机器收尾只核验同一源码Commit的候选APK、Staging、视觉、文档和无状态交接证据；不得在本机安装或重复Java/Android重型门禁；允许项目所有者真机结果异步PENDING，生产验收不在此模式内
+    rule: R14起最终候选必须在GitHub固定模拟器完成该版本真实点击、输入、长按、返回、重进、业务状态断言、截图和日志审核并PASS；机器收尾只核验同一源码Commit的候选APK、Staging、视觉、文档和无状态交接证据，不重复Java/Android重型门禁；允许项目所有者真机结果异步PENDING，生产验收不在此模式内
 
 simple_task:
   max_classified_files: 6
