@@ -8,10 +8,10 @@ actor:
   host: unknown
 release: R14
 task_id: TASK-R14-004
-story_id: STORY-R14-003
-goal: 严格按四个冻结交互面实现联系方式发送、聊天举报、拉黑与解除拉黑确认、删除会话确认，复用R14真实API与Design Token，不虚构字段或动作
+story_id: STORY-R14-004
+goal: 逐项审计R14六个交互面、九接口、状态错误恢复、测试和追踪证据，补齐不依赖举报原因目录的客户端与治理缺口；保持PROB-0135开放且不提前关闭TASK
 started_at: '2026-07-27T22:14:44Z'
-updated_at: '2026-07-28T02:18:29Z'
+updated_at: '2026-07-28T02:20:35Z'
 takeover_of: null
 change_requests:
 - CR-0422
@@ -22,32 +22,42 @@ change_requests:
 - CR-0427
 scope:
   allowed_paths:
-  - apps/android/**
-  - services/backend/**
+  - apps/**
+  - services/**
   - packages/**
   - contracts/**
   - database/**
   - config/**
-  - tests/**
-  - docs/**
   - catalogs/**
-  - releases/**
+  - tests/**
+  - infra/**
   - design/**
+  - docs/**
+  - releases/**
   - scripts/**
-  - apps/android/**;docs/**;catalogs/**;releases/**;design/**;scripts/**;CHANGELOG.md
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
   - CHANGELOG.md
-  approved_exceptions:
-  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR14Api.kt
-  - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ContractR14ApiTest.kt
-  - apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ChatActionState.kt
-  - apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ChatSheets.kt
-  - apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ChatDialogs.kt
-  - apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ChatDetailScreen.kt
-  - apps/android/feature/chat/src/test/java/cc/orbexa/hhy/chat/R14ChatActionStateTest.kt
-  - apps/android/feature/chat/src/androidTest/java/cc/orbexa/hhy/chat/R14ChatSurfacesTest.kt
-  - docs/03-continuity/PROBLEM_REGISTRY.yaml
-  - CHANGELOG.md
-  source: story-switch+explicit+approved-cr:CR-0427
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  - apps/android/**
+  - artifacts/reports/R14/**
+  - releases/R14/**
+  approved_exceptions: []
+  source: story-switch+explicit
 git:
   initialized: true
   branch: task/TASK-R03-001
@@ -57,25 +67,25 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-28T02:18:18Z'
-  expires_at: '2026-07-28T06:18:18Z'
-checkpoint_sequence: 11
-latest_checkpoint: .continuity/checkpoints/SES-20260727T221444Z-FD353AD3/0011.yaml
+  renewed_at: '2026-07-28T02:20:28Z'
+  expires_at: '2026-07-28T06:20:28Z'
+checkpoint_sequence: 12
+latest_checkpoint: .continuity/checkpoints/SES-20260727T221444Z-FD353AD3/0012.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260727T221444Z-FD353AD3.md
-next_step: 提交CR状态记录，然后切换至STORY-R14-004审计TASK-R14-004剩余客户端合同与验收缺口
+next_step: 提交并推送Story切换事实，然后审计六交互面与九接口的客户端实现、测试和追踪缺口
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: b52bf370e3eee33d284bfd472ccc4fd6a741a744c8eebd810488047125720e8e
-  generated_at: '2026-07-28T02:18:24Z'
+  context_hash: 9c7de2fbc66ab2594d7f575ad71fafe3cde4fc8b4c977ba48b9554b1e85d84c1
+  generated_at: '2026-07-28T02:20:32Z'
 handoff_bundle: null
 closure: null
 parallel_execution:
   assessment: CAPABILITY_UNAVAILABLE
   delegated_workers: 0
   workers: []
-  reason: 当前执行环境未授权启动新的执行代理；本检查点仅更新CR实现状态
+  reason: 当前执行环境未授权启动新的执行代理；本步骤仅为原子Story切换
 story_history:
 - story_id: STORY-R14-001
   completed_at: '2026-07-27T23:25:19Z'
@@ -87,3 +97,8 @@ story_history:
   checkpoint_id: CP-SES-20260727T221444Z-FD353AD3-0007
   commit: f8a1706fcc6ae4ae35bee6ea695bbae3c5453728
   summary: STORY-R14-002真实会话列表、消息主导航和Token纠偏已实现验证提交推送，CR与门禁误判修复均已闭环
+- story_id: STORY-R14-003
+  completed_at: '2026-07-28T02:20:00Z'
+  checkpoint_id: CP-SES-20260727T221444Z-FD353AD3-0011
+  commit: 539464f648973f8c27232b07fc3933aeb44178d5
+  summary: STORY-R14-003可执行Android范围已实现，举报原因目录由PROB-0135独立阻断；继续同一TASK的客户端契约、测试与交接审计
