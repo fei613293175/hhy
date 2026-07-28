@@ -29388,9 +29388,9 @@ change_requests:
 - protocol_version: '1.0'
   cr_id: CR-0471
   title: 递增R14替换TEST_APK身份并交付举报目录最终包
-  status: IMPLEMENTED
+  status: CLOSED
   created_at: '2026-07-28T21:01:35Z'
-  updated_at: '2026-07-28T21:36:33Z'
+  updated_at: '2026-07-28T21:56:44Z'
   requester_actor_id: codex-r14-apk-20260729
   approver_actor_id: project-owner-continuous-development-20260729
   task_id: TASK-R14-007
@@ -29442,10 +29442,16 @@ change_requests:
     status: IMPLEMENTED
     note: R14替换包10224在固定工具链完整构建PASS，稳定签名、身份、正式API/WSS、四方SHA、HTTPS200/Range206及桌面APK/测试说明成对交付全部通过；旧ca57666状态原子归档，owner真机保持异步PENDING
     session_id: SES-20260728T205917Z-52E3B6B1
+  - at: '2026-07-28T21:56:44Z'
+    actor_id: codex-r14-apk-20260729
+    status: CLOSED
+    note: 提交89d9b2da已完成R14 10224替换包固定构建、稳定签名、四方交付和桌面说明，GitHub CI与Continuity Gate均PASS
+    session_id: SES-20260728T205917Z-52E3B6B1
   session_ids:
   - SES-20260728T205917Z-52E3B6B1
   implementation_commits:
   - 2eb8ac74b55c35833609c6eb6f330268a289bf3a
+  - 89d9b2da1e27e49e39b1a203d0aef0115071de2b
 - protocol_version: '1.0'
   cr_id: CR-0472
   title: 补齐CR-0471替换APK精确下载路由作用域
@@ -29506,9 +29512,9 @@ change_requests:
 - protocol_version: '1.0'
   cr_id: CR-0473
   title: 补齐CR-0471替换交付历史归档作用域
-  status: IMPLEMENTED
+  status: CLOSED
   created_at: '2026-07-28T21:38:06Z'
-  updated_at: '2026-07-28T21:39:42Z'
+  updated_at: '2026-07-28T21:56:51Z'
   requester_actor_id: codex-r14-apk-20260729
   approver_actor_id: project-owner-continuous-development-20260729
   task_id: TASK-R14-007
@@ -29550,14 +29556,21 @@ change_requests:
     status: IMPLEMENTED
     note: 交付器已把ca57666原Manifest与Evidence归档到两个精确history路径；当前2eb8ac7交付verify PASS，22项回归证明失败替换不产生归档
     session_id: SES-20260728T205917Z-52E3B6B1
+  - at: '2026-07-28T21:56:51Z'
+    actor_id: codex-r14-apk-20260729
+    status: CLOSED
+    note: 提交89d9b2da已保留ca57666双文件原字节历史归档并通过交付事务回归和双远端门禁
+    session_id: SES-20260728T205917Z-52E3B6B1
   session_ids:
   - SES-20260728T205917Z-52E3B6B1
+  implementation_commits:
+  - 89d9b2da1e27e49e39b1a203d0aef0115071de2b
 - protocol_version: '1.0'
   cr_id: CR-0474
   title: 补齐替换交付历史归档问题记录与原字节回归
-  status: IMPLEMENTED
+  status: CLOSED
   created_at: '2026-07-28T21:47:49Z'
-  updated_at: '2026-07-28T21:49:55Z'
+  updated_at: '2026-07-28T21:56:57Z'
   requester_actor_id: codex-r14-apk-20260729
   approver_actor_id: project-owner-continuity-directive-20260729
   task_id: TASK-R14-007
@@ -29599,5 +29612,12 @@ change_requests:
     status: IMPLEMENTED
     note: PROB-0144已原位覆盖路由与双历史归档作用域根因；32项连续性和交付回归PASS，成功替换证明Manifest/Evidence原字节归档，失败替换证明双目录零归档
     session_id: SES-20260728T205917Z-52E3B6B1
+  - at: '2026-07-28T21:56:57Z'
+    actor_id: codex-r14-apk-20260729
+    status: CLOSED
+    note: 提交89d9b2da已原位更新PROB-0144并增加成功双文件原字节归档、失败双目录零归档回归，双远端门禁PASS
+    session_id: SES-20260728T205917Z-52E3B6B1
   session_ids:
   - SES-20260728T205917Z-52E3B6B1
+  implementation_commits:
+  - 89d9b2da1e27e49e39b1a203d0aef0115071de2b

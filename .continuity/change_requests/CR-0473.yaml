@@ -1,9 +1,9 @@
 protocol_version: '1.0'
 cr_id: CR-0473
 title: 补齐CR-0471替换交付历史归档作用域
-status: IMPLEMENTED
+status: CLOSED
 created_at: '2026-07-28T21:38:06Z'
-updated_at: '2026-07-28T21:39:42Z'
+updated_at: '2026-07-28T21:56:51Z'
 requester_actor_id: codex-r14-apk-20260729
 approver_actor_id: project-owner-continuous-development-20260729
 task_id: TASK-R14-007
@@ -45,5 +45,12 @@ decision_log:
   status: IMPLEMENTED
   note: 交付器已把ca57666原Manifest与Evidence归档到两个精确history路径；当前2eb8ac7交付verify PASS，22项回归证明失败替换不产生归档
   session_id: SES-20260728T205917Z-52E3B6B1
+- at: '2026-07-28T21:56:51Z'
+  actor_id: codex-r14-apk-20260729
+  status: CLOSED
+  note: 提交89d9b2da已保留ca57666双文件原字节历史归档并通过交付事务回归和双远端门禁
+  session_id: SES-20260728T205917Z-52E3B6B1
 session_ids:
 - SES-20260728T205917Z-52E3B6B1
+implementation_commits:
+- 89d9b2da1e27e49e39b1a203d0aef0115071de2b
