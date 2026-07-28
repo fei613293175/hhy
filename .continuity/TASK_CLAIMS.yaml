@@ -4459,3 +4459,24 @@ claims:
   - PROJECT_BASELINE.yaml
   - PROJECT_BASELINE.json
   closed_at: '2026-07-28T09:48:37Z'
+- claim_id: CLM-06381F55FE33
+  session_id: SES-20260728T095044Z-DCF99F77
+  task_id: TASK-R16-002
+  story_id: STORY-R16-001
+  actor_id: codex-root-r16-data-20260728
+  status: ACTIVE
+  claimed_at: '2026-07-28T09:50:44Z'
+  allowed_paths:
+  - apps/admin-web/**
+  - services/backend/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - tests/**
+  - docs/**
+  - catalogs/**
+  - releases/**
+  - design/**
+  - scripts/**
+  - CHANGELOG.md

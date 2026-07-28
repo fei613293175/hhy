@@ -1,14 +1,14 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-28T09:48:42Z
-- Context Hash：`9a7e67af9e77d5c0552ab301955a0e5d2c48f1eb9ca6358054436118f6e25623`
+- 生成时间：2026-07-28T09:52:29Z
+- Context Hash：`4f9c70c2cc9451116b27280c87b609f0bfed247873eb79110167f0b5a516c848`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 规则就绪：`PASS`（`HASHED_CONTEXT_MANIFEST`）
 - 精确恢复命令：
 
 ```bash
-python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R16-002
+python3 scripts/continuity.py checkpoint --summary '<完成内容>' --next-step '<下一步>' --parallel-assessment <ASSESSMENT> --parallel-reason '<未委托原因>'
 ```
 
 ## 规则就绪
@@ -42,7 +42,7 @@ baseline_version: 1.2.3
 phase: R16
 active_release: R16
 active_task: TASK-R16-002
-status: READY
+status: IN_PROGRESS
 documentation_status: ZERO_BLOCKING_DOCUMENT_GAPS
 last_green_commit: a0ffe13ec2294c4af79da5d185887f1ad6053175
 last_staging_apk: null
@@ -169,7 +169,8 @@ completed_tasks:
 - TASK-R14-002
 - TASK-R14-003
 - TASK-R16-001
-in_progress_tasks: []
+in_progress_tasks:
+- TASK-R16-002
 blocked_tasks:
 - TASK-R02-007
 - TASK-R03-007
@@ -178,7 +179,7 @@ blocked_tasks:
 - TASK-R13-008
 - TASK-R14-004
 next_task: TASK-R16-002
-updated_at: '2026-07-28T09:48:38Z'
+updated_at: '2026-07-28T09:52:25Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -210,17 +211,19 @@ validation:
 continuity:
   protocol_version: '1.0'
   mode: ENFORCED
-  active_session_id: null
-  last_session_id: SES-20260728T091447Z-9A245BB4
-  last_session_result: COMPLETED
-  last_checkpoint: .continuity/checkpoints/SES-20260728T091447Z-9A245BB4/0003.yaml
-  last_handoff_bundle: null
+  active_session_id: SES-20260728T095044Z-DCF99F77
+  actor_id: codex-root-r16-data-20260728
+  story_id: STORY-R16-001
+  lease_expires_at: '2026-07-28T13:52:25Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260728T095044Z-DCF99F77/0001.yaml
+  project_fingerprint: 8698aa040347bb8baaec8024a5954dd18ab4f1b0214482fd21afd147a45ccbcf
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: 4e9bdfddbf933efee659eb12bc0077ecd2a40120bf0fc23083e77e2fec0547a7
-    generated_at: '2026-07-28T09:48:32Z'
+    context_hash: 3c84727f8383575087929d6bb67813e560f719eb5aa8fa4cf284a5398f2ee49b
+    generated_at: '2026-07-28T09:50:51Z'
+  handoff_bundle: null
 ```
 
 ## 默认并行规则
@@ -405,13 +408,162 @@ next_after: 由当前TASKS.yaml依赖关系决定
 ## 活跃会话
 
 ```yaml
-status: NONE
+protocol_version: '1.0'
+package_version: 1.2.3
+session_id: SES-20260728T095044Z-DCF99F77
+status: ACTIVE
+actor:
+  id: codex-root-r16-data-20260728
+  kind: AI_OR_HUMAN
+  host: unknown
+release: R16
+task_id: TASK-R16-002
+story_id: STORY-R16-001
+goal: 实现商品、SKU、报价与统一订单的前向数据库迁移、领域不变量、空库与升级库验证，为R16后端服务建立可靠数据基线
+started_at: '2026-07-28T09:50:44Z'
+updated_at: '2026-07-28T09:52:25Z'
+takeover_of: null
+change_requests: []
+scope:
+  allowed_paths:
+  - apps/admin-web/**
+  - services/backend/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - tests/**
+  - docs/**
+  - catalogs/**
+  - releases/**
+  - design/**
+  - scripts/**
+  - CHANGELOG.md
+  approved_exceptions: []
+  source: story+explicit
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  base_commit: af7532bf4d6379c47f1dc123f4f37243d3760d77
+  start_head: af7532bf4d6379c47f1dc123f4f37243d3760d77
+  upstream: origin/task/TASK-R03-001
+  initial_worktree_state: CLEAN
+lease:
+  duration_minutes: 240
+  renewed_at: '2026-07-28T09:52:25Z'
+  expires_at: '2026-07-28T13:52:25Z'
+checkpoint_sequence: 1
+latest_checkpoint: .continuity/checkpoints/SES-20260728T095044Z-DCF99F77/0001.yaml
+session_log: docs/03-continuity/sessions/2026-07/SES-20260728T095044Z-DCF99F77.md
+next_step: 提交会话启动检查点，切换到STORY-R16-004工程治理故事后创建R16数据迁移CR
+context_pack: THIS_CONTEXT_PACK
+handoff_bundle: null
+closure: null
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 会话锚点与Story切换属于单一连续性状态机，必须串行
 ```
 
 ## 最新检查点
 
 ```yaml
-status: NO_CHECKPOINT
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260728T095044Z-DCF99F77-0001
+session_id: SES-20260728T095044Z-DCF99F77
+task_id: TASK-R16-002
+story_id: STORY-R16-001
+sequence: 1
+created_at: '2026-07-28T09:52:24Z'
+summary: TASK-R16-002会话启动并完成现有八张R16业务表、V004基线与V044最新迁移的只读差异审计
+next_step: 提交会话启动检查点，切换到STORY-R16-004工程治理故事后创建R16数据迁移CR
+blockers: []
+decisions: []
+note: ''
+tests:
+- name: 本阶段未执行测试
+  result: NOT_RUN
+  evidence: ''
+  note: 本阶段仅完成只读事实审计，尚未修改运行时代码或数据库迁移
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: af7532bf4d6379c47f1dc123f4f37243d3760d77
+  upstream: origin/task/TASK-R03-001
+  ahead: 0
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/ACTIVE_SESSION.yaml'
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/SESSION_INDEX.yaml'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/TASK_CLAIMS.yaml'
+  - ' M .continuity/TASK_TRANSITIONS.yaml'
+  - ' M CURRENT_STATUS.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+  - ' M catalogs/session_index.csv'
+  - ' M catalogs/task_transition_ledger.csv'
+  - ?? .continuity/sessions/SES-20260728T095044Z-DCF99F77.yaml
+  - ?? docs/03-continuity/sessions/2026-07/SES-20260728T095044Z-DCF99F77.md
+  recent_commits:
+  - "af7532bf4d6379c47f1dc123f4f37243d3760d77\t2026-07-28T17:49:45+08:00\tHHY Continuity Bootstrap\t[STORY-R16-004] chore(continuity): close TASK-R16-001\
+    \ as completed"
+  - "f67f78f86d9994ad85bf3d8deda9566e5f40df98\t2026-07-28T17:47:30+08:00\tHHY Continuity Bootstrap\t[STORY-R16-004] chore(governance): close R16\
+    \ entry baseline"
+  - "a0ffe13ec2294c4af79da5d185887f1ad6053175\t2026-07-28T17:43:43+08:00\tHHY Continuity Bootstrap\t[STORY-R16-004] feat(contract): freeze explicit\
+    \ commerce baseline"
+  - "7a14540402771055a4ffb770c0210c84428947f7\t2026-07-28T17:12:51+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(continuity): close TASK-R14-004\
+    \ as blocked"
+  - "4d6ab2f9d9bf3e962c1787ff9a4ea6df33078bba\t2026-07-28T17:08:37+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(governance): close async\
+    \ apk projection"
+  - "5502ad81ba09c6530812ea04f58d6b67f71f0d10\t2026-07-28T17:06:25+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(continuity): project\
+    \ async apk policy"
+  - "a18701c432bf60f0c4c50009fd0382ce8f00efeb\t2026-07-28T16:59:41+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(governance): close websocket\
+    \ contract change"
+  - "71986b89ac7fce822389dc7d0eb374d59b9bf3bf\t2026-07-28T16:54:53+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(governance): close r14\
+    \ delivery change requests"
+project_fingerprint:
+  sha256: 8698aa040347bb8baaec8024a5954dd18ab4f1b0214482fd21afd147a45ccbcf
+  files: []
+  file_count: 0
+  payload:
+    base_commit: af7532bf4d6379c47f1dc123f4f37243d3760d77
+    files: []
+change_classification: {}
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+change_requests: []
+scope:
+  allowed_paths:
+  - apps/admin-web/**
+  - services/backend/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - tests/**
+  - docs/**
+  - catalogs/**
+  - releases/**
+  - design/**
+  - scripts/**
+  - CHANGELOG.md
+  approved_exceptions: []
+  source: story+explicit
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 会话锚点与Story切换属于单一连续性状态机，必须串行
+event_hash: 1b55db52f72c72692ead2e97b5fdcfef29adb82f19643eedebdaba0905c687d0
 ```
 
 ## 接续状态与事件头
@@ -419,31 +571,19 @@ status: NO_CHECKPOINT
 ```yaml
 mode: ENFORCED
 protocol_version: '1.0'
-active_session_id: null
+active_session_id: SES-20260728T095044Z-DCF99F77
 last_session_id: SES-20260728T091447Z-9A245BB4
 last_session_result: COMPLETED
 last_closure_checkpoint_id: CP-SES-20260728T091447Z-9A245BB4-0003
-event_count: 4203
-event_head_hash: eadb998bea74eacdff770d9da83e48b20f01fb9421f42d6383656ddd15d9d76f
+event_count: 4205
+event_head_hash: 1b55db52f72c72692ead2e97b5fdcfef29adb82f19643eedebdaba0905c687d0
 event_chain_valid: true
 ```
 
 ## 最近会话与任务迁移
 
 ```yaml
-recent_sessions: - session_id: SES-20260726T134047Z-F9A80405
-  task_id: TASK-R13-004
-  story_id: STORY-R13-002
-  actor_id: codex-root-r13-client-20260726
-  status: CLOSED
-  started_at: '2026-07-26T13:40:47Z'
-  record: .continuity/sessions/SES-20260726T134047Z-F9A80405.yaml
-  session_log: docs/03-continuity/sessions/2026-07/SES-20260726T134047Z-F9A80405.md
-  updated_at: '2026-07-26T15:52:04Z'
-  closed_at: '2026-07-26T15:52:04Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260726T134047Z-F9A80405/0008.yaml
-  handoff_bundle: null
-- session_id: SES-20260726T160157Z-6B5BC09A
+recent_sessions: - session_id: SES-20260726T160157Z-6B5BC09A
   task_id: TASK-R13-005
   story_id: STORY-R13-003
   actor_id: codex-root-r13-testing-20260726
@@ -551,47 +691,19 @@ recent_sessions: - session_id: SES-20260726T134047Z-F9A80405
   closed_at: '2026-07-28T09:48:37Z'
   latest_checkpoint: .continuity/checkpoints/SES-20260728T091447Z-9A245BB4/0003.yaml
   handoff_bundle: null
-task_claims: - claim_id: CLM-4F63CAEC90C0
-  session_id: SES-20260724T235749Z-6EC9DB09
-  task_id: TASK-R12-002
-  story_id: STORY-R12-008
-  actor_id: codex-root-r12-data-20260725
-  status: CLOSED
-  claimed_at: '2026-07-24T23:57:49Z'
-  allowed_paths:
-  - apps/**
-  - services/**
-  - packages/**
-  - contracts/**
-  - database/**
-  - config/**
-  - catalogs/**
-  - tests/**
-  - infra/**
-  - design/**
-  - docs/**
-  - releases/**
-  - scripts/**
-  - templates/**
-  - .github/**
-  - .githooks/**
-  - .codex/**
-  - AGENTS.md
-  - START_HERE.md
-  - README.md
-  - CHANGELOG.md
-  - Makefile
-  - .gitignore
-  - .gitattributes
-  - .dockerignore
-  - package.json
-  - pnpm-lock.yaml
-  - pnpm-workspace.yaml
-  - requirements-dev.txt
-  - PROJECT_*.yaml
-  - PROJECT_*.json
-  closed_at: '2026-07-25T02:47:14Z'
-- claim_id: CLM-4723E5F90953
+- session_id: SES-20260728T095044Z-DCF99F77
+  task_id: TASK-R16-002
+  story_id: STORY-R16-001
+  actor_id: codex-root-r16-data-20260728
+  status: ACTIVE
+  started_at: '2026-07-28T09:50:44Z'
+  record: .continuity/sessions/SES-20260728T095044Z-DCF99F77.yaml
+  session_log: docs/03-continuity/sessions/2026-07/SES-20260728T095044Z-DCF99F77.md
+  updated_at: '2026-07-28T09:52:25Z'
+  closed_at: null
+  latest_checkpoint: .continuity/checkpoints/SES-20260728T095044Z-DCF99F77/0001.yaml
+  handoff_bundle: null
+task_claims: - claim_id: CLM-4723E5F90953
   session_id: SES-20260725T025042Z-A53070A0
   task_id: TASK-R12-003
   story_id: STORY-R12-008
@@ -1330,17 +1442,28 @@ task_claims: - claim_id: CLM-4F63CAEC90C0
   - PROJECT_BASELINE.yaml
   - PROJECT_BASELINE.json
   closed_at: '2026-07-28T09:48:37Z'
-recent_task_transitions: - transition_id: TRN-B689C4DB262F
-  timestamp: '2026-07-24T23:57:51Z'
-  release: R12
-  task_id: TASK-R12-002
-  story_id: STORY-R12-008
-  from_status: READY
-  to_status: IN_PROGRESS
-  session_id: SES-20260724T235749Z-6EC9DB09
-  actor_id: codex-root-r12-data-20260725
-  reason: 会话领取任务
-- transition_id: TRN-452B820154B9
+- claim_id: CLM-06381F55FE33
+  session_id: SES-20260728T095044Z-DCF99F77
+  task_id: TASK-R16-002
+  story_id: STORY-R16-001
+  actor_id: codex-root-r16-data-20260728
+  status: ACTIVE
+  claimed_at: '2026-07-28T09:50:44Z'
+  allowed_paths:
+  - apps/admin-web/**
+  - services/backend/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - tests/**
+  - docs/**
+  - catalogs/**
+  - releases/**
+  - design/**
+  - scripts/**
+  - CHANGELOG.md
+recent_task_transitions: - transition_id: TRN-452B820154B9
   timestamp: '2026-07-25T02:50:44Z'
   release: R12
   task_id: TASK-R12-003
@@ -1530,6 +1653,16 @@ recent_task_transitions: - transition_id: TRN-B689C4DB262F
   session_id: SES-20260728T091447Z-9A245BB4
   actor_id: codex-root-r16-entry-20260728
   reason: 会话领取任务
+- transition_id: TRN-3CC15AF56EB2
+  timestamp: '2026-07-28T09:50:47Z'
+  release: R16
+  task_id: TASK-R16-002
+  story_id: STORY-R16-001
+  from_status: READY
+  to_status: IN_PROGRESS
+  session_id: SES-20260728T095044Z-DCF99F77
+  actor_id: codex-root-r16-data-20260728
+  reason: 会话领取任务
 ```
 
 ## Git 状态
@@ -1537,7 +1670,7 @@ recent_task_transitions: - transition_id: TRN-B689C4DB262F
 ```yaml
 initialized: true
 branch: task/TASK-R03-001
-head: f67f78f86d9994ad85bf3d8deda9566e5f40df98
+head: af7532bf4d6379c47f1dc123f4f37243d3760d77
 upstream: origin/task/TASK-R03-001
 ahead: 0
 behind: 0
@@ -1548,18 +1681,19 @@ status_porcelain:
 - ' M .continuity/SESSION_INDEX.yaml'
 - ' M .continuity/STATE.yaml'
 - ' M .continuity/TASK_CLAIMS.yaml'
-- ' M .continuity/sessions/SES-20260728T091447Z-9A245BB4.yaml'
-- ' M CHANGELOG.md'
+- ' M .continuity/TASK_TRANSITIONS.yaml'
 - ' M CURRENT_STATUS.yaml'
-- ' M NEXT_TASK.yaml'
 - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
 - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
 - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
 - ' M catalogs/session_index.csv'
-- ' M docs/03-continuity/sessions/2026-07/SES-20260728T091447Z-9A245BB4.md'
-- ' M releases/R16/TASKS.yaml'
-- ?? .continuity/checkpoints/SES-20260728T091447Z-9A245BB4/0003.yaml
+- ' M catalogs/task_transition_ledger.csv'
+- ?? .continuity/checkpoints/SES-20260728T095044Z-DCF99F77/0001.yaml
+- ?? .continuity/sessions/SES-20260728T095044Z-DCF99F77.yaml
+- ?? docs/03-continuity/sessions/2026-07/SES-20260728T095044Z-DCF99F77.md
 recent_commits:
+- "af7532bf4d6379c47f1dc123f4f37243d3760d77\t2026-07-28T17:49:45+08:00\tHHY Continuity Bootstrap\t[STORY-R16-004] chore(continuity): close TASK-R16-001\
+  \ as completed"
 - "f67f78f86d9994ad85bf3d8deda9566e5f40df98\t2026-07-28T17:47:30+08:00\tHHY Continuity Bootstrap\t[STORY-R16-004] chore(governance): close R16\
   \ entry baseline"
 - "a0ffe13ec2294c4af79da5d185887f1ad6053175\t2026-07-28T17:43:43+08:00\tHHY Continuity Bootstrap\t[STORY-R16-004] feat(contract): freeze explicit\
@@ -1574,13 +1708,11 @@ recent_commits:
   \ contract change"
 - "71986b89ac7fce822389dc7d0eb374d59b9bf3bf\t2026-07-28T16:54:53+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(governance): close r14\
   \ delivery change requests"
-- "f5b9b1ff2b4f728dce937cf5e04770e3235951fd\t2026-07-28T16:51:29+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(delivery): archive r14\
-  \ test apk evidence"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`bf86f70bdf690a103a937c6e7f729c1294aaffe9c4aad890b3cb0e3060e7a533`
+- 指纹：`8698aa040347bb8baaec8024a5954dd18ab4f1b0214482fd21afd147a45ccbcf`
 - 文件数：0
 
 - 无
@@ -13859,7 +13991,7 @@ TASKS.yaml:
 
 - `AGENTS.md` — `e9f1cf3739a97b47a4de96166ebd17eb2206b7231adb22dbfa23f7687c9809bc`
 - `START_HERE.md` — `22de14029ce47beb41ea569e36ce223fbc9d11b86f8676f28d5fbbd83896af5c`
-- `CURRENT_STATUS.yaml` — `e0e77b0f51ce6e0ced746b154a91ced17aa950c4802fc6893f5a442b55b55c1e`
+- `CURRENT_STATUS.yaml` — `4affd7fe14c939f375e6c73a6a12b15fa3aad419b7c4fa19c4e746ee4887f0a1`
 - `NEXT_TASK.yaml` — `ebe5137367387ddaaa800bf74adba4f72ddbbf090dc2da2d28f8679cd9ba95b5`
 - `DEVELOPMENT_RISK_REGISTER.md` — `8304c91492e4ee2abea0522a06541c8688d39c7fc532b5d0cde499bf09fffb87`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
@@ -13870,12 +14002,12 @@ TASKS.yaml:
 - `config/REPOSITORY_TRANSPORT.yaml` — `8c4a21f3e204d46e7ffb467d804a53ed26cda61cd088dadfddb50b69eea657fc`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `38e04ed812c8df0d353c2b91993d31e53b471e9c457f06b426bd2260c470aa92`
-- `.continuity/EVENT_LOG.jsonl` — `3ca531dd9f249814bd885d791e3d8e582a8929e4787832b020b0bb39b4b6d9c4`
-- `.continuity/SESSION_INDEX.yaml` — `f193259db819d29fc11c59ecc7170aa220c6009b6840481fbfcef495196069ab`
-- `.continuity/TASK_CLAIMS.yaml` — `dc1d2531ddc8b6edaa5f61abce3b9cbf0bbec926adfcf54cf2066f2affd1588f`
-- `.continuity/TASK_TRANSITIONS.yaml` — `ed8c28aaa13958d27c0cbbcdcb72aeae4821ce39bd8b73050254819e8edad6f5`
+- `.continuity/EVENT_LOG.jsonl` — `091a51764a39d5035ed5842c44929a009a61f2ce2fefcad7753ca488ea1560f9`
+- `.continuity/SESSION_INDEX.yaml` — `df6b0322daf8cff8b5261c83285603bdd826370e3a5f7d2d396ec9af999c6ff6`
+- `.continuity/TASK_CLAIMS.yaml` — `21f23cd2da6dec0a65659952643217700a048c69ea2011f011f6d97a35398ac9`
+- `.continuity/TASK_TRANSITIONS.yaml` — `f5ea7c7b07b091b0f8fb108fdfa9230530524824e0b8cb42be44a93db688d01f`
 - `.continuity/CHANGE_REQUEST_INDEX.yaml` — `a67ca408668183b885a5821af49b7abeabb8b9ec536b231225bb5f120636a36f`
-- `.continuity/ACTIVE_SESSION.yaml` — `15e295239e927dacb18562f2d77291e14302b5a26ce535fed162cf22c218392e`
+- `.continuity/ACTIVE_SESSION.yaml` — `0761484596a405e19b05128a3dfbe8b6a10d692e9e690f57ab3b6ef49c4bc0c2`
 - `docs/00-baseline/正式商业系统全局硬性开发边界.md` — `d8a77eddf520659b1d6b57e16ecc0739fa93dbd39cf9903dbaf798fc631ae6fe`
 - `docs/02-ui/UI参考图使用与开发约束_V1.2.2.md` — `d14367586aa2067b059df58798acd20ab982459cdb35ff27fc7922a3896e4933`
 - `docs/03-continuity/持续开发无状态接续强制门禁_V1.2.3.md` — `d0ed3ed68bdd93b06500eecdfb5baa3245e6ca8b685a486788abb6eee39b3d51`
@@ -13885,6 +14017,8 @@ TASKS.yaml:
 - `releases/R16/STORIES.yaml` — `eb3eb2cb6e50133d1a90cef7484759d29e1b739f6876c9cbf50dfc33757cd7fc`
 - `releases/R16/TASKS.yaml` — `fe5771c2c52479f0c4a9e72a43a69d4677c4839897fc727aa0dff05235d9be53`
 - `releases/R16/ACCEPTANCE_MATRIX.csv` — `6c6b0104146b52bb78d72e9f0db5b389d43dc5fc1fdf8fa054437b4150452625`
+- `docs/03-continuity/sessions/2026-07/SES-20260728T095044Z-DCF99F77.md` — `b238f8be2828641b590617c49c4a05f72132baf532e595e28174b9ecaa9b3ee2`
+- `.continuity/checkpoints/SES-20260728T095044Z-DCF99F77/0001.yaml` — `e12fbd5001ba810ee6ccaf6618b4cec4e6258f9e8d183b429d95b80cace4471c`
 
 ## 接手硬规则
 
