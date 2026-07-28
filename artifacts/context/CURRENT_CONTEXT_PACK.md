@@ -1,7 +1,7 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-28T16:56:31Z
-- Context Hash：`ee996c8a2da0c6a549e4ad4430cea5e8d35be697bed63d6edabfaea63dd05a1c`
+- 生成时间：2026-07-28T17:14:19Z
+- Context Hash：`5813a648725cd6e03d46f109e81c3e5250762c5fe6a1e4506d32a89401a4b734`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 规则就绪：`PASS`（`HASHED_CONTEXT_MANIFEST`）
@@ -183,7 +183,7 @@ blocked_tasks:
 - TASK-R16-007
 - TASK-R16-008
 next_task: TASK-R14-004
-updated_at: '2026-07-28T16:56:27Z'
+updated_at: '2026-07-28T17:14:14Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -218,15 +218,15 @@ continuity:
   active_session_id: SES-20260728T154000Z-0458A14C
   actor_id: codex-r14-continuation-20260728
   story_id: STORY-R14-004
-  lease_expires_at: '2026-07-28T20:56:27Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260728T154000Z-0458A14C/0007.yaml
+  lease_expires_at: '2026-07-28T21:14:14Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260728T154000Z-0458A14C/0008.yaml
   project_fingerprint: 93f54c4e13071c6f80afb42be979051fe2138850ca57519814955e145fa7dbf1
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: 579c2200ac3cdd5c4cba05433af7825cbe800c7890092e0c24c59274ea8b132b
-    generated_at: '2026-07-28T16:55:47Z'
+    context_hash: ee996c8a2da0c6a549e4ad4430cea5e8d35be697bed63d6edabfaea63dd05a1c
+    generated_at: '2026-07-28T16:56:31Z'
   handoff_bundle: null
 ```
 
@@ -429,7 +429,7 @@ task_id: TASK-R14-004
 story_id: STORY-R14-004
 goal: 恢复并完成R14全部剩余任务、真实交互候选、APK与测试文档，再顺序进入R15
 started_at: '2026-07-28T15:53:44Z'
-updated_at: '2026-07-28T16:56:27Z'
+updated_at: '2026-07-28T17:14:14Z'
 takeover_of: SES-20260728T125934Z-F3DED330
 change_requests:
 - CR-0458
@@ -491,59 +491,58 @@ git:
   initial_worktree_state: DIRTY_TAKEOVER
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-28T16:56:27Z'
-  expires_at: '2026-07-28T20:56:27Z'
-checkpoint_sequence: 7
-latest_checkpoint: .continuity/checkpoints/SES-20260728T154000Z-0458A14C/0007.yaml
+  renewed_at: '2026-07-28T17:14:14Z'
+  expires_at: '2026-07-28T21:14:14Z'
+checkpoint_sequence: 8
+latest_checkpoint: .continuity/checkpoints/SES-20260728T154000Z-0458A14C/0008.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260728T154000Z-0458A14C.md
-next_step: 提交治理终态并真实push，等待新GitHub CI与Continuity Gate结果
+next_step: 继续TASK-R14-004，仅以正式文档冻结聊天举报原因目录并完成R14专属真实交互候选，禁止进入R15/R16
 context_pack: THIS_CONTEXT_PACK
 handoff_bundle: null
 closure: null
 parallel_execution:
-  assessment: USER_SERIAL_OVERRIDE
+  assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 项目所有者明确连续性规则强制更新指令已作为审批事实
+  reason: 当前为单一连续性收口与R14顺序恢复，不拆分事实源
 ```
 
 ## 最新检查点
 
 ```yaml
 protocol_version: '1.0'
-checkpoint_id: CP-SES-20260728T154000Z-0458A14C-0007
+checkpoint_id: CP-SES-20260728T154000Z-0458A14C-0008
 session_id: SES-20260728T154000Z-0458A14C
 task_id: TASK-R14-004
 story_id: STORY-R14-004
-sequence: 7
-created_at: '2026-07-28T16:56:27Z'
-summary: CR-0463已IMPLEMENTED并绑定61be7593
-next_step: 提交治理终态并真实push，等待新GitHub CI与Continuity Gate结果
+sequence: 8
+created_at: '2026-07-28T17:14:13Z'
+summary: R14至R32连续开发防漂移规则、原子序列恢复和历史版本测试隔离已在新提交完成GitHub双门禁验证
+next_step: 继续TASK-R14-004，仅以正式文档冻结聊天举报原因目录并完成R14专属真实交互候选，禁止进入R15/R16
 blockers: []
 decisions: []
 note: ''
 tests:
-- name: cr0463_implementation_binding
+- name: github-continuity-gate
   result: PASS
-  evidence: CR-0463 implementation_commits=61be7593
-  note: 状态IMPLEMENTED
+  evidence: https://github.com/fei613293175/hhy/actions/runs/30381478337
+  note: head d0daa039
+- name: github-ci
+  result: PASS
+  evidence: https://github.com/fei613293175/hhy/actions/runs/30381478742
+  note: tooling and contracts success
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: 61be7593055a7ffedd95cbdc5b3a9f3dd1c8cfad
+  head: d0daa039d5632cdaee73a61c3ad18ac67ead3af9
   upstream: origin/task/TASK-R03-001
-  ahead: 1
+  ahead: 0
   behind: 0
-  dirty: true
-  status_porcelain:
-  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
-  - ' M .continuity/EVENT_LOG.jsonl'
-  - ' M .continuity/STATE.yaml'
-  - ' M .continuity/change_requests/CR-0463.yaml'
-  - ' M catalogs/change_request_index.csv'
-  - ' M catalogs/session_index.csv'
-  - ' M docs/03-continuity/change-requests/CR-0463-修复后续版本侵入历史候选断言导致的CI漂移.md'
+  dirty: false
+  status_porcelain: []
   recent_commits:
+  - "d0daa039d5632cdaee73a61c3ad18ac67ead3af9\t2026-07-29T00:58:45+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(continuity): record\
+    \ historical release assertion isolation"
   - "61be7593055a7ffedd95cbdc5b3a9f3dd1c8cfad\t2026-07-29T00:55:59+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] test(ci): isolate historical\
     \ release assertions"
   - "f97e58a26303a0fd908340f8e19065be13500cdb\t2026-07-29T00:33:49+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(continuity): close sequence\
@@ -558,8 +557,6 @@ git:
     \ major release machine closure"
   - "2f50639b779f0db63b2a47fe936c7046096efb35\t2026-07-28T22:46:25+08:00\tHHY Continuity Bootstrap\t[STORY-R16-002] docs(r14): record frozen implementation\
     \ state"
-  - "0bf4c9a8a933394a92fce0d14e62a1317f3a23f6\t2026-07-28T22:44:36+08:00\tHHY Continuity Bootstrap\t[STORY-R16-002] fix(r14): close chat interaction\
-    \ defects and require major-release journey"
 project_fingerprint:
   sha256: 93f54c4e13071c6f80afb42be979051fe2138850ca57519814955e145fa7dbf1
   files:
@@ -732,11 +729,11 @@ scope:
   - tests/test_r13_candidate.py
   source: story+explicit+approved-cr:CR-0460+approved-cr:CR-0461+approved-cr:CR-0462+approved-cr:CR-0463
 parallel_execution:
-  assessment: USER_SERIAL_OVERRIDE
+  assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 项目所有者明确连续性规则强制更新指令已作为审批事实
-event_hash: e9c4763e9d99e78160d1bc795798f24f5ffa535e2c2cc8ac4e2ff9d17c820482
+  reason: 当前为单一连续性收口与R14顺序恢复，不拆分事实源
+event_hash: c2d87f3f9c902d3586f7c5683fbed054fabf76491b813bcd7f907f38d41d99ce
 ```
 
 ## 接续状态与事件头
@@ -748,8 +745,8 @@ active_session_id: SES-20260728T154000Z-0458A14C
 last_session_id: SES-20260728T125934Z-F3DED330
 last_session_result: SEQUENCE_RECOVERED
 last_closure_checkpoint_id: CP-SES-20260728T102501Z-3189682B-0007
-event_count: 4382
-event_head_hash: e9c4763e9d99e78160d1bc795798f24f5ffa535e2c2cc8ac4e2ff9d17c820482
+event_count: 4383
+event_head_hash: c2d87f3f9c902d3586f7c5683fbed054fabf76491b813bcd7f907f38d41d99ce
 event_chain_valid: true
 ```
 
@@ -872,9 +869,9 @@ recent_sessions: - session_id: SES-20260727T163211Z-EDFF7E87
   started_at: '2026-07-28T15:53:44Z'
   record: .continuity/sessions/SES-20260728T154000Z-0458A14C.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260728T154000Z-0458A14C.md
-  updated_at: '2026-07-28T16:56:27Z'
+  updated_at: '2026-07-28T17:14:14Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260728T154000Z-0458A14C/0007.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260728T154000Z-0458A14C/0008.yaml
   handoff_bundle: null
 task_claims: - claim_id: CLM-B1FA5D5F6CC0
   session_id: SES-20260725T180922Z-D7231210
@@ -1808,26 +1805,24 @@ recent_task_transitions: - transition_id: TRN-B419231C23E8
 ```yaml
 initialized: true
 branch: task/TASK-R03-001
-head: 61be7593055a7ffedd95cbdc5b3a9f3dd1c8cfad
+head: d0daa039d5632cdaee73a61c3ad18ac67ead3af9
 upstream: origin/task/TASK-R03-001
-ahead: 1
+ahead: 0
 behind: 0
 dirty: true
 status_porcelain:
 - ' M .continuity/ACTIVE_SESSION.yaml'
-- ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
 - ' M .continuity/EVENT_LOG.jsonl'
 - ' M .continuity/SESSION_INDEX.yaml'
 - ' M .continuity/STATE.yaml'
-- ' M .continuity/change_requests/CR-0463.yaml'
 - ' M .continuity/sessions/SES-20260728T154000Z-0458A14C.yaml'
 - ' M CURRENT_STATUS.yaml'
-- ' M catalogs/change_request_index.csv'
 - ' M catalogs/session_index.csv'
-- ' M docs/03-continuity/change-requests/CR-0463-修复后续版本侵入历史候选断言导致的CI漂移.md'
 - ' M docs/03-continuity/sessions/2026-07/SES-20260728T154000Z-0458A14C.md'
-- ?? .continuity/checkpoints/SES-20260728T154000Z-0458A14C/0007.yaml
+- ?? .continuity/checkpoints/SES-20260728T154000Z-0458A14C/0008.yaml
 recent_commits:
+- "d0daa039d5632cdaee73a61c3ad18ac67ead3af9\t2026-07-29T00:58:45+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(continuity): record historical\
+  \ release assertion isolation"
 - "61be7593055a7ffedd95cbdc5b3a9f3dd1c8cfad\t2026-07-29T00:55:59+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] test(ci): isolate historical\
   \ release assertions"
 - "f97e58a26303a0fd908340f8e19065be13500cdb\t2026-07-29T00:33:49+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(continuity): close sequence\
@@ -1842,8 +1837,6 @@ recent_commits:
   \ major release machine closure"
 - "2f50639b779f0db63b2a47fe936c7046096efb35\t2026-07-28T22:46:25+08:00\tHHY Continuity Bootstrap\t[STORY-R16-002] docs(r14): record frozen implementation\
   \ state"
-- "0bf4c9a8a933394a92fce0d14e62a1317f3a23f6\t2026-07-28T22:44:36+08:00\tHHY Continuity Bootstrap\t[STORY-R16-002] fix(r14): close chat interaction\
-  \ defects and require major-release journey"
 ```
 
 ## 会话累计项目变更
@@ -15038,7 +15031,7 @@ PARALLEL_EXECUTION_PLAN.yaml:
 
 - `AGENTS.md` — `bde93afcdb788b601aeffcf2369a1aeda8eeb391f165429d501d7ba8895ba4a6`
 - `START_HERE.md` — `22de14029ce47beb41ea569e36ce223fbc9d11b86f8676f28d5fbbd83896af5c`
-- `CURRENT_STATUS.yaml` — `fa095d3c340d852e57044fc9b0f28348b82d0d21ddcc3afc4779bd427abf7765`
+- `CURRENT_STATUS.yaml` — `37f7bce25671d59c3b46e437dcd61b3e004a53efd31b7980996891adba4f9a12`
 - `NEXT_TASK.yaml` — `83620cf8bc2f10f75ef20b3af2c126a60697347cb6354e741ca2fc9b50a8ade4`
 - `DEVELOPMENT_RISK_REGISTER.md` — `8304c91492e4ee2abea0522a06541c8688d39c7fc532b5d0cde499bf09fffb87`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
@@ -15049,12 +15042,12 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `config/REPOSITORY_TRANSPORT.yaml` — `8c4a21f3e204d46e7ffb467d804a53ed26cda61cd088dadfddb50b69eea657fc`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `38e04ed812c8df0d353c2b91993d31e53b471e9c457f06b426bd2260c470aa92`
-- `.continuity/EVENT_LOG.jsonl` — `7b5364b2ba9aec8b2dedd42a474656a98be505460ecaad17d007a1a52445fba0`
-- `.continuity/SESSION_INDEX.yaml` — `89fe4f518814d835591bb03a93ece2281a10bb9de8f27c4c9a5b46608d5017ff`
+- `.continuity/EVENT_LOG.jsonl` — `67fb819c12d17bda1a7d1db8314c01d2116628f88b2b617d6fccb294fce5a25d`
+- `.continuity/SESSION_INDEX.yaml` — `87f24257e77bac1a1a57a1f6b4d9f3bb252334c981c1dc959023eb71d3a9b2de`
 - `.continuity/TASK_CLAIMS.yaml` — `722f3826286f2f3ce0f91a3d2c37fcab780e5bd204de6a85f143aa0b0773a668`
 - `.continuity/TASK_TRANSITIONS.yaml` — `8ba3f9d39e2cfe0b504b19cbe7e905b2b50512f58b858a23534732a5de72b20b`
 - `.continuity/CHANGE_REQUEST_INDEX.yaml` — `227effe66ad9ba86c67638a59c2560f66f247836d7b67685f780e4bd1964082d`
-- `.continuity/ACTIVE_SESSION.yaml` — `edd4aa0056b5a211ad9cd30014470edca6586a44dcaf5763bbd861915113009b`
+- `.continuity/ACTIVE_SESSION.yaml` — `2f1dbcfe1f0ba4437e2ccad57c3e33322a7480ef58cb447ac63e13f48732fef1`
 - `docs/00-baseline/正式商业系统全局硬性开发边界.md` — `30c07716c31d6d09621b6f6d119063b1fcb35e78d9b266423ed333d92b8262db`
 - `docs/02-ui/UI参考图使用与开发约束_V1.2.2.md` — `d14367586aa2067b059df58798acd20ab982459cdb35ff27fc7922a3896e4933`
 - `docs/03-continuity/持续开发无状态接续强制门禁_V1.2.3.md` — `d0ed3ed68bdd93b06500eecdfb5baa3245e6ca8b685a486788abb6eee39b3d51`
@@ -15065,8 +15058,8 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `releases/R14/TASKS.yaml` — `3c22aabda13f389c3b7b63b9d462ea7721fae78e166d8f878cf6ced8173ea69c`
 - `releases/R14/ACCEPTANCE_MATRIX.csv` — `ffc0fd23b945544de8fe2a37774a94675c0d60b73d88517abe69c68d326ad6f4`
 - `releases/R14/PARALLEL_EXECUTION_PLAN.yaml` — `cd1f0c96ffd7562acb214edba80a2bbb12b79f06c19032d1b133936ff6abd74f`
-- `docs/03-continuity/sessions/2026-07/SES-20260728T154000Z-0458A14C.md` — `f9e0c70d30cba94233affe6f1249280f60b3c139045c357443ac4b278af59ae0`
-- `.continuity/checkpoints/SES-20260728T154000Z-0458A14C/0007.yaml` — `521e89feca4415a084c750e286abeb4c80bd03c1b0bdb118b23483736be1f9ac`
+- `docs/03-continuity/sessions/2026-07/SES-20260728T154000Z-0458A14C.md` — `b43f37c4bc23f5011ebe8cae6c9b4b644627ab312f9c37a8ebb9b291c1801f0c`
+- `.continuity/checkpoints/SES-20260728T154000Z-0458A14C/0008.yaml` — `b8f39fb7f14ac4601a8a8b5fc6edb7e34b9bc837b05acd992ff97c3670797e9b`
 - `docs/03-continuity/change-requests/CR-0458-替代CR-0457原子恢复跨序状态并锁定R16代码证据.md` — `b0424db452ec82579f19113264010967e3cd49912fb447c05566727df5ee98e9`
 - `docs/03-continuity/change-requests/CR-0459-刷新CR-0458连续性原子恢复后的重建证据.md` — `113ef3a145bba8622e7e11066381bcac95c57d644b0de59f468be2edb3bf5cf1`
 - `docs/03-continuity/change-requests/CR-0460-替代CR-0459无副作用刷新连续性重建证据.md` — `852b16f8cd911cd3a5e63e888d176fda07bc2996906002d626553c5ead95ec2f`
