@@ -1,7 +1,7 @@
 protocol_version: '1.0'
 package_version: 1.2.3
 session_id: SES-20260728T154000Z-0458A14C
-status: ACTIVE
+status: CLOSED
 actor:
   id: codex-r14-continuation-20260728
   kind: AI_OR_HUMAN
@@ -11,7 +11,7 @@ task_id: TASK-R14-004
 story_id: STORY-R14-004
 goal: 恢复并完成R14全部剩余任务、真实交互候选、APK与测试文档，再顺序进入R15
 started_at: '2026-07-28T15:53:44Z'
-updated_at: '2026-07-28T18:15:08Z'
+updated_at: '2026-07-28T18:18:05Z'
 takeover_of: SES-20260728T125934Z-F3DED330
 change_requests:
 - CR-0458
@@ -97,22 +97,36 @@ git:
   initial_worktree_state: DIRTY_TAKEOVER
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-28T18:14:59Z'
-  expires_at: '2026-07-28T22:14:59Z'
-checkpoint_sequence: 13
-latest_checkpoint: .continuity/checkpoints/SES-20260728T154000Z-0458A14C/0013.yaml
+  renewed_at: '2026-07-28T18:17:57Z'
+  expires_at: '2026-07-28T22:17:57Z'
+checkpoint_sequence: 14
+latest_checkpoint: .continuity/checkpoints/SES-20260728T154000Z-0458A14C/0014.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260728T154000Z-0458A14C.md
-next_step: 提交推送CR关闭记录，然后继续TASK-R14-004剩余客户端/H5/后台验收，不得进入R15/R16
+next_step: 提交关闭元数据Commit，然后运行pre-push/CI门禁
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: d4967863abb39e31d80b14e1fb9aa6bc5f2bcf8ce869ee076f6949755374ef1c
-  generated_at: '2026-07-28T18:15:04Z'
+  context_hash: 8576c4262459cf70db6f3677e302665f647bc130de65cd2241dee20c1feaabb8
+  generated_at: '2026-07-28T18:18:02Z'
 handoff_bundle: null
-closure: null
+closure:
+  result: COMPLETED
+  summary: TASK-R14-004六个Android交互面、九项REST、十二事件实时链路、加载与失败恢复、举报证据和OpenAPI单源原因目录均完成；H5与后台按R14 Manifest明确N/A；固定工具链与GitHub门禁通过
+  code_commit: 33f544c20172ca42ca2de79556e22a12c0d714af
+  next_release: R14
+  next_task: TASK-R14-005
+  blocked_advance: false
+  completed_independent_advance: false
+  user_confirmation: null
+  metadata_commit: PENDING
+  push_verification: CI_REQUIRED_AFTER_METADATA_COMMIT
+  started_at: '2026-07-28T18:17:52Z'
+  closure_checkpoint_id: CP-SES-20260728T154000Z-0458A14C-0014
+  closed_at: '2026-07-28T18:18:05Z'
 parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
   reason: CR关闭状态与同一Commit的双GitHub证据必须原子记录
+closed_at: '2026-07-28T18:18:05Z'

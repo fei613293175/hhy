@@ -1,19 +1,19 @@
 {
   "version": "1.0",
-  "generated_at": "2026-07-28T18:15:04Z",
-  "context_hash": "d4967863abb39e31d80b14e1fb9aa6bc5f2bcf8ce869ee076f6949755374ef1c",
-  "fingerprint_mode": "SESSION_DELTA",
+  "generated_at": "2026-07-28T18:18:11Z",
+  "context_hash": "f57480ee37db4c998608e9028b294645cd092a8b6563fabc128b779861149b57",
+  "fingerprint_mode": "REPOSITORY_TREE",
   "project_fingerprint": {
-    "sha256": "480df8893aaadd62336f03340beab16c0b3c7379876303e383257c25438871d2",
-    "file_count": 40
+    "sha256": "6b625b459688c43268f228f3d2e51c568e3a1053eac5ca448a826893ab05521f",
+    "file_count": 0
   },
   "yaml": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.yaml",
-    "sha256": "14c4cce825683ed169ce31c0153ec58df8734e2be215c85c9351f4df5c401c4a"
+    "sha256": "4916a8a8a66d53d13de3d24b76b3f34bae21a445c379ce7d86ba73b6c5f125cd"
   },
   "markdown": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.md",
-    "sha256": "c302a87c9a41b2a77e20a6d1044f388efd6cfb28b292f96b5a2ef47d51fb4dc5"
+    "sha256": "1d882a5eb58cabcde6bc9f55afa0fed79481f5f127228057a84e661ac4e1ce93"
   },
   "sources": [
     {
@@ -28,13 +28,13 @@
     },
     {
       "path": "CURRENT_STATUS.yaml",
-      "sha256": "8d07ec2f323918c725693f1d01f2eb0334eec3e8fa0f2c92fe14bd6c9204bcc4",
-      "bytes": 4763
+      "sha256": "252b2656eced8dbe74345a64dd2dc06d0c730b7713f3c6a78fc4d278e8b1f2bc",
+      "bytes": 4619
     },
     {
       "path": "NEXT_TASK.yaml",
-      "sha256": "83620cf8bc2f10f75ef20b3af2c126a60697347cb6354e741ca2fc9b50a8ade4",
-      "bytes": 1931
+      "sha256": "53d49180cf243888f1febeeaeaca91d9024c5482f5280790e1436a7bc1cd9281",
+      "bytes": 1514
     },
     {
       "path": "DEVELOPMENT_RISK_REGISTER.md",
@@ -83,18 +83,18 @@
     },
     {
       "path": ".continuity/EVENT_LOG.jsonl",
-      "sha256": "76044c17354013ef6e71c1079defd6f625c2a59be5d215d7a1344b7477da367f",
-      "bytes": 2523889
+      "sha256": "690ebb73a7f51a005586e48a1622a6bc14ef745894ccaacb386dde139036c8cb",
+      "bytes": 2525685
     },
     {
       "path": ".continuity/SESSION_INDEX.yaml",
-      "sha256": "b902cc6f726b84bdfe9d685a16c00b7051697ae429dbcb360846746f3a5d6af3",
-      "bytes": 64257
+      "sha256": "1a92d35c4b72bc7e5eb9c041238c606069ca7ce4acdf5917ce6441ee2c83d814",
+      "bytes": 64275
     },
     {
       "path": ".continuity/TASK_CLAIMS.yaml",
-      "sha256": "722f3826286f2f3ce0f91a3d2c37fcab780e5bd204de6a85f143aa0b0773a668",
-      "bytes": 90325
+      "sha256": "dcc2a8d2e8b9d18e57bf253210ac486562f458293321c97a574db9c2d971bb2a",
+      "bytes": 90361
     },
     {
       "path": ".continuity/TASK_TRANSITIONS.yaml",
@@ -108,8 +108,8 @@
     },
     {
       "path": ".continuity/ACTIVE_SESSION.yaml",
-      "sha256": "f4f280901245f4a88001d451b8d47ff9fe595b7cf9db44307fbe3c3bdd18de87",
-      "bytes": 546
+      "sha256": "a7c94375f608b2ba715b5caefca7ef0f4730f7006fdf9d3e434e8102eaaad731",
+      "bytes": 143
     },
     {
       "path": "docs/00-baseline/正式商业系统全局硬性开发边界.md",
@@ -148,8 +148,8 @@
     },
     {
       "path": "releases/R14/TASKS.yaml",
-      "sha256": "3c22aabda13f389c3b7b63b9d462ea7721fae78e166d8f878cf6ced8173ea69c",
-      "bytes": 6205
+      "sha256": "33ed8aab1fc05c674df96d61cf3b770445c16d10e5e66f973b152e46f485fb2f",
+      "bytes": 6241
     },
     {
       "path": "releases/R14/ACCEPTANCE_MATRIX.csv",
@@ -160,51 +160,6 @@
       "path": "releases/R14/PARALLEL_EXECUTION_PLAN.yaml",
       "sha256": "cd1f0c96ffd7562acb214edba80a2bbb12b79f06c19032d1b133936ff6abd74f",
       "bytes": 2539
-    },
-    {
-      "path": "docs/03-continuity/sessions/2026-07/SES-20260728T154000Z-0458A14C.md",
-      "sha256": "4c8ce0d5e4b84f5a05fe1e7ef6c72639dcebff62f605a472ed00d1784430b8f2",
-      "bytes": 32817
-    },
-    {
-      "path": ".continuity/checkpoints/SES-20260728T154000Z-0458A14C/0013.yaml",
-      "sha256": "4fe4a5071751522157528983aa1b8d3d25794d4e39a41da3f2bb9c0002e6e732",
-      "bytes": 19391
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0458-替代CR-0457原子恢复跨序状态并锁定R16代码证据.md",
-      "sha256": "b0424db452ec82579f19113264010967e3cd49912fb447c05566727df5ee98e9",
-      "bytes": 7248
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0459-刷新CR-0458连续性原子恢复后的重建证据.md",
-      "sha256": "113ef3a145bba8622e7e11066381bcac95c57d644b0de59f468be2edb3bf5cf1",
-      "bytes": 3352
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0460-替代CR-0459无副作用刷新连续性重建证据.md",
-      "sha256": "852b16f8cd911cd3a5e63e888d176fda07bc2996906002d626553c5ead95ec2f",
-      "bytes": 3848
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0461-补齐序列恢复终态的连续性门禁枚举.md",
-      "sha256": "e603935cf4ea43678a7ac33b0a00502dbe62598f59c6ae9db3f1a51661ba129d",
-      "bytes": 3381
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0462-刷新CR-0461门禁终态枚举后的重建证据.md",
-      "sha256": "35272f97fa4c304e42a0fbfb1de46b7f3001c1abeb3440eb00cf1387148c4b8d",
-      "bytes": 3534
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0463-修复后续版本侵入历史候选断言导致的CI漂移.md",
-      "sha256": "8693e43373edc4ab5f857ee4d036f55492af2570db7322161747aba140d8aaa5",
-      "bytes": 3617
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0464-冻结R14聊天举报原因目录并贯通客户端后端校验.md",
-      "sha256": "5178e63bcbdc6dd179a0134dd1b6fcac4429dc5e5e426a4a50225474c2a5c905",
-      "bytes": 5786
     }
   ]
 }

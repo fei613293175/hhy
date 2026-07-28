@@ -2122,3 +2122,13 @@
 - Actor：`codex-r16-backend-20260728`
 - 摘要：TASK-R16-003完成：十个冻结后端operationId、V046/V047、权限幂等审计Outbox、订单owner隔离及完整Java/PostgreSQL回归通过；R14紧急公网消息热修已独立闭环且不改变R16验收。
 - 记录：`docs/03-continuity/sessions/2026-07/SES-20260728T102501Z-3189682B.md`
+
+## TASK-R14-004 · COMPLETED · 2026-07-28T18:17:52Z
+
+- Task close: TASK-R14-004 / SES-20260728T154000Z-0458A14C
+- Release：`R14`
+- Story：`STORY-R14-004`
+- Actor：`codex-r14-continuation-20260728`
+- 摘要：TASK-R14-004六个Android交互面、九项REST、十二事件实时链路、加载与失败恢复、举报证据和OpenAPI单源原因目录均完成；H5与后台按R14 Manifest明确N/A；固定工具链与GitHub门禁通过
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260728T154000Z-0458A14C.md`
+
