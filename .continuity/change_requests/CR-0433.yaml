@@ -1,9 +1,9 @@
 protocol_version: '1.0'
 cr_id: CR-0433
 title: 同步R14变更后的全版本确定性执行计划
-status: IMPLEMENTED
+status: CLOSED
 created_at: '2026-07-28T06:36:40Z'
-updated_at: '2026-07-28T06:39:32Z'
+updated_at: '2026-07-28T06:43:51Z'
 requester_actor_id: codex-root-r14-client-20260728
 approver_actor_id: codex-r14-program-plan-independent-review-20260728
 task_id: TASK-R14-004
@@ -44,5 +44,12 @@ decision_log:
   status: IMPLEMENTED
   note: 全版本确定性执行计划已由既有生成器同步，31版本组合总数和R14指标门禁通过。
   session_id: SES-20260727T221444Z-FD353AD3
+- at: '2026-07-28T06:43:51Z'
+  actor_id: codex-root-r14-client-20260728
+  status: CLOSED
+  note: 批准范围已由实现提交 7ce3c2169925fef717c051e16e09f556ce619aa6 完整交付并通过门禁；CR关闭。ws生产激活不在CR-0430范围内，仍留待R14候选阶段。
+  session_id: SES-20260727T221444Z-FD353AD3
 session_ids:
 - SES-20260727T221444Z-FD353AD3
+implementation_commits:
+- 7ce3c2169925fef717c051e16e09f556ce619aa6

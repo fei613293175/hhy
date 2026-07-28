@@ -1,9 +1,9 @@
 protocol_version: '1.0'
 cr_id: CR-0432
 title: 补齐R14 Android CHAT权威补洞运行时文件范围
-status: IMPLEMENTED
+status: CLOSED
 created_at: '2026-07-28T06:07:06Z'
-updated_at: '2026-07-28T06:39:27Z'
+updated_at: '2026-07-28T06:43:45Z'
 requester_actor_id: codex-root-r14-runtime-20260728
 approver_actor_id: codex-r14-scope-independent-review-20260728
 task_id: TASK-R14-004
@@ -44,5 +44,12 @@ decision_log:
   status: IMPLEMENTED
   note: R14RealtimeRefresh运行时范围已登记，CHAT全分页补洞及失败不推进水位已由Android单测验证。
   session_id: SES-20260727T221444Z-FD353AD3
+- at: '2026-07-28T06:43:45Z'
+  actor_id: codex-root-r14-client-20260728
+  status: CLOSED
+  note: 批准范围已由实现提交 7ce3c2169925fef717c051e16e09f556ce619aa6 完整交付并通过门禁；CR关闭。ws生产激活不在CR-0430范围内，仍留待R14候选阶段。
+  session_id: SES-20260727T221444Z-FD353AD3
 session_ids:
 - SES-20260727T221444Z-FD353AD3
+implementation_commits:
+- 7ce3c2169925fef717c051e16e09f556ce619aa6

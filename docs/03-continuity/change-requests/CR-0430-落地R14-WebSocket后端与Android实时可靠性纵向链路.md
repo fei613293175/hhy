@@ -154,3 +154,10 @@ V044仅增表和约束，不改写既有聊天历史；目录和实库目标升�
 - Status：`IMPLEMENTED`
 - Session：`SES-20260727T221444Z-FD353AD3`
 - Note：V044、后端WebSocket可靠投递与握手、Android OkHttp客户端和CHAT权威补洞、代理模板及分层测试全部完成；生产域名激活仍按候选阶段执行。
+
+## 状态记录 · 2026-07-28T06:43:35Z
+
+- Actor：`codex-root-r14-client-20260728`
+- Status：`CLOSED`
+- Session：`SES-20260727T221444Z-FD353AD3`
+- Note：批准范围已由实现提交 7ce3c2169925fef717c051e16e09f556ce619aa6 完整交付并通过门禁；CR关闭。ws生产激活不在CR-0430范围内，仍留待R14候选阶段。

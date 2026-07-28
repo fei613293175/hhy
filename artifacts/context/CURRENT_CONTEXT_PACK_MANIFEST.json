@@ -1,19 +1,19 @@
 {
   "version": "1.0",
-  "generated_at": "2026-07-28T06:40:41Z",
-  "context_hash": "5eb37c6133c92c0475c8ae28d7d325822c69598a916fd15be2a67fa7473c65ae",
+  "generated_at": "2026-07-28T06:44:14Z",
+  "context_hash": "839b85e0dd2d3596cc7d4cbb400eb91df6b2191f9767ce1d39ffd857216cf041",
   "fingerprint_mode": "SESSION_DELTA",
   "project_fingerprint": {
-    "sha256": "00060131741417c639c371a21bfd20507c3fd4d03dfcf7569b6a814e20755d4a",
+    "sha256": "b630fc6580f1085efc917b6c77653d816bde01706badb03e447a864d12ff3b93",
     "file_count": 97
   },
   "yaml": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.yaml",
-    "sha256": "9fdc43cf152896b508fa2b686d15be7d6103f9f5f9900698dcddddab04e748d5"
+    "sha256": "8f1a8f43b558377f822daaecfca34ba5d4c711c233f6c528771b0d02d69d983f"
   },
   "markdown": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.md",
-    "sha256": "907fbb7e12dc64958c29fd36d4915f683a3324dd55f94c37c83371dfd3211f57"
+    "sha256": "1657dd55059335690cba8e8a67d919e97f33b0bd7afad076a78e6d4bfe10ac6a"
   },
   "sources": [
     {
@@ -28,7 +28,7 @@
     },
     {
       "path": "CURRENT_STATUS.yaml",
-      "sha256": "527594a9ee6479fd23b5f85d2e089aa4414b80bfce72bae69594c73d1a74c701",
+      "sha256": "19cd41fb5f59ee80f9c0d4e65048182c663a34c524ec722c9d362d0cd85e2215",
       "bytes": 4672
     },
     {
@@ -83,12 +83,12 @@
     },
     {
       "path": ".continuity/EVENT_LOG.jsonl",
-      "sha256": "141a5066d194b5ac9d2e87c7effce083643d4d1414fd955d75aa62e8263b840e",
-      "bytes": 2341925
+      "sha256": "61fef53c5016edea2933979843954484eea47910292a38589222f600100eae9a",
+      "bytes": 2344229
     },
     {
       "path": ".continuity/SESSION_INDEX.yaml",
-      "sha256": "b1ffaa0e5886b961e9a0bf07d2a245fe555397fc283394ccec7e410e9f39ca2d",
+      "sha256": "52243c4a1d6aa72b1bf7e668f4d7937c2f0797b91adbc299368c9260e44a92e9",
       "bytes": 61640
     },
     {
@@ -103,12 +103,12 @@
     },
     {
       "path": ".continuity/CHANGE_REQUEST_INDEX.yaml",
-      "sha256": "26fa46985eae0c7d831bd36abcebc1759289b012ed1620b50b847d2a8bdf988d",
-      "bytes": 1560438
+      "sha256": "ba0c0486ffef4f908f169cd70affe3cfb9f4e69b4acb7d321d27db007badc8b6",
+      "bytes": 1562026
     },
     {
       "path": ".continuity/ACTIVE_SESSION.yaml",
-      "sha256": "64fdac36335064eb9fcf6b781830a78d030d6757792269af3012251ae473ea76",
+      "sha256": "648b3390d8dbdd5a112c0920fe994d6682485920ac7ace5317cc57297b34290f",
       "bytes": 545
     },
     {
@@ -163,13 +163,13 @@
     },
     {
       "path": "docs/03-continuity/sessions/2026-07/SES-20260727T221444Z-FD353AD3.md",
-      "sha256": "6765bd350d692f678bd93d3f54d9c45d8db2f9d84fc6dedb443780f8202b96f5",
-      "bytes": 103500
+      "sha256": "ebcc5b5faef4547510f80e3f43f0686b17bd6ce36600e55ab63aed245a65bab3",
+      "bytes": 111533
     },
     {
-      "path": ".continuity/checkpoints/SES-20260727T221444Z-FD353AD3/0024.yaml",
-      "sha256": "33411416d0c163ff338dfe538ac125bccb562bcac769df95d30112dc8bad0ada",
-      "bytes": 50459
+      "path": ".continuity/checkpoints/SES-20260727T221444Z-FD353AD3/0025.yaml",
+      "sha256": "c729a1d116c2bfc6ce9d2ab9a2340b991e488d676313022ad4b3200ab0be13c7",
+      "bytes": 45571
     },
     {
       "path": "docs/03-continuity/change-requests/CR-0422-实现R14-Android私聊详情与真实会话导航.md",
@@ -213,23 +213,23 @@
     },
     {
       "path": "docs/03-continuity/change-requests/CR-0430-落地R14-WebSocket后端与Android实时可靠性纵向链路.md",
-      "sha256": "b459e4f6172359daf3575cfa3e13ac75860610ba9406914fbec64cf59f7b6864",
-      "bytes": 10643
+      "sha256": "c0048a9e1a9d0ad4cd156eabe7ee5a4555d985ba116303b47cbe30ca398cab2a",
+      "bytes": 10981
     },
     {
       "path": "docs/03-continuity/change-requests/CR-0431-补齐V044新增数据表权威目录范围.md",
-      "sha256": "aeb11d6d41e93c0e4e4263a9c67d429ce129f7e8502227547cdcb6dbcc6f277a",
-      "bytes": 3228
+      "sha256": "610f8fc83f67b387845fd7ade6de2565ac61816aaf228cb56fde379c102c31eb",
+      "bytes": 3566
     },
     {
       "path": "docs/03-continuity/change-requests/CR-0432-补齐R14-Android-CHAT权威补洞运行时文件范围.md",
-      "sha256": "b272332ca5433270f718762d3614dada2ca7529bfd5696e20487ef4ba6351b41",
-      "bytes": 2866
+      "sha256": "6863a703b96af28141b61fb52c3a37e8ac18f3951fd8a5f70b45432d4cd7391d",
+      "bytes": 3204
     },
     {
       "path": "docs/03-continuity/change-requests/CR-0433-同步R14变更后的全版本确定性执行计划.md",
-      "sha256": "2624d892ee19eca387d10a1510477fd3ef298453b212d9249cba5e6ad5ca3419",
-      "bytes": 2941
+      "sha256": "058be4a820a85587ccc9ed9e57c4e702273da9029fd39252bd9c9452dc0c2417",
+      "bytes": 3279
     }
   ]
 }
