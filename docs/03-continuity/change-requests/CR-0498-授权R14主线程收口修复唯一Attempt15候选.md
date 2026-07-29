@@ -86,3 +86,10 @@ Attempt14已经通过composer严格空值并关闭旧指纹，随后首次暴露
 - Status：`IMPLEMENTING`
 - Session：`SES-20260729T161557Z-6FCE6ACA`
 - Note：开始写入Attempt15精确候选例外、请求文件与治理断言。
+
+## 状态记录 · 2026-07-29T23:47:54Z
+
+- Actor：`codex-r14-candidate-requester`
+- Status：`IMPLEMENTED`
+- Session：`SES-20260729T161557Z-6FCE6ACA`
+- Note：Attempt15精确例外、候选请求与错误身份拒绝断言已完成；解析结果严格绑定R14/15/Request015/CR-0498/2ad71a06且max_candidate_runs=1。
