@@ -30504,3 +30504,116 @@ change_requests:
   - SES-20260729T161557Z-6FCE6ACA
   implementation_commits:
   - 442457ce
+- protocol_version: '1.0'
+  cr_id: CR-0491
+  title: 切换R14会话行操作为Compose语义并验证发送后输入清空
+  status: IMPLEMENTED
+  created_at: '2026-07-29T22:01:06Z'
+  updated_at: '2026-07-29T22:02:05Z'
+  requester_actor_id: codex-r14-resume-20260730
+  approver_actor_id: codex-independent-test-reviewer
+  task_id: TASK-R14-008
+  session_id: SES-20260729T161557Z-6FCE6ACA
+  user_request: 持续完成R14至R32；GitHub候选由AI读取真实交互证据并修复，同一失败不得原样反复浪费时间
+  reason: Attempt11重跑已越过首次拉黑三重断言，唯一业务失败转移为返回会话列表后UiAutomator无法定位肉眼可见的Compose会话行，截图同时暴露发送后输入未清空；需要切换为Compose语义操作并增加输入清空断言。
+  original_rule: Attempt11候选在会话列表首次进入、拉黑后复进、长按和删除消失均使用UiAutomator按Compose testTag导出的resource-id定位，composer也用UiAutomator文本输入；该跨框架路径在真实界面元素可见时仍可能失败，且没有严格证明发送后输入清空。
+  new_rule: R14候选的会话行首次进入、拉黑后复进、长按和删除消失必须使用Compose唯一testTag、assertIsDisplayed与原生语义动作；composer输入必须使用Compose文本替换，发送成功后必须严格断言composer为空。发送未误标已读、拉黑禁发、返回复进、解除拉黑、长按删除、四张截图、JUnit和目标进程日志审核全部保留。
+  impact_summary: 只修正R14真实交互候选的自动化框架边界并补充发送后输入清空验收，不修改产品业务、后端、数据库或既有验收范围；Attempt11证据归档到既有Problem Registry条目，禁止无变化重跑。
+  impact:
+    files:
+    - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+    - artifacts/validation/r14-candidate-attempt11/failure-evidence.json
+    - docs/03-continuity/PROBLEM_REGISTRY.yaml
+    - tests/test_android_ci_gate.py
+    - CHANGELOG.md
+    pages:
+    - R14会话列表与聊天详情仅测试路径，无产品UI改动
+    apis:
+    - 无API合同变更
+    database:
+    - 无数据库变更
+    configuration:
+    - 无运行时配置变更
+    ledger:
+    - 无资金或账本影响
+    tests:
+    - R14候选会话行Compose语义操作与发送后composer为空回归
+    - python -m unittest tests.test_android_ci_gate
+    releases:
+    - R14
+    migration_and_compatibility: Attempt11首次Run基础设施失败及同Commit唯一失败Job重跑保持不可变历史；旧UiAutomator会话行路径停止使用，Compose语义路径由新修复Commit和独立候选请求验证，其他版本与产品运行时不受影响。
+  user_confirmation: 项目所有者明确要求由AI审核GitHub候选、持续推进开发，并禁止在相同失败上反复浪费时间。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-29T22:01:43Z'
+    note: 独立复审确认新路径保持全部R14业务断言，只替换跨框架不稳定的会话行操作并新增发送后输入清空证明；Attempt11不得无变化重跑。
+  machine_record: .continuity/change_requests/CR-0491.yaml
+  document: docs/03-continuity/change-requests/CR-0491-切换R14会话行操作为Compose语义并验证发送后输入清空.md
+  decision_log:
+  - at: '2026-07-29T22:01:59Z'
+    actor_id: codex-r14-resume-20260730
+    status: IMPLEMENTING
+    note: 登记已完成的CR-0491修复实现与固定工具链验证，修复提交保持c1b637e2。
+    session_id: SES-20260729T161557Z-6FCE6ACA
+  - at: '2026-07-29T22:02:05Z'
+    actor_id: codex-r14-resume-20260730
+    status: IMPLEMENTED
+    note: Commit c1b637e299288279d96e0ef85fde21b03e889251已完成会话行Compose点击、复进、长按、删除消失与composer语义输入和清空断言；117项治理回归及固定Android工具链225任务PASS。
+    session_id: SES-20260729T161557Z-6FCE6ACA
+  session_ids:
+  - SES-20260729T161557Z-6FCE6ACA
+  implementation_commits:
+  - c1b637e299288279d96e0ef85fde21b03e889251
+- protocol_version: '1.0'
+  cr_id: CR-0492
+  title: 授权R14会话复进Compose语义路径唯一Attempt12
+  status: IMPLEMENTING
+  created_at: '2026-07-29T22:02:20Z'
+  updated_at: '2026-07-29T22:03:05Z'
+  requester_actor_id: codex-r14-resume-20260730
+  approver_actor_id: codex-independent-candidate-reviewer
+  task_id: TASK-R14-008
+  session_id: SES-20260729T161557Z-6FCE6ACA
+  user_request: 持续完成R14至R32；GitHub候选失败必须产生新修复或新证据后继续，不得原样反复浪费时间
+  reason: Attempt11及唯一基础设施重跑均已消费；CR-0491提交c1b637e2建立会话行Compose语义操作和发送后输入清空的新验证路径，需要以新请求、精确Commit和单次运行重新授权。
+  original_rule: CR-0490只授权R14 Attempt11、request011、修复Commit c79a7967与单次候选运行；Attempt11及其同Commit唯一基础设施失败作业重跑已经消费，禁止复用该请求、授权或原样重跑。
+  new_rule: 在不改变全局max_ai_attempts=3的前提下，只增加精确例外release=R14、attempt=12、request=R14-CANDIDATE-20260730-012、exception=CR-0492、required_fix_commit=c1b637e299288279d96e0ef85fde21b03e889251、max_candidate_runs=1。必须保留全部R14业务断言、四张截图、JUnit和目标进程日志，并新增发送后composer为空证明。
+  impact_summary: 只登记CR-0491新Compose语义验证路径的一次性候选授权；错误Release、Attempt、Request、CR、Commit或多次运行均必须非零拒绝，不修改产品、后端、数据库、全局三轮上限或截图范围。
+  impact:
+    files:
+    - config/android-automation.yaml
+    - config/android-candidate-request.yaml
+    - tests/test_android_candidate_request.py
+    - tests/test_android_ci_gate.py
+    - CHANGELOG.md
+    pages:
+    - 无产品页面改动，仅候选自动化授权
+    apis:
+    - 无API合同变更
+    database:
+    - 无数据库变更
+    configuration:
+    - R14 Attempt12精确候选例外与request012
+    ledger:
+    - 无资金或账本影响
+    tests:
+    - python -m unittest tests.test_android_candidate_request tests.test_android_ci_gate tests.test_android_candidate_route
+    - python scripts/android_candidate_request.py --request config/android-candidate-request.yaml
+    releases:
+    - R14
+    migration_and_compatibility: Attempt11和CR-0490保持已消费历史；Attempt12必须绑定c1b637e2并运行一次，其他Release、历史例外和全局三轮规则不变。
+  user_confirmation: 项目所有者明确授权AI持续推进并自行审核GitHub候选，同时要求相同问题不得反复浪费时间。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-29T22:02:51Z'
+    note: 独立候选复审通过：Attempt12只绑定CR-0491的新Compose语义Commit并运行一次；旧跨框架路径不得重跑，全局上限与全部业务断言均未放宽。
+  machine_record: .continuity/change_requests/CR-0492.yaml
+  document: docs/03-continuity/change-requests/CR-0492-授权R14会话复进Compose语义路径唯一Attempt12.md
+  decision_log:
+  - at: '2026-07-29T22:03:05Z'
+    actor_id: codex-r14-resume-20260730
+    status: IMPLEMENTING
+    note: 写入Attempt12精确例外、request012及错误Release、CR、Commit、Request和轮次拒绝回归。
+    session_id: SES-20260729T161557Z-6FCE6ACA
+  session_ids:
+  - SES-20260729T161557Z-6FCE6ACA

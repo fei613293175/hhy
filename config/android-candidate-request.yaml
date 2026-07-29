@@ -2,8 +2,8 @@ schema_version: 1
 status: REQUESTED
 release: R14
 candidate: true
-remediation_attempt: 11
-request_id: R14-CANDIDATE-20260730-011
-attempt_exception_id: CR-0490
-required_fix_commit: c79a796721ba5357315d3cd7a45417be653a160e
-reason: R14 Run 30488268307完整通过候选请求、连续性、编译、单测、Lint、APK打包、OIDC引导和模拟器启动；拉黑请求HTTP 200，失败现场为Compose禁发节点数量1且composer资源已消失，但UiAutomator无法把Compose testTag导出的r14.chat.blocked resource-id判为可见。Attempt7、8、10由此达到旧resource-id路径第三且最终业务轮，禁止原样重跑。CR-0489及Commit c79a796721ba5357315d3cd7a45417be653a160e改用新取证路径：Compose等待唯一禁发节点并执行assertIsDisplayed、UiAutomator等待用户真正看到的“当前无法发送消息”、同时继续断言composer不存在；复用既有PROB-0125经验，不修改拉黑业务、后端或数据库。CR-0490只授权request011运行一次，并完整保留搜索、发送未误标已读、首次拉黑、返回重进、解除拉黑、列表长按删除、四张截图、JUnit和目标进程日志审核；本次是新验证路径首轮，不是旧路径第四轮。
+remediation_attempt: 12
+request_id: R14-CANDIDATE-20260730-012
+attempt_exception_id: CR-0492
+required_fix_commit: c1b637e299288279d96e0ef85fde21b03e889251
+reason: R14 GitHub Run 30490812128首次执行在模拟器脚本启动前因GitHub基础设施中断，按既有瞬态规则只重跑失败作业一次；run_attempt=2完整进入业务旅程，发送未误标已读、首次拉黑Compose禁发节点、用户可见禁发文案和composer消失均已通过，服务端拉黑与返回列表请求HTTP 200且数据库拉黑关系、会话未隐藏均正确。唯一失败发生在返回会话列表后：界面上会话行真实可见，但UiAutomator无法继续按Compose testTag导出的r14.conversation.row resource-id定位，且发送截图显示composer文本未清空。CR-0491及Commit c1b637e299288279d96e0ef85fde21b03e889251将会话行首次进入、返回复进、长按和删除消失全部切换为Compose唯一语义操作，将输入改为Compose语义替换并新增发送后输入框严格为空断言；搜索、未误标已读、首次拉黑、返回重进、解除拉黑、列表长按删除、四张截图、JUnit和目标进程日志审核全部保留。CR-0492只授权request012运行一次；这是会话行Compose语义与输入清空新路径首轮，不是旧跨框架resource-id路径的无变化重跑。

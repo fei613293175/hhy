@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## R14会话复进Compose语义候选授权 · 2026-07-30
+
+- `CR-0492`只授权`R14-CANDIDATE-20260730-012`绑定修复Commit `c1b637e299288279d96e0ef85fde21b03e889251`运行一次；Attempt11及其唯一基础设施重跑均保持已消费历史。
+- Attempt12必须以Compose原生语义完成会话行进入、返回复进、长按和删除消失证明，并新增发送后composer为空断言；全部原有业务断言、四张截图、JUnit和目标进程日志审核保持不变。
+- 全局三轮上限不变，错误Release、Attempt、Request、CR、Commit或多次运行均由门禁拒绝。
+
 ## R14会话复进语义操作与输入清空取证 · 2026-07-30
 
 - `CR-0491`归档GitHub Run `30490812128`的Attempt11及同Commit唯一失败Job重跑：首次运行在模拟器脚本启动前中断且未消费业务轮；重跑完成真实发送与首次拉黑三重断言后，`POST /api/v1/users/{id}/block`和返回列表的`GET /api/v1/conversations`均为200，数据库会话未隐藏且拉黑关系存在，唯一失败为UiAutomator返回后找不到Compose会话行资源。

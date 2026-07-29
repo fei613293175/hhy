@@ -11,7 +11,7 @@ task_id: TASK-R14-008
 story_id: STORY-R14-004
 goal: 异常恢复 SES-20260728T220632Z-FE7D82FD：一对一聊天核心版本关闭与无状态交接
 started_at: '2026-07-29T16:15:57Z'
-updated_at: '2026-07-29T21:52:11Z'
+updated_at: '2026-07-29T22:03:49Z'
 takeover_of: SES-20260728T220632Z-FE7D82FD
 change_requests:
 - CR-0475
@@ -30,6 +30,8 @@ change_requests:
 - CR-0488
 - CR-0489
 - CR-0490
+- CR-0491
+- CR-0492
 scope:
   allowed_paths:
   - apps/**
@@ -89,22 +91,22 @@ git:
   initial_worktree_state: DIRTY_TAKEOVER
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-29T21:52:02Z'
-  expires_at: '2026-07-30T01:52:02Z'
-checkpoint_sequence: 18
-latest_checkpoint: .continuity/checkpoints/SES-20260729T161557Z-6FCE6ACA/0018.yaml
+  renewed_at: '2026-07-29T22:03:42Z'
+  expires_at: '2026-07-30T02:03:42Z'
+checkpoint_sequence: 21
+latest_checkpoint: .continuity/checkpoints/SES-20260729T161557Z-6FCE6ACA/0021.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260729T161557Z-6FCE6ACA.md
-next_step: 提交CR-0491实现；随后按新修复Commit创建独立候选授权，不得无变化重跑Attempt11。
+next_step: 提交Attempt12授权，登记CR-0492实现后构建并切换最终Commit候选后端
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: 879cd523327cfdec22787eb7f43d5c98ca5bc319cf769566682335e40718ffd7
-  generated_at: '2026-07-29T21:52:07Z'
+  context_hash: 1c906268e57140b25421d120367fd88b5e5327e445986bad856fc8410a76c0fc
+  generated_at: '2026-07-29T22:03:46Z'
 handoff_bundle: null
 closure: null
 parallel_execution:
-  assessment: NO_SAFE_PARALLEL
+  assessment: CAPABILITY_UNAVAILABLE
   delegated_workers: 0
   workers: []
-  reason: 候选失败指纹、修复Commit、候选授权和后端切流必须串行绑定同一身份。
+  reason: 当前运行时开发者约束禁止未由用户明确要求的子代理；候选授权和最终集成由主控串行复核
