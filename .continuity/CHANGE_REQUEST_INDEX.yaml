@@ -30035,9 +30035,9 @@ change_requests:
 - protocol_version: '1.0'
   cr_id: CR-0483
   title: 修复R14会话列表业务文字稳定资源身份并递增Attempt7
-  status: IMPLEMENTING
+  status: IMPLEMENTED
   created_at: '2026-07-29T17:30:06Z'
-  updated_at: '2026-07-29T17:34:02Z'
+  updated_at: '2026-07-29T17:40:26Z'
   requester_actor_id: codex-r14-resume-20260730
   approver_actor_id: project-owner-continuity-directive-20260730
   task_id: TASK-R14-008
@@ -30091,5 +30091,12 @@ change_requests:
     status: IMPLEMENTING
     note: Attempt6 GitHub、候选数据库、真实HTTP和三项Artifact证据已入库；会话联系人与预览稳定资源、UiAutomator精确值核对、Compose与治理回归已实现，89项Android治理测试PASS，准备执行obx-test受影响模块门禁。
     session_id: SES-20260729T161557Z-6FCE6ACA
+  - at: '2026-07-29T17:40:26Z'
+    actor_id: codex-r14-resume-20260730
+    status: IMPLEMENTED
+    note: 修复Commit 64e089d0已形成并通过提交门禁；联系人与预览稳定资源、精确业务值核对、Attempt6证据、Problem Registry和回归测试均已入库，准备绑定唯一Attempt7请求。
+    session_id: SES-20260729T161557Z-6FCE6ACA
   session_ids:
   - SES-20260729T161557Z-6FCE6ACA
+  implementation_commits:
+  - 64e089d0
