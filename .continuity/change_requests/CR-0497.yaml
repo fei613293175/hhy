@@ -1,9 +1,9 @@
 protocol_version: '1.0'
 cr_id: CR-0497
 title: 修复R14拉黑成功回调跨线程触碰Android View
-status: IMPLEMENTING
+status: IMPLEMENTED
 created_at: '2026-07-29T23:34:36Z'
-updated_at: '2026-07-29T23:35:19Z'
+updated_at: '2026-07-29T23:42:55Z'
 requester_actor_id: codex-r14-implementer
 approver_actor_id: codex-r14-independent-reviewer
 task_id: TASK-R14-008
@@ -47,5 +47,12 @@ decision_log:
   status: IMPLEMENTING
   note: 开始归档Attempt14并实现统一主线程UI收口及后台恢复回归。
   session_id: SES-20260729T161557Z-6FCE6ACA
+- at: '2026-07-29T23:42:55Z'
+  actor_id: codex-r14-implementer
+  status: IMPLEMENTED
+  note: Attempt14证据、PROB-0152原位补充、统一主线程结果收口及后台返回Compose回归已完成；35项治理回归与obx-test固定Android工具链244任务通过。
+  session_id: SES-20260729T161557Z-6FCE6ACA
 session_ids:
 - SES-20260729T161557Z-6FCE6ACA
+implementation_commits:
+- 2ad71a06
