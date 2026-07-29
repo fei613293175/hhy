@@ -30281,9 +30281,9 @@ change_requests:
 - protocol_version: '1.0'
   cr_id: CR-0487
   title: 原位加固GitHub OIDC引导5xx有限重试并保留非重试失败
-  status: IMPLEMENTING
+  status: IMPLEMENTED
   created_at: '2026-07-29T20:09:47Z'
-  updated_at: '2026-07-29T20:10:45Z'
+  updated_at: '2026-07-29T20:16:37Z'
   requester_actor_id: codex-r14-resume-20260730
   approver_actor_id: project-owner-continuity-directive-20260730
   task_id: TASK-R14-008
@@ -30329,6 +30329,61 @@ change_requests:
     actor_id: codex-r14-resume-20260730
     status: IMPLEMENTING
     note: 开始在既有authentication事实源和唯一Android质量门禁中实现严格5xx有限重试，并原位扩展PROB-0091与Attempt9证据。
+    session_id: SES-20260729T161557Z-6FCE6ACA
+  - at: '2026-07-29T20:16:37Z'
+    actor_id: codex-r14-resume-20260730
+    status: IMPLEMENTED
+    note: Commit a4b88424实现既有authentication.bootstrap_retry严格合同、唯一工作流有限重试、96项治理回归、实际bash语义复验、PROB-0091原位扩展和Attempt9无秘密证据；未改业务断言。
+    session_id: SES-20260729T161557Z-6FCE6ACA
+  session_ids:
+  - SES-20260729T161557Z-6FCE6ACA
+  implementation_commits:
+  - a4b88424
+- protocol_version: '1.0'
+  cr_id: CR-0488
+  title: 绑定R14基础设施修复并授权唯一Attempt10业务第三轮
+  status: IMPLEMENTING
+  created_at: '2026-07-29T20:17:17Z'
+  updated_at: '2026-07-29T20:17:55Z'
+  requester_actor_id: codex-r14-resume-20260730
+  approver_actor_id: project-owner-continuity-directive-20260730
+  task_id: TASK-R14-008
+  session_id: SES-20260729T161557Z-6FCE6ACA
+  user_request: 持续完成R14至R32，不因GitHub瞬态故障停止；所有候选由AI审核且不要求项目所有者逐次确认
+  reason: Attempt9只在OIDC bootstrap预检失败且未运行R14旅程；CR-0487已提交有限5xx重试。为保持候选请求、CR、修复Commit与运行次数唯一，不能复用已消费CR-0486/Attempt9授权，必须单独登记Attempt10，但它仍是PROB-0152第三且最终业务诊断轮。
+  original_rule: CR-0486只授权绑定业务修复Commit 3c120872、CR-0486和唯一request009的Attempt9；该Run已经启动并在OIDC bootstrap预检消费，但未运行模拟器或R14业务旅程。全局max_ai_attempts仍为3，已消费请求不得复用。
+  new_rule: 不新增候选体系或放宽全局三轮：仅增加R14精确Attempt10例外，必须同时匹配release=R14、request=R14-CANDIDATE-20260730-010、exception=CR-0488、required_fix_commit=a4b88424bee403b7515973536e96ccfcd3012d5a、max_candidate_runs=1。该Commit同时包含CR-0486的IME业务修复和CR-0487的5xx有限重试；Attempt10虽编号递增，仍是PROB-0152真正执行业务旅程的第三且最终轮，失败同指纹不得授权Attempt11。
+  impact_summary: 只登记一次性候选授权、请求文本和精确绑定回归；不修改产品代码、后端、数据库、身份策略、等待时间、R14业务断言或截图范围。
+  impact:
+    files:
+    - config/android-automation.yaml
+    - config/android-candidate-request.yaml
+    - tests/test_android_candidate_request.py
+    - tests/test_android_ci_gate.py
+    pages: []
+    apis: []
+    database: []
+    configuration:
+    - R14 Attempt10唯一例外和request010
+    ledger:
+    - Attempt9基础设施预检失败后唯一Attempt10授权
+    tests:
+    - python -m unittest tests.test_android_candidate_request tests.test_android_ci_gate
+    releases:
+    - R14
+    migration_and_compatibility: Attempt9及其Run保持不可变失败证据；旧请求和CR-0486不得复用。全局max_ai_attempts=3、其他Release例外和所有历史候选保持不变。
+  user_confirmation: 项目所有者已持续授权AI自行推进、GitHub候选审核和终端执行，无需逐次批准；本授权不扩大产品范围。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-29T20:17:49Z'
+    note: 独立复审通过：Attempt9未进入业务旅程，Attempt10仅为绑定已提交基础设施修复的唯一候选授权，且明确保持全局三轮、单次运行和同指纹失败后禁止Attempt11。
+  machine_record: .continuity/change_requests/CR-0488.yaml
+  document: docs/03-continuity/change-requests/CR-0488-绑定R14基础设施修复并授权唯一Attempt10业务第三轮.md
+  decision_log:
+  - at: '2026-07-29T20:17:55Z'
+    actor_id: codex-r14-resume-20260730
+    status: IMPLEMENTING
+    note: 开始写入Attempt10精确例外、request010及双侧漂移拒绝回归。
     session_id: SES-20260729T161557Z-6FCE6ACA
   session_ids:
   - SES-20260729T161557Z-6FCE6ACA

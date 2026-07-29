@@ -1,9 +1,9 @@
 protocol_version: '1.0'
 cr_id: CR-0487
 title: 原位加固GitHub OIDC引导5xx有限重试并保留非重试失败
-status: IMPLEMENTING
+status: IMPLEMENTED
 created_at: '2026-07-29T20:09:47Z'
-updated_at: '2026-07-29T20:10:45Z'
+updated_at: '2026-07-29T20:16:37Z'
 requester_actor_id: codex-r14-resume-20260730
 approver_actor_id: project-owner-continuity-directive-20260730
 task_id: TASK-R14-008
@@ -50,5 +50,12 @@ decision_log:
   status: IMPLEMENTING
   note: 开始在既有authentication事实源和唯一Android质量门禁中实现严格5xx有限重试，并原位扩展PROB-0091与Attempt9证据。
   session_id: SES-20260729T161557Z-6FCE6ACA
+- at: '2026-07-29T20:16:37Z'
+  actor_id: codex-r14-resume-20260730
+  status: IMPLEMENTED
+  note: Commit a4b88424实现既有authentication.bootstrap_retry严格合同、唯一工作流有限重试、96项治理回归、实际bash语义复验、PROB-0091原位扩展和Attempt9无秘密证据；未改业务断言。
+  session_id: SES-20260729T161557Z-6FCE6ACA
 session_ids:
 - SES-20260729T161557Z-6FCE6ACA
+implementation_commits:
+- a4b88424
