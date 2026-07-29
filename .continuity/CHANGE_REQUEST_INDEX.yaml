@@ -30797,9 +30797,9 @@ change_requests:
 - protocol_version: '1.0'
   cr_id: CR-0496
   title: 授权R14 composer实时语义最终Attempt14
-  status: IMPLEMENTING
+  status: IMPLEMENTED
   created_at: '2026-07-29T23:10:48Z'
-  updated_at: '2026-07-29T23:11:31Z'
+  updated_at: '2026-07-29T23:14:02Z'
   requester_actor_id: codex-implementation
   approver_actor_id: codex-independent-test-reviewer
   task_id: TASK-R14-008
@@ -30841,5 +30841,12 @@ change_requests:
     status: IMPLEMENTING
     note: 写入Attempt14最终精确身份和正负向治理回归。
     session_id: SES-20260729T161557Z-6FCE6ACA
+  - at: '2026-07-29T23:14:02Z'
+    actor_id: codex-implementation
+    status: IMPLEMENTED
+    note: Attempt14最终精确请求、例外白名单、同指纹三轮上限及正负向治理回归已实现；授权提交1b9ba6e8。
+    session_id: SES-20260729T161557Z-6FCE6ACA
   session_ids:
   - SES-20260729T161557Z-6FCE6ACA
+  implementation_commits:
+  - 1b9ba6e8

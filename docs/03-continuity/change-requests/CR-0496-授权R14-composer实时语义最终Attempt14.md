@@ -87,3 +87,10 @@ Attempt12和13保持已消费历史；Attempt14必须绑定7eeb1051且仅运行�
 - Status：`IMPLEMENTING`
 - Session：`SES-20260729T161557Z-6FCE6ACA`
 - Note：写入Attempt14最终精确身份和正负向治理回归。
+
+## 状态记录 · 2026-07-29T23:14:02Z
+
+- Actor：`codex-implementation`
+- Status：`IMPLEMENTED`
+- Session：`SES-20260729T161557Z-6FCE6ACA`
+- Note：Attempt14最终精确请求、例外白名单、同指纹三轮上限及正负向治理回归已实现；授权提交1b9ba6e8。
