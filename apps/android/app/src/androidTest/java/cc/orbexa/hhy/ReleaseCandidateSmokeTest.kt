@@ -6,6 +6,7 @@ import android.content.Intent
 import android.os.Build
 import android.os.SystemClock
 import android.provider.MediaStore
+import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.hasTestTag
 import androidx.compose.ui.test.junit4.createEmptyComposeRule
 import androidx.compose.ui.test.onNodeWithText
@@ -209,27 +210,13 @@ class ReleaseCandidateSmokeTest {
         clickDescription("会话操作")
         clickExactText("拉黑该用户")
         clickLastExactText("确认拉黑")
-        val blockedResourceVisible = device.wait(Until.hasObject(By.res("r14.chat.blocked")), 10_000)
-        val blockedComposeNodes = composeRule.onAllNodes(
-            hasTestTag("r14.chat.blocked"),
-            useUnmergedTree = true,
-        ).fetchSemanticsNodes().size
-        assertTrue(
-            "R14 block did not expose the stable blocked state: " +
-                "composeNodes=$blockedComposeNodes " +
-                "composerResourceVisible=${device.hasObject(By.res("r14.chat.composer"))}",
-            blockedResourceVisible,
-        )
-        assertFalse("R14 blocked detail still exposed the composer", device.hasObject(By.res("r14.chat.composer")))
+        assertR14BlockedComposerState("R14 block")
 
         device.pressBack()
         assertTrue("R14 block did not return to list", waitForScreen("hhy.screen.r14.conversations"))
         clickResource("r14.conversation.row")
         assertTrue("R14 blocked chat did not reopen", waitForScreen("hhy.screen.r14.chat"))
-        assertTrue(
-            "R14 own block was not restored after reentry",
-            device.wait(Until.hasObject(By.res("r14.chat.blocked")), 10_000),
-        )
+        assertR14BlockedComposerState("R14 own block after reentry")
         clickDescription("会话操作")
         assertTrue("R14 own block menu did not switch to unblock", device.hasObject(By.text("解除拉黑")))
         captureStable("03-r14-blocked-reentry.png")
@@ -250,6 +237,31 @@ class ReleaseCandidateSmokeTest {
         )
         assertTrue("R14 filtered empty state is missing", device.hasObject(By.text("没有找到相关会话")))
         assertNoForbiddenVisibleText()
+    }
+
+    private fun assertR14BlockedComposerState(context: String) {
+        composeRule.waitUntil(10_000) {
+            composeRule.onAllNodes(
+                hasTestTag("r14.chat.blocked"),
+                useUnmergedTree = true,
+            ).fetchSemanticsNodes().size == 1
+        }
+        composeRule.onNode(
+            hasTestTag("r14.chat.blocked"),
+            useUnmergedTree = true,
+        ).assertIsDisplayed()
+
+        val userTextVisible = device.wait(
+            Until.hasObject(By.text("当前无法发送消息")),
+            10_000,
+        )
+        val composerResourceVisible = device.hasObject(By.res("r14.chat.composer"))
+        assertTrue(
+            "$context did not expose the user-visible blocked message: " +
+                "userTextVisible=$userTextVisible composerResourceVisible=$composerResourceVisible",
+            userTextVisible,
+        )
+        assertFalse("$context still exposed the composer", composerResourceVisible)
     }
 
     private fun waitForScreen(required: String, gone: String? = null): Boolean {

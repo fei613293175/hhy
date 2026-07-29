@@ -1420,13 +1420,19 @@ class AndroidCiGateTest(unittest.TestCase):
             'assertEquals("Unexpected business text for resource: $resource", expected, node.text)',
             smoke_test,
         )
-        self.assertEqual(2, smoke_test.count('Until.hasObject(By.res("r14.chat.blocked"))'))
+        self.assertNotIn('Until.hasObject(By.res("r14.chat.blocked"))', smoke_test)
+        self.assertIn('assertR14BlockedComposerState("R14 block")', smoke_test)
         self.assertIn(
-            'device.hasObject(By.res("r14.chat.composer"))',
+            'assertR14BlockedComposerState("R14 own block after reentry")',
             smoke_test,
         )
-        self.assertNotIn(
+        self.assertIn(
             'Until.hasObject(By.text("当前无法发送消息"))',
+            smoke_test,
+        )
+        self.assertIn(").assertIsDisplayed()", smoke_test)
+        self.assertIn(
+            'device.hasObject(By.res("r14.chat.composer"))',
             smoke_test,
         )
         chat_detail = (
@@ -1455,7 +1461,7 @@ class AndroidCiGateTest(unittest.TestCase):
         ]
         self.assertIn(".imePadding()", blocked_branch)
         self.assertIn('hasTestTag("r14.chat.blocked")', smoke_test)
-        self.assertIn("composeNodes=$blockedComposeNodes", smoke_test)
+        self.assertNotIn("composeNodes=$blockedComposeNodes", smoke_test)
         self.assertIn("editor.apply()", block_state_store)
         self.assertNotIn("editor.commit()", block_state_store)
         self.assertNotIn('captureStable("26-r06-home.png")', smoke_test)
