@@ -17,13 +17,13 @@ class R14BlockStateStoreInstrumentedTest {
         val first = SharedPreferencesR14BlockStateStore(context)
         first.setBlockedByMe(account, peer, false)
 
-        assertTrue(first.setBlockedByMe(account, peer, true))
+        first.setBlockedByMe(account, peer, true)
         val recreated = SharedPreferencesR14BlockStateStore(context)
         assertTrue(recreated.isBlockedByMe(account, peer))
         assertFalse(recreated.isBlockedByMe("other-account", peer))
         assertFalse(recreated.isBlockedByMe(account, "other-peer"))
 
-        assertTrue(recreated.setBlockedByMe(account, peer, false))
+        recreated.setBlockedByMe(account, peer, false)
         assertFalse(SharedPreferencesR14BlockStateStore(context).isBlockedByMe(account, peer))
     }
 }

@@ -30100,3 +30100,94 @@ change_requests:
   - SES-20260729T161557Z-6FCE6ACA
   implementation_commits:
   - 64e089d0
+- protocol_version: '1.0'
+  cr_id: CR-0484
+  title: 修复R14拉黑成功后同步持久化阻塞UI并递增Attempt8
+  status: IMPLEMENTING
+  created_at: '2026-07-29T18:23:24Z'
+  updated_at: '2026-07-29T18:26:45Z'
+  requester_actor_id: codex-r14-resume-20260730
+  approver_actor_id: project-owner-continuity-directive-20260730
+  task_id: TASK-R14-008
+  session_id: SES-20260729T161557Z-6FCE6ACA
+  user_request: 项目所有者要求持续修复R14候选并在通过后顺序推进，不得因GitHub失败原地重跑。
+  reason: Attempt7后端200、数据库与幂等成功且真实HTTP响应可解码，但Compose主线程在成功回调同步SharedPreferences.commit，慢速模拟器无法在10秒内发布稳定拉黑语义。
+  original_rule: R14拉黑成功后通过R14BlockStateStore.setBlockedByMe使用SharedPreferences.Editor.commit同步写盘，再由Compose重组显示blocked状态；候选Attempt7绑定CR-0483/request007。
+  new_rule: 拉黑/解除拉黑成功必须先通过SharedPreferences.Editor.apply原子更新进程内状态并异步落盘，禁止在Compose主线程调用commit；UI立即暴露r14.chat.blocked或composer，返回重进必须读取同一内存状态。Attempt7永久失败且不得重跑，下一候选唯一递增为绑定新修复Commit和CR-0484的Attempt8。
+  impact_summary: 仅修复R14客户端拉黑状态持久化方式和对应回归/候选证据，不改变后端API、数据库、业务验收或禁发断言。
+  impact:
+    files:
+    - apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14BlockStateStore.kt
+    - apps/android/feature/chat/src/androidTest/java/cc/orbexa/hhy/chat/R14ChatDetailScreenTest.kt
+    - apps/android/feature/chat/src/androidTest/java/cc/orbexa/hhy/chat/R14BlockStateStoreInstrumentedTest.kt
+    - apps/android/feature/chat/src/test/java/cc/orbexa/hhy/chat/R14BlockStateStoreTest.kt
+    - artifacts/validation/r14-candidate-attempt7/failure-evidence.json
+    - docs/03-continuity/PROBLEM_REGISTRY.yaml
+    - docs/10-governance/CHANGELOG.md
+    - tests/test_android_ci_gate.py
+    - config/android-automation.yaml
+    - config/android-candidate-request.yaml
+    - tests/test_android_candidate_request.py
+    pages: []
+    apis: []
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - R14BlockStateStoreInstrumentedTest:apply后同进程重进立即可见且解除后立即消失
+    - R14ChatDetailScreenTest:成功拉黑后稳定blocked语义出现且composer消失
+    - tests.test_android_ci_gate:禁止R14 SharedPreferences commit并要求apply
+    - tests.test_android_candidate_request:Attempt8请求必须精确绑定修复Commit和CR-0484
+    releases:
+    - R14
+    migration_and_compatibility: SharedPreferences键和值完全不变，现有已拉黑记录兼容；apply先更新内存再异步落盘，消除主线程磁盘等待。
+  user_confirmation: 项目所有者明确要求自动持续开发、终端全权授权、GitHub失败必须修复后继续且不得停下等待批准。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-29T18:24:08Z'
+    note: 项目所有者已长期授权持续修复当前版本、无需逐次批准；本CR不弱化门禁，仅消除Android主线程同步磁盘写入并要求新证据后递增候选。
+  machine_record: .continuity/change_requests/CR-0484.yaml
+  document: docs/03-continuity/change-requests/CR-0484-修复R14拉黑成功后同步持久化阻塞UI并递增Attempt8.md
+  decision_log:
+  - at: '2026-07-29T18:26:45Z'
+    actor_id: codex-r14-resume-20260730
+    status: IMPLEMENTING
+    note: 已完成Attempt7 GitHub元数据、服务端HTTP/数据库/幂等与真实响应重放诊断，开始实现SharedPreferences apply和回归。
+    session_id: SES-20260729T161557Z-6FCE6ACA
+  session_ids:
+  - SES-20260729T161557Z-6FCE6ACA
+- protocol_version: '1.0'
+  cr_id: CR-0485
+  title: 更正CR-0484真实Changelog投影路径
+  status: APPROVED
+  created_at: '2026-07-29T18:45:32Z'
+  updated_at: '2026-07-29T18:46:00Z'
+  requester_actor_id: codex-r14-resume-20260730
+  approver_actor_id: project-owner-continuity-directive-20260730
+  task_id: TASK-R14-008
+  session_id: SES-20260729T161557Z-6FCE6ACA
+  user_request: 项目所有者要求持续修复R14候选并将全部有效事实写入仓库，禁止停下或依赖聊天。
+  reason: CR-0484误把变更日志路径登记为不存在的docs/10-governance/CHANGELOG.md；pre-commit正确要求用户可见修复更新仓库根CHANGELOG.md，必须以补充CR更正而非伪造文件或绕过Hook。
+  original_rule: CR-0484的impact.files误登记不存在的docs/10-governance/CHANGELOG.md，导致真实用户可见修复没有合法根Changelog投影。
+  new_rule: CR-0484的拉黑状态发布修复必须更新仓库根CHANGELOG.md；禁止创建不存在的并列Changelog路径，CR-0485仅更正本次事实投影。
+  impact_summary: 只增加根CHANGELOG.md中的R14 Attempt7根因、apply修复和Attempt8前置验证记录，不改变产品行为、API、数据库、门禁或候选断言。
+  impact:
+    files:
+    - CHANGELOG.md
+    pages: []
+    apis: []
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - pre-commit strict gate requires and validates root CHANGELOG for user-visible change
+    releases:
+    - R14
+    migration_and_compatibility: 无运行时迁移；保留CR-0484原记录作为审计事实，以CR-0485补充正确投影路径。
+  user_confirmation: 项目所有者明确要求持续开发、无需逐次批准，并要求换AI后仅凭仓库继续。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-29T18:46:00Z'
+    note: 项目所有者已授权持续开发且要求规则与修复写入仓库；本CR只纠正真实Changelog路径，不扩大产品或降低门禁。
+  machine_record: .continuity/change_requests/CR-0485.yaml
+  document: docs/03-continuity/change-requests/CR-0485-更正CR-0484真实Changelog投影路径.md

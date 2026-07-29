@@ -1353,6 +1353,10 @@ class AndroidCiGateTest(unittest.TestCase):
             ROOT
             / "apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ChatDetailScreen.kt"
         ).read_text(encoding="utf-8")
+        block_state_store = (
+            ROOT
+            / "apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14BlockStateStore.kt"
+        ).read_text(encoding="utf-8")
         conversation_list = (
             ROOT
             / "apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ConversationListScreen.kt"
@@ -1361,6 +1365,8 @@ class AndroidCiGateTest(unittest.TestCase):
         self.assertIn('.testTag("r14.conversation.preview")', conversation_list)
         self.assertIn('.testTag("r14.chat.blocked")', chat_detail)
         self.assertIn('stateDescription = "已拉黑，当前无法发送消息"', chat_detail)
+        self.assertIn("editor.apply()", block_state_store)
+        self.assertNotIn("editor.commit()", block_state_store)
         self.assertNotIn('captureStable("26-r06-home.png")', smoke_test)
         self.assertNotIn('captureStable("01-project-list.png")', smoke_test)
         self.assertIn('captureStable("10-r02-startup.png")', historical_test)

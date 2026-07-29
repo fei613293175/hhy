@@ -11,7 +11,7 @@ task_id: TASK-R14-008
 story_id: STORY-R14-004
 goal: 异常恢复 SES-20260728T220632Z-FE7D82FD：一对一聊天核心版本关闭与无状态交接
 started_at: '2026-07-29T16:15:57Z'
-updated_at: '2026-07-29T17:42:21Z'
+updated_at: '2026-07-29T18:47:02Z'
 takeover_of: SES-20260728T220632Z-FE7D82FD
 change_requests:
 - CR-0475
@@ -23,6 +23,8 @@ change_requests:
 - CR-0481
 - CR-0482
 - CR-0483
+- CR-0484
+- CR-0485
 scope:
   allowed_paths:
   - apps/**
@@ -56,8 +58,20 @@ scope:
   - requirements-dev.txt
   - PROJECT_*.yaml
   - PROJECT_*.json
-  approved_exceptions: []
-  source: story+explicit
+  approved_exceptions:
+  - apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14BlockStateStore.kt
+  - apps/android/feature/chat/src/androidTest/java/cc/orbexa/hhy/chat/R14ChatDetailScreenTest.kt
+  - apps/android/feature/chat/src/androidTest/java/cc/orbexa/hhy/chat/R14BlockStateStoreInstrumentedTest.kt
+  - apps/android/feature/chat/src/test/java/cc/orbexa/hhy/chat/R14BlockStateStoreTest.kt
+  - artifacts/validation/r14-candidate-attempt7/failure-evidence.json
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/10-governance/CHANGELOG.md
+  - tests/test_android_ci_gate.py
+  - config/android-automation.yaml
+  - config/android-candidate-request.yaml
+  - tests/test_android_candidate_request.py
+  - CHANGELOG.md
+  source: story+explicit+approved-cr:CR-0484+approved-cr:CR-0485
 git:
   initialized: true
   branch: task/TASK-R03-001
@@ -67,22 +81,22 @@ git:
   initial_worktree_state: DIRTY_TAKEOVER
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-29T17:42:13Z'
-  expires_at: '2026-07-29T21:42:13Z'
-checkpoint_sequence: 5
-latest_checkpoint: .continuity/checkpoints/SES-20260729T161557Z-6FCE6ACA/0005.yaml
+  renewed_at: '2026-07-29T18:46:55Z'
+  expires_at: '2026-07-29T22:46:55Z'
+checkpoint_sequence: 7
+latest_checkpoint: .continuity/checkpoints/SES-20260729T161557Z-6FCE6ACA/0007.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260729T161557Z-6FCE6ACA.md
-next_step: 提交Attempt7请求Commit；从同一最终HEAD重建R14候选后端、受控切流，完成transport/push-preflight后只推送一次触发GitHub候选。
+next_step: 提交CR-0484与CR-0485修复Commit并标记IMPLEMENTED；随后以独立请求Commit绑定唯一Attempt8
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: a32585c06590da00a018ffca468a804128e3054f45bd7a243159c52be577c971
-  generated_at: '2026-07-29T17:42:17Z'
+  context_hash: a6335cc9d2cdabe32dd78b4ec006c01a77759e60b328cd8600425181a26cb86e
+  generated_at: '2026-07-29T18:46:59Z'
 handoff_bundle: null
 closure: null
 parallel_execution:
   assessment: CAPABILITY_UNAVAILABLE
   delegated_workers: 0
   workers: []
-  reason: 当前主控运行环境的上级执行约束禁止创建子代理；候选请求绑定和连续性状态必须由事实主控串行维护。
+  reason: 当前上级执行约束禁止创建子代理；单一Android状态存储、CR、Changelog与连续性事实必须由事实主控串行收口。

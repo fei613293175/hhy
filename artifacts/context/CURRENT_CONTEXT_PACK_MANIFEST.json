@@ -1,19 +1,19 @@
 {
   "version": "1.0",
-  "generated_at": "2026-07-29T17:42:17Z",
-  "context_hash": "a32585c06590da00a018ffca468a804128e3054f45bd7a243159c52be577c971",
+  "generated_at": "2026-07-29T18:46:59Z",
+  "context_hash": "a6335cc9d2cdabe32dd78b4ec006c01a77759e60b328cd8600425181a26cb86e",
   "fingerprint_mode": "SESSION_DELTA",
   "project_fingerprint": {
-    "sha256": "9f5072b4a9a5906c87afcc67788602221c9b14851798ec7cc03f0d036a6c3d86",
-    "file_count": 30
+    "sha256": "7b4a3e2a7814f630ad6e3b93d6805339953b2195d41bfdf5bb30a00e3b7b5481",
+    "file_count": 34
   },
   "yaml": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.yaml",
-    "sha256": "2204d0794e4d230d3cac3d19711e9db92fc7b4c9d444bbf9e587246512a9c5fc"
+    "sha256": "b6da2ba2e145491304cbd87b0c1a5ee50b1a7ac1cf54a7d03817a4b8619334ef"
   },
   "markdown": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.md",
-    "sha256": "a375ec996411d36297ef1aee027d957aed40f23a944431d1b6970134360deca4"
+    "sha256": "c9047d8b79979af452802fc621839529ca4d818e978461cbff29df0aed1b4dee"
   },
   "sources": [
     {
@@ -28,7 +28,7 @@
     },
     {
       "path": "CURRENT_STATUS.yaml",
-      "sha256": "220578fd84d632c113cf1cebdfb7cd80509e92fabf7aae9e54e7fd0c07169a98",
+      "sha256": "d9fb8ed85e1078606eac6e3dfe20a57b44f5d00b97da7fbb858eff8e95b3511b",
       "bytes": 4817
     },
     {
@@ -48,8 +48,8 @@
     },
     {
       "path": "docs/03-continuity/PROBLEM_REGISTRY.yaml",
-      "sha256": "76e15533227fbfc6b7450bc65092c078b35d56c2b93baa55e1b7020548422637",
-      "bytes": 260631
+      "sha256": "47ff71c055607792d17f7be408c1671c11e4e98033b3518c8468be0e3e6293f1",
+      "bytes": 262785
     },
     {
       "path": "docs/03-continuity/REUSABLE_PATTERNS.md",
@@ -83,12 +83,12 @@
     },
     {
       "path": ".continuity/EVENT_LOG.jsonl",
-      "sha256": "2e227f96983830ae8d0832c818b05ce1f12df3da2f0304c645a824aebbefe4f1",
-      "bytes": 2609169
+      "sha256": "9e8e27f345e76b32373c579f62859e3ad1bcbeebf8796eede42a1eda0759e8c9",
+      "bytes": 2615336
     },
     {
       "path": ".continuity/SESSION_INDEX.yaml",
-      "sha256": "9740fad38a567c2cf564453c4398d1963e03c1f85c461598951a834ba8f7f012",
+      "sha256": "c4bc495eaa7088e4d86882e8b1ca1929080c08fc40265b438e982985f8b08f81",
       "bytes": 66849
     },
     {
@@ -103,12 +103,12 @@
     },
     {
       "path": ".continuity/CHANGE_REQUEST_INDEX.yaml",
-      "sha256": "3012ce8ef36cd904e9d3a8c6d17fae33436b0829d9378a87b8bce4026a080ec4",
-      "bytes": 1802628
+      "sha256": "e5501fbb438f6263568b218427990bc9af6af8b4ccd1ebd6784ee527b7c9549a",
+      "bytes": 1808563
     },
     {
       "path": ".continuity/ACTIVE_SESSION.yaml",
-      "sha256": "963be1aaa4de70b7929b60e49c441d75a68485caa594d27176d8bdb18fc6a022",
+      "sha256": "a65597e8b1a2817f4f72fd1fbad3d2e57aff430658c072ac142e485c92f60dfa",
       "bytes": 540
     },
     {
@@ -163,13 +163,13 @@
     },
     {
       "path": "docs/03-continuity/sessions/2026-07/SES-20260729T161557Z-6FCE6ACA.md",
-      "sha256": "bd4699587fc7bf919e7613a454d4b98b53e31c2791f6468f41acd0854956eb93",
-      "bytes": 17812
+      "sha256": "93af00943956c47584af4041b151f9c6203bfef86f3ea3226c7982d72b93e9fa",
+      "bytes": 25059
     },
     {
-      "path": ".continuity/checkpoints/SES-20260729T161557Z-6FCE6ACA/0005.yaml",
-      "sha256": "cdbd1b7802866fcb629968bd53a92fbb155c00b0e27d0bfe7d13bb60e1d5b8a8",
-      "bytes": 15790
+      "path": ".continuity/checkpoints/SES-20260729T161557Z-6FCE6ACA/0007.yaml",
+      "sha256": "c2ed96533221d5194561ff955150c63491e9618d7036f4e4b8d885700290ed11",
+      "bytes": 19423
     },
     {
       "path": "docs/03-continuity/change-requests/CR-0475-绑定R14最终交互候选与稳定TEST_APK同一提交.md",
@@ -215,6 +215,16 @@
       "path": "docs/03-continuity/change-requests/CR-0483-修复R14会话列表业务文字稳定资源身份并递增Attempt7.md",
       "sha256": "a2280a3657d60094794a0eff35682600e0386ee2abcc35dedda283a71cb6a5d2",
       "bytes": 4513
+    },
+    {
+      "path": "docs/03-continuity/change-requests/CR-0484-修复R14拉黑成功后同步持久化阻塞UI并递增Attempt8.md",
+      "sha256": "5407cde4df2c51fe4bdeedccd58dd7582ae3b46ad00f0abf68fa4683905a0d2e",
+      "bytes": 3817
+    },
+    {
+      "path": "docs/03-continuity/change-requests/CR-0485-更正CR-0484真实Changelog投影路径.md",
+      "sha256": "96b101cba8dab8c0652e5b27fb2043ed3ef605fe6de21cb4e732ae8acbe0ac01",
+      "bytes": 2230
     }
   ]
 }

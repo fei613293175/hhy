@@ -4,7 +4,7 @@ import android.content.Context
 
 interface R14BlockStateStore {
     fun isBlockedByMe(currentUserId: String, peerId: String): Boolean
-    fun setBlockedByMe(currentUserId: String, peerId: String, blocked: Boolean): Boolean
+    fun setBlockedByMe(currentUserId: String, peerId: String, blocked: Boolean)
 }
 
 class SharedPreferencesR14BlockStateStore(context: Context) : R14BlockStateStore {
@@ -16,11 +16,14 @@ class SharedPreferencesR14BlockStateStore(context: Context) : R14BlockStateStore
     override fun isBlockedByMe(currentUserId: String, peerId: String): Boolean =
         preferences.getBoolean(blockStateKey(currentUserId, peerId), false)
 
-    override fun setBlockedByMe(currentUserId: String, peerId: String, blocked: Boolean): Boolean {
+    override fun setBlockedByMe(currentUserId: String, peerId: String, blocked: Boolean) {
         val editor = preferences.edit()
         if (blocked) editor.putBoolean(blockStateKey(currentUserId, peerId), true)
         else editor.remove(blockStateKey(currentUserId, peerId))
-        return editor.commit()
+        // apply() updates the in-process snapshot before returning and persists it
+        // asynchronously. A synchronous commit here blocks Compose publication on
+        // slow emulator storage after the server has already accepted the action.
+        editor.apply()
     }
 
     private companion object {

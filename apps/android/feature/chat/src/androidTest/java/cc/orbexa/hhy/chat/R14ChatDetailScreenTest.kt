@@ -67,7 +67,7 @@ class R14ChatDetailScreenTest {
     fun persistedOwnBlockSurvivesDetailReentryAndExposesOnlyUnblock() {
         val store = object : R14BlockStateStore {
             override fun isBlockedByMe(currentUserId: String, peerId: String) = true
-            override fun setBlockedByMe(currentUserId: String, peerId: String, blocked: Boolean) = true
+            override fun setBlockedByMe(currentUserId: String, peerId: String, blocked: Boolean) = Unit
         }
         composeRule.setContent {
             HhyTheme {
@@ -99,9 +99,8 @@ class R14ChatDetailScreenTest {
         val persisted = AtomicBoolean(false)
         val store = object : R14BlockStateStore {
             override fun isBlockedByMe(currentUserId: String, peerId: String) = persisted.get()
-            override fun setBlockedByMe(currentUserId: String, peerId: String, blocked: Boolean): Boolean {
+            override fun setBlockedByMe(currentUserId: String, peerId: String, blocked: Boolean) {
                 persisted.set(blocked)
-                return true
             }
         }
         composeRule.setContent {

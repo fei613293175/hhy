@@ -1,0 +1,161 @@
+{
+  "schema": "hhy.android-candidate-failure-evidence/v1",
+  "release": "R14",
+  "attempt": 7,
+  "request_id": "R14-CANDIDATE-20260730-007",
+  "github_run_id": "30477250263",
+  "github_run_url": "https://github.com/fei613293175/hhy/actions/runs/30477250263",
+  "emulator_job_id": "90663942364",
+  "eligibility_job_id": "90665367872",
+  "source_commit": "98bae19bfafa95526bd67bffd412c9f81bf6b2bd",
+  "status": "FAIL",
+  "duration_seconds": 812,
+  "failed_stage": "R14_BLOCKED_STATE_PUBLICATION",
+  "failure": {
+    "instrumentation_exit_code": 1,
+    "assertion": "R14 block did not expose the stable blocked state",
+    "source": "ReleaseCandidateSmokeTest.kt:211",
+    "selector": "Until.hasObject(By.res(\"r14.chat.blocked\"))",
+    "test_method": "authenticatedR14ChatJourney"
+  },
+  "successful_before_failure": [
+    "durable candidate request validation",
+    "continuity gate",
+    "Android compile",
+    "Android unit tests",
+    "Android Lint",
+    "Android application and instrumentation packaging",
+    "one-time Staging CI bootstrap code",
+    "candidate backend exact-source route",
+    "conversation peer stable resource and exact text",
+    "conversation preview stable resource and exact text",
+    "keyword search without error",
+    "chat detail entry",
+    "message send with SENT rather than false READ state",
+    "block confirmation click and server request"
+  ],
+  "server_evidence": {
+    "candidate_container": "hhy-r14-ci-candidate-98bae19b",
+    "candidate_port": 28121,
+    "block_request": {
+      "operation": "POST /api/v1/users/{id}/block",
+      "request_id": "ad350465-0398-43b6-ab88-744c6b433fdc",
+      "http_status": 200,
+      "latency_ms": 32,
+      "completed_at": "2026-07-29T18:04:24.722483110Z"
+    },
+    "database": {
+      "container": "hhy-r14-staging-postgres-1",
+      "database": "hhy_r14_smoke",
+      "user_block": {
+        "user_id": 1,
+        "blocked_user_id": 5,
+        "created_at": "2026-07-29T18:04:24.710456Z"
+      },
+      "idempotency": {
+        "scope": "r14.user-block:1:5",
+        "response_type": "r14.chat-command.v1",
+        "response_ref": "r14.chat-command.v1:ok",
+        "created_at": "2026-07-29T18:04:24.706310Z"
+      }
+    },
+    "decrypted_snapshot": {
+      "resourceId": "5",
+      "businessNo": null,
+      "status": "BLOCKED",
+      "version": null,
+      "acceptedAtEpochSeconds": "1785348264.710456235"
+    },
+    "authenticated_idempotent_http_replay": {
+      "observed_at": "2026-07-29T18:20:59.277125605Z",
+      "http_status": 200,
+      "request_id": "aa1d3b10-4367-4200-829c-0de4bc56028d",
+      "data": {
+        "resourceId": "5",
+        "businessNo": null,
+        "status": "BLOCKED",
+        "version": null,
+        "acceptedAt": "2026-07-29T18:04:24.710456235Z"
+      },
+      "temporary_session_removed": true,
+      "business_write_replayed": true
+    },
+    "production_data_touched": false,
+    "secrets_recorded": false
+  },
+  "root_cause": {
+    "classification": "MAIN_THREAD_SHARED_PREFERENCES_COMMIT_BLOCKS_COMPOSE_PUBLICATION",
+    "detail": "Attempt7 proved the stable list resources, search, detail entry, send state, confirmation click, backend block, database write, encrypted response snapshot and real HTTP response contract. The remaining client success path sets Compose state and then calls SharedPreferences.Editor.commit synchronously on the main thread before Compose can publish r14.chat.blocked. On slow emulator storage this leaves the accepted server action invisible during the ten-second assertion window. Android SharedPreferences.apply updates the in-process snapshot immediately and persists asynchronously, preserving immediate UI publication and same-process reentry.",
+    "backend_business_failed": false,
+    "database_write_failed": false,
+    "http_contract_failed": false,
+    "android_command_decoder_failed": false,
+    "automatic_login_failed": false,
+    "network_unreachable": false,
+    "crash_or_anr_observed": false,
+    "business_assertions_weakened": false
+  },
+  "artifacts": {
+    "count": 3,
+    "runtime": {
+      "artifact_id": 8734502535,
+      "name": "android-runtime-30477250263",
+      "size_bytes": 169444,
+      "sha256": "895c30f356acc9f1f51bced3cc449043e3a6e77a0e0aca0d4bef4e58c2451c38"
+    },
+    "build": {
+      "artifact_id": 8734337928,
+      "name": "android-build-30477250263",
+      "size_bytes": 23282063,
+      "sha256": "5e754718f2a78eed90a6db1815a7cdec7223b6b0f7d3e81e020d5259ae429ce4"
+    },
+    "request": {
+      "artifact_id": 8734119013,
+      "name": "android-candidate-request-30477250263",
+      "size_bytes": 986,
+      "sha256": "ff343bdc6d527b07649e39827dead89ff52b028a1c4049b8ff41127af913ff50"
+    },
+    "download_requires_authenticated_github_session": true,
+    "screenshots_reached": [
+      "01-r14-conversations.png",
+      "02-r14-sent.png"
+    ],
+    "screenshots_not_reached": [
+      "03-r14-blocked-reentry.png",
+      "04-r14-long-press-menu.png"
+    ]
+  },
+  "remediation": {
+    "change_requests": [
+      "CR-0484"
+    ],
+    "problem": "PROB-0152",
+    "next_request_id": "R14-CANDIDATE-20260730-008",
+    "pre_candidate_validation": {
+      "environment": "obx-test",
+      "toolchain_image": "hhy-android-toolchain:r01-46fb273",
+      "gradle_cache": "hhy-r01-android-gradle-cache",
+      "android_platform_volume": "hhy-android-sdk-platform-36",
+      "source": "Attempt7 exact source plus the CR-0484 Android working-tree patch",
+      "tasks": [
+        ":feature:chat:testDebugUnitTest",
+        ":feature:chat:lintDebug",
+        ":feature:chat:compileDebugAndroidTestKotlin",
+        ":app:compileDebugAndroidTestKotlin"
+      ],
+      "result": "PASS",
+      "duration_seconds": 163,
+      "task_count": 334,
+      "executed_tasks": 146,
+      "cached_tasks": 188,
+      "instrumentation_execution": "DEFERRED_TO_UNIQUE_ATTEMPT8_GITHUB_CANDIDATE"
+    },
+    "required_before_next_request": [
+      "replace main-thread SharedPreferences commit with apply while preserving the existing key schema",
+      "prove same-process store recreation sees block and unblock immediately",
+      "retain stable blocked resource and composer disappearance assertions",
+      "bind a new frozen fix commit and exact Attempt8 request"
+    ],
+    "blind_rerun_allowed": false
+  }
+}
