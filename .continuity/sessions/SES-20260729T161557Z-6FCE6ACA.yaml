@@ -11,7 +11,7 @@ task_id: TASK-R14-008
 story_id: STORY-R14-004
 goal: 异常恢复 SES-20260728T220632Z-FE7D82FD：一对一聊天核心版本关闭与无状态交接
 started_at: '2026-07-29T16:15:57Z'
-updated_at: '2026-07-29T23:43:09Z'
+updated_at: '2026-07-29T23:46:29Z'
 takeover_of: SES-20260728T220632Z-FE7D82FD
 change_requests:
 - CR-0475
@@ -37,6 +37,7 @@ change_requests:
 - CR-0495
 - CR-0496
 - CR-0497
+- CR-0498
 scope:
   allowed_paths:
   - apps/**
@@ -96,22 +97,22 @@ git:
   initial_worktree_state: DIRTY_TAKEOVER
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-29T23:43:00Z'
-  expires_at: '2026-07-30T03:43:00Z'
-checkpoint_sequence: 32
-latest_checkpoint: .continuity/checkpoints/SES-20260729T161557Z-6FCE6ACA/0032.yaml
+  renewed_at: '2026-07-29T23:46:21Z'
+  expires_at: '2026-07-30T03:46:21Z'
+checkpoint_sequence: 33
+latest_checkpoint: .continuity/checkpoints/SES-20260729T161557Z-6FCE6ACA/0033.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260729T161557Z-6FCE6ACA.md
-next_step: 创建独立新线程指纹Attempt15精确候选授权并以同一修复Commit构建候选后端、受控切流、单次推送
+next_step: 提交候选授权、登记CR实现，构建精确HEAD候选后端并受控切流后只推送一次
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: b3771e9c75a3137b1a95ab3cbad6e36197dff476fff89b5198f1493a6b280723
-  generated_at: '2026-07-29T23:43:05Z'
+  context_hash: e2c5a5ee6780df1195eee6270aab4dd0232f6511b9cbd278e90e167fbce36f35
+  generated_at: '2026-07-29T23:46:26Z'
 handoff_bundle: null
 closure: null
 parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 候选授权必须绑定刚冻结的单一修复Commit，不能与实现元数据并行
+  reason: 授权配置、请求身份与CR事实源必须以同一Commit冻结

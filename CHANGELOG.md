@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## R14主线程修复候选授权 · 2026-07-30
+
+- `CR-0498`只授权`R14-CANDIDATE-20260730-015`绑定`CR-0497`修复Commit `2ad71a064f9401697257080c8e7e0357c6f71ca5`运行一次；已消费的Attempt14和`CR-0496`不可复用。
+- Attempt15仅验证Attempt14后首次出现的`CalledFromWrongThreadException`独立线程指纹；composer旧指纹已经在Attempt14通过，旧三轮上限与全局`max_ai_attempts=3`均保持不变。
+- 全部R14搜索、发送状态、拉黑重进、解除拉黑、长按删除、四张截图、JUnit和目标进程日志审核继续严格执行。
+
 ## R14拉黑结果主线程收口 · 2026-07-30
 
 - `CR-0497`归档GitHub Run `30499058958`的Attempt14：构建、Lint、单测、APK、自动登录、搜索、发送及composer严格清空均通过并产出前两张截图；拉黑POST在80毫秒返回HTTP 200，随后成功回调从`DefaultDispatcher-worker-1`调用焦点系统触发`CalledFromWrongThreadException`。

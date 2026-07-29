@@ -2,8 +2,8 @@ schema_version: 1
 status: REQUESTED
 release: R14
 candidate: true
-remediation_attempt: 14
-request_id: R14-CANDIDATE-20260730-014
-attempt_exception_id: CR-0496
-required_fix_commit: 7eeb1051bce7fe0f96bf04e1bfe75d7234a26ac0
-reason: R14 GitHub Run 30497451278的Attempt13已消费；请求、编译、单测、Lint、打包、候选后端、登录、会话加载、搜索、消息出现和“已发送”均通过，消息POST在128毫秒内返回HTTP 200，唯一失败仍是UiAutomator按resource读取到发送前composer文本。CR-0495及Commit 7eeb1051bce7fe0f96bf04e1bfe75d7234a26ac0复用PROB-0125，把最后一项可变文本验收切到Compose未合并实时语义，等待并最终严格assertTextEquals空串，超时和空值标准不变；104项治理回归和obx-test App AndroidTest编译通过。Attempt12与13是同一composer指纹前两轮，CR-0496只授权request014作为第三且最终轮运行一次；若仍为同指纹禁止Attempt15。搜索、发送未误标已读、拉黑重进、解除拉黑、列表长按删除、四张截图、JUnit和目标进程日志审核全部保留。
+remediation_attempt: 15
+request_id: R14-CANDIDATE-20260730-015
+attempt_exception_id: CR-0498
+required_fix_commit: 2ad71a064f9401697257080c8e7e0357c6f71ca5
+reason: R14 GitHub Run 30499058958的Attempt14已通过请求、编译、单测、Lint、打包、候选后端、自动登录、会话加载、搜索、消息发送、已发送状态和composer Compose严格空值，并产出01与02截图，证明Attempt12至14的旧composer指纹已关闭。随后拉黑POST在80毫秒返回HTTP 200，成功回调却从DefaultDispatcher-worker-1执行focusManager.clearFocus并触发CalledFromWrongThreadException，这是独立新线程指纹首轮。CR-0497及Commit 2ad71a064f9401697257080c8e7e0357c6f71ca5保持网络异步、拉黑禁发、清焦点和IME语义不变，把全部请求结果驱动的Compose状态与Android View操作统一收口到Dispatchers.Main.immediate，并由后台调度器返回成功的Compose回归覆盖；35项治理回归和obx-test固定Android工具链244任务通过。CR-0498只授权request015运行一次，旧composer三轮上限和全局max_ai_attempts=3不变；搜索、发送未误标已读、拉黑重进、解除拉黑、列表长按删除、四张截图、JUnit和目标进程日志审核全部保留。
