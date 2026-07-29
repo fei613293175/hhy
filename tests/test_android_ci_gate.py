@@ -75,6 +75,12 @@ class AndroidCiGateTest(unittest.TestCase):
         self.assertEqual(900, policy["authentication"]["session_ttl_seconds"])
         self.assertTrue(policy["authentication"]["consume_once"])
         self.assertFalse(policy["authentication"]["production_enabled"])
+        bootstrap_retry = policy["authentication"]["bootstrap_retry"]
+        self.assertEqual([500, 502, 503, 504], bootstrap_retry["retryable_http_statuses"])
+        self.assertEqual(3, bootstrap_retry["max_attempts"])
+        self.assertEqual([2, 4], bootstrap_retry["backoff_seconds"])
+        self.assertTrue(bootstrap_retry["non_retryable_fail_fast"])
+        self.assertFalse(bootstrap_retry["response_body_logging"])
         self.assertFalse(policy["enforcement"]["owner_feedback_required_per_version_before_next_release"])
         self.assertFalse(policy["delivery"]["owner_feedback_required_before_next_release"])
         self.assertEqual(
@@ -790,6 +796,28 @@ class AndroidCiGateTest(unittest.TestCase):
                 with self.assertRaises(GateError):
                     load_policy(path)
 
+    def test_policy_rejects_bootstrap_retry_contract_drift(self) -> None:
+        mutations = (
+            lambda retry: retry.update(retryable_http_statuses=[429, 500, 502, 503, 504]),
+            lambda retry: retry.update(max_attempts=4),
+            lambda retry: retry.update(backoff_seconds=[1, 2]),
+            lambda retry: retry.update(non_retryable_fail_fast=False),
+            lambda retry: retry.update(response_body_logging=True),
+        )
+        for mutate in mutations:
+            with self.subTest(mutate=mutate), TemporaryDirectory() as temp:
+                policy = yaml.safe_load(
+                    (ROOT / "config/android-automation.yaml").read_text(encoding="utf-8")
+                )
+                mutate(policy["authentication"]["bootstrap_retry"])
+                path = Path(temp) / "policy.yaml"
+                path.write_text(
+                    yaml.safe_dump(policy, allow_unicode=True),
+                    encoding="utf-8",
+                )
+                with self.assertRaises(GateError):
+                    load_policy(path)
+
     def test_attempt_exception_history_must_be_contiguous_per_release_ordered_and_unique(self) -> None:
         source = yaml.safe_load(
             (ROOT / "config/android-automation.yaml").read_text(encoding="utf-8")
@@ -1185,6 +1213,12 @@ class AndroidCiGateTest(unittest.TestCase):
         self.assertIn("git merge-base --is-ancestor", source)
         self.assertIn("inputs.effective_attempt_limit", source)
         self.assertNotIn("inputs.remediation_attempt }}/3", source)
+        self.assertIn("bootstrap_max_attempts=3", source)
+        self.assertIn('" 500 502 503 504 "', source)
+        self.assertIn("bootstrap_attempt == 1 ? 2 : 4", source)
+        self.assertIn("after ${bootstrap_attempt} attempt(s)", source)
+        self.assertIn("response body and bearer token are intentionally suppressed", source)
+        self.assertNotIn("cat \"$bootstrap_file\"", source)
         self.assertIn("! -name '*androidTest*'", source)
         self.assertIn("path: candidate-output", source)
         self.assertEqual(

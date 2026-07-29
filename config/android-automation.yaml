@@ -51,6 +51,18 @@ authentication:
   - run_id
   consume_once: true
   production_enabled: false
+  bootstrap_retry:
+    retryable_http_statuses:
+    - 500
+    - 502
+    - 503
+    - 504
+    max_attempts: 3
+    backoff_seconds:
+    - 2
+    - 4
+    non_retryable_fail_fast: true
+    response_body_logging: false
   public_route_activation:
     required: true
     script: scripts/switch_android_candidate_route.sh

@@ -1,0 +1,107 @@
+{
+  "schema": "hhy.android-candidate-failure-evidence/v1",
+  "release": "R14",
+  "attempt": 9,
+  "request_id": "R14-CANDIDATE-20260730-009",
+  "github_run_id": "30486463619",
+  "github_run_url": "https://github.com/fei613293175/hhy/actions/runs/30486463619",
+  "source_commit": "77738391eb4ffaffb5662df9d7bfc78aff50f6ac",
+  "status": "FAIL",
+  "failed_stage": "STAGING_OIDC_BOOTSTRAP_PREFLIGHT",
+  "business_journey_started": false,
+  "same_business_fingerprint_round_consumed": false,
+  "jobs": {
+    "candidate_request": {
+      "job_id": 90693265756,
+      "conclusion": "success"
+    },
+    "build": {
+      "job_id": 90693322070,
+      "conclusion": "success",
+      "started_at": "2026-07-29T19:55:33Z",
+      "completed_at": "2026-07-29T20:03:36Z"
+    },
+    "emulator": {
+      "job_id": 90695039976,
+      "conclusion": "failure",
+      "started_at": "2026-07-29T20:03:43Z",
+      "completed_at": "2026-07-29T20:03:54Z",
+      "failed_step": "Request one-time Staging CI bootstrap code",
+      "annotation": "Staging bootstrap endpoint returned HTTP 500",
+      "exit_code": 22
+    }
+  },
+  "successful_before_failure": [
+    "durable candidate request validation",
+    "continuity gate",
+    "Android compile",
+    "Android unit tests",
+    "Android Lint",
+    "Android application and instrumentation packaging",
+    "exact-source candidate backend build",
+    "candidate route network, database and writable MFA validation"
+  ],
+  "server_evidence": {
+    "candidate_container": "hhy-r14-ci-candidate-77738391",
+    "candidate_port": 28123,
+    "candidate_image_id": "sha256:9c2d6365f5d961cedf7d1ea0b79e5fa10d067f48136b80a55a4cb16e0a0dc13e",
+    "source_commit": "77738391eb4ffaffb5662df9d7bfc78aff50f6ac",
+    "bootstrap_request": {
+      "operation": "POST /internal-ci/v1/android/bootstrap",
+      "request_id": "908ae9d8-161f-4c17-8759-9d2632598017",
+      "http_status": 500,
+      "latency_ms": 1418,
+      "completed_at": "2026-07-29T20:03:52.988649003Z",
+      "safe_error_type": "JwtException"
+    },
+    "post_failure_external_probe": {
+      "github_oidc_discovery_http_status": 200,
+      "github_oidc_discovery_bytes": 1217,
+      "github_jwks_http_status": 200,
+      "github_jwks_bytes": 5547
+    },
+    "production_data_touched": false,
+    "secrets_recorded": false
+  },
+  "artifacts": {
+    "build": {
+      "artifact_id": 8738037830,
+      "name": "android-build-30486463619",
+      "size_bytes": 23283316
+    },
+    "request": {
+      "artifact_id": 8737828105,
+      "name": "android-candidate-request-30486463619",
+      "size_bytes": 1204
+    },
+    "runtime_artifact_created": false,
+    "screenshots_created": false
+  },
+  "controlled_retry": {
+    "failed_job_rerun_allowed": true,
+    "failed_job_rerun_executed": false,
+    "reason_not_executed": "The authenticated browser-control runtime was unavailable and unauthenticated GitHub API returned 401; credentials were not extracted or exposed.",
+    "blind_push_retry_allowed": false
+  },
+  "remediation": {
+    "change_request": "CR-0487",
+    "updated_problem": "PROB-0091",
+    "policy_path": "authentication.bootstrap_retry",
+    "retryable_http_statuses": [
+      500,
+      502,
+      503,
+      504
+    ],
+    "max_attempts": 3,
+    "backoff_seconds": [
+      2,
+      4
+    ],
+    "non_retryable_fail_fast": true,
+    "response_body_logging": false,
+    "r14_business_fix_commit_retained": "3c120872b435c75047a026b91a5cd473de5cd3c9",
+    "r14_business_same_fingerprint_final_round_pending": true
+  },
+  "secrets_recorded": false
+}

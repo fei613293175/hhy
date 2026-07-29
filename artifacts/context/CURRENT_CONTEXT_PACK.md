@@ -1,7 +1,7 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-29T19:49:28Z
-- Context Hash：`6d8edc779f31ebb68a63edbabd46b4e14d9950da931a3df667ff737e9f41a878`
+- 生成时间：2026-07-29T20:15:24Z
+- Context Hash：`308598b950b37d9a56e7019e99a97e549edfff4ab269951c098700d450d7c8f9`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 规则就绪：`PASS`（`HASHED_CONTEXT_MANIFEST`）
@@ -187,7 +187,7 @@ blocked_tasks:
 - TASK-R16-007
 - TASK-R16-008
 next_task: TASK-R14-008
-updated_at: '2026-07-29T19:49:24Z'
+updated_at: '2026-07-29T20:15:19Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -222,15 +222,15 @@ continuity:
   active_session_id: SES-20260729T161557Z-6FCE6ACA
   actor_id: codex-r14-resume-20260730
   story_id: STORY-R14-004
-  lease_expires_at: '2026-07-29T23:49:24Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260729T161557Z-6FCE6ACA/0010.yaml
-  project_fingerprint: a074c660eb0c779a7a3430f913c1b0f434d5903e1a0dd3bd778466f3989cd276
+  lease_expires_at: '2026-07-30T00:15:19Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260729T161557Z-6FCE6ACA/0011.yaml
+  project_fingerprint: 103dcd48afa02a07a884dcbfb7c4fe29d8bdee54ecd54401045770f845337487
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: 44130203536b87f369b980916c9e62eaa42f6833549fac460430dd364dda31b2
-    generated_at: '2026-07-29T19:43:35Z'
+    context_hash: 6d8edc779f31ebb68a63edbabd46b4e14d9950da931a3df667ff737e9f41a878
+    generated_at: '2026-07-29T19:49:28Z'
   handoff_bundle: null
 ```
 
@@ -428,7 +428,7 @@ task_id: TASK-R14-008
 story_id: STORY-R14-004
 goal: 异常恢复 SES-20260728T220632Z-FE7D82FD：一对一聊天核心版本关闭与无状态交接
 started_at: '2026-07-29T16:15:57Z'
-updated_at: '2026-07-29T19:49:24Z'
+updated_at: '2026-07-29T20:15:19Z'
 takeover_of: SES-20260728T220632Z-FE7D82FD
 change_requests:
 - CR-0475
@@ -443,6 +443,7 @@ change_requests:
 - CR-0484
 - CR-0485
 - CR-0486
+- CR-0487
 scope:
   allowed_paths:
   - apps/**
@@ -502,12 +503,12 @@ git:
   initial_worktree_state: DIRTY_TAKEOVER
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-29T19:49:24Z'
-  expires_at: '2026-07-29T23:49:24Z'
-checkpoint_sequence: 10
-latest_checkpoint: .continuity/checkpoints/SES-20260729T161557Z-6FCE6ACA/0010.yaml
+  renewed_at: '2026-07-29T20:15:19Z'
+  expires_at: '2026-07-30T00:15:19Z'
+checkpoint_sequence: 11
+latest_checkpoint: .continuity/checkpoints/SES-20260729T161557Z-6FCE6ACA/0011.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260729T161557Z-6FCE6ACA.md
-next_step: 提交Attempt9请求Commit，构建同Commit候选后端并受控切流后单次推送触发GitHub候选
+next_step: 提交CR-0487基础设施修复Commit，绑定新请求作为R14拉黑同指纹第三且最终业务诊断轮
 context_pack: THIS_CONTEXT_PACK
 handoff_bundle: null
 closure: null
@@ -515,63 +516,65 @@ parallel_execution:
   assessment: CAPABILITY_UNAVAILABLE
   delegated_workers: 0
   workers: []
-  reason: 当前系统指令禁止在用户未明确要求时创建子代理，继续由单一主控严格串行执行候选闭环
+  reason: 当前系统指令禁止在用户未明确要求时创建子代理，由单一主控完成精确基础设施修复与候选闭环
 ```
 
 ## 最新检查点
 
 ```yaml
 protocol_version: '1.0'
-checkpoint_id: CP-SES-20260729T161557Z-6FCE6ACA-0010
+checkpoint_id: CP-SES-20260729T161557Z-6FCE6ACA-0011
 session_id: SES-20260729T161557Z-6FCE6ACA
 task_id: TASK-R14-008
 story_id: STORY-R14-004
-sequence: 10
-created_at: '2026-07-29T19:49:23Z'
-summary: R14 Attempt9 IME遮挡修复已提交，候选请求与CR-0486精确绑定完成并通过本地治理测试
-next_step: 提交Attempt9请求Commit，构建同Commit候选后端并受控切流后单次推送触发GitHub候选
+sequence: 11
+created_at: '2026-07-29T20:15:18Z'
+summary: R14 Attempt9在业务测试前因OIDC bootstrap JwtException HTTP500失败；CR-0487已原位加固5xx有限重试并登记无秘密证据
+next_step: 提交CR-0487基础设施修复Commit，绑定新请求作为R14拉黑同指纹第三且最终业务诊断轮
 blockers: []
 decisions:
-- Attempt8否定SharedPreferences commit假设；根因更正为拉黑成功后键盘焦点未清除且禁发栏缺少imePadding。Attempt9为同一指纹第三轮最终诊断轮。
-note: ''
+- Run 30486463619未启动模拟器或R14旅程，不消费PROB-0152第三轮；只对500/502/503/504最多3次总尝试，非5xx即时失败。
+note: project-doctor在checkpoint前仅报告预期的CONTEXT_STALE与CHECKPOINT_STALE；本checkpoint刷新Context Pack后立即复验。
 tests:
-- name: R14固定Android模块门禁
+- name: Android治理回归
   result: PASS
-  evidence: obx-test hhy-android-toolchain:r01-46fb273 BUILD SUCCESSFUL 38s
-  note: chat unit lint and androidTest compile
-- name: Attempt9治理测试
+  evidence: 'python -m unittest tests.test_android_ci_gate tests.test_android_candidate_request tests.test_android_candidate_route: 96 tests OK'
+  note: 重试策略、工作流源码和候选绑定保持严格
+- name: Bootstrap retry shell semantics
   result: PASS
-  evidence: 'python -m unittest tests.test_android_candidate_request tests.test_android_ci_gate: 89 tests OK'
-  note: 精确绑定和漂移拒绝
-- name: Candidate request validator
-  result: PASS
-  evidence: R14-CANDIDATE-20260730-009 effective_attempt_limit=9
-  note: CR-0486 and fix commit exact
+  evidence: 'obx-test bash: 500/502/503/504=RETRYABLE; 400/401/403/404/422=FAIL_FAST; backoff=2,4'
+  note: 临时脚本已清理
 - name: git diff check
   result: PASS
   evidence: no whitespace errors
-  note: candidate request changes
+  note: CR-0487 implementation
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: 3c120872b435c75047a026b91a5cd473de5cd3c9
+  head: 77738391eb4ffaffb5662df9d7bfc78aff50f6ac
   upstream: origin/task/TASK-R03-001
-  ahead: 1
+  ahead: 0
   behind: 0
   dirty: true
   status_porcelain:
   - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
   - ' M .continuity/EVENT_LOG.jsonl'
   - ' M .continuity/STATE.yaml'
-  - ' M .continuity/change_requests/CR-0486.yaml'
+  - ' M .continuity/sessions/SES-20260729T161557Z-6FCE6ACA.yaml'
+  - ' M .github/workflows/android-quality-gate.yml'
+  - ' M artifacts/validation/project-doctor-v1.2.3.json'
   - ' M catalogs/change_request_index.csv'
   - ' M catalogs/session_index.csv'
   - ' M config/android-automation.yaml'
-  - ' M config/android-candidate-request.yaml'
-  - ' M docs/03-continuity/change-requests/CR-0486-更正R14拉黑禁发栏被输入法遮挡并登记Attempt9最终诊断轮.md'
-  - ' M tests/test_android_candidate_request.py'
+  - ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
+  - ' M scripts/android_ci_gate.py'
   - ' M tests/test_android_ci_gate.py'
+  - ?? .continuity/change_requests/CR-0487.yaml
+  - ?? artifacts/validation/r14-candidate-attempt9/failure-evidence.json
+  - ?? docs/03-continuity/change-requests/CR-0487-原位加固GitHub-OIDC引导5xx有限重试并保留非重试失败.md
   recent_commits:
+  - "77738391eb4ffaffb5662df9d7bfc78aff50f6ac\t2026-07-30T03:49:40+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] test(android): request R14\
+    \ candidate attempt9"
   - "3c120872b435c75047a026b91a5cd473de5cd3c9\t2026-07-30T03:45:20+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] fix(android): keep blocked\
     \ bar visible above IME"
   - "7e355490f03c5b52f14c1980bcfd88157a753d55\t2026-07-30T02:52:12+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] test(android): request R14\
@@ -586,11 +589,10 @@ git:
     \ candidate attempt6"
   - "38453a16b96b26e85690ba0b21facf586a2f2ea9\t2026-07-30T00:45:44+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] fix(android): expose stable\
     \ blocked state"
-  - "f449b49a68ba11fcb790b2249f7fad5b0f7f6b8b\t2026-07-29T11:15:59+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] test(android): request R14\
-    \ candidate attempt5"
 project_fingerprint:
-  sha256: a074c660eb0c779a7a3430f913c1b0f434d5903e1a0dd3bd778466f3989cd276
+  sha256: 103dcd48afa02a07a884dcbfb7c4fe29d8bdee54ecd54401045770f845337487
   files:
+  - .github/workflows/android-quality-gate.yml
   - CHANGELOG.md
   - apps/android/app/build.gradle.kts
   - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
@@ -619,6 +621,7 @@ project_fingerprint:
   - docs/03-continuity/change-requests/CR-0484-修复R14拉黑成功后同步持久化阻塞UI并递增Attempt8.md
   - docs/03-continuity/change-requests/CR-0485-更正CR-0484真实Changelog投影路径.md
   - docs/03-continuity/change-requests/CR-0486-更正R14拉黑禁发栏被输入法遮挡并登记Attempt9最终诊断轮.md
+  - docs/03-continuity/change-requests/CR-0487-原位加固GitHub-OIDC引导5xx有限重试并保留非重试失败.md
   - scripts/android_ci_gate.py
   - scripts/prepare_r14_candidate_fixture.sh
   - scripts/switch_android_candidate_route.sh
@@ -626,10 +629,14 @@ project_fingerprint:
   - tests/test_android_candidate_route.py
   - tests/test_android_ci_gate.py
   - tests/test_r13_candidate.py
-  file_count: 35
+  file_count: 37
   payload:
     base_commit: 0a100b86f63829ef38ede5571d3e511219e67769
     files:
+    - path: .github/workflows/android-quality-gate.yml
+      state: FILE
+      size: 16344
+      sha256: 3abacc131665906483dfd7f93ee84a691ac0e9e9d4070c7ff56127639991d87e
     - path: CHANGELOG.md
       state: FILE
       size: 224015
@@ -684,16 +691,16 @@ project_fingerprint:
       sha256: 2f5c074103224ab154dd997abd798b37f3410a968e209908078cbd2bd839d347
     - path: config/android-automation.yaml
       state: FILE
-      size: 15090
-      sha256: eeee46d751db8a1a57ae396c0aaec4abce3824802492195fef70992ff6696bfc
+      size: 15302
+      sha256: ce4a0cce564645e846cd4712c245950e3545e11179f84b9aa93ef2ea751b48a6
     - path: config/android-candidate-request.yaml
       state: FILE
       size: 1373
       sha256: 53184812374d7dd96365a7fa1d28d8c30830995e2250d08ca967202417ea2c61
     - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
       state: FILE
-      size: 263552
-      sha256: 5e794f397da86b8324e55dbbffa2a6ae65c6afa9ffa44352893ae32b0647d13d
+      size: 265191
+      sha256: b73d7dd607c4395607912756f37d0546426b4f4ca15e040f41f9fa397efe2460
     - path: docs/03-continuity/change-requests/CR-0475-绑定R14最终交互候选与稳定TEST_APK同一提交.md
       state: FILE
       size: 3792
@@ -742,10 +749,14 @@ project_fingerprint:
       state: FILE
       size: 4617
       sha256: 850e5155bb467cee3ae80543110e700b8818533a174906219c38041b10edb802
+    - path: docs/03-continuity/change-requests/CR-0487-原位加固GitHub-OIDC引导5xx有限重试并保留非重试失败.md
+      state: FILE
+      size: 4175
+      sha256: 8b00aa8f7fa63f3ac68dd514133cd8557d269156437e8db517e67f218a7a48cb
     - path: scripts/android_ci_gate.py
       state: FILE
-      size: 38914
-      sha256: 9881fcdf3d4d4a2281e0529890d741d34dba569d73c198af1de5b8b1622a768e
+      size: 39771
+      sha256: ac8a7767015771bec0102419fee0788123d185968b5cc88831abf6349e36ae23
     - path: scripts/prepare_r14_candidate_fixture.sh
       state: FILE
       size: 11508
@@ -764,13 +775,15 @@ project_fingerprint:
       sha256: 5d968c6041ed05de36fa9a5db066767655f11b28b5adba98b6c8049892fc1a32
     - path: tests/test_android_ci_gate.py
       state: FILE
-      size: 79722
-      sha256: 8d11fd9805576bf1e9ea5d0616e1de757667d3c52f92d72585828bfcf4228263
+      size: 81622
+      sha256: 7958b5c85421f3ce5d02a00503f64f51e077e8e0454a7fced1442098c57f8c2b
     - path: tests/test_r13_candidate.py
       state: FILE
       size: 21538
       sha256: 2f9f064396d5269b1a939c8a73874c6dbd3be5c7d950baa73f6707f0527322b0
 change_classification:
+  infrastructure:
+  - .github/workflows/android-quality-gate.yml
   other:
   - CHANGELOG.md
   - config/android-automation.yaml
@@ -818,6 +831,7 @@ change_classification:
   - docs/03-continuity/change-requests/CR-0484-修复R14拉黑成功后同步持久化阻塞UI并递增Attempt8.md
   - docs/03-continuity/change-requests/CR-0485-更正CR-0484真实Changelog投影路径.md
   - docs/03-continuity/change-requests/CR-0486-更正R14拉黑禁发栏被输入法遮挡并登记Attempt9最终诊断轮.md
+  - docs/03-continuity/change-requests/CR-0487-原位加固GitHub-OIDC引导5xx有限重试并保留非重试失败.md
   tests:
   - tests/test_android_candidate_request.py
   - tests/test_android_candidate_route.py
@@ -843,6 +857,7 @@ change_requests:
 - CR-0484
 - CR-0485
 - CR-0486
+- CR-0487
 scope:
   allowed_paths:
   - apps/**
@@ -897,8 +912,8 @@ parallel_execution:
   assessment: CAPABILITY_UNAVAILABLE
   delegated_workers: 0
   workers: []
-  reason: 当前系统指令禁止在用户未明确要求时创建子代理，继续由单一主控严格串行执行候选闭环
-event_hash: eb8a4d4389284520745aabab5818c10df0e5d2682b2629b15c8f88d95dbb70cc
+  reason: 当前系统指令禁止在用户未明确要求时创建子代理，由单一主控完成精确基础设施修复与候选闭环
+event_hash: 7b3fd17fb5597e91a501126b0d3cf45ebc900db3bbec5e642bd15119070bb1f0
 ```
 
 ## 接续状态与事件头
@@ -910,8 +925,8 @@ active_session_id: SES-20260729T161557Z-6FCE6ACA
 last_session_id: SES-20260728T205917Z-52E3B6B1
 last_session_result: COMPLETED
 last_closure_checkpoint_id: CP-SES-20260728T205917Z-52E3B6B1-0008
-event_count: 4578
-event_head_hash: eb8a4d4389284520745aabab5818c10df0e5d2682b2629b15c8f88d95dbb70cc
+event_count: 4583
+event_head_hash: 7b3fd17fb5597e91a501126b0d3cf45ebc900db3bbec5e642bd15119070bb1f0
 event_chain_valid: true
 ```
 
@@ -1034,9 +1049,9 @@ recent_sessions: - session_id: SES-20260728T091447Z-9A245BB4
   started_at: '2026-07-29T16:15:57Z'
   record: .continuity/sessions/SES-20260729T161557Z-6FCE6ACA.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260729T161557Z-6FCE6ACA.md
-  updated_at: '2026-07-29T19:49:24Z'
+  updated_at: '2026-07-29T20:15:19Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260729T161557Z-6FCE6ACA/0010.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260729T161557Z-6FCE6ACA/0011.yaml
   handoff_bundle: null
 task_claims: - claim_id: CLM-A470E7430D21
   session_id: SES-20260726T123133Z-63E93B88
@@ -1988,9 +2003,9 @@ recent_task_transitions: - transition_id: TRN-005608E4C9E4
 ```yaml
 initialized: true
 branch: task/TASK-R03-001
-head: 3c120872b435c75047a026b91a5cd473de5cd3c9
+head: 77738391eb4ffaffb5662df9d7bfc78aff50f6ac
 upstream: origin/task/TASK-R03-001
-ahead: 1
+ahead: 0
 behind: 0
 dirty: true
 status_porcelain:
@@ -1999,19 +2014,24 @@ status_porcelain:
 - ' M .continuity/EVENT_LOG.jsonl'
 - ' M .continuity/SESSION_INDEX.yaml'
 - ' M .continuity/STATE.yaml'
-- ' M .continuity/change_requests/CR-0486.yaml'
 - ' M .continuity/sessions/SES-20260729T161557Z-6FCE6ACA.yaml'
+- ' M .github/workflows/android-quality-gate.yml'
 - ' M CURRENT_STATUS.yaml'
+- ' M artifacts/validation/project-doctor-v1.2.3.json'
 - ' M catalogs/change_request_index.csv'
 - ' M catalogs/session_index.csv'
 - ' M config/android-automation.yaml'
-- ' M config/android-candidate-request.yaml'
-- ' M docs/03-continuity/change-requests/CR-0486-更正R14拉黑禁发栏被输入法遮挡并登记Attempt9最终诊断轮.md'
+- ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
 - ' M docs/03-continuity/sessions/2026-07/SES-20260729T161557Z-6FCE6ACA.md'
-- ' M tests/test_android_candidate_request.py'
+- ' M scripts/android_ci_gate.py'
 - ' M tests/test_android_ci_gate.py'
-- ?? .continuity/checkpoints/SES-20260729T161557Z-6FCE6ACA/0010.yaml
+- ?? .continuity/change_requests/CR-0487.yaml
+- ?? .continuity/checkpoints/SES-20260729T161557Z-6FCE6ACA/0011.yaml
+- ?? artifacts/validation/r14-candidate-attempt9/failure-evidence.json
+- ?? docs/03-continuity/change-requests/CR-0487-原位加固GitHub-OIDC引导5xx有限重试并保留非重试失败.md
 recent_commits:
+- "77738391eb4ffaffb5662df9d7bfc78aff50f6ac\t2026-07-30T03:49:40+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] test(android): request R14 candidate\
+  \ attempt9"
 - "3c120872b435c75047a026b91a5cd473de5cd3c9\t2026-07-30T03:45:20+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] fix(android): keep blocked bar\
   \ visible above IME"
 - "7e355490f03c5b52f14c1980bcfd88157a753d55\t2026-07-30T02:52:12+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] test(android): request R14 candidate\
@@ -2026,15 +2046,14 @@ recent_commits:
   \ attempt6"
 - "38453a16b96b26e85690ba0b21facf586a2f2ea9\t2026-07-30T00:45:44+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] fix(android): expose stable\
   \ blocked state"
-- "f449b49a68ba11fcb790b2249f7fad5b0f7f6b8b\t2026-07-29T11:15:59+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] test(android): request R14 candidate\
-  \ attempt5"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`a074c660eb0c779a7a3430f913c1b0f434d5903e1a0dd3bd778466f3989cd276`
-- 文件数：35
+- 指纹：`103dcd48afa02a07a884dcbfb7c4fe29d8bdee54ecd54401045770f845337487`
+- 文件数：37
 
+- `.github/workflows/android-quality-gate.yml`
 - `CHANGELOG.md`
 - `apps/android/app/build.gradle.kts`
 - `apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt`
@@ -2063,6 +2082,7 @@ recent_commits:
 - `docs/03-continuity/change-requests/CR-0484-修复R14拉黑成功后同步持久化阻塞UI并递增Attempt8.md`
 - `docs/03-continuity/change-requests/CR-0485-更正CR-0484真实Changelog投影路径.md`
 - `docs/03-continuity/change-requests/CR-0486-更正R14拉黑禁发栏被输入法遮挡并登记Attempt9最终诊断轮.md`
+- `docs/03-continuity/change-requests/CR-0487-原位加固GitHub-OIDC引导5xx有限重试并保留非重试失败.md`
 - `scripts/android_ci_gate.py`
 - `scripts/prepare_r14_candidate_fixture.sh`
 - `scripts/switch_android_candidate_route.sh`
@@ -15964,29 +15984,83 @@ PARALLEL_EXECUTION_PLAN.yaml:
   - SES-20260729T161557Z-6FCE6ACA
   implementation_commits:
   - 3c120872b435c75047a026b91a5cd473de5cd3c9
+- protocol_version: '1.0'
+  cr_id: CR-0487
+  title: 原位加固GitHub OIDC引导5xx有限重试并保留非重试失败
+  status: IMPLEMENTING
+  created_at: '2026-07-29T20:09:47Z'
+  updated_at: '2026-07-29T20:10:45Z'
+  requester_actor_id: codex-r14-resume-20260730
+  approver_actor_id: project-owner-continuity-directive-20260730
+  task_id: TASK-R14-008
+  session_id: SES-20260729T161557Z-6FCE6ACA
+  user_request: 持续完成R14至R32，不因GitHub瞬态故障或权限操作打断开发，并把可复用经验写入全局事实源
+  reason: Run 30486463619完成编译打包后在模拟器启动前POST internal-ci bootstrap返回500；候选日志为JwtException，随后同容器访问GitHub OIDC discovery与JWKS均200，现有工作流没有5xx有限重试而直接浪费完整构建。先检索现有规则，决定原位扩展authentication与PROB-0091，不新建平行硬规则。
+  original_rule: 现有authentication只冻结OIDC一次性身份、TTL与绑定声明；android-quality-gate对Staging bootstrap只请求一次，任意非200立即exit 22。PROB-0091只覆盖候选容器离线造成的502及人工失败Job重跑，没有覆盖OIDC
+    discovery/JWKS短暂恢复的5xx。
+  new_rule: 不新增平行硬规则；在既有config/android-automation.yaml authentication下增加唯一bootstrap_retry合同：只允许HTTP 500/502/503/504最多3次总尝试，固定2秒与4秒退避；200立即成功，400/401/403/404/422及其他状态立即失败，令牌和响应体不得输出。android-quality-gate必须严格实现该合同并在最终失败注解中报告状态与尝试数。原位扩展PROB-0091登记Run
+    30486463619的JwtException、后续discovery/JWKS 200及浏览器控制不可用证据，禁止通过重复推送替代失败Job重跑。
+  impact_summary: 仅加固GitHub候选模拟器启动前的Staging一次性引导网络容错和治理验证；不改变OIDC仓库/工作流/Commit/Run绑定、一次性码、产品UI、业务API、数据库或候选业务断言。Attempt9尚未运行R14旅程，不计入同一拉黑指纹第三轮。
+  impact:
+    files:
+    - .github/workflows/android-quality-gate.yml
+    - config/android-automation.yaml
+    - scripts/android_ci_gate.py
+    - tests/test_android_ci_gate.py
+    - docs/03-continuity/PROBLEM_REGISTRY.yaml
+    - artifacts/validation/r14-candidate-attempt9/failure-evidence.json
+    pages: []
+    apis:
+    - /internal-ci/v1/android/bootstrap（合同不变，仅调用方有限重试）
+    database: []
+    configuration:
+    - authentication.bootstrap_retry
+    ledger:
+    - PROB-0091原位扩展与R14 Attempt9基础设施失败证据
+    tests:
+    - python -m unittest tests.test_android_ci_gate tests.test_android_candidate_request tests.test_android_candidate_route
+    - shell source gate locks exact retry statuses, attempts, backoff and fail-fast behavior
+    releases:
+    - R14
+    migration_and_compatibility: 旧候选Run和已消费授权保持不可变；新增有限重试只对后续GitHub候选生效。服务端状态和响应体仍不泄露，非5xx错误仍即时失败。CR-0486业务修复和Attempt9第三轮语义继续保留，但新候选必须使用新的精确请求授权。
+  user_confirmation: 项目所有者已授权持续开发、终端静默执行、GitHub候选由AI审核，并要求可复用经验写入全局事实源；无需逐项再次确认。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-29T20:10:27Z'
+    note: 独立复审通过：本CR原位扩展既有OIDC authentication和PROB-0091，有限重试只覆盖明确5xx且总次数、退避、非5xx即时失败、无秘密输出均冻结；不会弱化身份绑定、业务断言或把Attempt9基础设施预检失败计入拉黑业务第三轮。
+  machine_record: .continuity/change_requests/CR-0487.yaml
+  document: docs/03-continuity/change-requests/CR-0487-原位加固GitHub-OIDC引导5xx有限重试并保留非重试失败.md
+  decision_log:
+  - at: '2026-07-29T20:10:45Z'
+    actor_id: codex-r14-resume-20260730
+    status: IMPLEMENTING
+    note: 开始在既有authentication事实源和唯一Android质量门禁中实现严格5xx有限重试，并原位扩展PROB-0091与Attempt9证据。
+    session_id: SES-20260729T161557Z-6FCE6ACA
+  session_ids:
+  - SES-20260729T161557Z-6FCE6ACA
 ```
 
 ## 上下文来源及哈希
 
 - `AGENTS.md` — `bde93afcdb788b601aeffcf2369a1aeda8eeb391f165429d501d7ba8895ba4a6`
 - `START_HERE.md` — `22de14029ce47beb41ea569e36ce223fbc9d11b86f8676f28d5fbbd83896af5c`
-- `CURRENT_STATUS.yaml` — `fdf8c224daa7825bf2a31e662290f3ae4118a3f00d768678c12140f9db97db17`
+- `CURRENT_STATUS.yaml` — `d8bd9b8b7c85a65e1820df30f1d6d1b35924818114a6196ce2044fb43999ce5e`
 - `NEXT_TASK.yaml` — `e26e5c16bb6b761d538c5e11830ffbfaeacc532c054e569ab784155323b6af5c`
 - `DEVELOPMENT_RISK_REGISTER.md` — `8304c91492e4ee2abea0522a06541c8688d39c7fc532b5d0cde499bf09fffb87`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `5213b166f464a4415abe064e0ebcd99da8f1f8d23569b49ae4e9787007e83314`
-- `docs/03-continuity/PROBLEM_REGISTRY.yaml` — `5e794f397da86b8324e55dbbffa2a6ae65c6afa9ffa44352893ae32b0647d13d`
+- `docs/03-continuity/PROBLEM_REGISTRY.yaml` — `b73d7dd607c4395607912756f37d0546426b4f4ca15e040f41f9fa397efe2460`
 - `docs/03-continuity/REUSABLE_PATTERNS.md` — `1e5721c0b17a820e642aabbb35f350631caf83afbd10b2cc52ccc73a443873c6`
 - `docs/03-continuity/PITFALLS.md` — `bc269635bccab745808a7509ffcff75c805afb390b06498a3c2b8fc7d42c147f`
 - `releases/PROGRAM_EXECUTION_PLAN.yaml` — `4d91d6dbfdae1c49ead2f9c3eb0f96559a0a45905041dd5891571f0e36418a1e`
 - `config/REPOSITORY_TRANSPORT.yaml` — `8c4a21f3e204d46e7ffb467d804a53ed26cda61cd088dadfddb50b69eea657fc`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `38e04ed812c8df0d353c2b91993d31e53b471e9c457f06b426bd2260c470aa92`
-- `.continuity/EVENT_LOG.jsonl` — `a2be075a8c4e9258f40ea836558e7e1d9b54c8d11f4ee019dbf9cc9ef0f34bc8`
-- `.continuity/SESSION_INDEX.yaml` — `ccd8e90015952440f688e6303dce6e9ffa59f0bda374a1604a038efd0fdc1175`
+- `.continuity/EVENT_LOG.jsonl` — `c61467b7e402448635552d755b569d5b2b82a7b99cc69d7c25f1939c68e7eafd`
+- `.continuity/SESSION_INDEX.yaml` — `ebda87927f061f5f8b2a5c68e31149d8b85f26dd356aa9f35224b783f9ce1b44`
 - `.continuity/TASK_CLAIMS.yaml` — `0ff8aad03fdf7bd39105618d202972c82222c6359e96e7f3a89861b184c45eec`
 - `.continuity/TASK_TRANSITIONS.yaml` — `afd6333d15719bab6521ac976344a232ccba2e5e9edd4d2e5817ad4bb473f4d1`
-- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `33759f41a39b9e872d7f27f5f4678f8ac5f5c057275a3768b282ce46a166b8bd`
-- `.continuity/ACTIVE_SESSION.yaml` — `26d9e2b423e6a497974d50dd5220b987d15b99d1dd21bdf16e62ecc6a492986f`
+- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `b35855545b90730f998d992826153c94834265f19816bacc42e82749cefffeff`
+- `.continuity/ACTIVE_SESSION.yaml` — `8809094f7448c1e4d13b0997b4d049661d1f6f2cf24e3cf49bc7869bb360920e`
 - `docs/00-baseline/正式商业系统全局硬性开发边界.md` — `30c07716c31d6d09621b6f6d119063b1fcb35e78d9b266423ed333d92b8262db`
 - `docs/02-ui/UI参考图使用与开发约束_V1.2.2.md` — `d14367586aa2067b059df58798acd20ab982459cdb35ff27fc7922a3896e4933`
 - `docs/03-continuity/持续开发无状态接续强制门禁_V1.2.3.md` — `d0ed3ed68bdd93b06500eecdfb5baa3245e6ca8b685a486788abb6eee39b3d51`
@@ -15997,8 +16071,8 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `releases/R14/TASKS.yaml` — `c7fc98c89d4e1e02535460d19de43608dcc5178d4fe61bffad94385b76df5e05`
 - `releases/R14/ACCEPTANCE_MATRIX.csv` — `ffc0fd23b945544de8fe2a37774a94675c0d60b73d88517abe69c68d326ad6f4`
 - `releases/R14/PARALLEL_EXECUTION_PLAN.yaml` — `cd1f0c96ffd7562acb214edba80a2bbb12b79f06c19032d1b133936ff6abd74f`
-- `docs/03-continuity/sessions/2026-07/SES-20260729T161557Z-6FCE6ACA.md` — `ce50823947f7773ee66bd8fa6f8776a3716749ac0fb0904ca5065a368f8756b3`
-- `.continuity/checkpoints/SES-20260729T161557Z-6FCE6ACA/0010.yaml` — `9e4daad366230c6776471522a2a4dc1adaf216217d53c8631dd79f376db77713`
+- `docs/03-continuity/sessions/2026-07/SES-20260729T161557Z-6FCE6ACA.md` — `693e7ff6f1662be7b1706a726e0b9adfbc05fac345274bd84e5cc140b08efd19`
+- `.continuity/checkpoints/SES-20260729T161557Z-6FCE6ACA/0011.yaml` — `0f6c9b96b64e18241bf325ffe0939b5b66bd34f320d09feb6ccfdd26eba1985f`
 - `docs/03-continuity/change-requests/CR-0475-绑定R14最终交互候选与稳定TEST_APK同一提交.md` — `4d6c35fd99ef585a4802fb664ac2e2819d4a2fe93fc5d1747ca73496ae69387e`
 - `docs/03-continuity/change-requests/CR-0476-解除R13历史候选测试对当前请求的永久绑定.md` — `098711406c0bc8b2574f2388ab6ed76242e7df1d3fb442a67593a13f76871e11`
 - `docs/03-continuity/change-requests/CR-0477-阻断R14候选旧后端路由与夹具语义漂移.md` — `cbac66f0b6906977cce340a81d30f198e90dcef64ec13ff8c7edd10b2914da61`
@@ -16011,6 +16085,7 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `docs/03-continuity/change-requests/CR-0484-修复R14拉黑成功后同步持久化阻塞UI并递增Attempt8.md` — `e0e0af2078a2ab549091354335cdc8702d533a1ab3b889cfe7f99d7937a5bd0e`
 - `docs/03-continuity/change-requests/CR-0485-更正CR-0484真实Changelog投影路径.md` — `a5bc83d382bc4a170d14a5f5ec219f020a7a9352f81c8fcc648393295797a6b4`
 - `docs/03-continuity/change-requests/CR-0486-更正R14拉黑禁发栏被输入法遮挡并登记Attempt9最终诊断轮.md` — `850e5155bb467cee3ae80543110e700b8818533a174906219c38041b10edb802`
+- `docs/03-continuity/change-requests/CR-0487-原位加固GitHub-OIDC引导5xx有限重试并保留非重试失败.md` — `8b00aa8f7fa63f3ac68dd514133cd8557d269156437e8db517e67f218a7a48cb`
 
 ## 接手硬规则
 

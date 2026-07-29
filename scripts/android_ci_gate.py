@@ -121,6 +121,17 @@ def load_policy(path: Path = DEFAULT_POLICY) -> dict[str, Any]:
     required_claims = {"repository", "workflow_ref", "commit", "run_id"}
     if set(authentication.get("binding_claims") or []) != required_claims:
         raise GateError("Android CI bootstrap must bind repository, workflow, commit, and run")
+    bootstrap_retry = authentication.get("bootstrap_retry") or {}
+    if bootstrap_retry.get("retryable_http_statuses") != [500, 502, 503, 504]:
+        raise GateError("Android CI bootstrap retry must be limited to HTTP 500/502/503/504")
+    if bootstrap_retry.get("max_attempts") != 3:
+        raise GateError("Android CI bootstrap retry must permit exactly three total attempts")
+    if bootstrap_retry.get("backoff_seconds") != [2, 4]:
+        raise GateError("Android CI bootstrap retry backoff must remain fixed at two and four seconds")
+    if bootstrap_retry.get("non_retryable_fail_fast") is not True:
+        raise GateError("Android CI bootstrap non-retryable failures must fail immediately")
+    if bootstrap_retry.get("response_body_logging") is not False:
+        raise GateError("Android CI bootstrap retry must never log the response body")
     route_activation = authentication.get("public_route_activation") or {}
     if route_activation.get("required") is not True:
         raise GateError("Android candidate public route activation proof must be required")

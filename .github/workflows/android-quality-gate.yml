@@ -241,17 +241,29 @@ jobs:
           fi
           oidc_token="$(python -c 'import json,sys; print(json.load(open(sys.argv[1], encoding="utf-8"))["value"])' "$oidc_file")"
           bootstrap_payload="$(python -c 'import json,os; print(json.dumps({"commit":os.environ["GITHUB_SHA"],"runId":os.environ["GITHUB_RUN_ID"],"release":os.environ["ANDROID_RELEASE"]}))')"
-          bootstrap_status="$(curl --silent --show-error \
-            --output "$bootstrap_file" \
-            --write-out '%{http_code}' \
-            --header "Authorization: Bearer ${oidc_token}" \
-            --header 'Content-Type: application/json' \
-            --data "$bootstrap_payload" \
-            https://api.orbexa.cc/internal-ci/v1/android/bootstrap)"
-          if [[ "$bootstrap_status" != "200" ]]; then
-            echo "::error title=Staging bootstrap preflight failed::Staging bootstrap endpoint returned HTTP ${bootstrap_status}; response body and bearer token are intentionally suppressed"
-            exit 22
-          fi
+          bootstrap_attempt=1
+          bootstrap_max_attempts=3
+          bootstrap_status=
+          while (( bootstrap_attempt <= bootstrap_max_attempts )); do
+            bootstrap_status="$(curl --silent --show-error \
+              --output "$bootstrap_file" \
+              --write-out '%{http_code}' \
+              --header "Authorization: Bearer ${oidc_token}" \
+              --header 'Content-Type: application/json' \
+              --data "$bootstrap_payload" \
+              https://api.orbexa.cc/internal-ci/v1/android/bootstrap)"
+            [[ "$bootstrap_status" == "200" ]] && break
+            if [[ ! " 500 502 503 504 " =~ " ${bootstrap_status} " ]] \
+              || (( bootstrap_attempt == bootstrap_max_attempts )); then
+              echo "::error title=Staging bootstrap preflight failed::Staging bootstrap endpoint returned HTTP ${bootstrap_status} after ${bootstrap_attempt} attempt(s); response body and bearer token are intentionally suppressed"
+              exit 22
+            fi
+            bootstrap_backoff_seconds=$(( bootstrap_attempt == 1 ? 2 : 4 ))
+            echo "::warning title=Staging bootstrap transient failure::Staging bootstrap endpoint returned retryable HTTP ${bootstrap_status} on attempt ${bootstrap_attempt}/${bootstrap_max_attempts}; retrying after ${bootstrap_backoff_seconds}s with response body and bearer token suppressed"
+            rm -f "$bootstrap_file"
+            sleep "$bootstrap_backoff_seconds"
+            bootstrap_attempt=$((bootstrap_attempt + 1))
+          done
           bootstrap_code="$(python -c 'import json,sys; print(json.load(open(sys.argv[1], encoding="utf-8"))["data"]["code"])' "$bootstrap_file")"
           echo "::add-mask::$bootstrap_code"
           echo "HHY_CI_BOOTSTRAP_CODE=$bootstrap_code" >> "$GITHUB_ENV"
