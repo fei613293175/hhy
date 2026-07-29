@@ -88,3 +88,10 @@ Attempt11和CR-0490保持已消费历史；Attempt12必须绑定c1b637e2并运�
 - Status：`IMPLEMENTING`
 - Session：`SES-20260729T161557Z-6FCE6ACA`
 - Note：写入Attempt12精确例外、request012及错误Release、CR、Commit、Request和轮次拒绝回归。
+
+## 状态记录 · 2026-07-29T22:04:33Z
+
+- Actor：`codex-r14-resume-20260730`
+- Status：`IMPLEMENTED`
+- Session：`SES-20260729T161557Z-6FCE6ACA`
+- Note：Commit f4c7589f7950e978b013fae0cbcd9ee40773de0f 已写入Attempt12新Compose语义路径唯一授权、request012与精确错误绑定回归；102项治理测试和候选请求验证PASS。

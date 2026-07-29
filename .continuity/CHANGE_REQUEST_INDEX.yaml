@@ -30567,9 +30567,9 @@ change_requests:
 - protocol_version: '1.0'
   cr_id: CR-0492
   title: 授权R14会话复进Compose语义路径唯一Attempt12
-  status: IMPLEMENTING
+  status: IMPLEMENTED
   created_at: '2026-07-29T22:02:20Z'
-  updated_at: '2026-07-29T22:03:05Z'
+  updated_at: '2026-07-29T22:04:33Z'
   requester_actor_id: codex-r14-resume-20260730
   approver_actor_id: codex-independent-candidate-reviewer
   task_id: TASK-R14-008
@@ -30615,5 +30615,12 @@ change_requests:
     status: IMPLEMENTING
     note: 写入Attempt12精确例外、request012及错误Release、CR、Commit、Request和轮次拒绝回归。
     session_id: SES-20260729T161557Z-6FCE6ACA
+  - at: '2026-07-29T22:04:33Z'
+    actor_id: codex-r14-resume-20260730
+    status: IMPLEMENTED
+    note: Commit f4c7589f7950e978b013fae0cbcd9ee40773de0f 已写入Attempt12新Compose语义路径唯一授权、request012与精确错误绑定回归；102项治理测试和候选请求验证PASS。
+    session_id: SES-20260729T161557Z-6FCE6ACA
   session_ids:
   - SES-20260729T161557Z-6FCE6ACA
+  implementation_commits:
+  - f4c7589f7950e978b013fae0cbcd9ee40773de0f
