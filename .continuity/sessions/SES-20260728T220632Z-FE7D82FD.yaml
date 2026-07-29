@@ -11,7 +11,7 @@ task_id: TASK-R14-008
 story_id: STORY-R14-004
 goal: 一对一聊天核心版本关闭与无状态交接
 started_at: '2026-07-28T22:06:32Z'
-updated_at: '2026-07-29T01:16:21Z'
+updated_at: '2026-07-29T01:30:38Z'
 takeover_of: null
 change_requests:
 - CR-0475
@@ -94,22 +94,22 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-29T01:16:14Z'
-  expires_at: '2026-07-29T05:16:14Z'
-checkpoint_sequence: 9
-latest_checkpoint: .continuity/checkpoints/SES-20260728T220632Z-FE7D82FD/0009.yaml
+  renewed_at: '2026-07-29T01:30:30Z'
+  expires_at: '2026-07-29T05:30:30Z'
+checkpoint_sequence: 10
+latest_checkpoint: .continuity/checkpoints/SES-20260728T220632Z-FE7D82FD/0010.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260728T220632Z-FE7D82FD.md
-next_step: 执行提交前连续性与传输预检，提交并推送不含候选请求变更的基础设施修复Commit；随后登记绑定该Commit的Attempt4例外
+next_step: 提交但不推送Attempt4请求；通过Git bundle把精确请求Commit送到obx-test，从该Commit构建R14候选后端、接入R14网络V044数据库和可写MFA卷，受控切流验证后再推送一次
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: 092751e9a56fd1bdab214bb5250c60b4d7c1cf1c6c51047da61f8fb22f74253f
-  generated_at: '2026-07-29T01:16:18Z'
+  context_hash: 1a4938e7245af6be4eda5bd3985111029fc15f759572ab8128ee65f28fe2989b
+  generated_at: '2026-07-29T01:30:35Z'
 handoff_bundle: null
 closure: null
 parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 候选证明策略、失败证据、唯一请求指针和连续性检查点必须绑定同一事实提交；拆分会造成CR、证明集合或Attempt身份错配
+  reason: 唯一候选请求、例外策略、请求Commit与服务器同Commit镜像必须串行绑定；并行会提前消费Attempt或造成后端源码身份错配

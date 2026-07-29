@@ -2,6 +2,8 @@ schema_version: 1
 status: REQUESTED
 release: R14
 candidate: true
-remediation_attempt: 3
-request_id: R14-CANDIDATE-20260729-003
-reason: R14 Attempt2已越过旧后端与夹具缺失问题，但Run 30407390156的目标进程日志明确显示clickLastExactText命中“确认拉黑”不可点击文字子节点并直接调用click，拉黑请求未触发，随后在禁发断言失败。CR-0478沿用既有文字节点必须向上解析enabled且clickable祖先的规则修复该助手并加入源码回归；本轮只允许绑定修复Commit、同Commit候选后端和已验证夹具触发，继续完整执行搜索、发送未读、拉黑后重进、解除拉黑、列表长按删除、截图、JUnit及目标进程日志审核。候选PASS后才允许从同一提交在obx-test固定工具链构建稳定签名TEST_APK并原子替换10224交付；owner真机反馈保持异步PENDING。
+remediation_attempt: 4
+request_id: R14-CANDIDATE-20260729-004
+attempt_exception_id: CR-0479
+required_fix_commit: 98b8259bea86daf48f01698ad7ea353877650fbc
+reason: R14 Attempt3的候选请求、编译、单测、Lint和打包均通过，但模拟器启动前的Staging bootstrap返回HTTP 500。CR-0479记录并修复候选容器误接R13网络数据库及MFA卷只读问题，修复Commit 98b8259bea86daf48f01698ad7ea353877650fbc已将精确R14网络、V044数据库绑定和MFA卷可写纳入受控切流脚本与权威证明集合；本例外只允许request004运行一次，并要求从当前请求Commit重建同Commit候选后端后完整执行搜索、发送未读、拉黑后重进、解除拉黑、列表长按删除、截图、JUnit和目标进程日志审核。Attempt3不得重跑，owner真机反馈保持异步PENDING。
