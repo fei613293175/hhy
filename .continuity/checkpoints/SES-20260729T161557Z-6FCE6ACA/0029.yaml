@@ -1,0 +1,451 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260729T161557Z-6FCE6ACA-0029
+session_id: SES-20260729T161557Z-6FCE6ACA
+task_id: TASK-R14-008
+story_id: STORY-R14-004
+sequence: 29
+created_at: '2026-07-29T23:13:20Z'
+summary: CR-0496已审批并写入同指纹第三且最终Attempt14精确身份，绑定CR-0495修复Commit 7eeb1051。
+next_step: 提交最终轮授权并登记IMPLEMENTED；构建最终HEAD候选后端、受控切流并仅推送一次。
+blockers: []
+decisions:
+- 若Attempt14仍为composer空值同指纹，明确禁止Attempt15；不同新指纹按新问题证据处理。
+note: ''
+tests:
+- name: candidate-governance
+  result: PASS
+  evidence: 106 tests in 10.086s
+  note: Attempt14正确身份与五类漂移负向回归通过
+- name: candidate-validator
+  result: PASS
+  evidence: R14-CANDIDATE-20260730-014 CR-0496 7eeb1051 exact
+  note: effective limit 14, max runs 1
+- name: cr-and-yaml
+  result: PASS
+  evidence: CR-0496 index/machine and candidate YAML parse
+  note: reason projection corrected
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: 8301b2f576f6c372fc533aeadf952a8177590589
+  upstream: origin/task/TASK-R03-001
+  ahead: 2
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/sessions/SES-20260729T161557Z-6FCE6ACA.yaml'
+  - ' M CHANGELOG.md'
+  - ' M catalogs/change_request_index.csv'
+  - ' M catalogs/session_index.csv'
+  - ' M config/android-automation.yaml'
+  - ' M config/android-candidate-request.yaml'
+  - ' M tests/test_android_candidate_request.py'
+  - ' M tests/test_android_ci_gate.py'
+  - ?? .continuity/change_requests/CR-0496.yaml
+  - ?? docs/03-continuity/change-requests/CR-0496-授权R14-composer实时语义最终Attempt14.md
+  recent_commits:
+  - "8301b2f576f6c372fc533aeadf952a8177590589\t2026-07-30T07:10:25+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] docs(android): bind Compose\
+    \ composer verification"
+  - "7eeb1051bce7fe0f96bf04e1bfe75d7234a26ac0\t2026-07-30T07:09:40+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] test(android): verify composer\
+    \ through Compose semantics"
+  - "76fc73fd8a7ed7f7b4f19e2eba9c9e64b6013084\t2026-07-30T06:43:37+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] docs(ci): bind attempt13 authorization"
+  - "fdcea6c27369a14a167fcb850ffce2e80d35e753\t2026-07-30T06:42:46+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] test(android): request R14\
+    \ candidate attempt13"
+  - "b7fd0e497514862066afe11936064af22f2bdc2c\t2026-07-30T06:39:50+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] docs(android): bind composer\
+    \ implementation record"
+  - "c5695b9242fa751b83166f50e85c47109a0b0d62\t2026-07-30T06:38:52+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] fix(android): clear composer\
+    \ after successful send"
+  - "7bfadbb62732c3738c72195582289be9ba7d778d\t2026-07-30T06:05:05+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] docs(ci): bind attempt12 authorization"
+  - "f4c7589f7950e978b013fae0cbcd9ee40773de0f\t2026-07-30T06:04:01+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] test(android): request R14\
+    \ candidate attempt12"
+project_fingerprint:
+  sha256: afa1ac80b74ced1440da89b29cb5b312d560e156770fcfab27ded027b66cd172
+  files:
+  - .github/workflows/android-quality-gate.yml
+  - CHANGELOG.md
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+  - apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+  - apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR14Api.kt
+  - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ContractR14ApiTest.kt
+  - apps/android/feature/chat/src/androidTest/java/cc/orbexa/hhy/chat/R14BlockStateStoreInstrumentedTest.kt
+  - apps/android/feature/chat/src/androidTest/java/cc/orbexa/hhy/chat/R14ChatDetailScreenTest.kt
+  - apps/android/feature/chat/src/androidTest/java/cc/orbexa/hhy/chat/R14ConversationListScreenTest.kt
+  - apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14BlockStateStore.kt
+  - apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ChatDetailScreen.kt
+  - apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ConversationListScreen.kt
+  - config/android-automation.yaml
+  - config/android-candidate-request.yaml
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/change-requests/CR-0475-绑定R14最终交互候选与稳定TEST_APK同一提交.md
+  - docs/03-continuity/change-requests/CR-0476-解除R13历史候选测试对当前请求的永久绑定.md
+  - docs/03-continuity/change-requests/CR-0477-阻断R14候选旧后端路由与夹具语义漂移.md
+  - docs/03-continuity/change-requests/CR-0478-修复R14候选确认按钮点击语义漂移并递增Attempt3.md
+  - docs/03-continuity/change-requests/CR-0479-修复R14候选部署网络数据库与MFA卷漂移并递增Attempt4.md
+  - docs/03-continuity/change-requests/CR-0480-补齐CR-0479候选部署证明的策略与门禁投影范围.md
+  - docs/03-continuity/change-requests/CR-0481-修复R14候选启动版本策略夹具缺失并递增Attempt5.md
+  - docs/03-continuity/change-requests/CR-0482-修复R14拉黑成功状态自动化可见性并递增Attempt6.md
+  - docs/03-continuity/change-requests/CR-0483-修复R14会话列表业务文字稳定资源身份并递增Attempt7.md
+  - docs/03-continuity/change-requests/CR-0484-修复R14拉黑成功后同步持久化阻塞UI并递增Attempt8.md
+  - docs/03-continuity/change-requests/CR-0485-更正CR-0484真实Changelog投影路径.md
+  - docs/03-continuity/change-requests/CR-0486-更正R14拉黑禁发栏被输入法遮挡并登记Attempt9最终诊断轮.md
+  - docs/03-continuity/change-requests/CR-0487-原位加固GitHub-OIDC引导5xx有限重试并保留非重试失败.md
+  - docs/03-continuity/change-requests/CR-0488-绑定R14基础设施修复并授权唯一Attempt10业务第三轮.md
+  - docs/03-continuity/change-requests/CR-0489-切换R14禁发可见性验证为Compose同步与用户文本双证据.md
+  - docs/03-continuity/change-requests/CR-0490-授权R14新可见性取证路径唯一Attempt11.md
+  - docs/03-continuity/change-requests/CR-0491-切换R14会话行操作为Compose语义并验证发送后输入清空.md
+  - docs/03-continuity/change-requests/CR-0492-授权R14会话复进Compose语义路径唯一Attempt12.md
+  - docs/03-continuity/change-requests/CR-0493-修复R14文本发送成功后输入框未清空.md
+  - docs/03-continuity/change-requests/CR-0494-授权R14输入框成功回调修复唯一Attempt13.md
+  - docs/03-continuity/change-requests/CR-0495-切换R14发送后清空验收为Compose实时语义.md
+  - docs/03-continuity/change-requests/CR-0496-授权R14-composer实时语义最终Attempt14.md
+  - scripts/android_ci_gate.py
+  - scripts/prepare_r14_candidate_fixture.sh
+  - scripts/switch_android_candidate_route.sh
+  - tests/test_android_candidate_request.py
+  - tests/test_android_candidate_route.py
+  - tests/test_android_ci_gate.py
+  - tests/test_r13_candidate.py
+  file_count: 46
+  payload:
+    base_commit: 0a100b86f63829ef38ede5571d3e511219e67769
+    files:
+    - path: .github/workflows/android-quality-gate.yml
+      state: FILE
+      size: 16344
+      sha256: 3abacc131665906483dfd7f93ee84a691ac0e9e9d4070c7ff56127639991d87e
+    - path: CHANGELOG.md
+      state: FILE
+      size: 229519
+      sha256: 09a9a9ed7de80b51693782e7a20c2656826b8df501946dbabbf7ccd476d5070f
+    - path: apps/android/app/build.gradle.kts
+      state: FILE
+      size: 6171
+      sha256: 3ac97af334a5383915402827bf0a2274884e8f6ff3de413a0d77479a5117967d
+    - path: apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+      state: FILE
+      size: 33870
+      sha256: 304bb95bfb93e2d7b733b989078b58a120b76865a2503b65b983ded6070495a0
+    - path: apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+      state: FILE
+      size: 520
+      sha256: ae6263e1f1266a73611bb88887e068c9463c525e65484fb5af10e17ca519d7b9
+    - path: apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+      state: FILE
+      size: 1261
+      sha256: b14161e25216b439dd08c37be88cc6e2d7883ef1a4f8acebc8f2408f1379d028
+    - path: apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR14Api.kt
+      state: FILE
+      size: 23404
+      sha256: caf45b96597b81c1f9941ec100c0060618c94f4aa603e95ba6ac42c0033a6565
+    - path: apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ContractR14ApiTest.kt
+      state: FILE
+      size: 9299
+      sha256: 3f1bec36daec937faf765bf87542af6fb4213647e2844843f724a5e8c292ba8c
+    - path: apps/android/feature/chat/src/androidTest/java/cc/orbexa/hhy/chat/R14BlockStateStoreInstrumentedTest.kt
+      state: FILE
+      size: 1178
+      sha256: 16486607748fa36fabe9b22ae8f7baf76cd8a84a945de8de8a0bb41f5829c515
+    - path: apps/android/feature/chat/src/androidTest/java/cc/orbexa/hhy/chat/R14ChatDetailScreenTest.kt
+      state: FILE
+      size: 12038
+      sha256: 1f6a33749b62f1e4bb3a35d70bee77aec856db9969d8e94190e24af38ed457a6
+    - path: apps/android/feature/chat/src/androidTest/java/cc/orbexa/hhy/chat/R14ConversationListScreenTest.kt
+      state: FILE
+      size: 6419
+      sha256: 9e5895364f4fc07a719229eaa4afde6586922a821e2b8950e4a1263f1d34c0eb
+    - path: apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14BlockStateStore.kt
+      state: FILE
+      size: 1515
+      sha256: 63dc7808c3f97a652ce6c346387e9a2c05a41e74d7af9677c9bf2f7dbf8504d9
+    - path: apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ChatDetailScreen.kt
+      state: FILE
+      size: 47069
+      sha256: 957165dc02f7394b834cb4cc4f4f89b3f68e6be3949825b5ef554150668491c2
+    - path: apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ConversationListScreen.kt
+      state: FILE
+      size: 21205
+      sha256: 2f5c074103224ab154dd997abd798b37f3410a968e209908078cbd2bd839d347
+    - path: config/android-automation.yaml
+      state: FILE
+      size: 16272
+      sha256: d8a267e900c74fa034274de3cf5bbf317b6a991785a385651da7e8670b59addb
+    - path: config/android-candidate-request.yaml
+      state: FILE
+      size: 1106
+      sha256: 3a960bf94b239ee39953ef1c2ab34fccaa964fe0681a60dad555482b540402bc
+    - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
+      state: FILE
+      size: 268541
+      sha256: 8bdc5141a185e9b47fd55abc24d115611ae1772e5e9974a9f7a8c6e02bb358ba
+    - path: docs/03-continuity/change-requests/CR-0475-绑定R14最终交互候选与稳定TEST_APK同一提交.md
+      state: FILE
+      size: 3792
+      sha256: 4d6c35fd99ef585a4802fb664ac2e2819d4a2fe93fc5d1747ca73496ae69387e
+    - path: docs/03-continuity/change-requests/CR-0476-解除R13历史候选测试对当前请求的永久绑定.md
+      state: FILE
+      size: 2850
+      sha256: 098711406c0bc8b2574f2388ab6ed76242e7df1d3fb442a67593a13f76871e11
+    - path: docs/03-continuity/change-requests/CR-0477-阻断R14候选旧后端路由与夹具语义漂移.md
+      state: FILE
+      size: 3844
+      sha256: cbac66f0b6906977cce340a81d30f198e90dcef64ec13ff8c7edd10b2914da61
+    - path: docs/03-continuity/change-requests/CR-0478-修复R14候选确认按钮点击语义漂移并递增Attempt3.md
+      state: FILE
+      size: 3253
+      sha256: 175f0d6d54d3a1f4be0f231cf0123fb4637c79fe5bbc1cc772a5e6091853388c
+    - path: docs/03-continuity/change-requests/CR-0479-修复R14候选部署网络数据库与MFA卷漂移并递增Attempt4.md
+      state: FILE
+      size: 3570
+      sha256: 6676def2154754bdbe628a4a5f3e6bbe07e1ac2c9a3b59cb25d89f1a48181f59
+    - path: docs/03-continuity/change-requests/CR-0480-补齐CR-0479候选部署证明的策略与门禁投影范围.md
+      state: FILE
+      size: 2692
+      sha256: cb19270443b74ea070f04f93a87e8b22518e0da4e736daf048f3c49ee1244bfd
+    - path: docs/03-continuity/change-requests/CR-0481-修复R14候选启动版本策略夹具缺失并递增Attempt5.md
+      state: FILE
+      size: 3766
+      sha256: c3c6b1c9a6a536c3a6ecfecfe5d6f767885163d182c7368db06aa3b126603210
+    - path: docs/03-continuity/change-requests/CR-0482-修复R14拉黑成功状态自动化可见性并递增Attempt6.md
+      state: FILE
+      size: 5137
+      sha256: 1ba438e068b373ef824c774286e847ad9d91675618de9c01d47df2f3a561fcc2
+    - path: docs/03-continuity/change-requests/CR-0483-修复R14会话列表业务文字稳定资源身份并递增Attempt7.md
+      state: FILE
+      size: 4513
+      sha256: a2280a3657d60094794a0eff35682600e0386ee2abcc35dedda283a71cb6a5d2
+    - path: docs/03-continuity/change-requests/CR-0484-修复R14拉黑成功后同步持久化阻塞UI并递增Attempt8.md
+      state: FILE
+      size: 4111
+      sha256: e0e0af2078a2ab549091354335cdc8702d533a1ab3b889cfe7f99d7937a5bd0e
+    - path: docs/03-continuity/change-requests/CR-0485-更正CR-0484真实Changelog投影路径.md
+      state: FILE
+      size: 2702
+      sha256: a5bc83d382bc4a170d14a5f5ec219f020a7a9352f81c8fcc648393295797a6b4
+    - path: docs/03-continuity/change-requests/CR-0486-更正R14拉黑禁发栏被输入法遮挡并登记Attempt9最终诊断轮.md
+      state: FILE
+      size: 4617
+      sha256: 850e5155bb467cee3ae80543110e700b8818533a174906219c38041b10edb802
+    - path: docs/03-continuity/change-requests/CR-0487-原位加固GitHub-OIDC引导5xx有限重试并保留非重试失败.md
+      state: FILE
+      size: 4552
+      sha256: 80234f3d0708351e62d60a92ae7a9a8fef495ed48c0bb8a0a85d3b2464117fe9
+    - path: docs/03-continuity/change-requests/CR-0488-绑定R14基础设施修复并授权唯一Attempt10业务第三轮.md
+      state: FILE
+      size: 3638
+      sha256: 3a415142338b3de64248bdda9edab6873da31b87d19f205ebc3b8dcf83491712
+    - path: docs/03-continuity/change-requests/CR-0489-切换R14禁发可见性验证为Compose同步与用户文本双证据.md
+      state: FILE
+      size: 4020
+      sha256: a31b65d4b3428bbe3a355d8efc0bde142e28b6d8d8fcb6ef2f32d28e3f5cf54e
+    - path: docs/03-continuity/change-requests/CR-0490-授权R14新可见性取证路径唯一Attempt11.md
+      state: FILE
+      size: 3697
+      sha256: ae026ac109e819dbf8e3eeb6c1ff4760f72e951f437f72951d040c2c17fb0f48
+    - path: docs/03-continuity/change-requests/CR-0491-切换R14会话行操作为Compose语义并验证发送后输入清空.md
+      state: FILE
+      size: 3800
+      sha256: 1151242d1de6b2271bec72d238b13e4c057e4eb960906ebd80e6c050ab095686
+    - path: docs/03-continuity/change-requests/CR-0492-授权R14会话复进Compose语义路径唯一Attempt12.md
+      state: FILE
+      size: 3521
+      sha256: 7b8a8d7af78edd9e4057428f9f77279e16950c9f8e88a49df980fd93142b7cc3
+    - path: docs/03-continuity/change-requests/CR-0493-修复R14文本发送成功后输入框未清空.md
+      state: FILE
+      size: 2972
+      sha256: 297d7ca08f379377eeed6dd495b3ca8f370db18ed31a13ab481828741d6454c2
+    - path: docs/03-continuity/change-requests/CR-0494-授权R14输入框成功回调修复唯一Attempt13.md
+      state: FILE
+      size: 2927
+      sha256: f86283e39a5cc96910ec50346c0ff39821d09edc51d50482de41e8978bffb5ff
+    - path: docs/03-continuity/change-requests/CR-0495-切换R14发送后清空验收为Compose实时语义.md
+      state: FILE
+      size: 3281
+      sha256: 1570320bf0d8ddd3677a0636a2b25db8c26ed8357846f0f4d1fa319e695b3d76
+    - path: docs/03-continuity/change-requests/CR-0496-授权R14-composer实时语义最终Attempt14.md
+      state: FILE
+      size: 2619
+      sha256: 95ccc8359f8c52559779f2805c64cfbe41406e685024b5a9a580df6e9f290487
+    - path: scripts/android_ci_gate.py
+      state: FILE
+      size: 39771
+      sha256: ac8a7767015771bec0102419fee0788123d185968b5cc88831abf6349e36ae23
+    - path: scripts/prepare_r14_candidate_fixture.sh
+      state: FILE
+      size: 11508
+      sha256: 50b7fb97eca35562491c91f3bed2ca2d1d86bdbd808a8277bedfca3f6cc3ebf7
+    - path: scripts/switch_android_candidate_route.sh
+      state: FILE
+      size: 11538
+      sha256: 0948944b10a9c7422930c28f868e3548289fe1d218957ce50f01fd25ca5c4b9f
+    - path: tests/test_android_candidate_request.py
+      state: FILE
+      size: 63132
+      sha256: 272bd104ac69afb64f0f1b8adac12daf05187a92b1a4465313d22cafa58cb89d
+    - path: tests/test_android_candidate_route.py
+      state: FILE
+      size: 9259
+      sha256: 5d968c6041ed05de36fa9a5db066767655f11b28b5adba98b6c8049892fc1a32
+    - path: tests/test_android_ci_gate.py
+      state: FILE
+      size: 87696
+      sha256: 279494a38f6335790ffe0681815cf5a67ed45866d6c839a7c7d15b1c717db404
+    - path: tests/test_r13_candidate.py
+      state: FILE
+      size: 21538
+      sha256: 2f9f064396d5269b1a939c8a73874c6dbd3be5c7d950baa73f6707f0527322b0
+change_classification:
+  infrastructure:
+  - .github/workflows/android-quality-gate.yml
+  other:
+  - CHANGELOG.md
+  - config/android-automation.yaml
+  - config/android-candidate-request.yaml
+  code:
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+  - apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+  - apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR14Api.kt
+  - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ContractR14ApiTest.kt
+  - apps/android/feature/chat/src/androidTest/java/cc/orbexa/hhy/chat/R14BlockStateStoreInstrumentedTest.kt
+  - apps/android/feature/chat/src/androidTest/java/cc/orbexa/hhy/chat/R14ChatDetailScreenTest.kt
+  - apps/android/feature/chat/src/androidTest/java/cc/orbexa/hhy/chat/R14ConversationListScreenTest.kt
+  - apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14BlockStateStore.kt
+  - apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ChatDetailScreen.kt
+  - apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ConversationListScreen.kt
+  - scripts/android_ci_gate.py
+  - scripts/prepare_r14_candidate_fixture.sh
+  - scripts/switch_android_candidate_route.sh
+  user_visible:
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+  - apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+  - apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR14Api.kt
+  - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ContractR14ApiTest.kt
+  - apps/android/feature/chat/src/androidTest/java/cc/orbexa/hhy/chat/R14BlockStateStoreInstrumentedTest.kt
+  - apps/android/feature/chat/src/androidTest/java/cc/orbexa/hhy/chat/R14ChatDetailScreenTest.kt
+  - apps/android/feature/chat/src/androidTest/java/cc/orbexa/hhy/chat/R14ConversationListScreenTest.kt
+  - apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14BlockStateStore.kt
+  - apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ChatDetailScreen.kt
+  - apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ConversationListScreen.kt
+  continuity:
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/change-requests/CR-0475-绑定R14最终交互候选与稳定TEST_APK同一提交.md
+  - docs/03-continuity/change-requests/CR-0476-解除R13历史候选测试对当前请求的永久绑定.md
+  - docs/03-continuity/change-requests/CR-0477-阻断R14候选旧后端路由与夹具语义漂移.md
+  - docs/03-continuity/change-requests/CR-0478-修复R14候选确认按钮点击语义漂移并递增Attempt3.md
+  - docs/03-continuity/change-requests/CR-0479-修复R14候选部署网络数据库与MFA卷漂移并递增Attempt4.md
+  - docs/03-continuity/change-requests/CR-0480-补齐CR-0479候选部署证明的策略与门禁投影范围.md
+  - docs/03-continuity/change-requests/CR-0481-修复R14候选启动版本策略夹具缺失并递增Attempt5.md
+  - docs/03-continuity/change-requests/CR-0482-修复R14拉黑成功状态自动化可见性并递增Attempt6.md
+  - docs/03-continuity/change-requests/CR-0483-修复R14会话列表业务文字稳定资源身份并递增Attempt7.md
+  - docs/03-continuity/change-requests/CR-0484-修复R14拉黑成功后同步持久化阻塞UI并递增Attempt8.md
+  - docs/03-continuity/change-requests/CR-0485-更正CR-0484真实Changelog投影路径.md
+  - docs/03-continuity/change-requests/CR-0486-更正R14拉黑禁发栏被输入法遮挡并登记Attempt9最终诊断轮.md
+  - docs/03-continuity/change-requests/CR-0487-原位加固GitHub-OIDC引导5xx有限重试并保留非重试失败.md
+  - docs/03-continuity/change-requests/CR-0488-绑定R14基础设施修复并授权唯一Attempt10业务第三轮.md
+  - docs/03-continuity/change-requests/CR-0489-切换R14禁发可见性验证为Compose同步与用户文本双证据.md
+  - docs/03-continuity/change-requests/CR-0490-授权R14新可见性取证路径唯一Attempt11.md
+  - docs/03-continuity/change-requests/CR-0491-切换R14会话行操作为Compose语义并验证发送后输入清空.md
+  - docs/03-continuity/change-requests/CR-0492-授权R14会话复进Compose语义路径唯一Attempt12.md
+  - docs/03-continuity/change-requests/CR-0493-修复R14文本发送成功后输入框未清空.md
+  - docs/03-continuity/change-requests/CR-0494-授权R14输入框成功回调修复唯一Attempt13.md
+  - docs/03-continuity/change-requests/CR-0495-切换R14发送后清空验收为Compose实时语义.md
+  - docs/03-continuity/change-requests/CR-0496-授权R14-composer实时语义最终Attempt14.md
+  tests:
+  - tests/test_android_candidate_request.py
+  - tests/test_android_candidate_route.py
+  - tests/test_android_ci_gate.py
+  - tests/test_r13_candidate.py
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+- CHANGELOG
+change_requests:
+- CR-0475
+- CR-0476
+- CR-0477
+- CR-0478
+- CR-0479
+- CR-0480
+- CR-0481
+- CR-0482
+- CR-0483
+- CR-0484
+- CR-0485
+- CR-0486
+- CR-0487
+- CR-0488
+- CR-0489
+- CR-0490
+- CR-0491
+- CR-0492
+- CR-0493
+- CR-0494
+- CR-0495
+- CR-0496
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions:
+  - apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14BlockStateStore.kt
+  - apps/android/feature/chat/src/androidTest/java/cc/orbexa/hhy/chat/R14ChatDetailScreenTest.kt
+  - apps/android/feature/chat/src/androidTest/java/cc/orbexa/hhy/chat/R14BlockStateStoreInstrumentedTest.kt
+  - apps/android/feature/chat/src/test/java/cc/orbexa/hhy/chat/R14BlockStateStoreTest.kt
+  - artifacts/validation/r14-candidate-attempt7/failure-evidence.json
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/10-governance/CHANGELOG.md
+  - tests/test_android_ci_gate.py
+  - config/android-automation.yaml
+  - config/android-candidate-request.yaml
+  - tests/test_android_candidate_request.py
+  - CHANGELOG.md
+  - apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ChatDetailScreen.kt
+  - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+  - artifacts/validation/r14-candidate-attempt8/failure-evidence.json
+  source: story+explicit+approved-cr:CR-0484+approved-cr:CR-0485+approved-cr:CR-0486
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 最终轮身份、冻结提交和切流容器必须串行绑定。
+event_hash: 6f623f464dbd60cfc00ee582cee0ba83e0db60bc598b2ebd4e6e7e4be2cc6870

@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## R14 composer实时语义最终候选授权 · 2026-07-30
+
+- `CR-0496`只授权`R14-CANDIDATE-20260730-014`绑定`CR-0495`修复Commit `7eeb1051bce7fe0f96bf04e1bfe75d7234a26ac0`运行一次；Attempt12和13保持已消费历史。
+- 这是同一composer空值指纹的第三且最终轮；若仍为同指纹，规则明确禁止Attempt15，不得继续延时或复用跨框架resource断言。
+- 全局`max_ai_attempts=3`及全部R14业务、四张截图、JUnit和目标进程日志审核不变；错误Release、Attempt、Request、CR、Commit或多次运行均由门禁拒绝。
+
 ## R14发送后清空验收切换为Compose实时语义 · 2026-07-30
 
 - `CR-0495`归档GitHub Run `30497451278`的Attempt13：请求、编译、单测、Lint、打包、候选后端、登录、会话加载、搜索、消息出现和“已发送”均通过；消息POST在128毫秒内返回HTTP 200，唯一失败仍是UiAutomator按resource读取到发送前composer文本。

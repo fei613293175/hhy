@@ -2,8 +2,8 @@ schema_version: 1
 status: REQUESTED
 release: R14
 candidate: true
-remediation_attempt: 13
-request_id: R14-CANDIDATE-20260730-013
-attempt_exception_id: CR-0494
-required_fix_commit: c5695b9242fa751b83166f50e85c47109a0b0d62
-reason: R14 GitHub Run 30495148156的Attempt12已消费；候选请求、编译、单测、Lint、打包、候选后端、自动登录、会话加载、搜索和消息发送均成功，POST消息返回HTTP 200，唯一首发业务失败为发送成功后r14.chat.composer仍保留原文本。源码确认文本发送使用尾随lambda，而send函数的最后一个函数参数是onFailure，Kotlin因此把清空输入框逻辑静默绑定为失败回调。CR-0493及Commit c5695b9242fa751b83166f50e85c47109a0b0d62改为显式命名onSuccess，仅成功时清空composer、失败时保留草稿，并增加成功/失败双向Compose回归与CI静态锁；102项治理回归和obx-test固定工具链聊天单测、Lint、AndroidTest编译均通过。CR-0494只授权request013运行一次；搜索、发送未误标已读、composer清空、拉黑重进、解除拉黑、列表长按删除、四张截图、JUnit和目标进程日志审核全部保留。
+remediation_attempt: 14
+request_id: R14-CANDIDATE-20260730-014
+attempt_exception_id: CR-0496
+required_fix_commit: 7eeb1051bce7fe0f96bf04e1bfe75d7234a26ac0
+reason: R14 GitHub Run 30497451278的Attempt13已消费；请求、编译、单测、Lint、打包、候选后端、登录、会话加载、搜索、消息出现和“已发送”均通过，消息POST在128毫秒内返回HTTP 200，唯一失败仍是UiAutomator按resource读取到发送前composer文本。CR-0495及Commit 7eeb1051bce7fe0f96bf04e1bfe75d7234a26ac0复用PROB-0125，把最后一项可变文本验收切到Compose未合并实时语义，等待并最终严格assertTextEquals空串，超时和空值标准不变；104项治理回归和obx-test App AndroidTest编译通过。Attempt12与13是同一composer指纹前两轮，CR-0496只授权request014作为第三且最终轮运行一次；若仍为同指纹禁止Attempt15。搜索、发送未误标已读、拉黑重进、解除拉黑、列表长按删除、四张截图、JUnit和目标进程日志审核全部保留。
