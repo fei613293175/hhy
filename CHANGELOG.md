@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## R14会话复进语义操作与输入清空取证 · 2026-07-30
+
+- `CR-0491`归档GitHub Run `30490812128`的Attempt11及同Commit唯一失败Job重跑：首次运行在模拟器脚本启动前中断且未消费业务轮；重跑完成真实发送与首次拉黑三重断言后，`POST /api/v1/users/{id}/block`和返回列表的`GET /api/v1/conversations`均为200，数据库会话未隐藏且拉黑关系存在，唯一失败为UiAutomator返回后找不到Compose会话行资源。
+- 复用`PROB-0125`与`PROB-0151`，不新增并列全局规则；会话行首次点击、拉黑后复进、长按和删除消失证明统一改用Compose唯一`testTag`、`assertIsDisplayed`及原生语义动作，不再依赖`testTag`跨框架导出resource-id。
+- composer输入改用Compose `performTextReplacement`，发送成功后必须证明输入框为空才允许截图；发送未误标已读、拉黑禁发、返回重进、解除拉黑、长按删除、四张截图、JUnit与日志审核保持不变。117项治理回归与`obx-test`固定Android工具链`:app:compileDebugAndroidTestKotlin`均通过。
+
 ## R14禁发状态跨框架可见性取证切换 · 2026-07-30
 
 - `CR-0489`记录GitHub Run `30488268307`已完成候选请求、编译、Lint、单测、APK打包、OIDC引导和模拟器启动；拉黑请求65毫秒返回HTTP 200，失败现场同时为Compose禁发节点数量1、composer资源不可见，但`testTag`导出的UiAutomator resource-id仍不可见。

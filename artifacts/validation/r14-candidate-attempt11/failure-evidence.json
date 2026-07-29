@@ -1,0 +1,72 @@
+{
+  "schema": "hhy.android-candidate-failure-evidence/v1",
+  "release": "R14",
+  "attempt": 11,
+  "request_id": "R14-CANDIDATE-20260730-011",
+  "head_sha": "6df1a1ac89e44d45cc3d767d067cde6983f8c95f",
+  "change_request": "CR-0490",
+  "run": {
+    "id": 30490812128,
+    "rerun_attempt": 2,
+    "job_id": 90712301167,
+    "status": "FAIL",
+    "failed_step": "Execute deterministic emulator journeys"
+  },
+  "artifact": {
+    "id": 8740236682,
+    "name": "android-runtime-30490812128",
+    "size_bytes": 173062,
+    "digest": "sha256:e9cfe0d85e165d426c2714c06c9476063d33f702bc0ba61fff1dbb77328b54f1",
+    "screenshots_present": [
+      "01-r14-conversations.png",
+      "02-r14-sent.png"
+    ],
+    "screenshots_missing_due_to_failure": [
+      "03-r14-blocked-reentry.png",
+      "04-r14-long-press-menu.png"
+    ]
+  },
+  "first_failure": {
+    "test": "ReleaseCandidateSmokeTest.authenticatedReleaseJourneyProducesBoundFunctionalAndVisualEvidence",
+    "message": "Cannot find UI resource: r14.conversation.row",
+    "source": "ReleaseCandidateSmokeTest.kt:217",
+    "classification": "CROSS_FRAMEWORK_COMPOSE_RESOURCE_VISIBILITY",
+    "fingerprint_round": 1
+  },
+  "server_evidence": {
+    "block": {
+      "operation": "POST /api/v1/users/{id}/block",
+      "status": 200,
+      "latency_ms": 173,
+      "request_id": "4063bad0-3ed0-47fa-9158-c8760a58b054"
+    },
+    "conversation_reload_after_block": {
+      "operation": "GET /api/v1/conversations",
+      "status": 200,
+      "latency_ms": 30,
+      "request_id": "ed15956d-cba4-4fca-8c84-b52577243d88"
+    }
+  },
+  "database_evidence": {
+    "current_conversation_id": 7,
+    "current_user_id": 1,
+    "peer_user_id": 8,
+    "peer_nickname": "R14候选体验用户",
+    "member_hidden_at": null,
+    "block_relation": {
+      "user_id": 1,
+      "blocked_user_id": 8
+    }
+  },
+  "visual_review": {
+    "01-r14-conversations.png": "会话行与业务联系人可见，说明首次列表渲染成功。",
+    "02-r14-sent.png": "消息与已发送状态可见，但自动化输入文本仍停留在composer，候选不得作为视觉PASS。"
+  },
+  "decision": {
+    "candidate_pass": false,
+    "owner_test_allowed": false,
+    "product_backend_regression": false,
+    "next_change_request": "CR-0491",
+    "next_path": "Use exact Compose semantics for row click, reentry, long press, disappearance, and composer text replacement; preserve all business assertions."
+  }
+}

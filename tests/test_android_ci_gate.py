@@ -1439,6 +1439,16 @@ class AndroidCiGateTest(unittest.TestCase):
             'assertEquals("Unexpected business text for resource: $resource", expected, node.text)',
             smoke_test,
         )
+        self.assertEqual(2, smoke_test.count('clickComposeTag("r14.conversation.row")'))
+        self.assertNotIn('clickResource("r14.conversation.row")', smoke_test)
+        self.assertIn('longClickComposeTag("r14.conversation.row")', smoke_test)
+        self.assertNotIn('longClickResource("r14.conversation.row")', smoke_test)
+        self.assertIn('setComposeTagText("r14.chat.composer", sentText)', smoke_test)
+        self.assertIn('assertResourceText("r14.chat.composer", "")', smoke_test)
+        self.assertIn('waitForComposeTagGone("r14.conversation.row", 10_000)', smoke_test)
+        self.assertIn(").assertIsDisplayed().performClick()", smoke_test)
+        self.assertIn(").assertIsDisplayed().performTouchInput { longClick() }", smoke_test)
+        self.assertIn(").assertIsDisplayed().performTextReplacement(text)", smoke_test)
         self.assertNotIn('Until.hasObject(By.res("r14.chat.blocked"))', smoke_test)
         self.assertIn('assertR14BlockedComposerState("R14 block")', smoke_test)
         self.assertIn(

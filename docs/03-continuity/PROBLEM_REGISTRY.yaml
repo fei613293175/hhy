@@ -2151,24 +2151,26 @@ problems:
   - 不得把内部幂等快照的Instant数字序列化误当成真实HTTP序列化；HTTP合同必须用完整响应壳验证
   - 不得在没有新修复Commit、证据入库和精确请求身份时盲目重跑同一Attempt
 - id: PROB-0151
-  title: R14候选会话数据成功但列表业务文字缺少稳定资源身份
-  status: SOLVED
-  root_cause: R14 Attempt6的候选请求、连续性、编译、单测、Lint、打包、自动会话和候选后端均通过；隔离R14 V044数据库存在唯一当前会话，真实GET /api/v1/conversations返回联系人“R14候选体验用户”和预览“R14候选会话已准备”。ConversationRow仅给整行提供r14.conversation.row，候选却用By.text等待Compose子文字；UiAutomator未发现该文字节点后把稳定语义身份缺口误报为夹具联系人缺失。
-  resolution: CR-0483为联系人名称和最后消息预览分别增加唯一r14.conversation.peer-name与r14.conversation.preview资源身份；候选按资源定位后严格比较UiObject2.text与预期业务值，搜索后再次复核联系人值，同时保留整行点击、错误文案和全部后续真实交互断言。Attempt6的GitHub注解、三项Artifact身份、数据库与无秘密HTTP重放证据入库，Attempt6不得重跑。
+  title: R14候选会话数据成功但列表业务文字与复进操作缺少稳定跨框架身份
+  status: IN_PROGRESS
+  root_cause: R14 Attempt6的候选请求、连续性、编译、单测、Lint、打包、自动会话和候选后端均通过；隔离R14 V044数据库存在唯一当前会话，真实GET /api/v1/conversations返回联系人“R14候选体验用户”和预览“R14候选会话已准备”。ConversationRow仅给整行提供r14.conversation.row，候选却用By.text等待Compose子文字；UiAutomator未发现该文字节点后把稳定语义身份缺口误报为夹具联系人缺失。Attempt11的同Commit唯一失败Job重跑进一步通过会话加载、搜索、发送、首次拉黑禁发断言并在拉黑后GET /api/v1/conversations返回200；数据库会话7仍未隐藏且1到8的拉黑关系真实存在，但返回列表后UiAutomator再次无法找到r14.conversation.row。前两张截图还显示UiAutomator直接设置的发送文本在成功后仍留在composer，说明跨框架资源导出和文本注入都不应作为Compose交互事实。
+  resolution: CR-0483为联系人名称和最后消息预览分别增加唯一r14.conversation.peer-name与r14.conversation.preview资源身份；候选按资源定位后严格比较UiObject2.text与预期业务值，搜索后再次复核联系人值，同时保留整行点击、错误文案和全部后续真实交互断言。Attempt6的GitHub注解、三项Artifact身份、数据库与无秘密HTTP重放证据入库，Attempt6不得重跑。CR-0491继续复用PROB-0125，不新增并列规则：会话行首次点击、拉黑后复进、长按与删除消失全部改用Compose唯一testTag、assertIsDisplayed和原生语义动作；composer输入改用performTextReplacement，发送成功后必须证明输入框为空再截图，其他业务断言不变。
   regression_checks:
   - R14ConversationListScreen必须分别暴露r14.conversation.peer-name与r14.conversation.preview，Compose测试在未合并语义树中核对精确业务值
   - ReleaseCandidateSmokeTest必须按两个稳定资源定位并比较节点精确文字，搜索后再次核对联系人值；不得恢复By.text(peer)或按夹具预览直接等待
-  - 整行r14.conversation.row点击、搜索错误、发送未读、拉黑重进、解除拉黑、长按删除、四张截图、JUnit和日志审核不得删除或弱化
+  - r14.conversation.row的首次点击、拉黑后复进和长按必须等待Compose未合并树唯一节点、assertIsDisplayed后执行performClick或performTouchInput；删除必须等待该Compose节点消失
+  - composer必须由Compose performTextReplacement输入，发送成功后输入框必须为空；搜索错误、发送未读、拉黑重进、解除拉黑、长按删除、四张截图、JUnit和日志审核不得删除或弱化
   - Attempt7必须绑定新修复Commit、CR-0483与唯一request007，并从同Commit候选后端执行完整R14旅程
   do_not_repeat:
   - 后端HTTP 200、数据库夹具和精确响应均正常时，不得把UiAutomator找不到Compose文字直接归类为后端或夹具失败
   - 不得只判断资源存在而放弃核对联系人和预览业务值，也不得用延长By.text等待掩盖稳定身份缺口
   - 不得无代码变化重跑Attempt6或复用已消费的CR-0482候选授权
+  - 同一Compose旅程不得混用UiAutomator resource-id完成会话行复进与长按，也不得接受发送成功后composer仍保留原文本的候选截图
 - id: PROB-0152
   title: R14拉黑业务成功但禁发底栏在输入法过渡期间不可见
   status: IN_PROGRESS
   root_cause: R14 Attempt7已经证明服务端HTTP、数据库、幂等快照和真实HTTP合同成功，但当时把十秒内看不到r14.chat.blocked充分归因于主线程SharedPreferences.commit。CR-0484改为apply后，Attempt8仍在相同断言失败；POST /api/v1/users/6/block仅76毫秒即返回200，user_blocks与幂等记录再次成功，反证commit并非充分根因。CR-0486随后在拉黑成功时清焦点、关闭软键盘并为blocked分支补齐imePadding。Run 30488268307的Attempt10通过候选请求、编译、Lint、单测、APK打包、三次受限OIDC引导重试策略和模拟器启动，POST /api/v1/users/{id}/block以65毫秒返回200；失败现场精确为composeNodes=1、composerResourceVisible=false，但UiAutomator By.res(r14.chat.blocked)仍不可见。三轮证据共同证明拉黑、持久化、禁用composer与Compose布局状态已经成功，剩余错误是把Compose testTag导出的resource-id当成跨框架可见性的唯一事实，而既有PROB-0125已经明确该导出并不稳定。
-  resolution: CR-0484的apply、CR-0486的IME避让和焦点释放、Compose页面回归全部继续保留；不修改后端、数据库或拉黑业务。Attempt10登记为旧UiAutomator resource-id路径第三且最终业务轮，禁止原样Attempt11。CR-0489复用既有PROB-0125经验并切换验证路径：首次拉黑与返回重进均先让Compose测试调度器等待唯一r14.chat.blocked节点，再以assertIsDisplayed证明其位于可见根布局，同时由UiAutomator等待用户真正看到的“当前无法发送消息”文本，并继续断言r14.chat.composer不存在。该双证据比单独By.res更接近真实用户结果，且没有删减解除拉黑、长按删除、四张截图、JUnit或日志审核。
+  resolution: CR-0484的apply、CR-0486的IME避让和焦点释放、Compose页面回归全部继续保留；不修改后端、数据库或拉黑业务。Attempt10登记为旧UiAutomator resource-id路径第三且最终业务轮，禁止原样Attempt11。CR-0489复用既有PROB-0125经验并切换验证路径：首次拉黑与返回重进均先让Compose测试调度器等待唯一r14.chat.blocked节点，再以assertIsDisplayed证明其位于可见根布局，同时由UiAutomator等待用户真正看到的“当前无法发送消息”文本，并继续断言r14.chat.composer不存在。该双证据比单独By.res更接近真实用户结果，且没有删减解除拉黑、长按删除、四张截图、JUnit或日志审核。Attempt11重跑已真实越过首次拉黑的Compose可见、用户文本和composer消失三重断言，随后才在返回列表的会话行UiAutomator定位失败；该新指纹归入PROB-0151与CR-0491，不回退或改写CR-0489。
   regression_checks:
   - R14BlockStateStore必须使用SharedPreferences.Editor.apply并禁止commit，键格式不得改变
   - R14BlockStateStoreInstrumentedTest必须证明apply返回后新Store实例立即读取到拉黑，解除后立即读取不到，且账号与对端隔离

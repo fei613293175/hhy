@@ -9,8 +9,12 @@ import android.provider.MediaStore
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.hasTestTag
 import androidx.compose.ui.test.junit4.createEmptyComposeRule
+import androidx.compose.ui.test.longClick
 import androidx.compose.ui.test.onNodeWithText
+import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performScrollTo
+import androidx.compose.ui.test.performTextReplacement
+import androidx.compose.ui.test.performTouchInput
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.uiautomator.By
@@ -197,14 +201,15 @@ class ReleaseCandidateSmokeTest {
         setResourceText("r14.conversations.search", peer)
         assertResourceText("r14.conversation.peer-name", peer, 10_000)
         assertFalse("R14 keyword search exposed an error", device.hasObject(By.textContains("会话暂时无法加载")))
-        clickResource("r14.conversation.row")
+        clickComposeTag("r14.conversation.row")
         assertTrue("R14 chat detail did not become visible", waitForScreen("hhy.screen.r14.chat"))
 
-        setResourceText("r14.chat.composer", sentText)
+        setComposeTagText("r14.chat.composer", sentText)
         clickDescription("发送")
         assertTrue("R14 sent message did not appear", device.wait(Until.hasObject(By.text(sentText)), 15_000))
         assertTrue("R14 sent message did not show sent state", device.wait(Until.hasObject(By.text("已发送")), 10_000))
         assertFalse("R14 new message was falsely rendered as read", device.hasObject(By.text("已读")))
+        assertResourceText("r14.chat.composer", "")
         captureStable("02-r14-sent.png")
 
         clickDescription("会话操作")
@@ -214,7 +219,7 @@ class ReleaseCandidateSmokeTest {
 
         device.pressBack()
         assertTrue("R14 block did not return to list", waitForScreen("hhy.screen.r14.conversations"))
-        clickResource("r14.conversation.row")
+        clickComposeTag("r14.conversation.row")
         assertTrue("R14 blocked chat did not reopen", waitForScreen("hhy.screen.r14.chat"))
         assertR14BlockedComposerState("R14 own block after reentry")
         clickDescription("会话操作")
@@ -226,17 +231,62 @@ class ReleaseCandidateSmokeTest {
 
         device.pressBack()
         assertTrue("R14 unblock did not return to list", waitForScreen("hhy.screen.r14.conversations"))
-        longClickResource("r14.conversation.row")
+        longClickComposeTag("r14.conversation.row")
         assertTrue("R14 list long press did not expose delete", device.wait(Until.hasObject(By.text("删除会话")), 10_000))
         captureStable("04-r14-long-press-menu.png")
         clickExactText("删除会话")
         clickLastExactText("删除会话")
-        assertTrue(
-            "R14 confirmed delete did not remove the conversation",
-            device.wait(Until.gone(By.res("r14.conversation.row")), 10_000),
-        )
+        waitForComposeTagGone("r14.conversation.row", 10_000)
         assertTrue("R14 filtered empty state is missing", device.hasObject(By.text("没有找到相关会话")))
         assertNoForbiddenVisibleText()
+    }
+
+    private fun clickComposeTag(value: String) {
+        waitForUniqueComposeTag(value)
+        composeRule.onNode(
+            hasTestTag(value),
+            useUnmergedTree = true,
+        ).assertIsDisplayed().performClick()
+        composeRule.waitForIdle()
+        device.waitForIdle(2_000)
+    }
+
+    private fun longClickComposeTag(value: String) {
+        waitForUniqueComposeTag(value)
+        composeRule.onNode(
+            hasTestTag(value),
+            useUnmergedTree = true,
+        ).assertIsDisplayed().performTouchInput { longClick() }
+        composeRule.waitForIdle()
+        device.waitForIdle(1_000)
+    }
+
+    private fun setComposeTagText(value: String, text: String) {
+        waitForUniqueComposeTag(value)
+        composeRule.onNode(
+            hasTestTag(value),
+            useUnmergedTree = true,
+        ).assertIsDisplayed().performTextReplacement(text)
+        composeRule.waitForIdle()
+        device.waitForIdle(1_000)
+    }
+
+    private fun waitForUniqueComposeTag(value: String, timeoutMillis: Long = 15_000) {
+        composeRule.waitUntil(timeoutMillis) {
+            composeRule.onAllNodes(
+                hasTestTag(value),
+                useUnmergedTree = true,
+            ).fetchSemanticsNodes().size == 1
+        }
+    }
+
+    private fun waitForComposeTagGone(value: String, timeoutMillis: Long) {
+        composeRule.waitUntil(timeoutMillis) {
+            composeRule.onAllNodes(
+                hasTestTag(value),
+                useUnmergedTree = true,
+            ).fetchSemanticsNodes().isEmpty()
+        }
     }
 
     private fun assertR14BlockedComposerState(context: String) {

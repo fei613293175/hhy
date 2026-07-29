@@ -11,7 +11,7 @@ task_id: TASK-R14-008
 story_id: STORY-R14-004
 goal: 异常恢复 SES-20260728T220632Z-FE7D82FD：一对一聊天核心版本关闭与无状态交接
 started_at: '2026-07-29T16:15:57Z'
-updated_at: '2026-07-29T20:56:23Z'
+updated_at: '2026-07-29T21:52:11Z'
 takeover_of: SES-20260728T220632Z-FE7D82FD
 change_requests:
 - CR-0475
@@ -89,22 +89,22 @@ git:
   initial_worktree_state: DIRTY_TAKEOVER
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-29T20:56:16Z'
-  expires_at: '2026-07-30T00:56:16Z'
-checkpoint_sequence: 17
-latest_checkpoint: .continuity/checkpoints/SES-20260729T161557Z-6FCE6ACA/0017.yaml
+  renewed_at: '2026-07-29T21:52:02Z'
+  expires_at: '2026-07-30T01:52:02Z'
+checkpoint_sequence: 18
+latest_checkpoint: .continuity/checkpoints/SES-20260729T161557Z-6FCE6ACA/0018.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260729T161557Z-6FCE6ACA.md
-next_step: 提交CR状态，重建最终HEAD候选后端、受控切流并单次推送。
+next_step: 提交CR-0491实现；随后按新修复Commit创建独立候选授权，不得无变化重跑Attempt11。
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: 9e377c54eba92c4bb7b15d5b20c7ad9128b3d3fe18f7d9adc23a36f04a03494f
-  generated_at: '2026-07-29T20:56:20Z'
+  context_hash: 879cd523327cfdec22787eb7f43d5c98ca5bc319cf769566682335e40718ffd7
+  generated_at: '2026-07-29T21:52:07Z'
 handoff_bundle: null
 closure: null
 parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 最终HEAD、候选容器、切流和推送必须串行保持同一Commit身份。
+  reason: 候选失败指纹、修复Commit、候选授权和后端切流必须串行绑定同一身份。
