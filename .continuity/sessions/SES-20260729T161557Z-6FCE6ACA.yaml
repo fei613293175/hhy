@@ -11,7 +11,7 @@ task_id: TASK-R14-008
 story_id: STORY-R14-004
 goal: 异常恢复 SES-20260728T220632Z-FE7D82FD：一对一聊天核心版本关闭与无状态交接
 started_at: '2026-07-29T16:15:57Z'
-updated_at: '2026-07-29T23:09:39Z'
+updated_at: '2026-07-29T23:10:24Z'
 takeover_of: SES-20260728T220632Z-FE7D82FD
 change_requests:
 - CR-0475
@@ -94,22 +94,22 @@ git:
   initial_worktree_state: DIRTY_TAKEOVER
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-29T23:09:31Z'
-  expires_at: '2026-07-30T03:09:31Z'
-checkpoint_sequence: 27
-latest_checkpoint: .continuity/checkpoints/SES-20260729T161557Z-6FCE6ACA/0027.yaml
+  renewed_at: '2026-07-29T23:10:15Z'
+  expires_at: '2026-07-30T03:10:15Z'
+checkpoint_sequence: 28
+latest_checkpoint: .continuity/checkpoints/SES-20260729T161557Z-6FCE6ACA/0028.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260729T161557Z-6FCE6ACA.md
-next_step: 提交CR-0495实现，登记实现Commit后创建同错误指纹第三且最终候选授权。
+next_step: 创建并审批同指纹第三且最终Attempt14授权，绑定7eeb1051并保持单次运行。
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: 70c81578881e1304d3639ff48f7471771f0ad3cafe10d49cd3d2d86df7477dfc
-  generated_at: '2026-07-29T23:09:36Z'
+  context_hash: 85259ad25341a8e1c643433ec58c1f22575a05a1ee1cf054a222e00428c1a341
+  generated_at: '2026-07-29T23:10:20Z'
 handoff_bundle: null
 closure: null
 parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 同一错误指纹的修复、证据和轮次计数必须保持单一原子事实链。
+  reason: 最终轮授权必须等实现Commit冻结，避免修复证据与候选身份错位。
