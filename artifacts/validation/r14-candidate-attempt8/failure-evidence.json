@@ -1,0 +1,125 @@
+{
+  "schema": "hhy.android-candidate-failure-evidence/v1",
+  "release": "R14",
+  "attempt": 8,
+  "request_id": "R14-CANDIDATE-20260730-008",
+  "github_run_id": "30482608311",
+  "github_run_url": "https://github.com/fei613293175/hhy/actions/runs/30482608311",
+  "emulator_job_id": "90682261733",
+  "eligibility_job_id": "90683648605",
+  "source_commit": "7e355490f03c5b52f14c1980bcfd88157a753d55",
+  "status": "FAIL",
+  "duration_seconds": 850,
+  "emulator_duration_seconds": 335,
+  "failed_stage": "R14_BLOCKED_BAR_IME_VISIBILITY",
+  "failure": {
+    "instrumentation_exit_code": 1,
+    "assertion": "R14 block did not expose the stable blocked state",
+    "source": "ReleaseCandidateSmokeTest.kt:211",
+    "selector": "Until.hasObject(By.res(\"r14.chat.blocked\"))",
+    "test_method": "authenticatedR14ChatJourney",
+    "same_fingerprint_round": 2
+  },
+  "successful_before_failure": [
+    "durable candidate request validation",
+    "continuity gate",
+    "Android compile",
+    "Android unit tests",
+    "Android Lint",
+    "Android application and instrumentation packaging",
+    "one-time Staging CI bootstrap",
+    "candidate backend exact-source route",
+    "conversation peer and preview stable resources with exact text",
+    "keyword search without error",
+    "chat detail entry",
+    "message send with SENT rather than false READ state",
+    "block confirmation click and server request"
+  ],
+  "server_evidence": {
+    "candidate_container": "hhy-r14-ci-candidate-7e355490",
+    "candidate_port": 28122,
+    "block_request": {
+      "operation": "POST /api/v1/users/{id}/block",
+      "request_id": "dddd67e2-cd9a-46fb-91cc-d862021b8573",
+      "http_status": 200,
+      "latency_ms": 76,
+      "completed_at": "2026-07-29T19:15:13.466176655Z"
+    },
+    "database": {
+      "container": "hhy-r14-staging-postgres-1",
+      "database": "hhy_r14_smoke",
+      "user_block": {
+        "user_id": 1,
+        "blocked_user_id": 6,
+        "created_at": "2026-07-29T19:15:13.447273Z"
+      },
+      "idempotency": {
+        "scope": "r14.user-block:1:6",
+        "response_type": "r14.chat-command.v1",
+        "response_ref": "r14.chat-command.v1:ok",
+        "created_at": "2026-07-29T19:15:13.438178Z"
+      }
+    },
+    "production_data_touched": false,
+    "secrets_recorded": false
+  },
+  "corrected_root_cause": {
+    "classification": "BLOCKED_BAR_IME_INSET_ASYMMETRY",
+    "detail": "Attempt8 retained SharedPreferences.apply yet reproduced the exact Attempt7 assertion after the server completed in 76 ms and persisted both the block and idempotency result, disproving synchronous commit as the sufficient cause. The candidate enters text immediately before blocking and never explicitly releases composer focus. R14ChatDetailScreen applied imePadding only to the editable composer branch; the replacement blocked row had navigationBarsPadding but no IME inset and the success path did not clear focus or request keyboard dismissal. During keyboard transition the business state can be true while the blocked resource remains outside the visible UiAutomator surface.",
+    "attempt7_commit_hypothesis_sufficient": false,
+    "backend_business_failed": false,
+    "database_write_failed": false,
+    "http_contract_failed": false,
+    "automatic_login_failed": false,
+    "network_unreachable": false,
+    "crash_or_anr_observed": false,
+    "business_assertions_weakened": false
+  },
+  "artifacts": {
+    "count": 3,
+    "runtime": {
+      "artifact_id": 8736679281,
+      "name": "android-runtime-30482608311",
+      "size_bytes": 165995,
+      "sha256": "53f2bff5b20e94f9986eccb29da3400b0afe0a08fb63eaa1d78e8773556a0c3c"
+    },
+    "build": {
+      "artifact_id": 8736506448,
+      "name": "android-build-30482608311",
+      "size_bytes": 23282042,
+      "sha256": "53bcb7addf1602752a397311ba17cd8417b2fb63845ecb86ae67950e3f2088da"
+    },
+    "request": {
+      "artifact_id": 8736276738,
+      "name": "android-candidate-request-30482608311",
+      "size_bytes": 1063,
+      "sha256": "d2a879d698c59ba302eac00808b7f6882b2cdaa3998f5502e07117865e904d7a"
+    },
+    "screenshots_reached": [
+      "01-r14-conversations.png",
+      "02-r14-sent.png"
+    ],
+    "screenshots_not_reached": [
+      "03-r14-blocked-reentry.png",
+      "04-r14-long-press-menu.png"
+    ]
+  },
+  "remediation": {
+    "change_requests": [
+      "CR-0486"
+    ],
+    "problem": "PROB-0152",
+    "next_request_id": "R14-CANDIDATE-20260730-009",
+    "required_before_next_request": [
+      "clear composer focus and request keyboard dismissal after a successful block",
+      "apply IME padding to the blocked row as well as the editable composer",
+      "exercise block after focused text input and require the blocked resource to be displayed",
+      "retain composer absence, reentry, unblock, long-press delete and four screenshot assertions",
+      "bind a new frozen fix commit and exact Attempt9 request"
+    ],
+    "same_fingerprint_final_round": 3,
+    "attempt10_same_path_allowed": false,
+    "blind_rerun_allowed": false
+  },
+  "secrets_recorded": false
+}

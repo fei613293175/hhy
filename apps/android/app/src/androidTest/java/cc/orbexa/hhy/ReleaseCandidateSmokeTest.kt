@@ -6,6 +6,7 @@ import android.content.Intent
 import android.os.Build
 import android.os.SystemClock
 import android.provider.MediaStore
+import androidx.compose.ui.test.hasTestTag
 import androidx.compose.ui.test.junit4.createEmptyComposeRule
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performScrollTo
@@ -208,9 +209,16 @@ class ReleaseCandidateSmokeTest {
         clickDescription("会话操作")
         clickExactText("拉黑该用户")
         clickLastExactText("确认拉黑")
+        val blockedResourceVisible = device.wait(Until.hasObject(By.res("r14.chat.blocked")), 10_000)
+        val blockedComposeNodes = composeRule.onAllNodes(
+            hasTestTag("r14.chat.blocked"),
+            useUnmergedTree = true,
+        ).fetchSemanticsNodes().size
         assertTrue(
-            "R14 block did not expose the stable blocked state",
-            device.wait(Until.hasObject(By.res("r14.chat.blocked")), 10_000),
+            "R14 block did not expose the stable blocked state: " +
+                "composeNodes=$blockedComposeNodes " +
+                "composerResourceVisible=${device.hasObject(By.res("r14.chat.composer"))}",
+            blockedResourceVisible,
         )
         assertFalse("R14 blocked detail still exposed the composer", device.hasObject(By.res("r14.chat.composer")))
 

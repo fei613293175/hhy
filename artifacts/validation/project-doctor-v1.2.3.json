@@ -2,13 +2,13 @@
   "version": "1.2.3",
   "product_spec_baseline": "V1.2.2",
   "continuity_protocol_version": "1.0",
-  "status": "FAIL",
+  "status": "PASS",
   "strict": true,
-  "release_filter": null,
+  "release_filter": "R14",
   "metrics": {
     "canonical_policy_sha256": "38e04ed812c8df0d353c2b91993d31e53b471e9c457f06b426bd2260c470aa92",
     "governance_knowledge": {
-      "problem_records": 144,
+      "problem_records": 152,
       "reusable_patterns": 12,
       "pitfalls": 34
     },
@@ -35,8 +35,8 @@
       "open_document_gaps": 0
     },
     "continuity": {
-      "event_count": 4468,
-      "event_head_hash": "6bc2d5b695c586b553d0282399f63caa921fead4a5236b2fb8142684b1d4fa72",
+      "event_count": 4576,
+      "event_head_hash": "063a0c74399c39a0bd865ccecefa4ddd79552bd63db4ae710efed2a6827e7e20",
       "rule_readiness": "PASS",
       "required_rule_sources": 11,
       "document_gate": {
@@ -48,22 +48,13 @@
     "continuity_gate_rules": 42,
     "continuity_event_types": 17,
     "continuity_required_records": 20,
-    "baseline_sessions": 129,
+    "baseline_sessions": 131,
     "baseline_handoffs": 3,
-    "change_requests": 470,
-    "task_transitions": 136,
+    "change_requests": 484,
+    "task_transitions": 138,
     "continuity_integration_checks": 12,
     "continuity_lifecycle_checks": 15
   },
-  "errors": [
-    {
-      "code": "CONTINUITY_GATE",
-      "message": "{\n  \"version\": \"1.2.3\",\n  \"protocol_version\": \"1.0\",\n  \"mode\": \"doctor\",\n  \"strict\": true,\n  \"status\": \"FAIL\",\n  \"metrics\": {\n    \"event_count\": 4468,\n    \"event_head_hash\": \"6bc2d5b695c586b553d0282399f63caa921fead4a5236b2fb8142684b1d4fa72\",\n    \"rule_readiness\": \"PASS\",\n    \"required_rule_sources\": 11,\n    \"document_gate\": {\n      \"status\": \"EXECUTED\",\n      \"forced\": true,\n      \"affected_inputs\": []\n    }\n  },\n  \"errors\": [\n    {\n      \"code\": \"CONTEXT_STALE\",\n      \"message\": \"Context Pack已过期：docs/03-continuity/PROBLEM_REGISTRY.yaml发生变化\"\n    },\n    {\n      \"code\": \"CHECKPOINT_STALE\",\n      \"message\": \"最新检查点与工作区不一致\"\n    }\n  ],\n  \"warnings\": []\n}"
-    },
-    {
-      "code": "CONTEXT_SOURCE_STALE",
-      "message": "docs/03-continuity/PROBLEM_REGISTRY.yaml"
-    }
-  ],
+  "errors": [],
   "warnings": []
 }

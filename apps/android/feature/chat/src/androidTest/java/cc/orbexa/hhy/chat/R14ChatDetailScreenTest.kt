@@ -4,8 +4,10 @@ import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
+import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.performTextInput
 import cc.orbexa.hhy.designsystem.HhyTheme
 import cc.orbexa.hhy.network.ChatMessagePageResource
 import cc.orbexa.hhy.network.ChatMessageResource
@@ -119,13 +121,18 @@ class R14ChatDetailScreenTest {
             }
         }
 
+        composeRule.waitUntil(5_000) {
+            composeRule.onAllNodes(hasText("暂无消息")).fetchSemanticsNodes().isNotEmpty()
+        }
+        composeRule.onNodeWithTag("r14.chat.composer").performClick().performTextInput("保留输入法焦点")
         composeRule.onNodeWithContentDescription("会话操作").performClick()
         composeRule.onNodeWithText("拉黑该用户").performClick()
         composeRule.onNodeWithText("确认拉黑").performClick()
         composeRule.waitUntil(5_000) {
             composeRule.onAllNodes(hasText("当前无法发送消息")).fetchSemanticsNodes().isNotEmpty()
         }
-        assertEquals(0, composeRule.onAllNodes(hasText("输入消息")).fetchSemanticsNodes().size)
+        composeRule.onNodeWithTag("r14.chat.blocked").assertIsDisplayed()
+        composeRule.onNodeWithTag("r14.chat.composer").assertDoesNotExist()
         assertTrue(persisted.get())
     }
 

@@ -2162,17 +2162,19 @@ problems:
   - 不得只判断资源存在而放弃核对联系人和预览业务值，也不得用延长By.text等待掩盖稳定身份缺口
   - 不得无代码变化重跑Attempt6或复用已消费的CR-0482候选授权
 - id: PROB-0152
-  title: R14拉黑成功后同步SharedPreferences写盘阻塞稳定状态发布
-  status: SOLVED
-  root_cause: R14 Attempt7已经通过联系人与预览稳定资源、搜索、详情进入、消息发送和未误标已读；确认拉黑后POST /api/v1/users/5/block返回200，user_blocks和幂等快照真实落库，解密快照为BLOCKED，使用原幂等键的真实HTTP重放也返回可被Android严格解码的ISO时间响应。剩余成功回调在Compose主线程先写actionState，随后调用SharedPreferences.Editor.commit同步等待磁盘，重组只能在回调返回后发布；GitHub慢速模拟器因此在十秒内看不到r14.chat.blocked。
-  resolution: CR-0484保持原SharedPreferences文件名、复合键、业务状态与候选断言不变，只把同步commit改为apply；apply在返回前更新进程内快照并异步落盘，使成功回调立即结束并允许Compose发布禁发状态，同时返回列表后重进仍读取同一内存状态。Attempt7的GitHub元数据、三项Artifact身份、服务端请求、数据库、解密快照和无副作用幂等HTTP重放已入库。
+  title: R14拉黑业务成功但禁发底栏在输入法过渡期间不可见
+  status: IN_PROGRESS
+  root_cause: R14 Attempt7已经证明服务端HTTP、数据库、幂等快照和真实HTTP合同成功，但当时把十秒内看不到r14.chat.blocked充分归因于主线程SharedPreferences.commit。CR-0484改为apply后，Attempt8仍在相同断言失败；本轮POST /api/v1/users/6/block仅76毫秒即返回200，user_blocks与幂等记录再次成功，反证commit并非充分根因。候选在拉黑前刚向r14.chat.composer输入并发送文本，随后没有释放输入焦点；正常composer分支使用imePadding，替换它的blocked分支却只有navigationBarsPadding，成功回调也没有清焦点或请求隐藏软键盘，因此业务状态虽已成功切换，禁发栏仍可能在IME过渡期间被覆盖并从UiAutomator可见面消失。
+  resolution: CR-0484的apply与复合键回归继续保留；CR-0486在同一问题记录中更正根因，不新建并列硬规则。拉黑成功时清除composer焦点并请求关闭软键盘，blocked分支补上与composer一致的imePadding，即使IME关闭延迟也必须显示r14.chat.blocked；Compose回归先让composer获得焦点并输入，再真实拉黑并要求blocked资源assertIsDisplayed且composer不存在。Attempt8的GitHub元数据、三项Artifact身份、服务端请求和数据库事实已无秘密入库；Attempt9是同指纹第三且最终诊断轮。
   regression_checks:
   - R14BlockStateStore必须使用SharedPreferences.Editor.apply并禁止commit，键格式不得改变
   - R14BlockStateStoreInstrumentedTest必须证明apply返回后新Store实例立即读取到拉黑，解除后立即读取不到，且账号与对端隔离
-  - R14ChatDetailScreenTest必须继续真实点击拉黑并证明composer消失和状态持久化
-  - ReleaseCandidateSmokeTest必须继续在首次拉黑与返回重进两处等待r14.chat.blocked并断言composer不存在
-  - Attempt7不得重跑；Attempt8必须绑定CR-0484和新的修复Commit，继续完整执行解除拉黑、长按删除、四张截图、JUnit和日志审核
+  - R14ChatDetailScreen拉黑成功必须clearFocus并请求hide软键盘，blocked分支必须具有imePadding，不得依赖IME按时自动关闭
+  - R14ChatDetailScreenTest必须让composer获得焦点并输入后真实拉黑，证明r14.chat.blocked可显示、composer消失且状态持久化
+  - ReleaseCandidateSmokeTest必须继续在首次拉黑与返回重进两处等待r14.chat.blocked并断言composer不存在；失败诊断必须记录Compose节点数和composer资源可见性
+  - Attempt7与Attempt8均不得重跑；Attempt9必须绑定CR-0486和新修复Commit并完整执行解除拉黑、长按删除、四张截图、JUnit和日志审核
   do_not_repeat:
   - Compose成功回调不得在状态更新后执行SharedPreferences.commit或其他主线程同步磁盘写入
   - 后端200、数据库落库和真实HTTP合同均通过后不得继续修改后端或放宽客户端禁发断言
-  - 不得用延长UiAutomator等待时间掩盖主线程阻塞，也不得无新Commit重跑Attempt7
+  - 不得让被拉黑后替换composer的底栏丢失IME避让，也不得只延长UiAutomator等待时间掩盖可见区域错误
+  - Attempt9若仍为相同指纹，必须登记三轮上限并切换测试或布局方案；禁止以Attempt10继续同一路径

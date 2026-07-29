@@ -1,19 +1,19 @@
 {
   "version": "1.0",
-  "generated_at": "2026-07-29T18:51:56Z",
-  "context_hash": "0a09a53ed21e1a9a318b24a793287ce604898b3a8a14ad61a18fcaf86c927b77",
+  "generated_at": "2026-07-29T19:43:35Z",
+  "context_hash": "44130203536b87f369b980916c9e62eaa42f6833549fac460430dd364dda31b2",
   "fingerprint_mode": "SESSION_DELTA",
   "project_fingerprint": {
-    "sha256": "d54de8825af26d41d09489d67f5d021ede68b971b4dc1f1c9b486c7a2aebb034",
-    "file_count": 34
+    "sha256": "82e3f5e0972543fd5ab2f944ddbb999812fb0f7fb62cdc51391b01f721097128",
+    "file_count": 35
   },
   "yaml": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.yaml",
-    "sha256": "d9b2c9fddb6a68d15898a5d89223785f7375a447c41677b54f891274424cf8ed"
+    "sha256": "b1a87ffb8090648fda1cc41729b8ea91437c623ad0c83b0b234c9c61d3ab15ac"
   },
   "markdown": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.md",
-    "sha256": "e520ae99dde6494aaf5da604a45c78ff6ad92df96827615aeec62b3649ffaba8"
+    "sha256": "8b7d3149cb469e753e69fc01fcc310a428268e5396634ec7e786aab7dc1815b0"
   },
   "sources": [
     {
@@ -28,7 +28,7 @@
     },
     {
       "path": "CURRENT_STATUS.yaml",
-      "sha256": "2455a3c030ee69d7ffb2703241748141f0fc866ab281d5d86bceedef96fe5ae3",
+      "sha256": "27b631e07fa5f28484f0cf615a5b5057ef78b06c489b7914b59aa3148618450d",
       "bytes": 4817
     },
     {
@@ -48,8 +48,8 @@
     },
     {
       "path": "docs/03-continuity/PROBLEM_REGISTRY.yaml",
-      "sha256": "47ff71c055607792d17f7be408c1671c11e4e98033b3518c8468be0e3e6293f1",
-      "bytes": 262785
+      "sha256": "5e794f397da86b8324e55dbbffa2a6ae65c6afa9ffa44352893ae32b0647d13d",
+      "bytes": 263552
     },
     {
       "path": "docs/03-continuity/REUSABLE_PATTERNS.md",
@@ -83,12 +83,12 @@
     },
     {
       "path": ".continuity/EVENT_LOG.jsonl",
-      "sha256": "a9598900e7aabca2647845d6624289d29004dad6029300ea4e0f6b82ded53ca4",
-      "bytes": 2617289
+      "sha256": "56bde59204353d010566ee66dda1c75814435dea8b5f413daa4c1db280235d8d",
+      "bytes": 2621039
     },
     {
       "path": ".continuity/SESSION_INDEX.yaml",
-      "sha256": "2a92fa8e15a916ad63a701de469fa3eb36474d740ca3ca86138d99b8aac9b7a6",
+      "sha256": "a585620d82a67ef50deee0b998705df6c836da83199e69868f33a897a5932588",
       "bytes": 66849
     },
     {
@@ -103,12 +103,12 @@
     },
     {
       "path": ".continuity/CHANGE_REQUEST_INDEX.yaml",
-      "sha256": "674c17bb96fb22478746e05a9fb1009e4741337bd7eaaaaabb9fa0d8d6100acb",
-      "bytes": 1809517
+      "sha256": "834b7e17d115af9a786d8a698d2866048993b2a221b0447a4b4b5374abce9e8b",
+      "bytes": 1813974
     },
     {
       "path": ".continuity/ACTIVE_SESSION.yaml",
-      "sha256": "d265c224d4b2d8db875d3dca4ac975f487996cee92e37ae6a608b3f1518da44b",
+      "sha256": "842785ea3e6667b70d432c169dcb059224fba7f800672603d71e9b9ebb228ce3",
       "bytes": 540
     },
     {
@@ -163,13 +163,13 @@
     },
     {
       "path": "docs/03-continuity/sessions/2026-07/SES-20260729T161557Z-6FCE6ACA.md",
-      "sha256": "8cfc4ea32a1571fc32df90c0fc2d1cca9d808f3db75167353c081820c93012eb",
-      "bytes": 28598
+      "sha256": "a30ac349c5d59d8309948c41fb8db367ace3b4c3ed4acc8179703972c959f45a",
+      "bytes": 32538
     },
     {
-      "path": ".continuity/checkpoints/SES-20260729T161557Z-6FCE6ACA/0008.yaml",
-      "sha256": "a53b5373163b474e45fe6b2352bae168d503bf5d0b1c05cdcd7c1526b86b3211",
-      "bytes": 18486
+      "path": ".continuity/checkpoints/SES-20260729T161557Z-6FCE6ACA/0009.yaml",
+      "sha256": "2f19e1724349ba80d525efabf9870a466e7eded81b253976391be42d55456b7f",
+      "bytes": 19853
     },
     {
       "path": "docs/03-continuity/change-requests/CR-0475-绑定R14最终交互候选与稳定TEST_APK同一提交.md",
@@ -225,6 +225,11 @@
       "path": "docs/03-continuity/change-requests/CR-0485-更正CR-0484真实Changelog投影路径.md",
       "sha256": "a5bc83d382bc4a170d14a5f5ec219f020a7a9352f81c8fcc648393295797a6b4",
       "bytes": 2702
+    },
+    {
+      "path": "docs/03-continuity/change-requests/CR-0486-更正R14拉黑禁发栏被输入法遮挡并登记Attempt9最终诊断轮.md",
+      "sha256": "ef196daa35a2cee3c29357743ac8aef2e1c4980e5af3d68482d4df9c03e4a329",
+      "bytes": 4308
     }
   ]
 }

@@ -1373,6 +1373,17 @@ class AndroidCiGateTest(unittest.TestCase):
         self.assertIn('.testTag("r14.conversation.preview")', conversation_list)
         self.assertIn('.testTag("r14.chat.blocked")', chat_detail)
         self.assertIn('stateDescription = "已拉黑，当前无法发送消息"', chat_detail)
+        self.assertIn("val focusManager = LocalFocusManager.current", chat_detail)
+        self.assertIn("val keyboardController = LocalSoftwareKeyboardController.current", chat_detail)
+        self.assertIn("focusManager.clearFocus(force = true)", chat_detail)
+        self.assertIn("keyboardController?.hide()", chat_detail)
+        chat_composer = chat_detail[chat_detail.index("private fun ChatComposer"):]
+        blocked_branch = chat_composer[
+            chat_composer.index("if (blocked) {"):chat_composer.index("} else {")
+        ]
+        self.assertIn(".imePadding()", blocked_branch)
+        self.assertIn('hasTestTag("r14.chat.blocked")', smoke_test)
+        self.assertIn("composeNodes=$blockedComposeNodes", smoke_test)
         self.assertIn("editor.apply()", block_state_store)
         self.assertNotIn("editor.commit()", block_state_store)
         self.assertNotIn('captureStable("26-r06-home.png")', smoke_test)

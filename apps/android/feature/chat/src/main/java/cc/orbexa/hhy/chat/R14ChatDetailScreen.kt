@@ -57,6 +57,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
@@ -127,6 +129,8 @@ fun R14ChatDetailScreen(
 ) {
     val scope = rememberCoroutineScope()
     val context = LocalContext.current
+    val focusManager = LocalFocusManager.current
+    val keyboardController = LocalSoftwareKeyboardController.current
     val defaultBlockStateStore = remember(context) { SharedPreferencesR14BlockStateStore(context) }
     val resolvedBlockStateStore = blockStateStore ?: defaultBlockStateStore
     val listState = rememberLazyListState()
@@ -290,6 +294,10 @@ fun R14ChatDetailScreen(
                 else api.block(accessToken, target.userId, key, ChatBlockRequest(reason))
             },
             onSuccess = {
+                if (action == R14ChatAction.BLOCK) {
+                    focusManager.clearFocus(force = true)
+                    keyboardController?.hide()
+                }
                 keys.complete(operation, fingerprint)
                 resolvedBlockStateStore.setBlockedByMe(
                     currentUserId = currentUserId,
@@ -658,6 +666,7 @@ private fun ChatComposer(
                     .testTag("r14.chat.blocked")
                     .semantics { stateDescription = "已拉黑，当前无法发送消息" }
                     .navigationBarsPadding()
+                    .imePadding()
                     .padding(HhySpacing.Lg),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(HhySpacing.Md),
