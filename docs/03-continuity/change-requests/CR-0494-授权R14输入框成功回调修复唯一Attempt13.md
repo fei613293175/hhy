@@ -87,3 +87,10 @@ Attempt12和CR-0492保持已消费历史；Attempt13必须绑定c5695b92且只�
 - Status：`IMPLEMENTING`
 - Session：`SES-20260729T161557Z-6FCE6ACA`
 - Note：开始写入Attempt13精确请求、例外白名单和负向治理回归。
+
+## 状态记录 · 2026-07-29T22:43:23Z
+
+- Actor：`codex-implementation`
+- Status：`IMPLEMENTED`
+- Session：`SES-20260729T161557Z-6FCE6ACA`
+- Note：Attempt13精确候选请求、例外白名单及正负向治理回归均已实现并通过；授权提交fdcea6c2。

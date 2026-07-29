@@ -11,7 +11,7 @@ task_id: TASK-R14-008
 story_id: STORY-R14-004
 goal: 异常恢复 SES-20260728T220632Z-FE7D82FD：一对一聊天核心版本关闭与无状态交接
 started_at: '2026-07-29T16:15:57Z'
-updated_at: '2026-07-29T22:42:45Z'
+updated_at: '2026-07-29T22:43:35Z'
 takeover_of: SES-20260728T220632Z-FE7D82FD
 change_requests:
 - CR-0475
@@ -93,22 +93,22 @@ git:
   initial_worktree_state: DIRTY_TAKEOVER
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-29T22:42:37Z'
-  expires_at: '2026-07-30T02:42:37Z'
-checkpoint_sequence: 25
-latest_checkpoint: .continuity/checkpoints/SES-20260729T161557Z-6FCE6ACA/0025.yaml
+  renewed_at: '2026-07-29T22:43:28Z'
+  expires_at: '2026-07-30T02:43:28Z'
+checkpoint_sequence: 26
+latest_checkpoint: .continuity/checkpoints/SES-20260729T161557Z-6FCE6ACA/0026.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260729T161557Z-6FCE6ACA.md
-next_step: 提交候选授权，登记CR-0494实现，然后以最终HEAD构建候选后端并受控切流后单次推送。
+next_step: 提交CR实现记录；构建最终HEAD候选后端，验证本机与公网同Commit后单次推送触发Attempt13。
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: 21f270e78bd3529fcc97f9a3bd3a70259b5463284cf0f17aa19b733e4c537e33
-  generated_at: '2026-07-29T22:42:41Z'
+  context_hash: 33f031af7e05dfce88edf44906fd0240ee41bec3e6e36203a8a84d5caf4d0c4b
+  generated_at: '2026-07-29T22:43:32Z'
 handoff_bundle: null
 closure: null
 parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 候选授权、冻结提交和后端源码身份必须串行形成同一事实链。
+  reason: 切流必须等待最终授权元数据提交，避免后端容器标签与GitHub HEAD不一致。
