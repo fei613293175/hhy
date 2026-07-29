@@ -29969,9 +29969,9 @@ change_requests:
 - protocol_version: '1.0'
   cr_id: CR-0482
   title: 修复R14拉黑成功状态自动化可见性并递增Attempt6
-  status: IMPLEMENTING
+  status: IMPLEMENTED
   created_at: '2026-07-29T16:03:41Z'
-  updated_at: '2026-07-29T16:34:25Z'
+  updated_at: '2026-07-29T16:48:09Z'
   requester_actor_id: codex-r14-close-20260729
   approver_actor_id: project-owner-continuity-directive-20260729
   task_id: TASK-R14-008
@@ -30023,5 +30023,12 @@ change_requests:
     status: IMPLEMENTING
     note: Attempt5 GitHub、服务端HTTP、V044数据库、三项Artifact及无秘密合同重放证据已入库；稳定blocked资源、完整响应壳、真实Compose点击回归与候选资源断言已实现。104项治理测试、Android UI基础门禁及obx-test固定镜像网络单测/聊天与候选instrumentation编译PASS，准备形成首个修复Commit。
     session_id: SES-20260729T161557Z-6FCE6ACA
+  - at: '2026-07-29T16:48:09Z'
+    actor_id: codex-r14-resume-20260730
+    status: IMPLEMENTED
+    note: 首个修复Commit已形成；Attempt6精确例外、request006及绑定漂移回归已实现并通过89项Android治理测试，等待同源候选后端构建、受控切流与单次推送。
+    session_id: SES-20260729T161557Z-6FCE6ACA
   session_ids:
   - SES-20260729T161557Z-6FCE6ACA
+  implementation_commits:
+  - 38453a16b96b26e85690ba0b21facf586a2f2ea9

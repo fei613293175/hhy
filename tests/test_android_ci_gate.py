@@ -348,6 +348,14 @@ class AndroidCiGateTest(unittest.TestCase):
                 "required_fix_commit": "f46ad854398133c935db9d3cd474c534c0d7236f",
                 "max_candidate_runs": 1,
             },
+            {
+                "exception_id": "CR-0482",
+                "release": "R14",
+                "attempt": 6,
+                "request_id": "R14-CANDIDATE-20260730-006",
+                "required_fix_commit": "38453a16b96b26e85690ba0b21facf586a2f2ea9",
+                "max_candidate_runs": 1,
+            },
         ], policy["remediation"]["approved_attempt_exceptions"])
 
     def test_attempt_exception_is_exact_and_never_changes_the_global_limit(self) -> None:

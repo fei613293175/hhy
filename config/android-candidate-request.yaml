@@ -2,8 +2,8 @@ schema_version: 1
 status: REQUESTED
 release: R14
 candidate: true
-remediation_attempt: 5
-request_id: R14-CANDIDATE-20260729-005
-attempt_exception_id: CR-0481
-required_fix_commit: f46ad854398133c935db9d3cd474c534c0d7236f
-reason: R14 Attempt4的编译、单测、Lint、打包、一次性自动会话、平台状态和受鉴权当前用户请求均通过，但隔离V044数据库五张App发布表为空，Android启动版本检查返回HTTP 404，旅程未开始。CR-0481绑定修复Commit f46ad854398133c935db9d3cd474c534c0d7236f，从已交付R14 TEST_APK Manifest幂等建立唯一official/STAGING发布链；obx-test已从同Commit构建候选，连续两次夹具及五表唯一计数通过，本机和公网POST版本检查均为200且受控切流到28118。本例外只允许request005运行一次并完整执行搜索、发送未读、拉黑后重进、解除拉黑、列表长按删除、截图、JUnit和目标进程日志审核。Attempt4不得重跑，owner真机反馈保持异步PENDING。
+remediation_attempt: 6
+request_id: R14-CANDIDATE-20260730-006
+attempt_exception_id: CR-0482
+required_fix_commit: 38453a16b96b26e85690ba0b21facf586a2f2ea9
+reason: R14 Attempt5的编译、单测、Lint和APK打包均通过，候选HTTP、数据库及幂等证据也证明拉黑命令成功，但自动化只等待易受Compose语义合并影响的显示文案，未观察到稳定拉黑身份。CR-0482绑定修复Commit 38453a16b96b26e85690ba0b21facf586a2f2ea9，增加完整候选响应解码、拉黑成功态稳定资源身份、真实点击回归测试及仍然严格保留的composer消失断言。本例外只允许request006运行一次并完整执行搜索、发送未读、拉黑后重进、解除拉黑、列表长按删除、截图、JUnit和目标进程日志审核；不得弱化业务断言，owner真机反馈保持异步PENDING。
