@@ -1,7 +1,7 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-29T03:05:32Z
-- Context Hash：`72a7af70bcf0af53fcf2729db65308544c194858ceebc0c156a8af645ac67e19`
+- 生成时间：2026-07-29T03:15:34Z
+- Context Hash：`85932d9c5bc76a85763b38fdfe1c2a417855a5fdf392e22a5428b11d5c7776b6`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 规则就绪：`PASS`（`HASHED_CONTEXT_MANIFEST`）
@@ -187,7 +187,7 @@ blocked_tasks:
 - TASK-R16-007
 - TASK-R16-008
 next_task: TASK-R14-008
-updated_at: '2026-07-29T03:05:28Z'
+updated_at: '2026-07-29T03:15:30Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -222,15 +222,15 @@ continuity:
   active_session_id: SES-20260728T220632Z-FE7D82FD
   actor_id: codex-r14-close-20260729
   story_id: STORY-R14-004
-  lease_expires_at: '2026-07-29T07:05:28Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260728T220632Z-FE7D82FD/0013.yaml
-  project_fingerprint: 3709748a5b93a2d487e71af26dcbd60a5be8f0eb7d07c60f053c6e82130fe534
+  lease_expires_at: '2026-07-29T07:15:30Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260728T220632Z-FE7D82FD/0014.yaml
+  project_fingerprint: 578292bdb07c1463d0ec9a2833b1ec1858e3da5cd3df2b603c47b3c2ac04ec81
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: 193bb7b902f6b03bc96719953d505187d5b2618b8fd524f890508dddad76fb76
-    generated_at: '2026-07-29T03:03:40Z'
+    context_hash: 72a7af70bcf0af53fcf2729db65308544c194858ceebc0c156a8af645ac67e19
+    generated_at: '2026-07-29T03:05:32Z'
   handoff_bundle: null
 ```
 
@@ -428,7 +428,7 @@ task_id: TASK-R14-008
 story_id: STORY-R14-004
 goal: 一对一聊天核心版本关闭与无状态交接
 started_at: '2026-07-28T22:06:32Z'
-updated_at: '2026-07-29T03:05:28Z'
+updated_at: '2026-07-29T03:15:30Z'
 takeover_of: null
 change_requests:
 - CR-0475
@@ -512,12 +512,12 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-29T03:05:28Z'
-  expires_at: '2026-07-29T07:05:28Z'
-checkpoint_sequence: 13
-latest_checkpoint: .continuity/checkpoints/SES-20260728T220632Z-FE7D82FD/0013.yaml
+  renewed_at: '2026-07-29T03:15:30Z'
+  expires_at: '2026-07-29T07:15:30Z'
+checkpoint_sequence: 14
+latest_checkpoint: .continuity/checkpoints/SES-20260728T220632Z-FE7D82FD/0014.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260728T220632Z-FE7D82FD.md
-next_step: 修订未推送修复Commit后从新Commit重建28118候选；完成夹具双跑、本机与公网版本检查200及受控切流，再登记唯一Attempt5
+next_step: 提交但不推送Attempt5请求Commit；从该请求Commit重建同Commit候选后端并再次受控切流，确认公网版本检查200后执行push-preflight并仅推送一次触发Attempt5
 context_pack: THIS_CONTEXT_PACK
 handoff_bundle: null
 closure: null
@@ -525,67 +525,60 @@ parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 修复Commit、候选容器源码标签、数据库夹具和公网upstream必须串行绑定；并行会造成Commit或端口身份错配
+  reason: 唯一候选请求、请求Commit、同Commit后端、受控切流与单次推送必须串行绑定；并行会提前消费Attempt5或造成源码身份错配
 ```
 
 ## 最新检查点
 
 ```yaml
 protocol_version: '1.0'
-checkpoint_id: CP-SES-20260728T220632Z-FE7D82FD-0013
+checkpoint_id: CP-SES-20260728T220632Z-FE7D82FD-0014
 session_id: SES-20260728T220632Z-FE7D82FD
 task_id: TASK-R14-008
 story_id: STORY-R14-004
-sequence: 13
-created_at: '2026-07-29T03:05:28Z'
-summary: 完成R14夹具严格输出归一化并把psql空行指纹原位写入PROB-0149；保留唯一结果字符串和五表唯一计数双重证明
-next_step: 修订未推送修复Commit后从新Commit重建28118候选；完成夹具双跑、本机与公网版本检查200及受控切流，再登记唯一Attempt5
+sequence: 14
+created_at: '2026-07-29T03:15:29Z'
+summary: obx-test从f46ad854同Commit候选完成R14启动策略夹具双跑、五表唯一、本机和公网版本检查200及受控切流；登记精确Attempt5例外和request005
+next_step: 提交但不推送Attempt5请求Commit；从该请求Commit重建同Commit候选后端并再次受控切流，确认公网版本检查200后执行push-preflight并仅推送一次触发Attempt5
 blockers: []
 decisions: []
 note: ''
 tests:
-- name: R14 candidate governance unit suite
+- name: R14 Attempt5 candidate policy suite
   result: PASS
-  evidence: python -m unittest tests.test_android_candidate_route tests.test_android_ci_gate tests.test_android_candidate_request
-  note: 85 tests passed
-- name: Candidate fixture Bash syntax
+  evidence: python -m unittest tests.test_android_candidate_request tests.test_android_ci_gate tests.test_android_candidate_route tests.test_continuity_version_sequence
+  note: 97 tests passed
+- name: Attempt5 request normalization
   result: PASS
-  evidence: obx-test bash -n exact local fixture script stream
+  evidence: python scripts/android_candidate_request.py --request config/android-candidate-request.yaml
+  note: R14 attempt5 request005 CR-0481 fix f46ad854 exact
+- name: R14 candidate fixture idempotency
+  result: PASS
+  evidence: obx-test f46ad854 fixture first second and five-table counts
+  note: both exact and counts 1 1 1 1 1
+- name: R14 candidate controlled route activation
+  result: PASS
+  evidence: obx-test switch_android_candidate_route.sh
+  note: local version 200 public version 200 nginx 28118 target log matched
+- name: Git diff whitespace
+  result: PASS
+  evidence: git diff --check
   note: no output
-- name: R14 fixture database idempotency diagnosis
-  result: PASS
-  evidence: obx-test hhy_r14_smoke counts
-  note: profile job artifact channel release each exactly 1
-- name: Public route unchanged on fixture proof rejection
-  result: PASS
-  evidence: api.orbexa.cc nginx upstream
-  note: 127.0.0.1:28117 retained
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: 44d58d3e806e7b285e37f2444fedc817a6a26a67
+  head: f46ad854398133c935db9d3cd474c534c0d7236f
   upstream: origin/task/TASK-R03-001
   ahead: 1
   behind: 0
   dirty: true
   status_porcelain:
-  - M  .continuity/ACTIVE_SESSION.yaml
-  - M  .continuity/EVENT_LOG.jsonl
-  - M  .continuity/SESSION_INDEX.yaml
-  - M  .continuity/STATE.yaml
-  - A  .continuity/checkpoints/SES-20260728T220632Z-FE7D82FD/0012.yaml
-  - M  .continuity/sessions/SES-20260728T220632Z-FE7D82FD.yaml
-  - M  CURRENT_STATUS.yaml
-  - M  artifacts/context/CURRENT_CONTEXT_PACK.md
-  - M  artifacts/context/CURRENT_CONTEXT_PACK.yaml
-  - M  artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  - M  catalogs/session_index.csv
-  - ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
-  - M  docs/03-continuity/sessions/2026-07/SES-20260728T220632Z-FE7D82FD.md
-  - M  scripts/prepare_r14_candidate_fixture.sh
-  - M  tests/test_android_candidate_route.py
+  - ' M config/android-automation.yaml'
+  - ' M config/android-candidate-request.yaml'
+  - ' M tests/test_android_candidate_request.py'
+  - ' M tests/test_android_ci_gate.py'
   recent_commits:
-  - "44d58d3e806e7b285e37f2444fedc817a6a26a67\t2026-07-29T10:50:14+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] fix(ci): seed startup version\
+  - "f46ad854398133c935db9d3cd474c534c0d7236f\t2026-07-29T10:50:14+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] fix(ci): seed startup version\
     \ policy"
   - "61efe679b22465691192bfbcbd0dfe9e9d19a418\t2026-07-29T09:31:38+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] test(android): request R14\
     \ candidate attempt4"
@@ -602,7 +595,7 @@ git:
   - "8d12d3653fb58d1d1c212f7357f77c3ec29b33cd\t2026-07-29T06:10:23+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(continuity): start R14\
     \ machine close"
 project_fingerprint:
-  sha256: 3709748a5b93a2d487e71af26dcbd60a5be8f0eb7d07c60f053c6e82130fe534
+  sha256: 578292bdb07c1463d0ec9a2833b1ec1858e3da5cd3df2b603c47b3c2ac04ec81
   files:
   - CHANGELOG.md
   - apps/android/app/build.gradle.kts
@@ -652,12 +645,12 @@ project_fingerprint:
       sha256: b14161e25216b439dd08c37be88cc6e2d7883ef1a4f8acebc8f2408f1379d028
     - path: config/android-automation.yaml
       state: FILE
-      size: 14125
-      sha256: 813526b8fc4d0182146958e07fdbe1d20b0b9f1495c3cb9c844f2fa4b35ef128
+      size: 14318
+      sha256: 22108492043e3ade0fcf213424e89e49bd5e4fe8cc6b8a9d8408b5e40f3e7abd
     - path: config/android-candidate-request.yaml
       state: FILE
-      size: 899
-      sha256: 769e4660f386f229ea705cf0237509923136bfc9518623320073489e1dfb7e22
+      size: 1003
+      sha256: cdcd987a0d5344bd5b22463e01d79fc629fccaa87420a5cacb7188c844dccb9f
     - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
       state: FILE
       size: 256009
@@ -704,16 +697,16 @@ project_fingerprint:
       sha256: 0948944b10a9c7422930c28f868e3548289fe1d218957ce50f01fd25ca5c4b9f
     - path: tests/test_android_candidate_request.py
       state: FILE
-      size: 44559
-      sha256: 1f11c6624540cb70a538c03b8a3c260579195efe41ea55f845978bb94859a154
+      size: 46407
+      sha256: 72a28c9131088ee30fde0d6d8e3d5aea6544618e4fc5b338f3115fc4e32024d0
     - path: tests/test_android_candidate_route.py
       state: FILE
       size: 9259
       sha256: 5d968c6041ed05de36fa9a5db066767655f11b28b5adba98b6c8049892fc1a32
     - path: tests/test_android_ci_gate.py
       state: FILE
-      size: 74842
-      sha256: c99bbe177da1a1158241431a28906fcf5d054a77deb1edb4e94b9d4bb9475b4a
+      size: 75162
+      sha256: 7d9d39583b5a42f125f91d767b000d330feddc7d1bf78c71c5455710900de9b9
     - path: tests/test_r13_candidate.py
       state: FILE
       size: 21538
@@ -834,8 +827,8 @@ parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 修复Commit、候选容器源码标签、数据库夹具和公网upstream必须串行绑定；并行会造成Commit或端口身份错配
-event_hash: c67ac8631847b558b857e5ab1d81a90180bdd13406dd36392d23a9d9178053c3
+  reason: 唯一候选请求、请求Commit、同Commit后端、受控切流与单次推送必须串行绑定；并行会提前消费Attempt5或造成源码身份错配
+event_hash: 9ab4a62ab1f4a5f6163b053429cd7c2c9665eadedf9e05607401ef6d2846a336
 ```
 
 ## 接续状态与事件头
@@ -847,8 +840,8 @@ active_session_id: SES-20260728T220632Z-FE7D82FD
 last_session_id: SES-20260728T205917Z-52E3B6B1
 last_session_result: COMPLETED
 last_closure_checkpoint_id: CP-SES-20260728T205917Z-52E3B6B1-0008
-event_count: 4537
-event_head_hash: c67ac8631847b558b857e5ab1d81a90180bdd13406dd36392d23a9d9178053c3
+event_count: 4538
+event_head_hash: 9ab4a62ab1f4a5f6163b053429cd7c2c9665eadedf9e05607401ef6d2846a336
 event_chain_valid: true
 ```
 
@@ -971,9 +964,9 @@ recent_sessions: - session_id: SES-20260727T221444Z-FD353AD3
   started_at: '2026-07-28T22:06:32Z'
   record: .continuity/sessions/SES-20260728T220632Z-FE7D82FD.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260728T220632Z-FE7D82FD.md
-  updated_at: '2026-07-29T03:05:28Z'
+  updated_at: '2026-07-29T03:15:30Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260728T220632Z-FE7D82FD/0013.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260728T220632Z-FE7D82FD/0014.yaml
   handoff_bundle: null
 task_claims: - claim_id: CLM-47DFED8C22CB
   session_id: SES-20260726T113800Z-4EDAA918
@@ -1925,30 +1918,27 @@ recent_task_transitions: - transition_id: TRN-13951EE356A9
 ```yaml
 initialized: true
 branch: task/TASK-R03-001
-head: 44d58d3e806e7b285e37f2444fedc817a6a26a67
+head: f46ad854398133c935db9d3cd474c534c0d7236f
 upstream: origin/task/TASK-R03-001
 ahead: 1
 behind: 0
 dirty: true
 status_porcelain:
-- MM .continuity/ACTIVE_SESSION.yaml
-- MM .continuity/EVENT_LOG.jsonl
-- MM .continuity/SESSION_INDEX.yaml
-- MM .continuity/STATE.yaml
-- A  .continuity/checkpoints/SES-20260728T220632Z-FE7D82FD/0012.yaml
-- MM .continuity/sessions/SES-20260728T220632Z-FE7D82FD.yaml
-- MM CURRENT_STATUS.yaml
-- M  artifacts/context/CURRENT_CONTEXT_PACK.md
-- M  artifacts/context/CURRENT_CONTEXT_PACK.yaml
-- M  artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-- MM catalogs/session_index.csv
-- ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
-- MM docs/03-continuity/sessions/2026-07/SES-20260728T220632Z-FE7D82FD.md
-- M  scripts/prepare_r14_candidate_fixture.sh
-- M  tests/test_android_candidate_route.py
-- ?? .continuity/checkpoints/SES-20260728T220632Z-FE7D82FD/0013.yaml
+- ' M .continuity/ACTIVE_SESSION.yaml'
+- ' M .continuity/EVENT_LOG.jsonl'
+- ' M .continuity/SESSION_INDEX.yaml'
+- ' M .continuity/STATE.yaml'
+- ' M .continuity/sessions/SES-20260728T220632Z-FE7D82FD.yaml'
+- ' M CURRENT_STATUS.yaml'
+- ' M catalogs/session_index.csv'
+- ' M config/android-automation.yaml'
+- ' M config/android-candidate-request.yaml'
+- ' M docs/03-continuity/sessions/2026-07/SES-20260728T220632Z-FE7D82FD.md'
+- ' M tests/test_android_candidate_request.py'
+- ' M tests/test_android_ci_gate.py'
+- ?? .continuity/checkpoints/SES-20260728T220632Z-FE7D82FD/0014.yaml
 recent_commits:
-- "44d58d3e806e7b285e37f2444fedc817a6a26a67\t2026-07-29T10:50:14+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] fix(ci): seed startup version\
+- "f46ad854398133c935db9d3cd474c534c0d7236f\t2026-07-29T10:50:14+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] fix(ci): seed startup version\
   \ policy"
 - "61efe679b22465691192bfbcbd0dfe9e9d19a418\t2026-07-29T09:31:38+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] test(android): request R14 candidate\
   \ attempt4"
@@ -1968,7 +1958,7 @@ recent_commits:
 
 ## 会话累计项目变更
 
-- 指纹：`3709748a5b93a2d487e71af26dcbd60a5be8f0eb7d07c60f053c6e82130fe534`
+- 指纹：`578292bdb07c1463d0ec9a2833b1ec1858e3da5cd3df2b603c47b3c2ac04ec81`
 - 文件数：22
 
 - `CHANGELOG.md`
@@ -15581,7 +15571,7 @@ PARALLEL_EXECUTION_PLAN.yaml:
 
 - `AGENTS.md` — `bde93afcdb788b601aeffcf2369a1aeda8eeb391f165429d501d7ba8895ba4a6`
 - `START_HERE.md` — `22de14029ce47beb41ea569e36ce223fbc9d11b86f8676f28d5fbbd83896af5c`
-- `CURRENT_STATUS.yaml` — `af6538de97408f47303ecabfc7ff3cdfe2178ebfa02395c85c2305f4fee93e49`
+- `CURRENT_STATUS.yaml` — `de178379ce939527798b257ef4ed111ab2dc1dbca49e02fcb31189f67445c40c`
 - `NEXT_TASK.yaml` — `e26e5c16bb6b761d538c5e11830ffbfaeacc532c054e569ab784155323b6af5c`
 - `DEVELOPMENT_RISK_REGISTER.md` — `8304c91492e4ee2abea0522a06541c8688d39c7fc532b5d0cde499bf09fffb87`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `5213b166f464a4415abe064e0ebcd99da8f1f8d23569b49ae4e9787007e83314`
@@ -15592,12 +15582,12 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `config/REPOSITORY_TRANSPORT.yaml` — `8c4a21f3e204d46e7ffb467d804a53ed26cda61cd088dadfddb50b69eea657fc`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `38e04ed812c8df0d353c2b91993d31e53b471e9c457f06b426bd2260c470aa92`
-- `.continuity/EVENT_LOG.jsonl` — `72c269101338b918353c83748210ed84399d61fbabcefc299a3b25c41e3e50d6`
-- `.continuity/SESSION_INDEX.yaml` — `02092d7ab245645947f8a9398e6e6d37a7bc6b2e97a608b03b1fa7fd5371a213`
+- `.continuity/EVENT_LOG.jsonl` — `2c84b1da0da622c4475a5bb0f48caec6902b269a15e2da607675decb1ea153a5`
+- `.continuity/SESSION_INDEX.yaml` — `3fb7e88acf03ec72ae3d41d95ca506a40de35b59bbe6e0bd2310231be9541821`
 - `.continuity/TASK_CLAIMS.yaml` — `a3f7e5c0c4ddd53fcb8373145bcfe2bb0604de2f34e5ac26ff1b70c3000c60fa`
 - `.continuity/TASK_TRANSITIONS.yaml` — `589a36f0e70e71e1bf646048f93a0a0ee3632dfaf41bca48d58284df653f12f9`
 - `.continuity/CHANGE_REQUEST_INDEX.yaml` — `ad2a15b4a988637d5a078538d2970cc1af22d3b081bd975b6c87098df756a7f7`
-- `.continuity/ACTIVE_SESSION.yaml` — `92ee6c5a7b0b92637955e7771e47ec811b0475de1c5a5fe4a3ac38398c896fef`
+- `.continuity/ACTIVE_SESSION.yaml` — `bbd19394ac0ecd116afaa0d812b9ecbfdad4ba14f0ed4b3e5e1b2b11c9f6c35b`
 - `docs/00-baseline/正式商业系统全局硬性开发边界.md` — `30c07716c31d6d09621b6f6d119063b1fcb35e78d9b266423ed333d92b8262db`
 - `docs/02-ui/UI参考图使用与开发约束_V1.2.2.md` — `d14367586aa2067b059df58798acd20ab982459cdb35ff27fc7922a3896e4933`
 - `docs/03-continuity/持续开发无状态接续强制门禁_V1.2.3.md` — `d0ed3ed68bdd93b06500eecdfb5baa3245e6ca8b685a486788abb6eee39b3d51`
@@ -15608,8 +15598,8 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `releases/R14/TASKS.yaml` — `c7fc98c89d4e1e02535460d19de43608dcc5178d4fe61bffad94385b76df5e05`
 - `releases/R14/ACCEPTANCE_MATRIX.csv` — `ffc0fd23b945544de8fe2a37774a94675c0d60b73d88517abe69c68d326ad6f4`
 - `releases/R14/PARALLEL_EXECUTION_PLAN.yaml` — `cd1f0c96ffd7562acb214edba80a2bbb12b79f06c19032d1b133936ff6abd74f`
-- `docs/03-continuity/sessions/2026-07/SES-20260728T220632Z-FE7D82FD.md` — `75de0e7c2a90b0469d64038abc7a3fa900c6bac23e7d85b0d950a313835d2a2f`
-- `.continuity/checkpoints/SES-20260728T220632Z-FE7D82FD/0013.yaml` — `fa212bda987bc1ef8374d22912ecf4cf2fb1ea2ab6f58a6a3595bf7906f94d2b`
+- `docs/03-continuity/sessions/2026-07/SES-20260728T220632Z-FE7D82FD.md` — `a907292a59d368b3c6b3168655467cbde03d28337829173fd89bda531c67008d`
+- `.continuity/checkpoints/SES-20260728T220632Z-FE7D82FD/0014.yaml` — `698577765326d59086092ad8d9a0d6b252dfd2348814b55d34ee06d9e06a82f6`
 - `docs/03-continuity/change-requests/CR-0475-绑定R14最终交互候选与稳定TEST_APK同一提交.md` — `4d6c35fd99ef585a4802fb664ac2e2819d4a2fe93fc5d1747ca73496ae69387e`
 - `docs/03-continuity/change-requests/CR-0476-解除R13历史候选测试对当前请求的永久绑定.md` — `098711406c0bc8b2574f2388ab6ed76242e7df1d3fb442a67593a13f76871e11`
 - `docs/03-continuity/change-requests/CR-0477-阻断R14候选旧后端路由与夹具语义漂移.md` — `cbac66f0b6906977cce340a81d30f198e90dcef64ec13ff8c7edd10b2914da61`
