@@ -2174,11 +2174,12 @@ problems:
   title: R14拉黑业务成功但禁发底栏在输入法过渡期间不可见
   status: IN_PROGRESS
   root_cause: R14 Attempt7已经证明服务端HTTP、数据库、幂等快照和真实HTTP合同成功，但当时把十秒内看不到r14.chat.blocked充分归因于主线程SharedPreferences.commit。CR-0484改为apply后，Attempt8仍在相同断言失败；POST /api/v1/users/6/block仅76毫秒即返回200，user_blocks与幂等记录再次成功，反证commit并非充分根因。CR-0486随后在拉黑成功时清焦点、关闭软键盘并为blocked分支补齐imePadding。Run 30488268307的Attempt10通过候选请求、编译、Lint、单测、APK打包、三次受限OIDC引导重试策略和模拟器启动，POST /api/v1/users/{id}/block以65毫秒返回200；失败现场精确为composeNodes=1、composerResourceVisible=false，但UiAutomator By.res(r14.chat.blocked)仍不可见。三轮证据共同证明拉黑、持久化、禁用composer与Compose布局状态已经成功，剩余错误是把Compose testTag导出的resource-id当成跨框架可见性的唯一事实，而既有PROB-0125已经明确该导出并不稳定。
-  resolution: CR-0484的apply、CR-0486的IME避让和焦点释放、Compose页面回归全部继续保留；不修改后端、数据库或拉黑业务。Attempt10登记为旧UiAutomator resource-id路径第三且最终业务轮，禁止原样Attempt11。CR-0489复用既有PROB-0125经验并切换验证路径：首次拉黑与返回重进均先让Compose测试调度器等待唯一r14.chat.blocked节点，再以assertIsDisplayed证明其位于可见根布局，同时由UiAutomator等待用户真正看到的“当前无法发送消息”文本，并继续断言r14.chat.composer不存在。该双证据比单独By.res更接近真实用户结果，且没有删减解除拉黑、长按删除、四张截图、JUnit或日志审核。Attempt11重跑已真实越过首次拉黑的Compose可见、用户文本和composer消失三重断言，随后才在返回列表的会话行UiAutomator定位失败；该新指纹归入PROB-0151与CR-0491，不回退或改写CR-0489。
+  resolution: CR-0484的apply、CR-0486的IME避让和焦点释放、Compose页面回归全部继续保留；不修改后端、数据库或拉黑业务。Attempt10登记为旧UiAutomator resource-id路径第三且最终业务轮，禁止原样Attempt11。CR-0489复用既有PROB-0125经验并切换验证路径：首次拉黑与返回重进均先让Compose测试调度器等待唯一r14.chat.blocked节点，再以assertIsDisplayed证明其位于可见根布局，同时由UiAutomator等待用户真正看到的“当前无法发送消息”文本，并继续断言r14.chat.composer不存在。该双证据比单独By.res更接近真实用户结果，且没有删减解除拉黑、长按删除、四张截图、JUnit或日志审核。Attempt11重跑已真实越过首次拉黑的Compose可见、用户文本和composer消失三重断言，随后才在返回列表的会话行UiAutomator定位失败；该新指纹归入PROB-0151与CR-0491，不回退或改写CR-0489。Attempt14也已越过composer清空并产出发送成功截图，随后拉黑POST以80毫秒返回200，但成功续体在DefaultDispatcher-worker-1调用focusManager.clearFocus并触发CalledFromWrongThreadException；CR-0497不回退旧方案，而是让executeAction请求完成后以Dispatchers.Main.immediate统一收口全部成功/失败UI状态、焦点与IME操作。
   regression_checks:
   - R14BlockStateStore必须使用SharedPreferences.Editor.apply并禁止commit，键格式不得改变
   - R14BlockStateStoreInstrumentedTest必须证明apply返回后新Store实例立即读取到拉黑，解除后立即读取不到，且账号与对端隔离
   - R14ChatDetailScreen拉黑成功必须clearFocus并请求hide软键盘，blocked分支必须具有imePadding，不得依赖IME按时自动关闭
+  - executeAction请求结果的成功与失败UI收口必须位于withContext(Dispatchers.Main.immediate)，后台调度器返回成功的Compose回归必须通过
   - R14ChatDetailScreenTest必须让composer获得焦点并输入后真实拉黑，证明r14.chat.blocked可显示、composer消失且状态持久化
   - ReleaseCandidateSmokeTest必须在首次拉黑与返回重进复用同一严格帮助函数：Compose唯一节点assertIsDisplayed、UiAutomator用户文本可见且composer资源不存在
   - Attempt7、Attempt8与Run 30488268307的Attempt10均不得重跑；Run 30486463619的Attempt9只在OIDC bootstrap预检失败且未消费业务轮。后续候选必须绑定CR-0489的新跨框架验证路径和新Commit，不能伪称旧路径第四轮

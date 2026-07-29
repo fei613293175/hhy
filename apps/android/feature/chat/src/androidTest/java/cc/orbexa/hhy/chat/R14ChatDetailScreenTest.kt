@@ -30,6 +30,8 @@ import cc.orbexa.hhy.network.R07CallResult
 import cc.orbexa.hhy.network.R07PageMeta
 import java.io.InputStream
 import java.util.concurrent.atomic.AtomicBoolean
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Rule
@@ -111,7 +113,7 @@ class R14ChatDetailScreenTest {
         composeRule.setContent {
             HhyTheme {
                 R14ChatDetailScreen(
-                    api = SuccessfulBlockApi,
+                    api = BackgroundReturningSuccessfulBlockApi,
                     mediaApi = UnusedMediaApi,
                     accessToken = "token",
                     conversationId = "42",
@@ -210,16 +212,18 @@ class R14ChatDetailScreenTest {
             R07CallResult.Failure(500)
     }
 
-    private object SuccessfulBlockApi : ContractR14Api by EmptyChatApi {
+    private object BackgroundReturningSuccessfulBlockApi : ContractR14Api by EmptyChatApi {
         override suspend fun block(
             accessToken: String,
             userId: String,
             idempotencyKey: String,
             request: cc.orbexa.hhy.network.ChatBlockRequest,
-        ): R07CallResult<CommandResultResource> = R07CallResult.Success(
-            CommandResultResource(userId, null, "BLOCKED", null, "2026-07-29T04:02:04Z"),
-            "req-block",
-        )
+        ): R07CallResult<CommandResultResource> = withContext(Dispatchers.Default) {
+            R07CallResult.Success(
+                CommandResultResource(userId, null, "BLOCKED", null, "2026-07-29T04:02:04Z"),
+                "req-block",
+            )
+        }
     }
 
     private object SuccessfulSendApi : ContractR14Api by EmptyChatApi {

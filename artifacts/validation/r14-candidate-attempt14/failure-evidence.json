@@ -1,0 +1,62 @@
+{
+  "schema": "hhy.r14-candidate-failure-evidence/v1",
+  "release": "R14",
+  "attempt": 14,
+  "github_run_id": "30499058958",
+  "head_commit": "4c57f5f3ca869d3ce80edd60bf9e67d48a98c1a6",
+  "candidate_request_id": "R14-CANDIDATE-20260730-014",
+  "attempt_exception_id": "CR-0496",
+  "required_fix_commit": "7eeb1051bce7fe0f96bf04e1bfe75d7234a26ac0",
+  "runtime_artifact": {
+    "name": "android-runtime-30499058958",
+    "downloaded_zip_sha256": "6f7f5c51c9abe8a3446ed14e5775ed454ec33a86793eb569cbc80f3dbfa07b4f",
+    "runtime_status": "FAIL",
+    "owner_test_allowed": false
+  },
+  "successful_stages": [
+    "candidate request validation",
+    "Android compile",
+    "Android unit tests",
+    "Android lint",
+    "APK packaging",
+    "candidate backend routing",
+    "automatic login",
+    "conversation load",
+    "conversation search",
+    "message appeared",
+    "sent state appeared",
+    "composer strict empty Compose assertion",
+    "POST block HTTP 200"
+  ],
+  "server_http_evidence": {
+    "operation": "POST /api/v1/users/{id}/block",
+    "status": 200,
+    "latency_ms": 80,
+    "request_id": "b073ebc6-ea84-4489-81aa-02be7f2bc346",
+    "timestamp": "2026-07-29T23:31:15.243414328Z"
+  },
+  "first_business_failure": {
+    "test": "ReleaseCandidateSmokeTest",
+    "source_line": 475,
+    "message": "CalledFromWrongThreadException: Only the original thread that created a view hierarchy can touch its views. Expected: main Calling: DefaultDispatcher-worker-1",
+    "app_frames": [
+      "R14ChatDetailScreen.kt:298 focusManager.clearFocus",
+      "R14ChatDetailScreen.kt:274 executeAction success callback"
+    ],
+    "screenshots_produced": [
+      {
+        "name": "01-r14-conversations.png",
+        "sha256": "8db089a52b9cb8b3122fe2df77494d14fa2856efb5a91f2cedccaf2a68d04277"
+      },
+      {
+        "name": "02-r14-sent.png",
+        "sha256": "a64b3e3d39b745c43aff0d83f472526479f48b62e2f43adf5a7966d69f743a3d"
+      }
+    ]
+  },
+  "diagnosis": "Attempt14 closed the previous composer fingerprint, then exposed a distinct UI-thread defect: executeAction processed a successful block result on DefaultDispatcher-worker-1 and directly touched the Android focus hierarchy.",
+  "required_fix": "Keep request execution asynchronous, but marshal all result-driven Compose state and Android View, focus, and IME work through Dispatchers.Main.immediate before invoking success or failure UI callbacks.",
+  "fingerprint_round": 1,
+  "previous_fingerprint_status": "RESOLVED",
+  "secrets_included": false
+}

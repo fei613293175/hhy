@@ -24,6 +24,34 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 class AndroidCiGateTest(unittest.TestCase):
+    def test_r14_attempt14_closes_composer_fingerprint_and_records_ui_thread_failure(self) -> None:
+        evidence = json.loads(
+            (
+                ROOT
+                / "artifacts/validation/r14-candidate-attempt14/failure-evidence.json"
+            ).read_text(encoding="utf-8")
+        )
+        self.assertEqual("30499058958", evidence["github_run_id"])
+        self.assertIn(
+            "composer strict empty Compose assertion",
+            evidence["successful_stages"],
+        )
+        self.assertEqual(
+            "RESOLVED",
+            evidence["previous_fingerprint_status"],
+        )
+        self.assertIn(
+            "CalledFromWrongThreadException",
+            evidence["first_business_failure"]["message"],
+        )
+        self.assertEqual(
+            ["01-r14-conversations.png", "02-r14-sent.png"],
+            [
+                item["name"]
+                for item in evidence["first_business_failure"]["screenshots_produced"]
+            ],
+        )
+
     def test_policy_enforces_from_r06_and_blocks_early_owner_test(self) -> None:
         policy = load_policy()
         self.assertFalse(is_enforced_release(policy, "R05"))
@@ -1550,6 +1578,7 @@ class AndroidCiGateTest(unittest.TestCase):
         self.assertIn("val keyboardController = LocalSoftwareKeyboardController.current", chat_detail)
         self.assertIn("focusManager.clearFocus(force = true)", chat_detail)
         self.assertIn("keyboardController?.hide()", chat_detail)
+        self.assertIn("withContext(Dispatchers.Main.immediate)", chat_detail)
         self.assertIn('onSuccess = { composer = "" }', chat_detail)
         self.assertNotIn(
             'send(ChatTextMessageRequest(UUID.randomUUID().toString(), payload = ChatTextPayload(text))) {',

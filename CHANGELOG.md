@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## R14拉黑结果主线程收口 · 2026-07-30
+
+- `CR-0497`归档GitHub Run `30499058958`的Attempt14：构建、Lint、单测、APK、自动登录、搜索、发送及composer严格清空均通过并产出前两张截图；拉黑POST在80毫秒返回HTTP 200，随后成功回调从`DefaultDispatcher-worker-1`调用焦点系统触发`CalledFromWrongThreadException`。
+- `executeAction`现允许请求继续在接口内部使用IO调度器，但成功或失败后的Compose状态、弹窗、提示、持久化、焦点和IME操作统一以`Dispatchers.Main.immediate`收口；拉黑禁发、清焦点、隐藏键盘与四图标准均未削弱。
+- Compose回归改用后台调度器返回成功的拉黑Fake，必须证明禁发栏可见、composer消失且状态持久化；Attempt14的旧composer指纹已关闭，本次为独立线程错误首轮。
+
 ## R14 composer实时语义最终候选授权 · 2026-07-30
 
 - `CR-0496`只授权`R14-CANDIDATE-20260730-014`绑定`CR-0495`修复Commit `7eeb1051bce7fe0f96bf04e1bfe75d7234a26ac0`运行一次；Attempt12和13保持已消费历史。

@@ -105,9 +105,11 @@ import java.net.URI
 import java.time.Duration
 import java.time.OffsetDateTime
 import java.util.UUID
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -268,14 +270,17 @@ fun R14ChatDetailScreen(
         if (!actionState.canSubmit()) return
         actionState = actionState.started(action)
         scope.launch {
-            when (val result = request()) {
-                is R07CallResult.Success -> {
-                    actionState = actionState.succeeded(action)
-                    onSuccess()
-                }
-                is R07CallResult.Failure -> {
-                    actionState = actionState.failed(result)
-                    handleFailure(result)
+            val result = request()
+            withContext(Dispatchers.Main.immediate) {
+                when (result) {
+                    is R07CallResult.Success -> {
+                        actionState = actionState.succeeded(action)
+                        onSuccess()
+                    }
+                    is R07CallResult.Failure -> {
+                        actionState = actionState.failed(result)
+                        handleFailure(result)
+                    }
                 }
             }
         }
