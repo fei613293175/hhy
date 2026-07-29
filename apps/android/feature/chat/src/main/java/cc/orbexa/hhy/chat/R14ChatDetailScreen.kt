@@ -526,9 +526,13 @@ fun R14ChatDetailScreen(
                 onSend = {
                     val text = composer.trim()
                     if (text.isNotEmpty()) {
-                        send(ChatTextMessageRequest(UUID.randomUUID().toString(), payload = ChatTextPayload(text))) {
-                            composer = ""
-                        }
+                        send(
+                            request = ChatTextMessageRequest(
+                                UUID.randomUUID().toString(),
+                                payload = ChatTextPayload(text),
+                            ),
+                            onSuccess = { composer = "" },
+                        )
                     }
                 },
             )

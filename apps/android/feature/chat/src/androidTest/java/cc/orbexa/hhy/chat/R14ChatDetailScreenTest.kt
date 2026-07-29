@@ -1,6 +1,7 @@
 package cc.orbexa.hhy.chat
 
 import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.assertTextEquals
 import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
@@ -14,6 +15,8 @@ import cc.orbexa.hhy.network.ChatMessageResource
 import cc.orbexa.hhy.network.ChatConversationPageResource
 import cc.orbexa.hhy.network.ChatPostConversationsByIdReadRequest
 import cc.orbexa.hhy.network.ChatSendMessageRequest
+import cc.orbexa.hhy.network.ChatTextMessageRequest
+import cc.orbexa.hhy.network.ChatTextPayload
 import cc.orbexa.hhy.network.CommandResultResource
 import cc.orbexa.hhy.network.ContractMediaApi
 import cc.orbexa.hhy.network.ContractR14Api
@@ -136,6 +139,63 @@ class R14ChatDetailScreenTest {
         assertTrue(persisted.get())
     }
 
+    @Test
+    fun successfulTextSendClearsComposer() {
+        composeRule.setContent {
+            HhyTheme {
+                R14ChatDetailScreen(
+                    api = SuccessfulSendApi,
+                    mediaApi = UnusedMediaApi,
+                    accessToken = "token",
+                    conversationId = "42",
+                    currentUserId = "11",
+                    initialPeer = PublisherSummaryResource("7", "真实发布者", verified = false),
+                    onBack = {},
+                    onSessionExpired = {},
+                )
+            }
+        }
+
+        composeRule.waitUntil(5_000) {
+            composeRule.onAllNodes(hasText("暂无消息")).fetchSemanticsNodes().isNotEmpty()
+        }
+        composeRule.onNodeWithTag("r14.chat.composer").performTextInput("发送后清空")
+        composeRule.onNodeWithContentDescription("发送").performClick()
+        composeRule.waitUntil(5_000) {
+            runCatching {
+                composeRule.onNodeWithTag("r14.chat.composer").assertTextEquals("")
+            }.isSuccess
+        }
+    }
+
+    @Test
+    fun failedTextSendKeepsComposerDraft() {
+        composeRule.setContent {
+            HhyTheme {
+                R14ChatDetailScreen(
+                    api = EmptyChatApi,
+                    mediaApi = UnusedMediaApi,
+                    accessToken = "token",
+                    conversationId = "42",
+                    currentUserId = "11",
+                    initialPeer = PublisherSummaryResource("7", "真实发布者", verified = false),
+                    onBack = {},
+                    onSessionExpired = {},
+                )
+            }
+        }
+
+        composeRule.waitUntil(5_000) {
+            composeRule.onAllNodes(hasText("暂无消息")).fetchSemanticsNodes().isNotEmpty()
+        }
+        composeRule.onNodeWithTag("r14.chat.composer").performTextInput("失败时保留")
+        composeRule.onNodeWithContentDescription("发送").performClick()
+        composeRule.waitUntil(5_000) {
+            composeRule.onAllNodes(hasText("发送失败")).fetchSemanticsNodes().isNotEmpty()
+        }
+        composeRule.onNodeWithTag("r14.chat.composer").assertTextEquals("失败时保留")
+    }
+
     private object EmptyChatApi : ContractR14Api {
         override suspend fun conversations(accessToken: String, page: Int, pageSize: Int, cursor: String?, status: String?, keyword: String?, sort: String?): R07CallResult<ChatConversationPageResource> =
             R07CallResult.Failure(500)
@@ -160,6 +220,31 @@ class R14ChatDetailScreenTest {
             CommandResultResource(userId, null, "BLOCKED", null, "2026-07-29T04:02:04Z"),
             "req-block",
         )
+    }
+
+    private object SuccessfulSendApi : ContractR14Api by EmptyChatApi {
+        override suspend fun send(
+            accessToken: String,
+            conversationId: String,
+            idempotencyKey: String,
+            request: ChatSendMessageRequest,
+        ): R07CallResult<ChatMessageResource> {
+            require(request is ChatTextMessageRequest)
+            return R07CallResult.Success(
+                ChatMessageResource(
+                    id = "message-1",
+                    conversationId = conversationId,
+                    sender = PublisherSummaryResource("11", "当前用户", verified = false),
+                    clientMessageId = request.clientMessageId,
+                    messageType = request.messageType,
+                    payload = ChatTextPayload("发送后清空"),
+                    status = "SENT",
+                    serverSequence = 1,
+                    createdAt = "2026-07-30T06:30:00Z",
+                ),
+                "req-send",
+            )
+        }
     }
 
     private object UnusedMediaApi : ContractMediaApi {

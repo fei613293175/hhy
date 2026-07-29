@@ -1503,6 +1503,11 @@ class AndroidCiGateTest(unittest.TestCase):
         self.assertIn("val keyboardController = LocalSoftwareKeyboardController.current", chat_detail)
         self.assertIn("focusManager.clearFocus(force = true)", chat_detail)
         self.assertIn("keyboardController?.hide()", chat_detail)
+        self.assertIn('onSuccess = { composer = "" }', chat_detail)
+        self.assertNotIn(
+            'send(ChatTextMessageRequest(UUID.randomUUID().toString(), payload = ChatTextPayload(text))) {',
+            chat_detail,
+        )
         chat_composer = chat_detail[chat_detail.index("private fun ChatComposer"):]
         blocked_branch = chat_composer[
             chat_composer.index("if (blocked) {"):chat_composer.index("} else {")

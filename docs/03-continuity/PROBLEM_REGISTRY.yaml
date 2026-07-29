@@ -2153,19 +2153,21 @@ problems:
 - id: PROB-0151
   title: R14候选会话数据成功但列表业务文字与复进操作缺少稳定跨框架身份
   status: IN_PROGRESS
-  root_cause: R14 Attempt6的候选请求、连续性、编译、单测、Lint、打包、自动会话和候选后端均通过；隔离R14 V044数据库存在唯一当前会话，真实GET /api/v1/conversations返回联系人“R14候选体验用户”和预览“R14候选会话已准备”。ConversationRow仅给整行提供r14.conversation.row，候选却用By.text等待Compose子文字；UiAutomator未发现该文字节点后把稳定语义身份缺口误报为夹具联系人缺失。Attempt11的同Commit唯一失败Job重跑进一步通过会话加载、搜索、发送、首次拉黑禁发断言并在拉黑后GET /api/v1/conversations返回200；数据库会话7仍未隐藏且1到8的拉黑关系真实存在，但返回列表后UiAutomator再次无法找到r14.conversation.row。前两张截图还显示UiAutomator直接设置的发送文本在成功后仍留在composer，说明跨框架资源导出和文本注入都不应作为Compose交互事实。
-  resolution: CR-0483为联系人名称和最后消息预览分别增加唯一r14.conversation.peer-name与r14.conversation.preview资源身份；候选按资源定位后严格比较UiObject2.text与预期业务值，搜索后再次复核联系人值，同时保留整行点击、错误文案和全部后续真实交互断言。Attempt6的GitHub注解、三项Artifact身份、数据库与无秘密HTTP重放证据入库，Attempt6不得重跑。CR-0491继续复用PROB-0125，不新增并列规则：会话行首次点击、拉黑后复进、长按与删除消失全部改用Compose唯一testTag、assertIsDisplayed和原生语义动作；composer输入改用performTextReplacement，发送成功后必须证明输入框为空再截图，其他业务断言不变。
+  root_cause: R14 Attempt6的候选请求、连续性、编译、单测、Lint、打包、自动会话和候选后端均通过；隔离R14 V044数据库存在唯一当前会话，真实GET /api/v1/conversations返回联系人“R14候选体验用户”和预览“R14候选会话已准备”。ConversationRow仅给整行提供r14.conversation.row，候选却用By.text等待Compose子文字；UiAutomator未发现该文字节点后把稳定语义身份缺口误报为夹具联系人缺失。Attempt11的同Commit唯一失败Job重跑进一步通过会话加载、搜索、发送、首次拉黑禁发断言并在拉黑后GET /api/v1/conversations返回200；数据库会话7仍未隐藏且1到8的拉黑关系真实存在，但返回列表后UiAutomator再次无法找到r14.conversation.row。Attempt12 Run 30495148156改用Compose原生输入后，消息POST以HTTP 200成功，但严格断言发现composer仍为R14候选发送文本；源码确认send函数的最后一个参数是onFailure，文本发送使用的尾随lambda因此静默绑定为失败回调，成功分支从未执行composer清空。
+  resolution: CR-0483为联系人名称和最后消息预览分别增加唯一r14.conversation.peer-name与r14.conversation.preview资源身份；候选按资源定位后严格比较UiObject2.text与预期业务值，搜索后再次复核联系人值，同时保留整行点击、错误文案和全部后续真实交互断言。Attempt6的GitHub注解、三项Artifact身份、数据库与无秘密HTTP重放证据入库，Attempt6不得重跑。CR-0491继续复用PROB-0125，不新增并列规则：会话行首次点击、拉黑后复进、长按与删除消失全部改用Compose唯一testTag、assertIsDisplayed和原生语义动作；composer输入改用performTextReplacement，发送成功后必须证明输入框为空再截图。CR-0493将文本发送改为显式命名onSuccess，仅成功时清空composer，并以Compose回归同时证明成功清空、失败保留草稿；其他业务断言不变。
   regression_checks:
   - R14ConversationListScreen必须分别暴露r14.conversation.peer-name与r14.conversation.preview，Compose测试在未合并语义树中核对精确业务值
   - ReleaseCandidateSmokeTest必须按两个稳定资源定位并比较节点精确文字，搜索后再次核对联系人值；不得恢复By.text(peer)或按夹具预览直接等待
   - r14.conversation.row的首次点击、拉黑后复进和长按必须等待Compose未合并树唯一节点、assertIsDisplayed后执行performClick或performTouchInput；删除必须等待该Compose节点消失
   - composer必须由Compose performTextReplacement输入，发送成功后输入框必须为空；搜索错误、发送未读、拉黑重进、解除拉黑、长按删除、四张截图、JUnit和日志审核不得删除或弱化
+  - 文本发送调用必须显式命名onSuccess并只在成功后清空composer；失败回调必须保留用户草稿，不得使用会绑定到末尾onFailure参数的尾随lambda
   - Attempt7必须绑定新修复Commit、CR-0483与唯一request007，并从同Commit候选后端执行完整R14旅程
   do_not_repeat:
   - 后端HTTP 200、数据库夹具和精确响应均正常时，不得把UiAutomator找不到Compose文字直接归类为后端或夹具失败
   - 不得只判断资源存在而放弃核对联系人和预览业务值，也不得用延长By.text等待掩盖稳定身份缺口
   - 不得无代码变化重跑Attempt6或复用已消费的CR-0482候选授权
   - 同一Compose旅程不得混用UiAutomator resource-id完成会话行复进与长按，也不得接受发送成功后composer仍保留原文本的候选截图
+  - 不得删除发送成功后composer为空的候选断言，也不得把HTTP 200后输入框未清空归类为测试环境抖动
 - id: PROB-0152
   title: R14拉黑业务成功但禁发底栏在输入法过渡期间不可见
   status: IN_PROGRESS
