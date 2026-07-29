@@ -2,8 +2,8 @@ schema_version: 1
 status: REQUESTED
 release: R14
 candidate: true
-remediation_attempt: 7
-request_id: R14-CANDIDATE-20260730-007
-attempt_exception_id: CR-0483
-required_fix_commit: 64e089d04a7dbbc82bf7b1085498ff4cecdde8a5
-reason: R14 Attempt6的候选请求、连续性、编译、单测、Lint、APK打包、自动会话和同源候选后端均通过；隔离R14数据库与真实GET /api/v1/conversations响应均包含唯一联系人“R14候选体验用户”和预览“R14候选会话已准备”，唯一失败为UiAutomator按Compose精确文字未找到联系人节点。CR-0483绑定修复Commit 64e089d04a7dbbc82bf7b1085498ff4cecdde8a5，为联系人和预览增加稳定资源身份，候选按资源定位后仍严格核对业务文字，搜索后再次核对联系人值。本例外只允许request007运行一次并完整执行搜索、发送未读、拉黑后重进、解除拉黑、列表长按删除、截图、JUnit和目标进程日志审核；不得弱化业务断言，owner真机反馈保持异步PENDING。
+remediation_attempt: 8
+request_id: R14-CANDIDATE-20260730-008
+attempt_exception_id: CR-0484
+required_fix_commit: 0d6b465c8c6f1e7e957fd38f0d3ac075a4b5e913
+reason: R14 Attempt7的候选请求、连续性、编译、单测、Lint、APK打包、稳定联系人和预览资源、搜索、详情进入、发送未误标已读以及拉黑服务端请求均通过；后端HTTP 200、user_blocks、幂等快照和真实HTTP重放证明业务成功，唯一失败为Compose成功回调在主线程同步SharedPreferences.commit，十秒内未发布r14.chat.blocked。CR-0484绑定修复Commit 0d6b465c8c6f1e7e957fd38f0d3ac075a4b5e913，在保持原文件、复合键、业务状态和禁发断言不变的前提下改用apply立即更新进程内状态并异步落盘。本例外只允许request008运行一次并完整执行搜索、发送未读、首次拉黑、返回重进、解除拉黑、列表长按删除、四张截图、JUnit和目标进程日志审核；不得延长等待掩盖缺陷、不得弱化业务断言，owner真机反馈保持异步PENDING。

@@ -11,7 +11,7 @@ task_id: TASK-R14-008
 story_id: STORY-R14-004
 goal: 异常恢复 SES-20260728T220632Z-FE7D82FD：一对一聊天核心版本关闭与无状态交接
 started_at: '2026-07-29T16:15:57Z'
-updated_at: '2026-07-29T18:47:02Z'
+updated_at: '2026-07-29T18:51:59Z'
 takeover_of: SES-20260728T220632Z-FE7D82FD
 change_requests:
 - CR-0475
@@ -81,22 +81,22 @@ git:
   initial_worktree_state: DIRTY_TAKEOVER
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-29T18:46:55Z'
-  expires_at: '2026-07-29T22:46:55Z'
-checkpoint_sequence: 7
-latest_checkpoint: .continuity/checkpoints/SES-20260729T161557Z-6FCE6ACA/0007.yaml
+  renewed_at: '2026-07-29T18:51:52Z'
+  expires_at: '2026-07-29T22:51:52Z'
+checkpoint_sequence: 8
+latest_checkpoint: .continuity/checkpoints/SES-20260729T161557Z-6FCE6ACA/0008.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260729T161557Z-6FCE6ACA.md
-next_step: 提交CR-0484与CR-0485修复Commit并标记IMPLEMENTED；随后以独立请求Commit绑定唯一Attempt8
+next_step: 提交Attempt8请求Commit；从同一最终HEAD重建R14候选后端并受控切流，transport和push-preflight通过后只推送一次触发候选
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: a6335cc9d2cdabe32dd78b4ec006c01a77759e60b328cd8600425181a26cb86e
-  generated_at: '2026-07-29T18:46:59Z'
+  context_hash: 0a09a53ed21e1a9a318b24a793287ce604898b3a8a14ad61a18fcaf86c927b77
+  generated_at: '2026-07-29T18:51:56Z'
 handoff_bundle: null
 closure: null
 parallel_execution:
   assessment: CAPABILITY_UNAVAILABLE
   delegated_workers: 0
   workers: []
-  reason: 当前上级执行约束禁止创建子代理；单一Android状态存储、CR、Changelog与连续性事实必须由事实主控串行收口。
+  reason: 当前上级执行约束禁止创建子代理；候选请求、CR状态和连续性状态属于单一事实源，必须由主控串行绑定。

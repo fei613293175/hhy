@@ -76,3 +76,17 @@ CR-0484误把变更日志路径登记为不存在的docs/10-governance/CHANGELOG
 - 决定：`APPROVED`
 - 时间：`2026-07-29T18:46:00Z`
 - 说明：项目所有者已授权持续开发且要求规则与修复写入仓库；本CR只纠正真实Changelog路径，不扩大产品或降低门禁。
+
+## 状态记录 · 2026-07-29T18:48:26Z
+
+- Actor：`codex-r14-resume-20260730`
+- Status：`IMPLEMENTING`
+- Session：`SES-20260729T161557Z-6FCE6ACA`
+- Note：开始应用已批准的根CHANGELOG路径更正。
+
+## 状态记录 · 2026-07-29T18:48:33Z
+
+- Actor：`codex-r14-resume-20260730`
+- Status：`IMPLEMENTED`
+- Session：`SES-20260729T161557Z-6FCE6ACA`
+- Note：真实根CHANGELOG投影已在同一修复Commit完成，未创建不存在的并列Changelog文件。

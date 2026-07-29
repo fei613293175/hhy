@@ -96,3 +96,10 @@ SharedPreferences键和值完全不变，现有已拉黑记录兼容；apply先�
 - Status：`IMPLEMENTING`
 - Session：`SES-20260729T161557Z-6FCE6ACA`
 - Note：已完成Attempt7 GitHub元数据、服务端HTTP/数据库/幂等与真实响应重放诊断，开始实现SharedPreferences apply和回归。
+
+## 状态记录 · 2026-07-29T18:48:08Z
+
+- Actor：`codex-r14-resume-20260730`
+- Status：`IMPLEMENTED`
+- Session：`SES-20260729T161557Z-6FCE6ACA`
+- Note：SharedPreferences apply修复、Attempt7证据、模块门禁与治理回归已在该Commit实现；下一步仅绑定Attempt8请求。
