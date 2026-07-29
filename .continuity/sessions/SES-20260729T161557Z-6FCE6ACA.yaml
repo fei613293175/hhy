@@ -11,7 +11,7 @@ task_id: TASK-R14-008
 story_id: STORY-R14-004
 goal: 异常恢复 SES-20260728T220632Z-FE7D82FD：一对一聊天核心版本关闭与无状态交接
 started_at: '2026-07-29T16:15:57Z'
-updated_at: '2026-07-29T20:51:36Z'
+updated_at: '2026-07-29T20:55:08Z'
 takeover_of: SES-20260728T220632Z-FE7D82FD
 change_requests:
 - CR-0475
@@ -29,6 +29,7 @@ change_requests:
 - CR-0487
 - CR-0488
 - CR-0489
+- CR-0490
 scope:
   allowed_paths:
   - apps/**
@@ -88,22 +89,22 @@ git:
   initial_worktree_state: DIRTY_TAKEOVER
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-29T20:51:28Z'
-  expires_at: '2026-07-30T00:51:28Z'
-checkpoint_sequence: 15
-latest_checkpoint: .continuity/checkpoints/SES-20260729T161557Z-6FCE6ACA/0015.yaml
+  renewed_at: '2026-07-29T20:55:00Z'
+  expires_at: '2026-07-30T00:55:00Z'
+checkpoint_sequence: 16
+latest_checkpoint: .continuity/checkpoints/SES-20260729T161557Z-6FCE6ACA/0016.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260729T161557Z-6FCE6ACA.md
-next_step: 提交CR-0489实现，登记精确修复Commit并创建绑定新路径的唯一下一候选授权。
+next_step: 提交Attempt11授权与请求，重建同提交候选后端、受控切流并只推送一次触发GitHub候选。
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: 632eebbd98cd15c7231d2d925db674b22e1edbdb9b9b72f952e1c4640f6d517e
-  generated_at: '2026-07-29T20:51:33Z'
+  context_hash: f774e2f5b2ebdbae907026de9dd9b941a44128661670901a3fa479116d44f82a
+  generated_at: '2026-07-29T20:55:04Z'
 handoff_bundle: null
 closure: null
 parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 当前为同一候选证据、测试路径与单一CR的原子修复，拆分会造成事实源和Commit绑定不一致。
+  reason: 候选请求、例外、CR和精确Commit必须原子绑定，不能并行拆分。

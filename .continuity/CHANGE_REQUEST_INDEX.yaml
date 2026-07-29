@@ -30397,9 +30397,9 @@ change_requests:
 - protocol_version: '1.0'
   cr_id: CR-0489
   title: 切换R14禁发可见性验证为Compose同步与用户文本双证据
-  status: IMPLEMENTING
+  status: IMPLEMENTED
   created_at: '2026-07-29T20:43:23Z'
-  updated_at: '2026-07-29T20:44:09Z'
+  updated_at: '2026-07-29T20:52:07Z'
   requester_actor_id: codex-r14-resume-20260730
   approver_actor_id: codex-independent-test-reviewer
   task_id: TASK-R14-008
@@ -30439,6 +30439,61 @@ change_requests:
     actor_id: codex-r14-resume-20260730
     status: IMPLEMENTING
     note: 开始写入Attempt10不可变证据、原位更新PROB-0152，并把首次拉黑与重进切换为同一Compose可见和用户文本双证据帮助函数。
+    session_id: SES-20260729T161557Z-6FCE6ACA
+  - at: '2026-07-29T20:52:07Z'
+    actor_id: codex-r14-resume-20260730
+    status: IMPLEMENTED
+    note: Commit c79a7967归档Attempt10第三轮证据并切换为Compose assertIsDisplayed、UiAutomator用户文本和composer消失三重证据；98项治理回归与固定Android工具链244任务PASS，旧By.res路径未重跑。
+    session_id: SES-20260729T161557Z-6FCE6ACA
+  session_ids:
+  - SES-20260729T161557Z-6FCE6ACA
+  implementation_commits:
+  - c79a7967
+- protocol_version: '1.0'
+  cr_id: CR-0490
+  title: 授权R14新可见性取证路径唯一Attempt11
+  status: IMPLEMENTING
+  created_at: '2026-07-29T20:52:38Z'
+  updated_at: '2026-07-29T20:53:24Z'
+  requester_actor_id: codex-r14-resume-20260730
+  approver_actor_id: codex-independent-candidate-reviewer
+  task_id: TASK-R14-008
+  session_id: SES-20260729T161557Z-6FCE6ACA
+  user_request: 持续完成R14至R32；同一GitHub失败不得原样反复，但改变验证路径后由AI继续完成大版本候选
+  reason: Attempt10已作为旧UiAutomator resource-id路径第三且最终轮入库；CR-0489提交c79a7967建立Compose显示、用户文本和composer消失的新验证路径。候选请求、例外、精确修复Commit与单次运行必须重新唯一绑定，避免复用已消费的CR-0488。
+  original_rule: CR-0488只授权release=R14、attempt=10、request010、required_fix_commit=a4b88424和单次运行；Attempt10已真实执行并消费，且旧UiAutomator resource-id路径达到三轮上限，禁止复用请求、授权或原样Attempt11。
+  new_rule: 不改变全局max_ai_attempts=3，也不把Attempt11算作旧路径第四轮；只增加一个绑定新验证方案的精确例外：release=R14、attempt=11、request=R14-CANDIDATE-20260730-011、exception=CR-0490、required_fix_commit=c79a796721ba5357315d3cd7a45417be653a160e、max_candidate_runs=1。候选必须保留CR-0489三重证据、解除拉黑、长按删除、四张截图、JUnit和日志审核。
+  impact_summary: 只登记新验证路径的一次性候选授权与请求，拒绝旧路径重复、错误Commit、错误CR、错误Request或多次运行；不修改产品、后端、数据库、三轮全局上限或截图范围。
+  impact:
+    files:
+    - config/android-automation.yaml
+    - config/android-candidate-request.yaml
+    - tests/test_android_candidate_request.py
+    - tests/test_android_ci_gate.py
+    pages: []
+    apis: []
+    database: []
+    configuration:
+    - R14 Attempt11新路径唯一例外与request011
+    ledger: []
+    tests:
+    - python -m unittest tests.test_android_candidate_request tests.test_android_ci_gate tests.test_android_candidate_route
+    - candidate request validator exact binding
+    releases:
+    - R14
+    migration_and_compatibility: Attempt10及CR-0488保持已消费历史；Attempt11必须包含c79a7967且以新验证路径执行。其他Release和历史例外完全不变。
+  user_confirmation: 项目所有者明确授权AI持续推进并自行审核大版本GitHub候选，同时要求相同问题不得反复浪费时间；新方案已经产生代码与证据变化。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-29T20:53:18Z'
+    note: 独立复审通过：Attempt11只允许绑定CR-0489的新跨框架验证Commit并运行一次；旧resource-id路径三轮上限、全局上限和全部业务断言均未放宽。
+  machine_record: .continuity/change_requests/CR-0490.yaml
+  document: docs/03-continuity/change-requests/CR-0490-授权R14新可见性取证路径唯一Attempt11.md
+  decision_log:
+  - at: '2026-07-29T20:53:24Z'
+    actor_id: codex-r14-resume-20260730
+    status: IMPLEMENTING
+    note: 开始写入Attempt11精确例外、request011及错误CR/Commit/Request/运行次数拒绝回归。
     session_id: SES-20260729T161557Z-6FCE6ACA
   session_ids:
   - SES-20260729T161557Z-6FCE6ACA

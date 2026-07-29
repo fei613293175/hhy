@@ -87,3 +87,10 @@ Attempt7、8、10保持不可变失败历史，Attempt10登记为旧路径第三
 - Status：`IMPLEMENTING`
 - Session：`SES-20260729T161557Z-6FCE6ACA`
 - Note：开始写入Attempt10不可变证据、原位更新PROB-0152，并把首次拉黑与重进切换为同一Compose可见和用户文本双证据帮助函数。
+
+## 状态记录 · 2026-07-29T20:52:07Z
+
+- Actor：`codex-r14-resume-20260730`
+- Status：`IMPLEMENTED`
+- Session：`SES-20260729T161557Z-6FCE6ACA`
+- Note：Commit c79a7967归档Attempt10第三轮证据并切换为Compose assertIsDisplayed、UiAutomator用户文本和composer消失三重证据；98项治理回归与固定Android工具链244任务PASS，旧By.res路径未重跑。

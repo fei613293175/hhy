@@ -2,8 +2,8 @@ schema_version: 1
 status: REQUESTED
 release: R14
 candidate: true
-remediation_attempt: 10
-request_id: R14-CANDIDATE-20260730-010
-attempt_exception_id: CR-0488
-required_fix_commit: a4b88424bee403b7515973536e96ccfcd3012d5a
-reason: R14 Attempt9的候选请求、连续性、编译、单测、Lint和APK打包均通过，但模拟器启动前的Staging bootstrap因候选后端校验GitHub OIDC时抛出JwtException而返回HTTP 500；该Run未启动模拟器、未执行R14旅程、未生成运行时截图，因此没有消费PROB-0152同指纹第三轮。CR-0487已在既有authentication事实源和唯一质量门禁中增加严格有限容错：只对HTTP 500/502/503/504最多3次总尝试并固定2秒、4秒退避，其他状态立即失败，响应体、OIDC令牌和引导码继续禁止输出。CR-0488将request010唯一绑定包含CR-0486输入法避让业务修复与CR-0487基础设施修复的Commit a4b88424bee403b7515973536e96ccfcd3012d5a；虽然全局候选编号为Attempt10，它仍是r14.chat.blocked同一业务指纹真正执行旅程的第三且最终诊断轮。只允许本请求运行一次并完整执行搜索、发送未读、首次拉黑、返回重进、解除拉黑、列表长按删除、四张截图、JUnit和目标进程日志审核；不得延长等待、不得弱化资源可见与composer消失断言，若业务仍为同一指纹则禁止Attempt11并切换测试或布局方案。
+remediation_attempt: 11
+request_id: R14-CANDIDATE-20260730-011
+attempt_exception_id: CR-0490
+required_fix_commit: c79a796721ba5357315d3cd7a45417be653a160e
+reason: R14 Run 30488268307完整通过候选请求、连续性、编译、单测、Lint、APK打包、OIDC引导和模拟器启动；拉黑请求HTTP 200，失败现场为Compose禁发节点数量1且composer资源已消失，但UiAutomator无法把Compose testTag导出的r14.chat.blocked resource-id判为可见。Attempt7、8、10由此达到旧resource-id路径第三且最终业务轮，禁止原样重跑。CR-0489及Commit c79a796721ba5357315d3cd7a45417be653a160e改用新取证路径：Compose等待唯一禁发节点并执行assertIsDisplayed、UiAutomator等待用户真正看到的“当前无法发送消息”、同时继续断言composer不存在；复用既有PROB-0125经验，不修改拉黑业务、后端或数据库。CR-0490只授权request011运行一次，并完整保留搜索、发送未误标已读、首次拉黑、返回重进、解除拉黑、列表长按删除、四张截图、JUnit和目标进程日志审核；本次是新验证路径首轮，不是旧路径第四轮。
