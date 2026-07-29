@@ -2131,3 +2131,19 @@ problems:
   - 不得在候选数据库为空时直接触发模拟器，也不得把版本检查404误报成登录页或消息UI失败
   - psql在BEGIN/COMMIT与-qAt组合下仍可能在查询结果前输出空行；严格证明比较前只能过滤空行，禁止放宽期望字符串或忽略唯一记录计数
   - Attempt4不得重跑；必须先形成修复Commit、在obx-test连续运行夹具两次并证明本机和公网版本检查200，再登记唯一Attempt5
+- id: PROB-0150
+  title: R14候选拉黑业务成功但自动化缺少稳定状态身份
+  status: SOLVED
+  root_cause: R14 Attempt5的请求校验、编译、单测、Lint、打包、自动会话、会话搜索和消息发送均通过；原始候选在03:28:21调用POST /api/v1/users/3/block返回HTTP 200，user_blocks与r14.chat-command.v1幂等快照均真实落库。ReleaseCandidateSmokeTest随后只等待精确文字“当前无法发送消息”，而拉黑状态区域没有稳定资源身份；网络测试只解码data局部，Compose测试只覆盖预置拉黑状态，因此UiAutomator无法把文字语义可见性问题与真实成功回调问题区分。
+  resolution: CR-0482为既有拉黑状态区域增加唯一testTag r14.chat.blocked和业务可读stateDescription，候选改为等待稳定资源后继续强制断言r14.chat.composer消失；ContractR14ApiTest使用Attempt5形态的完整success/data/requestId/timestamp响应壳，R14ChatDetailScreenTest真实点击会话操作、拉黑与确认并证明禁发和本地持久化。Attempt5的GitHub注解、三项Artifact身份、服务端HTTP日志、数据库事实及一次临时合同重放已无秘密入库，临时会话和新增幂等记录清理后均为0。
+  regression_checks:
+  - R14ChatDetailScreen拉黑状态必须同时暴露r14.chat.blocked与“已拉黑，当前无法发送消息”stateDescription，不得以文字节点替代稳定资源身份
+  - ReleaseCandidateSmokeTest必须在首次拉黑和返回重进两处等待By.res("r14.chat.blocked")，并继续断言r14.chat.composer不存在
+  - ContractR14ApiTest必须解码候选完整HTTP响应壳并拒绝未知命令状态，不能只测试data局部或内部幂等ObjectMapper快照
+  - R14ChatDetailScreenTest必须从未拉黑初始态真实点击操作菜单、拉黑与确认，成功后证明composer消失且R14BlockStateStore已持久化
+  - Attempt5不得重跑；必须形成新修复Commit并绑定CR-0482登记唯一Attempt6，完整执行搜索、发送未读、拉黑重进、解除拉黑、长按删除、截图、JUnit和日志审核
+  do_not_repeat:
+  - 不得在后端HTTP 200和数据库落库后直接判定产品拉黑失败，也不得只延长文字等待时间
+  - 不得为了候选通过删除或弱化composer消失断言
+  - 不得把内部幂等快照的Instant数字序列化误当成真实HTTP序列化；HTTP合同必须用完整响应壳验证
+  - 不得在没有新修复Commit、证据入库和精确请求身份时盲目重跑同一Attempt

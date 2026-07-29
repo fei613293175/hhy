@@ -207,14 +207,20 @@ class ReleaseCandidateSmokeTest {
         clickDescription("会话操作")
         clickExactText("拉黑该用户")
         clickLastExactText("确认拉黑")
-        assertTrue("R14 block did not disable the composer", device.wait(Until.hasObject(By.text("当前无法发送消息")), 10_000))
+        assertTrue(
+            "R14 block did not expose the stable blocked state",
+            device.wait(Until.hasObject(By.res("r14.chat.blocked")), 10_000),
+        )
         assertFalse("R14 blocked detail still exposed the composer", device.hasObject(By.res("r14.chat.composer")))
 
         device.pressBack()
         assertTrue("R14 block did not return to list", waitForScreen("hhy.screen.r14.conversations"))
         clickResource("r14.conversation.row")
         assertTrue("R14 blocked chat did not reopen", waitForScreen("hhy.screen.r14.chat"))
-        assertTrue("R14 own block was not restored after reentry", device.wait(Until.hasObject(By.text("当前无法发送消息")), 10_000))
+        assertTrue(
+            "R14 own block was not restored after reentry",
+            device.wait(Until.hasObject(By.res("r14.chat.blocked")), 10_000),
+        )
         clickDescription("会话操作")
         assertTrue("R14 own block menu did not switch to unblock", device.hasObject(By.text("解除拉黑")))
         captureStable("03-r14-blocked-reentry.png")

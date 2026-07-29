@@ -654,7 +654,11 @@ private fun ChatComposer(
     Surface(color = HhyColors.Surface, shadowElevation = HhyElevation.Card) {
         if (blocked) {
             Row(
-                Modifier.fillMaxWidth().navigationBarsPadding().padding(HhySpacing.Lg),
+                Modifier.fillMaxWidth()
+                    .testTag("r14.chat.blocked")
+                    .semantics { stateDescription = "已拉黑，当前无法发送消息" }
+                    .navigationBarsPadding()
+                    .padding(HhySpacing.Lg),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(HhySpacing.Md),
             ) {

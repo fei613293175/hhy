@@ -1,7 +1,7 @@
 protocol_version: '1.0'
 package_version: 1.2.3
 session_id: SES-20260728T220632Z-FE7D82FD
-status: ACTIVE
+status: ABANDONED
 actor:
   id: codex-r14-close-20260729
   kind: AI_OR_HUMAN
@@ -11,7 +11,7 @@ task_id: TASK-R14-008
 story_id: STORY-R14-004
 goal: 一对一聊天核心版本关闭与无状态交接
 started_at: '2026-07-28T22:06:32Z'
-updated_at: '2026-07-29T03:15:37Z'
+updated_at: '2026-07-29T16:15:56Z'
 takeover_of: null
 change_requests:
 - CR-0475
@@ -21,6 +21,7 @@ change_requests:
 - CR-0479
 - CR-0480
 - CR-0481
+- CR-0482
 scope:
   allowed_paths:
   - apps/**
@@ -105,12 +106,16 @@ context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: 85932d9c5bc76a85763b38fdfe1c2a417855a5fdf392e22a5428b11d5c7776b6
-  generated_at: '2026-07-29T03:15:34Z'
+  context_hash: 0540fbc7ccf1b7706c64ddbd64d0c77fa9d7fb43a3f9342dd275a4df9d3d9133
+  generated_at: '2026-07-29T16:15:43Z'
 handoff_bundle: null
-closure: null
+closure:
+  result: ABANDONED
+  reason: 本机C盘空间告急导致开发中断，已安全清理可再生成数据并确认R14权威工作树及WIP完整，现原任务恢复
+  closed_at: '2026-07-29T16:15:56Z'
 parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
   reason: 唯一候选请求、请求Commit、同Commit后端、受控切流与单次推送必须串行绑定；并行会提前消费Attempt5或造成源码身份错配
+closed_at: '2026-07-29T16:15:56Z'

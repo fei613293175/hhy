@@ -1,0 +1,87 @@
+protocol_version: '1.0'
+package_version: 1.2.3
+session_id: SES-20260729T161557Z-6FCE6ACA
+status: ACTIVE
+actor:
+  id: codex-r14-resume-20260730
+  kind: AI_OR_HUMAN
+  host: unknown
+release: R14
+task_id: TASK-R14-008
+story_id: STORY-R14-004
+goal: 异常恢复 SES-20260728T220632Z-FE7D82FD：一对一聊天核心版本关闭与无状态交接
+started_at: '2026-07-29T16:15:57Z'
+updated_at: '2026-07-29T16:34:53Z'
+takeover_of: SES-20260728T220632Z-FE7D82FD
+change_requests:
+- CR-0475
+- CR-0476
+- CR-0477
+- CR-0478
+- CR-0479
+- CR-0480
+- CR-0481
+- CR-0482
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions: []
+  source: story+explicit
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  base_commit: 0a100b86f63829ef38ede5571d3e511219e67769
+  start_head: f449b49a68ba11fcb790b2249f7fad5b0f7f6b8b
+  upstream: origin/task/TASK-R03-001
+  initial_worktree_state: DIRTY_TAKEOVER
+lease:
+  duration_minutes: 240
+  renewed_at: '2026-07-29T16:34:46Z'
+  expires_at: '2026-07-29T20:34:46Z'
+checkpoint_sequence: 2
+latest_checkpoint: .continuity/checkpoints/SES-20260729T161557Z-6FCE6ACA/0002.yaml
+session_log: docs/03-continuity/sessions/2026-07/SES-20260729T161557Z-6FCE6ACA.md
+next_step: 执行提交前轻量门禁并提交CR-0482首个修复Commit；随后用该Commit精确登记approved_attempt_exceptions与R14 request006，再形成只触发一次的Attempt6请求Commit
+context_pack:
+  yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
+  markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
+  manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+  context_hash: a8b24ad0a3ff14da0312c374cc43382a9bf7178622e1f8f183c570df3a8c09f1
+  generated_at: '2026-07-29T16:34:50Z'
+handoff_bundle: null
+closure: null
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: HTTP合同、Compose状态、候选定位、失败证据和CR提交身份相互绑定，拆分会造成同一修复Commit事实不一致；由主控串行复核

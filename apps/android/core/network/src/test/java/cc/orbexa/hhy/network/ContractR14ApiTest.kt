@@ -1,6 +1,8 @@
 package cc.orbexa.hhy.network
 
 import kotlinx.serialization.encodeToString
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.jsonObject
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
@@ -156,6 +158,36 @@ class ContractR14ApiTest {
         assertThrows(IllegalArgumentException::class.java) { ChatBlockRequest("x".repeat(2_001)) }
         assertThrows(IllegalArgumentException::class.java) {
             ChatReportRequest("HARASSMENT", "", messageIds = List(101) { "m_$it" })
+        }
+    }
+
+    @Test
+    fun commandResultDecodesTheCandidateBlockResponseAndRejectsDrift() {
+        val envelope = HhyNetworkJson.value.decodeFromString(
+            ApiEnvelope.serializer(JsonObject.serializer()),
+            """{
+              "success":true,
+              "data":{
+                "resourceId":"3","businessNo":null,"status":"BLOCKED","version":null,
+                "acceptedAt":"2026-07-29T04:02:04.960429278Z"
+              },
+              "requestId":"44390d90-6be4-423f-bd99-49ecf87d1030",
+              "timestamp":"2026-07-29T04:02:04.963Z"
+            }""",
+        )
+        val result = decodeR14CommandResult(envelope.data)
+
+        assertTrue(envelope.success)
+        assertEquals("44390d90-6be4-423f-bd99-49ecf87d1030", envelope.requestId)
+        assertEquals("3", result.resourceId)
+        assertEquals("BLOCKED", result.status)
+        assertEquals("2026-07-29T04:02:04.960429278Z", result.acceptedAt)
+        assertThrows(IllegalArgumentException::class.java) {
+            decodeR14CommandResult(
+                HhyNetworkJson.value.parseToJsonElement(
+                    """{"resourceId":"3","status":"UNKNOWN","acceptedAt":"2026-07-29T04:02:04Z"}""",
+                ).jsonObject,
+            )
         }
     }
 }

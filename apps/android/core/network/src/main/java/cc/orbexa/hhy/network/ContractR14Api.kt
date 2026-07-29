@@ -315,7 +315,7 @@ class UrlConnectionContractR14Api(baseUrl: String) : ContractR14Api {
         accessToken = accessToken,
         idempotencyKey = requireR14Key(idempotencyKey),
         body = HhyNetworkJson.value.encodeToString(request),
-    ).decodeR14 { data -> HhyNetworkJson.value.decodeFromJsonElement(CommandResultResource.serializer(), data) }
+    ).decodeR14(::decodeR14CommandResult)
 
     override suspend fun report(accessToken: String, conversationId: String, idempotencyKey: String, request: ChatReportRequest) =
         command("POST", "/api/v1/conversations/${requireFrozenR14Id(conversationId)}/report", accessToken, idempotencyKey, HhyNetworkJson.value.encodeToString(request))
@@ -331,7 +331,7 @@ class UrlConnectionContractR14Api(baseUrl: String) : ContractR14Api {
 
     private suspend fun command(method: String, route: String, accessToken: String, key: String, body: String? = null) =
         callJson(method, route, accessToken, requireR14Key(key), body)
-            .decodeR14 { data -> HhyNetworkJson.value.decodeFromJsonElement(CommandResultResource.serializer(), data) }
+            .decodeR14(::decodeR14CommandResult)
 
     private suspend fun callJson(
         method: String,
@@ -387,6 +387,21 @@ internal fun decodeChatMessagePage(data: JsonObject): ChatMessagePageResource {
     val items = data.getValue("items").jsonArray.map { decodeChatMessageResource(it.jsonObject) }
     val page = HhyNetworkJson.value.decodeFromJsonElement(R07PageMeta.serializer(), data.getValue("page"))
     return ChatMessagePageResource(items, page)
+}
+
+internal fun decodeR14CommandResult(data: JsonObject): CommandResultResource {
+    requireOnlyR14Keys(data, setOf("resourceId", "businessNo", "status", "version", "acceptedAt"))
+    val resourceId = data["resourceId"]?.jsonPrimitive?.contentOrNull
+        ?.also(::requireFrozenR14Id)
+    val businessNo = data["businessNo"]?.jsonPrimitive?.contentOrNull
+        ?.also { require(it.isNotBlank() && it.length <= 64) }
+    val status = data.requiredR14String("status")
+        .also { require(it in R14_COMMAND_STATUSES) }
+    val version = data["version"]?.jsonPrimitive?.longOrNull
+        ?.also { require(it >= 0) }
+    val acceptedAt = data.requiredR14String("acceptedAt")
+        .also { require(it.isNotBlank()) }
+    return CommandResultResource(resourceId, businessNo, status, version, acceptedAt)
 }
 
 internal fun decodeChatConversationPage(data: JsonObject): ChatConversationPageResource {
@@ -547,3 +562,4 @@ private fun JsonObject.requiredR14String(name: String): String = getValue(name).
 private val CHAT_CONTENT_TYPES = setOf("PROJECT", "APP", "GROUP_CHAT", "TEAM_LEADER")
 private val CHAT_CONTACT_TYPES = setOf("PHONE", "WECHAT", "QQ", "EMAIL", "OTHER")
 private val CHAT_DELIVERY_STATES = setOf("SENT", "DELIVERED", "READ")
+private val R14_COMMAND_STATUSES = setOf("READ", "PENDING", "BLOCKED", "UNBLOCKED", "HIDDEN")

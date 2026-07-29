@@ -24,7 +24,9 @@ import cc.orbexa.hhy.network.PublisherSummaryResource
 import cc.orbexa.hhy.network.R07CallResult
 import cc.orbexa.hhy.network.R07PageMeta
 import java.io.InputStream
+import java.util.concurrent.atomic.AtomicBoolean
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.Rule
 import org.junit.Test
 
@@ -92,6 +94,42 @@ class R14ChatDetailScreenTest {
         assertEquals(0, composeRule.onAllNodes(hasText("删除会话")).fetchSemanticsNodes().size)
     }
 
+    @Test
+    fun successfulBlockImmediatelyDisablesComposerAndPersistsOwnBlock() {
+        val persisted = AtomicBoolean(false)
+        val store = object : R14BlockStateStore {
+            override fun isBlockedByMe(currentUserId: String, peerId: String) = persisted.get()
+            override fun setBlockedByMe(currentUserId: String, peerId: String, blocked: Boolean): Boolean {
+                persisted.set(blocked)
+                return true
+            }
+        }
+        composeRule.setContent {
+            HhyTheme {
+                R14ChatDetailScreen(
+                    api = SuccessfulBlockApi,
+                    mediaApi = UnusedMediaApi,
+                    accessToken = "token",
+                    conversationId = "42",
+                    currentUserId = "11",
+                    initialPeer = PublisherSummaryResource("7", "真实发布者", verified = false),
+                    blockStateStore = store,
+                    onBack = {},
+                    onSessionExpired = {},
+                )
+            }
+        }
+
+        composeRule.onNodeWithContentDescription("会话操作").performClick()
+        composeRule.onNodeWithText("拉黑该用户").performClick()
+        composeRule.onNodeWithText("确认拉黑").performClick()
+        composeRule.waitUntil(5_000) {
+            composeRule.onAllNodes(hasText("当前无法发送消息")).fetchSemanticsNodes().isNotEmpty()
+        }
+        assertEquals(0, composeRule.onAllNodes(hasText("输入消息")).fetchSemanticsNodes().size)
+        assertTrue(persisted.get())
+    }
+
     private object EmptyChatApi : ContractR14Api {
         override suspend fun conversations(accessToken: String, page: Int, pageSize: Int, cursor: String?, status: String?, keyword: String?, sort: String?): R07CallResult<ChatConversationPageResource> =
             R07CallResult.Failure(500)
@@ -104,6 +142,18 @@ class R14ChatDetailScreenTest {
 
         override suspend fun read(accessToken: String, conversationId: String, idempotencyKey: String, request: ChatPostConversationsByIdReadRequest): R07CallResult<CommandResultResource> =
             R07CallResult.Failure(500)
+    }
+
+    private object SuccessfulBlockApi : ContractR14Api by EmptyChatApi {
+        override suspend fun block(
+            accessToken: String,
+            userId: String,
+            idempotencyKey: String,
+            request: cc.orbexa.hhy.network.ChatBlockRequest,
+        ): R07CallResult<CommandResultResource> = R07CallResult.Success(
+            CommandResultResource(userId, null, "BLOCKED", null, "2026-07-29T04:02:04Z"),
+            "req-block",
+        )
     }
 
     private object UnusedMediaApi : ContractMediaApi {

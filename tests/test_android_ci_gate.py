@@ -1306,6 +1306,21 @@ class AndroidCiGateTest(unittest.TestCase):
         self.assertIn('captureStable("02-r14-sent.png")', smoke_test)
         self.assertIn('captureStable("03-r14-blocked-reentry.png")', smoke_test)
         self.assertIn('captureStable("04-r14-long-press-menu.png")', smoke_test)
+        self.assertEqual(2, smoke_test.count('Until.hasObject(By.res("r14.chat.blocked"))'))
+        self.assertIn(
+            'device.hasObject(By.res("r14.chat.composer"))',
+            smoke_test,
+        )
+        self.assertNotIn(
+            'Until.hasObject(By.text("当前无法发送消息"))',
+            smoke_test,
+        )
+        chat_detail = (
+            ROOT
+            / "apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ChatDetailScreen.kt"
+        ).read_text(encoding="utf-8")
+        self.assertIn('.testTag("r14.chat.blocked")', chat_detail)
+        self.assertIn('stateDescription = "已拉黑，当前无法发送消息"', chat_detail)
         self.assertNotIn('captureStable("26-r06-home.png")', smoke_test)
         self.assertNotIn('captureStable("01-project-list.png")', smoke_test)
         self.assertIn('captureStable("10-r02-startup.png")', historical_test)
