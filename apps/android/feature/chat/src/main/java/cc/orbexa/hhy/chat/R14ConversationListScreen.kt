@@ -376,6 +376,7 @@ private fun ConversationRow(
         Column(modifier = Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(HhySpacing.Xs)) {
             Text(
                 text = peer?.nickname ?: "对方信息暂时无法显示",
+                modifier = Modifier.testTag("r14.conversation.peer-name"),
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
                 fontSize = HhyType.CardTitleSize,
@@ -386,6 +387,7 @@ private fun ConversationRow(
             conversation.lastMessage?.preview?.takeIf(String::isNotBlank)?.let { preview ->
                 Text(
                     text = preview,
+                    modifier = Modifier.testTag("r14.conversation.preview"),
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                     fontSize = HhyType.SecondaryBodySize,

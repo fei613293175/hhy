@@ -2147,3 +2147,17 @@ problems:
   - 不得为了候选通过删除或弱化composer消失断言
   - 不得把内部幂等快照的Instant数字序列化误当成真实HTTP序列化；HTTP合同必须用完整响应壳验证
   - 不得在没有新修复Commit、证据入库和精确请求身份时盲目重跑同一Attempt
+- id: PROB-0151
+  title: R14候选会话数据成功但列表业务文字缺少稳定资源身份
+  status: SOLVED
+  root_cause: R14 Attempt6的候选请求、连续性、编译、单测、Lint、打包、自动会话和候选后端均通过；隔离R14 V044数据库存在唯一当前会话，真实GET /api/v1/conversations返回联系人“R14候选体验用户”和预览“R14候选会话已准备”。ConversationRow仅给整行提供r14.conversation.row，候选却用By.text等待Compose子文字；UiAutomator未发现该文字节点后把稳定语义身份缺口误报为夹具联系人缺失。
+  resolution: CR-0483为联系人名称和最后消息预览分别增加唯一r14.conversation.peer-name与r14.conversation.preview资源身份；候选按资源定位后严格比较UiObject2.text与预期业务值，搜索后再次复核联系人值，同时保留整行点击、错误文案和全部后续真实交互断言。Attempt6的GitHub注解、三项Artifact身份、数据库与无秘密HTTP重放证据入库，Attempt6不得重跑。
+  regression_checks:
+  - R14ConversationListScreen必须分别暴露r14.conversation.peer-name与r14.conversation.preview，Compose测试在未合并语义树中核对精确业务值
+  - ReleaseCandidateSmokeTest必须按两个稳定资源定位并比较节点精确文字，搜索后再次核对联系人值；不得恢复By.text(peer)或按夹具预览直接等待
+  - 整行r14.conversation.row点击、搜索错误、发送未读、拉黑重进、解除拉黑、长按删除、四张截图、JUnit和日志审核不得删除或弱化
+  - Attempt7必须绑定新修复Commit、CR-0483与唯一request007，并从同Commit候选后端执行完整R14旅程
+  do_not_repeat:
+  - 后端HTTP 200、数据库夹具和精确响应均正常时，不得把UiAutomator找不到Compose文字直接归类为后端或夹具失败
+  - 不得只判断资源存在而放弃核对联系人和预览业务值，也不得用延长By.text等待掩盖稳定身份缺口
+  - 不得无代码变化重跑Attempt6或复用已消费的CR-0482候选授权

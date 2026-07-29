@@ -2,10 +2,12 @@ package cc.orbexa.hhy.chat
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.assertTextEquals
 import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onAllNodesWithText
 import androidx.compose.ui.test.onNodeWithContentDescription
+import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTouchInput
@@ -52,6 +54,10 @@ class R14ConversationListScreenTest {
         composeRule.onNodeWithText("消息").assertIsDisplayed()
         composeRule.onNodeWithText("真实联系人").assertIsDisplayed()
         composeRule.onNodeWithText("真实最后消息").assertIsDisplayed()
+        composeRule.onNodeWithTag("r14.conversation.peer-name", useUnmergedTree = true)
+            .assertTextEquals("真实联系人")
+        composeRule.onNodeWithTag("r14.conversation.preview", useUnmergedTree = true)
+            .assertTextEquals("真实最后消息")
         composeRule.onNodeWithText("3").assertIsDisplayed()
         composeRule.onNodeWithContentDescription("与真实联系人的会话").performClick()
         assertEquals("conversation_42", selected)

@@ -1,0 +1,162 @@
+{
+  "schema": "hhy.android-candidate-failure-evidence/v1",
+  "release": "R14",
+  "attempt": 6,
+  "request_id": "R14-CANDIDATE-20260730-006",
+  "github_run_id": "30473874615",
+  "github_run_url": "https://github.com/fei613293175/hhy/actions/runs/30473874615",
+  "emulator_job_id": "90652579368",
+  "eligibility_job_id": "90654158885",
+  "source_commit": "36aa73a82a65b4b26e0bad493cb5c4cdab213a0d",
+  "status": "FAIL",
+  "duration_seconds": 874,
+  "failed_stage": "R14_CONVERSATION_TEXT_AUTOMATION_IDENTITY",
+  "failure": {
+    "instrumentation_exit_code": 1,
+    "assertion": "R14 fixture peer is missing",
+    "source": "ReleaseCandidateSmokeTest.kt:190",
+    "original_selector": "Until.hasObject(By.text(peer))",
+    "test_method": "authenticatedR14ChatJourney"
+  },
+  "successful_before_failure": [
+    "durable candidate request validation",
+    "continuity gate",
+    "Android compile",
+    "Android unit tests",
+    "Android Lint",
+    "Android application and instrumentation packaging",
+    "build artifact upload",
+    "one-time Staging CI bootstrap code",
+    "Android emulator and KVM setup",
+    "candidate backend exact-source route"
+  ],
+  "database_evidence": {
+    "container": "hhy-r14-staging-postgres-1",
+    "database": "hhy_r14_smoke",
+    "automation_user": {
+      "id": 1,
+      "phone": "19900001414",
+      "status": "ACTIVE"
+    },
+    "current_peer": {
+      "id": 4,
+      "nickname": "R14候选体验用户",
+      "blocked_by_automation_user": false
+    },
+    "current_conversation": {
+      "id": 3,
+      "user_id": 1,
+      "peer_user_id": 4,
+      "hidden_at": null,
+      "unread_count": 1,
+      "last_message_id": 4,
+      "last_message_status": "SENT",
+      "last_message_payload": {
+        "text": "R14候选会话已准备"
+      }
+    },
+    "production_data_touched": false
+  },
+  "http_contract_replay": {
+    "candidate_container": "hhy-r14-ci-candidate-36aa73a8",
+    "candidate_port": 28120,
+    "observed_at": "2026-07-29T17:23:29.084148827Z",
+    "http_status": 200,
+    "response": {
+      "success": true,
+      "requestId": "e056cf2b-4c27-4972-aa23-5a444a8d6dae",
+      "timestamp": "2026-07-29T17:23:29.084148827Z",
+      "data": {
+        "items": [
+          {
+            "id": "3",
+            "peer": {
+              "userId": "4",
+              "nickname": "R14候选体验用户",
+              "avatarUrl": null,
+              "bio": null,
+              "verified": false,
+              "memberBadge": null,
+              "followed": null
+            },
+            "lastMessage": {
+              "messageId": "4",
+              "messageType": "TEXT",
+              "preview": "R14候选会话已准备",
+              "senderId": "4",
+              "createdAt": "2026-07-29T17:15:39.626972Z"
+            },
+            "unreadCount": 1,
+            "lastReadMessageId": null,
+            "updatedAt": "2026-07-29T17:15:39.633954Z",
+            "version": 2
+          }
+        ],
+        "page": {
+          "page": 1,
+          "pageSize": 20,
+          "total": "1",
+          "nextCursor": null,
+          "hasMore": "false"
+        }
+      }
+    },
+    "candidate_request_log_count": 2,
+    "temporary_session_remaining": 0,
+    "production_data_touched": false
+  },
+  "root_cause": {
+    "classification": "STABLE_UI_RESOURCE_IDENTITY_GAP",
+    "detail": "The exact-source candidate backend, isolated database fixture and authenticated HTTP response all contain the expected peer and preview. The Compose row exposed only one row resource while the candidate waited for exact descendant text. UiAutomator could not reliably identify the business text node, so the assertion could not distinguish a semantics exposure gap from missing fixture data.",
+    "backend_business_failed": false,
+    "database_fixture_failed": false,
+    "http_contract_failed": false,
+    "automatic_login_failed": false,
+    "network_unreachable": false,
+    "crash_or_anr_observed": false,
+    "business_value_assertions_weakened": false
+  },
+  "artifacts": {
+    "count": 3,
+    "runtime": {
+      "artifact_id": 8733189988,
+      "name": "android-runtime-30473874615",
+      "size_bytes": 18831,
+      "sha256": "a07caa36af9d088d60e8b0ec6641904ab36d50a0786188197dbaa87ee7348bbb"
+    },
+    "build": {
+      "artifact_id": 8733005456,
+      "name": "android-build-30473874615",
+      "size_bytes": 23281642,
+      "sha256": "a2efed2e029a5b807d3c820be1e883bbce80cbbcc5133e7f4183645f7cacc6d7"
+    },
+    "request": {
+      "artifact_id": 8732777741,
+      "name": "android-candidate-request-30473874615",
+      "size_bytes": 918,
+      "sha256": "a7004c5cd6ada667d77a9e4f16d1268f8767bb83396ec42aeb5057cf48f47f34"
+    },
+    "required_screenshots_not_reached": [
+      "01-r14-conversations.png",
+      "02-r14-sent.png",
+      "03-r14-blocked-reentry.png",
+      "04-r14-long-press-menu.png"
+    ]
+  },
+  "remediation": {
+    "change_requests": [
+      "CR-0483"
+    ],
+    "problem": "PROB-0151",
+    "next_request_id": "R14-CANDIDATE-20260730-007",
+    "required_before_next_request": [
+      "stable r14.conversation.peer-name resource identity",
+      "stable r14.conversation.preview resource identity",
+      "candidate resource lookup with exact business text comparison",
+      "Compose unmerged-semantics regression",
+      "new frozen fix commit and exact Attempt7 request"
+    ],
+    "blind_rerun_allowed": false
+  },
+  "secrets_recorded": false
+}

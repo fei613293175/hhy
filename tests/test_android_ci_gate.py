@@ -1314,6 +1314,24 @@ class AndroidCiGateTest(unittest.TestCase):
         self.assertIn('captureStable("02-r14-sent.png")', smoke_test)
         self.assertIn('captureStable("03-r14-blocked-reentry.png")', smoke_test)
         self.assertIn('captureStable("04-r14-long-press-menu.png")', smoke_test)
+        self.assertIn(
+            'assertResourceText("r14.conversation.peer-name", peer, 20_000)',
+            smoke_test,
+        )
+        self.assertIn(
+            'assertResourceText("r14.conversation.preview", "R14候选会话已准备")',
+            smoke_test,
+        )
+        self.assertIn(
+            'assertResourceText("r14.conversation.peer-name", peer, 10_000)',
+            smoke_test,
+        )
+        self.assertNotIn("By.text(peer)", smoke_test)
+        self.assertNotIn('By.text("R14候选会话已准备")', smoke_test)
+        self.assertIn(
+            'assertEquals("Unexpected business text for resource: $resource", expected, node.text)',
+            smoke_test,
+        )
         self.assertEqual(2, smoke_test.count('Until.hasObject(By.res("r14.chat.blocked"))'))
         self.assertIn(
             'device.hasObject(By.res("r14.chat.composer"))',
@@ -1327,6 +1345,12 @@ class AndroidCiGateTest(unittest.TestCase):
             ROOT
             / "apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ChatDetailScreen.kt"
         ).read_text(encoding="utf-8")
+        conversation_list = (
+            ROOT
+            / "apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ConversationListScreen.kt"
+        ).read_text(encoding="utf-8")
+        self.assertIn('.testTag("r14.conversation.peer-name")', conversation_list)
+        self.assertIn('.testTag("r14.conversation.preview")', conversation_list)
         self.assertIn('.testTag("r14.chat.blocked")', chat_detail)
         self.assertIn('stateDescription = "已拉黑，当前无法发送消息"', chat_detail)
         self.assertNotIn('captureStable("26-r06-home.png")', smoke_test)
