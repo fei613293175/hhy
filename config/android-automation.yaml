@@ -302,6 +302,12 @@ remediation:
     request_id: R14-CANDIDATE-20260730-008
     required_fix_commit: 0d6b465c8c6f1e7e957fd38f0d3ac075a4b5e913
     max_candidate_runs: 1
+  - exception_id: CR-0486
+    release: R14
+    attempt: 9
+    request_id: R14-CANDIDATE-20260730-009
+    required_fix_commit: 3c120872b435c75047a026b91a5cd473de5cd3c9
+    max_candidate_runs: 1
   failure_issue_title_prefix: '[Android CI]'
   required_status: REMEDIATION_REQUIRED
   retry_rule: 编译或测试确定性失败必须修改后重新提交；仅业务测试开始前且日志明确证明为GitHub、网络、镜像或Staging接口瞬态故障时，允许同一Commit只重跑失败作业及其依赖一次，禁止重跑已通过阶段或修改业务代码；同一瞬态再次出现必须停止重跑并检查Staging健康与基础设施

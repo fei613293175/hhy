@@ -95,3 +95,10 @@ Attempt8再次证明后端200、user_blocks与幂等成功，但r14.chat.blocked
 - Status：`IMPLEMENTING`
 - Session：`SES-20260729T161557Z-6FCE6ACA`
 - Note：开始实施IME遮挡修复、Attempt8证据和最终Attempt9门禁。
+
+## 状态记录 · 2026-07-29T19:45:49Z
+
+- Actor：`codex-r14-resume-20260730`
+- Status：`IMPLEMENTED`
+- Session：`SES-20260729T161557Z-6FCE6ACA`
+- Note：IME遮挡修复、聚焦输入Compose回归、候选诊断、Attempt8证据及PROB-0152更正已提交；obx-test固定工具链与治理测试PASS。

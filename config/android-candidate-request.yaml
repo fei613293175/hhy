@@ -2,8 +2,8 @@ schema_version: 1
 status: REQUESTED
 release: R14
 candidate: true
-remediation_attempt: 8
-request_id: R14-CANDIDATE-20260730-008
-attempt_exception_id: CR-0484
-required_fix_commit: 0d6b465c8c6f1e7e957fd38f0d3ac075a4b5e913
-reason: R14 Attempt7的候选请求、连续性、编译、单测、Lint、APK打包、稳定联系人和预览资源、搜索、详情进入、发送未误标已读以及拉黑服务端请求均通过；后端HTTP 200、user_blocks、幂等快照和真实HTTP重放证明业务成功，唯一失败为Compose成功回调在主线程同步SharedPreferences.commit，十秒内未发布r14.chat.blocked。CR-0484绑定修复Commit 0d6b465c8c6f1e7e957fd38f0d3ac075a4b5e913，在保持原文件、复合键、业务状态和禁发断言不变的前提下改用apply立即更新进程内状态并异步落盘。本例外只允许request008运行一次并完整执行搜索、发送未读、首次拉黑、返回重进、解除拉黑、列表长按删除、四张截图、JUnit和目标进程日志审核；不得延长等待掩盖缺陷、不得弱化业务断言，owner真机反馈保持异步PENDING。
+remediation_attempt: 9
+request_id: R14-CANDIDATE-20260730-009
+attempt_exception_id: CR-0486
+required_fix_commit: 3c120872b435c75047a026b91a5cd473de5cd3c9
+reason: R14 Attempt8的候选请求、连续性、编译、单测、Lint、APK打包、搜索、详情进入、发送未误标已读和拉黑后端请求均通过；后端HTTP 200、user_blocks和幂等记录证明业务真实成功，但改用SharedPreferences.apply后仍未向UIAutomator暴露r14.chat.blocked，已否定Attempt7的同步commit假设。CR-0486绑定修复Commit 3c120872b435c75047a026b91a5cd473de5cd3c9，纠正为输入法焦点未清除且禁发栏缺少imePadding导致业务状态已更新但控件处于IME遮挡区；成功拉黑后强制清焦点、隐藏键盘并给禁发栏补充imePadding，Compose测试覆盖保留输入法焦点的真实操作，候选失败诊断同时输出Compose节点、资源可见性和composer状态。该请求是同一错误指纹的第三轮且最终诊断轮，只允许request009运行一次并完整执行搜索、发送未读、首次拉黑、返回重进、解除拉黑、列表长按删除、四张截图、JUnit和目标进程日志审核；不得延长等待、不得弱化原有资源可见与composer消失断言，若仍为同一指纹则必须登记三轮上限并切换方案。
