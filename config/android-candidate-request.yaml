@@ -2,8 +2,8 @@ schema_version: 1
 status: REQUESTED
 release: R14
 candidate: true
-remediation_attempt: 12
-request_id: R14-CANDIDATE-20260730-012
-attempt_exception_id: CR-0492
-required_fix_commit: c1b637e299288279d96e0ef85fde21b03e889251
-reason: R14 GitHub Run 30490812128首次执行在模拟器脚本启动前因GitHub基础设施中断，按既有瞬态规则只重跑失败作业一次；run_attempt=2完整进入业务旅程，发送未误标已读、首次拉黑Compose禁发节点、用户可见禁发文案和composer消失均已通过，服务端拉黑与返回列表请求HTTP 200且数据库拉黑关系、会话未隐藏均正确。唯一失败发生在返回会话列表后：界面上会话行真实可见，但UiAutomator无法继续按Compose testTag导出的r14.conversation.row resource-id定位，且发送截图显示composer文本未清空。CR-0491及Commit c1b637e299288279d96e0ef85fde21b03e889251将会话行首次进入、返回复进、长按和删除消失全部切换为Compose唯一语义操作，将输入改为Compose语义替换并新增发送后输入框严格为空断言；搜索、未误标已读、首次拉黑、返回重进、解除拉黑、列表长按删除、四张截图、JUnit和目标进程日志审核全部保留。CR-0492只授权request012运行一次；这是会话行Compose语义与输入清空新路径首轮，不是旧跨框架resource-id路径的无变化重跑。
+remediation_attempt: 13
+request_id: R14-CANDIDATE-20260730-013
+attempt_exception_id: CR-0494
+required_fix_commit: c5695b9242fa751b83166f50e85c47109a0b0d62
+reason: R14 GitHub Run 30495148156的Attempt12已消费；候选请求、编译、单测、Lint、打包、候选后端、自动登录、会话加载、搜索和消息发送均成功，POST消息返回HTTP 200，唯一首发业务失败为发送成功后r14.chat.composer仍保留原文本。源码确认文本发送使用尾随lambda，而send函数的最后一个函数参数是onFailure，Kotlin因此把清空输入框逻辑静默绑定为失败回调。CR-0493及Commit c5695b9242fa751b83166f50e85c47109a0b0d62改为显式命名onSuccess，仅成功时清空composer、失败时保留草稿，并增加成功/失败双向Compose回归与CI静态锁；102项治理回归和obx-test固定工具链聊天单测、Lint、AndroidTest编译均通过。CR-0494只授权request013运行一次；搜索、发送未误标已读、composer清空、拉黑重进、解除拉黑、列表长按删除、四张截图、JUnit和目标进程日志审核全部保留。

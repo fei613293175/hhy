@@ -1,0 +1,49 @@
+protocol_version: '1.0'
+cr_id: CR-0494
+title: 授权R14输入框成功回调修复唯一Attempt13
+status: IMPLEMENTING
+created_at: '2026-07-29T22:40:26Z'
+updated_at: '2026-07-29T22:41:03Z'
+requester_actor_id: codex-implementation
+approver_actor_id: codex-independent-test-reviewer
+task_id: TASK-R14-008
+session_id: SES-20260729T161557Z-6FCE6ACA
+user_request: 持续开发，由GitHub Actions完成每个大版本最终功能审核，不向项目所有者索要逐轮确认
+reason: Attempt12已消费且首次揭示真实客户端回调绑定错误；CR-0493提交c5695b9242fa751b83166f50e85c47109a0b0d62已修复并通过受影响MODULE门禁，需要新身份执行一次完整候选旅程。
+original_rule: Attempt12、CR-0492和request012已消费，不能在无新身份或无新修复提交时重复运行。
+new_rule: 保持全局max_ai_attempts=3，只增加精确例外release=R14、attempt=13、request=R14-CANDIDATE-20260730-013、exception=CR-0494、required_fix_commit=c5695b9242fa751b83166f50e85c47109a0b0d62、max_candidate_runs=1；完整业务断言、四张截图、JUnit和目标进程日志审核不变。
+impact_summary: 仅为CR-0493已验证的成功回调修复创建单次候选身份，不改变产品功能、接口、数据库或全局三轮上限。
+impact:
+  files:
+  - config/android-candidate-request.yaml
+  - config/android-automation.yaml
+  - tests/test_android_candidate_request.py
+  - tests/test_android_ci_gate.py
+  - CHANGELOG.md
+  pages: []
+  apis: []
+  database: []
+  configuration:
+  - R14 Attempt13精确候选身份
+  ledger:
+  - CR-0494候选例外登记
+  tests:
+  - 候选请求正确身份通过；错误release/request/CR/commit/attempt拒绝；单次运行上限
+  releases:
+  - R14
+  migration_and_compatibility: Attempt12和CR-0492保持已消费历史；Attempt13必须绑定c5695b92且只能运行一次，其他Release与历史例外不变。
+user_confirmation: 项目所有者已站立授权AI持续开发并自行完成大版本候选审核
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-29T22:40:56Z'
+  note: CR-0493提供独立产品根因、代码变化及双向回归，允许一次精确Attempt13；不得复用Attempt12授权。
+machine_record: .continuity/change_requests/CR-0494.yaml
+document: docs/03-continuity/change-requests/CR-0494-授权R14输入框成功回调修复唯一Attempt13.md
+decision_log:
+- at: '2026-07-29T22:41:03Z'
+  actor_id: codex-implementation
+  status: IMPLEMENTING
+  note: 开始写入Attempt13精确请求、例外白名单和负向治理回归。
+  session_id: SES-20260729T161557Z-6FCE6ACA
+session_ids:
+- SES-20260729T161557Z-6FCE6ACA

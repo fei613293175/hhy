@@ -38,6 +38,7 @@ class AndroidCandidateRequestTest(unittest.TestCase):
     R14_ATTEMPT10_FIX_COMMIT = "a4b88424bee403b7515973536e96ccfcd3012d5a"
     R14_ATTEMPT11_FIX_COMMIT = "c79a796721ba5357315d3cd7a45417be653a160e"
     R14_ATTEMPT12_FIX_COMMIT = "c1b637e299288279d96e0ef85fde21b03e889251"
+    R14_ATTEMPT13_FIX_COMMIT = "c5695b9242fa751b83166f50e85c47109a0b0d62"
 
     def write_request(self, text: str) -> Path:
         temp = TemporaryDirectory()
@@ -853,6 +854,35 @@ class AndroidCandidateRequestTest(unittest.TestCase):
             "cr": ("R14", "R14-CANDIDATE-20260730-012", "CR-0490", self.R14_ATTEMPT12_FIX_COMMIT, 12),
             "commit": ("R14", "R14-CANDIDATE-20260730-012", "CR-0492", "b" * 40, 12),
             "attempt": ("R14", "R14-CANDIDATE-20260730-012", "CR-0492", self.R14_ATTEMPT12_FIX_COMMIT, 11),
+        }
+        for name, (release, request_id, cr, commit, attempt) in cases.items():
+            with self.subTest(name=name), self.assertRaises(CandidateRequestError):
+                load_request(self.write_request(
+                    "schema_version: 1\nstatus: REQUESTED\n"
+                    f"release: {release}\ncandidate: true\nremediation_attempt: {attempt}\n"
+                    f"request_id: {request_id}\nattempt_exception_id: {cr}\n"
+                    f"required_fix_commit: {commit}\n"
+                ))
+
+    def test_exact_r14_attempt_thirteen_exception_is_normalized(self) -> None:
+        payload = load_request(self.write_request(
+            "schema_version: 1\nstatus: REQUESTED\nrelease: R14\n"
+            "candidate: true\nremediation_attempt: 13\n"
+            "request_id: R14-CANDIDATE-20260730-013\n"
+            "attempt_exception_id: CR-0494\n"
+            f"required_fix_commit: {self.R14_ATTEMPT13_FIX_COMMIT}\n"
+        ))
+        self.assertEqual(13, payload["effective_attempt_limit"])
+        self.assertEqual("CR-0494", payload["attempt_exception_id"])
+        self.assertEqual(self.R14_ATTEMPT13_FIX_COMMIT, payload["required_fix_commit"])
+
+    def test_r14_attempt_thirteen_rejects_every_binding_drift(self) -> None:
+        cases = {
+            "release": ("R13", "R14-CANDIDATE-20260730-013", "CR-0494", self.R14_ATTEMPT13_FIX_COMMIT, 13),
+            "request": ("R14", "R14-CANDIDATE-20260730-012", "CR-0494", self.R14_ATTEMPT13_FIX_COMMIT, 13),
+            "cr": ("R14", "R14-CANDIDATE-20260730-013", "CR-0492", self.R14_ATTEMPT13_FIX_COMMIT, 13),
+            "commit": ("R14", "R14-CANDIDATE-20260730-013", "CR-0494", "b" * 40, 13),
+            "attempt": ("R14", "R14-CANDIDATE-20260730-013", "CR-0494", self.R14_ATTEMPT13_FIX_COMMIT, 12),
         }
         for name, (release, request_id, cr, commit, attempt) in cases.items():
             with self.subTest(name=name), self.assertRaises(CandidateRequestError):
