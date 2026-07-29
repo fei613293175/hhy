@@ -1,19 +1,19 @@
 {
   "version": "1.0",
-  "generated_at": "2026-07-28T23:36:30Z",
-  "context_hash": "0b5f9191475113838791606df419c6af766c1dfa400570226bdb4c29fa55fede",
+  "generated_at": "2026-07-29T01:16:18Z",
+  "context_hash": "092751e9a56fd1bdab214bb5250c60b4d7c1cf1c6c51047da61f8fb22f74253f",
   "fingerprint_mode": "SESSION_DELTA",
   "project_fingerprint": {
-    "sha256": "5a027b9e98ceab1b388d94f4c3a9b9b0847bd7beaddd7a2c612a1b88fe7e1278",
-    "file_count": 17
+    "sha256": "55d0bdc476509e7d3c3be04ea63dd48a595b82d9f2de9fc44ad4829d686312e8",
+    "file_count": 19
   },
   "yaml": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.yaml",
-    "sha256": "5d8bbf8063fe034aa7ae0d3f7e585911893ecf2a477b95a111c26158c5ed6bbf"
+    "sha256": "990db7a3dd238e20c077f06a21ccb86ddca435c8f3ab3f49ada07b9a6cd4d01c"
   },
   "markdown": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.md",
-    "sha256": "f8d2a7cea547e1fd90057bb0a74238a72fb565a8e749f243f37665eb50c5b8a7"
+    "sha256": "9c9ebbaa89afc456e1827fe3e15e2c76e3fd84e781ec6c0b1747ba34c5eb837e"
   },
   "sources": [
     {
@@ -28,7 +28,7 @@
     },
     {
       "path": "CURRENT_STATUS.yaml",
-      "sha256": "5fc62ccacff1675b6a16f41e40fdab91e982bec495584de3d3f107e06a4a851c",
+      "sha256": "3f34ab5cc3be8ecc76a35b7adcf1e3a6458e356471d099a3369a2e273ae73679",
       "bytes": 4816
     },
     {
@@ -48,8 +48,8 @@
     },
     {
       "path": "docs/03-continuity/PROBLEM_REGISTRY.yaml",
-      "sha256": "58f4cfcf6bb425b508297304532277061b053f3b3c4321c0a14765f662a91982",
-      "bytes": 251271
+      "sha256": "c249c8d164546f29acc97d2d9b0602c6af9e9ab862a05bab8c214a3910e57db9",
+      "bytes": 253365
     },
     {
       "path": "docs/03-continuity/REUSABLE_PATTERNS.md",
@@ -83,12 +83,12 @@
     },
     {
       "path": ".continuity/EVENT_LOG.jsonl",
-      "sha256": "ea38b599cc3529a97a98607f33e59dc0f9fdb5c6b459ea790f1f5a06cc02d160",
-      "bytes": 2588958
+      "sha256": "f64897b81f8d92670c87b684838237270cfd5ffb8dd095c02c31288ed14ea83b",
+      "bytes": 2593580
     },
     {
       "path": ".continuity/SESSION_INDEX.yaml",
-      "sha256": "7aac90b5d27d2a0e85a2c3092f653368464a56c818b804cf585ca0078504ab93",
+      "sha256": "29cc903c46411417d8e8961521c5f34922e05fb694cf6a8cc82a9222a50846dd",
       "bytes": 66329
     },
     {
@@ -103,12 +103,12 @@
     },
     {
       "path": ".continuity/CHANGE_REQUEST_INDEX.yaml",
-      "sha256": "ad27021bb8741c05635eb2e3fc3af40de792fdf474b222f85b91f1472ccef2c7",
-      "bytes": 1782317
+      "sha256": "59b0634b504f1bba40985d3f77c442fcb72445db32ec3657c0fcdc32838565e9",
+      "bytes": 1788518
     },
     {
       "path": ".continuity/ACTIVE_SESSION.yaml",
-      "sha256": "b8a103def1948ac4ee8ab127cb4c2a5464fc73ef5994fb01c64a6a4aedd00448",
+      "sha256": "7ce3d0d97bf215f455a0b5e8b496bebef8f3f5f0492d462e006f70b07155b720",
       "bytes": 539
     },
     {
@@ -163,13 +163,13 @@
     },
     {
       "path": "docs/03-continuity/sessions/2026-07/SES-20260728T220632Z-FE7D82FD.md",
-      "sha256": "acde7ee09996c30addfd53322201f814c13d901ad18d1d1382d242c82b65c74c",
-      "bytes": 13429
+      "sha256": "d2d67f12c4687fbc9e92e4e28a870fdf05ad1517ef3b9615046ac25f81c43886",
+      "bytes": 15887
     },
     {
-      "path": ".continuity/checkpoints/SES-20260728T220632Z-FE7D82FD/0008.yaml",
-      "sha256": "112588885f2336ac6e224f30e01e41403ef80845a8a083f2d638e1a9d1cb855a",
-      "bytes": 11754
+      "path": ".continuity/checkpoints/SES-20260728T220632Z-FE7D82FD/0009.yaml",
+      "sha256": "3d8a784a2a8a0cbd13f30768b2ec92a72030f4376d06fea0395955ea732641cf",
+      "bytes": 13477
     },
     {
       "path": "docs/03-continuity/change-requests/CR-0475-绑定R14最终交互候选与稳定TEST_APK同一提交.md",
@@ -190,6 +190,16 @@
       "path": "docs/03-continuity/change-requests/CR-0478-修复R14候选确认按钮点击语义漂移并递增Attempt3.md",
       "sha256": "175f0d6d54d3a1f4be0f231cf0123fb4637c79fe5bbc1cc772a5e6091853388c",
       "bytes": 3253
+    },
+    {
+      "path": "docs/03-continuity/change-requests/CR-0479-修复R14候选部署网络数据库与MFA卷漂移并递增Attempt4.md",
+      "sha256": "6676def2154754bdbe628a4a5f3e6bbe07e1ac2c9a3b59cb25d89f1a48181f59",
+      "bytes": 3570
+    },
+    {
+      "path": "docs/03-continuity/change-requests/CR-0480-补齐CR-0479候选部署证明的策略与门禁投影范围.md",
+      "sha256": "cb19270443b74ea070f04f93a87e8b22518e0da4e736daf048f3c49ee1244bfd",
+      "bytes": 2692
     }
   ]
 }

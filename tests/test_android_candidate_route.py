@@ -86,6 +86,12 @@ class AndroidCandidateRouteTest(unittest.TestCase):
             self.script,
         )
         self.assertIn("Candidate release label is not R14", self.script)
+        self.assertIn("HHY_CANDIDATE_NETWORK is required", self.script)
+        self.assertIn("Candidate container is not attached to the exact R14 staging network", self.script)
+        self.assertIn("Expected old candidate is not attached to the exact R14 staging network", self.script)
+        self.assertIn("Candidate database binding does not match the exact R14 smoke database", self.script)
+        self.assertIn("Candidate MFA secret volume must be writable", self.script)
+        self.assertIn('{{range .Mounts}}{{if eq .Destination "/var/lib/hhy/secrets"}}{{.RW}}', self.script)
         self.assertIn(
             "Candidate database has not reached Flyway V044",
             self.script,

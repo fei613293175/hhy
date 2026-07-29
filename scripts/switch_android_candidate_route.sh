@@ -16,6 +16,7 @@ case "$probe_mode" in
     : "${HHY_EXPECTED_CANDIDATE_IMAGE_ID:?HHY_EXPECTED_CANDIDATE_IMAGE_ID is required}"
     : "${HHY_EXPECTED_SOURCE_COMMIT:?HHY_EXPECTED_SOURCE_COMMIT is required}"
     : "${HHY_EXPECTED_OLD_CONTAINER:?HHY_EXPECTED_OLD_CONTAINER is required}"
+    : "${HHY_CANDIDATE_NETWORK:?HHY_CANDIDATE_NETWORK is required}"
     : "${HHY_CANDIDATE_DATABASE_CONTAINER:?HHY_CANDIDATE_DATABASE_CONTAINER is required}"
     : "${HHY_CANDIDATE_DATABASE_USER:?HHY_CANDIDATE_DATABASE_USER is required}"
     : "${HHY_CANDIDATE_DATABASE_NAME:?HHY_CANDIDATE_DATABASE_NAME is required}"
@@ -75,6 +76,32 @@ if [[ "$probe_mode" == "R14_CONVERSATIONS" ]]; then
   if [[ "$(docker inspect --format '{{index .Config.Labels "hhy.release"}}' \
       "$HHY_CANDIDATE_CONTAINER")" != "R14" ]]; then
     echo "Candidate release label is not R14" >&2
+    exit 2
+  fi
+  candidate_networks="$(docker inspect --format '{{range $k, $v := .NetworkSettings.Networks}}{{$k}} {{end}}' \
+    "$HHY_CANDIDATE_CONTAINER")"
+  if [[ " $candidate_networks " != *" $HHY_CANDIDATE_NETWORK "* ]]; then
+    echo "Candidate container is not attached to the exact R14 staging network" >&2
+    exit 2
+  fi
+  old_networks="$(docker inspect --format '{{range $k, $v := .NetworkSettings.Networks}}{{$k}} {{end}}' \
+    "$HHY_EXPECTED_OLD_CONTAINER")"
+  if [[ " $old_networks " != *" $HHY_CANDIDATE_NETWORK "* ]]; then
+    echo "Expected old candidate is not attached to the exact R14 staging network" >&2
+    exit 2
+  fi
+  candidate_db_url="$(docker exec "$HHY_CANDIDATE_CONTAINER" printenv HHY_DB_URL)"
+  expected_db_url="jdbc:postgresql://${HHY_CANDIDATE_DATABASE_CONTAINER}:5432/${HHY_CANDIDATE_DATABASE_NAME}"
+  if [[ "$candidate_db_url" != "$expected_db_url" ]] \
+    || [[ "$(docker exec "$HHY_CANDIDATE_CONTAINER" printenv HHY_DB_USER)" \
+      != "$HHY_CANDIDATE_DATABASE_USER" ]]; then
+    echo "Candidate database binding does not match the exact R14 smoke database" >&2
+    exit 2
+  fi
+  mfa_mount_rw="$(docker inspect --format '{{range .Mounts}}{{if eq .Destination "/var/lib/hhy/secrets"}}{{.RW}}{{end}}{{end}}' \
+    "$HHY_CANDIDATE_CONTAINER")"
+  if [[ "$mfa_mount_rw" != "true" ]]; then
+    echo "Candidate MFA secret volume must be writable" >&2
     exit 2
   fi
   if [[ "$(docker inspect --format '{{.State.Health.Status}}' \

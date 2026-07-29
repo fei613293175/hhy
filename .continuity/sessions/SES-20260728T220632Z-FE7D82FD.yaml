@@ -11,13 +11,15 @@ task_id: TASK-R14-008
 story_id: STORY-R14-004
 goal: 一对一聊天核心版本关闭与无状态交接
 started_at: '2026-07-28T22:06:32Z'
-updated_at: '2026-07-28T23:36:33Z'
+updated_at: '2026-07-29T01:16:21Z'
 takeover_of: null
 change_requests:
 - CR-0475
 - CR-0476
 - CR-0477
 - CR-0478
+- CR-0479
+- CR-0480
 scope:
   allowed_paths:
   - apps/**
@@ -76,7 +78,13 @@ scope:
   - tests/test_android_ci_gate.py
   - artifacts/validation/r14-candidate-attempt2/failure-evidence.json
   - CHANGELOG.md
-  source: story+explicit+approved-cr:CR-0475+approved-cr:CR-0476+approved-cr:CR-0478
+  - scripts/switch_android_candidate_route.sh
+  - tests/test_android_candidate_route.py
+  - config/android-automation.yaml
+  - artifacts/validation/r14-candidate-attempt3/failure-evidence.json
+  - artifacts/validation/r14-candidate-attempt3/route-activation-evidence.json
+  - scripts/android_ci_gate.py
+  source: story+explicit+approved-cr:CR-0475+approved-cr:CR-0476+approved-cr:CR-0478+approved-cr:CR-0479+approved-cr:CR-0480
 git:
   initialized: true
   branch: task/TASK-R03-001
@@ -86,22 +94,22 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-28T23:36:25Z'
-  expires_at: '2026-07-29T03:36:25Z'
-checkpoint_sequence: 8
-latest_checkpoint: .continuity/checkpoints/SES-20260728T220632Z-FE7D82FD/0008.yaml
+  renewed_at: '2026-07-29T01:16:14Z'
+  expires_at: '2026-07-29T05:16:14Z'
+checkpoint_sequence: 9
+latest_checkpoint: .continuity/checkpoints/SES-20260728T220632Z-FE7D82FD/0009.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260728T220632Z-FE7D82FD.md
-next_step: 提交冻结Commit并推送；在obx-test固定环境执行Android受影响模块验证，再从同Commit重建R14候选后端与夹具后触发Attempt3
+next_step: 执行提交前连续性与传输预检，提交并推送不含候选请求变更的基础设施修复Commit；随后登记绑定该Commit的Attempt4例外
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: 0b5f9191475113838791606df419c6af766c1dfa400570226bdb4c29fa55fede
-  generated_at: '2026-07-28T23:36:30Z'
+  context_hash: 092751e9a56fd1bdab214bb5250c60b4d7c1cf1c6c51047da61f8fb22f74253f
+  generated_at: '2026-07-29T01:16:18Z'
 handoff_bundle: null
 closure: null
 parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 单一候选测试助手、同一请求指针和连续性检查点构成原子修复；拆分执行会造成候选Attempt与修复Commit身份错配
+  reason: 候选证明策略、失败证据、唯一请求指针和连续性检查点必须绑定同一事实提交；拆分会造成CR、证明集合或Attempt身份错配

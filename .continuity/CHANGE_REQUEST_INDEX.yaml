@@ -29833,3 +29833,85 @@ change_requests:
     session_id: SES-20260728T220632Z-FE7D82FD
   session_ids:
   - SES-20260728T220632Z-FE7D82FD
+- protocol_version: '1.0'
+  cr_id: CR-0479
+  title: 修复R14候选部署网络数据库与MFA卷漂移并递增Attempt4
+  status: APPROVED
+  created_at: '2026-07-29T00:31:07Z'
+  updated_at: '2026-07-29T00:32:02Z'
+  requester_actor_id: codex-r14-close-20260729
+  approver_actor_id: project-owner-continuity-directive-20260729
+  task_id: TASK-R14-008
+  session_id: SES-20260728T220632Z-FE7D82FD
+  user_request: 持续完成R14并确保R14至R32开发不漂移；候选失败由AI读取真实日志后修复并继续
+  reason: Run 30408703138在bootstrap阶段返回HTTP500；服务器证据显示R14候选容器接入hhy-r13-staging_smoke且重建时MFA卷只读，导致OIDC/候选环境身份不可信，必须固化部署前置校验并绑定Attempt4
+  original_rule: R14候选路由校验了源码Commit、镜像、Release、Flyway、端口、鉴权接口和公网日志命中，但没有校验候选与回滚容器实际Docker网络、HHY_DB_URL/HHY_DB_USER绑定及MFA卷可写性
+  new_rule: 不新增平行规则；原位强化scripts/switch_android_candidate_route.sh：R14候选与回滚容器必须接入明确HHY_CANDIDATE_NETWORK，候选数据库URL和用户必须精确指向登记的R14 V044数据库，/var/lib/hhy/secrets卷必须可写。Attempt3失败证据入库后，只有绑定本修复Commit、CR-0479和唯一request004的Attempt4可运行一次
+  impact_summary: 阻断R14及后续复用路由时误接旧版本网络/数据库或只读MFA卷；记录Attempt3 HTTP500/JwtException和现场纠正证据，递增一次性Attempt4；不改变产品UI、公开API、业务数据库结构或生产数据
+  impact:
+    files:
+    - scripts/switch_android_candidate_route.sh
+    - tests/test_android_candidate_route.py
+    - config/android-automation.yaml
+    - config/android-candidate-request.yaml
+    - artifacts/validation/r14-candidate-attempt3/failure-evidence.json
+    - artifacts/validation/r14-candidate-attempt3/route-activation-evidence.json
+    - docs/03-continuity/PROBLEM_REGISTRY.yaml
+    - CHANGELOG.md
+    pages: []
+    apis: []
+    database: []
+    configuration:
+    - R14 candidate route requires exact network, database URL/user and writable MFA mount; Attempt4 exact exception
+    ledger: []
+    tests:
+    - python -m unittest tests.test_android_candidate_route tests.test_android_ci_gate tests.test_android_candidate_request tests.test_continuity_version_sequence
+    - bash -n scripts/switch_android_candidate_route.sh and obx-test controlled route activation evidence
+    releases:
+    - R14
+    migration_and_compatibility: 仅Staging候选部署与治理门禁变化；当前21125aa9候选及59331083回滚容器已恢复到hhy-r14-staging_smoke、V044数据库和可写MFA卷，Nginx已通过受控脚本切换28116。正式产品合同、APK业务代码和生产数据库不变
+  user_confirmation: 项目所有者已明确要求持续完成R14至R32，候选失败后自行修复继续，不得停下等待逐次批准
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-29T00:32:02Z'
+    note: 项目所有者已要求候选失败由AI依据真实日志修复并持续推进，且不得发生R14至R32开发漂移。本CR只原位补齐既有候选路由的网络、数据库和MFA卷部署证明，并授权绑定修复Commit的单次Attempt4，不改变全局三轮规则、产品合同或生产数据
+  machine_record: .continuity/change_requests/CR-0479.yaml
+  document: docs/03-continuity/change-requests/CR-0479-修复R14候选部署网络数据库与MFA卷漂移并递增Attempt4.md
+- protocol_version: '1.0'
+  cr_id: CR-0480
+  title: 补齐CR-0479候选部署证明的策略与门禁投影范围
+  status: APPROVED
+  created_at: '2026-07-29T00:38:29Z'
+  updated_at: '2026-07-29T00:39:13Z'
+  requester_actor_id: codex-r14-close-20260729
+  approver_actor_id: project-owner-continuity-directive-20260729
+  task_id: TASK-R14-008
+  session_id: SES-20260728T220632Z-FE7D82FD
+  user_request: 持续完成R14至R32，候选失败由AI依据真实日志修复并确保规则跨电脑跨AI生效
+  reason: CR-0479已审批且不可变，其影响范围登记了android-automation.yaml但遗漏精确校验该证明集合的android_ci_gate.py及对应测试；直接修改会造成批准记录和实际Commit范围不一致
+  original_rule: CR-0479已要求候选网络、R14数据库绑定和MFA卷可写，但其已审批影响文件遗漏了负责精确校验required_proofs集合的scripts/android_ci_gate.py和tests/test_android_ci_gate.py
+  new_rule: 不新增规则；仅补齐CR-0479同一三项部署证明在config/android-automation.yaml、scripts/android_ci_gate.py和tests/test_android_ci_gate.py中的一致投影，集合缺项、多项或漂移都必须非零失败
+  impact_summary: 让候选路由脚本、权威策略、加载门禁和治理测试对candidate_network_exact、candidate_database_binding_exact、candidate_mfa_volume_writable保持单一事实；不改变Attempt次数、产品功能、API、数据库和生产环境
+  impact:
+    files:
+    - config/android-automation.yaml
+    - scripts/android_ci_gate.py
+    - tests/test_android_ci_gate.py
+    pages: []
+    apis: []
+    database: []
+    configuration:
+    - CR-0479 route proof projection completeness
+    ledger: []
+    tests:
+    - python -m unittest tests.test_android_ci_gate tests.test_android_candidate_route
+    releases:
+    - R14
+    migration_and_compatibility: 仅补齐既有候选治理投影，旧候选证据保持不可变；Attempt4开始必须提供新三项证明，正式产品与生产数据不迁移
+  user_confirmation: 项目所有者当前Goal明确要求可形式化需求必须落实为测试、契约、静态规则或验证脚本，并持续推进，不需逐次批准
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-29T00:39:13Z'
+    note: 项目所有者已要求持续推进R14至R32并确保规则跨电脑跨AI生效；本CR仅补齐CR-0479同一证明集合的既有策略、门禁和测试投影，不新增业务或生产变更
+  machine_record: .continuity/change_requests/CR-0480.yaml
+  document: docs/03-continuity/change-requests/CR-0480-补齐CR-0479候选部署证明的策略与门禁投影范围.md

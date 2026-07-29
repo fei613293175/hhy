@@ -2102,3 +2102,17 @@ problems:
   - Compose文字语义节点enabled不等于clickable，不能以lastOrNull enabled后直接click
   - 候选断言失败不得先修改产品状态或延长等待；必须先读取目标进程UiAutomator点击诊断和服务端写入事实
   - 同一失败Attempt不得重跑；必须保存原始证据、形成修复Commit并递增唯一request_id
+- id: PROB-0148
+  title: R14候选容器误接R13网络数据库且MFA卷只读导致bootstrap 500
+  status: SOLVED
+  root_cause: R14 Attempt3请求、普通CI、Android编译、单测、Lint和打包均已通过，但候选与回滚容器沿用了hhy-r13-staging_smoke网络和R13数据库；首次纠正重建又把/var/lib/hhy/secrets挂成只读。GitHub Run 30408703138因此在模拟器启动前调用internal-ci bootstrap时收到HTTP 500，未产生任何旅程截图、JUnit或目标进程日志，不能归类为产品UI或交互回归。
+  resolution: CR-0479原位强化既有受控切流脚本，要求候选与回滚容器接入精确R14网络，候选HHY_DB_URL与HHY_DB_USER精确绑定R14 V044数据库，MFA秘密卷可写；CR-0480仅补齐该同一证明集合在android-automation策略、android_ci_gate加载门禁及测试中的投影。现场已把21125aa9候选和59331083回滚容器重建到R14隔离环境并受控切到28116，公网请求ID命中目标日志。
+  regression_checks:
+  - scripts/switch_android_candidate_route.sh在R14模式必须同时拒绝候选或回滚容器网络不匹配、数据库URL或用户不匹配以及MFA卷只读
+  - config/android-automation.yaml、scripts/android_ci_gate.py和tests/test_android_ci_gate.py必须共同精确要求candidate_network_exact、candidate_database_binding_exact和candidate_mfa_volume_writable
+  - 候选切流证据必须同时记录源码Commit、镜像、网络、数据库、Flyway、MFA卷、Nginx upstream、本机与公网HTTP及目标容器日志命中，不得输出令牌、密码或秘密值
+  - Attempt3不得重跑；Attempt4必须绑定修复Commit、CR-0479及唯一request004，并在模拟器启动前使用同Commit候选后端
+  do_not_repeat:
+  - 不得只凭容器healthy、HTTP 200、Release标签或Flyway版本推断候选接入了正确网络和数据库
+  - 不得把MFA秘密卷以只读方式挂载后继续执行OIDC bootstrap
+  - 不得把bootstrap前的基础设施HTTP 500误报成页面或交互测试失败，也不得在没有修复Commit和新证明时盲目重跑
