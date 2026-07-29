@@ -1,7 +1,7 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-29T20:55:04Z
-- Context Hash：`f774e2f5b2ebdbae907026de9dd9b941a44128661670901a3fa479116d44f82a`
+- 生成时间：2026-07-29T20:56:20Z
+- Context Hash：`9e377c54eba92c4bb7b15d5b20c7ad9128b3d3fe18f7d9adc23a36f04a03494f`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 规则就绪：`PASS`（`HASHED_CONTEXT_MANIFEST`）
@@ -187,7 +187,7 @@ blocked_tasks:
 - TASK-R16-007
 - TASK-R16-008
 next_task: TASK-R14-008
-updated_at: '2026-07-29T20:55:00Z'
+updated_at: '2026-07-29T20:56:16Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -222,15 +222,15 @@ continuity:
   active_session_id: SES-20260729T161557Z-6FCE6ACA
   actor_id: codex-r14-resume-20260730
   story_id: STORY-R14-004
-  lease_expires_at: '2026-07-30T00:55:00Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260729T161557Z-6FCE6ACA/0016.yaml
-  project_fingerprint: bd209c69b0fc2f5ab45e06f35c7d37e3d1a4f46766a6c91732b2914fd506f6dd
+  lease_expires_at: '2026-07-30T00:56:16Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260729T161557Z-6FCE6ACA/0017.yaml
+  project_fingerprint: 35a44d0a3714cbcd85f7daccd71418c4fcdf11a24f5f0cb57a5f5834ab2d62f3
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: 632eebbd98cd15c7231d2d925db674b22e1edbdb9b9b72f952e1c4640f6d517e
-    generated_at: '2026-07-29T20:51:33Z'
+    context_hash: f774e2f5b2ebdbae907026de9dd9b941a44128661670901a3fa479116d44f82a
+    generated_at: '2026-07-29T20:55:04Z'
   handoff_bundle: null
 ```
 
@@ -428,7 +428,7 @@ task_id: TASK-R14-008
 story_id: STORY-R14-004
 goal: 异常恢复 SES-20260728T220632Z-FE7D82FD：一对一聊天核心版本关闭与无状态交接
 started_at: '2026-07-29T16:15:57Z'
-updated_at: '2026-07-29T20:55:00Z'
+updated_at: '2026-07-29T20:56:16Z'
 takeover_of: SES-20260728T220632Z-FE7D82FD
 change_requests:
 - CR-0475
@@ -506,12 +506,12 @@ git:
   initial_worktree_state: DIRTY_TAKEOVER
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-29T20:55:00Z'
-  expires_at: '2026-07-30T00:55:00Z'
-checkpoint_sequence: 16
-latest_checkpoint: .continuity/checkpoints/SES-20260729T161557Z-6FCE6ACA/0016.yaml
+  renewed_at: '2026-07-29T20:56:16Z'
+  expires_at: '2026-07-30T00:56:16Z'
+checkpoint_sequence: 17
+latest_checkpoint: .continuity/checkpoints/SES-20260729T161557Z-6FCE6ACA/0017.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260729T161557Z-6FCE6ACA.md
-next_step: 提交Attempt11授权与请求，重建同提交候选后端、受控切流并只推送一次触发GitHub候选。
+next_step: 提交CR状态，重建最终HEAD候选后端、受控切流并单次推送。
 context_pack: THIS_CONTEXT_PACK
 handoff_bundle: null
 closure: null
@@ -519,62 +519,53 @@ parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 候选请求、例外、CR和精确Commit必须原子绑定，不能并行拆分。
+  reason: 最终HEAD、候选容器、切流和推送必须串行保持同一Commit身份。
 ```
 
 ## 最新检查点
 
 ```yaml
 protocol_version: '1.0'
-checkpoint_id: CP-SES-20260729T161557Z-6FCE6ACA-0016
+checkpoint_id: CP-SES-20260729T161557Z-6FCE6ACA-0017
 session_id: SES-20260729T161557Z-6FCE6ACA
 task_id: TASK-R14-008
 story_id: STORY-R14-004
-sequence: 16
-created_at: '2026-07-29T20:54:59Z'
-summary: CR-0489实现Commit c79a7967已登记；CR-0490批准并写入绑定新可见性取证路径的唯一R14 Attempt11请求。
-next_step: 提交Attempt11授权与请求，重建同提交候选后端、受控切流并只推送一次触发GitHub候选。
+sequence: 17
+created_at: '2026-07-29T20:56:15Z'
+summary: CR-0490已由Commit 442457ce实现并登记，R14 Attempt11新验证路径请求已冻结。
+next_step: 提交CR状态，重建最终HEAD候选后端、受控切流并单次推送。
 blockers: []
 decisions:
-- Attempt11是新验证路径首轮且max_candidate_runs=1；不得复用CR-0488或旧By.res路径。
+- Attempt11仅运行一次且必须包含c79a7967；旧resource-id路径不再使用。
 note: ''
 tests:
-- name: candidate-request-validator
-  result: PASS
-  evidence: request011 CR-0490 c79a7967 effective-limit11
-  note: 精确绑定通过
 - name: candidate-governance
   result: PASS
   evidence: 100 unittest
-  note: 错误Release CR Commit Request和Attempt均拒绝
-- name: git-diff
+  note: 请求与例外精确绑定
+- name: candidate-request
   result: PASS
-  evidence: git diff --check
-  note: 无空白错误
+  evidence: request011 validator
+  note: effective_attempt_limit=11
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: c79a796721ba5357315d3cd7a45417be653a160e
+  head: 442457ced3e34c72184ae625139f6ee6dc8a63cd
   upstream: origin/task/TASK-R03-001
-  ahead: 1
+  ahead: 2
   behind: 0
   dirty: true
   status_porcelain:
   - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
   - ' M .continuity/EVENT_LOG.jsonl'
   - ' M .continuity/STATE.yaml'
-  - ' M .continuity/change_requests/CR-0489.yaml'
-  - ' M .continuity/sessions/SES-20260729T161557Z-6FCE6ACA.yaml'
+  - ' M .continuity/change_requests/CR-0490.yaml'
   - ' M catalogs/change_request_index.csv'
   - ' M catalogs/session_index.csv'
-  - ' M config/android-automation.yaml'
-  - ' M config/android-candidate-request.yaml'
-  - ' M docs/03-continuity/change-requests/CR-0489-切换R14禁发可见性验证为Compose同步与用户文本双证据.md'
-  - ' M tests/test_android_candidate_request.py'
-  - ' M tests/test_android_ci_gate.py'
-  - ?? .continuity/change_requests/CR-0490.yaml
-  - ?? docs/03-continuity/change-requests/CR-0490-授权R14新可见性取证路径唯一Attempt11.md
+  - ' M docs/03-continuity/change-requests/CR-0490-授权R14新可见性取证路径唯一Attempt11.md'
   recent_commits:
+  - "442457ced3e34c72184ae625139f6ee6dc8a63cd\t2026-07-30T04:55:25+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] test(android): request R14\
+    \ candidate attempt11"
   - "c79a796721ba5357315d3cd7a45417be653a160e\t2026-07-30T04:51:46+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] test(android): switch blocked-state\
     \ visibility oracle"
   - "ae95d4b0fba8136c852557bc331ed4ea22f537a1\t2026-07-30T04:20:41+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] docs(ci): bind attempt10 authorization"
@@ -588,10 +579,8 @@ git:
     \ bar visible above IME"
   - "7e355490f03c5b52f14c1980bcfd88157a753d55\t2026-07-30T02:52:12+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] test(android): request R14\
     \ candidate attempt8"
-  - "0d6b465c8c6f1e7e957fd38f0d3ac075a4b5e913\t2026-07-30T02:47:38+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] fix(android): publish block\
-    \ state without disk stall"
 project_fingerprint:
-  sha256: bd209c69b0fc2f5ab45e06f35c7d37e3d1a4f46766a6c91732b2914fd506f6dd
+  sha256: 35a44d0a3714cbcd85f7daccd71418c4fcdf11a24f5f0cb57a5f5834ab2d62f3
   files:
   - .github/workflows/android-quality-gate.yml
   - CHANGELOG.md
@@ -767,8 +756,8 @@ project_fingerprint:
       sha256: a31b65d4b3428bbe3a355d8efc0bde142e28b6d8d8fcb6ef2f32d28e3f5cf54e
     - path: docs/03-continuity/change-requests/CR-0490-授权R14新可见性取证路径唯一Attempt11.md
       state: FILE
-      size: 3356
-      sha256: d02a18575a93e42a74223525636513fdb90377132d7427c1e3f9097acad7d334
+      size: 3697
+      sha256: ae026ac109e819dbf8e3eeb6c1ff4760f72e951f437f72951d040c2c17fb0f48
     - path: scripts/android_ci_gate.py
       state: FILE
       size: 39771
@@ -934,8 +923,8 @@ parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 候选请求、例外、CR和精确Commit必须原子绑定，不能并行拆分。
-event_hash: e4457b5f9f68a4456ae31d84304bb9e88c0641137e6c2e65bf9ea369968bd5f6
+  reason: 最终HEAD、候选容器、切流和推送必须串行保持同一Commit身份。
+event_hash: 076c155ea232d6316b791e0e36eb8ca7fa152955a7c3a74f22d2817af6cf1bbf
 ```
 
 ## 接续状态与事件头
@@ -947,8 +936,8 @@ active_session_id: SES-20260729T161557Z-6FCE6ACA
 last_session_id: SES-20260728T205917Z-52E3B6B1
 last_session_result: COMPLETED
 last_closure_checkpoint_id: CP-SES-20260728T205917Z-52E3B6B1-0008
-event_count: 4603
-event_head_hash: e4457b5f9f68a4456ae31d84304bb9e88c0641137e6c2e65bf9ea369968bd5f6
+event_count: 4605
+event_head_hash: 076c155ea232d6316b791e0e36eb8ca7fa152955a7c3a74f22d2817af6cf1bbf
 event_chain_valid: true
 ```
 
@@ -1071,9 +1060,9 @@ recent_sessions: - session_id: SES-20260728T091447Z-9A245BB4
   started_at: '2026-07-29T16:15:57Z'
   record: .continuity/sessions/SES-20260729T161557Z-6FCE6ACA.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260729T161557Z-6FCE6ACA.md
-  updated_at: '2026-07-29T20:55:00Z'
+  updated_at: '2026-07-29T20:56:16Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260729T161557Z-6FCE6ACA/0016.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260729T161557Z-6FCE6ACA/0017.yaml
   handoff_bundle: null
 task_claims: - claim_id: CLM-A470E7430D21
   session_id: SES-20260726T123133Z-63E93B88
@@ -2025,9 +2014,9 @@ recent_task_transitions: - transition_id: TRN-005608E4C9E4
 ```yaml
 initialized: true
 branch: task/TASK-R03-001
-head: c79a796721ba5357315d3cd7a45417be653a160e
+head: 442457ced3e34c72184ae625139f6ee6dc8a63cd
 upstream: origin/task/TASK-R03-001
-ahead: 1
+ahead: 2
 behind: 0
 dirty: true
 status_porcelain:
@@ -2036,21 +2025,17 @@ status_porcelain:
 - ' M .continuity/EVENT_LOG.jsonl'
 - ' M .continuity/SESSION_INDEX.yaml'
 - ' M .continuity/STATE.yaml'
-- ' M .continuity/change_requests/CR-0489.yaml'
+- ' M .continuity/change_requests/CR-0490.yaml'
 - ' M .continuity/sessions/SES-20260729T161557Z-6FCE6ACA.yaml'
 - ' M CURRENT_STATUS.yaml'
 - ' M catalogs/change_request_index.csv'
 - ' M catalogs/session_index.csv'
-- ' M config/android-automation.yaml'
-- ' M config/android-candidate-request.yaml'
-- ' M docs/03-continuity/change-requests/CR-0489-切换R14禁发可见性验证为Compose同步与用户文本双证据.md'
+- ' M docs/03-continuity/change-requests/CR-0490-授权R14新可见性取证路径唯一Attempt11.md'
 - ' M docs/03-continuity/sessions/2026-07/SES-20260729T161557Z-6FCE6ACA.md'
-- ' M tests/test_android_candidate_request.py'
-- ' M tests/test_android_ci_gate.py'
-- ?? .continuity/change_requests/CR-0490.yaml
-- ?? .continuity/checkpoints/SES-20260729T161557Z-6FCE6ACA/0016.yaml
-- ?? docs/03-continuity/change-requests/CR-0490-授权R14新可见性取证路径唯一Attempt11.md
+- ?? .continuity/checkpoints/SES-20260729T161557Z-6FCE6ACA/0017.yaml
 recent_commits:
+- "442457ced3e34c72184ae625139f6ee6dc8a63cd\t2026-07-30T04:55:25+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] test(android): request R14 candidate\
+  \ attempt11"
 - "c79a796721ba5357315d3cd7a45417be653a160e\t2026-07-30T04:51:46+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] test(android): switch blocked-state\
   \ visibility oracle"
 - "ae95d4b0fba8136c852557bc331ed4ea22f537a1\t2026-07-30T04:20:41+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] docs(ci): bind attempt10 authorization"
@@ -2064,13 +2049,11 @@ recent_commits:
   \ visible above IME"
 - "7e355490f03c5b52f14c1980bcfd88157a753d55\t2026-07-30T02:52:12+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] test(android): request R14 candidate\
   \ attempt8"
-- "0d6b465c8c6f1e7e957fd38f0d3ac075a4b5e913\t2026-07-30T02:47:38+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] fix(android): publish block\
-  \ state without disk stall"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`bd209c69b0fc2f5ab45e06f35c7d37e3d1a4f46766a6c91732b2914fd506f6dd`
+- 指纹：`35a44d0a3714cbcd85f7daccd71418c4fcdf11a24f5f0cb57a5f5834ab2d62f3`
 - 文件数：40
 
 - `.github/workflows/android-quality-gate.yml`
@@ -16181,9 +16164,9 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - protocol_version: '1.0'
   cr_id: CR-0490
   title: 授权R14新可见性取证路径唯一Attempt11
-  status: IMPLEMENTING
+  status: IMPLEMENTED
   created_at: '2026-07-29T20:52:38Z'
-  updated_at: '2026-07-29T20:53:24Z'
+  updated_at: '2026-07-29T20:55:57Z'
   requester_actor_id: codex-r14-resume-20260730
   approver_actor_id: codex-independent-candidate-reviewer
   task_id: TASK-R14-008
@@ -16224,15 +16207,22 @@ PARALLEL_EXECUTION_PLAN.yaml:
     status: IMPLEMENTING
     note: 开始写入Attempt11精确例外、request011及错误CR/Commit/Request/运行次数拒绝回归。
     session_id: SES-20260729T161557Z-6FCE6ACA
+  - at: '2026-07-29T20:55:57Z'
+    actor_id: codex-r14-resume-20260730
+    status: IMPLEMENTED
+    note: Commit 442457ce写入Attempt11新路径唯一例外、request011与双侧精确绑定回归；100项治理测试和请求验证PASS，旧路径三轮上限与业务断言未放宽。
+    session_id: SES-20260729T161557Z-6FCE6ACA
   session_ids:
   - SES-20260729T161557Z-6FCE6ACA
+  implementation_commits:
+  - 442457ce
 ```
 
 ## 上下文来源及哈希
 
 - `AGENTS.md` — `bde93afcdb788b601aeffcf2369a1aeda8eeb391f165429d501d7ba8895ba4a6`
 - `START_HERE.md` — `22de14029ce47beb41ea569e36ce223fbc9d11b86f8676f28d5fbbd83896af5c`
-- `CURRENT_STATUS.yaml` — `786ba29612afc07a25cf5653beed79793b59169e4e54deb4ef086ca7071f6514`
+- `CURRENT_STATUS.yaml` — `021d53cb6c66b2faad9fd01bbb4e4d223a4c7fb408c657d8ff0091bca5742d05`
 - `NEXT_TASK.yaml` — `e26e5c16bb6b761d538c5e11830ffbfaeacc532c054e569ab784155323b6af5c`
 - `DEVELOPMENT_RISK_REGISTER.md` — `8304c91492e4ee2abea0522a06541c8688d39c7fc532b5d0cde499bf09fffb87`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `5213b166f464a4415abe064e0ebcd99da8f1f8d23569b49ae4e9787007e83314`
@@ -16243,12 +16233,12 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `config/REPOSITORY_TRANSPORT.yaml` — `8c4a21f3e204d46e7ffb467d804a53ed26cda61cd088dadfddb50b69eea657fc`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `38e04ed812c8df0d353c2b91993d31e53b471e9c457f06b426bd2260c470aa92`
-- `.continuity/EVENT_LOG.jsonl` — `23c311354cbac5dad6ffdb937ecd2245a9b2199617d7e8607a760679123ec821`
-- `.continuity/SESSION_INDEX.yaml` — `885fbd3e2d42051292a6eb4ebb1ce6bdda30d1767afbff75d24ced836022b183`
+- `.continuity/EVENT_LOG.jsonl` — `771149726b0cbd75d3bec001c4e4df28e3f8926437b7532351d6421135571880`
+- `.continuity/SESSION_INDEX.yaml` — `01c8c04af576c56013470ec1cc68ea6c101c54380f5e1bb56cddaf0eb03a4584`
 - `.continuity/TASK_CLAIMS.yaml` — `0ff8aad03fdf7bd39105618d202972c82222c6359e96e7f3a89861b184c45eec`
 - `.continuity/TASK_TRANSITIONS.yaml` — `afd6333d15719bab6521ac976344a232ccba2e5e9edd4d2e5817ad4bb473f4d1`
-- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `480e398c2c2534f2e2212a985193f8b51f2c7b9b4181f2d38fd3f6c26d65d678`
-- `.continuity/ACTIVE_SESSION.yaml` — `8ec43ee14d60a4a2c0e88dbbc83fefd8feaaff42296258bbefcdf74cd440a902`
+- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `877e08287000f7be9a4a9f96a4628574d06b49790cdd8bd840ee2b3f58ffc5d9`
+- `.continuity/ACTIVE_SESSION.yaml` — `5ffb20e7eff2e7db37f15ff99e23d1df8d8c975674d9870bfc2fd2f8276e1f58`
 - `docs/00-baseline/正式商业系统全局硬性开发边界.md` — `30c07716c31d6d09621b6f6d119063b1fcb35e78d9b266423ed333d92b8262db`
 - `docs/02-ui/UI参考图使用与开发约束_V1.2.2.md` — `d14367586aa2067b059df58798acd20ab982459cdb35ff27fc7922a3896e4933`
 - `docs/03-continuity/持续开发无状态接续强制门禁_V1.2.3.md` — `d0ed3ed68bdd93b06500eecdfb5baa3245e6ca8b685a486788abb6eee39b3d51`
@@ -16259,8 +16249,8 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `releases/R14/TASKS.yaml` — `c7fc98c89d4e1e02535460d19de43608dcc5178d4fe61bffad94385b76df5e05`
 - `releases/R14/ACCEPTANCE_MATRIX.csv` — `ffc0fd23b945544de8fe2a37774a94675c0d60b73d88517abe69c68d326ad6f4`
 - `releases/R14/PARALLEL_EXECUTION_PLAN.yaml` — `cd1f0c96ffd7562acb214edba80a2bbb12b79f06c19032d1b133936ff6abd74f`
-- `docs/03-continuity/sessions/2026-07/SES-20260729T161557Z-6FCE6ACA.md` — `e5dd433a6560ae9472ec9e8619170efe48774f8e5b56115730d88fadf1fc457e`
-- `.continuity/checkpoints/SES-20260729T161557Z-6FCE6ACA/0016.yaml` — `1a651540f8f43b760c7aac9e83afe8e9e411714795fdd493c5d11c7f7ee82c84`
+- `docs/03-continuity/sessions/2026-07/SES-20260729T161557Z-6FCE6ACA.md` — `ebad0d9746ee682dca82b65a0c92b3db8d117160a9385d5bfd9a950a2d0ad91f`
+- `.continuity/checkpoints/SES-20260729T161557Z-6FCE6ACA/0017.yaml` — `82a3a14a9556d71d241ca46fc240c439ec82815f45164a78ad84da2a6180fc17`
 - `docs/03-continuity/change-requests/CR-0475-绑定R14最终交互候选与稳定TEST_APK同一提交.md` — `4d6c35fd99ef585a4802fb664ac2e2819d4a2fe93fc5d1747ca73496ae69387e`
 - `docs/03-continuity/change-requests/CR-0476-解除R13历史候选测试对当前请求的永久绑定.md` — `098711406c0bc8b2574f2388ab6ed76242e7df1d3fb442a67593a13f76871e11`
 - `docs/03-continuity/change-requests/CR-0477-阻断R14候选旧后端路由与夹具语义漂移.md` — `cbac66f0b6906977cce340a81d30f198e90dcef64ec13ff8c7edd10b2914da61`
@@ -16276,7 +16266,7 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `docs/03-continuity/change-requests/CR-0487-原位加固GitHub-OIDC引导5xx有限重试并保留非重试失败.md` — `80234f3d0708351e62d60a92ae7a9a8fef495ed48c0bb8a0a85d3b2464117fe9`
 - `docs/03-continuity/change-requests/CR-0488-绑定R14基础设施修复并授权唯一Attempt10业务第三轮.md` — `3a415142338b3de64248bdda9edab6873da31b87d19f205ebc3b8dcf83491712`
 - `docs/03-continuity/change-requests/CR-0489-切换R14禁发可见性验证为Compose同步与用户文本双证据.md` — `a31b65d4b3428bbe3a355d8efc0bde142e28b6d8d8fcb6ef2f32d28e3f5cf54e`
-- `docs/03-continuity/change-requests/CR-0490-授权R14新可见性取证路径唯一Attempt11.md` — `d02a18575a93e42a74223525636513fdb90377132d7427c1e3f9097acad7d334`
+- `docs/03-continuity/change-requests/CR-0490-授权R14新可见性取证路径唯一Attempt11.md` — `ae026ac109e819dbf8e3eeb6c1ff4760f72e951f437f72951d040c2c17fb0f48`
 
 ## 接手硬规则
 

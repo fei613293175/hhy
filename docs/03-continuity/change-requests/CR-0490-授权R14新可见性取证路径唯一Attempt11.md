@@ -87,3 +87,10 @@ Attempt10及CR-0488保持已消费历史；Attempt11必须包含c79a7967且以�
 - Status：`IMPLEMENTING`
 - Session：`SES-20260729T161557Z-6FCE6ACA`
 - Note：开始写入Attempt11精确例外、request011及错误CR/Commit/Request/运行次数拒绝回归。
+
+## 状态记录 · 2026-07-29T20:55:57Z
+
+- Actor：`codex-r14-resume-20260730`
+- Status：`IMPLEMENTED`
+- Session：`SES-20260729T161557Z-6FCE6ACA`
+- Note：Commit 442457ce写入Attempt11新路径唯一例外、request011与双侧精确绑定回归；100项治理测试和请求验证PASS，旧路径三轮上限与业务断言未放宽。
