@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## R14候选启动版本策略夹具与HTTP门禁加固 · 2026-07-29
+
+- `CR-0481`记录GitHub Run `30415115136`的真实失败：编译、单测、Lint、打包、一次性自动会话、平台状态和受鉴权当前用户请求均成功，但隔离R14数据库五张App发布表为空，启动版本检查返回HTTP 404，旅程尚未开始且没有产品崩溃或ANR。
+- 既有受控切流现在先从已交付R14 TEST_APK Manifest幂等建立唯一`official/STAGING`发布链，再分别要求候选本机和公网`POST /public-api/v1/app/version-check`返回200；任何失败都在GitHub模拟器前阻断，公网验证失败自动回滚旧upstream。
+- Attempt4运行包、日志SHA、服务器请求序列和数据库空表计数已无秘密入库；只有在`obx-test`连续两次夹具验证通过后，才允许绑定本修复Commit登记唯一`R14-CANDIDATE-20260729-005`，正式App、公开合同、生产数据和现有TEST_APK不变。
+
 ## R14候选隔离网络、数据库与MFA卷证明加固 · 2026-07-29
 
 - `CR-0479`记录GitHub Run `30408703138`的真实失败：候选请求、普通CI、Android编译、单测、Lint和打包均通过，但模拟器启动前的Staging bootstrap返回HTTP 500；现场发现候选容器误接R13网络与数据库，首次重建还把MFA卷挂成只读。

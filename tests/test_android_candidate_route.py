@@ -13,6 +13,9 @@ class AndroidCandidateRouteTest(unittest.TestCase):
         self.workflow = (
             ROOT / ".github/workflows/android-quality-gate.yml"
         ).read_text(encoding="utf-8")
+        self.r14_fixture = (
+            ROOT / "scripts/prepare_r14_candidate_fixture.sh"
+        ).read_text(encoding="utf-8")
 
     def test_route_switch_is_exact_guarded_and_rollback_capable(self) -> None:
         self.assertIn('HHY_CANDIDATE_ROUTE_CONFIRM" != "YES"', self.script)
@@ -96,6 +99,21 @@ class AndroidCandidateRouteTest(unittest.TestCase):
             "Candidate database has not reached Flyway V044",
             self.script,
         )
+        self.assertIn("HHY_R14_CANDIDATE_FIXTURE_CONFIRM is required", self.script)
+        self.assertIn("bash scripts/prepare_r14_candidate_fixture.sh", self.script)
+        self.assertLess(
+            self.script.index("bash scripts/prepare_r14_candidate_fixture.sh"),
+            self.script.index('nginx_config="/www/server/panel/vhost/nginx/api.orbexa.cc.conf"'),
+        )
+        self.assertIn(
+            'local_startup_version_url="http://${HHY_TARGET_UPSTREAM}/public-api/v1/app/version-check"',
+            self.script,
+        )
+        self.assertIn(
+            'public_startup_version_url="https://api.orbexa.cc/public-api/v1/app/version-check"',
+            self.script,
+        )
+        self.assertEqual(2, self.script.count('--data "$startup_version_payload"'))
         self.assertIn(
             'public_readiness_url="https://api.orbexa.cc/api/v1/conversations?',
             self.script,
@@ -109,6 +127,22 @@ class AndroidCandidateRouteTest(unittest.TestCase):
             self.script.index('nginx_config=')
         ]
         self.assertNotIn("invite-codes", r14_guard)
+
+    def test_r14_startup_policy_fixture_is_manifest_bound_and_idempotent(self) -> None:
+        self.assertIn('HHY_R14_CANDIDATE_FIXTURE_CONFIRM:-}" != "YES"', self.r14_fixture)
+        self.assertIn("artifacts/apk/R14/APK_MANIFEST.yaml", self.r14_fixture)
+        self.assertIn("SELECT pg_advisory_xact_lock(709014)", self.r14_fixture)
+        self.assertIn("fixture_profile_id bigint", self.r14_fixture)
+        self.assertIn("fixture_job_id bigint", self.r14_fixture)
+        self.assertIn("fixture_artifact_id bigint", self.r14_fixture)
+        self.assertIn("fixture_channel_id bigint", self.r14_fixture)
+        self.assertIn("fixture_release_id bigint", self.r14_fixture)
+        self.assertNotIn("WHERE profile_id=profile_id", self.r14_fixture)
+        self.assertNotIn("WHERE job_id=job_id", self.r14_fixture)
+        self.assertNotIn("WHERE channel_id=channel_id", self.r14_fixture)
+        self.assertIn("R14_CANDIDATE_STARTUP_POLICY_OK|release=1|version=", self.r14_fixture)
+        self.assertIn("awk 'NF { print }'", self.r14_fixture)
+        self.assertIn('[[ "$fixture_result" != "$expected_result" ]]', self.r14_fixture)
 
     def test_bootstrap_preflight_runs_before_heavy_android_setup(self) -> None:
         bootstrap = self.workflow.index(

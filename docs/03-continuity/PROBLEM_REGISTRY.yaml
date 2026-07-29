@@ -2116,3 +2116,18 @@ problems:
   - 不得只凭容器healthy、HTTP 200、Release标签或Flyway版本推断候选接入了正确网络和数据库
   - 不得把MFA秘密卷以只读方式挂载后继续执行OIDC bootstrap
   - 不得把bootstrap前的基础设施HTTP 500误报成页面或交互测试失败，也不得在没有修复Commit和新证明时盲目重跑
+- id: PROB-0149
+  title: R14候选数据库缺少启动版本策略导致认证后壳层被404阻断
+  status: SOLVED
+  root_cause: R14 Attempt4的候选请求、编译、单测、Lint、打包、一次性自动会话、平台状态和受鉴权当前用户请求均成功，但隔离R14 V044数据库中的app_build_profiles、app_build_jobs、app_build_artifacts、app_release_channels和app_release_records均为0。Android认证后启动必经POST /public-api/v1/app/version-check因此返回404，页面只显示“暂时无法连接”，四张R14旅程截图均未生成；这不是自动登录、网络、401、崩溃、ANR或产品UI回归。
+  resolution: CR-0481在既有R14候选路由中加入受显式确认保护的幂等版本策略夹具，从已交付R14 TEST_APK Manifest读取Commit、版本、SHA、签名、大小、时间和下载对象键，建立唯一official/STAGING发布链。切流前本机版本检查与切流后公网版本检查都必须为HTTP 200，并在权威策略、加载门禁和专项测试中加入精确证明；Attempt4证据入库后只允许绑定修复Commit的唯一Attempt5。
+  regression_checks:
+  - scripts/prepare_r14_candidate_fixture.sh必须限制R14隔离容器、R14 V044数据库和staging profile，使用事务级 advisory lock，并在第二次执行时保持profile、job、artifact、channel和release各唯一一条
+  - 夹具必须从artifacts/apk/R14/APK_MANIFEST.yaml读取已交付TEST_APK身份并拒绝Commit、SHA、签名、大小、时间、下载域或对象键漂移，禁止硬编码另一套APK事实
+  - scripts/switch_android_candidate_route.sh必须在修改Nginx前执行夹具和本机POST版本检查，切流后再执行公网POST版本检查；任一失败不得启动GitHub模拟器且切流后失败必须自动回滚
+  - config/android-automation.yaml、scripts/android_ci_gate.py和tests/test_android_ci_gate.py必须共同精确要求candidate_startup_version_fixture_exact、target_startup_version_policy_http_200和public_startup_version_policy_http_200
+  do_not_repeat:
+  - 不得用自动会话、平台状态、当前用户或会话列表HTTP 200推断Android启动版本策略已就绪
+  - 不得在候选数据库为空时直接触发模拟器，也不得把版本检查404误报成登录页或消息UI失败
+  - psql在BEGIN/COMMIT与-qAt组合下仍可能在查询结果前输出空行；严格证明比较前只能过滤空行，禁止放宽期望字符串或忽略唯一记录计数
+  - Attempt4不得重跑；必须先形成修复Commit、在obx-test连续运行夹具两次并证明本机和公网版本检查200，再登记唯一Attempt5

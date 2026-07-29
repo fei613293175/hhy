@@ -20,6 +20,7 @@ case "$probe_mode" in
     : "${HHY_CANDIDATE_DATABASE_CONTAINER:?HHY_CANDIDATE_DATABASE_CONTAINER is required}"
     : "${HHY_CANDIDATE_DATABASE_USER:?HHY_CANDIDATE_DATABASE_USER is required}"
     : "${HHY_CANDIDATE_DATABASE_NAME:?HHY_CANDIDATE_DATABASE_NAME is required}"
+    : "${HHY_R14_CANDIDATE_FIXTURE_CONFIRM:?HHY_R14_CANDIDATE_FIXTURE_CONFIRM is required}"
     ;;
   *)
     echo "Unsupported candidate route probe mode" >&2
@@ -116,6 +117,7 @@ if [[ "$probe_mode" == "R14_CONVERSATIONS" ]]; then
     echo "Candidate database has not reached Flyway V044" >&2
     exit 2
   fi
+  bash scripts/prepare_r14_candidate_fixture.sh
 fi
 
 nginx_config="/www/server/panel/vhost/nginx/api.orbexa.cc.conf"
@@ -128,6 +130,9 @@ if [[ "$probe_mode" == "LEGACY_INVITE" ]]; then
 else
   public_readiness_url="https://api.orbexa.cc/api/v1/conversations?page=1&pageSize=20&sort=updatedAt%3Adesc"
   local_readiness_url="http://${HHY_TARGET_UPSTREAM}/api/v1/conversations?page=1&pageSize=20&sort=updatedAt%3Adesc"
+  public_startup_version_url="https://api.orbexa.cc/public-api/v1/app/version-check"
+  local_startup_version_url="http://${HHY_TARGET_UPSTREAM}/public-api/v1/app/version-check"
+  startup_version_payload='{"platform":"ANDROID","versionCode":2147483647,"versionName":"candidate-probe","channel":"official","environment":"STAGING"}'
 fi
 expected_port="${HHY_TARGET_UPSTREAM##*:}"
 published_port="$(docker port "$HHY_CANDIDATE_CONTAINER" 8080/tcp 2>/dev/null || true)"
@@ -146,6 +151,10 @@ if [[ "$probe_mode" == "LEGACY_INVITE" ]]; then
     --data "$readiness_payload" \
     "$local_readiness_url" >/dev/null
 else
+  curl --fail --silent --show-error --max-time 20 \
+    --header 'Content-Type: application/json' \
+    --data "$startup_version_payload" \
+    "$local_startup_version_url" >/dev/null
   curl --fail --silent --show-error --max-time 20 \
     --header "Authorization: Bearer ${HHY_CANDIDATE_ACCESS_TOKEN}" \
     "$local_readiness_url" >/dev/null
@@ -197,6 +206,10 @@ if [[ "$probe_mode" == "LEGACY_INVITE" ]]; then
     --data "$readiness_payload" \
     "$public_readiness_url" >/dev/null
 else
+  curl --fail --silent --show-error --max-time 20 \
+    --header 'Content-Type: application/json' \
+    --data "$startup_version_payload" \
+    "$public_startup_version_url" >/dev/null
   curl --fail --silent --show-error --max-time 20 \
     --header "Authorization: Bearer ${HHY_CANDIDATE_ACCESS_TOKEN}" \
     "$public_readiness_url" >/dev/null
