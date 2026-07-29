@@ -1,0 +1,49 @@
+protocol_version: '1.0'
+cr_id: CR-0495
+title: 切换R14发送后清空验收为Compose实时语义
+status: IMPLEMENTING
+created_at: '2026-07-29T23:05:53Z'
+updated_at: '2026-07-29T23:06:28Z'
+requester_actor_id: codex-implementation
+approver_actor_id: codex-independent-test-reviewer
+task_id: TASK-R14-008
+session_id: SES-20260729T161557Z-6FCE6ACA
+user_request: 持续开发并由AI审核GitHub候选，不因候选失败停下或要求项目所有者核实
+reason: Attempt13在CR-0493产品修复后仍由UiAutomator resource文本快照报告旧composer值；服务端消息POST 128毫秒返回200，现有候选同一Compose旅程仅此断言仍使用跨框架resource文本，应复用PROB-0125以Compose实时语义等待并严格核对空值。
+original_rule: R14发送后使用UiAutomator按r14.chat.composer资源取一次文本快照并立即与空串比较；跨框架resource文本可能滞后于Compose状态。
+new_rule: R14发送后必须在Compose未合并语义树等待唯一r14.chat.composer节点的可编辑文本严格变为空串，再执行最终assertTextEquals；超时仍失败，空值期望和截图前置条件不得弱化。UiAutomator资源只保留外部存在性诊断，不再作为Compose可变文本的事实源。
+impact_summary: 只切换候选验收观察面，不改变产品代码、消息接口或空值标准；归档Attempt13原始工件、HTTP 200与同指纹第二轮证据。
+impact:
+  files:
+  - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+  - tests/test_android_ci_gate.py
+  - artifacts/validation/r14-candidate-attempt13/failure-evidence.json
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - CHANGELOG.md
+  pages:
+  - R14候选会话详情发送验收
+  apis: []
+  database: []
+  configuration: []
+  ledger:
+  - PROB-0151与PROB-0125复用
+  tests:
+  - Compose实时等待composer严格为空；禁止恢复assertResourceText；Attempt13证据解析；AndroidTest编译
+  releases:
+  - R14
+  migration_and_compatibility: 正式App和服务端零变更；候选从跨框架快照改为与输入动作相同的Compose实时语义，其他R14旅程、四图、JUnit和日志审核保持不变。
+user_confirmation: 项目所有者已授权AI持续开发和候选自主审核
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-29T23:06:22Z'
+  note: Attempt13与服务端128毫秒HTTP 200证明旧resource文本观察面仍不可靠；改用Compose实时语义不弱化空值断言，属于既有PROB-0125的直接复用。
+machine_record: .continuity/change_requests/CR-0495.yaml
+document: docs/03-continuity/change-requests/CR-0495-切换R14发送后清空验收为Compose实时语义.md
+decision_log:
+- at: '2026-07-29T23:06:28Z'
+  actor_id: codex-implementation
+  status: IMPLEMENTING
+  note: 开始归档Attempt13并实现Compose实时空值帮助函数和静态锁。
+  session_id: SES-20260729T161557Z-6FCE6ACA
+session_ids:
+- SES-20260729T161557Z-6FCE6ACA

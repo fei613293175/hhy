@@ -7,6 +7,7 @@ import android.os.Build
 import android.os.SystemClock
 import android.provider.MediaStore
 import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.assertTextEquals
 import androidx.compose.ui.test.hasTestTag
 import androidx.compose.ui.test.junit4.createEmptyComposeRule
 import androidx.compose.ui.test.longClick
@@ -209,7 +210,7 @@ class ReleaseCandidateSmokeTest {
         assertTrue("R14 sent message did not appear", device.wait(Until.hasObject(By.text(sentText)), 15_000))
         assertTrue("R14 sent message did not show sent state", device.wait(Until.hasObject(By.text("已发送")), 10_000))
         assertFalse("R14 new message was falsely rendered as read", device.hasObject(By.text("已读")))
-        assertResourceText("r14.chat.composer", "")
+        assertComposeTagText("r14.chat.composer", "")
         captureStable("02-r14-sent.png")
 
         clickDescription("会话操作")
@@ -278,6 +279,25 @@ class ReleaseCandidateSmokeTest {
                 useUnmergedTree = true,
             ).fetchSemanticsNodes().size == 1
         }
+    }
+
+    private fun assertComposeTagText(
+        value: String,
+        expected: String,
+        timeoutMillis: Long = 15_000,
+    ) {
+        composeRule.waitUntil(timeoutMillis) {
+            runCatching {
+                composeRule.onNode(
+                    hasTestTag(value),
+                    useUnmergedTree = true,
+                ).assertTextEquals(expected)
+            }.isSuccess
+        }
+        composeRule.onNode(
+            hasTestTag(value),
+            useUnmergedTree = true,
+        ).assertTextEquals(expected)
     }
 
     private fun waitForComposeTagGone(value: String, timeoutMillis: Long) {

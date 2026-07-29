@@ -1482,7 +1482,16 @@ class AndroidCiGateTest(unittest.TestCase):
         self.assertIn('longClickComposeTag("r14.conversation.row")', smoke_test)
         self.assertNotIn('longClickResource("r14.conversation.row")', smoke_test)
         self.assertIn('setComposeTagText("r14.chat.composer", sentText)', smoke_test)
-        self.assertIn('assertResourceText("r14.chat.composer", "")', smoke_test)
+        self.assertIn('assertComposeTagText("r14.chat.composer", "")', smoke_test)
+        self.assertNotIn('assertResourceText("r14.chat.composer", "")', smoke_test)
+        compose_text_helper = smoke_test[
+            smoke_test.index("private fun assertComposeTagText"):
+            smoke_test.index("private fun waitForComposeTagGone")
+        ]
+        self.assertIn("composeRule.waitUntil(timeoutMillis)", compose_text_helper)
+        self.assertIn("hasTestTag(value)", compose_text_helper)
+        self.assertIn("useUnmergedTree = true", compose_text_helper)
+        self.assertIn(").assertTextEquals(expected)", compose_text_helper)
         self.assertIn('waitForComposeTagGone("r14.conversation.row", 10_000)', smoke_test)
         self.assertIn(").assertIsDisplayed().performClick()", smoke_test)
         self.assertIn(").assertIsDisplayed().performTouchInput { longClick() }", smoke_test)

@@ -1,0 +1,53 @@
+{
+  "schema": "hhy.r14-candidate-failure-evidence/v1",
+  "release": "R14",
+  "attempt": 13,
+  "github_run_id": "30497451278",
+  "head_commit": "76fc73fd8a7ed7f7b4f19e2eba9c9e64b6013084",
+  "candidate_request_id": "R14-CANDIDATE-20260730-013",
+  "attempt_exception_id": "CR-0494",
+  "required_fix_commit": "c5695b9242fa751b83166f50e85c47109a0b0d62",
+  "runtime_artifact": {
+    "name": "android-runtime-30497451278",
+    "downloaded_zip_sha256": "39be58c016d1d42cf237bb815e9a7ba75906a2563301742170b7da1fabed8b45",
+    "runtime_status": "FAIL",
+    "owner_test_allowed": false
+  },
+  "successful_stages": [
+    "candidate request validation",
+    "Android compile",
+    "Android unit tests",
+    "Android lint",
+    "APK packaging",
+    "candidate backend routing",
+    "automatic login",
+    "conversation load",
+    "conversation search",
+    "message appeared",
+    "sent state appeared",
+    "POST message HTTP 200"
+  ],
+  "server_http_evidence": {
+    "operation": "POST /api/v1/conversations/{id}/messages",
+    "status": 200,
+    "latency_ms": 128,
+    "request_id": "bdbffe1f-a882-4095-a45e-875611f382c1",
+    "timestamp": "2026-07-29T23:02:37.884308163Z"
+  },
+  "first_business_failure": {
+    "test": "ReleaseCandidateSmokeTest",
+    "source_line": 453,
+    "message": "Unexpected business text for resource: r14.chat.composer expected:<[]> but was:<[R14候选发送-1785366153448]>",
+    "screenshots_produced": [
+      {
+        "name": "01-r14-conversations.png",
+        "sha256": "f29219bf10132934255ffbc8183c802604f50a9dee0b6ecfffa8a952f6bccde1"
+      }
+    ]
+  },
+  "diagnosis": "The product now uses an explicit onSuccess callback and the real message reached SENT after an HTTP 200 response, but the candidate still read composer through a one-time UiAutomator resource text snapshot. Existing PROB-0125 evidence shows that mutable Compose state must be verified through Compose semantics rather than a cross-framework resource snapshot.",
+  "required_fix": "Wait on the unique composer node in the unmerged Compose semantics tree and strictly assert EditableText equals the empty string. Keep timeout failure and all downstream business assertions.",
+  "fingerprint_round": 2,
+  "next_round_limit": "FINAL",
+  "secrets_included": false
+}

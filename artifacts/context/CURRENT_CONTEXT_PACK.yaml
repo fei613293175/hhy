@@ -1,5 +1,5 @@
 context_version: '1.0'
-generated_at: '2026-07-29T22:43:32Z'
+generated_at: '2026-07-29T23:09:36Z'
 conversation_dependency: PROHIBITED
 source_of_truth: REPOSITORY_ONLY
 project: hhy-pro-platform
@@ -155,7 +155,7 @@ current_status:
   - TASK-R16-007
   - TASK-R16-008
   next_task: TASK-R14-008
-  updated_at: '2026-07-29T22:43:28Z'
+  updated_at: '2026-07-29T23:09:32Z'
   notes:
   - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
   - 全部REST/WebSocket操作均有页面或系统所有者
@@ -190,15 +190,15 @@ current_status:
     active_session_id: SES-20260729T161557Z-6FCE6ACA
     actor_id: codex-r14-resume-20260730
     story_id: STORY-R14-004
-    lease_expires_at: '2026-07-30T02:43:28Z'
-    latest_checkpoint: .continuity/checkpoints/SES-20260729T161557Z-6FCE6ACA/0026.yaml
-    project_fingerprint: ce55364b703111dfef5fb7fa5ea3678be2bc64d97d19c423ef262f8cc8d0f7ed
+    lease_expires_at: '2026-07-30T03:09:31Z'
+    latest_checkpoint: .continuity/checkpoints/SES-20260729T161557Z-6FCE6ACA/0027.yaml
+    project_fingerprint: acf949651f75a57c80ed8be6757db466c648cb4d02373d207e7c785527224975
     context_pack:
       yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
       markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
       manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-      context_hash: 21f270e78bd3529fcc97f9a3bd3a70259b5463284cf0f17aa19b733e4c537e33
-      generated_at: '2026-07-29T22:42:41Z'
+      context_hash: 33f031af7e05dfce88edf44906fd0240ee41bec3e6e36203a8a84d5caf4d0c4b
+      generated_at: '2026-07-29T22:43:32Z'
     handoff_bundle: null
 next_task:
   id: TASK-R14-008
@@ -247,7 +247,7 @@ active_session:
   story_id: STORY-R14-004
   goal: 异常恢复 SES-20260728T220632Z-FE7D82FD：一对一聊天核心版本关闭与无状态交接
   started_at: '2026-07-29T16:15:57Z'
-  updated_at: '2026-07-29T22:43:28Z'
+  updated_at: '2026-07-29T23:09:31Z'
   takeover_of: SES-20260728T220632Z-FE7D82FD
   change_requests:
   - CR-0475
@@ -270,6 +270,7 @@ active_session:
   - CR-0492
   - CR-0493
   - CR-0494
+  - CR-0495
   scope:
     allowed_paths:
     - apps/**
@@ -329,12 +330,12 @@ active_session:
     initial_worktree_state: DIRTY_TAKEOVER
   lease:
     duration_minutes: 240
-    renewed_at: '2026-07-29T22:43:28Z'
-    expires_at: '2026-07-30T02:43:28Z'
-  checkpoint_sequence: 26
-  latest_checkpoint: .continuity/checkpoints/SES-20260729T161557Z-6FCE6ACA/0026.yaml
+    renewed_at: '2026-07-29T23:09:31Z'
+    expires_at: '2026-07-30T03:09:31Z'
+  checkpoint_sequence: 27
+  latest_checkpoint: .continuity/checkpoints/SES-20260729T161557Z-6FCE6ACA/0027.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260729T161557Z-6FCE6ACA.md
-  next_step: 提交CR实现记录；构建最终HEAD候选后端，验证本机与公网同Commit后单次推送触发Attempt13。
+  next_step: 提交CR-0495实现，登记实现Commit后创建同错误指纹第三且最终候选授权。
   context_pack: THIS_CONTEXT_PACK
   handoff_bundle: null
   closure: null
@@ -342,43 +343,59 @@ active_session:
     assessment: NO_SAFE_PARALLEL
     delegated_workers: 0
     workers: []
-    reason: 切流必须等待最终授权元数据提交，避免后端容器标签与GitHub HEAD不一致。
+    reason: 同一错误指纹的修复、证据和轮次计数必须保持单一原子事实链。
 latest_checkpoint:
   protocol_version: '1.0'
-  checkpoint_id: CP-SES-20260729T161557Z-6FCE6ACA-0026
+  checkpoint_id: CP-SES-20260729T161557Z-6FCE6ACA-0027
   session_id: SES-20260729T161557Z-6FCE6ACA
   task_id: TASK-R14-008
   story_id: STORY-R14-004
-  sequence: 26
-  created_at: '2026-07-29T22:43:27Z'
-  summary: CR-0494已由fdcea6c2实现并登记，Attempt13请求身份冻结。
-  next_step: 提交CR实现记录；构建最终HEAD候选后端，验证本机与公网同Commit后单次推送触发Attempt13。
+  sequence: 27
+  created_at: '2026-07-29T23:09:31Z'
+  summary: CR-0495归档Attempt13并将composer清空验收切到Compose实时语义；空值、超时及完整R14旅程保持严格。
+  next_step: 提交CR-0495实现，登记实现Commit后创建同错误指纹第三且最终候选授权。
   blockers: []
   decisions:
-  - 不重复Attempt12，不在候选后端与GitHub HEAD错位时触发运行。
+  - Attempt13同指纹第二轮；下一候选只允许绑定Compose实时语义新提交，若仍同指纹则停止该路径而不继续追加轮次。
   note: ''
   tests:
-  - name: candidate-authorization-commit
+  - name: android-governance-unit
     result: PASS
-    evidence: fdcea6c2
-    note: commit hooks and document gate pass
+    evidence: 104 tests in 9.777s
+    note: Compose帮助函数及禁止旧resource断言静态锁通过
+  - name: app-androidtest-compile
+    result: PASS
+    evidence: obx-test BUILD SUCCESSFUL in 1m02s, 225 tasks
+    note: ReleaseCandidateSmokeTest含实时语义帮助函数编译通过
+  - name: attempt13-evidence
+    result: PASS
+    evidence: JSON and PROBLEM_REGISTRY YAML parse
+    note: artifact SHA and HTTP 200 evidence stored
   git:
     initialized: true
     branch: task/TASK-R03-001
-    head: fdcea6c27369a14a167fcb850ffce2e80d35e753
+    head: 76fc73fd8a7ed7f7b4f19e2eba9c9e64b6013084
     upstream: origin/task/TASK-R03-001
-    ahead: 3
+    ahead: 0
     behind: 0
     dirty: true
     status_porcelain:
     - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
     - ' M .continuity/EVENT_LOG.jsonl'
     - ' M .continuity/STATE.yaml'
-    - ' M .continuity/change_requests/CR-0494.yaml'
+    - ' M .continuity/sessions/SES-20260729T161557Z-6FCE6ACA.yaml'
+    - ' M CHANGELOG.md'
+    - ' M apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt'
     - ' M catalogs/change_request_index.csv'
     - ' M catalogs/session_index.csv'
-    - ' M docs/03-continuity/change-requests/CR-0494-授权R14输入框成功回调修复唯一Attempt13.md'
+    - ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
+    - ' M tests/test_android_ci_gate.py'
+    - ?? .continuity/change_requests/CR-0495.yaml
+    - ?? artifacts/validation/r14-candidate-attempt13/failure-evidence.json
+    - ?? docs/03-continuity/change-requests/CR-0495-切换R14发送后清空验收为Compose实时语义.md
     recent_commits:
+    - "76fc73fd8a7ed7f7b4f19e2eba9c9e64b6013084\t2026-07-30T06:43:37+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] docs(ci): bind attempt13\
+      \ authorization"
     - "fdcea6c27369a14a167fcb850ffce2e80d35e753\t2026-07-30T06:42:46+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] test(android): request R14\
       \ candidate attempt13"
     - "b7fd0e497514862066afe11936064af22f2bdc2c\t2026-07-30T06:39:50+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] docs(android): bind composer\
@@ -393,10 +410,8 @@ latest_checkpoint:
       \ conversation reentry semantics"
     - "6df1a1ac89e44d45cc3d767d067cde6983f8c95f\t2026-07-30T04:56:33+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] docs(ci): bind attempt11\
       \ authorization"
-    - "442457ced3e34c72184ae625139f6ee6dc8a63cd\t2026-07-30T04:55:25+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] test(android): request R14\
-      \ candidate attempt11"
   project_fingerprint:
-    sha256: ce55364b703111dfef5fb7fa5ea3678be2bc64d97d19c423ef262f8cc8d0f7ed
+    sha256: acf949651f75a57c80ed8be6757db466c648cb4d02373d207e7c785527224975
     files:
     - .github/workflows/android-quality-gate.yml
     - CHANGELOG.md
@@ -435,6 +450,7 @@ latest_checkpoint:
     - docs/03-continuity/change-requests/CR-0492-授权R14会话复进Compose语义路径唯一Attempt12.md
     - docs/03-continuity/change-requests/CR-0493-修复R14文本发送成功后输入框未清空.md
     - docs/03-continuity/change-requests/CR-0494-授权R14输入框成功回调修复唯一Attempt13.md
+    - docs/03-continuity/change-requests/CR-0495-切换R14发送后清空验收为Compose实时语义.md
     - scripts/android_ci_gate.py
     - scripts/prepare_r14_candidate_fixture.sh
     - scripts/switch_android_candidate_route.sh
@@ -442,7 +458,7 @@ latest_checkpoint:
     - tests/test_android_candidate_route.py
     - tests/test_android_ci_gate.py
     - tests/test_r13_candidate.py
-    file_count: 44
+    file_count: 45
     payload:
       base_commit: 0a100b86f63829ef38ede5571d3e511219e67769
       files:
@@ -452,16 +468,16 @@ latest_checkpoint:
         sha256: 3abacc131665906483dfd7f93ee84a691ac0e9e9d4070c7ff56127639991d87e
       - path: CHANGELOG.md
         state: FILE
-        size: 228040
-        sha256: 92f7ccfb53a9614e7bb246bbc09475e8fe919453dfe6d6791a76bea406f76c1b
+        size: 228934
+        sha256: 19976db43bd21ac932481bf38041aeb4a83824665f40d42ebaa5014354487f09
       - path: apps/android/app/build.gradle.kts
         state: FILE
         size: 6171
         sha256: 3ac97af334a5383915402827bf0a2274884e8f6ff3de413a0d77479a5117967d
       - path: apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
         state: FILE
-        size: 33276
-        sha256: df4f6bcc263d5625181e97c72845a9473e4d339531f202d6915682945563467a
+        size: 33870
+        sha256: 304bb95bfb93e2d7b733b989078b58a120b76865a2503b65b983ded6070495a0
       - path: apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
         state: FILE
         size: 520
@@ -512,8 +528,8 @@ latest_checkpoint:
         sha256: 360f64f6c52856319733810fda0fc963d979b439d19f1de3e4237a851af86080
       - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
         state: FILE
-        size: 267687
-        sha256: 93c8576c3442b01d9dcc8a6c0593066fa98cadd7ef0c90b571e44c69ef4e93ee
+        size: 268541
+        sha256: 8bdc5141a185e9b47fd55abc24d115611ae1772e5e9974a9f7a8c6e02bb358ba
       - path: docs/03-continuity/change-requests/CR-0475-绑定R14最终交互候选与稳定TEST_APK同一提交.md
         state: FILE
         size: 3792
@@ -594,6 +610,10 @@ latest_checkpoint:
         state: FILE
         size: 2927
         sha256: f86283e39a5cc96910ec50346c0ff39821d09edc51d50482de41e8978bffb5ff
+      - path: docs/03-continuity/change-requests/CR-0495-切换R14发送后清空验收为Compose实时语义.md
+        state: FILE
+        size: 2968
+        sha256: a2e85f8bac075acc5457f33123c9f066494ebac50a51cd924911c6abb89cea26
       - path: scripts/android_ci_gate.py
         state: FILE
         size: 39771
@@ -616,8 +636,8 @@ latest_checkpoint:
         sha256: 5d968c6041ed05de36fa9a5db066767655f11b28b5adba98b6c8049892fc1a32
       - path: tests/test_android_ci_gate.py
         state: FILE
-        size: 86294
-        sha256: 8e5f8a7553e9330fff77a517027a2c383b4d7af220df80bd298c0e51954da74f
+        size: 86855
+        sha256: 44d39f452c689d0e07da5e1c7f6749a8459436a6a61e61c17987543b0ebcf496
       - path: tests/test_r13_candidate.py
         state: FILE
         size: 21538
@@ -680,6 +700,7 @@ latest_checkpoint:
     - docs/03-continuity/change-requests/CR-0492-授权R14会话复进Compose语义路径唯一Attempt12.md
     - docs/03-continuity/change-requests/CR-0493-修复R14文本发送成功后输入框未清空.md
     - docs/03-continuity/change-requests/CR-0494-授权R14输入框成功回调修复唯一Attempt13.md
+    - docs/03-continuity/change-requests/CR-0495-切换R14发送后清空验收为Compose实时语义.md
     tests:
     - tests/test_android_candidate_request.py
     - tests/test_android_candidate_route.py
@@ -713,6 +734,7 @@ latest_checkpoint:
   - CR-0492
   - CR-0493
   - CR-0494
+  - CR-0495
   scope:
     allowed_paths:
     - apps/**
@@ -767,14 +789,14 @@ latest_checkpoint:
     assessment: NO_SAFE_PARALLEL
     delegated_workers: 0
     workers: []
-    reason: 切流必须等待最终授权元数据提交，避免后端容器标签与GitHub HEAD不一致。
-  event_hash: 2b11227be85714ec08bfcc3f20ba83411532bbf5dd263c50711a03ac2e01cbee
+    reason: 同一错误指纹的修复、证据和轮次计数必须保持单一原子事实链。
+  event_hash: 931360b9edbd6c563f339aca50b6a7299a119a91744486e316fb7def51ba066e
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: fdcea6c27369a14a167fcb850ffce2e80d35e753
+  head: 76fc73fd8a7ed7f7b4f19e2eba9c9e64b6013084
   upstream: origin/task/TASK-R03-001
-  ahead: 3
+  ahead: 0
   behind: 0
   dirty: true
   status_porcelain:
@@ -783,15 +805,21 @@ git:
   - ' M .continuity/EVENT_LOG.jsonl'
   - ' M .continuity/SESSION_INDEX.yaml'
   - ' M .continuity/STATE.yaml'
-  - ' M .continuity/change_requests/CR-0494.yaml'
   - ' M .continuity/sessions/SES-20260729T161557Z-6FCE6ACA.yaml'
+  - ' M CHANGELOG.md'
   - ' M CURRENT_STATUS.yaml'
+  - ' M apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt'
   - ' M catalogs/change_request_index.csv'
   - ' M catalogs/session_index.csv'
-  - ' M docs/03-continuity/change-requests/CR-0494-授权R14输入框成功回调修复唯一Attempt13.md'
+  - ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
   - ' M docs/03-continuity/sessions/2026-07/SES-20260729T161557Z-6FCE6ACA.md'
-  - ?? .continuity/checkpoints/SES-20260729T161557Z-6FCE6ACA/0026.yaml
+  - ' M tests/test_android_ci_gate.py'
+  - ?? .continuity/change_requests/CR-0495.yaml
+  - ?? .continuity/checkpoints/SES-20260729T161557Z-6FCE6ACA/0027.yaml
+  - ?? artifacts/validation/r14-candidate-attempt13/failure-evidence.json
+  - ?? docs/03-continuity/change-requests/CR-0495-切换R14发送后清空验收为Compose实时语义.md
   recent_commits:
+  - "76fc73fd8a7ed7f7b4f19e2eba9c9e64b6013084\t2026-07-30T06:43:37+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] docs(ci): bind attempt13 authorization"
   - "fdcea6c27369a14a167fcb850ffce2e80d35e753\t2026-07-30T06:42:46+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] test(android): request R14\
     \ candidate attempt13"
   - "b7fd0e497514862066afe11936064af22f2bdc2c\t2026-07-30T06:39:50+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] docs(android): bind composer\
@@ -804,10 +832,8 @@ git:
   - "c1b637e299288279d96e0ef85fde21b03e889251\t2026-07-30T05:52:39+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] test(android): stabilize conversation\
     \ reentry semantics"
   - "6df1a1ac89e44d45cc3d767d067cde6983f8c95f\t2026-07-30T04:56:33+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] docs(ci): bind attempt11 authorization"
-  - "442457ced3e34c72184ae625139f6ee6dc8a63cd\t2026-07-30T04:55:25+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] test(android): request R14\
-    \ candidate attempt11"
 project_fingerprint:
-  sha256: ce55364b703111dfef5fb7fa5ea3678be2bc64d97d19c423ef262f8cc8d0f7ed
+  sha256: acf949651f75a57c80ed8be6757db466c648cb4d02373d207e7c785527224975
   files:
   - .github/workflows/android-quality-gate.yml
   - CHANGELOG.md
@@ -846,6 +872,7 @@ project_fingerprint:
   - docs/03-continuity/change-requests/CR-0492-授权R14会话复进Compose语义路径唯一Attempt12.md
   - docs/03-continuity/change-requests/CR-0493-修复R14文本发送成功后输入框未清空.md
   - docs/03-continuity/change-requests/CR-0494-授权R14输入框成功回调修复唯一Attempt13.md
+  - docs/03-continuity/change-requests/CR-0495-切换R14发送后清空验收为Compose实时语义.md
   - scripts/android_ci_gate.py
   - scripts/prepare_r14_candidate_fixture.sh
   - scripts/switch_android_candidate_route.sh
@@ -853,7 +880,7 @@ project_fingerprint:
   - tests/test_android_candidate_route.py
   - tests/test_android_ci_gate.py
   - tests/test_r13_candidate.py
-  file_count: 44
+  file_count: 45
   payload:
     base_commit: 0a100b86f63829ef38ede5571d3e511219e67769
     files:
@@ -863,16 +890,16 @@ project_fingerprint:
       sha256: 3abacc131665906483dfd7f93ee84a691ac0e9e9d4070c7ff56127639991d87e
     - path: CHANGELOG.md
       state: FILE
-      size: 228040
-      sha256: 92f7ccfb53a9614e7bb246bbc09475e8fe919453dfe6d6791a76bea406f76c1b
+      size: 228934
+      sha256: 19976db43bd21ac932481bf38041aeb4a83824665f40d42ebaa5014354487f09
     - path: apps/android/app/build.gradle.kts
       state: FILE
       size: 6171
       sha256: 3ac97af334a5383915402827bf0a2274884e8f6ff3de413a0d77479a5117967d
     - path: apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
       state: FILE
-      size: 33276
-      sha256: df4f6bcc263d5625181e97c72845a9473e4d339531f202d6915682945563467a
+      size: 33870
+      sha256: 304bb95bfb93e2d7b733b989078b58a120b76865a2503b65b983ded6070495a0
     - path: apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
       state: FILE
       size: 520
@@ -923,8 +950,8 @@ project_fingerprint:
       sha256: 360f64f6c52856319733810fda0fc963d979b439d19f1de3e4237a851af86080
     - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
       state: FILE
-      size: 267687
-      sha256: 93c8576c3442b01d9dcc8a6c0593066fa98cadd7ef0c90b571e44c69ef4e93ee
+      size: 268541
+      sha256: 8bdc5141a185e9b47fd55abc24d115611ae1772e5e9974a9f7a8c6e02bb358ba
     - path: docs/03-continuity/change-requests/CR-0475-绑定R14最终交互候选与稳定TEST_APK同一提交.md
       state: FILE
       size: 3792
@@ -1005,6 +1032,10 @@ project_fingerprint:
       state: FILE
       size: 2927
       sha256: f86283e39a5cc96910ec50346c0ff39821d09edc51d50482de41e8978bffb5ff
+    - path: docs/03-continuity/change-requests/CR-0495-切换R14发送后清空验收为Compose实时语义.md
+      state: FILE
+      size: 2968
+      sha256: a2e85f8bac075acc5457f33123c9f066494ebac50a51cd924911c6abb89cea26
     - path: scripts/android_ci_gate.py
       state: FILE
       size: 39771
@@ -1027,8 +1058,8 @@ project_fingerprint:
       sha256: 5d968c6041ed05de36fa9a5db066767655f11b28b5adba98b6c8049892fc1a32
     - path: tests/test_android_ci_gate.py
       state: FILE
-      size: 86294
-      sha256: 8e5f8a7553e9330fff77a517027a2c383b4d7af220df80bd298c0e51954da74f
+      size: 86855
+      sha256: 44d39f452c689d0e07da5e1c7f6749a8459436a6a61e61c17987543b0ebcf496
     - path: tests/test_r13_candidate.py
       state: FILE
       size: 21538
@@ -2046,8 +2077,8 @@ continuity_state:
   last_session_id: SES-20260728T205917Z-52E3B6B1
   last_session_result: COMPLETED
   last_closure_checkpoint_id: CP-SES-20260728T205917Z-52E3B6B1-0008
-  event_count: 4634
-  event_head_hash: 2b11227be85714ec08bfcc3f20ba83411532bbf5dd263c50711a03ac2e01cbee
+  event_count: 4639
+  event_head_hash: 931360b9edbd6c563f339aca50b6a7299a119a91744486e316fb7def51ba066e
   event_chain_valid: true
 recent_sessions:
 - session_id: SES-20260728T091447Z-9A245BB4
@@ -2166,9 +2197,9 @@ recent_sessions:
   started_at: '2026-07-29T16:15:57Z'
   record: .continuity/sessions/SES-20260729T161557Z-6FCE6ACA.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260729T161557Z-6FCE6ACA.md
-  updated_at: '2026-07-29T22:43:28Z'
+  updated_at: '2026-07-29T23:09:31Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260729T161557Z-6FCE6ACA/0026.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260729T161557Z-6FCE6ACA/0027.yaml
   handoff_bundle: null
 task_claims:
 - claim_id: CLM-A470E7430D21
@@ -16572,6 +16603,55 @@ open_change_requests:
   - SES-20260729T161557Z-6FCE6ACA
   implementation_commits:
   - fdcea6c2
+- protocol_version: '1.0'
+  cr_id: CR-0495
+  title: 切换R14发送后清空验收为Compose实时语义
+  status: IMPLEMENTING
+  created_at: '2026-07-29T23:05:53Z'
+  updated_at: '2026-07-29T23:06:28Z'
+  requester_actor_id: codex-implementation
+  approver_actor_id: codex-independent-test-reviewer
+  task_id: TASK-R14-008
+  session_id: SES-20260729T161557Z-6FCE6ACA
+  user_request: 持续开发并由AI审核GitHub候选，不因候选失败停下或要求项目所有者核实
+  reason: Attempt13在CR-0493产品修复后仍由UiAutomator resource文本快照报告旧composer值；服务端消息POST 128毫秒返回200，现有候选同一Compose旅程仅此断言仍使用跨框架resource文本，应复用PROB-0125以Compose实时语义等待并严格核对空值。
+  original_rule: R14发送后使用UiAutomator按r14.chat.composer资源取一次文本快照并立即与空串比较；跨框架resource文本可能滞后于Compose状态。
+  new_rule: R14发送后必须在Compose未合并语义树等待唯一r14.chat.composer节点的可编辑文本严格变为空串，再执行最终assertTextEquals；超时仍失败，空值期望和截图前置条件不得弱化。UiAutomator资源只保留外部存在性诊断，不再作为Compose可变文本的事实源。
+  impact_summary: 只切换候选验收观察面，不改变产品代码、消息接口或空值标准；归档Attempt13原始工件、HTTP 200与同指纹第二轮证据。
+  impact:
+    files:
+    - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+    - tests/test_android_ci_gate.py
+    - artifacts/validation/r14-candidate-attempt13/failure-evidence.json
+    - docs/03-continuity/PROBLEM_REGISTRY.yaml
+    - CHANGELOG.md
+    pages:
+    - R14候选会话详情发送验收
+    apis: []
+    database: []
+    configuration: []
+    ledger:
+    - PROB-0151与PROB-0125复用
+    tests:
+    - Compose实时等待composer严格为空；禁止恢复assertResourceText；Attempt13证据解析；AndroidTest编译
+    releases:
+    - R14
+    migration_and_compatibility: 正式App和服务端零变更；候选从跨框架快照改为与输入动作相同的Compose实时语义，其他R14旅程、四图、JUnit和日志审核保持不变。
+  user_confirmation: 项目所有者已授权AI持续开发和候选自主审核
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-29T23:06:22Z'
+    note: Attempt13与服务端128毫秒HTTP 200证明旧resource文本观察面仍不可靠；改用Compose实时语义不弱化空值断言，属于既有PROB-0125的直接复用。
+  machine_record: .continuity/change_requests/CR-0495.yaml
+  document: docs/03-continuity/change-requests/CR-0495-切换R14发送后清空验收为Compose实时语义.md
+  decision_log:
+  - at: '2026-07-29T23:06:28Z'
+    actor_id: codex-implementation
+    status: IMPLEMENTING
+    note: 开始归档Attempt13并实现Compose实时空值帮助函数和静态锁。
+    session_id: SES-20260729T161557Z-6FCE6ACA
+  session_ids:
+  - SES-20260729T161557Z-6FCE6ACA
 source_manifest:
 - path: AGENTS.md
   sha256: bde93afcdb788b601aeffcf2369a1aeda8eeb391f165429d501d7ba8895ba4a6
@@ -16580,7 +16660,7 @@ source_manifest:
   sha256: 22de14029ce47beb41ea569e36ce223fbc9d11b86f8676f28d5fbbd83896af5c
   bytes: 4556
 - path: CURRENT_STATUS.yaml
-  sha256: 9db8764b040c49aa775b256d5f3de23da63ee47ba003986d5ab24121f7e9dc77
+  sha256: 7fe9ee8d213abe9bcfec9699f4f1938b02829d4453776a9b40656d645b0d687b
   bytes: 4817
 - path: NEXT_TASK.yaml
   sha256: e26e5c16bb6b761d538c5e11830ffbfaeacc532c054e569ab784155323b6af5c
@@ -16592,8 +16672,8 @@ source_manifest:
   sha256: 5213b166f464a4415abe064e0ebcd99da8f1f8d23569b49ae4e9787007e83314
   bytes: 1660
 - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
-  sha256: 93c8576c3442b01d9dcc8a6c0593066fa98cadd7ef0c90b571e44c69ef4e93ee
-  bytes: 267687
+  sha256: 8bdc5141a185e9b47fd55abc24d115611ae1772e5e9974a9f7a8c6e02bb358ba
+  bytes: 268541
 - path: docs/03-continuity/REUSABLE_PATTERNS.md
   sha256: 1e5721c0b17a820e642aabbb35f350631caf83afbd10b2cc52ccc73a443873c6
   bytes: 10766
@@ -16613,10 +16693,10 @@ source_manifest:
   sha256: 38e04ed812c8df0d353c2b91993d31e53b471e9c457f06b426bd2260c470aa92
   bytes: 13936
 - path: .continuity/EVENT_LOG.jsonl
-  sha256: 5571840d2f2fbc262a0729a5e59f12b9e5484df8e5010d71a47c872f0936ba55
-  bytes: 2650155
+  sha256: fdaa6c0898d8a8853136092e77951f7378d5d6817533c6391a405acd4dc9dc44
+  bytes: 2652547
 - path: .continuity/SESSION_INDEX.yaml
-  sha256: ce31563138580cd1c3d6a3e2a724bbf639fd7b26dcc6b7e47303ff59b8317cfc
+  sha256: 610b09d147b1b850f2c957f7f8a2e1453e4eb03eb9bb2fbb89fc6b64b3625ba2
   bytes: 66849
 - path: .continuity/TASK_CLAIMS.yaml
   sha256: 0ff8aad03fdf7bd39105618d202972c82222c6359e96e7f3a89861b184c45eec
@@ -16625,10 +16705,10 @@ source_manifest:
   sha256: afd6333d15719bab6521ac976344a232ccba2e5e9edd4d2e5817ad4bb473f4d1
   bytes: 39947
 - path: .continuity/CHANGE_REQUEST_INDEX.yaml
-  sha256: e87b4b37ceae5d17ac5e9306666d26950f2aa4fe6b0c74a564544ef02961a850
-  bytes: 1844717
+  sha256: 449ebe6859398aa67c1fbe501ccbc6a66f8cd406c0844619ebc6e04e2782eb9c
+  bytes: 1847761
 - path: .continuity/ACTIVE_SESSION.yaml
-  sha256: 10d916fdc87a5a59a69e9b6b70528132e987c36f5682fc26118bd54ebda090f1
+  sha256: 1083fb86d5091cf6783b4f70d29798ff8ef4b3494ded786f826edfb2ccf734b0
   bytes: 540
 - path: docs/00-baseline/正式商业系统全局硬性开发边界.md
   sha256: 30c07716c31d6d09621b6f6d119063b1fcb35e78d9b266423ed333d92b8262db
@@ -16661,11 +16741,11 @@ source_manifest:
   sha256: cd1f0c96ffd7562acb214edba80a2bbb12b79f06c19032d1b133936ff6abd74f
   bytes: 2539
 - path: docs/03-continuity/sessions/2026-07/SES-20260729T161557Z-6FCE6ACA.md
-  sha256: d1ac83c445d57272cbfc5d5ef2bcdf85500aab27a6388f8abecd0e05fbf02bd0
-  bytes: 104538
-- path: .continuity/checkpoints/SES-20260729T161557Z-6FCE6ACA/0026.yaml
-  sha256: 20b25409706d061720d15ea0f08851f9935f6ec7c72e42d431cccc98e94d9ccb
-  bytes: 22496
+  sha256: c5d2a78e0d8052c807b2cbefe5664ec9fcfba51a2cfe54a36658e1be118f6e32
+  bytes: 109331
+- path: .continuity/checkpoints/SES-20260729T161557Z-6FCE6ACA/0027.yaml
+  sha256: a41cfb764024f79570d5dc0941fa31462693fbecf991a082efac4e3be2322dc4
+  bytes: 23699
 - path: docs/03-continuity/change-requests/CR-0475-绑定R14最终交互候选与稳定TEST_APK同一提交.md
   sha256: 4d6c35fd99ef585a4802fb664ac2e2819d4a2fe93fc5d1747ca73496ae69387e
   bytes: 3792
@@ -16726,6 +16806,9 @@ source_manifest:
 - path: docs/03-continuity/change-requests/CR-0494-授权R14输入框成功回调修复唯一Attempt13.md
   sha256: f86283e39a5cc96910ec50346c0ff39821d09edc51d50482de41e8978bffb5ff
   bytes: 2927
+- path: docs/03-continuity/change-requests/CR-0495-切换R14发送后清空验收为Compose实时语义.md
+  sha256: a2e85f8bac075acc5457f33123c9f066494ebac50a51cd924911c6abb89cea26
+  bytes: 2968
 rule_readiness:
   status: PASS
   evidence: HASHED_CONTEXT_MANIFEST
@@ -16761,4 +16844,4 @@ hard_rules:
 - 除非项目所有者明确报告未连接，默认Codex已连接obx-test且既有项目环境可用；预检失败必须阻断并报告
 - 禁止以无服务器状态继续开发或重建本地Android SDK，必须复用登记的远端镜像和Gradle缓存
 - Git remote/upstream仅按tracked transport descriptor受控恢复；推送前必须预检且禁止force push
-context_hash: 33f031af7e05dfce88edf44906fd0240ee41bec3e6e36203a8a84d5caf4d0c4b
+context_hash: 70c81578881e1304d3639ff48f7471771f0ad3cafe10d49cd3d2d86df7477dfc
