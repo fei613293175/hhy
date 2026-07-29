@@ -86,3 +86,10 @@ Attempt9及其Run保持不可变失败证据；旧请求和CR-0486不得复用�
 - Status：`IMPLEMENTING`
 - Session：`SES-20260729T161557Z-6FCE6ACA`
 - Note：开始写入Attempt10精确例外、request010及双侧漂移拒绝回归。
+
+## 状态记录 · 2026-07-29T20:20:08Z
+
+- Actor：`codex-r14-resume-20260730`
+- Status：`IMPLEMENTED`
+- Session：`SES-20260729T161557Z-6FCE6ACA`
+- Note：Commit 420435ff写入Attempt10唯一例外、request010和双侧精确绑定回归；92项治理测试与请求验证PASS，业务、截图和三轮上限未放宽。

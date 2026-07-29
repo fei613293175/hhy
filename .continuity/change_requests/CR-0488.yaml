@@ -1,9 +1,9 @@
 protocol_version: '1.0'
 cr_id: CR-0488
 title: 绑定R14基础设施修复并授权唯一Attempt10业务第三轮
-status: IMPLEMENTING
+status: IMPLEMENTED
 created_at: '2026-07-29T20:17:17Z'
-updated_at: '2026-07-29T20:17:55Z'
+updated_at: '2026-07-29T20:20:08Z'
 requester_actor_id: codex-r14-resume-20260730
 approver_actor_id: project-owner-continuity-directive-20260730
 task_id: TASK-R14-008
@@ -44,5 +44,12 @@ decision_log:
   status: IMPLEMENTING
   note: 开始写入Attempt10精确例外、request010及双侧漂移拒绝回归。
   session_id: SES-20260729T161557Z-6FCE6ACA
+- at: '2026-07-29T20:20:08Z'
+  actor_id: codex-r14-resume-20260730
+  status: IMPLEMENTED
+  note: Commit 420435ff写入Attempt10唯一例外、request010和双侧精确绑定回归；92项治理测试与请求验证PASS，业务、截图和三轮上限未放宽。
+  session_id: SES-20260729T161557Z-6FCE6ACA
 session_ids:
 - SES-20260729T161557Z-6FCE6ACA
+implementation_commits:
+- 420435ff
