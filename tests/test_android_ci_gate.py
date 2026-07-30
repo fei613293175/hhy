@@ -1666,7 +1666,7 @@ class AndroidCiGateTest(unittest.TestCase):
         runner_source = (ROOT / "scripts/run_android_historical_visual_audit.sh").read_text(encoding="utf-8")
         self.assertIn("HistoricalVisualAuditTest", runner_source)
         self.assertIn("screenshot_count", runner_source)
-        self.assertIn("-ne 22", runner_source)
+        self.assertIn("-ne 26", runner_source)
         self.assertNotIn("HHY_CI_BOOTSTRAP_CODE", historical_source + runner_source)
         self.assertNotIn("assembleDebug", historical_source + runner_source)
         self.assertEqual("${{ inputs.candidate }}", workflow["jobs"]["emulator"]["if"])

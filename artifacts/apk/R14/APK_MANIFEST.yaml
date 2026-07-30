@@ -1,23 +1,23 @@
 manifest_schema: 3
 release: R14
-apk_file: hhy-r14-2eb8ac7-debug.apk
+apk_file: hhy-r14-89ccaf4-debug.apk
 version_name: 1.2.2-debug
-version_code: 10224
-commit: 2eb8ac74b55c35833609c6eb6f330268a289bf3a
-sha256: 6ce8494e46d3a831c3ca9629d78bad97c445e9d93d084d8c0cd1c7292a885481
-size_bytes: 21915555
+version_code: 10225
+commit: 89ccaf45cbecd0a5412e7d99057ee0036cd8f181
+sha256: cbf9eb40635ad4163f01ff0e87fdfda5d2c372b6def9c0bc1c6bfe377d149703
+size_bytes: 21903068
 signing_fingerprint: e32a9d7ff8a209d2903db6383b461b259f0018a698d1f3646e6ed7f1112671be
-built_at: '2026-07-28T21:17:39Z'
+built_at: '2026-07-30T03:49:30Z'
 delivery_status: PASS
 test_status: PENDING
 owner_physical_test: PENDING
-download_url: https://download.orbexa.cc/r14-artifacts/hhy-r14-2eb8ac7-debug.apk
-desktop_copy: C:\Users\小白\Desktop\hhy-r14-2eb8ac7-debug.apk
+download_url: https://download.orbexa.cc/r14-artifacts/hhy-r14-89ccaf4-debug.apk
+desktop_copy: C:\Users\小白\Desktop\hhy-r14-89ccaf4-debug.apk
 test_guide:
   source_path: artifacts/reports/R14/R14-version-test-guide.md
-  desktop_path: C:\Users\小白\Desktop\hhy-r14-2eb8ac7-test-guide.md
-  file_name: hhy-r14-2eb8ac7-test-guide.md
-  size_bytes: 3586
-  sha256: 1b106db40fca1014b8cad212f2bf6dbd6d484a2ce736b92b5cb3a2a507a55f76
+  desktop_path: C:\Users\小白\Desktop\hhy-r14-89ccaf4-test-guide.md
+  file_name: hhy-r14-89ccaf4-test-guide.md
+  size_bytes: 3515
+  sha256: e79f3095a021c52b794e9bcf46904ea3be495ab42ef6202312d145242c6fa173
   status: PASS
 delivery_evidence: artifacts\validation\r14-apk-delivery\delivery-evidence.json

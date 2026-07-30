@@ -1,0 +1,62 @@
+{
+  "schema_version": 2,
+  "release": "R14",
+  "commit": "2eb8ac74b55c35833609c6eb6f330268a289bf3a",
+  "apk_file": "hhy-r14-2eb8ac7-debug.apk",
+  "version_name": "1.2.2-debug",
+  "version_code": 10224,
+  "sha256": "6ce8494e46d3a831c3ca9629d78bad97c445e9d93d084d8c0cd1c7292a885481",
+  "size_bytes": 21915555,
+  "signing": {
+    "status": "PASS",
+    "profile_id": "hhy-staging-test-v2",
+    "fingerprint": "e32a9d7ff8a209d2903db6383b461b259f0018a698d1f3646e6ed7f1112671be",
+    "stable": true
+  },
+  "local": {
+    "status": "PASS",
+    "artifact_copy": "artifacts\\apk\\R14\\hhy-r14-2eb8ac7-debug.apk"
+  },
+  "desktop": {
+    "status": "PASS",
+    "path": "C:\\Users\\小白\\Desktop\\hhy-r14-2eb8ac7-debug.apk",
+    "sha256": "6ce8494e46d3a831c3ca9629d78bad97c445e9d93d084d8c0cd1c7292a885481"
+  },
+  "test_guide": {
+    "source_path": "artifacts/reports/R14/R14-version-test-guide.md",
+    "desktop_path": "C:\\Users\\小白\\Desktop\\hhy-r14-2eb8ac7-test-guide.md",
+    "file_name": "hhy-r14-2eb8ac7-test-guide.md",
+    "size_bytes": 3586,
+    "sha256": "1b106db40fca1014b8cad212f2bf6dbd6d484a2ce736b92b5cb3a2a507a55f76",
+    "status": "PASS",
+    "verified_at": "2026-07-28T21:34:12.664775Z"
+  },
+  "route_preflight": {
+    "status": "PASS",
+    "route": "/r14-artifacts/hhy-r14-2eb8ac7-debug.apk",
+    "remote_path": "/www/wwwroot/download.orbexa.cc/r14-artifacts/hhy-r14-2eb8ac7-debug.apk",
+    "checked_at": "2026-07-28T21:32:41.115657Z"
+  },
+  "remote": {
+    "status": "PASS",
+    "sha256": "6ce8494e46d3a831c3ca9629d78bad97c445e9d93d084d8c0cd1c7292a885481",
+    "size_bytes": 21915555,
+    "path": "/www/wwwroot/download.orbexa.cc/r14-artifacts/hhy-r14-2eb8ac7-debug.apk",
+    "publish_state": "CREATED"
+  },
+  "https": {
+    "status": "PASS",
+    "http_status": 200,
+    "range_status": 206,
+    "content_type": "application/vnd.android.package-archive",
+    "sha256": "6ce8494e46d3a831c3ca9629d78bad97c445e9d93d084d8c0cd1c7292a885481",
+    "size_bytes": 21915555,
+    "verified_at": "2026-07-28T21:45:06.191083Z",
+    "url": "https://download.orbexa.cc/r14-artifacts/hhy-r14-2eb8ac7-debug.apk"
+  },
+  "owner_physical_test": {
+    "status": "PENDING"
+  },
+  "created_at": "2026-07-28T21:34:12.664775Z",
+  "last_verified_at": "2026-07-28T21:45:06.191083Z"
+}

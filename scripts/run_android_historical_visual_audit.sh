@@ -25,7 +25,7 @@ if [[ "$instrumentation_status" -ne 0 ]]; then
 fi
 
 screenshot_count="$(find "$screenshots_dir" -maxdepth 1 -name '*.png' | wc -l)"
-if [[ "$screenshot_count" -ne 22 ]]; then
-  echo "Expected exactly 22 historical UI screenshots, found $screenshot_count" >&2
+if [[ "$screenshot_count" -ne 26 ]]; then
+  echo "Expected exactly 26 historical UI screenshots, found $screenshot_count" >&2
   exit 1
 fi

@@ -32,6 +32,6 @@
   "gradle_summary": "BUILD SUCCESSFUL in 4m 10s; 772 actionable tasks: 527 executed, 245 from cache",
   "github_candidate_run": "30510422149",
   "github_promotion_run": "30511539828",
-  "github_emulator": "PASS",
+  "github_candidate_status": "PASS",
   "owner_physical_test": "PENDING"
 }

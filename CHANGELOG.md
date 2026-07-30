@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## R14最终候选交付与R13历史视觉补证 · 2026-07-30
+
+- R14 GitHub Run `30510422149`完整业务候选和Run `30511539828`四图轻量晋升均为PASS；固定工具链从产品Commit `89ccaf45`重建versionCode `10225`，复用`hhy-staging-test-v2`完成v2/v3稳定签名与桌面、仓库、服务器、HTTPS四方交付。
+- 新桌面安装包为`hhy-r14-89ccaf4-debug.apk`，测试说明为`hhy-r14-89ccaf4-test-guide.md`；旧`2eb8ac7`交付Manifest与证据已原子归档，项目所有者真机反馈继续保持异步PENDING。
+- R14机器关闭发现R13收藏、浏览记录、分享面板和联系方式失效反馈仍缺实现截图；离线历史视觉批次使用生产Composable与确定性冻结模型从22张扩展为26张，不访问登录或后端，也不改变生产APK。
+
 ## R14 App模块范围候选授权 · 2026-07-30
 
 - `CR-0509`只授权`R14-CANDIDATE-20260730-020`绑定`CR-0508`修复Commit `0220185599581170af24db6ca575592da940e9f4`运行一次；Attempt19和`CR-0507`保持已消费。

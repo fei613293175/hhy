@@ -19,6 +19,10 @@ import androidx.test.uiautomator.UiDevice
 import androidx.test.uiautomator.Until
 import cc.orbexa.hhy.auth.AuthVisualAuditMode
 import cc.orbexa.hhy.auth.AuthVisualAuditScreen
+import cc.orbexa.hhy.activity.R13ContentActionSheet
+import cc.orbexa.hhy.activity.R13ContentSheet
+import cc.orbexa.hhy.activity.R13FavoritesScreen
+import cc.orbexa.hhy.activity.R13HistoryScreen
 import cc.orbexa.hhy.designsystem.HhyTheme
 import cc.orbexa.hhy.discovery.R07PublisherScreen
 import cc.orbexa.hhy.discovery.R07SearchScreen
@@ -33,12 +37,15 @@ import cc.orbexa.hhy.network.ContactAccessRequest
 import cc.orbexa.hhy.network.ContactAccessResource
 import cc.orbexa.hhy.network.ContactChannelSummaryResource
 import cc.orbexa.hhy.network.ContentPageResource
+import cc.orbexa.hhy.network.ContentPostContentsByIdInvalidFeedbackRequest
+import cc.orbexa.hhy.network.ContentPostContentsByIdShareRequest
 import cc.orbexa.hhy.network.ContentResource
 import cc.orbexa.hhy.network.ContractAuthApi
 import cc.orbexa.hhy.network.ContractIdentityApi
 import cc.orbexa.hhy.network.ContractMediaApi
 import cc.orbexa.hhy.network.ContractR07Api
 import cc.orbexa.hhy.network.ContractR12MeApi
+import cc.orbexa.hhy.network.ContractR13Api
 import cc.orbexa.hhy.network.DirectUploadResource
 import cc.orbexa.hhy.network.ExperienceApi
 import cc.orbexa.hhy.network.HhyNetworkJson
@@ -69,6 +76,7 @@ import cc.orbexa.hhy.network.SearchResultPageResource
 import cc.orbexa.hhy.network.SearchResultResource
 import cc.orbexa.hhy.network.SearchTermPageResource
 import cc.orbexa.hhy.network.SearchTermResource
+import cc.orbexa.hhy.network.ShareResultResource
 import cc.orbexa.hhy.network.UpdateType
 import cc.orbexa.hhy.network.UserSecuritySessionPageMeta
 import cc.orbexa.hhy.network.UserSecuritySessionPageResource
@@ -331,6 +339,81 @@ class HistoricalVisualAuditTest {
         composeRule.onNodeWithText("清空").performSemanticsAction(SemanticsActions.OnClick)
         waitForText("清空搜索历史？")
         captureStable("32-r07-clear-history-dialog.png")
+    }
+
+    @Test
+    fun r13FavoritesProduceBoundVisualEvidence() {
+        setAuditContent {
+            R13FavoritesScreen(
+                api = visualR13Api,
+                accessToken = "visual-audit-token",
+                onBack = {},
+                onContentSelected = {},
+                onSessionExpired = {},
+            )
+        }
+        waitForText("我的收藏")
+        waitForText("R13候选协作项目")
+        waitForText("合伙云项目团队")
+        captureStable("27-r13-favorites.png")
+    }
+
+    @Test
+    fun r13HistoryProducesBoundVisualEvidence() {
+        setAuditContent {
+            R13HistoryScreen(
+                api = visualR13Api,
+                accessToken = "visual-audit-token",
+                onBack = {},
+                onContentSelected = {},
+                onSessionExpired = {},
+            )
+        }
+        waitForText("浏览记录")
+        waitForText("R13品牌联合增长计划")
+        waitForText("内容更新于 07月24日")
+        captureStable("28-r13-history.png")
+    }
+
+    @Test
+    fun r13ShareSheetProducesBoundVisualEvidence() {
+        setAuditContent {
+            R13ContentActionSheet(
+                sheet = R13ContentSheet.SHARE,
+                api = visualR13Api,
+                accessToken = "visual-audit-token",
+                contentId = "r13-project-1",
+                contentTitle = "R13候选协作项目",
+                onDismiss = {},
+                onCompleted = {},
+                onSessionExpired = {},
+            )
+        }
+        waitForText("分享")
+        waitForText("微信")
+        waitForText("继续分享")
+        captureStable("29-r13-share-sheet.png")
+    }
+
+    @Test
+    fun r13InvalidFeedbackSheetProducesBoundVisualEvidence() {
+        setAuditContent {
+            R13ContentActionSheet(
+                sheet = R13ContentSheet.INVALID_FEEDBACK,
+                api = visualR13Api,
+                accessToken = "visual-audit-token",
+                contentId = "r13-project-1",
+                contentTitle = "R13候选协作项目",
+                feedbackChannels = listOf("LINK", "WECHAT"),
+                onDismiss = {},
+                onCompleted = {},
+                onSessionExpired = {},
+            )
+        }
+        waitForText("联系方式失效反馈")
+        waitForText("链接无法打开")
+        waitForText("详细说明（选填）")
+        captureStable("30-r13-invalid-feedback-sheet.png")
     }
 
     private fun setAuditContent(content: @Composable () -> Unit) {
@@ -697,6 +780,113 @@ class HistoricalVisualAuditTest {
             idempotencyKey: String,
             request: ContactAccessRequest,
         ): R07CallResult<ContactAccessResource> = R07CallResult.Failure(403)
+    }
+
+    private val visualR13Page = ContentPageResource(
+        items = listOf(
+            ContentResource(
+                id = "r13-project-1",
+                contentType = "PROJECT",
+                title = "R13候选协作项目",
+                summary = "连接真实项目需求与可验证合作资源",
+                publisher = PublisherSummaryResource(
+                    userId = "r13-publisher-1",
+                    nickname = "合伙云项目团队",
+                    verified = true,
+                    memberBadge = "认证团队",
+                ),
+                status = "PUBLISHED",
+                createdAt = "2026-07-22T09:30:00Z",
+                updatedAt = "2026-07-24T10:30:00Z",
+                version = 3,
+            ),
+            ContentResource(
+                id = "r13-app-1",
+                contentType = "APP",
+                title = "R13品牌联合增长计划",
+                summary = "面向已验证团队的品牌增长协作",
+                publisher = PublisherSummaryResource(
+                    userId = "r13-publisher-2",
+                    nickname = "品牌增长中心",
+                    verified = true,
+                    memberBadge = "认证成员",
+                ),
+                status = "PUBLISHED",
+                createdAt = "2026-07-21T08:00:00Z",
+                updatedAt = "2026-07-24T08:00:00Z",
+                version = 2,
+            ),
+            ContentResource(
+                id = "r13-group-1",
+                contentType = "GROUP_CHAT",
+                title = "R13产品共创伙伴招募",
+                summary = "围绕真实产品场景建立长期共创关系",
+                publisher = PublisherSummaryResource(
+                    userId = "r13-publisher-3",
+                    nickname = "产品共创社区",
+                    verified = true,
+                ),
+                status = "PUBLISHED",
+                createdAt = "2026-07-20T12:00:00Z",
+                updatedAt = "2026-07-23T12:00:00Z",
+                version = 4,
+            ),
+        ),
+        page = R07PageMeta(page = 1, pageSize = 20, total = "3", hasMore = "false"),
+    )
+
+    private val visualR13Api = object : ContractR13Api {
+        override suspend fun favorites(
+            accessToken: String,
+            cursor: String?,
+            pageSize: Int,
+            status: String?,
+            keyword: String?,
+            sort: String,
+        ) = R07CallResult.Success(visualR13Page, "visual-r13-favorites")
+
+        override suspend fun history(
+            accessToken: String,
+            cursor: String?,
+            pageSize: Int,
+            status: String?,
+            keyword: String?,
+            sort: String,
+        ) = R07CallResult.Success(visualR13Page, "visual-r13-history")
+
+        override suspend fun unfavorite(
+            accessToken: String,
+            id: String,
+            idempotencyKey: String,
+        ) = R07CallResult.Success(
+            CommandResultResource(id, status = "UNFAVORITED", acceptedAt = "2026-07-30T04:00:00Z"),
+            "visual-r13-unfavorite",
+        )
+
+        override suspend fun share(
+            accessToken: String,
+            id: String,
+            idempotencyKey: String,
+            request: ContentPostContentsByIdShareRequest,
+        ) = R07CallResult.Success(
+            ShareResultResource(
+                contentId = id,
+                channel = request.channel,
+                url = "https://h5.orbexa.cc/contents/r13-project-1",
+                acceptedAt = "2026-07-30T04:00:00Z",
+            ),
+            "visual-r13-share",
+        )
+
+        override suspend fun invalidFeedback(
+            accessToken: String,
+            id: String,
+            idempotencyKey: String,
+            request: ContentPostContentsByIdInvalidFeedbackRequest,
+        ) = R07CallResult.Success(
+            CommandResultResource(id, status = "ACCEPTED", acceptedAt = "2026-07-30T04:00:00Z"),
+            "visual-r13-feedback",
+        )
     }
 
     private class VisualAuthApi : ContractAuthApi {

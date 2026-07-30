@@ -1,19 +1,19 @@
 {
   "version": "1.0",
-  "generated_at": "2026-07-30T03:32:17Z",
-  "context_hash": "5dc5b9ac8ab57cddf0607e2801e41622ea23ea6edeb0d4b8e6873c9d00b3fd82",
+  "generated_at": "2026-07-30T04:10:52Z",
+  "context_hash": "f505d73552aad5f57aa6f578ba68f2e2189148b4ed046d608ed66e20d7758913",
   "fingerprint_mode": "SESSION_DELTA",
   "project_fingerprint": {
-    "sha256": "fb394f098fbd8dccc2d0685b91f8e9a4a2ed5723ebd667266a122e038ffd34bd",
-    "file_count": 66
+    "sha256": "4c5cba57c84d623e0c09dd5536d0bef6d1ccd516fe5f59cd317889983b9d5bbc",
+    "file_count": 74
   },
   "yaml": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.yaml",
-    "sha256": "27e34e46a2cac3ece230c0b9762e4b226d87f9e5b54b0f6dbcecb0c4278f2d20"
+    "sha256": "337725e39b5bcfafdbe3575fe78cdbac898e06e5db743399a16c70456b9ffe15"
   },
   "markdown": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.md",
-    "sha256": "81fb1dea33c8c15924210c4f6d558d44d82df32b92a535964c56cc835c80932b"
+    "sha256": "111f8b66fb1732c0260d1ac60aa9c15a140909981e0d222983c633663c0f661f"
   },
   "sources": [
     {
@@ -28,7 +28,7 @@
     },
     {
       "path": "CURRENT_STATUS.yaml",
-      "sha256": "62c62435a6e3e0a8c1ff9aa9f0f8f01a898544f346a444765dd90a627c68f86f",
+      "sha256": "50db8087eb35f3365e536e7689a905622013cd5993f3f096de179c4f11592a9f",
       "bytes": 4817
     },
     {
@@ -83,12 +83,12 @@
     },
     {
       "path": ".continuity/EVENT_LOG.jsonl",
-      "sha256": "a3344f55c10826186c77df8e81bdcd23b8255a678014a382a87c12ddc28ea402",
-      "bytes": 2703007
+      "sha256": "8bc71e9db2cd3cd18c9e46452990a7eee1bd07352b8d036ab4a05dafb27cb790",
+      "bytes": 2713091
     },
     {
       "path": ".continuity/SESSION_INDEX.yaml",
-      "sha256": "a9a42965e9e4e3522c18226a1c5fd68d2d8e4111ddd2b46bd334d1dba7ebed34",
+      "sha256": "3b7801397fce6cffdddeef6cca78cd74aecc4bcf0ad9e1d7d47f6dd19e565c02",
       "bytes": 66849
     },
     {
@@ -103,12 +103,12 @@
     },
     {
       "path": ".continuity/CHANGE_REQUEST_INDEX.yaml",
-      "sha256": "4c10b781ddbabd02461ae043e630491e50f1c6bb48b6746a9b61bc6fbcd12773",
-      "bytes": 1899590
+      "sha256": "bd523ddcc8e58dd205c3818fc9b004ee5480711f10f45591b0bba5b7750ff8af",
+      "bytes": 1909585
     },
     {
       "path": ".continuity/ACTIVE_SESSION.yaml",
-      "sha256": "afa1b13cc602be750fd3cc4727dc939b64ab76d3dc48965d67815e64bea90e3f",
+      "sha256": "daf2d4a9a6a11f29faa6767df4f99fdd2895648095e1a82f3c96e5d42974da22",
       "bytes": 540
     },
     {
@@ -133,8 +133,8 @@
     },
     {
       "path": "releases/R14/RELEASE_MANIFEST.yaml",
-      "sha256": "6c41059c963e626a9921b87301d0e2bb2c19b4693b4d37e8823a8ab6632754ca",
-      "bytes": 8019
+      "sha256": "25b3427d2b90e3886a5c9eeeb5ddc519d5c7fc1d8a7038b62c242a5fed385dc8",
+      "bytes": 8238
     },
     {
       "path": "releases/R14/DEFINITION_OF_READY.yaml",
@@ -163,13 +163,13 @@
     },
     {
       "path": "docs/03-continuity/sessions/2026-07/SES-20260729T161557Z-6FCE6ACA.md",
-      "sha256": "aa80e890ff4317e7e9e016a61e4a2ac686c5a654f95d049eefe198c7237c8fa0",
-      "bytes": 260647
+      "sha256": "d79095aeb12acbfbc5d069486e109da554fcdd23a9e84b8fe4460b06158f1c99",
+      "bytes": 275933
     },
     {
-      "path": ".continuity/checkpoints/SES-20260729T161557Z-6FCE6ACA/0055.yaml",
-      "sha256": "11d570581bb02c220699000f8a4933278e6f062af39bbf96996a1e3ec97f2ded",
-      "bytes": 32555
+      "path": ".continuity/checkpoints/SES-20260729T161557Z-6FCE6ACA/0057.yaml",
+      "sha256": "2967ba6bde39afb42deec679f8aadeea36471d56e6d1f5ed48687f559fa93957",
+      "bytes": 37472
     },
     {
       "path": "docs/03-continuity/change-requests/CR-0475-绑定R14最终交互候选与稳定TEST_APK同一提交.md",
@@ -350,6 +350,21 @@
       "path": "docs/03-continuity/change-requests/CR-0510-批准并轻量晋升R14首版视觉基线.md",
       "sha256": "7640cd4aa00c3c2eb9e6629adb7ec19c539ddd13e10bb7acce4699b672345dba",
       "bytes": 3755
+    },
+    {
+      "path": "docs/03-continuity/change-requests/CR-0511-归档R14最终候选、交付稳定签名TEST_APK并机器关闭版本.md",
+      "sha256": "6bcc661524f8071201a85af64637855beed56f9561b4d46437121fce522a8418",
+      "bytes": 3344
+    },
+    {
+      "path": "docs/03-continuity/change-requests/CR-0512-补齐R13四页离线真实视觉证据解除R14历史漂移门禁.md",
+      "sha256": "eebc2a5984d4961f7c1b24e495c35218973bee849fc4204b9d1762114d175f5f",
+      "bytes": 3273
+    },
+    {
+      "path": "docs/03-continuity/change-requests/CR-0513-登记R14原子替换归档与历史视觉数量回归文件.md",
+      "sha256": "e96d94ef151c29dd19c988440c8c3b052855aef57a07826c489fa3fec53e74da",
+      "bytes": 2678
     }
   ]
 }

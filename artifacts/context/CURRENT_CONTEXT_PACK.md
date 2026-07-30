@@ -1,7 +1,7 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-30T03:32:17Z
-- Context Hash：`5dc5b9ac8ab57cddf0607e2801e41622ea23ea6edeb0d4b8e6873c9d00b3fd82`
+- 生成时间：2026-07-30T04:10:52Z
+- Context Hash：`f505d73552aad5f57aa6f578ba68f2e2189148b4ed046d608ed66e20d7758913`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 规则就绪：`PASS`（`HASHED_CONTEXT_MANIFEST`）
@@ -187,7 +187,7 @@ blocked_tasks:
 - TASK-R16-007
 - TASK-R16-008
 next_task: TASK-R14-008
-updated_at: '2026-07-30T03:32:13Z'
+updated_at: '2026-07-30T04:10:45Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -222,15 +222,15 @@ continuity:
   active_session_id: SES-20260729T161557Z-6FCE6ACA
   actor_id: codex-r14-resume-20260730
   story_id: STORY-R14-004
-  lease_expires_at: '2026-07-30T07:32:13Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260729T161557Z-6FCE6ACA/0055.yaml
-  project_fingerprint: fb394f098fbd8dccc2d0685b91f8e9a4a2ed5723ebd667266a122e038ffd34bd
+  lease_expires_at: '2026-07-30T08:10:45Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260729T161557Z-6FCE6ACA/0057.yaml
+  project_fingerprint: 4c5cba57c84d623e0c09dd5536d0bef6d1ccd516fe5f59cd317889983b9d5bbc
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: d1a2b3d2651f2c4dba2e9063eea561a2c380f198ecb536eeb305922e99ef4d8a
-    generated_at: '2026-07-30T03:01:23Z'
+    context_hash: 420a9161646b2f2ec4cf92ce8c7fa768616cffd72a2188a4a268911f39599a91
+    generated_at: '2026-07-30T04:09:17Z'
   handoff_bundle: null
 ```
 
@@ -428,7 +428,7 @@ task_id: TASK-R14-008
 story_id: STORY-R14-004
 goal: 异常恢复 SES-20260728T220632Z-FE7D82FD：一对一聊天核心版本关闭与无状态交接
 started_at: '2026-07-29T16:15:57Z'
-updated_at: '2026-07-30T03:32:13Z'
+updated_at: '2026-07-30T04:10:45Z'
 takeover_of: SES-20260728T220632Z-FE7D82FD
 change_requests:
 - CR-0475
@@ -467,6 +467,9 @@ change_requests:
 - CR-0508
 - CR-0509
 - CR-0510
+- CR-0511
+- CR-0512
+- CR-0513
 scope:
   allowed_paths:
   - apps/**
@@ -516,7 +519,25 @@ scope:
   - apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ChatDetailScreen.kt
   - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
   - artifacts/validation/r14-candidate-attempt8/failure-evidence.json
-  source: story+explicit+approved-cr:CR-0484+approved-cr:CR-0485+approved-cr:CR-0486
+  - artifacts/validation/r14-final-candidate/candidate-report.json
+  - artifacts/validation/r14-final-candidate/build-evidence.json
+  - artifacts/validation/r14-task007-android/build-evidence.json
+  - artifacts/apk/R14/APK_MANIFEST.yaml
+  - artifacts/reports/R14/R14-version-test-guide.md
+  - artifacts/validation/r14-apk-delivery/delivery-evidence.json
+  - releases/R14/RELEASE_MANIFEST.yaml
+  - releases/R14/ACCEPTANCE_MATRIX.csv
+  - apps/android/app/src/androidTest/java/cc/orbexa/hhy/HistoricalVisualAuditTest.kt
+  - scripts/run_android_historical_visual_audit.sh
+  - tests/android/visual-baselines/R13/APPROVAL.yaml
+  - tests/android/visual-baselines/R13/27-r13-favorites.png
+  - tests/android/visual-baselines/R13/28-r13-history.png
+  - tests/android/visual-baselines/R13/29-r13-share-sheet.png
+  - tests/android/visual-baselines/R13/30-r13-invalid-feedback-sheet.png
+  - catalogs/ui_visual_acceptance.csv
+  - artifacts/apk/R14/history/2eb8ac7/APK_MANIFEST.yaml
+  - artifacts/validation/r14-apk-delivery/history/2eb8ac7/delivery-evidence.json
+  source: story+explicit+approved-cr:CR-0484+approved-cr:CR-0485+approved-cr:CR-0486+approved-cr:CR-0511+approved-cr:CR-0512+approved-cr:CR-0513
 git:
   initialized: true
   branch: task/TASK-R03-001
@@ -526,12 +547,12 @@ git:
   initial_worktree_state: DIRTY_TAKEOVER
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-30T03:32:13Z'
-  expires_at: '2026-07-30T07:32:13Z'
-checkpoint_sequence: 55
-latest_checkpoint: .continuity/checkpoints/SES-20260729T161557Z-6FCE6ACA/0055.yaml
+  renewed_at: '2026-07-30T04:10:45Z'
+  expires_at: '2026-07-30T08:10:45Z'
+checkpoint_sequence: 57
+latest_checkpoint: .continuity/checkpoints/SES-20260729T161557Z-6FCE6ACA/0057.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260729T161557Z-6FCE6ACA.md
-next_step: 提交R14视觉基线与CR-0510治理记录，推送触发Android Visual Baseline Promotion；审核轻量晋升PASS产物后记录最终候选证据并进入R14交付收尾。
+next_step: 提交并推送当前证据与历史视觉审计代码，运行一次HISTORICAL-UI离线工作流，审核并固化R13四张原图后完成R14机器关闭。
 context_pack: THIS_CONTEXT_PACK
 handoff_bundle: null
 closure: null
@@ -539,70 +560,83 @@ parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 视觉基线提交必须作为唯一审批变更触发轻量晋升，提交与工作流身份严格串行。
+  reason: 本次提交同时冻结交付、连续性与历史视觉事务，需保持单写者顺序一致。
 ```
 
 ## 最新检查点
 
 ```yaml
 protocol_version: '1.0'
-checkpoint_id: CP-SES-20260729T161557Z-6FCE6ACA-0055
+checkpoint_id: CP-SES-20260729T161557Z-6FCE6ACA-0057
 session_id: SES-20260729T161557Z-6FCE6ACA
 task_id: TASK-R14-008
 story_id: STORY-R14-004
-sequence: 55
-created_at: '2026-07-30T03:32:12Z'
-summary: Run 30510422149完整R14模拟器候选成功，AI四图审核合格；CR-0510已固化R14首版基线且本地轻量晋升PASS。
-next_step: 提交R14视觉基线与CR-0510治理记录，推送触发Android Visual Baseline Promotion；审核轻量晋升PASS产物后记录最终候选证据并进入R14交付收尾。
+sequence: 57
+created_at: '2026-07-30T04:10:45Z'
+summary: R14最终候选PASS、10225稳定签名APK四方交付及测试说明已归档；CR-0512离线历史视觉批次扩展到26张，固定工具链androidTest编译和57项治理回归通过；CHANGELOG已同步。
+next_step: 提交并推送当前证据与历史视觉审计代码，运行一次HISTORICAL-UI离线工作流，审核并固化R13四张原图后完成R14机器关闭。
 blockers: []
 decisions:
-- 基线只使用同一Run原图与哈希；轻量晋升禁止重编译、重建APK或重跑模拟器，源候选功能与日志证据保持不可变。
+- 保持R14产品候选Commit 89ccaf45不可变；历史补证只修改androidTest、离线脚本和视觉治理，不重建候选或修改产品业务。
 note: ''
 tests:
-- name: github_candidate_run
+- name: r14-apk-delivery
   result: PASS
-  evidence: Run 30510422149 workflow success
-  note: 编译、Lint、单测、APK、模拟器、候选资格均成功
-- name: r14_instrumentation
+  evidence: deliver_android_test_apk verify R14
+  note: 四方SHA一致
+- name: r13-offline-androidTest-compile
   result: PASS
-  evidence: 1 test, 0 skipped, 0 failed; BUILD SUCCESSFUL
-  note: 完整业务旅程成功且无目标崩溃/ANR
-- name: ai_visual_review
+  evidence: obx-test BUILD SUCCESSFUL in 2m10s
+  note: 225 tasks
+- name: android-governance-unit
   result: PASS
-  evidence: four source screenshots reviewed
-  note: 安全区、已发送、拉黑重进、解除拉黑、长按删除均合格
-- name: android_baseline_promote_local
-  result: PASS
-  evidence: hhy.android-ci-candidate-promotion/v1 status PASS
-  note: 同一Run轻量晋升通过
-- name: android_ci_gate_unit
-  result: PASS
-  evidence: 35 tests passed
-  note: 治理回归通过
+  evidence: tests.test_android_apk_delivery tests.test_android_ci_gate
+  note: 57 tests
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: 89ccaf45cbecd0a5412e7d99057ee0036cd8f181
+  head: 928c7d9ac5e6c5d912742ba15fb33f63a5724ca0
   upstream: origin/task/TASK-R03-001
   ahead: 0
   behind: 0
   dirty: true
   status_porcelain:
-  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
-  - ' M .continuity/EVENT_LOG.jsonl'
-  - ' M .continuity/STATE.yaml'
-  - ' M .continuity/sessions/SES-20260729T161557Z-6FCE6ACA.yaml'
-  - ' M artifacts/validation/project-doctor-v1.2.3.json'
-  - ' M catalogs/change_request_index.csv'
-  - ' M catalogs/session_index.csv'
-  - ?? .continuity/change_requests/CR-0510.yaml
-  - ?? docs/03-continuity/change-requests/CR-0510-批准并轻量晋升R14首版视觉基线.md
-  - ?? tests/android/visual-baselines/R14/01-r14-conversations.png
-  - ?? tests/android/visual-baselines/R14/02-r14-sent.png
-  - ?? tests/android/visual-baselines/R14/03-r14-blocked-reentry.png
-  - ?? tests/android/visual-baselines/R14/04-r14-long-press-menu.png
-  - ?? tests/android/visual-baselines/R14/APPROVAL.yaml
+  - M  .continuity/ACTIVE_SESSION.yaml
+  - M  .continuity/CHANGE_REQUEST_INDEX.yaml
+  - M  .continuity/EVENT_LOG.jsonl
+  - M  .continuity/SESSION_INDEX.yaml
+  - M  .continuity/STATE.yaml
+  - A  .continuity/change_requests/CR-0511.yaml
+  - A  .continuity/change_requests/CR-0512.yaml
+  - A  .continuity/change_requests/CR-0513.yaml
+  - A  .continuity/checkpoints/SES-20260729T161557Z-6FCE6ACA/0056.yaml
+  - M  .continuity/sessions/SES-20260729T161557Z-6FCE6ACA.yaml
+  - M  CHANGELOG.md
+  - M  CURRENT_STATUS.yaml
+  - M  apps/android/app/src/androidTest/java/cc/orbexa/hhy/HistoricalVisualAuditTest.kt
+  - M  artifacts/apk/R14/APK_MANIFEST.yaml
+  - A  artifacts/apk/R14/history/2eb8ac7/APK_MANIFEST.yaml
+  - M  artifacts/context/CURRENT_CONTEXT_PACK.md
+  - M  artifacts/context/CURRENT_CONTEXT_PACK.yaml
+  - M  artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+  - M  artifacts/reports/R14/R14-version-test-guide.md
+  - M  artifacts/validation/r14-apk-delivery/delivery-evidence.json
+  - A  artifacts/validation/r14-apk-delivery/history/2eb8ac7/delivery-evidence.json
+  - A  artifacts/validation/r14-final-candidate/build-evidence.json
+  - A  artifacts/validation/r14-final-candidate/candidate-report.json
+  - M  artifacts/validation/r14-task007-android/build-evidence.json
+  - M  catalogs/change_request_index.csv
+  - M  catalogs/session_index.csv
+  - A  docs/03-continuity/change-requests/CR-0511-归档R14最终候选、交付稳定签名TEST_APK并机器关闭版本.md
+  - A  docs/03-continuity/change-requests/CR-0512-补齐R13四页离线真实视觉证据解除R14历史漂移门禁.md
+  - A  docs/03-continuity/change-requests/CR-0513-登记R14原子替换归档与历史视觉数量回归文件.md
+  - M  docs/03-continuity/sessions/2026-07/SES-20260729T161557Z-6FCE6ACA.md
+  - M  releases/R14/RELEASE_MANIFEST.yaml
+  - M  scripts/run_android_historical_visual_audit.sh
+  - M  tests/test_android_ci_gate.py
   recent_commits:
+  - "928c7d9ac5e6c5d912742ba15fb33f63a5724ca0\t2026-07-30T11:33:02+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(r14): approve visual\
+    \ baseline"
   - "89ccaf45cbecd0a5412e7d99057ee0036cd8f181\t2026-07-30T11:01:34+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(r14): bind CR-0509 implementation\
     \ record"
   - "e8ac4698a5219d2c9170848a54baa88f44109b0c\t2026-07-30T11:00:35+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(r14): authorize candidate\
@@ -617,14 +651,13 @@ git:
     \ candidate attempt19"
   - "1f2aede2e81961522075a181ec4f0f29ed59d869\t2026-07-30T10:25:06+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(r14): bind CR-0505 implementation\
     \ record"
-  - "cf0412194af17e3a5562ba28b6436b4bf3d9e678\t2026-07-30T10:23:55+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] test(r14): restore filtered\
-    \ delete precondition"
 project_fingerprint:
-  sha256: fb394f098fbd8dccc2d0685b91f8e9a4a2ed5723ebd667266a122e038ffd34bd
+  sha256: 4c5cba57c84d623e0c09dd5536d0bef6d1ccd516fe5f59cd317889983b9d5bbc
   files:
   - .github/workflows/android-quality-gate.yml
   - CHANGELOG.md
   - apps/android/app/build.gradle.kts
+  - apps/android/app/src/androidTest/java/cc/orbexa/hhy/HistoricalVisualAuditTest.kt
   - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
   - apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
   - apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
@@ -636,6 +669,8 @@ project_fingerprint:
   - apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14BlockStateStore.kt
   - apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ChatDetailScreen.kt
   - apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ConversationListScreen.kt
+  - artifacts/apk/R14/APK_MANIFEST.yaml
+  - artifacts/apk/R14/history/2eb8ac7/APK_MANIFEST.yaml
   - config/android-automation.yaml
   - config/android-candidate-request.yaml
   - docs/03-continuity/PROBLEM_REGISTRY.yaml
@@ -675,9 +710,14 @@ project_fingerprint:
   - docs/03-continuity/change-requests/CR-0508-限定Android候选旅程到App模块.md
   - docs/03-continuity/change-requests/CR-0509-授权R14-App模块范围修复唯一Attempt20候选.md
   - docs/03-continuity/change-requests/CR-0510-批准并轻量晋升R14首版视觉基线.md
+  - docs/03-continuity/change-requests/CR-0511-归档R14最终候选、交付稳定签名TEST_APK并机器关闭版本.md
+  - docs/03-continuity/change-requests/CR-0512-补齐R13四页离线真实视觉证据解除R14历史漂移门禁.md
+  - docs/03-continuity/change-requests/CR-0513-登记R14原子替换归档与历史视觉数量回归文件.md
+  - releases/R14/RELEASE_MANIFEST.yaml
   - scripts/android_ci_gate.py
   - scripts/prepare_r14_candidate_fixture.sh
   - scripts/run_android_emulator_gate.sh
+  - scripts/run_android_historical_visual_audit.sh
   - scripts/switch_android_candidate_route.sh
   - tests/android/visual-baselines/R14/01-r14-conversations.png
   - tests/android/visual-baselines/R14/02-r14-sent.png
@@ -688,7 +728,7 @@ project_fingerprint:
   - tests/test_android_candidate_route.py
   - tests/test_android_ci_gate.py
   - tests/test_r13_candidate.py
-  file_count: 66
+  file_count: 74
   payload:
     base_commit: 0a100b86f63829ef38ede5571d3e511219e67769
     files:
@@ -698,12 +738,16 @@ project_fingerprint:
       sha256: 3abacc131665906483dfd7f93ee84a691ac0e9e9d4070c7ff56127639991d87e
     - path: CHANGELOG.md
       state: FILE
-      size: 237765
-      sha256: 188e71fc45573a4d7d526fab9754fc6b5b32575fd31ab3189f4f30bdaa23b977
+      size: 238570
+      sha256: 7777a01c3806cab965187d9e5b8be8263c91fd41feebc4e3d6ffc59fdb2c40d5
     - path: apps/android/app/build.gradle.kts
       state: FILE
       size: 6171
       sha256: 3ac97af334a5383915402827bf0a2274884e8f6ff3de413a0d77479a5117967d
+    - path: apps/android/app/src/androidTest/java/cc/orbexa/hhy/HistoricalVisualAuditTest.kt
+      state: FILE
+      size: 39847
+      sha256: 507e7fd3a31ccdf966a417b8166d3ed07990cb72ea7384a003914481aa8a0d4a
     - path: apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
       state: FILE
       size: 33845
@@ -748,6 +792,14 @@ project_fingerprint:
       state: FILE
       size: 21282
       sha256: e7ccfa60cbef1f607c83c94bc9e3568c59199f30cdec5c83a930cca58a2536a7
+    - path: artifacts/apk/R14/APK_MANIFEST.yaml
+      state: FILE
+      size: 970
+      sha256: 9503c757210db99d062f8ade2464117d0cc3aec05c5ad1ea5d44c8a38132e873
+    - path: artifacts/apk/R14/history/2eb8ac7/APK_MANIFEST.yaml
+      state: FILE
+      size: 970
+      sha256: b441c69441237c60fd36aa91f7827b0a5ae3a7dd26d4b1328f3894261a979811
     - path: config/android-automation.yaml
       state: FILE
       size: 17436
@@ -904,6 +956,22 @@ project_fingerprint:
       state: FILE
       size: 3755
       sha256: 7640cd4aa00c3c2eb9e6629adb7ec19c539ddd13e10bb7acce4699b672345dba
+    - path: docs/03-continuity/change-requests/CR-0511-归档R14最终候选、交付稳定签名TEST_APK并机器关闭版本.md
+      state: FILE
+      size: 3344
+      sha256: 6bcc661524f8071201a85af64637855beed56f9561b4d46437121fce522a8418
+    - path: docs/03-continuity/change-requests/CR-0512-补齐R13四页离线真实视觉证据解除R14历史漂移门禁.md
+      state: FILE
+      size: 3273
+      sha256: eebc2a5984d4961f7c1b24e495c35218973bee849fc4204b9d1762114d175f5f
+    - path: docs/03-continuity/change-requests/CR-0513-登记R14原子替换归档与历史视觉数量回归文件.md
+      state: FILE
+      size: 2678
+      sha256: e96d94ef151c29dd19c988440c8c3b052855aef57a07826c489fa3fec53e74da
+    - path: releases/R14/RELEASE_MANIFEST.yaml
+      state: FILE
+      size: 8238
+      sha256: 25b3427d2b90e3886a5c9eeeb5ddc519d5c7fc1d8a7038b62c242a5fed385dc8
     - path: scripts/android_ci_gate.py
       state: FILE
       size: 39771
@@ -916,6 +984,10 @@ project_fingerprint:
       state: FILE
       size: 2968
       sha256: 85d3b69e756a2232d68a17aa404885463e0ea6d7048ce5651373f6258a95d171
+    - path: scripts/run_android_historical_visual_audit.sh
+      state: FILE
+      size: 1027
+      sha256: bb25a2841df7d3e0d1c364bf93fb36a8ac603d9f5a56574f4c7a447fd3dca1c2
     - path: scripts/switch_android_candidate_route.sh
       state: FILE
       size: 11538
@@ -951,7 +1023,7 @@ project_fingerprint:
     - path: tests/test_android_ci_gate.py
       state: FILE
       size: 102215
-      sha256: 293d961aef9c99a1851c5813ffa14c47673406608eb06c6ecc5b3d91629e4d73
+      sha256: a06fb0565bd2895e11df35f7d836cfaa9a91f1f00dc740d6c3cbb7da25d241dd
     - path: tests/test_r13_candidate.py
       state: FILE
       size: 21538
@@ -961,10 +1033,13 @@ change_classification:
   - .github/workflows/android-quality-gate.yml
   other:
   - CHANGELOG.md
+  - artifacts/apk/R14/APK_MANIFEST.yaml
+  - artifacts/apk/R14/history/2eb8ac7/APK_MANIFEST.yaml
   - config/android-automation.yaml
   - config/android-candidate-request.yaml
   code:
   - apps/android/app/build.gradle.kts
+  - apps/android/app/src/androidTest/java/cc/orbexa/hhy/HistoricalVisualAuditTest.kt
   - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
   - apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
   - apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
@@ -979,9 +1054,11 @@ change_classification:
   - scripts/android_ci_gate.py
   - scripts/prepare_r14_candidate_fixture.sh
   - scripts/run_android_emulator_gate.sh
+  - scripts/run_android_historical_visual_audit.sh
   - scripts/switch_android_candidate_route.sh
   user_visible:
   - apps/android/app/build.gradle.kts
+  - apps/android/app/src/androidTest/java/cc/orbexa/hhy/HistoricalVisualAuditTest.kt
   - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
   - apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
   - apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
@@ -1031,6 +1108,11 @@ change_classification:
   - docs/03-continuity/change-requests/CR-0508-限定Android候选旅程到App模块.md
   - docs/03-continuity/change-requests/CR-0509-授权R14-App模块范围修复唯一Attempt20候选.md
   - docs/03-continuity/change-requests/CR-0510-批准并轻量晋升R14首版视觉基线.md
+  - docs/03-continuity/change-requests/CR-0511-归档R14最终候选、交付稳定签名TEST_APK并机器关闭版本.md
+  - docs/03-continuity/change-requests/CR-0512-补齐R13四页离线真实视觉证据解除R14历史漂移门禁.md
+  - docs/03-continuity/change-requests/CR-0513-登记R14原子替换归档与历史视觉数量回归文件.md
+  source_of_truth:
+  - releases/R14/RELEASE_MANIFEST.yaml
   tests:
   - tests/android/visual-baselines/R14/01-r14-conversations.png
   - tests/android/visual-baselines/R14/02-r14-sent.png
@@ -1047,6 +1129,7 @@ required_records:
 - CHECKPOINT
 - CURRENT_STATUS
 - EVENT_LOG
+- APPROVED_CHANGE_REQUEST
 - CHANGELOG
 change_requests:
 - CR-0475
@@ -1085,6 +1168,9 @@ change_requests:
 - CR-0508
 - CR-0509
 - CR-0510
+- CR-0511
+- CR-0512
+- CR-0513
 scope:
   allowed_paths:
   - apps/**
@@ -1134,13 +1220,31 @@ scope:
   - apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ChatDetailScreen.kt
   - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
   - artifacts/validation/r14-candidate-attempt8/failure-evidence.json
-  source: story+explicit+approved-cr:CR-0484+approved-cr:CR-0485+approved-cr:CR-0486
+  - artifacts/validation/r14-final-candidate/candidate-report.json
+  - artifacts/validation/r14-final-candidate/build-evidence.json
+  - artifacts/validation/r14-task007-android/build-evidence.json
+  - artifacts/apk/R14/APK_MANIFEST.yaml
+  - artifacts/reports/R14/R14-version-test-guide.md
+  - artifacts/validation/r14-apk-delivery/delivery-evidence.json
+  - releases/R14/RELEASE_MANIFEST.yaml
+  - releases/R14/ACCEPTANCE_MATRIX.csv
+  - apps/android/app/src/androidTest/java/cc/orbexa/hhy/HistoricalVisualAuditTest.kt
+  - scripts/run_android_historical_visual_audit.sh
+  - tests/android/visual-baselines/R13/APPROVAL.yaml
+  - tests/android/visual-baselines/R13/27-r13-favorites.png
+  - tests/android/visual-baselines/R13/28-r13-history.png
+  - tests/android/visual-baselines/R13/29-r13-share-sheet.png
+  - tests/android/visual-baselines/R13/30-r13-invalid-feedback-sheet.png
+  - catalogs/ui_visual_acceptance.csv
+  - artifacts/apk/R14/history/2eb8ac7/APK_MANIFEST.yaml
+  - artifacts/validation/r14-apk-delivery/history/2eb8ac7/delivery-evidence.json
+  source: story+explicit+approved-cr:CR-0484+approved-cr:CR-0485+approved-cr:CR-0486+approved-cr:CR-0511+approved-cr:CR-0512+approved-cr:CR-0513
 parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 视觉基线提交必须作为唯一审批变更触发轻量晋升，提交与工作流身份严格串行。
-event_hash: 125fd42ca9d24ddb756c67795f77b17bce04278cbf4bab21a106c6540150e5ce
+  reason: 本次提交同时冻结交付、连续性与历史视觉事务，需保持单写者顺序一致。
+event_hash: cb50d40e2d1f7f84d239b16ebbb24fc20dc812b9f3c47ecb67c06086ba8e7f1c
 ```
 
 ## 接续状态与事件头
@@ -1152,8 +1256,8 @@ active_session_id: SES-20260729T161557Z-6FCE6ACA
 last_session_id: SES-20260728T205917Z-52E3B6B1
 last_session_result: COMPLETED
 last_closure_checkpoint_id: CP-SES-20260728T205917Z-52E3B6B1-0008
-event_count: 4743
-event_head_hash: 125fd42ca9d24ddb756c67795f77b17bce04278cbf4bab21a106c6540150e5ce
+event_count: 4761
+event_head_hash: cb50d40e2d1f7f84d239b16ebbb24fc20dc812b9f3c47ecb67c06086ba8e7f1c
 event_chain_valid: true
 ```
 
@@ -1276,9 +1380,9 @@ recent_sessions: - session_id: SES-20260728T091447Z-9A245BB4
   started_at: '2026-07-29T16:15:57Z'
   record: .continuity/sessions/SES-20260729T161557Z-6FCE6ACA.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260729T161557Z-6FCE6ACA.md
-  updated_at: '2026-07-30T03:32:13Z'
+  updated_at: '2026-07-30T04:10:45Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260729T161557Z-6FCE6ACA/0055.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260729T161557Z-6FCE6ACA/0057.yaml
   handoff_bundle: null
 task_claims: - claim_id: CLM-A470E7430D21
   session_id: SES-20260726T123133Z-63E93B88
@@ -2230,32 +2334,48 @@ recent_task_transitions: - transition_id: TRN-005608E4C9E4
 ```yaml
 initialized: true
 branch: task/TASK-R03-001
-head: 89ccaf45cbecd0a5412e7d99057ee0036cd8f181
+head: 928c7d9ac5e6c5d912742ba15fb33f63a5724ca0
 upstream: origin/task/TASK-R03-001
 ahead: 0
 behind: 0
 dirty: true
 status_porcelain:
-- ' M .continuity/ACTIVE_SESSION.yaml'
-- ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
-- ' M .continuity/EVENT_LOG.jsonl'
-- ' M .continuity/SESSION_INDEX.yaml'
-- ' M .continuity/STATE.yaml'
-- ' M .continuity/sessions/SES-20260729T161557Z-6FCE6ACA.yaml'
-- ' M CURRENT_STATUS.yaml'
-- ' M artifacts/validation/project-doctor-v1.2.3.json'
-- ' M catalogs/change_request_index.csv'
-- ' M catalogs/session_index.csv'
-- ' M docs/03-continuity/sessions/2026-07/SES-20260729T161557Z-6FCE6ACA.md'
-- ?? .continuity/change_requests/CR-0510.yaml
-- ?? .continuity/checkpoints/SES-20260729T161557Z-6FCE6ACA/0055.yaml
-- ?? docs/03-continuity/change-requests/CR-0510-批准并轻量晋升R14首版视觉基线.md
-- ?? tests/android/visual-baselines/R14/01-r14-conversations.png
-- ?? tests/android/visual-baselines/R14/02-r14-sent.png
-- ?? tests/android/visual-baselines/R14/03-r14-blocked-reentry.png
-- ?? tests/android/visual-baselines/R14/04-r14-long-press-menu.png
-- ?? tests/android/visual-baselines/R14/APPROVAL.yaml
+- MM .continuity/ACTIVE_SESSION.yaml
+- M  .continuity/CHANGE_REQUEST_INDEX.yaml
+- MM .continuity/EVENT_LOG.jsonl
+- MM .continuity/SESSION_INDEX.yaml
+- MM .continuity/STATE.yaml
+- A  .continuity/change_requests/CR-0511.yaml
+- A  .continuity/change_requests/CR-0512.yaml
+- A  .continuity/change_requests/CR-0513.yaml
+- A  .continuity/checkpoints/SES-20260729T161557Z-6FCE6ACA/0056.yaml
+- MM .continuity/sessions/SES-20260729T161557Z-6FCE6ACA.yaml
+- M  CHANGELOG.md
+- MM CURRENT_STATUS.yaml
+- M  apps/android/app/src/androidTest/java/cc/orbexa/hhy/HistoricalVisualAuditTest.kt
+- M  artifacts/apk/R14/APK_MANIFEST.yaml
+- A  artifacts/apk/R14/history/2eb8ac7/APK_MANIFEST.yaml
+- M  artifacts/context/CURRENT_CONTEXT_PACK.md
+- M  artifacts/context/CURRENT_CONTEXT_PACK.yaml
+- M  artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+- M  artifacts/reports/R14/R14-version-test-guide.md
+- M  artifacts/validation/r14-apk-delivery/delivery-evidence.json
+- A  artifacts/validation/r14-apk-delivery/history/2eb8ac7/delivery-evidence.json
+- A  artifacts/validation/r14-final-candidate/build-evidence.json
+- A  artifacts/validation/r14-final-candidate/candidate-report.json
+- M  artifacts/validation/r14-task007-android/build-evidence.json
+- M  catalogs/change_request_index.csv
+- MM catalogs/session_index.csv
+- A  docs/03-continuity/change-requests/CR-0511-归档R14最终候选、交付稳定签名TEST_APK并机器关闭版本.md
+- A  docs/03-continuity/change-requests/CR-0512-补齐R13四页离线真实视觉证据解除R14历史漂移门禁.md
+- A  docs/03-continuity/change-requests/CR-0513-登记R14原子替换归档与历史视觉数量回归文件.md
+- MM docs/03-continuity/sessions/2026-07/SES-20260729T161557Z-6FCE6ACA.md
+- M  releases/R14/RELEASE_MANIFEST.yaml
+- M  scripts/run_android_historical_visual_audit.sh
+- M  tests/test_android_ci_gate.py
+- ?? .continuity/checkpoints/SES-20260729T161557Z-6FCE6ACA/0057.yaml
 recent_commits:
+- "928c7d9ac5e6c5d912742ba15fb33f63a5724ca0\t2026-07-30T11:33:02+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(r14): approve visual baseline"
 - "89ccaf45cbecd0a5412e7d99057ee0036cd8f181\t2026-07-30T11:01:34+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(r14): bind CR-0509 implementation\
   \ record"
 - "e8ac4698a5219d2c9170848a54baa88f44109b0c\t2026-07-30T11:00:35+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(r14): authorize candidate\
@@ -2270,18 +2390,17 @@ recent_commits:
   \ attempt19"
 - "1f2aede2e81961522075a181ec4f0f29ed59d869\t2026-07-30T10:25:06+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(r14): bind CR-0505 implementation\
   \ record"
-- "cf0412194af17e3a5562ba28b6436b4bf3d9e678\t2026-07-30T10:23:55+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] test(r14): restore filtered\
-  \ delete precondition"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`fb394f098fbd8dccc2d0685b91f8e9a4a2ed5723ebd667266a122e038ffd34bd`
-- 文件数：66
+- 指纹：`4c5cba57c84d623e0c09dd5536d0bef6d1ccd516fe5f59cd317889983b9d5bbc`
+- 文件数：74
 
 - `.github/workflows/android-quality-gate.yml`
 - `CHANGELOG.md`
 - `apps/android/app/build.gradle.kts`
+- `apps/android/app/src/androidTest/java/cc/orbexa/hhy/HistoricalVisualAuditTest.kt`
 - `apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt`
 - `apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt`
 - `apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt`
@@ -2293,6 +2412,8 @@ recent_commits:
 - `apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14BlockStateStore.kt`
 - `apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ChatDetailScreen.kt`
 - `apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ConversationListScreen.kt`
+- `artifacts/apk/R14/APK_MANIFEST.yaml`
+- `artifacts/apk/R14/history/2eb8ac7/APK_MANIFEST.yaml`
 - `config/android-automation.yaml`
 - `config/android-candidate-request.yaml`
 - `docs/03-continuity/PROBLEM_REGISTRY.yaml`
@@ -2332,9 +2453,14 @@ recent_commits:
 - `docs/03-continuity/change-requests/CR-0508-限定Android候选旅程到App模块.md`
 - `docs/03-continuity/change-requests/CR-0509-授权R14-App模块范围修复唯一Attempt20候选.md`
 - `docs/03-continuity/change-requests/CR-0510-批准并轻量晋升R14首版视觉基线.md`
+- `docs/03-continuity/change-requests/CR-0511-归档R14最终候选、交付稳定签名TEST_APK并机器关闭版本.md`
+- `docs/03-continuity/change-requests/CR-0512-补齐R13四页离线真实视觉证据解除R14历史漂移门禁.md`
+- `docs/03-continuity/change-requests/CR-0513-登记R14原子替换归档与历史视觉数量回归文件.md`
+- `releases/R14/RELEASE_MANIFEST.yaml`
 - `scripts/android_ci_gate.py`
 - `scripts/prepare_r14_candidate_fixture.sh`
 - `scripts/run_android_emulator_gate.sh`
+- `scripts/run_android_historical_visual_audit.sh`
 - `scripts/switch_android_candidate_route.sh`
 - `tests/android/visual-baselines/R14/01-r14-conversations.png`
 - `tests/android/visual-baselines/R14/02-r14-sent.png`
@@ -2429,12 +2555,12 @@ RELEASE_MANIFEST.yaml:
     certificate_sha256: e32a9d7ff8a209d2903db6383b461b259f0018a698d1f3646e6ed7f1112671be
     production_signing_affected: false
   android_delivery:
-    source_commit: 2eb8ac74b55c35833609c6eb6f330268a289bf3a
-    route_config_commit: 32522a9da99366d320bc6bb65f7ca0b86867512d
-    apk_file: hhy-r14-2eb8ac7-debug.apk
+    source_commit: 89ccaf45cbecd0a5412e7d99057ee0036cd8f181
+    route_config_commit: 89ccaf45cbecd0a5412e7d99057ee0036cd8f181
+    apk_file: hhy-r14-89ccaf4-debug.apk
     version_name: 1.2.2-debug
-    version_code: 10224
-    sha256: 6ce8494e46d3a831c3ca9629d78bad97c445e9d93d084d8c0cd1c7292a885481
+    version_code: 10225
+    sha256: cbf9eb40635ad4163f01ff0e87fdfda5d2c372b6def9c0bc1c6bfe377d149703
     signing_profile_id: hhy-staging-test-v2
     signing_fingerprint: e32a9d7ff8a209d2903db6383b461b259f0018a698d1f3646e6ed7f1112671be
     api_base_url: https://api.orbexa.cc
@@ -2442,7 +2568,7 @@ RELEASE_MANIFEST.yaml:
     machine_delivery: PASS
     owner_physical_test: PENDING
     next_release_development: ALLOWED
-    public_websocket: BLOCKED_EXTERNAL_DNS
+    public_websocket: VERIFIED_BY_R14_CANDIDATE
     report_catalog: PASS_CR_0464_SOURCE_INCLUDED
     report_catalog_source_commit: 054da178f90b752e23b33b8de49c22c6c8421026
     report_catalog_source: contracts/openapi.yaml#components.schemas.ChatPostConversationsByIdReportRequest.properties.reasonCode.x-hhy-options
@@ -2453,6 +2579,10 @@ RELEASE_MANIFEST.yaml:
     - obx-test:/tmp/hhy-r14-cr0464-android-054da178/android.log
     apk_contains_report_catalog: true
     final_apk_rebuild_required: false
+    final_candidate_report: artifacts/validation/r14-final-candidate/candidate-report.json
+    candidate_github_run: '30510422149'
+    candidate_promotion_run: '30511539828'
+    candidate_status: PASS
     evidence: artifacts/validation/r14-apk-delivery/delivery-evidence.json
     public_conversations_hotfix:
       change_request: CR-0447
@@ -2467,16 +2597,18 @@ RELEASE_MANIFEST.yaml:
     build_evidence: artifacts/validation/r14-task007-android/build-evidence.json
     test_guide: artifacts/reports/R14/R14-version-test-guide.md
     desktop_test_guide:
-      desktop_path: C:\Users\小白\Desktop\hhy-r14-2eb8ac7-test-guide.md
-      file_name: hhy-r14-2eb8ac7-test-guide.md
-      size_bytes: 3586
-      sha256: 1b106db40fca1014b8cad212f2bf6dbd6d484a2ce736b92b5cb3a2a507a55f76
+      desktop_path: C:\Users\小白\Desktop\hhy-r14-89ccaf4-test-guide.md
+      file_name: hhy-r14-89ccaf4-test-guide.md
+      size_bytes: 3515
+      sha256: e79f3095a021c52b794e9bcf46904ea3be495ab42ef6202312d145242c6fa173
       status: PASS
   android_automation:
     policy_id: HHY-ANDROID-AUTOMATION-V1
     mode: ON_DEMAND_NON_BLOCKING_SPECIALTY
-    status: NOT_RUN_NOT_REQUIRED_FOR_TEST_APK
-    ai_visual_review: NOT_CLAIMED_PASS
+    status: PASS
+    candidate_run: '30510422149'
+    promotion_run: '30511539828'
+    ai_visual_review: PASS
     owner_physical_test: PENDING
     next_release_development: ALLOWED
   entry_gate:
@@ -17547,13 +17679,182 @@ PARALLEL_EXECUTION_PLAN.yaml:
     session_id: SES-20260729T161557Z-6FCE6ACA
   session_ids:
   - SES-20260729T161557Z-6FCE6ACA
+- protocol_version: '1.0'
+  cr_id: CR-0511
+  title: 归档R14最终候选、交付稳定签名TEST_APK并机器关闭版本
+  status: IMPLEMENTING
+  created_at: '2026-07-30T03:51:23Z'
+  updated_at: '2026-07-30T03:51:43Z'
+  requester_actor_id: codex-r14-release-closer
+  approver_actor_id: codex-r14-release-authorizer
+  task_id: TASK-R14-008
+  session_id: SES-20260729T161557Z-6FCE6ACA
+  user_request: R14大版本完成后由自动化测试审核，交付桌面APK和测试文档；无需等待逐版本真机反馈，关闭后按相邻版本继续推进
+  reason: Run 30510422149业务候选和Run 30511539828视觉晋升均PASS，需把同一89ccaf45产品Commit重建为固定v2测试签名、完成四方交付并机器关闭R14
+  original_rule: R14当前交付仍绑定旧Commit 2eb8ac74、versionCode 10224和未覆盖最终消息体验修复的APK；候选PASS证据尚未归档到版本关闭事实源。
+  new_rule: R14最终交付唯一绑定产品Commit 89ccaf45、versionCode 10225、Run 30510422149及晋升Run 30511539828；TEST_APK必须由obx-test固定工具链重建并复用hhy-staging-test-v2，四方SHA一致后才允许machine-close。
+  impact_summary: 仅更新R14最终候选、构建、交付、测试说明、问题闭环和版本关闭证据；不修改已通过候选的产品代码、API、数据库或视觉基线，不等待所有者真机反馈。
+  impact:
+    files:
+    - artifacts/validation/r14-final-candidate/candidate-report.json
+    - artifacts/validation/r14-final-candidate/build-evidence.json
+    - artifacts/validation/r14-task007-android/build-evidence.json
+    - artifacts/apk/R14/APK_MANIFEST.yaml
+    - artifacts/reports/R14/R14-version-test-guide.md
+    - artifacts/validation/r14-apk-delivery/delivery-evidence.json
+    - releases/R14/RELEASE_MANIFEST.yaml
+    - releases/R14/ACCEPTANCE_MATRIX.csv
+    - docs/03-continuity/PROBLEM_REGISTRY.yaml
+    - CHANGELOG.md
+    pages:
+    - SCR-CHAT-001,SCR-CHAT-002,SHEET-CHAT-001,SHEET-CHAT-002
+    apis:
+    - 无运行时变更；复用已通过的R14候选API
+    database:
+    - 无迁移；复用已通过的R14候选数据库
+    configuration:
+    - R14交付清单与最终候选证据绑定
+    ledger:
+    - 无资金或账本影响
+    tests:
+    - Run 30510422149 candidate PASS; Run 30511539828 promotion PASS; fixed toolchain unit/lint/assemble; apksigner v2/v3; four-way delivery;
+      machine-close
+    releases:
+    - R14
+    migration_and_compatibility: 10225沿用固定v2签名，可覆盖10224；旧APK按交付脚本原子归档；owner_physical_test保持PENDING并异步反馈，不阻断R15。
+  user_confirmation: 项目所有者已要求每个大版本由AI自动审核、桌面交付APK和测试文档，并长期授权无需逐版本等待真机反馈即可继续开发。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-30T03:51:36Z'
+    note: 独立复核自动候选、视觉晋升、固定证书指纹和交付边界；批准只归档真实证据并重建同一产品Commit的稳定签名TEST_APK，不允许改动产品行为或伪造真机结论。
+  machine_record: .continuity/change_requests/CR-0511.yaml
+  document: docs/03-continuity/change-requests/CR-0511-归档R14最终候选、交付稳定签名TEST_APK并机器关闭版本.md
+  decision_log:
+  - at: '2026-07-30T03:51:43Z'
+    actor_id: codex-r14-release-closer
+    status: IMPLEMENTING
+    note: 开始归档最终候选PASS、生成稳定签名10225 APK、执行四方交付与R14机器关闭。
+    session_id: SES-20260729T161557Z-6FCE6ACA
+  session_ids:
+  - SES-20260729T161557Z-6FCE6ACA
+- protocol_version: '1.0'
+  cr_id: CR-0512
+  title: 补齐R13四页离线真实视觉证据解除R14历史漂移门禁
+  status: IMPLEMENTING
+  created_at: '2026-07-30T04:02:02Z'
+  updated_at: '2026-07-30T04:02:20Z'
+  requester_actor_id: codex-r14-release-closer
+  approver_actor_id: codex-r13-visual-debt-authorizer
+  task_id: TASK-R14-008
+  session_id: SES-20260729T161557Z-6FCE6ACA
+  user_request: 历史已开发页面必须全局检查，不合格UI按效果图重做；所有版本截图由AI独立判断且不得中断持续开发
+  reason: R14 machine-close发现R13四页仍为IN_REVIEW且无实现截图；不得弱化历史视觉门禁或冒用R14截图，需复用既有离线生产Composable审计一次补齐四页
+  original_rule: 离线历史视觉批次只覆盖R02至R08共22张；R13四页虽有真实实现和TEST_APK，但截图候选在旧GitHub链路反复失败后按当时非阻断规则遗留IN_REVIEW。
+  new_rule: 扩展同一离线历史视觉批次到26张，新增R13收藏、浏览记录、分享面板和联系方式失效反馈四张生产Composable截图；由AI逐图审核合格并固化基线后才能把对应视觉行转PASS。
+  impact_summary: 仅增加Android测试侧离线视觉夹具、截图数量断言和R13四页视觉证据；生产APK、API、数据库、候选Commit 89ccaf45和R14四图均不变化。
+  impact:
+    files:
+    - apps/android/app/src/androidTest/java/cc/orbexa/hhy/HistoricalVisualAuditTest.kt
+    - scripts/run_android_historical_visual_audit.sh
+    - tests/android/visual-baselines/R13/APPROVAL.yaml
+    - tests/android/visual-baselines/R13/27-r13-favorites.png
+    - tests/android/visual-baselines/R13/28-r13-history.png
+    - tests/android/visual-baselines/R13/29-r13-share-sheet.png
+    - tests/android/visual-baselines/R13/30-r13-invalid-feedback-sheet.png
+    - catalogs/ui_visual_acceptance.csv
+    pages:
+    - SCR-FAV-001,SCR-HIS-001,SHEET-SHARE-001,SHEET-CONTENT-INVALID-001
+    apis:
+    - 无生产API影响；androidTest内ContractR13Api确定性Fake
+    database:
+    - 无数据库影响
+    configuration:
+    - HISTORICAL-UI期望截图数22调整为26
+    ledger:
+    - 无资金或账本影响
+    tests:
+    - obx-test compileDebugAndroidTestKotlin; GitHub HISTORICAL-UI instrumentation; screenshot hashes; visual acceptance gate
+    releases:
+    - R13
+    - R14
+    migration_and_compatibility: 无运行时迁移；R13离线夹具只存在androidTest，使用冻结真实字段模型且不进入release variant；GitHub只运行HISTORICAL-UI单批次，不编译候选或访问登录后端。
+  user_confirmation: 项目所有者已要求历史页面全局UI检查、由AI判断截图合格并持续推进，不因逐图人工确认中断。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-30T04:02:14Z'
+    note: 独立确认四页均使用生产Composable与冻结真实模型，夹具只在androidTest，离线批次不触发候选、登录、后端或生产数据；批准补证，不允许伪造成功或复用无关截图。
+  machine_record: .continuity/change_requests/CR-0512.yaml
+  document: docs/03-continuity/change-requests/CR-0512-补齐R13四页离线真实视觉证据解除R14历史漂移门禁.md
+  decision_log:
+  - at: '2026-07-30T04:02:20Z'
+    actor_id: codex-r14-release-closer
+    status: IMPLEMENTING
+    note: 开始扩展离线历史视觉批次并在固定工具链编译验证。
+    session_id: SES-20260729T161557Z-6FCE6ACA
+  session_ids:
+  - SES-20260729T161557Z-6FCE6ACA
+- protocol_version: '1.0'
+  cr_id: CR-0513
+  title: 登记R14原子替换归档与历史视觉数量回归文件
+  status: IMPLEMENTED
+  created_at: '2026-07-30T04:08:12Z'
+  updated_at: '2026-07-30T04:09:03Z'
+  requester_actor_id: codex-r14-release-closer
+  approver_actor_id: codex-r14-derived-artifact-authorizer
+  task_id: TASK-R14-008
+  session_id: SES-20260729T161557Z-6FCE6ACA
+  user_request: 每个大版本交付APK与测试文档并由AI自动审核，保持跨电脑和AI可接续
+  reason: CR-0511交付脚本原子替换自动生成旧Manifest与旧交付证据归档；CR-0512将历史截图数从22增至26必须同步既有治理单测，需纳入精确范围而非绕过会话门禁
+  original_rule: CR-0511与CR-0512遗漏声明交付工具自动生成的旧版本历史归档，以及截图精确数量回归测试文件。
+  new_rule: R14替换交付必须保留2eb8ac7旧Manifest和交付证据原字节归档；历史视觉批次数量变化必须同步治理单测锁定26张。
+  impact_summary: 只登记已批准事务的派生归档与测试不变量，不增加新业务规则、不修改产品代码、API、数据库或APK字节。
+  impact:
+    files:
+    - artifacts/apk/R14/history/2eb8ac7/APK_MANIFEST.yaml
+    - artifacts/validation/r14-apk-delivery/history/2eb8ac7/delivery-evidence.json
+    - tests/test_android_ci_gate.py
+    pages:
+    - 无直接页面变化
+    apis:
+    - 无API影响
+    database:
+    - 无数据库影响
+    configuration:
+    - 历史视觉截图精确数量26
+    ledger:
+    - 无资金或账本影响
+    tests:
+    - tests.test_android_ci_gate 57 tests PASS; atomic delivery archive byte preservation
+    releases:
+    - R14
+    migration_and_compatibility: 旧10224交付事实可恢复；10225为当前交付；测试只锁定离线截图批次数量。
+  user_confirmation: 项目所有者已要求跨AI可接续、每版交付完整且无需重复批准。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-30T04:08:24Z'
+    note: 独立确认三项文件均为已批准CR的必需派生产物：旧交付可恢复归档及截图数量回归，不扩展产品范围。
+  machine_record: .continuity/change_requests/CR-0513.yaml
+  document: docs/03-continuity/change-requests/CR-0513-登记R14原子替换归档与历史视觉数量回归文件.md
+  decision_log:
+  - at: '2026-07-30T04:08:56Z'
+    actor_id: codex-r14-release-closer
+    status: IMPLEMENTING
+    note: 开始登记并验证R14旧交付归档与26张历史视觉数量回归。
+    session_id: SES-20260729T161557Z-6FCE6ACA
+  - at: '2026-07-30T04:09:03Z'
+    actor_id: codex-r14-release-closer
+    status: IMPLEMENTED
+    note: 2eb8ac7旧Manifest和交付证据已由受控交付脚本原子归档；治理测试已锁定26张并通过57项。
+    session_id: SES-20260729T161557Z-6FCE6ACA
+  session_ids:
+  - SES-20260729T161557Z-6FCE6ACA
 ```
 
 ## 上下文来源及哈希
 
 - `AGENTS.md` — `bde93afcdb788b601aeffcf2369a1aeda8eeb391f165429d501d7ba8895ba4a6`
 - `START_HERE.md` — `22de14029ce47beb41ea569e36ce223fbc9d11b86f8676f28d5fbbd83896af5c`
-- `CURRENT_STATUS.yaml` — `62c62435a6e3e0a8c1ff9aa9f0f8f01a898544f346a444765dd90a627c68f86f`
+- `CURRENT_STATUS.yaml` — `50db8087eb35f3365e536e7689a905622013cd5993f3f096de179c4f11592a9f`
 - `NEXT_TASK.yaml` — `e26e5c16bb6b761d538c5e11830ffbfaeacc532c054e569ab784155323b6af5c`
 - `DEVELOPMENT_RISK_REGISTER.md` — `8304c91492e4ee2abea0522a06541c8688d39c7fc532b5d0cde499bf09fffb87`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `5213b166f464a4415abe064e0ebcd99da8f1f8d23569b49ae4e9787007e83314`
@@ -17564,24 +17865,24 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `config/REPOSITORY_TRANSPORT.yaml` — `8c4a21f3e204d46e7ffb467d804a53ed26cda61cd088dadfddb50b69eea657fc`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `38e04ed812c8df0d353c2b91993d31e53b471e9c457f06b426bd2260c470aa92`
-- `.continuity/EVENT_LOG.jsonl` — `a3344f55c10826186c77df8e81bdcd23b8255a678014a382a87c12ddc28ea402`
-- `.continuity/SESSION_INDEX.yaml` — `a9a42965e9e4e3522c18226a1c5fd68d2d8e4111ddd2b46bd334d1dba7ebed34`
+- `.continuity/EVENT_LOG.jsonl` — `8bc71e9db2cd3cd18c9e46452990a7eee1bd07352b8d036ab4a05dafb27cb790`
+- `.continuity/SESSION_INDEX.yaml` — `3b7801397fce6cffdddeef6cca78cd74aecc4bcf0ad9e1d7d47f6dd19e565c02`
 - `.continuity/TASK_CLAIMS.yaml` — `0ff8aad03fdf7bd39105618d202972c82222c6359e96e7f3a89861b184c45eec`
 - `.continuity/TASK_TRANSITIONS.yaml` — `afd6333d15719bab6521ac976344a232ccba2e5e9edd4d2e5817ad4bb473f4d1`
-- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `4c10b781ddbabd02461ae043e630491e50f1c6bb48b6746a9b61bc6fbcd12773`
-- `.continuity/ACTIVE_SESSION.yaml` — `afa1b13cc602be750fd3cc4727dc939b64ab76d3dc48965d67815e64bea90e3f`
+- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `bd523ddcc8e58dd205c3818fc9b004ee5480711f10f45591b0bba5b7750ff8af`
+- `.continuity/ACTIVE_SESSION.yaml` — `daf2d4a9a6a11f29faa6767df4f99fdd2895648095e1a82f3c96e5d42974da22`
 - `docs/00-baseline/正式商业系统全局硬性开发边界.md` — `30c07716c31d6d09621b6f6d119063b1fcb35e78d9b266423ed333d92b8262db`
 - `docs/02-ui/UI参考图使用与开发约束_V1.2.2.md` — `d14367586aa2067b059df58798acd20ab982459cdb35ff27fc7922a3896e4933`
 - `docs/03-continuity/持续开发无状态接续强制门禁_V1.2.3.md` — `d0ed3ed68bdd93b06500eecdfb5baa3245e6ca8b685a486788abb6eee39b3d51`
 - `docs/09-development/统一开发与交付效率规范.md` — `037dc805755d06c3fd1d628ddee8297fcc8c6e067d6cf520240696daa8ec72a6`
-- `releases/R14/RELEASE_MANIFEST.yaml` — `6c41059c963e626a9921b87301d0e2bb2c19b4693b4d37e8823a8ab6632754ca`
+- `releases/R14/RELEASE_MANIFEST.yaml` — `25b3427d2b90e3886a5c9eeeb5ddc519d5c7fc1d8a7038b62c242a5fed385dc8`
 - `releases/R14/DEFINITION_OF_READY.yaml` — `c704682cbf23b60766f803327d9702bffca8d19184d655f5e1fcbdbe110476eb`
 - `releases/R14/STORIES.yaml` — `f0e6b2f3ba5e0853317e136d7244d8b5e34161428e2ca623cb48161cca6c805c`
 - `releases/R14/TASKS.yaml` — `c7fc98c89d4e1e02535460d19de43608dcc5178d4fe61bffad94385b76df5e05`
 - `releases/R14/ACCEPTANCE_MATRIX.csv` — `ffc0fd23b945544de8fe2a37774a94675c0d60b73d88517abe69c68d326ad6f4`
 - `releases/R14/PARALLEL_EXECUTION_PLAN.yaml` — `cd1f0c96ffd7562acb214edba80a2bbb12b79f06c19032d1b133936ff6abd74f`
-- `docs/03-continuity/sessions/2026-07/SES-20260729T161557Z-6FCE6ACA.md` — `aa80e890ff4317e7e9e016a61e4a2ac686c5a654f95d049eefe198c7237c8fa0`
-- `.continuity/checkpoints/SES-20260729T161557Z-6FCE6ACA/0055.yaml` — `11d570581bb02c220699000f8a4933278e6f062af39bbf96996a1e3ec97f2ded`
+- `docs/03-continuity/sessions/2026-07/SES-20260729T161557Z-6FCE6ACA.md` — `d79095aeb12acbfbc5d069486e109da554fcdd23a9e84b8fe4460b06158f1c99`
+- `.continuity/checkpoints/SES-20260729T161557Z-6FCE6ACA/0057.yaml` — `2967ba6bde39afb42deec679f8aadeea36471d56e6d1f5ed48687f559fa93957`
 - `docs/03-continuity/change-requests/CR-0475-绑定R14最终交互候选与稳定TEST_APK同一提交.md` — `4d6c35fd99ef585a4802fb664ac2e2819d4a2fe93fc5d1747ca73496ae69387e`
 - `docs/03-continuity/change-requests/CR-0476-解除R13历史候选测试对当前请求的永久绑定.md` — `098711406c0bc8b2574f2388ab6ed76242e7df1d3fb442a67593a13f76871e11`
 - `docs/03-continuity/change-requests/CR-0477-阻断R14候选旧后端路由与夹具语义漂移.md` — `cbac66f0b6906977cce340a81d30f198e90dcef64ec13ff8c7edd10b2914da61`
@@ -17618,6 +17919,9 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `docs/03-continuity/change-requests/CR-0508-限定Android候选旅程到App模块.md` — `133ea8b5302d13667621b74129c8a94dea52708f8dc3d659449855eabd5a98d4`
 - `docs/03-continuity/change-requests/CR-0509-授权R14-App模块范围修复唯一Attempt20候选.md` — `ac9c6a7defb30dca8e7701dfd0cfbd5273f7cccb19b5bee145772277ec161fb9`
 - `docs/03-continuity/change-requests/CR-0510-批准并轻量晋升R14首版视觉基线.md` — `7640cd4aa00c3c2eb9e6629adb7ec19c539ddd13e10bb7acce4699b672345dba`
+- `docs/03-continuity/change-requests/CR-0511-归档R14最终候选、交付稳定签名TEST_APK并机器关闭版本.md` — `6bcc661524f8071201a85af64637855beed56f9561b4d46437121fce522a8418`
+- `docs/03-continuity/change-requests/CR-0512-补齐R13四页离线真实视觉证据解除R14历史漂移门禁.md` — `eebc2a5984d4961f7c1b24e495c35218973bee849fc4204b9d1762114d175f5f`
+- `docs/03-continuity/change-requests/CR-0513-登记R14原子替换归档与历史视觉数量回归文件.md` — `e96d94ef151c29dd19c988440c8c3b052855aef57a07826c489fa3fec53e74da`
 
 ## 接手硬规则
 
