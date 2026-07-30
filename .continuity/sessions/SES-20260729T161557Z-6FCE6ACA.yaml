@@ -11,7 +11,7 @@ task_id: TASK-R14-008
 story_id: STORY-R14-004
 goal: 异常恢复 SES-20260728T220632Z-FE7D82FD：一对一聊天核心版本关闭与无状态交接
 started_at: '2026-07-29T16:15:57Z'
-updated_at: '2026-07-30T00:32:07Z'
+updated_at: '2026-07-30T00:34:38Z'
 takeover_of: SES-20260728T220632Z-FE7D82FD
 change_requests:
 - CR-0475
@@ -99,22 +99,22 @@ git:
   initial_worktree_state: DIRTY_TAKEOVER
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-30T00:32:00Z'
-  expires_at: '2026-07-30T04:32:00Z'
-checkpoint_sequence: 37
-latest_checkpoint: .continuity/checkpoints/SES-20260729T161557Z-6FCE6ACA/0037.yaml
+  renewed_at: '2026-07-30T00:34:28Z'
+  expires_at: '2026-07-30T04:34:28Z'
+checkpoint_sequence: 38
+latest_checkpoint: .continuity/checkpoints/SES-20260729T161557Z-6FCE6ACA/0038.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260729T161557Z-6FCE6ACA.md
-next_step: 提交授权事实，标记CR-0500 IMPLEMENTED后构建同Commit候选后端并单次推送
+next_step: 构建当前最终HEAD的R14候选后端、受控切流并单次推送触发Attempt16
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: 12f1732de9373f2d8e7a8a53a9c74af04262a097d78cb6c0017f708408f8f255
-  generated_at: '2026-07-30T00:32:04Z'
+  context_hash: d0a434bdf55eef5f4f2a0b7bebd16f7c34c41e8f2116126d0d548f1e03413d0a
+  generated_at: '2026-07-30T00:34:33Z'
 handoff_bundle: null
 closure: null
 parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 授权配置、候选请求、测试锁和CR事实必须作为同一原子提交保持一致
+  reason: 候选后端Commit、Nginx切流和GitHub单次请求必须按同一身份串行绑定

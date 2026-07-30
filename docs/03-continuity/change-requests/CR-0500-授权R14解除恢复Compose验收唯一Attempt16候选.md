@@ -86,3 +86,10 @@ Attempt15已通过前三图、拉黑禁发、重进禁发与解除HTTP 200，唯
 - Status：`IMPLEMENTING`
 - Session：`SES-20260729T161557Z-6FCE6ACA`
 - Note：开始写入Attempt16精确例外、候选请求和错误身份拒绝断言。
+
+## 状态记录 · 2026-07-30T00:34:10Z
+
+- Actor：`codex-r14-attempt16-requester`
+- Status：`IMPLEMENTED`
+- Session：`SES-20260729T161557Z-6FCE6ACA`
+- Note：Attempt16精确授权、请求、错误身份拒绝测试和Changelog已提交；33项治理回归及请求验证通过。
