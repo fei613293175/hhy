@@ -1,7 +1,7 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-30T04:43:51Z
-- Context Hash：`480ec8776031e4806a3eb447ecf7b3faa0011d59b7d8419b94067219dc34edf5`
+- 生成时间：2026-07-30T04:58:08Z
+- Context Hash：`f954ccc064f9245778707c9aa6d64b2bee71e3ed444671aa96283f9ca0b33abe`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 规则就绪：`PASS`（`HASHED_CONTEXT_MANIFEST`）
@@ -187,7 +187,7 @@ blocked_tasks:
 - TASK-R16-007
 - TASK-R16-008
 next_task: TASK-R14-008
-updated_at: '2026-07-30T04:43:46Z'
+updated_at: '2026-07-30T04:58:02Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -222,15 +222,15 @@ continuity:
   active_session_id: SES-20260729T161557Z-6FCE6ACA
   actor_id: codex-r14-resume-20260730
   story_id: STORY-R14-004
-  lease_expires_at: '2026-07-30T08:43:46Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260729T161557Z-6FCE6ACA/0059.yaml
-  project_fingerprint: b76a69f25230533bcf0bd024cc95c4d8b6d933ca0a6c3ac3b9b8de2ea17f2990
+  lease_expires_at: '2026-07-30T08:58:02Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260729T161557Z-6FCE6ACA/0062.yaml
+  project_fingerprint: 93d74f72e18c1e463d5ab590a448e342eda5683b93f9e5aff0b3897f79d53ccd
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: 0184a723c4b7f859f329c81bb87960e44856282bb67d45a1ddfebf72a12ddad0
-    generated_at: '2026-07-30T04:42:59Z'
+    context_hash: 3a59da061e06f84b4e51e216a0b25df334fab4d9a0da1a779f2162108a122eaa
+    generated_at: '2026-07-30T04:56:15Z'
   handoff_bundle: null
 ```
 
@@ -428,7 +428,7 @@ task_id: TASK-R14-008
 story_id: STORY-R14-004
 goal: 异常恢复 SES-20260728T220632Z-FE7D82FD：一对一聊天核心版本关闭与无状态交接
 started_at: '2026-07-29T16:15:57Z'
-updated_at: '2026-07-30T04:43:46Z'
+updated_at: '2026-07-30T04:58:02Z'
 takeover_of: SES-20260728T220632Z-FE7D82FD
 change_requests:
 - CR-0475
@@ -472,6 +472,7 @@ change_requests:
 - CR-0513
 - CR-0514
 - CR-0515
+- CR-0516
 scope:
   allowed_paths:
   - apps/**
@@ -552,7 +553,8 @@ scope:
   - tests/test_owner_test_environment.py
   - tests/test_android_candidate_route.py
   - artifacts/validation/r14-owner-test-persistence/owner-test-persistence.json
-  source: story+explicit+approved-cr:CR-0484+approved-cr:CR-0485+approved-cr:CR-0486+approved-cr:CR-0511+approved-cr:CR-0512+approved-cr:CR-0513+approved-cr:CR-0514+approved-cr:CR-0515
+  - tests/test_android_historical_visual_request.py
+  source: story+explicit+approved-cr:CR-0484+approved-cr:CR-0485+approved-cr:CR-0486+approved-cr:CR-0511+approved-cr:CR-0512+approved-cr:CR-0513+approved-cr:CR-0514+approved-cr:CR-0515+approved-cr:CR-0516
 git:
   initialized: true
   branch: task/TASK-R03-001
@@ -562,12 +564,12 @@ git:
   initial_worktree_state: DIRTY_TAKEOVER
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-30T04:43:46Z'
-  expires_at: '2026-07-30T08:43:46Z'
-checkpoint_sequence: 59
-latest_checkpoint: .continuity/checkpoints/SES-20260729T161557Z-6FCE6ACA/0059.yaml
+  renewed_at: '2026-07-30T04:58:02Z'
+  expires_at: '2026-07-30T08:58:02Z'
+checkpoint_sequence: 62
+latest_checkpoint: .continuity/checkpoints/SES-20260729T161557Z-6FCE6ACA/0062.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260729T161557Z-6FCE6ACA.md
-next_step: 运行轻量提交门禁，提交CR-0514/CR-0515与离线历史视觉请求并单次推送。
+next_step: 重新整体暂存，运行严格提交门禁并提交请求002。
 context_pack: THIS_CONTEXT_PACK
 handoff_bundle: null
 closure: null
@@ -575,73 +577,67 @@ parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 提交与单次工作流触发必须保持串行，避免重复GitHub运行。
+  reason: Problem Registry、CR、工作流和单一重试请求需要同一Commit原子绑定。
 ```
 
 ## 最新检查点
 
 ```yaml
 protocol_version: '1.0'
-checkpoint_id: CP-SES-20260729T161557Z-6FCE6ACA-0059
+checkpoint_id: CP-SES-20260729T161557Z-6FCE6ACA-0062
 session_id: SES-20260729T161557Z-6FCE6ACA
 task_id: TASK-R14-008
 story_id: STORY-R14-004
-sequence: 59
-created_at: '2026-07-30T04:43:45Z'
-summary: CR-0515精确影响文件已由当前ACTIVE actor应用到会话范围；持久库、账号/邀请码恢复、真实公网登录、脱敏证据和回归结论不变。
-next_step: 运行轻量提交门禁，提交CR-0514/CR-0515与离线历史视觉请求并单次推送。
+sequence: 62
+created_at: '2026-07-30T04:58:01Z'
+summary: PROB-0154已记录Run 30514972134唯一声明错误、未执行任何Job的边界、CR-0516修复和禁止无证据重试规则。
+next_step: 重新整体暂存，运行严格提交门禁并提交请求002。
 blockers: []
-decisions: []
+decisions:
+- 复用工作流权限投影缺失属于启动声明错误，不计模拟器或产品业务失败。
 note: ''
 tests:
-- name: owner_test_scope_apply
+- name: git_diff_check
   result: PASS
-  evidence: continuity.py scope-apply-cr CR-0515
-  note: 13 files applied
+  evidence: git diff --check
+  note: no whitespace errors
+- name: historical_visual_workflow_permissions
+  result: PASS
+  evidence: python -m unittest tests.test_android_historical_visual_request
+  note: 2 tests pass
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: 67b81388ea77a14bccab4309ee72aa9b9a032eaf
+  head: 8698e6b28ead49a0ef5f9fe69e1e48d559f158b9
   upstream: origin/task/TASK-R03-001
   ahead: 0
   behind: 0
   dirty: true
   status_porcelain:
-  - ' M .continuity/ACTIVE_SESSION.yaml'
-  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
-  - ' M .continuity/EVENT_LOG.jsonl'
-  - ' M .continuity/SESSION_INDEX.yaml'
-  - ' M .continuity/STATE.yaml'
-  - ' M .continuity/sessions/SES-20260729T161557Z-6FCE6ACA.yaml'
-  - ' M CURRENT_STATUS.yaml'
-  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
-  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
-  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
-  - ' M catalogs/change_request_index.csv'
-  - ' M catalogs/session_index.csv'
-  - ' M config/android-automation.yaml'
-  - ' M docs/00-baseline/正式商业系统全局硬性开发边界.md'
+  - M  .continuity/ACTIVE_SESSION.yaml
+  - M  .continuity/CHANGE_REQUEST_INDEX.yaml
+  - M  .continuity/EVENT_LOG.jsonl
+  - M  .continuity/SESSION_INDEX.yaml
+  - M  .continuity/STATE.yaml
+  - A  .continuity/change_requests/CR-0516.yaml
+  - A  .continuity/checkpoints/SES-20260729T161557Z-6FCE6ACA/0060.yaml
+  - A  .continuity/checkpoints/SES-20260729T161557Z-6FCE6ACA/0061.yaml
+  - M  .continuity/sessions/SES-20260729T161557Z-6FCE6ACA.yaml
+  - M  .github/workflows/android-historical-visual-request.yml
+  - M  CURRENT_STATUS.yaml
+  - M  artifacts/context/CURRENT_CONTEXT_PACK.md
+  - M  artifacts/context/CURRENT_CONTEXT_PACK.yaml
+  - M  artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+  - M  catalogs/change_request_index.csv
+  - M  catalogs/session_index.csv
+  - M  config/android-historical-visual-request.yaml
   - ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
-  - ' M docs/03-continuity/sessions/2026-07/SES-20260729T161557Z-6FCE6ACA.md'
-  - ' M docs/07-operations/DEPLOYMENT_RUNBOOK.md'
-  - ' M scripts/android_ci_gate.py'
-  - ' M scripts/switch_android_candidate_route.sh'
-  - ' M tests/test_android_candidate_route.py'
-  - ' M tests/test_android_ci_gate.py'
-  - ?? .continuity/change_requests/CR-0514.yaml
-  - ?? .continuity/change_requests/CR-0515.yaml
-  - ?? .continuity/checkpoints/SES-20260729T161557Z-6FCE6ACA/0058.yaml
-  - ?? .github/workflows/android-historical-visual-request.yml
-  - ?? artifacts/validation/r14-owner-test-persistence/owner-test-persistence.json
-  - ?? config/android-historical-visual-request.yaml
-  - ?? config/owner-test-environment.yaml
-  - ?? docs/03-continuity/change-requests/CR-0514-建立仅离线历史视觉审计的推送触发入口.md
-  - ?? docs/03-continuity/change-requests/CR-0515-分离公网真机持久库与GitHub候选冒烟库.md
-  - ?? scripts/check_owner_test_environment.py
-  - ?? scripts/promote_owner_test_backend.sh
-  - ?? scripts/restore_android_candidate_route.sh
-  - ?? tests/test_owner_test_environment.py
+  - A  docs/03-continuity/change-requests/CR-0516-修复离线历史视觉复用工作流权限投影.md
+  - M  docs/03-continuity/sessions/2026-07/SES-20260729T161557Z-6FCE6ACA.md
+  - A  tests/test_android_historical_visual_request.py
   recent_commits:
+  - "8698e6b28ead49a0ef5f9fe69e1e48d559f158b9\t2026-07-30T12:48:38+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] fix(env): isolate owner test\
+    \ data from candidates"
   - "67b81388ea77a14bccab4309ee72aa9b9a032eaf\t2026-07-30T12:11:05+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(r14): deliver candidate\
     \ and restore visual audit"
   - "928c7d9ac5e6c5d912742ba15fb33f63a5724ca0\t2026-07-30T11:33:02+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(r14): approve visual\
@@ -656,10 +652,8 @@ git:
     \ journey to app"
   - "6fa2b56378a13b2253091cd9b7f2778c3ae2b4bc\t2026-07-30T10:30:39+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(r14): bind attempt19\
     \ authorization record"
-  - "d9b14517391060f4066c112588fe065ff2decd78\t2026-07-30T10:29:33+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] test(android): request R14\
-    \ candidate attempt19"
 project_fingerprint:
-  sha256: b76a69f25230533bcf0bd024cc95c4d8b6d933ca0a6c3ac3b9b8de2ea17f2990
+  sha256: 93d74f72e18c1e463d5ab590a448e342eda5683b93f9e5aff0b3897f79d53ccd
   files:
   - .github/workflows/android-historical-visual-request.yml
   - .github/workflows/android-quality-gate.yml
@@ -726,6 +720,7 @@ project_fingerprint:
   - docs/03-continuity/change-requests/CR-0513-登记R14原子替换归档与历史视觉数量回归文件.md
   - docs/03-continuity/change-requests/CR-0514-建立仅离线历史视觉审计的推送触发入口.md
   - docs/03-continuity/change-requests/CR-0515-分离公网真机持久库与GitHub候选冒烟库.md
+  - docs/03-continuity/change-requests/CR-0516-修复离线历史视觉复用工作流权限投影.md
   - docs/07-operations/DEPLOYMENT_RUNBOOK.md
   - releases/R14/RELEASE_MANIFEST.yaml
   - scripts/android_ci_gate.py
@@ -744,16 +739,17 @@ project_fingerprint:
   - tests/test_android_candidate_request.py
   - tests/test_android_candidate_route.py
   - tests/test_android_ci_gate.py
+  - tests/test_android_historical_visual_request.py
   - tests/test_owner_test_environment.py
   - tests/test_r13_candidate.py
-  file_count: 85
+  file_count: 87
   payload:
     base_commit: 0a100b86f63829ef38ede5571d3e511219e67769
     files:
     - path: .github/workflows/android-historical-visual-request.yml
       state: FILE
-      size: 1236
-      sha256: 58edca04b6b4982de55bdb4eefaa5dc7121d754854e1e85a4ce975c677f7bd11
+      size: 1315
+      sha256: ba66d701ece98719a2e02c81a1ac43814323752ddaedbdb2bdfe402f23cdcbcd
     - path: .github/workflows/android-quality-gate.yml
       state: FILE
       size: 16344
@@ -833,7 +829,7 @@ project_fingerprint:
     - path: config/android-historical-visual-request.yaml
       state: FILE
       size: 441
-      sha256: c4e524a75c48537dd0bbed6a536f91f53152ebf5e285abdc0431bde8eb77560d
+      sha256: 650b8a904de06deff4095d741266aebffa864daa7f8694e3d5e6acddc9d983a8
     - path: config/owner-test-environment.yaml
       state: FILE
       size: 1919
@@ -844,8 +840,8 @@ project_fingerprint:
       sha256: e9593dee87834aff4a717f83622d4f1a8c8873e4d6ed19d154a0dd3fbfd80f66
     - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
       state: FILE
-      size: 276608
-      sha256: 04ef93aedecd5de2da772e9084cb7fdd646ee49f9a716ce63822723e58990f40
+      size: 278321
+      sha256: f87053f49c418c1c502a9cb141df0c2283beaab3d208cda130646e6cc7793bd6
     - path: docs/03-continuity/change-requests/CR-0475-绑定R14最终交互候选与稳定TEST_APK同一提交.md
       state: FILE
       size: 3792
@@ -1010,6 +1006,10 @@ project_fingerprint:
       state: FILE
       size: 4275
       sha256: ebe0762189bf7965a475d3e08be9edd59e68dc60d5ddbc38e8898b7741965695
+    - path: docs/03-continuity/change-requests/CR-0516-修复离线历史视觉复用工作流权限投影.md
+      state: FILE
+      size: 2623
+      sha256: 6f1a794f1ef6a59f3b79f371bc77e5ca93984dcea02ba06cbf82fe3845d250cd
     - path: docs/07-operations/DEPLOYMENT_RUNBOOK.md
       state: FILE
       size: 48044
@@ -1082,6 +1082,10 @@ project_fingerprint:
       state: FILE
       size: 102917
       sha256: 59cb793d440310327c0643bc42d9f6ad1b24dbe0be7cae1fafa1e27c3cd0aa79
+    - path: tests/test_android_historical_visual_request.py
+      state: FILE
+      size: 1395
+      sha256: 6ea83e7b3d3f7760fae7f3bb4c02a69fa4a1645c16a52182dd87147116a3b3d7
     - path: tests/test_owner_test_environment.py
       state: FILE
       size: 2626
@@ -1185,6 +1189,7 @@ change_classification:
   - docs/03-continuity/change-requests/CR-0513-登记R14原子替换归档与历史视觉数量回归文件.md
   - docs/03-continuity/change-requests/CR-0514-建立仅离线历史视觉审计的推送触发入口.md
   - docs/03-continuity/change-requests/CR-0515-分离公网真机持久库与GitHub候选冒烟库.md
+  - docs/03-continuity/change-requests/CR-0516-修复离线历史视觉复用工作流权限投影.md
   tests:
   - tests/android/visual-baselines/R14/01-r14-conversations.png
   - tests/android/visual-baselines/R14/02-r14-sent.png
@@ -1194,6 +1199,7 @@ change_classification:
   - tests/test_android_candidate_request.py
   - tests/test_android_candidate_route.py
   - tests/test_android_ci_gate.py
+  - tests/test_android_historical_visual_request.py
   - tests/test_owner_test_environment.py
   - tests/test_r13_candidate.py
 required_records:
@@ -1246,6 +1252,7 @@ change_requests:
 - CR-0513
 - CR-0514
 - CR-0515
+- CR-0516
 scope:
   allowed_paths:
   - apps/**
@@ -1326,13 +1333,14 @@ scope:
   - tests/test_owner_test_environment.py
   - tests/test_android_candidate_route.py
   - artifacts/validation/r14-owner-test-persistence/owner-test-persistence.json
-  source: story+explicit+approved-cr:CR-0484+approved-cr:CR-0485+approved-cr:CR-0486+approved-cr:CR-0511+approved-cr:CR-0512+approved-cr:CR-0513+approved-cr:CR-0514+approved-cr:CR-0515
+  - tests/test_android_historical_visual_request.py
+  source: story+explicit+approved-cr:CR-0484+approved-cr:CR-0485+approved-cr:CR-0486+approved-cr:CR-0511+approved-cr:CR-0512+approved-cr:CR-0513+approved-cr:CR-0514+approved-cr:CR-0515+approved-cr:CR-0516
 parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 提交与单次工作流触发必须保持串行，避免重复GitHub运行。
-event_hash: c205e6cbb74d8f10ec6656c3365ea481bd4ecfbd82679a82da98d6a720218794
+  reason: Problem Registry、CR、工作流和单一重试请求需要同一Commit原子绑定。
+event_hash: 03b42d616291e269cfa86c576c231e50afbc5631ab26fccfefc213a6934e3da0
 ```
 
 ## 接续状态与事件头
@@ -1344,8 +1352,8 @@ active_session_id: SES-20260729T161557Z-6FCE6ACA
 last_session_id: SES-20260728T205917Z-52E3B6B1
 last_session_result: COMPLETED
 last_closure_checkpoint_id: CP-SES-20260728T205917Z-52E3B6B1-0008
-event_count: 4774
-event_head_hash: c205e6cbb74d8f10ec6656c3365ea481bd4ecfbd82679a82da98d6a720218794
+event_count: 4782
+event_head_hash: 03b42d616291e269cfa86c576c231e50afbc5631ab26fccfefc213a6934e3da0
 event_chain_valid: true
 ```
 
@@ -1468,9 +1476,9 @@ recent_sessions: - session_id: SES-20260728T091447Z-9A245BB4
   started_at: '2026-07-29T16:15:57Z'
   record: .continuity/sessions/SES-20260729T161557Z-6FCE6ACA.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260729T161557Z-6FCE6ACA.md
-  updated_at: '2026-07-30T04:43:46Z'
+  updated_at: '2026-07-30T04:58:02Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260729T161557Z-6FCE6ACA/0059.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260729T161557Z-6FCE6ACA/0062.yaml
   handoff_bundle: null
 task_claims: - claim_id: CLM-A470E7430D21
   session_id: SES-20260726T123133Z-63E93B88
@@ -2422,48 +2430,37 @@ recent_task_transitions: - transition_id: TRN-005608E4C9E4
 ```yaml
 initialized: true
 branch: task/TASK-R03-001
-head: 67b81388ea77a14bccab4309ee72aa9b9a032eaf
+head: 8698e6b28ead49a0ef5f9fe69e1e48d559f158b9
 upstream: origin/task/TASK-R03-001
 ahead: 0
 behind: 0
 dirty: true
 status_porcelain:
-- ' M .continuity/ACTIVE_SESSION.yaml'
-- ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
-- ' M .continuity/EVENT_LOG.jsonl'
-- ' M .continuity/SESSION_INDEX.yaml'
-- ' M .continuity/STATE.yaml'
-- ' M .continuity/sessions/SES-20260729T161557Z-6FCE6ACA.yaml'
-- ' M CURRENT_STATUS.yaml'
-- ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
-- ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
-- ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
-- ' M catalogs/change_request_index.csv'
-- ' M catalogs/session_index.csv'
-- ' M config/android-automation.yaml'
-- ' M docs/00-baseline/正式商业系统全局硬性开发边界.md'
+- MM .continuity/ACTIVE_SESSION.yaml
+- M  .continuity/CHANGE_REQUEST_INDEX.yaml
+- MM .continuity/EVENT_LOG.jsonl
+- MM .continuity/SESSION_INDEX.yaml
+- MM .continuity/STATE.yaml
+- A  .continuity/change_requests/CR-0516.yaml
+- A  .continuity/checkpoints/SES-20260729T161557Z-6FCE6ACA/0060.yaml
+- A  .continuity/checkpoints/SES-20260729T161557Z-6FCE6ACA/0061.yaml
+- MM .continuity/sessions/SES-20260729T161557Z-6FCE6ACA.yaml
+- M  .github/workflows/android-historical-visual-request.yml
+- MM CURRENT_STATUS.yaml
+- M  artifacts/context/CURRENT_CONTEXT_PACK.md
+- M  artifacts/context/CURRENT_CONTEXT_PACK.yaml
+- M  artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+- M  catalogs/change_request_index.csv
+- MM catalogs/session_index.csv
+- M  config/android-historical-visual-request.yaml
 - ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
-- ' M docs/03-continuity/sessions/2026-07/SES-20260729T161557Z-6FCE6ACA.md'
-- ' M docs/07-operations/DEPLOYMENT_RUNBOOK.md'
-- ' M scripts/android_ci_gate.py'
-- ' M scripts/switch_android_candidate_route.sh'
-- ' M tests/test_android_candidate_route.py'
-- ' M tests/test_android_ci_gate.py'
-- ?? .continuity/change_requests/CR-0514.yaml
-- ?? .continuity/change_requests/CR-0515.yaml
-- ?? .continuity/checkpoints/SES-20260729T161557Z-6FCE6ACA/0058.yaml
-- ?? .continuity/checkpoints/SES-20260729T161557Z-6FCE6ACA/0059.yaml
-- ?? .github/workflows/android-historical-visual-request.yml
-- ?? artifacts/validation/r14-owner-test-persistence/owner-test-persistence.json
-- ?? config/android-historical-visual-request.yaml
-- ?? config/owner-test-environment.yaml
-- ?? docs/03-continuity/change-requests/CR-0514-建立仅离线历史视觉审计的推送触发入口.md
-- ?? docs/03-continuity/change-requests/CR-0515-分离公网真机持久库与GitHub候选冒烟库.md
-- ?? scripts/check_owner_test_environment.py
-- ?? scripts/promote_owner_test_backend.sh
-- ?? scripts/restore_android_candidate_route.sh
-- ?? tests/test_owner_test_environment.py
+- A  docs/03-continuity/change-requests/CR-0516-修复离线历史视觉复用工作流权限投影.md
+- MM docs/03-continuity/sessions/2026-07/SES-20260729T161557Z-6FCE6ACA.md
+- A  tests/test_android_historical_visual_request.py
+- ?? .continuity/checkpoints/SES-20260729T161557Z-6FCE6ACA/0062.yaml
 recent_commits:
+- "8698e6b28ead49a0ef5f9fe69e1e48d559f158b9\t2026-07-30T12:48:38+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] fix(env): isolate owner test\
+  \ data from candidates"
 - "67b81388ea77a14bccab4309ee72aa9b9a032eaf\t2026-07-30T12:11:05+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(r14): deliver candidate\
   \ and restore visual audit"
 - "928c7d9ac5e6c5d912742ba15fb33f63a5724ca0\t2026-07-30T11:33:02+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(r14): approve visual baseline"
@@ -2477,14 +2474,12 @@ recent_commits:
   \ journey to app"
 - "6fa2b56378a13b2253091cd9b7f2778c3ae2b4bc\t2026-07-30T10:30:39+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(r14): bind attempt19 authorization\
   \ record"
-- "d9b14517391060f4066c112588fe065ff2decd78\t2026-07-30T10:29:33+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] test(android): request R14 candidate\
-  \ attempt19"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`b76a69f25230533bcf0bd024cc95c4d8b6d933ca0a6c3ac3b9b8de2ea17f2990`
-- 文件数：85
+- 指纹：`93d74f72e18c1e463d5ab590a448e342eda5683b93f9e5aff0b3897f79d53ccd`
+- 文件数：87
 
 - `.github/workflows/android-historical-visual-request.yml`
 - `.github/workflows/android-quality-gate.yml`
@@ -2551,6 +2546,7 @@ recent_commits:
 - `docs/03-continuity/change-requests/CR-0513-登记R14原子替换归档与历史视觉数量回归文件.md`
 - `docs/03-continuity/change-requests/CR-0514-建立仅离线历史视觉审计的推送触发入口.md`
 - `docs/03-continuity/change-requests/CR-0515-分离公网真机持久库与GitHub候选冒烟库.md`
+- `docs/03-continuity/change-requests/CR-0516-修复离线历史视觉复用工作流权限投影.md`
 - `docs/07-operations/DEPLOYMENT_RUNBOOK.md`
 - `releases/R14/RELEASE_MANIFEST.yaml`
 - `scripts/android_ci_gate.py`
@@ -2569,6 +2565,7 @@ recent_commits:
 - `tests/test_android_candidate_request.py`
 - `tests/test_android_candidate_route.py`
 - `tests/test_android_ci_gate.py`
+- `tests/test_android_historical_visual_request.py`
 - `tests/test_owner_test_environment.py`
 - `tests/test_r13_candidate.py`
 
@@ -18063,29 +18060,79 @@ PARALLEL_EXECUTION_PLAN.yaml:
     session_id: SES-20260729T161557Z-6FCE6ACA
   session_ids:
   - SES-20260729T161557Z-6FCE6ACA
+- protocol_version: '1.0'
+  cr_id: CR-0516
+  title: 修复离线历史视觉复用工作流权限投影
+  status: IMPLEMENTING
+  created_at: '2026-07-30T04:53:40Z'
+  updated_at: '2026-07-30T04:54:42Z'
+  requester_actor_id: codex-r14-resume-20260730
+  approver_actor_id: codex-r14-ci-efficiency-authorizer
+  task_id: TASK-R14-008
+  session_id: SES-20260729T161557Z-6FCE6ACA
+  user_request: 自动测试由AI审核且不得反复浪费GitHub时间；持久真机库不得受候选测试影响。
+  reason: Run 30514972134在启动前因调用Job未授予被复用工作流声明的issues和id-token权限而失败；需补齐最小权限并增加本地回归测试后才允许下一次推送。
+  original_rule: 离线历史视觉调用Job仅有仓库contents读取权限，未投影被复用质量工作流声明的issues写入和OIDC令牌权限，GitHub在创建Job前拒绝整个工作流。
+  new_rule: 调用本地复用质量工作流时必须显式声明其所需的contents:read、issues:write和id-token:write；离线HISTORICAL-UI仍固定candidate=false，候选、Staging和数据库路径保持跳过。
+  impact_summary: 仅修复离线历史视觉请求的GitHub权限投影并增加声明级回归测试；不修改产品、API、数据库、APK或公网真机库。
+  impact:
+    files:
+    - .github/workflows/android-historical-visual-request.yml
+    - tests/test_android_historical_visual_request.py
+    pages:
+    - 历史Android视觉审计
+    apis:
+    - 无API影响
+    database:
+    - 无数据库影响
+    configuration:
+    - GitHub reusable workflow permissions
+    ledger:
+    - 无资金或账本影响
+    tests:
+    - YAML解析；路径触发；HISTORICAL-UI candidate=false；复用工作流权限精确断言
+    releases:
+    - R13
+    - R14
+    migration_and_compatibility: 原失败Run保留为证据；本地解析与权限断言通过后只允许一次新提交触发离线视觉工作流。
+  user_confirmation: 项目所有者已授权AI持续开发和自行审核GitHub最终测试，且明确要求避免GitHub反复浪费时间。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-30T04:54:20Z'
+    note: 错误注释已精确证明为调用Job权限投影缺失；修复仅补齐复用工作流已声明权限，candidate=false与离线边界不变，并新增本地回归阻断相同启动失败。
+  machine_record: .continuity/change_requests/CR-0516.yaml
+  document: docs/03-continuity/change-requests/CR-0516-修复离线历史视觉复用工作流权限投影.md
+  decision_log:
+  - at: '2026-07-30T04:54:42Z'
+    actor_id: codex-r14-resume-20260730
+    status: IMPLEMENTING
+    note: 按Run 30514972134唯一启动错误补齐调用Job权限并执行本地声明回归。
+    session_id: SES-20260729T161557Z-6FCE6ACA
+  session_ids:
+  - SES-20260729T161557Z-6FCE6ACA
 ```
 
 ## 上下文来源及哈希
 
 - `AGENTS.md` — `bde93afcdb788b601aeffcf2369a1aeda8eeb391f165429d501d7ba8895ba4a6`
 - `START_HERE.md` — `22de14029ce47beb41ea569e36ce223fbc9d11b86f8676f28d5fbbd83896af5c`
-- `CURRENT_STATUS.yaml` — `66c9d177d345d8130a3f87f0f120428266a598cfe95a4b34b640338c6851e4ed`
+- `CURRENT_STATUS.yaml` — `db52be58551c55985687277f1b4189e15d3520b9a1d8887e410adba677d5f32c`
 - `NEXT_TASK.yaml` — `e26e5c16bb6b761d538c5e11830ffbfaeacc532c054e569ab784155323b6af5c`
 - `DEVELOPMENT_RISK_REGISTER.md` — `8304c91492e4ee2abea0522a06541c8688d39c7fc532b5d0cde499bf09fffb87`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `5213b166f464a4415abe064e0ebcd99da8f1f8d23569b49ae4e9787007e83314`
-- `docs/03-continuity/PROBLEM_REGISTRY.yaml` — `04ef93aedecd5de2da772e9084cb7fdd646ee49f9a716ce63822723e58990f40`
+- `docs/03-continuity/PROBLEM_REGISTRY.yaml` — `f87053f49c418c1c502a9cb141df0c2283beaab3d208cda130646e6cc7793bd6`
 - `docs/03-continuity/REUSABLE_PATTERNS.md` — `1e5721c0b17a820e642aabbb35f350631caf83afbd10b2cc52ccc73a443873c6`
 - `docs/03-continuity/PITFALLS.md` — `bc269635bccab745808a7509ffcff75c805afb390b06498a3c2b8fc7d42c147f`
 - `releases/PROGRAM_EXECUTION_PLAN.yaml` — `4d91d6dbfdae1c49ead2f9c3eb0f96559a0a45905041dd5891571f0e36418a1e`
 - `config/REPOSITORY_TRANSPORT.yaml` — `8c4a21f3e204d46e7ffb467d804a53ed26cda61cd088dadfddb50b69eea657fc`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `38e04ed812c8df0d353c2b91993d31e53b471e9c457f06b426bd2260c470aa92`
-- `.continuity/EVENT_LOG.jsonl` — `0e7466015e01c8475bec8d1c06d2631e60bf0eaf4cba381a3dff4a0be8cd6c8a`
-- `.continuity/SESSION_INDEX.yaml` — `8faa2ff089f45183562e6134360ad63693c0d2d0299c87c520043b2c33949523`
+- `.continuity/EVENT_LOG.jsonl` — `31d32defbe4bfd9cd09a47aedc055aa29db930651c6347df46213531a48bbf68`
+- `.continuity/SESSION_INDEX.yaml` — `90af7a5059a493042ce5256736c0fbc2e17dde42abf826c204b466d1b85b7164`
 - `.continuity/TASK_CLAIMS.yaml` — `0ff8aad03fdf7bd39105618d202972c82222c6359e96e7f3a89861b184c45eec`
 - `.continuity/TASK_TRANSITIONS.yaml` — `afd6333d15719bab6521ac976344a232ccba2e5e9edd4d2e5817ad4bb473f4d1`
-- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `757f75bdb06e19452f4f0effd52cda3837160c83c7f9f5407d7c99e716896a28`
-- `.continuity/ACTIVE_SESSION.yaml` — `bebc819065e563adb361fc6a201e6bfa3147263831602efee337e575fd4a90ae`
+- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `41971f608d739da92270a34774e7aa7f8cae73dd086eb9b88c4c8d8097811c95`
+- `.continuity/ACTIVE_SESSION.yaml` — `491522f1f2bfcbc304385a732449f49ec2d018be46d9e57594a8fae15f6bab2c`
 - `docs/00-baseline/正式商业系统全局硬性开发边界.md` — `e9593dee87834aff4a717f83622d4f1a8c8873e4d6ed19d154a0dd3fbfd80f66`
 - `docs/02-ui/UI参考图使用与开发约束_V1.2.2.md` — `d14367586aa2067b059df58798acd20ab982459cdb35ff27fc7922a3896e4933`
 - `docs/03-continuity/持续开发无状态接续强制门禁_V1.2.3.md` — `d0ed3ed68bdd93b06500eecdfb5baa3245e6ca8b685a486788abb6eee39b3d51`
@@ -18096,8 +18143,8 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `releases/R14/TASKS.yaml` — `c7fc98c89d4e1e02535460d19de43608dcc5178d4fe61bffad94385b76df5e05`
 - `releases/R14/ACCEPTANCE_MATRIX.csv` — `ffc0fd23b945544de8fe2a37774a94675c0d60b73d88517abe69c68d326ad6f4`
 - `releases/R14/PARALLEL_EXECUTION_PLAN.yaml` — `cd1f0c96ffd7562acb214edba80a2bbb12b79f06c19032d1b133936ff6abd74f`
-- `docs/03-continuity/sessions/2026-07/SES-20260729T161557Z-6FCE6ACA.md` — `859edf42fce2b2974c07dbe3ac12426323eb5d5849852b5780e3146ad1b9b3fb`
-- `.continuity/checkpoints/SES-20260729T161557Z-6FCE6ACA/0059.yaml` — `19dd8b5641026fe293c532d748770df9f855c8f485335ecdb4a041385b098a89`
+- `docs/03-continuity/sessions/2026-07/SES-20260729T161557Z-6FCE6ACA.md` — `459beba702e26309731bb8c7bc39bcc0a3e6700907435c8b2074ce135f7c75e9`
+- `.continuity/checkpoints/SES-20260729T161557Z-6FCE6ACA/0062.yaml` — `199de07f283093bdf5760b311ad0ef528eb76707704a0d715fbd6bcf4083f82d`
 - `docs/03-continuity/change-requests/CR-0475-绑定R14最终交互候选与稳定TEST_APK同一提交.md` — `4d6c35fd99ef585a4802fb664ac2e2819d4a2fe93fc5d1747ca73496ae69387e`
 - `docs/03-continuity/change-requests/CR-0476-解除R13历史候选测试对当前请求的永久绑定.md` — `098711406c0bc8b2574f2388ab6ed76242e7df1d3fb442a67593a13f76871e11`
 - `docs/03-continuity/change-requests/CR-0477-阻断R14候选旧后端路由与夹具语义漂移.md` — `cbac66f0b6906977cce340a81d30f198e90dcef64ec13ff8c7edd10b2914da61`
@@ -18139,6 +18186,7 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `docs/03-continuity/change-requests/CR-0513-登记R14原子替换归档与历史视觉数量回归文件.md` — `e96d94ef151c29dd19c988440c8c3b052855aef57a07826c489fa3fec53e74da`
 - `docs/03-continuity/change-requests/CR-0514-建立仅离线历史视觉审计的推送触发入口.md` — `b7ec50ed72f1501df6d8a0396df6a23cbf984313b16707088683d6b3d0ed6dfd`
 - `docs/03-continuity/change-requests/CR-0515-分离公网真机持久库与GitHub候选冒烟库.md` — `ebe0762189bf7965a475d3e08be9edd59e68dc60d5ddbc38e8898b7741965695`
+- `docs/03-continuity/change-requests/CR-0516-修复离线历史视觉复用工作流权限投影.md` — `6f1a794f1ef6a59f3b79f371bc77e5ca93984dcea02ba06cbf82fe3845d250cd`
 
 ## 接手硬规则
 

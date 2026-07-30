@@ -2228,3 +2228,17 @@ problems:
   - 不得把hhy-r*-staging、smoke或candidate数据库作为项目所有者长期真机测试数据源
   - 不得因切换大版本、重建候选、清理服务器或缺少项目所有者即时反馈而删除、重置或替换owner-test数据库卷
   - 不得在命令、日志、仓库、证据或聊天总结中记录用户明文密码、完整密码哈希、数据库密码或会话Token
+- id: PROB-0154
+  title: 离线历史视觉调用未投影复用工作流权限导致启动前失败
+  status: SOLVED
+  root_cause: Android Historical Visual Request Run 30514972134在GitHub创建任何Job前即以startup_failure结束。GitHub错误注释精确指出调用Job只允许contents读取，而被复用的android-quality-gate.yml声明issues:write与id-token:write；GitHub不允许被调用工作流提升调用方权限，因此整条工作流在模拟器、构建、OIDC和网络访问前被拒绝。该失败未触碰候选后端或公网真机持久库。
+  resolution: CR-0516在historical-visual调用Job上显式投影contents:read、issues:write和id-token:write，同时保持release=HISTORICAL-UI与candidate=false。新增本地YAML回归，精确锁定唯一路径触发、复用工作流、离线Release、禁止候选以及三项权限；请求ID仅在代码修复和本地测试通过后递增一次。
+  regression_checks:
+  - tests/test_android_historical_visual_request.py必须解析工作流并精确断言contents:read、issues:write和id-token:write
+  - 离线历史视觉调用必须固定release=HISTORICAL-UI和candidate=false，不得执行候选、Staging引导或数据库旅程
+  - GitHub启动失败必须先读取Annotations取得精确声明错误；无代码变化和本地回归证据不得递增请求或重复推送
+  - startup_failure且jobs=0不得计为模拟器业务轮、产品失败或候选失败
+  do_not_repeat:
+  - 不得假设被复用工作流可以自行提升调用Job权限
+  - 不得为修复声明错误启动完整候选或切换api.orbexa.cc
+  - 不得在没有唯一错误注释、修复Commit和本地权限断言时重复运行同一请求

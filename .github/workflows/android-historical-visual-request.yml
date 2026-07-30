@@ -32,10 +32,13 @@ jobs:
   historical-visual:
     name: Run the single offline historical visual batch
     needs: validate-request
+    permissions:
+      contents: read
+      issues: write
+      id-token: write
     uses: ./.github/workflows/android-quality-gate.yml
     with:
       release: HISTORICAL-UI
       candidate: false
       remediation_attempt: 1
       effective_attempt_limit: 3
-

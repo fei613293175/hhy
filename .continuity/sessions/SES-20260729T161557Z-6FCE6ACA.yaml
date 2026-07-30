@@ -11,7 +11,7 @@ task_id: TASK-R14-008
 story_id: STORY-R14-004
 goal: 异常恢复 SES-20260728T220632Z-FE7D82FD：一对一聊天核心版本关闭与无状态交接
 started_at: '2026-07-29T16:15:57Z'
-updated_at: '2026-07-30T04:43:55Z'
+updated_at: '2026-07-30T04:58:13Z'
 takeover_of: SES-20260728T220632Z-FE7D82FD
 change_requests:
 - CR-0475
@@ -55,6 +55,7 @@ change_requests:
 - CR-0513
 - CR-0514
 - CR-0515
+- CR-0516
 scope:
   allowed_paths:
   - apps/**
@@ -135,7 +136,8 @@ scope:
   - tests/test_owner_test_environment.py
   - tests/test_android_candidate_route.py
   - artifacts/validation/r14-owner-test-persistence/owner-test-persistence.json
-  source: story+explicit+approved-cr:CR-0484+approved-cr:CR-0485+approved-cr:CR-0486+approved-cr:CR-0511+approved-cr:CR-0512+approved-cr:CR-0513+approved-cr:CR-0514+approved-cr:CR-0515
+  - tests/test_android_historical_visual_request.py
+  source: story+explicit+approved-cr:CR-0484+approved-cr:CR-0485+approved-cr:CR-0486+approved-cr:CR-0511+approved-cr:CR-0512+approved-cr:CR-0513+approved-cr:CR-0514+approved-cr:CR-0515+approved-cr:CR-0516
 git:
   initialized: true
   branch: task/TASK-R03-001
@@ -145,22 +147,22 @@ git:
   initial_worktree_state: DIRTY_TAKEOVER
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-30T04:43:46Z'
-  expires_at: '2026-07-30T08:43:46Z'
-checkpoint_sequence: 59
-latest_checkpoint: .continuity/checkpoints/SES-20260729T161557Z-6FCE6ACA/0059.yaml
+  renewed_at: '2026-07-30T04:58:02Z'
+  expires_at: '2026-07-30T08:58:02Z'
+checkpoint_sequence: 62
+latest_checkpoint: .continuity/checkpoints/SES-20260729T161557Z-6FCE6ACA/0062.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260729T161557Z-6FCE6ACA.md
-next_step: 运行轻量提交门禁，提交CR-0514/CR-0515与离线历史视觉请求并单次推送。
+next_step: 重新整体暂存，运行严格提交门禁并提交请求002。
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: 480ec8776031e4806a3eb447ecf7b3faa0011d59b7d8419b94067219dc34edf5
-  generated_at: '2026-07-30T04:43:51Z'
+  context_hash: f954ccc064f9245778707c9aa6d64b2bee71e3ed444671aa96283f9ca0b33abe
+  generated_at: '2026-07-30T04:58:08Z'
 handoff_bundle: null
 closure: null
 parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 提交与单次工作流触发必须保持串行，避免重复GitHub运行。
+  reason: Problem Registry、CR、工作流和单一重试请求需要同一Commit原子绑定。
