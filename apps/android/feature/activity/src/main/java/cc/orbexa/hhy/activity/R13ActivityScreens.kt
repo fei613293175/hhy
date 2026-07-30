@@ -13,7 +13,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -68,6 +67,7 @@ import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.semantics.contentDescription
@@ -76,6 +76,7 @@ import androidx.compose.ui.semantics.testTagsAsResourceId
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.dp
 import coil.imageLoader
 import coil.request.ErrorResult
 import coil.request.ImageRequest
@@ -720,6 +721,7 @@ private fun R13InvalidFeedbackSheetBody(
     onSessionExpired: () -> Unit,
     scope: kotlinx.coroutines.CoroutineScope,
 ) {
+    val sheetMaxHeight = LocalConfiguration.current.screenHeightDp.dp - HhySpacing.Xxl
     val reasons = feedbackChannels.distinct().map { it to r13ContactFailureLabel(it) }
     var selected by remember { mutableStateOf<String?>(null) }
     var description by remember { mutableStateOf("") }
@@ -755,13 +757,13 @@ private fun R13InvalidFeedbackSheetBody(
         }
     }
 
-    BoxWithConstraints(Modifier.fillMaxWidth()) {
-        Column(
-            Modifier.fillMaxWidth()
-                .heightIn(max = maxHeight - HhyRadius.BottomSheetTop)
-                .navigationBarsPadding()
-                .imePadding(),
-        ) {
+    Column(
+        Modifier.fillMaxWidth()
+            .heightIn(max = sheetMaxHeight)
+            .navigationBarsPadding()
+            .imePadding()
+            .padding(bottom = HhySpacing.Xxl),
+    ) {
             Column(
                 Modifier.fillMaxWidth()
                     .weight(1f, fill = false)
@@ -810,7 +812,6 @@ private fun R13InvalidFeedbackSheetBody(
                 else Text("提交反馈")
             }
             }
-        }
     }
     if (confirming) {
         AlertDialog(

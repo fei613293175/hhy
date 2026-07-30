@@ -21,6 +21,14 @@ AUDIT_TEST_PATH = (
     / "hhy"
     / "HistoricalVisualAuditTest.kt"
 )
+R13_SURFACES_PATH = (
+    ROOT / "apps" / "android" / "feature" / "activity" / "src" / "main" / "java"
+    / "cc" / "orbexa" / "hhy" / "activity" / "R13ActivityScreens.kt"
+)
+R14_SHEETS_PATH = (
+    ROOT / "apps" / "android" / "feature" / "chat" / "src" / "main" / "java"
+    / "cc" / "orbexa" / "hhy" / "chat" / "R14ChatSheets.kt"
+)
 
 
 class AndroidHistoricalVisualRequestWorkflowTest(unittest.TestCase):
@@ -58,7 +66,7 @@ class AndroidHistoricalVisualRequestWorkflowTest(unittest.TestCase):
         request = yaml.safe_load(REQUEST_PATH.read_text(encoding="utf-8"))
         runner = RUNNER_PATH.read_text(encoding="utf-8")
         audit_test = AUDIT_TEST_PATH.read_text(encoding="utf-8")
-        self.assertEqual(request["request_id"], "HISTORICAL-UI-20260730-004")
+        self.assertEqual(request["request_id"], "HISTORICAL-UI-20260730-005")
         self.assertEqual(request["expected_screenshot_count"], 33)
         self.assertIn('screenshot_count" -ne 33', runner)
         self.assertEqual(audit_test.count('captureStable("'), 33)
@@ -74,6 +82,15 @@ class AndroidHistoricalVisualRequestWorkflowTest(unittest.TestCase):
         }
         for filename in expected_r14_files:
             self.assertEqual(audit_test.count(f'captureStable("{filename}")'), 1)
+
+    def test_long_sheets_use_device_height_and_a_tokenized_bottom_buffer(self) -> None:
+        for path in (R13_SURFACES_PATH, R14_SHEETS_PATH):
+            source = path.read_text(encoding="utf-8")
+            self.assertIn("LocalConfiguration.current.screenHeightDp.dp - HhySpacing.Xxl", source)
+            self.assertIn(".heightIn(max = sheetMaxHeight)", source)
+            self.assertIn(".navigationBarsPadding()", source)
+            self.assertIn(".imePadding()", source)
+            self.assertIn(".padding(bottom = HhySpacing.Xxl)", source)
 
 
 if __name__ == "__main__":

@@ -5,14 +5,14 @@
   "strict": true,
   "status": "PASS",
   "metrics": {
-    "event_count": 4801,
-    "event_head_hash": "d7f61b31114db3027a028a9696c9e3d3618eae922153eca0a1c2741c7cae6996",
+    "event_count": 4802,
+    "event_head_hash": "5548a1dae9cc254f6b4b6d93fdfab0961e640dad590540a79c4f8999dfc5307e",
     "rule_readiness": "PASS",
     "required_rule_sources": 11,
     "git_transport": {
       "status": "PASS",
       "root": "C:\\Users\\小白\\Desktop\\workspace\\hhy-v1.2.3-handoff\\合伙云Pro_Codex直接开发包_V1.2.3_持续开发无状态接续强制门禁最终版",
-      "head": "283bf68a24c031c46ebf96a42520b2f56dc4d0f6",
+      "head": "777ec5c3ac1cd23a793ea923ed83f16bd3e1453a",
       "branch": "task/TASK-R03-001",
       "remote": "origin",
       "upstream": "origin/task/TASK-R03-001",
@@ -23,13 +23,13 @@
     },
     "validation_base_ref": "origin/task/TASK-R03-001",
     "unpushed_commits": 1,
-    "changed_files": 26,
-    "project_changed_files": 9,
+    "changed_files": 20,
+    "project_changed_files": 6,
     "change_classification": {
       "other": 2,
-      "code": 4,
-      "user_visible": 4,
-      "continuity": 2,
+      "code": 2,
+      "user_visible": 2,
+      "continuity": 1,
       "tests": 1
     },
     "document_gate": {

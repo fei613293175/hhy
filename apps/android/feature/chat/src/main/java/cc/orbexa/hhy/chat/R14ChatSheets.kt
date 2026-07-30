@@ -1,7 +1,6 @@
 package cc.orbexa.hhy.chat
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -30,12 +29,13 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.testTagsAsResourceId
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
 import cc.orbexa.hhy.designsystem.HhyColors
-import cc.orbexa.hhy.designsystem.HhyRadius
 import cc.orbexa.hhy.designsystem.HhySpacing
 import cc.orbexa.hhy.designsystem.HhyType
 import cc.orbexa.hhy.media.MediaUploadSelection
@@ -144,14 +144,15 @@ fun R14ReportSheet(
 ) {
     var confirming by remember { mutableStateOf(false) }
     val canEdit = reasons.isNotEmpty() && versionAvailable && !submitting
+    val sheetMaxHeight = LocalConfiguration.current.screenHeightDp.dp - HhySpacing.Xxl
     ModalBottomSheet(onDismissRequest = { if (!submitting) onDismiss() }) {
-        BoxWithConstraints(Modifier.fillMaxWidth()) {
-            Column(
-                Modifier.fillMaxWidth()
-                    .heightIn(max = maxHeight - HhyRadius.BottomSheetTop)
-                    .navigationBarsPadding()
-                    .imePadding(),
-            ) {
+        Column(
+            Modifier.fillMaxWidth()
+                .heightIn(max = sheetMaxHeight)
+                .navigationBarsPadding()
+                .imePadding()
+                .padding(bottom = HhySpacing.Xxl),
+        ) {
                 Column(
                     Modifier.fillMaxWidth()
                         .weight(1f, fill = false)
@@ -223,7 +224,6 @@ fun R14ReportSheet(
                     OutlinedButton(onClick = onDismiss, enabled = !submitting, modifier = Modifier.weight(1f)) { Text("取消") }
                     Button(onClick = { confirming = true }, enabled = draft.reasonCode != null && canEdit, modifier = Modifier.weight(1f)) { Text(if (submitting) "正在提交" else "提交举报") }
                 }
-            }
         }
     }
     if (confirming) {
