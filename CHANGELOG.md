@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## R14 App模块范围候选授权 · 2026-07-30
+
+- `CR-0509`只授权`R14-CANDIDATE-20260730-020`绑定`CR-0508`修复Commit `0220185599581170af24db6ca575592da940e9f4`运行一次；Attempt19和`CR-0507`保持已消费。
+- Attempt20只验证候选旅程精确运行`:app:connectedDebugAndroidTest`，不再把App测试类过滤器错误传播到`feature:chat`；35项治理回归已锁定精确模块任务。
+- 全局`max_ai_attempts=3`以及R14搜索、发送未误标已读、拉黑重进、解除拉黑、长按删除、四张截图、JUnit和目标进程日志审核全部保持不变。
+
 ## Android候选App模块范围修复 · 2026-07-30
 
 - `CR-0508`归档GitHub Run `30508844702`的Attempt19：App级`ReleaseCandidateSmokeTest`完整通过、四图齐全且目标进程无崩溃或ANR；随后根任务把App测试类过滤条件错误传播到`feature:chat`，该模块因不含此类而`ClassNotFoundException`。
