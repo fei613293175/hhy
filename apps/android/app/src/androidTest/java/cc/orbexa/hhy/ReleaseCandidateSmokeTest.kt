@@ -236,6 +236,8 @@ class ReleaseCandidateSmokeTest {
 
         device.pressBack()
         assertTrue("R14 unblock did not return to list", waitForScreen("hhy.screen.r14.conversations"))
+        setComposeTagText("r14.conversations.search", peer)
+        assertComposeTagText("r14.conversation.peer-name", peer, 10_000)
         longClickComposeTag("r14.conversation.row")
         assertTrue("R14 list long press did not expose delete", device.wait(Until.hasObject(By.text("删除会话")), 10_000))
         captureStable("04-r14-long-press-menu.png")
