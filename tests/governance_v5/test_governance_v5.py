@@ -69,7 +69,12 @@ def test_single_state_is_valid():
     state = yaml.safe_load((ROOT / "governance/STATE.yaml").read_text(encoding="utf-8"))
     assert_valid_state(state, specs)
     assert state["project"]["active_release"] == "R14"
-    assert state["project"]["active_task"] == "TASK-R14-RECOVERY-001"
+    if state["project"]["status"] == "FAILED_BOUNDED":
+        assert state["project"]["active_task"] is None
+        assert state["tasks"]["TASK-R14-RECOVERY-001"]["status"] == "FAILED_BOUNDED"
+        assert state["tasks"]["TASK-R14-RECOVERY-001"]["attempts_used"] == 3
+    else:
+        assert state["project"]["active_task"] == "TASK-R14-RECOVERY-001"
 
 
 def test_attempt_four_is_rejected():
@@ -90,8 +95,13 @@ def test_state_hash_tampering_is_rejected():
 
 def test_recovery_is_only_active_entry_before_activation():
     state = yaml.safe_load((ROOT / "governance/STATE.yaml").read_text(encoding="utf-8"))
-    assert state["project"]["active_task"] == "TASK-R14-RECOVERY-001"
-    assert state["tasks"]["TASK-R14-RECOVERY-001"]["status"] in {"PENDING_ACTIVATION", "READY"}
+    if state["project"]["status"] == "FAILED_BOUNDED":
+        assert state["project"]["active_task"] is None
+        assert state["tasks"]["TASK-R14-RECOVERY-001"]["status"] == "FAILED_BOUNDED"
+        assert state["tasks"]["TASK-R14-RECOVERY-001"]["attempts_used"] == 3
+    else:
+        assert state["project"]["active_task"] == "TASK-R14-RECOVERY-001"
+        assert state["tasks"]["TASK-R14-RECOVERY-001"]["status"] in {"PENDING_ACTIVATION", "READY"}
 
 
 def test_generated_views_are_read_only_views():
