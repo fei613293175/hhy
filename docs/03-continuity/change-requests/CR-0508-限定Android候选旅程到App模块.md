@@ -87,3 +87,10 @@ Attempt19的App级ReleaseCandidateSmokeTest完整通过并生成四图；根Grad
 - Status：`IMPLEMENTING`
 - Session：`SES-20260729T161557Z-6FCE6ACA`
 - Note：开始把候选Gradle任务限定为:app:connectedDebugAndroidTest并锁定静态回归。
+
+## 状态记录 · 2026-07-30T02:56:11Z
+
+- Actor：`codex-primary`
+- Status：`IMPLEMENTED`
+- Session：`SES-20260729T161557Z-6FCE6ACA`
+- Note：App模块候选旅程范围修复已提交；35项Android门禁测试、bash语法、连续性门禁与diff检查通过。
