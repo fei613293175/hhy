@@ -35,7 +35,7 @@ release_order:
 - R31
 - R32
 final_release: R32
-task_count: 266
+task_count: 267
 future_task_count_R15_R32: 144
 maximum_attempts_per_task: 3
 adjacent_release_only: true
@@ -176,6 +176,7 @@ release_tasks:
   - TASK-R14-007
   - TASK-R14-008
   - TASK-R14-RECOVERY-001
+  - TASK-R14-RECOVERY-002
   R15:
   - TASK-R15-001
   - TASK-R15-002
@@ -342,3 +343,4 @@ control_tasks:
 - CONTROL-GOV50-MIGRATION
 recovery_tasks:
 - TASK-R14-RECOVERY-001
+- TASK-R14-RECOVERY-002
