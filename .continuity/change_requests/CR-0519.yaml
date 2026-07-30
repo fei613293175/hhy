@@ -1,0 +1,64 @@
+protocol_version: '1.0'
+cr_id: CR-0519
+title: 修复R13与R14长表单底部操作安全区及历史页顶栏裁切
+status: IMPLEMENTED
+created_at: '2026-07-30T05:34:48Z'
+updated_at: '2026-07-30T05:48:43Z'
+requester_actor_id: codex-r14-resume-20260730
+approver_actor_id: codex-r14-visual-reviewer-20260730
+task_id: TASK-R14-008
+session_id: SES-20260729T161557Z-6FCE6ACA
+user_request: 大版本最终由AI审核GitHub Actions截图，所有UI必须按效果图和开发文档判断合格，不合格时自行修复并持续推进。
+reason: Run 30516346703执行33张离线视觉审计PASS，但AI逐图复核发现R13失效反馈与R14聊天举报操作区被系统手势条覆盖，R14按钮落出首屏，R13浏览记录顶栏被裁切；绿色执行结果不能替代视觉验收。
+original_rule: 长内容底部面板整体使用单一Column滚动或包裹内容；操作按钮可能随正文落出首屏，历史视觉测试只检查文字存在和截图数量，未检查固定操作区与安全区像素结果。
+new_rule: R13失效反馈和R14聊天举报使用受屏幕约束的底部面板：正文独立滚动，主次操作固定在导航安全区上方且IME下始终可达；历史视觉必须断言顶栏和操作区可见，并由AI逐图拒绝系统栏覆盖或裁切。
+impact_summary: 只修复R13/R14三个已取证视觉面及其离线审计；不修改API、数据库、业务字段、提交状态机、最终候选APK或公网数据。
+impact:
+  files:
+  - apps/android/feature/activity/src/main/java/cc/orbexa/hhy/activity/R13ActivityScreens.kt
+  - apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ChatSheets.kt
+  - apps/android/feature/chat/src/androidTest/java/cc/orbexa/hhy/chat/R14ChatSurfacesTest.kt
+  - apps/android/app/src/androidTest/java/cc/orbexa/hhy/HistoricalVisualAuditTest.kt
+  - config/android-historical-visual-request.yaml
+  - tests/test_android_historical_visual_request.py
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - artifacts/validation/r14-historical-visual-attempt3/failure-evidence.json
+  - CHANGELOG.md
+  pages:
+  - SCR-HIS-001
+  - SHEET-CONTENT-INVALID-001
+  - SHEET-CHAT-002
+  apis:
+  - 无API变化
+  database:
+  - 无数据库变化
+  configuration:
+  - HISTORICAL-UI请求更新为下一次离线复验；candidate=false且精确33张不变
+  ledger:
+  - 无资金或账本影响
+  tests:
+  - 固定Android工具链编译；R14 sheet Compose测试；历史请求契约；33张离线截图；AI逐图安全区与裁切复核
+  releases:
+  - R13
+  - R14
+  migration_and_compatibility: 保留全部字段、枚举、回调和提交语义；仅重排滚动正文与固定操作区。Run 30516346703作为执行PASS但视觉REJECTED证据保留，新Commit只触发一次candidate=false离线复验。
+user_confirmation: 项目所有者已明确要求AI自行判断GitHub截图是否合格，不合格时直接修复并持续推进，不等待逐页确认。
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-30T05:35:31Z'
+  note: 独立复核Run 30516346703三张原始像素证据：两个长表单操作区确实落入系统导航区，R13历史顶栏确实裁切；批准只调整布局安全区和离线证据，不改变业务合同。
+machine_record: .continuity/change_requests/CR-0519.yaml
+document: docs/03-continuity/change-requests/CR-0519-修复R13与R14长表单底部操作安全区及历史页顶栏裁切.md
+decision_log:
+- at: '2026-07-30T05:35:37Z'
+  actor_id: codex-r14-resume-20260730
+  status: IMPLEMENTING
+  note: 开始按三张原始截图修复固定操作区、导航安全区和顶栏确定性，并补强可见性断言。
+  session_id: SES-20260729T161557Z-6FCE6ACA
+- at: '2026-07-30T05:48:43Z'
+  actor_id: codex-r14-resume-20260730
+  status: IMPLEMENTED
+  note: 三处锁定视觉缺陷已修复；固定Android工具链四项Kotlin编译、历史视觉请求契约测试、证据JSON解析及diff检查全部通过，待单次离线截图复核。
+  session_id: SES-20260729T161557Z-6FCE6ACA
+session_ids:
+- SES-20260729T161557Z-6FCE6ACA

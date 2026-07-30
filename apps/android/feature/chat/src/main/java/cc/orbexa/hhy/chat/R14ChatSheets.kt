@@ -1,9 +1,13 @@
 package cc.orbexa.hhy.chat
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -12,6 +16,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilterChip
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
@@ -30,6 +35,7 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.testTagsAsResourceId
 import androidx.compose.ui.text.font.FontWeight
 import cc.orbexa.hhy.designsystem.HhyColors
+import cc.orbexa.hhy.designsystem.HhyRadius
 import cc.orbexa.hhy.designsystem.HhySpacing
 import cc.orbexa.hhy.designsystem.HhyType
 import cc.orbexa.hhy.media.MediaUploadSelection
@@ -139,63 +145,84 @@ fun R14ReportSheet(
     var confirming by remember { mutableStateOf(false) }
     val canEdit = reasons.isNotEmpty() && versionAvailable && !submitting
     ModalBottomSheet(onDismissRequest = { if (!submitting) onDismiss() }) {
-        Column(Modifier.fillMaxWidth().verticalScroll(rememberScrollState()).padding(horizontal = HhySpacing.Xl, vertical = HhySpacing.Lg), verticalArrangement = Arrangement.spacedBy(HhySpacing.Md)) {
-            Text("举报聊天", fontSize = HhyType.PageTitleSize, lineHeight = HhyType.PageTitleLineHeight, fontWeight = FontWeight.Bold)
-            Text("举报与 ${peer.nickname} 的聊天。提交内容仅用于核实本次举报。", color = HhyColors.TextSecondary)
-            if (reasons.isEmpty()) Text("举报原因配置暂不可用，当前无法提交。", color = HhyColors.Warning)
-            else if (!versionAvailable) Text("会话状态需要刷新，当前无法提交举报。", color = HhyColors.Warning)
-            reasons.forEach { reason ->
-                Row(Modifier.fillMaxWidth()) {
-                    RadioButton(
-                        selected = draft.reasonCode == reason.code,
-                        onClick = { onDraftChange(draft.copy(reasonCode = reason.code)) },
+        BoxWithConstraints(Modifier.fillMaxWidth()) {
+            Column(
+                Modifier.fillMaxWidth()
+                    .heightIn(max = maxHeight - HhyRadius.BottomSheetTop)
+                    .navigationBarsPadding()
+                    .imePadding(),
+            ) {
+                Column(
+                    Modifier.fillMaxWidth()
+                        .weight(1f, fill = false)
+                        .verticalScroll(rememberScrollState())
+                        .padding(horizontal = HhySpacing.Xl, vertical = HhySpacing.Lg),
+                    verticalArrangement = Arrangement.spacedBy(HhySpacing.Md),
+                ) {
+                    Text("举报聊天", fontSize = HhyType.PageTitleSize, lineHeight = HhyType.PageTitleLineHeight, fontWeight = FontWeight.Bold)
+                    Text("举报与 ${peer.nickname} 的聊天。提交内容仅用于核实本次举报。", color = HhyColors.TextSecondary)
+                    if (reasons.isEmpty()) Text("举报原因配置暂不可用，当前无法提交。", color = HhyColors.Warning)
+                    else if (!versionAvailable) Text("会话状态需要刷新，当前无法提交举报。", color = HhyColors.Warning)
+                    reasons.forEach { reason ->
+                        Row(Modifier.fillMaxWidth()) {
+                            RadioButton(
+                                selected = draft.reasonCode == reason.code,
+                                onClick = { onDraftChange(draft.copy(reasonCode = reason.code)) },
+                                enabled = canEdit,
+                            )
+                            Text(reason.label, Modifier.padding(top = HhySpacing.Md))
+                        }
+                    }
+                    OutlinedTextField(
+                        value = draft.description,
+                        onValueChange = { if (it.length <= 2_000) onDraftChange(draft.copy(description = it)) },
+                        modifier = Modifier.fillMaxWidth(),
                         enabled = canEdit,
+                        label = { Text("补充说明（可选）") },
+                        supportingText = { Text("${draft.description.length}/2000") },
+                        minLines = 3,
                     )
-                    Text(reason.label, Modifier.padding(top = HhySpacing.Md))
+                    if (messages.isNotEmpty()) Text("消息证据", fontWeight = FontWeight.SemiBold)
+                    messages.take(100).forEach { message ->
+                        Row(Modifier.fillMaxWidth()) {
+                            Checkbox(
+                                checked = message.id in draft.messageIds,
+                                onCheckedChange = { checked ->
+                                    val selected = if (checked) draft.messageIds + message.id else draft.messageIds - message.id
+                                    onDraftChange(draft.copy(messageIds = selected.take(100).toSet()))
+                                },
+                                enabled = canEdit,
+                            )
+                            Text(r14EvidencePreview(message), Modifier.padding(top = HhySpacing.Md), maxLines = 1)
+                        }
+                    }
+                    Text("图片证据 ${draft.evidence.size}/100", fontWeight = FontWeight.SemiBold)
+                    draft.evidence.forEachIndexed { index, evidence ->
+                        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                            Text("图片证据 ${index + 1}", modifier = Modifier.weight(1f))
+                            TextButton(
+                                onClick = { onDraftChange(draft.copy(evidence = draft.evidence.filterNot { it.mediaId == evidence.mediaId })) },
+                                enabled = canEdit,
+                            ) { Text("移除") }
+                        }
+                    }
+                    OutlinedButton(
+                        onClick = onAddEvidence,
+                        modifier = Modifier.fillMaxWidth(),
+                        enabled = canEdit && draft.evidence.size < 100,
+                    ) { Text(if (draft.evidence.isEmpty()) "添加图片证据" else "继续添加图片证据") }
+                    failure?.let { Text(it, color = HhyColors.Error) }
                 }
-            }
-            OutlinedTextField(
-                value = draft.description,
-                onValueChange = { if (it.length <= 2_000) onDraftChange(draft.copy(description = it)) },
-                modifier = Modifier.fillMaxWidth(),
-                enabled = canEdit,
-                label = { Text("补充说明（可选）") },
-                supportingText = { Text("${draft.description.length}/2000") },
-                minLines = 3,
-            )
-            if (messages.isNotEmpty()) Text("消息证据", fontWeight = FontWeight.SemiBold)
-            messages.take(100).forEach { message ->
-                Row(Modifier.fillMaxWidth()) {
-                    Checkbox(
-                        checked = message.id in draft.messageIds,
-                        onCheckedChange = { checked ->
-                            val selected = if (checked) draft.messageIds + message.id else draft.messageIds - message.id
-                            onDraftChange(draft.copy(messageIds = selected.take(100).toSet()))
-                        },
-                        enabled = canEdit,
-                    )
-                    Text(r14EvidencePreview(message), Modifier.padding(top = HhySpacing.Md), maxLines = 1)
+                HorizontalDivider()
+                Row(
+                    Modifier.fillMaxWidth()
+                        .padding(horizontal = HhySpacing.Xl, vertical = HhySpacing.Md)
+                        .testTag("r14.report.actions"),
+                    horizontalArrangement = Arrangement.spacedBy(HhySpacing.Md),
+                ) {
+                    OutlinedButton(onClick = onDismiss, enabled = !submitting, modifier = Modifier.weight(1f)) { Text("取消") }
+                    Button(onClick = { confirming = true }, enabled = draft.reasonCode != null && canEdit, modifier = Modifier.weight(1f)) { Text(if (submitting) "正在提交" else "提交举报") }
                 }
-            }
-            Text("图片证据 ${draft.evidence.size}/100", fontWeight = FontWeight.SemiBold)
-            draft.evidence.forEachIndexed { index, evidence ->
-                Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                    Text("图片证据 ${index + 1}", modifier = Modifier.weight(1f))
-                    TextButton(
-                        onClick = { onDraftChange(draft.copy(evidence = draft.evidence.filterNot { it.mediaId == evidence.mediaId })) },
-                        enabled = canEdit,
-                    ) { Text("移除") }
-                }
-            }
-            OutlinedButton(
-                onClick = onAddEvidence,
-                modifier = Modifier.fillMaxWidth(),
-                enabled = canEdit && draft.evidence.size < 100,
-            ) { Text(if (draft.evidence.isEmpty()) "添加图片证据" else "继续添加图片证据") }
-            failure?.let { Text(it, color = HhyColors.Error) }
-            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(HhySpacing.Md)) {
-                OutlinedButton(onClick = onDismiss, enabled = !submitting, modifier = Modifier.weight(1f)) { Text("取消") }
-                Button(onClick = { confirming = true }, enabled = draft.reasonCode != null && canEdit, modifier = Modifier.weight(1f)) { Text(if (submitting) "正在提交" else "提交举报") }
             }
         }
     }

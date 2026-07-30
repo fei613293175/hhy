@@ -103,6 +103,30 @@ class R14ChatSurfacesTest {
     }
 
     @Test
+    fun reportSheetKeepsActionsVisibleWhenTheReasonListIsLong() {
+        composeRule.setContent {
+            HhyTheme {
+                R14ReportSheet(
+                    peer = peer,
+                    reasons = (1..8).map { R14ReportReasonOption("REASON_$it", "举报原因 $it") },
+                    messages = emptyList(),
+                    draft = R14ReportDraft(reasonCode = "REASON_1"),
+                    versionAvailable = true,
+                    submitting = false,
+                    failure = null,
+                    onDismiss = {},
+                    onDraftChange = {},
+                    onAddEvidence = {},
+                    onSubmit = {},
+                )
+            }
+        }
+
+        composeRule.onNodeWithText("取消").assertIsDisplayed()
+        composeRule.onNodeWithText("提交举报").assertIsDisplayed()
+    }
+
+    @Test
     fun reportConfirmationIncludesMessageAndImageEvidenceCounts() {
         val evidence = MediaUploadSelection("media_1", "evidence.jpg", "image/jpeg", 128, null)
         composeRule.setContent {

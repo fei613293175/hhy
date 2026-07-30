@@ -13,6 +13,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -21,14 +22,18 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
@@ -214,6 +219,7 @@ private fun R13ActivityListScreen(
         containerColor = HhyColors.PageBackground,
         topBar = {
             TopAppBar(
+                modifier = Modifier.testTag("r13.${mode.tag}.top-bar"),
                 title = {
                     Column {
                         Text(mode.title, fontWeight = FontWeight.SemiBold)
@@ -749,34 +755,51 @@ private fun R13InvalidFeedbackSheetBody(
         }
     }
 
-    Column(
-        Modifier.fillMaxWidth().navigationBarsPadding().padding(horizontal = HhySpacing.Xl, vertical = HhySpacing.Md),
-        verticalArrangement = Arrangement.spacedBy(HhySpacing.Md),
-    ) {
-        Text("联系方式失效反馈", fontSize = HhyType.SectionTitleSize, fontWeight = FontWeight.Bold)
-        Text("反馈“${contentTitle.take(24)}”中的公开联系信息问题，不会展示或记录真实联系方式。", color = HhyColors.TextSecondary)
-        reasons.forEach { (code, label) ->
-            FilterChip(
-                selected = selected == code,
-                onClick = { selected = code; error = null },
-                label = { Text(label) },
-                enabled = !submitting,
-                modifier = Modifier.fillMaxWidth().testTag("r13.invalid.$code"),
-            )
-        }
-        OutlinedTextField(
-            value = description,
-            onValueChange = { if (it.length <= 2000) description = it },
-            modifier = Modifier.fillMaxWidth().testTag("r13.invalid.description"),
-            label = { Text("详细说明（选填）") },
-            supportingText = { Text("${description.length}/2000") },
-            minLines = 3,
-            maxLines = 5,
-            enabled = !submitting,
-            keyboardOptions = KeyboardOptions(capitalization = KeyboardCapitalization.Sentences),
-        )
-        error?.let { Text(it, color = HhyColors.Error, fontSize = HhyType.CaptionSize) }
-        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(HhySpacing.Sm)) {
+    BoxWithConstraints(Modifier.fillMaxWidth()) {
+        Column(
+            Modifier.fillMaxWidth()
+                .heightIn(max = maxHeight - HhyRadius.BottomSheetTop)
+                .navigationBarsPadding()
+                .imePadding(),
+        ) {
+            Column(
+                Modifier.fillMaxWidth()
+                    .weight(1f, fill = false)
+                    .verticalScroll(rememberScrollState())
+                    .padding(horizontal = HhySpacing.Xl, vertical = HhySpacing.Md),
+                verticalArrangement = Arrangement.spacedBy(HhySpacing.Md),
+            ) {
+                Text("联系方式失效反馈", fontSize = HhyType.SectionTitleSize, fontWeight = FontWeight.Bold)
+                Text("反馈“${contentTitle.take(24)}”中的公开联系信息问题，不会展示或记录真实联系方式。", color = HhyColors.TextSecondary)
+                reasons.forEach { (code, label) ->
+                    FilterChip(
+                        selected = selected == code,
+                        onClick = { selected = code; error = null },
+                        label = { Text(label) },
+                        enabled = !submitting,
+                        modifier = Modifier.fillMaxWidth().testTag("r13.invalid.$code"),
+                    )
+                }
+                OutlinedTextField(
+                    value = description,
+                    onValueChange = { if (it.length <= 2000) description = it },
+                    modifier = Modifier.fillMaxWidth().testTag("r13.invalid.description"),
+                    label = { Text("详细说明（选填）") },
+                    supportingText = { Text("${description.length}/2000") },
+                    minLines = 3,
+                    maxLines = 5,
+                    enabled = !submitting,
+                    keyboardOptions = KeyboardOptions(capitalization = KeyboardCapitalization.Sentences),
+                )
+                error?.let { Text(it, color = HhyColors.Error, fontSize = HhyType.CaptionSize) }
+            }
+            HorizontalDivider()
+            Row(
+                Modifier.fillMaxWidth()
+                    .padding(horizontal = HhySpacing.Xl, vertical = HhySpacing.Md)
+                    .testTag("r13.invalid.actions"),
+                horizontalArrangement = Arrangement.spacedBy(HhySpacing.Sm),
+            ) {
             OutlinedButton(onClick = onDismiss, enabled = !submitting, modifier = Modifier.weight(1f)) { Text("取消") }
             Button(
                 enabled = selected != null && !submitting,
@@ -785,6 +808,7 @@ private fun R13InvalidFeedbackSheetBody(
             ) {
                 if (submitting) CircularProgressIndicator(Modifier.size(HhySpacing.Xl), color = HhyColors.TextInverse, strokeWidth = HhySize.Hairline)
                 else Text("提交反馈")
+            }
             }
         }
     }

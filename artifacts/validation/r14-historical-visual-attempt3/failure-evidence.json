@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "release": "R14",
+  "request_id": "HISTORICAL-UI-20260730-003",
+  "github_run_id": "30516346703",
+  "source_commit": "c73dcd928ed41ec450605c43a032ba1f2f72583a",
+  "workflow_status": "PASS",
+  "visual_review_status": "REJECTED",
+  "artifact": {
+    "id": "8749128065",
+    "name": "android-historical-visual-30516346703",
+    "digest_sha256": "a4b885f922e4929d5c8f55b85eda3bc7404b59b7b969d13244fc752fe073d37a",
+    "size_bytes": 3887779,
+    "screenshot_count": 33
+  },
+  "rejected_surfaces": [
+    {
+      "page_id": "SCR-HIS-001",
+      "file": "28-r13-history.png",
+      "sha256": "6ab407df9b3d42ef56298a1aedbb3169d91296a85bd2244653e2db58989e376a",
+      "defect": "The title bar and back action are clipped at the top edge, so the screenshot is not valid visual acceptance evidence."
+    },
+    {
+      "page_id": "SHEET-CONTENT-INVALID-001",
+      "file": "30-r13-invalid-feedback-sheet.png",
+      "sha256": "a18248b474d02a371ff815666383a2b1d54b220fb7500f054ae29a7cb7a38bd5",
+      "defect": "The system gesture bar overlaps the cancel and submit action row."
+    },
+    {
+      "page_id": "SHEET-CHAT-002",
+      "file": "34-r14-report-sheet.png",
+      "sha256": "37e66bb2fb91269d4b42eaea788029a47f5d89ebf2345e44e2b1fb5e327867eb",
+      "defect": "The fixed actions are outside the captured viewport and the system gesture bar overlaps the description field."
+    }
+  ],
+  "accepted_runtime_facts": {
+    "instrumentation_tests": "PASS_27_OF_27",
+    "screenshots_generated": 33,
+    "candidate_jobs_skipped": true,
+    "network_mode": "OFFLINE_PRODUCTION_COMPOSABLES"
+  },
+  "next_request": "HISTORICAL-UI-20260730-004"
+}

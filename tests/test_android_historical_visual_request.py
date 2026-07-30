@@ -58,9 +58,12 @@ class AndroidHistoricalVisualRequestWorkflowTest(unittest.TestCase):
         request = yaml.safe_load(REQUEST_PATH.read_text(encoding="utf-8"))
         runner = RUNNER_PATH.read_text(encoding="utf-8")
         audit_test = AUDIT_TEST_PATH.read_text(encoding="utf-8")
+        self.assertEqual(request["request_id"], "HISTORICAL-UI-20260730-004")
         self.assertEqual(request["expected_screenshot_count"], 33)
         self.assertIn('screenshot_count" -ne 33', runner)
         self.assertEqual(audit_test.count('captureStable("'), 33)
+        self.assertIn('onNodeWithTag("r13.invalid.actions").assertIsDisplayed()', audit_test)
+        self.assertIn('onNodeWithTag("r14.report.actions").assertIsDisplayed()', audit_test)
         expected_r14_files = {
             "31-r14-conversations.png",
             "32-r14-chat-detail.png",

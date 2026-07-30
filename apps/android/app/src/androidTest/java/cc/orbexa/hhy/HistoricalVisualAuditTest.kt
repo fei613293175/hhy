@@ -5,8 +5,13 @@ import android.content.Context
 import android.os.SystemClock
 import android.provider.MediaStore
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.ExperimentalComposeUiApi
+import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.semantics.SemanticsActions
+import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onAllNodesWithText
 import androidx.compose.ui.test.onNodeWithContentDescription
@@ -390,6 +395,8 @@ class HistoricalVisualAuditTest {
         waitForText("浏览记录")
         waitForText("R13品牌联合增长计划")
         waitForText("内容更新：2026-07-24", substring = true)
+        composeRule.onNodeWithTag("r13.history.top-bar").assertIsDisplayed()
+        composeRule.onNodeWithContentDescription("返回").assertIsDisplayed()
         captureStable("28-r13-history.png")
     }
 
@@ -431,6 +438,8 @@ class HistoricalVisualAuditTest {
         waitForText("联系方式失效反馈")
         waitForText("链接无法打开")
         waitForText("详细说明（选填）")
+        composeRule.onNodeWithTag("r13.invalid.actions").assertIsDisplayed()
+        composeRule.onNodeWithText("提交反馈").assertIsDisplayed()
         captureStable("30-r13-invalid-feedback-sheet.png")
     }
 
@@ -516,6 +525,8 @@ class HistoricalVisualAuditTest {
         waitForText("举报聊天")
         waitForText("骚扰")
         waitForText("消息证据")
+        composeRule.onNodeWithTag("r14.report.actions").assertIsDisplayed()
+        composeRule.onNodeWithText("提交举报").assertIsDisplayed()
         captureStable("34-r14-report-sheet.png")
     }
 
@@ -552,8 +563,20 @@ class HistoricalVisualAuditTest {
         captureStable("36-r14-delete-dialog.png")
     }
 
+    @OptIn(ExperimentalComposeUiApi::class)
     private fun setAuditContent(content: @Composable () -> Unit) {
-        composeRule.setContent { HhyTheme { content() } }
+        composeRule.setContent {
+            HhyTheme {
+                val focusManager = LocalFocusManager.current
+                val keyboardController = LocalSoftwareKeyboardController.current
+                LaunchedEffect(Unit) {
+                    focusManager.clearFocus(force = true)
+                    keyboardController?.hide()
+                }
+                content()
+            }
+        }
+        composeRule.waitForIdle()
     }
 
     private fun waitForText(text: String, substring: Boolean = false) {
