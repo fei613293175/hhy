@@ -1,0 +1,75 @@
+{
+  "schema": "hhy.governance-v5.0-install-validation/v1",
+  "status": "PASS",
+  "checks": [
+    {
+      "id": "static_specs",
+      "status": "PASS"
+    },
+    {
+      "id": "state",
+      "status": "PASS"
+    },
+    {
+      "id": "task_counts",
+      "status": "PASS",
+      "detail": {
+        "total": 266,
+        "R15_R32": 144
+      }
+    },
+    {
+      "id": "single_active_entry",
+      "status": "PASS"
+    },
+    {
+      "id": "active_legacy_routes",
+      "status": "PASS"
+    },
+    {
+      "id": "full_program_simulation",
+      "status": "PASS"
+    },
+    {
+      "id": "full_worktree_secret_scan",
+      "status": "PASS",
+      "detail": {
+        "files_considered": 5728,
+        "files_scanned": 5549,
+        "findings": []
+      }
+    },
+    {
+      "id": "python_compile",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "id": "governance_tests",
+      "status": "PASS",
+      "detail": "...............................                                          [100%]\n31 passed in 29.41s\n"
+    },
+    {
+      "id": "generated_views",
+      "status": "PASS"
+    },
+    {
+      "id": "git_diff_check",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "id": "workflow_yaml_and_stable_contexts",
+      "status": "PASS"
+    },
+    {
+      "id": "git_hooks",
+      "status": "PASS"
+    },
+    {
+      "id": "migration_scope",
+      "status": "PASS"
+    }
+  ],
+  "generated_at": "2026-07-30T18:35:25.326261Z"
+}

@@ -1,0 +1,48 @@
+schema: hhy.task-spec/v5.0
+id: TASK-R03-005
+release: R03
+ordinal: 5
+title: 三批次汇合、工程治理、专项测试与故障注入
+kind: quality
+mode: worker
+source:
+  path: releases/R03/TASKS.yaml
+  original_id: TASK-R03-005
+requirements:
+- REQ-CONFIG-001
+- REQ-DOMAIN-001
+- REQ-STORAGE-001
+- REQ-SECRET-001
+- REQ-CONFIG-UX-001
+- REQ-APK-001
+depends_on:
+- TASK-R03-002
+- TASK-R03-003
+- TASK-R03-004
+objective: 主控汇合三条业务切片，统一共享迁移、权限、SecretRef、审批、审计、契约生成，并执行18项权威测试和供应商故障注入
+deliverables:
+- Flyway空库、升级库、回滚和数据不变量证据
+- 18项权威测试、契约、页面动作、安全和故障注入报告
+- 生成物漂移为零，关键缺陷清零
+acceptance:
+- STORY-R03-004工程治理验收全部通过
+- INTEGRATION门禁、数据库测试和安全专项全部PASS
+- 共享API和DTO只有主控最终集成版本
+allowed_paths:
+- apps/**
+- catalogs/**
+- contracts/**
+- database/**
+- docs/**
+- packages/**
+- scripts/**
+- services/**
+- tests/**
+risks:
+- production
+- secrets
+- security
+acceptance_commands: []
+maximum_attempts: 3
+owner_verification: ASYNC_NON_BLOCKING_FOR_NEXT_RELEASE
+legacy_status: DONE

@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "hhy.task-spec/v5.0",
+  "type": "object",
+  "required": [
+    "schema",
+    "id",
+    "release",
+    "mode",
+    "depends_on",
+    "objective",
+    "allowed_paths",
+    "risks",
+    "maximum_attempts"
+  ],
+  "properties": {
+    "schema": {
+      "const": "hhy.task-spec/v5.0"
+    },
+    "id": {
+      "type": "string"
+    },
+    "release": {
+      "type": "string"
+    },
+    "mode": {
+      "enum": [
+        "worker",
+        "orchestrator"
+      ]
+    },
+    "depends_on": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "objective": {
+      "type": "string",
+      "minLength": 1
+    },
+    "allowed_paths": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "risks": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "maximum_attempts": {
+      "const": 3
+    }
+  }
+}

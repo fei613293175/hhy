@@ -133,7 +133,7 @@ visual:
     - apk_sha256
     promotion_rule: 首版无基线时只允许一次权威模拟器采集；AI批准原始截图和哈希后必须由轻量Actions复核原运行工件并晋升，禁止为了登记同一批基线再次编译或启动模拟器
   max_mean_absolute_error: 14.0
-  max_changed_pixel_ratio: 0.10
+  max_changed_pixel_ratio: 0.1
   changed_pixel_threshold: 24
   minimum_cross_screen_changed_pixel_ratio: 0.005
   stable_sample_interval_ms: 350
@@ -150,10 +150,10 @@ visual:
   rule: 基线必须来自冻结设计施工后的合格模拟器截图；AI实现代理按强制检查自主判定并登记哈希，不得等待项目所有者逐轮核实
 logs:
   fatal_patterns:
-  - 'FATAL EXCEPTION'
-  - 'ANR in cc.orbexa.hhy'
-  - 'Process cc.orbexa.hhy.debug has died'
-  - 'AndroidRuntime:.*cc.orbexa.hhy'
+  - FATAL EXCEPTION
+  - ANR in cc.orbexa.hhy
+  - Process cc.orbexa.hhy.debug has died
+  - AndroidRuntime:.*cc.orbexa.hhy
   forbidden_visible_patterns:
   - 请求编号
   - TraceId
@@ -177,235 +177,6 @@ remediation:
     - THIRD_PARTY_PERMISSION
     - FUNDS_OR_LEDGER_POLICY
     - PRODUCTION_ACTIVATION
-  approved_attempt_exceptions:
-  - exception_id: CR-0344
-    release: R12
-    attempt: 4
-    request_id: R12-CANDIDATE-20260726-004
-    required_fix_commit: daae207af319008411995b7ac23a13c9042fc5a2
-    max_candidate_runs: 1
-  - exception_id: CR-0352
-    release: R12
-    attempt: 5
-    request_id: R12-CANDIDATE-20260726-005
-    required_fix_commit: fbde523e8e751b74f7300ef125c70fa9eb4d03fd
-    max_candidate_runs: 1
-  - exception_id: CR-0355
-    release: R12
-    attempt: 6
-    request_id: R12-CANDIDATE-20260726-006
-    required_fix_commit: f11901ea1d3c61ccbcc59ec4cab3e77e24b1f1b0
-    max_candidate_runs: 1
-  - exception_id: CR-0358
-    release: R12
-    attempt: 7
-    request_id: R12-CANDIDATE-20260726-007
-    required_fix_commit: bcde496e9821dce301d4b13bfe0b1f590f1380f5
-    max_candidate_runs: 1
-  - exception_id: CR-0383
-    release: R13
-    attempt: 4
-    request_id: R13-CANDIDATE-20260727-004
-    required_fix_commit: c602d2f0194980efcf19f233148f0b0932254ba6
-    max_candidate_runs: 1
-  - exception_id: CR-0385
-    release: R13
-    attempt: 5
-    request_id: R13-CANDIDATE-20260727-005
-    required_fix_commit: f8239c989fd9d17e74273ab5eaaa5d4349488882
-    max_candidate_runs: 1
-  - exception_id: CR-0386
-    release: R13
-    attempt: 6
-    request_id: R13-CANDIDATE-20260727-006
-    required_fix_commit: 808ee1d13bc15812609a2d2275318f5c1edae8e9
-    max_candidate_runs: 1
-  - exception_id: CR-0387
-    release: R13
-    attempt: 7
-    request_id: R13-CANDIDATE-20260727-007
-    required_fix_commit: 0769abff1ecb12e4f4cd6415f66cdef8c92d0209
-    max_candidate_runs: 1
-  - exception_id: CR-0388
-    release: R13
-    attempt: 8
-    request_id: R13-CANDIDATE-20260727-008
-    required_fix_commit: 02f3dc856b2dc6de4df0c1f94730b80388b5d563
-    max_candidate_runs: 1
-  - exception_id: CR-0389
-    release: R13
-    attempt: 9
-    request_id: R13-CANDIDATE-20260727-009
-    required_fix_commit: 2832d47d5c2a27d73c7a7d2b4f63bc0f331a5e54
-    max_candidate_runs: 1
-  - exception_id: CR-0390
-    release: R13
-    attempt: 10
-    request_id: R13-CANDIDATE-20260727-010
-    required_fix_commit: 8393b35464b16083833e7c9d95e7d303ce8a11a2
-    max_candidate_runs: 1
-  - exception_id: CR-0391
-    release: R13
-    attempt: 11
-    request_id: R13-CANDIDATE-20260727-011
-    required_fix_commit: 7d53f3863b64ca1d2bc31baf7fd03ae36f6e3642
-    max_candidate_runs: 1
-  - exception_id: CR-0392
-    release: R13
-    attempt: 12
-    request_id: R13-CANDIDATE-20260727-012
-    required_fix_commit: 10c904b02750641892e35616f162319867e7f0c9
-    max_candidate_runs: 1
-  - exception_id: CR-0393
-    release: R13
-    attempt: 13
-    request_id: R13-CANDIDATE-20260727-013
-    required_fix_commit: fedda55654a256db02877e1fdc7be25b3ba1ba4f
-    max_candidate_runs: 1
-  - exception_id: CR-0395
-    release: R13
-    attempt: 14
-    request_id: R13-CANDIDATE-20260727-014
-    required_fix_commit: 8a73630d7cda118fa7fb88942e38b06939dc95a4
-    max_candidate_runs: 1
-  - exception_id: CR-0398
-    release: R13
-    attempt: 15
-    request_id: R13-CANDIDATE-20260727-015
-    required_fix_commit: 035a80b21b51f6652cc1bf107a12e457eb06620b
-    max_candidate_runs: 1
-  - exception_id: CR-0400
-    release: R13
-    attempt: 16
-    request_id: R13-CANDIDATE-20260727-016
-    required_fix_commit: 80dd3e68b010ef5218154b7362cd7a6835ae9607
-    max_candidate_runs: 1
-  - exception_id: CR-0402
-    release: R13
-    attempt: 17
-    request_id: R13-CANDIDATE-20260727-017
-    required_fix_commit: dd28660f5e2f043cf09afa308042428f651e521a
-    max_candidate_runs: 1
-  - exception_id: CR-0405
-    release: R13
-    attempt: 18
-    request_id: R13-CANDIDATE-20260727-018
-    required_fix_commit: 97c74a75a293527d83a865df10d6c580e307f83f
-    max_candidate_runs: 1
-  - exception_id: CR-0407
-    release: R13
-    attempt: 19
-    request_id: R13-CANDIDATE-20260727-019
-    required_fix_commit: 5cd3dabee40aadd8c906d4307fa3d4c502360011
-    max_candidate_runs: 1
-  - exception_id: CR-0409
-    release: R13
-    attempt: 20
-    request_id: R13-CANDIDATE-20260727-020
-    required_fix_commit: 4d6fd4d7a61cbdb6db465534bebbe5c8375c45e4
-    max_candidate_runs: 1
-  - exception_id: CR-0479
-    release: R14
-    attempt: 4
-    request_id: R14-CANDIDATE-20260729-004
-    required_fix_commit: 98b8259bea86daf48f01698ad7ea353877650fbc
-    max_candidate_runs: 1
-  - exception_id: CR-0481
-    release: R14
-    attempt: 5
-    request_id: R14-CANDIDATE-20260729-005
-    required_fix_commit: f46ad854398133c935db9d3cd474c534c0d7236f
-    max_candidate_runs: 1
-  - exception_id: CR-0482
-    release: R14
-    attempt: 6
-    request_id: R14-CANDIDATE-20260730-006
-    required_fix_commit: 38453a16b96b26e85690ba0b21facf586a2f2ea9
-    max_candidate_runs: 1
-  - exception_id: CR-0483
-    release: R14
-    attempt: 7
-    request_id: R14-CANDIDATE-20260730-007
-    required_fix_commit: 64e089d04a7dbbc82bf7b1085498ff4cecdde8a5
-    max_candidate_runs: 1
-  - exception_id: CR-0484
-    release: R14
-    attempt: 8
-    request_id: R14-CANDIDATE-20260730-008
-    required_fix_commit: 0d6b465c8c6f1e7e957fd38f0d3ac075a4b5e913
-    max_candidate_runs: 1
-  - exception_id: CR-0486
-    release: R14
-    attempt: 9
-    request_id: R14-CANDIDATE-20260730-009
-    required_fix_commit: 3c120872b435c75047a026b91a5cd473de5cd3c9
-    max_candidate_runs: 1
-  - exception_id: CR-0488
-    release: R14
-    attempt: 10
-    request_id: R14-CANDIDATE-20260730-010
-    required_fix_commit: a4b88424bee403b7515973536e96ccfcd3012d5a
-    max_candidate_runs: 1
-  - exception_id: CR-0490
-    release: R14
-    attempt: 11
-    request_id: R14-CANDIDATE-20260730-011
-    required_fix_commit: c79a796721ba5357315d3cd7a45417be653a160e
-    max_candidate_runs: 1
-  - exception_id: CR-0492
-    release: R14
-    attempt: 12
-    request_id: R14-CANDIDATE-20260730-012
-    required_fix_commit: c1b637e299288279d96e0ef85fde21b03e889251
-    max_candidate_runs: 1
-  - exception_id: CR-0494
-    release: R14
-    attempt: 13
-    request_id: R14-CANDIDATE-20260730-013
-    required_fix_commit: c5695b9242fa751b83166f50e85c47109a0b0d62
-    max_candidate_runs: 1
-  - exception_id: CR-0496
-    release: R14
-    attempt: 14
-    request_id: R14-CANDIDATE-20260730-014
-    required_fix_commit: 7eeb1051bce7fe0f96bf04e1bfe75d7234a26ac0
-    max_candidate_runs: 1
-  - exception_id: CR-0498
-    release: R14
-    attempt: 15
-    request_id: R14-CANDIDATE-20260730-015
-    required_fix_commit: 2ad71a064f9401697257080c8e7e0357c6f71ca5
-    max_candidate_runs: 1
-  - exception_id: CR-0500
-    release: R14
-    attempt: 16
-    request_id: R14-CANDIDATE-20260730-016
-    required_fix_commit: 9817630e19e38c7bdbff61d9942025cf370b1654
-    max_candidate_runs: 1
-  - exception_id: CR-0502
-    release: R14
-    attempt: 17
-    request_id: R14-CANDIDATE-20260730-017
-    required_fix_commit: 913dbc31c0cdbd288ed7bcb5db8849f8de78f9a7
-    max_candidate_runs: 1
-  - exception_id: CR-0504
-    release: R14
-    attempt: 18
-    request_id: R14-CANDIDATE-20260730-018
-    required_fix_commit: d2d803831ae0def0902b2aff6362c39f68c8286f
-    max_candidate_runs: 1
-  - exception_id: CR-0507
-    release: R14
-    attempt: 19
-    request_id: R14-CANDIDATE-20260730-019
-    required_fix_commit: cf0412194af17e3a5562ba28b6436b4bf3d9e678
-    max_candidate_runs: 1
-  - exception_id: CR-0509
-    release: R14
-    attempt: 20
-    request_id: R14-CANDIDATE-20260730-020
-    required_fix_commit: 0220185599581170af24db6ca575592da940e9f4
-    max_candidate_runs: 1
   failure_issue_title_prefix: '[Android CI]'
   required_status: REMEDIATION_REQUIRED
   retry_rule: 编译或测试确定性失败必须修改后重新提交；仅业务测试开始前且日志明确证明为GitHub、网络、镜像或Staging接口瞬态故障时，允许同一Commit只重跑失败作业及其依赖一次，禁止重跑已通过阶段或修改业务代码；同一瞬态再次出现必须停止重跑并检查Staging健康与基础设施
@@ -521,4 +292,8 @@ candidate_request:
   reusable_quality_gate: .github/workflows/android-quality-gate.yml
   allowed_releases: R06-R32
   remediation_attempt_range: 1-3
-  rule: R14起每个大版本机器完成及下一业务版本领取必须通过一次该版本专属真实交互候选；请求必须进入事实分支并通过同一权威质量门禁，普通请求仅允许1至3，只有approved_attempt_exceptions全字段精确匹配时才允许其登记的单次轮次，且不得改变全局max_ai_attempts=3；候选失败不阻断固定环境TEST_APK先行交付，但阻断该版机器完成、下一业务版本领取、候选接受和生产自动证据；不得用普通CI的中间APK或截图数量替代交互候选产物
+  rule: R14起每个大版本机器完成及下一业务版本领取必须通过一次该版本专属真实交互候选；请求必须进入事实分支并通过同一权威质量门禁，普通请求仅允许1至3，只有retired_legacy_exception_list全字段精确匹配时才允许其登记的单次轮次，且不得改变全局max_ai_attempts=3；候选失败不阻断固定环境TEST_APK先行交付，但阻断该版机器完成、下一业务版本领取、候选接受和生产自动证据；不得用普通CI的中间APK或截图数量替代交互候选产物
+governance_v50:
+  maximum_total_attempts_per_task: 3
+  overrides_allowed: false
+  infrastructure_auto_retries: 0

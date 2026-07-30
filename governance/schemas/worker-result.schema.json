@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "hhy.worker-result/v5.0",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "schema",
+    "status",
+    "task_id",
+    "summary"
+  ],
+  "properties": {
+    "schema": {
+      "const": "hhy.worker-result/v5.0"
+    },
+    "status": {
+      "enum": [
+        "CANDIDATE_READY",
+        "ATTEMPT_FAILED",
+        "EXTERNAL_BLOCKED",
+        "INFRASTRUCTURE_BLOCKED"
+      ]
+    },
+    "task_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "summary": {
+      "type": "string"
+    },
+    "changed_files": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "commands_run": {
+      "type": "array"
+    },
+    "error_fingerprint": {
+      "type": "string"
+    },
+    "blocker": {
+      "type": [
+        "object",
+        "null"
+      ]
+    }
+  }
+}

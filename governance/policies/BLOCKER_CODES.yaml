@@ -1,0 +1,16 @@
+schema: hhy.blocker-codes/v5.0
+external:
+  - MISSING_SECRET_OR_CREDENTIAL
+  - MISSING_SIGNING_CERTIFICATE
+  - MISSING_OWNER_PRODUCT_DECISION
+  - MISSING_THIRD_PARTY_DOCUMENTATION
+  - MISSING_REMOTE_PERMISSION
+infrastructure:
+  - CODEX_CLI_UNAVAILABLE
+  - CODEX_AUTHENTICATION_FAILED
+  - BUILD_INFRASTRUCTURE_UNAVAILABLE
+  - INDEPENDENT_REVIEWER_FAILED
+rules:
+  consume_engineering_attempt: false
+  auto_retry: false
+  evidence_required: true

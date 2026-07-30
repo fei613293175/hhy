@@ -1,0 +1,44 @@
+schema: hhy.task-spec/v5.0
+id: TASK-R32-002
+release: R32
+ordinal: 2
+title: 最终供应商接入、生产发布与交接数据迁移与领域不变量
+kind: database
+mode: worker
+source:
+  path: releases/R32/TASKS.yaml
+  original_id: TASK-R32-002
+requirements:
+- REQ-WD-001
+- REQ-APP-RELEASE-001
+- REQ-VENDOR-001
+- REQ-RELEASE-001
+- REQ-DOMAIN-001
+- REQ-APK-001
+depends_on:
+- TASK-R32-001
+objective: 实现/演进，补齐唯一约束、状态历史、幂等键和回滚验证
+deliverables:
+- Flyway前向迁移与空库/升级库测试
+- 不变量属性测试
+acceptance:
+- 无TODO/生产Mock
+- 代码、文档、测试、追踪同步更新
+- Flyway前向迁移与空库/升级库测试
+- 不变量属性测试
+allowed_paths:
+- catalogs/**
+- contracts/**
+- database/**
+- docs/**
+- services/backend/**
+- tests/**
+risks:
+- database
+- production
+- secrets
+acceptance_commands:
+- python3 scripts/check_db_schema.py
+maximum_attempts: 3
+owner_verification: ASYNC_NON_BLOCKING_FOR_NEXT_RELEASE
+legacy_status: BLOCKED

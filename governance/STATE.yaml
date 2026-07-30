@@ -1,0 +1,2606 @@
+schema: hhy.governance-state/v5.0
+revision: 1
+updated_at: '2026-07-30T18:34:36.960751Z'
+state_hash: e9d6373a8f929dbd93668f00b2cdae89b4425292cf376ace5ab512e8b676dd2f
+project:
+  status: INSTALLED_NOT_ACTIVE
+  branch_at_install: governance/v5.0-migration-20260731
+  migration_baseline_commit: ea64d82fab9ed3d1952ab7d3c0d2286051390b59
+  migration_commit: null
+  authoritative_commit: ea64d82fab9ed3d1952ab7d3c0d2286051390b59
+  active_release: R14
+  active_task: TASK-R14-RECOVERY-001
+  goal_complete: false
+lease: null
+releases:
+  P00:
+    status: HISTORICAL
+    frozen_commit: null
+    candidate:
+      status: NONE
+      commit: null
+      evidence: null
+    owner_verification:
+      status: HISTORICAL
+      evidence: null
+    formal_release:
+      status: NONE
+      evidence: null
+      tag: null
+  R01:
+    status: HISTORICAL
+    frozen_commit: null
+    candidate:
+      status: NONE
+      commit: null
+      evidence: null
+    owner_verification:
+      status: HISTORICAL
+      evidence: null
+    formal_release:
+      status: NONE
+      evidence: null
+      tag: null
+  R02:
+    status: HISTORICAL
+    frozen_commit: null
+    candidate:
+      status: NONE
+      commit: null
+      evidence: null
+    owner_verification:
+      status: HISTORICAL
+      evidence: null
+    formal_release:
+      status: NONE
+      evidence: null
+      tag: null
+  R03:
+    status: HISTORICAL
+    frozen_commit: null
+    candidate:
+      status: NONE
+      commit: null
+      evidence: null
+    owner_verification:
+      status: HISTORICAL
+      evidence: null
+    formal_release:
+      status: NONE
+      evidence: null
+      tag: null
+  R04:
+    status: HISTORICAL
+    frozen_commit: null
+    candidate:
+      status: NONE
+      commit: null
+      evidence: null
+    owner_verification:
+      status: HISTORICAL
+      evidence: null
+    formal_release:
+      status: NONE
+      evidence: null
+      tag: null
+  R05:
+    status: HISTORICAL
+    frozen_commit: null
+    candidate:
+      status: NONE
+      commit: null
+      evidence: null
+    owner_verification:
+      status: HISTORICAL
+      evidence: null
+    formal_release:
+      status: NONE
+      evidence: null
+      tag: null
+  R06:
+    status: HISTORICAL
+    frozen_commit: null
+    candidate:
+      status: NONE
+      commit: null
+      evidence: null
+    owner_verification:
+      status: HISTORICAL
+      evidence: null
+    formal_release:
+      status: NONE
+      evidence: null
+      tag: null
+  R07:
+    status: HISTORICAL
+    frozen_commit: null
+    candidate:
+      status: NONE
+      commit: null
+      evidence: null
+    owner_verification:
+      status: HISTORICAL
+      evidence: null
+    formal_release:
+      status: NONE
+      evidence: null
+      tag: null
+  R08:
+    status: HISTORICAL
+    frozen_commit: null
+    candidate:
+      status: NONE
+      commit: null
+      evidence: null
+    owner_verification:
+      status: HISTORICAL
+      evidence: null
+    formal_release:
+      status: NONE
+      evidence: null
+      tag: null
+  R09:
+    status: HISTORICAL
+    frozen_commit: null
+    candidate:
+      status: NONE
+      commit: null
+      evidence: null
+    owner_verification:
+      status: HISTORICAL
+      evidence: null
+    formal_release:
+      status: NONE
+      evidence: null
+      tag: null
+  R10:
+    status: HISTORICAL
+    frozen_commit: null
+    candidate:
+      status: NONE
+      commit: null
+      evidence: null
+    owner_verification:
+      status: HISTORICAL
+      evidence: null
+    formal_release:
+      status: NONE
+      evidence: null
+      tag: null
+  R11:
+    status: HISTORICAL
+    frozen_commit: null
+    candidate:
+      status: NONE
+      commit: null
+      evidence: null
+    owner_verification:
+      status: HISTORICAL
+      evidence: null
+    formal_release:
+      status: NONE
+      evidence: null
+      tag: null
+  R12:
+    status: HISTORICAL
+    frozen_commit: null
+    candidate:
+      status: NONE
+      commit: null
+      evidence: null
+    owner_verification:
+      status: HISTORICAL
+      evidence: null
+    formal_release:
+      status: NONE
+      evidence: null
+      tag: null
+  R13:
+    status: HISTORICAL
+    frozen_commit: null
+    candidate:
+      status: NONE
+      commit: null
+      evidence: null
+    owner_verification:
+      status: HISTORICAL
+      evidence: null
+    formal_release:
+      status: NONE
+      evidence: null
+      tag: null
+  R14:
+    status: DEVELOPING
+    frozen_commit: null
+    candidate:
+      status: NONE
+      commit: null
+      evidence: null
+    owner_verification:
+      status: PENDING
+      evidence: null
+    formal_release:
+      status: NONE
+      evidence: null
+      tag: null
+  R15:
+    status: PLANNED
+    frozen_commit: null
+    candidate:
+      status: NONE
+      commit: null
+      evidence: null
+    owner_verification:
+      status: NOT_STARTED
+      evidence: null
+    formal_release:
+      status: NONE
+      evidence: null
+      tag: null
+  R16:
+    status: PLANNED
+    frozen_commit: null
+    candidate:
+      status: NONE
+      commit: null
+      evidence: null
+    owner_verification:
+      status: NOT_STARTED
+      evidence: null
+    formal_release:
+      status: NONE
+      evidence: null
+      tag: null
+  R17:
+    status: PLANNED
+    frozen_commit: null
+    candidate:
+      status: NONE
+      commit: null
+      evidence: null
+    owner_verification:
+      status: NOT_STARTED
+      evidence: null
+    formal_release:
+      status: NONE
+      evidence: null
+      tag: null
+  R18:
+    status: PLANNED
+    frozen_commit: null
+    candidate:
+      status: NONE
+      commit: null
+      evidence: null
+    owner_verification:
+      status: NOT_STARTED
+      evidence: null
+    formal_release:
+      status: NONE
+      evidence: null
+      tag: null
+  R19:
+    status: PLANNED
+    frozen_commit: null
+    candidate:
+      status: NONE
+      commit: null
+      evidence: null
+    owner_verification:
+      status: NOT_STARTED
+      evidence: null
+    formal_release:
+      status: NONE
+      evidence: null
+      tag: null
+  R20:
+    status: PLANNED
+    frozen_commit: null
+    candidate:
+      status: NONE
+      commit: null
+      evidence: null
+    owner_verification:
+      status: NOT_STARTED
+      evidence: null
+    formal_release:
+      status: NONE
+      evidence: null
+      tag: null
+  R21:
+    status: PLANNED
+    frozen_commit: null
+    candidate:
+      status: NONE
+      commit: null
+      evidence: null
+    owner_verification:
+      status: NOT_STARTED
+      evidence: null
+    formal_release:
+      status: NONE
+      evidence: null
+      tag: null
+  R22:
+    status: PLANNED
+    frozen_commit: null
+    candidate:
+      status: NONE
+      commit: null
+      evidence: null
+    owner_verification:
+      status: NOT_STARTED
+      evidence: null
+    formal_release:
+      status: NONE
+      evidence: null
+      tag: null
+  R23:
+    status: PLANNED
+    frozen_commit: null
+    candidate:
+      status: NONE
+      commit: null
+      evidence: null
+    owner_verification:
+      status: NOT_STARTED
+      evidence: null
+    formal_release:
+      status: NONE
+      evidence: null
+      tag: null
+  R24:
+    status: PLANNED
+    frozen_commit: null
+    candidate:
+      status: NONE
+      commit: null
+      evidence: null
+    owner_verification:
+      status: NOT_STARTED
+      evidence: null
+    formal_release:
+      status: NONE
+      evidence: null
+      tag: null
+  R25:
+    status: PLANNED
+    frozen_commit: null
+    candidate:
+      status: NONE
+      commit: null
+      evidence: null
+    owner_verification:
+      status: NOT_STARTED
+      evidence: null
+    formal_release:
+      status: NONE
+      evidence: null
+      tag: null
+  R26:
+    status: PLANNED
+    frozen_commit: null
+    candidate:
+      status: NONE
+      commit: null
+      evidence: null
+    owner_verification:
+      status: NOT_STARTED
+      evidence: null
+    formal_release:
+      status: NONE
+      evidence: null
+      tag: null
+  R27:
+    status: PLANNED
+    frozen_commit: null
+    candidate:
+      status: NONE
+      commit: null
+      evidence: null
+    owner_verification:
+      status: NOT_STARTED
+      evidence: null
+    formal_release:
+      status: NONE
+      evidence: null
+      tag: null
+  R28:
+    status: PLANNED
+    frozen_commit: null
+    candidate:
+      status: NONE
+      commit: null
+      evidence: null
+    owner_verification:
+      status: NOT_STARTED
+      evidence: null
+    formal_release:
+      status: NONE
+      evidence: null
+      tag: null
+  R29:
+    status: PLANNED
+    frozen_commit: null
+    candidate:
+      status: NONE
+      commit: null
+      evidence: null
+    owner_verification:
+      status: NOT_STARTED
+      evidence: null
+    formal_release:
+      status: NONE
+      evidence: null
+      tag: null
+  R30:
+    status: PLANNED
+    frozen_commit: null
+    candidate:
+      status: NONE
+      commit: null
+      evidence: null
+    owner_verification:
+      status: NOT_STARTED
+      evidence: null
+    formal_release:
+      status: NONE
+      evidence: null
+      tag: null
+  R31:
+    status: PLANNED
+    frozen_commit: null
+    candidate:
+      status: NONE
+      commit: null
+      evidence: null
+    owner_verification:
+      status: NOT_STARTED
+      evidence: null
+    formal_release:
+      status: NONE
+      evidence: null
+      tag: null
+  R32:
+    status: PLANNED
+    frozen_commit: null
+    candidate:
+      status: NONE
+      commit: null
+      evidence: null
+    owner_verification:
+      status: NOT_STARTED
+      evidence: null
+    formal_release:
+      status: NONE
+      evidence: null
+      tag: null
+tasks:
+  TASK-P00-001:
+    status: DONE
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-P00-002:
+    status: DONE
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-P00-003:
+    status: DONE
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-P00-004:
+    status: DONE
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-P00-005:
+    status: DONE
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-P00-006:
+    status: DONE
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-P00-007:
+    status: DONE
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-P00-008:
+    status: DONE
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R01-001:
+    status: DONE
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R01-002:
+    status: DONE
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R01-003:
+    status: DONE
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R01-004:
+    status: DONE
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R01-005:
+    status: DONE
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R01-006:
+    status: DONE
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R01-007:
+    status: DONE
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R01-008:
+    status: DONE
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R02-001:
+    status: DONE
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R02-002:
+    status: DONE
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R02-003:
+    status: DONE
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R02-004:
+    status: DONE
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R02-005:
+    status: DONE
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R02-006:
+    status: DONE
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R02-007:
+    status: DONE
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R02-008:
+    status: DONE
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R03-001:
+    status: DONE
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R03-002:
+    status: DONE
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R03-003:
+    status: DONE
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R03-004:
+    status: DONE
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R03-005:
+    status: DONE
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R03-006:
+    status: DONE
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R03-007:
+    status: DONE
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R03-008:
+    status: DONE
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R04-001:
+    status: DONE
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R04-002:
+    status: DONE
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R04-003:
+    status: DONE
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R04-004:
+    status: DONE
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R04-005:
+    status: DONE
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R04-006:
+    status: DONE
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R04-007:
+    status: DONE
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R04-008:
+    status: DONE
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R05-001:
+    status: DONE
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R05-002:
+    status: DONE
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R05-003:
+    status: DONE
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R05-004:
+    status: DONE
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R05-005:
+    status: DONE
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R05-006:
+    status: DONE
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R05-007:
+    status: DONE
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R05-008:
+    status: DONE
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R06-001:
+    status: DONE
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R06-002:
+    status: DONE
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R06-003:
+    status: DONE
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R06-004:
+    status: DONE
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R06-005:
+    status: DONE
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R06-006:
+    status: DONE
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R06-007:
+    status: DONE
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R06-008:
+    status: DONE
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R07-001:
+    status: DONE
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R07-002:
+    status: DONE
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R07-003:
+    status: DONE
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R07-004:
+    status: DONE
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R07-005:
+    status: DONE
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R07-006:
+    status: DONE
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R07-007:
+    status: DONE
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R07-008:
+    status: DONE
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R08-001:
+    status: DONE
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R08-002:
+    status: DONE
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R08-003:
+    status: DONE
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R08-004:
+    status: DONE
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R08-005:
+    status: DONE
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R08-006:
+    status: DONE
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R08-007:
+    status: DONE
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R08-008:
+    status: DONE
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R09-001:
+    status: DONE
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R09-002:
+    status: DONE
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R09-003:
+    status: DONE
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R09-004:
+    status: DONE
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R09-005:
+    status: DONE
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R09-006:
+    status: DONE
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R09-007:
+    status: DONE
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R09-008:
+    status: DONE
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R10-001:
+    status: DONE
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R10-002:
+    status: DONE
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R10-003:
+    status: DONE
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R10-004:
+    status: DONE
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R10-005:
+    status: DONE
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R10-006:
+    status: DONE
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R10-007:
+    status: DONE
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R10-008:
+    status: DONE
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R11-001:
+    status: DONE
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R11-002:
+    status: DONE
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R11-003:
+    status: DONE
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R11-004:
+    status: DONE
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R11-005:
+    status: DONE
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R11-006:
+    status: DONE
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R11-007:
+    status: DONE
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R11-008:
+    status: DONE
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R12-001:
+    status: DONE
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R12-002:
+    status: DONE
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R12-003:
+    status: DONE
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R12-004:
+    status: DONE
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R12-005:
+    status: DONE
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R12-006:
+    status: DONE
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R12-007:
+    status: DONE
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R12-008:
+    status: DONE
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R13-001:
+    status: DONE
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R13-002:
+    status: DONE
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R13-003:
+    status: DONE
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R13-004:
+    status: DONE
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R13-005:
+    status: DONE
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R13-006:
+    status: DONE
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R13-007:
+    status: DONE
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R13-008:
+    status: DONE
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R14-001:
+    status: DONE
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R14-002:
+    status: DONE
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R14-003:
+    status: DONE
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R14-004:
+    status: DONE
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R14-005:
+    status: DONE
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R14-006:
+    status: DONE
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R14-007:
+    status: DONE
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R14-008:
+    status: SUPERSEDED
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R15-001:
+    status: PLANNED
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R15-002:
+    status: PLANNED
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R15-003:
+    status: PLANNED
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R15-004:
+    status: PLANNED
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R15-005:
+    status: PLANNED
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R15-006:
+    status: PLANNED
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R15-007:
+    status: PLANNED
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R15-008:
+    status: PLANNED
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R16-001:
+    status: PLANNED
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R16-002:
+    status: PLANNED
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R16-003:
+    status: PLANNED
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R16-004:
+    status: PLANNED
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R16-005:
+    status: PLANNED
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R16-006:
+    status: PLANNED
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R16-007:
+    status: PLANNED
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R16-008:
+    status: PLANNED
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R17-001:
+    status: PLANNED
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R17-002:
+    status: PLANNED
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R17-003:
+    status: PLANNED
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R17-004:
+    status: PLANNED
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R17-005:
+    status: PLANNED
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R17-006:
+    status: PLANNED
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R17-007:
+    status: PLANNED
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R17-008:
+    status: PLANNED
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R18-001:
+    status: PLANNED
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R18-002:
+    status: PLANNED
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R18-003:
+    status: PLANNED
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R18-004:
+    status: PLANNED
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R18-005:
+    status: PLANNED
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R18-006:
+    status: PLANNED
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R18-007:
+    status: PLANNED
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R18-008:
+    status: PLANNED
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R19-001:
+    status: PLANNED
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R19-002:
+    status: PLANNED
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R19-003:
+    status: PLANNED
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R19-004:
+    status: PLANNED
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R19-005:
+    status: PLANNED
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R19-006:
+    status: PLANNED
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R19-007:
+    status: PLANNED
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R19-008:
+    status: PLANNED
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R20-001:
+    status: PLANNED
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R20-002:
+    status: PLANNED
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R20-003:
+    status: PLANNED
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R20-004:
+    status: PLANNED
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R20-005:
+    status: PLANNED
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R20-006:
+    status: PLANNED
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R20-007:
+    status: PLANNED
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R20-008:
+    status: PLANNED
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R21-001:
+    status: PLANNED
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R21-002:
+    status: PLANNED
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R21-003:
+    status: PLANNED
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R21-004:
+    status: PLANNED
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R21-005:
+    status: PLANNED
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R21-006:
+    status: PLANNED
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R21-007:
+    status: PLANNED
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R21-008:
+    status: PLANNED
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R22-001:
+    status: PLANNED
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R22-002:
+    status: PLANNED
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R22-003:
+    status: PLANNED
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R22-004:
+    status: PLANNED
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R22-005:
+    status: PLANNED
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R22-006:
+    status: PLANNED
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R22-007:
+    status: PLANNED
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R22-008:
+    status: PLANNED
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R23-001:
+    status: PLANNED
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R23-002:
+    status: PLANNED
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R23-003:
+    status: PLANNED
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R23-004:
+    status: PLANNED
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R23-005:
+    status: PLANNED
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R23-006:
+    status: PLANNED
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R23-007:
+    status: PLANNED
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R23-008:
+    status: PLANNED
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R24-001:
+    status: PLANNED
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R24-002:
+    status: PLANNED
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R24-003:
+    status: PLANNED
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R24-004:
+    status: PLANNED
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R24-005:
+    status: PLANNED
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R24-006:
+    status: PLANNED
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R24-007:
+    status: PLANNED
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R24-008:
+    status: PLANNED
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R25-001:
+    status: PLANNED
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R25-002:
+    status: PLANNED
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R25-003:
+    status: PLANNED
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R25-004:
+    status: PLANNED
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R25-005:
+    status: PLANNED
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R25-006:
+    status: PLANNED
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R25-007:
+    status: PLANNED
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R25-008:
+    status: PLANNED
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R26-001:
+    status: PLANNED
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R26-002:
+    status: PLANNED
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R26-003:
+    status: PLANNED
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R26-004:
+    status: PLANNED
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R26-005:
+    status: PLANNED
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R26-006:
+    status: PLANNED
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R26-007:
+    status: PLANNED
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R26-008:
+    status: PLANNED
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R27-001:
+    status: PLANNED
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R27-002:
+    status: PLANNED
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R27-003:
+    status: PLANNED
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R27-004:
+    status: PLANNED
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R27-005:
+    status: PLANNED
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R27-006:
+    status: PLANNED
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R27-007:
+    status: PLANNED
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R27-008:
+    status: PLANNED
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R28-001:
+    status: PLANNED
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R28-002:
+    status: PLANNED
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R28-003:
+    status: PLANNED
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R28-004:
+    status: PLANNED
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R28-005:
+    status: PLANNED
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R28-006:
+    status: PLANNED
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R28-007:
+    status: PLANNED
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R28-008:
+    status: PLANNED
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R29-001:
+    status: PLANNED
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R29-002:
+    status: PLANNED
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R29-003:
+    status: PLANNED
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R29-004:
+    status: PLANNED
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R29-005:
+    status: PLANNED
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R29-006:
+    status: PLANNED
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R29-007:
+    status: PLANNED
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R29-008:
+    status: PLANNED
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R30-001:
+    status: PLANNED
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R30-002:
+    status: PLANNED
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R30-003:
+    status: PLANNED
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R30-004:
+    status: PLANNED
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R30-005:
+    status: PLANNED
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R30-006:
+    status: PLANNED
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R30-007:
+    status: PLANNED
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R30-008:
+    status: PLANNED
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R31-001:
+    status: PLANNED
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R31-002:
+    status: PLANNED
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R31-003:
+    status: PLANNED
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R31-004:
+    status: PLANNED
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R31-005:
+    status: PLANNED
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R31-006:
+    status: PLANNED
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R31-007:
+    status: PLANNED
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R31-008:
+    status: PLANNED
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R32-001:
+    status: PLANNED
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R32-002:
+    status: PLANNED
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R32-003:
+    status: PLANNED
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R32-004:
+    status: PLANNED
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R32-005:
+    status: PLANNED
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R32-006:
+    status: PLANNED
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R32-007:
+    status: PLANNED
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R32-008:
+    status: PLANNED
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  CONTROL-GOV50-MIGRATION:
+    status: DONE
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R14-RECOVERY-001:
+    status: PENDING_ACTIVATION
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null

@@ -1,0 +1,45 @@
+schema: hhy.task-spec/v5.0
+id: TASK-R32-003
+release: R32
+ordinal: 3
+title: 最终供应商接入、生产发布与交接后端应用服务与接口
+kind: backend_contract
+mode: worker
+source:
+  path: releases/R32/TASKS.yaml
+  original_id: TASK-R32-003
+requirements:
+- REQ-WD-001
+- REQ-APP-RELEASE-001
+- REQ-VENDOR-001
+- REQ-RELEASE-001
+- REQ-DOMAIN-001
+- REQ-APK-001
+depends_on:
+- TASK-R32-002
+objective: 实现范围内0个operationId；控制器仅编排应用服务，跨模块副作用写Outbox
+deliverables:
+- OpenAPI契约测试
+- 权限/幂等/错误码/审计覆盖
+acceptance:
+- 无TODO/生产Mock
+- 代码、文档、测试、追踪同步更新
+- OpenAPI契约测试
+- 权限/幂等/错误码/审计覆盖
+allowed_paths:
+- catalogs/**
+- contracts/**
+- docs/**
+- packages/api-client/**
+- packages/domain-types/**
+- services/backend/**
+- tests/**
+risks:
+- contract
+- secrets
+- security
+acceptance_commands:
+- python3 scripts/check_api_contract.py
+maximum_attempts: 3
+owner_verification: ASYNC_NON_BLOCKING_FOR_NEXT_RELEASE
+legacy_status: BLOCKED

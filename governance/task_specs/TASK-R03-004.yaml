@@ -1,0 +1,52 @@
+schema: hhy.task-spec/v5.0
+id: TASK-R03-004
+release: R03
+ordinal: 4
+title: 纵向批次C：支付、出款与证书生命周期配置闭环
+kind: client_ui
+mode: worker
+source:
+  path: releases/R03/TASKS.yaml
+  original_id: TASK-R03-004
+requirements:
+- REQ-CONFIG-001
+- REQ-DOMAIN-001
+- REQ-STORAGE-001
+- REQ-SECRET-001
+- REQ-CONFIG-UX-001
+- REQ-APK-001
+depends_on:
+- TASK-R03-001
+objective: 完成支付网关、支付宝出款和证书上传/轮换的版本化、SecretRef、双人审批、连接测试、后台页面和安全测试
+deliverables:
+- 支付、出款、证书的数据、API、Admin页面与测试闭环
+- 证书原文不可回读，指纹、轮换、访问和审批审计完整
+- 幂等、乐观锁、错误码和回滚证据
+acceptance:
+- 无明文私钥、口令或生产凭据进入仓库和日志
+- STORY-R03-003全部页面动作使用冻结生成类型
+- MODULE门禁通过并可独立交给主控集成
+allowed_paths:
+- apps/admin-web/**
+- apps/android/**
+- apps/h5/**
+- catalogs/**
+- design/**
+- docs/**
+- packages/**
+- tests/**
+risks:
+- contract
+- database
+- funds
+- production
+- secrets
+- security
+- ui
+acceptance_commands:
+- python3 scripts/check_db_schema.py
+- python3 scripts/check_api_contract.py
+- python3 scripts/check_ui_tokens.py
+maximum_attempts: 3
+owner_verification: ASYNC_NON_BLOCKING_FOR_NEXT_RELEASE
+legacy_status: DONE

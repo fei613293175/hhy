@@ -1,0 +1,17 @@
+schema: hhy.protected-paths/v5.0
+worker_denied:
+  - AGENTS.md
+  - governance/**
+  - tools/governance/**
+  - .codex/**
+  - .github/workflows/**
+  - .githooks-v5/**
+  - tests/governance_v5/**
+  - CURRENT_STATUS.yaml
+  - NEXT_TASK.yaml
+  - .continuity/**
+  - releases/*/TASKS.yaml
+  - design/effect-previews/**
+worker_git_denied: [commit, push, merge, rebase, reset, tag, checkout, switch]
+state_writer_roles: [ORCHESTRATOR, MIGRATION_OPERATOR]
+release_roles: [OWNER, RELEASE_OPERATOR]

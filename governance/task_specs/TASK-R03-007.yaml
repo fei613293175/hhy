@@ -1,0 +1,51 @@
+schema: hhy.task-spec/v5.0
+id: TASK-R03-007
+release: R03
+ordinal: 7
+title: 外部激活证据、Android回归APK与产物追溯
+kind: test_apk
+mode: worker
+source:
+  path: releases/R03/TASKS.yaml
+  original_id: TASK-R03-007
+requirements:
+- REQ-CONFIG-001
+- REQ-DOMAIN-001
+- REQ-STORAGE-001
+- REQ-SECRET-001
+- REQ-CONFIG-UX-001
+- REQ-APK-001
+depends_on:
+- TASK-R03-006
+objective: 完成短信、实名、支付、出款、存储的测试环境连接与脱敏证据；使用固定Staging签名构建回归APK，完成桌面、服务器、公网下载和项目所有者真机验收
+deliverables:
+- 外部激活清单、连接报告、SecretRef和证书指纹
+- DNS、TLS、服务健康三层状态和责任人
+- APK Commit、versionName、versionCode、签名指纹、四方SHA和桌面副本
+acceptance:
+- 每项外部依赖为VERIFIED或具备负责人、截止版本和阻断状态
+- 连接测试失败不得激活对应配置版本
+- APK机器交付PASS和项目所有者真机PASS分别记录；真机反馈前保持PENDING
+allowed_paths:
+- apps/android/**
+- artifacts/**
+- config/android-automation.yaml
+- docs/**
+- scripts/**
+- tests/android/**
+risks:
+- apk_identity
+- contract
+- database
+- funds
+- production
+- secrets
+- security
+- ui
+acceptance_commands:
+- python3 scripts/check_db_schema.py
+- python3 scripts/check_api_contract.py
+- python3 scripts/check_ui_tokens.py
+maximum_attempts: 3
+owner_verification: ASYNC_NON_BLOCKING_FOR_NEXT_RELEASE
+legacy_status: DONE

@@ -42,3 +42,6 @@ logs/
 !.continuity/runtime/.gitkeep
 artifacts/handoff-exports/
 artifacts/exports/
+governance/runtime/*
+!governance/runtime/.gitignore
+.governance-worktrees/

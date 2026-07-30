@@ -1,0 +1,48 @@
+schema: hhy.task-spec/v5.0
+id: TASK-R01-005
+release: R01
+ordinal: 5
+title: Design System与契约工程化专项测试与故障注入
+kind: quality
+mode: worker
+source:
+  path: releases/R01/TASKS.yaml
+  original_id: TASK-R01-005
+requirements:
+- REQ-UI-001
+- REQ-DESIGN-001
+- REQ-CONTRACT-001
+- REQ-APK-001
+- REQ-ARCH-001
+- REQ-DATA-001
+- REQ-EVENT-001
+- REQ-ADMIN-BASE-001
+- REQ-OBS-002
+depends_on:
+- TASK-R01-003
+- TASK-R01-004
+objective: 执行权威Manifest声明的27项测试，覆盖重复请求、并发、超时、消息重复和供应商异常，并逐项归档证据
+deliverables:
+- 测试报告和失败证据归档
+- 关键缺陷清零
+acceptance:
+- 无TODO/生产Mock
+- 代码、文档、测试、追踪同步更新
+- 测试报告和失败证据归档
+- 关键缺陷清零
+allowed_paths:
+- apps/**
+- catalogs/**
+- contracts/**
+- database/**
+- docs/**
+- packages/**
+- scripts/**
+- services/**
+- tests/**
+risks:
+- secrets
+acceptance_commands: []
+maximum_attempts: 3
+owner_verification: ASYNC_NON_BLOCKING_FOR_NEXT_RELEASE
+legacy_status: DONE

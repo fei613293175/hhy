@@ -1,0 +1,26 @@
+schema: hhy.gate-profiles/v5.0
+profiles:
+  task:
+    purpose: 当前原子任务的最小充分验证
+    may_modify_product: false
+  module:
+    purpose: 当前模块和当前 Release 集成验证
+    may_modify_product: false
+  freeze:
+    purpose: 冻结前最后一次允许发现并返回源码修复的问题
+    may_modify_product: false
+  test_apk:
+    purpose: 真实 Android 交互与测试 APK
+    may_modify_product: false
+  candidate:
+    purpose: 冻结 Commit 的完整测试、APK、模拟器与视觉证据
+    may_modify_product: false
+  machine_close:
+    purpose: 只读核对 Candidate 证据
+    may_modify_product: false
+  formal_release:
+    purpose: Owner、Tag、生产激活与回滚证据
+    may_modify_product: false
+hard_protections:
+  always: [secrets, security, funds]
+  routed: [database, contract, production, ui, shared_ui_foundation, apk_identity]

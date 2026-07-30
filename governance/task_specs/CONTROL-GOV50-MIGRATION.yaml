@@ -1,0 +1,30 @@
+schema: hhy.task-spec/v5.0
+id: CONTROL-GOV50-MIGRATION
+release: CONTROL
+ordinal: 0
+title: 安装并激活 Governance V5.0 控制面
+kind: control_migration
+mode: orchestrator
+source:
+  path: PACKAGE
+  original_id: null
+requirements: []
+depends_on: []
+objective: 以单一状态、有限重试、短会话 Worker 和独立 Gate 替换旧持续治理控制面。
+deliverables:
+- 治理安装提交
+- 迁移激活提交
+- 部署前验收报告
+acceptance:
+- 内部治理门禁全部通过
+- 唯一活动任务为 TASK-R14-RECOVERY-001
+allowed_paths: []
+risks:
+- secrets
+- security
+- production
+acceptance_commands:
+- python3 tools/governance/hhy_governance.py doctor --ci
+maximum_attempts: 3
+owner_verification: NOT_APPLICABLE
+legacy_status: NEW

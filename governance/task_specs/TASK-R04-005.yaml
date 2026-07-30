@@ -1,0 +1,43 @@
+schema: hhy.task-spec/v5.0
+id: TASK-R04-005
+release: R04
+ordinal: 5
+title: 三分区汇合、专项测试与故障注入
+kind: quality
+mode: worker
+source:
+  path: releases/R04/TASKS.yaml
+  original_id: TASK-R04-005
+requirements:
+- REQ-MEDIA-001
+- REQ-STORAGE-001
+- REQ-APK-001
+depends_on:
+- TASK-R04-002
+- TASK-R04-003
+- TASK-R04-004
+objective: 主控汇合存储、媒体API和Android分区，执行6项权威测试、契约/E2E、安全、并发、供应商故障与生成物漂移检查
+deliverables:
+- 6项权威测试、E2E、安全和故障注入报告
+- R2/OSS双适配、Scope隔离、迁移恢复和访问审计证据
+- 生成物漂移为零，关键缺陷清零
+acceptance:
+- STORY-R04-001和002全部验收条件通过
+- INTEGRATION门禁、数据库测试和Android模块测试全部PASS
+allowed_paths:
+- apps/**
+- catalogs/**
+- contracts/**
+- database/**
+- docs/**
+- packages/**
+- scripts/**
+- services/**
+- tests/**
+risks:
+- secrets
+- security
+acceptance_commands: []
+maximum_attempts: 3
+owner_verification: ASYNC_NON_BLOCKING_FOR_NEXT_RELEASE
+legacy_status: DONE

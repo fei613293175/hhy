@@ -1,0 +1,41 @@
+schema: hhy.task-spec/v5.0
+id: TASK-R04-002
+release: R04
+ordinal: 2
+title: 纵向批次A：存储Scope、R2/OSS适配与媒体数据基线
+kind: database
+mode: worker
+source:
+  path: releases/R04/TASKS.yaml
+  original_id: TASK-R04-002
+requirements:
+- REQ-MEDIA-001
+- REQ-STORAGE-001
+- REQ-APK-001
+depends_on:
+- TASK-R04-001
+objective: 完成媒体迁移、状态不变量、Scope隔离、公开/私有桶策略、签名URL、迁移恢复、访问审计以及R2/OSS适配器合同
+deliverables:
+- Flyway空库、升级库、回滚和不变量证据
+- R2/OSS合同测试、Scope隔离、私有URL TTL、迁移游标恢复证据
+- 供应商超时、重试和恢复测试
+acceptance:
+- 无TODO/生产Mock或跨Scope数据泄漏
+- 私有预览、迁移和审计不需要新增冻结外部API；若需要则先走CR
+- MODULE门禁通过
+allowed_paths:
+- catalogs/**
+- contracts/**
+- database/**
+- docs/**
+- services/backend/**
+- tests/**
+risks:
+- database
+- production
+- secrets
+acceptance_commands:
+- python3 scripts/check_db_schema.py
+maximum_attempts: 3
+owner_verification: ASYNC_NON_BLOCKING_FOR_NEXT_RELEASE
+legacy_status: DONE

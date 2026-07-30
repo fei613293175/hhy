@@ -1,0 +1,9 @@
+#!/usr/bin/env sh
+set -eu
+ROOT=$(git rev-parse --show-toplevel)
+ROLE=${HHY_GOVERNANCE_ROLE:-HUMAN}
+if [ "$ROLE" = "WORKER" ]; then
+  echo "Governance V5: Worker cannot commit." >&2
+  exit 1
+fi
+python3 "$ROOT/tools/governance/hhy_governance.py" doctor >/dev/null

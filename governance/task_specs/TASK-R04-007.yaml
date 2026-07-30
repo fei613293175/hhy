@@ -1,0 +1,40 @@
+schema: hhy.task-spec/v5.0
+id: TASK-R04-007
+release: R04
+ordinal: 7
+title: 媒体与多对象存储Android测试APK与产物追溯
+kind: test_apk
+mode: worker
+source:
+  path: releases/R04/TASKS.yaml
+  original_id: TASK-R04-007
+requirements:
+- REQ-MEDIA-001
+- REQ-STORAGE-001
+- REQ-APK-001
+depends_on:
+- TASK-R04-006
+objective: 使用固定Staging签名和单调versionCode构建，完成桌面、仓库忽略副本、服务器与公网下载四方SHA校验并等待项目所有者真机验收
+deliverables:
+- APK可下载、可安装且桌面副本保留
+- Commit、versionName、versionCode、签名指纹、大小、SHA256和测试结果齐全
+acceptance:
+- 机器交付PASS不能替代项目所有者真机PASS
+- 真机结论未收到前owner_physical_test保持PENDING
+allowed_paths:
+- apps/android/**
+- artifacts/**
+- config/android-automation.yaml
+- docs/**
+- scripts/**
+- tests/android/**
+risks:
+- apk_identity
+- production
+- secrets
+- ui
+acceptance_commands:
+- python3 scripts/check_ui_tokens.py
+maximum_attempts: 3
+owner_verification: ASYNC_NON_BLOCKING_FOR_NEXT_RELEASE
+legacy_status: DONE

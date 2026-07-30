@@ -1,0 +1,45 @@
+schema: hhy.task-spec/v5.0
+id: TASK-R02-005
+release: R02
+ordinal: 5
+title: 纵向批次D：H5邀请注册闭环
+kind: quality
+mode: worker
+source:
+  path: releases/R02/TASKS.yaml
+  original_id: TASK-R02-005
+requirements:
+- REQ-AUTH-001
+- REQ-AUTH-002
+- REQ-AUTH-003
+- REQ-AUTH-004
+- REQ-AUTH-005
+- REQ-APK-001
+depends_on:
+- TASK-R02-001
+objective: 同一批次完成邀请配置、安全验证、短信和注册所需数据、4个调用链端点、H5邀请注册页面和自动化测试
+deliverables:
+- STORY-R02-008的数据、API、H5和测试真实闭环
+- 邀请码、安全验证、短信供应商异常、幂等和成功跳转证据
+acceptance:
+- 无TODO/生产Mock
+- 代码、文档、测试、追踪同步更新
+- H5-013加载、拒绝、离线、重试和成功导航有证据
+- MODULE门禁通过并可独立合入主控分支
+allowed_paths:
+- apps/**
+- catalogs/**
+- contracts/**
+- database/**
+- docs/**
+- packages/**
+- scripts/**
+- services/**
+- tests/**
+risks:
+- secrets
+- security
+acceptance_commands: []
+maximum_attempts: 3
+owner_verification: ASYNC_NON_BLOCKING_FOR_NEXT_RELEASE
+legacy_status: DONE

@@ -1,0 +1,41 @@
+schema: hhy.task-spec/v5.0
+id: TASK-R04-003
+release: R04
+ordinal: 3
+title: 纵向批次B：媒体上传、完成与删除API闭环
+kind: backend_contract
+mode: worker
+source:
+  path: releases/R04/TASKS.yaml
+  original_id: TASK-R04-003
+requirements:
+- REQ-MEDIA-001
+- REQ-STORAGE-001
+- REQ-APK-001
+depends_on:
+- TASK-R04-002
+objective: 完成创建上传会话、直传/分片完成、私有readUrl和未绑定媒体删除，验证owner、purpose、大小、SHA、过期、幂等和审计
+deliverables:
+- 三个冻结operationId的数据、领域、API和测试闭环
+- 越权、过期、哈希不符、重复完成、重复删除和审计证据
+acceptance:
+- 控制器仅编排应用服务，跨模块副作用使用Outbox
+- 不手写重复DTO，不新增未批准API
+- MODULE门禁通过
+allowed_paths:
+- catalogs/**
+- contracts/**
+- docs/**
+- packages/api-client/**
+- packages/domain-types/**
+- services/backend/**
+- tests/**
+risks:
+- contract
+- secrets
+- security
+acceptance_commands:
+- python3 scripts/check_api_contract.py
+maximum_attempts: 3
+owner_verification: ASYNC_NON_BLOCKING_FOR_NEXT_RELEASE
+legacy_status: DONE

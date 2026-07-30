@@ -1,0 +1,47 @@
+schema: hhy.task-spec/v5.0
+id: TASK-R02-004
+release: R02
+ordinal: 4
+title: 纵向批次C：后台用户列表、详情与管控闭环
+kind: client_ui
+mode: worker
+source:
+  path: releases/R02/TASKS.yaml
+  original_id: TASK-R02-004
+requirements:
+- REQ-AUTH-001
+- REQ-AUTH-002
+- REQ-AUTH-003
+- REQ-AUTH-004
+- REQ-AUTH-005
+- REQ-APK-001
+depends_on:
+- TASK-R02-001
+objective: 同一批次完成用户列表/详情、限制、冻结、解冻和强制退出所需数据、7个后台新增端点、后台页面和自动化测试
+deliverables:
+- STORY-R02-001与STORY-R02-002的数据、API、后台和测试真实闭环
+- ADM-USER-001与ADM-USER-002绑定页面及后台运营规格
+- 禁止页面级手写重复DTO
+- 全部动作绑定生成API类型
+acceptance:
+- 两个后台页面故事验收条件通过
+- 加载、空、局部失败、无权限、404、离线、冲突和成功导航均有证据
+- MODULE门禁通过并可独立合入主控分支
+allowed_paths:
+- apps/admin-web/**
+- apps/android/**
+- apps/h5/**
+- catalogs/**
+- design/**
+- docs/**
+- packages/**
+- tests/**
+risks:
+- secrets
+- security
+- ui
+acceptance_commands:
+- python3 scripts/check_ui_tokens.py
+maximum_attempts: 3
+owner_verification: ASYNC_NON_BLOCKING_FOR_NEXT_RELEASE
+legacy_status: DONE

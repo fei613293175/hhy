@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "hhy.program-plan/v5.0",
+  "type": "object",
+  "required": [
+    "schema",
+    "release_order",
+    "task_count",
+    "maximum_attempts_per_task"
+  ],
+  "properties": {
+    "schema": {
+      "const": "hhy.program-plan/v5.0"
+    },
+    "maximum_attempts_per_task": {
+      "const": 3
+    },
+    "release_order": {
+      "type": "array"
+    },
+    "task_count": {
+      "type": "integer"
+    }
+  }
+}

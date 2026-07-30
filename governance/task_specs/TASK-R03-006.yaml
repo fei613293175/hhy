@@ -1,0 +1,43 @@
+schema: hhy.task-spec/v5.0
+id: TASK-R03-006
+release: R03
+ordinal: 6
+title: 可观测性、Staging部署与回滚演练
+kind: staging_observability
+mode: worker
+source:
+  path: releases/R03/TASKS.yaml
+  original_id: TASK-R03-006
+requirements:
+- REQ-CONFIG-001
+- REQ-DOMAIN-001
+- REQ-STORAGE-001
+- REQ-SECRET-001
+- REQ-CONFIG-UX-001
+- REQ-APK-001
+depends_on:
+- TASK-R03-005
+objective: 部署Staging，验证结构化日志、TraceId、RED指标、连接测试指标、业务告警、配置激活和回滚演练
+deliverables:
+- 运行手册与回滚演练证据
+- 验收矩阵自动化条目签字
+acceptance:
+- 日志不包含秘密、证书原文或敏感供应商响应
+- Staging与INTEGRATION门禁通过
+allowed_paths:
+- apps/**
+- catalogs/**
+- config/**
+- docs/**
+- infra/**
+- scripts/**
+- services/**
+- tests/**
+risks:
+- production
+- secrets
+acceptance_commands:
+- python3 scripts/check_r03_observability.py
+maximum_attempts: 3
+owner_verification: ASYNC_NON_BLOCKING_FOR_NEXT_RELEASE
+legacy_status: DONE

@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "hhy.production-activation-evidence/v5.0",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "schema",
+    "status",
+    "release",
+    "frozen_commit",
+    "verified_at",
+    "evidence"
+  ],
+  "properties": {
+    "schema": {
+      "const": "hhy.production-activation-evidence/v5.0"
+    },
+    "status": {
+      "const": "PASS"
+    },
+    "release": {
+      "type": "string",
+      "pattern": "^R(?:0[1-9]|[12][0-9]|3[0-2])$"
+    },
+    "frozen_commit": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{40}$"
+    },
+    "verified_at": {
+      "type": "string",
+      "minLength": 1
+    },
+    "evidence": {
+      "type": "string",
+      "minLength": 1
+    }
+  }
+}
