@@ -1,0 +1,56 @@
+protocol_version: '1.0'
+cr_id: CR-0510
+title: 批准并轻量晋升R14首版视觉基线
+status: IMPLEMENTED
+created_at: '2026-07-30T03:30:03Z'
+updated_at: '2026-07-30T03:32:07Z'
+requester_actor_id: codex-r14-attempt20-visual-review
+approver_actor_id: codex-r14-baseline-authorizer
+task_id: TASK-R14-008
+session_id: SES-20260729T161557Z-6FCE6ACA
+user_request: 项目所有者要求所有版本截图由AI自行判断是否合格，不中断开发等待人工逐图确认。
+reason: Run 30510422149的候选请求、编译、Lint、单测、APK、真实OIDC登录、完整R14模拟器旅程、JUnit与目标进程日志全部成功；AI逐图确认安全区、信息层级、已发送未已读、拉黑重进禁发与解除拉黑、列表长按删除菜单均合格，唯一缺口为R14首版视觉基线。
+original_rule: R14候选四页已通过真实OIDC认证模拟器旅程并由AI逐图审核合格，但首个Release视觉基线不存在时机器状态只能为BASELINE_REVIEW_REQUIRED，尚不能生成可交付PASS候选。
+new_rule: 仅将Run 30510422149中由AI逐图审核合格的四张原始截图固化为R14首版视觉基线；批准清单绑定源Commit、Run、Artifact、Artifact SHA-256和逐图SHA-256；晋升只复核同一Run既有候选证据，不重建APK、不重新编译、不再次启动模拟器。
+impact_summary: 新增R14四张不可变视觉基线和唯一审批清单，触发轻量GitHub晋升；不修改产品代码、API、数据库、候选APK、业务断言或模拟器结果。
+impact:
+  files:
+  - tests/android/visual-baselines/R14/01-r14-conversations.png
+  - tests/android/visual-baselines/R14/02-r14-sent.png
+  - tests/android/visual-baselines/R14/03-r14-blocked-reentry.png
+  - tests/android/visual-baselines/R14/04-r14-long-press-menu.png
+  - tests/android/visual-baselines/R14/APPROVAL.yaml
+  pages:
+  - SCR-CHAT-001
+  - SCR-CHAT-002
+  - SHEET-CHAT-001
+  - SHEET-CHAT-002
+  apis: []
+  database: []
+  configuration: []
+  ledger: []
+  tests:
+  - android_ci_gate promote R14 Run 30510422149 existing evidence
+  releases:
+  - R14
+  migration_and_compatibility: 无运行时迁移；后续R14截图与此基线比较，源Run、源Commit、源APK和逐图哈希保持不可变；晋升失败只能修复证据绑定或治理，不得重跑模拟器。
+user_confirmation: 项目所有者已长期授权AI独立逐图验收并持续开发
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-30T03:30:15Z'
+  note: 同一Run四图和机器证据已独立复核：列表安全区与导航一致，发送消息明确为已发送而非已读，拉黑重进隐藏输入框且菜单为解除拉黑，列表长按菜单仅提供删除会话并保留取消；无状态栏重叠、技术字段、虚构功能或转场残层。批准轻量晋升，不重建APK或重跑模拟器。
+machine_record: .continuity/change_requests/CR-0510.yaml
+document: docs/03-continuity/change-requests/CR-0510-批准并轻量晋升R14首版视觉基线.md
+decision_log:
+- at: '2026-07-30T03:30:21Z'
+  actor_id: codex-r14-attempt20-visual-review
+  status: IMPLEMENTING
+  note: 开始固化Run 30510422149四张已审合格原始截图与不可变审批清单；只执行既有证据轻量晋升。
+  session_id: SES-20260729T161557Z-6FCE6ACA
+- at: '2026-07-30T03:32:07Z'
+  actor_id: codex-r14-attempt20-visual-review
+  status: IMPLEMENTED
+  note: Run 30510422149四张原图已与Commit、Artifact、Artifact SHA-256及逐图SHA-256精确绑定；本地android_ci_gate promote为PASS，35项Android CI治理测试通过，未重建APK或重跑模拟器。
+  session_id: SES-20260729T161557Z-6FCE6ACA
+session_ids:
+- SES-20260729T161557Z-6FCE6ACA

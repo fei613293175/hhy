@@ -1,7 +1,7 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-30T03:01:23Z
-- Context Hash：`d1a2b3d2651f2c4dba2e9063eea561a2c380f198ecb536eeb305922e99ef4d8a`
+- 生成时间：2026-07-30T03:32:17Z
+- Context Hash：`5dc5b9ac8ab57cddf0607e2801e41622ea23ea6edeb0d4b8e6873c9d00b3fd82`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 规则就绪：`PASS`（`HASHED_CONTEXT_MANIFEST`）
@@ -187,7 +187,7 @@ blocked_tasks:
 - TASK-R16-007
 - TASK-R16-008
 next_task: TASK-R14-008
-updated_at: '2026-07-30T03:01:19Z'
+updated_at: '2026-07-30T03:32:13Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -222,15 +222,15 @@ continuity:
   active_session_id: SES-20260729T161557Z-6FCE6ACA
   actor_id: codex-r14-resume-20260730
   story_id: STORY-R14-004
-  lease_expires_at: '2026-07-30T07:01:19Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260729T161557Z-6FCE6ACA/0054.yaml
-  project_fingerprint: af65d666a14eb66fc52549144691f21e79542361e97cdec7854f9b8e5652fad7
+  lease_expires_at: '2026-07-30T07:32:13Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260729T161557Z-6FCE6ACA/0055.yaml
+  project_fingerprint: fb394f098fbd8dccc2d0685b91f8e9a4a2ed5723ebd667266a122e038ffd34bd
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: 6218f155716ec4dceda5c0305e3bb0af8ab036c5421327d5ce935e05f908762a
-    generated_at: '2026-07-30T03:00:03Z'
+    context_hash: d1a2b3d2651f2c4dba2e9063eea561a2c380f198ecb536eeb305922e99ef4d8a
+    generated_at: '2026-07-30T03:01:23Z'
   handoff_bundle: null
 ```
 
@@ -428,7 +428,7 @@ task_id: TASK-R14-008
 story_id: STORY-R14-004
 goal: 异常恢复 SES-20260728T220632Z-FE7D82FD：一对一聊天核心版本关闭与无状态交接
 started_at: '2026-07-29T16:15:57Z'
-updated_at: '2026-07-30T03:01:19Z'
+updated_at: '2026-07-30T03:32:13Z'
 takeover_of: SES-20260728T220632Z-FE7D82FD
 change_requests:
 - CR-0475
@@ -466,6 +466,7 @@ change_requests:
 - CR-0507
 - CR-0508
 - CR-0509
+- CR-0510
 scope:
   allowed_paths:
   - apps/**
@@ -525,12 +526,12 @@ git:
   initial_worktree_state: DIRTY_TAKEOVER
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-30T03:01:19Z'
-  expires_at: '2026-07-30T07:01:19Z'
-checkpoint_sequence: 54
-latest_checkpoint: .continuity/checkpoints/SES-20260729T161557Z-6FCE6ACA/0054.yaml
+  renewed_at: '2026-07-30T03:32:13Z'
+  expires_at: '2026-07-30T07:32:13Z'
+checkpoint_sequence: 55
+latest_checkpoint: .continuity/checkpoints/SES-20260729T161557Z-6FCE6ACA/0055.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260729T161557Z-6FCE6ACA.md
-next_step: 构建当前最终HEAD的精确候选后端到新端口，受控切流后执行push-preflight并只推送一次触发Attempt20。
+next_step: 提交R14视觉基线与CR-0510治理记录，推送触发Android Visual Baseline Promotion；审核轻量晋升PASS产物后记录最终候选证据并进入R14交付收尾。
 context_pack: THIS_CONTEXT_PACK
 handoff_bundle: null
 closure: null
@@ -538,55 +539,72 @@ parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 最终HEAD、候选镜像标签、Nginx切流与单次推送必须保持同一身份链。
+  reason: 视觉基线提交必须作为唯一审批变更触发轻量晋升，提交与工作流身份严格串行。
 ```
 
 ## 最新检查点
 
 ```yaml
 protocol_version: '1.0'
-checkpoint_id: CP-SES-20260729T161557Z-6FCE6ACA-0054
+checkpoint_id: CP-SES-20260729T161557Z-6FCE6ACA-0055
 session_id: SES-20260729T161557Z-6FCE6ACA
 task_id: TASK-R14-008
 story_id: STORY-R14-004
-sequence: 54
-created_at: '2026-07-30T03:01:18Z'
-summary: CR-0509已绑定实现提交e8ac4698；Attempt20单次候选请求、完整修复哈希和错误身份拒绝已通过治理验证。
-next_step: 构建当前最终HEAD的精确候选后端到新端口，受控切流后执行push-preflight并只推送一次触发Attempt20。
+sequence: 55
+created_at: '2026-07-30T03:32:12Z'
+summary: Run 30510422149完整R14模拟器候选成功，AI四图审核合格；CR-0510已固化R14首版基线且本地轻量晋升PASS。
+next_step: 提交R14视觉基线与CR-0510治理记录，推送触发Android Visual Baseline Promotion；审核轻量晋升PASS产物后记录最终候选证据并进入R14交付收尾。
 blockers: []
 decisions:
-- 同一候选后端必须绑定最终推送Commit；切流保留Attempt19候选作为回滚，Attempt20通过前不清理。
+- 基线只使用同一Run原图与哈希；轻量晋升禁止重编译、重建APK或重跑模拟器，源候选功能与日志证据保持不可变。
 note: ''
 tests:
+- name: github_candidate_run
+  result: PASS
+  evidence: Run 30510422149 workflow success
+  note: 编译、Lint、单测、APK、模拟器、候选资格均成功
+- name: r14_instrumentation
+  result: PASS
+  evidence: 1 test, 0 skipped, 0 failed; BUILD SUCCESSFUL
+  note: 完整业务旅程成功且无目标崩溃/ANR
+- name: ai_visual_review
+  result: PASS
+  evidence: four source screenshots reviewed
+  note: 安全区、已发送、拉黑重进、解除拉黑、长按删除均合格
+- name: android_baseline_promote_local
+  result: PASS
+  evidence: hhy.android-ci-candidate-promotion/v1 status PASS
+  note: 同一Run轻量晋升通过
 - name: android_ci_gate_unit
   result: PASS
   evidence: 35 tests passed
-  note: Attempt20治理回归通过
-- name: android_candidate_request
-  result: PASS
-  evidence: request020 exact identity
-  note: 完整修复Commit匹配通过
-- name: continuity_gate
-  result: PASS
-  evidence: check_v123_continuity.py
-  note: 授权实现提交前连续性通过
+  note: 治理回归通过
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: e8ac4698a5219d2c9170848a54baa88f44109b0c
+  head: 89ccaf45cbecd0a5412e7d99057ee0036cd8f181
   upstream: origin/task/TASK-R03-001
-  ahead: 3
+  ahead: 0
   behind: 0
   dirty: true
   status_porcelain:
   - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
   - ' M .continuity/EVENT_LOG.jsonl'
   - ' M .continuity/STATE.yaml'
-  - ' M .continuity/change_requests/CR-0509.yaml'
+  - ' M .continuity/sessions/SES-20260729T161557Z-6FCE6ACA.yaml'
+  - ' M artifacts/validation/project-doctor-v1.2.3.json'
   - ' M catalogs/change_request_index.csv'
   - ' M catalogs/session_index.csv'
-  - ' M docs/03-continuity/change-requests/CR-0509-授权R14-App模块范围修复唯一Attempt20候选.md'
+  - ?? .continuity/change_requests/CR-0510.yaml
+  - ?? docs/03-continuity/change-requests/CR-0510-批准并轻量晋升R14首版视觉基线.md
+  - ?? tests/android/visual-baselines/R14/01-r14-conversations.png
+  - ?? tests/android/visual-baselines/R14/02-r14-sent.png
+  - ?? tests/android/visual-baselines/R14/03-r14-blocked-reentry.png
+  - ?? tests/android/visual-baselines/R14/04-r14-long-press-menu.png
+  - ?? tests/android/visual-baselines/R14/APPROVAL.yaml
   recent_commits:
+  - "89ccaf45cbecd0a5412e7d99057ee0036cd8f181\t2026-07-30T11:01:34+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(r14): bind CR-0509 implementation\
+    \ record"
   - "e8ac4698a5219d2c9170848a54baa88f44109b0c\t2026-07-30T11:00:35+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(r14): authorize candidate\
     \ attempt 20"
   - "8758257de2944dda540f87fe70d2466f63939a7a\t2026-07-30T10:56:37+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(r14): bind CR-0508 implementation\
@@ -601,10 +619,8 @@ git:
     \ record"
   - "cf0412194af17e3a5562ba28b6436b4bf3d9e678\t2026-07-30T10:23:55+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] test(r14): restore filtered\
     \ delete precondition"
-  - "19c0209e9851b6ad3ef451d783180ba28588a652\t2026-07-30T09:53:00+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(r14): bind attempt18\
-    \ authorization record"
 project_fingerprint:
-  sha256: af65d666a14eb66fc52549144691f21e79542361e97cdec7854f9b8e5652fad7
+  sha256: fb394f098fbd8dccc2d0685b91f8e9a4a2ed5723ebd667266a122e038ffd34bd
   files:
   - .github/workflows/android-quality-gate.yml
   - CHANGELOG.md
@@ -658,15 +674,21 @@ project_fingerprint:
   - docs/03-continuity/change-requests/CR-0507-授权R14删除筛选前置唯一Attempt19候选.md
   - docs/03-continuity/change-requests/CR-0508-限定Android候选旅程到App模块.md
   - docs/03-continuity/change-requests/CR-0509-授权R14-App模块范围修复唯一Attempt20候选.md
+  - docs/03-continuity/change-requests/CR-0510-批准并轻量晋升R14首版视觉基线.md
   - scripts/android_ci_gate.py
   - scripts/prepare_r14_candidate_fixture.sh
   - scripts/run_android_emulator_gate.sh
   - scripts/switch_android_candidate_route.sh
+  - tests/android/visual-baselines/R14/01-r14-conversations.png
+  - tests/android/visual-baselines/R14/02-r14-sent.png
+  - tests/android/visual-baselines/R14/03-r14-blocked-reentry.png
+  - tests/android/visual-baselines/R14/04-r14-long-press-menu.png
+  - tests/android/visual-baselines/R14/APPROVAL.yaml
   - tests/test_android_candidate_request.py
   - tests/test_android_candidate_route.py
   - tests/test_android_ci_gate.py
   - tests/test_r13_candidate.py
-  file_count: 60
+  file_count: 66
   payload:
     base_commit: 0a100b86f63829ef38ede5571d3e511219e67769
     files:
@@ -878,6 +900,10 @@ project_fingerprint:
       state: FILE
       size: 3404
       sha256: ac9c6a7defb30dca8e7701dfd0cfbd5273f7cccb19b5bee145772277ec161fb9
+    - path: docs/03-continuity/change-requests/CR-0510-批准并轻量晋升R14首版视觉基线.md
+      state: FILE
+      size: 3755
+      sha256: 7640cd4aa00c3c2eb9e6629adb7ec19c539ddd13e10bb7acce4699b672345dba
     - path: scripts/android_ci_gate.py
       state: FILE
       size: 39771
@@ -894,6 +920,26 @@ project_fingerprint:
       state: FILE
       size: 11538
       sha256: 0948944b10a9c7422930c28f868e3548289fe1d218957ce50f01fd25ca5c4b9f
+    - path: tests/android/visual-baselines/R14/01-r14-conversations.png
+      state: FILE
+      size: 73199
+      sha256: bfd9ecb177349f40c8b8a38bba4bd35e44b268c25ddc142a960e9d6279886f55
+    - path: tests/android/visual-baselines/R14/02-r14-sent.png
+      state: FILE
+      size: 162375
+      sha256: 24c53cde1b03efbce187c4ce4fc1b17d3c592316fe92dd1c0cb6289c257f594a
+    - path: tests/android/visual-baselines/R14/03-r14-blocked-reentry.png
+      state: FILE
+      size: 106872
+      sha256: 5de218a8f1a1e42b18cd9e4d2da3f58c727fa43831b9af6e69066aa437b21627
+    - path: tests/android/visual-baselines/R14/04-r14-long-press-menu.png
+      state: FILE
+      size: 81064
+      sha256: 4a3fd52e9f3dbbd7dd010ef13f98f59bbe18ec840bffec8beae73bfa88218ed6
+    - path: tests/android/visual-baselines/R14/APPROVAL.yaml
+      state: FILE
+      size: 1289
+      sha256: 6af1cc041247322b1a5fd4200c0336ac34468afcc3eadda0fd36802d26244bf0
     - path: tests/test_android_candidate_request.py
       state: FILE
       size: 63132
@@ -984,7 +1030,13 @@ change_classification:
   - docs/03-continuity/change-requests/CR-0507-授权R14删除筛选前置唯一Attempt19候选.md
   - docs/03-continuity/change-requests/CR-0508-限定Android候选旅程到App模块.md
   - docs/03-continuity/change-requests/CR-0509-授权R14-App模块范围修复唯一Attempt20候选.md
+  - docs/03-continuity/change-requests/CR-0510-批准并轻量晋升R14首版视觉基线.md
   tests:
+  - tests/android/visual-baselines/R14/01-r14-conversations.png
+  - tests/android/visual-baselines/R14/02-r14-sent.png
+  - tests/android/visual-baselines/R14/03-r14-blocked-reentry.png
+  - tests/android/visual-baselines/R14/04-r14-long-press-menu.png
+  - tests/android/visual-baselines/R14/APPROVAL.yaml
   - tests/test_android_candidate_request.py
   - tests/test_android_candidate_route.py
   - tests/test_android_ci_gate.py
@@ -1032,6 +1084,7 @@ change_requests:
 - CR-0507
 - CR-0508
 - CR-0509
+- CR-0510
 scope:
   allowed_paths:
   - apps/**
@@ -1086,8 +1139,8 @@ parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 最终HEAD、候选镜像标签、Nginx切流与单次推送必须保持同一身份链。
-event_hash: 32ba70db4d19958034c8ee715415719786d8d3709ff3bc5196e4154f2f9285fd
+  reason: 视觉基线提交必须作为唯一审批变更触发轻量晋升，提交与工作流身份严格串行。
+event_hash: 125fd42ca9d24ddb756c67795f77b17bce04278cbf4bab21a106c6540150e5ce
 ```
 
 ## 接续状态与事件头
@@ -1099,8 +1152,8 @@ active_session_id: SES-20260729T161557Z-6FCE6ACA
 last_session_id: SES-20260728T205917Z-52E3B6B1
 last_session_result: COMPLETED
 last_closure_checkpoint_id: CP-SES-20260728T205917Z-52E3B6B1-0008
-event_count: 4737
-event_head_hash: 32ba70db4d19958034c8ee715415719786d8d3709ff3bc5196e4154f2f9285fd
+event_count: 4743
+event_head_hash: 125fd42ca9d24ddb756c67795f77b17bce04278cbf4bab21a106c6540150e5ce
 event_chain_valid: true
 ```
 
@@ -1223,9 +1276,9 @@ recent_sessions: - session_id: SES-20260728T091447Z-9A245BB4
   started_at: '2026-07-29T16:15:57Z'
   record: .continuity/sessions/SES-20260729T161557Z-6FCE6ACA.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260729T161557Z-6FCE6ACA.md
-  updated_at: '2026-07-30T03:01:19Z'
+  updated_at: '2026-07-30T03:32:13Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260729T161557Z-6FCE6ACA/0054.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260729T161557Z-6FCE6ACA/0055.yaml
   handoff_bundle: null
 task_claims: - claim_id: CLM-A470E7430D21
   session_id: SES-20260726T123133Z-63E93B88
@@ -2177,9 +2230,9 @@ recent_task_transitions: - transition_id: TRN-005608E4C9E4
 ```yaml
 initialized: true
 branch: task/TASK-R03-001
-head: e8ac4698a5219d2c9170848a54baa88f44109b0c
+head: 89ccaf45cbecd0a5412e7d99057ee0036cd8f181
 upstream: origin/task/TASK-R03-001
-ahead: 3
+ahead: 0
 behind: 0
 dirty: true
 status_porcelain:
@@ -2188,15 +2241,23 @@ status_porcelain:
 - ' M .continuity/EVENT_LOG.jsonl'
 - ' M .continuity/SESSION_INDEX.yaml'
 - ' M .continuity/STATE.yaml'
-- ' M .continuity/change_requests/CR-0509.yaml'
 - ' M .continuity/sessions/SES-20260729T161557Z-6FCE6ACA.yaml'
 - ' M CURRENT_STATUS.yaml'
+- ' M artifacts/validation/project-doctor-v1.2.3.json'
 - ' M catalogs/change_request_index.csv'
 - ' M catalogs/session_index.csv'
-- ' M docs/03-continuity/change-requests/CR-0509-授权R14-App模块范围修复唯一Attempt20候选.md'
 - ' M docs/03-continuity/sessions/2026-07/SES-20260729T161557Z-6FCE6ACA.md'
-- ?? .continuity/checkpoints/SES-20260729T161557Z-6FCE6ACA/0054.yaml
+- ?? .continuity/change_requests/CR-0510.yaml
+- ?? .continuity/checkpoints/SES-20260729T161557Z-6FCE6ACA/0055.yaml
+- ?? docs/03-continuity/change-requests/CR-0510-批准并轻量晋升R14首版视觉基线.md
+- ?? tests/android/visual-baselines/R14/01-r14-conversations.png
+- ?? tests/android/visual-baselines/R14/02-r14-sent.png
+- ?? tests/android/visual-baselines/R14/03-r14-blocked-reentry.png
+- ?? tests/android/visual-baselines/R14/04-r14-long-press-menu.png
+- ?? tests/android/visual-baselines/R14/APPROVAL.yaml
 recent_commits:
+- "89ccaf45cbecd0a5412e7d99057ee0036cd8f181\t2026-07-30T11:01:34+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(r14): bind CR-0509 implementation\
+  \ record"
 - "e8ac4698a5219d2c9170848a54baa88f44109b0c\t2026-07-30T11:00:35+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(r14): authorize candidate\
   \ attempt 20"
 - "8758257de2944dda540f87fe70d2466f63939a7a\t2026-07-30T10:56:37+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(r14): bind CR-0508 implementation\
@@ -2211,14 +2272,12 @@ recent_commits:
   \ record"
 - "cf0412194af17e3a5562ba28b6436b4bf3d9e678\t2026-07-30T10:23:55+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] test(r14): restore filtered\
   \ delete precondition"
-- "19c0209e9851b6ad3ef451d783180ba28588a652\t2026-07-30T09:53:00+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(r14): bind attempt18 authorization\
-  \ record"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`af65d666a14eb66fc52549144691f21e79542361e97cdec7854f9b8e5652fad7`
-- 文件数：60
+- 指纹：`fb394f098fbd8dccc2d0685b91f8e9a4a2ed5723ebd667266a122e038ffd34bd`
+- 文件数：66
 
 - `.github/workflows/android-quality-gate.yml`
 - `CHANGELOG.md`
@@ -2272,10 +2331,16 @@ recent_commits:
 - `docs/03-continuity/change-requests/CR-0507-授权R14删除筛选前置唯一Attempt19候选.md`
 - `docs/03-continuity/change-requests/CR-0508-限定Android候选旅程到App模块.md`
 - `docs/03-continuity/change-requests/CR-0509-授权R14-App模块范围修复唯一Attempt20候选.md`
+- `docs/03-continuity/change-requests/CR-0510-批准并轻量晋升R14首版视觉基线.md`
 - `scripts/android_ci_gate.py`
 - `scripts/prepare_r14_candidate_fixture.sh`
 - `scripts/run_android_emulator_gate.sh`
 - `scripts/switch_android_candidate_route.sh`
+- `tests/android/visual-baselines/R14/01-r14-conversations.png`
+- `tests/android/visual-baselines/R14/02-r14-sent.png`
+- `tests/android/visual-baselines/R14/03-r14-blocked-reentry.png`
+- `tests/android/visual-baselines/R14/04-r14-long-press-menu.png`
+- `tests/android/visual-baselines/R14/APPROVAL.yaml`
 - `tests/test_android_candidate_request.py`
 - `tests/test_android_candidate_route.py`
 - `tests/test_android_ci_gate.py`
@@ -17426,13 +17491,69 @@ PARALLEL_EXECUTION_PLAN.yaml:
   - SES-20260729T161557Z-6FCE6ACA
   implementation_commits:
   - e8ac4698a5219d2c9170848a54baa88f44109b0c
+- protocol_version: '1.0'
+  cr_id: CR-0510
+  title: 批准并轻量晋升R14首版视觉基线
+  status: IMPLEMENTED
+  created_at: '2026-07-30T03:30:03Z'
+  updated_at: '2026-07-30T03:32:07Z'
+  requester_actor_id: codex-r14-attempt20-visual-review
+  approver_actor_id: codex-r14-baseline-authorizer
+  task_id: TASK-R14-008
+  session_id: SES-20260729T161557Z-6FCE6ACA
+  user_request: 项目所有者要求所有版本截图由AI自行判断是否合格，不中断开发等待人工逐图确认。
+  reason: Run 30510422149的候选请求、编译、Lint、单测、APK、真实OIDC登录、完整R14模拟器旅程、JUnit与目标进程日志全部成功；AI逐图确认安全区、信息层级、已发送未已读、拉黑重进禁发与解除拉黑、列表长按删除菜单均合格，唯一缺口为R14首版视觉基线。
+  original_rule: R14候选四页已通过真实OIDC认证模拟器旅程并由AI逐图审核合格，但首个Release视觉基线不存在时机器状态只能为BASELINE_REVIEW_REQUIRED，尚不能生成可交付PASS候选。
+  new_rule: 仅将Run 30510422149中由AI逐图审核合格的四张原始截图固化为R14首版视觉基线；批准清单绑定源Commit、Run、Artifact、Artifact SHA-256和逐图SHA-256；晋升只复核同一Run既有候选证据，不重建APK、不重新编译、不再次启动模拟器。
+  impact_summary: 新增R14四张不可变视觉基线和唯一审批清单，触发轻量GitHub晋升；不修改产品代码、API、数据库、候选APK、业务断言或模拟器结果。
+  impact:
+    files:
+    - tests/android/visual-baselines/R14/01-r14-conversations.png
+    - tests/android/visual-baselines/R14/02-r14-sent.png
+    - tests/android/visual-baselines/R14/03-r14-blocked-reentry.png
+    - tests/android/visual-baselines/R14/04-r14-long-press-menu.png
+    - tests/android/visual-baselines/R14/APPROVAL.yaml
+    pages:
+    - SCR-CHAT-001
+    - SCR-CHAT-002
+    - SHEET-CHAT-001
+    - SHEET-CHAT-002
+    apis: []
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - android_ci_gate promote R14 Run 30510422149 existing evidence
+    releases:
+    - R14
+    migration_and_compatibility: 无运行时迁移；后续R14截图与此基线比较，源Run、源Commit、源APK和逐图哈希保持不可变；晋升失败只能修复证据绑定或治理，不得重跑模拟器。
+  user_confirmation: 项目所有者已长期授权AI独立逐图验收并持续开发
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-30T03:30:15Z'
+    note: 同一Run四图和机器证据已独立复核：列表安全区与导航一致，发送消息明确为已发送而非已读，拉黑重进隐藏输入框且菜单为解除拉黑，列表长按菜单仅提供删除会话并保留取消；无状态栏重叠、技术字段、虚构功能或转场残层。批准轻量晋升，不重建APK或重跑模拟器。
+  machine_record: .continuity/change_requests/CR-0510.yaml
+  document: docs/03-continuity/change-requests/CR-0510-批准并轻量晋升R14首版视觉基线.md
+  decision_log:
+  - at: '2026-07-30T03:30:21Z'
+    actor_id: codex-r14-attempt20-visual-review
+    status: IMPLEMENTING
+    note: 开始固化Run 30510422149四张已审合格原始截图与不可变审批清单；只执行既有证据轻量晋升。
+    session_id: SES-20260729T161557Z-6FCE6ACA
+  - at: '2026-07-30T03:32:07Z'
+    actor_id: codex-r14-attempt20-visual-review
+    status: IMPLEMENTED
+    note: Run 30510422149四张原图已与Commit、Artifact、Artifact SHA-256及逐图SHA-256精确绑定；本地android_ci_gate promote为PASS，35项Android CI治理测试通过，未重建APK或重跑模拟器。
+    session_id: SES-20260729T161557Z-6FCE6ACA
+  session_ids:
+  - SES-20260729T161557Z-6FCE6ACA
 ```
 
 ## 上下文来源及哈希
 
 - `AGENTS.md` — `bde93afcdb788b601aeffcf2369a1aeda8eeb391f165429d501d7ba8895ba4a6`
 - `START_HERE.md` — `22de14029ce47beb41ea569e36ce223fbc9d11b86f8676f28d5fbbd83896af5c`
-- `CURRENT_STATUS.yaml` — `a24d39025b84c934e09094adb5cd36caef007f35763289274aa4a1e56fb7897c`
+- `CURRENT_STATUS.yaml` — `62c62435a6e3e0a8c1ff9aa9f0f8f01a898544f346a444765dd90a627c68f86f`
 - `NEXT_TASK.yaml` — `e26e5c16bb6b761d538c5e11830ffbfaeacc532c054e569ab784155323b6af5c`
 - `DEVELOPMENT_RISK_REGISTER.md` — `8304c91492e4ee2abea0522a06541c8688d39c7fc532b5d0cde499bf09fffb87`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `5213b166f464a4415abe064e0ebcd99da8f1f8d23569b49ae4e9787007e83314`
@@ -17443,12 +17564,12 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `config/REPOSITORY_TRANSPORT.yaml` — `8c4a21f3e204d46e7ffb467d804a53ed26cda61cd088dadfddb50b69eea657fc`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `38e04ed812c8df0d353c2b91993d31e53b471e9c457f06b426bd2260c470aa92`
-- `.continuity/EVENT_LOG.jsonl` — `a6ca98de6ef7e4122f21aee879ee6d9db7db9f7a5619e0082ea585bc7ad740b6`
-- `.continuity/SESSION_INDEX.yaml` — `080ee6c3a1fefb1f6c22f2a693fe809b1f14ef9649728212c58953fab5ed8e26`
+- `.continuity/EVENT_LOG.jsonl` — `a3344f55c10826186c77df8e81bdcd23b8255a678014a382a87c12ddc28ea402`
+- `.continuity/SESSION_INDEX.yaml` — `a9a42965e9e4e3522c18226a1c5fd68d2d8e4111ddd2b46bd334d1dba7ebed34`
 - `.continuity/TASK_CLAIMS.yaml` — `0ff8aad03fdf7bd39105618d202972c82222c6359e96e7f3a89861b184c45eec`
 - `.continuity/TASK_TRANSITIONS.yaml` — `afd6333d15719bab6521ac976344a232ccba2e5e9edd4d2e5817ad4bb473f4d1`
-- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `daa02df4d00f5d7cc8210440da927a69070cd4ccb088123f14825d0cdd906487`
-- `.continuity/ACTIVE_SESSION.yaml` — `375798e68d3f87d5376998d5daf14c5fcdddc154869219f4bbbcf7c89b6c8ee7`
+- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `4c10b781ddbabd02461ae043e630491e50f1c6bb48b6746a9b61bc6fbcd12773`
+- `.continuity/ACTIVE_SESSION.yaml` — `afa1b13cc602be750fd3cc4727dc939b64ab76d3dc48965d67815e64bea90e3f`
 - `docs/00-baseline/正式商业系统全局硬性开发边界.md` — `30c07716c31d6d09621b6f6d119063b1fcb35e78d9b266423ed333d92b8262db`
 - `docs/02-ui/UI参考图使用与开发约束_V1.2.2.md` — `d14367586aa2067b059df58798acd20ab982459cdb35ff27fc7922a3896e4933`
 - `docs/03-continuity/持续开发无状态接续强制门禁_V1.2.3.md` — `d0ed3ed68bdd93b06500eecdfb5baa3245e6ca8b685a486788abb6eee39b3d51`
@@ -17459,8 +17580,8 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `releases/R14/TASKS.yaml` — `c7fc98c89d4e1e02535460d19de43608dcc5178d4fe61bffad94385b76df5e05`
 - `releases/R14/ACCEPTANCE_MATRIX.csv` — `ffc0fd23b945544de8fe2a37774a94675c0d60b73d88517abe69c68d326ad6f4`
 - `releases/R14/PARALLEL_EXECUTION_PLAN.yaml` — `cd1f0c96ffd7562acb214edba80a2bbb12b79f06c19032d1b133936ff6abd74f`
-- `docs/03-continuity/sessions/2026-07/SES-20260729T161557Z-6FCE6ACA.md` — `1491749a52d73c2f8c66b2e611f0f00fb4e6aa64da0c39fa3aacf15a7798c50c`
-- `.continuity/checkpoints/SES-20260729T161557Z-6FCE6ACA/0054.yaml` — `3b002b533bea752fdfae4c79b474d99c7a6464c63a335f67e4fe9662d7beb223`
+- `docs/03-continuity/sessions/2026-07/SES-20260729T161557Z-6FCE6ACA.md` — `aa80e890ff4317e7e9e016a61e4a2ac686c5a654f95d049eefe198c7237c8fa0`
+- `.continuity/checkpoints/SES-20260729T161557Z-6FCE6ACA/0055.yaml` — `11d570581bb02c220699000f8a4933278e6f062af39bbf96996a1e3ec97f2ded`
 - `docs/03-continuity/change-requests/CR-0475-绑定R14最终交互候选与稳定TEST_APK同一提交.md` — `4d6c35fd99ef585a4802fb664ac2e2819d4a2fe93fc5d1747ca73496ae69387e`
 - `docs/03-continuity/change-requests/CR-0476-解除R13历史候选测试对当前请求的永久绑定.md` — `098711406c0bc8b2574f2388ab6ed76242e7df1d3fb442a67593a13f76871e11`
 - `docs/03-continuity/change-requests/CR-0477-阻断R14候选旧后端路由与夹具语义漂移.md` — `cbac66f0b6906977cce340a81d30f198e90dcef64ec13ff8c7edd10b2914da61`
@@ -17496,6 +17617,7 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `docs/03-continuity/change-requests/CR-0507-授权R14删除筛选前置唯一Attempt19候选.md` — `3691f130b3b83e53932bf5753583933afd0302c7503bf852a850e31d77d646d0`
 - `docs/03-continuity/change-requests/CR-0508-限定Android候选旅程到App模块.md` — `133ea8b5302d13667621b74129c8a94dea52708f8dc3d659449855eabd5a98d4`
 - `docs/03-continuity/change-requests/CR-0509-授权R14-App模块范围修复唯一Attempt20候选.md` — `ac9c6a7defb30dca8e7701dfd0cfbd5273f7cccb19b5bee145772277ec161fb9`
+- `docs/03-continuity/change-requests/CR-0510-批准并轻量晋升R14首版视觉基线.md` — `7640cd4aa00c3c2eb9e6629adb7ec19c539ddd13e10bb7acce4699b672345dba`
 
 ## 接手硬规则
 

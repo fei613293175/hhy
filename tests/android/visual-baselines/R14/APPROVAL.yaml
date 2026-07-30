@@ -1,0 +1,21 @@
+schema: hhy.android-visual-baseline-approval/v1
+release: R14
+status: APPROVED
+authority: AI_IMPLEMENTATION_AGENT
+promotion_attempt: 1
+source:
+  github_run_id: "30510422149"
+  commit: 89ccaf45cbecd0a5412e7d99057ee0036cd8f181
+  artifact_id: "8747104485"
+  artifact_sha256: 1a5d4823929f20471150e428141334ae0d702ab463afcf0082cc0c4fe2072e26
+  runtime_status: BASELINE_REVIEW_REQUIRED
+decision: 四张截图绑定R14真实OIDC认证的一对一聊天完整旅程；会话列表安全区、导航高度和信息层级一致，发送消息明确显示“已发送”而未误标“已读”，拉黑后重新进入仍隐藏输入框且操作菜单切换为“解除拉黑”，列表长按菜单提供“删除会话”并保留取消。页面无状态栏重叠、技术字段、虚构功能、转场残层或错误空状态，批准为R14首版视觉基线。
+screens:
+- file: 01-r14-conversations.png
+  sha256: ecb898e60152d11fbf4671e669bcc9c9588f91a5c126e8c12989ec0e8e0c48e3
+- file: 02-r14-sent.png
+  sha256: 1daff2a1970a22189f23d91be6199c54b070e44318dafaa49c5f168ab1c0d1e3
+- file: 03-r14-blocked-reentry.png
+  sha256: 257206cde3aaed6b6aa947fa705c22d5a383a5a268762c7c85d653d18e25f738
+- file: 04-r14-long-press-menu.png
+  sha256: 0a51847e294ede7e7f06dced72290cda6ba963c91f04d0156a11ba733a7dfa0d

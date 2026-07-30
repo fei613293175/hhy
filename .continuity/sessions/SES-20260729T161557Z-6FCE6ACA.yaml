@@ -11,7 +11,7 @@ task_id: TASK-R14-008
 story_id: STORY-R14-004
 goal: 异常恢复 SES-20260728T220632Z-FE7D82FD：一对一聊天核心版本关闭与无状态交接
 started_at: '2026-07-29T16:15:57Z'
-updated_at: '2026-07-30T03:01:26Z'
+updated_at: '2026-07-30T03:32:20Z'
 takeover_of: SES-20260728T220632Z-FE7D82FD
 change_requests:
 - CR-0475
@@ -49,6 +49,7 @@ change_requests:
 - CR-0507
 - CR-0508
 - CR-0509
+- CR-0510
 scope:
   allowed_paths:
   - apps/**
@@ -108,22 +109,22 @@ git:
   initial_worktree_state: DIRTY_TAKEOVER
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-30T03:01:19Z'
-  expires_at: '2026-07-30T07:01:19Z'
-checkpoint_sequence: 54
-latest_checkpoint: .continuity/checkpoints/SES-20260729T161557Z-6FCE6ACA/0054.yaml
+  renewed_at: '2026-07-30T03:32:13Z'
+  expires_at: '2026-07-30T07:32:13Z'
+checkpoint_sequence: 55
+latest_checkpoint: .continuity/checkpoints/SES-20260729T161557Z-6FCE6ACA/0055.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260729T161557Z-6FCE6ACA.md
-next_step: 构建当前最终HEAD的精确候选后端到新端口，受控切流后执行push-preflight并只推送一次触发Attempt20。
+next_step: 提交R14视觉基线与CR-0510治理记录，推送触发Android Visual Baseline Promotion；审核轻量晋升PASS产物后记录最终候选证据并进入R14交付收尾。
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: d1a2b3d2651f2c4dba2e9063eea561a2c380f198ecb536eeb305922e99ef4d8a
-  generated_at: '2026-07-30T03:01:23Z'
+  context_hash: 5dc5b9ac8ab57cddf0607e2801e41622ea23ea6edeb0d4b8e6873c9d00b3fd82
+  generated_at: '2026-07-30T03:32:17Z'
 handoff_bundle: null
 closure: null
 parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 最终HEAD、候选镜像标签、Nginx切流与单次推送必须保持同一身份链。
+  reason: 视觉基线提交必须作为唯一审批变更触发轻量晋升，提交与工作流身份严格串行。
