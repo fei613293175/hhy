@@ -6,4 +6,12 @@ if [ "$ROLE" = "WORKER" ]; then
   echo "Governance V5: Worker cannot commit." >&2
   exit 1
 fi
-python3 "$ROOT/tools/governance/hhy_governance.py" doctor >/dev/null
+if [ -n "${HHY_PYTHON:-}" ]; then
+  "$HHY_PYTHON" "$ROOT/tools/governance/hhy_governance.py" doctor >/dev/null
+elif command -v py.exe >/dev/null 2>&1; then
+  py.exe -3 "$ROOT/tools/governance/hhy_governance.py" doctor >/dev/null
+elif command -v python.exe >/dev/null 2>&1; then
+  python.exe "$ROOT/tools/governance/hhy_governance.py" doctor >/dev/null
+else
+  python3 "$ROOT/tools/governance/hhy_governance.py" doctor >/dev/null
+fi
