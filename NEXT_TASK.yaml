@@ -1,6 +1,6 @@
 DO_NOT_EDIT: true
 GENERATED_FROM: governance/STATE.yaml + governance/task_specs/*.yaml
-SOURCE_REVISION: 2
+SOURCE_REVISION: 3
 task:
   schema: hhy.task-spec/v5.0
   id: TASK-R14-RECOVERY-001
@@ -43,7 +43,6 @@ task:
   - apk_identity
   - contract
   - database
-  - funds
   - production
   - security
   - secrets
