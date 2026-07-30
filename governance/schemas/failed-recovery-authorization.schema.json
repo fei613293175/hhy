@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "hhy.failed-recovery-authorization/v5.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "status",
+    "authorized_by",
+    "authorized_at",
+    "from_task",
+    "to_task",
+    "supersedes",
+    "baseline_commit",
+    "decision",
+    "scope"
+  ],
+  "properties": {
+    "schema": {"const": "hhy.failed-recovery-authorization/v5.0"},
+    "status": {"const": "APPROVED"},
+    "authorized_by": {"const": "PROJECT_OWNER"},
+    "authorized_at": {"type": "string", "minLength": 1},
+    "from_task": {"const": "TASK-R14-RECOVERY-001"},
+    "to_task": {"const": "TASK-R14-RECOVERY-002"},
+    "supersedes": {"const": "TASK-R14-RECOVERY-001"},
+    "baseline_commit": {"type": "string", "pattern": "^[a-f0-9]{40}$"},
+    "decision": {"type": "string", "minLength": 1},
+    "scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["retain_prior_fixes", "reject_old_candidate", "release", "maximum_attempts"],
+      "properties": {
+        "retain_prior_fixes": {"const": true},
+        "reject_old_candidate": {"const": true},
+        "release": {"const": "R14"},
+        "maximum_attempts": {"const": 3}
+      }
+    }
+  }
+}
