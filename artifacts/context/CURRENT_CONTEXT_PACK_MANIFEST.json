@@ -1,19 +1,19 @@
 {
   "version": "1.0",
-  "generated_at": "2026-07-30T04:58:08Z",
-  "context_hash": "f954ccc064f9245778707c9aa6d64b2bee71e3ed444671aa96283f9ca0b33abe",
+  "generated_at": "2026-07-30T05:18:40Z",
+  "context_hash": "494f3df757b95964b740099c6c4fd1270c3ae5912c40dd3707e1636109dd8d22",
   "fingerprint_mode": "SESSION_DELTA",
   "project_fingerprint": {
-    "sha256": "93d74f72e18c1e463d5ab590a448e342eda5683b93f9e5aff0b3897f79d53ccd",
-    "file_count": 87
+    "sha256": "b75d6cb871b5c3cd0859bfaa29e0b48a9856cc5574032a59d8b382bc8747581d",
+    "file_count": 89
   },
   "yaml": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.yaml",
-    "sha256": "0a30850547af8c99a030a8bb6d1016dcec60422b8afe3ccfad875727a307cc27"
+    "sha256": "239a0aff90c9170c5cc546b6efa882838b14d7a8d8a9fcde31297386675ec8f3"
   },
   "markdown": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.md",
-    "sha256": "d63726b175c23856e398990e549169c41cfbd84867cb473a1314d2b3d701ee0d"
+    "sha256": "4c3c9e684c568f4b84c9e149926513ac6e115eb58192da734a913bafbcb4eddb"
   },
   "sources": [
     {
@@ -28,7 +28,7 @@
     },
     {
       "path": "CURRENT_STATUS.yaml",
-      "sha256": "db52be58551c55985687277f1b4189e15d3520b9a1d8887e410adba677d5f32c",
+      "sha256": "ac104bd98ed5059df47e5afd1671c5505704e3b5cda7b533ca1b0a1da0dfd3e6",
       "bytes": 4817
     },
     {
@@ -48,8 +48,8 @@
     },
     {
       "path": "docs/03-continuity/PROBLEM_REGISTRY.yaml",
-      "sha256": "f87053f49c418c1c502a9cb141df0c2283beaab3d208cda130646e6cc7793bd6",
-      "bytes": 278321
+      "sha256": "63cfbff41170b0595603dc9dd0164ce420fd6079257950b22c694a3d7cc04fc9",
+      "bytes": 280255
     },
     {
       "path": "docs/03-continuity/REUSABLE_PATTERNS.md",
@@ -83,12 +83,12 @@
     },
     {
       "path": ".continuity/EVENT_LOG.jsonl",
-      "sha256": "31d32defbe4bfd9cd09a47aedc055aa29db930651c6347df46213531a48bbf68",
-      "bytes": 2724822
+      "sha256": "ac11fb160c1c5f420789f735e05c9b42866fe2066b800a9c9d054332a78fc7ff",
+      "bytes": 2731503
     },
     {
       "path": ".continuity/SESSION_INDEX.yaml",
-      "sha256": "90af7a5059a493042ce5256736c0fbc2e17dde42abf826c204b466d1b85b7164",
+      "sha256": "852b89b70f64258be3a4db64962069dbe6b6e61e2d07d13a45c3b8cdadbf9004",
       "bytes": 66849
     },
     {
@@ -103,12 +103,12 @@
     },
     {
       "path": ".continuity/CHANGE_REQUEST_INDEX.yaml",
-      "sha256": "41971f608d739da92270a34774e7aa7f8cae73dd086eb9b88c4c8d8097811c95",
-      "bytes": 1919749
+      "sha256": "b1c9b7602d148bec2f54a17769866d3d71b780eb74d445147c0ccc99b4b1bbab",
+      "bytes": 1926180
     },
     {
       "path": ".continuity/ACTIVE_SESSION.yaml",
-      "sha256": "491522f1f2bfcbc304385a732449f49ec2d018be46d9e57594a8fae15f6bab2c",
+      "sha256": "81b15f521de9a6b4f38b3b2c240392e30629f2304fa97b6821bc38afe1710574",
       "bytes": 540
     },
     {
@@ -163,13 +163,13 @@
     },
     {
       "path": "docs/03-continuity/sessions/2026-07/SES-20260729T161557Z-6FCE6ACA.md",
-      "sha256": "459beba702e26309731bb8c7bc39bcc0a3e6700907435c8b2074ce135f7c75e9",
-      "bytes": 316798
+      "sha256": "853604427ad0049a2ba7fb6267de947f53fb9e61b7ec837c147ce4f7c6177fe3",
+      "bytes": 333969
     },
     {
-      "path": ".continuity/checkpoints/SES-20260729T161557Z-6FCE6ACA/0062.yaml",
-      "sha256": "199de07f283093bdf5760b311ad0ef528eb76707704a0d715fbd6bcf4083f82d",
-      "bytes": 41071
+      "path": ".continuity/checkpoints/SES-20260729T161557Z-6FCE6ACA/0064.yaml",
+      "sha256": "1ae61df716b949d015c5407223993dd989200c635f1e168675a20c8a3d12a94c",
+      "bytes": 42625
     },
     {
       "path": "docs/03-continuity/change-requests/CR-0475-绑定R14最终交互候选与稳定TEST_APK同一提交.md",
@@ -380,6 +380,16 @@
       "path": "docs/03-continuity/change-requests/CR-0516-修复离线历史视觉复用工作流权限投影.md",
       "sha256": "6f1a794f1ef6a59f3b79f371bc77e5ca93984dcea02ba06cbf82fe3845d250cd",
       "bytes": 2623
+    },
+    {
+      "path": "docs/03-continuity/change-requests/CR-0517-补齐R14六个冻结交互面的离线视觉证据.md",
+      "sha256": "2d31f79487ab953c3f69ff049cc5cad01eb6bcca7c04a2dabe217167eec8792a",
+      "bytes": 3078
+    },
+    {
+      "path": "docs/03-continuity/change-requests/CR-0518-修正历史视觉过期文案断言与精确截图数量.md",
+      "sha256": "459a5f36a4273e6cef257cd5433b38ec765715ab06623a5761b59e4dedc19220",
+      "bytes": 2905
     }
   ]
 }

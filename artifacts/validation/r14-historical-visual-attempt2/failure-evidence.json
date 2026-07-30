@@ -1,0 +1,61 @@
+{
+  "schema": "hhy.android-historical-visual-failure/v1",
+  "release": "R14",
+  "github_run_id": "30515375914",
+  "source_commit": "87c9849e218829d5945305d3583257371efdc5f7",
+  "status": "FAIL",
+  "scope": "HISTORICAL-UI",
+  "candidate": false,
+  "jobs": {
+    "request_validation": "PASS",
+    "historical_ui_offline_visual_evidence": "FAIL",
+    "compile_lint_unit_package": "SKIPPED",
+    "candidate_emulator_journeys": "SKIPPED",
+    "candidate_eligibility": "SKIPPED",
+    "remediation_queue": "SKIPPED"
+  },
+  "artifact": {
+    "id": "8748776442",
+    "name": "android-historical-visual-30515375914",
+    "size_bytes": 3242456,
+    "sha256": "4a1988c298c934927f354665a55855244cab341c5159ab6359fdd993f08a57a6",
+    "screenshot_count": 25
+  },
+  "instrumentation": {
+    "test_count": 27,
+    "passed": 25,
+    "failed": 2,
+    "failures": [
+      {
+        "test": "homeProducesBoundVisualEvidence",
+        "type": "ComposeTimeoutException",
+        "finding": "The test waited for removed home copy instead of the current production search and four-category labels.",
+        "missing_screenshot": "26-r06-home.png"
+      },
+      {
+        "test": "r13HistoryProducesBoundVisualEvidence",
+        "type": "ComposeTimeoutException",
+        "finding": "The test waited for the obsolete date label while the production composable renders the frozen content timestamp as an ISO date-time label.",
+        "missing_screenshot": "28-r13-history.png"
+      }
+    ]
+  },
+  "count_drift": {
+    "source_capture_calls_before_r14_extension": 27,
+    "runner_expected_before_fix": 26,
+    "source_capture_calls_after_r14_extension": 33,
+    "corrected_expected": 33
+  },
+  "data_safety": {
+    "owner_test_database_accessed": false,
+    "candidate_backend_accessed": false,
+    "public_api_route_changed": false,
+    "staging_bootstrap_requested": false
+  },
+  "root_cause": "Two historical assertions referenced obsolete visible copy and the shell runner count had drifted from the Kotlin capture source.",
+  "remediation": "Bind the assertions to current production-composable copy, assert the Kotlin capture count in a local test, and keep request, runner and source at exactly 33 screenshots.",
+  "change_requests": [
+    "CR-0517",
+    "CR-0518"
+  ]
+}

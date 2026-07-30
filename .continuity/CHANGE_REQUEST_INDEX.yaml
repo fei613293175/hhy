@@ -31974,3 +31974,115 @@ change_requests:
     session_id: SES-20260729T161557Z-6FCE6ACA
   session_ids:
   - SES-20260729T161557Z-6FCE6ACA
+- protocol_version: '1.0'
+  cr_id: CR-0517
+  title: 补齐R14六个冻结交互面的离线视觉证据
+  status: IMPLEMENTING
+  created_at: '2026-07-30T05:02:24Z'
+  updated_at: '2026-07-30T05:03:16Z'
+  requester_actor_id: codex-r14-resume-20260730
+  approver_actor_id: codex-r14-visual-reviewer-20260730
+  task_id: TASK-R14-008
+  session_id: SES-20260729T161557Z-6FCE6ACA
+  user_request: 每个大版本结束由AI使用GitHub Actions自行测试审核截图，不等待项目所有者逐页确认；最终页面必须按开发文档和效果图验收。
+  reason: R14真实交互候选已覆盖会话列表、详情发送、解除拉黑菜单和长按删除，但机器关闭仍要求SCR-CHAT-001、SCR-CHAT-002、SHEET-CHAT-001、SHEET-CHAT-002、DIALOG-CHAT-BLOCK-001、DIALOG-CHAT-DELETE-001逐面截图；缺少联系方式、举报和两个确认对话框的独立视觉证据。
+  original_rule: R14最终候选只有四张端到端旅程截图，无法逐一绑定六个冻结交互面；离线历史视觉批次只到R13且固定26张。
+  new_rule: HISTORICAL-UI离线批次使用生产Composable和无生产凭证夹具逐一捕获R14会话列表、私聊详情、联系方式、举报、拉黑确认与删除确认六张独立截图；总数精确提升到32，candidate=false且不访问服务器。
+  impact_summary: 仅扩展离线Android视觉审计与精确数量断言；不修改产品Composable、API、数据库、候选APK或公网真机库。
+  impact:
+    files:
+    - apps/android/app/src/androidTest/java/cc/orbexa/hhy/HistoricalVisualAuditTest.kt
+    - scripts/run_android_historical_visual_audit.sh
+    - config/android-historical-visual-request.yaml
+    - tests/test_android_historical_visual_request.py
+    pages:
+    - SCR-CHAT-001
+    - SCR-CHAT-002
+    - SHEET-CHAT-001
+    - SHEET-CHAT-002
+    - DIALOG-CHAT-BLOCK-001
+    - DIALOG-CHAT-DELETE-001
+    apis:
+    - 无API影响
+    database:
+    - 无数据库影响
+    configuration:
+    - HISTORICAL-UI expected_screenshot_count=32
+    ledger:
+    - 无资金或账本影响
+    tests:
+    - AndroidTest编译；离线32张精确计数；六个R14截图文件名；候选与网络Job跳过
+    releases:
+    - R14
+    migration_and_compatibility: 保留既有26张历史截图文件名和语义；新增31至36号R14截图，旧R13补证Run完成后再以新请求ID触发一次32张最终批次。
+  user_confirmation: 项目所有者明确要求大版本最终由AI通过GitHub Actions测试审核并自行判断截图，不能停下等待逐页确认。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-30T05:03:09Z'
+    note: 六页逐面证据是现行machine-close硬门禁；生产Composable、离线夹具、精确文件名与32张计数不扩大业务功能或线上权限，并避免再次运行完整候选。
+  machine_record: .continuity/change_requests/CR-0517.yaml
+  document: docs/03-continuity/change-requests/CR-0517-补齐R14六个冻结交互面的离线视觉证据.md
+  decision_log:
+  - at: '2026-07-30T05:03:16Z'
+    actor_id: codex-r14-resume-20260730
+    status: IMPLEMENTING
+    note: 开始扩展唯一离线HistoricalVisualAuditTest，保持candidate=false和无网络边界。
+    session_id: SES-20260729T161557Z-6FCE6ACA
+  session_ids:
+  - SES-20260729T161557Z-6FCE6ACA
+- protocol_version: '1.0'
+  cr_id: CR-0518
+  title: 修正历史视觉过期文案断言与精确截图数量
+  status: IMPLEMENTING
+  created_at: '2026-07-30T05:12:39Z'
+  updated_at: '2026-07-30T05:13:31Z'
+  requester_actor_id: codex-r14-resume-20260730
+  approver_actor_id: codex-r14-visual-reviewer-20260730
+  task_id: TASK-R14-008
+  session_id: SES-20260729T161557Z-6FCE6ACA
+  user_request: GitHub最终测试由AI自行分析和修复，不得反复无证据浪费时间；截图必须逐一审核。
+  reason: Run 30515375914已生成25张截图并保留完整Artifact，唯一两项失败是首页和R13历史页仍等待已不存在的旧文案；源码原有27个captureStable而脚本错误硬编码26，加入R14六面后的真实总数应为33而不是32。
+  original_rule: 历史视觉等待旧首页文案与旧R13时间格式；脚本截图总数与captureStable源码数量未建立同一事实校验。
+  new_rule: 视觉等待必须绑定当前生产Composable真实可见文字；请求配置、Shell精确计数、Python测试和Kotlin captureStable数量必须统一为33，且每个缺失文件都可由Artifact和JUnit精确追溯。
+  impact_summary: 修正两项过期视觉断言、精确总数和失败证据；不修改生产UI、API、数据库、APK或公网真机库。
+  impact:
+    files:
+    - apps/android/app/src/androidTest/java/cc/orbexa/hhy/HistoricalVisualAuditTest.kt
+    - scripts/run_android_historical_visual_audit.sh
+    - config/android-historical-visual-request.yaml
+    - tests/test_android_historical_visual_request.py
+    - docs/03-continuity/PROBLEM_REGISTRY.yaml
+    - artifacts/validation/r14-historical-visual-attempt2/failure-evidence.json
+    pages:
+    - SCR-HOME-001
+    - SCR-HIS-001
+    apis:
+    - 无API影响
+    database:
+    - 无数据库影响
+    configuration:
+    - HISTORICAL-UI expected_screenshot_count=33
+    ledger:
+    - 无资金或账本影响
+    tests:
+    - Run 30515375914 Artifact/JUnit；源码截图数量精确断言；Python回归；obx-test compileDebugAndroidTestKotlin
+    releases:
+    - R06
+    - R13
+    - R14
+    migration_and_compatibility: 保留Run 30515375914的25张成功截图、JUnit和Artifact摘要；修复及固定工具链编译通过后只触发一次33张离线批次。
+  user_confirmation: 项目所有者要求AI自行审核GitHub最终测试并避免同一问题反复浪费时间。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-30T05:13:24Z'
+    note: Artifact、JUnit与实际25张文件已证明两项过期断言和数量漂移；修复只更新测试观察面与精确计数，且下一次仍为candidate=false离线批次。
+  machine_record: .continuity/change_requests/CR-0518.yaml
+  document: docs/03-continuity/change-requests/CR-0518-修正历史视觉过期文案断言与精确截图数量.md
+  decision_log:
+  - at: '2026-07-30T05:13:31Z'
+    actor_id: codex-r14-resume-20260730
+    status: IMPLEMENTING
+    note: 按Run 30515375914 Artifact和JUnit修正旧文案断言与33张精确数量。
+    session_id: SES-20260729T161557Z-6FCE6ACA
+  session_ids:
+  - SES-20260729T161557Z-6FCE6ACA

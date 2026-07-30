@@ -2242,3 +2242,17 @@ problems:
   - 不得假设被复用工作流可以自行提升调用Job权限
   - 不得为修复声明错误启动完整候选或切换api.orbexa.cc
   - 不得在没有唯一错误注释、修复Commit和本地权限断言时重复运行同一请求
+- id: PROB-0155
+  title: 历史视觉过期文案断言与截图总数漂移导致离线批次失败
+  status: SOLVED
+  root_cause: Run 30515375914已真实执行唯一离线HISTORICAL-UI Job并生成25张截图，27项Instrumentation中25项通过。仅homeProducesBoundVisualEvidence和r13HistoryProducesBoundVisualEvidence因继续等待已经被当前生产Composable替换的旧首页文案与旧日期格式而超时，分别缺少26-r06-home.png和28-r13-history.png。同时Kotlin源码原有27个captureStable调用，Shell脚本却硬编码期望26；加入R14六面后的源码真实总数为33，不是最初按错误脚本推算的32。
+  resolution: CR-0518保留Run、Artifact、JUnit、25张成功文件和缺失文件的脱敏证据；首页改为等待当前搜索框、四大分类和推荐模块真实文字，R13历史改为等待当前“内容更新：2026-07-24”格式。请求配置、Shell脚本和Python治理测试统一精确断言33张，Python测试同时计算Kotlin captureStable调用总数并锁定六个R14新文件名。
+  regression_checks:
+  - tests/test_android_historical_visual_request.py必须同时断言请求配置、Shell期望和Kotlin captureStable调用总数均为33
+  - 历史视觉等待必须绑定当前生产Composable真实可见文字，产品文案变化后不得只更新一个测试或用过期示例文本阻断截图
+  - Artifact截图数量必须与JUnit缺失测试一一对应；Run 30515375914的25张成功截图和两个超时不得误报为模拟器整体不稳定
+  - 下一次离线运行仍必须保持candidate=false，编译候选、OIDC、Staging和公网数据库Job全部跳过
+  do_not_repeat:
+  - 不得根据旧Shell常量推算截图总数，必须从Kotlin唯一captureStable源精确计数
+  - 不得因两个可复现旧文案超时重跑完整候选或切换api.orbexa.cc
+  - 不得删除已成功的历史截图用例来迎合错误数量常量

@@ -4,6 +4,7 @@ import android.content.ContentValues
 import android.content.Context
 import android.os.SystemClock
 import android.provider.MediaStore
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.semantics.SemanticsActions
 import androidx.compose.ui.test.junit4.createComposeRule
@@ -23,6 +24,14 @@ import cc.orbexa.hhy.activity.R13ContentActionSheet
 import cc.orbexa.hhy.activity.R13ContentSheet
 import cc.orbexa.hhy.activity.R13FavoritesScreen
 import cc.orbexa.hhy.activity.R13HistoryScreen
+import cc.orbexa.hhy.chat.R14BlockDialog
+import cc.orbexa.hhy.chat.R14ChatDetailScreen
+import cc.orbexa.hhy.chat.R14ContactSheet
+import cc.orbexa.hhy.chat.R14ConversationListScreen
+import cc.orbexa.hhy.chat.R14DeleteConversationDialog
+import cc.orbexa.hhy.chat.R14ReportDraft
+import cc.orbexa.hhy.chat.R14ReportReasonOption
+import cc.orbexa.hhy.chat.R14ReportSheet
 import cc.orbexa.hhy.designsystem.HhyTheme
 import cc.orbexa.hhy.discovery.R07PublisherScreen
 import cc.orbexa.hhy.discovery.R07SearchScreen
@@ -32,6 +41,14 @@ import cc.orbexa.hhy.media.MediaUploadSheet
 import cc.orbexa.hhy.network.AgreementSnapshot
 import cc.orbexa.hhy.network.AccountCancellationRequest
 import cc.orbexa.hhy.network.AuthCallResult
+import cc.orbexa.hhy.network.ChatConversationPageResource
+import cc.orbexa.hhy.network.ChatConversationResource
+import cc.orbexa.hhy.network.ChatLastMessageResource
+import cc.orbexa.hhy.network.ChatMessagePageResource
+import cc.orbexa.hhy.network.ChatMessageResource
+import cc.orbexa.hhy.network.ChatPostConversationsByIdReadRequest
+import cc.orbexa.hhy.network.ChatSendMessageRequest
+import cc.orbexa.hhy.network.ChatTextPayload
 import cc.orbexa.hhy.network.CommandResultResource
 import cc.orbexa.hhy.network.ContactAccessRequest
 import cc.orbexa.hhy.network.ContactAccessResource
@@ -46,6 +63,7 @@ import cc.orbexa.hhy.network.ContractMediaApi
 import cc.orbexa.hhy.network.ContractR07Api
 import cc.orbexa.hhy.network.ContractR12MeApi
 import cc.orbexa.hhy.network.ContractR13Api
+import cc.orbexa.hhy.network.ContractR14Api
 import cc.orbexa.hhy.network.DirectUploadResource
 import cc.orbexa.hhy.network.ExperienceApi
 import cc.orbexa.hhy.network.HhyNetworkJson
@@ -257,8 +275,8 @@ class HistoricalVisualAuditTest {
                 accessToken = "visual-audit-token",
             )
         }
-        waitForText("发现真实合作机会")
-        waitForText("合作入口")
+        waitForText("搜索项目 / App / 群聊 / 团队长")
+        waitForText("四大分类")
         waitForText("公开合作推荐")
         captureStable("26-r06-home.png")
     }
@@ -371,7 +389,7 @@ class HistoricalVisualAuditTest {
         }
         waitForText("浏览记录")
         waitForText("R13品牌联合增长计划")
-        waitForText("内容更新于 07月24日")
+        waitForText("内容更新：2026-07-24", substring = true)
         captureStable("28-r13-history.png")
     }
 
@@ -416,13 +434,131 @@ class HistoricalVisualAuditTest {
         captureStable("30-r13-invalid-feedback-sheet.png")
     }
 
+    @Test
+    fun r14ConversationListProducesBoundVisualEvidence() {
+        setAuditContent {
+            R14ConversationListScreen(
+                api = visualR14Api,
+                accessToken = "visual-audit-token",
+                contentPadding = PaddingValues(),
+                onConversationSelected = {},
+                onSessionExpired = {},
+            )
+        }
+        waitForText("消息")
+        waitForText("真实合作伙伴")
+        waitForText("项目资料已经收到")
+        captureStable("31-r14-conversations.png")
+    }
+
+    @Test
+    fun r14ChatDetailProducesBoundVisualEvidence() {
+        setAuditContent {
+            R14ChatDetailScreen(
+                api = visualR14Api,
+                mediaApi = visualMediaApi,
+                accessToken = "visual-audit-token",
+                conversationId = "r14-conversation-1",
+                conversationVersion = 4,
+                currentUserId = visualR14Self.userId,
+                initialPeer = visualR14Peer,
+                onBack = {},
+                onSessionExpired = {},
+            )
+        }
+        waitForText("真实合作伙伴")
+        waitForText("项目资料已经收到")
+        waitForText("请查看最新合作范围")
+        captureStable("32-r14-chat-detail.png")
+    }
+
+    @Test
+    fun r14ContactSheetProducesBoundVisualEvidence() {
+        setAuditContent {
+            R14ContactSheet(
+                peer = visualR14Peer,
+                submitting = false,
+                failure = null,
+                onDismiss = {},
+                onSubmit = { _, _ -> },
+            )
+        }
+        waitForText("发送联系方式")
+        waitForText("手机号")
+        waitForText("备注（可选）")
+        captureStable("33-r14-contact-sheet.png")
+    }
+
+    @Test
+    fun r14ReportSheetProducesBoundVisualEvidence() {
+        setAuditContent {
+            R14ReportSheet(
+                peer = visualR14Peer,
+                reasons = listOf(
+                    R14ReportReasonOption("HARASSMENT", "骚扰"),
+                    R14ReportReasonOption("DUPLICATE_BULK_MESSAGE", "重复群发消息"),
+                    R14ReportReasonOption("DANGEROUS_LINK", "危险链接"),
+                ),
+                messages = visualR14Messages,
+                draft = R14ReportDraft(
+                    reasonCode = "HARASSMENT",
+                    messageIds = setOf("r14-message-peer"),
+                ),
+                versionAvailable = true,
+                submitting = false,
+                failure = null,
+                onDismiss = {},
+                onDraftChange = {},
+                onAddEvidence = {},
+                onSubmit = {},
+            )
+        }
+        waitForText("举报聊天")
+        waitForText("骚扰")
+        waitForText("消息证据")
+        captureStable("34-r14-report-sheet.png")
+    }
+
+    @Test
+    fun r14BlockDialogProducesBoundVisualEvidence() {
+        setAuditContent {
+            R14BlockDialog(
+                peer = visualR14Peer,
+                unblock = false,
+                submitting = false,
+                failure = null,
+                onDismiss = {},
+                onConfirm = {},
+            )
+        }
+        waitForText("确认拉黑")
+        waitForText("拉黑原因（可选）")
+        captureStable("35-r14-block-dialog.png")
+    }
+
+    @Test
+    fun r14DeleteDialogProducesBoundVisualEvidence() {
+        setAuditContent {
+            R14DeleteConversationDialog(
+                peer = visualR14Peer,
+                submitting = false,
+                failure = null,
+                onDismiss = {},
+                onConfirm = {},
+            )
+        }
+        waitForText("删除会话")
+        waitForText("不会删除对方的消息记录。", substring = true)
+        captureStable("36-r14-delete-dialog.png")
+    }
+
     private fun setAuditContent(content: @Composable () -> Unit) {
         composeRule.setContent { HhyTheme { content() } }
     }
 
-    private fun waitForText(text: String) {
+    private fun waitForText(text: String, substring: Boolean = false) {
         composeRule.waitUntil(15_000) {
-            composeRule.onAllNodesWithText(text).fetchSemanticsNodes().isNotEmpty()
+            composeRule.onAllNodesWithText(text, substring = substring).fetchSemanticsNodes().isNotEmpty()
         }
         composeRule.waitForIdle()
     }
@@ -886,6 +1022,116 @@ class HistoricalVisualAuditTest {
         ) = R07CallResult.Success(
             CommandResultResource(id, status = "ACCEPTED", acceptedAt = "2026-07-30T04:00:00Z"),
             "visual-r13-feedback",
+        )
+    }
+
+    private val visualR14Self = PublisherSummaryResource(
+        userId = "r14-visual-self",
+        nickname = "当前用户",
+        verified = true,
+        memberBadge = "认证成员",
+    )
+    private val visualR14Peer = PublisherSummaryResource(
+        userId = "r14-visual-peer",
+        nickname = "真实合作伙伴",
+        bio = "专注品牌增长与渠道共建",
+        verified = true,
+        memberBadge = "认证团队",
+    )
+    private val visualR14Messages = listOf(
+        ChatMessageResource(
+            id = "r14-message-peer",
+            conversationId = "r14-conversation-1",
+            sender = visualR14Peer,
+            clientMessageId = "r14-client-peer",
+            messageType = "TEXT",
+            payload = ChatTextPayload("项目资料已经收到"),
+            status = "SENT",
+            serverSequence = 1,
+            createdAt = "2026-07-30T04:10:00Z",
+            readAt = "2026-07-30T04:11:00Z",
+        ),
+        ChatMessageResource(
+            id = "r14-message-self",
+            conversationId = "r14-conversation-1",
+            sender = visualR14Self,
+            clientMessageId = "r14-client-self",
+            messageType = "TEXT",
+            payload = ChatTextPayload("请查看最新合作范围"),
+            status = "SENT",
+            serverSequence = 2,
+            createdAt = "2026-07-30T04:12:00Z",
+            readAt = null,
+        ),
+    )
+    private val visualR14Api = object : ContractR14Api {
+        override suspend fun conversations(
+            accessToken: String,
+            page: Int,
+            pageSize: Int,
+            cursor: String?,
+            status: String?,
+            keyword: String?,
+            sort: String?,
+        ) = R07CallResult.Success(
+            ChatConversationPageResource(
+                items = listOf(
+                    ChatConversationResource(
+                        id = "r14-conversation-1",
+                        peer = visualR14Peer,
+                        lastMessage = ChatLastMessageResource(
+                            messageId = "r14-message-peer",
+                            messageType = "TEXT",
+                            preview = "项目资料已经收到",
+                            senderId = visualR14Peer.userId,
+                            createdAt = "2026-07-30T04:10:00Z",
+                        ),
+                        unreadCount = 1,
+                        updatedAt = "2026-07-30T04:12:00Z",
+                        version = 4,
+                    ),
+                ),
+                page = R07PageMeta(page = 1, pageSize = 20, total = "1", hasMore = "false"),
+            ),
+            "visual-r14-conversations",
+        )
+
+        override suspend fun messages(
+            accessToken: String,
+            conversationId: String,
+            page: Int,
+            pageSize: Int,
+            cursor: String?,
+            status: String?,
+            keyword: String?,
+            sort: String?,
+        ) = R07CallResult.Success(
+            ChatMessagePageResource(
+                items = visualR14Messages,
+                page = R07PageMeta(page = 1, pageSize = 20, total = "2", hasMore = "false"),
+            ),
+            "visual-r14-messages",
+        )
+
+        override suspend fun send(
+            accessToken: String,
+            conversationId: String,
+            idempotencyKey: String,
+            request: ChatSendMessageRequest,
+        ): R07CallResult<ChatMessageResource> = R07CallResult.Failure(503)
+
+        override suspend fun read(
+            accessToken: String,
+            conversationId: String,
+            idempotencyKey: String,
+            request: ChatPostConversationsByIdReadRequest,
+        ) = R07CallResult.Success(
+            CommandResultResource(
+                resourceId = request.lastReadMessageId,
+                status = "READ",
+                acceptedAt = "2026-07-30T04:13:00Z",
+            ),
+            "visual-r14-read",
         )
     }
 
