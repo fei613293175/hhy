@@ -14,8 +14,8 @@ from jsonschema import Draft202012Validator
 
 from .gates import run_gate, validate_candidate_evidence
 from .state import assert_valid_state, read_state, write_state
-from .tasks import load_task_specs
-from .util import git, read_json, repository_lock, run, utc_now, write_json
+from .tasks import FAILED_RECOVERY_TASK_ID, REPAIR_RECOVERY_TASK_ID, load_task_specs, validate_specs
+from .util import git, read_json, read_yaml, repository_lock, run, utc_now, write_json, write_yaml
 from .views import next_ready_task, render_views
 
 AUTH_ENV = {"HHY_GOVERNANCE_ROLE": "ORCHESTRATOR"}
@@ -673,3 +673,119 @@ def unblock(repo: Path, task_id: str, evidence: Path) -> dict[str, Any]:
         state = read_state(repo)
         commit_id = _commit_state(repo, state, specs, f"[gov5.0] unblock {task_id}")
         return {"schema": "hhy.unblock/v5.0", "status": "READY", "task_id": task_id, "evidence": rel, "state_commit": commit_id}
+
+
+def supersede_failed(repo: Path, from_task: str, to_task: str, authorization: Path) -> dict[str, Any]:
+    """Atomically authorize a bounded repair task after a FAILED_BOUNDED task.
+
+    This is the only state transition that can replace a failed task. It never
+    changes the predecessor's attempt count or status and never creates a
+    worker attempt itself.
+    """
+    with repository_lock(repo):
+        if from_task != FAILED_RECOVERY_TASK_ID or to_task != REPAIR_RECOVERY_TASK_ID:
+            raise RuntimeError("only TASK-R14-RECOVERY-001 -> TASK-R14-RECOVERY-002 is supported")
+        state = read_state(repo)
+        if state["project"].get("status") != "FAILED_BOUNDED":
+            raise RuntimeError("project must be FAILED_BOUNDED")
+        predecessor = state["tasks"].get(from_task)
+        if not predecessor or predecessor.get("status") != "FAILED_BOUNDED" or predecessor.get("attempts_used") != 3:
+            raise RuntimeError("predecessor must remain FAILED_BOUNDED with exactly 3 attempts")
+        if to_task in state["tasks"]:
+            raise RuntimeError("repair task already exists in authoritative state")
+        authorization = authorization.resolve()
+        try:
+            auth_rel = authorization.relative_to(repo.resolve()).as_posix()
+        except ValueError as exc:
+            raise RuntimeError("authorization evidence must be inside repository") from exc
+        auth = read_json(authorization)
+        schema_path = repo / "governance" / "schemas" / "failed-recovery-authorization.schema.json"
+        schema = read_json(schema_path)
+        errors = sorted(Draft202012Validator(schema).iter_errors(auth), key=lambda error: list(error.path))
+        if errors:
+            raise RuntimeError("invalid recovery authorization: " + "; ".join(error.message for error in errors))
+        baseline = git(repo, "rev-parse", "HEAD")
+        if auth.get("baseline_commit") != baseline:
+            raise RuntimeError("authorization baseline_commit must equal current HEAD")
+        if git(repo, "status", "--porcelain=v1", "-uall"):
+            dirty = [line[3:] for line in git(repo, "status", "--porcelain=v1", "-uall").splitlines() if len(line) >= 4]
+            if dirty != [auth_rel]:
+                raise RuntimeError("only the authorization evidence may be uncommitted")
+
+        template_path = repo / "governance" / "recovery_templates" / f"{to_task}.yaml"
+        template = read_yaml(template_path) or {}
+        task_schema = read_json(repo / "governance" / "schemas" / "task-spec.schema.json")
+        task_errors = sorted(Draft202012Validator(task_schema).iter_errors(template), key=lambda error: list(error.path))
+        if task_errors:
+            raise RuntimeError("invalid repair task template: " + "; ".join(error.message for error in task_errors))
+        if template.get("id") != to_task or template.get("supersedes") != from_task or template.get("maximum_attempts") != 3:
+            raise RuntimeError("repair template is not bound to the failed predecessor")
+
+        target_path = repo / "governance" / "task_specs" / f"{to_task}.yaml"
+        r15_path = repo / "governance" / "task_specs" / "TASK-R15-001.yaml"
+        plan_path = repo / "governance" / "PROGRAM_PLAN.yaml"
+        transition_paths = [
+            target_path, r15_path, plan_path,
+            repo / "governance" / "STATE.yaml",
+            repo / "CURRENT_STATUS.yaml", repo / "NEXT_TASK.yaml",
+            repo / "governance" / "views" / "project-status.json",
+            repo / "governance" / "views" / "release-status.json",
+        ]
+        original_files = {path: path.read_bytes() if path.is_file() else None for path in transition_paths}
+        try:
+            write_yaml(target_path, template)
+            r15 = read_yaml(r15_path) or {}
+            r15["depends_on"] = [to_task]
+            write_yaml(r15_path, r15)
+            plan = read_yaml(plan_path) or {}
+            plan["task_count"] = int(plan.get("task_count") or 0) + 1
+            plan.setdefault("release_tasks", {}).setdefault("R14", []).append(to_task)
+            plan["recovery_tasks"] = list(plan.get("recovery_tasks") or []) + [to_task]
+            write_yaml(plan_path, plan)
+            specs = load_task_specs(repo)
+            errors = validate_specs(specs, plan)
+            if errors:
+                raise RuntimeError("repair task specs invalid: " + "; ".join(errors))
+            state["project"]["status"] = "ACTIVE"
+            state["project"]["active_release"] = "R14"
+            state["project"]["active_task"] = to_task
+            state["project"]["authoritative_commit"] = baseline
+            state["lease"] = None
+            state["tasks"][to_task] = {
+                "status": "READY",
+                "attempts_used": 0,
+                "current_attempt": None,
+                "last_error_fingerprint": None,
+                "last_candidate_commit": None,
+                "last_gate_evidence": None,
+                "blocker": None,
+            }
+            rev = state["revision"]
+            write_state(repo, state, expected_revision=rev)
+            state = read_state(repo)
+            commit_id = _commit_state(
+                repo,
+                state,
+                specs,
+                f"[gov5.0] supersede {from_task} with {to_task}",
+                [auth_rel, str(target_path.relative_to(repo)), str(r15_path.relative_to(repo)), str(plan_path.relative_to(repo))],
+            )
+            return {
+                "schema": "hhy.failed-recovery-supersede/v5.0",
+                "status": "READY",
+                "supersedes": from_task,
+                "task_id": to_task,
+                "baseline_commit": baseline,
+                "authorization": auth_rel,
+                "state_commit": commit_id,
+                "attempts_used": 0,
+                "maximum_attempts": 3,
+            }
+        except Exception:
+            for path, raw in original_files.items():
+                if raw is None:
+                    path.unlink(missing_ok=True)
+                else:
+                    path.write_bytes(raw)
+            git(repo, "reset", "--quiet", "--", auth_rel, *[str(path.relative_to(repo)) for path in transition_paths], check=False, env=AUTH_ENV)
+            raise

@@ -121,6 +121,15 @@ def assert_valid_state(state: dict[str, Any], specs: dict[str, dict[str, Any]]) 
             errors.append(f"{task_id}: current_attempt outside 1..3")
         if status in {"READY", "IN_PROGRESS"}:
             ready_or_active.append(task_id)
+    for task_id, spec in specs.items():
+        supersedes = spec.get("supersedes")
+        if not supersedes:
+            continue
+        predecessor = (state.get("tasks") or {}).get(str(supersedes))
+        if predecessor is None:
+            errors.append(f"{task_id}: superseded task is missing from state")
+        elif predecessor.get("status") != "FAILED_BOUNDED":
+            errors.append(f"{task_id}: superseded task must remain FAILED_BOUNDED")
     for release, row in (state.get("releases") or {}).items():
         if row.get("status") not in RELEASE_STATUSES:
             errors.append(f"{release}: invalid release status {row.get('status')}")

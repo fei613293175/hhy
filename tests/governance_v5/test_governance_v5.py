@@ -4,6 +4,7 @@ import copy
 import hashlib
 import json
 import os
+import shutil
 import subprocess
 import sys
 from pathlib import Path
@@ -18,6 +19,7 @@ sys.path.insert(0, str(ROOT))
 from tools.governance.gov50.gates import test_authority_check as authority_check, validate_candidate_evidence
 from tools.governance.gov50.hard import run_hard_protection
 from tools.governance.gov50.legacy import scan_active_control_plane
+from tools.governance.gov50.orchestrator import supersede_failed
 from tools.governance.gov50.secrets import scan_secrets
 from tools.governance.gov50.simulation import simulate_program
 from tools.governance.gov50.state import assert_valid_state, bootstrap_state
@@ -25,6 +27,7 @@ from tools.governance.gov50.tasks import (
     EXPECTED_FUTURE_TASKS,
     EXPECTED_SOURCE_TASKS,
     EXPECTED_TASKS,
+    REPAIR_RECOVERY_TASK_ID,
     build_program_plan,
     load_task_specs,
     validate_specs,
@@ -39,7 +42,7 @@ def _specs():
 
 def test_expected_task_counts():
     specs = _specs()
-    assert len(specs) == EXPECTED_TASKS == 266
+    assert len(specs) == EXPECTED_TASKS + int(REPAIR_RECOVERY_TASK_ID in specs) == 266
     assert sum(1 for s in specs.values() if s.get("source", {}).get("path", "").startswith("releases/")) == EXPECTED_SOURCE_TASKS == 264
     assert sum(1 for s in specs.values() if str(s.get("release", "")).startswith("R") and 15 <= int(s["release"][1:]) <= 32) == EXPECTED_FUTURE_TASKS == 144
 
@@ -286,3 +289,68 @@ def test_stale_repository_lock_is_reclaimed(tmp_path):
         assert lock.is_file()
         assert not lock.read_text(encoding="utf-8").startswith("99999999:")
     assert not lock.exists()
+
+
+def test_failed_recovery_authorization_schema_has_strict_owner_binding():
+    schema = json.loads((ROOT / "governance/schemas/failed-recovery-authorization.schema.json").read_text(encoding="utf-8"))
+    validator = Draft202012Validator(schema)
+    good = {
+        "schema": "hhy.failed-recovery-authorization/v5.0",
+        "status": "APPROVED",
+        "authorized_by": "PROJECT_OWNER",
+        "authorized_at": "2026-07-31T00:00:00Z",
+        "from_task": "TASK-R14-RECOVERY-001",
+        "to_task": "TASK-R14-RECOVERY-002",
+        "supersedes": "TASK-R14-RECOVERY-001",
+        "baseline_commit": "a" * 40,
+        "decision": "Retain post-89ccaf45 fixes and rebuild from current main.",
+        "scope": {"retain_prior_fixes": True, "reject_old_candidate": True, "release": "R14", "maximum_attempts": 3},
+    }
+    assert list(validator.iter_errors(good)) == []
+    bad = dict(good, authorized_by="MODEL")
+    assert list(validator.iter_errors(bad))
+
+
+def test_failed_recovery_rejects_any_non_formal_transition():
+    with pytest.raises(RuntimeError, match="only TASK-R14-RECOVERY-001"):
+        supersede_failed(ROOT, "TASK-R14-RECOVERY-001", "TASK-R14-RECOVERY-003", ROOT / "missing.json")
+
+
+def test_failed_recovery_transition_preserves_predecessor_and_binds_new_task(tmp_path):
+    repo = tmp_path / "repo"
+    shutil.copytree(ROOT / "governance", repo / "governance")
+    shutil.copytree(ROOT / "tools" / "governance", repo / "tools" / "governance")
+    for name in ("CURRENT_STATUS.yaml", "NEXT_TASK.yaml"):
+        shutil.copy2(ROOT / name, repo / name)
+    subprocess.run(["git", "init", "-q"], cwd=repo, check=True)
+    subprocess.run(["git", "config", "user.name", "test"], cwd=repo, check=True)
+    subprocess.run(["git", "config", "user.email", "test@example.invalid"], cwd=repo, check=True)
+    subprocess.run(["git", "add", "."], cwd=repo, check=True)
+    subprocess.run(["git", "commit", "-q", "-m", "baseline"], cwd=repo, check=True)
+    baseline = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=repo, text=True).strip()
+    authorization = repo / "authorization.json"
+    authorization.write_text(json.dumps({
+        "schema": "hhy.failed-recovery-authorization/v5.0",
+        "status": "APPROVED",
+        "authorized_by": "PROJECT_OWNER",
+        "authorized_at": "2026-07-31T00:00:00Z",
+        "from_task": "TASK-R14-RECOVERY-001",
+        "to_task": "TASK-R14-RECOVERY-002",
+        "supersedes": "TASK-R14-RECOVERY-001",
+        "baseline_commit": baseline,
+        "decision": "Retain post-89ccaf45 fixes and rebuild from current main.",
+        "scope": {"retain_prior_fixes": True, "reject_old_candidate": True, "release": "R14", "maximum_attempts": 3},
+    }), encoding="utf-8")
+    result = supersede_failed(repo, "TASK-R14-RECOVERY-001", "TASK-R14-RECOVERY-002", authorization)
+    assert result["status"] == "READY"
+    state = yaml.safe_load((repo / "governance/STATE.yaml").read_text(encoding="utf-8"))
+    assert state["project"]["active_task"] == "TASK-R14-RECOVERY-002"
+    assert state["project"]["status"] == "ACTIVE"
+    assert state["tasks"]["TASK-R14-RECOVERY-001"]["status"] == "FAILED_BOUNDED"
+    assert state["tasks"]["TASK-R14-RECOVERY-001"]["attempts_used"] == 3
+    assert state["tasks"]["TASK-R14-RECOVERY-002"]["status"] == "READY"
+    assert state["tasks"]["TASK-R14-RECOVERY-002"]["attempts_used"] == 0
+    assert yaml.safe_load((repo / "governance/task_specs/TASK-R15-001.yaml").read_text(encoding="utf-8"))["depends_on"] == ["TASK-R14-RECOVERY-002"]
+    simulated = simulate_program(repo)
+    assert simulated["status"] == "PASS", simulated
+    assert simulated["first_task"] == "TASK-R14-RECOVERY-002"

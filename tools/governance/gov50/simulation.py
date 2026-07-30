@@ -11,12 +11,19 @@ def simulate_program(repo: Path) -> dict[str, Any]:
     specs = load_task_specs(repo)
     plan = read_yaml(repo / "governance" / "PROGRAM_PLAN.yaml") or {}
     errors = validate_specs(specs, plan)
+    superseded = {str(spec["supersedes"]) for spec in specs.values() if spec.get("supersedes")}
+    active_r14_recovery = next(
+        (task_id for task_id, spec in specs.items()
+         if spec.get("release") == "R14" and spec.get("kind") == "recovery" and task_id not in superseded),
+        "TASK-R14-RECOVERY-001",
+    )
     done = {
         task_id for task_id, spec in specs.items()
         if task_id == "CONTROL-GOV50-MIGRATION"
         or spec.get("release") == "P00"
         or (str(spec.get("release", "")).startswith("R") and int(str(spec["release"])[1:]) <= 13)
-        or (spec.get("release") == "R14" and task_id != "TASK-R14-RECOVERY-001")
+        or (spec.get("release") == "R14" and task_id != active_r14_recovery)
+        or task_id in superseded
     }
     sequence: list[str] = []
     for release_num in range(14, 33):
@@ -35,7 +42,7 @@ def simulate_program(repo: Path) -> dict[str, Any]:
             sequence.append(task["id"])
             pending.remove(task)
         if release == "R14":
-            if "TASK-R14-RECOVERY-001" not in done:
+            if active_r14_recovery not in done:
                 errors.append("R14 recovery task did not complete")
         else:
             close_id = f"TASK-{release}-008"
@@ -45,8 +52,8 @@ def simulate_program(repo: Path) -> dict[str, Any]:
     missing = sorted(worker_tasks - done)
     if missing:
         errors.append(f"unreachable worker tasks: {missing[:20]}")
-    if sequence and sequence[0] != "TASK-R14-RECOVERY-001":
-        errors.append(f"first active task must be R14 recovery, got {sequence[0]}")
+    if sequence and sequence[0] != active_r14_recovery:
+        errors.append(f"first active task must be {active_r14_recovery}, got {sequence[0]}")
     if not sequence or sequence[-1] != "TASK-R32-008":
         errors.append(f"last task must be TASK-R32-008, got {sequence[-1] if sequence else None}")
     return {

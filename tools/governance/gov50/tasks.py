@@ -9,6 +9,8 @@ from .util import read_yaml, write_yaml
 EXPECTED_SOURCE_TASKS = 264
 EXPECTED_TASKS = 266
 EXPECTED_FUTURE_TASKS = 144
+FAILED_RECOVERY_TASK_ID = "TASK-R14-RECOVERY-001"
+REPAIR_RECOVERY_TASK_ID = "TASK-R14-RECOVERY-002"
 FORBIDDEN_ACTIVE_TERMS = (
     "change request", "change_request", "cr记录", "cr 记录", "session log", "session_log",
     "checkpoint", "continuity", "context pack", "current_status", "next_task",
@@ -249,6 +251,10 @@ def load_task_specs(repo: Path) -> dict[str, dict[str, Any]]:
         if task_id in specs:
             raise RuntimeError(f"duplicate task id: {task_id}")
         specs[task_id] = spec
+    # A formally superseding R14 repair task changes the R15 dependency. The
+    # Orchestrator persists the same change to the generated task-spec file.
+    if REPAIR_RECOVERY_TASK_ID in specs and "TASK-R15-001" in specs:
+        specs["TASK-R15-001"]["depends_on"] = [REPAIR_RECOVERY_TASK_ID]
     return specs
 
 
@@ -265,14 +271,16 @@ def build_program_plan(specs: dict[str, dict[str, Any]]) -> dict[str, Any]:
         "adjacent_release_only": True,
         "release_tasks": {r: [s["id"] for s in sorted(specs.values(), key=lambda x: (x.get("ordinal", 0), x["id"])) if s.get("release") == r] for r in releases},
         "control_tasks": ["CONTROL-GOV50-MIGRATION"],
-        "recovery_tasks": ["TASK-R14-RECOVERY-001"],
+        "recovery_tasks": [FAILED_RECOVERY_TASK_ID]
+        + ([REPAIR_RECOVERY_TASK_ID] if REPAIR_RECOVERY_TASK_ID in specs else []),
     }
 
 
 def validate_specs(specs: dict[str, dict[str, Any]], plan: dict[str, Any]) -> list[str]:
     errors: list[str] = []
-    if len(specs) != EXPECTED_TASKS:
-        errors.append(f"task_count expected {EXPECTED_TASKS}, got {len(specs)}")
+    expected_tasks = EXPECTED_TASKS + int(REPAIR_RECOVERY_TASK_ID in specs)
+    if len(specs) != expected_tasks:
+        errors.append(f"task_count expected {expected_tasks}, got {len(specs)}")
     future = sum(1 for s in specs.values() if s.get("release", "").startswith("R") and 15 <= int(s["release"][1:]) <= 32)
     if future != EXPECTED_FUTURE_TASKS:
         errors.append(f"R15-R32 task count expected {EXPECTED_FUTURE_TASKS}, got {future}")
@@ -288,6 +296,9 @@ def validate_specs(specs: dict[str, dict[str, Any]], plan: dict[str, Any]) -> li
         for dep in spec.get("depends_on") or []:
             if dep not in specs:
                 errors.append(f"{task_id}: missing dependency {dep}")
+        supersedes = spec.get("supersedes")
+        if supersedes is not None and supersedes not in specs:
+            errors.append(f"{task_id}: missing superseded task {supersedes}")
         if spec.get("mode") == "worker" and not spec.get("allowed_paths"):
             errors.append(f"{task_id}: worker task has no allowed paths")
     # Acyclic dependency check.
