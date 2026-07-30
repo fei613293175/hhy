@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## R14解除拉黑恢复输入框实时语义 · 2026-07-30
+
+- `CR-0499`归档GitHub Run `30500888697`的Attempt15：构建、Lint、单测、APK、自动登录、搜索、发送、composer清空、拉黑禁发、返回重进禁发和解除菜单均通过，并生成前三张截图；拉黑POST 64毫秒、解除DELETE 61毫秒均返回HTTP 200且应用无崩溃。
+- 唯一失败是解除后以UiAutomator resource-id观察不到重新进入Compose分支的composer；候选现于原10秒内等待Compose未合并语义树唯一节点并最终`assertIsDisplayed`，不再把不稳定的跨框架资源导出当作恢复事实。
+- Compose页面回归补全后台返回成功的“拉黑再解除”全过程，必须证明composer恢复、禁发栏消失且持久状态解除；后续长按删除、第四图、JUnit和日志验收保持不变。
+
 ## R14主线程修复候选授权 · 2026-07-30
 
 - `CR-0498`只授权`R14-CANDIDATE-20260730-015`绑定`CR-0497`修复Commit `2ad71a064f9401697257080c8e7e0357c6f71ca5`运行一次；已消费的Attempt14和`CR-0496`不可复用。

@@ -1,0 +1,75 @@
+{
+  "schema": "hhy.r14-candidate-failure-evidence/v1",
+  "release": "R14",
+  "attempt": 15,
+  "github_run_id": "30500888697",
+  "head_commit": "cbae9b4c8189fdc1556ef132f662c5908d7160a0",
+  "candidate_request_id": "R14-CANDIDATE-20260730-015",
+  "attempt_exception_id": "CR-0498",
+  "required_fix_commit": "2ad71a064f9401697257080c8e7e0357c6f71ca5",
+  "runtime_artifact": {
+    "name": "android-runtime-30500888697",
+    "downloaded_zip_sha256": "b7801814bcfe64a161d1527bbfaefa0ee3245d2ea9e25c58759540d1243f086f",
+    "runtime_report_sha256": "6e2b1a644923c5c8bc148867acd390d6076534f32d153ba7dfa80ef303b36d00",
+    "runtime_status": "FAIL",
+    "owner_test_allowed": false
+  },
+  "successful_stages": [
+    "candidate request validation",
+    "Android compile",
+    "Android unit tests",
+    "Android lint",
+    "APK packaging",
+    "candidate backend routing",
+    "automatic login",
+    "conversation load",
+    "conversation search",
+    "message appeared",
+    "sent state appeared",
+    "composer strict empty Compose assertion",
+    "block HTTP 200",
+    "blocked composer state",
+    "blocked state after reentry",
+    "unblock menu state",
+    "unblock HTTP 200"
+  ],
+  "server_http_evidence": [
+    {
+      "operation": "POST /api/v1/users/{id}/block",
+      "status": 200,
+      "latency_ms": 64,
+      "request_id": "ebc4b5b0-3f11-4aeb-b1e7-a78cee5dc550",
+      "timestamp": "2026-07-30T00:04:58.744427696Z"
+    },
+    {
+      "operation": "DELETE /api/v1/users/{id}/block",
+      "status": 200,
+      "latency_ms": 61,
+      "request_id": "1bf51ba6-e0f5-434e-aa78-685d684c992d",
+      "timestamp": "2026-07-30T00:05:06.214900329Z"
+    }
+  ],
+  "first_business_failure": {
+    "test": "ReleaseCandidateSmokeTest",
+    "source_line": 231,
+    "message": "R14 unblock did not restore composer",
+    "screenshots_produced": [
+      {
+        "name": "01-r14-conversations.png",
+        "sha256": "993f99561fde574e6ef53c9add8b1b53c31c9083ea8e9b5f2378080437095683"
+      },
+      {
+        "name": "02-r14-sent.png",
+        "sha256": "37e132b9d3911fd1236a0f165475d734d0557ca2c8c96059f85e50c28f9ddd2f"
+      },
+      {
+        "name": "03-r14-blocked-reentry.png",
+        "sha256": "e30c3ce57ea1f7f8078e2e6e919fcc55e5cb7bb75e81b9fabdbfc80620d0181b"
+      }
+    ]
+  },
+  "diagnosis": "The app completed block, blocked reentry, and DELETE unblock without a crash. The remaining assertion observed a composer recreated by a Compose branch through UiAutomator resource-id only, even though existing PROB-0125 and PROB-0151 evidence establishes that this export is not a stable final fact source.",
+  "required_fix": "Within the same ten-second deadline, wait for exactly one r14.chat.composer node in the unmerged Compose semantics tree and assert it is displayed. Add an Android Compose regression that performs a successful block followed by a successful unblock and proves composer restoration, blocked-node removal, and persisted-state removal.",
+  "fingerprint_round": 1,
+  "secrets_included": false
+}

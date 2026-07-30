@@ -4,6 +4,7 @@ import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertTextEquals
 import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.junit4.createComposeRule
+import androidx.compose.ui.test.onAllNodesWithText
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
@@ -139,6 +140,18 @@ class R14ChatDetailScreenTest {
         composeRule.onNodeWithTag("r14.chat.blocked").assertIsDisplayed()
         composeRule.onNodeWithTag("r14.chat.composer").assertDoesNotExist()
         assertTrue(persisted.get())
+
+        composeRule.onNodeWithContentDescription("会话操作").performClick()
+        composeRule.onNodeWithText("解除拉黑").performClick()
+        composeRule.onAllNodesWithText("解除拉黑")[1].performClick()
+        composeRule.waitUntil(5_000) {
+            runCatching {
+                composeRule.onNodeWithTag("r14.chat.composer").assertIsDisplayed()
+            }.isSuccess
+        }
+        composeRule.onNodeWithTag("r14.chat.composer").assertIsDisplayed()
+        composeRule.onNodeWithTag("r14.chat.blocked").assertDoesNotExist()
+        assertTrue(!persisted.get())
     }
 
     @Test
@@ -222,6 +235,17 @@ class R14ChatDetailScreenTest {
             R07CallResult.Success(
                 CommandResultResource(userId, null, "BLOCKED", null, "2026-07-29T04:02:04Z"),
                 "req-block",
+            )
+        }
+
+        override suspend fun unblock(
+            accessToken: String,
+            userId: String,
+            idempotencyKey: String,
+        ): R07CallResult<CommandResultResource> = withContext(Dispatchers.Default) {
+            R07CallResult.Success(
+                CommandResultResource(userId, null, "UNBLOCKED", null, "2026-07-30T00:05:06Z"),
+                "req-unblock",
             )
         }
     }

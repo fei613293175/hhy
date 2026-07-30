@@ -52,6 +52,37 @@ class AndroidCiGateTest(unittest.TestCase):
             ],
         )
 
+    def test_r14_attempt15_records_unblock_http_and_three_screens(self) -> None:
+        evidence = json.loads(
+            (
+                ROOT
+                / "artifacts/validation/r14-candidate-attempt15/failure-evidence.json"
+            ).read_text(encoding="utf-8")
+        )
+        self.assertEqual("30500888697", evidence["github_run_id"])
+        self.assertEqual(
+            ["POST /api/v1/users/{id}/block", "DELETE /api/v1/users/{id}/block"],
+            [item["operation"] for item in evidence["server_http_evidence"]],
+        )
+        self.assertTrue(
+            all(item["status"] == 200 for item in evidence["server_http_evidence"])
+        )
+        self.assertEqual(
+            [
+                "01-r14-conversations.png",
+                "02-r14-sent.png",
+                "03-r14-blocked-reentry.png",
+            ],
+            [
+                item["name"]
+                for item in evidence["first_business_failure"]["screenshots_produced"]
+            ],
+        )
+        self.assertEqual(
+            "R14 unblock did not restore composer",
+            evidence["first_business_failure"]["message"],
+        )
+
     def test_policy_enforces_from_r06_and_blocks_early_owner_test(self) -> None:
         policy = load_policy()
         self.assertFalse(is_enforced_release(policy, "R05"))
@@ -1565,6 +1596,11 @@ class AndroidCiGateTest(unittest.TestCase):
         self.assertIn('setComposeTagText("r14.chat.composer", sentText)', smoke_test)
         self.assertIn('assertComposeTagText("r14.chat.composer", "")', smoke_test)
         self.assertNotIn('assertResourceText("r14.chat.composer", "")', smoke_test)
+        self.assertIn('waitForUniqueComposeTag("r14.chat.composer", 10_000)', smoke_test)
+        self.assertNotIn(
+            'device.wait(Until.hasObject(By.res("r14.chat.composer")), 10_000)',
+            smoke_test,
+        )
         compose_text_helper = smoke_test[
             smoke_test.index("private fun assertComposeTagText"):
             smoke_test.index("private fun waitForComposeTagGone")

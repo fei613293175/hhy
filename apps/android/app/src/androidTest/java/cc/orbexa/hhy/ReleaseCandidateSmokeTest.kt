@@ -228,7 +228,11 @@ class ReleaseCandidateSmokeTest {
         captureStable("03-r14-blocked-reentry.png")
         clickExactText("解除拉黑")
         clickLastExactText("解除拉黑")
-        assertTrue("R14 unblock did not restore composer", device.wait(Until.hasObject(By.res("r14.chat.composer")), 10_000))
+        waitForUniqueComposeTag("r14.chat.composer", 10_000)
+        composeRule.onNode(
+            hasTestTag("r14.chat.composer"),
+            useUnmergedTree = true,
+        ).assertIsDisplayed()
 
         device.pressBack()
         assertTrue("R14 unblock did not return to list", waitForScreen("hhy.screen.r14.conversations"))
