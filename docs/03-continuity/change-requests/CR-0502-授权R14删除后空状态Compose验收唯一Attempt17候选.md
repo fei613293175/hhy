@@ -86,3 +86,10 @@ Attempt16全部业务及四张截图均完成，删除HTTP 200且会话行消失
 - Status：`IMPLEMENTING`
 - Session：`SES-20260729T161557Z-6FCE6ACA`
 - Note：开始写入Attempt17精确例外、候选请求和错误身份拒绝断言。
+
+## 状态记录 · 2026-07-30T01:11:53Z
+
+- Actor：`codex-r14-attempt17-requester`
+- Status：`IMPLEMENTED`
+- Session：`SES-20260729T161557Z-6FCE6ACA`
+- Note：Attempt17精确授权、请求、错误身份拒绝测试和Changelog已提交；34项治理回归及请求验证通过。
