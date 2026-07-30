@@ -1,0 +1,42 @@
+schema: hhy.task-spec/v5.0
+id: TASK-R13-002
+release: R13
+ordinal: 2
+title: 收藏、历史、分享与行为审计数据迁移与领域不变量
+kind: database
+mode: worker
+source:
+  path: releases/R13/TASKS.yaml
+  original_id: TASK-R13-002
+requirements:
+- REQ-PUBLISHER-001
+- REQ-ACTIVITY-001
+- REQ-APK-001
+depends_on:
+- TASK-R13-001
+objective: 实现/演进content_posts, project_details, app_details, group_details, team_leader_details, content_media, content_contacts,
+  content_versions等，补齐唯一约束、状态历史、幂等键和回滚验证
+deliverables:
+- Flyway前向迁移与空库/升级库测试
+- 不变量属性测试
+acceptance:
+- 无TODO/生产Mock
+- 代码、文档、测试、追踪同步更新
+- Flyway前向迁移与空库/升级库测试
+- 不变量属性测试
+allowed_paths:
+- catalogs/**
+- contracts/**
+- database/**
+- docs/**
+- services/backend/**
+- tests/**
+risks:
+- database
+- production
+- secrets
+acceptance_commands:
+- python3 scripts/check_db_schema.py
+maximum_attempts: 3
+owner_verification: ASYNC_NON_BLOCKING_FOR_NEXT_RELEASE
+legacy_status: DONE

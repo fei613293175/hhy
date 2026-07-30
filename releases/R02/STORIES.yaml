@@ -45,6 +45,7 @@ stories:
   - users
   - user_profiles
   - user_status_logs
+  - user_restrictions
   - user_sessions
   - h5_page_configs
   - cms_articles

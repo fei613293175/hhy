@@ -1,0 +1,112 @@
+protocol_version: '1.0'
+package_version: 1.2.3
+session_id: SES-20260718T105025Z-0B8DE284
+status: CLOSED
+actor:
+  id: codex-root
+  kind: AI_OR_HUMAN
+  host: unknown
+release: R02
+task_id: TASK-R02-007
+story_id: STORY-R02-009
+goal: 使用固定Android工具链和稳定测试签名构建R02 APK，验证真实API地址、签名、安装可行性、桌面与下载产物哈希并生成完整追溯清单
+started_at: '2026-07-18T10:50:25Z'
+updated_at: '2026-07-18T13:23:32Z'
+takeover_of: null
+change_requests:
+- CR-0042
+- CR-0043
+- CR-0044
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions:
+  - artifacts/apk/R02/APK_MANIFEST.yaml
+  - artifacts/reports/R02/TASK-R02-007-android-apk.md
+  - artifacts/validation/r02-apk-delivery/delivery-evidence.json
+  - artifacts/validation/r02-task007-android/api-platform-status.json
+  - artifacts/validation/r02-task007-android/apk-badging.txt
+  - artifacts/validation/r02-task007-android/apk-signing.txt
+  - artifacts/validation/r02-task007-android/build-evidence.json
+  - artifacts/validation/r02-task007-android/gradle-build.exit
+  - artifacts/validation/r02-task007-android/gradle-build.log
+  - artifacts/validation/r02-task007-android/nginx-download-gate.txt
+  - artifacts/validation/r02-task007-android/zipalign.txt
+  - artifacts/validation/project-doctor-v1.2.2.json
+  - scripts/continuity.py
+  - tests/test_continuity_cross_release_close.py
+  - .continuity/CONTINUITY_POLICY.yaml
+  - AGENTS.md
+  - docs/03-continuity/REUSABLE_PATTERNS.md
+  source: story+explicit+approved-cr:CR-0043+approved-cr:CR-0044
+git:
+  initialized: true
+  branch: task/TASK-R02-002
+  base_commit: c82f53671c1184c3bb8612fcbef5e5dd35d4e962
+  start_head: c82f53671c1184c3bb8612fcbef5e5dd35d4e962
+  upstream: origin/task/TASK-R02-002
+  initial_worktree_state: CLEAN
+lease:
+  duration_minutes: 240
+  renewed_at: '2026-07-18T13:23:30Z'
+  expires_at: '2026-07-18T17:23:30Z'
+checkpoint_sequence: 13
+latest_checkpoint: .continuity/checkpoints/SES-20260718T105025Z-0B8DE284/0013.yaml
+session_log: docs/03-continuity/sessions/2026-07/SES-20260718T105025Z-0B8DE284.md
+next_step: 提交关闭元数据Commit，然后运行pre-push/CI门禁
+context_pack:
+  yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
+  markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
+  manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+  context_hash: 54151e627902cc302358eb63a535cab9ebd99e9ccf46767c268739a69caf5a5e
+  generated_at: '2026-07-18T13:23:32Z'
+handoff_bundle: null
+closure:
+  result: BLOCKED
+  summary: R02机器交付与公网PNG门禁均PASS，等待项目所有者对hhy-r02-7b425c4-debug.apk完成真机验证码与登录路径验收
+  code_commit: 7b425c4e4ca7aa53eef142fd00172bbdc761afd5
+  next_release: R03
+  next_task: TASK-R03-001
+  blocked_advance: true
+  user_confirmation: 项目所有者要求先继续推进下一个版本，R02 APK一会测试完再反馈，未要求暂停
+  metadata_commit: PENDING
+  push_verification: CI_REQUIRED_AFTER_METADATA_COMMIT
+  started_at: '2026-07-18T13:23:29Z'
+  closure_checkpoint_id: CP-SES-20260718T105025Z-0B8DE284-0013
+  closed_at: '2026-07-18T13:23:32Z'
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: CR状态、事件链和任务切换元数据需由唯一主控串行维护
+closed_at: '2026-07-18T13:23:32Z'

@@ -1,0 +1,59 @@
+protocol_version: '1.0'
+cr_id: CR-0454
+title: 替代CR-0453强制R14后连续版本机器闭环
+status: REJECTED
+created_at: '2026-07-28T14:51:31Z'
+updated_at: '2026-07-28T14:52:43Z'
+requester_actor_id: codex-r16-client-admin-20260728
+approver_actor_id: codex-r14-sequence-independent-review-20260728
+task_id: TASK-R16-004
+session_id: SES-20260728T125934Z-F3DED330
+user_request: 总结R14未完成却跳过R15进入R16的连续性错误根因，并强制更新既有规则与机器门禁；开发不得依赖聊天记录。
+reason: CR-0453已独立REJECTED并保留历史：遗漏Android自动化规则、测试体系、门禁脚本及其测试，且负向证据与close原子时序不足；本CR按审查意见完整替代。
+original_rule: 既有规则一方面要求逐版本核对，另一方面允许TEST_APK或候选失败后继续下一独立Release；continuity close仅按依赖图允许旁路，start/resume只信CURRENT_STATUS与NEXT_TASK，Android自动化规则也明确candidate失败不阻断下一版，形成可执行的规则冲突。
+new_rule: R14起下一业务Release只能是当前Release编号+1；项目所有者真机PENDING仍异步且不阻断，但上一Release必须全部TASK完成（close原子校验时仅把当前最终TASK按本次COMPLETED拟DONE）、同一冻结Commit的TEST_APK与测试文档/Manifest/Evidence身份一致、该Release与该Commit的GitHub真实交互候选PASS、machine
+  completion PASS后才能跨Release领取。candidate FAIL或缺失、TASK未完、Manifest/Evidence/guide缺失、SHA/Commit/release错配、R14直跳R16均硬失败。start、无会话resume和close在任何状态写入前调用同一仓库证据校验；CURRENT_STATUS/NEXT_TASK不能单独证明完成。R13及以前owner异步尾部兼容仅保留历史。
+impact_summary: 完整原位修订连续性、Android自动化、测试体系与开发效率现有事实源；新增统一版本序列与机器闭环验证器，接入start/resume/close并保持close先校验后写入的原子性；登记本次漂移、踩坑与复用模式，纠正后续顺序为R14闭环、R15、R16。
+impact:
+  files:
+  - AGENTS.md
+  - templates/AGENTS.md
+  - docs/00-baseline/正式商业系统全局硬性开发边界.md
+  - docs/09-development/统一开发与交付效率规范.md
+  - config/development-workflow.yaml
+  - config/android-automation.yaml
+  - docs/08-testing/Android自动开发测试修复交付体系_V1.0.md
+  - scripts/continuity.py
+  - scripts/check_v123_continuity.py
+  - scripts/android_ci_gate.py
+  - tests/test_continuity_cross_release_close.py
+  - tests/test_continuity_version_sequence.py
+  - tests/test_android_ci_gate.py
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/PITFALLS.md
+  - docs/03-continuity/REUSABLE_PATTERNS.md
+  - CHANGELOG.md
+  pages: []
+  apis: []
+  database: []
+  configuration:
+  - R14+ cross_release_gate requires sequential number, all tasks done, TEST_APK pair identity, same-release same-commit interactive candidate
+    PASS and machine completion PASS; owner PENDING async only
+  ledger: []
+  tests:
+  - 分别覆盖start/resume/close；R14未完成；R14到R16跳级；R15空缺但状态指R16；缺Manifest/Evidence/guide；SHA/Commit错配；candidate FAIL/缺失/release或commit错配；close当前最终任务拟DONE原子通过；失败不改状态；R13历史兼容；R14全绿到R15通过；android_ci规则投影一致
+  releases:
+  - R14
+  - R15
+  - R16
+  migration_and_compatibility: 不改产品API/数据库/线上运行时。R02至R13保留既有owner异步尾部兼容；R14及以后严格顺序。TEST_APK仍可先交付，owner PENDING仍非阻断，但二者都不能绕过R14+ GitHub候选与machine
+    completion进入下一Release。当前R16代码stash保留，待R14和R15真实完成后恢复。
+user_confirmation: PENDING
+approval:
+  decision: REJECTED
+  decided_at: '2026-07-28T14:52:43Z'
+  note: 独立计划审查REJECTED：CR-0454已正确补齐Android自动化唯一事实源、门禁脚本及负向证据，TEST_APK可先交付、owner PENDING异步、R14+候选FAIL阻断跨Release、R13历史兼容和close拟DONE原子校验均正确；但“resume”仍被限定为“无会话resume”，没有覆盖当前最关键的已有ACTIVE/HANDED_OFF/过期R16会话。现有command_resume在存在ACTIVE
+    R16会话时直接返回ACTIVE_SESSION_RESUMED，不读取NEXT_TASK，也不验证R14/R15仓库闭环，因此R14未完、R15空缺的现状仍可继续R16，未满足用户要求。必须以替代CR补充：同一统一校验同时接入有会话resume；为封死等价旁路，还应接入takeover与recover（至少测试ACTIVE
+    R16 resume、HANDED_OFF R16 takeover、过期R16 recover在R14/R15证据不完整时于任何会话/状态写入前硬失败），而恢复到R14当前合法会话或R14全绿后的R15会话应通过。保留已补齐的全部文件、事实源、原子性和负向矩阵后再审。
+machine_record: .continuity/change_requests/CR-0454.yaml
+document: docs/03-continuity/change-requests/CR-0454-替代CR-0453强制R14后连续版本机器闭环.md

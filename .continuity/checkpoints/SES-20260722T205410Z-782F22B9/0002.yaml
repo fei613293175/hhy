@@ -1,0 +1,246 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260722T205410Z-782F22B9-0002
+session_id: SES-20260722T205410Z-782F22B9
+sequence: 2
+created_at: '2026-07-22T21:26:21Z'
+summary: R09候选公网后端healthy并切换；修复编辑页可视断言和不可变版本固定数据幂等复跑
+next_step: 提交补充修正并推送唯一R09最终候选，监控GitHub模拟器证据
+blockers: []
+decisions:
+- 固定数据对content_versions只首次插入，既有版本绝不更新
+note: ''
+tests:
+- name: R09 fixture regressions
+  result: PASS
+  evidence: 23 tests
+  note: 候选脚本和门禁回归通过
+- name: Android instrumentation compile
+  result: PASS
+  evidence: BUILD SUCCESSFUL
+  note: 编辑页候选断言编译通过
+- name: R09 public backend
+  result: PASS
+  evidence: healthy and HTTPS 200
+  note: 公网入口已切换到28094
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: f6adeaf75d06655ae78ee52734398cd05a23e4ff
+  upstream: origin/task/TASK-R03-001
+  ahead: 1
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - ' M apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt'
+  - ' M scripts/prepare_r09_ci_fixture.sh'
+  - ' M tests/test_r09_ci_fixture.py'
+  recent_commits:
+  - "f6adeaf75d06655ae78ee52734398cd05a23e4ff\t2026-07-23T05:13:12+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] feat(r09): prepare app candidate\
+    \ journey"
+  - "58ee7f5ad3e6fe843f6b5009f405f1c9b2139b88\t2026-07-23T04:52:23+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] docs(r09): close TASK-R09-006"
+  - "51debc0b87a3a6535e4e4bb87d2272483861181f\t2026-07-23T04:51:16+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] docs(r09): close staging change\
+    \ requests"
+  - "a478e03087475d937fdaf366d7c11f6c1e3b925a\t2026-07-23T04:49:09+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] test(staging): normalize evidence\
+    \ hashes"
+  - "935faa09e90c028d7f5bb9b5d9a1dccddf309baf\t2026-07-23T04:47:41+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] test(staging): freeze R09\
+    \ acceptance evidence"
+  - "d056c54fb4a9e92f299a3ba78f0bc043706bd58b\t2026-07-23T04:39:32+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] fix(staging): wait for Prometheus\
+    \ target"
+  - "185d81a2ac7efa3380c37420b5e54165a4b899f6\t2026-07-23T04:35:18+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] fix(staging): isolate observability\
+    \ ports"
+  - "c7c342dd9d4a39863b5c6e22b46c9a76c962ac29\t2026-07-23T04:30:48+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] fix(staging): isolate R09\
+    \ network range"
+project_fingerprint:
+  sha256: e897b9281f9b025edbce177ea808cab98e793d48405756f7ad58d8a408798f6f
+  files:
+  - CHANGELOG.md
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+  - apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+  - apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+  - apps/android/feature/app-promotion/src/main/java/cc/orbexa/hhy/apppromotion/R09AppScreens.kt
+  - apps/android/feature/app-promotion/src/test/java/cc/orbexa/hhy/apppromotion/R09AppStateTest.kt
+  - config/android-candidate-request.yaml
+  - docs/03-continuity/change-requests/CR-0257-建立R09-App最终候选真实旅程与唯一产物门禁.md
+  - docs/03-continuity/change-requests/CR-0258-修复R09编辑页分类与平台技术编码可见性.md
+  - docs/07-operations/DEPLOYMENT_RUNBOOK.md
+  - scripts/prepare_r09_ci_fixture.sh
+  - scripts/run_android_emulator_gate.sh
+  - tests/android/visual-manifests/R09.yaml
+  - tests/test_android_ci_gate.py
+  - tests/test_r09_android_ui.py
+  - tests/test_r09_ci_fixture.py
+  file_count: 17
+  payload:
+    base_commit: 58ee7f5ad3e6fe843f6b5009f405f1c9b2139b88
+    files:
+    - path: CHANGELOG.md
+      state: FILE
+      size: 100641
+      sha256: 49d747c20e4dd5e9ed689f4e9a9472684fa85da4c9c53c45303ea32ad5ba00a9
+    - path: apps/android/app/build.gradle.kts
+      state: FILE
+      size: 5190
+      sha256: 3d6cbb9eccd6652ed00ca4d14816cdf1bcedf5b17464ee591d3913204b35aa81
+    - path: apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+      state: FILE
+      size: 11782
+      sha256: 3e4ecddde4e1dd26d538472b3909b8f7a979671068b06e5efe385551749a4a45
+    - path: apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+      state: FILE
+      size: 520
+      sha256: 4e0b9ff5bb4621e5f9602d40d27132ecb63ac3db7a1e5e3de059d9d51ffe59a6
+    - path: apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+      state: FILE
+      size: 1243
+      sha256: 9935d4a48a40916b2d6ea6a07035660a84d89ed1a7acb060d1448206a6f485da
+    - path: apps/android/feature/app-promotion/src/main/java/cc/orbexa/hhy/apppromotion/R09AppScreens.kt
+      state: FILE
+      size: 35380
+      sha256: 0397033eed3b9e96d165911c44b78a24938714dc6448e58445a396a49c016449
+    - path: apps/android/feature/app-promotion/src/test/java/cc/orbexa/hhy/apppromotion/R09AppStateTest.kt
+      state: FILE
+      size: 2209
+      sha256: 1e30dba4d096dc3b04c68afb0b03047e6184b5e3213dffec15235ca7dae20987
+    - path: config/android-candidate-request.yaml
+      state: FILE
+      size: 319
+      sha256: f9ce12aaabc8c3bf7471471ccd8afe3385cb6fb2333eb68c8c2d63607ea6d065
+    - path: docs/03-continuity/change-requests/CR-0257-建立R09-App最终候选真实旅程与唯一产物门禁.md
+      state: FILE
+      size: 4422
+      sha256: 5021ae489b56ee20dbef1c38d04582befeaa69bccad8ef836a6ace258401d86f
+    - path: docs/03-continuity/change-requests/CR-0258-修复R09编辑页分类与平台技术编码可见性.md
+      state: FILE
+      size: 2952
+      sha256: d78203939e87cec5c807bdf4431302d0e9a95b41c720631328943cf12294141d
+    - path: docs/07-operations/DEPLOYMENT_RUNBOOK.md
+      state: FILE
+      size: 33697
+      sha256: 5504f8be9004fad33327eef41d135cae9209ca12c084e3f5c316a780c0655ca7
+    - path: scripts/prepare_r09_ci_fixture.sh
+      state: FILE
+      size: 4478
+      sha256: 87096a06590349523979d26c5749bfa2b94cbf79f88d62837dcf7105326173d7
+    - path: scripts/run_android_emulator_gate.sh
+      state: FILE
+      size: 2700
+      sha256: ef43d6d9a70734ad7f1361a261f0b363716e3585cba99e467a8009f8f6f8ef3b
+    - path: tests/android/visual-manifests/R09.yaml
+      state: FILE
+      size: 1682
+      sha256: 509ba65a4d6774b9fe148d0947164d13c3a7bd266e1d701d2a2f6953e14dde61
+    - path: tests/test_android_ci_gate.py
+      state: FILE
+      size: 29301
+      sha256: 86bf454fe5901c44a9c1c08d6df2ded5f98e5546251444477741a4b377b9817a
+    - path: tests/test_r09_android_ui.py
+      state: FILE
+      size: 1394
+      sha256: 6c6e2888b2e6f3077eb15f1fc52001b4affcde36a830bd617ed7452b10186f75
+    - path: tests/test_r09_ci_fixture.py
+      state: FILE
+      size: 2341
+      sha256: 873c333116c39956fd5bb072ac5cb94baefbba1938fec3537f0baf8f75a45bf5
+change_classification:
+  other:
+  - CHANGELOG.md
+  - config/android-candidate-request.yaml
+  - docs/07-operations/DEPLOYMENT_RUNBOOK.md
+  code:
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+  - apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+  - apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+  - apps/android/feature/app-promotion/src/main/java/cc/orbexa/hhy/apppromotion/R09AppScreens.kt
+  - apps/android/feature/app-promotion/src/test/java/cc/orbexa/hhy/apppromotion/R09AppStateTest.kt
+  - scripts/prepare_r09_ci_fixture.sh
+  - scripts/run_android_emulator_gate.sh
+  user_visible:
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+  - apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+  - apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+  - apps/android/feature/app-promotion/src/main/java/cc/orbexa/hhy/apppromotion/R09AppScreens.kt
+  - apps/android/feature/app-promotion/src/test/java/cc/orbexa/hhy/apppromotion/R09AppStateTest.kt
+  continuity:
+  - docs/03-continuity/change-requests/CR-0257-建立R09-App最终候选真实旅程与唯一产物门禁.md
+  - docs/03-continuity/change-requests/CR-0258-修复R09编辑页分类与平台技术编码可见性.md
+  tests:
+  - tests/android/visual-manifests/R09.yaml
+  - tests/test_android_ci_gate.py
+  - tests/test_r09_android_ui.py
+  - tests/test_r09_ci_fixture.py
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+- CHANGELOG
+change_requests:
+- CR-0257
+- CR-0258
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  - releases/R09/
+  approved_exceptions:
+  - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+  - scripts/run_android_emulator_gate.sh
+  - scripts/prepare_r09_ci_fixture.sh
+  - tests/test_r09_ci_fixture.py
+  - tests/test_android_ci_gate.py
+  - tests/android/visual-manifests/R09.yaml
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+  - apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+  - config/android-candidate-request.yaml
+  - docs/07-operations/DEPLOYMENT_RUNBOOK.md
+  - catalogs/ui_visual_acceptance.csv
+  - releases/R09/RELEASE_MANIFEST.yaml
+  - tests/android/visual-baselines/R09/01-app-list.png
+  - tests/android/visual-baselines/R09/02-app-detail.png
+  - tests/android/visual-baselines/R09/03-app-editor.png
+  - tests/android/visual-baselines/R09/APPROVAL.yaml
+  - CHANGELOG.md
+  - apps/android/feature/app-promotion/src/main/java/cc/orbexa/hhy/apppromotion/R09AppScreens.kt
+  - apps/android/feature/app-promotion/src/test/java/cc/orbexa/hhy/apppromotion/R09AppStateTest.kt
+  - tests/test_r09_android_ui.py
+  source: story+explicit+approved-cr:CR-0257+approved-cr:CR-0258
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 候选切换、冻结提交与唯一GitHub运行必须串行保持同一事实链
+event_hash: afa492bc0b76a1bfb482a64ac763b25702742f6d97370acb133170b088f7587b

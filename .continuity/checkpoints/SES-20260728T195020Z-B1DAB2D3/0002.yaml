@@ -1,0 +1,153 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260728T195020Z-B1DAB2D3-0002
+session_id: SES-20260728T195020Z-B1DAB2D3
+task_id: TASK-R14-006
+story_id: STORY-R14-004
+sequence: 2
+created_at: '2026-07-28T20:16:13Z'
+summary: CR-0468远程双门禁PASS并关闭；CR-0469已加固R14 Staging验收入口，禁止复用不含举报目录的旧冻结Commit
+next_step: 提交推送验收入口，随后在obx-test仅清理并重建hhy-r14-staging隔离项目，执行TASK-R14-006完整现场验收
+blockers: []
+decisions: []
+note: ''
+tests:
+- name: report-catalog-generated-check
+  result: PASS
+  evidence: python scripts/generate_chat_report_reason_catalog.py --check
+  note: R14_REPORT_REASON_CATALOG_OK
+- name: program-execution-plan
+  result: PASS
+  evidence: python scripts/check_program_execution_plan.py --json
+  note: 31 releases, 0 errors
+- name: r14-staging-script-syntax
+  result: PASS
+  evidence: ssh obx-test bash -n -s
+  note: bash syntax PASS
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: 446316f0c1d6347e300fb7c6544bd762dd430286
+  upstream: origin/task/TASK-R03-001
+  ahead: 0
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/change_requests/CR-0468.yaml'
+  - ' M .continuity/sessions/SES-20260728T195020Z-B1DAB2D3.yaml'
+  - ' M catalogs/change_request_index.csv'
+  - ' M catalogs/session_index.csv'
+  - ' M docs/03-continuity/change-requests/CR-0468-修复历史序列恢复测试绑定当前会话导致后续任务CI失败.md'
+  - ' M scripts/run_r14_staging_acceptance.sh'
+  - ?? .continuity/change_requests/CR-0469.yaml
+  - ?? docs/03-continuity/change-requests/CR-0469-按CR-0464目录源重建R14隔离Staging验收.md
+  recent_commits:
+  - "446316f0c1d6347e300fb7c6544bd762dd430286\t2026-07-29T04:02:22+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] test(continuity): decouple\
+    \ recovery history from active session"
+  - "e61cdcd4493ccf86d53682da10b23c516ebe8925\t2026-07-29T03:31:48+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(continuity): close TASK-R14-005\
+    \ as completed"
+  - "109c0294843f696327c9a0f777826018bf562fc0\t2026-07-29T03:27:46+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(r14): close chat test\
+    \ changes"
+  - "f9ed32b1d8d167ab5553401eb1f79c4a8eb0e5f2\t2026-07-29T03:22:40+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] docs(r14): archive chat reliability\
+    \ evidence"
+  - "dbd71c6673808e3f8a9e37f7f77efa97bef9ead9\t2026-07-29T03:03:42+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] test(r14): isolate replay\
+    \ stubbing"
+  - "5aa6ce3b76afaa5addeadca3d38e9bcf9ccebb94\t2026-07-29T02:57:02+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] test(r14): import PostgreSQL\
+    \ assertion"
+  - "d9492684607e8ec73df186a7d036901abbacbffb\t2026-07-29T02:45:03+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] test(chat): automate six R14\
+    \ reliability matrices"
+  - "7a6ae5be9d6bde9ca9144794f3ef7cc754269313\t2026-07-29T02:18:45+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(continuity): close TASK-R14-004\
+    \ as completed"
+project_fingerprint:
+  sha256: 59be5e3cb2b8f16cf5d06367c029c4186a2f4a314e497c40705bd7eba5005633
+  files:
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/change-requests/CR-0468-修复历史序列恢复测试绑定当前会话导致后续任务CI失败.md
+  - docs/03-continuity/change-requests/CR-0469-按CR-0464目录源重建R14隔离Staging验收.md
+  - scripts/run_r14_staging_acceptance.sh
+  - tests/test_continuity_sequence_recovery.py
+  file_count: 5
+  payload:
+    base_commit: e61cdcd4493ccf86d53682da10b23c516ebe8925
+    files:
+    - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
+      state: FILE
+      size: 242234
+      sha256: a462ede401c92b239c4898c7131af068be535f0567225b77bec439a60e447edf
+    - path: docs/03-continuity/change-requests/CR-0468-修复历史序列恢复测试绑定当前会话导致后续任务CI失败.md
+      state: FILE
+      size: 3759
+      sha256: dc1a9a8709de4a7fac29dc41fc14148874f6a10ab287194df9fce806c168562e
+    - path: docs/03-continuity/change-requests/CR-0469-按CR-0464目录源重建R14隔离Staging验收.md
+      state: FILE
+      size: 3368
+      sha256: 7cdaad3bba956d85e1692ac9392a0d073b1c8568a1fca0356b0c5abd24e862fb
+    - path: scripts/run_r14_staging_acceptance.sh
+      state: FILE
+      size: 20081
+      sha256: 1d3708b49e2ad532af037169e8225e650b9d4720c4331ba7f3160de76649a048
+    - path: tests/test_continuity_sequence_recovery.py
+      state: FILE
+      size: 8703
+      sha256: d717e5c8a96295473d4b214bdf73e4ba99f11736bb550efa7007aca7cb7e6e8a
+change_classification:
+  continuity:
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/change-requests/CR-0468-修复历史序列恢复测试绑定当前会话导致后续任务CI失败.md
+  - docs/03-continuity/change-requests/CR-0469-按CR-0464目录源重建R14隔离Staging验收.md
+  code:
+  - scripts/run_r14_staging_acceptance.sh
+  tests:
+  - tests/test_continuity_sequence_recovery.py
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+change_requests:
+- CR-0468
+- CR-0469
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions: []
+  source: story+explicit
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 冻结脚本、隔离Staging生命周期和最终证据共享同一Compose project与状态，需由主控串行防止重复清理或并发告警注入
+event_hash: f80a56ef6f273f7103ad833b2ed6d5c6f5a425582bbc1cc264beacba48a45e54

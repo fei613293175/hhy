@@ -1,0 +1,126 @@
+protocol_version: '1.0'
+package_version: 1.2.3
+session_id: SES-20260728T102501Z-3189682B
+status: CLOSED
+actor:
+  id: codex-r16-backend-20260728
+  kind: AI_OR_HUMAN
+  host: unknown
+release: R16
+task_id: TASK-R16-003
+story_id: STORY-R16-001
+goal: 持续完成R16至R32，当前完整落地10个商品、SKU、报价与统一订单后端operationId
+started_at: '2026-07-28T10:25:01Z'
+updated_at: '2026-07-28T12:57:16Z'
+takeover_of: null
+change_requests:
+- CR-0442
+- CR-0443
+- CR-0444
+- CR-0445
+- CR-0446
+- CR-0447
+scope:
+  allowed_paths:
+  - apps/admin-web/**
+  - services/backend/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - tests/**
+  - docs/**
+  - catalogs/**
+  - releases/**
+  - design/**
+  - scripts/**
+  - CHANGELOG.md
+  approved_exceptions:
+  - database/migrations/V046__r16_product_permission_alignment.sql
+  - services/backend/boot/src/main/resources/db/migration/V046__r16_product_permission_alignment.sql
+  - database/rollback/U046__r16_product_permission_alignment_DEV_ONLY.sql
+  - database/tests/r16_product_permission_alignment.sql
+  - scripts/run_r16_database_invariants.sh
+  - scripts/check_db_schema.py
+  - services/backend/commerce/src/main/java/cc/orbexa/hhy/commerce/R16CommerceContracts.java
+  - services/backend/commerce/src/main/java/cc/orbexa/hhy/commerce/R16CommerceStore.java
+  - services/backend/commerce/src/main/java/cc/orbexa/hhy/commerce/R16CommercePostgresStore.java
+  - services/backend/commerce/src/main/java/cc/orbexa/hhy/commerce/R16CommerceService.java
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/R16OrderController.java
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/admin/R16CommerceAdminController.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/commerce/R16CommerceServiceTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/commerce/R16CommercePostgresStoreTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/R16CommerceControllerContractTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/R16CommerceModuleBoundaryTest.java
+  - tests/test_r16_backend_contract.py
+  - releases/R16/TASKS.yaml
+  - releases/R16/STORIES.yaml
+  - releases/R16/RELEASE_MANIFEST.yaml
+  - artifacts/reports/R16/TASK-R16-003-backend.md
+  - CHANGELOG.md
+  - database/migrations/V047__r16_commerce_contract_alignment.sql
+  - services/backend/boot/src/main/resources/db/migration/V047__r16_commerce_contract_alignment.sql
+  - database/rollback/U047__r16_commerce_contract_alignment_DEV_ONLY.sql
+  - database/tests/r16_commerce_contract_alignment.sql
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/realtime/R14WebSocketConfiguration.java
+  - services/backend/boot/src/test/resources/application-test.yml
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/realtime/R14WebSocketConfigurationTest.java
+  - AGENTS.md
+  - docs/05-app-build/APK持续交付强制规则_V1.2.2.md
+  - scripts/deliver_android_test_apk.py
+  - scripts/check_release_artifacts.py
+  - tests/test_android_apk_delivery.py
+  - tests/test_release_close_gate.py
+  - artifacts/apk/R14/APK_MANIFEST.yaml
+  - artifacts/validation/r14-apk-delivery/delivery-evidence.json
+  - releases/R14/RELEASE_MANIFEST.yaml
+  - scripts/switch_android_candidate_route.sh
+  - tests/test_android_candidate_route.py
+  - scripts/check_r14_public_conversations.py
+  - tests/test_r14_public_conversations.py
+  - artifacts/validation/r14-public-conversations/hotfix-evidence.json
+  - artifacts/reports/R14/R14-version-test-guide.md
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  source: story+explicit+approved-cr:CR-0442+approved-cr:CR-0443+approved-cr:CR-0444+approved-cr:CR-0445+approved-cr:CR-0446+approved-cr:CR-0447
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  base_commit: 770563179ea2bd7f0bc391cd20fff0f8280cc511
+  start_head: 770563179ea2bd7f0bc391cd20fff0f8280cc511
+  upstream: origin/task/TASK-R03-001
+  initial_worktree_state: CLEAN
+lease:
+  duration_minutes: 240
+  renewed_at: '2026-07-28T12:57:09Z'
+  expires_at: '2026-07-28T16:57:09Z'
+checkpoint_sequence: 7
+latest_checkpoint: .continuity/checkpoints/SES-20260728T102501Z-3189682B/0007.yaml
+session_log: docs/03-continuity/sessions/2026-07/SES-20260728T102501Z-3189682B.md
+next_step: 提交关闭元数据Commit，然后运行pre-push/CI门禁
+context_pack:
+  yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
+  markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
+  manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+  context_hash: 88ed70b3af646b078c8aa8a2f1402c9a531486a0357036e9030102ae6ce2b3a9
+  generated_at: '2026-07-28T12:57:13Z'
+handoff_bundle: null
+closure:
+  result: COMPLETED
+  summary: TASK-R16-003完成：十个冻结后端operationId、V046/V047、权限幂等审计Outbox、订单owner隔离及完整Java/PostgreSQL回归通过；R14紧急公网消息热修已独立闭环且不改变R16验收。
+  code_commit: 63ebeca8ca54f087b18e0b9605dc879dd10bc4c4
+  next_release: R16
+  next_task: TASK-R16-004
+  blocked_advance: false
+  completed_independent_advance: false
+  user_confirmation: null
+  metadata_commit: PENDING
+  push_verification: CI_REQUIRED_AFTER_METADATA_COMMIT
+  started_at: '2026-07-28T12:57:04Z'
+  closure_checkpoint_id: CP-SES-20260728T102501Z-3189682B-0007
+  closed_at: '2026-07-28T12:57:16Z'
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 当前为R16任务关闭机器事实单写，必须串行完成
+closed_at: '2026-07-28T12:57:16Z'

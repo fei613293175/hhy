@@ -1,0 +1,93 @@
+protocol_version: '1.0'
+package_version: 1.2.3
+session_id: SES-20260719T160438Z-BF4F2F1D
+status: CLOSED
+actor:
+  id: codex-root
+  kind: AI_OR_HUMAN
+  host: unknown
+release: R04
+task_id: TASK-R04-008
+story_id: STORY-R04-002
+goal: 核对R04六项退出门禁、回填Release Manifest与验收矩阵、建立可追溯Tag和无状态交接，关闭R04后进入R05
+started_at: '2026-07-19T16:04:38Z'
+updated_at: '2026-07-19T16:10:32Z'
+takeover_of: null
+change_requests:
+- CR-0088
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions: []
+  source: story+explicit
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  base_commit: 8a87893c2e9ca0e45646d368f3b67e1cac8bf44f
+  start_head: 8a87893c2e9ca0e45646d368f3b67e1cac8bf44f
+  upstream: origin/task/TASK-R03-001
+  initial_worktree_state: CLEAN
+lease:
+  duration_minutes: 240
+  renewed_at: '2026-07-19T16:10:30Z'
+  expires_at: '2026-07-19T20:10:30Z'
+checkpoint_sequence: 2
+latest_checkpoint: .continuity/checkpoints/SES-20260719T160438Z-BF4F2F1D/0002.yaml
+session_log: docs/03-continuity/sessions/2026-07/SES-20260719T160438Z-BF4F2F1D.md
+next_step: 提交关闭元数据Commit，然后运行pre-push/CI门禁
+context_pack:
+  yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
+  markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
+  manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+  context_hash: 30e570f6f5526c5f193403df142750bfa21d9cfaf3c70e2f505a448178445222
+  generated_at: '2026-07-19T16:10:31Z'
+handoff_bundle: null
+closure:
+  result: COMPLETED
+  summary: R04媒体与多对象存储六项验收、Staging告警回滚、固定签名APK、四方同哈希、项目所有者真机PASS、Release Tag和无状态交接全部完成
+  code_commit: 04cda65d4a0749727a482526b616fb56cb475f34
+  next_release: R05
+  next_task: TASK-R05-001
+  blocked_advance: false
+  user_confirmation: null
+  metadata_commit: PENDING
+  push_verification: CI_REQUIRED_AFTER_METADATA_COMMIT
+  started_at: '2026-07-19T16:10:28Z'
+  closure_checkpoint_id: CP-SES-20260719T160438Z-BF4F2F1D-0002
+  closed_at: '2026-07-19T16:10:32Z'
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: Release Manifest、验收矩阵、Release Commit/Tag和跨版本NEXT_TASK必须由单一关闭事务顺序绑定
+closed_at: '2026-07-19T16:10:32Z'

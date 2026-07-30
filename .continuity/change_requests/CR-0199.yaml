@@ -1,0 +1,56 @@
+protocol_version: '1.0'
+cr_id: CR-0199
+title: 绑定视觉基线晋升提交与连续性审计文件
+status: CLOSED
+created_at: '2026-07-21T23:15:30Z'
+updated_at: '2026-07-21T23:51:52Z'
+requester_actor_id: codex-r07-candidate
+approver_actor_id: codex-release-audit
+task_id: TASK-R07-007
+session_id: SES-20260721T210252Z-D631F6E4
+user_request: 全局方案必须换电脑换AI可无状态接续并保持强制门禁
+reason: 轻量晋升工作流原型只允许基线目录，但仓库硬性连续性门禁要求每次提交同时生成检查点、事件链、Session和Context Pack；两项强规则必须兼容且仍禁止夹带产品代码
+original_rule: 基线晋升只检查HEAD单提交且拒绝所有基线目录之外文件，无法提交连续性强制生成的审计事实
+new_rule: 晋升检查从采集Commit到HEAD的全部差异；仅允许目标Release基线、固定晋升基础设施和连续性系统生成的审计路径，任何Android、后端、数据库或其他产品代码差异均拒绝
+impact_summary: 保证基线审批可通过仓库连续性门禁，同时把采集到晋升之间的完整Commit范围纳入禁止产品代码漂移检查
+impact:
+  files:
+  - .github/workflows/android-baseline-promotion.yml
+  - tests/test_android_ci_gate.py
+  pages: []
+  apis: []
+  database: []
+  configuration: []
+  ledger: []
+  tests:
+  - Python workflow静态回归必须验证source commit到HEAD全范围且禁止产品代码
+  releases:
+  - R07
+  migration_and_compatibility: 纯GitHub治理修正；不重新编译、不运行模拟器、不改变已采集APK或截图
+user_confirmation: 项目所有者已要求方案写入全局规则且换电脑换AI无状态复用
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-21T23:15:35Z'
+  note: 白名单只覆盖晋升基础设施与确定性连续性审计路径，并新增全范围比较，约束强于原HEAD单提交检查
+machine_record: .continuity/change_requests/CR-0199.yaml
+document: docs/03-continuity/change-requests/CR-0199-绑定视觉基线晋升提交与连续性审计文件.md
+decision_log:
+- at: '2026-07-21T23:16:19Z'
+  actor_id: codex-root-r07-007
+  status: IMPLEMENTING
+  note: 晋升工作流已改为校验采集Commit到HEAD完整差异，只允许目标基线、固定晋升基础设施和连续性审计路径；18项回归通过
+  session_id: SES-20260721T210252Z-D631F6E4
+- at: '2026-07-21T23:51:49Z'
+  actor_id: codex-root-r07-007
+  status: IMPLEMENTED
+  note: 批准范围已实现并由对应提交及R07候选/交付门禁验证。
+  session_id: SES-20260721T210252Z-D631F6E4
+- at: '2026-07-21T23:51:52Z'
+  actor_id: codex-root-r07-007
+  status: CLOSED
+  note: 实现提交已推送，相关受影响门禁均通过。
+  session_id: SES-20260721T210252Z-D631F6E4
+session_ids:
+- SES-20260721T210252Z-D631F6E4
+implementation_commits:
+- 0b6d4dd6035e3ecbe6ac3819e68f22d1ae5f31c2

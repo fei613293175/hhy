@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "release": "R14",
+  "request_id": "HISTORICAL-UI-20260730-004",
+  "github_run_id": "30517994197",
+  "source_commit": "aac31255efaf2df17e5cacad0f911a46c6fc6c42",
+  "workflow_status": "FAIL",
+  "visual_review_status": "REJECTED",
+  "first_failure": {
+    "test": "cc.orbexa.hhy.HistoricalVisualAuditTest.r14ReportSheetProducesBoundVisualEvidence",
+    "assertion": "The component with TestTag = 'r14.report.actions' is not displayed",
+    "line": "HistoricalVisualAuditTest.kt:528"
+  },
+  "artifact": {
+    "id": "8749751779",
+    "name": "android-historical-visual-30517994197",
+    "digest_sha256": "143349f42ba236cd78f9452b76afb0c0b6d36d538fb5ff37ad2dc88967c5fb67",
+    "size_bytes": 3811536,
+    "screenshot_count": 32
+  },
+  "reviewed_surfaces": [
+    {
+      "page_id": "SCR-HIS-001",
+      "file": "28-r13-history.png",
+      "sha256": "6ab407df9b3d42ef56298a1aedbb3169d91296a85bd2244653e2db58989e376a",
+      "automated_visibility": "PASS"
+    },
+    {
+      "page_id": "SHEET-CONTENT-INVALID-001",
+      "file": "30-r13-invalid-feedback-sheet.png",
+      "sha256": "44b52fba1176a1d4779e923cb233acc4e90b3ab7e598f3054f47a3af2f52efbb",
+      "automated_visibility": "PASS",
+      "visual_status": "REJECTED_PARTIAL_NAVIGATION_OVERLAP"
+    },
+    {
+      "page_id": "SHEET-CHAT-002",
+      "file": "34-r14-report-sheet.png",
+      "visual_status": "NOT_CAPTURED_ACTIONS_OUTSIDE_VIEWPORT"
+    }
+  ],
+  "accepted_runtime_facts": {
+    "instrumentation_tests": "PASS_28_OF_29",
+    "candidate_jobs_skipped": true,
+    "network_mode": "OFFLINE_PRODUCTION_COMPOSABLES"
+  },
+  "root_cause": "The first CR-0519 layout derived its maximum height from ModalBottomSheet internal constraints, which can be vertically unbounded and therefore did not cap long content on the device.",
+  "remediation": "Use LocalConfiguration screen height as the explicit cap and preserve an additional HhySpacing.Xxl bottom buffer after navigation and IME insets.",
+  "next_request": "HISTORICAL-UI-20260730-005"
+}

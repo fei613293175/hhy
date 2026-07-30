@@ -1,0 +1,56 @@
+protocol_version: '1.0'
+cr_id: CR-0311
+title: 将R10候选回归改为归档证据验证
+status: CLOSED
+created_at: '2026-07-24T11:33:01Z'
+updated_at: '2026-07-24T14:20:13Z'
+requester_actor_id: codex-root-r11-close
+approver_actor_id: codex-independent-r11-close-reviewer
+task_id: TASK-R11-008
+session_id: SES-20260724T110611Z-0D26E8D5
+user_request: 持续完成R11机器关闭并解决全量门禁确定性失败
+reason: R10历史测试错误读取已切换到R11的当前唯一候选旅程源码，应验证R10冻结源候选报告和视觉基线而非要求当前旅程保留旧版本代码
+original_rule: R10测试直接读取当前ReleaseCandidateSmokeTest.kt并要求其中永久保留R10截图旅程
+new_rule: 历史版本候选测试验证各自已归档source-candidate-report、截图清单、冻结视觉基线文件和SHA；当前唯一旅程源码只由当前候选版本测试约束
+impact_summary: 把R10四页旅程断言从可变当前源码迁移到不可变归档证据，保留且增强四张截图和字节摘要验证；不改Android候选实现
+impact:
+  files:
+  - tests/test_r10_candidate.py
+  pages: []
+  apis: []
+  database: []
+  configuration: []
+  ledger: []
+  tests:
+  - python -m unittest tests.test_r10_candidate tests.test_r11_candidate
+  - python -m unittest discover -s tests -p test_*.py
+  releases:
+  - R11
+  migration_and_compatibility: R10报告和视觉基线路径保持不变，R11当前旅程继续由test_r11_candidate覆盖
+user_confirmation: 项目所有者要求持续推进并自主处理版本关闭门禁
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-24T11:34:34Z'
+  note: 唯一当前候选旅程不能同时保留R10与R11；以冻结源报告和视觉基线SHA验证R10历史事实更严格且不削弱R11当前旅程覆盖
+machine_record: .continuity/change_requests/CR-0311.yaml
+document: docs/03-continuity/change-requests/CR-0311-将R10候选回归改为归档证据验证.md
+decision_log:
+- at: '2026-07-24T11:36:38Z'
+  actor_id: codex-root-r11-close
+  status: IMPLEMENTING
+  note: R10历史候选回归已切换到归档源报告和四张视觉基线SHA验证，R10/R11定向候选测试通过
+  session_id: SES-20260724T110611Z-0D26E8D5
+- at: '2026-07-24T13:52:52Z'
+  actor_id: codex-root-r11-close
+  status: IMPLEMENTED
+  note: R10历史候选回归已改为验证归档source-candidate-report、四张视觉基线及SHA；R10/R11定向和全量Python回归通过
+  session_id: SES-20260724T110611Z-0D26E8D5
+- at: '2026-07-24T14:20:13Z'
+  actor_id: codex-root-r11-close
+  status: CLOSED
+  note: R10历史候选归档报告与视觉SHA回归已由实现提交6bd3313e087de6afc6f7189c6a1791a9a198ae7f落地，全量回归通过
+  session_id: SES-20260724T110611Z-0D26E8D5
+session_ids:
+- SES-20260724T110611Z-0D26E8D5
+implementation_commits:
+- 6bd3313e087de6afc6f7189c6a1791a9a198ae7f

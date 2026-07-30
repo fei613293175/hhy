@@ -1,0 +1,132 @@
+protocol_version: '1.0'
+package_version: 1.2.3
+session_id: SES-20260728T154000Z-0458A14C
+status: CLOSED
+actor:
+  id: codex-r14-continuation-20260728
+  kind: AI_OR_HUMAN
+  host: unknown
+release: R14
+task_id: TASK-R14-004
+story_id: STORY-R14-004
+goal: 恢复并完成R14全部剩余任务、真实交互候选、APK与测试文档，再顺序进入R15
+started_at: '2026-07-28T15:53:44Z'
+updated_at: '2026-07-28T18:18:05Z'
+takeover_of: SES-20260728T125934Z-F3DED330
+change_requests:
+- CR-0458
+- CR-0459
+- CR-0460
+- CR-0461
+- CR-0462
+- CR-0463
+- CR-0464
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions:
+  - artifacts/validation/continuity-integration-v1.2.3.json
+  - artifacts/validation/continuity-integration-v1.2.3.log
+  - artifacts/validation/continuity-lifecycle-integration-v1.2.3.json
+  - artifacts/validation/continuity-lifecycle-integration-v1.2.3.log
+  - scripts/continuity_gate.py
+  - tests/test_continuity_sequence_recovery.py
+  - tests/r08/req-project-001_happy
+  - tests/test_r12_candidate.py
+  - tests/test_r13_candidate.py
+  - docs/00-baseline/SOURCE_OF_TRUTH.md
+  - contracts/openapi.yaml
+  - services/backend/boot/src/main/resources/contracts/openapi.yaml
+  - contracts/contract_status.csv
+  - packages/api-client/src/client.generated.ts
+  - scripts/generate_contracts.py
+  - scripts/generate_chat_report_reason_catalog.py
+  - scripts/check_generated_assets.py
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R14ChatReportReasonCatalog.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R14Service.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R14ServiceTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R14PostgresStoreTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/R14ControllerContractTest.java
+  - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ContractR14ApiTest.kt
+  - apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ChatReportReasons.kt
+  - apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ChatDetailScreen.kt
+  - apps/android/feature/chat/src/androidTest/java/cc/orbexa/hhy/chat/R14ChatSurfacesTest.kt
+  - apps/android/feature/chat/src/test/java/cc/orbexa/hhy/chat/R14ChatReportReasonsTest.kt
+  - tests/test_r14_chat_report_reason_catalog.py
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - releases/R14/STORIES.yaml
+  - releases/R14/RELEASE_MANIFEST.yaml
+  - CHANGELOG.md
+  source: story+explicit+approved-cr:CR-0460+approved-cr:CR-0461+approved-cr:CR-0462+approved-cr:CR-0463+approved-cr:CR-0464
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  base_commit: c47d19064bec57bd751f1cfa06a0fa7a75844790
+  start_head: c47d19064bec57bd751f1cfa06a0fa7a75844790
+  upstream: origin/task/TASK-R03-001
+  initial_worktree_state: DIRTY_TAKEOVER
+lease:
+  duration_minutes: 240
+  renewed_at: '2026-07-28T18:17:57Z'
+  expires_at: '2026-07-28T22:17:57Z'
+checkpoint_sequence: 14
+latest_checkpoint: .continuity/checkpoints/SES-20260728T154000Z-0458A14C/0014.yaml
+session_log: docs/03-continuity/sessions/2026-07/SES-20260728T154000Z-0458A14C.md
+next_step: 提交关闭元数据Commit，然后运行pre-push/CI门禁
+context_pack:
+  yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
+  markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
+  manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+  context_hash: 8576c4262459cf70db6f3677e302665f647bc130de65cd2241dee20c1feaabb8
+  generated_at: '2026-07-28T18:18:02Z'
+handoff_bundle: null
+closure:
+  result: COMPLETED
+  summary: TASK-R14-004六个Android交互面、九项REST、十二事件实时链路、加载与失败恢复、举报证据和OpenAPI单源原因目录均完成；H5与后台按R14 Manifest明确N/A；固定工具链与GitHub门禁通过
+  code_commit: 33f544c20172ca42ca2de79556e22a12c0d714af
+  next_release: R14
+  next_task: TASK-R14-005
+  blocked_advance: false
+  completed_independent_advance: false
+  user_confirmation: null
+  metadata_commit: PENDING
+  push_verification: CI_REQUIRED_AFTER_METADATA_COMMIT
+  started_at: '2026-07-28T18:17:52Z'
+  closure_checkpoint_id: CP-SES-20260728T154000Z-0458A14C-0014
+  closed_at: '2026-07-28T18:18:05Z'
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: CR关闭状态与同一Commit的双GitHub证据必须原子记录
+closed_at: '2026-07-28T18:18:05Z'

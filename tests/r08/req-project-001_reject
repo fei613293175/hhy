@@ -1,0 +1,14 @@
+{
+  "schema": "hhy.r08.test-adapter/v1",
+  "test_id": "TST-PROJECT_001-REJECT",
+  "central_runner": "scripts/run_r08_specialized_matrix.py",
+  "runner": "r08-java21-postgresql17-android-project",
+  "selectors": [
+    "services/backend/boot/src/test/java/cc/orbexa/hhy/content/R08ServiceTest.java#unverifiedCreateIsRejectedBeforeLimitsIdempotencyOrWrites",
+    "services/backend/boot/src/test/java/cc/orbexa/hhy/content/R08ServiceTest.java#directConversationRejectsEitherDirectionBlockBeforeClaim",
+    "services/backend/boot/src/test/java/cc/orbexa/hhy/content/R08ServiceTest.java#mediaStorageTimeoutStopsCreateBeforeLimitsWritesOutboxAndCompletion",
+    "services/backend/boot/src/test/java/cc/orbexa/hhy/content/R08ServiceTest.java#shareConfigurationProviderTimeoutLeavesNoShareOutboxOrCompletion",
+    "apps/android/feature/project/src/test/java/cc/orbexa/hhy/project/R08ProjectStateTest.kt#conflictAndOfflineHaveRecoverableVisibleStates"
+  ],
+  "fault_classes": ["permission-reject", "bidirectional-block", "media-storage-timeout", "configuration-provider-timeout", "zero-side-effect"]
+}

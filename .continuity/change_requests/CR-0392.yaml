@@ -1,0 +1,65 @@
+protocol_version: '1.0'
+cr_id: CR-0392
+title: 修复R13候选收藏导航阶段不可判定并建立attempt12
+status: IMPLEMENTED
+created_at: '2026-07-27T05:31:33Z'
+updated_at: '2026-07-27T05:47:01Z'
+requester_actor_id: codex-root-r13-candidate-20260727
+approver_actor_id: codex-review-r13-candidate-20260727
+task_id: TASK-R13-007
+session_id: SES-20260726T191158Z-2B506AB7
+user_request: 项目所有者已批准AI持续开发、终端和候选门禁自主执行，不再逐项批准；候选失败后必须自行诊断、最小修复并继续。
+reason: Run 30238024222 attempt11已消费且不得重跑；编译、Lint、单测和打包通过，但候选在第一张截图前超时于R13 favorites did not become visible。现有断言只等待content，无法区分点击未触发、已进入loading或进入error/empty，需在不延长总等待的前提下建立目标阶段诊断与一次有条件重试。
+original_rule: R13候选点击mine.favorites后只等待hhy.screen.r13.favorites.content最多30秒；失败只返回布尔值，无法证明目标是否进入loading/empty/error等已导出阶段，也不允许在确认源页仍存在时重新解析Compose
+  clickable祖先。
+new_rule: R13候选关键导航点击后必须在3秒内等待目标页面任一导出阶段loading/content/empty/refreshing/appending/partial_error/error/offline/forbidden/not_found；若未出现且源页面仍存在，只允许重新查找资源节点及当前enabled+clickable祖先并重试一次。进入目标阶段后只允许content继续旅程，其他终态或loading超时必须立即报告实际phase、源页面是否仍存在、资源节点及可点击祖先诊断。禁止固定sleep、盲目延长30秒、无条件双击或授权未绑定修复Commit的attempt12。
+impact_summary: 只加固R13候选从我的页进入收藏/历史页的确定性点击与可判定诊断，不改变生产APK页面、业务导航、API、数据库、视觉像素、三媒体和四截图合同；Run 30238024222保持已消费，首个修复Commit与模块证据完成后才允许唯一attempt12。
+impact:
+  files:
+  - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+  - tests/test_r13_candidate.py
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/PITFALLS.md
+  - docs/03-continuity/REUSABLE_PATTERNS.md
+  - docs/08-testing/Android自动开发测试修复交付体系_V1.0.md
+  - CHANGELOG.md
+  - config/android-automation.yaml
+  - config/android-candidate-request.yaml
+  - tests/test_android_candidate_request.py
+  - tests/test_android_ci_gate.py
+  pages:
+  - R13收藏与浏览历史候选自动化导航
+  apis:
+  - 无直接影响；现有artifact没有服务端请求日志，禁止断言favorites请求是否已发送
+  database:
+  - 无变化
+  configuration:
+  - R13 attempt12候选请求仅在首个修复Commit后登记
+  ledger:
+  - TASK-R13-007 attempt11失败与attempt12单次授权
+  tests:
+  - tests.test_r13_candidate;tests.test_android_ci_gate;tests.test_android_candidate_request;app:compileDebugAndroidTestKotlin
+  releases:
+  - R13
+  migration_and_compatibility: 生产代码不变；候选继续使用既有资源标记、Compose clickable祖先和原30秒内容上限。旧Run、旧APK及attempt11授权不改写，attempt12只绑定首个CR-0392修复Commit。
+user_confirmation: 项目所有者已明确批准AI持续开发、终端和候选门禁自主执行、不再逐项批准；CR-0358站立授权继续适用。
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-27T05:32:35Z'
+  note: 独立合同复核通过：Run 30238024222只证明首个content等待超时且无崩溃/ANR/Coil/媒体错误，不能区分点击与页面阶段；基于既有导出phase的3秒观察、源页仍在时单次重新解析祖先、以及终态精确失败是最小可判定修复，不改变生产功能或放宽30秒门槛。
+machine_record: .continuity/change_requests/CR-0392.yaml
+document: docs/03-continuity/change-requests/CR-0392-修复R13候选收藏导航阶段不可判定并建立attempt12.md
+decision_log:
+- at: '2026-07-27T05:46:39Z'
+  actor_id: codex-root-r13-candidate-20260727
+  status: IMPLEMENTING
+  note: 开始实现R13候选目标phase观察、仅源页仍在时单次重新解析祖先及精确失败诊断；attempt12在首个修复Commit与模块证据前不登记。
+  session_id: SES-20260726T191158Z-2B506AB7
+- at: '2026-07-27T05:47:01Z'
+  actor_id: codex-root-r13-candidate-20260727
+  status: IMPLEMENTED
+  note: R13收藏与历史候选导航已共享原30秒期限观察全部导出phase；仅无目标phase且源页仍在时单次重新解析资源与祖先，失败输出phase/source/resource/ancestor。68项治理回归、UI基础门禁、git diff检查和obx-test固定镜像212任务全部PASS；本地/远端Kotlin
+    SHA一致。attempt12尚未登记。
+  session_id: SES-20260726T191158Z-2B506AB7
+session_ids:
+- SES-20260726T191158Z-2B506AB7

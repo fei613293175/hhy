@@ -1,0 +1,111 @@
+protocol_version: '1.0'
+package_version: 1.2.3
+session_id: SES-20260727T193842Z-C948B6FC
+status: CLOSED
+actor:
+  id: codex-root-r14-data-20260728
+  kind: AI_OR_HUMAN
+  host: unknown
+release: R14
+task_id: TASK-R14-002
+story_id: STORY-R14-004
+goal: 一对一聊天核心数据迁移与领域不变量
+started_at: '2026-07-27T19:38:42Z'
+updated_at: '2026-07-27T20:35:11Z'
+takeover_of: null
+change_requests:
+- CR-0419
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions:
+  - contracts/openapi.yaml
+  - services/backend/boot/src/main/resources/contracts/openapi.yaml
+  - packages/api-client/src/client.generated.ts
+  - contracts/contract_status.csv
+  - scripts/check_r14_entry_contract.py
+  - tests/test_r14_entry_contract.py
+  - database/schema_dictionary.csv
+  - database/migrations/V043__r14_chat_invariants.sql
+  - services/backend/boot/src/main/resources/db/migration/V043__r14_chat_invariants.sql
+  - database/rollback/U043__r14_chat_invariants.sql
+  - database/tests/r14_chat_invariants.sql
+  - scripts/run_r14_database_invariants.sh
+  - scripts/run_postgres_migration_smoke.sh
+  - scripts/check_db_schema.py
+  - tests/test_r14_database_contract.py
+  - docs/01-architecture/adr/ADR-009-R14一对一聊天数据不变量.md
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  source: story+explicit+approved-cr:CR-0419
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  base_commit: d03ab06cd9d8c4552b8b8e5f57f3ccca3f6bba6d
+  start_head: d03ab06cd9d8c4552b8b8e5f57f3ccca3f6bba6d
+  upstream: origin/task/TASK-R03-001
+  initial_worktree_state: CLEAN
+lease:
+  duration_minutes: 240
+  renewed_at: '2026-07-27T20:34:59Z'
+  expires_at: '2026-07-28T00:34:59Z'
+checkpoint_sequence: 5
+latest_checkpoint: .continuity/checkpoints/SES-20260727T193842Z-C948B6FC/0005.yaml
+session_log: docs/03-continuity/sessions/2026-07/SES-20260727T193842Z-C948B6FC.md
+next_step: 提交关闭元数据Commit，然后运行pre-push/CI门禁
+context_pack:
+  yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
+  markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
+  manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+  context_hash: 0f758776eda0169ac81566899c01265c4de9d41f64f1b8e49b4314694836a1af
+  generated_at: '2026-07-27T20:35:06Z'
+handoff_bundle: null
+closure:
+  result: COMPLETED
+  summary: TASK-R14-002完成：R14聊天数据迁移、领域不变量、回滚、合同同步、真实PostgreSQL17矩阵与R15前置问题登记全部通过
+  code_commit: 83d65cfb47006e18055397de0320efeeb9d6f844
+  next_release: R14
+  next_task: TASK-R14-003
+  blocked_advance: false
+  completed_independent_advance: false
+  user_confirmation: null
+  metadata_commit: PENDING
+  push_verification: CI_REQUIRED_AFTER_METADATA_COMMIT
+  started_at: '2026-07-27T20:34:53Z'
+  closure_checkpoint_id: CP-SES-20260727T193842Z-C948B6FC-0005
+  closed_at: '2026-07-27T20:35:11Z'
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 任务关闭、CR绑定与下一任务原子切换属于主控连续性事实，禁止并行写入
+closed_at: '2026-07-27T20:35:11Z'

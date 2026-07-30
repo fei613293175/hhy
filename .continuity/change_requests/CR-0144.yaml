@@ -1,0 +1,57 @@
+protocol_version: '1.0'
+cr_id: CR-0144
+title: 修复模拟器截图在测试卸载后被清理
+status: CLOSED
+created_at: '2026-07-20T12:42:43Z'
+updated_at: '2026-07-20T13:20:23Z'
+requester_actor_id: codex-root
+approver_actor_id: project-owner
+task_id: TASK-R05-008
+session_id: SES-20260720T095830Z-752E5121
+user_request: 自动测试必须完成页面截图和明显UI偏差检查
+reason: 模拟器旅程通过但截图写入应用专属外部目录，connectedAndroidTest清理APK后目录随之删除，adb pull得到0张
+original_rule: UIAutomator截图写入targetContext.getExternalFilesDir并在Gradle测试结束后拉取
+new_rule: 测试先由UIAutomator写入应用缓存，再通过Android官方MediaStore发布到系统Pictures专用CI目录；APK清理后仍可由adb拉取，且每次测试前由ADB清空专用目录
+impact_summary: 保留四个页面旅程截图并解除视觉证据为0的候选阻断
+impact:
+  files:
+  - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+  - scripts/run_android_emulator_gate.sh
+  - tests/test_android_ci_gate.py
+  pages: []
+  apis: []
+  database: []
+  configuration: []
+  ledger: []
+  tests:
+  - python -m unittest tests.test_android_ci_gate
+  releases:
+  - R05
+  migration_and_compatibility: 仅影响androidTest和CI模拟器，不进入正式APK运行逻辑或用户存储
+user_confirmation: 用户要求GitHub Actions自动页面截图且全绿前不得完成
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-20T12:42:47Z'
+  note: 依据自动页面截图和自修复授权修复测试证据生命周期
+machine_record: .continuity/change_requests/CR-0144.yaml
+document: docs/03-continuity/change-requests/CR-0144-修复模拟器截图在测试卸载后被清理.md
+decision_log:
+- at: '2026-07-20T12:42:50Z'
+  actor_id: codex-root
+  status: IMPLEMENTING
+  note: 迁移截图到模拟器固定CI目录并补回归
+  session_id: SES-20260720T095830Z-752E5121
+- at: '2026-07-20T13:20:06Z'
+  actor_id: codex-root
+  status: IMPLEMENTED
+  note: 'GitHub CI #244完整通过，相关实现与回归证据已验证'
+  session_id: SES-20260720T095830Z-752E5121
+- at: '2026-07-20T13:20:23Z'
+  actor_id: codex-root
+  status: CLOSED
+  note: 'CI #244通过编译、Lint、单测、APK、模拟器旅程、四张截图、日志与候选资格门禁'
+  session_id: SES-20260720T095830Z-752E5121
+session_ids:
+- SES-20260720T095830Z-752E5121
+implementation_commits:
+- f8bf690fd5d2594b89917e0fafe8c1ed05224720

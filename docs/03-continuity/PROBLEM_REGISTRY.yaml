@@ -65,3 +65,2197 @@ problems:
   do_not_repeat:
   - 隔离生命周期测试不得隐式继承真实仓库当前任务指针
   - 固定从P00初始任务启动的测试必须同时重置NEXT_TASK、TASKS和CURRENT_STATUS
+- id: PROB-0007
+  title: R01加密幂等快照在Java 21真实门禁中无法序列化时间且重放路径误判
+  status: SOLVED
+  root_cause: access模块使用Jackson 2序列化含Instant的首次响应但未声明jsr310模块；认证过滤器又依赖MockMvc下为空的servletPath识别重放白名单；新增测试还错误Mock了final令牌服务
+  resolution: access显式声明受管的jackson-datatype-jsr310；白名单改用去除contextPath后的requestURI精确匹配；快照测试使用真实令牌、TOTP和加密组件并保留Instant往返断言
+  regression_checks:
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminSecurityIdempotencySnapshotServiceTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminSecurityWebSecurityTest.java
+  - Maven 21全模块测试必须通过且真实PostgreSQL重放验证不得跳过
+  do_not_repeat:
+  - 不得以findAndRegisterModules替代对Java时间模块的显式运行时依赖
+  - 安全路径白名单不得依赖容器或测试环境可能为空的servletPath
+  - 安全组件测试不得用无法实例化的final Mock掩盖真实序列化和加密路径
+- id: PROB-0008
+  title: R01预发布监控沿用P00标签且错误响应混淆RequestId与TraceId
+  status: SOLVED
+  root_cause: R01 smoke栈未接入Prometheus/Alertmanager，旧规则硬编码P00并使用5%/1秒历史阈值；错误响应工厂和Security writer又把requestId写入traceId字段，业务Gauge查询失败仅返回NaN形成告警盲区；业务端口上的未知Actuator资源被兜底异常处理误报为500
+  resolution: 建立R01独立可配置子网的监控与告警链，阈值对齐冻结配置2%/500ms；错误响应显式接收真实traceId；新增管理员安全Gauge、查询失败Counter及关键告警与静态门禁；NoResourceFound按冻结404错误码返回
+  regression_checks:
+  - scripts/check_r01_observability.py
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/ObservabilityEndpointsTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinderTest.java
+  - R01 Staging必须取得Prometheus target、真实TraceId和告警firing/resolved回执
+  do_not_repeat:
+  - 不得用旧版本监控标签或证据替代当前Release现场验收
+  - 错误体traceId不得从requestId复制，必须使用入口Filter生成或接受的真实TraceId
+  - 业务Gauge查询失败不得只返回NaN而没有独立可告警Counter
+- id: PROB-0009
+  title: R01预发布登录错误媒体类型被兜底为服务端故障
+  status: SOLVED
+  root_cause: 全局异常处理未覆盖HttpMediaTypeNotSupportedException，缺少或不受支持Content-Type的请求落入通用500处理并污染RED错误率
+  resolution: 将不受支持媒体类型纳入冻结COMMON-400-VALIDATION响应，并新增Web回归测试保证响应不泄露请求体且不调用登录服务
+  regression_checks:
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminSecurityWebSecurityTest.java
+  - Maven 21全模块测试和R01 Staging错误媒体类型现场请求必须返回400而非5xx
+  do_not_repeat:
+  - 客户端可控的协议和媒体类型异常不得落入通用500
+  - 异常映射回归测试必须同时断言状态码、稳定错误码和敏感请求体不回显
+- id: PROB-0010
+  title: 加密快照损坏测试修改Base64末尾填充位导致概率性不变
+  status: SOLVED
+  root_cause: 回归测试只替换无填充Base64URL密文的最后字符，部分密文长度下被替换的是解码器忽略的未使用低位，解码字节可能保持不变
+  resolution: 固定替换密文段首字符，保证认证密文至少一个有效字节发生变化并稳定触发GCM完整性失败
+  regression_checks:
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminSecurityIdempotencySnapshotServiceTest.java
+  - Maven 21全模块测试必须连续通过
+  do_not_repeat:
+  - Base64损坏测试不得只修改可能属于未使用填充位的末尾字符
+  - 加密完整性测试必须确定性改变已解码字节
+- id: PROB-0011
+  title: 无活跃会话的Context Pack会在生成后立即过期
+  status: SOLVED
+  root_cause: 仓库树指纹包含运行时STATE.yaml，而Context Pack在计算指纹后会更新该状态文件。
+  resolution: 仓库树指纹排除STATE.yaml，将其作为运行时元数据而不是项目内容处理。
+  regression_checks:
+  - tests/test_continuity_cross_release_close.py
+  - scripts/continuity.py context
+  do_not_repeat:
+  - 无活跃会话的Context Pack生成不得改变自己的树指纹来源
+- id: PROB-0012
+  title: R02短信认证缺少已激活的阿里云短信供应商
+  status: OPEN
+  root_cause: 当前接续环境未提供可激活的短信供应商版本、SecretRef或模板配置；该配置生命周期归属R03。
+  impact: R02的安全挑战、密码登录、注册和会话逻辑可验证，但短信发送、短信登录、注册短信校验及密码重置不能在真实外部通道完成。
+  current_behavior: 服务端在未发现SmsProvider实现时显式失败并返回可追踪错误，不生成测试验证码、不伪造发送成功。
+  next_owner: TASK-R03-002
+  required_evidence:
+  - 受控的阿里云短信SecretRef与模板映射
+  - 连接测试、真实发送回执和限流回归
+  do_not_repeat:
+  - 不得将验证码写入日志、响应体或测试生产路径
+  - 不得以模拟发送成功替代外部通道验收
+- id: PROB-0013
+  title: 现有开发后端缺少受控管理员安全密钥的部署来源
+  status: OPEN
+  root_cause: 服务器上的旧P00后端容器和其保留的.env文件均不含HHY_ADMIN_JWT_SECRET及HHY_ADMIN_MFA_ROOT_SECRET，而当前后端启动配置要求它们满足最小长度。
+  impact: 已构建的R02后端镜像不能替换现有api.orbexa.cc开发容器；自动健康检查失败后已回退到旧健康容器，公网启动接口继续可用。
+  current_behavior: 新镜像hhy-backend-p00:r02-b4ec470已保留；旧容器已恢复并通过本地和公网健康探针。未生成、猜测或输出任何密钥。
+  next_owner: TASK-R03-002
+  required_evidence:
+  - 通过SecretRef或等价受控机制提供管理员JWT与MFA根密钥
+  - 新镜像启动、Flyway升级和api.orbexa.cc认证端点健康回执
+  do_not_repeat:
+  - 不得为了部署通过而生成临时管理员密钥
+  - 不得将密钥写入仓库、命令输出或普通部署日志
+- id: PROB-0014
+  title: R02 Android注册缺少受控的协议版本配置来源
+  status: SOLVED
+  root_cause: authPostAuthRegister要求提交有效agreementVersions，字段目录要求版本由服务端、配置或上下文提供且禁止客户端硬编码；R02公开契约未提供Android可调用的协议版本配置接口，现有H5注册配置接口计划归属R28。
+  resolution: 经CR-0029与CR-0030冻结并实现公开GET /api/v1/auth/registration-config；后端只返回当前生效协议版本ID、编码和生效时间，Android加载后回显编码、要求显式同意并提交版本ID，服务端事务内再次校验并写入user_agreement_acceptances。
+  regression_checks:
+  - UserAuthPublicSuccessContractTest#registrationConfigIsPublicAndReturnsOnlyCurrentAgreementVersionIdentifiers
+  - UserAuthServiceTest#registrationPersistsValidatedInviteAgreementsDeviceAndSessionTogether
+  - AuthFormRulesTest#registrationRequiresMatchingPasswordAndAgreementVersion
+  - R02 Android testDebugUnitTest lintDebug assembleDebug
+  do_not_repeat:
+  - 不得在客户端散落硬编码协议版本
+  - 不得跳过服务端有效期校验或伪造协议同意记录
+- id: PROB-0015
+  title: Android邀请码异步校验可误标记已变更的输入值
+  status: SOLVED
+  root_cause: 注册页发起邀请码校验后仍允许编辑输入，异步成功回调读取可变状态，可能把旧请求的成功结果标记到新邀请码。
+  resolution: 提交期间冻结认证表单输入和路由；邀请码校验保存请求快照，只有快照与当前输入完全一致时才记录已校验状态。
+  regression_checks:
+  - apps/android/feature/auth/src/test/java/cc/orbexa/hhy/auth/AuthFormRulesTest.kt
+  - obx-test :feature:auth:testDebugUnitTest
+  do_not_repeat:
+  - 异步认证回调不得直接把请求前可变输入当作当前已验证值
+  - 认证请求提交期间不得允许修改路由或请求字段
+- id: PROB-0016
+  title: 启动更新链路会直接打开服务端下发的下载地址
+  status: SOLVED
+  root_cause: StartupGateScreen未校验downloadUrl的协议、主机、端口、用户信息或片段，可能将受污染的更新策略导向任意外部地址。
+  resolution: 新增DownloadUrlPolicy，仅接受DOMAIN_PLAN登记的download.orbexa.cc与stg-download.orbexa.cc HTTPS默认端口地址，并拒绝凭据、片段、伪造子域和非法URI；无效地址只显示通用错误且禁用下载按钮。
+  regression_checks:
+  - apps/android/feature/startup/src/test/java/cc/orbexa/hhy/startup/DownloadUrlPolicyTest.kt
+  - obx-test :feature:startup:testDebugUnitTest
+  do_not_repeat:
+  - 不得把服务端下发的外部URL未经协议与受信主机校验直接交给系统URI处理器
+  - 更新下载URL不得携带用户信息、非默认端口或片段
+- id: PROB-0017
+  title: Android认证失败提示直接展示服务端错误码
+  status: SOLVED
+  root_cause: 认证页将内部错误码保存在可见UI状态中，并直接渲染为“错误码：...”，导致技术实现字段进入用户界面。
+  resolution: 保留错误码用于内部文案映射，但从可见状态移除该字段；页面仅展示面向用户的提示与请求编号，供支持人员关联服务端日志。
+  regression_checks:
+  - tests/test_r02_auth_slice_contract.py
+  - obx-test :feature:auth:testDebugUnitTest
+  do_not_repeat:
+  - Android面向用户的认证提示不得直接渲染后端错误码、枚举值或内部字段名
+  - 需要排障时应显示请求编号，而不是服务端实现细节
+- id: PROB-0018
+  title: 手工WIP APK未注入真实API地址导致启动显示暂时无法连接
+  status: SOLVED
+  root_cause: 手工Docker/Gradle构建未传入HHY_API_BASE_URL，BuildConfig回退为安全占位地址https://api.example.invalid；该手工路径未执行正式APK交付证据门禁。
+  resolution: 所有assemble/package/bundle任务增加verifyApiBaseUrl前置门禁，拒绝.invalid、非HTTPS、带凭据或带fragment的地址；使用https://api.orbexa.cc重建APK，并从BuildConfig和APK DEX双重反查内嵌地址。
+  regression_checks:
+  - 未设置HHY_API_BASE_URL时:app:verifyApiBaseUrl必须失败
+  - HHY_API_BASE_URL=https://api.orbexa.cc时:app:testDebugUnitTest与:app:assembleDebug通过
+  - APK classes8.dex包含https://api.orbexa.cc且与服务器产物SHA-256一致
+  - https://api.orbexa.cc/public-api/v1/platform/status返回200
+  do_not_repeat:
+  - 不得因WIP或手工构建绕过HHY_API_BASE_URL与内嵌地址检查
+  - 不得交付任何包含.example.invalid或.invalid端点的APK
+- id: PROB-0019
+  title: Access Token签名段接受非规范Base64URL编码
+  status: SOLVED
+  root_cause: 令牌验签只比较Base64URL解码后的签名字节；签名末尾未使用位被改写时，文本已被篡改但Java解码器仍可产生相同字节，导致非规范编码被误接受。
+  resolution: 验签前将解码后的签名重新编码并与原始签名段精确比较，只接受无填充Base64URL规范编码，再执行常量时间HMAC字节比较。
+  regression_checks:
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserTokenServiceTest.java
+  - obx-test Maven UserTokenServiceTest 2项通过
+  - obx-test Maven verify 130项通过、2项条件式跳过
+  do_not_repeat:
+  - 不得只按解码后字节等价判断JWT文本签名段有效
+  - 所有自定义令牌编码都必须拒绝非规范、带填充或可替代的文本表示
+- id: PROB-0020
+  title: R02隔离预发布编排缺少用户认证密钥导致API拒绝启动
+  status: SOLVED
+  root_cause: R02新增用户会话安全配置后，隔离Compose仍只注入三项管理员密钥，未注入用户JWT、Token HMAC和幂等快照根密钥；Spring配置校验因此在启动阶段失败。
+  resolution: R02隔离编排将三项用户密钥声明为必填环境变量，静态可观测性门禁逐项验证必填表达式，运行手册同步要求六项应用密钥相互独立并由隔离进程环境注入。
+  regression_checks:
+  - scripts/check_r02_observability.py
+  - docker compose config缺少任一HHY_USER密钥时必须失败
+  - R02隔离API完成Flyway V018并通过readiness
+  do_not_repeat:
+  - 新增非可选安全配置时必须同步所有部署和预发布编排
+  - 不得用弱默认值绕过配置绑定或启动安全校验
+- id: PROB-0021
+  title: R02 Android构建号与应用内发布策略常量不一致
+  status: SOLVED
+  root_cause: TASK-R02-007将Gradle versionCode升级为10202时，应用内ReleasePolicy仍保留R01的10201；固定工具链的VersionMetadataTest在APK交付前发现漂移并阻止构建。
+  resolution: 将Gradle与ReleasePolicy统一为10202，并增加R02单调构建号显式断言；所有APK身份、版本检查请求和交付证据绑定同一源码提交。
+  regression_checks:
+  - apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+  - 固定工具链testDebugUnitTest lintDebug assembleDebug
+  - APK badging必须报告versionCode 10202
+  do_not_repeat:
+  - 版本切换时必须同时更新Gradle构建身份和应用内发布策略常量
+  - 不得绕过VersionMetadataTest交付未对齐版本身份的APK
+- id: PROB-0022
+  title: APK交付脚本将公开版本目录创建为仅root可访问
+  status: SOLVED
+  root_cause: 远端暂存准备在umask 077生效后同时创建公开版本目录和私有上传目录，导致首次创建的r02-artifacts权限为700；Nginx无法遍历目录，HTTPS完整下载返回404并触发安全回撤。
+  resolution: 公开版本目录显式创建并校正为0755，随后才启用umask 077创建私有.uploads暂存目录；交付失败仍只回撤本次新建且哈希匹配的APK。
+  regression_checks:
+  - tests/test_android_apk_delivery.py#test_remote_chunk_failure_never_runs_atomic_publish
+  - scripts/deliver_android_test_apk.py prepare与verify
+  - HTTPS完整下载、Range 206、Content-Type和四方SHA-256校验
+  do_not_repeat:
+  - 公开下载目录与私有上传暂存目录不得共享同一限制性umask创建步骤
+  - 不得因服务器文件存在就跳过Nginx进程可读性和公网完整下载验证
+- id: PROB-0023
+  title: R02认证页未落实B01参考图与冻结Android设计令牌
+  status: SOLVED
+  root_cause: 首版认证纵向切片直接使用Material默认排版，并把密码、短信、注册和忘记密码四个路由同时塞入单行按钮，未接入冻结字号、行高、组件高度、圆角及B01页面层级。
+  resolution: 设计系统接入冻结Typography、Shapes和组件尺寸；登录只保留两个等宽模式页签，注册与忘记密码改为辅助入口，认证表单使用B01品牌头、卡片层级、48dp主按钮、52dp输入框及IME安全滚动布局。
+  regression_checks:
+  - tests/test_r02_auth_slice_contract.py#test_auth_ui_follows_b01_tokens_and_keeps_auxiliary_routes_responsive
+  - obx-test :feature:auth:testDebugUnitTest lintDebug assembleDebug
+  do_not_repeat:
+  - 不得以Material默认值替代冻结Android设计令牌
+  - 不得把四个认证路由压缩在同一行或允许按钮文字纵向折行
+- id: PROB-0024
+  title: 公网API仍运行P00后端导致R02公开认证端点返回401
+  status: SOLVED
+  root_cause: api.orbexa.cc当前上游仍是旧P00后端镜像；APK已正确嵌入正式HTTPS域名，但R02新增的security-challenges与registration-config没有进入该公网运行时的公开白名单。
+  resolution: 在保留旧P00服务和回滚配置的前提下先创建数据库备份，再以root-only持久化staging SecretRef等价文件旁路启动R02镜像；Flyway从V011迁移到V018，候选健康及匿名端点通过后将Nginx切到R02端口。公网registration-config、security-challenges和platform status均返回200。
+  regression_checks:
+  - scripts/check_r02_public_auth.py --api-base-url https://api.orbexa.cc
+  - infra/staging/docker-compose.p00.yml必须声明三项HHY_USER安全密钥为必填
+  - 修复后APK真机复测不再出现认证已失效
+  do_not_repeat:
+  - 不得只校验platform status 200就认定APK依赖的全部公开认证端点可用
+  - 公网APK交付门禁必须实测本版本新增的匿名端点及其鉴权策略
+- id: PROB-0025
+  title: 新APK精确下载路径首次404被Cloudflare负缓存
+  status: SOLVED
+  root_cause: 新Commit文件名首次交付时Nginx精确白名单尚未登记，Cloudflare把源站404缓存四小时；源站随后已有同哈希APK并返回200，但普通HTTPS校验仍命中缓存404。
+  resolution: 下载站先登记精确只读白名单并通过Nginx配置检查，再发布同哈希APK；交付校验的完整与Range请求均携带Cache-Control no-cache强制回源复核，同时HTTPError记录实际状态码。缓存回源后200、MIME、长度、Range 206和四方SHA-256全部通过。
+  regression_checks:
+  - tests/test_android_apk_delivery.py#test_https_verifier_checks_full_hash_and_range_body
+  - scripts/deliver_android_test_apk.py verify --release R02
+  do_not_repeat:
+  - 不得在下载站精确白名单生效前请求新的Commit APK路径
+  - CDN缓存状态不得替代源站文件、MIME、Range与哈希联合验证
+- id: PROB-0026
+  title: 安全挑战返回SVG但Android按位图解码导致验证码不可见
+  status: SOLVED
+  root_cause: 后端把SVG文本编码进imageBase64，而Android使用BitmapFactory解码栅格图片、H5也按PNG数据URI消费；接口信封虽成功，真机实际无法显示验证码内容。
+  resolution: 后端改用不依赖桌面图形库的纯Java PNG编码器生成160x56四位数字图片；服务单测验证PNG签名、IHDR尺寸和像素格式，公网认证门禁同时解码并校验真实PNG。
+  regression_checks:
+  - UserAuthVerificationServiceTest#challengeImageIsARealPngThatRasterClientsCanDecode
+  - scripts/check_r02_public_auth.py --api-base-url https://api.orbexa.cc
+  - Android真机必须实际看到四位图形验证码
+  do_not_repeat:
+  - 不得只校验imageBase64非空而忽略客户端可解码的真实图片格式
+  - 修改挑战图片格式时必须同时验证Android、H5与公网响应字节
+- id: PROB-0027
+  title: 认证页暴露创建安全验证技术按钮导致用户流程不明确
+  status: SOLVED
+  root_cause: 首个认证切片直接暴露了后端安全挑战创建步骤，要求用户理解并主动点击技术按钮，违背登录和短信验证的业务意图流程。
+  resolution: 所有认证与注销页面移除创建安全验证按钮；用户首次点击登录、发送验证码等业务按钮时自动加载图形验证，完成图形输入后再次点击同一业务按钮继续提交。
+  regression_checks:
+  - tests/test_r02_auth_slice_contract.py#test_auth_ui_auto_loads_challenge_from_user_intent_without_a_technical_button
+  - obx-test :feature:auth:testDebugUnitTest lintDebug assembleDebug
+  do_not_repeat:
+  - 不得向普通用户暴露挑战创建、协议版本ID或幂等键等内部步骤
+  - 安全校验应从明确的登录、发送验证码或敏感操作意图自动触发
+- id: PROB-0028
+  title: R03高敏激活与证书轮换审批未绑定操作类型和目标资源
+  status: SOLVED
+  root_cause: 初版PostgreSQL适配器只按审批ID、状态和双人分离读取审批单，配置激活未校验审批类型，配置与证书流程均未校验biz_id对应的具体版本或证书，存在复用其他已通过审批单的风险。
+  resolution: 配置审批通过provider_config_versions联表返回并校验操作类型、供应商和目标版本；证书审批通过provider_certificates联表返回并校验轮换类型和当前证书；补充跨操作、跨版本及跨证书拒绝测试。
+  regression_checks:
+  - ProviderConfigVersionServiceTest#activationRejectsApprovalForAnotherOperationOrVersion
+  - ProviderCertificateServiceTest#rotationRejectsApprovalBoundToAnotherCertificate
+  - database/tests/r03_provider_configuration_invariants.sql
+  do_not_repeat:
+  - 高敏命令不得只凭审批ID和APPROVED状态放行
+  - 审批必须同时绑定操作类型、目标资源、申请人和独立复核人
+- id: PROB-0029
+  title: R03 SecretRef正则和基线表数只通过静态门禁但在真实PostgreSQL失败
+  status: SOLVED
+  root_cause: V019最初使用PostgreSQL不支持的超大有界量词{3,512}，迁移创建阶段不会编译CHECK内部正则，首次写入才报invalid repetition count；同时旧verify_baseline只允许198或199张表，未接受R03新增表后的200张表。
+  resolution: SecretRef数据库约束改为三字符下限正则与独立总长度上限组合，Java证书引用同步限制总长度；基线验证保持198/199兼容并新增200；在一次性PostgreSQL17.10执行V001至V019、历史回滚重放和R03正负不变量。
+  regression_checks:
+  - tests/test_r03_provider_configuration_migration.py
+  - scripts/check_db_schema.py
+  - obx-test postgres:17.10 scripts/run_postgres_migration_smoke.sh
+  do_not_repeat:
+  - 不得把迁移DDL成功等同于CHECK约束表达式已在数据路径执行
+  - 新增表时必须同步基线计数、数据目录、字段字典和真实空库回归
+- id: PROB-0030
+  title: R03外部供应商测试环境SecretRef和证书尚未提供
+  status: OPEN
+  root_cause: 当前受控环境没有对象存储、实名、支付和出款测试账号对应的Vault/KMS SecretRef、证书指纹或回调白名单，不能执行真实连接探针。
+  impact: R03配置生命周期、故障注入和安全闭锁可验证，但不得把模拟连接冒充外部供应商激活；后续业务版本到达各自截止版本前必须补齐。
+  current_behavior: artifacts/validation/r03-task007-external/external-activation-ledger.yaml逐项记录BLOCKED、负责人、截止版本和所需材料；配置保持非ACTIVE。
+  next_owner: PROJECT_OWNER
+  required_evidence:
+  - STORAGE在R04前提供测试桶、最小权限SecretRef和CORS/生命周期
+  - IDENTITY在R05前提供沙箱、回调白名单和证书
+  - PAYMENT在R16前提供测试商户、SecretRef和证书
+  - PAYOUT在R22前提供测试主体、SecretRef和证书
+  do_not_repeat:
+  - 不得生成临时供应商密钥或把测试Mock标为VERIFIED
+  - 不得在连接测试失败或未运行时激活配置版本
+- id: PROB-0031
+  title: R03域名计划中十个主机尚未配置DNS
+  status: OPEN
+  root_cause: 2026-07-18实时探测仅api.orbexa.cc和download.orbexa.cc解析并通过TLS，其余www、ws、admin、h5、assets及stg-*主机均返回DNS gaierror。
+  impact: 未解析域名不能取得TLS证书或服务健康证据，管理后台、H5、WebSocket、媒体和独立预发布入口不能标为已激活。
+  current_behavior: artifacts/validation/r03-task007-external/domain-probe.json保存DNS/TLS/服务三层状态、已解析地址和证书SHA-256；未解析项保持FAILED并绑定项目所有者。
+  next_owner: PROJECT_OWNER
+  required_evidence:
+  - 按config/DOMAIN_PLAN.yaml创建十个待办DNS记录
+  - DNS生效后重新采集TLS证书SHA-256、有效期和业务健康状态
+  do_not_repeat:
+  - 不得把根域或其他子域可用推断为未解析子域已通过
+  - 不得把跳过证书校验的curl结果作为TLS证据
+- id: PROB-0032
+  title: R02安全验证码模态交互与视觉规格待网页端设计回传
+  status: SOLVED
+  blocking: false
+  root_cause: 既有认证规格定义了挑战API和功能流程，但没有完整冻结验证码承载形式、自动触发、加载、错误、过期、刷新、成功续办以及布局、字号、动画和无障碍数字参数；当前Android以内联展开和二次点击继续作为临时实现。
+  resolution: 已验收并导入冻结回传包，安全验证改为业务按钮自动触发的328dp模态弹层；完成加载、就绪、输错换图、过期自动换图、限流倒计时、网络恢复、成功360ms自动续办及小屏键盘适配，不再要求用户二次点击原业务按钮。
+  current_behavior: 冻结回传包SHA-256为cff3989e5fa7d9f8e956762f052a063eda814d9b728da31c5b6a8087b953b8dd；REFERENCE_ONLY哈希、八状态图、Manifest、布局字号圆角参数和只读属性均通过设计包门禁。
+  regression_checks:
+  - scripts/check_r02_security_challenge_design_package.py
+  - tests/test_r02_security_challenge_design_package.py
+  - tests/test_r02_auth_slice_contract.py
+  - apps/android :feature:auth:testDebugUnitTest :core:network:testDebugUnitTest
+  do_not_repeat:
+  - 不得再次向普通用户展示创建安全验证按钮、请求编号、challengeId或其他技术字段
+  - 不得用内联验证码、二次点击续办或Material默认参数替代冻结模态设计
+  - 不得忽略expiresAt、Retry-After、取消、换图、错误恢复或成功自动续办状态
+- id: PROB-0033
+  title: 商业前端曾展示请求标识和认证内部说明
+  status: SOLVED
+  root_cause: 早期切片把服务端请求标识和内部隐私实现说明直接渲染到登录、启动及管理端页面，用联调排障需求覆盖了正式商业产品文案边界。
+  resolution: Android、H5和管理端移除请求编号、请求标识、挑战字段及敏感信息日志说明；新增商业UI静态门禁并把禁令写入AGENTS、START_HERE、连续性策略和冻结全局边界文档。
+  regression_checks:
+  - scripts/check_commercial_ui_boundaries.py
+  - tests/test_commercial_ui_boundaries.py
+  - apps/admin-web src/r01Pages.test.ts
+  do_not_repeat:
+  - 任何正式前端页面不得展示请求编号、TraceId、challengeId、幂等键、Base64或日志实现说明
+  - 临时排障文案只允许在明确调试期间存在，修复完成前必须删除并通过静态门禁
+- id: PROB-0034
+  title: 冻结设计回传包校验器与实际Manifest结构不兼容
+  status: SOLVED
+  root_cause: 原校验器只接受字符串文件清单、根相对效果图路径和旧dimensions_dp字段，冻结回包使用对象清单、EDITABLE_OVERLAY前缀及dialog结构，导致完整合法设计包被误拒绝。
+  resolution: 校验器兼容两种确定性Manifest表达并新增回归测试；不放宽参考资料哈希、八状态文件、效果图尺寸、只读属性或占位内容门禁。
+  regression_checks:
+  - tests/test_r02_security_challenge_design_package.py
+  do_not_repeat:
+  - 不得因校验器自身schema漂移把合格回包误判为不完整
+  - 修复兼容性时不得绕过文件哈希、必需状态、只读或敏感文件检查
+- id: PROB-0035
+  title: 验证码通过后的业务失败被客户端误判为验证码错误或网络失败
+  status: SOLVED
+  root_cause: 后端对图片安全验证和普通业务规则共用通用422错误码，Android与H5又按HTTP状态而非专用错误码分类，导致正确输入验证码后仍可能换图并提示输入错误；401账号凭证失败被误报认证失效，短信供应商500被误报网络连接失败。
+  resolution: 后端新增AUTH-422-SECURITY_CHALLENGE_INVALID并只用于图片安全验证错误、过期或已使用；Android与H5仅对该错误码刷新验证码，其余账号、注册和短信服务失败按业务场景展示安全商业文案。
+  regression_checks:
+  - UserAuthVerificationServiceTest#incorrectChallengeUsesDedicatedErrorCodeWithoutConsumingChallenge
+  - AuthFormRulesTest#only dedicated security error refreshes challenge
+  - InviteRegistrationPage.test.ts ordinary registration 422 does not refresh challenge
+  - scripts/check_r02_public_auth.py --api-base-url https://api.orbexa.cc
+  - tests/test_r02_auth_slice_contract.py
+  do_not_repeat:
+  - 不得按所有401、409、422或500状态统一推断验证码结果
+  - 只有图片安全验证专用错误码可以显示验证码错误并刷新图片
+  - 网络失败文案只用于未收到HTTP响应的真实连接失败
+- id: PROB-0036
+  title: 注册页缺少密码规则提示且认证路由串用表单状态
+  status: SOLVED
+  root_cause: Android注册按钮仅按长度启用且没有展示字母数字组合和最大长度，注册业务错误共用通用422；密码登录、短信登录、注册和忘记密码共用同一组手机号与密码状态，切换页面后继续回显上一页输入。
+  resolution: 注册和新密码页面持续展示8–20位字母数字组合规则并对不合规密码、确认密码不一致提供字段级提示；注册后端新增手机号已注册、邀请码无效和密码策略专用错误码；认证路由切换原子清空手机号、密码、确认密码、短信码、邀请码和挑战状态。验证码默认120秒不变，后台和运行时范围收紧为60–300秒。
+  regression_checks:
+  - AuthFormRulesTest registration policy and dedicated registration errors
+  - InviteRegistrationPage.test.ts password helper and registered-phone error
+  - UserAuthServiceTest dedicated registration error codes
+  - UserAuthPolicyTest challenge TTL range
+  - V020__r03_auth_registration_policy_alignment.sql
+  do_not_repeat:
+  - 不得只用按钮禁用态表达用户必须知道的输入规则
+  - 不得在不同认证页面间自动携带手机号、密码、短信码或邀请码
+  - 不得用通用注册失败文案掩盖用户可自行处理的明确原因
+  - 安全挑战TTL不得超出60至300秒，一次性使用、尝试次数和接口限流不得因调整TTL而移除
+- id: PROB-0037
+  title: 历史检查点复算因Git重命名折叠误报过期并阻断推送
+  status: SOLVED
+  root_cause: 历史项目指纹通过Git diff收集基线到提交的路径时沿用默认重命名检测；APK清单从当前目录归档到history后，Git把删除与新增折叠成单一重命名，只返回新路径，而工作区检查点同时记录了旧路径删除和新路径新增，导致相同内容被误报CHECKPOINT_STALE。
+  resolution: 历史指纹复算固定使用--no-renames，使删除与新增路径分别进入规范化指纹；新增回归测试验证归档重命名同时保留DELETED与FILE状态，并用真实c257aee提交重放确认哈希与CP-0024一致。
+  regression_checks:
+  - tests/test_continuity_historical_fingerprint.py
+  - scripts/continuity_gate.py pre-push --strict
+  - c257aee9b1533495aa192c50da69216f5f4214bf against CP-SES-20260718T200607Z-3569D212-0024
+  do_not_repeat:
+  - 历史检查点指纹不得启用Git rename/copy折叠后再与工作区逐路径指纹比较
+  - 修复假失败不得跳过检查点哈希、使用--no-verify或改写已生成的历史提交
+  - APK当前清单移入history后必须让旧路径删除和新路径新增都参与历史复算
+- id: PROB-0038
+  title: 简单修复被版本级流程放大且APK精确路由检查过晚
+  status: SOLVED
+  root_cause: 分层测试和APK交付脚本虽已存在，但没有统一任务意图与风险分类入口；人工把一批局部Bug连同完整发布治理串行执行。APK脚本又只在上传后通过HTTPS发现精确Nginx路由缺失，导致业务代码已完成后继续修版本、路由和交付证据。
+  resolution: 新增SIMPLE至RELEASE_CLOSE五级工作模式和统一hhy_workflow入口；简单Bug只运行受影响模块回归，高风险路径机器化升级。APK增加独立preflight-route并在正式prepare复制上传前重验，跨电脑工具解析兼容环境变量、PATH和Codex捆绑运行时。
+  regression_checks:
+  - tests/test_hhy_workflow.py
+  - tests/test_run_affected_tests.py
+  - tests/test_android_apk_delivery.py
+  - scripts/deliver_android_test_apk.py preflight-route
+  do_not_repeat:
+  - 不得对单模块低风险Bug无理由执行全量集成、版本关闭或拆分多个CR
+  - 不得在APK精确下载路由未通过时开始正式构建或请求尚不存在的公网URL
+  - 不得因PATH缺少Git、pnpm或本机Android工具链而重复安装、重建或误判仓库
+  - 门禁升级必须给出命中路径和风险原因，不得只写为了保险
+- id: PROB-0039
+  title: 注册专用错误码被Android严格反序列化丢失且无效邀请码触发数据库只读事务异常
+  status: SOLVED
+  root_cause: Android错误响应模型遗漏服务端固定timestamp字段及错误体details、traceId字段，在禁止未知字段的严格解析下整包解码失败，手机号已注册专用错误码因此退化为通用409提示；邀请码预校验复用了带FOR SHARE的注册锁查询，而校验服务运行在只读事务中，不存在的邀请码落库查询时触发500。
+  resolution: Android错误模型补齐timestamp、details和traceId并用真实服务端错误包回归；邀请码普通校验改用无锁只读查询，正式注册单独使用FOR SHARE锁查询，既消除只读事务500又保留注册过程的并发保护。
+  regression_checks:
+  - ApiModelsSerializationTest#errorEnvelopeDecodesStableCodeWithoutRelaxingUnknownFields
+  - UserAuthServiceTest#inviteValidationReturnsDedicatedActionableCode
+  - UserAuthServiceTest#registrationReturnsDedicatedCodeForAnExistingPhoneAfterChallengeVerification
+  - obx-test Android core-network/auth unit tests and lintDebug
+  do_not_repeat:
+  - 严格客户端响应模型必须覆盖服务端统一信封的全部固定字段，测试样例必须来自真实信封结构
+  - 只读事务不得调用SELECT FOR UPDATE或FOR SHARE等锁查询
+  - 预校验与正式提交需要不同并发语义时必须拆分存储方法，不得共用会导致事务属性冲突的查询
+  - 用户可处理的手机号已注册和邀请码无效不得退化为通用失败或服务不可用文案
+- id: PROB-0040
+  title: 跨版本关闭未回填最终绿提交导致发布门禁重复人工修正
+  status: SOLVED
+  root_cause: continuity close虽然接收并记录code_commit，但update_current_status_closed没有接收该值，CURRENT_STATUS.last_green_commit因此长期停留在R01；R03其他关闭证据全部通过后仍被CURRENT_GREEN_COMMIT_MISMATCH阻断。
+  resolution: close把code_commit显式传入update_current_status_closed，COMPLETED时原子写回last_green_commit；跨版本隔离测试新增精确断言，R03当前状态同步到已验收APK源码Commit 660d148；实现与全套接续自测证据绑定Commit 09dec08d8af7fc2c25d4fa3f2425d2e85359b4f8。
+  regression_checks:
+  - tests/test_continuity_cross_release_close.py
+  - scripts/run_continuity_self_test.py
+  - scripts/check_v123_continuity.py --strict
+  - scripts/check_release_artifacts.py --release R03 --close-gate
+  do_not_repeat:
+  - 版本关闭不得只在Session和事件中记录code_commit而遗漏CURRENT_STATUS.last_green_commit
+  - 发布关闭门禁发现绿提交漂移时必须修复状态生成逻辑，不得逐版本手工改值后忽略根因
+  - COMPLETED以外的BLOCKED或ABANDONED结果不得把未通过版本误标为last_green_commit
+- id: PROB-0041
+  title: R04媒体上传面板按钮高度绕过冻结UI Token
+  status: SOLVED
+  root_cause: 媒体面板首版直接写入两个48.dp按钮高度，视觉值虽与设计系统一致，但绕过HhySize唯一事实源；模块测试和Lint不检查Token归属，直到TASK-R04-005全量Python集成才被全项目UI Token门禁发现。
+  resolution: 两个按钮高度统一改用HhySize.PrimaryButtonHeight，保持48dp视觉尺寸不变；增加R04媒体面板专用回归断言，并继续由全项目UI Token静态门禁兜底。
+  regression_checks:
+  - UiTokenCheckerTest#test_r04_media_sheet_uses_frozen_button_height_token
+  - scripts/check_ui_tokens.py
+  - obx-test固定Android镜像lintDebug testDebugUnitTest assembleDebug
+  do_not_repeat:
+  - Compose页面不得因数值恰好与设计Token相同而直接写dp或sp
+  - 新增页面或组件必须同时通过模块测试、Lint和全项目UI Token门禁
+  - 修复Token归属不得改变冻结视觉尺寸或自行新增同值Token
+- id: PROB-0042
+  title: PostgreSQL CHECK三值逻辑放行空第三方状态的完成记录
+  status: SOLVED
+  root_cause: R05第三方请求完成约束把多个status IN表达式用OR连接；当status为NULL且completed_at非空时，表达式结果为NULL而不是FALSE，PostgreSQL将CHECK的NULL结果视为通过，静态文本测试无法发现该语义漏洞。
+  resolution: 完成约束先强制新记录status非空，再在显式括号内分别校验处理中状态不得有完成时间、终态必须有合法完成时间；一次性PostgreSQL17.10测试加入空状态带完成时间的拒绝用例并执行完整回滚重放。
+  regression_checks:
+  - database/tests/r05_identity_invariants.sql R05_PROVIDER_COMPLETION_WITHOUT_STATUS_WAS_ACCEPTED
+  - scripts/run_r05_database_invariants.sh
+  - scripts/run_r05_disposable_postgres_container.sh
+  - tests/test_r05_identity_migration.py
+  do_not_repeat:
+  - PostgreSQL CHECK不得依赖NULL传播后仍期望约束拒绝，必填状态必须用IS NOT NULL显式收口
+  - 数据库状态与时间不变量必须在真实PostgreSQL执行错误数据拒绝测试，不能只做SQL文本匹配
+  - 迁移完成必须验证空库、回滚、重放和回归数据四个阶段
+- id: PROB-0043
+  title: R05身份存储直接绑定Instant导致PostgreSQL JDBC拒绝时间参数
+  status: SOLVED
+  root_cause: R05客户端和后台身份存储把java.time.Instant直接作为JdbcTemplate参数写入timestamptz列；H2测试接受该类型，但PostgreSQL JDBC无法推断Instant对应的SQL类型，首次创建认证会话即失败。存储层又把全部DataIntegrityViolationException都误映射为唯一键业务冲突，遮蔽了真实SQL状态；修正异常保真后进一步发现新建身份档案写入了冻结状态机不存在的PENDING值；原有本地条件测试因未连接真实PostgreSQL而未暴露这些差异。
+  resolution: 两套R05 PostgreSQL存储的创建、计数、活体绑定、过期、重试、审核、冻结和媒体令牌时间参数统一转换为UTC OffsetDateTime，新建档案使用冻结状态机中的SESSION_CREATED；只有PostgreSQL SQLSTATE 23505才映射为重复业务冲突，其他完整性错误保留原始异常用于正确诊断；真实PostgreSQL集成测试显式验证会话到期时间保存精度，并让测试自身的数据库准备语句使用同一明确类型，清理阶段不再违反不可变Outbox规则。
+  regression_checks:
+  - R05IdentityPostgresStoreTest#createAttachReadAndRetryBindUtcTimestampsAndEncryptProviderPayloadOnPostgres
+  - services/backend/mvnw.cmd -pl boot -am test
+  - obx-test PostgreSQL17 disposable integration gate
+  do_not_repeat:
+  - PostgreSQL timestamptz参数不得依赖驱动推断java.time.Instant，统一绑定OffsetDateTime或显式SQL类型
+  - 不得把所有DataIntegrityViolationException统一翻译成重复业务提示，必须先核对SQLSTATE或约束名
+  - 身份档案和身份会话写入值必须来自数据库冻结状态集合，不得自行引入PENDING等近义状态
+  - H2通过不得替代真实PostgreSQL的存储适配验证
+  - 新增PostgreSQL存储方法时必须覆盖至少一次真实写入和回读，不得只做SQL文本或Mock验证
+  - 集成测试不得为清理数据而删除或篡改不可变Outbox事件，一次性数据库由容器整体销毁
+- id: PROB-0044
+  title: R05客户端实名授权协议版本缺少受控读取来源
+  status: SOLVED
+  root_cause: 冻结创建实名会话契约要求consentVersion，页面字段目录明确禁止客户端暗设默认，但R05四个客户端接口和现有配置接口均未提供当前实名授权协议版本；公开注册协议配置在当前环境也没有实名协议条目。
+  resolution: CR-0096新增受控的当前实名认证协议读取并在创建会话时二次校验版本；Android只提交服务端返回的不透明版本ID，不再使用构建变量或本地默认值。
+  impact: 已由CR-0096补齐服务端受控协议读取、当前版本二次校验和Android自动加载阅读闭环；APK不再携带协议版本构建变量，用户页面不展示技术版本ID。
+  current_behavior: Android进入实名信息表单自动读取当前生效的IDENTITY_VERIFICATION协议，用户可展开阅读正文并明确同意；创建会话只提交内存中的不透明版本ID，服务端拒绝空版本、旧版本或已切换版本。
+  next_owner: TASK-R05-004
+  required_evidence:
+  - CR-0096冻结GET /api/v1/identity/consent和创建会话版本校验规则
+  - Java 21服务/控制器测试8项通过，Android网络测试24项与实名/App Kotlin编译通过
+  - PostgreSQL 17空库V027、U027至U023回滚和V023至V027重装通过，覆盖未配置、受控种子和有签署拒绝回滚
+  regression_checks:
+  - Java 21实名认证协议服务与控制器测试8项
+  - Android网络测试24项及实名/App Kotlin编译
+  - PostgreSQL 17 V027安装、回滚和已有签署拒绝回滚验证
+  do_not_repeat:
+  - 不得使用App版本、OpenAPI版本或consent-v1测试常量代替实名授权协议版本
+  - 不得在页面局部硬编码协议版本或允许空版本提交
+- id: PROB-0045
+  title: R05活体回跳仅携带state但H5查询接口要求会话ID和Bearer
+  status: SOLVED
+  root_cause: 供应商按冻结安全边界只向H5回跳地址携带一次性state，而H5-012登记的GET身份会话接口同时要求路径id与登录Bearer；现有契约没有state消费或安全换取结果的操作，H5无法从回跳事实构造合法查询。
+  resolution: CR-0092新增公开一次性state原子消费契约，H5清理URL后只取得最小业务结果；重放、过期和篡改统一拒绝且不要求会话ID或Bearer。
+  impact: 已通过CR-0092补齐公开一次性state消费契约，独立H5-012不再需要会话ID或Bearer即可安全完成回跳状态交接。
+  current_behavior: H5读取state后立即清理URL，调用公开原子消费接口并只展示最小业务状态；重复、过期、篡改state统一进入商业失效页，技术参数不进入DOM。
+  next_owner: TASK-R05-004
+  required_evidence:
+  - 通过CR冻结一次性state消费接口、重放防护、过期和结果最小披露
+  - H5无Bearer回跳成功、重复state拒绝、过期state和篡改state测试
+  - 页面模板统一为商业回跳状态页并禁止技术字段进入DOM
+  regression_checks:
+  - H5无Bearer回跳成功、重复state拒绝、过期state和篡改state测试
+  - 公开消费响应最小披露且页面DOM不得包含state、会话ID、Bearer或内部错误字段
+  do_not_repeat:
+  - 不得把会话ID、Bearer、姓名或身份证号追加到供应商回跳URL
+  - 不得用客户端缓存猜测state对应会话或把通用占位页标为H5闭环完成
+- id: PROB-0046
+  title: R05第三方活体结果查询与人脸比对缺少已冻结供应商响应契约
+  status: OPEN
+  root_cause: 仓库原有用户提供的已购接口资料和R04私有存储未完整接入R05生产链路；CR-0097已冻结真实响应契约，CR-0098已补安全下载，CR-0099已补加密响应与乐观锁事务状态机，CR-0101已补private_kyc服务端上传和媒体登记桥接，CR-0104已补Cloudflare R2真实S3兼容端口，CR-0105已补生产SecretRef只读物化解析，CR-0106已补阿里云OSS V4真实端口。剩余缺口是正式环境端到端证据。
+  impact: Android和H5已能触发真实供应商结果协调，private_kyc桥接已具备R2或OSS签名上传、完整性校验、SecretRef生产解析和幂等登记；正式挂载或激活配置缺失时仍会安全保持可重试，不能把会话推进到VERIFIED、MANUAL_REVIEW或REJECTED，R05仍不得标记为完整实名闭环。
+  current_behavior: AliyunMarketIdentityProviderClient按原始资料解析真实结果，安全下载器阻断SSRF和伪造图片；IdentityProviderResultCoordinator在图片下载前加密保存活体通过原文，并要求先获得private_kyc内部媒体ID，再以expectedVersion原子写入人脸比对密文、媒体绑定、会话、档案和Outbox。CR-0101解析ACTIVE private_kyc绑定并以V028唯一索引幂等登记PRIVATE READY媒体；CR-0104按精确激活配置生成R2 presigned PUT/GET并执行HEAD三要素校验；CR-0105从Vault/KMS/CSI只读物化目录按SecretRef哈希即时读取凭据、不缓存并清零缓冲；CR-0106按作用域供应商和精确配置生成OSS V4 presigned PUT/GET，绑定Content-Type和SHA元数据并执行HEAD三要素校验。挂载、配置或供应商不可用时只返回可重试商业错误，不写伪终态。
+  next_owner: TASK-R05-004
+  required_evidence:
+  - CR-0097已按原始资料SHA-256冻结结果查询、APPCODE认证和错误映射契约，Java 21专项测试9项通过
+  - CR-0098安全下载器已覆盖公网解析、禁止重定向、100KiB上限、JPEG/PNG魔数和SHA-256，Java 21专项测试4项通过
+  - CR-0099协调器5项分支测试及PostgreSQL 17密文、待处理、拒绝、档案同步和重试集成验证通过
+  - CR-0101私有上传3项单元测试、PostgreSQL17媒体幂等登记集成测试、V001-V028空库及U028-U023回滚重放通过
+  - CR-0104精确配置、AWS真实预签名、幂等对象键、HEAD完整性、私有读取和凭据清零专项测试通过
+  - CR-0105引用规范、确定性文件名、UTF-8/大小/权限/软链接边界、轮换无缓存及生产启动门禁专项测试通过
+  - CR-0106作用域供应商、OSS V4真实预签名、幂等对象键、HEAD完整性、私有读取、双端口路由和凭据清零专项测试通过
+  - 活体照片下载后进入私有R2或OSS且不产生公开URL，原始供应商响应加密保存
+  - 人脸比对通过、人工复核、拒绝、超时和供应商异常的状态机及真实适配测试
+  - 正式环境最小端到端验收且页面不出现内部供应商字段
+  do_not_repeat:
+  - 不得用其他阿里云实名产品的字段结构替代当前市场接口响应契约
+  - 不得把供应商返回原文、照片地址、订单号或内部失败码展示给用户
+  - 不得以H5回跳成功代替服务端实名结果已完成
+- id: PROB-0047
+  title: R05实名认证页面第二次发生效果图建模与UI参数漂移
+  status: MITIGATED
+  root_cause: 现有规则虽然要求使用效果图和Design Token，但screen_visual_binding允许B12/P01-P08粗粒度范围，且“无精确面板时参考相邻组件”的规则给开发者留下自行构图空间；R05 Android又直接使用通用TopAppBar、Button和OutlinedTextField默认尺寸并新增效果图没有的Hero和准备卡片。现有R05测试只检查协议和业务链路，没有逐页视觉合同、精确面板校验和截图关闭门禁，因此第二次UI漂移仍通过机器交付。
+  impact: 当前R05实名认证首页、信息输入、活体容器和结果页不能视为UI验收通过；H5回跳和管理端实名页面也缺少精确视觉覆盖。R05在补齐视觉规格、按图重构、Token参数核对和截图验收前不得关闭。
+  resolution: CR-0113把效果图升级为建模、布局和视觉样式强制来源，把业务文档固定为功能与正式文案来源；新增逐页视觉验收目录、精确面板/补充规格校验和Release关闭门禁。粗粒度范围、TOKENS_ONLY和相邻页面参考不再允许进入施工，无图先补规格，禁止自行构思。
+  regression_checks:
+  - tests/test_ui_visual_acceptance.py
+  - tests/test_release_close_gate.py
+  - scripts/check_ui_visual_acceptance.py --release R05 --catalog-only
+  - scripts/check_ui_visual_acceptance.py --release R05（在未修复时必须阻断）
+  do_not_repeat:
+  - 不得把“效果图不是功能事实源”误解为可以自行设计视觉结构
+  - 不得使用面板范围、TOKENS_ONLY或相邻页面参考直接开始UI编码
+  - 不得用框架默认尺寸替代Design Token
+  - 不得在没有参考图对照和真机/浏览器截图证据时把页面或APK标为UI完成
+  - 虚拟功能、无关文字和占位数据必须过滤，但过滤不得改变未受影响的布局模型
+- id: PROB-0048
+  title: R05测试APK连接R03公网后端导致实名认证授权说明无法加载
+  status: SOLVED
+  root_cause: R05 APK按发布门禁正确使用https://api.orbexa.cc，但该域名仍代理到只包含R03接口的28084容器；R05授权说明接口和V027协议种子仅存在于隔离R05环境。客户端因此收到404并展示可重试商业错误，问题与第三方实名认证AppKey无关。
+  resolution: 在保留现有测试账号数据库的前提下先生成并验证PostgreSQL自定义格式备份，再使用R05镜像连接同一数据库完成受控迁移；候选容器通过就绪、平台状态、真实测试注册和Bearer授权说明读取后，将api.orbexa.cc可回滚切换到28085。原R03容器和Nginx备份继续保留，旧R02认证黑盒门禁及R05授权说明公网门禁均通过。
+  regression_checks:
+  - scripts/check_r02_public_auth.py --api-base-url https://api.orbexa.cc
+  - scripts/check_r05_public_identity.py --api-base-url https://api.orbexa.cc
+  - artifacts/validation/r05-public-rollforward/evidence.json
+  do_not_repeat:
+  - APK内嵌真实API地址和平台状态200不能证明当前Release新增接口已在公网运行
+  - 每个测试APK交付前必须用该版本登录态执行至少一个新增核心接口黑盒门禁
+  - 第三方供应商未激活不得被误判为本地协议、配置或基础资料接口不可用
+  - 公网后端滚动升级必须先备份现有数据库、验证候选容器并保留Nginx与旧容器回滚点
+- id: PROB-0049
+  title: R05测试APK版本号只递增构建配置导致发布策略单测失败
+  status: SOLVED
+  root_cause: versionCode同时存在于Android defaultConfig、ReleasePolicy和VersionMetadataTest断言中；首次递增只修改build.gradle.kts，应用内策略及单测仍为10208，全量构建因此在app:testDebugUnitTest主动失败。
+  resolution: 三处版本来源及CHANGELOG统一为10209，并保留VersionMetadataTest作为构建前漂移门禁；失败构建不签名、不交付，修复后必须重新冻结提交和归档源码。
+  regression_checks:
+  - apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+  - apps/android/gradlew --no-daemon verifyApiBaseUrl testDebugUnitTest lintDebug assembleDebug
+  do_not_repeat:
+  - 每次递增APK versionCode必须同步defaultConfig、ReleasePolicy、VersionMetadataTest和CHANGELOG
+  - 不得修改断言绕过ReleasePolicy与BuildConfig的一致性校验
+  - 构建失败的提交和产物不得继续进入签名或桌面交付
+- id: PROB-0050
+  title: 既有Android页面缺少统一矢量图标、真实来源返回栈与原生转场
+  status: MITIGATED
+  root_cause: MainActivity、Shell、Auth和Identity分别以mutableState或局部枚举切页，Shell返回时重新以首页索引创建；实名认证和底部导航又用汉字或Unicode充当图标，页面没有统一前进/返回转场。既有门禁只核对业务和视觉参数，没有检查成熟导航基础设施。
+  impact: 从“我的”进入实名认证后返回错误跳到首页；系统返回键或手势可能直接退出App；身份页面显示“相”“人”等字符；所有既有和后续页面都可能重复同类问题。
+  resolution: CR-0119统一采用Stable Jetpack Navigation Compose 2.9.8、HhyIcons矢量语义注册、HhyMotion冻结转场和rememberSaveable来源状态恢复；迁移全部既有Android页面，并新增全量静态门禁与导航回归。
+  regression_checks:
+  - scripts/check_android_ui_foundation.py
+  - tests/test_android_ui_foundation.py
+  - Android MainActivity、Shell、Auth、Identity模块编译与测试
+  - 真机验证“我的→实名认证→资料页→返回→实名认证→返回→我的”
+  do_not_repeat:
+  - 不得用文字、汉字、Unicode、Emoji或字体字符充当图标
+  - 不得用mutableState、枚举或自维护列表替代官方导航返回栈
+  - 不得写死返回首页、我的或模块首页，必须返回实际来源
+  - 不得省略前进、返回与手势返回的统一Token化转场
+  - 基础方案必须优先官方Stable和大型商业App成熟架构；小众或自研例外必须ADR与批准CR
+- id: PROB-0051
+  title: 认证入口同级切换误用层级动效且子页返回来源写死
+  status: MITIGATED
+  root_cause: AuthScreen仍以单个AuthRoute状态和统一HhyMotion.forwardContent切换PASSWORD、SMS、REGISTER与RESET；BackHandler和页内返回又固定选择PASSWORD。原静态门禁把AnimatedContent列为认证模块合格标记，没有验证真实NavHost、peer motion和pop反向转场。
+  impact: PASSWORD与SMS同级切换错误表现为右到左页面进入；REGISTER与RESET返回仍然右到左且从SMS进入后错误回到PASSWORD，违反真实来源返回和大型App成熟导航规则。
+  resolution: CR-0123将PASSWORD/SMS保留为同级登录模式并仅使用HhyMotion.peerContent无方向淡入淡出；REGISTER/RESET迁移为Navigation Compose真实子目的地，进入使用forward、pop使用backward并恢复原登录模式。静态门禁新增对Auth route mutableState和forwardContent的精确阻断。
+  regression_checks:
+  - scripts/check_android_ui_foundation.py
+  - tests/test_android_ui_foundation.py
+  - feature-auth Kotlin编译与app导航测试
+  - 真机分别从PASSWORD和SMS进入REGISTER/RESET并使用页内、系统键和手势返回
+  do_not_repeat:
+  - 同级Tab切换不得使用带方向的层级页面转场
+  - 下级页面返回不得重新navigate到默认页，必须pop真实来源
+  - 静态门禁不得只检查存在AnimatedContent或BackHandler，必须检查NavHost、pop转场和禁用模式
+- id: PROB-0052
+  title: R05公网没有激活实名认证运行配置导致资料提交阶段返回500
+  status: MITIGATED
+  root_cause: api.orbexa.cc已切到R05后端，但共享Staging数据库provider_config_versions中provider_code=identity的记录为0；R05IdentityRuntimePolicy在创建平台认证会话时无法取得active_provider、max_daily_attempts和poll_timeout_seconds，因此在调用第三方活体供应商之前即返回COMMON-500-INTERNAL。
+  impact: versionCode 10210真机的实名认证首页和资料输入页通过，但无法创建SESSION_CREATED，活体容器与结果页无法进入；这不是用户姓名、身份证输入或第三方AppCode请求失败。
+  current_behavior: api.orbexa.cc的Staging候选已显式启用STAGING_SANDBOX，POST /api/v1/identity/sessions返回200并可继续取得HTTPS活体页；沙箱完成后服务端事务状态为VERIFIED，同一state重放返回422。production仍默认关闭且误开会拒绝启动，正式供应商路径未被替换。
+  resolution: CR-0124实现默认关闭、仅staging可显式启用、production误开即拒绝启动的供应商沙箱；候选与公网均通过注册、协议、创建会话、活体页面、完成、结果查询及一次性state防重放黑盒，Nginx从28085可回滚切换至28086并保留旧容器与配置备份。
+  next_owner: TASK-R05-007
+  required_evidence:
+  - 激活受控Staging identity配置前必须完成字段校验、连接测试与审批链，禁止直接篡改ACTIVE记录
+  - 未配置真实AppCode时生产真实认证必须关闭；如需真机覆盖活体和结果页，使用与生产硬隔离的受控Staging供应商沙箱
+  - 配置后重新执行注册、授权说明、创建会话、活体令牌和结果查询黑盒门禁
+  - scripts/check_r05_staging_identity_sandbox.py --api-base-url https://api.orbexa.cc
+  - artifacts/validation/r05-public-rollforward/evidence.json
+  regression_checks:
+  - scripts/check_r05_staging_identity_sandbox.py --api-base-url https://api.orbexa.cc
+  - 注册、协议、创建会话、活体页面、完成、结果查询及一次性state防重放公网黑盒
+  - production启用测试供应商必须拒绝启动，客户端不得本地伪造认证终态
+  do_not_repeat:
+  - 不得把协议接口200等同于实名认证运行配置已就绪
+  - 不得把创建会话阶段的500误归因于第三方活体Key
+  - 不得为通过测试直接在生产逻辑中伪造VERIFIED或绕过供应商、证据和审批链
+  - 测试供应商不得由客户端本地改状态；必须服务端事务落库并严格限制staging环境
+- id: PROB-0053
+  title: 10211测试APK错误渠道导致启动版本检查404
+  status: SOLVED
+  root_cause: 10211固定工具链构建时人为覆盖HHY_APP_CHANNEL=owner-test，但公网app_versions只发布official与STAGING组合；平台状态接口返回200后，POST /public-api/v1/app/version-check对owner-test返回404，StartupGate按安全策略进入暂时无法连接。既有版本测试没有断言BuildConfig.APP_CHANNEL和APP_ENVIRONMENT，四方哈希只证明产物一致，未证明启动策略维度存在。
+  resolution: CR-0127恢复测试APK固定official与STAGING，递增10212，并在VersionMetadataTest强制断言BuildConfig渠道和环境；构建前直接黑盒确认相同版本请求返回200，禁止复用10211。
+  regression_checks:
+  - apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+  - POST /public-api/v1/app/version-check with official + STAGING + current versionCode returns HTTP 200
+  - 10212覆盖安装后首次启动直接进入登录或已登录页面，不出现暂时无法连接
+  do_not_repeat:
+  - 不得为区分项目所有者测试包自行发明未在后台发布的APP_CHANNEL
+  - APK正式API地址正确、接口健康和四方哈希一致不能替代版本检查请求维度验证
+  - 每次Android构建必须在单测中锁定发布渠道和环境，并在交付前以相同请求体执行公网黑盒
+- id: PROB-0054
+  title: R05第三方活体整页被固定取景区裁切且实名状态不能恢复
+  status: SOLVED
+  root_cause: Android把供应商完整100vh活体H5嵌入冻结的240dp取景区，页面内部按钮和人脸区域因此被裁切；实名首页又静态假定未认证，中途退出或完成认证后没有服务端总览入口恢复活动会话和最终状态。WebView重组还会按当前URL差异重新加载初始地址，存在打断供应商内部导航的风险。
+  impact: 用户只能滚动黑色框寻找被遮挡按钮，完成后仍可再次认证；中途退出重进可能收到状态冲突并卡死，无法按大型App成熟交互继续原流程。
+  resolution: CR-0128新增GET /api/v1/identity/overview，由服务端收敛过期、活动、人工审核和已认证状态；Android实名首页按三状态路由，活动会话继续原流程，已认证禁止新建。SCR-ID-003固定区域只展示本地准备/授权/加载/处理/失败，供应商H5改为独立全屏WebView并用稳定tag避免内部跳转被重载；系统返回和页内返回继续共用Navigation Compose真实栈。
+  regression_checks:
+  - IdentityServiceTest与IdentityControllerTest总览、活动会话和过期收敛测试
+  - IdentityPresentationTest商业错误与技术字段过滤
+  - feature:identity:testDebugUnitTest与app:compileDebugKotlin
+  - scripts/check_r05_staging_identity_sandbox.py --api-base-url https://api.orbexa.cc
+  - 真机验证活体H5全屏无需滚动、完成后首页已认证、中途退出可继续
+  do_not_repeat:
+  - 不得把第三方完整H5当作本地240dp相机预览组件
+  - 不得在WebView每次重组时以当前内部URL不同为由重载供应商初始URL
+  - 不得静态假设实名入口永远未认证；必须读取服务端事实并恢复活动会话
+  - 不得用通用409或422文案覆盖经过技术字段过滤的安全商业原因
+- id: PROB-0055
+  title: Android自动门禁首次迁移到GitHub Linux后因平台差异整链失败
+  status: IN_PROGRESS
+  root_cause: 仓库长期只在Windows工作区和固定Android服务器镜像验证，GitHub干净Linux克隆未显式关闭Git中文路径转义，四个Hook与Android Gradle Wrapper也未提交可执行位；供应商原始TXT又被通用文本换行规则过滤，Context Pack记录了Windows工作区CRLF字节。Android各模块同时依赖GitHub稳定SDK仓库没有的预览API 37，工具与契约任务还隐式依赖Runner自带Node；临时Worktree动态Hook在POSIX系统默认为0644，Android门禁自身文件又未纳入Android影响映射，导致连续性、全量测试和Android全链分层失败或被错误跳过。
+  resolution: CR-0138至CR-0144把GitHub连续性、工具和Android工作流统一配置core.quotepath=false，Hook与Android Gradle Wrapper提交为100755，动态Worktree Hook在POSIX系统强制chmod 700；供应商原始证据按二进制逐字节冻结，全部Android模块compileSdk与构建平台收敛到正式稳定API 36。工具与契约任务显式安装Node 24并持久上传诊断日志；模拟器Runner只调用仓库内单一可执行Bash脚本，避免其逐行sh执行语义破坏目录、变量与续行；UIAutomator先在应用缓存生成截图，再用Android官方MediaStore发布到系统Pictures专用测试目录，避免应用专属目录随connectedDebugAndroidTest卸载被清除，也遵守Android 10+分区存储边界；JUnit失败断言直接汇总为GitHub Annotation。Android门禁工作流、策略、脚本、测试及影响映射自身全部纳入Android触发范围，后续必须实际执行全链且在干净Linux克隆复现通过。
+  latest_attempt:
+    release: R14
+    attempt: 19
+    github_run_id: '30508844702'
+    evidence: artifacts/validation/r14-candidate-attempt19/failure-evidence.json
+    finding: App级ReleaseCandidateSmokeTest完整通过并生成四图；根任务connectedDebugAndroidTest随后把App测试类过滤条件传播到feature:chat模块，该测试APK不包含此类而ClassNotFoundException。
+    next_fix: CR-0508把候选任务限定为:app:connectedDebugAndroidTest，并以治理测试禁止恢复未限定模块任务；App JUnit根、业务断言、截图和日志分析保持不变。
+  regression_checks:
+  - python -m unittest tests.test_android_ci_gate tests.test_r05_identity_vendor_contract
+  - python -m unittest discover -s tests -p 'test_*.py'
+  - python scripts/continuity_gate.py --mode ci --strict --base-ref HEAD^ --head-ref HEAD
+  - python scripts/project-doctor.py --strict
+  - GitHub Actions Android Quality Gate：build、emulator、candidate全部PASS
+  - 候选脚本必须精确执行:app:connectedDebugAndroidTest，测试锁定该模块任务并禁止未限定模块的connectedDebugAndroidTest
+  do_not_repeat:
+  - 不得采用GitHub标准runner无法安装的Android预览SDK作为正式商业项目编译基线
+  - 不得只在Windows工作区验证中文路径、换行和文件模式相关门禁
+  - 不得把用户提供的原始供应商证据当普通文本自动改写换行
+  - 不得在Hook缺少Linux可执行位或Context Pack依赖工作区CRLF时宣称可跨电脑、跨AI接续
+  - 不得依赖GitHub Runner隐式提供Node，也不得提交缺少Linux执行位的Gradle Wrapper
+  - 自动门禁必须保存可下载的测试日志，禁止失败后仅凭模糊结论反复试错
+  - 不得在逐行执行script输入的第三方Action中内嵌依赖共享状态的多行Shell，必须调用仓库内受测脚本
+  - 不得只写入临时Git Hook内容而不在POSIX系统赋执行位；禁止依赖Windows忽略文件模式的行为
+  - Android门禁自身文件发生变化时不得被影响分析跳过Android任务
+  - 向Gradle传入App测试类过滤条件时，不得调用根工程未限定模块的connectedDebugAndroidTest，否则Library模块会错误加载App测试类
+- id: PROB-0056
+  title: R05完成后因R06缺少直接前序依赖而无法关闭切换
+  status: SOLVED
+  root_cause: 早期版本依赖图按功能依赖建模，R06仅声明依赖R02和R04；项目所有者后来明确要求R02至R32依序推进，但依赖图没有同步增加R06对直接前序R05的顺序边，导致连续性关闭门禁拒绝合法切换。
+  resolution: CR-0145在保留R06既有R02、R04功能依赖的同时增加R05顺序依赖，并增加执行计划回归测试，保证R05未关闭时不能进入R06，关闭后可以把TASK-R06-001置为READY。
+  regression_checks:
+  - python -m unittest tests.test_program_execution_plan
+  - python scripts/project-doctor.py --strict --release R05
+  - continuity close从R05到R06/TASK-R06-001通过
+  do_not_repeat:
+  - 项目所有者将版本推进规则从功能依赖调整为顺序推进后，必须同步更新机器可读依赖图
+  - 不得绕过连续性关闭门禁直接启动下一Release
+- id: PROB-0057
+  title: R05关闭态Context混入本机APK且回归测试错误要求活跃会话
+  status: SOLVED
+  root_cause: tree_fingerprint遍历整个工作区时没有排除被Git忽略的APK二进制，导致本机Context Pack包含历史测试APK而GitHub干净检出不包含；test_context_pack_parallel_policy又直接解引用active_session.release，无法覆盖版本正确关闭后的active_session=null状态。
+  resolution: CR-0146把APK加入不可移植产物排除规则；关闭态Context继续从CURRENT_STATUS或NEXT_TASK解析当前Release，并纳入该Release实际存在的来源文件，不为尚未启动的Release伪造并行计划；回归测试同时覆盖无活跃会话和本地APK不影响仓库指纹。
+  regression_checks:
+  - python tests/test_context_pack_parallel_policy.py
+  - clean worktree python scripts/continuity_gate.py --mode ci --strict --base-ref HEAD^ --head-ref HEAD
+  - GitHub Actions Continuity Gate与CI tooling任务通过
+  do_not_repeat:
+  - Context Pack仓库树指纹不得纳入Git忽略的APK、缓存、构建目录或其他仅存在于单机的产物
+  - 版本关闭后active_session为null是正常状态，测试必须从CURRENT_STATUS或NEXT_TASK恢复Release上下文
+  - 本机门禁通过后必须在干净Worktree复现，禁止把开发机残留文件当作远端事实
+- id: PROB-0058
+  title: R06关于页协议代码与更新下载入口未完成真实闭环
+  status: SOLVED
+  root_cause: 关于页初版使用了未从冻结事实源确认的协议代码，并将更新按钮保留为空动作；这会导致协议请求404，或在存在更新时无法打开服务端发布地址。
+  resolution: 绑定后端已冻结的PRIVACY_POLICY代码，更新动作使用服务端downloadUrl且仅接受绝对HTTPS、无凭据、无片段地址；新增AboutDownloadPolicyTest覆盖安全边界。
+  regression_checks:
+  - apps/android/app/src/test/java/cc/orbexa/hhy/AboutDownloadPolicyTest.kt
+  - apps/android/gradlew --no-daemon :app:testDebugUnitTest :app:lintDebug
+  - SCR-ABOUT-001协议读取与更新动作人工/模拟器旅程
+  do_not_repeat:
+  - 不得凭经验发明协议code，必须使用后端冻结或配置注册表事实
+  - 页面主操作不得保留空lambda；所有可见动作必须绑定登记的业务行为
+  - 下载链接不得接受HTTP、凭据、片段或相对路径
+- id: PROB-0059
+  title: Android候选截图在页面过渡完成前采集并误判真实返回来源
+  status: MITIGATED
+  root_cause: ReleaseCandidateSmokeTest仅等待包含目标文案的任意语义节点出现；启动遮罩下方的登录页和页面转场中的前后页节点可同时存在，导致密码截图仍为“正在启动”，忘记密码截图仍为短信登录。注册和忘记密码返回又用始终存在的“密码登录”Tab文案断言，无法证明返回了真实SMS来源。
+  impact: 仪器测试退出码为0且四张截图齐全，但视觉证据不代表目标页面稳定状态；若直接批准为R06基线，会把过渡帧和错误页面永久固化，后续视觉回归失去意义。
+  resolution: CR-0151先补目标语义节点与前页消失等待；CR-0152进一步废止所有版本固定认证截图，改用版本视觉矩阵、不可见页面身份、真实加载状态、连续稳定像素、跨页面差异和重复SHA-256拒绝。AI按冻结设计自主验收，不再等待项目所有者逐轮核实。
+  regression_checks:
+  - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+  - tests/test_android_ci_gate.py
+  - GitHub Android候选R06实际页面矩阵和截图完整性报告
+  do_not_repeat:
+  - 不得用跨页面长期存在的Tab文案证明目标页面已完成切换
+  - 不得只等待目标节点出现就截图，必须同时等待遮罩或前页唯一节点消失
+  - 页面稳定标识必须在目标模拟器首屏可见，不得使用需要滚动后才出现的控件
+  - 截图不得仅凭数量自动晋升；AI必须逐图核对冻结设计和完整性证据后登记基线
+- id: PROB-0060
+  title: 固定认证截图与逐轮人工核实阻断实际版本页面验收和连续开发
+  status: MITIGATED
+  root_cause: R06-R32候选策略把密码、短信、注册和忘记密码四张认证截图固定为所有版本的证据，并要求项目所有者逐轮批准；R06实际变更的首页和关于页没有被测试，错误截图又导致同一候选重复占用GitHub模拟器。
+  impact: 自动化不能证明当前版本真实页面，项目所有者被迫承担机器回归，大小版本和桌面APK待测成为持续开发暂停点。
+  resolution: CR-0152建立版本影响视觉矩阵、GitHub OIDC一次性Staging会话、页面TestTag、像素稳定与重复哈希门禁；AI独立判断截图和基线，PASS候选自动交付桌面并继续下一版本，真机反馈异步进入修复队列，生产激活继续独立受控。
+  regression_checks:
+  - tests/android/visual-manifests/R06.yaml
+  - tests/test_android_ci_gate.py
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/CiAutomationServiceTest.java
+  - GitHub R06实际页面候选证据
+  do_not_repeat:
+  - 不得用固定页面数量替代版本影响矩阵
+  - 不得为自动页面测试保存长期账号密码、万能验证码或生产后门
+  - 不得因等待项目所有者截图确认、桌面APK真机测试或大小版本完成而暂停后续开发
+  - AI接受基线前必须核对页面身份、加载状态、像素稳定、跨页面差异、哈希和冻结设计
+- id: PROB-0061
+  title: R06 GitHub候选一次性引导码在模拟器冷启动完成前确定性过期
+  status: SOLVED
+  root_cause: 候选工作流在启动模拟器与编译测试APK之前签发一次性引导码，但引导码固定两分钟到期；R06实证从签发到兑换耗时3分24秒，数据库记录未消费且已过期，会话端点因此返回500，三张版本页面截图均未执行。
+  resolution: CR-0156把引导码调整为十分钟硬上限并写入Android自动化事实源；后端启动时拒绝非正值或超过十分钟的配置，仍绑定GitHub仓库、工作流、Commit和Run并在事务内只消费一次。兑换后的会话继续为十五分钟，任何prod/production环境继续硬拒绝启用。
+  regression_checks:
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/CiAutomationServiceTest.java
+  - python -m unittest tests.test_android_ci_gate
+  - GitHub R06候选从引导码签发到模拟器兑换与三页截图全部PASS
+  do_not_repeat:
+  - 一次性码TTL必须覆盖可观测的最慢模拟器冷启动和测试APK编译路径，不得凭经验设置得短于确定性执行时间
+  - 延长TTL不得取消单次消费、精确OIDC身份绑定、短时会话或生产环境硬拒绝
+  - 同一根因未定位前不得盲目重跑GitHub候选
+- id: PROB-0062
+  title: R06真实页面截图暴露首页空白和底部五栏目绘制不一致
+  status: SOLVED
+  root_cause: 首页只有在home为null时才进入空模块降级分支，API成功返回空modules会进入forEach但不产生任何卡片；底部NavigationBarItem完全依赖组件默认权重和标签展示，真实“我的”页截图只绘制首页和我的首尾两项。
+  resolution: CR-0157把有内容判断收紧为home非空且modules非空，空数组明确显示当前模块暂无内容；五个NavigationBarItem显式等权并固定始终显示标签，首页和我的截图前断言首页、红包、发布、消息、我的全部可见。首轮不合格截图不得登记为视觉基线。
+  regression_checks:
+  - python -m unittest tests.test_android_ci_gate
+  - apps/android/gradlew --no-daemon :app:compileDebugAndroidTestKotlin
+  - R06真实页面截图必须显示首页空模块降级和完整五栏目导航
+  do_not_repeat:
+  - API成功返回空列表仍必须进入冻结空状态，不得用非null等同于有内容
+  - 共享底部导航不得依赖隐含布局默认值，所有版本页面必须保持栏目数量、标签和选中态一致
+  - AI发现明显空白或跨页导航漂移时不得为了让门禁变绿而批准基线
+- id: PROB-0063
+  title: R06管理端内容页浏览器截图暴露原始枚举和未定义详情排版
+  status: SOLVED
+  root_cause: TASK-R06-004只验证了服务与基本页面闭环，三个内容页面没有进入逐页浏览器视觉合同；列表和详情直接渲染contentType、status、reviewStatus、categoryCode、regionCode与ISO时间，标题和内容编号也缺少标准单元格容器，详情dl没有Token布局。直到R06关闭阶段生成真实1440x1100截图才看出技术枚举泄漏和视觉层级缺口。
+  resolution: CR-0165建立五页精确视觉合同和受控R06管理端Mock；CR-0166增加内容类型、状态、审核、分类、地区与日期的商业化白名单映射和安全未知值回退，补齐列表标题单元格、详情四列信息网格、字典筛选布局与响应式Token；新增3项页面回归并重新生成三张固定视口截图，由AI逐图审查后登记PASS。
+  regression_checks:
+  - pnpm --filter @hhy/admin-web test
+  - pnpm --filter @hhy/admin-web build
+  - node scripts/capture_r06_admin_visuals.mjs
+  - python scripts/check_ui_visual_acceptance.py --release R06
+  do_not_repeat:
+  - 不得把API原始枚举、分类代码、地区代码或ISO传输时间直接插值到正式管理端页面
+  - 服务和组件单测通过不能替代真实浏览器截图；每个Release必须按页面目录生成受控业务截图并由AI审查
+  - 标题、副标识、详情字段和动作必须使用标准Token布局，禁止依赖未定义class或浏览器默认dl样式
+  - 受控Mock只允许绑定127.0.0.1并用于构建后验收，禁止进入生产路径或伪造生产数据
+- id: PROB-0064
+  title: Release关闭门禁硬编码操作数量并混淆候选与关闭Commit
+  status: SOLVED
+  root_cause: check_release_artifacts.py以P00测试夹具为产品规则，固定要求每个Release恰好3个operationId；同时要求APK候选Commit等于后续Release文档关闭Commit，并直接调用PATH中的git。R06真实声明10个冻结operationId，候选后又需要补视觉和交接证据，本机PowerShell也没有Git PATH，因此产生与产品质量无关的确定性假失败。
+  resolution: CR-0167把关闭门禁改为校验该版本声明的任意正数operationId全部存在于OpenAPI；Android候选身份以android_delivery.source_commit、APK Manifest、自动化记录和候选报告一致为准，Release关闭Commit独立追溯；Git依次解析HHY_GIT_BIN、系统PATH与Codex捆绑运行时。隔离测试增加4-operationId与R06候选Commit早于关闭Commit的正向覆盖，owner_physical_test正式验收门禁保持不变。
+  regression_checks:
+  - python -m unittest tests.test_release_close_gate
+  - python scripts/check_release_artifacts.py --release R06
+  - python scripts/check_release_artifacts.py --release R06 --close-gate
+  do_not_repeat:
+  - 不得从单个测试版本推导全项目固定operationId数量；实际集合必须来自Release Manifest并逐项匹配OpenAPI
+  - 不得要求最终APK候选Commit等于候选之后产生的证据、交接或Release关闭Commit
+  - Windows门禁不得依赖当前PowerShell恰好存在git PATH，必须复用HHY_GIT_BIN或受控运行时
+  - owner_physical_test=PENDING只允许走BLOCKED_EXTERNAL_GATE继续独立后续Release，仍不得伪造正式Release验收或生产激活
+- id: PROB-0065
+  title: 连续性严格门禁忽略HHY_GIT_BIN导致Windows确定性失败
+  status: SOLVED
+  root_cause: check_v123_continuity.py在跟踪临时产物检查中硬编码调用PATH中的git ls-files，未遵守项目统一运行时对HHY_GIT_BIN和Codex捆绑Git的解析规则；本机PowerShell没有Git PATH时，严格连续性门禁和所有调用它的Doctor都在进入断言前退出。
+  resolution: CR-0169为连续性严格门禁增加与仓库统一规则一致的Git解析：显式HHY_GIT_BIN优先且不存在时明确失败，其次系统PATH，最后Codex捆绑Git；新增隔离测试覆盖显式路径优先和错误覆盖路径禁止静默回退。
+  regression_checks:
+  - python -m unittest tests.test_continuity_git_resolution
+  - python scripts/check_v123_continuity.py --strict
+  - python scripts/project-doctor.py --strict --release R06
+  do_not_repeat:
+  - 连续性、发布、测试和传输脚本不得各自硬编码PATH中的git
+  - 显式HHY_GIT_BIN不存在时必须明确失败，禁止静默选择另一Git掩盖配置漂移
+  - Windows换电脑或换AI必须复用统一受控运行时，不得因PATH差异重建仓库或误报历史缺失
+- id: PROB-0066
+  title: 版本关闭任务无法按已验证异步真机事实切换后续Release
+  status: SOLVED
+  root_cause: continuity.py只检查当前任务标题、描述、交付物或验收文案是否包含APK，以识别可延期的外部真机门禁；R06实际在TASK-R06-007完成APK机器交付，TASK-R06-008负责视觉和版本交接，机器完成后唯一剩余项仍是owner真机PENDING，但任务文案分类无法识别。
+  resolution: CR-0172保留既有APK任务分类，同时增加严格Manifest事实组合：machine_delivery=PASS、owner_physical_test=PENDING、machine_completion=PASS、owner反馈ASYNC_NON_BLOCKING、正式验收与生产激活分别保持PENDING/BLOCKED、下一Release开发明确ALLOWED。全部条件同时满足时版本关闭任务可进入BLOCKED_EXTERNAL_GATE，缺任一项继续拒绝。
+  regression_checks:
+  - python -m unittest tests.test_continuity_cross_release_close
+  - continuity close R06-008 --result BLOCKED --allow-independent-release --next-release R07 --next-task TASK-R07-001
+  do_not_repeat:
+  - 外部门禁延期不得只依赖任务标题关键词，也不得无条件放行所有版本关闭任务
+  - owner_physical_test必须保持PENDING，正式Release验收和生产激活必须继续阻断
+  - 只有机器交付和机器完成证据均PASS且项目所有者明确授权异步反馈时才允许继续独立Release
+- id: PROB-0067
+  title: 异步真机版本关闭仍被目标Release依赖GREEN校验拒绝
+  status: SOLVED
+  root_cause: CR-0172只补齐了当前任务可挂起分类，但validate_independent_release_start随后仍要求目标Release的每个声明依赖全部任务DONE；当R07正确声明依赖R06时，正在原子转换为BLOCKED_EXTERNAL_GATE的TASK-R06-008在校验阶段仍是READY，因此合法转换被错误拒绝。
+  resolution: CR-0173允许依赖GREEN校验仅忽略“依赖Release等于当前Release、未完成任务等于当前关闭任务、严格异步owner Manifest事实全部成立”的唯一任务；其他未完成任务、其他依赖Release和Manifest缺项仍拒绝。
+  regression_checks:
+  - python -m unittest tests.test_continuity_cross_release_close
+  - continuity close R06-008 --result BLOCKED --allow-independent-release --next-release R07 --next-task TASK-R07-001
+  do_not_repeat:
+  - 外部门禁旁路必须同时覆盖任务分类和后续Release依赖判定，不能只修前半段
+  - 只能忽略本次原子关闭的当前任务，禁止把同一Release的其他未完成任务视为GREEN
+  - owner_physical_test、正式Release验收和生产激活状态不得因依赖豁免改为PASS或ALLOWED
+- id: PROB-0068
+  title: 模块边界测试把Spring Repository注解误判为项目跨模块仓库
+  status: SOLVED
+  root_cause: ModuleBoundaryTest只按依赖目标的简单类名Repository筛选，并用andShould把shared包条件错误施加到被检查的源类；ContentPostgresStore的Spring @Repository注解因此被识别为项目仓库依赖。提交f0e45bae在obx-test隔离环境中稳定复现1项失败，证明问题早于R07数据库迁移。
+  resolution: CR-0177把仓库目标限定为cc.orbexa.hhy项目命名空间中非shared包且类名以Repository结尾的类型；Spring和第三方Repository注解被排除，项目内非shared仓库仍受边界规则约束。回归同时断言框架注解不命中、PublishedAppReleaseRepository继续命中。
+  regression_checks:
+  - obx-test基线f0e45bae执行ModuleBoundaryTest必须复现旧规则1项失败
+  - obx-test执行mvn -B -pl access,boot -am test必须0失败
+  - ModuleBoundaryTest.repositoryTargetPatternExcludesFrameworkAnnotationsButKeepsProjectRepositories
+  do_not_repeat:
+  - 架构依赖规则不得仅凭通用简单类名匹配第三方框架类型，必须限定项目命名空间
+  - ArchUnit目标谓词组合必须使用目标条件链，禁止用andShould把目标条件误施加到源类
+  - 修复测试误报时不得直接跳过、禁用或删除架构测试，必须保留真实违规的正向命中回归
+- id: PROB-0069
+  title: Windows用户环境未持久化受控Git导致每轮PowerShell重复缺PATH
+  status: SOLVED
+  root_cause: 仓库脚本已经能够解析HHY_GIT_BIN和Codex捆绑Git，但当前电脑用户级HHY_GIT_BIN为空且PATH只有WindowsApps、Node等目录；裸git与未走统一入口的Python子进程因此在每个新执行环境确定性失败，只能反复临时拼接受控运行时路径。
+  resolution: CR-0185把已验证Git 2.53.0的绝对路径写入Windows用户级HHY_GIT_BIN，并把其cmd目录幂等加入用户PATH；新增configure_windows_git_runtime.ps1统一安装与检查、REPOSITORY_TRANSPORT机器入口、START_HERE换机顺序和统一开发硬规则。当前进程显式注入后裸git及Python subprocess均通过，长期父进程只需在方便时重启一次刷新继承环境。
+  regression_checks:
+  - powershell -NoProfile -ExecutionPolicy Bypass -File scripts/configure_windows_git_runtime.ps1
+  - powershell -NoProfile -ExecutionPolicy Bypass -File scripts/configure_windows_git_runtime.ps1 -Check
+  - git --version
+  - Python subprocess直接执行git --version
+  do_not_repeat:
+  - 不得把脚本内部回退能力误当成Windows用户PATH已经持久化
+  - 不得在每次命令前重复发现和拼接受控Git路径；首次接手只配置一次并回读
+  - 不得因旧Codex或IDE进程尚未刷新环境而覆盖正确用户配置、重建仓库或停止开发
+  - 换电脑必须从START_HERE和REPOSITORY_TRANSPORT恢复，不依赖聊天记忆
+- id: PROB-0070
+  title: R07页面残留Compose原始颜色绕过冻结设计令牌
+  status: SOLVED
+  root_cause: TASK-R07-004的受影响MODULE编译、单测和Lint均通过，但候选阶段才执行的全局UI令牌门禁发现R07DiscoveryScreens在发布者、搜索结果、内容卡片和空状态中共四处直接使用Color.White；编译器无法识别这种设计系统违规，普通任务的比例化门禁也没有运行全局视觉基础检查。R13候选前再次只运行check_android_ui_foundation.py而漏跑check_ui_tokens.py，使分类指示线的Color.Transparent直到attempt1 Run 30218800712才被GitHub在Android编译和模拟器前确定性阻断。
+  resolution: CR-0192将四处等值白色统一替换为HhyColors.Surface并移除原始Color import；候选前先执行check_ui_tokens.py，使确定性设计令牌问题在触发GitHub完整编译和模拟器之前本地失败。CR-0379原位补强同一问题：R13指示线改用HhyColors.BrandPrimary的0f透明度派生值，专项测试禁止原始Color import，并在attempt2推送前同时执行UI Foundation与UI Token门禁；Run 30218800712保持已消费且不重跑。
+  regression_checks:
+  - python scripts/check_ui_tokens.py
+  - python scripts/check_android_ui_foundation.py
+  - Android feature/discovery受影响MODULE编译与单测
+  - tests.test_r13_candidate必须禁止R13ActivityScreens使用Color.Transparent或原始Color import
+  - R13候选attempt2推送前必须同时通过check_ui_tokens.py与check_android_ui_foundation.py
+  do_not_repeat:
+  - Compose业务页面禁止直接使用Color.White、Color.Black、十六进制Color或裸dp/sp，必须引用冻结Hhy令牌
+  - 大版本候选请求推送前必须先运行UI基础和令牌静态门禁，确定性失败不得交给GitHub发现
+  - 普通MODULE门禁通过不等于全局视觉硬规则通过，最终候选仍必须执行完整UI门禁
+- id: PROB-0071
+  title: R07候选夹具在PostgreSQL匿名代码块内误用psql变量
+  status: SOLVED
+  root_cause: prepare_r07_ci_fixture.sh把psql客户端变量ci_phone直接写入DO匿名代码块，且按默认search_path查询Flyway历史表；psql不会解析美元引用块内部的变量占位，预发布数据库的历史表实际位于hhy schema，因此两类环境边界都会在任何夹具数据写入前报错并回滚事务。
+  resolution: CR-0193先在匿名块外使用psql变量建立事务级临时上下文表，再由DO块读取最小user_id，并将迁移前置条件显式限定为hhy.flyway_schema_history；手机号只在客户端变量和事务查询中短时使用，不进入输出、日志或持久业务表。失败事务确认零写入，修复后继续复用同一隔离夹具。
+  regression_checks:
+  - 在R07候选容器与Staging PostgreSQL 17上执行prepare_r07_ci_fixture.sh必须输出R07_CI_FIXTURE_OK
+  - 连续执行两次必须保持同一用户、同一内容并成功清空该CI用户搜索历史
+  - 执行输出不得包含CI手机号、联系方式明文或秘密
+  do_not_repeat:
+  - 不得在DO函数体、美元引用字符串或服务端存储过程中直接使用psql客户端变量占位
+  - 运维SQL不得依赖数据库角色的默认search_path，业务表和Flyway历史表必须使用冻结schema限定
+  - 敏感客户端变量必须在可替换的SQL语句中转换为最小临时上下文，禁止写入日志或持久夹具配置
+  - 候选夹具必须使用单事务和ON_ERROR_STOP，任何失败都不得留下部分数据
+- id: PROB-0072
+  title: Compose独立模态窗口未导出testTag资源ID导致候选误判页面未打开
+  status: SOLVED
+  root_cause: R07发布者页面根节点启用了testTagsAsResourceId，但Material3 ModalBottomSheet使用独立Compose模态语义窗口，不继承页面根部的资源ID导出配置；联系方式面板只设置testTag，UiAutomator因此在业务按钮点击后仍无法按hhy.sheet.r07.contact观测，运行29871247067在第三张合格截图后超时。
+  resolution: CR-0195在联系方式ModalBottomSheet自身显式启用testTagsAsResourceId并保留唯一testTag；候选回归先等待可见业务标题，再等待资源标记、受保护动作、关闭动作和FLAG_SECURE，禁止用单一技术标记代替实际业务可见性。首轮三张非敏感截图由AI审查合格，安全面板继续禁止截图。
+  regression_checks:
+  - Android instrumentation测试必须编译
+  - GitHub候选必须同时发现联系方式业务标题、hhy.sheet.r07.contact、获取联系方式、关闭和FLAG_SECURE
+  - 安全面板关闭后必须清除资源标记并继续产生04-clear-history-dialog.png
+  do_not_repeat:
+  - Dialog、ModalBottomSheet、Popup等独立Compose窗口不得假设继承页面根部testTagsAsResourceId
+  - 候选自动化不得只等待testTag，必须同时绑定用户可见页面身份和关键业务动作
+  - FLAG_SECURE页面禁止为补视觉证据而截屏，使用语义、窗口标志和关闭后清零断言验收
+- id: PROB-0073
+  title: R07搜索页使用普通remember导致发布者页返回后丢失结果
+  status: SOLVED
+  root_cause: 搜索页把query、selectedType和submittedQuery全部保存在普通remember中；导航到发布者子页面后搜索组合可被释放，返回栈虽正确保留Search目的地，但重新组合会把submittedQuery重置为空并显示搜索首页。运行29872940610已证明联系方式安全面板全部断言通过，随后在返回搜索结果身份处失败。
+  resolution: CR-0196仅用rememberSaveable保存非敏感公开查询、筛选和已提交查询，重新组合后按保存条件重新请求在线结果，不保存结果快照、联系方式或授权明文；同属独立窗口的清空历史AlertDialog显式启用testTagsAsResourceId，候选增加返回后真实结果夹具断言。
+  regression_checks:
+  - 发布者页关闭安全联系方式面板后返回必须恢复hhy.screen.r07.search.results并重新出现R07候选联调项目
+  - 再次返回Shell并打开搜索页必须从服务端加载当前账号搜索历史
+  - 清空历史确认框必须导出hhy.dialog.r07.search-history-clear且产生04-clear-history-dialog.png
+  do_not_repeat:
+  - Navigation返回栈正确不等于页面业务状态自动保存，跨子页面必须明确区分remember与rememberSaveable
+  - 只允许保存恢复页面所需的非敏感最小条件，禁止保存联系方式明文、令牌或授权响应
+  - Dialog、ModalBottomSheet和Popup均按独立语义窗口处理，不得依赖父页面资源ID导出
+- id: PROB-0074
+  title: 新Release缺少视觉基线导致完整GitHub模拟器必然重复运行
+  status: SOLVED
+  root_cause: 旧Android候选门禁从R06起无条件要求截图与仓库批准基线比较，但新Release首次候选在AI看到真实截图前不可能已有合法基线；因此即使编译、仪器测试、日志、页面身份、稳定性和跨页差异全部通过，也会因基线目录不存在确定性失败，AI批准同一批截图后还必须再次完整编译和启动模拟器。本机既有x86 AVD又因Windows未启用硬件虚拟化驱动而不能作为可靠替代。
+  resolution: CR-0197建立两阶段但单模拟器流程：首次无基线且唯一失败为基线缺失时输出BASELINE_REVIEW_REQUIRED并上传原APK、报告和截图；AI逐图批准并登记同一GitHub Run、Commit和SHA-256后，独立轻量Actions下载原工件，复核唯一缺口、图片、APK、来源与仓库基线完全一致后晋升PASS。晋升工作流静态禁止Gradle和Emulator；CR-0198把规则写入真实踩坑文件路径。
+  regression_checks:
+  - python -m unittest tests.test_android_ci_gate
+  - python scripts/android_ci_gate.py policy-check
+  - Android baseline promotion workflow不得包含gradlew或android-emulator-runner
+  - R07首次基线必须绑定同一候选Run的四张原始截图、APK和SHA-256并由轻量晋升PASS
+  do_not_repeat:
+  - 不得为登记刚采集的同一批视觉基线再次运行完整编译或模拟器
+  - BASELINE_REVIEW_REQUIRED不得允许项目所有者测试、正式Release完成或生产激活
+  - 轻量晋升只能接受缺失批准基线这一类失败，任何仪器、JUnit、崩溃、页面身份、稳定性或截图差异失败必须修复后重新候选
+  - 晋升提交只能包含对应Release基线原图和APPROVAL，禁止夹带产品代码或治理脚本变更
+- id: PROB-0075
+  title: Linux Git中文路径转义导致基线晋升白名单误拒绝
+  status: SOLVED
+  root_cause: Android轻量晋升Run 29876741055在14秒内终止于路径解析；Windows仓库已配置core.quotepath=false所以本地同逻辑通过，GitHub Linux干净克隆仍使用默认true，git diff会把中文CR文档路径加引号并转为八进制转义，字符串不再以批准的连续性目录前缀开头。
+  resolution: CR-0200要求所有参与机器路径判定的diff-tree和diff子进程显式使用git -c core.quotepath=false，确保跨平台输出真实UTF-8路径；白名单继续检查采集Commit到HEAD全范围且仍禁止产品代码。APPROVAL只增加晋升尝试记录，四张PNG、原APK和Run 29875839322哈希不变；重试只执行轻量下载与哈希晋升。
+  regression_checks:
+  - Python静态回归必须断言晋升工作流的diff-tree和diff均显式core.quotepath=false
+  - git -c core.quotepath=true diff必须可复现中文路径转义，显式false必须输出真实docs/03-continuity/change-requests路径
+  - 第二次晋升不得包含gradlew或android-emulator-runner且必须复用Run 29875839322工件
+  do_not_repeat:
+  - 用Git机器输出做路径白名单、清单或安全判定时不得依赖用户级core.quotepath配置
+  - Windows本地通过不能证明Linux干净克隆的非ASCII路径字符串相同，必须在命令本身固定quotepath
+  - 轻量治理失败不得重新触发已通过的完整编译或模拟器，修复后只重跑失败的轻量阶段
+- id: PROB-0076
+  title: 历史机器完成OwnerPending被误判为后续Release依赖失败
+  status: SOLVED
+  root_cause: 跨Release独立启动校验只豁免当前正在关闭Release的异步Owner门禁；当R08同时依赖R06和R07时，R06虽已由Manifest证明机器交付PASS、Owner真机PENDING且允许后续开发，其最后一个BLOCKED关闭任务仍被机械加入未完成依赖，导致R07切换R08确定性失败。
+  resolution: CR-0204允许完整满足异步Owner Manifest事实的历史Release只豁免最后一个状态为BLOCKED的外部门禁任务；当前Release继续沿用原有精确任务豁免，任何更早未完成任务仍阻断。规则写入全局踩坑并增加多代依赖正反向回归，不改变正式验收和生产激活门禁。
+  regression_checks:
+  - python -m unittest tests.test_continuity_cross_release_close
+  - R08依赖R06与R07时，R06仅TASK-R06-008为BLOCKED且Manifest完整应允许从TASK-R08-001开始
+  - 把R06任一更早任务改为READY后必须返回目标Release依赖尚未全部GREEN
+  do_not_repeat:
+  - 不得把Owner异步PENDING等同于产品机器能力未完成
+  - 不得仅凭任务名或BLOCKED状态放行，必须核验完整Manifest机器完成与生产阻断事实
+  - 历史Release只能豁免最后一个外部门禁任务，其他未完成任务仍是硬阻断
+  - 继续开发不等于正式验收或生产激活通过，不得改写owner_physical_test
+- id: PROB-0077
+  title: Context来源规范化哈希被原始CRLF字节误判为过期
+  status: SOLVED
+  root_cause: Context Pack生成器使用portable_source_record把文本换行统一为LF后记录来源SHA和字节数，但V1.2.3严格校验器直接计算工作树原始字节SHA；Windows检出的CRLF文件与Linux的LF文件即使Git语义和规范化内容完全相同，也会被误报CONTEXT_SOURCE_STALE。R08的ACCEPTANCE_MATRIX.csv稳定复现该假失败。
+  resolution: CR-0208让严格校验器复用同一个portable_source_record，并同时比较规范化SHA与字节数；新增LF生成记录、CRLF复核通过以及真实内容变化仍失败的正反向回归。Manifest格式和真实篡改阻断保持不变。
+  regression_checks:
+  - python -m unittest tests.test_context_pack_parallel_policy
+  - python scripts/check_v123_continuity.py --strict
+  - R08 ACCEPTANCE_MATRIX.csv在Windows CRLF工作树中必须与Context Pack规范化来源记录匹配
+  do_not_repeat:
+  - 同一份跨平台清单的生成端与校验端不得分别使用规范化文本哈希和原始字节哈希
+  - 不得通过强制改写业务CSV换行来掩盖校验算法不一致
+  - 兼容LF与CRLF不等于忽略内容变化，必须同时核对规范化SHA和字节数并保留负向回归
+- id: PROB-0078
+  title: R08真实PostgreSQL测试夹具违反R05实名完整性约束
+  status: SOLVED
+  root_cause: R08PostgresStoreTest为了构造已实名项目所有者，直接把identity_profiles.status写为VERIFIED，却只提供name_cipher；V023冻结约束同时要求非空id_no_cipher、64至128位十六进制id_hash和verified_at，因此模拟测试通过而真实PostgreSQL 17.10正确拒绝该行。
+  resolution: CR-0216仅补齐测试夹具的证件密文占位、64位不可逆哈希和以JDBC Timestamp显式绑定的验证时间，保留V023约束、生产迁移与业务代码不变；在同一精确Commit、Java 21和PostgreSQL 17.10环境重跑定向Store及受影响MODULE。
+  regression_checks:
+  - R08PostgresStoreTest在HHY_DB_SMOKE_CONFIRM=YES的独立PostgreSQL 17.10中必须3项全通过且0跳过
+  - mvn -B -pl access,boot -am test必须0失败0错误
+  - 最终证据必须核对Maven退出码与Surefire摘要，不得依据测试包装器末尾的PASS文字判定
+  do_not_repeat:
+  - 测试夹具写入终态时必须满足该状态的全部历史数据库约束，不得只填当前测试直接读取的字段
+  - 不得放宽、删除或跳过生产约束来迁就测试数据
+  - 通过tee保留日志时必须启用pipefail或显式检查Maven退出码，尾部echo不能作为成功证据
+- id: PROB-0079
+  title: 无活动会话resume刷新Context导致干净接续死锁
+  status: SOLVED
+  root_cause: TASK关闭时Context Pack在最终元数据Commit之前生成；关闭Commit推送后仓库树指纹合法前移。旧resume无条件调用写入式build_context_pack，因而在没有ACTIVE Session时改写STATE和三份Context文件；紧接的start按设计拒绝脏工作区，而这些刷新又因缺少活动Session同步记录无法合法提交，导致项目所有者只说继续开发时确定性卡死。
+  resolution: CR-0227直接修复既有唯一resume入口，不新增规则文件。无ACTIVE Session时resume只读验证事件哈希链、当前必读规则来源清单及哈希、NEXT_TASK、Git和已有Context文件完整性；仅忽略最终关闭Commit造成的仓库树指纹滞后，绝不忽略规则来源或Context内容变化。start领取活动Session后再按原机制生成新Context Pack。
+  regression_checks:
+  - python -m unittest tests.test_continuity_resume_read_only
+  - python -m unittest tests.test_context_pack_parallel_policy
+  - 连续执行两次无会话resume必须均返回repository_mutated=false且git status保持干净，随后start必须成功
+  do_not_repeat:
+  - 冷启动只读检查不得在领取Session之前写STATE、Context Pack或会话记录
+  - 不得通过伪造关闭会话、检查点、事件或提交Trailers来提交resume产生的孤立元数据
+  - 允许忽略的只有最终关闭Commit造成的仓库树指纹滞后；任一规则来源缺失、哈希变化、Context文件损坏或事件链异常仍必须阻断
+  - 新AI和新电脑只需从仓库运行resume再执行其唯一start命令，不得要求项目所有者重述规则和进度
+- id: PROB-0080
+  title: 最终候选全量Token门禁发现历史页面裸参数
+  status: SOLVED
+  root_cause: R08普通任务按受影响MODULE验证时没有执行大版本最终候选才运行的全量check_ui_tokens；既有H5公开分享页手写了品牌渐变第二色，R02启动状态卡和R08项目页残留裸dp。编译与局部视觉审计不会识别该规则漂移，若直接推送候选会在模拟器启动前确定性失败。
+  resolution: CR-0229不建立新参数规则，修复既有唯一Token派生链：从gradient.brand确定性生成--hhy-gradient-brand；H5只引用该变量，Android裸尺寸等价改写为HhySize、HhySpacing、HhyRadius和HhyElevation组合。R08候选前本地先运行全量Token门禁。
+  regression_checks:
+  - python -m unittest tests.test_ui_tokens
+  - python scripts/check_ui_tokens.py
+  - Android startup、project和app受影响MODULE编译
+  do_not_repeat:
+  - 页面不得手写JSON中已有但派生器遗漏的颜色或尺寸，应先补同一确定性派生链
+  - 普通任务的受影响MODULE通过不等于大版本全量Token门禁通过
+  - 最终候选请求必须在本地全量Token门禁PASS后才允许触发，确定性失败不得消耗GitHub模拟器
+- id: PROB-0081
+  title: 用户自查询遗漏实名状态导致已实名项目所有者被客户端误拦截
+  status: SOLVED
+  root_cause: UserResource冻结合同已包含identityStatus和membershipStatus，但UserAuthService.self长期把两个字段固定返回null，UserAuthStore.findSelf也没有读取对应表。R08首轮候选的CI用户identity_profiles已为VERIFIED，服务端项目权限和详情所有者判断均正确，Android却根据users/me的null同时显示实名认证拦截和已加载编辑表单。
+  resolution: CR-0230复用既有用户自查询和数据库事实源，在findSelf及findSelfForUpdate投影最新identity_profiles与user_memberships状态，并由self原样映射冻结字段；候选仪器测试和R08视觉清单明确禁止已实名编辑页出现错误实名认证拦截。首轮不合格截图不晋升基线。
+  regression_checks:
+  - UserAuthServiceTest必须证明identityStatus=VERIFIED与membershipStatus=ACTIVE原样返回
+  - 后端access、boot受影响MODULE必须通过
+  - R08候选编辑页必须加载真实项目字段且不得出现需要完成实名认证
+  do_not_repeat:
+  - 冻结响应字段不得先定义再在服务实现中长期固定返回null
+  - 页面权限提示必须与服务端同一实时状态事实一致，不得一边放行数据一边显示拦截
+  - AI视觉审核发现业务状态矛盾时不得批准为基线或要求项目所有者代为判断
+- id: PROB-0082
+  title: R08项目页把业务编码和联系方式枚举直接展示给用户
+  status: SOLVED
+  root_cause: R08项目页首轮实现直接把ContentResource的categoryCode、regionCode和CONTACT_CHANNELS枚举绑定到Tag、表单及FilterChip；受影响MODULE编译和功能测试只验证原始值可传输，没有在第二轮候选前断言用户可见文案，导致COOPERATION、CN-11、WECHAT等技术值出现在真实截图。
+  resolution: CR-0231不新增平行UI规则，复用AGENTS.md既有正式前端技术字段禁显规则；显示边界确定性映射已知分类、地区和联系方式渠道，未知代码显示中性业务标签，编辑表单用独立友好输入值保留未修改的冻结原始编码，用户实际修改后才把新业务文本写回请求值。错误态也不再回显errorCode或requestId。
+  regression_checks:
+  - R08ProjectStateTest必须证明COOPERATION、CN-11和WECHAT映射为合作项目、北京和微信，且未编辑表单仍保留冻结原始编码
+  - ReleaseCandidateSmokeTest必须逐页要求友好标签，并拒绝COOPERATION、CN-11、WECHAT、PHONE、EMAIL和QR_CODE可见
+  - R08第三轮候选三张真实截图必须由AI逐张审核通过后才允许晋升视觉基线
+  do_not_repeat:
+  - 网络和数据库字段名含Code或枚举时不得直接绑定Text、Tag、Chip或表单显示值
+  - 展示层本地化不得破坏未修改存量值的原样提交，也不得虚构新的业务选项或服务端字典
+  - 编译与接口成功不等于UI合格；最终候选必须同时检查真实文案、技术字段泄漏和视觉丰富度
+- id: PROB-0083
+  title: R08最终候选遗漏历史Android新肉眼标准复核
+  status: IN_PROGRESS
+  root_cause: CR-0213把R02至R07历史Android页面的新肉眼标准复核设为R08关闭前置条件，但R08候选视觉清单仍只包含本版项目列表、详情和编辑三页；TASK-R08-007候选本身真实通过后，完整R08视觉关闭门禁正确发现23个历史页面仍为IN_REVIEW。普通候选成功不等于跨版本回补已完成。
+  resolution: CR-0233复用既有唯一视觉与候选规则；在debug/androidTest中直接渲染生产认证和实名组件，真实已认证旅程复核R06、R07及R04媒体面板，一次补审批次采集22张允许截图的页面并用FLAG_SECURE语义验证联系方式面板，全部继续由AI逐项判定。
+  regression_checks:
+  - HistoricalVisualAuditTest必须覆盖R02启动、维护、更新、八个认证页和R05四个实名页
+  - ReleaseCandidateSmokeTest必须覆盖R04媒体面板、R06首页关于页、R07搜索发布者确认框与FLAG_SECURE联系方式面板以及既有R08三页
+  - tests/android/visual-manifests/R08.yaml必须与22张补审截图及1项安全语义逐项一致
+  - python scripts/check_ui_visual_acceptance.py --release R08最终必须PASS
+  do_not_repeat:
+  - 大版本候选清单不得只包含本版本页面而遗漏该版本明确承担的历史回补关闭前置项
+  - 候选Run成功后仍必须执行完整Release视觉门禁，不能只执行catalog-only或本版页面子集
+  - debug视觉夹具只能组合生产组件与非敏感状态事实，不得复制页面实现、进入Release构建或制造生产功能
+- id: PROB-0084
+  title: R08历史视觉首轮状态切换与发布者导航断言失配
+  status: IN_PROGRESS
+  root_cause: 历史视觉首轮Run 29910384239的编译、Lint、单测和打包通过，但HistoricalVisualAuditTest在同一Compose宿主中用异步StartupGate从60秒Loading切到维护态，模拟器未可靠完成重组；真实R07搜索结果只显示可点击发布者名称，ReleaseCandidateSmokeTest仍寻找旧的查看发布者前缀。两项均为debug/androidTest旅程确定性问题，首轮5张诊断图不得晋升。
+  resolution: CR-0234把StartupGate的生产状态展示分支抽为模块内唯一StartupGateStateContent，debug-only选择器直接传入Loading、Maintenance和Update状态；R07旅程按当前真实发布者名称精确点击。生产Release不包含选择器，API、数据库和业务UI不变；第2次历史候选前先在obx-test固定镜像完成编译验证。
+  regression_checks:
+  - feature startup debug与app AndroidTest必须在固定Android镜像编译通过
+  - HistoricalVisualAuditTest必须连续产出启动、维护和更新三张像素不同截图
+  - ReleaseCandidateSmokeTest必须从搜索结果的真实发布者名称进入SCR-PUBLISHER-001
+  - 第2次历史候选不得重新消耗已批准R08功能修复轮次
+  do_not_repeat:
+  - 多状态视觉夹具不得依赖长延迟生产协程切换，应直接组合生产状态展示组件
+  - 自动旅程断言必须绑定当前用户可见文案或稳定资源标识，不得残留旧设计提示语
+  - 编译通过不等于模拟器旅程通过，失败产物只能用于诊断且不得晋升基线
+- id: PROB-0085
+  title: 历史视觉共享Compose宿主外部状态未触发可靠重组
+  status: IN_PROGRESS
+  root_cause: CR-0234已把启动异步Gate改成生产状态组件直渲染，但HistoricalVisualAuditTest仍在一个JUnit测试和一个Compose宿主中用测试对象外部mutableState切换全部页面；第2次Run 29912135157再次停在维护态，而并行R07真实旅程已产出到32-r07-clear-history-dialog，证明剩余故障只属于共享视觉宿主重组架构。
+  resolution: CR-0235删除跨页面外部状态切换，把启动三态、认证状态和实名状态拆成独立JUnit测试；每个测试只调用一次setContent并直接组合对应生产组件，登录/注册/重置等同一生产页面内部导航继续保留。第3次为历史批次最终有界候选，推送前必须先完成固定镜像AndroidTest编译。
+  regression_checks:
+  - HistoricalVisualAuditTest每个独立测试最多调用一次setContent
+  - 启动Loading、Maintenance、Update分别在独立宿主生成10、11、12截图
+  - 认证与实名独立状态不依赖跨Compose外部screen变量
+  - 固定镜像编译通过后才允许历史批次attempt=3推送
+  do_not_repeat:
+  - 不得在大批量视觉证据测试中依赖测试对象外部状态切换多个根页面
+  - 已两次复现的同类重组失败不得继续只调整等待时间或原样重跑
+  - 最终有界尝试必须消除根因，若仍失败应按规则升级真实阻断而不是增加第4次
+- id: PROB-0086
+  title: 历史视觉截图揭示R02安全页层级不足与R06内部文案泄漏
+  status: IN_PROGRESS
+  root_cause: 历史页面原实现主要围绕接口可用、输入约束和Token合规完成，修改密码与注销账号页缺少绑定效果图要求的分组卡片、风险层级和密码强度反馈；关于页又直接展示BuildConfig的debug后缀及版本接口中的P00测试说明。局部编译和功能测试不会自动证明肉眼丰富度或识别所有内部发布文案。
+  resolution: CR-0237不新增平行视觉规则，复用CR-0213及冻结页面规格；修改密码页增加显式字段层级、基于本地输入事实的强度条和安全建议，注销页增加真实账号、风险及验证分组，关于页只展示清洗后的语义版本号并过滤内部测试说明，API和提交行为不变。固定API36工具链已证明生产代码、AndroidTest、auth/app单测和lint通过；问题保持IN_PROGRESS直到三页新截图完成逐图验收。
+  regression_checks:
+  - python -m unittest tests.test_historical_android_visual_contract
+  - Android feature/auth与app受影响MODULE编译、单测和lint必须通过
+  - SCR-AUTH-007、SCR-AUTH-008和SCR-ABOUT-001更新截图必须由AI按绑定效果图或已批准风格逐图判断
+  do_not_repeat:
+  - 功能可用、Token合规和截图存在均不能替代肉眼视觉验收
+  - BuildConfig构建后缀、P00、测试包、验收或Staging说明不得直接展示给最终用户
+  - 安全页可增加基于现有输入和真实流程的解释层级，但不得虚构冻结期、倒计时、权益损失或服务端能力
+- id: PROB-0087
+  title: 普通CI复用Android质量门禁时遗漏OIDC权限
+  status: SOLVED
+  root_cause: android-quality-gate可复用工作流在工作流级和模拟器作业级都声明id-token:write，用于向Staging后端申请短期自动测试身份；android-candidate-request调用方已显式传递该权限，但普通ci.yml的android调用作业只授予contents:read与issues:write。GitHub按调用方权限上限执行，导致工作流在开始编译前确定性拒绝，和产品代码及模拟器稳定性无关。
+  resolution: CR-0238只给ci.yml现有android调用作业补充id-token:write，保留contents只读、issues写入、candidate=false和受影响MODULE选择；同时使用既有唯一自测入口刷新continuity.py来源哈希过期的生命周期与无对话重建报告。
+  regression_checks:
+  - ci.yml的android复用作业必须显式包含contents:read、issues:write和id-token:write
+  - ci.yml普通调用必须继续传递candidate:false，不得因权限修复升级为候选模拟器测试
+  - python scripts/run_continuity_self_test.py
+  - python scripts/check_v123_continuity.py --strict
+  do_not_repeat:
+  - GitHub可复用工作流的权限不能只看被调用文件声明，调用方必须授予所需权限且不得超过最小范围
+  - OIDC权限合同失败发生在作业调度阶段，不得误判为Gradle、模拟器或产品代码失败
+  - 普通CI权限修复不得改变大版本候选频率或绕过受影响MODULE选择
+- id: PROB-0088
+  title: 普通CI全量工具回归发现公开请求编号与测试环境漂移
+  status: SOLVED
+  root_cause: R07 Android错误卡和H5公开分享错误页仍把客户端内部requestId以请求编号展示；既有正式前端禁显规则升级后，普通MODULE未覆盖的全量商业边界测试正确阻断。同期test_android_ci_gate已导入Pillow但tooling作业只安装pyyaml与pglast，Release关闭隔离夹具又未同步CR-0213增加的六项效果图级PASS说明，造成与产品无关的确定性工具失败。2026-07-26复发审计发现R13新列表的全页错误、局部错误和写操作失败文案再次直接拼接requestId，原因是新页面实现未在提交前主动执行既有全局商业UI边界门禁。
+  resolution: CR-0239删除两处公开请求编号渲染但保留内部错误模型和日志字段；tooling环境增加Pillow；Release关闭夹具的说明字段补齐既有六项PASS标记，不改变视觉门禁本身。CR-0371继续复用同一规则，删除R13全部用户可见请求编号但保留R07CallResult.Failure内部诊断字段，并在提交前执行全量商业UI边界检查。全部GitHub失败集合先在本地通过后才允许再次推送。
+  regression_checks:
+  - python -m unittest tests.test_android_ci_gate tests.test_commercial_ui_boundaries tests.test_release_close_gate
+  - python scripts/check_commercial_ui_boundaries.py
+  - Android discovery受影响编译必须通过
+  - H5 typecheck与test必须通过
+  - GitHub tooling依赖必须包含Pillow且普通Android作业继续candidate=false
+  do_not_repeat:
+  - requestId、TraceId和错误码可以保留在内部诊断模型，但不得直接渲染到正式Android、H5或管理端页面
+  - 增加全量门禁时必须同步其隔离正向夹具，不得通过放宽门禁修复测试
+  - Python测试新增第三方导入时必须同步唯一CI依赖安装步骤并在推送前用干净依赖环境核对
+- id: PROB-0089
+  title: GitHub模拟器Pixel Launcher系统ANR覆盖历史视觉截图
+  status: SOLVED
+  root_cause: Run 29922189010的固定API36构建、OIDC和多数旅程均成功，但模拟器自身Pixel Launcher弹出英文系统ANR对话框；历史截图稳定采样误把该系统弹层当成稳定产品画面，认证页后续Compose点击被系统窗口阻断。R04媒体面板另因长屏底部取消按钮不在当前可见区域而失败，与产品业务和Git推送无关。
+  resolution: CR-0241不新增规则，在两个候选截图宿主的每次采样前检测Pixel Launcher的isn't responding/无响应标题，明确点击Wait/等待并确认弹层消失后才允许采图；认证Tab改用冻结完整文案，媒体底部面板用Android返回语义关闭。Run 29922189010及其被污染截图永久保留为失败证据，不得晋升。
+  regression_checks:
+  - Android app androidTest源码必须在固定API36工具链编译通过
+  - 候选截图不得包含Pixel Launcher、isn't responding、Close app、Wait或系统ANR遮罩
+  - 14至16三张认证截图必须全部存在且绑定SCR-AUTH-002至004
+  - R04媒体面板截图后必须稳定关闭并恢复R08详情页
+  do_not_repeat:
+  - 视觉采样稳定不代表画面属于被测应用，必须排除系统ANR、权限、升级和通知弹层
+  - 系统环境弹层不得误判为产品UI缺陷，也不得把受污染截图批准为视觉证据
+  - 长屏底部控件不可见时优先使用等价系统返回语义，不得依赖坐标或盲目增加等待时间
+- id: PROB-0090
+  title: 全局相邻截图2%差异阈值误判同品牌认证页面
+  status: SOLVED
+  root_cause: Run 29927212504已无系统ANR且完整产出25张不同SHA截图，但密码登录、验证码登录、注册和重置密码共用冻结品牌骨架，三组相邻页面变化像素比例为0.0127、0.0172和0.0094，低于全局0.02阈值。该阈值把合法同系列页面误判为重复，且R08候选又同时承担历史页面审计，造成R08自身三页已合格仍无法关闭。
+  resolution: CR-0242保留相同SHA截图零容忍，将非相同截图的跨屏变化像素下限校准为0.005；R08候选恢复为RELEASE_MANIFEST冻结的项目列表、详情和编辑三页。P00/R01至R08历史UI保持IN_REVIEW，并在R08机器关闭后独立执行全局审计和返工。
+  regression_checks:
+  - python -m unittest tests.test_android_ci_gate tests.test_android_candidate_request
+  - tests/android/visual-manifests/R08.yaml只能包含SCR-LIST-001、SCR-DETAIL-001和SCR-PUB-002
+  - 相同截图SHA仍必须被android_ci_gate.py无条件拒绝
+  - 当前HEAD的GitHub R08最终候选必须通过构建、lint、单测、模拟器、三页截图和APK打包
+  do_not_repeat:
+  - 不得用单一高比例阈值判断所有同品牌、同骨架页面是否重复
+  - 不得因历史UI整治扩大大版本候选范围而阻塞已经冻结且合格的本版本页面关闭
+  - 调整执行顺序不得把历史页面的IN_REVIEW状态伪改为PASS
+- id: PROB-0091
+  title: GitHub候选一次性引导上游5xx浪费已通过的完整Android构建
+  status: MITIGATED
+  root_cause: 历史Run 29929926432因服务器重启后专用OIDC候选容器restart=no而返回502；Run 30486463619又在候选请求、完整编译、Lint、单测和APK打包全部通过后，于模拟器启动前POST /internal-ci/v1/android/bootstrap返回500。精确候选容器日志记录errorType=JwtException、HTTP 500和requestId 908ae9d8-161f-4c17-8759-9d2632598017，随后同一容器访问GitHub OIDC discovery与JWKS均恢复HTTP 200，候选网络、数据库、MFA卷、源码Commit和健康状态也已由切流门禁证明正确。既有工作流对Staging bootstrap只请求一次，任何非200立即exit 22；已登录浏览器的自动控制组件同期不可用，无法在不提取凭据的前提下点击GitHub失败Job重跑，继续推送又会重复消耗完整构建。
+  resolution: 保留历史“业务测试开始前且证据明确时只重跑失败Job一次”的规则；CR-0487原位扩展既有authentication事实源和唯一android-quality-gate：Staging bootstrap只对HTTP 500/502/503/504执行最多3次总尝试，固定2秒和4秒退避，200立即成功，其他状态立即失败，最终注解只报告HTTP状态与尝试数并继续禁止输出响应体或Bearer令牌。Run 30486463619未启动模拟器、未执行R14旅程，不计入PROB-0152同指纹第三轮；后续新候选必须绑定新的精确请求授权，不得把无代码重复推送伪装为失败Job重跑。
+  regression_checks:
+  - 大版本候选推送前先验证https://api.orbexa.cc/public-api/v1/platform/status返回200
+  - 验证当前路由目标候选容器、端口、网络、数据库、MFA卷、源码Commit与健康状态，不得只看普通Staging容器健康
+  - authentication.bootstrap_retry必须精确冻结500/502/503/504、3次总尝试、2秒与4秒退避、非重试状态立即失败和响应体禁止记录
+  - android-quality-gate必须从同一OIDC令牌和同一Commit/Run/Release载荷重试，不得重新申请或放宽身份绑定
+  - GitHub业务测试前5xx在工作流有限重试仍失败时，最多只允许一次失败Job重跑；重复后必须停止并诊断上游
+  do_not_repeat:
+  - 服务器重启后不得假设restart=no的候选容器仍在运行
+  - 不得在公网API已502时先消耗完整GitHub构建再发现上游失联
+  - 不得为了绕过专用CI容器而开启普通Staging的自动登录能力
+  - 不得为401、403、404、422或其他非5xx状态重试，也不得在日志、注解或证据中保存OIDC令牌、引导码或响应体
+  - 已通过构建后的引导5xx不得误判为R14拉黑业务失败、模拟器不稳定或PROB-0152第三轮失败
+- id: PROB-0092
+  title: 已完成并行Release无法交接到下一独立工作线
+  status: SOLVED
+  root_cause: R08与R09按冻结DAG均依赖R05至R07，属于可以顺序施工的并行兄弟Release；continuity close原实现只允许COMPLETED交接到直接依赖当前Release的目标，而--allow-independent-release仅服务于BLOCKED外部门禁。结果R08已机器完成时既不能诚实标记DONE后转R09，也不能在不篡改产品DAG的前提下继续开发。
+  resolution: CR-0245扩展同一独立Release迁移校验：COMPLETED仅在显式--allow-independent-release、项目所有者确认、当前任务为本Release最后任务、此前任务全部DONE、目标为首个READY任务且目标声明依赖全部GREEN时允许交接；原BLOCKED真机外部门禁路径保持不变。
+  regression_checks:
+  - test_completed_release_can_validate_green_independent_sibling必须通过
+  - test_external_apk_gate_can_wait_while_independent_release_starts必须通过
+  - R08关闭后TASK-R08-008必须为DONE且NEXT_TASK指向R09首任务
+  - releases/R09/RELEASE_MANIFEST.yaml与RELEASE_DEPENDENCIES.yaml不得为迁移方便伪增R08依赖
+  do_not_repeat:
+  - 已完成Release不得为了使用旧旁路而伪标BLOCKED
+  - 并行兄弟Release交接不得篡改冻结产品依赖来迎合工具限制
+  - 显式独立交接不能绕过目标首任务READY和全部声明依赖GREEN校验
+- id: PROB-0093
+  title: 逐页UI弱表述与关闭阶段混用导致视觉降级和反复伪失败
+  status: SOLVED
+  root_cause: UI主规则已要求效果图强制施工，但189份逐页规格仍保留“效果图仅用于视觉参考”，执行时形成强弱两个事实；统一release-close又直接调用同时要求项目所有者真机PASS、Release Tag和生产终态的旧--close-gate，使机器候选完成后仍被异步真机PENDING反复阻断。旧门禁还假定关闭后项目必须停在READY且候选APK与稳定签名交付APK二进制相同，不符合连续开发和可追溯稳定签名流程。
+  resolution: CR-0247只更新既有UI与效率事实源：189份逐页规格统一为效果图强制约束建模、层级、布局、组件和视觉样式但不得虚构业务，并用文档门禁禁止旧句回归；release-close固定为机器收尾，允许真机PENDING但继续强校验候选、视觉、APK、SHA、稳定签名转换证据和验收材料。生产验收改为显式--production-close-gate，继续要求真机PASS、Release Commit与Tag；旧--close-gate明确拒绝，禁止AI猜测阶段。
+  regression_checks:
+  - python scripts/check_v123_documentation.py --strict --release R09
+  - python -m unittest tests.test_release_close_gate tests.test_hhy_workflow
+  - python scripts/check_release_artifacts.py --release R08 --machine-close-gate
+  - rg "效果图仅用于视觉参考" docs/02-ui/page-specs 必须零命中
+  do_not_repeat:
+  - 主规则升级后必须同步逐页施工规格和自动回归，禁止长期保留相反的弱表述
+  - 机器收尾、项目所有者真机验收和生产激活必须分阶段，不得用一个含糊参数混合三种状态
+  - 候选APK经稳定签名形成交付APK时必须验证Commit、源SHA、目标SHA、大小和PASS转换证据，不得错误要求两个二进制SHA相同
+  - 后续版本已在开发时不得因当前状态为IN_PROGRESS误判历史版本机器关闭失败
+  - 测试影响映射文件由工具链回归验证，不得仅因其自身变化启动与实际产品输入无关的Android编译
+- id: PROB-0094
+  title: Android模拟器Runner逐行执行导致历史视觉脚本丢失工作目录
+  status: SOLVED
+  root_cause: Run 29942343711已正确跳过完整构建、OIDC、候选和修复队列并启动KVM模拟器，但reactivecircus/android-emulator-runner会把script字段的每一行分别交给独立/usr/bin/sh -c执行；独立的cd apps/android不会传递到下一行，随后./gradlew在仓库根目录返回127。该失败发生在测试启动前，与产品UI、Gradle、模拟器稳定性或GitHub权限无关。
+  resolution: 保留既有唯一Android Quality Gate，把历史视觉命令收敛为仓库内scripts/run_android_historical_visual_audit.sh单一入口；脚本自行解析仓库绝对路径，在子shell中切换Android目录，始终尝试回收截图并精确校验22张证据。工作流只向emulator-runner传递一行bash脚本调用。
+  regression_checks:
+  - python -m unittest tests.test_android_candidate_request tests.test_android_ci_gate
+  - android-quality-gate.yml的历史视觉action必须只调用bash scripts/run_android_historical_visual_audit.sh
+  - 脚本必须限定HistoricalVisualAuditTest且精确要求22张截图
+  - candidate=false时完整build、OIDC候选模拟器、候选资格和修复队列必须继续跳过
+  do_not_repeat:
+  - 不得把依赖前一行cd、export或局部变量的多行命令直接写入android-emulator-runner的script字段
+  - 不得把exit 127误判为Gradle、产品UI、测试断言或GitHub模拟器随机失败
+  - 专用视觉脚本不得扩展为第二套候选构建、登录或APK交付入口
+- id: PROB-0095
+  title: R09隔离Staging单一入口未自启动导致全新工作区静默退出
+  status: SOLVED
+  root_cause: R09从R08复用现场验收脚本时只替换了版本、指标和隔离配置，保留了“外部已提前启动Compose”的隐含前置条件；脚本入口直接调用refresh_containers，空项目中ps返回空标识并因set -e退出，既没有构建启动环境，也没有阶段诊断。首次补自启动后又沿用了未核对的172.31.249.0/24和39593端口，而该服务器R05占用该子网、R06 Alertmanager占用该端口。网络端口修正后，脚本只等待Prometheus进程ready却未等待首次抓取完成，立即保存到activeTargets空数组并由grep静默退出。三者共同说明复制版本脚本时缺少从全新环境执行的时序与资源核对。
+  resolution: CR-0255不新增平行流程，直接修复既有run_r09_staging_acceptance.sh；入口检查同名Compose项目必须为空，自行执行up -d --build并确认四个关键容器标识后再进入原有验收。根据服务器实际Docker清单把R09默认子网冻结为172.31.243.0/24、Prometheus回环端口冻结为39597；基线采集在进程ready后继续等待目标首次health=up，并为基线、两类告警、回滚和证据终结输出明确阶段标识。冻结Commit d056c54fb4a9e92f299a3ba78f0bc043706bd58b已在全新项目完成V035、两类告警送达、Outbox合法终结、同库同卷回切和22文件哈希验收，问题关闭为SOLVED。
+  regression_checks:
+  - python scripts/check_r09_observability.py必须通过并检查R09_STAGING_PROJECT_NOT_EMPTY、R09_STAGING_BUILD_AND_START和up -d --build
+  - 全新obx-test工作区只执行scripts/run_r09_staging_acceptance.sh即可自行构建和启动hhy-r09-staging
+  - 同名Compose项目已有容器时脚本必须在任何重建或回滚前明确输出R09_STAGING_PROJECT_NOT_EMPTY并拒绝执行
+  - 最终证据必须绑定新的冻结Commit且machine-summary、SHA256SUMS和V035同库同卷回滚均通过
+  - R09默认172.31.243.0/24必须与服务器Docker网络清单无重叠，换服务器时必须先核对并通过环境变量成组覆盖子网和静态IP
+  - R09默认Prometheus回环端口39597必须无占用；HTTP 38109和Alertmanager 39596同样必须在启动前由Compose现场验证
+  - Prometheus /-/ready成功后必须继续等待api:9091目标首次health=up，activeTargets为空时不得直接进入证据断言
+  do_not_repeat:
+  - 不得把人工执行docker compose up作为“单一入口”的未记录前置条件
+  - 不得在set -e脚本中让关键阶段以无诊断的空值test退出
+  - 从前一版本复制验收脚本时必须在全新Compose项目验证从零启动，不能只验证已存在环境
+  - 不得按版本号猜测或递增Docker子网；必须读取目标服务器现有网络清单后冻结未占用范围
+  - 不得只检查子网而遗漏宿主机发布端口；网络和端口必须作为同一个隔离资源清单核对
+  - 不得把监控进程ready等同于目标已完成首次抓取；涉及目标和告警的验收必须显式等待状态条件
+- id: PROB-0096
+  title: R09候选固定数据复跑尝试更新不可变内容版本
+  status: SOLVED
+  root_cause: R09候选夹具从普通可变详情表沿用了ON CONFLICT DO UPDATE写法到hhy.content_versions；该表由数据库触发器强制不可变，因此首次准备成功、第二次幂等复跑在更新历史快照时被正确拒绝。静态测试只检查了V035、真实字段和秘密边界，没有冻结不可变历史必须DO NOTHING的语义。
+  resolution: CR-0257将content_versions冲突处理改为DO NOTHING并增加源码回归，公网候选数据库连续执行两次均返回同一user=26和content=3；其他可变资料继续受事务、专用CI账号、V035和零统计约束。CR-0259只把根因、证据和禁止复发项写入既有Problem Registry，不新增平行规则或候选流程。
+  regression_checks:
+  - tests.test_r09_ci_fixture必须断言content_versions使用ON CONFLICT DO NOTHING且禁止DO UPDATE
+  - R09候选推送前固定数据脚本必须连续执行两次并返回相同user与content编号
+  - 两次复跑必须在同一事务保护和专用Staging CI账号边界内完成，不得修改历史版本快照
+  - Problem Registry YAML解析和严格连续性门禁必须通过
+  do_not_repeat:
+  - 不可变历史、审计、账本或事件表不得从普通可变资料表复制UPSERT更新策略
+  - 候选固定数据的幂等性不得只凭源码推断，必须在目标数据库至少连续实测两次
+  - 修复夹具时不得关闭不可变触发器、删除历史行或把失败绕成生产数据修改
+- id: PROB-0097
+  title: R09启动未生成当前Release并行计划导致Context严格门禁失败
+  status: SOLVED
+  root_cause: R09从已完成R08交接后直接开始任务，Release级PARALLEL_EXECUTION_PLAN仍只生成到R08；无Active Session时严格检查不会要求当前Release计划，R09-007建立Active Session并刷新Context Pack后才暴露缺失。普通pre-commit只验证提交范围和规则就绪，没有执行完整check_v123_continuity，导致问题延迟到GitHub Continuity Gate。
+  resolution: CR-0260按R08既有单主控串行合同补齐R09计划，冻结R09任务分区、最终候选频率、10217 APK身份和异步真机边界；随后通过checkpoint把该文件作为哈希来源纳入Context Pack，并在再次推送前本地执行完整严格连续性检查。Android候选请求不变，因此治理修复提交不会触发第二次模拟器。
+  regression_checks:
+  - Active Session启动或切换Release后的首个checkpoint必须使Context Manifest包含releases/<当前版本>/PARALLEL_EXECUTION_PLAN.yaml
+  - python scripts/check_v123_continuity.py --strict必须在候选推送前本地PASS
+  - R09计划必须映射TASK-R09-002至008、最终候选仅R09-007一次、versionCode最低10217和真机异步边界
+  - 仅治理文件推送不得修改config/android-candidate-request.yaml或触发第二次Android Candidate Request
+  do_not_repeat:
+  - 不得把“无Active Session时检查通过”当作下一Release计划已存在的证据
+  - 每次跨Release启动前必须核对当前Release计划文件，而不是等版本关闭或远程CI才发现
+  - pre-commit严格门禁不能替代候选前完整check_v123_continuity；两者用途不同且不得重复跑模拟器
+- id: PROB-0098
+  title: R09上传媒体已提交但列表与详情未消费真实图片
+  status: SOLVED
+  root_cause: App发布编辑已经通过R04媒体上传器取得mediaIds并提交后端，但R09列表和详情仅使用媒体数量或占位色块，没有加载ContentResource.media中的thumbnailUrl/url；编辑页也只显示已绑定数量，导致用户上传截图在实际页面不可见。首轮候选功能旅程未断言媒体容器，视觉审核才发现该跨层闭环缺口。
+  resolution: CR-0261接入稳定Coil真实图片加载、详情截图画廊和编辑页真实预览；列表上部使用中性应用标识与右侧事实信息，全部真实截图统一放在下方横向等高截图条。证据重采保持remediation_attempt=3，列表与详情四张图片必须逐一出现onSuccess loaded标识后才允许截图，error或20秒超时直接失败。Run 29969376611的编译、Lint、单测、模拟器、OIDC、三页旅程、日志和四媒体加载门禁全部PASS，AI逐图批准三页；轻量Run 29970240620在17秒内复用同一APK和截图完成哈希晋升，未重新编译或启动模拟器。固定签名APK已完成仓库、桌面、服务器和HTTPS四方SHA一致交付，问题关闭为SOLVED。
+  regression_checks:
+  - R09专用Staging夹具连续执行两次并返回同一content及两张media编号
+  - 两张候选媒体服务器文件、公网HTTPS下载和仓库夹具SHA-256一致
+  - 模拟器断言列表中性应用标识、横向媒体容器、两张真实截图、详情截图画廊与编辑预览
+  - 列表media 1/2和详情media 1/2必须分别出现loaded资源标识后才允许截图，error或20秒超时直接失败
+  - AI逐图对照B02/P06、B03/P02、B04/P04确认丰富度、层级、真实数据和无虚构内容均PASS
+  - 轻量基线晋升必须下载同一源Run产物并核对APK、截图和APPROVAL摘要，禁止重新编译或启动模拟器
+  - 固定签名APK必须通过v2/v3、zipalign、版本、正式API基址和四方SHA一致门禁
+  do_not_repeat:
+  - mediaIds提交成功不等于媒体展示闭环完成，列表、详情、编辑和候选截图必须共同验证
+  - 视觉候选不得只断言标题与按钮；涉及真实图片时必须断言媒体容器并由AI检查像素内容
+  - 对象键必须保持相对路径并经ACTIVE存储绑定生成HTTPS URL，禁止写绝对URL绕过绑定模型
+- id: PROB-0099
+  title: R06首页补充规格删减主开发文档功能并由错误基线循环自证
+  status: SOLVED
+  root_cause: V1.2工程执行强化版4.3、REQ-HOME-001、SCR-HOME-001和B02均明确顶部品牌/搜索/消息、可选公告、横向Banner、项目/App/群聊/团队长四入口和真实运营内容模块；但CR-0165绑定的R06补充规格把首页改成自创Hero、搜索与项目/App快捷入口。Android ExperienceApi又把HomeModuleItemResource降级为标题字符串，丢弃moduleType/layoutType/itemType/coverUrl/badges/target/moreTarget，导致客户端无法按合同渲染丰富模块。后续历史视觉审计继续以该补充规格和实现自身截图为事实源，把信息架构错误误判为PASS；R08至R11故事也未显式要求新分类闭环回接首页。CR-0264还把群聊发布误绑到App发布B04/P04，说明粗粒度面板和相邻页面解释仍可绕过功能核对。
+  resolution: CR-0265取代CR-0264并纠正CR-0165首页删减；现有全局硬边界原位增加主开发文档功能逐项对应和聚合页跨版本回接规则，不建立平行硬规则。首页视觉状态撤销为IN_REVIEW；页面规格恢复B02/P01、P02、P04与P05-P08卡片体系；Android恢复完整Home模型、真实媒体/徽标/导航和BANNER、NOTICE、GRID、HORIZONTAL_LIST、VERTICAL_LIST分型渲染，删除自创Hero与发布快捷入口。R08项目、R09 App、R10群聊、R11团队长Story均增加首页真实入口/内容卡/导航回接验收；R10三页改为B02/P07、B03/P03、B04/P03。CR-0267继续修复实时核验发现的第二层缺口：2026-07-23共享Staging的home_modules为0行，后端moreTarget固定为空且只消费静态items；现补dataSource/limit真实ONLINE内容、跨模块contentId去重、moreTarget与显式STAGING幂等配置脚本。R10最终候选源Run 30013677033、晋升Run 30015180600与Commit 1e35a97fb0541644d85a264a84229435ead378bf已生成并批准1080x2400真实加载首页，01-home.png的SHA-256为2b2357c76b36f2d939d91829a98dd70d362355c001f716be965b7926afe8f7ff；CR-0350据此原子同步视觉台账、回归测试和本问题状态，完成原定恢复条件。
+  regression_checks:
+  - python -m unittest tests.test_home_contract_alignment
+  - apps/android/gradlew.bat --no-daemon :core:network:testDebugUnitTest :feature:shell:lintDebug :app:compileDebugKotlin
+  - python scripts/check_android_ui_foundation.py
+  - python scripts/check_ui_visual_acceptance.py --release R06 --catalog-only
+  - scripts/prepare_home_cms_staging_fixture.sh必须拒绝非STAGING，重复执行保持4个受控模块且只引用ONLINE项目/App和可访问HTTPS媒体
+  - 登录态GET /api/v1/home必须返回公告、Banner、最新项目、推荐App、moreTarget且同一contentId不跨模块重复
+  - R10最终候选必须同时出现搜索、真实Banner、项目/App/群聊/团队长四入口和至少一个真实服务端内容模块
+  - python -m unittest tests.test_home_contract_alignment必须同时核验R10批准状态、源Run、晋升Run、Commit与01-home.png真实SHA-256
+  - python scripts/check_ui_visual_acceptance.py --release R06必须PASS
+  - R10群聊列表、详情、发布必须分别对照B02/P07、B03/P03、B04/P03，禁止B04/P04
+  do_not_repeat:
+  - 补充视觉规格不得删除、替换或重新组织主开发文档明确功能；禁止把“不得虚构”解释为删除真实合同模块
+  - 不得把服务端结构化Home资源压平成标题字符串后仍宣称完成首页CMS与统一卡片
+  - 视觉验收不得只对照实现派生基线；必须同时核对主开发文档、页面合同、精确效果图和真实截图
+  - 后续分类版本不得只完成独立列表/详情而遗漏首页聚合入口、卡片和导航回接
+  - 面板必须按索引逐页核对，禁止用整批范围或相邻App页面替代群聊页面
+  - 客户端组件齐全不等于真实首页可用；必须核验home_modules非空、真实数据源、图片200、登录态响应与导航共同成立
+  - 延迟恢复条件一旦被后续版本满足，必须在同一CR中以不可变Run、Commit、截图SHA和批准记录同步历史视觉台账、Problem Registry与回归测试；不得让IN_REVIEW或REMEDIATING长期滞留
+- id: PROB-0100
+  title: 后台权限种子与页面路由脱节导致超级管理员大量功能不可用
+  status: SOLVED
+  root_cause: 后台目录一次性暴露64个菜单，但仅17个页面接入真实Vue业务，52个可见菜单仍落到CatalogPage；SUPER_ADMIN权限由历次迁移零散追加，线上59个权限只绑定22个；供应商和域名页面又沿用config.manage而非后端provider.config.*与domain.*权限。无权限路由统一跳安全页、会话仅存内存、左右区域共用页面滚动，使配置入口看似全部指向安全设置且刷新丢失登录。
+  resolution: CR-0269收敛菜单到已真实实现且会话有权访问的页面，菜单分组中文化；路由和按钮按后端真实权限分层，拒绝时进入独立无权限页；V037幂等把全部已登记权限授予活动SUPER_ADMIN并检查无遗漏；访问令牌只写当前标签页sessionStorage，刷新和深链可恢复、关闭标签页失效；侧栏和主内容各自滚动。未实现的52个菜单不冒充完成，后续仍按版本逐模块开发。
+  regression_checks:
+  - pnpm --filter @hhy/admin-web typecheck
+  - pnpm --filter @hhy/admin-web test
+  - pnpm --filter @hhy/admin-web build
+  - python scripts/check_db_schema.py
+  - Maven access与boot模块368项测试通过
+  - 线上Flyway必须到V037，SUPER_ADMIN绑定权限数必须等于admin_permissions总数
+  - admin.orbexa.cc登录后用户、实名、内容、对象存储、供应商和域名页面必须进入对应页面，刷新深链保持登录
+  do_not_repeat:
+  - 不得把CatalogPage或未接Controller的页面放入正式菜单并宣称功能已开发
+  - 新增后台权限后必须同步验证SUPER_ADMIN全量继承，不得依赖各版本手工列举
+  - 前端路由和按钮权限必须取后端同一真实权限码，不得以config.manage等宽泛旧码替代
+  - 无权限必须进入明确403页面，不得跳到无关安全设置页掩盖根因
+  - 后台刷新恢复只能使用标签页级存储，不得使用跨标签页长期localStorage保存令牌
+- id: PROB-0101
+  title: R10候选旅程已切换但视觉清单未同步导致完整门禁末端失败
+  status: SOLVED
+  root_cause: CR-0272已把最终候选从R09三页切换为首页、群聊列表、群聊详情和群聊编辑四页，instrumentation、夹具和截图名称均已同步，但实现范围遗漏tests/android/visual-manifests/R10.yaml；现有静态回归只断言旅程中的四个captureStable调用，没有断言对应Release视觉清单存在且文件名、marker完全一致。Run 30011688259因此在构建、OIDC自动登录、四页真实旅程、四张截图和instrumentation全部成功后，直到android_ci_gate.py分析阶段才以visual manifest missing失败。
+  resolution: 原位扩展CR-0272与CR-0273，新增唯一R10视觉清单，绑定SCR-HOME-001、SCR-LIST-003、SCR-DETAIL-003、SCR-PUB-004的精确截图、稳定marker、必现/禁现文案和联系方式脱敏断言；候选请求登记为attempt 2。tests.test_r10_candidate与tests.test_android_ci_gate同时断言四张截图和四个marker，首轮真实截图经同一分析器本地复算已从FAIL转为BASELINE_REVIEW_REQUIRED，四组SHA唯一且相邻差异均高于门禁阈值。
+  regression_checks:
+  - python -m unittest tests.test_r10_candidate tests.test_android_ci_gate
+  - 每次ReleaseCandidateSmokeTest更改captureStable文件集合时，tests/android/visual-manifests/<Release>.yaml必须在同一提交包含完全相同的截图集合
+  - R10视觉清单必须精确绑定首页loaded及群聊list/detail/editor content四个marker，并禁止明文群主联系方式、入群口令、技术字段和内部英文码
+  - 使用Run 30011688259四张真实截图调用android_ci_gate.py analyze必须得到BASELINE_REVIEW_REQUIRED而非visual manifest missing
+  - 第二轮候选必须复核构建、OIDC、四页截图、日志和基线流程，AI审核通过前不得交付APK
+  do_not_repeat:
+  - 候选页面或截图集合变化不得只修改instrumentation，必须同步视觉manifest及其静态回归
+  - 不得把页面旅程成功等同于候选完整通过，分析器、基线和候选资格仍必须执行
+  - 确定性manifest缺口不得重跑同一Commit；必须修复事实源、递增attempt并保留首轮证据
+- id: PROB-0102
+  title: 严格Doctor派生报告遗漏于轻量晋升治理白名单
+  status: SOLVED
+  root_cause: R10基线批准提交按硬规则运行严格连续性Doctor并刷新artifacts/validation/project-doctor-v1.2.3.json，但Android轻量晋升的精确治理白名单未包含该唯一机器报告。Run 30015180600因此在下载源Artifact前42秒内拒绝，源候选的构建、OIDC、四页旅程、截图、日志、APK和本地轻量晋升均未失败。
+  resolution: CR-0276把严格Doctor唯一机器报告加入轻量晋升exact_governance，并新增静态回归锁定路径；R10 APPROVAL的promotion_attempt递增为2，继续复用Run 30013677033、Commit 1e35a97f、APK SHA和四张截图SHA，不重建APK、不启动模拟器。
+  regression_checks:
+  - python -m unittest tests.test_android_ci_gate
+  - Android基线晋升工作流必须精确允许artifacts/validation/project-doctor-v1.2.3.json，仍不得允许apps、services、packages或其他产品路径
+  - 修复后的晋升必须下载Run 30013677033既有Artifact并通过android_ci_gate.py promote，不得出现gradlew或android-emulator-runner
+  do_not_repeat:
+  - 新增或强制刷新治理派生报告时，必须同步审计基线晋升从源Commit到HEAD的精确白名单
+  - 轻量治理失败不得重跑已经通过的完整Android候选
+  - 不得以允许整个artifacts目录解决单文件遗漏，只允许精确机器报告路径
+- id: PROB-0103
+  title: 公网预认证扫描占满OpenSSH默认连接槽导致APK传输随机重置
+  status: SOLVED
+  root_cause: obx-test使用OpenSSH默认LoginGraceTime 120与MaxStartups 10:30:100；sshd日志显示多个公网扫描IP每8至10秒建立一次root或随机用户名的preauth连接，120秒内持续占用未认证槽。服务器无Fail2ban、无SSH防火墙限频，20 MB单流SCP和连续分片上传因此被OpenSSH随机丢弃，表现为Connection reset或Broken pipe；APK源SHA、工具链和密钥均正常。
+  resolution: CR-0277在备份/etc/ssh/sshd_config后把LoginGraceTime调为30、MaxStartups调为30:50:100，sshd -t、reload、新连接回读及12次连续连接全部通过；未修改SSH端口、密钥、密码/root登录策略。R10交付继续使用deliver_android_test_apk.py的1 MiB分块、有界重试、远端合并SHA和四方校验，最终耗时5分36秒完成。
+  regression_checks:
+  - ssh obx-test 'sshd -T | grep logingracetime; sshd -T | grep maxstartups'必须分别返回30和30:50:100
+  - 至少12次BatchMode新SSH连接必须全部成功，不得在第5次左右随机reset
+  - R10 delivery-evidence必须证明仓库、桌面、服务器、HTTPS均为f2f0888917e5476b99e2ca63221dd66bae7a68a39e21c7020bb2d226d1fd66ec
+  - 服务器配置回滚只能在保留活动会话、恢复备份并通过sshd -t后reload
+  do_not_repeat:
+  - 不得把preauth连接槽耗尽误判为服务器带宽限速、APK损坏或SSH密钥失效
+  - 不得只无限增加MaxStartups；必须先缩短未认证连接存活时间并保留有界容量
+  - 不得因解决传输问题擅自关闭密码/root登录、修改端口或扩大本次安全变更范围
+- id: PROB-0104
+  title: R11 Staging检查哨兵不满足密钥强度与独立性导致API健康检查失败
+  status: SOLVED
+  root_cause: R11隔离验收脚本为Compose只读检查填充的compose-inspection-only哨兵先短于AdminSecurityProperties要求的32字节，长度修正后又错误复用同一值，触发管理员JWT、MFA和幂等HMAC必须相互独立的启动保护，现场验收无法进入readiness。
+  resolution: 将八个R11检查哨兵改为长度合规、彼此独立且仅用于隔离编排检查的确定性字符串；真实Secret仍优先从环境注入，哨兵不写入仓库证据或生产配置。
+  regression_checks:
+  - python scripts/check_r11_observability.py
+  - sh -n scripts/run_r11_staging_acceptance.sh
+  - tests.test_r11_specialized_matrix必须验证八个默认哨兵长度至少32字节且全部唯一
+  - R11隔离现场必须取得API liveness/readiness和Prometheus target=up
+  do_not_repeat:
+  - 不得使用短于运行时校验下限或相互复用的compose-inspection默认值
+  - 不得以关闭Secret长度校验或把真实凭据写入脚本来绕过启动失败
+- id: PROB-0105
+  title: R11团队长候选错误复用R09 App截图导致视觉语义不合格
+  status: SOLVED
+  root_cause: R11首轮Run 30066554254的真实四页旅程、编译、OIDC和媒体HTTP状态均通过，但隔离夹具沿用了R09公开App截图作为团队Logo；团队列表头像和详情团队风采因此显示App卡片，违反团队长页面必须使用专用团队语义素材的视觉合同。
+  resolution: CR-0304新增可复现的专用团队品牌PNG、夹具object_key和attempt 2请求；CR-0305新增download.orbexa.cc单文件精确静态路由，保留默认404。仓库、服务器和公网媒体SHA均为eb2138d67b8a23255240b5ce4ecc1cd758f2bbb8fe3586b874f7d7b32aea6709，夹具连续两次保持logo=3、contacts=1、media=1。Run 30069588243四张真实旅程截图由AI复核通过，Run 30074128265完成轻量视觉基线晋升；固定签名APK与四方交付通过，不合格首轮截图未晋升或交付。
+  regression_checks:
+  - python scripts/generate_r11_team_logo.py重复生成必须字节级SHA一致
+  - tests.test_r11_candidate必须拒绝01-app-list.png并要求r11-team-logo.png
+  - download.orbexa.cc团队Logo精确路径返回200 image/png且未知路径仍返回404
+  - R11候选必须重新验证首页、团队长列表、详情和编辑四页，团队Logo与团队风采不得出现App截图或其他业务图片
+  do_not_repeat:
+  - 媒体HTTP 200只证明可访问，不证明图片与页面业务语义匹配
+  - 团队长、群聊、App和项目不得跨业务复用视觉素材作为Logo或风采证据
+  - 首轮候选视觉不合格时不得晋升基线或交付APK，必须递增attempt并保留首轮截图证据
+- id: PROB-0106
+  title: R11机器收尾错误复用RELEASE全量档导致本机重复安装和构建
+  status: SOLVED
+  root_cause: CR-0247和统一效率规范已经规定最终候选绑定同一源码Commit且PASS后机器收尾只核验不可变证据，但config/development-workflow.yaml仍把RELEASE_CLOSE映射到通用RELEASE profile；该profile递归包含INTEGRATION，因而在TASK-R11-007已经完成obx-test/GitHub固定工具链的Java、数据库、Android和模拟器门禁后，TASK-R11-008又在Windows本机调用Maven、PostgreSQL和Gradle。与此同时artifacts/validation生成报告仍进入classified_files和检查输入指纹，报告写回会让已PASS节点失效并从头重跑。
+  resolution: CR-0312原位修正CR-0247既有唯一规则及其投影，不建立平行关闭体系；新增专用MACHINE_CLOSE profile且只选择release-close-gate --machine-close-gate，通用RELEASE与INTEGRATION继续保留给真正的最终候选。AGENTS根规则、templates/AGENTS交接镜像和统一效率规范同步明确：本机不得为关闭安装Java或Android SDK，也不得重复Maven、PostgreSQL、Gradle或模拟器；artifacts/validation生成证据不参与工作分类和缓存输入指纹。R11实际机器收尾仅执行一个0.468秒证据门禁并PASS。
+  regression_checks:
+  - tests.test_hhy_workflow必须断言release-close的quality_profile为MACHINE_CLOSE且计划精确只有release-close-gate
+  - tests.test_hhy_workflow必须断言机器收尾不包含integration-backend、integration-postgres-migration或integration-android
+  - tests.test_run_affected_tests必须分别证明RELEASE仍包含全量集成、MACHINE_CLOSE只包含--machine-close-gate
+  - artifacts/validation/**必须从classified_files排除，生成报告写回不得改变检查输入指纹
+  - tests.test_context_pack_parallel_policy必须证明AGENTS.md与templates/AGENTS.md字节一致
+  - python scripts/hhy_workflow.py run --intent release-close --release <RELEASE>的输出不得出现mvnw、PostgreSQL smoke、gradlew或模拟器
+  do_not_repeat:
+  - 不得把最终候选全量验证和TASK-xx-008机器收尾映射到同一个执行profile
+  - 不得因本机缺少Java、Android SDK或Android Studio下载工具链作为云端固定环境的回退
+  - 不得让门禁自身写回的validation报告成为同一门禁缓存失效的输入
+  - 已绑定同一源码Commit且PASS的候选、构建、Lint、单测和模拟器证据不得在关闭阶段重复执行
+- id: PROB-0107
+  title: R12真实PostgreSQL门禁暴露Outbox空参数类型和管理员会话夹具违规
+  status: SOLVED
+  root_cause: 发布复制事务会把fromStatus置空，但R12PublishingPostgresStore直接把未显式类型的JDBC空参数传给jsonb_build_object，PostgreSQL无法推断参数类型；同时R12ReviewPostgresStoreTest直接创建VERIFIED且使用早于数据库默认created_at的固定last_active_at，违反R01管理员会话必须从NONE/version=0开始及生命周期时间不得倒退的不变量。纯Mockito单测和编译均不会触发这两项真实数据库约束。
+  resolution: 所有发布Outbox JSON参数在SQL中显式转换为bigint或text，空值语义保持JSON null；审核测试夹具显式冻结created_at/updated_at，先创建NONE/version=0会话，再以version+1升级到VERIFIED。PostgreSQL17重新执行V001至V040后，发布与审核两个真实Store测试均通过且0 skipped。
+  regression_checks:
+  - R12PublishingPostgresStoreTest必须覆盖复制事务fromStatus为空并成功提交Outbox
+  - R12ReviewPostgresStoreTest必须通过R01会话初态、版本递增、MFA迁移和生命周期约束
+  - HHY_DB_SMOKE_CONFIRM=YES时两个R12 PostgreSQL Store测试必须实际运行且0 skipped
+  - V001至V040 Flyway迁移和database/tests/r12_review_escalation.sql必须在PostgreSQL17.10通过
+  do_not_repeat:
+  - 向jsonb_build_object传递可能为空的JDBC参数时不得依赖PostgreSQL推断unknown类型
+  - 真实数据库夹具不得跳过或伪造既有状态机初态与版本迁移
+  - 固定测试时钟涉及数据库生命周期约束时必须同时冻结created_at等比较基准
+  - 编译和Mockito通过不得替代环境条件测试0 skipped的真实PostgreSQL证据
+- id: PROB-0108
+  title: R12后端全回归暴露审核operationId落点和跨版本Gauge断言漂移
+  status: SOLVED
+  root_cause: R12审核控制器六个方法使用queue/detail/decide等通用Java方法名，路由虽正确但无法由控制器反射测试直接证明与冻结operationId一一对应；方法重命名后，审核控制器合同又错误读取客户端contracts/openapi.yaml，而六个后台operationId的权威运行时资源是contracts/admin-openapi.yaml；同时R07通用Outbox Gauge按定义统计所有CONTENT和SEARCH_HISTORY待发送事件，R11新增团队长CONTENT事件后测试夹具正确总数已从5变为6，旧断言未随跨版本聚合语义更新。
+  resolution: 六个审核控制器方法名改为冻结operationId，并由同一合同测试从admin-openapi.yaml逐项核对operationId、路由和权限；R07通用Outbox Gauge继续保持原SQL语义，只把夹具断言更新为包含R11团队长事件的6。HTTP合同、指标查询和生产数据均未改变；Java21全回归411项、两项R12 PostgreSQL Store测试0 skipped。
+  regression_checks:
+  - R12ReviewControllerContractTest必须验证六个冻结operationId在运行时OpenAPI和控制器中各恰好一个落点
+  - 后台控制器合同必须读取contracts/admin-openapi.yaml，禁止从客户端contracts/openapi.yaml验证后台operationId
+  - 每个审核operationId必须同时绑定精确HTTP路由与最小后台权限
+  - BusinessGaugeBinderTest的R07通用Outbox断言必须包含后续版本新增的CONTENT待发送事件
+  - Java21后端MODULE全回归必须0 failures且R12 PostgreSQL测试0 skipped
+  do_not_repeat:
+  - 新控制器不得只验证路径而遗漏operationId到实现方法的机器可追踪关系
+  - 跨版本聚合Gauge新增后续业务事件时必须同步重新计算夹具总量
+  - 不得为了恢复旧断言从通用Gauge错误排除后续版本的同类CONTENT事件
+- id: PROB-0109
+  title: R12我的首页被简化缓存页和selectedIndex伪导航替代冻结聚合合同
+  status: SOLVED
+  root_cause: 既有HhyShellScreen在R06首页施工时把五个底部栏目留在同一Composable内，并用rememberSaveable selectedIndex切换；后续R12只在该简化我的分支追加登录缓存资料头、发布管理和安全按钮，没有按STORY-R12-007接入会员与奖励两项GET，也没有逐模块加载、缓存和恢复。旧SCR-ME-001错误状态还要求展示errorCode和requestId，会员与奖励共享接口的Release归属及奖励HTTP423也没有同步投影，导致页面功能、视觉、合同和导航同时偏离B08/P01及CR-0119。
+  resolution: CR-0331原位落实SCR-ME-001、B08/P01和CR-0119，不新增平行规则；补齐R12/R18会员与R12/R24奖励共享归属、HTTP423和合法精简错误信封，新增三项GET Android适配、三个独立模块状态及真实资产商业页面。顶层改为typed Home/Me Jetpack Navigation Compose，使用saveState、restoreState和launchSingleTop，栏目选择由NavDestination推导，同级内容使用HhyMotion.peerContent；未实现红包和消息禁用且不再进入占位页。
+  regression_checks:
+  - ContractR12MeApiTest必须锁定三项GET路径、严格Long金额和结构化会员权益
+  - R12MeHomeStateTest必须覆盖会员404、奖励404/422/423、429、网络/5xx缓存保留和整数分格式化
+  - NavigationPolicyTest与AuthenticatedNavigationTest必须证明typed Home/Me、子页返回真实来源和顶层无重复栈
+  - check_android_ui_foundation.py必须拒绝HhyShellScreen重新出现selectedIndex伪导航或ShellPlaceholder
+  - catalogs/ui_visual_acceptance.csv的SCR-ME-001必须绑定B08/P01且在最终候选真实截图经AI验收前保持IN_REVIEW
+  do_not_repeat:
+  - 聚合页不得只显示登录缓存而省略Story明确登记的跨域只读接口
+  - 底部栏目不得使用页面级mutableState或selectedIndex冒充Navigation Compose返回栈
+  - 效果图虚构项必须过滤，但不得以过滤为由删掉其余区域顺序、层级和信息密度
+  - 正式商业错误界面不得展示requestId、traceId、错误码或接口名
+- id: PROB-0110
+  title: R12隔离Staging机械复用R09已占用Docker子网
+  status: SOLVED
+  root_cause: R12从既有版本复制隔离Staging编排时机械沿用了172.31.243.0/24，没有先对obx-test当前Docker网络和回环端口执行只读审计；该子网仍由hhy-r09-staging_smoke占用。静态配置检查只验证了R12组件内部地址一致，无法证明服务器侧资源未冲突。
+  resolution: CR-0335将R12默认子网及全部静态IP成组切换到服务器审计确认未占用的172.31.240.0/24，端口38112、39614和39615保持不变；CR-0336把根因、修复、回归和禁止做法登记到唯一Problem Registry。R12尚未启动现场环境，因此没有污染或清理既有Docker资源。
+  regression_checks:
+  - obx-test执行前必须审计docker network inspect结果，证明172.31.240.0/24未被既有网络占用
+  - obx-test执行前必须审计监听端口，证明38112、39614和39615未被既有进程占用
+  - python scripts/check_r12_observability.py
+  - python -m unittest tests.test_r12_staging_acceptance
+  - bash -n scripts/run_r12_staging_acceptance.sh
+  - R12现场验收不得创建、修改或重启hhy-r09-staging_smoke及其他既有公网环境
+  do_not_repeat:
+  - 不得未经目标服务器Docker网络和监听端口审计就复用历史版本默认子网或端口
+  - 不得只验证Compose文件内部地址一致性并据此宣称隔离资源可用
+  - 发现资源冲突后不得停止、删除或改网既有版本环境，应为新版本选择经审计的空闲资源
+- id: PROB-0111
+  title: R12现场验收把Flyway V041权威输出误写为41
+  status: SOLVED
+  root_cause: Flyway数据库历史表的version列对V041返回三位字符串041，但R12现场脚本沿用整数式写法与41比较。静态测试又逐字锁定了同一错误断言，导致正确完成V041迁移的现场环境在基线采集阶段被误判失败。
+  resolution: CR-0337把验收断言和静态回归同步修正为041，并在现场报告保留Commit 3205187edfec06e5055312a228f4f51ca55db9c4的首次失败事实；该Commit不原样重跑，只允许新Commit在全新Compose项目中重新验收。
+  regression_checks:
+  - python -m unittest tests.test_r12_staging_acceptance
+  - tests.test_r12_staging_acceptance必须逐字锁定database.txt首行为041
+  - obx-test新Commit现场证据的database.txt和machine-summary.txt必须分别记录041
+  - 新Commit必须从空Compose项目启动并完整通过基线、两类告警、回滚和证据终结
+  do_not_repeat:
+  - 不得把带前导零的迁移版本当作整数手写比较值
+  - 不得让静态测试只逐字复制实现而不核对真实工具输出
+  - 确定性脚本缺陷出现后不得原样重跑同一Commit，应保留失败证据并修复后递增Commit
+- id: PROB-0112
+  title: Git文本规范化改写现场证据导致提交对象哈希漂移
+  status: SOLVED
+  root_cause: 仓库全局gitattributes默认把文本规范化为LF，obx-test采集的trace-headers.txt包含HTTP原始CRLF。工作区逐文件SHA校验通过后，Git在入库时把该文件转换为LF，导致未推送Commit对象的SHA与现场SHA256SUMS不一致；只检查工作区无法发现这种索引层漂移。
+  resolution: CR-0338在既有.gitattributes中为artifacts/validation/**增加-text原始字节规则，重新暂存现场证据，并在推送前直接读取Git索引或Commit对象逐文件对照SHA256SUMS。未推送的错误证据Commit被原位重建，不进入远端历史。
+  regression_checks:
+  - git check-attr text -- artifacts/validation/r12-task006-staging/trace-headers.txt必须返回text: unset
+  - Git索引中的25个现场证据对象必须逐文件匹配artifacts/validation/r12-task006-staging/SHA256SUMS
+  - 干净检出后必须再次逐文件复核SHA256SUMS，不得只检查当前工作区
+  do_not_repeat:
+  - 不得把工作区文件哈希通过等同于Git提交对象字节一致
+  - 带HTTP头、外部工具输出或签名数据的现场证据不得经过Git文本换行过滤
+  - 发现未推送证据Commit哈希漂移时不得推送后再补说明，应先重建未推送Commit
+- id: PROB-0113
+  title: R12候选OIDC原始异常被重复requestId结构化日志错误遮蔽
+  status: SOLVED
+  root_cause: Run 30173649942的Android Build已成功，但Emulator Job 89719831962在请求internal-ci bootstrap时返回500。RequestIdFilter已把requestId写入MDC，GlobalExceptionHandler.unexpected又把同名requestId写入SLF4J keyValue；Spring Boot logstash结构化格式拒绝同一事件中的重复字段并抛出The name requestId has already been written，导致真正的OIDC或CI引导异常类型被二次日志错误覆盖，模拟器旅程尚未启动。
+  resolution: CR-0340让unexpected异常事件优先复用RequestIdFilter的MDC关联字段，只记录不含异常消息或令牌的安全errorType；仅在MDC缺失时从请求属性回退写入requestId。双路径单测同时锁定关联ID保留、同名字段不重复、异常消息和敏感URL不进入日志。R12候选必须先部署该精确源码并读取原始安全错误类型，再决定是否修改OIDC或夹具，禁止盲目重跑GitHub模拟器。
+  regression_checks:
+  - GlobalExceptionHandlerTest必须证明MDC已有requestId时keyValue不再包含同名字段，事件MDC仍保留原关联ID
+  - GlobalExceptionHandlerTest必须证明MDC缺失时keyValue回退记录requestId和errorType
+  - 两条路径都不得记录异常消息、令牌、私有URL、签名参数或ThrowableProxy
+  - R12候选后端日志中的unhandled_api_exception必须可安全读取原始errorType，且不得再出现The name requestId has already been written
+  do_not_repeat:
+  - 使用Spring Boot结构化日志时不得在MDC和SLF4J keyValue中重复写入同名字段
+  - 不得为了排查OIDC把Bearer Token、JWT声明全文、异常消息或Throwable堆栈写入候选日志
+  - 业务旅程开始前的确定性后端500不得直接重跑模拟器，应先修复可观测性并在固定候选后端复现
+- id: PROB-0114
+  title: 隔离候选启动发布链缺失或未生效导致登录成功后404
+  status: SOLVED
+  root_cause: Run 30175242918的OIDC bootstrap、session和/api/v1/me均返回200，但R12专用夹具只创建用户、会员、奖励和内容事实，没有创建StartupGate对official+STAGING+10221所需的构建配置、构建任务、APK产物、活动渠道和PUBLISHED发布记录。隔离数据库三张发布表为空，/public-api/v1/app/version-check因此返回404，首页loaded标记和十页旅程均无法开始。既有PROB-0053处理的是客户端错误注入owner-test渠道，本次请求维度正确，根因不同。
+  resolution: CR-0341在既有R12专用夹具同一事务内幂等创建带固定标识的STAGING构建配置、10221成功任务、确定性APK元数据、official+STAGING活动渠道和NONE/PUBLISHED发布记录；任何重复或字段漂移都硬失败，脚本不包含PROD写入。R13 attempt 2 Run 30219507396进一步证明“记录存在”仍不等于“记录已生效”：夹具输出 `version=10222`，但published_at晚于候选运行时刻，查询按published_at<=now返回404。CR-0380将R13发布时间固定为候选日前的过去时刻，幂等修正已有候选记录，并在漂移断言和最终输出查询中共同要求published_at已生效。完整GitHub候选前必须先在obx-test连续执行夹具两次并取得严格相同输出，再对公网version-check验证HTTP 200和updateType=NONE。
+  regression_checks:
+  - python -m unittest tests.test_r12_candidate
+  - prepare_r12_ci_fixture.sh只能接受hhy-r12-ci-candidate-*后端、hhy-r12-staging-*-postgres-1数据库、staging Profile和显式YES确认
+  - 夹具连续执行两次必须输出严格一致且release=1、release_version=10221、release_update=NONE
+  - POST /public-api/v1/app/version-check对ANDROID、10221、official、STAGING必须返回HTTP 200且updateType=NONE
+  - 服务器SQL必须证明official+STAGING+10221发布链各层唯一，夹具不得写入PROD渠道或生产发布记录
+  - R13夹具必须锁定过去published_at、幂等修正已存在的未生效记录，且输出联查必须包含release.published_at<=clock_timestamp()
+  do_not_repeat:
+  - 最终候选夹具不得只覆盖登录后页面数据而遗漏StartupGate在认证前读取的平台状态和版本策略
+  - OIDC登录成功不能证明业务旅程可开始，必须分别验证启动门禁、首页loaded标记和页面截图阶段
+  - 已知版本表为空导致的确定性404不得通过重跑GitHub模拟器碰运气
+  - 不得复用生产PROD发布链为隔离候选补数据，只允许专用STAGING夹具
+  - 夹具成功输出不得只计数发布记录，必须按业务查询相同时间条件证明其已生效
+- id: PROB-0115
+  title: R12审核记录页把空人工处理历史误判为内容不存在
+  status: SOLVED
+  root_cause: Run 30176531999已证明内容提交成功并进入PENDING_REVIEW，但SCR-MYC-004客户端只请求GET /contents/{id}/reviews；该接口只返回管理员已写入content_review_records的真实处理记录，尚未领取或决定时合法返回空列表。通用列表状态因此进入整页EMPTY，遗漏冻结补充规格要求的顶部当前内容摘要与最新待审状态；同一页面又按ContentResource.id去重和生成Compose key，而后端每条历史都沿用相同contentId，导致多条审核记录被折叠或产生重复key。
+  resolution: CR-0342把审核页拆为独立状态与布局：并行读取既有内容详情作为唯一当前摘要，reviews仅作为真实管理员处理时间线；摘要成功且历史为空时仍展示内容标题和审核中，并显示真实空时间线。历史只从attributes.review.id取得稳定身份并据此跨页去重和生成Compose key，缺失身份进入受控局部错误，禁止回退contentId或伪造待审记录；刷新重置历史分页并保留已显示摘要，旧contentId或旧generation响应不得覆盖当前页面。
+  regression_checks:
+  - R12ContentManagementListStateTest必须覆盖摘要成功且人工历史为空仍为CONTENT
+  - 同一contentId的多条review.id必须全部保留，跨页重复review.id只保留一次
+  - 缺失attributes.review.id必须进入受控局部错误，禁止回退ContentResource.id
+  - 刷新必须保留现有摘要与时间线并重置page/cursor，旧请求身份不得覆盖新页面
+  - R12候选审核记录截图必须同时出现真实内容标题、审核中和SCR-MYC-004页面marker，不得出现管理员标识、记录ID或内部状态码
+  do_not_repeat:
+  - 不得把人工处理记录为空等同于内容不存在或审核未开始
+  - 不得为通过候选断言伪造一条待审核历史，当前状态必须来自内容详情
+  - 列表去重键和Compose key必须使用资源自身稳定身份，不能机械复用父内容ID
+- id: PROB-0116
+  title: 全局三轮上限无法准确表达R12三个不同根因后的第四次候选
+  status: SOLVED
+  root_cause: R12前三次候选依次暴露结构化日志遮蔽、隔离Staging启动发布链缺失和审核记录页面错误建模三个不同根因；既有候选请求和运行时校验把任何attempt 4一律拒绝。永久把全局上限改为4会削弱所有后续版本，重置为attempt 1又会伪造历史，而只靠聊天同意无法跨电脑和AI审计。
+  resolution: CR-0344保留全局max_ai_attempts=3和普通1至3不变，仅在android-automation唯一事实源登记release=R12、attempt=4、request_id=R12-CANDIDATE-20260726-004、exception_id=CR-0344、required_fix_commit=daae207af319008411995b7ac23a13c9042fc5a2、max_candidate_runs=1的精确例外。attempt 4随后暴露候选前可消费草稿未重建这一第四个独立根因，CR-0345已在fbde523e8e751b74f7300ef125c70fa9eb4d03fd完成事务夹具修复；CR-0351因遗漏策略加载器被SUPERSEDED且从未提交、推送或运行候选，CR-0352只新增release=R12、attempt=5、request_id=R12-CANDIDATE-20260726-005、exception_id=CR-0352、required_fix_commit=fbde523e8e751b74f7300ef125c70fa9eb4d03fd、max_candidate_runs=1的精确例外。attempt 5及其一次同Commit失败作业重跑均在CR-0354公网路由修复前结束且未产生Android截图，既有次数不可复用；CR-0355的attempt6由Run 30191193348完整消费，技术流程成功但AI拒绝视觉基线。CR-0356与CR-0357已在bcde496e修复安全区、转场残层、业务时间、按钮对比度和四帧稳定断言。项目所有者明确批准CR-0358的release=R12、attempt=7、request_id=R12-CANDIDATE-20260726-007、required_fix_commit=bcde496e9821dce301d4b13bfe0b1f590f1380f5、max_candidate_runs=1，并授予AI后续候选持续决策的站立授权。android-automation原位记录AI_STANDING_DELEGATION：只有上一请求已消费、独立根因已修复、模块与普通CI通过后，独立AI候选授权角色才可另建精确CR批准连续下一轮；每轮仍绑定唯一request、修复Commit和单次运行，未知未来轮次不得提前授权，新增秘密、第三方权限、资金/账本策略和生产激活仍归项目所有者。
+  regression_checks:
+  - config/android-automation.yaml的max_ai_attempts必须严格等于3且每个已批准例外的max_candidate_runs必须等于1
+  - tests.test_android_candidate_request必须覆盖精确例外PASS及Release、request、CR、Commit、attempt任一漂移FAIL
+  - tests.test_android_ci_gate必须证明AI_STANDING_DELEGATION精确字段不可漂移，历史attempt4和当前attempt7运行报告分别记录max_ai_attempts=3与effective_attempt_limit=4/7
+  - android-candidate-request工作流必须fetch-depth=0并执行git merge-base --is-ancestor验证required_fix_commit
+  - android-quality-gate必须在setup-java、setup-android和模拟器之前执行attempt-check
+  do_not_repeat:
+  - 不得为单版例外永久提高全局三轮上限
+  - 不得把真实第四次候选伪写成attempt 1或复用旧request_id
+  - 不得仅在模拟器运行后才检查例外字段或根因修复Commit
+  - 不得允许错误Release、request、CR、Commit、attempt 8、复用已消费004/005/006/007请求或无精确例外的超限轮次
+  - 站立授权只消除逐轮询问，不得预授权未知根因、无限重试或绕过秘密、第三方权限、资金和生产激活的项目所有者决定
+- id: PROB-0117
+  title: 滚动计划与累计治理门禁实现落后于权威规则仍返回假PASS
+  status: SOLVED
+  root_cause: PROGRAM_EXECUTION_PLAN生成器和检查器同时把R02硬编码为当前滚动窗口，导致项目已到R12仍自证PASS；CR-0242调整R08历史UI时序后机器策略未同步，版本关闭又只检查本版页面，使CR-0265重开的R06首页没有阻断R10/R11；Problem Registry、复用模式和踩坑记录只进入Context Pack哈希，没有结构完整性校验。
+  resolution: CR-0346让总计划从CURRENT_STATUS.active_release确定性生成并交叉验证；R12起机器关闭使用同一视觉目录累计检查截至当前版本全部前端页面，并要求绑定候选Commit和SHA的六项治理审计；严格Doctor验证问题编号与闭环字段、复用模式唯一编号和踩坑连续编号，同时原位补齐PROB-0044、PROB-0045与PROB-0052缺失证据。
+  regression_checks:
+  - python -m unittest tests.test_program_execution_plan tests.test_ui_visual_acceptance tests.test_release_close_gate tests.test_context_pack_parallel_policy
+  - python scripts/check_program_execution_plan.py --json
+  - python scripts/check_ui_visual_acceptance.py --historical-through R12
+  - python scripts/check_v123_continuity.py --strict
+  do_not_repeat:
+  - 不得让生成器与检查器共享同一硬编码旧状态后互相自证PASS
+  - 不得只检查当前Release页面而忽略被后续CR重新打开的历史视觉债务
+  - 经验文件进入哈希清单不等于内容可复用，必须校验编号、状态和闭环字段
+  - 每个大版本不得在六项治理审计未绑定最终候选Commit时关闭或进入下一版
+- id: PROB-0118
+  title: R12候选真实提交消费唯一草稿后后续运行缺少提交目标
+  status: SOLVED
+  root_cause: R12专用夹具只在候选后端部署时执行一次，OIDC bootstrap仅验证GitHub身份并发放一次性登录码。attempt 4的真实旅程已把固定标题的唯一DRAFT提交为PENDING_REVIEW；后续候选即使认证成功也不会重建会被旅程消费的业务状态，因此草稿箱中确定性缺少R12提交目标。重复运行部署脚本或GitHub模拟器只能暂时碰运气，且不能证明跨实例并发、失败回滚和非R12隔离。
+  resolution: CR-0345让bootstrap显式携带Release，并在OIDC验证成功后、发码前的同一事务内执行R12专用准备器。准备器使用PostgreSQL事务级advisory lock，拒绝BANNED、重复DRAFT和不完整模板，回收非DRAFT旧目标，从已验证模板克隆项目详情、最新版本快照、统计和READY媒体，最终只保留一个version0且review_status为空的DRAFT，不复制审核记录；非法Release、非R12、OIDC失败和夹具异常均不得产生R12写入或登录码。CR-0352仅以新request ID和单次attempt5验证该修复，不复用已消费的attempt4；全局三轮策略未改变。
+  regression_checks:
+  - CiAutomationServiceTest必须证明R12先准备夹具再发码、非R12跳过准备、非法Release和夹具失败不创建登录码
+  - CiAutomationControllerTest必须证明OIDC失败不调用CiAutomationService，BootstrapRequest拒绝R01-R32以外的Release
+  - CiAutomationFixtureStorePostgresTest必须覆盖重复bootstrap幂等、跨事务并发恰好一个DRAFT、BANNED和重复DRAFT拒绝、模板缺失或不完整整事务回滚
+  - tests.test_r12_candidate必须锁定工作流Release透传、PostgreSQL事务锁、固定标题、完整子资源克隆和不复制审核历史
+  do_not_repeat:
+  - 会消费草稿或一次性状态的候选旅程不得把夹具准备限定为部署时一次性人工步骤
+  - 不得在OIDC验证前写入候选业务数据，也不得在夹具失败后继续发放登录码
+  - 跨实例候选准备不得只使用JVM锁或先查后写，必须使用同一数据库事务锁和最终唯一性断言
+  - 不得通过复用已消耗候选轮次验证修复；代码与模块门禁通过后仍需独立候选证据授权
+- id: PROB-0119
+  title: 主开发文档定位指针仍引用已不存在的旧文件名
+  status: SOLVED
+  root_cause: SOURCE_OF_TRUTH和严格文档合同已经使用根目录页面与运营规格冻结版，但docs/00-baseline下的开发就绪版定位文件仍保留同名旧目标；既有门禁只验证权威主文档存在和内容合同，没有验证面向新AI的导航指针能否解析，因此文档整体PASS仍可能在冷启动阅读路径中断链。
+  resolution: CR-0347原位纠正既有定位文件，使其唯一指向根目录合伙云Pro_完整项目开发文档_V1.2.2_页面与运营规格冻结版.md；V1.2.2和V1.2.3严格文档检查器共同验证指针存在、目标存在及反引号内唯一Markdown文件名精确一致，并把经验补入既有PATTERN-CONTINUITY-001和连续编号踩坑记录，不新增平行硬规则。
+  regression_checks:
+  - tests.test_documentation_baseline_version必须同时验证V1.2.2和V1.2.3检查器接受正确指针
+  - tests.test_documentation_baseline_version必须证明旧文件名或任意错误目标触发MAIN_DOC_POINTER_DRIFT
+  - python scripts/check_v123_documentation.py --strict --release R12
+  - python scripts/check_v123_continuity.py --strict --release R12
+  do_not_repeat:
+  - 不得只验证权威主文档存在而忽略面向接手者的定位文件
+  - 重命名或冻结主文档后必须同步更新既有指针和严格文档回归
+  - 不得为修复旧指针复制主文档或新建第二套事实源
+- id: PROB-0120
+  title: R11历史候选回归与Maven Wrapper文件模式随R12演进漂移
+  status: SOLVED
+  root_cause: R11候选回归直接断言全局当前构建配置、发布策略、候选请求和共享模拟器旅程永远保持R11，版本进入R12后必然假失败；同时services/backend/mvnw在Git索引中为100644，Windows本地无法暴露该问题，Linux CI使用./mvnw时直接返回Permission denied。
+  resolution: CR-0348将R11身份、页面集合和截图哈希改为读取已归档build-evidence、candidate-report与R11视觉合同验证不可变事实，当前构建与发布策略只要求一致且严格大于R11的10220；恢复Maven Wrapper的Git 100755模式，并在既有V1.2.3严格Doctor和工具回归中同时校验Android与Maven Wrapper的索引模式。run 30187349464进一步证明候选与治理测试路径未进入tooling影响映射；CR-0349在既有test-impact-map原位增加candidate-history-unit和governance-knowledge-unit，相关路径变化必须选择tooling，未受影响的Android、数据库和Web继续跳过。R13 attempt 3预检又发现R12归档测试仍把全局当前R13请求锁死为attempt 1；CR-0381删除该越界读取，R12只验证自身归档事实及后继版本身份单调性，R13精确轮次只由R13专项测试负责。
+  regression_checks:
+  - python -m unittest -v tests.test_r11_candidate tests.test_context_pack_parallel_policy
+  - python -m unittest discover -s tests -p test_r*_candidate.py必须允许当前Release候选轮次演进且保持历史归档事实通过
+  - tests.test_run_affected_tests必须证明候选历史、视觉归档、严格Doctor和三份治理知识源变化均选择tooling
+  - git ls-files -s -- apps/android/gradlew services/backend/mvnw必须均为100755
+  - python scripts/check_v123_continuity.py --strict --release R12
+  - GitHub普通CI tooling与backend Job必须PASS，且不得触发Android模拟器候选
+  do_not_repeat:
+  - 不得让历史Release测试读取并锁死全局当前候选请求、版本号或共享模拟器旅程
+  - 当前Release的精确remediation_attempt和request_id只能由当前Release专项测试验证，历史测试不得重复拥有
+  - 不得用CI临时chmod替代Git索引100755事实
+  - Windows本机可执行不能作为Linux Wrapper权限证据
+  - 普通CI失败不得通过启动或复用已消耗的Android候选轮次解决
+  - 受影响测试本地PASS不代表GitHub impact-map已选择对应Job，远端skipped必须作为门禁覆盖缺口修复
+- id: PROB-0121
+  title: R12候选修复容器健康但公网Nginx仍指向旧候选
+  status: SOLVED
+  root_cause: CR-0345固定镜像已在obx-test以新容器和新loopback端口健康启动，但人工部署只验证了新端口本机状态和api.orbexa.cc公网状态200，没有证明两者属于同一容器；现役Nginx仍把api.orbexa.cc代理到旧28099，因此Run 30188636875 attempt2的bootstrap继续命中旧镜像并返回400。GitHub又在安装Java、Android SDK和KVM之后才请求启动码，43秒准备没有产生任何业务测试价值。R13首次受控切流还暴露Cloudflare不会可靠保留客户端X-Request-Id，后端会生成新的响应请求号；旧脚本只按发送值查日志，因而把真实命中候选误判为失败并回滚。Nginx reload后旧worker和Cloudflare既有源站连接还可能在短暂排空窗口内返回旧upstream，单次立即公网探针不能证明最终路由状态。
+  resolution: 现场先备份api.orbexa.cc配置，把唯一upstream从28099切至固定镜像fbde523e的28098，经nginx -t和reload后使用唯一X-Request-ID从公网访问并在目标容器日志确认同一requestId。CR-0353因影响范围遗漏CI映射而未实施即SUPERSEDED；CR-0354在既有Android策略、测试体系、远程复用模式和踩坑20中原位强制受控可回滚切流脚本，GitHub把OIDC和Staging bootstrap分阶段前置到全部Android重型准备之前，并将脚本、策略和专项测试映射到android-governance-unit tooling；只有真实客户端源码、共享合同或领域类型才触发android-module。CR-0378进一步保留客户端发送号用于诊断，按HTTP大小写语义从成功公网响应头提取并校验后端实际X-Request-Id，再以响应号精确匹配目标容器日志；reload后仅在固定10次窗口内使用全新请求号重试以等待旧worker排空，兼容代理保留或重写请求号且超时继续自动回滚。
+  regression_checks:
+  - python -m unittest -v tests.test_android_ci_gate tests.test_android_candidate_route tests.test_r12_candidate tests.test_run_affected_tests
+  - bash -n scripts/switch_android_candidate_route.sh
+  - scripts/switch_android_candidate_route.sh必须验证目标容器精确端口、本机HTTP200、Nginx唯一upstream、nginx -t，在固定10次窗口内从公网响应头提取合法后端requestId并命中目标日志，失败自动回滚
+  - android-quality-gate必须在setup-java、setup-android、sdkmanager和KVM之前分别报告OIDC与Staging bootstrap安全HTTP状态
+  - 候选治理文件必须选择android-governance-unit且不选择android-module，apps/android源码仍必须选择android-module
+  - Run 30188636875 attempt2失败事实必须保留，不得执行同Commit第三次重跑；CR-0354路由修复本身不是attempt6授权，只有项目所有者随后明确批准的CR-0355才构成唯一单次授权
+  do_not_repeat:
+  - 不得把目标容器本机健康和任意旧容器返回的公网200拼接为切流成功证据
+  - 不得人工修改proxy_pass后跳过nginx -t、自动回滚或公网到目标容器的唯一requestId命中证明
+  - 不得在启动码尚未验证时安装Java、Android SDK、平台包或配置KVM
+  - 不得因只修改候选策略、工作流或路由脚本而在普通CI重复编译Android
+  - 同一Commit一次失败作业重跑仍失败后不得继续点击第三次重跑
+- id: PROB-0122
+  title: R12候选技术成功但视觉证据包含安全区压缩、转场残层和技术时间
+  status: SOLVED
+  root_cause: R12个人资料页给包含系统WindowInsets的TopAppBar再次设置固定56dp总高度，标题和状态栏被压缩；HhyMotion退出页只移动八分之一或四分之一屏宽，Navigation退出层结束时仍可能在边缘留下可见内容，而截图稳定器只要求两次相同像素，误把残层终态当作目标页；R12我的首页和发布管理详情又直接渲染ISO时间，蓝色品牌卡上的OutlinedButton沿用默认深色内容。Run 30516346703虽完成27项离线Instrumentation并生成33张截图，但R13失效反馈与R14聊天举报仍把正文和操作行放在同一可溢出Column中，长内容把操作区推入系统手势导航区；同一宿主遗留输入法焦点又让R13浏览记录顶栏被裁切。首轮CR-0519布局仍从ModalBottomSheet内部可能无界的maxHeight推导上限，Run 30517994197因此在29项测试中唯一失败于r14.report.actions不可见。工作流SUCCESS或源码编译PASS都不能替代设备可视边界。
+  resolution: CR-0356移除个人资料TopAppBar固定总高度，HhyMotion前进和返回退出层统一完全移出视口，候选截图提高为至少四次连续相同像素；我的首页会员时间、模块更新时间和发布管理详情统一转换为Asia/Shanghai商业时间，解析失败显示时间待同步；蓝底刷新按钮统一使用反色文字、图标和边框。Run 30191193348保留为技术成功但AI视觉拒绝的已消费attempt6，不晋升基线且不交付APK。CR-0519继续复用本问题而不新增并列规则：R13失效反馈与R14聊天举报改为设备屏幕高度明确上限下的独立滚动正文和固定操作区，同时在WindowInsets之外预留既有Spacing Token底部缓冲；历史宿主每次换页清焦点并关闭软键盘，顶栏和固定操作区必须先通过Compose可见断言才允许截图。Run 30516346703保留为执行PASS、AI视觉REJECTED，Run 30517994197保留为单项设备可见性失败，二者均不得绑定视觉基线。
+  regression_checks:
+  - R12MeHomeStateTest必须证明UTC时间转换为Asia/Shanghai的yyyy-MM-dd HH:mm且非法时间不泄露原值
+  - tests.test_r12_candidate必须锁定HhyMotion退出层全屏离场、四次稳定采样、个人资料TopAppBar不固定总高度、R12时间格式化和蓝底反色按钮
+  - obx-test固定Android镜像必须通过feature:shell与feature:content-management单测及app AndroidTest Kotlin编译
+  - 后续候选截图必须由AI逐图确认状态栏、顶栏、返回键、时间和按钮对比度，不得仅凭工作流SUCCESS批准基线
+  - 长表单底部面板必须让正文独立滚动且主次操作固定在navigationBarsPadding与imePadding之上；历史视觉必须证明R13失效反馈和R14聊天举报操作行可见
+  - 历史视觉复用Compose宿主时必须清除旧焦点和软键盘状态，并证明R13浏览记录顶栏与返回动作未裁切
+  do_not_repeat:
+  - 不得给自动处理WindowInsets的TopAppBar设置只覆盖内容区高度的固定总高度
+  - 页面退出动画终点不得只移动部分屏宽后依赖透明度隐藏残层
+  - 两张相同截图不足以证明异步页面和导航退出层已经稳定
+  - 服务端ISO时间和默认深色OutlinedButton不得直接进入正式商业页面
+  - GitHub候选技术SUCCESS不等于视觉PASS，AI拒绝后不得交付同Run APK或复用已消费轮次
+  - 不得把操作按钮与任意长度正文放在同一无固定页脚的Column中，也不得让系统手势条覆盖输入框或操作行
+- id: PROB-0123
+  title: R13候选点击Compose文字子节点且跨版本例外轮次被全局串号
+  status: SOLVED
+  root_cause: Run 30220806413已通过OIDC登录、启动门禁、收藏页和历史页，但UIAutomator按“分享”文字直接点击Compose TextButton内部不可点击的Text语义子节点，导致真实按钮未触发；准备精确attempt4时又发现android_ci_gate按approved_attempt_exceptions全局列表索引要求轮次连续，R12历史attempt4至7会把R13首个例外错误要求为attempt8，无法表达每个Release各自独立的修复轮次。
+  resolution: CR-0382因遗漏跨版本编号实现而由独立审查拒绝且未触发候选；CR-0383为项目详情分享和反馈真实TextButton增加稳定资源标识，候选旅程改为资源点击，剩余文字定位只选择首个enabled且clickable祖先。同时保留全局max_ai_attempts=3和全局CR、request、Commit唯一性，把例外连续性改为每个Release独立从attempt4编号；R13仅允许精确绑定修复Commit、CR-0383、唯一request004和max_candidate_runs=1的attempt4，旧attempt3不得重跑且attempt5未授权。
+  regression_checks:
+  - tests.test_r13_candidate必须锁定分享与反馈稳定资源标识、资源点击以及文字定位向上寻找enabled且clickable祖先
+  - tests.test_android_ci_gate必须证明R12 attempt4至7与R13 attempt4可同时存在且每个Release自身连续，任一Release跳号仍失败
+  - tests.test_android_candidate_request必须证明R13 attempt4仅在Release、request、CR、修复Commit和轮次全字段精确匹配时通过
+  - obx-test固定Android镜像必须编译app AndroidTest Kotlin，证明UiObject2祖先遍历和资源标识可编译
+  do_not_repeat:
+  - 不得对Compose可见文字子节点直接调用click并假定其继承父按钮可点击性
+  - 关键候选动作必须优先使用稳定资源标识，文字回退只能点击真实可点击祖先
+  - 候选例外连续性不得跨Release共享轮次计数，也不得为解决串号提高全局三轮上限
+  - 被确定性缺陷消费的旧Run不得重跑，新增例外不得预授权下一未知轮次
+- id: PROB-0124
+  title: R13收藏页候选在真实媒体异步加载完成前误采稳定占位图
+  status: REMEDIATING
+  root_cause: Run 30222792524 的收藏页已进入 CONTENT 且连续四次像素相同，但三个 AsyncImage 尚未完成 Coil 异步加载，因此 01-favorites.png 全部保留通用项目占位图；紧接着的历史页对同三条内容显示了 READY 媒体，证明像素稳定只描述当前帧不再变化，不能证明真实媒体加载完成。R13 列表没有像 R09 一样暴露 loaded/error 语义，候选旅程也只等待文字和像素稳定。
+  resolution: CR-0384 由独立视觉审查拒绝，Run 30222792524 保持已消费且不得晋升；CR-0385 复用 R09 已验证方案，为每条存在 HTTPS 媒体的 R13 列表项暴露按内容ID区分的 loading/loaded/error 标识，收藏页必须等待三条夹具媒体全部 loaded，任一 error 或30秒超时立即失败，之后才允许四次连续像素稳定采样。代码和模块门禁通过后只允许精确 R13 attempt5 重新候选。
+  regression_checks:
+  - tests.test_r13_candidate必须锁定R13媒体状态标识、成功和失败回调、三条loaded等待以及等待先于01-favorites截图
+  - obx-test固定Android镜像必须通过feature:activity单测和app AndroidTest Kotlin编译
+  - 新候选必须证明01-favorites.png三条真实媒体均已显示，再由AI逐图审查全部四张截图
+  - R13 attempt5必须精确绑定CR-0385、唯一request005、首个修复Commit完整SHA和单次运行上限
+  do_not_repeat:
+  - 不得把连续像素相同等同于AsyncImage或其他异步业务资源加载完成
+  - 页面声明真实READY媒体时不得接受占位图作为首版视觉基线
+  - 候选必须显式等待成功语义并对error和超时硬失败，不能用固定sleep猜测加载完成
+  - 视觉拒绝的旧Run不得晋升、重跑或交付APK
+- id: PROB-0125
+  title: R13候选媒体状态资源标识未进入UiAutomator无障碍匹配
+  status: SOLVED
+  root_cause: Run 30225016379 已通过候选请求、编译、Lint、单测、打包、OIDC和Staging准备，但收藏页在首张截图前等待三条loaded 30秒超时。runtime artifact SHA-256为f7a4c597cffb13b4c8dcad4cd299e26537e8944dd756df3c3053cff8ab7e4437；公共夹具PNG当前HTTP 200 image/png，logcat无Coil、DNS、SSL、连接、崩溃或ANR异常，且loaded和error资源正则都未命中。根因是Compose动态testTag虽然适合Compose测试，但AsyncImage子节点没有以该资源标识稳定进入UiAutomator可见无障碍树，候选无法观察实际加载终态。
+  resolution: CR-0386保留按内容ID的loading/loaded/error testTag，同时把加载中、加载成功和加载失败映射为包含业务内容标题的无障碍description；候选改为按description分别计数成功、失败和加载中，任一失败立即拒绝，三条成功后才截图，超时报告三类实际数量。Run 30225016379和attempt5保持已消费且不得重跑。Run 30226547910 attempt6已精确识别success=2、errors=0、loading=1，证明跨Compose与UiAutomator的三态可观测性修复生效；该Run随后暴露的是独立的预组合尺寸解析根因，转由CR-0387处理。
+  regression_checks:
+  - tests.test_r13_candidate必须锁定三种业务可读description、description选择器、失败硬拒绝和超时三类计数
+  - obx-test固定Android镜像必须通过feature:activity单测和app AndroidTest Kotlin编译
+  - 新候选必须在01-favorites.png前识别三条成功description并显示三张真实媒体
+  - R13 attempt6必须精确绑定CR-0386、唯一request006、首个修复Commit完整SHA和单次运行上限
+  do_not_repeat:
+  - 不得假设Compose testTag一定会作为UiAutomator可见资源标识进入无障碍树
+  - 跨框架候选等待必须使用业务可读无障碍语义并输出成功、失败和进行中数量
+  - 选择器观测不到终态时不得简单延长超时或把网络正常误判为图片仍在加载
+  - 被确定性仪器缺陷消费的Run不得重跑或交付其中间APK
+- id: PROB-0126
+  title: R13 Lazy媒体、候选导航阶段、painter状态与Compose测试调度失效
+  status: REMEDIATING
+  root_cause: Run 30226547910 attempt6的请求、编译、Lint、单测、打包、OIDC和Staging准备均通过，CR-0386新增的description也被UiAutomator正确识别；收藏页30秒后精确报告expected=3 success=2 errors=0 loading=1。CR-0387随后给固定媒体容器提供确定像素尺寸并通过固定镜像模块验证，但Run 30228016402 attempt7仍报告相同2/0/1，证明尺寸解析不是最终根因。第三个LazyColumn节点虽已预组合进入语义树，却未进入活动视口，图片生命周期仍未启动；断言后的DNS和Google联网探针错误晚于业务失败，不是根因。CR-0388按此加入滚动激活，但Run 30229476784 attempt8在激活前即精确失败于Expected exactly one R13 activity list count=0，证明Compose LazyColumn未以scrollable=true属性进入UiAutomator树；runtime artifact SHA-256为cb6907f5b5903d650d74cc586ea22328a66769503e9f31d844e1dc42e233d897。CR-0389暴露稳定列表资源后，Run 30231157257 attempt9又在媒体激活前失败于R13 favorites did not become visible；目标容器结构化日志在02:11:11至02:11:13 UTC只收到会话、平台状态、版本、首页和我的页请求，完全没有GET /api/v1/me/favorites，证明资源testTag虽可被UiAutomator找到，但直接node.click没有触发实际Compose clickable祖先。runtime artifact SHA-256为1e16b7319ffe94e0970f4e0393295c44224d27622e985b81f8b54f993deb6f6c。Run 30238024222 attempt11的编译、Lint、单测和打包通过，但从04:56:33页面可见至04:57:06断言失败，精确消费首个30秒content等待并在第一张截图前报R13 favorites did not become visible；runtime artifact SHA-256为c8d61c0b631a79d1961da66bb30760700e6448d073c89c9dc4c95fa33a3f0dc0，四张截图均未生成，且无FATAL EXCEPTION、ANR、AndroidRuntime应用崩溃、Coil或媒体错误。该artifact没有服务端请求日志，因此不能断言是否发送GET /api/v1/me/favorites；现有布尔等待无法区分点击未触发、已进入loading或进入empty/error等目标阶段。Run 30241127938 attempt12随后证明导航修复已通过并进入收藏页媒体阶段，但在40.562秒的instrumentation中于第一张截图前精确失败为expected=3 observedSuccess=2 visibleSuccess=2 errors=0 loading=1；GitHub runtime artifact digest为27089d2a0283d37760631cb1b79c2e270a5cfdaa24731754f478fd7442e04753，四张截图均未生成，分析器未报告应用崩溃、ANR、Coil或媒体错误。当前裸UiDevice.swipe只按列表边界计算坐标并持续单向下滚，手势未与列表节点的UiAutomator结构化滚动绑定，第三个Lazy媒体项存在间歇性未被激活的竞态。Run 30244068773 attempt13进一步证明CR-0393代码确实执行19次结构化DOWN/UP扫描，但仍固定报告expected=3 observedSuccess=2 visibleSuccess=2 errors=0 loading=1；编译、Lint、单测、打包、自动登录和收藏导航均通过，四张截图未生成，无应用崩溃、ANR、Coil或媒体错误。通用UiAutomator滚动即使被执行，也不能证明Compose LazyColumn中的指定业务条目进入活动视口；夹具核验同时确认三个条目全部为PROJECT，不能通过分类切换逐项激活。Run 30246999437 attempt14及唯一允许的失败Job重跑均在R13旅程前等待hhy.screen.r06.home.loaded 30秒失败；第二次runtime artifact SHA-256为e8b4881efcd76d1f486fa40d42c9cd072e1af720f0305b80b60c5c0ca6348ee5，应用正常启动并保持前台，无崩溃或ANR，四张截图均未生成。CR-0395的performScrollTo尚未执行，失败发生在新增createEmptyComposeRule之后、按标题滚动之前。Run 30255527377 attempt15随后通过请求校验、编译、Lint、单测和打包，但仍在应用可见后30秒失败于Authenticated shell did not reach a usable screen identity；runtime artifact SHA-256为8963204c8fc7e4b66f306ffa58f07c9115bd140d046470cd90703044acfbd96e，四张R13截图均未生成，exit-info为空且日志无应用崩溃或ANR。CR-0399曾把该失败归因为首页状态与认证主框架入口混用。Run 30259083711 attempt16的新证据否定该归因：runtime artifact SHA-256为5b0fe48639698c10dffc7503d14beacfc0bc69914df33ffe9769f38389993fe6；一次性会话兑换、GET /api/v1/me、平台状态和版本检查均200，测试用户ACTIVE且更新策略NONE，但30秒后仍为shell=false home=none meVisible=false，没有GET /api/v1/home，四张截图未生成，exit-info为空且无崩溃ANR。对比未引入Compose Rule且能够进入首页和收藏的attempt13，实际回归边界是CR-0395加入createEmptyComposeRule后仍只用UiAutomator等待，没有在手工启动Activity后同步Compose测试调度器。Run 30262304986 attempt17进一步通过编译、Lint、单测和打包，runtime artifact SHA-256为1b7c6802c08db76fa2e488725daf7af0e4f8c7674461ad6090c7b0e49c061ffa；启动前单次waitForIdle后，30秒仍精确失败为shell=false home=none meVisible=false meActionable=false visibleBlockers=正在启动，一次性会话、GET /api/v1/me、平台状态和版本检查均200但无GET /api/v1/home。说明单次同步发生在真实网络完成前，后续UiAutomator轮询仍未推进未来Compose调度工作。Run 30265602004 attempt18随后证明CR-0403有效：请求校验、编译、Lint、单测、打包通过，模拟器越过启动态并识别可操作认证主框架；但点击shell.navigation.me后30秒失败于R13 me home did not become visible。runtime artifact digest为dee092bdd5b372c5cf4179ab8f9ab6b24e6a528336230c051fad90e641987722，四张截图均未生成且owner_test_allowed=false；根因边界已推进到点击后的页面转换等待仍只轮询UiAutomator，没有持续驱动Compose导航与AnimatedContent调度。Run 30269439274 attempt19已越过自动登录、我的页和收藏导航，但再次在第一张截图前报告expected=3 observedSuccess=2 visibleSuccess=2 errors=0 loading=1，runtime artifact digest为7d7fb9de918bfe435159f2234f801640823606972ed6dfbc43afde7070ca54e9且四张截图均未生成；这证明仅靠滚动或Compose逐项激活仍不能确定性启动全部离屏真实媒体请求。Run 30272884567 Attempt20的请求、编译、Lint、单测和打包通过，模拟器Job 90000972687仍在第一张截图前精确失败为expected=3 observedSuccess=2 visibleSuccess=2 errors=0 loading=1；三条夹具内容共用同一READY media_object，说明列表级缓存预取已经执行但每行独立rememberAsyncImagePainter仍存在单个生命周期永久loading竞态，四张截图未生成且owner_test_allowed=false。
+  resolution: 保留CR-0387的确定尺寸ImageRequest、CR-0388的同期限激活、累计成功和回顶复验，以及CR-0389的稳定列表资源与节点边界手势；CR-0390把所有候选关键资源点击统一为从资源节点向上选择首个enabled且clickable祖先。Run 30235906567/attempt10已证明收藏入口、Compose导航、GET /api/v1/me/favorites 200和两张同源媒体成功，但第三张真实painter已参与渲染时独立onSuccess/onError镜像仍停留loading。CR-0391删除回调镜像，候选语义直接派生rememberAsyncImagePainter的AsyncImagePainter.State。CR-0392进一步让关键导航在同一30秒总期限内先观察目标任一导出phase；只有3秒内无目标phase且源页仍存在时才重新解析当前资源节点及enabled+clickable祖先并重试一次，随后content才继续，其他终态或loading超时立即输出phase、源页、资源和祖先诊断。CR-0393把媒体激活从裸坐标单向滑动改为绑定r13.favorites.list、设置安全gesture margin并在停滞时切换DOWN/UP的结构化双向扫描。attempt13否定该通用滚动策略后，CR-0395保留原30秒和UiAutomator三态独立复验，但改用既有Compose UI测试依赖按三个唯一业务标题逐项performScrollTo，最后再performScrollTo首项；CR-0394的分类方案因三个夹具均为PROJECT而明确不实施。首个CR-0395修复Commit 8a73630d7cda118fa7fb88942e38b06939dc95a4通过72项治理回归、UI基础门禁和obx-test固定镜像212任务，随后74项候选授权回归通过；唯一request014已精确绑定CR-0395、该Commit与单次运行上限。CR-0396把候选入口从首页loaded单态收敛为可操作的已认证主框架，home.loaded或home.error均可进入我的，登录、会话验证中和启动失败仍拒绝；该旁路不放宽R13目标接口、phase、三张真实媒体、四张截图或视觉门槛。attempt6至attempt19及attempt14的唯一Job重跑均保持已消费且不得重跑、晋升或交付。CR-0398只授权唯一request015绑定CR-0396首个修复Commit 035a80b21b51f6652cc1bf107a12e457eb06620b与单次运行上限。CR-0399增加的认证主框架和我的导航资源保留为稳定诊断与严格入口，但Attempt16证明它不是前述启动停滞的根因。CR-0401保留CR-0395的三个唯一标题和Compose performScrollTo，在UiAutomator手工启动目标Activity且确认窗口可见后先执行composeRule.waitForIdle，再进入认证主框架等待；失败诊断同时报告启动、维护、网络、更新和登录可见阻断态。Attempt17证明启动前单次同步不能覆盖异步网络完成后的未来工作；CR-0403因此在原30秒认证轮询每轮读取UiAutomator身份前先执行composeRule.waitForIdle。Attempt18进一步把同一调度边界推进到点击后的页面转换；CR-0406因此保留30秒目标页与15秒来源页消失时窗，在两段观测循环每轮先同步Compose，并让失败直接携带required/gone可见性。Attempt19再次复现2成功1加载后，CR-0408停止追加滚动猜测，改由页面从正式state.items提取经secureActivityMediaUrl过滤和去重的真实URL，使用既有Coil imageLoader.execute按与R13ActivityRow相同的确定尺寸预取；最终loaded/error仍只由各行rememberAsyncImagePainter状态和候选三媒体断言决定。该修复不放宽启动门禁、登录、R13接口、phase、三张真实媒体、四张截图或视觉门槛，也不直接授权Attempt20。Attempt20否定仅预取缓存后，CR-0410把媒体加载所有权提升到列表级：安全URL去重后并发执行官方Coil ImageLoader，将真实ImageResult按URL保存并让所有引用行复用；SuccessResult通过rememberDrawablePainter直接渲染已解码Drawable并标记loaded，ErrorResult标记error，未返回保持loading，彻底移除独立行rememberAsyncImagePainter。该路径仍要求三张真实媒体和四张截图，不授权重跑Attempt20。obx-test固定镜像随后证明当前Coil 2.7依赖不导出rememberDrawablePainter，CR-0410提交f523abce保持编译失败事实并标记SUPERSEDED；CR-0411不改变列表级ImageResult方案，仅用Android标准Bitmap/Canvas把真实SuccessResult Drawable转换为现有Compose ImageBitmap直接渲染，且不新增依赖。
+  regression_checks:
+  - tests.test_r13_candidate必须锁定与容器一致的确定像素尺寸ImageRequest、三个唯一标题的Compose performScrollTo、按业务description累计三条成功、回首项严格三态复验、30秒单一期限和截图前等待顺序，并拒绝回退到裸device.swipe、通用结构化滚动或CR-0394分类假设
+  - scripts/check_android_ui_foundation.py必须PASS且git diff --check无错误
+  - obx-test固定Android镜像必须通过feature:activity:testDebugUnitTest和app:compileDebugAndroidTestKotlin
+  - tests.test_r13_candidate必须锁定预取数据来自真实state.items、URL经过secureActivityMediaUrl过滤并去重、官方Coil imageLoader.execute与页面painter共用同一确定尺寸ImageRequest，且禁止预取结果伪造loaded、固定sleep或降低expectedCount=3
+  - R13 attempt7与attempt8必须分别保留精确绑定CR-0387/request007和CR-0388/request008的已消费失败事实；attempt9必须在CR-0389实现证据完成后绑定新的唯一request009与首个修复Commit完整SHA
+  - tests.test_r13_candidate与tests.test_android_ci_gate必须锁定资源节点向上选择首个enabled且clickable祖先，禁止直接resourceNode.click
+  - R13 attempt9必须保留精确Run、runtime artifact SHA-256和目标容器无favorites请求证据；attempt10仅可绑定CR-0390、唯一request010、首个修复Commit完整SHA和单次运行上限
+  - tests.test_r13_candidate必须要求候选语义直接派生AsyncImagePainter.State并拒绝onSuccess/onError复制到独立mutableState
+  - R13 attempt10必须保留Run 30235906567及expected=3 observedSuccess=2 visibleSuccess=2 errors=0 loading=1的已消费事实；attempt11仅可绑定CR-0391、唯一request011、首个修复Commit完整SHA和单次运行上限
+  - tests.test_r13_candidate与tests.test_android_ci_gate必须锁定同一30秒总期限、全部R13导出phase、仅源页仍在时的单次重新解析祖先、content唯一放行和phase/source/resource/ancestor失败诊断
+  - R13 attempt11必须保留Run 30238024222、runtime artifact SHA-256、首个content等待超时、四截图缺失及无崩溃/ANR/媒体错误事实；attempt12仅可绑定CR-0392、唯一request012、首个修复Commit完整SHA和单次运行上限
+  - R13 attempt12必须保留Run 30241127938、runtime artifact digest、expected=3 observedSuccess=2 visibleSuccess=2 errors=0 loading=1、四截图缺失及无崩溃/ANR/媒体错误事实；attempt13仅可绑定CR-0393、唯一request013、首个修复Commit完整SHA和单次运行上限
+  - R13 attempt13必须保留Run 30244068773、19次结构化扫描、expected=3 observedSuccess=2 visibleSuccess=2 errors=0 loading=1、四截图缺失及无崩溃/ANR/媒体错误事实；attempt14仅可绑定CR-0395、唯一request014、首个修复Commit完整SHA和单次运行上限
+  - tests.test_r13_candidate必须锁定三个唯一业务标题、Compose createEmptyComposeRule与逐项performScrollTo、回首项复验及禁止CR-0394分类假设
+  - tests.test_r13_candidate与tests.test_android_ci_gate必须锁定候选入口同时要求hhy.shell.authenticated和启用可点击的shell.navigation.me；首页loaded、error、loading只作为诊断，R13目标页与媒体门禁保持不变
+  - Run 30246999437 attempt14及其唯一失败Job重跑必须保留首页入口失败、runtime artifact SHA-256、四截图缺失、无崩溃ANR和CR-0395未执行事实；不得第三次重跑，attempt15仅可在CR-0396实现与模块证据完成后另行精确授权
+  - R13 attempt15必须精确绑定CR-0398、唯一request015、CR-0396首个修复Commit 035a80b21b51f6652cc1bf107a12e457eb06620b和单次运行上限；任何绑定漂移或attempt16必须拒绝
+  - Run 30255527377 attempt15必须保留runtime artifact SHA-256、入口断言、四截图缺失及无崩溃ANR事实；不得重跑，attempt16仅可在CR-0399修复Commit与模块证据完成后另行精确授权
+  - R13 attempt16必须精确绑定CR-0400、唯一request016、CR-0399首个修复Commit 80dd3e68b010ef5218154b7362cd7a6835ae9607和单次运行上限；任何绑定漂移或attempt17必须拒绝
+  - Run 30259083711 attempt16必须保留runtime artifact SHA-256、四个前置接口200、ACTIVE用户、NONE更新策略、无首页请求、四截图缺失及无崩溃ANR事实；CR-0399入口误判归因必须被原位纠正
+  - tests.test_r13_candidate必须锁定target.startActivity、窗口可见、composeRule.waitForIdle和waitForAuthenticatedShell的先后顺序，并保留启动、维护、网络、更新和登录可见阻断态诊断
+  - R13 attempt17必须精确绑定CR-0402、唯一request017、CR-0401首个修复Commit dd28660f5e2f043cf09afa308042428f651e521a和单次运行上限；该已消费请求的任何绑定漂移或重跑必须拒绝
+  - Run 30262304986 attempt17必须保留runtime artifact SHA-256、visibleBlockers=正在启动、四个前置接口200、无首页请求和四截图缺失事实；tests.test_r13_candidate必须锁定认证轮询每轮先同步Compose再读取me节点，且仍拒绝SystemClock.sleep和延长30秒
+  - R13 attempt18必须精确绑定CR-0405、唯一request018、CR-0403首个修复Commit 97c74a75a293527d83a865df10d6c580e307f83f和单次运行上限；任何绑定漂移或attempt19必须拒绝
+  - Run 30265602004 attempt18必须保留runtime artifact digest、认证主框架已可操作、点击我的后目标页未出现、四截图缺失和owner_test_allowed=false事实；tests.test_r13_candidate必须锁定页面转换的30秒/15秒时窗、逐轮Compose同步及required/gone失败诊断
+  - CR-0406完整修复必须锁定所有候选资源点击、R13 phase轮询、异步媒体终态等待和截图稳定采样均先同步Compose；不得只修首个我的页等待后把同一调度根因推迟到收藏、历史、媒体或截图阶段
+  - R13 Attempt19必须精确绑定CR-0407、唯一request019、CR-0406完整修复Commit 5cd3dabee40aadd8c906d4307fa3d4c502360011和单次运行上限；任何绑定漂移、Attempt18重跑或Attempt20必须拒绝
+  - R13 Attempt20必须精确绑定CR-0409、唯一request020、CR-0408数据驱动预取Commit 4d6fd4d7a61cbdb6db465534bebbe5c8375c45e4和单次运行上限；任何绑定漂移、Attempt19重跑或Attempt21必须拒绝
+  - tests.test_r13_candidate必须锁定列表级Coil ImageResult唯一事实、相同安全URL去重、不同URL并发加载、SuccessResult真实Drawable渲染、ErrorResult硬失败，并拒绝独立行rememberAsyncImagePainter、预取布尔值、回调镜像或降低expectedCount=3
+  - CR-0410提交f523abce的obx-test固定镜像compileDebugKotlin失败必须保留为已消费实现证据；CR-0411必须锁定无新增依赖的Android Bitmap/Canvas到Compose ImageBitmap渲染，并拒绝不可用rememberDrawablePainter或回退网络painter
+  - 新候选必须报告三条success且四张截图由AI逐图确认真实媒体、安全区、顶栏、底部面板、截断、遮挡和品牌对比度
+  do_not_repeat:
+  - 不得把部分success且零error的持续loading继续误判为选择器不可观测或公网媒体失败
+  - 固定尺寸Lazy媒体不得假设进入语义树等同于进入活动视口；候选必须确定性激活后回到冻结截图起点复验
+  - 不得假设Compose LazyColumn必然向UiAutomator暴露scrollable=true；跨框架手势必须绑定稳定资源及其可见边界
+  - 不得假设UiAutomator找到的Compose testTag资源节点自身可点击；关键资源动作必须向上解析实际enabled且clickable祖先
+  - 不得把只等待content的布尔失败解释成已证明点击、API或目标页面中的任一根因；候选必须先报告实际页面phase，且只有源页仍存在时才允许单次确定性重试
+  - 不得用AsyncImage回调复制painter终态到独立mutableState作为候选事实源；相同URL并发项必须直接读取各自AsyncImagePainter.State
+  - 稳定列表资源已经存在时不得继续用裸UiDevice.swipe单向重复猜测激活；必须把gesture margin与结构化双向扫描绑定到该节点
+  - 结构化通用滚动已执行仍不能证明指定Compose Lazy条目进入活动视口；存在唯一业务标题时必须用Compose原生performScrollTo精确命中，并由独立UiAutomator三态复验
+  - 三个候选夹具均为PROJECT，不得实施CR-0394的项目、APP、群聊分类轮换假设
+  - 不得把非当前Release首页loaded、error或loading状态当作认证主框架事实；必须直接验证认证主框架及目标导航入口可操作，目标Release接口、页面、媒体与截图不得旁路
+  - 新增createEmptyComposeRule后不得继续只用UiAutomator等待手工启动的Activity；窗口可见后必须先同步Compose测试调度器。服务端前置接口成功但首页请求缺失时不得继续修改入口资源或延长等待
+  - 不得通过增加超时、固定sleep、降低expectedCount或接受占位图绕过真实媒体门禁
+  - Run 30226547910、Run 30228016402、Run 30229476784、Run 30231157257、Run 30235906567、Run 30238024222、Run 30241127938、Run 30244068773和Run 30246999437不得重跑、晋升、交付或作为视觉基线来源
+- id: PROB-0127
+  title: GitHub模拟器候选循环阻断大版本测试APK交付与持续开发
+  status: SOLVED
+  root_cause: 既有规则把自动候选APK、桌面TEST_APK、机器收尾和生产验收混为一个门禁；R13在编译、Lint、单测和打包持续PASS的情况下，仍因Compose与UiAutomator图片生命周期竞态连续消耗20次GitHub候选，导致桌面没有可供项目所有者异步真机测试的R13 APK，也阻断后续版本开发。完整模拟器每轮还重复准备Runner、OIDC、Staging、Android环境、旅程、截图和日志，成本与开发反馈目的不相称。
+  resolution: CR-0412只原位修订既有Android自动化、统一效率、根规则及其模板投影，明确TEST_APK和自动候选两层。冻结Commit在obx-test固定工具链通过正式API、编译、单测、Lint、打包、稳定签名、身份和四方SHA后即可交付并继续下一版本；GitHub模拟器降为高风险、集中视觉审计或项目所有者明确要求时的按需非阻断专项。历史Attempt1至20保持不可变且Attempt21不授权；自动候选失败仍阻断候选自身和生产自动证据，不得伪造PASS。
+  regression_checks:
+  - scripts.android_ci_gate.load_policy必须要求OBX_TEST_FIXED_TOOLCHAIN的TEST_APK合同并拒绝GitHub模拟器成为其前置条件
+  - tests.test_android_ci_gate必须锁定TEST_APK、自动候选、真机PENDING和下一版本开发的非阻断关系
+  - AGENTS.md与templates/AGENTS.md必须字节一致，统一规范、商业边界和Android测试体系不得保留桌面TEST_APK必须先通过模拟器的旧事实
+  - releases/R13/PARALLEL_EXECUTION_PLAN.yaml必须明确Attempt21未授权并转固定环境TEST_APK交付
+  do_not_repeat:
+  - 不得把普通构建APK冒充自动候选，也不得把自动候选PASS继续作为TEST_APK交付和下一版本开发的强制前置
+  - 不得因项目所有者未即时反馈真机结果停止开发、反复询问或阻断后续桌面APK累积交付
+  - 不得为了验证同一固定环境构建结果反复启动GitHub模拟器、OIDC、Staging或截图链
+- id: PROB-0128
+  title: R06至R12固定测试签名仅留指纹且私钥未持久化
+  status: SOLVED
+  root_cause: R06至R12交付证据都绑定hhy-staging-test-v1与证书指纹f17b0407，但仓库只记录了不可逆指纹，没有可解析SecretRef；本机、obx-test常用目录、Docker卷和GitHub Secrets均无对应私钥。旧APK只能证明证书身份，不能恢复私钥，随机debug签名又会导致每版无法覆盖安装。
+  resolution: CR-0413从R13起轮换为hhy-staging-test-v2，在obx-test建立root-only持久签名目录和secretref://obx-test/hhy/android/test-signing/v2，仓库只保存Profile ID、SecretRef、证书SHA-256与轮换兼容边界。目录权限固定0700，keystore、口令和引用文件固定0600；旧v1明确退役且历史证据不改写。项目所有者首次安装R13前卸载旧测试APK一次，R13及后续持续复用v2和递增versionCode。
+  regression_checks:
+  - scripts.android_ci_gate.load_policy必须锁定R13起Profile ID、SecretRef、证书指纹、权限和首次卸载迁移
+  - obx-test必须能通过root-only引用解析同一keystore，并由keytool与apksigner得到批准指纹
+  - R13 APK必须通过zipalign、v2/v3、单一签名者、正式API、versionCode 10222和四方SHA门禁
+  do_not_repeat:
+  - 不得只保存证书指纹而遗漏可跨电脑和AI解析的受保护SecretRef
+  - 不得把keystore、口令、私钥或其内容写入仓库、聊天、日志、构建证据或命令参数
+  - 不得用默认debug、临时生成或每版随机签名冒充稳定测试签名
+  - 旧私钥不可恢复时不得伪称可覆盖安装，必须明确一次性卸载迁移边界
+- id: PROB-0129
+  title: CR-0412已批准的TEST_APK持续开发规则未投影到关闭与跨版本门禁
+  status: SOLVED
+  root_cause: CR-0412已经把GitHub模拟器降为按需非阻断专项，并规定固定环境TEST_APK通过正式API、编译、单测、Lint、打包、稳定签名、身份和四方SHA后不得阻断下一版本；但实施只更新android_ci_gate及其策略测试，check_release_artifacts仍在machine-close无条件要求自动候选PASS、owner_test_allowed和candidate report，continuity跨版本判断也只接受machine_completion=PASS。R13合格TEST_APK已交付后，TASK-R13-008因此被五项过期自动候选错误阻断，无法诚实保留视觉专项缺口并继续R14。
+  resolution: CR-0414不建立新规则，只补齐CR-0412遗漏投影。machine-close在ON_DEMAND_NON_BLOCKING_SPECIALTY分支改为严格核验android_delivery、APK Manifest、固定工具链build evidence、正式API、完整检查集合、稳定签名、版本身份、四方delivery evidence和桌面测试说明；production-close继续要求自动候选与owner真机PASS。continuity只有在同一完整TEST_APK证据链PASS、owner保持PENDING且next_release_development=ALLOWED时，才允许把未完成关闭任务标为BLOCKED_EXTERNAL_GATE并继续下一Release，机器完成、视觉、自动候选和生产验收均不得伪标PASS。
+  regression_checks:
+  - tests.test_release_close_gate必须证明按需TEST_APK可通过machine-close自动化分支但仍被production-close拒绝
+  - 参数化篡改必须分别拒绝构建状态、必需检查、正式API、稳定签名、Commit、版本、SHA、四方端点和测试说明缺失
+  - tests.test_continuity_cross_release_close必须证明完整TEST_APK可继续下一Release，缺失或不一致交付证据仍拒绝
+  do_not_repeat:
+  - 已批准规则必须投影到所有真实消费者及其正负回归，禁止只修改策略文档或单一门禁后宣称完成
+  - 不得用自动候选旧字段阻断按需模式TEST_APK，也不得因为按需模式而放宽生产关闭
+  - 不得把视觉或自动候选待办伪写为机器完成PASS；继续开发必须保留BLOCKED_EXTERNAL_GATE和精确恢复条件
+- id: PROB-0130
+  title: R13公网Staging没有有效邀请码导致所有新账号注册失败
+  status: SOLVED
+  root_cause: R13候选部署只准备了自动登录用户和活动业务夹具，公网路由门禁也只验证平台状态与目标容器日志；当前容器虽为staging，但没有HHY_TEST_UNIVERSAL_INVITE_CODE配置，持久数据库的invite_codes也没有任何ACTIVE记录。因此项目所有者使用测试说明中的HHYTEST2026时，邀请码校验连续返回422 AUTH-422-INVITE_CODE_INVALID，所有新手机号都会在注册前置校验被拒绝。
+  resolution: CR-0415先在当前Staging数据库幂等恢复唯一ACTIVE的HHYTEST2026并绑定ACTIVE邀请人，公网邀请码校验、完整注册和注册后身份授权均返回HTTP 200；随后原位加固R13候选夹具和候选路由门禁，要求夹具保证邀请码唯一有效，路由激活前后分别验证目标容器与公网邀请码HTTP 200，失败时禁止激活或自动回滚。生产Profile硬拒绝测试万能邀请码的实现保持不变，正式用户和后台邀请码管理继续属于R25。
+  regression_checks:
+  - tests.test_r13_candidate必须锁定HHYTEST2026唯一ACTIVE映射、重复行拒绝和CI用户绑定
+  - tests.test_android_candidate_route必须要求显式邀请码、staging Profile以及本地和公网两个邀请码校验端点
+  - tests.test_android_ci_gate必须把target_registration_invite_http_200和public_registration_invite_http_200列为不可删除的路由证明
+  - 每次切换公网候选前必须使用完整注册烟测证明随机新手机号注册HTTP 200，不得只验证平台状态或自动登录
+  do_not_repeat:
+  - 不得把OIDC自动登录成功当作新账号注册可用的证据
+  - 不得在没有任何ACTIVE邀请码时交付要求邀请码必填的测试APK
+  - 不得通过放宽生产隔离、跳过邀请码或把万能码提交为生产默认值解决Staging夹具缺失
+- id: PROB-0131
+  title: 历史R02异步真机双任务后缀被跨版本依赖误判为业务未完成
+  status: SOLVED
+  root_cause: CR-0412与CR-0414已规定机器交付完成而owner真机PENDING不得阻断后续开发，但continuity对历史依赖Release只豁免最后一个BLOCKED任务。R02旧流程在最终APK机器交付PASS后把TASK-R02-007保留为真机PENDING，同时TASK-R02-008因依赖007也保持BLOCKED；旧Manifest又没有把现存APK、四方SHA、会话关闭和后续接续事实投影为统一machine_completion。R03至R13已经在批准历史边界下继续，但R14重新直接依赖R02时被两个任务误判为不GREEN。
+  resolution: CR-0416不改写R02真机PENDING或把任务伪标DONE；它以最终7b425c4 APK、固定签名、四方SHA、机器构建报告和会话关闭记录回填Acceptance、Manifest与唯一机器关闭报告。continuity仅在Manifest严格证明异步owner门禁、所有前置任务DONE且剩余任务恰为连续BLOCKED后缀时放行；单个最终关闭任务继续兼容，两个任务时首项必须是APK/真机交付且末项必须是版本关闭/交接。
+  regression_checks:
+  - tests.test_continuity_cross_release_close必须证明R02的TASK-R02-007与008连续后缀可作为历史非阻断依赖
+  - 将007改成普通业务任务、把更早任务置BLOCKED、制造READY夹层、删除异步Manifest事实或让目标首任务非READY都必须返回非零
+  - releases/R02/ACCEPTANCE_MATRIX.csv与RELEASE_MANIFEST.yaml必须绑定现存文件证据和精确7b425c4身份
+  do_not_repeat:
+  - 不得仅按任务编号或最后一个BLOCKED猜测外部门禁；必须同时验证机器异步事实和严格连续后缀形状
+  - 不得为推进后续版本把项目所有者真机PENDING改成PASS或把历史阻塞任务标DONE
+  - 不得让任意中间业务任务、非连续阻塞或缺证据Release借用该兼容路径
+- id: PROB-0132
+  title: R15管理端聊天举报合同错误复用会话资源
+  status: OPEN
+  root_cause: admin-openapi中的举报列表items和举报决定响应直接复用了ConversationResource，无法表达举报原因、说明、消息证据、媒体证据、举报双方、处理状态与乐观锁版本；若按该合同实现R15，后台无法形成可审核、可追溯的聊天举报管理闭环。
+  resolution: R14仅登记为R15开发前阻断，不提前修改R15冻结合同。进入R15前必须通过独立批准CR定义唯一ChatReportResource及列表、详情、决定响应，逐项对齐V043的chat_reports字段、证据授权规则、状态迁移与version，并重新生成管理端客户端和合同哈希。
+  regression_checks:
+  - R15入口门禁必须拒绝AdminChatGetChatReportsResponse.items继续引用ConversationResource
+  - R15入口门禁必须拒绝AdminChatPostChatReportsByIdDecideResponse继续引用ConversationResource
+  - 新ChatReportResource必须覆盖reporter、targetUser、conversation、messageIds、evidenceMediaIds、reasonCode、description、status、version和审计时间
+  do_not_repeat:
+  - 不得在R14数据任务中越界修改R15后台合同或伪称该问题已解决
+  - 不得用ConversationResource、自由JsonValue或前端临时拼接代替聊天举报领域资源
+- id: PROB-0133
+  title: R14联系方式最大合法明文加密后被持久化与回读长度约束拒绝
+  status: SOLVED
+  root_cause: ChatContactField.value冻结允许1至256字符，R14Service发送前会加密联系方式，但V043把AES-GCM密文信封仍按256字符校验，服务回读也在解密前误用256字符上限。短手机号测试无法发现该问题，最大合法多字节明文无法完成发送、写库和授权回读闭环。
+  resolution: CR-0421把三段边界分离：客户端和加密前明文限制1至256字符；V043双副本只接受不超过2048字符且匹配hhy-contact-v1三段Base64URL结构的密文信封并拒绝明文；服务回读先按密文容量校验和解密，再复验明文1至256字符。新增最大多字节闭环、第257字符、非法或超长信封、数据库明文拒绝和真实PostgreSQL写入回归。
+  regression_checks:
+  - R14ServiceTest必须证明256个多字节字符发送后密文超过256但可写入并解密返回原文，第257字符在幂等claim和数据库写入前拒绝
+  - R14ServiceTest必须证明解密后超过256字符的合法信封仍被拒绝，不能仅依赖数据库密文长度
+  - V043源文件与运行时副本必须字节一致，并锁定hhy-contact-v1三段格式、2048上限、明文与超长信封拒绝
+  - R14PostgresStoreTest必须在真实PostgreSQL 17上写入由最大合法多字节明文生成且长度超过256的AES-GCM信封
+  do_not_repeat:
+  - 不得把公开明文合同长度直接套用于加密信封持久化长度
+  - 不得只测手机号等短值后宣称联系方式加密闭环完整
+  - 不得只放宽数据库容量而遗漏回读解密前与解密后的独立边界
+- id: PROB-0134
+  title: 任务内净回退被工作区与历史提交指纹文件集合差异误判
+  status: SOLVED
+  root_cause: 工作区项目指纹把任务基线到HEAD的已提交路径与全部Git状态路径取并集，因此先前Story新增、后续Story合法恢复为任务基线内容的文件仍因当前脏状态保留在检查点；提交后的历史指纹只按任务基线到提交的净差异复算并排除该文件，同一最终内容由此产生不同文件集合并触发CHECKPOINT_STALE。原门禁还只比较部分提交的路径集合，无法识别同一路径已暂存后又继续修改的内容分叉。
+  resolution: CR-0426把检查点指纹明确为任务基线到最终工作树的净结果，tracked路径使用禁用重命名检测的基线工作树diff，未跟踪仅由Git未跟踪清单补入；严格pre-commit与commit-msg在检查点核对前拒绝项目文件索引与工作树分叉或遗漏未跟踪文件。标准checkpoint后git add -A流程保持不变，历史提交继续按同一任务基线净差异复算。
+  regression_checks:
+  - tests/test_continuity_worktree_fingerprint.py必须覆盖净回退排除、真实修改与删除、未跟踪、暂存新增修改删除、索引工作树分叉以及工作区和最终提交历史指纹相等
+  - tests/test_continuity_historical_fingerprint.py必须继续锁定禁用重命名检测后的删除与新增双路径
+  - scripts/test_continuity_protocol.py必须继续证明真实检查点过期被拒绝且完整生命周期门禁通过
+  do_not_repeat:
+  - 不得用任务基线已提交路径与全部status路径的并集代表最终工作树净差异
+  - 不得只比较暂存与脏文件路径集合而忽略同一路径的索引工作树内容分叉
+  - 不得为消除假失败跳过CHECKPOINT_STALE或绕过pre-push；必须统一工作区与历史提交指纹语义并保留正负回归
+- id: PROB-0135
+  title: R14聊天举报缺少受控原因目录
+  status: SOLVED
+  root_cause: SHEET-CHAT-002冻结为RADIO_GROUP并要求reasonCode来自受控枚举映射，字段来源规则只允许OpenAPI枚举或配置注册表；但当前ChatPostConversationsByIdReportRequest仅定义必填string和长度，配置与后端也没有原因code、用户文案、启停或排序目录。B07/P07中的原因属于明确要求过滤的示例内容，不能成为业务事实。
+  resolution: CR-0427先实现真实举报API、面板结构、说明、证据、确认与错误状态；CR-0428继续接入AUDIT_EVIDENCE图片证据和服务端conversation.version。CR-0464最终以contracts/openapi.yaml中ChatPostConversationsByIdReportRequest.reasonCode.x-hhy-options为唯一人工事实源，按正式开发文档冻结HARASSMENT、DUPLICATE_BULK_MESSAGE、DANGEROUS_LINK三项代码、用户文案、启停和顺序；同步器确定性生成OpenAPI enum、Java后端允许集和Android展示列表，后端在证据校验与持久化前拒绝未知、停用及大小写变体。精确Commit 054da178已通过生成资产、Python目录回归、Java 21服务/控制器测试、PostgreSQL 17真实迁移与Store测试、Android网络/聊天单测、主源码与AndroidTest编译及聊天Lint；R14最终APK和Staging仍须基于包含该Commit的新冻结版本重建部署。
+  regression_checks:
+  - Android举报面板在权威目录为空时必须显示配置不可用并禁用提交，不得出现P07示例原因或reasonCode自由输入框
+  - Android举报必须使用会话列表或直聊创建响应的非负conversation.version，旧深链或缺版本路径仅可查看聊天且不得提交举报
+  - AUDIT_EVIDENCE只接受图片，累计去重最多100项，移除、二次确认及ChatReportRequest序列化必须保持同一证据集合
+  - OpenAPI或配置注册表补齐后必须由生成器产生Android原因目录并验证未知、停用和顺序漂移
+  - 后端必须拒绝未知或停用reasonCode，客户端与管理端必须共享同一code语义
+  do_not_repeat:
+  - 不得把效果图中的虚假信息、欺诈、骚扰广告、违法违规或其他原因示例直接硬编码为正式业务枚举
+  - 不得用自由文本reasonCode绕过RADIO_GROUP和受控目录要求
+  - 不得在原因目录缺失时关闭SHEET-CHAT-002、STORY-R14-003或R14机器验收
+- id: PROB-0136
+  title: R14 WebSocket合同缺少可实施鉴权确认与跨域续传语义
+  status: SOLVED
+  root_cause: 原合同仅用自然语言声明Bearer可放入Sec-WebSocket-Protocol或wsTicket，没有合法子协议编码、升级前验证和全链路脱敏规则；S2C需确认事件没有C2S确认事件，lastServerSequence也没有0语义、连续处理口径、服务端高水位及聊天与通知补洞范围。生成器又将10事件写死且会重建富化OpenAPI，后端与Android只能依赖猜测实现。
+  resolution: CR-0429冻结唯一双子协议hhy.v1与hhy.access.<compact-JWT>、无填充三段base64url格式、升级前JWT和会话验证、服务端只回选hhy.v1及完整协议头多层脱敏；新增system.delivery.ack和system.resume，明确ACK匹配幂等、连续用户级序列、服务端安全水位、CHAT与NOTIFICATIONS固定分页补洞及按resumeFromServerSequence重连。安全--sync-websocket只更新WebSocket合同、runtime副本和12条注册表行。
+  regression_checks:
+  - tests/test_r14_websocket_contract.py必须覆盖合法与非法compact JWT、重复或缺失认证协议规则、升级前验证、日志脱敏、ACK匹配与重投停止语义
+  - lastServerSequence必须接受0和非负连续已处理序列、拒绝超前水位；CHAT与NOTIFICATIONS均绑定固定REST分页穷尽操作且禁止从REST结果猜测序列
+  - 定向生成前后两个OpenAPI字节SHA、非WebSocket注册表行内容与顺序、既有10事件及definitions必须保持不变，并同步runtime合同哈希
+  do_not_repeat:
+  - 不得把JWT放入URL、响应或错误文本，不得让服务端回选含令牌的认证子协议
+  - 不得建立私有ACK格式、只补聊天遗漏通知，或让客户端自行推算恢复水位
+  - 不得为新增WebSocket事件运行会覆盖已富化OpenAPI的旧全量生成器
+- id: PROB-0137
+  title: R14 WebSocket冻结合同缺少可运行纵向链路
+  status: SOLVED
+  root_cause: CR-0429只消除了协议歧义，后端仍没有升级端点、握手鉴权、用户级连续序列、持久投递、ACK重投和缺口水位，Android聊天页也只依赖进入页面时的REST请求；若直接关闭R14，合同、数据库、服务器和客户端将是彼此断开的四套事实。
+  resolution: CR-0430新增V044三张可靠性表、Spring WebSocket握手与活动会话认证、提交后投递监听、72小时保留和安全重投，并以稳定OkHttp单例把Android会话列表与聊天详情接入连续序列、重复ACK、断线恢复和CHAT权威REST补洞。ws.orbexa.cc只登记脱敏代理模板，本次不宣称域名已激活。
+  regression_checks:
+  - PostgreSQL 17必须通过V001至V044、200到203表升级、U044回退重放、用户并发连续序列、ACK归属、72小时缺口和事务共同回滚
+  - 后端必须拒绝缺失、重复、填充或污染的认证子协议及非法lastServerSequence，并只回选hhy.v1
+  - Android必须只在Sec-WebSocket-Protocol发送令牌，重复事件仍ACK但不重复推进水位，序列缺口必须断线恢复
+  - CHAT分页未全部补洞前不得确认服务端水位，NOTIFICATIONS在R15落地前必须保持未完成
+  do_not_repeat:
+  - 不得把WebSocket YAML存在、后端可以编译或页面能手动刷新当成实时纵向链路完成
+  - 不得把消息ID冒充用户级serverSequence，也不得在事务提交前向客户端推送
+  - 不得把代理模板存在写成公网域名已激活
+- id: PROB-0138
+  title: 全量迁移烟测在重建到V039后遗漏V041权限数据
+  status: SOLVED
+  root_cause: 全量脚本首次V001至V044迁移后会为回退矩阵重建数据库，并在R12阶段只恢复到V039；R12不变量末尾却直接验证V041新增的五项细粒度审核权限，导致正确的V044首次迁移已通过后仍在旧R12权限专项失败，R14不变量无法执行。
+  resolution: 在保持R12 V039对象数量断言和V040后续专项不变的前提下，全量脚本于R12 runner前显式应用仅包含权限数据对齐的V041；R14 runner随后按缺失检测应用V040及V042至V044。修复后同一PostgreSQL 17一次性通过完整迁移、旧版回归、R14属性矩阵和203表最终基线。
+  regression_checks:
+  - run_postgres_migration_smoke.sh必须在R12 runner前应用V041并保留R12对象数量断言
+  - 全链必须出现R12_REVIEW_PERMISSION_ALIGNMENT PASS、R14_DATABASE_INVARIANTS PASS、FINAL_TABLE_COUNT 203和POSTGRESQL_MIGRATION_SMOKE PASS
+  do_not_repeat:
+  - 不得只依据首次空库迁移成功忽略脚本后半段的回退重建路径
+  - 不得为绕过旧版失败跳过R12 runner或删除权限对齐测试
+- id: PROB-0139
+  title: Android版本APK已升级但公网API仍停留在上一版本
+  status: SOLVED
+  root_cause: R14在独立38114环境完成V044验收并产出固定访问api.orbexa.cc的测试APK，但交付关闭未证明公网Android测试入口已从R13/V042候选滚动到同版本后端；认证请求先通过通用安全过滤器，随后因R13不存在R14控制器返回404，客户端按冻结映射显示会话列表暂不可用。
+  resolution: CR-0447在数据库可恢复备份后以冻结R14镜像和原测试账号库启动候选，验证V044、账号与有效会话非敏感事实保持、本机及公网认证会话列表200，再以受控路由脚本切流并用唯一Request-ID证明公网命中目标容器；失败路径自动恢复旧upstream。邀请码和注册完全排除。
+  regression_checks:
+  - 每个Android版本交付前必须证明公网API命中包含该版本所需迁移和控制器的候选，不能只验证独立Smoke环境健康
+  - R14会话黑盒必须使用原库有效会话，本机与公网均返回200，完整令牌不得输出或落盘
+  - 数据库备份必须记录路径、大小、SHA256并通过pg_restore目录校验，Nginx备份必须保留路径与SHA
+  - 切流后必须验证平台状态、匿名401、认证200、目标容器Request-ID日志命中和旧容器healthy
+  do_not_repeat:
+  - 不得把APK内API地址正确、独立候选健康或匿名401当作版本路由一致性的证明
+  - 不得在服务端部署问题中无客户端变化地重打同一APK
+  - 不得为了版本切流重新触碰已经排除的邀请码或注册问题
+- id: PROB-0140
+  title: R14消息体验缺少真实交互候选导致状态与操作缺陷进入真机包
+  status: SOLVED
+  root_cause: R14此前只依赖固定工具链编译和异步真机反馈，GitHub模拟器又被降为按需视觉专项，未逐步执行发送、搜索、拉黑后重进、解除拉黑和列表长按删除。客户端把JSON null解码成字符串而伪造已读，两个消息页面各自维护顶栏和瞬时拉黑状态，删除入口位于详情，PostgreSQL LIKE转义也使用了不兼容写法；候选夹具最初还试图删除数据库明确禁止删除的聊天消息。
+  resolution: CR-0451原位升级既有Android自动化规则，R14起每个大版本机器完成必须通过版本专属GitHub真实交互候选，普通提交、小版本、TEST_APK和下一版开发仍不触发或等待模拟器。客户端统一Material3 TopAppBar和系统Insets，正确解码readAt三态，以账号和对端隔离的SharedPreferences恢复本人拉黑状态，把删除迁至会话列表长按，并用ESCAPE !实现字面特殊字符搜索。Staging夹具按release、commit、runId隔离对端与会话，同一未消费绑定幂等复用，不同Run隐藏旧会话并创建新起点，完整保留消息不可删除约束；CR-0452只补齐遗漏的安全菜单回归文件范围。
+  regression_checks:
+  - ContractR14ApiTest必须覆盖readAt缺失、JSON null和真实时间三态，发送后候选必须出现已发送且不得出现已读
+  - R14会话主页与详情必须使用统一TopAppBar和系统安全区，详情菜单不得出现删除会话
+  - 本人拉黑成功必须按currentUserId与peerId隔离持久化，重进后隐藏输入框并显示解除拉黑，失败不得写入
+  - 删除会话只能由消息主页长按进入，确认成功后列表立即移除；搜索普通文字及字面%、_、!、反斜杠必须在PostgreSQL 17通过
+  - R14候选夹具不得删除或禁用不可变消息保护，同一未消费绑定与连续不同Run均须得到单一可见、可操作的确定起点
+  - R14起大版本机器完成必须有对应Release真实点击、输入、长按、返回、重进、业务断言、截图、JUnit和logcat的GitHub候选PASS
+  do_not_repeat:
+  - 不得把截图数量、页面存在或编译成功当作消息功能已验收
+  - 不得在各页面重新写顶栏高度、把JSON null转成文本或只用Composable瞬时变量保存跨页面业务状态
+  - 不得为了重建CI夹具删除不可变聊天消息、关闭数据库触发器或复用已消费会话
+  - 不得让普通提交和小版本运行模拟器；候选失败不阻断独立合格TEST_APK先行交付，但R14起必须阻断机器完成和下一业务版本领取
+- id: PROB-0141
+  title: R14未闭环且R15无实现证据时状态指针错误进入R16
+  status: SOLVED
+  root_cause: 既有文字一方面要求逐版本核对，另一方面又允许TEST_APK交付或候选失败后继续独立Release；continuity跨Release只验证依赖图，start、resume、takeover和recover又把CURRENT_STATUS、NEXT_TASK或现有Session当作可执行事实，没有交叉验证直接前序版本全部Task、成对APK说明、Manifest/Evidence、候选与机器完成。因此R14仅001至003完成、004至008仍阻塞，R15只有规划文件无任何实现或交付证据时，错误R16指针仍可被领取和持续恢复。
+  resolution: CR-0453与CR-0454分别因遗漏Android事实源和ACTIVE/HANDED_OFF/expired会话旁路被独立拒绝并保留审计历史；CR-0455完整原位修订既有连续性、Android自动化、测试和效率事实源。R14起只允许编号紧邻跨版本，上一版必须全部Task DONE、TEST_APK与测试说明/Manifest/Evidence身份闭环、同Release同Commit交互候选PASS及machine completion PASS；owner真机PENDING仍异步。统一机器门禁覆盖start、cold/active resume、close、takeover、recover，失败非零且零写入；历史错误R16会话只能通过仓库记录的sequence-recovery退回R14，随后R15、R16。
+  regression_checks:
+  - tests/test_continuity_version_sequence.py必须覆盖R14到R16跳级、R15无证据、任务未完、说明缺失、候选Release/Commit错配和失败零写入
+  - start、cold/active resume、close、takeover、recover必须在首次状态写入前调用同一validate_release_machine_chain
+  - close跨版本校验只能把本次COMPLETED的当前最终Task拟DONE，不得先写状态或造成合法最终任务永远无法关闭
+  - config/android-automation.yaml与android_ci_gate.py必须同时声明R14起候选PASS和machine completion PASS是下一版本准入条件，owner PENDING仍不是准入阻断
+  - AGENTS.md与templates/AGENTS.md必须字节一致，所有现有事实源不得再出现R14候选失败不阻断下一版本的旧条款
+  do_not_repeat:
+  - 不得根据CURRENT_STATUS、NEXT_TASK、分支名、现有Session或聊天中已经做到R16判断R15已经完成
+  - 不得用依赖图中的独立Release旁路跳过编号中间版本，也不得把TEST_APK先行交付冒充机器闭环
+  - 不得只修冷启动入口而遗漏ACTIVE resume、HANDED_OFF takeover、过期recover或close原子时序
+  - 不得人工把缺失任务改成DONE来消除门禁；必须完成真实代码、测试、候选和交付证据
+- id: PROB-0142
+  title: 历史序列恢复测试把已关闭恢复会话永久绑定为当前ACTIVE
+  status: SOLVED
+  root_cause: CR-0458恢复完成后的专项测试直接断言NEW_SESSION永远是current_session和唯一ACTIVE Claim；后续R14任务按协议正常关闭并清空ACTIVE指针后，恢复记录与归档会话仍完整，但GitHub tooling确定性误报NoneType和ACTIVE缺失。
+  resolution: CR-0468不新增平行防漂移规则，继续复用CR-0455与CR-0466的R14至R32全链事实源；序列恢复测试改为永久校验OLD_SESSION已SEQUENCE_RECOVERED、NEW_SESSION归档链和恢复记录一致，当前ACTIVE与ACTIVE Claim仅按实时指针相互一致且永远不得重新指向OLD_SESSION。
+  regression_checks:
+  - tests/test_continuity_sequence_recovery.py必须同时通过无ACTIVE、后继ACTIVE和恢复会话已CLOSED的合法生命周期状态
+  - tests/test_continuity_version_sequence.py必须继续覆盖R14至R32全部相邻转换、任意跳版拒绝、R32全前序闭环和中间R27失败阻断
+  do_not_repeat:
+  - 历史恢复、交接或关闭记录测试不得把曾经ACTIVE的会话永久断言为当前会话
+  - 不得为消除生命周期假失败放宽R14至R32顺序门禁或删除跳版负向回归
+- id: PROB-0143
+  title: R14隔离Staging自动应用后续版本迁移导致发布范围漂移
+  status: SOLVED
+  root_cause: R14专用Compose未在应用启动前设置Flyway target，只在启动后断言数据库为V044；历史误入R16留下V045至V047后，当前主分支构建的R14镜像会把空库合法升级到V047，使后续版本数据库事实进入R14候选。
+  resolution: CR-0470唯一替代CR-0469，在R14 Compose前置固定SPRING_FLYWAY_TARGET=44，验收脚本固定导出该值并继续要求现场版本044；新增静态回归，后续R15至R32迁移可以留在主分支但不能进入R14隔离数据库。
+  regression_checks:
+  - tests/test_r14_staging_release_scope.py必须证明Compose在应用启动前固定Flyway target 44
+  - scripts/run_r14_staging_acceptance.sh必须同时记录flyway_target=44并验证数据库现场版本044
+  - obx-test隔离空库必须在当前主分支含V045至V047时仍只应用V001至V044
+  do_not_repeat:
+  - 不得用应用启动后的版本断言替代启动前发布范围约束
+  - 不得为了让旧版本验收通过而把后续迁移版本放宽为该旧版本的合法现场状态
+- id: PROB-0144
+  title: 替换测试APK时CR影响范围遗漏确定性路由与历史归档文件
+  status: SOLVED
+  root_cause: CR-0471已要求R14替换包使用新文件名的单文件精确下载路由，但影响文件只登记构建、当前Manifest、当前交付证据和说明，没有登记既有infra/nginx/r14-apk-location.inc，也没有登记replace-existing成功后确定性生成的旧Manifest和Evidence历史归档路径；因此精确路由在构建后被交付预检正确拒绝，归档产生后又被连续性范围门禁正确拒绝提交。
+  resolution: CR-0472只补齐既有R14单文件location的作用域，把location与attachment文件名原子替换为2eb8ac7，继续保持默认404、禁止目录通配、APK MIME和nosniff；CR-0473只补齐ca57666两份确定性历史归档路径，当前交付仍唯一指向2eb8ac7。仓库与服务器include字节一致，备份、nginx -t、reload及交付预检均通过；Git blob核对证明旧Manifest和Evidence原字节保留。Android交付回归同时固定replace-existing先预检新Commit精确路由，全部新交付验证通过后才原字节归档旧双文件，任一步失败均保持旧当前状态且不产生任何归档。
+  regression_checks:
+  - tests/test_android_apk_delivery.py必须证明replace-existing只向publisher预检新Commit对应的规范文件名和精确路由
+  - 成功替换时旧Manifest和Evidence必须与替换前字节完全一致地进入各自history目录
+  - 精确路由或后续验证失败时不得复制桌面或仓库APK、不得发布、不得产生两类历史目录或改写旧Manifest和Evidence
+  - 仓库include与服务器活动include必须SHA-256一致，nginx -t通过后才可reload；新路径验证200/206，随机R14路径继续404
+  do_not_repeat:
+  - 替换交付CR必须从交付器事务推导并登记精确Nginx include、当前Manifest/Evidence及成功替换确定性生成的双历史归档路径，不得只登记调用方直接编辑的文件
+  - 不得先构建或上传后再放宽为目录通配来绕过精确路由预检
+  - 不得在新路由未通过前归档或覆盖项目所有者尚未验收的当前交付
+- id: PROB-0145
+  title: 历史版本候选测试永久绑定当前全局候选请求
+  status: SOLVED
+  root_cause: tests/test_r13_candidate.py在验证R13夹具、旅程和视觉合同时，又直接读取可被后续版本顺序接管的config/android-candidate-request.yaml，并永久断言其release、attempt、request_id和例外字段必须等于R13 Attempt20；R14合法写入Attempt1后，GitHub CI 30404133115因此产生确定性假失败。
+  resolution: CR-0476删除R13历史测试对当前全局请求的时间绑定，只保留R13自身夹具、旅程、视觉合同和全局versionCode三投影单调一致性；当前候选请求继续由scripts/android_candidate_request.py和tests/test_android_candidate_request.py按当前release、普通1至3轮及精确例外策略严格验证。
+  regression_checks:
+  - tests.test_r13_candidate在当前请求为R14及后续R15至R32时仍必须验证R13历史旅程且通过
+  - tests.test_android_candidate_request必须继续拒绝非法release、非布尔candidate、越界普通轮次、无效request_id及未批准例外
+  - tests.test_continuity_version_sequence必须继续覆盖R14至R32相邻顺序、任意跳版拒绝和全部前序机器闭环
+  do_not_repeat:
+  - 历史版本专项测试不得读取并断言可由后续版本合法更新的当前指针、当前请求、当前Session或NEXT_TASK为旧值
+  - 需要保留旧请求事实时必须读取该版本不可变归档或固定夹具，不得占用全局当前配置
+  - 不得通过放宽专用候选请求校验来修复历史测试时间绑定
+- id: PROB-0146
+  title: R14候选公网路由复用早于聊天夹具实现的旧后端镜像
+  status: SOLVED
+  root_cause: R14 Attempt1的OIDC bootstrap、自动登录和会话列表HTTP均成功，但公网api.orbexa.cc仍指向源码标签b6f5e285的旧候选容器；R14聊天夹具直到后续0bf4c9a8才实现，因此数据库中自动登录用户有两个可见旧会话但R14候选体验用户为0。既有路由脚本只校验人工指定镜像ID、R14标签、Flyway V044、HTTP 200、Nginx upstream和请求日志命中，未把容器源码Commit与执行脚本的冻结Git HEAD绑定，健康旧镜像因此通过预检。
+  resolution: CR-0477在既有路由门禁原位增加完整40位HHY_EXPECTED_SOURCE_COMMIT、干净Git HEAD和容器hhy.source_commit标签三方完全一致校验，策略及专项测试把candidate_source_commit_exact列为必需证明；Attempt1原始失败、服务器日志和无秘密数据库计数写入仓库。旧短标签容器保留审计但不得再用于正式候选，Attempt2必须从同一冻结Commit重建后端并在模拟器前证明夹具可见。
+  regression_checks:
+  - scripts/switch_android_candidate_route.sh在R14模式必须要求完整40位小写HHY_EXPECTED_SOURCE_COMMIT，并拒绝脏工作区、HEAD错配、缺失或短hhy.source_commit标签及容器标签错配
+  - config/android-automation.yaml、scripts/android_ci_gate.py和tests/test_android_ci_gate.py必须共同要求candidate_source_commit_exact
+  - tests/test_android_candidate_route.py必须锁定源码Commit三方一致门禁，且既有镜像、Flyway、R14标签、鉴权会话探针、Nginx回滚和请求日志命中证明不得删除
+  - 每轮R14候选bootstrap后必须在Android重型步骤前证明唯一可见R14候选体验用户及R14候选会话已准备消息来自同一隔离数据库
+  do_not_repeat:
+  - 不得把HTTP 200、容器healthy、镜像ID或Release标签当作后端源码身份
+  - 不得使用8位Commit标签或人工指定旧镜像绕过冻结Commit绑定
+  - 候选失败后不得无修复重跑；必须先保存JUnit、日志、数据库语义和路由身份原始证据
+- id: PROB-0147
+  title: R14候选重复文字确认助手直接点击不可点击语义子节点
+  status: SOLVED
+  root_cause: R14 Attempt2已成功加载会话夹具、搜索、进入详情、发送消息并显示已发送，但ReleaseCandidateSmokeTest.clickLastExactText只从同文案节点中选择最后一个enabled节点后直接click，没有执行PITFALLS第32条和PATTERN-ANDROID-REMOTE-001既有的可点击祖先解析。Run 30407390156目标进程日志在23:22:24明确记录“确认拉黑”为clickable=false的TextView且UiObject2仍尝试点击；因此拉黑API未触发，10秒后禁发断言失败，不是产品拉黑状态、后端接口或夹具错误。
+  resolution: CR-0478原位让clickLastExactText从最后一个enabled文字节点向上选择首个enabled且clickable祖先，并在既有Android候选治理测试中锁定祖先解析、错误诊断和禁止textNode直接click；Attempt2运行包、instrumentation、logcat和runtime报告SHA写入失败证据。候选请求精确递增为Attempt3，必须绑定修复Commit并从同Commit重建候选后端后完整重跑R14旅程。
+  regression_checks:
+  - tests.test_android_ci_gate必须验证clickLastExactText包含generateSequence祖先解析与enabled/clickable筛选且禁止textNode.click
+  - R14 Attempt3必须真实通过确认拉黑、禁发、返回重进、解除拉黑和列表长按删除，不得把前两张截图或后端已有block记录冒充旅程PASS
+  - R14至R32后续候选使用重复文字确认按钮时必须复用同一助手语义，不得新增直接点击文字叶节点的旁路
+  do_not_repeat:
+  - Compose文字语义节点enabled不等于clickable，不能以lastOrNull enabled后直接click
+  - 候选断言失败不得先修改产品状态或延长等待；必须先读取目标进程UiAutomator点击诊断和服务端写入事实
+  - 同一失败Attempt不得重跑；必须保存原始证据、形成修复Commit并递增唯一request_id
+- id: PROB-0148
+  title: R14候选容器误接R13网络数据库且MFA卷只读导致bootstrap 500
+  status: SOLVED
+  root_cause: R14 Attempt3请求、普通CI、Android编译、单测、Lint和打包均已通过，但候选与回滚容器沿用了hhy-r13-staging_smoke网络和R13数据库；首次纠正重建又把/var/lib/hhy/secrets挂成只读。GitHub Run 30408703138因此在模拟器启动前调用internal-ci bootstrap时收到HTTP 500，未产生任何旅程截图、JUnit或目标进程日志，不能归类为产品UI或交互回归。
+  resolution: CR-0479原位强化既有受控切流脚本，要求候选与回滚容器接入精确R14网络，候选HHY_DB_URL与HHY_DB_USER精确绑定R14 V044数据库，MFA秘密卷可写；CR-0480仅补齐该同一证明集合在android-automation策略、android_ci_gate加载门禁及测试中的投影。现场已把21125aa9候选和59331083回滚容器重建到R14隔离环境并受控切到28116，公网请求ID命中目标日志。
+  regression_checks:
+  - scripts/switch_android_candidate_route.sh在R14模式必须同时拒绝候选或回滚容器网络不匹配、数据库URL或用户不匹配以及MFA卷只读
+  - config/android-automation.yaml、scripts/android_ci_gate.py和tests/test_android_ci_gate.py必须共同精确要求candidate_network_exact、candidate_database_binding_exact和candidate_mfa_volume_writable
+  - 候选切流证据必须同时记录源码Commit、镜像、网络、数据库、Flyway、MFA卷、Nginx upstream、本机与公网HTTP及目标容器日志命中，不得输出令牌、密码或秘密值
+  - Attempt3不得重跑；Attempt4必须绑定修复Commit、CR-0479及唯一request004，并在模拟器启动前使用同Commit候选后端
+  do_not_repeat:
+  - 不得只凭容器healthy、HTTP 200、Release标签或Flyway版本推断候选接入了正确网络和数据库
+  - 不得把MFA秘密卷以只读方式挂载后继续执行OIDC bootstrap
+  - 不得把bootstrap前的基础设施HTTP 500误报成页面或交互测试失败，也不得在没有修复Commit和新证明时盲目重跑
+- id: PROB-0149
+  title: R14候选数据库缺少启动版本策略导致认证后壳层被404阻断
+  status: SOLVED
+  root_cause: R14 Attempt4的候选请求、编译、单测、Lint、打包、一次性自动会话、平台状态和受鉴权当前用户请求均成功，但隔离R14 V044数据库中的app_build_profiles、app_build_jobs、app_build_artifacts、app_release_channels和app_release_records均为0。Android认证后启动必经POST /public-api/v1/app/version-check因此返回404，页面只显示“暂时无法连接”，四张R14旅程截图均未生成；这不是自动登录、网络、401、崩溃、ANR或产品UI回归。
+  resolution: CR-0481在既有R14候选路由中加入受显式确认保护的幂等版本策略夹具，从已交付R14 TEST_APK Manifest读取Commit、版本、SHA、签名、大小、时间和下载对象键，建立唯一official/STAGING发布链。切流前本机版本检查与切流后公网版本检查都必须为HTTP 200，并在权威策略、加载门禁和专项测试中加入精确证明；Attempt4证据入库后只允许绑定修复Commit的唯一Attempt5。
+  regression_checks:
+  - scripts/prepare_r14_candidate_fixture.sh必须限制R14隔离容器、R14 V044数据库和staging profile，使用事务级 advisory lock，并在第二次执行时保持profile、job、artifact、channel和release各唯一一条
+  - 夹具必须从artifacts/apk/R14/APK_MANIFEST.yaml读取已交付TEST_APK身份并拒绝Commit、SHA、签名、大小、时间、下载域或对象键漂移，禁止硬编码另一套APK事实
+  - scripts/switch_android_candidate_route.sh必须在修改Nginx前执行夹具和本机POST版本检查，切流后再执行公网POST版本检查；任一失败不得启动GitHub模拟器且切流后失败必须自动回滚
+  - config/android-automation.yaml、scripts/android_ci_gate.py和tests/test_android_ci_gate.py必须共同精确要求candidate_startup_version_fixture_exact、target_startup_version_policy_http_200和public_startup_version_policy_http_200
+  do_not_repeat:
+  - 不得用自动会话、平台状态、当前用户或会话列表HTTP 200推断Android启动版本策略已就绪
+  - 不得在候选数据库为空时直接触发模拟器，也不得把版本检查404误报成登录页或消息UI失败
+  - psql在BEGIN/COMMIT与-qAt组合下仍可能在查询结果前输出空行；严格证明比较前只能过滤空行，禁止放宽期望字符串或忽略唯一记录计数
+  - Attempt4不得重跑；必须先形成修复Commit、在obx-test连续运行夹具两次并证明本机和公网版本检查200，再登记唯一Attempt5
+- id: PROB-0150
+  title: R14候选拉黑业务成功但自动化缺少稳定状态身份
+  status: SOLVED
+  root_cause: R14 Attempt5的请求校验、编译、单测、Lint、打包、自动会话、会话搜索和消息发送均通过；原始候选在03:28:21调用POST /api/v1/users/3/block返回HTTP 200，user_blocks与r14.chat-command.v1幂等快照均真实落库。ReleaseCandidateSmokeTest随后只等待精确文字“当前无法发送消息”，而拉黑状态区域没有稳定资源身份；网络测试只解码data局部，Compose测试只覆盖预置拉黑状态，因此UiAutomator无法把文字语义可见性问题与真实成功回调问题区分。
+  resolution: CR-0482为既有拉黑状态区域增加唯一testTag r14.chat.blocked和业务可读stateDescription，候选改为等待稳定资源后继续强制断言r14.chat.composer消失；ContractR14ApiTest使用Attempt5形态的完整success/data/requestId/timestamp响应壳，R14ChatDetailScreenTest真实点击会话操作、拉黑与确认并证明禁发和本地持久化。Attempt5的GitHub注解、三项Artifact身份、服务端HTTP日志、数据库事实及一次临时合同重放已无秘密入库，临时会话和新增幂等记录清理后均为0。
+  regression_checks:
+  - R14ChatDetailScreen拉黑状态必须同时暴露r14.chat.blocked与“已拉黑，当前无法发送消息”stateDescription，不得以文字节点替代稳定资源身份
+  - ReleaseCandidateSmokeTest必须在首次拉黑和返回重进两处等待By.res("r14.chat.blocked")，并继续断言r14.chat.composer不存在
+  - ContractR14ApiTest必须解码候选完整HTTP响应壳并拒绝未知命令状态，不能只测试data局部或内部幂等ObjectMapper快照
+  - R14ChatDetailScreenTest必须从未拉黑初始态真实点击操作菜单、拉黑与确认，成功后证明composer消失且R14BlockStateStore已持久化
+  - Attempt5不得重跑；必须形成新修复Commit并绑定CR-0482登记唯一Attempt6，完整执行搜索、发送未读、拉黑重进、解除拉黑、长按删除、截图、JUnit和日志审核
+  do_not_repeat:
+  - 不得在后端HTTP 200和数据库落库后直接判定产品拉黑失败，也不得只延长文字等待时间
+  - 不得为了候选通过删除或弱化composer消失断言
+  - 不得把内部幂等快照的Instant数字序列化误当成真实HTTP序列化；HTTP合同必须用完整响应壳验证
+  - 不得在没有新修复Commit、证据入库和精确请求身份时盲目重跑同一Attempt
+- id: PROB-0151
+  title: R14候选会话数据成功但列表业务文字与复进操作缺少稳定跨框架身份
+  status: IN_PROGRESS
+  root_cause: R14 Attempt6的候选请求、连续性、编译、单测、Lint、打包、自动会话和候选后端均通过；隔离R14 V044数据库存在唯一当前会话，真实GET /api/v1/conversations返回联系人“R14候选体验用户”和预览“R14候选会话已准备”。ConversationRow仅给整行提供r14.conversation.row，候选却用By.text等待Compose子文字；UiAutomator未发现该文字节点后把稳定语义身份缺口误报为夹具联系人缺失。Attempt11的同Commit唯一失败Job重跑进一步通过会话加载、搜索、发送、首次拉黑禁发断言并在拉黑后GET /api/v1/conversations返回200；数据库会话7仍未隐藏且1到8的拉黑关系真实存在，但返回列表后UiAutomator再次无法找到r14.conversation.row。Attempt12 Run 30495148156改用Compose原生输入后，消息POST以HTTP 200成功，但严格断言发现composer仍为R14候选发送文本；源码确认send函数的最后一个参数是onFailure，文本发送使用的尾随lambda因此静默绑定为失败回调，成功分支从未执行composer清空。CR-0493修复并通过双向Compose回归编译后，Attempt13 Run 30497451278仍在唯一遗留的UiAutomator resource文本快照报告旧值；同次消息POST仅128毫秒返回200且消息与“已发送”均已出现，证明跨框架可变文本快照不能作为Compose状态的最终事实源。Attempt17 Run 30505422466再次证明联系人resource-id并非稳定合同：候选请求、编译、Lint、单测、打包、OIDC、会话兑换、GET /api/v1/me、GET /api/v1/home和两次GET /api/v1/conversations全部HTTP 200，页面根hhy.screen.r14.conversations可见，但UiAutomator在20秒内找不到r14.conversation.peer-name；运行无应用崩溃或ANR，失败发生在首张截图前。
+  resolution: CR-0483为联系人名称和最后消息预览分别增加唯一r14.conversation.peer-name与r14.conversation.preview资源身份；候选按资源定位后严格比较UiObject2.text与预期业务值，搜索后再次复核联系人值，同时保留整行点击、错误文案和全部后续真实交互断言。Attempt6的GitHub注解、三项Artifact身份、数据库与无秘密HTTP重放证据入库，Attempt6不得重跑。CR-0491继续复用PROB-0125，不新增并列规则：会话行首次点击、拉黑后复进、长按与删除消失全部改用Compose唯一testTag、assertIsDisplayed和原生语义动作；composer输入改用performTextReplacement，发送成功后必须证明输入框为空再截图。CR-0493将文本发送改为显式命名onSuccess，仅成功时清空composer，并以Compose回归同时证明成功清空、失败保留草稿。CR-0495把最后一项composer空值验收也切到同一Compose未合并语义树，等待实时EditableText严格为空后再次assertTextEquals；超时、空值标准和截图前置条件均不变。Attempt15进一步通过前三图、拉黑禁发、重进禁发、解除菜单以及64毫秒拉黑POST和61毫秒解除DELETE，唯一失败是解除后用UiAutomator resource-id观察不到分支重建的composer；CR-0499保持10秒期限，改为Compose未合并树唯一节点并最终assertIsDisplayed，同时以真实拉黑再解除页面回归证明composer恢复、禁发节点消失和持久状态解除。Attempt16随后越过解除恢复，生成全部四图并完成长按删除；删除接口51毫秒返回200且Compose会话行消失，唯一失败是最终继续用UiAutomator By.text读取Compose筛选空状态。CR-0501为该文字增加r14.conversations.empty-message稳定语义，候选改为Compose唯一节点、可见性与精确文字三重断言，页面回归同步覆盖搜索后删除并显示“没有找到相关会话”。CR-0503在Attempt17复发后保留联系人、预览、首次20秒与搜索后10秒期限，但把这三个精确业务值断言统一切换到Compose未合并语义树；UiAutomator不再负责读取这两个Compose文字节点。
+  latest_attempt:
+    attempt: 18
+    github_run_id: '30507176811'
+    evidence: artifacts/validation/r14-candidate-attempt18/failure-evidence.json
+    finding: 请求、编译、Lint、单测、APK、会话搜索、消息发送未误标已读、拉黑重进禁发、解除拉黑、长按删除、四图与目标进程日志均已通过；DELETE会话37毫秒返回200且会话行消失。唯一失败是旅程从详情返回列表后未重新输入搜索词，页面正确显示未筛选空状态“暂无会话”，测试却继续期待筛选空状态“没有找到相关会话”。
+    next_fix: 返回列表后必须在Compose搜索节点重新输入真实联系人并再次核对唯一会话，再执行长按删除和筛选空状态精确断言；不得放宽为接受“暂无会话”。
+  regression_checks:
+  - R14ConversationListScreen必须分别暴露r14.conversation.peer-name与r14.conversation.preview，Compose测试在未合并语义树中核对精确业务值
+  - ReleaseCandidateSmokeTest必须在Compose未合并语义树按r14.conversation.peer-name和r14.conversation.preview等待唯一节点并严格核对精确业务值，搜索后再次核对联系人；不得恢复UiAutomator resource-id、By.text(peer)或一次性文字快照
+  - r14.conversation.row的首次点击、拉黑后复进和长按必须等待Compose未合并树唯一节点、assertIsDisplayed后执行performClick或performTouchInput；删除必须等待该Compose节点消失
+  - composer必须由Compose performTextReplacement输入，发送成功后输入框必须为空；搜索错误、发送未读、拉黑重进、解除拉黑、长按删除、四张截图、JUnit和日志审核不得删除或弱化
+  - 文本发送调用必须显式命名onSuccess并只在成功后清空composer；失败回调必须保留用户草稿，不得使用会绑定到末尾onFailure参数的尾随lambda
+  - composer空值验收必须在Compose未合并语义树等待并最终assertTextEquals空串；不得再用UiAutomator resource文本的一次性快照代替实时Compose状态
+  - 解除拉黑恢复composer必须在Compose未合并语义树等待唯一节点并最终assertIsDisplayed；页面回归必须真实执行拉黑再解除并证明禁发节点消失与持久状态解除
+  - 删除后筛选空状态必须暴露r14.conversations.empty-message，候选在Compose未合并语义树等待唯一节点、assertIsDisplayed并严格assertTextEquals“没有找到相关会话”
+  - R14ConversationListScreenTest必须先输入真实搜索词再长按删除并证明会话行消失和筛选空状态精确可见
+  - 候选旅程若在首次搜索后进入详情并返回列表，必须重新建立搜索输入前置状态并再次核对唯一联系人，之后才允许长按删除和断言筛选空状态
+  - Attempt7必须绑定新修复Commit、CR-0483与唯一request007，并从同Commit候选后端执行完整R14旅程
+  do_not_repeat:
+  - 后端HTTP 200、数据库夹具和精确响应均正常时，不得把UiAutomator找不到Compose文字直接归类为后端或夹具失败
+  - 不得只判断资源存在而放弃核对联系人和预览业务值，也不得用延长By.text等待掩盖稳定身份缺口
+  - 不得无代码变化重跑Attempt6或复用已消费的CR-0482候选授权
+  - 同一Compose旅程不得混用UiAutomator resource-id完成会话行复进与长按，也不得接受发送成功后composer仍保留原文本的候选截图
+  - 不得删除发送成功后composer为空的候选断言，也不得把HTTP 200后输入框未清空归类为测试环境抖动
+  - Attempt12与Attempt13是同一composer错误指纹的前两轮；下一轮必须绑定CR-0495新Compose观察面且为该指纹最终轮，不得继续增加等待或复用旧resource断言
+  - Attempt15的解除DELETE已HTTP 200且无崩溃时，不得继续把分支重建后UiAutomator resource-id不可见误判为解除业务失败或延长等待
+  - Attempt16的删除DELETE已HTTP 200、四图齐全且Compose会话行消失时，不得把UiAutomator By.text不可见误判为删除业务失败，也不得删掉空状态精确文字断言
+  - Attempt17的会话兑换、用户、首页和两次会话接口均HTTP 200且页面根可见时，不得把联系人resource-id不可见误判为列表业务缺失，也不得无修复重跑Attempt17
+  - Attempt18删除接口已HTTP 200、会话行已消失且实际为未筛选空状态时，不得修改产品文案迎合错误前置，也不得把精确断言放宽为同时接受“暂无会话”；必须先在自动旅程重新输入搜索词
+- id: PROB-0152
+  title: R14拉黑业务成功但禁发底栏在输入法过渡期间不可见
+  status: IN_PROGRESS
+  root_cause: R14 Attempt7已经证明服务端HTTP、数据库、幂等快照和真实HTTP合同成功，但当时把十秒内看不到r14.chat.blocked充分归因于主线程SharedPreferences.commit。CR-0484改为apply后，Attempt8仍在相同断言失败；POST /api/v1/users/6/block仅76毫秒即返回200，user_blocks与幂等记录再次成功，反证commit并非充分根因。CR-0486随后在拉黑成功时清焦点、关闭软键盘并为blocked分支补齐imePadding。Run 30488268307的Attempt10通过候选请求、编译、Lint、单测、APK打包、三次受限OIDC引导重试策略和模拟器启动，POST /api/v1/users/{id}/block以65毫秒返回200；失败现场精确为composeNodes=1、composerResourceVisible=false，但UiAutomator By.res(r14.chat.blocked)仍不可见。三轮证据共同证明拉黑、持久化、禁用composer与Compose布局状态已经成功，剩余错误是把Compose testTag导出的resource-id当成跨框架可见性的唯一事实，而既有PROB-0125已经明确该导出并不稳定。
+  resolution: CR-0484的apply、CR-0486的IME避让和焦点释放、Compose页面回归全部继续保留；不修改后端、数据库或拉黑业务。Attempt10登记为旧UiAutomator resource-id路径第三且最终业务轮，禁止原样Attempt11。CR-0489复用既有PROB-0125经验并切换验证路径：首次拉黑与返回重进均先让Compose测试调度器等待唯一r14.chat.blocked节点，再以assertIsDisplayed证明其位于可见根布局，同时由UiAutomator等待用户真正看到的“当前无法发送消息”文本，并继续断言r14.chat.composer不存在。该双证据比单独By.res更接近真实用户结果，且没有删减解除拉黑、长按删除、四张截图、JUnit或日志审核。Attempt11重跑已真实越过首次拉黑的Compose可见、用户文本和composer消失三重断言，随后才在返回列表的会话行UiAutomator定位失败；该新指纹归入PROB-0151与CR-0491，不回退或改写CR-0489。Attempt14也已越过composer清空并产出发送成功截图，随后拉黑POST以80毫秒返回200，但成功续体在DefaultDispatcher-worker-1调用focusManager.clearFocus并触发CalledFromWrongThreadException；CR-0497不回退旧方案，而是让executeAction请求完成后以Dispatchers.Main.immediate统一收口全部成功/失败UI状态、焦点与IME操作。
+  regression_checks:
+  - R14BlockStateStore必须使用SharedPreferences.Editor.apply并禁止commit，键格式不得改变
+  - R14BlockStateStoreInstrumentedTest必须证明apply返回后新Store实例立即读取到拉黑，解除后立即读取不到，且账号与对端隔离
+  - R14ChatDetailScreen拉黑成功必须clearFocus并请求hide软键盘，blocked分支必须具有imePadding，不得依赖IME按时自动关闭
+  - executeAction请求结果的成功与失败UI收口必须位于withContext(Dispatchers.Main.immediate)，后台调度器返回成功的Compose回归必须通过
+  - R14ChatDetailScreenTest必须让composer获得焦点并输入后真实拉黑，证明r14.chat.blocked可显示、composer消失且状态持久化
+  - ReleaseCandidateSmokeTest必须在首次拉黑与返回重进复用同一严格帮助函数：Compose唯一节点assertIsDisplayed、UiAutomator用户文本可见且composer资源不存在
+  - Attempt7、Attempt8与Run 30488268307的Attempt10均不得重跑；Run 30486463619的Attempt9只在OIDC bootstrap预检失败且未消费业务轮。后续候选必须绑定CR-0489的新跨框架验证路径和新Commit，不能伪称旧路径第四轮
+  do_not_repeat:
+  - Compose成功回调不得在状态更新后执行SharedPreferences.commit或其他主线程同步磁盘写入
+  - 后端200、数据库落库和真实HTTP合同均通过后不得继续修改后端或放宽客户端禁发断言
+  - 不得让被拉黑后替换composer的底栏丢失IME避让，也不得只延长UiAutomator等待时间掩盖可见区域错误
+  - 已有Compose节点、用户文本与composer消失证据时，不得继续把testTag未导出为UiAutomator resource-id误判为业务未生效
+  - 真正执行R14拉黑旅程的第三轮若仍为相同指纹，必须登记三轮上限并切换测试或布局方案；不得把模拟器启动前的OIDC/JWKS/引导5xx计为业务轮，也不得借基础设施编号递增继续同一业务修复路径
+- id: PROB-0153
+  title: 公网真机测试入口长期绑定版本候选冒烟库导致账号和邀请码跨版本失效
+  status: SOLVED
+  root_cause: api.orbexa.cc在R13、R14候选审核时被受控切到版本专属smoke数据库，但候选结束和基线晋升只关闭Android机器证据，没有强制恢复长期真机测试数据源。项目所有者在旧版本注册的账号因此不在新版本smoke库中，登录接口以统一安全文案表现为手机号或密码错误；HHY2026TEST又只存在于部分候选配置或种子，切库后同步失效。数据库不是单次误删，而是公网路由长期指向了错误的可丢弃数据源。
+  resolution: CR-0515复用并加固既有同库同卷与公网环境不可销毁规则。服务器从R14当前数据建立一致性快照，创建独立hhy-owner-test-postgres容器、hhy-owner-test-postgres-data卷和hhy-owner-test网络，部署同一89ccaf45冻结后端且关闭CI自动化，再将api.orbexa.cc切到127.0.0.1:28140。指定账号恢复为ACTIVE，资料、BCRYPT凭证、失败次数和锁定状态均正确，密码仅通过交互stdin做哈希匹配且未写入仓库或日志；HHY2026TEST写入持久库后公网校验HTTP 200/VALID。仓库新增持久环境机器事实、应用-only升级、候选后恢复脚本和静态门禁。
+  regression_checks:
+  - config/owner-test-environment.yaml必须把公网后端绑定hhy-owner-test-postgres、hhy-owner-test-postgres-data和hhy-owner-test网络，数据库名不得包含smoke、candidate或版本staging
+  - 公网持久后端必须保持HHY_CI_AUTOMATION_ENABLED=false，版本升级前必须pg_dump并只允许Flyway前向迁移
+  - GitHub候选临时路由租约最多45分钟，候选PASS、FAIL、取消或基础设施失败后都必须运行scripts/restore_android_candidate_route.sh
+  - scripts/promote_owner_test_backend.sh必须比较升级前后users、user_credentials和invite_codes计数且禁止down -v、DROP DATABASE和TRUNCATE
+  - R14及后续machine-close必须运行scripts/check_owner_test_environment.py并保存脱敏服务器实证，不得仅凭候选报告关闭
+  do_not_repeat:
+  - 不得把登录统一错误文案直接归因于用户记错密码，必须先核对公网后端的真实数据库绑定和账号存在性
+  - 不得把hhy-r*-staging、smoke或candidate数据库作为项目所有者长期真机测试数据源
+  - 不得因切换大版本、重建候选、清理服务器或缺少项目所有者即时反馈而删除、重置或替换owner-test数据库卷
+  - 不得在命令、日志、仓库、证据或聊天总结中记录用户明文密码、完整密码哈希、数据库密码或会话Token
+- id: PROB-0154
+  title: 离线历史视觉调用未投影复用工作流权限导致启动前失败
+  status: SOLVED
+  root_cause: Android Historical Visual Request Run 30514972134在GitHub创建任何Job前即以startup_failure结束。GitHub错误注释精确指出调用Job只允许contents读取，而被复用的android-quality-gate.yml声明issues:write与id-token:write；GitHub不允许被调用工作流提升调用方权限，因此整条工作流在模拟器、构建、OIDC和网络访问前被拒绝。该失败未触碰候选后端或公网真机持久库。
+  resolution: CR-0516在historical-visual调用Job上显式投影contents:read、issues:write和id-token:write，同时保持release=HISTORICAL-UI与candidate=false。新增本地YAML回归，精确锁定唯一路径触发、复用工作流、离线Release、禁止候选以及三项权限；请求ID仅在代码修复和本地测试通过后递增一次。
+  regression_checks:
+  - tests/test_android_historical_visual_request.py必须解析工作流并精确断言contents:read、issues:write和id-token:write
+  - 离线历史视觉调用必须固定release=HISTORICAL-UI和candidate=false，不得执行候选、Staging引导或数据库旅程
+  - GitHub启动失败必须先读取Annotations取得精确声明错误；无代码变化和本地回归证据不得递增请求或重复推送
+  - startup_failure且jobs=0不得计为模拟器业务轮、产品失败或候选失败
+  do_not_repeat:
+  - 不得假设被复用工作流可以自行提升调用Job权限
+  - 不得为修复声明错误启动完整候选或切换api.orbexa.cc
+  - 不得在没有唯一错误注释、修复Commit和本地权限断言时重复运行同一请求
+- id: PROB-0155
+  title: 历史视觉过期文案断言与截图总数漂移导致离线批次失败
+  status: SOLVED
+  root_cause: Run 30515375914已真实执行唯一离线HISTORICAL-UI Job并生成25张截图，27项Instrumentation中25项通过。仅homeProducesBoundVisualEvidence和r13HistoryProducesBoundVisualEvidence因继续等待已经被当前生产Composable替换的旧首页文案与旧日期格式而超时，分别缺少26-r06-home.png和28-r13-history.png。同时Kotlin源码原有27个captureStable调用，Shell脚本却硬编码期望26；加入R14六面后的源码真实总数为33，不是最初按错误脚本推算的32。
+  resolution: CR-0518保留Run、Artifact、JUnit、25张成功文件和缺失文件的脱敏证据；首页改为等待当前搜索框、四大分类和推荐模块真实文字，R13历史改为等待当前“内容更新：2026-07-24”格式。请求配置、Shell脚本和Python治理测试统一精确断言33张，Python测试同时计算Kotlin captureStable调用总数并锁定六个R14新文件名。
+  regression_checks:
+  - tests/test_android_historical_visual_request.py必须同时断言请求配置、Shell期望和Kotlin captureStable调用总数均为33
+  - 历史视觉等待必须绑定当前生产Composable真实可见文字，产品文案变化后不得只更新一个测试或用过期示例文本阻断截图
+  - Artifact截图数量必须与JUnit缺失测试一一对应；Run 30515375914的25张成功截图和两个超时不得误报为模拟器整体不稳定
+  - 下一次离线运行仍必须保持candidate=false，编译候选、OIDC、Staging和公网数据库Job全部跳过
+  do_not_repeat:
+  - 不得根据旧Shell常量推算截图总数，必须从Kotlin唯一captureStable源精确计数
+  - 不得因两个可复现旧文案超时重跑完整候选或切换api.orbexa.cc
+  - 不得删除已成功的历史截图用例来迎合错误数量常量

@@ -1,0 +1,156 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260719T234639Z-1D7D7A00-0001
+session_id: SES-20260719T234639Z-1D7D7A00
+sequence: 1
+created_at: '2026-07-19T23:49:34Z'
+summary: R05正式测试APK身份已冻结为1.2.2-debug/10208，Gradle、ReleasePolicy和VersionMetadataTest三处一致；CR-0109补齐三项精确范围，APK交付与API地址门禁22项通过。
+next_step: 提交并推送versionCode 10208冻结提交，生成不可变源码归档并在固定Android工具链中运行单测、Lint、构建、签名和对齐。
+blockers: []
+decisions:
+- R04已交付10207，R05使用最小合法单调递增versionCode 10208；继续使用1.2.2-debug合同版本和https://api.orbexa.cc。
+note: ''
+tests:
+- name: ANDROID_APK_DELIVERY_GATES
+  result: PASS
+  evidence: tests.test_android_apk_delivery,tests.test_android_api_base_url_build_gate
+  note: 22 tests OK
+- name: R05_VERSION_IDENTITY
+  result: PASS
+  evidence: build.gradle.kts,ReleasePolicy.kt,VersionMetadataTest.kt
+  note: versionCode 10208三处一致
+- name: R05_DOCUMENTATION_GATE
+  result: PASS
+  evidence: scripts/check_v122_documentation.py --release R05
+  note: 318 REST操作且无缺口
+- name: GENERATED_ASSETS
+  result: PASS
+  evidence: pnpm generate:check
+  note: 生成资产无漂移
+- name: ANDROID_PRODUCTION_PLACEHOLDER_SCAN
+  result: PASS
+  evidence: rg production Kotlin
+  note: 无TODO/FIXME/Mock实现
+- name: GIT_DIFF_CHECK
+  result: PASS
+  evidence: git diff --check
+  note: 无空白错误
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: 0c3aa012f4bdbfd59f0d591cf99632794fd8c612
+  upstream: origin/task/TASK-R03-001
+  ahead: 0
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/ACTIVE_SESSION.yaml'
+  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/SESSION_INDEX.yaml'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/TASK_CLAIMS.yaml'
+  - ' M .continuity/TASK_TRANSITIONS.yaml'
+  - ' M CURRENT_STATUS.yaml'
+  - ' M apps/android/app/build.gradle.kts'
+  - ' M apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt'
+  - ' M apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+  - ' M catalogs/change_request_index.csv'
+  - ' M catalogs/session_index.csv'
+  - ' M catalogs/task_transition_ledger.csv'
+  - ?? .continuity/change_requests/CR-0109.yaml
+  - ?? .continuity/sessions/SES-20260719T234639Z-1D7D7A00.yaml
+  - ?? docs/03-continuity/change-requests/CR-0109-补充R05-Android-APK版本身份精确文件范围.md
+  - ?? docs/03-continuity/sessions/2026-07/SES-20260719T234639Z-1D7D7A00.md
+  recent_commits:
+  - "0c3aa012f4bdbfd59f0d591cf99632794fd8c612\t2026-07-20T07:46:13+08:00\tHHY Continuity Bootstrap\t[TASK-P00-001] chore(continuity): refresh\
+    \ clean context before R05-007"
+  - "c0bfa11a1aaf5de798465c72496150df15728cd4\t2026-07-20T07:42:26+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] chore(continuity): close TASK-R05-006\
+    \ as completed"
+  - "e764f2b94d1d97b6b4169e48d330fb43ab2e057d\t2026-07-20T07:41:27+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] chore(continuity): close R05\
+    \ staging change request"
+  - "c6399d0e079118c456545a2f4ec92661ddd2f9cd\t2026-07-20T07:39:18+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] test(observability): archive\
+    \ R05 staging evidence"
+  - "c2bc1ab632c9b64c4292c325653415a8259a8e51\t2026-07-20T07:17:01+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] feat(observability): add R05\
+    \ staging gates"
+  - "ae3bd21fe7e58d5bfedd256d21cdfae535653998\t2026-07-20T07:04:33+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] chore(continuity): close TASK-R05-005\
+    \ as completed"
+  - "c7ce2b9b48c6e901c3e19c9f7addd57ffbc7475d\t2026-07-20T07:00:05+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] test(identity): archive R05\
+    \ specialized evidence"
+  - "3ec3ba2fdcb2063c658c467710e294b1f9b92dbb\t2026-07-20T06:50:58+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] test(identity): automate R05\
+    \ fault matrix"
+project_fingerprint:
+  sha256: cfce10b479c9a02a24114ebd8a14c972faab9671313173e88084097e29dac645
+  files:
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+  - apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+  - docs/03-continuity/change-requests/CR-0109-补充R05-Android-APK版本身份精确文件范围.md
+  file_count: 4
+  payload:
+    base_commit: 0c3aa012f4bdbfd59f0d591cf99632794fd8c612
+    files:
+    - path: apps/android/app/build.gradle.kts
+      state: FILE
+      size: 4705
+      sha256: 585293875546aec00412882992a767d5868646141aa6555e4af2c31af75e2556
+    - path: apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+      state: FILE
+      size: 520
+      sha256: 56ad9169098619cb451d9e18c70a22e9deb909711c12eb8e4c450cc26ccd1f7e
+    - path: apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+      state: FILE
+      size: 1025
+      sha256: 82a529d7e079f7158de5765c00a5e6977683e061419ae0f7defb393f8cfa6918
+    - path: docs/03-continuity/change-requests/CR-0109-补充R05-Android-APK版本身份精确文件范围.md
+      state: FILE
+      size: 2078
+      sha256: cddd6077a7ef92740ced588728ef98cfa7eb6ba5a0dcb09fc5d97dca2e0279de
+change_classification:
+  code:
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+  - apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+  user_visible:
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+  - apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+  continuity:
+  - docs/03-continuity/change-requests/CR-0109-补充R05-Android-APK版本身份精确文件范围.md
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+- CHANGELOG
+change_requests:
+- CR-0109
+scope:
+  allowed_paths:
+  - apps/admin-web/**
+  - services/backend/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - tests/**
+  - docs/**
+  - catalogs/**
+  - releases/**
+  - design/**
+  - scripts/**
+  - CHANGELOG.md
+  approved_exceptions:
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+  - apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+  source: story+explicit+approved-cr:CR-0109
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: APK身份、签名、构建与交付必须绑定同一冻结Commit，拆分会破坏单一产物追溯链。
+event_hash: 6fa5e2e7fd476753c1583e96a4d773183bdec616dfc8295274d7645e00ff01dd

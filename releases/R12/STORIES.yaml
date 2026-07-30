@@ -10,7 +10,7 @@ stories:
 - story_id: STORY-R12-001
   release: R12
   title: 审核：审核队列
-  user_story: 作为具备 review.manage 的后台员工；写操作另需 review.manage，我需要完成审核队列的完整业务流程，以便在不依赖研发临时决策的情况下实现内容/红包/实名/申诉。
+  user_story: 作为具备 review.read 的后台员工；决定与分配分别需要 review.decide 和 review.assign，我需要完成审核队列的完整业务流程，以便在不依赖研发临时决策的情况下实现内容/红包/实名/申诉。
   platform: ADMIN
   module: 审核
   template_id: ADM-REVIEW
@@ -82,6 +82,7 @@ stories:
   - test_engineer
   acceptance_criteria:
   - ADM-REVIEW-001 全部绑定模板 ADM-REVIEW，字段、状态、动作、导航和错误恢复无TBD
+  - ADM-REVIEW-001按原始ADM-REVIEW标准模板、页面规格和管理后台运营规格施工，禁止TOKENS_ONLY或自创后台布局
   - 页面调用 operationId：adminReviewGetReviewsQueue;adminReviewGetReviewsById;adminReportsGetContentReports;adminAppealsGetAppeals;adminReviewPostReviewsByIdDecide;adminReviewPostReviewsByIdAssign；请求/响应字段不得另行发明
   - 按钮显示、可用和确认条件与服务端状态机、权限、expectedVersion、幂等策略一致
   - 首屏、空、刷新、翻页/局部失败、无权限、404、离线和版本冲突状态按页面状态目录实现
@@ -154,6 +155,7 @@ stories:
   - test_engineer
   acceptance_criteria:
   - SCR-MYC-003 全部绑定模板 MOB-DETAIL，字段、状态、动作、导航和错误恢复无TBD
+  - SCR-MYC-003精确绑定B08/P03；效果图只约束发布管理详情结构，功能和动作仍来自冻结合同
   - 页面调用 operationId：contentGetContentsById;contentPostContentsByIdCopy;contentGetContentsByIdAnalytics；请求/响应字段不得另行发明
   - 按钮显示、可用和确认条件与服务端状态机、权限、expectedVersion、幂等策略一致
   - 首屏、空、刷新、翻页/局部失败、无权限、404、离线和版本冲突状态按页面状态目录实现
@@ -237,6 +239,7 @@ stories:
   - test_engineer
   acceptance_criteria:
   - SCR-MYC-001;SCR-MYC-002;SCR-MYC-004;SCR-MYC-005 全部绑定模板 MOB-LIST，字段、状态、动作、导航和错误恢复无TBD
+  - SCR-MYC-001=B08/P02、SCR-MYC-005=B08/P06；草稿箱和审核记录按CR-0314批准补充规格施工
   - 页面调用 operationId：contentGetMeContents;contentPostContentsByIdOnline;contentPostContentsByIdOffline;contentGetMeDrafts;contentDeleteContentsById;contentGetContentsByIdReviews;contentGetContentsByIdAnalytics；请求/响应字段不得另行发明
   - 按钮显示、可用和确认条件与服务端状态机、权限、expectedVersion、幂等策略一致
   - 首屏、空、刷新、翻页/局部失败、无权限、404、离线和版本冲突状态按页面状态目录实现
@@ -314,6 +317,7 @@ stories:
   - test_engineer
   acceptance_criteria:
   - SCR-PUB-001;SCR-PUB-006 全部绑定模板 MOB-FORM，字段、状态、动作、导航和错误恢复无TBD
+  - SCR-PUB-001精确绑定B04/P01四类发布中心，SCR-PUB-006精确绑定B05/P06；禁止误用B05/P01找资源入口业务
   - 页面调用 operationId：userGetMe;contentGetMeContents;contentGetContentsById；请求/响应字段不得另行发明
   - 按钮显示、可用和确认条件与服务端状态机、权限、expectedVersion、幂等策略一致
   - 首屏、空、刷新、翻页/局部失败、无权限、404、离线和版本冲突状态按页面状态目录实现
@@ -379,6 +383,7 @@ stories:
   - test_engineer
   acceptance_criteria:
   - SCR-PUB-007 全部绑定模板 MOB-STATUS，字段、状态、动作、导航和错误恢复无TBD
+  - SCR-PUB-007按批准补充规格复用B05/P07与B06/P07/P08，完整覆盖成功、待审、驳回和失败恢复
   - 页面调用 operationId：contentPostContentsByIdSubmit；请求/响应字段不得另行发明
   - 按钮显示、可用和确认条件与服务端状态机、权限、expectedVersion、幂等策略一致
   - 首屏、空、刷新、翻页/局部失败、无权限、404、离线和版本冲突状态按页面状态目录实现
@@ -452,6 +457,7 @@ stories:
   - test_engineer
   acceptance_criteria:
   - SCR-ME-002 全部绑定模板 MOB-FORM，字段、状态、动作、导航和错误恢复无TBD
+  - SCR-ME-002只复用B08/P01身份区与MOB-FORM，禁止套用项目发布表单或增加未冻结资料字段
   - 页面调用 operationId：userGetMe;userPatchMeProfile；请求/响应字段不得另行发明
   - 按钮显示、可用和确认条件与服务端状态机、权限、expectedVersion、幂等策略一致
   - 首屏、空、刷新、翻页/局部失败、无权限、404、离线和版本冲突状态按页面状态目录实现
@@ -539,6 +545,7 @@ stories:
   - test_engineer
   acceptance_criteria:
   - SCR-ME-001 全部绑定模板 MOB-HOME，字段、状态、动作、导航和错误恢复无TBD
+  - SCR-ME-001精确绑定B08/P01，金额、会员、入口和红点只可来自真实接口或配置
   - 页面调用 operationId：userGetMe;membershipGetMeMembership;rewardGetMeRewardAccount；请求/响应字段不得另行发明
   - 按钮显示、可用和确认条件与服务端状态机、权限、expectedVersion、幂等策略一致
   - 首屏、空、刷新、翻页/局部失败、无权限、404、离线和版本冲突状态按页面状态目录实现
@@ -663,6 +670,7 @@ stories:
   - OpenAPI、状态机、数据库迁移、配置Schema和页面契约引用一致，代码生成不得产生手工分叉
   - 每个需求可追溯到页面/API/表/配置/测试/故事；不适用项必须显式N/A并说明
   - 版本DoR全部PASS后方可编码；出口仍按原RELEASE_MANIFEST和ACCEPTANCE_MATRIX执行
+  - 十一页视觉来源与CR-0314、页面目录、逐页施工规格和Release Manifest一致；TASK-R12-004登记IN_REVIEW，TASK-R12-007真实截图经AI复核后才可PASS
   - 变更必须通过CR，更新唯一事实源并重新生成全部派生目录和哈希
   - 完成Session Log、追踪矩阵、发布证据和下一任务交接
   definition_of_ready: DEFINITION_OF_READY.yaml全部阻断项PASS

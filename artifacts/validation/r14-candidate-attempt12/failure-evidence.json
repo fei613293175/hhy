@@ -1,0 +1,42 @@
+{
+  "schema": "hhy.r14-candidate-failure-evidence/v1",
+  "release": "R14",
+  "attempt": 12,
+  "github_run_id": "30495148156",
+  "head_commit": "7bfadbb62732c3738c72195582289be9ba7d778d",
+  "candidate_request_id": "R14-CANDIDATE-20260730-012",
+  "attempt_exception_id": "CR-0492",
+  "required_fix_commit": "c1b637e299288279d96e0ef85fde21b03e889251",
+  "runtime_artifact": {
+    "name": "android-runtime-30495148156",
+    "downloaded_zip_sha256": "f8380a715e8d6ba00f216492a0f80d014944a30f90ab3d85bfde0665f44ac6e4",
+    "runtime_status": "FAIL",
+    "owner_test_allowed": false
+  },
+  "successful_stages": [
+    "candidate request validation",
+    "Android compile",
+    "Android unit tests",
+    "Android lint",
+    "APK packaging",
+    "candidate backend routing",
+    "automatic login",
+    "conversation load",
+    "conversation search",
+    "POST message HTTP 200"
+  ],
+  "first_business_failure": {
+    "test": "ReleaseCandidateSmokeTest",
+    "source_line": 453,
+    "message": "Unexpected business text for resource: r14.chat.composer expected:<[]> but was:<[R14候选发送-1785363804188]>",
+    "screenshots_produced": [
+      {
+        "name": "01-r14-conversations.png",
+        "sha256": "915255615f69376dcaf46ff4650e82d40b0fd86fa8ef4f1fecf658bf6e61b716"
+      }
+    ]
+  },
+  "root_cause": "R14ChatDetailScreen text send used a trailing lambda. Because onFailure is the final function parameter of send(), Kotlin bound that lambda to onFailure instead of onSuccess, so a successful HTTP send never cleared composer.",
+  "required_fix": "Use an explicitly named onSuccess callback, clear composer only on success, preserve the draft on failure, and retain the strict candidate empty-composer assertion.",
+  "secrets_included": false
+}

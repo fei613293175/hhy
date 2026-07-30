@@ -1,0 +1,113 @@
+protocol_version: '1.0'
+package_version: 1.2.3
+session_id: SES-20260722T194140Z-BCF8BB57
+status: CLOSED
+actor:
+  id: codex-root-r09-tests
+  kind: AI_OR_HUMAN
+  host: unknown
+release: R09
+task_id: TASK-R09-005
+story_id: STORY-R09-004
+goal: 完成App推广重复请求、并发、超时、消息重复和供应商异常专项测试与失败证据归档，关键缺陷清零。
+started_at: '2026-07-22T19:41:40Z'
+updated_at: '2026-07-22T20:02:52Z'
+takeover_of: null
+change_requests:
+- CR-0252
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  - tests/r09/**
+  - services/backend/boot/src/test/**
+  - artifacts/reports/R09/**
+  - catalogs/test_cases.csv
+  approved_exceptions:
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R09ServiceTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R09PostgresStoreTest.java
+  - apps/android/feature/app-promotion/src/test/java/cc/orbexa/hhy/apppromotion/R09AppStateTest.kt
+  - scripts/run_r09_specialized_matrix.py
+  - tests/r09/README.md
+  - tests/r09/req-app-promo-001_happy
+  - tests/r09/req-app-promo-001_reject
+  - tests/r09/req-app-promo-001_idempotent
+  - catalogs/test_cases.csv
+  - artifacts/reports/R09/TASK-R09-005-specialized-tests.md
+  - artifacts/validation/r09-test-evidence/backend-java21.log
+  - artifacts/validation/r09-test-evidence/postgresql17.log
+  - artifacts/validation/r09-test-evidence/android-module.log
+  - artifacts/validation/r09-test-evidence/evidence.json
+  - CHANGELOG.md
+  source: story+explicit+approved-cr:CR-0252
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  base_commit: 78c1f91bbacd724991292e2634288d6af6ace5d5
+  start_head: 78c1f91bbacd724991292e2634288d6af6ace5d5
+  upstream: origin/task/TASK-R03-001
+  initial_worktree_state: CLEAN
+lease:
+  duration_minutes: 240
+  renewed_at: '2026-07-22T20:02:48Z'
+  expires_at: '2026-07-23T00:02:48Z'
+checkpoint_sequence: 7
+latest_checkpoint: .continuity/checkpoints/SES-20260722T194140Z-BCF8BB57/0007.yaml
+session_log: docs/03-continuity/sessions/2026-07/SES-20260722T194140Z-BCF8BB57.md
+next_step: 提交关闭元数据Commit，然后运行pre-push/CI门禁
+context_pack:
+  yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
+  markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
+  manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+  context_hash: 8c1c1ec7cb02ca1950bd74f3ca0ac090efd7cebcf94c7e101b6b16e8766d02f6
+  generated_at: '2026-07-22T20:02:50Z'
+handoff_bundle: null
+closure:
+  result: COMPLETED
+  summary: R09 App推广三项权威专项测试、超时重放、八路并发、重复消息防护、真实依赖异常及规范化哈希证据全部PASS，P0/P1为0。
+  code_commit: d562d768fee74ed0f71ba27ced35faf24f96eb14
+  next_release: R09
+  next_task: TASK-R09-006
+  blocked_advance: false
+  completed_independent_advance: false
+  user_confirmation: null
+  metadata_commit: PENDING
+  push_verification: CI_REQUIRED_AFTER_METADATA_COMMIT
+  started_at: '2026-07-22T20:02:46Z'
+  closure_checkpoint_id: CP-SES-20260722T194140Z-BCF8BB57-0007
+  closed_at: '2026-07-22T20:02:52Z'
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 当前仅执行串行生命周期关闭，后继任务需等待唯一状态转换。
+closed_at: '2026-07-22T20:02:52Z'

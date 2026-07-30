@@ -3,7 +3,7 @@ title: 统一发布与发布管理
 tasks:
 - id: TASK-R12-001
   title: 统一发布与发布管理开发就绪核验、故事领取与变更基线
-  status: READY
+  status: DONE
   depends_on: []
   requirements: &id001
   - REQ-CONTENT-002
@@ -23,9 +23,10 @@ tasks:
   - 更新Release Manifest与CR记录
   - python scripts/check_v122_documentation.py --release R12
   session_log_required: true
+  completed_at: '2026-07-24T16:35:17Z'
 - id: TASK-R12-002
   title: 统一发布与发布管理数据迁移与领域不变量
-  status: BLOCKED
+  status: DONE
   depends_on:
   - TASK-R12-001
   requirements: *id001
@@ -39,9 +40,10 @@ tasks:
   - Flyway前向迁移与空库/升级库测试
   - 不变量属性测试
   session_log_required: true
+  completed_at: '2026-07-25T02:47:05Z'
 - id: TASK-R12-003
   title: 统一发布与发布管理后端应用服务与接口
-  status: BLOCKED
+  status: DONE
   depends_on:
   - TASK-R12-002
   requirements: *id001
@@ -55,9 +57,10 @@ tasks:
   - OpenAPI契约测试
   - 权限/幂等/错误码/审计覆盖
   session_log_required: true
+  completed_at: '2026-07-25T05:31:44Z'
 - id: TASK-R12-004
   title: 统一发布与发布管理客户端/H5/后台实现
-  status: BLOCKED
+  status: DONE
   depends_on:
   - TASK-R12-003
   requirements: *id001
@@ -75,9 +78,10 @@ tasks:
   - 禁止页面级手写重复DTO
   - 全部动作绑定生成API类型
   session_log_required: true
+  completed_at: '2026-07-25T17:10:07Z'
 - id: TASK-R12-005
   title: 统一发布与发布管理专项测试与故障注入
-  status: BLOCKED
+  status: DONE
   depends_on:
   - TASK-R12-003
   - TASK-R12-004
@@ -92,9 +96,10 @@ tasks:
   - 测试报告和失败证据归档
   - 关键缺陷清零
   session_log_required: true
+  completed_at: '2026-07-25T18:02:53Z'
 - id: TASK-R12-006
   title: 统一发布与发布管理可观测性与预发布验收
-  status: BLOCKED
+  status: DONE
   depends_on:
   - TASK-R12-005
   requirements: *id001
@@ -108,9 +113,10 @@ tasks:
   - 运行手册演练
   - 验收矩阵签字
   session_log_required: true
+  completed_at: '2026-07-25T19:17:27Z'
 - id: TASK-R12-007
   title: 统一发布与发布管理Android测试APK与产物追溯
-  status: BLOCKED
+  status: DONE
   depends_on:
   - TASK-R12-006
   requirements: *id001
@@ -124,9 +130,10 @@ tasks:
   - APK可下载/可安装
   - SHA256、Commit、versionName/versionCode、测试结果齐全
   session_log_required: true
+  completed_at: '2026-07-26T10:46:57Z'
 - id: TASK-R12-008
   title: 统一发布与发布管理版本关闭与无状态交接
-  status: BLOCKED
+  status: DONE
   depends_on:
   - TASK-R12-007
   requirements: *id001
@@ -140,6 +147,7 @@ tasks:
   - 全新AI仅凭仓库可继续
   - 工作区干净且Tag可追溯
   session_log_required: true
+  completed_at: '2026-07-26T10:57:48Z'
 version: 1.2.2
 definition_of_ready: releases/R12/DEFINITION_OF_READY.yaml
 story_backlog: releases/R12/STORIES.yaml

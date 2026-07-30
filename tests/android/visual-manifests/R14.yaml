@@ -1,0 +1,60 @@
+schema: hhy.android-visual-manifest/v1
+release: R14
+review_authority: AI_IMPLEMENTATION_AGENT
+authentication: STAGING_GITHUB_OIDC
+screens:
+- screen_id: SCR-CHAT-LIST-001
+  file: 01-r14-conversations.png
+  marker: hhy.screen.r14.conversations
+  required_text:
+  - 消息
+  - 搜索聊天或联系人
+  - R14候选体验用户
+  - R14候选会话已准备
+  forbidden_text: &r14_forbidden
+  - 会话暂时无法加载
+  - 暂时无法连接
+  - 请求编号
+  - TraceId
+  - 已读
+- screen_id: SCR-CHAT-SENT-001
+  file: 02-r14-sent.png
+  marker: hhy.screen.r14.chat
+  required_text:
+  - R14候选体验用户
+  - 已发送
+  forbidden_text: *r14_forbidden
+- screen_id: SHEET-CHAT-BLOCKED-001
+  file: 03-r14-blocked-reentry.png
+  marker: hhy.sheet.r14.safety
+  required_text:
+  - 会话安全与管理
+  - 解除拉黑
+  - 举报聊天
+  forbidden_text:
+  - 删除会话
+  - 输入消息
+  - 请求编号
+  - TraceId
+- screen_id: SHEET-CHAT-LONG-PRESS-001
+  file: 04-r14-long-press-menu.png
+  marker: hhy.sheet.r14.conversation-actions
+  required_text:
+  - 会话管理
+  - 删除会话
+  - 取消
+  forbidden_text:
+  - 举报聊天
+  - 拉黑该用户
+  - 请求编号
+  - TraceId
+security_assertions:
+- surface: SCR-CHAT-SENT-001
+  marker: hhy.screen.r14.chat
+  rule: a newly sent message must render sent rather than read until an authoritative peer receipt exists
+- surface: SHEET-CHAT-BLOCKED-001
+  marker: hhy.sheet.r14.safety
+  rule: own persisted block must survive detail reentry, disable composition, expose unblock, and never expose conversation deletion
+- surface: SHEET-CHAT-LONG-PRESS-001
+  marker: hhy.sheet.r14.conversation-actions
+  rule: conversation deletion belongs only to the list long-press management surface

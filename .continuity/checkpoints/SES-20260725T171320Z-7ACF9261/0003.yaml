@@ -1,0 +1,269 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260725T171320Z-7ACF9261-0003
+session_id: SES-20260725T171320Z-7ACF9261
+task_id: TASK-R12-005
+story_id: STORY-R12-008
+sequence: 3
+created_at: '2026-07-25T17:55:30Z'
+summary: TASK-R12-005六项专项测试证据闭环：精确Commit 5419d682在obx-test通过Java21、PostgreSQL17和Android MODULE；日志三方非空、远端本地哈希一致，矩阵、严格文档与Release门禁全部PASS。
+next_step: 提交并推送TASK-R12-005证据与Release投影，关闭CR-0333和TASK-R12-005会话，然后按依赖启动TASK-R12-006。
+blockers: []
+decisions:
+- catalogs/test_cases.csv仅将六个既有R12测试ID升级为AUTOMATED；完整模拟器、截图和APK继续延后至TASK-R12-007。
+note: P0/P1关键缺陷均为0；本任务没有运行模拟器、截图或APK。
+tests:
+- name: r12-specialized-evidence
+  result: PASS
+  evidence: artifacts/validation/r12-test-evidence/evidence.json
+  note: 6项权威测试全部PASS且selector、环境、日志哈希有效
+- name: backend-java21-exact-commit
+  result: PASS
+  evidence: artifacts/validation/r12-test-evidence/backend-java21.log
+  note: 精确Commit 5419d682，15项零失败零错误零跳过
+- name: postgresql17-exact-commit
+  result: PASS
+  evidence: artifacts/validation/r12-test-evidence/postgresql17.log
+  note: 精确Commit 5419d682，5项真实事务并发零失败零错误零跳过
+- name: android-module-exact-commit
+  result: PASS
+  evidence: artifacts/validation/r12-test-evidence/android-module.log
+  note: 精确Commit 5419d682，202 tasks BUILD SUCCESSFUL
+- name: remote-local-sha256
+  result: PASS
+  evidence: docs/03-continuity/R12_TASK-005_SPECIALIZED_TEST_GATE.md
+  note: 三份日志远端与仓库SHA-256逐一相等
+- name: r12-strict-documentation
+  result: PASS
+  evidence: scripts/check_v122_documentation.py
+  note: R12严格文档0错误0警告
+- name: r12-release-artifacts
+  result: PASS
+  evidence: scripts/check_release_artifacts.py
+  note: RELEASE_ARTIFACTS_OK
+- name: program-execution-plan
+  result: PASS
+  evidence: scripts/check_program_execution_plan.py
+  note: 31个Release 0错误
+- name: traceability
+  result: PASS
+  evidence: scripts/check_traceability.py
+  note: 84项追踪通过
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: 5419d68255dcc965c2c31fcb3006f616d9f8c38a
+  upstream: origin/task/TASK-R03-001
+  ahead: 0
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/change_requests/CR-0333.yaml'
+  - ' M CHANGELOG.md'
+  - ' M catalogs/change_request_index.csv'
+  - ' M catalogs/session_index.csv'
+  - ' M docs/03-continuity/change-requests/CR-0333-R12统一发布六项专项测试与故障证据闭环.md'
+  - ' M releases/R12/RELEASE_MANIFEST.yaml'
+  - ?? artifacts/validation/r12-test-evidence/android-module.log
+  - ?? artifacts/validation/r12-test-evidence/backend-java21.log
+  - ?? artifacts/validation/r12-test-evidence/evidence.json
+  - ?? artifacts/validation/r12-test-evidence/postgresql17.log
+  - ?? docs/03-continuity/R12_TASK-005_SPECIALIZED_TEST_GATE.md
+  recent_commits:
+  - "5419d68255dcc965c2c31fcb3006f616d9f8c38a\t2026-07-26T01:46:43+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] test(r12): automate publishing\
+    \ matrix"
+  - "50c31b95e6352f648ec7793663c291458de4c685\t2026-07-26T01:14:52+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] chore(continuity): enter specialized\
+    \ test gate"
+  - "1b18f744c6f28b918c6d3d38957de1a02ca00745\t2026-07-26T01:11:28+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] chore(continuity): close TASK-R12-004\
+    \ as completed"
+  - "22bcc942eb801e3a6a36292aa8026aed845af852\t2026-07-26T01:08:50+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] chore(continuity): close client\
+    \ gate changes"
+  - "4366bd9392efe2e60b5aa9217428e71932368cf6\t2026-07-26T01:04:41+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] docs(release): close client\
+    \ implementation gate"
+  - "4a11d21d741c2f15f5e6b96f16f87bb0081fb588\t2026-07-26T00:57:51+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] chore(continuity): enter release\
+    \ closure"
+  - "3153ef9cafbcc06ffee8be92dac4f77435f43866\t2026-07-26T00:54:52+08:00\tHHY Continuity Bootstrap\t[STORY-R12-007] feat(android): implement me\
+    \ home"
+  - "1f9fd299e34657f878463f331838a80608cf3da4\t2026-07-25T23:29:26+08:00\tHHY Continuity Bootstrap\t[STORY-R12-007] chore(continuity): approve\
+    \ me home scope"
+project_fingerprint:
+  sha256: c7a0d3f3850541a360a966c30d863726e97a7dff6a01797007c8da3fb5cdcb24
+  files:
+  - CHANGELOG.md
+  - catalogs/test_cases.csv
+  - docs/03-continuity/R12_TASK-005_SPECIALIZED_TEST_GATE.md
+  - docs/03-continuity/change-requests/CR-0333-R12统一发布六项专项测试与故障证据闭环.md
+  - releases/R12/RELEASE_MANIFEST.yaml
+  - scripts/run_r12_specialized_matrix.py
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R12PublishingServiceTest.java
+  - tests/r12/README.md
+  - tests/r12/req-content-002_happy
+  - tests/r12/req-content-002_idempotent
+  - tests/r12/req-content-002_reject
+  - tests/r12/req-publish-001_happy
+  - tests/r12/req-publish-001_idempotent
+  - tests/r12/req-publish-001_reject
+  - tests/test_r12_specialized_matrix.py
+  file_count: 15
+  payload:
+    base_commit: 1b18f744c6f28b918c6d3d38957de1a02ca00745
+    files:
+    - path: CHANGELOG.md
+      state: FILE
+      size: 140865
+      sha256: 653150a1a2d501c90d2e9d5b57581294f5ea7a7b687592cdf4387d7ad87b4996
+    - path: catalogs/test_cases.csv
+      state: FILE
+      size: 227784
+      sha256: 80a41ace55020aecfebc7fc6d7c822a5aa2624de03ceee79009ad0fa2561a4b0
+    - path: docs/03-continuity/R12_TASK-005_SPECIALIZED_TEST_GATE.md
+      state: FILE
+      size: 2881
+      sha256: 8fa20c16f9b78a2a02eb23c1ab21dbd5359819470ba21e056ae4655746060def
+    - path: docs/03-continuity/change-requests/CR-0333-R12统一发布六项专项测试与故障证据闭环.md
+      state: FILE
+      size: 4447
+      sha256: a1e32f2f644f85f82420e827f0e1e0c2221a3a387a8f2489faf19e52107de6cc
+    - path: releases/R12/RELEASE_MANIFEST.yaml
+      state: FILE
+      size: 8978
+      sha256: e3141c642bfaf5a5302a66b2d2c583c7a1ad1123d3816ae8829991b23d95aa92
+    - path: scripts/run_r12_specialized_matrix.py
+      state: FILE
+      size: 9225
+      sha256: 65eaeba00d0fad71e8d50dcae1482cfdeb224a4ca7ca00156a33c4c253f5c706
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/content/R12PublishingServiceTest.java
+      state: FILE
+      size: 14465
+      sha256: 475da2eafd0ae32aea58601426a6d611301939ad91a73357fbc39254b04b45d7
+    - path: tests/r12/README.md
+      state: FILE
+      size: 881
+      sha256: d3c2ccd311b9628c720a684f9e57d5c0c38c8d99b9220e021f2e1520320edbe4
+    - path: tests/r12/req-content-002_happy
+      state: FILE
+      size: 1202
+      sha256: fb25b7a28868bfdefdf03405514768ffae1707354b31abee2a2cd93c9bdb601b
+    - path: tests/r12/req-content-002_idempotent
+      state: FILE
+      size: 1198
+      sha256: 51db8b6894fad53d46c27a0e983f4c28eb5cc6ad16ba9bc9e34d0970b4d1de20
+    - path: tests/r12/req-content-002_reject
+      state: FILE
+      size: 1318
+      sha256: 3f95c56fa73c0303afb0e4b94b6f4770933546078ec6c1ad478bba2437ab3942
+    - path: tests/r12/req-publish-001_happy
+      state: FILE
+      size: 1167
+      sha256: b65bd15ffd759c52971c3ea9fd85e3b9d57b3ca86a9a790444ce10da818c2485
+    - path: tests/r12/req-publish-001_idempotent
+      state: FILE
+      size: 1190
+      sha256: c1eb3259ebf689c7cb213d899144bbb07bbdfde109eaf02e0f01b223765d08bd
+    - path: tests/r12/req-publish-001_reject
+      state: FILE
+      size: 1285
+      sha256: 525e328ebaaf4169575608f18d482a309ea2ed372664e57cd7e5cf51203e932b
+    - path: tests/test_r12_specialized_matrix.py
+      state: FILE
+      size: 3168
+      sha256: f9c3238f22135e43baffa6a43280f00c9a74ff2bc57be55ba4eae205a31b70c7
+change_classification:
+  other:
+  - CHANGELOG.md
+  - catalogs/test_cases.csv
+  continuity:
+  - docs/03-continuity/R12_TASK-005_SPECIALIZED_TEST_GATE.md
+  - docs/03-continuity/change-requests/CR-0333-R12统一发布六项专项测试与故障证据闭环.md
+  source_of_truth:
+  - releases/R12/RELEASE_MANIFEST.yaml
+  code:
+  - scripts/run_r12_specialized_matrix.py
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R12PublishingServiceTest.java
+  tests:
+  - tests/r12/README.md
+  - tests/r12/req-content-002_happy
+  - tests/r12/req-content-002_idempotent
+  - tests/r12/req-content-002_reject
+  - tests/r12/req-publish-001_happy
+  - tests/r12/req-publish-001_idempotent
+  - tests/r12/req-publish-001_reject
+  - tests/test_r12_specialized_matrix.py
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+- APPROVED_CHANGE_REQUEST
+change_requests:
+- CR-0333
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions:
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R12PublishingServiceTest.java
+  - tests/r12/README.md
+  - tests/r12/req-content-002_happy
+  - tests/r12/req-content-002_reject
+  - tests/r12/req-content-002_idempotent
+  - tests/r12/req-publish-001_happy
+  - tests/r12/req-publish-001_reject
+  - tests/r12/req-publish-001_idempotent
+  - tests/test_r12_specialized_matrix.py
+  - scripts/run_r12_specialized_matrix.py
+  - catalogs/test_cases.csv
+  - artifacts/validation/r12-test-evidence/evidence.json
+  - artifacts/validation/r12-test-evidence/backend-java21.log
+  - artifacts/validation/r12-test-evidence/postgresql17.log
+  - artifacts/validation/r12-test-evidence/android-module.log
+  - docs/03-continuity/R12_TASK-005_SPECIALIZED_TEST_GATE.md
+  - releases/R12/RELEASE_MANIFEST.yaml
+  - CHANGELOG.md
+  source: story+explicit+approved-cr:CR-0333
+parallel_execution:
+  assessment: DELEGATED
+  delegated_workers: 2
+  workers:
+  - worker_id: profile_contract_review
+    responsibility: 六项测试范围与共享Java/PostgreSQL selector独立审计
+    allowed_paths:
+    - .continuity/change_requests/CR-0333.yaml
+  - worker_id: profile_android_review
+    responsibility: Android MODULE与候选延后边界独立审计
+    allowed_paths:
+    - apps/android/feature/content-management/src/test
+  reason: 只读审计已完成；精确Commit重测、哈希、证据生成、Release投影和最终集成由主控串行复核。
+event_hash: f69542f0b3da143b2ffc8a3c07a56062a1a4b959e793910366c6ca58aad6e63e

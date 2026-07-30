@@ -1,0 +1,204 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260721T210252Z-D631F6E4-0005
+session_id: SES-20260721T210252Z-D631F6E4
+sequence: 5
+created_at: '2026-07-21T21:45:08Z'
+summary: R07公网候选f46af781健康且夹具幂等通过，候选请求R07-20260722-001已通过本地静态前置门禁
+next_step: 提交推送R07候选请求并监控GitHub完整模拟器旅程，下载首轮截图进行AI基线审核
+blockers: []
+decisions:
+- 首次R07视觉基线尚不存在，首轮允许只因缺基线拒绝，但编译、登录、真实页面旅程、截图、崩溃与安全断言必须通过
+note: ''
+tests:
+- name: Android candidate request validator
+  result: PASS
+  evidence: config/android-candidate-request.yaml
+  note: R07 attempt 1 enabled
+- name: UI token gate
+  result: PASS
+  evidence: scripts/check_ui_tokens.py
+  note: UI_TOKENS_OK 52
+- name: Android UI foundation
+  result: PASS
+  evidence: scripts/check_android_ui_foundation.py
+  note: ANDROID_UI_FOUNDATION_GATE=PASS
+- name: Public R07 staging
+  result: PASS
+  evidence: https://api.orbexa.cc/public-api/v1/platform/status
+  note: HTTP 200 on hhy-backend-r07-ci:f46af781
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: f46af781e0fa9007d712332713b3f067875ecb5f
+  upstream: origin/task/TASK-R03-001
+  ahead: 0
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - ' M config/android-candidate-request.yaml'
+  recent_commits:
+  - "f46af781e0fa9007d712332713b3f067875ecb5f\t2026-07-22T05:41:20+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] fix(staging): 修复R07候选夹具事务边界"
+  - "7f7245ce6cd5c880ae2080a0284c2ea2c513a29f\t2026-07-22T05:31:51+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] test(android): 建立R07候选真实页面旅程"
+  - "0dc40abf3ed879893c510d4f7c3b4cf9a42700c0\t2026-07-22T05:00:31+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] chore(continuity): close TASK-R07-006\
+    \ as completed"
+  - "13a740044a77b700ccaa4bf2f6243649bd0aadeb\t2026-07-22T04:59:26+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] docs(governance): 关闭R07预发布变更"
+  - "7c5a5f7a329d36c62c5269fb68d23e0fca69ab19\t2026-07-22T04:57:16+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] test(staging): 签署R07隔离预发布验收"
+  - "417b6cc9bc5f1b56adc280db5375358100bf23ae\t2026-07-22T04:31:47+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] feat(observability): 建立R07隔离预发布门禁"
+  - "e6d73b0fb4be95c6769c8f6aa493172592d686ea\t2026-07-22T04:16:46+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] chore(continuity): close TASK-R07-005\
+    \ as completed"
+  - "0c2d512bb4ed73678aee8817e63c33d8539e99be\t2026-07-22T04:14:59+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] chore(continuity): 关闭R07专项与Git环境变更请求"
+project_fingerprint:
+  sha256: e5988644932cf3d3c3991b4d61a7ad3422a0a049463b0f69bff304655fd3909a
+  files:
+  - CHANGELOG.md
+  - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+  - apps/android/feature/discovery/src/main/java/cc/orbexa/hhy/discovery/R07DiscoveryScreens.kt
+  - config/android-candidate-request.yaml
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/change-requests/CR-0191-建立R07最终候选真实页面旅程与隔离测试夹具.md
+  - docs/03-continuity/change-requests/CR-0192-修复R07页面残留Compose颜色硬编码.md
+  - docs/03-continuity/change-requests/CR-0193-修复R07候选夹具psql变量边界.md
+  - docs/03-continuity/change-requests/CR-0194-补齐R07候选夹具事务边界自动回归.md
+  - docs/07-operations/DEPLOYMENT_RUNBOOK.md
+  - scripts/prepare_r07_ci_fixture.sh
+  - tests/android/visual-manifests/R07.yaml
+  - tests/test_r07_ci_fixture.py
+  file_count: 13
+  payload:
+    base_commit: 0dc40abf3ed879893c510d4f7c3b4cf9a42700c0
+    files:
+    - path: CHANGELOG.md
+      state: FILE
+      size: 68125
+      sha256: 992079fad6b086e340c8b80e469b13efe245c210acb604a7c18aa74e8d530f81
+    - path: apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+      state: FILE
+      size: 12757
+      sha256: 23e8c1ea2dfdac0abed6d01255a840edb8497950b72c846724a5f741872bf470
+    - path: apps/android/feature/discovery/src/main/java/cc/orbexa/hhy/discovery/R07DiscoveryScreens.kt
+      state: FILE
+      size: 25353
+      sha256: 9596e16b44e4a54ea7ed686c91f641effa0a663db0cdc888582b5b1ebab160e8
+    - path: config/android-candidate-request.yaml
+      state: FILE
+      size: 237
+      sha256: 9b20aee7aa9fe969b0949aa3507da0665583a70f31eb7d0431839e45ff1b01e7
+    - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
+      state: FILE
+      size: 88075
+      sha256: 1b4cc4a9b70ea46131ed8fa96e54404ff71afa43a27d8e2f5273e5d1d5794f11
+    - path: docs/03-continuity/change-requests/CR-0191-建立R07最终候选真实页面旅程与隔离测试夹具.md
+      state: FILE
+      size: 3638
+      sha256: 7981a223c3257e4b6c2b25a432fb990be3510c5225562279c49b0ea1ac314265
+    - path: docs/03-continuity/change-requests/CR-0192-修复R07页面残留Compose颜色硬编码.md
+      state: FILE
+      size: 2257
+      sha256: 1f862ca5cce32d3fce89446cdb9e77a33d8cd547ad78f8237c0ec5c494c3121b
+    - path: docs/03-continuity/change-requests/CR-0193-修复R07候选夹具psql变量边界.md
+      state: FILE
+      size: 2100
+      sha256: ddbc882f1508bbf8d76020a518cb350cc198b51c3e3651f5be8fd6ecb0e042f7
+    - path: docs/03-continuity/change-requests/CR-0194-补齐R07候选夹具事务边界自动回归.md
+      state: FILE
+      size: 1918
+      sha256: 27d21dd5959589d7f7f2b2cab2550f68b29288e5f4e3be8e39e2102e3843cedd
+    - path: docs/07-operations/DEPLOYMENT_RUNBOOK.md
+      state: FILE
+      size: 25855
+      sha256: 481bbcf79b3e9275c004948ed1164e877de607f5d1cb52e045c0870a05204fbc
+    - path: scripts/prepare_r07_ci_fixture.sh
+      state: FILE
+      size: 3809
+      sha256: 873c9311b5f4af257c6071b3809cf1e455ca9fe83f27f5c7b9ec28ad5e71ea69
+    - path: tests/android/visual-manifests/R07.yaml
+      state: FILE
+      size: 1439
+      sha256: d937f326b2686ce0c76a3636e7d6355b995b8485f1f277c3384e3d88528e5ba5
+    - path: tests/test_r07_ci_fixture.py
+      state: FILE
+      size: 1586
+      sha256: f488f893c140044ec3d8b61f70fde81604b545148cf060bee65e581bae89d317
+change_classification:
+  other:
+  - CHANGELOG.md
+  - config/android-candidate-request.yaml
+  - docs/07-operations/DEPLOYMENT_RUNBOOK.md
+  code:
+  - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+  - apps/android/feature/discovery/src/main/java/cc/orbexa/hhy/discovery/R07DiscoveryScreens.kt
+  - scripts/prepare_r07_ci_fixture.sh
+  user_visible:
+  - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+  - apps/android/feature/discovery/src/main/java/cc/orbexa/hhy/discovery/R07DiscoveryScreens.kt
+  continuity:
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/change-requests/CR-0191-建立R07最终候选真实页面旅程与隔离测试夹具.md
+  - docs/03-continuity/change-requests/CR-0192-修复R07页面残留Compose颜色硬编码.md
+  - docs/03-continuity/change-requests/CR-0193-修复R07候选夹具psql变量边界.md
+  - docs/03-continuity/change-requests/CR-0194-补齐R07候选夹具事务边界自动回归.md
+  tests:
+  - tests/android/visual-manifests/R07.yaml
+  - tests/test_r07_ci_fixture.py
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+- CHANGELOG
+change_requests:
+- CR-0191
+- CR-0192
+- CR-0193
+- CR-0194
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions:
+  - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+  - scripts/prepare_r07_ci_fixture.sh
+  - tests/android/visual-manifests/R07.yaml
+  - config/android-candidate-request.yaml
+  - docs/07-operations/DEPLOYMENT_RUNBOOK.md
+  - CHANGELOG.md
+  - apps/android/feature/discovery/src/main/java/cc/orbexa/hhy/discovery/R07DiscoveryScreens.kt
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - tests/test_r07_ci_fixture.py
+  source: story+explicit+approved-cr:CR-0191+approved-cr:CR-0192+approved-cr:CR-0193+approved-cr:CR-0194
+parallel_execution:
+  assessment: USER_SERIAL_OVERRIDE
+  delegated_workers: 0
+  workers: []
+  reason: 候选请求推送后需按单一GitHub运行审计，禁止并发触发重复候选
+event_hash: c8beb139ba1f43920708d6b0f3c52d729403555cd1b04898e196ce5dd64e615f

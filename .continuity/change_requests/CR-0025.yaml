@@ -1,0 +1,51 @@
+protocol_version: '1.0'
+cr_id: CR-0025
+title: 绑定Git pre-push实际目标以消除跨remote绕过
+status: IMPLEMENTED
+created_at: '2026-07-17T23:31:46Z'
+updated_at: '2026-07-18T00:01:49Z'
+requester_actor_id: codex-root
+approver_actor_id: codex-git-safety-reviewer
+task_id: TASK-R02-002
+session_id: SES-20260717T210927Z-13B07A7D
+user_request: 项目所有者要求跨电脑和跨AI均可安全恢复并正常推送，且推送必须不可绕过transport规则。
+reason: CR-0024集成复核发现现有pre-push Hook未把Git传入的remote名称和URL交给门禁，直接push到非origin目标可能绕过受控descriptor校验。
+original_rule: pre-push Hook仅调用通用门禁，不传递Git提供的实际remote名称和URL，门禁只能读取tracked origin。
+new_rule: pre-push Hook必须把实际remote名称和URL传入continuity_gate；门禁将其与tracked descriptor精确比对，任何非origin或URL漂移均拒绝。
+impact_summary: 消除直接git push到错误remote时绕过transport descriptor的路径。
+impact:
+  files:
+  - .githooks/pre-push
+  - scripts/continuity_gate.py
+  - tests/test_git_transport_recovery.py
+  pages: []
+  apis: []
+  database: []
+  configuration:
+  - git_transport.actual_push_target
+  ledger: []
+  tests:
+  - pre-push hook actual remote and URL rejection
+  releases:
+  - R02
+  migration_and_compatibility: 仅扩展Hook与门禁参数；正常origin推送保持兼容，错误remote/URL将被明确拒绝。
+user_confirmation: 项目所有者已要求跨电脑/跨AI能够正常且安全推送；该修复是CR-0024推送安全规则的必要实现。
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-17T23:32:08Z'
+  note: 独立安全复核通过：透传Git实际目标是实现不可绕过推送门禁所必需的最小变更。
+machine_record: .continuity/change_requests/CR-0025.yaml
+document: docs/03-continuity/change-requests/CR-0025-绑定Git-pre-push实际目标以消除跨remote绕过.md
+decision_log:
+- at: '2026-07-17T23:32:10Z'
+  actor_id: codex-root
+  status: IMPLEMENTING
+  note: 开始实现pre-push实际remote/URL绑定。
+  session_id: SES-20260717T210927Z-13B07A7D
+- at: '2026-07-18T00:01:49Z'
+  actor_id: codex-root
+  status: IMPLEMENTED
+  note: pre-push Hook已透传Git实际remote/URL，错误目标和force路径不可绕过；本地bare回归通过。
+  session_id: SES-20260717T210927Z-13B07A7D
+session_ids:
+- SES-20260717T210927Z-13B07A7D

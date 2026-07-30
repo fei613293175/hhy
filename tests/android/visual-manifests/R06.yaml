@@ -1,0 +1,41 @@
+schema: hhy.android-visual-manifest/v1
+release: R06
+review_authority: AI_IMPLEMENTATION_AGENT
+authentication: STAGING_GITHUB_OIDC
+screens:
+- screen_id: SCR-HOME-001
+  file: 01-home-loaded.png
+  marker: hhy.screen.r06.home.loaded
+  required_text:
+  - 首页
+  - 红包
+  - 发布
+  - 消息
+  - 我的
+  forbidden_text:
+  - 正在启动
+  - 正在加载首页模块
+  - 首页模块暂时无法加载，请稍后重试
+- screen_id: SCR-MINE-001
+  file: 02-mine.png
+  marker: hhy.screen.r06.mine
+  required_text:
+  - 我的
+  - 首页
+  - 红包
+  - 发布
+  - 消息
+  - 关于与检查更新
+  forbidden_text:
+  - 正在启动
+- screen_id: SCR-ABOUT-001
+  file: 03-about-loaded.png
+  marker: hhy.screen.r06.about.loaded
+  required_text:
+  - 关于与检查更新
+  - 当前版本
+  forbidden_text:
+  - 正在启动
+  - 版本信息暂时无法获取
+  - 请求编号
+  - TraceId

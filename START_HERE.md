@@ -1,10 +1,21 @@
 # START HERE · V1.2.3
 
+> 正式商业系统的跨版本硬边界见 `docs/00-baseline/正式商业系统全局硬性开发边界.md`：禁止技术字段进入用户界面、UI 必须按冻结参数施工、版本不得遗漏，并在每个大版本关闭前向桌面交付 APK 与完整测试反馈说明。
+
 ## 1. 本包是什么
 
 V1.2.2 仍是产品、页面和运营施工基线；V1.2.3 在其上增加持续开发无状态接续强制门禁。项目可以不依赖任何旧对话，由完整仓库恢复任务、WIP、测试、CR、检查点和下一步。
 
 ## 2. 新 AI / 新开发者第一条命令
+
+Windows 新电脑或首次接手先一次性配置受控 Git；命令会幂等写入用户级 `HHY_GIT_BIN` 与 `PATH`，不写凭据、不修改远端：
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File scripts/configure_windows_git_runtime.ps1
+powershell -NoProfile -ExecutionPolicy Bypass -File scripts/configure_windows_git_runtime.ps1 -Check
+```
+
+随后恢复仓库事实：
 
 ```bash
 python3 scripts/continuity.py resume
@@ -12,22 +23,43 @@ python3 scripts/continuity.py resume
 
 严格执行输出的唯一下一命令。不要先修改文件，也不要让用户重新解释需求。
 
-## 3. 首次仓库初始化
+即使项目所有者只说“继续开发”，也必须由仓库恢复全部事实。继续前确认 Context Pack 的 `rule_readiness.status=PASS`，且所有必读规则来源均在 `source_manifest` 中具有 SHA-256；不得用 AI 的主观“已完全理解”代替这一证据。收到新规则时先检索并修订已有权威规则，禁止另建相同或相似的平行硬规则。
+
+随后必须验证项目云端既有环境：
+
+```bash
+python3 scripts/verify_cloud_environment.py --check-android
+python3 scripts/restore_git_transport.py status
+```
+
+除非项目所有者明确报告未连接，否则默认 Codex 已连接 `obx-test` 且项目环境已存在。预检失败时停止并报告，不得进入“无服务器开发”或重建本地 Android SDK。
+
+## 3. 默认多代理规则
+
+项目所有者已经提供跨 AI、跨电脑的长期授权。主控在每个 Task 开始和范围变化时必须评估并行机会；有安全、边界清晰且路径互斥的工作包时，自动启用 1 至 3 个隔离执行代理，不再逐次询问用户。始终只有 1 个 ACTIVE Session、1 个 Claim、1 个事实分支和 1 个提交/推送/发布者。
+
+未启用代理时，Checkpoint 必须记录不可安全拆分、运行环境不支持或用户本次要求串行等原因。不支持代理的 AI 可以由主控单线程继续，但不得伪造并行证据。资金、安全、状态机、并发、破坏性迁移与最终集成仍由主控串行复核。
+
+模型按任务复杂度自动选择：复杂/高风险使用 Sol，中等使用 Terra，轻量/机械/只读使用 Luna；不可用时按 `config/DEVELOPMENT_RUNTIME.yaml` 记录目标、实际模型与降级原因。当前若无 Luna，只能记录为 Terra low 回退，不能声称使用了 Luna。
+
+## 4. 首次仓库初始化
 
 ```bash
 python3 scripts/continuity.py bootstrap   --actor <ACTOR_ID> --init-git --initial-commit   --task TASK-P00-001 --branch task/TASK-P00-001
 python3 scripts/continuity.py start   --actor <ACTOR_ID> --task TASK-P00-001   --story <STORY_ID> --goal '<精确目标>'
 ```
 
-## 4. 开发中
+## 5. 开发中
 
 ```bash
-python3 scripts/continuity.py checkpoint   --summary '<完成内容>' --next-step '<精确下一步>'   --test 'name|PASS|evidence|note'
+python3 scripts/continuity.py checkpoint   --summary '<完成内容>' --next-step '<精确下一步>'   --test 'name|PASS|evidence|note'   --parallel-assessment <ASSESSMENT> --parallel-reason '<未委托原因>'
 ```
 
 冻结事实变化使用 `cr-create`、`cr-amend` 和不同 Actor 的 `cr-approve`。切换 AI 前使用 `handoff`；异常中断使用 `recover`；干净项目归档使用 `export-clean`。
 
-## 5. 门禁
+跨电脑或交接包恢复 Git 时只使用 `config/REPOSITORY_TRANSPORT.yaml`、`scripts/configure_windows_git_runtime.ps1` 和 `scripts/restore_git_transport.py`；认证凭据始终由当前电脑的 Credential Manager/SSH Agent 提供，不得写入仓库或远程 URL。推送前必须运行受控 preflight，禁止 force push。若当前 Codex/IDE 是配置前启动的长驻父进程，可继续使用 `HHY_GIT_BIN` 或统一工作流完成当前任务，在方便时重启一次刷新继承的 `PATH`；不得把旧进程环境误判为配置失败并重复诊断。
+
+## 6. 门禁
 
 ```bash
 python3 scripts/check_v123_continuity.py --strict

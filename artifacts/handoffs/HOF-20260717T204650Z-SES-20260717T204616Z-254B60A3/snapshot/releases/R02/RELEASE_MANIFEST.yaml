@@ -1,0 +1,143 @@
+release: R02
+title: 账号、登录、注册与安全会话
+status: READY_WHEN_DEPENDENCIES_GREEN
+milestone: M0_ENGINEERING_FOUNDATION
+depends_on:
+- R01
+scope: 密码默认登录、图形安全验证、阿里云短信登录/注册、邀请注册、Token、设备和后台用户管理
+android_test_apk_required: true
+requirements:
+- REQ-AUTH-001
+- REQ-AUTH-002
+- REQ-AUTH-003
+- REQ-AUTH-004
+- REQ-AUTH-005
+- REQ-ADMIN-OPS-001
+ui:
+  android:
+  - SCR-APP-001
+  - SCR-APP-002
+  - SCR-APP-003
+  - SCR-AUTH-001
+  - SCR-AUTH-002
+  - SCR-AUTH-003
+  - SCR-AUTH-004
+  - SCR-AUTH-005
+  - SCR-AUTH-006
+  - SCR-AUTH-007
+  - SCR-AUTH-008
+  h5:
+  - H5-013
+  admin:
+  - ADM-USER-001
+  - ADM-USER-002
+contracts:
+  implementation_endpoint_count: 19
+  story_unique_operation_count: 27
+  reused_dependency_operation_count: 8
+  interpretation: 本版本实现19个新增端点；9个纵向故事共集成验证27个唯一operationId，其中8个是跨版本复用依赖。
+  client_api:
+  - POST /api/v1/auth/security-challenges
+  - POST /api/v1/auth/password/login
+  - POST /api/v1/auth/sms/send
+  - POST /api/v1/auth/sms/login
+  - POST /api/v1/auth/invite-codes/validate
+  - POST /api/v1/auth/register
+  - POST /api/v1/auth/password/reset
+  - POST /api/v1/me/security/password/change
+  - POST /api/v1/auth/refresh
+  - POST /api/v1/auth/logout
+  - GET /api/v1/auth/sessions
+  - DELETE /api/v1/auth/sessions/{id}
+  admin_api:
+  - GET /admin-api/v1/users
+  - GET /admin-api/v1/users/{id}
+  - POST /admin-api/v1/users/{id}/restrictions
+  - DELETE /admin-api/v1/users/{id}/restrictions/{type}
+  - POST /admin-api/v1/users/{id}/freeze
+  - POST /admin-api/v1/users/{id}/unfreeze
+  - POST /admin-api/v1/users/{id}/force-logout
+  websocket: []
+database_tables:
+- h5_page_configs
+- cms_articles
+- agreements
+- app_versions
+- content_posts
+- app_release_records
+- app_build_artifacts
+- users
+- user_credentials
+- auth_security_challenges
+- user_sessions
+- user_devices
+- sms_verification_codes
+- login_logs
+- user_profiles
+- user_settings
+- user_status_logs
+- support_tickets
+- ticket_messages
+- ticket_attachments
+- ticket_status_logs
+- admin_users
+- admin_roles
+- admin_permissions
+- admin_user_roles
+- admin_role_permissions
+- admin_operation_logs
+- admin_approval_requests
+tests:
+- TST-ADMIN_OPS_001-DRIFT
+- TST-ADMIN_OPS_001-HAPPY
+- TST-ADMIN_OPS_001-REJECT
+- TST-ADMIN_OPS_001-SECURITY
+- TST-AUTH_001-HAPPY
+- TST-AUTH_001-IDEMPOTENT
+- TST-AUTH_001-REJECT
+- TST-AUTH_001-SECURITY
+- TST-AUTH_002-HAPPY
+- TST-AUTH_002-IDEMPOTENT
+- TST-AUTH_002-REJECT
+- TST-AUTH_002-SECURITY
+- TST-AUTH_003-HAPPY
+- TST-AUTH_003-IDEMPOTENT
+- TST-AUTH_003-REJECT
+- TST-AUTH_003-SECURITY
+- TST-AUTH_004-HAPPY
+- TST-AUTH_004-IDEMPOTENT
+- TST-AUTH_004-REJECT
+- TST-AUTH_004-SECURITY
+- TST-AUTH_005-HAPPY
+- TST-AUTH_005-IDEMPOTENT
+- TST-AUTH_005-REJECT
+- TST-AUTH_005-SECURITY
+- TST-V122-011
+test_count: 25
+parallel_execution_plan: releases/R02/PARALLEL_EXECUTION_PLAN.yaml
+entry_gate:
+- releases/R02/DEFINITION_OF_READY.yaml 全部适用项为PASS
+- releases/R02/STORIES.yaml 中每个故事均绑定页面/API/配置/数据/测试或显式N/A
+- 本版本页面字段、状态、动作、导航和后台运营规格不存在TBD/RELEASE_BOUND
+- 全部依赖版本为GREEN或按发布计划允许的并行依赖已记录
+- 冻结契约发生变化时已创建CR并重新生成追踪和SHA
+exit_gate:
+- 领域代码与前端真实闭环
+- 数据库迁移和不变量测试通过
+- 契约/单元/集成/E2E/安全专项测试通过
+- 日志指标链路和业务告警可验证
+- Session Log、追踪矩阵、产物Manifest和下一任务更新
+- Staging APK可安装且SHA256、Commit、版本信息完整
+change_policy: V1.2.2 页面、字段、状态、动作、API、配置和数据目录是唯一事实源；破坏性变更必须CR+版本升级+迁移+消费者兼容窗口
+documentation_baseline: V1.2.2
+document_gap_status: ZERO_BLOCKING_DOCUMENT_GAPS
+definition_of_ready: releases/R02/DEFINITION_OF_READY.yaml
+story_backlog: releases/R02/STORIES.yaml
+continuity:
+  policy: .continuity/CONTINUITY_POLICY.yaml
+  protocol_version: '1.0'
+  mode: ENFORCED
+  session_required_before_change: true
+  checkpoint_required_before_commit: true
+  old_conversation_required: false
+  handoff_bundle_required_for_actor_switch: true

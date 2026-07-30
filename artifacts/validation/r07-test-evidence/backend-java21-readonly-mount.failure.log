@@ -1,0 +1,66 @@
+[INFO] Scanning for projects...
+[INFO] ------------------------------------------------------------------------
+[INFO] Reactor Build Order:
+[INFO] 
+[INFO] HHY Backend                                                        [pom]
+[INFO] hhy-shared-kernel                                                  [jar]
+[INFO] hhy-access                                                         [jar]
+[INFO] hhy-content                                                        [jar]
+[INFO] hhy-commerce                                                       [jar]
+[INFO] hhy-incentive                                                      [jar]
+[INFO] hhy-platform                                                       [jar]
+[INFO] hhy-boot                                                           [jar]
+[INFO] 
+[INFO] ------------------< cc.orbexa.hhy:hhy-backend-parent >------------------
+[INFO] Building HHY Backend 1.2.2-SNAPSHOT                                [1/8]
+[INFO]   from pom.xml
+[INFO] --------------------------------[ pom ]---------------------------------
+[INFO] 
+[INFO] ------------------< cc.orbexa.hhy:hhy-shared-kernel >-------------------
+[INFO] Building hhy-shared-kernel 1.2.2-SNAPSHOT                          [2/8]
+[INFO]   from shared-kernel/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ hhy-shared-kernel ---
+[INFO] skip non existing resourceDirectory /workspace/services/backend/shared-kernel/src/main/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ hhy-shared-kernel ---
+[WARNING] Error while writing new mojo status: /workspace/services/backend/shared-kernel/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst
+[INFO] Recompiling the module because of changed source code.
+[WARNING] I/O error deleting the annotation processing generated files: /workspace/services/backend/shared-kernel/target/generated-sources/annotations
+[INFO] Compiling 6 source files with javac [debug parameters release 21] to target/classes
+[INFO] -------------------------------------------------------------
+[ERROR] COMPILATION ERROR : 
+[INFO] -------------------------------------------------------------
+[ERROR] /workspace/services/backend/shared-kernel/src/main/java/cc/orbexa/hhy/shared/api/ApiErrorResponse.java:[7,12] error while writing cc.orbexa.hhy.shared.api.ApiErrorResponse.ErrorBody: could not create parent directories
+[INFO] 1 error
+[INFO] -------------------------------------------------------------
+[INFO] ------------------------------------------------------------------------
+[INFO] Reactor Summary for HHY Backend 1.2.2-SNAPSHOT:
+[INFO] 
+[INFO] HHY Backend ........................................ SUCCESS [  0.003 s]
+[INFO] hhy-shared-kernel .................................. FAILURE [  2.546 s]
+[INFO] hhy-access ......................................... SKIPPED
+[INFO] hhy-content ........................................ SKIPPED
+[INFO] hhy-commerce ....................................... SKIPPED
+[INFO] hhy-incentive ...................................... SKIPPED
+[INFO] hhy-platform ....................................... SKIPPED
+[INFO] hhy-boot ........................................... SKIPPED
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  3.149 s
+[INFO] Finished at: 2026-07-21T20:01:03Z
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal org.apache.maven.plugins:maven-compiler-plugin:3.14.1:compile (default-compile) on project hhy-shared-kernel: Compilation failure
+[ERROR] /workspace/services/backend/shared-kernel/src/main/java/cc/orbexa/hhy/shared/api/ApiErrorResponse.java:[7,12] error while writing cc.orbexa.hhy.shared.api.ApiErrorResponse.ErrorBody: could not create parent directories
+[ERROR] -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoFailureException
+[ERROR] 
+[ERROR] After correcting the problems, you can resume the build with the command
+[ERROR]   mvn <args> -rf :hhy-shared-kernel

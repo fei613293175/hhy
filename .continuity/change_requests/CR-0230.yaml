@@ -1,0 +1,54 @@
+protocol_version: '1.0'
+cr_id: CR-0230
+title: 修复用户自查询遗漏实名与会员状态导致R08编辑误拦截
+status: IMPLEMENTING
+created_at: '2026-07-22T07:57:00Z'
+updated_at: '2026-07-22T07:57:38Z'
+requester_actor_id: codex-root-r08-007
+approver_actor_id: codex-reviewer-user-self-r08
+task_id: TASK-R08-007
+session_id: SES-20260722T064621Z-68304DE1
+user_request: 项目所有者要求所有版本截图由AI判断合格，UI不得虚构、不得停下等待用户核实；R08候选编辑页必须呈现真实可用状态。
+reason: R08首轮候选三页真实截图发现，CI用户identity_profiles已为VERIFIED，但GET /api/v1/users/me固定返回identityStatus和membershipStatus为null，Android因此同时显示实名拦截与编辑表单；需修复冻结用户自查询映射并增加候选可见回归。
+original_rule: GET /api/v1/users/me的UserResource已冻结包含identityStatus与membershipStatus；项目编辑必须基于服务端当前实名事实启用，不得以null误判。
+new_rule: 不新增平行规则或接口；修复既有用户自查询投影，从identity_profiles和user_memberships读取最新状态并原样返回冻结字段；R08候选编辑页禁止出现错误实名拦截，首轮不合格截图不得晋升基线。
+impact_summary: 修复用户自查询长期返回两个null的实现缺口，使R08已实名所有者编辑与服务端权限一致；登记PROB-0081，增加服务映射和候选可见回归，数据库仅只读查询不迁移。
+impact:
+  files:
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthStore.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthService.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserAuthServiceTest.java
+  - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+  - tests/android/visual-manifests/R08.yaml
+  - tests/test_android_ci_gate.py
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - CHANGELOG.md
+  - config/android-candidate-request.yaml
+  pages:
+  - SCR-PUB-002
+  apis:
+  - GET /api/v1/users/me
+  database:
+  - identity_profiles与user_memberships只读投影
+  configuration: []
+  ledger: []
+  tests:
+  - UserAuthServiceTest；后端access/boot受影响MODULE；Android instrumentation编译；R08候选编辑页不得出现需要完成实名认证
+  releases:
+  - R08
+  migration_and_compatibility: 响应字段原本可空且已在冻结合同中；仅把现有记录映射为真实状态，未实名或无会员记录仍返回null，无数据库迁移、请求变化或秘密暴露。
+user_confirmation: 项目所有者已授权AI独立判断候选截图并持续修复至合格，不需暂停等待用户确认。
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-22T07:57:35Z'
+  note: 已核对冻结UserResource合同和既有身份表；修复只回填现有字段，不扩张API或数据库，且候选负向文案可直接防止误批准。
+machine_record: .continuity/change_requests/CR-0230.yaml
+document: docs/03-continuity/change-requests/CR-0230-修复用户自查询遗漏实名与会员状态导致R08编辑误拦截.md
+decision_log:
+- at: '2026-07-22T07:57:38Z'
+  actor_id: codex-root-r08-007
+  status: IMPLEMENTING
+  note: 开始修复PROB-0081用户自查询实名状态映射和R08候选负向回归。
+  session_id: SES-20260722T064621Z-68304DE1
+session_ids:
+- SES-20260722T064621Z-68304DE1

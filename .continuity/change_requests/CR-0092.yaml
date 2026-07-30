@@ -1,0 +1,78 @@
+protocol_version: '1.0'
+cr_id: CR-0092
+title: 补齐R05一次性活体回跳消费契约与H5实施范围
+status: IMPLEMENTED
+created_at: '2026-07-19T19:15:03Z'
+updated_at: '2026-07-19T19:40:58Z'
+requester_actor_id: codex-root
+approver_actor_id: project-owner
+task_id: TASK-R05-004
+session_id: SES-20260719T183335Z-535311E4
+user_request: 用户要求不暂停并严格完成R05全部功能；H5回跳不得泄露技术参数或要求用户处理state
+reason: 冻结H5页面声明一次性state，但登记的Bearer加路径id查询无法由公开回跳安全调用，需要新增最小公开消费契约并精确纳入H5文件
+original_rule: H5-012以一次性state公开进入，但唯一登记查询要求Bearer和路径id，当前会话范围也遗漏apps/h5实施文件
+new_rule: 新增POST /public-api/v1/identity/callback/consume，仅原子消费一次高熵state并返回最小业务状态；URL参数立即清理；精确纳入列出的H5、契约、迁移和测试文件
+impact_summary: 修复公开回跳无法安全查询的冻结契约冲突；不返回用户ID、会话ID、供应商、失败代码、URL、版本或请求编号，不改变现有四个已认证接口
+impact:
+  files:
+  - contracts/openapi.yaml
+  - contracts/contract_status.csv
+  - services/backend/boot/src/main/resources/contracts/openapi.yaml
+  - packages/api-client/src/client.generated.ts
+  - database/migrations/V026__r05_identity_callback_consumption.sql
+  - database/rollback/U026__r05_identity_callback_consumption.sql
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentityCallbackService.java
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/PublicIdentityCallbackController.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/IdentityCallbackServiceTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/PublicIdentityCallbackControllerTest.java
+  - apps/h5/src/router.ts
+  - apps/h5/src/styles.css
+  - apps/h5/src/services/identityCallback.ts
+  - apps/h5/src/services/identityCallback.test.ts
+  - apps/h5/src/views/IdentityCallbackPage.vue
+  - apps/h5/src/views/IdentityCallbackPage.test.ts
+  - catalogs/api_endpoints.csv
+  - catalogs/api_ui_ownership.csv
+  - catalogs/ui_action_matrix.csv
+  - catalogs/ui_page_specifications.csv
+  - catalogs/frontend_backend_matrix.csv
+  - releases/R05/STORIES.yaml
+  - docs/02-ui/page-specs/h5/H5-012_活体回跳.md
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - CHANGELOG.md
+  pages:
+  - H5-012
+  apis:
+  - publicPostIdentityCallbackConsume
+  database:
+  - identity_verification_sessions.callback_consumed_at
+  configuration:
+  - 无新增配置
+  ledger: []
+  tests:
+  - backend identity callback unit/controller tests; H5 callback service/page tests; generated assets; documentation gates
+  releases:
+  - R05
+  migration_and_compatibility: 新增可空callback_consumed_at列，旧会话兼容；首次合法消费原子写入，重复、过期、无效state统一返回业务失效；现有Android回跳拦截与已认证轮询保持兼容
+user_confirmation: 用户已明确要求严格完成每个版本全部功能、后续问题自主决定并持续推进，不得因非紧急问题停工
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-19T19:15:42Z'
+  note: 该增量契约是完成既有H5-012一次性state安全回跳目标的最小修正，文件范围精确且不破坏现有接口
+machine_record: .continuity/change_requests/CR-0092.yaml
+document: docs/03-continuity/change-requests/CR-0092-补齐R05一次性活体回跳消费契约与H5实施范围.md
+decision_log:
+- at: '2026-07-19T19:38:42Z'
+  actor_id: codex-root
+  status: IMPLEMENTING
+  note: 回跳接口、H5页面、V026与全部门禁已实现，准备形成实现提交
+  session_id: SES-20260719T183335Z-535311E4
+- at: '2026-07-19T19:40:58Z'
+  actor_id: codex-root
+  status: IMPLEMENTED
+  note: 公开一次性state消费接口、H5商业回跳页和V026已实现并通过全部门禁
+  session_id: SES-20260719T183335Z-535311E4
+session_ids:
+- SES-20260719T183335Z-535311E4
+implementation_commits:
+- f5a6e4ff3be6556bf8680d794f1d9ff2588b940d

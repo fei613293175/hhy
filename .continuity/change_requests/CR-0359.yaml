@@ -1,0 +1,68 @@
+protocol_version: '1.0'
+cr_id: CR-0359
+title: 批准并轻量晋升R12首版视觉基线
+status: IMPLEMENTED
+created_at: '2026-07-26T08:52:13Z'
+updated_at: '2026-07-26T08:55:13Z'
+requester_actor_id: codex-root-r12-visual-review-20260726
+approver_actor_id: codex-r12-baseline-authorizer-20260726
+task_id: TASK-R12-007
+session_id: SES-20260725T192048Z-668BD05D
+user_request: 项目所有者明确要求截图由AI自行判断、持续开发且今后不再逐次索要批准。
+reason: Run 30194396225编译、Lint、单测、OIDC认证、十页模拟器旅程和日志分析均成功；AI逐图对照冻结规格与效果图审核合格，唯一待办是固化首版视觉基线。
+original_rule: R12候选十页已通过真实OIDC认证模拟器旅程且由AI逐图审核合格，但首个Release视觉基线不存在时机器状态只能为BASELINE_REVIEW_REQUIRED，尚不能生成可交付PASS候选。
+new_rule: 仅将Run 30194396225中由AI逐图审核合格的十张原始截图固化为R12首版视觉基线；批准清单绑定源Commit、Run、Artifact及逐图SHA-256；晋升仅复核既有候选证据，不重建APK、不再次启动模拟器。
+impact_summary: 新增R12十张不可变视觉基线和唯一审批清单，触发轻量GitHub晋升验证；不修改产品代码、API、数据库、候选APK或模拟器结果。
+impact:
+  files:
+  - tests/android/visual-baselines/R12/01-publish-center.png
+  - tests/android/visual-baselines/R12/02-me-home.png
+  - tests/android/visual-baselines/R12/03-profile.png
+  - tests/android/visual-baselines/R12/04-drafts.png
+  - tests/android/visual-baselines/R12/05-content-management-detail.png
+  - tests/android/visual-baselines/R12/06-publish-preview.png
+  - tests/android/visual-baselines/R12/07-submit-result.png
+  - tests/android/visual-baselines/R12/08-my-contents.png
+  - tests/android/visual-baselines/R12/09-content-reviews.png
+  - tests/android/visual-baselines/R12/10-content-analytics.png
+  - tests/android/visual-baselines/R12/APPROVAL.yaml
+  pages:
+  - SCR-PUB-001
+  - SCR-ME-001
+  - SCR-ME-002
+  - SCR-MYC-002
+  - SCR-MYC-003
+  - SCR-PUB-006
+  - SCR-PUB-007
+  - SCR-MYC-001
+  - SCR-MYC-004
+  - SCR-MYC-005
+  apis: []
+  database: []
+  configuration: []
+  ledger: []
+  tests:
+  - android_ci_gate promote R12 existing evidence
+  releases:
+  - R12
+  migration_and_compatibility: 无生产迁移；后续R12截图与此基线比较，源Run、源Commit和源APK保持不变。
+user_confirmation: 项目所有者原话：批准，以后不要让我批准了 你自己持续开发就行了
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-26T08:52:55Z'
+  note: 独立复核确认十图来自同一Run 30194396225成功候选旅程；页面结构、真实数据、视觉层级、安全区、按钮对比度、空状态和技术字段过滤均满足R12冻结规格与精确视觉合同；轻量晋升不重建APK、不启动模拟器。
+machine_record: .continuity/change_requests/CR-0359.yaml
+document: docs/03-continuity/change-requests/CR-0359-批准并轻量晋升R12首版视觉基线.md
+decision_log:
+- at: '2026-07-26T08:55:06Z'
+  actor_id: codex-root-r12-candidate-20260726
+  status: IMPLEMENTING
+  note: 开始固化Run 30194396225十张已审合格原始截图与不可变审批清单；只执行既有证据轻量晋升，不重建APK、不启动模拟器。
+  session_id: SES-20260725T192048Z-668BD05D
+- at: '2026-07-26T08:55:13Z'
+  actor_id: codex-root-r12-candidate-20260726
+  status: IMPLEMENTED
+  note: 十张截图与Run、Commit、Artifact及逐图SHA-256已精确绑定；本地android_ci_gate promote为PASS且38项专项测试PASS，待提交推送并由GitHub轻量晋升工作流复核。
+  session_id: SES-20260725T192048Z-668BD05D
+session_ids:
+- SES-20260725T192048Z-668BD05D

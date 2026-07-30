@@ -1,0 +1,164 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260719T122607Z-04FDBE70-0003
+session_id: SES-20260719T122607Z-04FDBE70
+sequence: 3
+created_at: '2026-07-19T13:00:09Z'
+summary: 完成TASK-R04-004最终收敛：配置驱动上传并发、受信任私有预览边界、并发重试约束与最终全量Android门禁已通过
+next_step: 提交最终实现修正并执行TASK-R04-004关闭门禁
+blockers: []
+decisions: []
+note: ''
+tests:
+- name: android-module
+  result: PASS
+  evidence: artifacts/validation/r04-task004-android-media.md
+  note: 最终全量testDebugUnitTest和lintDebug通过，297 tasks
+- name: media-manager
+  result: PASS
+  evidence: apps/android/feature/media/build/test-results/testDebugUnitTest/TEST-cc.orbexa.hhy.media.MediaUploadManagerTest.xml
+  note: 6 tests, 0 failures
+- name: commercial-ui-static
+  result: PASS
+  evidence: artifacts/validation/r04-task004-android-media.md
+  note: 无技术字段面向用户展示
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: 1ff3e9e4297292f588fe78449c64316df6a5dd58
+  upstream: origin/task/TASK-R03-001
+  ahead: 0
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - ' M apps/android/feature/media/src/main/java/cc/orbexa/hhy/media/MediaUploadManager.kt'
+  - ' M apps/android/feature/media/src/main/java/cc/orbexa/hhy/media/MediaUploadSheet.kt'
+  - ' M apps/android/feature/media/src/test/java/cc/orbexa/hhy/media/MediaUploadManagerTest.kt'
+  - ' M artifacts/validation/r04-task004-android-media.md'
+  recent_commits:
+  - "1ff3e9e4297292f588fe78449c64316df6a5dd58\t2026-07-19T20:54:28+08:00\tHHY Continuity Bootstrap\t[STORY-R04-001] feat(media): add Android upload\
+    \ manager"
+  - "6ee17b68303f6bfea0de2dd39896c9a690a93b7d\t2026-07-19T20:19:52+08:00\tHHY Continuity Bootstrap\t[STORY-R04-001] chore(continuity): close TASK-R04-003\
+    \ as completed"
+  - "951970ee2f30b11915e8ab5236171621c365da2e\t2026-07-19T20:07:13+08:00\tHHY Continuity Bootstrap\t[STORY-R04-001] feat(r04): close media upload\
+    \ API lifecycle"
+  - "0d8e00b45e02a388b557b6a9b8f2539283028673\t2026-07-19T19:45:53+08:00\tHHY Continuity Bootstrap\t[STORY-R04-001] feat(r04): add media upload\
+    \ lifecycle schema"
+  - "cf9799948953f6b8e2f918414c1c8e700ef748aa\t2026-07-19T19:34:22+08:00\tHHY Continuity Bootstrap\t[STORY-R04-002] chore(continuity): close TASK-R04-002\
+    \ as completed"
+  - "1d3f2adc7f9c8a4e7863639c1aa3ff6b7748dd7b\t2026-07-19T19:31:59+08:00\tHHY Continuity Bootstrap\t[STORY-R04-002] test(storage): close database\
+    \ and module gates"
+  - "0520113a2981439c9bcdeb6e5afb1ed26bf3c8d5\t2026-07-19T19:16:34+08:00\tHHY Continuity Bootstrap\t[STORY-R04-002] feat(storage): persist resumable\
+    \ cross-provider migration"
+  - "ec6919b45a107a770fd13d86b7c3a38103415c67\t2026-07-19T19:06:13+08:00\tHHY Continuity Bootstrap\t[STORY-R04-002] feat(storage): add provider-neutral\
+    \ object port"
+project_fingerprint:
+  sha256: 7d9675fcee5f8f58da59c5fa7f1b3dfd7d4c1c6be47b8f8e904e78b59bfab692
+  files:
+  - CHANGELOG.md
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ApiModels.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractMediaApi.kt
+  - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ApiModelsSerializationTest.kt
+  - apps/android/feature/media/build.gradle.kts
+  - apps/android/feature/media/src/main/AndroidManifest.xml
+  - apps/android/feature/media/src/main/java/cc/orbexa/hhy/media/MediaUploadManager.kt
+  - apps/android/feature/media/src/main/java/cc/orbexa/hhy/media/MediaUploadSheet.kt
+  - apps/android/feature/media/src/test/java/cc/orbexa/hhy/media/MediaUploadManagerTest.kt
+  - apps/android/settings.gradle.kts
+  file_count: 10
+  payload:
+    base_commit: 6ee17b68303f6bfea0de2dd39896c9a690a93b7d
+    files:
+    - path: CHANGELOG.md
+      state: FILE
+      size: 36595
+      sha256: 82eb7c80bae7a2a7ddc5b6b6ea11f915ccabe7971b34cc813baf8a6beda96daa
+    - path: apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ApiModels.kt
+      state: FILE
+      size: 7362
+      sha256: 18cad447bf7db7854daf90358065f6ae065482ae7bfafe366a98a3b54fce14c0
+    - path: apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractMediaApi.kt
+      state: FILE
+      size: 8923
+      sha256: 7e2553dac04b8076fe9cd117ff9effb4a76328adb95382f221320db6b58e5db6
+    - path: apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ApiModelsSerializationTest.kt
+      state: FILE
+      size: 11426
+      sha256: 48fb243622540284180bf7effd16e6e3295d6f8a37638db7e7b57e2f3b0d884c
+    - path: apps/android/feature/media/build.gradle.kts
+      state: FILE
+      size: 1114
+      sha256: 5ca1123118181b8b325475967b003ed39c28ad28bd17470cabd2bb23023ecccd
+    - path: apps/android/feature/media/src/main/AndroidManifest.xml
+      state: FILE
+      size: 72
+      sha256: 343d5be1ac17cdd45d1a2f2ddc616c509290e655869125a9422a96d88aa66066
+    - path: apps/android/feature/media/src/main/java/cc/orbexa/hhy/media/MediaUploadManager.kt
+      state: FILE
+      size: 11403
+      sha256: 365556602aaad357ce1e6ede897b1030485d37c80b5a7c4a0e954430e74b4503
+    - path: apps/android/feature/media/src/main/java/cc/orbexa/hhy/media/MediaUploadSheet.kt
+      state: FILE
+      size: 12925
+      sha256: 825ab1f052252ad21273124dc2ab05ff5833fd489a76441d030037c183d0f9ee
+    - path: apps/android/feature/media/src/test/java/cc/orbexa/hhy/media/MediaUploadManagerTest.kt
+      state: FILE
+      size: 8194
+      sha256: b0a3ab94b466b9fb812ff559dee53808c8679203d1e9543c29922fc092ea7c51
+    - path: apps/android/settings.gradle.kts
+      state: FILE
+      size: 491
+      sha256: db6edff6bcb19e983e81dc3bd8480e69c7bb03de1418f3b24ae195aadaf801fa
+change_classification:
+  other:
+  - CHANGELOG.md
+  code:
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ApiModels.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractMediaApi.kt
+  - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ApiModelsSerializationTest.kt
+  - apps/android/feature/media/build.gradle.kts
+  - apps/android/feature/media/src/main/AndroidManifest.xml
+  - apps/android/feature/media/src/main/java/cc/orbexa/hhy/media/MediaUploadManager.kt
+  - apps/android/feature/media/src/main/java/cc/orbexa/hhy/media/MediaUploadSheet.kt
+  - apps/android/feature/media/src/test/java/cc/orbexa/hhy/media/MediaUploadManagerTest.kt
+  - apps/android/settings.gradle.kts
+  user_visible:
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ApiModels.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractMediaApi.kt
+  - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ApiModelsSerializationTest.kt
+  - apps/android/feature/media/build.gradle.kts
+  - apps/android/feature/media/src/main/AndroidManifest.xml
+  - apps/android/feature/media/src/main/java/cc/orbexa/hhy/media/MediaUploadManager.kt
+  - apps/android/feature/media/src/main/java/cc/orbexa/hhy/media/MediaUploadSheet.kt
+  - apps/android/feature/media/src/test/java/cc/orbexa/hhy/media/MediaUploadManagerTest.kt
+  - apps/android/settings.gradle.kts
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+- CHANGELOG
+change_requests: []
+scope:
+  allowed_paths:
+  - apps/android/**
+  - services/backend/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - tests/**
+  - docs/**
+  - catalogs/**
+  - releases/**
+  - design/**
+  - scripts/**
+  - CHANGELOG.md
+  approved_exceptions: []
+  source: story+explicit
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 最终收敛修改和版本关闭操作共享同一会话状态与同一组文件，必须串行保证提交和门禁一致性
+event_hash: 2ac315fd6a383c23447571d1edd2a7478838e7868504ac88aca8cf6689e4526e

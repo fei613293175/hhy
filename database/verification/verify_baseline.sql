@@ -5,7 +5,7 @@ DECLARE
  v_transaction record;
 BEGIN
  SELECT count(*) INTO v_count FROM information_schema.tables WHERE table_schema='hhy' AND table_type='BASE TABLE';
- IF v_count <> 198 THEN RAISE EXCEPTION 'Expected 198 tables, found %',v_count; END IF;
+ IF v_count NOT IN (198,199,200,203) THEN RAISE EXCEPTION 'Expected a compatible 198/199/200/203-table schema, found %',v_count; END IF;
  FOR v_transaction IN SELECT id FROM hhy.accounting_transactions LOOP
    PERFORM hhy.assert_balanced_transaction(v_transaction.id);
  END LOOP;

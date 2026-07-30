@@ -1,0 +1,178 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260728T205917Z-52E3B6B1-0002
+session_id: SES-20260728T205917Z-52E3B6B1
+task_id: TASK-R14-007
+story_id: STORY-R14-004
+sequence: 2
+created_at: '2026-07-28T21:05:45Z'
+summary: R14替换TEST_APK版本身份三投影统一10224并同步既有Changelog
+next_step: 提交推送10224身份Commit，在obx-test固定镜像执行唯一完整Android构建
+blockers: []
+decisions: []
+note: ''
+tests:
+- name: Android UI foundation
+  result: PASS
+  evidence: scripts/check_android_ui_foundation.py
+  note: 基础门禁通过
+- name: R14 versionCode three-way
+  result: PASS
+  evidence: apps/android/app/build.gradle.kts;apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt;apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+  note: 三处统一10224
+- name: User-visible changelog
+  result: PASS
+  evidence: CHANGELOG.md
+  note: R14替换测试包身份和兼容边界已记录
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: 8095d1e13f3961771a5364864a60c3d08d41340e
+  upstream: origin/task/TASK-R03-001
+  ahead: 0
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - M  .continuity/ACTIVE_SESSION.yaml
+  - M  .continuity/CHANGE_REQUEST_INDEX.yaml
+  - M  .continuity/EVENT_LOG.jsonl
+  - M  .continuity/SESSION_INDEX.yaml
+  - M  .continuity/STATE.yaml
+  - M  .continuity/TASK_CLAIMS.yaml
+  - M  .continuity/TASK_TRANSITIONS.yaml
+  - A  .continuity/change_requests/CR-0471.yaml
+  - A  .continuity/checkpoints/SES-20260728T205917Z-52E3B6B1/0001.yaml
+  - A  .continuity/sessions/SES-20260728T205917Z-52E3B6B1.yaml
+  - ' M CHANGELOG.md'
+  - M  CURRENT_STATUS.yaml
+  - M  apps/android/app/build.gradle.kts
+  - M  apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+  - M  apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+  - M  artifacts/context/CURRENT_CONTEXT_PACK.md
+  - M  artifacts/context/CURRENT_CONTEXT_PACK.yaml
+  - M  artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+  - M  catalogs/change_request_index.csv
+  - M  catalogs/session_index.csv
+  - M  catalogs/task_transition_ledger.csv
+  - A  docs/03-continuity/change-requests/CR-0471-递增R14替换TEST_APK身份并交付举报目录最终包.md
+  - A  docs/03-continuity/sessions/2026-07/SES-20260728T205917Z-52E3B6B1.md
+  recent_commits:
+  - "8095d1e13f3961771a5364864a60c3d08d41340e\t2026-07-29T04:58:01+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(continuity): close TASK-R14-006\
+    \ as completed"
+  - "68021505de667d801b29022967ce78513706daef\t2026-07-29T04:50:32+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] test(r14): record scoped staging\
+    \ pass"
+  - "f58be15f82ed1e9eb95355d8e4df363417fff023\t2026-07-29T04:36:02+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] fix(r14): pin staging migration\
+    \ scope"
+  - "89416d1e59cb8dbc61322ad15587e24a34784276\t2026-07-29T04:27:21+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] test(r14): verify catalog\
+    \ without host Python"
+  - "09d337e272faedc23154a15e42adbf22dd692e72\t2026-07-29T04:17:22+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] test(r14): bind staging to\
+    \ report catalog source"
+  - "446316f0c1d6347e300fb7c6544bd762dd430286\t2026-07-29T04:02:22+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] test(continuity): decouple\
+    \ recovery history from active session"
+  - "e61cdcd4493ccf86d53682da10b23c516ebe8925\t2026-07-29T03:31:48+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(continuity): close TASK-R14-005\
+    \ as completed"
+  - "109c0294843f696327c9a0f777826018bf562fc0\t2026-07-29T03:27:46+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(r14): close chat test\
+    \ changes"
+project_fingerprint:
+  sha256: 98434a8d982b25adb95f15dda0e64a80c61d68c79aed0b7bb7468632a3e913b2
+  files:
+  - CHANGELOG.md
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+  - apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+  - docs/03-continuity/change-requests/CR-0471-递增R14替换TEST_APK身份并交付举报目录最终包.md
+  file_count: 5
+  payload:
+    base_commit: 8095d1e13f3961771a5364864a60c3d08d41340e
+    files:
+    - path: CHANGELOG.md
+      state: FILE
+      size: 215253
+      sha256: 1c424c4315f6197d5cb449fba25d06318a62280bcfa224e865d3de0bc7f5a127
+    - path: apps/android/app/build.gradle.kts
+      state: FILE
+      size: 6171
+      sha256: 8c948ff4c08000fb9d83f4503f5039316309574b8436189782372b200621eb2c
+    - path: apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+      state: FILE
+      size: 520
+      sha256: 1b1fc904acb3a9078aea938c5adbb9f856c32be8c1c95945840412d1430de561
+    - path: apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+      state: FILE
+      size: 1255
+      sha256: d284cd62fe96ac4bc19c948e5bc4df6553eabdaa3f5ac1d8e469fd7327fbcf7b
+    - path: docs/03-continuity/change-requests/CR-0471-递增R14替换TEST_APK身份并交付举报目录最终包.md
+      state: FILE
+      size: 3458
+      sha256: d277e39180a0e60ae25fa350c3cd9cbf428df89205f4dd79e95bf142b4110141
+change_classification:
+  other:
+  - CHANGELOG.md
+  code:
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+  - apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+  user_visible:
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+  - apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+  continuity:
+  - docs/03-continuity/change-requests/CR-0471-递增R14替换TEST_APK身份并交付举报目录最终包.md
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+- CHANGELOG
+change_requests:
+- CR-0471
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions:
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+  - apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+  - artifacts/apk/R14/APK_MANIFEST.yaml
+  - artifacts/validation/r14-task007-android
+  - artifacts/validation/r14-apk-delivery/delivery-evidence.json
+  - artifacts/reports/R14/TASK-R14-007-android-apk.md
+  - artifacts/reports/R14/R14-version-test-guide.md
+  - releases/R14/RELEASE_MANIFEST.yaml
+  source: story+explicit+approved-cr:CR-0471
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 版本身份三处投影与用户可见Changelog必须在同一Commit保持一致，且会话、CR和版本事实源由唯一主控修改
+event_hash: 46a73e8417c11f271e60b6a732006eb41703e3f08208e9f4d48feec5f8b35dcc

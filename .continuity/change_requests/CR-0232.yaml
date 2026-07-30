@@ -1,0 +1,77 @@
+protocol_version: '1.0'
+cr_id: CR-0232
+title: 登记R08最终候选、视觉基线、固定签名与四方APK交付证据
+status: CLOSED
+created_at: '2026-07-22T09:17:54Z'
+updated_at: '2026-07-22T09:33:09Z'
+requester_actor_id: codex-root-r08-007
+approver_actor_id: codex-reviewer-user-self-r08
+task_id: TASK-R08-007
+session_id: SES-20260722T064621Z-68304DE1
+user_request: 持续完成R08候选测试与桌面APK文档交付，截图由AI独立判定，不因Owner真机反馈停止。
+reason: 第三轮R08候选及轻量基线晋升均已通过，需把唯一候选、固定签名、下载站、仓库、桌面四方一致证据纳入正式版本收口。
+original_rule: 复用既有Android最终候选、固定测试签名、AI视觉基线、桌面与下载站四方一致交付规则；不新增平行硬规则。
+new_rule: R08只登记同源候选运行、轻量基线晋升、固定签名和四方一致的实际证据；项目所有者真机结果保持异步PENDING，不得伪造正式验收或生产激活。
+impact_summary: 将R08第三轮候选、三张AI批准截图、轻量晋升、固定签名APK及仓库、桌面、服务器、HTTPS一致性写入正式产物、验收矩阵和版本Manifest，并交付桌面测试说明。
+impact:
+  files:
+  - catalogs/ui_visual_acceptance.csv
+  - artifacts/validation/r08-task007-android/APPROVAL.yaml
+  - artifacts/validation/r08-task007-android/build-evidence.json
+  - artifacts/validation/r08-task007-android/candidate-report.json
+  - artifacts/validation/r08-task007-android/source-candidate-report.json
+  - artifacts/validation/r08-task007-android/screenshots/01-project-list.png
+  - artifacts/validation/r08-task007-android/screenshots/02-project-detail.png
+  - artifacts/validation/r08-task007-android/screenshots/03-project-editor.png
+  - artifacts/validation/r08-apk-delivery/delivery-evidence.json
+  - artifacts/apk/R08/APK_MANIFEST.yaml
+  - artifacts/apk/R08/hhy-r08-49f40f2-debug.apk
+  - artifacts/reports/R08/TASK-R08-007-android-apk.md
+  - artifacts/reports/R08/R08-version-test-guide.md
+  - releases/R08/ACCEPTANCE_MATRIX.csv
+  - releases/R08/RELEASE_MANIFEST.yaml
+  - CHANGELOG.md
+  pages:
+  - SCR-LIST-001
+  - SCR-DETAIL-001
+  - SCR-PUB-002
+  apis:
+  - 无协议变化
+  database:
+  - 无
+  configuration:
+  - R08下载站精确APK路由
+  ledger:
+  - 无生产资金或账本变化
+  tests:
+  - GitHub候选Run 29905158793；轻量基线晋升Run 29906167593；固定签名、HTTPS 200/Range 206与四方SHA-256一致性
+  releases:
+  - R08
+  migration_and_compatibility: 仅新增R08测试候选产物和精确下载路由；不覆盖历史版本，不改变API、数据库、生产App版本或生产激活状态。
+user_confirmation: 用户持续开发授权、AI独立截图判定及桌面APK文档交付要求已明确。
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-22T09:20:17Z'
+  note: 已确认只复用既有最终候选与四方交付规则；影响范围限于R08真实候选证据、精确下载路由和异步真机说明。
+machine_record: .continuity/change_requests/CR-0232.yaml
+document: docs/03-continuity/change-requests/CR-0232-登记R08最终候选、视觉基线、固定签名与四方APK交付证据.md
+decision_log:
+- at: '2026-07-22T09:20:22Z'
+  actor_id: codex-root-r08-007
+  status: IMPLEMENTING
+  note: 开始登记R08同源候选、AI视觉基线、固定签名及四方APK交付证据。
+  session_id: SES-20260722T064621Z-68304DE1
+- at: '2026-07-22T09:29:12Z'
+  actor_id: codex-root-r08-007
+  status: IMPLEMENTED
+  note: R08 Run 29905158793与轻量晋升29906167593均PASS；三页AI视觉批准，固定签名与仓库、桌面、服务器、HTTPS四方SHA一致，独立verify通过。
+  session_id: SES-20260722T064621Z-68304DE1
+- at: '2026-07-22T09:33:09Z'
+  actor_id: codex-root-r08-007
+  status: CLOSED
+  note: 实现提交01043c80已推送；R08候选、AI视觉审批、固定签名、四方一致和桌面文档证据全部闭环。
+  session_id: SES-20260722T064621Z-68304DE1
+session_ids:
+- SES-20260722T064621Z-68304DE1
+implementation_commits:
+- 01043c803dc576990278608e693819979ad2a0c5

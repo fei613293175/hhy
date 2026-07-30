@@ -3,6 +3,10 @@ title: 最终供应商接入、生产发布与交接
 status: READY_WHEN_DEPENDENCIES_GREEN
 milestone: M4_GROWTH_PLATFORM
 depends_on:
+- R18
+- R19
+- R26
+- R27
 - R31
 scope: 填入最终支付/出款/短信生产资料、正式签名、V1.0.0发布、源码文档和冷启动交接
 android_test_apk_required: true

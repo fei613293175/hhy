@@ -1,0 +1,33 @@
+groups:
+  - name: hhy-r06-content
+    rules:
+      - alert: HhyR06BackendDown
+        expr: up{job="hhy-backend-r06"} == 0
+        for: 15s
+        labels: { severity: critical, release: R06 }
+        annotations: { summary: 合伙云 R06 Staging 后端不可用 }
+      - alert: HhyR06HighServerErrorRate
+        expr: sum(rate(http_server_requests_seconds_count{job="hhy-backend-r06",status=~"5.."}[1m])) / clamp_min(sum(rate(http_server_requests_seconds_count{job="hhy-backend-r06"}[1m])), 0.001) > 0.02
+        for: 1m
+        labels: { severity: warning, release: R06 }
+        annotations: { summary: 合伙云 R06 Staging 5xx 比例超过 2% }
+      - alert: HhyR06HighP95Latency
+        expr: histogram_quantile(0.95, sum by (le) (rate(http_server_requests_seconds_bucket{job="hhy-backend-r06"}[5m]))) > 0.5
+        for: 2m
+        labels: { severity: warning, release: R06 }
+        annotations: { summary: 合伙云 R06 Staging P95 延迟超过 500ms }
+      - alert: HhyR06ContentOutboxBacklog
+        expr: hhy_content_outbox_backlog{job="hhy-backend-r06"} > 3
+        for: 15s
+        labels: { severity: warning, release: R06 }
+        annotations: { summary: 内容事件 Outbox 积压超过 3 条 }
+      - alert: HhyR06ContentReviewBacklog
+        expr: hhy_content_review_pending{job="hhy-backend-r06"} > 50
+        for: 5m
+        labels: { severity: warning, release: R06 }
+        annotations: { summary: 内容待审核积压超过 50 条 }
+      - alert: HhyR06BusinessMetricQueryFailure
+        expr: sum(hhy_business_metric_query_failures_total{job="hhy-backend-r06"}) > 0
+        for: 15s
+        labels: { severity: critical, release: R06 }
+        annotations: { summary: R06 业务指标查询失败，监控结果不可信 }

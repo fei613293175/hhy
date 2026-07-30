@@ -1,0 +1,102 @@
+protocol_version: '1.0'
+package_version: 1.2.3
+session_id: SES-20260722T181159Z-F501CFF5
+status: CLOSED
+actor:
+  id: codex-root-r09-data
+  kind: AI_OR_HUMAN
+  host: unknown
+release: R09
+task_id: TASK-R09-002
+story_id: STORY-R09-004
+goal: App推广完整闭环数据迁移与领域不变量
+started_at: '2026-07-22T18:11:59Z'
+updated_at: '2026-07-22T18:30:54Z'
+takeover_of: null
+change_requests:
+- CR-0249
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  - App推广完整闭环数据迁移、数据库约束、回滚与不变量验证
+  approved_exceptions:
+  - database/migrations/V035__r09_app_promotion_invariants.sql
+  - services/backend/boot/src/main/resources/db/migration/V035__r09_app_promotion_invariants.sql
+  - database/rollback/U035__r09_app_promotion_invariants.sql
+  - database/tests/r09_app_promotion_invariants.sql
+  - scripts/run_r09_database_invariants.sh
+  - scripts/run_r09_disposable_postgres_container.sh
+  - CHANGELOG.md
+  source: story+explicit+approved-cr:CR-0249
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  base_commit: e336e79143572860308f6d3f372bd436b9f0131c
+  start_head: e336e79143572860308f6d3f372bd436b9f0131c
+  upstream: origin/task/TASK-R03-001
+  initial_worktree_state: CLEAN
+lease:
+  duration_minutes: 240
+  renewed_at: '2026-07-22T18:30:49Z'
+  expires_at: '2026-07-22T22:30:49Z'
+checkpoint_sequence: 4
+latest_checkpoint: .continuity/checkpoints/SES-20260722T181159Z-F501CFF5/0004.yaml
+session_log: docs/03-continuity/sessions/2026-07/SES-20260722T181159Z-F501CFF5.md
+next_step: 提交关闭元数据Commit，然后运行pre-push/CI门禁
+context_pack:
+  yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
+  markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
+  manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+  context_hash: 6dffc71e13bfa46b40c0e1d0ebf88ee15ccf81e4ded19b25dcb170fcb08c742c
+  generated_at: '2026-07-22T18:30:52Z'
+handoff_bundle: null
+closure:
+  result: COMPLETED
+  summary: 完成R09 App推广V035/U035数据迁移与领域不变量：禁止APK双路径绕过、详情完整性、软删除保护、索引及空库/升级/回滚/重放全部通过。
+  code_commit: 92dfb059bc78c48493c3300dc3d564a4bebbca73
+  next_release: R09
+  next_task: TASK-R09-003
+  blocked_advance: false
+  completed_independent_advance: false
+  user_confirmation: null
+  metadata_commit: PENDING
+  push_verification: CI_REQUIRED_AFTER_METADATA_COMMIT
+  started_at: '2026-07-22T18:30:47Z'
+  closure_checkpoint_id: CP-SES-20260722T181159Z-F501CFF5-0004
+  closed_at: '2026-07-22T18:30:54Z'
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 当前仅执行CR与任务生命周期原子关闭，不存在可安全并行的产品工作。
+closed_at: '2026-07-22T18:30:54Z'

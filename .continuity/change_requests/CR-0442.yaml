@@ -1,0 +1,104 @@
+protocol_version: '1.0'
+cr_id: CR-0442
+title: 落地R16商品SKU报价与统一订单后端纵向链路
+status: CLOSED
+created_at: '2026-07-28T10:27:03Z'
+updated_at: '2026-07-28T12:54:32Z'
+requester_actor_id: codex-r16-backend-20260728
+approver_actor_id: codex-r16-backend-independent-review-20260728
+task_id: TASK-R16-003
+session_id: SES-20260728T102501Z-3189682B
+user_request: 持续推进合伙云Pro开发；R16数据不变量完成后立即实现10个冻结operationId，不重复处理邀请码问题
+reason: R16数据库合同已经落地，但commerce模块尚无Product、ProductSku、Order应用服务、PostgreSQL存储、用户及后台控制器，10个冻结operationId均没有真实实现
+original_rule: R16已冻结10个operationId与显式ProductResource、ProductSkuResource、OrderResource合同，V045提供真实表结构和不变量；但commerce模块尚无R16应用链，数据库RBAC仍只有product.manage，与OpenAPI
+  product.read/product.write不一致。
+new_rule: 新增前向V046且不改写旧迁移：创建product.read和product.write，所有已有product.manage角色安全映射到两个细粒度权限，ACTIVE SUPER_ADMIN必得两项；权限不完整原子失败。DEV/TEST回滚只在不存在脱离product.manage的独立细粒度授权时删除V046映射和权限，否则原子拒绝。完整实现10个冻结operationId且不改变OpenAPI。用户订单列表和详情均在SQL层按认证userId绑定owner；跨用户与不存在订单统一COMMON-404-NOT_FOUND。后台商品/SKU读写强制product.read/product.write，后台订单强制order.read。控制器只做HTTP映射、Bean
+  Validation、身份、requestId/IP和ApiResponse编排。商品与SKU状态保持非空受限string，不臆造枚举；查询只允许冻结字段和白名单排序，cursor严格解码并绑定排序。后台写幂等由Boot中性SnapshotCodec适配AdminIdempotencySnapshotCipher，commerce不得依赖access。scope使用r16adm:<Base64URL(SHA-256(length-prefix(adminId,operationId,resourceKey)))>固定确定性编码，始终小于64字符；create资源键为productCode或skuCode，patch为不可变id。规范请求SHA-256覆盖HTTP方法、规范路径、管理员、operationId、资源键和完整请求体。同scope/key/hash重放加密首次响应，同键异哈希409；篡改密文拒绝，密钥轮换可用previous
+  key解密。PATCH expectedVersion原子乐观锁且零字段补丁拒绝；productCode、skuCode和SKU productId不可变。SKU权益严格为BenefitResource；金额非负，durationDays为null或正数，销售窗口有序，分佣各级及合计不超10000；commissionEnabled=false只允许空或零费率并落零。创建SKU事务先FOR
+  UPDATE锁商品并计数，已有100个即422，因此并发也不得超100。商品/SKU业务写、admin_operation_logs、Outbox、幂等领取和首次响应快照均在同一数据库事务；任一点失败全部回滚，重放不重复审计/事件。订单由orders/items/唯一price
+  snapshot构造，超过100项、商品超过100 SKU、重复/缺失快照或非法JSON均拒绝，禁止截断/补造。历史confirmed=false且协议版本为空时输出空字符串满足冻结必填字段，confirmed仍为false且confirmedAt为空。
+impact_summary: 新增V046 RBAC对齐、运行时副本、DEV回滚和权限测试；新增R16 commerce合同、服务、PostgreSQL存储、管理员密文适配与用户/后台控制器，覆盖10个operationId。专项验证固定长度幂等scope、细粒度权限、跨管理员隔离和轮换、事务故障原子性、PATCH并发、SKU
+  100上限、订单owner统一404与合同上限。复用V045及既有事实表，不触碰邀请码注册链。
+impact:
+  files:
+  - database/migrations/V046__r16_product_permission_alignment.sql
+  - services/backend/boot/src/main/resources/db/migration/V046__r16_product_permission_alignment.sql
+  - database/rollback/U046__r16_product_permission_alignment_DEV_ONLY.sql
+  - database/tests/r16_product_permission_alignment.sql
+  - scripts/run_r16_database_invariants.sh
+  - scripts/check_db_schema.py
+  - services/backend/commerce/src/main/java/cc/orbexa/hhy/commerce/R16CommerceContracts.java
+  - services/backend/commerce/src/main/java/cc/orbexa/hhy/commerce/R16CommerceStore.java
+  - services/backend/commerce/src/main/java/cc/orbexa/hhy/commerce/R16CommercePostgresStore.java
+  - services/backend/commerce/src/main/java/cc/orbexa/hhy/commerce/R16CommerceService.java
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/R16OrderController.java
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/admin/R16CommerceAdminController.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/commerce/R16CommerceServiceTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/commerce/R16CommercePostgresStoreTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/R16CommerceControllerContractTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/R16CommerceModuleBoundaryTest.java
+  - tests/test_r16_backend_contract.py
+  - releases/R16/TASKS.yaml
+  - releases/R16/STORIES.yaml
+  - releases/R16/RELEASE_MANIFEST.yaml
+  - artifacts/reports/R16/TASK-R16-003-backend.md
+  - CHANGELOG.md
+  pages: []
+  apis:
+  - orderGetMeOrders
+  - orderGetMeOrdersByOrderno
+  - adminProductsGetProducts
+  - adminProductsPostProducts
+  - adminProductsPatchProductsById
+  - adminProductsGetSkus
+  - adminProductsPostSkus
+  - adminProductsPatchSkusById
+  - adminOrdersGetOrders
+  - adminOrdersGetOrdersByOrderno
+  database:
+  - admin_permissions,admin_role_permissions,admin_roles,products,product_skus,sku_commission_policies,orders,order_items,order_price_snapshots,idempotency_records,admin_operation_logs,outbox_events
+  configuration: []
+  ledger:
+  - 商品/SKU写、审计、Outbox、幂等领取和首次响应快照同事务；订单本任务只读V045权威快照
+  tests:
+  - mvn -pl boot -am test
+  - python tests/test_r16_backend_contract.py
+  - python scripts/check_db_schema.py
+  - PostgreSQL 17 V046迁移/旧product.manage映射/SUPER_ADMIN授权/独立细粒度授权回滚拒绝/空库回滚重放
+  - PostgreSQL 17 R16真实存储：读写权限、用户列表与详情双重owner隔离并统一404、查询上限拒绝
+  - 管理员幂等scope边界：最长operationId、64字符resourceKey、Long.MAX_VALUE管理员ID仍小于64字符，并覆盖稳定重放及跨管理员/操作/资源隔离
+  - 管理员首次响应密文：同键异哈希冲突、篡改拒绝、旧密钥轮换解密
+  - 逐点故障注入：商品或SKU写、审计、Outbox、幂等领取与快照任一点失败均全事务回滚且重放无重复副作用
+  - PATCH同expectedVersion并发仅一个提交；单商品并发创建SKU最多100个
+  - python scripts/check_api_contract.py
+  - python scripts/check_v122_documentation.py --release R16
+  releases:
+  - R16
+  migration_and_compatibility: 前向追加V046，仅新增权限数据和角色映射，不改变表结构或既有product.manage。已有粗粒度角色无缝获得read/write，SUPER_ADMIN兜底获得；新角色可独立授予。U046仅DEV/TEST使用，发现不具product.manage的非SUPER_ADMIN角色独立使用细粒度权限即拒绝；安全状态可回滚重放。应用要求数据库至少V046。固定长度scope兼容V014的varchar(128)且自身保持小于64字符。历史订单只读兼容且不补造；部署回滚保留合法业务事实。
+user_confirmation: 项目所有者已明确要求持续推进全部版本且以后无需逐次批准；本CR属于TASK-R16-003既定后端范围
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-28T10:37:48Z'
+  note: CR-0442已闭合固定长度且强绑定的管理员幂等scope、细粒度RBAC、模块边界、事务原子性、并发上限、乐观锁、订单owner隔离及历史数据不伪造要求；影响文件与测试范围充分。
+machine_record: .continuity/change_requests/CR-0442.yaml
+document: docs/03-continuity/change-requests/CR-0442-落地R16商品SKU报价与统一订单后端纵向链路.md
+decision_log:
+- at: '2026-07-28T12:54:21Z'
+  actor_id: codex-r16-backend-20260728
+  status: IMPLEMENTING
+  note: 独立审批后已落地R16十个冻结operationId纵向链路。
+  session_id: SES-20260728T102501Z-3189682B
+- at: '2026-07-28T12:54:27Z'
+  actor_id: codex-r16-backend-20260728
+  status: IMPLEMENTED
+  note: R16商品、SKU与订单后端实现及回归已提交。
+  session_id: SES-20260728T102501Z-3189682B
+- at: '2026-07-28T12:54:32Z'
+  actor_id: codex-r16-backend-20260728
+  status: CLOSED
+  note: 权限、幂等、错误码、审计、Outbox与真实PostgreSQL回归均PASS。
+  session_id: SES-20260728T102501Z-3189682B
+session_ids:
+- SES-20260728T102501Z-3189682B
+implementation_commits:
+- 63ebeca8ca54f087b18e0b9605dc879dd10bc4c4

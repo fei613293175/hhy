@@ -1,6 +1,6 @@
 release: R11
 title: 团队长入驻完整闭环
-status: READY_WHEN_DEPENDENCIES_GREEN
+status: MACHINE_COMPLETE_OWNER_PENDING
 milestone: M1_CONTENT_MARKETPLACE
 depends_on:
 - R05
@@ -47,12 +47,87 @@ tests:
 - TST-TEAM_001-HAPPY
 - TST-TEAM_001-IDEMPOTENT
 - TST-TEAM_001-REJECT
+test_count: 3
+planning_depth: STORY_READY
+apk_gate: MACHINE_CANDIDATE_PASS_OWNER_FEEDBACK_ASYNC
+android_delivery:
+  source_commit: a3c32668ae1d6502d859efd3e8c18947f650e150
+  apk_file: hhy-r11-a3c3266-debug.apk
+  version_name: 1.2.2-debug
+  version_code: 10220
+  sha256: 01e2c435752fcf969c641057a11855a12dd1991dda6f1af8ba2d982d4b07185a
+  machine_delivery: PASS
+  owner_physical_test: PENDING
+  evidence: artifacts/validation/r11-apk-delivery/delivery-evidence.json
+  test_guide: artifacts/reports/R11/R11-version-test-guide.md
+android_automation:
+  policy_id: HHY-ANDROID-AUTOMATION-V1
+  source_github_run_id: '30069588243'
+  promotion_github_run_id: '30074128265'
+  status: PASS
+  commit: a3c32668ae1d6502d859efd3e8c18947f650e150
+  journey:
+  - SCR-HOME-001
+  - SCR-LIST-004
+  - SCR-DETAIL-004
+  - SCR-PUB-005
+  baseline_promotion:
+    artifact_id: '8589169043'
+    artifact_sha256: 28f0bb663ff0fec6fcecd1bee00d2e0ca642253c9054fec59253a46c87aeb3ca
+    rebuild_or_emulator_rerun: false
+    status: PASS
+  owner_test_allowed: true
+  owner_physical_test: PENDING
+  ai_visual_review: PASS
+  candidate_report: artifacts/validation/r11-task007-android/candidate-report.json
+  evidence: artifacts/validation/r11-task007-android/candidate-report.json
+machine_completion:
+  status: PASS
+  owner_feedback_mode: ASYNC_NON_BLOCKING
+  formal_release_acceptance: PENDING_OWNER_PHYSICAL_TEST
+  production_activation: BLOCKED_OWNER_PHYSICAL_TEST
+  next_release_development: ALLOWED
+  evidence: artifacts/reports/R11/TASK-R11-008-machine-close.md
+machine_closure:
+  status: PASS
+  task_id: TASK-R11-008
+  session_id: SES-20260724T110611Z-0D26E8D5
+  report: artifacts/reports/R11/TASK-R11-008-machine-close.md
+  owner_physical_test: PENDING
+  formal_release_acceptance: PENDING_OWNER_PHYSICAL_TEST
+  production_activation: BLOCKED_OWNER_PHYSICAL_TEST
+  next_work: R12
+  candidate_product_commit: a3c32668ae1d6502d859efd3e8c18947f650e150
+  candidate_delivery_commit: c64e8a630336c0e41f49a1335f71c661e3417dbf
+  task007_closure_commit: a4772fbdbb703ee2c824c06cd0916fade1701f9d
+entry_baseline:
+  checked_at: '2026-07-24'
+  session_id: SES-20260723T165808Z-606D1DDF
+  story_id: STORY-R11-004
+  change_request: CR-0280
+  documentation_status: PASS_DOCUMENTATION_READY
+  cloud_environment_status: PASS
+  git_transport_status: PENDING_EXTERNAL_GITHUB_HTTPS_RECOVERY
+  workflow_profile: MODULE
+  implementation_start: ALLOWED
+  exact_visual_bindings:
+    SCR-LIST-004: B02/P08
+    SCR-DETAIL-004: B03/P04
+    SCR-PUB-005: B04/P05
+  home_cross_release_integration:
+    source: 合伙云Pro_完整项目开发文档_V1.2.2_页面与运营规格冻结版.md#4.3
+    requirement: TEAM_LEADER_ENTRY_CARD_AND_NAVIGATION_REQUIRED
+  delivery_policy:
+    ordinary_task_validation: AFFECTED_FAST_OR_MODULE
+    full_gate_and_emulator: FINAL_CANDIDATE_ONLY_TASK_R11_007
+    owner_feedback_mode: ASYNC_NON_BLOCKING
 entry_gate:
 - releases/R11/DEFINITION_OF_READY.yaml 全部适用项为PASS
 - releases/R11/STORIES.yaml 中每个故事均绑定页面/API/配置/数据/测试或显式N/A
 - 本版本页面字段、状态、动作、导航和后台运营规格不存在TBD/RELEASE_BOUND
 - 全部依赖版本为GREEN或按发布计划允许的并行依赖已记录
 - 冻结契约发生变化时已创建CR并重新生成追踪和SHA
+- 三个R11页面分别精确绑定B02/P08、B03/P04、B04/P05，且团队长客户端关闭前同步完成首页团队长入口、真实内容卡与导航回接
 exit_gate:
 - 领域代码与前端真实闭环
 - 数据库迁移和不变量测试通过

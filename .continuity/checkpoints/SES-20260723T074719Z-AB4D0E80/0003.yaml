@@ -1,0 +1,298 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260723T074719Z-AB4D0E80-0003
+session_id: SES-20260723T074719Z-AB4D0E80
+sequence: 3
+created_at: '2026-07-23T10:21:32Z'
+summary: 完成后台权限、菜单、路由、标签页会话、独立滚动与V037超级管理员权限修复；前端95测试、构建、DB镜像门禁和云端后端368测试通过
+next_step: 可回滚部署新后台静态发布和后端V036/V037迁移，随后在线登录逐页回归
+blockers: []
+decisions: []
+note: ''
+tests:
+- name: admin-web-typecheck
+  result: PASS
+  evidence: pnpm --filter @hhy/admin-web typecheck
+  note: Vue类型检查通过
+- name: admin-web-tests
+  result: PASS
+  evidence: 19 files 95 tests
+  note: 权限、会话、菜单回归通过
+- name: admin-web-build
+  result: PASS
+  evidence: vite production build
+  note: 生产构建通过
+- name: db-schema
+  result: PASS
+  evidence: DB_SCHEMA_OK tables=200 migrations=37 runtime_hashes=PASS
+  note: 迁移镜像一致
+- name: backend-module
+  result: PASS
+  evidence: obx-test Maven access,boot 368 tests
+  note: 0 failures 0 errors 12 skipped
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: ede20ba89945175f79c45252fa796e2f89e8a39a
+  upstream: origin/task/TASK-R03-001
+  ahead: 0
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/ACTIVE_SESSION.yaml'
+  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/SESSION_INDEX.yaml'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/TASK_CLAIMS.yaml'
+  - ' M .continuity/TASK_TRANSITIONS.yaml'
+  - ' M CURRENT_STATUS.yaml'
+  - ' M apps/admin-web/src/App.vue'
+  - ' M apps/admin-web/src/r01Pages.test.ts'
+  - ' M apps/admin-web/src/router.ts'
+  - ' M apps/admin-web/src/services/adminSession.test.ts'
+  - ' M apps/admin-web/src/services/adminSession.ts'
+  - ' M apps/admin-web/src/styles.css'
+  - ' M apps/admin-web/src/views/AdminLoginPage.vue'
+  - ' M apps/admin-web/src/views/CatalogPage.vue'
+  - ' M apps/admin-web/src/views/ProviderConfigPage.vue'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+  - ' M catalogs/change_request_index.csv'
+  - ' M catalogs/session_index.csv'
+  - ' M catalogs/task_transition_ledger.csv'
+  - ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
+  - ?? .continuity/change_requests/CR-0269.yaml
+  - ?? .continuity/checkpoints/SES-20260723T074719Z-AB4D0E80/0001.yaml
+  - ?? .continuity/checkpoints/SES-20260723T074719Z-AB4D0E80/0002.yaml
+  - ?? .continuity/sessions/SES-20260723T074719Z-AB4D0E80.yaml
+  - ?? apps/admin-web/src/adminNavigation.test.ts
+  - ?? apps/admin-web/src/adminNavigation.ts
+  - ?? apps/admin-web/src/routerAccess.ts
+  - ?? apps/admin-web/src/routerPermissions.test.ts
+  - ?? apps/admin-web/src/views/AdminForbiddenPage.vue
+  - ?? database/migrations/V037__admin_super_admin_permission_repair.sql
+  - ?? docs/03-continuity/change-requests/CR-0269-修复后台权限会话菜单与生产可用性.md
+  - ?? docs/03-continuity/sessions/2026-07/SES-20260723T074719Z-AB4D0E80.md
+  - ?? services/backend/boot/src/main/resources/db/migration/V037__admin_super_admin_permission_repair.sql
+  recent_commits:
+  - "ede20ba89945175f79c45252fa796e2f89e8a39a\t2026-07-23T15:07:49+08:00\tHHY Continuity Bootstrap\t[STORY-R10-004] chore(continuity): close TASK-R10-003\
+    \ as completed"
+  - "896948b70c98807cb30d5d165225a6c2a4155424\t2026-07-23T15:02:03+08:00\tHHY Continuity Bootstrap\t[STORY-R10-004] feat(content): complete group\
+    \ promotion backend"
+  - "2de94dd2b82efc2d5ebff5500ad808ea5ccee2d4\t2026-07-23T14:23:32+08:00\tHHY Continuity Bootstrap\t[STORY-R10-004] chore(continuity): close TASK-R10-002\
+    \ as completed"
+  - "9322209a3e85917d0a11957a3137797b14c6c2e8\t2026-07-23T14:16:11+08:00\tHHY Continuity Bootstrap\t[STORY-R10-004] feat(database): enforce group\
+    \ promotion invariants"
+  - "47f2b158f68207603f260460aad7c4eccdd0b936\t2026-07-23T12:51:23+08:00\tHHY Continuity Bootstrap\t[STORY-R10-004] chore(continuity): close TASK-R10-001\
+    \ as completed"
+  - "04a6e66a91725fdd2352f8a262f7de701fc4629e\t2026-07-23T12:46:50+08:00\tHHY Continuity Bootstrap\t[STORY-R10-004] fix(home): align runtime with\
+    \ canonical product contract"
+  - "9e05beefef5754521c1730ddbf1179bae694c31b\t2026-07-23T10:49:29+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] chore(continuity): close TASK-R09-008\
+    \ as completed"
+  - "7f2c335493a6f78aadf8c041b4cc0fffd474d713\t2026-07-23T10:47:23+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] chore(r09): complete machine\
+    \ closure"
+project_fingerprint:
+  sha256: e567e2e69185a96384073ec802477480e07076af3d4badd62912659164118b4d
+  files:
+  - apps/admin-web/src/App.vue
+  - apps/admin-web/src/adminNavigation.test.ts
+  - apps/admin-web/src/adminNavigation.ts
+  - apps/admin-web/src/r01Pages.test.ts
+  - apps/admin-web/src/router.ts
+  - apps/admin-web/src/routerAccess.ts
+  - apps/admin-web/src/routerPermissions.test.ts
+  - apps/admin-web/src/services/adminSession.test.ts
+  - apps/admin-web/src/services/adminSession.ts
+  - apps/admin-web/src/styles.css
+  - apps/admin-web/src/views/AdminForbiddenPage.vue
+  - apps/admin-web/src/views/AdminLoginPage.vue
+  - apps/admin-web/src/views/CatalogPage.vue
+  - apps/admin-web/src/views/ProviderConfigPage.vue
+  - database/migrations/V037__admin_super_admin_permission_repair.sql
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/change-requests/CR-0269-修复后台权限会话菜单与生产可用性.md
+  - services/backend/boot/src/main/resources/db/migration/V037__admin_super_admin_permission_repair.sql
+  file_count: 18
+  payload:
+    base_commit: ede20ba89945175f79c45252fa796e2f89e8a39a
+    files:
+    - path: apps/admin-web/src/App.vue
+      state: FILE
+      size: 1570
+      sha256: 8df46154a437dc879bf6bc4ab13092030c0fb0e02e7438ba80f14ce321d12f70
+    - path: apps/admin-web/src/adminNavigation.test.ts
+      state: FILE
+      size: 1278
+      sha256: 51b70fc6a519efac96c02effe5fdbf0c3dfab108219c9d7d25d3cea04d431bee
+    - path: apps/admin-web/src/adminNavigation.ts
+      state: FILE
+      size: 1966
+      sha256: f649d867e2777d608d64fd6bfea8d7e74f3e4f437d87c59f5d837fb707cf6d5e
+    - path: apps/admin-web/src/r01Pages.test.ts
+      state: FILE
+      size: 21706
+      sha256: 7f4c4bfe39ea2b82cf11b54239baa9566da8a6ae8dc7dbfe326ece68899dfe3c
+    - path: apps/admin-web/src/router.ts
+      state: FILE
+      size: 5097
+      sha256: 25e169544c27c9a737e9c76a56d5fc2401458813412cd2d95326f322fba2c4c9
+    - path: apps/admin-web/src/routerAccess.ts
+      state: FILE
+      size: 1208
+      sha256: cab1cb7b8b7c79102d565079093156f8066439d07a79abc999d01f3b90dafc0e
+    - path: apps/admin-web/src/routerPermissions.test.ts
+      state: FILE
+      size: 1166
+      sha256: 9c04050d7e94becc3078c3a66e58d3e555275d17d11500c47fd916422e0dd8f7
+    - path: apps/admin-web/src/services/adminSession.test.ts
+      state: FILE
+      size: 4572
+      sha256: dc88d69ba50c70da83e6fc635bf3658ddddd1386520882c853fb9ebc2097c0eb
+    - path: apps/admin-web/src/services/adminSession.ts
+      state: FILE
+      size: 2851
+      sha256: d8c52ceec02039de5f72912ed7cf50df7ab707f344cb48a222dc43aa88d90540
+    - path: apps/admin-web/src/styles.css
+      state: FILE
+      size: 21142
+      sha256: 02780378e32080d6be2b66b0af5c5e8e70516cf76e009460d1754511dc675706
+    - path: apps/admin-web/src/views/AdminForbiddenPage.vue
+      state: FILE
+      size: 891
+      sha256: c94891233bb04cf8bd85430a33a12e67ece6c73f059d6766b4fbda20916fe10f
+    - path: apps/admin-web/src/views/AdminLoginPage.vue
+      state: FILE
+      size: 6412
+      sha256: 9864588fb2caa7fe62e6e20c18d154122a565bf30da481c2e82e4b08d91faa1c
+    - path: apps/admin-web/src/views/CatalogPage.vue
+      state: FILE
+      size: 670
+      sha256: 4c1fc9853aa50a4aca6885815dcf0ebe63a5693dfd2014c752e3d6eaff4f4879
+    - path: apps/admin-web/src/views/ProviderConfigPage.vue
+      state: FILE
+      size: 25614
+      sha256: e2b856baa6e56e287c72b00870c04cc826d15d61d102bf2b69e4308f270ea17a
+    - path: database/migrations/V037__admin_super_admin_permission_repair.sql
+      state: FILE
+      size: 1056
+      sha256: b902a648f75fe0527fadd80a1f70f4636c2751492f3a379b0b48516a1851700f
+    - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
+      state: FILE
+      size: 138258
+      sha256: bfb3c3af92ad0b7a037397ebc0da214346b0ae637c1b501cb106439c90be49f4
+    - path: docs/03-continuity/change-requests/CR-0269-修复后台权限会话菜单与生产可用性.md
+      state: FILE
+      size: 3709
+      sha256: 7fae2c1275e47999bbc00a6cdaead7c82e98a7c0b6ea4583760f28bb35b73d3d
+    - path: services/backend/boot/src/main/resources/db/migration/V037__admin_super_admin_permission_repair.sql
+      state: FILE
+      size: 1056
+      sha256: b902a648f75fe0527fadd80a1f70f4636c2751492f3a379b0b48516a1851700f
+change_classification:
+  code:
+  - apps/admin-web/src/App.vue
+  - apps/admin-web/src/adminNavigation.test.ts
+  - apps/admin-web/src/adminNavigation.ts
+  - apps/admin-web/src/r01Pages.test.ts
+  - apps/admin-web/src/router.ts
+  - apps/admin-web/src/routerAccess.ts
+  - apps/admin-web/src/routerPermissions.test.ts
+  - apps/admin-web/src/services/adminSession.test.ts
+  - apps/admin-web/src/services/adminSession.ts
+  - apps/admin-web/src/styles.css
+  - apps/admin-web/src/views/AdminForbiddenPage.vue
+  - apps/admin-web/src/views/AdminLoginPage.vue
+  - apps/admin-web/src/views/CatalogPage.vue
+  - apps/admin-web/src/views/ProviderConfigPage.vue
+  - services/backend/boot/src/main/resources/db/migration/V037__admin_super_admin_permission_repair.sql
+  user_visible:
+  - apps/admin-web/src/App.vue
+  - apps/admin-web/src/adminNavigation.test.ts
+  - apps/admin-web/src/adminNavigation.ts
+  - apps/admin-web/src/r01Pages.test.ts
+  - apps/admin-web/src/router.ts
+  - apps/admin-web/src/routerAccess.ts
+  - apps/admin-web/src/routerPermissions.test.ts
+  - apps/admin-web/src/services/adminSession.test.ts
+  - apps/admin-web/src/services/adminSession.ts
+  - apps/admin-web/src/styles.css
+  - apps/admin-web/src/views/AdminForbiddenPage.vue
+  - apps/admin-web/src/views/AdminLoginPage.vue
+  - apps/admin-web/src/views/CatalogPage.vue
+  - apps/admin-web/src/views/ProviderConfigPage.vue
+  database:
+  - database/migrations/V037__admin_super_admin_permission_repair.sql
+  continuity:
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/change-requests/CR-0269-修复后台权限会话菜单与生产可用性.md
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+- DATABASE_TEST_EVIDENCE
+- SCHEMA_TRACEABILITY
+- CHANGELOG
+change_requests:
+- CR-0268
+- CR-0269
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions:
+  - apps/admin-web/src/App.vue
+  - apps/admin-web/src/adminNavigation.ts
+  - apps/admin-web/src/adminNavigation.test.ts
+  - apps/admin-web/src/router.ts
+  - apps/admin-web/src/routerAccess.ts
+  - apps/admin-web/src/routerPermissions.test.ts
+  - apps/admin-web/src/services/adminSession.ts
+  - apps/admin-web/src/services/adminSession.test.ts
+  - apps/admin-web/src/styles.css
+  - apps/admin-web/src/views/AdminForbiddenPage.vue
+  - apps/admin-web/src/views/AdminLoginPage.vue
+  - apps/admin-web/src/views/CatalogPage.vue
+  - apps/admin-web/src/views/ProviderConfigPage.vue
+  - apps/admin-web/src/r01Pages.test.ts
+  - services/backend/boot/src/main/resources/db/migration/V037__admin_super_admin_permission_repair.sql
+  - database/migrations/V037__admin_super_admin_permission_repair.sql
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  source: story+explicit+approved-cr:CR-0269
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 生产RBAC迁移、容器切换与同一后台路由事实链由主控串行复核，避免并发修改和生产切换冲突
+event_hash: 817d0c706e08a43e028da9ac377eb647d79653e2ab872f86e8cb7c45f3aa8761

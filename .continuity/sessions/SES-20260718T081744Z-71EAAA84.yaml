@@ -1,0 +1,74 @@
+protocol_version: '1.0'
+package_version: 1.2.3
+session_id: SES-20260718T081744Z-71EAAA84
+status: CLOSED
+actor:
+  id: codex-root
+  kind: AI_OR_HUMAN
+  host: unknown
+release: R02
+task_id: TASK-R02-005
+story_id: STORY-R02-008
+goal: 完成H5邀请注册的数据、四端点调用链、页面状态、幂等安全和自动化测试闭环。
+started_at: '2026-07-18T08:17:44Z'
+updated_at: '2026-07-18T08:45:02Z'
+takeover_of: null
+change_requests:
+- CR-0038
+scope:
+  allowed_paths:
+  - apps/h5/**
+  - apps/cashier-h5/**
+  - services/backend/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - tests/**
+  - docs/**
+  - catalogs/**
+  - releases/**
+  - design/**
+  - scripts/**
+  approved_exceptions:
+  - CHANGELOG.md
+  source: story+explicit+approved-cr:CR-0038
+git:
+  initialized: true
+  branch: task/TASK-R02-002
+  base_commit: 1e41f587985849538b8ba2f6b5d0ee24e0652223
+  start_head: 1e41f587985849538b8ba2f6b5d0ee24e0652223
+  upstream: origin/task/TASK-R02-002
+  initial_worktree_state: CLEAN
+lease:
+  duration_minutes: 240
+  renewed_at: '2026-07-18T08:45:00Z'
+  expires_at: '2026-07-18T12:45:00Z'
+checkpoint_sequence: 4
+latest_checkpoint: .continuity/checkpoints/SES-20260718T081744Z-71EAAA84/0004.yaml
+session_log: docs/03-continuity/sessions/2026-07/SES-20260718T081744Z-71EAAA84.md
+next_step: 提交关闭元数据Commit，然后运行pre-push/CI门禁
+context_pack:
+  yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
+  markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
+  manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+  context_hash: bab0786af67c08345a25b87db515e6f20281ac5a7319302a573433b6ae3d54c9
+  generated_at: '2026-07-18T08:45:01Z'
+handoff_bundle: null
+closure:
+  result: COMPLETED
+  summary: 完成TASK-R02-005：公开邀请注册配置、H5四端点安全调用链、MOB-AUTH-FORM页面、加载/失效/离线/重试/限流/成功导航与幂等自动化全部闭环。
+  code_commit: '1948136'
+  next_release: R02
+  next_task: TASK-R02-006
+  metadata_commit: PENDING
+  push_verification: CI_REQUIRED_AFTER_METADATA_COMMIT
+  started_at: '2026-07-18T08:44:58Z'
+  closure_checkpoint_id: CP-SES-20260718T081744Z-71EAAA84-0004
+  closed_at: '2026-07-18T08:45:02Z'
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 仅更新当前会话唯一CR和连续性事实，必须由事实主控串行完成
+closed_at: '2026-07-18T08:45:02Z'

@@ -1,0 +1,54 @@
+protocol_version: '1.0'
+cr_id: CR-0505
+title: 修正R14删除空状态旅程的搜索前置
+status: IMPLEMENTED
+created_at: '2026-07-30T02:18:34Z'
+updated_at: '2026-07-30T02:24:23Z'
+requester_actor_id: codex-r14-attempt18-remediator
+approver_actor_id: codex-r14-attempt18-reviewer
+task_id: TASK-R14-008
+session_id: SES-20260729T161557Z-6FCE6ACA
+user_request: 持续开发并由AI完成R14候选审核，不要求项目所有者逐项确认
+reason: Attempt18已通过完整业务旅程直到删除会话；删除HTTP 200且会话行消失，唯一失败是返回列表后搜索状态按生命周期清空，候选未重新输入搜索词却断言筛选空状态。必须修复测试前置而不是放宽产品文案。
+original_rule: 解除拉黑后返回列表直接长按会话，并继续断言筛选空状态“没有找到相关会话”。
+new_rule: 解除拉黑后返回列表必须在r14.conversations.search的Compose语义节点重新输入真实联系人、再次核对唯一联系人，再长按删除并严格断言筛选空状态“没有找到相关会话”。
+impact_summary: 只修复ReleaseCandidateSmokeTest的搜索状态前置；不修改产品页面、API、数据库、空状态文案或既有业务断言。
+impact:
+  files:
+  - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+  - artifacts/validation/r14-candidate-attempt18/failure-evidence.json
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  pages:
+  - R14消息列表候选旅程
+  apis: []
+  database: []
+  configuration: []
+  ledger:
+  - PROB-0151
+  tests:
+  - ReleaseCandidateSmokeTest编译与候选删除筛选空状态旅程
+  releases:
+  - R14
+  migration_and_compatibility: 无运行时迁移；仅候选自动化旅程按真实页面生命周期重建搜索状态，旧Attempt18不得重跑。
+user_confirmation: 项目所有者已授权AI持续开发和候选自主审核
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-30T02:19:11Z'
+  note: Attempt18实际未筛选空状态与HTTP 200删除证据一致；修复只重建测试搜索前置并保留严格文案标准，不掩盖产品缺陷。
+machine_record: .continuity/change_requests/CR-0505.yaml
+document: docs/03-continuity/change-requests/CR-0505-修正R14删除空状态旅程的搜索前置.md
+decision_log:
+- at: '2026-07-30T02:19:21Z'
+  actor_id: codex-r14-attempt18-remediator
+  status: IMPLEMENTING
+  note: 开始在候选旅程返回列表后重新输入搜索词并再次核对联系人，再执行长按删除。
+  session_id: SES-20260729T161557Z-6FCE6ACA
+- at: '2026-07-30T02:24:23Z'
+  actor_id: codex-r14-resume-20260730
+  status: IMPLEMENTED
+  note: Attempt18证据与四图审核已入库；候选返回列表后通过Compose重新输入真实联系人并再次核对联系人，再长按删除。固定Android工具链225任务编译通过，产品文案和业务断言未放宽。
+  session_id: SES-20260729T161557Z-6FCE6ACA
+session_ids:
+- SES-20260729T161557Z-6FCE6ACA
+implementation_commits:
+- cf041219

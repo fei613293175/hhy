@@ -1,0 +1,103 @@
+---
+cr_id: CR-0475
+status: APPROVED
+requester_actor_id: codex-r14-close-20260729
+approver_actor_id: project-owner-continuity-directive-20260729
+task_id: TASK-R14-008
+session_id: SES-20260728T220632Z-FE7D82FD
+created_at: 2026-07-28T22:13:31Z
+updated_at: 2026-07-28T22:14:34Z
+---
+# CR-0475 — 绑定R14最终交互候选与稳定TEST_APK同一提交
+
+## 用户需求摘要
+
+R14至R32持续开发不得漂移，每个大版本由AI完成GitHub真实交互候选并自主审核
+
+## 原规则
+
+R14当前TEST_APK固定为2eb8ac74/versionCode10224，而config/android-candidate-request.yaml仍为R13；机器关闭要求R14候选报告Commit与TEST_APK源码、构建和交付证据完全一致
+
+## 新规则
+
+将versionCode单调递增为10225并与R14 Attempt1候选请求放入同一冻结提交；候选PASS后仅从该提交在obx-test固定工具链构建稳定签名包，原子替换10224交付并完成候选截图AI审核、累计视觉、六项漂移审计和machine completion
+
+## 修改原因
+
+R14现有10224 TEST_APK提交2eb8ac74早于最终候选请求；默认分支只注册Android Candidate Request，无法在旧Tag直接workflow_dispatch，机器关闭要求候选与稳定交付同Commit
+
+## 影响摘要
+
+修正R14候选与TEST_APK的执行顺序和提交身份；不改业务代码、API、数据库、页面功能、签名、正式端点或owner异步策略
+
+## 影响文件
+
+- `apps/android/app/build.gradle.kts`
+- `apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt`
+- `apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt`
+- `config/android-candidate-request.yaml`
+- `artifacts/apk/R14/APK_MANIFEST.yaml`
+- `artifacts/apk/R14/history/2eb8ac7/APK_MANIFEST.yaml`
+- `artifacts/validation/r14-apk-delivery/delivery-evidence.json`
+- `artifacts/validation/r14-apk-delivery/history/2eb8ac7/delivery-evidence.json`
+- `artifacts/validation/r14-task008-android/build-evidence.json`
+- `artifacts/validation/r14-task008-candidate`
+- `artifacts/reports/R14/R14-version-test-guide.md`
+- `artifacts/reports/R14/TASK-R14-007-android-apk.md`
+- `artifacts/reports/R14/TASK-R14-008-machine-close.md`
+- `releases/R14/RELEASE_MANIFEST.yaml`
+- `releases/R14/ACCEPTANCE_MATRIX.csv`
+- `catalogs/ui_visual_acceptance.csv`
+- `tests/android/visual-baselines/R14`
+- `infra/nginx/r14-apk-location.inc`
+- `docs/03-continuity/PROBLEM_REGISTRY.yaml`
+
+## 页面
+
+- 无直接影响（已在影响摘要说明）
+
+## API
+
+- 无直接影响（已在影响摘要说明）
+
+## 数据库与迁移
+
+- 无直接影响（已在影响摘要说明）
+
+## 配置
+
+- 无直接影响（已在影响摘要说明）
+
+## 资金/账本与历史数据
+
+- 无直接影响（已在影响摘要说明）
+
+## 测试
+
+- `R14候选请求校验、versionCode三投影、真实交互候选、固定工具链、四方交付、累计视觉、machine close与R14-R32顺序门禁`
+
+## 版本
+
+- `R14`
+
+## 迁移与兼容策略
+
+10225沿用hhy-staging-test-v2可覆盖10224；旧2eb8ac7交付原字节归档，10224继续可下载直至10225四方交付事务通过；候选失败只阻断machine completion并按最多三轮规则处理
+
+## 用户确认
+
+项目所有者已明确要求每个大版本由AI执行GitHub真实交互候选、自主判定且持续开发至R32不得漂移
+
+## 审批
+
+- 审批人：`project-owner-continuity-directive-20260729`
+- 决定：`APPROVED`
+- 时间：`2026-07-28T22:14:34Z`
+- 说明：同Commit候选与稳定TEST_APK是R14+机器关闭硬门禁；10225只修正身份和顺序，不改业务，失败不覆盖10224
+
+## 状态记录 · 2026-07-28T22:14:45Z
+
+- Actor：`codex-r14-close-20260729`
+- Status：`IMPLEMENTING`
+- Session：`SES-20260728T220632Z-FE7D82FD`
+- Note：开始同步10225三投影与R14 Attempt1候选请求；候选PASS前不替换现有10224交付

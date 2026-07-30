@@ -1,0 +1,51 @@
+protocol_version: '1.0'
+cr_id: CR-0112
+title: 补充R05-004客户端闭环验收报告
+status: IMPLEMENTED
+created_at: '2026-07-20T00:21:21Z'
+updated_at: '2026-07-20T00:23:09Z'
+requester_actor_id: codex-root
+approver_actor_id: project-owner-delegated
+task_id: TASK-R05-007
+session_id: SES-20260719T234639Z-1D7D7A00
+user_request: 用户要求严格按开发文档完成每版全部功能、提供完整实现和测试说明，并保证无状态接续。
+reason: R05关闭预检发现AC-R05-001已具备实现和测试事实但证据路径仍指向目录，必须补充单一真实报告文件。
+original_rule: AC-R05-001已有TASK-R05-004关闭事实，但验收矩阵证据仅指向目录且不存在单一报告。
+new_rule: 仅新增artifacts/reports/R05/TASK-R05-004-client.md并让AC-R05-001指向该文件。
+impact_summary: 补齐Android、H5和Admin七个实名页面闭环的可审计证据，不修改运行逻辑。
+impact:
+  files:
+  - artifacts/reports/R05/TASK-R05-004-client.md
+  pages: []
+  apis: []
+  database: []
+  configuration:
+  - R05 acceptance evidence path
+  ledger: []
+  tests:
+  - R05 documentation gate; release artifact regular check
+  releases:
+  - R05
+  migration_and_compatibility: 纯报告和验收索引修复，不影响API、数据库、客户端兼容或生产激活。
+user_confirmation: 用户已要求每版完整功能、测试说明和无状态接续，并授权常规事项自行决定。
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-20T00:21:35Z'
+  note: 单一报告精确复用已关闭TASK-R05-004的真实提交和测试，不扩大产品范围。
+machine_record: .continuity/change_requests/CR-0112.yaml
+document: docs/03-continuity/change-requests/CR-0112-补充R05-004客户端闭环验收报告.md
+decision_log:
+- at: '2026-07-20T00:21:37Z'
+  actor_id: codex-root
+  status: IMPLEMENTING
+  note: 应用R05客户端闭环验收报告精确范围。
+  session_id: SES-20260719T234639Z-1D7D7A00
+- at: '2026-07-20T00:23:09Z'
+  actor_id: codex-root
+  status: IMPLEMENTED
+  note: R05客户端闭环报告、AC-R05-001 PASS和Manifest operationId修复已由6a40f2b提交并推送。
+  session_id: SES-20260719T234639Z-1D7D7A00
+session_ids:
+- SES-20260719T234639Z-1D7D7A00
+implementation_commits:
+- 6a40f2b5250565414b6da013fd33be34da9acccd

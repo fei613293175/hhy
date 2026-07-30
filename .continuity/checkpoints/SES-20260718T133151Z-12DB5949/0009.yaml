@@ -1,0 +1,204 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260718T133151Z-12DB5949-0009
+session_id: SES-20260718T133151Z-12DB5949
+sequence: 9
+created_at: '2026-07-18T14:15:19Z'
+summary: R03供应商回滚新增独立双人审批与历史已验证版本恢复语义
+next_step: 实现ProviderConfigVersionService及事务存储端口，原子组合创建、测试、激活和回滚
+blockers: []
+decisions:
+- 回滚不得复用首次激活审批；当前ACTIVE转ROLLED_BACK与目标SUPERSEDED转ACTIVE必须绑定同一新审批且申请复核人不同
+note: ''
+tests:
+- name: provider lifecycle regression
+  result: PASS
+  evidence: Maven 18 tests, 0 failures
+  note: 新增独立回滚审批、历史恢复和禁止自审
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: b3c64cb8dc9b292b11ab077de3c719b777195a73
+  upstream: origin/task/TASK-R03-001
+  ahead: 0
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - ' M CHANGELOG.md'
+  - ' M services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/ProviderConfigLifecycle.java'
+  - ' M services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/ProviderConfigLifecycleTest.java'
+  recent_commits:
+  - "b3c64cb8dc9b292b11ab077de3c719b777195a73\t2026-07-18T22:13:11+08:00\tHHY Continuity Bootstrap\t[STORY-R03-001] feat(r03): add provider connector\
+    \ adapters"
+  - "ade76ab4f6521bc193dcab8bd0c85e493ad1e933\t2026-07-18T22:10:11+08:00\tHHY Continuity Bootstrap\t[STORY-R03-001] feat(r03): secure provider\
+    \ connection tests"
+  - "b1c5c7f7f416fd87c5d6fc06ca32d7c9e6c06743\t2026-07-18T22:04:15+08:00\tHHY Continuity Bootstrap\t[STORY-R03-001] feat(r03): connect provider\
+    \ config write flows"
+  - "e5e5661ab1e9076ff8b9b6acb975316e85abfe1e\t2026-07-18T21:58:38+08:00\tHHY Continuity Bootstrap\t[STORY-R03-001] chore(continuity): close CR-0045"
+  - "b85f02d26e82dc9d04cfe836a8cd2f8777f52cb6\t2026-07-18T21:57:17+08:00\tHHY Continuity Bootstrap\t[STORY-R03-001] feat(r03): implement provider\
+    \ config admin reads"
+  - "3f801f53d99171421b49aa4c91cf144a04c73c8d\t2026-07-18T21:45:37+08:00\tHHY Continuity Bootstrap\t[STORY-R03-001] feat(r03): enforce provider\
+    \ activation lifecycle"
+  - "0a7520cdb450487f6c151e9244a193614df79544\t2026-07-18T21:41:56+08:00\tHHY Continuity Bootstrap\t[STORY-R03-001] feat(r03): enforce provider\
+    \ secret boundaries"
+  - "d37d08cb5a691f7605844742cbe645c01bf2b4f4\t2026-07-18T21:30:49+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] chore(continuity): close TASK-R03-001\
+    \ as completed"
+project_fingerprint:
+  sha256: 5d3c66728790ee27259d3d407a93d69215eb7f8d6ac32b2bd5fa54035aa081a3
+  files:
+  - CHANGELOG.md
+  - apps/admin-web/src/provider-config.css
+  - apps/admin-web/src/r03ProviderPage.test.ts
+  - apps/admin-web/src/router.ts
+  - apps/admin-web/src/services/adminProviderConfigs.test.ts
+  - apps/admin-web/src/services/adminProviderConfigs.ts
+  - apps/admin-web/src/services/idempotency.ts
+  - apps/admin-web/src/services/index.ts
+  - apps/admin-web/src/views/ProviderConfigPage.vue
+  - docs/03-continuity/change-requests/CR-0045-允许R03用户可见Admin变更同步根CHANGELOG.md
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/ProviderConfigLifecycle.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/ProviderConfigValidator.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/ProviderConnectionTestCoordinator.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/ProviderConnectorAdapters.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/ProviderConfigLifecycleTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/ProviderConfigValidatorTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/ProviderConnectionTestCoordinatorTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/ProviderConnectorAdaptersTest.java
+  file_count: 18
+  payload:
+    base_commit: d37d08cb5a691f7605844742cbe645c01bf2b4f4
+    files:
+    - path: CHANGELOG.md
+      state: FILE
+      size: 25241
+      sha256: 04a63d6664ae6e9b333bfb6ef2e9a08d471f8c6c7bf81cc167d4758e52d2a3ab
+    - path: apps/admin-web/src/provider-config.css
+      state: FILE
+      size: 3332
+      sha256: 39beaebe653bc96203f130b54aa54db5f790aba01ad4ca83b2f2d8b6778c8dfb
+    - path: apps/admin-web/src/r03ProviderPage.test.ts
+      state: FILE
+      size: 8870
+      sha256: 2e90437734622da8e70188b31e5e627869acf746c0913bb803d4442f2ea42b9a
+    - path: apps/admin-web/src/router.ts
+      state: FILE
+      size: 2868
+      sha256: 7dee225aba38249ee4cfdda4a13fa65cb4a505a19569fc995d406146f7e5bd6e
+    - path: apps/admin-web/src/services/adminProviderConfigs.test.ts
+      state: FILE
+      size: 5182
+      sha256: ae856469a3298d48d1c19e342abd691fa36f927e867e68c85df3dc567f425fac
+    - path: apps/admin-web/src/services/adminProviderConfigs.ts
+      state: FILE
+      size: 7725
+      sha256: 5590958ea302a39d9edccc1b9d1ff1bbc17983b0fd3ab7f3fe289635df71b0ec
+    - path: apps/admin-web/src/services/idempotency.ts
+      state: FILE
+      size: 2038
+      sha256: b17253c87ac6d80d0859a206c6468160e95e71ced219413660f724cb8376a448
+    - path: apps/admin-web/src/services/index.ts
+      state: FILE
+      size: 194
+      sha256: ab65f92f493c94ab623c4723ce3aceedf8aa4e82c933164766a728f9859452c3
+    - path: apps/admin-web/src/views/ProviderConfigPage.vue
+      state: FILE
+      size: 24161
+      sha256: 27824015b56608297529856781ca1e70d724ea0e7162ee6cd5083501bd2340d4
+    - path: docs/03-continuity/change-requests/CR-0045-允许R03用户可见Admin变更同步根CHANGELOG.md
+      state: FILE
+      size: 2423
+      sha256: 51a58b7a2082fd8a683580bc61468afb1e9b8e6a576eda62435db529ca690ca6
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/ProviderConfigLifecycle.java
+      state: FILE
+      size: 11189
+      sha256: 06948bd4cccf08aa58ace45aa72caefd7d5e1e738e8e41017915a0c8434b63af
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/ProviderConfigValidator.java
+      state: FILE
+      size: 10254
+      sha256: f136e967ca14bb99495c036fbe3152dc7e84aa6afa9e556cf8bdb69efeca69cc
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/ProviderConnectionTestCoordinator.java
+      state: FILE
+      size: 12902
+      sha256: 47dcb476401b861c50282286eaafa0beb37f2ace9019e3606a48db6510a3fd81
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/ProviderConnectorAdapters.java
+      state: FILE
+      size: 8909
+      sha256: ddd29e7fe7acf8c639f88beccc2ec4f1a3b42bf64e432744267fc9d8ee900fb6
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/ProviderConfigLifecycleTest.java
+      state: FILE
+      size: 6347
+      sha256: 6aa028bb58c9ba286d48a06fdf6572c9d9db42f00c9ecd94d49e93f0dd2632fd
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/ProviderConfigValidatorTest.java
+      state: FILE
+      size: 3868
+      sha256: 3d3a3a703510ade58c9305e1822385d22dad4b9ef6e11732e02014886b4ba2ee
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/ProviderConnectionTestCoordinatorTest.java
+      state: FILE
+      size: 8411
+      sha256: 0bd98467ae5a9e2bc6c7474800ccdf764244d522150c71059ab4e268df6740d7
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/ProviderConnectorAdaptersTest.java
+      state: FILE
+      size: 7269
+      sha256: 9df2170b4f28f12586deb1b339aee77ede683a42bad05b3ed0515c4fa949906b
+change_classification:
+  other:
+  - CHANGELOG.md
+  code:
+  - apps/admin-web/src/provider-config.css
+  - apps/admin-web/src/r03ProviderPage.test.ts
+  - apps/admin-web/src/router.ts
+  - apps/admin-web/src/services/adminProviderConfigs.test.ts
+  - apps/admin-web/src/services/adminProviderConfigs.ts
+  - apps/admin-web/src/services/idempotency.ts
+  - apps/admin-web/src/services/index.ts
+  - apps/admin-web/src/views/ProviderConfigPage.vue
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/ProviderConfigLifecycle.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/ProviderConfigValidator.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/ProviderConnectionTestCoordinator.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/ProviderConnectorAdapters.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/ProviderConfigLifecycleTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/ProviderConfigValidatorTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/ProviderConnectionTestCoordinatorTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/ProviderConnectorAdaptersTest.java
+  user_visible:
+  - apps/admin-web/src/provider-config.css
+  - apps/admin-web/src/r03ProviderPage.test.ts
+  - apps/admin-web/src/router.ts
+  - apps/admin-web/src/services/adminProviderConfigs.test.ts
+  - apps/admin-web/src/services/adminProviderConfigs.ts
+  - apps/admin-web/src/services/idempotency.ts
+  - apps/admin-web/src/services/index.ts
+  - apps/admin-web/src/views/ProviderConfigPage.vue
+  continuity:
+  - docs/03-continuity/change-requests/CR-0045-允许R03用户可见Admin变更同步根CHANGELOG.md
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+- CHANGELOG
+change_requests:
+- CR-0045
+scope:
+  allowed_paths:
+  - apps/admin-web/**
+  - services/backend/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - tests/**
+  - docs/**
+  - catalogs/**
+  - releases/**
+  - design/**
+  - scripts/**
+  approved_exceptions:
+  - CHANGELOG.md
+  source: story+explicit+approved-cr:CR-0045
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 双版本原子回滚影响核心状态机和审批安全，由主控串行复核
+event_hash: 668c8751988795dc5f69621a184322dde2cdf46a494ab7dde408bcf0440bd433

@@ -37,4 +37,10 @@ public final class AppVersionController {
         var command = new AppVersionCheckRequest(platform, versionCode, null, channel, environment);
         return ApiResponse.success(requestId, service.check(command), Instant.now(clock));
     }
+
+    @GetMapping("/public-api/v1/app/latest")
+    public ApiResponse<AppLatestView> latestPublic(
+            @RequestAttribute(name = "requestId", required = false) String requestId) {
+        return ApiResponse.success(requestId, service.latestPublic(), Instant.now(clock));
+    }
 }

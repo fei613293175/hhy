@@ -1,0 +1,53 @@
+schema_version: 1
+environment_id: HHY-OWNER-TEST
+status: ACTIVE
+purpose: 项目所有者长期真机测试与跨版本数据连续性
+public_api_url: https://api.orbexa.cc
+server_alias: obx-test
+nginx_config: /www/server/panel/vhost/nginx/api.orbexa.cc.conf
+secret_root: /root/hhy-owner-test/secrets
+backup_root: /root/hhy-owner-test/backups
+active:
+  release: R14
+  source_commit: 89ccaf45cbecd0a5412e7d99057ee0036cd8f181
+  backend_container: hhy-owner-test-api-89ccaf45
+  backend_image: hhy-backend-r14-candidate:89ccaf45
+  loopback_upstream: 127.0.0.1:28140
+  database_container: hhy-owner-test-postgres
+  database_name: hhy_owner_test
+  database_user: hhy_owner_test
+  database_volume: hhy-owner-test-postgres-data
+  docker_network: hhy-owner-test
+  flyway_version: "044"
+persistence:
+  preserve_across_releases: true
+  application_upgrade_only: true
+  migration_mode: FORWARD_ONLY
+  pre_upgrade_snapshot_required: true
+  forbid_database_recreate: true
+  forbid_volume_replace: true
+  forbid_down_with_volumes: true
+  forbid_user_data_truncate: true
+candidate_separation:
+  candidate_database_disposable: true
+  candidate_may_be_public_only_during_bounded_automation: true
+  restore_owner_test_route_after_candidate: ALWAYS
+  restore_on_candidate_pass: true
+  restore_on_candidate_failure: true
+  maximum_route_lease_minutes: 45
+  restore_script: scripts/restore_android_candidate_route.sh
+  promotion_script: scripts/promote_owner_test_backend.sh
+  candidate_database_name_forbidden_patterns:
+  - smoke
+  - candidate
+  - staging
+public_validation:
+  platform_status_path: /public-api/v1/platform/status
+  invite_validation_path: /api/v1/auth/invite-codes/validate
+  durable_test_invite_code: HHY2026TEST
+  expected_invite_status: VALID
+  ci_automation_enabled: false
+last_verified:
+  at: "2026-07-30T04:30:32Z"
+  evidence: artifacts/validation/r14-owner-test-persistence/owner-test-persistence.json
+  result: PASS

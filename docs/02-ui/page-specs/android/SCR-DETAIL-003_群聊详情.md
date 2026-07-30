@@ -10,6 +10,8 @@
 
 **业务目标：** 二维码/群号/失效反馈
 
+**R10 群聊安全语义：** 群平台、群规模、入群要求、二维码、群链接和群号来自群详情；入群口令不复用 `joinRequirement`、`groupNo` 或普通扩展属性，而是 `channel=JOIN_PASSWORD` 的独立加密联系方式。详情仅显示 `口令***` 脱敏摘要，用户显式访问后仅在本次 `SHEET-CONTACT-001` 会话展示明文并完整审计。`JOIN_PASSWORD` 不计作群主联系方式，ONLINE 群仍必须另有 `WECHAT/PHONE/QQ/EMAIL` 至少一种群主联系。
+
 **主要角色：** 已登录用户；公开能力仅限文档明确的H5页面
 
 **入口：** 从列表、通知、分享深链或关联业务入口进入，路由参数必须完整
@@ -40,7 +42,7 @@
 | FLD-00524 | 主要内容 | regionCode | 地区 | DISPLAY | string | TEXT | contentGetContentsById.response.data.ContentResource | 服务端返回时展示 | 有值且当前角色拥有字段访问权限 | 只读；通过明确写操作更新 | 最多2000字符 | NORMAL | 无需特殊掩码；仍遵守最小展示 | 地区加载失败时显示字段级占位或隐藏 |
 | FLD-00525 | 主要内容 | media | 媒体 | DISPLAY | array<MediaItemResource> | MEDIA_GALLERY | contentGetContentsById.response.data.ContentResource | 服务端返回时展示 | 有值且当前角色拥有字段访问权限 | 只读；通过明确写操作更新 | 最多50项 | NORMAL | 无需特殊掩码；仍遵守最小展示 | 媒体加载失败时显示字段级占位或隐藏 |
 | FLD-00526 | 主要内容 | publisher | 发布者 | DISPLAY | PublisherSummaryResource | STRUCTURED_SECTION | contentGetContentsById.response.data.ContentResource | 服务端返回时展示 | 有值且当前角色拥有字段访问权限 | 只读；通过明确写操作更新 | 按服务端Schema校验；前端不得放宽 | NORMAL | 无需特殊掩码；仍遵守最小展示 | 发布者加载失败时显示字段级占位或隐藏 |
-| FLD-00527 | 主要内容 | contactsMasked | 脱敏联系方式 | DISPLAY | array<ContactChannelSummaryResource> | LIST | contentGetContentsById.response.data.ContentResource | 服务端返回时展示 | 有值且当前角色拥有字段访问权限 | 只读；通过明确写操作更新 | 最多20项 | HIGH | 按数据分级展示部分掩码；导出执行更严格脱敏 | 脱敏联系方式加载失败时显示字段级占位或隐藏 |
+| FLD-00527 | 主要内容 | contactsMasked | 脱敏联系方式/入群口令 | DISPLAY | array<ContactChannelSummaryResource> | LIST | contentGetContentsById.response.data.ContentResource | 服务端返回时展示 | 有值且当前角色拥有字段访问权限 | 只读；通过明确写操作更新 | 最多20项；JOIN_PASSWORD仅GROUP且每内容至多一条 | HIGH | 普通联系按分级脱敏；JOIN_PASSWORD固定显示“口令***”，明文仅经显式访问接口返回 | 脱敏联系方式加载失败时显示字段级占位或隐藏 |
 | FLD-00528 | 主要内容 | status | 状态 | DISPLAY | string | TEXT | contentGetContentsById.response.data.ContentResource | 服务端返回时展示 | 有值且当前角色拥有字段访问权限 | 只读；通过明确写操作更新 | 必填；最多2000字符 | NORMAL | 无需特殊掩码；仍遵守最小展示 | 状态加载失败时显示字段级占位或隐藏 |
 | FLD-00529 | 主要内容 | reviewStatus | 审核状态 | DISPLAY | string | TEXT | contentGetContentsById.response.data.ContentResource | 服务端返回时展示 | 有值且当前角色拥有字段访问权限 | 只读；通过明确写操作更新 | 最多2000字符 | NORMAL | 无需特殊掩码；仍遵守最小展示 | 审核状态加载失败时显示字段级占位或隐藏 |
 | FLD-00530 | 主要内容 | statistics | 统计 | DISPLAY | ContentStatisticsResource | STRUCTURED_SECTION | contentGetContentsById.response.data.ContentResource | 服务端返回时展示 | 有值且当前角色拥有字段访问权限 | 只读；通过明确写操作更新 | 按服务端Schema校验；前端不得放宽 | NORMAL | 无需特殊掩码；仍遵守最小展示 | 统计加载失败时显示字段级占位或隐藏 |
@@ -102,7 +104,7 @@
 
 ## 8. 开发就绪检查
 
-- [ ] 页面模板和区域按本文件实现；效果图仅用于视觉参考。
+- [ ] 页面模板和区域按本文件实现；效果图对页面建模、区域顺序、信息层级、布局、组件形态和视觉样式具有强制约束，但不得作为功能、字段、动作或业务数据事实源。
 - [ ] 字段、校验、显示/编辑条件与 OpenAPI/配置一致，无新增匿名字段。
 - [ ] 所有状态均有可见表现、允许操作和恢复路径。
 - [ ] 所有动作均使用登记 operationId、权限、幂等或 expectedVersion。

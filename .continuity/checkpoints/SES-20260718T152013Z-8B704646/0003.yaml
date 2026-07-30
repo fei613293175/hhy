@@ -1,0 +1,162 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260718T152013Z-8B704646-0003
+session_id: SES-20260718T152013Z-8B704646
+sequence: 3
+created_at: '2026-07-18T15:32:41Z'
+summary: R03配置中心读取侧已接入5个冻结API，统一分页投影、权限边界、排序白名单和SecretRef协议级脱敏
+next_step: 接入供应商版本创建测试激活回滚、证书上传轮换和域名更新验证共8个冻结写接口及事务持久化适配
+blockers: []
+decisions:
+- 读取API只返回证书指纹和vault/kms协议级掩码；所有动态排序仅允许服务端白名单表达式
+note: ''
+tests:
+- name: R03 configuration query contracts
+  result: PASS
+  evidence: mvnw R03ConfigurationQueryStoreTest,R03ConfigurationQueryControllerContractTest
+  note: 3 tests
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: 3e09f9ef8c5de9ca26e8105e67c467130df2b6c1
+  upstream: origin/task/TASK-R03-001
+  ahead: 0
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/R03ConfigurationContracts.java
+  - ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/R03ConfigurationQueryStore.java
+  - ?? services/backend/boot/src/main/java/cc/orbexa/hhy/boot/admin/R03ConfigurationQueryController.java
+  - ?? services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/R03ConfigurationQueryStoreTest.java
+  - ?? services/backend/boot/src/test/java/cc/orbexa/hhy/boot/admin/R03ConfigurationQueryControllerContractTest.java
+  recent_commits:
+  - "3e09f9ef8c5de9ca26e8105e67c467130df2b6c1\t2026-07-18T23:27:21+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] feat(r03): add provider configuration\
+    \ migration"
+  - "a5a0629f18b4ad3b69d28116c5a45d3fd129f1fd\t2026-07-18T23:20:53+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] chore(r03): start shared integration\
+    \ task"
+  - "d54b5e2d019ec48a866d0559b24bcaf996e8aef6\t2026-07-18T23:19:12+08:00\tHHY Continuity Bootstrap\t[STORY-R03-003] chore(continuity): close TASK-R03-004\
+    \ as completed"
+  - "bc96c003b7ff8283e3b302a2d7097da7be94ca2d\t2026-07-18T23:17:32+08:00\tHHY Continuity Bootstrap\t[STORY-R03-003] chore(r03): close payment\
+    \ slice evidence"
+  - "b3a90b52062bd227ac40c4f6a9d6e7c7282de43e\t2026-07-18T23:14:33+08:00\tHHY Continuity Bootstrap\t[STORY-R03-003] feat(r03): deliver payment\
+    \ and payout admin pages"
+  - "ea17e6835282cf7f9da16be714c1ad6610261ad2\t2026-07-18T23:05:31+08:00\tHHY Continuity Bootstrap\t[STORY-R03-003] feat(r03): secure provider\
+    \ certificate rotation"
+  - "125d3b816f5d03a79ed745575c70e00e33b92620\t2026-07-18T23:00:16+08:00\tHHY Continuity Bootstrap\t[STORY-R03-003] feat(r03): add safe financial\
+    \ provider probes"
+  - "ce50e363bf861c8a5480881778fa4cbdf81a9856\t2026-07-18T22:57:25+08:00\tHHY Continuity Bootstrap\t[STORY-R03-003] feat(r03): validate payment\
+    \ provider secrets"
+project_fingerprint:
+  sha256: f4261104e680b81a5c67b9fa0ad42d282ae0874a1b0163da048d1fb024dbe9fb
+  files:
+  - database/migrations/V019__r03_provider_configuration_center.sql
+  - database/rollback/U019__r03_provider_configuration_center.sql
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/R03ConfigurationContracts.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/R03ConfigurationQueryStore.java
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/admin/R03ConfigurationQueryController.java
+  - services/backend/boot/src/main/resources/db/migration/V019__r03_provider_configuration_center.sql
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/R03ConfigurationQueryStoreTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/admin/R03ConfigurationQueryControllerContractTest.java
+  - tests/test_r03_provider_configuration_migration.py
+  file_count: 9
+  payload:
+    base_commit: d54b5e2d019ec48a866d0559b24bcaf996e8aef6
+    files:
+    - path: database/migrations/V019__r03_provider_configuration_center.sql
+      state: FILE
+      size: 8691
+      sha256: b73d6f9fef1e4418f0976234eb0333b80d3430ea2c931d25b8cabe9ac40d9aab
+    - path: database/rollback/U019__r03_provider_configuration_center.sql
+      state: FILE
+      size: 4099
+      sha256: 0996a2cfe94c6d593f07ef3b02bd9e3518b608b5682a9150d9ea322733674312
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/R03ConfigurationContracts.java
+      state: FILE
+      size: 1684
+      sha256: 583ea8ed3a45de9dab85843169a5c00862d46cf3f2dcd7c3dbdea55fa740364a
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/R03ConfigurationQueryStore.java
+      state: FILE
+      size: 15045
+      sha256: 4da98f644e140b0f75cee434ae4af1b052429d524483d4d5a2d53580492439e3
+    - path: services/backend/boot/src/main/java/cc/orbexa/hhy/boot/admin/R03ConfigurationQueryController.java
+      state: FILE
+      size: 5307
+      sha256: 844249600cd872bc62b78571d466f4c09982c90e46b231c3e2b431f30b7c6639
+    - path: services/backend/boot/src/main/resources/db/migration/V019__r03_provider_configuration_center.sql
+      state: FILE
+      size: 8691
+      sha256: b73d6f9fef1e4418f0976234eb0333b80d3430ea2c931d25b8cabe9ac40d9aab
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/R03ConfigurationQueryStoreTest.java
+      state: FILE
+      size: 1218
+      sha256: 179868bbcacb2367c0440fc7ea5d11e65e3c1ecc2a93ea8f76966df6ee8ca39c
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/boot/admin/R03ConfigurationQueryControllerContractTest.java
+      state: FILE
+      size: 1653
+      sha256: b3137a2a8bf89abab51aa1f0922bf0e5888c0ce0bff9a8b07e9434f01f773bb4
+    - path: tests/test_r03_provider_configuration_migration.py
+      state: FILE
+      size: 2394
+      sha256: ebf233863c1c6fe071886dd40ee425c45f847687aa2d1ecc94a92e6b610e8507
+change_classification:
+  database:
+  - database/migrations/V019__r03_provider_configuration_center.sql
+  - database/rollback/U019__r03_provider_configuration_center.sql
+  code:
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/R03ConfigurationContracts.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/R03ConfigurationQueryStore.java
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/admin/R03ConfigurationQueryController.java
+  - services/backend/boot/src/main/resources/db/migration/V019__r03_provider_configuration_center.sql
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/R03ConfigurationQueryStoreTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/admin/R03ConfigurationQueryControllerContractTest.java
+  tests:
+  - tests/test_r03_provider_configuration_migration.py
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+- DATABASE_TEST_EVIDENCE
+- SCHEMA_TRACEABILITY
+change_requests: []
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions: []
+  source: story+explicit
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 写接口共享审批、幂等和事务适配，需在读取投影稳定后串行接入
+event_hash: 59ef8f2a683edaffd9898ca240945c8674ef2538c436b8b4727812874462ab08

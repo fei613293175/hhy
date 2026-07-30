@@ -1,0 +1,95 @@
+protocol_version: '1.0'
+package_version: 1.2.3
+session_id: SES-20260727T181928Z-B51C7408
+status: CLOSED
+actor:
+  id: codex-root-r14-20260728
+  kind: AI_OR_HUMAN
+  host: unknown
+release: R14
+task_id: TASK-R14-001
+story_id: STORY-R14-004
+goal: 一对一聊天核心开发就绪核验、故事领取与变更基线
+started_at: '2026-07-27T18:19:28Z'
+updated_at: '2026-07-27T19:29:28Z'
+takeover_of: null
+change_requests:
+- CR-0417
+- CR-0418
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions: []
+  source: story+explicit
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  base_commit: 2d633d11fa98ea253a9183df8ada9c4d9a023521
+  start_head: 2d633d11fa98ea253a9183df8ada9c4d9a023521
+  upstream: origin/task/TASK-R03-001
+  initial_worktree_state: CLEAN
+lease:
+  duration_minutes: 240
+  renewed_at: '2026-07-27T19:29:20Z'
+  expires_at: '2026-07-27T23:29:20Z'
+checkpoint_sequence: 5
+latest_checkpoint: .continuity/checkpoints/SES-20260727T181928Z-B51C7408/0005.yaml
+session_log: docs/03-continuity/sessions/2026-07/SES-20260727T181928Z-B51C7408.md
+next_step: 提交关闭元数据Commit，然后运行pre-push/CI门禁
+context_pack:
+  yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
+  markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
+  manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+  context_hash: a05c0e646ae83837357b0f97726e1b295c1c3546f9815f58a31440a9bdc69e61
+  generated_at: '2026-07-27T19:29:25Z'
+handoff_bundle: null
+closure:
+  result: COMPLETED
+  summary: TASK-R14-001已建立六页精确视觉合同、用户可见页面目录、四类聊天消息Schema和R14可恢复执行入口，全部适用轻量门禁通过
+  code_commit: 11bc72411230506a2c6cf696d546621c5efc7124
+  next_release: R14
+  next_task: TASK-R14-002
+  blocked_advance: false
+  completed_independent_advance: false
+  user_confirmation: null
+  metadata_commit: PENDING
+  push_verification: CI_REQUIRED_AFTER_METADATA_COMMIT
+  started_at: '2026-07-27T19:29:14Z'
+  closure_checkpoint_id: CP-SES-20260727T181928Z-B51C7408-0005
+  closed_at: '2026-07-27T19:29:28Z'
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: CR状态绑定和任务关闭为同一连续性事实源上的串行元数据操作，不能安全并行
+closed_at: '2026-07-27T19:29:28Z'

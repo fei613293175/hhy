@@ -1,0 +1,191 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260726T113800Z-4EDAA918-0002
+session_id: SES-20260726T113800Z-4EDAA918
+task_id: TASK-R13-002
+story_id: STORY-R13-003
+sequence: 2
+created_at: '2026-07-26T12:20:40Z'
+summary: R13-002 V042数据层实现已完成MODULE验证：契约、生成资产、数据库目录、静态回归、空库/升级库/回滚实测通过；本机JAVA_HOME缺失未安装本地Java，改用obx-test缓存Maven 3.9.11+Java21执行同一access,boot模块测试431项全通过
+next_step: 运行严格连续性与提交门禁，提交推送V042实现并绑定CR-0366
+blockers: []
+decisions: []
+note: ''
+tests:
+- name: workflow-contract-runtime-assets
+  result: PASS
+  evidence: scripts/sync_runtime_assets.py --check
+  note: 46 assets一致
+- name: workflow-openapi
+  result: PASS
+  evidence: scripts/check_api_contract.py
+  note: client131 admin184 websocket10
+- name: workflow-local-backend-environment
+  result: SKIPPED
+  evidence: hhy_workflow backend-module
+  note: 本机JAVA_HOME缺失且规则禁止安装；已由云端同命令替代
+- name: backend-module-cloud-java21
+  result: PASS
+  evidence: obx-test maven:3.9.11-eclipse-temurin-21
+  note: 431 tests, 0 failures, 0 errors, 20 skipped, BUILD SUCCESS
+- name: database-module
+  result: PASS
+  evidence: scripts/check_db_schema.py
+  note: 200 tables,42 migrations,runtime hashes PASS
+- name: r13-postgres-empty-upgrade-rollback
+  result: PASS
+  evidence: obx-test postgres:16-alpine
+  note: 空库、升级库、不变量和1:1:1:1数据保留通过
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: aeda26ad525af23f5e26a855b78e03f7c412a5f9
+  upstream: origin/task/TASK-R03-001
+  ahead: 0
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/ACTIVE_SESSION.yaml'
+  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/SESSION_INDEX.yaml'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/TASK_CLAIMS.yaml'
+  - ' M .continuity/TASK_TRANSITIONS.yaml'
+  - ' M CURRENT_STATUS.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+  - ' M catalogs/change_request_index.csv'
+  - ' M catalogs/session_index.csv'
+  - ' M catalogs/task_transition_ledger.csv'
+  - ?? .continuity/change_requests/CR-0366.yaml
+  - ?? .continuity/checkpoints/SES-20260726T113800Z-4EDAA918/0001.yaml
+  - ?? .continuity/sessions/SES-20260726T113800Z-4EDAA918.yaml
+  - ?? database/migrations/V042__r13_activity_invariants.sql
+  - ?? database/rollback/U042__r13_activity_invariants.sql
+  - ?? database/tests/r13_activity_invariants.sql
+  - ?? docs/03-continuity/change-requests/CR-0366-补齐R13活动数据不变量并复用通用审计事实源.md
+  - ?? docs/03-continuity/sessions/2026-07/SES-20260726T113800Z-4EDAA918.md
+  - ?? services/backend/boot/src/main/resources/db/migration/V042__r13_activity_invariants.sql
+  - ?? tests/test_r13_activity_migration.py
+  recent_commits:
+  - "aeda26ad525af23f5e26a855b78e03f7c412a5f9\t2026-07-26T19:35:50+08:00\tHHY Continuity Bootstrap\t[STORY-R13-001] chore(continuity): close TASK-R13-001\
+    \ as completed"
+  - "6d74ca24440daabb8a5abf4b34e0d5d52eb7e33d\t2026-07-26T19:33:35+08:00\tHHY Continuity Bootstrap\t[STORY-R13-001] chore(r13): bind entry implementation\
+    \ evidence"
+  - "29ad2bcc6c1dae68a42ea9147110dc4b9dd29745\t2026-07-26T19:29:21+08:00\tHHY Continuity Bootstrap\t[STORY-R13-001] docs(r13): establish implementation\
+    \ entry baseline"
+  - "84eadad25a10321462f42fa9b63d448073590cab\t2026-07-26T18:58:57+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] chore(continuity): close TASK-R12-008\
+    \ as completed"
+  - "0af377d34568245e87a279e5cb0811369086b670\t2026-07-26T18:57:30+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] docs(r12): bind machine close\
+    \ implementation"
+  - "60c547b9cd0fc8c35a6567c744271ba23a593d41\t2026-07-26T18:55:49+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] chore(r12): complete machine\
+    \ close evidence"
+  - "9b367d87b1037d1b91a9b46f44d45b9f01be31b8\t2026-07-26T18:48:53+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] chore(continuity): close TASK-R12-007\
+    \ as completed"
+  - "339fd7389d3f322f98a7abfc6a45a3319bd6438c\t2026-07-26T18:46:43+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] docs(r12): bind delivery implementation\
+    \ commit"
+project_fingerprint:
+  sha256: 281a45915b49fbbea1d47e0bd74a29b5781d3e59c1307c8315dbbe1309ad9371
+  files:
+  - database/migrations/V042__r13_activity_invariants.sql
+  - database/rollback/U042__r13_activity_invariants.sql
+  - database/tests/r13_activity_invariants.sql
+  - docs/03-continuity/change-requests/CR-0366-补齐R13活动数据不变量并复用通用审计事实源.md
+  - services/backend/boot/src/main/resources/db/migration/V042__r13_activity_invariants.sql
+  - tests/test_r13_activity_migration.py
+  file_count: 6
+  payload:
+    base_commit: aeda26ad525af23f5e26a855b78e03f7c412a5f9
+    files:
+    - path: database/migrations/V042__r13_activity_invariants.sql
+      state: FILE
+      size: 4145
+      sha256: bdfa61d91144c21b99c9de168b41a43662a18ffe661facd7d4a48452e9729241
+    - path: database/rollback/U042__r13_activity_invariants.sql
+      state: FILE
+      size: 844
+      sha256: 1425dc82677299aa2a02cf9cb4b849a1e5d36e7510585d396f8312fbbb806e0a
+    - path: database/tests/r13_activity_invariants.sql
+      state: FILE
+      size: 4647
+      sha256: e9fd1e1efab69b425006122be9aec88409cd591f17a17864e540853200389a23
+    - path: docs/03-continuity/change-requests/CR-0366-补齐R13活动数据不变量并复用通用审计事实源.md
+      state: FILE
+      size: 3335
+      sha256: 3c2a8e91ef1bb8322c439609bd6618f1edf5f3ec2e90a766fa434e87d72a4878
+    - path: services/backend/boot/src/main/resources/db/migration/V042__r13_activity_invariants.sql
+      state: FILE
+      size: 4145
+      sha256: bdfa61d91144c21b99c9de168b41a43662a18ffe661facd7d4a48452e9729241
+    - path: tests/test_r13_activity_migration.py
+      state: FILE
+      size: 3804
+      sha256: a26b110f7b1ade86f91a69540ff47b1f5d6ad969e8f4f06d6410074145414edf
+change_classification:
+  database:
+  - database/migrations/V042__r13_activity_invariants.sql
+  - database/rollback/U042__r13_activity_invariants.sql
+  - database/tests/r13_activity_invariants.sql
+  continuity:
+  - docs/03-continuity/change-requests/CR-0366-补齐R13活动数据不变量并复用通用审计事实源.md
+  code:
+  - services/backend/boot/src/main/resources/db/migration/V042__r13_activity_invariants.sql
+  tests:
+  - tests/test_r13_activity_migration.py
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+- DATABASE_TEST_EVIDENCE
+- SCHEMA_TRACEABILITY
+change_requests:
+- CR-0366
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions:
+  - database/migrations/V042__r13_activity_invariants.sql
+  - services/backend/boot/src/main/resources/db/migration/V042__r13_activity_invariants.sql
+  - database/rollback/U042__r13_activity_invariants.sql
+  - database/tests/r13_activity_invariants.sql
+  - tests/test_r13_activity_migration.py
+  source: story+explicit+approved-cr:CR-0366
+parallel_execution:
+  assessment: CAPABILITY_UNAVAILABLE
+  delegated_workers: 0
+  workers: []
+  reason: 当前系统级约束禁止启动子代理；数据库迁移、安全不变量和最终集成由主控串行复核
+event_hash: e78eb0b36f9ef5d97b8dcc48aef383cf3fd9ffaa11686c2ef2a64184d2c0083f

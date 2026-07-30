@@ -1,0 +1,10 @@
+NOTICE:  schema "hhy" does not exist, skipping
+psql:/tmp/hhy-r04-integration-06DC3492/database/migrations/V009__v122_operational_governance.sql:31: NOTICE:  trigger "trg_admin_sessions_updated_at" for relation "hhy.admin_sessions" does not exist, skipping
+psql:/tmp/hhy-r04-integration-06DC3492/database/migrations/V009__v122_operational_governance.sql:53: NOTICE:  trigger "trg_admin_mfa_methods_updated_at" for relation "hhy.admin_mfa_methods" does not exist, skipping
+psql:/tmp/hhy-r04-integration-06DC3492/database/migrations/V009__v122_operational_governance.sql:121: NOTICE:  trigger "trg_accounting_reversal_requests_updated_at" for relation "hhy.accounting_reversal_requests" does not exist, skipping
+psql:/tmp/hhy-r04-integration-06DC3492/database/migrations/V009__v122_operational_governance.sql:205: NOTICE:  trigger "trg_export_jobs_updated_at" for relation "hhy.export_jobs" does not exist, skipping
+R04_EMPTY_DATABASE_TO_V022 PASS tables=200
+R04_STORAGE_MEDIA_INVARIANTS PASS
+R04_U022_U021_ROLLBACK PASS
+R04_V021_V022_REAPPLY PASS
+R04_DISPOSABLE_POSTGRES_CONTAINER PASS

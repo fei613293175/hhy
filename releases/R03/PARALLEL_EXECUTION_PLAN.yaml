@@ -1,0 +1,110 @@
+version: '1.0'
+release: R03
+change_request: CR-0019
+mode: ONE_MASTER_THREE_DELEGATED_WORKERS
+authoritative_session_count: 1
+max_parallel_workers: 3
+simultaneous_claim_limit: 1
+worker_parallelism_scope: WITHIN_ACTIVE_TASK_ONLY
+default_delegation_mode: AUTO_WHEN_SAFE_PARALLEL_WORK_EXISTS
+review_triggers: [TASK_START, SCOPE_CHANGE]
+per_task_user_confirmation_required: false
+non_delegation_requires_checkpoint_reason: true
+capability_fallback: RECORD_LIMITATION_AND_DO_NOT_FABRICATE_PARALLEL_EVIDENCE
+user_override_allowed: true
+source_of_truth_branch: task/TASK-R03-001
+rules:
+- 主控一次只领取一个Task/Story；三条业务切片是依赖满足后的候选集合，不是三个并行事实分支。
+- 当前Claim内最多三个执行代理按后端数据、Admin客户端、质量证据的互斥路径并行。
+- 执行代理不得修改连续性、Release状态、公共契约、共享生成类型和Flyway编号，不得提交、推送、合并或发布。
+- 共享API、DTO、迁移、权限、SecretRef、审批和审计由主控先冻结边界并最终集成。
+- 供应商测试环境、DNS、证书和SecretRef只能记录真实脱敏证据；缺失项保持BLOCKED。
+worker_partitions:
+- partition: BACKEND_DATA
+  allowed_paths:
+  - services/backend/**
+  - database/**
+  forbidden_shared_paths:
+  - services/backend/boot/src/main/resources/contracts/**
+- partition: ADMIN_CLIENT
+  allowed_paths:
+  - apps/admin-web/**
+  forbidden_shared_paths:
+  - apps/admin-web/src/router.ts
+  - apps/admin-web/src/App.vue
+- partition: QUALITY_EVIDENCE
+  allowed_paths:
+  - tests/r03/**
+  - artifacts/validation/r03-*/**
+  forbidden_shared_paths: []
+coordinator_owned_paths:
+- .continuity/**
+- CURRENT_STATUS.yaml
+- NEXT_TASK.yaml
+- releases/**
+- contracts/**
+- packages/api-client/**
+- catalogs/**
+- docs/03-continuity/**
+- services/backend/boot/src/main/resources/db/migration/**
+lanes:
+- lane: SLICE-A-PROVIDERS
+  task_id: TASK-R03-002
+  stories:
+  - STORY-R03-001
+  outcome: 短信、R2/OSS与实名供应商版本、连接测试、审批、激活/回滚及Admin页面端到端闭环
+  preferred_agents:
+  - backend_data
+  - admin_client
+  - quality
+- lane: SLICE-B-DOMAINS
+  task_id: TASK-R03-003
+  stories:
+  - STORY-R03-002
+  outcome: orbexa.cc域名版本、DNS动作、DNS/TLS/服务健康验证及Admin页面端到端闭环
+  preferred_agents:
+  - backend_data
+  - admin_client
+  - quality
+- lane: SLICE-C-FINANCIAL-PROVIDERS
+  task_id: TASK-R03-004
+  stories:
+  - STORY-R03-003
+  outcome: 支付、出款和证书生命周期的版本、审批、连接测试、激活/回滚及Admin页面端到端闭环
+  preferred_agents:
+  - backend_data_high_reasoning
+  - admin_client
+  - security_quality
+- lane: GOVERNANCE-INTEGRATION
+  task_id: TASK-R03-005
+  stories:
+  - STORY-R03-004
+  outcome: 三切片共享迁移、权限、SecretRef、审计、18项测试、故障注入和生成物汇合
+  preferred_agents:
+  - coordinator
+integration:
+  task_id: TASK-R03-005
+  depends_on:
+  - TASK-R03-002
+  - TASK-R03-003
+  - TASK-R03-004
+  profiles:
+  - MODULE
+  - INTEGRATION
+external_activation:
+  task_id: TASK-R03-007
+  apk_required: true
+  required_evidence:
+  - supplier_connection_tests
+  - secret_refs
+  - certificate_fingerprints
+  - dns_tls_service_health
+  - owners_and_deadlines_for_unfinished_items
+apk:
+  task_id: TASK-R03-007
+  regression_build_when_no_android_change: true
+  desktop_copy_required: true
+  public_download_required: true
+  stable_test_signing_required: true
+  minimum_version_code: 10203
+  owner_physical_test_initial_status: PENDING

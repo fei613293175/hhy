@@ -1,0 +1,147 @@
+protocol_version: '1.0'
+package_version: 1.2.3
+session_id: SES-20260722T093645Z-C7DB8EF0
+status: CLOSED
+actor:
+  id: codex-root-r08-008
+  kind: AI_OR_HUMAN
+  host: unknown
+release: R08
+task_id: TASK-R08-008
+story_id: STORY-R08-004
+goal: 完成R08机器关闭与无状态交接；真实解决历史Android新肉眼视觉复核门禁，Owner真机反馈保持异步不阻断。
+started_at: '2026-07-22T09:36:45Z'
+updated_at: '2026-07-22T15:23:14Z'
+takeover_of: null
+change_requests:
+- CR-0233
+- CR-0234
+- CR-0235
+- CR-0236
+- CR-0237
+- CR-0238
+- CR-0239
+- CR-0240
+- CR-0241
+- CR-0242
+- CR-0243
+- CR-0244
+- CR-0245
+- CR-0246
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions:
+  - apps/android/feature/auth/src/debug/java/cc/orbexa/hhy/auth/AuthVisualAuditScreen.kt
+  - apps/android/feature/identity/src/main/java/cc/orbexa/hhy/identity/IdentityFlowScreen.kt
+  - apps/android/feature/identity/src/debug/java/cc/orbexa/hhy/identity/IdentityVisualAuditScreen.kt
+  - apps/android/app/src/androidTest/java/cc/orbexa/hhy/HistoricalVisualAuditTest.kt
+  - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+  - scripts/prepare_r08_ci_fixture.sh
+  - tests/android/visual-manifests/R08.yaml
+  - tests/test_android_ci_gate.py
+  - tests/test_r08_ci_fixture.py
+  - config/android-candidate-request.yaml
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - CHANGELOG.md
+  - apps/android/feature/auth/src/main/java/cc/orbexa/hhy/auth/AuthScreen.kt
+  - apps/android/app/src/main/java/cc/orbexa/hhy/AboutScreen.kt
+  - tests/test_historical_android_visual_contract.py
+  - .github/workflows/ci.yml
+  - artifacts/validation/continuity-integration-v1.2.3.json
+  - artifacts/validation/continuity-integration-v1.2.3.log
+  - artifacts/validation/continuity-lifecycle-integration-v1.2.3.json
+  - artifacts/validation/continuity-lifecycle-integration-v1.2.3.log
+  - apps/android/feature/discovery/src/main/java/cc/orbexa/hhy/discovery/R07DiscoveryScreens.kt
+  - apps/h5/src/views/PublicPage.vue
+  - tests/test_release_close_gate.py
+  - catalogs/ui_visual_acceptance.csv
+  - artifacts/validation/r08-historical-android/APPROVAL.yaml
+  - artifacts/validation/r08-historical-android/candidate-report.json
+  - artifacts/validation/r08-historical-android/runtime-report.json
+  - config/android-automation.yaml
+  - releases/R08/TASKS.yaml
+  - artifacts/reports/R08/TASK-R08-004-client.md
+  - artifacts/reports/R08/TASK-R08-008-machine-close.md
+  - releases/R08/ACCEPTANCE_MATRIX.csv
+  - releases/R08/RELEASE_MANIFEST.yaml
+  - CURRENT_STATUS.yaml
+  - NEXT_TASK.yaml
+  - catalogs/task_transition_ledger.csv
+  - scripts/check_ui_visual_acceptance.py
+  - tests/test_ui_visual_acceptance.py
+  - scripts/continuity.py
+  - tests/test_continuity_cross_release_close.py
+  source: story+explicit+approved-cr:CR-0233+approved-cr:CR-0236+approved-cr:CR-0237+approved-cr:CR-0238+approved-cr:CR-0239+approved-cr:CR-0240+approved-cr:CR-0241+approved-cr:CR-0242+approved-cr:CR-0243+approved-cr:CR-0244+approved-cr:CR-0245+approved-cr:CR-0246
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  base_commit: 46480be9eca8852e661013be23f916cdc2fa0003
+  start_head: 46480be9eca8852e661013be23f916cdc2fa0003
+  upstream: origin/task/TASK-R03-001
+  initial_worktree_state: CLEAN
+lease:
+  duration_minutes: 240
+  renewed_at: '2026-07-22T15:23:08Z'
+  expires_at: '2026-07-22T19:23:08Z'
+checkpoint_sequence: 21
+latest_checkpoint: .continuity/checkpoints/SES-20260722T093645Z-C7DB8EF0/0021.yaml
+session_log: docs/03-continuity/sessions/2026-07/SES-20260722T093645Z-C7DB8EF0.md
+next_step: 提交关闭元数据Commit，然后运行pre-push/CI门禁
+context_pack:
+  yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
+  markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
+  manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+  context_hash: 376e433b82b38de1dca72fb336c713f53a1ba37acf36c7a05b882472d884a09e
+  generated_at: '2026-07-22T15:23:12Z'
+handoff_bundle: null
+closure:
+  result: COMPLETED
+  summary: R08项目推广完整闭环已机器关闭：候选、三页视觉、APK、发布文档、问题登记和无状态交接全部完成；项目所有者真机反馈保持异步PENDING。
+  code_commit: cbc215f3
+  next_release: R09
+  next_task: TASK-R09-001
+  blocked_advance: false
+  completed_independent_advance: true
+  user_confirmation: OWNER_EXPLICIT_CLOSE_R08_CONTINUE_GLOBAL_UI_BEFORE_R09_BUSINESS
+  metadata_commit: PENDING
+  push_verification: CI_REQUIRED_AFTER_METADATA_COMMIT
+  started_at: '2026-07-22T15:23:04Z'
+  closure_checkpoint_id: CP-SES-20260722T093645Z-C7DB8EF0-0021
+  closed_at: '2026-07-22T15:23:14Z'
+parallel_execution:
+  assessment: USER_SERIAL_OVERRIDE
+  delegated_workers: 0
+  workers: []
+  reason: 同一连续性状态链需串行提交。
+closed_at: '2026-07-22T15:23:14Z'

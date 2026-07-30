@@ -1,6 +1,6 @@
 release: R12
 title: 统一发布与发布管理
-status: READY_WHEN_DEPENDENCIES_GREEN
+status: MACHINE_COMPLETE_OWNER_PENDING
 milestone: M1_CONTENT_MARKETPLACE
 depends_on:
 - R08
@@ -29,14 +29,14 @@ ui:
   - ADM-REVIEW-001
 contracts:
   client_api:
-  - GET /api/v1/me/contents
-  - GET /api/v1/me/drafts
-  - GET /api/v1/contents/{id}/reviews
+  - contentGetMeContents
+  - contentGetMeDrafts
+  - contentGetContentsByIdReviews
   admin_api:
-  - GET /admin-api/v1/reviews/queue
-  - GET /admin-api/v1/reviews/{id}
-  - POST /admin-api/v1/reviews/{id}/decide
-  - POST /admin-api/v1/reviews/{id}/assign
+  - adminReviewGetReviewsQueue
+  - adminReviewGetReviewsById
+  - adminReviewPostReviewsByIdDecide
+  - adminReviewPostReviewsByIdAssign
   websocket: []
 database_tables:
 - content_posts
@@ -58,6 +58,74 @@ database_tables:
 - content_reports
 - chat_reports
 - content_appeals
+android_delivery:
+  source_commit: 8090001f064c304db08ca9886fe1b1d4d231ef00
+  apk_file: hhy-r12-8090001-debug.apk
+  version_name: 1.2.2-debug
+  version_code: 10221
+  sha256: b97bf8fd1a0306678f297da72c6b5b2e0b224aff2965a962a7db41167bc3e4f8
+  machine_delivery: PASS
+  owner_physical_test: PENDING
+  evidence: artifacts/validation/r12-apk-delivery/delivery-evidence.json
+  test_guide: artifacts/reports/R12/R12-version-test-guide.md
+android_automation:
+  policy_id: HHY-ANDROID-AUTOMATION-V1
+  source_github_run_id: '30194396225'
+  promotion_github_run_id: '30195682023'
+  status: PASS
+  owner_test_allowed: true
+  owner_physical_test: PENDING
+  commit: 8090001f064c304db08ca9886fe1b1d4d231ef00
+  journey:
+  - SCR-PUB-001
+  - SCR-PUB-006
+  - SCR-PUB-007
+  - SCR-MYC-001
+  - SCR-MYC-002
+  - SCR-MYC-003
+  - SCR-MYC-004
+  - SCR-MYC-005
+  - SCR-ME-001
+  - SCR-ME-002
+  baseline_promotion:
+    artifact_id: '8630028491'
+    artifact_sha256: 423f76d0247ef331a988538ece00a424988d9f3caa75ea15e89efbe9f139446c
+    rebuild_or_emulator_rerun: false
+    status: PASS
+  ai_visual_review: PASS
+  candidate_report: artifacts/validation/r12-task007-android/candidate-report.json
+  evidence: artifacts/validation/r12-task007-android/candidate-report.json
+governance_audit:
+  status: PASS
+  source_commit: 8090001f064c304db08ca9886fe1b1d4d231ef00
+  checks:
+    development_documents: PASS
+    hard_gate_enforcement: PASS
+    development_progress: PASS
+    reusable_patterns: PASS
+    problem_registry: PASS
+    pitfalls: PASS
+  evidence: artifacts/reports/R12/R12-governance-drift-audit.md
+  evidence_sha256: a38e1336d09dd49db3c3409ffb79a33f1f102b9dcd866701776262c629d58442
+machine_completion:
+  status: PASS
+  owner_feedback_mode: ASYNC_NON_BLOCKING
+  formal_release_acceptance: PENDING_OWNER_PHYSICAL_TEST
+  production_activation: BLOCKED_OWNER_PHYSICAL_TEST
+  next_release_development: ALLOWED
+  evidence: artifacts/reports/R12/TASK-R12-008-machine-close.md
+machine_closure:
+  status: PASS
+  task_id: TASK-R12-008
+  session_id: SES-20260726T105013Z-AE578D81
+  report: artifacts/reports/R12/TASK-R12-008-machine-close.md
+  owner_physical_test: PENDING
+  formal_release_acceptance: PENDING_OWNER_PHYSICAL_TEST
+  production_activation: BLOCKED_OWNER_PHYSICAL_TEST
+  next_work: R13
+  candidate_product_commit: 8090001f064c304db08ca9886fe1b1d4d231ef00
+  candidate_delivery_commit: 47a4494dea729eda45cde6bb6bc144622c42745c
+  task007_closure_commit: 9b367d87b1037d1b91a9b46f44d45b9f01be31b8
 tests:
 - TST-CONTENT_002-HAPPY
 - TST-CONTENT_002-IDEMPOTENT
@@ -67,12 +135,278 @@ tests:
 - TST-PUBLISH_001-REJECT
 - TST-V122-018
 - TST-V122-019
+test_count: 8
+planning_depth: STORY_READY
+apk_gate: MACHINE_CANDIDATE_PASS_OWNER_FEEDBACK_ASYNC
+entry_baseline:
+  checked_at: '2026-07-24'
+  session_id: SES-20260724T144831Z-B2E27A89
+  story_id: STORY-R12-008
+  change_request: CR-0314
+  documentation_status: PASS_DOCUMENTATION_READY
+  strict_documentation: PASS_0_ERRORS_0_WARNINGS
+  generated_assets: PASS
+  program_execution_plan: PASS_31_RELEASES_0_ERRORS
+  release_artifacts: PASS
+  continuity_gate: PASS
+  exact_visual_binding_check: PASS_11_PAGES
+  cloud_environment_status: PASS
+  dependency_machine_status:
+    R08: MACHINE_COMPLETE_OWNER_PENDING
+    R09: MACHINE_COMPLETE_OWNER_PENDING
+    R10: MACHINE_COMPLETE_OWNER_PENDING
+    R11: MACHINE_COMPLETE_OWNER_PENDING
+  exact_visual_bindings:
+    SCR-PUB-001: B04/P01
+    SCR-PUB-006: B05/P06
+    SCR-PUB-007: SPEC:design/R12-UI-FROZEN/specs/SCR-PUB-007.md
+    SCR-MYC-001: B08/P02
+    SCR-MYC-002: SPEC:design/R12-UI-FROZEN/specs/SCR-MYC-002.md
+    SCR-MYC-003: B08/P03
+    SCR-MYC-004: SPEC:design/R12-UI-FROZEN/specs/SCR-MYC-004.md
+    SCR-MYC-005: B08/P06
+    SCR-ME-001: B08/P01
+    SCR-ME-002: SPEC:design/R12-UI-FROZEN/specs/SCR-ME-002.md
+    ADM-REVIEW-001: SPEC:docs/02-ui/管理后台页面与运营操作完整规格_V1.2.2.md
+  visual_audit: design/R12-UI-FROZEN/VISUAL_COVERAGE_AUDIT.md
+  ui_acceptance_registration:
+    catalog: catalogs/ui_visual_acceptance.csv
+    task: TASK-R12-004
+    initial_status: IN_REVIEW
+    final_candidate_status: PASS_AFTER_REAL_SCREENSHOT_AND_AI_REVIEW
+  delivery_policy:
+    ordinary_task_validation: AFFECTED_FAST_OR_MODULE
+    full_gate_and_emulator: FINAL_CANDIDATE_ONLY_TASK_R12_007
+    machine_close_profile: RELEASE_CLOSE
+    owner_feedback_mode: ASYNC_NON_BLOCKING
+task_002_database_gate:
+  status: PASS
+  completed_at: '2026-07-25'
+  session_id: SES-20260724T235749Z-6EC9DB09
+  change_requests:
+  - CR-0316
+  - CR-0317
+  migration: V039__r12_publish_management_invariants.sql
+  rollback: U039__r12_publish_management_invariants.sql
+  report: docs/03-continuity/R12_TASK-002_DATABASE_GATE.md
+  state_machine_projection:
+    states: 11
+    edges: 29
+    terminal_states: [BANNED, DELETED]
+  postgres_17:
+    full_migration_smoke: PASS
+    dirty_upgrade_atomic_cases: 9
+    rollback_replay: PASS
+    optimistic_concurrency: PASS_EXACTLY_ONE_WRITER
+  affected_module:
+    backend: PASS_380_TESTS_0_FAILURES_0_ERRORS_0_SKIPS
+    admin_web: PASS_101_TESTS_AND_TYPECHECK
+    h5: PASS_29_TESTS_AND_TYPECHECK
+    android: PASS_571_TASKS_UNIT_AND_LINT
+  deferred_final_candidate:
+  - assembleDebug
+  - emulator
+  - screenshot_visual_review
+  - test_apk
+  next_task: TASK-R12-003
+task_003_backend_gate:
+  status: PASS
+  session_id: SES-20260725T025042Z-A53070A0
+  change_requests:
+  - CR-0318
+  report: docs/03-continuity/R12_TASK-003_BACKEND_GATE.md
+  frozen_operations:
+    total: 19
+    publishing_content: 10
+    admin_review: 6
+    account_summary: 3
+  review_escalation:
+    migration: V040__r12_review_escalation.sql
+    rollback: U040__r12_review_escalation.sql
+    semantics: ESCALATE_THEN_LATER_ASSIGN_THEN_ASSIGNED_REVIEWER_FINAL_DECISION
+    false_reviewing_status_log: FORBIDDEN
+    exact_audit_outbox_link: commandId
+    trusted_device_source: admin_sessions.device_fingerprint
+  validation:
+    java_21_targeted: PASS_32_TESTS
+    postgres_17_store: PASS_2_TESTS_0_SKIPS
+    postgres_17_migrations: PASS_V001_TO_V040
+    escalation_transactions: PASS_POSITIVE_AND_NEGATIVE_MATRIX
+    u040_safe_rollback_replay: PASS
+    u040_facts_present_atomic_block: PASS
+    schema_gate: PASS_200_TABLES_40_MIGRATIONS_RUNTIME_HASHES
+    java_21_backend_full: PASS_411_TESTS_0_FAILURES_0_ERRORS_0_SKIPS
+    postgres_17_store_full_regression: PASS_2_TESTS_0_SKIPS
+    evidence: obx-test:/tmp/hhy-r12-task003-backend-final-v3.log
+  deferred_final_candidate:
+  - android_full_build
+  - emulator
+  - screenshot_visual_review
+  - test_apk
+  next_task: TASK-R12-004_AFTER_TASK_CLOSE
+task_004_client_gate:
+  status: PASS
+  completed_at: '2026-07-26'
+  session_id: SES-20260725T053515Z-11D4084D
+  report: docs/03-continuity/R12_TASK-004_CLIENT_GATE.md
+  stories:
+    total: 8
+    completed: 8
+    commits:
+      STORY-R12-001: ad95719d
+      STORY-R12-002: a074488d
+      STORY-R12-003: 4ccc1f3f
+      STORY-R12-004: 43d55108
+      STORY-R12-005: 7155dbff
+      STORY-R12-006: 7792d432
+      STORY-R12-007: 3153ef9c
+      STORY-R12-008: TASK_004_GATE_REPORT
+  pages:
+    total: 11
+    implementation_status: PASS
+    visual_catalog_status: IN_REVIEW
+    final_visual_pass: DEFERRED_TASK_R12_007_REAL_SCREENSHOT_AI_REVIEW
+  validation:
+    admin_web: PASS_25_FILES_113_TESTS
+    backend_latest: PASS_415_TESTS_0_FAILURES_0_ERRORS
+    android_latest: PASS_534_TASKS_NETWORK_SHELL_APP_TEST_COMPILE_LINT
+    api_contract: PASS_131_CLIENT_184_ADMIN_10_WEBSOCKET
+    strict_documentation: PASS_0_ERRORS_0_WARNINGS
+    commercial_ui_boundary: PASS
+    ui_tokens: PASS_52
+  deferred_final_candidate:
+  - full_release_gate
+  - emulator_real_screenshots
+  - ai_visual_review
+  - assemble_signed_test_apk
+  - install_smoke
+  next_task: TASK-R12-005
+task_005_specialized_test_gate:
+  status: PASS
+  completed_at: '2026-07-26'
+  session_id: SES-20260725T171320Z-7ACF9261
+  change_request: CR-0333
+  source_commit: 5419d68255dcc965c2c31fcb3006f616d9f8c38a
+  report: docs/03-continuity/R12_TASK-005_SPECIALIZED_TEST_GATE.md
+  authoritative_tests:
+    total: 6
+    automated: 6
+    pass: 6
+    critical_defects: 0
+  validation:
+    backend_java21: PASS_15_TESTS_0_FAILURES_0_ERRORS_0_SKIPS
+    postgresql17: PASS_5_TESTS_0_FAILURES_0_ERRORS_0_SKIPS
+    postgresql_migrations: PASS_41_TO_V041
+    postgresql_concurrency: PASS_8_CONTENDERS_EXACTLY_1_OWNER
+    android_module: PASS_202_TASKS_TEST_LINT_COMPILE
+    response_loss_replay: PASS_SINGLE_BUSINESS_RESULT_AND_OUTBOX
+    request_body_key_conflict: PASS_NO_BUSINESS_WRITE
+    configuration_timeout: PASS_ZERO_SUCCESS_SIDE_EFFECTS
+    shared_storage_failure: PASS_NO_CURSOR_ADVANCE_AND_RESUMABLE
+    evidence_hashes: PASS_REMOTE_LOCAL_EQUAL
+  deferred_final_candidate:
+  - full_release_gate
+  - emulator_real_screenshots
+  - ai_visual_review
+  - assemble_signed_test_apk
+  next_task: TASK-R12-006
+task_006_observability_gate:
+  status: PASS
+  completed_at: '2026-07-26'
+  session_id: SES-20260725T180922Z-D7231210
+  change_requests:
+  - CR-0334
+  - CR-0335
+  - CR-0336
+  - CR-0337
+  source_commit: 4365e1c790e3792812cfd62bb415e1075eb00149
+  report: artifacts/reports/R12/TASK-R12-006-staging.md
+  evidence: artifacts/validation/r12-task006-staging/
+  staging:
+    compose_project: hhy-r12-staging-a2
+    subnet: 172.31.240.0/24
+    postgres: 17.10
+    flyway: V041
+    schema_tables_including_flyway: 201
+    business_tables: 200
+    evidence_files: 25
+    evidence_sha256_manifest: 7180b33251308b1b77f15a1faafb51d440d65513ad81c34dab765d7c818bb23e
+  observability:
+    business_gauges: 7
+    alert_rules: 7
+    prometheus_target: PASS
+    backend_down_firing_and_resolved: PASS
+    r12_outbox_firing_and_resolved: PASS
+    log_redaction: PASS
+  rollback:
+    baseline_image: sha256:49bc8ff7ab451137d7221b9fec8f46c9ee9f03dbdb7b596cee6663cc00524601
+    current_image: sha256:12e73089033a1f59082e08b0f85232a69c8a6a7ac4938c1e7e524e1830195074
+    same_postgres_container: PASS
+    same_postgres_volume: PASS
+    publishing_facts_preserved: PASS
+    current_image_restored: PASS
+  acceptance:
+    AC-R12-004: PASS
+  deferred_final_candidate:
+  - android_full_release_gate
+  - emulator_real_screenshots
+  - ai_visual_review
+  - assemble_signed_test_apk
+  - install_smoke
+  next_task: TASK-R12-007
+task_007_android_candidate_gate:
+  status: PASS
+  completed_at: '2026-07-26'
+  session_id: SES-20260725T192048Z-668BD05D
+  change_requests:
+  - CR-0339
+  - CR-0344
+  - CR-0358
+  - CR-0359
+  - CR-0360
+  source_commit: 8090001f064c304db08ca9886fe1b1d4d231ef00
+  report: artifacts/reports/R12/TASK-R12-007-android-apk.md
+  source_candidate:
+    github_run_id: '30194396225'
+    artifact_id: '8629749064'
+    status: BASELINE_REVIEW_REQUIRED_ONLY
+    build_lint_unit_package: PASS
+    oidc_authenticated_emulator_journey: PASS
+    screenshots: 10
+    crashes_anr_junit_failures: 0
+  visual_promotion:
+    github_run_id: '30195682023'
+    artifact_id: '8630028491'
+    status: PASS
+    rebuild_or_emulator_rerun: false
+    ai_visual_review: PASS_10_ANDROID_PAGES
+    cumulative_r12_catalog: PASS_11_PAGES
+  test_apk:
+    file: hhy-r12-8090001-debug.apk
+    version_name: 1.2.2-debug
+    version_code: 10221
+    sha256: b97bf8fd1a0306678f297da72c6b5b2e0b224aff2965a962a7db41167bc3e4f8
+    size_bytes: 21522280
+    signing_profile: hhy-staging-test-v1
+    signing_v2_v3: PASS
+    api_base_url: https://api.orbexa.cc
+    four_way_delivery: PASS
+    owner_physical_test: PENDING_ASYNC_NON_BLOCKING
+  acceptance:
+    AC-R12-001: PASS
+    AC-R12-002: PASS
+    AC-R12-003: PASS
+    AC-R12-004: PASS
+    AC-R12-005: PASS
+    AC-R12-006: PASS
+  next_task: TASK-R12-008
 entry_gate:
 - releases/R12/DEFINITION_OF_READY.yaml 全部适用项为PASS
 - releases/R12/STORIES.yaml 中每个故事均绑定页面/API/配置/数据/测试或显式N/A
 - 本版本页面字段、状态、动作、导航和后台运营规格不存在TBD/RELEASE_BOUND
 - 全部依赖版本为GREEN或按发布计划允许的并行依赖已记录
 - 冻结契约发生变化时已创建CR并重新生成追踪和SHA
+- 十一页均绑定精确面板、批准补充规格或原始ADM标准模板；禁止TOKENS_ONLY、P01-P08范围和同名错配施工
 exit_gate:
 - 领域代码与前端真实闭环
 - 数据库迁移和不变量测试通过

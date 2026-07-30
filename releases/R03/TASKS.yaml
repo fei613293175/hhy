@@ -3,151 +3,167 @@ title: 供应商配置、密钥、证书与域名中心
 tasks:
 - id: TASK-R03-001
   title: 供应商配置、密钥、证书与域名中心开发就绪核验、故事领取与变更基线
-  status: READY
+  status: DONE
   depends_on: []
   requirements: &id001
   - REQ-CONFIG-001
   - REQ-DOMAIN-001
   - REQ-STORAGE-001
-  - REQ-APK-001
   - REQ-SECRET-001
-  description: 核验 5 项需求、13 个接口、26 张相关表、7 个页面/交互面和 4 个故事；全部适用DoR必须PASS。
+  - REQ-CONFIG-UX-001
+  - REQ-APK-001
+  description: 核验6项需求、13个本版本后台接口、26张相关表、7个后台页面、4个故事和18项测试；即使无Android页面变更也必须交付回归APK。
   deliverables:
   - releases/R03/DEFINITION_OF_READY.yaml 全部适用项PASS
   - releases/R03/STORIES.yaml 故事责任人和依赖已领取
-  - 更新Release Manifest与CR记录
+  - releases/R03/PARALLEL_EXECUTION_PLAN.yaml 的三条业务切片与互斥路径已冻结
+  - R03回归APK、固定Staging签名、桌面副本和真机验收门禁明确
   - python scripts/check_v122_documentation.py --release R03
   acceptance:
   - 页面、字段、状态、动作、API、配置、数据和测试无TBD
   - 不适用项明确N/A及原因
-  - releases/R03/DEFINITION_OF_READY.yaml 全部适用项PASS
-  - releases/R03/STORIES.yaml 故事责任人和依赖已领取
-  - 更新Release Manifest与CR记录
+  - 供应商、域名、支付/出款的共享API所有权和主控合并边界明确
   - python scripts/check_v122_documentation.py --release R03
   session_log_required: true
+  completed_at: '2026-07-18T13:30:28Z'
 - id: TASK-R03-002
-  title: 供应商配置、密钥、证书与域名中心数据迁移与领域不变量
-  status: BLOCKED
+  title: 纵向批次A：短信、存储与实名供应商配置闭环
+  status: DONE
   depends_on:
   - TASK-R03-001
-  requirements: *id001
-  description: 实现/演进provider_config_definitions, provider_config_versions, provider_connection_tests, provider_certificates, provider_certificate_access_logs,
-    domain_configs, dns_action_items, storage_scope_bindings等，补齐唯一约束、状态历史、幂等键和回滚验证
-  deliverables:
-  - Flyway前向迁移与空库/升级库测试
-  - 不变量属性测试
-  acceptance:
-  - 无TODO/生产Mock
-  - 代码、文档、测试、追踪同步更新
-  - Flyway前向迁移与空库/升级库测试
-  - 不变量属性测试
-  session_log_required: true
-- id: TASK-R03-003
-  title: 供应商配置、密钥、证书与域名中心后端应用服务与接口
-  status: BLOCKED
-  depends_on:
-  - TASK-R03-002
-  requirements: *id001
-  description: 实现范围内13个operationId；控制器仅编排应用服务，跨模块副作用写Outbox
-  deliverables:
-  - OpenAPI契约测试
-  - 权限/幂等/错误码/审计覆盖
-  acceptance:
-  - 无TODO/生产Mock
-  - 代码、文档、测试、追踪同步更新
-  - OpenAPI契约测试
-  - 权限/幂等/错误码/审计覆盖
-  session_log_required: true
-- id: TASK-R03-004
-  title: 供应商配置、密钥、证书与域名中心客户端/H5/后台实现
-  status: BLOCKED
-  depends_on:
-  - TASK-R03-003
-  requirements: *id001
-  description: 按 7 个页面/交互面的逐页施工规格和 4 个故事实现；禁止从参考图或通用摘要自行发明业务字段和按钮。
-  deliverables:
-  - 全部页面绑定catalogs/ui_page_specifications.csv
-  - 字段/状态/动作/导航与后台运营规格通过契约测试
-  - 禁止页面级手写重复DTO
-  - 全部动作绑定生成API类型
-  acceptance:
-  - 所有页面故事验收条件通过
-  - 加载、空、局部失败、无权限、404、离线、冲突和成功导航均有证据
-  - 全部页面绑定catalogs/ui_page_specifications.csv
-  - 字段/状态/动作/导航与后台运营规格通过契约测试
-  - 禁止页面级手写重复DTO
-  - 全部动作绑定生成API类型
-  session_log_required: true
-- id: TASK-R03-005
-  title: 供应商配置、密钥、证书与域名中心专项测试与故障注入
-  status: BLOCKED
-  depends_on:
+  parallelizable_with:
   - TASK-R03-003
   - TASK-R03-004
+  stories:
+  - STORY-R03-001
   requirements: *id001
-  description: 执行9项测试，覆盖重复请求、并发、超时、消息重复和供应商异常
+  description: 完成供应商定义、不可变版本、连接测试、SecretRef、证书状态、双人审批、激活/回滚、后台页面和自动化测试的真实闭环。
   deliverables:
-  - 测试报告和失败证据归档
-  - 关键缺陷清零
+  - 短信、R2/OSS和实名配置的数据、API、Admin页面与测试闭环
+  - 连接测试失败不得激活，秘密只暴露配置状态和SecretRef元数据
+  - 幂等、乐观锁、审批、审计和回滚证据
   acceptance:
-  - 无TODO/生产Mock
-  - 代码、文档、测试、追踪同步更新
-  - 测试报告和失败证据归档
-  - 关键缺陷清零
+  - 无TODO/生产Mock或明文秘密
+  - STORY-R03-001全部页面动作使用冻结生成类型
+  - MODULE门禁通过并可独立交给主控集成
   session_log_required: true
+  completed_at: '2026-07-18T14:21:44Z'
+- id: TASK-R03-003
+  title: 纵向批次B：orbexa.cc域名与环境配置闭环
+  status: DONE
+  depends_on:
+  - TASK-R03-001
+  parallelizable_with:
+  - TASK-R03-002
+  - TASK-R03-004
+  stories:
+  - STORY-R03-002
+  requirements: *id001
+  description: 完成域名版本、环境隔离、DNS动作、DNS/TLS/服务健康验证、负责人和截止条件、Admin页面及自动化测试。
+  deliverables:
+  - 域名数据、API、Admin页面和测试真实闭环
+  - api/download当前验证状态与其余域名待办可追踪
+  - expectedVersion、重复verify幂等和失败阻断证据
+  acceptance:
+  - 不把DNS解析成功等同于服务健康或生产激活
+  - STORY-R03-002全部页面动作使用冻结生成类型
+  - MODULE门禁通过并可独立交给主控集成
+  session_log_required: true
+  completed_at: '2026-07-18T14:52:05Z'
+- id: TASK-R03-004
+  title: 纵向批次C：支付、出款与证书生命周期配置闭环
+  status: DONE
+  depends_on:
+  - TASK-R03-001
+  parallelizable_with:
+  - TASK-R03-002
+  - TASK-R03-003
+  stories:
+  - STORY-R03-003
+  requirements: *id001
+  description: 完成支付网关、支付宝出款和证书上传/轮换的版本化、SecretRef、双人审批、连接测试、后台页面和安全测试。
+  deliverables:
+  - 支付、出款、证书的数据、API、Admin页面与测试闭环
+  - 证书原文不可回读，指纹、轮换、访问和审批审计完整
+  - 幂等、乐观锁、错误码和回滚证据
+  acceptance:
+  - 无明文私钥、口令或生产凭据进入仓库和日志
+  - STORY-R03-003全部页面动作使用冻结生成类型
+  - MODULE门禁通过并可独立交给主控集成
+  session_log_required: true
+  completed_at: '2026-07-18T15:18:31Z'
+- id: TASK-R03-005
+  title: 三批次汇合、工程治理、专项测试与故障注入
+  status: DONE
+  depends_on:
+  - TASK-R03-002
+  - TASK-R03-003
+  - TASK-R03-004
+  stories:
+  - STORY-R03-004
+  requirements: *id001
+  description: 主控汇合三条业务切片，统一共享迁移、权限、SecretRef、审批、审计、契约生成，并执行18项权威测试和供应商故障注入。
+  deliverables:
+  - Flyway空库、升级库、回滚和数据不变量证据
+  - 18项权威测试、契约、页面动作、安全和故障注入报告
+  - 生成物漂移为零，关键缺陷清零
+  acceptance:
+  - STORY-R03-004工程治理验收全部通过
+  - INTEGRATION门禁、数据库测试和安全专项全部PASS
+  - 共享API和DTO只有主控最终集成版本
+  session_log_required: true
+  completed_at: '2026-07-18T16:21:43Z'
 - id: TASK-R03-006
-  title: 供应商配置、密钥、证书与域名中心可观测性与预发布验收
-  status: BLOCKED
+  title: 可观测性、Staging部署与回滚演练
+  status: DONE
   depends_on:
   - TASK-R03-005
   requirements: *id001
-  description: 部署Staging，验证结构化日志、TraceId、RED指标、业务指标、告警和回滚
+  description: 部署Staging，验证结构化日志、TraceId、RED指标、连接测试指标、业务告警、配置激活和回滚演练。
   deliverables:
-  - 运行手册演练
-  - 验收矩阵签字
+  - 运行手册与回滚演练证据
+  - 验收矩阵自动化条目签字
   acceptance:
-  - 无TODO/生产Mock
-  - 代码、文档、测试、追踪同步更新
-  - 运行手册演练
-  - 验收矩阵签字
+  - 日志不包含秘密、证书原文或敏感供应商响应
+  - Staging与INTEGRATION门禁通过
   session_log_required: true
+  completed_at: '2026-07-18T16:56:21Z'
 - id: TASK-R03-007
-  title: 供应商测试环境、SecretRef、证书与DNS外部激活及证据封装
-  status: BLOCKED
+  title: 外部激活证据、Android回归APK与产物追溯
+  status: DONE
   depends_on:
   - TASK-R03-006
-  requirements:
-  - REQ-CONFIG-001
-  - REQ-DOMAIN-001
-  - REQ-STORAGE-001
-  - REQ-APK-001
-  - REQ-SECRET-001
-  description: 在不向仓库写入明文密钥的前提下，完成短信、实名、支付、出款、存储等测试环境连接验证，登记证书与DNS动作、负责人、截止条件和脱敏证据；无法在研发仓库内完成的外部动作必须形成可追踪阻断项。
+  requirements: *id001
+  description: 完成短信、实名、支付、出款、存储的测试环境连接与脱敏证据；使用固定Staging签名构建回归APK，完成桌面、服务器、公网下载和项目所有者真机验收。
   deliverables:
-  - 外部激活清单、连接测试报告和脱敏证据
-  - SecretRef、证书指纹、DNS动作及责任人可追踪
+  - 外部激活清单、连接报告、SecretRef和证书指纹
+  - DNS、TLS、服务健康三层状态和责任人
+  - APK Commit、versionName、versionCode、签名指纹、四方SHA和桌面副本
   acceptance:
-  - 仓库和日志中无明文密钥或私钥
-  - 每项外部依赖均为已验证或具备责任人、触发版本和关闭证据
-  - 连接测试失败时不得激活对应配置版本
+  - 每项外部依赖为VERIFIED或具备负责人、截止版本和阻断状态
+  - 连接测试失败不得激活对应配置版本
+  - APK机器交付PASS和项目所有者真机PASS分别记录；真机反馈前保持PENDING
   session_log_required: true
+  blocker: R03机器实现、测试、外部清单和固定签名APK四方交付均PASS；等待项目所有者对hhy-r03-3a913c9-debug.apk完成真机安装、启动与自动验证码路径验收
+  blocked_at: '2026-07-18T17:24:49Z'
+  completed_at: '2026-07-19T08:16:56Z'
 - id: TASK-R03-008
   title: 供应商配置、密钥、证书与域名中心版本关闭与无状态交接
-  status: BLOCKED
+  status: DONE
   depends_on:
   - TASK-R03-007
   requirements: *id001
-  description: 回填追踪矩阵、Session Log、问题登记、可复用模式、CURRENT_STATUS和NEXT_TASK
+  description: 回填追踪矩阵、Session Log、问题登记、可复用模式、CURRENT_STATUS和NEXT_TASK。
   deliverables:
   - 全新AI仅凭仓库可继续
   - 工作区干净且Tag可追溯
   acceptance:
-  - 无TODO/生产Mock
+  - 无TODO/生产Mock或未登记外部阻断
   - 代码、文档、测试、追踪同步更新
   - 全新AI仅凭仓库可继续
-  - 工作区干净且Tag可追溯
   session_log_required: true
+  completed_at: '2026-07-19T08:31:20Z'
 version: 1.2.2
 definition_of_ready: releases/R03/DEFINITION_OF_READY.yaml
 story_backlog: releases/R03/STORIES.yaml
-execution_rule: TASKS定义治理顺序，STORIES定义可领取纵向工作；二者必须同时满足，不得以通用任务替代页面故事验收。
+execution_rule: TASK-R03-001完成后，TASK-R03-002至004是三个候选纵向业务切片；现行协议下一次只领取一个Task并在Claim内部三分区并行。TASK-R03-005由主控汇合；TASK-R03-007必须完成外部证据和回归APK桌面/公网/真机验收。

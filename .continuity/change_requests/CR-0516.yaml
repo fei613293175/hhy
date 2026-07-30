@@ -1,0 +1,50 @@
+protocol_version: '1.0'
+cr_id: CR-0516
+title: 修复离线历史视觉复用工作流权限投影
+status: IMPLEMENTING
+created_at: '2026-07-30T04:53:40Z'
+updated_at: '2026-07-30T04:54:42Z'
+requester_actor_id: codex-r14-resume-20260730
+approver_actor_id: codex-r14-ci-efficiency-authorizer
+task_id: TASK-R14-008
+session_id: SES-20260729T161557Z-6FCE6ACA
+user_request: 自动测试由AI审核且不得反复浪费GitHub时间；持久真机库不得受候选测试影响。
+reason: Run 30514972134在启动前因调用Job未授予被复用工作流声明的issues和id-token权限而失败；需补齐最小权限并增加本地回归测试后才允许下一次推送。
+original_rule: 离线历史视觉调用Job仅有仓库contents读取权限，未投影被复用质量工作流声明的issues写入和OIDC令牌权限，GitHub在创建Job前拒绝整个工作流。
+new_rule: 调用本地复用质量工作流时必须显式声明其所需的contents:read、issues:write和id-token:write；离线HISTORICAL-UI仍固定candidate=false，候选、Staging和数据库路径保持跳过。
+impact_summary: 仅修复离线历史视觉请求的GitHub权限投影并增加声明级回归测试；不修改产品、API、数据库、APK或公网真机库。
+impact:
+  files:
+  - .github/workflows/android-historical-visual-request.yml
+  - tests/test_android_historical_visual_request.py
+  pages:
+  - 历史Android视觉审计
+  apis:
+  - 无API影响
+  database:
+  - 无数据库影响
+  configuration:
+  - GitHub reusable workflow permissions
+  ledger:
+  - 无资金或账本影响
+  tests:
+  - YAML解析；路径触发；HISTORICAL-UI candidate=false；复用工作流权限精确断言
+  releases:
+  - R13
+  - R14
+  migration_and_compatibility: 原失败Run保留为证据；本地解析与权限断言通过后只允许一次新提交触发离线视觉工作流。
+user_confirmation: 项目所有者已授权AI持续开发和自行审核GitHub最终测试，且明确要求避免GitHub反复浪费时间。
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-30T04:54:20Z'
+  note: 错误注释已精确证明为调用Job权限投影缺失；修复仅补齐复用工作流已声明权限，candidate=false与离线边界不变，并新增本地回归阻断相同启动失败。
+machine_record: .continuity/change_requests/CR-0516.yaml
+document: docs/03-continuity/change-requests/CR-0516-修复离线历史视觉复用工作流权限投影.md
+decision_log:
+- at: '2026-07-30T04:54:42Z'
+  actor_id: codex-r14-resume-20260730
+  status: IMPLEMENTING
+  note: 按Run 30514972134唯一启动错误补齐调用Job权限并执行本地声明回归。
+  session_id: SES-20260729T161557Z-6FCE6ACA
+session_ids:
+- SES-20260729T161557Z-6FCE6ACA

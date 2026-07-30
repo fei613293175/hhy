@@ -1,0 +1,59 @@
+protocol_version: '1.0'
+cr_id: CR-0431
+title: 补齐V044新增数据表权威目录范围
+status: CLOSED
+created_at: '2026-07-28T04:36:58Z'
+updated_at: '2026-07-28T06:43:41Z'
+requester_actor_id: codex-root-r14-client-20260728
+approver_actor_id: codex-r14-catalog-independent-review-20260728
+task_id: TASK-R14-004
+session_id: SES-20260727T221444Z-FD353AD3
+user_request: 持续推进R14 WebSocket纵向链路并保持数据库事实源完整
+reason: CR-0430已批准203表基线与三张V044表，但数据库门禁证明catalogs/data_tables.csv是schema_dictionary与迁移表集合的权威对照且未列入原影响文件，必须在实现前补充精确范围
+original_rule: CR-0430批准V044三张新表、schema_dictionary和203表门禁，但遗漏了check_db_schema.py实际读取并要求与迁移和字典完全相等的catalogs/data_tables.csv。
+new_rule: V044新增的websocket_user_sequences、websocket_deliveries、websocket_gap_watermarks必须同时登记到catalogs/data_tables.csv，计划版本R14、迁移V044、成熟度FROZEN_V1.2.2；目录、字典和CREATE
+  TABLE集合必须精确相等且总数203。
+impact_summary: 仅补充CR-0430数据库范围遗漏的一个权威目录文件，不改变三表结构、WebSocket合同、运行时或测试策略。
+impact:
+  files:
+  - catalogs/data_tables.csv
+  pages: []
+  apis: []
+  database:
+  - hhy.websocket_user_sequences
+  - hhy.websocket_deliveries
+  - hhy.websocket_gap_watermarks
+  configuration: []
+  ledger: []
+  tests:
+  - check_db_schema proves catalogs data tables, schema dictionary and V001-V044 CREATE TABLE sets are exactly equal at 203
+  releases:
+  - R14
+  migration_and_compatibility: 新增三条目录记录，与V044增表同批生效；不修改既有200条记录及其顺序，不产生额外数据库迁移或回退动作。
+user_confirmation: 用户已明确要求持续推进R14并授权按仓库规则自主完成范围纠偏
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-28T04:38:14Z'
+  note: 独立计划审查通过：CR-0431仅补齐CR-0430遗漏的权威数据表目录范围，不改变已批准的V044三表结构、WebSocket合同、运行时或迁移策略。三表以R14、V044、FROZEN_V1.2.2登记到catalogs/data_tables.csv，并与V044迁移、schema_dictionary及203表基线一致；既有200条目录记录内容和顺序不变。check_db_schema阻断漏登记、额外表或名称漂移。批准并入CR-0430实现批次。
+machine_record: .continuity/change_requests/CR-0431.yaml
+document: docs/03-continuity/change-requests/CR-0431-补齐V044新增数据表权威目录范围.md
+decision_log:
+- at: '2026-07-28T06:39:06Z'
+  actor_id: codex-root-r14-client-20260728
+  status: IMPLEMENTING
+  note: 已按批准范围完成实施，进入实现结果登记。
+  session_id: SES-20260727T221444Z-FD353AD3
+- at: '2026-07-28T06:39:21Z'
+  actor_id: codex-root-r14-client-20260728
+  status: IMPLEMENTED
+  note: V044三张表已登记权威目录并与schema_dictionary、迁移及203表基线精确一致。
+  session_id: SES-20260727T221444Z-FD353AD3
+- at: '2026-07-28T06:43:41Z'
+  actor_id: codex-root-r14-client-20260728
+  status: CLOSED
+  note: 批准范围已由实现提交 7ce3c2169925fef717c051e16e09f556ce619aa6 完整交付并通过门禁；CR关闭。ws生产激活不在CR-0430范围内，仍留待R14候选阶段。
+  session_id: SES-20260727T221444Z-FD353AD3
+session_ids:
+- SES-20260727T221444Z-FD353AD3
+implementation_commits:
+- 7ce3c2169925fef717c051e16e09f556ce619aa6

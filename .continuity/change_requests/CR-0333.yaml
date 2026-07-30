@@ -1,0 +1,78 @@
+protocol_version: '1.0'
+cr_id: CR-0333
+title: R12统一发布六项专项测试与故障证据闭环
+status: CLOSED
+created_at: '2026-07-25T17:26:53Z'
+updated_at: '2026-07-25T18:00:47Z'
+requester_actor_id: codex-root-r12-testing-20260726
+approver_actor_id: codex-r12-quality-reviewer-20260726
+task_id: TASK-R12-005
+session_id: SES-20260725T171320Z-7ACF9261
+user_request: 按仓库R01-R32计划持续开发，所有终端静默执行，仅在R12最终候选运行完整模拟器与APK门禁
+reason: 六个权威TST-CONTENT_002与TST-PUBLISH_001测试仍为READY_TO_AUTOMATE，缺少R12适配器、统一矩阵、响应丢失重放、配置超时零副作用、Outbox单写和PostgreSQL17真实并发证据
+original_rule: 六个R12权威测试ID仍为READY_TO_AUTOMATE，自动化路径不存在，现有测试未直接证明响应丢失重放、配置超时和并发失败者的零重复副作用，也没有统一证据矩阵。
+new_rule: 仅自动化既有六个R12权威测试ID；统一矩阵绑定Java 21业务故障注入、PostgreSQL 17真实事务与并发、Android受影响MODULE及非空日志哈希。相同请求重放只返回首次快照且业务写与Outbox各一次，同键异体冲突，配置或共享存储失败零成功副作用；不得虚构R12私有供应商或消息消费者。
+impact_summary: 新增六个测试适配器、中央矩阵及自测，补R12PublishingService缺失断言，归档三类原始日志和六项PASS证据，并投影TASK-R12-005到Release Manifest；不改变生产业务、API、数据库Schema、UI或最终候选策略。
+impact:
+  files:
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R12PublishingServiceTest.java
+  - tests/r12/README.md
+  - tests/r12/req-content-002_happy
+  - tests/r12/req-content-002_reject
+  - tests/r12/req-content-002_idempotent
+  - tests/r12/req-publish-001_happy
+  - tests/r12/req-publish-001_reject
+  - tests/r12/req-publish-001_idempotent
+  - tests/test_r12_specialized_matrix.py
+  - scripts/run_r12_specialized_matrix.py
+  - catalogs/test_cases.csv
+  - artifacts/validation/r12-test-evidence/evidence.json
+  - artifacts/validation/r12-test-evidence/backend-java21.log
+  - artifacts/validation/r12-test-evidence/postgresql17.log
+  - artifacts/validation/r12-test-evidence/android-module.log
+  - docs/03-continuity/R12_TASK-005_SPECIALIZED_TEST_GATE.md
+  - releases/R12/RELEASE_MANIFEST.yaml
+  - CHANGELOG.md
+  pages: []
+  apis: []
+  database: []
+  configuration: []
+  ledger: []
+  tests:
+  - TST-CONTENT_002-HAPPY
+  - TST-CONTENT_002-REJECT
+  - TST-CONTENT_002-IDEMPOTENT
+  - TST-PUBLISH_001-HAPPY
+  - TST-PUBLISH_001-REJECT
+  - TST-PUBLISH_001-IDEMPOTENT
+  releases:
+  - R12
+  migration_and_compatibility: 纯测试与证据治理变更，不修改生产接口、数据库迁移或客户端行为；继续复用共享R08幂等存储、共享媒体存储故障回归和事务Outbox。完整模拟器、截图与APK延后至TASK-R12-007。
+user_confirmation: 项目所有者已授权按仓库R01-R32计划持续推进并静默执行终端；本CR属于TASK-R12-005冻结测试范围，完整模拟器与APK仍延后到TASK-R12-007。
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-25T17:29:26Z'
+  note: 独立只读审计通过：范围仅覆盖六个既有测试ID、R12测试补强、适配器、矩阵、证据和Release投影；复用共享R08幂等并发及媒体存储故障回归，不改生产合同或候选策略。
+machine_record: .continuity/change_requests/CR-0333.yaml
+document: docs/03-continuity/change-requests/CR-0333-R12统一发布六项专项测试与故障证据闭环.md
+decision_log:
+- at: '2026-07-25T17:45:03Z'
+  actor_id: codex-root-r12-testing-20260726
+  status: IMPLEMENTING
+  note: 六项适配器、中央矩阵与R12服务故障断言已实现；Java21 15项、PostgreSQL17 5项、Android 202 tasks均PASS，准备形成实现检查点与精确源码Commit。
+  session_id: SES-20260725T171320Z-7ACF9261
+- at: '2026-07-25T17:55:00Z'
+  actor_id: codex-root-r12-testing-20260726
+  status: IMPLEMENTED
+  note: 六项权威矩阵与三类精确Commit证据已闭环：Java21 15项、PostgreSQL17 5项、Android 202 tasks、严格R12文档与Release门禁全部PASS，P0/P1缺陷为零。
+  session_id: SES-20260725T171320Z-7ACF9261
+- at: '2026-07-25T18:00:47Z'
+  actor_id: codex-root-r12-testing-20260726
+  status: CLOSED
+  note: 六项权威测试自动化、精确Commit三类证据、远端/仓库规范化哈希和Release投影全部PASS；P0/P1关键缺陷为0，合同闭环。
+  session_id: SES-20260725T171320Z-7ACF9261
+session_ids:
+- SES-20260725T171320Z-7ACF9261
+implementation_commits:
+- 5419d68255dcc965c2c31fcb3006f616d9f8c38a
+- 04855647f6ee4d8609b709cd4bc98e9baa48d4bc

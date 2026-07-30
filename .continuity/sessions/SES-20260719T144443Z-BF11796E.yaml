@@ -1,0 +1,91 @@
+protocol_version: '1.0'
+package_version: 1.2.3
+session_id: SES-20260719T144443Z-BF11796E
+status: CLOSED
+actor:
+  id: codex-root
+  kind: AI_OR_HUMAN
+  host: unknown
+release: R04
+task_id: TASK-R04-007
+story_id: STORY-R04-001
+goal: 完成R04固定测试签名APK、生产API地址门禁、桌面/仓库/服务器/公网四方SHA追溯并交给项目所有者真机验收
+started_at: '2026-07-19T14:44:43Z'
+updated_at: '2026-07-19T16:00:26Z'
+takeover_of: null
+change_requests:
+- CR-0086
+- CR-0087
+scope:
+  allowed_paths:
+  - apps/android/**
+  - services/backend/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - tests/**
+  - docs/**
+  - catalogs/**
+  - releases/**
+  - design/**
+  - scripts/**
+  - CHANGELOG.md
+  approved_exceptions:
+  - artifacts/apk/R04/APK_MANIFEST.yaml
+  - artifacts/validation/r04-apk-delivery/delivery-evidence.json
+  - artifacts/validation/r04-task007-android/api-public-auth.json
+  - artifacts/validation/r04-task007-android/apk-badging.txt
+  - artifacts/validation/r04-task007-android/apk-signing.txt
+  - artifacts/validation/r04-task007-android/build-evidence.json
+  - artifacts/validation/r04-task007-android/embedded-api-count.txt
+  - artifacts/validation/r04-task007-android/embedded-placeholder-count.txt
+  - artifacts/validation/r04-task007-android/evidence-sha256.txt
+  - artifacts/validation/r04-task007-android/gradle-build.log
+  - artifacts/validation/r04-task007-android/source-archive-sha256.txt
+  - artifacts/validation/r04-task007-android/toolchain-image-id.txt
+  - artifacts/validation/r04-task007-android/zipalign.txt
+  - artifacts/reports/R04/R04-version-test-guide.md
+  - artifacts/reports/R04/TASK-R04-007-android-apk.md
+  source: story+explicit+approved-cr:CR-0087
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  base_commit: 4520cfdbcf774d31ae70f7215885935d11db5d1e
+  start_head: 4520cfdbcf774d31ae70f7215885935d11db5d1e
+  upstream: origin/task/TASK-R03-001
+  initial_worktree_state: CLEAN
+lease:
+  duration_minutes: 240
+  renewed_at: '2026-07-19T16:00:24Z'
+  expires_at: '2026-07-19T20:00:24Z'
+checkpoint_sequence: 6
+latest_checkpoint: .continuity/checkpoints/SES-20260719T144443Z-BF11796E/0006.yaml
+session_log: docs/03-continuity/sessions/2026-07/SES-20260719T144443Z-BF11796E.md
+next_step: 提交关闭元数据Commit，然后运行pre-push/CI门禁
+context_pack:
+  yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
+  markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
+  manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+  context_hash: a0cee640a45ad7afb3b7e246366e2068ae8c6c7c82eeef219446c9b18e192b5e
+  generated_at: '2026-07-19T16:00:26Z'
+handoff_bundle: null
+closure:
+  result: COMPLETED
+  summary: R04测试APK versionCode 10207固定签名构建、真实API、桌面/仓库/服务器/公网四方同哈希和项目所有者真机验收全部PASS
+  code_commit: 9d45b3ee01113fad7142ea95fec0206ff2862a7d
+  next_release: R04
+  next_task: TASK-R04-008
+  blocked_advance: false
+  user_confirmation: null
+  metadata_commit: PENDING
+  push_verification: CI_REQUIRED_AFTER_METADATA_COMMIT
+  started_at: '2026-07-19T16:00:22Z'
+  closure_checkpoint_id: CP-SES-20260719T144443Z-BF11796E-0006
+  closed_at: '2026-07-19T16:00:26Z'
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 项目所有者真机确认、APK Manifest和独立证据必须绑定同一APK身份原子回填
+closed_at: '2026-07-19T16:00:26Z'

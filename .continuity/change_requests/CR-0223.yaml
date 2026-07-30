@@ -1,0 +1,79 @@
+protocol_version: '1.0'
+cr_id: CR-0223
+title: 补齐R02至R05历史页面视觉合同与真实浏览器证据
+status: IMPLEMENTED
+created_at: '2026-07-22T04:43:22Z'
+updated_at: '2026-07-22T05:33:08Z'
+requester_actor_id: codex-root-r08-004
+approver_actor_id: codex-reviewer-r08-historical-visual
+task_id: TASK-R08-004
+session_id: SES-20260722T031604Z-105CF4C6
+user_request: 全部既有和后续UI按效果图级丰富度与精致度开发，禁止虚构；开发过程不中断，截图由AI判断
+reason: R02至R05仍存在缺失视觉目录行、缺失真实浏览器截图或仅IN_REVIEW页面，需在R08最终候选前统一补齐
+original_rule: CR-0213统一要求R02至R07历史页面在R08候选前按效果图级肉眼标准审计；当前R02至R04缺目录行或截图，R05仍为IN_REVIEW。
+new_rule: 不新增并行规则；在CR-0213唯一UI规则内补齐目录。浏览器页面以受控真实渲染和冻结合同数据采集截图，由AI逐页判定；Android页面先完成代码/规格审计，只在R08最终候选模拟器统一截图。不得用虚构业务填充页面。
+impact_summary: 审计并在必要时回补R02认证邀请、R03配置、R04媒体、R05实名页面；采集H5和后台真实浏览器证据；补齐唯一视觉验收目录与R08最终候选Android截图清单。
+impact:
+  files:
+  - catalogs/ui_visual_acceptance.csv
+  - artifacts/validation/r08-historical-ui
+  - artifacts/reports/R08/TASK-R08-004-client.md
+  - apps/android/feature/auth/src/main/java/cc/orbexa/hhy/auth/AuthScreen.kt
+  - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+  - apps/android/feature/media/src/main/java/cc/orbexa/hhy/media/MediaUploadSheet.kt
+  - apps/android/feature/identity/src/main/java/cc/orbexa/hhy/identity/IdentityFlowScreen.kt
+  - apps/h5/src/views/InviteRegistrationPage.vue
+  - apps/h5/src/views/IdentityCallbackPage.vue
+  - apps/admin-web/src/views/AdminUsersListPage.vue
+  - apps/admin-web/src/views/AdminUserDetailPage.vue
+  - apps/admin-web/src/views/ProviderConfigPage.vue
+  - apps/admin-web/src/views/DomainConfigPage.vue
+  - apps/admin-web/src/views/AdminIdentityListPage.vue
+  - apps/admin-web/src/views/AdminIdentityDetailPage.vue
+  pages:
+  - R02认证与邀请页面
+  - R03后台配置页面
+  - R04媒体上传弹层
+  - R05实名Android/H5/后台页面
+  apis:
+  - 无直接影响
+  database:
+  - 无直接影响
+  configuration:
+  - 无直接影响
+  ledger:
+  - 无直接影响
+  tests:
+  - python scripts/check_ui_visual_acceptance.py --release R08 --catalog-only
+  - pnpm --filter @hhy/admin-web test
+  - pnpm --filter @hhy/h5 test
+  - 受影响Android MODULE与R08最终候选模拟器视觉旅程
+  releases:
+  - R02
+  - R03
+  - R04
+  - R05
+  - R08
+  migration_and_compatibility: 纯客户端视觉与验收证据调整，不改变API、数据库、路由、权限或业务状态；浏览器截图使用受控合同响应且不进入生产逻辑。
+user_confirmation: 项目所有者已明确要求全部既有与后续UI接近效果图丰富度和精致度、禁止虚构，并由AI自主判定不中断开发
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-22T04:44:19Z'
+  note: 批准在CR-0213唯一UI规则内补齐历史页面视觉合同与真实渲染证据；不得新增第二套标准，不得伪造业务；Android截图仅在R08最终候选统一执行。
+machine_record: .continuity/change_requests/CR-0223.yaml
+document: docs/03-continuity/change-requests/CR-0223-补齐R02至R05历史页面视觉合同与真实浏览器证据.md
+decision_log:
+- at: '2026-07-22T04:44:22Z'
+  actor_id: codex-root-r08-004
+  status: IMPLEMENTING
+  note: 开始审计R05至R02页面并采集H5/后台真实浏览器截图；Android保留到R08最终候选统一截图。
+  session_id: SES-20260722T031604Z-105CF4C6
+- at: '2026-07-22T05:33:08Z'
+  actor_id: codex-root-r08-004
+  status: IMPLEMENTED
+  note: R02至R05共29页视觉合同已补齐；后台12页及H5两页由真实浏览器渲染并由AI判定PASS；R02启动维护更新与R04媒体页完成代码回补且精确提交Android MODULE通过。剩余Android模拟器截图属于R08最终候选验收，完成后再CLOSED。
+  session_id: SES-20260722T031604Z-105CF4C6
+session_ids:
+- SES-20260722T031604Z-105CF4C6
+implementation_commits:
+- 35484da74a8c0483bdb6a236b8eca23bfe606cc9

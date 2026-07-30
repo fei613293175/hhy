@@ -1,0 +1,288 @@
+from __future__ import annotations
+
+import copy
+import hashlib
+import json
+import os
+import subprocess
+import sys
+from pathlib import Path
+
+import pytest
+import yaml
+from jsonschema import Draft202012Validator
+
+ROOT = Path(__file__).resolve().parents[2]
+sys.path.insert(0, str(ROOT))
+
+from tools.governance.gov50.gates import test_authority_check as authority_check, validate_candidate_evidence
+from tools.governance.gov50.hard import run_hard_protection
+from tools.governance.gov50.legacy import scan_active_control_plane
+from tools.governance.gov50.secrets import scan_secrets
+from tools.governance.gov50.simulation import simulate_program
+from tools.governance.gov50.state import assert_valid_state, bootstrap_state
+from tools.governance.gov50.tasks import (
+    EXPECTED_FUTURE_TASKS,
+    EXPECTED_SOURCE_TASKS,
+    EXPECTED_TASKS,
+    build_program_plan,
+    load_task_specs,
+    validate_specs,
+)
+from tools.governance.gov50.views import next_ready_task
+from tools.governance.gov50.util import repository_lock
+
+
+def _specs():
+    return load_task_specs(ROOT)
+
+
+def test_expected_task_counts():
+    specs = _specs()
+    assert len(specs) == EXPECTED_TASKS == 266
+    assert sum(1 for s in specs.values() if s.get("source", {}).get("path", "").startswith("releases/")) == EXPECTED_SOURCE_TASKS == 264
+    assert sum(1 for s in specs.values() if str(s.get("release", "")).startswith("R") and 15 <= int(s["release"][1:]) <= 32) == EXPECTED_FUTURE_TASKS == 144
+
+
+def test_every_task_has_hard_total_attempt_budget():
+    for task_id, spec in _specs().items():
+        assert spec["maximum_attempts"] == 3, task_id
+        assert "attempt_override" not in str(spec).lower()
+        assert "attempt_exception" not in str(spec).lower()
+
+
+def test_program_plan_and_specs_are_valid():
+    specs = _specs()
+    assert validate_specs(specs, build_program_plan(specs)) == []
+
+
+def test_program_is_finite_and_adjacent():
+    result = simulate_program(ROOT)
+    assert result["status"] == "PASS", result
+    assert result["first_task"] == "TASK-R14-RECOVERY-001"
+    assert result["last_task"] == "TASK-R32-008"
+    assert result["attempt_four_possible"] is False
+
+
+def test_single_state_is_valid():
+    specs = _specs()
+    state = yaml.safe_load((ROOT / "governance/STATE.yaml").read_text(encoding="utf-8"))
+    assert_valid_state(state, specs)
+    assert state["project"]["active_release"] == "R14"
+    if state["project"]["status"] == "FAILED_BOUNDED":
+        assert state["project"]["active_task"] is None
+        assert state["tasks"]["TASK-R14-RECOVERY-001"]["status"] == "FAILED_BOUNDED"
+        assert state["tasks"]["TASK-R14-RECOVERY-001"]["attempts_used"] == 3
+    else:
+        assert state["project"]["active_task"] == "TASK-R14-RECOVERY-001"
+
+
+def test_attempt_four_is_rejected():
+    specs = _specs()
+    state = bootstrap_state(specs, "test", "0" * 40)
+    state["tasks"]["TASK-R14-RECOVERY-001"]["attempts_used"] = 4
+    with pytest.raises(ValueError, match="outside 0..3"):
+        assert_valid_state(state, specs)
+
+
+def test_state_hash_tampering_is_rejected():
+    specs = _specs()
+    state = bootstrap_state(specs, "test", "0" * 40)
+    state["project"]["active_release"] = "R15"
+    with pytest.raises(ValueError, match="state hash mismatch"):
+        assert_valid_state(state, specs)
+
+
+def test_recovery_is_only_active_entry_before_activation():
+    state = yaml.safe_load((ROOT / "governance/STATE.yaml").read_text(encoding="utf-8"))
+    if state["project"]["status"] == "FAILED_BOUNDED":
+        assert state["project"]["active_task"] is None
+        assert state["tasks"]["TASK-R14-RECOVERY-001"]["status"] == "FAILED_BOUNDED"
+        assert state["tasks"]["TASK-R14-RECOVERY-001"]["attempts_used"] == 3
+    else:
+        assert state["project"]["active_task"] == "TASK-R14-RECOVERY-001"
+        assert state["tasks"]["TASK-R14-RECOVERY-001"]["status"] in {"PENDING_ACTIVATION", "READY"}
+
+
+def test_generated_views_are_read_only_views():
+    state = yaml.safe_load((ROOT / "governance/STATE.yaml").read_text(encoding="utf-8"))
+    current = yaml.safe_load((ROOT / "CURRENT_STATUS.yaml").read_text(encoding="utf-8"))
+    nxt = yaml.safe_load((ROOT / "NEXT_TASK.yaml").read_text(encoding="utf-8"))
+    assert current["DO_NOT_EDIT"] is True
+    assert nxt["DO_NOT_EDIT"] is True
+    assert current["SOURCE_REVISION"] == state["revision"]
+    assert current["active_task"] == state["project"]["active_task"]
+
+
+def test_active_control_plane_has_no_legacy_execution_routes():
+    result = scan_active_control_plane(ROOT)
+    assert result["status"] == "PASS", result["findings"]
+
+
+def test_repository_secret_scan_passes():
+    result = scan_secrets(ROOT, full=True, include_untracked=True)
+    assert result["status"] == "PASS", result["findings"]
+
+
+def test_secret_scanner_detects_untracked_high_confidence_token(tmp_path):
+    repo = tmp_path / "repo"
+    repo.mkdir()
+    subprocess.run(["git", "init", "-q"], cwd=repo, check=True)
+    (repo / "config").mkdir()
+    (repo / "config/secret-scan-allowlist.yaml").write_text("schema: test\nallow: []\n", encoding="utf-8")
+    (repo / "leak.txt").write_text("token=ghp_" + "A" * 36 + "\n", encoding="utf-8")
+    result = scan_secrets(repo, full=True, include_untracked=True)
+    assert result["status"] == "FAIL"
+    assert any(row["rule"] == "GITHUB_TOKEN" for row in result["findings"])
+
+
+def test_worker_result_schema_is_strict_enough():
+    schema = json.loads((ROOT / "governance/schemas/worker-result.schema.json").read_text(encoding="utf-8"))
+    validator = Draft202012Validator(schema)
+    good = {"schema": "hhy.worker-result/v5.0", "status": "CANDIDATE_READY", "task_id": "X", "summary": "done"}
+    assert list(validator.iter_errors(good)) == []
+    bad = dict(good, status="PASS")
+    assert list(validator.iter_errors(bad))
+
+
+def test_candidate_evidence_schema_requires_complete_apk_identity():
+    schema = json.loads((ROOT / "governance/schemas/candidate-evidence.schema.json").read_text(encoding="utf-8"))
+    validator = Draft202012Validator(schema)
+    data = {
+        "schema": "hhy.candidate-evidence/v5.0", "status": "PASS", "release": "R14",
+        "commit": "a" * 40, "gate_report": "x.json",
+        "apk": {"path": "a.apk", "sha256": "b" * 64, "source_commit": "a" * 40, "version_code": 1, "version_name": "1.0"},
+        "screenshots": {"source_commit": "a" * 40, "paths": ["a.png"]},
+    }
+    errors = list(validator.iter_errors(data))
+    assert any("signing_sha256" in e.message for e in errors)
+
+
+def test_owner_schema_binds_frozen_commit():
+    schema = json.loads((ROOT / "governance/schemas/owner-evidence.schema.json").read_text(encoding="utf-8"))
+    assert "frozen_commit" in schema["required"]
+    assert "result" in schema["required"]
+
+
+def test_formal_release_schema_requires_production_and_rollback():
+    schema = json.loads((ROOT / "governance/schemas/formal-release-evidence.schema.json").read_text(encoding="utf-8"))
+    assert {"production_activation_evidence", "rollback_evidence", "tag"} <= set(schema["required"])
+
+
+def test_hooks_define_compaction_guard_and_stop_validator():
+    hooks = json.loads((ROOT / ".codex/hooks.json").read_text(encoding="utf-8"))
+    assert "SessionStart" in hooks["hooks"]
+    assert "PreToolUse" in hooks["hooks"]
+    assert "PostToolUse" in hooks["hooks"]
+    assert "Stop" in hooks["hooks"]
+    text = (ROOT / ".codex/hooks/session_start.py").read_text(encoding="utf-8")
+    assert "SECOND_COMPACTION_FORBIDDEN" in text
+    assert "continue':False" in text or '"continue":false' in text.lower()
+
+
+def test_worker_guard_denies_git_authority_commands():
+    text = (ROOT / ".codex/hooks/pre_tool_guard.py").read_text(encoding="utf-8")
+    for command in ["commit", "push", "merge", "rebase", "reset", "tag"]:
+        assert command in text
+    assert "permissionDecision':'deny'" in text or 'permissionDecision\":\"deny' in text
+
+
+def test_watchdog_stops_second_identical_action():
+    text = (ROOT / ".codex/hooks/post_tool_watchdog.py").read_text(encoding="utf-8")
+    assert "REPEATED_COMMAND_OUTPUT_DIFF" in text
+    assert "WORKER_TOOL_CALL_BUDGET_EXHAUSTED" in text
+
+
+def test_stable_github_required_check_names_exist():
+    governance = yaml.safe_load((ROOT / ".github/workflows/governance-v5.yml").read_text(encoding="utf-8"))
+    core = yaml.safe_load((ROOT / ".github/workflows/core-v5.yml").read_text(encoding="utf-8"))
+    assert governance["jobs"]["governance"]["name"] == "governance"
+    assert core["jobs"]["core"]["name"] == "core"
+
+
+def test_worker_protected_paths_cover_governance_and_ci():
+    policy = yaml.safe_load((ROOT / "governance/policies/PROTECTED_PATHS.yaml").read_text(encoding="utf-8"))
+    denied = set(policy["worker_denied"])
+    assert "governance/**" in denied
+    assert ".github/workflows/**" in denied
+    assert "tests/governance_v5/**" in denied
+
+
+def test_release_close_is_bounded_worker_not_self_closing():
+    specs = _specs()
+    for release_num in range(15, 33):
+        task = specs[f"TASK-R{release_num:02d}-008"]
+        assert task["mode"] == "worker"
+        assert task["maximum_attempts"] == 3
+        assert "Orchestrator" in " ".join(task["acceptance"])
+
+
+def test_r15_depends_on_r14_recovery():
+    assert _specs()["TASK-R15-001"]["depends_on"] == ["TASK-R14-RECOVERY-001"]
+
+
+def test_release_dependencies_are_adjacent():
+    specs = _specs()
+    for release_num in range(16, 33):
+        task = specs[f"TASK-R{release_num:02d}-001"]
+        assert task["depends_on"] == [f"TASK-R{release_num - 1:02d}-008"]
+
+
+def test_funds_tasks_exist_and_have_hard_test_contracts():
+    specs = _specs()
+    funds = [task_id for task_id, spec in specs.items() if "funds" in set(spec.get("risks") or [])]
+    assert len(funds) >= 1
+    # The contract checker may report a source-product gap, but it must execute and
+    # explicitly enumerate requirements; it may never silently skip the funds risk.
+    result = run_hard_protection(ROOT, funds[0], "task")
+    assert result["schema"] == "hhy.hard-protection/v5.0"
+    assert "funds" in result["risks"]
+
+
+def test_test_authority_check_is_present_and_commit_bound():
+    result = authority_check(ROOT, "HEAD")
+    assert result["commit"] == subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip()
+    assert result["status"] in {"PASS", "FAIL"}
+
+
+def test_governance_constitution_has_single_authority_and_no_long_goal():
+    constitution = yaml.safe_load((ROOT / "governance/DEVELOPMENT_CONSTITUTION.yaml").read_text(encoding="utf-8"))
+    assert constitution["single_authority"]["mutable_state"] == "governance/STATE.yaml"
+    assert constitution["execution"]["one_worker_run_one_task"] is True
+    assert constitution["limits"]["total_attempts_per_task"] == 3
+    assert constitution["completion"]["final_release"] == "R32"
+
+
+def test_goal_complete_marker_is_defined():
+    constitution = yaml.safe_load((ROOT / "governance/DEVELOPMENT_CONSTITUTION.yaml").read_text(encoding="utf-8"))
+    assert constitution["completion"]["marker"] == "governance/GOAL_COMPLETE.json"
+
+
+def test_no_worker_may_self_declare_pass():
+    schema = json.loads((ROOT / "governance/schemas/worker-result.schema.json").read_text(encoding="utf-8"))
+    assert "PASS" not in schema["properties"]["status"]["enum"]
+
+
+def test_candidate_validation_rejects_missing_files(tmp_path):
+    evidence = tmp_path / "candidate.json"
+    evidence.write_text(json.dumps({
+        "schema": "hhy.candidate-evidence/v5.0", "status": "PASS", "release": "R14", "commit": "a" * 40,
+        "gate_report": "missing.json",
+        "apk": {"path": "missing.apk", "sha256": "b" * 64, "source_commit": "a" * 40, "version_code": 1, "version_name": "1", "signing_sha256": "c" * 64},
+        "screenshots": {"source_commit": "a" * 40, "paths": ["missing.png"]},
+    }), encoding="utf-8")
+    result = validate_candidate_evidence(ROOT, "R14", evidence, "a" * 40)
+    assert result["status"] == "FAIL"
+    assert any("missing" in error.lower() or "does not exist" in error.lower() for error in result["errors"])
+
+
+def test_stale_repository_lock_is_reclaimed(tmp_path):
+    repo = tmp_path / "repo"
+    (repo / ".git").mkdir(parents=True)
+    lock = repo / ".git/hhy-governance-v50.lock"
+    # PID 99999999 is expected to be absent; a dead worker must not deadlock future runs.
+    lock.write_text("99999999:stale", encoding="utf-8")
+    with repository_lock(repo, timeout=1):
+        assert lock.is_file()
+        assert not lock.read_text(encoding="utf-8").startswith("99999999:")
+    assert not lock.exists()

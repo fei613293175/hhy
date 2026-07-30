@@ -1,0 +1,255 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260728T205917Z-52E3B6B1-0005
+session_id: SES-20260728T205917Z-52E3B6B1
+task_id: TASK-R14-007
+story_id: STORY-R14-004
+sequence: 5
+created_at: '2026-07-28T21:45:31Z'
+summary: TASK-R14-007替换测试APK最终交付完成：固定工具链构建、稳定签名、正式API/WSS、精确路由、四方SHA、桌面APK与测试说明、旧交付原字节归档及R14至R32防漂移回归全部通过
+next_step: 提交并推送TASK-R14-007最终交付记录，确认GitHub CI与Continuity Gate；随后关闭CR-0471/CR-0473和TASK-R14-007，只进入TASK-R14-008
+blockers: []
+decisions: []
+note: ''
+tests:
+- name: cloud-android-environment
+  result: PASS
+  evidence: scripts/verify_cloud_environment.py --check-android
+  note: obx-test固定镜像、Gradle缓存、平台36、内存和构建槽可用
+- name: fixed-toolchain-build
+  result: PASS
+  evidence: artifacts/validation/r14-task007-android/build-evidence.json
+  note: BUILD SUCCESSFUL 3m44s，772 tasks，versionCode 10224
+- name: four-copy-delivery
+  result: PASS
+  evidence: scripts/deliver_android_test_apk.py verify --release R14
+  note: 仓库、桌面、服务器、公网SHA=6ce8494e46d3a831c3ca9629d78bad97c445e9d93d084d8c0cd1c7292a885481，HTTPS 200/206
+- name: test-guide-delivery
+  result: PASS
+  evidence: artifacts/validation/r14-apk-delivery/delivery-evidence.json
+  note: 桌面说明SHA=1b106db40fca1014b8cad212f2bf6dbd6d484a2ce736b92b5cb3a2a507a55f76
+- name: replacement-history-byte-identity
+  result: PASS
+  evidence: git rev-parse HEAD:path + git hash-object history/path
+  note: ca57666 Manifest blob f3158675一致，Evidence blob 0d4e2512一致
+- name: continuity-and-delivery-unit
+  result: PASS
+  evidence: python -m unittest tests.test_continuity_version_sequence tests.test_android_apk_delivery
+  note: 32项通过，含R14至R32顺序和替换交付事务
+- name: program-execution-plan
+  result: PASS
+  evidence: scripts/check_program_execution_plan.py --json
+  note: 31 releases，0 errors
+- name: diff-check
+  result: PASS
+  evidence: git diff --check
+  note: 无空白错误
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: 32522a9da99366d320bc6bb65f7ca0b86867512d
+  upstream: origin/task/TASK-R03-001
+  ahead: 0
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/change_requests/CR-0471.yaml'
+  - ' M .continuity/change_requests/CR-0472.yaml'
+  - ' M .continuity/sessions/SES-20260728T205917Z-52E3B6B1.yaml'
+  - ' M artifacts/apk/R14/APK_MANIFEST.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+  - ' M artifacts/reports/R14/R14-version-test-guide.md'
+  - ' M artifacts/reports/R14/TASK-R14-007-android-apk.md'
+  - ' M artifacts/validation/r14-apk-delivery/delivery-evidence.json'
+  - ' M artifacts/validation/r14-task007-android/build-evidence.json'
+  - ' M catalogs/change_request_index.csv'
+  - ' M catalogs/session_index.csv'
+  - ' M docs/03-continuity/change-requests/CR-0471-递增R14替换TEST_APK身份并交付举报目录最终包.md'
+  - ' M docs/03-continuity/change-requests/CR-0472-补齐CR-0471替换APK精确下载路由作用域.md'
+  - ' M releases/R14/RELEASE_MANIFEST.yaml'
+  - ?? .continuity/change_requests/CR-0473.yaml
+  - ?? artifacts/apk/R14/history/ca57666/APK_MANIFEST.yaml
+  - ?? artifacts/validation/r14-apk-delivery/history/ca57666/delivery-evidence.json
+  - ?? docs/03-continuity/change-requests/CR-0473-补齐CR-0471替换交付历史归档作用域.md
+  recent_commits:
+  - "32522a9da99366d320bc6bb65f7ca0b86867512d\t2026-07-29T05:29:17+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] fix(delivery): bind replacement\
+    \ apk route"
+  - "2eb8ac74b55c35833609c6eb6f330268a289bf3a\t2026-07-29T05:06:09+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(android): bump replacement\
+    \ apk identity"
+  - "8095d1e13f3961771a5364864a60c3d08d41340e\t2026-07-29T04:58:01+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(continuity): close TASK-R14-006\
+    \ as completed"
+  - "68021505de667d801b29022967ce78513706daef\t2026-07-29T04:50:32+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] test(r14): record scoped staging\
+    \ pass"
+  - "f58be15f82ed1e9eb95355d8e4df363417fff023\t2026-07-29T04:36:02+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] fix(r14): pin staging migration\
+    \ scope"
+  - "89416d1e59cb8dbc61322ad15587e24a34784276\t2026-07-29T04:27:21+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] test(r14): verify catalog\
+    \ without host Python"
+  - "09d337e272faedc23154a15e42adbf22dd692e72\t2026-07-29T04:17:22+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] test(r14): bind staging to\
+    \ report catalog source"
+  - "446316f0c1d6347e300fb7c6544bd762dd430286\t2026-07-29T04:02:22+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] test(continuity): decouple\
+    \ recovery history from active session"
+project_fingerprint:
+  sha256: fcaee1841690a8dc3b05ac9c0b451d05672bc52221b1d4e9c67410184f59bd30
+  files:
+  - CHANGELOG.md
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+  - apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+  - artifacts/apk/R14/APK_MANIFEST.yaml
+  - artifacts/apk/R14/history/ca57666/APK_MANIFEST.yaml
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/change-requests/CR-0471-递增R14替换TEST_APK身份并交付举报目录最终包.md
+  - docs/03-continuity/change-requests/CR-0472-补齐CR-0471替换APK精确下载路由作用域.md
+  - docs/03-continuity/change-requests/CR-0473-补齐CR-0471替换交付历史归档作用域.md
+  - infra/nginx/r14-apk-location.inc
+  - releases/R14/RELEASE_MANIFEST.yaml
+  - tests/test_android_apk_delivery.py
+  file_count: 13
+  payload:
+    base_commit: 8095d1e13f3961771a5364864a60c3d08d41340e
+    files:
+    - path: CHANGELOG.md
+      state: FILE
+      size: 215253
+      sha256: 1c424c4315f6197d5cb449fba25d06318a62280bcfa224e865d3de0bc7f5a127
+    - path: apps/android/app/build.gradle.kts
+      state: FILE
+      size: 6171
+      sha256: 8c948ff4c08000fb9d83f4503f5039316309574b8436189782372b200621eb2c
+    - path: apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+      state: FILE
+      size: 520
+      sha256: 1b1fc904acb3a9078aea938c5adbb9f856c32be8c1c95945840412d1430de561
+    - path: apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+      state: FILE
+      size: 1255
+      sha256: d284cd62fe96ac4bc19c948e5bc4df6553eabdaa3f5ac1d8e469fd7327fbcf7b
+    - path: artifacts/apk/R14/APK_MANIFEST.yaml
+      state: FILE
+      size: 970
+      sha256: b441c69441237c60fd36aa91f7827b0a5ae3a7dd26d4b1328f3894261a979811
+    - path: artifacts/apk/R14/history/ca57666/APK_MANIFEST.yaml
+      state: FILE
+      size: 1226
+      sha256: 94fd69cd9ab86e3dc6d17ea80da69c0601cf8f2750e46e1d8e0868d97fdf3a3d
+    - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
+      state: FILE
+      size: 244968
+      sha256: b16da59f269fe9c39cfc9239ee0da0983f3d16d32f310900209a1259b21ef5cd
+    - path: docs/03-continuity/change-requests/CR-0471-递增R14替换TEST_APK身份并交付举报目录最终包.md
+      state: FILE
+      size: 3850
+      sha256: a0d89b2ddab879e0cbd325685dc2aa8998c9e085d26ade65a71868c5ddd34a44
+    - path: docs/03-continuity/change-requests/CR-0472-补齐CR-0471替换APK精确下载路由作用域.md
+      state: FILE
+      size: 3315
+      sha256: c2ad806e4c873b42732fd3dc200c0243f9f96eedd7e821d1f90c74923013c439
+    - path: docs/03-continuity/change-requests/CR-0473-补齐CR-0471替换交付历史归档作用域.md
+      state: FILE
+      size: 2878
+      sha256: 340ce98a9022884c2cba0cc5041a1a44a41243ef8d2283d86696946de8a82cd4
+    - path: infra/nginx/r14-apk-location.inc
+      state: FILE
+      size: 287
+      sha256: 5c8b2a1e1cc0ab47d2242660d778284a096673ef12968df1e5abb6655f2d4555
+    - path: releases/R14/RELEASE_MANIFEST.yaml
+      state: FILE
+      size: 8019
+      sha256: 6c41059c963e626a9921b87301d0e2bb2c19b4693b4d37e8823a8ab6632754ca
+    - path: tests/test_android_apk_delivery.py
+      state: FILE
+      size: 30235
+      sha256: b296c0b3a9bee988bd4d0e0c7fe8e42cb2a2b856ad5eab8a2df7c24094da787e
+change_classification:
+  other:
+  - CHANGELOG.md
+  - artifacts/apk/R14/APK_MANIFEST.yaml
+  - artifacts/apk/R14/history/ca57666/APK_MANIFEST.yaml
+  code:
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+  - apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+  user_visible:
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+  - apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+  continuity:
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/change-requests/CR-0471-递增R14替换TEST_APK身份并交付举报目录最终包.md
+  - docs/03-continuity/change-requests/CR-0472-补齐CR-0471替换APK精确下载路由作用域.md
+  - docs/03-continuity/change-requests/CR-0473-补齐CR-0471替换交付历史归档作用域.md
+  infrastructure:
+  - infra/nginx/r14-apk-location.inc
+  source_of_truth:
+  - releases/R14/RELEASE_MANIFEST.yaml
+  tests:
+  - tests/test_android_apk_delivery.py
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+- APPROVED_CHANGE_REQUEST
+- CHANGELOG
+change_requests:
+- CR-0471
+- CR-0472
+- CR-0473
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions:
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+  - apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+  - artifacts/apk/R14/APK_MANIFEST.yaml
+  - artifacts/validation/r14-task007-android
+  - artifacts/validation/r14-apk-delivery/delivery-evidence.json
+  - artifacts/reports/R14/TASK-R14-007-android-apk.md
+  - artifacts/reports/R14/R14-version-test-guide.md
+  - releases/R14/RELEASE_MANIFEST.yaml
+  - infra/nginx/r14-apk-location.inc
+  - artifacts/apk/R14/history/ca57666/APK_MANIFEST.yaml
+  - artifacts/validation/r14-apk-delivery/history/ca57666/delivery-evidence.json
+  source: story+explicit+approved-cr:CR-0471+approved-cr:CR-0472+approved-cr:CR-0473
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: APK身份、四方交付事务、历史归档和最终连续性检查点共享同一Manifest/Evidence/Session事实源，必须由主控串行复核
+event_hash: 0e65dc03b4338360084029e9a83870db53ce87cddcadfd530a0ac45ac2232472

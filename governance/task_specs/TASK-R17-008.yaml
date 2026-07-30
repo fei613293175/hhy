@@ -1,0 +1,53 @@
+schema: hhy.task-spec/v5.0
+id: TASK-R17-008
+release: R17
+ordinal: 8
+title: 支付抽象与H5统一收银台版本关闭与机器关闭
+kind: release_close
+mode: worker
+source:
+  path: releases/R17/TASKS.yaml
+  original_id: TASK-R17-008
+requirements:
+- REQ-PAY-001
+- REQ-PAY-002
+- REQ-APK-001
+- REQ-LEDGER-001
+depends_on:
+- TASK-R17-007
+objective: 在 R17 冻结前完成全部会修改源码的集成修复，使发布级文档、接口、数据库、UI、资金、安全、秘密与生产门禁可在同一候选 Commit 上通过。
+deliverables:
+- 可冻结的产品代码与自动化测试
+- 发布级缺陷的实际修复与可复核证据
+- 不包含 Candidate、Owner 或正式发布状态写入的 Freeze-ready 候选改动
+acceptance:
+- 所有需要修改源码的审计均在冻结前完成
+- 独立 Freeze Gate 在候选 Commit 上全部通过
+- 通过后仅由 Orchestrator 将 Release 标记为 FREEZE_READY
+allowed_paths:
+- apps/**
+- artifacts/**
+- catalogs/**
+- config/**
+- contracts/**
+- database/**
+- design/**
+- docs/**
+- infra/**
+- packages/**
+- scripts/**
+- services/**
+- tests/**
+risks:
+- contract
+- database
+- funds
+- production
+- secrets
+- security
+acceptance_commands:
+- python3 scripts/check_db_schema.py
+- python3 scripts/check_api_contract.py
+maximum_attempts: 3
+owner_verification: ASYNC_NON_BLOCKING_FOR_NEXT_RELEASE
+legacy_status: BLOCKED

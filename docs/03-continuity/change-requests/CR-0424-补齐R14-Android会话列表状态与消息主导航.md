@@ -1,0 +1,110 @@
+---
+cr_id: CR-0424
+status: APPROVED
+requester_actor_id: codex-root-r14-client-20260728
+approver_actor_id: codex-r14-cr-review-20260728
+task_id: TASK-R14-004
+session_id: SES-20260727T221444Z-FD353AD3
+created_at: 2026-07-27T23:32:03Z
+updated_at: 2026-07-27T23:33:52Z
+---
+# CR-0424 — 补齐R14 Android会话列表状态与消息主导航
+
+## 用户需求摘要
+
+持续推进R14并严格按照开发文档和效果图实现所有前端页面
+
+## 原规则
+
+SCR-CHAT-001已冻结B07/P01视觉、六态和chatGetConversations合同，但Android没有会话列表页面、连接/同步状态机或可操作的消息底栏入口；CR-0423计划因证据不完整被拒绝且保持不可变
+
+## 新规则
+
+CR-0424唯一取代CR-0423。以B07/P01为SCR-CHAT-001唯一视觉权威并复用design/tokens/hhy_design_tokens_v1.2.2.json与HhyTokens，只保留标题、搜索、真实会话行、最后消息时间、真实unreadCount和底部MESSAGE层级；过滤示例用户、P05/P06、通知公告客服系统快捷区、虚构红点和未登记新增按钮。ContractR14Api严格解码ConversationResource与分页。列表实现CONNECTING、CONTENT、EMPTY、OFFLINE、SYNCING、ERROR及刷新/翻页局部失败；相同查询去重，关键词变化取消旧请求并以请求代际拒绝旧响应覆盖，网络瞬断最多指数退避2次。分页和同步按服务端返回顺序以conversationId去重，只更新同ID最新条目，不发明本地排序；乱序或重复增量不得制造重复行。新增类型安全Messages顶层路由并启用MESSAGE底栏，保存恢复HOME/MESSAGES/ME各栏状态；列表只用合法conversationId与真实peer进入既有ChatDetail，顶栏、系统和手势返回均回Messages来源栈并刷新。UI不得显示资源ID、version、lastReadMessageId、requestId或任意技术字段
+
+## 修改原因
+
+CR-0423独立审查拒绝且按协议不可改写；本后继计划补齐六态、搜索竞态、自动重试、400/404、Token与顶层导航恢复证据，并唯一取代CR-0423
+
+## 影响摘要
+
+扩展R14网络合同和chat模块会话列表状态与页面；App增加Messages顶层路由并连接ChatDetail；Shell只开放已实现的MESSAGE底栏并通过注入内容复用同一底栏，不引入R15通知公告消息中心；CR-0423保持REJECTED且不实施
+
+## 影响文件
+
+- `apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR14Api.kt`
+- `apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ContractR14ApiTest.kt`
+- `apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ConversationListState.kt`
+- `apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ConversationListScreen.kt`
+- `apps/android/feature/chat/src/test/java/cc/orbexa/hhy/chat/R14ConversationListStateTest.kt`
+- `apps/android/feature/chat/src/androidTest/java/cc/orbexa/hhy/chat/R14ConversationListScreenTest.kt`
+- `apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt`
+- `apps/android/feature/shell/src/test/java/cc/orbexa/hhy/shell/HhyShellScreenTest.kt`
+- `apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt`
+- `apps/android/app/src/test/java/cc/orbexa/hhy/NavigationPolicyTest.kt`
+- `apps/android/app/src/androidTest/java/cc/orbexa/hhy/AuthenticatedNavigationTest.kt`
+- `CHANGELOG.md`
+
+## 页面
+
+- `SCR-CHAT-001`
+
+## API
+
+- `chatGetConversations`
+
+## 数据库与迁移
+
+- 无直接影响（已在影响摘要说明）
+
+## 配置
+
+- 无直接影响（已在影响摘要说明）
+
+## 资金/账本与历史数据
+
+- 无直接影响（已在影响摘要说明）
+
+## 测试
+
+- `ConversationResource严格解码、GET搜索/分页参数与400/401/403/404/409/422/429/500错误信封；CONNECTING、CONTENT、EMPTY、OFFLINE、SYNCING、ERROR、刷新与翻页局部失败；相同查询去重、搜索取消旧请求、旧响应代际拒绝、瞬断最多重试2次；分页与乱序重复增量保持服务端顺序且conversationId唯一；真实昵称头像、最后消息、时间、真实未读和无技术字段；Messages底栏选中态、HOME/MESSAGES/ME状态保存恢复、列表到ChatDetail及顶栏/系统/手势同源返回Messages；Android UI基础、R14视觉目录、core-network、feature-chat、feature-shell与app单测、Compose测试、obx-test编译Lint`
+
+## 版本
+
+- `R14`
+
+## 迁移与兼容策略
+
+纯Android客户端增量；复用现有chat模块、共享Shell和ChatDetail；不修改OpenAPI、后端、数据库或配置，不提前实现R15通知与公告，不改变旧路由；CR-0424为CR-0423唯一后继事实
+
+## 用户确认
+
+项目所有者已明确授权持续推进开发且无需逐项批准
+
+## 审批
+
+- 审批人：`codex-r14-cr-review-20260728`
+- 决定：`APPROVED`
+- 时间：`2026-07-27T23:33:52Z`
+- 说明：独立计划复核通过：CR-0424作为已拒绝CR-0423的唯一后继，保持历史不可改写并完整补齐SCR-CHAT-001施工合同。B07/P01为唯一视觉权威，design/tokens/hhy_design_tokens_v1.2.2.json与HhyTokens提供硬参数；保留标题、搜索、真实会话行、最后消息时间、真实unreadCount和底部MESSAGE层级，仅过滤示例数据、虚构红点及R15的P05/P06、通知、公告、客服和系统快捷区。chatGetConversations严格解码ConversationResource与分页，六态、刷新/翻页局部失败、同查询去重、搜索取消与请求代际、最多2次指数退避、服务端顺序conversationId去重和乱序重复合并均有明确测试；400/401/403/404/409/422/429/500错误合同完整。Messages顶层路由覆盖底栏选中、HOME/MESSAGES/ME状态保存恢复、合法会话进入ChatDetail及顶栏/系统/手势同源返回Messages并刷新。批准按声明范围实现，最终截图与AI视觉PASS仍由后续R14候选门禁完成。
+
+## 状态记录 · 2026-07-27T23:34:02Z
+
+- Actor：`codex-root-r14-client-20260728`
+- Status：`IMPLEMENTING`
+- Session：`SES-20260727T221444Z-FD353AD3`
+- Note：独立复核通过并应用精确范围，开始实现R14会话列表与消息顶层导航
+
+## 状态记录 · 2026-07-28T00:11:38Z
+
+- Actor：`codex-root-r14-client-20260728`
+- Status：`IMPLEMENTED`
+- Session：`SES-20260727T221444Z-FD353AD3`
+- Note：R14真实会话列表、六态状态机、搜索竞态、分页去重、消息主导航及返回栈已实现；远程编译单测与chat/shell/app Lint、本地合同及UI静态门禁全部通过
+
+## 状态记录 · 2026-07-28T00:49:03Z
+
+- Actor：`codex-root-r14-client-20260728`
+- Status：`CLOSED`
+- Session：`SES-20260727T221444Z-FD353AD3`
+- Note：实现Commit已通过Android编译单测、chat/shell/app Lint、R14合同与UI静态门禁并推送，最终设备截图仍按R14候选阶段执行

@@ -12,7 +12,7 @@
 
 | DOCUMENT_GAP关闭 | IMPLEMENTATION_GATE | EXTERNAL_ACTIVATION | PRODUCTION_GOVERNANCE | 当前阻止正式开发 |
 | --- | --- | --- | --- | --- |
-| 7 | 4 | 8 | 1 | 0 |
+| 7 | 5 | 8 | 1 | 0 |
 
 ## 登记项
 
@@ -30,6 +30,7 @@
 | RISK-DNS-CERTIFICATE | EXTERNAL_ACTIVATION | OPEN_RECORDED | HIGH | orbexa.cc DNS写权限和生产证书激活待用户完成 | R03 | domain_owner | R03外部激活门禁 | R03 TASK-R03-007登记每个记录、责任人、TTL、证书指纹和验收状态 | DNS解析、TLS扫描和证书指纹证据 |
 | RISK-ANDROID-SIGNING | EXTERNAL_ACTIVATION | OPEN_RECORDED | CRITICAL | 生产Android签名密钥和受保护CI Profile待创建 | R29 | app_build_owner | 首个正式签名包前 | 由项目所有者/受保护CI生成和托管；只向系统暴露引用和证书指纹 | 签名指纹、受保护变量审计和安装验证 |
 | RISK-LOAD-CONCURRENCY | IMPLEMENTATION_GATE | OPEN_RECORDED | CRITICAL | 支付、红包、奖励、提现的真实并发/故障注入尚未执行 | R16/R19/R22/R32 | qa_owner | 对应高风险版本退出及上线前 | 按版本执行库存1并发、回调重放、MQ重复、Redis故障、账务重建和容量压测 | 压测报告、故障注入报告、零账务差异 |
+| BUG-R02-AUTH-CHALLENGE-ERROR-CLASSIFICATION | IMPLEMENTATION_GATE | CLOSED | HIGH | 客户端把验证码通过后的登录、注册和短信服务错误误判为验证码失败或网络失败 | R02/R03 | auth_owner | 2026-07-19 四段真机录像反馈 | 后端新增图形安全验证专用错误码；Android/H5仅对该错误码刷新验证码，其余失败按业务场景展示商业文案 | 后端、Android、H5专项测试与公网黑盒门禁通过 |
 | RISK-SECURITY-COMPLIANCE | PRODUCTION_GOVERNANCE | OPEN_RECORDED | CRITICAL | 渗透测试、隐私合规、财税和激励模式法律审查尚未完成 | R32 | security_owner | 生产发布候选前 | 上线前完成独立安全测试、隐私影响评估、协议审查和整改闭环 | 渗透报告、整改记录、合规/法务签字 |
 | RISK-MOCKITO-AGENT | TOOLCHAIN_OBSERVATION | MONITOR | LOW | Mockito/Byte Buddy 在新JDK上的动态Agent警告 | P00 | backend_owner | 升级JDK或测试框架时 | 在测试JVM显式配置Mockito agent或升级测试栈，JDK升级前清零警告 | 测试日志无动态自附加警告 |
 | DOC-GAP-PAGE-SPEC | DOCUMENT_GAP | CLOSED | BLOCKING_BEFORE_V1.2.2 | 页面字段、状态、动作、导航和错误恢复不够精确 | P00/R01-R32 | product_architecture_owner | 任何相关事实源变更 | 已由V1.2.2权威目录和逐页施工文档闭环 | scripts/check_v122_documentation.py 全部门禁通过 |

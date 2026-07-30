@@ -1,0 +1,264 @@
+#0 building with "default" instance using docker driver
+
+#1 [api internal] load build definition from Dockerfile
+#1 transferring dockerfile: 875B done
+#1 DONE 0.0s
+
+#2 [api] resolve image config for docker-image://docker.io/docker/dockerfile:1.7
+#2 DONE 1.4s
+
+#3 [api] docker-image://docker.io/docker/dockerfile:1.7@sha256:a57df69d0ea827fb7266491f2813635de6f17269be881f696fbfdf2d83dda33e
+#3 CACHED
+
+#4 [api internal] load metadata for docker.io/library/maven:3.9.11-eclipse-temurin-21-alpine
+#4 DONE 0.0s
+
+#5 [api internal] load metadata for docker.io/library/eclipse-temurin:21-jre-alpine
+#5 DONE 1.3s
+
+#6 [api internal] load .dockerignore
+#6 transferring context: 209B done
+#6 DONE 0.0s
+
+#7 [api build 1/4] FROM docker.io/library/maven:3.9.11-eclipse-temurin-21-alpine
+#7 DONE 0.0s
+
+#8 [api stage-1 1/4] FROM docker.io/library/eclipse-temurin:21-jre-alpine@sha256:3f08b13888f595cc49edabea7250ba69499ba25602b267da591720769400e08c
+#8 DONE 0.0s
+
+#9 [api internal] load build context
+#9 transferring context: 28.39kB 0.1s done
+#9 DONE 0.1s
+
+#10 [api build 2/4] WORKDIR /workspace
+#10 CACHED
+
+#11 [api build 3/4] COPY services/backend/ ./
+#11 DONE 0.2s
+
+#12 [api build 4/4] RUN --mount=type=cache,target=/root/.m2     mvn -B -ntp -DskipTests package
+#12 3.865 [INFO] Scanning for projects...
+#12 4.293 [INFO] ------------------------------------------------------------------------
+#12 4.293 [INFO] Reactor Build Order:
+#12 4.294 [INFO] 
+#12 4.295 [INFO] HHY Backend                                                        [pom]
+#12 4.295 [INFO] hhy-shared-kernel                                                  [jar]
+#12 4.295 [INFO] hhy-access                                                         [jar]
+#12 4.295 [INFO] hhy-content                                                        [jar]
+#12 4.295 [INFO] hhy-commerce                                                       [jar]
+#12 4.296 [INFO] hhy-incentive                                                      [jar]
+#12 4.296 [INFO] hhy-platform                                                       [jar]
+#12 4.296 [INFO] hhy-boot                                                           [jar]
+#12 4.311 [INFO] 
+#12 4.311 [INFO] ------------------< cc.orbexa.hhy:hhy-backend-parent >------------------
+#12 4.311 [INFO] Building HHY Backend 1.2.2-SNAPSHOT                                [1/8]
+#12 4.311 [INFO]   from pom.xml
+#12 4.311 [INFO] --------------------------------[ pom ]---------------------------------
+#12 4.314 [INFO] 
+#12 4.314 [INFO] ------------------< cc.orbexa.hhy:hhy-shared-kernel >-------------------
+#12 4.314 [INFO] Building hhy-shared-kernel 1.2.2-SNAPSHOT                          [2/8]
+#12 4.314 [INFO]   from shared-kernel/pom.xml
+#12 4.314 [INFO] --------------------------------[ jar ]---------------------------------
+#12 4.490 [INFO] 
+#12 4.490 [INFO] --- resources:3.3.1:resources (default-resources) @ hhy-shared-kernel ---
+#12 4.690 [INFO] skip non existing resourceDirectory /workspace/shared-kernel/src/main/resources
+#12 4.692 [INFO] 
+#12 4.692 [INFO] --- compiler:3.14.1:compile (default-compile) @ hhy-shared-kernel ---
+#12 4.967 [INFO] Recompiling the module because of changed source code.
+#12 4.993 [INFO] Compiling 6 source files with javac [debug parameters release 21] to target/classes
+#12 6.317 [INFO] 
+#12 6.317 [INFO] --- resources:3.3.1:testResources (default-testResources) @ hhy-shared-kernel ---
+#12 6.332 [INFO] skip non existing resourceDirectory /workspace/shared-kernel/src/test/resources
+#12 6.332 [INFO] 
+#12 6.332 [INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ hhy-shared-kernel ---
+#12 6.342 [INFO] No sources to compile
+#12 6.342 [INFO] 
+#12 6.342 [INFO] --- surefire:3.5.4:test (default-test) @ hhy-shared-kernel ---
+#12 6.543 [INFO] Tests are skipped.
+#12 6.547 [INFO] 
+#12 6.547 [INFO] --- jar:3.4.1:jar (default-jar) @ hhy-shared-kernel ---
+#12 6.960 [INFO] Building jar: /workspace/shared-kernel/target/hhy-shared-kernel-1.2.2-SNAPSHOT.jar
+#12 7.028 [INFO] 
+#12 7.029 [INFO] ----------------------< cc.orbexa.hhy:hhy-access >----------------------
+#12 7.029 [INFO] Building hhy-access 1.2.2-SNAPSHOT                                 [3/8]
+#12 7.029 [INFO]   from access/pom.xml
+#12 7.029 [INFO] --------------------------------[ jar ]---------------------------------
+#12 7.282 [INFO] 
+#12 7.282 [INFO] --- resources:3.3.1:resources (default-resources) @ hhy-access ---
+#12 7.286 [INFO] skip non existing resourceDirectory /workspace/access/src/main/resources
+#12 7.286 [INFO] 
+#12 7.286 [INFO] --- compiler:3.14.1:compile (default-compile) @ hhy-access ---
+#12 7.308 [INFO] Recompiling the module because of changed dependency.
+#12 7.308 [INFO] Compiling 16 source files with javac [debug parameters release 21] to target/classes
+#12 9.054 [INFO] 
+#12 9.054 [INFO] --- resources:3.3.1:testResources (default-testResources) @ hhy-access ---
+#12 9.055 [INFO] skip non existing resourceDirectory /workspace/access/src/test/resources
+#12 9.055 [INFO] 
+#12 9.055 [INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ hhy-access ---
+#12 9.062 [INFO] No sources to compile
+#12 9.062 [INFO] 
+#12 9.062 [INFO] --- surefire:3.5.4:test (default-test) @ hhy-access ---
+#12 9.066 [INFO] Tests are skipped.
+#12 9.066 [INFO] 
+#12 9.067 [INFO] --- jar:3.4.1:jar (default-jar) @ hhy-access ---
+#12 9.092 [INFO] Building jar: /workspace/access/target/hhy-access-1.2.2-SNAPSHOT.jar
+#12 9.133 [INFO] 
+#12 9.133 [INFO] ---------------------< cc.orbexa.hhy:hhy-content >----------------------
+#12 9.133 [INFO] Building hhy-content 1.2.2-SNAPSHOT                                [4/8]
+#12 9.133 [INFO]   from content/pom.xml
+#12 9.133 [INFO] --------------------------------[ jar ]---------------------------------
+#12 9.152 [INFO] 
+#12 9.152 [INFO] --- resources:3.3.1:resources (default-resources) @ hhy-content ---
+#12 9.155 [INFO] skip non existing resourceDirectory /workspace/content/src/main/resources
+#12 9.155 [INFO] 
+#12 9.155 [INFO] --- compiler:3.14.1:compile (default-compile) @ hhy-content ---
+#12 9.162 [INFO] Recompiling the module because of changed dependency.
+#12 9.163 [INFO] Compiling 2 source files with javac [debug parameters release 21] to target/classes
+#12 9.262 [INFO] 
+#12 9.262 [INFO] --- resources:3.3.1:testResources (default-testResources) @ hhy-content ---
+#12 9.272 [INFO] skip non existing resourceDirectory /workspace/content/src/test/resources
+#12 9.272 [INFO] 
+#12 9.272 [INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ hhy-content ---
+#12 9.280 [INFO] No sources to compile
+#12 9.280 [INFO] 
+#12 9.280 [INFO] --- surefire:3.5.4:test (default-test) @ hhy-content ---
+#12 9.284 [INFO] Tests are skipped.
+#12 9.284 [INFO] 
+#12 9.285 [INFO] --- jar:3.4.1:jar (default-jar) @ hhy-content ---
+#12 9.298 [INFO] Building jar: /workspace/content/target/hhy-content-1.2.2-SNAPSHOT.jar
+#12 9.326 [INFO] 
+#12 9.326 [INFO] ---------------------< cc.orbexa.hhy:hhy-commerce >---------------------
+#12 9.326 [INFO] Building hhy-commerce 1.2.2-SNAPSHOT                               [5/8]
+#12 9.326 [INFO]   from commerce/pom.xml
+#12 9.326 [INFO] --------------------------------[ jar ]---------------------------------
+#12 9.338 [INFO] 
+#12 9.338 [INFO] --- resources:3.3.1:resources (default-resources) @ hhy-commerce ---
+#12 9.339 [INFO] skip non existing resourceDirectory /workspace/commerce/src/main/resources
+#12 9.339 [INFO] 
+#12 9.339 [INFO] --- compiler:3.14.1:compile (default-compile) @ hhy-commerce ---
+#12 9.346 [INFO] Recompiling the module because of changed dependency.
+#12 9.349 [INFO] Compiling 2 source files with javac [debug parameters release 21] to target/classes
+#12 9.398 [INFO] 
+#12 9.398 [INFO] --- resources:3.3.1:testResources (default-testResources) @ hhy-commerce ---
+#12 9.404 [INFO] skip non existing resourceDirectory /workspace/commerce/src/test/resources
+#12 9.404 [INFO] 
+#12 9.404 [INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ hhy-commerce ---
+#12 9.404 [INFO] No sources to compile
+#12 9.404 [INFO] 
+#12 9.404 [INFO] --- surefire:3.5.4:test (default-test) @ hhy-commerce ---
+#12 9.409 [INFO] Tests are skipped.
+#12 9.409 [INFO] 
+#12 9.409 [INFO] --- jar:3.4.1:jar (default-jar) @ hhy-commerce ---
+#12 9.413 [INFO] Building jar: /workspace/commerce/target/hhy-commerce-1.2.2-SNAPSHOT.jar
+#12 9.431 [INFO] 
+#12 9.431 [INFO] --------------------< cc.orbexa.hhy:hhy-incentive >---------------------
+#12 9.431 [INFO] Building hhy-incentive 1.2.2-SNAPSHOT                              [6/8]
+#12 9.431 [INFO]   from incentive/pom.xml
+#12 9.431 [INFO] --------------------------------[ jar ]---------------------------------
+#12 9.437 [INFO] 
+#12 9.437 [INFO] --- resources:3.3.1:resources (default-resources) @ hhy-incentive ---
+#12 9.440 [INFO] skip non existing resourceDirectory /workspace/incentive/src/main/resources
+#12 9.440 [INFO] 
+#12 9.440 [INFO] --- compiler:3.14.1:compile (default-compile) @ hhy-incentive ---
+#12 9.442 [INFO] Recompiling the module because of changed dependency.
+#12 9.443 [INFO] Compiling 2 source files with javac [debug parameters release 21] to target/classes
+#12 9.479 [INFO] 
+#12 9.479 [INFO] --- resources:3.3.1:testResources (default-testResources) @ hhy-incentive ---
+#12 9.481 [INFO] skip non existing resourceDirectory /workspace/incentive/src/test/resources
+#12 9.481 [INFO] 
+#12 9.481 [INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ hhy-incentive ---
+#12 9.485 [INFO] No sources to compile
+#12 9.485 [INFO] 
+#12 9.485 [INFO] --- surefire:3.5.4:test (default-test) @ hhy-incentive ---
+#12 9.487 [INFO] Tests are skipped.
+#12 9.487 [INFO] 
+#12 9.487 [INFO] --- jar:3.4.1:jar (default-jar) @ hhy-incentive ---
+#12 9.492 [INFO] Building jar: /workspace/incentive/target/hhy-incentive-1.2.2-SNAPSHOT.jar
+#12 9.515 [INFO] 
+#12 9.515 [INFO] ---------------------< cc.orbexa.hhy:hhy-platform >---------------------
+#12 9.515 [INFO] Building hhy-platform 1.2.2-SNAPSHOT                               [7/8]
+#12 9.516 [INFO]   from platform/pom.xml
+#12 9.516 [INFO] --------------------------------[ jar ]---------------------------------
+#12 9.538 [INFO] 
+#12 9.538 [INFO] --- resources:3.3.1:resources (default-resources) @ hhy-platform ---
+#12 9.538 [INFO] skip non existing resourceDirectory /workspace/platform/src/main/resources
+#12 9.538 [INFO] 
+#12 9.538 [INFO] --- compiler:3.14.1:compile (default-compile) @ hhy-platform ---
+#12 9.544 [INFO] Recompiling the module because of changed dependency.
+#12 9.545 [INFO] Compiling 12 source files with javac [debug parameters release 21] to target/classes
+#12 9.762 [INFO] 
+#12 9.763 [INFO] --- resources:3.3.1:testResources (default-testResources) @ hhy-platform ---
+#12 9.765 [INFO] skip non existing resourceDirectory /workspace/platform/src/test/resources
+#12 9.765 [INFO] 
+#12 9.765 [INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ hhy-platform ---
+#12 9.769 [INFO] No sources to compile
+#12 9.769 [INFO] 
+#12 9.769 [INFO] --- surefire:3.5.4:test (default-test) @ hhy-platform ---
+#12 9.774 [INFO] Tests are skipped.
+#12 9.774 [INFO] 
+#12 9.774 [INFO] --- jar:3.4.1:jar (default-jar) @ hhy-platform ---
+#12 9.782 [INFO] Building jar: /workspace/platform/target/hhy-platform-1.2.2-SNAPSHOT.jar
+#12 9.809 [INFO] 
+#12 9.809 [INFO] -----------------------< cc.orbexa.hhy:hhy-boot >-----------------------
+#12 9.809 [INFO] Building hhy-boot 1.2.2-SNAPSHOT                                   [8/8]
+#12 9.809 [INFO]   from boot/pom.xml
+#12 9.809 [INFO] --------------------------------[ jar ]---------------------------------
+#12 10.06 [INFO] 
+#12 10.06 [INFO] --- resources:3.3.1:resources (default-resources) @ hhy-boot ---
+#12 10.08 [INFO] Copying 21 resources from src/main/resources to target/classes
+#12 10.10 [INFO] 
+#12 10.10 [INFO] --- compiler:3.14.1:compile (default-compile) @ hhy-boot ---
+#12 10.12 [INFO] Recompiling the module because of changed dependency.
+#12 10.12 [INFO] Compiling 8 source files with javac [debug parameters release 21] to target/classes
+#12 10.65 [INFO] 
+#12 10.65 [INFO] --- resources:3.3.1:testResources (default-testResources) @ hhy-boot ---
+#12 10.65 [INFO] Copying 4 resources from src/test/resources to target/test-classes
+#12 10.65 [INFO] 
+#12 10.65 [INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ hhy-boot ---
+#12 10.66 [INFO] Recompiling the module because of changed dependency.
+#12 10.66 [INFO] Compiling 20 source files with javac [debug parameters release 21] to target/test-classes
+#12 12.39 [INFO] 
+#12 12.39 [INFO] --- surefire:3.5.4:test (default-test) @ hhy-boot ---
+#12 12.39 [INFO] Tests are skipped.
+#12 12.39 [INFO] 
+#12 12.39 [INFO] --- jar:3.4.1:jar (default-jar) @ hhy-boot ---
+#12 12.40 [INFO] Building jar: /workspace/boot/target/hhy-backend.jar
+#12 12.45 [INFO] 
+#12 12.45 [INFO] --- spring-boot:4.1.0:repackage (default) @ hhy-boot ---
+#12 13.13 [INFO] Replacing main artifact /workspace/boot/target/hhy-backend.jar with repackaged archive, adding nested dependencies in BOOT-INF/.
+#12 13.13 [INFO] The original artifact has been renamed to /workspace/boot/target/hhy-backend.jar.original
+#12 13.13 [INFO] ------------------------------------------------------------------------
+#12 13.13 [INFO] Reactor Summary for HHY Backend 1.2.2-SNAPSHOT:
+#12 13.13 [INFO] 
+#12 13.13 [INFO] HHY Backend ........................................ SUCCESS [  0.003 s]
+#12 13.13 [INFO] hhy-shared-kernel .................................. SUCCESS [  2.715 s]
+#12 13.13 [INFO] hhy-access ......................................... SUCCESS [  2.104 s]
+#12 13.13 [INFO] hhy-content ........................................ SUCCESS [  0.193 s]
+#12 13.13 [INFO] hhy-commerce ....................................... SUCCESS [  0.102 s]
+#12 13.13 [INFO] hhy-incentive ...................................... SUCCESS [  0.088 s]
+#12 13.13 [INFO] hhy-platform ....................................... SUCCESS [  0.293 s]
+#12 13.13 [INFO] hhy-boot ........................................... SUCCESS [  3.318 s]
+#12 13.13 [INFO] ------------------------------------------------------------------------
+#12 13.13 [INFO] BUILD SUCCESS
+#12 13.13 [INFO] ------------------------------------------------------------------------
+#12 13.13 [INFO] Total time:  9.318 s
+#12 13.13 [INFO] Finished at: 2026-07-17T15:11:59Z
+#12 13.13 [INFO] ------------------------------------------------------------------------
+#12 DONE 13.6s
+
+#13 [api stage-1 2/4] RUN apk add --no-cache curl     && addgroup -S hhy     && adduser -S -G hhy -u 10001 hhy     && mkdir -p /var/lib/hhy/secrets/admin-mfa     && chown -R hhy:hhy /var/lib/hhy/secrets
+#13 CACHED
+
+#14 [api stage-1 3/4] WORKDIR /app
+#14 CACHED
+
+#15 [api stage-1 4/4] COPY --from=build --chown=hhy:hhy /workspace/boot/target/hhy-backend.jar /app/hhy-backend.jar
+#15 DONE 0.3s
+
+#16 [api] exporting to image
+#16 exporting layers
+#16 exporting layers 0.3s done
+#16 writing image sha256:94f510ac0beaf0a15ddfeae233e0a4bd99a33c4ac9d3a95282d40b4492e4a85d
+#16 writing image sha256:94f510ac0beaf0a15ddfeae233e0a4bd99a33c4ac9d3a95282d40b4492e4a85d done
+#16 naming to docker.io/library/hhy-backend-r01-smoke:72de42c 0.0s done
+#16 DONE 0.4s

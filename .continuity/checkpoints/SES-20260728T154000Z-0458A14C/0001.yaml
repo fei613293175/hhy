@@ -1,0 +1,185 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260728T154000Z-0458A14C-0001
+session_id: SES-20260728T154000Z-0458A14C
+task_id: TASK-R14-004
+story_id: STORY-R14-004
+sequence: 1
+created_at: '2026-07-28T15:53:54Z'
+summary: CR-0458已原子终止错误R16会话并恢复R14-004连续开发
+next_step: 处理R14-004剩余事实缺口并执行R14版本专属GitHub真实交互候选
+blockers: []
+decisions:
+- R16实现Commit与stash完整保留，R16-001起待完成R15后顺序重验
+- R14-004恢复为当前唯一IN_PROGRESS任务
+- Owner真机反馈异步，不阻断机器闭环后的顺序开发
+note: R14未完成且R15未开发时错误进入R16；事务退回R14并保留R16实现证据
+tests:
+- name: sequence recovery atomic rollback
+  result: PASS
+  evidence: tests/test_continuity_sequence_recovery.py
+  note: 全部写入阶段故障注入均字节级回滚
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: c47d19064bec57bd751f1cfa06a0fa7a75844790
+  upstream: origin/task/TASK-R03-001
+  ahead: 3
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/ACTIVE_SESSION.yaml'
+  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/SESSION_INDEX.yaml'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/TASK_CLAIMS.yaml'
+  - ' M .continuity/TASK_TRANSITIONS.yaml'
+  - ' M .continuity/change_requests/CR-0455.yaml'
+  - ' M .continuity/change_requests/CR-0456.yaml'
+  - ' M .continuity/sessions/SES-20260728T125934Z-F3DED330.yaml'
+  - ' M CURRENT_STATUS.yaml'
+  - ' M NEXT_TASK.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+  - ' M catalogs/change_request_index.csv'
+  - ' M catalogs/session_index.csv'
+  - ' M catalogs/task_transition_ledger.csv'
+  - ' M docs/03-continuity/change-requests/CR-0455-替代CR-0454封死全部跨版本续接旁路.md'
+  - ' M docs/03-continuity/change-requests/CR-0456-补齐CR-0455发布产物准入门禁范围.md'
+  - ' M releases/R14/TASKS.yaml'
+  - ' M releases/R16/TASKS.yaml'
+  - ' M scripts/continuity.py'
+  - ?? .continuity/change_requests/CR-0457.yaml
+  - ?? .continuity/change_requests/CR-0458.yaml
+  - ?? .continuity/sessions/SES-20260728T154000Z-0458A14C.yaml
+  - ?? docs/03-continuity/change-requests/CR-0457-显式恢复错误跨序开发指针并保留R16实现.md
+  - ?? docs/03-continuity/change-requests/CR-0458-替代CR-0457原子恢复跨序状态并锁定R16代码证据.md
+  - ?? docs/03-continuity/sessions/2026-07/SES-20260728T154000Z-0458A14C.md
+  - ?? tests/test_continuity_sequence_recovery.py
+  recent_commits:
+  - "c47d19064bec57bd751f1cfa06a0fa7a75844790\t2026-07-28T23:27:16+08:00\tHHY Continuity Bootstrap\t[STORY-R16-002] fix(continuity): enforce sequential\
+    \ major release machine closure"
+  - "2f50639b779f0db63b2a47fe936c7046096efb35\t2026-07-28T22:46:25+08:00\tHHY Continuity Bootstrap\t[STORY-R16-002] docs(r14): record frozen implementation\
+    \ state"
+  - "0bf4c9a8a933394a92fce0d14e62a1317f3a23f6\t2026-07-28T22:44:36+08:00\tHHY Continuity Bootstrap\t[STORY-R16-002] fix(r14): close chat interaction\
+    \ defects and require major-release journey"
+  - "4b0a58e635232d1e4c084e4cc274b52ebdf9d5b0\t2026-07-28T21:16:36+08:00\tHHY Continuity Bootstrap\t[STORY-R16-002] chore(r16): start android\
+    \ order detail story"
+  - "2d9f0c9ca4eb4d37140a7d5126e990a97c569cc2\t2026-07-28T21:14:45+08:00\tHHY Continuity Bootstrap\t[STORY-R16-001] chore(r16): close admin order\
+    \ change"
+  - "ea65f7013ab87223087be4389ffae0a7accc5949\t2026-07-28T21:13:16+08:00\tHHY Continuity Bootstrap\t[STORY-R16-001] feat(r16): implement admin\
+    \ order workspace"
+  - "28c875d42b5bde36f2286b7cd22ff451c28b3d69\t2026-07-28T21:00:28+08:00\tHHY Continuity Bootstrap\t[STORY-R16-001] chore(r16): start admin order\
+    \ experience"
+  - "517654949a3cd79c345deaed6387e52fe13fec56\t2026-07-28T20:58:10+08:00\tHHY Continuity Bootstrap\t[STORY-R16-001] chore(continuity): close TASK-R16-003\
+    \ as completed"
+project_fingerprint:
+  sha256: 2fff2393a0a773cca0f5e9529a013ef4efb307efb8ae0d68dae6bf243319d877
+  files:
+  - docs/03-continuity/change-requests/CR-0455-替代CR-0454封死全部跨版本续接旁路.md
+  - docs/03-continuity/change-requests/CR-0456-补齐CR-0455发布产物准入门禁范围.md
+  - docs/03-continuity/change-requests/CR-0457-显式恢复错误跨序开发指针并保留R16实现.md
+  - docs/03-continuity/change-requests/CR-0458-替代CR-0457原子恢复跨序状态并锁定R16代码证据.md
+  - releases/R14/TASKS.yaml
+  - releases/R16/TASKS.yaml
+  - scripts/continuity.py
+  - tests/test_continuity_sequence_recovery.py
+  file_count: 8
+  payload:
+    base_commit: c47d19064bec57bd751f1cfa06a0fa7a75844790
+    files:
+    - path: docs/03-continuity/change-requests/CR-0455-替代CR-0454封死全部跨版本续接旁路.md
+      state: FILE
+      size: 6076
+      sha256: 776dab9dd34c801638b12e9d6428122762d4fec8596087d3a7e26258c6f86319
+    - path: docs/03-continuity/change-requests/CR-0456-补齐CR-0455发布产物准入门禁范围.md
+      state: FILE
+      size: 3888
+      sha256: 8245f76eb399d92bb26b29c79886334bbea3382e7ff89753218e3ea3da5d4814
+    - path: docs/03-continuity/change-requests/CR-0457-显式恢复错误跨序开发指针并保留R16实现.md
+      state: FILE
+      size: 5580
+      sha256: a9f3428176a1ed645743b3a97695bcb1912ec4780eeca93da0304e58f57da826
+    - path: docs/03-continuity/change-requests/CR-0458-替代CR-0457原子恢复跨序状态并锁定R16代码证据.md
+      state: FILE
+      size: 6997
+      sha256: 69c955938a2fb3cc702c2ee673c0e6b2a9ebb4055e8824b2b4bc51063c0abaea
+    - path: releases/R14/TASKS.yaml
+      state: FILE
+      size: 6205
+      sha256: 3c22aabda13f389c3b7b63b9d462ea7721fae78e166d8f878cf6ced8173ea69c
+    - path: releases/R16/TASKS.yaml
+      state: FILE
+      size: 6655
+      sha256: 0922c81195cca71991a7333a74c67c8401b64d868f5b52f409ea608c35975095
+    - path: scripts/continuity.py
+      state: FILE
+      size: 121905
+      sha256: 0df599a7fad22c6efb593955a45fdd27e423d96d0ddf57c7f83d10c10124c264
+    - path: tests/test_continuity_sequence_recovery.py
+      state: FILE
+      size: 7153
+      sha256: b3b8a5fd200a400dec49e0d7d76122b3428dd3dd780d90b5ceb9da98d3a8fde1
+change_classification:
+  continuity:
+  - docs/03-continuity/change-requests/CR-0455-替代CR-0454封死全部跨版本续接旁路.md
+  - docs/03-continuity/change-requests/CR-0456-补齐CR-0455发布产物准入门禁范围.md
+  - docs/03-continuity/change-requests/CR-0457-显式恢复错误跨序开发指针并保留R16实现.md
+  - docs/03-continuity/change-requests/CR-0458-替代CR-0457原子恢复跨序状态并锁定R16代码证据.md
+  other:
+  - releases/R14/TASKS.yaml
+  - releases/R16/TASKS.yaml
+  code:
+  - scripts/continuity.py
+  tests:
+  - tests/test_continuity_sequence_recovery.py
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+change_requests:
+- CR-0458
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions: []
+  source: story+explicit
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 跨版本状态恢复与事件链迁移必须由唯一主控串行完成
+event_hash: 2fd9db678125608271f98b85ec4115146d7e75707dc84da24bc552e05a853079

@@ -1,0 +1,132 @@
+{
+  "schema": "hhy.r14-candidate-failure-evidence/v1",
+  "release": "R14",
+  "attempt": 18,
+  "github_run_id": "30507176811",
+  "head_commit": "19c0209e9851b6ad3ef451d783180ba28588a652",
+  "candidate_request_id": "R14-CANDIDATE-20260730-018",
+  "attempt_exception_id": "CR-0504",
+  "required_fix_commit": "d2d803831ae0def0902b2aff6362c39f68c8286f",
+  "runtime_artifact": {
+    "name": "android-runtime-30507176811",
+    "downloaded_zip_sha256": "b6a8ca4d32a43560608ab3a9eeef5ff1b6d4abbb037ab36a9e839d9bfc7106f7",
+    "runtime_report_sha256": "739a32d04567a57845f3940b44c0154508068a4eb0143a017292578fdade1678",
+    "runtime_status": "FAIL",
+    "owner_test_allowed": false
+  },
+  "successful_stages": [
+    "candidate request validation",
+    "Android compile",
+    "Android unit tests",
+    "Android lint",
+    "APK packaging",
+    "candidate backend routing",
+    "GitHub OIDC bootstrap",
+    "automatic session redemption",
+    "authenticated user and home load",
+    "conversation list load and keyword search",
+    "message history load and read acknowledgement",
+    "message send with sent-not-read state",
+    "block and blocked reentry with composer hidden",
+    "unblock with composer restored",
+    "conversation list long press and delete",
+    "four required screenshots",
+    "target process crash and ANR scan"
+  ],
+  "server_http_evidence": [
+    {
+      "operation": "POST /internal-ci/v1/android/session",
+      "status": 200,
+      "latency_ms": 140,
+      "request_id": "4ac69f5d-5baf-43e3-b5e6-cdddba7eff56",
+      "timestamp": "2026-07-30T02:11:55.228519245Z"
+    },
+    {
+      "operation": "GET /api/v1/me",
+      "status": 200,
+      "latency_ms": 32,
+      "request_id": "8c711ec2-39ba-40e2-ad21-4a8b9c937bce",
+      "timestamp": "2026-07-30T02:11:58.451711034Z"
+    },
+    {
+      "operation": "GET /api/v1/conversations/{id}/messages",
+      "status": 200,
+      "latency_ms": 93,
+      "request_id": "4f1eefe7-d173-4684-894f-fab0d4efbe4d",
+      "timestamp": "2026-07-30T02:12:04.445573062Z"
+    },
+    {
+      "operation": "POST /api/v1/conversations/{id}/messages",
+      "status": 200,
+      "latency_ms": 90,
+      "request_id": "4fa4ea3f-a03e-409f-b6f4-726c65a7e942",
+      "timestamp": "2026-07-30T02:12:05.587811537Z"
+    },
+    {
+      "operation": "POST /api/v1/users/{id}/block",
+      "status": 200,
+      "latency_ms": 41,
+      "request_id": "68761505-b2eb-45cd-aaf1-12428e067947",
+      "timestamp": "2026-07-30T02:12:14.087100558Z"
+    },
+    {
+      "operation": "DELETE /api/v1/users/{id}/block",
+      "status": 200,
+      "latency_ms": 56,
+      "request_id": "af2a18e3-a729-4c85-9e0c-eb01888591ba",
+      "timestamp": "2026-07-30T02:12:21.745960919Z"
+    },
+    {
+      "operation": "DELETE /api/v1/conversations/{id}",
+      "status": 200,
+      "latency_ms": 37,
+      "request_id": "0b9b5325-4c54-4888-9426-3125cd2c7378",
+      "timestamp": "2026-07-30T02:12:28.963302057Z"
+    }
+  ],
+  "screenshot_review": {
+    "status": "AI_REVIEWED_ACCEPTABLE_BUT_NOT_PROMOTED",
+    "screens": [
+      {
+        "file": "01-r14-conversations.png",
+        "sha256": "efc784c3cab591ff4205ff269fe37063c1e5cb7ab1d1b1c240984c2161d10e7f",
+        "finding": "统一消息标题、搜索框、会话业务值、未读数与底部导航清晰，无状态栏重叠。"
+      },
+      {
+        "file": "02-r14-sent.png",
+        "sha256": "3f741824f864f489b07efd1a5a822afc0580dcfa55c433a2785cfc3867ec926f",
+        "finding": "聊天顶栏与状态栏分离，发送消息显示已发送而非已读，输入区和键盘无遮挡。"
+      },
+      {
+        "file": "03-r14-blocked-reentry.png",
+        "sha256": "6eb1a8519a100ac9057df97bdb8055ebaa2d6ca6542782c79362e4375285764a",
+        "finding": "拉黑重进后输入区消失，操作菜单正确显示解除拉黑，底部面板层级清晰。"
+      },
+      {
+        "file": "04-r14-long-press-menu.png",
+        "sha256": "c97f5d21e152db9f6e2a8cd2ead67ed28c9c29dee016511ea5f8b08e9c708b45",
+        "finding": "列表长按菜单正确提供红色删除会话和取消操作，业务对象与预览清晰。"
+      }
+    ],
+    "baseline_promotion_allowed": false,
+    "reason": "功能旅程仍有一项失败，必须先修复搜索状态前置并取得候选功能 PASS。"
+  },
+  "first_business_failure": {
+    "test": "ReleaseCandidateSmokeTest",
+    "source_line": 249,
+    "expected": "没有找到相关会话",
+    "actual": "暂无会话",
+    "message": "Failed to assert Text + EditableText = [没有找到相关会话]",
+    "screenshots_produced": [
+      "01-r14-conversations.png",
+      "02-r14-sent.png",
+      "03-r14-blocked-reentry.png",
+      "04-r14-long-press-menu.png"
+    ]
+  },
+  "diagnosis": "删除接口在37毫秒内返回HTTP 200，Compose会话行已消失，目标应用无崩溃或ANR。自动旅程首次搜索后进入详情页；返回列表时页面重新创建并按设计清空搜索词，但测试未重新输入搜索词，随后却按筛选空状态严格期待“没有找到相关会话”。页面实际显示未筛选空状态“暂无会话”是当前输入状态的正确表现，失败属于候选旅程前置状态缺失，不是产品删除或空状态实现失败。",
+  "required_fix": "从解除拉黑后的详情页返回列表后，先在r14.conversations.search的Compose节点重新输入真实联系人并再次核对唯一联系人，再执行长按删除；继续严格验证会话行消失以及筛选空状态“没有找到相关会话”，不得把期待值放宽为“暂无会话”或删除精确空状态断言。",
+  "fingerprint_round": 1,
+  "target_crash_or_anr": false,
+  "secrets_included": false
+}

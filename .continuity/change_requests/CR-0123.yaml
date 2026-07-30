@@ -1,0 +1,69 @@
+protocol_version: '1.0'
+cr_id: CR-0123
+title: 修复登录注册真实返回来源与反向转场并补齐实名结果状态
+status: IMPLEMENTED
+created_at: '2026-07-20T05:14:51Z'
+updated_at: '2026-07-20T05:48:33Z'
+requester_actor_id: codex-root
+approver_actor_id: project-owner
+task_id: TASK-R05-007
+session_id: SES-20260719T234639Z-1D7D7A00
+user_request: 项目所有者真机反馈：登录方式同级切换不应使用层级方向动画；从验证码登录进入注册或忘记密码后返回必须回验证码登录；详情返回动画必须反向；实名认证首页与资料页通过但活体前创建会话失败。
+reason: AuthScreen仍以单个route状态和统一forwardContent切页，返回写死PASSWORD，违反已冻结真实来源返回和转场规则；IdentityPresentation未把后端VERIFIED映射为成功。
+original_rule: 认证页使用单个AuthRoute状态和统一forwardContent，系统返回与页面返回固定跳PASSWORD；同级登录方式也被当作层级页面。实名成功状态仅识别COMPLETED。
+new_rule: 认证入口必须使用稳定Navigation Compose真实栈：PASSWORD/SMS只作为同级登录模式并使用无方向淡入淡出；REGISTER/RESET作为下级目的地，进入右到左、pop左到右；返回恢复进入前登录模式。实名结果同时识别后端VERIFIED为成功。静态门禁禁止AuthScreen重新使用route
+  mutableState或forwardContent。
+impact_summary: 重构认证导航与动效来源，补导航策略测试和静态回归门禁，修正实名成功状态映射，记录10210部分真机验收与线上identity配置缺失诊断。
+impact:
+  files:
+  - apps/android/feature/auth/src/main/java/cc/orbexa/hhy/auth/AuthScreen.kt
+  - apps/android/feature/auth/build.gradle.kts
+  - apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyMotion.kt
+  - apps/android/feature/identity/src/main/java/cc/orbexa/hhy/identity/IdentityPresentation.kt
+  - apps/android/feature/identity/src/test/java/cc/orbexa/hhy/identity/IdentityPresentationTest.kt
+  - apps/android/app/src/test/java/cc/orbexa/hhy/NavigationPolicyTest.kt
+  - scripts/check_android_ui_foundation.py
+  - tests/test_android_ui_foundation.py
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/PITFALLS.md
+  - CHANGELOG.md
+  - artifacts/validation/r05-owner-test-10210/feedback.json
+  - artifacts/reports/R05/R05-version-test-guide.md
+  pages:
+  - SCR-AUTH-001
+  - SCR-AUTH-002
+  - SCR-AUTH-003
+  - SCR-AUTH-004
+  - SCR-ID-004
+  apis: []
+  database: []
+  configuration:
+  - 认证导航真实返回栈与同级/层级Motion Token
+  ledger: []
+  tests:
+  - Auth导航来源、同级淡入淡出、pop反向、VERIFIED成功映射、Android UI静态门禁及真机回归
+  releases:
+  - R05
+  migration_and_compatibility: 不改变认证API、数据库或用户数据；保留现有表单与挑战流程，登录模式仅保存在界面状态；现有APK可通过单调递增测试版本覆盖安装。
+user_confirmation: 2026-07-20项目所有者明确描述登录方式切换、注册和忘记密码返回方向及来源错误，并要求持续开发。
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-20T05:15:18Z'
+  note: 依据项目所有者本轮明确真机反馈及此前授权后续问题自行决定并立即修复。
+machine_record: .continuity/change_requests/CR-0123.yaml
+document: docs/03-continuity/change-requests/CR-0123-修复登录注册真实返回来源与反向转场并补齐实名结果状态.md
+decision_log:
+- at: '2026-07-20T05:15:20Z'
+  actor_id: codex-root
+  status: IMPLEMENTING
+  note: 开始将AuthScreen迁移为真实Navigation Compose栈并补齐回归门禁。
+  session_id: SES-20260719T234639Z-1D7D7A00
+- at: '2026-07-20T05:48:33Z'
+  actor_id: codex-root
+  status: IMPLEMENTED
+  note: 认证同级切换、真实子栈、反向pop和来源登录模式恢复已由c53d32b实现、编译测试并推送。
+  session_id: SES-20260719T234639Z-1D7D7A00
+session_ids:
+- SES-20260719T234639Z-1D7D7A00
+implementation_commits:
+- c53d32b5b8121eba3f7934724195a4934bd961ee

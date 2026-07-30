@@ -1,0 +1,256 @@
+[INFO] Scanning for projects...
+[INFO] ------------------------------------------------------------------------
+[INFO] Reactor Build Order:
+[INFO] 
+[INFO] HHY Backend                                                        [pom]
+[INFO] hhy-shared-kernel                                                  [jar]
+[INFO] hhy-access                                                         [jar]
+[INFO] hhy-content                                                        [jar]
+[INFO] hhy-commerce                                                       [jar]
+[INFO] hhy-incentive                                                      [jar]
+[INFO] hhy-platform                                                       [jar]
+[INFO] hhy-boot                                                           [jar]
+[INFO] 
+[INFO] ------------------< cc.orbexa.hhy:hhy-backend-parent >------------------
+[INFO] Building HHY Backend 1.2.2-SNAPSHOT                                [1/8]
+[INFO]   from pom.xml
+[INFO] --------------------------------[ pom ]---------------------------------
+[INFO] 
+[INFO] ------------------< cc.orbexa.hhy:hhy-shared-kernel >-------------------
+[INFO] Building hhy-shared-kernel 1.2.2-SNAPSHOT                          [2/8]
+[INFO]   from shared-kernel/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ hhy-shared-kernel ---
+[INFO] skip non existing resourceDirectory /workspace/services/backend/shared-kernel/src/main/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ hhy-shared-kernel ---
+[INFO] Recompiling the module because of changed source code.
+[INFO] Compiling 6 source files with javac [debug parameters release 21] to target/classes
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ hhy-shared-kernel ---
+[INFO] skip non existing resourceDirectory /workspace/services/backend/shared-kernel/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ hhy-shared-kernel ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- surefire:3.5.4:test (default-test) @ hhy-shared-kernel ---
+[INFO] No tests to run.
+[INFO] 
+[INFO] ----------------------< cc.orbexa.hhy:hhy-access >----------------------
+[INFO] Building hhy-access 1.2.2-SNAPSHOT                                 [3/8]
+[INFO]   from access/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ hhy-access ---
+[INFO] skip non existing resourceDirectory /workspace/services/backend/access/src/main/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ hhy-access ---
+[INFO] Recompiling the module because of changed dependency.
+[INFO] Compiling 16 source files with javac [debug parameters release 21] to target/classes
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ hhy-access ---
+[INFO] skip non existing resourceDirectory /workspace/services/backend/access/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ hhy-access ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- surefire:3.5.4:test (default-test) @ hhy-access ---
+[INFO] No tests to run.
+[INFO] 
+[INFO] ---------------------< cc.orbexa.hhy:hhy-content >----------------------
+[INFO] Building hhy-content 1.2.2-SNAPSHOT                                [4/8]
+[INFO]   from content/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ hhy-content ---
+[INFO] skip non existing resourceDirectory /workspace/services/backend/content/src/main/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ hhy-content ---
+[INFO] Recompiling the module because of changed dependency.
+[INFO] Compiling 2 source files with javac [debug parameters release 21] to target/classes
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ hhy-content ---
+[INFO] skip non existing resourceDirectory /workspace/services/backend/content/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ hhy-content ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- surefire:3.5.4:test (default-test) @ hhy-content ---
+[INFO] No tests to run.
+[INFO] 
+[INFO] ---------------------< cc.orbexa.hhy:hhy-commerce >---------------------
+[INFO] Building hhy-commerce 1.2.2-SNAPSHOT                               [5/8]
+[INFO]   from commerce/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ hhy-commerce ---
+[INFO] skip non existing resourceDirectory /workspace/services/backend/commerce/src/main/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ hhy-commerce ---
+[INFO] Recompiling the module because of changed dependency.
+[INFO] Compiling 2 source files with javac [debug parameters release 21] to target/classes
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ hhy-commerce ---
+[INFO] skip non existing resourceDirectory /workspace/services/backend/commerce/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ hhy-commerce ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- surefire:3.5.4:test (default-test) @ hhy-commerce ---
+[INFO] No tests to run.
+[INFO] 
+[INFO] --------------------< cc.orbexa.hhy:hhy-incentive >---------------------
+[INFO] Building hhy-incentive 1.2.2-SNAPSHOT                              [6/8]
+[INFO]   from incentive/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ hhy-incentive ---
+[INFO] skip non existing resourceDirectory /workspace/services/backend/incentive/src/main/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ hhy-incentive ---
+[INFO] Recompiling the module because of changed dependency.
+[INFO] Compiling 2 source files with javac [debug parameters release 21] to target/classes
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ hhy-incentive ---
+[INFO] skip non existing resourceDirectory /workspace/services/backend/incentive/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ hhy-incentive ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- surefire:3.5.4:test (default-test) @ hhy-incentive ---
+[INFO] No tests to run.
+[INFO] 
+[INFO] ---------------------< cc.orbexa.hhy:hhy-platform >---------------------
+[INFO] Building hhy-platform 1.2.2-SNAPSHOT                               [7/8]
+[INFO]   from platform/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ hhy-platform ---
+[INFO] skip non existing resourceDirectory /workspace/services/backend/platform/src/main/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ hhy-platform ---
+[INFO] Recompiling the module because of changed dependency.
+[INFO] Compiling 12 source files with javac [debug parameters release 21] to target/classes
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ hhy-platform ---
+[INFO] skip non existing resourceDirectory /workspace/services/backend/platform/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ hhy-platform ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- surefire:3.5.4:test (default-test) @ hhy-platform ---
+[INFO] No tests to run.
+[INFO] 
+[INFO] -----------------------< cc.orbexa.hhy:hhy-boot >-----------------------
+[INFO] Building hhy-boot 1.2.2-SNAPSHOT                                   [8/8]
+[INFO]   from boot/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ hhy-boot ---
+[INFO] Copying 21 resources from src/main/resources to target/classes
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ hhy-boot ---
+[INFO] Recompiling the module because of changed dependency.
+[INFO] Compiling 8 source files with javac [debug parameters release 21] to target/classes
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ hhy-boot ---
+[INFO] Copying 4 resources from src/test/resources to target/test-classes
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ hhy-boot ---
+[INFO] Recompiling the module because of changed dependency.
+[INFO] Compiling 20 source files with javac [debug parameters release 21] to target/test-classes
+[INFO] 
+[INFO] --- surefire:3.5.4:test (default-test) @ hhy-boot ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running cc.orbexa.hhy.boot.observability.ObservabilityEndpointsTest
+14:52:12.427 [main] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [cc.orbexa.hhy.boot.observability.ObservabilityEndpointsTest]: ObservabilityEndpointsTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+14:52:12.671 [main] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration cc.orbexa.hhy.HhyApplication for test class cc.orbexa.hhy.boot.observability.ObservabilityEndpointsTest
+14:52:12.819 [main] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [cc.orbexa.hhy.boot.observability.ObservabilityEndpointsTest]: ObservabilityEndpointsTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+14:52:12.825 [main] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration cc.orbexa.hhy.HhyApplication for test class cc.orbexa.hhy.boot.observability.ObservabilityEndpointsTest
+{"@timestamp":"2026-07-17T14:52:13.670318519Z","@version":"1","message":"Starting ObservabilityEndpointsTest using Java 21.0.9 with PID 214 (started by root in /workspace/services/backend/boot)","logger_name":"cc.orbexa.hhy.boot.observability.ObservabilityEndpointsTest","thread_name":"main","level":"INFO","level_value":20000,"tags":["COMMONS-LOGGING"]}
+{"@timestamp":"2026-07-17T14:52:13.690336803Z","@version":"1","message":"The following 1 profile is active: \"test\"","logger_name":"cc.orbexa.hhy.boot.observability.ObservabilityEndpointsTest","thread_name":"main","level":"INFO","level_value":20000,"tags":["COMMONS-LOGGING"]}
+{"@timestamp":"2026-07-17T14:52:16.654333937Z","@version":"1","message":"HikariPool-1 - Starting...","logger_name":"com.zaxxer.hikari.HikariDataSource","thread_name":"main","level":"INFO","level_value":20000}
+{"@timestamp":"2026-07-17T14:52:16.957477506Z","@version":"1","message":"HikariPool-1 - Added connection conn0: url=jdbc:h2:mem:hhy user=SA","logger_name":"com.zaxxer.hikari.pool.HikariPool","thread_name":"main","level":"INFO","level_value":20000}
+{"@timestamp":"2026-07-17T14:52:16.96045357Z","@version":"1","message":"HikariPool-1 - Start completed.","logger_name":"com.zaxxer.hikari.HikariDataSource","thread_name":"main","level":"INFO","level_value":20000}
+{"@timestamp":"2026-07-17T14:52:19.405162919Z","@version":"1","message":"Exposing 3 endpoints beneath base path '/actuator'","logger_name":"org.springframework.boot.actuate.endpoint.web.EndpointLinksResolver","thread_name":"main","level":"INFO","level_value":20000,"tags":["COMMONS-LOGGING"]}
+{"@timestamp":"2026-07-17T14:52:19.879232307Z","@version":"1","message":"Initializing Spring TestDispatcherServlet ''","logger_name":"org.springframework.boot.test.mock.web.SpringBootMockServletContext","thread_name":"main","level":"INFO","level_value":20000,"tags":["COMMONS-LOGGING"]}
+{"@timestamp":"2026-07-17T14:52:19.879953165Z","@version":"1","message":"Initializing Servlet ''","logger_name":"org.springframework.test.web.servlet.TestDispatcherServlet","thread_name":"main","level":"INFO","level_value":20000,"tags":["COMMONS-LOGGING"]}
+{"@timestamp":"2026-07-17T14:52:19.888071418Z","@version":"1","message":"Completed initialization in 7 ms","logger_name":"org.springframework.test.web.servlet.TestDispatcherServlet","thread_name":"main","level":"INFO","level_value":20000,"tags":["COMMONS-LOGGING"]}
+{"@timestamp":"2026-07-17T14:52:20.199055408Z","@version":"1","message":"Started ObservabilityEndpointsTest in 7.27 seconds (process running for 9.82)","logger_name":"cc.orbexa.hhy.boot.observability.ObservabilityEndpointsTest","thread_name":"main","level":"INFO","level_value":20000,"tags":["COMMONS-LOGGING"]}
+Mockito is currently self-attaching to enable the inline-mock-maker. This will no longer work in future releases of the JDK. Please add Mockito as an agent to your build as described in Mockito's documentation: https://javadoc.io/doc/org.mockito/mockito-core/latest/org.mockito/org/mockito/Mockito.html#0.3
+WARNING: A Java agent has been loaded dynamically (/root/.m2/repository/net/bytebuddy/byte-buddy-agent/1.18.10/byte-buddy-agent-1.18.10.jar)
+WARNING: If a serviceability tool is in use, please run with -XX:+EnableDynamicAgentLoading to hide this warning
+WARNING: If a serviceability tool is not in use, please run with -Djdk.instrument.traceUsage for more information
+WARNING: Dynamic loading of agents will be disallowed by default in a future release
+{"@timestamp":"2026-07-17T14:52:22.269698157Z","@version":"1","message":"http_request_completed","logger_name":"cc.orbexa.hhy.boot.web.RequestIdFilter","thread_name":"main","level":"INFO","level_value":20000,"traceId":"0123456789abcdef0123456789abcdef","requestId":"request_observe_001","operation":"GET /public-api/v1/platform/status","status":200,"latency":238}
+{"@timestamp":"2026-07-17T14:52:22.395869463Z","@version":"1","message":"http_request_completed","logger_name":"cc.orbexa.hhy.boot.web.RequestIdFilter","thread_name":"main","level":"INFO","level_value":20000,"traceId":"abcdef0123456789abcdef0123456789","requestId":"request_reject_observe_001","operation":"GET UNMAPPED","status":401,"latency":10}
+{"@timestamp":"2026-07-17T14:52:22.473342118Z","@version":"1","message":"http_request_completed","logger_name":"cc.orbexa.hhy.boot.web.RequestIdFilter","thread_name":"main","level":"INFO","level_value":20000,"traceId":"1234567890abcdef1234567890abcdef","requestId":"request_missing_observe_001","operation":"GET /actuator/health/**","status":404,"latency":19}
+{"@timestamp":"2026-07-17T14:52:22.533046484Z","@version":"1","message":"http_request_completed","logger_name":"cc.orbexa.hhy.boot.web.RequestIdFilter","thread_name":"main","level":"INFO","level_value":20000,"traceId":"9ab1d5ce3e5b4b00975429e6d6e24447","requestId":"7d5a8212-0946-4b3c-92e3-425f5795e35a","operation":"GET /actuator/health","status":200,"latency":51}
+{"@timestamp":"2026-07-17T14:52:22.57406116Z","@version":"1","message":"business_metric_query_failed","logger_name":"cc.orbexa.hhy.boot.observability.BusinessGaugeBinder","thread_name":"main","level":"WARN","level_value":30000,"traceId":"832d07fa9c8b470aaf49d961496a424a","requestId":"35ef7c8b-dc08-4f30-83a9-dbcfeaa3a338","metric":"hhy.admin.active.sessions","errorType":"BadSqlGrammarException"}
+{"@timestamp":"2026-07-17T14:52:22.671155217Z","@version":"1","message":"business_metric_query_failed","logger_name":"cc.orbexa.hhy.boot.observability.BusinessGaugeBinder","thread_name":"main","level":"WARN","level_value":30000,"traceId":"832d07fa9c8b470aaf49d961496a424a","requestId":"35ef7c8b-dc08-4f30-83a9-dbcfeaa3a338","metric":"hhy.admin.auth.failures.5m","errorType":"BadSqlGrammarException"}
+{"@timestamp":"2026-07-17T14:52:22.682386107Z","@version":"1","message":"business_metric_query_failed","logger_name":"cc.orbexa.hhy.boot.observability.BusinessGaugeBinder","thread_name":"main","level":"WARN","level_value":30000,"traceId":"832d07fa9c8b470aaf49d961496a424a","requestId":"35ef7c8b-dc08-4f30-83a9-dbcfeaa3a338","metric":"hhy.admin.mfa.active.methods","errorType":"BadSqlGrammarException"}
+{"@timestamp":"2026-07-17T14:52:22.69666435Z","@version":"1","message":"business_metric_query_failed","logger_name":"cc.orbexa.hhy.boot.observability.BusinessGaugeBinder","thread_name":"main","level":"WARN","level_value":30000,"traceId":"832d07fa9c8b470aaf49d961496a424a","requestId":"35ef7c8b-dc08-4f30-83a9-dbcfeaa3a338","metric":"hhy.admin.idempotency.incomplete.snapshots","errorType":"BadSqlGrammarException"}
+{"@timestamp":"2026-07-17T14:52:22.800755957Z","@version":"1","message":"http_request_completed","logger_name":"cc.orbexa.hhy.boot.web.RequestIdFilter","thread_name":"main","level":"INFO","level_value":20000,"traceId":"832d07fa9c8b470aaf49d961496a424a","requestId":"35ef7c8b-dc08-4f30-83a9-dbcfeaa3a338","operation":"GET /actuator/prometheus","status":200,"latency":259}
+{"@timestamp":"2026-07-17T14:52:22.840831567Z","@version":"1","message":"http_request_completed","logger_name":"cc.orbexa.hhy.boot.web.RequestIdFilter","thread_name":"main","level":"INFO","level_value":20000,"traceId":"b7168c29ef1e4fe68a469fe49560db4f","requestId":"f4b6a99e-a6a2-4094-b55e-97cb17d68589","operation":"GET /actuator","status":200,"latency":16}
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 10.72 s -- in cc.orbexa.hhy.boot.observability.ObservabilityEndpointsTest
+[INFO] Running cc.orbexa.hhy.boot.observability.BusinessGaugeBinderTest
+{"@timestamp":"2026-07-17T14:52:22.917848983Z","@version":"1","message":"business_metric_query_failed","logger_name":"cc.orbexa.hhy.boot.observability.BusinessGaugeBinder","thread_name":"main","level":"WARN","level_value":30000,"metric":"hhy.outbox.backlog","errorType":"BadSqlGrammarException"}
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.065 s -- in cc.orbexa.hhy.boot.observability.BusinessGaugeBinderTest
+[INFO] Running cc.orbexa.hhy.access.admin.AdminSecurityWebSecurityTest
+{"@timestamp":"2026-07-17T14:52:22.93565587Z","@version":"1","message":"Could not detect default configuration classes for test class [cc.orbexa.hhy.access.admin.AdminSecurityWebSecurityTest]: AdminSecurityWebSecurityTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.","logger_name":"org.springframework.test.context.support.AnnotationConfigContextLoaderUtils","thread_name":"main","level":"INFO","level_value":20000,"tags":["COMMONS-LOGGING"]}
+{"@timestamp":"2026-07-17T14:52:22.991599704Z","@version":"1","message":"Found @SpringBootConfiguration cc.orbexa.hhy.HhyApplication for test class cc.orbexa.hhy.access.admin.AdminSecurityWebSecurityTest","logger_name":"org.springframework.boot.test.context.SpringBootTestContextBootstrapper","thread_name":"main","level":"INFO","level_value":20000,"tags":["COMMONS-LOGGING"]}
+{"@timestamp":"2026-07-17T14:52:22.996290926Z","@version":"1","message":"Could not detect default configuration classes for test class [cc.orbexa.hhy.access.admin.AdminSecurityWebSecurityTest]: AdminSecurityWebSecurityTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.","logger_name":"org.springframework.test.context.support.AnnotationConfigContextLoaderUtils","thread_name":"main","level":"INFO","level_value":20000,"tags":["COMMONS-LOGGING"]}
+{"@timestamp":"2026-07-17T14:52:23.003160568Z","@version":"1","message":"Found @SpringBootConfiguration cc.orbexa.hhy.HhyApplication for test class cc.orbexa.hhy.access.admin.AdminSecurityWebSecurityTest","logger_name":"org.springframework.boot.test.context.SpringBootTestContextBootstrapper","thread_name":"main","level":"INFO","level_value":20000,"tags":["COMMONS-LOGGING"]}
+{"@timestamp":"2026-07-17T14:52:23.08274587Z","@version":"1","message":"Starting AdminSecurityWebSecurityTest using Java 21.0.9 with PID 214 (started by root in /workspace/services/backend/boot)","logger_name":"cc.orbexa.hhy.access.admin.AdminSecurityWebSecurityTest","thread_name":"main","level":"INFO","level_value":20000,"tags":["COMMONS-LOGGING"]}
+{"@timestamp":"2026-07-17T14:52:23.083297919Z","@version":"1","message":"The following 1 profile is active: \"test\"","logger_name":"cc.orbexa.hhy.access.admin.AdminSecurityWebSecurityTest","thread_name":"main","level":"INFO","level_value":20000,"tags":["COMMONS-LOGGING"]}
+{"@timestamp":"2026-07-17T14:52:24.170877811Z","@version":"1","message":"HikariPool-2 - Starting...","logger_name":"com.zaxxer.hikari.HikariDataSource","thread_name":"main","level":"INFO","level_value":20000}
+{"@timestamp":"2026-07-17T14:52:24.185567859Z","@version":"1","message":"HikariPool-2 - Added connection conn30: url=jdbc:h2:mem:hhy-admin-security user=SA","logger_name":"com.zaxxer.hikari.pool.HikariPool","thread_name":"main","level":"INFO","level_value":20000}
+{"@timestamp":"2026-07-17T14:52:24.186271398Z","@version":"1","message":"HikariPool-2 - Start completed.","logger_name":"com.zaxxer.hikari.HikariDataSource","thread_name":"main","level":"INFO","level_value":20000}
+{"@timestamp":"2026-07-17T14:52:24.626000302Z","@version":"1","message":"Exposing 3 endpoints beneath base path '/actuator'","logger_name":"org.springframework.boot.actuate.endpoint.web.EndpointLinksResolver","thread_name":"main","level":"INFO","level_value":20000,"tags":["COMMONS-LOGGING"]}
+{"@timestamp":"2026-07-17T14:52:24.736957175Z","@version":"1","message":"Initializing Spring TestDispatcherServlet ''","logger_name":"org.springframework.boot.test.mock.web.SpringBootMockServletContext","thread_name":"main","level":"INFO","level_value":20000,"tags":["COMMONS-LOGGING"]}
+{"@timestamp":"2026-07-17T14:52:24.737490579Z","@version":"1","message":"Initializing Servlet ''","logger_name":"org.springframework.test.web.servlet.TestDispatcherServlet","thread_name":"main","level":"INFO","level_value":20000,"tags":["COMMONS-LOGGING"]}
+{"@timestamp":"2026-07-17T14:52:24.73979981Z","@version":"1","message":"Completed initialization in 2 ms","logger_name":"org.springframework.test.web.servlet.TestDispatcherServlet","thread_name":"main","level":"INFO","level_value":20000,"tags":["COMMONS-LOGGING"]}
+{"@timestamp":"2026-07-17T14:52:24.811291855Z","@version":"1","message":"Started AdminSecurityWebSecurityTest in 1.793 seconds (process running for 14.433)","logger_name":"cc.orbexa.hhy.access.admin.AdminSecurityWebSecurityTest","thread_name":"main","level":"INFO","level_value":20000,"tags":["COMMONS-LOGGING"]}
+{"@timestamp":"2026-07-17T14:52:24.898772346Z","@version":"1","message":"http_request_completed","logger_name":"cc.orbexa.hhy.boot.web.RequestIdFilter","thread_name":"main","level":"INFO","level_value":20000,"traceId":"858f490f54b84fd49d114701ff179ad5","requestId":"01daaa9a-0b86-46bf-bf3f-1b9f3cb298d3","operation":"GET /admin-api/v1/me/security","status":403,"latency":75}
+{"@timestamp":"2026-07-17T14:52:24.98166018Z","@version":"1","message":"http_request_completed","logger_name":"cc.orbexa.hhy.boot.web.RequestIdFilter","thread_name":"main","level":"INFO","level_value":20000,"traceId":"2c6653b2c0394682b532d8fc581941be","requestId":"977b2c42-ff3a-4fca-9281-e58bcb1ef8ae","operation":"POST /admin-api/v1/me/security/password/change","status":403,"latency":68}
+{"@timestamp":"2026-07-17T14:52:25.143594164Z","@version":"1","message":"http_request_completed","logger_name":"cc.orbexa.hhy.boot.web.RequestIdFilter","thread_name":"main","level":"INFO","level_value":20000,"traceId":"cb1038365aa44473a5619052ea7b5cec","requestId":"f502981d-f4a0-4f91-938e-b39b6b3e97e0","operation":"POST UNMAPPED","status":401,"latency":51}
+{"@timestamp":"2026-07-17T14:52:25.165874497Z","@version":"1","message":"http_request_completed","logger_name":"cc.orbexa.hhy.boot.web.RequestIdFilter","thread_name":"main","level":"INFO","level_value":20000,"traceId":"4453490d749348c9b235c108dbba4afd","requestId":"d72027d7-bffa-4d4f-881d-8ef8ae2c6fbb","operation":"POST /admin-api/v1/me/security/mfa/enroll","status":403,"latency":11}
+{"@timestamp":"2026-07-17T14:52:25.181738403Z","@version":"1","message":"http_request_completed","logger_name":"cc.orbexa.hhy.boot.web.RequestIdFilter","thread_name":"main","level":"INFO","level_value":20000,"traceId":"aa1f63f290fe427085f2d81577335caf","requestId":"request-unsupported-content-type","operation":"POST /admin-api/v1/auth/login","status":400,"latency":6}
+{"@timestamp":"2026-07-17T14:52:25.203974399Z","@version":"1","message":"http_request_completed","logger_name":"cc.orbexa.hhy.boot.web.RequestIdFilter","thread_name":"main","level":"INFO","level_value":20000,"traceId":"d30546c48f4941279998b78eeab6bc97","requestId":"request-missing-idempotency","operation":"POST /admin-api/v1/auth/login","status":400,"latency":13}
+{"@timestamp":"2026-07-17T14:52:25.224448392Z","@version":"1","message":"http_request_completed","logger_name":"cc.orbexa.hhy.boot.web.RequestIdFilter","thread_name":"main","level":"INFO","level_value":20000,"traceId":"3afe6d7bad3142eaa8b268547b57f84c","requestId":"request-anonymous-1","operation":"GET UNMAPPED","status":401,"latency":3}
+{"@timestamp":"2026-07-17T14:52:25.22954033Z","@version":"1","message":"http_request_completed","logger_name":"cc.orbexa.hhy.boot.web.RequestIdFilter","thread_name":"main","level":"INFO","level_value":20000,"traceId":"0eae8c4169bc4ac7ae5f0497bce2ef61","requestId":"099eb454-5162-4e9e-bed7-25b16d69635b","operation":"GET UNMAPPED","status":401,"latency":2}
+{"@timestamp":"2026-07-17T14:52:25.271595342Z","@version":"1","message":"http_request_completed","logger_name":"cc.orbexa.hhy.boot.web.RequestIdFilter","thread_name":"main","level":"INFO","level_value":20000,"traceId":"d09b6e92f922439fa98d9def2409d20b","requestId":"request-rate-limit-1","operation":"POST /admin-api/v1/auth/login","status":429,"latency":32}
+{"@timestamp":"2026-07-17T14:52:25.300546449Z","@version":"1","message":"http_request_completed","logger_name":"cc.orbexa.hhy.boot.web.RequestIdFilter","thread_name":"main","level":"INFO","level_value":20000,"traceId":"e3707b3b5fc547e3adeb69feff7258ca","requestId":"cc08d8c6-cd34-4733-8c37-7caf816756b0","operation":"POST /admin-api/v1/me/security/password/change","status":200,"latency":16}
+{"@timestamp":"2026-07-17T14:52:25.311076666Z","@version":"1","message":"http_request_completed","logger_name":"cc.orbexa.hhy.boot.web.RequestIdFilter","thread_name":"main","level":"INFO","level_value":20000,"traceId":"4259464b6ac34fbca2ed476e3b243ca1","requestId":"8cdf2b0e-62d3-4f61-8844-1d185f7c84e6","operation":"POST /admin-api/v1/auth/logout","status":200,"latency":8}
+{"@timestamp":"2026-07-17T14:52:25.32919676Z","@version":"1","message":"http_request_completed","logger_name":"cc.orbexa.hhy.boot.web.RequestIdFilter","thread_name":"main","level":"INFO","level_value":20000,"traceId":"2c1d41de651242169c55539c9a3d820f","requestId":"9d24a838-f296-4eba-a8eb-04cd23459e1e","operation":"GET UNMAPPED","status":401,"latency":3}
+{"@timestamp":"2026-07-17T14:52:25.333173396Z","@version":"1","message":"http_request_completed","logger_name":"cc.orbexa.hhy.boot.web.RequestIdFilter","thread_name":"main","level":"INFO","level_value":20000,"traceId":"94e18df3734c44dda050fbde30606354","requestId":"5b787078-3ee6-45c8-910c-0978a92264ba","operation":"POST UNMAPPED","status":401,"latency":2}
+{"@timestamp":"2026-07-17T14:52:25.339811354Z","@version":"1","message":"http_request_completed","logger_name":"cc.orbexa.hhy.boot.web.RequestIdFilter","thread_name":"main","level":"INFO","level_value":20000,"traceId":"7704f22521424883b43e6aa0e9064980","requestId":"1a5392c5-61af-4fe5-8dca-33974dc51ed6","operation":"POST UNMAPPED","status":401,"latency":5}
+{"@timestamp":"2026-07-17T14:52:25.350893467Z","@version":"1","message":"http_request_completed","logger_name":"cc.orbexa.hhy.boot.web.RequestIdFilter","thread_name":"main","level":"INFO","level_value":20000,"traceId":"57c8d1785a7e4771986fb0a33d31df69","requestId":"a9bed711-7f72-4238-aecc-4066f62bc5cb","operation":"GET /admin-api/v1/me/security","status":403,"latency":4}
+[INFO] Tests run: 12, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.445 s -- in cc.orbexa.hhy.access.admin.AdminSecurityWebSecurityTest
+[INFO] 
+[INFO] Results:
+[INFO] 
+[INFO] Tests run: 18, Failures: 0, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] ------------------------------------------------------------------------
+[INFO] Reactor Summary for HHY Backend 1.2.2-SNAPSHOT:
+[INFO] 
+[INFO] HHY Backend ........................................ SUCCESS [  0.004 s]
+[INFO] hhy-shared-kernel .................................. SUCCESS [ 11.901 s]
+[INFO] hhy-access ......................................... SUCCESS [ 31.369 s]
+[INFO] hhy-content ........................................ SUCCESS [  0.184 s]
+[INFO] hhy-commerce ....................................... SUCCESS [  0.077 s]
+[INFO] hhy-incentive ...................................... SUCCESS [  0.066 s]
+[INFO] hhy-platform ....................................... SUCCESS [  0.238 s]
+[INFO] hhy-boot ........................................... SUCCESS [ 44.188 s]
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  01:31 min
+[INFO] Finished at: 2026-07-17T14:52:25Z
+[INFO] ------------------------------------------------------------------------

@@ -1,0 +1,102 @@
+---
+cr_id: CR-0345
+status: APPROVED
+requester_actor_id: codex-root-r12-candidate-20260726
+approver_actor_id: codex-carson-r12-android-review-20260726
+task_id: TASK-R12-007
+session_id: SES-20260725T192048Z-668BD05D
+created_at: 2026-07-26T00:05:01Z
+updated_at: 2026-07-26T01:19:49Z
+---
+# CR-0345 — 修复R12候选OIDC启动前提交目标夹具未确定性重建
+
+## 用户需求摘要
+
+项目所有者要求自动门禁失败由AI自行修复并继续推进，不得因重复GitHub调试或本机环境停止
+
+## 原规则
+
+R12候选业务夹具只在服务器部署阶段人工执行一次；GitHub候选的OIDC bootstrap只发放一次性登录码，不携带Release也不在每个候选运行前恢复会被真实旅程消费的提交目标草稿。
+
+## 新规则
+
+GitHub候选OIDC bootstrap请求必须显式携带已校验Release；仅在CI automation已启用且Spring staging且非production、GitHub OIDC身份已验证后，CiAutomationService必须在同一事务内先调用Release专用夹具准备器再发放一次性登录码。R12准备器以专用CI用户和固定标题加事务锁确定性保证恰好一个DRAFT提交目标：回收非DRAFT旧目标、从已验证模板克隆完整项目详情/版本/统计/媒体；模板缺失、重复DRAFT、BANNED或子资源不完整必须整事务硬失败。非R12候选不得执行R12数据写入。
+
+## 修改原因
+
+R12 attempt 4数据库证据显示候选真实提交已把唯一目标草稿变为PENDING_REVIEW，而候选工作流下一轮只申请登录码、不重建业务夹具，导致R12 submit target draft is missing
+
+## 影响摘要
+
+消除R12候选真实提交消费唯一草稿后后续候选必然失败的编排缺口；不修改公开产品API、生产配置、数据库结构或普通用户数据，仍保留GitHub OIDC一次性认证与Staging隔离。
+
+## 影响文件
+
+- `.github/workflows/android-quality-gate.yml`
+- `services/backend/access/src/main/java/cc/orbexa/hhy/access/user/CiAutomationService.java`
+- `services/backend/access/src/main/java/cc/orbexa/hhy/access/user/CiAutomationFixtureStore.java`
+- `services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/CiAutomationController.java`
+- `services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/CiAutomationServiceTest.java`
+- `services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/CiAutomationFixtureStorePostgresTest.java`
+- `services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/CiAutomationControllerTest.java`
+- `tests/test_r12_candidate.py`
+- `docs/03-continuity/PROBLEM_REGISTRY.yaml`
+- `docs/08-testing/Android自动开发测试修复交付体系_V1.0.md`
+- `CHANGELOG.md`
+
+## 页面
+
+- 无直接影响（已在影响摘要说明）
+
+## API
+
+- `POST /internal-ci/v1/android/bootstrap (staging-only internal CI)`
+
+## 数据库与迁移
+
+- `R12专用Staging CI用户的content_posts/project_details/content_versions/content_stats/content_media/content_status_logs；无DDL`
+
+## 配置
+
+- `hhy.ci-automation.enabled + Spring staging + GitHub OIDC + release=R12`
+
+## 资金/账本与历史数据
+
+- 无直接影响（已在影响摘要说明）
+
+## 测试
+
+- `CiAutomationServiceTest; CiAutomationFixtureStorePostgresTest; CiAutomationControllerTest; tests/test_r12_candidate.py; obx-test module regression; repeat bootstrap fixture assertion`
+
+## 版本
+
+- `R12`
+
+## 迁移与兼容策略
+
+无数据库迁移；现有BootstrapRequest新增release字段，仓库候选工作流同步传入。既有非R12候选只进行Release校验并跳过R12专用准备；R12服务器镜像部署后首次启动仍要求既有模板存在，缺失时失败而不是伪造数据。回滚可恢复原service/controller/workflow，不影响业务表结构。
+
+## 用户确认
+
+项目所有者已明确要求自动门禁问题由AI自行修复并继续推进，终端静默执行，不因GitHub失败或真机未反馈停止。
+
+## 审批
+
+- 审批人：`codex-carson-r12-android-review-20260726`
+- 决定：`APPROVED`
+- 时间：`2026-07-26T01:19:49Z`
+- 说明：独立复核确认OIDC验证后、发码前的Staging事务夹具准备可直接修复缺失草稿根因；实施必须使用PostgreSQL跨实例事务锁，固定标题恰好一个DRAFT，归一化version0且不复制审核历史，完整性/并发/无效Release/非R12/OIDC失败/夹具回滚均有回归。CR-0345不授权重跑候选。
+
+## 状态记录 · 2026-07-26T02:34:15Z
+
+- Actor：`codex-root-r12-candidate-20260726`
+- Status：`IMPLEMENTING`
+- Session：`SES-20260725T192048Z-668BD05D`
+- Note：开始实现OIDC验证后同事务R12草稿准备、Release透传与完整负向回归
+
+## 状态记录 · 2026-07-26T02:56:53Z
+
+- Actor：`codex-root-r12-candidate-20260726`
+- Status：`IMPLEMENTED`
+- Session：`SES-20260725T192048Z-668BD05D`
+- Note：Release透传、OIDC后同事务R12草稿重建已实现；Java21九项、PostgreSQL17五项、Python二十九项与严格R12文档PASS，未重跑候选

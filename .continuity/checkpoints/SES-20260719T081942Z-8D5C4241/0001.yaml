@@ -1,0 +1,162 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260719T081942Z-8D5C4241-0001
+session_id: SES-20260719T081942Z-8D5C4241
+sequence: 1
+created_at: '2026-07-19T08:28:17Z'
+summary: CR-0083已批准并实施：R03集成、数据库、专项测试、APK真机验收已汇总，Manifest绑定660d148与R03标签，桌面测试说明已交付
+next_step: 提交R03关闭证据后关闭TASK-R03-008并把连续性指针推进至R04 TASK-R04-001
+blockers: []
+decisions:
+- 复用输入未变化的TASK-R03-005至007全绿原始证据，不重复执行耗时环境测试；发布关闭仅补齐可审计归档和终态指针
+note: ''
+tests:
+- name: v123-documentation
+  result: PASS
+  evidence: scripts/check_v123_documentation.py --strict
+  note: 0 errors 0 warnings
+- name: generated-assets
+  result: PASS
+  evidence: scripts/check_generated_assets.py
+  note: all generated assets verified
+- name: release-artifacts
+  result: PASS
+  evidence: scripts/check_release_artifacts.py --release R03
+  note: R03 artifact structure valid
+- name: release-close-precheck
+  result: PASS
+  evidence: scripts/check_release_artifacts.py --release R03 --close-gate
+  note: 仅剩TASK-R03-008关闭和R04指针推进的预期时序项
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: d492370ddccf7adcbe935be008dd9b5c70471832
+  upstream: origin/task/TASK-R03-001
+  ahead: 0
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/ACTIVE_SESSION.yaml'
+  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/SESSION_INDEX.yaml'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/TASK_CLAIMS.yaml'
+  - ' M .continuity/TASK_TRANSITIONS.yaml'
+  - ' M CURRENT_STATUS.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+  - ' M artifacts/reports/R03/TASK-R03-007-android-apk.md'
+  - ' M artifacts/validation/project-doctor-v1.2.3-documentation.json'
+  - ' M catalogs/change_request_index.csv'
+  - ' M catalogs/session_index.csv'
+  - ' M catalogs/task_transition_ledger.csv'
+  - ' M releases/R03/ACCEPTANCE_MATRIX.csv'
+  - ' M releases/R03/RELEASE_MANIFEST.yaml'
+  - ?? .continuity/change_requests/CR-0083.yaml
+  - ?? .continuity/sessions/SES-20260719T081942Z-8D5C4241.yaml
+  - ?? artifacts/reports/R03/R03-version-test-guide.md
+  - ?? artifacts/reports/R03/TASK-R03-005-integration.md
+  - ?? docs/03-continuity/change-requests/CR-0083-R03版本关闭元数据、验收证据与终态标签规范化.md
+  - ?? docs/03-continuity/sessions/2026-07/SES-20260719T081942Z-8D5C4241.md
+  recent_commits:
+  - "d492370ddccf7adcbe935be008dd9b5c70471832\t2026-07-19T16:18:31+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] chore(continuity): close TASK-R03-007\
+    \ as completed"
+  - "442b2ad431bec3e3250ca40a1ac7e9a2dc0a1ab7\t2026-07-19T16:16:05+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] chore(release): record R03\
+    \ owner acceptance"
+  - "6c7b8891af999e75610a03aeedfefc536faeb608\t2026-07-19T15:51:29+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] chore(continuity): refresh\
+    \ fast-path context"
+  - "8f3a3ab372515e7b49e61e5676517db07d8543f3\t2026-07-19T15:49:47+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] chore(governance): close fast-path\
+    \ CR"
+  - "6301eef63f7108b024d23446d8e396eaeab38471\t2026-07-19T15:48:04+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] feat(workflow): add fast path\
+    \ and atomic APK replacement"
+  - "429938d8765568fbb97c9e8f9062e67c4e310546\t2026-07-19T15:20:38+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] chore(release): deliver 10206\
+    \ registration scenario apk"
+  - "660d148d0743e796a9b77558bed68f046197519e\t2026-07-19T14:54:26+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] fix(auth): preserve registration\
+    \ error scenarios"
+  - "9890a50b504e3fea58d2561d0f9bfe80c35dac38\t2026-07-19T14:07:47+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] chore(governance): close proportionate\
+    \ workflow CR"
+project_fingerprint:
+  sha256: 09d30cc89122555a9d108a87a8a529e23bdaa102984f344dd54bdf29cd8cf99c
+  files:
+  - docs/03-continuity/change-requests/CR-0083-R03版本关闭元数据、验收证据与终态标签规范化.md
+  - releases/R03/ACCEPTANCE_MATRIX.csv
+  - releases/R03/RELEASE_MANIFEST.yaml
+  file_count: 3
+  payload:
+    base_commit: d492370ddccf7adcbe935be008dd9b5c70471832
+    files:
+    - path: docs/03-continuity/change-requests/CR-0083-R03版本关闭元数据、验收证据与终态标签规范化.md
+      state: FILE
+      size: 2751
+      sha256: cabd6077a5bde799208948af5208dd2952f42b098c3132c039b60a035abbb872
+    - path: releases/R03/ACCEPTANCE_MATRIX.csv
+      state: FILE
+      size: 834
+      sha256: 66ca017ee854b718933b65adfbc0ebcbe07e6aeed32f1abd80d9da6e3ae5a0b1
+    - path: releases/R03/RELEASE_MANIFEST.yaml
+      state: FILE
+      size: 4209
+      sha256: 1936d714a52eb77d71fbab2525eb1e7b57a8aa2446246a98d4c22ea0c0de83d6
+change_classification:
+  continuity:
+  - docs/03-continuity/change-requests/CR-0083-R03版本关闭元数据、验收证据与终态标签规范化.md
+  other:
+  - releases/R03/ACCEPTANCE_MATRIX.csv
+  source_of_truth:
+  - releases/R03/RELEASE_MANIFEST.yaml
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+- APPROVED_CHANGE_REQUEST
+change_requests:
+- CR-0083
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions:
+  - releases/R03/RELEASE_MANIFEST.yaml
+  - releases/R03/ACCEPTANCE_MATRIX.csv
+  - artifacts/reports/R03/TASK-R03-005-integration.md
+  - artifacts/reports/R03/TASK-R03-007-android-apk.md
+  - artifacts/reports/R03/R03-version-test-guide.md
+  source: story+explicit+approved-cr:CR-0083
+parallel_execution:
+  assessment: USER_SERIAL_OVERRIDE
+  delegated_workers: 0
+  workers: []
+  reason: 项目所有者要求立即连续推进；本阶段为同一组发布元数据的原子收尾，串行避免标签、Manifest和连续性指针竞态
+event_hash: 88b5e1a8325d8bb1de66d4dd8ab59286f34dfee58d61c480e5974ede96b65279

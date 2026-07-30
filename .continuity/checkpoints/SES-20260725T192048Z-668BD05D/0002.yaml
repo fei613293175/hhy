@@ -1,0 +1,238 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260725T192048Z-668BD05D-0002
+session_id: SES-20260725T192048Z-668BD05D
+task_id: TASK-R12-007
+story_id: STORY-R12-008
+sequence: 2
+created_at: '2026-07-25T20:25:13Z'
+summary: R12最终候选夹具、十页旅程、10221身份、云端Android MODULE与专用Staging候选路由均已完成并验证
+next_step: 提交并推送唯一R12 attempt 1，等待GitHub模拟器十页证据并由AI逐图审核
+blockers: []
+decisions: []
+note: ''
+tests:
+- name: r12-candidate-contract
+  result: PASS
+  evidence: 29 unittest tests
+  note: 候选、CI和请求合同全通过
+- name: android-ui-foundation
+  result: PASS
+  evidence: ANDROID_UI_FOUNDATION_GATE=PASS
+  note: 全历史页面基础门禁
+- name: ui-tokens
+  result: PASS
+  evidence: UI_TOKENS_OK 52
+  note: 冻结Token门禁
+- name: android-module
+  result: PASS
+  evidence: obx-test:/tmp/hhy-r12-candidate-8b20e881-wip1/android-module.log sha256=de658621658d884a35b23972726decde4b60b9fb732a5fada2c9acdcedbd342d
+  note: 593 tasks BUILD SUCCESSFUL
+- name: r12-fixture-idempotence
+  result: PASS
+  evidence: R12_CI_FIXTURE_IDEMPOTENCE=PASS
+  note: 连续双跑同一机器结果
+- name: r12-candidate-route
+  result: PASS
+  evidence: R12_ROUTE_PROVEN_BY_REQUEST_LOG=PASS
+  note: api.orbexa.cc精确落到R12候选
+- name: r12-candidate-media
+  result: PASS
+  evidence: HTTP200 image/png sha256=eb2138d67b8a23255240b5ce4ecc1cd758f2bbb8fe3586b874f7d7b32aea6709
+  note: 候选公共图片可用
+- name: git-diff-check
+  result: PASS
+  evidence: git diff --check
+  note: 无空白错误
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: 8b20e881c6a72fc1e1deb11e86f3212e36ea7941
+  upstream: origin/task/TASK-R03-001
+  ahead: 0
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/ACTIVE_SESSION.yaml'
+  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/SESSION_INDEX.yaml'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/TASK_CLAIMS.yaml'
+  - ' M .continuity/TASK_TRANSITIONS.yaml'
+  - ' M CHANGELOG.md'
+  - ' M CURRENT_STATUS.yaml'
+  - ' M apps/android/app/build.gradle.kts'
+  - ' M apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt'
+  - ' M apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt'
+  - ' M apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+  - ' M catalogs/change_request_index.csv'
+  - ' M catalogs/session_index.csv'
+  - ' M catalogs/task_transition_ledger.csv'
+  - ' M config/android-candidate-request.yaml'
+  - ' M tests/test_android_ci_gate.py'
+  - ?? .continuity/change_requests/CR-0339.yaml
+  - ?? .continuity/checkpoints/SES-20260725T192048Z-668BD05D/0001.yaml
+  - ?? .continuity/sessions/SES-20260725T192048Z-668BD05D.yaml
+  - ?? docs/03-continuity/change-requests/CR-0339-补齐R12统一发布Android最终候选与产物追溯.md
+  - ?? docs/03-continuity/sessions/2026-07/SES-20260725T192048Z-668BD05D.md
+  - ?? scripts/prepare_r12_ci_fixture.sh
+  - ?? tests/android/visual-manifests/R12.yaml
+  - ?? tests/test_r12_candidate.py
+  recent_commits:
+  - "8b20e881c6a72fc1e1deb11e86f3212e36ea7941\t2026-07-26T03:19:13+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] chore(continuity): close TASK-R12-006\
+    \ as completed"
+  - "17d6ee9acce9b46df63399a5bf3d4a944c8976b6\t2026-07-26T03:15:52+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] chore(r12): close staging\
+    \ acceptance changes"
+  - "6abb78314402cfd5811480742341d487a6139cdb\t2026-07-26T03:09:49+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] docs(r12): freeze staging\
+    \ acceptance evidence"
+  - "4365e1c790e3792812cfd62bb415e1075eb00149\t2026-07-26T02:54:07+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] fix(r12): validate Flyway\
+    \ V041 output"
+  - "3205187edfec06e5055312a228f4f51ca55db9c4\t2026-07-26T02:46:04+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] fix(r12): isolate staging\
+    \ subnet"
+  - "c4f2b8a2899130a81ea76ca8b5a87c016f56b28d\t2026-07-26T02:29:43+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] feat(r12): add publishing\
+    \ observability staging gate"
+  - "3c166a03e093ce344b147849188fabb38b79ffe9\t2026-07-26T02:04:31+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] chore(continuity): close TASK-R12-005\
+    \ as completed"
+  - "284917c042dbd77c815657a979aa9de06c1a8754\t2026-07-26T02:02:31+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] chore(continuity): close specialized\
+    \ test change"
+project_fingerprint:
+  sha256: 58d51806c5abe667080a64428bbba279d077a26c5c3530634152ff3fc1c69840
+  files:
+  - CHANGELOG.md
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+  - apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+  - apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+  - config/android-candidate-request.yaml
+  - docs/03-continuity/change-requests/CR-0339-补齐R12统一发布Android最终候选与产物追溯.md
+  - scripts/prepare_r12_ci_fixture.sh
+  - tests/android/visual-manifests/R12.yaml
+  - tests/test_android_ci_gate.py
+  - tests/test_r12_candidate.py
+  file_count: 11
+  payload:
+    base_commit: 8b20e881c6a72fc1e1deb11e86f3212e36ea7941
+    files:
+    - path: CHANGELOG.md
+      state: FILE
+      size: 142915
+      sha256: 8d763541d15e193c30c506ecf060c114988ca437ae9446bc7ce750cd449d6980
+    - path: apps/android/app/build.gradle.kts
+      state: FILE
+      size: 5357
+      sha256: 6eaea2a1f69e0acd22749b09f491eb40ec9e878e056d5cfa299da8a426286426
+    - path: apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+      state: FILE
+      size: 16015
+      sha256: c21763bfea24f1c0aa27a5d51c2de05acd0c04974633749e9b3bb21fdbbdac67
+    - path: apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+      state: FILE
+      size: 520
+      sha256: a1df9d94f5723f39de171fbbee51bd038641e3981697af4cea179156cf05414e
+    - path: apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+      state: FILE
+      size: 1243
+      sha256: ddf37d314b022daf3b33adcf549c7289e7b39f45aee95088c94303eaf3d9ce00
+    - path: config/android-candidate-request.yaml
+      state: FILE
+      size: 325
+      sha256: 8d6a75c52aae124e2a269e5a71833fb7bd99df5c7ad19d25148e0e4f75bb5d94
+    - path: docs/03-continuity/change-requests/CR-0339-补齐R12统一发布Android最终候选与产物追溯.md
+      state: FILE
+      size: 3675
+      sha256: fbcccbee6f0f67d3178e52e694d2e27ee7ae5e2c27881ba42c53d2aaca7a9e76
+    - path: scripts/prepare_r12_ci_fixture.sh
+      state: FILE
+      size: 20242
+      sha256: fc50545618f570af4e56fd0d97d99337705dd35291c110c392d042b05f32c676
+    - path: tests/android/visual-manifests/R12.yaml
+      state: FILE
+      size: 3460
+      sha256: d47a214545dc973e7bca32257b647ea558e53c515e04218d07d01c9c2e76ac1b
+    - path: tests/test_android_ci_gate.py
+      state: FILE
+      size: 33146
+      sha256: 53110cadb86540e5d59c5b012b86dfd0dd6b706bba7b61c219964878e271396b
+    - path: tests/test_r12_candidate.py
+      state: FILE
+      size: 7598
+      sha256: d1ec88a3837e7ec5c982da8918949bef142d92efeffd5a7bb18b4e36dc9e1b4a
+change_classification:
+  other:
+  - CHANGELOG.md
+  - config/android-candidate-request.yaml
+  code:
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+  - apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+  - apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+  - scripts/prepare_r12_ci_fixture.sh
+  user_visible:
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+  - apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+  - apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+  continuity:
+  - docs/03-continuity/change-requests/CR-0339-补齐R12统一发布Android最终候选与产物追溯.md
+  tests:
+  - tests/android/visual-manifests/R12.yaml
+  - tests/test_android_ci_gate.py
+  - tests/test_r12_candidate.py
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+- CHANGELOG
+change_requests:
+- CR-0339
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions: []
+  source: story+explicit
+parallel_execution:
+  assessment: DELEGATED
+  delegated_workers: 1
+  workers:
+  - worker_id: profile_contract_review
+    responsibility: 独立复核并批准CR-0339候选范围
+    allowed_paths:
+    - docs/03-continuity/change-requests/CR-0339-补齐R12统一发布Android最终候选与产物追溯.md
+    - .continuity/change_requests/CR-0339.yaml
+  reason: CR-0339已由独立审查代理批准；候选测试、数据库夹具、版本身份与唯一旅程高度耦合，由主控串行集成和云端复核
+event_hash: 1da119f3aa94a3d3265e5503776b857e83d7802fd7d8f07a1b051ecf10415135

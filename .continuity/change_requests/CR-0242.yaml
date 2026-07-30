@@ -1,0 +1,67 @@
+protocol_version: '1.0'
+cr_id: CR-0242
+title: 修正相近页面视觉误判并补齐历史首页与安全页精致度
+status: CLOSED
+created_at: '2026-07-22T14:27:39Z'
+updated_at: '2026-07-22T15:08:16Z'
+requester_actor_id: codex-root-r08-008
+approver_actor_id: codex-reviewer-owner-order-r08
+task_id: TASK-R08-008
+session_id: SES-20260722T093645Z-C7DB8EF0
+user_request: 项目所有者询问首页是否开发完成，并已明确所有历史及后续版本必须接近效果图丰富度和精致度、不得虚构功能或内容；开发持续推进且截图由AI独立判断。
+reason: Run 29927212504已完整产出25张无系统ANR截图，证明2%跨页面像素差阈值误报合法同骨架认证页面；AI复核同时确认SCR-HOME-001、SCR-AUTH-005、SCR-AUTH-006与SCR-SEARCH-001未达到现行视觉丰富度标准，需在不新增功能的前提下更新既有规格与生产UI后执行最后一次有界候选。
+original_rule: R08关闭候选同时把R02至R07历史Android页面纳入R08视觉清单，并用相邻页面变化像素比例至少0.02阻断疑似重复截图；TASK-R08-004把历史回补截图作为R08关闭前置。
+new_rule: 按项目所有者最新顺序，先用R08自身三个冻结页面、当前提交APK、既有基线和完整机器门禁关闭R08；随后立即开展P00/R01至R08全平台历史UI全局审计与返工。历史UI不得伪报已验收，相关状态保留IN_REVIEW。相邻截图继续零容忍相同SHA，非相同截图的变化像素下限校准为0.005，以兼容真实同品牌骨架页面且仍能拦截近乎完全重复截图。
+impact_summary: 解除历史页面视觉债对R08业务版本收尾的顺序耦合，保留独立后续全局UI整治；校准已由Run 29927212504证明误报的跨屏阈值，并把R08候选清单恢复为RELEASE_MANIFEST冻结的三个页面。
+impact:
+  files:
+  - config/android-automation.yaml
+  - tests/android/visual-manifests/R08.yaml
+  - tests/test_android_ci_gate.py
+  - tests/test_historical_android_visual_contract.py
+  - releases/R08/TASKS.yaml
+  - artifacts/reports/R08/TASK-R08-004-client.md
+  - catalogs/ui_visual_acceptance.csv
+  - config/android-candidate-request.yaml
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  pages:
+  - SCR-LIST-001;SCR-DETAIL-001;SCR-PUB-002;R02-R07历史页面
+  apis: []
+  database: []
+  configuration:
+  - android visual cross-screen threshold and R08 visual manifest scope
+  ledger:
+  - TASK-R08-004历史视觉验收状态与TASK-R08-008关闭证据
+  tests:
+  - Python Android CI gate regression; historical visual contract regression; R08 visual manifest contract; GitHub current-head final candidate;
+    release close gate
+  releases:
+  - R08
+  migration_and_compatibility: 不改变任何API、数据库、业务功能或生产数据；R08三个页面基线和旧候选证据继续有效。历史截图、失败运行和已做UI改进全部保留，R08关闭后按唯一视觉规则重新审计；不得因顺序调整把历史页面标为PASS。
+user_confirmation: OWNER_EXPLICIT_FIRST_CLOSE_R08_THEN_GLOBAL_UI
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-22T14:34:41Z'
+  note: 依据项目所有者最新明确指令先全面收尾R08再补全局UI；批准只调整执行顺序、R08候选范围和已证实误报阈值，不允许把历史UI债务伪报为完成。
+machine_record: .continuity/change_requests/CR-0242.yaml
+document: docs/03-continuity/change-requests/CR-0242-修正相近页面视觉误判并补齐历史首页与安全页精致度.md
+decision_log:
+- at: '2026-07-22T14:34:45Z'
+  actor_id: codex-root-r08-008
+  status: IMPLEMENTING
+  note: 开始恢复R08三页面候选范围、校准跨屏误判阈值并补回归；历史UI审计排在R08机器关闭后立即执行。
+  session_id: SES-20260722T093645Z-C7DB8EF0
+- at: '2026-07-22T14:40:44Z'
+  actor_id: codex-root-r08-008
+  status: IMPLEMENTED
+  note: R08清单已恢复三个冻结页面，跨屏阈值校准为0.005且相同SHA零容忍保留；24项Android候选回归、8项Release关闭回归、R08文档与视觉目录门禁均通过，Run 29927212504三页证据按新规则本地重算0失败。
+  session_id: SES-20260722T093645Z-C7DB8EF0
+- at: '2026-07-22T15:08:16Z'
+  actor_id: codex-root-r08-008
+  status: CLOSED
+  note: R08候选范围、视觉阈值及三页回归已提交推送并验证，关闭CR。
+  session_id: SES-20260722T093645Z-C7DB8EF0
+session_ids:
+- SES-20260722T093645Z-C7DB8EF0
+implementation_commits:
+- c5fc618a8a5177400e35de7b651b48c983af6716

@@ -1,0 +1,151 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+: "${DATABASE_URL:?DATABASE_URL is required}"
+: "${HHY_DB_SMOKE_CONFIRM:?Set HHY_DB_SMOKE_CONFIRM=YES for a disposable database}"
+[[ "${HHY_DB_SMOKE_CONFIRM}" == "YES" ]] || {
+  echo "Refusing destructive R05 database tests without HHY_DB_SMOKE_CONFIRM=YES" >&2
+  exit 2
+}
+command -v psql >/dev/null 2>&1 || { echo "psql is required" >&2; exit 2; }
+
+PSQL=(psql "${DATABASE_URL}" -X -v ON_ERROR_STOP=1)
+"${PSQL[@]}" -f "${ROOT}/database/tests/r05_identity_invariants.sql" >/dev/null
+echo "R05_IDENTITY_INVARIANTS PASS"
+
+"${PSQL[@]}" --single-transaction \
+  -f "${ROOT}/database/rollback/U028__r05_private_identity_evidence.sql" \
+  -f "${ROOT}/database/rollback/U027__r05_identity_consent.sql" \
+  -f "${ROOT}/database/rollback/U026__r05_identity_callback_consumption.sql" \
+  -f "${ROOT}/database/rollback/U025__r05_identity_provider_payload.sql" \
+  -f "${ROOT}/database/rollback/U024__r05_identity_api_storage.sql" \
+  -f "${ROOT}/database/rollback/U023__r05_identity_invariants.sql" >/dev/null
+remaining="$(${PSQL[@]} -qAt -c "
+  SELECT
+    (SELECT count(*) FROM pg_constraint
+      WHERE connamespace='hhy'::regnamespace AND conname LIKE '%r05_%'),
+    (SELECT count(*) FROM pg_indexes
+      WHERE schemaname='hhy' AND indexname LIKE '%r05%'),
+    (SELECT count(*) FROM pg_trigger
+      WHERE tgname='trg_r05_identity_review_immutable' AND NOT tgisinternal),
+    (SELECT count(*) FROM information_schema.columns
+      WHERE table_schema='hhy' AND (table_name,column_name) IN (
+        ('identity_profiles','verified_at'),('identity_profiles','frozen_at'),
+        ('identity_profiles','freeze_reason'),
+        ('identity_verification_sessions','idempotency_key'),
+        ('identity_verification_sessions','attempt_no'),
+        ('identity_verification_sessions','retry_of_session_id'),
+        ('identity_verification_sessions','last_event'),
+        ('identity_verification_sessions','completed_at'),
+        ('identity_verification_sessions','consent_version'),
+        ('identity_verification_sessions','failure_code'),
+        ('identity_verification_sessions','callback_consumed_at'),
+        ('identity_provider_requests','idempotency_key'),
+        ('identity_provider_requests','request_hash'),
+        ('identity_provider_requests','status'),
+        ('identity_provider_requests','attempt_no'),
+        ('identity_provider_requests','from_status'),
+        ('identity_provider_requests','to_status'),
+        ('identity_provider_requests','event'),
+        ('identity_provider_requests','error_code'),
+        ('identity_provider_requests','completed_at'),
+        ('identity_media','storage_scope'),('identity_media','purpose'),
+        ('identity_media','version'),
+        ('identity_review_records','from_status'),
+        ('identity_review_records','to_status'),('identity_review_records','event'),
+        ('identity_review_records','idempotency_key'),
+        ('identity_review_records','expected_version'),
+        ('sensitive_data_access_logs','operation'),
+        ('sensitive_data_access_logs','request_id'),
+        ('sensitive_data_access_logs','media_object_id')
+      ));")"
+[[ "${remaining}" == "0|0|0|0" ]] || {
+  echo "R05 rollback left constraints, indexes, triggers, or columns: ${remaining}" >&2
+  exit 1
+}
+consent_after_rollback="$(${PSQL[@]} -qAt -c "
+  SELECT count(*) FROM hhy.agreements WHERE code='IDENTITY_VERIFICATION';")"
+[[ "${consent_after_rollback}" == "0" ]] || {
+  echo "R05 identity consent seed remained after rollback" >&2
+  exit 1
+}
+echo "R05_U028_U027_U026_U025_U024_U023_ROLLBACK PASS"
+
+"${PSQL[@]}" --single-transaction \
+  -f "${ROOT}/database/migrations/V023__r05_identity_invariants.sql" >/dev/null
+"${PSQL[@]}" --single-transaction \
+  -f "${ROOT}/database/migrations/V024__r05_identity_api_storage.sql" >/dev/null
+"${PSQL[@]}" --single-transaction \
+  -f "${ROOT}/database/migrations/V025__r05_identity_provider_payload.sql" >/dev/null
+"${PSQL[@]}" --single-transaction \
+  -f "${ROOT}/database/migrations/V026__r05_identity_callback_consumption.sql" >/dev/null
+"${PSQL[@]}" --single-transaction \
+  -f "${ROOT}/database/migrations/V027__r05_identity_consent.sql" >/dev/null
+"${PSQL[@]}" --single-transaction \
+  -f "${ROOT}/database/migrations/V028__r05_private_identity_evidence.sql" >/dev/null
+reapplied="$(${PSQL[@]} -qAt -c "
+  SELECT
+    (SELECT count(*) FROM pg_constraint
+      WHERE connamespace='hhy'::regnamespace AND conname LIKE '%r05_%'),
+    (SELECT count(*) FROM pg_indexes
+      WHERE schemaname='hhy' AND indexname LIKE '%r05%'),
+    (SELECT count(*) FROM pg_trigger
+      WHERE tgname='trg_r05_identity_review_immutable' AND NOT tgisinternal),
+    (SELECT count(*) FROM information_schema.columns
+      WHERE table_schema='hhy' AND (table_name,column_name) IN (
+        ('identity_profiles','verified_at'),('identity_profiles','frozen_at'),
+        ('identity_profiles','freeze_reason'),
+        ('identity_verification_sessions','idempotency_key'),
+        ('identity_verification_sessions','attempt_no'),
+        ('identity_verification_sessions','retry_of_session_id'),
+        ('identity_verification_sessions','last_event'),
+        ('identity_verification_sessions','completed_at'),
+        ('identity_verification_sessions','consent_version'),
+        ('identity_verification_sessions','failure_code'),
+        ('identity_verification_sessions','callback_consumed_at'),
+        ('identity_provider_requests','idempotency_key'),
+        ('identity_provider_requests','request_hash'),
+        ('identity_provider_requests','status'),
+        ('identity_provider_requests','attempt_no'),
+        ('identity_provider_requests','from_status'),
+        ('identity_provider_requests','to_status'),
+        ('identity_provider_requests','event'),
+        ('identity_provider_requests','error_code'),
+        ('identity_provider_requests','completed_at'),
+        ('identity_media','storage_scope'),('identity_media','purpose'),
+        ('identity_media','version'),
+        ('identity_review_records','from_status'),
+        ('identity_review_records','to_status'),('identity_review_records','event'),
+        ('identity_review_records','idempotency_key'),
+        ('identity_review_records','expected_version'),
+        ('sensitive_data_access_logs','operation'),
+        ('sensitive_data_access_logs','request_id'),
+        ('sensitive_data_access_logs','media_object_id')
+      ));")"
+[[ "${reapplied}" == "32|14|1|31" ]] || {
+  echo "R05 reapply counts were unexpected: ${reapplied}" >&2
+  exit 1
+}
+"${PSQL[@]}" -f "${ROOT}/database/tests/r05_identity_invariants.sql" >/dev/null
+payload_type="$(${PSQL[@]} -qAt -c "
+  SELECT data_type FROM information_schema.columns
+  WHERE table_schema='hhy' AND table_name='identity_provider_requests'
+    AND column_name='response_cipher';")"
+[[ "${payload_type}" == "text" ]] || {
+  echo "R05 provider response ciphertext type was not restored: ${payload_type}" >&2
+  exit 1
+}
+consent_reapplied="$(${PSQL[@]} -qAt -c "
+  SELECT count(*)
+  FROM hhy.agreements agreement
+  JOIN hhy.agreement_versions version_row ON version_row.id=agreement.current_version_id
+  WHERE agreement.code='IDENTITY_VERIFICATION'
+    AND version_row.version=2026072001
+    AND version_row.effective_at<=clock_timestamp()
+    AND length(trim(version_row.content))>0;")"
+[[ "${consent_reapplied}" == "1" ]] || {
+  echo "R05 identity consent seed was not restored" >&2
+  exit 1
+}
+echo "R05_V023_V024_V025_V026_V027_V028_REAPPLY PASS constraints=32 indexes=14 trigger=1 columns=31 payload=text consent=1"

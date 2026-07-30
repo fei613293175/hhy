@@ -1,0 +1,61 @@
+protocol_version: '1.0'
+cr_id: CR-0052
+title: 同步连续性模板并重生成协议验证报告
+status: CLOSED
+created_at: '2026-07-18T20:18:52Z'
+updated_at: '2026-07-18T20:46:15Z'
+requester_actor_id: codex-root
+approver_actor_id: project-owner-delegated
+task_id: TASK-R03-007
+session_id: SES-20260718T200607Z-3569D212
+user_request: 继续推进开发的意思是不管这个问题，可以持续推进版本，如果R03完成可以继续做R04，以此类推
+reason: CR-0051修改连续性策略和脚本后严格门禁要求同步AGENTS导出模板并重生成集成与生命周期验证报告
+original_rule: AGENTS根入口与templates/AGENTS.md必须逐字一致；协议源文件变更后两份连续性验证报告必须记录最新源文件SHA-256。
+new_rule: 把根AGENTS.md现有外部门禁持续开发规则同步到导出模板，并用当前CR-0051协议实现重跑连续性自测与全生命周期测试，生成新报告和日志。
+impact_summary: 只同步连续性派生模板和验证证据，修复严格门禁漂移，不改变产品功能、API、数据库、版本依赖或验收状态。
+impact:
+  files:
+  - templates/AGENTS.md
+  - artifacts/validation/continuity-integration-v1.2.3.json
+  - artifacts/validation/continuity-integration-v1.2.3.log
+  - artifacts/validation/continuity-lifecycle-integration-v1.2.3.json
+  - artifacts/validation/continuity-lifecycle-integration-v1.2.3.log
+  pages: []
+  apis: []
+  database: []
+  configuration: []
+  ledger: []
+  tests:
+  - python scripts/run_continuity_self_test.py
+  - python scripts/test_continuity_protocol.py
+  - python scripts/check_v123_continuity.py --strict
+  releases:
+  - R03
+  migration_and_compatibility: 模板内容与根入口对齐；报告覆盖新旧启动、关闭、接管和拒绝路径；没有运行时迁移。
+user_confirmation: 继续推进开发的意思是不管这个问题，可以持续推进版本，如果R03完成可以继续做R04，以此类推
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-18T20:18:54Z'
+  note: 这是CR-0051严格门禁要求的派生模板和验证报告同步，批准执行
+machine_record: .continuity/change_requests/CR-0052.yaml
+document: docs/03-continuity/change-requests/CR-0052-同步连续性模板并重生成协议验证报告.md
+decision_log:
+- at: '2026-07-18T20:18:56Z'
+  actor_id: codex-root
+  status: IMPLEMENTING
+  note: 开始同步模板并重跑连续性协议集成与生命周期测试
+  session_id: SES-20260718T200607Z-3569D212
+- at: '2026-07-18T20:46:14Z'
+  actor_id: codex-root
+  status: IMPLEMENTED
+  note: 实现提交30a397bf已通过严格连续性、生命周期、设计回包与R03文档门禁并推送
+  session_id: SES-20260718T200607Z-3569D212
+- at: '2026-07-18T20:46:15Z'
+  actor_id: codex-root
+  status: CLOSED
+  note: 实现已推送至origin/task/TASK-R03-001，CR范围和追溯闭环完成
+  session_id: SES-20260718T200607Z-3569D212
+session_ids:
+- SES-20260718T200607Z-3569D212
+implementation_commits:
+- 30a397bf2f2dbffbde976cbb93f6f3b216eb16a4

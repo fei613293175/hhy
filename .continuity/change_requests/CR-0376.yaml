@@ -1,0 +1,55 @@
+protocol_version: '1.0'
+cr_id: CR-0376
+title: 冻结现场证据字节并禁用文本空白差异
+status: CLOSED
+created_at: '2026-07-26T19:01:49Z'
+updated_at: '2026-07-26T19:07:10Z'
+requester_actor_id: codex-root-r13-staging-20260727
+approver_actor_id: owner-standing-delegation-20260727
+task_id: TASK-R13-006
+session_id: SES-20260726T182231Z-EE79FA49
+user_request: 项目所有者批准持续开发并要求可复用经验写入仓库事实源，常规开发决策不再逐次确认。
+reason: 既有.gitattributes仅对artifacts/validation/**设置-text，能保留原始字节但仍按文本diff检查；Prometheus和HTTP原始协议证据含合法尾空格，新增文件会被git diff --check误拒绝，删除空格又会破坏远端本地SHA-256一致性。
+original_rule: artifacts/validation/**仅设置-text保留原始字节，Git仍对新增Prometheus/HTTP协议证据执行文本空白差异检查。
+new_rule: 在同一既有.gitattributes规则上追加-diff：现场验证证据继续逐字节冻结并参与SHA-256、Secret和Scope门禁，但不按源代码文本执行尾空格或行尾差异检查。
+impact_summary: 原位更新一条既有Git属性规则，解决原始协议证据与源码空白门禁冲突；不修改任何证据字节、业务代码、测试结果或运行时。
+impact:
+  files:
+  - .gitattributes
+  pages: []
+  apis: []
+  database: []
+  configuration: []
+  ledger: []
+  tests:
+  - git check-attr diff;git diff --cached --check;remote-local SHA256 verification
+  releases:
+  - R13
+  migration_and_compatibility: Git属性仅影响后续diff展示和diff --check；已跟踪及新增证据原始字节、SHA-256和跨机器复核保持不变。
+user_confirmation: 批准，以后不要让我批准了 你自己持续开发就行了
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-26T19:02:16Z'
+  note: 批准原位强化既有证据Git属性；只消除原始协议字节的文本空白误报，不削弱证据哈希、Secret、Scope或连续性门禁。
+machine_record: .continuity/change_requests/CR-0376.yaml
+document: docs/03-continuity/change-requests/CR-0376-冻结现场证据字节并禁用文本空白差异.md
+decision_log:
+- at: '2026-07-26T19:02:29Z'
+  actor_id: codex-root-r13-staging-20260727
+  status: IMPLEMENTING
+  note: 开始在既有artifacts/validation/**规则上追加-diff并复核原始证据SHA-256与暂存空白门禁。
+  session_id: SES-20260726T182231Z-EE79FA49
+- at: '2026-07-26T19:03:11Z'
+  actor_id: codex-root-r13-staging-20260727
+  status: IMPLEMENTED
+  note: 既有artifacts/validation/**属性已从-text原位强化为-text -diff；三个原始证据文件均显示diff unset，24项SHA-256仍逐项一致，暂存空白检查PASS。
+  session_id: SES-20260726T182231Z-EE79FA49
+- at: '2026-07-26T19:07:10Z'
+  actor_id: codex-root-r13-staging-20260727
+  status: CLOSED
+  note: 现场证据保留原始字节且禁用文本diff的既有规则强化已由Commit ab98e341归档，原始SHA-256未变化。
+  session_id: SES-20260726T182231Z-EE79FA49
+session_ids:
+- SES-20260726T182231Z-EE79FA49
+implementation_commits:
+- ab98e341

@@ -1,0 +1,1 @@
+R01_ADMIN_SECURITY_API_SMOKE PASS endpoints=8 envelope=PASS mfa=PASS totp_replay=BLOCKED concurrent_idempotency=PASS seven_post_snapshots=PASS revoked_bearer_replay=PASS digest_conflict=PASS replay_zero_side_effect=PASS rejected_idempotency_retry=PASS pg_pool_concurrency=20

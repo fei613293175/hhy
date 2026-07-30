@@ -1,0 +1,60 @@
+protocol_version: '1.0'
+cr_id: CR-0071
+title: 认证策略运行时边界与数据库冻结值对齐
+status: CLOSED
+created_at: '2026-07-19T03:34:07Z'
+updated_at: '2026-07-19T04:53:56Z'
+requester_actor_id: codex-root
+approver_actor_id: project-owner-delegated
+task_id: TASK-R03-007
+session_id: SES-20260718T200607Z-3569D212
+user_request: 项目所有者要求明确注册密码规则并评估验证码两分钟时效及后台配置。
+reason: 冻结规格和配置目录为密码8至20位，但V017种子错误写入72；TTL目录缺少300秒上限，运行时也未做范围闭锁。
+original_rule: 运行数据库密码最大长度为72且安全挑战TTL只校验正数；配置目录TTL上限为2592000秒。
+new_rule: 密码最大长度统一为冻结规格20；安全挑战TTL默认120秒且运行时和配置中心仅允许60至300秒，越界配置启动/调用闭锁。
+impact_summary: 新增向前迁移纠正已有配置值，运行时增加安全范围校验并补单元测试。
+impact:
+  files:
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthPolicy.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserAuthPolicyTest.java
+  - services/backend/boot/src/main/resources/db/migration/V020__r03_auth_registration_policy_alignment.sql
+  pages: []
+  apis: []
+  database:
+  - hhy.system_configs
+  configuration:
+  - auth.password.max_length
+  - auth.security_challenge.ttl_seconds
+  ledger: []
+  tests:
+  - UserAuthPolicyTest与P00 Flyway迁移门禁
+  releases:
+  - R03后端认证策略热修复
+  migration_and_compatibility: V020仅把仍为72的旧种子值纠正为20，不覆盖已人工设为冻结合法值的环境；120秒TTL无需迁移。
+user_confirmation: 用户要求明确密码规则并由开发自行决定验证码TTL和后台配置。
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-19T03:34:33Z'
+  note: 冻结规格必须优先于错误种子值，验证码TTL安全范围需要后端闭锁；迁移和默认值均向后兼容。
+machine_record: .continuity/change_requests/CR-0071.yaml
+document: docs/03-continuity/change-requests/CR-0071-认证策略运行时边界与数据库冻结值对齐.md
+decision_log:
+- at: '2026-07-19T03:34:34Z'
+  actor_id: codex-root
+  status: IMPLEMENTING
+  note: 实施V020配置纠正和TTL运行时边界校验。
+  session_id: SES-20260718T200607Z-3569D212
+- at: '2026-07-19T04:53:55Z'
+  actor_id: codex-root
+  status: IMPLEMENTED
+  note: 密码策略迁移及安全验证码TTL运行时范围已实现并通过V020线上验证
+  session_id: SES-20260718T200607Z-3569D212
+- at: '2026-07-19T04:53:56Z'
+  actor_id: codex-root
+  status: CLOSED
+  note: V020成功，数据库值20/120且公网新实例健康
+  session_id: SES-20260718T200607Z-3569D212
+session_ids:
+- SES-20260718T200607Z-3569D212
+implementation_commits:
+- e4994ed06131f3d3207c36c1b83f589ef2e58fe1

@@ -1,6 +1,6 @@
 release: R06
 title: 统一内容基础、首页与CMS
-status: READY_WHEN_DEPENDENCIES_GREEN
+status: MACHINE_COMPLETE_OWNER_PENDING
 milestone: M1_CONTENT_MARKETPLACE
 depends_on:
 - R02
@@ -21,17 +21,31 @@ ui:
   - ADM-CONTENT-003
 contracts:
   client_api:
-  - GET /api/v1/home
+    operation_ids:
+    - homeGetHome
+    paths:
+    - GET /api/v1/home
   admin_api:
-  - GET /admin-api/v1/contents
-  - GET /admin-api/v1/contents/{id}
-  - POST /admin-api/v1/contents/{id}/online
-  - POST /admin-api/v1/contents/{id}/offline
-  - POST /admin-api/v1/contents/{id}/ban
-  - POST /admin-api/v1/contents/{id}/recommend
-  - POST /admin-api/v1/contents/{id}/official-mark
-  - GET /admin-api/v1/content-dictionaries
-  - PUT /admin-api/v1/content-dictionaries/{code}
+    operation_ids:
+    - adminContentGetContents
+    - adminContentGetContentsById
+    - adminContentPostContentsByIdOnline
+    - adminContentPostContentsByIdOffline
+    - adminContentPostContentsByIdBan
+    - adminContentPostContentsByIdRecommend
+    - adminContentPostContentsByIdOfficialMark
+    - adminContentGetContentDictionaries
+    - adminContentPutContentDictionariesByCode
+    paths:
+    - GET /admin-api/v1/contents
+    - GET /admin-api/v1/contents/{id}
+    - POST /admin-api/v1/contents/{id}/online
+    - POST /admin-api/v1/contents/{id}/offline
+    - POST /admin-api/v1/contents/{id}/ban
+    - POST /admin-api/v1/contents/{id}/recommend
+    - POST /admin-api/v1/contents/{id}/official-mark
+    - GET /admin-api/v1/content-dictionaries
+    - PUT /admin-api/v1/content-dictionaries/{code}
   websocket: []
 database_tables:
 - home_modules
@@ -60,6 +74,60 @@ tests:
 - TST-HOME_001-IDEMPOTENT
 - TST-HOME_001-REJECT
 - TST-V122-017
+test_count: 7
+planning_depth: STORY_READY
+apk_gate: MACHINE_CANDIDATE_PASS_OWNER_FEEDBACK_ASYNC
+android_delivery:
+  source_commit: f5cf1e4b315221d7e5998dca6ea5110421c1e62b
+  apk_file: hhy-r06-f5cf1e4-debug.apk
+  version_name: 1.2.2-debug
+  version_code: 10214
+  sha256: 32e18bd454548c4a271c9199d5e2646615b0a2ab12aca271f039a737af43f3f7
+  machine_delivery: PASS
+  owner_physical_test: PENDING
+  evidence: artifacts/validation/r06-apk-delivery/delivery-evidence.json
+  test_guide: artifacts/reports/R06/R06-version-test-guide.md
+android_automation:
+  policy_id: HHY-ANDROID-AUTOMATION-V1
+  request_id: R06-20260721-008
+  github_run_id: '29803223373'
+  status: PASS
+  commit: f5cf1e4b315221d7e5998dca6ea5110421c1e62b
+  candidate_report: artifacts/validation/r06-task007-android/candidate-report.json
+  owner_test_allowed: true
+  owner_physical_test: PENDING
+  ai_visual_review: PASS
+  evidence: artifacts/validation/r06-task007-android/candidate-report.json
+machine_completion:
+  status: PASS
+  owner_feedback_mode: ASYNC_NON_BLOCKING
+  formal_release_acceptance: PENDING_OWNER_PHYSICAL_TEST
+  production_activation: BLOCKED_OWNER_PHYSICAL_TEST
+  next_release_development: ALLOWED
+  evidence: artifacts/reports/R06/TASK-R06-008-machine-close.md
+entry_baseline:
+  checked_at: '2026-07-20'
+  session_id: SES-20260720T155546Z-F13C645A
+  story_id: STORY-R06-005
+  documentation_status: PASS_DOCUMENTATION_READY
+  release_artifacts_status: PASS
+  implementation_start: ALLOWED
+  sequential_dependency:
+    release: R05
+    status: DONE
+    evidence:
+    - CURRENT_STATUS.yaml
+    - CHANGELOG.md
+    - docs/03-continuity/sessions/2026-07/SES-20260720T095830Z-752E5121.md
+    approved_change_request: CR-0145
+  historical_blockers:
+  - task_id: TASK-R02-007
+    status: BLOCKED
+    effect: NON_BLOCKING_FOR_R06_IMPLEMENTATION
+  - task_id: TASK-R03-007
+    status: HISTORICAL_STATUS_RECONCILIATION_REQUIRED
+    effect: NON_BLOCKING_FOR_R06_IMPLEMENTATION
+  rule: R06按TASK-R06-001至TASK-R06-008顺序实施；历史外部验收事实不得改写，且不允许绕过R06机器门禁和项目所有者真机验收。
 entry_gate:
 - releases/R06/DEFINITION_OF_READY.yaml 全部适用项为PASS
 - releases/R06/STORIES.yaml 中每个故事均绑定页面/API/配置/数据/测试或显式N/A

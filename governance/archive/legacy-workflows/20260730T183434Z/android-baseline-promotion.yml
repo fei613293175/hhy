@@ -1,0 +1,122 @@
+name: Android Visual Baseline Promotion
+
+on:
+  push:
+    paths:
+      - 'tests/android/visual-baselines/**/APPROVAL.yaml'
+      - 'tests/android/visual-baselines/**/*.png'
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: android-baseline-promotion-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  promote:
+    name: Verify captured evidence without rebuild or emulator rerun
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install --disable-pip-version-check pyyaml pillow
+      - id: approval
+        name: Resolve the single immutable baseline approval
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import os, subprocess, yaml
+
+          head_changed = subprocess.check_output(
+              ['git', '-c', 'core.quotepath=false', 'diff-tree', '--no-commit-id', '--name-only', '-r', 'HEAD'],
+              text=True,
+          ).splitlines()
+          approvals = [path for path in head_changed if path.endswith('/APPROVAL.yaml')]
+          if len(approvals) != 1:
+              raise SystemExit(f'exactly one baseline APPROVAL.yaml must change, got {approvals}')
+          approval_path = Path(approvals[0])
+          release = approval_path.parent.name.upper()
+          allowed_prefix = f'tests/android/visual-baselines/{release}/'
+          approval = yaml.safe_load(approval_path.read_text(encoding='utf-8')) or {}
+          source = approval.get('source') or {}
+          run_id = str(source.get('github_run_id') or '')
+          commit = str(source.get('commit') or '')
+          if approval.get('release') != release or not run_id.isdigit() or len(commit) != 40:
+              raise SystemExit('approval release, source run, or source commit is invalid')
+          subprocess.run(['git', 'merge-base', '--is-ancestor', commit, 'HEAD'], check=True)
+          changed = subprocess.check_output(
+              ['git', '-c', 'core.quotepath=false', 'diff', '--name-only', f'{commit}..HEAD'],
+              text=True,
+          ).splitlines()
+          exact_governance = {
+              '.github/workflows/android-baseline-promotion.yml',
+              'tests/test_android_ci_gate.py',
+              'CURRENT_STATUS.yaml',
+              'artifacts/validation/project-doctor-v1.2.3.json',
+              'artifacts/validation/continuity-integration-v1.2.3.json',
+              'artifacts/validation/continuity-lifecycle-integration-v1.2.3.json',
+              'artifacts/validation/continuity-lifecycle-integration-v1.2.3.log',
+              'catalogs/change_request_index.csv',
+              'catalogs/session_index.csv',
+              'docs/03-continuity/PROBLEM_REGISTRY.yaml',
+          }
+          governance_prefixes = (
+              '.continuity/',
+              'artifacts/context/CURRENT_CONTEXT_PACK',
+              'artifacts/validation/continuity-gate-',
+              'docs/03-continuity/change-requests/',
+              'docs/03-continuity/sessions/',
+          )
+          unexpected = [
+              path for path in changed
+              if not path.startswith(allowed_prefix)
+              and path not in exact_governance
+              and not path.startswith(governance_prefixes)
+          ]
+          if unexpected:
+              raise SystemExit(f'baseline promotion range contains product or unapproved files: {unexpected}')
+          with open(os.environ['GITHUB_OUTPUT'], 'a', encoding='utf-8') as output:
+              output.write(f'approval={approval_path.as_posix()}\n')
+              output.write(f'release={release}\n')
+              output.write(f'source_run_id={run_id}\n')
+              output.write(f'source_commit={commit}\n')
+          PY
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: hhy-${{ steps.approval.outputs.release }}-candidate-${{ steps.approval.outputs.source_run_id }}
+          path: source-candidate
+          merge-multiple: true
+          run-id: ${{ steps.approval.outputs.source_run_id }}
+          github-token: ${{ github.token }}
+      - name: Promote the exact captured APK and screenshots
+        shell: bash
+        run: |
+          apk="$(find source-candidate -maxdepth 2 -name '*.apk' ! -name '*androidTest*' -type f | head -n 1)"
+          test -n "$apk"
+          mkdir -p promotion-output
+          python scripts/android_ci_gate.py promote \
+            --approval "${{ steps.approval.outputs.approval }}" \
+            --source-run-id "${{ steps.approval.outputs.source_run_id }}" \
+            --run-id "$GITHUB_RUN_ID" \
+            --emulator-report source-candidate/runtime/runtime-report.json \
+            --candidate-report source-candidate/candidate-report.json \
+            --screenshots source-candidate/screenshots \
+            --apk "$apk" \
+            --output promotion-output/candidate-report.json
+          cp "$apk" "promotion-output/hhy-${{ steps.approval.outputs.release }}-${{ steps.approval.outputs.source_commit }}-candidate.apk"
+          cp -r source-candidate/screenshots promotion-output/screenshots
+          cp "${{ steps.approval.outputs.approval }}" promotion-output/APPROVAL.yaml
+      - uses: actions/upload-artifact@v4
+        with:
+          name: hhy-${{ steps.approval.outputs.release }}-promoted-${{ github.run_id }}
+          if-no-files-found: error
+          retention-days: 30
+          path: promotion-output

@@ -1,0 +1,126 @@
+{
+  "schema": "hhy.android-candidate-failure-evidence/v1",
+  "release": "R14",
+  "attempt": 5,
+  "request_id": "R14-CANDIDATE-20260729-005",
+  "github_run_id": "30419316745",
+  "github_run_url": "https://github.com/fei613293175/hhy/actions/runs/30419316745",
+  "emulator_job_id": "90473023242",
+  "source_commit": "f449b49a68ba11fcb790b2249f7fad5b0f7f6b8b",
+  "status": "FAIL",
+  "duration_seconds": 515,
+  "failed_stage": "R14_BLOCKED_STATE_AUTOMATION_VISIBILITY",
+  "failure": {
+    "instrumentation_exit_code": 1,
+    "assertion": "R14 block did not disable the composer",
+    "source": "ReleaseCandidateSmokeTest.kt:210",
+    "original_selector": "Until.hasObject(By.text(\"当前无法发送消息\"))",
+    "server_request": {
+      "operation": "POST /api/v1/users/{id}/block",
+      "status": 200,
+      "observed_at": "2026-07-29T03:28:21.440634211Z",
+      "request_id": "44390d90-6be4-423f-bd99-49ecf87d1030",
+      "latency_ms": 61
+    }
+  },
+  "successful_before_failure": [
+    "durable candidate request validation",
+    "continuity gate",
+    "Android compile",
+    "Android unit tests",
+    "Android Lint",
+    "Android application and instrumentation packaging",
+    "one-time Android CI session",
+    "authenticated shell startup",
+    "conversation list and keyword search",
+    "message send with SENT state and unread assertion",
+    "POST block request and database transaction"
+  ],
+  "database_evidence": {
+    "container": "hhy-r14-staging-postgres-1",
+    "database": "hhy_r14_smoke",
+    "user_block": {
+      "user_id": 1,
+      "blocked_user_id": 3,
+      "created_at": "2026-07-29T03:28:21.423936Z"
+    },
+    "idempotency": {
+      "scope": "r14.user-block:1:3",
+      "response_type": "r14.chat-command.v1",
+      "response_ref": "r14.chat-command.v1:ok"
+    }
+  },
+  "http_contract_replay": {
+    "candidate_container": "hhy-r14-ci-candidate-f449b49a",
+    "candidate_port": 28119,
+    "observed_at": "2026-07-29T16:25:38.877203392Z",
+    "http_status": 200,
+    "response": {
+      "success": true,
+      "requestId": "9fb5ce8d-fde2-4602-ae89-5f327b957fe4",
+      "timestamp": "2026-07-29T16:25:38.877203392Z",
+      "data": {
+        "resourceId": "3",
+        "businessNo": null,
+        "status": "BLOCKED",
+        "version": null,
+        "acceptedAt": "2026-07-29T16:25:38.868526145Z"
+      }
+    },
+    "temporary_session_remaining": 0,
+    "temporary_idempotency_remaining": 0,
+    "production_data_touched": false
+  },
+  "root_cause": {
+    "classification": "AUTOMATION_STATE_IDENTITY_GAP",
+    "detail": "The block command completed with HTTP 200, persisted user_blocks and completed its encrypted idempotency snapshot. The candidate nevertheless waited only for an exact rendered text node and the blocked surface exposed no stable resource identity. The network and Compose success paths also lacked full-envelope and real-click regression coverage, so the automation could not distinguish a selector visibility failure from a business callback failure.",
+    "backend_business_failed": false,
+    "database_transaction_failed": false,
+    "http_contract_failed": false,
+    "automatic_login_failed": false,
+    "network_unreachable": false,
+    "crash_or_anr_observed": false,
+    "composer_assertion_weakened": false
+  },
+  "artifacts": {
+    "count": 3,
+    "runtime": {
+      "artifact_id": 8711433391,
+      "name": "android-runtime-30419316745",
+      "size_bytes": 172561,
+      "sha256": "1b07010cff78b37111ad1e33568d282ab6559bd6d132f10adf187c0a9a5fa51e"
+    },
+    "build": {
+      "artifact_id": 8711357687,
+      "name": "android-build-30419316745",
+      "size_bytes": 23280739,
+      "sha256": "92b5ef365d710f974f289d4b75235c817ac10db74123640f48854bb4c920bcbf"
+    },
+    "request": {
+      "artifact_id": 8711314871,
+      "name": "android-candidate-request-30419316745",
+      "size_bytes": 998,
+      "sha256": "85ef3b7f7ad1ef34063097a3338843227c2618e1f98f6356776103865cdc32aa"
+    },
+    "required_screenshots_not_reached": [
+      "03-r14-blocked-reentry.png",
+      "04-r14-long-press-menu.png"
+    ]
+  },
+  "remediation": {
+    "change_requests": [
+      "CR-0482"
+    ],
+    "problem": "PROB-0150",
+    "next_request_id": "R14-CANDIDATE-20260730-006",
+    "required_before_next_request": [
+      "stable r14.chat.blocked resource identity and stateDescription",
+      "candidate waits for blocked resource and still requires composer absence",
+      "full candidate HTTP envelope decode regression",
+      "real Compose click-success regression with persisted own-block state",
+      "new frozen fix commit and exact Attempt6 request"
+    ],
+    "blind_rerun_allowed": false
+  },
+  "secrets_recorded": false
+}

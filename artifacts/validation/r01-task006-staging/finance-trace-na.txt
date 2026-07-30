@@ -1,0 +1,2 @@
+R01_FINANCE_TRACE_NA
+R01 has no money-entry workflow. Ledger and reconciliation invariant gauges remain mandatory and are captured in business-metrics.jsonl.

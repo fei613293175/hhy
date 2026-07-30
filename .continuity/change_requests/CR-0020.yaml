@@ -1,0 +1,102 @@
+protocol_version: '1.0'
+cr_id: CR-0020
+title: 补齐每版本APK、R32全版本完整性与项目计划自动验证门禁
+status: CLOSED
+created_at: '2026-07-17T20:32:47Z'
+updated_at: '2026-07-17T20:43:54Z'
+requester_actor_id: codex-master
+approver_actor_id: codex-release-reviewer
+task_id: TASK-R02-002
+session_id: SES-20260717T200842Z-456B8F52
+user_request: 用户要求每个版本APK均放桌面真机测试，并同意立即制定R02至R32全项目滚动计划
+reason: CR-0019批准后的全量审计发现R03旧规则豁免APK、R32未依赖五个旁支版本，且计划生成器和受影响测试文件未在原影响清单中
+original_rule: R03可豁免Android测试APK；R32只依赖R31；项目计划没有确定性生成和受影响测试门禁
+new_rule: R02至R32每版均交付桌面/公网/真机APK；R32传递依赖全部R02至R31版本；计划必须确定性生成、严格验证并接入FAST影响测试
+impact_summary: 修正R03回归APK、R32旁支依赖、R02治理Story覆盖，新增生成器/验证器/测试并接入Makefile与影响映射
+impact:
+  files:
+  - releases/RELEASE_DEPENDENCIES.yaml
+  - releases/R02/PARALLEL_EXECUTION_PLAN.yaml
+  - releases/R02/TASKS.yaml
+  - releases/R03/PARALLEL_EXECUTION_PLAN.yaml
+  - releases/R03/TASKS.yaml
+  - releases/R03/RELEASE_MANIFEST.yaml
+  - releases/R32/RELEASE_MANIFEST.yaml
+  - scripts/generate_program_execution_plan.py
+  - scripts/check_program_execution_plan.py
+  - tests/test_program_execution_plan.py
+  - config/test-impact-map.yaml
+  - Makefile
+  - PROJECT_EXECUTION_PLAN.md
+  - CHANGELOG.md
+  pages: []
+  apis: []
+  database: []
+  configuration: []
+  ledger: []
+  tests:
+  - dependency DAG and final completeness
+  - every-release APK gate
+  - near-term story and task coverage
+  - program plan deterministic generation
+  - affected FAST gate
+  releases:
+  - R02
+  - R03
+  - R04
+  - R05
+  - R06
+  - R07
+  - R08
+  - R09
+  - R10
+  - R11
+  - R12
+  - R13
+  - R14
+  - R15
+  - R16
+  - R17
+  - R18
+  - R19
+  - R20
+  - R21
+  - R22
+  - R23
+  - R24
+  - R25
+  - R26
+  - R27
+  - R28
+  - R29
+  - R30
+  - R31
+  - R32
+  migration_and_compatibility: 不改变运行时API、页面或数据库；仅增强Release依赖、交付门禁、任务追踪和计划验证
+user_confirmation: 用户已明确每个版本完成后都要把APK放桌面真机测试，并批准立即制定全项目计划
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-17T20:32:48Z'
+  note: 用户每版APK要求明确；R32最终发布必须覆盖全部版本；自动验证不改变运行时业务合同，同意实施
+machine_record: .continuity/change_requests/CR-0020.yaml
+document: docs/03-continuity/change-requests/CR-0020-补齐每版本APK、R32全版本完整性与项目计划自动验证门禁.md
+decision_log:
+- at: '2026-07-17T20:32:49Z'
+  actor_id: codex-master
+  status: IMPLEMENTING
+  note: 实施每版本APK、R32完整依赖和项目计划自动验证补充门禁
+  session_id: SES-20260717T200842Z-456B8F52
+- at: '2026-07-17T20:34:23Z'
+  actor_id: codex-master
+  status: IMPLEMENTED
+  note: 每版本APK、R32全版本依赖、R02治理Story覆盖和计划自动验证门禁已完成并测试PASS
+  session_id: SES-20260717T200842Z-456B8F52
+- at: '2026-07-17T20:43:54Z'
+  actor_id: codex-master
+  status: CLOSED
+  note: 每版本APK、R32全版本完整依赖和计划自动门禁已完成、验证并推送
+  session_id: SES-20260717T200842Z-456B8F52
+session_ids:
+- SES-20260717T200842Z-456B8F52
+implementation_commits:
+- f9f06a6fd3cbb518a1b2d78b0ce86bb45b5b05b0

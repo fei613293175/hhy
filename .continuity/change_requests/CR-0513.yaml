@@ -1,0 +1,55 @@
+protocol_version: '1.0'
+cr_id: CR-0513
+title: 登记R14原子替换归档与历史视觉数量回归文件
+status: IMPLEMENTED
+created_at: '2026-07-30T04:08:12Z'
+updated_at: '2026-07-30T04:09:03Z'
+requester_actor_id: codex-r14-release-closer
+approver_actor_id: codex-r14-derived-artifact-authorizer
+task_id: TASK-R14-008
+session_id: SES-20260729T161557Z-6FCE6ACA
+user_request: 每个大版本交付APK与测试文档并由AI自动审核，保持跨电脑和AI可接续
+reason: CR-0511交付脚本原子替换自动生成旧Manifest与旧交付证据归档；CR-0512将历史截图数从22增至26必须同步既有治理单测，需纳入精确范围而非绕过会话门禁
+original_rule: CR-0511与CR-0512遗漏声明交付工具自动生成的旧版本历史归档，以及截图精确数量回归测试文件。
+new_rule: R14替换交付必须保留2eb8ac7旧Manifest和交付证据原字节归档；历史视觉批次数量变化必须同步治理单测锁定26张。
+impact_summary: 只登记已批准事务的派生归档与测试不变量，不增加新业务规则、不修改产品代码、API、数据库或APK字节。
+impact:
+  files:
+  - artifacts/apk/R14/history/2eb8ac7/APK_MANIFEST.yaml
+  - artifacts/validation/r14-apk-delivery/history/2eb8ac7/delivery-evidence.json
+  - tests/test_android_ci_gate.py
+  pages:
+  - 无直接页面变化
+  apis:
+  - 无API影响
+  database:
+  - 无数据库影响
+  configuration:
+  - 历史视觉截图精确数量26
+  ledger:
+  - 无资金或账本影响
+  tests:
+  - tests.test_android_ci_gate 57 tests PASS; atomic delivery archive byte preservation
+  releases:
+  - R14
+  migration_and_compatibility: 旧10224交付事实可恢复；10225为当前交付；测试只锁定离线截图批次数量。
+user_confirmation: 项目所有者已要求跨AI可接续、每版交付完整且无需重复批准。
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-30T04:08:24Z'
+  note: 独立确认三项文件均为已批准CR的必需派生产物：旧交付可恢复归档及截图数量回归，不扩展产品范围。
+machine_record: .continuity/change_requests/CR-0513.yaml
+document: docs/03-continuity/change-requests/CR-0513-登记R14原子替换归档与历史视觉数量回归文件.md
+decision_log:
+- at: '2026-07-30T04:08:56Z'
+  actor_id: codex-r14-release-closer
+  status: IMPLEMENTING
+  note: 开始登记并验证R14旧交付归档与26张历史视觉数量回归。
+  session_id: SES-20260729T161557Z-6FCE6ACA
+- at: '2026-07-30T04:09:03Z'
+  actor_id: codex-r14-release-closer
+  status: IMPLEMENTED
+  note: 2eb8ac7旧Manifest和交付证据已由受控交付脚本原子归档；治理测试已锁定26张并通过57项。
+  session_id: SES-20260729T161557Z-6FCE6ACA
+session_ids:
+- SES-20260729T161557Z-6FCE6ACA

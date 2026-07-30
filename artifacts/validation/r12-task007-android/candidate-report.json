@@ -1,0 +1,75 @@
+{
+  "schema": "hhy.android-ci-candidate-promotion/v1",
+  "policy_id": "HHY-ANDROID-AUTOMATION-V1",
+  "release": "R12",
+  "commit": "8090001f064c304db08ca9886fe1b1d4d231ef00",
+  "github_run_id": "30195682023",
+  "source_github_run_id": "30194396225",
+  "status": "PASS",
+  "owner_test_allowed": true,
+  "release_completion_allowed": false,
+  "production_activation_allowed": false,
+  "apk": {
+    "file": "hhy-R12-8090001-candidate.apk",
+    "sha256": "c5fb2eb7546bc1c68d227d3c4b4397060886315435a520890c4b7b1fade0c503",
+    "size_bytes": 21502927
+  },
+  "baseline_approval": {
+    "schema": "hhy.android-visual-baseline-approval/v1",
+    "release": "R12",
+    "status": "APPROVED",
+    "authority": "AI_IMPLEMENTATION_AGENT",
+    "promotion_attempt": 1,
+    "source": {
+      "github_run_id": "30194396225",
+      "commit": "8090001f064c304db08ca9886fe1b1d4d231ef00",
+      "artifact_id": "8629749064",
+      "artifact_sha256": "ff9ef0e221a0a99a0bd3054b54598b18171e5ceeefebfe2aaa99d4153c13ad63",
+      "runtime_status": "BASELINE_REVIEW_REQUIRED"
+    },
+    "decision": "十张截图绑定R12真实OIDC认证的发布中心、我的主页、个人资料、草稿、内容管理详情、发布预览、提交结果、我的内容、审核记录和内容分析旅程；逐页对照冻结规格及B04、B05、B06、B08精确效果图，页面丰富度、层级、安全区、真实数据映射、按钮对比度和合同空状态均合格，无转场残层、ISO技术时间、技术字段、虚构业务字段或未经支持的趋势数据，批准为R12首版视觉基线。",
+    "screens": [
+      {
+        "file": "01-publish-center.png",
+        "sha256": "3cf65576e9f07ce058260f1fe29463d5f328dfb5b5389af516d4647b3a20217d"
+      },
+      {
+        "file": "02-me-home.png",
+        "sha256": "d509e9682c5bce861e0ed487e7ed3fabcf00eab6e7f013b1ec23e120e3c5937b"
+      },
+      {
+        "file": "03-profile.png",
+        "sha256": "6aa6890856130ad8562931be5072fd497f15bdb974cde4dda025799af58a44dd"
+      },
+      {
+        "file": "04-drafts.png",
+        "sha256": "940690fe33a28cf278021d0dc5045aafe882847dfcc1b8b04a53c07efd2deaa5"
+      },
+      {
+        "file": "05-content-management-detail.png",
+        "sha256": "034bcfd733538a75b3cdd967f10ebf02383763d76eaa92bcacae9915f7289f97"
+      },
+      {
+        "file": "06-publish-preview.png",
+        "sha256": "c11bcb4bea153b481cecc3a4db455686fee47344a5ad019b6078e20ad088c9ba"
+      },
+      {
+        "file": "07-submit-result.png",
+        "sha256": "376a1b4dfaa40b1f8f69de5012ee0ca1d69e1ae0e84868e1c0f1de6e56ef7b04"
+      },
+      {
+        "file": "08-my-contents.png",
+        "sha256": "d0d4b80b8f72f0856bc72800b7dc04ead575a79eb73b916bc873830dc28d1ce8"
+      },
+      {
+        "file": "09-content-reviews.png",
+        "sha256": "a6ea86194272a06cd26648d58722361962bdc7277a843c0f2ad264bc5d58afc6"
+      },
+      {
+        "file": "10-content-analytics.png",
+        "sha256": "45c2deb608173155c6d320d04df8e5932e67991cdea4140c8f6b2e2278b45206"
+      }
+    ]
+  },
+  "errors": []
+}

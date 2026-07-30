@@ -1,0 +1,70 @@
+protocol_version: '1.0'
+cr_id: CR-0315
+title: 同步R12十一页视觉基线到页面施工文档
+status: IMPLEMENTED
+created_at: '2026-07-24T15:24:55Z'
+updated_at: '2026-07-24T15:55:09Z'
+requester_actor_id: codex-root-r12-entry
+approver_actor_id: codex-independent-r12-doc-reviewer
+task_id: TASK-R12-001
+session_id: SES-20260724T144831Z-B2E27A89
+user_request: 项目所有者要求功能与开发文档一一对应并按精确效果图持续开发。
+reason: CR-0314已批准页面目录和逐页补充规格，但严格生成资产门禁还要求11份页面施工文档同步同一UI参考；只做既有决定的派生投影。
+original_rule: CR-0314已冻结R12页面目录、精确面板和补充规格，但派生页面施工文档仍残留TOKENS_ONLY或P01-P08范围。
+new_rule: 只把CR-0314已经批准的11页视觉来源同步到对应页面施工文档；不增加、删减或改变页面功能、字段、动作、API、状态或视觉选择。
+impact_summary: 消除页面目录与逐页施工文档之间的同一事实投影差异，确保生成资产和跨AI接续一致。
+impact:
+  files:
+  - docs/02-ui/page-specs/android/SCR-PUB-001_发布入口.md
+  - docs/02-ui/page-specs/android/SCR-PUB-006_发布预览.md
+  - docs/02-ui/page-specs/android/SCR-PUB-007_提交结果.md
+  - docs/02-ui/page-specs/android/SCR-MYC-001_我的发布.md
+  - docs/02-ui/page-specs/android/SCR-MYC-002_草稿箱.md
+  - docs/02-ui/page-specs/android/SCR-MYC-003_内容管理详情.md
+  - docs/02-ui/page-specs/android/SCR-MYC-004_审核记录.md
+  - docs/02-ui/page-specs/android/SCR-MYC-005_内容数据.md
+  - docs/02-ui/page-specs/android/SCR-ME-001_我的首页.md
+  - docs/02-ui/page-specs/android/SCR-ME-002_个人资料.md
+  - docs/02-ui/page-specs/admin/ADM-REVIEW-001_审核队列.md
+  pages:
+  - SCR-PUB-001
+  - SCR-PUB-006
+  - SCR-PUB-007
+  - SCR-MYC-001
+  - SCR-MYC-002
+  - SCR-MYC-003
+  - SCR-MYC-004
+  - SCR-MYC-005
+  - SCR-ME-001
+  - SCR-ME-002
+  - ADM-REVIEW-001
+  apis: []
+  database: []
+  configuration: []
+  ledger:
+  - CR-0314 visual mapping projection into generated page specifications
+  tests:
+  - check_generated_assets.py;check_v122_documentation.py --strict --release R12
+  releases:
+  - R12
+  migration_and_compatibility: 纯文档投影，无运行时、API或数据迁移。
+user_confirmation: 项目所有者要求全部版本功能与开发文档一一对应，并按精确效果图持续开发。
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-24T15:32:41Z'
+  note: 仅同步CR-0314已批准视觉来源到11份页面施工文档，不产生第二事实源或新业务决定。
+machine_record: .continuity/change_requests/CR-0315.yaml
+document: docs/03-continuity/change-requests/CR-0315-同步R12十一页视觉基线到页面施工文档.md
+decision_log:
+- at: '2026-07-24T15:43:37Z'
+  actor_id: codex-root-r12-entry
+  status: IMPLEMENTING
+  note: CR-0314视觉来源已同步到十一份页面施工文档，开始生成资产一致性验证。
+  session_id: SES-20260724T144831Z-B2E27A89
+- at: '2026-07-24T15:55:09Z'
+  actor_id: codex-root-r12-entry
+  status: IMPLEMENTED
+  note: 11份页面施工文档已同步CR-0314视觉来源；严格文档与生成资产一致性检查PASS。
+  session_id: SES-20260724T144831Z-B2E27A89
+session_ids:
+- SES-20260724T144831Z-B2E27A89

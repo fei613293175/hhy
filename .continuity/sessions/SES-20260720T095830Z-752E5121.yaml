@@ -1,0 +1,143 @@
+protocol_version: '1.0'
+package_version: 1.2.3
+session_id: SES-20260720T095830Z-752E5121
+status: CLOSED
+actor:
+  id: codex-root
+  kind: AI_OR_HUMAN
+  host: unknown
+release: R05
+task_id: TASK-R05-008
+story_id: STORY-R05-008
+goal: 关闭R05并建立跨电脑跨AI长期可复用的Android自动构建、模拟器测试、截图、日志、回归、自修复与候选交付体系
+started_at: '2026-07-20T09:58:30Z'
+updated_at: '2026-07-20T15:11:37Z'
+takeover_of: null
+change_requests:
+- CR-0135
+- CR-0136
+- CR-0137
+- CR-0138
+- CR-0139
+- CR-0140
+- CR-0141
+- CR-0142
+- CR-0143
+- CR-0144
+- CR-0145
+- CR-0146
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions:
+  - .github/workflows/android-quality-gate.yml
+  - .github/workflows/ci.yml
+  - config/android-automation.yaml
+  - scripts/android_ci_gate.py
+  - tests/test_android_ci_gate.py
+  - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+  - apps/android/app/build.gradle.kts
+  - apps/android/gradle/libs.versions.toml
+  - docs/08-testing/Android自动开发测试修复交付体系_V1.0.md
+  - docs/08-testing/测试策略与质量门禁_V1.2.2.md
+  - docs/09-development/统一开发与交付效率规范.md
+  - docs/00-baseline/正式商业系统全局硬性开发边界.md
+  - AGENTS.md
+  - templates/AGENTS.md
+  - releases/R05/RELEASE_MANIFEST.yaml
+  - scripts/check_release_artifacts.py
+  - apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyIcons.kt
+  - .github/workflows/continuity-gate.yml
+  - .gitattributes
+  - .githooks/commit-msg
+  - .githooks/pre-commit
+  - .githooks/pre-push
+  - .githooks/prepare-commit-msg
+  - apps/android/build.gradle.kts
+  - apps/android/core/designsystem/build.gradle.kts
+  - apps/android/core/network/build.gradle.kts
+  - apps/android/feature/auth/build.gradle.kts
+  - apps/android/feature/identity/build.gradle.kts
+  - apps/android/feature/media/build.gradle.kts
+  - apps/android/feature/shell/build.gradle.kts
+  - apps/android/feature/startup/build.gradle.kts
+  - docs/04-vendors/identity/source/输出内容(1).txt
+  - apps/android/gradlew
+  - scripts/run_android_emulator_gate.sh
+  - config/test-impact-map.yaml
+  - tests/test_run_affected_tests.py
+  - scripts/prepare_parallel_worktrees.ps1
+  - tests/test_parallel_worktrees.py
+  - releases/RELEASE_DEPENDENCIES.yaml
+  source: story+explicit+approved-cr:CR-0135+approved-cr:CR-0136+approved-cr:CR-0138+approved-cr:CR-0139+approved-cr:CR-0140+approved-cr:CR-0141+approved-cr:CR-0142+approved-cr:CR-0143+approved-cr:CR-0144+approved-cr:CR-0145
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  base_commit: becdceec04d22c9179e29c794e28ad85bbe89137
+  start_head: becdceec04d22c9179e29c794e28ad85bbe89137
+  upstream: origin/task/TASK-R03-001
+  initial_worktree_state: CLEAN
+lease:
+  duration_minutes: 240
+  renewed_at: '2026-07-20T15:11:34Z'
+  expires_at: '2026-07-20T19:11:34Z'
+checkpoint_sequence: 45
+latest_checkpoint: .continuity/checkpoints/SES-20260720T095830Z-752E5121/0045.yaml
+session_log: docs/03-continuity/sessions/2026-07/SES-20260720T095830Z-752E5121.md
+next_step: 提交关闭元数据Commit，然后运行pre-push/CI门禁
+context_pack:
+  yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
+  markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
+  manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+  context_hash: 258878a231fa7112c8d4a3a3ecc71a8dc1e7afd1dea8d8d85e114f3ceb095a1f
+  generated_at: '2026-07-20T15:11:36Z'
+handoff_bundle: null
+closure:
+  result: COMPLETED
+  summary: 'R05真机体验已由项目所有者通过；Android长期自动构建、APK、模拟器旅程、四张截图、日志、回归、自修复与候选资格体系由GitHub CI #244完整验证；R06顺序依赖已补齐'
+  code_commit: 3a159bb8f6a0d1314b84a76a5b68cbbd6d69d39c
+  next_release: R06
+  next_task: TASK-R06-001
+  blocked_advance: false
+  user_confirmation: null
+  metadata_commit: PENDING
+  push_verification: CI_REQUIRED_AFTER_METADATA_COMMIT
+  started_at: '2026-07-20T13:30:59Z'
+  closure_checkpoint_id: CP-SES-20260720T095830Z-752E5121-0045
+  closed_at: '2026-07-20T15:11:37Z'
+parallel_execution:
+  assessment: CAPABILITY_UNAVAILABLE
+  delegated_workers: 0
+  workers: []
+  reason: 上级规则禁止用户未明确要求的子代理委托；本次为末尾重复门禁去重
+closed_at: '2026-07-20T15:11:37Z'

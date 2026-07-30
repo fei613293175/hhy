@@ -1,0 +1,14 @@
+{
+  "schema": "hhy.r14.test-adapter/v1",
+  "test_id": "TST-CHAT_002-HAPPY",
+  "central_runner": "scripts/run_r14_specialized_matrix.py",
+  "runner": "r14-java21-postgresql17-android-chat",
+  "selectors": [
+    "services/backend/boot/src/test/java/cc/orbexa/hhy/content/R14RealtimeServiceTest.java#messageCreatesSenderAckAndPeerDeliveryWithIndependentUserSequences",
+    "services/backend/boot/src/test/java/cc/orbexa/hhy/content/R14RealtimePostgresStoreTest.java#realPostgresAllocatesConcurrentUserSequencesAndPersistsGapWatermark",
+    "services/backend/boot/src/test/java/cc/orbexa/hhy/content/R14ServiceTest.java#readDelegatesOrderedStateTransitionAndWritesAuditOutbox",
+    "services/backend/boot/src/test/java/cc/orbexa/hhy/content/R14ServiceTest.java#reportChecksVersionAndEvidenceBeforeCreatingPendingFact",
+    "apps/android/feature/chat/src/test/java/cc/orbexa/hhy/chat/R14RealtimeRefreshTest.kt#authoritativeGapFillExhaustsEveryConversationAndMessagePage"
+  ],
+  "fault_classes": ["concurrent-sequence-allocation", "ack-and-delivery", "read-state", "report-evidence", "authoritative-gap-fill"]
+}

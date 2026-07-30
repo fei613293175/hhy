@@ -1,0 +1,100 @@
+protocol_version: '1.0'
+package_version: 1.2.3
+session_id: SES-20260727T203754Z-DCE3090A
+status: CLOSED
+actor:
+  id: codex-root-r14-backend-20260728
+  kind: AI_OR_HUMAN
+  host: unknown
+release: R14
+task_id: TASK-R14-003
+story_id: STORY-R14-004
+goal: 一对一聊天核心后端应用服务与接口
+started_at: '2026-07-27T20:37:54Z'
+updated_at: '2026-07-27T22:11:23Z'
+takeover_of: null
+change_requests:
+- CR-0420
+- CR-0421
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions: []
+  source: story+explicit
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  base_commit: d851ca4432d3a372732bdf983e6bfb57bd605c1e
+  start_head: d851ca4432d3a372732bdf983e6bfb57bd605c1e
+  upstream: origin/task/TASK-R03-001
+  initial_worktree_state: CLEAN
+lease:
+  duration_minutes: 240
+  renewed_at: '2026-07-27T22:11:16Z'
+  expires_at: '2026-07-28T02:11:16Z'
+checkpoint_sequence: 3
+latest_checkpoint: .continuity/checkpoints/SES-20260727T203754Z-DCE3090A/0003.yaml
+session_log: docs/03-continuity/sessions/2026-07/SES-20260727T203754Z-DCE3090A.md
+next_step: 提交关闭元数据Commit，然后运行pre-push/CI门禁
+context_pack:
+  yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
+  markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
+  manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+  context_hash: 8fcdf2e81b976b692b027b7e9a31b70bed43bc03b0a893b387b73f11fcb7baf4
+  generated_at: '2026-07-27T22:11:20Z'
+handoff_bundle: null
+closure:
+  result: COMPLETED
+  summary: R14一对一聊天九个冻结后端接口、成员权限、配置限流、幂等、敏感联系方式三段边界、Outbox与真实PostgreSQL17回归全部完成
+  code_commit: 2df87e99d07af9cbd123d375f0717cb7abaae004
+  next_release: R14
+  next_task: TASK-R14-004
+  blocked_advance: false
+  completed_independent_advance: false
+  user_confirmation: null
+  metadata_commit: PENDING
+  push_verification: CI_REQUIRED_AFTER_METADATA_COMMIT
+  started_at: '2026-07-27T22:11:13Z'
+  closure_checkpoint_id: CP-SES-20260727T203754Z-DCE3090A-0003
+  closed_at: '2026-07-27T22:11:23Z'
+parallel_execution:
+  assessment: DELEGATED
+  delegated_workers: 1
+  workers:
+  - worker_id: codex-r14-cr-review-20260728
+    responsibility: 独立审批与最终diff复核
+    allowed_paths:
+    - .continuity/change_requests/CR-0420.yaml
+    - .continuity/change_requests/CR-0421.yaml
+  reason: 独立Actor已确认CR-0421最终实现无阻断，主控完成机器绑定与关闭
+closed_at: '2026-07-27T22:11:23Z'

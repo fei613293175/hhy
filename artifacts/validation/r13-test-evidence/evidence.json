@@ -1,0 +1,58 @@
+{
+  "schema": "hhy.r13.specialized-evidence/v1",
+  "suite": "r13-java21-postgresql17-android-activity",
+  "source_commit": "c97417591cfa5c1b069d0aaef9622e0f3dad8c8f",
+  "environment": {
+    "host": "obx-test isolated containers",
+    "java": "Eclipse Temurin 21",
+    "postgresql": "PostgreSQL 17.10 disposable container with three isolated databases",
+    "android_gradle_jdk": "Eclipse Temurin 21.0.9"
+  },
+  "results": [
+    {
+      "test_id": "TST-ACTIVITY_001-HAPPY",
+      "status": "PASS",
+      "exit_code": 0,
+      "assertions": [
+        "favorites, history, unfavorite, share, contact audit and invalid feedback follow the frozen contracts",
+        "PostgreSQL 17 preserves activity order, pagination and transactional audit state",
+        "Android activity pagination deduplicates stable content identities"
+      ],
+      "artifacts": [
+        { "path": "backend-java21.log", "sha256": "76f79ad79f73d385a3060110bccbe308a52ece9d8059557d4332779958f8d426" },
+        { "path": "postgresql17.log", "sha256": "a7905cfb9e9e7de90078d5376c1f593af66c8ac54f31fbbd63d71bda4768846b" },
+        { "path": "android-module.log", "sha256": "8dbe2b8f4a614b9ce85f9e27312a1aece93bfa4fa312ccf51fa8a50a9973c2a1" }
+      ]
+    },
+    {
+      "test_id": "TST-ACTIVITY_001-REJECT",
+      "status": "PASS",
+      "exit_code": 0,
+      "assertions": [
+        "validation, inactive user and version conflicts are rejected before successful business writes",
+        "activity, configuration and contact storage timeouts leave no completed snapshot or Outbox",
+        "Android failure states retain loaded content without exposing technical fields"
+      ],
+      "artifacts": [
+        { "path": "backend-java21.log", "sha256": "76f79ad79f73d385a3060110bccbe308a52ece9d8059557d4332779958f8d426" },
+        { "path": "postgresql17.log", "sha256": "a7905cfb9e9e7de90078d5376c1f593af66c8ac54f31fbbd63d71bda4768846b" },
+        { "path": "android-module.log", "sha256": "8dbe2b8f4a614b9ce85f9e27312a1aece93bfa4fa312ccf51fa8a50a9973c2a1" }
+      ]
+    },
+    {
+      "test_id": "TST-ACTIVITY_001-IDEMPOTENT",
+      "status": "PASS",
+      "exit_code": 0,
+      "assertions": [
+        "lost-response replay returns the completed snapshot without duplicate reports, shares or Outbox",
+        "same-key different-body and in-progress conflicts produce no successful side effects",
+        "eight PostgreSQL contenders share exactly one idempotency owner and Android keeps a stable intent key"
+      ],
+      "artifacts": [
+        { "path": "backend-java21.log", "sha256": "76f79ad79f73d385a3060110bccbe308a52ece9d8059557d4332779958f8d426" },
+        { "path": "postgresql17.log", "sha256": "a7905cfb9e9e7de90078d5376c1f593af66c8ac54f31fbbd63d71bda4768846b" },
+        { "path": "android-module.log", "sha256": "8dbe2b8f4a614b9ce85f9e27312a1aece93bfa4fa312ccf51fa8a50a9973c2a1" }
+      ]
+    }
+  ]
+}

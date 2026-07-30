@@ -1,0 +1,95 @@
+protocol_version: '1.0'
+package_version: 1.2.3
+session_id: SES-20260723T062549Z-79779015
+status: CLOSED
+actor:
+  id: codex-root-r10-backend
+  kind: AI_OR_HUMAN
+  host: unknown
+release: R10
+task_id: TASK-R10-003
+story_id: STORY-R10-004
+goal: 完成群聊推广后端应用服务与接口，同步JOIN_PASSWORD契约、生成客户端、访问审计、权限和幂等测试
+started_at: '2026-07-23T06:25:49Z'
+updated_at: '2026-07-23T07:04:01Z'
+takeover_of: null
+change_requests:
+- CR-0268
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions: []
+  source: story+explicit
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  base_commit: 2de94dd2b82efc2d5ebff5500ad808ea5ccee2d4
+  start_head: 2de94dd2b82efc2d5ebff5500ad808ea5ccee2d4
+  upstream: origin/task/TASK-R03-001
+  initial_worktree_state: CLEAN
+lease:
+  duration_minutes: 240
+  renewed_at: '2026-07-23T07:03:56Z'
+  expires_at: '2026-07-23T11:03:56Z'
+checkpoint_sequence: 3
+latest_checkpoint: .continuity/checkpoints/SES-20260723T062549Z-79779015/0003.yaml
+session_log: docs/03-continuity/sessions/2026-07/SES-20260723T062549Z-79779015.md
+next_step: 提交关闭元数据Commit，然后运行pre-push/CI门禁
+context_pack:
+  yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
+  markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
+  manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+  context_hash: 40155c44d7e32a3571b7f462b1b4906d1452882d3308f2c480599e5c3a391d43
+  generated_at: '2026-07-23T07:03:59Z'
+handoff_bundle: null
+closure:
+  result: COMPLETED
+  summary: TASK-R10-003完成：GROUP_CHAT后端创建/详情/编辑/公开分享、JOIN_PASSWORD独立加密渠道、OpenAPI与生成客户端、页面追踪及R07访问审计全部合入；PostgreSQL17真实Store、后端368测试、合同生成、文档和continuity
+    strict通过，实现提交896948b7已推送。关闭后按项目所有者要求先开放验证admin.orbexa.cc，再启动R10-004。
+  code_commit: 896948b70c98807cb30d5d165225a6c2a4155424
+  next_release: R10
+  next_task: TASK-R10-004
+  blocked_advance: false
+  completed_independent_advance: false
+  user_confirmation: null
+  metadata_commit: PENDING
+  push_verification: CI_REQUIRED_AFTER_METADATA_COMMIT
+  started_at: '2026-07-23T07:03:52Z'
+  closure_checkpoint_id: CP-SES-20260723T062549Z-79779015-0003
+  closed_at: '2026-07-23T07:04:01Z'
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 最终CR、通用控制器、合同生成和会话事实需由同一事实主控串行一致化，当前无互斥安全写路径
+closed_at: '2026-07-23T07:04:01Z'

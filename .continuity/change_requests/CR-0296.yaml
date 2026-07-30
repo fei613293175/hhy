@@ -1,0 +1,57 @@
+protocol_version: '1.0'
+cr_id: CR-0296
+title: 补齐后台统一内容领域区响应式样式
+status: CLOSED
+created_at: '2026-07-23T22:54:10Z'
+updated_at: '2026-07-23T23:02:39Z'
+requester_actor_id: codex-root-r11-client
+approver_actor_id: codex-reviewer-user-self-r11
+task_id: TASK-R11-004
+session_id: SES-20260723T183130Z-454A6E0D
+user_request: 项目所有者要求后台按大型商业系统标准规划开发，前端页面肉眼达到效果图丰富度和精致度。
+reason: 统一内容详情的领域面板与媒体网格已存在于R10和R11实现，但styles.css没有对应样式，功能DOM通过而视觉层不完整。
+original_rule: 后台统一内容详情已有领域面板、媒体网格和长文本结构，但缺少对应CSS，浏览器仅按裸块级元素排版。
+new_rule: 统一内容领域面板必须具备清晰分区、响应式媒体网格、长文本层级和案例列表样式；复用设计Token，桌面与窄屏均不得溢出或嵌套卡片。
+impact_summary: 为R10群聊与R11团队长复用的统一内容领域区补齐响应式样式。
+impact:
+  files:
+  - apps/admin-web/src/styles.css
+  - CHANGELOG.md
+  pages:
+  - ADM-CONTENT-002
+  apis: []
+  database: []
+  configuration: []
+  ledger: []
+  tests:
+  - ADMIN_CONTENT_DOMAIN_RESPONSIVE_STYLE
+  releases:
+  - R11
+  migration_and_compatibility: 仅CSS增强，不改变DOM合同、API和运行时数据；无媒体或字段为空时保持现有安全占位。
+user_confirmation: 项目所有者已明确要求后台专业可用且UI达到规定精致度，并授权持续开发。
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-23T22:54:35Z'
+  note: 样式缺口会直接违反后台商业系统标准和UI硬规则；变更只复用Token完善既有领域区。
+machine_record: .continuity/change_requests/CR-0296.yaml
+document: docs/03-continuity/change-requests/CR-0296-补齐后台统一内容领域区响应式样式.md
+decision_log:
+- at: '2026-07-23T22:57:52Z'
+  actor_id: codex-root-r11-client
+  status: IMPLEMENTING
+  note: 实现已完成，admin-web 98项测试、类型检查与生产构建PASS，进入提交和门禁阶段。
+  session_id: SES-20260723T183130Z-454A6E0D
+- at: '2026-07-23T23:02:35Z'
+  actor_id: codex-root-r11-client
+  status: IMPLEMENTED
+  note: 实现提交7f3483f8；admin-web 98项测试、类型检查、生产构建、生成资产与严格提交门禁PASS。
+  session_id: SES-20260723T183130Z-454A6E0D
+- at: '2026-07-23T23:02:39Z'
+  actor_id: codex-reviewer-user-self-r11
+  status: CLOSED
+  note: 复核实现范围与批准内容一致，未新增API、数据库、配置、H5页面或未冻结后台动作。
+  session_id: SES-20260723T183130Z-454A6E0D
+session_ids:
+- SES-20260723T183130Z-454A6E0D
+implementation_commits:
+- 7f3483f8

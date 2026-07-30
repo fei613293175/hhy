@@ -1,0 +1,66 @@
+protocol_version: '1.0'
+cr_id: CR-0043
+title: TASK-R02-007精确登记APK交付证据文件
+status: CLOSED
+created_at: '2026-07-18T11:18:49Z'
+updated_at: '2026-07-18T11:21:12Z'
+requester_actor_id: codex-root
+approver_actor_id: project-owner-standing-authorization
+task_id: TASK-R02-007
+session_id: SES-20260718T105025Z-0B8DE284
+user_request: 用户要求R02收尾、APK放桌面并记录连接失败不再复发
+reason: CR-0042使用通配路径无法应用，必须改为精确列举已生成的R02 APK Manifest、报告和机器证据文件
+original_rule: TASK-R02-007会话默认允许路径不包含artifacts目录
+new_rule: 仅允许本任务写入列出的R02 APK Manifest、构建/交付证据、任务报告和生成式文档校验结果精确文件
+impact_summary: 固化已完成的R02 APK机器交付事实，不改变APK二进制、产品契约、API、数据库或版本范围
+impact:
+  files:
+  - artifacts/apk/R02/APK_MANIFEST.yaml
+  - artifacts/reports/R02/TASK-R02-007-android-apk.md
+  - artifacts/validation/r02-apk-delivery/delivery-evidence.json
+  - artifacts/validation/r02-task007-android/api-platform-status.json
+  - artifacts/validation/r02-task007-android/apk-badging.txt
+  - artifacts/validation/r02-task007-android/apk-signing.txt
+  - artifacts/validation/r02-task007-android/build-evidence.json
+  - artifacts/validation/r02-task007-android/gradle-build.exit
+  - artifacts/validation/r02-task007-android/gradle-build.log
+  - artifacts/validation/r02-task007-android/nginx-download-gate.txt
+  - artifacts/validation/r02-task007-android/zipalign.txt
+  - artifacts/validation/project-doctor-v1.2.2.json
+  pages: []
+  apis: []
+  database: []
+  configuration: []
+  ledger: []
+  tests:
+  - deliver_android_test_apk prepare+verify; test_android_apk_delivery; check_release_artifacts R02
+  releases:
+  - R02
+  migration_and_compatibility: 纯交付证据与报告，无运行时迁移；APK仍绑定bbad603源码提交
+user_confirmation: 后续这种问题不要问我确认，你自己决定
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-18T11:19:07Z'
+  note: 仅批准列出的TASK-R02-007精确交付证据文件
+machine_record: .continuity/change_requests/CR-0043.yaml
+document: docs/03-continuity/change-requests/CR-0043-TASK-R02-007精确登记APK交付证据文件.md
+decision_log:
+- at: '2026-07-18T11:21:10Z'
+  actor_id: codex-root
+  status: IMPLEMENTING
+  note: R02精确交付证据已生成并纳入连续性范围
+  session_id: SES-20260718T105025Z-0B8DE284
+- at: '2026-07-18T11:21:11Z'
+  actor_id: codex-root
+  status: IMPLEMENTED
+  note: APK机器交付、四方哈希和报告已提交并推送
+  session_id: SES-20260718T105025Z-0B8DE284
+- at: '2026-07-18T11:21:12Z'
+  actor_id: codex-root
+  status: CLOSED
+  note: 精确证据文件和交付脚本回归均已通过，关闭范围变更
+  session_id: SES-20260718T105025Z-0B8DE284
+implementation_commits:
+- 37c921b3396f8291ee5a212e5f05ac1bf4c72aa6
+session_ids:
+- SES-20260718T105025Z-0B8DE284

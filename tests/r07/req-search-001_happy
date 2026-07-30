@@ -1,0 +1,11 @@
+{
+  "schema": "hhy.r07.test-adapter/v1",
+  "test_id": "TST-SEARCH_001-HAPPY",
+  "central_runner": "scripts/run_r07_specialized_matrix.py",
+  "runner": "r07-java21-postgresql17-search-publisher-contact",
+  "selectors": [
+    "services/backend/boot/src/test/java/cc/orbexa/hhy/content/R07ServiceTest.java#searchOnlyMapsStoreRowsAndRecordsTheAuthenticatedUsersHistory",
+    "services/backend/boot/src/test/java/cc/orbexa/hhy/content/R07PostgresStoreTest.java#searchPublisherContactIdempotencyAuditAndOutboxUseRealPostgres"
+  ],
+  "fault_classes": ["keyword-search", "content-type-filter", "category-filter", "region-filter", "history-recording"]
+}

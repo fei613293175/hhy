@@ -1,0 +1,21 @@
+release: R01
+apk_file: hhy-r01-db3cfdd-debug.apk
+version_name: 1.2.2-debug
+version_code: 10201
+commit: db3cfddcc4cda84265ec18f24de972804d62a08f
+sha256: 7dcd2e86bba02ad45a9d9187d28ed9cab260aefa39d7ae40ed0bfd487fa83b9f
+size_bytes: 11708202
+signing_fingerprint: 68529af253b7254248c1213e27dc113febdcdddfdd0be1501e2804e266dd35ee
+built_at: '2026-07-18T00:52:28.681315'
+test_status: PASS
+owner_physical_test: PASS
+owner_confirmation: 项目所有者于2026-07-18提供真机截图，确认APK已安装、正常启动并进入首页，底部五个导航入口可见。
+download_url: https://download.orbexa.cc/r01-artifacts/hhy-r01-db3cfdd-debug.apk
+desktop_copy: C:\Users\小白\Desktop\hhy-r01-db3cfdd-debug.apk
+build:
+  api_base_url: https://api.orbexa.cc
+  toolchain_image: hhy-android-toolchain:r01-46fb273
+  toolchain_image_id: sha256:97a5b2d7ae4d6c4abab0c985b502597d0612f3a1e0941fd842008e30a4632607
+  source_archive_sha256: 770107187d1646a116849581f421d17e9eca5f3e2345a42629a5c7888cbc0cd4
+  gradle_build_log: artifacts/validation/r01-task007-android/gradle-build.log
+  apk_badging: artifacts/validation/r01-task007-android/apk-badging.txt

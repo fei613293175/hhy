@@ -1,0 +1,68 @@
+protocol_version: '1.0'
+cr_id: CR-0321
+title: 投影R12逐页视觉合同到验收目录
+status: CLOSED
+created_at: '2026-07-25T07:07:30Z'
+updated_at: '2026-07-25T17:06:48Z'
+requester_actor_id: codex-root-r12-client-20260725
+approver_actor_id: codex-r12-review-contract-reviewer
+task_id: TASK-R12-004
+session_id: SES-20260725T053515Z-11D4084D
+user_request: OWNER_ACTIVE_GOAL_EXACT_UI_AND_CONTINUE_R01_R32
+reason: CR-0314已批准R12十一页精确视觉映射并明确TASK-R12-004登记IN_REVIEW，但其影响清单未包含运行时验收目录；本CR只把既有视觉决定投影到catalogs/ui_visual_acceptance.csv，不新增业务或第二套视觉规则。
+original_rule: CR-0314已冻结R12十一页精确视觉来源并要求TASK-R12-004在catalogs/ui_visual_acceptance.csv登记IN_REVIEW，真实截图和AI逐页复核仅在TASK-R12-007转PASS；当前验收目录尚无R12行。
+new_rule: 只将CR-0314已批准的十一页视觉映射投影到catalogs/ui_visual_acceptance.csv：真实实现路径形成的页面登记IN_REVIEW，未形成实现路径的Android页面不得伪造文件或截图；后续故事形成路径时逐行补齐，同一页面仅保留一条合同。
+impact_summary: 建立R12逐页视觉验收的单一投影入口，当前先登记已实现的ADM-REVIEW-001，并允许后续十个Android故事在同一CR下按真实实现进度登记；不更改视觉选择和业务合同。
+impact:
+  files:
+  - catalogs/ui_visual_acceptance.csv
+  pages:
+  - SCR-PUB-001
+  - SCR-PUB-006
+  - SCR-PUB-007
+  - SCR-MYC-001
+  - SCR-MYC-002
+  - SCR-MYC-003
+  - SCR-MYC-004
+  - SCR-MYC-005
+  - SCR-ME-001
+  - SCR-ME-002
+  - ADM-REVIEW-001
+  apis: []
+  database: []
+  configuration: []
+  ledger:
+  - CR-0314 visual mapping projection only
+  tests:
+  - scripts/check_ui_visual_acceptance.py --release R12 --catalog-only
+  releases:
+  - R12
+  migration_and_compatibility: 纯目录投影；无运行时、API或数据库迁移；非PASS行不需要截图，最终候选真实截图经AI复核后才能转PASS。
+user_confirmation: OWNER_ACTIVE_GOAL_EXACT_UI_AND_CONTINUE_R01_R32
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-25T07:11:12Z'
+  note: CR-0321仅投影CR-0314既有视觉决定；当前只允许登记真实存在的ADM-REVIEW-001为IN_REVIEW，未实现Android页面不得填写路径或截图，最终候选真实截图经AI复核后方可转PASS，不建立第二套视觉规则
+machine_record: .continuity/change_requests/CR-0321.yaml
+document: docs/03-continuity/change-requests/CR-0321-投影R12逐页视觉合同到验收目录.md
+decision_log:
+- at: '2026-07-25T07:12:01Z'
+  actor_id: codex-root-r12-client-20260725
+  status: IMPLEMENTING
+  note: 独立审批通过，当前仅登记已真实实现的ADM-REVIEW-001为IN_REVIEW；后续Android页面按真实路径形成顺序追加。
+  session_id: SES-20260725T053515Z-11D4084D
+- at: '2026-07-25T07:41:37Z'
+  actor_id: codex-root-r12-client-20260725
+  status: IMPLEMENTED
+  note: 冻结实现已提交并推送；obx-test Java21、PostgreSQL17、V041/U041与仓库SQL合同全部PASS，日志/tmp/hhy-r12-task004-13d85385-v3.log sha256=2efd38006ae7e87b0827417d43e5f845921bbd4b02131d2877484c78ab747864
+  session_id: SES-20260725T053515Z-11D4084D
+- at: '2026-07-25T17:06:48Z'
+  actor_id: codex-root-r12-client-20260725
+  status: CLOSED
+  note: TASK-R12-004八个Story、模块证据与Release门禁报告已完成并推送，冻结范围无遗留实现项；最终截图与APK按既定策略留到TASK-R12-007。
+  session_id: SES-20260725T053515Z-11D4084D
+session_ids:
+- SES-20260725T053515Z-11D4084D
+implementation_commits:
+- 13d8538542c05c8a28f2f35f7b28224df657b7b1
+- 4366bd9392efe2e60b5aa9217428e71932368cf6

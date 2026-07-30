@@ -1,0 +1,59 @@
+protocol_version: '1.0'
+cr_id: CR-0295
+title: 补齐R11后台团队长运营详情
+status: CLOSED
+created_at: '2026-07-23T22:44:02Z'
+updated_at: '2026-07-23T23:02:32Z'
+requester_actor_id: codex-root-r11-client
+approver_actor_id: codex-reviewer-user-self-r11
+task_id: TASK-R11-004
+session_id: SES-20260723T183130Z-454A6E0D
+user_request: 项目所有者要求前端已开发功能必须具备后台上帝视角与完整管理能力，并持续推进R11开发。
+reason: 后台统一内容列表已识别TEAM_LEADER，但详情页尚未展示团队长冻结属性、真实媒体、发布者、脱敏联系方式和运营统计，TASK-R11-004后台实现仍不完整。
+original_rule: 后台统一内容详情页已复用内容类型、状态和通用运营动作，但仅对GROUP_CHAT展示领域专属业务事实。
+new_rule: 在既有统一内容详情页内为TEAM_LEADER增加只读领域面板，仅展示服务端ContentResource返回的冻结团队属性、HTTPS真实媒体、发布者、脱敏联系方式与统计；复用既有运营动作，禁止暴露原始联系方式或新增未冻结动作。
+impact_summary: 补齐R11后台团队长上帝视角详情与自动化回归，不修改API、数据库、配置或H5计划。
+impact:
+  files:
+  - apps/admin-web/src/views/AdminContentDetailPage.vue
+  - apps/admin-web/src/r11TeamLeaderReuse.test.ts
+  - CHANGELOG.md
+  pages:
+  - ADM-CONTENT-002
+  apis:
+  - GET /admin-api/v1/contents/{id}
+  database: []
+  configuration: []
+  ledger: []
+  tests:
+  - R11_ADMIN_TEAM_LEADER_REUSE
+  releases:
+  - R11
+  migration_and_compatibility: 纯后台兼容性展示增强；既有内容类型和接口保持不变，属性缺失时显示安全占位，非HTTPS媒体不渲染。
+user_confirmation: 项目所有者已明确要求立即推进后台能力补齐并持续开发，无需逐项停下确认。
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-23T22:45:09Z'
+  note: 项目所有者已明确要求前端功能必须具备后台上帝视角和完整管理能力；本变更只补齐冻结团队长事实展示并复用既有运营动作。
+machine_record: .continuity/change_requests/CR-0295.yaml
+document: docs/03-continuity/change-requests/CR-0295-补齐R11后台团队长运营详情.md
+decision_log:
+- at: '2026-07-23T22:57:45Z'
+  actor_id: codex-root-r11-client
+  status: IMPLEMENTING
+  note: 实现已完成，admin-web 98项测试、类型检查与生产构建PASS，进入提交和门禁阶段。
+  session_id: SES-20260723T183130Z-454A6E0D
+- at: '2026-07-23T23:02:28Z'
+  actor_id: codex-root-r11-client
+  status: IMPLEMENTED
+  note: 实现提交7f3483f8；admin-web 98项测试、类型检查、生产构建、生成资产与严格提交门禁PASS。
+  session_id: SES-20260723T183130Z-454A6E0D
+- at: '2026-07-23T23:02:32Z'
+  actor_id: codex-reviewer-user-self-r11
+  status: CLOSED
+  note: 复核实现范围与批准内容一致，未新增API、数据库、配置、H5页面或未冻结后台动作。
+  session_id: SES-20260723T183130Z-454A6E0D
+session_ids:
+- SES-20260723T183130Z-454A6E0D
+implementation_commits:
+- 7f3483f8

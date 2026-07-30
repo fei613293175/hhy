@@ -1,0 +1,937 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260725T053515Z-11D4084D-0033
+session_id: SES-20260725T053515Z-11D4084D
+task_id: TASK-R12-004
+story_id: STORY-R12-008
+sequence: 33
+created_at: '2026-07-25T16:57:10Z'
+summary: 原子切换至STORY-R12-008工程治理，开始R12版本级契约、数据、配置、测试、观测、视觉和交接收口。
+next_step: 逐项审计R12 TASKS、Release Manifest、验收矩阵和当前实现证据，确定剩余任务与最终候选门禁顺序。
+blockers: []
+decisions: []
+note: 遵循大版本最终候选才运行完整门禁、模拟器和APK交付；所有构建继续使用obx-test。
+tests:
+- name: story-r12-007-commit
+  result: PASS
+  evidence: git 3153ef9cafbcc06ffee8be92dac4f77435f43866 pushed to origin/task/TASK-R03-001
+  note: MODULE和静态门禁证据已绑定检查点0032
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: 3153ef9cafbcc06ffee8be92dac4f77435f43866
+  upstream: origin/task/TASK-R03-001
+  ahead: 0
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/ACTIVE_SESSION.yaml'
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/SESSION_INDEX.yaml'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/TASK_CLAIMS.yaml'
+  - ' M .continuity/sessions/SES-20260725T053515Z-11D4084D.yaml'
+  - ' M CURRENT_STATUS.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+  - ' M catalogs/session_index.csv'
+  recent_commits:
+  - "3153ef9cafbcc06ffee8be92dac4f77435f43866\t2026-07-26T00:54:52+08:00\tHHY Continuity Bootstrap\t[STORY-R12-007] feat(android): implement me\
+    \ home"
+  - "1f9fd299e34657f878463f331838a80608cf3da4\t2026-07-25T23:29:26+08:00\tHHY Continuity Bootstrap\t[STORY-R12-007] chore(continuity): approve\
+    \ me home scope"
+  - "ee2cf43c79d79db896b79021afde60ba3c6b2f0c\t2026-07-25T23:00:44+08:00\tHHY Continuity Bootstrap\t[STORY-R12-007] chore(continuity): enter my\
+    \ home story"
+  - "7792d4321f284c0660f185878d2be70a60a3ecfc\t2026-07-25T22:55:59+08:00\tHHY Continuity Bootstrap\t[STORY-R12-006] feat(profile): implement personal\
+    \ profile flow"
+  - "e8fbdf16d72da6745bda5d34c15cc1fcc2205140\t2026-07-25T20:28:11+08:00\tHHY Continuity Bootstrap\t[STORY-R12-006] chore(continuity): enter profile\
+    \ story"
+  - "7155dbff25fbc38cb397ce96bd71bf612b7d89d3\t2026-07-25T20:20:32+08:00\tHHY Continuity Bootstrap\t[STORY-R12-005] chore(continuity): bind submit\
+    \ result evidence"
+  - "8900e572a35828acd5c697ac40d09a8a850ab1af\t2026-07-25T19:40:31+08:00\tHHY Continuity Bootstrap\t[STORY-R12-005] test(android): align submit\
+    \ version assertion"
+  - "c40b80358b2d2f067df2f2f4bd0965988ea6ea92\t2026-07-25T19:28:11+08:00\tHHY Continuity Bootstrap\t[STORY-R12-005] feat(android): implement submit\
+    \ result flow"
+project_fingerprint:
+  sha256: e5956c769c92c34c85e06f80969221aace3daca41d16bd09da79d0d88026c6c2
+  files:
+  - CHANGELOG.md
+  - apps/admin-web/src/adminNavigation.test.ts
+  - apps/admin-web/src/adminNavigation.ts
+  - apps/admin-web/src/generated/admin-pages.json
+  - apps/admin-web/src/r12ReviewWorkbench.test.ts
+  - apps/admin-web/src/router.ts
+  - apps/admin-web/src/routerPermissions.test.ts
+  - apps/admin-web/src/services/adminReviews.test.ts
+  - apps/admin-web/src/services/adminReviews.ts
+  - apps/admin-web/src/services/idempotency.ts
+  - apps/admin-web/src/services/index.ts
+  - apps/admin-web/src/styles.css
+  - apps/admin-web/src/views/AdminReviewWorkbenchPage.vue
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/androidTest/java/cc/orbexa/hhy/AuthenticatedNavigationTest.kt
+  - apps/android/app/src/androidTest/java/cc/orbexa/hhy/HistoricalVisualAuditTest.kt
+  - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+  - apps/android/app/src/test/java/cc/orbexa/hhy/NavigationPolicyTest.kt
+  - apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyIcons.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ApiModels.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractIdentityApi.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractMediaApi.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR07Api.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR08Api.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR09Api.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR10Api.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR11Api.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR12Api.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR12MeApi.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR12ProfileApi.kt
+  - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ApiModelsSerializationTest.kt
+  - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ContractR12ApiTest.kt
+  - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ContractR12MeApiTest.kt
+  - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ContractR12ProfileApiTest.kt
+  - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/R12ApiModelsSerializationTest.kt
+  - apps/android/feature/content-management/build.gradle.kts
+  - apps/android/feature/content-management/src/main/AndroidManifest.xml
+  - apps/android/feature/content-management/src/main/java/cc/orbexa/hhy/contentmanagement/R12ContentManagementDetailScreen.kt
+  - apps/android/feature/content-management/src/main/java/cc/orbexa/hhy/contentmanagement/R12ContentManagementListScreens.kt
+  - apps/android/feature/content-management/src/main/java/cc/orbexa/hhy/contentmanagement/R12ContentManagementListState.kt
+  - apps/android/feature/content-management/src/main/java/cc/orbexa/hhy/contentmanagement/R12ContentManagementState.kt
+  - apps/android/feature/content-management/src/main/java/cc/orbexa/hhy/contentmanagement/R12PublishScreens.kt
+  - apps/android/feature/content-management/src/main/java/cc/orbexa/hhy/contentmanagement/R12PublishState.kt
+  - apps/android/feature/content-management/src/test/java/cc/orbexa/hhy/contentmanagement/R12ContentManagementListStateTest.kt
+  - apps/android/feature/content-management/src/test/java/cc/orbexa/hhy/contentmanagement/R12ContentManagementStateTest.kt
+  - apps/android/feature/content-management/src/test/java/cc/orbexa/hhy/contentmanagement/R12PublishStateTest.kt
+  - apps/android/feature/media/src/main/java/cc/orbexa/hhy/media/MediaUploadSheet.kt
+  - apps/android/feature/media/src/test/java/cc/orbexa/hhy/media/MediaUploadSheetTest.kt
+  - apps/android/feature/shell/build.gradle.kts
+  - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+  - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/R12MeHomeScreen.kt
+  - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/R12MeHomeState.kt
+  - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/R12ProfileScreen.kt
+  - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/R12ProfileState.kt
+  - apps/android/feature/shell/src/test/java/cc/orbexa/hhy/shell/R12MeHomeStateTest.kt
+  - apps/android/feature/shell/src/test/java/cc/orbexa/hhy/shell/R12ProfileStateTest.kt
+  - apps/android/settings.gradle.kts
+  - catalogs/admin_page_operation_specs.csv
+  - catalogs/admin_pages.csv
+  - catalogs/api_ui_ownership.csv
+  - catalogs/release_story_backlog.csv
+  - catalogs/ui_action_matrix.csv
+  - catalogs/ui_page_fields.csv
+  - catalogs/ui_page_specifications.csv
+  - catalogs/ui_page_states.csv
+  - catalogs/ui_visual_acceptance.csv
+  - contracts/admin-openapi.yaml
+  - contracts/contract_status.csv
+  - contracts/openapi.yaml
+  - contracts/operation-error-matrix.csv
+  - database/migrations/V041__r12_review_permission_alignment.sql
+  - database/rollback/U041__r12_review_permission_alignment.sql
+  - database/state_machines.yaml
+  - database/tests/r12_review_permission_alignment.sql
+  - docs/02-ui/page-specs/admin/ADM-REVIEW-001_审核队列.md
+  - docs/02-ui/page-specs/admin/ADM-USER-001_用户列表.md
+  - docs/02-ui/page-specs/admin/ADM-USER-002_用户详情.md
+  - docs/02-ui/page-specs/android/SCR-AUTH-005_账号冻结.md
+  - docs/02-ui/page-specs/android/SCR-ID-001_实名认证首页.md
+  - docs/02-ui/page-specs/android/SCR-ME-001_我的首页.md
+  - docs/02-ui/page-specs/android/SCR-ME-002_个人资料.md
+  - docs/02-ui/page-specs/android/SCR-MYC-001_我的发布.md
+  - docs/02-ui/page-specs/android/SCR-MYC-002_草稿箱.md
+  - docs/02-ui/page-specs/android/SCR-MYC-003_内容管理详情.md
+  - docs/02-ui/page-specs/android/SCR-MYC-004_审核记录.md
+  - docs/02-ui/page-specs/android/SCR-MYC-005_内容数据.md
+  - docs/02-ui/page-specs/android/SCR-PUB-001_发布入口.md
+  - docs/02-ui/page-specs/android/SCR-PUBLISHER-001_发布者主页.md
+  - docs/02-ui/page-specs/android/SCR-SET-001_设置.md
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/change-requests/CR-0319-统一R12审核工作台权限目录与默认排序合同.md
+  - docs/03-continuity/change-requests/CR-0320-扩展CR-0319审核证据权限与真实工作台施工范围.md
+  - docs/03-continuity/change-requests/CR-0321-投影R12逐页视觉合同到验收目录.md
+  - docs/03-continuity/change-requests/CR-0322-补齐CR-0319默认排序Java回归测试范围.md
+  - docs/03-continuity/change-requests/CR-0323-补齐CR-0319默认排序PostgreSQL执行回归范围.md
+  - docs/03-continuity/change-requests/CR-0324-实现SCR-MYC-003内容管理详情客户端闭环.md
+  - docs/03-continuity/change-requests/CR-0325-纠正CR-0324内容管理源码路径投影.md
+  - docs/03-continuity/change-requests/CR-0326-实现R12四页发布管理客户端闭环.md
+  - docs/03-continuity/change-requests/CR-0327-纠正R12四页商业错误投影与发布入口.md
+  - docs/03-continuity/change-requests/CR-0328-实现R12发布中心与真实内容预览纵向闭环.md
+  - docs/03-continuity/change-requests/CR-0329-实现R12稳定幂等提交与SCR-PUB-007结果闭环.md
+  - docs/03-continuity/change-requests/CR-0330-统一R12个人资料255字符合同并实现SCR-ME-002客户端闭环.md
+  - docs/03-continuity/change-requests/CR-0331-实现SCR-ME-001真实资产聚合首页并修复底部栏目导航回归.md
+  - releases/R12/STORIES.yaml
+  - scripts/check_android_ui_foundation.py
+  - scripts/check_db_schema.py
+  - scripts/run_r12_database_invariants.sh
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/R12ProfileContracts.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/R12ProfileService.java
+  - services/backend/boot/src/main/resources/contracts/admin-openapi.yaml
+  - services/backend/boot/src/main/resources/contracts/openapi.yaml
+  - services/backend/boot/src/main/resources/db/migration/V041__r12_review_permission_alignment.sql
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/R12ProfileServiceTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/R12AccountControllerContractTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R07ServiceTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R12ReviewPostgresStoreTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R12ReviewServiceTest.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R12ReviewPostgresStore.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R12ReviewService.java
+  - tests/test_android_ui_foundation.py
+  file_count: 120
+  payload:
+    base_commit: 8b852b35e1e152adbc37feb6f0add7fc719f4770
+    files:
+    - path: CHANGELOG.md
+      state: FILE
+      size: 138647
+      sha256: 4e8f323688e3eb0b2e07aab25438d6a251bd7469fc20e33b1aa16bd97cb3bc2d
+    - path: apps/admin-web/src/adminNavigation.test.ts
+      state: FILE
+      size: 1720
+      sha256: 15682019cf3665922a8ba74959b40f9bff15a28f8f8921ac94ddb71a160380e7
+    - path: apps/admin-web/src/adminNavigation.ts
+      state: FILE
+      size: 1986
+      sha256: dac605bbf57431787c944daf98fc42b79ee080f3cec21cbc8464b47837d6140c
+    - path: apps/admin-web/src/generated/admin-pages.json
+      state: FILE
+      size: 57017
+      sha256: 5b859285cd2c4efac3871d4c63a1794ad2355e91f8e9a9aa41312962d75bebca
+    - path: apps/admin-web/src/r12ReviewWorkbench.test.ts
+      state: FILE
+      size: 7625
+      sha256: 0ecdeacc28b8c95b0eb95ea26fe69d71023464c877672cca027aba56370ca1ce
+    - path: apps/admin-web/src/router.ts
+      state: FILE
+      size: 5317
+      sha256: d40a56b9795c2ff8b5d7630a6638fb69143c2946c614fd581ecd7b9beb97df68
+    - path: apps/admin-web/src/routerPermissions.test.ts
+      state: FILE
+      size: 1609
+      sha256: 5de5dcd2e707ea3857ced7af69680df119baf2f6785a3d46333c4b9579a09f55
+    - path: apps/admin-web/src/services/adminReviews.test.ts
+      state: FILE
+      size: 5526
+      sha256: da7f4353c4c7665abedec27159372ae574219c8a169499febf1f36568111d459
+    - path: apps/admin-web/src/services/adminReviews.ts
+      state: FILE
+      size: 8532
+      sha256: 0b9fe7fe1b6f5cf35035a0bf320c25b9b7ef946747a223ecb77196dddb3ab758
+    - path: apps/admin-web/src/services/idempotency.ts
+      state: FILE
+      size: 2939
+      sha256: 124b83cb41ff78ee335d062b4c79c796ed40e273f74a25b67eeabca2e74beef4
+    - path: apps/admin-web/src/services/index.ts
+      state: FILE
+      size: 371
+      sha256: 934b101b3894e47ec24cdd9b31164c8568170a55bcc4f42679a13d11765511d8
+    - path: apps/admin-web/src/styles.css
+      state: FILE
+      size: 35190
+      sha256: bef80d3ac43f446cd46eb212ae4cacc1df8270bdbeafbff8c4c53ed8b99041dd
+    - path: apps/admin-web/src/views/AdminReviewWorkbenchPage.vue
+      state: FILE
+      size: 33724
+      sha256: bc0a8e801088c0025a3a766d755b98920239e10b86cda48226f77992c85c7e48
+    - path: apps/android/app/build.gradle.kts
+      state: FILE
+      size: 5357
+      sha256: eb1894027c9f85eb635218a01a481572e8be103f03499938d25f2f0c0b425e7b
+    - path: apps/android/app/src/androidTest/java/cc/orbexa/hhy/AuthenticatedNavigationTest.kt
+      state: FILE
+      size: 2791
+      sha256: d609f1bc8de96b92bde0ee40d4d905957a4e17f8ed242e1a5890caef61f6fb2b
+    - path: apps/android/app/src/androidTest/java/cc/orbexa/hhy/HistoricalVisualAuditTest.kt
+      state: FILE
+      size: 32938
+      sha256: 56bbaf479a3a1bb1916c7d08bb2ae22629015dd40463ae402c02900cc53b76b4
+    - path: apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+      state: FILE
+      size: 43572
+      sha256: be51513084c272868c59c5a40e9af6a1a36d53f73082dbc11903afea15d4bdd2
+    - path: apps/android/app/src/test/java/cc/orbexa/hhy/NavigationPolicyTest.kt
+      state: FILE
+      size: 1562
+      sha256: ce47bfe1afcf6e0e348ca097b64545ecec9a1d71162feb59b0e3e1807b88257a
+    - path: apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyIcons.kt
+      state: FILE
+      size: 3646
+      sha256: 8f3426aa22371600ba2f25919a90d0136ec7dd0572c765de6defec4d603b7c57
+    - path: apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ApiModels.kt
+      state: FILE
+      size: 12764
+      sha256: f0ff6a87ab2d14a488edece3fc51f4e827631df9a79ff502fdb39738f80313fc
+    - path: apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractIdentityApi.kt
+      state: FILE
+      size: 11255
+      sha256: 23712b3c5e3ff59b4657e89387ea666b2f14f79c7bbd76e44eee81b1462e1ee0
+    - path: apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractMediaApi.kt
+      state: FILE
+      size: 8892
+      sha256: 39d1c04e43c85cbcbc615432ee13ece0145340a1cf643f819ae91c3b2a608e0c
+    - path: apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR07Api.kt
+      state: FILE
+      size: 10269
+      sha256: cfa421cbd0c131f6c5d8440901b4f5f7252cac7a500f7405dd99e4114a74d8d4
+    - path: apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR08Api.kt
+      state: FILE
+      size: 11628
+      sha256: 6f399b6e3fe2d5cc574488e0370273f0c4ee7456442ee0a7a2b89092904a6b68
+    - path: apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR09Api.kt
+      state: FILE
+      size: 9539
+      sha256: 25703fb5978c7ce6b8f7fdac91d5d161235a9757e771041dd1e8e3b03ea10e37
+    - path: apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR10Api.kt
+      state: FILE
+      size: 10071
+      sha256: 291d50e7dea652d663bf13fd762e141184427b0502c63b843ddf7e3a02a1e338
+    - path: apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR11Api.kt
+      state: FILE
+      size: 10591
+      sha256: 957cf2e30c850f151ce3358105b8fe719f41307155ee2f0b4f96b0b6cb0537ca
+    - path: apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR12Api.kt
+      state: FILE
+      size: 16853
+      sha256: 767337115d4d593365a485a18de530cc29b1b119df8c45acdcd2d62379c49969
+    - path: apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR12MeApi.kt
+      state: FILE
+      size: 4453
+      sha256: ee828d4a032fb91c2e716f1fb8125407d16020bbb0724a205b8ba8d9843283b3
+    - path: apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR12ProfileApi.kt
+      state: FILE
+      size: 7653
+      sha256: 4e145574d5b58a5e7b16c9f352d05b1d82f25504efb213ca8d12ecfef36f72c3
+    - path: apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ApiModelsSerializationTest.kt
+      state: FILE
+      size: 13938
+      sha256: a478f1ea7c5fae678e948a79bf560e1626a7e15df13a798a9dba20d420005264
+    - path: apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ContractR12ApiTest.kt
+      state: FILE
+      size: 4148
+      sha256: 4732eaf226a5bbde39658f32db4366933cb20f582b87f09dc29850792c1d2e1e
+    - path: apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ContractR12MeApiTest.kt
+      state: FILE
+      size: 2064
+      sha256: 9bfea8380b492e01af9816769280ebd33b8e6a44394107ee8bb6eee12a4b6b51
+    - path: apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ContractR12ProfileApiTest.kt
+      state: FILE
+      size: 3914
+      sha256: ec49b1d4175782e9736cb2ff88b0de2d2c0229a2c008820ce772ce4a12a7c596
+    - path: apps/android/core/network/src/test/java/cc/orbexa/hhy/network/R12ApiModelsSerializationTest.kt
+      state: FILE
+      size: 1524
+      sha256: 06469eb2b46aa22ec2c2dd435ac21995b33b00bc7ae7022196dfc19419340f9c
+    - path: apps/android/feature/content-management/build.gradle.kts
+      state: FILE
+      size: 1148
+      sha256: e3af0f502d58b65bd340a8dd03242e88ab30f1004cb82b5fcd082bf2fa00d664
+    - path: apps/android/feature/content-management/src/main/AndroidManifest.xml
+      state: FILE
+      size: 13
+      sha256: 571f2735faf5e857752ee057ac8ef63425576a721616c60b86ee5d4c0a2d682f
+    - path: apps/android/feature/content-management/src/main/java/cc/orbexa/hhy/contentmanagement/R12ContentManagementDetailScreen.kt
+      state: FILE
+      size: 22846
+      sha256: 5673e18ee3bb95544643a94f2616815c375e83416f81f6b0719ad3e3a64723a5
+    - path: apps/android/feature/content-management/src/main/java/cc/orbexa/hhy/contentmanagement/R12ContentManagementListScreens.kt
+      state: FILE
+      size: 38918
+      sha256: 4ee9753c817757cb2c076f41517c4966bdd3a6c4e42ded39f4519f3d1c2260d3
+    - path: apps/android/feature/content-management/src/main/java/cc/orbexa/hhy/contentmanagement/R12ContentManagementListState.kt
+      state: FILE
+      size: 5364
+      sha256: 705f5e304d4e708e94a826756ea6a950d096307a47529992db20f1f9600c18d0
+    - path: apps/android/feature/content-management/src/main/java/cc/orbexa/hhy/contentmanagement/R12ContentManagementState.kt
+      state: FILE
+      size: 4417
+      sha256: 93761dd9856b33e6f1bbaa2ee7844fae18b8ab189e330c266116ef1762b1a9c6
+    - path: apps/android/feature/content-management/src/main/java/cc/orbexa/hhy/contentmanagement/R12PublishScreens.kt
+      state: FILE
+      size: 40500
+      sha256: dbe9a6d686f2ed71c0582f01c6857c7ff1042359c60d0f1fe7adb2b28f2975e2
+    - path: apps/android/feature/content-management/src/main/java/cc/orbexa/hhy/contentmanagement/R12PublishState.kt
+      state: FILE
+      size: 9455
+      sha256: 2ed5db490f594debe9ff40bc6c1545cf9caf177b1cc16a2e70e576c7b7acdf75
+    - path: apps/android/feature/content-management/src/test/java/cc/orbexa/hhy/contentmanagement/R12ContentManagementListStateTest.kt
+      state: FILE
+      size: 3415
+      sha256: 71313ef151092224f0ff76f645e23c344322b0e122835460be932998c642d729
+    - path: apps/android/feature/content-management/src/test/java/cc/orbexa/hhy/contentmanagement/R12ContentManagementStateTest.kt
+      state: FILE
+      size: 3922
+      sha256: 13bf4557e4c1d142c7c1324fc117fb91a144d642e93207b6deb233e8e2067835
+    - path: apps/android/feature/content-management/src/test/java/cc/orbexa/hhy/contentmanagement/R12PublishStateTest.kt
+      state: FILE
+      size: 7438
+      sha256: 73d39accc6b2659873b6983df7b6fa085d81b9cb10859234dd6fe90811e71d65
+    - path: apps/android/feature/media/src/main/java/cc/orbexa/hhy/media/MediaUploadSheet.kt
+      state: FILE
+      size: 18604
+      sha256: b1a47e355727e16256dc66d9d95b4304f10897974d29ad66310f2c91c1ce2699
+    - path: apps/android/feature/media/src/test/java/cc/orbexa/hhy/media/MediaUploadSheetTest.kt
+      state: FILE
+      size: 1549
+      sha256: 9d39c790765047cd3f7085396a0fbf9ffca1f8160ae4fd76c7a312bf209acf9e
+    - path: apps/android/feature/shell/build.gradle.kts
+      state: FILE
+      size: 1147
+      sha256: 8e14644e02432d8a4e26911e43cd557cd57f661dbb8e65cd4aed871b3fcbda9f
+    - path: apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+      state: FILE
+      size: 39014
+      sha256: 6df74eab55ec709a09e174e4ad9c07393fed7f194d809054238ff51c1ef0ade0
+    - path: apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/R12MeHomeScreen.kt
+      state: FILE
+      size: 25592
+      sha256: e30e004e911af7fa01743329a444bb55eae028cb544bbd9b55a33a0a14d06b22
+    - path: apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/R12MeHomeState.kt
+      state: FILE
+      size: 3405
+      sha256: 26b243833ae850e292ac6a505dd6aab90cc9a4f4f1116a1ad1be2f5dbc5a153e
+    - path: apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/R12ProfileScreen.kt
+      state: FILE
+      size: 21459
+      sha256: 379d61d50c3a4c3735b7ab48b4641909c0b2d080d166e4d3dabe56454456ecbf
+    - path: apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/R12ProfileState.kt
+      state: FILE
+      size: 12690
+      sha256: fde2258dc584143ee97cd7a3aa1a8698f6ec79df7248441fb817ee2594b526e8
+    - path: apps/android/feature/shell/src/test/java/cc/orbexa/hhy/shell/R12MeHomeStateTest.kt
+      state: FILE
+      size: 3011
+      sha256: dbcaccb6936e7d265b534110ba97e87702229a4b820567b0ab5a74f2df08aa55
+    - path: apps/android/feature/shell/src/test/java/cc/orbexa/hhy/shell/R12ProfileStateTest.kt
+      state: FILE
+      size: 4201
+      sha256: 14329801dd697575f337c962d6826f36560bcbc9e2799fa53b94dabc484d4da4
+    - path: apps/android/settings.gradle.kts
+      state: FILE
+      size: 719
+      sha256: 4ace8fc6384ff9bdca1aede46c99618ca170562ae9a7254e0c330f2a53416b62
+    - path: catalogs/admin_page_operation_specs.csv
+      state: FILE
+      size: 126406
+      sha256: c64b1a16ee2097fc379eb93fc21d1164c201ec12e7ad7f5a7efca8d28ecdec9e
+    - path: catalogs/admin_pages.csv
+      state: FILE
+      size: 13224
+      sha256: e241235356ee306bf9fdef5732c0a1dfb966631e1fb988ca7fc9a62aea596325
+    - path: catalogs/api_ui_ownership.csv
+      state: FILE
+      size: 75587
+      sha256: e10efa31b3cf5211c007226f102a7f5e8aa3d839e21a17d5ef34f0ad30628d53
+    - path: catalogs/release_story_backlog.csv
+      state: FILE
+      size: 349350
+      sha256: 910b941a9644ebcfdccfc30886f7ab3db000c86ac5b657839b9fa78036544acd
+    - path: catalogs/ui_action_matrix.csv
+      state: FILE
+      size: 1420553
+      sha256: afb3d41d25546d1163f645688fc291e88258be2c9e07fe324498e1e8e33a6767
+    - path: catalogs/ui_page_fields.csv
+      state: FILE
+      size: 2881710
+      sha256: 04e3acf4903b8739a8455aa3599524261b366b21a569191b803637309cc4e63c
+    - path: catalogs/ui_page_specifications.csv
+      state: FILE
+      size: 293602
+      sha256: 509def927119ea5799ad88a1216378178d6cb13e4b8fd7609dbbb3128393c69c
+    - path: catalogs/ui_page_states.csv
+      state: FILE
+      size: 485164
+      sha256: 77bdfebfe729edc32b4cd5c6cbf7f0902a1b305b9bedfb97fc25cb483abda50b
+    - path: catalogs/ui_visual_acceptance.csv
+      state: FILE
+      size: 57781
+      sha256: b75f0ac1512b4f3ca886de3260881cb7425d00a784fab6beb2e66017f6c61de8
+    - path: contracts/admin-openapi.yaml
+      state: FILE
+      size: 852937
+      sha256: 37a0ebb61a64a692d2c0a500ee8d181eda99dbba100148a7bc8b0b72220890f7
+    - path: contracts/contract_status.csv
+      state: FILE
+      size: 140050
+      sha256: 74ed08bb778163cd8beab9a6f5947b456277ca14c9f5da5d299c69105c6a4d30
+    - path: contracts/openapi.yaml
+      state: FILE
+      size: 602877
+      sha256: 018f049e06c530854b7ed1aec086d91f8215f2ea0a94dd9321e8511072f47e8d
+    - path: contracts/operation-error-matrix.csv
+      state: FILE
+      size: 210990
+      sha256: 5402bb2bf044c4fd09d23b9a5cab035732f0263e41322acce6f4f5b57ed73975
+    - path: database/migrations/V041__r12_review_permission_alignment.sql
+      state: FILE
+      size: 2495
+      sha256: 98b0295ab898b20238d65933f23749899e2cae5da4eed7a87841ea5e050ddb47
+    - path: database/rollback/U041__r12_review_permission_alignment.sql
+      state: FILE
+      size: 1220
+      sha256: e58686ea147d09ae46f84e7f83c888b0924a85273f61105193a7b0d1f1c4ac5b
+    - path: database/state_machines.yaml
+      state: FILE
+      size: 15546
+      sha256: 865cbe6b55306c03fa27701a1c3ef638a3973060ae86350ecb0e0d086405136c
+    - path: database/tests/r12_review_permission_alignment.sql
+      state: FILE
+      size: 1378
+      sha256: 3cc108211d1dcc994d1c509b5c15300b12e3322ea914bfaf71e1b9b8ea5f1b07
+    - path: docs/02-ui/page-specs/admin/ADM-REVIEW-001_审核队列.md
+      state: FILE
+      size: 32405
+      sha256: 155dca08eefc554bbdf45420dfd95a456d41cce00dd4c81c47a5d48cdc62077b
+    - path: docs/02-ui/page-specs/admin/ADM-USER-001_用户列表.md
+      state: FILE
+      size: 20937
+      sha256: ef986eb1b9bf66546dd2aa049132bfafbacc2fda0eb678ff7eecb6395e01042b
+    - path: docs/02-ui/page-specs/admin/ADM-USER-002_用户详情.md
+      state: FILE
+      size: 34545
+      sha256: faac85f56f6fcae182c596029d18eec1a2b6ceffa0617e4ff3f396dd44275d20
+    - path: docs/02-ui/page-specs/android/SCR-AUTH-005_账号冻结.md
+      state: FILE
+      size: 15342
+      sha256: 8e7beba50b2b7619d4118532d4ee97492c121d35684e6ceab83156fdba88a03d
+    - path: docs/02-ui/page-specs/android/SCR-ID-001_实名认证首页.md
+      state: FILE
+      size: 15803
+      sha256: 32447fa9d03f59f5d32a694e17de120dbf8112c9c30cbd60f8566e03158e0582
+    - path: docs/02-ui/page-specs/android/SCR-ME-001_我的首页.md
+      state: FILE
+      size: 18607
+      sha256: aa1edd78ec5654706fd1087cc02c92a6aff486dbb5e25121008e063e3ac67510
+    - path: docs/02-ui/page-specs/android/SCR-ME-002_个人资料.md
+      state: FILE
+      size: 16280
+      sha256: 2d922a74d51057ba0d4f33c1366cf7e6cbfbe86bc19ffe1c8e70ac33cb868f42
+    - path: docs/02-ui/page-specs/android/SCR-MYC-001_我的发布.md
+      state: FILE
+      size: 27379
+      sha256: 6c516c439f130629ca97232aea9af71c58262bd52ec60af5feebabaa4bb11ee3
+    - path: docs/02-ui/page-specs/android/SCR-MYC-002_草稿箱.md
+      state: FILE
+      size: 25233
+      sha256: 841b8ec7f6997eda151c72e052de9e753a7fdc82a3d48417d9097d11cfe939ad
+    - path: docs/02-ui/page-specs/android/SCR-MYC-003_内容管理详情.md
+      state: FILE
+      size: 27250
+      sha256: ce6e6e62d7991622e024c4d900fcd16e2866a11727158ead92b35d297c2dc799
+    - path: docs/02-ui/page-specs/android/SCR-MYC-004_审核记录.md
+      state: FILE
+      size: 24275
+      sha256: ae66837e18ace3f5774211cb8e3388ae80a250b49ffc4136395cd89ff1660e0e
+    - path: docs/02-ui/page-specs/android/SCR-MYC-005_内容数据.md
+      state: FILE
+      size: 23278
+      sha256: e099fbf188f5bfc030a94cc41c6e304cf733a3a6c2cb9591bec9c49e3918339e
+    - path: docs/02-ui/page-specs/android/SCR-PUB-001_发布入口.md
+      state: FILE
+      size: 25622
+      sha256: 25f7c8f059448800ddfe92f2c437adabd3dbfd37cd6eae690be5131c3f421965
+    - path: docs/02-ui/page-specs/android/SCR-PUBLISHER-001_发布者主页.md
+      state: FILE
+      size: 24352
+      sha256: ca3ee3a2e85c05343ec7a3816af4fb281bd71ec47358bfb549ea552489ddd4ab
+    - path: docs/02-ui/page-specs/android/SCR-SET-001_设置.md
+      state: FILE
+      size: 12355
+      sha256: 4031d822fccc02fa3e5a0f9cb2bf0d9032670e233fa118a4e5fb1c077d7a4424
+    - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
+      state: FILE
+      size: 154856
+      sha256: 761f9a6583d5d7b4dc84ef9f44d429b9186da54e361059ca2f411d57338b8079
+    - path: docs/03-continuity/change-requests/CR-0319-统一R12审核工作台权限目录与默认排序合同.md
+      state: FILE
+      size: 3780
+      sha256: 42c214f27ab3a4061c8fe3963c213e37be4c2766a4d8c489f9757eaf6df4c5fc
+    - path: docs/03-continuity/change-requests/CR-0320-扩展CR-0319审核证据权限与真实工作台施工范围.md
+      state: FILE
+      size: 4889
+      sha256: 52dc56ab94cc576e79f38ce0ae4d628463ae6ba8af5b353f59bb3cd44ab05c64
+    - path: docs/03-continuity/change-requests/CR-0321-投影R12逐页视觉合同到验收目录.md
+      state: FILE
+      size: 3346
+      sha256: ca31b8e0045e23616f5b308cbd4bebb447d249ce88770f020a47a607becebb68
+    - path: docs/03-continuity/change-requests/CR-0322-补齐CR-0319默认排序Java回归测试范围.md
+      state: FILE
+      size: 2872
+      sha256: 220b26f0aed40b0191ba113460a74bb4e57dca467f2f011b107d1dca84039c38
+    - path: docs/03-continuity/change-requests/CR-0323-补齐CR-0319默认排序PostgreSQL执行回归范围.md
+      state: FILE
+      size: 2783
+      sha256: 9386b2c77764cd34df35d078c1ed9e96fbc5f794e47b4290838cd3898d192fb5
+    - path: docs/03-continuity/change-requests/CR-0324-实现SCR-MYC-003内容管理详情客户端闭环.md
+      state: FILE
+      size: 4523
+      sha256: bc941b05ba5c1609d9a24eed01d1ad6606095ba51b6c4a1c53eb50eeaa1edfb6
+    - path: docs/03-continuity/change-requests/CR-0325-纠正CR-0324内容管理源码路径投影.md
+      state: FILE
+      size: 3001
+      sha256: f9cd85d5a8884eec00da4a5ff05cf433572f52b0eb84bdebbeeccb423f1626f9
+    - path: docs/03-continuity/change-requests/CR-0326-实现R12四页发布管理客户端闭环.md
+      state: FILE
+      size: 3616
+      sha256: 24297931e74a1b65edee1fcf0f0acdbba078c682c0288db72d52aeecb48eea54
+    - path: docs/03-continuity/change-requests/CR-0327-纠正R12四页商业错误投影与发布入口.md
+      state: FILE
+      size: 3148
+      sha256: 7e90572f178db492fca1bd0f95d65a8b05eb1d52c6dcd23cacf50b6a613d93f3
+    - path: docs/03-continuity/change-requests/CR-0328-实现R12发布中心与真实内容预览纵向闭环.md
+      state: FILE
+      size: 3873
+      sha256: 6005f051fd8704efafcda588ccb315ce6394a83d7fd79f4c8956ddd2d30039c6
+    - path: docs/03-continuity/change-requests/CR-0329-实现R12稳定幂等提交与SCR-PUB-007结果闭环.md
+      state: FILE
+      size: 4026
+      sha256: 87d2d1b49d3da7ff141ef57b5547eb5b91d340ff84db2726f4c56a055a50962f
+    - path: docs/03-continuity/change-requests/CR-0330-统一R12个人资料255字符合同并实现SCR-ME-002客户端闭环.md
+      state: FILE
+      size: 8085
+      sha256: 9007f0dacbde56bb0ec15c8a60567897e9443704f81f5d46d3757e03be808a38
+    - path: docs/03-continuity/change-requests/CR-0331-实现SCR-ME-001真实资产聚合首页并修复底部栏目导航回归.md
+      state: FILE
+      size: 8869
+      sha256: 4afed54b3b461c1cd01c21b1c1df6faf8f91051c7fc7bd597b563971bfcdd1a3
+    - path: releases/R12/STORIES.yaml
+      state: FILE
+      size: 23156
+      sha256: ed80bfe7ba3779ab57985d98a5250c4a80c15708035c30afe393de146e029fc2
+    - path: scripts/check_android_ui_foundation.py
+      state: FILE
+      size: 5578
+      sha256: 58dadfe9abd3bd3e69e988991973ad2848afb5ee4575a5d2ab72a11aa041b4b6
+    - path: scripts/check_db_schema.py
+      state: FILE
+      size: 15652
+      sha256: 9b59c6ac31ff2cdb42ed5d6432e44d45a15c22a64c2483cbede274d439e650d8
+    - path: scripts/run_r12_database_invariants.sh
+      state: FILE
+      size: 15716
+      sha256: 5be8400ee93e0ff3827379da3bebdf04d1122c7911b9a96bbaa983574efc4dcd
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/user/R12ProfileContracts.java
+      state: FILE
+      size: 552
+      sha256: 6dbdc16660a12b77424f12c18bb02b90ed7a9cbbc6e09b4691c0ae2fdf4e02ee
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/user/R12ProfileService.java
+      state: FILE
+      size: 11149
+      sha256: 652576f6f54e49bb004873e554c800046f968ab68148ed1ff89656d543be2224
+    - path: services/backend/boot/src/main/resources/contracts/admin-openapi.yaml
+      state: FILE
+      size: 852937
+      sha256: 37a0ebb61a64a692d2c0a500ee8d181eda99dbba100148a7bc8b0b72220890f7
+    - path: services/backend/boot/src/main/resources/contracts/openapi.yaml
+      state: FILE
+      size: 602877
+      sha256: 018f049e06c530854b7ed1aec086d91f8215f2ea0a94dd9321e8511072f47e8d
+    - path: services/backend/boot/src/main/resources/db/migration/V041__r12_review_permission_alignment.sql
+      state: FILE
+      size: 2495
+      sha256: 98b0295ab898b20238d65933f23749899e2cae5da4eed7a87841ea5e050ddb47
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/R12ProfileServiceTest.java
+      state: FILE
+      size: 8618
+      sha256: 2fdeccaaf4caa7de0f28ead96e54faf4b1be9b8e628d18da23185c12636957de
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/R12AccountControllerContractTest.java
+      state: FILE
+      size: 5044
+      sha256: ac497c3d3a3d33c43fe4d3a0df7744377dc1b299fec112c05a7281b8e166fdd2
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/content/R07ServiceTest.java
+      state: FILE
+      size: 18632
+      sha256: 0e12d00600f17208e47d9a2a9691ace387e02c5c9e30ce84acbd652ee4ad2dc7
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/content/R12ReviewPostgresStoreTest.java
+      state: FILE
+      size: 12709
+      sha256: aed3cc8c13a421f7dcc866437b4367b2c1e160a57b81af4cd4eeda39389a7bc6
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/content/R12ReviewServiceTest.java
+      state: FILE
+      size: 15509
+      sha256: ce5b13ae3127e97460257b39e72e0b2c494fb3aae84ac86f17cc43ebccbdbd69
+    - path: services/backend/content/src/main/java/cc/orbexa/hhy/content/R12ReviewPostgresStore.java
+      state: FILE
+      size: 20815
+      sha256: d5126d005eec44235b7e2ad1615a4f8d9aade5dbabfadc8a9170361c2e03e204
+    - path: services/backend/content/src/main/java/cc/orbexa/hhy/content/R12ReviewService.java
+      state: FILE
+      size: 23999
+      sha256: 906bbc71d9b3133fcb53405dd7bd5c95660009b71c4c805fa1dc879aaea625ff
+    - path: tests/test_android_ui_foundation.py
+      state: FILE
+      size: 3419
+      sha256: c430886ac4aef7c9e7f6d48a5c07787c00cc47aaf680704d0c21e38b6b7a41b4
+change_classification:
+  other:
+  - CHANGELOG.md
+  - catalogs/admin_pages.csv
+  - catalogs/api_ui_ownership.csv
+  - catalogs/release_story_backlog.csv
+  - catalogs/ui_visual_acceptance.csv
+  code:
+  - apps/admin-web/src/adminNavigation.test.ts
+  - apps/admin-web/src/adminNavigation.ts
+  - apps/admin-web/src/generated/admin-pages.json
+  - apps/admin-web/src/r12ReviewWorkbench.test.ts
+  - apps/admin-web/src/router.ts
+  - apps/admin-web/src/routerPermissions.test.ts
+  - apps/admin-web/src/services/adminReviews.test.ts
+  - apps/admin-web/src/services/adminReviews.ts
+  - apps/admin-web/src/services/idempotency.ts
+  - apps/admin-web/src/services/index.ts
+  - apps/admin-web/src/styles.css
+  - apps/admin-web/src/views/AdminReviewWorkbenchPage.vue
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/androidTest/java/cc/orbexa/hhy/AuthenticatedNavigationTest.kt
+  - apps/android/app/src/androidTest/java/cc/orbexa/hhy/HistoricalVisualAuditTest.kt
+  - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+  - apps/android/app/src/test/java/cc/orbexa/hhy/NavigationPolicyTest.kt
+  - apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyIcons.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ApiModels.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractIdentityApi.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractMediaApi.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR07Api.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR08Api.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR09Api.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR10Api.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR11Api.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR12Api.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR12MeApi.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR12ProfileApi.kt
+  - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ApiModelsSerializationTest.kt
+  - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ContractR12ApiTest.kt
+  - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ContractR12MeApiTest.kt
+  - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ContractR12ProfileApiTest.kt
+  - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/R12ApiModelsSerializationTest.kt
+  - apps/android/feature/content-management/build.gradle.kts
+  - apps/android/feature/content-management/src/main/AndroidManifest.xml
+  - apps/android/feature/content-management/src/main/java/cc/orbexa/hhy/contentmanagement/R12ContentManagementDetailScreen.kt
+  - apps/android/feature/content-management/src/main/java/cc/orbexa/hhy/contentmanagement/R12ContentManagementListScreens.kt
+  - apps/android/feature/content-management/src/main/java/cc/orbexa/hhy/contentmanagement/R12ContentManagementListState.kt
+  - apps/android/feature/content-management/src/main/java/cc/orbexa/hhy/contentmanagement/R12ContentManagementState.kt
+  - apps/android/feature/content-management/src/main/java/cc/orbexa/hhy/contentmanagement/R12PublishScreens.kt
+  - apps/android/feature/content-management/src/main/java/cc/orbexa/hhy/contentmanagement/R12PublishState.kt
+  - apps/android/feature/content-management/src/test/java/cc/orbexa/hhy/contentmanagement/R12ContentManagementListStateTest.kt
+  - apps/android/feature/content-management/src/test/java/cc/orbexa/hhy/contentmanagement/R12ContentManagementStateTest.kt
+  - apps/android/feature/content-management/src/test/java/cc/orbexa/hhy/contentmanagement/R12PublishStateTest.kt
+  - apps/android/feature/media/src/main/java/cc/orbexa/hhy/media/MediaUploadSheet.kt
+  - apps/android/feature/media/src/test/java/cc/orbexa/hhy/media/MediaUploadSheetTest.kt
+  - apps/android/feature/shell/build.gradle.kts
+  - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+  - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/R12MeHomeScreen.kt
+  - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/R12MeHomeState.kt
+  - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/R12ProfileScreen.kt
+  - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/R12ProfileState.kt
+  - apps/android/feature/shell/src/test/java/cc/orbexa/hhy/shell/R12MeHomeStateTest.kt
+  - apps/android/feature/shell/src/test/java/cc/orbexa/hhy/shell/R12ProfileStateTest.kt
+  - apps/android/settings.gradle.kts
+  - scripts/check_android_ui_foundation.py
+  - scripts/check_db_schema.py
+  - scripts/run_r12_database_invariants.sh
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/R12ProfileContracts.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/R12ProfileService.java
+  - services/backend/boot/src/main/resources/contracts/admin-openapi.yaml
+  - services/backend/boot/src/main/resources/contracts/openapi.yaml
+  - services/backend/boot/src/main/resources/db/migration/V041__r12_review_permission_alignment.sql
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/R12ProfileServiceTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/R12AccountControllerContractTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R07ServiceTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R12ReviewPostgresStoreTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R12ReviewServiceTest.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R12ReviewPostgresStore.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R12ReviewService.java
+  user_visible:
+  - apps/admin-web/src/adminNavigation.test.ts
+  - apps/admin-web/src/adminNavigation.ts
+  - apps/admin-web/src/generated/admin-pages.json
+  - apps/admin-web/src/r12ReviewWorkbench.test.ts
+  - apps/admin-web/src/router.ts
+  - apps/admin-web/src/routerPermissions.test.ts
+  - apps/admin-web/src/services/adminReviews.test.ts
+  - apps/admin-web/src/services/adminReviews.ts
+  - apps/admin-web/src/services/idempotency.ts
+  - apps/admin-web/src/services/index.ts
+  - apps/admin-web/src/styles.css
+  - apps/admin-web/src/views/AdminReviewWorkbenchPage.vue
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/androidTest/java/cc/orbexa/hhy/AuthenticatedNavigationTest.kt
+  - apps/android/app/src/androidTest/java/cc/orbexa/hhy/HistoricalVisualAuditTest.kt
+  - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+  - apps/android/app/src/test/java/cc/orbexa/hhy/NavigationPolicyTest.kt
+  - apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyIcons.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ApiModels.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractIdentityApi.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractMediaApi.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR07Api.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR08Api.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR09Api.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR10Api.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR11Api.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR12Api.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR12MeApi.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR12ProfileApi.kt
+  - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ApiModelsSerializationTest.kt
+  - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ContractR12ApiTest.kt
+  - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ContractR12MeApiTest.kt
+  - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ContractR12ProfileApiTest.kt
+  - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/R12ApiModelsSerializationTest.kt
+  - apps/android/feature/content-management/build.gradle.kts
+  - apps/android/feature/content-management/src/main/AndroidManifest.xml
+  - apps/android/feature/content-management/src/main/java/cc/orbexa/hhy/contentmanagement/R12ContentManagementDetailScreen.kt
+  - apps/android/feature/content-management/src/main/java/cc/orbexa/hhy/contentmanagement/R12ContentManagementListScreens.kt
+  - apps/android/feature/content-management/src/main/java/cc/orbexa/hhy/contentmanagement/R12ContentManagementListState.kt
+  - apps/android/feature/content-management/src/main/java/cc/orbexa/hhy/contentmanagement/R12ContentManagementState.kt
+  - apps/android/feature/content-management/src/main/java/cc/orbexa/hhy/contentmanagement/R12PublishScreens.kt
+  - apps/android/feature/content-management/src/main/java/cc/orbexa/hhy/contentmanagement/R12PublishState.kt
+  - apps/android/feature/content-management/src/test/java/cc/orbexa/hhy/contentmanagement/R12ContentManagementListStateTest.kt
+  - apps/android/feature/content-management/src/test/java/cc/orbexa/hhy/contentmanagement/R12ContentManagementStateTest.kt
+  - apps/android/feature/content-management/src/test/java/cc/orbexa/hhy/contentmanagement/R12PublishStateTest.kt
+  - apps/android/feature/media/src/main/java/cc/orbexa/hhy/media/MediaUploadSheet.kt
+  - apps/android/feature/media/src/test/java/cc/orbexa/hhy/media/MediaUploadSheetTest.kt
+  - apps/android/feature/shell/build.gradle.kts
+  - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+  - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/R12MeHomeScreen.kt
+  - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/R12MeHomeState.kt
+  - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/R12ProfileScreen.kt
+  - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/R12ProfileState.kt
+  - apps/android/feature/shell/src/test/java/cc/orbexa/hhy/shell/R12MeHomeStateTest.kt
+  - apps/android/feature/shell/src/test/java/cc/orbexa/hhy/shell/R12ProfileStateTest.kt
+  - apps/android/settings.gradle.kts
+  - contracts/admin-openapi.yaml
+  - contracts/contract_status.csv
+  - contracts/openapi.yaml
+  - contracts/operation-error-matrix.csv
+  - docs/02-ui/page-specs/admin/ADM-REVIEW-001_审核队列.md
+  - docs/02-ui/page-specs/admin/ADM-USER-001_用户列表.md
+  - docs/02-ui/page-specs/admin/ADM-USER-002_用户详情.md
+  - docs/02-ui/page-specs/android/SCR-AUTH-005_账号冻结.md
+  - docs/02-ui/page-specs/android/SCR-ID-001_实名认证首页.md
+  - docs/02-ui/page-specs/android/SCR-ME-001_我的首页.md
+  - docs/02-ui/page-specs/android/SCR-ME-002_个人资料.md
+  - docs/02-ui/page-specs/android/SCR-MYC-001_我的发布.md
+  - docs/02-ui/page-specs/android/SCR-MYC-002_草稿箱.md
+  - docs/02-ui/page-specs/android/SCR-MYC-003_内容管理详情.md
+  - docs/02-ui/page-specs/android/SCR-MYC-004_审核记录.md
+  - docs/02-ui/page-specs/android/SCR-MYC-005_内容数据.md
+  - docs/02-ui/page-specs/android/SCR-PUB-001_发布入口.md
+  - docs/02-ui/page-specs/android/SCR-PUBLISHER-001_发布者主页.md
+  - docs/02-ui/page-specs/android/SCR-SET-001_设置.md
+  source_of_truth:
+  - catalogs/admin_page_operation_specs.csv
+  - catalogs/ui_action_matrix.csv
+  - catalogs/ui_page_fields.csv
+  - catalogs/ui_page_specifications.csv
+  - catalogs/ui_page_states.csv
+  - contracts/admin-openapi.yaml
+  - contracts/contract_status.csv
+  - contracts/openapi.yaml
+  - contracts/operation-error-matrix.csv
+  - database/state_machines.yaml
+  - docs/02-ui/page-specs/admin/ADM-REVIEW-001_审核队列.md
+  - docs/02-ui/page-specs/admin/ADM-USER-001_用户列表.md
+  - docs/02-ui/page-specs/admin/ADM-USER-002_用户详情.md
+  - docs/02-ui/page-specs/android/SCR-AUTH-005_账号冻结.md
+  - docs/02-ui/page-specs/android/SCR-ID-001_实名认证首页.md
+  - docs/02-ui/page-specs/android/SCR-ME-001_我的首页.md
+  - docs/02-ui/page-specs/android/SCR-ME-002_个人资料.md
+  - docs/02-ui/page-specs/android/SCR-MYC-001_我的发布.md
+  - docs/02-ui/page-specs/android/SCR-MYC-002_草稿箱.md
+  - docs/02-ui/page-specs/android/SCR-MYC-003_内容管理详情.md
+  - docs/02-ui/page-specs/android/SCR-MYC-004_审核记录.md
+  - docs/02-ui/page-specs/android/SCR-MYC-005_内容数据.md
+  - docs/02-ui/page-specs/android/SCR-PUB-001_发布入口.md
+  - docs/02-ui/page-specs/android/SCR-PUBLISHER-001_发布者主页.md
+  - docs/02-ui/page-specs/android/SCR-SET-001_设置.md
+  - releases/R12/STORIES.yaml
+  contracts:
+  - contracts/admin-openapi.yaml
+  - contracts/contract_status.csv
+  - contracts/openapi.yaml
+  - contracts/operation-error-matrix.csv
+  database:
+  - database/migrations/V041__r12_review_permission_alignment.sql
+  - database/rollback/U041__r12_review_permission_alignment.sql
+  - database/state_machines.yaml
+  - database/tests/r12_review_permission_alignment.sql
+  continuity:
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/change-requests/CR-0319-统一R12审核工作台权限目录与默认排序合同.md
+  - docs/03-continuity/change-requests/CR-0320-扩展CR-0319审核证据权限与真实工作台施工范围.md
+  - docs/03-continuity/change-requests/CR-0321-投影R12逐页视觉合同到验收目录.md
+  - docs/03-continuity/change-requests/CR-0322-补齐CR-0319默认排序Java回归测试范围.md
+  - docs/03-continuity/change-requests/CR-0323-补齐CR-0319默认排序PostgreSQL执行回归范围.md
+  - docs/03-continuity/change-requests/CR-0324-实现SCR-MYC-003内容管理详情客户端闭环.md
+  - docs/03-continuity/change-requests/CR-0325-纠正CR-0324内容管理源码路径投影.md
+  - docs/03-continuity/change-requests/CR-0326-实现R12四页发布管理客户端闭环.md
+  - docs/03-continuity/change-requests/CR-0327-纠正R12四页商业错误投影与发布入口.md
+  - docs/03-continuity/change-requests/CR-0328-实现R12发布中心与真实内容预览纵向闭环.md
+  - docs/03-continuity/change-requests/CR-0329-实现R12稳定幂等提交与SCR-PUB-007结果闭环.md
+  - docs/03-continuity/change-requests/CR-0330-统一R12个人资料255字符合同并实现SCR-ME-002客户端闭环.md
+  - docs/03-continuity/change-requests/CR-0331-实现SCR-ME-001真实资产聚合首页并修复底部栏目导航回归.md
+  tests:
+  - tests/test_android_ui_foundation.py
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+- APPROVED_CHANGE_REQUEST
+- DATABASE_TEST_EVIDENCE
+- SCHEMA_TRACEABILITY
+- CONTRACT_TEST_EVIDENCE
+- GENERATED_CLIENTS_OR_GENERATION_RECORD
+- CHANGELOG
+change_requests:
+- CR-0319
+- CR-0320
+- CR-0321
+- CR-0322
+- CR-0323
+- CR-0324
+- CR-0325
+- CR-0326
+- CR-0327
+- CR-0328
+- CR-0329
+- CR-0330
+- CR-0331
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions: []
+  source: story-switch+explicit
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 当前步骤只执行单一连续性Story切换和版本级事实审计，拆分会并发修改同一会话与验收事实源。
+event_hash: d9fb62221120b830c584725b404a1172bf42f38adc98e1f6340af350a6e06e0b

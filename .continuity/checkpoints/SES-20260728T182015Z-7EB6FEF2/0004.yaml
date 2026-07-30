@@ -1,0 +1,244 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260728T182015Z-7EB6FEF2-0004
+session_id: SES-20260728T182015Z-7EB6FEF2
+task_id: TASK-R14-005
+story_id: STORY-R14-004
+sequence: 4
+created_at: '2026-07-28T19:22:09Z'
+summary: TASK-R14-005六项聊天专项测试机器闭环PASS：Java21后端31项、PostgreSQL17五个隔离真实用例、Android固定镜像247任务；报告、原始日志和SHA evidence已归档
+next_step: 提交推送专项证据，等待普通GitHub CI与Continuity Gate通过后关闭CR并完成TASK-R14-005，只进入TASK-R14-006
+blockers: []
+decisions:
+- PostgreSQL全库迁移会改变数据库默认Schema，专项Store用例必须每个使用独立一次性数据库，禁止并行争抢首次Flyway历史表
+note: ''
+tests:
+- name: backend-java21
+  result: PASS
+  evidence: artifacts/validation/r14-test-evidence/backend-java21.log
+  note: 31 tests, zero failures/errors/skips
+- name: postgresql17
+  result: PASS
+  evidence: artifacts/validation/r14-test-evidence/postgresql17.log
+  note: 5 isolated real database tests PASS
+- name: android-chat-module
+  result: PASS
+  evidence: artifacts/validation/r14-test-evidence/android-module.log
+  note: 247 tasks BUILD SUCCESSFUL
+- name: r14-specialized-matrix
+  result: PASS
+  evidence: artifacts/validation/r14-test-evidence/evidence.json
+  note: 6/6 PASS with log SHA validation
+- name: r14-sequence-r32
+  result: PASS
+  evidence: python -m unittest tests.test_continuity_version_sequence
+  note: 10 tests PASS through R32
+- name: diff-check
+  result: PASS
+  evidence: git diff --check
+  note: no whitespace errors
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: dbd71c6673808e3f8a9e37f7f77efa97bef9ead9
+  upstream: origin/task/TASK-R03-001
+  ahead: 0
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/change_requests/CR-0465.yaml'
+  - ' M .continuity/sessions/SES-20260728T182015Z-7EB6FEF2.yaml'
+  - ' M catalogs/change_request_index.csv'
+  - ' M catalogs/session_index.csv'
+  - ' M docs/03-continuity/change-requests/CR-0465-R14六项聊天专项测试自动化与故障证据闭环.md'
+  - ?? .continuity/change_requests/CR-0467.yaml
+  - ?? artifacts/reports/R14/TASK-R14-005-specialized-test-report.md
+  - ?? artifacts/validation/r14-test-evidence/android-module.log
+  - ?? artifacts/validation/r14-test-evidence/backend-java21.log
+  - ?? artifacts/validation/r14-test-evidence/evidence.json
+  - ?? artifacts/validation/r14-test-evidence/postgresql17.log
+  - ?? docs/03-continuity/change-requests/CR-0467-补录R14专项测试原始日志归档范围.md
+  recent_commits:
+  - "dbd71c6673808e3f8a9e37f7f77efa97bef9ead9\t2026-07-29T03:03:42+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] test(r14): isolate replay\
+    \ stubbing"
+  - "5aa6ce3b76afaa5addeadca3d38e9bcf9ccebb94\t2026-07-29T02:57:02+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] test(r14): import PostgreSQL\
+    \ assertion"
+  - "d9492684607e8ec73df186a7d036901abbacbffb\t2026-07-29T02:45:03+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] test(chat): automate six R14\
+    \ reliability matrices"
+  - "7a6ae5be9d6bde9ca9144794f3ef7cc754269313\t2026-07-29T02:18:45+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(continuity): close TASK-R14-004\
+    \ as completed"
+  - "33f544c20172ca42ca2de79556e22a12c0d714af\t2026-07-29T02:15:25+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(r14): close report catalog\
+    \ change"
+  - "801d7d636ae833e2e4fa762c9ffe78350527c9d4\t2026-07-29T02:08:51+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] docs(r14): record report catalog\
+    \ verification"
+  - "054da178f90b752e23b33b8de49c22c6c8421026\t2026-07-29T01:56:30+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] test(r14): import report matcher"
+  - "088c96d059d49183888998f77f487ac4f4bac13d\t2026-07-29T01:50:50+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] feat(r14): freeze chat report\
+    \ reason catalog"
+project_fingerprint:
+  sha256: 5386a9d49c8a2164390bed35ab8631259315bde019d62226147b999807339418
+  files:
+  - catalogs/test_cases.csv
+  - docs/03-continuity/change-requests/CR-0465-R14六项聊天专项测试自动化与故障证据闭环.md
+  - docs/03-continuity/change-requests/CR-0466-补齐R14至R32全链路版本连续性回归.md
+  - docs/03-continuity/change-requests/CR-0467-补录R14专项测试原始日志归档范围.md
+  - scripts/run_r14_specialized_matrix.py
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R14PostgresStoreTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R14RealtimePostgresStoreTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R14ServiceTest.java
+  - tests/r14/README.md
+  - tests/r14/req-chat-001_happy
+  - tests/r14/req-chat-001_idempotent
+  - tests/r14/req-chat-001_reject
+  - tests/r14/req-chat-002_happy
+  - tests/r14/req-chat-002_idempotent
+  - tests/r14/req-chat-002_reject
+  - tests/test_continuity_version_sequence.py
+  - tests/test_r14_specialized_matrix.py
+  file_count: 17
+  payload:
+    base_commit: 7a6ae5be9d6bde9ca9144794f3ef7cc754269313
+    files:
+    - path: catalogs/test_cases.csv
+      state: FILE
+      size: 227712
+      sha256: ea0be3a2fde2654408f448ea39f67c0a4ccca0e48e3836f0649fb0a6d91253d3
+    - path: docs/03-continuity/change-requests/CR-0465-R14六项聊天专项测试自动化与故障证据闭环.md
+      state: FILE
+      size: 3915
+      sha256: 54416ca7c19f23b5687b781620d2782a97a9f7c6bf03621304fe72decdb1af61
+    - path: docs/03-continuity/change-requests/CR-0466-补齐R14至R32全链路版本连续性回归.md
+      state: FILE
+      size: 3286
+      sha256: 075604f4e7b07a1bd9b4dd5c503891f4e072098e24697dc772967b09d6e7eeab
+    - path: docs/03-continuity/change-requests/CR-0467-补录R14专项测试原始日志归档范围.md
+      state: FILE
+      size: 2500
+      sha256: 2c57c4a4bdf1351c5f4e46da76182096f7132dfa0b324199fca4b0cfd3e05e2d
+    - path: scripts/run_r14_specialized_matrix.py
+      state: FILE
+      size: 9207
+      sha256: 820f8ba99370e62c75fa6705284f879369b00d0e084038ad14e89c7e05d7c8df
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/content/R14PostgresStoreTest.java
+      state: FILE
+      size: 10471
+      sha256: 1bdc7e47b7ed8e5fca3de9daaf09d220d5f6baa70cc5398b16fa290b6af083b7
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/content/R14RealtimePostgresStoreTest.java
+      state: FILE
+      size: 9658
+      sha256: 4b500df3f39ced1b004a6a752aa4eae5a30e1b2915282c69ddc3873e09728d7c
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/content/R14ServiceTest.java
+      state: FILE
+      size: 24408
+      sha256: 269ea663a7fd1b9ee04b39866c43acb5773e2ccda399bffed7bc1e72a7be4b49
+    - path: tests/r14/README.md
+      state: FILE
+      size: 1389
+      sha256: 607c8792ff1cbd7a963ea55ad814128d7b360041d002a2c6f7f54b87e1276fde
+    - path: tests/r14/req-chat-001_happy
+      state: FILE
+      size: 1033
+      sha256: aa4a3afebc7182c38e320dd0ad3fc3b02954ae8d53dbbebfa157814e2fdb18dd
+    - path: tests/r14/req-chat-001_idempotent
+      state: FILE
+      size: 1295
+      sha256: 77c3cde1cc5cb913aaab0f7d90473a057176e5ea34cff8fa0ef163bcc4b345ab
+    - path: tests/r14/req-chat-001_reject
+      state: FILE
+      size: 1413
+      sha256: 0548fc525e400193ddf8d3d3530dfa880c9e0ae9eb45e8c0d70ddf91c7c6ca6f
+    - path: tests/r14/req-chat-002_happy
+      state: FILE
+      size: 1106
+      sha256: 7784ca908ec21ff9e913a7fd5c89096577a40caa187c08bf3fb4406216892d07
+    - path: tests/r14/req-chat-002_idempotent
+      state: FILE
+      size: 1130
+      sha256: 17f94d7b383f3117e3412b192f24fc779e3a1fec7d63419ce7b72541d8fd53b6
+    - path: tests/r14/req-chat-002_reject
+      state: FILE
+      size: 1272
+      sha256: 418dd7b41ffb8e7d03b61f0f4d02bff92402043b2249805c0961b866979b312f
+    - path: tests/test_continuity_version_sequence.py
+      state: FILE
+      size: 12582
+      sha256: 49cfba71397cfdfd48430a5734e4f5a06770466a1e6fb4b90894b1b8ff751eec
+    - path: tests/test_r14_specialized_matrix.py
+      state: FILE
+      size: 3168
+      sha256: 8df8a23f769ac2c19121a5ce3339155e7e75bb9c3a1b6316b9fae14437c22199
+change_classification:
+  other:
+  - catalogs/test_cases.csv
+  continuity:
+  - docs/03-continuity/change-requests/CR-0465-R14六项聊天专项测试自动化与故障证据闭环.md
+  - docs/03-continuity/change-requests/CR-0466-补齐R14至R32全链路版本连续性回归.md
+  - docs/03-continuity/change-requests/CR-0467-补录R14专项测试原始日志归档范围.md
+  code:
+  - scripts/run_r14_specialized_matrix.py
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R14PostgresStoreTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R14RealtimePostgresStoreTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R14ServiceTest.java
+  tests:
+  - tests/r14/README.md
+  - tests/r14/req-chat-001_happy
+  - tests/r14/req-chat-001_idempotent
+  - tests/r14/req-chat-001_reject
+  - tests/r14/req-chat-002_happy
+  - tests/r14/req-chat-002_idempotent
+  - tests/r14/req-chat-002_reject
+  - tests/test_continuity_version_sequence.py
+  - tests/test_r14_specialized_matrix.py
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+change_requests:
+- CR-0465
+- CR-0466
+- CR-0467
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions:
+  - tests/test_continuity_version_sequence.py
+  source: story+explicit+approved-cr:CR-0466
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 固定Commit证据汇总、SHA绑定和事实源报告必须由主控串行完成
+event_hash: c9a5b6fd33b4e799a24999aeb9375c95bb4928cbe34211534cc5e738a51ee11d

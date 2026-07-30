@@ -1,0 +1,97 @@
+protocol_version: '1.0'
+package_version: 1.2.3
+session_id: SES-20260721T130339Z-785E85BE
+status: CLOSED
+actor:
+  id: codex-root-r07
+  kind: AI_OR_HUMAN
+  host: unknown
+release: R07
+task_id: TASK-R07-002
+story_id: STORY-R07-005
+goal: 异常恢复 SES-20260721T090217Z-21EF6428：实现R07搜索历史、热词及相关内容访问数据迁移与领域不变量，补齐唯一约束、状态历史、幂等和回滚验证
+started_at: '2026-07-21T13:03:39Z'
+updated_at: '2026-07-21T17:06:42Z'
+takeover_of: SES-20260721T090217Z-21EF6428
+change_requests:
+- CR-0176
+- CR-0177
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions:
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/ModuleBoundaryTest.java
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - artifacts/reports/R07/TASK-R07-002-database.md
+  source: story+explicit+approved-cr:CR-0177
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  base_commit: f0e45bae374b71359b91cc3f63e8628007bf97dc
+  start_head: f0e45bae374b71359b91cc3f63e8628007bf97dc
+  upstream: origin/task/TASK-R03-001
+  initial_worktree_state: DIRTY_TAKEOVER
+lease:
+  duration_minutes: 240
+  renewed_at: '2026-07-21T17:06:39Z'
+  expires_at: '2026-07-21T21:06:39Z'
+checkpoint_sequence: 5
+latest_checkpoint: .continuity/checkpoints/SES-20260721T130339Z-785E85BE/0005.yaml
+session_log: docs/03-continuity/sessions/2026-07/SES-20260721T130339Z-785E85BE.md
+next_step: 提交关闭元数据Commit，然后运行pre-push/CI门禁
+context_pack:
+  yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
+  markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
+  manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+  context_hash: 191e46a5125e6d837d48731bf3ee8261b26bbd4ff989a7667c2c71ed7e2afa1d
+  generated_at: '2026-07-21T17:06:41Z'
+handoff_bundle: null
+closure:
+  result: COMPLETED
+  summary: R07搜索数据迁移与领域不变量完成：V031前向、U031回滚、空库/升级库/重放、PostgreSQL不变量及后端311项零失败；ModuleBoundary既有误报已按PROB-0068和CR-0177修复。
+  code_commit: b60a7a2de772e8ba480123ac85fd012dacf62160
+  next_release: R07
+  next_task: TASK-R07-003
+  blocked_advance: false
+  user_confirmation: null
+  metadata_commit: PENDING
+  push_verification: CI_REQUIRED_AFTER_METADATA_COMMIT
+  started_at: '2026-07-21T17:06:37Z'
+  closure_checkpoint_id: CP-SES-20260721T130339Z-785E85BE-0005
+  closed_at: '2026-07-21T17:06:42Z'
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: CR生命周期和事件哈希链为共享连续性事实，必须由主控串行更新。
+closed_at: '2026-07-21T17:06:42Z'

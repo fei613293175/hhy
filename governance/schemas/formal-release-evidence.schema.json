@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "hhy.formal-release-evidence/v5.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "status",
+    "release",
+    "frozen_commit",
+    "tag",
+    "production_activation_evidence",
+    "rollback_evidence",
+    "authorized_at"
+  ],
+  "properties": {
+    "schema": {
+      "const": "hhy.formal-release-evidence/v5.0"
+    },
+    "status": {
+      "const": "PASS"
+    },
+    "release": {
+      "type": "string",
+      "pattern": "^R(?:0[1-9]|[12][0-9]|3[0-2])$"
+    },
+    "frozen_commit": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{40}$"
+    },
+    "tag": {
+      "type": "string",
+      "minLength": 1
+    },
+    "production_activation_evidence": {
+      "type": "string",
+      "minLength": 1
+    },
+    "rollback_evidence": {
+      "type": "string",
+      "minLength": 1
+    },
+    "authorized_at": {
+      "type": "string",
+      "minLength": 1
+    }
+  }
+}

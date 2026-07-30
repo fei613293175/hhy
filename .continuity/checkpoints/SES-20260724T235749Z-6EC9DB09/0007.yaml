@@ -1,0 +1,410 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260724T235749Z-6EC9DB09-0007
+session_id: SES-20260724T235749Z-6EC9DB09
+task_id: TASK-R12-002
+story_id: STORY-R12-008
+sequence: 7
+created_at: '2026-07-25T02:45:23Z'
+summary: 关闭CR-0316与CR-0317并绑定已推送实现Commit 5e09dd4f
+next_step: 提交并推送CR关闭元数据，然后以实现Commit关闭TASK-R12-002并启动TASK-R12-003
+blockers: []
+decisions: []
+note: ''
+tests:
+- name: CR关闭
+  result: PASS
+  evidence: CR-0316与CR-0317状态CLOSED且implementation_commits包含5e09dd4f
+  note: 无重型测试重跑
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: 5e09dd4f80dc014611f93717b159f791403be457
+  upstream: origin/task/TASK-R03-001
+  ahead: 0
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/change_requests/CR-0316.yaml'
+  - ' M .continuity/change_requests/CR-0317.yaml'
+  - ' M catalogs/change_request_index.csv'
+  - ' M catalogs/session_index.csv'
+  - ' M docs/03-continuity/change-requests/CR-0316-实现R12统一发布管理数据库状态机与领域不变量.md'
+  - ' M docs/03-continuity/change-requests/CR-0317-修正P00-Flyway回归测试陈旧全库表数.md'
+  recent_commits:
+  - "5e09dd4f80dc014611f93717b159f791403be457\t2026-07-25T10:42:37+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] feat(content): enforce R12\
+    \ publish lifecycle invariants"
+  - "67436cb48ca2e9fb3c921744dd992022d574ce5d\t2026-07-25T00:37:48+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] chore(continuity): close TASK-R12-001\
+    \ as completed"
+  - "3a48126e76fd55b4d9f187e7e73122d121cfa190\t2026-07-25T00:29:49+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] docs(release): freeze R12\
+    \ entry and visual baseline"
+  - "186a6cbddee8da6a9f6c74b4190f8550dbc4dee3\t2026-07-24T22:45:56+08:00\tHHY Continuity Bootstrap\t[STORY-R11-004] chore(continuity): close TASK-R11-008\
+    \ as completed"
+  - "b197e7d9c753f41914e270ce108b4a0c897df3fe\t2026-07-24T22:41:56+08:00\tHHY Continuity Bootstrap\t[STORY-R11-004] chore(continuity): close R11\
+    \ workflow CRs"
+  - "6bd3313e087de6afc6f7189c6a1791a9a198ae7f\t2026-07-24T22:16:23+08:00\tHHY Continuity Bootstrap\t[STORY-R11-004] fix(workflow): close R11 without\
+    \ duplicate local builds"
+  - "a4772fbdbb703ee2c824c06cd0916fade1701f9d\t2026-07-24T19:02:18+08:00\tHHY Continuity Bootstrap\t[STORY-R11-004] chore(continuity): close TASK-R11-007\
+    \ as completed"
+  - "c64e8a630336c0e41f49a1335f71c661e3417dbf\t2026-07-24T17:27:43+08:00\tHHY Continuity Bootstrap\t[STORY-R11-004] test(android): publish R11\
+    \ test APK"
+project_fingerprint:
+  sha256: b86e13fec2d301fe55e295ed79830ef1fc7ef8a99e251751e092d1ebf489734f
+  files:
+  - CHANGELOG.md
+  - catalogs/data_tables.csv
+  - catalogs/ui_action_matrix.csv
+  - catalogs/ui_page_fields.csv
+  - contracts/contract_status.csv
+  - contracts/openapi.yaml
+  - database/migrations/V039__r12_publish_management_invariants.sql
+  - database/rollback/U039__r12_publish_management_invariants.sql
+  - database/schema_dictionary.csv
+  - database/tests/r12_publish_management_invariants.sql
+  - docs/02-ui/page-specs/android/SCR-MYC-002_草稿箱.md
+  - docs/03-continuity/R12_TASK-002_DATABASE_GATE.md
+  - docs/03-continuity/change-requests/CR-0316-实现R12统一发布管理数据库状态机与领域不变量.md
+  - docs/03-continuity/change-requests/CR-0317-修正P00-Flyway回归测试陈旧全库表数.md
+  - packages/api-client/src/client.generated.ts
+  - releases/R12/RELEASE_MANIFEST.yaml
+  - scripts/check_api_contract.py
+  - scripts/check_content_state_machine_projection.py
+  - scripts/check_db_schema.py
+  - scripts/generate_contracts.py
+  - scripts/run_postgres_migration_smoke.sh
+  - scripts/run_r08_disposable_postgres_container.sh
+  - scripts/run_r09_disposable_postgres_container.sh
+  - scripts/run_r12_database_invariants.sh
+  - services/backend/boot/src/main/resources/contracts/openapi.yaml
+  - services/backend/boot/src/main/resources/db/migration/V039__r12_publish_management_invariants.sql
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/P00FlywayMigrationTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/ContentServiceTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R07PostgresStoreTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R08PostgresStoreTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R10PostgresStoreTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R12PostgresTestFixtures.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentPostgresStore.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentService.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R07PostgresStore.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R08PostgresStore.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R09PostgresStore.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R10PostgresStore.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R11PostgresStore.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R12ContentBindings.java
+  file_count: 40
+  payload:
+    base_commit: 67436cb48ca2e9fb3c921744dd992022d574ce5d
+    files:
+    - path: CHANGELOG.md
+      state: FILE
+      size: 128203
+      sha256: ff77e7c9ee6326df4fbdbe69c4366c0f52ba13a9d01d28330baa558c24f3400c
+    - path: catalogs/data_tables.csv
+      state: FILE
+      size: 26441
+      sha256: 7e77cc3b4fd8c63f0fa7c1fba84f864d3823d73d9c22ffa0cefea06989adb5dd
+    - path: catalogs/ui_action_matrix.csv
+      state: FILE
+      size: 1421375
+      sha256: 59d9ccd6f3e79623d76cb2e352cc04cae4f3ca98d84fe803e19207128de3d376
+    - path: catalogs/ui_page_fields.csv
+      state: FILE
+      size: 2881712
+      sha256: f733a6069db340dee98c678d8b5ed0aaa98c32e66a3e29732d8e79f39781b150
+    - path: contracts/contract_status.csv
+      state: FILE
+      size: 140042
+      sha256: f633e4ea200cbeb95196e6f0300f0bb1229acfc34da93db773c2f220a892b957
+    - path: contracts/openapi.yaml
+      state: FILE
+      size: 602664
+      sha256: c9f066d7a7fdfafc4393d513120bc01f06260f752d3ad27276b1ed8add99d9fb
+    - path: database/migrations/V039__r12_publish_management_invariants.sql
+      state: FILE
+      size: 24798
+      sha256: 2727a15f6d88803d1adf825fdef60d74c2378b412f418a26fca2e6a805f3b211
+    - path: database/rollback/U039__r12_publish_management_invariants.sql
+      state: FILE
+      size: 3124
+      sha256: 0141e0f5367d64b89c8719c20ca5956b0cb9fa598aab5b638dab63b748f0744c
+    - path: database/schema_dictionary.csv
+      state: FILE
+      size: 149066
+      sha256: 176fc829b1b2fcd41fc33abb8e8281423b5a4cb84a59cfbf1fcb446653d10a94
+    - path: database/tests/r12_publish_management_invariants.sql
+      state: FILE
+      size: 9604
+      sha256: ac38fea32fcb4a9d8fb7403d75204a184728f82273ae7740f16d3e57860c0153
+    - path: docs/02-ui/page-specs/android/SCR-MYC-002_草稿箱.md
+      state: FILE
+      size: 25185
+      sha256: 6ca121e46d59250b2a6121b1ba491d63136376b752a046c260968f0001cfa26c
+    - path: docs/03-continuity/R12_TASK-002_DATABASE_GATE.md
+      state: FILE
+      size: 2947
+      sha256: 5afd14ea00b70eb973a4f33af2e1842f7bfd2bdaaa6797f2b14ff65ef4847bf2
+    - path: docs/03-continuity/change-requests/CR-0316-实现R12统一发布管理数据库状态机与领域不变量.md
+      state: FILE
+      size: 8939
+      sha256: 9804298a4baeccb87c4fd51a6d7345b62796c9e62d65bd8db35b52b5895e7f9c
+    - path: docs/03-continuity/change-requests/CR-0317-修正P00-Flyway回归测试陈旧全库表数.md
+      state: FILE
+      size: 2580
+      sha256: 706b81e14bc1c295a2b2f6edf7627b63e0d994ef3cedb86ec26e92855f4ae005
+    - path: packages/api-client/src/client.generated.ts
+      state: FILE
+      size: 621199
+      sha256: 5a6cbb0cf31e00c22330d8bb002a4f549450687d80144021a760aeb6d352969c
+    - path: releases/R12/RELEASE_MANIFEST.yaml
+      state: FILE
+      size: 5431
+      sha256: 22bc9cd4b9be424fd32cd5b907f27a1511f77f8447684717648c34bc7c7c8cdc
+    - path: scripts/check_api_contract.py
+      state: FILE
+      size: 6994
+      sha256: 9d3b36d2f957a10581c7900e357b5db942c45c5f4767b2d9902636ce839e8f1d
+    - path: scripts/check_content_state_machine_projection.py
+      state: FILE
+      size: 2516
+      sha256: ea2ec6b32c2ced20bfc35c9b3725c2b83506c66145690e80bdf2b741318da04d
+    - path: scripts/check_db_schema.py
+      state: FILE
+      size: 12138
+      sha256: 197efdd44791642d5346e9e9099be0d6c5bd9432148c435a7f5000955b9582fa
+    - path: scripts/generate_contracts.py
+      state: FILE
+      size: 61492
+      sha256: 23d41e0f8bb0b3b58f753e3e2c123e3cf75b6fb7c4909e201d77dbf939ec7de1
+    - path: scripts/run_postgres_migration_smoke.sh
+      state: FILE
+      size: 15537
+      sha256: 0a591a38c460479b99fb54c575e770dd56a8675473ba9a0e60a64c0c58dd0265
+    - path: scripts/run_r08_disposable_postgres_container.sh
+      state: FILE
+      size: 4401
+      sha256: 27b2835f4096fe898edc0d463893bc99e2a3242784bf743f2a05d01e32237f18
+    - path: scripts/run_r09_disposable_postgres_container.sh
+      state: FILE
+      size: 4131
+      sha256: 7cff7fb3ee86700e56fbacdf8f7922a76eec2991153ce5fcb6439d294833c5b8
+    - path: scripts/run_r12_database_invariants.sh
+      state: FILE
+      size: 15583
+      sha256: 7703193b80fd67c6c8936b0746fac20dcd95d6704858c013e723222f850bd559
+    - path: services/backend/boot/src/main/resources/contracts/openapi.yaml
+      state: FILE
+      size: 602664
+      sha256: c9f066d7a7fdfafc4393d513120bc01f06260f752d3ad27276b1ed8add99d9fb
+    - path: services/backend/boot/src/main/resources/db/migration/V039__r12_publish_management_invariants.sql
+      state: FILE
+      size: 24798
+      sha256: 2727a15f6d88803d1adf825fdef60d74c2378b412f418a26fca2e6a805f3b211
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/P00FlywayMigrationTest.java
+      state: FILE
+      size: 5918
+      sha256: 5c5ec320ce70c3be38e90b38a29f1aaf6f3765a41e5b9aebcc622d449ca889ce
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/content/ContentServiceTest.java
+      state: FILE
+      size: 12130
+      sha256: 64f49e2aecbaa4372e92ad3fb03d33e6dc81a7c308970603b17d8d3519dea7c0
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/content/R07PostgresStoreTest.java
+      state: FILE
+      size: 10426
+      sha256: be4c64270df40aa5eb5d0b5048d9bba528f2c2ea7622ba168067a7390f9fbb31
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/content/R08PostgresStoreTest.java
+      state: FILE
+      size: 11515
+      sha256: 008c915ef28e3dce3b31f6af105285bc2ba745b6f8cdccf71b26918a94114bd4
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/content/R10PostgresStoreTest.java
+      state: FILE
+      size: 4292
+      sha256: 934155cf0031271a27a7ace7b870ca5a58867ddb77110e8e4c4d378f83702c47
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/content/R12PostgresTestFixtures.java
+      state: FILE
+      size: 3950
+      sha256: b9bf0695a2ecdaa20e0fe3ee507eb91a45c5554ca19f14c7f0d48c40d084103a
+    - path: services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentPostgresStore.java
+      state: FILE
+      size: 17431
+      sha256: 1f88c7ab9f9afb7eb25f745b07021eaafb662cd5a0c3638c0110d96d567fe2e6
+    - path: services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentService.java
+      state: FILE
+      size: 26113
+      sha256: 28523dc391c923857428201b56ade35cce88b0c2558ffad58b47e7ef680ad353
+    - path: services/backend/content/src/main/java/cc/orbexa/hhy/content/R07PostgresStore.java
+      state: FILE
+      size: 14284
+      sha256: b3e96e9bd8a4904988592de2d87e056b7e056dc88a56d91fe3c42db441626597
+    - path: services/backend/content/src/main/java/cc/orbexa/hhy/content/R08PostgresStore.java
+      state: FILE
+      size: 16365
+      sha256: a1c8d2f15ccba716783f355c10cdf2067b5c385267139f7e0bcc4198354acf4b
+    - path: services/backend/content/src/main/java/cc/orbexa/hhy/content/R09PostgresStore.java
+      state: FILE
+      size: 6115
+      sha256: dcd3e5e57b753e7e53b77214c920725eeafd80913ee522897d406baab27af98e
+    - path: services/backend/content/src/main/java/cc/orbexa/hhy/content/R10PostgresStore.java
+      state: FILE
+      size: 5660
+      sha256: 9587d75cbead19e89882a703ee29a6ca5ba96c6377158793e099b27830840183
+    - path: services/backend/content/src/main/java/cc/orbexa/hhy/content/R11PostgresStore.java
+      state: FILE
+      size: 8408
+      sha256: 1d6b103a4d25b0c696f0a2e795a125ff6fede89c6e0a4532460460ae6eda9a74
+    - path: services/backend/content/src/main/java/cc/orbexa/hhy/content/R12ContentBindings.java
+      state: FILE
+      size: 5489
+      sha256: 8b8edc94677d9388d41e19fb1b2cf4640d790a1124d1f1b8f74a50d18245857d
+change_classification:
+  other:
+  - CHANGELOG.md
+  - catalogs/data_tables.csv
+  source_of_truth:
+  - catalogs/ui_action_matrix.csv
+  - catalogs/ui_page_fields.csv
+  - contracts/contract_status.csv
+  - contracts/openapi.yaml
+  - database/schema_dictionary.csv
+  - docs/02-ui/page-specs/android/SCR-MYC-002_草稿箱.md
+  - releases/R12/RELEASE_MANIFEST.yaml
+  contracts:
+  - contracts/contract_status.csv
+  - contracts/openapi.yaml
+  user_visible:
+  - contracts/contract_status.csv
+  - contracts/openapi.yaml
+  - docs/02-ui/page-specs/android/SCR-MYC-002_草稿箱.md
+  database:
+  - database/migrations/V039__r12_publish_management_invariants.sql
+  - database/rollback/U039__r12_publish_management_invariants.sql
+  - database/schema_dictionary.csv
+  - database/tests/r12_publish_management_invariants.sql
+  continuity:
+  - docs/03-continuity/R12_TASK-002_DATABASE_GATE.md
+  - docs/03-continuity/change-requests/CR-0316-实现R12统一发布管理数据库状态机与领域不变量.md
+  - docs/03-continuity/change-requests/CR-0317-修正P00-Flyway回归测试陈旧全库表数.md
+  code:
+  - packages/api-client/src/client.generated.ts
+  - scripts/check_api_contract.py
+  - scripts/check_content_state_machine_projection.py
+  - scripts/check_db_schema.py
+  - scripts/generate_contracts.py
+  - scripts/run_postgres_migration_smoke.sh
+  - scripts/run_r08_disposable_postgres_container.sh
+  - scripts/run_r09_disposable_postgres_container.sh
+  - scripts/run_r12_database_invariants.sh
+  - services/backend/boot/src/main/resources/contracts/openapi.yaml
+  - services/backend/boot/src/main/resources/db/migration/V039__r12_publish_management_invariants.sql
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/P00FlywayMigrationTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/ContentServiceTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R07PostgresStoreTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R08PostgresStoreTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R10PostgresStoreTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R12PostgresTestFixtures.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentPostgresStore.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentService.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R07PostgresStore.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R08PostgresStore.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R09PostgresStore.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R10PostgresStore.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R11PostgresStore.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R12ContentBindings.java
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+- APPROVED_CHANGE_REQUEST
+- DATABASE_TEST_EVIDENCE
+- SCHEMA_TRACEABILITY
+- CONTRACT_TEST_EVIDENCE
+- GENERATED_CLIENTS_OR_GENERATION_RECORD
+- CHANGELOG
+change_requests:
+- CR-0316
+- CR-0317
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions:
+  - contracts/openapi.yaml
+  - services/backend/boot/src/main/resources/contracts/openapi.yaml
+  - packages/api-client/src/client.generated.ts
+  - contracts/contract_status.csv
+  - scripts/generate_contracts.py
+  - scripts/check_api_contract.py
+  - catalogs/ui_action_matrix.csv
+  - catalogs/ui_page_fields.csv
+  - docs/02-ui/page-specs/android/SCR-MYC-002_草稿箱.md
+  - database/migrations/V039__r12_publish_management_invariants.sql
+  - services/backend/boot/src/main/resources/db/migration/V039__r12_publish_management_invariants.sql
+  - database/rollback/U039__r12_publish_management_invariants.sql
+  - database/tests/r12_publish_management_invariants.sql
+  - scripts/check_content_state_machine_projection.py
+  - scripts/run_r12_database_invariants.sh
+  - scripts/run_postgres_migration_smoke.sh
+  - scripts/run_r08_disposable_postgres_container.sh
+  - scripts/run_r09_disposable_postgres_container.sh
+  - scripts/check_db_schema.py
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentService.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentPostgresStore.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R08PostgresStore.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R09PostgresStore.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R10PostgresStore.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R11PostgresStore.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/ContentServiceTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R07PostgresStoreTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R08PostgresStoreTest.java
+  - database/tests/r06_content_home_invariants.sql
+  - database/tests/r07_contact_contract_alignment.sql
+  - database/tests/r07_search_invariants.sql
+  - database/tests/r08_project_invariants.sql
+  - database/tests/r09_app_promotion_invariants.sql
+  - database/tests/r10_group_promotion_invariants.sql
+  - database/tests/r11_team_leader_invariants.sql
+  - catalogs/data_tables.csv
+  - database/schema_dictionary.csv
+  - releases/R12/RELEASE_MANIFEST.yaml
+  - docs/03-continuity/R12_TASK-002_DATABASE_GATE.md
+  - CHANGELOG.md
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/P00FlywayMigrationTest.java
+  source: story+explicit+approved-cr:CR-0316+approved-cr:CR-0317
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: CR与任务关闭修改同一连续性状态机且必须由唯一主控串行提交
+event_hash: 27c63beba529a98f381b517b34dac64825c1afc349ca130c47f0e3b5feccd296

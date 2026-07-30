@@ -1,0 +1,93 @@
+protocol_version: '1.0'
+package_version: 1.2.3
+session_id: SES-20260722T053639Z-033C23B5
+status: CLOSED
+actor:
+  id: codex-root-r08-005
+  kind: AI_OR_HUMAN
+  host: unknown
+release: R08
+task_id: TASK-R08-005
+story_id: STORY-R08-004
+goal: 项目推广完整闭环专项测试与故障注入
+started_at: '2026-07-22T05:36:39Z'
+updated_at: '2026-07-22T06:06:14Z'
+takeover_of: null
+change_requests:
+- CR-0225
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions: []
+  source: story+explicit
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  base_commit: 5549e6e94b5e4a08efcfc95bd3d0ce57be1a0436
+  start_head: 5549e6e94b5e4a08efcfc95bd3d0ce57be1a0436
+  upstream: origin/task/TASK-R03-001
+  initial_worktree_state: CLEAN
+lease:
+  duration_minutes: 240
+  renewed_at: '2026-07-22T06:06:10Z'
+  expires_at: '2026-07-22T10:06:10Z'
+checkpoint_sequence: 4
+latest_checkpoint: .continuity/checkpoints/SES-20260722T053639Z-033C23B5/0004.yaml
+session_log: docs/03-continuity/sessions/2026-07/SES-20260722T053639Z-033C23B5.md
+next_step: 提交关闭元数据Commit，然后运行pre-push/CI门禁
+context_pack:
+  yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
+  markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
+  manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+  context_hash: 0cef704055d9d3bf8af97d1fbda5c8c3d8ebf8bb5c646594324b9542315e03ce
+  generated_at: '2026-07-22T06:06:12Z'
+handoff_bundle: null
+closure:
+  result: COMPLETED
+  summary: R08项目专项测试与故障注入完成：三项权威测试、延迟重放、8路并发、媒体与配置超时零副作用全部PASS，P0/P1为0。
+  code_commit: 36fd0d8c6003a20a9a8e33f787ec30381200a8d6
+  next_release: R08
+  next_task: TASK-R08-006
+  blocked_advance: false
+  user_confirmation: null
+  metadata_commit: PENDING
+  push_verification: CI_REQUIRED_AFTER_METADATA_COMMIT
+  started_at: '2026-07-22T06:06:08Z'
+  closure_checkpoint_id: CP-SES-20260722T053639Z-033C23B5-0004
+  closed_at: '2026-07-22T06:06:14Z'
+parallel_execution:
+  assessment: CAPABILITY_UNAVAILABLE
+  delegated_workers: 0
+  workers: []
+  reason: 当前系统禁止未由用户明确要求的子代理；CR关闭与唯一任务状态转换由主控串行完成
+closed_at: '2026-07-22T06:06:14Z'

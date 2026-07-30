@@ -1,0 +1,53 @@
+schema: hhy.task-spec/v5.0
+id: TASK-R14-RECOVERY-001
+release: R14
+ordinal: 9
+title: R14 候选失效止损、冻结重建与机器关闭恢复
+kind: recovery
+mode: worker
+source:
+  path: governance migration
+  original_id: TASK-R14-008
+requirements: []
+depends_on: []
+objective: 对账旧候选后源码变化；在冻结前完成所有会修改源码的审计；形成新冻结 Commit、APK、模拟器、视觉及候选证据。
+deliverables:
+- R14 差异与失效证据
+- 新冻结 Commit
+- 新 Candidate 证据
+- 可机器关闭的 R14
+acceptance:
+- 旧候选仅作历史证据
+- 所有候选证据绑定同一冻结 Commit
+- R14 达到 MACHINE_CLOSED 后只激活 R15
+allowed_paths:
+- apps/**
+- services/**
+- database/**
+- contracts/**
+- packages/**
+- tests/**
+- scripts/**
+- infra/**
+- config/**
+- docs/**
+- catalogs/**
+- design/R14-UI-FROZEN/**
+- artifacts/**
+- releases/R14/**
+risks:
+- apk_identity
+- contract
+- database
+- production
+- security
+- secrets
+- ui
+acceptance_commands:
+- python3 scripts/check_api_contract.py
+- python3 scripts/check_db_schema.py
+- python3 scripts/check_ui_tokens.py
+- python3 scripts/check_ui_visual_acceptance.py --release R14
+maximum_attempts: 3
+owner_verification: ASYNC_NON_BLOCKING_FOR_NEXT_RELEASE
+legacy_status: NEW

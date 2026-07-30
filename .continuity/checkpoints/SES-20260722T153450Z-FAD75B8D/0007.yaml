@@ -1,0 +1,1660 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260722T153450Z-FAD75B8D-0007
+session_id: SES-20260722T153450Z-FAD75B8D
+sequence: 7
+created_at: '2026-07-22T17:10:29Z'
+summary: 绑定e060566b现有权威Android Quality Gate历史视觉特殊模式提交；产品源码与测试输入未变化
+next_step: 提交连续性绑定元数据并推送，然后手动触发HISTORICAL-UI特殊模式
+blockers: []
+decisions:
+- 复用已通过的18项Android CI gate测试和文档严格门禁，不重复运行
+note: ''
+tests:
+- name: Android CI gate tests
+  result: PASS
+  evidence: tests/test_android_ci_gate.py
+  note: 18 tests，输入未变化
+- name: Documentation strict
+  result: PASS
+  evidence: artifacts/validation/project-doctor-v1.2.3-documentation.json
+  note: 输入未变化
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: e060566b46413b8702b519e67eee755e2ed62b22
+  upstream: origin/task/TASK-R03-001
+  ahead: 1
+  behind: 0
+  dirty: false
+  status_porcelain: []
+  recent_commits:
+  - "e060566b46413b8702b519e67eee755e2ed62b22\t2026-07-23T00:58:20+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] refactor(ci): reuse quality\
+    \ gate for visual audit"
+  - "654b3c0b7a4d02f6b3dbaada3d56214c74475c98\t2026-07-23T00:50:05+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] feat(ui): remediate historical\
+    \ visual quality"
+  - "c3e6130bdcd8b2e4f619cb68eb2dd5e50045f30f\t2026-07-22T23:57:34+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] chore(continuity): close CR-0247"
+  - "d89d7c0bf4a360ac9bb40c51bc46ed7a9b772e8c\t2026-07-22T23:56:15+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] fix(workflow): clarify UI\
+    \ and release closure"
+  - "316c2db20204555fcd405fd6346d96aa8effe932\t2026-07-22T23:32:41+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] chore(continuity): close TASK-R08-008\
+    \ as completed"
+  - "cbc215f3bd01c8b6a1d9ac87e6e1128f265a3aa9\t2026-07-22T23:22:35+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] fix(continuity): close completed\
+    \ sibling release"
+  - "44ed2570fb333833081c2ba5f142112aedd93ecb\t2026-07-22T23:09:46+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] chore(r08): complete machine\
+    \ closure evidence"
+  - "c5fc618a8a5177400e35de7b651b48c983af6716\t2026-07-22T22:41:58+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] fix(r08): close release before\
+    \ global UI audit"
+project_fingerprint:
+  sha256: dd6da07ce891c2a6ffd17270f40e17b00bb65bc804827109db0f4bb1f06c3d41
+  files:
+  - .github/workflows/android-quality-gate.yml
+  - CHANGELOG.md
+  - apps/admin-web/src/views/AdminLoginPage.vue
+  - apps/admin-web/src/views/AdminMfaPage.vue
+  - apps/admin-web/src/views/AdminSecurityPage.vue
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/androidTest/java/cc/orbexa/hhy/HistoricalVisualAuditTest.kt
+  - apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyIcons.kt
+  - apps/android/feature/auth/src/main/java/cc/orbexa/hhy/auth/AuthScreen.kt
+  - apps/android/feature/discovery/src/main/java/cc/orbexa/hhy/discovery/R07DiscoveryScreens.kt
+  - apps/android/feature/identity/src/main/java/cc/orbexa/hhy/identity/IdentityFlowScreen.kt
+  - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+  - apps/android/feature/startup/src/main/java/cc/orbexa/hhy/startup/StartupGateScreen.kt
+  - catalogs/ui_visual_acceptance.csv
+  - config/development-workflow.yaml
+  - config/test-impact-map.yaml
+  - design/R06-UI-FROZEN/specs/SCR-HOME-001.md
+  - design/R07-UI-FROZEN/specs/SCR-PUBLISHER-001.md
+  - design/R07-UI-FROZEN/specs/SCR-SEARCH-001.md
+  - design/R07-UI-FROZEN/specs/SCR-SEARCH-002.md
+  - design/R07-UI-FROZEN/specs/SHEET-CONTACT-001.md
+  - docs/02-ui/UI参考图使用与开发约束_V1.2.2.md
+  - docs/02-ui/page-specs/admin/ADM-ACCOUNTING-001_统一会计交易.md
+  - docs/02-ui/page-specs/admin/ADM-ACCOUNTING-002_会计交易详情与冲正.md
+  - docs/02-ui/page-specs/admin/ADM-APP-001_App版本.md
+  - docs/02-ui/page-specs/admin/ADM-APPEAL-001_申诉处理.md
+  - docs/02-ui/page-specs/admin/ADM-APPROVAL-001_双人审批中心.md
+  - docs/02-ui/page-specs/admin/ADM-AUDIT-001_审计日志.md
+  - docs/02-ui/page-specs/admin/ADM-AUTH-001_后台登录.md
+  - docs/02-ui/page-specs/admin/ADM-AUTH-002_二次验证.md
+  - docs/02-ui/page-specs/admin/ADM-BUILD-001_构建中心首页.md
+  - docs/02-ui/page-specs/admin/ADM-BUILD-002_构建配置.md
+  - docs/02-ui/page-specs/admin/ADM-BUILD-003_签名配置.md
+  - docs/02-ui/page-specs/admin/ADM-BUILD-004_构建任务列表.md
+  - docs/02-ui/page-specs/admin/ADM-BUILD-005_构建任务详情.md
+  - docs/02-ui/page-specs/admin/ADM-BUILD-006_构建产物与下载.md
+  - docs/02-ui/page-specs/admin/ADM-BUILD-007_发布与回滚.md
+  - docs/02-ui/page-specs/admin/ADM-CHAT-001_聊天举报.md
+  - docs/02-ui/page-specs/admin/ADM-CMS-001_首页CMS.md
+  - docs/02-ui/page-specs/admin/ADM-CMS-002_H5宣传页CMS.md
+  - docs/02-ui/page-specs/admin/ADM-CMS-003_公告帮助协议.md
+  - docs/02-ui/page-specs/admin/ADM-CONFIG-001_系统配置.md
+  - docs/02-ui/page-specs/admin/ADM-CONFIG-002_供应商配置中心.md
+  - docs/02-ui/page-specs/admin/ADM-CONFIG-003_阿里云短信配置.md
+  - docs/02-ui/page-specs/admin/ADM-CONFIG-004_对象存储配置.md
+  - docs/02-ui/page-specs/admin/ADM-CONFIG-005_支付网关配置.md
+  - docs/02-ui/page-specs/admin/ADM-CONFIG-006_支付宝企业付款配置.md
+  - docs/02-ui/page-specs/admin/ADM-CONFIG-007_实名认证配置.md
+  - docs/02-ui/page-specs/admin/ADM-CONFIG-008_域名与环境配置.md
+  - docs/02-ui/page-specs/admin/ADM-CONTENT-001_统一内容列表.md
+  - docs/02-ui/page-specs/admin/ADM-CONTENT-002_内容详情.md
+  - docs/02-ui/page-specs/admin/ADM-CONTENT-003_字典与属性.md
+  - docs/02-ui/page-specs/admin/ADM-DASH-001_数据驾驶舱.md
+  - docs/02-ui/page-specs/admin/ADM-EXPORT-001_数据导出中心.md
+  - docs/02-ui/page-specs/admin/ADM-ID-001_实名列表.md
+  - docs/02-ui/page-specs/admin/ADM-ID-002_实名详情与复核.md
+  - docs/02-ui/page-specs/admin/ADM-JOB-001_定时任务.md
+  - docs/02-ui/page-specs/admin/ADM-MEMBER-001_会员SKU.md
+  - docs/02-ui/page-specs/admin/ADM-MEMBER-002_用户会员.md
+  - docs/02-ui/page-specs/admin/ADM-NOTIFY-001_通知模板.md
+  - docs/02-ui/page-specs/admin/ADM-NOTIFY-002_通知发送记录.md
+  - docs/02-ui/page-specs/admin/ADM-ORDER-001_订单列表.md
+  - docs/02-ui/page-specs/admin/ADM-PAY-001_支付交易.md
+  - docs/02-ui/page-specs/admin/ADM-PROD-001_商品与SKU.md
+  - docs/02-ui/page-specs/admin/ADM-PROP-001_道具商品.md
+  - docs/02-ui/page-specs/admin/ADM-PROP-002_资源位与排期.md
+  - docs/02-ui/page-specs/admin/ADM-PROP-003_执行日志.md
+  - docs/02-ui/page-specs/admin/ADM-RBAC-001_员工角色权限.md
+  - docs/02-ui/page-specs/admin/ADM-RECON-001_支付对账.md
+  - docs/02-ui/page-specs/admin/ADM-REF-001_邀请关系.md
+  - docs/02-ui/page-specs/admin/ADM-REF-002_佣金策略.md
+  - docs/02-ui/page-specs/admin/ADM-REF-003_佣金记录.md
+  - docs/02-ui/page-specs/admin/ADM-REF-004_直推活跃规则.md
+  - docs/02-ui/page-specs/admin/ADM-REF-005_直推进度.md
+  - docs/02-ui/page-specs/admin/ADM-REF-006_阶梯奖励矩阵.md
+  - docs/02-ui/page-specs/admin/ADM-REPORT-001_内容举报处理.md
+  - docs/02-ui/page-specs/admin/ADM-REVIEW-001_审核队列.md
+  - docs/02-ui/page-specs/admin/ADM-REWARD-001_奖励账户.md
+  - docs/02-ui/page-specs/admin/ADM-REWARD-002_奖励流水.md
+  - docs/02-ui/page-specs/admin/ADM-RISK-001_风险事件.md
+  - docs/02-ui/page-specs/admin/ADM-RISK-002_黑白名单.md
+  - docs/02-ui/page-specs/admin/ADM-RISK-003_风控规则版本.md
+  - docs/02-ui/page-specs/admin/ADM-RISK-004_风控规则模拟器.md
+  - docs/02-ui/page-specs/admin/ADM-RP-001_红包活动列表.md
+  - docs/02-ui/page-specs/admin/ADM-RP-002_红包活动详情.md
+  - docs/02-ui/page-specs/admin/ADM-RP-003_红包预审核.md
+  - docs/02-ui/page-specs/admin/ADM-RP-004_红包风险事件.md
+  - docs/02-ui/page-specs/admin/ADM-SECURITY-001_管理员安全设置.md
+  - docs/02-ui/page-specs/admin/ADM-SUPPORT-001_工单列表.md
+  - docs/02-ui/page-specs/admin/ADM-SUPPORT-002_工单详情.md
+  - docs/02-ui/page-specs/admin/ADM-TASK-001_任务定义.md
+  - docs/02-ui/page-specs/admin/ADM-TASK-002_任务进度与预算.md
+  - docs/02-ui/page-specs/admin/ADM-USER-001_用户列表.md
+  - docs/02-ui/page-specs/admin/ADM-USER-002_用户详情.md
+  - docs/02-ui/page-specs/admin/ADM-WD-001_提现列表.md
+  - docs/02-ui/page-specs/admin/ADM-WD-002_提现详情.md
+  - docs/02-ui/page-specs/android/DIALOG-CHAT-BLOCK-001_拉黑与解除拉黑确认.md
+  - docs/02-ui/page-specs/android/DIALOG-CHAT-DELETE-001_删除会话确认.md
+  - docs/02-ui/page-specs/android/DIALOG-SEARCH-001_清空搜索历史确认.md
+  - docs/02-ui/page-specs/android/SCR-ABOUT-001_关于与检查更新.md
+  - docs/02-ui/page-specs/android/SCR-ANN-001_公告列表.md
+  - docs/02-ui/page-specs/android/SCR-ANN-002_公告详情.md
+  - docs/02-ui/page-specs/android/SCR-APP-001_启动页.md
+  - docs/02-ui/page-specs/android/SCR-APP-002_系统维护页.md
+  - docs/02-ui/page-specs/android/SCR-APP-003_更新提示.md
+  - docs/02-ui/page-specs/android/SCR-AUTH-001_密码登录.md
+  - docs/02-ui/page-specs/android/SCR-AUTH-002_短信验证码登录.md
+  - docs/02-ui/page-specs/android/SCR-AUTH-003_注册账号.md
+  - docs/02-ui/page-specs/android/SCR-AUTH-004_忘记密码.md
+  - docs/02-ui/page-specs/android/SCR-AUTH-005_账号冻结.md
+  - docs/02-ui/page-specs/android/SCR-AUTH-006_登录设备.md
+  - docs/02-ui/page-specs/android/SCR-AUTH-007_修改登录密码.md
+  - docs/02-ui/page-specs/android/SCR-AUTH-008_注销账号.md
+  - docs/02-ui/page-specs/android/SCR-CHAT-001_会话列表.md
+  - docs/02-ui/page-specs/android/SCR-CHAT-002_私聊页.md
+  - docs/02-ui/page-specs/android/SCR-DETAIL-001_项目详情.md
+  - docs/02-ui/page-specs/android/SCR-DETAIL-002_App详情.md
+  - docs/02-ui/page-specs/android/SCR-DETAIL-003_群聊详情.md
+  - docs/02-ui/page-specs/android/SCR-DETAIL-004_团队长详情.md
+  - docs/02-ui/page-specs/android/SCR-FAV-001_我的收藏.md
+  - docs/02-ui/page-specs/android/SCR-HIS-001_浏览记录.md
+  - docs/02-ui/page-specs/android/SCR-HOME-001_首页.md
+  - docs/02-ui/page-specs/android/SCR-ID-001_实名认证首页.md
+  - docs/02-ui/page-specs/android/SCR-ID-002_实名信息输入.md
+  - docs/02-ui/page-specs/android/SCR-ID-003_活体检测容器.md
+  - docs/02-ui/page-specs/android/SCR-ID-004_实名结果.md
+  - docs/02-ui/page-specs/android/SCR-LIST-001_项目列表.md
+  - docs/02-ui/page-specs/android/SCR-LIST-002_App列表.md
+  - docs/02-ui/page-specs/android/SCR-LIST-003_群聊列表.md
+  - docs/02-ui/page-specs/android/SCR-LIST-004_团队长列表.md
+  - docs/02-ui/page-specs/android/SCR-ME-001_我的首页.md
+  - docs/02-ui/page-specs/android/SCR-ME-002_个人资料.md
+  - docs/02-ui/page-specs/android/SCR-MEMBER-001_会员中心.md
+  - docs/02-ui/page-specs/android/SCR-MEMBER-002_会员购买确认.md
+  - docs/02-ui/page-specs/android/SCR-MEMBER-003_会员升级.md
+  - docs/02-ui/page-specs/android/SCR-MEMBER-004_会员权益明细.md
+  - docs/02-ui/page-specs/android/SCR-MSG-001_消息中心.md
+  - docs/02-ui/page-specs/android/SCR-MYC-001_我的发布.md
+  - docs/02-ui/page-specs/android/SCR-MYC-002_草稿箱.md
+  - docs/02-ui/page-specs/android/SCR-MYC-003_内容管理详情.md
+  - docs/02-ui/page-specs/android/SCR-MYC-004_审核记录.md
+  - docs/02-ui/page-specs/android/SCR-MYC-005_内容数据.md
+  - docs/02-ui/page-specs/android/SCR-NOTICE-001_通知列表.md
+  - docs/02-ui/page-specs/android/SCR-NOTICE-002_通知详情.md
+  - docs/02-ui/page-specs/android/SCR-ORDER-001_订单列表.md
+  - docs/02-ui/page-specs/android/SCR-ORDER-002_订单详情.md
+  - docs/02-ui/page-specs/android/SCR-PROP-001_道具商城.md
+  - docs/02-ui/page-specs/android/SCR-PROP-002_我的道具.md
+  - docs/02-ui/page-specs/android/SCR-PROP-003_使用道具.md
+  - docs/02-ui/page-specs/android/SCR-PUB-001_发布入口.md
+  - docs/02-ui/page-specs/android/SCR-PUB-002_项目发布_编辑.md
+  - docs/02-ui/page-specs/android/SCR-PUB-003_App发布_编辑.md
+  - docs/02-ui/page-specs/android/SCR-PUB-004_群聊发布_编辑.md
+  - docs/02-ui/page-specs/android/SCR-PUB-005_团队长资料编辑.md
+  - docs/02-ui/page-specs/android/SCR-PUB-006_发布预览.md
+  - docs/02-ui/page-specs/android/SCR-PUB-007_提交结果.md
+  - docs/02-ui/page-specs/android/SCR-PUBLISHER-001_发布者主页.md
+  - docs/02-ui/page-specs/android/SCR-REF-001_推广中心.md
+  - docs/02-ui/page-specs/android/SCR-REF-002_邀请好友.md
+  - docs/02-ui/page-specs/android/SCR-REF-003_邀请海报.md
+  - docs/02-ui/page-specs/android/SCR-REF-004_直推用户.md
+  - docs/02-ui/page-specs/android/SCR-REF-005_二级用户.md
+  - docs/02-ui/page-specs/android/SCR-REF-006_消费佣金.md
+  - docs/02-ui/page-specs/android/SCR-REF-007_直推活跃奖励.md
+  - docs/02-ui/page-specs/android/SCR-REF-008_推广规则_教程.md
+  - docs/02-ui/page-specs/android/SCR-REWARD-001_奖励账户.md
+  - docs/02-ui/page-specs/android/SCR-REWARD-002_奖励明细.md
+  - docs/02-ui/page-specs/android/SCR-RP-001_红包首页.md
+  - docs/02-ui/page-specs/android/SCR-RP-002_红包任务资格.md
+  - docs/02-ui/page-specs/android/SCR-RP-003_红包浏览任务.md
+  - docs/02-ui/page-specs/android/SCR-RP-004_我的红包.md
+  - docs/02-ui/page-specs/android/SCR-RP-ADV-001_红包活动列表.md
+  - docs/02-ui/page-specs/android/SCR-RP-ADV-002_创建红包.md
+  - docs/02-ui/page-specs/android/SCR-RP-ADV-003_预审核结果.md
+  - docs/02-ui/page-specs/android/SCR-RP-ADV-004_红包报价确认.md
+  - docs/02-ui/page-specs/android/SCR-RP-ADV-005_红包活动详情.md
+  - docs/02-ui/page-specs/android/SCR-RP-ADV-006_提高红包金额.md
+  - docs/02-ui/page-specs/android/SCR-SEARCH-001_全局搜索.md
+  - docs/02-ui/page-specs/android/SCR-SEARCH-002_搜索结果.md
+  - docs/02-ui/page-specs/android/SCR-SET-001_设置.md
+  - docs/02-ui/page-specs/android/SCR-SUPPORT-001_帮助中心.md
+  - docs/02-ui/page-specs/android/SCR-SUPPORT-002_创建工单.md
+  - docs/02-ui/page-specs/android/SCR-SUPPORT-003_工单列表.md
+  - docs/02-ui/page-specs/android/SCR-SUPPORT-004_工单详情.md
+  - docs/02-ui/page-specs/android/SCR-SUPPORT-005_帮助文章详情.md
+  - docs/02-ui/page-specs/android/SCR-TASK-001_任务中心.md
+  - docs/02-ui/page-specs/android/SCR-TASK-002_个人任务积分.md
+  - docs/02-ui/page-specs/android/SCR-WD-001_绑定支付宝.md
+  - docs/02-ui/page-specs/android/SCR-WD-002_申请提现.md
+  - docs/02-ui/page-specs/android/SCR-WD-003_提现记录.md
+  - docs/02-ui/page-specs/android/SHEET-CHAT-001_发送联系方式.md
+  - docs/02-ui/page-specs/android/SHEET-CHAT-002_聊天举报.md
+  - docs/02-ui/page-specs/android/SHEET-CONTACT-001_联系方式面板.md
+  - docs/02-ui/page-specs/android/SHEET-CONTENT-INVALID-001_联系方式失效反馈.md
+  - docs/02-ui/page-specs/android/SHEET-MEDIA-001_媒体上传管理器.md
+  - docs/02-ui/page-specs/android/SHEET-REPORT-001_举报面板.md
+  - docs/02-ui/page-specs/android/SHEET-RP-001_红包领取面板.md
+  - docs/02-ui/page-specs/android/SHEET-SHARE-001_分享面板.md
+  - docs/02-ui/page-specs/h5/H5-001_品牌宣传下载页.md
+  - docs/02-ui/page-specs/h5/H5-002_安装教程.md
+  - docs/02-ui/page-specs/h5/H5-003_邀请落地页.md
+  - docs/02-ui/page-specs/h5/H5-004_项目分享页.md
+  - docs/02-ui/page-specs/h5/H5-005_App分享页.md
+  - docs/02-ui/page-specs/h5/H5-006_群聊分享页.md
+  - docs/02-ui/page-specs/h5/H5-007_团队长分享页.md
+  - docs/02-ui/page-specs/h5/H5-008_统一收银台.md
+  - docs/02-ui/page-specs/h5/H5-009_支付结果.md
+  - docs/02-ui/page-specs/h5/H5-010_协议与规则.md
+  - docs/02-ui/page-specs/h5/H5-011_帮助文章.md
+  - docs/02-ui/page-specs/h5/H5-012_活体回跳.md
+  - docs/02-ui/page-specs/h5/H5-013_H5邀请注册页.md
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/change-requests/CR-0247-消除UI施工歧义并分离机器收尾与生产验收门禁.md
+  - docs/03-continuity/change-requests/CR-0248-返工R01至R07不合格页面并补齐效果图级证据.md
+  - docs/09-development/统一开发与交付效率规范.md
+  - scripts/capture_r01_admin_visuals.mjs
+  - scripts/check_release_artifacts.py
+  - scripts/check_v123_documentation.py
+  - scripts/hhy_workflow.py
+  - tests/test_android_ci_gate.py
+  - tests/test_hhy_workflow.py
+  - tests/test_release_close_gate.py
+  - tests/test_run_affected_tests.py
+  file_count: 223
+  payload:
+    base_commit: 316c2db20204555fcd405fd6346d96aa8effe932
+    files:
+    - path: .github/workflows/android-quality-gate.yml
+      state: FILE
+      size: 12848
+      sha256: c1bd68bfd77aa48ef4f13cd505d32fc1cb1b664425fc11f4b83ced8c461437f7
+    - path: CHANGELOG.md
+      state: FILE
+      size: 93053
+      sha256: 7146eca43adfc606bece197532cb363522b701d41e333d0f2c4772e8aff2f419
+    - path: apps/admin-web/src/views/AdminLoginPage.vue
+      state: FILE
+      size: 6379
+      sha256: 94c0a1bac7b46fe4f9d02afe78c5b6cd369eea5049d8a90d1c5c60d91e3dbc17
+    - path: apps/admin-web/src/views/AdminMfaPage.vue
+      state: FILE
+      size: 5385
+      sha256: e2a0d398ec9a369c0e68c7f72d3e401eec63803114600c49b2889426d12d960a
+    - path: apps/admin-web/src/views/AdminSecurityPage.vue
+      state: FILE
+      size: 19606
+      sha256: d04b0b4d3fb9d66fff0f422ed8a0a6bb204c862881960db6b7229ba9f3ec7df3
+    - path: apps/android/app/build.gradle.kts
+      state: FILE
+      size: 5136
+      sha256: d3e1319a19119ddccecdb0ef36719e4ce37c89b59af35d6b49762ae97c97f623
+    - path: apps/android/app/src/androidTest/java/cc/orbexa/hhy/HistoricalVisualAuditTest.kt
+      state: FILE
+      size: 26255
+      sha256: c2705ba158ec6272f925d522b9d42b6efdd90a0d1a47bf20a8e6a6ebca42d67c
+    - path: apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyIcons.kt
+      state: FILE
+      size: 3443
+      sha256: b46876267751747d473d6a8d1f68ae16e94636741772df70b69d5422ab99989e
+    - path: apps/android/feature/auth/src/main/java/cc/orbexa/hhy/auth/AuthScreen.kt
+      state: FILE
+      size: 73822
+      sha256: 1e8e1874e46e9e38139f745573f6529baac9d8253753119c63b2849e6f228a0e
+    - path: apps/android/feature/discovery/src/main/java/cc/orbexa/hhy/discovery/R07DiscoveryScreens.kt
+      state: FILE
+      size: 34668
+      sha256: 4072d7fefd5b749331abf45d378f3a14181a77d10370b974991cb4df26604883
+    - path: apps/android/feature/identity/src/main/java/cc/orbexa/hhy/identity/IdentityFlowScreen.kt
+      state: FILE
+      size: 54151
+      sha256: 4247b731bf86ad0aa446f14ca58de08f371de75a7206086b56edfb8a29749344
+    - path: apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+      state: FILE
+      size: 19204
+      sha256: 9886b95641275ce664d1c187b0b1430db8b9fa9368f400fa80cb8661c8de319d
+    - path: apps/android/feature/startup/src/main/java/cc/orbexa/hhy/startup/StartupGateScreen.kt
+      state: FILE
+      size: 10800
+      sha256: e31fa918ce6e95a96643777b2b8c0d988ede8a52fd221daf4e0187f80179bc50
+    - path: catalogs/ui_visual_acceptance.csv
+      state: FILE
+      size: 36180
+      sha256: 3be3b32ddc5bded1b9c7b033ab3caf7b01f2d3ed6d5d69d66704e5ac7b877a2d
+    - path: config/development-workflow.yaml
+      state: FILE
+      size: 3386
+      sha256: e94f69a6489b3837ac0d313af0ab93524d351070fc82b2bc501e9aa772ea8d3f
+    - path: config/test-impact-map.yaml
+      state: FILE
+      size: 5624
+      sha256: 19a254ad4f2e57da360bec3afa7d404fba1a8c486fefd9adb23187c458a2de30
+    - path: design/R06-UI-FROZEN/specs/SCR-HOME-001.md
+      state: FILE
+      size: 3258
+      sha256: baa88d6724194235a28edf6318c477eb9824e3cb9e11418d9c51d4d688c24267
+    - path: design/R07-UI-FROZEN/specs/SCR-PUBLISHER-001.md
+      state: FILE
+      size: 1817
+      sha256: 96699c1ed3d4c73ff1db765db25bb707ceb6371437414a8cbe5852875f123f5b
+    - path: design/R07-UI-FROZEN/specs/SCR-SEARCH-001.md
+      state: FILE
+      size: 1916
+      sha256: 15c7a9a7a7ee341db6e2ddfbbc408fe6cc2d3e78b1f6211538390c99c0238a84
+    - path: design/R07-UI-FROZEN/specs/SCR-SEARCH-002.md
+      state: FILE
+      size: 1877
+      sha256: 0585cd146d7964416007f9b931a3927c9c508352209c8ed8266c467de0f1b574
+    - path: design/R07-UI-FROZEN/specs/SHEET-CONTACT-001.md
+      state: FILE
+      size: 1626
+      sha256: e3c516ac54dfae0af7b47e50a13090e69b47a94eb88b297d1a4af86c565994b3
+    - path: docs/02-ui/UI参考图使用与开发约束_V1.2.2.md
+      state: FILE
+      size: 7355
+      sha256: d14367586aa2067b059df58798acd20ab982459cdb35ff27fc7922a3896e4933
+    - path: docs/02-ui/page-specs/admin/ADM-ACCOUNTING-001_统一会计交易.md
+      state: FILE
+      size: 32119
+      sha256: c9fa457d82ef2764095aaf6c19ddccd0c48f91938cfa96b4982135ea1cd85fa6
+    - path: docs/02-ui/page-specs/admin/ADM-ACCOUNTING-002_会计交易详情与冲正.md
+      state: FILE
+      size: 23563
+      sha256: 1f4ba586287cfb19e5c0173c6ce35da5b16446844c14de795537537a19e4d954
+    - path: docs/02-ui/page-specs/admin/ADM-APP-001_App版本.md
+      state: FILE
+      size: 27127
+      sha256: af945c65cd18449fc0a777de9892ca8656d60f60a6a5701d8db13b6567906634
+    - path: docs/02-ui/page-specs/admin/ADM-APPEAL-001_申诉处理.md
+      state: FILE
+      size: 14794
+      sha256: 7c5d28758fbd825c6483cb4137de29cf94bc1305433d3951897b279df891521f
+    - path: docs/02-ui/page-specs/admin/ADM-APPROVAL-001_双人审批中心.md
+      state: FILE
+      size: 24005
+      sha256: e312079e552f3e5216f1b75f6c5a3ca2e0d569761406a81dfcd8a347570ac848
+    - path: docs/02-ui/page-specs/admin/ADM-AUDIT-001_审计日志.md
+      state: FILE
+      size: 18007
+      sha256: c14708d148bdc8ac8c69083162ec0ce3245e144e50090ebfe31f798d1fbb2a7a
+    - path: docs/02-ui/page-specs/admin/ADM-AUTH-001_后台登录.md
+      state: FILE
+      size: 15518
+      sha256: 773e4dec13ff22d72151e34dc4f7c672649dd6773f68c08d9b27f8d4c80f1bf7
+    - path: docs/02-ui/page-specs/admin/ADM-AUTH-002_二次验证.md
+      state: FILE
+      size: 12301
+      sha256: 6d5d4d57c56ea7f11f670c29affeb2480cfcdd97d68c60b25a1d0703e034cf54
+    - path: docs/02-ui/page-specs/admin/ADM-BUILD-001_构建中心首页.md
+      state: FILE
+      size: 39869
+      sha256: 223ba9650cbf2d146e1af6cc787edfd8ba1926efec9b62602e06eb2a6b406ed2
+    - path: docs/02-ui/page-specs/admin/ADM-BUILD-002_构建配置.md
+      state: FILE
+      size: 42375
+      sha256: d634c5e68c115e21cd30d6ff8d55228652962b94c742490f9696c129fa4d2d16
+    - path: docs/02-ui/page-specs/admin/ADM-BUILD-003_签名配置.md
+      state: FILE
+      size: 46957
+      sha256: 2420d4996423d8d2670c89c690307fd72136cdeb9bfeadb249a1327eff75dba2
+    - path: docs/02-ui/page-specs/admin/ADM-BUILD-004_构建任务列表.md
+      state: FILE
+      size: 37402
+      sha256: ff2b9770c40c59cbc2c06ad76b20cb513d2171dd3b6a20b4add220e48d4cb9f9
+    - path: docs/02-ui/page-specs/admin/ADM-BUILD-005_构建任务详情.md
+      state: FILE
+      size: 40920
+      sha256: 5a9453c1100c5c299c863e1bea07e60fb4902f69f21a0c3863f605d03506a628
+    - path: docs/02-ui/page-specs/admin/ADM-BUILD-006_构建产物与下载.md
+      state: FILE
+      size: 40918
+      sha256: fb6bfa6428a4ebc05207a7e1cf6128940905de39eee00d3c09fa5fcb17a11ccf
+    - path: docs/02-ui/page-specs/admin/ADM-BUILD-007_发布与回滚.md
+      state: FILE
+      size: 46725
+      sha256: ff171e6ca813e69fced8bfe41d71d7fcb64f0015c08a9b5ac4a3db7dcb16a025
+    - path: docs/02-ui/page-specs/admin/ADM-CHAT-001_聊天举报.md
+      state: FILE
+      size: 23505
+      sha256: 5b303af77df234e717360a2aa21b941d6170a811ea990279da2bb4878ffb42e1
+    - path: docs/02-ui/page-specs/admin/ADM-CMS-001_首页CMS.md
+      state: FILE
+      size: 35956
+      sha256: 81252f6baaf2febeb5d2c275772fba1578d0d581f67b0e2ebb2a46859fdcae54
+    - path: docs/02-ui/page-specs/admin/ADM-CMS-002_H5宣传页CMS.md
+      state: FILE
+      size: 35959
+      sha256: 53a4ccc51d09454c2e54a084206f7774fec172db1be81ef3a39bee80acb64ae8
+    - path: docs/02-ui/page-specs/admin/ADM-CMS-003_公告帮助协议.md
+      state: FILE
+      size: 40438
+      sha256: dec3b1f81a6da321493ad9c22186a69fd42f855f7075c640b50029d875977f06
+    - path: docs/02-ui/page-specs/admin/ADM-CONFIG-001_系统配置.md
+      state: FILE
+      size: 40018
+      sha256: 9d36807a5da85923a672e6025ba0636e15747e700550fca65e348127fbf1f479
+    - path: docs/02-ui/page-specs/admin/ADM-CONFIG-002_供应商配置中心.md
+      state: FILE
+      size: 50829
+      sha256: 153033ba610c9b9d7434cfeaea29e0ad1097750ee691984566c023e956cabdc4
+    - path: docs/02-ui/page-specs/admin/ADM-CONFIG-003_阿里云短信配置.md
+      state: FILE
+      size: 40091
+      sha256: 8bd44b1bd8f34f9437bc4d2131cc4aefd9cd2f923d150eabaeacaa73fd58eb56
+    - path: docs/02-ui/page-specs/admin/ADM-CONFIG-004_对象存储配置.md
+      state: FILE
+      size: 40095
+      sha256: 3a6a9acf89f8be15a6e4e5228123784f65fe4917837ee34db50e09e172db808a
+    - path: docs/02-ui/page-specs/admin/ADM-CONFIG-005_支付网关配置.md
+      state: FILE
+      size: 41614
+      sha256: 74fa85ed62f54e1df740a69949afbe7b10d0ffd03c30aa57d7d8d6cdbddfeea0
+    - path: docs/02-ui/page-specs/admin/ADM-CONFIG-006_支付宝企业付款配置.md
+      state: FILE
+      size: 41621
+      sha256: 1c06f0d58d208ec923fcd8962c76a676020b3213d20527df08bee58da69fe8ac
+    - path: docs/02-ui/page-specs/admin/ADM-CONFIG-007_实名认证配置.md
+      state: FILE
+      size: 41092
+      sha256: 712b896e56c165bdecb6ffcd0a1255caa501bdfb5fd24b6b5715afa637b66e6f
+    - path: docs/02-ui/page-specs/admin/ADM-CONFIG-008_域名与环境配置.md
+      state: FILE
+      size: 46026
+      sha256: e2ae2e97339d51e9ba59ee85e1aa93f0b2fad6ceb6a8c8f96f714abc17925798
+    - path: docs/02-ui/page-specs/admin/ADM-CONTENT-001_统一内容列表.md
+      state: FILE
+      size: 27995
+      sha256: 2664f545aee37d0c2ed6c6d0eb6f34d0b2fb66ee70406bdb5a2128e06d8a07fc
+    - path: docs/02-ui/page-specs/admin/ADM-CONTENT-002_内容详情.md
+      state: FILE
+      size: 40420
+      sha256: 6cc5f7a7d81f5749afe7436f6c8156c4b3dfc2a64a4d24946b3586258c39af3c
+    - path: docs/02-ui/page-specs/admin/ADM-CONTENT-003_字典与属性.md
+      state: FILE
+      size: 44354
+      sha256: 8b5ebea232e38baab7c96c5c5d860ef0605c74fef7ffa725a5490d129af85523
+    - path: docs/02-ui/page-specs/admin/ADM-DASH-001_数据驾驶舱.md
+      state: FILE
+      size: 16490
+      sha256: c21f03eb3faf23400a1bd1c5f43bcb56d3c22190c0936949d0a33932efe21e55
+    - path: docs/02-ui/page-specs/admin/ADM-EXPORT-001_数据导出中心.md
+      state: FILE
+      size: 32227
+      sha256: da3b776bfc052c644461247c63a1f23c00a0ac2b60fe1543cc83503aedac3ff3
+    - path: docs/02-ui/page-specs/admin/ADM-ID-001_实名列表.md
+      state: FILE
+      size: 21668
+      sha256: 8a515c630c0082358d4c419f6b7c252acf529860f5510bf17239a9dd46e9d0a4
+    - path: docs/02-ui/page-specs/admin/ADM-ID-002_实名详情与复核.md
+      state: FILE
+      size: 31406
+      sha256: cca769c38ddf00bb098697503e552209c223a5c88847a3e21a5b649bf04ed785
+    - path: docs/02-ui/page-specs/admin/ADM-JOB-001_定时任务.md
+      state: FILE
+      size: 21634
+      sha256: 0cf2964ac9f182507eb4f433a311332326a7cdeaab1fad0e1bcda5c032422ed6
+    - path: docs/02-ui/page-specs/admin/ADM-MEMBER-001_会员SKU.md
+      state: FILE
+      size: 30838
+      sha256: 5a4804652cf37287e3e64bf2efa281bc7cddf1c3224c0467337338cc59041bbd
+    - path: docs/02-ui/page-specs/admin/ADM-MEMBER-002_用户会员.md
+      state: FILE
+      size: 27803
+      sha256: bc68eb091c647744a796f030cbfecc3a44fa0b9f84afd11fb490307b8447a882
+    - path: docs/02-ui/page-specs/admin/ADM-NOTIFY-001_通知模板.md
+      state: FILE
+      size: 29885
+      sha256: 4dfadbd8a1c8502e7880b90386a5bd6330dc71f6c77ef3cb9f24c15ec5cfd4c2
+    - path: docs/02-ui/page-specs/admin/ADM-NOTIFY-002_通知发送记录.md
+      state: FILE
+      size: 28244
+      sha256: bc945dac723641d9a65dee542e5a2b7308a665ca7080befc37ef415cf878730e
+    - path: docs/02-ui/page-specs/admin/ADM-ORDER-001_订单列表.md
+      state: FILE
+      size: 19063
+      sha256: 5ef535ae0abb24434af7f0d5d2f77b9ff624806df034a5984bcd47420effd07b
+    - path: docs/02-ui/page-specs/admin/ADM-PAY-001_支付交易.md
+      state: FILE
+      size: 33685
+      sha256: 396d44a9aa7fea234749ccc0226baa94f6c5accfd98597411926bc88a9614a26
+    - path: docs/02-ui/page-specs/admin/ADM-PROD-001_商品与SKU.md
+      state: FILE
+      size: 31697
+      sha256: 6b4feded215f37d507b055aee0e9728e0fd1e50864415d619fd2a69b09dca48f
+    - path: docs/02-ui/page-specs/admin/ADM-PROP-001_道具商品.md
+      state: FILE
+      size: 27340
+      sha256: 9eeae735d1063a9654d9caf73cb031b2ec43f040f442147afca9e32e732e0394
+    - path: docs/02-ui/page-specs/admin/ADM-PROP-002_资源位与排期.md
+      state: FILE
+      size: 25234
+      sha256: d1809014f682e812a14f8337930629a2e06f1d778b0dcfb43472acb8e988263e
+    - path: docs/02-ui/page-specs/admin/ADM-PROP-003_执行日志.md
+      state: FILE
+      size: 27351
+      sha256: 983db816176a3d5412bdc3da5dd4e9244602273b021733a2dc4a3e5962be43e5
+    - path: docs/02-ui/page-specs/admin/ADM-RBAC-001_员工角色权限.md
+      state: FILE
+      size: 25457
+      sha256: 551add18b655e4806e010e216929019e7c1d3a61dd279db61d64dff72b77d94e
+    - path: docs/02-ui/page-specs/admin/ADM-RECON-001_支付对账.md
+      state: FILE
+      size: 33709
+      sha256: 006e2ae084159aefacda103224bb271268efd90001747d2e948ea1444cb72f9e
+    - path: docs/02-ui/page-specs/admin/ADM-REF-001_邀请关系.md
+      state: FILE
+      size: 38208
+      sha256: 3dd4f9634ebe980a680154f371fe37851fce53d0fc538802bd9ea37132a62130
+    - path: docs/02-ui/page-specs/admin/ADM-REF-002_佣金策略.md
+      state: FILE
+      size: 38219
+      sha256: b90e6089ec8fb1481b16642d23bf6caae14c44027650a032b02f2bf951e881b5
+    - path: docs/02-ui/page-specs/admin/ADM-REF-003_佣金记录.md
+      state: FILE
+      size: 32283
+      sha256: 92b63b8095cf4eb36f91c865b7c7ad42c0d2d19a8793c2298b14074697280d5b
+    - path: docs/02-ui/page-specs/admin/ADM-REF-004_直推活跃规则.md
+      state: FILE
+      size: 38231
+      sha256: 9643f5346edee3e78b3519e16339fa3fa006a9f646aa712896fbb4e52fbc0837
+    - path: docs/02-ui/page-specs/admin/ADM-REF-005_直推进度.md
+      state: FILE
+      size: 38231
+      sha256: 1dcdc7a517380e46c8ae0c183c829dc7172084a5cc467d12f3980b717f88f020
+    - path: docs/02-ui/page-specs/admin/ADM-REF-006_阶梯奖励矩阵.md
+      state: FILE
+      size: 41792
+      sha256: ff3fbf870e8e9c6d2c6a7801d78a1c588f0d7b38a744d363e9a60643b3cfb793
+    - path: docs/02-ui/page-specs/admin/ADM-REPORT-001_内容举报处理.md
+      state: FILE
+      size: 14893
+      sha256: ecb9e97c4e01d85a1cc9fb1d07659b6a9ec5f97053312dd64908ad7975c081b2
+    - path: docs/02-ui/page-specs/admin/ADM-REVIEW-001_审核队列.md
+      state: FILE
+      size: 32319
+      sha256: 787153d662a51f952d9cde9895cce30b1e69d83c90994d7d762d08ffdb78383d
+    - path: docs/02-ui/page-specs/admin/ADM-REWARD-001_奖励账户.md
+      state: FILE
+      size: 25694
+      sha256: 7493bf81db85e7e65127402385239eea65e040ee8b310cd170173b685cf4188d
+    - path: docs/02-ui/page-specs/admin/ADM-REWARD-002_奖励流水.md
+      state: FILE
+      size: 21644
+      sha256: 3ae30f1c795111407e61b74059cbcdf6bcf3ba7b5388a08a22313440c9a991d9
+    - path: docs/02-ui/page-specs/admin/ADM-RISK-001_风险事件.md
+      state: FILE
+      size: 35722
+      sha256: ea55e63d6306a0256a106824397408184df5ad477d66fca0241700f7a40a92d8
+    - path: docs/02-ui/page-specs/admin/ADM-RISK-002_黑白名单.md
+      state: FILE
+      size: 29239
+      sha256: ffe94a5252124aea8d0081152e026d398e687a77444f3d29213f7931bd3fc301
+    - path: docs/02-ui/page-specs/admin/ADM-RISK-003_风控规则版本.md
+      state: FILE
+      size: 28719
+      sha256: c09b5ea85d7ebb1fe78bb4ebeeed723d04206a582aef22b5cf42adb5629b2837
+    - path: docs/02-ui/page-specs/admin/ADM-RISK-004_风控规则模拟器.md
+      state: FILE
+      size: 18400
+      sha256: 4f64a6a89d90a4fb985d4cda16cdc23dcd095ed34d297d047741cf976d5d8c9d
+    - path: docs/02-ui/page-specs/admin/ADM-RP-001_红包活动列表.md
+      state: FILE
+      size: 28988
+      sha256: 18af9282f585e0daa88fb87b760da30517346ecf93c96617d5fd45209fe7d522
+    - path: docs/02-ui/page-specs/admin/ADM-RP-002_红包活动详情.md
+      state: FILE
+      size: 37108
+      sha256: c85dad828fdfcc3a71c75bcaa64286fc2d681705f77e177a1f8c332d71ea8e51
+    - path: docs/02-ui/page-specs/admin/ADM-RP-003_红包预审核.md
+      state: FILE
+      size: 38484
+      sha256: f01acc48a01b4aa287ec8a6fb865f815741c42919777c798b7ab36656e181827
+    - path: docs/02-ui/page-specs/admin/ADM-RP-004_红包风险事件.md
+      state: FILE
+      size: 36957
+      sha256: b8902cec3f51811a1f318e0e9446cfcd8d0461eec410fa5a90d163058c693342
+    - path: docs/02-ui/page-specs/admin/ADM-SECURITY-001_管理员安全设置.md
+      state: FILE
+      size: 29263
+      sha256: 3dbed88e1ed82be75b2079b6932dff1f9398448d5cd2f32a226c269c872d1dce
+    - path: docs/02-ui/page-specs/admin/ADM-SUPPORT-001_工单列表.md
+      state: FILE
+      size: 20997
+      sha256: 062c88dc4e79f7d2b1beb82f83c59a22d2b6f64a01fa51be7bb117e69c7ecc1d
+    - path: docs/02-ui/page-specs/admin/ADM-SUPPORT-002_工单详情.md
+      state: FILE
+      size: 18281
+      sha256: 82424665f1966ca56dc663c1c5b33ba95f168e5fd1cde3d510d4370de458cefb
+    - path: docs/02-ui/page-specs/admin/ADM-TASK-001_任务定义.md
+      state: FILE
+      size: 33080
+      sha256: 12190170eaf85d420017c5f353dd48e4297ef4bce86743b51b49498b19410675
+    - path: docs/02-ui/page-specs/admin/ADM-TASK-002_任务进度与预算.md
+      state: FILE
+      size: 30640
+      sha256: 8cad2b92266e12bd4b586b056622e2c91d772a28ded331208e964408490d77e8
+    - path: docs/02-ui/page-specs/admin/ADM-USER-001_用户列表.md
+      state: FILE
+      size: 20939
+      sha256: 1f542882da84f515473add8553704c0075fbdac4d191a8da78e876092dc95d13
+    - path: docs/02-ui/page-specs/admin/ADM-USER-002_用户详情.md
+      state: FILE
+      size: 34547
+      sha256: 0db34e2615370043810106d4e07b8a89568a66234fc47dc9c1cfba53f7817495
+    - path: docs/02-ui/page-specs/admin/ADM-WD-001_提现列表.md
+      state: FILE
+      size: 23288
+      sha256: bb40bda7d4a3449bbe1aed2fbe4de507b2725c2ca5cd83051f5dd0f03993efaf
+    - path: docs/02-ui/page-specs/admin/ADM-WD-002_提现详情.md
+      state: FILE
+      size: 34676
+      sha256: db47a6586d8b220fae51b3038277ef24645e297421fcab911f9a2060d4c13bca
+    - path: docs/02-ui/page-specs/android/DIALOG-CHAT-BLOCK-001_拉黑与解除拉黑确认.md
+      state: FILE
+      size: 13624
+      sha256: 48a26c3fa7f8b3f9b44e9ac85f5e4ec5b663b9ab42619e39ad5a853b96166e48
+    - path: docs/02-ui/page-specs/android/DIALOG-CHAT-DELETE-001_删除会话确认.md
+      state: FILE
+      size: 11525
+      sha256: b3aa80af16b8a5457cc74d195fe16c8b9a956fccb37553249dc1344340ae56c9
+    - path: docs/02-ui/page-specs/android/DIALOG-SEARCH-001_清空搜索历史确认.md
+      state: FILE
+      size: 10925
+      sha256: e58bca43d05318da0a44e643e85839f0d5bdedac9bbda193e9eb51e5905955ed
+    - path: docs/02-ui/page-specs/android/SCR-ABOUT-001_关于与检查更新.md
+      state: FILE
+      size: 19458
+      sha256: ea64a0c966ec17e317be0ce910dd94d645917c0fcb90fad9ad2b9d4a711c2fc9
+    - path: docs/02-ui/page-specs/android/SCR-ANN-001_公告列表.md
+      state: FILE
+      size: 15807
+      sha256: d27950592d66db81ddf92df9a5c755737a855bbe5652232da060d06e1c7c99f7
+    - path: docs/02-ui/page-specs/android/SCR-ANN-002_公告详情.md
+      state: FILE
+      size: 11802
+      sha256: 9e5e7a9aa13d4f001e8845095f6fcbbe843802544ce726989e173e5b51f669f1
+    - path: docs/02-ui/page-specs/android/SCR-APP-001_启动页.md
+      state: FILE
+      size: 33338
+      sha256: cab210a78995f6c73b6157b1a985ff9187bbd12d4c15dbda1d99d943080f506c
+    - path: docs/02-ui/page-specs/android/SCR-APP-002_系统维护页.md
+      state: FILE
+      size: 16179
+      sha256: a95a6ff7d242b83cde9ab4f2b84fec8bbcfe10c69c5f9b25b09a4411d257567a
+    - path: docs/02-ui/page-specs/android/SCR-APP-003_更新提示.md
+      state: FILE
+      size: 19024
+      sha256: f2200fbf5493514954402c86029c313c7296692d075eae5888ba885e9feacf55
+    - path: docs/02-ui/page-specs/android/SCR-AUTH-001_密码登录.md
+      state: FILE
+      size: 22688
+      sha256: 635e594a60d82c0483a993fc50842df6d0eba443ce55a5483e3250c58d504399
+    - path: docs/02-ui/page-specs/android/SCR-AUTH-002_短信验证码登录.md
+      state: FILE
+      size: 24535
+      sha256: a09ae705a7bbc037e861684e5ba9494895ae2268bbfc0ad67dce4a83fcda9426
+    - path: docs/02-ui/page-specs/android/SCR-AUTH-003_注册账号.md
+      state: FILE
+      size: 26313
+      sha256: c3b0e9bfa2354b3bb5f1a6a1986f1022e02e754362ccbc493f434475eaeac020
+    - path: docs/02-ui/page-specs/android/SCR-AUTH-004_忘记密码.md
+      state: FILE
+      size: 22040
+      sha256: d62a102f9cba72a0ef024c8423b5e9b98e156dc150ac24c87b7697f596edcf5a
+    - path: docs/02-ui/page-specs/android/SCR-AUTH-005_账号冻结.md
+      state: FILE
+      size: 15344
+      sha256: cc8a5f4b96bfb3082f50ddc16d5053383ebd76f5f71b257c4c24c590e89fae05
+    - path: docs/02-ui/page-specs/android/SCR-AUTH-006_登录设备.md
+      state: FILE
+      size: 21512
+      sha256: c5a257d961feac0dfb4c0999f830a31aa2e6a75ab1ba0254abf48fc3f3d1b464
+    - path: docs/02-ui/page-specs/android/SCR-AUTH-007_修改登录密码.md
+      state: FILE
+      size: 11096
+      sha256: 41f8512300782eadf8bbd90b8e2edce93f308969ccbdff35e8d0dd80f7a740b5
+    - path: docs/02-ui/page-specs/android/SCR-AUTH-008_注销账号.md
+      state: FILE
+      size: 9683
+      sha256: 9f0b48806537d6d5cd29dfcad66a92eb9a30dec30aafe6db2f950d966007b351
+    - path: docs/02-ui/page-specs/android/SCR-CHAT-001_会话列表.md
+      state: FILE
+      size: 14368
+      sha256: 663a860d89d3a212fc6e092cd29c5d2ad60112b5bbd1206191675962416f77bf
+    - path: docs/02-ui/page-specs/android/SCR-CHAT-002_私聊页.md
+      state: FILE
+      size: 21804
+      sha256: cea1e179f080cb4f0ef5fdcf49a1d65eee1827010928286a0cc4ed517337bea8
+    - path: docs/02-ui/page-specs/android/SCR-DETAIL-001_项目详情.md
+      state: FILE
+      size: 27316
+      sha256: 9c22c1de7f20a1f1ede70c0062f504f73b4b713d71de8e0c7930e745f46e8cfa
+    - path: docs/02-ui/page-specs/android/SCR-DETAIL-002_App详情.md
+      state: FILE
+      size: 27303
+      sha256: ff13f5129a106f862960ef01d54c9c45636f709c0b94eca0fbcfd671ec55d97f
+    - path: docs/02-ui/page-specs/android/SCR-DETAIL-003_群聊详情.md
+      state: FILE
+      size: 27298
+      sha256: 2d36ec549cd1e5fa13b4b2b697e0f95ac0cd05ee34fd69142f2ac48ccee55280
+    - path: docs/02-ui/page-specs/android/SCR-DETAIL-004_团队长详情.md
+      state: FILE
+      size: 27305
+      sha256: bf56142f853e2d140586ab553f93dbbdf382fee87219ff8c9a79d1e5365459e1
+    - path: docs/02-ui/page-specs/android/SCR-FAV-001_我的收藏.md
+      state: FILE
+      size: 24339
+      sha256: 82682b3f24368b09329371b14c72934e7d7c9ef3eafbff4b2ff64e6579c69c4f
+    - path: docs/02-ui/page-specs/android/SCR-HIS-001_浏览记录.md
+      state: FILE
+      size: 19697
+      sha256: eaa0c355ae0d82f1d9a634d4c85d9a57de0b17b6f13ff9c724f7ef7af75cf7cb
+    - path: docs/02-ui/page-specs/android/SCR-HOME-001_首页.md
+      state: FILE
+      size: 8998
+      sha256: 1c5207a0dd2fb68fb19fae75ec6fa495e7b8c2efdefa20b98b358fc4c4ee8991
+    - path: docs/02-ui/page-specs/android/SCR-ID-001_实名认证首页.md
+      state: FILE
+      size: 15805
+      sha256: f748908324e2830c8baef7ef68cf97ea8f9a2565e36ed7c6a59a77c65e40b506
+    - path: docs/02-ui/page-specs/android/SCR-ID-002_实名信息输入.md
+      state: FILE
+      size: 13262
+      sha256: beb23ce83397d50d85a28106bb9577bb271142b677d418a8b964d4ce86bf6f18
+    - path: docs/02-ui/page-specs/android/SCR-ID-003_活体检测容器.md
+      state: FILE
+      size: 15738
+      sha256: f2174ddbfb56cc06b395042ffe10fb1db26f62511b365dbce5ca9d96e37ce6dc
+    - path: docs/02-ui/page-specs/android/SCR-ID-004_实名结果.md
+      state: FILE
+      size: 15845
+      sha256: 378fca4e54ebe9b1319eeb716894e784b291518ee7719d881e2800ed7a5e766d
+    - path: docs/02-ui/page-specs/android/SCR-LIST-001_项目列表.md
+      state: FILE
+      size: 21982
+      sha256: 5d6702d82566216b62433fde07315cca98a6be26ad9ab9ca98350c184f680bea
+    - path: docs/02-ui/page-specs/android/SCR-LIST-002_App列表.md
+      state: FILE
+      size: 21976
+      sha256: 4369c9adc689069081deea1f26b1057afdab6bc71e3a39c4485b41669a148f99
+    - path: docs/02-ui/page-specs/android/SCR-LIST-003_群聊列表.md
+      state: FILE
+      size: 21976
+      sha256: 82ac1ee951ed5cd6500b8cf1766a2fce93c7ab73645ce6b87e50f4b9de283b50
+    - path: docs/02-ui/page-specs/android/SCR-LIST-004_团队长列表.md
+      state: FILE
+      size: 21986
+      sha256: c33969b5a4d289281b0e1e4a1f6b8971a7c410469e594703d2cf698730bfaba0
+    - path: docs/02-ui/page-specs/android/SCR-ME-001_我的首页.md
+      state: FILE
+      size: 19354
+      sha256: 18c212355e03dbd5759f2fbdb71acee87852e0f03ad5126a5d8912707c1c36a3
+    - path: docs/02-ui/page-specs/android/SCR-ME-002_个人资料.md
+      state: FILE
+      size: 16250
+      sha256: 0d3297c7e34fbfa321d15919fd9a2a6422d1d929021f45cf299d628dd6406b56
+    - path: docs/02-ui/page-specs/android/SCR-MEMBER-001_会员中心.md
+      state: FILE
+      size: 18061
+      sha256: f4956bf46b7322e067dd8622500534ed12bdb98fda5602cc6f1c8c90d40ae386
+    - path: docs/02-ui/page-specs/android/SCR-MEMBER-002_会员购买确认.md
+      state: FILE
+      size: 20331
+      sha256: b60ad0a90fdaa7c8e3c70d255a1e09f0efe24b7539d88155c8fc46140752d582
+    - path: docs/02-ui/page-specs/android/SCR-MEMBER-003_会员升级.md
+      state: FILE
+      size: 12832
+      sha256: be993bd3c0eab770381a08fc0f50bf92e4766daa8954cc850e4fb07f153be4c9
+    - path: docs/02-ui/page-specs/android/SCR-MEMBER-004_会员权益明细.md
+      state: FILE
+      size: 12285
+      sha256: 490aa8ac6a346ce220b428c606e24ec4ef22c3efe504b589bd44d3796684e9e9
+    - path: docs/02-ui/page-specs/android/SCR-MSG-001_消息中心.md
+      state: FILE
+      size: 19872
+      sha256: 540d4c56b2133e410478c58dc22d54e04d4e1fee31581cd44ff7e50bbd38ab0f
+    - path: docs/02-ui/page-specs/android/SCR-MYC-001_我的发布.md
+      state: FILE
+      size: 27337
+      sha256: 72a78d1d08a5a7a187d9a31fa4fd163cfcc71ce4a181cf2e2932bb38d67bae04
+    - path: docs/02-ui/page-specs/android/SCR-MYC-002_草稿箱.md
+      state: FILE
+      size: 24234
+      sha256: 007548deaade245a2e22e6d976b2fdf43eed5004305ce9386cd01bbc724a1832
+    - path: docs/02-ui/page-specs/android/SCR-MYC-003_内容管理详情.md
+      state: FILE
+      size: 27099
+      sha256: d01f873904a443920a8b4c307186c2730b3e594973b2d75102ea41533145e569
+    - path: docs/02-ui/page-specs/android/SCR-MYC-004_审核记录.md
+      state: FILE
+      size: 24194
+      sha256: 2b457c2636c17bfe7ab2e20bb3a39f6bd7f14f2ac476d6244a05d197f780ef2c
+    - path: docs/02-ui/page-specs/android/SCR-MYC-005_内容数据.md
+      state: FILE
+      size: 23236
+      sha256: f5324aaa64c6c61a7093d4bc90d9ad04a402ca8ffad92b2c4671eb129e952106
+    - path: docs/02-ui/page-specs/android/SCR-NOTICE-001_通知列表.md
+      state: FILE
+      size: 19358
+      sha256: c84d47839b02b974441887ea12bea5969b9dccc2a2f90357b313409199c98190
+    - path: docs/02-ui/page-specs/android/SCR-NOTICE-002_通知详情.md
+      state: FILE
+      size: 18430
+      sha256: 41df3f70344f5fcea0aec5ace9e09a2ee8b2a12828e4a4589b51bc1033c9ccdf
+    - path: docs/02-ui/page-specs/android/SCR-ORDER-001_订单列表.md
+      state: FILE
+      size: 17600
+      sha256: e6e9f90f2679d0ccb8b5f5273b122c9626929e267c5dd0d0dca290fcba997e3d
+    - path: docs/02-ui/page-specs/android/SCR-ORDER-002_订单详情.md
+      state: FILE
+      size: 13875
+      sha256: 230ee00ee43017f22dc73df76c1e4febcd0dc7d4419360f7017c00caa0a83d79
+    - path: docs/02-ui/page-specs/android/SCR-PROP-001_道具商城.md
+      state: FILE
+      size: 19225
+      sha256: ad69dcb5cf0bf67d6536fb3366b8c37dffdbe92ea62923017c7ee50935b2e7cd
+    - path: docs/02-ui/page-specs/android/SCR-PROP-002_我的道具.md
+      state: FILE
+      size: 15956
+      sha256: 1f6c7efd4378ae5953fb3f91094b406f5ac4b84f6b3e03803d6cffe2cb9396cb
+    - path: docs/02-ui/page-specs/android/SCR-PROP-003_使用道具.md
+      state: FILE
+      size: 19824
+      sha256: 8495fc8f570b8bab7c7cf269d2ad78b009b79adbfc00c1a49182255b6ee02ce1
+    - path: docs/02-ui/page-specs/android/SCR-PUB-001_发布入口.md
+      state: FILE
+      size: 25630
+      sha256: fd08a733835ee3986c17d13bed7fc37fd303a8df4330a01463ad32d49d796eed
+    - path: docs/02-ui/page-specs/android/SCR-PUB-002_项目发布_编辑.md
+      state: FILE
+      size: 16643
+      sha256: e50adcc22a8defc0b741ef65379d98688dc69ea26a8a18158e80ce60675c7b87
+    - path: docs/02-ui/page-specs/android/SCR-PUB-003_App发布_编辑.md
+      state: FILE
+      size: 16654
+      sha256: b69d9411b7689ee596ce504136ef4435502f8dff0ad3258768687f6f79b37418
+    - path: docs/02-ui/page-specs/android/SCR-PUB-004_群聊发布_编辑.md
+      state: FILE
+      size: 16635
+      sha256: a24e5b8e566832850d523d637d9b274d1c115433a7ada20467b4b54d8ac91828
+    - path: docs/02-ui/page-specs/android/SCR-PUB-005_团队长资料编辑.md
+      state: FILE
+      size: 15950
+      sha256: 2fe5381b61d98e77c498bfa5bfe421c56ca35188990ea519ec599a5051c0f661
+    - path: docs/02-ui/page-specs/android/SCR-PUB-006_发布预览.md
+      state: FILE
+      size: 16169
+      sha256: d0359b2ca296da227fd5c558e41ad2921b12fb25ebc9b77ef4ebd9fbbf46473f
+    - path: docs/02-ui/page-specs/android/SCR-PUB-007_提交结果.md
+      state: FILE
+      size: 10025
+      sha256: ba0283a1ee7b6890d6a80bd0e47d202105602f7dfaa56a7b22309985df0cfa0d
+    - path: docs/02-ui/page-specs/android/SCR-PUBLISHER-001_发布者主页.md
+      state: FILE
+      size: 24354
+      sha256: c33f9d00959db9013e0a07853c6b4b629474ca33d944d20199fe81cf1a4ce33e
+    - path: docs/02-ui/page-specs/android/SCR-REF-001_推广中心.md
+      state: FILE
+      size: 11351
+      sha256: 3229c7d4e16b1689d812a163a574e214ceeb156e59856468b7db2bb79a6e4f8a
+    - path: docs/02-ui/page-specs/android/SCR-REF-002_邀请好友.md
+      state: FILE
+      size: 16880
+      sha256: 340000b3595572efeef2ada2bacb3c4c2409c1c196b861edb80a7ff194419e7b
+    - path: docs/02-ui/page-specs/android/SCR-REF-003_邀请海报.md
+      state: FILE
+      size: 16545
+      sha256: 0299a00e81ac588c876d8267d82dbbd9f8fa0721cae5f662f697b8cb11c2b605
+    - path: docs/02-ui/page-specs/android/SCR-REF-004_直推用户.md
+      state: FILE
+      size: 17281
+      sha256: c3b50056cc0413e85a0ad6c5a26779214ecdee7768c536785724a924cc0a63e7
+    - path: docs/02-ui/page-specs/android/SCR-REF-005_二级用户.md
+      state: FILE
+      size: 17080
+      sha256: 8328a8d1bac948bff9e92d5a0fad455d514070df93ef28090c801623df12171b
+    - path: docs/02-ui/page-specs/android/SCR-REF-006_消费佣金.md
+      state: FILE
+      size: 16013
+      sha256: b0481259a92c634343f40ce4b068cf7e0baec279c117c7df59643ccdb8a17b89
+    - path: docs/02-ui/page-specs/android/SCR-REF-007_直推活跃奖励.md
+      state: FILE
+      size: 16133
+      sha256: 08b395b0cb849160998c06ecf81359c6d81c86897fbd98123a3feb9f89b27f30
+    - path: docs/02-ui/page-specs/android/SCR-REF-008_推广规则_教程.md
+      state: FILE
+      size: 12488
+      sha256: d9ac94ed6a4f4c87ed877a230b545fa2b2aac3d77f3229ce6e0ec3093ba85e8a
+    - path: docs/02-ui/page-specs/android/SCR-REWARD-001_奖励账户.md
+      state: FILE
+      size: 10561
+      sha256: 951f34ad6b5f6c9c1f39fa4e9d49be9e8c1b1cde1d65b06066e7baff3658890d
+    - path: docs/02-ui/page-specs/android/SCR-REWARD-002_奖励明细.md
+      state: FILE
+      size: 14864
+      sha256: 3b21052101550e5da91ad22a0a7a42d797e6c38551e1c225c07f20f486a8b4b6
+    - path: docs/02-ui/page-specs/android/SCR-RP-001_红包首页.md
+      state: FILE
+      size: 18324
+      sha256: 7a0f97cec6e389276554eb427b573b6b4bef35ba8a07e11f542d7ddd817072ab
+    - path: docs/02-ui/page-specs/android/SCR-RP-002_红包任务资格.md
+      state: FILE
+      size: 18345
+      sha256: 7a59ea0ea63d830cb68994320ceb8f4b3923932ba1e3689a163e9d570de90e1a
+    - path: docs/02-ui/page-specs/android/SCR-RP-003_红包浏览任务.md
+      state: FILE
+      size: 19636
+      sha256: d3f63975f613fbfd8db06cc3116195fe1773d87802c9736b209c1f4486e6c26a
+    - path: docs/02-ui/page-specs/android/SCR-RP-004_我的红包.md
+      state: FILE
+      size: 22645
+      sha256: 67b67583c287e2dc67b9054a933265c6a360f435603b49c3428e0141c3039a7f
+    - path: docs/02-ui/page-specs/android/SCR-RP-ADV-001_红包活动列表.md
+      state: FILE
+      size: 19892
+      sha256: da09d09be8d8127c54a7abaad72fe97f5e5549b80df5674540d7c8f4bcf8b3f1
+    - path: docs/02-ui/page-specs/android/SCR-RP-ADV-002_创建红包.md
+      state: FILE
+      size: 17070
+      sha256: 1eb73f8429da80d22acc551bd34b813bdba432ce4b6f9e1da482667df3036a87
+    - path: docs/02-ui/page-specs/android/SCR-RP-ADV-003_预审核结果.md
+      state: FILE
+      size: 17978
+      sha256: c2f69f0df707e5dc629ddc87437b248a028ceff786f9813ed0fb34d71971d54c
+    - path: docs/02-ui/page-specs/android/SCR-RP-ADV-004_红包报价确认.md
+      state: FILE
+      size: 16091
+      sha256: eff06b40924779fbfc4da2224ef21a4bfbf72e1a4b9c9bc9b47cd1e3863e1299
+    - path: docs/02-ui/page-specs/android/SCR-RP-ADV-005_红包活动详情.md
+      state: FILE
+      size: 27911
+      sha256: 94e24b8ed1bcada2af8fa41526cb9c6efe370d4113674726faafb6e8f5e6856f
+    - path: docs/02-ui/page-specs/android/SCR-RP-ADV-006_提高红包金额.md
+      state: FILE
+      size: 15790
+      sha256: 9dd6da1c1ea5ef26edbada7bdf06da082c7ad65ec4efd91c7f1c7d081c174f6d
+    - path: docs/02-ui/page-specs/android/SCR-SEARCH-001_全局搜索.md
+      state: FILE
+      size: 21292
+      sha256: 063245d2a7c67df79e3838a29858bd13561a41359a7d3d3022a5109a85f0f75a
+    - path: docs/02-ui/page-specs/android/SCR-SEARCH-002_搜索结果.md
+      state: FILE
+      size: 17008
+      sha256: ed0fbbe4c19c11ec93ec7f7cd2a610d5c03178e10e6bc215ee593c320f942261
+    - path: docs/02-ui/page-specs/android/SCR-SET-001_设置.md
+      state: FILE
+      size: 12357
+      sha256: 0c7279826f8d712c8e263efcc4c6d1abe7daba1593b1f96fe9a85f45f1b89e79
+    - path: docs/02-ui/page-specs/android/SCR-SUPPORT-001_帮助中心.md
+      state: FILE
+      size: 16478
+      sha256: daa9156745147d6271bdf908580b13ad3578625c6fe9a73bfeb5ff5d2b731e61
+    - path: docs/02-ui/page-specs/android/SCR-SUPPORT-002_创建工单.md
+      state: FILE
+      size: 11033
+      sha256: 58c6fb714cb5e8b6327d9cc093ecc1c02b9ffb27e51db132b88fb8e895868482
+    - path: docs/02-ui/page-specs/android/SCR-SUPPORT-003_工单列表.md
+      state: FILE
+      size: 16530
+      sha256: d5310d06c64aeb27b6fdfa16e24c98369e3783e466dae76f69a3ad2457f8191c
+    - path: docs/02-ui/page-specs/android/SCR-SUPPORT-004_工单详情.md
+      state: FILE
+      size: 15607
+      sha256: 1ba1fa294441fb092d6df7a722ac8ccb12f21540fb36972ad8f72c9c0641198b
+    - path: docs/02-ui/page-specs/android/SCR-SUPPORT-005_帮助文章详情.md
+      state: FILE
+      size: 12991
+      sha256: 3b4158995b988f13ee0e1561034f493da078d7c90225006ce42d3358af4ce131
+    - path: docs/02-ui/page-specs/android/SCR-TASK-001_任务中心.md
+      state: FILE
+      size: 20221
+      sha256: 7e054aa9762152f1c6d2c0ee4b49e491ecf320861c9dbcc959e793b8ffd4682d
+    - path: docs/02-ui/page-specs/android/SCR-TASK-002_个人任务积分.md
+      state: FILE
+      size: 17477
+      sha256: 7fa855881c603fceac64d3429f52cdb0fcecbed0d57f5b75ecb81b630e7696d6
+    - path: docs/02-ui/page-specs/android/SCR-WD-001_绑定支付宝.md
+      state: FILE
+      size: 18499
+      sha256: c472fbcbe0ac8b99268e64bce6890d4790e6aadc5a5097e2ef7afc0009a341da
+    - path: docs/02-ui/page-specs/android/SCR-WD-002_申请提现.md
+      state: FILE
+      size: 12903
+      sha256: 6046a96d987235519190c328e2e8570af5441b5719211280630530ee42497d67
+    - path: docs/02-ui/page-specs/android/SCR-WD-003_提现记录.md
+      state: FILE
+      size: 16833
+      sha256: 79703b48809f13802bdef686adaad94572d83aa169abbdbe29010d3362cbb595
+    - path: docs/02-ui/page-specs/android/SHEET-CHAT-001_发送联系方式.md
+      state: FILE
+      size: 9765
+      sha256: 13e85ba1785acd1cabb6d7723e98c23f9a1b79d5bd91a7ca71b80620276bc289
+    - path: docs/02-ui/page-specs/android/SHEET-CHAT-002_聊天举报.md
+      state: FILE
+      size: 11730
+      sha256: c1e84e468ef0a7a7a588ad1e46e77523a9400a55bd80760187f728adcc09961d
+    - path: docs/02-ui/page-specs/android/SHEET-CONTACT-001_联系方式面板.md
+      state: FILE
+      size: 11135
+      sha256: 6fe3592b1e33dd1ba7bb84009cfb6de724b6448a0e59aa70cc0659fb9f06d8d6
+    - path: docs/02-ui/page-specs/android/SHEET-CONTENT-INVALID-001_联系方式失效反馈.md
+      state: FILE
+      size: 10067
+      sha256: bf2cc98a851ec7483260d445bc85a2f584fcaaacbcd945a63bd2423a3a38bdac
+    - path: docs/02-ui/page-specs/android/SHEET-MEDIA-001_媒体上传管理器.md
+      state: FILE
+      size: 20357
+      sha256: 32ae7fedd8227a023c7310d65f9067e9484ec7943f5c30358d1067d6f35bf32e
+    - path: docs/02-ui/page-specs/android/SHEET-REPORT-001_举报面板.md
+      state: FILE
+      size: 11747
+      sha256: e4ee5f28a1fda1fa4d84790cd7e7d41d7306eeff327e31d0ea9de967c11358cf
+    - path: docs/02-ui/page-specs/android/SHEET-RP-001_红包领取面板.md
+      state: FILE
+      size: 15575
+      sha256: e17c8d4e3e19ba13dd376c5478847a405e9fce28ca408e06784f81ec03be9e7d
+    - path: docs/02-ui/page-specs/android/SHEET-SHARE-001_分享面板.md
+      state: FILE
+      size: 9222
+      sha256: a6ae7f03e9a2690bb2d0b0a6ea7d382fa6fb909d539992d1069834b5f484cfe7
+    - path: docs/02-ui/page-specs/h5/H5-001_品牌宣传下载页.md
+      state: FILE
+      size: 16128
+      sha256: f50bb6ea5a3b0d28b1e87e802a62e9bd85e2c90debc7ee088a4c691aea863c8d
+    - path: docs/02-ui/page-specs/h5/H5-002_安装教程.md
+      state: FILE
+      size: 12508
+      sha256: 89f35e4d15137352c87d332486b9cc814004f34ecaab7d2a377acd12d38165b1
+    - path: docs/02-ui/page-specs/h5/H5-003_邀请落地页.md
+      state: FILE
+      size: 12657
+      sha256: 0fb6d98c24cc9c11497dbc118d4036a58fac049e29431e74d586aa2c612f4775
+    - path: docs/02-ui/page-specs/h5/H5-004_项目分享页.md
+      state: FILE
+      size: 11874
+      sha256: c92e28ab73f690af8d522074d4ae70ea8f37d5631a44d5c08fba384aafe79207
+    - path: docs/02-ui/page-specs/h5/H5-005_App分享页.md
+      state: FILE
+      size: 11868
+      sha256: ffd76eda5680ea981c352aa18734689a639f641036c97a44904d045e69b764d8
+    - path: docs/02-ui/page-specs/h5/H5-006_群聊分享页.md
+      state: FILE
+      size: 11874
+      sha256: 6b8aa3f84ebddccc660cd74c31d07fca735fe36b3360411d054199f7d3cc65f2
+    - path: docs/02-ui/page-specs/h5/H5-007_团队长分享页.md
+      state: FILE
+      size: 11863
+      sha256: 3cd43441671589cb0b970044ca900778f7649f8b625b78d2e429d4591365161a
+    - path: docs/02-ui/page-specs/h5/H5-008_统一收银台.md
+      state: FILE
+      size: 16789
+      sha256: 5de2d0cd2d65172d6b48d6354db9eeceece3c6bd081de03a94b50bac55ec68e0
+    - path: docs/02-ui/page-specs/h5/H5-009_支付结果.md
+      state: FILE
+      size: 18290
+      sha256: 821dfe4a829d98116ea11a0e4fd823ef3306308584dff7339fc9941a3b1b3b1b
+    - path: docs/02-ui/page-specs/h5/H5-010_协议与规则.md
+      state: FILE
+      size: 11050
+      sha256: bdf458f7fe56302ba8435275f06addf392336f405b66a67669a71df548539123
+    - path: docs/02-ui/page-specs/h5/H5-011_帮助文章.md
+      state: FILE
+      size: 10937
+      sha256: 979ebe4357a53de8972082eff5cc79439023db583a19eaa7844f7135dcc7fc2e
+    - path: docs/02-ui/page-specs/h5/H5-012_活体回跳.md
+      state: FILE
+      size: 7937
+      sha256: 9c42631d252a0b4aa5a53b8abcf796c40e0be9ffb97d34dab074c20704d72a16
+    - path: docs/02-ui/page-specs/h5/H5-013_H5邀请注册页.md
+      state: FILE
+      size: 32548
+      sha256: 587f52ecd4fa515d2c3fa73a0299110e6bdc252207d631b661f971306da5ff37
+    - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
+      state: FILE
+      size: 122140
+      sha256: fabcba694ed127cbb8e0ef2334fc7fab9d5b4b60c2834f15b128b2ef4fa03ec2
+    - path: docs/03-continuity/change-requests/CR-0247-消除UI施工歧义并分离机器收尾与生产验收门禁.md
+      state: FILE
+      size: 4203
+      sha256: 6183e85333a663b0c3d1555ee251600edc52674dadee2c37879ab1f69e89db23
+    - path: docs/03-continuity/change-requests/CR-0248-返工R01至R07不合格页面并补齐效果图级证据.md
+      state: FILE
+      size: 3588
+      sha256: 944b0ad8f17f23cf9fee5a3c841147af659cfaff4db26435fd3571942fbdb198
+    - path: docs/09-development/统一开发与交付效率规范.md
+      state: FILE
+      size: 14889
+      sha256: e739aa539433803c58f999a21b262506989b66d6e776c98deb2c51e7489911e0
+    - path: scripts/capture_r01_admin_visuals.mjs
+      state: FILE
+      size: 2496
+      sha256: 0e863e022dd1e016a16386aa3d601e4f267cd009cf18c1368f57f7724b3e4688
+    - path: scripts/check_release_artifacts.py
+      state: FILE
+      size: 27225
+      sha256: 5ecb413d43c908cea0e2f47448ea09302d419108af2ec57dafcdc6acf708a9d4
+    - path: scripts/check_v123_documentation.py
+      state: FILE
+      size: 15181
+      sha256: 55b3f3670e042d427de288789fe3b21d87b03c43ebdaa84919f5959f7daab263
+    - path: scripts/hhy_workflow.py
+      state: FILE
+      size: 21058
+      sha256: 187d654bba4c806f6efe2efe796231a4131e669562acf76f2a3036e134fd297c
+    - path: tests/test_android_ci_gate.py
+      state: FILE
+      size: 28163
+      sha256: 57676c6d5559851034f4b2fc29f23ebe6d5fb6f340a53d7f6d73c7f4de9e07bf
+    - path: tests/test_hhy_workflow.py
+      state: FILE
+      size: 10718
+      sha256: f331db4e901e4a36845791da59de8e061e00a7eb29168427907c10d5f3c41502
+    - path: tests/test_release_close_gate.py
+      state: FILE
+      size: 22858
+      sha256: a31a39f8d2d64e810d4540030c1b307f76efce09eac2abd173f8d9c246865e13
+    - path: tests/test_run_affected_tests.py
+      state: FILE
+      size: 8058
+      sha256: 1905c91bd6b0a0215be1f6297997083d8220063c538352b2771e70ebf33095cc
+change_classification:
+  infrastructure:
+  - .github/workflows/android-quality-gate.yml
+  other:
+  - CHANGELOG.md
+  - catalogs/ui_visual_acceptance.csv
+  - config/development-workflow.yaml
+  - config/test-impact-map.yaml
+  - design/R06-UI-FROZEN/specs/SCR-HOME-001.md
+  - design/R07-UI-FROZEN/specs/SCR-PUBLISHER-001.md
+  - design/R07-UI-FROZEN/specs/SCR-SEARCH-001.md
+  - design/R07-UI-FROZEN/specs/SCR-SEARCH-002.md
+  - design/R07-UI-FROZEN/specs/SHEET-CONTACT-001.md
+  - docs/09-development/统一开发与交付效率规范.md
+  code:
+  - apps/admin-web/src/views/AdminLoginPage.vue
+  - apps/admin-web/src/views/AdminMfaPage.vue
+  - apps/admin-web/src/views/AdminSecurityPage.vue
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/androidTest/java/cc/orbexa/hhy/HistoricalVisualAuditTest.kt
+  - apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyIcons.kt
+  - apps/android/feature/auth/src/main/java/cc/orbexa/hhy/auth/AuthScreen.kt
+  - apps/android/feature/discovery/src/main/java/cc/orbexa/hhy/discovery/R07DiscoveryScreens.kt
+  - apps/android/feature/identity/src/main/java/cc/orbexa/hhy/identity/IdentityFlowScreen.kt
+  - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+  - apps/android/feature/startup/src/main/java/cc/orbexa/hhy/startup/StartupGateScreen.kt
+  - scripts/capture_r01_admin_visuals.mjs
+  - scripts/check_release_artifacts.py
+  - scripts/check_v123_documentation.py
+  - scripts/hhy_workflow.py
+  user_visible:
+  - apps/admin-web/src/views/AdminLoginPage.vue
+  - apps/admin-web/src/views/AdminMfaPage.vue
+  - apps/admin-web/src/views/AdminSecurityPage.vue
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/androidTest/java/cc/orbexa/hhy/HistoricalVisualAuditTest.kt
+  - apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyIcons.kt
+  - apps/android/feature/auth/src/main/java/cc/orbexa/hhy/auth/AuthScreen.kt
+  - apps/android/feature/discovery/src/main/java/cc/orbexa/hhy/discovery/R07DiscoveryScreens.kt
+  - apps/android/feature/identity/src/main/java/cc/orbexa/hhy/identity/IdentityFlowScreen.kt
+  - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+  - apps/android/feature/startup/src/main/java/cc/orbexa/hhy/startup/StartupGateScreen.kt
+  - docs/02-ui/UI参考图使用与开发约束_V1.2.2.md
+  - docs/02-ui/page-specs/admin/ADM-ACCOUNTING-001_统一会计交易.md
+  - docs/02-ui/page-specs/admin/ADM-ACCOUNTING-002_会计交易详情与冲正.md
+  - docs/02-ui/page-specs/admin/ADM-APP-001_App版本.md
+  - docs/02-ui/page-specs/admin/ADM-APPEAL-001_申诉处理.md
+  - docs/02-ui/page-specs/admin/ADM-APPROVAL-001_双人审批中心.md
+  - docs/02-ui/page-specs/admin/ADM-AUDIT-001_审计日志.md
+  - docs/02-ui/page-specs/admin/ADM-AUTH-001_后台登录.md
+  - docs/02-ui/page-specs/admin/ADM-AUTH-002_二次验证.md
+  - docs/02-ui/page-specs/admin/ADM-BUILD-001_构建中心首页.md
+  - docs/02-ui/page-specs/admin/ADM-BUILD-002_构建配置.md
+  - docs/02-ui/page-specs/admin/ADM-BUILD-003_签名配置.md
+  - docs/02-ui/page-specs/admin/ADM-BUILD-004_构建任务列表.md
+  - docs/02-ui/page-specs/admin/ADM-BUILD-005_构建任务详情.md
+  - docs/02-ui/page-specs/admin/ADM-BUILD-006_构建产物与下载.md
+  - docs/02-ui/page-specs/admin/ADM-BUILD-007_发布与回滚.md
+  - docs/02-ui/page-specs/admin/ADM-CHAT-001_聊天举报.md
+  - docs/02-ui/page-specs/admin/ADM-CMS-001_首页CMS.md
+  - docs/02-ui/page-specs/admin/ADM-CMS-002_H5宣传页CMS.md
+  - docs/02-ui/page-specs/admin/ADM-CMS-003_公告帮助协议.md
+  - docs/02-ui/page-specs/admin/ADM-CONFIG-001_系统配置.md
+  - docs/02-ui/page-specs/admin/ADM-CONFIG-002_供应商配置中心.md
+  - docs/02-ui/page-specs/admin/ADM-CONFIG-003_阿里云短信配置.md
+  - docs/02-ui/page-specs/admin/ADM-CONFIG-004_对象存储配置.md
+  - docs/02-ui/page-specs/admin/ADM-CONFIG-005_支付网关配置.md
+  - docs/02-ui/page-specs/admin/ADM-CONFIG-006_支付宝企业付款配置.md
+  - docs/02-ui/page-specs/admin/ADM-CONFIG-007_实名认证配置.md
+  - docs/02-ui/page-specs/admin/ADM-CONFIG-008_域名与环境配置.md
+  - docs/02-ui/page-specs/admin/ADM-CONTENT-001_统一内容列表.md
+  - docs/02-ui/page-specs/admin/ADM-CONTENT-002_内容详情.md
+  - docs/02-ui/page-specs/admin/ADM-CONTENT-003_字典与属性.md
+  - docs/02-ui/page-specs/admin/ADM-DASH-001_数据驾驶舱.md
+  - docs/02-ui/page-specs/admin/ADM-EXPORT-001_数据导出中心.md
+  - docs/02-ui/page-specs/admin/ADM-ID-001_实名列表.md
+  - docs/02-ui/page-specs/admin/ADM-ID-002_实名详情与复核.md
+  - docs/02-ui/page-specs/admin/ADM-JOB-001_定时任务.md
+  - docs/02-ui/page-specs/admin/ADM-MEMBER-001_会员SKU.md
+  - docs/02-ui/page-specs/admin/ADM-MEMBER-002_用户会员.md
+  - docs/02-ui/page-specs/admin/ADM-NOTIFY-001_通知模板.md
+  - docs/02-ui/page-specs/admin/ADM-NOTIFY-002_通知发送记录.md
+  - docs/02-ui/page-specs/admin/ADM-ORDER-001_订单列表.md
+  - docs/02-ui/page-specs/admin/ADM-PAY-001_支付交易.md
+  - docs/02-ui/page-specs/admin/ADM-PROD-001_商品与SKU.md
+  - docs/02-ui/page-specs/admin/ADM-PROP-001_道具商品.md
+  - docs/02-ui/page-specs/admin/ADM-PROP-002_资源位与排期.md
+  - docs/02-ui/page-specs/admin/ADM-PROP-003_执行日志.md
+  - docs/02-ui/page-specs/admin/ADM-RBAC-001_员工角色权限.md
+  - docs/02-ui/page-specs/admin/ADM-RECON-001_支付对账.md
+  - docs/02-ui/page-specs/admin/ADM-REF-001_邀请关系.md
+  - docs/02-ui/page-specs/admin/ADM-REF-002_佣金策略.md
+  - docs/02-ui/page-specs/admin/ADM-REF-003_佣金记录.md
+  - docs/02-ui/page-specs/admin/ADM-REF-004_直推活跃规则.md
+  - docs/02-ui/page-specs/admin/ADM-REF-005_直推进度.md
+  - docs/02-ui/page-specs/admin/ADM-REF-006_阶梯奖励矩阵.md
+  - docs/02-ui/page-specs/admin/ADM-REPORT-001_内容举报处理.md
+  - docs/02-ui/page-specs/admin/ADM-REVIEW-001_审核队列.md
+  - docs/02-ui/page-specs/admin/ADM-REWARD-001_奖励账户.md
+  - docs/02-ui/page-specs/admin/ADM-REWARD-002_奖励流水.md
+  - docs/02-ui/page-specs/admin/ADM-RISK-001_风险事件.md
+  - docs/02-ui/page-specs/admin/ADM-RISK-002_黑白名单.md
+  - docs/02-ui/page-specs/admin/ADM-RISK-003_风控规则版本.md
+  - docs/02-ui/page-specs/admin/ADM-RISK-004_风控规则模拟器.md
+  - docs/02-ui/page-specs/admin/ADM-RP-001_红包活动列表.md
+  - docs/02-ui/page-specs/admin/ADM-RP-002_红包活动详情.md
+  - docs/02-ui/page-specs/admin/ADM-RP-003_红包预审核.md
+  - docs/02-ui/page-specs/admin/ADM-RP-004_红包风险事件.md
+  - docs/02-ui/page-specs/admin/ADM-SECURITY-001_管理员安全设置.md
+  - docs/02-ui/page-specs/admin/ADM-SUPPORT-001_工单列表.md
+  - docs/02-ui/page-specs/admin/ADM-SUPPORT-002_工单详情.md
+  - docs/02-ui/page-specs/admin/ADM-TASK-001_任务定义.md
+  - docs/02-ui/page-specs/admin/ADM-TASK-002_任务进度与预算.md
+  - docs/02-ui/page-specs/admin/ADM-USER-001_用户列表.md
+  - docs/02-ui/page-specs/admin/ADM-USER-002_用户详情.md
+  - docs/02-ui/page-specs/admin/ADM-WD-001_提现列表.md
+  - docs/02-ui/page-specs/admin/ADM-WD-002_提现详情.md
+  - docs/02-ui/page-specs/android/DIALOG-CHAT-BLOCK-001_拉黑与解除拉黑确认.md
+  - docs/02-ui/page-specs/android/DIALOG-CHAT-DELETE-001_删除会话确认.md
+  - docs/02-ui/page-specs/android/DIALOG-SEARCH-001_清空搜索历史确认.md
+  - docs/02-ui/page-specs/android/SCR-ABOUT-001_关于与检查更新.md
+  - docs/02-ui/page-specs/android/SCR-ANN-001_公告列表.md
+  - docs/02-ui/page-specs/android/SCR-ANN-002_公告详情.md
+  - docs/02-ui/page-specs/android/SCR-APP-001_启动页.md
+  - docs/02-ui/page-specs/android/SCR-APP-002_系统维护页.md
+  - docs/02-ui/page-specs/android/SCR-APP-003_更新提示.md
+  - docs/02-ui/page-specs/android/SCR-AUTH-001_密码登录.md
+  - docs/02-ui/page-specs/android/SCR-AUTH-002_短信验证码登录.md
+  - docs/02-ui/page-specs/android/SCR-AUTH-003_注册账号.md
+  - docs/02-ui/page-specs/android/SCR-AUTH-004_忘记密码.md
+  - docs/02-ui/page-specs/android/SCR-AUTH-005_账号冻结.md
+  - docs/02-ui/page-specs/android/SCR-AUTH-006_登录设备.md
+  - docs/02-ui/page-specs/android/SCR-AUTH-007_修改登录密码.md
+  - docs/02-ui/page-specs/android/SCR-AUTH-008_注销账号.md
+  - docs/02-ui/page-specs/android/SCR-CHAT-001_会话列表.md
+  - docs/02-ui/page-specs/android/SCR-CHAT-002_私聊页.md
+  - docs/02-ui/page-specs/android/SCR-DETAIL-001_项目详情.md
+  - docs/02-ui/page-specs/android/SCR-DETAIL-002_App详情.md
+  - docs/02-ui/page-specs/android/SCR-DETAIL-003_群聊详情.md
+  - docs/02-ui/page-specs/android/SCR-DETAIL-004_团队长详情.md
+  - docs/02-ui/page-specs/android/SCR-FAV-001_我的收藏.md
+  - docs/02-ui/page-specs/android/SCR-HIS-001_浏览记录.md
+  - docs/02-ui/page-specs/android/SCR-HOME-001_首页.md
+  - docs/02-ui/page-specs/android/SCR-ID-001_实名认证首页.md
+  - docs/02-ui/page-specs/android/SCR-ID-002_实名信息输入.md
+  - docs/02-ui/page-specs/android/SCR-ID-003_活体检测容器.md
+  - docs/02-ui/page-specs/android/SCR-ID-004_实名结果.md
+  - docs/02-ui/page-specs/android/SCR-LIST-001_项目列表.md
+  - docs/02-ui/page-specs/android/SCR-LIST-002_App列表.md
+  - docs/02-ui/page-specs/android/SCR-LIST-003_群聊列表.md
+  - docs/02-ui/page-specs/android/SCR-LIST-004_团队长列表.md
+  - docs/02-ui/page-specs/android/SCR-ME-001_我的首页.md
+  - docs/02-ui/page-specs/android/SCR-ME-002_个人资料.md
+  - docs/02-ui/page-specs/android/SCR-MEMBER-001_会员中心.md
+  - docs/02-ui/page-specs/android/SCR-MEMBER-002_会员购买确认.md
+  - docs/02-ui/page-specs/android/SCR-MEMBER-003_会员升级.md
+  - docs/02-ui/page-specs/android/SCR-MEMBER-004_会员权益明细.md
+  - docs/02-ui/page-specs/android/SCR-MSG-001_消息中心.md
+  - docs/02-ui/page-specs/android/SCR-MYC-001_我的发布.md
+  - docs/02-ui/page-specs/android/SCR-MYC-002_草稿箱.md
+  - docs/02-ui/page-specs/android/SCR-MYC-003_内容管理详情.md
+  - docs/02-ui/page-specs/android/SCR-MYC-004_审核记录.md
+  - docs/02-ui/page-specs/android/SCR-MYC-005_内容数据.md
+  - docs/02-ui/page-specs/android/SCR-NOTICE-001_通知列表.md
+  - docs/02-ui/page-specs/android/SCR-NOTICE-002_通知详情.md
+  - docs/02-ui/page-specs/android/SCR-ORDER-001_订单列表.md
+  - docs/02-ui/page-specs/android/SCR-ORDER-002_订单详情.md
+  - docs/02-ui/page-specs/android/SCR-PROP-001_道具商城.md
+  - docs/02-ui/page-specs/android/SCR-PROP-002_我的道具.md
+  - docs/02-ui/page-specs/android/SCR-PROP-003_使用道具.md
+  - docs/02-ui/page-specs/android/SCR-PUB-001_发布入口.md
+  - docs/02-ui/page-specs/android/SCR-PUB-002_项目发布_编辑.md
+  - docs/02-ui/page-specs/android/SCR-PUB-003_App发布_编辑.md
+  - docs/02-ui/page-specs/android/SCR-PUB-004_群聊发布_编辑.md
+  - docs/02-ui/page-specs/android/SCR-PUB-005_团队长资料编辑.md
+  - docs/02-ui/page-specs/android/SCR-PUB-006_发布预览.md
+  - docs/02-ui/page-specs/android/SCR-PUB-007_提交结果.md
+  - docs/02-ui/page-specs/android/SCR-PUBLISHER-001_发布者主页.md
+  - docs/02-ui/page-specs/android/SCR-REF-001_推广中心.md
+  - docs/02-ui/page-specs/android/SCR-REF-002_邀请好友.md
+  - docs/02-ui/page-specs/android/SCR-REF-003_邀请海报.md
+  - docs/02-ui/page-specs/android/SCR-REF-004_直推用户.md
+  - docs/02-ui/page-specs/android/SCR-REF-005_二级用户.md
+  - docs/02-ui/page-specs/android/SCR-REF-006_消费佣金.md
+  - docs/02-ui/page-specs/android/SCR-REF-007_直推活跃奖励.md
+  - docs/02-ui/page-specs/android/SCR-REF-008_推广规则_教程.md
+  - docs/02-ui/page-specs/android/SCR-REWARD-001_奖励账户.md
+  - docs/02-ui/page-specs/android/SCR-REWARD-002_奖励明细.md
+  - docs/02-ui/page-specs/android/SCR-RP-001_红包首页.md
+  - docs/02-ui/page-specs/android/SCR-RP-002_红包任务资格.md
+  - docs/02-ui/page-specs/android/SCR-RP-003_红包浏览任务.md
+  - docs/02-ui/page-specs/android/SCR-RP-004_我的红包.md
+  - docs/02-ui/page-specs/android/SCR-RP-ADV-001_红包活动列表.md
+  - docs/02-ui/page-specs/android/SCR-RP-ADV-002_创建红包.md
+  - docs/02-ui/page-specs/android/SCR-RP-ADV-003_预审核结果.md
+  - docs/02-ui/page-specs/android/SCR-RP-ADV-004_红包报价确认.md
+  - docs/02-ui/page-specs/android/SCR-RP-ADV-005_红包活动详情.md
+  - docs/02-ui/page-specs/android/SCR-RP-ADV-006_提高红包金额.md
+  - docs/02-ui/page-specs/android/SCR-SEARCH-001_全局搜索.md
+  - docs/02-ui/page-specs/android/SCR-SEARCH-002_搜索结果.md
+  - docs/02-ui/page-specs/android/SCR-SET-001_设置.md
+  - docs/02-ui/page-specs/android/SCR-SUPPORT-001_帮助中心.md
+  - docs/02-ui/page-specs/android/SCR-SUPPORT-002_创建工单.md
+  - docs/02-ui/page-specs/android/SCR-SUPPORT-003_工单列表.md
+  - docs/02-ui/page-specs/android/SCR-SUPPORT-004_工单详情.md
+  - docs/02-ui/page-specs/android/SCR-SUPPORT-005_帮助文章详情.md
+  - docs/02-ui/page-specs/android/SCR-TASK-001_任务中心.md
+  - docs/02-ui/page-specs/android/SCR-TASK-002_个人任务积分.md
+  - docs/02-ui/page-specs/android/SCR-WD-001_绑定支付宝.md
+  - docs/02-ui/page-specs/android/SCR-WD-002_申请提现.md
+  - docs/02-ui/page-specs/android/SCR-WD-003_提现记录.md
+  - docs/02-ui/page-specs/android/SHEET-CHAT-001_发送联系方式.md
+  - docs/02-ui/page-specs/android/SHEET-CHAT-002_聊天举报.md
+  - docs/02-ui/page-specs/android/SHEET-CONTACT-001_联系方式面板.md
+  - docs/02-ui/page-specs/android/SHEET-CONTENT-INVALID-001_联系方式失效反馈.md
+  - docs/02-ui/page-specs/android/SHEET-MEDIA-001_媒体上传管理器.md
+  - docs/02-ui/page-specs/android/SHEET-REPORT-001_举报面板.md
+  - docs/02-ui/page-specs/android/SHEET-RP-001_红包领取面板.md
+  - docs/02-ui/page-specs/android/SHEET-SHARE-001_分享面板.md
+  - docs/02-ui/page-specs/h5/H5-001_品牌宣传下载页.md
+  - docs/02-ui/page-specs/h5/H5-002_安装教程.md
+  - docs/02-ui/page-specs/h5/H5-003_邀请落地页.md
+  - docs/02-ui/page-specs/h5/H5-004_项目分享页.md
+  - docs/02-ui/page-specs/h5/H5-005_App分享页.md
+  - docs/02-ui/page-specs/h5/H5-006_群聊分享页.md
+  - docs/02-ui/page-specs/h5/H5-007_团队长分享页.md
+  - docs/02-ui/page-specs/h5/H5-008_统一收银台.md
+  - docs/02-ui/page-specs/h5/H5-009_支付结果.md
+  - docs/02-ui/page-specs/h5/H5-010_协议与规则.md
+  - docs/02-ui/page-specs/h5/H5-011_帮助文章.md
+  - docs/02-ui/page-specs/h5/H5-012_活体回跳.md
+  - docs/02-ui/page-specs/h5/H5-013_H5邀请注册页.md
+  source_of_truth:
+  - docs/02-ui/UI参考图使用与开发约束_V1.2.2.md
+  - docs/02-ui/page-specs/admin/ADM-ACCOUNTING-001_统一会计交易.md
+  - docs/02-ui/page-specs/admin/ADM-ACCOUNTING-002_会计交易详情与冲正.md
+  - docs/02-ui/page-specs/admin/ADM-APP-001_App版本.md
+  - docs/02-ui/page-specs/admin/ADM-APPEAL-001_申诉处理.md
+  - docs/02-ui/page-specs/admin/ADM-APPROVAL-001_双人审批中心.md
+  - docs/02-ui/page-specs/admin/ADM-AUDIT-001_审计日志.md
+  - docs/02-ui/page-specs/admin/ADM-AUTH-001_后台登录.md
+  - docs/02-ui/page-specs/admin/ADM-AUTH-002_二次验证.md
+  - docs/02-ui/page-specs/admin/ADM-BUILD-001_构建中心首页.md
+  - docs/02-ui/page-specs/admin/ADM-BUILD-002_构建配置.md
+  - docs/02-ui/page-specs/admin/ADM-BUILD-003_签名配置.md
+  - docs/02-ui/page-specs/admin/ADM-BUILD-004_构建任务列表.md
+  - docs/02-ui/page-specs/admin/ADM-BUILD-005_构建任务详情.md
+  - docs/02-ui/page-specs/admin/ADM-BUILD-006_构建产物与下载.md
+  - docs/02-ui/page-specs/admin/ADM-BUILD-007_发布与回滚.md
+  - docs/02-ui/page-specs/admin/ADM-CHAT-001_聊天举报.md
+  - docs/02-ui/page-specs/admin/ADM-CMS-001_首页CMS.md
+  - docs/02-ui/page-specs/admin/ADM-CMS-002_H5宣传页CMS.md
+  - docs/02-ui/page-specs/admin/ADM-CMS-003_公告帮助协议.md
+  - docs/02-ui/page-specs/admin/ADM-CONFIG-001_系统配置.md
+  - docs/02-ui/page-specs/admin/ADM-CONFIG-002_供应商配置中心.md
+  - docs/02-ui/page-specs/admin/ADM-CONFIG-003_阿里云短信配置.md
+  - docs/02-ui/page-specs/admin/ADM-CONFIG-004_对象存储配置.md
+  - docs/02-ui/page-specs/admin/ADM-CONFIG-005_支付网关配置.md
+  - docs/02-ui/page-specs/admin/ADM-CONFIG-006_支付宝企业付款配置.md
+  - docs/02-ui/page-specs/admin/ADM-CONFIG-007_实名认证配置.md
+  - docs/02-ui/page-specs/admin/ADM-CONFIG-008_域名与环境配置.md
+  - docs/02-ui/page-specs/admin/ADM-CONTENT-001_统一内容列表.md
+  - docs/02-ui/page-specs/admin/ADM-CONTENT-002_内容详情.md
+  - docs/02-ui/page-specs/admin/ADM-CONTENT-003_字典与属性.md
+  - docs/02-ui/page-specs/admin/ADM-DASH-001_数据驾驶舱.md
+  - docs/02-ui/page-specs/admin/ADM-EXPORT-001_数据导出中心.md
+  - docs/02-ui/page-specs/admin/ADM-ID-001_实名列表.md
+  - docs/02-ui/page-specs/admin/ADM-ID-002_实名详情与复核.md
+  - docs/02-ui/page-specs/admin/ADM-JOB-001_定时任务.md
+  - docs/02-ui/page-specs/admin/ADM-MEMBER-001_会员SKU.md
+  - docs/02-ui/page-specs/admin/ADM-MEMBER-002_用户会员.md
+  - docs/02-ui/page-specs/admin/ADM-NOTIFY-001_通知模板.md
+  - docs/02-ui/page-specs/admin/ADM-NOTIFY-002_通知发送记录.md
+  - docs/02-ui/page-specs/admin/ADM-ORDER-001_订单列表.md
+  - docs/02-ui/page-specs/admin/ADM-PAY-001_支付交易.md
+  - docs/02-ui/page-specs/admin/ADM-PROD-001_商品与SKU.md
+  - docs/02-ui/page-specs/admin/ADM-PROP-001_道具商品.md
+  - docs/02-ui/page-specs/admin/ADM-PROP-002_资源位与排期.md
+  - docs/02-ui/page-specs/admin/ADM-PROP-003_执行日志.md
+  - docs/02-ui/page-specs/admin/ADM-RBAC-001_员工角色权限.md
+  - docs/02-ui/page-specs/admin/ADM-RECON-001_支付对账.md
+  - docs/02-ui/page-specs/admin/ADM-REF-001_邀请关系.md
+  - docs/02-ui/page-specs/admin/ADM-REF-002_佣金策略.md
+  - docs/02-ui/page-specs/admin/ADM-REF-003_佣金记录.md
+  - docs/02-ui/page-specs/admin/ADM-REF-004_直推活跃规则.md
+  - docs/02-ui/page-specs/admin/ADM-REF-005_直推进度.md
+  - docs/02-ui/page-specs/admin/ADM-REF-006_阶梯奖励矩阵.md
+  - docs/02-ui/page-specs/admin/ADM-REPORT-001_内容举报处理.md
+  - docs/02-ui/page-specs/admin/ADM-REVIEW-001_审核队列.md
+  - docs/02-ui/page-specs/admin/ADM-REWARD-001_奖励账户.md
+  - docs/02-ui/page-specs/admin/ADM-REWARD-002_奖励流水.md
+  - docs/02-ui/page-specs/admin/ADM-RISK-001_风险事件.md
+  - docs/02-ui/page-specs/admin/ADM-RISK-002_黑白名单.md
+  - docs/02-ui/page-specs/admin/ADM-RISK-003_风控规则版本.md
+  - docs/02-ui/page-specs/admin/ADM-RISK-004_风控规则模拟器.md
+  - docs/02-ui/page-specs/admin/ADM-RP-001_红包活动列表.md
+  - docs/02-ui/page-specs/admin/ADM-RP-002_红包活动详情.md
+  - docs/02-ui/page-specs/admin/ADM-RP-003_红包预审核.md
+  - docs/02-ui/page-specs/admin/ADM-RP-004_红包风险事件.md
+  - docs/02-ui/page-specs/admin/ADM-SECURITY-001_管理员安全设置.md
+  - docs/02-ui/page-specs/admin/ADM-SUPPORT-001_工单列表.md
+  - docs/02-ui/page-specs/admin/ADM-SUPPORT-002_工单详情.md
+  - docs/02-ui/page-specs/admin/ADM-TASK-001_任务定义.md
+  - docs/02-ui/page-specs/admin/ADM-TASK-002_任务进度与预算.md
+  - docs/02-ui/page-specs/admin/ADM-USER-001_用户列表.md
+  - docs/02-ui/page-specs/admin/ADM-USER-002_用户详情.md
+  - docs/02-ui/page-specs/admin/ADM-WD-001_提现列表.md
+  - docs/02-ui/page-specs/admin/ADM-WD-002_提现详情.md
+  - docs/02-ui/page-specs/android/DIALOG-CHAT-BLOCK-001_拉黑与解除拉黑确认.md
+  - docs/02-ui/page-specs/android/DIALOG-CHAT-DELETE-001_删除会话确认.md
+  - docs/02-ui/page-specs/android/DIALOG-SEARCH-001_清空搜索历史确认.md
+  - docs/02-ui/page-specs/android/SCR-ABOUT-001_关于与检查更新.md
+  - docs/02-ui/page-specs/android/SCR-ANN-001_公告列表.md
+  - docs/02-ui/page-specs/android/SCR-ANN-002_公告详情.md
+  - docs/02-ui/page-specs/android/SCR-APP-001_启动页.md
+  - docs/02-ui/page-specs/android/SCR-APP-002_系统维护页.md
+  - docs/02-ui/page-specs/android/SCR-APP-003_更新提示.md
+  - docs/02-ui/page-specs/android/SCR-AUTH-001_密码登录.md
+  - docs/02-ui/page-specs/android/SCR-AUTH-002_短信验证码登录.md
+  - docs/02-ui/page-specs/android/SCR-AUTH-003_注册账号.md
+  - docs/02-ui/page-specs/android/SCR-AUTH-004_忘记密码.md
+  - docs/02-ui/page-specs/android/SCR-AUTH-005_账号冻结.md
+  - docs/02-ui/page-specs/android/SCR-AUTH-006_登录设备.md
+  - docs/02-ui/page-specs/android/SCR-AUTH-007_修改登录密码.md
+  - docs/02-ui/page-specs/android/SCR-AUTH-008_注销账号.md
+  - docs/02-ui/page-specs/android/SCR-CHAT-001_会话列表.md
+  - docs/02-ui/page-specs/android/SCR-CHAT-002_私聊页.md
+  - docs/02-ui/page-specs/android/SCR-DETAIL-001_项目详情.md
+  - docs/02-ui/page-specs/android/SCR-DETAIL-002_App详情.md
+  - docs/02-ui/page-specs/android/SCR-DETAIL-003_群聊详情.md
+  - docs/02-ui/page-specs/android/SCR-DETAIL-004_团队长详情.md
+  - docs/02-ui/page-specs/android/SCR-FAV-001_我的收藏.md
+  - docs/02-ui/page-specs/android/SCR-HIS-001_浏览记录.md
+  - docs/02-ui/page-specs/android/SCR-HOME-001_首页.md
+  - docs/02-ui/page-specs/android/SCR-ID-001_实名认证首页.md
+  - docs/02-ui/page-specs/android/SCR-ID-002_实名信息输入.md
+  - docs/02-ui/page-specs/android/SCR-ID-003_活体检测容器.md
+  - docs/02-ui/page-specs/android/SCR-ID-004_实名结果.md
+  - docs/02-ui/page-specs/android/SCR-LIST-001_项目列表.md
+  - docs/02-ui/page-specs/android/SCR-LIST-002_App列表.md
+  - docs/02-ui/page-specs/android/SCR-LIST-003_群聊列表.md
+  - docs/02-ui/page-specs/android/SCR-LIST-004_团队长列表.md
+  - docs/02-ui/page-specs/android/SCR-ME-001_我的首页.md
+  - docs/02-ui/page-specs/android/SCR-ME-002_个人资料.md
+  - docs/02-ui/page-specs/android/SCR-MEMBER-001_会员中心.md
+  - docs/02-ui/page-specs/android/SCR-MEMBER-002_会员购买确认.md
+  - docs/02-ui/page-specs/android/SCR-MEMBER-003_会员升级.md
+  - docs/02-ui/page-specs/android/SCR-MEMBER-004_会员权益明细.md
+  - docs/02-ui/page-specs/android/SCR-MSG-001_消息中心.md
+  - docs/02-ui/page-specs/android/SCR-MYC-001_我的发布.md
+  - docs/02-ui/page-specs/android/SCR-MYC-002_草稿箱.md
+  - docs/02-ui/page-specs/android/SCR-MYC-003_内容管理详情.md
+  - docs/02-ui/page-specs/android/SCR-MYC-004_审核记录.md
+  - docs/02-ui/page-specs/android/SCR-MYC-005_内容数据.md
+  - docs/02-ui/page-specs/android/SCR-NOTICE-001_通知列表.md
+  - docs/02-ui/page-specs/android/SCR-NOTICE-002_通知详情.md
+  - docs/02-ui/page-specs/android/SCR-ORDER-001_订单列表.md
+  - docs/02-ui/page-specs/android/SCR-ORDER-002_订单详情.md
+  - docs/02-ui/page-specs/android/SCR-PROP-001_道具商城.md
+  - docs/02-ui/page-specs/android/SCR-PROP-002_我的道具.md
+  - docs/02-ui/page-specs/android/SCR-PROP-003_使用道具.md
+  - docs/02-ui/page-specs/android/SCR-PUB-001_发布入口.md
+  - docs/02-ui/page-specs/android/SCR-PUB-002_项目发布_编辑.md
+  - docs/02-ui/page-specs/android/SCR-PUB-003_App发布_编辑.md
+  - docs/02-ui/page-specs/android/SCR-PUB-004_群聊发布_编辑.md
+  - docs/02-ui/page-specs/android/SCR-PUB-005_团队长资料编辑.md
+  - docs/02-ui/page-specs/android/SCR-PUB-006_发布预览.md
+  - docs/02-ui/page-specs/android/SCR-PUB-007_提交结果.md
+  - docs/02-ui/page-specs/android/SCR-PUBLISHER-001_发布者主页.md
+  - docs/02-ui/page-specs/android/SCR-REF-001_推广中心.md
+  - docs/02-ui/page-specs/android/SCR-REF-002_邀请好友.md
+  - docs/02-ui/page-specs/android/SCR-REF-003_邀请海报.md
+  - docs/02-ui/page-specs/android/SCR-REF-004_直推用户.md
+  - docs/02-ui/page-specs/android/SCR-REF-005_二级用户.md
+  - docs/02-ui/page-specs/android/SCR-REF-006_消费佣金.md
+  - docs/02-ui/page-specs/android/SCR-REF-007_直推活跃奖励.md
+  - docs/02-ui/page-specs/android/SCR-REF-008_推广规则_教程.md
+  - docs/02-ui/page-specs/android/SCR-REWARD-001_奖励账户.md
+  - docs/02-ui/page-specs/android/SCR-REWARD-002_奖励明细.md
+  - docs/02-ui/page-specs/android/SCR-RP-001_红包首页.md
+  - docs/02-ui/page-specs/android/SCR-RP-002_红包任务资格.md
+  - docs/02-ui/page-specs/android/SCR-RP-003_红包浏览任务.md
+  - docs/02-ui/page-specs/android/SCR-RP-004_我的红包.md
+  - docs/02-ui/page-specs/android/SCR-RP-ADV-001_红包活动列表.md
+  - docs/02-ui/page-specs/android/SCR-RP-ADV-002_创建红包.md
+  - docs/02-ui/page-specs/android/SCR-RP-ADV-003_预审核结果.md
+  - docs/02-ui/page-specs/android/SCR-RP-ADV-004_红包报价确认.md
+  - docs/02-ui/page-specs/android/SCR-RP-ADV-005_红包活动详情.md
+  - docs/02-ui/page-specs/android/SCR-RP-ADV-006_提高红包金额.md
+  - docs/02-ui/page-specs/android/SCR-SEARCH-001_全局搜索.md
+  - docs/02-ui/page-specs/android/SCR-SEARCH-002_搜索结果.md
+  - docs/02-ui/page-specs/android/SCR-SET-001_设置.md
+  - docs/02-ui/page-specs/android/SCR-SUPPORT-001_帮助中心.md
+  - docs/02-ui/page-specs/android/SCR-SUPPORT-002_创建工单.md
+  - docs/02-ui/page-specs/android/SCR-SUPPORT-003_工单列表.md
+  - docs/02-ui/page-specs/android/SCR-SUPPORT-004_工单详情.md
+  - docs/02-ui/page-specs/android/SCR-SUPPORT-005_帮助文章详情.md
+  - docs/02-ui/page-specs/android/SCR-TASK-001_任务中心.md
+  - docs/02-ui/page-specs/android/SCR-TASK-002_个人任务积分.md
+  - docs/02-ui/page-specs/android/SCR-WD-001_绑定支付宝.md
+  - docs/02-ui/page-specs/android/SCR-WD-002_申请提现.md
+  - docs/02-ui/page-specs/android/SCR-WD-003_提现记录.md
+  - docs/02-ui/page-specs/android/SHEET-CHAT-001_发送联系方式.md
+  - docs/02-ui/page-specs/android/SHEET-CHAT-002_聊天举报.md
+  - docs/02-ui/page-specs/android/SHEET-CONTACT-001_联系方式面板.md
+  - docs/02-ui/page-specs/android/SHEET-CONTENT-INVALID-001_联系方式失效反馈.md
+  - docs/02-ui/page-specs/android/SHEET-MEDIA-001_媒体上传管理器.md
+  - docs/02-ui/page-specs/android/SHEET-REPORT-001_举报面板.md
+  - docs/02-ui/page-specs/android/SHEET-RP-001_红包领取面板.md
+  - docs/02-ui/page-specs/android/SHEET-SHARE-001_分享面板.md
+  - docs/02-ui/page-specs/h5/H5-001_品牌宣传下载页.md
+  - docs/02-ui/page-specs/h5/H5-002_安装教程.md
+  - docs/02-ui/page-specs/h5/H5-003_邀请落地页.md
+  - docs/02-ui/page-specs/h5/H5-004_项目分享页.md
+  - docs/02-ui/page-specs/h5/H5-005_App分享页.md
+  - docs/02-ui/page-specs/h5/H5-006_群聊分享页.md
+  - docs/02-ui/page-specs/h5/H5-007_团队长分享页.md
+  - docs/02-ui/page-specs/h5/H5-008_统一收银台.md
+  - docs/02-ui/page-specs/h5/H5-009_支付结果.md
+  - docs/02-ui/page-specs/h5/H5-010_协议与规则.md
+  - docs/02-ui/page-specs/h5/H5-011_帮助文章.md
+  - docs/02-ui/page-specs/h5/H5-012_活体回跳.md
+  - docs/02-ui/page-specs/h5/H5-013_H5邀请注册页.md
+  continuity:
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/change-requests/CR-0247-消除UI施工歧义并分离机器收尾与生产验收门禁.md
+  - docs/03-continuity/change-requests/CR-0248-返工R01至R07不合格页面并补齐效果图级证据.md
+  tests:
+  - tests/test_android_ci_gate.py
+  - tests/test_hhy_workflow.py
+  - tests/test_release_close_gate.py
+  - tests/test_run_affected_tests.py
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+- APPROVED_CHANGE_REQUEST
+- CHANGELOG
+change_requests:
+- CR-0247
+- CR-0248
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  - apps/android
+  - apps/h5
+  - apps/admin-web
+  - catalogs/ui_page_specifications.csv
+  - catalogs/ui_visual_acceptance.csv
+  - design/effect-previews
+  - docs/02-ui
+  - artifacts/reports/ui-audit
+  - tests
+  approved_exceptions: []
+  source: story+explicit
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 单一连续性绑定提交必须串行
+event_hash: e04f201eca851706cda87fcb81bf80eef43ee3defc4c51406c08d6de900f13ee

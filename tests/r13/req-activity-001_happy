@@ -1,0 +1,17 @@
+{
+  "schema": "hhy.r13.test-adapter/v1",
+  "test_id": "TST-ACTIVITY_001-HAPPY",
+  "central_runner": "scripts/run_r13_specialized_matrix.py",
+  "runner": "r13-java21-postgresql17-android-activity",
+  "selectors": [
+    "services/backend/boot/src/test/java/cc/orbexa/hhy/content/R13ServiceTest.java#favoritesUsesFrozenFiltersActivityCursorAndBatchMaterialization",
+    "services/backend/boot/src/test/java/cc/orbexa/hhy/content/R13ServiceTest.java#historyParsesAscendingCursorAndRejectsUnsupportedSorts",
+    "services/backend/boot/src/test/java/cc/orbexa/hhy/content/R13ServiceTest.java#invalidFeedbackPersistsPendingAuditAndOutbox",
+    "services/backend/boot/src/test/java/cc/orbexa/hhy/content/R08ServiceTest.java#shareReturnsConfiguredHttpsUrlAndRecordsDomainAudit",
+    "services/backend/boot/src/test/java/cc/orbexa/hhy/content/R07ServiceTest.java#contactAccessDecryptsOnceAndReplaysEncryptedSnapshotWithoutDuplicateOutbox",
+    "services/backend/boot/src/test/java/cc/orbexa/hhy/content/R13PostgresStoreTest.java#favoriteHistoryUnfavoriteAndFeedbackUseRealPostgresContracts",
+    "services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/R13ControllerContractTest.java#frozenR13OperationIdsHaveExactHttpMappings",
+    "apps/android/feature/activity/src/test/java/cc/orbexa/hhy/activity/R13ActivityStateTest.kt#appendDeduplicatesAndKeepsExistingItems"
+  ],
+  "fault_classes": ["authenticated-happy-path", "frozen-http-contract", "real-postgresql-activity-order", "audited-contact-access", "android-pagination-deduplication"]
+}

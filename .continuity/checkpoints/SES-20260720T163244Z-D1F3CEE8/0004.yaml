@@ -1,0 +1,246 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260720T163244Z-D1F3CEE8-0004
+session_id: SES-20260720T163244Z-D1F3CEE8
+sequence: 4
+created_at: '2026-07-20T17:21:14Z'
+summary: 关闭 TASK-R06-003：统一内容基础、首页与CMS后端服务、10条冻结operationId、幂等审计Outbox、V030权限迁移和实库回滚重放完成
+next_step: 提交关闭元数据Commit，然后运行pre-push/CI门禁
+blockers: []
+decisions:
+- 任务结果：COMPLETED
+- 实现Commit：be639eac26a765387414416c887034269308bcf5
+- 任务转换：TRN-20260720T172113Z-SES-20260720T163244Z-D1F3CEE8
+- 下一Release：R06
+note: 该检查点专门绑定最终关闭元数据Commit
+tests:
+- name: r06-postgres-17
+  result: PASS
+  evidence: be639ea:scripts/run_r06_disposable_postgres_container.sh
+  note: Git Commit校验、空库200表、权限授权、U030/U029回滚重放全部通过
+- name: backend-all
+  result: PASS
+  evidence: services/backend/target/surefire-reports
+  note: 299 tests, 0 failures, 0 errors
+- name: contract-runtime
+  result: PASS
+  evidence: check_api_contract.py;sync_runtime_assets.py --check
+  note: 10条冻结operationId和运行时哈希通过
+- name: continuity closure metadata
+  result: PASS
+  evidence: catalogs/task_transition_ledger.csv;CHANGELOG.md;CURRENT_STATUS.yaml;NEXT_TASK.yaml
+  note: 关闭元数据、任务转换和下一任务已原子生成
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: 95d83aa20109e4b28e202f84921808cf907f618b
+  upstream: origin/task/TASK-R03-001
+  ahead: 1
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/sessions/SES-20260720T163244Z-D1F3CEE8.yaml'
+  - ' M CHANGELOG.md'
+  - ' M NEXT_TASK.yaml'
+  - ' M catalogs/session_index.csv'
+  - ' M releases/R06/TASKS.yaml'
+  recent_commits:
+  - "95d83aa20109e4b28e202f84921808cf907f618b\t2026-07-21T01:20:42+08:00\tHHY Continuity Bootstrap\t[STORY-R06-005] chore(continuity): record\
+    \ R06-003 validation checkpoint"
+  - "be639eac26a765387414416c887034269308bcf5\t2026-07-21T01:11:49+08:00\tHHY Continuity Bootstrap\t[STORY-R06-005] feat(content): implement R06\
+    \ content home CMS backend"
+  - "fda95f8a084a366108c22fb90decba1f2aaf15aa\t2026-07-21T00:23:27+08:00\tHHY Continuity Bootstrap\t[STORY-R06-005] chore(continuity): close TASK-R06-002\
+    \ as completed"
+  - "3de2ae637f478c8b3390818a08a491a49a805890\t2026-07-21T00:22:13+08:00\tHHY Continuity Bootstrap\t[STORY-R06-005] feat(database): enforce R06\
+    \ content and home invariants"
+  - "00670ed98ed8974f4aaea6c5e678c2ce8b4d10a2\t2026-07-21T00:05:19+08:00\tHHY Continuity Bootstrap\t[STORY-R06-005] chore(continuity): close TASK-R06-001\
+    \ as completed"
+  - "5ae20d227bd1511b774e06f3ecb8060f44ccb632\t2026-07-21T00:03:24+08:00\tHHY Continuity Bootstrap\t[STORY-R06-005] chore(governance): open R06\
+    \ implementation"
+  - "5384135fdcdc2d6acc877e4883bf6946fe15e9a4\t2026-07-20T23:11:55+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] ci(continuity): reuse clean-checkout\
+    \ policy"
+  - "28f948c3cdeb54ffb7e57e48939ef0cab72bba78\t2026-07-20T23:04:14+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] ci(continuity): remove redundant\
+    \ CI tree check"
+project_fingerprint:
+  sha256: 54929e00e669dfd1f76b895a2d8753ec24bd80b106187920122e7d90552f1ca6
+  files:
+  - CHANGELOG.md
+  - database/migrations/V030__r06_content_admin_permissions.sql
+  - database/rollback/U030__r06_content_admin_permissions.sql
+  - releases/R06/TASKS.yaml
+  - scripts/run_r06_database_invariants.sh
+  - scripts/run_r06_disposable_postgres_container.sh
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/admin/AdminContentController.java
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/HomeController.java
+  - services/backend/boot/src/main/resources/db/migration/V030__r06_content_admin_permissions.sql
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/R06FrozenOperationCoverageTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/admin/AdminContentControllerContractTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/HomeControllerContractTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/ContentServiceTest.java
+  - services/backend/content/pom.xml
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentContracts.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentPostgresStore.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentService.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentStore.java
+  - tests/test_r06_content_database_scripts.py
+  - tests/test_r06_content_permissions_migration.py
+  file_count: 20
+  payload:
+    base_commit: fda95f8a084a366108c22fb90decba1f2aaf15aa
+    files:
+    - path: CHANGELOG.md
+      state: FILE
+      size: 55343
+      sha256: 85437e2c04bf478c7ee405e07012fadfd6f527567e205d0a9e3ddeb056ab3f76
+    - path: database/migrations/V030__r06_content_admin_permissions.sql
+      state: FILE
+      size: 1916
+      sha256: ea53823d55a716cb0aa97bd0b0430ad2bd6abedfa0eb86a9a05f6b04a09a79d3
+    - path: database/rollback/U030__r06_content_admin_permissions.sql
+      state: FILE
+      size: 531
+      sha256: 7cd330c181749e190a0054a412a1c4d19de95ce046e0fda209296259d5f9f90c
+    - path: releases/R06/TASKS.yaml
+      state: FILE
+      size: 5680
+      sha256: f5f835924fb09a1a17205ec407cd2887040d02f52d40b61c1ed2a44eccab6380
+    - path: scripts/run_r06_database_invariants.sh
+      state: FILE
+      size: 5239
+      sha256: 4ec9f0ddb2866926cb00f74218b6862c3db41acb695724552eccd7db9a45c9a6
+    - path: scripts/run_r06_disposable_postgres_container.sh
+      state: FILE
+      size: 1713
+      sha256: 06188a94f53af36582202269a63ccbe8d88a822b74612e67a68a15a0aeb79105
+    - path: services/backend/boot/src/main/java/cc/orbexa/hhy/boot/admin/AdminContentController.java
+      state: FILE
+      size: 8534
+      sha256: f8b439d33643a7d263233c44a324a03c1862164b53577d36cc7369562957ae66
+    - path: services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/HomeController.java
+      state: FILE
+      size: 1259
+      sha256: 01371f191ff754a974f33840f1f441798efc8d83ae9142cb3d9f697d1a7b6db6
+    - path: services/backend/boot/src/main/resources/db/migration/V030__r06_content_admin_permissions.sql
+      state: FILE
+      size: 1916
+      sha256: ea53823d55a716cb0aa97bd0b0430ad2bd6abedfa0eb86a9a05f6b04a09a79d3
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/boot/R06FrozenOperationCoverageTest.java
+      state: FILE
+      size: 1823
+      sha256: 235b7d03cda9d19cf34c44f61d1f71cc713e6d0ef6c2aca9b50e61f71c040c3d
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/boot/admin/AdminContentControllerContractTest.java
+      state: FILE
+      size: 2775
+      sha256: 4a28de7d85f7e7f8dfb5301907f43678a01cef890886f267e444e8ddc3dd8a4f
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/HomeControllerContractTest.java
+      state: FILE
+      size: 1101
+      sha256: de8017e85d88a74e8b39ceda78a4e9f53a12ada20b763f31c0243795e720716b
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/content/ContentServiceTest.java
+      state: FILE
+      size: 4885
+      sha256: f8f3c08322a6ae1d2bc66ec0c9818e9e61da0f52b860a0a438beccc79ad22497
+    - path: services/backend/content/pom.xml
+      state: FILE
+      size: 973
+      sha256: 4fec4e6b2c7b8430240eb802b44f63b64fa63a921cbac75263c453c83b559031
+    - path: services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentContracts.java
+      state: FILE
+      size: 4164
+      sha256: 4d72c31e99d6b375e36c9901e6cb47b607a587ee373b6ca7fa1ad899c25223b5
+    - path: services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentPostgresStore.java
+      state: FILE
+      size: 13421
+      sha256: 0b512bae38fbcd267ae615707577cdcd39d91a7693b53c958ea44e6eda5c5d0c
+    - path: services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentService.java
+      state: FILE
+      size: 21918
+      sha256: d40a2337b1ddbbe1bf13b14d2a31f57723c6055ef544090362657866aab16522
+    - path: services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentStore.java
+      state: FILE
+      size: 2334
+      sha256: c0b8976abe1cc9797eb467700e94b2509aa186a75e5a642ab3154d50fcb1c5e0
+    - path: tests/test_r06_content_database_scripts.py
+      state: FILE
+      size: 2558
+      sha256: dde5a08750728ee6db28838b6e68fe9e4af1ffdc3818f414feecc5ca756b9bd3
+    - path: tests/test_r06_content_permissions_migration.py
+      state: FILE
+      size: 1747
+      sha256: 510e567492568d78b65f921742a8ed235e0f4191a75ae0701465d5d0b2e6b38a
+change_classification:
+  other:
+  - CHANGELOG.md
+  - releases/R06/TASKS.yaml
+  database:
+  - database/migrations/V030__r06_content_admin_permissions.sql
+  - database/rollback/U030__r06_content_admin_permissions.sql
+  code:
+  - scripts/run_r06_database_invariants.sh
+  - scripts/run_r06_disposable_postgres_container.sh
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/admin/AdminContentController.java
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/HomeController.java
+  - services/backend/boot/src/main/resources/db/migration/V030__r06_content_admin_permissions.sql
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/R06FrozenOperationCoverageTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/admin/AdminContentControllerContractTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/HomeControllerContractTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/ContentServiceTest.java
+  - services/backend/content/pom.xml
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentContracts.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentPostgresStore.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentService.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentStore.java
+  tests:
+  - tests/test_r06_content_database_scripts.py
+  - tests/test_r06_content_permissions_migration.py
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+- DATABASE_TEST_EVIDENCE
+- SCHEMA_TRACEABILITY
+change_requests: []
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions: []
+  source: story+explicit
+parallel_execution:
+  assessment: CAPABILITY_UNAVAILABLE
+  delegated_workers: 0
+  workers: []
+  reason: 当前会话未开放独立执行代理；主控串行完成实现、云端实库和集成验证
+event_hash: bb627a606b6c0af03f0cf905d0f8f8148b101b2024ae402f123b1650ce8e436c

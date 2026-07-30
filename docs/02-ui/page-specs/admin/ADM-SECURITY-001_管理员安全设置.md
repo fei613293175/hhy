@@ -94,7 +94,7 @@
 - 配置组：`auth;system`
 - 关键配置：`auth.default_login_method;auth.security_challenge.provider;auth.security_challenge.mode;auth.password.min_length;auth.password.max_length;auth.password.max_failures;auth.password.lock_seconds;auth.invite.app_required;system.maintenance.enabled;system.maintenance.message;system.registration.enabled;system.publish.enabled;system.red_packet.enabled;system.withdrawal.enabled`
 - 测试：`TST-V122-014;TST-V122-056;TST-V122-057;TST-V122-058;TST-V122-059;TST-V122-060`
-- UI参考：`TOKENS_ONLY`
+- UI参考：复用管理后台 `ADM-DETAIL` 与安全中心标准模板；视觉裁定证据见 `artifacts/validation/r09-historical-ui/admin/ADM-SECURITY-001-browser-1440x1100.png`。该复用只约束风险摘要、账号事实、指标卡、安全操作和审计事实层级，不增加页面合同外业务。
 
 ## 8. 后台运营操作规格
 
@@ -104,7 +104,7 @@
 
 ## 9. 开发就绪检查
 
-- [ ] 页面模板和区域按本文件实现；效果图仅用于视觉参考。
+- [ ] 页面模板和区域按本文件实现；效果图对页面建模、区域顺序、信息层级、布局、组件形态和视觉样式具有强制约束，但不得作为功能、字段、动作或业务数据事实源。
 - [ ] 字段、校验、显示/编辑条件与 OpenAPI/配置一致，无新增匿名字段。
 - [ ] 所有状态均有可见表现、允许操作和恢复路径。
 - [ ] 所有动作均使用登记 operationId、权限、幂等或 expectedVersion。

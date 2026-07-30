@@ -147,6 +147,7 @@ paths:
       - COMMON-429-RATE_LIMITED
       - COMMON-500-INTERNAL
       - AUTH-401-SESSION_REVOKED
+      - AUTH-422-SECURITY_CHALLENGE_INVALID
       - AUTH-423-ACCOUNT_RESTRICTED
       parameters:
       - $ref: '#/components/parameters/XIdempotencyKey'
@@ -203,7 +204,7 @@ paths:
   /api/v1/auth/sms/send:
     post:
       operationId: authPostAuthSmsSend
-      summary: 阿里云短信验证码：LOGIN/REGISTER/RESET_PASSWORD
+      summary: 阿里云短信验证码：LOGIN/RESET_PASSWORD
       tags:
       - Auth
       security: []
@@ -221,6 +222,7 @@ paths:
       - COMMON-429-RATE_LIMITED
       - COMMON-500-INTERNAL
       - AUTH-401-SESSION_REVOKED
+      - AUTH-422-SECURITY_CHALLENGE_INVALID
       - AUTH-423-ACCOUNT_RESTRICTED
       parameters:
       - $ref: '#/components/parameters/XIdempotencyKey'
@@ -369,6 +371,7 @@ paths:
       - COMMON-429-RATE_LIMITED
       - COMMON-500-INTERNAL
       - AUTH-401-SESSION_REVOKED
+      - AUTH-422-INVITE_CODE_INVALID
       - AUTH-423-ACCOUNT_RESTRICTED
       x-request-schema: '#/components/schemas/AuthPostAuthInviteCodesValidateRequest'
       requestBody:
@@ -420,10 +423,37 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+  /api/v1/auth/registration-config:
+    get:
+      operationId: authGetAuthRegistrationConfig
+      summary: 获取当前注册协议版本配置
+      tags:
+      - Auth
+      security: []
+      x-permission: 公开
+      x-idempotent: false
+      x-release: R02
+      x-contract-maturity: FROZEN
+      x-error-codes:
+      - COMMON-500-INTERNAL
+      x-request-schema: '#/components/schemas/AuthGetAuthRegistrationConfigParameters'
+      responses:
+        '200':
+          description: 成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthGetAuthRegistrationConfigResponse'
+        '500':
+          description: 内部错误
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
   /api/v1/auth/register:
     post:
       operationId: authPostAuthRegister
-      summary: 密码注册、短信校验、邀请码绑定、随机用户名
+      summary: 密码注册、图形安全验证、邀请码绑定、随机用户名
       tags:
       - Auth
       security: []
@@ -441,6 +471,10 @@ paths:
       - COMMON-429-RATE_LIMITED
       - COMMON-500-INTERNAL
       - AUTH-401-SESSION_REVOKED
+      - AUTH-409-PHONE_ALREADY_REGISTERED
+      - AUTH-422-INVITE_CODE_INVALID
+      - AUTH-422-PASSWORD_POLICY_INVALID
+      - AUTH-422-SECURITY_CHALLENGE_INVALID
       - AUTH-423-ACCOUNT_RESTRICTED
       parameters:
       - $ref: '#/components/parameters/XIdempotencyKey'
@@ -877,13 +911,6 @@ paths:
           type: string
           maxLength: 256
         description: 游标；与page二选一
-      - name: status
-        in: query
-        required: false
-        schema:
-          type: string
-          maxLength: 64
-        description: 状态筛选
       - name: keyword
         in: query
         required: false
@@ -1374,6 +1401,108 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+  /public-api/v1/identity/callback/consume:
+    post:
+      operationId: publicPostIdentityCallbackConsume
+      summary: 消费一次性活体回跳
+      tags:
+      - Public
+      security: []
+      x-permission: 公开
+      x-idempotent: false
+      x-release: R05
+      x-contract-maturity: FROZEN
+      x-error-codes:
+      - COMMON-400-VALIDATION
+      - COMMON-422-BUSINESS_RULE
+      - COMMON-429-RATE_LIMITED
+      - COMMON-500-INTERNAL
+      x-request-schema: '#/components/schemas/PublicPostIdentityCallbackConsumeRequest'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PublicPostIdentityCallbackConsumeRequest'
+      responses:
+        '200':
+          description: 成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PublicPostIdentityCallbackConsumeResponse'
+        '400':
+          description: 请求参数错误
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: 回跳已失效、过期或已经消费
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: 触发限流
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: 内部错误
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /api/v1/identity/consent:
+    get:
+      operationId: identityGetIdentityConsent
+      summary: 获取当前实名认证授权说明
+      tags:
+      - Identity
+      security:
+      - BearerAuth: []
+      x-permission: 登录
+      x-idempotent: false
+      x-release: R05
+      x-contract-maturity: FROZEN
+      x-error-codes:
+      - COMMON-401-UNAUTHENTICATED
+      - COMMON-403-FORBIDDEN
+      - COMMON-429-RATE_LIMITED
+      - COMMON-500-INTERNAL
+      responses:
+        '200':
+          description: 成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IdentityGetIdentityConsentResponse'
+        '401':
+          description: 未认证或会话失效
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: 权限或能力不足
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: 触发限流
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: 当前协议不可用或内部错误
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
   /api/v1/identity/sessions:
     post:
       operationId: identityPostIdentitySessions
@@ -1450,6 +1579,47 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
         '429':
           description: 触发限流
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: 内部错误
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /api/v1/identity/overview:
+    get:
+      operationId: identityGetIdentityOverview
+      summary: 获取当前账号实名认证总览
+      tags:
+      - Identity
+      security:
+      - BearerAuth: []
+      x-permission: 登录
+      x-idempotent: false
+      x-release: R05
+      x-contract-maturity: FROZEN
+      x-error-codes:
+      - COMMON-401-UNAUTHENTICATED
+      - COMMON-403-FORBIDDEN
+      - COMMON-500-INTERNAL
+      responses:
+        '200':
+          description: 成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IdentityGetIdentityOverviewResponse'
+        '401':
+          description: 未认证或会话失效
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: 权限或能力不足
           content:
             application/json:
               schema:
@@ -2123,6 +2293,36 @@ paths:
         schema:
           type: string
           maxLength: 32
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+          default: 1
+      - name: pageSize
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 100
+          default: 20
+      - name: cursor
+        in: query
+        required: false
+        schema:
+          type: string
+          maxLength: 256
+      - name: sort
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - relevance:desc
+          - createdAt:desc
+          - id:desc
       x-request-schema: '#/components/schemas/SearchGetSearchParameters'
       responses:
         '200':
@@ -2225,13 +2425,6 @@ paths:
           type: string
           maxLength: 256
         description: 游标；与page二选一
-      - name: status
-        in: query
-        required: false
-        schema:
-          type: string
-          maxLength: 64
-        description: 状态筛选
       - name: keyword
         in: query
         required: false
@@ -2348,13 +2541,6 @@ paths:
           type: string
           maxLength: 256
         description: 游标；与page二选一
-      - name: status
-        in: query
-        required: false
-        schema:
-          type: string
-          maxLength: 64
-        description: 状态筛选
       - name: keyword
         in: query
         required: false
@@ -2593,6 +2779,13 @@ paths:
         schema:
           type: string
           maxLength: 32
+      - name: publisherId
+        in: query
+        required: false
+        description: 发布者用户标识；发布者主页使用该参数限定公开内容归属
+        schema:
+          type: string
+          pattern: ^[A-Za-z0-9_-]{1,64}$
       x-request-schema: '#/components/schemas/ContentGetContentsParameters'
       responses:
         '200':
@@ -2943,6 +3136,14 @@ paths:
         schema:
           type: string
           pattern: ^[A-Za-z0-9_-]{1,64}$
+      - name: expectedVersion
+        in: query
+        required: true
+        description: 当前内容乐观锁版本；版本不一致返回 COMMON-409-VERSION_CONFLICT
+        schema:
+          type: integer
+          format: int64
+          minimum: 0
       - $ref: '#/components/parameters/XIdempotencyKey'
       x-request-schema: '#/components/schemas/ContentDeleteContentsByIdParameters'
       responses:
@@ -4388,7 +4589,7 @@ paths:
       - BearerAuth: []
       x-permission: 登录
       x-idempotent: true
-      x-release: R07/R13
+      x-release: R07/R10/R13
       x-contract-maturity: FROZEN
       x-error-codes:
       - COMMON-400-VALIDATION
@@ -4414,8 +4615,14 @@ paths:
         description: 路径资源标识：channel
         schema:
           type: string
-          minLength: 1
-          maxLength: 128
+          enum:
+          - WECHAT
+          - PHONE
+          - QQ
+          - EMAIL
+          - LINK
+          - QR_CODE
+          - JOIN_PASSWORD
       - $ref: '#/components/parameters/XIdempotencyKey'
       x-request-schema: '#/components/schemas/ContentPostContentsByIdContactsByChannelAccessRequest'
       requestBody:
@@ -4427,6 +4634,17 @@ paths:
       responses:
         '200':
           description: 成功
+          headers:
+            Cache-Control:
+              description: 高敏联系方式响应不得被客户端或中间代理缓存
+              schema:
+                type: string
+                const: no-store
+            Pragma:
+              description: 兼容旧客户端的禁止缓存指令
+              schema:
+                type: string
+                const: no-cache
           content:
             application/json:
               schema:
@@ -6275,7 +6493,7 @@ paths:
       - BearerAuth: []
       x-permission: 登录
       x-idempotent: false
-      x-release: R18
+      x-release: R12/R18
       x-contract-maturity: FROZEN
       x-error-codes:
       - COMMON-400-VALIDATION
@@ -9595,7 +9813,7 @@ paths:
       - BearerAuth: []
       x-permission: 登录+实名
       x-idempotent: false
-      x-release: R24
+      x-release: R12/R24
       x-contract-maturity: FROZEN
       x-error-codes:
       - COMMON-400-VALIDATION
@@ -9648,6 +9866,12 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
         '422':
           description: 业务规则不满足
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '423':
+          description: 奖励账户因风险审核暂时受限
           content:
             application/json:
               schema:
@@ -13115,6 +13339,34 @@ components:
       - challengeId
       - challengeType
       - expiresAt
+    RegistrationAgreementVersionResource:
+      type: object
+      additionalProperties: false
+      properties:
+        versionId:
+          type: string
+          maxLength: 64
+        code:
+          type: string
+          maxLength: 2000
+        effectiveAt:
+          type: string
+          format: date-time
+      required:
+      - versionId
+      - code
+      - effectiveAt
+    RegistrationConfigResource:
+      type: object
+      additionalProperties: false
+      properties:
+        agreementVersions:
+          type: array
+          items:
+            $ref: '#/components/schemas/RegistrationAgreementVersionResource'
+          maxItems: 100
+      required:
+      - agreementVersions
     AuthSessionResource:
       type: object
       additionalProperties: false
@@ -13146,6 +13398,55 @@ components:
       - expiresAt
       - userId
       - sessionId
+    UserSecuritySessionResource:
+      type: object
+      additionalProperties: false
+      properties:
+        sessionId:
+          type: string
+          maxLength: 64
+        device:
+          $ref: '#/components/schemas/DeviceSummaryResource'
+        createdAt:
+          type: string
+          format: date-time
+        expiresAt:
+          type: string
+          format: date-time
+        status:
+          type: string
+          maxLength: 64
+        current:
+          type: boolean
+      required:
+      - sessionId
+      - createdAt
+      - expiresAt
+      - status
+      - current
+    UserSecuritySessionPageMeta:
+      type: object
+      additionalProperties: false
+      properties:
+        page:
+          type: integer
+          format: int64
+          minimum: 1
+        pageSize:
+          type: integer
+          format: int64
+          minimum: 1
+        total:
+          type: integer
+          format: int64
+          minimum: 0
+        hasMore:
+          type: boolean
+      required:
+      - page
+      - pageSize
+      - total
+      - hasMore
     AdminSessionResource:
       type: object
       additionalProperties: false
@@ -13187,13 +13488,13 @@ components:
           maxLength: 2000
         nickname:
           type: string
-          maxLength: 2000
+          maxLength: 255
         avatarUrl:
           type: string
           maxLength: 2000
         bio:
           type: string
-          maxLength: 2000
+          maxLength: 255
         status:
           type: string
           maxLength: 2000
@@ -13245,6 +13546,20 @@ components:
       - id
       - status
       - version
+    IdentityOverviewResource:
+      type: object
+      additionalProperties: false
+      properties:
+        status:
+          type: string
+          enum:
+          - NOT_STARTED
+          - IN_PROGRESS
+          - VERIFIED
+        activeSession:
+          $ref: '#/components/schemas/IdentitySessionResource'
+      required:
+      - status
     MediaResource:
       type: object
       additionalProperties: false
@@ -13333,6 +13648,50 @@ components:
       - id
       - contentType
       - title
+    SearchTermResource:
+      type: object
+      additionalProperties: false
+      properties:
+        id:
+          type: string
+          maxLength: 64
+        keyword:
+          type: string
+          minLength: 1
+          maxLength: 100
+        createdAt:
+          type: string
+          format: date-time
+      required:
+      - id
+      - keyword
+    ContactAccessResource:
+      type: object
+      additionalProperties: false
+      properties:
+        channel:
+          type: string
+          enum:
+          - WECHAT
+          - PHONE
+          - QQ
+          - EMAIL
+          - LINK
+          - QR_CODE
+          - JOIN_PASSWORD
+        value:
+          type: string
+          minLength: 1
+          maxLength: 2048
+          x-sensitive: true
+          description: 仅在本次已授权响应中返回；禁止写入日志、埋点或持久化明文缓存
+        accessedAt:
+          type: string
+          format: date-time
+      required:
+      - channel
+      - value
+      - accessedAt
     ContentResource:
       type: object
       additionalProperties: false
@@ -13445,6 +13804,157 @@ components:
       - id
       - unreadCount
       - version
+    ChatTextPayload:
+      type: object
+      additionalProperties: false
+      properties:
+        text:
+          type: string
+          minLength: 1
+          maxLength: 5000
+      required:
+      - text
+    ChatImagePayload:
+      type: object
+      additionalProperties: false
+      properties:
+        mediaId:
+          type: string
+          maxLength: 64
+        thumbnailUrl:
+          type: string
+          format: uri
+          maxLength: 2048
+        width:
+          type: integer
+          minimum: 1
+          maximum: 10000
+        height:
+          type: integer
+          minimum: 1
+          maximum: 10000
+      required:
+      - mediaId
+    ChatContentCardPayload:
+      type: object
+      additionalProperties: false
+      properties:
+        contentId:
+          type: string
+          maxLength: 64
+        contentType:
+          type: string
+          enum:
+          - PROJECT
+          - APP
+          - GROUP_CHAT
+          - TEAM_LEADER
+        title:
+          type: string
+          minLength: 1
+          maxLength: 160
+        coverUrl:
+          type: string
+          format: uri
+          maxLength: 2048
+      required:
+      - contentId
+      - contentType
+      - title
+    ChatContactField:
+      type: object
+      additionalProperties: false
+      properties:
+        type:
+          type: string
+          enum:
+          - PHONE
+          - WECHAT
+          - QQ
+          - EMAIL
+          - OTHER
+        label:
+          type: string
+          maxLength: 32
+        value:
+          type: string
+          minLength: 1
+          maxLength: 256
+          x-sensitive: true
+      required:
+      - type
+      - value
+    ChatContactCardPayload:
+      type: object
+      additionalProperties: false
+      properties:
+        fields:
+          type: array
+          minItems: 1
+          maxItems: 5
+          items:
+            $ref: '#/components/schemas/ChatContactField'
+        note:
+          type: string
+          maxLength: 200
+      required:
+      - fields
+    ChatMessagePayload:
+      oneOf:
+      - $ref: '#/components/schemas/ChatTextPayload'
+      - $ref: '#/components/schemas/ChatImagePayload'
+      - $ref: '#/components/schemas/ChatContentCardPayload'
+      - $ref: '#/components/schemas/ChatContactCardPayload'
+    ChatMessageResource:
+      type: object
+      additionalProperties: false
+      properties:
+        id:
+          type: string
+          maxLength: 64
+        conversationId:
+          type: string
+          maxLength: 64
+        sender:
+          $ref: '#/components/schemas/PublisherSummaryResource'
+        clientMessageId:
+          type: string
+          minLength: 1
+          maxLength: 64
+        messageType:
+          type: string
+          enum:
+          - TEXT
+          - IMAGE
+          - CONTENT_CARD
+          - CONTACT_CARD
+        payload:
+          $ref: '#/components/schemas/ChatMessagePayload'
+        status:
+          type: string
+          enum:
+          - SENT
+          - DELIVERED
+          - READ
+        serverSequence:
+          type: integer
+          format: int64
+          minimum: 1
+        createdAt:
+          type: string
+          format: date-time
+        readAt:
+          type: string
+          format: date-time
+      required:
+      - id
+      - conversationId
+      - sender
+      - clientMessageId
+      - messageType
+      - payload
+      - status
+      - createdAt
     NotificationResource:
       type: object
       additionalProperties: false
@@ -13620,34 +14130,51 @@ components:
     OrderResource:
       type: object
       additionalProperties: false
+      required:
+      - orderNo
+      - userId
+      - orderType
+      - status
+      - currency
+      - items
+      - priceSnapshot
+      - noRefundEvidence
+      - createdAt
+      - version
       properties:
         orderNo:
           type: string
-          maxLength: 2000
+          maxLength: 128
         userId:
           type: string
           maxLength: 64
         orderType:
           type: string
-          maxLength: 2000
+          maxLength: 64
         status:
           type: string
-          maxLength: 2000
+          enum:
+          - PENDING_PAYMENT
+          - PAYMENT_PROCESSING
+          - PAID
+          - FULFILLING
+          - COMPLETED
+          - PAYMENT_FAILED
+          - CLOSED
+          - CHANNEL_REVERSAL
         currency:
           type: string
-          maxLength: 2000
-        originalAmountCent:
-          type: integer
-          format: int64
-          minimum: 0
-        discountAmountCent:
-          type: integer
-          format: int64
-          minimum: 0
-        payableAmountCent:
-          type: integer
-          format: int64
-          minimum: 0
+          minLength: 3
+          maxLength: 3
+        items:
+          type: array
+          maxItems: 100
+          items:
+            $ref: '#/components/schemas/OrderItemResource'
+        priceSnapshot:
+          $ref: '#/components/schemas/OrderPriceSnapshotResource'
+        noRefundEvidence:
+          $ref: '#/components/schemas/NoRefundEvidenceResource'
         paidAmountCent:
           type: integer
           format: int64
@@ -13661,13 +14188,7 @@ components:
         version:
           type: integer
           format: int64
-      required:
-      - orderNo
-      - orderType
-      - status
-      - currency
-      - payableAmountCent
-      - version
+          minimum: 0
     PaymentResource:
       type: object
       additionalProperties: false
@@ -14178,118 +14699,24 @@ components:
         reasonCode:
           type: string
           maxLength: 2000
-        status:
+        description:
           type: string
           maxLength: 2000
-        decision:
-          type: string
-          maxLength: 2000
-        createdAt:
-          type: string
-          format: date-time
-        version:
+        displayOrder:
           type: integer
-          format: int64
-      required:
-      - id
-      - status
-      - version
-    AppealResource:
-      type: object
-      additionalProperties: false
-      properties:
-        id:
-          type: string
-          maxLength: 64
-        appellantId:
-          type: string
-          maxLength: 64
-        subjectType:
-          type: string
-          maxLength: 2000
-        subjectId:
-          type: string
-          maxLength: 64
-        reason:
-          type: string
-          maxLength: 2000
+          format: int32
         status:
           type: string
-          maxLength: 2000
-        decision:
-          type: string
-          maxLength: 2000
-        createdAt:
-          type: string
-          format: date-time
-        version:
-          type: integer
-          format: int64
-      required:
-      - id
-      - status
-      - version
-    ProductResource:
-      type: object
-      additionalProperties: false
-      properties:
-        id:
-          type: string
           maxLength: 64
-        productCode:
-          type: string
-          maxLength: 2000
-        name:
-          type: string
-          maxLength: 2000
-        productType:
-          type: string
-          maxLength: 2000
-        status:
-          type: string
-          maxLength: 2000
         skus:
           type: array
-          items:
-            type: object
-            additionalProperties: false
-            properties:
-              id:
-                type: string
-                maxLength: 64
-              skuCode:
-                type: string
-                maxLength: 64
-              name:
-                type: string
-                maxLength: 120
-              priceCent:
-                type: integer
-                format: int64
-                minimum: 0
-              durationDays:
-                type: integer
-                format: int64
-                minimum: 0
-              status:
-                type: string
-                maxLength: 32
-            required:
-            - id
-            - skuCode
-            - name
-            - priceCent
-            - status
           maxItems: 100
+          items:
+            $ref: '#/components/schemas/ProductSkuResource'
         version:
           type: integer
           format: int64
-      required:
-      - id
-      - productCode
-      - name
-      - status
-      - version
+          minimum: 0
     CmsResource:
       type: object
       additionalProperties: false
@@ -15073,6 +15500,29 @@ components:
           oneOf:
           - $ref: '#/components/schemas/AuthSessionResource'
           - $ref: '#/components/schemas/CommandResultResource'
+    AuthGetAuthRegistrationConfigParameters:
+      type: object
+      additionalProperties: false
+      properties: {}
+    AuthGetAuthRegistrationConfigResponse:
+      type: object
+      additionalProperties: false
+      required:
+      - success
+      - requestId
+      - data
+      properties:
+        success:
+          type: boolean
+          const: true
+        requestId:
+          type: string
+          maxLength: 64
+        timestamp:
+          type: string
+          format: date-time
+        data:
+          $ref: '#/components/schemas/RegistrationConfigResource'
     AuthPostAuthRegisterRequest:
       type: object
       additionalProperties: false
@@ -15082,10 +15532,6 @@ components:
           maxLength: 11
           pattern: ^1[3-9]\d{9}$
           example: '13800000000'
-        smsCode:
-          type: string
-          maxLength: 10
-          minLength: 4
         password:
           type: string
           maxLength: 72
@@ -15095,21 +15541,24 @@ components:
         inviteCode:
           type: string
           maxLength: 2000
-        agreementVersions:
-          type: array
-          items:
-            type: string
-          maxItems: 100
+        challengeId:
+          type: string
+          maxLength: 64
+          writeOnly: true
+        challengeProof:
+          type: string
+          maxLength: 2000
+          writeOnly: true
         device:
           type: object
           additionalProperties:
             $ref: '#/components/schemas/JsonValue'
       required:
       - phone
-      - smsCode
       - password
       - inviteCode
-      - agreementVersions
+      - challengeId
+      - challengeProof
     AuthPostAuthRegisterResponse:
       type: object
       additionalProperties: false
@@ -15313,9 +15762,9 @@ components:
             items:
               type: array
               items:
-                $ref: '#/components/schemas/AuthSessionResource'
+                $ref: '#/components/schemas/UserSecuritySessionResource'
             page:
-              $ref: '#/components/schemas/PageMeta'
+              $ref: '#/components/schemas/UserSecuritySessionPageMeta'
     AuthGetAuthSessionsParameters:
       type: object
       additionalProperties: false
@@ -15410,13 +15859,13 @@ components:
       properties:
         nickname:
           type: string
-          maxLength: 2000
+          maxLength: 255
         avatarMediaId:
           type: string
           maxLength: 64
         bio:
           type: string
-          maxLength: 2000
+          maxLength: 255
         expectedVersion:
           type: integer
           format: int64
@@ -15461,7 +15910,7 @@ components:
           type: string
           format: date-time
         data:
-          $ref: '#/components/schemas/UserResource'
+          $ref: '#/components/schemas/PublisherSummaryResource'
     UserGetPublishersByIdParameters:
       type: object
       additionalProperties: false
@@ -15511,6 +15960,107 @@ components:
           oneOf:
           - $ref: '#/components/schemas/UserResource'
           - $ref: '#/components/schemas/CommandResultResource'
+    PublicPostIdentityCallbackConsumeRequest:
+      type: object
+      additionalProperties: false
+      properties:
+        state:
+          type: string
+          minLength: 36
+          maxLength: 36
+          pattern: ^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$
+      required:
+      - state
+    IdentityCallbackStatusResource:
+      type: object
+      additionalProperties: false
+      properties:
+        status:
+          type: string
+          enum:
+          - SESSION_CREATED
+          - LIVENESS_PENDING
+          - PROVIDER_PROCESSING
+          - MANUAL_REVIEW
+          - VERIFIED
+          - REJECTED
+          - EXPIRED
+      required:
+      - status
+    PublicPostIdentityCallbackConsumeResponse:
+      type: object
+      additionalProperties: false
+      required:
+      - success
+      - requestId
+      - data
+      properties:
+        success:
+          type: boolean
+          const: true
+        requestId:
+          type: string
+          maxLength: 64
+        timestamp:
+          type: string
+          format: date-time
+        data:
+          $ref: '#/components/schemas/IdentityCallbackStatusResource'
+    IdentityConsentResource:
+      type: object
+      additionalProperties: false
+      properties:
+        consentVersion:
+          type: string
+          maxLength: 2000
+        title:
+          type: string
+          maxLength: 2000
+        content:
+          type: string
+          maxLength: 20000
+      required:
+      - consentVersion
+      - title
+      - content
+    IdentityGetIdentityConsentResponse:
+      type: object
+      additionalProperties: false
+      required:
+      - success
+      - requestId
+      - data
+      properties:
+        success:
+          type: boolean
+          const: true
+        requestId:
+          type: string
+          maxLength: 64
+        timestamp:
+          type: string
+          format: date-time
+        data:
+          $ref: '#/components/schemas/IdentityConsentResource'
+    IdentityGetIdentityOverviewResponse:
+      type: object
+      additionalProperties: false
+      required:
+      - success
+      - requestId
+      - data
+      properties:
+        success:
+          type: boolean
+          const: true
+        requestId:
+          type: string
+          maxLength: 64
+        timestamp:
+          type: string
+          format: date-time
+        data:
+          $ref: '#/components/schemas/IdentityOverviewResource'
     IdentityPostIdentitySessionsRequest:
       type: object
       additionalProperties: false
@@ -15800,7 +16350,18 @@ components:
           type: string
           format: date-time
         data:
-          $ref: '#/components/schemas/SearchResultResource'
+          type: object
+          additionalProperties: false
+          required:
+          - items
+          - page
+          properties:
+            items:
+              type: array
+              items:
+                $ref: '#/components/schemas/SearchResultResource'
+            page:
+              $ref: '#/components/schemas/PageMeta'
     SearchGetSearchParameters:
       type: object
       additionalProperties: false
@@ -15818,6 +16379,23 @@ components:
         regionCode:
           type: string
           maxLength: 32
+        page:
+          type: integer
+          minimum: 1
+          default: 1
+        pageSize:
+          type: integer
+          minimum: 1
+          maximum: 100
+          default: 20
+        cursor:
+          type: string
+          maxLength: 256
+        sort:
+          type: string
+          enum:
+          - relevance:desc
+          - createdAt:desc
       required:
       - q
     SearchGetSearchHotResponse:
@@ -15847,7 +16425,7 @@ components:
             items:
               type: array
               items:
-                $ref: '#/components/schemas/SearchResultResource'
+                $ref: '#/components/schemas/SearchTermResource'
             page:
               $ref: '#/components/schemas/PageMeta'
     SearchGetSearchHotParameters:
@@ -15869,10 +16447,6 @@ components:
           type: string
           maxLength: 256
           description: 游标；与page二选一
-        status:
-          type: string
-          maxLength: 64
-          description: 状态筛选
         keyword:
           type: string
           maxLength: 100
@@ -15908,7 +16482,7 @@ components:
             items:
               type: array
               items:
-                $ref: '#/components/schemas/SearchResultResource'
+                $ref: '#/components/schemas/SearchTermResource'
             page:
               $ref: '#/components/schemas/PageMeta'
     SearchGetSearchHistoryParameters:
@@ -15930,10 +16504,6 @@ components:
           type: string
           maxLength: 256
           description: 游标；与page二选一
-        status:
-          type: string
-          maxLength: 64
-          description: 状态筛选
         keyword:
           type: string
           maxLength: 100
@@ -16041,6 +16611,10 @@ components:
         regionCode:
           type: string
           maxLength: 32
+        publisherId:
+          type: string
+          pattern: ^[A-Za-z0-9_-]{1,64}$
+          description: 发布者用户标识；发布者主页使用该参数限定公开内容归属
     ContentGetContentsByIdResponse:
       type: object
       additionalProperties: false
@@ -16070,6 +16644,28 @@ components:
           description: 路径资源标识：id
       required:
       - id
+    ContactInputResource:
+      type: object
+      additionalProperties: false
+      properties:
+        channel:
+          type: string
+          enum:
+          - WECHAT
+          - PHONE
+          - QQ
+          - EMAIL
+          - LINK
+          - QR_CODE
+          - JOIN_PASSWORD
+        value:
+          type: string
+          minLength: 1
+          maxLength: 2000
+          x-sensitive: true
+      required:
+      - channel
+      - value
     ContentPostContentsRequest:
       type: object
       additionalProperties: false
@@ -16103,8 +16699,10 @@ components:
             type: string
           maxItems: 100
         contacts:
-          type: string
-          maxLength: 2000
+          type: array
+          items:
+            $ref: '#/components/schemas/ContactInputResource'
+          maxItems: 20
         attributes:
           type: object
           additionalProperties:
@@ -16160,8 +16758,10 @@ components:
             type: string
           maxItems: 100
         contacts:
-          type: string
-          maxLength: 2000
+          type: array
+          items:
+            $ref: '#/components/schemas/ContactInputResource'
+          maxItems: 20
         attributes:
           type: object
           additionalProperties:
@@ -16351,12 +16951,18 @@ components:
           type: string
           pattern: ^[A-Za-z0-9_-]{1,64}$
           description: 路径资源标识：id
+        expectedVersion:
+          type: integer
+          format: int64
+          minimum: 0
+          description: 当前内容乐观锁版本；版本不一致返回 COMMON-409-VERSION_CONFLICT
         xIdempotencyKey:
           type: string
           minLength: 16
           maxLength: 128
       required:
       - id
+      - expectedVersion
       - xIdempotencyKey
     ContentGetMeContentsResponse:
       type: object
@@ -16655,6 +17261,8 @@ components:
           type: object
           additionalProperties:
             $ref: '#/components/schemas/JsonValue'
+      required:
+      - expectedVersion
     ContentPostContentsByIdFavoriteResponse:
       type: object
       additionalProperties: false
@@ -16858,9 +17466,7 @@ components:
           type: string
           format: date-time
         data:
-          oneOf:
-          - $ref: '#/components/schemas/ContentResource'
-          - $ref: '#/components/schemas/CommandResultResource'
+          $ref: '#/components/schemas/ContactAccessResource'
     ContentPostContentsByIdReportRequest:
       type: object
       additionalProperties: false
@@ -16955,6 +17561,33 @@ components:
           - OTHER
       required:
       - channel
+    ShareResultResource:
+      type: object
+      additionalProperties: false
+      properties:
+        contentId:
+          type: string
+          maxLength: 64
+        channel:
+          type: string
+          enum:
+          - WECHAT
+          - WECHAT_MOMENTS
+          - COPY_LINK
+          - OTHER
+        url:
+          type: string
+          format: uri
+          pattern: ^https://
+          maxLength: 2048
+        acceptedAt:
+          type: string
+          format: date-time
+      required:
+      - contentId
+      - channel
+      - url
+      - acceptedAt
     ContentPostContentsByIdShareResponse:
       type: object
       additionalProperties: false
@@ -16973,9 +17606,7 @@ components:
           type: string
           format: date-time
         data:
-          oneOf:
-          - $ref: '#/components/schemas/ContentResource'
-          - $ref: '#/components/schemas/CommandResultResource'
+          $ref: '#/components/schemas/ShareResultResource'
     ChatGetConversationsResponse:
       type: object
       additionalProperties: false
@@ -17097,7 +17728,7 @@ components:
             items:
               type: array
               items:
-                $ref: '#/components/schemas/ConversationResource'
+                $ref: '#/components/schemas/ChatMessageResource'
             page:
               $ref: '#/components/schemas/PageMeta'
     ChatGetConversationsByIdMessagesParameters:
@@ -17138,24 +17769,82 @@ components:
       required:
       - id
     ChatPostConversationsByIdMessagesRequest:
+      oneOf:
+      - $ref: '#/components/schemas/ChatTextMessageRequest'
+      - $ref: '#/components/schemas/ChatImageMessageRequest'
+      - $ref: '#/components/schemas/ChatContentCardMessageRequest'
+      - $ref: '#/components/schemas/ChatContactCardMessageRequest'
+      discriminator:
+        propertyName: messageType
+        mapping:
+          TEXT: '#/components/schemas/ChatTextMessageRequest'
+          IMAGE: '#/components/schemas/ChatImageMessageRequest'
+          CONTENT_CARD: '#/components/schemas/ChatContentCardMessageRequest'
+          CONTACT_CARD: '#/components/schemas/ChatContactCardMessageRequest'
+    ChatTextMessageRequest:
       type: object
       additionalProperties: false
       properties:
         clientMessageId:
           type: string
+          minLength: 1
           maxLength: 64
         messageType:
           type: string
-          maxLength: 2000
-          enum:
-          - TEXT
-          - IMAGE
-          - CONTENT_CARD
-          - CONTACT_CARD
+          const: TEXT
         payload:
-          type: object
-          additionalProperties:
-            $ref: '#/components/schemas/JsonValue'
+          $ref: '#/components/schemas/ChatTextPayload'
+      required:
+      - clientMessageId
+      - messageType
+      - payload
+    ChatImageMessageRequest:
+      type: object
+      additionalProperties: false
+      properties:
+        clientMessageId:
+          type: string
+          minLength: 1
+          maxLength: 64
+        messageType:
+          type: string
+          const: IMAGE
+        payload:
+          $ref: '#/components/schemas/ChatImagePayload'
+      required:
+      - clientMessageId
+      - messageType
+      - payload
+    ChatContentCardMessageRequest:
+      type: object
+      additionalProperties: false
+      properties:
+        clientMessageId:
+          type: string
+          minLength: 1
+          maxLength: 64
+        messageType:
+          type: string
+          const: CONTENT_CARD
+        payload:
+          $ref: '#/components/schemas/ChatContentCardPayload'
+      required:
+      - clientMessageId
+      - messageType
+      - payload
+    ChatContactCardMessageRequest:
+      type: object
+      additionalProperties: false
+      properties:
+        clientMessageId:
+          type: string
+          minLength: 1
+          maxLength: 64
+        messageType:
+          type: string
+          const: CONTACT_CARD
+        payload:
+          $ref: '#/components/schemas/ChatContactCardPayload'
       required:
       - clientMessageId
       - messageType
@@ -17178,9 +17867,7 @@ components:
           type: string
           format: date-time
         data:
-          oneOf:
-          - $ref: '#/components/schemas/ConversationResource'
-          - $ref: '#/components/schemas/CommandResultResource'
+          $ref: '#/components/schemas/ChatMessageResource'
     ChatPostConversationsByIdReadRequest:
       type: object
       additionalProperties: false
@@ -17313,7 +18000,24 @@ components:
       properties:
         reasonCode:
           type: string
-          maxLength: 2000
+          description: 聊天举报原因；enum由x-hhy-options中启用项按order生成
+          enum:
+          - HARASSMENT
+          - DUPLICATE_BULK_MESSAGE
+          - DANGEROUS_LINK
+          x-hhy-options:
+          - code: HARASSMENT
+            label: 骚扰
+            enabled: true
+            order: 10
+          - code: DUPLICATE_BULK_MESSAGE
+            label: 相同文案批量发送
+            enabled: true
+            order: 20
+          - code: DANGEROUS_LINK
+            label: 危险链接
+            enabled: true
+            order: 30
         description:
           type: string
           maxLength: 2000
@@ -20526,6 +21230,164 @@ components:
           description: 路径资源标识：id
       required:
       - id
+    BenefitResource:
+      type: object
+      additionalProperties: false
+      required:
+      - benefitCode
+      - name
+      - value
+      properties:
+        benefitCode:
+          type: string
+          maxLength: 64
+        name:
+          type: string
+          maxLength: 255
+        value:
+          $ref: '#/components/schemas/JsonValue'
+        unit:
+          type: string
+          maxLength: 64
+    ProductSkuResource:
+      type: object
+      additionalProperties: false
+      required:
+      - id
+      - productId
+      - skuCode
+      - name
+      - priceCent
+      - benefits
+      - commissionEnabled
+      - status
+      - version
+      properties:
+        id:
+          type: string
+          maxLength: 64
+        productId:
+          type: string
+          maxLength: 64
+        skuCode:
+          type: string
+          maxLength: 64
+        name:
+          type: string
+          maxLength: 255
+        priceCent:
+          type: integer
+          format: int64
+          minimum: 0
+        memberPriceCent:
+          type: integer
+          format: int64
+          minimum: 0
+        durationDays:
+          type: integer
+          format: int64
+          minimum: 0
+        benefits:
+          type: array
+          maxItems: 100
+          items:
+            $ref: '#/components/schemas/BenefitResource'
+        commissionEnabled:
+          type: boolean
+        level1Bps:
+          type: integer
+          minimum: 0
+          maximum: 10000
+        level2Bps:
+          type: integer
+          minimum: 0
+          maximum: 10000
+        saleStartsAt:
+          type: string
+          format: date-time
+        saleEndsAt:
+          type: string
+          format: date-time
+        status:
+          type: string
+          maxLength: 64
+        version:
+          type: integer
+          format: int64
+          minimum: 0
+    OrderItemResource:
+      type: object
+      additionalProperties: false
+      required:
+      - itemName
+      - quantity
+      - unitPriceCent
+      - subtotalAmountCent
+      properties:
+        skuId:
+          type: string
+          maxLength: 64
+        itemName:
+          type: string
+          maxLength: 255
+        quantity:
+          type: integer
+          minimum: 1
+        unitPriceCent:
+          type: integer
+          format: int64
+          minimum: 0
+        subtotalAmountCent:
+          type: integer
+          format: int64
+          minimum: 0
+    OrderPriceSnapshotResource:
+      type: object
+      additionalProperties: false
+      required:
+      - originalAmountCent
+      - discountAmountCent
+      - serviceFeeCent
+      - payableAmountCent
+      - ruleVersions
+      properties:
+        originalAmountCent:
+          type: integer
+          format: int64
+          minimum: 0
+        discountAmountCent:
+          type: integer
+          format: int64
+          minimum: 0
+        serviceFeeCent:
+          type: integer
+          format: int64
+          minimum: 0
+        payableAmountCent:
+          type: integer
+          format: int64
+          minimum: 0
+        ruleVersions:
+          type: array
+          maxItems: 100
+          items:
+            type: string
+            maxLength: 128
+    NoRefundEvidenceResource:
+      type: object
+      additionalProperties: false
+      required:
+      - confirmed
+      - agreementVersion
+      properties:
+        confirmed:
+          type: boolean
+        agreementVersion:
+          type: string
+          maxLength: 64
+        confirmedAt:
+          type: string
+          format: date-time
     JsonScalar:
       oneOf:
       - type: string
@@ -20652,14 +21514,14 @@ components:
           maxLength: 64
         nickname:
           type: string
-          maxLength: 64
+          maxLength: 255
         avatarUrl:
           type: string
           maxLength: 2048
           format: uri
         bio:
           type: string
-          maxLength: 300
+          maxLength: 255
         verified:
           type: boolean
         memberBadge:
@@ -20685,6 +21547,7 @@ components:
           - EMAIL
           - LINK
           - QR_CODE
+          - JOIN_PASSWORD
         maskedValue:
           type: string
           maxLength: 256

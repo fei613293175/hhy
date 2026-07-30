@@ -1,0 +1,51 @@
+groups:
+  - name: hhy-r01-admin-security
+    rules:
+      - alert: HhyR01BackendDown
+        expr: up{job="hhy-backend-r01"} == 0
+        for: 15s
+        labels: { severity: critical, release: R01 }
+        annotations:
+          summary: 合伙云 R01 Staging 后端不可用
+      - alert: HhyR01HighServerErrorRate
+        expr: sum(rate(http_server_requests_seconds_count{job="hhy-backend-r01",status=~"5.."}[1m])) / clamp_min(sum(rate(http_server_requests_seconds_count{job="hhy-backend-r01"}[1m])), 0.001) > 0.02
+        for: 1m
+        labels: { severity: warning, release: R01 }
+        annotations:
+          summary: 合伙云 R01 Staging 5xx 比例超过冻结阈值 2%
+      - alert: HhyR01HighP95Latency
+        expr: histogram_quantile(0.95, sum by (le) (rate(http_server_requests_seconds_bucket{job="hhy-backend-r01"}[5m]))) > 0.5
+        for: 2m
+        labels: { severity: warning, release: R01 }
+        annotations:
+          summary: 合伙云 R01 Staging P95 延迟超过冻结阈值 500ms
+      - alert: HhyR01AdminAuthFailureBurst
+        expr: hhy_admin_auth_failures_5m{job="hhy-backend-r01"} > 10
+        for: 30s
+        labels: { severity: warning, release: R01 }
+        annotations:
+          summary: 管理员认证失败在五分钟窗口内超过 10 次
+      - alert: HhyR01IncompleteIdempotencySnapshot
+        expr: hhy_admin_idempotency_incomplete_snapshots{job="hhy-backend-r01"} > 0
+        for: 15s
+        labels: { severity: critical, release: R01 }
+        annotations:
+          summary: 管理员幂等记录出现不完整加密响应快照
+      - alert: HhyR01BusinessMetricQueryFailure
+        expr: sum(hhy_business_metric_query_failures_total{job="hhy-backend-r01"}) > 0
+        for: 15s
+        labels: { severity: critical, release: R01 }
+        annotations:
+          summary: 业务不变量 Gauge 查询失败，监控结果不可信
+      - alert: HhyR01OutboxDeadLetter
+        expr: hhy_outbox_dead_letter{job="hhy-backend-r01"} > 0
+        for: 15s
+        labels: { severity: critical, release: R01 }
+        annotations:
+          summary: Outbox 出现死信
+      - alert: HhyR01LedgerImbalance
+        expr: hhy_ledger_unbalanced_transactions{job="hhy-backend-r01"} > 0
+        for: 15s
+        labels: { severity: critical, release: R01 }
+        annotations:
+          summary: 账务事实出现借贷不平

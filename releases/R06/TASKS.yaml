@@ -3,7 +3,7 @@ title: 统一内容基础、首页与CMS
 tasks:
 - id: TASK-R06-001
   title: 统一内容基础、首页与CMS开发就绪核验、故事领取与变更基线
-  status: READY
+  status: DONE
   depends_on: []
   requirements: &id001
   - REQ-CONTENT-001
@@ -23,9 +23,10 @@ tasks:
   - 更新Release Manifest与CR记录
   - python scripts/check_v122_documentation.py --release R06
   session_log_required: true
+  completed_at: '2026-07-20T16:03:58Z'
 - id: TASK-R06-002
   title: 统一内容基础、首页与CMS数据迁移与领域不变量
-  status: BLOCKED
+  status: DONE
   depends_on:
   - TASK-R06-001
   requirements: *id001
@@ -39,9 +40,10 @@ tasks:
   - Flyway前向迁移与空库/升级库测试
   - 不变量属性测试
   session_log_required: true
+  completed_at: '2026-07-20T16:22:57Z'
 - id: TASK-R06-003
   title: 统一内容基础、首页与CMS后端应用服务与接口
-  status: BLOCKED
+  status: DONE
   depends_on:
   - TASK-R06-002
   requirements: *id001
@@ -55,9 +57,10 @@ tasks:
   - OpenAPI契约测试
   - 权限/幂等/错误码/审计覆盖
   session_log_required: true
+  completed_at: '2026-07-20T17:21:13Z'
 - id: TASK-R06-004
   title: 统一内容基础、首页与CMS客户端/H5/后台实现
-  status: BLOCKED
+  status: DONE
   depends_on:
   - TASK-R06-003
   requirements: *id001
@@ -75,9 +78,10 @@ tasks:
   - 禁止页面级手写重复DTO
   - 全部动作绑定生成API类型
   session_log_required: true
+  completed_at: '2026-07-21T01:02:55Z'
 - id: TASK-R06-005
   title: 统一内容基础、首页与CMS专项测试与故障注入
-  status: BLOCKED
+  status: DONE
   depends_on:
   - TASK-R06-003
   - TASK-R06-004
@@ -92,9 +96,10 @@ tasks:
   - 测试报告和失败证据归档
   - 关键缺陷清零
   session_log_required: true
+  completed_at: '2026-07-21T02:00:11Z'
 - id: TASK-R06-006
   title: 统一内容基础、首页与CMS可观测性与预发布验收
-  status: BLOCKED
+  status: DONE
   depends_on:
   - TASK-R06-005
   requirements: *id001
@@ -108,9 +113,10 @@ tasks:
   - 运行手册演练
   - 验收矩阵签字
   session_log_required: true
+  completed_at: '2026-07-21T04:23:38Z'
 - id: TASK-R06-007
   title: 统一内容基础、首页与CMSAndroid测试APK与产物追溯
-  status: BLOCKED
+  status: DONE
   depends_on:
   - TASK-R06-006
   requirements: *id001
@@ -124,6 +130,7 @@ tasks:
   - APK可下载/可安装
   - SHA256、Commit、versionName/versionCode、测试结果齐全
   session_log_required: true
+  completed_at: '2026-07-21T05:50:37Z'
 - id: TASK-R06-008
   title: 统一内容基础、首页与CMS版本关闭与无状态交接
   status: BLOCKED
@@ -140,6 +147,8 @@ tasks:
   - 全新AI仅凭仓库可继续
   - 工作区干净且Tag可追溯
   session_log_required: true
+  blocker: R06机器开发、候选APK、自动化与视觉验收均PASS；仅项目所有者异步真机验收保持PENDING，正式验收和生产激活继续阻断，按批准规则启动独立R07
+  blocked_at: '2026-07-21T08:13:30Z'
 version: 1.2.2
 definition_of_ready: releases/R06/DEFINITION_OF_READY.yaml
 story_backlog: releases/R06/STORIES.yaml

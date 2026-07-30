@@ -1,0 +1,57 @@
+protocol_version: '1.0'
+cr_id: CR-0083
+title: R03版本关闭元数据、验收证据与终态标签规范化
+status: IMPLEMENTED
+created_at: '2026-07-19T08:27:19Z'
+updated_at: '2026-07-19T08:29:57Z'
+requester_actor_id: codex-root
+approver_actor_id: r03-release-review
+task_id: TASK-R03-008
+session_id: SES-20260719T081942Z-8D5C4241
+user_request: 项目所有者确认R03真机测试通过并要求立即推进开发
+reason: 将既有全绿实现、测试、APK和真机证据写入R03关闭矩阵，按关闭门禁绑定代表operationId、Release Commit和Tag，不改变业务范围
+original_rule: R03 RELEASE_MANIFEST保持READY_WHEN_DEPENDENCIES_GREEN、admin_api为原始路径列表，AC-R03-001至003和005尚未绑定单文件证据，TASK-R03-007报告仍写真机PENDING
+new_rule: R03关闭时保留全部13条既有API路径，并以配置版本创建、证书轮换、域名验证3个代表operationId绑定APK源码Commit 660d148和Tag R03-660d148；验收矩阵引用既有PASS报告，真机状态同步为PASS
+impact_summary: 仅规范化R03关闭元数据、证据指针、测试说明和真机结论；不新增、删除或改变页面、API、数据库、配置、资金或运行时业务语义
+impact:
+  files:
+  - releases/R03/RELEASE_MANIFEST.yaml
+  - releases/R03/ACCEPTANCE_MATRIX.csv
+  - artifacts/reports/R03/TASK-R03-005-integration.md
+  - artifacts/reports/R03/TASK-R03-007-android-apk.md
+  - artifacts/reports/R03/R03-version-test-guide.md
+  pages: []
+  apis:
+  - R03既有13个admin API路径保持不变
+  database: []
+  configuration: []
+  ledger: []
+  tests:
+  - scripts/check_v123_documentation.py --strict
+  - scripts/check_generated_assets.py
+  - scripts/check_release_artifacts.py --release R03 --close-gate
+  releases:
+  - R03
+  migration_and_compatibility: 无需数据库、API消费者或客户端迁移；13条既有API路径保持不变，只调整Manifest表示方式并归档现有测试证据
+user_confirmation: 项目所有者于2026-07-19确认R03真机测试通过并要求立即推进下一版本
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-19T08:28:02Z'
+  note: 独立核对：差异仅将13条既有路径改为paths并绑定OpenAPI中存在的3个代表operationId，同时归档已通过测试和真机证据；无业务语义变化
+machine_record: .continuity/change_requests/CR-0083.yaml
+document: docs/03-continuity/change-requests/CR-0083-R03版本关闭元数据、验收证据与终态标签规范化.md
+decision_log:
+- at: '2026-07-19T08:28:04Z'
+  actor_id: codex-root
+  status: IMPLEMENTING
+  note: 开始归档R03关闭元数据与验收证据
+  session_id: SES-20260719T081942Z-8D5C4241
+- at: '2026-07-19T08:29:57Z'
+  actor_id: codex-root
+  status: IMPLEMENTED
+  note: R03终态Manifest、验收矩阵、单文件测试证据、真机结论和桌面说明已归档并通过文档与生成物门禁
+  session_id: SES-20260719T081942Z-8D5C4241
+session_ids:
+- SES-20260719T081942Z-8D5C4241
+implementation_commits:
+- e37faeaa31714e4026132b426acb0bd956032d84

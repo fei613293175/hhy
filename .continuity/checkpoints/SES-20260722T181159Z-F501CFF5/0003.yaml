@@ -1,0 +1,171 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260722T181159Z-F501CFF5-0003
+session_id: SES-20260722T181159Z-F501CFF5
+sequence: 3
+created_at: '2026-07-22T18:29:42Z'
+summary: CR-0249已关联实现提交92dfb059并关闭；全部R09-002验证证据保持PASS。
+next_step: 关闭TASK-R09-002并切换NEXT_TASK到TASK-R09-003。
+blockers: []
+decisions: []
+note: ''
+tests:
+- name: R09 PostgreSQL 17 matrix
+  result: PASS
+  evidence: R09_EMPTY_DATABASE_TO_V035+UPGRADE+INVARIANTS+U035_ROLLBACK+V035_REPLAY
+  note: 实现提交92dfb059
+- name: Backend affected MODULE
+  result: PASS
+  evidence: 344 tests, 0 failures, 0 errors, 9 conditional skips
+  note: 实现提交92dfb059
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: 92dfb059bc78c48493c3300dc3d564a4bebbca73
+  upstream: origin/task/TASK-R03-001
+  ahead: 0
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/change_requests/CR-0249.yaml'
+  - ' M catalogs/change_request_index.csv'
+  - ' M catalogs/session_index.csv'
+  - ' M docs/03-continuity/change-requests/CR-0249-R09-App推广数据迁移与领域不变量.md'
+  recent_commits:
+  - "92dfb059bc78c48493c3300dc3d564a4bebbca73\t2026-07-23T02:28:18+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] feat(database): enforce App\
+    \ promotion invariants"
+  - "e336e79143572860308f6d3f372bd436b9f0131c\t2026-07-23T02:10:03+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] docs(r09): close readiness\
+    \ and UI audit"
+  - "d85bd820cdd6941d71dbbb4da31f98a5d9c05bef\t2026-07-23T02:06:01+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] docs(cr): close historical\
+    \ UI remediation"
+  - "82dbd12edff2af79b597e4814a6cb53add0d445f\t2026-07-23T02:03:27+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] docs(ui): accept historical\
+    \ visual audit"
+  - "aa703035fe51ddbddb4e6d1ab6e5078ee6f7c97c\t2026-07-23T01:39:08+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] fix(ci): preserve historical\
+    \ visual workdir"
+  - "3e59516bc7135f0c632816f9424c30e38b56730e\t2026-07-23T01:25:19+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] ci(android): request historical\
+    \ visual audit"
+  - "f4e49b514b8a6844341e286fa211c863ec1187ab\t2026-07-23T01:14:40+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] refactor(ci): reuse quality\
+    \ gate for visual audit"
+  - "654b3c0b7a4d02f6b3dbaada3d56214c74475c98\t2026-07-23T00:50:05+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] feat(ui): remediate historical\
+    \ visual quality"
+project_fingerprint:
+  sha256: 9012673309c09e72a8b8542faf800c48a0cba95d49276c152fbd05d5ffad90b0
+  files:
+  - CHANGELOG.md
+  - database/migrations/V035__r09_app_promotion_invariants.sql
+  - database/rollback/U035__r09_app_promotion_invariants.sql
+  - database/tests/r09_app_promotion_invariants.sql
+  - docs/03-continuity/change-requests/CR-0249-R09-App推广数据迁移与领域不变量.md
+  - scripts/run_r09_database_invariants.sh
+  - scripts/run_r09_disposable_postgres_container.sh
+  - services/backend/boot/src/main/resources/db/migration/V035__r09_app_promotion_invariants.sql
+  file_count: 8
+  payload:
+    base_commit: e336e79143572860308f6d3f372bd436b9f0131c
+    files:
+    - path: CHANGELOG.md
+      state: FILE
+      size: 94727
+      sha256: 0172358878ea12ed5083547fe31d1b0516449c5827cc80bbd5b99589646b8b96
+    - path: database/migrations/V035__r09_app_promotion_invariants.sql
+      state: FILE
+      size: 4936
+      sha256: 8e6f9a41bf809fcd9945f816951d2c4bb2f59bbd44f197ae417a5bc4511b2a07
+    - path: database/rollback/U035__r09_app_promotion_invariants.sql
+      state: FILE
+      size: 837
+      sha256: bc9920d1eccf76ea6ec026ef8f136ef9c77f62ea20d45d66a17e125129bec90e
+    - path: database/tests/r09_app_promotion_invariants.sql
+      state: FILE
+      size: 3734
+      sha256: 45543612972bc3bba3689bbb1251f9a6e0af364b2db3f12cbbb4435a641b3a83
+    - path: docs/03-continuity/change-requests/CR-0249-R09-App推广数据迁移与领域不变量.md
+      state: FILE
+      size: 3525
+      sha256: 7180e5bc28375fc87a4000ac76fb3e95c37952caa67963bc309d3a0fc13aaae9
+    - path: scripts/run_r09_database_invariants.sh
+      state: FILE
+      size: 3443
+      sha256: 31cb23ea8b6257e76edbc5a1f8f8eb1fbad1cbaa21df3a7e3892508440b26a3c
+    - path: scripts/run_r09_disposable_postgres_container.sh
+      state: FILE
+      size: 3951
+      sha256: 23e6e6555ff9d637ec669664e1ef9dc5abdfa1a8cb38f152f6e1e81a4516bef2
+    - path: services/backend/boot/src/main/resources/db/migration/V035__r09_app_promotion_invariants.sql
+      state: FILE
+      size: 4936
+      sha256: 8e6f9a41bf809fcd9945f816951d2c4bb2f59bbd44f197ae417a5bc4511b2a07
+change_classification:
+  other:
+  - CHANGELOG.md
+  database:
+  - database/migrations/V035__r09_app_promotion_invariants.sql
+  - database/rollback/U035__r09_app_promotion_invariants.sql
+  - database/tests/r09_app_promotion_invariants.sql
+  continuity:
+  - docs/03-continuity/change-requests/CR-0249-R09-App推广数据迁移与领域不变量.md
+  code:
+  - scripts/run_r09_database_invariants.sh
+  - scripts/run_r09_disposable_postgres_container.sh
+  - services/backend/boot/src/main/resources/db/migration/V035__r09_app_promotion_invariants.sql
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+- DATABASE_TEST_EVIDENCE
+- SCHEMA_TRACEABILITY
+change_requests:
+- CR-0249
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  - App推广完整闭环数据迁移、数据库约束、回滚与不变量验证
+  approved_exceptions:
+  - database/migrations/V035__r09_app_promotion_invariants.sql
+  - services/backend/boot/src/main/resources/db/migration/V035__r09_app_promotion_invariants.sql
+  - database/rollback/U035__r09_app_promotion_invariants.sql
+  - database/tests/r09_app_promotion_invariants.sql
+  - scripts/run_r09_database_invariants.sh
+  - scripts/run_r09_disposable_postgres_container.sh
+  - CHANGELOG.md
+  source: story+explicit+approved-cr:CR-0249
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 当前仅执行CR与任务生命周期原子关闭，不存在可安全并行的产品工作。
+event_hash: 9581bf319cb551c8d3ba435490530aa1c27582b8d9709a61dbf921330bc402b0

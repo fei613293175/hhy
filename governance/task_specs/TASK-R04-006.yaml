@@ -1,0 +1,40 @@
+schema: hhy.task-spec/v5.0
+id: TASK-R04-006
+release: R04
+ordinal: 6
+title: 可观测性、Staging部署与回滚演练
+kind: staging_observability
+mode: worker
+source:
+  path: releases/R04/TASKS.yaml
+  original_id: TASK-R04-006
+requirements:
+- REQ-MEDIA-001
+- REQ-STORAGE-001
+- REQ-APK-001
+depends_on:
+- TASK-R04-005
+objective: 部署Staging，验证上传/存储结构化日志、TraceId、RED指标、业务指标、告警、生命周期和回滚
+deliverables:
+- 运行手册与回滚演练证据
+- 验收矩阵自动化条目签字
+acceptance:
+- 日志不包含签名URL、Secret或私有对象内容
+- Staging和RELEASE前置门禁通过
+allowed_paths:
+- apps/**
+- catalogs/**
+- config/**
+- docs/**
+- infra/**
+- scripts/**
+- services/**
+- tests/**
+risks:
+- production
+- secrets
+acceptance_commands:
+- python3 scripts/check_r04_observability.py
+maximum_attempts: 3
+owner_verification: ASYNC_NON_BLOCKING_FOR_NEXT_RELEASE
+legacy_status: DONE

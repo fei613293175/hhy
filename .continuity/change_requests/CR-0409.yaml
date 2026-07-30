@@ -1,0 +1,43 @@
+protocol_version: '1.0'
+cr_id: CR-0409
+title: 授权CR-0408数据驱动预取后的唯一R13候选attempt20
+status: APPROVED
+created_at: '2026-07-27T13:52:01Z'
+updated_at: '2026-07-27T13:52:30Z'
+requester_actor_id: codex-root-r13-candidate-20260727
+approver_actor_id: codex-reviewer-r13-candidate-20260727
+task_id: TASK-R13-007
+session_id: SES-20260726T191158Z-2B506AB7
+user_request: R13版本必须通过自动门禁并把APK和测试文档交付桌面，失败由AI自行修复持续推进
+reason: Attempt19已消费且失败于2成功1加载；CR-0408精确修复Commit 4d6fd4d7已通过90项治理、Android UI基础、严格连续性和obx-test固定镜像223任务，具备独立新根因修复与服务器证据
+original_rule: CR-0407只授权R13 request019/Attempt19并明确拒绝Attempt20；Attempt19已消费且owner_test_allowed=false
+new_rule: 只新增R13 Attempt20唯一例外，精确绑定CR-0409、request020、CR-0408修复Commit 4d6fd4d7a61cbdb6db465534bebbe5c8375c45e4与max_candidate_runs=1；Attempt19不得重跑，Attempt21未授权，登录、正式API、三张真实媒体、四张截图、日志与AI视觉门禁全部不变
+impact_summary: 仅更新Android候选例外、当前请求及精确治理回归；不修改业务源码、正式UI、API、数据库、全局三轮上限或桌面交付门槛
+impact:
+  files:
+  - config/android-automation.yaml
+  - config/android-candidate-request.yaml
+  - tests/test_android_candidate_request.py
+  - tests/test_android_ci_gate.py
+  - tests/test_r13_candidate.py
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - CHANGELOG.md
+  pages: []
+  apis: []
+  database: []
+  configuration:
+  - R13 candidate request020 and attempt20 exact exception
+  ledger: []
+  tests:
+  - R13 attempt20精确绑定与attempt21拒绝
+  - Android候选治理、治理知识、UI基础与严格连续性回归
+  releases:
+  - R13
+  migration_and_compatibility: 纯候选治理变更；历史Attempt19事实不可变，唯一request020只能消费一次，失败后不得重跑同一请求
+user_confirmation: 项目所有者长期授权AI自行修复候选失败并持续完成R13桌面交付，不要求逐次候选审批
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-27T13:52:30Z'
+  note: Attempt19已消费且CR-0408已切换独立技术路径；4d6fd4d7具备本地与固定镜像证据，只授权一次精确request020且不降低任何业务、媒体、日志或视觉门槛
+machine_record: .continuity/change_requests/CR-0409.yaml
+document: docs/03-continuity/change-requests/CR-0409-授权CR-0408数据驱动预取后的唯一R13候选attempt20.md

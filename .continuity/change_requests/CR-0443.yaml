@@ -1,0 +1,75 @@
+protocol_version: '1.0'
+cr_id: CR-0443
+title: 前向对齐R16权益与时长冻结字段边界
+status: CLOSED
+created_at: '2026-07-28T11:16:27Z'
+updated_at: '2026-07-28T12:54:48Z'
+requester_actor_id: codex-r16-contract-alignment-20260728
+approver_actor_id: codex-r16-contract-alignment-independent-review-20260728
+task_id: TASK-R16-003
+session_id: SES-20260728T102501Z-3189682B
+user_request: 持续开发且所有功能一比一对应开发文档和冻结合同，不得出现实现漂移
+reason: TASK-R16-003真实实现核对发现OpenAPI BenefitResource.name最大255、unit最大64且durationDays允许0，但V045函数仅允许120/32且数据库只允许正数，应用服务也沿用了较窄边界，合法冻结请求会被错误拒绝
+original_rule: 冻结OpenAPI允许BenefitResource.name最长255、unit最长64且durationDays最小0；V045和当前应用却分别限制120、32和正数，导致合同允许但数据库或服务拒绝。
+new_rule: 只追加V047且不改写V045：原子重建hhy.r16_benefits_valid，使name为1至255、unit最大64并保留对象键、必填字段、100项上限；将ck_r16_product_skus_duration改为duration_days为null或大于等于0。应用服务同步接受同一边界。DEV回滚在存在name超过120、unit超过32或duration_days=0时原子拒绝，安全数据下恢复V045边界。合同对齐测试必须证明255/64/0接受，256/65/负数拒绝，非法JSON和多余字段仍拒绝，source/runtime迁移字节一致。
+impact_summary: 新增V047、运行时副本、DEV回滚和真实PostgreSQL属性测试；收敛R16CommerceService边界及专项静态和Java测试，不改变OpenAPI、既有事实数据或邀请码链。
+impact:
+  files:
+  - database/migrations/V047__r16_commerce_contract_alignment.sql
+  - services/backend/boot/src/main/resources/db/migration/V047__r16_commerce_contract_alignment.sql
+  - database/rollback/U047__r16_commerce_contract_alignment_DEV_ONLY.sql
+  - database/tests/r16_commerce_contract_alignment.sql
+  - scripts/run_r16_database_invariants.sh
+  - scripts/check_db_schema.py
+  - services/backend/commerce/src/main/java/cc/orbexa/hhy/commerce/R16CommerceService.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/commerce/R16CommerceServiceTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/commerce/R16CommercePostgresStoreTest.java
+  - tests/test_r16_backend_contract.py
+  - releases/R16/TASKS.yaml
+  - releases/R16/STORIES.yaml
+  - releases/R16/RELEASE_MANIFEST.yaml
+  - artifacts/reports/R16/TASK-R16-003-backend.md
+  - CHANGELOG.md
+  pages: []
+  apis:
+  - adminProductsPostSkus
+  - adminProductsPatchSkusById
+  database:
+  - product_skus
+  configuration: []
+  ledger: []
+  tests:
+  - PostgreSQL 17 V047空库升级、合法255/64/0接受、越界与非法JSON拒绝、U047安全回滚及有新合法事实时回滚拒绝
+  - R16CommerceServiceTest冻结字段边界
+  - python tests/test_r16_backend_contract.py
+  - python scripts/check_db_schema.py
+  releases:
+  - R16
+  migration_and_compatibility: 前向V047仅放宽到冻结合同边界，所有V045合法数据继续合法；应用要求数据库至少V047。回滚仅在数据仍满足旧边界时允许，否则原子拒绝，避免破坏合法新事实。
+user_confirmation: 项目所有者已明确要求持续开发且功能一比一对应开发文档和冻结合同，本修正属于消除实现漂移。
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-28T11:18:44Z'
+  note: 独立审查确认V047精确对齐冻结OpenAPI的255/64/0边界，不改写V045；U047对新合法事实原子拒绝，影响文件与测试充分且无范围漂移。
+machine_record: .continuity/change_requests/CR-0443.yaml
+document: docs/03-continuity/change-requests/CR-0443-前向对齐R16权益与时长冻结字段边界.md
+decision_log:
+- at: '2026-07-28T12:54:37Z'
+  actor_id: codex-r16-backend-20260728
+  status: IMPLEMENTING
+  note: 独立审批后以前向V047对齐冻结权益与时长边界。
+  session_id: SES-20260728T102501Z-3189682B
+- at: '2026-07-28T12:54:42Z'
+  actor_id: codex-r16-backend-20260728
+  status: IMPLEMENTED
+  note: V047及应用边界同步实现并通过升级、回滚和属性测试。
+  session_id: SES-20260728T102501Z-3189682B
+- at: '2026-07-28T12:54:48Z'
+  actor_id: codex-r16-backend-20260728
+  status: CLOSED
+  note: 冻结OpenAPI合法边界已与数据库和应用一致。
+  session_id: SES-20260728T102501Z-3189682B
+session_ids:
+- SES-20260728T102501Z-3189682B
+implementation_commits:
+- 63ebeca8ca54f087b18e0b9605dc879dd10bc4c4

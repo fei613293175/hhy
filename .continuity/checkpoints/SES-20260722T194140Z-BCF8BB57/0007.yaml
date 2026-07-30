@@ -1,0 +1,210 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260722T194140Z-BCF8BB57-0007
+session_id: SES-20260722T194140Z-BCF8BB57
+sequence: 7
+created_at: '2026-07-22T20:02:47Z'
+summary: 关闭 TASK-R09-005：R09 App推广三项权威专项测试、超时重放、八路并发、重复消息防护、真实依赖异常及规范化哈希证据全部PASS，P0/P1为0。
+next_step: 提交关闭元数据Commit，然后运行pre-push/CI门禁
+blockers: []
+decisions:
+- 任务结果：COMPLETED
+- 实现Commit：d562d768fee74ed0f71ba27ced35faf24f96eb14
+- 任务转换：TRN-20260722T200246Z-SES-20260722T194140Z-BCF8BB57
+- 下一Release：R09
+note: 该检查点专门绑定最终关闭元数据Commit
+tests:
+- name: r09-specialized-matrix
+  result: PASS
+  evidence: artifacts/validation/r09-test-evidence/evidence.json
+  note: CLOSED review verified
+- name: continuity closure metadata
+  result: PASS
+  evidence: catalogs/task_transition_ledger.csv;CHANGELOG.md;CURRENT_STATUS.yaml;NEXT_TASK.yaml
+  note: 关闭元数据、任务转换和下一任务已原子生成
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: 5445dcc59186f0353d487405b61606a7bb2111cd
+  upstream: origin/task/TASK-R03-001
+  ahead: 4
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/sessions/SES-20260722T194140Z-BCF8BB57.yaml'
+  - ' M CHANGELOG.md'
+  - ' M NEXT_TASK.yaml'
+  - ' M catalogs/session_index.csv'
+  - ' M releases/R09/TASKS.yaml'
+  recent_commits:
+  - "5445dcc59186f0353d487405b61606a7bb2111cd\t2026-07-23T04:01:51+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] docs(r09): close test change\
+    \ request"
+  - "d562d768fee74ed0f71ba27ced35faf24f96eb14\t2026-07-23T04:01:07+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] test(app): normalize evidence\
+    \ hashes"
+  - "c70fa6d869a810e16cb07288a3ffc7164c85319a\t2026-07-23T03:59:01+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] test(app): freeze promotion\
+    \ evidence"
+  - "450d8758a2ba2ad42b4906f8911495815ac29213\t2026-07-23T03:52:18+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] test(app): add promotion fault\
+    \ matrix"
+  - "78c1f91bbacd724991292e2634288d6af6ace5d5\t2026-07-23T03:40:17+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] docs(r09): close client task"
+  - "2606a21c4f3020c2279b8320958be13d4fc0df0c\t2026-07-23T03:38:58+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] docs(r09): close promotion\
+    \ change request"
+  - "b548d582e8e5b942a93513c128a113c8571bff0c\t2026-07-23T03:37:56+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] feat(app): implement promotion\
+    \ experience"
+  - "536601aecf5e775466fe0a3c4225bc2bc3e633d8\t2026-07-23T03:01:18+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] docs(r09): close App backend\
+    \ task"
+project_fingerprint:
+  sha256: 7ad8a0f9b42056d52533f4adc48443f9317b1dbedf1dbc2bb592bd332d7168b5
+  files:
+  - CHANGELOG.md
+  - apps/android/feature/app-promotion/src/test/java/cc/orbexa/hhy/apppromotion/R09AppStateTest.kt
+  - catalogs/test_cases.csv
+  - docs/03-continuity/change-requests/CR-0252-R09-App推广专项测试与故障证据闭环.md
+  - releases/R09/TASKS.yaml
+  - scripts/run_r09_specialized_matrix.py
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R09PostgresStoreTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R09ServiceTest.java
+  - tests/r09/README.md
+  - tests/r09/req-app-promo-001_happy
+  - tests/r09/req-app-promo-001_idempotent
+  - tests/r09/req-app-promo-001_reject
+  file_count: 12
+  payload:
+    base_commit: 78c1f91bbacd724991292e2634288d6af6ace5d5
+    files:
+    - path: CHANGELOG.md
+      state: FILE
+      size: 98332
+      sha256: 23be89bbb635952986d4308c065fc0257f148c984c83b8ce86a102edf93ac4c4
+    - path: apps/android/feature/app-promotion/src/test/java/cc/orbexa/hhy/apppromotion/R09AppStateTest.kt
+      state: FILE
+      size: 1854
+      sha256: 9e2490307a4557852a7cfb82e8675b11f9c2bd25864952013df893b3d9744946
+    - path: catalogs/test_cases.csv
+      state: FILE
+      size: 227856
+      sha256: 61910da7500e2e1fe2e5b87606f53cb43fb097f98ddbefd3be38ddb79a34d30c
+    - path: docs/03-continuity/change-requests/CR-0252-R09-App推广专项测试与故障证据闭环.md
+      state: FILE
+      size: 4063
+      sha256: f974b0a2df0aa8807833fb2803797516464602f830c36ffdb0ac2f07cbc11bcc
+    - path: releases/R09/TASKS.yaml
+      state: FILE
+      size: 5647
+      sha256: 50f7c721eb560619840060667a957a2bb613b19525b0828eaa509c8c96cd99f1
+    - path: scripts/run_r09_specialized_matrix.py
+      state: FILE
+      size: 8757
+      sha256: bcc74265d28078b90af2496d703254068d1106d4cd0f3bc674b9296b4e7b7926
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/content/R09PostgresStoreTest.java
+      state: FILE
+      size: 5700
+      sha256: 983e8d817d1374cabf38a326e553dde0c69479ca9503e2b66121cb67aba71f40
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/content/R09ServiceTest.java
+      state: FILE
+      size: 15513
+      sha256: bd53b1401412a6d95161671531e87178f3fd5d693c68771b4e494f277b7dd5b5
+    - path: tests/r09/README.md
+      state: FILE
+      size: 696
+      sha256: 11dc593a005c8fc38e51a4b96d8513b31fff71b4787fc102240bb04590d57441
+    - path: tests/r09/req-app-promo-001_happy
+      state: FILE
+      size: 914
+      sha256: 2a150a60069524d2609768c9c257a3c9db8d7c395ce476013fd9308326c7dbb3
+    - path: tests/r09/req-app-promo-001_idempotent
+      state: FILE
+      size: 979
+      sha256: 9475d4f10bfa933495ec13773c89e2e9fe7cbc46811b3f7d205abd7033e10456
+    - path: tests/r09/req-app-promo-001_reject
+      state: FILE
+      size: 1265
+      sha256: 0f10531eb9661dee1065b3edf87a2f707fe5c5baebfc1c20ba8b3f521700d093
+change_classification:
+  other:
+  - CHANGELOG.md
+  - catalogs/test_cases.csv
+  - releases/R09/TASKS.yaml
+  code:
+  - apps/android/feature/app-promotion/src/test/java/cc/orbexa/hhy/apppromotion/R09AppStateTest.kt
+  - scripts/run_r09_specialized_matrix.py
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R09PostgresStoreTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R09ServiceTest.java
+  user_visible:
+  - apps/android/feature/app-promotion/src/test/java/cc/orbexa/hhy/apppromotion/R09AppStateTest.kt
+  continuity:
+  - docs/03-continuity/change-requests/CR-0252-R09-App推广专项测试与故障证据闭环.md
+  tests:
+  - tests/r09/README.md
+  - tests/r09/req-app-promo-001_happy
+  - tests/r09/req-app-promo-001_idempotent
+  - tests/r09/req-app-promo-001_reject
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+- CHANGELOG
+change_requests:
+- CR-0252
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  - tests/r09/**
+  - services/backend/boot/src/test/**
+  - artifacts/reports/R09/**
+  - catalogs/test_cases.csv
+  approved_exceptions:
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R09ServiceTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R09PostgresStoreTest.java
+  - apps/android/feature/app-promotion/src/test/java/cc/orbexa/hhy/apppromotion/R09AppStateTest.kt
+  - scripts/run_r09_specialized_matrix.py
+  - tests/r09/README.md
+  - tests/r09/req-app-promo-001_happy
+  - tests/r09/req-app-promo-001_reject
+  - tests/r09/req-app-promo-001_idempotent
+  - catalogs/test_cases.csv
+  - artifacts/reports/R09/TASK-R09-005-specialized-tests.md
+  - artifacts/validation/r09-test-evidence/backend-java21.log
+  - artifacts/validation/r09-test-evidence/postgresql17.log
+  - artifacts/validation/r09-test-evidence/android-module.log
+  - artifacts/validation/r09-test-evidence/evidence.json
+  - CHANGELOG.md
+  source: story+explicit+approved-cr:CR-0252
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 当前仅执行串行生命周期关闭，后继任务需等待唯一状态转换。
+event_hash: 419a551a2284de802cbe11aa1fbe429f681a9daf11c6435b5e52b92c47a36c37

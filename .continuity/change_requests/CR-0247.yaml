@@ -1,0 +1,68 @@
+protocol_version: '1.0'
+cr_id: CR-0247
+title: 消除UI施工歧义并分离机器收尾与生产验收门禁
+status: CLOSED
+created_at: '2026-07-22T15:41:18Z'
+updated_at: '2026-07-22T15:56:57Z'
+requester_actor_id: codex-root-r09-ui-audit
+approver_actor_id: codex-reviewer-ui-close-simplification
+task_id: TASK-R09-001
+session_id: SES-20260722T153450Z-FAD75B8D
+user_request: 分析并修复历史UI未按效果图施工的规则原因，同时在不降低最终质量的前提下优化每版关闭耗时和冗余。
+reason: 主UI规则与189份逐页规格表述冲突；release-close默认调用生产终态门禁，与异步真机机器收尾语义冲突，导致页面降质和关闭阶段逐项试错。
+original_rule: 现有UI主规则要求效果图强制施工，但全部逐页规格仍写仅用于视觉参考；release-close在统一工作流中直接调用--close-gate，而该门禁实际要求项目所有者真机PASS、Release Tag与生产终态。
+new_rule: 更新现有唯一规则而不新增平行体系：逐页规格明确效果图强制约束建模、层级、布局、组件和视觉样式但不定义业务；历史全局整改使用--historical-through且不追溯阻断R08。release-close固定表示大版本机器收尾，允许owner_physical_test=PENDING但必须候选、当前版本视觉、APK哈希、文档和证据PASS；正式生产验收只能显式使用--production-close-gate。旧--close-gate拒绝执行并提示选择，禁止语义猜测。
+impact_summary: 机械纠正189份逐页规格；文档门禁禁止歧义文本回归；将RELEASE质量计划改用机器收尾门禁并保留显式生产终态门禁；补两阶段正反回归及问题复用记录。
+impact:
+  files:
+  - docs/02-ui/page-specs/**
+  - docs/02-ui/UI参考图使用与开发约束_V1.2.2.md
+  - scripts/check_v123_documentation.py
+  - docs/09-development/统一开发与交付效率规范.md
+  - config/development-workflow.yaml
+  - config/test-impact-map.yaml
+  - scripts/check_release_artifacts.py
+  - scripts/hhy_workflow.py
+  - tests/test_release_close_gate.py
+  - tests/test_hhy_workflow.py
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - CHANGELOG.md
+  pages: []
+  apis: []
+  database: []
+  configuration:
+  - UI visual source wording; release close stage selection
+  ledger: []
+  tests:
+  - legacy page-spec wording rejection; machine close owner-pending PASS; production close owner-pending FAIL; ambiguous close flag rejection;
+    workflow release-close selects machine gate; existing production gate regressions
+  releases:
+  - R09
+  migration_and_compatibility: 不改变业务、API、数据库、UI效果参数、候选频率或真机生产硬门禁。原--close-gate调用必须迁移到--machine-close-gate或--production-close-gate；普通任务与既有缓存机制不变。
+user_confirmation: OWNER_EXPLICIT_ANALYZE_AND_OPTIMIZE_WITHOUT_QUALITY_LOSS
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-22T15:41:45Z'
+  note: 批准更新既有唯一事实源并拆分关闭阶段；必须保留效果图肉眼质量、候选、APK哈希及真机生产验收强度。
+machine_record: .continuity/change_requests/CR-0247.yaml
+document: docs/03-continuity/change-requests/CR-0247-消除UI施工歧义并分离机器收尾与生产验收门禁.md
+decision_log:
+- at: '2026-07-22T15:41:49Z'
+  actor_id: codex-root-r09-ui-audit
+  status: IMPLEMENTING
+  note: 开始机械消歧逐页规格并实现机器/生产关闭门禁分层。
+  session_id: SES-20260722T153450Z-FAD75B8D
+- at: '2026-07-22T15:52:03Z'
+  actor_id: codex-root-r09-ui-audit
+  status: IMPLEMENTED
+  note: 189份逐页规格已消歧并由文档门禁防回归；机器收尾与生产验收已拆分，旧参数拒绝，R08机器门禁实测PASS。
+  session_id: SES-20260722T153450Z-FAD75B8D
+- at: '2026-07-22T15:56:57Z'
+  actor_id: codex-root-r09-ui-audit
+  status: CLOSED
+  note: 实现提交d89d7c0b已通过受影响MODULE、文档、R08机器关闭和两阶段正反回归，关闭CR并进入历史UI审计。
+  session_id: SES-20260722T153450Z-FAD75B8D
+session_ids:
+- SES-20260722T153450Z-FAD75B8D
+implementation_commits:
+- d89d7c0b

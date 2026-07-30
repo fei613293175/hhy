@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "release": "R13",
+  "commit": "ccdb5d39b22498a5d0f5082f8210f9fb59b4a2ae",
+  "apk_file": "hhy-r13-ccdb5d3-debug.apk",
+  "version_name": "1.2.2-debug",
+  "version_code": 10222,
+  "sha256": "ccffcd89e116ee2bab0fb55961126a5bcc0c01bd34375ebf542b78cbcd9daba0",
+  "size_bytes": 21637027,
+  "signing": {
+    "status": "PASS",
+    "profile_id": "hhy-staging-test-v2",
+    "fingerprint": "e32a9d7ff8a209d2903db6383b461b259f0018a698d1f3646e6ed7f1112671be",
+    "stable": true
+  },
+  "local": {
+    "status": "PASS",
+    "artifact_copy": "C:\\Users\\小白\\Desktop\\workspace\\hhy-v1.2.3-handoff\\合伙云Pro_Codex直接开发包_V1.2.3_持续开发无状态接续强制门禁最终版\\artifacts\\apk\\R13\\hhy-r13-ccdb5d3-debug.apk"
+  },
+  "desktop": {
+    "status": "PASS",
+    "path": "C:\\Users\\小白\\Desktop\\hhy-r13-ccdb5d3-debug.apk",
+    "sha256": "ccffcd89e116ee2bab0fb55961126a5bcc0c01bd34375ebf542b78cbcd9daba0"
+  },
+  "route_preflight": {
+    "status": "PASS",
+    "route": "/r13-artifacts/hhy-r13-ccdb5d3-debug.apk",
+    "remote_path": "/www/wwwroot/download.orbexa.cc/r13-artifacts/hhy-r13-ccdb5d3-debug.apk",
+    "checked_at": "2026-07-27T16:05:08.111054Z"
+  },
+  "remote": {
+    "status": "PASS",
+    "sha256": "ccffcd89e116ee2bab0fb55961126a5bcc0c01bd34375ebf542b78cbcd9daba0",
+    "size_bytes": 21637027,
+    "path": "/www/wwwroot/download.orbexa.cc/r13-artifacts/hhy-r13-ccdb5d3-debug.apk",
+    "publish_state": "CREATED"
+  },
+  "https": {
+    "status": "PASS",
+    "http_status": 200,
+    "range_status": 206,
+    "content_type": "application/vnd.android.package-archive",
+    "sha256": "ccffcd89e116ee2bab0fb55961126a5bcc0c01bd34375ebf542b78cbcd9daba0",
+    "size_bytes": 21637027,
+    "verified_at": "2026-07-27T16:08:01.305077Z",
+    "url": "https://download.orbexa.cc/r13-artifacts/hhy-r13-ccdb5d3-debug.apk"
+  },
+  "owner_physical_test": {
+    "status": "PENDING"
+  },
+  "created_at": "2026-07-27T16:07:24.262763Z",
+  "last_verified_at": "2026-07-27T16:08:01.305077Z"
+}

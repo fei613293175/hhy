@@ -8,6 +8,11 @@
 *.pem
 *.key
 secrets/
+.git-credentials
+.netrc
+.ssh/
+*github-token*
+*github_pat*
 # builds
 **/build/
 **/dist/
@@ -37,3 +42,6 @@ logs/
 !.continuity/runtime/.gitkeep
 artifacts/handoff-exports/
 artifacts/exports/
+governance/runtime/*
+!governance/runtime/.gitignore
+.governance-worktrees/

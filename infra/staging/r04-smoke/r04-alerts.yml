@@ -1,0 +1,51 @@
+groups:
+  - name: hhy-r04-media-storage
+    rules:
+      - alert: HhyR04BackendDown
+        expr: up{job="hhy-backend-r04"} == 0
+        for: 15s
+        labels: { severity: critical, release: R04 }
+        annotations:
+          summary: 合伙云 R04 Staging 后端不可用
+      - alert: HhyR04HighServerErrorRate
+        expr: sum(rate(http_server_requests_seconds_count{job="hhy-backend-r04",status=~"5.."}[1m])) / clamp_min(sum(rate(http_server_requests_seconds_count{job="hhy-backend-r04"}[1m])), 0.001) > 0.02
+        for: 1m
+        labels: { severity: warning, release: R04 }
+        annotations:
+          summary: 合伙云 R04 Staging 5xx 比例超过冻结阈值 2%
+      - alert: HhyR04HighP95Latency
+        expr: histogram_quantile(0.95, sum by (le) (rate(http_server_requests_seconds_bucket{job="hhy-backend-r04"}[5m]))) > 0.5
+        for: 2m
+        labels: { severity: warning, release: R04 }
+        annotations:
+          summary: 合伙云 R04 Staging P95 延迟超过冻结阈值 500ms
+      - alert: HhyR04MediaUploadFailureBurst
+        expr: hhy_media_upload_failures_5m{job="hhy-backend-r04"} > 3
+        for: 30s
+        labels: { severity: warning, release: R04 }
+        annotations:
+          summary: 媒体上传五分钟内失败超过 3 次
+      - alert: HhyR04ExpiredUploadBacklog
+        expr: hhy_media_upload_expired_open{job="hhy-backend-r04"} > 0
+        for: 30s
+        labels: { severity: warning, release: R04 }
+        annotations:
+          summary: 存在已过期但未关闭的媒体上传会话
+      - alert: HhyR04MediaDeleteBacklog
+        expr: hhy_media_delete_pending{job="hhy-backend-r04"} > 10
+        for: 5m
+        labels: { severity: warning, release: R04 }
+        annotations:
+          summary: 等待供应商删除的媒体对象超过 10 个
+      - alert: HhyR04StorageMigrationBlocked
+        expr: hhy_storage_migration_blocked{job="hhy-backend-r04"} > 0
+        for: 30s
+        labels: { severity: critical, release: R04 }
+        annotations:
+          summary: 存储迁移任务已暂停或失败
+      - alert: HhyR04BusinessMetricQueryFailure
+        expr: sum(hhy_business_metric_query_failures_total{job="hhy-backend-r04"}) > 0
+        for: 15s
+        labels: { severity: critical, release: R04 }
+        annotations:
+          summary: R04 业务指标查询失败，监控结果不可信

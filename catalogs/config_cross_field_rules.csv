@@ -2,7 +2,7 @@
 CFG-RULE-001,auth,密码长度范围,auth.password.min_length <= auth.password.max_length,保存草稿+提交审批+激活前,阻止保存,密码最小长度不得大于最大长度,边界值、等值、越界、依赖缺失、并发版本冲突均需自动化,security_admin;platform_engineer,FROZEN_V1.2.2
 CFG-RULE-002,auth,会话TTL,auth.session.access_ttl_seconds < auth.session.refresh_ttl_seconds,保存草稿+提交审批+激活前,阻止激活,访问Token有效期必须短于刷新Token,边界值、等值、越界、依赖缺失、并发版本冲突均需自动化,security_admin;platform_engineer,FROZEN_V1.2.2
 CFG-RULE-003,auth,密码锁定,auth.password.max_failures >= 1 AND auth.password.lock_seconds >= 60,保存草稿+提交审批+激活前,阻止保存,失败次数和锁定时间必须有效,边界值、等值、越界、依赖缺失、并发版本冲突均需自动化,security_admin;platform_engineer,FROZEN_V1.2.2
-CFG-RULE-004,auth,安全挑战,auth.security_challenge.ttl_seconds >= 60 AND auth.security_challenge.max_attempts BETWEEN 1 AND 10,保存草稿+提交审批+激活前,阻止保存,安全挑战时效和次数必须在安全范围,边界值、等值、越界、依赖缺失、并发版本冲突均需自动化,security_admin;platform_engineer,FROZEN_V1.2.2
+CFG-RULE-004,auth,安全挑战,auth.security_challenge.ttl_seconds BETWEEN 60 AND 300 AND auth.security_challenge.max_attempts BETWEEN 1 AND 10,保存草稿+提交审批+激活前,阻止保存,安全挑战有效期必须为60至300秒且尝试次数必须为1至10次,边界值、等值、越界、依赖缺失、并发版本冲突均需自动化,security_admin;platform_engineer,FROZEN_V1.2.2
 CFG-RULE-005,auth,设备上限,auth.session.max_active_devices BETWEEN 1 AND 20,保存草稿+提交审批+激活前,阻止保存,活跃设备上限必须为1-20,边界值、等值、越界、依赖缺失、并发版本冲突均需自动化,security_admin;platform_engineer,FROZEN_V1.2.2
 CFG-RULE-006,content,会员发布额度,content.limit.normal.online <= content.limit.month.online <= content.limit.quarter.online <= content.limit.year.online,保存草稿+提交审批+激活前,阻止激活,会员等级发布额度必须单调不下降,边界值、等值、越界、依赖缺失、并发版本冲突均需自动化,content_ops;operations_admin,FROZEN_V1.2.2
 CFG-RULE-007,content,内容长度,content.title.max_chars < content.summary.max_chars < content.body.max_chars,保存草稿+提交审批+激活前,阻止保存,标题、摘要、正文长度应逐级增加,边界值、等值、越界、依赖缺失、并发版本冲突均需自动化,content_ops;operations_admin,FROZEN_V1.2.2

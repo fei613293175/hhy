@@ -1,0 +1,44 @@
+name: Android Historical Visual Request
+
+on:
+  push:
+    paths:
+      - config/android-historical-visual-request.yaml
+
+permissions:
+  contents: read
+
+jobs:
+  validate-request:
+    name: Validate immutable historical visual request
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Bind request to an ancestor source commit
+        shell: bash
+        run: |
+          set -euo pipefail
+          request=config/android-historical-visual-request.yaml
+          grep -Fx 'schema: hhy.android-historical-visual-request/v1' "$request"
+          grep -Fx 'status: REQUESTED' "$request"
+          grep -Fx 'mode: HISTORICAL-UI' "$request"
+          grep -Fx 'candidate: false' "$request"
+          source_commit="$(sed -n 's/^source_commit: //p' "$request")"
+          [[ "$source_commit" =~ ^[0-9a-f]{40}$ ]]
+          git merge-base --is-ancestor "$source_commit" "$GITHUB_SHA"
+
+  historical-visual:
+    name: Run the single offline historical visual batch
+    needs: validate-request
+    permissions:
+      contents: read
+      issues: write
+      id-token: write
+    uses: ./.github/workflows/android-quality-gate.yml
+    with:
+      release: HISTORICAL-UI
+      candidate: false
+      remediation_attempt: 1
+      effective_attempt_limit: 3

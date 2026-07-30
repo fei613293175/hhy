@@ -1,0 +1,299 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260719T234639Z-1D7D7A00-0011
+session_id: SES-20260719T234639Z-1D7D7A00
+sequence: 11
+created_at: '2026-07-20T00:58:08Z'
+summary: CR-0113与CR-0114已绑定实现提交edebf46并标记IMPLEMENTED；主实现已通过pre-commit、commit-msg、pre-push并推送远端。
+next_step: 提交并推送CR实施状态与最终Context检查点；随后按catalogs/ui_visual_acceptance.csv继续处理R05视觉规格和页面重构，未PASS前不关闭R05。
+blockers: []
+decisions: []
+note: ''
+tests:
+- name: REMOTE_COMMIT
+  result: PASS
+  evidence: edebf46c74be5e43c8d19b4d2168fbb3d20ff690
+  note: UI零漂移门禁已推送
+- name: PRE_PUSH_GATE
+  result: PASS
+  evidence: origin/task/TASK-R03-001 137e8f8..edebf46
+  note: 严格预推送门禁0错误
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: edebf46c74be5e43c8d19b4d2168fbb3d20ff690
+  upstream: origin/task/TASK-R03-001
+  ahead: 0
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/change_requests/CR-0113.yaml'
+  - ' M .continuity/change_requests/CR-0114.yaml'
+  - ' M catalogs/change_request_index.csv'
+  - ' M catalogs/session_index.csv'
+  - ' M docs/03-continuity/change-requests/CR-0113-建立全项目效果图视觉建模与UI参数零漂移硬门禁.md'
+  - ' M docs/03-continuity/change-requests/CR-0114-同步UI零漂移规则到AGENTS导出模板.md'
+  recent_commits:
+  - "edebf46c74be5e43c8d19b4d2168fbb3d20ff690\t2026-07-20T08:56:43+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] feat(ui): enforce exact visual\
+    \ acceptance"
+  - "137e8f80a90f6d1b166a94fd3520f078213c7ca5\t2026-07-20T08:23:25+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] chore(continuity): bind R05\
+    \ client acceptance"
+  - "6a40f2b5250565414b6da013fd33be34da9acccd\t2026-07-20T08:22:25+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] docs(identity): backfill R05\
+    \ client acceptance"
+  - "cc3d0165a9fde8ff2a7cb0288a1f912b85121b48\t2026-07-20T08:19:18+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] chore(continuity): bind R05\
+    \ APK evidence commits"
+  - "ddb8277b9e58c46dd80eee1a54f129cd539fd8da\t2026-07-20T08:17:26+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] test(android): archive R05\
+    \ APK delivery evidence"
+  - "3454ff232a66c83c8fd7f6f00dc95d6d078f63ef\t2026-07-20T07:50:41+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] chore(android): freeze R05\
+    \ test APK identity"
+  - "0c3aa012f4bdbfd59f0d591cf99632794fd8c612\t2026-07-20T07:46:13+08:00\tHHY Continuity Bootstrap\t[TASK-P00-001] chore(continuity): refresh\
+    \ clean context before R05-007"
+  - "c0bfa11a1aaf5de798465c72496150df15728cd4\t2026-07-20T07:42:26+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] chore(continuity): close TASK-R05-006\
+    \ as completed"
+project_fingerprint:
+  sha256: dcd571badd598b5ecd773f744fd90366ff0df88f55185e8f90ad958f3dec79c0
+  files:
+  - AGENTS.md
+  - CHANGELOG.md
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+  - apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+  - artifacts/apk/R05/APK_MANIFEST.yaml
+  - catalogs/ui_visual_acceptance.csv
+  - docs/00-baseline/正式商业系统全局硬性开发边界.md
+  - docs/02-ui/UI参考图使用与开发约束_V1.2.2.md
+  - docs/03-continuity/PITFALLS.md
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/change-requests/CR-0109-补充R05-Android-APK版本身份精确文件范围.md
+  - docs/03-continuity/change-requests/CR-0110-补充R05-007-APK交付证据精确路径.md
+  - docs/03-continuity/change-requests/CR-0111-精确补充R05-007-APK交付证据文件.md
+  - docs/03-continuity/change-requests/CR-0112-补充R05-004客户端闭环验收报告.md
+  - docs/03-continuity/change-requests/CR-0113-建立全项目效果图视觉建模与UI参数零漂移硬门禁.md
+  - docs/03-continuity/change-requests/CR-0114-同步UI零漂移规则到AGENTS导出模板.md
+  - releases/PROGRAM_EXECUTION_PLAN.yaml
+  - releases/R05/ACCEPTANCE_MATRIX.csv
+  - releases/R05/PARALLEL_EXECUTION_PLAN.yaml
+  - releases/R05/RELEASE_MANIFEST.yaml
+  - scripts/check_release_artifacts.py
+  - scripts/check_ui_visual_acceptance.py
+  - templates/AGENTS.md
+  - tests/test_release_close_gate.py
+  - tests/test_ui_visual_acceptance.py
+  file_count: 26
+  payload:
+    base_commit: 0c3aa012f4bdbfd59f0d591cf99632794fd8c612
+    files:
+    - path: AGENTS.md
+      state: FILE
+      size: 9362
+      sha256: 19562cfed6437c401ec52fa04441e1ddc5eec95f898fa0a2ce2998062561c452
+    - path: CHANGELOG.md
+      state: FILE
+      size: 46648
+      sha256: a9005190c1c6b56e590dfda61196a561ddc6a45cd12ac0a902562ae21e70d63d
+    - path: apps/android/app/build.gradle.kts
+      state: FILE
+      size: 4705
+      sha256: 585293875546aec00412882992a767d5868646141aa6555e4af2c31af75e2556
+    - path: apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+      state: FILE
+      size: 520
+      sha256: 56ad9169098619cb451d9e18c70a22e9deb909711c12eb8e4c450cc26ccd1f7e
+    - path: apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+      state: FILE
+      size: 1025
+      sha256: 82a529d7e079f7158de5765c00a5e6977683e061419ae0f7defb393f8cfa6918
+    - path: artifacts/apk/R05/APK_MANIFEST.yaml
+      state: FILE
+      size: 673
+      sha256: 04cca7f34fe7bc361af2421ca3a1d1f170dd14c3b06ff39027ea2dbc6488815c
+    - path: catalogs/ui_visual_acceptance.csv
+      state: FILE
+      size: 3413
+      sha256: 2396be3b7848c055cdd5075dc6d73d9d18d83c959b6bc9f22da5738b1504073c
+    - path: docs/00-baseline/正式商业系统全局硬性开发边界.md
+      state: FILE
+      size: 5433
+      sha256: f92247236b56860d83b52608146a4711e9474b44469144337ee68d158417c9d3
+    - path: docs/02-ui/UI参考图使用与开发约束_V1.2.2.md
+      state: FILE
+      size: 5105
+      sha256: 11aaffded8a6594f23cfa2b6b70d8ebc23e24e75232c087862250f3334a1ad09
+    - path: docs/03-continuity/PITFALLS.md
+      state: FILE
+      size: 787
+      sha256: dcfc42ff470a8e6bd53bb1934bb9ef3bae599839e3f5dbf8a2fbfe61074db8ac
+    - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
+      state: FILE
+      size: 51657
+      sha256: 96a60d831d36bd8e115f08ef770625c2bd5e33c5d4cd139b6d136737961a4752
+    - path: docs/03-continuity/change-requests/CR-0109-补充R05-Android-APK版本身份精确文件范围.md
+      state: FILE
+      size: 2321
+      sha256: 2457416391ce2d66a6c8ca9a891d47bd98ed2ddd11fa3303363515287259f70f
+    - path: docs/03-continuity/change-requests/CR-0110-补充R05-007-APK交付证据精确路径.md
+      state: FILE
+      size: 2525
+      sha256: 7ea7a2a77787bbf3e87d0c52f6b265235b50ade68dd07cf74369b51935b7b0bd
+    - path: docs/03-continuity/change-requests/CR-0111-精确补充R05-007-APK交付证据文件.md
+      state: FILE
+      size: 3387
+      sha256: 3d8a27084d1ed3efdee721c872c08c7103386965f3b731cd302bd173e6245f55
+    - path: docs/03-continuity/change-requests/CR-0112-补充R05-004客户端闭环验收报告.md
+      state: FILE
+      size: 2315
+      sha256: c651780b9d58bc75bcbdfb9c0b2cfffd2abee1c91a0b5bab5173688e1cceb7ad
+    - path: docs/03-continuity/change-requests/CR-0113-建立全项目效果图视觉建模与UI参数零漂移硬门禁.md
+      state: FILE
+      size: 4132
+      sha256: 35d4170430a5bf324e4d40b96d1171a90284bf946fec79b4bae432e55e8a6dca
+    - path: docs/03-continuity/change-requests/CR-0114-同步UI零漂移规则到AGENTS导出模板.md
+      state: FILE
+      size: 2229
+      sha256: 62800444cd43d7de1801e4248129767985963a6528307e178e823f96f86a992c
+    - path: releases/PROGRAM_EXECUTION_PLAN.yaml
+      state: FILE
+      size: 35802
+      sha256: 8f07b807f972671d8270db374fad897fb0a36ed4cb3d4f6788dd12cf411dfb46
+    - path: releases/R05/ACCEPTANCE_MATRIX.csv
+      state: FILE
+      size: 814
+      sha256: 98126dbba6a77102d407f9e9de5e95bef5f492330ddc5bc681afc3696edbac1b
+    - path: releases/R05/PARALLEL_EXECUTION_PLAN.yaml
+      state: FILE
+      size: 3785
+      sha256: 38aeca3a61f5a73723627cf4dbf1fcedf5bd759234e99f6bfe6200984b140dda
+    - path: releases/R05/RELEASE_MANIFEST.yaml
+      state: FILE
+      size: 3694
+      sha256: 2762c28dd03057c07f85159066f2b29dc1c804fda0852eed1c98269e77032f4b
+    - path: scripts/check_release_artifacts.py
+      state: FILE
+      size: 17911
+      sha256: 6f616caed952bb75f47fe2c8dbef14912f871321aa713fc48c9a747e44fb9862
+    - path: scripts/check_ui_visual_acceptance.py
+      state: FILE
+      size: 9789
+      sha256: 2a6f8ed9a07cb1e861ad5f072dc80a828bf3c6e6b608be89edd1628ac0de48a7
+    - path: templates/AGENTS.md
+      state: FILE
+      size: 9362
+      sha256: 19562cfed6437c401ec52fa04441e1ddc5eec95f898fa0a2ce2998062561c452
+    - path: tests/test_release_close_gate.py
+      state: FILE
+      size: 14728
+      sha256: 1643a0f60a95e6a4183845784a15ad693b4830090dd10678b704b73b321e3a69
+    - path: tests/test_ui_visual_acceptance.py
+      state: FILE
+      size: 5095
+      sha256: fd87fe92ad70c789c71344069f00379415e0582b51025ba63c90641d8e12d3a1
+change_classification:
+  other:
+  - AGENTS.md
+  - CHANGELOG.md
+  - artifacts/apk/R05/APK_MANIFEST.yaml
+  - catalogs/ui_visual_acceptance.csv
+  - releases/PROGRAM_EXECUTION_PLAN.yaml
+  - releases/R05/ACCEPTANCE_MATRIX.csv
+  - releases/R05/PARALLEL_EXECUTION_PLAN.yaml
+  - templates/AGENTS.md
+  code:
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+  - apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+  - scripts/check_release_artifacts.py
+  - scripts/check_ui_visual_acceptance.py
+  user_visible:
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+  - apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+  - docs/02-ui/UI参考图使用与开发约束_V1.2.2.md
+  source_of_truth:
+  - docs/00-baseline/正式商业系统全局硬性开发边界.md
+  - docs/02-ui/UI参考图使用与开发约束_V1.2.2.md
+  - releases/R05/RELEASE_MANIFEST.yaml
+  continuity:
+  - docs/03-continuity/PITFALLS.md
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/change-requests/CR-0109-补充R05-Android-APK版本身份精确文件范围.md
+  - docs/03-continuity/change-requests/CR-0110-补充R05-007-APK交付证据精确路径.md
+  - docs/03-continuity/change-requests/CR-0111-精确补充R05-007-APK交付证据文件.md
+  - docs/03-continuity/change-requests/CR-0112-补充R05-004客户端闭环验收报告.md
+  - docs/03-continuity/change-requests/CR-0113-建立全项目效果图视觉建模与UI参数零漂移硬门禁.md
+  - docs/03-continuity/change-requests/CR-0114-同步UI零漂移规则到AGENTS导出模板.md
+  tests:
+  - tests/test_release_close_gate.py
+  - tests/test_ui_visual_acceptance.py
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+- APPROVED_CHANGE_REQUEST
+- CHANGELOG
+change_requests:
+- CR-0109
+- CR-0110
+- CR-0111
+- CR-0112
+- CR-0113
+- CR-0114
+scope:
+  allowed_paths:
+  - apps/admin-web/**
+  - services/backend/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - tests/**
+  - docs/**
+  - catalogs/**
+  - releases/**
+  - design/**
+  - scripts/**
+  - CHANGELOG.md
+  approved_exceptions:
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+  - apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+  - artifacts/apk/R05/APK_MANIFEST.yaml
+  - artifacts/validation/r05-apk-delivery/delivery-evidence.json
+  - artifacts/validation/r05-task007-android/apk-badging.txt
+  - artifacts/validation/r05-task007-android/apk-sha256.txt
+  - artifacts/validation/r05-task007-android/apk-signing.txt
+  - artifacts/validation/r05-task007-android/apk-size.txt
+  - artifacts/validation/r05-task007-android/build-evidence.json
+  - artifacts/validation/r05-task007-android/documentation-gate.json
+  - artifacts/validation/r05-task007-android/embedded-api-count.txt
+  - artifacts/validation/r05-task007-android/embedded-placeholder-count.txt
+  - artifacts/validation/r05-task007-android/evidence-sha256.txt
+  - artifacts/validation/r05-task007-android/gradle-build.log
+  - artifacts/validation/r05-task007-android/source-archive-sha256.txt
+  - artifacts/validation/r05-task007-android/toolchain-image-id.txt
+  - artifacts/validation/r05-task007-android/zipalign.txt
+  - artifacts/reports/R05/TASK-R05-007-android-apk.md
+  - artifacts/reports/R05/R05-version-test-guide.md
+  - artifacts/reports/R05/TASK-R05-004-client.md
+  - AGENTS.md
+  - docs/00-baseline/正式商业系统全局硬性开发边界.md
+  - docs/02-ui/UI参考图使用与开发约束_V1.2.2.md
+  - catalogs/ui_visual_acceptance.csv
+  - scripts/check_ui_visual_acceptance.py
+  - scripts/check_release_artifacts.py
+  - tests/test_ui_visual_acceptance.py
+  - tests/test_release_close_gate.py
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/PITFALLS.md
+  - CHANGELOG.md
+  - templates/AGENTS.md
+  source: story+explicit+approved-cr:CR-0109+approved-cr:CR-0111+approved-cr:CR-0112+approved-cr:CR-0113+approved-cr:CR-0114
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 当前仅剩两个CR状态、Context和检查点的原子审计链更新，不存在可独立委托的代码工作包。
+event_hash: cabd4b3eb7e92a5eff2c557e0d7e4778296c9b75106b6eec12cbf6cddd3b43e6

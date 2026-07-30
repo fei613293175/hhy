@@ -1,0 +1,93 @@
+protocol_version: '1.0'
+package_version: 1.2.3
+session_id: SES-20260719T161434Z-47C1FAA4
+status: CLOSED
+actor:
+  id: codex-root
+  kind: AI_OR_HUMAN
+  host: unknown
+release: R05
+task_id: TASK-R05-001
+story_id: STORY-R05-008
+goal: 核验R05单一实名认证2项需求、9个接口、10张相关表、7个页面交互面和8个故事，冻结实施边界并进入数据与领域开发
+started_at: '2026-07-19T16:14:34Z'
+updated_at: '2026-07-19T16:22:49Z'
+takeover_of: null
+change_requests:
+- CR-0089
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions: []
+  source: story+explicit
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  base_commit: 6377d6f2c34841a1a3bde1f1c8e75083dabefa4e
+  start_head: 6377d6f2c34841a1a3bde1f1c8e75083dabefa4e
+  upstream: origin/task/TASK-R03-001
+  initial_worktree_state: CLEAN
+lease:
+  duration_minutes: 240
+  renewed_at: '2026-07-19T16:22:47Z'
+  expires_at: '2026-07-19T20:22:47Z'
+checkpoint_sequence: 3
+latest_checkpoint: .continuity/checkpoints/SES-20260719T161434Z-47C1FAA4/0003.yaml
+session_log: docs/03-continuity/sessions/2026-07/SES-20260719T161434Z-47C1FAA4.md
+next_step: 提交关闭元数据Commit，然后运行pre-push/CI门禁
+context_pack:
+  yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
+  markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
+  manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+  context_hash: 9c30a87c9bf6108c0a56255ba8eaddb38ab792cdd9719b45ab384192dcb183a8
+  generated_at: '2026-07-19T16:22:48Z'
+handoff_bundle: null
+closure:
+  result: COMPLETED
+  summary: R05开发就绪完成：2项需求、9个新增operationId、10张表、7个页面、8个故事、10项测试与R02外部真机发布门禁边界均已冻结并通过文档门禁
+  code_commit: b2ee5df5be707774ec7276a68f45473f94535448
+  next_release: R05
+  next_task: TASK-R05-002
+  blocked_advance: false
+  user_confirmation: null
+  metadata_commit: PENDING
+  push_verification: CI_REQUIRED_AFTER_METADATA_COMMIT
+  started_at: '2026-07-19T16:22:45Z'
+  closure_checkpoint_id: CP-SES-20260719T161434Z-47C1FAA4-0003
+  closed_at: '2026-07-19T16:22:49Z'
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: CR终态、Release入口基线和任务关闭元数据必须由当前主控串行绑定
+closed_at: '2026-07-19T16:22:49Z'

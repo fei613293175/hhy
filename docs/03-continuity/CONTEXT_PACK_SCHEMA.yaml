@@ -5,10 +5,40 @@ required:
 - current_status
 - next_task
 - exact_resume_command
+- parallel_development_policy
+- execution_routing_policy
+- development_runtime
+- repository_transport
 - project_fingerprint
 fixed_values:
   conversation_dependency: PROHIBITED
   source_of_truth: REPOSITORY_ONLY
+parallel_development_policy:
+  authorization.status: PROJECT_OWNER_STANDING_AUTHORIZATION
+  default_delegation_mode: AUTO_WHEN_SAFE_PARALLEL_WORK_EXISTS
+  review_triggers:
+  - TASK_START
+  - SCOPE_CHANGE
+  per_task_user_confirmation_required: false
+  non_delegation_requires_checkpoint_reason: true
+  capability_fallback: RECORD_LIMITATION_AND_DO_NOT_FABRICATE_PARALLEL_EVIDENCE
+  authoritative_active_sessions: 1
+  max_delegated_workers: 3
+execution_routing_policy:
+  COMPLEX_HIGH_RISK: SOL
+  MEDIUM: TERRA
+  LIGHT_MECHANICAL_READ_ONLY: LUNA
+  unavailable_model_fallback_must_be_recorded: true
+development_runtime:
+  default_assumption_when_user_did_not_report_disconnect: CODEX_CONNECTED_TO_EXISTING_PROJECT_CLOUD
+  cloud_alias: obx-test
+  startup_preflight_required: true
+  preflight_failure_action: BLOCK_AND_REPORT
+  local_android_sdk_bootstrap_or_rebuild: FORBIDDEN
+repository_transport:
+  descriptor: config/REPOSITORY_TRANSPORT.yaml
+  contains_secrets: false
+  controlled_restore_and_push_preflight_required: true
 sources:
 - AGENTS.md
 - START_HERE.md
@@ -16,5 +46,8 @@ sources:
 - NEXT_TASK.yaml
 - 当前Release/Task/Story
 - 当前Session/Checkpoint/CR
+- 全项目执行计划与当前Release并行计划
 - 最新Session Log
 - 问题与ADR
+- config/REPOSITORY_TRANSPORT.yaml
+- config/DEVELOPMENT_RUNTIME.yaml

@@ -1,0 +1,70 @@
+protocol_version: '1.0'
+cr_id: CR-0446
+title: 强制Android版本APK与桌面测试文档成对交付
+status: CLOSED
+created_at: '2026-07-28T12:10:24Z'
+updated_at: '2026-07-28T12:52:23Z'
+requester_actor_id: codex-r16-backend-20260728
+approver_actor_id: codex-r14-apk-guide-independent-review-20260728
+task_id: TASK-R16-003
+session_id: SES-20260728T102501Z-3189682B
+user_request: 项目所有者再次确认每个Android版本必须同时交付安装包和相关测试文档，R14此前只有桌面APK导致无法按说明测试
+reason: 现有AGENTS与交付规范已有桌面测试说明规则，但deliver_android_test_apk.py只复制APK，check_release_artifacts.py也只验证仓库内guide路径，存在规则与机器执行脱节；需更新既有事实源和交付门禁，不新增重复规则
+original_rule: AGENTS.md与APK持续交付规范已要求桌面APK和完整测试说明，但交付脚本仅复制APK；Release关闭门禁只验证仓库内test_guide存在，未证明桌面文档已复制并校验。历史格式为APK manifest_schema=2与delivery
+  evidence schema_version=1。
+new_rule: 沿用并强化既有同一交付规则。历史R06-R13仅只读兼容manifest_schema=2+evidence schema_version=1且不改写；所有新prepare及旧记录replace-existing固定生成manifest_schema=3+evidence
+  schema_version=2。manifest_schema=3的APK Manifest.test_guide固定字段source_path、desktop_path、file_name、size_bytes、sha256、status；schema_version=2的Evidence.test_guide使用完全相同字段并额外verified_at。file_name唯一为hhy-<release小写>-<commit前7位>-test-guide.md。Release
+  Manifest android_delivery.test_guide必须等于source_path，android_delivery.desktop_test_guide必须与其余字段逐项一致。
+impact_summary: prepare新增必填--test-guide，只接受仓库根目录内、Release Manifest已声明的真实非空.md/.txt源文件，复制到桌面规范名并真实计算大小/SHA；verify、accept（含重复PASS幂等路径）和release-close逐项核对Release
+  Manifest、APK Manifest、Evidence、仓库源与桌面副本。R14真实复制规范桌面文件后以实测大小/SHA升级记录；缺失、越界、扩展名非法、空文件、改名、复制失败、路径/大小/SHA/status任一漂移均非零。
+impact:
+  files:
+  - AGENTS.md
+  - docs/05-app-build/APK持续交付强制规则_V1.2.2.md
+  - scripts/deliver_android_test_apk.py
+  - scripts/check_release_artifacts.py
+  - tests/test_android_apk_delivery.py
+  - tests/test_release_close_gate.py
+  - artifacts/apk/R14/APK_MANIFEST.yaml
+  - artifacts/validation/r14-apk-delivery/delivery-evidence.json
+  - releases/R14/RELEASE_MANIFEST.yaml
+  - CHANGELOG.md
+  pages: []
+  apis: []
+  database: []
+  configuration:
+  - delivery.desktop_test_guide_required
+  ledger:
+  - CR-0446与R14交付记录
+  tests:
+  - test_android_apk_delivery覆盖新3+2成对复制、仓库声明一致、规范命名、状态/大小/SHA记录，prepare对缺失/越界/非法扩展/空文件非零，verify与accept含幂等路径对源/桌面缺失、改名、大小/SHA漂移非零，replace-existing升级3+2，以及R06-R13
+    2+1兼容；test_release_close_gate覆盖Release/APK/Evidence/source/desktop五方字段或文件缺失、改名、空文件、大小/SHA/status不一致非零；R14桌面规范文件以实际SHA验证。
+  releases:
+  - R14
+  - R16
+  migration_and_compatibility: R06-R13的manifest2/evidence1保持只读兼容且不补写；load/verify/accept继续支持2+1。新prepare与replace-existing只能写3+2。R14使用现有仓库说明artifacts/reports/R14/R14-version-test-guide.md，实际复制为C:\Users\小白\Desktop\hhy-r14-ca57666-test-guide.md，随后从真实文件读取size_bytes和SHA-256写入3+2记录。生产APK、签名、versionCode、四方APK哈希和Owner异步验收不变。
+user_confirmation: 项目所有者已明确要求每个Android版本在桌面同时交付APK和对应测试说明，且授权持续开发。
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-28T12:16:03Z'
+  note: 独立复审确认：本CR仅强化现有APK加桌面测试说明事实源，不新增平行规则；历史R06-R13固定只读兼容manifest2/evidence1，新prepare与replace固定写manifest3/evidence2；规范文件名、仓库声明源、Manifest/Evidence/Release字段及五方一致性已冻结；prepare、verify、accept含幂等路径和release-close的非零失败条件完整；R14要求真实复制并以实测大小和SHA补录，负例矩阵覆盖充分。
+machine_record: .continuity/change_requests/CR-0446.yaml
+document: docs/03-continuity/change-requests/CR-0446-强制Android版本APK与桌面测试文档成对交付.md
+decision_log:
+- at: '2026-07-28T12:16:28Z'
+  actor_id: codex-r16-backend-20260728
+  status: IMPLEMENTING
+  note: 独立审批通过后修复现有APK交付脚本与关闭门禁的桌面测试说明执行缺口。
+  session_id: SES-20260728T102501Z-3189682B
+- at: '2026-07-28T12:52:17Z'
+  actor_id: codex-r16-backend-20260728
+  status: IMPLEMENTED
+  note: APK与桌面测试说明3+2成对交付门禁已实现；45项联合回归与R14真实桌面副本验证PASS，实施提交405b7fea。
+  session_id: SES-20260728T102501Z-3189682B
+- at: '2026-07-28T12:52:23Z'
+  actor_id: codex-r16-backend-20260728
+  status: CLOSED
+  note: R14规范测试说明已更新并与Manifest/Evidence/Release五方一致，桌面交付完整。
+  session_id: SES-20260728T102501Z-3189682B
+session_ids:
+- SES-20260728T102501Z-3189682B

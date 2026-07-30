@@ -1,0 +1,296 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260725T180922Z-D7231210-0006
+session_id: SES-20260725T180922Z-D7231210
+task_id: TASK-R12-006
+story_id: STORY-R12-008
+sequence: 6
+created_at: '2026-07-25T19:13:25Z'
+summary: 冻结artifacts/validation原始字节并修复未推送证据Commit的换行哈希漂移
+next_step: 重建未推送验收证据Commit，验证Commit对象25文件哈希后推送并关闭CR
+blockers: []
+decisions: []
+note: ''
+tests:
+- name: r12-git-index-evidence-sha256
+  result: PASS
+  evidence: GIT_INDEX_EVIDENCE_SHA256_OK:25 files
+  note: Git索引对象逐文件匹配现场SHA256SUMS
+- name: r12-evidence-gitattributes
+  result: PASS
+  evidence: git check-attr:text unset
+  note: 现场证据禁用Git文本换行过滤
+- name: r12-staging-live
+  result: PASS
+  evidence: obx-test:/tmp/hhy-r12-task006-4365e1c7.log:R12_STAGING_ACCEPTANCE_OK
+  note: 现场验收完整通过
+- name: r12-release-artifacts
+  result: PASS
+  evidence: RELEASE_ARTIFACTS_OK 1
+  note: Release元数据有效
+- name: git-diff-check
+  result: PASS
+  evidence: git diff --check
+  note: 无空白错误
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: 34f3497f1fba14bd841afc86ee00d30e2e2a96b6
+  upstream: origin/task/TASK-R03-001
+  ahead: 1
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/sessions/SES-20260725T180922Z-D7231210.yaml'
+  - M  .gitattributes
+  - M  artifacts/validation/r12-task006-staging/trace-headers.txt
+  - ' M catalogs/change_request_index.csv'
+  - ' M catalogs/session_index.csv'
+  - ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
+  - ?? .continuity/change_requests/CR-0338.yaml
+  - ?? docs/03-continuity/change-requests/CR-0338-冻结现场证据原始字节避免Git换行改写.md
+  recent_commits:
+  - "34f3497f1fba14bd841afc86ee00d30e2e2a96b6\t2026-07-26T03:09:49+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] docs(r12): freeze staging\
+    \ acceptance evidence"
+  - "4365e1c790e3792812cfd62bb415e1075eb00149\t2026-07-26T02:54:07+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] fix(r12): validate Flyway\
+    \ V041 output"
+  - "3205187edfec06e5055312a228f4f51ca55db9c4\t2026-07-26T02:46:04+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] fix(r12): isolate staging\
+    \ subnet"
+  - "c4f2b8a2899130a81ea76ca8b5a87c016f56b28d\t2026-07-26T02:29:43+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] feat(r12): add publishing\
+    \ observability staging gate"
+  - "3c166a03e093ce344b147849188fabb38b79ffe9\t2026-07-26T02:04:31+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] chore(continuity): close TASK-R12-005\
+    \ as completed"
+  - "284917c042dbd77c815657a979aa9de06c1a8754\t2026-07-26T02:02:31+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] chore(continuity): close specialized\
+    \ test change"
+  - "04855647f6ee4d8609b709cd4bc98e9baa48d4bc\t2026-07-26T01:59:06+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] chore(r12): normalize evidence\
+    \ line endings"
+  - "1cc414c8bb58ee121c5739890794ccbcda45aee4\t2026-07-26T01:55:51+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] docs(r12): freeze specialized\
+    \ test evidence"
+project_fingerprint:
+  sha256: 7ec9481d3253605e5543cec59912aea818a4ca8816c18cffa9e519e2202d0cbd
+  files:
+  - .gitattributes
+  - CHANGELOG.md
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/change-requests/CR-0334-补齐R12统一发布可观测性与独立Staging验收.md
+  - docs/03-continuity/change-requests/CR-0335-修正R12隔离Staging子网与R09冲突.md
+  - docs/03-continuity/change-requests/CR-0336-登记R12隔离子网冲突问题与回归.md
+  - docs/03-continuity/change-requests/CR-0337-修正R12现场验收Flyway-V041格式误判.md
+  - docs/03-continuity/change-requests/CR-0338-冻结现场证据原始字节避免Git换行改写.md
+  - docs/07-operations/DEPLOYMENT_RUNBOOK.md
+  - docs/07-operations/ROLLBACK_RUNBOOK.md
+  - infra/staging/r12-smoke/alertmanager.yml
+  - infra/staging/r12-smoke/docker-compose.yml
+  - infra/staging/r12-smoke/nginx.conf
+  - infra/staging/r12-smoke/prometheus.yml
+  - infra/staging/r12-smoke/r12-alerts.yml
+  - releases/R12/ACCEPTANCE_MATRIX.csv
+  - releases/R12/RELEASE_MANIFEST.yaml
+  - scripts/check_r12_observability.py
+  - scripts/run_r12_staging_acceptance.sh
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinder.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinderTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/ObservabilityEndpointsTest.java
+  - tests/test_r12_staging_acceptance.py
+  file_count: 23
+  payload:
+    base_commit: 3c166a03e093ce344b147849188fabb38b79ffe9
+    files:
+    - path: .gitattributes
+      state: FILE
+      size: 475
+      sha256: 6b603b99a8ce7d0bb688464f702210fca78970044e2b00460693b2eb155e5261
+    - path: CHANGELOG.md
+      state: FILE
+      size: 141865
+      sha256: 08693a23f19fa77583c9bae601314a1a17536d8b7f4903dd3909d0fcdba3e946
+    - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
+      state: FILE
+      size: 159009
+      sha256: de84cef6a1e7810f94a0d66633b2ee18d45f5d0472ccceab97458436c01be03b
+    - path: docs/03-continuity/change-requests/CR-0334-补齐R12统一发布可观测性与独立Staging验收.md
+      state: FILE
+      size: 3736
+      sha256: 3aea983358fbdd0780796cc9ae588a4731a13f336ee1d2161cc0d6f7c4084299
+    - path: docs/03-continuity/change-requests/CR-0335-修正R12隔离Staging子网与R09冲突.md
+      state: FILE
+      size: 2621
+      sha256: 00d80bf8d4b5b74f60e3b76932e742c49e68df2488c589be0e2b96fb36439be8
+    - path: docs/03-continuity/change-requests/CR-0336-登记R12隔离子网冲突问题与回归.md
+      state: FILE
+      size: 2203
+      sha256: e81df558f3f887c09e5e67d5533aeffe80e63dac104b5e37d146cc50bb1e88d7
+    - path: docs/03-continuity/change-requests/CR-0337-修正R12现场验收Flyway-V041格式误判.md
+      state: FILE
+      size: 2475
+      sha256: ea2b5b82f24b234e4b56febd299a6bdb3b91cc3dc7d692a2d231143eb10743b4
+    - path: docs/03-continuity/change-requests/CR-0338-冻结现场证据原始字节避免Git换行改写.md
+      state: FILE
+      size: 2211
+      sha256: 4dc6600227d0579362ca0b219d1fb0e10f1b890211bb7c128e64ff4c71edb131
+    - path: docs/07-operations/DEPLOYMENT_RUNBOOK.md
+      state: FILE
+      size: 43837
+      sha256: 2456ff1ccc9835477d59b019d4ecde86c6cbe85194894156d279ed94936edae2
+    - path: docs/07-operations/ROLLBACK_RUNBOOK.md
+      state: FILE
+      size: 16472
+      sha256: df8b5c87a0b723cad03f4ce511907ecd6e103753322cfb304a907e5531d7bb4d
+    - path: infra/staging/r12-smoke/alertmanager.yml
+      state: FILE
+      size: 278
+      sha256: 563765925b55f0d9985b504b4d235328a8036dbc3a79e72ce990912f024a6de2
+    - path: infra/staging/r12-smoke/docker-compose.yml
+      state: FILE
+      size: 4463
+      sha256: cca42f929de6d2b98fd287414a35e990a9e64f5363c1d7cfd1cce8f0e4bb7575
+    - path: infra/staging/r12-smoke/nginx.conf
+      state: FILE
+      size: 319
+      sha256: 23e8717a38389b1ecbdff55563f55a2d9b99519439398a35d72006fa8f7876fb
+    - path: infra/staging/r12-smoke/prometheus.yml
+      state: FILE
+      size: 402
+      sha256: 882e908064e07a37dd803189472649acfaeaa50a492e70efaa7b6e6f08448f77
+    - path: infra/staging/r12-smoke/r12-alerts.yml
+      state: FILE
+      size: 2037
+      sha256: 93102e0b5f5baf293814ea556529834318dffbcfd46bc3a4a01111bc94322415
+    - path: releases/R12/ACCEPTANCE_MATRIX.csv
+      state: FILE
+      size: 704
+      sha256: 0fa8c9e830600bb02b4b6b729bc6d400dcc14fa1a2e7e4c5fb3f83d46c01abca
+    - path: releases/R12/RELEASE_MANIFEST.yaml
+      state: FILE
+      size: 10371
+      sha256: 631ca3a1caf672af5f37b0cdb6502702ee8287997ff2aa9d1b210b58810de381
+    - path: scripts/check_r12_observability.py
+      state: FILE
+      size: 5693
+      sha256: ee2049bbe9af6b568e974560c6363b6986bebcdf00155994e4b6dd2b9992e220
+    - path: scripts/run_r12_staging_acceptance.sh
+      state: FILE
+      size: 17494
+      sha256: e6f14ac72443d090300898fbeb5b75498d8b6287c6a329ab8affea6a6d085eec
+    - path: services/backend/boot/src/main/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinder.java
+      state: FILE
+      size: 30778
+      sha256: 240e4704a36dd7367fe7ef304627efc0c3c180116824d06fbfa46815fa6a2043
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinderTest.java
+      state: FILE
+      size: 22742
+      sha256: 3ebfaebd5d574334d5dab547feb543c77c779211a45878c6f9f2ce28d6c6423b
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/ObservabilityEndpointsTest.java
+      state: FILE
+      size: 13621
+      sha256: 710872ac05f6ec3829b5abdeab985bef2c8337b95dd16f18c3eb1358778460d6
+    - path: tests/test_r12_staging_acceptance.py
+      state: FILE
+      size: 2814
+      sha256: 860bbd0db32e61e3cafb7efed166624970caf7d8bb5f13e760cbabe1b96d7234
+change_classification:
+  other:
+  - .gitattributes
+  - CHANGELOG.md
+  - docs/07-operations/DEPLOYMENT_RUNBOOK.md
+  - docs/07-operations/ROLLBACK_RUNBOOK.md
+  - releases/R12/ACCEPTANCE_MATRIX.csv
+  continuity:
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/change-requests/CR-0334-补齐R12统一发布可观测性与独立Staging验收.md
+  - docs/03-continuity/change-requests/CR-0335-修正R12隔离Staging子网与R09冲突.md
+  - docs/03-continuity/change-requests/CR-0336-登记R12隔离子网冲突问题与回归.md
+  - docs/03-continuity/change-requests/CR-0337-修正R12现场验收Flyway-V041格式误判.md
+  - docs/03-continuity/change-requests/CR-0338-冻结现场证据原始字节避免Git换行改写.md
+  infrastructure:
+  - infra/staging/r12-smoke/alertmanager.yml
+  - infra/staging/r12-smoke/docker-compose.yml
+  - infra/staging/r12-smoke/nginx.conf
+  - infra/staging/r12-smoke/prometheus.yml
+  - infra/staging/r12-smoke/r12-alerts.yml
+  source_of_truth:
+  - releases/R12/RELEASE_MANIFEST.yaml
+  code:
+  - scripts/check_r12_observability.py
+  - scripts/run_r12_staging_acceptance.sh
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinder.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinderTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/ObservabilityEndpointsTest.java
+  tests:
+  - tests/test_r12_staging_acceptance.py
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+- APPROVED_CHANGE_REQUEST
+change_requests:
+- CR-0334
+- CR-0335
+- CR-0336
+- CR-0337
+- CR-0338
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions:
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinder.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinderTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/ObservabilityEndpointsTest.java
+  - infra/staging/r12-smoke/docker-compose.yml
+  - infra/staging/r12-smoke/prometheus.yml
+  - infra/staging/r12-smoke/alertmanager.yml
+  - infra/staging/r12-smoke/nginx.conf
+  - infra/staging/r12-smoke/r12-alerts.yml
+  - scripts/check_r12_observability.py
+  - scripts/run_r12_staging_acceptance.sh
+  - tests/test_r12_staging_acceptance.py
+  - docs/07-operations/DEPLOYMENT_RUNBOOK.md
+  - docs/07-operations/ROLLBACK_RUNBOOK.md
+  - artifacts/reports/R12/TASK-R12-006-staging.md
+  - artifacts/validation/r12-task006-staging
+  - releases/R12/ACCEPTANCE_MATRIX.csv
+  - releases/R12/RELEASE_MANIFEST.yaml
+  - CHANGELOG.md
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - .gitattributes
+  source: story+explicit+approved-cr:CR-0334+approved-cr:CR-0335+approved-cr:CR-0336+approved-cr:CR-0337+approved-cr:CR-0338
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 未推送Commit重建、索引字节校验与连续性检查点必须在当前唯一会话串行完成
+event_hash: 1127b0ff11783c1db040c2e4a731ece65f765be871764c258db3a37ed0509151

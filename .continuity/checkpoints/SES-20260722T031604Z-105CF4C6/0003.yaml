@@ -1,0 +1,329 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260722T031604Z-105CF4C6-0003
+session_id: SES-20260722T031604Z-105CF4C6
+sequence: 3
+created_at: '2026-07-22T03:57:41Z'
+summary: R08-004 Android首轮MODULE在298544b5通过；补齐真实媒体上传和FLAG_SECURE；H5公开项目分享、后台PROJECT复用回归及三页精确视觉合同已实现。
+next_step: 提交推送R08-004第二批实现，在obx-test固定镜像复验媒体接入后的Android受影响MODULE；随后关闭对应CR并进入R02-R07历史视觉回补。
+blockers: []
+decisions: []
+note: ''
+tests:
+- name: android-first-module
+  result: PASS
+  evidence: /tmp/hhy-r08-004-android-298544b5.log sha256=1ff3796419eb1faf36ac711ac34bb10875191b552e8ca4f409e8e7c499c22b5f
+  note: 固定镜像88 tasks BUILD SUCCESSFUL
+- name: h5-unit
+  result: PASS
+  evidence: pnpm --filter @hhy/h5 test
+  note: 6 files 27 tests
+- name: h5-build
+  result: PASS
+  evidence: pnpm --filter @hhy/h5 build
+  note: vue-tsc and vite pass
+- name: admin-reuse
+  result: PASS
+  evidence: pnpm --filter @hhy/admin-web test
+  note: 16 files 88 tests
+- name: r08-visual-catalog
+  result: PASS
+  evidence: python scripts/check_ui_visual_acceptance.py --release R08 --catalog-only
+  note: 3 pages
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: 298544b5688ff43b87a85992a572a23eada720f5
+  upstream: origin/task/TASK-R03-001
+  ahead: 0
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/sessions/SES-20260722T031604Z-105CF4C6.yaml'
+  - ' M CHANGELOG.md'
+  - ' M apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt'
+  - ' M apps/android/feature/project/build.gradle.kts'
+  - ' M apps/android/feature/project/src/main/java/cc/orbexa/hhy/project/R08ProjectScreens.kt'
+  - ' M apps/android/feature/project/src/main/java/cc/orbexa/hhy/project/R08ProjectState.kt'
+  - ' M apps/h5/src/styles.css'
+  - ' M apps/h5/src/views/PublicPage.vue'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+  - ' M catalogs/change_request_index.csv'
+  - ' M catalogs/session_index.csv'
+  - ' M catalogs/ui_visual_acceptance.csv'
+  - ?? .continuity/change_requests/CR-0218.yaml
+  - ?? .continuity/change_requests/CR-0219.yaml
+  - ?? apps/admin-web/src/r08ProjectReuse.test.ts
+  - ?? apps/h5/src/services/publicShare.test.ts
+  - ?? apps/h5/src/services/publicShare.ts
+  - ?? artifacts/reports/R08/TASK-R08-004-client.md
+  - ?? design/R08-UI-FROZEN/specs/SCR-DETAIL-001.md
+  - ?? design/R08-UI-FROZEN/specs/SCR-LIST-001.md
+  - ?? design/R08-UI-FROZEN/specs/SCR-PUB-002.md
+  - ?? docs/03-continuity/change-requests/CR-0218-补齐R08项目公开分享H5并证明后台复用.md
+  - ?? docs/03-continuity/change-requests/CR-0219-登记R08三页精确视觉施工合同.md
+  recent_commits:
+  - "298544b5688ff43b87a85992a572a23eada720f5\t2026-07-22T11:33:27+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] feat(android): implement project\
+    \ client flow"
+  - "3ed5231316ec359c0cedeb09393b08c0479f10de\t2026-07-22T11:15:37+08:00\tHHY Continuity Bootstrap\t[TASK-P00-001] chore(continuity): refresh\
+    \ clean context before R08-004"
+  - "3e32e1c90fa3accaf27d27fc4566a2eba1642dcd\t2026-07-22T11:13:29+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] chore(continuity): close TASK-R08-003\
+    \ as completed"
+  - "d7b5b84b1d73ddd78e43faa82e29b6d0370f992d\t2026-07-22T11:12:42+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] chore(r08): close project\
+    \ backend change requests"
+  - "0f0257dc7694be5555a1f71dab2ea452d616840a\t2026-07-22T11:10:54+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] docs(r08): record project\
+    \ backend module evidence"
+  - "e312321c8e0664493aec04dd232552eb42ce6e18\t2026-07-22T11:05:42+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] test(r08): satisfy verified\
+    \ identity fixture invariants"
+  - "906548df4399f6f9272e61ae442a566cd91c44cb\t2026-07-22T10:53:08+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] chore(continuity): close rule\
+    \ readiness changes"
+  - "f483640ba0e16b2601cabbb643820d4273cb07ac\t2026-07-22T10:51:47+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] chore(continuity): enforce\
+    \ rule readiness and UI fidelity"
+project_fingerprint:
+  sha256: 0064115c9c64b817ada9340d7e8331a8357f533b77e9df9ca4eb384a0c6167f1
+  files:
+  - CHANGELOG.md
+  - apps/admin-web/src/r08ProjectReuse.test.ts
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR08Api.kt
+  - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/R08ApiModelsSerializationTest.kt
+  - apps/android/feature/project/build.gradle.kts
+  - apps/android/feature/project/src/main/java/cc/orbexa/hhy/project/R08ProjectScreens.kt
+  - apps/android/feature/project/src/main/java/cc/orbexa/hhy/project/R08ProjectState.kt
+  - apps/android/feature/project/src/test/java/cc/orbexa/hhy/project/R08ProjectStateTest.kt
+  - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+  - apps/android/settings.gradle.kts
+  - apps/h5/src/services/publicShare.test.ts
+  - apps/h5/src/services/publicShare.ts
+  - apps/h5/src/styles.css
+  - apps/h5/src/views/PublicPage.vue
+  - catalogs/ui_visual_acceptance.csv
+  - design/R08-UI-FROZEN/specs/SCR-DETAIL-001.md
+  - design/R08-UI-FROZEN/specs/SCR-LIST-001.md
+  - design/R08-UI-FROZEN/specs/SCR-PUB-002.md
+  - docs/03-continuity/change-requests/CR-0217-实现R08项目推广客户端并复用既有H5后台能力.md
+  - docs/03-continuity/change-requests/CR-0218-补齐R08项目公开分享H5并证明后台复用.md
+  - docs/03-continuity/change-requests/CR-0219-登记R08三页精确视觉施工合同.md
+  file_count: 23
+  payload:
+    base_commit: 3ed5231316ec359c0cedeb09393b08c0479f10de
+    files:
+    - path: CHANGELOG.md
+      state: FILE
+      size: 76838
+      sha256: 4e8ff14cc5adc770c85e9d6e40f8fee7dd950f6f7a2a63b698a9c841057f4037
+    - path: apps/admin-web/src/r08ProjectReuse.test.ts
+      state: FILE
+      size: 2856
+      sha256: 9a78e6a96a6035205c181a1b95dbac609de1a028bd8d251ce775b00dc4d71eef
+    - path: apps/android/app/build.gradle.kts
+      state: FILE
+      size: 5079
+      sha256: ae58bff38c7465a5121913aa24c33884b8821a5eeae1c6032bb203524ae6d62f
+    - path: apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+      state: FILE
+      size: 16615
+      sha256: 54107ca3afce10d90c99ab749b2cc5e4093e846ca7fe157f4f3dda848b92b73a
+    - path: apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR08Api.kt
+      state: FILE
+      size: 11659
+      sha256: b291a014318b193bad41efde0b3d6274f2cf49be71469e1396a26f81f0e0c7c1
+    - path: apps/android/core/network/src/test/java/cc/orbexa/hhy/network/R08ApiModelsSerializationTest.kt
+      state: FILE
+      size: 2147
+      sha256: 063d1ca102a316d3ac598058326e97d41dc99b7f8c663b780e53f357f360fc3e
+    - path: apps/android/feature/project/build.gradle.kts
+      state: FILE
+      size: 1156
+      sha256: edff6721118801b4946090c5bd8f2bd138efff77d58814823af6a519ddb23225
+    - path: apps/android/feature/project/src/main/java/cc/orbexa/hhy/project/R08ProjectScreens.kt
+      state: FILE
+      size: 34155
+      sha256: db8997266f0537250f8ba0ebbc902bbd771a764bb5aff755867835d0b019e922
+    - path: apps/android/feature/project/src/main/java/cc/orbexa/hhy/project/R08ProjectState.kt
+      state: FILE
+      size: 3381
+      sha256: c239fc5719028a82b7c22aa60941cc5cb5d4011fc8db13636f9299efcab685f3
+    - path: apps/android/feature/project/src/test/java/cc/orbexa/hhy/project/R08ProjectStateTest.kt
+      state: FILE
+      size: 1115
+      sha256: 09e7fd2a8b5de8ac7049fc4c5218a1be92b4b5234dcde45cc0ef72f744ea2007
+    - path: apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+      state: FILE
+      size: 9770
+      sha256: a07811407e2ddeb57b3feed0dfcbd96e2e787788943b2cfc1699ccd1d79b731a
+    - path: apps/android/settings.gradle.kts
+      state: FILE
+      size: 578
+      sha256: 863db7e381512d3731a9f96d79c9a0a5706a28252fe56e3035c4bebd00d6c910
+    - path: apps/h5/src/services/publicShare.test.ts
+      state: FILE
+      size: 4183
+      sha256: 23d0b2f082e83179480ad07e5d87171e954be90c7ecb2c8d569c70f3c6aaf11d
+    - path: apps/h5/src/services/publicShare.ts
+      state: FILE
+      size: 2857
+      sha256: ea91e45c4c66591430162226a56461b8e12d716e305b67215c05900eda2d644e
+    - path: apps/h5/src/styles.css
+      state: FILE
+      size: 14126
+      sha256: 219449fee06ca3af0f10c511f4e185f58afbb0410a92b00e71b7c991d0bf2b95
+    - path: apps/h5/src/views/PublicPage.vue
+      state: FILE
+      size: 5934
+      sha256: e066fbbe08b64a4dcf2a420229031de3697158e2054d4be94e9224c0708a861d
+    - path: catalogs/ui_visual_acceptance.csv
+      state: FILE
+      size: 14650
+      sha256: c7a1a3e0d9d7b8ab1f25bfd59445921cf3e3a4efe82d18326d6d0446ab743163
+    - path: design/R08-UI-FROZEN/specs/SCR-DETAIL-001.md
+      state: FILE
+      size: 1887
+      sha256: c9f2963a814fe805a54baf9b94b7109419f60861db473c54157cafead426f8d0
+    - path: design/R08-UI-FROZEN/specs/SCR-LIST-001.md
+      state: FILE
+      size: 1624
+      sha256: 5b1890b8f3d05a00f72026fee368790600d5b26a5c2f10d5b835dd0e03a9e563
+    - path: design/R08-UI-FROZEN/specs/SCR-PUB-002.md
+      state: FILE
+      size: 2350
+      sha256: 2d0833de83145fa287bf5f9edc4f6a41b09416bebfac7ee40b6bdc2343bb174d
+    - path: docs/03-continuity/change-requests/CR-0217-实现R08项目推广客户端并复用既有H5后台能力.md
+      state: FILE
+      size: 4567
+      sha256: ca79f5f885b2571b5adaecbc4d425162769ffb72f8e989622972e7645629c834
+    - path: docs/03-continuity/change-requests/CR-0218-补齐R08项目公开分享H5并证明后台复用.md
+      state: FILE
+      size: 3276
+      sha256: b26d29fff2a2bb2ae9f5560c787c583d616d9b4d8012b067c8746a0c93372557
+    - path: docs/03-continuity/change-requests/CR-0219-登记R08三页精确视觉施工合同.md
+      state: FILE
+      size: 3075
+      sha256: 77b803668de071ca1eb4c19d47fd4aefce7d1c6c0a96390936d85358da671de2
+change_classification:
+  other:
+  - CHANGELOG.md
+  - catalogs/ui_visual_acceptance.csv
+  - design/R08-UI-FROZEN/specs/SCR-DETAIL-001.md
+  - design/R08-UI-FROZEN/specs/SCR-LIST-001.md
+  - design/R08-UI-FROZEN/specs/SCR-PUB-002.md
+  code:
+  - apps/admin-web/src/r08ProjectReuse.test.ts
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR08Api.kt
+  - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/R08ApiModelsSerializationTest.kt
+  - apps/android/feature/project/build.gradle.kts
+  - apps/android/feature/project/src/main/java/cc/orbexa/hhy/project/R08ProjectScreens.kt
+  - apps/android/feature/project/src/main/java/cc/orbexa/hhy/project/R08ProjectState.kt
+  - apps/android/feature/project/src/test/java/cc/orbexa/hhy/project/R08ProjectStateTest.kt
+  - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+  - apps/android/settings.gradle.kts
+  - apps/h5/src/services/publicShare.test.ts
+  - apps/h5/src/services/publicShare.ts
+  - apps/h5/src/styles.css
+  - apps/h5/src/views/PublicPage.vue
+  user_visible:
+  - apps/admin-web/src/r08ProjectReuse.test.ts
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR08Api.kt
+  - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/R08ApiModelsSerializationTest.kt
+  - apps/android/feature/project/build.gradle.kts
+  - apps/android/feature/project/src/main/java/cc/orbexa/hhy/project/R08ProjectScreens.kt
+  - apps/android/feature/project/src/main/java/cc/orbexa/hhy/project/R08ProjectState.kt
+  - apps/android/feature/project/src/test/java/cc/orbexa/hhy/project/R08ProjectStateTest.kt
+  - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+  - apps/android/settings.gradle.kts
+  - apps/h5/src/services/publicShare.test.ts
+  - apps/h5/src/services/publicShare.ts
+  - apps/h5/src/styles.css
+  - apps/h5/src/views/PublicPage.vue
+  continuity:
+  - docs/03-continuity/change-requests/CR-0217-实现R08项目推广客户端并复用既有H5后台能力.md
+  - docs/03-continuity/change-requests/CR-0218-补齐R08项目公开分享H5并证明后台复用.md
+  - docs/03-continuity/change-requests/CR-0219-登记R08三页精确视觉施工合同.md
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+- CHANGELOG
+change_requests:
+- CR-0217
+- CR-0218
+- CR-0219
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions:
+  - apps/android/settings.gradle.kts
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+  - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR08Api.kt
+  - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/R08ApiModelsSerializationTest.kt
+  - apps/android/feature/project/build.gradle.kts
+  - apps/android/feature/project/src/main/AndroidManifest.xml
+  - apps/android/feature/project/src/main/java/cc/orbexa/hhy/project/R08ProjectScreens.kt
+  - apps/android/feature/project/src/main/java/cc/orbexa/hhy/project/R08ProjectState.kt
+  - apps/android/feature/project/src/test/java/cc/orbexa/hhy/project/R08ProjectStateTest.kt
+  - apps/h5/src/views/PublicPage.vue
+  - apps/h5/src/router.ts
+  - apps/admin-web/src/views/AdminContentListPage.vue
+  - apps/admin-web/src/views/AdminContentDetailPage.vue
+  - catalogs/ui_visual_acceptance.csv
+  - catalogs/ui_visual_quality_reviews.csv
+  - catalogs/ui_visual_remediation.csv
+  - artifacts/reports/R08/TASK-R08-004-client.md
+  - CHANGELOG.md
+  - apps/h5/src/services/publicShare.ts
+  - apps/h5/src/services/publicShare.test.ts
+  - apps/h5/src/styles.css
+  - apps/admin-web/src/r08ProjectReuse.test.ts
+  - design/R08-UI-FROZEN/specs/SCR-LIST-001.md
+  - design/R08-UI-FROZEN/specs/SCR-DETAIL-001.md
+  - design/R08-UI-FROZEN/specs/SCR-PUB-002.md
+  source: story+explicit+approved-cr:CR-0217+approved-cr:CR-0218+approved-cr:CR-0219
+parallel_execution:
+  assessment: CAPABILITY_UNAVAILABLE
+  delegated_workers: 0
+  workers: []
+  reason: 当前系统规则禁止在用户未明确要求子代理时委托。
+event_hash: d3576e6b1bb17866ae8a7e3a63c70d6f72facf4ffc17fdcf5171d5999731318c

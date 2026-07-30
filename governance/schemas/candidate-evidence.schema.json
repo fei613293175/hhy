@@ -1,0 +1,103 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "hhy.candidate-evidence/v5.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "status",
+    "release",
+    "commit",
+    "gate_report",
+    "apk",
+    "screenshots"
+  ],
+  "properties": {
+    "schema": {
+      "const": "hhy.candidate-evidence/v5.0"
+    },
+    "status": {
+      "const": "PASS"
+    },
+    "release": {
+      "type": "string",
+      "pattern": "^R(?:0[1-9]|[12][0-9]|3[0-2])$"
+    },
+    "commit": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{40}$"
+    },
+    "gate_report": {
+      "type": "string",
+      "minLength": 1
+    },
+    "apk": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "sha256",
+        "source_commit",
+        "version_code",
+        "version_name",
+        "signing_sha256"
+      ],
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-fA-F]{64}$"
+        },
+        "source_commit": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{40}$"
+        },
+        "version_code": {
+          "oneOf": [
+            {
+              "type": "integer",
+              "minimum": 1
+            },
+            {
+              "type": "string",
+              "pattern": "^[1-9][0-9]*$"
+            }
+          ]
+        },
+        "version_name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "signing_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-fA-F]{64}$"
+        }
+      }
+    },
+    "screenshots": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_commit",
+        "paths"
+      ],
+      "properties": {
+        "source_commit": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{40}$"
+        },
+        "paths": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    }
+  }
+}

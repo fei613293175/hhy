@@ -1,0 +1,94 @@
+protocol_version: '1.0'
+package_version: 1.2.3
+session_id: SES-20260721T082026Z-E6763DFE
+status: CLOSED
+actor:
+  id: codex-root
+  kind: AI_OR_HUMAN
+  host: unknown
+release: R07
+task_id: TASK-R07-001
+story_id: STORY-R07-005
+goal: 核验R07全部DoR和事实源，领取故事并建立搜索、发布者主页与联系方式保护的可执行变更基线
+started_at: '2026-07-21T08:20:26Z'
+updated_at: '2026-07-21T08:56:08Z'
+takeover_of: null
+change_requests:
+- CR-0174
+- CR-0175
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions: []
+  source: story+explicit
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  base_commit: cb9c1490316e1a9f8f7660e57732b0391b3e8417
+  start_head: cb9c1490316e1a9f8f7660e57732b0391b3e8417
+  upstream: origin/task/TASK-R03-001
+  initial_worktree_state: CLEAN
+lease:
+  duration_minutes: 240
+  renewed_at: '2026-07-21T08:56:05Z'
+  expires_at: '2026-07-21T12:56:05Z'
+checkpoint_sequence: 5
+latest_checkpoint: .continuity/checkpoints/SES-20260721T082026Z-E6763DFE/0005.yaml
+session_log: docs/03-continuity/sessions/2026-07/SES-20260721T082026Z-E6763DFE.md
+next_step: 提交关闭元数据Commit，然后运行pre-push/CI门禁
+context_pack:
+  yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
+  markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
+  manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+  context_hash: 329f63bbe2b67683bb4ecac81047865a8266f7ba67cc1d43247ac45fb136be49
+  generated_at: '2026-07-21T08:56:07Z'
+handoff_bundle: null
+closure:
+  result: COMPLETED
+  summary: R07开发就绪核验、五个故事领取、实施入口、并行计划与连续性证据全部PASS，允许进入数据迁移与领域不变量
+  code_commit: cac604cf6663facb0200b187d20a3ba6f9a1ca4e
+  next_release: R07
+  next_task: TASK-R07-002
+  blocked_advance: false
+  user_confirmation: null
+  metadata_commit: PENDING
+  push_verification: CI_REQUIRED_AFTER_METADATA_COMMIT
+  started_at: '2026-07-21T08:56:02Z'
+  closure_checkpoint_id: CP-SES-20260721T082026Z-E6763DFE-0005
+  closed_at: '2026-07-21T08:56:08Z'
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: CR状态机和远端事实提交绑定是单一连续性元数据事务，由主控串行完成
+closed_at: '2026-07-21T08:56:08Z'

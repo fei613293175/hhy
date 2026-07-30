@@ -1,0 +1,7 @@
+{
+  "schema": "hhy.r01.test-adapter/v1",
+  "test_id": "TST-ADMIN_SECURITY_001-HAPPY",
+  "central_runner": "scripts/run_r01_test_matrix.py",
+  "assignment_source": "external",
+  "runner": "r01-backend-maven-pg17-real-api"
+}

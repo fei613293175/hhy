@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from hashlib import sha256
 from pathlib import Path
+import csv
 import json
 import os
 import shutil
@@ -16,6 +17,13 @@ import yaml
 
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / "scripts"))
+from continuity import (  # noqa: E402
+    ContinuityError,
+    prior_async_owner_blocked_suffix,
+    release_has_async_owner_gate,
+    validate_independent_release_start,
+)
 ZERO_HASH = "0" * 64
 ACTOR = "cross-release-close-test"
 
@@ -125,6 +133,369 @@ def repository_snapshot(root: Path) -> dict[str, str]:
 
 
 class CrossReleaseCloseTest(unittest.TestCase):
+    def test_repository_r02_machine_backfill_preserves_owner_pending_identity(self) -> None:
+        manifest = yaml.safe_load(
+            (ROOT / "releases/R02/RELEASE_MANIFEST.yaml").read_text(encoding="utf-8")
+        )
+        apk = yaml.safe_load(
+            (ROOT / "artifacts/apk/R02/APK_MANIFEST.yaml").read_text(encoding="utf-8")
+        )
+        evidence = json.loads(
+            (ROOT / "artifacts/validation/r02-apk-delivery/delivery-evidence.json")
+            .read_text(encoding="utf-8")
+        )
+        delivery = manifest["android_delivery"]
+        self.assertEqual("MACHINE_COMPLETE_OWNER_PENDING", manifest["status"])
+        self.assertEqual("PENDING", delivery["owner_physical_test"])
+        self.assertEqual("PENDING_OWNER_PHYSICAL_TEST", manifest["machine_completion"]["formal_release_acceptance"])
+        self.assertEqual("BLOCKED_OWNER_PHYSICAL_TEST", manifest["machine_completion"]["production_activation"])
+        for key, apk_key in (
+            ("source_commit", "commit"), ("apk_file", "apk_file"),
+            ("version_name", "version_name"), ("version_code", "version_code"),
+            ("sha256", "sha256"), ("signing_fingerprint", "signing_fingerprint"),
+        ):
+            self.assertEqual(apk[apk_key], delivery[key])
+        self.assertEqual(apk["sha256"], evidence["sha256"])
+        self.assertTrue(release_has_async_owner_gate(ROOT, "R02"))
+        tasks = yaml.safe_load(
+            (ROOT / "releases/R02/TASKS.yaml").read_text(encoding="utf-8")
+        )["tasks"]
+        self.assertEqual(
+            {"TASK-R02-007", "TASK-R02-008"},
+            prior_async_owner_blocked_suffix(ROOT, "R02", tasks),
+        )
+        with (ROOT / "releases/R02/ACCEPTANCE_MATRIX.csv").open(
+            encoding="utf-8-sig", newline=""
+        ) as handle:
+            rows = {row["验收ID"]: row for row in csv.DictReader(handle)}
+        self.assertEqual("PASS", rows["AC-R02-005"]["状态"])
+        self.assertEqual("PASS", rows["AC-R02-006"]["状态"])
+        self.assertTrue((ROOT / rows["AC-R02-005"]["证据路径"]).is_file())
+        self.assertTrue((ROOT / rows["AC-R02-006"]["证据路径"]).is_file())
+
+    def test_completed_release_can_validate_green_independent_sibling(self) -> None:
+        with tempfile.TemporaryDirectory(prefix="hhy-completed-independent-") as temp:
+            repo = Path(temp) / "repository"
+            copy_fixture(repo)
+            r08_path = repo / "releases/R08/TASKS.yaml"
+            r08 = yaml.safe_load(r08_path.read_text(encoding="utf-8")) or {}
+            for index, task in enumerate(r08["tasks"]):
+                task["status"] = "READY" if index == len(r08["tasks"]) - 1 else "DONE"
+            dump_yaml(r08_path, r08)
+            for release in ("R05", "R06", "R07"):
+                path = repo / f"releases/{release}/TASKS.yaml"
+                plan = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
+                for task in plan["tasks"]:
+                    task["status"] = "DONE"
+                dump_yaml(path, plan)
+            r09_path = repo / "releases/R09/TASKS.yaml"
+            r09 = yaml.safe_load(r09_path.read_text(encoding="utf-8")) or {}
+            r09["tasks"][0]["status"] = "READY"
+            dump_yaml(r09_path, r09)
+
+            target = validate_independent_release_start(
+                repo,
+                current_release="R08",
+                current_task="TASK-R08-008",
+                next_release="R09",
+                next_task="TASK-R09-001",
+                current_completed=True,
+            )
+            self.assertEqual((target["release"], target["id"]), ("R09", "TASK-R09-001"))
+
+    def test_current_async_owner_close_task_satisfies_only_its_release_dependency(self) -> None:
+        with tempfile.TemporaryDirectory(prefix="hhy-async-owner-dependency-") as directory:
+            root = Path(directory)
+            (root / "releases/R06").mkdir(parents=True)
+            (root / "releases/R07").mkdir(parents=True)
+            dump_yaml(root / "releases/R06/TASKS.yaml", {
+                "release": "R06",
+                "tasks": [
+                    {"id": "TASK-R06-007", "status": "DONE"},
+                    {"id": "TASK-R06-008", "status": "READY", "title": "版本关闭与无状态交接"},
+                ],
+            })
+            dump_yaml(root / "releases/R06/RELEASE_MANIFEST.yaml", {
+                "android_delivery": {"machine_delivery": "PASS", "owner_physical_test": "PENDING"},
+                "machine_completion": {
+                    "status": "PASS", "owner_feedback_mode": "ASYNC_NON_BLOCKING",
+                    "formal_release_acceptance": "PENDING_OWNER_PHYSICAL_TEST",
+                    "production_activation": "BLOCKED_OWNER_PHYSICAL_TEST",
+                    "next_release_development": "ALLOWED",
+                },
+            })
+            dump_yaml(root / "releases/R07/TASKS.yaml", {
+                "release": "R07",
+                "tasks": [{"id": "TASK-R07-001", "status": "READY", "title": "R07开发就绪核验"}],
+            })
+            dump_yaml(root / "releases/RELEASE_DEPENDENCIES.yaml", {
+                "dependencies": {"R07": ["R06"]},
+            })
+
+            next_task = validate_independent_release_start(
+                root,
+                current_release="R06",
+                current_task="TASK-R06-008",
+                next_release="R07",
+                next_task="TASK-R07-001",
+            )
+            self.assertEqual((next_task["release"], next_task["id"]), ("R07", "TASK-R07-001"))
+
+            r06_path = root / "releases/R06/TASKS.yaml"
+            r06 = yaml.safe_load(r06_path.read_text(encoding="utf-8")) or {}
+            r06["tasks"][0]["status"] = "READY"
+            dump_yaml(r06_path, r06)
+            with self.assertRaisesRegex(ContinuityError, "TASK-R06-007"):
+                validate_independent_release_start(
+                    root,
+                    current_release="R06",
+                    current_task="TASK-R06-008",
+                    next_release="R07",
+                    next_task="TASK-R07-001",
+                )
+
+    def test_version_close_task_requires_complete_async_owner_manifest_facts(self) -> None:
+        with tempfile.TemporaryDirectory(prefix="hhy-async-owner-gate-") as directory:
+            root = Path(directory)
+            manifest_path = root / "releases/R06/RELEASE_MANIFEST.yaml"
+            manifest_path.parent.mkdir(parents=True)
+            manifest = {
+                "android_delivery": {"machine_delivery": "PASS", "owner_physical_test": "PENDING"},
+                "machine_completion": {
+                    "status": "PASS", "owner_feedback_mode": "ASYNC_NON_BLOCKING",
+                    "formal_release_acceptance": "PENDING_OWNER_PHYSICAL_TEST",
+                    "production_activation": "BLOCKED_OWNER_PHYSICAL_TEST",
+                    "next_release_development": "ALLOWED",
+                },
+            }
+            dump_yaml(manifest_path, manifest)
+            self.assertTrue(release_has_async_owner_gate(root, "R06"))
+            manifest["machine_completion"]["production_activation"] = "ALLOWED"
+            dump_yaml(manifest_path, manifest)
+            self.assertFalse(release_has_async_owner_gate(root, "R06"))
+
+    def test_on_demand_test_apk_allows_blocked_close_to_continue_next_release(self) -> None:
+        with tempfile.TemporaryDirectory(prefix="hhy-on-demand-test-apk-") as directory:
+            root = Path(directory)
+            for release in ("R13", "R14"):
+                (root / f"releases/{release}").mkdir(parents=True)
+            (root / "artifacts/apk/R13").mkdir(parents=True)
+            (root / "artifacts/validation/r13-test-apk").mkdir(parents=True)
+            (root / "artifacts/reports/R13").mkdir(parents=True)
+            commit = "a" * 40
+            sha = "b" * 64
+            fingerprint = "c" * 64
+            size = 1024
+            apk = {
+                "release": "R13", "commit": commit, "apk_file": "hhy-r13.apk",
+                "version_name": "1.2.2-debug", "version_code": 10222,
+                "sha256": sha, "size_bytes": size, "signing_fingerprint": fingerprint,
+            }
+            dump_yaml(root / "artifacts/apk/R13/APK_MANIFEST.yaml", apk)
+            build_path = root / "artifacts/validation/r13-test-apk/build-evidence.json"
+            build = {
+                "release": "R13", "commit": commit, "version_name": apk["version_name"],
+                "version_code": apk["version_code"], "build_status": "PASS",
+                "checks": [
+                    "verifyApiBaseUrl", "testDebugUnitTest", "lintDebug", "assembleDebug",
+                    "apksigner", "zipalign", "embeddedApiBaseUrl", "packageIdentity",
+                ],
+                "stable_signing": True, "api_base_url": "https://api.orbexa.cc",
+                "apk_sha256": sha, "apk_size_bytes": size,
+                "signing_profile_id": "hhy-staging-test-v2", "signing_fingerprint": fingerprint,
+            }
+            build_path.write_text(json.dumps(build), encoding="utf-8")
+            delivery_path = root / "artifacts/validation/r13-test-apk/delivery-evidence.json"
+            delivery_evidence = {
+                **{key: apk[key] for key in ("release", "apk_file", "version_name", "version_code", "sha256", "size_bytes")},
+                "commit": commit,
+                "signing": {"status": "PASS", "stable": True, "profile_id": "hhy-staging-test-v2", "fingerprint": fingerprint},
+                "local": {"status": "PASS"},
+                "desktop": {"status": "PASS", "sha256": sha},
+                "remote": {"status": "PASS", "sha256": sha, "size_bytes": size},
+                "https": {"status": "PASS", "sha256": sha, "size_bytes": size, "http_status": 200, "range_status": 206},
+            }
+            delivery_path.write_text(json.dumps(delivery_evidence), encoding="utf-8")
+            (root / "artifacts/reports/R13/R13-version-test-guide.md").write_text("PASS\n", encoding="utf-8")
+            manifest = {
+                "android_delivery": {
+                    "source_commit": commit, "apk_file": apk["apk_file"],
+                    "version_name": apk["version_name"], "version_code": apk["version_code"],
+                    "sha256": sha, "signing_profile_id": "hhy-staging-test-v2",
+                    "signing_fingerprint": fingerprint, "machine_delivery": "PASS",
+                    "owner_physical_test": "PENDING", "next_release_development": "ALLOWED",
+                    "build_evidence": "artifacts/validation/r13-test-apk/build-evidence.json",
+                    "evidence": "artifacts/validation/r13-test-apk/delivery-evidence.json",
+                    "test_guide": "artifacts/reports/R13/R13-version-test-guide.md",
+                },
+                "android_automation": {
+                    "policy_id": "HHY-ANDROID-AUTOMATION-V1",
+                    "mode": "ON_DEMAND_NON_BLOCKING_SPECIALTY",
+                    "status": "NOT_RUN_NOT_REQUIRED_FOR_TEST_APK",
+                    "owner_physical_test": "PENDING",
+                    "next_release_development": "ALLOWED",
+                },
+            }
+            manifest_path = root / "releases/R13/RELEASE_MANIFEST.yaml"
+            dump_yaml(manifest_path, manifest)
+            dump_yaml(root / "releases/R13/TASKS.yaml", {
+                "release": "R13",
+                "tasks": [
+                    {"id": "TASK-R13-007", "status": "DONE"},
+                    {"id": "TASK-R13-008", "status": "READY", "title": "版本关闭与无状态交接"},
+                ],
+            })
+            dump_yaml(root / "releases/R14/TASKS.yaml", {
+                "release": "R14", "tasks": [{"id": "TASK-R14-001", "status": "READY"}],
+            })
+            dump_yaml(root / "releases/RELEASE_DEPENDENCIES.yaml", {"dependencies": {"R14": ["R13"]}})
+
+            self.assertTrue(release_has_async_owner_gate(root, "R13"))
+            next_task = validate_independent_release_start(
+                root, current_release="R13", current_task="TASK-R13-008",
+                next_release="R14", next_task="TASK-R14-001",
+            )
+            self.assertEqual((next_task["release"], next_task["id"]), ("R14", "TASK-R14-001"))
+
+            delivery_evidence["sha256"] = "d" * 64
+            delivery_path.write_text(json.dumps(delivery_evidence), encoding="utf-8")
+            self.assertFalse(release_has_async_owner_gate(root, "R13"))
+            with self.assertRaisesRegex(ContinuityError, "只有APK/项目所有者真机等外部交付门禁"):
+                validate_independent_release_start(
+                    root, current_release="R13", current_task="TASK-R13-008",
+                    next_release="R14", next_task="TASK-R14-001",
+                )
+
+    def test_prior_machine_complete_owner_pending_dependency_allows_later_release(self) -> None:
+        with tempfile.TemporaryDirectory(prefix="hhy-prior-async-owner-dependency-") as directory:
+            root = Path(directory)
+            for release in ("R06", "R07", "R08"):
+                (root / f"releases/{release}").mkdir(parents=True)
+
+            async_manifest = {
+                "android_delivery": {"machine_delivery": "PASS", "owner_physical_test": "PENDING"},
+                "machine_completion": {
+                    "status": "PASS", "owner_feedback_mode": "ASYNC_NON_BLOCKING",
+                    "formal_release_acceptance": "PENDING_OWNER_PHYSICAL_TEST",
+                    "production_activation": "BLOCKED_OWNER_PHYSICAL_TEST",
+                    "next_release_development": "ALLOWED",
+                },
+            }
+            dump_yaml(root / "releases/R06/RELEASE_MANIFEST.yaml", async_manifest)
+            dump_yaml(root / "releases/R07/RELEASE_MANIFEST.yaml", async_manifest)
+            dump_yaml(root / "releases/R06/TASKS.yaml", {
+                "release": "R06",
+                "tasks": [
+                    {"id": "TASK-R06-007", "status": "DONE"},
+                    {"id": "TASK-R06-008", "status": "BLOCKED", "title": "异步真机关闭"},
+                ],
+            })
+            dump_yaml(root / "releases/R07/TASKS.yaml", {
+                "release": "R07",
+                "tasks": [
+                    {"id": "TASK-R07-007", "status": "DONE"},
+                    {"id": "TASK-R07-008", "status": "READY", "title": "异步真机关闭"},
+                ],
+            })
+            dump_yaml(root / "releases/R08/TASKS.yaml", {
+                "release": "R08",
+                "tasks": [{"id": "TASK-R08-001", "status": "READY", "title": "R08开发就绪核验"}],
+            })
+            dump_yaml(root / "releases/RELEASE_DEPENDENCIES.yaml", {
+                "dependencies": {"R08": ["R06", "R07"]},
+            })
+
+            next_task = validate_independent_release_start(
+                root,
+                current_release="R07",
+                current_task="TASK-R07-008",
+                next_release="R08",
+                next_task="TASK-R08-001",
+            )
+            self.assertEqual((next_task["release"], next_task["id"]), ("R08", "TASK-R08-001"))
+
+            r06_path = root / "releases/R06/TASKS.yaml"
+            r06 = yaml.safe_load(r06_path.read_text(encoding="utf-8")) or {}
+            r06["tasks"][0]["status"] = "READY"
+            dump_yaml(r06_path, r06)
+            with self.assertRaisesRegex(ContinuityError, "TASK-R06-007"):
+                validate_independent_release_start(
+                    root,
+                    current_release="R07",
+                    current_task="TASK-R07-008",
+                    next_release="R08",
+                    next_task="TASK-R08-001",
+                )
+
+    def test_prior_legacy_apk_and_close_blocked_suffix_is_non_blocking_only_as_a_tail(self) -> None:
+        with tempfile.TemporaryDirectory(prefix="hhy-prior-legacy-apk-suffix-") as directory:
+            root = Path(directory)
+            for release in ("R02", "R13", "R14"):
+                (root / f"releases/{release}").mkdir(parents=True)
+            async_manifest = {
+                "android_delivery": {"machine_delivery": "PASS", "owner_physical_test": "PENDING"},
+                "machine_completion": {
+                    "status": "PASS", "owner_feedback_mode": "ASYNC_NON_BLOCKING",
+                    "formal_release_acceptance": "PENDING_OWNER_PHYSICAL_TEST",
+                    "production_activation": "BLOCKED_OWNER_PHYSICAL_TEST",
+                    "next_release_development": "ALLOWED",
+                },
+            }
+            dump_yaml(root / "releases/R02/RELEASE_MANIFEST.yaml", async_manifest)
+            dump_yaml(root / "releases/R13/RELEASE_MANIFEST.yaml", async_manifest)
+            r02_tasks = {
+                "release": "R02",
+                "tasks": [
+                    {"id": "TASK-R02-006", "status": "DONE", "title": "集成验收"},
+                    {"id": "TASK-R02-007", "status": "BLOCKED", "title": "Android测试APK与产物追溯"},
+                    {"id": "TASK-R02-008", "status": "BLOCKED", "title": "版本关闭与无状态交接"},
+                ],
+            }
+            r02_path = root / "releases/R02/TASKS.yaml"
+            dump_yaml(r02_path, r02_tasks)
+            dump_yaml(root / "releases/R13/TASKS.yaml", {
+                "release": "R13",
+                "tasks": [{"id": "TASK-R13-008", "status": "READY", "title": "版本关闭与无状态交接"}],
+            })
+            dump_yaml(root / "releases/R14/TASKS.yaml", {
+                "release": "R14", "tasks": [{"id": "TASK-R14-001", "status": "READY"}],
+            })
+            dump_yaml(root / "releases/RELEASE_DEPENDENCIES.yaml", {
+                "dependencies": {"R14": ["R02", "R13"]},
+            })
+
+            self.assertEqual(
+                {"TASK-R02-007", "TASK-R02-008"},
+                prior_async_owner_blocked_suffix(root, "R02", r02_tasks["tasks"]),
+            )
+            target = validate_independent_release_start(
+                root, current_release="R13", current_task="TASK-R13-008",
+                next_release="R14", next_task="TASK-R14-001",
+            )
+            self.assertEqual((target["release"], target["id"]), ("R14", "TASK-R14-001"))
+
+            tampered = yaml.safe_load(r02_path.read_text(encoding="utf-8"))
+            tampered["tasks"][1]["title"] = "未完成业务功能"
+            tampered["tasks"][1].pop("blocker", None)
+            dump_yaml(r02_path, tampered)
+            self.assertEqual(set(), prior_async_owner_blocked_suffix(root, "R02", tampered["tasks"]))
+            with self.assertRaisesRegex(ContinuityError, "TASK-R02-007"):
+                validate_independent_release_start(
+                    root, current_release="R13", current_task="TASK-R13-008",
+                    next_release="R14", next_task="TASK-R14-001",
+                )
+
+            tampered = yaml.safe_load(r02_path.read_text(encoding="utf-8"))
+            tampered["tasks"][0]["status"] = "BLOCKED"
+            tampered["tasks"][1]["title"] = "Android测试APK与产物追溯"
+            dump_yaml(r02_path, tampered)
+            self.assertEqual(set(), prior_async_owner_blocked_suffix(root, "R02", tampered["tasks"]))
+            with self.assertRaisesRegex(ContinuityError, "TASK-R02-006"):
+                validate_independent_release_start(
+                    root, current_release="R13", current_task="TASK-R13-008",
+                    next_release="R14", next_task="TASK-R14-001",
+                )
+
     def cli(
         self, repo: Path, *args: str, expected: int = 0
     ) -> subprocess.CompletedProcess[str]:
@@ -165,6 +536,12 @@ class CrossReleaseCloseTest(unittest.TestCase):
         with tempfile.TemporaryDirectory(prefix="hhy-cross-release-close-") as temp:
             repo = Path(temp) / "repository"
             copy_fixture(repo)
+            r01_plan_path = repo / "releases/R01/TASKS.yaml"
+            r01_plan = yaml.safe_load(r01_plan_path.read_text(encoding="utf-8"))
+            for index, task in enumerate(r01_plan["tasks"]):
+                task["status"] = "READY" if index == 0 else "BLOCKED"
+                task.pop("completed_at", None)
+            r01_plan_path.write_text(yaml.safe_dump(r01_plan, allow_unicode=True, sort_keys=False), encoding="utf-8")
             r01_tasks_before = (repo / "releases/R01/TASKS.yaml").read_bytes()
 
             self.cli(
@@ -185,6 +562,8 @@ class CrossReleaseCloseTest(unittest.TestCase):
                 repo, "checkpoint", "--summary", "实现跨Release关闭隔离验证",
                 "--next-step", "提交实现后关闭P00-008", "--test",
                 "cross-release-close|PASS|tests/test_continuity_cross_release_close.py|隔离回归通过",
+                "--parallel-assessment", "NO_SAFE_PARALLEL", "--parallel-reason",
+                "跨Release关闭原子性回归必须串行操作同一状态链",
             )
             self.git(repo, "add", "-A")
             self.git(
@@ -245,6 +624,8 @@ class CrossReleaseCloseTest(unittest.TestCase):
             self.assertEqual(status["active_task"], "TASK-R01-001")
             self.assertEqual(status["next_task"], "TASK-R01-001")
             self.assertEqual(status["status"], "READY")
+            # Release-close consumers require the same immutable commit as the APK manifest.
+            self.assertEqual(status["last_green_commit"], code_commit)
             self.assertIsNone(status["continuity"]["active_session_id"])
 
             active = yaml.safe_load(
@@ -276,6 +657,128 @@ class CrossReleaseCloseTest(unittest.TestCase):
             ))
             closed_event = next(event for event in reversed(events) if event["event_type"] == "SESSION_CLOSED")
             self.assertEqual(closed_event["payload"]["next_release"], "R01")
+
+    def test_external_apk_gate_can_wait_while_independent_release_starts(self) -> None:
+        with tempfile.TemporaryDirectory(prefix="hhy-external-gate-continue-") as temp:
+            repo = Path(temp) / "repository"
+            copy_fixture(repo)
+
+            r02_path = repo / "releases/R02/TASKS.yaml"
+            r02 = yaml.safe_load(r02_path.read_text(encoding="utf-8")) or {}
+            for task in r02["tasks"]:
+                if task["id"] == "TASK-R02-007":
+                    task["status"] = "READY"
+                    task.pop("completed_at", None)
+                elif task["id"] == "TASK-R02-008":
+                    task["status"] = "BLOCKED"
+                    task.pop("completed_at", None)
+                else:
+                    task["status"] = "DONE"
+                    task["completed_at"] = "2026-07-18T00:00:00Z"
+            dump_yaml(r02_path, r02)
+
+            r03_path = repo / "releases/R03/TASKS.yaml"
+            r03 = yaml.safe_load(r03_path.read_text(encoding="utf-8")) or {}
+            for index, task in enumerate(r03["tasks"]):
+                task["status"] = "READY" if index == 0 else "BLOCKED"
+                task.pop("completed_at", None)
+            dump_yaml(r03_path, r03)
+            r03_before = r03_path.read_bytes()
+
+            r02_task = next(row for row in r02["tasks"] if row["id"] == "TASK-R02-007")
+            next_task = yaml.safe_load((repo / "NEXT_TASK.yaml").read_text(encoding="utf-8")) or {}
+            next_task.update({
+                "id": "TASK-R02-007",
+                "title": r02_task["title"],
+                "status": "READY",
+                "release": "R02",
+                "definition_of_ready": "releases/R02/DEFINITION_OF_READY.yaml",
+                "stories": "releases/R02/STORIES.yaml",
+                "requirements": r02_task.get("requirements", []),
+                "steps": r02_task.get("deliverables", []),
+                "acceptance": r02_task.get("acceptance", []),
+                "claim_required": True,
+                "start_command": (
+                    "python3 scripts/continuity.py start --actor <ACTOR_ID> "
+                    "--task TASK-R02-007"
+                ),
+            })
+            dump_yaml(repo / "NEXT_TASK.yaml", next_task)
+            status = yaml.safe_load((repo / "CURRENT_STATUS.yaml").read_text(encoding="utf-8")) or {}
+            status.update({
+                "phase": "R02", "active_release": "R02", "status": "READY",
+                "active_task": None, "next_task": "TASK-R02-007",
+                "in_progress_tasks": [], "blocked_tasks": [],
+            })
+            dump_yaml(repo / "CURRENT_STATUS.yaml", status)
+
+            self.git(repo, "init")
+            self.git(repo, "config", "user.name", "External Gate Test")
+            self.git(repo, "config", "user.email", "external-gate@test.invalid")
+            self.git(repo, "add", "-A")
+            self.git(repo, "commit", "--no-verify", "-m", "fixture baseline")
+
+            started = yaml.safe_load(self.cli(
+                repo, "start", "--actor", ACTOR, "--task", "TASK-R02-007",
+                "--story", "STORY-R02-009", "--goal", "等待真机时继续独立R03",
+                "--scope", "scripts/smoke/external_gate_probe.txt",
+            ).stdout)
+            probe = repo / "scripts/smoke/external_gate_probe.txt"
+            probe.parent.mkdir(parents=True, exist_ok=True)
+            probe.write_text("R02 waits for owner device; R03 depends only on green R01.\n", encoding="utf-8")
+            self.cli(
+                repo, "checkpoint", "--summary", "记录R02机器交付完成",
+                "--next-step", "挂起真机门禁并继续R03", "--test",
+                "machine-delivery|PASS|fixture-apk-evidence|机器交付通过",
+                "--parallel-assessment", "NO_SAFE_PARALLEL", "--parallel-reason",
+                "任务状态原子转换必须串行",
+            )
+            self.git(repo, "add", "-A")
+            self.git(repo, "commit", "--no-verify", "-m", "record machine delivery")
+            code_commit = self.git(repo, "rev-parse", "HEAD").stdout.strip()
+
+            before_rejected = repository_snapshot(repo)
+            rejected = self.cli(
+                repo, "close", "--actor", ACTOR, "--result", "BLOCKED",
+                "--summary", "等待项目所有者真机验收", "--next-release", "R03",
+                "--next-task", "TASK-R03-001", "--code-commit", code_commit,
+                expected=2,
+            )
+            self.assertIn("--allow-independent-release", rejected.stderr)
+            self.assertEqual(repository_snapshot(repo), before_rejected)
+
+            closed = yaml.safe_load(self.cli(
+                repo, "close", "--actor", ACTOR, "--result", "BLOCKED",
+                "--summary", "等待项目所有者真机验收", "--next-release", "R03",
+                "--next-task", "TASK-R03-001", "--code-commit", code_commit,
+                "--allow-independent-release", "--user-confirmation",
+                "项目所有者要求APK稍后测试，当前立即继续下一版本",
+            ).stdout)
+            self.assertEqual(closed["result"], "BLOCKED")
+            self.assertEqual(closed["next_release"], "R03")
+            self.assertEqual(closed["next_task"], "TASK-R03-001")
+
+            r02_after = yaml.safe_load(r02_path.read_text(encoding="utf-8"))
+            deferred = next(row for row in r02_after["tasks"] if row["id"] == "TASK-R02-007")
+            self.assertEqual(deferred["status"], "BLOCKED")
+            self.assertIn("真机", deferred["blocker"])
+            self.assertEqual(r03_path.read_bytes(), r03_before)
+
+            next_after = yaml.safe_load((repo / "NEXT_TASK.yaml").read_text(encoding="utf-8"))
+            self.assertEqual(
+                (next_after["id"], next_after["release"], next_after["status"]),
+                ("TASK-R03-001", "R03", "READY"),
+            )
+            self.assertEqual(next_after["deferred_task"]["id"], "TASK-R02-007")
+            current = yaml.safe_load((repo / "CURRENT_STATUS.yaml").read_text(encoding="utf-8"))
+            self.assertEqual(current["status"], "READY")
+            self.assertEqual(current["active_release"], "R03")
+            self.assertIn("TASK-R02-007", current["blocked_tasks"])
+            session = yaml.safe_load(
+                (repo / f".continuity/sessions/{started['session_id']}.yaml").read_text(encoding="utf-8")
+            )
+            self.assertEqual(session["closure"]["result"], "BLOCKED")
+            self.assertTrue(session["closure"]["blocked_advance"])
 
 
 if __name__ == "__main__":

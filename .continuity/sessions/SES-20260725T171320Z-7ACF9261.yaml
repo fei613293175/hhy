@@ -1,0 +1,112 @@
+protocol_version: '1.0'
+package_version: 1.2.3
+session_id: SES-20260725T171320Z-7ACF9261
+status: CLOSED
+actor:
+  id: codex-root-r12-testing-20260726
+  kind: AI_OR_HUMAN
+  host: unknown
+release: R12
+task_id: TASK-R12-005
+story_id: STORY-R12-008
+goal: 执行R12重复请求、并发、超时、消息重复和异常恢复专项测试，归档报告并清零关键缺陷。
+started_at: '2026-07-25T17:13:20Z'
+updated_at: '2026-07-25T18:03:04Z'
+takeover_of: null
+change_requests:
+- CR-0333
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions:
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R12PublishingServiceTest.java
+  - tests/r12/README.md
+  - tests/r12/req-content-002_happy
+  - tests/r12/req-content-002_reject
+  - tests/r12/req-content-002_idempotent
+  - tests/r12/req-publish-001_happy
+  - tests/r12/req-publish-001_reject
+  - tests/r12/req-publish-001_idempotent
+  - tests/test_r12_specialized_matrix.py
+  - scripts/run_r12_specialized_matrix.py
+  - catalogs/test_cases.csv
+  - artifacts/validation/r12-test-evidence/evidence.json
+  - artifacts/validation/r12-test-evidence/backend-java21.log
+  - artifacts/validation/r12-test-evidence/postgresql17.log
+  - artifacts/validation/r12-test-evidence/android-module.log
+  - docs/03-continuity/R12_TASK-005_SPECIALIZED_TEST_GATE.md
+  - releases/R12/RELEASE_MANIFEST.yaml
+  - CHANGELOG.md
+  source: story+explicit+approved-cr:CR-0333
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  base_commit: 1b18f744c6f28b918c6d3d38957de1a02ca00745
+  start_head: 1b18f744c6f28b918c6d3d38957de1a02ca00745
+  upstream: origin/task/TASK-R03-001
+  initial_worktree_state: CLEAN
+lease:
+  duration_minutes: 240
+  renewed_at: '2026-07-25T18:02:57Z'
+  expires_at: '2026-07-25T22:02:57Z'
+checkpoint_sequence: 6
+latest_checkpoint: .continuity/checkpoints/SES-20260725T171320Z-7ACF9261/0006.yaml
+session_log: docs/03-continuity/sessions/2026-07/SES-20260725T171320Z-7ACF9261.md
+next_step: 提交关闭元数据Commit，然后运行pre-push/CI门禁
+context_pack:
+  yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
+  markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
+  manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+  context_hash: e9177b349ea957bf87807d8198b3b0dc123a99fabe0a8bc01a90e2682e95c276
+  generated_at: '2026-07-25T18:03:02Z'
+handoff_bundle: null
+closure:
+  result: COMPLETED
+  summary: TASK-R12-005完成：六个既有R12权威测试ID全部AUTOMATED，响应丢失重放、同键异体、Outbox单写、配置/存储故障零成功副作用和PostgreSQL17真实并发证据全部PASS，P0/P1缺陷清零。
+  code_commit: 5419d68255dcc965c2c31fcb3006f616d9f8c38a
+  next_release: R12
+  next_task: TASK-R12-006
+  blocked_advance: false
+  completed_independent_advance: false
+  user_confirmation: null
+  metadata_commit: PENDING
+  push_verification: CI_REQUIRED_AFTER_METADATA_COMMIT
+  started_at: '2026-07-25T18:02:53Z'
+  closure_checkpoint_id: CP-SES-20260725T171320Z-7ACF9261-0006
+  closed_at: '2026-07-25T18:03:04Z'
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 仅关闭同一CR与任务元数据，必须由主控串行维护唯一连续性事实源。
+closed_at: '2026-07-25T18:03:04Z'

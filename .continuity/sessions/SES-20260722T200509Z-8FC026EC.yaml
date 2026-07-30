@@ -1,0 +1,144 @@
+protocol_version: '1.0'
+package_version: 1.2.3
+session_id: SES-20260722T200509Z-8FC026EC
+status: CLOSED
+actor:
+  id: codex-root-r09-observability
+  kind: AI_OR_HUMAN
+  host: unknown
+release: R09
+task_id: TASK-R09-006
+story_id: STORY-R09-004
+goal: 完成R09 App推广结构化日志、TraceId、RED与业务指标、告警和回滚运行手册演练及预发布验收矩阵。
+started_at: '2026-07-22T20:05:09Z'
+updated_at: '2026-07-22T20:51:54Z'
+takeover_of: null
+change_requests:
+- CR-0253
+- CR-0254
+- CR-0255
+- CR-0256
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  - scripts/check_r09_observability.py
+  - scripts/run_r09_staging_acceptance.sh
+  - artifacts/reports/R09/**
+  - artifacts/validation/r09-staging/**
+  - catalogs/acceptance_matrix.csv
+  - releases/R09/**
+  - docs/02-operations/**
+  approved_exceptions:
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinder.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinderTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/ObservabilityEndpointsTest.java
+  - infra/staging/r09-smoke/docker-compose.yml
+  - infra/staging/r09-smoke/prometheus.yml
+  - infra/staging/r09-smoke/r09-alerts.yml
+  - infra/staging/r09-smoke/alertmanager.yml
+  - infra/staging/r09-smoke/nginx.conf
+  - scripts/check_r09_observability.py
+  - scripts/run_r09_staging_acceptance.sh
+  - docs/07-operations/DEPLOYMENT_RUNBOOK.md
+  - docs/07-operations/ROLLBACK_RUNBOOK.md
+  - releases/R09/ACCEPTANCE_MATRIX.csv
+  - artifacts/reports/R09/TASK-R09-006-staging.md
+  - CHANGELOG.md
+  - artifacts/validation/r09-task006-staging/alert-deliveries.jsonl
+  - artifacts/validation/r09-task006-staging/alert-exercise.txt
+  - artifacts/validation/r09-task006-staging/backend-down-firing.json
+  - artifacts/validation/r09-task006-staging/compose-ps.txt
+  - artifacts/validation/r09-task006-staging/database.txt
+  - artifacts/validation/r09-task006-staging/final-metrics.txt
+  - artifacts/validation/r09-task006-staging/http-request-completed.jsonl
+  - artifacts/validation/r09-task006-staging/liveness.json
+  - artifacts/validation/r09-task006-staging/log-redaction.txt
+  - artifacts/validation/r09-task006-staging/machine-summary.txt
+  - artifacts/validation/r09-task006-staging/metadata.txt
+  - artifacts/validation/r09-task006-staging/metrics-summary.txt
+  - artifacts/validation/r09-task006-staging/metrics.txt
+  - artifacts/validation/r09-task006-staging/outbox-test-events.txt
+  - artifacts/validation/r09-task006-staging/prometheus-rules.json
+  - artifacts/validation/r09-task006-staging/prometheus-targets.json
+  - artifacts/validation/r09-task006-staging/public-status.json
+  - artifacts/validation/r09-task006-staging/r09-outbox-firing.json
+  - artifacts/validation/r09-task006-staging/readiness.json
+  - artifacts/validation/r09-task006-staging/rollback-rehearsal.txt
+  - artifacts/validation/r09-task006-staging/SHA256SUMS
+  - artifacts/validation/r09-task006-staging/source-sha256.txt
+  - artifacts/validation/r09-task006-staging/trace-headers.txt
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - tests/test_r09_staging_acceptance.py
+  source: story+explicit+approved-cr:CR-0254+approved-cr:CR-0255+approved-cr:CR-0256
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  base_commit: 00fa7a2cddfabbdaa79f7aac283851c31d044219
+  start_head: 00fa7a2cddfabbdaa79f7aac283851c31d044219
+  upstream: origin/task/TASK-R03-001
+  initial_worktree_state: CLEAN
+lease:
+  duration_minutes: 240
+  renewed_at: '2026-07-22T20:51:49Z'
+  expires_at: '2026-07-23T00:51:49Z'
+checkpoint_sequence: 12
+latest_checkpoint: .continuity/checkpoints/SES-20260722T200509Z-8FC026EC/0012.yaml
+session_log: docs/03-continuity/sessions/2026-07/SES-20260722T200509Z-8FC026EC.md
+next_step: 提交关闭元数据Commit，然后运行pre-push/CI门禁
+context_pack:
+  yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
+  markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
+  manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+  context_hash: be2c6830f1d9df2cb8764ac04748b42b27b0506b31e93dbfc340a94c52981220
+  generated_at: '2026-07-22T20:51:52Z'
+handoff_bundle: null
+closure:
+  result: COMPLETED
+  summary: R09 App推广可观测性与隔离Staging验收完成：358项受影响后端测试通过，7项App业务Gauge和7条告警规则可用，BackendDown与Outbox告警完成firing/resolved送达，V035同库同卷回切和22文件可移植证据通过；PROB-0095已SOLVED，GitHub模拟器与候选APK留给R09-007。
+  code_commit: a478e030
+  next_release: R09
+  next_task: TASK-R09-007
+  blocked_advance: false
+  completed_independent_advance: false
+  user_confirmation: null
+  metadata_commit: PENDING
+  push_verification: CI_REQUIRED_AFTER_METADATA_COMMIT
+  started_at: '2026-07-22T20:51:47Z'
+  closure_checkpoint_id: CP-SES-20260722T200509Z-8FC026EC-0012
+  closed_at: '2026-07-22T20:51:54Z'
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: CR关闭、任务关闭和下一任务切换共享连续性状态，必须串行
+closed_at: '2026-07-22T20:51:54Z'

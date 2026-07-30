@@ -85,8 +85,16 @@ PORTABLE_EXCLUDE_PATTERNS = (
     "**/*.pfx",
     "**/*.jks",
     "**/*.keystore",
+    "**/*.apk",
     "**/*secret*",
     "**/*private_key*",
+)
+
+# Directory names that must be removed from os.walk's traversal list. The
+# equivalent glob rules above still protect individual files; this set avoids
+# discovering dependency and build files at all.
+FINGERPRINT_PRUNE_DIRECTORY_NAMES = frozenset(
+    {".git", "node_modules", "dist", "target", ".gradle", "build", "__pycache__"}
 )
 
 SUSPICIOUS_SECRET_REGEXES = {
@@ -250,16 +258,29 @@ def run_command(
     check: bool = False,
     text: bool = True,
     timeout: int = 60,
+    input_text: str | None = None,
 ) -> subprocess.CompletedProcess[str]:
-    result = subprocess.run(
-        list(args),
-        cwd=str(cwd),
-        capture_output=True,
-        text=text,
-        timeout=timeout,
-        encoding="utf-8" if text else None,
-        errors="replace" if text else None,
-    )
+    command = list(args)
+    if command and command[0] == "git":
+        git_override = os.environ.get("HHY_GIT_BIN")
+        bundled_git = Path.home() / ".cache/codex-runtimes/codex-primary-runtime/dependencies/native/git/cmd/git.exe"
+        git_executable = git_override or shutil.which("git") or (str(bundled_git) if bundled_git.is_file() else None)
+        if not git_executable:
+            raise ContinuityError("Git不可执行：请安装Git或设置HHY_GIT_BIN；不得把缺少Git误判为无历史源码并重建仓库")
+        command[0] = git_executable
+    try:
+        result = subprocess.run(
+            command,
+            cwd=str(cwd),
+            capture_output=True,
+            text=text,
+            input=input_text,
+            timeout=timeout,
+            encoding="utf-8" if text else None,
+            errors="replace" if text else None,
+        )
+    except FileNotFoundError as exc:
+        raise ContinuityError(f"命令不可执行：{command[0]}") from exc
     if check and result.returncode != 0:
         raise ContinuityError(
             f"命令失败 ({result.returncode})：{' '.join(args)}\n{result.stdout}\n{result.stderr}"
@@ -348,6 +369,15 @@ def git_changed_files(root: Path, *, staged: bool = False) -> list[str]:
     return sorted({parse_porcelain_line(row)[1] for row in rows if parse_porcelain_line(row)[1]})
 
 
+def git_index_worktree_divergence(root: Path) -> list[str]:
+    """Return project paths whose final worktree content is not in the index."""
+    if not is_git_repo(root):
+        return []
+    unstaged = git(root, "diff", "--no-renames", "--name-only", "--diff-filter=ACDMRTUXB", "--")
+    untracked = git(root, "ls-files", "--others", "--exclude-standard")
+    return sorted({line.strip() for line in (unstaged + "\n" + untracked).splitlines() if line.strip()})
+
+
 def changed_since(root: Path, base_commit: str | None) -> list[str]:
     if not is_git_repo(root):
         return []
@@ -358,11 +388,18 @@ def changed_since(root: Path, base_commit: str | None) -> list[str]:
             return sorted(tracked | set(git_changed_files(root)))
         return git_changed_files(root)
     result = run_command(
-        ["git", "diff", "--name-only", "--diff-filter=ACDMRTUXB", f"{base_commit}..HEAD"],
+        ["git", "diff", "--no-renames", "--name-only", "--diff-filter=ACDMRTUXB", base_commit, "--"],
         cwd=root,
     )
-    committed = {line.strip() for line in result.stdout.splitlines() if line.strip()}
-    return sorted(committed | set(git_changed_files(root)))
+    if result.returncode != 0:
+        raise ContinuityError(f"无法计算工作区项目指纹：{base_commit}..WORKTREE")
+    tracked = {line.strip() for line in result.stdout.splitlines() if line.strip()}
+    untracked = {
+        line.strip()
+        for line in git(root, "ls-files", "--others", "--exclude-standard").splitlines()
+        if line.strip()
+    }
+    return sorted(tracked | untracked)
 
 
 def normalize_repo_path(value: str) -> str:
@@ -421,6 +458,45 @@ def file_content_token(root: Path, relative: str) -> dict[str, Any]:
     }
 
 
+def git_blob_content_tokens(root: Path, relative_paths: Sequence[str]) -> list[dict[str, Any]]:
+    """Use portable index blobs, overlaying only tracked working-tree edits."""
+    index: dict[str, str] = {}
+    for record in git(root, "ls-files", "-s", "-z").split("\0"):
+        if not record or "\t" not in record:
+            continue
+        metadata, relative = record.split("\t", 1)
+        fields = metadata.split()
+        if len(fields) >= 3 and fields[2] == "0":
+            index[relative] = fields[1]
+    modified = {
+        row for row in git(root, "diff", "--name-only", "HEAD", "--").splitlines() if row
+    }
+    tokens: list[dict[str, Any]] = []
+    for relative in relative_paths:
+        path = root / relative
+        if relative in modified:
+            if not path.exists() and not path.is_symlink():
+                tokens.append({"path": relative, "state": "DELETED"})
+                continue
+            object_id = git(root, "hash-object", f"--path={relative}", "--", relative)
+        else:
+            object_id = index.get(relative)
+            if not object_id:
+                raise ContinuityError(f"Git索引缺少已跟踪文件：{relative}")
+        tokens.append({"path": relative, "state": "GIT_BLOB", "oid": object_id})
+    return tokens
+
+
+def portable_source_record(root: Path, path: Path) -> dict[str, Any]:
+    """Describe a Context Pack source independently of Git checkout EOLs."""
+    content = canonical_fingerprint_bytes(path.read_bytes())
+    return {
+        "path": path.relative_to(root).as_posix(),
+        "sha256": hashlib.sha256(content).hexdigest(),
+        "bytes": len(content),
+    }
+
+
 def project_fingerprint(root: Path, session: dict[str, Any] | None = None) -> dict[str, Any]:
     base = (session or {}).get("git", {}).get("base_commit")
     files = filter_project_files(changed_since(root, base))
@@ -439,15 +515,48 @@ def project_fingerprint(root: Path, session: dict[str, Any] | None = None) -> di
 
 def tree_fingerprint(root: Path) -> dict[str, Any]:
     tokens: list[dict[str, Any]] = []
-    for path in sorted(root.rglob("*")):
-        if not path.is_file():
-            continue
-        relative = path.relative_to(root).as_posix()
-        if relative == "MANIFEST_SHA256.txt" or is_managed_record(relative):
-            continue
-        if any(path_matches(relative, pattern) for pattern in PORTABLE_EXCLUDE_PATTERNS):
-            continue
-        tokens.append(file_content_token(root, relative))
+    if is_git_repo(root):
+        # A closed repository fingerprint represents the versioned source tree,
+        # not runner caches, logs, or other untracked machine-local files.
+        # Working-tree contents are still read so tracked edits and deletions
+        # remain visible before the final metadata commit.
+        tracked_files = [item for item in git(root, "ls-files", "-z").split("\0") if item]
+        fingerprint_paths: list[str] = []
+        for relative in sorted(tracked_files):
+            if relative in {"MANIFEST_SHA256.txt", STATE_FILE} or is_managed_record(relative):
+                continue
+            if any(path_matches(relative, pattern) for pattern in PORTABLE_EXCLUDE_PATTERNS):
+                continue
+            fingerprint_paths.append(relative)
+        tokens.extend(git_blob_content_tokens(root, fingerprint_paths))
+        payload = {"files": tokens}
+        return {"sha256": sha256_text(canonical_json(payload)), "file_count": len(tokens)}
+
+    # Path.rglob descends into excluded dependency/build trees before filtering.
+    # Prune them top-down so a cold resume remains fast in an installed checkout.
+    for current, directories, filenames in os.walk(root, topdown=True):
+        current_path = Path(current)
+        retained_directories: list[str] = []
+        for name in sorted(directories):
+            candidate = (current_path / name).relative_to(root).as_posix()
+            if name in FINGERPRINT_PRUNE_DIRECTORY_NAMES:
+                continue
+            if is_managed_record(candidate + "/"):
+                continue
+            if any(path_matches(candidate, pattern) for pattern in PORTABLE_EXCLUDE_PATTERNS):
+                continue
+            retained_directories.append(name)
+        directories[:] = retained_directories
+
+        for name in sorted(filenames):
+            path = current_path / name
+            relative = path.relative_to(root).as_posix()
+            if relative in {"MANIFEST_SHA256.txt", STATE_FILE} or is_managed_record(relative):
+                continue
+            if any(path_matches(relative, pattern) for pattern in PORTABLE_EXCLUDE_PATTERNS):
+                continue
+            tokens.append(file_content_token(root, relative))
+    tokens.sort(key=lambda token: token["path"])
     payload = {"files": tokens}
     return {"sha256": sha256_text(canonical_json(payload)), "file_count": len(tokens)}
 
@@ -729,6 +838,7 @@ def update_session_index(root: Path, session: dict[str, Any]) -> None:
         if row.get("session_id") == session["session_id"]:
             row.update(
                 {
+                    "story_id": session.get("story_id"),
                     "status": session["status"],
                     "updated_at": session.get("updated_at") or iso_utc(),
                     "closed_at": session.get("closed_at"),
@@ -742,6 +852,17 @@ def update_session_index(root: Path, session: dict[str, Any]) -> None:
         append_session_index(root, session)
         return
     atomic_write_yaml(root / SESSION_INDEX_FILE, index)
+
+
+def switch_active_claim_story(root: Path, session: dict[str, Any], story_id: str) -> None:
+    claims = load_index(root, TASK_CLAIMS_FILE, "claims")
+    matches = [row for row in claims["claims"] if row.get("session_id") == session["session_id"] and row.get("status") == "ACTIVE"]
+    if len(matches) != 1:
+        raise ContinuityError("当前会话必须且只能有一个ACTIVE Claim")
+    matches[0]["story_id"] = story_id
+    matches[0]["allowed_paths"] = session["scope"]["allowed_paths"]
+    matches[0]["updated_at"] = iso_utc()
+    atomic_write_yaml(root / TASK_CLAIMS_FILE, claims)
 
 
 def claim_task(root: Path, session: dict[str, Any]) -> None:
@@ -828,6 +949,11 @@ def derive_scope(policy: dict[str, Any], story: dict[str, Any] | None, explicit:
         normalized = item.replace("\\", "/").strip()
         if normalized and normalized not in paths:
             paths.append(normalized)
+    # Every successful task close writes the user-visible changelog.  This is
+    # mandatory closure metadata rather than an optional platform artefact, so
+    # every session must be able to produce it regardless of story platform.
+    if "CHANGELOG.md" not in paths:
+        paths.append("CHANGELOG.md")
     return paths
 
 
@@ -873,6 +999,7 @@ def update_current_status_closed(
     *,
     result: str,
     next_task_id: str | None,
+    code_commit: str | None = None,
 ) -> None:
     status = read_current_status(root)
     completed = list(status.get("completed_tasks", []))
@@ -908,6 +1035,8 @@ def update_current_status_closed(
             },
         }
     )
+    if result == "COMPLETED" and code_commit:
+        status["last_green_commit"] = code_commit
     atomic_write_yaml(root / "CURRENT_STATUS.yaml", status)
 
 
@@ -1127,18 +1256,23 @@ def checkpoint_cr_trailer(checkpoint: dict[str, Any] | None) -> str:
 
 def expected_commit_trailers(session: dict[str, Any], checkpoint: dict[str, Any]) -> dict[str, str]:
     trailers = {
-        "Task-ID": str(session.get("task_id") or ""),
+        "Task-ID": str(checkpoint.get("task_id") or session.get("task_id") or ""),
         "Session-ID": str(session.get("session_id") or ""),
         "Checkpoint-ID": str(checkpoint.get("checkpoint_id") or ""),
         "Tests": checkpoint_tests_trailer(checkpoint),
         "CR": checkpoint_cr_trailer(checkpoint),
     }
-    if session.get("story_id"):
-        trailers["Story-ID"] = str(session["story_id"])
+    story_id = checkpoint.get("story_id") or session.get("story_id")
+    if story_id:
+        trailers["Story-ID"] = str(story_id)
     return trailers
 
 
-def context_source_paths(root: Path, session: dict[str, Any] | None) -> list[Path]:
+def context_source_paths(
+    root: Path,
+    session: dict[str, Any] | None,
+    release: str | None = None,
+) -> list[Path]:
     paths = [
         root / "AGENTS.md",
         root / "START_HERE.md",
@@ -1149,6 +1283,9 @@ def context_source_paths(root: Path, session: dict[str, Any] | None) -> list[Pat
         root / "docs/03-continuity/PROBLEM_REGISTRY.yaml",
         root / "docs/03-continuity/REUSABLE_PATTERNS.md",
         root / "docs/03-continuity/PITFALLS.md",
+        root / "releases/PROGRAM_EXECUTION_PLAN.yaml",
+        root / "config/REPOSITORY_TRANSPORT.yaml",
+        root / "config/DEVELOPMENT_RUNTIME.yaml",
         root / POLICY_FILE,
         root / EVENT_LOG_FILE,
         root / SESSION_INDEX_FILE,
@@ -1159,8 +1296,10 @@ def context_source_paths(root: Path, session: dict[str, Any] | None) -> list[Pat
         # would make every freshly generated Context Pack immediately stale.
         root / ACTIVE_FILE,
     ]
-    if session:
-        release = session["release"]
+    policy = load_policy(root)
+    paths.extend(root / relative for relative in required_rule_sources(policy))
+    release = (session or {}).get("release") or release
+    if release:
         paths.extend(
             [
                 root / "releases" / release / "RELEASE_MANIFEST.yaml",
@@ -1168,17 +1307,57 @@ def context_source_paths(root: Path, session: dict[str, Any] | None) -> list[Pat
                 root / "releases" / release / "STORIES.yaml",
                 root / "releases" / release / "TASKS.yaml",
                 root / "releases" / release / "ACCEPTANCE_MATRIX.csv",
-                # The machine session record receives the generated Context Pack
-                # pointer after generation, so it must not fingerprint itself.
-                root / session["session_log"],
+                root / "releases" / release / "PARALLEL_EXECUTION_PLAN.yaml",
             ]
         )
+    if session:
+        # The machine session record receives the generated Context Pack pointer
+        # after generation, so it must not fingerprint itself.
+        paths.append(root / session["session_log"])
         if session.get("latest_checkpoint"):
             paths.append(root / session["latest_checkpoint"])
         for cr_id in session.get("change_requests", []):
             candidates = list((root / "docs/03-continuity/change-requests").glob(f"{cr_id}*.md"))
             paths.extend(candidates)
-    return [path for path in paths if path.exists()]
+    unique: list[Path] = []
+    seen: set[str] = set()
+    for path in paths:
+        relative = path.relative_to(root).as_posix()
+        if path.exists() and relative not in seen:
+            unique.append(path)
+            seen.add(relative)
+    return unique
+
+
+def required_rule_sources(policy: dict[str, Any]) -> list[str]:
+    """Return the canonical global rule sources that every handoff must hash."""
+    raw = policy.get("rule_readiness", {}).get("required_global_sources", [])
+    sources: list[str] = []
+    for value in raw:
+        relative = normalize_repo_path(str(value).strip())
+        if not relative or relative.startswith("/") or relative == ".." or relative.startswith("../"):
+            raise ContinuityError(f"非法规则来源路径：{value}")
+        if relative not in sources:
+            sources.append(relative)
+    return sources
+
+
+def rule_readiness_payload(
+    policy: dict[str, Any],
+    source_manifest: Sequence[dict[str, Any]],
+) -> dict[str, Any]:
+    required = required_rule_sources(policy)
+    manifested = {str(row.get("path") or "") for row in source_manifest}
+    missing = [relative for relative in required if relative not in manifested]
+    return {
+        "status": "PASS" if required and not missing else "FAIL",
+        "evidence": "HASHED_CONTEXT_MANIFEST",
+        "entry_command": policy.get("rule_readiness", {}).get("entry_command"),
+        "subjective_understanding_is_evidence": False,
+        "user_reexplanation_required_for_continue_only": False,
+        "required_sources": required,
+        "missing_sources": missing,
+    }
 
 
 def open_change_requests(root: Path) -> list[dict[str, Any]]:
@@ -1192,33 +1371,30 @@ def build_context_pack(root: Path, session: dict[str, Any] | None = None) -> dic
     next_task = read_next_task(root)
     git_state = git_info(root)
     checkpoint = latest_checkpoint(root, session) if session else None
-    source_paths = context_source_paths(root, session)
-    source_manifest = [
-        {
-            "path": path.relative_to(root).as_posix(),
-            "sha256": sha256_file(path),
-            "bytes": path.stat().st_size,
-        }
-        for path in source_paths
-    ]
+    release = (session or {}).get("release") or status.get("active_release") or next_task.get("release")
+    source_paths = context_source_paths(root, session, release)
+    source_manifest = [portable_source_record(root, path) for path in source_paths]
+    rule_readiness = rule_readiness_payload(load_policy(root), source_manifest)
     fingerprint = project_fingerprint(root, session) if session else {
         "sha256": tree_fingerprint(root)["sha256"],
         "files": [],
         "file_count": 0,
     }
-    release = (session or {}).get("release") or status.get("active_release") or next_task.get("release")
     release_docs: dict[str, Any] = {}
     if release:
-        for name in ["RELEASE_MANIFEST.yaml", "DEFINITION_OF_READY.yaml", "STORIES.yaml", "TASKS.yaml"]:
+        for name in ["RELEASE_MANIFEST.yaml", "DEFINITION_OF_READY.yaml", "STORIES.yaml", "TASKS.yaml", "PARALLEL_EXECUTION_PLAN.yaml"]:
             path = root / "releases" / release / name
             if path.exists():
                 release_docs[name] = load_yaml(path, {})
-    bootstrap_tasks = set(load_policy(root).get("bootstrap", {}).get("allow_without_git_task_ids", []))
+    policy = load_policy(root)
+    repository_transport = load_yaml(root / "config/REPOSITORY_TRANSPORT.yaml", {})
+    development_runtime = load_yaml(root / "config/DEVELOPMENT_RUNTIME.yaml", {})
+    bootstrap_tasks = set(policy.get("bootstrap", {}).get("allow_without_git_task_ids", []))
     handoff_instruction = (
         f"python3 scripts/continuity.py takeover --actor <NEW_ACTOR> --session {session['session_id']}"
         if session and session.get("status") == "HANDED_OFF"
         else (
-            f"python3 scripts/continuity.py checkpoint --summary '<完成内容>' --next-step '<下一步>'"
+            f"python3 scripts/continuity.py checkpoint --summary '<完成内容>' --next-step '<下一步>' --parallel-assessment <ASSESSMENT> --parallel-reason '<未委托原因>'"
             if session
             else (
                 f"python3 scripts/continuity.py bootstrap --actor <ACTOR_ID> --init-git --initial-commit --task {next_task.get('id')} --branch task/{next_task.get('id')}"
@@ -1249,6 +1425,10 @@ def build_context_pack(root: Path, session: dict[str, Any] | None = None) -> dic
         "git": git_state,
         "project_fingerprint": fingerprint,
         "release_context": release_docs,
+        "parallel_development_policy": policy.get("parallel_development", {}),
+        "execution_routing_policy": development_runtime.get("model_routing", {}),
+        "development_runtime": development_runtime,
+        "repository_transport": repository_transport,
         "continuity_state": {
             "mode": state.get("mode"),
             "protocol_version": state.get("protocol_version"),
@@ -1265,13 +1445,22 @@ def build_context_pack(root: Path, session: dict[str, Any] | None = None) -> dic
         "recent_task_transitions": transition_rows[-20:],
         "open_change_requests": open_change_requests(root),
         "source_manifest": source_manifest,
+        "rule_readiness": rule_readiness,
         "exact_resume_command": handoff_instruction,
         "hard_rules": [
             "不得依赖旧对话补充仓库已有需求",
             "未领取任务和会话不得编辑项目文件",
             "项目内容变化后必须先创建检查点再提交",
             "冻结事实变化必须关联已批准CR",
+            "用户提出新规则时必须先检索现有权威规则；相同或相似规则只能修订原规则，禁止建立平行事实源",
+            "继续开发前Context Pack规则就绪状态必须为PASS；主观声称已理解不能替代来源哈希证据",
             "交接必须生成Handoff Bundle或完成干净提交",
+            "存在安全且路径互斥的工作包时主控自动委托1至3个执行代理，无需逐次用户确认",
+            "未委托或运行环境不支持代理时必须记录原因，禁止伪造并行证据",
+            "复杂/高风险使用Sol，中等使用Terra，轻量使用Luna；不可用时记录目标、实际模型和回退原因，不得伪称",
+            "除非项目所有者明确报告未连接，默认Codex已连接obx-test且既有项目环境可用；预检失败必须阻断并报告",
+            "禁止以无服务器状态继续开发或重建本地Android SDK，必须复用登记的远端镜像和Gradle缓存",
+            "Git remote/upstream仅按tracked transport descriptor受控恢复；推送前必须预检且禁止force push",
         ],
     }
     context_hash = sha256_text(canonical_json(payload))
@@ -1296,16 +1485,42 @@ def build_context_pack(root: Path, session: dict[str, Any] | None = None) -> dic
 - Context Hash：`{context_hash}`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
+- 规则就绪：`{rule_readiness['status']}`（`HASHED_CONTEXT_MANIFEST`）
 - 精确恢复命令：
 
 ```bash
 {handoff_instruction}
 ```
 
+## 规则就绪
+
+```yaml
+{dump_yaml(rule_readiness)}
+```
+
 ## 当前状态
 
 ```yaml
 {dump_yaml(status)}
+```
+
+## 默认并行规则
+
+```yaml
+{dump_yaml(payload['parallel_development_policy'])}
+```
+
+## 模型路由与云端既有环境
+
+```yaml
+execution_routing_policy: {dump_yaml(payload['execution_routing_policy'])}
+development_runtime: {dump_yaml(payload['development_runtime'])}
+```
+
+## 仓库传输恢复
+
+```yaml
+{dump_yaml(payload['repository_transport'])}
 ```
 
 ## 下一任务
@@ -1376,6 +1591,12 @@ recent_task_transitions: {dump_yaml(payload['recent_task_transitions'])}
 3. 所有变更必须在活跃会话、任务和故事范围内。
 4. 每次上下文切换、关键测试、提交和交接前必须创建检查点。
 5. 冻结事实变化必须关联已批准 CR。
+6. 存在安全且路径互斥的工作包时自动委托 1 至 3 个执行代理，无需逐次用户确认。
+7. 未委托或运行时不支持代理时必须记录原因，禁止伪造并行证据。
+8. 复杂/高风险使用 Sol，中等使用 Terra，轻量使用 Luna；不可用时记录实际回退，禁止虚构模型使用记录。
+9. 除非项目所有者明确报告未连接，默认 Codex 已连接 `obx-test` 且既有项目环境可用；预检失败必须阻断并报告。
+10. 禁止以无服务器状态开发或重建本地 Android SDK；只能复用登记的远端镜像和 Gradle 缓存。
+11. Git remote/upstream 仅按 tracked transport descriptor 受控恢复，推送前必须通过 preflight，禁止 force push。
 """
     atomic_write_text(md_path, markdown)
     manifest = {
@@ -1411,7 +1632,12 @@ recent_task_transitions: {dump_yaml(payload['recent_task_transitions'])}
     return payload
 
 
-def context_is_fresh(root: Path, session: dict[str, Any] | None = None) -> tuple[bool, str]:
+def context_is_fresh(
+    root: Path,
+    session: dict[str, Any] | None = None,
+    *,
+    verify_tree: bool = True,
+) -> tuple[bool, str]:
     manifest = load_json(root / "artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json", {})
     if not manifest:
         return False, "Context Pack Manifest不存在"
@@ -1437,7 +1663,7 @@ def context_is_fresh(root: Path, session: dict[str, Any] | None = None) -> tuple
         path = root / source["path"]
         if not path.exists():
             return False, f"Context Pack来源缺失：{source['path']}"
-        if sha256_file(path) != source["sha256"]:
+        if portable_source_record(root, path)["sha256"] != source["sha256"]:
             return False, f"Context Pack已过期：{source['path']}发生变化"
     if session:
         checkpoint = latest_checkpoint(root, session)
@@ -1445,12 +1671,55 @@ def context_is_fresh(root: Path, session: dict[str, Any] | None = None) -> tuple
             current = project_fingerprint(root, session)["sha256"]
             if current != checkpoint.get("project_fingerprint", {}).get("sha256"):
                 return False, "项目内容在最新检查点后发生变化"
-    else:
+    elif verify_tree:
         expected_tree = manifest.get("project_fingerprint", {}).get("sha256")
         current_tree = tree_fingerprint(root)["sha256"]
         if not expected_tree or current_tree != expected_tree:
             return False, "仓库树在Context Pack生成后发生变化"
     return True, "PASS"
+
+
+def normalize_parallel_execution(policy: dict[str, Any], value: dict[str, Any] | None) -> dict[str, Any]:
+    execution = dict(value or {})
+    assessment = str(execution.get("assessment") or "").upper()
+    allowed_assessments = {"DELEGATED", "NO_SAFE_PARALLEL", "CAPABILITY_UNAVAILABLE", "USER_SERIAL_OVERRIDE"}
+    if assessment not in allowed_assessments:
+        raise ContinuityError("检查点必须记录有效的parallel_execution.assessment")
+    workers = [dict(worker) for worker in (execution.get("workers") or [])]
+    reason = str(execution.get("reason") or "").strip()
+    max_workers = int(policy.get("parallel_development", {}).get("max_delegated_workers", 3))
+    if assessment == "DELEGATED":
+        if not 1 <= len(workers) <= max_workers:
+            raise ContinuityError(f"DELEGATED必须记录1至{max_workers}个执行代理")
+    else:
+        if workers:
+            raise ContinuityError(f"{assessment}不得记录执行代理")
+        if policy.get("parallel_development", {}).get("non_delegation_requires_checkpoint_reason") and not reason:
+            raise ContinuityError(f"{assessment}必须记录未委托原因")
+    seen_ids: set[str] = set()
+    claimed_roots: list[tuple[str, str]] = []
+    for worker in workers:
+        worker_id = str(worker.get("worker_id") or "").strip()
+        responsibility = str(worker.get("responsibility") or "").strip()
+        paths = [normalize_repo_path(str(path).strip()) for path in worker.get("allowed_paths", []) if str(path).strip()]
+        if not worker_id or worker_id in seen_ids or not responsibility or not paths:
+            raise ContinuityError("执行代理必须具有唯一worker_id、responsibility和allowed_paths")
+        seen_ids.add(worker_id)
+        for path in paths:
+            root_path = re.split(r"[?*\[]", path, maxsplit=1)[0].rstrip("/")
+            if not root_path:
+                raise ContinuityError(f"执行代理路径不得覆盖整个仓库：{path}")
+            for existing_worker, existing_root in claimed_roots:
+                if root_path == existing_root or root_path.startswith(existing_root + "/") or existing_root.startswith(root_path + "/"):
+                    raise ContinuityError(f"执行代理路径租约重叠：{worker_id}:{path} <-> {existing_worker}:{existing_root}")
+            claimed_roots.append((worker_id, root_path))
+        worker.update({"worker_id": worker_id, "responsibility": responsibility, "allowed_paths": paths})
+    return {
+        "assessment": assessment,
+        "delegated_workers": len(workers),
+        "workers": workers,
+        "reason": reason,
+    }
 
 
 def write_checkpoint(
@@ -1463,6 +1732,7 @@ def write_checkpoint(
     blockers: Sequence[str],
     decisions: Sequence[str],
     tests: Sequence[dict[str, str]],
+    parallel_execution: dict[str, Any] | None = None,
     note: str = "",
 ) -> dict[str, Any]:
     if session.get("status") not in {"ACTIVE", "CLOSING"}:
@@ -1488,10 +1758,13 @@ def write_checkpoint(
     checkpoint_id = make_checkpoint_id(session["session_id"], sequence)
     created_at = iso_utc()
     git_state = git_info(root)
+    parallel_execution = normalize_parallel_execution(policy, parallel_execution or session.get("parallel_execution"))
     checkpoint = {
         "protocol_version": PROTOCOL_VERSION,
         "checkpoint_id": checkpoint_id,
         "session_id": session["session_id"],
+        "task_id": session["task_id"],
+        "story_id": session.get("story_id"),
         "sequence": sequence,
         "created_at": created_at,
         "summary": summary.strip(),
@@ -1506,6 +1779,7 @@ def write_checkpoint(
         "required_records": required,
         "change_requests": session.get("change_requests", []),
         "scope": session.get("scope", {}),
+        "parallel_execution": parallel_execution,
     }
     if not checkpoint["summary"] or not checkpoint["next_step"]:
         raise ContinuityError("检查点必须填写 summary 和 next_step")
@@ -1524,6 +1798,7 @@ def write_checkpoint(
     session["checkpoint_sequence"] = sequence
     session["latest_checkpoint"] = cp_path.relative_to(root).as_posix()
     session["next_step"] = checkpoint["next_step"]
+    session["parallel_execution"] = parallel_execution
     renew_lease(session, policy)
     save_session(root, session)
     # The active pointer is a first-class recovery record. Refresh it on every
@@ -2295,6 +2570,80 @@ def approve_change_request(
     _persist_change_request(root, index, record)
     append_event(root, "CHANGE_REQUEST_DECIDED", {"cr_id": cr_id, "decision": decision, "approver_actor_id": approver_actor_id})
     return record
+
+
+def apply_change_request_scope(
+    root: Path,
+    *,
+    session: dict[str, Any],
+    cr_id: str,
+    actor_id: str,
+) -> dict[str, Any]:
+    """Apply an approved CR's exact impact files to the current session scope."""
+    if session.get("status") != "ACTIVE":
+        raise ContinuityError("只有ACTIVE会话可以应用CR范围")
+    if session.get("actor", {}).get("id") != actor_id:
+        raise ContinuityError("只有当前ACTIVE会话Actor可以应用CR范围")
+    if cr_id not in session.get("change_requests", []):
+        raise ContinuityError(f"CR未关联当前会话：{cr_id}")
+
+    index = load_index(root, CR_INDEX_FILE, "change_requests")
+    record = next((row for row in index["change_requests"] if row.get("cr_id") == cr_id), None)
+    if not record:
+        raise ContinuityError(f"CR不存在：{cr_id}")
+    if record.get("status") not in {"APPROVED", "IMPLEMENTING", "IMPLEMENTED", "CLOSED"}:
+        raise ContinuityError(f"CR尚未批准：{cr_id} / {record.get('status')}")
+    if record.get("approval", {}).get("decision") != "APPROVED":
+        raise ContinuityError(f"CR缺少明确批准决定：{cr_id}")
+    if record.get("requester_actor_id") == record.get("approver_actor_id"):
+        raise ContinuityError(f"CR申请人与审批人相同：{cr_id}")
+    if record.get("task_id") != session.get("task_id"):
+        raise ContinuityError(f"CR不属于当前任务：{cr_id}")
+
+    exact_paths: list[str] = []
+    for raw in (record.get("impact") or {}).get("files", []):
+        value = str(raw).strip().replace("\\", "/")
+        if (
+            not value
+            or value.startswith(("/", "\\"))
+            or re.match(r"^[A-Za-z]:", value)
+            or any(char in value for char in "*?[]")
+            or any(part in {"", ".", ".."} for part in value.split("/"))
+            or value == ".git"
+            or value.startswith(".git/")
+        ):
+            raise ContinuityError(f"CR范围只允许仓库内精确文件路径：{raw}")
+        exact_paths.append(value)
+    if not exact_paths:
+        raise ContinuityError(f"CR未声明影响文件：{cr_id}")
+
+    scope = dict(session.get("scope") or {})
+    exceptions = list(scope.get("approved_exceptions", []))
+    for path in exact_paths:
+        if path not in exceptions:
+            exceptions.append(path)
+    scope["approved_exceptions"] = exceptions
+    source = str(scope.get("source") or "story+explicit")
+    marker = f"approved-cr:{cr_id}"
+    if marker not in source.split("+"):
+        scope["source"] = source + "+" + marker
+    session["scope"] = scope
+    session["updated_at"] = iso_utc()
+    save_session(root, session)
+    append_event(root, "CHANGE_REQUEST_STATUS_UPDATED", {
+        "cr_id": cr_id,
+        "status": record.get("status"),
+        "actor_id": actor_id,
+        "session_id": session.get("session_id"),
+        "operation": "SCOPE_APPLIED",
+        "files": exact_paths,
+    })
+    return {
+        "session_id": session.get("session_id"),
+        "cr_id": cr_id,
+        "applied_files": exact_paths,
+        "checkpoint_required": True,
+    }
 
 
 def sanitize_filename(value: str) -> str:

@@ -1,0 +1,9 @@
+task=TASK-R12-006
+story=STORY-R12-008
+release=R12
+frozen_commit=4365e1c790e3792812cfd62bb415e1075eb00149
+compose_project=hhy-r12-staging-a2
+network_subnet=172.31.240.0/24
+current_image=sha256:12e73089033a1f59082e08b0f85232a69c8a6a7ac4938c1e7e524e1830195074
+postgres_container=09fb30899df3dcb8fb7d02ca9c6d64c2b264500fbbb34e3d6ace3135be285082
+postgres_volume=hhy-r12-staging-a2_pgdata

@@ -1,0 +1,214 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260718T200607Z-3569D212-0007
+session_id: SES-20260718T200607Z-3569D212
+sequence: 7
+created_at: '2026-07-18T20:49:59Z'
+summary: 重启后恢复R03桌面APK并复核仓库、桌面、服务器和公网四方哈希
+next_step: 等待项目所有者对桌面hhy-r03-3a913c9-debug.apk完成真机验收；PASS后关闭TASK-R03-007/008并进入R04
+blockers:
+- R03唯一未完成门禁为项目所有者真机安装、启动、认证页及自动验证码路径PASS；未经反馈不得伪造完成或启动依赖R03的R04
+decisions:
+- R02安全验证码网页端设计继续保持PROB-0032非阻断，不影响R03关闭后的版本推进
+note: 服务器、公网和恢复后的桌面APK四方身份一致
+tests:
+- name: r03-apk-repository
+  result: PASS
+  evidence: artifacts/apk/R03/hhy-r03-3a913c9-debug.apk
+  note: 11923821字节，SHA-256 9b0aadba...107a32e
+- name: r03-apk-desktop-restored
+  result: PASS
+  evidence: C:/Users/小白/Desktop/hhy-r03-3a913c9-debug.apk
+  note: 重启后缺失，已从仓库同哈希副本恢复
+- name: r03-apk-remote
+  result: PASS
+  evidence: obx-test:/www/wwwroot/download.orbexa.cc/r03-artifacts/hhy-r03-3a913c9-debug.apk
+  note: SHA-256匹配
+- name: r03-apk-public
+  result: PASS
+  evidence: https://download.orbexa.cc/r03-artifacts/hhy-r03-3a913c9-debug.apk
+  note: no-cache下载SHA-256匹配
+- name: r04-documentation
+  result: PASS
+  evidence: scripts/check_v122_documentation.py --release R04
+  note: R04文档就绪，但Release依赖R03尚未GREEN
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: ab17752eabb6db73f0438fd5048ec45ef0247921
+  upstream: origin/task/TASK-R03-001
+  ahead: 0
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - ' M artifacts/validation/project-doctor-v1.2.2.json'
+  recent_commits:
+  - "ab17752eabb6db73f0438fd5048ec45ef0247921\t2026-07-19T04:46:42+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] chore(continuity): close resume\
+    \ safety changes"
+  - "30a397bf2f2dbffbde976cbb93f6f3b216eb16a4\t2026-07-19T04:45:06+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] fix(continuity): resume blocked\
+    \ work safely"
+  - "18e2db65b65afeb1e69d0c382ab53963fc97adec\t2026-07-19T01:25:54+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] chore(continuity): close TASK-R03-007\
+    \ as blocked"
+  - "16023e53e214d0f82486783578657814f4671f85\t2026-07-19T01:24:12+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] chore(r03): sign external\
+    \ activation gate"
+  - "5cdfd38e50c563b345203b1255dc7fb67e618c46\t2026-07-19T01:23:07+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] test(r03): deliver regression\
+    \ apk evidence"
+  - "3a913c95265f93b815042389d573f4804137c0c0\t2026-07-19T01:05:16+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] chore(r03): freeze external\
+    \ and apk baseline"
+  - "25d8171c76e0cef323a717ad66ac85ccd69371c3\t2026-07-19T00:57:28+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] chore(continuity): close TASK-R03-006\
+    \ as completed"
+  - "f41c84e6df03f49cd5c21537ea6a1235471006ba\t2026-07-19T00:55:29+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] test(r03): record staging\
+    \ rollback evidence"
+project_fingerprint:
+  sha256: 6a55ae2986626fb3e7a54195098980b65dd9110fd9c888b233338d6b3e0209d2
+  files:
+  - CHANGELOG.md
+  - docs/02-ui/R02安全验证码UI设计回传接入记录_V1.2.2.md
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/REUSABLE_PATTERNS.md
+  - docs/03-continuity/change-requests/CR-0051-修复BLOCKED任务接续命令死锁并登记非阻断设计回传.md
+  - docs/03-continuity/change-requests/CR-0052-同步连续性模板并重生成协议验证报告.md
+  - docs/03-continuity/change-requests/CR-0053-补齐非阻断设计接入与连续性修复Changelog.md
+  - scripts/check_r02_security_challenge_design_package.py
+  - scripts/continuity.py
+  - templates/AGENTS.md
+  - tests/test_continuity_blocked_resume.py
+  - tests/test_r02_security_challenge_design_package.py
+  file_count: 12
+  payload:
+    base_commit: 18e2db65b65afeb1e69d0c382ab53963fc97adec
+    files:
+    - path: CHANGELOG.md
+      state: FILE
+      size: 30878
+      sha256: b1a363386b01598ac45ae2089286e99578f1d2cef3d0942f35a7c2f994a3e7b4
+    - path: docs/02-ui/R02安全验证码UI设计回传接入记录_V1.2.2.md
+      state: FILE
+      size: 2240
+      sha256: c71c5da647afd89f5562840664279e2cbde5bb9fa8506ec5a07b1139813c95a4
+    - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
+      state: FILE
+      size: 29583
+      sha256: e9cd6bfdd701f8204b5d4421a1f78dbd0d96db5bd33a84f74121648b37fbaf1f
+    - path: docs/03-continuity/REUSABLE_PATTERNS.md
+      state: FILE
+      size: 2093
+      sha256: 6ba8e39f6a98d3ceb4b019ea66aa6a954ada7f07c55e5f1c533200f0beda7969
+    - path: docs/03-continuity/change-requests/CR-0051-修复BLOCKED任务接续命令死锁并登记非阻断设计回传.md
+      state: FILE
+      size: 3955
+      sha256: 09124eace840cbac05b094cb44ba6e9b2baf894d33b663a5eecc21a271fd9f27
+    - path: docs/03-continuity/change-requests/CR-0052-同步连续性模板并重生成协议验证报告.md
+      state: FILE
+      size: 3106
+      sha256: 657fe94cc6f260b297cb45642322801c84f680a89018c9e6679469eaecfc7689
+    - path: docs/03-continuity/change-requests/CR-0053-补齐非阻断设计接入与连续性修复Changelog.md
+      state: FILE
+      size: 2615
+      sha256: d34b7054137e69b320623c2971b6b89fdc8c26644170a1cbc9ab29dbc2fb1ab0
+    - path: scripts/check_r02_security_challenge_design_package.py
+      state: FILE
+      size: 12106
+      sha256: a03dea9e374b686da6897919686f58f3142f889ab750e8601b47a9e1d0cacb16
+    - path: scripts/continuity.py
+      state: FILE
+      size: 65887
+      sha256: bc77db7ccffa3bd20979c5cf14446a9a95bf425a2272b5910fad9ddc51feb457
+    - path: templates/AGENTS.md
+      state: FILE
+      size: 6689
+      sha256: 04c48ef8087599bf1ef602b43c959fe095ad44b17948c31076209809d261d56e
+    - path: tests/test_continuity_blocked_resume.py
+      state: FILE
+      size: 2469
+      sha256: 93473df248dd8d7cbf514945c9087c6bd9830b9094dcdbe2c729503bc40feeb2
+    - path: tests/test_r02_security_challenge_design_package.py
+      state: FILE
+      size: 6206
+      sha256: d796dd889d2847b843c49ecce34c9b7905c74deb22cbf7659c96f609a652a2af
+change_classification:
+  other:
+  - CHANGELOG.md
+  - templates/AGENTS.md
+  source_of_truth:
+  - docs/02-ui/R02安全验证码UI设计回传接入记录_V1.2.2.md
+  user_visible:
+  - docs/02-ui/R02安全验证码UI设计回传接入记录_V1.2.2.md
+  continuity:
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/REUSABLE_PATTERNS.md
+  - docs/03-continuity/change-requests/CR-0051-修复BLOCKED任务接续命令死锁并登记非阻断设计回传.md
+  - docs/03-continuity/change-requests/CR-0052-同步连续性模板并重生成协议验证报告.md
+  - docs/03-continuity/change-requests/CR-0053-补齐非阻断设计接入与连续性修复Changelog.md
+  code:
+  - scripts/check_r02_security_challenge_design_package.py
+  - scripts/continuity.py
+  tests:
+  - tests/test_continuity_blocked_resume.py
+  - tests/test_r02_security_challenge_design_package.py
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+- APPROVED_CHANGE_REQUEST
+- CHANGELOG
+change_requests:
+- CR-0051
+- CR-0052
+- CR-0053
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions:
+  - scripts/continuity.py
+  - tests/test_continuity_blocked_resume.py
+  - .continuity/CONTINUITY_POLICY.yaml
+  - docs/03-continuity/REUSABLE_PATTERNS.md
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/02-ui/R02安全验证码UI设计回传接入记录_V1.2.2.md
+  - scripts/check_r02_security_challenge_design_package.py
+  - tests/test_r02_security_challenge_design_package.py
+  - templates/AGENTS.md
+  - artifacts/validation/continuity-integration-v1.2.3.json
+  - artifacts/validation/continuity-integration-v1.2.3.log
+  - artifacts/validation/continuity-lifecycle-integration-v1.2.3.json
+  - artifacts/validation/continuity-lifecycle-integration-v1.2.3.log
+  - CHANGELOG.md
+  source: story+explicit+approved-cr:CR-0051+approved-cr:CR-0052+approved-cr:CR-0053
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 当前剩余项是项目所有者物理设备验收，不能由执行代理、模拟器或后台线程替代；R04声明依赖R03不得越过
+event_hash: db72a5e72e60b831fe0e121a4d8d0682ac3f93f6433a7dd382370fade11a1923

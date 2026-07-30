@@ -1,0 +1,61 @@
+protocol_version: '1.0'
+cr_id: CR-0449
+title: 实现R16 Android只读订单详情
+status: IMPLEMENTING
+created_at: '2026-07-28T13:18:08Z'
+updated_at: '2026-07-28T13:22:35Z'
+requester_actor_id: codex-r16-client-admin-20260728
+approver_actor_id: codex-r16-android-order-detail-independent-review-20260728
+task_id: TASK-R16-004
+session_id: SES-20260728T125934Z-F3DED330
+user_request: 持续推进R16，完成真实前后端对应能力并在大版本完成时统一交付APK与测试文档
+reason: R16后端已冻结并实现用户订单详情接口，但Android尚无feature:order、类型安全客户端或SCR-ORDER-002路由页面
+original_rule: SCR-ORDER-002规格和orderGetMeOrdersByOrderno合同已冻结，但Android没有订单网络模型、feature:order模块、类型安全路由或详情页面。OpenAPI的orderNo仅要求非空且最长128字符，不存在客户端字符白名单。V045历史订单仅以confirmed=false、agreementVersion空字符串、confirmedAt=null三字段组合标识未记录。
+new_rule: 新增feature:order并只实现SCR-ORDER-002只读详情。网络客户端严格GET /api/v1/me/orders/{orderNo}并解码冻结OrderResource；orderNo接受合同允许的1至128字符（含空格、中文和保留字符），只对单一路径段做一次UTF-8百分号编码，拒绝空值/超长并禁止路径注入和双重编码。页面固定56dp顶栏、16dp页边距/卡片内边距，展示状态摘要、订单项、原价/优惠/服务费/应付/实付、不退款证据和真实时间。仅confirmed=false且agreementVersion为空且confirmedAt=null显示历史订单未记录；confirmed=true显示已确认；confirmed=false但存在协议版本或确认时间显示尚未确认，绝不误标历史或已确认。8个冻结状态全部中文化，未知值统一显示订单状态待确认且不暴露原值。普通界面不得显示userId、version、requestId、ruleVersions或技术枚举。禁止支付、退款、客服、物流、发票和再次购买。401触发现有会话失效并以合法OrderDetail目标返回登录；403/404只显示不可用状态，不清会话且文案不区分越权与资源存在性。SCR-ORDER-001上线前，非法/缺失orderNo先popBackStack，栈空仅回已登记Home；列表上线后无损改为Orders模块首页。
+impact_summary: 新增R16订单类型安全网络合同和feature:order模块，将OrderDetail(orderNo)接入应用导航，覆盖合同宽度路径编码、完整资源解码、401返回目标、状态恢复、8状态中文化、精确历史证据语义、隐藏技术字段与禁止虚构动作，并更新R16实施证据。
+impact:
+  files:
+  - apps/android/settings.gradle.kts
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+  - apps/android/app/src/test/java/cc/orbexa/hhy/NavigationPolicyTest.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR16Api.kt
+  - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ContractR16ApiTest.kt
+  - apps/android/feature/order/build.gradle.kts
+  - apps/android/feature/order/src/main/java/cc/orbexa/hhy/order/R16OrderState.kt
+  - apps/android/feature/order/src/main/java/cc/orbexa/hhy/order/R16OrderScreens.kt
+  - apps/android/feature/order/src/test/java/cc/orbexa/hhy/order/R16OrderStateTest.kt
+  - releases/R16/STORIES.yaml
+  - releases/R16/RELEASE_MANIFEST.yaml
+  - artifacts/reports/R16/TASK-R16-004-android-order-detail.md
+  - CHANGELOG.md
+  pages:
+  - SCR-ORDER-002
+  apis:
+  - GET /api/v1/me/orders/{orderNo}
+  database: []
+  configuration:
+  - Android Gradle module feature:order and authenticated typed route
+  ledger:
+  - CR-0449,R16 STORY-R16-002 Android order detail evidence
+  tests:
+  - ContractR16Api空值/129字符拒绝，空格/中文/斜杠/问号/百分号单路径段一次编码且无注入/双重编码，认证和完整OrderResource解码；401触发会话失效并保留合法OrderDetail返回目标，403/404不清会话且不泄露资源存在性；状态加载/缓存过期/离线/错误；8个冻结状态逐一中文化，未知状态不原样展示；confirmed=false+空协议+null时间才显示历史订单未记录，普通未确认与已确认正反例；界面对userId/version/requestId/ruleVersions和技术枚举负断言；禁止支付退款客服物流发票再次购买；非法/缺失orderNo按现有栈pop或Home回退；core:network、feature:order与app单测/编译/Lint。
+  releases:
+  - R16
+  migration_and_compatibility: 无数据库、后端API、配置或版本号变化。新增Android模块和类型安全路由；orderNo完全遵循OpenAPI非空/最大128并进行单路径段一次编码。401沿用应用会话失效流程并保留合法原目标，403/404不清会话且使用同级不可用语义。SCR-ORDER-001尚未上线时非法路由popBackStack、栈空回现有Home；STORY-R16-003上线后把回退目标无损切到Orders列表，OrderDetail路由不变。
+user_confirmation: 项目所有者已明确要求持续推进R16，按冻结开发文档实现真实前后端对应能力，并禁止虚构参考图中的内容或功能。
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-28T13:21:48Z'
+  note: 独立复审确认：SCR-ORDER-002仅调用冻结的orderGetMeOrdersByOrderno只读GET合同并完整解码OrderResource；orderNo遵循1至128字符合同宽度，对空格、中文和保留字符执行单路径段一次UTF-8百分号编码且拒绝空值/超长/注入/双重编码；历史未记录严格限定为confirmed=false、空agreementVersion、null
+    confirmedAt三字段组合，普通未确认和已确认不混淆；8个状态全部中文化且未知值不泄露原枚举，userId/version/requestId/ruleVersions均有UI负断言；支付、退款、客服、物流、发票和再次购买全部禁止；401保留合法原目标并使会话失效，403/404不清会话且不泄露存在性；列表上线前使用现有栈pop或已登记Home，后续仅替换回退目标而保持OrderDetail路由；测试覆盖网络、状态、路由、模块编译与Lint。
+machine_record: .continuity/change_requests/CR-0449.yaml
+document: docs/03-continuity/change-requests/CR-0449-实现R16-Android只读订单详情.md
+decision_log:
+- at: '2026-07-28T13:22:35Z'
+  actor_id: codex-r16-client-admin-20260728
+  status: IMPLEMENTING
+  note: 独立复审通过，开始实现R16 Android只读订单详情。
+  session_id: SES-20260728T125934Z-F3DED330
+session_ids:
+- SES-20260728T125934Z-F3DED330

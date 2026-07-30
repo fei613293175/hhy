@@ -1,0 +1,164 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260717T152721Z-016DB4B2-0008
+session_id: SES-20260717T152721Z-016DB4B2
+sequence: 8
+created_at: '2026-07-17T17:04:47Z'
+summary: 收到项目所有者2026-07-18真机截图：R01 APK已安装、正常启动进入首页，五个底部导航入口可见；已回填APK Manifest、Task007和AC-R01-006为PASS。
+next_step: 提交APK真机验收记录，执行TASK-R01-007关闭流程。
+blockers: []
+decisions: []
+note: ''
+tests:
+- name: APK桌面副本SHA256
+  result: PASS
+  evidence: artifacts/apk/R01/APK_MANIFEST.yaml
+  note: 项目产物与桌面副本哈希一致
+- name: release-artifact-check
+  result: PASS
+  evidence: scripts/check_release_artifacts.py --release R01
+  note: R01 APK产物清单校验通过
+- name: AC-R01-006-record
+  result: PASS
+  evidence: releases/R01/ACCEPTANCE_MATRIX.csv
+  note: 真机验收记录已回填
+- name: git-diff-check
+  result: PASS
+  evidence: git diff --check
+  note: 无空白错误
+git:
+  initialized: true
+  branch: task/TASK-R01-007
+  head: 920daf4e314c80f37a324c863f988dd6fc57ec8c
+  upstream: origin/task/TASK-R01-007
+  ahead: 0
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/sessions/SES-20260717T152721Z-016DB4B2.yaml'
+  - ' M artifacts/apk/R01/APK_MANIFEST.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+  - ' M artifacts/reports/R01/TASK-R01-007-android-apk.md'
+  - ' M releases/R01/ACCEPTANCE_MATRIX.csv'
+  - ' M releases/R01/TASKS.yaml'
+  recent_commits:
+  - "920daf4e314c80f37a324c863f988dd6fc57ec8c\t2026-07-18T00:54:39+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] test(r01): archive Android\
+    \ APK traceability"
+  - "db3cfddcc4cda84265ec18f24de972804d62a08f\t2026-07-18T00:44:24+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] build(r01): enable debug resource\
+    \ overrides"
+  - "06b705ed53d83258e8d4b166909c5c21384f4b02\t2026-07-18T00:40:51+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] build(r01): mark debug APK\
+    \ test build"
+  - "46fb27372f2e62f3fe83d9f43f8e2189bbed4757\t2026-07-17T23:21:14+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] chore(continuity): close TASK-R01-006\
+    \ as completed"
+  - "e898018f12371c30992111df508972ab48937f6e\t2026-07-17T23:19:54+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] test(r01): archive task006\
+    \ staging evidence"
+  - "72de42c90f71438cdf5a2cc274277fecfa7a6cbd\t2026-07-17T23:11:15+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] test(r01): make snapshot corruption\
+    \ deterministic"
+  - "b8edbc0924157c8c03d4463c15b4301477cb5a8c\t2026-07-17T22:52:51+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] fix(r01): map unsupported\
+    \ media type to validation"
+  - "99f73023565acaa8c47001f1161b66a9447b845c\t2026-07-17T22:37:42+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] test(r01): use portable interval\
+    \ syntax"
+project_fingerprint:
+  sha256: 714523f4a4608770debbe404fe5f3aed8d4a6ed6e130ff8f53636c8b5a6df51e
+  files:
+  - CHANGELOG.md
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/main/AndroidManifest.xml
+  - artifacts/apk/R01/APK_MANIFEST.yaml
+  - infra/toolchains/android/Dockerfile
+  - releases/R01/ACCEPTANCE_MATRIX.csv
+  - releases/R01/TASKS.yaml
+  file_count: 7
+  payload:
+    base_commit: 46fb27372f2e62f3fe83d9f43f8e2189bbed4757
+    files:
+    - path: CHANGELOG.md
+      state: FILE
+      size: 10833
+      sha256: c67aa85c0e1f2f4a3c2c9cc98a5418a83110d986b10d6dfcf6af8d2d46a9fde8
+    - path: apps/android/app/build.gradle.kts
+      state: FILE
+      size: 2720
+      sha256: f1fa7170c305bd1012dca45054c9f83276691c290d97ab21e2503c18ff6a959a
+    - path: apps/android/app/src/main/AndroidManifest.xml
+      state: FILE
+      size: 827
+      sha256: a4a8afdea84e04a65751148fd3f68e09fd2ab04d96bcfc9131be5d2d9d6f054e
+    - path: artifacts/apk/R01/APK_MANIFEST.yaml
+      state: FILE
+      size: 1090
+      sha256: b098bd6a222fdd4ea5023224bfd77e3469253a48135e06f2667ef9a98986d498
+    - path: infra/toolchains/android/Dockerfile
+      state: FILE
+      size: 1107
+      sha256: 3a8b95720587cce665c50b5d5e338a8a08491a1c7b35657943671bc166de37a5
+    - path: releases/R01/ACCEPTANCE_MATRIX.csv
+      state: FILE
+      size: 742
+      sha256: 54e81f341a47f4faff353db3be85649998f50f3fec13a3fb130cdc3a73510b8e
+    - path: releases/R01/TASKS.yaml
+      state: FILE
+      size: 5855
+      sha256: dd30263288b10120a0cce3580aa6a0e00d0253fa3f8c7e19f065fc8f3cd82a4f
+change_classification:
+  other:
+  - CHANGELOG.md
+  - artifacts/apk/R01/APK_MANIFEST.yaml
+  - releases/R01/ACCEPTANCE_MATRIX.csv
+  - releases/R01/TASKS.yaml
+  code:
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/main/AndroidManifest.xml
+  user_visible:
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/main/AndroidManifest.xml
+  infrastructure:
+  - infra/toolchains/android/Dockerfile
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+- CHANGELOG
+change_requests: []
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  - artifacts/apk/**
+  - artifacts/reports/**
+  - artifacts/validation/**
+  approved_exceptions: []
+  source: story+explicit+apk-delivery-artifacts
+event_hash: 862c9c32816beed24210186d92f3345131cf877b046d2e56d9371f31047e830b

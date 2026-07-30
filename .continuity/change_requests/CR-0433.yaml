@@ -1,0 +1,55 @@
+protocol_version: '1.0'
+cr_id: CR-0433
+title: 同步R14变更后的全版本确定性执行计划
+status: CLOSED
+created_at: '2026-07-28T06:36:40Z'
+updated_at: '2026-07-28T06:43:51Z'
+requester_actor_id: codex-root-r14-client-20260728
+approver_actor_id: codex-r14-program-plan-independent-review-20260728
+task_id: TASK-R14-004
+session_id: SES-20260727T221444Z-FD353AD3
+user_request: 持续完成R14且所有事实源可由换电脑换AI无对话重建
+reason: R14 RELEASE_MANIFEST新增V044与实时运行时事实后，确定性执行计划门禁证明releases/PROGRAM_EXECUTION_PLAN.yaml的R14指标和组合总数已过期，必须由既有生成器同步，不能手工修改或带着漂移提交
+original_rule: releases/PROGRAM_EXECUTION_PLAN.yaml必须是所有release manifest的确定性派生输出；任何版本事实变化后其组合指标不得漂移。
+new_rule: 只允许使用scripts/generate_program_execution_plan.py从当前31个release manifest重新生成releases/PROGRAM_EXECUTION_PLAN.yaml，并由check_program_execution_plan.py证明组合总数、R14指标和逐字节确定性输出全部一致。
+impact_summary: 仅同步一个既有全版本派生计划文件，不修改生成算法、不增加第二事实源、不改变R14运行时语义或发布状态。
+impact:
+  files:
+  - releases/PROGRAM_EXECUTION_PLAN.yaml
+  pages: []
+  apis: []
+  database: []
+  configuration: []
+  ledger: []
+  tests:
+  - scripts/check_program_execution_plan.py
+  releases:
+  - R14
+  migration_and_compatibility: 纯治理派生文件同步，无数据库、API、客户端或部署迁移；旧提交可按当时manifest重建，新提交按当前manifest确定性重建。
+user_confirmation: 用户已明确授权持续推进并要求跨电脑跨AI无对话重建事实
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-28T06:38:21Z'
+  note: 独立复核确认生成与校验算法未变化；唯一派生指标变化来自R14 WebSocket引用4到12、端点引用13到21、数据表10到13。仅允许复用既有生成器同步确定性计划，不改变业务事实或发布状态。
+machine_record: .continuity/change_requests/CR-0433.yaml
+document: docs/03-continuity/change-requests/CR-0433-同步R14变更后的全版本确定性执行计划.md
+decision_log:
+- at: '2026-07-28T06:39:16Z'
+  actor_id: codex-root-r14-client-20260728
+  status: IMPLEMENTING
+  note: 已按批准范围完成实施，进入实现结果登记。
+  session_id: SES-20260727T221444Z-FD353AD3
+- at: '2026-07-28T06:39:32Z'
+  actor_id: codex-root-r14-client-20260728
+  status: IMPLEMENTED
+  note: 全版本确定性执行计划已由既有生成器同步，31版本组合总数和R14指标门禁通过。
+  session_id: SES-20260727T221444Z-FD353AD3
+- at: '2026-07-28T06:43:51Z'
+  actor_id: codex-root-r14-client-20260728
+  status: CLOSED
+  note: 批准范围已由实现提交 7ce3c2169925fef717c051e16e09f556ce619aa6 完整交付并通过门禁；CR关闭。ws生产激活不在CR-0430范围内，仍留待R14候选阶段。
+  session_id: SES-20260727T221444Z-FD353AD3
+session_ids:
+- SES-20260727T221444Z-FD353AD3
+implementation_commits:
+- 7ce3c2169925fef717c051e16e09f556ce619aa6

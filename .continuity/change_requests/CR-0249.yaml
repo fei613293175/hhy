@@ -1,0 +1,69 @@
+protocol_version: '1.0'
+cr_id: CR-0249
+title: R09 App推广数据迁移与领域不变量
+status: CLOSED
+created_at: '2026-07-22T18:14:14Z'
+updated_at: '2026-07-22T18:29:25Z'
+requester_actor_id: codex-root-r09-data
+approver_actor_id: codex-r09-review
+task_id: TASK-R09-002
+session_id: SES-20260722T181159Z-F501CFF5
+user_request: 用户要求持续推进R09，并保证真实功能落地、禁止虚构开发且版本关闭高效可复用。
+reason: 现有app_details仅有通用基表，尚未强制App字段完整性、第三方APK禁止、公开列表索引和软删除保护。
+original_rule: R09复用R06通用内容表和app_details基表；应用层负责字段校验，数据库没有R09专属App推广不变量。
+new_rule: R09 App内容必须有唯一且非空app_details；可选平台、版本、外部下载链接和官网若存在不得为空白；App内容不得关联APK MIME或APK媒体类型；活跃App扩展不得物理删除；公开App列表使用专属部分索引；迁移支持历史兼容、开发回滚和重放。
+impact_summary: 新增V035/U035与R09数据库验证脚本，在不增加APK上传字段和不改写既有业务行的前提下，把App推广的字段完整性、禁止第三方APK、列表性能和软删除约束下沉到PostgreSQL。
+impact:
+  files:
+  - database/migrations/V035__r09_app_promotion_invariants.sql
+  - services/backend/boot/src/main/resources/db/migration/V035__r09_app_promotion_invariants.sql
+  - database/rollback/U035__r09_app_promotion_invariants.sql
+  - database/tests/r09_app_promotion_invariants.sql
+  - scripts/run_r09_database_invariants.sh
+  - scripts/run_r09_disposable_postgres_container.sh
+  - CHANGELOG.md
+  pages: []
+  apis: []
+  database:
+  - app_details
+  - content_posts
+  - content_media
+  - media_objects
+  configuration: []
+  ledger:
+  - CR-0249
+  tests:
+  - R09 empty-database migration
+  - R09 legacy upgrade compatibility
+  - R09 app invariant rejection/property checks
+  - R09 rollback and replay
+  releases:
+  - R09
+  migration_and_compatibility: 所有CHECK均NOT VALID以兼容历史行；触发器只约束新增/变更；回滚仅删除R09对象并保留业务数据；空库、升级库、回滚、重放四条链路实测。
+user_confirmation: 用户已明确授权持续开发R09并要求真实落地、无需每版本等待确认。
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-22T18:14:38Z'
+  note: 变更沿用现有表和R08迁移模式，不新增业务功能或APK上传能力；兼容和回滚边界明确。
+machine_record: .continuity/change_requests/CR-0249.yaml
+document: docs/03-continuity/change-requests/CR-0249-R09-App推广数据迁移与领域不变量.md
+decision_log:
+- at: '2026-07-22T18:27:07Z'
+  actor_id: codex-root-r09-data
+  status: IMPLEMENTING
+  note: V035/U035与验证脚本已实现；PostgreSQL 17空库、升级、回滚、重放通过，受影响MODULE检查通过，准备提交实现。
+  session_id: SES-20260722T181159Z-F501CFF5
+- at: '2026-07-22T18:29:22Z'
+  actor_id: codex-root-r09-data
+  status: IMPLEMENTED
+  note: 实现提交已推送；PostgreSQL 17四链路、344项后端MODULE、契约、Schema和文档门禁全部通过。
+  session_id: SES-20260722T181159Z-F501CFF5
+- at: '2026-07-22T18:29:25Z'
+  actor_id: codex-root-r09-data
+  status: CLOSED
+  note: CR-0249范围已完整实现并有可重放证据，无剩余变更项。
+  session_id: SES-20260722T181159Z-F501CFF5
+session_ids:
+- SES-20260722T181159Z-F501CFF5
+implementation_commits:
+- 92dfb059bc78c48493c3300dc3d564a4bebbca73

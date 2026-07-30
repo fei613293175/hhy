@@ -1,0 +1,118 @@
+---
+cr_id: CR-0434
+status: APPROVED
+requester_actor_id: codex-root-r14-client-20260728
+approver_actor_id: codex-r14-staging-apk-independent-review-20260728
+task_id: TASK-R14-004
+session_id: SES-20260727T221444Z-FD353AD3
+created_at: 2026-07-28T06:52:37Z
+updated_at: 2026-07-28T06:58:10Z
+---
+# CR-0434 — 交付R14可执行Staging候选与稳定签名TEST_APK
+
+## 用户需求摘要
+
+持续开发且真机反馈异步，不因外部依赖停止；测试APK放到桌面
+
+## 原规则
+
+R14完成代码后必须在隔离Staging验证数据库、RED、业务指标、告警和回滚，再以obx-test固定工具链、正式API、稳定签名和四方SHA交付TEST_APK；项目所有者真机反馈异步。ws.orbexa.cc与举报原因目录缺失属于真实外部依赖，不得伪造。
+
+## 新规则
+
+R14可观测性严格冻结八个无高基数标签的只读Gauge：hhy.chat.conversations.count统计全部会话，hhy.chat.messages.5m统计近5分钟消息，hhy.chat.unread.total汇总成员未读，hhy.chat.reports.pending统计PENDING举报，hhy.websocket.deliveries.unacked统计未到期且需ACK未ACK投递，hhy.websocket.deliveries.retry.exhausted统计未到期且delivery_attempts=6的需ACK投递，hhy.websocket.gap.users统计存在正过期水位与非空补洞范围的用户，hhy.r14.outbox.backlog统计chat.message.sent.v1、chat.conversation.read.v1、chat.conversation.hidden.v1、chat.user.blocked.v1、chat.user.unblocked.v1、chat.report.created.v1、chat.r14.stage.alert.v1中PENDING或RETRY_WAIT事件；查询失败只进入既有低基数hhy.business.metric.query.failures计数。告警严格为HhyR14BackendDown(up=0,15s)、HhyR14HighServerErrorRate(5xx比率>2%,1m)、HhyR14HighP95Latency(P95>0.5s,2m)、HhyR14UnackedDeliveryBacklog(unacked>50,1m)、HhyR14RetryExhausted(retry.exhausted>0,15s)、HhyR14GapUsers(gap.users>0,15s)、HhyR14PendingReportBacklog(pending>100,5m)、HhyR14BusinessMetricQueryFailure(R14指标查询失败总和>0,15s)；BackendDown、RetryExhausted、GapUsers必须各取得firing、resolved和alert-sink回执。隔离环境固定Compose project hhy-r14-staging、172.31.240.0/24、Nginx 38114、Prometheus 39618、Alertmanager 39619及该project独占pgdata/mfa-secrets/prometheus-data/alertmanager-data/alert-sink-data卷，禁止复用或修改R13和任何公网容器、网络、端口或卷。回滚基线固定Commit f4b7d4854e10dedd40d4b40cdb2d79e57687e9b7并记录镜像tag与digest；只回切应用镜像，PostgreSQL17卷保持V044，禁止U044和删卷；回切前后conversations、conversation_members、chat_messages、chat_message_attachments、chat_read_receipts、user_blocks、chat_reports、outbox_events、websocket_user_sequences、websocket_deliveries、websocket_gap_watermarks逐表事实摘要必须一致。随后Android versionCode仅从10222递增10223，复用hhy-staging-test-v2、正式API和安全wss://ws.orbexa.cc构建TEST_APK并验证四方SHA；DNS缺失时WebSocket专项保持BLOCKED_EXTERNAL_DNS，只验证退避和REST可用，禁止写公网实时链路PASS。举报目录为空继续禁用提交。本CR不执行任何公网后端、DNS、TLS、Nginx或WebSocket激活，不关闭TASK-R14-004或完整R14。
+
+## 修改原因
+
+R14可执行代码和分层门禁已完成，但公网api仍运行R13后端、ws.orbexa.cc无DNS、举报原因目录缺产品权威值。必须继续验证和交付不受影响的REST/数据库/观测与APK，同时明确隔离两项外部门禁，禁止伪报完整R14关闭或WebSocket公网激活。
+
+## 影响摘要
+
+补齐精确R14可观测性、隔离Staging和测试APK机器交付；复用既有R13验收与稳定签名规则。只读指标不改业务事实，测试APK只递增versionCode；公网和两个外部门禁保持原状。
+
+## 影响文件
+
+- `services/backend/boot/src/main/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinder.java`
+- `services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinderTest.java`
+- `services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/ObservabilityEndpointsTest.java`
+- `infra/staging/r14-smoke/**`
+- `scripts/run_r14_staging_acceptance.sh`
+- `apps/android/app/build.gradle.kts`
+- `releases/R14/RELEASE_MANIFEST.yaml`
+- `releases/R14/TASKS.yaml`
+- `releases/R14/ACCEPTANCE_MATRIX.csv`
+- `artifacts/validation/r14-task006-staging/**`
+- `artifacts/validation/r14-task007-android/**`
+- `artifacts/validation/r14-apk-delivery/**`
+- `artifacts/apk/R14/**`
+- `artifacts/reports/R14/TASK-R14-006-staging.md`
+- `artifacts/reports/R14/TASK-R14-007-android-apk.md`
+- `artifacts/reports/R14/R14-version-test-guide.md`
+- `docs/03-continuity/PROBLEM_REGISTRY.yaml`
+- `CHANGELOG.md`
+
+## 页面
+
+- 无直接影响（已在影响摘要说明）
+
+## API
+
+- 无直接影响（已在影响摘要说明）
+
+## 数据库与迁移
+
+- 无直接影响（已在影响摘要说明）
+
+## 配置
+
+- 无直接影响（已在影响摘要说明）
+
+## 资金/账本与历史数据
+
+- 无直接影响（已在影响摘要说明）
+
+## 测试
+
+- `BusinessGaugeBinderTest锁定八项指标SQL数值、无高基数标签和查询失败计数；ObservabilityEndpointsTest锁定Prometheus名称`
+- `run_r14_staging_acceptance锁定hhy-r14-staging、172.31.240.0/24、38114/39618/39619、V001-V044、RED/TraceId/脱敏、八指标、八告警、三类告警firing/resolved/sink与11表回切摘要`
+- `固定工具链锁定10223、hhy-staging-test-v2、正式API、安全wss、单测、Lint、assemble、apksigner、zipalign、内嵌端点、包名及四方SHA；WebSocket公网状态明确为BLOCKED_EXTERNAL_DNS`
+
+## 版本
+
+- `R14`
+
+## 迁移与兼容策略
+
+独立Staging新卷运行V001-V044；回滚只在同一V044卷把当前应用镜像回切到f4b7d485基线镜像，禁止U044、删卷或触碰R13/公网资源，11类R14事实摘要前后相等。TEST_APK沿用R13起固定签名并递增versionCode，可覆盖安装R13；ws DNS缺失时指数退避且REST继续可用，举报目录为空继续安全禁用。
+
+## 用户确认
+
+用户已明确要求持续开发、异步真机反馈和桌面交付APK，不因真实外部依赖停止
+
+## 审批
+
+- 审批人：`codex-r14-staging-apk-independent-review-20260728`
+- 决定：`APPROVED`
+- 时间：`2026-07-28T06:58:10Z`
+- 说明：复审确认八项低基数Gauge、八项告警及三类完整回执、独立Compose资源、f4b7d485基线V044保留式11表回滚、禁止公网变更和TEST_APK外部DNS边界全部冻结；不虚构举报原因、不关闭TASK或R14。
+
+## 状态记录 · 2026-07-28T06:58:17Z
+
+- Actor：`codex-root-r14-client-20260728`
+- Status：`IMPLEMENTING`
+- Session：`SES-20260727T221444Z-FD353AD3`
+- Note：独立审查通过，开始实现R14八项业务指标、隔离Staging和稳定签名TEST_APK。
+
+## 状态记录 · 2026-07-28T08:45:14Z
+
+- Actor：`codex-root-r14-client-20260728`
+- Status：`IMPLEMENTED`
+- Session：`SES-20260727T221444Z-FD353AD3`
+- Note：八Gauge隔离Staging、三告警生命周期、V044保留式回切及10223稳定签名TEST_APK四方交付均已实现；外部WS DNS和举报目录继续保持阻断。
+
+## 状态记录 · 2026-07-28T08:53:20Z
+
+- Actor：`codex-root-r14-client-20260728`
+- Status：`CLOSED`
+- Session：`SES-20260727T221444Z-FD353AD3`
+- Note：R14隔离Staging验收、稳定签名TEST_APK、证据清单与桌面/HTTPS交付均已归档并推送

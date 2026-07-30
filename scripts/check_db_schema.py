@@ -38,8 +38,14 @@ if "V010__p00_event_ledger_invariants.sql" not in {path.name for path in root_mi
     errors.append("migration chain is missing V010 P00 event/ledger invariants")
 if "V012__r01_admin_security_invariants.sql" not in {path.name for path in root_migrations}:
     errors.append("migration chain is missing V012 R01 admin security invariants")
-if len(catalog_tables) != 198:
-    errors.append(f"catalog table count expected=198 actual={len(catalog_tables)}")
+if "V013__r01_admin_self_rbac.sql" not in {path.name for path in root_migrations}:
+    errors.append("migration chain is missing V013 R01 administrator self-service RBAC")
+if "V014__r01_idempotency_scope_capacity.sql" not in {path.name for path in root_migrations}:
+    errors.append("migration chain is missing V014 R01 idempotency scope capacity")
+if "V015__r01_totp_replay_guard.sql" not in {path.name for path in root_migrations}:
+    errors.append("migration chain is missing V015 R01 TOTP replay guard")
+if len(catalog_tables) != 203:
+    errors.append(f"catalog table count expected=203 actual={len(catalog_tables)}")
 if catalog_tables != dictionary_tables:
     errors.append(f"dictionary drift missing={sorted(catalog_tables - dictionary_tables)[:10]} extra={sorted(dictionary_tables - catalog_tables)[:10]}")
 if catalog_tables != created_tables:
@@ -51,8 +57,11 @@ else:
         if sha256(source) != sha256(target):
             errors.append(f"runtime migration hash drift: {target.name}")
 verification = (ROOT / "database/verification/verify_baseline.sql").read_text(encoding="utf-8")
-if "v_count <> 198" not in verification:
-    errors.append("verify_baseline.sql does not enforce 198 tables")
+if "v_count NOT IN (198,199,200,203)" not in verification:
+    errors.append("verify_baseline.sql does not preserve 198/199/200-to-203 migration compatibility")
+migration_smoke = (ROOT / "scripts/run_postgres_migration_smoke.sh").read_text(encoding="utf-8")
+if '"$TABLE_COUNT" == "203"' not in migration_smoke:
+    errors.append("current migration smoke does not enforce exactly 203 tables")
 if "assert_balanced_transaction" not in verification or "balance_snapshots" not in verification:
     errors.append("verify_baseline.sql does not enforce P00 accounting/snapshot invariants")
 
@@ -87,7 +96,15 @@ r01_required_files = (
     "database/migrations/V012__r01_admin_security_invariants.sql",
     "database/rollback/U012__r01_admin_security_invariants.sql",
     "database/tests/r01_admin_security_invariants.sql",
+    "database/migrations/V013__r01_admin_self_rbac.sql",
+    "database/rollback/U013__r01_admin_self_rbac.sql",
+    "database/tests/r01_admin_self_rbac.sql",
+    "database/migrations/V014__r01_idempotency_scope_capacity.sql",
+    "database/rollback/U014__r01_idempotency_scope_capacity.sql",
+    "database/migrations/V015__r01_totp_replay_guard.sql",
+    "database/rollback/U015__r01_totp_replay_guard.sql",
     "scripts/run_r01_database_invariants.sh",
+    "scripts/bootstrap-admin.sh",
     "docs/01-architecture/adr/ADR-008-R01管理员认证安全不变量.md",
 )
 for relative in r01_required_files:
@@ -106,6 +123,35 @@ for marker in (
     if marker not in r01_migration:
         errors.append(f"V012 missing R01 invariant marker: {marker}")
 
+r01_rbac_migration = (ROOT / "database/migrations/V013__r01_admin_self_rbac.sql").read_text(encoding="utf-8")
+for marker in ("admin.self.read", "admin.self.security", "SUPER_ADMIN", "ON CONFLICT"):
+    if marker not in r01_rbac_migration:
+        errors.append(f"V013 missing R01 RBAC marker: {marker}")
+
+r01_scope_migration = (ROOT / "database/migrations/V014__r01_idempotency_scope_capacity.sql").read_text(encoding="utf-8")
+for marker in ("idempotency_records", "scope TYPE varchar(128)", "HMAC-SHA256"):
+    if marker not in r01_scope_migration:
+        errors.append(f"V014 missing R01 idempotency scope marker: {marker}")
+
+r01_totp_replay_migration = (ROOT / "database/migrations/V015__r01_totp_replay_guard.sql").read_text(encoding="utf-8")
+for marker in ("last_accepted_step", "RFC 6238", "nonnegative"):
+    if marker not in r01_totp_replay_migration:
+        errors.append(f"V015 missing R01 TOTP replay marker: {marker}")
+
+bootstrap_admin = (ROOT / "scripts/bootstrap-admin.sh").read_text(encoding="utf-8")
+for marker in (
+    "HHY_BOOTSTRAP_ADMIN_PASSWORD_HASH",
+    "HHY_BOOTSTRAP_ADMIN_CONFIRM",
+    "ADMIN_BOOTSTRAP_CREDENTIAL_CONFLICT",
+    "ON CONFLICT (admin_id, role_id) DO NOTHING",
+):
+    if marker not in bootstrap_admin:
+        errors.append(f"administrator bootstrap is missing safety marker: {marker}")
+if "\\getenv bootstrap_hash" not in bootstrap_admin:
+    errors.append("administrator bootstrap must not expose the BCrypt hash in process arguments")
+if 'HHY_BOOTSTRAP_ADMIN_PASSWORD:-' not in bootstrap_admin:
+    errors.append("administrator bootstrap must explicitly reject a plaintext password variable")
+
 state_machines = (ROOT / "database/state_machines.yaml").read_text(encoding="utf-8")
 for marker in ("ADMIN_SESSION_MFA_LEVEL", "ADMIN_MFA_METHOD_STATUS"):
     if marker not in state_machines:
@@ -118,6 +164,429 @@ for event in ("CANCEL_ENROLLMENT", "REENROLL"):
     )
     if transition is None or "write_admin_operation_log" not in transition.group("body"):
         errors.append(f"R01 MFA transition must write operation audit: {event}")
+
+r12_required_files = (
+    "database/migrations/V039__r12_publish_management_invariants.sql",
+    "services/backend/boot/src/main/resources/db/migration/V039__r12_publish_management_invariants.sql",
+    "database/rollback/U039__r12_publish_management_invariants.sql",
+    "database/tests/r12_publish_management_invariants.sql",
+    "database/migrations/V040__r12_review_escalation.sql",
+    "services/backend/boot/src/main/resources/db/migration/V040__r12_review_escalation.sql",
+    "database/rollback/U040__r12_review_escalation.sql",
+    "database/tests/r12_review_escalation.sql",
+    "scripts/check_content_state_machine_projection.py",
+    "scripts/run_r12_database_invariants.sh",
+    "database/migrations/V041__r12_review_permission_alignment.sql",
+    "services/backend/boot/src/main/resources/db/migration/V041__r12_review_permission_alignment.sql",
+    "database/rollback/U041__r12_review_permission_alignment.sql",
+    "database/tests/r12_review_permission_alignment.sql",
+)
+for relative in r12_required_files:
+    if not (ROOT / relative).is_file():
+        errors.append(f"missing R12 database closure asset: {relative}")
+
+if all((ROOT / relative).is_file() for relative in r12_required_files):
+    r12_migration = (ROOT / r12_required_files[0]).read_text(encoding="utf-8")
+    for marker in (
+        "R12_DIRTY_UPGRADE_CONTENT_DETAIL_CARDINALITY",
+        "R12_DIRTY_UPGRADE_ILLEGAL_STATUS_HISTORY_EDGE",
+        "R12_DIRTY_UPGRADE_INVALID_CONTENT_CONTACT",
+        "R12_DIRTY_UPGRADE_INVALID_CONTENT_MEDIA",
+        "R12_DIRTY_UPGRADE_DUPLICATE_CONTACT_ORDER",
+        "R12_DIRTY_UPGRADE_DUPLICATE_CONTACT_CHANNEL",
+        "R12_DIRTY_UPGRADE_DUPLICATE_CONTENT_MEDIA",
+        "R12_DIRTY_UPGRADE_INVALID_CONTENT_VERSION_SEQUENCE",
+        "R12_DIRTY_UPGRADE_REVIEW_VERSION_UNBINDABLE",
+        "-- BEGIN CONTENT_STATUS_SQL_PROJECTION",
+        "-- END CONTENT_STATUS_SQL_PROJECTION",
+        "guard_r12_content_post",
+        "record_r12_content_write",
+        "guard_r12_content_status_log",
+        "guard_r12_content_version_insert",
+        "guard_r12_content_review_insert",
+        "enrich_r12_content_outbox",
+        "prevent_r12_content_physical_delete",
+        "assert_r12_content_commit",
+        "transition_version",
+        "snapshot_version_id",
+        "command_id",
+        "removed_at",
+        "uq_r12_content_media_identity",
+        "uq_r12_content_contact_channel",
+        "uq_r12_content_contact_order",
+    ):
+        if marker not in r12_migration:
+            errors.append(f"V039 missing R12 publish invariant marker: {marker}")
+
+    r12_rollback = (ROOT / r12_required_files[2]).read_text(encoding="utf-8")
+    if "DROP COLUMN" in r12_rollback.upper():
+        errors.append("U039 must preserve R12 compatibility columns and business data")
+    for marker in (
+        "trg_r12_content_commit",
+        "uq_r12_content_media_identity",
+        "uq_r12_content_contact_channel",
+        "uq_r12_content_contact_order",
+        "ck_r12_content_review_action",
+        "ck_r12_content_status_transition_version",
+    ):
+        if marker not in r12_rollback:
+            errors.append(f"U039 missing R12 rollback marker: {marker}")
+
+    r12_runner = (ROOT / r12_required_files[9]).read_text(encoding="utf-8")
+    for marker in (
+        "R12_DIRTY_UPGRADE_ATOMIC_MATRIX",
+        "R12_PUBLISH_MANAGEMENT_INVARIANTS",
+        "R12_U039_ROLLBACK_V039_REPLAY",
+        "R12_DATABASE_OBJECTS",
+        "R12_OPTIMISTIC_CONCURRENCY",
+        "detail_cardinality",
+        "unbindable_review_version",
+    ):
+        if marker not in r12_runner:
+            errors.append(f"R12 database runner missing closure marker: {marker}")
+
+    r12_escalation_migration = (ROOT / r12_required_files[4]).read_text(encoding="utf-8")
+    for marker in (
+        "uq_r12_content_review_escalation_snapshot",
+        "R12_CONTENT_REVIEW_ESCALATE_REQUIRES_REVIEWING",
+        "R12_CONTENT_REVIEW_ESCALATE_SNAPSHOT_NOT_LATEST",
+        "R12_CONTENT_SECOND_REVIEWER_REQUIRED",
+        "R12_CONTENT_REVIEW_ESCALATION_AUDIT_REQUIRED",
+        "R12_CONTENT_REVIEW_ESCALATION_OUTBOX_REQUIRED",
+        "content.review.escalated.v1",
+        "commandId",
+    ):
+        if marker not in r12_escalation_migration:
+            errors.append(f"V040 missing R12 escalation invariant marker: {marker}")
+
+    r12_escalation_rollback = (ROOT / r12_required_files[6]).read_text(encoding="utf-8")
+    for marker in (
+        "R12_U040_ESCALATION_FACTS_PRESENT",
+        "DROP TRIGGER IF EXISTS trg_r12_review_escalation_commit",
+        "DROP INDEX IF EXISTS hhy.uq_r12_content_review_escalation_snapshot",
+        "decision IN ('CLAIM','ASSIGN','APPROVE','REJECT')",
+    ):
+        if marker not in r12_escalation_rollback:
+            errors.append(f"U040 missing R12 escalation rollback marker: {marker}")
+
+    r12_escalation_test = (ROOT / r12_required_files[7]).read_text(encoding="utf-8")
+    for marker in (
+        "R12_ESCALATION_WITHOUT_PARENT_WRITE_ACCEPTED",
+        "R12_ESCALATION_WITHOUT_AUDIT_ACCEPTED",
+        "R12_ESCALATION_WITH_MISMATCHED_AUDIT_COMMAND_ACCEPTED",
+        "R12_ESCALATION_WITH_MISMATCHED_AUDIT_VERSION_ACCEPTED",
+        "R12_ESCALATION_WITH_FAILED_AUDIT_ACCEPTED",
+        "R12_ESCALATION_WITHOUT_APPLICATION_OUTBOX_ACCEPTED",
+        "R12_ESCALATION_WITH_MISMATCHED_OUTBOX_VERSION_ACCEPTED",
+        "R12_DUPLICATE_SNAPSHOT_ESCALATION_ACCEPTED",
+        "R12_FINAL_DECISION_WITHOUT_SECOND_ASSIGNMENT_ACCEPTED",
+        "R12_WRONG_SECOND_REVIEWER_ACCEPTED",
+        "R12_REVIEW_ESCALATION_INVARIANTS PASS",
+    ):
+        if marker not in r12_escalation_test:
+            errors.append(f"R12 escalation test missing closure marker: {marker}")
+
+    r12_permission_migration = (ROOT / r12_required_files[10]).read_text(encoding="utf-8")
+    for marker in (
+        "review.read",
+        "review.decide",
+        "review.assign",
+        "report.read",
+        "appeal.read",
+        "R12_REVIEW_MANAGER_PERMISSION_MAPPING_INCOMPLETE",
+    ):
+        if marker not in r12_permission_migration:
+            errors.append(f"V041 missing R12 review permission marker: {marker}")
+
+    r12_permission_rollback = (ROOT / r12_required_files[12]).read_text(encoding="utf-8")
+    if "R12_U041_INDEPENDENT_GRANULAR_GRANTS_PRESENT" not in r12_permission_rollback:
+        errors.append("U041 must preserve independently assigned granular review grants")
+
+    r12_permission_test = (ROOT / r12_required_files[13]).read_text(encoding="utf-8")
+    if "R12_REVIEW_PERMISSION_ALIGNMENT PASS" not in r12_permission_test:
+        errors.append("R12 permission alignment test is missing its PASS marker")
+
+    for marker in (
+        'migration_number >= 39',
+        "V039__r12_publish_management_invariants.sql",
+        "run_r12_database_invariants.sh",
+    ):
+        if marker not in migration_smoke:
+            errors.append(f"migration smoke missing R12 chain marker: {marker}")
+
+r14_required_files = (
+    "database/migrations/V043__r14_chat_invariants.sql",
+    "services/backend/boot/src/main/resources/db/migration/V043__r14_chat_invariants.sql",
+    "database/rollback/U043__r14_chat_invariants.sql",
+    "database/tests/r14_chat_invariants.sql",
+    "scripts/run_r14_database_invariants.sh",
+    "docs/01-architecture/adr/ADR-009-R14一对一聊天数据不变量.md",
+    "database/migrations/V044__r14_websocket_reliability.sql",
+    "services/backend/boot/src/main/resources/db/migration/V044__r14_websocket_reliability.sql",
+    "database/rollback/U044__r14_websocket_reliability_DEV_ONLY.sql",
+    "database/tests/r14_websocket_reliability.sql",
+)
+for relative in r14_required_files:
+    if not (ROOT / relative).is_file():
+        errors.append(f"missing R14 database closure asset: {relative}")
+
+if all((ROOT / relative).is_file() for relative in r14_required_files):
+    r14_migration = (ROOT / r14_required_files[0]).read_text(encoding="utf-8")
+    for marker in (
+        "R14_DIRTY_UPGRADE_DIRECT_MEMBERS_MISSING",
+        "R14_DIRTY_UPGRADE_DUPLICATE_DIRECT_PAIR",
+        "R14_DIRTY_UPGRADE_INVALID_CLIENT_MESSAGE_ID",
+        "R14_DIRTY_UPGRADE_REPORT_CONTRACT_MISSING",
+        "r14_chat_payload_valid",
+        "guard_r14_conversation_member",
+        "assert_r14_direct_conversation",
+        "assert_r14_attachment_media",
+        "assert_r14_report_evidence",
+        "record_platform_status_history",
+        "DEFERRABLE INITIALLY DEFERRED",
+    ):
+        if marker not in r14_migration:
+            errors.append(f"V043 missing R14 invariant marker: {marker}")
+
+    r14_rollback = (ROOT / r14_required_files[2]).read_text(encoding="utf-8")
+    for marker in (
+        "R14_U043_BUSINESS_FACTS_PRESENT",
+        "DROP TRIGGER IF EXISTS trg_r14_report_media_commit",
+        "DROP FUNCTION IF EXISTS hhy.assert_r14_report_evidence",
+        "DROP FUNCTION IF EXISTS hhy.assert_r14_attachment_media",
+        "DROP FUNCTION IF EXISTS hhy.r14_chat_payload_valid",
+    ):
+        if marker not in r14_rollback:
+            errors.append(f"U043 missing R14 rollback marker: {marker}")
+    if re.search(r"(?im)^\s*(DELETE|TRUNCATE)\s+(FROM\s+)?hhy\.", r14_rollback):
+        errors.append("U043 must not delete or truncate R14 business facts")
+
+    r14_test = (ROOT / r14_required_files[3]).read_text(encoding="utf-8")
+    for marker in (
+        "R14_MISSING_REQUIRED_PAYLOAD_FIELD_WAS_ACCEPTED",
+        "R14_ATTACHMENT_MUTATION_WAS_ACCEPTED",
+        "R14_ATTACHED_MEDIA_INVALIDATION_WAS_ACCEPTED",
+        "R14_MEMBER_IDENTITY_MUTATION_WAS_ACCEPTED",
+        "R14_CHAT_INVARIANT_PROPERTY_MATRIX PASS",
+    ):
+        if marker not in r14_test:
+            errors.append(f"R14 invariant test missing closure marker: {marker}")
+
+    r14_runner = (ROOT / r14_required_files[4]).read_text(encoding="utf-8")
+    for marker in (
+        "R14_EMPTY_DATABASE_MIGRATION PASS",
+        "R14_V042_UPGRADE PASS",
+        "R14_DIRTY_UPGRADE_ATOMIC_MATRIX PASS",
+        "R14_U043_ROLLBACK_WITH_FACTS_REJECTED_ATOMICALLY PASS",
+        "R14_U043_ROLLBACK_V043_REPLAY PASS",
+        "R14_DATABASE_INVARIANTS PASS",
+    ):
+        if marker not in r14_runner:
+            errors.append(f"R14 database runner missing closure marker: {marker}")
+
+    if "run_r14_database_invariants.sh" not in migration_smoke:
+        errors.append("migration smoke missing R14 invariant runner")
+
+    r14_ws_migration = (ROOT / r14_required_files[6]).read_text(encoding="utf-8")
+    for marker in (
+        "websocket_user_sequences",
+        "websocket_deliveries",
+        "websocket_gap_watermarks",
+        "uq_r14_ws_delivery_sequence",
+        "guard_r14_ws_sequence",
+        "guard_r14_ws_delivery",
+        "guard_r14_ws_gap_watermark",
+        "interval '72 hours'",
+    ):
+        if marker not in r14_ws_migration:
+            errors.append(f"V044 missing R14 WebSocket reliability marker: {marker}")
+
+    r14_ws_rollback = (ROOT / r14_required_files[8]).read_text(encoding="utf-8")
+    for marker in (
+        "DEV/TEST only",
+        "DROP TABLE IF EXISTS hhy.websocket_gap_watermarks",
+        "DROP TABLE IF EXISTS hhy.websocket_deliveries",
+        "DROP TABLE IF EXISTS hhy.websocket_user_sequences",
+    ):
+        if marker not in r14_ws_rollback:
+            errors.append(f"U044 missing R14 WebSocket rollback marker: {marker}")
+
+    r14_ws_test = (ROOT / r14_required_files[9]).read_text(encoding="utf-8")
+    for marker in (
+        "R14_WS_SEQUENCE_REGRESSION_WAS_ACCEPTED",
+        "R14_WS_DELIVERY_MUTATION_WAS_ACCEPTED",
+        "R14_WS_GAP_REGRESSION_WAS_ACCEPTED",
+        "R14_WEBSOCKET_RELIABILITY_INVARIANTS PASS",
+    ):
+        if marker not in r14_ws_test:
+            errors.append(f"R14 WebSocket invariant test missing marker: {marker}")
+
+    for marker in (
+        "R14_U044_ROLLBACK_V044_REPLAY PASS",
+        "R14_WS_CONCURRENT_SEQUENCE_ALLOCATION PASS",
+        "R14_WEBSOCKET_RELIABILITY_INVARIANTS PASS",
+    ):
+        if marker not in r14_runner:
+            errors.append(f"R14 database runner missing WebSocket closure marker: {marker}")
+
+r16_required_files = (
+    "database/migrations/V045__r16_commerce_order_invariants.sql",
+    "services/backend/boot/src/main/resources/db/migration/V045__r16_commerce_order_invariants.sql",
+    "database/rollback/U045__r16_commerce_order_invariants_DEV_ONLY.sql",
+    "database/tests/r16_commerce_order_invariants.sql",
+    "database/migrations/V046__r16_product_permission_alignment.sql",
+    "services/backend/boot/src/main/resources/db/migration/V046__r16_product_permission_alignment.sql",
+    "database/rollback/U046__r16_product_permission_alignment_DEV_ONLY.sql",
+    "database/tests/r16_product_permission_alignment.sql",
+    "database/migrations/V047__r16_commerce_contract_alignment.sql",
+    "services/backend/boot/src/main/resources/db/migration/V047__r16_commerce_contract_alignment.sql",
+    "database/rollback/U047__r16_commerce_contract_alignment_DEV_ONLY.sql",
+    "database/tests/r16_commerce_contract_alignment.sql",
+    "scripts/run_r16_database_invariants.sh",
+    "tests/test_r16_database_contract.py",
+)
+for relative in r16_required_files:
+    if not (ROOT / relative).is_file():
+        errors.append(f"missing R16 database closure asset: {relative}")
+
+if all((ROOT / relative).is_file() for relative in r16_required_files):
+    r16_migration = (ROOT / r16_required_files[0]).read_text(encoding="utf-8")
+    for marker in (
+        "R16_DIRTY_UPGRADE_PRODUCT_REQUIRED_FACT_MISSING",
+        "R16_DIRTY_UPGRADE_SKU_EXPLICIT_FACT_MISSING",
+        "R16_DIRTY_UPGRADE_ORDER_ITEM_FACT_MISSING",
+        "R16_DIRTY_UPGRADE_PRICE_SNAPSHOT_INVALID",
+        "R16_DIRTY_UPGRADE_ORDER_QUOTE_MISSING",
+        "r16_benefits_valid",
+        "uq_r16_orders_creation_idempotency",
+        "R16_ORDER_INITIAL_STATUS_INVALID",
+        "R16_ORDER_INVALID_TRANSITION",
+        "R16_ORDER_NO_REFUND_EVIDENCE_REQUIRED",
+        "record_platform_status_history",
+        "prevent_immutable_mutation",
+        "assert_r16_order_quote",
+        "DEFERRABLE INITIALLY DEFERRED",
+    ):
+        if marker not in r16_migration:
+            errors.append(f"V045 missing R16 commerce/order invariant marker: {marker}")
+
+    r16_rollback = (ROOT / r16_required_files[2]).read_text(encoding="utf-8")
+    for marker in (
+        "DEV/TEST only",
+        "R16_U045_BUSINESS_FACTS_PRESENT",
+        "DROP TRIGGER IF EXISTS trg_r16_orders_guard",
+        "DROP FUNCTION IF EXISTS hhy.assert_r16_order_quote",
+        "DROP COLUMN IF EXISTS legacy_without_idempotency",
+        "DROP COLUMN IF EXISTS benefits_json",
+    ):
+        if marker not in r16_rollback:
+            errors.append(f"U045 missing R16 rollback marker: {marker}")
+    if re.search(r"(?im)^\s*(DELETE|TRUNCATE)\s+(FROM\s+)?hhy\.", r16_rollback):
+        errors.append("U045 must not delete or truncate R16 business facts")
+
+    r16_test = (ROOT / r16_required_files[3]).read_text(encoding="utf-8")
+    for marker in (
+        "R16_INVALID_BENEFIT_SHAPE_WAS_ACCEPTED",
+        "R16_DUPLICATE_IDEMPOTENCY_WAS_ACCEPTED",
+        "R16_PAYMENT_WITHOUT_NO_REFUND_EVIDENCE_WAS_ACCEPTED",
+        "R16_ILLEGAL_ORDER_TRANSITION_WAS_ACCEPTED",
+        "R16_ROLLED_BACK_TRANSITION_LEFT_HISTORY",
+        "R16_ORDER_ITEM_MUTATION_WAS_ACCEPTED",
+        "R16_PRICE_SNAPSHOT_MUTATION_WAS_ACCEPTED",
+        "R16_COMMERCE_ORDER_INVARIANT_PROPERTY_MATRIX PASS",
+    ):
+        if marker not in r16_test:
+            errors.append(f"R16 invariant test missing marker: {marker}")
+
+    r16_permission = (ROOT / r16_required_files[4]).read_text(encoding="utf-8")
+    for marker in (
+        "product.read",
+        "product.write",
+        "product.manage",
+        "SUPER_ADMIN",
+        "R16_PRODUCT_MANAGER_PERMISSION_MAPPING_INCOMPLETE",
+    ):
+        if marker not in r16_permission:
+            errors.append(f"V046 missing R16 product permission marker: {marker}")
+
+    r16_permission_rollback = (ROOT / r16_required_files[6]).read_text(encoding="utf-8")
+    for marker in (
+        "DEV/TEST only",
+        "R16_U046_INDEPENDENT_GRANULAR_GRANTS_PRESENT",
+        "product.read",
+        "product.write",
+    ):
+        if marker not in r16_permission_rollback:
+            errors.append(f"U046 missing R16 permission rollback marker: {marker}")
+
+    r16_permission_test = (ROOT / r16_required_files[7]).read_text(encoding="utf-8")
+    if "R16_PRODUCT_PERMISSION_ALIGNMENT PASS" not in r16_permission_test:
+        errors.append("R16 product permission test missing PASS marker")
+
+    r16_alignment = (ROOT / r16_required_files[8]).read_text(encoding="utf-8")
+    for marker in (
+        "NOT BETWEEN 1 AND 255",
+        "char_length(benefit.value->>'unit') > 64",
+        "duration_days >= 0",
+    ):
+        if marker not in r16_alignment:
+            errors.append(f"V047 missing R16 contract alignment marker: {marker}")
+
+    r16_alignment_rollback = (ROOT / r16_required_files[10]).read_text(encoding="utf-8")
+    for marker in (
+        "DEV/TEST only",
+        "R16_V047_ROLLBACK_NEW_CONTRACT_FACTS_PRESENT",
+        "NOT BETWEEN 1 AND 120",
+        "duration_days > 0",
+    ):
+        if marker not in r16_alignment_rollback:
+            errors.append(f"U047 missing R16 safe rollback marker: {marker}")
+
+    r16_alignment_test = (ROOT / r16_required_files[11]).read_text(encoding="utf-8")
+    for marker in (
+        "R16_V047_NAME_256_WAS_ACCEPTED",
+        "R16_V047_UNIT_65_WAS_ACCEPTED",
+        "R16_V047_NEGATIVE_DURATION_WAS_ACCEPTED",
+        "R16_V047_EXTRA_BENEFIT_FIELD_WAS_ACCEPTED",
+        "R16_COMMERCE_CONTRACT_ALIGNMENT PASS",
+    ):
+        if marker not in r16_alignment_test:
+            errors.append(f"R16 V047 alignment test missing marker: {marker}")
+
+    r16_runner = (ROOT / r16_required_files[12]).read_text(encoding="utf-8")
+    for marker in (
+        "server_version >= 170000",
+        "R16_EMPTY_DATABASE_MIGRATION PASS",
+        "R16_V044_UPGRADE_NO_FABRICATION PASS",
+        "R16_DIRTY_UPGRADE_ATOMIC_MATRIX PASS",
+        "R16_U045_ROLLBACK_WITH_FACTS_REJECTED_ATOMICALLY PASS",
+        "R16_U045_ROLLBACK_V045_REPLAY PASS",
+        "R16_PRODUCT_PERMISSION_ALIGNMENT PASS",
+        "R16_U046_INDEPENDENT_GRANT_REJECTED PASS",
+        "R16_U046_ROLLBACK_V046_REPLAY PASS",
+        "R16_COMMERCE_CONTRACT_ALIGNMENT PASS",
+        "R16_U047_NEW_FACT_ROLLBACK_REJECTED PASS",
+        "R16_U047_ROLLBACK_V047_REPLAY PASS",
+        "R16_ORDER_CONCURRENT_IDEMPOTENCY PASS",
+        "R16_DATABASE_INVARIANTS PASS",
+    ):
+        if marker not in r16_runner:
+            errors.append(f"R16 database runner missing closure marker: {marker}")
+
+    if "run_r16_database_invariants.sh" not in migration_smoke:
+        errors.append("migration smoke missing R16 invariant runner")
+    if "V045__r16_commerce_order_invariants.sql" not in {
+        path.name for path in root_migrations
+    }:
+        errors.append("migration chain is missing V045 R16 commerce/order invariants")
+    if "V046__r16_product_permission_alignment.sql" not in {
+        path.name for path in root_migrations
+    }:
+        errors.append("migration chain is missing V046 R16 product permission alignment")
+    if "V047__r16_commerce_contract_alignment.sql" not in {
+        path.name for path in root_migrations
+    }:
+        errors.append("migration chain is missing V047 R16 commerce contract alignment")
 
 if errors:
     print("DB_SCHEMA_FAIL")

@@ -1,0 +1,51 @@
+{
+  "schema": "hhy.android-candidate-failure-evidence/v1",
+  "release": "R14",
+  "attempt": 3,
+  "request_id": "R14-CANDIDATE-20260729-003",
+  "github_run_id": "30408703138",
+  "github_run_url": "https://github.com/fei613293175/hhy/actions/runs/30408703138",
+  "emulator_job_id": "90440555028",
+  "source_commit": "21125aa96111d715659e75609077bc48f04c78d9",
+  "status": "FAIL",
+  "failed_stage": "STAGING_BOOTSTRAP_PREFLIGHT",
+  "failure": {
+    "http_status": 500,
+    "annotation": "Staging bootstrap endpoint returned HTTP 500; response body and bearer token are intentionally suppressed",
+    "job_exit_code": 22,
+    "server_error_type_observed_at_incident": "JwtException",
+    "server_error_observed_at": "2026-07-28T23:44:39Z"
+  },
+  "successful_before_failure": [
+    "durable candidate request validation",
+    "continuity gate",
+    "Android compile",
+    "Android unit tests",
+    "Android Lint",
+    "Android application and instrumentation packaging"
+  ],
+  "root_cause": {
+    "classification": "CANDIDATE_DEPLOYMENT_ISOLATION",
+    "detail": "The R14 candidate and rollback containers were attached to the R13 staging network and reused the R13 database; the first rebuild also mounted the MFA secret volume read-only",
+    "product_ui_regression": false,
+    "android_interaction_started": false
+  },
+  "artifacts": {
+    "android_build_artifact_sha256": "be99ec9fa7385e944dad559afebd74200c1845a2cac87d969546a08105e0e9d0",
+    "candidate_request_artifact_sha256": "52dd8a58185f1b7e473e8510db7c3a89ca4d6aaf29c69287c52ea9973ae2ebbf",
+    "android_runtime_artifact_present": false,
+    "captured_screenshots": [],
+    "junit_report_present": false,
+    "target_process_log_present": false
+  },
+  "remediation": {
+    "change_requests": [
+      "CR-0479",
+      "CR-0480"
+    ],
+    "problem": "PROB-0148",
+    "next_request_id": "R14-CANDIDATE-20260729-004",
+    "blind_rerun_allowed": false
+  },
+  "secrets_recorded": false
+}

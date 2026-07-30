@@ -1,4 +1,29 @@
-<script setup lang="ts">import { computed } from 'vue'; import { adminPages } from './catalog';
-const groups=computed(()=>Array.from(new Set(adminPages.map(x=>x.菜单分组))));
+<script setup lang="ts">
+import { computed } from 'vue'
+import { useRoute } from 'vue-router'
+import { adminPages } from './catalog'
+import { canAccessPage, isImplementedMenuPage, menuGroupLabels } from './adminNavigation'
+import { adminSession } from './services'
+
+const route = useRoute()
+const shellVisible = computed(() => !route.meta.authLayout)
+const menuPages = computed(() => route.fullPath
+  ? adminPages.filter((page) => isImplementedMenuPage(page) && canAccessPage(page))
+  : [])
+const groups = computed(() => Array.from(new Set(menuPages.value.map((page) => page.菜单分组))))
+const groupLabel = (group: string) => menuGroupLabels[group] ?? group
 </script>
-<template><div class="layout"><aside><div class="brand"><strong>合伙云 Pro</strong><small>V1.2.2 管理后台</small></div><nav><section v-for="g in groups" :key="g"><h2>{{g}}</h2><RouterLink v-for="p in adminPages.filter(x=>x.菜单分组===g&&!x.路由.includes(':id'))" :key="p.ID" :to="p.路由">{{p.页面}}</RouterLink></section></nav></aside><main><header><span>环境：LOCAL</span><span>权限、脱敏、审批、审计已冻结</span></header><RouterView/></main></div></template>
+
+<template>
+  <RouterView v-if="!shellVisible" />
+  <div v-else class="layout">
+    <aside class="sidebar">
+      <div class="brand"><span class="brand-mark">合</span><span class="brand-copy"><strong>合伙云 Pro</strong><small>运营控制台</small></span></div>
+      <nav aria-label="主导航"><section v-for="group in groups" :key="group" class="nav-section"><h2>{{ groupLabel(group) }}</h2><RouterLink v-for="page in menuPages.filter((item) => item.菜单分组 === group)" :key="page.ID" class="nav-link" :to="page.路由">{{ page.页面 }}</RouterLink></section></nav>
+    </aside>
+    <div class="main-column">
+      <header class="topbar"><span class="environment-badge">开发环境</span><div class="topbar-meta"><span>权限、脱敏与审计策略已启用</span><strong>{{ adminSession.displayName || '管理员' }}</strong></div></header>
+      <main><RouterView /></main>
+    </div>
+  </div>
+</template>

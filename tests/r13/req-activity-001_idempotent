@@ -1,0 +1,16 @@
+{
+  "schema": "hhy.r13.test-adapter/v1",
+  "test_id": "TST-ACTIVITY_001-IDEMPOTENT",
+  "central_runner": "scripts/run_r13_specialized_matrix.py",
+  "runner": "r13-java21-postgresql17-android-activity",
+  "selectors": [
+    "services/backend/boot/src/test/java/cc/orbexa/hhy/content/R13ServiceTest.java#unfavoriteReplaysEncryptedSnapshotWithoutDoubleDeleteOrOutbox",
+    "services/backend/boot/src/test/java/cc/orbexa/hhy/content/R13ServiceTest.java#invalidFeedbackReplayReturnsFrozenSnapshotWithoutDuplicateReportOrOutbox",
+    "services/backend/boot/src/test/java/cc/orbexa/hhy/content/R13ServiceTest.java#changedFeedbackBodyWithSameKeyIsRejectedBeforeInsert",
+    "services/backend/boot/src/test/java/cc/orbexa/hhy/content/R08ServiceTest.java#shareReplayReturnsFrozenSnapshotWithoutDuplicateAuditOrOutbox",
+    "services/backend/boot/src/test/java/cc/orbexa/hhy/content/R07ServiceTest.java#contactAccessDecryptsOnceAndReplaysEncryptedSnapshotWithoutDuplicateOutbox",
+    "services/backend/boot/src/test/java/cc/orbexa/hhy/content/R08PostgresStoreTest.java#concurrentIdenticalClaimsHaveExactlyOneOwnerInRealPostgres",
+    "apps/android/feature/activity/src/test/java/cc/orbexa/hhy/activity/R13ActivityStateTest.kt#idempotencyKeyIsStableUntilCompletion"
+  ],
+  "fault_classes": ["network-timeout-replay", "duplicate-report-prevention", "duplicate-outbox-prevention", "request-body-key-conflict", "real-postgresql-concurrency", "stable-business-intent-key"]
+}

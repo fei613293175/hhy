@@ -1,0 +1,131 @@
+protocol_version: '1.0'
+package_version: 1.2.3
+session_id: SES-20260722T060947Z-B45C6BC0
+status: CLOSED
+actor:
+  id: codex-root-r08-006
+  kind: AI_OR_HUMAN
+  host: unknown
+release: R08
+task_id: TASK-R08-006
+story_id: STORY-R08-004
+goal: 项目推广完整闭环可观测性与预发布验收
+started_at: '2026-07-22T06:09:47Z'
+updated_at: '2026-07-22T06:40:24Z'
+takeover_of: null
+change_requests:
+- CR-0226
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions:
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinder.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinderTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/ObservabilityEndpointsTest.java
+  - scripts/check_r08_observability.py
+  - scripts/run_r08_staging_acceptance.sh
+  - infra/staging/r08-smoke/docker-compose.yml
+  - infra/staging/r08-smoke/prometheus.yml
+  - infra/staging/r08-smoke/alertmanager.yml
+  - infra/staging/r08-smoke/nginx.conf
+  - infra/staging/r08-smoke/r08-alerts.yml
+  - docs/07-operations/DEPLOYMENT_RUNBOOK.md
+  - docs/07-operations/ROLLBACK_RUNBOOK.md
+  - artifacts/reports/R08/TASK-R08-006-staging.md
+  - releases/R08/ACCEPTANCE_MATRIX.csv
+  - CHANGELOG.md
+  - artifacts/validation/r08-task006-staging/metadata.txt
+  - artifacts/validation/r08-task006-staging/compose-ps.txt
+  - artifacts/validation/r08-task006-staging/liveness.json
+  - artifacts/validation/r08-task006-staging/readiness.json
+  - artifacts/validation/r08-task006-staging/database.txt
+  - artifacts/validation/r08-task006-staging/trace-headers.txt
+  - artifacts/validation/r08-task006-staging/public-status.json
+  - artifacts/validation/r08-task006-staging/http-request-completed.jsonl
+  - artifacts/validation/r08-task006-staging/log-redaction.txt
+  - artifacts/validation/r08-task006-staging/metrics.txt
+  - artifacts/validation/r08-task006-staging/metrics-summary.txt
+  - artifacts/validation/r08-task006-staging/prometheus-targets.json
+  - artifacts/validation/r08-task006-staging/prometheus-rules.json
+  - artifacts/validation/r08-task006-staging/source-sha256.txt
+  - artifacts/validation/r08-task006-staging/backend-down-firing.json
+  - artifacts/validation/r08-task006-staging/r08-outbox-firing.json
+  - artifacts/validation/r08-task006-staging/outbox-test-events.txt
+  - artifacts/validation/r08-task006-staging/alert-deliveries.jsonl
+  - artifacts/validation/r08-task006-staging/alert-exercise.txt
+  - artifacts/validation/r08-task006-staging/rollback-rehearsal.txt
+  - artifacts/validation/r08-task006-staging/final-metrics.txt
+  - artifacts/validation/r08-task006-staging/machine-summary.txt
+  - artifacts/validation/r08-task006-staging/SHA256SUMS
+  source: story+explicit+approved-cr:CR-0226
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  base_commit: 9c374195614f0de473e997b3af7aa16070235c1a
+  start_head: 9c374195614f0de473e997b3af7aa16070235c1a
+  upstream: origin/task/TASK-R03-001
+  initial_worktree_state: CLEAN
+lease:
+  duration_minutes: 240
+  renewed_at: '2026-07-22T06:40:21Z'
+  expires_at: '2026-07-22T10:40:21Z'
+checkpoint_sequence: 5
+latest_checkpoint: .continuity/checkpoints/SES-20260722T060947Z-B45C6BC0/0005.yaml
+session_log: docs/03-continuity/sessions/2026-07/SES-20260722T060947Z-B45C6BC0.md
+next_step: 提交关闭元数据Commit，然后运行pre-push/CI门禁
+context_pack:
+  yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
+  markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
+  manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+  context_hash: f6da72324474b0defcb4df56de12785df840f2427ddf43383dda4be825fe25b6
+  generated_at: '2026-07-22T06:40:23Z'
+handoff_bundle: null
+closure:
+  result: COMPLETED
+  summary: R08七项项目Gauge、Trace脱敏、RED、两项告警firing/resolved、Outbox合法终结和同库同卷应用回切全部通过，AC-R08-004已签PASS。
+  code_commit: 7d6eedf4fdfc4b5b2143f28eafc682bb1c72445e
+  next_release: R08
+  next_task: TASK-R08-007
+  blocked_advance: false
+  user_confirmation: null
+  metadata_commit: PENDING
+  push_verification: CI_REQUIRED_AFTER_METADATA_COMMIT
+  started_at: '2026-07-22T06:40:19Z'
+  closure_checkpoint_id: CP-SES-20260722T060947Z-B45C6BC0-0005
+  closed_at: '2026-07-22T06:40:24Z'
+parallel_execution:
+  assessment: CAPABILITY_UNAVAILABLE
+  delegated_workers: 0
+  workers: []
+  reason: 当前运行策略未授权创建子代理；关闭事实由主控串行复核
+closed_at: '2026-07-22T06:40:24Z'

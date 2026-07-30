@@ -1,0 +1,70 @@
+{
+  "schema": "hhy.android-ci-runtime/v1",
+  "policy_id": "HHY-ANDROID-AUTOMATION-V1",
+  "release": "R06",
+  "commit": "f5cf1e4b315221d7e5998dca6ea5110421c1e62b",
+  "attempt": 1,
+  "max_ai_attempts": 3,
+  "status": "PASS",
+  "candidate_eligible": true,
+  "owner_test_allowed": true,
+  "failures": [],
+  "visual_comparisons": [
+    {
+      "comparison": "cross_screen",
+      "screenshots": [
+        "01-home-loaded.png",
+        "02-mine.png"
+      ],
+      "changed_pixel_ratio": 0.057076
+    },
+    {
+      "comparison": "cross_screen",
+      "screenshots": [
+        "02-mine.png",
+        "03-about-loaded.png"
+      ],
+      "changed_pixel_ratio": 0.156899
+    },
+    {
+      "comparison": "baseline",
+      "screenshot": "01-home-loaded.png",
+      "mean_absolute_error": 0.0799,
+      "changed_pixel_ratio": 0.000758
+    },
+    {
+      "comparison": "baseline",
+      "screenshot": "02-mine.png",
+      "mean_absolute_error": 0.0799,
+      "changed_pixel_ratio": 0.000758
+    },
+    {
+      "comparison": "baseline",
+      "screenshot": "03-about-loaded.png",
+      "mean_absolute_error": 0.0793,
+      "changed_pixel_ratio": 0.000755
+    }
+  ],
+  "screenshot_evidence": [
+    {
+      "screenshot": "01-home-loaded.png",
+      "sha256": "78a0eefd1ddda32ebcabc898a5c29a4e3672faf95de12ee22d3a6b82243b20c9",
+      "size_bytes": 61161
+    },
+    {
+      "screenshot": "02-mine.png",
+      "sha256": "1afcc54745d77c432da448efa150a1aecf812138c39fc355a367eb5a3224be7f",
+      "size_bytes": 110506
+    },
+    {
+      "screenshot": "03-about-loaded.png",
+      "sha256": "99593679dc600ad0b85099f22b43011ccb22f6c4dbb27b1a193ef5e762b83f4b",
+      "size_bytes": 75818
+    }
+  ],
+  "remediation": {
+    "status": "NOT_REQUIRED",
+    "next_action": "PACKAGE_CANDIDATE",
+    "escalation_allowed": false
+  }
+}

@@ -1,0 +1,90 @@
+protocol_version: '1.0'
+package_version: 1.2.3
+session_id: SES-20260726T134047Z-F9A80405
+status: CLOSED
+actor:
+  id: codex-root-r13-client-20260726
+  kind: AI_OR_HUMAN
+  host: unknown
+release: R13
+task_id: TASK-R13-004
+story_id: STORY-R13-002
+goal: 完成SCR-FAV-001与SCR-HIS-001收藏历史页面、我的入口、详情导航、视觉登记和MODULE证据。
+started_at: '2026-07-26T13:40:47Z'
+updated_at: '2026-07-26T15:52:04Z'
+takeover_of: null
+change_requests:
+- CR-0368
+- CR-0369
+- CR-0370
+- CR-0371
+scope:
+  allowed_paths:
+  - apps/android/**
+  - services/backend/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - tests/**
+  - docs/**
+  - catalogs/**
+  - releases/**
+  - design/**
+  - scripts/**
+  - apps/android/feature/activity;apps/android/feature/shell;apps/android/app;catalogs/ui_visual_acceptance.csv;releases/R13/RELEASE_MANIFEST.yaml;docs/03-continuity/R13_TASK-004_CLIENT_GATE.md;CHANGELOG.md
+  - CHANGELOG.md
+  approved_exceptions:
+  - apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyIcons.kt
+  - apps/android/feature/activity/src/main/java/cc/orbexa/hhy/activity/R13ActivityScreens.kt
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - CHANGELOG.md
+  source: story-switch+explicit+approved-cr:CR-0370+approved-cr:CR-0371
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  base_commit: cdbbf232aa888d684c2ab434218d8c7afcb5f636
+  start_head: cdbbf232aa888d684c2ab434218d8c7afcb5f636
+  upstream: origin/task/TASK-R03-001
+  initial_worktree_state: CLEAN
+lease:
+  duration_minutes: 240
+  renewed_at: '2026-07-26T15:51:56Z'
+  expires_at: '2026-07-26T19:51:56Z'
+checkpoint_sequence: 8
+latest_checkpoint: .continuity/checkpoints/SES-20260726T134047Z-F9A80405/0008.yaml
+session_log: docs/03-continuity/sessions/2026-07/SES-20260726T134047Z-F9A80405.md
+next_step: 提交关闭元数据Commit，然后运行pre-push/CI门禁
+context_pack:
+  yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
+  markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
+  manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+  context_hash: 17aef9ae9436602e33c957fdfa29efad1ceea28be709640344e427eaed782e6e
+  generated_at: '2026-07-26T15:52:00Z'
+handoff_bundle: null
+closure:
+  result: COMPLETED
+  summary: TASK-R13-004四页Android收藏历史分享与失效反馈客户端闭环完成；精确Commit f8df36e3在obx-test固定镜像579任务PASS，四页保持IN_REVIEW等待最终候选截图。
+  code_commit: f8df36e3cbdcdb406b779e15da367591c1cd2fcc
+  next_release: R13
+  next_task: TASK-R13-005
+  blocked_advance: false
+  completed_independent_advance: false
+  user_confirmation: null
+  metadata_commit: PENDING
+  push_verification: CI_REQUIRED_AFTER_METADATA_COMMIT
+  started_at: '2026-07-26T15:51:51Z'
+  closure_checkpoint_id: CP-SES-20260726T134047Z-F9A80405-0008
+  closed_at: '2026-07-26T15:52:04Z'
+parallel_execution:
+  assessment: CAPABILITY_UNAVAILABLE
+  delegated_workers: 0
+  workers: []
+  reason: 当前会话平台策略禁止在用户未显式要求子代理时委托；任务关闭与事实源切换必须由主控串行完成
+story_history:
+- story_id: STORY-R13-001
+  completed_at: '2026-07-26T14:29:38Z'
+  checkpoint_id: CP-SES-20260726T134047Z-F9A80405-0002
+  commit: 97e3502a522512f863d5a0a3b5e2a1cb9533c002
+  summary: STORY-R13-001分享与失效反馈面板及四类详情回接已提交97e3502a；共享R13传输和列表基础随同提交，固定云端镜像首轮编译单测PASS。
+closed_at: '2026-07-26T15:52:04Z'

@@ -1,0 +1,321 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260718T070836Z-25E39817-0005
+session_id: SES-20260718T070836Z-25E39817
+sequence: 5
+created_at: '2026-07-18T08:14:55Z'
+summary: 关闭 TASK-R02-004：完成TASK-R02-004：用户列表、详情、限制、双人冻结、解冻、强制下线、到期恢复、V018迁移和全部模块门禁真实闭环。
+next_step: 提交关闭元数据Commit，然后运行pre-push/CI门禁
+blockers: []
+decisions:
+- 任务结果：COMPLETED
+- 实现Commit：2317ead
+- 任务转换：TRN-20260718T081454Z-SES-20260718T070836Z-25E39817
+- 下一Release：R02
+note: 该检查点专门绑定最终关闭元数据Commit
+tests:
+- name: cr0037-closure-gates
+  result: PASS
+  evidence: commit 2317ead plus recorded gate evidence
+  note: CR status CLOSED
+- name: continuity closure metadata
+  result: PASS
+  evidence: catalogs/task_transition_ledger.csv;CHANGELOG.md;CURRENT_STATUS.yaml;NEXT_TASK.yaml
+  note: 关闭元数据、任务转换和下一任务已原子生成
+git:
+  initialized: true
+  branch: task/TASK-R02-002
+  head: 6d28613c19d0f64986aac5b4d7a51276bd3ff440
+  upstream: origin/task/TASK-R02-002
+  ahead: 2
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/sessions/SES-20260718T070836Z-25E39817.yaml'
+  - ' M CHANGELOG.md'
+  - ' M NEXT_TASK.yaml'
+  - ' M catalogs/session_index.csv'
+  - ' M releases/R02/TASKS.yaml'
+  recent_commits:
+  - "6d28613c19d0f64986aac5b4d7a51276bd3ff440\t2026-07-18T16:14:31+08:00\tHHY Continuity Bootstrap\t[STORY-R02-001] chore(continuity): close CR-0037"
+  - "2317ead46211c9bcfddbf7b77af8f76059325606\t2026-07-18T16:12:31+08:00\tHHY Continuity Bootstrap\t[STORY-R02-001] feat(admin): complete user\
+    \ control operations"
+  - "38026234165906db0432eece6203c790aba4851b\t2026-07-18T15:26:29+08:00\tHHY Continuity Bootstrap\t[STORY-R02-001] feat(admin): implement user\
+    \ read views"
+  - "67d189bb50a96bad6e6d1acf54983162130a9299\t2026-07-18T15:06:32+08:00\tHHY Continuity Bootstrap\t[STORY-R02-005] chore(continuity): close TASK-R02-003\
+    \ as completed"
+  - "8573731b1f0fa26af70f5b2eb67e18f37263470a\t2026-07-18T15:05:07+08:00\tHHY Continuity Bootstrap\t[STORY-R02-005] fix(android): reject APK builds\
+    \ with placeholder API"
+  - "4ea46c06c62b14eda09b9d1d533962bdfcc731cf\t2026-07-18T14:49:43+08:00\tHHY Continuity Bootstrap\t[STORY-R02-005] feat(auth): close account\
+    \ cancellation flow"
+  - "93be8d6799542112ee63db6d1c9d6c3735766d1c\t2026-07-18T14:39:48+08:00\tHHY Continuity Bootstrap\t[STORY-R02-005] feat(auth): close restricted\
+    \ account appeal flow"
+  - "03c95d7c05145165305b7b5934710b3c5c744605\t2026-07-18T14:19:49+08:00\tHHY Continuity Bootstrap\t[STORY-R02-005] feat(auth): close security\
+    \ sessions and password change"
+project_fingerprint:
+  sha256: aa98b9eb85fe1efd2902ca9f6e30117ca1b891f92a21acbccb556a9a031abc4f
+  files:
+  - CHANGELOG.md
+  - apps/admin-web/src/r02UsersPage.test.ts
+  - apps/admin-web/src/router.ts
+  - apps/admin-web/src/services/adminUsers.test.ts
+  - apps/admin-web/src/services/adminUsers.ts
+  - apps/admin-web/src/services/idempotency.ts
+  - apps/admin-web/src/services/index.ts
+  - apps/admin-web/src/styles.css
+  - apps/admin-web/src/views/AdminUserDetailPage.vue
+  - apps/admin-web/src/views/AdminUsersListPage.vue
+  - catalogs/data_tables.csv
+  - database/migrations/V018__r02_admin_user_controls.sql
+  - database/rollback/U018__r02_admin_user_controls.sql
+  - database/schema_dictionary.csv
+  - database/tests/r02_admin_user_controls.sql
+  - database/verification/verify_baseline.sql
+  - docs/03-continuity/change-requests/CR-0036-TASK-R02-004允许同步用户可见变更日志.md
+  - docs/03-continuity/change-requests/CR-0037-R02用户限制持久化与细粒度权限补齐.md
+  - releases/R02/STORIES.yaml
+  - releases/R02/TASKS.yaml
+  - scripts/check_db_schema.py
+  - scripts/run_postgres_migration_smoke.sh
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminUserCommandService.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminUserContracts.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminUserService.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminUserStore.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthService.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthStore.java
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/admin/AdminUserController.java
+  - services/backend/boot/src/main/resources/db/migration/V018__r02_admin_user_controls.sql
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminUserCommandServiceTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminUserServiceTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserAuthServiceTest.java
+  file_count: 33
+  payload:
+    base_commit: 67d189bb50a96bad6e6d1acf54983162130a9299
+    files:
+    - path: CHANGELOG.md
+      state: FILE
+      size: 19784
+      sha256: 9e1f62f18bbafde4a1f27a7d5fbc69f89f1dacc576dadecbe905a4c24eb5fdc9
+    - path: apps/admin-web/src/r02UsersPage.test.ts
+      state: FILE
+      size: 2729
+      sha256: 881ee4cd77d74d4ea601a5627eead38fc877412a2e8db1c14970a8f68880b9d8
+    - path: apps/admin-web/src/router.ts
+      state: FILE
+      size: 2015
+      sha256: 27194ee2827fa4df286b4f78692887622d251349af6fa7dce68c19bc66e98ce8
+    - path: apps/admin-web/src/services/adminUsers.test.ts
+      state: FILE
+      size: 6157
+      sha256: 0eab3ea64a9b36748b8c2d59918ce2aad9e95de6229fa18236c53ba471519948
+    - path: apps/admin-web/src/services/adminUsers.ts
+      state: FILE
+      size: 8167
+      sha256: 14f26a19db07d6fd48c5f5c24aadfb3ea3ac94450dce7d14e64ec010463caa4e
+    - path: apps/admin-web/src/services/idempotency.ts
+      state: FILE
+      size: 1794
+      sha256: ebc0d84b0147f0c8ef885f74bc6ad17c4c02b7893eec08931a9f938deb5e6161
+    - path: apps/admin-web/src/services/index.ts
+      state: FILE
+      size: 154
+      sha256: 464b0b2aa452b05b72dc24c70232c0314281888ad0a0eb01d78945fbc8877f0d
+    - path: apps/admin-web/src/styles.css
+      state: FILE
+      size: 19892
+      sha256: c2cdd26df445dae9086e8eae59e0c5645796b884e514d461c9e97d810232fbb7
+    - path: apps/admin-web/src/views/AdminUserDetailPage.vue
+      state: FILE
+      size: 14181
+      sha256: 5f3e49eee232a6c6ee090f3a1f6ddd41ad7a7e4a4b042b933d26979cf1e32e2e
+    - path: apps/admin-web/src/views/AdminUsersListPage.vue
+      state: FILE
+      size: 7897
+      sha256: 2f4508495c1a527813a075dbc1d8cbe2c46763218c906bfe4aafaaab13fad346
+    - path: catalogs/data_tables.csv
+      state: FILE
+      size: 25302
+      sha256: 24a5fe6c06c8af6bd1e47deb77469f8c138c4460212802e8a53dce354c11fdee
+    - path: database/migrations/V018__r02_admin_user_controls.sql
+      state: FILE
+      size: 2801
+      sha256: b84f10b84fb7967939aa5623791a412103c328d760392bcb4e6b4aeef86ac5f8
+    - path: database/rollback/U018__r02_admin_user_controls.sql
+      state: FILE
+      size: 395
+      sha256: 597bcb442d864a44890791ac16a35d006cea028e030a3d4de6c0c624329c1d54
+    - path: database/schema_dictionary.csv
+      state: FILE
+      size: 142991
+      sha256: d8621710966ebad91e9696f2a9082c0b93a485a5db7a07659e80d0ba0c557bf8
+    - path: database/tests/r02_admin_user_controls.sql
+      state: FILE
+      size: 2003
+      sha256: 949df0b457834c0864589491a4ea97ce899bc24bcef5cb03cddc169ba520ec59
+    - path: database/verification/verify_baseline.sql
+      state: FILE
+      size: 4061
+      sha256: eff012832c0eadd7b55b27199bd81e78f091e5abab919f3a46bac369390bd867
+    - path: docs/03-continuity/change-requests/CR-0036-TASK-R02-004允许同步用户可见变更日志.md
+      state: FILE
+      size: 1836
+      sha256: caa3a18d9e0271663c93ee4ace2e4465b96e54e36322dbdd0a5b3b02a68761d9
+    - path: docs/03-continuity/change-requests/CR-0037-R02用户限制持久化与细粒度权限补齐.md
+      state: FILE
+      size: 3525
+      sha256: 6cbbfaf42e2d13041b3e35dc0f8d990f88faa936cc1d264101bf12b8bc735152
+    - path: releases/R02/STORIES.yaml
+      state: FILE
+      size: 27392
+      sha256: cbc199fd846c42cbb50f02af53969fb914f16a814de2d459a7f929509a9226cf
+    - path: releases/R02/TASKS.yaml
+      state: FILE
+      size: 7509
+      sha256: 36e422063d2c397fdf1ab12f6a6076e93c3fd8cb8820ae7aec0ffe7c46c3cf28
+    - path: scripts/check_db_schema.py
+      state: FILE
+      size: 8738
+      sha256: 74ef5e710d54eb58af9530103a918d7ba6382d696ef666af56d73d70ec0eb035
+    - path: scripts/run_postgres_migration_smoke.sh
+      state: FILE
+      size: 14040
+      sha256: 6d6c7f9be03a5c70a671bd61e29d53c2c832e59f6ddd6f5fa8ec2ed0317d11ee
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminUserCommandService.java
+      state: FILE
+      size: 14855
+      sha256: c2dfbd6f6e1e05cf7b7b58705fa01cddbe626eb311c1160519b2c95197963bce
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminUserContracts.java
+      state: FILE
+      size: 1686
+      sha256: 1215d5861aad664e8b49da16f0d7a1eae885cb4cdb8869643dffdc386b7981ba
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminUserService.java
+      state: FILE
+      size: 3391
+      sha256: 0c6b818de7ade5703d330671f789c3fb12a473c8db802bbe06d3440432a9825c
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminUserStore.java
+      state: FILE
+      size: 11468
+      sha256: aea58a0d5aca9988fc545fdfbadd85b9b2587c4dec747b47315ae4520c7fcda0
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthService.java
+      state: FILE
+      size: 30250
+      sha256: b4dbe55ccf9a0265218f9096d9e3096ba570e3844a2ccfe0c658ad1bf956548b
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthStore.java
+      state: FILE
+      size: 28404
+      sha256: 886c6d552a77c2372b9e701592137d3b3ed51347b2ecf9615c0a201b77db0070
+    - path: services/backend/boot/src/main/java/cc/orbexa/hhy/boot/admin/AdminUserController.java
+      state: FILE
+      size: 6792
+      sha256: b0ea4bc94ee5b8c3f59e0875b004e58d33f4a8abd71a0234e69385aae7657ed3
+    - path: services/backend/boot/src/main/resources/db/migration/V018__r02_admin_user_controls.sql
+      state: FILE
+      size: 2801
+      sha256: b84f10b84fb7967939aa5623791a412103c328d760392bcb4e6b4aeef86ac5f8
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminUserCommandServiceTest.java
+      state: FILE
+      size: 6571
+      sha256: 55ce9a3cc651425e8b9573f55c96a0334643880415e4320fec37ebc9291c6028
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminUserServiceTest.java
+      state: FILE
+      size: 3433
+      sha256: 48ed774ade3c595e9b1366432c8717bbffc1be0b64e9dbc45732612c1997b842
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserAuthServiceTest.java
+      state: FILE
+      size: 23721
+      sha256: 22111b60d27ff7e1b8331f855637c956382678be334898957e060ffc3d6a7fb2
+change_classification:
+  other:
+  - CHANGELOG.md
+  - catalogs/data_tables.csv
+  - releases/R02/TASKS.yaml
+  code:
+  - apps/admin-web/src/r02UsersPage.test.ts
+  - apps/admin-web/src/router.ts
+  - apps/admin-web/src/services/adminUsers.test.ts
+  - apps/admin-web/src/services/adminUsers.ts
+  - apps/admin-web/src/services/idempotency.ts
+  - apps/admin-web/src/services/index.ts
+  - apps/admin-web/src/styles.css
+  - apps/admin-web/src/views/AdminUserDetailPage.vue
+  - apps/admin-web/src/views/AdminUsersListPage.vue
+  - scripts/check_db_schema.py
+  - scripts/run_postgres_migration_smoke.sh
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminUserCommandService.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminUserContracts.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminUserService.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminUserStore.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthService.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthStore.java
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/admin/AdminUserController.java
+  - services/backend/boot/src/main/resources/db/migration/V018__r02_admin_user_controls.sql
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminUserCommandServiceTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminUserServiceTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserAuthServiceTest.java
+  user_visible:
+  - apps/admin-web/src/r02UsersPage.test.ts
+  - apps/admin-web/src/router.ts
+  - apps/admin-web/src/services/adminUsers.test.ts
+  - apps/admin-web/src/services/adminUsers.ts
+  - apps/admin-web/src/services/idempotency.ts
+  - apps/admin-web/src/services/index.ts
+  - apps/admin-web/src/styles.css
+  - apps/admin-web/src/views/AdminUserDetailPage.vue
+  - apps/admin-web/src/views/AdminUsersListPage.vue
+  database:
+  - database/migrations/V018__r02_admin_user_controls.sql
+  - database/rollback/U018__r02_admin_user_controls.sql
+  - database/schema_dictionary.csv
+  - database/tests/r02_admin_user_controls.sql
+  - database/verification/verify_baseline.sql
+  source_of_truth:
+  - database/schema_dictionary.csv
+  - releases/R02/STORIES.yaml
+  continuity:
+  - docs/03-continuity/change-requests/CR-0036-TASK-R02-004允许同步用户可见变更日志.md
+  - docs/03-continuity/change-requests/CR-0037-R02用户限制持久化与细粒度权限补齐.md
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+- APPROVED_CHANGE_REQUEST
+- DATABASE_TEST_EVIDENCE
+- SCHEMA_TRACEABILITY
+- CHANGELOG
+change_requests:
+- CR-0036
+- CR-0037
+scope:
+  allowed_paths:
+  - apps/admin-web/**
+  - services/backend/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - tests/**
+  - docs/**
+  - catalogs/**
+  - releases/**
+  - design/**
+  - scripts/**
+  approved_exceptions:
+  - CHANGELOG.md
+  - database/migrations/V018__r02_admin_user_controls.sql
+  - services/backend/boot/src/main/resources/db/migration/V018__r02_admin_user_controls.sql
+  - database/rollback/U018__r02_admin_user_controls.sql
+  - database/schema_dictionary.csv
+  - catalogs/data_tables.csv
+  - releases/R02/STORIES.yaml
+  - scripts/check_db_schema.py
+  - database/verification/verify_baseline.sql
+  source: story+explicit+approved-cr:CR-0036+approved-cr:CR-0037
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 连续性关闭记录必须由唯一主控串行更新事件链和上下文包。
+event_hash: c46081a5c7419a77bc789a121c2bea37f05a2518b95dc81055771ca660964016

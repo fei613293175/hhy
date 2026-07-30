@@ -1,0 +1,40 @@
+protocol_version: '1.0'
+cr_id: CR-0148
+title: 补齐TASK-R06-004后续Android Story精确会话范围
+status: APPROVED
+created_at: '2026-07-20T18:04:53Z'
+updated_at: '2026-07-20T18:05:40Z'
+requester_actor_id: codex-root
+approver_actor_id: project-owner
+task_id: TASK-R06-004
+session_id: SES-20260720T173038Z-35648A77
+user_request: 现在立即按你的想法开始开发R06~R08版本，R06完成后直接进入下一版本直到R08完成
+reason: 当前Session由STORY-R06-001生成，仅含管理端路径，但同一TASK还冻结包含STORY-R06-003和004的Android关于页与首页
+original_rule: 当前Session仅允许apps/admin-web等STORY-R06-001管理端路径
+new_rule: 仅为TASK-R06-004追加冻结STORY-R06-003和STORY-R06-004所需的四个Android精确实现文件
+impact_summary: 接入首页homeGetHome、关于页版本检查与协议读取、真实Navigation Compose返回栈；不改变冻结API、数据库、资金或发布规则
+impact:
+  files:
+  - apps/android/app/src/main/java/cc/orbexa/hhy/AboutScreen.kt
+  - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ExperienceApi.kt
+  - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+  pages:
+  - SCR-ABOUT-001;SCR-HOME-001
+  apis:
+  - appReleasePostAppVersionCheck;publicGetAgreementsByCode;homeGetHome
+  database: []
+  configuration: []
+  ledger: []
+  tests:
+  - admin typecheck;android UI foundation;remote compile;GitHub Android quality gate
+  releases:
+  - R06
+  migration_and_compatibility: 无数据迁移；兼容既有认证会话、启动门禁和底部导航，仍执行R06 Android Actions候选门禁
+user_confirmation: 现在立即按你的想法开始开发R06~R08版本，也就是说R06开发完成后不用停止，直接进入下一个版本开发，直到R08开发完成
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-20T18:05:40Z'
+  note: 项目所有者已明确要求立即连续完成R06至R08；本CR仅补齐TASK-R06-004已冻结Android Story精确文件范围
+machine_record: .continuity/change_requests/CR-0148.yaml
+document: docs/03-continuity/change-requests/CR-0148-补齐TASK-R06-004后续Android-Story精确会话范围.md

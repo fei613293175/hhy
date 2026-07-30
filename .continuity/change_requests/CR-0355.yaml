@@ -1,0 +1,78 @@
+protocol_version: '1.0'
+cr_id: CR-0355
+title: 精确授权R12第六次最终候选验证已修复公网路由
+status: CLOSED
+created_at: '2026-07-26T06:19:33Z'
+updated_at: '2026-07-26T07:03:15Z'
+requester_actor_id: codex-root-r12-candidate-20260726
+approver_actor_id: project-owner-20260726
+task_id: TASK-R12-007
+session_id: SES-20260725T192048Z-668BD05D
+user_request: 项目所有者在上一条明确列出R12 attempt 6单次最终候选边界后回复：批准
+reason: R12 attempt5唯一候选及其一次同Commit失败作业重跑均在CR-0354公网路由修复前因Staging bootstrap HTTP失败而结束且未产生Android截图；CR-0354已修复并验证公网路由，但既有次数不可复用。项目所有者现已明确批准一次attempt6，需以唯一、精确、不可复用的候选请求验证已完成修复并取得十页最终证据。
+original_rule: 全局max_ai_attempts=3且普通候选仅允许1至3；R12 attempt4和attempt5仅按CR-0344与CR-0352的精确字段各运行一次，attempt5及其同Commit失败作业重跑均已消费，CR-0354公网路由修复本身不得解释为attempt6授权。
+new_rule: 全局max_ai_attempts=3和普通1至3保持不变，历史attempt4/5不可复用；仅新增release=R12、attempt=6、request_id=R12-CANDIDATE-20260726-006、exception_id=CR-0355、required_fix_commit=f11901ea1d3c61ccbcc59ec4cab3e77e24b1f1b0、max_candidate_runs=1的精确单次例外。attempt7、复用004/005/006、错误Release/request/CR/Commit或非连续历史必须在重型环境准备前硬拒绝。
+impact_summary: 只调整Android候选治理唯一事实源、当前R12候选请求、专项回归与既有问题/踩坑/测试文档/变更记录；不修改产品功能、API、数据库、生产配置、全局重试上限或R13-R32普通候选规则。
+impact:
+  files:
+  - config/android-automation.yaml
+  - config/android-candidate-request.yaml
+  - tests/test_android_candidate_request.py
+  - tests/test_android_ci_gate.py
+  - tests/test_r12_candidate.py
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/PITFALLS.md
+  - docs/08-testing/Android自动开发测试修复交付体系_V1.0.md
+  - CHANGELOG.md
+  pages:
+  - SCR-PUB-001
+  - SCR-PUB-006
+  - SCR-PUB-007
+  - SCR-MYC-001
+  - SCR-MYC-002
+  - SCR-MYC-003
+  - SCR-MYC-004
+  - SCR-MYC-005
+  - SCR-ME-001
+  - SCR-ME-002
+  apis: []
+  database: []
+  configuration:
+  - android remediation approved_attempt_exceptions
+  - android candidate request
+  ledger:
+  - R12候选attempt6单次授权与十页最终证据
+  tests:
+  - tests.test_android_candidate_request
+  - tests.test_android_ci_gate
+  - tests.test_r12_candidate
+  - python scripts/android_candidate_request.py --validate-only
+  - python scripts/android_ci_gate.py policy-check
+  releases:
+  - R12
+  migration_and_compatibility: 保留attempt4、attempt5及Run 30188636875全部消费历史；R13-R32继续使用普通1至3；工作流和产品接口兼容，无数据库迁移。普通CI先验证授权实现，随后只允许该请求触发一次R12最终候选。
+user_confirmation: 项目所有者明确回复：批准
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-26T06:22:38Z'
+  note: 项目所有者在明确列出R12 attempt6单次最终候选边界后回复批准；本批准仅限R12/request006/CR-0355/f11901ea/max_candidate_runs=1，不授权复用attempt5、第二次candidate run、attempt7或放宽全局上限。
+machine_record: .continuity/change_requests/CR-0355.yaml
+document: docs/03-continuity/change-requests/CR-0355-精确授权R12第六次最终候选验证已修复公网路由.md
+decision_log:
+- at: '2026-07-26T06:22:46Z'
+  actor_id: codex-root-r12-candidate-20260726
+  status: IMPLEMENTING
+  note: 精确单次授权已登记并应用到当前R12会话范围，开始实施候选策略、请求与回归。
+  session_id: SES-20260725T192048Z-668BD05D
+- at: '2026-07-26T07:03:11Z'
+  actor_id: codex-root-r12-candidate-20260726
+  status: IMPLEMENTED
+  note: 唯一授权已由Run 30191193348完整消费：工作流SUCCESS并生成十页证据，结果为BASELINE_REVIEW_REQUIRED；AI逐图发现安全区、转场残层、ISO时间和按钮对比度缺陷，拒绝基线与APK交付。
+  session_id: SES-20260725T192048Z-668BD05D
+- at: '2026-07-26T07:03:15Z'
+  actor_id: codex-root-r12-candidate-20260726
+  status: CLOSED
+  note: attempt6授权目的已完成且不可复用；原Run只作为已消费未批准证据保留，视觉修复转入CR-0356，attempt7仍未授权。
+  session_id: SES-20260725T192048Z-668BD05D
+session_ids:
+- SES-20260725T192048Z-668BD05D

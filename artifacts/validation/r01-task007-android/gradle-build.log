@@ -1,0 +1,256 @@
+To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/9.4.1/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
+Daemon will be stopped at the end of the build 
+Calculating task graph as no cached configuration is available for tasks: testDebugUnitTest lintDebug assembleDebug
+
+> Configure project :app
+WARNING: The option setting 'android.overridePathCheck=true' is experimental.
+The current default is 'false'.
+w: file:///workspace/apps/android/app/build.gradle.kts:66:5: 'val stabilityConfigurationFile: RegularFileProperty' is deprecated. Use the stabilityConfigurationFiles option instead.
+
+> Task :app:preBuild UP-TO-DATE
+> Task :core:network:preBuild UP-TO-DATE
+> Task :core:designsystem:preBuild UP-TO-DATE
+> Task :feature:shell:preBuild UP-TO-DATE
+> Task :app:preDebugBuild UP-TO-DATE
+> Task :core:designsystem:preDebugBuild UP-TO-DATE
+> Task :core:network:preDebugBuild UP-TO-DATE
+> Task :app:generateDebugBuildConfig FROM-CACHE
+> Task :core:designsystem:processDebugNavigationResources FROM-CACHE
+> Task :feature:shell:preDebugBuild UP-TO-DATE
+> Task :core:network:processDebugNavigationResources FROM-CACHE
+> Task :feature:shell:processDebugNavigationResources FROM-CACHE
+> Task :core:designsystem:generateDebugResources FROM-CACHE
+> Task :core:designsystem:javaPreCompileDebug FROM-CACHE
+> Task :app:generateDebugResValues
+> Task :core:designsystem:packageDebugResources FROM-CACHE
+> Task :core:network:generateDebugResources FROM-CACHE
+> Task :app:generateDebugResources FROM-CACHE
+> Task :core:network:packageDebugResources FROM-CACHE
+> Task :app:packageDebugResources
+> Task :core:network:javaPreCompileDebug FROM-CACHE
+> Task :feature:shell:generateDebugResources FROM-CACHE
+> Task :feature:shell:packageDebugResources FROM-CACHE
+> Task :app:processDebugNavigationResources FROM-CACHE
+> Task :core:network:parseDebugLocalResources FROM-CACHE
+> Task :core:network:generateDebugRFile FROM-CACHE
+> Task :core:designsystem:parseDebugLocalResources FROM-CACHE
+> Task :core:designsystem:generateDebugRFile FROM-CACHE
+> Task :feature:shell:parseDebugLocalResources FROM-CACHE
+> Task :feature:shell:generateDebugRFile FROM-CACHE
+> Task :feature:shell:javaPreCompileDebug FROM-CACHE
+> Task :app:javaPreCompileDebug FROM-CACHE
+> Task :core:designsystem:writeDebugAarMetadata
+> Task :core:network:writeDebugAarMetadata
+> Task :feature:shell:writeDebugAarMetadata
+> Task :app:parseDebugLocalResources
+> Task :app:generateDebugRFile FROM-CACHE
+> Task :app:mapDebugSourceSetPaths
+> Task :app:compileDebugNavigationResources FROM-CACHE
+> Task :core:designsystem:compileDebugKotlin FROM-CACHE
+> Task :core:network:compileDebugKotlin FROM-CACHE
+> Task :core:network:compileDebugJavaWithJavac NO-SOURCE
+> Task :core:designsystem:compileDebugJavaWithJavac NO-SOURCE
+> Task :app:checkDebugAarMetadata
+> Task :app:createDebugCompatibleScreenManifests
+> Task :app:extractDeepLinksDebug FROM-CACHE
+> Task :core:designsystem:extractDeepLinksDebug FROM-CACHE
+> Task :core:designsystem:processDebugManifest FROM-CACHE
+> Task :core:network:extractDeepLinksDebug FROM-CACHE
+> Task :core:network:processDebugManifest FROM-CACHE
+> Task :feature:shell:extractDeepLinksDebug FROM-CACHE
+> Task :core:designsystem:bundleLibCompileToJarDebug
+> Task :core:designsystem:mapDebugSourceSetPaths
+> Task :core:network:bundleLibCompileToJarDebug
+> Task :core:designsystem:compileDebugLibraryResources FROM-CACHE
+> Task :feature:shell:processDebugManifest FROM-CACHE
+> Task :core:network:mapDebugSourceSetPaths
+> Task :core:network:compileDebugLibraryResources FROM-CACHE
+> Task :feature:shell:mapDebugSourceSetPaths
+> Task :feature:shell:compileDebugLibraryResources FROM-CACHE
+> Task :app:preDebugUnitTestBuild UP-TO-DATE
+> Task :app:javaPreCompileDebugUnitTest FROM-CACHE
+> Task :core:designsystem:bundleLibRuntimeToJarDebug
+> Task :feature:shell:compileDebugKotlin FROM-CACHE
+> Task :feature:shell:compileDebugJavaWithJavac NO-SOURCE
+> Task :core:designsystem:processDebugJavaRes
+> Task :feature:shell:bundleLibCompileToJarDebug
+> Task :core:network:bundleLibRuntimeToJarDebug
+> Task :core:network:processDebugJavaRes
+> Task :feature:shell:bundleLibRuntimeToJarDebug
+> Task :feature:shell:processDebugJavaRes
+> Task :core:designsystem:preDebugUnitTestBuild UP-TO-DATE
+> Task :core:designsystem:generateDebugUnitTestStubRFile FROM-CACHE
+> Task :core:designsystem:compileDebugUnitTestKotlin NO-SOURCE
+> Task :core:designsystem:javaPreCompileDebugUnitTest FROM-CACHE
+> Task :core:designsystem:compileDebugUnitTestJavaWithJavac NO-SOURCE
+> Task :core:designsystem:processDebugUnitTestJavaRes NO-SOURCE
+> Task :core:designsystem:testDebugUnitTest NO-SOURCE
+> Task :core:network:preDebugUnitTestBuild UP-TO-DATE
+> Task :core:network:generateDebugUnitTestStubRFile FROM-CACHE
+> Task :core:network:compileDebugUnitTestKotlin FROM-CACHE
+> Task :app:compileDebugKotlin FROM-CACHE
+> Task :app:processDebugMainManifest
+> Task :core:network:javaPreCompileDebugUnitTest FROM-CACHE
+> Task :app:processDebugJavaRes
+> Task :core:network:compileDebugUnitTestJavaWithJavac NO-SOURCE
+> Task :core:network:processDebugUnitTestJavaRes
+> Task :app:processDebugManifest
+> Task :core:network:testDebugUnitTest FROM-CACHE
+> Task :feature:shell:preDebugUnitTestBuild UP-TO-DATE
+> Task :feature:shell:generateDebugUnitTestStubRFile FROM-CACHE
+> Task :feature:shell:compileDebugUnitTestKotlin NO-SOURCE
+> Task :feature:shell:javaPreCompileDebugUnitTest FROM-CACHE
+> Task :feature:shell:compileDebugUnitTestJavaWithJavac NO-SOURCE
+> Task :feature:shell:processDebugUnitTestJavaRes NO-SOURCE
+> Task :feature:shell:testDebugUnitTest NO-SOURCE
+> Task :app:processDebugManifestForPackage
+> Task :core:designsystem:mergeDebugJniLibFolders
+> Task :core:designsystem:mergeDebugNativeLibs NO-SOURCE
+> Task :core:designsystem:stripDebugDebugSymbols NO-SOURCE
+> Task :core:designsystem:checkDebugAarMetadata
+> Task :core:designsystem:copyDebugJniLibsProjectAndLocalJars
+> Task :app:compileDebugJavaWithJavac FROM-CACHE
+> Task :core:designsystem:generateDebugAssets UP-TO-DATE
+> Task :core:designsystem:extractDeepLinksForAarDebug FROM-CACHE
+> Task :core:designsystem:mergeDebugGeneratedProguardFiles
+> Task :core:designsystem:extractDebugAnnotations FROM-CACHE
+> Task :core:designsystem:mergeDebugConsumerProguardFiles
+> Task :core:designsystem:prepareDebugArtProfile
+> Task :core:designsystem:mergeDebugAssets
+> Task :core:designsystem:prepareLintJarForPublish
+> Task :core:network:checkDebugAarMetadata
+> Task :core:network:mergeDebugJniLibFolders
+> Task :core:network:mergeDebugNativeLibs NO-SOURCE
+> Task :core:network:stripDebugDebugSymbols NO-SOURCE
+> Task :core:network:copyDebugJniLibsProjectAndLocalJars
+> Task :core:network:extractDeepLinksForAarDebug FROM-CACHE
+> Task :core:network:generateDebugAssets UP-TO-DATE
+> Task :core:network:extractDebugAnnotations FROM-CACHE
+> Task :core:network:mergeDebugAssets
+> Task :core:network:mergeDebugGeneratedProguardFiles
+> Task :core:network:prepareDebugArtProfile
+> Task :core:network:mergeDebugConsumerProguardFiles
+> Task :core:network:prepareLintJarForPublish
+> Task :feature:shell:checkDebugAarMetadata
+> Task :feature:shell:mergeDebugJniLibFolders
+> Task :feature:shell:mergeDebugNativeLibs NO-SOURCE
+> Task :feature:shell:stripDebugDebugSymbols NO-SOURCE
+> Task :feature:shell:copyDebugJniLibsProjectAndLocalJars
+> Task :core:network:mergeDebugJavaResource
+> Task :core:network:syncDebugLibJars FROM-CACHE
+> Task :core:designsystem:mergeDebugJavaResource
+> Task :feature:shell:extractDebugAnnotations FROM-CACHE
+> Task :core:designsystem:syncDebugLibJars FROM-CACHE
+> Task :core:network:bundleDebugLocalLintAar
+> Task :feature:shell:extractDeepLinksForAarDebug FROM-CACHE
+> Task :feature:shell:generateDebugAssets UP-TO-DATE
+> Task :core:designsystem:bundleDebugLocalLintAar
+> Task :feature:shell:mergeDebugAssets
+> Task :feature:shell:mergeDebugGeneratedProguardFiles
+> Task :feature:shell:prepareDebugArtProfile
+> Task :feature:shell:prepareLintJarForPublish
+> Task :app:preDebugAndroidTestBuild SKIPPED
+> Task :feature:shell:mergeDebugConsumerProguardFiles
+> Task :app:generateDebugAndroidTestResValues FROM-CACHE
+> Task :feature:shell:mergeDebugJavaResource
+> Task :core:designsystem:createFullJarDebug
+> Task :core:designsystem:writeDebugLintModelMetadata
+> Task :feature:shell:syncDebugLibJars FROM-CACHE
+> Task :core:network:writeDebugLintModelMetadata
+> Task :core:network:createFullJarDebug
+> Task :feature:shell:bundleDebugLocalLintAar
+> Task :feature:shell:createFullJarDebug
+> Task :feature:shell:writeDebugLintModelMetadata
+> Task :core:designsystem:extractProguardFiles
+> Task :app:extractProguardFiles
+> Task :core:network:extractProguardFiles
+> Task :feature:shell:extractProguardFiles
+> Task :app:mergeDebugResources
+> Task :app:processDebugResources
+> Task :app:bundleDebugClassesToRuntimeJar
+> Task :app:bundleDebugClassesToCompileJar
+> Task :core:designsystem:lintAnalyzeDebug FROM-CACHE
+> Task :app:compileDebugUnitTestKotlin FROM-CACHE
+> Task :core:designsystem:generateDebugLintModel
+> Task :core:network:generateDebugLintModel
+> Task :app:compileDebugUnitTestJavaWithJavac NO-SOURCE
+> Task :app:processDebugUnitTestJavaRes
+> Task :feature:shell:generateDebugLintModel
+> Task :app:generateDebugUnitTestLintModel
+> Task :app:generateDebugLintReportModel
+> Task :core:network:lintAnalyzeDebug FROM-CACHE
+> Task :feature:shell:lintAnalyzeDebug FROM-CACHE
+> Task :app:testDebugUnitTest FROM-CACHE
+> Task :app:generateDebugAndroidTestLintModel
+> Task :core:designsystem:preDebugAndroidTestBuild UP-TO-DATE
+> Task :core:designsystem:generateDebugAndroidTestLintModel
+> Task :core:designsystem:generateDebugUnitTestLintModel
+> Task :core:designsystem:lintAnalyzeDebugAndroidTest FROM-CACHE
+> Task :core:designsystem:lintAnalyzeDebugUnitTest FROM-CACHE
+> Task :core:network:preDebugAndroidTestBuild UP-TO-DATE
+> Task :core:network:generateDebugAndroidTestLintModel
+> Task :core:network:generateDebugUnitTestLintModel
+> Task :core:network:lintAnalyzeDebugAndroidTest FROM-CACHE
+> Task :core:network:lintAnalyzeDebugUnitTest FROM-CACHE
+> Task :feature:shell:preDebugAndroidTestBuild UP-TO-DATE
+> Task :feature:shell:generateDebugAndroidTestLintModel
+> Task :feature:shell:generateDebugUnitTestLintModel
+> Task :feature:shell:lintAnalyzeDebugAndroidTest FROM-CACHE
+> Task :feature:shell:lintAnalyzeDebugUnitTest FROM-CACHE
+> Task :core:designsystem:generateDebugLintReportModel
+> Task :core:designsystem:lintReportDebug
+> Task :core:designsystem:lintDebug
+> Task :core:network:generateDebugLintReportModel
+> Task :core:network:lintReportDebug
+> Task :core:network:lintDebug
+> Task :feature:shell:generateDebugLintReportModel
+> Task :feature:shell:lintReportDebug
+> Task :feature:shell:lintDebug
+> Task :app:mergeDebugNativeDebugMetadata NO-SOURCE
+> Task :app:generateDebugAssets UP-TO-DATE
+> Task :app:mergeDebugAssets
+> Task :app:compressDebugAssets FROM-CACHE
+> Task :app:generateDebugGlobalSynthetics FROM-CACHE
+> Task :app:mergeDebugJavaResource
+> Task :app:lintAnalyzeDebugAndroidTest
+> Task :app:desugarDebugFileDependencies FROM-CACHE
+> Task :feature:shell:bundleLibRuntimeToDirDebug
+> Task :app:checkDebugDuplicateClasses
+> Task :core:designsystem:bundleLibRuntimeToDirDebug
+> Task :core:network:bundleLibRuntimeToDirDebug
+> Task :app:mergeLibDexDebug FROM-CACHE
+> Task :app:dexBuilderDebug FROM-CACHE
+> Task :app:mergeProjectDexDebug FROM-CACHE
+> Task :app:mergeDebugJniLibFolders
+> Task :core:designsystem:copyDebugJniLibsProjectOnly
+> Task :core:network:copyDebugJniLibsProjectOnly
+> Task :feature:shell:copyDebugJniLibsProjectOnly
+> Task :app:mergeExtDexDebug FROM-CACHE
+> Task :app:mergeDebugNativeLibs
+
+> Task :app:stripDebugDebugSymbols
+Unable to strip the following libraries, packaging them as they are: libandroidx.graphics.path.so. Run with --info option to learn more.
+
+> Task :app:writeDebugAppMetadata
+> Task :app:writeDebugSigningConfigVersions
+> Task :core:designsystem:bundleDebugAar
+> Task :core:designsystem:assembleDebug
+> Task :core:network:bundleDebugAar
+> Task :core:network:assembleDebug
+> Task :feature:shell:bundleDebugAar
+> Task :feature:shell:assembleDebug
+> Task :app:validateSigningDebug
+> Task :app:packageDebug
+> Task :app:assembleDebug
+> Task :app:createDebugApkListingFileRedirect
+> Task :app:lintAnalyzeDebugUnitTest
+> Task :app:lintAnalyzeDebug
+
+> Task :app:lintReportDebug
+Wrote HTML report to file:///workspace/apps/android/app/build/reports/lint-results-debug.html
+
+> Task :app:lintDebug
+
+BUILD SUCCESSFUL in 1m 11s
+193 actionable tasks: 117 executed, 76 from cache
+Configuration cache entry stored.

@@ -1,0 +1,143 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260727T193842Z-C948B6FC-0001
+session_id: SES-20260727T193842Z-C948B6FC
+task_id: TASK-R14-002
+story_id: STORY-R14-004
+sequence: 1
+created_at: '2026-07-27T19:57:06Z'
+summary: TASK-R14-002数据合同差异审计完成，CR-0419经独立只读审查修订后批准并应用精确Scope
+next_step: 实现V043聊天不变量、合同非空约束、数据库专项测试和R15管理端合同Problem登记
+blockers: []
+decisions:
+- CR-0419 APPROVED并已应用到Session Scope
+note: 不涉及邀请码问题；不运行模拟器或APK
+tests:
+- name: cr-independent-review
+  result: PASS
+  evidence: CR-0419第二版解决六项审查阻断并获不同Actor批准
+  note: 申请人与审批Actor分离
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: d03ab06cd9d8c4552b8b8e5f57f3ccca3f6bba6d
+  upstream: origin/task/TASK-R03-001
+  ahead: 0
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/ACTIVE_SESSION.yaml'
+  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/SESSION_INDEX.yaml'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/TASK_CLAIMS.yaml'
+  - ' M .continuity/TASK_TRANSITIONS.yaml'
+  - ' M CURRENT_STATUS.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+  - ' M catalogs/change_request_index.csv'
+  - ' M catalogs/session_index.csv'
+  - ' M catalogs/task_transition_ledger.csv'
+  - ?? .continuity/change_requests/CR-0419.yaml
+  - ?? .continuity/sessions/SES-20260727T193842Z-C948B6FC.yaml
+  - ?? docs/03-continuity/change-requests/CR-0419-对齐R14聊天数据库与冻结消息合同并补齐领域不变量.md
+  - ?? docs/03-continuity/sessions/2026-07/SES-20260727T193842Z-C948B6FC.md
+  recent_commits:
+  - "d03ab06cd9d8c4552b8b8e5f57f3ccca3f6bba6d\t2026-07-28T03:36:58+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(continuity): close TASK-R14-001\
+    \ as completed"
+  - "ccd87aa7bd04618d03bfb65e9d8cc19162ad1831\t2026-07-28T03:27:19+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(continuity): bind R14\
+    \ entry CRs"
+  - "11bc72411230506a2c6cf696d546621c5efc7124\t2026-07-28T03:22:45+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] feat(chat): establish R14\
+    \ implementation entry"
+  - "2d633d11fa98ea253a9183df8ada9c4d9a023521\t2026-07-28T02:18:00+08:00\tHHY Continuity Bootstrap\t[STORY-R13-003] chore(continuity): close TASK-R13-008\
+    \ as blocked"
+  - "020890521cbc5b1c6a58ea1da3aec4c0173168b7\t2026-07-28T02:05:42+08:00\tHHY Continuity Bootstrap\t[STORY-R13-003] chore(continuity): accept\
+    \ strict async owner suffix"
+  - "9d16d6745b27f11493604e0fda3bc8bf228f0378\t2026-07-28T01:46:17+08:00\tHHY Continuity Bootstrap\t[STORY-R13-003] chore(staging): restore public\
+    \ registration readiness"
+  - "275c4585a53806646e426d87560dba90f9a87127\t2026-07-28T01:32:43+08:00\tHHY Continuity Bootstrap\t[STORY-R13-003] chore(continuity): implement\
+    \ asynchronous TEST_APK progression"
+  - "be60681d9ea60d5cc81ed1916fcd9f99287784e0\t2026-07-28T00:29:43+08:00\tHHY Continuity Bootstrap\t[STORY-R13-003] chore(continuity): close TASK-R13-007\
+    \ as completed"
+project_fingerprint:
+  sha256: 0da11ab80f2ff97f34d0ba0e78bc6d70dcd374765e0de058f6b7b714ba2b22f4
+  files:
+  - docs/03-continuity/change-requests/CR-0419-对齐R14聊天数据库与冻结消息合同并补齐领域不变量.md
+  file_count: 1
+  payload:
+    base_commit: d03ab06cd9d8c4552b8b8e5f57f3ccca3f6bba6d
+    files:
+    - path: docs/03-continuity/change-requests/CR-0419-对齐R14聊天数据库与冻结消息合同并补齐领域不变量.md
+      state: FILE
+      size: 6363
+      sha256: 7ce0cb0d46a50ed8b244a942b6cc41bf38636acbaef1a5a944b92ad2e9d57fe1
+change_classification:
+  continuity:
+  - docs/03-continuity/change-requests/CR-0419-对齐R14聊天数据库与冻结消息合同并补齐领域不变量.md
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+change_requests:
+- CR-0419
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions:
+  - contracts/openapi.yaml
+  - services/backend/boot/src/main/resources/contracts/openapi.yaml
+  - packages/api-client/src/client.generated.ts
+  - contracts/contract_status.csv
+  - scripts/check_r14_entry_contract.py
+  - tests/test_r14_entry_contract.py
+  - database/schema_dictionary.csv
+  - database/migrations/V043__r14_chat_invariants.sql
+  - services/backend/boot/src/main/resources/db/migration/V043__r14_chat_invariants.sql
+  - database/rollback/U043__r14_chat_invariants.sql
+  - database/tests/r14_chat_invariants.sql
+  - scripts/run_r14_database_invariants.sh
+  - scripts/run_postgres_migration_smoke.sh
+  - scripts/check_db_schema.py
+  - tests/test_r14_database_contract.py
+  - docs/01-architecture/adr/ADR-009-R14一对一聊天数据不变量.md
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  source: story+explicit+approved-cr:CR-0419
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 数据库破坏性迁移、跨表延迟约束、回滚与最终集成必须由主控串行复核；本阶段不存在路径互斥的安全写包
+event_hash: f2598690b26e1b025f51732552d9bb686afe38b172a1e3bc7d3fb7572f4426ed

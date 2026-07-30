@@ -1,0 +1,19 @@
+{
+  "schema": "hhy.registration-readiness/v1",
+  "release": "R13",
+  "environment": "STAGING",
+  "api_base_url": "https://api.orbexa.cc",
+  "invite_code": "HHYTEST2026",
+  "invite_validation_http": 200,
+  "registration_http": 200,
+  "identity_consent_http": 200,
+  "identity_consent_title": "实名认证授权说明",
+  "identity_consent_content_length": 239,
+  "status": "PASS",
+  "verified_at": "2026-07-27T17:37:57Z",
+  "production_test_invite_enabled": false,
+  "notes": [
+    "Probe used a generated staging-only phone and did not record credentials or tokens.",
+    "Formal user and admin invite-code management remains assigned to R25."
+  ]
+}

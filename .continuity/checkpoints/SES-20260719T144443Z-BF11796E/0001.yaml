@@ -1,0 +1,124 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260719T144443Z-BF11796E-0001
+session_id: SES-20260719T144443Z-BF11796E
+sequence: 1
+created_at: '2026-07-19T14:48:57Z'
+summary: R04正式测试APK身份已冻结为versionCode 10207，Gradle、ReleasePolicy和版本测试三处一致
+next_step: 提交并推送APK身份，然后用固定云端Android工具链和受保护Staging签名构建正式R04测试APK
+blockers: []
+decisions: []
+note: ''
+tests:
+- name: APK delivery safeguards
+  result: PASS
+  evidence: tests.test_android_apk_delivery
+  note: 22 tests including API gate and delivery transaction
+- name: R04 documentation gate
+  result: PASS
+  evidence: scripts/check_v122_documentation.py --release R04
+  note: zero document gaps
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: 4520cfdbcf774d31ae70f7215885935d11db5d1e
+  upstream: origin/task/TASK-R03-001
+  ahead: 0
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/ACTIVE_SESSION.yaml'
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/SESSION_INDEX.yaml'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/TASK_CLAIMS.yaml'
+  - ' M .continuity/TASK_TRANSITIONS.yaml'
+  - ' M CURRENT_STATUS.yaml'
+  - ' M apps/android/app/build.gradle.kts'
+  - ' M apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt'
+  - ' M apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+  - ' M catalogs/session_index.csv'
+  - ' M catalogs/task_transition_ledger.csv'
+  - ?? .continuity/sessions/SES-20260719T144443Z-BF11796E.yaml
+  - ?? docs/03-continuity/sessions/2026-07/SES-20260719T144443Z-BF11796E.md
+  recent_commits:
+  - "4520cfdbcf774d31ae70f7215885935d11db5d1e\t2026-07-19T22:43:00+08:00\tHHY Continuity Bootstrap\t[STORY-R04-002] chore(continuity): close TASK-R04-006\
+    \ as completed"
+  - "fe31d579d15c305f28cfac03c03ed026da6bfb66\t2026-07-19T22:40:17+08:00\tHHY Continuity Bootstrap\t[STORY-R04-002] test(staging): attest R04\
+    \ observability and rollback"
+  - "4bbf6e23c0a6f1b2773e60182fde4683deeb6d0d\t2026-07-19T22:11:51+08:00\tHHY Continuity Bootstrap\t[STORY-R04-002] feat(observability): add R04\
+    \ staging gates"
+  - "73a0e7db60711a00fd7b3a9a0f2a15d609f37ef7\t2026-07-19T21:58:16+08:00\tHHY Continuity Bootstrap\t[STORY-R04-002] chore(continuity): close TASK-R04-005\
+    \ as completed"
+  - "ccf2ed56a8f90181a9da018b83b8cd59262d952f\t2026-07-19T21:57:10+08:00\tHHY Continuity Bootstrap\t[STORY-R04-002] test(r04): attest six-test\
+    \ integration matrix"
+  - "3fb6405ad6161c09f73c1fd5274edd8140567b08\t2026-07-19T21:46:47+08:00\tHHY Continuity Bootstrap\t[STORY-R04-002] fix(media): use frozen button\
+    \ height token"
+  - "0e5010f900b2e441f7358ad3e66d491322091e82\t2026-07-19T21:30:45+08:00\tHHY Continuity Bootstrap\t[STORY-R04-002] test(r04): run reproducible\
+    \ remote integration gates"
+  - "1fcc52f2a34047d8ed6bde02463a278323fe24b6\t2026-07-19T21:16:42+08:00\tHHY Continuity Bootstrap\t[STORY-R04-002] test(r04): add authoritative\
+    \ six-test matrix"
+project_fingerprint:
+  sha256: 1e37ec31ebf634e3232f77284fae1657e09f4233e3e3672e564b1716e536971e
+  files:
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+  - apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+  file_count: 3
+  payload:
+    base_commit: 4520cfdbcf774d31ae70f7215885935d11db5d1e
+    files:
+    - path: apps/android/app/build.gradle.kts
+      state: FILE
+      size: 4445
+      sha256: 1cf0691092e356d8166f904b1303b44a04f017bde701abad4688c3d74899dfe2
+    - path: apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+      state: FILE
+      size: 520
+      sha256: 4f2764bf0c2d85b8cdb3b5cb932d344ad8100ba0ad47d09e7aa968ad81e138e6
+    - path: apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+      state: FILE
+      size: 1025
+      sha256: c22b7b8c100cb5210c820860c2982206102eff3873d2bf1205981a5c5f053cd3
+change_classification:
+  code:
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+  - apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+  user_visible:
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+  - apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+- CHANGELOG
+change_requests: []
+scope:
+  allowed_paths:
+  - apps/android/**
+  - services/backend/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - tests/**
+  - docs/**
+  - catalogs/**
+  - releases/**
+  - design/**
+  - scripts/**
+  - CHANGELOG.md
+  approved_exceptions: []
+  source: story+explicit
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 固定签名Profile、单调versionCode、唯一APK交付状态和公网精确路径构成单一原子事务，不能并发构建或发布
+event_hash: 42fa603cc36a74d4137c57cebe2962047798127ab34ae3b8a346414884bef812

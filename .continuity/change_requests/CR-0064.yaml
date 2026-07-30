@@ -1,0 +1,65 @@
+protocol_version: '1.0'
+cr_id: CR-0064
+title: 纳入R02认证补开发的R03 APK当前与历史交付证据
+status: CLOSED
+created_at: '2026-07-18T23:24:40Z'
+updated_at: '2026-07-18T23:32:34Z'
+requester_actor_id: codex-root
+approver_actor_id: project-owner-delegated
+task_id: TASK-R03-007
+session_id: SES-20260718T200607Z-3569D212
+user_request: 用户要求理解冻结设计包后立即完成R02安全验证码与无短信注册补开发，生成桌面APK并按无状态交接边界持续推进。
+reason: 最新固定签名回归APK替换当前R03测试交付物时，需要保留上一份交付证据并同步构建、下载、版本和桌面交付记录；这些路径未包含在原功能变更范围。
+original_rule: TASK-R03-007原允许范围仅覆盖R03既有构建证据，未包含当前APK清单、历史交付快照和R02认证补开发交付报告。
+new_rule: 允许用固定签名、真实HTTPS API、四方SHA一致的最新R03测试APK替换当前交付清单，同时将上一份清单和交付证据只读归档；同步更新构建、签名、下载、版本和R02认证补开发交付记录。
+impact_summary: 仅扩展交付证据与报告路径，不改变已冻结业务实现；真机项目所有者验收继续保持PENDING，测试APK不得标记为正式发布。
+impact:
+  files:
+  - artifacts/apk/R03/APK_MANIFEST.yaml
+  - artifacts/apk/R03/history/3a913c9/APK_MANIFEST.yaml
+  - artifacts/validation/r03-apk-delivery/delivery-evidence.json
+  - artifacts/validation/r03-apk-delivery/history/3a913c9/delivery-evidence.json
+  - artifacts/validation/r03-task007-android/build-evidence.json
+  - artifacts/validation/r03-task007-android/gradle-build.log
+  - artifacts/validation/r03-task007-android/apk-signing.txt
+  - artifacts/reports/R03/TASK-R03-007-android-apk.md
+  - releases/R02/R02_AUTH_HOTFIX_20260719.md
+  pages: []
+  apis: []
+  database: []
+  configuration:
+  - R03测试APK清单与下载白名单证据
+  ledger:
+  - CR-0064及连续性检查点
+  tests:
+  - R03 APK prepare/verify、外网HTTPS 200、源站/外网/服务器/桌面SHA-256一致、签名v2/v3、真实API嵌入、严格连续性门禁
+  releases:
+  - R02认证补开发/R03测试APK
+  migration_and_compatibility: 现有3a913c9交付证据移入按提交号命名的history目录；0958f1f成为当前测试交付，旧APK不删除且不再作为当前验证目标。
+user_confirmation: 用户在2026-07-19明确要求立即理解并开发冻结包，完成后生成桌面APK并持续推进。
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-18T23:25:21Z'
+  note: 用户已明确要求冻结设计补开发、桌面APK交付、无状态连续开发，并授权后续非紧急判断由开发端自行决定；批准仅扩展交付证据范围，真机验收仍由用户反馈。
+machine_record: .continuity/change_requests/CR-0064.yaml
+document: docs/03-continuity/change-requests/CR-0064-纳入R02认证补开发的R03-APK当前与历史交付证据.md
+decision_log:
+- at: '2026-07-18T23:25:23Z'
+  actor_id: codex-root
+  status: IMPLEMENTING
+  note: 已纳入最新固定签名测试APK、历史交付快照、构建签名证据和R02认证补开发交付报告，开始最终门禁与提交。
+  session_id: SES-20260718T200607Z-3569D212
+- at: '2026-07-18T23:29:45Z'
+  actor_id: codex-root
+  status: IMPLEMENTED
+  note: 最新固定签名R03测试APK已完成仓库、服务器、公网和桌面四方交付验证，上一交付证据已归档，真机验收保持PENDING。
+  session_id: SES-20260718T200607Z-3569D212
+- at: '2026-07-18T23:32:34Z'
+  actor_id: codex-root
+  status: CLOSED
+  note: 交付证据、历史归档和R02认证补开发报告已在证据提交中落库并推送；项目所有者真机验收字段按规则保持PENDING。
+  session_id: SES-20260718T200607Z-3569D212
+session_ids:
+- SES-20260718T200607Z-3569D212
+implementation_commits:
+- f7b1279ede9d481a957d588c03624862227a52c3

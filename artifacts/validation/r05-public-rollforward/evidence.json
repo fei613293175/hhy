@@ -1,0 +1,70 @@
+{
+  "schema": "hhy.r05-public-rollforward/v1",
+  "verified_at": "2026-07-20T01:20:00Z",
+  "api_base_url": "https://api.orbexa.cc",
+  "previous_upstream": "http://127.0.0.1:28084",
+  "current_upstream": "http://127.0.0.1:28085",
+  "candidate_container": "hhy-r05-public-candidate-20260720-091536",
+  "candidate_image": "hhy-backend-r05-smoke:c2bc1ab",
+  "database_backup": {
+    "server_path": "/root/hhy-backups/r05-public-rollforward/hhy_staging-before-r05-20260720-091516.dump",
+    "sha256": "264053609f1db0cf18973998b5d9528d45c57e7df9123a529088beab3f0e4d9a",
+    "restore_catalog_validation": "PASS"
+  },
+  "rollback_nginx_config": "/www/server/panel/vhost/nginx/api.orbexa.cc.conf.before-r05-20260720-091843",
+  "checks": {
+    "candidate_readiness": "PASS",
+    "candidate_public_status": "PASS",
+    "existing_user_data_preserved": "PASS",
+    "r02_public_auth_regression": "PASS",
+    "r05_public_registration": "PASS",
+    "r05_identity_consent_http_200": "PASS",
+    "r05_identity_consent_content_length": 239
+  },
+  "staging_sandbox_rollforward": {
+    "verified_at": "2026-07-20T06:12:27Z",
+    "previous_upstream": "http://127.0.0.1:28085",
+    "current_upstream": "http://127.0.0.1:28086",
+    "candidate_container": "hhy-r05-sandbox-candidate-20260720-1401",
+    "candidate_image": "hhy-backend-r05-smoke:43008b9",
+    "candidate_image_sha256": "bf3ef00196367dcd7f8319695e13ab0e4aedbad2ef9ab148b98fc3bd6a00efa6",
+    "rollback_nginx_config": "/www/server/panel/vhost/nginx/api.orbexa.cc.conf.before-r05-sandbox-20260720T061043Z",
+    "checks": {
+      "candidate_readiness": "PASS",
+      "candidate_complete_identity_journey": "PASS",
+      "public_r02_auth_regression": "PASS",
+      "public_r05_identity_consent": "PASS",
+      "public_identity_session_creation": "PASS",
+      "public_liveness_page": "PASS",
+      "public_identity_status": "VERIFIED",
+      "one_time_state_replay_http": 422,
+      "technical_or_identity_text_exposure": "PASS"
+    }
+  },
+  "identity_overview_rollforward": {
+    "verified_at": "2026-07-20T09:01:23Z",
+    "source_commit": "07f2fe254dace0c422be6cb96e3f66b88b2ad40b",
+    "previous_upstream": "http://127.0.0.1:28086",
+    "current_upstream": "http://127.0.0.1:28087",
+    "candidate_container": "hhy-r05-overview-candidate-20260720-1659",
+    "candidate_image": "hhy-backend-r05-smoke:07f2fe2",
+    "candidate_image_sha256": "c69d67e7feef16956615fc787120458b00d52e6ba6373e91d072f354156b73ae",
+    "rollback_nginx_config": "/www/server/panel/vhost/nginx/api.orbexa.cc.conf.before-r05-overview-20260720T0900Z",
+    "database_migration": "NONE",
+    "checks": {
+      "candidate_readiness": "PASS",
+      "candidate_initial_overview": "NOT_STARTED",
+      "candidate_active_overview": "IN_PROGRESS",
+      "candidate_verified_overview": "VERIFIED",
+      "candidate_active_session_restore": "PASS",
+      "candidate_complete_identity_journey": "PASS",
+      "public_r02_auth_regression": "PASS",
+      "public_r05_identity_consent": "PASS",
+      "public_identity_overview_three_states": "PASS",
+      "public_liveness_page": "PASS",
+      "public_identity_status": "VERIFIED",
+      "one_time_state_replay_http": 422,
+      "android_10213_startup_policy_http": 200
+    }
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "schema": "hhy.owner-physical-test-feedback/v1",
+  "release": "R05",
+  "version_code": 10210,
+  "apk_file": "hhy-r05-7b57046-debug.apk",
+  "reported_at": "2026-07-20T05:10:00Z",
+  "overall_status": "PARTIAL_BLOCKED",
+  "passed": [
+    "实名认证首页",
+    "实名认证信息输入页面"
+  ],
+  "blocked": [
+    "活体检测容器",
+    "实名认证结果页面"
+  ],
+  "blocker": {
+    "visible_message": "认证资料提交失败，请稍后重试",
+    "operation": "POST /api/v1/identity/sessions",
+    "http_status": 500,
+    "safe_business_message": "实名认证服务暂时不可用",
+    "active_identity_configuration_rows": 0,
+    "third_party_called": false
+  },
+  "additional_regressions": [
+    "密码登录与验证码登录同级切换错误使用右到左层级动画",
+    "注册账号与忘记密码返回错误使用右到左动画",
+    "从验证码登录进入注册或忘记密码后错误返回密码登录"
+  ],
+  "owner_acceptance": "PENDING"
+}

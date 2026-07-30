@@ -1,0 +1,40 @@
+protocol_version: '1.0'
+cr_id: CR-0404
+title: R13自动候选独立挂起并切换R14持续开发
+status: REJECTED
+created_at: '2026-07-27T12:11:32Z'
+updated_at: '2026-07-27T12:12:28Z'
+requester_actor_id: codex-root-r14-transition-20260727
+approver_actor_id: null
+task_id: TASK-R13-007
+session_id: SES-20260726T191158Z-2B506AB7
+user_request: 停止围绕R13模拟器候选原地打转，立即推进R14版本开发
+reason: R13业务代码与模块门禁已完成，但同一启动认证自动化边界已连续消耗三轮候选且未产生产品功能进度；按全局三轮上限将自动化尾项独立登记，不再授权Attempt18，并切换到无R13依赖的TASK-R14-001
+original_rule: 待填写
+new_rule: 待填写
+impact_summary: 待填写
+impact:
+  files: []
+  pages: []
+  apis: []
+  database: []
+  configuration: []
+  ledger: []
+  tests: []
+  releases: []
+  migration_and_compatibility: 待填写
+user_confirmation: PENDING
+approval:
+  decision: null
+  decided_at: null
+  note: null
+machine_record: .continuity/change_requests/CR-0404.yaml
+document: docs/03-continuity/change-requests/CR-0404-R13自动候选独立挂起并切换R14持续开发.md
+decision_log:
+- at: '2026-07-27T12:12:28Z'
+  actor_id: codex-root-r13-candidate-20260727
+  status: REJECTED
+  note: 项目所有者确认R13尚未交付桌面；依赖顺序与最终候选门禁要求先完成R13，因此不切换R14，不授权跳过R13。
+  session_id: SES-20260726T191158Z-2B506AB7
+session_ids:
+- SES-20260726T191158Z-2B506AB7

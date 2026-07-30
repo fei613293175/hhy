@@ -1,0 +1,63 @@
+protocol_version: '1.0'
+cr_id: CR-0412
+title: 将GitHub模拟器降为按需专项并以固定环境APK交付后异步真机反馈
+status: IMPLEMENTED
+created_at: '2026-07-27T14:48:15Z'
+updated_at: '2026-07-27T15:23:30Z'
+requester_actor_id: codex-root-r13-delivery-policy-20260727
+approver_actor_id: codex-reviewer-r13-delivery-policy-20260727
+task_id: TASK-R13-007
+session_id: SES-20260726T191158Z-2B506AB7
+user_request: 项目所有者确认以后由其真机异步反馈，AI只管持续推进开发；GitHub模拟器不再反复阻断交付
+reason: GitHub全量模拟器每轮5至10分钟且受Runner、OIDC、Staging、Compose测试调度影响；保留固定环境质量门禁和生产关闭边界即可在不牺牲可追溯性的前提下持续交付
+original_rule: R06起桌面APK只允许在GitHub完整候选模拟器、旅程、截图和日志全部PASS且owner_test_allowed=true后交付；最终候选失败会持续阻断TASK-xx-007及版本推进
+new_rule: 每个大版本完成后必须在obx-test固定工具链对冻结Commit运行正式API校验、受影响编译、单测、Lint和APK打包，通过稳定测试签名、身份与SHA校验后即可作为TEST_APK交付桌面；项目所有者真机结果异步PENDING且不得阻断下一版本开发。GitHub模拟器降为ON_DEMAND_NON_BLOCKING_SPECIALTY，仅认证、支付、升级等高风险变更、集中视觉审计或项目所有者明确要求时运行；其失败只阻断自动候选/生产自动证据，不阻断TEST_APK交付和持续开发。自动候选APK仍不得在自身Actions
+  PASS前冒充合格候选
+impact_summary: 原位修订既有Android自动化和统一交付事实源，不建立平行规则；新增TEST_APK与自动候选的明确分层，R13停止Attempt21并转固定环境APK交付，历史Attempt1至20证据保持不改写
+impact:
+  files:
+  - AGENTS.md
+  - templates/AGENTS.md
+  - docs/00-baseline/正式商业系统全局硬性开发边界.md
+  - config/android-automation.yaml
+  - docs/08-testing/Android自动开发测试修复交付体系_V1.0.md
+  - docs/09-development/统一开发与交付效率规范.md
+  - config/development-workflow.yaml
+  - scripts/android_ci_gate.py
+  - tests/test_android_ci_gate.py
+  - releases/R13/PARALLEL_EXECUTION_PLAN.yaml
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - CHANGELOG.md
+  pages: []
+  apis: []
+  database: []
+  configuration:
+  - android.automation.delivery_mode
+  ledger: []
+  tests:
+  - Android policy schema and TEST_APK/candidate separation regression
+  - AGENTS and template mirror equality
+  - R13 execution plan no Attempt21 authorization
+  releases:
+  - R13
+  migration_and_compatibility: 保留现有android-quality-gate、候选报告和历史例外用于按需专项；不删除历史证据、不降低正式API、编译、单测、Lint、稳定签名、SHA、桌面说明或生产验收要求。换电脑或AI从现有规则源恢复后默认走固定环境TEST_APK并继续下一版本
+user_confirmation: 项目所有者于2026-07-27明确确认：先进行交付记录，以后由其真机异步反馈，AI只管持续推进开发
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-27T15:11:12Z'
+  note: 项目所有者已明确选择桌面APK真机异步反馈并要求AI持续开发；分层保留固定环境质量证据与按需GitHub专项，不把测试APK伪装为自动候选或生产验收
+machine_record: .continuity/change_requests/CR-0412.yaml
+document: docs/03-continuity/change-requests/CR-0412-将GitHub模拟器降为按需专项并以固定环境APK交付后异步真机反馈.md
+decision_log:
+- at: '2026-07-27T15:23:21Z'
+  actor_id: codex-root-r13-candidate-20260727
+  status: IMPLEMENTING
+  note: 开始实施TEST_APK固定环境交付、GitHub模拟器按需专项和异步真机反馈规则
+  session_id: SES-20260726T191158Z-2B506AB7
+- at: '2026-07-27T15:23:30Z'
+  actor_id: codex-root-r13-candidate-20260727
+  status: IMPLEMENTED
+  note: 权威文档、策略配置、机器门禁、测试与R13执行计划已原位更新并通过专项验证
+  session_id: SES-20260726T191158Z-2B506AB7
+session_ids:
+- SES-20260726T191158Z-2B506AB7

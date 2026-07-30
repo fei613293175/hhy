@@ -3,13 +3,13 @@ title: 收藏、历史、分享与行为审计
 tasks:
 - id: TASK-R13-001
   title: 收藏、历史、分享与行为审计开发就绪核验、故事领取与变更基线
-  status: READY
+  status: DONE
   depends_on: []
   requirements: &id001
   - REQ-PUBLISHER-001
   - REQ-ACTIVITY-001
   - REQ-APK-001
-  description: 核验 2 项需求、5 个接口、25 张相关表、4 个页面/交互面和 3 个故事；全部适用DoR必须PASS。
+  description: 核验 2 项本版需求、5 个R13归属接口、1 个Story复用共享接口、25 张相关表、4 个页面/交互面和 3 个故事；全部适用DoR必须PASS。
   deliverables:
   - releases/R13/DEFINITION_OF_READY.yaml 全部适用项PASS
   - releases/R13/STORIES.yaml 故事责任人和依赖已领取
@@ -23,9 +23,10 @@ tasks:
   - 更新Release Manifest与CR记录
   - python scripts/check_v122_documentation.py --release R13
   session_log_required: true
+  completed_at: '2026-07-26T11:33:50Z'
 - id: TASK-R13-002
   title: 收藏、历史、分享与行为审计数据迁移与领域不变量
-  status: BLOCKED
+  status: DONE
   depends_on:
   - TASK-R13-001
   requirements: *id001
@@ -39,9 +40,10 @@ tasks:
   - Flyway前向迁移与空库/升级库测试
   - 不变量属性测试
   session_log_required: true
+  completed_at: '2026-07-26T12:28:32Z'
 - id: TASK-R13-003
   title: 收藏、历史、分享与行为审计后端应用服务与接口
-  status: BLOCKED
+  status: DONE
   depends_on:
   - TASK-R13-002
   requirements: *id001
@@ -55,9 +57,10 @@ tasks:
   - OpenAPI契约测试
   - 权限/幂等/错误码/审计覆盖
   session_log_required: true
+  completed_at: '2026-07-26T13:33:25Z'
 - id: TASK-R13-004
   title: 收藏、历史、分享与行为审计客户端/H5/后台实现
-  status: BLOCKED
+  status: DONE
   depends_on:
   - TASK-R13-003
   requirements: *id001
@@ -75,9 +78,10 @@ tasks:
   - 禁止页面级手写重复DTO
   - 全部动作绑定生成API类型
   session_log_required: true
+  completed_at: '2026-07-26T15:51:51Z'
 - id: TASK-R13-005
   title: 收藏、历史、分享与行为审计专项测试与故障注入
-  status: BLOCKED
+  status: DONE
   depends_on:
   - TASK-R13-003
   - TASK-R13-004
@@ -92,9 +96,10 @@ tasks:
   - 测试报告和失败证据归档
   - 关键缺陷清零
   session_log_required: true
+  completed_at: '2026-07-26T18:16:33Z'
 - id: TASK-R13-006
   title: 收藏、历史、分享与行为审计可观测性与预发布验收
-  status: BLOCKED
+  status: DONE
   depends_on:
   - TASK-R13-005
   requirements: *id001
@@ -108,9 +113,10 @@ tasks:
   - 运行手册演练
   - 验收矩阵签字
   session_log_required: true
+  completed_at: '2026-07-26T19:08:23Z'
 - id: TASK-R13-007
   title: 收藏、历史、分享与行为审计Android测试APK与产物追溯
-  status: BLOCKED
+  status: DONE
   depends_on:
   - TASK-R13-006
   requirements: *id001
@@ -124,6 +130,7 @@ tasks:
   - APK可下载/可安装
   - SHA256、Commit、versionName/versionCode、测试结果齐全
   session_log_required: true
+  completed_at: '2026-07-27T16:28:13Z'
 - id: TASK-R13-008
   title: 收藏、历史、分享与行为审计版本关闭与无状态交接
   status: BLOCKED
@@ -140,6 +147,8 @@ tasks:
   - 全新AI仅凭仓库可继续
   - 工作区干净且Tag可追溯
   session_log_required: true
+  blocker: R13固定工具链TEST_APK、稳定签名、版本身份、四方SHA、桌面说明和公网注册恢复均已PASS；当前Commit缺SCR-FAV-001、SCR-HIS-001、SHEET-SHARE-001、SHEET-CONTENT-INVALID-001四页截图，AC-R13-001/002/003/005/006未回填，AC-R13-004证据路径需结构化，六项治理审计缺失，因此保持BLOCKED_EXTERNAL_GATE，恢复条件为补齐当前Commit视觉证据、验收矩阵、治理审计并重跑machine-close；项目所有者真机反馈继续异步PENDING
+  blocked_at: '2026-07-27T18:15:05Z'
 version: 1.2.2
 definition_of_ready: releases/R13/DEFINITION_OF_READY.yaml
 story_backlog: releases/R13/STORIES.yaml

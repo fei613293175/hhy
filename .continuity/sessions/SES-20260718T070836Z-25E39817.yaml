@@ -1,0 +1,82 @@
+protocol_version: '1.0'
+package_version: 1.2.3
+session_id: SES-20260718T070836Z-25E39817
+status: CLOSED
+actor:
+  id: codex-root
+  kind: AI_OR_HUMAN
+  host: unknown
+release: R02
+task_id: TASK-R02-004
+story_id: STORY-R02-001
+goal: 完成后台用户列表的数据、生成契约、API、管理页面、权限状态和自动化测试闭环，再推进用户详情与管控。
+started_at: '2026-07-18T07:08:36Z'
+updated_at: '2026-07-18T08:14:58Z'
+takeover_of: null
+change_requests:
+- CR-0036
+- CR-0037
+scope:
+  allowed_paths:
+  - apps/admin-web/**
+  - services/backend/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - tests/**
+  - docs/**
+  - catalogs/**
+  - releases/**
+  - design/**
+  - scripts/**
+  approved_exceptions:
+  - CHANGELOG.md
+  - database/migrations/V018__r02_admin_user_controls.sql
+  - services/backend/boot/src/main/resources/db/migration/V018__r02_admin_user_controls.sql
+  - database/rollback/U018__r02_admin_user_controls.sql
+  - database/schema_dictionary.csv
+  - catalogs/data_tables.csv
+  - releases/R02/STORIES.yaml
+  - scripts/check_db_schema.py
+  - database/verification/verify_baseline.sql
+  source: story+explicit+approved-cr:CR-0036+approved-cr:CR-0037
+git:
+  initialized: true
+  branch: task/TASK-R02-002
+  base_commit: 67d189bb50a96bad6e6d1acf54983162130a9299
+  start_head: 67d189bb50a96bad6e6d1acf54983162130a9299
+  upstream: origin/task/TASK-R02-002
+  initial_worktree_state: CLEAN
+lease:
+  duration_minutes: 240
+  renewed_at: '2026-07-18T08:14:56Z'
+  expires_at: '2026-07-18T12:14:56Z'
+checkpoint_sequence: 5
+latest_checkpoint: .continuity/checkpoints/SES-20260718T070836Z-25E39817/0005.yaml
+session_log: docs/03-continuity/sessions/2026-07/SES-20260718T070836Z-25E39817.md
+next_step: 提交关闭元数据Commit，然后运行pre-push/CI门禁
+context_pack:
+  yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
+  markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
+  manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+  context_hash: fd6e8c33a640b6d19938ecefea796bd526c67bea7d8af080ba01b346a736b766
+  generated_at: '2026-07-18T08:14:57Z'
+handoff_bundle: null
+closure:
+  result: COMPLETED
+  summary: 完成TASK-R02-004：用户列表、详情、限制、双人冻结、解冻、强制下线、到期恢复、V018迁移和全部模块门禁真实闭环。
+  code_commit: 2317ead
+  next_release: R02
+  next_task: TASK-R02-005
+  metadata_commit: PENDING
+  push_verification: CI_REQUIRED_AFTER_METADATA_COMMIT
+  started_at: '2026-07-18T08:14:54Z'
+  closure_checkpoint_id: CP-SES-20260718T070836Z-25E39817-0005
+  closed_at: '2026-07-18T08:14:58Z'
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 连续性关闭记录必须由唯一主控串行更新事件链和上下文包。
+closed_at: '2026-07-18T08:14:58Z'

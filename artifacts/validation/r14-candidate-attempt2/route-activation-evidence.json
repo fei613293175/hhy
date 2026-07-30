@@ -1,0 +1,31 @@
+{
+  "schema": "hhy.android-candidate-route-evidence/v1",
+  "release": "R14",
+  "attempt": 2,
+  "request_id": "R14-CANDIDATE-20260729-002",
+  "github_run_id": "30407390156",
+  "source_commit": "59331083864c0367a1a3a101e28dadf3b33180ee",
+  "status": "PASS",
+  "route": {
+    "public_host": "api.orbexa.cc",
+    "upstream": "127.0.0.1:28115",
+    "container": "hhy-r14-ci-candidate-59331083",
+    "container_source_commit": "59331083864c0367a1a3a101e28dadf3b33180ee",
+    "image_id": "sha256:ba1cc8d6478fa9fbb2bf70516b98199805b4cef726440b08fcad821c96107d8c",
+    "health": "healthy",
+    "public_request_id": "hhy-r14-remediation-59331083-20260728T231410Z",
+    "public_request_observed_in_target_log": true,
+    "rollback_container": "hhy-r14-ci-candidate-4ed75c60-pre-59331083"
+  },
+  "fixture": {
+    "binding": "ci-r14-59331083864c-30407390156",
+    "conversation_count": 1,
+    "member_count": 2,
+    "visible_member_count": 2,
+    "members_with_unread_one": 1,
+    "peer_nickname": "R14候选体验用户",
+    "last_message_text": "R14候选会话已准备",
+    "database_semantic_check": "PASS"
+  },
+  "secrets_recorded": false
+}

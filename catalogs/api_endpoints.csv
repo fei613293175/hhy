@@ -4,6 +4,7 @@ Auth,POST,/api/v1/auth/password/login,公开,手机号+密码+安全验证登录
 Auth,POST,/api/v1/auth/sms/send,公开+安全挑战,阿里云短信验证码：LOGIN/REGISTER/RESET_PASSWORD,是,R02
 Auth,POST,/api/v1/auth/sms/login,公开,已注册手机号短信验证码登录,是,R02
 Auth,POST,/api/v1/auth/invite-codes/validate,公开,校验邀请码和注册必填规则,否,R02
+Auth,GET,/api/v1/auth/registration-config,公开,读取当前注册协议版本配置,否,R02
 Auth,POST,/api/v1/auth/register,公开,密码注册、短信校验、邀请码绑定、随机用户名,是,R02
 Auth,POST,/api/v1/auth/password/reset,公开,短信校验后重置密码,是,R02
 Auth,POST,/api/v1/me/security/password/change,登录,修改登录密码,是,R02
@@ -15,10 +16,13 @@ User,GET,/api/v1/me,登录,当前用户资料,否,R02/R07/R12
 User,PATCH,/api/v1/me/profile,登录,修改头像昵称简介,是,R02/R07/R12
 User,GET,/api/v1/publishers/{id},登录,发布者公开主页,否,R02/R07/R12
 User,POST,/api/v1/me/cancellation,登录,申请注销,是,R02/R07/R12
+Identity,GET,/api/v1/identity/consent,登录,获取当前实名认证授权说明,否,R05
+Identity,GET,/api/v1/identity/overview,登录,获取当前实名认证总览,否,R05
 Identity,POST,/api/v1/identity/sessions,登录,创建实名会话,是,R05
 Identity,POST,/api/v1/identity/sessions/{id}/liveness-token,登录,获取活体H5,是,R05
 Identity,GET,/api/v1/identity/sessions/{id},登录,查询实名状态,否,R05
 Identity,POST,/api/v1/identity/sessions/{id}/retry,登录,重新认证,是,R05
+Public,POST,/public-api/v1/identity/callback/consume,公开,消费一次性活体回跳,否,R05
 Media,POST,/api/v1/media/upload-sessions,登录,创建上传会话,是,R04
 Media,POST,/api/v1/media/upload-sessions/{id}/complete,登录,完成上传,是,R04
 Media,DELETE,/api/v1/media/{id},登录,删除未绑定媒体,是,R04

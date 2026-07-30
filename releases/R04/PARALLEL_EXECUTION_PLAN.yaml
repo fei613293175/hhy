@@ -1,0 +1,97 @@
+version: '1.0'
+release: R04
+change_request: CR-0019
+mode: ONE_MASTER_THREE_DELEGATED_WORKERS
+authoritative_session_count: 1
+max_parallel_workers: 3
+simultaneous_claim_limit: 1
+worker_parallelism_scope: WITHIN_ACTIVE_TASK_ONLY
+default_delegation_mode: AUTO_WHEN_SAFE_PARALLEL_WORK_EXISTS
+review_triggers: [TASK_START, SCOPE_CHANGE]
+per_task_user_confirmation_required: false
+non_delegation_requires_checkpoint_reason: true
+capability_fallback: RECORD_LIMITATION_AND_DO_NOT_FABRICATE_PARALLEL_EVIDENCE
+user_override_allowed: true
+source_of_truth_branch: task/TASK-R04-001
+rules:
+- 主控一次只领取一个Task/Story；执行代理只在当前Claim内部并行，未来Task只能做只读准备。
+- 执行代理使用隔离scratch worktree和互不重叠的路径租约，不修改连续性、Release、公共契约和共享生成类型。
+- 主控先固定存储端口、Flyway编号和生成API类型，再集成存储、媒体API、Android和质量补丁。
+- 私有预览使用冻结响应的readUrl；迁移与审计由内部服务持有，新增外部API必须先走CR。
+- APK机器交付和项目所有者真机验收是两个独立门禁。
+worker_partitions:
+- partition: BACKEND_DATA
+  allowed_paths:
+  - services/backend/**
+  - database/**
+  forbidden_shared_paths:
+  - services/backend/boot/src/main/resources/contracts/**
+- partition: ANDROID_CLIENT
+  allowed_paths:
+  - apps/android/feature/media/**
+  forbidden_shared_paths:
+  - apps/android/app/**
+  - apps/android/core/network/**
+- partition: QUALITY_EVIDENCE
+  allowed_paths:
+  - tests/r04/**
+  - artifacts/validation/r04-*/**
+  forbidden_shared_paths: []
+coordinator_owned_paths:
+- .continuity/**
+- CURRENT_STATUS.yaml
+- NEXT_TASK.yaml
+- releases/**
+- contracts/**
+- packages/api-client/**
+- apps/android/app/**
+- apps/android/core/network/**
+- services/backend/boot/src/main/resources/db/migration/**
+lanes:
+- lane: STORAGE-FOUNDATION
+  task_id: TASK-R04-002
+  stories:
+  - STORY-R04-002
+  outcome: Scope隔离、R2/OSS适配、签名URL、迁移恢复、访问审计和媒体数据不变量
+  preferred_agents:
+  - backend_data_high_reasoning
+  - quality
+- lane: MEDIA-API
+  task_id: TASK-R04-003
+  stories:
+  - STORY-R04-001
+  outcome: 创建上传会话、完成上传、私有readUrl和删除的端到端API闭环
+  preferred_agents:
+  - backend_data
+  - quality
+- lane: ANDROID-MEDIA
+  task_id: TASK-R04-004
+  stories:
+  - STORY-R04-001
+  outcome: Android媒体选择、并发进度、分片重试、取消、完成、预览和删除确认闭环
+  preferred_agents:
+  - android_client
+  - quality
+- lane: GOVERNANCE-INTEGRATION
+  task_id: TASK-R04-005
+  stories:
+  - STORY-R04-002
+  outcome: 存储、媒体API和Android三分区汇合、6项权威测试、故障注入和生成物校验
+  preferred_agents:
+  - coordinator
+integration:
+  task_id: TASK-R04-005
+  depends_on:
+  - TASK-R04-002
+  - TASK-R04-003
+  - TASK-R04-004
+  profiles:
+  - MODULE
+  - INTEGRATION
+apk:
+  task_id: TASK-R04-007
+  desktop_copy_required: true
+  public_download_required: true
+  stable_test_signing_required: true
+  minimum_version_code: 10207
+  owner_physical_test_initial_status: PENDING

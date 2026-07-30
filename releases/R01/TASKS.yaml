@@ -49,7 +49,7 @@ tasks:
   completed_at: '2026-07-17T08:41:19Z'
 - id: TASK-R01-003
   title: Design System与契约工程化后端应用服务与接口
-  status: READY
+  status: DONE
   depends_on:
   - TASK-R01-002
   requirements: *id001
@@ -63,9 +63,10 @@ tasks:
   - OpenAPI契约测试
   - 权限/幂等/错误码/审计覆盖
   session_log_required: true
+  completed_at: '2026-07-17T11:11:58Z'
 - id: TASK-R01-004
   title: Design System与契约工程化客户端/H5/后台实现
-  status: BLOCKED
+  status: DONE
   depends_on:
   - TASK-R01-003
   requirements: *id001
@@ -83,9 +84,10 @@ tasks:
   - 禁止页面级手写重复DTO
   - 全部动作绑定生成API类型
   session_log_required: true
+  completed_at: '2026-07-17T12:20:19Z'
 - id: TASK-R01-005
   title: Design System与契约工程化专项测试与故障注入
-  status: BLOCKED
+  status: DONE
   depends_on:
   - TASK-R01-003
   - TASK-R01-004
@@ -100,9 +102,10 @@ tasks:
   - 测试报告和失败证据归档
   - 关键缺陷清零
   session_log_required: true
+  completed_at: '2026-07-17T13:55:41Z'
 - id: TASK-R01-006
   title: Design System与契约工程化可观测性与预发布验收
-  status: BLOCKED
+  status: DONE
   depends_on:
   - TASK-R01-005
   requirements: *id001
@@ -116,9 +119,10 @@ tasks:
   - 运行手册演练
   - 验收矩阵签字
   session_log_required: true
+  completed_at: '2026-07-17T15:20:29Z'
 - id: TASK-R01-007
   title: Design System与契约工程化Android测试APK与产物追溯
-  status: BLOCKED
+  status: DONE
   depends_on:
   - TASK-R01-006
   requirements: *id001
@@ -132,9 +136,10 @@ tasks:
   - APK可下载/可安装
   - SHA256、Commit、versionName/versionCode、测试结果齐全
   session_log_required: true
+  completed_at: '2026-07-17T17:06:16Z'
 - id: TASK-R01-008
   title: Design System与契约工程化版本关闭与无状态交接
-  status: BLOCKED
+  status: DONE
   depends_on:
   - TASK-R01-007
   requirements: *id001
@@ -148,6 +153,7 @@ tasks:
   - 全新AI仅凭仓库可继续
   - 工作区干净且Tag可追溯
   session_log_required: true
+  completed_at: '2026-07-17T17:45:20Z'
 version: 1.2.2
 definition_of_ready: releases/R01/DEFINITION_OF_READY.yaml
 story_backlog: releases/R01/STORIES.yaml

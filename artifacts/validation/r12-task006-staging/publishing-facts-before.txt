@@ -1,0 +1,6 @@
+content_versions|0
+content_status_logs|0
+content_review_records|0
+content_media|0
+content_contacts|0
+r12_outbox|4

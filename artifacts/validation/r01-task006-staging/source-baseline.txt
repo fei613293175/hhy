@@ -1,0 +1,6 @@
+release=R01
+task=TASK-R01-006
+commit=72de42c90f71438cdf5a2cc274277fecfa7a6cbd
+image_tag=72de42c
+captured_at=2026-07-17T15:15:13Z
+server_kernel=Linux 4.18.0-348.7.1.el8_5.x86_64

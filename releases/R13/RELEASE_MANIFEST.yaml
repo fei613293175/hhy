@@ -1,6 +1,6 @@
 release: R13
 title: 收藏、历史、分享与行为审计
-status: READY_WHEN_DEPENDENCIES_GREEN
+status: TASK_007_COMPLETE_OWNER_PENDING
 milestone: M1_CONTENT_MARKETPLACE
 depends_on:
 - R07
@@ -20,11 +20,12 @@ ui:
   admin: []
 contracts:
   client_api:
-  - POST /api/v1/contents/{id}/favorite
-  - DELETE /api/v1/contents/{id}/favorite
-  - GET /api/v1/me/favorites
-  - GET /api/v1/me/history
-  - POST /api/v1/contents/{id}/share
+  - contentPostContentsByIdFavorite
+  - contentDeleteContentsByIdFavorite
+  - contentGetMeFavorites
+  - contentGetMeHistory
+  - contentPostContentsByIdShare
+  - contentPostContentsByIdInvalidFeedback
   admin_api: []
   websocket: []
 database_tables:
@@ -57,12 +58,190 @@ tests:
 - TST-ACTIVITY_001-HAPPY
 - TST-ACTIVITY_001-IDEMPOTENT
 - TST-ACTIVITY_001-REJECT
+test_count: 3
+planning_depth: STORY_READY
+apk_gate: TEST_APK_FIXED_TOOLCHAIN_OWNER_FEEDBACK_ASYNC
+test_signing_rotation:
+  status: APPROVED_CR_0413
+  profile_id: hhy-staging-test-v2
+  secret_ref: secretref://obx-test/hhy/android/test-signing/v2
+  certificate_sha256: e32a9d7ff8a209d2903db6383b461b259f0018a698d1f3646e6ed7f1112671be
+  previous_profile_status: RETIRED_PRIVATE_KEY_UNAVAILABLE
+  first_install_migration: UNINSTALL_PRE_R13_TEST_APK_ONCE
+  production_signing_affected: false
+android_delivery:
+  source_commit: ccdb5d39b22498a5d0f5082f8210f9fb59b4a2ae
+  apk_file: hhy-r13-ccdb5d3-debug.apk
+  version_name: 1.2.2-debug
+  version_code: 10222
+  sha256: ccffcd89e116ee2bab0fb55961126a5bcc0c01bd34375ebf542b78cbcd9daba0
+  signing_profile_id: hhy-staging-test-v2
+  signing_fingerprint: e32a9d7ff8a209d2903db6383b461b259f0018a698d1f3646e6ed7f1112671be
+  machine_delivery: PASS
+  owner_physical_test: PENDING
+  next_release_development: ALLOWED
+  evidence: artifacts/validation/r13-apk-delivery/delivery-evidence.json
+  build_evidence: artifacts/validation/r13-task007-android/build-evidence.json
+  test_guide: artifacts/reports/R13/R13-version-test-guide.md
+android_automation:
+  policy_id: HHY-ANDROID-AUTOMATION-V1
+  mode: ON_DEMAND_NON_BLOCKING_SPECIALTY
+  status: NOT_RUN_NOT_REQUIRED_FOR_TEST_APK
+  attempt_21_authorized: false
+  automated_candidate_status: REMEDIATION_REQUIRED_HISTORICAL_ATTEMPTS_1_TO_20
+  ai_visual_review: NOT_CLAIMED_PASS
+  owner_physical_test: PENDING
+  next_release_development: ALLOWED
+entry_baseline:
+  checked_at: '2026-07-26'
+  session_id: SES-20260726T110209Z-C9DC8AD5
+  story_id: STORY-R13-001
+  change_request: CR-0363
+  documentation_status: PASS_DOCUMENTATION_READY
+  strict_documentation: PASS_0_ERRORS_0_WARNINGS
+  program_execution_plan: PASS_31_RELEASES_0_ERRORS
+  release_artifacts: PASS
+  continuity_gate: PASS
+  cloud_environment_status: PASS
+  dependency_machine_status:
+    R07: MACHINE_COMPLETE_OWNER_PENDING
+    R12: MACHINE_COMPLETE_OWNER_PENDING
+  contract_boundary:
+    release_owned_operation_ids: 5
+    shared_story_operation_ids: 1
+    total_implementation_operation_ids: 6
+  exact_visual_bindings:
+    SHEET-SHARE-001: SPEC:design/R13-UI-FROZEN/specs/SHEET-SHARE-001.md
+    SCR-FAV-001: B08/P07
+    SCR-HIS-001: B08/P08
+    SHEET-CONTENT-INVALID-001: SPEC:design/R13-UI-FROZEN/specs/SHEET-CONTENT-INVALID-001.md
 entry_gate:
 - releases/R13/DEFINITION_OF_READY.yaml 全部适用项为PASS
 - releases/R13/STORIES.yaml 中每个故事均绑定页面/API/配置/数据/测试或显式N/A
 - 本版本页面字段、状态、动作、导航和后台运营规格不存在TBD/RELEASE_BOUND
 - 全部依赖版本为GREEN或按发布计划允许的并行依赖已记录
 - 冻结契约发生变化时已创建CR并重新生成追踪和SHA
+- 四页均绑定精确面板或批准补充规格；禁止TOKENS_ONLY、P01-P08范围和缺失绑定施工
+task_004_client_gate:
+  status: PASS
+  completed_at: '2026-07-26'
+  session_id: SES-20260726T134047Z-F9A80405
+  report: docs/03-continuity/R13_TASK-004_CLIENT_GATE.md
+  stories:
+    total: 3
+    completed: 3
+    commits:
+      STORY-R13-001: 97e3502a522512f863d5a0a3b5e2a1cb9533c002
+      STORY-R13-002: f8df36e3cbdcdb406b779e15da367591c1cd2fcc
+      STORY-R13-003: TASK_004_GATE_REPORT
+  pages:
+    total: 4
+    implementation_status: PASS
+    visual_catalog_status: IN_REVIEW
+    final_visual_pass: DEFERRED_TASK_R13_007_REAL_SCREENSHOT_AI_REVIEW
+  validation:
+    android_module: PASS_579_TASKS_410_EXECUTED_169_FROM_CACHE
+    android_image: hhy-android-toolchain:r01-46fb273
+    source_commit: f8df36e3cbdcdb406b779e15da367591c1cd2fcc
+    source_archive_sha256: a145ed0b0b85745a43c0f271dc4d08e93c26594a198ad412808b1a48fff429d5
+    module_log: obx-test:/tmp/hhy-r13-004-f8df36e3-android-module.log
+    module_log_sha256: 7c24d2b9b59411a0b642af6c752f45d75ac4b307bc845ea80aad277e336a3760
+    commercial_ui_boundary: PASS
+    android_ui_foundation: PASS
+    visual_catalog: PASS_4_PAGES_IN_REVIEW
+    documentation: PASS_0_ERRORS_0_WARNINGS
+  contract_fact_limits:
+    favorite_occurred_at: NOT_EXPOSED_BY_FROZEN_CONTENT_RESOURCE
+    history_occurred_at: NOT_EXPOSED_BY_FROZEN_CONTENT_RESOURCE
+    client_behavior: PRESERVE_SERVER_ACTIVITY_ORDER_AND_LABEL_ONLY_CONTENT_CREATED_UPDATED_TIME
+  deferred_final_candidate:
+  - full_release_gate
+  - emulator_real_screenshots
+  - ai_visual_review
+  - assemble_signed_test_apk
+  - install_smoke
+  next_task: TASK-R13-005
+task_005_specialized_test_gate:
+  status: PASS
+  completed_at: '2026-07-27'
+  session_id: SES-20260726T160157Z-6B5BC09A
+  source_commit: c97417591cfa5c1b069d0aaef9622e0f3dad8c8f
+  report: docs/03-continuity/R13_TASK-005_SPECIALIZED_TEST_GATE.md
+  evidence: artifacts/validation/r13-test-evidence/evidence.json
+  authoritative_tests:
+  - TST-ACTIVITY_001-HAPPY
+  - TST-ACTIVITY_001-REJECT
+  - TST-ACTIVITY_001-IDEMPOTENT
+  validation:
+    backend_java21: PASS_37_TESTS_0_FAILURES_0_ERRORS_0_SKIPPED
+    postgresql17: PASS_5_TESTS_3_ISOLATED_DATABASES_42_MIGRATIONS
+    android_activity: PASS_109_TASKS_63_EXECUTED_46_FROM_CACHE
+    matrix: PASS_3_TEST_IDS
+    critical_defects: P0_0_P1_0
+  isolation_rule: ONE_FLYWAY_MIGRATION_TEST_PER_EMPTY_DATABASE
+  deferred_final_candidate:
+  - full_release_gate
+  - emulator_real_screenshots
+  - ai_visual_review
+  - assemble_signed_test_apk
+  - install_smoke
+  next_task: TASK-R13-006
+task_006_staging_gate:
+  status: PASS
+  completed_at: '2026-07-27'
+  session_id: SES-20260726T182231Z-EE79FA49
+  source_commit: 410aef5327ec460d87775a33b8d1f41927a3f29e
+  report: artifacts/reports/R13/TASK-R13-006-staging.md
+  evidence: artifacts/validation/r13-task006-staging/
+  acceptance_id: AC-R13-004
+  validation:
+    staging_acceptance: PASS
+    java21_module: PASS_6_TESTS_0_FAILURES_0_ERRORS_0_SKIPPED
+    postgresql17: PASS_FLYWAY_V042_201_TABLES_200_BUSINESS
+    prometheus_target: PASS_UP_1
+    business_gauges: PASS_7
+    alert_rules: PASS_7
+    backend_down_alert: PASS_FIRING_AND_RESOLVED
+    r13_outbox_alert: PASS_FIRING_AND_RESOLVED
+    outbox_test_events: PASS_4_PUBLISHED_ATTEMPTS_1
+    trace_and_request_id: PASS
+    log_redaction: PASS
+    rollback: PASS_BASELINE_AND_CURRENT_IMAGES
+    activity_facts_preserved: PASS
+    evidence_sha256: PASS_24_FILES_REMOTE_AND_LOCAL
+  runtime:
+    compose_project: hhy-r13-staging
+    network_subnet: 172.31.239.0/24
+    current_image: sha256:30d4a7b3ab2fac69e27f4019035c050c889f9b7f20ee166fedda26960fae28e0
+    rollback_image: sha256:e4b6673ad0dbab261057017d3797051a14f6da403594c6850410b63ad8296717
+    postgres_volume: hhy-r13-staging_pgdata
+    flyway_version: '042'
+  deferred_final_candidate:
+  - full_release_gate
+  - emulator_real_screenshots
+  - ai_visual_review
+  - assemble_signed_test_apk
+  - install_smoke
+  next_task: TASK-R13-007
+task_007_android_gate:
+  status: PASS_TEST_APK_DELIVERED_OWNER_PENDING
+  completed_at: '2026-07-27'
+  session_id: SES-20260726T191158Z-2B506AB7
+  source_commit: ccdb5d39b22498a5d0f5082f8210f9fb59b4a2ae
+  report: artifacts/reports/R13/TASK-R13-007-android-apk.md
+  evidence: artifacts/validation/r13-task007-android/
+  delivery_evidence: artifacts/validation/r13-apk-delivery/delivery-evidence.json
+  acceptance_id: AC-R13-006
+  validation:
+    public_api_status: PASS_HTTP_200
+    gradle: PASS_710_TASKS
+    stable_signing: PASS_V2_V3_SINGLE_SIGNER
+    package_identity: PASS_CC_ORBEXA_HHY_DEBUG_10222
+    embedded_api: PASS_HTTPS_API_ORBEXA_CC
+    four_way_sha256: PASS
+    github_emulator: NOT_RUN_ON_DEMAND_NON_BLOCKING_SPECIALTY
+    owner_physical_test: PENDING_ASYNC_NON_BLOCKING
+  next_task: TASK-R13-008
 exit_gate:
 - 领域代码与前端真实闭环
 - 数据库迁移和不变量测试通过

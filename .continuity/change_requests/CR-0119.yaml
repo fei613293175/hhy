@@ -1,0 +1,83 @@
+protocol_version: '1.0'
+cr_id: CR-0119
+title: 建立全项目统一矢量图标、真实导航返回栈与原生页面过渡硬门禁
+status: IMPLEMENTED
+created_at: '2026-07-20T03:52:38Z'
+updated_at: '2026-07-20T05:01:06Z'
+requester_actor_id: codex-root
+approver_actor_id: project-owner
+task_id: TASK-R05-007
+session_id: SES-20260719T234639Z-1D7D7A00
+user_request: 项目所有者要求立即优化所有已开发页面：禁止文字占位图标，统一来源返回、系统键和手势返回，统一页面过渡动画，并固化为跨电脑跨AI硬性规则
+reason: R05真机发现文字图标、返回到错误底部栏目、系统返回退出App及无页面过渡，且问题影响全部既有与后续页面
+original_rule: 现有Android页面可各自使用mutableState或枚举切页、文字或Unicode占位图标，返回按钮可直接指定目标；未形成全项目成熟客户端架构硬门禁。
+new_rule: 所有既有和后续客户端页面必须采用官方稳定、被大型商业App广泛验证的成熟方案：Android统一使用稳定版Jetpack Navigation Compose真实返回栈、系统与手势返回、来源状态恢复和Token化转场；所有图标经HhyIcons集中注册为矢量资源，禁止文字/Emoji/Unicode冒充图标；H5与管理端同样禁止字符占位图标并遵循来源返回和Motion
+  Token。禁止自研导航框架或未经ADR与批准CR论证的小众方案。
+impact_summary: 迁移全部已开发Android页面及底部导航，建立统一图标、返回栈、过渡动画与自动检查；更新跨AI事实源、问题登记、陷阱、测试和R05测试APK版本。
+impact:
+  files:
+  - AGENTS.md
+  - templates/AGENTS.md
+  - docs/00-baseline/正式商业系统全局硬性开发边界.md
+  - docs/09-development/统一开发与交付效率规范.md
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/PITFALLS.md
+  - docs/03-continuity/REUSABLE_PATTERNS.md
+  - apps/android/gradle/libs.versions.toml
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+  - apps/android/core/designsystem/build.gradle.kts
+  - apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyIcons.kt
+  - apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyMotion.kt
+  - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+  - apps/android/feature/auth/src/main/java/cc/orbexa/hhy/auth/AuthScreen.kt
+  - apps/android/feature/identity/build.gradle.kts
+  - apps/android/feature/identity/src/main/java/cc/orbexa/hhy/identity/IdentityFlowScreen.kt
+  - scripts/check_android_ui_foundation.py
+  - tests/test_android_ui_foundation.py
+  - apps/android/app/src/test/java/cc/orbexa/hhy/NavigationPolicyTest.kt
+  - apps/android/app/src/androidTest/java/cc/orbexa/hhy/AuthenticatedNavigationTest.kt
+  - CHANGELOG.md
+  - artifacts/reports/R05/TASK-R05-007-android-apk.md
+  - artifacts/reports/R05/R05-version-test-guide.md
+  - artifacts/apk/R05/APK_MANIFEST.yaml
+  - artifacts/validation/r05-apk-delivery/delivery-evidence.json
+  pages:
+  - 所有已开发Android页面
+  - SCR-ID-001
+  - SCR-ID-002
+  - SCR-ID-003
+  - SCR-ID-004
+  apis: []
+  database: []
+  configuration:
+  - AndroidX Navigation Compose stable 2.9.8
+  - Android versionCode单调递增
+  ledger: []
+  tests:
+  - 全局UI基础门禁；Android模块编译/单元测试/lint；导航来源与系统返回测试；图标字符禁用扫描；R05 APK签名和四方SHA；项目所有者真机回归
+  releases:
+  - R05
+  migration_and_compatibility: 不改变API、数据库、认证状态机、第三方供应商合同或正式业务文案；现有登录、Shell、账号安全和实名页面路由迁移到Jetpack导航，保留来源页及输入状态；旧测试APK可覆盖安装新versionCode。
+user_confirmation: 2026-07-20项目所有者连续明确要求立即按方案优化、覆盖之前已开发页面，并强制跨电脑跨AI执行成熟大型App方案。
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-20T03:57:15Z'
+  note: 项目所有者明确要求立即优化全部已开发页面，并新增大型App同款成熟方案硬性规则。
+machine_record: .continuity/change_requests/CR-0119.yaml
+document: docs/03-continuity/change-requests/CR-0119-建立全项目统一矢量图标、真实导航返回栈与原生页面过渡硬门禁.md
+decision_log:
+- at: '2026-07-20T03:57:18Z'
+  actor_id: codex-root
+  status: IMPLEMENTING
+  note: 已完成全量Android页面审计，开始迁移统一图标、导航返回栈与转场。
+  session_id: SES-20260719T234639Z-1D7D7A00
+- at: '2026-07-20T05:01:06Z'
+  actor_id: codex
+  status: IMPLEMENTED
+  note: 全部既有Android页面已完成稳定Navigation Compose真实返回栈、统一系统/手势/顶栏返回、HhyIcons官方矢量图标、HhyMotion集中动效迁移及自动门禁。
+  session_id: SES-20260719T234639Z-1D7D7A00
+session_ids:
+- SES-20260719T234639Z-1D7D7A00
+implementation_commits:
+- 7b57046f5e416bdf7dd1d81ef3c66e6ad93d2c92

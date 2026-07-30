@@ -1,0 +1,332 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260722T205410Z-782F22B9-0010
+session_id: SES-20260722T205410Z-782F22B9
+sequence: 10
+created_at: '2026-07-23T00:09:09Z'
+summary: 补齐R09第三轮列表视觉修复的治理记录：CR-0261追加第二轮审核事实和第三轮已批准范围说明，CHANGELOG登记用户可见卡片结构与最后一次候选边界；产品代码、测试和候选请求保持上一检查点内容
+next_step: 重新暂存全部变更并提交推送R09-CANDIDATE-20260723-003；等待唯一一次GitHub自动编译和模拟器三页旅程，下载截图由AI逐图审核，全部PASS后晋升并交付R09；Admin/H5正式域名部署与SUPER_ADMIN初始凭据单独交付保留为R32硬交付
+blockers: []
+decisions: []
+note: ''
+tests:
+- name: V1.2.3 strict continuity
+  result: PASS
+  evidence: 0 errors 0 warnings before governance append
+  note: 连续性事实完整
+- name: pre-commit diagnosis
+  result: PASS
+  evidence: only CR_NOT_IN_CHANGESET and CHANGELOG_REQUIRED; both now satisfied
+  note: 无代码或测试失败
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: 8461d818981d4482689189300b408fcff65f2b5f
+  upstream: origin/task/TASK-R03-001
+  ahead: 0
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - M  .continuity/ACTIVE_SESSION.yaml
+  - M  .continuity/EVENT_LOG.jsonl
+  - M  .continuity/SESSION_INDEX.yaml
+  - M  .continuity/STATE.yaml
+  - A  .continuity/checkpoints/SES-20260722T205410Z-782F22B9/0008.yaml
+  - A  .continuity/checkpoints/SES-20260722T205410Z-782F22B9/0009.yaml
+  - M  .continuity/sessions/SES-20260722T205410Z-782F22B9.yaml
+  - ' M CHANGELOG.md'
+  - M  CURRENT_STATUS.yaml
+  - M  apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+  - M  apps/android/feature/app-promotion/src/main/java/cc/orbexa/hhy/apppromotion/R09AppScreens.kt
+  - M  artifacts/context/CURRENT_CONTEXT_PACK.md
+  - M  artifacts/context/CURRENT_CONTEXT_PACK.yaml
+  - M  artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+  - M  artifacts/validation/project-doctor-v1.2.3.json
+  - M  catalogs/session_index.csv
+  - M  config/android-candidate-request.yaml
+  - ' M docs/03-continuity/change-requests/CR-0261-修复R09真实App图片展示与效果图级视觉不足.md'
+  - M  docs/03-continuity/sessions/2026-07/SES-20260722T205410Z-782F22B9.md
+  - M  releases/R09/RELEASE_MANIFEST.yaml
+  - M  tests/test_r09_android_ui.py
+  recent_commits:
+  - "8461d818981d4482689189300b408fcff65f2b5f\t2026-07-23T07:35:57+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] fix(r09): render uploaded\
+    \ app media"
+  - "040fa8354b7e6fc01e2373a96d2c78d5b30f219f\t2026-07-23T05:38:41+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] docs(r09): add release execution\
+    \ plan"
+  - "885a333e877a68ce1aa1aa58033948c3aeec7033\t2026-07-23T05:31:05+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] fix(r09): harden candidate\
+    \ prechecks"
+  - "f6adeaf75d06655ae78ee52734398cd05a23e4ff\t2026-07-23T05:13:12+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] feat(r09): prepare app candidate\
+    \ journey"
+  - "58ee7f5ad3e6fe843f6b5009f405f1c9b2139b88\t2026-07-23T04:52:23+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] docs(r09): close TASK-R09-006"
+  - "51debc0b87a3a6535e4e4bb87d2272483861181f\t2026-07-23T04:51:16+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] docs(r09): close staging change\
+    \ requests"
+  - "a478e03087475d937fdaf366d7c11f6c1e3b925a\t2026-07-23T04:49:09+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] test(staging): normalize evidence\
+    \ hashes"
+  - "935faa09e90c028d7f5bb9b5d9a1dccddf309baf\t2026-07-23T04:47:41+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] test(staging): freeze R09\
+    \ acceptance evidence"
+project_fingerprint:
+  sha256: 75945983cbf58098f3b44b7a0877c1594ce61927215fdd8406d6c08142a0d24d
+  files:
+  - CHANGELOG.md
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+  - apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+  - apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+  - apps/android/feature/app-promotion/build.gradle.kts
+  - apps/android/feature/app-promotion/src/main/java/cc/orbexa/hhy/apppromotion/R09AppScreens.kt
+  - apps/android/feature/app-promotion/src/test/java/cc/orbexa/hhy/apppromotion/R09AppStateTest.kt
+  - apps/android/gradle/libs.versions.toml
+  - config/android-candidate-request.yaml
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/change-requests/CR-0257-建立R09-App最终候选真实旅程与唯一产物门禁.md
+  - docs/03-continuity/change-requests/CR-0258-修复R09编辑页分类与平台技术编码可见性.md
+  - docs/03-continuity/change-requests/CR-0259-登记R09候选固定数据不可变版本幂等缺口.md
+  - docs/03-continuity/change-requests/CR-0260-补齐R09当前Release并行执行计划事实源.md
+  - docs/03-continuity/change-requests/CR-0261-修复R09真实App图片展示与效果图级视觉不足.md
+  - docs/07-operations/DEPLOYMENT_RUNBOOK.md
+  - releases/R09/PARALLEL_EXECUTION_PLAN.yaml
+  - releases/R09/RELEASE_MANIFEST.yaml
+  - scripts/prepare_r09_ci_fixture.sh
+  - scripts/run_android_emulator_gate.sh
+  - tests/android/fixtures/r09-media/01-app-list.png
+  - tests/android/fixtures/r09-media/03-app-editor.png
+  - tests/android/visual-manifests/R09.yaml
+  - tests/test_android_ci_gate.py
+  - tests/test_r09_android_ui.py
+  - tests/test_r09_ci_fixture.py
+  file_count: 27
+  payload:
+    base_commit: 58ee7f5ad3e6fe843f6b5009f405f1c9b2139b88
+    files:
+    - path: CHANGELOG.md
+      state: FILE
+      size: 101833
+      sha256: b8f30433ba6e1de63d03701d5b59b43d37a31b7ff6327e4fb6c979872550a14f
+    - path: apps/android/app/build.gradle.kts
+      state: FILE
+      size: 5190
+      sha256: 86eb36f609271fc153163ec19700c2e469053d17e1b681d43d0a5a627f6a7afb
+    - path: apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+      state: FILE
+      size: 12715
+      sha256: b7337f2e708fbb50319c6c0182b4a4c82d0efb66280f3cdc785f75d3604fa172
+    - path: apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+      state: FILE
+      size: 520
+      sha256: e597ec39daa6fccedd015d9fc225f23866f3221f1bb1fa4173a79042e6c2c25e
+    - path: apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+      state: FILE
+      size: 1243
+      sha256: 34776d436303359a4b1fab4e3e3ee7ad0e1c17407e2f6affafc08ad0086ecf14
+    - path: apps/android/feature/app-promotion/build.gradle.kts
+      state: FILE
+      size: 1251
+      sha256: 44d27f21d8b4c9ef79775a52056446d2d40034a4ee023b2f30e14e6eb28361b3
+    - path: apps/android/feature/app-promotion/src/main/java/cc/orbexa/hhy/apppromotion/R09AppScreens.kt
+      state: FILE
+      size: 44158
+      sha256: 54da6db0c4cd13b25b2304d0be4b54ca6260c39613f8cee0a10e07422c41af85
+    - path: apps/android/feature/app-promotion/src/test/java/cc/orbexa/hhy/apppromotion/R09AppStateTest.kt
+      state: FILE
+      size: 2209
+      sha256: 1e30dba4d096dc3b04c68afb0b03047e6184b5e3213dffec15235ca7dae20987
+    - path: apps/android/gradle/libs.versions.toml
+      state: FILE
+      size: 2516
+      sha256: d80f30d3638f85b621f99e19e5c9d20016f53754ddd830c3ce1d69c98798c209
+    - path: config/android-candidate-request.yaml
+      state: FILE
+      size: 427
+      sha256: 7b6d7e4cbbc887f25aa5d94821996bd93d6a53b9921d140f63d01bbb3e4ca1f1
+    - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
+      state: FILE
+      size: 131948
+      sha256: 2a2ff59d784b19fb829af7d70eba0a1b35d14a53ae0a79544906f5c96ff8eba3
+    - path: docs/03-continuity/change-requests/CR-0257-建立R09-App最终候选真实旅程与唯一产物门禁.md
+      state: FILE
+      size: 4422
+      sha256: 5021ae489b56ee20dbef1c38d04582befeaa69bccad8ef836a6ace258401d86f
+    - path: docs/03-continuity/change-requests/CR-0258-修复R09编辑页分类与平台技术编码可见性.md
+      state: FILE
+      size: 2952
+      sha256: d78203939e87cec5c807bdf4431302d0e9a95b41c720631328943cf12294141d
+    - path: docs/03-continuity/change-requests/CR-0259-登记R09候选固定数据不可变版本幂等缺口.md
+      state: FILE
+      size: 2072
+      sha256: cf47fd9e595cb3e3c06641f52c6584fb0789d0f3923ace8e5e08e81d41919ef7
+    - path: docs/03-continuity/change-requests/CR-0260-补齐R09当前Release并行执行计划事实源.md
+      state: FILE
+      size: 2216
+      sha256: 705aae84af3a0da021dbfe5d15666870a669d1a42487ed23056dae8d9f80c8cf
+    - path: docs/03-continuity/change-requests/CR-0261-修复R09真实App图片展示与效果图级视觉不足.md
+      state: FILE
+      size: 4564
+      sha256: edbd0a02464c302728f61d572955fd0719391c9e109310b1533eebaa84da83e2
+    - path: docs/07-operations/DEPLOYMENT_RUNBOOK.md
+      state: FILE
+      size: 33697
+      sha256: 5504f8be9004fad33327eef41d135cae9209ca12c084e3f5c316a780c0655ca7
+    - path: releases/R09/PARALLEL_EXECUTION_PLAN.yaml
+      state: FILE
+      size: 4153
+      sha256: 182e97474390152a7f45613ebaf6e404c8d1687d9c1ea287bb1cb7bc4abe7eac
+    - path: releases/R09/RELEASE_MANIFEST.yaml
+      state: FILE
+      size: 3561
+      sha256: 8554ce33b1f626e8743227120c8cfa772001f8d5ef37730dcb8f30c52317c2df
+    - path: scripts/prepare_r09_ci_fixture.sh
+      state: FILE
+      size: 8254
+      sha256: 8875cc20afd07acd2ed3d44f24b8dfe074104c4518e3eb1f4967ed129e33d229
+    - path: scripts/run_android_emulator_gate.sh
+      state: FILE
+      size: 2700
+      sha256: ef43d6d9a70734ad7f1361a261f0b363716e3585cba99e467a8009f8f6f8ef3b
+    - path: tests/android/fixtures/r09-media/01-app-list.png
+      state: FILE
+      size: 122462
+      sha256: 2cb363c76853add3c2847103a42ed186365b9ef256eb7062341fcb1e2d295c46
+    - path: tests/android/fixtures/r09-media/03-app-editor.png
+      state: FILE
+      size: 171069
+      sha256: 8d8f6bd9eb054b18a292341e371aa228ab0415552d42ce431079334b1497a2f1
+    - path: tests/android/visual-manifests/R09.yaml
+      state: FILE
+      size: 1746
+      sha256: 83ed03157c2dbbe0d86904a0ceba117e4e227f8239fc7b37561c22c96c36c716
+    - path: tests/test_android_ci_gate.py
+      state: FILE
+      size: 29301
+      sha256: 86bf454fe5901c44a9c1c08d6df2ded5f98e5546251444477741a4b377b9817a
+    - path: tests/test_r09_android_ui.py
+      state: FILE
+      size: 2763
+      sha256: fc1a6003924f041277fe6989c7407859e90018a1e0c37e9f9a545f676cd16a52
+    - path: tests/test_r09_ci_fixture.py
+      state: FILE
+      size: 3297
+      sha256: 6c913aa896c281c7a23c1c66e4edee6137387e28f6b3249f58f95e627060a773
+change_classification:
+  other:
+  - CHANGELOG.md
+  - config/android-candidate-request.yaml
+  - docs/07-operations/DEPLOYMENT_RUNBOOK.md
+  - releases/R09/PARALLEL_EXECUTION_PLAN.yaml
+  code:
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+  - apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+  - apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+  - apps/android/feature/app-promotion/build.gradle.kts
+  - apps/android/feature/app-promotion/src/main/java/cc/orbexa/hhy/apppromotion/R09AppScreens.kt
+  - apps/android/feature/app-promotion/src/test/java/cc/orbexa/hhy/apppromotion/R09AppStateTest.kt
+  - apps/android/gradle/libs.versions.toml
+  - scripts/prepare_r09_ci_fixture.sh
+  - scripts/run_android_emulator_gate.sh
+  user_visible:
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+  - apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+  - apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+  - apps/android/feature/app-promotion/build.gradle.kts
+  - apps/android/feature/app-promotion/src/main/java/cc/orbexa/hhy/apppromotion/R09AppScreens.kt
+  - apps/android/feature/app-promotion/src/test/java/cc/orbexa/hhy/apppromotion/R09AppStateTest.kt
+  - apps/android/gradle/libs.versions.toml
+  continuity:
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/change-requests/CR-0257-建立R09-App最终候选真实旅程与唯一产物门禁.md
+  - docs/03-continuity/change-requests/CR-0258-修复R09编辑页分类与平台技术编码可见性.md
+  - docs/03-continuity/change-requests/CR-0259-登记R09候选固定数据不可变版本幂等缺口.md
+  - docs/03-continuity/change-requests/CR-0260-补齐R09当前Release并行执行计划事实源.md
+  - docs/03-continuity/change-requests/CR-0261-修复R09真实App图片展示与效果图级视觉不足.md
+  source_of_truth:
+  - releases/R09/RELEASE_MANIFEST.yaml
+  tests:
+  - tests/android/fixtures/r09-media/01-app-list.png
+  - tests/android/fixtures/r09-media/03-app-editor.png
+  - tests/android/visual-manifests/R09.yaml
+  - tests/test_android_ci_gate.py
+  - tests/test_r09_android_ui.py
+  - tests/test_r09_ci_fixture.py
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+- APPROVED_CHANGE_REQUEST
+- CHANGELOG
+change_requests:
+- CR-0257
+- CR-0258
+- CR-0259
+- CR-0260
+- CR-0261
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  - releases/R09/
+  approved_exceptions:
+  - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+  - scripts/run_android_emulator_gate.sh
+  - scripts/prepare_r09_ci_fixture.sh
+  - tests/test_r09_ci_fixture.py
+  - tests/test_android_ci_gate.py
+  - tests/android/visual-manifests/R09.yaml
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+  - apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+  - config/android-candidate-request.yaml
+  - docs/07-operations/DEPLOYMENT_RUNBOOK.md
+  - catalogs/ui_visual_acceptance.csv
+  - releases/R09/RELEASE_MANIFEST.yaml
+  - tests/android/visual-baselines/R09/01-app-list.png
+  - tests/android/visual-baselines/R09/02-app-detail.png
+  - tests/android/visual-baselines/R09/03-app-editor.png
+  - tests/android/visual-baselines/R09/APPROVAL.yaml
+  - CHANGELOG.md
+  - apps/android/feature/app-promotion/src/main/java/cc/orbexa/hhy/apppromotion/R09AppScreens.kt
+  - apps/android/feature/app-promotion/src/test/java/cc/orbexa/hhy/apppromotion/R09AppStateTest.kt
+  - tests/test_r09_android_ui.py
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - releases/R09/PARALLEL_EXECUTION_PLAN.yaml
+  - apps/android/gradle/libs.versions.toml
+  - apps/android/feature/app-promotion/build.gradle.kts
+  - tests/android/fixtures/r09-media/01-app-list.png
+  - tests/android/fixtures/r09-media/03-app-editor.png
+  source: story+explicit+approved-cr:CR-0257+approved-cr:CR-0258+approved-cr:CR-0259+approved-cr:CR-0260+approved-cr:CR-0261
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 治理补记与同一原子候选提交强关联，且当前规则禁止未获用户明确要求时分派子代理
+event_hash: f3ff08c77f84f1f0567c158b55f2b808edb8c26db947e60af922a2585e089c2e

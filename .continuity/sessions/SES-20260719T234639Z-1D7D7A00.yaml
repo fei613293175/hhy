@@ -1,0 +1,208 @@
+protocol_version: '1.0'
+package_version: 1.2.3
+session_id: SES-20260719T234639Z-1D7D7A00
+status: CLOSED
+actor:
+  id: codex-root
+  kind: AI_OR_HUMAN
+  host: unknown
+release: R05
+task_id: TASK-R05-007
+story_id: STORY-R05-001
+goal: 构建、签名、安装冒烟并交付R05正式测试APK及完整追溯和测试说明
+started_at: '2026-07-19T23:46:39Z'
+updated_at: '2026-07-20T09:53:21Z'
+takeover_of: null
+change_requests:
+- CR-0109
+- CR-0110
+- CR-0111
+- CR-0112
+- CR-0113
+- CR-0114
+- CR-0115
+- CR-0116
+- CR-0117
+- CR-0118
+- CR-0119
+- CR-0120
+- CR-0121
+- CR-0122
+- CR-0123
+- CR-0124
+- CR-0125
+- CR-0126
+- CR-0127
+- CR-0128
+- CR-0129
+- CR-0130
+- CR-0131
+- CR-0132
+- CR-0133
+- CR-0134
+scope:
+  allowed_paths:
+  - apps/admin-web/**
+  - services/backend/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - tests/**
+  - docs/**
+  - catalogs/**
+  - releases/**
+  - design/**
+  - scripts/**
+  - CHANGELOG.md
+  approved_exceptions:
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+  - apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+  - artifacts/apk/R05/APK_MANIFEST.yaml
+  - artifacts/validation/r05-apk-delivery/delivery-evidence.json
+  - artifacts/validation/r05-task007-android/apk-badging.txt
+  - artifacts/validation/r05-task007-android/apk-sha256.txt
+  - artifacts/validation/r05-task007-android/apk-signing.txt
+  - artifacts/validation/r05-task007-android/apk-size.txt
+  - artifacts/validation/r05-task007-android/build-evidence.json
+  - artifacts/validation/r05-task007-android/documentation-gate.json
+  - artifacts/validation/r05-task007-android/embedded-api-count.txt
+  - artifacts/validation/r05-task007-android/embedded-placeholder-count.txt
+  - artifacts/validation/r05-task007-android/evidence-sha256.txt
+  - artifacts/validation/r05-task007-android/gradle-build.log
+  - artifacts/validation/r05-task007-android/source-archive-sha256.txt
+  - artifacts/validation/r05-task007-android/toolchain-image-id.txt
+  - artifacts/validation/r05-task007-android/zipalign.txt
+  - artifacts/reports/R05/TASK-R05-007-android-apk.md
+  - artifacts/reports/R05/R05-version-test-guide.md
+  - artifacts/reports/R05/TASK-R05-004-client.md
+  - AGENTS.md
+  - docs/00-baseline/正式商业系统全局硬性开发边界.md
+  - docs/02-ui/UI参考图使用与开发约束_V1.2.2.md
+  - catalogs/ui_visual_acceptance.csv
+  - scripts/check_ui_visual_acceptance.py
+  - scripts/check_release_artifacts.py
+  - tests/test_ui_visual_acceptance.py
+  - tests/test_release_close_gate.py
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/PITFALLS.md
+  - CHANGELOG.md
+  - templates/AGENTS.md
+  - design/R05-UI-FROZEN
+  - apps/android/feature/identity/src/main/java/cc/orbexa/hhy/identity/IdentityFlowScreen.kt
+  - apps/h5/src/views/IdentityCallbackPage.vue
+  - design/tokens/hhy_design_tokens_v1.2.2.json
+  - apps/android/core/designsystem/src/main/assets/hhy_design_tokens_v1.2.2.json
+  - apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyTokens.kt
+  - packages/design-tokens/h5.css
+  - packages/design-tokens/admin.css
+  - scripts/check_ui_tokens.py
+  - apps/h5/src/App.vue
+  - apps/h5/src/styles.css
+  - apps/h5/src/views/IdentityCallbackPage.test.ts
+  - artifacts/validation/r05-ui/H5-012-browser-360x800.png
+  - artifacts/reports/R05/R05-UI-FROZEN-PACKAGE-INTAKE.md
+  - artifacts/apk/R05/history/3454ff2/APK_MANIFEST.yaml
+  - artifacts/validation/r05-apk-delivery/history/3454ff2/delivery-evidence.json
+  - docs/09-development/统一开发与交付效率规范.md
+  - docs/03-continuity/REUSABLE_PATTERNS.md
+  - apps/android/gradle/libs.versions.toml
+  - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+  - apps/android/core/designsystem/build.gradle.kts
+  - apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyIcons.kt
+  - apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyMotion.kt
+  - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+  - apps/android/feature/auth/src/main/java/cc/orbexa/hhy/auth/AuthScreen.kt
+  - apps/android/feature/identity/build.gradle.kts
+  - scripts/check_android_ui_foundation.py
+  - tests/test_android_ui_foundation.py
+  - apps/android/app/src/test/java/cc/orbexa/hhy/NavigationPolicyTest.kt
+  - apps/android/app/src/androidTest/java/cc/orbexa/hhy/AuthenticatedNavigationTest.kt
+  - apps/android/feature/auth/build.gradle.kts
+  - artifacts/apk/R05/history/b597f2c/APK_MANIFEST.yaml
+  - artifacts/validation/r05-apk-delivery/history/b597f2c/delivery-evidence.json
+  - apps/android/feature/identity/src/main/java/cc/orbexa/hhy/identity/IdentityPresentation.kt
+  - apps/android/feature/identity/src/test/java/cc/orbexa/hhy/identity/IdentityPresentationTest.kt
+  - artifacts/validation/r05-owner-test-10210/feedback.json
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentitySandboxProperties.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentitySandboxStartupGuard.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentitySandboxClient.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityProviderRouter.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityRuntimePolicy.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityAccessConfiguration.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityPostgresStore.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentitySandboxService.java
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/PublicIdentitySandboxController.java
+  - services/backend/boot/src/main/resources/application.yml
+  - infra/staging/r05-smoke/docker-compose.yml
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/IdentitySandboxIsolationTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/PublicIdentitySandboxControllerTest.java
+  - artifacts/apk/R05/history/7b57046/APK_MANIFEST.yaml
+  - artifacts/validation/r05-apk-delivery/history/7b57046/delivery-evidence.json
+  - artifacts/validation/r05-task007-android
+  - artifacts/apk/R05/history/bc52fe6/APK_MANIFEST.yaml
+  - artifacts/validation/r05-apk-delivery/history/bc52fe6/delivery-evidence.json
+  - contracts/openapi.yaml
+  - contracts/contract_status.csv
+  - services/backend/boot/src/main/resources/contracts/openapi.yaml
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentityContracts.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentityService.java
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/IdentityController.java
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractIdentityApi.kt
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/IdentityControllerTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/IdentityServiceTest.java
+  - catalogs/api_endpoints.csv
+  - contracts/operation-error-matrix.csv
+  - packages/api-client/src/client.generated.ts
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ApiModels.kt
+  - catalogs/api_ui_ownership.csv
+  - catalogs/ui_action_matrix.csv
+  - releases/R05/STORIES.yaml
+  - releases/R05/RELEASE_MANIFEST.yaml
+  - artifacts/validation/r05-task007-android/embedded-policy.txt
+  - artifacts/validation/r05-public-rollforward/evidence.json
+  - artifacts/apk/R05/history/9b72655/APK_MANIFEST.yaml
+  - artifacts/validation/r05-apk-delivery/history/9b72655/delivery-evidence.json
+  source: story+explicit+approved-cr:CR-0109+approved-cr:CR-0111+approved-cr:CR-0112+approved-cr:CR-0113+approved-cr:CR-0114+approved-cr:CR-0115+approved-cr:CR-0116+approved-cr:CR-0117+approved-cr:CR-0118+approved-cr:CR-0119+approved-cr:CR-0120+approved-cr:CR-0121+approved-cr:CR-0122+approved-cr:CR-0123+approved-cr:CR-0124+approved-cr:CR-0125+approved-cr:CR-0126+approved-cr:CR-0127+approved-cr:CR-0128+approved-cr:CR-0129+approved-cr:CR-0131+approved-cr:CR-0132+approved-cr:CR-0133+approved-cr:CR-0134
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  base_commit: 0c3aa012f4bdbfd59f0d591cf99632794fd8c612
+  start_head: 0c3aa012f4bdbfd59f0d591cf99632794fd8c612
+  upstream: origin/task/TASK-R03-001
+  initial_worktree_state: CLEAN
+lease:
+  duration_minutes: 240
+  renewed_at: '2026-07-20T09:53:18Z'
+  expires_at: '2026-07-20T13:53:18Z'
+checkpoint_sequence: 43
+latest_checkpoint: .continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0043.yaml
+session_log: docs/03-continuity/sessions/2026-07/SES-20260719T234639Z-1D7D7A00.md
+next_step: 提交关闭元数据Commit，然后运行pre-push/CI门禁
+context_pack:
+  yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
+  markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
+  manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+  context_hash: fadc32789ae7cb90dd434ba3b90deb75041240b8a63599e603551a5dcaad7576
+  generated_at: '2026-07-20T09:53:20Z'
+handoff_bundle: null
+closure:
+  result: COMPLETED
+  summary: R05 versionCode 10213 项目所有者于2026-07-20明确确认整体真机体验通过；TASK-R05-007 APK构建、安装、追溯和真机验收门禁完成
+  code_commit: 30ad62962ce8ccf6323a7865ebf6fbe13f4aebb1
+  next_release: R05
+  next_task: TASK-R05-008
+  blocked_advance: false
+  user_confirmation: null
+  metadata_commit: PENDING
+  push_verification: CI_REQUIRED_AFTER_METADATA_COMMIT
+  started_at: '2026-07-20T09:53:15Z'
+  closure_checkpoint_id: CP-SES-20260719T234639Z-1D7D7A00-0043
+  closed_at: '2026-07-20T09:53:21Z'
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 最终交付追溯、检查点、提交与推送共享同一待验收产物身份，必须串行避免证据错配。
+closed_at: '2026-07-20T09:53:21Z'

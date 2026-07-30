@@ -1,0 +1,118 @@
+protocol_version: '1.0'
+package_version: 1.2.3
+session_id: SES-20260722T190220Z-19869F4B
+status: CLOSED
+actor:
+  id: codex-root-r09-client
+  kind: AI_OR_HUMAN
+  host: unknown
+release: R09
+task_id: TASK-R09-004
+story_id: STORY-R09-004
+goal: GOAL-HHY-PERFECT-LANDING
+started_at: '2026-07-22T19:02:20Z'
+updated_at: '2026-07-22T19:39:54Z'
+takeover_of: null
+change_requests:
+- CR-0251
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  - R09 App推广完整闭环客户端/H5/后台实现；严格绑定效果图与现有UI规格，不虚构业务；普通任务只跑受影响门禁。
+  approved_exceptions:
+  - apps/android/settings.gradle.kts
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+  - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR09Api.kt
+  - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/R09ApiModelsSerializationTest.kt
+  - apps/android/feature/app-promotion/build.gradle.kts
+  - apps/android/feature/app-promotion/src/main/AndroidManifest.xml
+  - apps/android/feature/app-promotion/src/main/java/cc/orbexa/hhy/apppromotion/R09AppState.kt
+  - apps/android/feature/app-promotion/src/main/java/cc/orbexa/hhy/apppromotion/R09AppScreens.kt
+  - apps/android/feature/app-promotion/src/test/java/cc/orbexa/hhy/apppromotion/R09AppStateTest.kt
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R08Contracts.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R09Service.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R09ServiceTest.java
+  - apps/h5/src/views/PublicPage.vue
+  - apps/h5/src/services/publicShare.test.ts
+  - apps/admin-web/src/r09AppReuse.test.ts
+  - design/R09-UI-FROZEN/specs/SCR-LIST-002.md
+  - design/R09-UI-FROZEN/specs/SCR-DETAIL-002.md
+  - design/R09-UI-FROZEN/specs/SCR-PUB-003.md
+  - catalogs/ui_page_specifications.csv
+  - catalogs/ui_visual_acceptance.csv
+  - CHANGELOG.md
+  source: story+explicit+approved-cr:CR-0251
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  base_commit: 536601aecf5e775466fe0a3c4225bc2bc3e633d8
+  start_head: 536601aecf5e775466fe0a3c4225bc2bc3e633d8
+  upstream: origin/task/TASK-R03-001
+  initial_worktree_state: CLEAN
+lease:
+  duration_minutes: 240
+  renewed_at: '2026-07-22T19:39:49Z'
+  expires_at: '2026-07-22T23:39:49Z'
+checkpoint_sequence: 5
+latest_checkpoint: .continuity/checkpoints/SES-20260722T190220Z-19869F4B/0005.yaml
+session_log: docs/03-continuity/sessions/2026-07/SES-20260722T190220Z-19869F4B.md
+next_step: 提交关闭元数据Commit，然后运行pre-push/CI门禁
+context_pack:
+  yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
+  markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
+  manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+  context_hash: 6f0a2943dcdab1a1c0bc8050389df971b9525d4f3bd11e266fbf57c1d80bf883
+  generated_at: '2026-07-22T19:39:52Z'
+handoff_bundle: null
+closure:
+  result: COMPLETED
+  summary: 完成R09 App推广Android列表/详情/发布编辑、H5真实外链动作和后台统一内容复用；受影响MODULE门禁全部通过，三页最终截图按R09候选阶段保留IN_REVIEW。
+  code_commit: b548d582e8e5b942a93513c128a113c8571bff0c
+  next_release: R09
+  next_task: TASK-R09-005
+  blocked_advance: false
+  completed_independent_advance: false
+  user_confirmation: null
+  metadata_commit: PENDING
+  push_verification: CI_REQUIRED_AFTER_METADATA_COMMIT
+  started_at: '2026-07-22T19:39:46Z'
+  closure_checkpoint_id: CP-SES-20260722T190220Z-19869F4B-0005
+  closed_at: '2026-07-22T19:39:54Z'
+parallel_execution:
+  assessment: USER_SERIAL_OVERRIDE
+  delegated_workers: 0
+  workers: []
+  reason: 连续单线关闭任务，用户未要求子代理。
+closed_at: '2026-07-22T19:39:54Z'

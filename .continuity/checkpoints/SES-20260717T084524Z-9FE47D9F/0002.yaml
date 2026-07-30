@@ -1,0 +1,477 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260717T084524Z-9FE47D9F-0002
+session_id: SES-20260717T084524Z-9FE47D9F
+sequence: 2
+created_at: '2026-07-17T11:07:10Z'
+summary: R01管理员认证安全8接口完成安全加固、独立审计ACCEPT与真实PG17/API/代理/卷重启验证
+next_step: 提交TASK-R01-003并关闭会话进入TASK-R01-004后台三页面实现
+blockers: []
+decisions:
+- TOTP接受时间步在数据库按MFA方法状态与版本原子消费并递增版本，跨接口重放统一拒绝
+- 缺失必需请求头统一返回COMMON-400-VALIDATION，禁止误报500
+note: ''
+tests:
+- name: backend-maven
+  result: PASS
+  evidence: 56 tests, 0 failures, 0 errors, 1 external-PG skip
+  note: JDK21完整Reactor
+- name: database-static
+  result: PASS
+  evidence: DB_SCHEMA_OK tables=198 migrations=15 runtime_hashes=PASS
+  note: 数据库与运行时副本一致
+- name: postgresql17-migration
+  result: PASS
+  evidence: POSTGRESQL_MIGRATION_SMOKE PASS
+  note: V001-V015及U014/U015安全回滚和阻断回滚通过
+- name: r01-api-smoke
+  result: PASS
+  evidence: endpoints=8 totp_replay=BLOCKED concurrent_idempotency=PASS pg_pool_concurrency=20
+  note: 隔离真实API闭环
+- name: proxy-runtime
+  result: PASS
+  evidence: trusted proxy .30 and direct .31 persisted; spoofed XFF ignored
+  note: 隔离网络代理防伪
+- name: container-restart
+  result: PASS
+  evidence: readiness UP, uid 10001, MFA dir 10001:101:700
+  note: 重启后卷权限保持
+- name: independent-audit
+  result: PASS
+  evidence: engineering audit ACCEPT, no P0/P1
+  note: 版本链事务幂等复核通过
+git:
+  initialized: true
+  branch: task/TASK-R01-003
+  head: 2ffb57fc658164bfac8269f2e891e1cb6af109f3
+  upstream: null
+  ahead: null
+  behind: null
+  dirty: true
+  status_porcelain:
+  - ' M artifacts/validation/project-doctor-v1.2.3.json'
+  - ' M docs/07-operations/DEPLOYMENT_RUNBOOK.md'
+  - ' M infra/staging/docker-compose.p00.yml'
+  - ' M scripts/check_db_schema.py'
+  - ' M scripts/run_postgres_migration_smoke.sh'
+  - ' M services/backend/Dockerfile'
+  - ' M services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminAccessConfiguration.java'
+  - ' M services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminLoginFactWriter.java'
+  - ' M services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminSecurityProperties.java'
+  - ' M services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminSecurityService.java'
+  - ' M services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminSecurityStore.java'
+  - ' M services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminTokenService.java'
+  - ' M services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminTotpService.java'
+  - ' M services/backend/boot/src/main/java/cc/orbexa/hhy/boot/admin/AdminSecurityController.java'
+  - ' M services/backend/boot/src/main/java/cc/orbexa/hhy/boot/web/GlobalExceptionHandler.java'
+  - ' M services/backend/boot/src/main/resources/application.yml'
+  - ' M services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminSecurityServiceTest.java'
+  - ' M services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminSecurityWebSecurityTest.java'
+  - ' M services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminTokenServiceTest.java'
+  - ' M services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminTotpServiceTest.java'
+  - ' M services/backend/boot/src/test/resources/application-test.yml'
+  - ' M services/backend/shared-kernel/src/main/java/cc/orbexa/hhy/shared/api/BusinessException.java'
+  - ?? database/migrations/V014__r01_idempotency_scope_capacity.sql
+  - ?? database/migrations/V015__r01_totp_replay_guard.sql
+  - ?? database/rollback/U014__r01_idempotency_scope_capacity.sql
+  - ?? database/rollback/U015__r01_totp_replay_guard.sql
+  - ?? infra/staging/r01-smoke/docker-compose.yml
+  - ?? infra/staging/r01-smoke/nginx.conf
+  - ?? scripts/test_r01_admin_security_api.py
+  - ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminMfaSecretStore.java
+  - ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminSecurityStartupGuard.java
+  - ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/CommittedAdminSecurityFailure.java
+  - ?? services/backend/boot/src/main/java/cc/orbexa/hhy/boot/admin/AdminClientIpResolver.java
+  - ?? services/backend/boot/src/main/resources/db/migration/V014__r01_idempotency_scope_capacity.sql
+  - ?? services/backend/boot/src/main/resources/db/migration/V015__r01_totp_replay_guard.sql
+  - ?? services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminMfaSecretStoreTest.java
+  - ?? services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminSecurityIdempotencyDigestTest.java
+  - ?? services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminSecurityMfaSecretIsolationTest.java
+  - ?? services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminSecurityRateLimitTest.java
+  - ?? services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminSecuritySuccessContractTest.java
+  - ?? services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminSecurityTransactionContractTest.java
+  - ?? services/backend/boot/src/test/java/cc/orbexa/hhy/boot/admin/AdminClientIpResolverTest.java
+  recent_commits:
+  - "2ffb57fc658164bfac8269f2e891e1cb6af109f3\t2026-07-17T17:37:00+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] feat(r01): implement admin\
+    \ authentication security APIs"
+  - "a72a8621fe69e60ebcbb73a0533ada111effe4fc\t2026-07-17T16:42:44+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] chore(continuity): close TASK-R01-002\
+    \ as completed"
+  - "dc205fd0ea0b65975332733c0b991696f96dd432\t2026-07-17T16:40:37+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] chore(r01): close admin security\
+    \ change request"
+  - "7874af5075076b7f84b976a3cf16b94f2476a050\t2026-07-17T16:38:53+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] feat(r01): harden admin security\
+    \ data invariants"
+  - "fdcc8e2e3b4989e89db8884cbc9a8d4f62372fe0\t2026-07-17T16:04:12+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] chore(continuity): close TASK-R01-001\
+    \ as completed"
+  - "2cdba75fa45c01fc33818d12b93c488391344a18\t2026-07-17T16:02:36+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] chore(r01): close baseline\
+    \ change requests"
+  - "79dd63915e4554bfd73a84f7e97a465896347176\t2026-07-17T16:01:34+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] chore(r01): establish development\
+    \ baseline"
+  - "67f7e4568097660589139fb9ba0baf42c9398dfb\t2026-07-17T13:51:37+08:00\tHHY Continuity Bootstrap\t[STORY-P00-001] chore(p00): close release\
+    \ and pause"
+project_fingerprint:
+  sha256: 7afde2c4cf9aa428076afbd7817fd7a4ddd674e73628b1f875e4da1de257c64c
+  files:
+  - database/migrations/V013__r01_admin_self_rbac.sql
+  - database/migrations/V014__r01_idempotency_scope_capacity.sql
+  - database/migrations/V015__r01_totp_replay_guard.sql
+  - database/rollback/U013__r01_admin_self_rbac.sql
+  - database/rollback/U014__r01_idempotency_scope_capacity.sql
+  - database/rollback/U015__r01_totp_replay_guard.sql
+  - database/tests/r01_admin_self_rbac.sql
+  - docs/07-operations/DEPLOYMENT_RUNBOOK.md
+  - infra/staging/docker-compose.p00.yml
+  - infra/staging/r01-smoke/docker-compose.yml
+  - infra/staging/r01-smoke/nginx.conf
+  - scripts/bootstrap-admin.sh
+  - scripts/check_db_schema.py
+  - scripts/run_postgres_migration_smoke.sh
+  - scripts/test_r01_admin_security_api.py
+  - services/backend/Dockerfile
+  - services/backend/access/pom.xml
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminAccessConfiguration.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminBearerAuthenticationFilter.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminLoginFactWriter.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminMfaSecretStore.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminPrincipal.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminSecurityContracts.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminSecurityProperties.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminSecurityService.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminSecurityStartupGuard.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminSecurityStore.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminTokenService.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminTotpService.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/CommittedAdminSecurityFailure.java
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/admin/AdminClientIpResolver.java
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/admin/AdminSecurityController.java
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/security/SecurityConfiguration.java
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/web/GlobalExceptionHandler.java
+  - services/backend/boot/src/main/resources/application.yml
+  - services/backend/boot/src/main/resources/db/migration/V013__r01_admin_self_rbac.sql
+  - services/backend/boot/src/main/resources/db/migration/V014__r01_idempotency_scope_capacity.sql
+  - services/backend/boot/src/main/resources/db/migration/V015__r01_totp_replay_guard.sql
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminMfaSecretStoreTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminSecurityIdempotencyDigestTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminSecurityMfaSecretIsolationTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminSecurityRateLimitTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminSecurityServiceTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminSecuritySuccessContractTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminSecurityTransactionContractTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminSecurityWebSecurityTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminTokenServiceTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminTotpServiceTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/admin/AdminClientIpResolverTest.java
+  - services/backend/boot/src/test/resources/application-test.yml
+  - services/backend/boot/src/test/resources/mockito-extensions/org.mockito.plugins.MockMaker
+  - services/backend/shared-kernel/src/main/java/cc/orbexa/hhy/shared/api/BusinessException.java
+  file_count: 52
+  payload:
+    base_commit: a72a8621fe69e60ebcbb73a0533ada111effe4fc
+    files:
+    - path: database/migrations/V013__r01_admin_self_rbac.sql
+      state: FILE
+      size: 2019
+      sha256: e67e46b205de859b1ab48b6e3397daef1bdb621f29d4ab7227542a36646f9fe9
+    - path: database/migrations/V014__r01_idempotency_scope_capacity.sql
+      state: FILE
+      size: 424
+      sha256: 23c7d1b7ba15c8e873617049abbb08ba5af618ac220cb0605c09d54b8414ce34
+    - path: database/migrations/V015__r01_totp_replay_guard.sql
+      state: FILE
+      size: 520
+      sha256: da154ef437da3a82adc04e459e58f12156ba37cdd9f5c397394898298d0cc81a
+    - path: database/rollback/U013__r01_admin_self_rbac.sql
+      state: FILE
+      size: 923
+      sha256: c718dd1648b12a9ee345af7edafa83626b4e74b182f2844e771157681ae6d5ab
+    - path: database/rollback/U014__r01_idempotency_scope_capacity.sql
+      state: FILE
+      size: 448
+      sha256: 091fbc156d90339be7530a35429646921ff4b6536f0969ee2a63c619b478a744
+    - path: database/rollback/U015__r01_totp_replay_guard.sql
+      state: FILE
+      size: 497
+      sha256: d1ef9580e369b9a45b2f92339db494dbc336da174557ed4a4adcd9fe6b1c0e9b
+    - path: database/tests/r01_admin_self_rbac.sql
+      state: FILE
+      size: 2258
+      sha256: bbb319173b840c0b63082d70ccbbf758f5b279cd475223b604e8e51b253f6c2f
+    - path: docs/07-operations/DEPLOYMENT_RUNBOOK.md
+      state: FILE
+      size: 7327
+      sha256: 56c61854a67f1400b5274cf9c6da55e0798afe5b8745141a66da047e5f2688de
+    - path: infra/staging/docker-compose.p00.yml
+      state: FILE
+      size: 4092
+      sha256: 0ea3a79a02b94497f0af65fc8c1f27763f163493ab768bc7c4bd9076f7842684
+    - path: infra/staging/r01-smoke/docker-compose.yml
+      state: FILE
+      size: 2228
+      sha256: f6b4876e859458887fb43e47ad711ef485ddc7148eff3e1ecd36da04d5e065ee
+    - path: infra/staging/r01-smoke/nginx.conf
+      state: FILE
+      size: 318
+      sha256: b13f1e9d43e52a8469a988d1af9de051dfdcba2724df5c754793993f7fe41f98
+    - path: scripts/bootstrap-admin.sh
+      state: FILE
+      size: 3450
+      sha256: 176f1904383913e27de2aead8e6d04d9e8705edb260f7b00a1f825f486a7c529
+    - path: scripts/check_db_schema.py
+      state: FILE
+      size: 8472
+      sha256: bed4ec231145fe13d7706f9dd63ed85304fbbdb412b3ae6111af7d3a00c3a239
+    - path: scripts/run_postgres_migration_smoke.sh
+      state: FILE
+      size: 13941
+      sha256: 13528608713da97d75e61c6942e85b02f5494ad0840957f5304fecadb217f0a6
+    - path: scripts/test_r01_admin_security_api.py
+      state: FILE
+      size: 12092
+      sha256: ccbb510c672bc409df7456b59d03453d30cd900fa934fd652303158709593578
+    - path: services/backend/Dockerfile
+      state: FILE
+      size: 836
+      sha256: 59c084d059bc1aa24d691ece8cddddce4c301091c17d36a6821ea3b697f7fb26
+    - path: services/backend/access/pom.xml
+      state: FILE
+      size: 1211
+      sha256: 25b66271de7b8d1dd1624da7f376a888f527859937c20b4c0ba27bb69695d736
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminAccessConfiguration.java
+      state: FILE
+      size: 939
+      sha256: 97a10ec802ea3a073310d3015fcd7eb8a203d29e53e2828bf3f1be2b3cacc96b
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminBearerAuthenticationFilter.java
+      state: FILE
+      size: 2327
+      sha256: 86a0d1f1dc7183b0f5f2fcdc3f2059ec41c58b86afd38edc605eb14fe22342ef
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminLoginFactWriter.java
+      state: FILE
+      size: 738
+      sha256: 69ad37fc6af8d704473bebe00d0470f07759646fd1644ff15b881e3f68e48165
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminMfaSecretStore.java
+      state: FILE
+      size: 10427
+      sha256: b5e46fb4c617a528eb292ab24d8f5f01027ae322d0cb97094b254f522c4901e9
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminPrincipal.java
+      state: FILE
+      size: 346
+      sha256: 8d1ea26cd6ff65b9d335b94c6dd2dc1ababc2c39862f4400d537dfbc6d7a1728
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminSecurityContracts.java
+      state: FILE
+      size: 2379
+      sha256: 0f7a5fcfa8cfec1a1983090be429cb4d7911a95fb35a91d90d9be8264c2c2c32
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminSecurityProperties.java
+      state: FILE
+      size: 1776
+      sha256: 70bfc63959805a393f6c48e21b75b43b4e03675630a8bbd71d850ddc0b9641e4
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminSecurityService.java
+      state: FILE
+      size: 32153
+      sha256: 255a294d3a6fa2054f020b6e310f0f6736155bf5385e24c69b3ca35084acee04
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminSecurityStartupGuard.java
+      state: FILE
+      size: 1995
+      sha256: ce0b502ce6fe40787e009e1863bcfe091317c8b91dd589bdcfa244938c0a3ec7
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminSecurityStore.java
+      state: FILE
+      size: 23927
+      sha256: c5d46ed4a10de1ea988bf455458b38dbeffd6a17806d0cc0508ecff6709cec68
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminTokenService.java
+      state: FILE
+      size: 4719
+      sha256: fc56ab0abca7c40bc390fde2ae9ef8f7ecfc39c63fab2b57c396b9957e1494fc
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminTotpService.java
+      state: FILE
+      size: 6009
+      sha256: 79187abbd86af0df8df1e7952e99969a8de1732fcfd6bb8bf64e9c78bf3fe08e
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/CommittedAdminSecurityFailure.java
+      state: FILE
+      size: 525
+      sha256: 68f362bdbbddd464061705f5f883c51960b9b2617ea2e277c3ee7c441ab37dfa
+    - path: services/backend/boot/src/main/java/cc/orbexa/hhy/boot/admin/AdminClientIpResolver.java
+      state: FILE
+      size: 2595
+      sha256: fa4d2dcdb7b6b7f2dc8f2fbd0b0c5b8bbedcdc5d2524ce414b29d486ba439dec
+    - path: services/backend/boot/src/main/java/cc/orbexa/hhy/boot/admin/AdminSecurityController.java
+      state: FILE
+      size: 7169
+      sha256: 3cec54bfda7f134eb278717c6c41ba668d1c8d09547d07afb0016f7c0a0bf04a
+    - path: services/backend/boot/src/main/java/cc/orbexa/hhy/boot/security/SecurityConfiguration.java
+      state: FILE
+      size: 2415
+      sha256: a5b10e22ddebe396a5d101b63c0582afa8c399a11b9bcea2099e1e06e2fb1afb
+    - path: services/backend/boot/src/main/java/cc/orbexa/hhy/boot/web/GlobalExceptionHandler.java
+      state: FILE
+      size: 3745
+      sha256: 322e93bff5e39921eb67ca5528ce51f1a9fa507ace853a98db46b569046d51e4
+    - path: services/backend/boot/src/main/resources/application.yml
+      state: FILE
+      size: 2422
+      sha256: 85dd466659125cc2bfa1431292196379080f331c68603c08a2db1b1d89810d7f
+    - path: services/backend/boot/src/main/resources/db/migration/V013__r01_admin_self_rbac.sql
+      state: FILE
+      size: 2019
+      sha256: e67e46b205de859b1ab48b6e3397daef1bdb621f29d4ab7227542a36646f9fe9
+    - path: services/backend/boot/src/main/resources/db/migration/V014__r01_idempotency_scope_capacity.sql
+      state: FILE
+      size: 424
+      sha256: 23c7d1b7ba15c8e873617049abbb08ba5af618ac220cb0605c09d54b8414ce34
+    - path: services/backend/boot/src/main/resources/db/migration/V015__r01_totp_replay_guard.sql
+      state: FILE
+      size: 520
+      sha256: da154ef437da3a82adc04e459e58f12156ba37cdd9f5c397394898298d0cc81a
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminMfaSecretStoreTest.java
+      state: FILE
+      size: 4409
+      sha256: 1b1880911acf20f65b5452803fea88f546329911c0c06964eea73c53536036d8
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminSecurityIdempotencyDigestTest.java
+      state: FILE
+      size: 4689
+      sha256: e24de23e8d5553ca5ade2a2246bfd38d65978a4814562407fe997b8385039d5b
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminSecurityMfaSecretIsolationTest.java
+      state: FILE
+      size: 7966
+      sha256: 19f37de69eaf2ba181a4eda412c652907537c29461fd52d7aff8b08c55c32910
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminSecurityRateLimitTest.java
+      state: FILE
+      size: 8369
+      sha256: ed74fcaf2a615f8f5262ea63c900c2313bde5deef8780f9c1c64b80825f8143a
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminSecurityServiceTest.java
+      state: FILE
+      size: 7330
+      sha256: 642882bb8eddd45ad2480b26a2f42339560c95bbee1b5919b65ec547344bede5
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminSecuritySuccessContractTest.java
+      state: FILE
+      size: 12568
+      sha256: ae3c72ce99c9813022458df01b27cc9615a3ede71389c396ba1b516a10efd69d
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminSecurityTransactionContractTest.java
+      state: FILE
+      size: 2542
+      sha256: 5132f56ee9564d9935eb0bed26f0a6dc7af0f7e43122e47bc90a518a646849bc
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminSecurityWebSecurityTest.java
+      state: FILE
+      size: 7415
+      sha256: 4e4dee6ab12c2368669fdb2c5502ff207957a76904512823fa269d36627c6e9f
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminTokenServiceTest.java
+      state: FILE
+      size: 2891
+      sha256: e6a8535e98d9f822fe4d86b2e367fd4b002f67f450addea89dbf93a0a7acfd29
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminTotpServiceTest.java
+      state: FILE
+      size: 3064
+      sha256: 68a881f60462c33e580388e4bd026dc9454c6b29d9111399b4dff9a2fb04ab49
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/boot/admin/AdminClientIpResolverTest.java
+      state: FILE
+      size: 2208
+      sha256: b76b2d2380cacba50f4a57632664daa8a8e47c0311736f6ff1db060ce2d78e3b
+    - path: services/backend/boot/src/test/resources/application-test.yml
+      state: FILE
+      size: 957
+      sha256: 60b2c8a52df435433975b8c94f4f37c3170580d72b4e95e000777109dcdea03f
+    - path: services/backend/boot/src/test/resources/mockito-extensions/org.mockito.plugins.MockMaker
+      state: FILE
+      size: 20
+      sha256: 8eca853a5a457f17e0479b71dfbe95f2a13aff9eeff250261ecdc8ca9b847a6a
+    - path: services/backend/shared-kernel/src/main/java/cc/orbexa/hhy/shared/api/BusinessException.java
+      state: FILE
+      size: 981
+      sha256: cf756092c355c9303550f62ae09835c6b3dfb1391a6172c790414ec93b5f5076
+change_classification:
+  database:
+  - database/migrations/V013__r01_admin_self_rbac.sql
+  - database/migrations/V014__r01_idempotency_scope_capacity.sql
+  - database/migrations/V015__r01_totp_replay_guard.sql
+  - database/rollback/U013__r01_admin_self_rbac.sql
+  - database/rollback/U014__r01_idempotency_scope_capacity.sql
+  - database/rollback/U015__r01_totp_replay_guard.sql
+  - database/tests/r01_admin_self_rbac.sql
+  other:
+  - docs/07-operations/DEPLOYMENT_RUNBOOK.md
+  infrastructure:
+  - infra/staging/docker-compose.p00.yml
+  - infra/staging/r01-smoke/docker-compose.yml
+  - infra/staging/r01-smoke/nginx.conf
+  code:
+  - scripts/bootstrap-admin.sh
+  - scripts/check_db_schema.py
+  - scripts/run_postgres_migration_smoke.sh
+  - scripts/test_r01_admin_security_api.py
+  - services/backend/Dockerfile
+  - services/backend/access/pom.xml
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminAccessConfiguration.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminBearerAuthenticationFilter.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminLoginFactWriter.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminMfaSecretStore.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminPrincipal.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminSecurityContracts.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminSecurityProperties.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminSecurityService.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminSecurityStartupGuard.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminSecurityStore.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminTokenService.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminTotpService.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/CommittedAdminSecurityFailure.java
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/admin/AdminClientIpResolver.java
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/admin/AdminSecurityController.java
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/security/SecurityConfiguration.java
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/web/GlobalExceptionHandler.java
+  - services/backend/boot/src/main/resources/application.yml
+  - services/backend/boot/src/main/resources/db/migration/V013__r01_admin_self_rbac.sql
+  - services/backend/boot/src/main/resources/db/migration/V014__r01_idempotency_scope_capacity.sql
+  - services/backend/boot/src/main/resources/db/migration/V015__r01_totp_replay_guard.sql
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminMfaSecretStoreTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminSecurityIdempotencyDigestTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminSecurityMfaSecretIsolationTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminSecurityRateLimitTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminSecurityServiceTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminSecuritySuccessContractTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminSecurityTransactionContractTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminSecurityWebSecurityTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminTokenServiceTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminTotpServiceTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/admin/AdminClientIpResolverTest.java
+  - services/backend/boot/src/test/resources/application-test.yml
+  - services/backend/boot/src/test/resources/mockito-extensions/org.mockito.plugins.MockMaker
+  - services/backend/shared-kernel/src/main/java/cc/orbexa/hhy/shared/api/BusinessException.java
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+- DATABASE_TEST_EVIDENCE
+- SCHEMA_TRACEABILITY
+change_requests: []
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions: []
+  source: story+explicit
+event_hash: 0105d0e6b74f689509efab79b4fdbe205f820b82c8c423c4892ac5dad5cd2346

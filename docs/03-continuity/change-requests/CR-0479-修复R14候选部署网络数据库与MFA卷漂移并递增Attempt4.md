@@ -1,0 +1,86 @@
+---
+cr_id: CR-0479
+status: APPROVED
+requester_actor_id: codex-r14-close-20260729
+approver_actor_id: project-owner-continuity-directive-20260729
+task_id: TASK-R14-008
+session_id: SES-20260728T220632Z-FE7D82FD
+created_at: 2026-07-29T00:31:07Z
+updated_at: 2026-07-29T00:32:02Z
+---
+# CR-0479 — 修复R14候选部署网络数据库与MFA卷漂移并递增Attempt4
+
+## 用户需求摘要
+
+持续完成R14并确保R14至R32开发不漂移；候选失败由AI读取真实日志后修复并继续
+
+## 原规则
+
+R14候选路由校验了源码Commit、镜像、Release、Flyway、端口、鉴权接口和公网日志命中，但没有校验候选与回滚容器实际Docker网络、HHY_DB_URL/HHY_DB_USER绑定及MFA卷可写性
+
+## 新规则
+
+不新增平行规则；原位强化scripts/switch_android_candidate_route.sh：R14候选与回滚容器必须接入明确HHY_CANDIDATE_NETWORK，候选数据库URL和用户必须精确指向登记的R14 V044数据库，/var/lib/hhy/secrets卷必须可写。Attempt3失败证据入库后，只有绑定本修复Commit、CR-0479和唯一request004的Attempt4可运行一次
+
+## 修改原因
+
+Run 30408703138在bootstrap阶段返回HTTP500；服务器证据显示R14候选容器接入hhy-r13-staging_smoke且重建时MFA卷只读，导致OIDC/候选环境身份不可信，必须固化部署前置校验并绑定Attempt4
+
+## 影响摘要
+
+阻断R14及后续复用路由时误接旧版本网络/数据库或只读MFA卷；记录Attempt3 HTTP500/JwtException和现场纠正证据，递增一次性Attempt4；不改变产品UI、公开API、业务数据库结构或生产数据
+
+## 影响文件
+
+- `scripts/switch_android_candidate_route.sh`
+- `tests/test_android_candidate_route.py`
+- `config/android-automation.yaml`
+- `config/android-candidate-request.yaml`
+- `artifacts/validation/r14-candidate-attempt3/failure-evidence.json`
+- `artifacts/validation/r14-candidate-attempt3/route-activation-evidence.json`
+- `docs/03-continuity/PROBLEM_REGISTRY.yaml`
+- `CHANGELOG.md`
+
+## 页面
+
+- 无直接影响（已在影响摘要说明）
+
+## API
+
+- 无直接影响（已在影响摘要说明）
+
+## 数据库与迁移
+
+- 无直接影响（已在影响摘要说明）
+
+## 配置
+
+- `R14 candidate route requires exact network, database URL/user and writable MFA mount; Attempt4 exact exception`
+
+## 资金/账本与历史数据
+
+- 无直接影响（已在影响摘要说明）
+
+## 测试
+
+- `python -m unittest tests.test_android_candidate_route tests.test_android_ci_gate tests.test_android_candidate_request tests.test_continuity_version_sequence`
+- `bash -n scripts/switch_android_candidate_route.sh and obx-test controlled route activation evidence`
+
+## 版本
+
+- `R14`
+
+## 迁移与兼容策略
+
+仅Staging候选部署与治理门禁变化；当前21125aa9候选及59331083回滚容器已恢复到hhy-r14-staging_smoke、V044数据库和可写MFA卷，Nginx已通过受控脚本切换28116。正式产品合同、APK业务代码和生产数据库不变
+
+## 用户确认
+
+项目所有者已明确要求持续完成R14至R32，候选失败后自行修复继续，不得停下等待逐次批准
+
+## 审批
+
+- 审批人：`project-owner-continuity-directive-20260729`
+- 决定：`APPROVED`
+- 时间：`2026-07-29T00:32:02Z`
+- 说明：项目所有者已要求候选失败由AI依据真实日志修复并持续推进，且不得发生R14至R32开发漂移。本CR只原位补齐既有候选路由的网络、数据库和MFA卷部署证明，并授权绑定修复Commit的单次Attempt4，不改变全局三轮规则、产品合同或生产数据

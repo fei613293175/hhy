@@ -1,0 +1,69 @@
+protocol_version: '1.0'
+cr_id: CR-0225
+title: 补齐R08三项专项测试自动化与故障注入证据矩阵
+status: CLOSED
+created_at: '2026-07-22T05:38:24Z'
+updated_at: '2026-07-22T06:05:01Z'
+requester_actor_id: codex-root-r08-005
+approver_actor_id: codex-reviewer-r08-tests
+task_id: TASK-R08-005
+session_id: SES-20260722T053639Z-033C23B5
+user_request: 持续推进R08专项测试与故障注入，不因中间验证停止
+reason: 三项权威测试仍为READY_TO_AUTOMATE且tests/r08路径不存在；现有用例缺少统一并发、延迟重放、超时零副作用和机器证据门禁。
+original_rule: TASK-R08-005要求执行TST-PROJECT_001三项权威测试并覆盖重复请求、并发、超时、消息重复和供应商异常；当前目录仍指向不存在的tests/r08且状态为READY_TO_AUTOMATE。
+new_rule: 不新增第二套测试口径；将既有三项目录行升级为AUTOMATED并各自绑定可机检适配器，由单一R08矩阵验证真实Java方法、故障类别、冻结Commit以及Java21/PostgreSQL17原始日志哈希。补齐并发唯一幂等归属、延迟重放不重复Outbox、媒体存储超时零副作用和幂等冲突。
+impact_summary: 仅增强R08测试、证据和目录；不改变生产API、数据库Schema、状态机或客户端功能。
+impact:
+  files:
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R08ServiceTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R08PostgresStoreTest.java
+  - tests/r08
+  - tests/test_r08_specialized_matrix.py
+  - scripts/run_r08_specialized_matrix.py
+  - catalogs/test_cases.csv
+  - artifacts/reports/R08/TASK-R08-005-specialized-tests.md
+  - artifacts/validation/r08-test-evidence
+  - CHANGELOG.md
+  pages: []
+  apis:
+  - 无生产API变更
+  database:
+  - 无Schema变更；真实PostgreSQL17并发与幂等验证
+  configuration: []
+  ledger: []
+  tests:
+  - TST-PROJECT_001-HAPPY
+  - TST-PROJECT_001-REJECT
+  - TST-PROJECT_001-IDEMPOTENT
+  - R08专项矩阵自测与冻结Commit证据校验
+  releases:
+  - R08
+  migration_and_compatibility: 纯测试与证据治理调整；复用V001至V034迁移和现有R08服务实现，不产生生产迁移。
+user_confirmation: 项目所有者明确要求持续推进全部版本并按既定方案开始；专项测试属于TASK-R08-005冻结范围且不得中途停下。
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-22T05:39:13Z'
+  note: 批准复用R08三项唯一测试ID补齐自动化与故障注入证据；不得修改生产合同或以Mock日志替代Java21/PostgreSQL17原始证据。
+machine_record: .continuity/change_requests/CR-0225.yaml
+document: docs/03-continuity/change-requests/CR-0225-补齐R08三项专项测试自动化与故障注入证据矩阵.md
+decision_log:
+- at: '2026-07-22T05:39:30Z'
+  actor_id: codex-root-r08-005
+  status: IMPLEMENTING
+  note: 开始补齐三项测试适配器、真实并发与超时故障用例、统一矩阵和证据报告。
+  session_id: SES-20260722T053639Z-033C23B5
+- at: '2026-07-22T06:03:10Z'
+  actor_id: codex-root-r08-005
+  status: IMPLEMENTED
+  note: 精确提交已在obx-test完成Java21后端344项、PostgreSQL17真实Store 4项零跳过、固定Android JDK21项目MODULE 172任务；三项权威矩阵PASS，原始日志已回收并绑定SHA-256。
+  session_id: SES-20260722T053639Z-033C23B5
+- at: '2026-07-22T06:05:01Z'
+  actor_id: codex-root-r08-005
+  status: CLOSED
+  note: 三项权威测试唯一矩阵、Java21/PostgreSQL17/Android JDK21原始日志及SHA-256已由证据提交36fd0d8c冻结，P0/P1为0。
+  session_id: SES-20260722T053639Z-033C23B5
+session_ids:
+- SES-20260722T053639Z-033C23B5
+implementation_commits:
+- f3421114b124f4b1d69cd20de7078a022db019e9
+- 36fd0d8c6003a20a9a8e33f787ec30381200a8d6

@@ -1,0 +1,131 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260722T181159Z-F501CFF5-0001
+session_id: SES-20260722T181159Z-F501CFF5
+sequence: 1
+created_at: '2026-07-22T18:15:03Z'
+summary: 完成R09-002事实审计并批准CR-0249：复用现有app_details，补字段完整性、第三方APK阻断、公开索引、活跃详情软删除保护及四链路数据库验证。
+next_step: 按CR-0249实现V035/U035、数据库断言与空库/升级/回滚/重放脚本。
+blockers: []
+decisions:
+- 不新建App表、不新增APK上传字段；约束以NOT VALID兼容历史数据，触发器只约束新增和变更。
+note: ''
+tests:
+- name: R09 requirements and schema audit
+  result: PASS
+  evidence: REQ-APP-PROMO-001+app_details+media_objects
+  note: 需求、页面、表结构与迁移模式已交叉核对
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: e336e79143572860308f6d3f372bd436b9f0131c
+  upstream: origin/task/TASK-R03-001
+  ahead: 0
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/ACTIVE_SESSION.yaml'
+  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/SESSION_INDEX.yaml'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/TASK_CLAIMS.yaml'
+  - ' M .continuity/TASK_TRANSITIONS.yaml'
+  - ' M CURRENT_STATUS.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+  - ' M catalogs/change_request_index.csv'
+  - ' M catalogs/session_index.csv'
+  - ' M catalogs/task_transition_ledger.csv'
+  - ?? .continuity/change_requests/CR-0249.yaml
+  - ?? .continuity/sessions/SES-20260722T181159Z-F501CFF5.yaml
+  - ?? docs/03-continuity/change-requests/CR-0249-R09-App推广数据迁移与领域不变量.md
+  - ?? docs/03-continuity/sessions/2026-07/SES-20260722T181159Z-F501CFF5.md
+  recent_commits:
+  - "e336e79143572860308f6d3f372bd436b9f0131c\t2026-07-23T02:10:03+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] docs(r09): close readiness\
+    \ and UI audit"
+  - "d85bd820cdd6941d71dbbb4da31f98a5d9c05bef\t2026-07-23T02:06:01+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] docs(cr): close historical\
+    \ UI remediation"
+  - "82dbd12edff2af79b597e4814a6cb53add0d445f\t2026-07-23T02:03:27+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] docs(ui): accept historical\
+    \ visual audit"
+  - "aa703035fe51ddbddb4e6d1ab6e5078ee6f7c97c\t2026-07-23T01:39:08+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] fix(ci): preserve historical\
+    \ visual workdir"
+  - "3e59516bc7135f0c632816f9424c30e38b56730e\t2026-07-23T01:25:19+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] ci(android): request historical\
+    \ visual audit"
+  - "f4e49b514b8a6844341e286fa211c863ec1187ab\t2026-07-23T01:14:40+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] refactor(ci): reuse quality\
+    \ gate for visual audit"
+  - "654b3c0b7a4d02f6b3dbaada3d56214c74475c98\t2026-07-23T00:50:05+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] feat(ui): remediate historical\
+    \ visual quality"
+  - "c3e6130bdcd8b2e4f619cb68eb2dd5e50045f30f\t2026-07-22T23:57:34+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] chore(continuity): close CR-0247"
+project_fingerprint:
+  sha256: ad9b42a923aaf668539ced2832bf1fcc419fde389f406746400d1c7212e1cdb3
+  files:
+  - docs/03-continuity/change-requests/CR-0249-R09-App推广数据迁移与领域不变量.md
+  file_count: 1
+  payload:
+    base_commit: e336e79143572860308f6d3f372bd436b9f0131c
+    files:
+    - path: docs/03-continuity/change-requests/CR-0249-R09-App推广数据迁移与领域不变量.md
+      state: FILE
+      size: 2740
+      sha256: 78659a8f6cf7dc79c50507799492edd0fce09fcc9e79a27591cd542d7f890b26
+change_classification:
+  continuity:
+  - docs/03-continuity/change-requests/CR-0249-R09-App推广数据迁移与领域不变量.md
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+change_requests:
+- CR-0249
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  - App推广完整闭环数据迁移、数据库约束、回滚与不变量验证
+  approved_exceptions:
+  - database/migrations/V035__r09_app_promotion_invariants.sql
+  - services/backend/boot/src/main/resources/db/migration/V035__r09_app_promotion_invariants.sql
+  - database/rollback/U035__r09_app_promotion_invariants.sql
+  - database/tests/r09_app_promotion_invariants.sql
+  - scripts/run_r09_database_invariants.sh
+  - scripts/run_r09_disposable_postgres_container.sh
+  - CHANGELOG.md
+  source: story+explicit+approved-cr:CR-0249
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 数据库迁移、回滚和对象计数必须由同一集成者串行设计，避免并发产生不可复核的迁移序列。
+event_hash: 187d525a72742aa5ba576af3518eb7655480bff75606bb4e184ca819773c95ce

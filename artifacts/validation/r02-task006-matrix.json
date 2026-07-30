@@ -1,0 +1,191 @@
+{
+  "schema": "hhy.r02.test-matrix-result/v1",
+  "release": "R02",
+  "source_commit": "a1893b20709c474c4cbe421f4bd1dc7eecaacebf",
+  "mode": "check",
+  "status": "PASS",
+  "summary": {
+    "expected": 25,
+    "passed": 25,
+    "failed": 0,
+    "not_run": 0
+  },
+  "errors": [],
+  "results": [
+    {
+      "test_id": "TST-ADMIN_OPS_001-DRIFT",
+      "status": "PASS",
+      "assignment_source": "local",
+      "runner": "documentation-r02",
+      "details": "$ C:\\Users\\小白\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe scripts/check_v123_documentation.py --strict --release R02\n{\n  \"version\": \"1.2.3\",\n  \"product_spec_baseline\": \"V1.2.2\",\n  \"status\": \"PASS\",\n  \"strict\": true,\n  \"release_filter\": \"R02\",\n  \"metrics\": {\n    \"android_surfaces\": 102,\n    \"h5_pages\": 13,\n    \"admin_pages\": 74,\n    \"ui_surfaces\": 189,\n    \"templates\": 30,\n    \"fields\": 5159,\n    \"states\": 1633,\n    \"actions\": 607,\n    \"configs\": 314,\n    \"config_rules\": 58,\n    \"config_roles\": 21,\n    \"requirements\": 84,\n    \"tests\": 376,\n    \"stories\": 163,\n    \"dor_gates\": 396,\n    \"tables\": 199,\n    \"rest_operations\": 316,\n    \"websocket_events\": 10,\n    \"unassigned_api_operations\": 0,\n    \"open_document_gaps\": 0\n  },\n  \"errors\": [],\n  \"warnings\": []\n}\n\n$ C:\\Users\\小白\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe scripts/check_api_contract.py\nAPI_CONTRACT_OK client=131 admin=184 websocket=10 runtime_hashes=PASS\n\n$ C:\\Users\\小白\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe scripts/check_db_schema.py\nDB_SCHEMA_OK tables=199 migrations=18 runtime_hashes=PASS\n\n$ C:\\Users\\小白\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe scripts/check_generated_assets.py\nGENERATED_ASSETS_OK {\"android_assets\": \"VERIFIED\", \"frontend_scaffolds\": \"VERIFIED\", \"openapi_types\": \"VERIFIED\", \"runtime_contracts\": \"VERIFIED\", \"status\": \"PASS\"}\n"
+    },
+    {
+      "test_id": "TST-ADMIN_OPS_001-HAPPY",
+      "status": "PASS",
+      "assignment_source": "local",
+      "runner": "admin-web-integration",
+      "details": "$ C:\\Users\\小白\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\bin\\fallback\\pnpm.cmd --dir apps/admin-web test\n\n RUN  v4.1.10 C:/Users/小白/Desktop/workspace/hhy-v1.2.3-handoff/合伙云Pro_Codex直接开发包_V1.2.3_持续开发无状态接续强制门禁最终版/apps/admin-web\n\n\n Test Files  7 passed (7)\n      Tests  47 passed (47)\n   Start at  18:44:05\n   Duration  3.58s (transform 1.50s, setup 0ms, import 3.02s, tests 792ms, environment 3.26s)\n\n$ vitest run\n\n$ C:\\Users\\小白\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\bin\\fallback\\pnpm.cmd --dir apps/admin-web run typecheck\n$ vue-tsc --noEmit\n\n$ C:\\Users\\小白\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\bin\\fallback\\pnpm.cmd --dir apps/admin-web run build\n\u001b[36mvite v8.1.4 \u001b[32mbuilding client environment for production...\u001b[36m\u001b[39m\n\u001b[2K\ntransforming...✓ 54 modules transformed.\nrendering chunks...\ncomputing gzip size...\ndist/index.html                   0.46 kB │ gzip:  0.32 kB\ndist/assets/index-wUvh6fjc.css   21.28 kB │ gzip:  4.53 kB\ndist/assets/index-BHQJ0ILK.js   197.82 kB │ gzip: 60.57 kB │ map: 947.28 kB\n\n\u001b[32m✓ built in 553ms\u001b[39m\n$ vue-tsc --noEmit && vite build\n"
+    },
+    {
+      "test_id": "TST-ADMIN_OPS_001-REJECT",
+      "status": "PASS",
+      "assignment_source": "local",
+      "runner": "admin-web-integration",
+      "details": "$ C:\\Users\\小白\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\bin\\fallback\\pnpm.cmd --dir apps/admin-web test\n\n RUN  v4.1.10 C:/Users/小白/Desktop/workspace/hhy-v1.2.3-handoff/合伙云Pro_Codex直接开发包_V1.2.3_持续开发无状态接续强制门禁最终版/apps/admin-web\n\n\n Test Files  7 passed (7)\n      Tests  47 passed (47)\n   Start at  18:44:05\n   Duration  3.58s (transform 1.50s, setup 0ms, import 3.02s, tests 792ms, environment 3.26s)\n\n$ vitest run\n\n$ C:\\Users\\小白\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\bin\\fallback\\pnpm.cmd --dir apps/admin-web run typecheck\n$ vue-tsc --noEmit\n\n$ C:\\Users\\小白\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\bin\\fallback\\pnpm.cmd --dir apps/admin-web run build\n\u001b[36mvite v8.1.4 \u001b[32mbuilding client environment for production...\u001b[36m\u001b[39m\n\u001b[2K\ntransforming...✓ 54 modules transformed.\nrendering chunks...\ncomputing gzip size...\ndist/index.html                   0.46 kB │ gzip:  0.32 kB\ndist/assets/index-wUvh6fjc.css   21.28 kB │ gzip:  4.53 kB\ndist/assets/index-BHQJ0ILK.js   197.82 kB │ gzip: 60.57 kB │ map: 947.28 kB\n\n\u001b[32m✓ built in 553ms\u001b[39m\n$ vue-tsc --noEmit && vite build\n"
+    },
+    {
+      "test_id": "TST-ADMIN_OPS_001-SECURITY",
+      "status": "PASS",
+      "assignment_source": "local",
+      "runner": "admin-web-integration",
+      "details": "$ C:\\Users\\小白\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\bin\\fallback\\pnpm.cmd --dir apps/admin-web test\n\n RUN  v4.1.10 C:/Users/小白/Desktop/workspace/hhy-v1.2.3-handoff/合伙云Pro_Codex直接开发包_V1.2.3_持续开发无状态接续强制门禁最终版/apps/admin-web\n\n\n Test Files  7 passed (7)\n      Tests  47 passed (47)\n   Start at  18:44:05\n   Duration  3.58s (transform 1.50s, setup 0ms, import 3.02s, tests 792ms, environment 3.26s)\n\n$ vitest run\n\n$ C:\\Users\\小白\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\bin\\fallback\\pnpm.cmd --dir apps/admin-web run typecheck\n$ vue-tsc --noEmit\n\n$ C:\\Users\\小白\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\bin\\fallback\\pnpm.cmd --dir apps/admin-web run build\n\u001b[36mvite v8.1.4 \u001b[32mbuilding client environment for production...\u001b[36m\u001b[39m\n\u001b[2K\ntransforming...✓ 54 modules transformed.\nrendering chunks...\ncomputing gzip size...\ndist/index.html                   0.46 kB │ gzip:  0.32 kB\ndist/assets/index-wUvh6fjc.css   21.28 kB │ gzip:  4.53 kB\ndist/assets/index-BHQJ0ILK.js   197.82 kB │ gzip: 60.57 kB │ map: 947.28 kB\n\n\u001b[32m✓ built in 553ms\u001b[39m\n$ vue-tsc --noEmit && vite build\n"
+    },
+    {
+      "test_id": "TST-AUTH_001-HAPPY",
+      "status": "PASS",
+      "assignment_source": "external",
+      "runner": "r02-java21-pg17-android-real-api",
+      "details": "Executed by the frozen R02 external integration jobs; artifacts are content-addressed."
+    },
+    {
+      "test_id": "TST-AUTH_001-IDEMPOTENT",
+      "status": "PASS",
+      "assignment_source": "external",
+      "runner": "r02-java21-pg17-android-real-api",
+      "details": "Executed by the frozen R02 external integration jobs; artifacts are content-addressed."
+    },
+    {
+      "test_id": "TST-AUTH_001-REJECT",
+      "status": "PASS",
+      "assignment_source": "external",
+      "runner": "r02-java21-pg17-android-real-api",
+      "details": "Executed by the frozen R02 external integration jobs; artifacts are content-addressed."
+    },
+    {
+      "test_id": "TST-AUTH_001-SECURITY",
+      "status": "PASS",
+      "assignment_source": "external",
+      "runner": "r02-java21-pg17-android-real-api",
+      "details": "Executed by the frozen R02 external integration jobs; artifacts are content-addressed."
+    },
+    {
+      "test_id": "TST-AUTH_002-HAPPY",
+      "status": "PASS",
+      "assignment_source": "external",
+      "runner": "r02-java21-pg17-android-real-api",
+      "details": "Executed by the frozen R02 external integration jobs; artifacts are content-addressed."
+    },
+    {
+      "test_id": "TST-AUTH_002-IDEMPOTENT",
+      "status": "PASS",
+      "assignment_source": "external",
+      "runner": "r02-java21-pg17-android-real-api",
+      "details": "Executed by the frozen R02 external integration jobs; artifacts are content-addressed."
+    },
+    {
+      "test_id": "TST-AUTH_002-REJECT",
+      "status": "PASS",
+      "assignment_source": "external",
+      "runner": "r02-java21-pg17-android-real-api",
+      "details": "Executed by the frozen R02 external integration jobs; artifacts are content-addressed."
+    },
+    {
+      "test_id": "TST-AUTH_002-SECURITY",
+      "status": "PASS",
+      "assignment_source": "external",
+      "runner": "r02-java21-pg17-android-real-api",
+      "details": "Executed by the frozen R02 external integration jobs; artifacts are content-addressed."
+    },
+    {
+      "test_id": "TST-AUTH_003-HAPPY",
+      "status": "PASS",
+      "assignment_source": "external",
+      "runner": "r02-java21-pg17-android-real-api",
+      "details": "Executed by the frozen R02 external integration jobs; artifacts are content-addressed."
+    },
+    {
+      "test_id": "TST-AUTH_003-IDEMPOTENT",
+      "status": "PASS",
+      "assignment_source": "external",
+      "runner": "r02-java21-pg17-android-real-api",
+      "details": "Executed by the frozen R02 external integration jobs; artifacts are content-addressed."
+    },
+    {
+      "test_id": "TST-AUTH_003-REJECT",
+      "status": "PASS",
+      "assignment_source": "external",
+      "runner": "r02-java21-pg17-android-real-api",
+      "details": "Executed by the frozen R02 external integration jobs; artifacts are content-addressed."
+    },
+    {
+      "test_id": "TST-AUTH_003-SECURITY",
+      "status": "PASS",
+      "assignment_source": "external",
+      "runner": "r02-java21-pg17-android-real-api",
+      "details": "Executed by the frozen R02 external integration jobs; artifacts are content-addressed."
+    },
+    {
+      "test_id": "TST-AUTH_004-HAPPY",
+      "status": "PASS",
+      "assignment_source": "external",
+      "runner": "r02-java21-pg17-android-real-api",
+      "details": "Executed by the frozen R02 external integration jobs; artifacts are content-addressed."
+    },
+    {
+      "test_id": "TST-AUTH_004-IDEMPOTENT",
+      "status": "PASS",
+      "assignment_source": "external",
+      "runner": "r02-java21-pg17-android-real-api",
+      "details": "Executed by the frozen R02 external integration jobs; artifacts are content-addressed."
+    },
+    {
+      "test_id": "TST-AUTH_004-REJECT",
+      "status": "PASS",
+      "assignment_source": "external",
+      "runner": "r02-java21-pg17-android-real-api",
+      "details": "Executed by the frozen R02 external integration jobs; artifacts are content-addressed."
+    },
+    {
+      "test_id": "TST-AUTH_004-SECURITY",
+      "status": "PASS",
+      "assignment_source": "external",
+      "runner": "r02-java21-pg17-android-real-api",
+      "details": "Executed by the frozen R02 external integration jobs; artifacts are content-addressed."
+    },
+    {
+      "test_id": "TST-AUTH_005-HAPPY",
+      "status": "PASS",
+      "assignment_source": "external",
+      "runner": "r02-java21-pg17-android-real-api",
+      "details": "Executed by the frozen R02 external integration jobs; artifacts are content-addressed."
+    },
+    {
+      "test_id": "TST-AUTH_005-IDEMPOTENT",
+      "status": "PASS",
+      "assignment_source": "external",
+      "runner": "r02-java21-pg17-android-real-api",
+      "details": "Executed by the frozen R02 external integration jobs; artifacts are content-addressed."
+    },
+    {
+      "test_id": "TST-AUTH_005-REJECT",
+      "status": "PASS",
+      "assignment_source": "external",
+      "runner": "r02-java21-pg17-android-real-api",
+      "details": "Executed by the frozen R02 external integration jobs; artifacts are content-addressed."
+    },
+    {
+      "test_id": "TST-AUTH_005-SECURITY",
+      "status": "PASS",
+      "assignment_source": "external",
+      "runner": "r02-java21-pg17-android-real-api",
+      "details": "Executed by the frozen R02 external integration jobs; artifacts are content-addressed."
+    },
+    {
+      "test_id": "TST-V122-011",
+      "status": "PASS",
+      "assignment_source": "external",
+      "runner": "r02-java21-pg17-android-real-api",
+      "details": "Executed by the frozen R02 external integration jobs; artifacts are content-addressed."
+    }
+  ]
+}

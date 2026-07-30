@@ -1,0 +1,38 @@
+groups:
+  - name: hhy-r07-search-contact
+    rules:
+      - alert: HhyR07BackendDown
+        expr: up{job="hhy-backend-r07"} == 0
+        for: 15s
+        labels: { severity: critical, release: R07 }
+        annotations: { summary: 合伙云 R07 Staging 后端不可用 }
+      - alert: HhyR07HighServerErrorRate
+        expr: sum(rate(http_server_requests_seconds_count{job="hhy-backend-r07",status=~"5.."}[1m])) / clamp_min(sum(rate(http_server_requests_seconds_count{job="hhy-backend-r07"}[1m])), 0.001) > 0.02
+        for: 1m
+        labels: { severity: warning, release: R07 }
+        annotations: { summary: 合伙云 R07 Staging 5xx 比例超过 2% }
+      - alert: HhyR07HighP95Latency
+        expr: histogram_quantile(0.95, sum by (le) (rate(http_server_requests_seconds_bucket{job="hhy-backend-r07"}[5m]))) > 0.5
+        for: 2m
+        labels: { severity: warning, release: R07 }
+        annotations: { summary: 合伙云 R07 Staging P95 延迟超过 500ms }
+      - alert: HhyR07OutboxBacklog
+        expr: hhy_r07_outbox_backlog{job="hhy-backend-r07"} > 3
+        for: 15s
+        labels: { severity: warning, release: R07 }
+        annotations: { summary: R07 搜索或联系方式事件 Outbox 积压超过 3 条 }
+      - alert: HhyR07ContactRejectionBurst
+        expr: hhy_contact_rejections_5m{job="hhy-backend-r07"} > 10
+        for: 1m
+        labels: { severity: warning, release: R07 }
+        annotations: { summary: 近 5 分钟联系方式访问拒绝超过 10 次 }
+      - alert: HhyR07SearchHistoryRowsHigh
+        expr: hhy_search_history_rows{job="hhy-backend-r07"} > 1000000
+        for: 10m
+        labels: { severity: warning, release: R07 }
+        annotations: { summary: 搜索历史总行数超过容量预警线 }
+      - alert: HhyR07BusinessMetricQueryFailure
+        expr: sum(hhy_business_metric_query_failures_total{job="hhy-backend-r07",metric=~"hhy\\.(search|publisher|contact|r07)\\..*"}) > 0
+        for: 15s
+        labels: { severity: critical, release: R07 }
+        annotations: { summary: R07 业务指标查询失败，监控结果不可信 }

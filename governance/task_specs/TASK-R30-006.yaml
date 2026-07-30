@@ -1,0 +1,48 @@
+schema: hhy.task-spec/v5.0
+id: TASK-R30-006
+release: R30
+ordinal: 6
+title: 完整运营后台、RBAC与配置闭环可观测性与预发布验收
+kind: staging_observability
+mode: worker
+source:
+  path: releases/R30/TASKS.yaml
+  original_id: TASK-R30-006
+requirements:
+- REQ-PAY-001
+- REQ-ANALYTICS-001
+- REQ-CMS-001
+- REQ-ADMIN-001
+- REQ-RBAC-001
+- REQ-CONFIG-001
+- REQ-BUILD-001
+- REQ-APK-001
+- REQ-SECRET-001
+depends_on:
+- TASK-R30-005
+objective: 部署Staging，验证结构化日志、TraceId、RED指标、业务指标、告警和回滚
+deliverables:
+- 运行手册演练
+- 验收矩阵签字
+acceptance:
+- 无TODO/生产Mock
+- 代码、文档、测试、追踪同步更新
+- 运行手册演练
+- 验收矩阵签字
+allowed_paths:
+- apps/**
+- catalogs/**
+- config/**
+- docs/**
+- infra/**
+- scripts/**
+- services/**
+- tests/**
+risks:
+- production
+- secrets
+acceptance_commands:
+- python3 scripts/check_r30_observability.py
+maximum_attempts: 3
+owner_verification: ASYNC_NON_BLOCKING_FOR_NEXT_RELEASE
+legacy_status: BLOCKED

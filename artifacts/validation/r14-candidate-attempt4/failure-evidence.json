@@ -1,0 +1,80 @@
+{
+  "schema": "hhy.android-candidate-failure-evidence/v1",
+  "release": "R14",
+  "attempt": 4,
+  "request_id": "R14-CANDIDATE-20260729-004",
+  "github_run_id": "30415115136",
+  "github_run_url": "https://github.com/fei613293175/hhy/actions/runs/30415115136",
+  "emulator_job_id": "90460356653",
+  "source_commit": "61efe679b22465691192bfbcbd0dfe9e9d19a418",
+  "status": "FAIL",
+  "failed_stage": "ANDROID_AUTHENTICATED_SHELL_STARTUP",
+  "failure": {
+    "instrumentation_exit_code": 1,
+    "assertion": "Authenticated shell did not become actionable: shell=false home=none meVisible=false meActionable=false visibleBlockers=暂时无法连接",
+    "server_request_sequence": [
+      "POST /internal-ci/v1/android/session -> 200",
+      "GET /public-api/v1/platform/status -> 200",
+      "POST /public-api/v1/app/version-check -> 404",
+      "GET /api/v1/me -> 200"
+    ],
+    "server_observed_at": "2026-07-29T01:56:16Z/2026-07-29T01:56:19Z"
+  },
+  "successful_before_failure": [
+    "durable candidate request validation",
+    "continuity gate",
+    "Android compile",
+    "Android unit tests",
+    "Android Lint",
+    "Android application and instrumentation packaging",
+    "one-time Android CI session",
+    "public platform status",
+    "authenticated current-user request"
+  ],
+  "root_cause": {
+    "classification": "CANDIDATE_STARTUP_VERSION_POLICY_FIXTURE",
+    "detail": "The isolated R14 V044 candidate database contained zero app build profiles, jobs, artifacts, release channels and release records. The Android startup gate therefore received HTTP 404 from the official/STAGING version policy endpoint before the R14 journey could begin.",
+    "database_counts_before_fix": {
+      "app_build_profiles": 0,
+      "app_build_jobs": 0,
+      "app_build_artifacts": 0,
+      "app_release_channels": 0,
+      "app_release_records": 0
+    },
+    "automatic_login_failed": false,
+    "network_unreachable": false,
+    "authentication_failed": false,
+    "product_ui_regression": false,
+    "android_interaction_started": false,
+    "crash_or_anr_observed": false
+  },
+  "artifacts": {
+    "runtime_zip_sha256": "67fbafc65af741a2fba7ed22e87ae3d6d8768f7e2c491e56b950dcd9f0add764",
+    "runtime_zip_size_bytes": 18818,
+    "runtime_report_sha256": "64b45a1af766a24a2061c51b10464661d83487e9685fce91c2a13947b67fd831",
+    "instrumentation_log_sha256": "5f4e8de097e848b7586fab947b4254e96a7a8b5a060ba5037d6fcd3936b887de",
+    "logcat_sha256": "ea445bef8bc0c4f06d82e42f68659b47df610e0e38e3c819b6207a5b9ea162c8",
+    "junit_failure_reported_by_runtime_report": true,
+    "captured_screenshots": [],
+    "required_screenshots_missing": [
+      "01-r14-conversations.png",
+      "02-r14-sent.png",
+      "03-r14-blocked-reentry.png",
+      "04-r14-long-press-menu.png"
+    ]
+  },
+  "remediation": {
+    "change_requests": [
+      "CR-0481"
+    ],
+    "problem": "PROB-0149",
+    "next_request_id": "R14-CANDIDATE-20260729-005",
+    "required_before_next_request": [
+      "idempotent TEST_APK-bound official/STAGING startup policy fixture",
+      "local candidate version-check HTTP 200",
+      "public routed version-check HTTP 200"
+    ],
+    "blind_rerun_allowed": false
+  },
+  "secrets_recorded": false
+}

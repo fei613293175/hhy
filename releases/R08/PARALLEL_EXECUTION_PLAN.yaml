@@ -1,0 +1,95 @@
+version: '1.0'
+release: R08
+change_request: CR-0207
+mode: SINGLE_COORDINATOR_SERIAL_WITH_FROZEN_PARTITIONS
+authoritative_session_count: 1
+max_parallel_workers: 0
+simultaneous_claim_limit: 1
+worker_parallelism_scope: DISABLED_UNLESS_PROJECT_OWNER_EXPLICITLY_REQUESTS
+default_delegation_mode: DISABLED_FOR_CURRENT_RELEASE_SESSION
+review_triggers: [TASK_START, SCOPE_CHANGE]
+non_delegation_requires_checkpoint_reason: true
+capability_fallback: KEEP_SINGLE_AUTHORITATIVE_SESSION_AND_DO_NOT_FABRICATE_PARALLEL_EVIDENCE
+user_override_allowed: true
+source_of_truth_branch: task/TASK-R03-001
+rules:
+- 主控一次只领取一个Task/Story；当前R08会话串行推进，除非项目所有者明确要求并行代理，否则不得创建执行代理。
+- 预定义分区只用于换电脑、换AI和未来显式并行授权时恢复边界，不代表已经发生委托或并行验证。
+- 执行代理即使未来获准，也不得修改连续性、Release状态、公共契约、共享生成类型、Flyway编号或APK身份，不得提交、推送、合并或发布。
+- R08工程范围为九个端点；三个Android故事直接引用八个operationId，公共分享GET保持R28合同归属，仅做兼容验证。
+- 项目列表、详情和发布/编辑必须以R08冻结页面目录和生成API类型为准，页面不得重复定义DTO或增加未登记字段、按钮和状态。
+- Android正式界面必须使用现有Design Token、HhyIcons、HhyMotion和真实Navigation返回栈，不得展示技术字段或内部错误细节。
+- 普通任务只运行受影响FAST/MODULE门禁；完整集成、模拟器、截图和候选APK只在R08最终候选阶段运行。
+- APK机器候选、桌面交付和项目所有者真机验收是独立门禁；机器候选未PASS不得邀请真机测试，owner反馈保持异步输入。
+frozen_partitions:
+- partition: BACKEND_DATA
+  allowed_paths:
+  - services/backend/**
+  - database/**
+  forbidden_shared_paths:
+  - services/backend/boot/src/main/resources/contracts/**
+  - services/backend/boot/src/main/resources/db/migration/**
+- partition: ANDROID_PROJECT
+  allowed_paths:
+  - apps/android/feature/**
+  - apps/android/app/src/main/java/**
+  forbidden_shared_paths:
+  - apps/android/app/src/main/**/MainActivity.kt
+  - apps/android/core/network/**
+- partition: QUALITY_EVIDENCE
+  allowed_paths:
+  - tests/r08/**
+  - artifacts/validation/r08-*/**
+  forbidden_shared_paths: []
+coordinator_owned_paths:
+- .continuity/**
+- CURRENT_STATUS.yaml
+- NEXT_TASK.yaml
+- releases/**
+- contracts/**
+- packages/api-client/**
+- catalogs/**
+- docs/03-continuity/**
+- apps/android/app/**
+- apps/android/core/network/**
+- services/backend/boot/src/main/resources/db/migration/**
+lanes:
+- lane: PROJECT-DATA-FOUNDATION
+  task_id: TASK-R08-002
+  stories: [STORY-R08-004]
+  outcome: 项目详情、版本、媒体、联系方式、统计和访问审计不变量闭环
+- lane: PROJECT-SERVICES
+  task_id: TASK-R08-003
+  stories: [STORY-R08-001, STORY-R08-002, STORY-R08-003, STORY-R08-004]
+  outcome: 九端点范围审计，复用既有能力并补齐项目发布、编辑、收藏、分享和会话闭环
+- lane: ANDROID-PROJECT
+  task_id: TASK-R08-004
+  stories: [STORY-R08-001, STORY-R08-002, STORY-R08-003]
+  outcome: 项目列表、详情和发布编辑的精确视觉与状态闭环
+- lane: R08-QUALITY
+  task_id: TASK-R08-005
+  stories: [STORY-R08-001, STORY-R08-002, STORY-R08-003, STORY-R08-004]
+  outcome: 契约、集成、安全、并发、故障和回归证据闭环
+integration:
+  task_id: TASK-R08-005
+  depends_on: [TASK-R08-003, TASK-R08-004]
+  profiles: [MODULE, INTEGRATION, SECURITY]
+staging:
+  task_id: TASK-R08-006
+  required_evidence:
+  - structured_logs_and_trace
+  - red_and_business_metrics
+  - alerts_firing_and_resolved
+  - same_database_volume_rollback
+apk:
+  task_id: TASK-R08-007
+  full_gate_and_emulator: FINAL_CANDIDATE_ONLY
+  desktop_copy_required: true
+  public_download_required: true
+  stable_test_signing_required: true
+  minimum_version_code: 10216
+  owner_physical_test_initial_status: PENDING
+closure:
+  task_id: TASK-R08-008
+  owner_feedback_mode: ASYNC_NON_BLOCKING
+  machine_completion_may_continue_next_release: true

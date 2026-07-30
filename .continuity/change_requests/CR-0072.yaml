@@ -1,0 +1,59 @@
+protocol_version: '1.0'
+cr_id: CR-0072
+title: 同步注册专用错误码的冻结契约派生产物
+status: CLOSED
+created_at: '2026-07-19T03:44:26Z'
+updated_at: '2026-07-19T04:53:58Z'
+requester_actor_id: codex-root
+approver_actor_id: project-owner-delegated
+task_id: TASK-R03-007
+session_id: SES-20260718T200607Z-3569D212
+user_request: 细化注册错误提示并保持跨客户端契约一致。
+reason: OpenAPI和错误码源变更后，运行时副本与contract_status哈希必须同步。
+original_rule: 运行时契约仍为注册通用业务错误，contract_status指向旧源哈希。
+new_rule: 运行时契约同步手机号已注册、邀请码无效和密码策略专用错误码，所有契约状态哈希与新冻结源一致。
+impact_summary: 仅同步生成的运行时契约副本和状态哈希，不改业务实现。
+impact:
+  files:
+  - contracts/contract_status.csv
+  - services/backend/boot/src/main/resources/contracts/openapi.yaml
+  - services/backend/boot/src/main/resources/contracts/error-codes.csv
+  pages: []
+  apis:
+  - authPostAuthInviteCodesValidate
+  - authPostAuthRegister
+  database: []
+  configuration: []
+  ledger: []
+  tests:
+  - scripts/generate_contracts.py --check与scripts/check_api_contract.py
+  releases:
+  - R03认证契约热修复
+  migration_and_compatibility: 新增错误码向后兼容，旧HTTP状态和成功模型不变。
+user_confirmation: 用户要求细化注册错误提示并持续开发。
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-19T03:44:29Z'
+  note: 冻结源变更必须同步派生契约和哈希，范围为机械派生产物。
+machine_record: .continuity/change_requests/CR-0072.yaml
+document: docs/03-continuity/change-requests/CR-0072-同步注册专用错误码的冻结契约派生产物.md
+decision_log:
+- at: '2026-07-19T03:44:30Z'
+  actor_id: codex-root
+  status: IMPLEMENTING
+  note: 生成并校验注册错误码运行时契约。
+  session_id: SES-20260718T200607Z-3569D212
+- at: '2026-07-19T04:53:57Z'
+  actor_id: codex-root
+  status: IMPLEMENTED
+  note: Android、H5、后端及运行时派生契约已同步并通过哈希与契约门禁
+  session_id: SES-20260718T200607Z-3569D212
+- at: '2026-07-19T04:53:58Z'
+  actor_id: codex-root
+  status: CLOSED
+  note: 派生契约与运行时资产一致性门禁闭环
+  session_id: SES-20260718T200607Z-3569D212
+session_ids:
+- SES-20260718T200607Z-3569D212
+implementation_commits:
+- e4994ed06131f3d3207c36c1b83f589ef2e58fe1

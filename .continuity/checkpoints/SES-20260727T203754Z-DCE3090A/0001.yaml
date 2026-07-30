@@ -1,0 +1,293 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260727T203754Z-DCE3090A-0001
+session_id: SES-20260727T203754Z-DCE3090A
+task_id: TASK-R14-003
+story_id: STORY-R14-004
+sequence: 1
+created_at: '2026-07-27T22:03:15Z'
+summary: TASK-R14-003实现完成：九个冻结聊天接口、权限幂等敏感数据与R14 Outbox完成，并修复最大联系方式密文写入回读边界
+next_step: 提交并推送TASK-R14-003实现Commit，绑定CR-0420与CR-0421后关闭任务并进入TASK-R14-004
+blockers: []
+decisions:
+- 联系方式执行三段边界：明文1至256、hhy-contact-v1密文信封不超过2048、解密后明文再次限制256
+note: ''
+tests:
+- name: java21-r14-service-controller
+  result: PASS
+  evidence: obx-test maven Java21 targeted suite
+  note: R14ServiceTest 14项及R08/R11/R14控制器合同合计17项零失败
+- name: java21-full-boot-regression
+  result: PASS
+  evidence: obx-test maven Java21 full boot suite
+  note: 457 tests,0 failures,0 errors,22 conditional skips; CR-0421后受影响模块另行重跑PASS
+- name: postgres17-r14-store
+  result: PASS
+  evidence: obx-test PostgreSQL17 Flyway V043
+  note: 最大256多字节联系方式密文长度超过256仍写入成功，完整聊天生命周期PASS
+- name: postgres17-r14-invariants
+  result: PASS
+  evidence: obx-test run_r14_database_invariants.sh
+  note: 空库、V042升级、6类脏升级、回滚重放、联系方式明文和超长信封拒绝、32组属性矩阵PASS
+- name: r14-contract-gates
+  result: PASS
+  evidence: local controlled Python runtime
+  note: API合同、生成资产、R14入口、DB schema、6项数据库合同和git diff check均PASS
+- name: r14-documentation
+  result: PASS
+  evidence: check_v122_documentation.py --release R14
+  note: 0 errors,0 warnings,0 open document gaps
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: d851ca4432d3a372732bdf983e6bfb57bd605c1e
+  upstream: origin/task/TASK-R03-001
+  ahead: 0
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/ACTIVE_SESSION.yaml'
+  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/SESSION_INDEX.yaml'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/TASK_CLAIMS.yaml'
+  - ' M .continuity/TASK_TRANSITIONS.yaml'
+  - ' M CHANGELOG.md'
+  - ' M CURRENT_STATUS.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+  - ' M artifacts/validation/project-doctor-v1.2.2.json'
+  - ' M catalogs/change_request_index.csv'
+  - ' M catalogs/session_index.csv'
+  - ' M catalogs/task_transition_ledger.csv'
+  - ' M database/migrations/V043__r14_chat_invariants.sql'
+  - ' M database/tests/r14_chat_invariants.sql'
+  - ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
+  - ' M services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/R08Controller.java'
+  - ' M services/backend/boot/src/main/resources/db/migration/V043__r14_chat_invariants.sql'
+  - ' M services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/R08ControllerContractTest.java'
+  - ' M services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/R11ControllerContractTest.java'
+  - ' M services/backend/content/src/main/java/cc/orbexa/hhy/content/R08PostgresStore.java'
+  - ' M tests/test_r14_database_contract.py'
+  - ?? .continuity/change_requests/CR-0420.yaml
+  - ?? .continuity/change_requests/CR-0421.yaml
+  - ?? .continuity/sessions/SES-20260727T203754Z-DCE3090A.yaml
+  - ?? docs/03-continuity/change-requests/CR-0420-实现R14一对一聊天核心后端九接口.md
+  - ?? docs/03-continuity/change-requests/CR-0421-修复R14联系方式密文容量与冻结明文合同不一致.md
+  - ?? docs/03-continuity/sessions/2026-07/SES-20260727T203754Z-DCE3090A.md
+  - ?? services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/R14Controller.java
+  - ?? services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/R14ControllerContractTest.java
+  - ?? services/backend/boot/src/test/java/cc/orbexa/hhy/content/R14PostgresStoreTest.java
+  - ?? services/backend/boot/src/test/java/cc/orbexa/hhy/content/R14ServiceTest.java
+  - ?? services/backend/content/src/main/java/cc/orbexa/hhy/content/R14Contracts.java
+  - ?? services/backend/content/src/main/java/cc/orbexa/hhy/content/R14PostgresStore.java
+  - ?? services/backend/content/src/main/java/cc/orbexa/hhy/content/R14Service.java
+  - ?? services/backend/content/src/main/java/cc/orbexa/hhy/content/R14Store.java
+  recent_commits:
+  - "d851ca4432d3a372732bdf983e6bfb57bd605c1e\t2026-07-28T04:36:11+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(continuity): close TASK-R14-002\
+    \ as completed"
+  - "34386e20bc32a889b1fa516ff4ad819509272ec4\t2026-07-28T04:34:01+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(continuity): bind R14\
+    \ data implementation"
+  - "83d65cfb47006e18055397de0320efeeb9d6f844\t2026-07-28T04:31:06+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] feat(chat): enforce R14 data\
+    \ invariants"
+  - "d03ab06cd9d8c4552b8b8e5f57f3ccca3f6bba6d\t2026-07-28T03:36:58+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(continuity): close TASK-R14-001\
+    \ as completed"
+  - "ccd87aa7bd04618d03bfb65e9d8cc19162ad1831\t2026-07-28T03:27:19+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(continuity): bind R14\
+    \ entry CRs"
+  - "11bc72411230506a2c6cf696d546621c5efc7124\t2026-07-28T03:22:45+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] feat(chat): establish R14\
+    \ implementation entry"
+  - "2d633d11fa98ea253a9183df8ada9c4d9a023521\t2026-07-28T02:18:00+08:00\tHHY Continuity Bootstrap\t[STORY-R13-003] chore(continuity): close TASK-R13-008\
+    \ as blocked"
+  - "020890521cbc5b1c6a58ea1da3aec4c0173168b7\t2026-07-28T02:05:42+08:00\tHHY Continuity Bootstrap\t[STORY-R13-003] chore(continuity): accept\
+    \ strict async owner suffix"
+project_fingerprint:
+  sha256: 555dbad92fbc1f873466165364ba76b60de24e543e255707be91b02eae58c559
+  files:
+  - CHANGELOG.md
+  - database/migrations/V043__r14_chat_invariants.sql
+  - database/tests/r14_chat_invariants.sql
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/change-requests/CR-0420-实现R14一对一聊天核心后端九接口.md
+  - docs/03-continuity/change-requests/CR-0421-修复R14联系方式密文容量与冻结明文合同不一致.md
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/R08Controller.java
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/R14Controller.java
+  - services/backend/boot/src/main/resources/db/migration/V043__r14_chat_invariants.sql
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/R08ControllerContractTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/R11ControllerContractTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/R14ControllerContractTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R14PostgresStoreTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R14ServiceTest.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R08PostgresStore.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R14Contracts.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R14PostgresStore.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R14Service.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R14Store.java
+  - tests/test_r14_database_contract.py
+  file_count: 20
+  payload:
+    base_commit: d851ca4432d3a372732bdf983e6bfb57bd605c1e
+    files:
+    - path: CHANGELOG.md
+      state: FILE
+      size: 193149
+      sha256: 92fda78d7f1799ab174bdfb2f90675c562b74bd84d1972661a21558bf1fec6e7
+    - path: database/migrations/V043__r14_chat_invariants.sql
+      state: FILE
+      size: 30260
+      sha256: 24ab7ca097de7b98a032791a0fe2fa3a0a1c522cc743ee41f03b30d0f48c8ae3
+    - path: database/tests/r14_chat_invariants.sql
+      state: FILE
+      size: 11331
+      sha256: e96d275783944aea878e0e336a7ac27b8964c705dcb41e42aea2e5c41738ba5f
+    - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
+      state: FILE
+      size: 225094
+      sha256: 383ea08624128e841c0f21244c320b91529a3476a05a3b6b9c0a6c98bc87ccd3
+    - path: docs/03-continuity/change-requests/CR-0420-实现R14一对一聊天核心后端九接口.md
+      state: FILE
+      size: 4038
+      sha256: 507d00b13aa1270f84c80b1bef4aeaba88e507d89a85fab1676f0728639a3c33
+    - path: docs/03-continuity/change-requests/CR-0421-修复R14联系方式密文容量与冻结明文合同不一致.md
+      state: FILE
+      size: 3707
+      sha256: 7128a1e13ed46162ff6b2114b9575eab5895ab681200e17b95ddcdec75ba1766
+    - path: services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/R08Controller.java
+      state: FILE
+      size: 6675
+      sha256: f5fced144a3b55789f8aee9ac616f26964a528c5eb5189792d40d14ee7113433
+    - path: services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/R14Controller.java
+      state: FILE
+      size: 7675
+      sha256: 4aeb7662d9938b47b6f213f48bc1ec68b49f03ec9bf6293722cecd29f3506945
+    - path: services/backend/boot/src/main/resources/db/migration/V043__r14_chat_invariants.sql
+      state: FILE
+      size: 30260
+      sha256: 24ab7ca097de7b98a032791a0fe2fa3a0a1c522cc743ee41f03b30d0f48c8ae3
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/R08ControllerContractTest.java
+      state: FILE
+      size: 1868
+      sha256: c5d2a22a7008b470d6061cb5a2ff40f85973d9f6bfb7799b95fd5ec83048d773
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/R11ControllerContractTest.java
+      state: FILE
+      size: 2292
+      sha256: 7b2a8e500e4bb63c667893f27b0ce37cfa342eea8be60bd24654252fea39fead
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/R14ControllerContractTest.java
+      state: FILE
+      size: 2138
+      sha256: 3479d90a99ab827174f9dc7ff8e6001a73ee9c042a77c4fd9cef748d33965e6e
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/content/R14PostgresStoreTest.java
+      state: FILE
+      size: 7414
+      sha256: a324b5d6d700793b183b4fb051a5352d66b20a96fd042b22fd603436d7e95270
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/content/R14ServiceTest.java
+      state: FILE
+      size: 15057
+      sha256: 35a92e0ac088b8648aae8feadf3c781ef78a852186f213bba9aa4f5f875765a4
+    - path: services/backend/content/src/main/java/cc/orbexa/hhy/content/R08PostgresStore.java
+      state: FILE
+      size: 16466
+      sha256: b6280222e5c95b84186ca9ac1286daa05ba5ae6d7c03a2864f02a8c70880ef1e
+    - path: services/backend/content/src/main/java/cc/orbexa/hhy/content/R14Contracts.java
+      state: FILE
+      size: 2194
+      sha256: 11381dc0c1c2fbe1f33f4aae16b0c42e62a97272bd8aa8275e2036873e59661d
+    - path: services/backend/content/src/main/java/cc/orbexa/hhy/content/R14PostgresStore.java
+      state: FILE
+      size: 17539
+      sha256: b769ac700094cb3f91521b89c96f5853e802dcb426410d260c622cfb06b449dd
+    - path: services/backend/content/src/main/java/cc/orbexa/hhy/content/R14Service.java
+      state: FILE
+      size: 31167
+      sha256: db824c6fe3e0cabe09c0ed98ee256d75504da613cc1499e305fe20c779ffa359
+    - path: services/backend/content/src/main/java/cc/orbexa/hhy/content/R14Store.java
+      state: FILE
+      size: 2833
+      sha256: c176a7daf33b6198101ce74a66273ed4db48f6174b56f7fae4219417ec6ada06
+    - path: tests/test_r14_database_contract.py
+      state: FILE
+      size: 6025
+      sha256: 5753f252dfdd9848c9d0a80d69379d38327e2c4bf623f9b41e8fab5dad2b5cf9
+change_classification:
+  other:
+  - CHANGELOG.md
+  database:
+  - database/migrations/V043__r14_chat_invariants.sql
+  - database/tests/r14_chat_invariants.sql
+  continuity:
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/change-requests/CR-0420-实现R14一对一聊天核心后端九接口.md
+  - docs/03-continuity/change-requests/CR-0421-修复R14联系方式密文容量与冻结明文合同不一致.md
+  code:
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/R08Controller.java
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/R14Controller.java
+  - services/backend/boot/src/main/resources/db/migration/V043__r14_chat_invariants.sql
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/R08ControllerContractTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/R11ControllerContractTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/R14ControllerContractTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R14PostgresStoreTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R14ServiceTest.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R08PostgresStore.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R14Contracts.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R14PostgresStore.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R14Service.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R14Store.java
+  tests:
+  - tests/test_r14_database_contract.py
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+- DATABASE_TEST_EVIDENCE
+- SCHEMA_TRACEABILITY
+change_requests:
+- CR-0420
+- CR-0421
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions: []
+  source: story+explicit
+parallel_execution:
+  assessment: DELEGATED
+  delegated_workers: 1
+  workers:
+  - worker_id: codex-r14-cr-review-20260728
+    responsibility: 独立审批CR-0420与CR-0421并复核实现边界
+    allowed_paths:
+    - .continuity/change_requests/CR-0420.yaml
+    - .continuity/change_requests/CR-0421.yaml
+  reason: 冻结API与数据库敏感数据边界由独立Actor审查，主控串行完成实现、真实PostgreSQL验证和最终集成
+event_hash: 670b9964f733f044add3601f362241921d947029564bc7f43e90ea67e30aaeba

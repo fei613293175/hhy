@@ -1,0 +1,33 @@
+{
+  "schema": "hhy.android-candidate-failure-evidence/v1",
+  "release": "R14",
+  "attempt": 1,
+  "request_id": "R14-CANDIDATE-20260729-001",
+  "run_id": "30404133160",
+  "run_url": "https://github.com/fei613293175/hhy/actions/runs/30404133160",
+  "candidate_commit": "906a3b14bff981279d47f712d9faf0f474d0818e",
+  "status": "FAIL",
+  "failure": {
+    "test": "ReleaseCandidateSmokeTest.authenticatedReleaseJourneyProducesBoundFunctionalAndVisualEvidence",
+    "assertion": "R14 fixture peer is missing",
+    "source_line": "apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt:190",
+    "screenshots_produced": 0
+  },
+  "server_observation": {
+    "observed_at": "2026-07-28T22:55:00Z",
+    "public_upstream": "127.0.0.1:28115",
+    "container": "hhy-r14-ci-candidate-4ed75c60",
+    "container_source_commit_label": "b6f5e285",
+    "fixture_implementation_commit": "0bf4c9a8",
+    "bootstrap_http_status": 200,
+    "session_http_status": 200,
+    "conversations_http_status": 200,
+    "visible_conversation_count": 2,
+    "r14_fixture_peer_count": 0,
+    "r14_visible_fixture_peer_count": 0
+  },
+  "root_cause": "The public candidate route targeted a healthy but stale backend image whose source predates the R14 chat fixture. The route gate validated image identity and HTTP reachability but did not bind the container source commit to the frozen candidate commit.",
+  "remediation_cr": "CR-0477",
+  "surface_flinger_warning_is_root_cause": false,
+  "contains_secrets": false
+}

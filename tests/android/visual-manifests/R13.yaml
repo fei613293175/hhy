@@ -1,0 +1,79 @@
+schema: hhy.android-visual-manifest/v1
+release: R13
+review_authority: AI_IMPLEMENTATION_AGENT
+authentication: STAGING_GITHUB_OIDC
+screens:
+- screen_id: SCR-FAV-001
+  file: 01-favorites.png
+  marker: hhy.screen.r13.favorites.content
+  required_text:
+  - 我的收藏
+  - 全部
+  - 项目
+  - APP
+  - 群聊
+  - 团队长
+  - R13候选协作项目
+  forbidden_text: &r13_forbidden
+  - 暂时无法连接
+  - 请求编号
+  - TraceId
+  - PROJECT
+  - GROUP_CHAT
+  - TEAM_LEADER
+  - WECHAT
+  - WECHAT_MOMENTS
+  - COPY_LINK
+  - OTHER
+  - QR_CODE
+  - LINK
+  - PHONE
+  - EMAIL
+  - JOIN_PASSWORD
+  - 收藏时间
+  - 浏览时间
+- screen_id: SCR-HIS-001
+  file: 02-history.png
+  marker: hhy.screen.r13.history.content
+  required_text:
+  - 浏览记录
+  - 全部
+  - 项目
+  - APP
+  - 群聊
+  - 团队长
+  - R13候选协作项目
+  forbidden_text: *r13_forbidden
+- screen_id: SHEET-SHARE-001
+  file: 03-share-sheet.png
+  marker: hhy.sheet.r13.share
+  required_text:
+  - 分享
+  - 微信
+  - 朋友圈
+  - 复制链接
+  - 其他
+  - 继续分享
+  forbidden_text: *r13_forbidden
+- screen_id: SHEET-CONTENT-INVALID-001
+  file: 04-invalid-feedback-sheet.png
+  marker: hhy.sheet.r13.invalid-feedback
+  required_text:
+  - 联系方式失效反馈
+  - 链接无法打开
+  - 详细说明（选填）
+  - 提交反馈
+  forbidden_text: *r13_forbidden
+security_assertions:
+- surface: SCR-FAV-001
+  marker: hhy.screen.r13.favorites.content
+  rule: favorite evidence may show only public content fields and content publish or update time, never activity timestamps or internal identifiers
+- surface: SCR-HIS-001
+  marker: hhy.screen.r13.history.content
+  rule: history evidence may preserve server activity order but must not invent or expose a browsing timestamp
+- surface: SHEET-SHARE-001
+  marker: hhy.sheet.r13.share
+  rule: share evidence must localize channel codes and must not expose internal content identifiers, idempotency keys, or fabricated URLs
+- surface: SHEET-CONTENT-INVALID-001
+  marker: hhy.sheet.r13.invalid-feedback
+  rule: invalid-contact evidence must localize reason codes and must never render the underlying contact value

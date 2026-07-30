@@ -204,6 +204,8 @@ class BootstrapRecoveryTest(unittest.TestCase):
                 repo, "checkpoint", "--summary", "验证bootstrap会话回填",
                 "--next-step", "提交回归测试", "--test",
                 "bootstrap-recovery|PASS|tests/test_continuity_bootstrap_recovery.py|隔离仓库回归通过",
+                "--parallel-assessment", "NO_SAFE_PARALLEL", "--parallel-reason",
+                "隔离bootstrap回归只有单一测试夹具写路径",
             ).stdout)
             self.assertEqual(checkpoint["changed_files"], 1)
             machine_checkpoint = yaml.safe_load(

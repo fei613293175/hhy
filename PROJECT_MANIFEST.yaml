@@ -45,6 +45,12 @@ continuity:
   quality_gate: python3 scripts/check_v123_continuity.py --strict
   runtime_gate: python3 scripts/continuity_gate.py --mode doctor --strict
   repository_only_handoff: true
+  repository_transport: config/REPOSITORY_TRANSPORT.yaml
+  development_runtime: config/DEVELOPMENT_RUNTIME.yaml
+  cloud_environment_preflight: python3 scripts/verify_cloud_environment.py --check-android
+  git_transport_preflight: python3 scripts/restore_git_transport.py status
+  model_profile_selector: python3 scripts/select_execution_profile.py
+  default_cloud_assumption: CODEX_CONNECTED_TO_EXISTING_PROJECT_CLOUD_UNLESS_USER_REPORTS_DISCONNECT
 continuity_validation:
   status: PASS
   documentation_errors: 0

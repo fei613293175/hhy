@@ -1,0 +1,65 @@
+protocol_version: '1.0'
+cr_id: CR-0116
+title: 补齐R05冻结UI的确定性Token派生与H5独立回跳布局
+status: IMPLEMENTED
+created_at: '2026-07-20T02:41:04Z'
+updated_at: '2026-07-20T03:15:37Z'
+requester_actor_id: codex-root
+approver_actor_id: project-owner
+task_id: TASK-R05-007
+session_id: SES-20260719T234639Z-1D7D7A00
+user_request: 项目所有者已提供R05冻结视觉补充包并要求立即落地开发。
+reason: CR-0115已批准业务与视觉范围，但实际落地还需同步生成Token资产、Token生成器、H5全局壳层例外、测试与截图报告文件。
+original_rule: 冻结UI仅登记页面实现文件，Token新增值、派生资产、生成器、H5全局壳层例外、截图和接收报告未纳入精确影响范围。
+new_rule: R05冻结UI新增值必须进入V1.2.2权威Token并由check_ui_tokens.py确定性派生到Android与H5/Admin CSS；H5-012回跳页不显示通用公开站头尾；包接收哈希、浏览器截图与验证报告进入R05证据目录。
+impact_summary: 补齐冻结UI实现所需全部派生文件和证据，避免手工Token漂移并确保H5回跳页面结构与冻结稿一致。
+impact:
+  files:
+  - design/tokens/hhy_design_tokens_v1.2.2.json
+  - apps/android/core/designsystem/src/main/assets/hhy_design_tokens_v1.2.2.json
+  - apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyTokens.kt
+  - packages/design-tokens/h5.css
+  - packages/design-tokens/admin.css
+  - scripts/check_ui_tokens.py
+  - apps/h5/src/App.vue
+  - apps/h5/src/styles.css
+  - apps/h5/src/views/IdentityCallbackPage.test.ts
+  - artifacts/validation/r05-ui/H5-012-browser-360x800.png
+  - artifacts/reports/R05/R05-UI-FROZEN-PACKAGE-INTAKE.md
+  pages:
+  - SCR-ID-001
+  - SCR-ID-002
+  - SCR-ID-003
+  - SCR-ID-004
+  - H5-012
+  apis: []
+  database: []
+  configuration: []
+  ledger: []
+  tests:
+  - check_ui_tokens.py；check_generated_assets.py；H5 22 tests/typecheck/360x800 screenshot；Android identity compile/test
+  releases:
+  - R05
+  migration_and_compatibility: 纯UI与确定性生成资产同步；不修改API、数据库、认证状态机、权限或生产配置。通用H5头尾仅在H5-012隐藏，其余页面保持原行为。
+user_confirmation: 2026-07-20项目所有者提供已完善冻结版补充包并明确要求立即推进开发。
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-20T02:41:25Z'
+  note: 这是已批准R05冻结UI补充包落地所必需的确定性派生、H5壳层和证据范围，不扩展业务功能。
+machine_record: .continuity/change_requests/CR-0116.yaml
+document: docs/03-continuity/change-requests/CR-0116-补齐R05冻结UI的确定性Token派生与H5独立回跳布局.md
+decision_log:
+- at: '2026-07-20T03:15:35Z'
+  actor_id: codex-root
+  status: IMPLEMENTING
+  note: H5回调与Design Token实现已进入验证。
+  session_id: SES-20260719T234639Z-1D7D7A00
+- at: '2026-07-20T03:15:37Z'
+  actor_id: codex-root
+  status: IMPLEMENTED
+  note: H5回调页及Design Token补充已通过浏览器截图、类型检查和测试。
+  session_id: SES-20260719T234639Z-1D7D7A00
+session_ids:
+- SES-20260719T234639Z-1D7D7A00
+implementation_commits:
+- c2838d9e9d1f487747c7cbe309d6f7e02c7b1e36

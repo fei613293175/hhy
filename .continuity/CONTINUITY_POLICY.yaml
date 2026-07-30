@@ -13,6 +13,94 @@ lease:
   runtime_heartbeat_extension_minutes: 60
   ci_grace_minutes: 15
   takeover_requires_handoff_or_expiry: true
+parallel_development:
+  authorization:
+    status: PROJECT_OWNER_STANDING_AUTHORIZATION
+    granted_on: '2026-07-18'
+    granted_at: '2026-07-17T22:16:06Z'
+    scope: ALL_R02_R32_DEVELOPMENT
+  default_delegation_mode: AUTO_WHEN_SAFE_PARALLEL_WORK_EXISTS
+  review_triggers:
+  - TASK_START
+  - SCOPE_CHANGE
+  per_task_user_confirmation_required: false
+  non_delegation_requires_checkpoint_reason: true
+  capability_fallback: RECORD_LIMITATION_AND_DO_NOT_FABRICATE_PARALLEL_EVIDENCE
+  user_override_allowed: true
+  authoritative_active_sessions: 1
+  max_delegated_workers: 3
+  worker_workspace: ISOLATED_SCRATCH_WORKTREE
+  require_disjoint_path_leases: true
+  worker_may_modify_continuity_records: false
+  worker_may_commit_or_push: false
+  worker_output:
+  - patch
+  - changed_paths
+  - module_test_evidence
+  integration_owner: ACTIVE_SESSION_ACTOR
+  coordinator_serial_review_domains:
+  - FUNDS
+  - SECURITY
+  - STATE_MACHINE
+  - CONCURRENCY
+  - DESTRUCTIVE_MIGRATION
+  - FINAL_INTEGRATION
+  source_of_truth_rule: 受托执行代理的scratch worktree不是事实源；主控验证范围与证据并应用到事实分支后才形成项目变化。
+external_gate_continuation:
+  enabled: true
+  standing_user_instruction: 未收到项目所有者暂停指令时持续推进可安全开发的版本
+  eligible_blocker: APK_PROJECT_OWNER_PHYSICAL_TEST_PENDING
+  preserve_blocked_task_as_incomplete: true
+  require_explicit_owner_confirmation_record: true
+  target_must_be_first_ready_task: true
+  target_declared_dependencies_must_all_be_done: true
+  prohibit_marking_deferred_task_done: true
+  resume_deferred_task_when_owner_feedback_arrives: true
+  command_flag: --allow-independent-release
+blocked_task_resume:
+  enabled: true
+  require_release_task_status: BLOCKED
+  require_next_task_status: BLOCKED
+  require_same_task_id: true
+  require_exact_resume_command: true
+  require_no_active_session: true
+  preserve_acceptance_status: true
+  rule: 仅允许close命令显式生成且双状态源一致的BLOCKED任务接续；不得把接续视为验收通过或任务完成。
+execution_routing:
+  descriptor: config/DEVELOPMENT_RUNTIME.yaml
+  complexity_profiles:
+    COMPLEX_HIGH_RISK: SOL
+    MEDIUM: TERRA
+    LIGHT_MECHANICAL_READ_ONLY: LUNA
+  selection_must_be_auditable: true
+  record_target_and_actual_model: true
+  unavailable_model_fallback_must_be_recorded: true
+  luna_unavailable_fallback: TERRA_LOW
+  prohibit_claiming_unavailable_model_was_used: true
+development_environment:
+  descriptor: config/DEVELOPMENT_RUNTIME.yaml
+  default_assumption_when_user_did_not_report_disconnect: CODEX_CONNECTED_TO_EXISTING_PROJECT_CLOUD
+  cloud_alias: obx-test
+  startup_preflight_required: true
+  preflight_failure_action: BLOCK_AND_REPORT
+  prohibit_serverless_assumption: true
+  prohibit_local_android_sdk_bootstrap_or_rebuild: true
+  android_execution: EXISTING_REMOTE_CONTAINER_ONLY
+git_transport:
+  descriptor: config/REPOSITORY_TRANSPORT.yaml
+  tracked_secrets_allowed: false
+  restore_via_controlled_script_only: true
+  push_preflight_required: true
+  require_matching_remote_and_upstream: true
+  reject_force_push: true
+  reject_credentials_in_url: true
+  reject_behind_or_diverged: true
+  raw_source_without_git_or_verified_bundle_may_push_existing_history: false
+verification_profiles:
+  FAST: 连续性核心、范围、秘密、CR、Fingerprint、Commit Trailer与受影响轻量测试
+  MODULE: 受影响模块的单元、类型、契约和静态检查
+  INTEGRATION: 后端、Web、PostgreSQL、Android、连续性协议全量集成
+  RELEASE: 全量集成、Staging、E2E、APK四方哈希与项目所有者真机验收
 checkpoint:
   max_age_minutes: 60
   mandatory_triggers:
@@ -31,8 +119,25 @@ checkpoint:
   - tests_or_no_test_reason
   - blockers
   - decisions
+  - parallel_execution
   tests_required_when_project_changed: true
   active_pointer_refreshed_every_checkpoint: true
+story_switch:
+  same_task_only: true
+  require_active_session_actor: true
+  require_clean_worktree: true
+  require_committed_latest_checkpoint: true
+  target_status: READY_FOR_IMPLEMENTATION
+  preserve_task_and_active_claim: true
+  reset_checkpoint_for_new_story: true
+  synchronize:
+  - session_record
+  - active_pointer
+  - task_claim
+  - session_index
+  - current_status
+  - event_chain
+  - context_pack
 commit:
   prohibit_partial_project_commit: true
   require_latest_checkpoint_fingerprint: true
@@ -58,7 +163,9 @@ push:
   require_fresh_context_pack: true
   require_valid_event_hash_chain: true
   validate_unpushed_commit_trailers: true
-  require_upstream_or_explicit_range: false
+  require_upstream_or_explicit_range: true
+  require_transport_descriptor_match: true
+  prohibit_force: true
 merge:
   protected_branches:
   - main
@@ -68,6 +175,11 @@ merge:
 change_control:
   source_of_truth_change_requires_approved_cr: true
   requester_cannot_approve: true
+  rule_intake:
+    search_existing_canonical_rules_first: true
+    amend_existing_canonical_rule_when_equivalent_or_similar: true
+    prohibit_parallel_equivalent_or_similar_rule: true
+    new_rule_requires_documented_distinct_gap: true
   bugfix_requires_problem_registry_and_regression_test: true
   database_change_requires_migration_or_invariant_evidence: true
   user_visible_change_requires_changelog: true
@@ -81,6 +193,79 @@ change_control:
   - impact.releases
   - impact.migration_and_compatibility
   - user_confirmation
+rule_readiness:
+  entry_command: python3 scripts/continuity.py resume
+  continue_only_requires_user_reexplanation: false
+  subjective_complete_understanding_claim_is_evidence: false
+  development_requires_status: PASS
+  require_hashed_context_manifest: true
+  require_task_and_release_context: true
+  required_global_sources:
+  - .continuity/CONTINUITY_POLICY.yaml
+  - AGENTS.md
+  - START_HERE.md
+  - docs/00-baseline/SOURCE_OF_TRUTH.md
+  - docs/00-baseline/正式商业系统全局硬性开发边界.md
+  - docs/02-ui/UI参考图使用与开发约束_V1.2.2.md
+  - docs/03-continuity/持续开发无状态接续强制门禁_V1.2.3.md
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/REUSABLE_PATTERNS.md
+  - docs/03-continuity/PITFALLS.md
+  - docs/09-development/统一开发与交付效率规范.md
+commercial_product_boundaries:
+  source_of_truth: docs/00-baseline/正式商业系统全局硬性开发边界.md
+  prohibit_technical_fields_in_user_interface: true
+  require_frozen_ui_parameter_alignment: true
+  require_effect_reference_visual_richness_and_polish: true
+  prohibit_token_or_runtime_only_visual_pass: true
+  prohibit_fabricated_visual_business_content: true
+  visual_quality_dimensions:
+  - information_density
+  - hierarchy
+  - component_detail
+  - brand_polish
+  - state_completeness
+  uncovered_page_strategy:
+  - reuse_approved_related_visual_language_in_existing_page_contract
+  - create_owner_desktop_supplement_brief_when_reuse_is_not_reliable
+  historical_visual_reaudit_releases:
+  - R02
+  - R03
+  - R04
+  - R05
+  - R06
+  - R07
+  historical_visual_transition:
+    original_blocking_release: R08
+    superseded_by: CR-0242
+    disposition: R08_HISTORY_PRESERVED_POST_R08_GLOBAL_AUDIT
+  cumulative_visual_debt_gate:
+    effective_from_release: R12
+    machine_close_requires_all_frontend_pages_through_release_pass: true
+    reopened_historical_page_invalidates_prior_pass: true
+  require_release_document_reconciliation: true
+  require_desktop_owner_test_guide_for_major_release: true
+  test_capabilities_allowed_profiles:
+  - dev
+  - test
+  - staging
+  test_capabilities_forbidden_profiles:
+  - prod
+  - production
+release_governance_audit:
+  effective_from_release: R12
+  timing: AFTER_FINAL_CANDIDATE_BEFORE_MACHINE_CLOSE
+  source_commit_must_match_candidate: true
+  evidence_sha256_required: true
+  required_checks:
+  - development_documents
+  - hard_gate_enforcement
+  - development_progress
+  - reusable_patterns
+  - problem_registry
+  - pitfalls
+  drift_action: AMEND_EXISTING_CANONICAL_SOURCE_AND_ADD_REGRESSION_BEFORE_CLOSE
+  next_release_must_not_start_before_pass: true
 handoff:
   require_latest_checkpoint: true
   require_context_pack: true
@@ -108,6 +293,7 @@ scope_rules:
   - templates/**
   - .github/**
   - .githooks/**
+  - .codex/**
   - AGENTS.md
   - START_HERE.md
   - README.md
@@ -210,6 +396,7 @@ path_classes:
   - infra/**
   - .github/**
   - .githooks/**
+  - .codex/**
   user_visible:
   - apps/android/**
   - apps/admin-web/**
@@ -250,6 +437,8 @@ forbidden:
 - Bug修复没有根因登记和回归测试
 - 交接时只说“继续开发”而不生成Handoff Bundle
 - 依赖旧对话解释仓库已有需求
+- 受托执行代理修改连续性事实、Release事实或直接提交推送
+- 两个执行代理领取重叠路径后并行写入
 close:
   protocol: IMPLEMENTATION_CHECKPOINT -> IMPLEMENTATION_COMMIT -> CLOSE -> CLOSURE_CHECKPOINT -> CLOSURE_METADATA_COMMIT
   require_implementation_commit: true

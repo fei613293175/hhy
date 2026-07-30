@@ -22,7 +22,7 @@ def sha(path:Path)->str:
     return h.hexdigest()
 
 def source_manifest():
-    names=['.continuity/CONTINUITY_POLICY.yaml','scripts/continuity_lib.py','scripts/continuity.py','scripts/continuity_gate.py','scripts/prepare_commit_message.py','scripts/run_continuity_self_test.py','scripts/test_continuity_protocol.py','.githooks/pre-commit','.githooks/prepare-commit-msg','.githooks/commit-msg','.githooks/pre-push']
+    names=['.continuity/CONTINUITY_POLICY.yaml','config/REPOSITORY_TRANSPORT.yaml','config/DEVELOPMENT_RUNTIME.yaml','scripts/continuity_lib.py','scripts/continuity.py','scripts/continuity_gate.py','scripts/restore_git_transport.py','scripts/select_execution_profile.py','scripts/verify_cloud_environment.py','scripts/prepare_commit_message.py','scripts/run_continuity_self_test.py','scripts/test_continuity_protocol.py','.githooks/pre-commit','.githooks/prepare-commit-msg','.githooks/commit-msg','.githooks/pre-push']
     return [{'path':n,'sha256':sha(ROOT/n)} for n in names if (ROOT/n).is_file()]
 
 def run(args,cwd,env,timeout=1200):
@@ -78,7 +78,29 @@ def main():
         handoff=yaml.safe_load((hdir/'HANDOFF.yaml').read_text(encoding='utf-8')) or {}
         context=yaml.safe_load((hdir/'snapshot/artifacts/context/CURRENT_CONTEXT_PACK.yaml').read_text(encoding='utf-8')) or {}
         if context.get('conversation_dependency')!='PROHIBITED' or context.get('source_of_truth')!='REPOSITORY_ONLY':raise RuntimeError('context is not repository-only')
+        readiness=context.get('rule_readiness') or {}
+        if readiness.get('status')!='PASS' or readiness.get('missing_sources'):raise RuntimeError('context rule readiness is not PASS')
+        manifested={row.get('path') for row in context.get('source_manifest',[]) if isinstance(row,dict)}
+        if any(source not in manifested for source in readiness.get('required_sources',[])):raise RuntimeError('context rule source is not hashed')
+        parallel=context.get('parallel_development_policy') or {}
+        expected_parallel={
+          'default_delegation_mode':'AUTO_WHEN_SAFE_PARALLEL_WORK_EXISTS',
+          'per_task_user_confirmation_required':False,
+          'non_delegation_requires_checkpoint_reason':True,
+          'capability_fallback':'RECORD_LIMITATION_AND_DO_NOT_FABRICATE_PARALLEL_EVIDENCE',
+          'authoritative_active_sessions':1,
+          'max_delegated_workers':3,
+        }
+        if any(parallel.get(key)!=value for key,value in expected_parallel.items()):raise RuntimeError('context lost standing parallel authorization')
+        runtime=context.get('development_runtime') or {}
+        transport=context.get('repository_transport') or {}
+        if runtime.get('cloud_environment',{}).get('default_assumption')!='CODEX_ALREADY_CONNECTED_UNLESS_USER_DECLARES_DISCONNECTED':raise RuntimeError('context lost cloud default assumption')
+        if runtime.get('cloud_environment',{}).get('android',{}).get('image')!='hhy-android-toolchain:r01-46fb273':raise RuntimeError('context lost existing Android image')
+        if runtime.get('model_routing',{}).get('complex_or_high_risk',{}).get('model')!='Sol':raise RuntimeError('context lost model routing')
         checks.append({'name':'repository_only_context','status':'PASS','evidence':'snapshot/artifacts/context/CURRENT_CONTEXT_PACK.yaml'})
+        checks.append({'name':'rule_readiness_reconstructed','status':'PASS','evidence':'rule_readiness+source_manifest'})
+        checks.append({'name':'parallel_authorization_reconstructed','status':'PASS','evidence':'parallel_development_policy'})
+        checks.append({'name':'runtime_and_git_transport_reconstructed','status':'PASS','evidence':'development_runtime+repository_transport'})
         clone=base/'reconstructed'
         proc=run(['git','clone',str(hdir/'repository.bundle'),str(clone)],base,env,300); commands.append({'name':'clone_bundle','returncode':proc.returncode})
         if proc.returncode!=0:raise RuntimeError('bundle clone failed:'+proc.stderr)
@@ -87,6 +109,8 @@ def main():
         snapshot=hdir/'untracked-snapshot.tar.gz'
         if snapshot.is_file() and snapshot.stat().st_size:
             with tarfile.open(snapshot,'r:gz') as tf:tf.extractall(clone,filter='data')
+        tracked_transport=yaml.safe_load((clone/'config/REPOSITORY_TRANSPORT.yaml').read_text(encoding='utf-8')) or {}
+        if transport!=tracked_transport:raise RuntimeError('context Git transport differs from tracked descriptor restored from bundle')
         shutil.rmtree(clone/'scripts/__pycache__',ignore_errors=True)
         sys.path.insert(0,str(clone/'scripts'))
         from continuity_lib import project_fingerprint, load_session

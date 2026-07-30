@@ -1,0 +1,176 @@
+protocol_version: '1.0'
+package_version: 1.2.3
+session_id: SES-20260729T161557Z-6FCE6ACA
+status: ACTIVE
+actor:
+  id: codex-r14-resume-20260730
+  kind: AI_OR_HUMAN
+  host: unknown
+release: R14
+task_id: TASK-R14-008
+story_id: STORY-R14-004
+goal: 异常恢复 SES-20260728T220632Z-FE7D82FD：一对一聊天核心版本关闭与无状态交接
+started_at: '2026-07-29T16:15:57Z'
+updated_at: '2026-07-30T06:16:30Z'
+takeover_of: SES-20260728T220632Z-FE7D82FD
+change_requests:
+- CR-0475
+- CR-0476
+- CR-0477
+- CR-0478
+- CR-0479
+- CR-0480
+- CR-0481
+- CR-0482
+- CR-0483
+- CR-0484
+- CR-0485
+- CR-0486
+- CR-0487
+- CR-0488
+- CR-0489
+- CR-0490
+- CR-0491
+- CR-0492
+- CR-0493
+- CR-0494
+- CR-0495
+- CR-0496
+- CR-0497
+- CR-0498
+- CR-0499
+- CR-0500
+- CR-0501
+- CR-0502
+- CR-0503
+- CR-0504
+- CR-0505
+- CR-0506
+- CR-0507
+- CR-0508
+- CR-0509
+- CR-0510
+- CR-0511
+- CR-0512
+- CR-0513
+- CR-0514
+- CR-0515
+- CR-0516
+- CR-0517
+- CR-0518
+- CR-0519
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions:
+  - apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14BlockStateStore.kt
+  - apps/android/feature/chat/src/androidTest/java/cc/orbexa/hhy/chat/R14ChatDetailScreenTest.kt
+  - apps/android/feature/chat/src/androidTest/java/cc/orbexa/hhy/chat/R14BlockStateStoreInstrumentedTest.kt
+  - apps/android/feature/chat/src/test/java/cc/orbexa/hhy/chat/R14BlockStateStoreTest.kt
+  - artifacts/validation/r14-candidate-attempt7/failure-evidence.json
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/10-governance/CHANGELOG.md
+  - tests/test_android_ci_gate.py
+  - config/android-automation.yaml
+  - config/android-candidate-request.yaml
+  - tests/test_android_candidate_request.py
+  - CHANGELOG.md
+  - apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ChatDetailScreen.kt
+  - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+  - artifacts/validation/r14-candidate-attempt8/failure-evidence.json
+  - artifacts/validation/r14-final-candidate/candidate-report.json
+  - artifacts/validation/r14-final-candidate/build-evidence.json
+  - artifacts/validation/r14-task007-android/build-evidence.json
+  - artifacts/apk/R14/APK_MANIFEST.yaml
+  - artifacts/reports/R14/R14-version-test-guide.md
+  - artifacts/validation/r14-apk-delivery/delivery-evidence.json
+  - releases/R14/RELEASE_MANIFEST.yaml
+  - releases/R14/ACCEPTANCE_MATRIX.csv
+  - apps/android/app/src/androidTest/java/cc/orbexa/hhy/HistoricalVisualAuditTest.kt
+  - scripts/run_android_historical_visual_audit.sh
+  - tests/android/visual-baselines/R13/APPROVAL.yaml
+  - tests/android/visual-baselines/R13/27-r13-favorites.png
+  - tests/android/visual-baselines/R13/28-r13-history.png
+  - tests/android/visual-baselines/R13/29-r13-share-sheet.png
+  - tests/android/visual-baselines/R13/30-r13-invalid-feedback-sheet.png
+  - catalogs/ui_visual_acceptance.csv
+  - artifacts/apk/R14/history/2eb8ac7/APK_MANIFEST.yaml
+  - artifacts/validation/r14-apk-delivery/history/2eb8ac7/delivery-evidence.json
+  - .github/workflows/android-historical-visual-request.yml
+  - config/android-historical-visual-request.yaml
+  - docs/00-baseline/正式商业系统全局硬性开发边界.md
+  - docs/07-operations/DEPLOYMENT_RUNBOOK.md
+  - config/owner-test-environment.yaml
+  - scripts/promote_owner_test_backend.sh
+  - scripts/restore_android_candidate_route.sh
+  - scripts/check_owner_test_environment.py
+  - scripts/switch_android_candidate_route.sh
+  - scripts/android_ci_gate.py
+  - tests/test_owner_test_environment.py
+  - tests/test_android_candidate_route.py
+  - artifacts/validation/r14-owner-test-persistence/owner-test-persistence.json
+  - tests/test_android_historical_visual_request.py
+  - artifacts/validation/r14-historical-visual-attempt2/failure-evidence.json
+  - apps/android/feature/activity/src/main/java/cc/orbexa/hhy/activity/R13ActivityScreens.kt
+  - apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ChatSheets.kt
+  - apps/android/feature/chat/src/androidTest/java/cc/orbexa/hhy/chat/R14ChatSurfacesTest.kt
+  - artifacts/validation/r14-historical-visual-attempt3/failure-evidence.json
+  source: story+explicit+approved-cr:CR-0484+approved-cr:CR-0485+approved-cr:CR-0486+approved-cr:CR-0511+approved-cr:CR-0512+approved-cr:CR-0513+approved-cr:CR-0514+approved-cr:CR-0515+approved-cr:CR-0516+approved-cr:CR-0517+approved-cr:CR-0518+approved-cr:CR-0519
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  base_commit: 0a100b86f63829ef38ede5571d3e511219e67769
+  start_head: f449b49a68ba11fcb790b2249f7fad5b0f7f6b8b
+  upstream: origin/task/TASK-R03-001
+  initial_worktree_state: DIRTY_TAKEOVER
+lease:
+  duration_minutes: 240
+  renewed_at: '2026-07-30T06:16:22Z'
+  expires_at: '2026-07-30T10:16:22Z'
+checkpoint_sequence: 66
+latest_checkpoint: .continuity/checkpoints/SES-20260729T161557Z-6FCE6ACA/0066.yaml
+session_log: docs/03-continuity/sessions/2026-07/SES-20260729T161557Z-6FCE6ACA.md
+next_step: 提交HISTORICAL-UI-20260730-005并只运行一次离线历史视觉；先验证R14举报操作栏与R13失效反馈系统栏安全区，通过后绑定R13/R14视觉证据并执行R14 machine-close。
+context_pack:
+  yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
+  markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
+  manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+  context_hash: 5be12c6d6448ddf8b8db7d0219a0aaa3237ed41432c36d86b97254c55bf29fe8
+  generated_at: '2026-07-30T06:16:27Z'
+handoff_bundle: null
+closure: null
+parallel_execution:
+  assessment: USER_SERIAL_OVERRIDE
+  delegated_workers: 0
+  workers: []
+  reason: 系统当前禁止主动委派子代理，且同一视觉错误指纹必须串行修改、编译、截图复核。

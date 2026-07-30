@@ -1,0 +1,58 @@
+protocol_version: '1.0'
+cr_id: CR-0399
+title: 修复R13候选把已认证首页loading误判为主框架不可用
+status: IMPLEMENTED
+created_at: '2026-07-27T10:12:49Z'
+updated_at: '2026-07-27T10:30:30Z'
+requester_actor_id: codex-root-r13-candidate-20260727
+approver_actor_id: project-owner-standing-authorization
+task_id: TASK-R13-007
+session_id: SES-20260726T191158Z-2B506AB7
+user_request: 项目所有者要求检查是否原地打转并立即恢复持续开发
+reason: Attempt15 Run 30255527377编译Lint单测打包全部通过，但模拟器在30秒入口等待后失败；runtime artifact SHA-256 8963204c8fc7e4b66f306ffa58f07c9115bd140d046470cd90703044acfbd96e证明四张R13截图尚未开始，现有helper只接受home.loaded或home.error，遗漏已认证且我的入口可操作的home.loading状态
+original_rule: CR-0396只接受home.loaded或home.error两个首页终态，未用认证主框架本身及我的入口可操作性作为边界；首页请求仍在loading时即使底部导航已可点击，也会在R13旅程前等待30秒失败
+new_rule: R13候选入口必须同时观测已认证主框架资源和启用可点击的我的入口；首页loaded、error或loading只作为诊断状态，不再决定是否可进入R13。登录页、会话验证中、启动门禁失败、缺少认证主框架或我的入口不可操作仍严格阻断；R13收藏历史详情媒体四截图和视觉门槛不变
+impact_summary: 只为生产认证主框架增加稳定资源标识并修正R13候选入口与失败诊断，同步既有PROB-0126、专项和共享回归及Changelog；不改变用户功能、API、数据库、夹具、媒体、截图或视觉标准
+impact:
+  files:
+  - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+  - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+  - tests/test_r13_candidate.py
+  - tests/test_android_ci_gate.py
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - CHANGELOG.md
+  pages:
+  - SCR-HOME-001认证主框架入口与SCR-FAV-001/SCR-HIS-001目标旅程
+  apis:
+  - 首页推荐请求只提供诊断，R13收藏历史及详情API仍真实验证
+  database:
+  - 无变化
+  configuration:
+  - Attempt15保持已消费不得重跑；Attempt16必须在CR-0399修复Commit及模块证据完成后另行精确授权
+  ledger:
+  - 登记Run 30255527377、artifact digest、入口断言、四截图缺失及无崩溃ANR事实
+  tests:
+  - tests.test_r13_candidate;tests.test_android_ci_gate;Android UI foundation;app:compileDebugAndroidTestKotlin
+  releases:
+  - R13
+  migration_and_compatibility: 生产UI无可见变化；testTag仅为自动化语义。真实一次性会话、启动门禁及R13目标API继续执行；入口只绕开非目标首页推荐请求的等待，不可绕过认证或目标页面失败
+user_confirmation: 项目所有者已明确要求检查思考循环并立即恢复推进，既有长期授权允许AI自行修复候选失败且无需逐次批准
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-27T10:13:25Z'
+  note: 项目所有者已授权持续开发且禁止同一GitHub失败原地重试；本CR只让已认证且我的入口可操作的主框架进入R13目标旅程，所有目标API、媒体、截图和视觉门槛保持不变，Attempt15不得重跑
+machine_record: .continuity/change_requests/CR-0399.yaml
+document: docs/03-continuity/change-requests/CR-0399-修复R13候选把已认证首页loading误判为主框架不可用.md
+decision_log:
+- at: '2026-07-27T10:13:48Z'
+  actor_id: codex-root-r13-candidate-20260727
+  status: IMPLEMENTING
+  note: 开始实现认证主框架和我的入口双重可操作性边界，Attempt15保持已消费不重跑
+  session_id: SES-20260726T191158Z-2B506AB7
+- at: '2026-07-27T10:30:30Z'
+  actor_id: codex-root-r13-candidate-20260727
+  status: IMPLEMENTED
+  note: 认证主框架与我的导航双资源入口、loading诊断和失败后诊断已实现；40项候选回归、35项治理回归、UI基础门禁及obx-test固定镜像app:compileDebugAndroidTestKotlin 212任务PASS，最终日志SHA256 bd2cb5dff99198e88924fd384fc03d4cf708d95cd937a886469e42233252feae
+  session_id: SES-20260726T191158Z-2B506AB7
+session_ids:
+- SES-20260726T191158Z-2B506AB7

@@ -1,0 +1,9 @@
+task=TASK-R08-006
+story=STORY-R08-004
+release=R08
+frozen_commit=7d6eedf4fdfc4b5b2143f28eafc682bb1c72445e
+compose_project=hhy-r08-staging
+network_subnet=172.31.244.0/24
+current_image=sha256:6c1bdefff8231693d67e75d804f769c18960e817b99de506bf7fd15c39731dea
+postgres_container=12545e4d6bfa6593bcc5f7def02fbd101c86ba541b70004b1675e8761104d110
+postgres_volume=hhy-r08-staging_pgdata

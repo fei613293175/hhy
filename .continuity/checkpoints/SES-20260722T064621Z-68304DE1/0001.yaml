@@ -1,0 +1,162 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260722T064621Z-68304DE1-0001
+session_id: SES-20260722T064621Z-68304DE1
+sequence: 1
+created_at: '2026-07-22T06:51:16Z'
+summary: PROB-0079无会话resume污染干净工作区死锁已按CR-0227修复
+next_step: 提交推送连续性修复，在干净临时关闭态验证连续两次resume零写入与随后start成功，再继续R08最终候选
+blockers: []
+decisions: []
+note: 未新增硬规则文件，直接修复AGENTS既有唯一冷启动入口的可执行性。
+tests:
+- name: RESUME_READ_ONLY
+  result: PASS
+  evidence: tests.test_continuity_resume_read_only:3 tests
+  note: 无会话resume不调用写入式Context构建、实时规则缺失仍阻断
+- name: CONTEXT_RULE_POLICY
+  result: PASS
+  evidence: tests.test_context_pack_parallel_policy:13 tests
+  note: 规则来源哈希与跨平台Context策略回归通过
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: 827c8b7b81988b4f844b3b7ff766d30b6a34a77a
+  upstream: origin/task/TASK-R03-001
+  ahead: 0
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/ACTIVE_SESSION.yaml'
+  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/SESSION_INDEX.yaml'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/TASK_CLAIMS.yaml'
+  - ' M .continuity/TASK_TRANSITIONS.yaml'
+  - ' M CHANGELOG.md'
+  - ' M CURRENT_STATUS.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+  - ' M artifacts/validation/continuity-gate-v1.2.3.json'
+  - ' M catalogs/change_request_index.csv'
+  - ' M catalogs/session_index.csv'
+  - ' M catalogs/task_transition_ledger.csv'
+  - ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
+  - ' M scripts/continuity.py'
+  - ?? .continuity/change_requests/CR-0227.yaml
+  - ?? .continuity/sessions/SES-20260722T064621Z-68304DE1.yaml
+  - ?? docs/03-continuity/change-requests/CR-0227-修复无会话resume污染干净工作区接续死锁.md
+  - ?? docs/03-continuity/sessions/2026-07/SES-20260722T064621Z-68304DE1.md
+  - ?? tests/test_continuity_resume_read_only.py
+  recent_commits:
+  - "827c8b7b81988b4f844b3b7ff766d30b6a34a77a\t2026-07-22T14:40:48+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] chore(continuity): close TASK-R08-006\
+    \ as completed"
+  - "26a1b4df4aed3f640fb348abbae252394e9f403d\t2026-07-22T14:39:17+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] chore(continuity): close CR-0226"
+  - "06f0ffca4899db048820d0d7ffefaf249fc80e80\t2026-07-22T14:37:39+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] test(staging): record R08\
+    \ observability acceptance"
+  - "7d6eedf4fdfc4b5b2143f28eafc682bb1c72445e\t2026-07-22T14:22:27+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] feat(observability): add R08\
+    \ project staging gate"
+  - "9c374195614f0de473e997b3af7aa16070235c1a\t2026-07-22T14:07:20+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] chore(continuity): close TASK-R08-005\
+    \ as completed"
+  - "9f524eabfaa8dc09c8b8c9959288d31b75432d2d\t2026-07-22T14:05:25+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] docs(r08): close specialized\
+    \ test CR"
+  - "36fd0d8c6003a20a9a8e33f787ec30381200a8d6\t2026-07-22T14:03:35+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] docs(r08): freeze project\
+    \ test evidence"
+  - "f3421114b124f4b1d69cd20de7078a022db019e9\t2026-07-22T13:44:35+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] test(r08): automate project\
+    \ fault matrix"
+project_fingerprint:
+  sha256: 88ab24566a08d6194101c88655fde46c913b15f45ff26bdbf60c87bbaa16abb6
+  files:
+  - CHANGELOG.md
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/change-requests/CR-0227-修复无会话resume污染干净工作区接续死锁.md
+  - scripts/continuity.py
+  - tests/test_continuity_resume_read_only.py
+  file_count: 5
+  payload:
+    base_commit: 827c8b7b81988b4f844b3b7ff766d30b6a34a77a
+    files:
+    - path: CHANGELOG.md
+      state: FILE
+      size: 81721
+      sha256: e50fcd07ed5a40ca185d402e6927d93344ee0b0b344fe3bab8673db2124cfbde
+    - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
+      state: FILE
+      size: 100349
+      sha256: 94228e5b0a9e00f60548727051117ef27d33756266ec114f909fb6956fb5fe13
+    - path: docs/03-continuity/change-requests/CR-0227-修复无会话resume污染干净工作区接续死锁.md
+      state: FILE
+      size: 3102
+      sha256: cfb65466ac85785f2e72bac9fe992c38688391cb4864a8ce7ad95eb675fa66e4
+    - path: scripts/continuity.py
+      state: FILE
+      size: 72884
+      sha256: f207d8f331ffc2b439bc7154551e9077520355a89be354af3dcf5ff63aa6feed
+    - path: tests/test_continuity_resume_read_only.py
+      state: FILE
+      size: 4194
+      sha256: 5928864f132929f663be9d331fec1245e737a4d004c85360677bd6588f914c07
+change_classification:
+  other:
+  - CHANGELOG.md
+  continuity:
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/change-requests/CR-0227-修复无会话resume污染干净工作区接续死锁.md
+  code:
+  - scripts/continuity.py
+  tests:
+  - tests/test_continuity_resume_read_only.py
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+change_requests:
+- CR-0227
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions:
+  - scripts/continuity.py
+  - tests/test_continuity_resume_read_only.py
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - CHANGELOG.md
+  source: story+explicit+approved-cr:CR-0227
+parallel_execution:
+  assessment: CAPABILITY_UNAVAILABLE
+  delegated_workers: 0
+  workers: []
+  reason: 当前运行策略未授权创建子代理；连续性核心入口由主控串行复核
+event_hash: f29c6f066a4116acc2d2b26dd9957c0e308803e24a63ce98c6d05260b05cc819

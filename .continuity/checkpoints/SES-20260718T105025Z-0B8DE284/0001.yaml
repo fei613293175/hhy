@@ -1,0 +1,135 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260718T105025Z-0B8DE284-0001
+session_id: SES-20260718T105025Z-0B8DE284
+sequence: 1
+created_at: '2026-07-18T10:51:58Z'
+summary: R02 Android单调versionCode 10202与APK交付前置门禁已固化
+next_step: 提交APK构建基线并使用固定远端工具链构建、签名和生成机器证据
+blockers: []
+decisions:
+- R02正式测试APK唯一允许versionCode 10202，必须注入https://api.orbexa.cc
+note: ''
+tests:
+- name: APK delivery unit tests
+  result: PASS
+  evidence: tests/test_android_apk_delivery.py
+  note: 14 tests passed
+- name: R02 observability regression
+  result: PASS
+  evidence: scripts/check_r02_observability.py
+  note: configuration gate passed
+git:
+  initialized: true
+  branch: task/TASK-R02-002
+  head: c82f53671c1184c3bb8612fcbef5e5dd35d4e962
+  upstream: origin/task/TASK-R02-002
+  ahead: 0
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/ACTIVE_SESSION.yaml'
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/SESSION_INDEX.yaml'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/TASK_CLAIMS.yaml'
+  - ' M .continuity/TASK_TRANSITIONS.yaml'
+  - ' M CHANGELOG.md'
+  - ' M CURRENT_STATUS.yaml'
+  - ' M apps/android/app/build.gradle.kts'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+  - ' M catalogs/session_index.csv'
+  - ' M catalogs/task_transition_ledger.csv'
+  - ?? .continuity/sessions/SES-20260718T105025Z-0B8DE284.yaml
+  - ?? docs/03-continuity/sessions/2026-07/SES-20260718T105025Z-0B8DE284.md
+  recent_commits:
+  - "c82f53671c1184c3bb8612fcbef5e5dd35d4e962\t2026-07-18T18:49:10+08:00\tHHY Continuity Bootstrap\t[STORY-R02-009] chore(continuity): close TASK-R02-006\
+    \ as completed"
+  - "892e4a7bee5e88395e97817db8a67030edd2f135\t2026-07-18T18:48:11+08:00\tHHY Continuity Bootstrap\t[STORY-R02-009] chore(continuity): close R02\
+    \ integration changes"
+  - "4d5598286a7158f50960e1dfa45db5390d83863d\t2026-07-18T18:46:35+08:00\tHHY Continuity Bootstrap\t[STORY-R02-009] test(integration): finalize\
+    \ R02 release evidence"
+  - "a1893b20709c474c4cbe421f4bd1dc7eecaacebf\t2026-07-18T18:42:22+08:00\tHHY Continuity Bootstrap\t[STORY-R02-009] fix(staging): require R02\
+    \ user security secrets"
+  - "d26aff1b69cbe5d94ee64d47042ddd9d56a22070\t2026-07-18T18:06:48+08:00\tHHY Continuity Bootstrap\t[STORY-R02-009] feat(observability): add R02\
+    \ auth release gates"
+  - "c65239ab22d5ea8573ec39eb2df7a953d2bad094\t2026-07-18T17:46:57+08:00\tHHY Continuity Bootstrap\t[STORY-R02-009] test(integration): bind R02\
+    \ external evidence"
+  - "7a348bdad2ba42a96594cb8df65110e3ae6382dd\t2026-07-18T17:44:04+08:00\tHHY Continuity Bootstrap\t[STORY-R02-009] test(integration): add R02\
+    \ release matrix"
+  - "7be251616ec184894a5341ede6b1ce51d1211fcc\t2026-07-18T17:23:39+08:00\tHHY Continuity Bootstrap\t[STORY-R02-009] fix(auth): reject noncanonical\
+    \ access signatures"
+project_fingerprint:
+  sha256: 3dc9bfb918507bf8966c9dbf3d687ae7f126f024600a5ac4bb3e0227ac5ef41b
+  files:
+  - CHANGELOG.md
+  - apps/android/app/build.gradle.kts
+  file_count: 2
+  payload:
+    base_commit: c82f53671c1184c3bb8612fcbef5e5dd35d4e962
+    files:
+    - path: CHANGELOG.md
+      state: FILE
+      size: 21378
+      sha256: 842da7b0747f07e9a198a19864a742002ef4fd6837c1b122852065e1e036180b
+    - path: apps/android/app/build.gradle.kts
+      state: FILE
+      size: 4445
+      sha256: 81a68f673a1c3eee2b7f6a61a1cdcb35f8f61370b94246578c9020cc56534941
+change_classification:
+  other:
+  - CHANGELOG.md
+  code:
+  - apps/android/app/build.gradle.kts
+  user_visible:
+  - apps/android/app/build.gradle.kts
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+- CHANGELOG
+change_requests: []
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions: []
+  source: story+explicit
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: APK源码提交、构建证据Commit和签名产物必须严格串行绑定
+event_hash: 8ccb5d6b39f7a33b950222ae47c588024e49c7f6baea04ae6de40b66384f09f9

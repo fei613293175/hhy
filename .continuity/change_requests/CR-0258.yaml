@@ -1,0 +1,49 @@
+protocol_version: '1.0'
+cr_id: CR-0258
+title: 修复R09编辑页分类与平台技术编码可见性
+status: IMPLEMENTING
+created_at: '2026-07-22T21:04:36Z'
+updated_at: '2026-07-22T21:05:20Z'
+requester_actor_id: codex-root-r09-candidate
+approver_actor_id: codex-r09-ui-review
+task_id: TASK-R09-007
+session_id: SES-20260722T205410Z-782F22B9
+user_request: 所有既有和后续UI必须达到效果图丰富度与精致度，虚构内容不得开发，内部技术编码不得直接展示。
+reason: 候选前静态审查发现SCR-PUB-003仍把categoryCode和platform原值作为自由文本展示；真实R09夹具的TOOLS与ANDROID会进入截图，违反CR-0251冻结视觉规格与既有技术字段隐藏门禁。
+original_rule: CR-0251已规定SCR-PUB-003按B04/P04以分组和选择控件呈现真实字段，既有全局UI门禁禁止内部技术编码直出；当前实现仍以自由文本框直接展示categoryCode与platform原值。
+new_rule: 不增加新硬规则；将SCR-PUB-003分类与平台字段改为中文FilterChip选择器，内部仍提交冻结TOOLS/SOCIAL/BUSINESS/LIFESTYLE/EDUCATION/ENTERTAINMENT及ANDROID/IOS/WEB/MULTI编码；对未知服务端值只显示既有受控中文兜底，绝不显示原始技术编码。
+impact_summary: 修正R09编辑页对既有视觉和技术字段隐藏规则的实现偏差，保持API请求与数据库存储兼容，并增加源码回归防止自由文本技术编码重新出现。
+impact:
+  files:
+  - apps/android/feature/app-promotion/src/main/java/cc/orbexa/hhy/apppromotion/R09AppScreens.kt
+  - apps/android/feature/app-promotion/src/test/java/cc/orbexa/hhy/apppromotion/R09AppStateTest.kt
+  - tests/test_r09_android_ui.py
+  pages:
+  - SCR-PUB-003
+  apis:
+  - POST /api/v1/contents
+  - PATCH /api/v1/contents/{id}
+  database: []
+  configuration: []
+  ledger: []
+  tests:
+  - R09 App状态标签映射单测与编辑页技术编码源码回归
+  - Android app-promotion受影响MODULE
+  releases:
+  - R09
+  migration_and_compatibility: 仅Android显示控件变化；提交值、接口和数据库不变，既有草稿与服务端编码由映射选择器兼容。
+user_confirmation: 项目所有者已明确要求全部UI按效果图精致度实现并禁止虚构内容，且相似规则必须更新既有事实源。
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-22T21:05:14Z'
+  note: 已确认属于CR-0251和既有UI技术字段隐藏规则的实现修复，不建立平行规则；编码提交兼容且视觉控件对应B04/P04。
+machine_record: .continuity/change_requests/CR-0258.yaml
+document: docs/03-continuity/change-requests/CR-0258-修复R09编辑页分类与平台技术编码可见性.md
+decision_log:
+- at: '2026-07-22T21:05:20Z'
+  actor_id: codex-root-r09-candidate
+  status: IMPLEMENTING
+  note: 开始替换分类与平台自由文本框并补防回归。
+  session_id: SES-20260722T205410Z-782F22B9
+session_ids:
+- SES-20260722T205410Z-782F22B9

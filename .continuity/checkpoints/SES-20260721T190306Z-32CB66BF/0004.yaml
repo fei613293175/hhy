@@ -1,0 +1,208 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260721T190306Z-32CB66BF-0004
+session_id: SES-20260721T190306Z-32CB66BF
+sequence: 4
+created_at: '2026-07-21T19:27:03Z'
+summary: 关闭 TASK-R07-004：TASK-R07-004已完成：五个冻结Android交互面绑定七项R07接口，搜索到发布者及联系方式闭环可操作；高敏明文仅内存、防截屏、关闭清除；合同与Android MODULE全通过。
+next_step: 提交关闭元数据Commit，然后运行pre-push/CI门禁
+blockers: []
+decisions:
+- 任务结果：COMPLETED
+- 实现Commit：fea04949506434f8f408bc0244d6a195718c6c22
+- 任务转换：TRN-20260721T192702Z-SES-20260721T190306Z-32CB66BF
+- 下一Release：R07
+note: 该检查点专门绑定最终关闭元数据Commit
+tests:
+- name: cr-lifecycle
+  result: PASS
+  evidence: CR-0183 CLOSED and bound to fea04949
+  note: ''
+- name: strict-continuity
+  result: PASS
+  evidence: R07 strict joint gate
+  note: ''
+- name: continuity closure metadata
+  result: PASS
+  evidence: catalogs/task_transition_ledger.csv;CHANGELOG.md;CURRENT_STATUS.yaml;NEXT_TASK.yaml
+  note: 关闭元数据、任务转换和下一任务已原子生成
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: af217ef5097826bd16003d797624d742b1c93ad7
+  upstream: origin/task/TASK-R03-001
+  ahead: 2
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/sessions/SES-20260721T190306Z-32CB66BF.yaml'
+  - ' M CHANGELOG.md'
+  - ' M NEXT_TASK.yaml'
+  - ' M catalogs/session_index.csv'
+  - ' M releases/R07/TASKS.yaml'
+  recent_commits:
+  - "af217ef5097826bd16003d797624d742b1c93ad7\t2026-07-22T03:26:26+08:00\tHHY Continuity Bootstrap\t[STORY-R07-001] chore(continuity): 关闭R07客户端变更请求"
+  - "fea04949506434f8f408bc0244d6a195718c6c22\t2026-07-22T03:25:02+08:00\tHHY Continuity Bootstrap\t[STORY-R07-001] feat(android): 实现R07搜索发布者与联系方式闭环"
+  - "dff784e5d74a3fe5b09b2c7acfc06dcf7e1bcebd\t2026-07-22T02:57:51+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] chore(continuity): close TASK-R07-003\
+    \ as completed"
+  - "301a30124f4d65e1c1862bd02befe840a273bdf0\t2026-07-22T02:55:26+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] chore(continuity): 关闭 R07-003\
+    \ 变更请求"
+  - "83d58c6a22b2ecb3f1c283ae8fb36d45cdd55593\t2026-07-22T02:50:53+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] feat(r07): 实现搜索发布者与联系方式后端"
+  - "706970f90a7994b2cb020953cfb93d0e386978be\t2026-07-22T01:08:27+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] chore(continuity): close TASK-R07-002\
+    \ as completed"
+  - "59a8fe7b65efc7c3b57cb354c562984bd9eed480\t2026-07-22T01:04:35+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] chore(continuity): close R07\
+    \ data change requests"
+  - "b60a7a2de772e8ba480123ac85fd012dacf62160\t2026-07-22T00:58:04+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] feat(search): enforce R07\
+    \ data invariants"
+project_fingerprint:
+  sha256: bd7245fce67306a834afa669f25e479b8d5620a4cecf1a5d5c23698397bd37a9
+  files:
+  - CHANGELOG.md
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ApiModels.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR07Api.kt
+  - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/R07ApiModelsSerializationTest.kt
+  - apps/android/feature/discovery/build.gradle.kts
+  - apps/android/feature/discovery/src/main/java/cc/orbexa/hhy/discovery/R07DiscoveryScreens.kt
+  - apps/android/feature/discovery/src/main/java/cc/orbexa/hhy/discovery/R07DiscoveryState.kt
+  - apps/android/feature/discovery/src/test/java/cc/orbexa/hhy/discovery/R07DiscoveryStateTest.kt
+  - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+  - apps/android/settings.gradle.kts
+  - docs/03-continuity/change-requests/CR-0183-实现R07-Android搜索发布者与联系方式闭环.md
+  - releases/R07/TASKS.yaml
+  file_count: 14
+  payload:
+    base_commit: dff784e5d74a3fe5b09b2c7acfc06dcf7e1bcebd
+    files:
+    - path: CHANGELOG.md
+      state: FILE
+      size: 64842
+      sha256: 7f6584cba1b7d8e3188bbdfc835c49cdeaee96d206a0ba5202359ef60332c7a3
+    - path: apps/android/app/build.gradle.kts
+      state: FILE
+      size: 5031
+      sha256: 39b4de5fea2a0c508728409d977566b07bbd67a177e175195da1442d9752506a
+    - path: apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+      state: FILE
+      size: 13770
+      sha256: 31dc9eeabc59a2543cc9712b3487552697fdb9f7bf4798e8462c055bb471e063
+    - path: apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ApiModels.kt
+      state: FILE
+      size: 11659
+      sha256: 9b24147389f458603c1b1fd3772e1616678a388983765ae60bf7270ae4e6800c
+    - path: apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR07Api.kt
+      state: FILE
+      size: 10238
+      sha256: 628dad3e3acc8318cc5e697ed70fe07e345fcc2cdc384e1a9f3a59d78a8ca4a5
+    - path: apps/android/core/network/src/test/java/cc/orbexa/hhy/network/R07ApiModelsSerializationTest.kt
+      state: FILE
+      size: 1881
+      sha256: ba3573c164101a3517ae99da24a6b414a84866df38a492232d83c91f1b995ab7
+    - path: apps/android/feature/discovery/build.gradle.kts
+      state: FILE
+      size: 1112
+      sha256: a41800184f35e4ddc8a82b692d51013fdceea793cab726273a353b49fd2f876b
+    - path: apps/android/feature/discovery/src/main/java/cc/orbexa/hhy/discovery/R07DiscoveryScreens.kt
+      state: FILE
+      size: 25371
+      sha256: 6b587af464007636ce20aa0d322b8cc834b2945082742508ed7640a324c8ec4d
+    - path: apps/android/feature/discovery/src/main/java/cc/orbexa/hhy/discovery/R07DiscoveryState.kt
+      state: FILE
+      size: 2206
+      sha256: b03f37bbb91861cf6beb035c04a7447183f3a806a57488dd85b1211107d6d8fc
+    - path: apps/android/feature/discovery/src/test/java/cc/orbexa/hhy/discovery/R07DiscoveryStateTest.kt
+      state: FILE
+      size: 1780
+      sha256: 3fc9c552530c0b7d3b795f0259178ecb6420dbb66abf41dbfeb8f335b4629c78
+    - path: apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+      state: FILE
+      size: 9262
+      sha256: 46c7385badbe440530da12fbc0f715af9ef87967bdd945d37ab463b15cc11925
+    - path: apps/android/settings.gradle.kts
+      state: FILE
+      size: 550
+      sha256: d5b3e294b5c504500b3c04ef240b7562cff64a6765f0d42f7883011951d56f95
+    - path: docs/03-continuity/change-requests/CR-0183-实现R07-Android搜索发布者与联系方式闭环.md
+      state: FILE
+      size: 4817
+      sha256: d7ccc98a47941976412adbb8f45f96bf2074d9e6cab2de579c84c76de76315e8
+    - path: releases/R07/TASKS.yaml
+      state: FILE
+      size: 5868
+      sha256: 68f91dde9d79a48ada75a8d2871b52b9a1e92dd6362f14aa4a56eea83d10e968
+change_classification:
+  other:
+  - CHANGELOG.md
+  - releases/R07/TASKS.yaml
+  code:
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ApiModels.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR07Api.kt
+  - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/R07ApiModelsSerializationTest.kt
+  - apps/android/feature/discovery/build.gradle.kts
+  - apps/android/feature/discovery/src/main/java/cc/orbexa/hhy/discovery/R07DiscoveryScreens.kt
+  - apps/android/feature/discovery/src/main/java/cc/orbexa/hhy/discovery/R07DiscoveryState.kt
+  - apps/android/feature/discovery/src/test/java/cc/orbexa/hhy/discovery/R07DiscoveryStateTest.kt
+  - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+  - apps/android/settings.gradle.kts
+  user_visible:
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ApiModels.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR07Api.kt
+  - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/R07ApiModelsSerializationTest.kt
+  - apps/android/feature/discovery/build.gradle.kts
+  - apps/android/feature/discovery/src/main/java/cc/orbexa/hhy/discovery/R07DiscoveryScreens.kt
+  - apps/android/feature/discovery/src/main/java/cc/orbexa/hhy/discovery/R07DiscoveryState.kt
+  - apps/android/feature/discovery/src/test/java/cc/orbexa/hhy/discovery/R07DiscoveryStateTest.kt
+  - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+  - apps/android/settings.gradle.kts
+  continuity:
+  - docs/03-continuity/change-requests/CR-0183-实现R07-Android搜索发布者与联系方式闭环.md
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+- CHANGELOG
+change_requests:
+- CR-0183
+scope:
+  allowed_paths:
+  - apps/android/**
+  - services/backend/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - tests/**
+  - docs/**
+  - catalogs/**
+  - releases/**
+  - design/**
+  - scripts/**
+  - CHANGELOG.md
+  approved_exceptions:
+  - apps/android/settings.gradle.kts
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+  - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ApiModels.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR07Api.kt
+  - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/R07ApiModelsSerializationTest.kt
+  - apps/android/feature/discovery/build.gradle.kts
+  - apps/android/feature/discovery/src/main/java/cc/orbexa/hhy/discovery/R07DiscoveryScreens.kt
+  - apps/android/feature/discovery/src/main/java/cc/orbexa/hhy/discovery/R07DiscoveryState.kt
+  - apps/android/feature/discovery/src/test/java/cc/orbexa/hhy/discovery/R07DiscoveryStateTest.kt
+  - CHANGELOG.md
+  source: story+explicit+approved-cr:CR-0183
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 关闭记录和下一任务切换属于连续性单写事务。
+event_hash: 3b3b1b29527d261b0b8179ec15e1ea76b6b4991542bb0366e1dd8ecc2f05db6e

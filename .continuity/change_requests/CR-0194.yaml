@@ -1,0 +1,55 @@
+protocol_version: '1.0'
+cr_id: CR-0194
+title: 补齐R07候选夹具事务边界自动回归
+status: CLOSED
+created_at: '2026-07-21T21:40:23Z'
+updated_at: '2026-07-21T23:51:21Z'
+requester_actor_id: codex-r07-candidate
+approver_actor_id: codex-release-audit
+task_id: TASK-R07-007
+session_id: SES-20260721T210252Z-D631F6E4
+user_request: 持续推进R07最终候选并把已发现问题固化为可复用回归
+reason: 提交门禁要求Bug修复必须有仓库内自动回归，防止DO块变量和默认search_path问题复发
+original_rule: R07候选夹具事务边界仅由服务器手工实测覆盖
+new_rule: 仓库单元测试静态锁定客户端变量只能在DO块外解析、Flyway表显式hhy schema以及事务失败保护
+impact_summary: 新增一项无外部依赖的夹具脚本结构回归，不改变业务实现
+impact:
+  files:
+  - tests/test_r07_ci_fixture.py
+  pages: []
+  apis: []
+  database: []
+  configuration: []
+  ledger: []
+  tests:
+  - python -m unittest tests.test_r07_ci_fixture
+  releases:
+  - R07
+  migration_and_compatibility: 纯测试新增，无运行时迁移和兼容影响
+user_confirmation: 项目所有者已要求确定性问题沉淀踩坑与经验复用并持续推进
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-21T21:40:28Z'
+  note: 回归精确覆盖本次两类根因且不扩大候选范围
+machine_record: .continuity/change_requests/CR-0194.yaml
+document: docs/03-continuity/change-requests/CR-0194-补齐R07候选夹具事务边界自动回归.md
+decision_log:
+- at: '2026-07-21T21:41:13Z'
+  actor_id: codex-root-r07-007
+  status: IMPLEMENTING
+  note: 已新增3项无外部依赖回归，锁定客户端变量边界、hhy schema与事务敏感输出保护
+  session_id: SES-20260721T210252Z-D631F6E4
+- at: '2026-07-21T23:51:18Z'
+  actor_id: codex-root-r07-007
+  status: IMPLEMENTED
+  note: 批准范围已实现并由对应提交及R07候选/交付门禁验证。
+  session_id: SES-20260721T210252Z-D631F6E4
+- at: '2026-07-21T23:51:21Z'
+  actor_id: codex-root-r07-007
+  status: CLOSED
+  note: 实现提交已推送，相关受影响门禁均通过。
+  session_id: SES-20260721T210252Z-D631F6E4
+session_ids:
+- SES-20260721T210252Z-D631F6E4
+implementation_commits:
+- f46af781e0fa9007d712332713b3f067875ecb5f

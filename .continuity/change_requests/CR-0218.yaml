@@ -1,0 +1,69 @@
+protocol_version: '1.0'
+cr_id: CR-0218
+title: 补齐R08项目公开分享H5并证明后台复用
+status: CLOSED
+created_at: '2026-07-22T03:46:00Z'
+updated_at: '2026-07-22T04:09:49Z'
+requester_actor_id: codex-root-r08-004
+approver_actor_id: codex-reviewer-r08-web
+task_id: TASK-R08-004
+session_id: SES-20260722T031604Z-105CF4C6
+user_request: 持续完成R08客户端、H5和后台实现，UI接近效果图丰富度且不得虚构业务。
+reason: CR-0217已锁定Android影响范围；H5-004仍是静态骨架，R08分享接口已返回真实公开URL，需单独批准生成契约绑定和页面状态；后台通用内容运营已经支持PROJECT，应以回归证明复用而非另造页面。
+original_rule: H5-004冻结为公开项目分享页并绑定publicGetShareContentsById；ADM-CONTENT-001和ADM-CONTENT-002是项目等四类内容的统一后台运营页面。当前H5通用PublicPage仍为静态骨架，后台通用页面已有真实PROJECT支持。
+new_rule: 不新增规则或平行页面：H5-004使用生成ClientContract类型读取GET /public-api/v1/share/contents/{id}，按公开页面合同展示SEO、审核通过内容块、媒体替代文本、失效和下载引导；ADM-CONTENT-001/002继续复用现有统一内容运营实现，通过R08回归证明PROJECT筛选、详情和版本化操作。
+impact_summary: 新增H5公开分享契约服务及单测，升级PublicPage仅对H5-004至H5-007分享路由进行真实加载，其他既有H5路由保持原行为；新增后台复用回归，不新增后台页面、DTO或接口。
+impact:
+  files:
+  - apps/h5/src/services/publicShare.ts
+  - apps/h5/src/services/publicShare.test.ts
+  - apps/h5/src/views/PublicPage.vue
+  - apps/h5/src/styles.css
+  - apps/admin-web/src/r08ProjectReuse.test.ts
+  - artifacts/reports/R08/TASK-R08-004-client.md
+  - CHANGELOG.md
+  pages:
+  - H5-004
+  - ADM-CONTENT-001
+  - ADM-CONTENT-002
+  apis:
+  - GET /public-api/v1/share/contents/{id}
+  - GET /admin-api/v1/contents
+  - GET /admin-api/v1/contents/{id}
+  database: []
+  configuration: []
+  ledger: []
+  tests:
+  - npm test --prefix apps/h5
+  - npm run build --prefix apps/h5
+  - npm test --prefix apps/admin-web
+  releases:
+  - R08
+  migration_and_compatibility: 公开分享路径和后端冻结接口不变；响应失败按离线、404、403和通用错误显示，禁止泄露联系方式与内容状态；非分享PublicPage保持静态页面，后台路由和权限不变。
+user_confirmation: 项目所有者已明确要求持续完成所有版本，UI按效果图丰富度实现且不得虚构功能，并要求换电脑换AI仍持续生效。
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-22T03:46:35Z'
+  note: 批准只补齐冻结H5分享页并以测试证明既有后台通用页面复用；禁止为R08另建后台项目页或手写重复DTO。
+machine_record: .continuity/change_requests/CR-0218.yaml
+document: docs/03-continuity/change-requests/CR-0218-补齐R08项目公开分享H5并证明后台复用.md
+decision_log:
+- at: '2026-07-22T03:46:40Z'
+  actor_id: codex-root-r08-004
+  status: IMPLEMENTING
+  note: 开始补齐H5-004真实公开分享和后台PROJECT复用回归。
+  session_id: SES-20260722T031604Z-105CF4C6
+- at: '2026-07-22T04:09:46Z'
+  actor_id: codex-root-r08-004
+  status: IMPLEMENTED
+  note: H5真实公开分享页与全部页面状态已实现，后台PROJECT复用回归已完成。
+  session_id: SES-20260722T031604Z-105CF4C6
+- at: '2026-07-22T04:09:49Z'
+  actor_id: codex-root-r08-004
+  status: CLOSED
+  note: H5 27 tests和生产构建PASS；后台16 files/88 tests PASS。
+  session_id: SES-20260722T031604Z-105CF4C6
+session_ids:
+- SES-20260722T031604Z-105CF4C6
+implementation_commits:
+- 9946433742eb9f7ba7ade9909ad11ec0774e8afb

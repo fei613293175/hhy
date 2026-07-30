@@ -1,0 +1,38 @@
+groups:
+  - name: hhy-r05-identity
+    rules:
+      - alert: HhyR05BackendDown
+        expr: up{job="hhy-backend-r05"} == 0
+        for: 15s
+        labels: { severity: critical, release: R05 }
+        annotations: { summary: 合伙云 R05 Staging 后端不可用 }
+      - alert: HhyR05HighServerErrorRate
+        expr: sum(rate(http_server_requests_seconds_count{job="hhy-backend-r05",status=~"5.."}[1m])) / clamp_min(sum(rate(http_server_requests_seconds_count{job="hhy-backend-r05"}[1m])), 0.001) > 0.02
+        for: 1m
+        labels: { severity: warning, release: R05 }
+        annotations: { summary: 合伙云 R05 Staging 5xx 比例超过 2% }
+      - alert: HhyR05HighP95Latency
+        expr: histogram_quantile(0.95, sum by (le) (rate(http_server_requests_seconds_bucket{job="hhy-backend-r05"}[5m]))) > 0.5
+        for: 2m
+        labels: { severity: warning, release: R05 }
+        annotations: { summary: 合伙云 R05 Staging P95 延迟超过 500ms }
+      - alert: HhyR05IdentityProviderFailureBurst
+        expr: hhy_identity_provider_failures_5m{job="hhy-backend-r05"} > 3
+        for: 30s
+        labels: { severity: warning, release: R05 }
+        annotations: { summary: 实名供应商五分钟内失败或超时超过 3 次 }
+      - alert: HhyR05IdentityManualReviewBacklog
+        expr: hhy_identity_manual_review_pending{job="hhy-backend-r05"} > 20
+        for: 5m
+        labels: { severity: warning, release: R05 }
+        annotations: { summary: 实名人工复核积压超过 20 条 }
+      - alert: HhyR05IdentityPrivateMediaInvalid
+        expr: hhy_identity_private_media_invalid{job="hhy-backend-r05"} > 0
+        for: 15s
+        labels: { severity: critical, release: R05 }
+        annotations: { summary: 实名媒体未绑定到私有就绪对象 }
+      - alert: HhyR05BusinessMetricQueryFailure
+        expr: sum(hhy_business_metric_query_failures_total{job="hhy-backend-r05"}) > 0
+        for: 15s
+        labels: { severity: critical, release: R05 }
+        annotations: { summary: R05 业务指标查询失败，监控结果不可信 }

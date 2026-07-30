@@ -269,3 +269,45 @@ echo "R01_V012_ATOMIC_CONFLICT_ROLLBACK_OK"
 reset_and_apply_until 12
 "${PSQL[@]}" -f "${ROOT}/database/verification/verify_baseline.sql" >/dev/null
 echo "R01_FINAL_EMPTY_DATABASE_OK"
+
+reset_and_apply_until 16
+"${PSQL[@]}" -f "${ROOT}/database/tests/r01_idempotency_snapshot_invariants.sql" >/dev/null
+echo "R01_V016_SNAPSHOT_PAIR_OK"
+
+"${PSQL[@]}" <<'SQL' >/dev/null
+SET search_path TO hhy, public;
+INSERT INTO idempotency_records(
+  scope, idem_key, request_hash, response_ref,
+  response_type, response_payload_ciphertext, expires_at)
+VALUES (
+  'r01.rollback.block', 'snapshot-present', repeat('b', 64), 'session:23',
+  'r01.command-result.v1', 'hhy-idem-v1.A256GCM.v1.test-nonce.test-ciphertext',
+  clock_timestamp() + interval '1 day');
+SQL
+set +e
+"${PSQL[@]}" --single-transaction -f "${ROOT}/database/rollback/U016__r01_idempotency_response_snapshots.sql" \
+  >"${concurrency_dir}/u016-blocked.log" 2>&1
+u016_blocked_rc=$?
+set -e
+if [[ "${u016_blocked_rc}" -eq 0 ]] \
+    || ! grep -q "R01_IDEMPOTENCY_SNAPSHOT_ROLLBACK_BLOCKED_SNAPSHOTS_EXIST" \
+      "${concurrency_dir}/u016-blocked.log"; then
+  cat "${concurrency_dir}/u016-blocked.log" >&2
+  echo "U016 must reject rollback while any snapshot column contains data" >&2
+  exit 1
+fi
+snapshot_columns_after_block="$(${PSQL[@]} -qAt -c "SELECT count(*) FROM information_schema.columns WHERE table_schema='hhy' AND table_name='idempotency_records' AND column_name IN ('response_type','response_payload_ciphertext');")"
+[[ "${snapshot_columns_after_block}" == "2" ]] || {
+  echo "Rejected U016 changed snapshot columns" >&2; exit 1;
+}
+echo "R01_U016_BLOCKED_WITH_SNAPSHOT_OK"
+
+reset_and_apply_until 16
+"${PSQL[@]}" --single-transaction -f "${ROOT}/database/rollback/U016__r01_idempotency_response_snapshots.sql" >/dev/null
+snapshot_columns_after_safe="$(${PSQL[@]} -qAt -c "SELECT count(*) FROM information_schema.columns WHERE table_schema='hhy' AND table_name='idempotency_records' AND column_name IN ('response_type','response_payload_ciphertext');")"
+[[ "${snapshot_columns_after_safe}" == "0" ]] || {
+  echo "Safe U016 did not remove both snapshot columns" >&2; exit 1;
+}
+"${PSQL[@]}" --single-transaction -f "${ROOT}/database/migrations/V016__r01_idempotency_response_snapshots.sql" >/dev/null
+"${PSQL[@]}" -f "${ROOT}/database/verification/verify_baseline.sql" >/dev/null
+echo "R01_U016_SAFE_ROLLBACK_REAPPLY_OK"

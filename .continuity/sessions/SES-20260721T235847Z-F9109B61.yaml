@@ -1,0 +1,112 @@
+protocol_version: '1.0'
+package_version: 1.2.3
+session_id: SES-20260721T235847Z-F9109B61
+status: CLOSED
+actor:
+  id: codex-root-r07-008
+  kind: AI_OR_HUMAN
+  host: unknown
+release: R07
+task_id: TASK-R07-008
+story_id: STORY-R07-005
+goal: 完成R07机器关闭、验收矩阵、状态交接并在异步真机PENDING下切换R08继续开发
+started_at: '2026-07-21T23:58:47Z'
+updated_at: '2026-07-22T00:23:14Z'
+takeover_of: null
+change_requests:
+- CR-0203
+- CR-0204
+- CR-0205
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions:
+  - releases/R07/ACCEPTANCE_MATRIX.csv
+  - releases/R07/RELEASE_MANIFEST.yaml
+  - releases/R07/STORIES.yaml
+  - artifacts/reports/R07/TASK-R07-008-machine-close.md
+  - CURRENT_STATUS.yaml
+  - NEXT_TASK.yaml
+  - releases/R07/TASKS.yaml
+  - CHANGELOG.md
+  - scripts/continuity.py
+  - tests/test_continuity_cross_release_close.py
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/PITFALLS.md
+  - artifacts/validation/continuity-integration-v1.2.3.json
+  - artifacts/validation/continuity-integration-v1.2.3.log
+  - artifacts/validation/continuity-lifecycle-integration-v1.2.3.json
+  - artifacts/validation/continuity-lifecycle-integration-v1.2.3.log
+  - artifacts/validation/project-doctor-v1.2.3.json
+  source: story+explicit+approved-cr:CR-0203+approved-cr:CR-0204+approved-cr:CR-0205
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  base_commit: 7c44a90b99551cdc23993f506a08c9efab5be135
+  start_head: 7c44a90b99551cdc23993f506a08c9efab5be135
+  upstream: origin/task/TASK-R03-001
+  initial_worktree_state: CLEAN
+lease:
+  duration_minutes: 240
+  renewed_at: '2026-07-22T00:23:10Z'
+  expires_at: '2026-07-22T04:23:10Z'
+checkpoint_sequence: 5
+latest_checkpoint: .continuity/checkpoints/SES-20260721T235847Z-F9109B61/0005.yaml
+session_log: docs/03-continuity/sessions/2026-07/SES-20260721T235847Z-F9109B61.md
+next_step: 提交关闭元数据Commit，然后运行pre-push/CI门禁
+context_pack:
+  yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
+  markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
+  manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+  context_hash: 73859b489e5f0fa645f4481356c1fb702b617cbc73186f5803f23465d000c371
+  generated_at: '2026-07-22T00:23:13Z'
+handoff_bundle: null
+closure:
+  result: BLOCKED
+  summary: R07机器开发、Staging、最终候选、视觉、四方APK与桌面交付均PASS；仅项目所有者异步真机验收PENDING，正式验收和生产激活继续阻断
+  code_commit: 4c5ec60addcc45e5896d8de45686aa788d6e0b32
+  next_release: R08
+  next_task: TASK-R08-001
+  blocked_advance: true
+  user_confirmation: 项目所有者明确要求真机反馈不按版本强制提供且不得因此停止后续开发，完成后立即继续项目落地。
+  metadata_commit: PENDING
+  push_verification: CI_REQUIRED_AFTER_METADATA_COMMIT
+  started_at: '2026-07-22T00:23:07Z'
+  closure_checkpoint_id: CP-SES-20260721T235847Z-F9109B61-0005
+  closed_at: '2026-07-22T00:23:14Z'
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: CR关闭和跨Release状态转换必须串行一致
+closed_at: '2026-07-22T00:23:14Z'

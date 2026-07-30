@@ -12,6 +12,7 @@
 账号,login_logs,登录日志,"user_id, phone, ip, device_id, result",时间索引,R02
 账号,user_settings,用户设置,"user_id, notification_json, privacy_json",user_id唯一,R02
 账号,user_status_logs,账号状态历史,"user_id, from_status, to_status, reason, operator",不可删除,R02
+账号,user_restrictions,用户当前限制,"user_id, restriction_type, reason, expires_at, status, created_by, removed_by, version",用户+类型唯一活动限制；到期与解除可追溯,R02
 实名,identity_profiles,当前实名资料,"user_id, name_cipher, id_no_cipher, id_hash, status",id_hash唯一策略,R05
 实名,identity_verification_sessions,实名尝试,"user_id, state, status, provider, expires_at",state唯一,R05
 实名,identity_provider_requests,第三方请求记录,"session_id, request_type, provider_order_no, response_cipher",订单号索引,R05
@@ -24,13 +25,13 @@
 内容,content_posts,内容主表,"owner_id, type, title, summary, status, review_status, refresh_times",类型+状态索引,R06-R13
 内容,project_details,项目扩展,"content_id, cooperation, conditions, region, website",content_id唯一,R06-R13
 内容,app_details,App扩展,"content_id, app_name, platform, version_text, download_url, website",content_id唯一；无apk字段,R06-R13
-内容,group_details,群扩展,"content_id, platform, size_range, join_requirement, qr_media_id, group_link, group_no",content_id唯一,R06-R13
+内容,group_details,群扩展,"content_id, platform, size_range, join_requirement, qr_media_id, group_link, group_no",content_id唯一；join_requirement仅为入群要求；ONLINE必须有平台、入群通道和独立群主联系方式；二维码引用受RESTRICT保护,R06-R13
 内容,team_leader_details,团队长扩展,"content_id, team_name, size_range, skills, cooperation_types",owner唯一活动资料,R06-R13
-内容,content_media,内容媒体,"content_id, media_id, media_type, sort_order",内容+顺序唯一,R06-R13
-内容,content_contacts,内容联系方式,"content_id, channel, value_cipher, display_mask, sort_order",详情获取,R06-R13
+内容,content_media,内容媒体,"content_id, media_id, media_type, sort_order, removed_at",内容+媒体唯一；移除仅软标记并保留历史,R06-R13
+内容,content_contacts,内容联系方式及受保护入群口令,"content_id, channel, value_cipher, display_mask, sort_order, removed_at",内容内渠道和顺序唯一；JOIN_PASSWORD仅GROUP且每内容唯一，使用V032加密信封与掩码并经显式访问审计，不计作群主联系方式；移除仅软标记,R06-R13
 内容,content_versions,内容版本,"content_id, version_no, snapshot_json, created_by",内容+版本唯一,R06-R13
-内容,content_status_logs,状态日志,"content_id, from_status, to_status, reason, operator",不可删除,R06-R13
-内容,content_review_records,审核记录,"content_id, version_no, decision, reason, admin_id",版本索引,R06-R13
+内容,content_status_logs,状态日志,"content_id, from_status, to_status, reason, operator, transition_version",不可删除；V039后按内容版本唯一,R06-R13
+内容,content_review_records,审核记录,"content_id, version_no, decision, reason, admin_id, snapshot_version_id, command_id",不可删除；绑定提交快照并按命令幂等；同快照最多一次ESCALATE且二审必须重新分配后由被分配管理员决定,R06-R13
 内容,content_stats,累计统计,"content_id, organic_views, redpacket_views, task_views, favorites, chats, contacts",content_id唯一,R06-R13
 内容,content_daily_stats,每日统计,"content_id, stat_date, metrics_json",内容+日期唯一,R06-R13
 内容,content_favorites,收藏,"user_id, content_id, created_at",用户+内容唯一,R06-R13
@@ -54,14 +55,14 @@
 通知,push_tokens,推送令牌,"user_id, device_id, provider, token",token唯一,R15
 通知,announcements,公告,"title, content, status, published_at",CMS,R15
 通知,announcement_reads,公告已读,"announcement_id, user_id, read_at",唯一,R15
-商品,products,商品,"type, name, status, display_order",商品类型,R16
-商品,product_skus,SKU,"product_id, code, price_cent, duration, attributes_json, status",code唯一,R16
-商品,sku_commission_policies,SKU分佣,"sku_id, level1_bps, level2_bps, enabled, version",版本快照,R16
-商品,coupons,优惠券定义,"code, discount_type, value, scope, validity",可选模块,R16
-商品,user_coupons,用户优惠券,"user_id, coupon_id, status, expires_at",状态,R16
-订单,orders,订单主表,"order_no, user_id, biz_type, biz_id, amount_cent, status",order_no唯一,R16
-订单,order_items,订单项,"order_id, sku_id, quantity, unit_price, snapshot_json",快照,R16
-订单,order_price_snapshots,报价快照,"order_id, original, discount, service_fee, payable, rule_versions",order唯一,R16
+商品,products,商品,"product_code, type, name, description, status, display_order, version","product_code唯一；name/type/status非空；version非负",R16
+商品,product_skus,SKU,"product_id, code, name, price_cent, member_price_cent, duration_days, benefits_json, sale_starts_at, sale_ends_at, status, version","code唯一；显式权益数组；金额非负；销售时段有序",R16
+商品,sku_commission_policies,SKU分佣,"sku_id, level1_bps, level2_bps, enabled, version","每SKU唯一；两级bps合计不超过10000；version非负",R16
+商品,coupons,优惠券定义,"code, discount_type, value, scope, validity","code唯一非空；value非负；可选模块",R16
+商品,user_coupons,用户优惠券,"user_id, coupon_id, status, expires_at","status非空；不臆造永久唯一",R16
+订单,orders,订单主表,"order_no, user_id, biz_type, biz_id, amount_cent, status, currency, paid_amount_cent, no_refund_confirmed, idempotency_key, request_hash, version","order_no唯一；创建幂等三元组；完整ORDER_STATUS；不退款证据；报价提交一致",R16
+订单,order_items,订单项,"order_id, sku_id, item_name, quantity, unit_price, subtotal_amount_cent, snapshot_json","写入后不可变；quantity>=1；subtotal等于quantity乘unit_price",R16
+订单,order_price_snapshots,报价快照,"order_id, original, discount, service_fee, payable, rule_versions_json","每订单唯一且写入后不可变；original-discount+service_fee=payable",R16
 支付,payment_transactions,支付交易,"order_id, gateway, channel, provider_trade_no, amount, status",provider_trade_no唯一,R17
 支付,payment_callbacks,支付回调,"gateway, provider_trade_no, payload_cipher, signature_valid, processed",幂等,R17
 支付,payment_exception_orders,异常账务,"order_id, type, status, resolution",双人复核,R17
@@ -159,16 +160,17 @@ CMS,h5_page_configs,H5页面配置,"page_code, config_json, version, status",版
 系统,feature_flags,功能开关,"key, enabled, rollout_json",灰度,P00/R29/R30
 系统,job_definitions,定时任务定义,"code, cron, enabled, config_json",code唯一,R30
 系统,job_execution_logs,任务执行日志,"job_code, started_at, finished_at, status, error",时间索引,R30
-系统,idempotency_records,幂等记录,"scope, idem_key, request_hash, response_ref, expires_at",scope+key唯一,P00/R29/R30
+系统,idempotency_records,幂等记录,"scope, idem_key, request_hash, response_ref, response_type, response_payload_ciphertext, expires_at",scope+key唯一,P00/R01/R29/R30
 分析,analytics_events,行为事件,"user_id, event_name, biz_type, biz_id, traffic_type, properties, occurred_at",可分区,R23/R30
 分析,daily_kpis,每日指标,"stat_date, metric_code, dimensions, value",维度唯一,R23/R30
 配置中心,provider_config_definitions,供应商配置定义,"provider_code, field_code, field_type, secret, required, validation_json",provider+field唯一,R01/R03/R30
-配置中心,provider_config_versions,供应商配置版本,"provider_code, version_no, encrypted_values, status, created_by, activated_at",版本不可覆盖；激活唯一,R01/R03/R30
+配置中心,provider_config_versions,供应商配置版本,"provider_code, version_no, status, environment, values_json, secret_refs_json, connection_successful, approval_ref, version",版本载荷不可覆盖；供应商激活唯一；SecretRef仅Vault/KMS,R01/R03/R30
 配置中心,provider_connection_tests,供应商连接测试,"provider_code, config_version_id, test_type, status, masked_result, requested_by, created_at",不保存明文秘密,R01/R03/R30
-配置中心,provider_certificates,证书与私钥元数据,"provider_code, cert_type, object_key, fingerprint, encrypted_password_ref, valid_from, valid_to, status",私有存储；原文不可读回,R01/R03/R30
+配置中心,provider_certificates,证书与私钥元数据,"provider_code, cert_type, alias, fingerprint, secret_ref, valid_from, valid_to, status, rotated_to_id, approval_ref, version",私有存储；原文不可读回；材料字段不可变；类型激活唯一,R01/R03/R30
 配置中心,provider_certificate_access_logs,证书访问审计,"certificate_id, admin_id, operation, reason, ip, created_at",不可删除,R01/R03/R30
-配置中心,domain_configs,域名配置,"code, environment, host, purpose, status, verified_at",environment+code唯一,R01/R03/R30
-配置中心,dns_action_items,DNS操作清单,"domain_config_id, record_type, name, value, status, user_action_required",解析由用户完成,R01/R03/R30
+配置中心,domain_configs,域名配置,"code, environment, host, purpose, status, certificate_mode, dns_status, https_status, certificate_status, service_health_status, last_probe_code, last_verified_at, version",code唯一；DNS/TLS/证书/服务健康分层保存,R01/R03/R30
+配置中心,domain_command_receipts,域名命令幂等回执,"domain_config_id, operation, idempotency_key, fingerprint, result_json, created_at, expires_at",资源+操作+幂等键唯一；请求指纹和首个结果不可变,R03
+配置中心,dns_action_items,DNS操作清单,"domain_config_id, record_type, name, value, record_value, status, user_action_required, owner_admin_id, due_at, last_error_code",解析由用户完成；失败码不得保存供应商原文,R01/R03/R30
 配置中心,storage_scope_bindings,存储Scope绑定,"scope_code, provider_code, config_version_id, bucket, public_domain, status",scope唯一激活,R01/R03/R30
 配置中心,storage_migration_jobs,跨存储迁移任务,"source_binding_id, target_binding_id, scope_code, cursor, total, success, failed, status",可断点续传,R01/R03/R30
 App构建,app_build_profiles,构建配置,"id, name, environment, application_id, display_name, gradle_params, allowed_refs, status",环境+名称唯一,R29
@@ -197,3 +199,6 @@ App构建,app_release_approvals,生产发布复核,"release_record_id, applicant
 后台,export_jobs,高敏数据异步导出任务,"id, job_no, export_type, status, filter_snapshot, field_codes, mask_policy, row_limit, purpose, approval_request_id, created_by, expires_at, version, created_at, updated_at",导出条件和字段快照不可变；高敏导出需审批；行数和过期时间强制限制,R30
 后台,export_job_files,导出产物与完整性信息,"id, export_job_id, media_object_id, file_name, content_type, size_bytes, sha256, row_count, expires_at, created_at",文件私有存储；sha256必填；过期后删除对象并保留审计元数据,R30
 后台,export_download_logs,导出文件一次性令牌和下载审计,"id, export_job_file_id, admin_user_id, token_hash, purpose, ip, expires_at, used_at, result, request_id, created_at",令牌只存哈希且一次性；下载人必须与授权人一致；记录IP、目的和结果,R30
+实时通信,websocket_user_sequences,用户级WebSocket连续服务端序列,"user_id, high_watermark, created_at, updated_at",每用户一行；high_watermark只增不减；事务内原子分配,R14
+实时通信,websocket_deliveries,WebSocket持久投递与确认事实,"id, event_id, user_id, server_sequence, event_type, conversation_id, affected_scope, envelope, ack_required, acked_at, delivery_attempts, first_delivered_at, last_delivered_at, expires_at, created_at",event_id唯一；user_id+server_sequence唯一；72小时保留；ACK归属和重投有界,R14
+实时通信,websocket_gap_watermarks,WebSocket过期缺口安全水位,"user_id, expired_through_sequence, affected_scopes, created_at, updated_at",每用户一行；水位只增不减；scope只允许CHAT或NOTIFICATIONS,R14

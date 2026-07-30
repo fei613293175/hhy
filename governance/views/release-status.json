@@ -1,0 +1,733 @@
+{
+  "source_revision": 5,
+  "releases": [
+    {
+      "status": "HISTORICAL",
+      "frozen_commit": null,
+      "candidate": {
+        "status": "NONE",
+        "commit": null,
+        "evidence": null
+      },
+      "owner_verification": {
+        "status": "HISTORICAL",
+        "evidence": null
+      },
+      "formal_release": {
+        "status": "NONE",
+        "evidence": null,
+        "tag": null
+      },
+      "release": "P00",
+      "task_counts": {
+        "DONE": 8
+      }
+    },
+    {
+      "status": "HISTORICAL",
+      "frozen_commit": null,
+      "candidate": {
+        "status": "NONE",
+        "commit": null,
+        "evidence": null
+      },
+      "owner_verification": {
+        "status": "HISTORICAL",
+        "evidence": null
+      },
+      "formal_release": {
+        "status": "NONE",
+        "evidence": null,
+        "tag": null
+      },
+      "release": "R01",
+      "task_counts": {
+        "DONE": 8
+      }
+    },
+    {
+      "status": "HISTORICAL",
+      "frozen_commit": null,
+      "candidate": {
+        "status": "NONE",
+        "commit": null,
+        "evidence": null
+      },
+      "owner_verification": {
+        "status": "HISTORICAL",
+        "evidence": null
+      },
+      "formal_release": {
+        "status": "NONE",
+        "evidence": null,
+        "tag": null
+      },
+      "release": "R02",
+      "task_counts": {
+        "DONE": 8
+      }
+    },
+    {
+      "status": "HISTORICAL",
+      "frozen_commit": null,
+      "candidate": {
+        "status": "NONE",
+        "commit": null,
+        "evidence": null
+      },
+      "owner_verification": {
+        "status": "HISTORICAL",
+        "evidence": null
+      },
+      "formal_release": {
+        "status": "NONE",
+        "evidence": null,
+        "tag": null
+      },
+      "release": "R03",
+      "task_counts": {
+        "DONE": 8
+      }
+    },
+    {
+      "status": "HISTORICAL",
+      "frozen_commit": null,
+      "candidate": {
+        "status": "NONE",
+        "commit": null,
+        "evidence": null
+      },
+      "owner_verification": {
+        "status": "HISTORICAL",
+        "evidence": null
+      },
+      "formal_release": {
+        "status": "NONE",
+        "evidence": null,
+        "tag": null
+      },
+      "release": "R04",
+      "task_counts": {
+        "DONE": 8
+      }
+    },
+    {
+      "status": "HISTORICAL",
+      "frozen_commit": null,
+      "candidate": {
+        "status": "NONE",
+        "commit": null,
+        "evidence": null
+      },
+      "owner_verification": {
+        "status": "HISTORICAL",
+        "evidence": null
+      },
+      "formal_release": {
+        "status": "NONE",
+        "evidence": null,
+        "tag": null
+      },
+      "release": "R05",
+      "task_counts": {
+        "DONE": 8
+      }
+    },
+    {
+      "status": "HISTORICAL",
+      "frozen_commit": null,
+      "candidate": {
+        "status": "NONE",
+        "commit": null,
+        "evidence": null
+      },
+      "owner_verification": {
+        "status": "HISTORICAL",
+        "evidence": null
+      },
+      "formal_release": {
+        "status": "NONE",
+        "evidence": null,
+        "tag": null
+      },
+      "release": "R06",
+      "task_counts": {
+        "DONE": 8
+      }
+    },
+    {
+      "status": "HISTORICAL",
+      "frozen_commit": null,
+      "candidate": {
+        "status": "NONE",
+        "commit": null,
+        "evidence": null
+      },
+      "owner_verification": {
+        "status": "HISTORICAL",
+        "evidence": null
+      },
+      "formal_release": {
+        "status": "NONE",
+        "evidence": null,
+        "tag": null
+      },
+      "release": "R07",
+      "task_counts": {
+        "DONE": 8
+      }
+    },
+    {
+      "status": "HISTORICAL",
+      "frozen_commit": null,
+      "candidate": {
+        "status": "NONE",
+        "commit": null,
+        "evidence": null
+      },
+      "owner_verification": {
+        "status": "HISTORICAL",
+        "evidence": null
+      },
+      "formal_release": {
+        "status": "NONE",
+        "evidence": null,
+        "tag": null
+      },
+      "release": "R08",
+      "task_counts": {
+        "DONE": 8
+      }
+    },
+    {
+      "status": "HISTORICAL",
+      "frozen_commit": null,
+      "candidate": {
+        "status": "NONE",
+        "commit": null,
+        "evidence": null
+      },
+      "owner_verification": {
+        "status": "HISTORICAL",
+        "evidence": null
+      },
+      "formal_release": {
+        "status": "NONE",
+        "evidence": null,
+        "tag": null
+      },
+      "release": "R09",
+      "task_counts": {
+        "DONE": 8
+      }
+    },
+    {
+      "status": "HISTORICAL",
+      "frozen_commit": null,
+      "candidate": {
+        "status": "NONE",
+        "commit": null,
+        "evidence": null
+      },
+      "owner_verification": {
+        "status": "HISTORICAL",
+        "evidence": null
+      },
+      "formal_release": {
+        "status": "NONE",
+        "evidence": null,
+        "tag": null
+      },
+      "release": "R10",
+      "task_counts": {
+        "DONE": 8
+      }
+    },
+    {
+      "status": "HISTORICAL",
+      "frozen_commit": null,
+      "candidate": {
+        "status": "NONE",
+        "commit": null,
+        "evidence": null
+      },
+      "owner_verification": {
+        "status": "HISTORICAL",
+        "evidence": null
+      },
+      "formal_release": {
+        "status": "NONE",
+        "evidence": null,
+        "tag": null
+      },
+      "release": "R11",
+      "task_counts": {
+        "DONE": 8
+      }
+    },
+    {
+      "status": "HISTORICAL",
+      "frozen_commit": null,
+      "candidate": {
+        "status": "NONE",
+        "commit": null,
+        "evidence": null
+      },
+      "owner_verification": {
+        "status": "HISTORICAL",
+        "evidence": null
+      },
+      "formal_release": {
+        "status": "NONE",
+        "evidence": null,
+        "tag": null
+      },
+      "release": "R12",
+      "task_counts": {
+        "DONE": 8
+      }
+    },
+    {
+      "status": "HISTORICAL",
+      "frozen_commit": null,
+      "candidate": {
+        "status": "NONE",
+        "commit": null,
+        "evidence": null
+      },
+      "owner_verification": {
+        "status": "HISTORICAL",
+        "evidence": null
+      },
+      "formal_release": {
+        "status": "NONE",
+        "evidence": null,
+        "tag": null
+      },
+      "release": "R13",
+      "task_counts": {
+        "DONE": 8
+      }
+    },
+    {
+      "status": "DEVELOPING",
+      "frozen_commit": null,
+      "candidate": {
+        "status": "NONE",
+        "commit": null,
+        "evidence": null
+      },
+      "owner_verification": {
+        "status": "PENDING",
+        "evidence": null
+      },
+      "formal_release": {
+        "status": "NONE",
+        "evidence": null,
+        "tag": null
+      },
+      "release": "R14",
+      "task_counts": {
+        "DONE": 7,
+        "SUPERSEDED": 1,
+        "FAILED_BOUNDED": 1
+      }
+    },
+    {
+      "status": "PLANNED",
+      "frozen_commit": null,
+      "candidate": {
+        "status": "NONE",
+        "commit": null,
+        "evidence": null
+      },
+      "owner_verification": {
+        "status": "NOT_STARTED",
+        "evidence": null
+      },
+      "formal_release": {
+        "status": "NONE",
+        "evidence": null,
+        "tag": null
+      },
+      "release": "R15",
+      "task_counts": {
+        "PLANNED": 8
+      }
+    },
+    {
+      "status": "PLANNED",
+      "frozen_commit": null,
+      "candidate": {
+        "status": "NONE",
+        "commit": null,
+        "evidence": null
+      },
+      "owner_verification": {
+        "status": "NOT_STARTED",
+        "evidence": null
+      },
+      "formal_release": {
+        "status": "NONE",
+        "evidence": null,
+        "tag": null
+      },
+      "release": "R16",
+      "task_counts": {
+        "PLANNED": 8
+      }
+    },
+    {
+      "status": "PLANNED",
+      "frozen_commit": null,
+      "candidate": {
+        "status": "NONE",
+        "commit": null,
+        "evidence": null
+      },
+      "owner_verification": {
+        "status": "NOT_STARTED",
+        "evidence": null
+      },
+      "formal_release": {
+        "status": "NONE",
+        "evidence": null,
+        "tag": null
+      },
+      "release": "R17",
+      "task_counts": {
+        "PLANNED": 8
+      }
+    },
+    {
+      "status": "PLANNED",
+      "frozen_commit": null,
+      "candidate": {
+        "status": "NONE",
+        "commit": null,
+        "evidence": null
+      },
+      "owner_verification": {
+        "status": "NOT_STARTED",
+        "evidence": null
+      },
+      "formal_release": {
+        "status": "NONE",
+        "evidence": null,
+        "tag": null
+      },
+      "release": "R18",
+      "task_counts": {
+        "PLANNED": 8
+      }
+    },
+    {
+      "status": "PLANNED",
+      "frozen_commit": null,
+      "candidate": {
+        "status": "NONE",
+        "commit": null,
+        "evidence": null
+      },
+      "owner_verification": {
+        "status": "NOT_STARTED",
+        "evidence": null
+      },
+      "formal_release": {
+        "status": "NONE",
+        "evidence": null,
+        "tag": null
+      },
+      "release": "R19",
+      "task_counts": {
+        "PLANNED": 8
+      }
+    },
+    {
+      "status": "PLANNED",
+      "frozen_commit": null,
+      "candidate": {
+        "status": "NONE",
+        "commit": null,
+        "evidence": null
+      },
+      "owner_verification": {
+        "status": "NOT_STARTED",
+        "evidence": null
+      },
+      "formal_release": {
+        "status": "NONE",
+        "evidence": null,
+        "tag": null
+      },
+      "release": "R20",
+      "task_counts": {
+        "PLANNED": 8
+      }
+    },
+    {
+      "status": "PLANNED",
+      "frozen_commit": null,
+      "candidate": {
+        "status": "NONE",
+        "commit": null,
+        "evidence": null
+      },
+      "owner_verification": {
+        "status": "NOT_STARTED",
+        "evidence": null
+      },
+      "formal_release": {
+        "status": "NONE",
+        "evidence": null,
+        "tag": null
+      },
+      "release": "R21",
+      "task_counts": {
+        "PLANNED": 8
+      }
+    },
+    {
+      "status": "PLANNED",
+      "frozen_commit": null,
+      "candidate": {
+        "status": "NONE",
+        "commit": null,
+        "evidence": null
+      },
+      "owner_verification": {
+        "status": "NOT_STARTED",
+        "evidence": null
+      },
+      "formal_release": {
+        "status": "NONE",
+        "evidence": null,
+        "tag": null
+      },
+      "release": "R22",
+      "task_counts": {
+        "PLANNED": 8
+      }
+    },
+    {
+      "status": "PLANNED",
+      "frozen_commit": null,
+      "candidate": {
+        "status": "NONE",
+        "commit": null,
+        "evidence": null
+      },
+      "owner_verification": {
+        "status": "NOT_STARTED",
+        "evidence": null
+      },
+      "formal_release": {
+        "status": "NONE",
+        "evidence": null,
+        "tag": null
+      },
+      "release": "R23",
+      "task_counts": {
+        "PLANNED": 8
+      }
+    },
+    {
+      "status": "PLANNED",
+      "frozen_commit": null,
+      "candidate": {
+        "status": "NONE",
+        "commit": null,
+        "evidence": null
+      },
+      "owner_verification": {
+        "status": "NOT_STARTED",
+        "evidence": null
+      },
+      "formal_release": {
+        "status": "NONE",
+        "evidence": null,
+        "tag": null
+      },
+      "release": "R24",
+      "task_counts": {
+        "PLANNED": 8
+      }
+    },
+    {
+      "status": "PLANNED",
+      "frozen_commit": null,
+      "candidate": {
+        "status": "NONE",
+        "commit": null,
+        "evidence": null
+      },
+      "owner_verification": {
+        "status": "NOT_STARTED",
+        "evidence": null
+      },
+      "formal_release": {
+        "status": "NONE",
+        "evidence": null,
+        "tag": null
+      },
+      "release": "R25",
+      "task_counts": {
+        "PLANNED": 8
+      }
+    },
+    {
+      "status": "PLANNED",
+      "frozen_commit": null,
+      "candidate": {
+        "status": "NONE",
+        "commit": null,
+        "evidence": null
+      },
+      "owner_verification": {
+        "status": "NOT_STARTED",
+        "evidence": null
+      },
+      "formal_release": {
+        "status": "NONE",
+        "evidence": null,
+        "tag": null
+      },
+      "release": "R26",
+      "task_counts": {
+        "PLANNED": 8
+      }
+    },
+    {
+      "status": "PLANNED",
+      "frozen_commit": null,
+      "candidate": {
+        "status": "NONE",
+        "commit": null,
+        "evidence": null
+      },
+      "owner_verification": {
+        "status": "NOT_STARTED",
+        "evidence": null
+      },
+      "formal_release": {
+        "status": "NONE",
+        "evidence": null,
+        "tag": null
+      },
+      "release": "R27",
+      "task_counts": {
+        "PLANNED": 8
+      }
+    },
+    {
+      "status": "PLANNED",
+      "frozen_commit": null,
+      "candidate": {
+        "status": "NONE",
+        "commit": null,
+        "evidence": null
+      },
+      "owner_verification": {
+        "status": "NOT_STARTED",
+        "evidence": null
+      },
+      "formal_release": {
+        "status": "NONE",
+        "evidence": null,
+        "tag": null
+      },
+      "release": "R28",
+      "task_counts": {
+        "PLANNED": 8
+      }
+    },
+    {
+      "status": "PLANNED",
+      "frozen_commit": null,
+      "candidate": {
+        "status": "NONE",
+        "commit": null,
+        "evidence": null
+      },
+      "owner_verification": {
+        "status": "NOT_STARTED",
+        "evidence": null
+      },
+      "formal_release": {
+        "status": "NONE",
+        "evidence": null,
+        "tag": null
+      },
+      "release": "R29",
+      "task_counts": {
+        "PLANNED": 8
+      }
+    },
+    {
+      "status": "PLANNED",
+      "frozen_commit": null,
+      "candidate": {
+        "status": "NONE",
+        "commit": null,
+        "evidence": null
+      },
+      "owner_verification": {
+        "status": "NOT_STARTED",
+        "evidence": null
+      },
+      "formal_release": {
+        "status": "NONE",
+        "evidence": null,
+        "tag": null
+      },
+      "release": "R30",
+      "task_counts": {
+        "PLANNED": 8
+      }
+    },
+    {
+      "status": "PLANNED",
+      "frozen_commit": null,
+      "candidate": {
+        "status": "NONE",
+        "commit": null,
+        "evidence": null
+      },
+      "owner_verification": {
+        "status": "NOT_STARTED",
+        "evidence": null
+      },
+      "formal_release": {
+        "status": "NONE",
+        "evidence": null,
+        "tag": null
+      },
+      "release": "R31",
+      "task_counts": {
+        "PLANNED": 8
+      }
+    },
+    {
+      "status": "PLANNED",
+      "frozen_commit": null,
+      "candidate": {
+        "status": "NONE",
+        "commit": null,
+        "evidence": null
+      },
+      "owner_verification": {
+        "status": "NOT_STARTED",
+        "evidence": null
+      },
+      "formal_release": {
+        "status": "NONE",
+        "evidence": null,
+        "tag": null
+      },
+      "release": "R32",
+      "task_counts": {
+        "PLANNED": 8
+      }
+    }
+  ]
+}

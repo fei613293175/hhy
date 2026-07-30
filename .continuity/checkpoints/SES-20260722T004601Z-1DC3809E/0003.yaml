@@ -1,0 +1,207 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260722T004601Z-1DC3809E-0003
+session_id: SES-20260722T004601Z-1DC3809E
+sequence: 3
+created_at: '2026-07-22T01:16:50Z'
+summary: 关闭 TASK-R08-002：TASK-R08-002完成：V033项目数据不变量、U033无损回滚、空库/升级库/R07 Staging只读克隆及MODULE验证全部通过
+next_step: 提交关闭元数据Commit，然后运行pre-push/CI门禁
+blockers: []
+decisions:
+- 任务结果：COMPLETED
+- 实现Commit：aa3d7a83
+- 任务转换：TRN-20260722T011649Z-SES-20260722T004601Z-1DC3809E
+- 下一Release：R08
+note: 该检查点专门绑定最终关闭元数据Commit
+tests:
+- name: r08 database static
+  result: PASS
+  evidence: tests/test_r08_project_migration.py;tests/test_r08_project_database_scripts.py
+  note: 6 tests
+- name: postgresql 17 invariants
+  result: PASS
+  evidence: artifacts/reports/R08/TASK-R08-002-database.md
+  note: empty upgrade rollback replay and staging clone
+- name: backend module
+  result: PASS
+  evidence: obx-test:/tmp/hhy-r08-backend-clean.Y2EXkK/module.log
+  note: 332 tests 0 failures 0 errors 7 conditional skips
+- name: continuity closure metadata
+  result: PASS
+  evidence: catalogs/task_transition_ledger.csv;CHANGELOG.md;CURRENT_STATUS.yaml;NEXT_TASK.yaml
+  note: 关闭元数据、任务转换和下一任务已原子生成
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: f3232e2a77913bd42545097b83d1030002a43154
+  upstream: origin/task/TASK-R03-001
+  ahead: 0
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/sessions/SES-20260722T004601Z-1DC3809E.yaml'
+  - ' M CHANGELOG.md'
+  - ' M NEXT_TASK.yaml'
+  - ' M catalogs/session_index.csv'
+  - ' M releases/R08/TASKS.yaml'
+  recent_commits:
+  - "f3232e2a77913bd42545097b83d1030002a43154\t2026-07-22T09:15:19+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] docs(r08): close project data\
+    \ change request"
+  - "aa3d7a833c093648fbac5bc44bcdc19b697db1fe\t2026-07-22T09:13:41+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] feat(r08): establish project\
+    \ data invariants"
+  - "e5d7d60ac0390843a1134c9457f7684fb04fc7ce\t2026-07-22T08:44:57+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] chore(continuity): close TASK-R08-001\
+    \ as completed"
+  - "61361be3a037857f734b2a0f9c57beb5b505ad66\t2026-07-22T08:43:24+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] chore(continuity): 关闭R08入口变更链"
+  - "b0a7ee0969a42c0df1e8650fdcb3388f74ab0aa0\t2026-07-22T08:41:30+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] chore(governance): 建立R08实施入口"
+  - "b57357cd699fc959e947a815dc618143c840c6f2\t2026-07-22T08:26:11+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] chore(continuity): 领取R08开发就绪任务"
+  - "5b2eae13a693953cc9230581af8cb1d016ccef9e\t2026-07-22T08:23:36+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] chore(continuity): close TASK-R07-008\
+    \ as blocked"
+  - "23c4c7463786a143c90ce4e2b150bfc8e8966b83\t2026-07-22T08:22:07+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] chore(continuity): 关闭异步依赖变更链"
+project_fingerprint:
+  sha256: 1c721c8120174b5109784208e8c9dded09c332c1fda57d5128612b90aa9deb69
+  files:
+  - CHANGELOG.md
+  - database/migrations/V033__r08_project_invariants.sql
+  - database/rollback/U033__r08_project_invariants.sql
+  - database/tests/r08_project_invariants.sql
+  - docs/03-continuity/change-requests/CR-0209-建立R08项目数据不变量与V033可回滚迁移.md
+  - docs/03-continuity/change-requests/CR-0210-建立R08项目真实数据缺口与V033可回滚迁移.md
+  - releases/R08/TASKS.yaml
+  - scripts/run_r08_database_invariants.sh
+  - scripts/run_r08_disposable_postgres_container.sh
+  - services/backend/boot/src/main/resources/db/migration/V033__r08_project_invariants.sql
+  - tests/test_r08_project_database_scripts.py
+  - tests/test_r08_project_migration.py
+  file_count: 12
+  payload:
+    base_commit: e5d7d60ac0390843a1134c9457f7684fb04fc7ce
+    files:
+    - path: CHANGELOG.md
+      state: FILE
+      size: 71895
+      sha256: b25a8428984db62af061519e182ccbab0d71c37b33ec48852bb1d606a3a7d73e
+    - path: database/migrations/V033__r08_project_invariants.sql
+      state: FILE
+      size: 2388
+      sha256: c4f3af67e9305241a075cfa3ca2ac58865ff8e9598c9ae2a1bd5eab6c3dfe2ef
+    - path: database/rollback/U033__r08_project_invariants.sql
+      state: FILE
+      size: 631
+      sha256: b5ad3d3ebfccf8e2465e6c55bc4741665de3198972c09862005d9bd06c57ec0d
+    - path: database/tests/r08_project_invariants.sql
+      state: FILE
+      size: 3023
+      sha256: 7bb9d7bb5365dd9c54b985b9273ecf11a254e7742a5987e2fbbfe6e9ac76ef99
+    - path: docs/03-continuity/change-requests/CR-0209-建立R08项目数据不变量与V033可回滚迁移.md
+      state: FILE
+      size: 3886
+      sha256: 573117005207b1c02810c31656c9b2dbf71b7030f046cbc0313f40eee1bda7d2
+    - path: docs/03-continuity/change-requests/CR-0210-建立R08项目真实数据缺口与V033可回滚迁移.md
+      state: FILE
+      size: 4136
+      sha256: 8d240ce25bed1efd4b949ca822d38ee4baa701df2c0a85c73b60e16daf913fe9
+    - path: releases/R08/TASKS.yaml
+      state: FILE
+      size: 5564
+      sha256: a644947a15a9618bdbdc18fb42441d48ff2641197b3af56f17e3b86bb41fbf6d
+    - path: scripts/run_r08_database_invariants.sh
+      state: FILE
+      size: 4021
+      sha256: ee157d21ce19cc5787895dd8062735fd1e510dc3d696c33733741d472c1d2e71
+    - path: scripts/run_r08_disposable_postgres_container.sh
+      state: FILE
+      size: 4221
+      sha256: 8ca491731260561d9dec9e0f90fdd249ecb7a63fae75c1e848bd9f56dde4b405
+    - path: services/backend/boot/src/main/resources/db/migration/V033__r08_project_invariants.sql
+      state: FILE
+      size: 2388
+      sha256: c4f3af67e9305241a075cfa3ca2ac58865ff8e9598c9ae2a1bd5eab6c3dfe2ef
+    - path: tests/test_r08_project_database_scripts.py
+      state: FILE
+      size: 1799
+      sha256: 143cedd5ad7e7256208c85aa5cee1a270af6a20f25c62f9287669ec46421736d
+    - path: tests/test_r08_project_migration.py
+      state: FILE
+      size: 2174
+      sha256: a714bebd53e7c8d49cc15525096b19222cebdd7e2b64fbf3d47799ce3b10266f
+change_classification:
+  other:
+  - CHANGELOG.md
+  - releases/R08/TASKS.yaml
+  database:
+  - database/migrations/V033__r08_project_invariants.sql
+  - database/rollback/U033__r08_project_invariants.sql
+  - database/tests/r08_project_invariants.sql
+  continuity:
+  - docs/03-continuity/change-requests/CR-0209-建立R08项目数据不变量与V033可回滚迁移.md
+  - docs/03-continuity/change-requests/CR-0210-建立R08项目真实数据缺口与V033可回滚迁移.md
+  code:
+  - scripts/run_r08_database_invariants.sh
+  - scripts/run_r08_disposable_postgres_container.sh
+  - services/backend/boot/src/main/resources/db/migration/V033__r08_project_invariants.sql
+  tests:
+  - tests/test_r08_project_database_scripts.py
+  - tests/test_r08_project_migration.py
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+- DATABASE_TEST_EVIDENCE
+- SCHEMA_TRACEABILITY
+change_requests:
+- CR-0209
+- CR-0210
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions:
+  - database/migrations/V033__r08_project_invariants.sql
+  - services/backend/boot/src/main/resources/db/migration/V033__r08_project_invariants.sql
+  - database/rollback/U033__r08_project_invariants.sql
+  - database/tests/r08_project_invariants.sql
+  - tests/test_r08_project_migration.py
+  - tests/test_r08_project_database_scripts.py
+  - scripts/run_r08_database_invariants.sh
+  - scripts/run_r08_disposable_postgres_container.sh
+  - artifacts/reports/R08/TASK-R08-002-database.md
+  - CHANGELOG.md
+  source: story+explicit+approved-cr:CR-0209+approved-cr:CR-0210
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 数据库迁移与连续性账本关闭是严格顺序状态变更，当前R08冻结执行计划由单协调者串行收口
+event_hash: 3d379aea66ace1a1b330349ec68cef98d38ad8b21e1abec4f88f7c6fe53b5a50

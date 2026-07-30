@@ -1,0 +1,7 @@
+{
+  "schema": "hhy.r02.test-adapter/v1",
+  "test_id": "TST-AUTH_004-HAPPY",
+  "central_runner": "scripts/run_r02_test_matrix.py",
+  "assignment_source": "external",
+  "runner": "r02-java21-pg17-android-real-api"
+}

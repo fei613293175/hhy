@@ -1,0 +1,132 @@
+protocol_version: '1.0'
+package_version: 1.2.3
+session_id: SES-20260723T122953Z-52EBA51E
+status: CLOSED
+actor:
+  id: codex-root-r10-candidate
+  kind: AI_OR_HUMAN
+  host: unknown
+release: R10
+task_id: TASK-R10-007
+story_id: STORY-R10-004
+goal: 群聊推广完整闭环Android测试APK与产物追溯
+started_at: '2026-07-23T12:29:53Z'
+updated_at: '2026-07-23T16:49:16Z'
+takeover_of: null
+change_requests:
+- CR-0272
+- CR-0273
+- CR-0274
+- CR-0275
+- CR-0276
+- CR-0277
+- CR-0278
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions:
+  - scripts/prepare_r10_ci_fixture.sh
+  - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+  - apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+  - config/android-candidate-request.yaml
+  - docs/07-operations/DEPLOYMENT_RUNBOOK.md
+  - tests/test_android_ci_gate.py
+  - tests/test_r10_candidate.py
+  - tests/android/visual-manifests/R10.yaml
+  - CHANGELOG.md
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - tests/android/visual-baselines/R10/01-home.png
+  - tests/android/visual-baselines/R10/02-group-list.png
+  - tests/android/visual-baselines/R10/03-group-detail.png
+  - tests/android/visual-baselines/R10/04-group-editor.png
+  - tests/android/visual-baselines/R10/APPROVAL.yaml
+  - .github/workflows/android-baseline-promotion.yml
+  - artifacts/apk/R10/APK_MANIFEST.yaml
+  - artifacts/apk/R10/hhy-r10-1e35a97-debug.apk
+  - artifacts/validation/r10-apk-delivery/delivery-evidence.json
+  - artifacts/validation/r10-task007-android/build-evidence.json
+  - artifacts/validation/r10-task007-android/candidate-report.json
+  - artifacts/validation/r10-task007-android/source-candidate-report.json
+  - artifacts/validation/r10-task007-android/APPROVAL.yaml
+  - artifacts/reports/R10/TASK-R10-007-android-apk.md
+  - artifacts/reports/R10/R10-version-test-guide.md
+  - docs/03-continuity/PITFALLS.md
+  - design/R10-UI-FROZEN/specs/SCR-LIST-003.md
+  - design/R10-UI-FROZEN/specs/SCR-DETAIL-003.md
+  - design/R10-UI-FROZEN/specs/SCR-PUB-004.md
+  - catalogs/ui_visual_acceptance.csv
+  source: story+explicit+approved-cr:CR-0272+approved-cr:CR-0273+approved-cr:CR-0274+approved-cr:CR-0275+approved-cr:CR-0276+approved-cr:CR-0277+approved-cr:CR-0278
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  base_commit: caea3ee88dbf21cc6371a4b7168368c65597014a
+  start_head: caea3ee88dbf21cc6371a4b7168368c65597014a
+  upstream: origin/task/TASK-R03-001
+  initial_worktree_state: CLEAN
+lease:
+  duration_minutes: 240
+  renewed_at: '2026-07-23T16:49:11Z'
+  expires_at: '2026-07-23T20:49:11Z'
+checkpoint_sequence: 11
+latest_checkpoint: .continuity/checkpoints/SES-20260723T122953Z-52EBA51E/0011.yaml
+session_log: docs/03-continuity/sessions/2026-07/SES-20260723T122953Z-52EBA51E.md
+next_step: 提交关闭元数据Commit，然后运行pre-push/CI门禁
+context_pack:
+  yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
+  markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
+  manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+  context_hash: 6362152f9bc9765e476d64e07b8a4f8b521c8b6e05bf3325cee83e513e4e3e39
+  generated_at: '2026-07-23T16:49:14Z'
+handoff_bundle: null
+closure:
+  result: COMPLETED
+  summary: R10 Android测试APK与产物追溯完成：候选、AI视觉审批、轻量晋升、固定签名APK、四方SHA交付、桌面说明和严格文档核对全部PASS；Owner真机反馈保持异步PENDING。实现Commit 758c30a3已本地形成，GitHub HTTPS三次因外部443连接重置或不可达尚未推送，恢复后必须先push该Commit。
+  code_commit: 758c30a3f5fa393dd57b886ac496edd039a6e46f
+  next_release: R10
+  next_task: TASK-R10-008
+  blocked_advance: false
+  completed_independent_advance: false
+  user_confirmation: null
+  metadata_commit: PENDING
+  push_verification: CI_REQUIRED_AFTER_METADATA_COMMIT
+  started_at: '2026-07-23T16:49:09Z'
+  closure_checkpoint_id: CP-SES-20260723T122953Z-52EBA51E-0011
+  closed_at: '2026-07-23T16:49:16Z'
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: Release事实归档、CR状态与连续性提交强耦合，主控串行复核。
+closed_at: '2026-07-23T16:49:16Z'

@@ -1,0 +1,21 @@
+﻿HTTP/1.1 200 OK
+Date: Sat, 18 Jul 2026 12:19:08 GMT
+Content-Type: application/vnd.android.package-archive
+Content-Length: 11923821
+Connection: keep-alive
+Server: cloudflare
+Last-Modified: Sat, 18 Jul 2026 12:15:35 GMT
+ETag: "6a5b6e67-b5f16d"
+Content-Disposition: attachment; filename="hhy-r02-2bbfa9b-debug.apk"
+X-Content-Type-Options: nosniff
+Accept-Ranges: bytes
+Age: 148
+Cache-Control: max-age=14400
+cf-cache-status: HIT
+Speculation-Rules: "/cdn-cgi/speculation"
+Vary: accept-encoding
+Report-To: {"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=ACai5om%2BIbs1CbnX7EtWYZ4vsb9i53Juvt30dPD%2BTeJEKyD1KQBEX7NCw%2FEuH78csceYOUO8bUJdvqzxr9nOmIJWn%2FkizS%2FkVZuWyEiIfFavmlal3xt4iDiqz2osckIZG6YDWw%3D%3D"}]}
+Nel: {"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}
+CF-RAY: a1d16ed7ade4fd90-SIN
+alt-svc: h3=":443"; ma=86400
+

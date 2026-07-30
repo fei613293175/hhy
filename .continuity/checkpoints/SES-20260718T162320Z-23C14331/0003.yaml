@@ -1,0 +1,219 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260718T162320Z-23C14331-0003
+session_id: SES-20260718T162320Z-23C14331
+sequence: 3
+created_at: '2026-07-18T16:56:22Z'
+summary: 关闭 TASK-R03-006：R03可观测性、隔离Staging、两组业务告警和同库卷应用回切演练全部通过，AC-R03-004已签PASS
+next_step: 提交关闭元数据Commit，然后运行pre-push/CI门禁
+blockers: []
+decisions:
+- 任务结果：COMPLETED
+- 实现Commit：f41c84e6df03f49cd5c21537ea6a1235471006ba
+- 任务转换：TRN-20260718T165621Z-SES-20260718T162320Z-23C14331
+- 下一Release：R03
+note: 该检查点专门绑定最终关闭元数据Commit
+tests:
+- name: R03_BACKEND_FULL
+  result: PASS
+  evidence: 193 tests, 0 failures, 0 errors, 2 skips
+  note: Java21全量测试
+- name: R03_ADMIN_WEB
+  result: PASS
+  evidence: 73 tests and production build
+  note: 管理端测试与构建
+- name: R03_STAGING_DATABASE
+  result: PASS
+  evidence: Flyway 019, 200 product tables
+  note: PostgreSQL 17.10隔离环境
+- name: R03_ALERT_DELIVERY
+  result: PASS
+  evidence: BackendDown and ProviderConnectionFailure firing/resolved
+  note: alert-sink最小化回执
+- name: R03_APPLICATION_ROLLBACK
+  result: PASS
+  evidence: 2950cb6 to 650fdee to 2950cb6
+  note: PostgreSQL容器和卷未变化
+- name: R03_EVIDENCE_SHA
+  result: PASS
+  evidence: artifacts/validation/r03-task006-staging/SHA256SUMS
+  note: 五项证据哈希匹配
+- name: continuity closure metadata
+  result: PASS
+  evidence: catalogs/task_transition_ledger.csv;CHANGELOG.md;CURRENT_STATUS.yaml;NEXT_TASK.yaml
+  note: 关闭元数据、任务转换和下一任务已原子生成
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: f41c84e6df03f49cd5c21537ea6a1235471006ba
+  upstream: origin/task/TASK-R03-001
+  ahead: 0
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/sessions/SES-20260718T162320Z-23C14331.yaml'
+  - ' M CHANGELOG.md'
+  - ' M NEXT_TASK.yaml'
+  - ' M catalogs/session_index.csv'
+  - ' M releases/R03/TASKS.yaml'
+  recent_commits:
+  - "f41c84e6df03f49cd5c21537ea6a1235471006ba\t2026-07-19T00:55:29+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] test(r03): record staging\
+    \ rollback evidence"
+  - "2950cb64d0ed5887725bc20afe4c6d148c22335a\t2026-07-19T00:32:41+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] feat(r03): add staging observability\
+    \ gates"
+  - "b4edfff1f81359677d87bc8486da2d9330926e20\t2026-07-19T00:22:27+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] chore(continuity): close TASK-R03-005\
+    \ as completed"
+  - "cd9d6a4771451e2b34bfa94dc7dec08b5b7898f4\t2026-07-19T00:20:48+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] docs(r03): bind integration\
+    \ gate evidence"
+  - "650fdee862405db673ed5f3f856611356508e337\t2026-07-19T00:19:23+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] feat(r03): close integration\
+    \ database gates"
+  - "ba6cab5414c9954f7cadb244d5d825f0e903714d\t2026-07-19T00:01:37+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] fix(r03): bind approvals and\
+    \ database invariants"
+  - "3efc85ec67b1890b381091d022e28806e8dbd226\t2026-07-18T23:52:39+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] feat(r03): integrate domain\
+    \ verification commands"
+  - "1da4c855bf3b9b2d4dcf0ed4d0bc656920f91461\t2026-07-18T23:45:47+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] feat(r03): integrate certificate\
+    \ commands"
+project_fingerprint:
+  sha256: c8620da50a69944b4f416f4e85e3579895695e1c079182c98c20dc09abdb465a
+  files:
+  - CHANGELOG.md
+  - docs/07-operations/DEPLOYMENT_RUNBOOK.md
+  - docs/07-operations/ROLLBACK_RUNBOOK.md
+  - infra/staging/r03-smoke/alertmanager.yml
+  - infra/staging/r03-smoke/docker-compose.yml
+  - infra/staging/r03-smoke/nginx.conf
+  - infra/staging/r03-smoke/prometheus.yml
+  - infra/staging/r03-smoke/r03-alerts.yml
+  - releases/R03/ACCEPTANCE_MATRIX.csv
+  - releases/R03/TASKS.yaml
+  - scripts/check_r03_observability.py
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinder.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinderTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/ObservabilityEndpointsTest.java
+  file_count: 14
+  payload:
+    base_commit: b4edfff1f81359677d87bc8486da2d9330926e20
+    files:
+    - path: CHANGELOG.md
+      state: FILE
+      size: 29446
+      sha256: f9f9ed754b4aa5996c4135afd2c9e0418702372ddcd31a8b24c0332778ae5093
+    - path: docs/07-operations/DEPLOYMENT_RUNBOOK.md
+      state: FILE
+      size: 15272
+      sha256: 47da768ba22424afec06313d324e8b63328601f46770b78b7dac5623d4b3e5ef
+    - path: docs/07-operations/ROLLBACK_RUNBOOK.md
+      state: FILE
+      size: 5147
+      sha256: 3f8489d6f749476de5ff0cb33ca4d333d33df2d1adf9fe1fcc5f922f1c2cd664
+    - path: infra/staging/r03-smoke/alertmanager.yml
+      state: FILE
+      size: 277
+      sha256: 3d274b0104e173326e505b6447ee8e9239c85089c1a97354b2b009ab210811f0
+    - path: infra/staging/r03-smoke/docker-compose.yml
+      state: FILE
+      size: 4263
+      sha256: 57bf4654f2a0f27128e920f2172c78b6d7d6b418a946de1a43c2940f1800d117
+    - path: infra/staging/r03-smoke/nginx.conf
+      state: FILE
+      size: 318
+      sha256: b13f1e9d43e52a8469a988d1af9de051dfdcba2724df5c754793993f7fe41f98
+    - path: infra/staging/r03-smoke/prometheus.yml
+      state: FILE
+      size: 401
+      sha256: b222e9400d1559a9326d7df16f300ad292384d5496557af1c28b1203cc97ee1d
+    - path: infra/staging/r03-smoke/r03-alerts.yml
+      state: FILE
+      size: 2489
+      sha256: e3fe1299cd2d3ea0f386cf6ab7498553c6f42f42b9d4d9a801a9e9b5c3cdb0fb
+    - path: releases/R03/ACCEPTANCE_MATRIX.csv
+      state: FILE
+      size: 738
+      sha256: ba4553df997d15f6dcff520f603d69c31ff6527bd6fbf9acc97deb7073da40b7
+    - path: releases/R03/TASKS.yaml
+      state: FILE
+      size: 7106
+      sha256: 156afcb77ccf50c61b95b64a88a06c1001802db1a66e6378347caf2b6af63f94
+    - path: scripts/check_r03_observability.py
+      state: FILE
+      size: 5175
+      sha256: 97b624646c82ddf92064d28008dcaf298ff1be7003d582bfa5c81e1c2c75b31e
+    - path: services/backend/boot/src/main/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinder.java
+      state: FILE
+      size: 9071
+      sha256: 732b390d594b27cda9bfbf01f157302d904312cb6ddd94b6240ad77dbc10ef7d
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinderTest.java
+      state: FILE
+      size: 9515
+      sha256: 218e620894e01fbca815ac0907b72bb55b93f8cd811200f4b31aa43472316c32
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/ObservabilityEndpointsTest.java
+      state: FILE
+      size: 7622
+      sha256: 9017a0ceee352658bf00fea7379caf95d15b305b9873e5250b5b1918d51e8eeb
+change_classification:
+  other:
+  - CHANGELOG.md
+  - docs/07-operations/DEPLOYMENT_RUNBOOK.md
+  - docs/07-operations/ROLLBACK_RUNBOOK.md
+  - releases/R03/ACCEPTANCE_MATRIX.csv
+  - releases/R03/TASKS.yaml
+  infrastructure:
+  - infra/staging/r03-smoke/alertmanager.yml
+  - infra/staging/r03-smoke/docker-compose.yml
+  - infra/staging/r03-smoke/nginx.conf
+  - infra/staging/r03-smoke/prometheus.yml
+  - infra/staging/r03-smoke/r03-alerts.yml
+  code:
+  - scripts/check_r03_observability.py
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinder.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinderTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/ObservabilityEndpointsTest.java
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+change_requests: []
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions: []
+  source: story+explicit
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 现场演练必须串行验证同一隔离Compose项目的状态迁移、告警窗口和数据库卷连续性
+event_hash: 63d4fc919db54564cfadc87a0123c9c3fe5ca2a8e676e30f91ff29223540f2e2

@@ -1,0 +1,110 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260718T142638Z-EF4C3723-0003
+session_id: SES-20260718T142638Z-EF4C3723
+sequence: 3
+created_at: '2026-07-18T14:33:17Z'
+summary: 完成DNS、TLS证书与业务服务健康三层串行验证编排，任何前层失败均阻断后续探测和可用标记
+next_step: 实现域名配置更新、expectedVersion、verify幂等和审计事务应用服务
+blockers: []
+decisions:
+- DNS成功仅记录DNS层通过，必须TLS和按域名类型定义的健康协议同时通过才写verifiedAt
+note: ''
+tests:
+- name: domain verification coordinator
+  result: PASS
+  evidence: services/backend/boot/target/surefire-reports/TEST-cc.orbexa.hhy.access.admin.DomainVerificationCoordinatorTest.xml
+  note: 5 tests
+- name: domain config policy
+  result: PASS
+  evidence: services/backend/boot/target/surefire-reports/TEST-cc.orbexa.hhy.access.admin.DomainConfigPolicyTest.xml
+  note: 3 tests
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: 49a2074284ba24a96774596f89cd14c1d57f1fff
+  upstream: origin/task/TASK-R03-001
+  ahead: 0
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/DomainVerificationCoordinator.java
+  - ?? services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/DomainVerificationCoordinatorTest.java
+  recent_commits:
+  - "49a2074284ba24a96774596f89cd14c1d57f1fff\t2026-07-18T22:30:58+08:00\tHHY Continuity Bootstrap\t[STORY-R03-002] feat(r03): validate managed\
+    \ domain plan"
+  - "60377915ef33d69bebc3fa96a440abfcdca74686\t2026-07-18T22:27:35+08:00\tHHY Continuity Bootstrap\t[STORY-R03-002] chore(r03): start domain configuration\
+    \ slice"
+  - "6bb0f76ca9b2287848e00b2dbcc8b28e2c9d21ef\t2026-07-18T22:21:58+08:00\tHHY Continuity Bootstrap\t[STORY-R03-001] chore(continuity): close TASK-R03-002\
+    \ as completed"
+  - "f7aec9a27e0905698891636815da7ec385ce0070\t2026-07-18T22:21:24+08:00\tHHY Continuity Bootstrap\t[STORY-R03-001] chore(continuity): record\
+    \ R03 provider module gate"
+  - "04ca65c294adbef23b174b3f639e1764e8f69925\t2026-07-18T22:19:30+08:00\tHHY Continuity Bootstrap\t[STORY-R03-001] feat(r03): orchestrate provider\
+    \ config versions"
+  - "9dc7d0cbb8410c1135a691feefbd16f346f1e557\t2026-07-18T22:15:31+08:00\tHHY Continuity Bootstrap\t[STORY-R03-001] feat(r03): enforce approved\
+    \ provider rollback"
+  - "b3c64cb8dc9b292b11ab077de3c719b777195a73\t2026-07-18T22:13:11+08:00\tHHY Continuity Bootstrap\t[STORY-R03-001] feat(r03): add provider connector\
+    \ adapters"
+  - "ade76ab4f6521bc193dcab8bd0c85e493ad1e933\t2026-07-18T22:10:11+08:00\tHHY Continuity Bootstrap\t[STORY-R03-001] feat(r03): secure provider\
+    \ connection tests"
+project_fingerprint:
+  sha256: 7ba6644556b1df1f0642ceb7e8f5f544ddb7bcc9b545d211c0d9240853917657
+  files:
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/DomainConfigPolicy.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/DomainVerificationCoordinator.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/DomainConfigPolicyTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/DomainVerificationCoordinatorTest.java
+  file_count: 4
+  payload:
+    base_commit: 6bb0f76ca9b2287848e00b2dbcc8b28e2c9d21ef
+    files:
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/DomainConfigPolicy.java
+      state: FILE
+      size: 6094
+      sha256: c4bf3c7aed089d802860c365c2b7423ae63d0f4a597a6b8ec5d4284a8aa1c5a3
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/DomainVerificationCoordinator.java
+      state: FILE
+      size: 7543
+      sha256: b27bf76f2bc0e2c62758e47f7de618eda6190ae60e69dc05d216b74e21c36431
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/DomainConfigPolicyTest.java
+      state: FILE
+      size: 2466
+      sha256: 2378d26a3cb2181ad8b52b149cc4f13ac73849f6fa0742dacc5511d4c0a98ee5
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/DomainVerificationCoordinatorTest.java
+      state: FILE
+      size: 6631
+      sha256: a323213ca9c1c611f8b7cf8933b1a1c7be195da81c727a55eb2d2115c0823c6e
+change_classification:
+  code:
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/DomainConfigPolicy.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/DomainVerificationCoordinator.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/DomainConfigPolicyTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/DomainVerificationCoordinatorTest.java
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+change_requests: []
+scope:
+  allowed_paths:
+  - apps/admin-web/**
+  - services/backend/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - tests/**
+  - docs/**
+  - catalogs/**
+  - releases/**
+  - design/**
+  - scripts/**
+  approved_exceptions: []
+  source: story+explicit
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 三层状态和应用服务的幂等事务语义紧密耦合，继续由唯一主控维护一致性
+event_hash: ac7d5cb62df9c321f33c2ab8eabcfcd14990627359a6525ee51944de4d3afe49

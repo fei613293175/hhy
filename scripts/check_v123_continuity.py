@@ -8,13 +8,105 @@ import csv
 import hashlib
 import json
 import os
+import re
+import shutil
 import subprocess
 import sys
 from typing import Any
 
 import yaml
 
+from continuity_lib import portable_source_record
+
 ROOT = Path(__file__).resolve().parents[1]
+PROBLEM_STATUSES = {"OPEN", "IN_PROGRESS", "REMEDIATING", "MITIGATED", "SOLVED"}
+
+
+def validate_governance_knowledge(root: Path) -> tuple[list[tuple[str, str]], dict[str, int]]:
+    errors: list[tuple[str, str]] = []
+    registry_path = root / "docs/03-continuity/PROBLEM_REGISTRY.yaml"
+    registry = yaml.safe_load(registry_path.read_text(encoding="utf-8")) or {}
+    problems = registry.get("problems") if isinstance(registry, dict) else None
+    if not isinstance(problems, list) or not problems:
+        return [("PROBLEM_REGISTRY_EMPTY", "Problem Registry必须为非空列表")], {}
+
+    ids: list[str] = []
+    numbers: list[int] = []
+    for problem in problems:
+        if not isinstance(problem, dict):
+            errors.append(("PROBLEM_RECORD_INVALID", "Problem Registry条目必须为对象"))
+            continue
+        problem_id = str(problem.get("id") or "").strip()
+        ids.append(problem_id)
+        match = re.fullmatch(r"PROB-(\d{4})", problem_id)
+        if not match:
+            errors.append(("PROBLEM_ID_INVALID", problem_id or "EMPTY"))
+        else:
+            numbers.append(int(match.group(1)))
+        for field in ("title", "status", "root_cause", "do_not_repeat"):
+            if not problem.get(field):
+                errors.append(("PROBLEM_FIELD_MISSING", f"{problem_id or 'UNKNOWN'}缺少{field}"))
+        status = str(problem.get("status") or "").upper()
+        if status not in PROBLEM_STATUSES:
+            errors.append(("PROBLEM_STATUS_INVALID", f"{problem_id}:{status or 'EMPTY'}"))
+        if status in {"SOLVED", "MITIGATED"}:
+            for field in ("resolution", "regression_checks"):
+                if not problem.get(field):
+                    errors.append(("PROBLEM_CLOSURE_EVIDENCE_MISSING", f"{problem_id}缺少{field}"))
+    if len(ids) != len(set(ids)):
+        errors.append(("PROBLEM_ID_DUPLICATE", "Problem Registry编号重复"))
+    if numbers != sorted(numbers):
+        errors.append(("PROBLEM_ID_ORDER", "Problem Registry必须按编号递增"))
+    if numbers and numbers != list(range(1, max(numbers) + 1)):
+        errors.append(("PROBLEM_ID_GAP", "Problem Registry编号必须连续"))
+
+    patterns_text = (root / "docs/03-continuity/REUSABLE_PATTERNS.md").read_text(encoding="utf-8")
+    pattern_ids = re.findall(r"^## (PATTERN-[A-Z0-9-]+)\s+", patterns_text, re.MULTILINE)
+    if not pattern_ids:
+        errors.append(("REUSABLE_PATTERN_EMPTY", "可复用模式必须至少包含一个登记条目"))
+    if len(pattern_ids) != len(set(pattern_ids)):
+        errors.append(("REUSABLE_PATTERN_DUPLICATE", "可复用模式编号重复"))
+
+    pitfalls_text = (root / "docs/03-continuity/PITFALLS.md").read_text(encoding="utf-8")
+    pitfall_numbers = [int(value) for value in re.findall(r"^(\d+)\.\s+", pitfalls_text, re.MULTILINE)]
+    if pitfall_numbers != list(range(1, len(pitfall_numbers) + 1)):
+        errors.append(("PITFALL_NUMBER_DRIFT", "踩坑记录必须从1开始连续编号且不得重复"))
+    return errors, {
+        "problem_records": len(problems),
+        "reusable_patterns": len(pattern_ids),
+        "pitfalls": len(pitfall_numbers),
+    }
+
+
+def git_executable() -> str:
+    override = os.environ.get("HHY_GIT_BIN", "").strip()
+    if override:
+        candidate = Path(override).expanduser()
+        if not candidate.is_file():
+            raise OSError(f"HHY_GIT_BIN不存在：{candidate}")
+        return str(candidate)
+    system_git = shutil.which("git")
+    if system_git:
+        return system_git
+    bundled = Path.home() / ".cache/codex-runtimes/codex-primary-runtime/dependencies/native/git/cmd/git.exe"
+    if bundled.is_file():
+        return str(bundled)
+    raise OSError("Git不可执行：请安装Git或设置HHY_GIT_BIN")
+
+
+def tracked_git_mode(root: Path, relative: str) -> str | None:
+    if not (root / ".git").exists():
+        return None
+    result = subprocess.run(
+        [git_executable(), "ls-files", "-s", "--", relative],
+        cwd=root, text=True, capture_output=True,
+    )
+    if result.returncode != 0:
+        raise OSError(result.stderr.strip() or f"无法读取Git文件模式：{relative}")
+    rows = [line for line in result.stdout.splitlines() if line.strip()]
+    if len(rows) != 1:
+        return None
+    return rows[0].split(maxsplit=1)[0]
 
 
 def read_csv(relative: str) -> list[dict[str, str]]:
@@ -33,6 +125,15 @@ def sha256(path: Path) -> str:
         for chunk in iter(lambda: handle.read(1024 * 1024), b""):
             digest.update(chunk)
     return digest.hexdigest()
+
+
+def context_source_matches(root: Path, path: Path, expected: dict[str, Any]) -> bool:
+    """Compare a Context source using the same portable EOL semantics as its producer."""
+    actual = portable_source_record(root, path)
+    expected_bytes = expected.get("bytes")
+    return actual["sha256"] == expected.get("sha256") and (
+        expected_bytes is None or actual["bytes"] == expected_bytes
+    )
 
 
 def run_gate(command: list[str], report_path: str) -> tuple[int, dict[str, Any], str]:
@@ -79,10 +180,14 @@ def main() -> int:
         ".continuity/CHANGE_REQUEST_INDEX.yaml",
         "CONTINUITY_POLICY.yaml",
         "config/CONTINUITY_POLICY.yaml",
+        "config/REPOSITORY_TRANSPORT.yaml",
+        "config/DEVELOPMENT_RUNTIME.yaml",
         "CURRENT_STATUS.yaml",
         "NEXT_TASK.yaml",
         "AGENTS.md",
         "START_HERE.md",
+        "templates/AGENTS.md",
+        "templates/START_HERE.md",
         "README.md",
         "scripts/continuity.py",
         "scripts/continuity_lib.py",
@@ -90,6 +195,9 @@ def main() -> int:
         "scripts/check_v123_documentation.py",
         "scripts/check_v123_continuity.py",
         "scripts/run_continuity_self_test.py",
+        "scripts/restore_git_transport.py",
+        "scripts/select_execution_profile.py",
+        "scripts/verify_cloud_environment.py",
         "scripts/install_git_hooks.py",
         "scripts/prepare_commit_message.py",
         "scripts/create_handoff_bundle.py",
@@ -115,6 +223,9 @@ def main() -> int:
         "docs/03-continuity/HANDOFF_SCHEMA.yaml",
         "docs/03-continuity/EVENT_LOG_SCHEMA.yaml",
         "docs/03-continuity/CONTEXT_PACK_SCHEMA.yaml",
+        "tests/test_git_transport_recovery.py",
+        "tests/test_model_routing.py",
+        "tests/test_cloud_environment.py",
         ".github/workflows/continuity-gate.yml",
         ".github/workflows/ci.yml",
         ".githooks/pre-commit",
@@ -158,6 +269,76 @@ def main() -> int:
     require(policy.get("checkpoint", {}).get("active_pointer_refreshed_every_checkpoint") is True, "ACTIVE_POINTER_POLICY", "每个检查点必须刷新ACTIVE_SESSION指针")
     require(policy.get("change_control", {}).get("approval_requires_complete_contract") is True, "CR_CONTRACT_POLICY", "CR审批必须要求完整变更合同")
     require(operational_policy.get("change_control", {}).get("approval_requires_complete_contract") is True, "CR_OPERATIONAL_POLICY", "运营视图必须显示完整CR审批要求")
+    rule_intake = policy.get("change_control", {}).get("rule_intake", {})
+    require(rule_intake.get("search_existing_canonical_rules_first") is True, "RULE_DEDUP_SEARCH", "新增规则前必须先检索现有权威规则")
+    require(rule_intake.get("amend_existing_canonical_rule_when_equivalent_or_similar") is True, "RULE_DEDUP_AMEND", "相同或相似规则必须修订原规则")
+    require(rule_intake.get("prohibit_parallel_equivalent_or_similar_rule") is True, "RULE_DEDUP_PARALLEL", "必须禁止等价平行规则")
+    rule_policy = policy.get("rule_readiness", {})
+    required_rule_sources = rule_policy.get("required_global_sources", [])
+    require(rule_policy.get("development_requires_status") == "PASS", "RULE_READY_POLICY", "开发前规则就绪状态必须为PASS")
+    require(rule_policy.get("subjective_complete_understanding_claim_is_evidence") is False, "RULE_READY_OBJECTIVE", "主观理解声明不得作为准入证据")
+    require(rule_policy.get("continue_only_requires_user_reexplanation") is False, "RULE_READY_CONTINUE", "项目所有者只说继续开发时不得要求重述")
+    require(len(required_rule_sources) >= 10 and len(required_rule_sources) == len(set(required_rule_sources)), "RULE_SOURCE_REGISTRY", "全局必读规则来源必须完整且无重复")
+    require(operational_policy.get("rule_readiness", {}).get("source") == ".continuity/CONTINUITY_POLICY.yaml#rule_readiness", "RULE_OPERATIONAL_POINTER", "运营视图只能指向权威规则就绪策略")
+    knowledge_errors, knowledge_metrics = validate_governance_knowledge(ROOT)
+    for code, message in knowledge_errors:
+        require(False, code, message)
+    metrics["governance_knowledge"] = knowledge_metrics
+    commercial = policy.get("commercial_product_boundaries", {})
+    visual_debt = commercial.get("cumulative_visual_debt_gate", {})
+    require(visual_debt.get("effective_from_release") == "R12", "VISUAL_DEBT_EFFECTIVE_RELEASE", "累计视觉债务门禁必须从R12机器关闭生效")
+    require(visual_debt.get("machine_close_requires_all_frontend_pages_through_release_pass") is True, "VISUAL_DEBT_CUMULATIVE", "机器关闭必须累计验证截至当前版本的全部前端页面")
+    require(visual_debt.get("reopened_historical_page_invalidates_prior_pass") is True, "VISUAL_DEBT_REOPEN", "历史页面被重开后旧PASS必须失效")
+    governance_audit = policy.get("release_governance_audit", {})
+    required_audit_checks = {
+        "development_documents", "hard_gate_enforcement", "development_progress",
+        "reusable_patterns", "problem_registry", "pitfalls",
+    }
+    require(governance_audit.get("effective_from_release") == "R12", "GOVERNANCE_AUDIT_EFFECTIVE_RELEASE", "六项治理审计必须从R12机器关闭生效")
+    require(set(governance_audit.get("required_checks", [])) == required_audit_checks, "GOVERNANCE_AUDIT_SCOPE", "六项治理审计范围漂移")
+    require(governance_audit.get("source_commit_must_match_candidate") is True, "GOVERNANCE_AUDIT_COMMIT", "治理审计必须绑定最终候选源码Commit")
+    require(governance_audit.get("evidence_sha256_required") is True, "GOVERNANCE_AUDIT_SHA", "治理审计必须记录证据SHA-256")
+    require(governance_audit.get("next_release_must_not_start_before_pass") is True, "GOVERNANCE_AUDIT_NEXT_RELEASE", "治理审计未通过不得进入下一版")
+    parallel = policy.get("parallel_development", {})
+    operational_parallel = operational_policy.get("parallel_development", {})
+    require(parallel.get("authorization", {}).get("status") == "PROJECT_OWNER_STANDING_AUTHORIZATION", "PARALLEL_AUTHORIZATION", "必须记录项目所有者长期多代理授权")
+    require(parallel.get("default_delegation_mode") == "AUTO_WHEN_SAFE_PARALLEL_WORK_EXISTS", "PARALLEL_DEFAULT_MODE", "存在安全并行工作时必须默认自动委托")
+    require(parallel.get("review_triggers") == ["TASK_START", "SCOPE_CHANGE"], "PARALLEL_REVIEW_TRIGGERS", "必须在Task开始和范围变化时评估并行")
+    require(parallel.get("per_task_user_confirmation_required") is False, "PARALLEL_CONFIRMATION", "长期授权后不得逐Task重复请求确认")
+    require(parallel.get("non_delegation_requires_checkpoint_reason") is True, "PARALLEL_REASON", "未委托必须写入Checkpoint原因")
+    require(parallel.get("capability_fallback") == "RECORD_LIMITATION_AND_DO_NOT_FABRICATE_PARALLEL_EVIDENCE", "PARALLEL_CAPABILITY_FALLBACK", "不支持代理的AI必须记录限制且禁止伪造证据")
+    require(parallel.get("authoritative_active_sessions") == 1 and parallel.get("max_delegated_workers") == 3, "PARALLEL_ONE_PLUS_THREE", "并行模型必须为1主控加最多3执行代理")
+    for key in ["default_delegation_mode", "review_triggers", "per_task_user_confirmation_required", "non_delegation_requires_checkpoint_reason", "capability_fallback", "user_override_allowed", "authoritative_active_sessions", "max_delegated_workers", "worker_workspace", "require_disjoint_path_leases", "integration_owner"]:
+        require(operational_parallel.get(key) == parallel.get(key), "PARALLEL_OPERATIONAL_DRIFT", f"运营策略并行字段漂移：{key}")
+    require(operational_parallel.get("authorization_status") == parallel.get("authorization", {}).get("status"), "PARALLEL_AUTHORIZATION_DRIFT", "运营策略长期授权状态漂移")
+
+    runtime = read_yaml("config/DEVELOPMENT_RUNTIME.yaml")
+    routing = runtime.get("model_routing", {})
+    require(routing.get("complex_or_high_risk", {}).get("model") == "Sol", "MODEL_SOL_ROUTE", "复杂/高风险任务必须路由到Sol")
+    require(routing.get("medium", {}).get("model") == "Terra", "MODEL_TERRA_ROUTE", "中等任务必须路由到Terra")
+    light_route = routing.get("lightweight_or_mechanical_or_read_only", {})
+    require(light_route.get("model") == "Luna", "MODEL_LUNA_ROUTE", "轻量/机械/只读任务必须优先路由到Luna")
+    require(light_route.get("unavailable_fallback", {}).get("model") == "Terra", "MODEL_LUNA_FALLBACK", "Luna不可用时必须审计回退到Terra")
+    cloud = runtime.get("cloud_environment", {})
+    require(cloud.get("default_assumption") == "CODEX_ALREADY_CONNECTED_UNLESS_USER_DECLARES_DISCONNECTED", "CLOUD_DEFAULT_ASSUMPTION", "除非用户声明断连，必须默认Codex已连接项目云服务器")
+    require(cloud.get("ssh_alias") == "obx-test", "CLOUD_ALIAS", "云端项目SSH alias必须为obx-test")
+    require(cloud.get("startup_preflight_required") is True and cloud.get("preflight_failure") == "BLOCK_DEVELOPMENT_AND_REPORT", "CLOUD_PREFLIGHT", "云端启动预检失败必须阻断并报告")
+    android_runtime = cloud.get("android", {})
+    require(android_runtime.get("image") == "hhy-android-toolchain:r01-46fb273", "ANDROID_EXISTING_IMAGE", "Android必须复用固定云端镜像")
+    require(android_runtime.get("gradle_cache") == "hhy-r01-android-gradle-cache", "ANDROID_EXISTING_CACHE", "Android必须复用固定Gradle缓存")
+    prohibited_runtime = set(cloud.get("prohibited", []))
+    require({"LOCAL_ANDROID_SDK_BOOTSTRAP", "LOCAL_ANDROID_SDK_REBUILD"} <= prohibited_runtime, "ANDROID_LOCAL_REBUILD", "必须禁止本地Android SDK bootstrap/rebuild")
+
+    transport = read_yaml("config/REPOSITORY_TRANSPORT.yaml")
+    repository = transport.get("repository", {})
+    require(repository.get("canonical_url") == "https://github.com/fei613293175/hhy.git", "GIT_CANONICAL_REMOTE", "Git canonical remote必须可由仓库恢复")
+    require(repository.get("remote_name") == "origin", "GIT_REMOTE_NAME", "Git remote必须为origin")
+    require(transport.get("security", {}).get("prohibit_url_credentials") is True, "GIT_URL_CREDENTIALS", "tracked remote URL必须禁止凭据")
+    require(transport.get("security", {}).get("prohibit_force_push") is True, "GIT_FORCE_PUSH", "必须禁止force push")
+    require(transport.get("recovery", {}).get("raw_source_without_git_or_bundle") == "BLOCK", "GIT_RAW_SOURCE_HISTORY", "纯源码无Git/Bundle时必须阻断历史推送")
+    require(policy.get("development_environment", {}).get("prohibit_serverless_assumption") is True, "POLICY_SERVERLESS_PROHIBITED", "权威策略必须禁止无服务器假设")
+    require(policy.get("development_environment", {}).get("prohibit_local_android_sdk_bootstrap_or_rebuild") is True, "POLICY_LOCAL_ANDROID_PROHIBITED", "权威策略必须禁止本地Android SDK重建")
+    require(policy.get("git_transport", {}).get("push_preflight_required") is True, "POLICY_GIT_PREFLIGHT", "权威策略必须要求Git推送预检")
 
     obsolete = [".continuity/LAST_CHECKPOINT.yaml", ".continuity/HANDOFF_STATE.yaml"]
     for relative in obsolete:
@@ -289,6 +470,18 @@ def main() -> int:
     require("cr-amend" in cli_text and "command_cr_amend" in cli_text, "CR_AMEND_CLI", "统一CLI缺少CR完整合同补齐命令")
     require("change_request_completeness_errors" in gate_text and "CR_INCOMPLETE" in gate_text, "CR_COMPLETENESS_GATE", "Doctor/CI必须拒绝不完整的已批准CR")
     require("closure_checkpoint" in cli_text and "CLOSING" in cli_text, "CLOSE_PROTOCOL", "任务关闭必须生成关闭检查点")
+    require(
+        "validate_release_machine_chain" in cli_text
+        and "strict_release_machine_completion_errors" in cli_text
+        and "validate_sequential_release_number" in cli_text,
+        "SEQUENTIAL_RELEASE_GATE",
+        "统一CLI缺少R14+版本顺序与机器闭环证据门禁",
+    )
+    require(
+        cli_text.count("validate_release_machine_chain(") >= 8,
+        "SEQUENTIAL_RELEASE_ENTRYPOINTS",
+        "版本顺序门禁必须覆盖start、cold/active resume、close、takeover和recover",
+    )
 
     workflow_text = "\n".join((ROOT / p).read_text(encoding="utf-8") for p in [".github/workflows/continuity-gate.yml", ".github/workflows/ci.yml"])
     forbidden_cli = ["continuity_gate.py baseline", "continuity_gate.py ci", "--base-sha", "--head-sha", "continuity.py export", "close --outcome"]
@@ -314,10 +507,23 @@ def main() -> int:
             require(token not in text, "SECOND_STATE_SCRIPT", f"{relative}仍引用旧状态：{token}")
 
     # Context pack must be self-contained and explicitly repository-only.
+    require((ROOT / "AGENTS.md").read_bytes() == (ROOT / "templates/AGENTS.md").read_bytes(), "AGENTS_TEMPLATE_DRIFT", "AGENTS根入口与导出模板必须完全一致")
+    require((ROOT / "START_HERE.md").read_bytes() == (ROOT / "templates/START_HERE.md").read_bytes(), "START_TEMPLATE_DRIFT", "START_HERE根入口与导出模板必须完全一致")
     context = read_yaml("artifacts/context/CURRENT_CONTEXT_PACK.yaml")
     require(context.get("conversation_dependency") == "PROHIBITED", "CONTEXT_CONVERSATION", "Context Pack必须禁止对话依赖")
     require(context.get("source_of_truth") == "REPOSITORY_ONLY", "CONTEXT_SOURCE", "Context Pack事实源必须为仓库")
     require(bool(context.get("exact_resume_command")), "CONTEXT_COMMAND", "Context Pack必须提供精确恢复命令")
+    require(context.get("parallel_development_policy") == parallel, "CONTEXT_PARALLEL_POLICY", "Context Pack必须完整携带权威并行策略")
+    require(context.get("execution_routing_policy") == runtime.get("model_routing"), "CONTEXT_MODEL_ROUTING", "Context Pack必须携带模型分级策略")
+    require(context.get("development_runtime") == runtime, "CONTEXT_RUNTIME", "Context Pack必须携带云端既有环境策略")
+    require(context.get("repository_transport") == transport, "CONTEXT_GIT_TRANSPORT", "Context Pack必须携带Git transport descriptor")
+    readiness = context.get("rule_readiness", {})
+    require(readiness.get("status") == "PASS", "CONTEXT_RULE_READINESS", "Context Pack规则就绪状态必须为PASS")
+    require(readiness.get("evidence") == "HASHED_CONTEXT_MANIFEST", "CONTEXT_RULE_EVIDENCE", "规则就绪必须以Context来源哈希为证据")
+    require(readiness.get("required_sources") == required_rule_sources, "CONTEXT_RULE_SOURCE_DRIFT", "Context Pack规则来源与权威策略不一致")
+    require(not readiness.get("missing_sources"), "CONTEXT_RULE_SOURCE_MISSING", "Context Pack存在缺失规则来源")
+    if context.get("active_session") and context.get("latest_checkpoint"):
+        require(bool(context.get("latest_checkpoint", {}).get("parallel_execution")), "CONTEXT_PARALLEL_CHECKPOINT", "最新Checkpoint必须记录结构化并行决策")
     context_manifest = json.loads((ROOT / "artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json").read_text(encoding="utf-8"))
     require(bool(context_manifest.get("project_fingerprint", {}).get("sha256")), "CONTEXT_TREE_FINGERPRINT", "Context Manifest必须记录项目树/会话指纹")
     for key in ["yaml", "markdown"]:
@@ -330,7 +536,16 @@ def main() -> int:
         path = ROOT / source.get("path", "")
         require(path.is_file(), "CONTEXT_SOURCE_MISSING", source.get("path", ""))
         if path.is_file():
-            require(sha256(path) == source.get("sha256"), "CONTEXT_SOURCE_STALE", source.get("path", ""))
+            require(context_source_matches(ROOT, path, source), "CONTEXT_SOURCE_STALE", source.get("path", ""))
+    context_sources = {row.get("path") for row in context_manifest.get("sources", [])}
+    require("releases/PROGRAM_EXECUTION_PLAN.yaml" in context_sources, "CONTEXT_PROGRAM_PLAN", "Context Pack来源必须包含总执行计划")
+    require("config/REPOSITORY_TRANSPORT.yaml" in context_sources, "CONTEXT_TRANSPORT_SOURCE", "Context Pack来源必须包含Git transport descriptor")
+    require("config/DEVELOPMENT_RUNTIME.yaml" in context_sources, "CONTEXT_RUNTIME_SOURCE", "Context Pack来源必须包含开发运行时策略")
+    for relative in required_rule_sources:
+        require(relative in context_sources, "CONTEXT_REQUIRED_RULE_SOURCE", f"Context Pack来源缺少全局必读规则：{relative}")
+    active_release = context.get("active_session", {}).get("release") if context.get("active_session") else None
+    if active_release:
+        require(f"releases/{active_release}/PARALLEL_EXECUTION_PLAN.yaml" in context_sources, "CONTEXT_RELEASE_PARALLEL_PLAN", "Context Pack来源必须包含当前Release并行计划")
 
     # Commands exposed to the next AI must be valid unified CLI commands.
     next_text = (ROOT / "NEXT_TASK.yaml").read_text(encoding="utf-8")
@@ -344,10 +559,10 @@ def main() -> int:
 
     # Package must not contain tracked transient caches or plaintext secret files.
     ignore_text = (ROOT / ".gitignore").read_text(encoding="utf-8")
-    for required_ignore in ["**/target/", "**/.gradle/", "**/node_modules/", "**/__pycache__/", "*.py[cod]"]:
+    for required_ignore in ["**/target/", "**/.gradle/", "**/node_modules/", "**/__pycache__/", "*.py[cod]", ".git-credentials", ".netrc", ".ssh/"]:
         require(required_ignore in ignore_text, "TRANSIENT_IGNORE_MISSING", f".gitignore缺少 {required_ignore}")
     tracked = subprocess.run(
-        ["git", "ls-files"], cwd=ROOT, text=True, capture_output=True
+        [git_executable(), "ls-files"], cwd=ROOT, text=True, capture_output=True
     ).stdout.splitlines() if (ROOT / ".git").exists() else []
     tracked_transient = [
         path for path in tracked
@@ -355,6 +570,13 @@ def main() -> int:
         or Path(path).suffix in {".pyc", ".pyo"}
     ]
     require(not tracked_transient, "TRACKED_TRANSIENT_FILES", "Git不得跟踪临时产物：" + ", ".join(tracked_transient[:20]))
+    if (ROOT / ".git").exists():
+        for wrapper in ("apps/android/gradlew", "services/backend/mvnw"):
+            require(
+                tracked_git_mode(ROOT, wrapper) == "100755",
+                "WRAPPER_EXECUTABLE_MODE_DRIFT",
+                f"{wrapper}必须以Git 100755模式提交，确保Linux CI可直接执行",
+            )
     status = "PASS" if not errors and (not args.strict or not warnings) else "FAIL"
     payload = {
         "version": "1.2.3",

@@ -1,0 +1,49 @@
+schema: hhy.task-spec/v5.0
+id: TASK-R30-002
+release: R30
+ordinal: 2
+title: 完整运营后台、RBAC与配置闭环数据迁移与领域不变量
+kind: database
+mode: worker
+source:
+  path: releases/R30/TASKS.yaml
+  original_id: TASK-R30-002
+requirements:
+- REQ-PAY-001
+- REQ-ANALYTICS-001
+- REQ-CMS-001
+- REQ-ADMIN-001
+- REQ-RBAC-001
+- REQ-CONFIG-001
+- REQ-BUILD-001
+- REQ-APK-001
+- REQ-SECRET-001
+depends_on:
+- TASK-R30-001
+objective: 实现/演进admin_users, admin_roles, admin_permissions, admin_user_roles, admin_role_permissions, admin_operation_logs,
+  admin_approval_requests, system_configs等，补齐唯一约束、状态历史、幂等键和回滚验证
+deliverables:
+- Flyway前向迁移与空库/升级库测试
+- 不变量属性测试
+acceptance:
+- 无TODO/生产Mock
+- 代码、文档、测试、追踪同步更新
+- Flyway前向迁移与空库/升级库测试
+- 不变量属性测试
+allowed_paths:
+- catalogs/**
+- contracts/**
+- database/**
+- docs/**
+- services/backend/**
+- tests/**
+risks:
+- database
+- production
+- secrets
+- security
+acceptance_commands:
+- python3 scripts/check_db_schema.py
+maximum_attempts: 3
+owner_verification: ASYNC_NON_BLOCKING_FOR_NEXT_RELEASE
+legacy_status: BLOCKED

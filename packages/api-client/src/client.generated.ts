@@ -49,7 +49,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        /** 阿里云短信验证码：LOGIN/REGISTER/RESET_PASSWORD */
+        /** 阿里云短信验证码：LOGIN/RESET_PASSWORD */
         post: operations["authPostAuthSmsSend"];
         delete?: never;
         options?: never;
@@ -91,6 +91,23 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/auth/registration-config": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** 获取当前注册协议版本配置 */
+        get: operations["authGetAuthRegistrationConfig"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/auth/register": {
         parameters: {
             query?: never;
@@ -100,7 +117,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        /** 密码注册、短信校验、邀请码绑定、随机用户名 */
+        /** 密码注册、图形安全验证、邀请码绑定、随机用户名 */
         post: operations["authPostAuthRegister"];
         delete?: never;
         options?: never;
@@ -278,6 +295,40 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/public-api/v1/identity/callback/consume": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** 消费一次性活体回跳 */
+        post: operations["publicPostIdentityCallbackConsume"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/identity/consent": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** 获取当前实名认证授权说明 */
+        get: operations["identityGetIdentityConsent"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/identity/sessions": {
         parameters: {
             query?: never;
@@ -289,6 +340,23 @@ export interface paths {
         put?: never;
         /** 创建实名会话 */
         post: operations["identityPostIdentitySessions"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/identity/overview": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** 获取当前账号实名认证总览 */
+        get: operations["identityGetIdentityOverview"];
+        put?: never;
+        post?: never;
         delete?: never;
         options?: never;
         head?: never;
@@ -2115,6 +2183,15 @@ export interface components {
             imageBase64?: string;
             token?: string;
         };
+        RegistrationAgreementVersionResource: {
+            versionId: string;
+            code: string;
+            /** Format: date-time */
+            effectiveAt: string;
+        };
+        RegistrationConfigResource: {
+            agreementVersions: components["schemas"]["RegistrationAgreementVersionResource"][];
+        };
         AuthSessionResource: {
             accessToken: string;
             refreshToken: string;
@@ -2124,6 +2201,25 @@ export interface components {
             sessionId: string;
             device?: components["schemas"]["DeviceSummaryResource"];
             capabilities?: string[];
+        };
+        UserSecuritySessionResource: {
+            sessionId: string;
+            device?: components["schemas"]["DeviceSummaryResource"];
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            expiresAt: string;
+            status: string;
+            current: boolean;
+        };
+        UserSecuritySessionPageMeta: {
+            /** Format: int64 */
+            page: number;
+            /** Format: int64 */
+            pageSize: number;
+            /** Format: int64 */
+            total: number;
+            hasMore: boolean;
         };
         AdminSessionResource: {
             accessToken?: string;
@@ -2161,6 +2257,11 @@ export interface components {
             /** Format: int64 */
             version: number;
         };
+        IdentityOverviewResource: {
+            /** @enum {string} */
+            status: "NOT_STARTED" | "IN_PROGRESS" | "VERIFIED";
+            activeSession?: components["schemas"]["IdentitySessionResource"];
+        };
         MediaResource: {
             id: string;
             purpose?: string;
@@ -2190,6 +2291,20 @@ export interface components {
             publisher?: components["schemas"]["PublisherSummaryResource"];
             score?: number;
             badges?: string[];
+        };
+        SearchTermResource: {
+            id: string;
+            keyword: string;
+            /** Format: date-time */
+            createdAt?: string;
+        };
+        ContactAccessResource: {
+            /** @enum {string} */
+            channel: "WECHAT" | "PHONE" | "QQ" | "EMAIL" | "LINK" | "QR_CODE" | "JOIN_PASSWORD";
+            /** @description 仅在本次已授权响应中返回；禁止写入日志、埋点或持久化明文缓存 */
+            value: string;
+            /** Format: date-time */
+            accessedAt: string;
         };
         ContentResource: {
             id: string;
@@ -2231,6 +2346,52 @@ export interface components {
             updatedAt?: string;
             /** Format: int64 */
             version: number;
+        };
+        ChatTextPayload: {
+            text: string;
+        };
+        ChatImagePayload: {
+            mediaId: string;
+            /** Format: uri */
+            thumbnailUrl?: string;
+            width?: number;
+            height?: number;
+        };
+        ChatContentCardPayload: {
+            contentId: string;
+            /** @enum {string} */
+            contentType: "PROJECT" | "APP" | "GROUP_CHAT" | "TEAM_LEADER";
+            title: string;
+            /** Format: uri */
+            coverUrl?: string;
+        };
+        ChatContactField: {
+            /** @enum {string} */
+            type: "PHONE" | "WECHAT" | "QQ" | "EMAIL" | "OTHER";
+            label?: string;
+            value: string;
+        };
+        ChatContactCardPayload: {
+            fields: components["schemas"]["ChatContactField"][];
+            note?: string;
+        };
+        ChatMessagePayload: components["schemas"]["ChatTextPayload"] | components["schemas"]["ChatImagePayload"] | components["schemas"]["ChatContentCardPayload"] | components["schemas"]["ChatContactCardPayload"];
+        ChatMessageResource: {
+            id: string;
+            conversationId: string;
+            sender: components["schemas"]["PublisherSummaryResource"];
+            clientMessageId: string;
+            /** @enum {string} */
+            messageType: "TEXT" | "IMAGE" | "CONTENT_CARD" | "CONTACT_CARD";
+            payload: components["schemas"]["ChatMessagePayload"];
+            /** @enum {string} */
+            status: "SENT" | "DELIVERED" | "READ";
+            /** Format: int64 */
+            serverSequence?: number;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            readAt?: string;
         };
         NotificationResource: {
             id: string;
@@ -2302,20 +2463,18 @@ export interface components {
         };
         OrderResource: {
             orderNo: string;
-            userId?: string;
+            userId: string;
             orderType: string;
-            status: string;
+            /** @enum {string} */
+            status: "PENDING_PAYMENT" | "PAYMENT_PROCESSING" | "PAID" | "FULFILLING" | "COMPLETED" | "PAYMENT_FAILED" | "CLOSED" | "CHANNEL_REVERSAL";
             currency: string;
-            /** Format: int64 */
-            originalAmountCent?: number;
-            /** Format: int64 */
-            discountAmountCent?: number;
-            /** Format: int64 */
-            payableAmountCent: number;
+            items: components["schemas"]["OrderItemResource"][];
+            priceSnapshot: components["schemas"]["OrderPriceSnapshotResource"];
+            noRefundEvidence: components["schemas"]["NoRefundEvidenceResource"];
             /** Format: int64 */
             paidAmountCent?: number;
             /** Format: date-time */
-            createdAt?: string;
+            createdAt: string;
             /** Format: date-time */
             paidAt?: string;
             /** Format: int64 */
@@ -2502,49 +2661,18 @@ export interface components {
             version: number;
         };
         ReportResource: {
-            id: string;
+            id?: string;
             reporterId?: string;
             subjectType?: string;
             subjectId?: string;
             reasonCode?: string;
-            status: string;
-            decision?: string;
-            /** Format: date-time */
-            createdAt?: string;
+            description?: string;
+            /** Format: int32 */
+            displayOrder?: number;
+            status?: string;
+            skus?: components["schemas"]["ProductSkuResource"][];
             /** Format: int64 */
-            version: number;
-        };
-        AppealResource: {
-            id: string;
-            appellantId?: string;
-            subjectType?: string;
-            subjectId?: string;
-            reason?: string;
-            status: string;
-            decision?: string;
-            /** Format: date-time */
-            createdAt?: string;
-            /** Format: int64 */
-            version: number;
-        };
-        ProductResource: {
-            id: string;
-            productCode: string;
-            name: string;
-            productType?: string;
-            status: string;
-            skus?: {
-                id: string;
-                skuCode: string;
-                name: string;
-                /** Format: int64 */
-                priceCent: number;
-                /** Format: int64 */
-                durationDays?: number;
-                status: string;
-            }[];
-            /** Format: int64 */
-            version: number;
+            version?: number;
         };
         CmsResource: {
             id?: string;
@@ -2822,14 +2950,23 @@ export interface components {
             timestamp?: string;
             data: components["schemas"]["AuthSessionResource"] | components["schemas"]["CommandResultResource"];
         };
+        AuthGetAuthRegistrationConfigParameters: Record<string, never>;
+        AuthGetAuthRegistrationConfigResponse: {
+            /** @constant */
+            success: true;
+            requestId: string;
+            /** Format: date-time */
+            timestamp?: string;
+            data: components["schemas"]["RegistrationConfigResource"];
+        };
         AuthPostAuthRegisterRequest: {
             /** @example 13800000000 */
             phone: string;
-            smsCode: string;
             /** Format: password */
             password: string;
             inviteCode: string;
-            agreementVersions: string[];
+            challengeId: string;
+            challengeProof: string;
             device?: {
                 [key: string]: components["schemas"]["JsonValue"];
             };
@@ -2907,8 +3044,8 @@ export interface components {
             /** Format: date-time */
             timestamp?: string;
             data: {
-                items: components["schemas"]["AuthSessionResource"][];
-                page: components["schemas"]["PageMeta"];
+                items: components["schemas"]["UserSecuritySessionResource"][];
+                page: components["schemas"]["UserSecuritySessionPageMeta"];
             };
         };
         AuthGetAuthSessionsParameters: {
@@ -2974,7 +3111,7 @@ export interface components {
             requestId: string;
             /** Format: date-time */
             timestamp?: string;
-            data: components["schemas"]["UserResource"];
+            data: components["schemas"]["PublisherSummaryResource"];
         };
         UserGetPublishersByIdParameters: {
             /** @description 路径资源标识：id */
@@ -2993,6 +3130,42 @@ export interface components {
             /** Format: date-time */
             timestamp?: string;
             data: components["schemas"]["UserResource"] | components["schemas"]["CommandResultResource"];
+        };
+        PublicPostIdentityCallbackConsumeRequest: {
+            state: string;
+        };
+        IdentityCallbackStatusResource: {
+            /** @enum {string} */
+            status: "SESSION_CREATED" | "LIVENESS_PENDING" | "PROVIDER_PROCESSING" | "MANUAL_REVIEW" | "VERIFIED" | "REJECTED" | "EXPIRED";
+        };
+        PublicPostIdentityCallbackConsumeResponse: {
+            /** @constant */
+            success: true;
+            requestId: string;
+            /** Format: date-time */
+            timestamp?: string;
+            data: components["schemas"]["IdentityCallbackStatusResource"];
+        };
+        IdentityConsentResource: {
+            consentVersion: string;
+            title: string;
+            content: string;
+        };
+        IdentityGetIdentityConsentResponse: {
+            /** @constant */
+            success: true;
+            requestId: string;
+            /** Format: date-time */
+            timestamp?: string;
+            data: components["schemas"]["IdentityConsentResource"];
+        };
+        IdentityGetIdentityOverviewResponse: {
+            /** @constant */
+            success: true;
+            requestId: string;
+            /** Format: date-time */
+            timestamp?: string;
+            data: components["schemas"]["IdentityOverviewResource"];
         };
         IdentityPostIdentitySessionsRequest: {
             realName: string;
@@ -3105,7 +3278,10 @@ export interface components {
             requestId: string;
             /** Format: date-time */
             timestamp?: string;
-            data: components["schemas"]["SearchResultResource"];
+            data: {
+                items: components["schemas"]["SearchResultResource"][];
+                page: components["schemas"]["PageMeta"];
+            };
         };
         SearchGetSearchParameters: {
             q: string;
@@ -3113,6 +3289,13 @@ export interface components {
             contentType?: "PROJECT" | "APP" | "GROUP_CHAT" | "TEAM_LEADER";
             categoryCode?: string;
             regionCode?: string;
+            /** @default 1 */
+            page: number;
+            /** @default 20 */
+            pageSize: number;
+            cursor?: string;
+            /** @enum {string} */
+            sort?: "relevance:desc" | "createdAt:desc";
         };
         SearchGetSearchHotResponse: {
             /** @constant */
@@ -3121,7 +3304,7 @@ export interface components {
             /** Format: date-time */
             timestamp?: string;
             data: {
-                items: components["schemas"]["SearchResultResource"][];
+                items: components["schemas"]["SearchTermResource"][];
                 page: components["schemas"]["PageMeta"];
             };
         };
@@ -3138,8 +3321,6 @@ export interface components {
             pageSize: number;
             /** @description 游标；与page二选一 */
             cursor?: string;
-            /** @description 状态筛选 */
-            status?: string;
             /** @description 关键词筛选 */
             keyword?: string;
             /** @description 白名单排序字段，例如 createdAt:desc */
@@ -3152,7 +3333,7 @@ export interface components {
             /** Format: date-time */
             timestamp?: string;
             data: {
-                items: components["schemas"]["SearchResultResource"][];
+                items: components["schemas"]["SearchTermResource"][];
                 page: components["schemas"]["PageMeta"];
             };
         };
@@ -3169,8 +3350,6 @@ export interface components {
             pageSize: number;
             /** @description 游标；与page二选一 */
             cursor?: string;
-            /** @description 状态筛选 */
-            status?: string;
             /** @description 关键词筛选 */
             keyword?: string;
             /** @description 白名单排序字段，例如 createdAt:desc */
@@ -3221,6 +3400,8 @@ export interface components {
             contentType?: "PROJECT" | "APP" | "GROUP_CHAT" | "TEAM_LEADER";
             categoryCode?: string;
             regionCode?: string;
+            /** @description 发布者用户标识；发布者主页使用该参数限定公开内容归属 */
+            publisherId?: string;
         };
         ContentGetContentsByIdResponse: {
             /** @constant */
@@ -3234,6 +3415,11 @@ export interface components {
             /** @description 路径资源标识：id */
             id: string;
         };
+        ContactInputResource: {
+            /** @enum {string} */
+            channel: "WECHAT" | "PHONE" | "QQ" | "EMAIL" | "LINK" | "QR_CODE" | "JOIN_PASSWORD";
+            value: string;
+        };
         ContentPostContentsRequest: {
             /** @enum {string} */
             contentType: "PROJECT" | "APP" | "GROUP_CHAT" | "TEAM_LEADER";
@@ -3243,7 +3429,7 @@ export interface components {
             categoryCode: string;
             regionCode?: string;
             mediaIds?: string[];
-            contacts?: string;
+            contacts?: components["schemas"]["ContactInputResource"][];
             attributes?: {
                 [key: string]: components["schemas"]["JsonValue"];
             };
@@ -3263,7 +3449,7 @@ export interface components {
             categoryCode?: string;
             regionCode?: string;
             mediaIds?: string[];
-            contacts?: string;
+            contacts?: components["schemas"]["ContactInputResource"][];
             attributes?: {
                 [key: string]: components["schemas"]["JsonValue"];
             };
@@ -3341,6 +3527,11 @@ export interface components {
         ContentDeleteContentsByIdParameters: {
             /** @description 路径资源标识：id */
             id: string;
+            /**
+             * Format: int64
+             * @description 当前内容乐观锁版本；版本不一致返回 COMMON-409-VERSION_CONFLICT
+             */
+            expectedVersion: number;
             xIdempotencyKey: string;
         };
         ContentGetMeContentsResponse: {
@@ -3486,7 +3677,7 @@ export interface components {
         ContentPostContentsByIdFavoriteRequest: {
             reason?: string;
             /** Format: int64 */
-            expectedVersion?: number;
+            expectedVersion: number;
             payload?: {
                 [key: string]: components["schemas"]["JsonValue"];
             };
@@ -3585,7 +3776,7 @@ export interface components {
             requestId: string;
             /** Format: date-time */
             timestamp?: string;
-            data: components["schemas"]["ContentResource"] | components["schemas"]["CommandResultResource"];
+            data: components["schemas"]["ContactAccessResource"];
         };
         ContentPostContentsByIdReportRequest: {
             reasonCode: string;
@@ -3619,13 +3810,22 @@ export interface components {
             /** @enum {string} */
             channel: "WECHAT" | "WECHAT_MOMENTS" | "COPY_LINK" | "OTHER";
         };
+        ShareResultResource: {
+            contentId: string;
+            /** @enum {string} */
+            channel: "WECHAT" | "WECHAT_MOMENTS" | "COPY_LINK" | "OTHER";
+            /** Format: uri */
+            url: string;
+            /** Format: date-time */
+            acceptedAt: string;
+        };
         ContentPostContentsByIdShareResponse: {
             /** @constant */
             success: true;
             requestId: string;
             /** Format: date-time */
             timestamp?: string;
-            data: components["schemas"]["ContentResource"] | components["schemas"]["CommandResultResource"];
+            data: components["schemas"]["ShareResultResource"];
         };
         ChatGetConversationsResponse: {
             /** @constant */
@@ -3677,7 +3877,7 @@ export interface components {
             /** Format: date-time */
             timestamp?: string;
             data: {
-                items: components["schemas"]["ConversationResource"][];
+                items: components["schemas"]["ChatMessageResource"][];
                 page: components["schemas"]["PageMeta"];
             };
         };
@@ -3703,13 +3903,42 @@ export interface components {
             /** @description 白名单排序字段，例如 createdAt:desc */
             sort?: string;
         };
-        ChatPostConversationsByIdMessagesRequest: {
+        ChatPostConversationsByIdMessagesRequest: components["schemas"]["ChatTextMessageRequest"] | components["schemas"]["ChatImageMessageRequest"] | components["schemas"]["ChatContentCardMessageRequest"] | components["schemas"]["ChatContactCardMessageRequest"];
+        ChatTextMessageRequest: {
             clientMessageId: string;
-            /** @enum {string} */
-            messageType: "TEXT" | "IMAGE" | "CONTENT_CARD" | "CONTACT_CARD";
-            payload: {
-                [key: string]: components["schemas"]["JsonValue"];
-            };
+            /**
+             * @description discriminator enum property added by openapi-typescript
+             * @enum {string}
+             */
+            messageType: "TEXT";
+            payload: components["schemas"]["ChatTextPayload"];
+        };
+        ChatImageMessageRequest: {
+            clientMessageId: string;
+            /**
+             * @description discriminator enum property added by openapi-typescript
+             * @enum {string}
+             */
+            messageType: "IMAGE";
+            payload: components["schemas"]["ChatImagePayload"];
+        };
+        ChatContentCardMessageRequest: {
+            clientMessageId: string;
+            /**
+             * @description discriminator enum property added by openapi-typescript
+             * @enum {string}
+             */
+            messageType: "CONTENT_CARD";
+            payload: components["schemas"]["ChatContentCardPayload"];
+        };
+        ChatContactCardMessageRequest: {
+            clientMessageId: string;
+            /**
+             * @description discriminator enum property added by openapi-typescript
+             * @enum {string}
+             */
+            messageType: "CONTACT_CARD";
+            payload: components["schemas"]["ChatContactCardPayload"];
         };
         ChatPostConversationsByIdMessagesResponse: {
             /** @constant */
@@ -3717,7 +3946,7 @@ export interface components {
             requestId: string;
             /** Format: date-time */
             timestamp?: string;
-            data: components["schemas"]["ConversationResource"] | components["schemas"]["CommandResultResource"];
+            data: components["schemas"]["ChatMessageResource"];
         };
         ChatPostConversationsByIdReadRequest: {
             lastReadMessageId: string;
@@ -3768,7 +3997,11 @@ export interface components {
             xIdempotencyKey: string;
         };
         ChatPostConversationsByIdReportRequest: {
-            reasonCode: string;
+            /**
+             * @description 聊天举报原因；enum由x-hhy-options中启用项按order生成
+             * @enum {string}
+             */
+            reasonCode: "HARASSMENT" | "DUPLICATE_BULK_MESSAGE" | "DANGEROUS_LINK";
             description: string;
             evidenceMediaIds?: string[];
             messageIds?: string[];
@@ -5200,6 +5433,61 @@ export interface components {
             /** @description 路径资源标识：id */
             id: string;
         };
+        BenefitResource: {
+            benefitCode: string;
+            name: string;
+            value: components["schemas"]["JsonValue"];
+            unit?: string;
+        };
+        ProductSkuResource: {
+            id: string;
+            productId: string;
+            skuCode: string;
+            name: string;
+            /** Format: int64 */
+            priceCent: number;
+            /** Format: int64 */
+            memberPriceCent?: number;
+            /** Format: int64 */
+            durationDays?: number;
+            benefits: components["schemas"]["BenefitResource"][];
+            commissionEnabled: boolean;
+            level1Bps?: number;
+            level2Bps?: number;
+            /** Format: date-time */
+            saleStartsAt?: string;
+            /** Format: date-time */
+            saleEndsAt?: string;
+            status: string;
+            /** Format: int64 */
+            version: number;
+        };
+        OrderItemResource: {
+            skuId?: string;
+            itemName: string;
+            quantity: number;
+            /** Format: int64 */
+            unitPriceCent: number;
+            /** Format: int64 */
+            subtotalAmountCent: number;
+        };
+        OrderPriceSnapshotResource: {
+            /** Format: int64 */
+            originalAmountCent: number;
+            /** Format: int64 */
+            discountAmountCent: number;
+            /** Format: int64 */
+            serviceFeeCent: number;
+            /** Format: int64 */
+            payableAmountCent: number;
+            ruleVersions: string[];
+        };
+        NoRefundEvidenceResource: {
+            confirmed: boolean;
+            agreementVersion: string;
+            /** Format: date-time */
+            confirmedAt?: string;
+        };
         /** @description 仅用于扩展属性的标量值；核心业务字段不得依赖自由结构。 */
         JsonScalar: string | number | boolean | null;
         /** @description 受限 JSON 扩展值；必须在页面规格中声明实际键，禁止作为核心业务模型。 */
@@ -5251,7 +5539,7 @@ export interface components {
         };
         ContactChannelSummaryResource: {
             /** @enum {string} */
-            channel: "WECHAT" | "PHONE" | "QQ" | "EMAIL" | "LINK" | "QR_CODE";
+            channel: "WECHAT" | "PHONE" | "QQ" | "EMAIL" | "LINK" | "QR_CODE" | "JOIN_PASSWORD";
             maskedValue?: string;
             available: boolean;
             /** @enum {string} */
@@ -5862,6 +6150,35 @@ export interface operations {
             };
         };
     };
+    authGetAuthRegistrationConfig: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description 成功 */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AuthGetAuthRegistrationConfigResponse"];
+                };
+            };
+            /** @description 内部错误 */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
     authPostAuthRegister: {
         parameters: {
             query?: never;
@@ -6330,8 +6647,6 @@ export interface operations {
                 pageSize?: number;
                 /** @description 游标；与page二选一 */
                 cursor?: string;
-                /** @description 状态筛选 */
-                status?: string;
                 /** @description 关键词筛选 */
                 keyword?: string;
                 /** @description 白名单排序字段，例如 createdAt:desc */
@@ -6909,6 +7224,122 @@ export interface operations {
             };
         };
     };
+    publicPostIdentityCallbackConsume: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PublicPostIdentityCallbackConsumeRequest"];
+            };
+        };
+        responses: {
+            /** @description 成功 */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PublicPostIdentityCallbackConsumeResponse"];
+                };
+            };
+            /** @description 请求参数错误 */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 回跳已失效、过期或已经消费 */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 触发限流 */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 内部错误 */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    identityGetIdentityConsent: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description 成功 */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["IdentityGetIdentityConsentResponse"];
+                };
+            };
+            /** @description 未认证或会话失效 */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 权限或能力不足 */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 触发限流 */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 当前协议不可用或内部错误 */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
     identityPostIdentitySessions: {
         parameters: {
             query?: never;
@@ -6990,6 +7421,53 @@ export interface operations {
             };
             /** @description 触发限流 */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 内部错误 */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    identityGetIdentityOverview: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description 成功 */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["IdentityGetIdentityOverviewResponse"];
+                };
+            };
+            /** @description 未认证或会话失效 */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 权限或能力不足 */
+            403: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -7705,6 +8183,10 @@ export interface operations {
                 contentType?: "PROJECT" | "APP" | "GROUP_CHAT" | "TEAM_LEADER";
                 categoryCode?: string;
                 regionCode?: string;
+                page?: number;
+                pageSize?: number;
+                cursor?: string;
+                sort?: "relevance:desc" | "createdAt:desc" | "id:desc";
             };
             header?: never;
             path?: never;
@@ -7804,8 +8286,6 @@ export interface operations {
                 pageSize?: number;
                 /** @description 游标；与page二选一 */
                 cursor?: string;
-                /** @description 状态筛选 */
-                status?: string;
                 /** @description 关键词筛选 */
                 keyword?: string;
                 /** @description 白名单排序字段，例如 createdAt:desc */
@@ -7909,8 +8389,6 @@ export interface operations {
                 pageSize?: number;
                 /** @description 游标；与page二选一 */
                 cursor?: string;
-                /** @description 状态筛选 */
-                status?: string;
                 /** @description 关键词筛选 */
                 keyword?: string;
                 /** @description 白名单排序字段，例如 createdAt:desc */
@@ -8118,6 +8596,8 @@ export interface operations {
                 contentType?: "PROJECT" | "APP" | "GROUP_CHAT" | "TEAM_LEADER";
                 categoryCode?: string;
                 regionCode?: string;
+                /** @description 发布者用户标识；发布者主页使用该参数限定公开内容归属 */
+                publisherId?: string;
             };
             header?: never;
             path?: never;
@@ -8404,7 +8884,10 @@ export interface operations {
     };
     contentDeleteContentsById: {
         parameters: {
-            query?: never;
+            query: {
+                /** @description 当前内容乐观锁版本；版本不一致返回 COMMON-409-VERSION_CONFLICT */
+                expectedVersion: number;
+            };
             header: {
                 /** @description UUID/ULID。相同主体、操作和键必须返回首次结果；请求摘要不一致返回 COMMON-409-IDEMPOTENCY_CONFLICT。 */
                 "X-Idempotency-Key": components["parameters"]["XIdempotencyKey"];
@@ -9866,7 +10349,7 @@ export interface operations {
                 /** @description 路径资源标识：id */
                 id: string;
                 /** @description 路径资源标识：channel */
-                channel: string;
+                channel: "WECHAT" | "PHONE" | "QQ" | "EMAIL" | "LINK" | "QR_CODE" | "JOIN_PASSWORD";
             };
             cookie?: never;
         };
@@ -9879,6 +10362,10 @@ export interface operations {
             /** @description 成功 */
             200: {
                 headers: {
+                    /** @description 高敏联系方式响应不得被客户端或中间代理缓存 */
+                    "Cache-Control"?: "no-store";
+                    /** @description 兼容旧客户端的禁止缓存指令 */
+                    Pragma?: "no-cache";
                     [name: string]: unknown;
                 };
                 content: {
@@ -15212,6 +15699,15 @@ export interface operations {
             };
             /** @description 业务规则不满足 */
             422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 奖励账户因风险审核暂时受限 */
+            423: {
                 headers: {
                     [name: string]: unknown;
                 };

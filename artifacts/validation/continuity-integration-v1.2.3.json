@@ -6,19 +6,39 @@
   "source_manifest": [
     {
       "path": ".continuity/CONTINUITY_POLICY.yaml",
-      "sha256": "69a81daf8e6a8b9aef1a73bcbcd070932530b8ec4f8100e1b28ac33394a31223"
+      "sha256": "38e04ed812c8df0d353c2b91993d31e53b471e9c457f06b426bd2260c470aa92"
+    },
+    {
+      "path": "config/REPOSITORY_TRANSPORT.yaml",
+      "sha256": "8c4a21f3e204d46e7ffb467d804a53ed26cda61cd088dadfddb50b69eea657fc"
+    },
+    {
+      "path": "config/DEVELOPMENT_RUNTIME.yaml",
+      "sha256": "ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244"
     },
     {
       "path": "scripts/continuity_lib.py",
-      "sha256": "a3dfc869dd56765d2712e55a00c3452123a28f93f76689eef91a2afccd2b778c"
+      "sha256": "74661284a8c704eb3f8ae76a185893127a3bbc4fa1c86ce0d4dc4a170f9c49d3"
     },
     {
       "path": "scripts/continuity.py",
-      "sha256": "b887d0751fdcce308b7d0db01524c64a41fada82f44217b06376a3158c1ef262"
+      "sha256": "0df599a7fad22c6efb593955a45fdd27e423d96d0ddf57c7f83d10c10124c264"
     },
     {
       "path": "scripts/continuity_gate.py",
-      "sha256": "888111dfe7085ad8165458d3c9ec39b48a39db49a954a2ee17976cfc0c7070a4"
+      "sha256": "301362b3f34e8cfcfbcdde0fa5301ab9bf965e28f3c0446bbf19740a53e6df19"
+    },
+    {
+      "path": "scripts/restore_git_transport.py",
+      "sha256": "494a8dcfe657c861f6e3058c1d8455453e60688341b7eb40f1ad320c70086f34"
+    },
+    {
+      "path": "scripts/select_execution_profile.py",
+      "sha256": "2e38626f57171f0529bd3780c52dc7609c06967e2fb28ca4541baa2374acef56"
+    },
+    {
+      "path": "scripts/verify_cloud_environment.py",
+      "sha256": "698aa5bbdd90112748134f1f51f6657d15b793fc9e902dea7e8660ac185d8eaf"
     },
     {
       "path": "scripts/prepare_commit_message.py",
@@ -26,11 +46,11 @@
     },
     {
       "path": "scripts/run_continuity_self_test.py",
-      "sha256": "c7dd4524345ad38a3f2be2e773b13d7e135dad6ec97d6ad3b7fc7c84c5713810"
+      "sha256": "16af58ba87b8466523ff5dc950705f616c5d1aec96ced820063544737159af1a"
     },
     {
       "path": "scripts/test_continuity_protocol.py",
-      "sha256": "3ebbc06cd10c507aea2228b8497ff9198a623c8bc0db0e4b4e7ea1f35f46d628"
+      "sha256": "97608112da947779c2fcf1cf5caf298f8f5a6dbc95d714ce7512f9f2e1bd4a09"
     },
     {
       "path": ".githooks/pre-commit",
@@ -46,7 +66,7 @@
     },
     {
       "path": ".githooks/pre-push",
-      "sha256": "6e35fe726ba7f68f3c725ab8350e48df4719e45dc709d83d4f1abcf29dc4b7f8"
+      "sha256": "8ea08d11764a313318fef560694cbf6db45f34ee96561c060c693664b3993d27"
     }
   ],
   "checks": [
@@ -86,9 +106,24 @@
       "evidence": "snapshot/artifacts/context/CURRENT_CONTEXT_PACK.yaml"
     },
     {
+      "name": "rule_readiness_reconstructed",
+      "status": "PASS",
+      "evidence": "rule_readiness+source_manifest"
+    },
+    {
+      "name": "parallel_authorization_reconstructed",
+      "status": "PASS",
+      "evidence": "parallel_development_policy"
+    },
+    {
+      "name": "runtime_and_git_transport_reconstructed",
+      "status": "PASS",
+      "evidence": "development_runtime+repository_transport"
+    },
+    {
       "name": "portable_clone_fingerprint",
       "status": "PASS",
-      "evidence": "cb9a15c79adcadf0d76900b7f4f13aef0e00227057e1b4a17277b82de4f51d39"
+      "evidence": "eeff897f800243106a487ac09daf2c338802fd243ad298e8b77d2c1dfe70474a"
     },
     {
       "name": "handoff_tamper_rejected",
@@ -96,10 +131,10 @@
       "evidence": "MANIFEST_SHA256.txt"
     }
   ],
-  "check_count": 9,
+  "check_count": 12,
   "lifecycle_report": "artifacts\\validation\\continuity-lifecycle-integration-v1.2.3.json",
-  "handoff_sha256": "62391e4c422d00574cce6749f008662584bfdb9496c056290e1c2e80c5be1c57",
-  "portable_project_fingerprint": "cb9a15c79adcadf0d76900b7f4f13aef0e00227057e1b4a17277b82de4f51d39",
+  "handoff_sha256": "13186a7a389cb525cb44a297ca206e07672422cda6a60e5b9c10f5cb7d40f86f",
+  "portable_project_fingerprint": "eeff897f800243106a487ac09daf2c338802fd243ad298e8b77d2c1dfe70474a",
   "commands": [
     {
       "name": "lifecycle",

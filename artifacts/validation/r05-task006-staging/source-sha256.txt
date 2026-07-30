@@ -1,0 +1,10 @@
+399b90e3ea568ae6677baa7328d02578d10b5d0f4f5ea36b5c1c185dd9c0c8ca  services/backend/boot/src/main/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinder.java
+59c084d059bc1aa24d691ece8cddddce4c301091c17d36a6821ea3b697f7fb26  services/backend/Dockerfile
+e470d2703e457bf931975d643a143da3fb65f144a3ead7ea2781394f28f3ed05  services/backend/pom.xml
+34457d6f9f20123d3474833737ca318f4a5238f78cfa933bbd39d019dde70568  infra/staging/r05-smoke/docker-compose.yml
+3af95537ea706c8561c6f20aff0a655fd0d3af5e2f11fbefa2eb4a27ef418232  infra/staging/r05-smoke/prometheus.yml
+bb582242e0aa8ae0973495aa0faeed57226c6c5cf27076f8f1288f0fc9abdd0c  infra/staging/r05-smoke/alertmanager.yml
+b13f1e9d43e52a8469a988d1af9de051dfdcba2724df5c754793993f7fe41f98  infra/staging/r05-smoke/nginx.conf
+1f737d534b3ff7d0f7084ceb436b4481222a20389f404f474078abedd2ae7c20  infra/staging/r05-smoke/r05-alerts.yml
+
+Local frozen-commit files and remote build-context files produced the same SHA-256 values for every entry above.

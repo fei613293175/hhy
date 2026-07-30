@@ -1,0 +1,19 @@
+schema: hhy.android-visual-baseline-approval/v1
+release: R09
+status: APPROVED
+authority: AI_IMPLEMENTATION_AGENT
+promotion_attempt: 1
+source:
+  github_run_id: "29969376611"
+  commit: 97dc163e1cbed8d19a054326806453c5fa0aee9b
+  artifact_id: "8549198976"
+  artifact_sha256: 21b71f711766629da6a7b0f6a0edc1fc4b3bd4b27cd703468dc46a35353ac6bf
+  runtime_status: BASELINE_REVIEW_REQUIRED
+decision: 三张截图绑定R09真实OIDC认证App推广旅程；列表、详情和编辑页均使用冻结Design Token及批准视觉语言，信息层级、卡片密度、固定操作区和品牌质感达到B02/P06、B03/P02、B04/P04标准。列表与详情明确显示发布者上传的两张真实应用截图，不再出现占位图；无技术码、联系方式明文、虚构媒体或虚构功能，批准为R09首版视觉基线。
+screens:
+- file: 01-app-list.png
+  sha256: 564a30da48820509ed73e604918509a3ec469a4fab8a4e1ab3eb25abe48c3ac6
+- file: 02-app-detail.png
+  sha256: 7e15198b77b0eeb93913635e0b06ecbd48fc8243b0982635c5b3bea2731ea02f
+- file: 03-app-editor.png
+  sha256: 17d49803d398e6b7f95a99c7bc7b07cdd8d58a7b9a9fb40e7aa8efb19bf6c5e4

@@ -1,0 +1,86 @@
+{
+  "schema_version": 1,
+  "status": "PASS",
+  "release": "R14",
+  "change_request": "CR-0447",
+  "verified_at": "2026-07-28T12:47:00Z",
+  "reported_failure": {
+    "client_message": "会话列表暂不可用",
+    "mapped_http_status": 404,
+    "screenshot": "C:\\Users\\小白\\Documents\\Tencent Files\\613293175\\FileRecv\\MobileFile\\Screenshot_20260728_202320.jpg"
+  },
+  "pre_cutover": {
+    "nginx_upstream": "127.0.0.1:28114",
+    "container": "hhy-r13-ci-candidate-09a85f21",
+    "release": "R13",
+    "flyway_version": "V042",
+    "user_count": 5,
+    "active_session_count": 5,
+    "selected_session": {
+      "user_id": 14,
+      "session_id": 25,
+      "user_status": "ACTIVE",
+      "session_version": 2,
+      "access_jti_md5_prefix": "97f812688343"
+    }
+  },
+  "database_backup": {
+    "path": "/www/backup/hhy-r14-public-hotfix-20260728T1238Z/hhy_r13_smoke_pre_v044.dump",
+    "size_bytes": 1036957,
+    "sha256": "0bfaafbc4c6a98e3c623f093ae6995e44adab950cc883ece0f3fd43a6b377db1",
+    "pg_restore_list": "PASS"
+  },
+  "candidate": {
+    "container": "hhy-r14-ci-candidate-4ed75c60",
+    "image_id": "sha256:4ed75c60c1fce091e5d552ff0dc4bf9fb6eb7da24541eaacb3ff64a15509aca0",
+    "release_label": "R14",
+    "loopback_upstream": "127.0.0.1:28115",
+    "health": "healthy",
+    "flyway_version": "V044",
+    "local_authenticated_conversations_http": 200
+  },
+  "post_migration_account_preservation": {
+    "user_count": 5,
+    "active_session_count": 5,
+    "selected_session": {
+      "user_id": 14,
+      "session_id": 25,
+      "user_status": "ACTIVE",
+      "session_version": 2,
+      "access_jti_md5_prefix": "97f812688343"
+    },
+    "matches_pre_cutover": true
+  },
+  "cutover": {
+    "status": "PASS",
+    "nginx_upstream": "127.0.0.1:28115",
+    "nginx_test": "PASS",
+    "nginx_backup_path": "/www/server/panel/vhost/nginx/api.orbexa.cc.conf.pre-candidate-20260728T124431Z",
+    "nginx_backup_size_bytes": 557,
+    "nginx_backup_sha256": "1a7bd9e1624750d96cf458c19e2cd517aef4c065a91a24ea363faee1a88e8936",
+    "route_request_id": "hhy-route-20260728T124432Z-1-1367625561",
+    "route_target_log_match": "PASS",
+    "authenticated_request_id": "hhy-r14-owner-hotfix-20260728-1247",
+    "authenticated_http": 200,
+    "authenticated_target_log_match": "PASS",
+    "platform_status_http": 200,
+    "unauthenticated_conversations_http": 401,
+    "old_container_health": "healthy"
+  },
+  "excluded_scope": [
+    "invite code",
+    "registration"
+  ],
+  "apk_rebuild_decision": {
+    "android_source_changed_since_ca576660": false,
+    "android_resources_changed_since_ca576660": false,
+    "android_dependencies_changed_since_ca576660": false,
+    "build_config_changed_since_ca576660": false,
+    "version_name": "1.2.2-debug",
+    "version_code": 10223,
+    "existing_apk_sha256": "46f050310143d5968864c5aacd9ad38b1fb7290931bc113c76429ebc7ecf126d",
+    "rebuild_required": false,
+    "reason": "The defect was entirely the public backend route version mismatch."
+  },
+  "secrets_persisted": false
+}

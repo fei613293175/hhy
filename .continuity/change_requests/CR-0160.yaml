@@ -1,0 +1,72 @@
+protocol_version: '1.0'
+cr_id: CR-0160
+title: 建立R06内容可观测性与隔离Staging验收
+status: CLOSED
+created_at: '2026-07-21T02:12:12Z'
+updated_at: '2026-07-21T04:19:17Z'
+requester_actor_id: codex-root
+approver_actor_id: project-owner-delegated
+task_id: TASK-R06-006
+session_id: SES-20260721T020225Z-397AF410
+user_request: 项目所有者要求立即按既定方案持续推进，真机反馈异步且不得成为版本开发等待点
+reason: TASK-R06-006要求验证结构化日志、TraceId、RED、R06业务指标、告警和同库卷回滚，现有仓库仅有R05以前的专属监控配置
+original_rule: R06仅继承通用RED与R01至R05业务Gauge，尚无内容域专属指标、告警、隔离Staging编排和回滚验收规范
+new_rule: R06必须提供内容在线量、待审核量、内容Outbox积压和已启用首页模块四项无敏感字段业务Gauge；独立Staging必须验证TraceId、RED、业务Gauge、后端与内容Outbox告警firing/resolved及同一PostgreSQL容器和卷的应用镜像回切
+impact_summary: 新增R06业务Gauge及测试、静态门禁、独立Compose/Prometheus/Alertmanager/Nginx配置、部署回滚手册和机器验收证据；不修改公开API、数据库结构、生产路由、真实供应商或现有R01至R05环境
+impact:
+  files:
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinder.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinderTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/ObservabilityEndpointsTest.java
+  - scripts/check_r06_observability.py
+  - infra/staging/r06-smoke/docker-compose.yml
+  - infra/staging/r06-smoke/prometheus.yml
+  - infra/staging/r06-smoke/alertmanager.yml
+  - infra/staging/r06-smoke/nginx.conf
+  - infra/staging/r06-smoke/r06-alerts.yml
+  - docs/07-operations/DEPLOYMENT_RUNBOOK.md
+  - docs/07-operations/ROLLBACK_RUNBOOK.md
+  - artifacts/reports/R06/TASK-R06-006-staging.md
+  - artifacts/validation/r06-task006-staging/**
+  - releases/R06/ACCEPTANCE_MATRIX.csv
+  - CHANGELOG.md
+  pages: []
+  apis: []
+  database:
+  - 只读content_posts、home_modules和outbox_events；无迁移或数据模型变化
+  configuration:
+  - R06隔离Staging、Prometheus采集、Alertmanager回执与内容业务告警
+  ledger:
+  - 不读写账本或资金数据
+  tests:
+  - R06静态可观测性门禁、BusinessGauge单元测试、Prometheus端点测试、Compose/promtool/amtool校验、隔离Staging告警与同库卷回滚演练
+  releases:
+  - R06
+  migration_and_compatibility: 纯增量可观测性与隔离Staging配置；Gauge仅只读现有表，关闭R06 Compose即可回退；数据库保持前向迁移，禁止降级DDL或删除卷
+user_confirmation: 2026-07-21项目所有者明确要求立即按既定计划持续推进，真机反馈异步且不得因未反馈停止版本开发
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-21T02:13:05Z'
+  note: TASK-R06-006冻结验收要求与影响范围一致；仅新增隔离Staging和只读观测能力，不扩大生产、供应商或数据库变更权限
+machine_record: .continuity/change_requests/CR-0160.yaml
+document: docs/03-continuity/change-requests/CR-0160-建立R06内容可观测性与隔离Staging验收.md
+decision_log:
+- at: '2026-07-21T03:26:03Z'
+  actor_id: codex-root
+  status: IMPLEMENTING
+  note: 应用已批准的R06内容可观测性与隔离Staging范围；本地和Java21定向门禁已通过，准备形成冻结Commit
+  session_id: SES-20260721T020225Z-397AF410
+- at: '2026-07-21T04:18:55Z'
+  actor_id: codex-root
+  status: IMPLEMENTED
+  note: R06四项业务Gauge、隔离监控链、静态门禁、运行手册和精确Commit机器证据已实现，AC-R06-004为PASS
+  session_id: SES-20260721T020225Z-397AF410
+- at: '2026-07-21T04:19:17Z'
+  actor_id: codex-root
+  status: CLOSED
+  note: 实现、Staging验收、AC-R06-004、报告与机器证据全部完成并推送
+  session_id: SES-20260721T020225Z-397AF410
+session_ids:
+- SES-20260721T020225Z-397AF410
+implementation_commits:
+- 5be5e06cd4f3c339b66bb843ca2d2c4bfb24b253

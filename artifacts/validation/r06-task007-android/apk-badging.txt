@@ -1,0 +1,5 @@
+package: name='cc.orbexa.hhy.debug' versionCode='10214' versionName='1.2.2-debug' compileSdkVersion='36'
+sdkVersion:'26'
+targetSdkVersion:'36'
+application-label:'合伙云 Pro 测试'
+launchable-activity: name='cc.orbexa.hhy.MainActivity'

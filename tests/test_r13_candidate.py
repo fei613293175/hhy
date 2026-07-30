@@ -1,0 +1,347 @@
+from pathlib import Path
+import re
+import unittest
+
+import yaml
+
+
+ROOT = Path(__file__).resolve().parents[1]
+FIXTURE = ROOT / "scripts/prepare_r13_ci_fixture.sh"
+JOURNEY = ROOT / "apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt"
+VISUAL_MANIFEST = ROOT / "tests/android/visual-manifests/R13.yaml"
+BUILD = ROOT / "apps/android/app/build.gradle.kts"
+RELEASE_POLICY = ROOT / "apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt"
+VERSION_TEST = ROOT / "apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt"
+ACTIVITY_SCREEN = ROOT / "apps/android/feature/activity/src/main/java/cc/orbexa/hhy/activity/R13ActivityScreens.kt"
+PROJECT_SCREEN = ROOT / "apps/android/feature/project/src/main/java/cc/orbexa/hhy/project/R08ProjectScreens.kt"
+SHELL_SCREEN = ROOT / "apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt"
+
+
+class R13CandidateTest(unittest.TestCase):
+    def setUp(self) -> None:
+        self.fixture = FIXTURE.read_text(encoding="utf-8")
+        self.journey = JOURNEY.read_text(encoding="utf-8")
+
+    def test_fixture_is_isolated_idempotent_and_v042_only(self) -> None:
+        self.assertIn("HHY_R13_CI_FIXTURE_CONFIRM", self.fixture)
+        self.assertIn("hhy-r13-ci-candidate-*", self.fixture)
+        self.assertIn("hhy-r13-staging-postgres-1", self.fixture)
+        self.assertIn("hhy-r13-staging-*-postgres-1", self.fixture)
+        self.assertIn("SPRING_PROFILES_ACTIVE", self.fixture)
+        self.assertIn("HHY_CI_AUTOMATION_ENABLED", self.fixture)
+        self.assertIn("version='042'", self.fixture)
+        self.assertIn("pg_advisory_xact_lock(709013)", self.fixture)
+        self.assertIn("ON CONFLICT (phone) DO NOTHING", self.fixture)
+        self.assertIn("code='HHYTEST2026'", self.fixture)
+        self.assertIn("user_id=ci_user AND status='ACTIVE'", self.fixture)
+        self.assertIn("R13 staging registration invite is duplicated", self.fixture)
+        self.assertIn("R13 staging registration invite is not ready", self.fixture)
+        self.assertNotIn("ON CONFLICT (phone) DO UPDATE", self.fixture)
+        self.assertNotIn("environment='PROD'", self.fixture)
+        self.assertNotIn("'official','PROD'", self.fixture)
+        self.assertNotIn('echo "$phone"', self.fixture)
+
+    def test_fixture_uses_only_legal_versioned_content_transitions(self) -> None:
+        for edge in (
+            "'DRAFT','PENDING_REVIEW'",
+            "'PENDING_REVIEW','REVIEWING'",
+            "'REVIEWING','APPROVED'",
+            "'APPROVED','ONLINE'",
+        ):
+            self.assertIn(edge, self.fixture)
+        self.assertIn("snapshot_version_id,command_id", self.fixture)
+        self.assertIn("transition_version", self.fixture)
+        self.assertIn("'DRAFT',NULL,0,0", self.fixture)
+        self.assertNotIn("'ONLINE','APPROVED',0,0", self.fixture)
+
+    def test_fixture_builds_real_activity_and_startup_facts_without_secrets(self) -> None:
+        for fact in (
+            "R13候选协作项目",
+            "content_favorites",
+            "content_view_logs",
+            "traffic_type='ORGANIC_TRAFFIC'",
+            "content_contacts",
+            "channel='LINK'",
+            "content_media",
+            "media_objects",
+            "status='READY'",
+            "'official','STAGING'",
+            "'1.2.2',10222,'NONE','PUBLISHED'",
+            "timestamptz '2026-07-26 00:00:00+00'",
+            "published_at > clock_timestamp()",
+            "release.published_at<=clock_timestamp()",
+            "R13_CI_FIXTURE_OK",
+            "count(DISTINCT content.id)=3",
+            "count(DISTINCT favorite.id)=3",
+            "count(DISTINCT history.id)=3",
+        ):
+            self.assertIn(fact, self.fixture)
+        self.assertNotIn("value_cipher||", self.fixture)
+        self.assertNotIn("candidate.phone||", self.fixture)
+
+    def test_journey_captures_exactly_four_r13_surfaces(self) -> None:
+        r13_journey = self.journey[
+            self.journey.index("fun authenticatedReleaseJourneyProducesBoundFunctionalAndVisualEvidence"):
+            self.journey.index("private fun authenticatedR14ChatJourney")
+        ]
+        captures = (
+            'captureStable("01-favorites.png")',
+            'captureStable("02-history.png")',
+            'captureStable("03-share-sheet.png")',
+            'captureStable("04-invalid-feedback-sheet.png")',
+        )
+        self.assertEqual(4, r13_journey.count('captureStable("'))
+        for capture in captures:
+            self.assertIn(capture, self.journey)
+        for marker in ("hhy.sheet.r13.share", "hhy.sheet.r13.invalid-feedback"):
+            self.assertIn(marker, self.journey)
+        self.assertIn('resource = "mine.favorites"', self.journey)
+        self.assertIn('resource = "mine.history"', self.journey)
+        self.assertIn('mode = "favorites"', self.journey)
+        self.assertIn('mode = "history"', self.journey)
+        self.assertEqual(2, self.journey.count("navigateToR13Content(\n            resource"))
+        self.assertIn('clickExactText(activityTargetTitle)', self.journey)
+        self.assertIn('clickResource("r13.action.project.share")', self.journey)
+        self.assertIn('clickResource("r13.action.project.invalid-feedback")', self.journey)
+        self.assertIn("generateSequence(textNode) { current -> current.parent }", self.journey)
+        self.assertIn("generateSequence(resourceNode) { current -> current.parent }", self.journey)
+        self.assertIn(".firstOrNull { it.isClickable && it.isEnabled }", self.journey)
+        resource_helper = self.journey[
+            self.journey.index("private fun clickResource"):
+            self.journey.index("private fun scrollUntilResource")
+        ]
+        self.assertIn('error("Cannot find clickable UI ancestor for resource: $value")', resource_helper)
+        self.assertNotIn("resourceNode.click()", resource_helper)
+        self.assertLess(resource_helper.index("node.click()"), resource_helper.index("composeRule.waitForIdle()"))
+        navigation_helper = self.journey[
+            self.journey.index("private fun navigateToR13Content"):
+            self.journey.index("private fun scrollUntilResource")
+        ]
+        self.assertIn("SystemClock.uptimeMillis() + 30_000", navigation_helper)
+        self.assertEqual(2, navigation_helper.count("minOf(3_000, remaining(deadline))"))
+        self.assertIn('phase in setOf("loading", "refreshing", "appending")', navigation_helper)
+        self.assertIn('phase != "content"', navigation_helper)
+        self.assertIn('device.hasObject(By.res("hhy.screen.r13.$mode.$phase"))', navigation_helper)
+        self.assertIn('"loading", "content", "empty"', navigation_helper)
+        self.assertIn('sourceVisible=${device.hasObject(By.res(source))}', navigation_helper)
+        self.assertIn('resourceVisible=${device.hasObject(By.res(resource))}', navigation_helper)
+        self.assertIn('diagnostics=${clickDiagnostics.joinToString(" | ")}', navigation_helper)
+        self.assertIn("composeRule.waitForIdle()", navigation_helper)
+        self.assertIn('"partial_error"', navigation_helper)
+        self.assertIn('"offline"', navigation_helper)
+        self.assertIn('"not_found"', navigation_helper)
+        self.assertNotIn("SystemClock.sleep", navigation_helper)
+        self.assertIn('clickExactText("再检查一下")', self.journey)
+        self.assertNotIn("authenticatedR12PagesProduceBoundVisualEvidence", self.journey)
+
+    def test_candidate_entry_requires_actionable_authenticated_shell(self) -> None:
+        self.assertIn('waitForAuthenticatedShell()', self.journey)
+        launch = self.journey.index("target.startActivity(launchIntent)")
+        compose_idle = self.journey.index("composeRule.waitForIdle()")
+        shell_wait = self.journey.index("val authenticatedShellReady = waitForAuthenticatedShell()")
+        self.assertLess(launch, compose_idle)
+        self.assertLess(compose_idle, shell_wait)
+        helper = self.journey[
+            self.journey.index("private fun waitForAuthenticatedShell"):
+            self.journey.index("private fun clickExactText")
+        ]
+        self.assertIn('By.res("hhy.shell.authenticated")', helper)
+        self.assertIn('By.res("shell.navigation.me")', helper)
+        self.assertIn('it.isClickable && it.isEnabled', helper)
+        self.assertEqual(1, helper.count("composeRule.waitForIdle()"))
+        self.assertLess(helper.index("composeRule.waitForIdle()"), helper.index("val meNode = device.findObject(me)"))
+        self.assertNotIn("acceptedScreens", helper)
+        self.assertIn('By.res("hhy.screen.r06.home.loaded")', helper)
+        self.assertIn('By.res("hhy.screen.r06.home.error")', helper)
+        self.assertIn('By.res("hhy.screen.r06.home.loading")', helper)
+        self.assertIn('"正在启动", "系统维护中", "暂时无法连接", "立即更新", "下载更新", "登录"', helper)
+        self.assertIn("visibleBlockers=", helper)
+        self.assertEqual(3, helper.count('By.res("hhy.screen.r06.home.'))
+        self.assertIn("SystemClock.uptimeMillis() + 30_000", helper)
+        self.assertNotIn("SystemClock.sleep", helper)
+        self.assertLess(self.journey.index("waitForAuthenticatedShell()"), self.journey.index('clickResource("shell.navigation.me")'))
+        self.assertLess(self.journey.index("val authenticatedShellReady = waitForAuthenticatedShell()"), self.journey.index("authenticatedShellDiagnostics()"))
+        self.assertIn('waitForScreen("hhy.screen.r12.me"', self.journey)
+        self.assertNotIn('waitForScreen("hhy.screen.r06.home.loaded")', self.journey)
+
+        shell = SHELL_SCREEN.read_text(encoding="utf-8")
+        self.assertIn('.testTag("hhy.shell.authenticated")', shell)
+        self.assertIn('.testTag("shell.navigation.${item.destination.name.lowercase()}")', shell)
+
+    def test_screen_transitions_continue_driving_compose(self) -> None:
+        helper = self.journey[
+            self.journey.index("private fun waitForScreen"):
+            self.journey.index("private fun waitForAuthenticatedShell")
+        ]
+        self.assertIn("val requiredDeadline = SystemClock.uptimeMillis() + 30_000", helper)
+        self.assertIn("val goneDeadline = SystemClock.uptimeMillis() + 15_000", helper)
+        self.assertEqual(2, helper.count("composeRule.waitForIdle()"))
+        self.assertIn("requiredVisible=$requiredVisible", helper)
+        self.assertIn('gone=${gone ?: "none"}', helper)
+        self.assertIn("goneVisible=$goneVisible", helper)
+        self.assertIn("requiredVisible=true gone=$gone goneVisible=true", helper)
+        self.assertEqual(2, helper.count('throw AssertionError("Screen transition failed: $screenWaitDiagnostics")'))
+        self.assertNotIn("Until.hasObject", helper)
+        self.assertNotIn("Until.gone", helper)
+        self.assertNotIn("SystemClock.sleep", helper)
+        self.assertIn("R13 me home did not become visible: $screenWaitDiagnostics", self.journey)
+        self.assertIn("R13 favorites did not return to me home: $screenWaitDiagnostics", self.journey)
+
+    def test_project_detail_exposes_stable_resources_for_candidate_actions(self) -> None:
+        source = PROJECT_SCREEN.read_text(encoding="utf-8")
+        self.assertIn('Modifier.testTag("r13.action.project.share")', source)
+        self.assertIn('Modifier.testTag("r13.action.project.invalid-feedback")', source)
+
+    def test_favorites_waits_for_all_real_media_before_visual_capture(self) -> None:
+        source = ACTIVITY_SCREEN.read_text(encoding="utf-8")
+        self.assertIn("import coil.imageLoader", source)
+        self.assertIn("val mediaUrls = remember(state.items)", source)
+        self.assertIn("state.items.mapNotNull { item ->", source)
+        self.assertIn("secureActivityMediaUrl(item.media.firstOrNull()?.thumbnailUrl ?: item.media.firstOrNull()?.url)", source)
+        self.assertIn("}.distinct()", source)
+        self.assertIn("LaunchedEffect(context, mediaUrls, mediaWidthPx, mediaHeightPx)", source)
+        self.assertIn("context.imageLoader.execute(", source)
+        self.assertIn("r13MediaRequest(context, mediaUrl, mediaWidthPx, mediaHeightPx)", source)
+        self.assertIn("val mediaResults = remember(mode, accessToken) { mutableStateMapOf<String, ImageResult>() }", source)
+        self.assertIn("mediaUrls.filterNot(mediaResults::containsKey).forEach { mediaUrl ->", source)
+        self.assertIn("mediaResults[mediaUrl] = context.imageLoader.execute(", source)
+        self.assertIn("mediaResult = secureActivityMediaUrl(", source)
+        self.assertIn(")?.let(mediaResults::get)", source)
+        self.assertIn("val mediaBitmap = remember(mediaResult)", source)
+        self.assertIn("(mediaResult as? SuccessResult)?.drawable?.toR13ImageBitmap()", source)
+        self.assertIn("private fun Drawable.toR13ImageBitmap(): ImageBitmap", source)
+        self.assertIn("constantState?.newDrawable()?.mutate() ?: mutate()", source)
+        self.assertIn("if (source is BitmapDrawable) return source.bitmap.asImageBitmap()", source)
+        self.assertIn("Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)", source)
+        self.assertIn("source.draw(Canvas(bitmap))", source)
+        self.assertIn('mediaResult is SuccessResult -> "loaded"', source)
+        self.assertIn('mediaResult is ErrorResult -> "error"', source)
+        self.assertEqual(1, source.count("ImageRequest.Builder(context)"))
+        self.assertIn('val mediaWidthPx = with(density)', source)
+        self.assertIn('val mediaHeightPx = with(density)', source)
+        self.assertIn('ImageRequest.Builder(context)', source)
+        self.assertIn('.size(Size(mediaWidthPx, mediaHeightPx))', source)
+        self.assertNotIn('rememberAsyncImagePainter', source)
+        self.assertNotIn('AsyncImagePainter.State', source)
+        self.assertNotIn('rememberDrawablePainter', source)
+        self.assertIn('if (mediaBitmap != null)', source)
+        self.assertIn('bitmap = mediaBitmap', source)
+        self.assertIn('contentDescription = null', source)
+        self.assertIn('testTag("r13.media.${item.id}.$mediaState")', source)
+        self.assertIn('Modifier.fillMaxSize().testTag("r13.${mode.tag}.list")', source)
+        self.assertNotIn('onSuccess = { mediaState = "loaded" }', source)
+        self.assertNotIn('onError = { mediaState = "error" }', source)
+        self.assertNotIn('var mediaState by remember(mediaUrl)', source)
+        self.assertNotIn("prefetchState", source)
+        self.assertNotIn("mediaLoaded", source)
+        self.assertNotIn('prepareLoadedMediaForCapture(expectedCount = 2)', self.journey)
+        for description in (
+            '"loaded" -> "内容图片：$mediaDescription"',
+            '"error" -> "内容图片加载失败：${item.title}"',
+            '"unavailable" -> "内容图片不可用：${item.title}"',
+            'else -> "内容图片加载中：${item.title}"',
+        ):
+            self.assertIn(description, source)
+        self.assertIn(".semantics {", source)
+        wait = 'prepareLoadedMediaForCapture(expectedCount = 3)'
+        capture = 'captureStable("01-favorites.png")'
+        self.assertIn(wait, self.journey)
+        self.assertIn('By.desc(Pattern.compile("内容图片：.+"))', self.journey)
+        self.assertIn('By.desc(Pattern.compile("内容图片加载失败：.+"))', self.journey)
+        self.assertIn('By.desc(Pattern.compile("内容图片加载中：.+"))', self.journey)
+        self.assertIn(
+            'assertTrue("Candidate media failed to load: title=$title errors=$failedCount", failedCount == 0)',
+            self.journey,
+        )
+        self.assertIn('val composeRule = createEmptyComposeRule()', self.journey)
+        self.assertIn('private val activityMediaTitles = listOf(', self.journey)
+        for title in ("R13候选协作项目", "R13品牌联合增长计划", "R13产品共创伙伴招募"):
+            self.assertIn(f'"{title}"', self.journey)
+        self.assertIn('val activatedDescriptions = mutableSetOf<String>()', self.journey)
+        self.assertIn('activatedDescriptions += device.findObjects(loaded).mapNotNull { it.contentDescription }', self.journey)
+        self.assertIn('activityMediaTitles.forEach { title ->', self.journey)
+        self.assertIn('composeRule.onNodeWithText(title).performScrollTo()', self.journey)
+        self.assertIn('device.hasObject(By.desc("内容图片：$title"))', self.journey)
+        self.assertIn('composeRule.onNodeWithText(activityMediaTitles.first()).performScrollTo()', self.journey)
+        self.assertIn('composeRule.waitForIdle()', self.journey)
+        self.assertNotIn('r13.category.PROJECT', self.journey)
+        self.assertIn('"Candidate media activation did not finish: title=$title expected=$expectedCount "', self.journey)
+        self.assertIn('"Candidate media was not ready at list start: expected=$expectedCount "', self.journey)
+        self.assertIn('assertTrue("Candidate media failed after returning to list start: errors=$failedCount"', self.journey)
+        self.assertIn('if (loadedCount == expectedCount && loadingCount == 0)', self.journey)
+        self.assertIn('"observedSuccess=${activatedDescriptions.size} "', self.journey)
+        self.assertIn('"visibleSuccess=${device.findObjects(loaded).size} "', self.journey)
+        self.assertIn('"success=${device.findObjects(loaded).size} "', self.journey)
+        self.assertIn('"errors=${device.findObjects(failed).size} "', self.journey)
+        self.assertIn('"loading=${device.findObjects(loading).size}"', self.journey)
+        self.assertIn('val deadline = SystemClock.uptimeMillis() + 30_000', self.journey)
+        self.assertEqual(3, self.journey.count('val deadline = SystemClock.uptimeMillis() + 30_000'))
+        self.assertNotIn('prepareLoadedMediaForCapture(expectedCount = 2)', self.journey)
+        self.assertNotIn('SystemClock.sleep(250)', self.journey)
+        media_helper = self.journey[self.journey.index('private fun prepareLoadedMediaForCapture'):]
+        self.assertEqual(1, media_helper.count('val deadline = SystemClock.uptimeMillis() + 30_000'))
+        self.assertGreaterEqual(media_helper.count('composeRule.waitForIdle()'), 4)
+        self.assertNotIn('By.scrollable(true)', media_helper)
+        self.assertNotIn('device.swipe(', media_helper)
+        self.assertNotIn('By.res(Pattern.compile("${Pattern.quote(prefix)}', self.journey)
+        self.assertLess(self.journey.index(wait), self.journey.index(capture))
+
+    def test_visual_manifest_matches_the_four_frozen_r13_surfaces(self) -> None:
+        manifest = yaml.safe_load(VISUAL_MANIFEST.read_text(encoding="utf-8"))
+        self.assertEqual("R13", manifest["release"])
+        self.assertEqual("AI_IMPLEMENTATION_AGENT", manifest["review_authority"])
+        self.assertEqual(4, len(manifest["screens"]))
+        self.assertEqual(
+            {"SCR-FAV-001", "SCR-HIS-001", "SHEET-SHARE-001", "SHEET-CONTENT-INVALID-001"},
+            {row["screen_id"] for row in manifest["screens"]},
+        )
+        self.assertEqual(
+            {capture.split('"')[1] for capture in (
+                'captureStable("01-favorites.png")',
+                'captureStable("02-history.png")',
+                'captureStable("03-share-sheet.png")',
+                'captureStable("04-invalid-feedback-sheet.png")',
+            )},
+            {row["file"] for row in manifest["screens"]},
+        )
+        for row in manifest["screens"]:
+            self.assertIn("请求编号", row["forbidden_text"])
+            self.assertIn("TraceId", row["forbidden_text"])
+            self.assertIn("PROJECT", row["forbidden_text"])
+            self.assertNotIn("APP", row["forbidden_text"])
+
+    def test_candidate_identity_is_monotonic(self) -> None:
+        build = BUILD.read_text(encoding="utf-8")
+        current_version_match = re.search(r"\bversionCode\s*=\s*(\d+)", build)
+        self.assertIsNotNone(current_version_match)
+        current_version = int(current_version_match.group(1))
+        self.assertGreaterEqual(current_version, 10222)
+        policy_version_match = re.search(
+            r"\bVERSION_CODE:\s*Int\s*=\s*(\d+)",
+            RELEASE_POLICY.read_text(encoding="utf-8"),
+        )
+        metadata_version_match = re.search(
+            r'assertEquals\("[^"]*versionCode must remain monotonic",\s*(\d+),\s*ReleasePolicy\.VERSION_CODE\)',
+            VERSION_TEST.read_text(encoding="utf-8"),
+        )
+        self.assertIsNotNone(policy_version_match)
+        self.assertIsNotNone(metadata_version_match)
+        self.assertEqual(current_version, int(policy_version_match.group(1)))
+        self.assertEqual(current_version, int(metadata_version_match.group(1)))
+
+    def test_tabs_and_sheet_markers_follow_the_frozen_visual_contract(self) -> None:
+        source = ACTIVITY_SCREEN.read_text(encoding="utf-8")
+        tabs = source[source.index("private fun R13CategoryTabs"):source.index("private fun R13ActivityRow")]
+        sheet = source[source.index("fun R13ContentActionSheet"):source.index("private data class R13ShareChannel")]
+        self.assertNotIn("FilterChip(", tabs)
+        self.assertIn("HhyColors.BrandPrimary", tabs)
+        self.assertIn("HhyColors.BrandPrimary.copy(alpha = 0f)", tabs)
+        self.assertNotIn("Color.Transparent", source)
+        self.assertNotIn("androidx.compose.ui.graphics.Color", source)
+        self.assertIn("FontWeight.Bold", tabs)
+        self.assertIn("testTagsAsResourceId = true", sheet)
+        self.assertIn("hhy.sheet.r13.", sheet)
+
+
+if __name__ == "__main__":
+    unittest.main()

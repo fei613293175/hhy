@@ -1,0 +1,61 @@
+protocol_version: '1.0'
+cr_id: CR-0101
+title: 接通R05身份照片与R04私有媒体写入生命周期
+status: IMPLEMENTED
+created_at: '2026-07-19T21:10:00Z'
+updated_at: '2026-07-19T21:34:07Z'
+requester_actor_id: codex-root
+approver_actor_id: project-owner
+task_id: TASK-R05-004
+session_id: SES-20260719T183335Z-535311E4
+user_request: 用户要求持续推进R05正式商业实名认证闭环
+reason: CR-0099已要求先取得private_kyc内部媒体ID，但当前仅有未激活占位端口，缺少受控上传、对象唯一与媒体登记桥接
+original_rule: R05结果协调器只依赖EvidenceStorage接口，默认实现统一返回可重试不可用；R04媒体网关未提供携带签名请求头的服务端私有对象写入桥接
+new_rule: 身份活体照片必须解析到ACTIVE private_kyc绑定，使用供应商签名URL和全部必需请求头上传，完成后校验对象键、大小与SHA-256，再以唯一对象键幂等登记PRIVATE READY媒体；任何阶段失败均不生成公开URL且不得推进实名终态
+impact_summary: 新增R05私有身份照片存储适配器、R04内部上传桥接、媒体对象幂等登记和V028对象键唯一门禁
+impact:
+  files:
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05PrivateIdentityEvidenceStorage.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityAccessConfiguration.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04MediaStorageGateway.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04MediaPostgresStore.java
+  - database/migrations/V028__r05_private_identity_evidence.sql
+  - database/rollback/U028__r05_private_identity_evidence.sql
+  - services/backend/boot/src/main/resources/db/migration/V028__r05_private_identity_evidence.sql
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/R05PrivateIdentityEvidenceStorageTest.java
+  - tests/test_r05_private_identity_evidence_migration.py
+  pages: []
+  apis: []
+  database:
+  - media_objects
+  - storage_scope_bindings
+  configuration: []
+  ledger: []
+  tests:
+  - 私有Scope、签名请求头、对象完整性、无公开URL、重复对象幂等和失败安全映射测试
+  - V028源/runtime一致、唯一索引和回滚静态测试及PostgreSQL17迁移重放
+  releases:
+  - R05
+  migration_and_compatibility: V028只增加非空对象键按存储绑定唯一索引；源/runtime迁移和回滚同步，已有重复数据会阻止上线而不静默合并
+user_confirmation: 用户要求持续推进正式商业系统落地并授权后续问题自主决策
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-19T21:10:26Z'
+  note: 复用R04冻结私有存储边界，为CR-0099终态事务提供真实内部媒体ID
+machine_record: .continuity/change_requests/CR-0101.yaml
+document: docs/03-continuity/change-requests/CR-0101-接通R05身份照片与R04私有媒体写入生命周期.md
+decision_log:
+- at: '2026-07-19T21:10:28Z'
+  actor_id: codex-root
+  status: IMPLEMENTING
+  note: 开始实现private_kyc服务端上传、幂等媒体登记和V028门禁
+  session_id: SES-20260719T183335Z-535311E4
+- at: '2026-07-19T21:34:07Z'
+  actor_id: codex-root
+  status: IMPLEMENTED
+  note: ACTIVE private_kyc服务端签名上传、完整性校验、PRIVATE READY幂等登记、V028和PostgreSQL17验证完成
+  session_id: SES-20260719T183335Z-535311E4
+session_ids:
+- SES-20260719T183335Z-535311E4
+implementation_commits:
+- 4e970aeeebbec1c7f679dc3ac75dad1d11e122c5

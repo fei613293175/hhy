@@ -6,11 +6,11 @@
 
 | 平台 | 模块 | 路由 | 页面形态 | 模板 | 版本 | 访问规则 | 数据分级 | DoR |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| ADMIN | 审核 | /reviews | PAGE | ADM-REVIEW | R12 | review.manage | NORMAL | READY |
+| ADMIN | 审核 | /reviews | PAGE | ADM-REVIEW | R12 | review.read | NORMAL | READY |
 
 **业务目标：** 内容/红包/实名/申诉
 
-**主要角色：** 具备 review.manage 的后台员工；写操作另需 review.manage
+**主要角色：** 具备 review.read 的后台员工；决定与分配分别需要 review.decide 和 review.assign
 
 **入口：** 从左侧菜单、数据驾驶舱待办、全局搜索或关联详情跳转进入
 
@@ -110,7 +110,7 @@
 - 配置组：`platform`
 - 关键配置：`platform.brand.name;platform.brand.slogan;platform.brand.logo_media_id;platform.customer_service.name;platform.customer_service.contact`
 - 测试：`TST-PUBLISH_001-HAPPY;TST-V122-018;TST-V122-019`
-- UI参考：`TOKENS_ONLY`
+- UI参考：`SPEC:docs/02-ui/管理后台页面与运营操作完整规格_V1.2.2.md`
 
 ## 8. 后台运营操作规格
 
@@ -120,7 +120,7 @@
 
 ## 9. 开发就绪检查
 
-- [ ] 页面模板和区域按本文件实现；效果图仅用于视觉参考。
+- [ ] 页面模板和区域按本文件实现；效果图对页面建模、区域顺序、信息层级、布局、组件形态和视觉样式具有强制约束，但不得作为功能、字段、动作或业务数据事实源。
 - [ ] 字段、校验、显示/编辑条件与 OpenAPI/配置一致，无新增匿名字段。
 - [ ] 所有状态均有可见表现、允许操作和恢复路径。
 - [ ] 所有动作均使用登记 operationId、权限、幂等或 expectedVersion。

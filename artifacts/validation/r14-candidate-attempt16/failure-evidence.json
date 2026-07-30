@@ -1,0 +1,91 @@
+{
+  "schema": "hhy.r14-candidate-failure-evidence/v1",
+  "release": "R14",
+  "attempt": 16,
+  "github_run_id": "30503336232",
+  "head_commit": "0e940b4b82710b25ecd119c12b334d27baf32711",
+  "candidate_request_id": "R14-CANDIDATE-20260730-016",
+  "attempt_exception_id": "CR-0500",
+  "required_fix_commit": "9817630e19e38c7bdbff61d9942025cf370b1654",
+  "runtime_artifact": {
+    "name": "android-runtime-30503336232",
+    "downloaded_zip_sha256": "91a2d83e9f7cf409d7641f1686d78841ac48a5ac7c3798d11856bce760a24957",
+    "runtime_report_sha256": "9b8e680a2bfad2dc23a07c07e2a84ff74cc0178adbe64b1c6676dac0f61780fb",
+    "runtime_status": "FAIL",
+    "owner_test_allowed": false
+  },
+  "successful_stages": [
+    "candidate request validation",
+    "Android compile",
+    "Android unit tests",
+    "Android lint",
+    "APK packaging",
+    "candidate backend routing",
+    "automatic login",
+    "conversation load",
+    "conversation search",
+    "message appeared",
+    "sent state appeared",
+    "composer strict empty Compose assertion",
+    "block HTTP 200",
+    "blocked composer state",
+    "blocked state after reentry",
+    "unblock menu state",
+    "unblock HTTP 200",
+    "composer restored after unblock",
+    "conversation long press menu",
+    "all four screenshots",
+    "delete conversation HTTP 200",
+    "conversation row removed from Compose semantics"
+  ],
+  "server_http_evidence": [
+    {
+      "operation": "POST /api/v1/users/{id}/block",
+      "status": 200,
+      "latency_ms": 79,
+      "request_id": "a31b8e9a-4865-4df2-9dc2-f63361b24163",
+      "timestamp": "2026-07-30T00:51:30.240069013Z"
+    },
+    {
+      "operation": "DELETE /api/v1/users/{id}/block",
+      "status": 200,
+      "latency_ms": 53,
+      "request_id": "e1689a13-fe05-4a0e-ae78-fdcc227d2e39",
+      "timestamp": "2026-07-30T00:51:37.708709654Z"
+    },
+    {
+      "operation": "DELETE /api/v1/conversations/{id}",
+      "status": 200,
+      "latency_ms": 51,
+      "request_id": "0f48cf02-94d3-49a6-b5ac-ccb9b5bbaf86",
+      "timestamp": "2026-07-30T00:51:44.771909771Z"
+    }
+  ],
+  "first_business_failure": {
+    "test": "ReleaseCandidateSmokeTest",
+    "source_line": 245,
+    "message": "R14 filtered empty state is missing",
+    "screenshots_produced": [
+      {
+        "name": "01-r14-conversations.png",
+        "sha256": "465fb6eeb8318bedf6e21fcaef9d31960fbc260aca588c78c754f6371fd8fde5"
+      },
+      {
+        "name": "02-r14-sent.png",
+        "sha256": "18d6eb48e89f3f4c4610ab7f09b9a27c7f951afb2d170413996031c0304de330"
+      },
+      {
+        "name": "03-r14-blocked-reentry.png",
+        "sha256": "918f97ea9ed4a916d7b8f3954372cbe7eb6ddb7880096001a560973c9b9fd083"
+      },
+      {
+        "name": "04-r14-long-press-menu.png",
+        "sha256": "dca44f48901e309fdb6b63f16fe717de510a1ec017f185b73e2f766927d4ab5d"
+      }
+    ]
+  },
+  "diagnosis": "The candidate completed unblock restoration, long-press menu, all four screenshots, DELETE conversation HTTP 200, and removal of r14.conversation.row from the Compose semantics tree. The sole remaining assertion read the Compose empty-state text through UiAutomator By.text, repeating the cross-framework observation gap already recorded in PROB-0151.",
+  "required_fix": "Expose r14.conversations.empty-message on the actual empty-state text. Within the existing ten-second deadline, wait for exactly one node in the unmerged Compose semantics tree, assert it is displayed, and strictly assertTextEquals the filtered empty message. Extend the Compose screen regression to search before deletion and prove the same final state.",
+  "fingerprint_round": 1,
+  "secrets_included": false
+}

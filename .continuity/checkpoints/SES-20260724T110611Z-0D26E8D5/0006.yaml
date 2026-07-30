@@ -1,0 +1,239 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260724T110611Z-0D26E8D5-0006
+session_id: SES-20260724T110611Z-0D26E8D5
+task_id: TASK-R11-008
+story_id: STORY-R11-004
+sequence: 6
+created_at: '2026-07-24T14:43:38Z'
+summary: 关闭 TASK-R11-008：TASK-R11-008完成：R11机器候选、Staging、三页视觉、APK四方SHA、桌面说明、Acceptance与无状态交接PASS；项目所有者真机PENDING保持异步；关闭工作流已修正为MACHINE_CLOSE且不再重复本机Java/Android门禁
+next_step: 提交关闭元数据Commit，然后运行pre-push/CI门禁
+blockers: []
+decisions:
+- 任务结果：COMPLETED
+- 实现Commit：6bd3313e087de6afc6f7189c6a1791a9a198ae7f
+- 任务转换：TRN-20260724T144335Z-SES-20260724T110611Z-0D26E8D5
+- 下一Release：R12
+note: 该检查点专门绑定最终关闭元数据Commit
+tests:
+- name: cr-closure
+  result: PASS
+  evidence: CR-0310,CR-0311,CR-0312 machine records
+  note: 三项状态均CLOSED且implementation_commits包含6bd3313e
+- name: continuity closure metadata
+  result: PASS
+  evidence: catalogs/task_transition_ledger.csv;CHANGELOG.md;CURRENT_STATUS.yaml;NEXT_TASK.yaml
+  note: 关闭元数据、任务转换和下一任务已原子生成
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: b197e7d9c753f41914e270ce108b4a0c897df3fe
+  upstream: origin/task/TASK-R03-001
+  ahead: 0
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/sessions/SES-20260724T110611Z-0D26E8D5.yaml'
+  - ' M CHANGELOG.md'
+  - ' M NEXT_TASK.yaml'
+  - ' M catalogs/session_index.csv'
+  - ' M releases/R11/TASKS.yaml'
+  recent_commits:
+  - "b197e7d9c753f41914e270ce108b4a0c897df3fe\t2026-07-24T22:41:56+08:00\tHHY Continuity Bootstrap\t[STORY-R11-004] chore(continuity): close R11\
+    \ workflow CRs"
+  - "6bd3313e087de6afc6f7189c6a1791a9a198ae7f\t2026-07-24T22:16:23+08:00\tHHY Continuity Bootstrap\t[STORY-R11-004] fix(workflow): close R11 without\
+    \ duplicate local builds"
+  - "a4772fbdbb703ee2c824c06cd0916fade1701f9d\t2026-07-24T19:02:18+08:00\tHHY Continuity Bootstrap\t[STORY-R11-004] chore(continuity): close TASK-R11-007\
+    \ as completed"
+  - "c64e8a630336c0e41f49a1335f71c661e3417dbf\t2026-07-24T17:27:43+08:00\tHHY Continuity Bootstrap\t[STORY-R11-004] test(android): publish R11\
+    \ test APK"
+  - "2a2b2c10fa859f65985181ebe16a938cbe28d3f7\t2026-07-24T15:00:02+08:00\tHHY Continuity Bootstrap\t[STORY-R11-004] test(android): approve R11\
+    \ visual baseline"
+  - "a3c32668ae1d6502d859efd3e8c18947f650e150\t2026-07-24T13:27:11+08:00\tHHY Continuity Bootstrap\t[STORY-R11-004] fix(r11): replace reused app\
+    \ logo media"
+  - "df22a0918fc80d3729aea2bfb47d3232f726ae0b\t2026-07-24T12:14:32+08:00\tHHY Continuity Bootstrap\t[STORY-R11-004] test(r11): bind final Android\
+    \ candidate"
+  - "c20c118ae98a93b3dde28d6901bc10baf98b0402\t2026-07-24T11:21:54+08:00\tHHY Continuity Bootstrap\t[STORY-R11-004] chore(continuity): close TASK-R11-006"
+project_fingerprint:
+  sha256: 85d09991cd1a982a7012407505a46267b7b1432f2699d782b5eb5d42695e2663
+  files:
+  - AGENTS.md
+  - CHANGELOG.md
+  - config/development-workflow.yaml
+  - config/test-impact-map.yaml
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/change-requests/CR-0310-同步云环境只读单次探针测试合同.md
+  - docs/03-continuity/change-requests/CR-0311-将R10候选回归改为归档证据验证.md
+  - docs/03-continuity/change-requests/CR-0312-修正机器收尾重复本机构建与生成证据指纹.md
+  - docs/09-development/统一开发与交付效率规范.md
+  - releases/R11/ACCEPTANCE_MATRIX.csv
+  - releases/R11/RELEASE_MANIFEST.yaml
+  - releases/R11/TASKS.yaml
+  - scripts/hhy_workflow.py
+  - templates/AGENTS.md
+  - tests/test_cloud_environment.py
+  - tests/test_hhy_workflow.py
+  - tests/test_r10_candidate.py
+  - tests/test_run_affected_tests.py
+  file_count: 18
+  payload:
+    base_commit: a4772fbdbb703ee2c824c06cd0916fade1701f9d
+    files:
+    - path: AGENTS.md
+      state: FILE
+      size: 13921
+      sha256: 690f960020dcbd18080ec91b3c314335627b32e231b9f9b2e14566b0fbbaeb35
+    - path: CHANGELOG.md
+      state: FILE
+      size: 125898
+      sha256: a029a03ec29c99d0ec20d75538a9e94d5022a0e10f03db8fd380e5d081949bf2
+    - path: config/development-workflow.yaml
+      state: FILE
+      size: 3576
+      sha256: 2b0f84a307ca22fa7d863a1a27e0400e42c51f447c30059a65188edaa5594fe1
+    - path: config/test-impact-map.yaml
+      state: FILE
+      size: 5689
+      sha256: dad3f6f7f98e4c8878f337c4fba812a0d02d0b081234e24ff32321ebd44faf86
+    - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
+      state: FILE
+      size: 148968
+      sha256: 12e54c3e459083089fabc9e090dcece8f3d5526df21a8fc7fbd611dd77ee775b
+    - path: docs/03-continuity/change-requests/CR-0310-同步云环境只读单次探针测试合同.md
+      state: FILE
+      size: 2848
+      sha256: 631208e2f065e45dc0e8385643d88e5f734e3b820decc1646a6642b5ff998b7d
+    - path: docs/03-continuity/change-requests/CR-0311-将R10候选回归改为归档证据验证.md
+      state: FILE
+      size: 2950
+      sha256: a64517841d1268377bdccd17be651c8158c5880dd6667d56d79a687804b965ea
+    - path: docs/03-continuity/change-requests/CR-0312-修正机器收尾重复本机构建与生成证据指纹.md
+      state: FILE
+      size: 4502
+      sha256: cbfcab5f39757f6b01da0a33cc9bdec413cf2fa2f41bc040588802064e5918f2
+    - path: docs/09-development/统一开发与交付效率规范.md
+      state: FILE
+      size: 16912
+      sha256: 821ed91f6f860b729f6532c5e8145c6d78fa01fc7f5ec423687479fe5390a76f
+    - path: releases/R11/ACCEPTANCE_MATRIX.csv
+      state: FILE
+      size: 876
+      sha256: 8359dcd7330fd0b7cb571239c77e744f1ba2378aad2facef658e227d18f8468c
+    - path: releases/R11/RELEASE_MANIFEST.yaml
+      state: FILE
+      size: 5300
+      sha256: 51ad6f246ef0f104f5af952f557e7a790e1a055fd58e49e3fc451104dcf7d727
+    - path: releases/R11/TASKS.yaml
+      state: FILE
+      size: 5806
+      sha256: 501facb45fd99dacd611cd4de77ec85b6a51995cc261400fa2044d4e27f373eb
+    - path: scripts/hhy_workflow.py
+      state: FILE
+      size: 21053
+      sha256: 63547509ad8a66353ece94b0283f002030d4851eef7100689ec946dea936bfb0
+    - path: templates/AGENTS.md
+      state: FILE
+      size: 13921
+      sha256: 690f960020dcbd18080ec91b3c314335627b32e231b9f9b2e14566b0fbbaeb35
+    - path: tests/test_cloud_environment.py
+      state: FILE
+      size: 2862
+      sha256: dad29106a1abd1bd7e39c1df903dffdd34239971ee2c4a1a8d61b65494c11501
+    - path: tests/test_hhy_workflow.py
+      state: FILE
+      size: 11091
+      sha256: db8bd0e86099172998108b155f63a51a5461d7456fa487175fbd300b1b019979
+    - path: tests/test_r10_candidate.py
+      state: FILE
+      size: 3408
+      sha256: 33fb3651debd2118ae883ac3629eb224e7df5395cd0133973b1353a5725c5fcc
+    - path: tests/test_run_affected_tests.py
+      state: FILE
+      size: 8478
+      sha256: d3ba0b7968e7f1d9d0e0f63df7e80b7e4e19792c27c4f51903e558d5208fefe1
+change_classification:
+  other:
+  - AGENTS.md
+  - CHANGELOG.md
+  - config/development-workflow.yaml
+  - config/test-impact-map.yaml
+  - docs/09-development/统一开发与交付效率规范.md
+  - releases/R11/ACCEPTANCE_MATRIX.csv
+  - releases/R11/TASKS.yaml
+  - templates/AGENTS.md
+  continuity:
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/change-requests/CR-0310-同步云环境只读单次探针测试合同.md
+  - docs/03-continuity/change-requests/CR-0311-将R10候选回归改为归档证据验证.md
+  - docs/03-continuity/change-requests/CR-0312-修正机器收尾重复本机构建与生成证据指纹.md
+  source_of_truth:
+  - releases/R11/RELEASE_MANIFEST.yaml
+  code:
+  - scripts/hhy_workflow.py
+  tests:
+  - tests/test_cloud_environment.py
+  - tests/test_hhy_workflow.py
+  - tests/test_r10_candidate.py
+  - tests/test_run_affected_tests.py
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+- APPROVED_CHANGE_REQUEST
+change_requests:
+- CR-0310
+- CR-0311
+- CR-0312
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions:
+  - tests/test_cloud_environment.py
+  - tests/test_r10_candidate.py
+  - AGENTS.md
+  - docs/09-development/统一开发与交付效率规范.md
+  - config/development-workflow.yaml
+  - config/test-impact-map.yaml
+  - scripts/hhy_workflow.py
+  - tests/test_hhy_workflow.py
+  - tests/test_run_affected_tests.py
+  source: story+explicit+approved-cr:CR-0310+approved-cr:CR-0311+approved-cr:CR-0312
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 三项CR共享同一实现提交与当前Session索引，必须由唯一主控串行关闭
+event_hash: 750de563fcda7a69d0019968cb61f628a2af40a73133279a74f9f8231957f767

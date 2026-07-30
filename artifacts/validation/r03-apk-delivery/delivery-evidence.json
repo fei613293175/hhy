@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "release": "R03",
+  "commit": "660d148d0743e796a9b77558bed68f046197519e",
+  "apk_file": "hhy-r03-660d148-debug.apk",
+  "version_name": "1.2.2-debug",
+  "version_code": 10206,
+  "sha256": "a5f2c39a4a9bdd499e99e47be660944625bd71748851c314f728b52d4a211994",
+  "size_bytes": 11940205,
+  "signing": {
+    "status": "PASS",
+    "profile_id": "hhy-staging-test-v1",
+    "fingerprint": "f17b040789a845244ff9e2a9d8aedc1e7412adea0539d99c5cc036baf5dbb873",
+    "stable": true
+  },
+  "local": {
+    "status": "PASS",
+    "artifact_copy": "artifacts\\apk\\R03\\hhy-r03-660d148-debug.apk"
+  },
+  "desktop": {
+    "status": "PASS",
+    "path": "C:\\Users\\小白\\Desktop\\hhy-r03-660d148-debug.apk",
+    "sha256": "a5f2c39a4a9bdd499e99e47be660944625bd71748851c314f728b52d4a211994"
+  },
+  "route_preflight": {
+    "status": "PASS",
+    "route": "/r03-artifacts/hhy-r03-660d148-debug.apk",
+    "remote_path": "/www/wwwroot/download.orbexa.cc/r03-artifacts/hhy-r03-660d148-debug.apk",
+    "checked_at": "2026-07-19T07:13:27.443955Z"
+  },
+  "remote": {
+    "status": "PASS",
+    "sha256": "a5f2c39a4a9bdd499e99e47be660944625bd71748851c314f728b52d4a211994",
+    "size_bytes": 11940205,
+    "path": "/www/wwwroot/download.orbexa.cc/r03-artifacts/hhy-r03-660d148-debug.apk",
+    "publish_state": "CREATED"
+  },
+  "https": {
+    "status": "PASS",
+    "http_status": 200,
+    "range_status": 206,
+    "content_type": "application/vnd.android.package-archive",
+    "sha256": "a5f2c39a4a9bdd499e99e47be660944625bd71748851c314f728b52d4a211994",
+    "size_bytes": 11940205,
+    "verified_at": "2026-07-19T07:17:09.338880Z",
+    "url": "https://download.orbexa.cc/r03-artifacts/hhy-r03-660d148-debug.apk"
+  },
+  "owner_physical_test": {
+    "status": "PASS",
+    "confirmation": "项目所有者于2026-07-19明确确认R03 versionCode 10206真机测试通过",
+    "accepted_at": "2026-07-19T08:14:24.267170Z",
+    "evidence_reference": "owner-message-2026-07-19-r03-10206-pass"
+  },
+  "created_at": "2026-07-19T07:15:33.015843Z",
+  "last_verified_at": "2026-07-19T07:17:09.338880Z"
+}

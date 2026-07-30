@@ -1,0 +1,215 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260719T224052Z-2C69767F-0002
+session_id: SES-20260719T224052Z-2C69767F
+sequence: 2
+created_at: '2026-07-19T22:59:42Z'
+summary: R05-005冻结提交3ec3ba2正式证据完成：八项核心矩阵PASS；全后端284项0失败；PostgreSQL17真实Store/私有证据5项0失败0跳过；空库迁移、回滚再应用和32约束/14索引不变量PASS；失败环境日志已归档，关键产品缺陷为0。
+next_step: 提交并推送R05-005报告、日志、机器证据和AC-R05-002/003 PASS状态；随后关闭TASK-R05-005并进入TASK-R05-006预发布可观测性验收。
+blockers: []
+decisions: []
+note: ''
+tests:
+- name: r05-authoritative-evidence
+  result: PASS
+  evidence: 8/8 exact catalog adapters,Java21+PostgreSQL17 logs and SHA256 validated
+  note: ''
+- name: r05-full-backend
+  result: PASS
+  evidence: 284 tests,0 failures,0 errors,5 environment skips
+  note: ''
+- name: r05-real-postgresql
+  result: PASS
+  evidence: 5 tests,0 failures,0 errors,0 skips;Flyway V001-V028
+  note: ''
+- name: r05-database-invariants-final
+  result: PASS
+  evidence: 200 tables,32 constraints,14 indexes,rollback+reapply
+  note: ''
+- name: r05-documentation-final
+  result: PASS
+  evidence: 318 REST operations,0 gaps
+  note: ''
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: 3ec3ba2fdcb2063c658c467710e294b1f9b92dbb
+  upstream: origin/task/TASK-R03-001
+  ahead: 0
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - ' M releases/R05/ACCEPTANCE_MATRIX.csv'
+  - ?? artifacts/reports/R05/TASK-R05-005-specialized-testing.md
+  - ?? artifacts/validation/r05-test-evidence/README.md
+  - ?? artifacts/validation/r05-test-evidence/maven-java21.log
+  - ?? artifacts/validation/r05-test-evidence/maven-postgresql17-missing-user.failure.log
+  - ?? artifacts/validation/r05-test-evidence/maven-postgresql17.log
+  - ?? artifacts/validation/r05-test-evidence/postgresql17-invariants.log
+  - ?? artifacts/validation/r05-test-evidence/r05-specialized.evidence.json
+  recent_commits:
+  - "3ec3ba2fdcb2063c658c467710e294b1f9b92dbb\t2026-07-20T06:50:58+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] test(identity): automate R05\
+    \ fault matrix"
+  - "07c8b91cce0e1a5299b6f0f76473f36fe745be73\t2026-07-20T06:39:17+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] chore(continuity): close TASK-R05-004\
+    \ as completed"
+  - "fa31e2d650408b142b91bd2b5afee6eb3f12eef4\t2026-07-20T06:36:09+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] test(identity): cover client\
+    \ recovery states"
+  - "6b15295202ec267cdb5dcfa986378bca1df75947\t2026-07-20T06:27:45+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] docs(identity): close provider\
+    \ result transaction change"
+  - "3041af56480ff9f225e997db9335e936a5986bed\t2026-07-20T06:25:44+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] docs(storage): close Aliyun\
+    \ OSS runtime change"
+  - "9fc38ff37d2b0b7421c5f0a13205088308f664fc\t2026-07-20T06:25:11+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] feat(storage): activate Aliyun\
+    \ OSS runtime port"
+  - "0e3e8563fb89acd9c3ae66ce208d88ba0f2dde59\t2026-07-20T06:10:37+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] docs(security): record provider\
+    \ secret closure"
+  - "b0a76d369c1475ba2a404b2cb2040286885b36a7\t2026-07-20T06:09:43+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] feat(security): resolve mounted\
+    \ provider secrets"
+project_fingerprint:
+  sha256: 68aa18a750851b1234a488fb0a09ce64130ebdbb40a21aaa8a02a5950b78f687
+  files:
+  - CHANGELOG.md
+  - catalogs/test_cases.csv
+  - releases/R05/ACCEPTANCE_MATRIX.csv
+  - scripts/run_r05_specialized_matrix.py
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/AliyunMarketIdentityProviderClientTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/IdentityCallbackServiceTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/IdentityIdempotencyServiceTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/IdentityProviderResultCoordinatorTest.java
+  - tests/r05/README.md
+  - tests/r05/req-id-001_happy
+  - tests/r05/req-id-001_idempotent
+  - tests/r05/req-id-001_reject
+  - tests/r05/req-id-001_security
+  - tests/r05/req-id-002_happy
+  - tests/r05/req-id-002_idempotent
+  - tests/r05/req-id-002_reject
+  - tests/r05/req-id-002_security
+  - tests/r05/test_r05_specialized_matrix.py
+  file_count: 18
+  payload:
+    base_commit: 07c8b91cce0e1a5299b6f0f76473f36fe745be73
+    files:
+    - path: CHANGELOG.md
+      state: FILE
+      size: 44798
+      sha256: a9ff42d05b878af5c57ae76a15afca30f36566f1d4d6b759e781cb3f763729b3
+    - path: catalogs/test_cases.csv
+      state: FILE
+      size: 227904
+      sha256: 6fa054aca7529bac86a3c5e7b7449f50eb17fefe66f5b160f8a9b6a88c008967
+    - path: releases/R05/ACCEPTANCE_MATRIX.csv
+      state: FILE
+      size: 748
+      sha256: 732f71e12633269aae7bb52d5d1bf7de163b78ed1b04ca7a520ee68602501110
+    - path: scripts/run_r05_specialized_matrix.py
+      state: FILE
+      size: 8551
+      sha256: 426f9212d4e960d0100088acfb4e17e2eac28ad6a8ca678bba28dc06728103d8
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/AliyunMarketIdentityProviderClientTest.java
+      state: FILE
+      size: 12084
+      sha256: c1d5518a6ddc7e8a3447677c962f6be50c8441a3cc940165b8987d00e90555c6
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/IdentityCallbackServiceTest.java
+      state: FILE
+      size: 3621
+      sha256: 5fb64ef1862745713b6f3065bc1ce6bcfface3c67d0f438a7c69ea30041684e7
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/IdentityIdempotencyServiceTest.java
+      state: FILE
+      size: 5746
+      sha256: 6c94dbbc3bcca9bd03e4188ec9df25ce497ef6b3814ada760241507f968fa2e1
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/IdentityProviderResultCoordinatorTest.java
+      state: FILE
+      size: 9423
+      sha256: 42b2b851f1e968ccc6496e283385dd26071f355d07030968cc0530d9f05dfede
+    - path: tests/r05/README.md
+      state: FILE
+      size: 648
+      sha256: 0164fc1c55cacbca5a48048b22bec1b42268985b98a2406e704e28c81e73b189
+    - path: tests/r05/req-id-001_happy
+      state: FILE
+      size: 798
+      sha256: d65bb779b3613ddfd9a7da9ba287251c688e9dfa88b580f3a69c9fa7f4ab2ee1
+    - path: tests/r05/req-id-001_idempotent
+      state: FILE
+      size: 804
+      sha256: 830565d65c1b3af517599e81a99ba7f4e56486744a4f510fec78824e59b124cd
+    - path: tests/r05/req-id-001_reject
+      state: FILE
+      size: 632
+      sha256: 974065fde733f2994a6659a1b4b88c04556177bb384e46ba90d0db4e285016d8
+    - path: tests/r05/req-id-001_security
+      state: FILE
+      size: 789
+      sha256: f5ee305d70d5c0403f6905a57c08cfb191e75eeee7d5b36c64ed2c645ce64927
+    - path: tests/r05/req-id-002_happy
+      state: FILE
+      size: 613
+      sha256: bd4021b9769bab884032de9df962a9a00ff882a9c0702a62a710ca84e6b4ee14
+    - path: tests/r05/req-id-002_idempotent
+      state: FILE
+      size: 622
+      sha256: 95f8c7cede12c316f6d0d9886ab9ec5e4dedbea50667ff91fd8f6b507d4b55e3
+    - path: tests/r05/req-id-002_reject
+      state: FILE
+      size: 577
+      sha256: f1f8291321bd64914e711c167098ec09717a01216dae4627b490b15ea403c1b0
+    - path: tests/r05/req-id-002_security
+      state: FILE
+      size: 832
+      sha256: 3af294f49d8ff4fcc8cae14486372e4153c6a9e50aa9fab0001be2dd02c9baef
+    - path: tests/r05/test_r05_specialized_matrix.py
+      state: FILE
+      size: 1924
+      sha256: 2a425b816baedd1f4538f0455bb007f5c952518602f33aba08822625c6766880
+change_classification:
+  other:
+  - CHANGELOG.md
+  - catalogs/test_cases.csv
+  - releases/R05/ACCEPTANCE_MATRIX.csv
+  code:
+  - scripts/run_r05_specialized_matrix.py
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/AliyunMarketIdentityProviderClientTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/IdentityCallbackServiceTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/IdentityIdempotencyServiceTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/IdentityProviderResultCoordinatorTest.java
+  tests:
+  - tests/r05/README.md
+  - tests/r05/req-id-001_happy
+  - tests/r05/req-id-001_idempotent
+  - tests/r05/req-id-001_reject
+  - tests/r05/req-id-001_security
+  - tests/r05/req-id-002_happy
+  - tests/r05/req-id-002_idempotent
+  - tests/r05/req-id-002_reject
+  - tests/r05/req-id-002_security
+  - tests/r05/test_r05_specialized_matrix.py
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+change_requests: []
+scope:
+  allowed_paths:
+  - apps/admin-web/**
+  - services/backend/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - tests/**
+  - docs/**
+  - catalogs/**
+  - releases/**
+  - design/**
+  - scripts/**
+  - R05 身份认证后端、H5回调、管理端审核、PostgreSQL不变量、供应商回调故障注入与专项测试报告
+  - CHANGELOG.md
+  approved_exceptions: []
+  source: story+explicit
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 证据归档、日志哈希、Acceptance状态和报告必须绑定同一冻结Commit并由主控串行核对，拆分会产生证据提交竞态。
+event_hash: 9c2c2af499a428535e811c2ce895e437e24e71113c48be463984734ed092f15a

@@ -1,0 +1,95 @@
+---
+cr_id: CR-0488
+status: APPROVED
+requester_actor_id: codex-r14-resume-20260730
+approver_actor_id: project-owner-continuity-directive-20260730
+task_id: TASK-R14-008
+session_id: SES-20260729T161557Z-6FCE6ACA
+created_at: 2026-07-29T20:17:17Z
+updated_at: 2026-07-29T20:17:49Z
+---
+# CR-0488 — 绑定R14基础设施修复并授权唯一Attempt10业务第三轮
+
+## 用户需求摘要
+
+持续完成R14至R32，不因GitHub瞬态故障停止；所有候选由AI审核且不要求项目所有者逐次确认
+
+## 原规则
+
+CR-0486只授权绑定业务修复Commit 3c120872、CR-0486和唯一request009的Attempt9；该Run已经启动并在OIDC bootstrap预检消费，但未运行模拟器或R14业务旅程。全局max_ai_attempts仍为3，已消费请求不得复用。
+
+## 新规则
+
+不新增候选体系或放宽全局三轮：仅增加R14精确Attempt10例外，必须同时匹配release=R14、request=R14-CANDIDATE-20260730-010、exception=CR-0488、required_fix_commit=a4b88424bee403b7515973536e96ccfcd3012d5a、max_candidate_runs=1。该Commit同时包含CR-0486的IME业务修复和CR-0487的5xx有限重试；Attempt10虽编号递增，仍是PROB-0152真正执行业务旅程的第三且最终轮，失败同指纹不得授权Attempt11。
+
+## 修改原因
+
+Attempt9只在OIDC bootstrap预检失败且未运行R14旅程；CR-0487已提交有限5xx重试。为保持候选请求、CR、修复Commit与运行次数唯一，不能复用已消费CR-0486/Attempt9授权，必须单独登记Attempt10，但它仍是PROB-0152第三且最终业务诊断轮。
+
+## 影响摘要
+
+只登记一次性候选授权、请求文本和精确绑定回归；不修改产品代码、后端、数据库、身份策略、等待时间、R14业务断言或截图范围。
+
+## 影响文件
+
+- `config/android-automation.yaml`
+- `config/android-candidate-request.yaml`
+- `tests/test_android_candidate_request.py`
+- `tests/test_android_ci_gate.py`
+
+## 页面
+
+- 无直接影响（已在影响摘要说明）
+
+## API
+
+- 无直接影响（已在影响摘要说明）
+
+## 数据库与迁移
+
+- 无直接影响（已在影响摘要说明）
+
+## 配置
+
+- `R14 Attempt10唯一例外和request010`
+
+## 资金/账本与历史数据
+
+- `Attempt9基础设施预检失败后唯一Attempt10授权`
+
+## 测试
+
+- `python -m unittest tests.test_android_candidate_request tests.test_android_ci_gate`
+
+## 版本
+
+- `R14`
+
+## 迁移与兼容策略
+
+Attempt9及其Run保持不可变失败证据；旧请求和CR-0486不得复用。全局max_ai_attempts=3、其他Release例外和所有历史候选保持不变。
+
+## 用户确认
+
+项目所有者已持续授权AI自行推进、GitHub候选审核和终端执行，无需逐次批准；本授权不扩大产品范围。
+
+## 审批
+
+- 审批人：`project-owner-continuity-directive-20260730`
+- 决定：`APPROVED`
+- 时间：`2026-07-29T20:17:49Z`
+- 说明：独立复审通过：Attempt9未进入业务旅程，Attempt10仅为绑定已提交基础设施修复的唯一候选授权，且明确保持全局三轮、单次运行和同指纹失败后禁止Attempt11。
+
+## 状态记录 · 2026-07-29T20:17:55Z
+
+- Actor：`codex-r14-resume-20260730`
+- Status：`IMPLEMENTING`
+- Session：`SES-20260729T161557Z-6FCE6ACA`
+- Note：开始写入Attempt10精确例外、request010及双侧漂移拒绝回归。
+
+## 状态记录 · 2026-07-29T20:20:08Z
+
+- Actor：`codex-r14-resume-20260730`
+- Status：`IMPLEMENTED`
+- Session：`SES-20260729T161557Z-6FCE6ACA`
+- Note：Commit 420435ff写入Attempt10唯一例外、request010和双侧精确绑定回归；92项治理测试与请求验证PASS，业务、截图和三轮上限未放宽。

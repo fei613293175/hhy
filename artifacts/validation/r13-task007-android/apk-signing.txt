@@ -1,0 +1,17 @@
+Verifies
+Verified using v1 scheme (JAR signing): false
+Verified using v2 scheme (APK Signature Scheme v2): true
+Verified using v3 scheme (APK Signature Scheme v3): true
+Verified using v3.1 scheme (APK Signature Scheme v3.1): false
+Verified using v4 scheme (APK Signature Scheme v4): false
+Verified for SourceStamp: false
+Number of signers: 1
+Signer #1 certificate DN: CN=Hhy Staging Test V2, OU=Android Test Delivery, O=Orbexa, C=CN
+Signer #1 certificate SHA-256 digest: e32a9d7ff8a209d2903db6383b461b259f0018a698d1f3646e6ed7f1112671be
+Signer #1 certificate SHA-1 digest: 995e429914aa1cdfe29398382132e34d2c022720
+Signer #1 certificate MD5 digest: 3cc43efbc6d88758e96dd164016d11c0
+Signer #1 key algorithm: RSA
+Signer #1 key size (bits): 3072
+Signer #1 public key SHA-256 digest: b5a62b897ab3b40614e1b1bdaad8a9a7ef57ccf7fa40ac9a8fae36e21d9a0f71
+Signer #1 public key SHA-1 digest: ea2a3143183003dd3171d5641c2633fb2fd2d331
+Signer #1 public key MD5 digest: 7f958e8da68e181e5dfdd137129af7b8

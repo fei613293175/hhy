@@ -1,0 +1,53 @@
+protocol_version: '1.0'
+cr_id: CR-0033
+title: 设备会话列表移除令牌回显字段
+status: IMPLEMENTING
+created_at: '2026-07-18T05:53:43Z'
+updated_at: '2026-07-18T05:57:15Z'
+requester_actor_id: codex-root
+approver_actor_id: project-owner
+task_id: TASK-R02-003
+session_id: SES-20260718T053331Z-F0ED92BF
+user_request: R02必须收尾并继续推进；不得将开发快照误标正式产物。
+reason: 冻结 AuthGetAuthSessionsResponse 复用了 AuthSessionResource，其中 required accessToken/refreshToken 会在设备管理列表中回显凭据，违反页面敏感字段禁止回显规范。拟改为仅返回会话标识、设备摘要、创建/过期时间、状态与当前会话标记。
+original_rule: AuthGetAuthSessionsResponse.items references AuthSessionResource and therefore requires accessToken and refreshToken in every device-list
+  item.
+new_rule: AuthGetAuthSessionsResponse.items references UserSecuritySessionResource, containing only sessionId, device summary, timestamps, status
+  and current flag; credentials are never returned by the list operation.
+impact_summary: Security-only response-schema correction for the R02 device management operation; no persistent data or endpoint path changes.
+impact:
+  files:
+  - contracts/openapi.yaml
+  - services/backend/boot/src/main/resources/contracts/openapi.yaml
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthContracts.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthService.java
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/UserAuthController.java
+  pages:
+  - SCR-AUTH-006
+  apis:
+  - GET /api/v1/auth/sessions
+  database: []
+  configuration: []
+  ledger: []
+  tests:
+  - 'UserSecurityWebSecurityTest: verifies list response has no accessToken/refreshToken'
+  - 'UserBearerAuthenticationFilterTest: verifies DB-bound bearer authentication'
+  releases:
+  - R02
+  migration_and_compatibility: Additive named schema replacement on a frozen R02 endpoint. Android client must regenerate/update the response
+    DTO before consuming the endpoint. Existing unsafe client assumptions are intentionally incompatible and must not be retained.
+user_confirmation: 后续这种问题不要问我确认，你自己决定
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-18T05:57:14Z'
+  note: 项目所有者授权 Codex 对同类明确安全问题自行决定；本变更以最小安全会话摘要替换令牌回显。
+machine_record: .continuity/change_requests/CR-0033.yaml
+document: docs/03-continuity/change-requests/CR-0033-设备会话列表移除令牌回显字段.md
+decision_log:
+- at: '2026-07-18T05:57:15Z'
+  actor_id: codex-root
+  status: IMPLEMENTING
+  note: 已完成后端实现和定向测试，进入 Android 客户端适配与全量门禁阶段。
+  session_id: SES-20260718T053331Z-F0ED92BF
+session_ids:
+- SES-20260718T053331Z-F0ED92BF

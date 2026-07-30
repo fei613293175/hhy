@@ -24,6 +24,7 @@ tasks:
   - 更新Release Manifest与CR记录
   - python scripts/check_v122_documentation.py --release R16
   session_log_required: true
+  sequence_recovery: .continuity/sequence_recoveries/SEQREC-SES-20260728T125934Z-F3DED330-R14.yaml
 - id: TASK-R16-002
   title: 商品、SKU、报价与统一订单数据迁移与领域不变量
   status: BLOCKED
@@ -40,6 +41,7 @@ tasks:
   - Flyway前向迁移与空库/升级库测试
   - 不变量属性测试
   session_log_required: true
+  sequence_recovery: .continuity/sequence_recoveries/SEQREC-SES-20260728T125934Z-F3DED330-R14.yaml
 - id: TASK-R16-003
   title: 商品、SKU、报价与统一订单后端应用服务与接口
   status: BLOCKED
@@ -56,6 +58,7 @@ tasks:
   - OpenAPI契约测试
   - 权限/幂等/错误码/审计覆盖
   session_log_required: true
+  sequence_recovery: .continuity/sequence_recoveries/SEQREC-SES-20260728T125934Z-F3DED330-R14.yaml
 - id: TASK-R16-004
   title: 商品、SKU、报价与统一订单客户端/H5/后台实现
   status: BLOCKED
@@ -76,6 +79,7 @@ tasks:
   - 禁止页面级手写重复DTO
   - 全部动作绑定生成API类型
   session_log_required: true
+  sequence_recovery: .continuity/sequence_recoveries/SEQREC-SES-20260728T125934Z-F3DED330-R14.yaml
 - id: TASK-R16-005
   title: 商品、SKU、报价与统一订单专项测试与故障注入
   status: BLOCKED
@@ -93,6 +97,7 @@ tasks:
   - 测试报告和失败证据归档
   - 关键缺陷清零
   session_log_required: true
+  sequence_recovery: .continuity/sequence_recoveries/SEQREC-SES-20260728T125934Z-F3DED330-R14.yaml
 - id: TASK-R16-006
   title: 商品、SKU、报价与统一订单可观测性与预发布验收
   status: BLOCKED
@@ -109,6 +114,7 @@ tasks:
   - 运行手册演练
   - 验收矩阵签字
   session_log_required: true
+  sequence_recovery: .continuity/sequence_recoveries/SEQREC-SES-20260728T125934Z-F3DED330-R14.yaml
 - id: TASK-R16-007
   title: 商品、SKU、报价与统一订单Android测试APK与产物追溯
   status: BLOCKED
@@ -125,6 +131,7 @@ tasks:
   - APK可下载/可安装
   - SHA256、Commit、versionName/versionCode、测试结果齐全
   session_log_required: true
+  sequence_recovery: .continuity/sequence_recoveries/SEQREC-SES-20260728T125934Z-F3DED330-R14.yaml
 - id: TASK-R16-008
   title: 商品、SKU、报价与统一订单版本关闭与无状态交接
   status: BLOCKED
@@ -141,7 +148,13 @@ tasks:
   - 全新AI仅凭仓库可继续
   - 工作区干净且Tag可追溯
   session_log_required: true
+  sequence_recovery: .continuity/sequence_recoveries/SEQREC-SES-20260728T125934Z-F3DED330-R14.yaml
 version: 1.2.2
 definition_of_ready: releases/R16/DEFINITION_OF_READY.yaml
 story_backlog: releases/R16/STORIES.yaml
 execution_rule: TASKS定义治理顺序，STORIES定义可领取纵向工作；二者必须同时满足，不得以通用任务替代页面故事验收。
+sequence_recovery:
+  status: PRESERVED_REQUIRES_ORDERED_REVALIDATION
+  recovery: .continuity/sequence_recoveries/SEQREC-SES-20260728T125934Z-F3DED330-R14.yaml
+  head: c47d19064bec57bd751f1cfa06a0fa7a75844790
+  stash_oid: c85e7088464eb2c0d12885aa8a39e2cd10c53d9b

@@ -1,0 +1,75 @@
+protocol_version: '1.0'
+package_version: 1.2.3
+session_id: SES-20260719T224052Z-2C69767F
+status: CLOSED
+actor:
+  id: codex-root
+  kind: AI_OR_HUMAN
+  host: unknown
+release: R05
+task_id: TASK-R05-005
+story_id: STORY-R05-001
+goal: 完成单一实名认证专项测试与故障注入，覆盖八项规范测试、并发幂等、超时、重复消息和供应商异常，输出可追溯测试证据并清零关键缺陷
+started_at: '2026-07-19T22:40:52Z'
+updated_at: '2026-07-19T23:04:20Z'
+takeover_of: null
+change_requests: []
+scope:
+  allowed_paths:
+  - apps/admin-web/**
+  - services/backend/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - tests/**
+  - docs/**
+  - catalogs/**
+  - releases/**
+  - design/**
+  - scripts/**
+  - R05 身份认证后端、H5回调、管理端审核、PostgreSQL不变量、供应商回调故障注入与专项测试报告
+  - CHANGELOG.md
+  approved_exceptions: []
+  source: story+explicit
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  base_commit: 07c8b91cce0e1a5299b6f0f76473f36fe745be73
+  start_head: 07c8b91cce0e1a5299b6f0f76473f36fe745be73
+  upstream: origin/task/TASK-R03-001
+  initial_worktree_state: CLEAN
+lease:
+  duration_minutes: 240
+  renewed_at: '2026-07-19T23:04:17Z'
+  expires_at: '2026-07-20T03:04:17Z'
+checkpoint_sequence: 3
+latest_checkpoint: .continuity/checkpoints/SES-20260719T224052Z-2C69767F/0003.yaml
+session_log: docs/03-continuity/sessions/2026-07/SES-20260719T224052Z-2C69767F.md
+next_step: 提交关闭元数据Commit，然后运行pre-push/CI门禁
+context_pack:
+  yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
+  markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
+  manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+  context_hash: de2432eb91c31477693ca4a90ed4eab071d4156f760dbe4b5a03d3e43799bd51
+  generated_at: '2026-07-19T23:04:19Z'
+handoff_bundle: null
+closure:
+  result: COMPLETED
+  summary: R05-005八项实名认证专项测试全部自动化并通过：Java21全后端284项0失败，PostgreSQL17真实集成5项0失败0跳过，空库迁移/回滚/不变量门禁通过，供应商超时、并发回跳、重复消息、订单与摘要错配均有故障证据，关键产品缺陷为0。
+  code_commit: c7ce2b9b48c6e901c3e19c9f7addd57ffbc7475d
+  next_release: R05
+  next_task: TASK-R05-006
+  blocked_advance: false
+  user_confirmation: null
+  metadata_commit: PENDING
+  push_verification: CI_REQUIRED_AFTER_METADATA_COMMIT
+  started_at: '2026-07-19T23:04:16Z'
+  closure_checkpoint_id: CP-SES-20260719T224052Z-2C69767F-0003
+  closed_at: '2026-07-19T23:04:20Z'
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 证据归档、日志哈希、Acceptance状态和报告必须绑定同一冻结Commit并由主控串行核对，拆分会产生证据提交竞态。
+closed_at: '2026-07-19T23:04:20Z'

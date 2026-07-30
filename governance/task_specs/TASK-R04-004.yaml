@@ -1,0 +1,43 @@
+schema: hhy.task-spec/v5.0
+id: TASK-R04-004
+release: R04
+ordinal: 4
+title: 纵向批次C：Android媒体上传管理器闭环
+kind: client_ui
+mode: worker
+source:
+  path: releases/R04/TASKS.yaml
+  original_id: TASK-R04-004
+requirements:
+- REQ-MEDIA-001
+- REQ-STORAGE-001
+- REQ-APK-001
+depends_on:
+- TASK-R04-001
+objective: 使用冻结生成类型实现SHEET-MEDIA-001选择、并发进度、失败分片重试、取消、完成回传、私有预览与删除确认
+deliverables:
+- Android媒体Feature及模块测试
+- 离线、401/403/409/422/429、取消、重试和返回栈证据
+- 稳定幂等键且不记录敏感URL或凭据
+acceptance:
+- 无页面级手写重复DTO或生产Mock
+- 页面字段、状态、动作和导航与冻结目录一致
+- MODULE门禁通过并可交给主控注册路由和网络glue
+allowed_paths:
+- apps/admin-web/**
+- apps/android/**
+- apps/h5/**
+- catalogs/**
+- design/**
+- docs/**
+- packages/**
+- tests/**
+risks:
+- secrets
+- security
+- ui
+acceptance_commands:
+- python3 scripts/check_ui_tokens.py
+maximum_attempts: 3
+owner_verification: ASYNC_NON_BLOCKING_FOR_NEXT_RELEASE
+legacy_status: DONE

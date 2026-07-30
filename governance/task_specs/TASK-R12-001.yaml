@@ -1,0 +1,39 @@
+schema: hhy.task-spec/v5.0
+id: TASK-R12-001
+release: R12
+ordinal: 1
+title: 统一发布与发布管理开发就绪核验、故事领取与变更基线
+kind: readiness
+mode: worker
+source:
+  path: releases/R12/TASKS.yaml
+  original_id: TASK-R12-001
+requirements:
+- REQ-CONTENT-002
+- REQ-PUBLISH-001
+- REQ-APK-001
+depends_on: []
+objective: 核验 2 项需求、7 个接口、19 张相关表、11 个页面/交互面和 8 个故事；全部适用DoR必须PASS
+deliverables:
+- releases/R12/DEFINITION_OF_READY.yaml 全部适用项PASS
+- releases/R12/STORIES.yaml 故事责任人和依赖已领取
+- python scripts/check_v122_documentation.py --release R12
+acceptance:
+- 页面、字段、状态、动作、API、配置、数据和测试无TBD
+- 不适用项明确N/A及原因
+- releases/R12/DEFINITION_OF_READY.yaml 全部适用项PASS
+- releases/R12/STORIES.yaml 故事责任人和依赖已领取
+- python scripts/check_v122_documentation.py --release R12
+allowed_paths:
+- catalogs/**
+- contracts/**
+- database/**
+- docs/**
+- releases/R12/**
+risks:
+- secrets
+acceptance_commands:
+- python3 tools/governance/hhy_governance.py product-readiness --release R12
+maximum_attempts: 3
+owner_verification: ASYNC_NON_BLOCKING_FOR_NEXT_RELEASE
+legacy_status: DONE

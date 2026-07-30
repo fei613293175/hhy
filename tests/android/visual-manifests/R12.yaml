@@ -1,0 +1,128 @@
+schema: hhy.android-visual-manifest/v1
+release: R12
+review_authority: AI_IMPLEMENTATION_AGENT
+authentication: STAGING_GITHUB_OIDC
+screens:
+- screen_id: SCR-PUB-001
+  file: 01-publish-center.png
+  marker: hhy.screen.r12.publish.center.content
+  required_text:
+  - 发布中心
+  - 我的发布
+  - 项目
+  - App
+  - 群聊
+  - 团队长
+  forbidden_text: &forbidden_business_codes
+  - 暂时无法连接
+  - 请求编号
+  - TraceId
+  - PROJECT
+  - GROUP_CHAT
+  - TEAM_LEADER
+  - WECHAT
+  - PHONE
+  - EMAIL
+- screen_id: SCR-ME-001
+  file: 02-me-home.png
+  marker: hhy.screen.r12.me
+  required_text:
+  - R12候选发布者
+  - 已认证
+  - 奖励资产
+  - 可用奖励(元)
+  - 待结算(元)
+  forbidden_text: *forbidden_business_codes
+- screen_id: SCR-ME-002
+  file: 03-profile.png
+  marker: hhy.screen.r12.profile.content
+  required_text:
+  - 个人资料
+  - R12候选发布者
+  - 基本资料
+  - 昵称
+  - 个人简介
+  forbidden_text: *forbidden_business_codes
+- screen_id: SCR-MYC-002
+  file: 04-drafts.png
+  marker: hhy.screen.r12.drafts
+  required_text:
+  - 草稿箱
+  - 继续完善尚未提交的内容
+  - R12候选发布预览项目
+  - 继续编辑
+  forbidden_text: *forbidden_business_codes
+- screen_id: SCR-MYC-003
+  file: 05-content-management-detail.png
+  marker: hhy.screen.r12.content_management.detail.content
+  required_text:
+  - 发布管理
+  - R12候选发布预览项目
+  - 浏览量
+  - 收藏用户
+  - 联系人数
+  - 预览
+  forbidden_text: *forbidden_business_codes
+- screen_id: SCR-PUB-006
+  file: 06-publish-preview.png
+  marker: hhy.screen.r12.publish.preview.content
+  required_text:
+  - 发布预览
+  - R12候选发布预览项目
+  - 联合增长
+  - 上海
+  - 返回修改
+  - 确认提交
+  forbidden_text: *forbidden_business_codes
+- screen_id: SCR-PUB-007
+  file: 07-submit-result.png
+  marker: hhy.screen.r12.publish.result.success
+  required_text:
+  - 提交结果
+  - 提交成功
+  - R12候选发布预览项目
+  - 查看我的发布
+  - 返回发布中心
+  forbidden_text: *forbidden_business_codes
+- screen_id: SCR-MYC-001
+  file: 08-my-contents.png
+  marker: hhy.screen.r12.my-contents
+  required_text:
+  - 我的发布
+  - 管理已发布内容与审核状态
+  - R12候选发布预览项目
+  - 审核中
+  - 审核记录
+  - 内容数据
+  forbidden_text: *forbidden_business_codes
+- screen_id: SCR-MYC-004
+  file: 09-content-reviews.png
+  marker: hhy.screen.r12.content-reviews
+  required_text:
+  - 审核记录
+  - 按更新时间查看真实审核状态
+  - R12候选发布预览项目
+  - 审核中
+  forbidden_text: *forbidden_business_codes
+- screen_id: SCR-MYC-005
+  file: 10-content-analytics.png
+  marker: hhy.screen.r12.content-analytics
+  required_text:
+  - 内容数据
+  - 数据来自平台真实统计
+  - R12候选发布预览项目
+  - 浏览次数
+  - 收藏次数
+  - 分享次数
+  - 联系查看
+  forbidden_text: *forbidden_business_codes
+security_assertions:
+- surface: SCR-ME-002
+  marker: hhy.screen.r12.profile.content
+  rule: profile evidence may show only the server-masked phone and must never expose raw account credentials
+- surface: SCR-PUB-006
+  marker: hhy.screen.r12.publish.preview.content
+  rule: preview evidence may render only public media URLs and localized business labels
+- surface: SCR-MYC-004
+  marker: hhy.screen.r12.content-reviews
+  rule: owner review evidence must not expose reviewer identifiers, command identifiers, or internal decision codes

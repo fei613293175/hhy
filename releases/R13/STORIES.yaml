@@ -237,6 +237,7 @@ stories:
   - OpenAPI、状态机、数据库迁移、配置Schema和页面契约引用一致，代码生成不得产生手工分叉
   - 每个需求可追溯到页面/API/表/配置/测试/故事；不适用项必须显式N/A并说明
   - 版本DoR全部PASS后方可编码；出口仍按原RELEASE_MANIFEST和ACCEPTANCE_MATRIX执行
+  - 四页视觉来源与CR-0363、页面目录、逐页施工规格和Release Manifest一致；TASK-R13-004登记IN_REVIEW，TASK-R13-007真实截图经AI复核后才可PASS
   - 变更必须通过CR，更新唯一事实源并重新生成全部派生目录和哈希
   - 完成Session Log、追踪矩阵、发布证据和下一任务交接
   definition_of_ready: DEFINITION_OF_READY.yaml全部阻断项PASS

@@ -1,0 +1,999 @@
+Started fixed R14 replacement build commit=2eb8ac74b55c35833609c6eb6f330268a289bf3a versionCode=10224
+To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/9.4.1/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
+Daemon will be stopped at the end of the build 
+Calculating task graph as no cached configuration is available for tasks: verifyApiBaseUrl testDebugUnitTest lintDebug assembleDebug
+
+> Configure project :app
+WARNING: The option setting 'android.overridePathCheck=true' is experimental.
+The current default is 'false'.
+w: file:///workspace/apps/android/app/build.gradle.kts:125:5: 'val stabilityConfigurationFile: RegularFileProperty' is deprecated. Use the stabilityConfigurationFiles option instead.
+
+> Task :app:verifyApiBaseUrl UP-TO-DATE
+> Task :app:preBuild UP-TO-DATE
+> Task :app:preDebugBuild UP-TO-DATE
+> Task :app:generateDebugBuildConfig
+> Task :app:generateDebugResValues FROM-CACHE
+> Task :app:generateDebugResources FROM-CACHE
+> Task :app:packageDebugResources FROM-CACHE
+> Task :core:designsystem:preBuild UP-TO-DATE
+> Task :core:designsystem:preDebugBuild UP-TO-DATE
+> Task :core:designsystem:processDebugNavigationResources FROM-CACHE
+> Task :core:network:preBuild UP-TO-DATE
+> Task :core:network:preDebugBuild UP-TO-DATE
+> Task :core:network:processDebugNavigationResources FROM-CACHE
+> Task :feature:activity:preBuild UP-TO-DATE
+> Task :feature:activity:preDebugBuild UP-TO-DATE
+> Task :feature:activity:processDebugNavigationResources FROM-CACHE
+> Task :feature:app-promotion:preBuild UP-TO-DATE
+> Task :feature:app-promotion:preDebugBuild UP-TO-DATE
+> Task :feature:app-promotion:processDebugNavigationResources FROM-CACHE
+> Task :feature:auth:preBuild UP-TO-DATE
+> Task :feature:auth:preDebugBuild UP-TO-DATE
+> Task :feature:auth:processDebugNavigationResources FROM-CACHE
+> Task :feature:chat:preBuild UP-TO-DATE
+> Task :feature:chat:preDebugBuild UP-TO-DATE
+> Task :feature:chat:processDebugNavigationResources FROM-CACHE
+> Task :feature:content-management:preBuild UP-TO-DATE
+> Task :feature:content-management:preDebugBuild UP-TO-DATE
+> Task :feature:content-management:processDebugNavigationResources FROM-CACHE
+> Task :feature:discovery:preBuild UP-TO-DATE
+> Task :feature:discovery:preDebugBuild UP-TO-DATE
+> Task :feature:discovery:processDebugNavigationResources FROM-CACHE
+> Task :feature:group-promotion:preBuild UP-TO-DATE
+> Task :feature:group-promotion:preDebugBuild UP-TO-DATE
+> Task :feature:group-promotion:processDebugNavigationResources FROM-CACHE
+> Task :feature:identity:preBuild UP-TO-DATE
+> Task :feature:identity:preDebugBuild UP-TO-DATE
+> Task :feature:identity:processDebugNavigationResources FROM-CACHE
+> Task :feature:media:preBuild UP-TO-DATE
+> Task :feature:media:preDebugBuild UP-TO-DATE
+> Task :feature:media:processDebugNavigationResources FROM-CACHE
+> Task :feature:project:preBuild UP-TO-DATE
+> Task :feature:project:preDebugBuild UP-TO-DATE
+> Task :feature:project:processDebugNavigationResources FROM-CACHE
+> Task :feature:shell:preBuild UP-TO-DATE
+> Task :feature:shell:preDebugBuild UP-TO-DATE
+> Task :feature:shell:processDebugNavigationResources FROM-CACHE
+> Task :feature:startup:preBuild UP-TO-DATE
+> Task :feature:startup:preDebugBuild UP-TO-DATE
+> Task :feature:startup:processDebugNavigationResources FROM-CACHE
+> Task :feature:team-leader:preBuild UP-TO-DATE
+> Task :feature:team-leader:preDebugBuild UP-TO-DATE
+> Task :feature:team-leader:processDebugNavigationResources FROM-CACHE
+> Task :app:processDebugNavigationResources FROM-CACHE
+> Task :app:parseDebugLocalResources FROM-CACHE
+> Task :app:generateDebugRFile FROM-CACHE
+> Task :core:designsystem:generateDebugResources FROM-CACHE
+> Task :core:designsystem:packageDebugResources FROM-CACHE
+> Task :core:designsystem:parseDebugLocalResources FROM-CACHE
+> Task :core:designsystem:generateDebugRFile FROM-CACHE
+> Task :core:designsystem:compileDebugKotlin FROM-CACHE
+> Task :core:designsystem:javaPreCompileDebug FROM-CACHE
+> Task :core:designsystem:compileDebugJavaWithJavac NO-SOURCE
+> Task :core:designsystem:bundleLibCompileToJarDebug
+> Task :core:network:generateDebugResources FROM-CACHE
+> Task :core:network:packageDebugResources FROM-CACHE
+> Task :core:network:parseDebugLocalResources FROM-CACHE
+> Task :core:network:generateDebugRFile FROM-CACHE
+> Task :core:network:compileDebugKotlin FROM-CACHE
+> Task :core:network:javaPreCompileDebug FROM-CACHE
+> Task :core:network:compileDebugJavaWithJavac NO-SOURCE
+> Task :core:network:bundleLibCompileToJarDebug
+> Task :feature:activity:generateDebugResources FROM-CACHE
+> Task :feature:activity:packageDebugResources FROM-CACHE
+> Task :feature:activity:parseDebugLocalResources FROM-CACHE
+> Task :feature:activity:generateDebugRFile FROM-CACHE
+> Task :feature:activity:compileDebugKotlin FROM-CACHE
+> Task :feature:activity:javaPreCompileDebug FROM-CACHE
+> Task :feature:activity:compileDebugJavaWithJavac NO-SOURCE
+> Task :feature:activity:bundleLibCompileToJarDebug
+> Task :feature:app-promotion:generateDebugResources FROM-CACHE
+> Task :feature:app-promotion:packageDebugResources FROM-CACHE
+> Task :feature:app-promotion:parseDebugLocalResources FROM-CACHE
+> Task :feature:app-promotion:generateDebugRFile FROM-CACHE
+> Task :feature:media:generateDebugResources FROM-CACHE
+> Task :feature:media:packageDebugResources FROM-CACHE
+> Task :feature:media:parseDebugLocalResources FROM-CACHE
+> Task :feature:media:generateDebugRFile FROM-CACHE
+> Task :feature:media:compileDebugKotlin FROM-CACHE
+> Task :feature:media:javaPreCompileDebug FROM-CACHE
+> Task :feature:media:compileDebugJavaWithJavac NO-SOURCE
+> Task :feature:media:bundleLibCompileToJarDebug
+> Task :feature:app-promotion:compileDebugKotlin FROM-CACHE
+> Task :feature:app-promotion:javaPreCompileDebug FROM-CACHE
+> Task :feature:app-promotion:compileDebugJavaWithJavac NO-SOURCE
+> Task :feature:app-promotion:bundleLibCompileToJarDebug
+> Task :feature:auth:generateDebugResources FROM-CACHE
+> Task :feature:auth:packageDebugResources FROM-CACHE
+> Task :feature:auth:parseDebugLocalResources FROM-CACHE
+> Task :feature:auth:generateDebugRFile FROM-CACHE
+> Task :feature:auth:compileDebugKotlin FROM-CACHE
+> Task :feature:auth:javaPreCompileDebug FROM-CACHE
+> Task :feature:auth:compileDebugJavaWithJavac NO-SOURCE
+> Task :feature:auth:bundleLibCompileToJarDebug
+> Task :feature:chat:generateDebugResources FROM-CACHE
+> Task :feature:chat:packageDebugResources FROM-CACHE
+> Task :feature:chat:parseDebugLocalResources FROM-CACHE
+> Task :feature:chat:generateDebugRFile FROM-CACHE
+> Task :feature:chat:compileDebugKotlin FROM-CACHE
+> Task :feature:chat:javaPreCompileDebug FROM-CACHE
+> Task :feature:chat:compileDebugJavaWithJavac NO-SOURCE
+> Task :feature:chat:bundleLibCompileToJarDebug
+> Task :feature:content-management:generateDebugResources FROM-CACHE
+> Task :feature:content-management:packageDebugResources FROM-CACHE
+> Task :feature:content-management:parseDebugLocalResources FROM-CACHE
+> Task :feature:content-management:generateDebugRFile FROM-CACHE
+> Task :feature:content-management:compileDebugKotlin FROM-CACHE
+> Task :feature:content-management:javaPreCompileDebug FROM-CACHE
+> Task :feature:content-management:compileDebugJavaWithJavac NO-SOURCE
+> Task :feature:content-management:bundleLibCompileToJarDebug
+> Task :feature:discovery:generateDebugResources FROM-CACHE
+> Task :feature:discovery:packageDebugResources FROM-CACHE
+> Task :feature:discovery:parseDebugLocalResources FROM-CACHE
+> Task :feature:discovery:generateDebugRFile FROM-CACHE
+> Task :feature:discovery:compileDebugKotlin FROM-CACHE
+> Task :feature:discovery:javaPreCompileDebug FROM-CACHE
+> Task :feature:discovery:compileDebugJavaWithJavac NO-SOURCE
+> Task :feature:discovery:bundleLibCompileToJarDebug
+> Task :feature:group-promotion:generateDebugResources FROM-CACHE
+> Task :feature:group-promotion:packageDebugResources FROM-CACHE
+> Task :feature:group-promotion:parseDebugLocalResources FROM-CACHE
+> Task :feature:group-promotion:generateDebugRFile FROM-CACHE
+> Task :feature:group-promotion:compileDebugKotlin FROM-CACHE
+> Task :feature:group-promotion:javaPreCompileDebug FROM-CACHE
+> Task :feature:group-promotion:compileDebugJavaWithJavac NO-SOURCE
+> Task :feature:group-promotion:bundleLibCompileToJarDebug
+> Task :feature:identity:generateDebugResources FROM-CACHE
+> Task :feature:identity:packageDebugResources FROM-CACHE
+> Task :feature:identity:parseDebugLocalResources FROM-CACHE
+> Task :feature:identity:generateDebugRFile FROM-CACHE
+> Task :feature:identity:compileDebugKotlin FROM-CACHE
+> Task :feature:identity:javaPreCompileDebug FROM-CACHE
+> Task :feature:identity:compileDebugJavaWithJavac NO-SOURCE
+> Task :feature:identity:bundleLibCompileToJarDebug
+> Task :feature:project:generateDebugResources FROM-CACHE
+> Task :feature:project:packageDebugResources FROM-CACHE
+> Task :feature:project:parseDebugLocalResources FROM-CACHE
+> Task :feature:project:generateDebugRFile FROM-CACHE
+> Task :feature:project:compileDebugKotlin FROM-CACHE
+> Task :feature:project:javaPreCompileDebug FROM-CACHE
+> Task :feature:project:compileDebugJavaWithJavac NO-SOURCE
+> Task :feature:project:bundleLibCompileToJarDebug
+> Task :feature:shell:generateDebugResources FROM-CACHE
+> Task :feature:shell:packageDebugResources FROM-CACHE
+> Task :feature:shell:parseDebugLocalResources FROM-CACHE
+> Task :feature:shell:generateDebugRFile FROM-CACHE
+> Task :feature:shell:compileDebugKotlin FROM-CACHE
+> Task :feature:shell:javaPreCompileDebug FROM-CACHE
+> Task :feature:shell:compileDebugJavaWithJavac NO-SOURCE
+> Task :feature:shell:bundleLibCompileToJarDebug
+> Task :feature:startup:generateDebugResources FROM-CACHE
+> Task :feature:startup:packageDebugResources FROM-CACHE
+> Task :feature:startup:parseDebugLocalResources FROM-CACHE
+> Task :feature:startup:generateDebugRFile FROM-CACHE
+> Task :feature:startup:compileDebugKotlin FROM-CACHE
+> Task :feature:startup:javaPreCompileDebug FROM-CACHE
+> Task :feature:startup:compileDebugJavaWithJavac NO-SOURCE
+> Task :feature:startup:bundleLibCompileToJarDebug
+> Task :feature:team-leader:generateDebugResources FROM-CACHE
+> Task :feature:team-leader:packageDebugResources FROM-CACHE
+> Task :feature:team-leader:parseDebugLocalResources FROM-CACHE
+> Task :feature:team-leader:generateDebugRFile FROM-CACHE
+> Task :feature:team-leader:compileDebugKotlin FROM-CACHE
+> Task :feature:team-leader:javaPreCompileDebug FROM-CACHE
+> Task :feature:team-leader:compileDebugJavaWithJavac NO-SOURCE
+> Task :feature:team-leader:bundleLibCompileToJarDebug
+> Task :app:compileDebugKotlin
+> Task :app:javaPreCompileDebug FROM-CACHE
+> Task :app:compileDebugJavaWithJavac
+> Task :core:designsystem:writeDebugAarMetadata
+> Task :core:network:writeDebugAarMetadata
+> Task :feature:activity:writeDebugAarMetadata
+> Task :feature:app-promotion:writeDebugAarMetadata
+> Task :feature:auth:writeDebugAarMetadata
+> Task :feature:chat:writeDebugAarMetadata
+> Task :feature:content-management:writeDebugAarMetadata
+> Task :feature:discovery:writeDebugAarMetadata
+> Task :feature:group-promotion:writeDebugAarMetadata
+> Task :feature:identity:writeDebugAarMetadata
+> Task :feature:media:writeDebugAarMetadata
+> Task :feature:project:writeDebugAarMetadata
+> Task :feature:shell:writeDebugAarMetadata
+> Task :feature:startup:writeDebugAarMetadata
+> Task :feature:team-leader:writeDebugAarMetadata
+> Task :app:checkDebugAarMetadata
+> Task :app:mapDebugSourceSetPaths
+> Task :app:compileDebugNavigationResources FROM-CACHE
+> Task :app:mergeDebugResources FROM-CACHE
+> Task :app:createDebugCompatibleScreenManifests
+> Task :app:extractDeepLinksDebug FROM-CACHE
+> Task :core:designsystem:extractDeepLinksDebug FROM-CACHE
+> Task :core:designsystem:processDebugManifest FROM-CACHE
+> Task :core:network:extractDeepLinksDebug FROM-CACHE
+> Task :core:network:processDebugManifest FROM-CACHE
+> Task :feature:activity:extractDeepLinksDebug FROM-CACHE
+> Task :feature:activity:processDebugManifest FROM-CACHE
+> Task :feature:app-promotion:extractDeepLinksDebug FROM-CACHE
+> Task :feature:app-promotion:processDebugManifest FROM-CACHE
+> Task :feature:auth:extractDeepLinksDebug FROM-CACHE
+> Task :feature:auth:processDebugManifest FROM-CACHE
+> Task :feature:chat:extractDeepLinksDebug FROM-CACHE
+> Task :feature:chat:processDebugManifest FROM-CACHE
+> Task :feature:content-management:extractDeepLinksDebug FROM-CACHE
+> Task :feature:content-management:processDebugManifest FROM-CACHE
+> Task :feature:discovery:extractDeepLinksDebug FROM-CACHE
+> Task :feature:discovery:processDebugManifest FROM-CACHE
+> Task :feature:group-promotion:extractDeepLinksDebug FROM-CACHE
+> Task :feature:group-promotion:processDebugManifest FROM-CACHE
+> Task :feature:identity:extractDeepLinksDebug FROM-CACHE
+> Task :feature:identity:processDebugManifest FROM-CACHE
+> Task :feature:media:extractDeepLinksDebug FROM-CACHE
+> Task :feature:media:processDebugManifest FROM-CACHE
+> Task :feature:project:extractDeepLinksDebug FROM-CACHE
+> Task :feature:project:processDebugManifest FROM-CACHE
+> Task :feature:shell:extractDeepLinksDebug FROM-CACHE
+> Task :feature:shell:processDebugManifest FROM-CACHE
+> Task :feature:startup:extractDeepLinksDebug FROM-CACHE
+> Task :feature:startup:processDebugManifest FROM-CACHE
+> Task :feature:team-leader:extractDeepLinksDebug FROM-CACHE
+> Task :feature:team-leader:processDebugManifest FROM-CACHE
+> Task :app:processDebugMainManifest
+> Task :app:processDebugManifest
+> Task :app:processDebugManifestForPackage
+> Task :core:designsystem:mapDebugSourceSetPaths
+> Task :core:designsystem:compileDebugLibraryResources FROM-CACHE
+> Task :core:network:mapDebugSourceSetPaths
+> Task :core:network:compileDebugLibraryResources FROM-CACHE
+> Task :feature:activity:mapDebugSourceSetPaths
+> Task :feature:activity:compileDebugLibraryResources FROM-CACHE
+> Task :feature:app-promotion:mapDebugSourceSetPaths
+> Task :feature:app-promotion:compileDebugLibraryResources FROM-CACHE
+> Task :feature:auth:mapDebugSourceSetPaths
+> Task :feature:auth:compileDebugLibraryResources FROM-CACHE
+> Task :feature:chat:mapDebugSourceSetPaths
+> Task :feature:chat:compileDebugLibraryResources FROM-CACHE
+> Task :feature:content-management:mapDebugSourceSetPaths
+> Task :feature:content-management:compileDebugLibraryResources FROM-CACHE
+> Task :feature:discovery:mapDebugSourceSetPaths
+> Task :feature:discovery:compileDebugLibraryResources FROM-CACHE
+> Task :feature:group-promotion:mapDebugSourceSetPaths
+> Task :feature:group-promotion:compileDebugLibraryResources FROM-CACHE
+> Task :feature:identity:mapDebugSourceSetPaths
+> Task :feature:identity:compileDebugLibraryResources FROM-CACHE
+> Task :feature:media:mapDebugSourceSetPaths
+> Task :feature:media:compileDebugLibraryResources FROM-CACHE
+> Task :feature:project:mapDebugSourceSetPaths
+> Task :feature:project:compileDebugLibraryResources FROM-CACHE
+> Task :feature:shell:mapDebugSourceSetPaths
+> Task :feature:shell:compileDebugLibraryResources FROM-CACHE
+> Task :feature:startup:mapDebugSourceSetPaths
+> Task :feature:startup:compileDebugLibraryResources FROM-CACHE
+> Task :feature:team-leader:mapDebugSourceSetPaths
+> Task :feature:team-leader:compileDebugLibraryResources FROM-CACHE
+> Task :app:processDebugResources
+> Task :app:bundleDebugClassesToRuntimeJar
+> Task :app:bundleDebugClassesToCompileJar
+> Task :app:preDebugUnitTestBuild UP-TO-DATE
+> Task :app:compileDebugUnitTestKotlin
+> Task :app:javaPreCompileDebugUnitTest FROM-CACHE
+> Task :app:compileDebugUnitTestJavaWithJavac NO-SOURCE
+> Task :app:processDebugJavaRes
+> Task :app:processDebugUnitTestJavaRes
+> Task :core:designsystem:bundleLibRuntimeToJarDebug
+> Task :core:designsystem:processDebugJavaRes
+> Task :core:network:bundleLibRuntimeToJarDebug
+> Task :core:network:processDebugJavaRes
+> Task :feature:activity:bundleLibRuntimeToJarDebug
+> Task :feature:activity:processDebugJavaRes
+> Task :feature:app-promotion:bundleLibRuntimeToJarDebug
+> Task :feature:app-promotion:processDebugJavaRes
+> Task :feature:auth:bundleLibRuntimeToJarDebug
+> Task :feature:auth:processDebugJavaRes
+> Task :feature:chat:bundleLibRuntimeToJarDebug
+> Task :feature:chat:processDebugJavaRes
+> Task :feature:content-management:bundleLibRuntimeToJarDebug
+> Task :feature:content-management:processDebugJavaRes
+> Task :feature:discovery:bundleLibRuntimeToJarDebug
+> Task :feature:discovery:processDebugJavaRes
+> Task :feature:group-promotion:bundleLibRuntimeToJarDebug
+> Task :feature:group-promotion:processDebugJavaRes
+> Task :feature:identity:bundleLibRuntimeToJarDebug
+> Task :feature:identity:processDebugJavaRes
+> Task :feature:media:bundleLibRuntimeToJarDebug
+> Task :feature:media:processDebugJavaRes
+> Task :feature:project:bundleLibRuntimeToJarDebug
+> Task :feature:project:processDebugJavaRes
+> Task :feature:shell:bundleLibRuntimeToJarDebug
+> Task :feature:shell:processDebugJavaRes
+> Task :feature:startup:bundleLibRuntimeToJarDebug
+> Task :feature:startup:processDebugJavaRes
+> Task :feature:team-leader:bundleLibRuntimeToJarDebug
+> Task :feature:team-leader:processDebugJavaRes
+> Task :app:testDebugUnitTest
+> Task :core:designsystem:preDebugUnitTestBuild UP-TO-DATE
+> Task :core:designsystem:generateDebugUnitTestStubRFile FROM-CACHE
+> Task :core:designsystem:compileDebugUnitTestKotlin NO-SOURCE
+> Task :core:designsystem:javaPreCompileDebugUnitTest FROM-CACHE
+> Task :core:designsystem:compileDebugUnitTestJavaWithJavac NO-SOURCE
+> Task :core:designsystem:processDebugUnitTestJavaRes NO-SOURCE
+> Task :core:designsystem:testDebugUnitTest NO-SOURCE
+> Task :core:network:preDebugUnitTestBuild UP-TO-DATE
+> Task :core:network:generateDebugUnitTestStubRFile FROM-CACHE
+> Task :core:network:compileDebugUnitTestKotlin FROM-CACHE
+> Task :core:network:javaPreCompileDebugUnitTest FROM-CACHE
+> Task :core:network:compileDebugUnitTestJavaWithJavac NO-SOURCE
+> Task :core:network:processDebugUnitTestJavaRes
+> Task :core:network:testDebugUnitTest FROM-CACHE
+> Task :feature:activity:preDebugUnitTestBuild UP-TO-DATE
+> Task :feature:activity:generateDebugUnitTestStubRFile FROM-CACHE
+> Task :feature:activity:compileDebugUnitTestKotlin FROM-CACHE
+> Task :feature:activity:javaPreCompileDebugUnitTest FROM-CACHE
+> Task :feature:activity:compileDebugUnitTestJavaWithJavac NO-SOURCE
+> Task :feature:activity:processDebugUnitTestJavaRes
+> Task :feature:activity:testDebugUnitTest
+> Task :feature:app-promotion:preDebugUnitTestBuild UP-TO-DATE
+> Task :feature:app-promotion:generateDebugUnitTestStubRFile FROM-CACHE
+> Task :feature:app-promotion:compileDebugUnitTestKotlin FROM-CACHE
+> Task :feature:app-promotion:javaPreCompileDebugUnitTest FROM-CACHE
+> Task :feature:app-promotion:compileDebugUnitTestJavaWithJavac NO-SOURCE
+> Task :feature:app-promotion:processDebugUnitTestJavaRes
+> Task :feature:app-promotion:testDebugUnitTest
+> Task :feature:auth:preDebugUnitTestBuild UP-TO-DATE
+> Task :feature:auth:generateDebugUnitTestStubRFile FROM-CACHE
+> Task :feature:auth:compileDebugUnitTestKotlin FROM-CACHE
+> Task :feature:auth:javaPreCompileDebugUnitTest FROM-CACHE
+> Task :feature:auth:compileDebugUnitTestJavaWithJavac NO-SOURCE
+> Task :feature:auth:processDebugUnitTestJavaRes
+> Task :feature:auth:testDebugUnitTest
+> Task :feature:chat:preDebugUnitTestBuild UP-TO-DATE
+> Task :feature:chat:generateDebugUnitTestStubRFile FROM-CACHE
+> Task :feature:chat:compileDebugUnitTestKotlin FROM-CACHE
+> Task :feature:chat:javaPreCompileDebugUnitTest FROM-CACHE
+> Task :feature:chat:compileDebugUnitTestJavaWithJavac NO-SOURCE
+> Task :feature:chat:processDebugUnitTestJavaRes
+> Task :feature:chat:testDebugUnitTest FROM-CACHE
+> Task :feature:content-management:preDebugUnitTestBuild UP-TO-DATE
+> Task :feature:content-management:generateDebugUnitTestStubRFile FROM-CACHE
+> Task :feature:content-management:compileDebugUnitTestKotlin FROM-CACHE
+> Task :feature:content-management:javaPreCompileDebugUnitTest FROM-CACHE
+> Task :feature:content-management:compileDebugUnitTestJavaWithJavac NO-SOURCE
+> Task :feature:content-management:processDebugUnitTestJavaRes
+> Task :feature:content-management:testDebugUnitTest
+> Task :feature:discovery:preDebugUnitTestBuild UP-TO-DATE
+> Task :feature:discovery:generateDebugUnitTestStubRFile FROM-CACHE
+> Task :feature:discovery:compileDebugUnitTestKotlin FROM-CACHE
+> Task :feature:discovery:javaPreCompileDebugUnitTest FROM-CACHE
+> Task :feature:discovery:compileDebugUnitTestJavaWithJavac NO-SOURCE
+> Task :feature:discovery:processDebugUnitTestJavaRes
+> Task :feature:discovery:testDebugUnitTest
+> Task :feature:group-promotion:preDebugUnitTestBuild UP-TO-DATE
+> Task :feature:group-promotion:generateDebugUnitTestStubRFile FROM-CACHE
+> Task :feature:group-promotion:compileDebugUnitTestKotlin FROM-CACHE
+> Task :feature:group-promotion:javaPreCompileDebugUnitTest FROM-CACHE
+> Task :feature:group-promotion:compileDebugUnitTestJavaWithJavac NO-SOURCE
+> Task :feature:group-promotion:processDebugUnitTestJavaRes
+> Task :feature:group-promotion:testDebugUnitTest
+> Task :feature:identity:preDebugUnitTestBuild UP-TO-DATE
+> Task :feature:identity:generateDebugUnitTestStubRFile FROM-CACHE
+> Task :feature:identity:compileDebugUnitTestKotlin FROM-CACHE
+> Task :feature:identity:javaPreCompileDebugUnitTest FROM-CACHE
+> Task :feature:identity:compileDebugUnitTestJavaWithJavac NO-SOURCE
+> Task :feature:identity:processDebugUnitTestJavaRes
+> Task :feature:identity:testDebugUnitTest
+> Task :feature:media:preDebugUnitTestBuild UP-TO-DATE
+> Task :feature:media:generateDebugUnitTestStubRFile FROM-CACHE
+> Task :feature:media:compileDebugUnitTestKotlin FROM-CACHE
+> Task :feature:media:javaPreCompileDebugUnitTest FROM-CACHE
+> Task :feature:media:compileDebugUnitTestJavaWithJavac NO-SOURCE
+> Task :feature:media:processDebugUnitTestJavaRes
+> Task :feature:media:testDebugUnitTest
+> Task :feature:project:preDebugUnitTestBuild UP-TO-DATE
+> Task :feature:project:generateDebugUnitTestStubRFile FROM-CACHE
+> Task :feature:project:compileDebugUnitTestKotlin FROM-CACHE
+> Task :feature:project:javaPreCompileDebugUnitTest FROM-CACHE
+> Task :feature:project:compileDebugUnitTestJavaWithJavac NO-SOURCE
+> Task :feature:project:processDebugUnitTestJavaRes
+> Task :feature:project:testDebugUnitTest
+> Task :feature:shell:preDebugUnitTestBuild UP-TO-DATE
+> Task :feature:shell:generateDebugUnitTestStubRFile FROM-CACHE
+> Task :feature:shell:compileDebugUnitTestKotlin FROM-CACHE
+> Task :feature:shell:javaPreCompileDebugUnitTest FROM-CACHE
+> Task :feature:shell:compileDebugUnitTestJavaWithJavac NO-SOURCE
+> Task :feature:shell:processDebugUnitTestJavaRes
+> Task :feature:shell:testDebugUnitTest
+> Task :feature:startup:preDebugUnitTestBuild UP-TO-DATE
+> Task :feature:startup:generateDebugUnitTestStubRFile FROM-CACHE
+> Task :feature:startup:compileDebugUnitTestKotlin FROM-CACHE
+> Task :feature:startup:javaPreCompileDebugUnitTest FROM-CACHE
+> Task :feature:startup:compileDebugUnitTestJavaWithJavac NO-SOURCE
+> Task :feature:startup:processDebugUnitTestJavaRes
+> Task :feature:startup:testDebugUnitTest
+> Task :feature:team-leader:preDebugUnitTestBuild UP-TO-DATE
+> Task :feature:team-leader:generateDebugUnitTestStubRFile FROM-CACHE
+> Task :feature:team-leader:compileDebugUnitTestKotlin FROM-CACHE
+> Task :feature:team-leader:javaPreCompileDebugUnitTest FROM-CACHE
+> Task :feature:team-leader:compileDebugUnitTestJavaWithJavac NO-SOURCE
+> Task :feature:team-leader:processDebugUnitTestJavaRes
+> Task :feature:team-leader:testDebugUnitTest
+> Task :feature:media:checkDebugAarMetadata
+> Task :feature:media:mergeDebugJniLibFolders
+> Task :feature:media:mergeDebugNativeLibs NO-SOURCE
+> Task :feature:media:stripDebugDebugSymbols NO-SOURCE
+> Task :feature:media:copyDebugJniLibsProjectAndLocalJars
+> Task :feature:media:extractDebugAnnotations FROM-CACHE
+> Task :feature:media:extractDeepLinksForAarDebug FROM-CACHE
+> Task :feature:media:generateDebugAssets UP-TO-DATE
+> Task :feature:media:mergeDebugAssets
+> Task :feature:media:mergeDebugGeneratedProguardFiles
+> Task :feature:media:mergeDebugConsumerProguardFiles
+> Task :feature:media:prepareDebugArtProfile
+> Task :feature:media:prepareLintJarForPublish
+> Task :feature:media:mergeDebugJavaResource
+> Task :feature:media:syncDebugLibJars FROM-CACHE
+> Task :feature:media:bundleDebugLocalLintAar
+> Task :core:designsystem:checkDebugAarMetadata
+> Task :core:designsystem:mergeDebugJniLibFolders
+> Task :core:designsystem:mergeDebugNativeLibs NO-SOURCE
+> Task :core:designsystem:stripDebugDebugSymbols NO-SOURCE
+> Task :core:designsystem:copyDebugJniLibsProjectAndLocalJars
+> Task :core:designsystem:extractDebugAnnotations FROM-CACHE
+> Task :core:designsystem:extractDeepLinksForAarDebug FROM-CACHE
+> Task :core:designsystem:generateDebugAssets UP-TO-DATE
+> Task :core:designsystem:mergeDebugAssets
+> Task :core:designsystem:mergeDebugGeneratedProguardFiles
+> Task :core:designsystem:mergeDebugConsumerProguardFiles
+> Task :core:designsystem:prepareDebugArtProfile
+> Task :core:designsystem:prepareLintJarForPublish
+> Task :core:designsystem:mergeDebugJavaResource
+> Task :core:designsystem:syncDebugLibJars FROM-CACHE
+> Task :core:designsystem:bundleDebugLocalLintAar
+> Task :core:network:checkDebugAarMetadata
+> Task :core:network:mergeDebugJniLibFolders
+> Task :core:network:mergeDebugNativeLibs NO-SOURCE
+> Task :core:network:stripDebugDebugSymbols NO-SOURCE
+> Task :core:network:copyDebugJniLibsProjectAndLocalJars
+> Task :core:network:extractDebugAnnotations FROM-CACHE
+> Task :core:network:extractDeepLinksForAarDebug FROM-CACHE
+> Task :core:network:generateDebugAssets UP-TO-DATE
+> Task :core:network:mergeDebugAssets
+> Task :core:network:mergeDebugGeneratedProguardFiles
+> Task :core:network:mergeDebugConsumerProguardFiles
+> Task :core:network:prepareDebugArtProfile
+> Task :core:network:prepareLintJarForPublish
+> Task :core:network:mergeDebugJavaResource
+> Task :core:network:syncDebugLibJars FROM-CACHE
+> Task :core:network:bundleDebugLocalLintAar
+> Task :feature:shell:checkDebugAarMetadata
+> Task :feature:shell:mergeDebugJniLibFolders
+> Task :feature:shell:mergeDebugNativeLibs NO-SOURCE
+> Task :feature:shell:stripDebugDebugSymbols NO-SOURCE
+> Task :feature:shell:copyDebugJniLibsProjectAndLocalJars
+> Task :feature:shell:extractDebugAnnotations FROM-CACHE
+> Task :feature:shell:extractDeepLinksForAarDebug FROM-CACHE
+> Task :feature:shell:generateDebugAssets UP-TO-DATE
+> Task :feature:shell:mergeDebugAssets
+> Task :feature:shell:mergeDebugGeneratedProguardFiles
+> Task :feature:shell:mergeDebugConsumerProguardFiles
+> Task :feature:shell:prepareDebugArtProfile
+> Task :feature:shell:prepareLintJarForPublish
+> Task :feature:shell:mergeDebugJavaResource
+> Task :feature:shell:syncDebugLibJars FROM-CACHE
+> Task :feature:shell:bundleDebugLocalLintAar
+> Task :feature:startup:checkDebugAarMetadata
+> Task :feature:startup:mergeDebugJniLibFolders
+> Task :feature:startup:mergeDebugNativeLibs NO-SOURCE
+> Task :feature:startup:stripDebugDebugSymbols NO-SOURCE
+> Task :feature:startup:copyDebugJniLibsProjectAndLocalJars
+> Task :feature:startup:extractDebugAnnotations FROM-CACHE
+> Task :feature:startup:extractDeepLinksForAarDebug FROM-CACHE
+> Task :feature:startup:generateDebugAssets UP-TO-DATE
+> Task :feature:startup:mergeDebugAssets
+> Task :feature:startup:mergeDebugGeneratedProguardFiles
+> Task :feature:startup:mergeDebugConsumerProguardFiles
+> Task :feature:startup:prepareDebugArtProfile
+> Task :feature:startup:prepareLintJarForPublish
+> Task :feature:startup:mergeDebugJavaResource
+> Task :feature:startup:syncDebugLibJars FROM-CACHE
+> Task :feature:startup:bundleDebugLocalLintAar
+> Task :feature:auth:checkDebugAarMetadata
+> Task :feature:auth:mergeDebugJniLibFolders
+> Task :feature:auth:mergeDebugNativeLibs NO-SOURCE
+> Task :feature:auth:stripDebugDebugSymbols NO-SOURCE
+> Task :feature:auth:copyDebugJniLibsProjectAndLocalJars
+> Task :feature:auth:extractDebugAnnotations FROM-CACHE
+> Task :feature:auth:extractDeepLinksForAarDebug FROM-CACHE
+> Task :feature:auth:generateDebugAssets UP-TO-DATE
+> Task :feature:auth:mergeDebugAssets
+> Task :feature:auth:mergeDebugGeneratedProguardFiles
+> Task :feature:auth:mergeDebugConsumerProguardFiles
+> Task :feature:auth:prepareDebugArtProfile
+> Task :feature:auth:prepareLintJarForPublish
+> Task :feature:auth:mergeDebugJavaResource
+> Task :feature:auth:syncDebugLibJars FROM-CACHE
+> Task :feature:auth:bundleDebugLocalLintAar
+> Task :feature:identity:checkDebugAarMetadata
+> Task :feature:identity:mergeDebugJniLibFolders
+> Task :feature:identity:mergeDebugNativeLibs NO-SOURCE
+> Task :feature:identity:stripDebugDebugSymbols NO-SOURCE
+> Task :feature:identity:copyDebugJniLibsProjectAndLocalJars
+> Task :feature:identity:extractDebugAnnotations FROM-CACHE
+> Task :feature:identity:extractDeepLinksForAarDebug FROM-CACHE
+> Task :feature:identity:generateDebugAssets UP-TO-DATE
+> Task :feature:identity:mergeDebugAssets
+> Task :feature:identity:mergeDebugGeneratedProguardFiles
+> Task :feature:identity:mergeDebugConsumerProguardFiles
+> Task :feature:identity:prepareDebugArtProfile
+> Task :feature:identity:prepareLintJarForPublish
+> Task :feature:identity:mergeDebugJavaResource
+> Task :feature:identity:syncDebugLibJars FROM-CACHE
+> Task :feature:identity:bundleDebugLocalLintAar
+> Task :feature:discovery:checkDebugAarMetadata
+> Task :feature:discovery:mergeDebugJniLibFolders
+> Task :feature:discovery:mergeDebugNativeLibs NO-SOURCE
+> Task :feature:discovery:stripDebugDebugSymbols NO-SOURCE
+> Task :feature:discovery:copyDebugJniLibsProjectAndLocalJars
+> Task :feature:discovery:extractDebugAnnotations FROM-CACHE
+> Task :feature:discovery:extractDeepLinksForAarDebug FROM-CACHE
+> Task :feature:discovery:generateDebugAssets UP-TO-DATE
+> Task :feature:discovery:mergeDebugAssets
+> Task :feature:discovery:mergeDebugGeneratedProguardFiles
+> Task :feature:discovery:mergeDebugConsumerProguardFiles
+> Task :feature:discovery:prepareDebugArtProfile
+> Task :feature:discovery:prepareLintJarForPublish
+> Task :feature:discovery:mergeDebugJavaResource
+> Task :feature:discovery:syncDebugLibJars FROM-CACHE
+> Task :feature:discovery:bundleDebugLocalLintAar
+> Task :feature:project:checkDebugAarMetadata
+> Task :feature:project:mergeDebugJniLibFolders
+> Task :feature:project:mergeDebugNativeLibs NO-SOURCE
+> Task :feature:project:stripDebugDebugSymbols NO-SOURCE
+> Task :feature:project:copyDebugJniLibsProjectAndLocalJars
+> Task :feature:project:extractDebugAnnotations FROM-CACHE
+> Task :feature:project:extractDeepLinksForAarDebug FROM-CACHE
+> Task :feature:project:generateDebugAssets UP-TO-DATE
+> Task :feature:project:mergeDebugAssets
+> Task :feature:project:mergeDebugGeneratedProguardFiles
+> Task :feature:project:mergeDebugConsumerProguardFiles
+> Task :feature:project:prepareDebugArtProfile
+> Task :feature:project:prepareLintJarForPublish
+> Task :feature:project:mergeDebugJavaResource
+> Task :feature:project:syncDebugLibJars FROM-CACHE
+> Task :feature:project:bundleDebugLocalLintAar
+> Task :feature:app-promotion:checkDebugAarMetadata
+> Task :feature:app-promotion:mergeDebugJniLibFolders
+> Task :feature:app-promotion:mergeDebugNativeLibs NO-SOURCE
+> Task :feature:app-promotion:stripDebugDebugSymbols NO-SOURCE
+> Task :feature:app-promotion:copyDebugJniLibsProjectAndLocalJars
+> Task :feature:app-promotion:extractDebugAnnotations FROM-CACHE
+> Task :feature:app-promotion:extractDeepLinksForAarDebug FROM-CACHE
+> Task :feature:app-promotion:generateDebugAssets UP-TO-DATE
+> Task :feature:app-promotion:mergeDebugAssets
+> Task :feature:app-promotion:mergeDebugGeneratedProguardFiles
+> Task :feature:app-promotion:mergeDebugConsumerProguardFiles
+> Task :feature:app-promotion:prepareDebugArtProfile
+> Task :feature:app-promotion:prepareLintJarForPublish
+> Task :feature:app-promotion:mergeDebugJavaResource
+> Task :feature:app-promotion:syncDebugLibJars FROM-CACHE
+> Task :feature:app-promotion:bundleDebugLocalLintAar
+> Task :feature:group-promotion:checkDebugAarMetadata
+> Task :feature:group-promotion:mergeDebugJniLibFolders
+> Task :feature:group-promotion:mergeDebugNativeLibs NO-SOURCE
+> Task :feature:group-promotion:stripDebugDebugSymbols NO-SOURCE
+> Task :feature:group-promotion:copyDebugJniLibsProjectAndLocalJars
+> Task :feature:group-promotion:extractDebugAnnotations FROM-CACHE
+> Task :feature:group-promotion:extractDeepLinksForAarDebug FROM-CACHE
+> Task :feature:group-promotion:generateDebugAssets UP-TO-DATE
+> Task :feature:group-promotion:mergeDebugAssets
+> Task :feature:group-promotion:mergeDebugGeneratedProguardFiles
+> Task :feature:group-promotion:mergeDebugConsumerProguardFiles
+> Task :feature:group-promotion:prepareDebugArtProfile
+> Task :feature:group-promotion:prepareLintJarForPublish
+> Task :feature:group-promotion:mergeDebugJavaResource
+> Task :feature:group-promotion:syncDebugLibJars FROM-CACHE
+> Task :feature:group-promotion:bundleDebugLocalLintAar
+> Task :feature:team-leader:checkDebugAarMetadata
+> Task :feature:team-leader:mergeDebugJniLibFolders
+> Task :feature:team-leader:mergeDebugNativeLibs NO-SOURCE
+> Task :feature:team-leader:stripDebugDebugSymbols NO-SOURCE
+> Task :feature:team-leader:copyDebugJniLibsProjectAndLocalJars
+> Task :feature:team-leader:extractDebugAnnotations FROM-CACHE
+> Task :feature:team-leader:extractDeepLinksForAarDebug FROM-CACHE
+> Task :feature:team-leader:generateDebugAssets UP-TO-DATE
+> Task :feature:team-leader:mergeDebugAssets
+> Task :feature:team-leader:mergeDebugGeneratedProguardFiles
+> Task :feature:team-leader:mergeDebugConsumerProguardFiles
+> Task :feature:team-leader:prepareDebugArtProfile
+> Task :feature:team-leader:prepareLintJarForPublish
+> Task :feature:team-leader:mergeDebugJavaResource
+> Task :feature:team-leader:syncDebugLibJars FROM-CACHE
+> Task :feature:team-leader:bundleDebugLocalLintAar
+> Task :feature:content-management:checkDebugAarMetadata
+> Task :feature:content-management:mergeDebugJniLibFolders
+> Task :feature:content-management:mergeDebugNativeLibs NO-SOURCE
+> Task :feature:content-management:stripDebugDebugSymbols NO-SOURCE
+> Task :feature:content-management:copyDebugJniLibsProjectAndLocalJars
+> Task :feature:content-management:extractDebugAnnotations FROM-CACHE
+> Task :feature:content-management:extractDeepLinksForAarDebug FROM-CACHE
+> Task :feature:content-management:generateDebugAssets UP-TO-DATE
+> Task :feature:content-management:mergeDebugAssets
+> Task :feature:content-management:mergeDebugGeneratedProguardFiles
+> Task :feature:content-management:mergeDebugConsumerProguardFiles
+> Task :feature:content-management:prepareDebugArtProfile
+> Task :feature:content-management:prepareLintJarForPublish
+> Task :feature:content-management:mergeDebugJavaResource
+> Task :feature:content-management:syncDebugLibJars FROM-CACHE
+> Task :feature:content-management:bundleDebugLocalLintAar
+> Task :feature:activity:checkDebugAarMetadata
+> Task :feature:activity:mergeDebugJniLibFolders
+> Task :feature:activity:mergeDebugNativeLibs NO-SOURCE
+> Task :feature:activity:stripDebugDebugSymbols NO-SOURCE
+> Task :feature:activity:copyDebugJniLibsProjectAndLocalJars
+> Task :feature:activity:extractDebugAnnotations FROM-CACHE
+> Task :feature:activity:extractDeepLinksForAarDebug FROM-CACHE
+> Task :feature:activity:generateDebugAssets UP-TO-DATE
+> Task :feature:activity:mergeDebugAssets
+> Task :feature:activity:mergeDebugGeneratedProguardFiles
+> Task :feature:activity:mergeDebugConsumerProguardFiles
+> Task :feature:activity:prepareDebugArtProfile
+> Task :feature:activity:prepareLintJarForPublish
+> Task :feature:activity:mergeDebugJavaResource
+> Task :feature:activity:syncDebugLibJars FROM-CACHE
+> Task :feature:activity:bundleDebugLocalLintAar
+> Task :feature:chat:checkDebugAarMetadata
+> Task :feature:chat:mergeDebugJniLibFolders
+> Task :feature:chat:mergeDebugNativeLibs NO-SOURCE
+> Task :feature:chat:stripDebugDebugSymbols NO-SOURCE
+> Task :feature:chat:copyDebugJniLibsProjectAndLocalJars
+> Task :feature:chat:extractDebugAnnotations FROM-CACHE
+> Task :feature:chat:extractDeepLinksForAarDebug FROM-CACHE
+> Task :feature:chat:generateDebugAssets UP-TO-DATE
+> Task :feature:chat:mergeDebugAssets
+> Task :feature:chat:mergeDebugGeneratedProguardFiles
+> Task :feature:chat:mergeDebugConsumerProguardFiles
+> Task :feature:chat:prepareDebugArtProfile
+> Task :feature:chat:prepareLintJarForPublish
+> Task :feature:chat:mergeDebugJavaResource
+> Task :feature:chat:syncDebugLibJars FROM-CACHE
+> Task :feature:chat:bundleDebugLocalLintAar
+> Task :app:preDebugAndroidTestBuild SKIPPED
+> Task :app:generateDebugAndroidTestResValues FROM-CACHE
+> Task :core:designsystem:createFullJarDebug
+> Task :core:designsystem:writeDebugLintModelMetadata
+> Task :core:network:createFullJarDebug
+> Task :core:network:writeDebugLintModelMetadata
+> Task :feature:activity:createFullJarDebug
+> Task :feature:activity:writeDebugLintModelMetadata
+> Task :feature:app-promotion:createFullJarDebug
+> Task :feature:app-promotion:writeDebugLintModelMetadata
+> Task :feature:auth:createFullJarDebug
+> Task :feature:auth:writeDebugLintModelMetadata
+> Task :feature:chat:createFullJarDebug
+> Task :feature:chat:writeDebugLintModelMetadata
+> Task :feature:content-management:createFullJarDebug
+> Task :feature:content-management:writeDebugLintModelMetadata
+> Task :feature:discovery:createFullJarDebug
+> Task :feature:discovery:writeDebugLintModelMetadata
+> Task :feature:group-promotion:createFullJarDebug
+> Task :feature:group-promotion:writeDebugLintModelMetadata
+> Task :feature:identity:createFullJarDebug
+> Task :feature:identity:writeDebugLintModelMetadata
+> Task :feature:media:createFullJarDebug
+> Task :feature:media:writeDebugLintModelMetadata
+> Task :feature:project:createFullJarDebug
+> Task :feature:project:writeDebugLintModelMetadata
+> Task :feature:shell:createFullJarDebug
+> Task :feature:shell:writeDebugLintModelMetadata
+> Task :feature:startup:createFullJarDebug
+> Task :feature:startup:writeDebugLintModelMetadata
+> Task :feature:team-leader:createFullJarDebug
+> Task :feature:team-leader:writeDebugLintModelMetadata
+> Task :app:generateDebugAndroidTestLintModel
+> Task :app:extractProguardFiles
+> Task :core:designsystem:extractProguardFiles
+> Task :core:designsystem:generateDebugLintModel
+> Task :core:network:extractProguardFiles
+> Task :core:network:generateDebugLintModel
+> Task :feature:activity:extractProguardFiles
+> Task :feature:activity:generateDebugLintModel
+> Task :feature:app-promotion:extractProguardFiles
+> Task :feature:media:extractProguardFiles
+> Task :feature:media:generateDebugLintModel
+> Task :feature:app-promotion:generateDebugLintModel
+> Task :feature:auth:extractProguardFiles
+> Task :feature:auth:generateDebugLintModel
+> Task :feature:chat:extractProguardFiles
+> Task :feature:chat:generateDebugLintModel
+> Task :feature:content-management:extractProguardFiles
+> Task :feature:content-management:generateDebugLintModel
+> Task :feature:discovery:extractProguardFiles
+> Task :feature:discovery:generateDebugLintModel
+> Task :feature:group-promotion:extractProguardFiles
+> Task :feature:group-promotion:generateDebugLintModel
+> Task :feature:identity:extractProguardFiles
+> Task :feature:identity:generateDebugLintModel
+> Task :feature:project:extractProguardFiles
+> Task :feature:project:generateDebugLintModel
+> Task :feature:shell:extractProguardFiles
+> Task :feature:shell:generateDebugLintModel
+> Task :feature:startup:extractProguardFiles
+> Task :feature:startup:generateDebugLintModel
+> Task :feature:team-leader:extractProguardFiles
+> Task :feature:team-leader:generateDebugLintModel
+> Task :app:generateDebugLintReportModel
+> Task :app:generateDebugUnitTestLintModel
+> Task :core:designsystem:lintAnalyzeDebug FROM-CACHE
+> Task :core:network:lintAnalyzeDebug FROM-CACHE
+> Task :feature:activity:lintAnalyzeDebug FROM-CACHE
+> Task :feature:media:lintAnalyzeDebug FROM-CACHE
+> Task :feature:app-promotion:lintAnalyzeDebug FROM-CACHE
+> Task :feature:auth:lintAnalyzeDebug FROM-CACHE
+> Task :feature:chat:lintAnalyzeDebug FROM-CACHE
+> Task :feature:content-management:lintAnalyzeDebug FROM-CACHE
+> Task :feature:discovery:lintAnalyzeDebug FROM-CACHE
+> Task :feature:group-promotion:lintAnalyzeDebug FROM-CACHE
+> Task :feature:identity:lintAnalyzeDebug FROM-CACHE
+> Task :feature:project:lintAnalyzeDebug FROM-CACHE
+> Task :feature:shell:lintAnalyzeDebug FROM-CACHE
+> Task :feature:startup:lintAnalyzeDebug FROM-CACHE
+> Task :feature:team-leader:lintAnalyzeDebug FROM-CACHE
+> Task :app:lintAnalyzeDebug
+> Task :app:lintAnalyzeDebugAndroidTest
+> Task :app:lintAnalyzeDebugUnitTest
+> Task :core:designsystem:preDebugAndroidTestBuild UP-TO-DATE
+> Task :core:designsystem:generateDebugAndroidTestLintModel
+> Task :core:designsystem:generateDebugUnitTestLintModel
+> Task :core:designsystem:lintAnalyzeDebugAndroidTest FROM-CACHE
+> Task :core:designsystem:lintAnalyzeDebugUnitTest FROM-CACHE
+> Task :core:network:preDebugAndroidTestBuild UP-TO-DATE
+> Task :core:network:generateDebugAndroidTestLintModel
+> Task :core:network:generateDebugUnitTestLintModel
+> Task :core:network:lintAnalyzeDebugAndroidTest FROM-CACHE
+> Task :core:network:lintAnalyzeDebugUnitTest FROM-CACHE
+> Task :feature:activity:preDebugAndroidTestBuild UP-TO-DATE
+> Task :feature:activity:generateDebugAndroidTestLintModel
+> Task :feature:activity:generateDebugUnitTestLintModel
+> Task :feature:activity:lintAnalyzeDebugAndroidTest FROM-CACHE
+> Task :feature:activity:lintAnalyzeDebugUnitTest FROM-CACHE
+> Task :feature:app-promotion:preDebugAndroidTestBuild UP-TO-DATE
+> Task :feature:app-promotion:generateDebugAndroidTestLintModel
+> Task :feature:app-promotion:generateDebugUnitTestLintModel
+> Task :feature:app-promotion:lintAnalyzeDebugAndroidTest FROM-CACHE
+> Task :feature:app-promotion:lintAnalyzeDebugUnitTest FROM-CACHE
+> Task :feature:auth:preDebugAndroidTestBuild UP-TO-DATE
+> Task :feature:auth:generateDebugAndroidTestLintModel
+> Task :feature:auth:generateDebugUnitTestLintModel
+> Task :feature:auth:lintAnalyzeDebugAndroidTest FROM-CACHE
+> Task :feature:auth:lintAnalyzeDebugUnitTest FROM-CACHE
+> Task :feature:chat:preDebugAndroidTestBuild UP-TO-DATE
+> Task :feature:chat:generateDebugAndroidTestLintModel
+> Task :feature:chat:generateDebugUnitTestLintModel
+> Task :feature:chat:lintAnalyzeDebugAndroidTest FROM-CACHE
+> Task :feature:chat:lintAnalyzeDebugUnitTest FROM-CACHE
+> Task :feature:content-management:preDebugAndroidTestBuild UP-TO-DATE
+> Task :feature:content-management:generateDebugAndroidTestLintModel
+> Task :feature:content-management:generateDebugUnitTestLintModel
+> Task :feature:content-management:lintAnalyzeDebugAndroidTest FROM-CACHE
+> Task :feature:content-management:lintAnalyzeDebugUnitTest FROM-CACHE
+> Task :feature:discovery:preDebugAndroidTestBuild UP-TO-DATE
+> Task :feature:discovery:generateDebugAndroidTestLintModel
+> Task :feature:discovery:generateDebugUnitTestLintModel
+> Task :feature:discovery:lintAnalyzeDebugAndroidTest FROM-CACHE
+> Task :feature:discovery:lintAnalyzeDebugUnitTest FROM-CACHE
+> Task :feature:group-promotion:preDebugAndroidTestBuild UP-TO-DATE
+> Task :feature:group-promotion:generateDebugAndroidTestLintModel
+> Task :feature:group-promotion:generateDebugUnitTestLintModel
+> Task :feature:group-promotion:lintAnalyzeDebugAndroidTest FROM-CACHE
+> Task :feature:group-promotion:lintAnalyzeDebugUnitTest FROM-CACHE
+> Task :feature:identity:preDebugAndroidTestBuild UP-TO-DATE
+> Task :feature:identity:generateDebugAndroidTestLintModel
+> Task :feature:identity:generateDebugUnitTestLintModel
+> Task :feature:identity:lintAnalyzeDebugAndroidTest FROM-CACHE
+> Task :feature:identity:lintAnalyzeDebugUnitTest FROM-CACHE
+> Task :feature:media:preDebugAndroidTestBuild UP-TO-DATE
+> Task :feature:media:generateDebugAndroidTestLintModel
+> Task :feature:media:generateDebugUnitTestLintModel
+> Task :feature:media:lintAnalyzeDebugAndroidTest FROM-CACHE
+> Task :feature:media:lintAnalyzeDebugUnitTest FROM-CACHE
+> Task :feature:project:preDebugAndroidTestBuild UP-TO-DATE
+> Task :feature:project:generateDebugAndroidTestLintModel
+> Task :feature:project:generateDebugUnitTestLintModel
+> Task :feature:project:lintAnalyzeDebugAndroidTest FROM-CACHE
+> Task :feature:project:lintAnalyzeDebugUnitTest FROM-CACHE
+> Task :feature:shell:preDebugAndroidTestBuild UP-TO-DATE
+> Task :feature:shell:generateDebugAndroidTestLintModel
+> Task :feature:shell:generateDebugUnitTestLintModel
+> Task :feature:shell:lintAnalyzeDebugAndroidTest FROM-CACHE
+> Task :feature:shell:lintAnalyzeDebugUnitTest FROM-CACHE
+> Task :feature:startup:preDebugAndroidTestBuild UP-TO-DATE
+> Task :feature:startup:generateDebugAndroidTestLintModel
+> Task :feature:startup:generateDebugUnitTestLintModel
+> Task :feature:startup:lintAnalyzeDebugAndroidTest FROM-CACHE
+> Task :feature:startup:lintAnalyzeDebugUnitTest FROM-CACHE
+> Task :feature:team-leader:preDebugAndroidTestBuild UP-TO-DATE
+> Task :feature:team-leader:generateDebugAndroidTestLintModel
+> Task :feature:team-leader:generateDebugUnitTestLintModel
+> Task :feature:team-leader:lintAnalyzeDebugAndroidTest FROM-CACHE
+> Task :feature:team-leader:lintAnalyzeDebugUnitTest FROM-CACHE
+
+> Task :app:lintReportDebug
+Wrote HTML report to file:///workspace/apps/android/app/build/reports/lint-results-debug.html
+
+> Task :app:lintDebug
+> Task :core:designsystem:generateDebugLintReportModel
+
+> Task :core:designsystem:lintReportDebug
+Wrote HTML report to file:///workspace/apps/android/core/designsystem/build/reports/lint-results-debug.html
+
+> Task :core:designsystem:lintDebug
+> Task :core:network:generateDebugLintReportModel
+
+> Task :core:network:lintReportDebug
+Wrote HTML report to file:///workspace/apps/android/core/network/build/reports/lint-results-debug.html
+
+> Task :core:network:lintDebug
+> Task :feature:activity:generateDebugLintReportModel
+
+> Task :feature:activity:lintReportDebug
+Wrote HTML report to file:///workspace/apps/android/feature/activity/build/reports/lint-results-debug.html
+
+> Task :feature:activity:lintDebug
+> Task :feature:app-promotion:generateDebugLintReportModel
+
+> Task :feature:app-promotion:lintReportDebug
+Wrote HTML report to file:///workspace/apps/android/feature/app-promotion/build/reports/lint-results-debug.html
+
+> Task :feature:app-promotion:lintDebug
+> Task :feature:auth:generateDebugLintReportModel
+
+> Task :feature:auth:lintReportDebug
+Wrote HTML report to file:///workspace/apps/android/feature/auth/build/reports/lint-results-debug.html
+
+> Task :feature:auth:lintDebug
+> Task :feature:chat:generateDebugLintReportModel
+
+> Task :feature:chat:lintReportDebug
+Wrote HTML report to file:///workspace/apps/android/feature/chat/build/reports/lint-results-debug.html
+
+> Task :feature:chat:lintDebug
+> Task :feature:content-management:generateDebugLintReportModel
+
+> Task :feature:content-management:lintReportDebug
+Wrote HTML report to file:///workspace/apps/android/feature/content-management/build/reports/lint-results-debug.html
+
+> Task :feature:content-management:lintDebug
+> Task :feature:discovery:generateDebugLintReportModel
+
+> Task :feature:discovery:lintReportDebug
+Wrote HTML report to file:///workspace/apps/android/feature/discovery/build/reports/lint-results-debug.html
+
+> Task :feature:discovery:lintDebug
+> Task :feature:group-promotion:generateDebugLintReportModel
+
+> Task :feature:group-promotion:lintReportDebug
+Wrote HTML report to file:///workspace/apps/android/feature/group-promotion/build/reports/lint-results-debug.html
+
+> Task :feature:group-promotion:lintDebug
+> Task :feature:identity:generateDebugLintReportModel
+
+> Task :feature:identity:lintReportDebug
+Wrote HTML report to file:///workspace/apps/android/feature/identity/build/reports/lint-results-debug.html
+
+> Task :feature:identity:lintDebug
+> Task :feature:media:generateDebugLintReportModel
+
+> Task :feature:media:lintReportDebug
+Wrote HTML report to file:///workspace/apps/android/feature/media/build/reports/lint-results-debug.html
+
+> Task :feature:media:lintDebug
+> Task :feature:project:generateDebugLintReportModel
+
+> Task :feature:project:lintReportDebug
+Wrote HTML report to file:///workspace/apps/android/feature/project/build/reports/lint-results-debug.html
+
+> Task :feature:project:lintDebug
+> Task :feature:shell:generateDebugLintReportModel
+
+> Task :feature:shell:lintReportDebug
+Wrote HTML report to file:///workspace/apps/android/feature/shell/build/reports/lint-results-debug.html
+
+> Task :feature:shell:lintDebug
+> Task :feature:startup:generateDebugLintReportModel
+
+> Task :feature:startup:lintReportDebug
+Wrote HTML report to file:///workspace/apps/android/feature/startup/build/reports/lint-results-debug.html
+
+> Task :feature:startup:lintDebug
+> Task :feature:team-leader:generateDebugLintReportModel
+
+> Task :feature:team-leader:lintReportDebug
+Wrote HTML report to file:///workspace/apps/android/feature/team-leader/build/reports/lint-results-debug.html
+
+> Task :feature:team-leader:lintDebug
+> Task :app:mergeDebugNativeDebugMetadata NO-SOURCE
+> Task :app:generateDebugAssets UP-TO-DATE
+> Task :app:mergeDebugAssets
+> Task :app:compressDebugAssets FROM-CACHE
+> Task :app:generateDebugGlobalSynthetics FROM-CACHE
+> Task :app:mergeDebugJavaResource
+> Task :app:checkDebugDuplicateClasses
+> Task :app:desugarDebugFileDependencies FROM-CACHE
+> Task :app:mergeExtDexDebug FROM-CACHE
+> Task :feature:shell:bundleLibRuntimeToDirDebug
+> Task :feature:startup:bundleLibRuntimeToDirDebug
+> Task :feature:auth:bundleLibRuntimeToDirDebug
+> Task :feature:identity:bundleLibRuntimeToDirDebug
+> Task :feature:discovery:bundleLibRuntimeToDirDebug
+> Task :feature:project:bundleLibRuntimeToDirDebug
+> Task :feature:app-promotion:bundleLibRuntimeToDirDebug
+> Task :feature:group-promotion:bundleLibRuntimeToDirDebug
+> Task :feature:team-leader:bundleLibRuntimeToDirDebug
+> Task :feature:content-management:bundleLibRuntimeToDirDebug
+> Task :feature:activity:bundleLibRuntimeToDirDebug
+> Task :feature:chat:bundleLibRuntimeToDirDebug
+> Task :feature:media:bundleLibRuntimeToDirDebug
+> Task :core:designsystem:bundleLibRuntimeToDirDebug
+> Task :core:network:bundleLibRuntimeToDirDebug
+> Task :app:mergeLibDexDebug
+> Task :app:dexBuilderDebug
+> Task :app:mergeProjectDexDebug
+> Task :app:mergeDebugJniLibFolders
+> Task :core:designsystem:copyDebugJniLibsProjectOnly
+> Task :core:network:copyDebugJniLibsProjectOnly
+> Task :feature:activity:copyDebugJniLibsProjectOnly
+> Task :feature:app-promotion:copyDebugJniLibsProjectOnly
+> Task :feature:auth:copyDebugJniLibsProjectOnly
+> Task :feature:chat:copyDebugJniLibsProjectOnly
+> Task :feature:content-management:copyDebugJniLibsProjectOnly
+> Task :feature:discovery:copyDebugJniLibsProjectOnly
+> Task :feature:group-promotion:copyDebugJniLibsProjectOnly
+> Task :feature:identity:copyDebugJniLibsProjectOnly
+> Task :feature:media:copyDebugJniLibsProjectOnly
+> Task :feature:project:copyDebugJniLibsProjectOnly
+> Task :feature:shell:copyDebugJniLibsProjectOnly
+> Task :feature:startup:copyDebugJniLibsProjectOnly
+> Task :feature:team-leader:copyDebugJniLibsProjectOnly
+> Task :app:mergeDebugNativeLibs
+
+> Task :app:stripDebugDebugSymbols
+Unable to strip the following libraries, packaging them as they are: libandroidx.graphics.path.so. Run with --info option to learn more.
+
+> Task :app:validateSigningDebug
+> Task :app:writeDebugAppMetadata
+> Task :app:writeDebugSigningConfigVersions
+> Task :app:packageDebug
+> Task :app:createDebugApkListingFileRedirect
+> Task :app:assembleDebug
+> Task :core:designsystem:bundleDebugAar
+> Task :core:designsystem:assembleDebug
+> Task :core:network:bundleDebugAar
+> Task :core:network:assembleDebug
+> Task :feature:activity:bundleDebugAar
+> Task :feature:activity:assembleDebug
+> Task :feature:app-promotion:bundleDebugAar
+> Task :feature:app-promotion:assembleDebug
+> Task :feature:auth:bundleDebugAar
+> Task :feature:auth:assembleDebug
+> Task :feature:chat:bundleDebugAar
+> Task :feature:chat:assembleDebug
+> Task :feature:content-management:bundleDebugAar
+> Task :feature:content-management:assembleDebug
+> Task :feature:discovery:bundleDebugAar
+> Task :feature:discovery:assembleDebug
+> Task :feature:group-promotion:bundleDebugAar
+> Task :feature:group-promotion:assembleDebug
+> Task :feature:identity:bundleDebugAar
+> Task :feature:identity:assembleDebug
+> Task :feature:media:bundleDebugAar
+> Task :feature:media:assembleDebug
+> Task :feature:project:bundleDebugAar
+> Task :feature:project:assembleDebug
+> Task :feature:shell:bundleDebugAar
+> Task :feature:shell:assembleDebug
+> Task :feature:startup:bundleDebugAar
+> Task :feature:startup:assembleDebug
+> Task :feature:team-leader:bundleDebugAar
+> Task :feature:team-leader:assembleDebug
+
+BUILD SUCCESSFUL in 3m 44s
+772 actionable tasks: 470 executed, 302 from cache
+Configuration cache entry stored.

@@ -1,0 +1,56 @@
+protocol_version: '1.0'
+cr_id: CR-0375
+title: 签署R13活动可观测性验收矩阵
+status: CLOSED
+created_at: '2026-07-26T18:55:44Z'
+updated_at: '2026-07-26T19:07:04Z'
+requester_actor_id: codex-root-r13-staging-20260727
+approver_actor_id: owner-standing-delegation-20260727
+task_id: TASK-R13-006
+session_id: SES-20260726T182231Z-EE79FA49
+user_request: 项目所有者批准持续开发并授权常规开发决策由AI自行执行，不再逐次确认。
+reason: CR-0374已覆盖现场证据、报告、Release Manifest与Changelog，但未包含releases/R13/ACCEPTANCE_MATRIX.csv；TASK-R13-006验收要求必须将AC-R13-004从NOT_RUN更新为PASS，需最小精确扩展。
+original_rule: AC-R13-004仍为NOT_RUN，且CR-0374未登记releases/R13/ACCEPTANCE_MATRIX.csv，尽管同一冻结Commit的现场演练和24项证据哈希已通过。
+new_rule: 仅将AC-R13-004日志指标链路和业务告警可验证更新为PASS，证据路径精确指向TASK-R13-006现场报告和校验目录；其他R13验收项保持原状态。
+impact_summary: 最小扩展一份R13验收矩阵，不修改业务代码、API、数据库、配置、页面、生产环境或其他验收项。
+impact:
+  files:
+  - releases/R13/ACCEPTANCE_MATRIX.csv
+  pages: []
+  apis: []
+  database: []
+  configuration: []
+  ledger: []
+  tests:
+  - check_program_execution_plan.py;continuity strict gate;SHA256SUMS verification
+  releases:
+  - R13
+  migration_and_compatibility: 纯验收状态投影；与CR-0374和冻结Commit 410aef5327ec460d87775a33b8d1f41927a3f29e证据一致，无运行时迁移。
+user_confirmation: 批准，以后不要让我批准了 你自己持续开发就行了
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-26T18:56:13Z'
+  note: 批准最小精确范围，仅更新AC-R13-004证据状态；不扩大业务、生产或其他验收范围。
+machine_record: .continuity/change_requests/CR-0375.yaml
+document: docs/03-continuity/change-requests/CR-0375-签署R13活动可观测性验收矩阵.md
+decision_log:
+- at: '2026-07-26T18:57:42Z'
+  actor_id: codex-root-r13-staging-20260727
+  status: IMPLEMENTING
+  note: 按最小批准范围将AC-R13-004投影为PASS并绑定现场报告与证据目录。
+  session_id: SES-20260726T182231Z-EE79FA49
+- at: '2026-07-26T18:59:44Z'
+  actor_id: codex-root-r13-staging-20260727
+  status: IMPLEMENTED
+  note: AC-R13-004已按批准范围更新为PASS并精确绑定TASK-R13-006报告和现场证据目录，其他验收项保持原状态。
+  session_id: SES-20260726T182231Z-EE79FA49
+- at: '2026-07-26T19:07:04Z'
+  actor_id: codex-root-r13-staging-20260727
+  status: CLOSED
+  note: AC-R13-004验收矩阵签署和精确证据绑定已由Commit ab98e341归档，其他验收项未变。
+  session_id: SES-20260726T182231Z-EE79FA49
+implementation_commits:
+- 410aef5327ec460d87775a33b8d1f41927a3f29e
+- ab98e341
+session_ids:
+- SES-20260726T182231Z-EE79FA49

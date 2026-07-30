@@ -1,0 +1,100 @@
+protocol_version: '1.0'
+package_version: 1.2.3
+session_id: SES-20260718T165842Z-356A8138
+status: CLOSED
+actor:
+  id: codex-root
+  kind: AI_OR_HUMAN
+  host: unknown
+release: R03
+task_id: TASK-R03-007
+story_id: STORY-R03-004
+goal: 完成R03外部激活清单、Android回归APK、桌面/服务器/公网追溯和真机验收前机器门禁
+started_at: '2026-07-18T16:58:42Z'
+updated_at: '2026-07-18T17:24:52Z'
+takeover_of: null
+change_requests:
+- CR-0049
+- CR-0050
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions:
+  - artifacts/apk/R03/APK_MANIFEST.yaml
+  - artifacts/validation/r03-apk-delivery/delivery-evidence.json
+  - artifacts/validation/r03-task007-android/apk-signing.txt
+  - artifacts/validation/r03-task007-android/build-evidence.json
+  - artifacts/validation/r03-task007-android/gradle-build.log
+  - artifacts/reports/R03/TASK-R03-007-android-apk.md
+  source: story+explicit+approved-cr:CR-0050
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  base_commit: 25d8171c76e0cef323a717ad66ac85ccd69371c3
+  start_head: 25d8171c76e0cef323a717ad66ac85ccd69371c3
+  upstream: origin/task/TASK-R03-001
+  initial_worktree_state: CLEAN
+lease:
+  duration_minutes: 240
+  renewed_at: '2026-07-18T17:24:50Z'
+  expires_at: '2026-07-18T21:24:50Z'
+checkpoint_sequence: 5
+latest_checkpoint: .continuity/checkpoints/SES-20260718T165842Z-356A8138/0005.yaml
+session_log: docs/03-continuity/sessions/2026-07/SES-20260718T165842Z-356A8138.md
+next_step: 提交关闭元数据Commit，然后运行pre-push/CI门禁
+context_pack:
+  yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
+  markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
+  manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+  context_hash: 7b975ef41a470d3aedb0f159a6c514f054239eed89f38116928c37ea1baec861
+  generated_at: '2026-07-18T17:24:51Z'
+handoff_bundle: null
+closure:
+  result: BLOCKED
+  summary: R03机器实现、测试、外部清单和固定签名APK四方交付均PASS；等待项目所有者对hhy-r03-3a913c9-debug.apk完成真机安装、启动与自动验证码路径验收
+  code_commit: 16023e53e214d0f82486783578657814f4671f85
+  next_release: null
+  next_task: null
+  blocked_advance: false
+  user_confirmation: null
+  metadata_commit: PENDING
+  push_verification: CI_REQUIRED_AFTER_METADATA_COMMIT
+  started_at: '2026-07-18T17:24:49Z'
+  closure_checkpoint_id: CP-SES-20260718T165842Z-356A8138-0005
+  closed_at: '2026-07-18T17:24:52Z'
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 只剩项目所有者真机外部门禁，无法由并行工作替代
+closed_at: '2026-07-18T17:24:52Z'

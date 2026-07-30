@@ -1,0 +1,56 @@
+protocol_version: '1.0'
+cr_id: CR-0310
+title: 同步云环境只读单次探针测试合同
+status: CLOSED
+created_at: '2026-07-24T11:19:31Z'
+updated_at: '2026-07-24T14:20:09Z'
+requester_actor_id: codex-root-r11-close
+approver_actor_id: codex-independent-r11-close-reviewer
+task_id: TASK-R11-008
+session_id: SES-20260724T110611Z-0D26E8D5
+user_request: 持续开发并完成R11机器关闭，不因确定性门禁问题停止
+reason: 云环境实现已合并为单次SSH key=value探针，但测试仍模拟旧版三次SSH返回，导致R11关闭全量Python测试两项误失败
+original_rule: 测试按旧版hostname、image id、volume列表三次SSH调用模拟云环境预检
+new_rule: 测试必须按当前android_probe_command的一次SSH key=value输出验证镜像、Gradle缓存、API36平台卷、swap、可用内存、负载和构建锁；错误镜像以同一只读命令非零退出验证阻断
+impact_summary: 仅同步过期单测与已存在的只读单次探针实现，不改云端环境、Android工具链、构建缓存或产品代码
+impact:
+  files:
+  - tests/test_cloud_environment.py
+  pages: []
+  apis: []
+  database: []
+  configuration: []
+  ledger: []
+  tests:
+  - python -m unittest tests.test_cloud_environment
+  - python -m unittest discover -s tests -p test_*.py
+  releases:
+  - R11
+  migration_and_compatibility: 无运行时迁移；保留旧策略键和阻断语义，只修测试模拟边界
+user_confirmation: 项目所有者要求持续开发并自主解决门禁问题，终端静默执行
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-24T11:20:06Z'
+  note: 实现已明确采用单次只读复合探针，旧三调用mock与当前返回协议不兼容；范围仅一项测试且继续断言无build/bootstrap
+machine_record: .continuity/change_requests/CR-0310.yaml
+document: docs/03-continuity/change-requests/CR-0310-同步云环境只读单次探针测试合同.md
+decision_log:
+- at: '2026-07-24T11:32:53Z'
+  actor_id: codex-root-r11-close
+  status: IMPLEMENTING
+  note: 正在同步云环境单次只读探针测试合同
+  session_id: SES-20260724T110611Z-0D26E8D5
+- at: '2026-07-24T11:32:57Z'
+  actor_id: codex-root-r11-close
+  status: IMPLEMENTED
+  note: 云环境单次只读探针测试已同步，定向3项全部通过且继续禁止docker build、sdkmanager和bootstrap
+  session_id: SES-20260724T110611Z-0D26E8D5
+- at: '2026-07-24T14:20:09Z'
+  actor_id: codex-root-r11-close
+  status: CLOSED
+  note: 云环境只读单次探针测试合同已由实现提交6bd3313e087de6afc6f7189c6a1791a9a198ae7f落地，定向与全量回归通过
+  session_id: SES-20260724T110611Z-0D26E8D5
+session_ids:
+- SES-20260724T110611Z-0D26E8D5
+implementation_commits:
+- 6bd3313e087de6afc6f7189c6a1791a9a198ae7f

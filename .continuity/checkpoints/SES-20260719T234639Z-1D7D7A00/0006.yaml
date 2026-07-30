@@ -1,0 +1,194 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260719T234639Z-1D7D7A00-0006
+session_id: SES-20260719T234639Z-1D7D7A00
+sequence: 6
+created_at: '2026-07-20T00:19:07Z'
+summary: CR-0109版本身份与CR-0111交付证据均已绑定已推送实现提交并进入IMPLEMENTED；R05-007仍只差项目所有者真机验收。
+next_step: 继续审计R05关闭资料；收到versionCode 10208真机通过反馈后执行accept、关闭CR和TASK-R05-007并进入R05-008。
+blockers: []
+decisions:
+- 仅在项目所有者明确真机通过后关闭两个已实现CR和任务，不提前写PASS。
+note: ''
+tests:
+- name: APK_DELIVERY_REVERIFY
+  result: PASS
+  evidence: artifacts/validation/r05-apk-delivery/delivery-evidence.json
+  note: ddb8277已推送且四方哈希一致
+- name: GIT_REMOTE_SYNC
+  result: PASS
+  evidence: ddb8277b9e58c46dd80eee1a54f129cd539fd8da
+  note: 本地HEAD与上游一致
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: ddb8277b9e58c46dd80eee1a54f129cd539fd8da
+  upstream: origin/task/TASK-R03-001
+  ahead: 0
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/change_requests/CR-0109.yaml'
+  - ' M .continuity/change_requests/CR-0111.yaml'
+  - ' M .continuity/sessions/SES-20260719T234639Z-1D7D7A00.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+  - ' M catalogs/change_request_index.csv'
+  - ' M catalogs/session_index.csv'
+  - ' M docs/03-continuity/change-requests/CR-0109-补充R05-Android-APK版本身份精确文件范围.md'
+  - ' M docs/03-continuity/change-requests/CR-0111-精确补充R05-007-APK交付证据文件.md'
+  recent_commits:
+  - "ddb8277b9e58c46dd80eee1a54f129cd539fd8da\t2026-07-20T08:17:26+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] test(android): archive R05\
+    \ APK delivery evidence"
+  - "3454ff232a66c83c8fd7f6f00dc95d6d078f63ef\t2026-07-20T07:50:41+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] chore(android): freeze R05\
+    \ test APK identity"
+  - "0c3aa012f4bdbfd59f0d591cf99632794fd8c612\t2026-07-20T07:46:13+08:00\tHHY Continuity Bootstrap\t[TASK-P00-001] chore(continuity): refresh\
+    \ clean context before R05-007"
+  - "c0bfa11a1aaf5de798465c72496150df15728cd4\t2026-07-20T07:42:26+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] chore(continuity): close TASK-R05-006\
+    \ as completed"
+  - "e764f2b94d1d97b6b4169e48d330fb43ab2e057d\t2026-07-20T07:41:27+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] chore(continuity): close R05\
+    \ staging change request"
+  - "c6399d0e079118c456545a2f4ec92661ddd2f9cd\t2026-07-20T07:39:18+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] test(observability): archive\
+    \ R05 staging evidence"
+  - "c2bc1ab632c9b64c4292c325653415a8259a8e51\t2026-07-20T07:17:01+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] feat(observability): add R05\
+    \ staging gates"
+  - "ae3bd21fe7e58d5bfedd256d21cdfae535653998\t2026-07-20T07:04:33+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] chore(continuity): close TASK-R05-005\
+    \ as completed"
+project_fingerprint:
+  sha256: f931dabd7efd198264d4198b7cec12043a655b3b0a0d51481d569df68f550e82
+  files:
+  - CHANGELOG.md
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+  - apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+  - artifacts/apk/R05/APK_MANIFEST.yaml
+  - docs/03-continuity/change-requests/CR-0109-补充R05-Android-APK版本身份精确文件范围.md
+  - docs/03-continuity/change-requests/CR-0110-补充R05-007-APK交付证据精确路径.md
+  - docs/03-continuity/change-requests/CR-0111-精确补充R05-007-APK交付证据文件.md
+  - releases/PROGRAM_EXECUTION_PLAN.yaml
+  - releases/R05/ACCEPTANCE_MATRIX.csv
+  - releases/R05/PARALLEL_EXECUTION_PLAN.yaml
+  file_count: 11
+  payload:
+    base_commit: 0c3aa012f4bdbfd59f0d591cf99632794fd8c612
+    files:
+    - path: CHANGELOG.md
+      state: FILE
+      size: 46047
+      sha256: 512dc33d8fae44916825d116597c1c2812881cdbb5af1d7fd22f16dc377b20f7
+    - path: apps/android/app/build.gradle.kts
+      state: FILE
+      size: 4705
+      sha256: 585293875546aec00412882992a767d5868646141aa6555e4af2c31af75e2556
+    - path: apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+      state: FILE
+      size: 520
+      sha256: 56ad9169098619cb451d9e18c70a22e9deb909711c12eb8e4c450cc26ccd1f7e
+    - path: apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+      state: FILE
+      size: 1025
+      sha256: 82a529d7e079f7158de5765c00a5e6977683e061419ae0f7defb393f8cfa6918
+    - path: artifacts/apk/R05/APK_MANIFEST.yaml
+      state: FILE
+      size: 673
+      sha256: 04cca7f34fe7bc361af2421ca3a1d1f170dd14c3b06ff39027ea2dbc6488815c
+    - path: docs/03-continuity/change-requests/CR-0109-补充R05-Android-APK版本身份精确文件范围.md
+      state: FILE
+      size: 2321
+      sha256: 2457416391ce2d66a6c8ca9a891d47bd98ed2ddd11fa3303363515287259f70f
+    - path: docs/03-continuity/change-requests/CR-0110-补充R05-007-APK交付证据精确路径.md
+      state: FILE
+      size: 2525
+      sha256: 7ea7a2a77787bbf3e87d0c52f6b265235b50ade68dd07cf74369b51935b7b0bd
+    - path: docs/03-continuity/change-requests/CR-0111-精确补充R05-007-APK交付证据文件.md
+      state: FILE
+      size: 3387
+      sha256: 3d8a27084d1ed3efdee721c872c08c7103386965f3b731cd302bd173e6245f55
+    - path: releases/PROGRAM_EXECUTION_PLAN.yaml
+      state: FILE
+      size: 35802
+      sha256: 8f07b807f972671d8270db374fad897fb0a36ed4cb3d4f6788dd12cf411dfb46
+    - path: releases/R05/ACCEPTANCE_MATRIX.csv
+      state: FILE
+      size: 795
+      sha256: b1b5f4be3ca00d944605668fcde25f7840a4e14aa226be20ced6749196243182
+    - path: releases/R05/PARALLEL_EXECUTION_PLAN.yaml
+      state: FILE
+      size: 3785
+      sha256: 38aeca3a61f5a73723627cf4dbf1fcedf5bd759234e99f6bfe6200984b140dda
+change_classification:
+  other:
+  - CHANGELOG.md
+  - artifacts/apk/R05/APK_MANIFEST.yaml
+  - releases/PROGRAM_EXECUTION_PLAN.yaml
+  - releases/R05/ACCEPTANCE_MATRIX.csv
+  - releases/R05/PARALLEL_EXECUTION_PLAN.yaml
+  code:
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+  - apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+  user_visible:
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+  - apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+  continuity:
+  - docs/03-continuity/change-requests/CR-0109-补充R05-Android-APK版本身份精确文件范围.md
+  - docs/03-continuity/change-requests/CR-0110-补充R05-007-APK交付证据精确路径.md
+  - docs/03-continuity/change-requests/CR-0111-精确补充R05-007-APK交付证据文件.md
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+- CHANGELOG
+change_requests:
+- CR-0109
+- CR-0110
+- CR-0111
+scope:
+  allowed_paths:
+  - apps/admin-web/**
+  - services/backend/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - tests/**
+  - docs/**
+  - catalogs/**
+  - releases/**
+  - design/**
+  - scripts/**
+  - CHANGELOG.md
+  approved_exceptions:
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+  - apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+  - artifacts/apk/R05/APK_MANIFEST.yaml
+  - artifacts/validation/r05-apk-delivery/delivery-evidence.json
+  - artifacts/validation/r05-task007-android/apk-badging.txt
+  - artifacts/validation/r05-task007-android/apk-sha256.txt
+  - artifacts/validation/r05-task007-android/apk-signing.txt
+  - artifacts/validation/r05-task007-android/apk-size.txt
+  - artifacts/validation/r05-task007-android/build-evidence.json
+  - artifacts/validation/r05-task007-android/documentation-gate.json
+  - artifacts/validation/r05-task007-android/embedded-api-count.txt
+  - artifacts/validation/r05-task007-android/embedded-placeholder-count.txt
+  - artifacts/validation/r05-task007-android/evidence-sha256.txt
+  - artifacts/validation/r05-task007-android/gradle-build.log
+  - artifacts/validation/r05-task007-android/source-archive-sha256.txt
+  - artifacts/validation/r05-task007-android/toolchain-image-id.txt
+  - artifacts/validation/r05-task007-android/zipalign.txt
+  - artifacts/reports/R05/TASK-R05-007-android-apk.md
+  - artifacts/reports/R05/R05-version-test-guide.md
+  source: story+explicit+approved-cr:CR-0109+approved-cr:CR-0111
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: CR状态与真机验收必须沿单一任务事件链推进，当前没有可独立写入的安全分区。
+event_hash: f77f6380ba9bfdfba9165f28b79d5aa038f1cb319c8ac8047cae78e3570460a9

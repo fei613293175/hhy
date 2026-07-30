@@ -1,0 +1,177 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260725T025042Z-A53070A0-0001
+session_id: SES-20260725T025042Z-A53070A0
+task_id: TASK-R12-003
+story_id: STORY-R12-008
+sequence: 1
+created_at: '2026-07-25T03:14:19Z'
+summary: TASK-R12-003阶段WIP：主控已实现发布管理内容切片；后台审核、账户摘要与内容审计三个既有委托切片执行中，尚未编译验证
+next_step: 收敛执行代理结果，主控审查后在obx-test运行受影响后端模块和PostgreSQL17测试
+blockers: []
+decisions: []
+note: 本机不安装Java、Android Studio或Android SDK；编译与数据库验证使用obx-test既有环境；Android候选验证延后至TASK-R12-007
+tests:
+- name: 本阶段未执行测试
+  result: NOT_RUN
+  evidence: ''
+  note: 阶段性WIP检查点；新增Java代码尚待obx-test编译和数据库测试，不声明测试通过
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: 8ab868d27c0a3768f4106e7f8bb71d1102363ebc
+  upstream: origin/task/TASK-R03-001
+  ahead: 0
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/ACTIVE_SESSION.yaml'
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/SESSION_INDEX.yaml'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/TASK_CLAIMS.yaml'
+  - ' M .continuity/TASK_TRANSITIONS.yaml'
+  - ' M CURRENT_STATUS.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+  - ' M catalogs/session_index.csv'
+  - ' M catalogs/task_transition_ledger.csv'
+  - ?? .continuity/sessions/SES-20260725T025042Z-A53070A0.yaml
+  - ?? docs/03-continuity/sessions/2026-07/SES-20260725T025042Z-A53070A0.md
+  - ?? services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/R12PublishingController.java
+  - ?? services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/R12PublishingControllerContractTest.java
+  - ?? services/backend/boot/src/test/java/cc/orbexa/hhy/content/R12PublishingPostgresStoreTest.java
+  - ?? services/backend/boot/src/test/java/cc/orbexa/hhy/content/R12PublishingServiceTest.java
+  - ?? services/backend/content/src/main/java/cc/orbexa/hhy/content/R12PublishingPostgresStore.java
+  - ?? services/backend/content/src/main/java/cc/orbexa/hhy/content/R12PublishingService.java
+  - ?? services/backend/content/src/main/java/cc/orbexa/hhy/content/R12PublishingStore.java
+  recent_commits:
+  - "8ab868d27c0a3768f4106e7f8bb71d1102363ebc\t2026-07-25T10:48:13+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] chore(continuity): close TASK-R12-002\
+    \ as completed"
+  - "4715464b8e3016619dc94217c138c1558393722e\t2026-07-25T10:45:49+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] chore(continuity): close R12\
+    \ database workflow CRs"
+  - "5e09dd4f80dc014611f93717b159f791403be457\t2026-07-25T10:42:37+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] feat(content): enforce R12\
+    \ publish lifecycle invariants"
+  - "67436cb48ca2e9fb3c921744dd992022d574ce5d\t2026-07-25T00:37:48+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] chore(continuity): close TASK-R12-001\
+    \ as completed"
+  - "3a48126e76fd55b4d9f187e7e73122d121cfa190\t2026-07-25T00:29:49+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] docs(release): freeze R12\
+    \ entry and visual baseline"
+  - "186a6cbddee8da6a9f6c74b4190f8550dbc4dee3\t2026-07-24T22:45:56+08:00\tHHY Continuity Bootstrap\t[STORY-R11-004] chore(continuity): close TASK-R11-008\
+    \ as completed"
+  - "b197e7d9c753f41914e270ce108b4a0c897df3fe\t2026-07-24T22:41:56+08:00\tHHY Continuity Bootstrap\t[STORY-R11-004] chore(continuity): close R11\
+    \ workflow CRs"
+  - "6bd3313e087de6afc6f7189c6a1791a9a198ae7f\t2026-07-24T22:16:23+08:00\tHHY Continuity Bootstrap\t[STORY-R11-004] fix(workflow): close R11 without\
+    \ duplicate local builds"
+project_fingerprint:
+  sha256: 8e4409d538b16fb82249cbd6495dd84dbbaf1275f6b3c8882838681244d1238c
+  files:
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/R12PublishingController.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/R12PublishingControllerContractTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R12PublishingPostgresStoreTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R12PublishingServiceTest.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R12PublishingPostgresStore.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R12PublishingService.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R12PublishingStore.java
+  file_count: 7
+  payload:
+    base_commit: 8ab868d27c0a3768f4106e7f8bb71d1102363ebc
+    files:
+    - path: services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/R12PublishingController.java
+      state: FILE
+      size: 8870
+      sha256: 16e3293c21e9d04741b3a7cfac9b9b319fe1dfd95cf2d1ee9ba8b9b2ceae6bc9
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/R12PublishingControllerContractTest.java
+      state: FILE
+      size: 2760
+      sha256: 0ecbef7538c5f571655db0a7f338b6e81d6c6d417118b55f72b3ed9a0cbe02f1
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/content/R12PublishingPostgresStoreTest.java
+      state: FILE
+      size: 6680
+      sha256: dfcb09de055654fe9022c19abc435580b1e89752741f84cb7af47c9ff38ef2bd
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/content/R12PublishingServiceTest.java
+      state: FILE
+      size: 8038
+      sha256: ba907602e56eaa598c8b73d08612a6f4a155b1337658c34b8e004dd853a83904
+    - path: services/backend/content/src/main/java/cc/orbexa/hhy/content/R12PublishingPostgresStore.java
+      state: FILE
+      size: 14535
+      sha256: 5386cb4ba5eabd6f9b38a10c6dc332895e8d67a6694c494d5866710067176565
+    - path: services/backend/content/src/main/java/cc/orbexa/hhy/content/R12PublishingService.java
+      state: FILE
+      size: 21923
+      sha256: 24c9643c5ceff98dde00273076ba3b980852e06ba71978a6e56fde1d7510b034
+    - path: services/backend/content/src/main/java/cc/orbexa/hhy/content/R12PublishingStore.java
+      state: FILE
+      size: 2098
+      sha256: 4dacdfca8b08398e252b03ca6738da8cb6a571ffa2deeb4e20413e91dce3b9b7
+change_classification:
+  code:
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/R12PublishingController.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/R12PublishingControllerContractTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R12PublishingPostgresStoreTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R12PublishingServiceTest.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R12PublishingPostgresStore.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R12PublishingService.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R12PublishingStore.java
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+change_requests: []
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions: []
+  source: story+explicit
+parallel_execution:
+  assessment: DELEGATED
+  delegated_workers: 3
+  workers:
+  - worker_id: r12_admin_review
+    responsibility: 后台审核、举报与申诉6个冻结接口
+    allowed_paths:
+    - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/admin
+    - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/admin
+  - worker_id: r12_account_summary
+    responsibility: 个人资料、会员与奖励账户3个冻结接口
+    allowed_paths:
+    - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/R12AccountSummaryController.java
+    - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/R12AccountSummaryControllerContractTest.java
+  - worker_id: r12_content_audit
+    responsibility: 只读审计主控发布管理实现与冻结契约一致性
+    allowed_paths:
+    - artifacts/validation/r12-content-audit
+  reason: ''
+event_hash: 0fa47ad1666e906ddeef8f5298a17527f89b3163be78fdc36866934ca7a809f6

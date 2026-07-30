@@ -52,7 +52,14 @@ stories:
   - 敏感字段按分级脱敏；高敏读取和后台写操作完整审计
   - 自动化覆盖：TST-ORDER_001-HAPPY
   definition_of_ready: 全部引用的页面/字段/状态/动作/API/配置/数据/测试均为FROZEN且无空缺
-  status: READY_FOR_IMPLEMENTATION
+  implementation_baseline:
+    cr_id: CR-0448
+    page: apps/admin-web/src/views/CommerceOrdersPage.vue
+    service: apps/admin-web/src/services/adminOrders.ts
+    report: artifacts/reports/R16/TASK-R16-004-admin-orders.md
+    machine_gate: admin typecheck and 121 tests PASS
+    visual_status: IN_REVIEW until R16 candidate screenshot
+  status: MACHINE_VERIFIED
 - story_id: STORY-R16-002
   release: R16
   title: 订单：订单详情
@@ -236,4 +243,16 @@ stories:
   - 变更必须通过CR，更新唯一事实源并重新生成全部派生目录和哈希
   - 完成Session Log、追踪矩阵、发布证据和下一任务交接
   definition_of_ready: DEFINITION_OF_READY.yaml全部阻断项PASS
-  status: READY_FOR_IMPLEMENTATION
+  data_baseline:
+    cr_id: CR-0441
+    migration: database/migrations/V045__r16_commerce_order_invariants.sql
+    invariant_report: artifacts/reports/R16/TASK-R16-002-data-invariants.md
+    status: PASS
+  backend_baseline:
+    cr_ids:
+    - CR-0442
+    - CR-0443
+    operation_ids: 10
+    report: artifacts/reports/R16/TASK-R16-003-backend.md
+    status: PASS
+  status: IMPLEMENTING

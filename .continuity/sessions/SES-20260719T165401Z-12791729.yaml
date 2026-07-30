@@ -1,0 +1,92 @@
+protocol_version: '1.0'
+package_version: 1.2.3
+session_id: SES-20260719T165401Z-12791729
+status: CLOSED
+actor:
+  id: codex-root
+  kind: AI_OR_HUMAN
+  host: unknown
+release: R05
+task_id: TASK-R05-003
+story_id: STORY-R05-008
+goal: 实现R05范围内9个实名认证客户端与后台接口，覆盖权限、幂等、错误码、状态机、供应商调用边界与敏感审计
+started_at: '2026-07-19T16:54:01Z'
+updated_at: '2026-07-19T18:30:07Z'
+takeover_of: null
+change_requests: []
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions: []
+  source: story+explicit
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  base_commit: fa3f2bc052b4446a92757ab0cb0b2086d50e4754
+  start_head: fa3f2bc052b4446a92757ab0cb0b2086d50e4754
+  upstream: origin/task/TASK-R03-001
+  initial_worktree_state: CLEAN
+lease:
+  duration_minutes: 240
+  renewed_at: '2026-07-19T18:30:05Z'
+  expires_at: '2026-07-19T22:30:05Z'
+checkpoint_sequence: 9
+latest_checkpoint: .continuity/checkpoints/SES-20260719T165401Z-12791729/0009.yaml
+session_log: docs/03-continuity/sessions/2026-07/SES-20260719T165401Z-12791729.md
+next_step: 提交关闭元数据Commit，然后运行pre-push/CI门禁
+context_pack:
+  yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
+  markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
+  manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+  context_hash: 6a1d337e755c1649fc965246ab50430595318f508ce04179a518caa9fe3d1817
+  generated_at: '2026-07-19T18:30:07Z'
+handoff_bundle: null
+closure:
+  result: COMPLETED
+  summary: R05-003九个冻结实名认证接口、生产活体供应商适配、权限幂等审计Outbox、V023-V025迁移回滚及PostgreSQL17真实存储集成门禁全部完成
+  code_commit: d4386cb733fe80b3d0282e2d91d6902bdef8bda7
+  next_release: R05
+  next_task: TASK-R05-004
+  blocked_advance: false
+  user_confirmation: null
+  metadata_commit: PENDING
+  push_verification: CI_REQUIRED_AFTER_METADATA_COMMIT
+  started_at: '2026-07-19T18:30:04Z'
+  closure_checkpoint_id: CP-SES-20260719T165401Z-12791729-0009
+  closed_at: '2026-07-19T18:30:07Z'
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: R05-003关闭需绑定同一实库修复提交、问题登记和验收证据，完成后才可切换客户端任务
+closed_at: '2026-07-19T18:30:07Z'

@@ -1,0 +1,42 @@
+schema: hhy.task-spec/v5.0
+id: TASK-R28-002
+release: R28
+ordinal: 2
+title: H5品牌宣传、邀请与下载数据迁移与领域不变量
+kind: database
+mode: worker
+source:
+  path: releases/R28/TASKS.yaml
+  original_id: TASK-R28-002
+requirements:
+- REQ-H5-001
+- REQ-CMS-001
+- REQ-DOMAIN-001
+- REQ-APK-001
+depends_on:
+- TASK-R28-001
+objective: 实现/演进home_modules, banners, cms_articles, agreements, agreement_versions, user_agreement_acceptances, h5_page_configs，补齐唯一约束、状态历史、幂等键和回滚验证
+deliverables:
+- Flyway前向迁移与空库/升级库测试
+- 不变量属性测试
+acceptance:
+- 无TODO/生产Mock
+- 代码、文档、测试、追踪同步更新
+- Flyway前向迁移与空库/升级库测试
+- 不变量属性测试
+allowed_paths:
+- catalogs/**
+- contracts/**
+- database/**
+- docs/**
+- services/backend/**
+- tests/**
+risks:
+- database
+- production
+- secrets
+acceptance_commands:
+- python3 scripts/check_db_schema.py
+maximum_attempts: 3
+owner_verification: ASYNC_NON_BLOCKING_FOR_NEXT_RELEASE
+legacy_status: BLOCKED

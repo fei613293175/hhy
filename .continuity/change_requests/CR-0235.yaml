@@ -1,0 +1,64 @@
+protocol_version: '1.0'
+cr_id: CR-0235
+title: 将历史视觉审计改为单内容独立测试宿主
+status: IMPLEMENTING
+created_at: '2026-07-22T10:41:25Z'
+updated_at: '2026-07-22T10:42:02Z'
+requester_actor_id: codex-root-r08-008
+approver_actor_id: codex-reviewer-user-self-r08
+task_id: TASK-R08-008
+session_id: SES-20260722T093645Z-C7DB8EF0
+user_request: 项目所有者要求AI持续修复并自行判断历史页面截图，不因候选失败停止或让用户介入
+reason: 第2次Run 29912135157证明R07真实旅程已走完，但HistoricalVisualAuditTest外部mutableState切换仍未触发可靠重组；历史批次只剩最后一次有界尝试，必须消除共享宿主而不是重复微调等待方式
+original_rule: 复用CR-0233历史视觉覆盖与既有最多3次候选上限；首轮和第2轮失败证据必须保留，禁止原样重跑或伪造通过
+new_rule: 不新增规则；将HistoricalVisualAuditTest拆分为每个JUnit测试仅设置一次Compose内容，认证内部真实导航可保留，第3次为历史批次最后一次有依据候选
+impact_summary: 删除单测试共享screen状态切换，启动三态、认证状态和实名状态分别使用独立Compose宿主并继续调用同一生产组件；R07真实旅程保持第2轮已验证实现
+impact:
+  files:
+  - apps/android/app/src/androidTest/java/cc/orbexa/hhy/HistoricalVisualAuditTest.kt
+  - config/android-candidate-request.yaml
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - CHANGELOG.md
+  pages:
+  - SCR-APP-001
+  - SCR-APP-002
+  - SCR-APP-003
+  - SCR-AUTH-001
+  - SCR-AUTH-005
+  - SCR-AUTH-006
+  - SCR-AUTH-007
+  - SCR-AUTH-008
+  - SCR-ID-001
+  - SCR-ID-002
+  - SCR-ID-003
+  - SCR-ID-004
+  apis:
+  - 无协议变化
+  database:
+  - 无数据库变化
+  configuration:
+  - R08历史视觉候选尝试3且为最终有界尝试
+  ledger:
+  - 无
+  tests:
+  - HistoricalVisualAuditTest independent hosts compile
+  - obx-test fixed image AndroidTest compile
+  - GitHub R08 historical candidate attempt 3
+  releases:
+  - R08
+  migration_and_compatibility: 仅androidTest组织方式和候选尝试计数变化；debug生产组件选择器、Release业务、API、数据库和用户数据不变
+user_confirmation: 项目所有者已要求AI独立修复和审核历史页面并持续推进，不因候选失败停下等待人工介入
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-22T10:41:59Z'
+  note: 批准消除共享Compose宿主，独立测试各自只设置一次生产组件内容；第3次为历史批次最终有界候选，不得继续同类试错
+machine_record: .continuity/change_requests/CR-0235.yaml
+document: docs/03-continuity/change-requests/CR-0235-将历史视觉审计改为单内容独立测试宿主.md
+decision_log:
+- at: '2026-07-22T10:42:02Z'
+  actor_id: codex-root-r08-008
+  status: IMPLEMENTING
+  note: 开始把历史视觉审计拆为单内容独立JUnit宿主并准备最终有界候选
+  session_id: SES-20260722T093645Z-C7DB8EF0
+session_ids:
+- SES-20260722T093645Z-C7DB8EF0

@@ -1,0 +1,12 @@
+{
+  "schema": "hhy.r05.test-adapter/v1",
+  "test_id": "TST-ID_001-HAPPY",
+  "central_runner": "scripts/run_r05_specialized_matrix.py",
+  "runner": "r05-java21-postgresql17-identity",
+  "selectors": [
+    "services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/IdentityServiceTest.java#createsEncryptedSessionWithoutReturningSensitiveInput",
+    "services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/IdentityProviderResultCoordinatorTest.java#verifiedFaceStoresPrivateEvidenceBeforeAtomicCompletion",
+    "services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/R05IdentityPostgresStoreTest.java#createAttachReadAndRetryBindUtcTimestampsAndEncryptProviderPayloadOnPostgres"
+  ],
+  "fault_classes": ["provider-success", "private-evidence", "postgres-transaction"]
+}

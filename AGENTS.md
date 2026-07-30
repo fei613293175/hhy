@@ -1,48 +1,104 @@
-# AGENTS.md — 合伙云 Pro V1.2.3 最高工程与无状态接续约束
+# 合伙云 Pro — Codex 执行内核（Governance V5.0）
 
-## 0. 对话不是事实源
+## 1. 唯一事实源
 
-旧对话、聊天摘要和个人记忆不得作为继续开发的必要输入。需求、决策、WIP、测试、阻塞和下一步必须写入仓库。新 AI 接手时不得要求用户重新解释仓库已有需求。
+每次运行先读取：
 
-## 1. 冷启动唯一流程
+```bash
+python3 tools/governance/hhy_governance.py active-task --format context
+```
 
-1. 运行 `python3 scripts/continuity.py resume`。
-2. 阅读输出指定的 Context Pack、`CURRENT_STATUS.yaml`、`NEXT_TASK.yaml`、Release DoR、Stories 和当前 Session/Checkpoint。
-3. 没有活跃会话时，只能执行输出的 `bootstrap` 或 `start` 命令。
-4. 存在 `HANDED_OFF` 会话时必须 `takeover`；过期/异常会话必须 `recover`。
-5. 禁止跳过唯一任务领取和租约直接修改项目文件。
+动态状态只认 `governance/STATE.yaml`；静态任务只认 `governance/task_specs/*.yaml`；产品功能只认 `docs/00-baseline/SOURCE_OF_TRUTH.md` 所指向的正式文档、合同、Catalog、代码与测试；视觉只认批准效果图、冻结视觉规格和 Design Token。
 
-## 2. 每次开发强制协议
+聊天、模型记忆、旧 `/goal`、`.continuity/**`、CR、Session、Checkpoint、Context Pack、手写 `CURRENT_STATUS.yaml`、`NEXT_TASK.yaml`、旧 `releases/*/TASKS.yaml` 均无权声明当前进度。
 
-- 同一时间只允许一个 ACTIVE Session 和一个相同 Task/Story Claim。
-- 首次产生项目变化、每60分钟、关键测试后、提交/推送/交接/切换AI前必须 `checkpoint`。
-- 项目变化时检查点必须记录测试；不能用聊天中的“测过了”替代证据。
-- 检查点后再次修改文件必须重新检查点，旧检查点不能提交。
-- 每个 Commit 必须绑定 Task、Story（存在时）、Session、Checkpoint、Tests、CR。
-- Git Hooks 和 CI 对每个非合并 Commit 重验，禁止通过 `--no-verify` 绕过远程门禁。
-- 交接必须生成 Handoff Bundle；另一个 AI 仅凭仓库/交接包恢复，不读取旧对话。
+## 2. 两种运行身份
 
-## 3. 变更控制
+### Orchestrator
 
-冻结需求、页面、API、数据库、配置、状态机、资金或架构发生变化前必须：
+仓库根目录没有 `governance/runtime/ACTIVE_TASK.json` 时，只能执行只读诊断，或启动：
 
-`cr-create → cr-amend → 不同Actor cr-approve → checkpoint → commit`
+```bash
+python3 tools/governance/hhy_governance.py run-once
+python3 tools/governance/hhy_governance.py run-loop --max-runs 20
+```
 
-申请人不得自审；空壳 CR 不得审批。Bug 修复同时更新 Problem Registry 和回归测试。
+Orchestrator 负责选择任务、创建隔离 worktree、启动全新 Codex 临时会话、创建候选 Commit、运行独立 Gate、写入唯一状态并切换下一任务。
 
-## 4. 产品与工程事实源
+### Worker
 
-1. V1.2.2 产品/页面施工主文档和已批准 CR/ADR。
-2. OpenAPI、WebSocket、数据库、状态机和配置契约。
-3. 页面字段/状态/动作/后台运营规格和追踪矩阵。
-4. Release DoR、Stories、Tasks、Acceptance。
-5. `.continuity/` 会话、检查点、事件哈希链和 Context Pack。
-6. UI 参考图只提供视觉参考，不能新增业务。
+隔离 worktree 存在 `ACTIVE_TASK.json` 时，即为 Worker。一次 Worker 只执行一个 Task 的一次 Attempt，不得领取下一任务。
 
-## 5. 资金、安全、配置和发布
+## 3. Worker 永久禁止
 
-沿用 V1.2.2 全部硬规则：整数分、不可变账本、幂等、红包不超发、秘密只存 SecretRef、生产变更双人复核、Android 产物绑定 Commit/签名/SHA/测试。
+Worker 不得：
 
-## 6. 会话结束
+1. 修改 `AGENTS.md`、`governance/**`、`tools/governance/**`、`.codex/**`、`.github/workflows/**`、`.githooks-v5/**`、`tests/governance_v5/**`；
+2. 修改状态、计划、Task 规格、Schema、Gate、CI、验收标准或批准视觉参考；
+3. 执行 `git add/commit/push/pull/merge/rebase/tag/reset/checkout/switch/worktree/cherry-pick/revert/clean/stash`；
+4. 自行声明正式 PASS、Machine Close、Owner PASS 或 Formal Release；
+5. 创建 Attempt 4、Attempt 例外、失败预算扩展或绕过字段；
+6. 删除、跳过、弱化测试，关闭检查或伪造证据；
+7. 在 Candidate 后修改冻结产品源码；
+8. 借自查重新规划整个项目；
+9. 因 Owner 尚未反馈而阻止不受影响的下一版本机器开发；
+10. 把旧 Continuity、CR、Session、Checkpoint 恢复为活动控制面。
 
-完成实现 Commit 后执行 `continuity.py close`，生成关闭检查点和关闭元数据 Commit；更新 Release、Task、Changelog、Context Pack、CURRENT_STATUS 和 NEXT_TASK。未形成可验证仓库记录的工作不算完成。
+## 4. 有限尝试与停止
+
+每个 Task 一共三次，不按错误指纹重新计数：
+
+| Attempt | 固定策略 |
+|---:|---|
+| 1 | 直接实现或修复 |
+| 2 | 全新会话，先构造最小复现并定位根因 |
+| 3 | 全新会话，从权威基线采用一个替代实现 |
+| 3 后仍失败 | `FAILED_BOUNDED`，禁止继续 |
+
+相同工具输入在相同 Git Diff 上第二次出现时拒绝执行。相同错误且 Diff 未变化时结束本次 Attempt。
+
+真实外部依赖或基础设施缺失使用 `EXTERNAL_BLOCKED` / `INFRASTRUCTURE_BLOCKED`，不消耗工程 Attempt，也不自动重试；必须有白名单代码、真实证据和解除条件。
+
+## 5. 什么算进展
+
+只接受：
+
+- 允许路径内的产品代码或测试有效 Diff；
+- 失败测试集合减少；
+- 新增稳定复现；
+- 验收项由 FAIL 变 PASS；
+- 绑定具体 Commit 的新构建或验证证据；
+- 可复核的外部阻断证据。
+
+规划、总结、自证、CR、Checkpoint、时间戳、索引、注释、格式或重复命令均不算进展。
+
+## 6. Worker 终止结果
+
+只允许符合 Schema 的：
+
+- `CANDIDATE_READY`
+- `ATTEMPT_FAILED`
+- `EXTERNAL_BLOCKED`
+- `INFRASTRUCTURE_BLOCKED`
+
+Worker 无权输出正式 PASS。
+
+## 7. 门禁分层
+
+- `task`：当前任务及因果风险范围；
+- `module`：当前模块与当前 Release 集成；
+- `freeze`：所有会修改源码的审计必须在此之前完成；
+- `candidate`：冻结 Commit 的完整编译、全量测试、模拟器、Runtime 截图和 APK 身份；
+- `release`：Owner、精确 Tag、生产激活与回滚。
+
+普通 Task 不运行发布级流程。全历史视觉仅在共享 UI 基础变化或明确历史视觉审计任务时运行。
+
+## 8. 不可降低的硬保护
+
+资金、支付、提现、红包预算、账本不变量；秘密和证书扫描；认证授权与隐私；空库/升级库迁移和回滚；OpenAPI/WebSocket 兼容；APK Commit/SHA/version/signing 身份；产品与视觉合同；Owner、正式 Tag、生产激活和回滚证据，均不得为了推进而弱化。
+
+## 9. Candidate 与版本顺序
+
+Candidate、APK、Runtime 截图和 Gate 报告必须绑定同一冻结 Commit。冻结后任何产品源码变化自动令 Candidate 失效并返回开发状态。
+
+版本只能相邻推进。当前 R14 先执行 `TASK-R14-RECOVERY-001`；R14 `MACHINE_CLOSED` 后只激活 R15。Owner 验收保持异步，但正式发布必须 Owner PASS。R32 完成后写入 `governance/GOAL_COMPLETE.json`，不得继续生成新任务。

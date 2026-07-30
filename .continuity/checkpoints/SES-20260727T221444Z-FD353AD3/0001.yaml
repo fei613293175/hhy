@@ -1,0 +1,284 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260727T221444Z-FD353AD3-0001
+session_id: SES-20260727T221444Z-FD353AD3
+task_id: TASK-R14-004
+story_id: STORY-R14-001
+sequence: 1
+created_at: '2026-07-27T23:18:25Z'
+summary: STORY-R14-001 Android私聊详情、四类消息合同、PRIVATE_CHAT图片闭环、类型安全路由及R08至R11真实会话入口已完成并通过受影响验证
+next_step: 提交并推送STORY-R14-001后原子切换到STORY-R14-002会话列表实现
+blockers: []
+decisions:
+- 最终设备截图、AI视觉PASS和R14测试APK统一留在R14大版本候选阶段，本Story不提前声明视觉关闭
+note: CR-0422状态已推进至IMPLEMENTED；无邀请码或注册问题工作
+tests:
+- name: android-affected-build-tests
+  result: PASS
+  evidence: obx-test hhy-r14-client-fKeLja8 BUILD SUCCESSFUL in 3m4s
+  note: core-network feature-chat app单测与app编译通过
+- name: android-chat-app-lint
+  result: PASS
+  evidence: obx-test hhy-r14-client-fKeLja9 BUILD SUCCESSFUL in 6m18s
+  note: feature-chat与app lintDebug通过
+- name: r14-contract-gates
+  result: PASS
+  evidence: R14_ENTRY_CONTRACT_OK and API_CONTRACT_OK
+  note: R14入口与API合同通过
+- name: generated-ui-gates
+  result: PASS
+  evidence: GENERATED_ASSETS_OK ANDROID_UI_FOUNDATION_GATE PASS UI_VISUAL_CATALOG_OK
+  note: 生成资产与静态UI目录通过
+- name: git-diff-check
+  result: PASS
+  evidence: git diff --check exit 0
+  note: 仅有既有行尾转换警告
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: 2c39d9cd68f2ad48808c1bb99c467aab689e7adc
+  upstream: origin/task/TASK-R03-001
+  ahead: 0
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/ACTIVE_SESSION.yaml'
+  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/SESSION_INDEX.yaml'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/TASK_CLAIMS.yaml'
+  - ' M .continuity/TASK_TRANSITIONS.yaml'
+  - ' M CHANGELOG.md'
+  - ' M CURRENT_STATUS.yaml'
+  - ' M apps/android/app/build.gradle.kts'
+  - ' M apps/android/app/src/androidTest/java/cc/orbexa/hhy/AuthenticatedNavigationTest.kt'
+  - ' M apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt'
+  - ' M apps/android/app/src/test/java/cc/orbexa/hhy/NavigationPolicyTest.kt'
+  - ' M apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyIcons.kt'
+  - ' M apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyTokens.kt'
+  - ' M apps/android/feature/app-promotion/src/main/java/cc/orbexa/hhy/apppromotion/R09AppScreens.kt'
+  - ' M apps/android/feature/group-promotion/src/main/java/cc/orbexa/hhy/grouppromotion/R10GroupScreens.kt'
+  - ' M apps/android/feature/project/src/main/java/cc/orbexa/hhy/project/R08ProjectScreens.kt'
+  - ' M apps/android/feature/team-leader/src/main/java/cc/orbexa/hhy/teamleader/R11TeamLeaderDetailScreen.kt'
+  - ' M apps/android/settings.gradle.kts'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+  - ' M catalogs/change_request_index.csv'
+  - ' M catalogs/session_index.csv'
+  - ' M catalogs/task_transition_ledger.csv'
+  - ?? .continuity/change_requests/CR-0422.yaml
+  - ?? .continuity/sessions/SES-20260727T221444Z-FD353AD3.yaml
+  - ?? apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR14Api.kt
+  - ?? apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ContractR14ApiTest.kt
+  - ?? apps/android/feature/chat/build.gradle.kts
+  - ?? apps/android/feature/chat/src/androidTest/java/cc/orbexa/hhy/chat/R14ChatDetailScreenTest.kt
+  - ?? apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ChatDetailScreen.kt
+  - ?? apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ChatState.kt
+  - ?? apps/android/feature/chat/src/test/java/cc/orbexa/hhy/chat/R14ChatStateTest.kt
+  - ?? docs/03-continuity/change-requests/CR-0422-实现R14-Android私聊详情与真实会话导航.md
+  - ?? docs/03-continuity/sessions/2026-07/SES-20260727T221444Z-FD353AD3.md
+  recent_commits:
+  - "2c39d9cd68f2ad48808c1bb99c467aab689e7adc\t2026-07-28T06:12:21+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(continuity): close TASK-R14-003\
+    \ as completed"
+  - "0c646738b2173d50e2585bb7deb492805cf18f1f\t2026-07-28T06:09:52+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(continuity): bind R14\
+    \ chat implementation"
+  - "2df87e99d07af9cbd123d375f0717cb7abaae004\t2026-07-28T06:06:10+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] feat(chat): implement R14\
+    \ direct messaging backend"
+  - "d851ca4432d3a372732bdf983e6bfb57bd605c1e\t2026-07-28T04:36:11+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(continuity): close TASK-R14-002\
+    \ as completed"
+  - "34386e20bc32a889b1fa516ff4ad819509272ec4\t2026-07-28T04:34:01+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(continuity): bind R14\
+    \ data implementation"
+  - "83d65cfb47006e18055397de0320efeeb9d6f844\t2026-07-28T04:31:06+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] feat(chat): enforce R14 data\
+    \ invariants"
+  - "d03ab06cd9d8c4552b8b8e5f57f3ccca3f6bba6d\t2026-07-28T03:36:58+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(continuity): close TASK-R14-001\
+    \ as completed"
+  - "ccd87aa7bd04618d03bfb65e9d8cc19162ad1831\t2026-07-28T03:27:19+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(continuity): bind R14\
+    \ entry CRs"
+project_fingerprint:
+  sha256: 65436daa3a71d3fb999cad9eeb08c3842f68b1b73921858d449fbc56fb44ee36
+  files:
+  - CHANGELOG.md
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/androidTest/java/cc/orbexa/hhy/AuthenticatedNavigationTest.kt
+  - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+  - apps/android/app/src/test/java/cc/orbexa/hhy/NavigationPolicyTest.kt
+  - apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyIcons.kt
+  - apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyTokens.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR14Api.kt
+  - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ContractR14ApiTest.kt
+  - apps/android/feature/app-promotion/src/main/java/cc/orbexa/hhy/apppromotion/R09AppScreens.kt
+  - apps/android/feature/chat/build.gradle.kts
+  - apps/android/feature/chat/src/androidTest/java/cc/orbexa/hhy/chat/R14ChatDetailScreenTest.kt
+  - apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ChatDetailScreen.kt
+  - apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ChatState.kt
+  - apps/android/feature/chat/src/test/java/cc/orbexa/hhy/chat/R14ChatStateTest.kt
+  - apps/android/feature/group-promotion/src/main/java/cc/orbexa/hhy/grouppromotion/R10GroupScreens.kt
+  - apps/android/feature/project/src/main/java/cc/orbexa/hhy/project/R08ProjectScreens.kt
+  - apps/android/feature/team-leader/src/main/java/cc/orbexa/hhy/teamleader/R11TeamLeaderDetailScreen.kt
+  - apps/android/settings.gradle.kts
+  - docs/03-continuity/change-requests/CR-0422-实现R14-Android私聊详情与真实会话导航.md
+  file_count: 20
+  payload:
+    base_commit: 2c39d9cd68f2ad48808c1bb99c467aab689e7adc
+    files:
+    - path: CHANGELOG.md
+      state: FILE
+      size: 194544
+      sha256: 9101a3bae454fbcaf6c7ab9db9418e759e6c7844c9393b37425c208adb030713
+    - path: apps/android/app/build.gradle.kts
+      state: FILE
+      size: 5451
+      sha256: e048eee2c7d233420b866f724499f6e9fd37394c07325a06676939c0c1338859
+    - path: apps/android/app/src/androidTest/java/cc/orbexa/hhy/AuthenticatedNavigationTest.kt
+      state: FILE
+      size: 4169
+      sha256: 1ae2930d09687d257982212337e48871f5fcdacc6e185521b88dc7dcae780801
+    - path: apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+      state: FILE
+      size: 54858
+      sha256: 9a2e51145e5a4716933a1f4117f4eeba6e6eda192f6bb275cee039f35f725f33
+    - path: apps/android/app/src/test/java/cc/orbexa/hhy/NavigationPolicyTest.kt
+      state: FILE
+      size: 2561
+      sha256: 299bc04f397b977d5b4d4e2764b72b08af6d568a0b30a4851c62d42eb8c9328a
+    - path: apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyIcons.kt
+      state: FILE
+      size: 4449
+      sha256: 5e297a8b36f9779b3b98d362a7ccf5a0cf5f46ec2788ff4401276cd3331e27a7
+    - path: apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyTokens.kt
+      state: FILE
+      size: 3066
+      sha256: cd06666b130ca617d027a4f8cede84d9c0a1147a499d7074177bf8b667afd0bd
+    - path: apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR14Api.kt
+      state: FILE
+      size: 15202
+      sha256: 91de60f97f2db911bad5001bbfb092fa91216cf733cd1bb18a541233521f64d7
+    - path: apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ContractR14ApiTest.kt
+      state: FILE
+      size: 3664
+      sha256: 74796f72b8df98d9165ef0c1b2eddb377b81a25b581308e4764af393f525b2da
+    - path: apps/android/feature/app-promotion/src/main/java/cc/orbexa/hhy/apppromotion/R09AppScreens.kt
+      state: FILE
+      size: 44367
+      sha256: c88c8df7bc3a2ab2a44ff954bc5b4454f9bad96383f356f1a1e98100e1d9ea05
+    - path: apps/android/feature/chat/build.gradle.kts
+      state: FILE
+      size: 1557
+      sha256: 0706d65e10f3ab1abd1e67072c699fd9c90e28abebdcab3541a7c6f451c3f3cb
+    - path: apps/android/feature/chat/src/androidTest/java/cc/orbexa/hhy/chat/R14ChatDetailScreenTest.kt
+      state: FILE
+      size: 4368
+      sha256: b8ab3e9e5cd5790a2d77e51815b51959a4373f435359d67d55846732d61fdd99
+    - path: apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ChatDetailScreen.kt
+      state: FILE
+      size: 35204
+      sha256: b3a0ae1e895d1704311db9f3479b34eebf34b190f378f078996e73f444cec2be
+    - path: apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ChatState.kt
+      state: FILE
+      size: 7444
+      sha256: 9ebbd47700c11b532a3877df066b7a0f8248fbbf4c433d3cd2a91c986ea8543a
+    - path: apps/android/feature/chat/src/test/java/cc/orbexa/hhy/chat/R14ChatStateTest.kt
+      state: FILE
+      size: 3782
+      sha256: 0453db501d040489b761dea4f581f83089f5e8b43348195ad152542bacc238f2
+    - path: apps/android/feature/group-promotion/src/main/java/cc/orbexa/hhy/grouppromotion/R10GroupScreens.kt
+      state: FILE
+      size: 28668
+      sha256: 18ddf9575dec639d92d5dffad6e55c28ea180b903ae1ad2380472d9873d9f815
+    - path: apps/android/feature/project/src/main/java/cc/orbexa/hhy/project/R08ProjectScreens.kt
+      state: FILE
+      size: 35534
+      sha256: 980e3bf592fec4629925d16cca6a17d8c8307cb573c19d9b62eff4544080c0da
+    - path: apps/android/feature/team-leader/src/main/java/cc/orbexa/hhy/teamleader/R11TeamLeaderDetailScreen.kt
+      state: FILE
+      size: 20193
+      sha256: a53e6fe413ad6d992a54fa09d04aa752d9c27ccbaadd084218179457fea835e4
+    - path: apps/android/settings.gradle.kts
+      state: FILE
+      size: 773
+      sha256: c709d8b32145a1b11876592d5f6350445b066eda2bc79f6a750fdf5847646e8c
+    - path: docs/03-continuity/change-requests/CR-0422-实现R14-Android私聊详情与真实会话导航.md
+      state: FILE
+      size: 6843
+      sha256: 2c2a1048323de3cde29819010677427f8ada4c6f2aab486699066a0be1fe876f
+change_classification:
+  other:
+  - CHANGELOG.md
+  code:
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/androidTest/java/cc/orbexa/hhy/AuthenticatedNavigationTest.kt
+  - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+  - apps/android/app/src/test/java/cc/orbexa/hhy/NavigationPolicyTest.kt
+  - apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyIcons.kt
+  - apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyTokens.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR14Api.kt
+  - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ContractR14ApiTest.kt
+  - apps/android/feature/app-promotion/src/main/java/cc/orbexa/hhy/apppromotion/R09AppScreens.kt
+  - apps/android/feature/chat/build.gradle.kts
+  - apps/android/feature/chat/src/androidTest/java/cc/orbexa/hhy/chat/R14ChatDetailScreenTest.kt
+  - apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ChatDetailScreen.kt
+  - apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ChatState.kt
+  - apps/android/feature/chat/src/test/java/cc/orbexa/hhy/chat/R14ChatStateTest.kt
+  - apps/android/feature/group-promotion/src/main/java/cc/orbexa/hhy/grouppromotion/R10GroupScreens.kt
+  - apps/android/feature/project/src/main/java/cc/orbexa/hhy/project/R08ProjectScreens.kt
+  - apps/android/feature/team-leader/src/main/java/cc/orbexa/hhy/teamleader/R11TeamLeaderDetailScreen.kt
+  - apps/android/settings.gradle.kts
+  user_visible:
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/androidTest/java/cc/orbexa/hhy/AuthenticatedNavigationTest.kt
+  - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+  - apps/android/app/src/test/java/cc/orbexa/hhy/NavigationPolicyTest.kt
+  - apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyIcons.kt
+  - apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyTokens.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR14Api.kt
+  - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ContractR14ApiTest.kt
+  - apps/android/feature/app-promotion/src/main/java/cc/orbexa/hhy/apppromotion/R09AppScreens.kt
+  - apps/android/feature/chat/build.gradle.kts
+  - apps/android/feature/chat/src/androidTest/java/cc/orbexa/hhy/chat/R14ChatDetailScreenTest.kt
+  - apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ChatDetailScreen.kt
+  - apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ChatState.kt
+  - apps/android/feature/chat/src/test/java/cc/orbexa/hhy/chat/R14ChatStateTest.kt
+  - apps/android/feature/group-promotion/src/main/java/cc/orbexa/hhy/grouppromotion/R10GroupScreens.kt
+  - apps/android/feature/project/src/main/java/cc/orbexa/hhy/project/R08ProjectScreens.kt
+  - apps/android/feature/team-leader/src/main/java/cc/orbexa/hhy/teamleader/R11TeamLeaderDetailScreen.kt
+  - apps/android/settings.gradle.kts
+  continuity:
+  - docs/03-continuity/change-requests/CR-0422-实现R14-Android私聊详情与真实会话导航.md
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+- CHANGELOG
+change_requests:
+- CR-0422
+scope:
+  allowed_paths:
+  - apps/android/**
+  - services/backend/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - tests/**
+  - docs/**
+  - catalogs/**
+  - releases/**
+  - design/**
+  - scripts/**
+  - CHANGELOG.md
+  approved_exceptions: []
+  source: story+explicit
+parallel_execution:
+  assessment: DELEGATED
+  delegated_workers: 1
+  workers:
+  - worker_id: codex-r14-cr-review-20260728
+    responsibility: CR-0422独立计划复核
+    allowed_paths:
+    - .continuity/change_requests/CR-0422.yaml
+    - docs/03-continuity/change-requests/CR-0422-实现R14-Android私聊详情与真实会话导航.md
+  reason: 独立Actor已完成CR范围与测试计划复核；实现、真实编译和门禁由主控串行收口
+event_hash: 0ad8c04511bebad2b19e13a953ee9b672fb7e5a7fbc89733895fe866164c535b

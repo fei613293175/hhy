@@ -1,0 +1,105 @@
+{
+  "schema": "hhy.r14.specialized-evidence/v1",
+  "suite": "r14-java21-postgresql17-android-chat",
+  "source_commit": "dbd71c6673808e3f8a9e37f7f77efa97bef9ead9",
+  "environment": {
+    "java": "OpenJDK 21.0.9",
+    "postgresql": "PostgreSQL 17.10",
+    "android_gradle_jdk": "21",
+    "android_image": "hhy-android-toolchain:r01-46fb273@sha256:97a5b2d7ae4d6c4abab0c985b502597d0612f3a1e0941fd842008e30a4632607",
+    "executor": "obx-test",
+    "remote_root": "/tmp/hhy-r14-task005-dbd71c66.SFh5k4"
+  },
+  "results": [
+    {
+      "test_id": "TST-CHAT_001-HAPPY",
+      "status": "PASS",
+      "exit_code": 0,
+      "assertions": [
+        "四类冻结消息合同、文本发送和联系方式密文往返通过",
+        "真实PostgreSQL会话、消息、未读、已读、举报、拉黑和隐藏生命周期通过",
+        "Android聊天历史去重及网络合同通过"
+      ],
+      "artifacts": [
+        {"path": "backend-java21.log", "sha256": "7d18b8ce6050ac07eff24d9a27597556327ea9cfc489ee2aa29bfa18dd8b9dc7"},
+        {"path": "postgresql17.log", "sha256": "962cac3a4d7d2f631153d8981d57cbde979efa7aa831dc39b88a372e6975e1d4"},
+        {"path": "android-module.log", "sha256": "52a6c8bd7594f23e94eaee9325661db43f4f7c17d39960c537945a5653630bf3"}
+      ]
+    },
+    {
+      "test_id": "TST-CHAT_001-IDEMPOTENT",
+      "status": "PASS",
+      "exit_code": 0,
+      "assertions": [
+        "响应丢失后的同键重放只返回冻结快照且不重复写消息、Outbox或实时投递",
+        "同键异体和重复clientMessageId稳定冲突且零成功副作用",
+        "真实PostgreSQL重复clientMessageId整笔回滚且并发幂等只有一个所有者"
+      ],
+      "artifacts": [
+        {"path": "backend-java21.log", "sha256": "7d18b8ce6050ac07eff24d9a27597556327ea9cfc489ee2aa29bfa18dd8b9dc7"},
+        {"path": "postgresql17.log", "sha256": "962cac3a4d7d2f631153d8981d57cbde979efa7aa831dc39b88a372e6975e1d4"},
+        {"path": "android-module.log", "sha256": "52a6c8bd7594f23e94eaee9325661db43f4f7c17d39960c537945a5653630bf3"}
+      ]
+    },
+    {
+      "test_id": "TST-CHAT_001-REJECT",
+      "status": "PASS",
+      "exit_code": 0,
+      "assertions": [
+        "双向拉黑、非法媒体、数据库超时、配置超时和媒体存储超时均拒绝",
+        "失败路径不完成幂等记录、不写Outbox、不推送实时事件",
+        "事务异常同时回滚消息、Outbox、序列和实时投递"
+      ],
+      "artifacts": [
+        {"path": "backend-java21.log", "sha256": "7d18b8ce6050ac07eff24d9a27597556327ea9cfc489ee2aa29bfa18dd8b9dc7"},
+        {"path": "postgresql17.log", "sha256": "962cac3a4d7d2f631153d8981d57cbde979efa7aa831dc39b88a372e6975e1d4"},
+        {"path": "android-module.log", "sha256": "52a6c8bd7594f23e94eaee9325661db43f4f7c17d39960c537945a5653630bf3"}
+      ]
+    },
+    {
+      "test_id": "TST-CHAT_002-HAPPY",
+      "status": "PASS",
+      "exit_code": 0,
+      "assertions": [
+        "发送者ACK与接收者投递使用独立连续用户序列",
+        "真实PostgreSQL并发分配连续序列并保留过期补洞水位",
+        "已读、举报证据和Android权威分页补洞形成闭环"
+      ],
+      "artifacts": [
+        {"path": "backend-java21.log", "sha256": "7d18b8ce6050ac07eff24d9a27597556327ea9cfc489ee2aa29bfa18dd8b9dc7"},
+        {"path": "postgresql17.log", "sha256": "962cac3a4d7d2f631153d8981d57cbde979efa7aa831dc39b88a372e6975e1d4"},
+        {"path": "android-module.log", "sha256": "52a6c8bd7594f23e94eaee9325661db43f4f7c17d39960c537945a5653630bf3"}
+      ]
+    },
+    {
+      "test_id": "TST-CHAT_002-IDEMPOTENT",
+      "status": "PASS",
+      "exit_code": 0,
+      "assertions": [
+        "重复WebSocket事件不重复展示但会再次ACK",
+        "重复ACK不改写首次acked_at且已确认事件不进入重投",
+        "未确认事件最多记录六次投递并在上限后停止"
+      ],
+      "artifacts": [
+        {"path": "backend-java21.log", "sha256": "7d18b8ce6050ac07eff24d9a27597556327ea9cfc489ee2aa29bfa18dd8b9dc7"},
+        {"path": "postgresql17.log", "sha256": "962cac3a4d7d2f631153d8981d57cbde979efa7aa831dc39b88a372e6975e1d4"},
+        {"path": "android-module.log", "sha256": "52a6c8bd7594f23e94eaee9325661db43f4f7c17d39960c537945a5653630bf3"}
+      ]
+    },
+    {
+      "test_id": "TST-CHAT_002-REJECT",
+      "status": "PASS",
+      "exit_code": 0,
+      "assertions": [
+        "未鉴权连接、未来序列、错误ACK和非成员输入均被拒绝",
+        "提交后推送失败保留数据库投递供重试而不伪造送达",
+        "未知举报原因和失败权威分页均不产生完成信号或持久化副作用"
+      ],
+      "artifacts": [
+        {"path": "backend-java21.log", "sha256": "7d18b8ce6050ac07eff24d9a27597556327ea9cfc489ee2aa29bfa18dd8b9dc7"},
+        {"path": "postgresql17.log", "sha256": "962cac3a4d7d2f631153d8981d57cbde979efa7aa831dc39b88a372e6975e1d4"},
+        {"path": "android-module.log", "sha256": "52a6c8bd7594f23e94eaee9325661db43f4f7c17d39960c537945a5653630bf3"}
+      ]
+    }
+  ]
+}

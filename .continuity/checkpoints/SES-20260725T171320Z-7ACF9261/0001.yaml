@@ -1,0 +1,114 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260725T171320Z-7ACF9261-0001
+session_id: SES-20260725T171320Z-7ACF9261
+task_id: TASK-R12-005
+story_id: STORY-R12-008
+sequence: 1
+created_at: '2026-07-25T17:14:19Z'
+summary: 启动TASK-R12-005并审计六项冻结测试：test_cases仍为READY_TO_AUTOMATE，tests/r12与统一专项矩阵尚不存在；既有R08/R09/R11适配器模式可复用。
+next_step: 创建受控CR，将六个既有测试ID升级为AUTOMATED，新增tests/r12适配器、统一矩阵、真实Java/PostgreSQL故障注入证据和任务报告。
+blockers: []
+decisions:
+- 供应商异常只覆盖R12真实依赖：共享媒体存储和配置提供方；消息重复通过事务Outbox单次写入验证，不虚构R12私有供应商或消息消费者。
+note: 完整Android、模拟器、截图和APK仍不在TASK-R12-005执行。
+tests:
+- name: 本阶段未执行测试
+  result: NOT_RUN
+  evidence: ''
+  note: 当前仅完成只读测试缺口审计，尚未修改实现；CR批准并落地后在obx-test执行Java21与PostgreSQL17专项矩阵。
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: 1b18f744c6f28b918c6d3d38957de1a02ca00745
+  upstream: origin/task/TASK-R03-001
+  ahead: 0
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/ACTIVE_SESSION.yaml'
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/SESSION_INDEX.yaml'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/TASK_CLAIMS.yaml'
+  - ' M .continuity/TASK_TRANSITIONS.yaml'
+  - ' M CURRENT_STATUS.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+  - ' M catalogs/session_index.csv'
+  - ' M catalogs/task_transition_ledger.csv'
+  - ?? .continuity/sessions/SES-20260725T171320Z-7ACF9261.yaml
+  - ?? docs/03-continuity/sessions/2026-07/SES-20260725T171320Z-7ACF9261.md
+  recent_commits:
+  - "1b18f744c6f28b918c6d3d38957de1a02ca00745\t2026-07-26T01:11:28+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] chore(continuity): close TASK-R12-004\
+    \ as completed"
+  - "22bcc942eb801e3a6a36292aa8026aed845af852\t2026-07-26T01:08:50+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] chore(continuity): close client\
+    \ gate changes"
+  - "4366bd9392efe2e60b5aa9217428e71932368cf6\t2026-07-26T01:04:41+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] docs(release): close client\
+    \ implementation gate"
+  - "4a11d21d741c2f15f5e6b96f16f87bb0081fb588\t2026-07-26T00:57:51+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] chore(continuity): enter release\
+    \ closure"
+  - "3153ef9cafbcc06ffee8be92dac4f77435f43866\t2026-07-26T00:54:52+08:00\tHHY Continuity Bootstrap\t[STORY-R12-007] feat(android): implement me\
+    \ home"
+  - "1f9fd299e34657f878463f331838a80608cf3da4\t2026-07-25T23:29:26+08:00\tHHY Continuity Bootstrap\t[STORY-R12-007] chore(continuity): approve\
+    \ me home scope"
+  - "ee2cf43c79d79db896b79021afde60ba3c6b2f0c\t2026-07-25T23:00:44+08:00\tHHY Continuity Bootstrap\t[STORY-R12-007] chore(continuity): enter my\
+    \ home story"
+  - "7792d4321f284c0660f185878d2be70a60a3ecfc\t2026-07-25T22:55:59+08:00\tHHY Continuity Bootstrap\t[STORY-R12-006] feat(profile): implement personal\
+    \ profile flow"
+project_fingerprint:
+  sha256: 09f73ce842eefee12da79a0ca64c2d29e2a2ef80c99879af380c9a20d84f55b4
+  files: []
+  file_count: 0
+  payload:
+    base_commit: 1b18f744c6f28b918c6d3d38957de1a02ca00745
+    files: []
+change_classification: {}
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+change_requests: []
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions: []
+  source: story+explicit
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 六项测试共享同一R12领域服务、PostgreSQL不变量、测试目录和证据矩阵，需先由主控冻结边界后再实施。
+event_hash: 6be9afed3d9d0628f6bc39b86b3a1ec1da66c7fa521a27783e64ea82a34226cc

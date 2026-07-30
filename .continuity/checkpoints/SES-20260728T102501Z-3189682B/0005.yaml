@@ -1,0 +1,426 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260728T102501Z-3189682B-0005
+session_id: SES-20260728T102501Z-3189682B
+task_id: TASK-R16-003
+story_id: STORY-R16-001
+sequence: 5
+created_at: '2026-07-28T12:52:49Z'
+summary: CR-0446与CR-0447实施提交405b7fea已推送并关闭；R14消息页公网修复和APK+测试说明成对交付均形成机器事实
+next_step: 提交推送治理关闭记录，然后恢复TASK-R16-003关闭与R16-004
+blockers: []
+decisions: []
+note: ''
+tests:
+- name: r14-hotfix-governance
+  result: PASS
+  evidence: implementation 405b7fea pushed; CR-0446 CLOSED; CR-0447 CLOSED; desktop APK-guide pair verified
+  note: 线上R14候选28115保持healthy
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: 405b7fea889c853ff1fde22a733693be7b714b11
+  upstream: origin/task/TASK-R03-001
+  ahead: 0
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/change_requests/CR-0446.yaml'
+  - ' M .continuity/change_requests/CR-0447.yaml'
+  - ' M catalogs/change_request_index.csv'
+  - ' M catalogs/session_index.csv'
+  - ' M docs/03-continuity/change-requests/CR-0446-强制Android版本APK与桌面测试文档成对交付.md'
+  - ' M docs/03-continuity/change-requests/CR-0447-修正R14真机消息页公网后端版本错位.md'
+  recent_commits:
+  - "405b7fea889c853ff1fde22a733693be7b714b11\t2026-07-28T20:50:48+08:00\tHHY Continuity Bootstrap\t[STORY-R16-001] fix(r14): restore public conversation\
+    \ route and paired guide delivery"
+  - "63ebeca8ca54f087b18e0b9605dc879dd10bc4c4\t2026-07-28T20:05:28+08:00\tHHY Continuity Bootstrap\t[STORY-R16-001] feat(commerce): implement\
+    \ R16 product and order backend"
+  - "770563179ea2bd7f0bc391cd20fff0f8280cc511\t2026-07-28T18:22:18+08:00\tHHY Continuity Bootstrap\t[STORY-R16-001] chore(continuity): close TASK-R16-002\
+    \ as completed"
+  - "0f2abe482cd1ac4bc8cc2fd403dbdd3a80674f76\t2026-07-28T18:21:11+08:00\tHHY Continuity Bootstrap\t[STORY-R16-001] chore(governance): close R16\
+    \ data baseline"
+  - "7b956ed2896f32981a875dad1b76ce9f0d44e532\t2026-07-28T18:18:57+08:00\tHHY Continuity Bootstrap\t[STORY-R16-001] feat(database): freeze R16\
+    \ commerce invariants"
+  - "478e9a872f0c3596f8460ffb04fefaa0e9d73ae5\t2026-07-28T17:52:50+08:00\tHHY Continuity Bootstrap\t[STORY-R16-001] chore(continuity): start R16\
+    \ data invariants"
+  - "af7532bf4d6379c47f1dc123f4f37243d3760d77\t2026-07-28T17:49:45+08:00\tHHY Continuity Bootstrap\t[STORY-R16-004] chore(continuity): close TASK-R16-001\
+    \ as completed"
+  - "f67f78f86d9994ad85bf3d8deda9566e5f40df98\t2026-07-28T17:47:30+08:00\tHHY Continuity Bootstrap\t[STORY-R16-004] chore(governance): close R16\
+    \ entry baseline"
+project_fingerprint:
+  sha256: 9dd2c1f1136c6675723fbe21233ce5caab93feb8edf047c35724a3199d4589be
+  files:
+  - AGENTS.md
+  - CHANGELOG.md
+  - artifacts/apk/R14/APK_MANIFEST.yaml
+  - database/migrations/V046__r16_product_permission_alignment.sql
+  - database/migrations/V047__r16_commerce_contract_alignment.sql
+  - database/rollback/U046__r16_product_permission_alignment_DEV_ONLY.sql
+  - database/rollback/U047__r16_commerce_contract_alignment_DEV_ONLY.sql
+  - database/tests/r16_commerce_contract_alignment.sql
+  - database/tests/r16_product_permission_alignment.sql
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/change-requests/CR-0442-落地R16商品SKU报价与统一订单后端纵向链路.md
+  - docs/03-continuity/change-requests/CR-0443-前向对齐R16权益与时长冻结字段边界.md
+  - docs/03-continuity/change-requests/CR-0444-隔离R14-WebSocket容器生产配置与Mock测试上下文.md
+  - docs/03-continuity/change-requests/CR-0445-隔离后端Spring测试上下文的H2内存数据库.md
+  - docs/03-continuity/change-requests/CR-0446-强制Android版本APK与桌面测试文档成对交付.md
+  - docs/03-continuity/change-requests/CR-0447-修正R14真机消息页公网后端版本错位.md
+  - docs/05-app-build/APK持续交付强制规则_V1.2.2.md
+  - releases/R14/RELEASE_MANIFEST.yaml
+  - releases/R16/RELEASE_MANIFEST.yaml
+  - releases/R16/STORIES.yaml
+  - scripts/check_db_schema.py
+  - scripts/check_r14_public_conversations.py
+  - scripts/check_release_artifacts.py
+  - scripts/deliver_android_test_apk.py
+  - scripts/run_r16_database_invariants.sh
+  - scripts/switch_android_candidate_route.sh
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/admin/R16CommerceAdminController.java
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/realtime/R14WebSocketConfiguration.java
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/R16OrderController.java
+  - services/backend/boot/src/main/resources/db/migration/V046__r16_product_permission_alignment.sql
+  - services/backend/boot/src/main/resources/db/migration/V047__r16_commerce_contract_alignment.sql
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/R16CommerceModuleBoundaryTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/R16CommerceControllerContractTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/realtime/R14WebSocketConfigurationTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/commerce/R16CommercePostgresStoreTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/commerce/R16CommerceServiceTest.java
+  - services/backend/boot/src/test/resources/application-test.yml
+  - services/backend/commerce/src/main/java/cc/orbexa/hhy/commerce/R16CommerceContracts.java
+  - services/backend/commerce/src/main/java/cc/orbexa/hhy/commerce/R16CommercePostgresStore.java
+  - services/backend/commerce/src/main/java/cc/orbexa/hhy/commerce/R16CommerceService.java
+  - services/backend/commerce/src/main/java/cc/orbexa/hhy/commerce/R16CommerceStore.java
+  - tests/test_android_apk_delivery.py
+  - tests/test_android_candidate_route.py
+  - tests/test_r14_public_conversations.py
+  - tests/test_r16_backend_contract.py
+  - tests/test_release_close_gate.py
+  file_count: 46
+  payload:
+    base_commit: 770563179ea2bd7f0bc391cd20fff0f8280cc511
+    files:
+    - path: AGENTS.md
+      state: FILE
+      size: 15536
+      sha256: a110d6552e32deddbf58743c3012fbad2d038594d4792051be7190df7db29aa9
+    - path: CHANGELOG.md
+      state: FILE
+      size: 208673
+      sha256: 365aa639ff973ec47531c0990cb93e44b6550c35a7d4d88ffd649b1991403e92
+    - path: artifacts/apk/R14/APK_MANIFEST.yaml
+      state: FILE
+      size: 1226
+      sha256: 94fd69cd9ab86e3dc6d17ea80da69c0601cf8f2750e46e1d8e0868d97fdf3a3d
+    - path: database/migrations/V046__r16_product_permission_alignment.sql
+      state: FILE
+      size: 3206
+      sha256: 08d2dfb1ffaaf8e779dd92630166f7a8ffa9befb70dff62048a6d81a16504d22
+    - path: database/migrations/V047__r16_commerce_contract_alignment.sql
+      state: FILE
+      size: 1605
+      sha256: 709dad21763233b8f6f0852626be94f0adf07dbef3aa539dbcdc27531f7c9912
+    - path: database/rollback/U046__r16_product_permission_alignment_DEV_ONLY.sql
+      state: FILE
+      size: 1170
+      sha256: d676d590838394734f6ac873db83a9849061edf86d82646bed4f0ad926677e91
+    - path: database/rollback/U047__r16_commerce_contract_alignment_DEV_ONLY.sql
+      state: FILE
+      size: 1806
+      sha256: 40e2c39889ed79455ea7c3f2c7a5f87a4a00355b51667b91a8cf6318edb003cb
+    - path: database/tests/r16_commerce_contract_alignment.sql
+      state: FILE
+      size: 3004
+      sha256: 31ed40d3648afccfa05d621c1048ffda05d6eb57a6f06426181805faf5a05ab7
+    - path: database/tests/r16_product_permission_alignment.sql
+      state: FILE
+      size: 1318
+      sha256: bb97b7194d313d7c69a0a90936d7fb65f859b4294593a81726818c649311aec9
+    - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
+      state: FILE
+      size: 235303
+      sha256: feae1fd3e9d8b03fbf0d889ad63c0845b2c3629e29d87380a664223b46db0422
+    - path: docs/03-continuity/change-requests/CR-0442-落地R16商品SKU报价与统一订单后端纵向链路.md
+      state: FILE
+      size: 8101
+      sha256: 01f2ea5ca7204704d73098187ffdd2a8bcce08fd881196eac185bb93b775581a
+    - path: docs/03-continuity/change-requests/CR-0443-前向对齐R16权益与时长冻结字段边界.md
+      state: FILE
+      size: 3900
+      sha256: 966546d0c0493501a625119d6b3ab45797bd622ef843494932252c962a820e9c
+    - path: docs/03-continuity/change-requests/CR-0444-隔离R14-WebSocket容器生产配置与Mock测试上下文.md
+      state: FILE
+      size: 3460
+      sha256: 56dbca9282550636c55501ce37465e9d7b1940452c12cb155c5e0ac669fa06be
+    - path: docs/03-continuity/change-requests/CR-0445-隔离后端Spring测试上下文的H2内存数据库.md
+      state: FILE
+      size: 3023
+      sha256: f4674e52b0d8a8336da2cb52f82a7ab28a1b819af245d1d6222439cab9c1bc7c
+    - path: docs/03-continuity/change-requests/CR-0446-强制Android版本APK与桌面测试文档成对交付.md
+      state: FILE
+      size: 5587
+      sha256: 1482d87383e2ba9ea92e5e7dab73442b2aec5c0bee75107da76c3cbf53a2a1d2
+    - path: docs/03-continuity/change-requests/CR-0447-修正R14真机消息页公网后端版本错位.md
+      state: FILE
+      size: 6190
+      sha256: 9d61b0c6e7fda2e82216f8090b75fc3b1b7e2c5ad0b38cb96e01c1932ce0cb1c
+    - path: docs/05-app-build/APK持续交付强制规则_V1.2.2.md
+      state: FILE
+      size: 6899
+      sha256: e1d258a797d9e3f41405b00d9db90f8792c663b2796ec5b5e36bf016034510a2
+    - path: releases/R14/RELEASE_MANIFEST.yaml
+      state: FILE
+      size: 7227
+      sha256: 1590759472d1d0027cd1f173d0a6b47803be3762287ab5b9404dce9253eff591
+    - path: releases/R16/RELEASE_MANIFEST.yaml
+      state: FILE
+      size: 4274
+      sha256: b13dfbfaf16fb61e3977658f2d919aa328dc50aa281923c380a22ce4c09407e6
+    - path: releases/R16/STORIES.yaml
+      state: FILE
+      size: 8712
+      sha256: ef975f358047faa0e2e71f511bff8ee66046f84c5e38cb2a8fec8d77acfddfd0
+    - path: scripts/check_db_schema.py
+      state: FILE
+      size: 28033
+      sha256: 13fe33114052db16b97a4ff50ced6abc2ecb0d335947458be1162b48994516e8
+    - path: scripts/check_r14_public_conversations.py
+      state: FILE
+      size: 3482
+      sha256: 1d6fc2c5131b4b2c95861872b67dbb350a30465897149c1528c179ac076719a6
+    - path: scripts/check_release_artifacts.py
+      state: FILE
+      size: 40624
+      sha256: a0bc6159a96057c5f21417f8686af5ddfa2f85b1bc01809626e1ba7a23be57e4
+    - path: scripts/deliver_android_test_apk.py
+      state: FILE
+      size: 55864
+      sha256: 7cc04959ae63a2d763b6b2273e337f72c317ae0d24aa3eae9d6da27c623a8adf
+    - path: scripts/run_r16_database_invariants.sh
+      state: FILE
+      size: 24168
+      sha256: b7402267ca7dfa315adf706751b91262c686078a46fe70ced05b81cc5a9070c2
+    - path: scripts/switch_android_candidate_route.sh
+      state: FILE
+      size: 8386
+      sha256: b10f29f7ec9f8a8f39c441e007e40180299460e57dae9d0124e79b6ae83bfc14
+    - path: services/backend/boot/src/main/java/cc/orbexa/hhy/boot/admin/R16CommerceAdminController.java
+      state: FILE
+      size: 12533
+      sha256: 0775ed6fc7d0bf7d0f55f7c13732a49708395a55d325687def2602348d33825a
+    - path: services/backend/boot/src/main/java/cc/orbexa/hhy/boot/realtime/R14WebSocketConfiguration.java
+      state: FILE
+      size: 1930
+      sha256: 58b6dddef2dba8835626c3f94e025b1c6a5827dd7442a06824ec99b356bb3e4d
+    - path: services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/R16OrderController.java
+      state: FILE
+      size: 3427
+      sha256: 54c51fd73f0e2152f8a24f66d070096a0f1d8e2f3406331642757e1ee231c2c6
+    - path: services/backend/boot/src/main/resources/db/migration/V046__r16_product_permission_alignment.sql
+      state: FILE
+      size: 3206
+      sha256: 08d2dfb1ffaaf8e779dd92630166f7a8ffa9befb70dff62048a6d81a16504d22
+    - path: services/backend/boot/src/main/resources/db/migration/V047__r16_commerce_contract_alignment.sql
+      state: FILE
+      size: 1605
+      sha256: 709dad21763233b8f6f0852626be94f0adf07dbef3aa539dbcdc27531f7c9912
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/R16CommerceModuleBoundaryTest.java
+      state: FILE
+      size: 1027
+      sha256: 92bced65e2d51af6b418cd7d37492f6f5a065b11baf3ea755e5214304703af25
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/boot/R16CommerceControllerContractTest.java
+      state: FILE
+      size: 2834
+      sha256: 2ade0d51792fcf3506fda8cc30afd76bc8e72241172bec3289a4d7082053a70c
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/boot/realtime/R14WebSocketConfigurationTest.java
+      state: FILE
+      size: 3709
+      sha256: c74c97b0ade3bb410f87226187c1f2fd6b84724dd9e5cfc2ae0b0da8761b0f8a
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/commerce/R16CommercePostgresStoreTest.java
+      state: FILE
+      size: 16362
+      sha256: 3845a4df8fe52db9ee6b59958f2733f6354f39bf098cec6164558df58c65a370
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/commerce/R16CommerceServiceTest.java
+      state: FILE
+      size: 7859
+      sha256: 6626f8465b1ce92aa2eb492c829b5bb39ce83b1093b217a1a20d44191a1d9290
+    - path: services/backend/boot/src/test/resources/application-test.yml
+      state: FILE
+      size: 1607
+      sha256: 51fe2ef6123c4a34ef6b37eade10c08bde91d99038663c00f8b56f184e7dc5b1
+    - path: services/backend/commerce/src/main/java/cc/orbexa/hhy/commerce/R16CommerceContracts.java
+      state: FILE
+      size: 4982
+      sha256: fcd82eebbeb0b6a0bd2239d54566fb46a4b110eee9aaccdd28f9eafbdd619db0
+    - path: services/backend/commerce/src/main/java/cc/orbexa/hhy/commerce/R16CommercePostgresStore.java
+      state: FILE
+      size: 44462
+      sha256: b9e203a0d7cb0bbc1d6473156da26c7056148f72440dc9d0ef0886b3fbde56ce
+    - path: services/backend/commerce/src/main/java/cc/orbexa/hhy/commerce/R16CommerceService.java
+      state: FILE
+      size: 22658
+      sha256: 79d13e7db78bb85008facc2dedb4c8017fc78e818cdda75a9a944b7afcee2685
+    - path: services/backend/commerce/src/main/java/cc/orbexa/hhy/commerce/R16CommerceStore.java
+      state: FILE
+      size: 3429
+      sha256: e78f09ff6041c0b029ecee7faf431477919cb1ddce78a2cc570be5df49a9efc5
+    - path: tests/test_android_apk_delivery.py
+      state: FILE
+      size: 29997
+      sha256: 4d56d71c523974ac6130baae43a4da6ac53734d35dd633325443b4b688804f0c
+    - path: tests/test_android_candidate_route.py
+      state: FILE
+      size: 5914
+      sha256: 8739556b18002bfa660afbba1601a41721a84d924fb4a01feea3443067f870e6
+    - path: tests/test_r14_public_conversations.py
+      state: FILE
+      size: 2072
+      sha256: 339a17d8dc075fd55cb3fe5a86157a907a9e6950eaee24f2bcafea6cfcd39e24
+    - path: tests/test_r16_backend_contract.py
+      state: FILE
+      size: 4420
+      sha256: d1fcc5dfd2773bd642e002246578b9463cc2be09d09ac723b23678a990132189
+    - path: tests/test_release_close_gate.py
+      state: FILE
+      size: 38435
+      sha256: ccf72dd8c6c9e0bb35880f68819c955fcddcb57bdadcf1fac49954f103ffab15
+change_classification:
+  other:
+  - AGENTS.md
+  - CHANGELOG.md
+  - artifacts/apk/R14/APK_MANIFEST.yaml
+  - docs/05-app-build/APK持续交付强制规则_V1.2.2.md
+  database:
+  - database/migrations/V046__r16_product_permission_alignment.sql
+  - database/migrations/V047__r16_commerce_contract_alignment.sql
+  - database/rollback/U046__r16_product_permission_alignment_DEV_ONLY.sql
+  - database/rollback/U047__r16_commerce_contract_alignment_DEV_ONLY.sql
+  - database/tests/r16_commerce_contract_alignment.sql
+  - database/tests/r16_product_permission_alignment.sql
+  continuity:
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/change-requests/CR-0442-落地R16商品SKU报价与统一订单后端纵向链路.md
+  - docs/03-continuity/change-requests/CR-0443-前向对齐R16权益与时长冻结字段边界.md
+  - docs/03-continuity/change-requests/CR-0444-隔离R14-WebSocket容器生产配置与Mock测试上下文.md
+  - docs/03-continuity/change-requests/CR-0445-隔离后端Spring测试上下文的H2内存数据库.md
+  - docs/03-continuity/change-requests/CR-0446-强制Android版本APK与桌面测试文档成对交付.md
+  - docs/03-continuity/change-requests/CR-0447-修正R14真机消息页公网后端版本错位.md
+  source_of_truth:
+  - releases/R14/RELEASE_MANIFEST.yaml
+  - releases/R16/RELEASE_MANIFEST.yaml
+  - releases/R16/STORIES.yaml
+  code:
+  - scripts/check_db_schema.py
+  - scripts/check_r14_public_conversations.py
+  - scripts/check_release_artifacts.py
+  - scripts/deliver_android_test_apk.py
+  - scripts/run_r16_database_invariants.sh
+  - scripts/switch_android_candidate_route.sh
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/admin/R16CommerceAdminController.java
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/realtime/R14WebSocketConfiguration.java
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/R16OrderController.java
+  - services/backend/boot/src/main/resources/db/migration/V046__r16_product_permission_alignment.sql
+  - services/backend/boot/src/main/resources/db/migration/V047__r16_commerce_contract_alignment.sql
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/R16CommerceModuleBoundaryTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/R16CommerceControllerContractTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/realtime/R14WebSocketConfigurationTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/commerce/R16CommercePostgresStoreTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/commerce/R16CommerceServiceTest.java
+  - services/backend/boot/src/test/resources/application-test.yml
+  - services/backend/commerce/src/main/java/cc/orbexa/hhy/commerce/R16CommerceContracts.java
+  - services/backend/commerce/src/main/java/cc/orbexa/hhy/commerce/R16CommercePostgresStore.java
+  - services/backend/commerce/src/main/java/cc/orbexa/hhy/commerce/R16CommerceService.java
+  - services/backend/commerce/src/main/java/cc/orbexa/hhy/commerce/R16CommerceStore.java
+  tests:
+  - tests/test_android_apk_delivery.py
+  - tests/test_android_candidate_route.py
+  - tests/test_r14_public_conversations.py
+  - tests/test_r16_backend_contract.py
+  - tests/test_release_close_gate.py
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+- APPROVED_CHANGE_REQUEST
+- DATABASE_TEST_EVIDENCE
+- SCHEMA_TRACEABILITY
+change_requests:
+- CR-0442
+- CR-0443
+- CR-0444
+- CR-0445
+- CR-0446
+- CR-0447
+scope:
+  allowed_paths:
+  - apps/admin-web/**
+  - services/backend/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - tests/**
+  - docs/**
+  - catalogs/**
+  - releases/**
+  - design/**
+  - scripts/**
+  - CHANGELOG.md
+  approved_exceptions:
+  - database/migrations/V046__r16_product_permission_alignment.sql
+  - services/backend/boot/src/main/resources/db/migration/V046__r16_product_permission_alignment.sql
+  - database/rollback/U046__r16_product_permission_alignment_DEV_ONLY.sql
+  - database/tests/r16_product_permission_alignment.sql
+  - scripts/run_r16_database_invariants.sh
+  - scripts/check_db_schema.py
+  - services/backend/commerce/src/main/java/cc/orbexa/hhy/commerce/R16CommerceContracts.java
+  - services/backend/commerce/src/main/java/cc/orbexa/hhy/commerce/R16CommerceStore.java
+  - services/backend/commerce/src/main/java/cc/orbexa/hhy/commerce/R16CommercePostgresStore.java
+  - services/backend/commerce/src/main/java/cc/orbexa/hhy/commerce/R16CommerceService.java
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/R16OrderController.java
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/admin/R16CommerceAdminController.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/commerce/R16CommerceServiceTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/commerce/R16CommercePostgresStoreTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/R16CommerceControllerContractTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/R16CommerceModuleBoundaryTest.java
+  - tests/test_r16_backend_contract.py
+  - releases/R16/TASKS.yaml
+  - releases/R16/STORIES.yaml
+  - releases/R16/RELEASE_MANIFEST.yaml
+  - artifacts/reports/R16/TASK-R16-003-backend.md
+  - CHANGELOG.md
+  - database/migrations/V047__r16_commerce_contract_alignment.sql
+  - services/backend/boot/src/main/resources/db/migration/V047__r16_commerce_contract_alignment.sql
+  - database/rollback/U047__r16_commerce_contract_alignment_DEV_ONLY.sql
+  - database/tests/r16_commerce_contract_alignment.sql
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/realtime/R14WebSocketConfiguration.java
+  - services/backend/boot/src/test/resources/application-test.yml
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/realtime/R14WebSocketConfigurationTest.java
+  - AGENTS.md
+  - docs/05-app-build/APK持续交付强制规则_V1.2.2.md
+  - scripts/deliver_android_test_apk.py
+  - scripts/check_release_artifacts.py
+  - tests/test_android_apk_delivery.py
+  - tests/test_release_close_gate.py
+  - artifacts/apk/R14/APK_MANIFEST.yaml
+  - artifacts/validation/r14-apk-delivery/delivery-evidence.json
+  - releases/R14/RELEASE_MANIFEST.yaml
+  - scripts/switch_android_candidate_route.sh
+  - tests/test_android_candidate_route.py
+  - scripts/check_r14_public_conversations.py
+  - tests/test_r14_public_conversations.py
+  - artifacts/validation/r14-public-conversations/hotfix-evidence.json
+  - artifacts/reports/R14/R14-version-test-guide.md
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  source: story+explicit+approved-cr:CR-0442+approved-cr:CR-0443+approved-cr:CR-0444+approved-cr:CR-0445+approved-cr:CR-0446+approved-cr:CR-0447
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 治理索引与当前会话为单写事实源，必须串行提交
+event_hash: 3b41c62112d202336f517b720b9653f13804eaf9888198cc203efeac40fb34aa

@@ -1,6 +1,6 @@
 release: R14
 title: 一对一聊天核心
-status: READY_WHEN_DEPENDENCIES_GREEN
+status: DEVELOPMENT_READY
 milestone: M1_CONTENT_MARKETPLACE
 depends_on:
 - R02
@@ -33,7 +33,19 @@ contracts:
   - DELETE /api/v1/users/{id}/block
   - POST /api/v1/conversations/{id}/report
   admin_api: []
-  websocket: []
+  websocket:
+  - chat.message.send
+  - chat.message.ack
+  - chat.message.new
+  - chat.message.read
+  - chat.read.updated
+  - chat.typing
+  - notification.new
+  - system.kickout
+  - system.ping
+  - system.pong
+  - system.delivery.ack
+  - system.resume
 database_tables:
 - conversations
 - conversation_members
@@ -45,6 +57,9 @@ database_tables:
 - notification_deliveries
 - announcements
 - announcement_reads
+- websocket_user_sequences
+- websocket_deliveries
+- websocket_gap_watermarks
 tests:
 - TST-CHAT_001-HAPPY
 - TST-CHAT_001-IDEMPOTENT
@@ -55,6 +70,69 @@ tests:
 - TST-V122-006
 - TST-V122-007
 - TST-V122-008
+apk_gate: TEST_APK_FIXED_TOOLCHAIN_OWNER_FEEDBACK_ASYNC
+test_signing:
+  profile_id: hhy-staging-test-v2
+  secret_ref: secretref://obx-test/hhy/android/test-signing/v2
+  certificate_sha256: e32a9d7ff8a209d2903db6383b461b259f0018a698d1f3646e6ed7f1112671be
+  production_signing_affected: false
+android_delivery:
+  source_commit: 89ccaf45cbecd0a5412e7d99057ee0036cd8f181
+  route_config_commit: 89ccaf45cbecd0a5412e7d99057ee0036cd8f181
+  apk_file: hhy-r14-89ccaf4-debug.apk
+  version_name: 1.2.2-debug
+  version_code: 10225
+  sha256: cbf9eb40635ad4163f01ff0e87fdfda5d2c372b6def9c0bc1c6bfe377d149703
+  signing_profile_id: hhy-staging-test-v2
+  signing_fingerprint: e32a9d7ff8a209d2903db6383b461b259f0018a698d1f3646e6ed7f1112671be
+  api_base_url: https://api.orbexa.cc
+  websocket_base_url: wss://ws.orbexa.cc
+  machine_delivery: PASS
+  owner_physical_test: PENDING
+  next_release_development: ALLOWED
+  public_websocket: VERIFIED_BY_R14_CANDIDATE
+  report_catalog: PASS_CR_0464_SOURCE_INCLUDED
+  report_catalog_source_commit: 054da178f90b752e23b33b8de49c22c6c8421026
+  report_catalog_source: contracts/openapi.yaml#components.schemas.ChatPostConversationsByIdReportRequest.properties.reasonCode.x-hhy-options
+  report_catalog_evidence:
+  - tests/test_r14_chat_report_reason_catalog.py
+  - obx-test:/tmp/hhy-r14-cr0464-054da178/backend.log
+  - obx-test:/tmp/hhy-r14-cr0464-054da178/postgres.log
+  - obx-test:/tmp/hhy-r14-cr0464-android-054da178/android.log
+  apk_contains_report_catalog: true
+  final_apk_rebuild_required: false
+  final_candidate_report: artifacts/validation/r14-final-candidate/candidate-report.json
+  candidate_github_run: '30510422149'
+  candidate_promotion_run: '30511539828'
+  candidate_status: PASS
+  evidence: artifacts/validation/r14-apk-delivery/delivery-evidence.json
+  public_conversations_hotfix:
+    change_request: CR-0447
+    status: PASS
+    previous_upstream: 127.0.0.1:28114
+    active_upstream: 127.0.0.1:28115
+    flyway_version: V044
+    authenticated_local_http: 200
+    authenticated_public_http: 200
+    android_rebuild_required: false
+    evidence: artifacts/validation/r14-public-conversations/hotfix-evidence.json
+  build_evidence: artifacts/validation/r14-task007-android/build-evidence.json
+  test_guide: artifacts/reports/R14/R14-version-test-guide.md
+  desktop_test_guide:
+    desktop_path: C:\Users\小白\Desktop\hhy-r14-89ccaf4-test-guide.md
+    file_name: hhy-r14-89ccaf4-test-guide.md
+    size_bytes: 3515
+    sha256: e79f3095a021c52b794e9bcf46904ea3be495ab42ef6202312d145242c6fa173
+    status: PASS
+android_automation:
+  policy_id: HHY-ANDROID-AUTOMATION-V1
+  mode: ON_DEMAND_NON_BLOCKING_SPECIALTY
+  status: PASS
+  candidate_run: '30510422149'
+  promotion_run: '30511539828'
+  ai_visual_review: PASS
+  owner_physical_test: PENDING
+  next_release_development: ALLOWED
 entry_gate:
 - releases/R14/DEFINITION_OF_READY.yaml 全部适用项为PASS
 - releases/R14/STORIES.yaml 中每个故事均绑定页面/API/配置/数据/测试或显式N/A
@@ -73,6 +151,68 @@ documentation_baseline: V1.2.2
 document_gap_status: ZERO_BLOCKING_DOCUMENT_GAPS
 definition_of_ready: releases/R14/DEFINITION_OF_READY.yaml
 story_backlog: releases/R14/STORIES.yaml
+entry_baseline:
+  checked_at: '2026-07-28'
+  session_id: SES-20260727T181928Z-B51C7408
+  story_id: STORY-R14-004
+  change_request: CR-0417
+  documentation_status: DEVELOPMENT_READY
+  strict_documentation: PASS_0_ERRORS_0_WARNINGS
+  r14_entry_contract: PASS_6_PAGES_4_PAYLOADS
+  visual_catalog: PASS_6_IN_REVIEW_CONTRACTS
+  program_execution_plan: PASS_31_RELEASES_0_ERRORS
+  generated_assets: PASS_OPENAPI_FRONTEND_ANDROID_RUNTIME
+  release_artifacts: PASS
+  cloud_environment_status: PASS
+  dependency_machine_status:
+    R02: MACHINE_COMPLETE_OWNER_PENDING
+    R04: DONE
+    R06: MACHINE_COMPLETE_OWNER_PENDING
+  exact_visual_bindings:
+    SCR-CHAT-001: B07/P01
+    SCR-CHAT-002: SPEC:design/R14-UI-FROZEN/specs/SCR-CHAT-002.md
+    SHEET-CHAT-001: SPEC:design/R14-UI-FROZEN/specs/SHEET-CHAT-001.md
+    SHEET-CHAT-002: SPEC:design/R14-UI-FROZEN/specs/SHEET-CHAT-002.md
+    DIALOG-CHAT-BLOCK-001: SPEC:design/R14-UI-FROZEN/specs/DIALOG-CHAT-BLOCK-001.md
+    DIALOG-CHAT-DELETE-001: SPEC:design/R14-UI-FROZEN/specs/DIALOG-CHAT-DELETE-001.md
+  message_contract:
+    resource: ChatMessageResource
+    payload_types: [TEXT, IMAGE, CONTENT_CARD, CONTACT_CARD]
+    transport_consistency: REST_AND_WEBSOCKET
+  realtime_runtime:
+    change_request: CR-0430
+    database_migration: V044
+    endpoint: /ws
+    authentication: hhy.v1 + hhy.access.<compact-JWT>
+    delivery: USER_SEQUENCE_ACK_RETRY_72H
+    gap_fill: CHAT_READY_NOTIFICATIONS_DEFERRED_TO_R15
+    proxy_activation: TEMPLATE_ONLY_NOT_ACTIVATED
+  staging_acceptance:
+    change_requests:
+    - CR-0434
+    - CR-0435
+    - CR-0436
+    - CR-0464
+    - CR-0470
+    frozen_commit: f58be15f82ed1e9eb95355d8e4df363417fff023
+    compose_project: hhy-r14-staging
+    isolated_subnet: 172.31.238.0/24
+    flyway_version: V044
+    observability_acceptance: PASS
+    business_gauges: 8
+    alert_rules: 8
+    mandatory_alert_lifecycles: PASS_3_FIRING_3_RESOLVED_WITH_RECEIPTS
+    application_rollback: PASS_SAME_POSTGRES_CONTAINER_VOLUME_AND_V044
+    evidence: artifacts/validation/r14-task006-staging/
+    report: artifacts/reports/R14/TASK-R14-006-staging.md
+    task_status: PASS_READY_FOR_TASK_CLOSE
+    public_websocket: BLOCKED_EXTERNAL_DNS
+    report_catalog: PASS_CR_0464_SOURCE_INCLUDED
+    report_catalog_source_commit: 054da178f90b752e23b33b8de49c22c6c8421026
+    report_catalog_generated_check: PASS_SOURCE_BYTES_UNCHANGED
+    staging_contains_report_catalog: true
+    staging_redeploy_required: false
+  visual_acceptance_status: IN_REVIEW_NOT_IMPLEMENTED
 continuity:
   policy: .continuity/CONTINUITY_POLICY.yaml
   protocol_version: '1.0'

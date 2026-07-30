@@ -1,0 +1,1324 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260719T234639Z-1D7D7A00-0040
+session_id: SES-20260719T234639Z-1D7D7A00
+sequence: 40
+created_at: '2026-07-20T08:45:29Z'
+summary: R05-10213源码冻结前门禁通过：新增实名总览、全屏供应商H5、状态恢复、商业错误映射及完整文档追溯。
+next_step: 提交并推送不可变源码，部署公网R05候选并运行身份总览、沙箱、启动与旧认证黑盒；全部通过后从该提交构建交付APK。
+blockers: []
+decisions: []
+note: ''
+tests:
+- name: V123_DOCUMENTATION_R05
+  result: PASS
+  evidence: scripts/check_v123_documentation.py --strict --release R05
+  note: 319 REST operations, 0 gaps
+- name: API_CONTRACT
+  result: PASS
+  evidence: scripts/check_api_contract.py
+  note: runtime hashes pass
+- name: ANDROID_APP_UNIT
+  result: PASS
+  evidence: Gradle verifyApiBaseUrl :app:testDebugUnitTest
+  note: 10213 official STAGING metadata pass
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: 301a521e079a4947d7f7f5bc519201c180eaa564
+  upstream: origin/task/TASK-R03-001
+  ahead: 0
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/ACTIVE_SESSION.yaml'
+  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/SESSION_INDEX.yaml'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/sessions/SES-20260719T234639Z-1D7D7A00.yaml'
+  - ' M CHANGELOG.md'
+  - ' M CURRENT_STATUS.yaml'
+  - ' M apps/android/app/build.gradle.kts'
+  - ' M apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt'
+  - ' M apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt'
+  - ' M apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ApiModels.kt'
+  - ' M apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractIdentityApi.kt'
+  - ' M apps/android/feature/identity/src/main/java/cc/orbexa/hhy/identity/IdentityFlowScreen.kt'
+  - ' M apps/android/feature/identity/src/main/java/cc/orbexa/hhy/identity/IdentityPresentation.kt'
+  - ' M apps/android/feature/identity/src/test/java/cc/orbexa/hhy/identity/IdentityPresentationTest.kt'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+  - ' M artifacts/validation/project-doctor-v1.2.3-documentation.json'
+  - ' M catalogs/api_endpoints.csv'
+  - ' M catalogs/api_ui_ownership.csv'
+  - ' M catalogs/change_request_index.csv'
+  - ' M catalogs/session_index.csv'
+  - ' M catalogs/ui_action_matrix.csv'
+  - ' M contracts/contract_status.csv'
+  - ' M contracts/openapi.yaml'
+  - ' M contracts/operation-error-matrix.csv'
+  - ' M docs/03-continuity/PITFALLS.md'
+  - ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
+  - ' M docs/03-continuity/sessions/2026-07/SES-20260719T234639Z-1D7D7A00.md'
+  - ' M packages/api-client/src/client.generated.ts'
+  - ' M releases/R05/RELEASE_MANIFEST.yaml'
+  - ' M releases/R05/STORIES.yaml'
+  - ' M services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentityContracts.java'
+  - ' M services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentityService.java'
+  - ' M services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/IdentityController.java'
+  - ' M services/backend/boot/src/main/resources/contracts/openapi.yaml'
+  - ' M services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/IdentityServiceTest.java'
+  - ' M services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/IdentityControllerTest.java'
+  - ?? .continuity/change_requests/CR-0128.yaml
+  - ?? .continuity/change_requests/CR-0129.yaml
+  - ?? .continuity/change_requests/CR-0130.yaml
+  - ?? .continuity/change_requests/CR-0131.yaml
+  - ?? .continuity/change_requests/CR-0132.yaml
+  - ?? .continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0039.yaml
+  - ?? docs/03-continuity/change-requests/CR-0128-修复R05实名状态恢复并将第三方活体H5改为全屏容器.md
+  - ?? docs/03-continuity/change-requests/CR-0129-同步R05实名总览契约目录与生成客户端.md
+  - ?? docs/03-continuity/change-requests/CR-0130-递增并交付R05实名状态恢复与全屏活体测试APK.md
+  - ?? docs/03-continuity/change-requests/CR-0131-精确登记R05-10213源码与追溯文件范围.md
+  - ?? docs/03-continuity/change-requests/CR-0132-补齐实名总览API页面所有权与R05故事追溯.md
+  recent_commits:
+  - "301a521e079a4947d7f7f5bc519201c180eaa564\t2026-07-20T15:20:55+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] build(android): publish verified\
+    \ 10212 APK"
+  - "9b726556391cb8e16e52750f83b1e80c4f2bf28b\t2026-07-20T14:57:16+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] fix(android): lock startup\
+    \ policy for 10212"
+  - "bc52fe68ae169a79586002af4f8b2af9b21690a6\t2026-07-20T14:22:10+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] chore(android): bump owner\
+    \ test apk to 10211"
+  - "c12cd60ce4ca3fafe1af3969fad31e296ff76ba7\t2026-07-20T14:18:48+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] test(identity): gate staging\
+    \ sandbox journey"
+  - "43008b9060f583fd121915fa83a867b03e7b80b8\t2026-07-20T13:51:21+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] feat(identity): add isolated\
+    \ staging liveness sandbox"
+  - "c53d32b5b8121eba3f7934724195a4934bd961ee\t2026-07-20T13:19:34+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] fix(auth): restore source-aware\
+    \ navigation motion"
+  - "2ed59f66113fb1c66758be5dce5cc103e48d9e62\t2026-07-20T13:01:50+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] chore(r05): record 10210 implementation\
+    \ state"
+  - "c9d5302312b18f3ec3fb7b59d5ba0a9f8d8f10e4\t2026-07-20T13:00:15+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] docs(r05): trace 10210 navigation\
+    \ foundation apk"
+project_fingerprint:
+  sha256: 89e4144776ca952a734b6b9297863e51cf95ffc8aa3519049dd735a494d83bdd
+  files:
+  - AGENTS.md
+  - CHANGELOG.md
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/androidTest/java/cc/orbexa/hhy/AuthenticatedNavigationTest.kt
+  - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+  - apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+  - apps/android/app/src/test/java/cc/orbexa/hhy/NavigationPolicyTest.kt
+  - apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+  - apps/android/core/designsystem/build.gradle.kts
+  - apps/android/core/designsystem/src/main/assets/hhy_design_tokens_v1.2.2.json
+  - apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyIcons.kt
+  - apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyMotion.kt
+  - apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyTokens.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ApiModels.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractIdentityApi.kt
+  - apps/android/feature/auth/build.gradle.kts
+  - apps/android/feature/auth/src/main/java/cc/orbexa/hhy/auth/AuthScreen.kt
+  - apps/android/feature/identity/build.gradle.kts
+  - apps/android/feature/identity/src/main/java/cc/orbexa/hhy/identity/IdentityFlowScreen.kt
+  - apps/android/feature/identity/src/main/java/cc/orbexa/hhy/identity/IdentityPresentation.kt
+  - apps/android/feature/identity/src/test/java/cc/orbexa/hhy/identity/IdentityPresentationTest.kt
+  - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+  - apps/android/gradle/libs.versions.toml
+  - apps/h5/src/App.vue
+  - apps/h5/src/styles.css
+  - apps/h5/src/views/IdentityCallbackPage.test.ts
+  - apps/h5/src/views/IdentityCallbackPage.vue
+  - artifacts/apk/R05/APK_MANIFEST.yaml
+  - artifacts/apk/R05/history/3454ff2/APK_MANIFEST.yaml
+  - artifacts/apk/R05/history/7b57046/APK_MANIFEST.yaml
+  - artifacts/apk/R05/history/b597f2c/APK_MANIFEST.yaml
+  - artifacts/apk/R05/history/bc52fe6/APK_MANIFEST.yaml
+  - catalogs/api_endpoints.csv
+  - catalogs/api_ui_ownership.csv
+  - catalogs/ui_action_matrix.csv
+  - catalogs/ui_visual_acceptance.csv
+  - contracts/contract_status.csv
+  - contracts/openapi.yaml
+  - contracts/operation-error-matrix.csv
+  - design/R05-UI-FROZEN/TOKEN_ADDITIONS_PROPOSAL.json
+  - design/R05-UI-FROZEN/VISUAL_MANIFEST.json
+  - design/R05-UI-FROZEN/generation/README.md
+  - design/R05-UI-FROZEN/generation/generate_r05_ui.py
+  - design/R05-UI-FROZEN/generation/requirements.txt
+  - design/R05-UI-FROZEN/generation/validate_r05_ui.py
+  - design/R05-UI-FROZEN/images/ADM-ID-001_01_加载.png
+  - design/R05-UI-FROZEN/images/ADM-ID-001_02_正常列表.png
+  - design/R05-UI-FROZEN/images/ADM-ID-001_03_空列表.png
+  - design/R05-UI-FROZEN/images/ADM-ID-001_04_无权限.png
+  - design/R05-UI-FROZEN/images/ADM-ID-001_05_失败.png
+  - design/R05-UI-FROZEN/images/ADM-ID-001_06_1200响应式.png
+  - design/R05-UI-FROZEN/images/ADM-ID-001_OVERVIEW.png
+  - design/R05-UI-FROZEN/images/ADM-ID-002_01_加载.png
+  - design/R05-UI-FROZEN/images/ADM-ID-002_02_详情.png
+  - design/R05-UI-FROZEN/images/ADM-ID-002_03_敏感资料授权.png
+  - design/R05-UI-FROZEN/images/ADM-ID-002_04_人工复核.png
+  - design/R05-UI-FROZEN/images/ADM-ID-002_05_乐观锁冲突.png
+  - design/R05-UI-FROZEN/images/ADM-ID-002_06_无权限.png
+  - design/R05-UI-FROZEN/images/ADM-ID-002_07_404.png
+  - design/R05-UI-FROZEN/images/ADM-ID-002_08_1200响应式.png
+  - design/R05-UI-FROZEN/images/ADM-ID-002_OVERVIEW.png
+  - design/R05-UI-FROZEN/images/H5-012_01_加载.png
+  - design/R05-UI-FROZEN/images/H5-012_02_处理中.png
+  - design/R05-UI-FROZEN/images/H5-012_03_成功.png
+  - design/R05-UI-FROZEN/images/H5-012_04_人工审核.png
+  - design/R05-UI-FROZEN/images/H5-012_05_未通过.png
+  - design/R05-UI-FROZEN/images/H5-012_06_失效.png
+  - design/R05-UI-FROZEN/images/H5-012_07_离线.png
+  - design/R05-UI-FROZEN/images/H5-012_OVERVIEW.png
+  - design/R05-UI-FROZEN/images/HHY_R05_IDENTITY_VISUAL_MASTER_OVERVIEW.png
+  - design/R05-UI-FROZEN/images/SCR-ID-001_01_未认证.png
+  - design/R05-UI-FROZEN/images/SCR-ID-001_02_认证中.png
+  - design/R05-UI-FROZEN/images/SCR-ID-001_03_已认证.png
+  - design/R05-UI-FROZEN/images/SCR-ID-001_OVERVIEW.png
+  - design/R05-UI-FROZEN/images/SCR-ID-002_01_默认.png
+  - design/R05-UI-FROZEN/images/SCR-ID-002_02_字段错误.png
+  - design/R05-UI-FROZEN/images/SCR-ID-002_03_授权说明弹层.png
+  - design/R05-UI-FROZEN/images/SCR-ID-002_04_网络失败重试.png
+  - design/R05-UI-FROZEN/images/SCR-ID-002_OVERVIEW.png
+  - design/R05-UI-FROZEN/images/SCR-ID-003_01_准备.png
+  - design/R05-UI-FROZEN/images/SCR-ID-003_02_相机授权.png
+  - design/R05-UI-FROZEN/images/SCR-ID-003_03_加载.png
+  - design/R05-UI-FROZEN/images/SCR-ID-003_04_处理中.png
+  - design/R05-UI-FROZEN/images/SCR-ID-003_05_失败重试.png
+  - design/R05-UI-FROZEN/images/SCR-ID-003_OVERVIEW.png
+  - design/R05-UI-FROZEN/images/SCR-ID-004_01_核验中.png
+  - design/R05-UI-FROZEN/images/SCR-ID-004_02_人工审核.png
+  - design/R05-UI-FROZEN/images/SCR-ID-004_03_成功.png
+  - design/R05-UI-FROZEN/images/SCR-ID-004_04_拒绝.png
+  - design/R05-UI-FROZEN/images/SCR-ID-004_05_失败.png
+  - design/R05-UI-FROZEN/images/SCR-ID-004_06_过期.png
+  - design/R05-UI-FROZEN/images/SCR-ID-004_OVERVIEW.png
+  - design/R05-UI-FROZEN/specs/ADM-ID-001.md
+  - design/R05-UI-FROZEN/specs/ADM-ID-002.md
+  - design/R05-UI-FROZEN/specs/H5-012.md
+  - design/R05-UI-FROZEN/specs/SCR-ID-001.md
+  - design/R05-UI-FROZEN/specs/SCR-ID-002.md
+  - design/R05-UI-FROZEN/specs/SCR-ID-003.md
+  - design/R05-UI-FROZEN/specs/SCR-ID-004.md
+  - design/R05-UI-FROZEN/冻结说明.md
+  - design/tokens/hhy_design_tokens_v1.2.2.json
+  - docs/00-baseline/正式商业系统全局硬性开发边界.md
+  - docs/02-ui/UI参考图使用与开发约束_V1.2.2.md
+  - docs/03-continuity/PITFALLS.md
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/REUSABLE_PATTERNS.md
+  - docs/03-continuity/change-requests/CR-0109-补充R05-Android-APK版本身份精确文件范围.md
+  - docs/03-continuity/change-requests/CR-0110-补充R05-007-APK交付证据精确路径.md
+  - docs/03-continuity/change-requests/CR-0111-精确补充R05-007-APK交付证据文件.md
+  - docs/03-continuity/change-requests/CR-0112-补充R05-004客户端闭环验收报告.md
+  - docs/03-continuity/change-requests/CR-0113-建立全项目效果图视觉建模与UI参数零漂移硬门禁.md
+  - docs/03-continuity/change-requests/CR-0114-同步UI零漂移规则到AGENTS导出模板.md
+  - docs/03-continuity/change-requests/CR-0115-采纳R05冻结视觉补充包并校正管理后台视觉门禁范围.md
+  - docs/03-continuity/change-requests/CR-0116-补齐R05冻结UI的确定性Token派生与H5独立回跳布局.md
+  - docs/03-continuity/change-requests/CR-0117-递增R05冻结UI真机测试APK版本身份.md
+  - docs/03-continuity/change-requests/CR-0118-归档R05冻结UI换版前APK交付事实.md
+  - docs/03-continuity/change-requests/CR-0119-建立全项目统一矢量图标、真实导航返回栈与原生页面过渡硬门禁.md
+  - docs/03-continuity/change-requests/CR-0120-递增统一导航图标动效基础设施测试APK版本身份.md
+  - docs/03-continuity/change-requests/CR-0121-补齐认证模块原生返回处理依赖.md
+  - docs/03-continuity/change-requests/CR-0122-交付R05统一导航图标动效10210真机测试APK.md
+  - docs/03-continuity/change-requests/CR-0123-修复登录注册真实返回来源与反向转场并补齐实名结果状态.md
+  - docs/03-continuity/change-requests/CR-0124-建立生产隔离的R05实名认证Staging供应商沙箱.md
+  - docs/03-continuity/change-requests/CR-0125-递增登录导航修复与实名沙箱闭环测试APK版本身份.md
+  - docs/03-continuity/change-requests/CR-0126-补充10211替换交付产生的10210历史清单精确路径.md
+  - docs/03-continuity/change-requests/CR-0127-修复测试APK渠道漂移导致启动版本检查404并递增10212.md
+  - docs/03-continuity/change-requests/CR-0128-修复R05实名状态恢复并将第三方活体H5改为全屏容器.md
+  - docs/03-continuity/change-requests/CR-0129-同步R05实名总览契约目录与生成客户端.md
+  - docs/03-continuity/change-requests/CR-0130-递增并交付R05实名状态恢复与全屏活体测试APK.md
+  - docs/03-continuity/change-requests/CR-0131-精确登记R05-10213源码与追溯文件范围.md
+  - docs/03-continuity/change-requests/CR-0132-补齐实名总览API页面所有权与R05故事追溯.md
+  - docs/09-development/统一开发与交付效率规范.md
+  - infra/staging/r05-smoke/docker-compose.yml
+  - packages/api-client/src/client.generated.ts
+  - packages/design-tokens/admin.css
+  - packages/design-tokens/h5.css
+  - releases/PROGRAM_EXECUTION_PLAN.yaml
+  - releases/R05/ACCEPTANCE_MATRIX.csv
+  - releases/R05/PARALLEL_EXECUTION_PLAN.yaml
+  - releases/R05/RELEASE_MANIFEST.yaml
+  - releases/R05/STORIES.yaml
+  - scripts/check_android_ui_foundation.py
+  - scripts/check_r05_public_identity.py
+  - scripts/check_r05_staging_identity_sandbox.py
+  - scripts/check_release_artifacts.py
+  - scripts/check_ui_tokens.py
+  - scripts/check_ui_visual_acceptance.py
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentityContracts.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentitySandboxProperties.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentitySandboxService.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentitySandboxStartupGuard.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentityService.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityAccessConfiguration.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityPostgresStore.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityProviderRouter.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityRuntimePolicy.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentitySandboxClient.java
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/IdentityController.java
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/PublicIdentitySandboxController.java
+  - services/backend/boot/src/main/resources/application.yml
+  - services/backend/boot/src/main/resources/contracts/openapi.yaml
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/IdentitySandboxIsolationTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/IdentityServiceTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/IdentityControllerTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/PublicIdentitySandboxControllerTest.java
+  - templates/AGENTS.md
+  - tests/test_android_ui_foundation.py
+  - tests/test_r05_public_identity_gate.py
+  - tests/test_release_close_gate.py
+  - tests/test_ui_visual_acceptance.py
+  file_count: 169
+  payload:
+    base_commit: 0c3aa012f4bdbfd59f0d591cf99632794fd8c612
+    files:
+    - path: AGENTS.md
+      state: FILE
+      size: 10244
+      sha256: 99764caddfe58d603687a938f1ac8b4f24b5c76043cea247aaf9a656b7c8a92c
+    - path: CHANGELOG.md
+      state: FILE
+      size: 50751
+      sha256: d3bd44f08c4067e3555603acff96e2d7182e3d64771438ac9111d04c6c47cefd
+    - path: apps/android/app/build.gradle.kts
+      state: FILE
+      size: 4919
+      sha256: e46d38f07bebae416675d8a5fba9927a03a312f976a20c9d86f1e47581728e6f
+    - path: apps/android/app/src/androidTest/java/cc/orbexa/hhy/AuthenticatedNavigationTest.kt
+      state: FILE
+      size: 1839
+      sha256: 2e2ac168b6714cc294aede27532e84816b1e0b3f4aa508d345b91f4248963607
+    - path: apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+      state: FILE
+      size: 11067
+      sha256: 11f0eaef34e27e48711033538a11258f504cb6b25b5abcfbf4b3597ea1d7fab8
+    - path: apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+      state: FILE
+      size: 520
+      sha256: 2d64d9dd62b25daf6954dc2c6a3b3ae1ee27d98ee464034964a2eb1491b93ed6
+    - path: apps/android/app/src/test/java/cc/orbexa/hhy/NavigationPolicyTest.kt
+      state: FILE
+      size: 393
+      sha256: b2edde0eac8e8cafdc07289336b1aba8a2e86ee370bb9a8ef1b84633d2082e8f
+    - path: apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+      state: FILE
+      size: 1243
+      sha256: 467f96116170c3d5bb8a78733a3309e8f528435a58ed6e91472a55f63c0b7695
+    - path: apps/android/core/designsystem/build.gradle.kts
+      state: FILE
+      size: 954
+      sha256: a5dcfe8dd7afbb90a744dec00e01597585acd91387c2ad03f735266bc40c7303
+    - path: apps/android/core/designsystem/src/main/assets/hhy_design_tokens_v1.2.2.json
+      state: FILE
+      size: 6380
+      sha256: d23fabd46941d2d7801d2b098abd417940c60a10db04ef01ea8283d6c2a7689e
+    - path: apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyIcons.kt
+      state: FILE
+      size: 2781
+      sha256: edfc612fa34017a75cca5bb791fa7b50192998c4fa63ebb87e52b0d52df3ebc4
+    - path: apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyMotion.kt
+      state: FILE
+      size: 1803
+      sha256: c0c34839e27ace475b63f415795a113e4986bddd98a6b5a97a752a6633b956d2
+    - path: apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyTokens.kt
+      state: FILE
+      size: 2949
+      sha256: 342bbb7baa02d7b6b0a9f02260a6440b927101bb2370483b8e9ea9489b98e400
+    - path: apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ApiModels.kt
+      state: FILE
+      size: 8502
+      sha256: 277f8c303c8da9dab250eec1e759b8746967aae01323679ec2d17c495ade0d1c
+    - path: apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractIdentityApi.kt
+      state: FILE
+      size: 11350
+      sha256: 95b89d472e60e197b5f92fb6e62e54b40403247bfa7f0ac2291f5aa9d64b71ee
+    - path: apps/android/feature/auth/build.gradle.kts
+      state: FILE
+      size: 1211
+      sha256: 47337968f9e7bb4576915dc8766156a1ca2566b60e0cc64d98325c22b90648db
+    - path: apps/android/feature/auth/src/main/java/cc/orbexa/hhy/auth/AuthScreen.kt
+      state: FILE
+      size: 59567
+      sha256: f3f92950f5d183d10ebe8708ba7396ed1495596a84c9d172bf765075e968a8e6
+    - path: apps/android/feature/identity/build.gradle.kts
+      state: FILE
+      size: 1267
+      sha256: 4d021ea8201c3c8d095805246e84874e7d358dd144c1a48a60bac283036420c0
+    - path: apps/android/feature/identity/src/main/java/cc/orbexa/hhy/identity/IdentityFlowScreen.kt
+      state: FILE
+      size: 53929
+      sha256: 07a323efc925a7af0afab5013888f371342880b95be40770f1ef7fc6e1d27198
+    - path: apps/android/feature/identity/src/main/java/cc/orbexa/hhy/identity/IdentityPresentation.kt
+      state: FILE
+      size: 2968
+      sha256: a629df98dfd8b3d22e0ca3944f33bbb642495e61cfe5bd72e1f75611b6b2380a
+    - path: apps/android/feature/identity/src/test/java/cc/orbexa/hhy/identity/IdentityPresentationTest.kt
+      state: FILE
+      size: 2429
+      sha256: 9c64edd72f250fe16f6b97f03d5f911314835017958789d99dbea2f1d2a271fb
+    - path: apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+      state: FILE
+      size: 6051
+      sha256: e9c829610f06eb1a77f46701a2d1a136f9c1b311c73e3e328f448e471a43c0cf
+    - path: apps/android/gradle/libs.versions.toml
+      state: FILE
+      size: 2293
+      sha256: 63b6f498b7429e1532decbfbbf88d4220126845fd50b47b36a83d359d643f899
+    - path: apps/h5/src/App.vue
+      state: FILE
+      size: 659
+      sha256: 2c09428778a809fad35ed3243dde8d722178ae5e6136ac3c97bda0c5cc7d6896
+    - path: apps/h5/src/styles.css
+      state: FILE
+      size: 9801
+      sha256: c978cec313df9c228832b40ad84a448355e4200fcd19f881cd75e986076f5f66
+    - path: apps/h5/src/views/IdentityCallbackPage.test.ts
+      state: FILE
+      size: 3559
+      sha256: 84a71e26ab412bf46c2b05e5fe527b84775d818c6c72e7bc1bb3fe0b5b98386e
+    - path: apps/h5/src/views/IdentityCallbackPage.vue
+      state: FILE
+      size: 4994
+      sha256: 125bd09f58806f2a780a6d0c0030873715f49d396cd8463b2c0778eb6edd0073
+    - path: artifacts/apk/R05/APK_MANIFEST.yaml
+      state: FILE
+      size: 673
+      sha256: 1f59a2fe366712a534cf8163e1034fa6303185ae85e25b925ea2b41dfe08eb22
+    - path: artifacts/apk/R05/history/3454ff2/APK_MANIFEST.yaml
+      state: FILE
+      size: 673
+      sha256: 04cca7f34fe7bc361af2421ca3a1d1f170dd14c3b06ff39027ea2dbc6488815c
+    - path: artifacts/apk/R05/history/7b57046/APK_MANIFEST.yaml
+      state: FILE
+      size: 673
+      sha256: dd05c61204ab46d8750f332ff24f6e767ac5bc0370ccfa2176f626470eca72e0
+    - path: artifacts/apk/R05/history/b597f2c/APK_MANIFEST.yaml
+      state: FILE
+      size: 673
+      sha256: 66a4260113441a934e9a0f39aa76969f7bc86444a893f393dd557af8b5d82f67
+    - path: artifacts/apk/R05/history/bc52fe6/APK_MANIFEST.yaml
+      state: FILE
+      size: 673
+      sha256: e1d368b03b63043bdbd269279499b1a54bf1c34e8f5372bb7fdb71701a2cf917
+    - path: catalogs/api_endpoints.csv
+      state: FILE
+      size: 11168
+      sha256: acdfd4c70843f37f23d7e2d5982872f6f36d23263bfb5bbde2c012f3e8269d43
+    - path: catalogs/api_ui_ownership.csv
+      state: FILE
+      size: 75579
+      sha256: 206e198a3262f280d0612785c6ff3cb0caabc8673f9fcd6f7807350004f89124
+    - path: catalogs/ui_action_matrix.csv
+      state: FILE
+      size: 1421227
+      sha256: 14f9e278e84fbc86b0b30f300f644d34972ed689b07027c70d869820fe3222b7
+    - path: catalogs/ui_visual_acceptance.csv
+      state: FILE
+      size: 4383
+      sha256: c9c6d9fd9c5f18e5427ef033756b7353a9e60127abd435decb649756509fab95
+    - path: contracts/contract_status.csv
+      state: FILE
+      size: 140010
+      sha256: 634df7e241b7c8ab4bf80c8ca0bca7d39fe5af219646e0f453a1772e7f137b79
+    - path: contracts/openapi.yaml
+      state: FILE
+      size: 598571
+      sha256: 8da0411da04d8424f2346064d4a8ab38bbe87b5579c40e65b0d7f9ebc94a1295
+    - path: contracts/operation-error-matrix.csv
+      state: FILE
+      size: 210938
+      sha256: fc2cd8a7f8a3d34be5819fcacf5d529c18ee0b09d4b757a92617617486cb4fc1
+    - path: design/R05-UI-FROZEN/TOKEN_ADDITIONS_PROPOSAL.json
+      state: FILE
+      size: 1302
+      sha256: a511439ebcb7de033efdfe2fc1193d122e036068ac3f148ef91772b68939c4c6
+    - path: design/R05-UI-FROZEN/VISUAL_MANIFEST.json
+      state: FILE
+      size: 14921
+      sha256: 9e59894717f59fb318f6340f8218d668ce93c0ce22a01378cffd580b2c6cecb0
+    - path: design/R05-UI-FROZEN/generation/README.md
+      state: FILE
+      size: 633
+      sha256: 4e422c7b6eb705fe1e2c538bfae000b4eeb7faf72ec4d4c85552cce4ded6f684
+    - path: design/R05-UI-FROZEN/generation/generate_r05_ui.py
+      state: FILE
+      size: 75717
+      sha256: 8fa5a6e1078c8f498b9f2993e5cf80bc175415dd2112018b3905b51cfe340722
+    - path: design/R05-UI-FROZEN/generation/requirements.txt
+      state: FILE
+      size: 37
+      sha256: a7cf3d3f8e077f145f5e6d4cb76e3c4e3874309df9e5a65ffae3e2c5c1a969ed
+    - path: design/R05-UI-FROZEN/generation/validate_r05_ui.py
+      state: FILE
+      size: 4030
+      sha256: 74cbd28370a970bcafd21ed3a0d0f1daa37339bf70e7dee845ac0c7b48a6f653
+    - path: design/R05-UI-FROZEN/images/ADM-ID-001_01_加载.png
+      state: FILE
+      size: 77856
+      sha256: ce14acfde0851b1f678545f115b48063f90f8dfb94365b95f26ac453519988ff
+    - path: design/R05-UI-FROZEN/images/ADM-ID-001_02_正常列表.png
+      state: FILE
+      size: 131364
+      sha256: 8cfe130b36eafae2dbc22f0e3d7563aca2ca2b48328d3d7445d27fcaf25f2579
+    - path: design/R05-UI-FROZEN/images/ADM-ID-001_03_空列表.png
+      state: FILE
+      size: 75146
+      sha256: 30e1dad6558859784a45db58cb6c407f30ee330092775686a0e136cec54ed7e9
+    - path: design/R05-UI-FROZEN/images/ADM-ID-001_04_无权限.png
+      state: FILE
+      size: 55040
+      sha256: 8876f09fc06636eda1a780a383dafbccf9e36656c751453b5626f69028a3a479
+    - path: design/R05-UI-FROZEN/images/ADM-ID-001_05_失败.png
+      state: FILE
+      size: 73526
+      sha256: 2528c52d21faba38981cdb0bd2e8f919a06a37c92d70bf16d4a87a8fc53589ab
+    - path: design/R05-UI-FROZEN/images/ADM-ID-001_06_1200响应式.png
+      state: FILE
+      size: 98335
+      sha256: a71756a3db83732bba783e0c05ee67980625e453b7f719325b9096ba677d9673
+    - path: design/R05-UI-FROZEN/images/ADM-ID-001_OVERVIEW.png
+      state: FILE
+      size: 558049
+      sha256: 969e1453533bbf5395deba60999f72d84aa51ed14c7a74a2482a49f68ef09f6d
+    - path: design/R05-UI-FROZEN/images/ADM-ID-002_01_加载.png
+      state: FILE
+      size: 48406
+      sha256: 33eba4553b086ac964ba769a4066c87eb75a9549cfb75aecfa7c164fdd1d0483
+    - path: design/R05-UI-FROZEN/images/ADM-ID-002_02_详情.png
+      state: FILE
+      size: 115259
+      sha256: 715eb70269279720a3c8977e69fe03c3ba0dcbe48e3be01550ae5aea063dbc72
+    - path: design/R05-UI-FROZEN/images/ADM-ID-002_03_敏感资料授权.png
+      state: FILE
+      size: 123461
+      sha256: 0303d5941e37363ac8c73d9c74200ae8818bef8c77388f8e757e7987b900e70b
+    - path: design/R05-UI-FROZEN/images/ADM-ID-002_04_人工复核.png
+      state: FILE
+      size: 124254
+      sha256: 5f6e26d7f6e0873d53cdb1a1d82248b0d97911100215749888fbdd0c0c7c0cab
+    - path: design/R05-UI-FROZEN/images/ADM-ID-002_05_乐观锁冲突.png
+      state: FILE
+      size: 124449
+      sha256: 4da8fbeb1d98372955560a5b587cd2283a695a216a2a81fcc69344c329b68f8f
+    - path: design/R05-UI-FROZEN/images/ADM-ID-002_06_无权限.png
+      state: FILE
+      size: 58121
+      sha256: 0ce72a566158e0bdeecc8161e09c54c0751bae082c850d02fb92af7c39cf457d
+    - path: design/R05-UI-FROZEN/images/ADM-ID-002_07_404.png
+      state: FILE
+      size: 56348
+      sha256: ba129324cfccf027e7559037c5f65e6b428ce2df0c04d15e6b119985780460ec
+    - path: design/R05-UI-FROZEN/images/ADM-ID-002_08_1200响应式.png
+      state: FILE
+      size: 90249
+      sha256: 4489ce3ffc50875e4eda9d5d6ae66eac23148b1eda0d0554bb3601538c6f9c33
+    - path: design/R05-UI-FROZEN/images/ADM-ID-002_OVERVIEW.png
+      state: FILE
+      size: 921229
+      sha256: de3d53bcc907bdbbff0a116b7e3ba9aeb37feb47ea6276b02a8beab22957b727
+    - path: design/R05-UI-FROZEN/images/H5-012_01_加载.png
+      state: FILE
+      size: 160098
+      sha256: 4191963bfc2b66dfc089d6c951523e1371b9f167779e7cae8965fe753fc8e09a
+    - path: design/R05-UI-FROZEN/images/H5-012_02_处理中.png
+      state: FILE
+      size: 165697
+      sha256: 32d5efc95dcb86708bc29d45825c041c5d021c58c6b6ca333cda78aa89c45bf5
+    - path: design/R05-UI-FROZEN/images/H5-012_03_成功.png
+      state: FILE
+      size: 161133
+      sha256: 166738249044244244290e2480f2ca8d484b2cdc55eae6d41afa298da32bb7e5
+    - path: design/R05-UI-FROZEN/images/H5-012_04_人工审核.png
+      state: FILE
+      size: 166064
+      sha256: 79cae9f697a6bbb2dbd968d5818cf5d50c5321b6ccef3b44a318cc93c99f160b
+    - path: design/R05-UI-FROZEN/images/H5-012_05_未通过.png
+      state: FILE
+      size: 167956
+      sha256: 7ec5bb57ae6061f7beef6afb4eef82a6cbdce2f319dd3799d78cb5187b846a78
+    - path: design/R05-UI-FROZEN/images/H5-012_06_失效.png
+      state: FILE
+      size: 166571
+      sha256: 78c9a76b56a126e032cc6b46f264e9cb305082da286ba2a7ef9eff811213348b
+    - path: design/R05-UI-FROZEN/images/H5-012_07_离线.png
+      state: FILE
+      size: 169578
+      sha256: ebe534917c2473d01960c215925e0d1cba2cd14c832932bccc1ff0da5d10eee1
+    - path: design/R05-UI-FROZEN/images/H5-012_OVERVIEW.png
+      state: FILE
+      size: 505051
+      sha256: 0239bfcb970e312ff7798d16f6e51a164be13b39a0d2107a3f7bb53dc4c90970
+    - path: design/R05-UI-FROZEN/images/HHY_R05_IDENTITY_VISUAL_MASTER_OVERVIEW.png
+      state: FILE
+      size: 952913
+      sha256: 41e80a69aa376b734a3ae0316ebede66b72c032399fb5cc3ae75ddf098660d88
+    - path: design/R05-UI-FROZEN/images/SCR-ID-001_01_未认证.png
+      state: FILE
+      size: 221323
+      sha256: 26cf14a5d33cfcea46f5db855fab4555e8935adbf93c1336c0ab06dc114202d6
+    - path: design/R05-UI-FROZEN/images/SCR-ID-001_02_认证中.png
+      state: FILE
+      size: 190923
+      sha256: 5c116a5df5cdda018eb9158c1b4ecfb62a47c010a69ad0a73ddee1cd20a76192
+    - path: design/R05-UI-FROZEN/images/SCR-ID-001_03_已认证.png
+      state: FILE
+      size: 195251
+      sha256: 9f4558ce2004139da7b5e20231738b6429f87fddf6a452b99071bac68edc67cd
+    - path: design/R05-UI-FROZEN/images/SCR-ID-001_OVERVIEW.png
+      state: FILE
+      size: 327063
+      sha256: 2b0b9bc65146c66f19e1ba390d1c956c3b8f157ac4655f51df75280a36f0712b
+    - path: design/R05-UI-FROZEN/images/SCR-ID-002_01_默认.png
+      state: FILE
+      size: 129969
+      sha256: 3961eb76652700f634ef36e94f66abf29e5725216de609f071dbdcda56a1599f
+    - path: design/R05-UI-FROZEN/images/SCR-ID-002_02_字段错误.png
+      state: FILE
+      size: 147230
+      sha256: e2457ada7270960813a3feb936401d114f5683f09be782811599ef66f58445f8
+    - path: design/R05-UI-FROZEN/images/SCR-ID-002_03_授权说明弹层.png
+      state: FILE
+      size: 192453
+      sha256: 1d753ecbb49aa3793f574210236792e2a2c2232dbbcaeb6ac096b91d5f4071a2
+    - path: design/R05-UI-FROZEN/images/SCR-ID-002_04_网络失败重试.png
+      state: FILE
+      size: 163572
+      sha256: e210a88c8e70c8f98e367d1e779f2e611667e5936d8ef9fd98079358c74682d4
+    - path: design/R05-UI-FROZEN/images/SCR-ID-002_OVERVIEW.png
+      state: FILE
+      size: 441854
+      sha256: 14d847961ba8938a8e95ad7a0a3daba97ee6ee01e44c6c2b044ee198d59653b9
+    - path: design/R05-UI-FROZEN/images/SCR-ID-003_01_准备.png
+      state: FILE
+      size: 153557
+      sha256: 6000304bf8f047ce9d14b144b8ddfb952b0e0bc6a3bbeedb1f6e4c3cf73d4a8c
+    - path: design/R05-UI-FROZEN/images/SCR-ID-003_02_相机授权.png
+      state: FILE
+      size: 134427
+      sha256: da9752387d3e52dae49751f2b8a8d8dafd6d43424cdaad17939dfaa3118cff13
+    - path: design/R05-UI-FROZEN/images/SCR-ID-003_03_加载.png
+      state: FILE
+      size: 80849
+      sha256: eb2732a5cdee9548f628247da10e1032b248d9cbc5452335508fa9c804748ec3
+    - path: design/R05-UI-FROZEN/images/SCR-ID-003_04_处理中.png
+      state: FILE
+      size: 489308
+      sha256: 5d5ce4cea73e90669698f4cd150115b8d9e2c8e3ab6b4ea096a5242426e69de5
+    - path: design/R05-UI-FROZEN/images/SCR-ID-003_05_失败重试.png
+      state: FILE
+      size: 95271
+      sha256: e31026e6e2319f53a8d6d43c9e7afc391549f319ef4c9228f75358292fef5e82
+    - path: design/R05-UI-FROZEN/images/SCR-ID-003_OVERVIEW.png
+      state: FILE
+      size: 533977
+      sha256: 4d270e408403c3ebb5063230d7639af8b0fe06400522634d5699d8c1c5ee219f
+    - path: design/R05-UI-FROZEN/images/SCR-ID-004_01_核验中.png
+      state: FILE
+      size: 174038
+      sha256: 6b10a941ec0043736c815c281a67924ed09cc9ffb20b850ade930b7f9f9bd2f5
+    - path: design/R05-UI-FROZEN/images/SCR-ID-004_02_人工审核.png
+      state: FILE
+      size: 228608
+      sha256: b83c5e96a918672464baf49f646011fe7adf7cb6797d2d12a751a4d8e989c2d5
+    - path: design/R05-UI-FROZEN/images/SCR-ID-004_03_成功.png
+      state: FILE
+      size: 188740
+      sha256: a1f84db1802c424b92e8d3b98838bf6315fb4bebc398539dc82857df505a941d
+    - path: design/R05-UI-FROZEN/images/SCR-ID-004_04_拒绝.png
+      state: FILE
+      size: 228273
+      sha256: b2cc7d088f797185befa7c3ae154c7e075843244c6df591674039c70df70c450
+    - path: design/R05-UI-FROZEN/images/SCR-ID-004_05_失败.png
+      state: FILE
+      size: 234545
+      sha256: 49ee70d1e12665c48dd833bd0d361e77755ebcf7878e6558b11721fc2cc198e9
+    - path: design/R05-UI-FROZEN/images/SCR-ID-004_06_过期.png
+      state: FILE
+      size: 216290
+      sha256: b86672813c71745c32691a013fb6d30e4a450e3856065d181fc84922d9ac3086
+    - path: design/R05-UI-FROZEN/images/SCR-ID-004_OVERVIEW.png
+      state: FILE
+      size: 571613
+      sha256: 68475e59c8214a53d7e4d3790a514ed1389b725ddf49bbf5fbd68c9e0eee3404
+    - path: design/R05-UI-FROZEN/specs/ADM-ID-001.md
+      state: FILE
+      size: 3559
+      sha256: 5301a14dfd93f697d1cde72388c8b4bd5165d27c36af148ca5be640d6eb43cfd
+    - path: design/R05-UI-FROZEN/specs/ADM-ID-002.md
+      state: FILE
+      size: 4061
+      sha256: 4f57fa2fcbbcf7ce170f6c7a25691094641bf3176f0c357b3663b42c3714f1fe
+    - path: design/R05-UI-FROZEN/specs/H5-012.md
+      state: FILE
+      size: 3680
+      sha256: 7bbee5e7a925bc2c667d31dea3241829c260cf061590f3c9bcdd2b03e61f723f
+    - path: design/R05-UI-FROZEN/specs/SCR-ID-001.md
+      state: FILE
+      size: 2749
+      sha256: 519538e7cbbb99c424002be7eb125175670a3663759425cffcf96c6eb95b9bc6
+    - path: design/R05-UI-FROZEN/specs/SCR-ID-002.md
+      state: FILE
+      size: 3046
+      sha256: 05d0e9c6c26a7c53d3e5d6f12d69ca77048bcaf41d1fbca92c5b7198c592c40e
+    - path: design/R05-UI-FROZEN/specs/SCR-ID-003.md
+      state: FILE
+      size: 3218
+      sha256: 6de30587eff8a90d3ba4621e59be550f0e2304891e4e3dfdd8d0fd0b369c6959
+    - path: design/R05-UI-FROZEN/specs/SCR-ID-004.md
+      state: FILE
+      size: 3393
+      sha256: 65010394bd826d32680d27ea92ab2c0c0ab096353955569aabcd91d1174bfd30
+    - path: design/R05-UI-FROZEN/冻结说明.md
+      state: FILE
+      size: 1530
+      sha256: 6eb523a27b4289a2111b2df6b33aa85d8d66ea75510d9f80d268358c7547983d
+    - path: design/tokens/hhy_design_tokens_v1.2.2.json
+      state: FILE
+      size: 6380
+      sha256: d23fabd46941d2d7801d2b098abd417940c60a10db04ef01ea8283d6c2a7689e
+    - path: docs/00-baseline/正式商业系统全局硬性开发边界.md
+      state: FILE
+      size: 7158
+      sha256: d55f04d21c80e1f986778041933f84ff5b02684fbbb72df53132b56b0011b1cc
+    - path: docs/02-ui/UI参考图使用与开发约束_V1.2.2.md
+      state: FILE
+      size: 5105
+      sha256: 11aaffded8a6594f23cfa2b6b70d8ebc23e24e75232c087862250f3334a1ad09
+    - path: docs/03-continuity/PITFALLS.md
+      state: FILE
+      size: 2604
+      sha256: a2d8510ffc0abea7157abc67881f3a25063fb0d4751c5b7d5cf90125d5851957
+    - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
+      state: FILE
+      size: 62920
+      sha256: 760401edcbde9ce5609f4a85b43363b8a388809b82dc0839c82034d7e91c6b0e
+    - path: docs/03-continuity/REUSABLE_PATTERNS.md
+      state: FILE
+      size: 2555
+      sha256: 0dce77beb3883abfb5bb15bceafa7dab7b0973745e39386647742318531c42da
+    - path: docs/03-continuity/change-requests/CR-0109-补充R05-Android-APK版本身份精确文件范围.md
+      state: FILE
+      size: 2321
+      sha256: 2457416391ce2d66a6c8ca9a891d47bd98ed2ddd11fa3303363515287259f70f
+    - path: docs/03-continuity/change-requests/CR-0110-补充R05-007-APK交付证据精确路径.md
+      state: FILE
+      size: 2525
+      sha256: 7ea7a2a77787bbf3e87d0c52f6b265235b50ade68dd07cf74369b51935b7b0bd
+    - path: docs/03-continuity/change-requests/CR-0111-精确补充R05-007-APK交付证据文件.md
+      state: FILE
+      size: 3387
+      sha256: 3d8a27084d1ed3efdee721c872c08c7103386965f3b731cd302bd173e6245f55
+    - path: docs/03-continuity/change-requests/CR-0112-补充R05-004客户端闭环验收报告.md
+      state: FILE
+      size: 2315
+      sha256: c651780b9d58bc75bcbdfb9c0b2cfffd2abee1c91a0b5bab5173688e1cceb7ad
+    - path: docs/03-continuity/change-requests/CR-0113-建立全项目效果图视觉建模与UI参数零漂移硬门禁.md
+      state: FILE
+      size: 4132
+      sha256: 35d4170430a5bf324e4d40b96d1171a90284bf946fec79b4bae432e55e8a6dca
+    - path: docs/03-continuity/change-requests/CR-0114-同步UI零漂移规则到AGENTS导出模板.md
+      state: FILE
+      size: 2229
+      sha256: 62800444cd43d7de1801e4248129767985963a6528307e178e823f96f86a992c
+    - path: docs/03-continuity/change-requests/CR-0115-采纳R05冻结视觉补充包并校正管理后台视觉门禁范围.md
+      state: FILE
+      size: 3597
+      sha256: 740b38c5424205dbb49d5a4687189f32afcf9ae855f27bff444d654e8a5eea53
+    - path: docs/03-continuity/change-requests/CR-0116-补齐R05冻结UI的确定性Token派生与H5独立回跳布局.md
+      state: FILE
+      size: 3195
+      sha256: a3364ff0d9654efa72dbc6a0af91523351c12d60a419e07d16a20b29d14faacd
+    - path: docs/03-continuity/change-requests/CR-0117-递增R05冻结UI真机测试APK版本身份.md
+      state: FILE
+      size: 2402
+      sha256: 4e2c8a54c6994d800df0da6a0e83bed8e91ee71899af6c7707df58805ea20d84
+    - path: docs/03-continuity/change-requests/CR-0118-归档R05冻结UI换版前APK交付事实.md
+      state: FILE
+      size: 2239
+      sha256: 6ef4c08c2b1e983987b3109db66af29890a10c62fbd4588db81596e23f8f9859
+    - path: docs/03-continuity/change-requests/CR-0119-建立全项目统一矢量图标、真实导航返回栈与原生页面过渡硬门禁.md
+      state: FILE
+      size: 4956
+      sha256: f247e285e0751a84dccc02bd53d76882ac86ffcf8142899204536c45d7614517
+    - path: docs/03-continuity/change-requests/CR-0120-递增统一导航图标动效基础设施测试APK版本身份.md
+      state: FILE
+      size: 2589
+      sha256: b1389b26e4b7058161a855e922d6ee597c8c77d56f33a041885737363c7bd6cc
+    - path: docs/03-continuity/change-requests/CR-0121-补齐认证模块原生返回处理依赖.md
+      state: FILE
+      size: 2295
+      sha256: 0cba97572d918a4daa48bc0f58f814e38a21ac7ad5f55046c323f309407293a4
+    - path: docs/03-continuity/change-requests/CR-0122-交付R05统一导航图标动效10210真机测试APK.md
+      state: FILE
+      size: 3571
+      sha256: 6ef46ec0ad13de091e7b25a915d0bb23b5c56c038db916a7b1705c74b44c2190
+    - path: docs/03-continuity/change-requests/CR-0123-修复登录注册真实返回来源与反向转场并补齐实名结果状态.md
+      state: FILE
+      size: 4005
+      sha256: e0ca3fbc6357faa733907d85f3707c607afae8293112add9386972018605d1ae
+    - path: docs/03-continuity/change-requests/CR-0124-建立生产隔离的R05实名认证Staging供应商沙箱.md
+      state: FILE
+      size: 4750
+      sha256: 670e4909c56708c46da2ffe1eaa4889444663ef18e951c2bb3e5fe1f290a2c5b
+    - path: docs/03-continuity/change-requests/CR-0125-递增登录导航修复与实名沙箱闭环测试APK版本身份.md
+      state: FILE
+      size: 3059
+      sha256: 5253c3982145e0e59499c79ebee153e14d1f34f5c1d12f2017dbc8baa82eca2a
+    - path: docs/03-continuity/change-requests/CR-0126-补充10211替换交付产生的10210历史清单精确路径.md
+      state: FILE
+      size: 2339
+      sha256: b0f54ad7436430b3afaf37b5fe28eac7db9886a6a0039f5450cd82b0f79dc5b7
+    - path: docs/03-continuity/change-requests/CR-0127-修复测试APK渠道漂移导致启动版本检查404并递增10212.md
+      state: FILE
+      size: 3458
+      sha256: f2941c211091d60ebbda34442f6981c25809fdf27a4eb05e3c9157c4549a5494
+    - path: docs/03-continuity/change-requests/CR-0128-修复R05实名状态恢复并将第三方活体H5改为全屏容器.md
+      state: FILE
+      size: 3974
+      sha256: bec69a2a63ab25f3626051f449e08608d6599e3822e1301936fcdad8ed9a3460
+    - path: docs/03-continuity/change-requests/CR-0129-同步R05实名总览契约目录与生成客户端.md
+      state: FILE
+      size: 2313
+      sha256: 885f6a7fbda49438d5a6c22ea2181f2e6d206c9a3f3b04705f1ca14962d6b523
+    - path: docs/03-continuity/change-requests/CR-0130-递增并交付R05实名状态恢复与全屏活体测试APK.md
+      state: FILE
+      size: 2788
+      sha256: a2f8936e3252a036f13416b49caa33e5d1016d2b3fe5846ff09b7543da13c184
+    - path: docs/03-continuity/change-requests/CR-0131-精确登记R05-10213源码与追溯文件范围.md
+      state: FILE
+      size: 2122
+      sha256: c126621faa074abd1b0624a67fa3dd16fc2d10ba449f61743900ff78f767c7be
+    - path: docs/03-continuity/change-requests/CR-0132-补齐实名总览API页面所有权与R05故事追溯.md
+      state: FILE
+      size: 1838
+      sha256: 6cfb5b585c62ab9c7e1810c3eb3fd7399de68784e58b7a599e4d6c4ee4018065
+    - path: docs/09-development/统一开发与交付效率规范.md
+      state: FILE
+      size: 6357
+      sha256: 34eeaf289c1e06636a81452ddb17962292302624f72057a0e27ed425179c11c6
+    - path: infra/staging/r05-smoke/docker-compose.yml
+      state: FILE
+      size: 4530
+      sha256: 822701d078caf166860d5ab58f4265bc90324f7830bb7b7dca9607d6bfa48f27
+    - path: packages/api-client/src/client.generated.ts
+      state: FILE
+      size: 618991
+      sha256: 8e098e408bf346232eaaa1c74adf0f650289895de5cbec50fed62b1768221322
+    - path: packages/design-tokens/admin.css
+      state: FILE
+      size: 5143
+      sha256: 28fbff95f30094d0c7dd5deeba4f2d74b05e65365186754264ea3917e3f15489
+    - path: packages/design-tokens/h5.css
+      state: FILE
+      size: 4729
+      sha256: 80266278f4590e0db7801f7f8007951f3ac0a09457f11f4c8d55cd0819cea3b5
+    - path: releases/PROGRAM_EXECUTION_PLAN.yaml
+      state: FILE
+      size: 35802
+      sha256: 8f07b807f972671d8270db374fad897fb0a36ed4cb3d4f6788dd12cf411dfb46
+    - path: releases/R05/ACCEPTANCE_MATRIX.csv
+      state: FILE
+      size: 814
+      sha256: 98126dbba6a77102d407f9e9de5e95bef5f492330ddc5bc681afc3696edbac1b
+    - path: releases/R05/PARALLEL_EXECUTION_PLAN.yaml
+      state: FILE
+      size: 3785
+      sha256: 38aeca3a61f5a73723627cf4dbf1fcedf5bd759234e99f6bfe6200984b140dda
+    - path: releases/R05/RELEASE_MANIFEST.yaml
+      state: FILE
+      size: 3764
+      sha256: 315de0e856c4cc2ba3fad0b2d48e9636c3bb3590f0adc73839c66f3feb67b2d6
+    - path: releases/R05/STORIES.yaml
+      state: FILE
+      size: 19296
+      sha256: 5ab834809127e32bfecc401bd27938833ab09e66b287c2b65973830640437b22
+    - path: scripts/check_android_ui_foundation.py
+      state: FILE
+      size: 4654
+      sha256: 7ab7a0b4086e1fdc5d11b99dc0d9e92a3f574559703cc79f97d7df7d7e7237fb
+    - path: scripts/check_r05_public_identity.py
+      state: FILE
+      size: 5285
+      sha256: e65559458c7fe627666858b852b102797e7a9f0cf10e37bb925e6cc9cf6f1fa4
+    - path: scripts/check_r05_staging_identity_sandbox.py
+      state: FILE
+      size: 11313
+      sha256: 6def3bf385c2b0a19e86a83122ec42d01c743569ad28a2a8a01861a31c6c284f
+    - path: scripts/check_release_artifacts.py
+      state: FILE
+      size: 17911
+      sha256: 6f616caed952bb75f47fe2c8dbef14912f871321aa713fc48c9a747e44fb9862
+    - path: scripts/check_ui_tokens.py
+      state: FILE
+      size: 16183
+      sha256: e2dfc7a54746f47a4820931ae0cd3ef2c0d898c960c1cf3b283a061fc8e9c699
+    - path: scripts/check_ui_visual_acceptance.py
+      state: FILE
+      size: 10314
+      sha256: da40246eca0b68f7593517fb0f3106f6a490873d5361b0059b1b93774c4ffed5
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentityContracts.java
+      state: FILE
+      size: 1589
+      sha256: 61bdedfd36b3209d4ea98c033238943127803f2c7873b5e2d42dd5bdd7716855
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentitySandboxProperties.java
+      state: FILE
+      size: 1432
+      sha256: 3e90a4d47ca4a081b2e7619f2be853a7d23bd76056afa148256f6e9613b298b7
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentitySandboxService.java
+      state: FILE
+      size: 3917
+      sha256: dc81b161a26d80bae5db3a47a905671888c547926e3d6e48505908cae6b38a1d
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentitySandboxStartupGuard.java
+      state: FILE
+      size: 989
+      sha256: b539aa166648c876d216a0f3e5fadb6b59ee92c28333e6a433765f6ccc4272ce
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentityService.java
+      state: FILE
+      size: 15027
+      sha256: 778a008bcc77c7ad9bf5a4bb5be505abfb47b59f4240a5b344692a0c95e13f94
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityAccessConfiguration.java
+      state: FILE
+      size: 4231
+      sha256: 6135fa5aa245e9415007c59a924071cf56850331d9d33345bc129cc61290ec7a
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityPostgresStore.java
+      state: FILE
+      size: 26828
+      sha256: 9e4961695e78f75d4cb73c0f25017f1a9b6efd1bcc358a771c139382fe85810f
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityProviderRouter.java
+      state: FILE
+      size: 1282
+      sha256: 791b10930380962e3170cd60db1803aaa9a75580836cac3bb752c9b32bf8864f
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityRuntimePolicy.java
+      state: FILE
+      size: 3104
+      sha256: 13305df6a6c9547bbc214443a794426da6761dfcf31c9d679d7277fac27e219b
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentitySandboxClient.java
+      state: FILE
+      size: 2569
+      sha256: 599b6834ec261b56755eb2e107d4d6ef48ea55e42308be1080217be2cbd8f387
+    - path: services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/IdentityController.java
+      state: FILE
+      size: 4659
+      sha256: d6a1516f64cd573524aca608c62dc2c9e57dbd6a9ca1471e3ba55923c6dd04b6
+    - path: services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/PublicIdentitySandboxController.java
+      state: FILE
+      size: 4892
+      sha256: 92f5582abb1ba44c2d4a9d73a069b981510583ed6d39e94a01810e4cc10140a0
+    - path: services/backend/boot/src/main/resources/application.yml
+      state: FILE
+      size: 3347
+      sha256: a4729c35b0d230884d9cbe1af231e176b8983889658bddfc6d9b19267045104d
+    - path: services/backend/boot/src/main/resources/contracts/openapi.yaml
+      state: FILE
+      size: 598571
+      sha256: 8da0411da04d8424f2346064d4a8ab38bbe87b5579c40e65b0d7f9ebc94a1295
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/IdentitySandboxIsolationTest.java
+      state: FILE
+      size: 6247
+      sha256: a901281d9980029b625a4a9c1bec99750434fd49ec9b4282e3be39ae10957dd9
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/IdentityServiceTest.java
+      state: FILE
+      size: 14355
+      sha256: 58a9b155d2421bc027cabdbd0792693aaaa81b76be6d0c3cd1a7cf632e48fece
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/IdentityControllerTest.java
+      state: FILE
+      size: 6111
+      sha256: aa0c8b01368636d6141376ea4d3cda438e5849b818efb6448760db5cd44b5048
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/PublicIdentitySandboxControllerTest.java
+      state: FILE
+      size: 2587
+      sha256: cb14526dc8961e2ffe618874f066d5ed99375b0e91d8d53e013c892d361101b9
+    - path: templates/AGENTS.md
+      state: FILE
+      size: 10244
+      sha256: 99764caddfe58d603687a938f1ac8b4f24b5c76043cea247aaf9a656b7c8a92c
+    - path: tests/test_android_ui_foundation.py
+      state: FILE
+      size: 2425
+      sha256: 8c064642eecc2971489fc270467d51c4d0ab33f7442482a1a975021497fbe8e0
+    - path: tests/test_r05_public_identity_gate.py
+      state: FILE
+      size: 1733
+      sha256: b88efceefe54f6f43efc2f5c598ad3f71bb81ca792c309640036ba1c1c931067
+    - path: tests/test_release_close_gate.py
+      state: FILE
+      size: 14728
+      sha256: 1643a0f60a95e6a4183845784a15ad693b4830090dd10678b704b73b321e3a69
+    - path: tests/test_ui_visual_acceptance.py
+      state: FILE
+      size: 7533
+      sha256: b501f9e4a5c0512e9831a5e909d38e8bc426d604ca316b16d489871df2bbcd1c
+change_classification:
+  other:
+  - AGENTS.md
+  - CHANGELOG.md
+  - artifacts/apk/R05/APK_MANIFEST.yaml
+  - artifacts/apk/R05/history/3454ff2/APK_MANIFEST.yaml
+  - artifacts/apk/R05/history/7b57046/APK_MANIFEST.yaml
+  - artifacts/apk/R05/history/b597f2c/APK_MANIFEST.yaml
+  - artifacts/apk/R05/history/bc52fe6/APK_MANIFEST.yaml
+  - catalogs/api_endpoints.csv
+  - catalogs/api_ui_ownership.csv
+  - catalogs/ui_visual_acceptance.csv
+  - design/R05-UI-FROZEN/TOKEN_ADDITIONS_PROPOSAL.json
+  - design/R05-UI-FROZEN/VISUAL_MANIFEST.json
+  - design/R05-UI-FROZEN/generation/README.md
+  - design/R05-UI-FROZEN/generation/generate_r05_ui.py
+  - design/R05-UI-FROZEN/generation/requirements.txt
+  - design/R05-UI-FROZEN/generation/validate_r05_ui.py
+  - design/R05-UI-FROZEN/images/ADM-ID-001_01_加载.png
+  - design/R05-UI-FROZEN/images/ADM-ID-001_02_正常列表.png
+  - design/R05-UI-FROZEN/images/ADM-ID-001_03_空列表.png
+  - design/R05-UI-FROZEN/images/ADM-ID-001_04_无权限.png
+  - design/R05-UI-FROZEN/images/ADM-ID-001_05_失败.png
+  - design/R05-UI-FROZEN/images/ADM-ID-001_06_1200响应式.png
+  - design/R05-UI-FROZEN/images/ADM-ID-001_OVERVIEW.png
+  - design/R05-UI-FROZEN/images/ADM-ID-002_01_加载.png
+  - design/R05-UI-FROZEN/images/ADM-ID-002_02_详情.png
+  - design/R05-UI-FROZEN/images/ADM-ID-002_03_敏感资料授权.png
+  - design/R05-UI-FROZEN/images/ADM-ID-002_04_人工复核.png
+  - design/R05-UI-FROZEN/images/ADM-ID-002_05_乐观锁冲突.png
+  - design/R05-UI-FROZEN/images/ADM-ID-002_06_无权限.png
+  - design/R05-UI-FROZEN/images/ADM-ID-002_07_404.png
+  - design/R05-UI-FROZEN/images/ADM-ID-002_08_1200响应式.png
+  - design/R05-UI-FROZEN/images/ADM-ID-002_OVERVIEW.png
+  - design/R05-UI-FROZEN/images/H5-012_01_加载.png
+  - design/R05-UI-FROZEN/images/H5-012_02_处理中.png
+  - design/R05-UI-FROZEN/images/H5-012_03_成功.png
+  - design/R05-UI-FROZEN/images/H5-012_04_人工审核.png
+  - design/R05-UI-FROZEN/images/H5-012_05_未通过.png
+  - design/R05-UI-FROZEN/images/H5-012_06_失效.png
+  - design/R05-UI-FROZEN/images/H5-012_07_离线.png
+  - design/R05-UI-FROZEN/images/H5-012_OVERVIEW.png
+  - design/R05-UI-FROZEN/images/HHY_R05_IDENTITY_VISUAL_MASTER_OVERVIEW.png
+  - design/R05-UI-FROZEN/images/SCR-ID-001_01_未认证.png
+  - design/R05-UI-FROZEN/images/SCR-ID-001_02_认证中.png
+  - design/R05-UI-FROZEN/images/SCR-ID-001_03_已认证.png
+  - design/R05-UI-FROZEN/images/SCR-ID-001_OVERVIEW.png
+  - design/R05-UI-FROZEN/images/SCR-ID-002_01_默认.png
+  - design/R05-UI-FROZEN/images/SCR-ID-002_02_字段错误.png
+  - design/R05-UI-FROZEN/images/SCR-ID-002_03_授权说明弹层.png
+  - design/R05-UI-FROZEN/images/SCR-ID-002_04_网络失败重试.png
+  - design/R05-UI-FROZEN/images/SCR-ID-002_OVERVIEW.png
+  - design/R05-UI-FROZEN/images/SCR-ID-003_01_准备.png
+  - design/R05-UI-FROZEN/images/SCR-ID-003_02_相机授权.png
+  - design/R05-UI-FROZEN/images/SCR-ID-003_03_加载.png
+  - design/R05-UI-FROZEN/images/SCR-ID-003_04_处理中.png
+  - design/R05-UI-FROZEN/images/SCR-ID-003_05_失败重试.png
+  - design/R05-UI-FROZEN/images/SCR-ID-003_OVERVIEW.png
+  - design/R05-UI-FROZEN/images/SCR-ID-004_01_核验中.png
+  - design/R05-UI-FROZEN/images/SCR-ID-004_02_人工审核.png
+  - design/R05-UI-FROZEN/images/SCR-ID-004_03_成功.png
+  - design/R05-UI-FROZEN/images/SCR-ID-004_04_拒绝.png
+  - design/R05-UI-FROZEN/images/SCR-ID-004_05_失败.png
+  - design/R05-UI-FROZEN/images/SCR-ID-004_06_过期.png
+  - design/R05-UI-FROZEN/images/SCR-ID-004_OVERVIEW.png
+  - design/R05-UI-FROZEN/specs/ADM-ID-001.md
+  - design/R05-UI-FROZEN/specs/ADM-ID-002.md
+  - design/R05-UI-FROZEN/specs/H5-012.md
+  - design/R05-UI-FROZEN/specs/SCR-ID-001.md
+  - design/R05-UI-FROZEN/specs/SCR-ID-002.md
+  - design/R05-UI-FROZEN/specs/SCR-ID-003.md
+  - design/R05-UI-FROZEN/specs/SCR-ID-004.md
+  - design/R05-UI-FROZEN/冻结说明.md
+  - design/tokens/hhy_design_tokens_v1.2.2.json
+  - docs/09-development/统一开发与交付效率规范.md
+  - releases/PROGRAM_EXECUTION_PLAN.yaml
+  - releases/R05/ACCEPTANCE_MATRIX.csv
+  - releases/R05/PARALLEL_EXECUTION_PLAN.yaml
+  - templates/AGENTS.md
+  code:
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/androidTest/java/cc/orbexa/hhy/AuthenticatedNavigationTest.kt
+  - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+  - apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+  - apps/android/app/src/test/java/cc/orbexa/hhy/NavigationPolicyTest.kt
+  - apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+  - apps/android/core/designsystem/build.gradle.kts
+  - apps/android/core/designsystem/src/main/assets/hhy_design_tokens_v1.2.2.json
+  - apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyIcons.kt
+  - apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyMotion.kt
+  - apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyTokens.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ApiModels.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractIdentityApi.kt
+  - apps/android/feature/auth/build.gradle.kts
+  - apps/android/feature/auth/src/main/java/cc/orbexa/hhy/auth/AuthScreen.kt
+  - apps/android/feature/identity/build.gradle.kts
+  - apps/android/feature/identity/src/main/java/cc/orbexa/hhy/identity/IdentityFlowScreen.kt
+  - apps/android/feature/identity/src/main/java/cc/orbexa/hhy/identity/IdentityPresentation.kt
+  - apps/android/feature/identity/src/test/java/cc/orbexa/hhy/identity/IdentityPresentationTest.kt
+  - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+  - apps/android/gradle/libs.versions.toml
+  - apps/h5/src/App.vue
+  - apps/h5/src/styles.css
+  - apps/h5/src/views/IdentityCallbackPage.test.ts
+  - apps/h5/src/views/IdentityCallbackPage.vue
+  - packages/api-client/src/client.generated.ts
+  - packages/design-tokens/admin.css
+  - packages/design-tokens/h5.css
+  - scripts/check_android_ui_foundation.py
+  - scripts/check_r05_public_identity.py
+  - scripts/check_r05_staging_identity_sandbox.py
+  - scripts/check_release_artifacts.py
+  - scripts/check_ui_tokens.py
+  - scripts/check_ui_visual_acceptance.py
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentityContracts.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentitySandboxProperties.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentitySandboxService.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentitySandboxStartupGuard.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentityService.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityAccessConfiguration.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityPostgresStore.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityProviderRouter.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityRuntimePolicy.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentitySandboxClient.java
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/IdentityController.java
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/PublicIdentitySandboxController.java
+  - services/backend/boot/src/main/resources/application.yml
+  - services/backend/boot/src/main/resources/contracts/openapi.yaml
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/IdentitySandboxIsolationTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/IdentityServiceTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/IdentityControllerTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/PublicIdentitySandboxControllerTest.java
+  user_visible:
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/androidTest/java/cc/orbexa/hhy/AuthenticatedNavigationTest.kt
+  - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+  - apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+  - apps/android/app/src/test/java/cc/orbexa/hhy/NavigationPolicyTest.kt
+  - apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+  - apps/android/core/designsystem/build.gradle.kts
+  - apps/android/core/designsystem/src/main/assets/hhy_design_tokens_v1.2.2.json
+  - apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyIcons.kt
+  - apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyMotion.kt
+  - apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyTokens.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ApiModels.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractIdentityApi.kt
+  - apps/android/feature/auth/build.gradle.kts
+  - apps/android/feature/auth/src/main/java/cc/orbexa/hhy/auth/AuthScreen.kt
+  - apps/android/feature/identity/build.gradle.kts
+  - apps/android/feature/identity/src/main/java/cc/orbexa/hhy/identity/IdentityFlowScreen.kt
+  - apps/android/feature/identity/src/main/java/cc/orbexa/hhy/identity/IdentityPresentation.kt
+  - apps/android/feature/identity/src/test/java/cc/orbexa/hhy/identity/IdentityPresentationTest.kt
+  - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+  - apps/android/gradle/libs.versions.toml
+  - apps/h5/src/App.vue
+  - apps/h5/src/styles.css
+  - apps/h5/src/views/IdentityCallbackPage.test.ts
+  - apps/h5/src/views/IdentityCallbackPage.vue
+  - contracts/contract_status.csv
+  - contracts/openapi.yaml
+  - contracts/operation-error-matrix.csv
+  - docs/02-ui/UI参考图使用与开发约束_V1.2.2.md
+  source_of_truth:
+  - catalogs/ui_action_matrix.csv
+  - contracts/contract_status.csv
+  - contracts/openapi.yaml
+  - contracts/operation-error-matrix.csv
+  - docs/00-baseline/正式商业系统全局硬性开发边界.md
+  - docs/02-ui/UI参考图使用与开发约束_V1.2.2.md
+  - releases/R05/RELEASE_MANIFEST.yaml
+  - releases/R05/STORIES.yaml
+  contracts:
+  - contracts/contract_status.csv
+  - contracts/openapi.yaml
+  - contracts/operation-error-matrix.csv
+  continuity:
+  - docs/03-continuity/PITFALLS.md
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/REUSABLE_PATTERNS.md
+  - docs/03-continuity/change-requests/CR-0109-补充R05-Android-APK版本身份精确文件范围.md
+  - docs/03-continuity/change-requests/CR-0110-补充R05-007-APK交付证据精确路径.md
+  - docs/03-continuity/change-requests/CR-0111-精确补充R05-007-APK交付证据文件.md
+  - docs/03-continuity/change-requests/CR-0112-补充R05-004客户端闭环验收报告.md
+  - docs/03-continuity/change-requests/CR-0113-建立全项目效果图视觉建模与UI参数零漂移硬门禁.md
+  - docs/03-continuity/change-requests/CR-0114-同步UI零漂移规则到AGENTS导出模板.md
+  - docs/03-continuity/change-requests/CR-0115-采纳R05冻结视觉补充包并校正管理后台视觉门禁范围.md
+  - docs/03-continuity/change-requests/CR-0116-补齐R05冻结UI的确定性Token派生与H5独立回跳布局.md
+  - docs/03-continuity/change-requests/CR-0117-递增R05冻结UI真机测试APK版本身份.md
+  - docs/03-continuity/change-requests/CR-0118-归档R05冻结UI换版前APK交付事实.md
+  - docs/03-continuity/change-requests/CR-0119-建立全项目统一矢量图标、真实导航返回栈与原生页面过渡硬门禁.md
+  - docs/03-continuity/change-requests/CR-0120-递增统一导航图标动效基础设施测试APK版本身份.md
+  - docs/03-continuity/change-requests/CR-0121-补齐认证模块原生返回处理依赖.md
+  - docs/03-continuity/change-requests/CR-0122-交付R05统一导航图标动效10210真机测试APK.md
+  - docs/03-continuity/change-requests/CR-0123-修复登录注册真实返回来源与反向转场并补齐实名结果状态.md
+  - docs/03-continuity/change-requests/CR-0124-建立生产隔离的R05实名认证Staging供应商沙箱.md
+  - docs/03-continuity/change-requests/CR-0125-递增登录导航修复与实名沙箱闭环测试APK版本身份.md
+  - docs/03-continuity/change-requests/CR-0126-补充10211替换交付产生的10210历史清单精确路径.md
+  - docs/03-continuity/change-requests/CR-0127-修复测试APK渠道漂移导致启动版本检查404并递增10212.md
+  - docs/03-continuity/change-requests/CR-0128-修复R05实名状态恢复并将第三方活体H5改为全屏容器.md
+  - docs/03-continuity/change-requests/CR-0129-同步R05实名总览契约目录与生成客户端.md
+  - docs/03-continuity/change-requests/CR-0130-递增并交付R05实名状态恢复与全屏活体测试APK.md
+  - docs/03-continuity/change-requests/CR-0131-精确登记R05-10213源码与追溯文件范围.md
+  - docs/03-continuity/change-requests/CR-0132-补齐实名总览API页面所有权与R05故事追溯.md
+  infrastructure:
+  - infra/staging/r05-smoke/docker-compose.yml
+  tests:
+  - tests/test_android_ui_foundation.py
+  - tests/test_r05_public_identity_gate.py
+  - tests/test_release_close_gate.py
+  - tests/test_ui_visual_acceptance.py
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+- APPROVED_CHANGE_REQUEST
+- CONTRACT_TEST_EVIDENCE
+- GENERATED_CLIENTS_OR_GENERATION_RECORD
+- CHANGELOG
+change_requests:
+- CR-0109
+- CR-0110
+- CR-0111
+- CR-0112
+- CR-0113
+- CR-0114
+- CR-0115
+- CR-0116
+- CR-0117
+- CR-0118
+- CR-0119
+- CR-0120
+- CR-0121
+- CR-0122
+- CR-0123
+- CR-0124
+- CR-0125
+- CR-0126
+- CR-0127
+- CR-0128
+- CR-0129
+- CR-0130
+- CR-0131
+- CR-0132
+scope:
+  allowed_paths:
+  - apps/admin-web/**
+  - services/backend/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - tests/**
+  - docs/**
+  - catalogs/**
+  - releases/**
+  - design/**
+  - scripts/**
+  - CHANGELOG.md
+  approved_exceptions:
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+  - apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+  - artifacts/apk/R05/APK_MANIFEST.yaml
+  - artifacts/validation/r05-apk-delivery/delivery-evidence.json
+  - artifacts/validation/r05-task007-android/apk-badging.txt
+  - artifacts/validation/r05-task007-android/apk-sha256.txt
+  - artifacts/validation/r05-task007-android/apk-signing.txt
+  - artifacts/validation/r05-task007-android/apk-size.txt
+  - artifacts/validation/r05-task007-android/build-evidence.json
+  - artifacts/validation/r05-task007-android/documentation-gate.json
+  - artifacts/validation/r05-task007-android/embedded-api-count.txt
+  - artifacts/validation/r05-task007-android/embedded-placeholder-count.txt
+  - artifacts/validation/r05-task007-android/evidence-sha256.txt
+  - artifacts/validation/r05-task007-android/gradle-build.log
+  - artifacts/validation/r05-task007-android/source-archive-sha256.txt
+  - artifacts/validation/r05-task007-android/toolchain-image-id.txt
+  - artifacts/validation/r05-task007-android/zipalign.txt
+  - artifacts/reports/R05/TASK-R05-007-android-apk.md
+  - artifacts/reports/R05/R05-version-test-guide.md
+  - artifacts/reports/R05/TASK-R05-004-client.md
+  - AGENTS.md
+  - docs/00-baseline/正式商业系统全局硬性开发边界.md
+  - docs/02-ui/UI参考图使用与开发约束_V1.2.2.md
+  - catalogs/ui_visual_acceptance.csv
+  - scripts/check_ui_visual_acceptance.py
+  - scripts/check_release_artifacts.py
+  - tests/test_ui_visual_acceptance.py
+  - tests/test_release_close_gate.py
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/PITFALLS.md
+  - CHANGELOG.md
+  - templates/AGENTS.md
+  - design/R05-UI-FROZEN
+  - apps/android/feature/identity/src/main/java/cc/orbexa/hhy/identity/IdentityFlowScreen.kt
+  - apps/h5/src/views/IdentityCallbackPage.vue
+  - design/tokens/hhy_design_tokens_v1.2.2.json
+  - apps/android/core/designsystem/src/main/assets/hhy_design_tokens_v1.2.2.json
+  - apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyTokens.kt
+  - packages/design-tokens/h5.css
+  - packages/design-tokens/admin.css
+  - scripts/check_ui_tokens.py
+  - apps/h5/src/App.vue
+  - apps/h5/src/styles.css
+  - apps/h5/src/views/IdentityCallbackPage.test.ts
+  - artifacts/validation/r05-ui/H5-012-browser-360x800.png
+  - artifacts/reports/R05/R05-UI-FROZEN-PACKAGE-INTAKE.md
+  - artifacts/apk/R05/history/3454ff2/APK_MANIFEST.yaml
+  - artifacts/validation/r05-apk-delivery/history/3454ff2/delivery-evidence.json
+  - docs/09-development/统一开发与交付效率规范.md
+  - docs/03-continuity/REUSABLE_PATTERNS.md
+  - apps/android/gradle/libs.versions.toml
+  - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+  - apps/android/core/designsystem/build.gradle.kts
+  - apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyIcons.kt
+  - apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyMotion.kt
+  - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+  - apps/android/feature/auth/src/main/java/cc/orbexa/hhy/auth/AuthScreen.kt
+  - apps/android/feature/identity/build.gradle.kts
+  - scripts/check_android_ui_foundation.py
+  - tests/test_android_ui_foundation.py
+  - apps/android/app/src/test/java/cc/orbexa/hhy/NavigationPolicyTest.kt
+  - apps/android/app/src/androidTest/java/cc/orbexa/hhy/AuthenticatedNavigationTest.kt
+  - apps/android/feature/auth/build.gradle.kts
+  - artifacts/apk/R05/history/b597f2c/APK_MANIFEST.yaml
+  - artifacts/validation/r05-apk-delivery/history/b597f2c/delivery-evidence.json
+  - apps/android/feature/identity/src/main/java/cc/orbexa/hhy/identity/IdentityPresentation.kt
+  - apps/android/feature/identity/src/test/java/cc/orbexa/hhy/identity/IdentityPresentationTest.kt
+  - artifacts/validation/r05-owner-test-10210/feedback.json
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentitySandboxProperties.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentitySandboxStartupGuard.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentitySandboxClient.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityProviderRouter.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityRuntimePolicy.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityAccessConfiguration.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityPostgresStore.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentitySandboxService.java
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/PublicIdentitySandboxController.java
+  - services/backend/boot/src/main/resources/application.yml
+  - infra/staging/r05-smoke/docker-compose.yml
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/IdentitySandboxIsolationTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/PublicIdentitySandboxControllerTest.java
+  - artifacts/apk/R05/history/7b57046/APK_MANIFEST.yaml
+  - artifacts/validation/r05-apk-delivery/history/7b57046/delivery-evidence.json
+  - artifacts/validation/r05-task007-android
+  - artifacts/apk/R05/history/bc52fe6/APK_MANIFEST.yaml
+  - artifacts/validation/r05-apk-delivery/history/bc52fe6/delivery-evidence.json
+  - contracts/openapi.yaml
+  - contracts/contract_status.csv
+  - services/backend/boot/src/main/resources/contracts/openapi.yaml
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentityContracts.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentityService.java
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/IdentityController.java
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractIdentityApi.kt
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/IdentityControllerTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/IdentityServiceTest.java
+  - catalogs/api_endpoints.csv
+  - contracts/operation-error-matrix.csv
+  - packages/api-client/src/client.generated.ts
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ApiModels.kt
+  - catalogs/api_ui_ownership.csv
+  - catalogs/ui_action_matrix.csv
+  - releases/R05/STORIES.yaml
+  - releases/R05/RELEASE_MANIFEST.yaml
+  source: story+explicit+approved-cr:CR-0109+approved-cr:CR-0111+approved-cr:CR-0112+approved-cr:CR-0113+approved-cr:CR-0114+approved-cr:CR-0115+approved-cr:CR-0116+approved-cr:CR-0117+approved-cr:CR-0118+approved-cr:CR-0119+approved-cr:CR-0120+approved-cr:CR-0121+approved-cr:CR-0122+approved-cr:CR-0123+approved-cr:CR-0124+approved-cr:CR-0125+approved-cr:CR-0126+approved-cr:CR-0127+approved-cr:CR-0128+approved-cr:CR-0129+approved-cr:CR-0131+approved-cr:CR-0132
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 当前阶段为跨后端契约、Android版本和公网部署的同一不可变提交冻结，必须由根集成会话顺序完成。
+event_hash: 8c96772b894788cc2b410ae716770a675fa9081be15f19d3cf84a85a5baf84a9

@@ -1,0 +1,225 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260722T194140Z-BCF8BB57-0003
+session_id: SES-20260722T194140Z-BCF8BB57
+sequence: 3
+created_at: '2026-07-22T19:52:03Z'
+summary: CR-0252范围内已实现三项R09适配器、App服务5类故障断言、PostgreSQL八路并发断言、Android幂等键稳定性测试和统一证据校验器。
+next_step: 冻结测试实现提交，随后以精确Commit运行Java21、PostgreSQL17和Android受影响MODULE并生成证据。
+blockers: []
+decisions: []
+note: ''
+tests:
+- name: R09 adapter inventory
+  result: PASS
+  evidence: scripts/run_r09_specialized_matrix.py
+  note: 3个冻结ID、选择器和故障类绑定通过
+- name: R09 targeted backend
+  result: PASS
+  evidence: Maven R09ServiceTest,R09ControllerContractTest
+  note: 12 tests, 0 failures, 0 errors
+- name: R09 Android app-promotion
+  result: PASS
+  evidence: Gradle feature app-promotion testDebugUnitTest
+  note: BUILD SUCCESSFUL, 45 tasks
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: 78c1f91bbacd724991292e2634288d6af6ace5d5
+  upstream: origin/task/TASK-R03-001
+  ahead: 0
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/ACTIVE_SESSION.yaml'
+  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/SESSION_INDEX.yaml'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/TASK_CLAIMS.yaml'
+  - ' M .continuity/TASK_TRANSITIONS.yaml'
+  - ' M CHANGELOG.md'
+  - ' M CURRENT_STATUS.yaml'
+  - ' M apps/android/feature/app-promotion/src/test/java/cc/orbexa/hhy/apppromotion/R09AppStateTest.kt'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+  - ' M catalogs/change_request_index.csv'
+  - ' M catalogs/session_index.csv'
+  - ' M catalogs/task_transition_ledger.csv'
+  - ' M catalogs/test_cases.csv'
+  - ' M services/backend/boot/src/test/java/cc/orbexa/hhy/content/R09PostgresStoreTest.java'
+  - ' M services/backend/boot/src/test/java/cc/orbexa/hhy/content/R09ServiceTest.java'
+  - ?? .continuity/change_requests/CR-0252.yaml
+  - ?? .continuity/checkpoints/SES-20260722T194140Z-BCF8BB57/0001.yaml
+  - ?? .continuity/checkpoints/SES-20260722T194140Z-BCF8BB57/0002.yaml
+  - ?? .continuity/sessions/SES-20260722T194140Z-BCF8BB57.yaml
+  - ?? docs/03-continuity/change-requests/CR-0252-R09-App推广专项测试与故障证据闭环.md
+  - ?? docs/03-continuity/sessions/2026-07/SES-20260722T194140Z-BCF8BB57.md
+  - ?? scripts/run_r09_specialized_matrix.py
+  - ?? tests/r09/README.md
+  - ?? tests/r09/req-app-promo-001_happy
+  - ?? tests/r09/req-app-promo-001_idempotent
+  - ?? tests/r09/req-app-promo-001_reject
+  recent_commits:
+  - "78c1f91bbacd724991292e2634288d6af6ace5d5\t2026-07-23T03:40:17+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] docs(r09): close client task"
+  - "2606a21c4f3020c2279b8320958be13d4fc0df0c\t2026-07-23T03:38:58+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] docs(r09): close promotion\
+    \ change request"
+  - "b548d582e8e5b942a93513c128a113c8571bff0c\t2026-07-23T03:37:56+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] feat(app): implement promotion\
+    \ experience"
+  - "536601aecf5e775466fe0a3c4225bc2bc3e633d8\t2026-07-23T03:01:18+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] docs(r09): close App backend\
+    \ task"
+  - "3f27a588499e9ca8e9679a85b9cf5b454447c76f\t2026-07-23T02:57:53+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] docs(cr): close R09 App backend"
+  - "e4f54c07b1b3cae024b5de42179a5e2cfb6f2c76\t2026-07-23T02:56:02+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] feat(content): implement App\
+    \ promotion backend"
+  - "4b4d71a63a5eccc428e2e04f04e13b2fa466bc72\t2026-07-23T02:31:25+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] docs(r09): close App data\
+    \ task"
+  - "a147db6de57534277d882755c9831793ecb02fdd\t2026-07-23T02:30:06+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] docs(cr): close R09 data invariants"
+project_fingerprint:
+  sha256: 57bb10c67a626cfd1a31a0ea1a2fc32cc23cb37270344576c7511fad5691f85e
+  files:
+  - CHANGELOG.md
+  - apps/android/feature/app-promotion/src/test/java/cc/orbexa/hhy/apppromotion/R09AppStateTest.kt
+  - catalogs/test_cases.csv
+  - docs/03-continuity/change-requests/CR-0252-R09-App推广专项测试与故障证据闭环.md
+  - scripts/run_r09_specialized_matrix.py
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R09PostgresStoreTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R09ServiceTest.java
+  - tests/r09/README.md
+  - tests/r09/req-app-promo-001_happy
+  - tests/r09/req-app-promo-001_idempotent
+  - tests/r09/req-app-promo-001_reject
+  file_count: 11
+  payload:
+    base_commit: 78c1f91bbacd724991292e2634288d6af6ace5d5
+    files:
+    - path: CHANGELOG.md
+      state: FILE
+      size: 97888
+      sha256: 4dccf13fab40fc13af6b847d55c140e0cf1ba658b8d551a1f1c3383bb0834066
+    - path: apps/android/feature/app-promotion/src/test/java/cc/orbexa/hhy/apppromotion/R09AppStateTest.kt
+      state: FILE
+      size: 1854
+      sha256: 9e2490307a4557852a7cfb82e8675b11f9c2bd25864952013df893b3d9744946
+    - path: catalogs/test_cases.csv
+      state: FILE
+      size: 227856
+      sha256: 61910da7500e2e1fe2e5b87606f53cb43fb097f98ddbefd3be38ddb79a34d30c
+    - path: docs/03-continuity/change-requests/CR-0252-R09-App推广专项测试与故障证据闭环.md
+      state: FILE
+      size: 3510
+      sha256: 9c8623098d859cfd1962a4f759d12b0e443e0b6d9b5c5c529d7334e85cd21f95
+    - path: scripts/run_r09_specialized_matrix.py
+      state: FILE
+      size: 8757
+      sha256: bcc74265d28078b90af2496d703254068d1106d4cd0f3bc674b9296b4e7b7926
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/content/R09PostgresStoreTest.java
+      state: FILE
+      size: 5700
+      sha256: 983e8d817d1374cabf38a326e553dde0c69479ca9503e2b66121cb67aba71f40
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/content/R09ServiceTest.java
+      state: FILE
+      size: 15513
+      sha256: bd53b1401412a6d95161671531e87178f3fd5d693c68771b4e494f277b7dd5b5
+    - path: tests/r09/README.md
+      state: FILE
+      size: 696
+      sha256: 11dc593a005c8fc38e51a4b96d8513b31fff71b4787fc102240bb04590d57441
+    - path: tests/r09/req-app-promo-001_happy
+      state: FILE
+      size: 914
+      sha256: 2a150a60069524d2609768c9c257a3c9db8d7c395ce476013fd9308326c7dbb3
+    - path: tests/r09/req-app-promo-001_idempotent
+      state: FILE
+      size: 979
+      sha256: 9475d4f10bfa933495ec13773c89e2e9fe7cbc46811b3f7d205abd7033e10456
+    - path: tests/r09/req-app-promo-001_reject
+      state: FILE
+      size: 1265
+      sha256: 0f10531eb9661dee1065b3edf87a2f707fe5c5baebfc1c20ba8b3f521700d093
+change_classification:
+  other:
+  - CHANGELOG.md
+  - catalogs/test_cases.csv
+  code:
+  - apps/android/feature/app-promotion/src/test/java/cc/orbexa/hhy/apppromotion/R09AppStateTest.kt
+  - scripts/run_r09_specialized_matrix.py
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R09PostgresStoreTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R09ServiceTest.java
+  user_visible:
+  - apps/android/feature/app-promotion/src/test/java/cc/orbexa/hhy/apppromotion/R09AppStateTest.kt
+  continuity:
+  - docs/03-continuity/change-requests/CR-0252-R09-App推广专项测试与故障证据闭环.md
+  tests:
+  - tests/r09/README.md
+  - tests/r09/req-app-promo-001_happy
+  - tests/r09/req-app-promo-001_idempotent
+  - tests/r09/req-app-promo-001_reject
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+- CHANGELOG
+change_requests:
+- CR-0252
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  - tests/r09/**
+  - services/backend/boot/src/test/**
+  - artifacts/reports/R09/**
+  - catalogs/test_cases.csv
+  approved_exceptions:
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R09ServiceTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R09PostgresStoreTest.java
+  - apps/android/feature/app-promotion/src/test/java/cc/orbexa/hhy/apppromotion/R09AppStateTest.kt
+  - scripts/run_r09_specialized_matrix.py
+  - tests/r09/README.md
+  - tests/r09/req-app-promo-001_happy
+  - tests/r09/req-app-promo-001_reject
+  - tests/r09/req-app-promo-001_idempotent
+  - catalogs/test_cases.csv
+  - artifacts/reports/R09/TASK-R09-005-specialized-tests.md
+  - artifacts/validation/r09-test-evidence/backend-java21.log
+  - artifacts/validation/r09-test-evidence/postgresql17.log
+  - artifacts/validation/r09-test-evidence/android-module.log
+  - artifacts/validation/r09-test-evidence/evidence.json
+  - CHANGELOG.md
+  source: story+explicit+approved-cr:CR-0252
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 测试源码、适配器方法选择器和后续证据提交必须保持同一精确提交，且未获用户授权子代理。
+event_hash: 5dec1597d6560b4ab0b02c001e118c850f9897b4235d6d5b7f67bb15e1a782d7

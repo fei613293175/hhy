@@ -54,14 +54,14 @@ notification_deliveries,通知,R15,database/migrations/V003__content_identity_an
 push_tokens,通知,R15,database/migrations/V003__content_identity_and_communication.sql,7,id,FROZEN
 announcements,通知,R15,database/migrations/V003__content_identity_and_communication.sql,7,id,FROZEN
 announcement_reads,通知,R15,database/migrations/V003__content_identity_and_communication.sql,6,id,FROZEN
-products,商品,R16,database/migrations/V004__commerce_redpacket_and_finance.sql,7,id,FROZEN
-product_skus,商品,R16,database/migrations/V004__commerce_redpacket_and_finance.sql,9,id,FROZEN
+products,商品,R16,database/migrations/V004__commerce_redpacket_and_finance.sql,10,id,FROZEN
+product_skus,商品,R16,database/migrations/V004__commerce_redpacket_and_finance.sql,16,id,FROZEN
 sku_commission_policies,商品,R16,database/migrations/V004__commerce_redpacket_and_finance.sql,8,id,FROZEN
 coupons,商品,R16,database/migrations/V004__commerce_redpacket_and_finance.sql,8,id,FROZEN
 user_coupons,商品,R16,database/migrations/V004__commerce_redpacket_and_finance.sql,7,id,FROZEN
-orders,订单,R16,database/migrations/V004__commerce_redpacket_and_finance.sql,10,id,FROZEN
-order_items,订单,R16,database/migrations/V004__commerce_redpacket_and_finance.sql,8,id,FROZEN
-order_price_snapshots,订单,R16,database/migrations/V004__commerce_redpacket_and_finance.sql,9,id,FROZEN
+orders,订单,R16,database/migrations/V004__commerce_redpacket_and_finance.sql,19,id,FROZEN
+order_items,订单,R16,database/migrations/V004__commerce_redpacket_and_finance.sql,10,id,FROZEN
+order_price_snapshots,订单,R16,database/migrations/V004__commerce_redpacket_and_finance.sql,10,id,FROZEN
 payment_transactions,支付,R17,database/migrations/V004__commerce_redpacket_and_finance.sql,9,id,FROZEN
 payment_callbacks,支付,R17,database/migrations/V004__commerce_redpacket_and_finance.sql,7,id,FROZEN
 payment_exception_orders,支付,R17,database/migrations/V004__commerce_redpacket_and_finance.sql,8,id,FROZEN
@@ -197,3 +197,6 @@ notification_delivery_attempts,通知,R30,database/migrations/V009__v122_operati
 export_jobs,后台,R30,database/migrations/V009__v122_operational_governance.sql,15,id,FROZEN_V1.2.2
 export_job_files,后台,R30,database/migrations/V009__v122_operational_governance.sql,10,id,FROZEN_V1.2.2
 export_download_logs,后台,R30,database/migrations/V009__v122_operational_governance.sql,11,id,FROZEN_V1.2.2
+websocket_user_sequences,实时通信,R14,database/migrations/V044__r14_websocket_reliability.sql,4,user_id,FROZEN_V1.2.2
+websocket_deliveries,实时通信,R14,database/migrations/V044__r14_websocket_reliability.sql,15,id,FROZEN_V1.2.2
+websocket_gap_watermarks,实时通信,R14,database/migrations/V044__r14_websocket_reliability.sql,5,user_id,FROZEN_V1.2.2

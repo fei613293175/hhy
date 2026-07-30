@@ -1,5 +1,1029 @@
 # CHANGELOG
 
+## R13/R14长表单底部安全区修复 · 2026-07-30
+
+- GitHub Run `30516346703`的离线历史视觉作业与27项自动化全部通过，但AI视觉审核拒绝了R13浏览记录顶栏裁切、R13失效反馈操作栏被系统手势区遮挡、R14举报长表单操作区不可见三处证据，未将不合格截图登记为基线。
+- R13失效反馈和R14举报面板改为内容区独立滚动、底部操作栏固定，并统一应用导航栏与输入法安全区；R13浏览记录自动化新增顶栏和返回按钮可见性断言。
+- Run `30517994197`证明R13历史页顶栏断言通过、失效反馈截图已更新，但R14举报固定操作栏仍未进入可视区域；29项测试仅此1项失败，未执行无证据重跑。
+- 两个长表单不再依赖底部面板可能无界的父约束，改用设备屏幕高度作为明确上限并预留既有Spacing Token底部缓冲；修复范围不改变API、数据库、业务合同或线上所有者测试环境。
+
+## R14冻结交互面历史视觉补证 · 2026-07-30
+
+- GitHub Run `30515375914`的离线历史视觉作业已证明25个页面通过；仅首页与R13浏览记录仍使用过期文案等待条件，现已改为当前生产界面的稳定业务文案。
+- 历史视觉请求、执行脚本与自动化契约的精确截图总数统一为33，消除原有26/27数量漂移；请求继续保持`candidate=false`，不访问线上API、不登录账号、不触碰用户数据。
+- R14新增会话列表、聊天详情、联系人面板、举报面板、拉黑确认和删除确认六个独立生产Composable截图，作为机器关闭时六个冻结交互面的逐页视觉证据。
+
+## R14最终候选交付与R13历史视觉补证 · 2026-07-30
+
+- R14 GitHub Run `30510422149`完整业务候选和Run `30511539828`四图轻量晋升均为PASS；固定工具链从产品Commit `89ccaf45`重建versionCode `10225`，复用`hhy-staging-test-v2`完成v2/v3稳定签名与桌面、仓库、服务器、HTTPS四方交付。
+- 新桌面安装包为`hhy-r14-89ccaf4-debug.apk`，测试说明为`hhy-r14-89ccaf4-test-guide.md`；旧`2eb8ac7`交付Manifest与证据已原子归档，项目所有者真机反馈继续保持异步PENDING。
+- R14机器关闭发现R13收藏、浏览记录、分享面板和联系方式失效反馈仍缺实现截图；离线历史视觉批次使用生产Composable与确定性冻结模型从22张扩展为26张，不访问登录或后端，也不改变生产APK。
+
+## R14 App模块范围候选授权 · 2026-07-30
+
+- `CR-0509`只授权`R14-CANDIDATE-20260730-020`绑定`CR-0508`修复Commit `0220185599581170af24db6ca575592da940e9f4`运行一次；Attempt19和`CR-0507`保持已消费。
+- Attempt20只验证候选旅程精确运行`:app:connectedDebugAndroidTest`，不再把App测试类过滤器错误传播到`feature:chat`；35项治理回归已锁定精确模块任务。
+- 全局`max_ai_attempts=3`以及R14搜索、发送未误标已读、拉黑重进、解除拉黑、长按删除、四张截图、JUnit和目标进程日志审核全部保持不变。
+
+## Android候选App模块范围修复 · 2026-07-30
+
+- `CR-0508`归档GitHub Run `30508844702`的Attempt19：App级`ReleaseCandidateSmokeTest`完整通过、四图齐全且目标进程无崩溃或ANR；随后根任务把App测试类过滤条件错误传播到`feature:chat`，该模块因不含此类而`ClassNotFoundException`。
+- 候选脚本现精确执行`:app:connectedDebugAndroidTest`，不再运行未限定模块的聚合任务；治理回归同时锁定精确模块任务并禁止恢复未限定形式。
+- App JUnit根、完整R14业务旅程、四张截图、视觉审核和日志分析均保持不变；feature模块自己的测试仍由其适用门禁运行。
+
+## R14删除筛选前置候选授权 · 2026-07-30
+
+- `CR-0507`只授权`R14-CANDIDATE-20260730-019`绑定`CR-0505`修复Commit `cf0412194af17e3a5562ba28b6436b4bf3d9e678`运行一次；Attempt18和`CR-0504`保持已消费，错误手工哈希的`CR-0506`已在写配置和推送前废止。
+- Attempt19只验证返回列表后重新建立搜索输入、再次核对真实联系人，再长按删除并严格显示筛选空状态；固定Android工具链225任务已经通过。
+- 全局`max_ai_attempts=3`以及搜索、发送未误标已读、拉黑重进、解除拉黑、长按删除、四张截图、JUnit和目标进程日志审核全部保持不变。
+
+## R14删除筛选空状态旅程前置修复 · 2026-07-30
+
+- `CR-0505`归档GitHub Run `30507176811`的Attempt18：请求、编译、Lint、单测、APK、搜索、发送未误标已读、拉黑重进禁发、解除拉黑、长按删除、四张截图和日志审核均越过；删除接口37毫秒返回HTTP 200且Compose会话行消失。
+- 唯一失败是从详情返回列表后页面按生命周期清空搜索词，候选未重新输入却继续期待筛选空状态；旅程现返回后通过Compose重新输入真实联系人、再次核对唯一联系人，再长按删除。
+- 产品页面、API、数据库和“暂无会话/没有找到相关会话”两类文案均不修改；筛选空状态仍必须严格等于“没有找到相关会话”，不得用兼容两种文案掩盖错误前置。
+
+## R14列表文字Compose语义候选授权 · 2026-07-30
+
+- `CR-0504`只授权`R14-CANDIDATE-20260730-018`绑定`CR-0503`修复Commit `d2d803831ae0def0902b2aff6362c39f68c8286f`运行一次；Attempt17和`CR-0502`保持已消费历史。
+- Attempt18仅验证联系人、预览和搜索后联系人复核的Compose唯一精确文字语义；35项治理回归和`obx-test`固定工具链231任务已经通过。
+- 全局`max_ai_attempts=3`及R14完整交互、四张截图、JUnit和目标进程日志审核全部保持不变。
+
+## R14列表业务文字Compose精确语义 · 2026-07-30
+
+- `CR-0503`归档GitHub Run `30505422466`的Attempt17：请求、编译、单测、Lint、APK、OIDC、会话兑换、用户、首页和两次会话列表接口均通过；候选后端相关请求全部HTTP 200。
+- 唯一首发失败是UiAutomator在页面根已可见后仍无法找到`r14.conversation.peer-name`资源；联系人、预览和搜索后联系人复核现统一使用Compose未合并树唯一节点与精确文字断言。
+- 首次20秒、搜索后10秒、业务文字、搜索、完整R14旅程、四图、JUnit和日志门禁均未放宽；`PROB-0151`原位更新，不新增并列问题规则。
+
+## R14删除后空状态Compose语义候选授权 · 2026-07-30
+
+- `CR-0502`只授权`R14-CANDIDATE-20260730-017`绑定`CR-0501`修复Commit `913dbc31c0cdbd288ed7bcb5db8849f8de78f9a7`运行一次；Attempt16和`CR-0500`保持已消费历史。
+- Attempt17仅验证删除后筛选空状态的Compose唯一可见语义和精确文字，不复用不稳定的UiAutomator文字观察；34项治理回归和`obx-test`固定工具链231任务已经通过。
+- 全局`max_ai_attempts=3`及R14搜索、发送状态、拉黑重进、解除拉黑、长按删除、四张截图、JUnit和目标进程日志审核全部保持不变。
+
+## R14删除后空状态Compose精确语义 · 2026-07-30
+
+- `CR-0501`归档GitHub Run `30503336232`的Attempt16：请求、编译、单测、Lint、APK、登录、搜索、发送、拉黑、重进、解除恢复、长按菜单和全部四张截图均通过；删除接口51毫秒返回HTTP 200，Compose会话行随后消失。
+- 唯一失败是最终仍用UiAutomator `By.text`读取Compose筛选空状态；空状态文字现增加`r14.conversations.empty-message`，候选在Compose未合并树等待唯一节点、证明可见并严格核对“没有找到相关会话”。
+- 页面回归同步执行“输入搜索词—长按—确认删除—行消失—筛选空状态可见”；删除API、十秒期限、四图、JUnit与日志门禁均未放宽。
+
+## R14解除恢复Compose语义候选授权 · 2026-07-30
+
+- `CR-0500`只授权`R14-CANDIDATE-20260730-016`绑定`CR-0499`修复Commit `9817630e19e38c7bdbff61d9942025cf370b1654`运行一次；Attempt15和`CR-0498`保持已消费历史。
+- Attempt16仅验证解除拉黑后重新进入Compose分支的composer可见语义，不复用不稳定的UiAutomator resource-id观察；33项治理回归和`obx-test`固定工具链231任务已经通过。
+- 全局`max_ai_attempts=3`及R14搜索、发送状态、拉黑重进、解除拉黑、长按删除、四张截图、JUnit和目标进程日志审核全部保持不变。
+
+## R14解除拉黑恢复输入框实时语义 · 2026-07-30
+
+- `CR-0499`归档GitHub Run `30500888697`的Attempt15：构建、Lint、单测、APK、自动登录、搜索、发送、composer清空、拉黑禁发、返回重进禁发和解除菜单均通过，并生成前三张截图；拉黑POST 64毫秒、解除DELETE 61毫秒均返回HTTP 200且应用无崩溃。
+- 唯一失败是解除后以UiAutomator resource-id观察不到重新进入Compose分支的composer；候选现于原10秒内等待Compose未合并语义树唯一节点并最终`assertIsDisplayed`，不再把不稳定的跨框架资源导出当作恢复事实。
+- Compose页面回归补全后台返回成功的“拉黑再解除”全过程，必须证明composer恢复、禁发栏消失且持久状态解除；后续长按删除、第四图、JUnit和日志验收保持不变。
+
+## R14主线程修复候选授权 · 2026-07-30
+
+- `CR-0498`只授权`R14-CANDIDATE-20260730-015`绑定`CR-0497`修复Commit `2ad71a064f9401697257080c8e7e0357c6f71ca5`运行一次；已消费的Attempt14和`CR-0496`不可复用。
+- Attempt15仅验证Attempt14后首次出现的`CalledFromWrongThreadException`独立线程指纹；composer旧指纹已经在Attempt14通过，旧三轮上限与全局`max_ai_attempts=3`均保持不变。
+- 全部R14搜索、发送状态、拉黑重进、解除拉黑、长按删除、四张截图、JUnit和目标进程日志审核继续严格执行。
+
+## R14拉黑结果主线程收口 · 2026-07-30
+
+- `CR-0497`归档GitHub Run `30499058958`的Attempt14：构建、Lint、单测、APK、自动登录、搜索、发送及composer严格清空均通过并产出前两张截图；拉黑POST在80毫秒返回HTTP 200，随后成功回调从`DefaultDispatcher-worker-1`调用焦点系统触发`CalledFromWrongThreadException`。
+- `executeAction`现允许请求继续在接口内部使用IO调度器，但成功或失败后的Compose状态、弹窗、提示、持久化、焦点和IME操作统一以`Dispatchers.Main.immediate`收口；拉黑禁发、清焦点、隐藏键盘与四图标准均未削弱。
+- Compose回归改用后台调度器返回成功的拉黑Fake，必须证明禁发栏可见、composer消失且状态持久化；Attempt14的旧composer指纹已关闭，本次为独立线程错误首轮。
+
+## R14 composer实时语义最终候选授权 · 2026-07-30
+
+- `CR-0496`只授权`R14-CANDIDATE-20260730-014`绑定`CR-0495`修复Commit `7eeb1051bce7fe0f96bf04e1bfe75d7234a26ac0`运行一次；Attempt12和13保持已消费历史。
+- 这是同一composer空值指纹的第三且最终轮；若仍为同指纹，规则明确禁止Attempt15，不得继续延时或复用跨框架resource断言。
+- 全局`max_ai_attempts=3`及全部R14业务、四张截图、JUnit和目标进程日志审核不变；错误Release、Attempt、Request、CR、Commit或多次运行均由门禁拒绝。
+
+## R14发送后清空验收切换为Compose实时语义 · 2026-07-30
+
+- `CR-0495`归档GitHub Run `30497451278`的Attempt13：请求、编译、单测、Lint、打包、候选后端、登录、会话加载、搜索、消息出现和“已发送”均通过；消息POST在128毫秒内返回HTTP 200，唯一失败仍是UiAutomator按resource读取到发送前composer文本。
+- 产品侧`CR-0493`显式`onSuccess`修复和成功清空/失败保留回归保持不变；候选把最后一项可变文本验收从跨框架resource快照切到Compose未合并实时语义，等待并最终严格`assertTextEquals("")`。
+- 空值标准、超时失败、截图前置、发送未误标已读、拉黑重进、解除拉黑、长按删除、四张截图、JUnit和目标进程日志审核均未弱化。Attempt12与13为同指纹前两轮，下一轮必须是绑定本观察面修复的最终轮。
+
+## R14输入框成功回调修复候选授权 · 2026-07-30
+
+- `CR-0494`只授权`R14-CANDIDATE-20260730-013`绑定修复Commit `c5695b9242fa751b83166f50e85c47109a0b0d62`运行一次；Attempt12与`CR-0492`保持已消费历史。
+- Attempt13必须证明发送成功后composer为空、失败时草稿保留，并继续执行搜索、发送未误标已读、拉黑重进、解除拉黑、列表长按删除、四张截图、JUnit及目标进程日志审核。
+- 全局`max_ai_attempts=3`不变；错误Release、Attempt、Request、CR、Commit或多次运行均由门禁拒绝。
+
+## R14文本发送成功回调绑定修复 · 2026-07-30
+
+- `CR-0493`归档GitHub Run `30495148156`的Attempt12：请求、编译、单测、Lint、打包、候选后端、登录、会话加载、搜索和消息发送均通过，消息POST返回HTTP 200；唯一首发业务失败是发送成功后`r14.chat.composer`仍保留原文本。
+- 根因是文本发送调用使用尾随lambda，而`send`的最后一个函数参数是`onFailure`，成功分支从未清空输入框；现改为显式命名`onSuccess`，仅成功时清空，失败或重试时保留用户草稿。
+- Compose回归同时覆盖成功清空和失败保留，CI静态锁禁止恢复旧调用；候选中的输入框为空断言、发送未误标已读、拉黑重进、解除拉黑、长按删除、四张截图、JUnit和日志审核均保持不变。
+
+## R14会话复进Compose语义候选授权 · 2026-07-30
+
+- `CR-0492`只授权`R14-CANDIDATE-20260730-012`绑定修复Commit `c1b637e299288279d96e0ef85fde21b03e889251`运行一次；Attempt11及其唯一基础设施重跑均保持已消费历史。
+- Attempt12必须以Compose原生语义完成会话行进入、返回复进、长按和删除消失证明，并新增发送后composer为空断言；全部原有业务断言、四张截图、JUnit和目标进程日志审核保持不变。
+- 全局三轮上限不变，错误Release、Attempt、Request、CR、Commit或多次运行均由门禁拒绝。
+
+## R14会话复进语义操作与输入清空取证 · 2026-07-30
+
+- `CR-0491`归档GitHub Run `30490812128`的Attempt11及同Commit唯一失败Job重跑：首次运行在模拟器脚本启动前中断且未消费业务轮；重跑完成真实发送与首次拉黑三重断言后，`POST /api/v1/users/{id}/block`和返回列表的`GET /api/v1/conversations`均为200，数据库会话未隐藏且拉黑关系存在，唯一失败为UiAutomator返回后找不到Compose会话行资源。
+- 复用`PROB-0125`与`PROB-0151`，不新增并列全局规则；会话行首次点击、拉黑后复进、长按和删除消失证明统一改用Compose唯一`testTag`、`assertIsDisplayed`及原生语义动作，不再依赖`testTag`跨框架导出resource-id。
+- composer输入改用Compose `performTextReplacement`，发送成功后必须证明输入框为空才允许截图；发送未误标已读、拉黑禁发、返回重进、解除拉黑、长按删除、四张截图、JUnit与日志审核保持不变。117项治理回归与`obx-test`固定Android工具链`:app:compileDebugAndroidTestKotlin`均通过。
+
+## R14禁发状态跨框架可见性取证切换 · 2026-07-30
+
+- `CR-0489`记录GitHub Run `30488268307`已完成候选请求、编译、Lint、单测、APK打包、OIDC引导和模拟器启动；拉黑请求65毫秒返回HTTP 200，失败现场同时为Compose禁发节点数量1、composer资源不可见，但`testTag`导出的UiAutomator resource-id仍不可见。
+- Attempt7、8、10至此达到旧resource-id验证路径三轮上限，禁止原样重跑；复用既有`PROB-0125`跨框架经验，不新增并列全局规则，也不继续误改已成功的后端、数据库或拉黑业务。
+- 首次拉黑与返回重进现复用同一严格帮助函数：Compose等待唯一节点并执行`assertIsDisplayed`、UiAutomator等待用户真正看到的“当前无法发送消息”、同时断言composer不存在；解除拉黑、长按删除、四张截图、JUnit和日志审核保持不变。
+
+## R14拉黑禁发栏输入法避让更正 · 2026-07-30
+
+- `CR-0486`记录GitHub Run `30482608311`的相同失败：Attempt8保留`apply()`后，候选请求、编译、单测、Lint、打包、自动会话、稳定业务资源、搜索、发送未误标已读及拉黑服务端请求均通过；后端76毫秒返回200，`user_blocks`和幂等记录成功，但十秒内仍未发现`r14.chat.blocked`，因此更正CR-0484把同步写盘视为充分根因的结论。
+- 候选在拉黑前刚输入并发送消息；正常composer有`imePadding()`，替换它的blocked分支此前只有导航栏避让，成功回调也没有释放输入焦点。客户端现于拉黑成功时清焦点并请求关闭软键盘，同时让禁发栏保持IME避让，即使键盘关闭延迟也必须显示稳定禁发资源。
+- Compose回归新增“输入框已聚焦并输入后拉黑”的可见性验证，候选失败信息新增Compose节点与composer资源诊断；原composer消失、返回重进、解除拉黑、列表长按删除和四张截图验收不变。Attempt9是该同指纹第三且最终诊断轮，禁止无新方案继续Attempt10。
+
+## R14拉黑状态主线程发布修复 · 2026-07-30
+
+- `CR-0484`记录GitHub Run `30477250263`的真实失败：候选请求、编译、单测、Lint、打包、会话稳定资源、搜索、详情进入、发送未误标已读和拉黑服务端请求均通过；后端HTTP 200、`user_blocks`、幂等快照及真实HTTP重放一致证明业务已成功，唯一失败为十秒内未发布`r14.chat.blocked`。
+- 客户端保持原SharedPreferences文件、账号/对端复合键、业务状态和禁发断言不变，将Compose成功回调中的同步`commit()`改为`apply()`；进程内状态立即更新、磁盘异步持久化，避免慢速模拟器主线程写盘阻塞拉黑状态重组及返回重进读取。
+- `CR-0485`仅纠正CR-0484误写的Changelog投影路径；`obx-test`固定工具链已通过聊天单测、Lint、聊天AndroidTest编译和App候选测试编译，108项治理回归与Android UI基础门禁通过。Attempt7不得重跑，下一步只允许绑定新修复Commit与`CR-0484`的唯一Attempt8。
+
+## R14会话列表稳定资源身份与严格业务值校验 · 2026-07-30
+
+- `CR-0483`记录GitHub Run `30473874615`的真实失败：候选请求、连续性、编译、单测、Lint、打包、自动会话和候选后端均通过；R14 V044候选库存在唯一当前会话，真实`GET /api/v1/conversations`返回联系人“R14候选体验用户”和预览“R14候选会话已准备”，唯一失败为UiAutomator按精确文字未找到Compose联系人节点。
+- 会话行联系人名称和最后消息预览分别增加`r14.conversation.peer-name`与`r14.conversation.preview`稳定资源身份；候选先按资源定位再严格核对节点业务文字，搜索后再次核对联系人值，不以资源存在替代业务内容验收。
+- Attempt6三项Artifact身份、GitHub注解、隔离数据库事实和无秘密HTTP重放证据已入库；不得重跑Attempt6，下一步只允许绑定新修复Commit、`CR-0483`与唯一`R14-CANDIDATE-20260730-007`的Attempt7。
+
+## R14拉黑成功态稳定身份与完整回归 · 2026-07-30
+
+- `CR-0482`记录GitHub Run `30419316745`的真实失败：8分35秒内请求校验、编译、单测、Lint、打包、自动会话、搜索和发送均通过，唯一失败为拉黑后只按精确文字等待禁发状态；服务端原请求HTTP 200、`user_blocks`和`r14.chat-command.v1`幂等快照均真实落库。
+- 拉黑状态区域新增唯一`r14.chat.blocked`资源身份和业务`stateDescription`；候选首次拉黑与返回重进均等待该资源，同时继续强制断言`r14.chat.composer`消失，不删除、不跳过也不弱化原业务验收。
+- 网络回归改为解码候选形态的完整`success/data/requestId/timestamp`响应壳，Compose回归从未拉黑状态真实点击操作、拉黑和确认并证明禁发与持久化；Attempt5三项Artifact、HTTP日志、数据库和无秘密临时重放证据已入库，下一步只允许绑定修复Commit的唯一Attempt6。
+
+## R14候选启动版本策略夹具与HTTP门禁加固 · 2026-07-29
+
+- `CR-0481`记录GitHub Run `30415115136`的真实失败：编译、单测、Lint、打包、一次性自动会话、平台状态和受鉴权当前用户请求均成功，但隔离R14数据库五张App发布表为空，启动版本检查返回HTTP 404，旅程尚未开始且没有产品崩溃或ANR。
+- 既有受控切流现在先从已交付R14 TEST_APK Manifest幂等建立唯一`official/STAGING`发布链，再分别要求候选本机和公网`POST /public-api/v1/app/version-check`返回200；任何失败都在GitHub模拟器前阻断，公网验证失败自动回滚旧upstream。
+- Attempt4运行包、日志SHA、服务器请求序列和数据库空表计数已无秘密入库；只有在`obx-test`连续两次夹具验证通过后，才允许绑定本修复Commit登记唯一`R14-CANDIDATE-20260729-005`，正式App、公开合同、生产数据和现有TEST_APK不变。
+
+## R14候选隔离网络、数据库与MFA卷证明加固 · 2026-07-29
+
+- `CR-0479`记录GitHub Run `30408703138`的真实失败：候选请求、普通CI、Android编译、单测、Lint和打包均通过，但模拟器启动前的Staging bootstrap返回HTTP 500；现场发现候选容器误接R13网络与数据库，首次重建还把MFA卷挂成只读。
+- 既有受控切流脚本现在强制候选与回滚容器接入精确R14网络、`HHY_DB_URL/HHY_DB_USER`绑定精确R14 V044数据库且`/var/lib/hhy/secrets`可写；`CR-0480`仅补齐同一证明集合在权威策略、加载门禁和回归测试中的遗漏投影。
+- Attempt3失败与切流纠正证据已无秘密入库；只有绑定本修复Commit、`CR-0479`和唯一`R14-CANDIDATE-20260729-004`的单次Attempt4可继续，产品UI、API、数据库结构和生产数据不变。
+
+## R14候选确认按钮语义点击修复 · 2026-07-29
+
+- `CR-0478`记录GitHub Run `30407390156`的真实失败：Attempt2已成功加载夹具、搜索和发送消息，但自动化直接点击`clickable=false`的“确认拉黑”文字子节点，拉黑请求没有触发。
+- `clickLastExactText`现与既有点击规则一致，从文字节点向上选择首个`enabled && clickable`祖先；治理回归禁止恢复为`textNode.click()`，正式App业务逻辑、API和数据库不变。
+- Attempt2原始运行证据和SHA已入库，候选请求精确递增为`R14-CANDIDATE-20260729-003`；Attempt3仍必须绑定修复Commit、同Commit候选后端并完整通过R14真实交互旅程。
+
+## R14候选后端源码身份与夹具语义加固 · 2026-07-29
+
+- `CR-0477`记录GitHub Run `30404133160`的唯一真实失败：自动登录和会话接口均成功，但公网仍路由到源码`b6f5e285`的旧候选容器，该版本早于`0bf4c9a8`引入的R14聊天夹具，因此候选页面没有`R14候选体验用户`。
+- 既有候选路由门禁新增完整40位`HHY_EXPECTED_SOURCE_COMMIT`、干净Git HEAD和容器`hhy.source_commit`标签三方一致证明；健康状态、镜像ID、Release标签或HTTP 200不再能替代源码身份。
+- Attempt1失败证据已无秘密写入仓库；Attempt2只允许在同一冻结Commit后端重建并证明夹具可见后触发，R14至R32相邻版本与全前序机器闭环门禁保持不变。
+
+## R14机器候选与稳定测试包同提交冻结 · 2026-07-29
+
+- `CR-0475`修正R14先交付测试包、后执行机器候选造成的提交身份错位；`versionCode`从10224单调递增到10225，并与`R14-CANDIDATE-20260729-001`放入同一冻结提交。
+- GitHub候选必须真实执行会话搜索、发送未读、拉黑后重进、解除拉黑、列表长按删除、截图、JUnit和目标进程日志审核；候选通过后才从同一提交在`obx-test`固定工具链构建稳定签名测试包。
+- 现有10224桌面和服务器交付在10225四方事务通过前保持不变；新包仍使用`hhy-staging-test-v2`与正式API/WSS，不修改业务、数据库、包名或项目所有者异步真机反馈规则。
+
+## R14替换测试包版本身份准备 · 2026-07-29
+
+- `CR-0471`按既有APK替换规则把R14测试包`versionCode`从10223严格递增到10224，并同步Gradle、`ReleasePolicy`与`VersionMetadataTest`三个既有身份投影。
+- 新包继续使用`hhy-staging-test-v2`、`1.2.2-debug`、`https://api.orbexa.cc`和`wss://ws.orbexa.cc`，用于交付已补齐举报原因目录及R14消息修复的当前源码；不改变业务合同、数据库、包名或生产签名。
+- 10224允许在同一测试签名下覆盖安装10223；项目所有者真机反馈继续异步`PENDING`，构建、签名、下载与桌面成对交付证据由`TASK-R14-007`完成。
+
+## R14聊天举报原因目录单源冻结 · 2026-07-29
+
+- `CR-0464`以`ChatPostConversationsByIdReportRequest.reasonCode.x-hhy-options`作为唯一人工事实源，冻结骚扰、相同文案批量发送、危险链接三项正式原因及稳定代码、启停和顺序；OpenAPI枚举、Java后端允许集和Android展示列表均由该源确定性生成。
+- Android举报面板不再因空目录而无法选择和提交；后端在证据校验与写库前拒绝未知、停用或大小写变化的原因代码，既有数据库字符串字段无需迁移。
+- 通用`ReportResource`和其他举报请求保持原合同，不引入第二套CSV、页面私有硬编码或效果图中的虚构业务类别。
+
+## R14后版本连续性机器闭环纠偏 · 2026-07-28
+
+- `CR-0453`与`CR-0454`分别因遗漏Android既有事实源和ACTIVE/HANDED_OFF/过期会话旁路被独立拒绝并保留审计；`CR-0455`补齐全部入口后获独立批准。
+- R14起下一业务版本只能按编号递增1；上一版必须全部Task完成，并由同一冻结Commit的TEST_APK、桌面测试说明、APK Manifest、构建/交付Evidence、版本专属GitHub交互候选PASS和machine completion PASS共同证明。
+- `start`、冷/热`resume`、`close`、`takeover`、`recover`统一调用仓库证据门禁，失败非零且在状态写入前终止；`CURRENT_STATUS`、`NEXT_TASK`、现有Session和聊天记录均不得单独作为完成证明。
+- 项目所有者真机`PENDING`仍异步，不阻断已经完成机器闭环后的顺序推进；TEST_APK仍可先行交付，但候选失败或机器闭环缺失必须阻断下一版本领取。
+- 当前错误开发序列被明确恢复为：完成R14-004至008并交付，再完整开发R15，最后恢复已保存的R16断点。
+
+## R14消息体验修复与大版本真实交互候选 · 2026-07-28
+
+- `CR-0451`修复六项真机缺陷：发送消息不再因`readAt:null`显示已读；消息主页和会话详情统一Material3顶栏及系统安全区；本人拉黑状态按账号与对端持久化，重进显示解除拉黑并继续禁发；删除会话迁至消息主页长按；搜索正确处理PostgreSQL字面`%`、`_`、`!`和反斜杠。
+- R14 GitHub候选改为版本专属真实交互旅程，依次执行搜索、进入会话、输入发送、断言未读、拉黑、返回重进、解除拉黑、返回列表长按删除，并绑定四个业务节点截图、JUnit、logcat和机器报告；截图不能替代功能操作。
+- 既有Android自动化规则已原位升级：R14起每个大版本机器完成要求该版交互候选PASS；普通提交、小版本和`TEST_APK`不启动模拟器，项目所有者真机反馈继续异步且不阻断下一版本。
+- Staging夹具按Release、Commit与Run ID隔离会话，复用未消费同一绑定并为不同Run创建新起点，完整保留R14消息不可删除数据库约束；真实PostgreSQL 17已验证搜索特殊字符、连续夹具起点和生产迁移链。
+- `CR-0452`仅补齐详情安全菜单回归文件的治理范围，不扩大产品、API或数据库边界。
+
+## R16后台订单列表与详情抽屉 · 2026-07-28
+
+- `CR-0448`将`ADM-ORDER-001`从通用占位页替换为真实Vue 3订单管理页，通过生成合同类型读取订单列表与详情，并以`order.read`执行路由和菜单权限控制。
+- 页面包含真实查询统计、关键词/订单号/状态/排序筛选、URL同步、专业表格、分页、复制编号、刷新时间及完整加载/空/离线/无权限/失败恢复；详情抽屉只读展示商品明细、价格快照、不可退款凭证、时间和版本。
+- 金额与状态只取自`OrderResource`，不提供退款、余额修改、支付、客服、批量、删除或虚构导出；遗留TSX视觉目录路径已纠正为实际Vue SFC路径，最终截图在R16大版本候选阶段统一验收。
+- Admin Vue类型检查、27个测试文件和121项测试全部PASS。
+
+## R14真机消息页公网后端错位热修 · 2026-07-28
+
+- `CR-0447`确认客户端“会话列表暂不可用”对应认证后404，根因是`api.orbexa.cc`仍指向R13/V042候选，而R14会话接口和可靠性表位于V043/V044；邀请码与注册链路完全排除。
+- 对共享开发测试库生成custom-format可恢复备份并通过`pg_restore --list`、大小和SHA-256验证；使用冻结R14镜像启动28115候选，原用户数、有效会话数及同一会话非敏感指纹在V042→V044前后保持一致。
+- 本机与公网原库有效会话列表均返回HTTP 200，Nginx切至28115且唯一Request-ID在目标R14容器日志命中；平台状态200、匿名会话401、旧R13容器healthy，Nginx与数据库备份均保留。
+- Android源码、资源、依赖、BuildConfig、版本号及APK哈希未变化，现有10223测试包无需无意义重打；R14测试说明已补充直接重试步骤。
+
+## R16商品、SKU、报价与统一订单后端纵向链路 · 2026-07-28
+
+- `CR-0442`完整实现R16冻结的10个operationId：用户订单列表/详情在SQL层绑定当前用户，后台商品、SKU与订单按`product.read`、`product.write`、`order.read`精确授权；V046把既有`product.manage`角色和`SUPER_ADMIN`安全映射到细粒度权限。
+- 商品/SKU写、管理员审计、Outbox、幂等领取和AES-256-GCM首次响应快照保持同事务；固定长度`r16adm` scope绑定管理员、operationId与资源，同键异哈希冲突，重放不重复副作用，PATCH采用原子乐观锁，SKU并发上限由商品行锁保护。
+- 订单读取严格构造订单项、唯一报价快照和不退款证据，超过100项、快照缺失/重复或非法JSON均拒绝；历史未确认且无协议版本只输出空字符串满足冻结必填字段，不伪造确认。
+- `CR-0443`发现并前向修正V045与冻结OpenAPI的边界漂移：V047允许权益名称255、单位64及`durationDays=0`，继续拒绝256、65和负数；旧迁移未改写，DEV回滚遇到新合法事实时原子拒绝。
+- Java 21专项15项、PostgreSQL Store 3项零跳过、API/数据库/后端静态门禁以及PostgreSQL 17完整V045/V046/V047迁移、回滚、重放、权限和并发矩阵全部PASS。
+
+## R16商品、SKU、报价与统一订单数据不变量 · 2026-07-28
+
+- `CR-0441`在不改写V001至V044的前提下新增V045，补齐显式商品编码、SKU名称/会员价/期限/权益/销售时段、订单币种/实付/不退款证据/创建幂等、订单项小计和报价规则版本数组。
+- 历史数据只允许从既有主键或JSON事实确定性迁移：缺少商品必填事实、SKU名称/权益、订单项名称/数量/单价、合法报价或订单唯一报价快照时，升级整事务原子拒绝；历史订单保持不退款证据`false/null/null`，不伪造确认。
+- 新订单强制`PENDING_PAYMENT`初始状态和`(user_id,biz_type,idempotency_key)`三元组唯一，固定64位请求哈希；`ORDER_STATUS`只允许冻结的七条迁移，进入`PAYMENT_PROCESSING`前必须完成不退款确认，每次合法迁移恰好在同事务写一条Outbox历史。
+- 订单项和价格快照写入后不可变，延期提交约束保证订单应付金额与唯一报价快照一致；PostgreSQL 17隔离容器已通过V001至V045空库、V044有效升级不伪造、五类脏升级原子拒绝、事实回滚拒绝、空库回滚重放、属性矩阵和八路并发幂等。
+
+## R14隔离Staging、实时观测与TEST_APK准备 · 2026-07-28
+
+- `CR-0434`新增会话、近五分钟消息、未读、待处理举报、未ACK投递、重试耗尽、补洞用户和R14 Outbox八项低基数只读Gauge，并冻结后端不可用、错误率、P95及五项业务告警。
+- 新增完全独立的`hhy-r14-staging` Compose环境，现场确认旧R12占用原计划网段后通过`CR-0436`固定改用未占用的`172.31.238.0/24`，端口仍为38114/39618/39619且卷为项目独占；验收脚本验证V044、日志及WebSocket协议头脱敏、三类告警完整回执和十一类聊天/实时事实的保留式应用镜像回切。
+- Android测试包`versionCode`递增至10223，继续使用正式API、安全`wss://ws.orbexa.cc`与固定`hhy-staging-test-v2`签名；公网WebSocket DNS和聊天举报原因目录仍保持真实外部门禁，不在本变更中伪造激活或关闭R14。
+- `CR-0435`只将CR-0434的目录通配符展开为治理工具可消费的精确文件作用域，没有建立第二套规则或扩大公网、R13资源、迁移和产品目录边界。
+- 精确Commit `b6f5e285`已完成V044空库、八项Gauge、三类告警触发/恢复与送达、日志和WebSocket协议头脱敏以及同库同卷应用回切，`AC-R14-004`签署PASS，原始证据共29个文件；`TASK-R14-006`因前置任务未完成仍保持BLOCKED。
+- 固定Android工具链首次全量构建由版本单测确定性拒绝：Gradle已为10223，但`ReleasePolicy`和测试提示仍停留在R13的10222；`CR-0437`不新增规则，仅把已批准的R14版本身份同步到两个既有消费者，并要求Android UI基础门禁及完整单测、Lint、打包重跑。
+- `CR-0438`为四方SHA交付增加单文件精确下载白名单`/r14-artifacts/hhy-r14-ca57666-debug.apk`；下载站默认404、其他版本路由、API、WebSocket、DNS与TLS保持不变，只有仓库同字节include通过`nginx -t`后才允许reload。
+- 精确产品Commit `ca576660`在固定Android镜像完成UI基础、正式API/WSS、单测、Lint和打包，772个任务于6分57秒PASS；10223 APK通过zipalign、v2/v3固定签名及四方SHA，已交付桌面与HTTPS。项目所有者真机反馈继续异步PENDING，公网WebSocket DNS和举报原因目录仍保持真实阻断。
+
+## R14 WebSocket运行时与可靠投递纵向链路 · 2026-07-28
+
+- `CR-0430`落地Spring WebSocket `/ws`：升级前严格验证`hhy.v1`与唯一`hhy.access.<compact-JWT>`、活动会话和非负`lastServerSequence`，服务端只回选`hhy.v1`；非法、重复、填充或污染协议均在升级前拒绝。
+- `V044`新增用户级原子连续序列、持久投递/ACK/重试和CHAT或NOTIFICATIONS缺口水位三张表；REST发送与已读在原事务内创建双方实时投递，只有提交后才推送，失败仍保留delivery供10秒重试和72小时补洞。
+- Android使用稳定OkHttp单例连接，会话列表和聊天详情收到聊天事件后重新读取REST权威数据；重复事件可重ACK但不重复推进，序列缺口重连，CHAT只有在固定分页全部完成后确认水位，R15前不伪完成NOTIFICATIONS。
+- 新增`ws.orbexa.cc` Upgrade透传与协议头脱敏模板，不宣称已激活公网域名。PostgreSQL 17已通过V001至V044、200到203表、U044回退重放、并发连续序列和R14属性矩阵；同时修复重建链遗漏V041导致的旧R12权限专项假失败。
+
+## R14 WebSocket可实施合同纠偏 · 2026-07-28
+
+- `CR-0429`冻结`hhy.v1`与`hhy.access.<compact-JWT>`双子协议，JWT与会话必须在升级前验证，服务端只回选`hhy.v1`；完整协议头在边缘、代理、握手异常、服务端和应用日志统一脱敏，`wsTicket`在签发API出现前保持不可用。
+- 新增`system.delivery.ack`与`system.resume`，明确逐事件ACK匹配、重复幂等、错配拒绝、有效ACK停止重投，以及`lastServerSequence=0`、最高连续已处理序列、服务端高水位和`CHAT/NOTIFICATIONS`固定REST补洞流程。
+- `generate_contracts.py --sync-websocket`只更新WebSocket合同、runtime副本和12条WebSocket注册表行，并锁定两个富化OpenAPI、非WebSocket注册表行、既有10事件和definitions不退化。
+
+## R14聊天安全交互真实写操作 · 2026-07-28
+
+- `CR-0427`为Android `ContractR14Api`补齐聊天举报、拉黑、解除拉黑和删除会话四个真实写操作，严格使用冻结路由、请求模型、幂等键和`CommandResultResource`，不建立页面私有DTO。
+- 新增聊天写操作单写互斥状态，拉黑/解除拉黑只按服务端成功结果切换禁发状态，删除会话只标记当前账号视图移除；401/403/404/409/422/429/500均映射为无技术字段的用户文案。
+- 私聊详情已接入发送联系方式、安全操作、拉黑/解除拉黑确认和删除会话确认；联系方式失败保留输入并复用稳定意图，拉黑成功立即禁发，解除成功恢复会话，删除成功退出当前会话视图。
+- `SHEET-CHAT-002`要求受控举报原因目录，但OpenAPI、配置注册表和后端尚未冻结枚举；Android不得使用P07示例原因或自由代码冒充完成，`PROB-0135`保持开放直至唯一事实源补齐。
+- 举报面板已实现真实用户、说明、消息证据、安全预览和二次确认结构；目录为空时说明与证据输入、提交动作均保持禁用。固定Android容器已通过网络与聊天单测、聊天主源码/AndroidTest编译和聊天Lint，六项R14相关静态合同门禁全部通过。
+
+## 连续性检查点净回退误判修复 · 2026-07-28
+
+- `CR-0426`统一工作区与历史提交的任务基线净差异语义：合法恢复为基线内容的路径不再被状态并集重新纳入，真实修改、删除和未跟踪文件仍进入项目指纹。
+- 严格提交钩子新增索引与工作树内容一致性检查，拒绝同一路径暂存后继续修改或遗漏未跟踪项目文件；标准`checkpoint -> git add -A -> commit`流程保持不变。
+- 新增快速临时Git仓库回归矩阵并保留既有历史重命名与完整continuity protocol测试，不放宽真实`CHECKPOINT_STALE`、CR、Context或推送门禁。
+
+## R14 Android私聊详情与真实会话导航 · 2026-07-28
+
+- `CR-0422`新增独立`feature:chat`与严格`ContractR14Api`，只实现冻结的`TEXT/IMAGE/CONTENT_CARD/CONTACT_CARD`四类消息；分页、刷新、局部失败、离线、限频、拉黑、发送重试、送达和已读状态均保留真实服务端语义，正式UI不暴露技术字段或虚构内容。
+- 私聊图片复用`PRIVATE_CHAT`媒体上传闭环；R08至R11的真实内容详情在直接会话创建成功后进入类型安全`ChatDetail`，合法内容上下文可带入内容卡，非法会话参数与403/404均安全返回。
+- `CR-0424`按`B07/P01`补齐真实会话列表、搜索、最后消息、时间和真实未读数，启用MESSAGE底栏并以类型安全`Messages`路由连接既有私聊详情；不混入R15通知公告、客服、系统快捷区、示例用户或虚构红点。
+- `CR-0425`移除脱离生成事实的聊天尺寸字段和页面裸`dp`，保持40/48等视觉数值不变，并恢复`HhyTokens`与权威Design Token生成结果完全幂等。
+- `core:network`、`feature:chat`、`feature:shell`和`app`编译单测在`obx-test`固定Android镜像通过，聊天、Shell与App Lint通过；R14入口合同、API合同、Token、生成资产、Android UI基础、视觉目录和Git差异检查均通过。最终设备截图与AI视觉PASS继续留在R14大版本候选阶段，不提前关闭。
+
+## R14一对一聊天核心后端九接口 · 2026-07-28
+
+- `CR-0420`由`R14Controller`单一落地冻结的9个Chat operationId；原R08直接会话入口已迁移，URL、operationId和客户端JSON合同保持不变。
+- 会话列表只读当前用户未隐藏视图；发消息强制成员、双向拉黑、每分钟限流、`private_chat/READY`媒体归属和`chat.image.max_mb`大小上限，联系方式值以AES-GCM密文写入消息载荷。
+- 已读操作按`SENT -> DELIVERED -> READ`顺序迁移并写回执；删除会话只写当前成员`hidden_at`，新消息恢复双方可见性；拉黑、解除和举报全部使用加密幂等快照及`source=r14-api`的事务Outbox。
+- `CR-0421`修正联系方式最大合法值的加密闭环：客户端与解密后明文保持1至256字符，数据库只接受不超过2048字符的`hhy-contact-v1`三段密文信封并拒绝直接明文。
+- Java 21模块编译、14项应用服务测试、13项控制器合同检查和PostgreSQL 17真实生命周期均已通过；后者覆盖建会话、最大合法联系方式密文、发消息、未读/已读、举报证据、拉黑/解除、本端隐藏和R14 Outbox来源。
+
+## R14聊天数据合同与领域不变量 · 2026-07-28
+
+- `CR-0419`统一REST消息资源和四类发送请求的`clientMessageId`为1至64字符非空字符串；数据库迁移V043同步为`varchar(64) NOT NULL`并保留发送者内幂等唯一性。
+- 直接会话使用规范化双人键和延迟提交校验，禁止缺成员、超员、自聊、重复双人会话及物理删除成员；消息载荷、附件、已读回执、拉黑和举报证据均增加数据库级归属与不可变约束。
+- 消息只允许`SENT -> DELIVERED -> READ`，举报只允许冻结的审核迁移并严格递增版本；状态历史继续复用V010事务Outbox，不建立第二套历史事实源。
+- PostgreSQL 17已验证空库、V042升级、六类脏升级原子拒绝、带业务事实的U043拒绝、空库回滚重放和32组会话属性矩阵；R15管理端举报资源误用`ConversationResource`已登记为后续版本前置阻断。
+
+## R14聊天开发入口与精确视觉合同 · 2026-07-28
+
+- `CR-0417`把R14六页从整批B07或空绑定纠正为逐页精确合同；只有会话列表直接使用`B07/P01`，其余五页使用批准补充规格，R15的通知与公告面板不再混入R14。
+- REST与WebSocket统一冻结`ChatMessageResource`及文本、图片、内容卡、联系方式卡四类封闭载荷；页面字段目录移除ID、分页、幂等、客户端消息标识、乐观锁版本和响应诊断字段。
+- 举报页面移除后台队列、分配、SLA和审核决定状态；发送、已读、联系方式、举报、拉黑和删除会话动作改为真实聊天结果与导航语义。
+- `CR-0418`只修正`--catalog-only`的编码前语义；完整页面和历史视觉门禁仍要求实现文件、截图、人工对照和`PASS`，未弱化版本关闭标准。
+
+## 历史异步真机依赖后缀兼容 · 2026-07-28
+
+- `CR-0416`以现存固定工具链 APK、签名、四方 SHA、构建报告和会话关闭记录补齐 R02 机器事实投影；`TASK-R02-007/008`与项目所有者真机状态继续保持阻塞/PENDING，不伪造完成。
+- 跨版本依赖只允许全部前置任务 DONE 后的严格连续 BLOCKED 后缀：单个最终关闭任务，或“APK/真机交付 + 最终关闭/交接”两个任务；任意业务阻塞、非连续状态或异步证据缺失仍硬失败。
+- 该修订消除 R14 对 R02 历史状态的误判，不放宽正式验收、生产激活或当前 R13 的视觉与治理缺口。
+
+## R13公网注册恢复与候选部署防回归 · 2026-07-28
+
+- `CR-0415`恢复当前Staging唯一有效的`HHYTEST2026`邀请码；公网邀请码校验、随机新手机号完整注册和注册后身份授权均返回HTTP 200，生产Profile隔离保持不变。
+- R13候选夹具改为幂等保证邀请码唯一ACTIVE并绑定ACTIVE候选用户；重复或失效映射立即失败，不再只准备自动登录账号。
+- 候选路由激活前后新增目标容器与公网邀请码校验，任一步失败禁止切换或自动回滚；R13桌面测试说明同步登记当前Staging测试码及R25正式管理边界。
+
+## R13 TEST_APK关闭门禁投影修正 · 2026-07-28
+
+- `CR-0414`补齐`CR-0412`遗漏的机器关闭与跨版本执行入口：按需自动化模式改为核验完整固定工具链`TEST_APK`证据，不再错误要求GitHub自动候选PASS。
+- 生产关闭继续要求自动候选、候选报告和项目所有者真机PASS；R13缺失的四页当前Commit截图保持未通过，不会被伪造为机器完成或生产验收。
+- 合格`TEST_APK`交付后，未完成的按需专项可保留为`BLOCKED_EXTERNAL_GATE`并继续下一版本；构建、正式API、必需检查、稳定签名、Commit、版本、SHA、四方端点或桌面说明任一篡改仍硬失败。
+
+## Android固定环境测试APK交付与异步真机反馈 · 2026-07-27
+
+- `CR-0413`从R13起把固定测试签名轮换为`hhy-staging-test-v2`：秘密仅在`obx-test`以root-only SecretRef持久化，仓库只保存Profile ID、证书指纹和一次性安装迁移边界；旧v1私钥缺失事实及历史APK证据保持不改写。
+- 项目所有者首次安装R13前需卸载R12及更早测试APK一次；R13及后续测试包持续复用v2并递增`versionCode`，禁止默认debug、临时生成或每版随机签名。
+- `CR-0412`原位修订既有Android自动化和统一交付事实源：每个大版本冻结Commit在`obx-test`通过正式API、编译、单测、Lint、打包、稳定签名、版本身份和四方SHA后即可交付`TEST_APK`，项目所有者真机反馈保持异步PENDING且不阻断下一版本开发。
+- GitHub模拟器候选降为认证、支付、升级等高风险变更、集中视觉审计或项目所有者明确要求时运行的按需非阻断专项；历史R13 Attempt 1至20和失败证据保持不可变，Attempt 21不授权，自动候选自身仍不得在PASS前冒充合格候选或生产证据。
+- `CR-0411`精确Commit `78cf6c91`已在`obx-test`固定镜像通过activity单测与AndroidTest编译，223任务`BUILD SUCCESSFUL in 2m49s`；R13精确APK下载路由已备份Nginx配置、通过`nginx -t`、reload及仓库`preflight-route`验证。
+
+## R13四页Android最终候选基础 · 2026-07-27
+
+- 唯一Android候选从R12切换为R13普通attempt 1，测试包`versionCode`单调递增至10222；历史R12候选改为只读取已归档PASS证据，不再锁死当前共享旅程和版本身份。
+- 新增Flyway V042专用隔离Staging夹具，幂等准备三条真实ONLINE项目、READY公共媒体、脱敏链接联系方式、收藏、非分享浏览记录及`official/STAGING/10222/NONE/PUBLISHED`启动版本链；输出不包含手机号或联系方式明文。
+- OIDC模拟器旅程精确采集我的收藏、浏览记录、分享面板和联系方式失效反馈四张截图；确认弹窗只做功能断言，不扩大视觉清单，也不提交反馈污染候选事实。
+- 收藏与历史分类导航按B08/P07-P08修正为文字标签和品牌蓝指示线，分享与反馈底部面板显式导出自动化marker；首次无R13基线只运行一次模拟器，AI通过后走轻量基线晋升。
+- attempt 1 Run `30218800712`在Android编译和模拟器前被UI Token门禁阻断：分类指示线未选中态直接使用`Color.Transparent`；该Run保持已消费且不重跑。CR-0379改用品牌Token透明派生值、补齐R13专项断言和候选前双UI门禁，并登记唯一普通attempt 2请求。
+- attempt 2 Run `30219507396`的编译、Lint、单测、OIDC会话和`/api/v1/me`均通过，但R13夹具将10222发布记录固定在候选运行之后，`published_at <= now`查询返回404并阻断首页。CR-0380将发布时间幂等校正为确定性过去时刻，补充已生效断言与公网`200/NONE`预检，attempt 2保持已消费且只登记唯一普通attempt 3。
+- CR-0381复用既有PROB-0120，移除R12归档测试对全局当前R13 `remediation_attempt=1`的锁死；历史测试只验证R12不可变候选事实和后继版本身份单调性，R13精确attempt 3继续由R13专项测试负责，避免普通CI确定性假失败。
+- attempt 3 Run `30220806413`已通过登录、启动门禁、收藏和历史旅程，但UIAutomator点击了Compose `TextButton`内部不可点击的“分享”文字节点。项目详情的分享与反馈动作现暴露稳定资源标识，候选文字定位也只点击首个启用且可点击的真实祖先；旧Run保持已消费且不得重跑。
+- CR-0382因遗漏跨版本例外编号逻辑由独立审查拒绝且未触发候选；CR-0383保留全局三轮上限和全局身份唯一性，把超限例外改为每个Release独立从attempt 4连续编号。唯一R13 attempt 4请求精确绑定稳定点击修复Commit `c602d2f0`、`CR-0383`和单次运行上限，不预授权attempt 5。
+- attempt 4 Run `30222792524`机器旅程完成但AI视觉拒绝：收藏页在三条READY媒体完成异步加载前误采了稳定占位图，同夹具历史页随后已显示真实媒体。`CR-0384`不批准且不晋升；`CR-0385`复用R09的`loaded/error`语义，收藏页等待三条媒体全部成功后才允许像素稳定采集。旧Run保持已消费且不得重跑，唯一attempt 5请求精确绑定首个修复Commit `f8239c98`、`CR-0385`和单次运行上限，不预授权attempt 6。
+- attempt 5 Run `30225016379`的候选请求、编译、Lint、单测、打包、OIDC和Staging准备通过，但Compose动态媒体testTag没有作为UiAutomator可见资源标识进入无障碍树，首张截图前loaded/error均未命中并在30秒后硬失败。`CR-0386`保留原状态标识并新增业务可读的加载中、成功、失败动态description；候选按description计数并在超时报告三类数量。旧Run保持已消费且不得重跑，唯一attempt 6请求精确绑定首个修复Commit `808ee1d1`、`CR-0386`和单次运行上限，不预授权attempt 7。
+- attempt 10 Run `30235906567`的编译、Lint、单测、打包、收藏导航和`GET /api/v1/me/favorites`均通过，但三张同URL媒体只有两个回调镜像进入loaded，第三个持续loading。`CR-0391`删除`AsyncImage onSuccess/onError`到独立状态的复制，候选语义改为直接派生各自`AsyncImagePainter.State`；旧Run保持已消费且不得重跑。首个修复Commit `7d53f3863b64ca1d2bc31baf7fd03ae36f6e3642`通过66项治理回归、Android UI基础门禁和obx-test固定镜像223任务，唯一attempt 11请求精确绑定`CR-0391`、request011、该Commit和单次运行上限，不授权attempt 12。
+- attempt 11 Run `30238024222`的编译、Lint、单测和打包通过，但在第一张截图前精确消费收藏页首个30秒content等待并失败于`R13 favorites did not become visible`；runtime artifact SHA-256为`C8D61C0B631A79D1961DA66BB30760700E6448D073C89C9DC4C95FA33A3F0DC0`，四张截图均未生成，且无应用崩溃、ANR、Coil或媒体错误。artifact没有服务端请求日志，不能猜测favorites请求是否发出。`CR-0392`在同一30秒总期限内观察全部R13导出phase，仅当3秒内无目标phase且源页仍在时重新解析资源与可点击祖先并重试一次；终态或超时输出phase、源页、资源和祖先诊断。旧Run保持已消费且不得重跑。首个修复Commit `10c904b02750641892e35616f162319867e7f0c9`通过68项治理回归、Android UI基础门禁、git diff检查和obx-test固定镜像212任务；唯一attempt 12请求精确绑定`CR-0392`、request012、该Commit和单次运行上限，不授权attempt 13。
+- attempt 12 Run `30241127938`的候选请求、编译、Lint、单测、打包、自动登录和收藏页导航通过，但第一张截图前的媒体激活精确失败为`expected=3 observedSuccess=2 visibleSuccess=2 errors=0 loading=1`；GitHub runtime artifact digest为`27089D2A0283D37760631CB1B79C2E270A5CFDAA24731754F478FD7442E04753`，四张截图均未生成，且分析器未报告应用崩溃、ANR、Coil或媒体错误。`CR-0393`保留三张真实媒体、30秒总期限、零错误和回顶三态复验，只把裸坐标单向滑动改为绑定`r13.favorites.list`、安全gesture margin及停滞后切换方向的结构化DOWN/UP扫描；70项候选治理回归、Android UI基础门禁和git diff检查均通过，`obx-test`固定镜像`app:compileDebugAndroidTestKotlin`以212任务在1分19秒通过，本机/远端Kotlin SHA-256均为`765AB89B8207FC031DFBF2BD5E304C51723A5A4F2DAE809DEC6F33C35D97CF53`。首个修复Commit为`fedda55654a256db02877e1fdc7be25b3ba1ba4f`；旧Run保持已消费且不得重跑，唯一attempt 13请求精确绑定`CR-0393`、request013、该Commit和单次运行上限，不授权attempt 14。
+- attempt 13 Run `30244068773`的候选请求、编译、Lint、单测、打包、自动登录和收藏导航通过，但19次结构化DOWN/UP扫描后仍在第一张截图前报告`expected=3 observedSuccess=2 visibleSuccess=2 errors=0 loading=1`；runtime artifact digest为`1D8972F08ADB4F9DEAFBF911CADEBDF58A4DFAA6E510B17C28E4B9A79AC37F`，四张截图未生成，且无应用崩溃、ANR、Coil或媒体错误。夹具核验确认三个条目全部为PROJECT，`CR-0394`分类轮换方案在实施前作废并由`CR-0395`纠正；候选改用既有Compose UI测试按三个唯一业务标题逐项`performScrollTo`，再回到首项并由UiAutomator严格复验三条Success、零Loading、零Error。首个修复Commit `8a73630d7cda118fa7fb88942e38b06939dc95a4`通过72项候选治理回归、Android UI基础门禁、git diff检查和obx-test固定镜像212任务，本机与远端Kotlin SHA-256均为`A8EDB9B969F19FD635CE8C228BC700810A601F4C62648F8DF42EE0BAC0731E20`；旧Run保持已消费且不得重跑，唯一attempt 14请求精确绑定`CR-0395`、request014、该Commit和单次运行上限，不授权attempt 15。
+- attempt 14 Run `30246999437`的编译、Lint、单测和打包通过，但模拟器首次运行及唯一允许的失败Job重跑都在R13旅程前被`hhy.screen.r06.home.loaded`单态断言阻断；第二次runtime artifact SHA-256为`E8B4881EFCD76D1F486FA40D42C9CD072E1AF720F0305B80B60C5C0CA6348EE5`，应用正常启动并保持前台30秒，无崩溃或ANR，四张R13截图均未生成，`CR-0395`媒体激活代码尚未执行。`CR-0396`把候选入口收敛为可操作的已认证主框架：首页`loaded`或`error`均可继续进入“我的”，登录页、会话验证中和启动失败仍阻断；R13收藏、历史、详情、真实媒体、分享、反馈、四张截图和视觉门槛不变。Attempt 14及其Job重跑保持已消费，不得第三次重跑。首个修复Commit `035a80b21b51f6652cc1bf107a12e457eb06620b`通过40项候选与共享治理回归、17项治理知识回归、Android UI基础门禁、git diff检查和obx-test固定镜像212任务，本机与远端Kotlin SHA-256均为`F3CA9934A993ED8310E9C79E8964F58D4F85F38E37D12670CAA3AF381B337F22`；`CR-0398`只授权唯一`request015`绑定该Commit和单次运行上限，不授权attempt 16。
+- attempt 15 Run `30255527377`的请求校验、编译、Lint、单测和打包通过，但模拟器在应用可见后固定等待30秒并失败于`Authenticated shell did not reach a usable screen identity`；runtime artifact SHA-256为`8963204C8FC7E4B66F306FFA58F07C9115BD140D046470CD90703044ACFBD96E`，四张R13截图均未生成，exit-info为空且无应用崩溃或ANR。`CR-0399`曾把该失败归因为首页状态与认证主框架入口混用，并改为直接要求`hhy.shell.authenticated`与启用可点击的`shell.navigation.me`同时成立；Attempt 16的新时序证据现已否定该归因，`CR-0399`的资源增强保留为诊断能力但不再视为根因修复。首个修复Commit `80dd3e68b010ef5218154b7362cd7a6835ae9607`通过40项候选回归、35项治理回归、UI基础门禁、严格连续性、提交门禁和obx-test固定镜像212任务。Attempt 15保持已消费不得重跑；`CR-0400`只授权唯一`request016`绑定该Commit与单次运行上限。
+- attempt 16 Run `30259083711`的请求校验、编译、Lint、单测和打包通过，runtime artifact SHA-256为`5B0FE48639698C10DFFC7503D14BEACFC0BC69914DF33FFE9769F38389993FE6`；模拟器一次性会话兑换、`GET /api/v1/me`、平台状态和版本检查均返回200，测试用户仍为`ACTIVE`且更新策略为`NONE`，但30秒后仍为`shell=false home=none meVisible=false`，没有发出`GET /api/v1/home`，四张截图未生成，exit-info为空且无应用崩溃或ANR。对比Attempt 13可见，Attempt 14起新增`createEmptyComposeRule`后连续三次都停在同一服务端边界；`CR-0401`保留按标题`performScrollTo`，在手工启动目标Activity并确认窗口可见后先执行`composeRule.waitForIdle()`，再进入UiAutomator认证主框架门禁，并补可见启动/登录阻断态诊断。首个修复Commit `dd28660f5e2f043cf09afa308042428f651e521a`通过40项R13与共享候选回归、28项候选历史回归、17项治理知识回归、Android UI基础门禁、严格连续性、V1.2.3联合门禁和`obx-test`固定镜像212任务；源文件SHA-256为`11F55B856A44E6A9231E53BC9C2A9EA3C6076A070865782C5FE881C53FB3B38E`，构建日志SHA-256为`7CFCEAC07D7ED90A4E0C4E9757FDCD7998E32EC29743867BF8D74544F5C80F16`。Attempt 16保持已消费且不得重跑；`CR-0402`只授权唯一`request017`绑定该Commit与单次运行上限，不授权Attempt 18。
+- attempt 17 Run `30262304986`的候选请求、编译、Lint、单测和打包通过，runtime artifact SHA-256为`1B7C6802C08DB76FA2E488725DAF7AF0E4F8C7674461AD6090C7B0E49C061FFA`；模拟器一次性会话、`GET /api/v1/me`、平台状态和版本检查均200，但30秒后精确失败为`shell=false home=none meVisible=false meActionable=false visibleBlockers=正在启动`，仍无`GET /api/v1/home`，四张截图未生成且无应用崩溃或ANR。该新指纹证明启动前单次`composeRule.waitForIdle()`发生在异步网络完成前，后续UiAutomator轮询未继续推进Compose测试调度；`CR-0403`保持原30秒、认证可操作性和全部R13门禁，只在每轮认证检查前再次`composeRule.waitForIdle()`，不授权Attempt 18。
+- `CR-0405`在`CR-0403`首个修复Commit `97c74a75a293527d83a865df10d6c580e307f83f`通过受影响回归、Android UI基础、严格连续性和`obx-test`固定镜像AndroidTest编译后，只授权唯一`request018`执行一次attempt 18；Attempt 17保持已消费，Attempt 19不授权，全部R13登录、接口、真实媒体、四张截图、日志和视觉门槛不变。
+- attempt 18 Run `30265602004`的请求校验、编译、Lint、单测和打包通过，模拟器也已越过“正在启动”并进入可操作认证主框架，但点击`shell.navigation.me`后失败于`R13 me home did not become visible`；runtime artifact digest为`dee092bdd5b372c5cf4179ab8f9ab6b24e6a528336230c051fad90e641987722`，四张截图均未生成，`owner_test_allowed=false`。`CR-0406`保持原30秒目标页与15秒来源页消失时窗，在每轮页面转换观测前持续同步Compose调度并输出required/gone可见性诊断；Attempt 18不得重跑，Attempt 19仍须等待独立精确授权。
+- 为避免同一Compose调度根因从“我的”页转移到收藏、历史、异步媒体或截图阶段后再次消耗GitHub候选，`CR-0406`在同一批准范围内进一步让所有候选资源点击、R13 phase轮询、媒体终态等待和截图稳定采样先同步Compose；84项候选与共享治理回归、Android UI基础和diff检查通过，待精确Commit固定镜像复编后再决定Attempt 19。
+- `CR-0406`完整修复Commit `5cd3dabee40aadd8c906d4307fa3d4c502360011`已在`obx-test`固定镜像完成212任务AndroidTest编译，`BUILD SUCCESSFUL in 1m20s`，本机/远端源码SHA-256均为`E658EFC4BDC96406F156556155564323D4B7EBB363ED5ABDB4081785D6E8FA20`。`CR-0407`只授权唯一`request019`执行一次Attempt 19；Attempt 18不得重跑，Attempt 20不授权，全部业务与视觉门槛保持不变。
+- Attempt 19 Run `30269439274`已通过候选请求、编译、Lint、单测和打包，并越过自动登录、我的页及收藏导航，但第一张截图前再次精确失败为`expected=3 observedSuccess=2 visibleSuccess=2 errors=0 loading=1`；runtime artifact digest为`7D7FB9DE918BFE435159F2234F801640823606972ED6DFBC43AFDE7070CA54E9`，四张截图未生成且不得交付APK。`CR-0408`停止继续猜测滚动行为，改为从正式`state.items`提取经安全过滤、去重的真实媒体URL，使用项目既有Coil按与页面painter完全一致的确定尺寸预取；页面仍以独立`AsyncImagePainter.State`和三张真实媒体门禁判定，不接受占位图或降低数量。
+- `CR-0408`修复Commit `4d6fd4d7a61cbdb6db465534bebbe5c8375c45e4`已通过90项候选治理、Android UI基础、严格连续性和`obx-test`固定镜像223任务，`BUILD SUCCESSFUL in 1m48s`，本机/远端源码SHA-256均为`154C23A1C52FF22BF19D93CCF8134DFCED4C4901F54B202B44813DD9A65AC690`。`CR-0409`只授权唯一`request020`执行一次Attempt 20；Attempt 19不得重跑，Attempt 21不授权，全部业务与视觉门槛保持不变。
+- Attempt 20 Run `30272884567`的候选请求、编译、Lint、单测和打包通过，但模拟器Job `90000972687`在第一张截图前仍报告`expected=3 observedSuccess=2 visibleSuccess=2 errors=0 loading=1`；三条夹具内容确认共用同一READY媒体对象，证明缓存预取不能消除每行独立`rememberAsyncImagePainter`生命周期竞态。`CR-0410`改为由列表级官方Coil `ImageResult`作为唯一真实加载事实：相同安全URL只加载一次，`SuccessResult`直接渲染真实Drawable并供三行复用，`ErrorResult`保持硬失败；四张截图未生成，Attempt 20不得重跑或交付。
+- `CR-0410`首个提交`f523abce`在`obx-test`固定镜像精确失败于`rememberDrawablePainter`未由当前Coil 2.7依赖导出，没有消耗新候选；该CR标记`SUPERSEDED`。`CR-0411`保留列表级真实`ImageResult`所有权，改用Android标准`Bitmap/Canvas`把Coil成功Drawable转换为现有Compose `ImageBitmap`并直接渲染，不新增依赖、不回退独立行网络painter。
+
+## R13活动业务可观测性与隔离Staging验收 · 2026-07-27
+
+- 新增收藏总量、历史行数、近5分钟分享、联系方式访问/拒绝、待处理失效反馈和活动Outbox积压七项低基数只读Gauge，并建立后端不可用、错误率、P95、Outbox、失效反馈、拒绝突增和指标查询失败七条告警。
+- 精确Commit `410aef53`在`obx-test`独立Compose project完成PostgreSQL 17 / Flyway V042、公开状态、健康检查、Prometheus、TraceId、结构化日志脱敏、告警firing/resolved送达及四条Outbox合法终结验收。
+- 当前镜像回切至`c9741759`功能基线并恢复，PostgreSQL容器、卷和V042全程不变；收藏、历史、分享、联系方式审计、失效反馈及活动Outbox事实前后完全一致。
+- 25项现场文件已归档并完成远端与本地逐文件SHA-256复核，`AC-R13-004=PASS`；模拟器、真实截图、AI视觉复核和候选APK继续固定在`TASK-R13-007`。
+
+## R13收藏、历史、分享与行为审计专项测试 · 2026-07-27
+
+- 三个既有`TST-ACTIVITY_001`测试ID全部转为可执行证据矩阵，覆盖收藏、历史、取消收藏、分享、联系方式审计、失效反馈、冻结控制器合同和Android稳定意图键，不建立第二套测试清单。
+- 精确Commit `c9741759`在`obx-test`通过Java 21的37项测试、PostgreSQL 17的5项真实事务/并发测试及Android activity的109个任务；三类原始日志远端与仓库SHA-256一致，P0/P1缺陷均为0。
+- PostgreSQL迁移型测试明确采用“一次Flyway迁移型测试一个空数据库”：R13活动、R08项目主路径和R08并发幂等分别使用隔离数据库，禁止用`baselineOnMigrate`或业务代码改动掩盖`search_path`导致的环境假失败。
+- 本任务只运行受影响模块，不启动GitHub模拟器、不生成截图或APK；完整候选继续固定在`TASK-R13-007`，项目所有者真机反馈保持异步。
+
+## R13收藏、历史、分享与失效反馈Android客户端 · 2026-07-26
+
+- 新增独立`ContractR13Api`与收藏/历史功能模块，绑定取消收藏、收藏列表、浏览历史、分享及联系方式失效反馈五个冻结operationId；刷新、翻页和局部失败均保留已加载内容，写操作使用稳定幂等键重试。
+- 我的首页新增收藏夹和浏览记录入口，两页分别按B08/P07、B08/P08实现真实媒体、内容类型、发布者、分类标签、时间层级、空态及安全详情导航；不增加文档未登记的清空记录动作。
+- 项目、App、群聊和团队长详情统一接入四渠道分享面板及失效反馈面板；失效原因只取服务端内容上下文返回的真实联系方式渠道，禁止客户端硬编码或虚构原因码。
+- 收藏入口、列表动作与空态统一使用共享星标语义图标；R13正式UI不再展示请求编号。收藏和浏览发生时间未包含在冻结响应中，页面保留真实服务端活动排序但只把`createdAt/updatedAt`标注为内容发布或更新时间，不冒充用户行为发生时间。
+
+## R13开发入口与四页精确视觉基线 · 2026-07-26
+
+- R13建立单一权威执行计划，普通Story只运行受影响门禁，完整Android构建、模拟器旅程和截图只在最终候选执行；项目所有者真机反馈继续异步。
+- 我的收藏和浏览记录分别精确绑定B08/P07、B08/P08；分享面板与联系方式失效反馈新增批准补充规格，复用相关详情/失效语境和底部面板结构，但业务字段严格来自冻结开发文档。
+- Release Manifest统一登记五个R13归属operationId和一个Story复用共享operationId，消除HTTP路径、漏接口、TOKENS_ONLY、整批面板和缺失视觉绑定后再进入数据任务。
+
+## R12最终候选视觉晋升与固定签名APK交付 · 2026-07-26
+
+- Run `30194396225`完成编译、Lint、单测、OIDC认证、十页模拟器旅程、截图和目标进程日志门禁；AI逐页对照R12冻结规格及B04/B05/B06/B08精确效果图通过，未发现转场残层、技术字段、虚构业务或崩溃/ANR。
+- 十张原始截图以逐图SHA-256固化为首版视觉基线；轻量晋升Run `30195682023`在39秒内复核既有APK、报告和截图并返回PASS，没有重新构建或启动模拟器。R12十一页视觉目录全部转为PASS。
+- 固定`hhy-staging-test-v1`签名APK `hhy-r12-8090001-debug.apk`通过zipalign、v2/v3、正式API、包名和versionCode 10221校验；仓库、桌面、服务器和HTTPS四方SHA-256均为`b97bf8fd1a0306678f297da72c6b5b2e0b224aff2965a962a7db41167bc3e4f8`。项目所有者真机反馈保持异步PENDING，不阻断R12机器关闭或R13开发。
+
+## R12第七次候选与AI持续候选授权 · 2026-07-26
+
+- 项目所有者明确批准CR-0358，并要求后续候选不再逐轮请求批准、由AI依据仓库事实源持续开发；既有候选规则原位升级为`AI_STANDING_DELEGATION`，不建立第二套授权事实源。
+- 全局`max_ai_attempts=3`和普通1至3保持不变。后续只有上一请求已消费、独立根因已修复、模块和普通CI通过后，独立AI候选授权角色才可建立连续轮次、唯一request ID、修复Commit和`max_candidate_runs=1`的精确CR；未知未来轮次、旧请求复用和无限重试继续硬拒绝。
+- 本轮只授权`R12 / attempt 7 / R12-CANDIDATE-20260726-007 / CR-0358 / bcde496e / max_candidate_runs=1`。新增秘密、第三方权限、资金/账本策略和生产激活仍必须由项目所有者决定。
+
+## R12第六次候选视觉拒绝与确定性修复 · 2026-07-26
+
+- Run `30191193348`的OIDC、Staging bootstrap、编译、Lint、单测、模拟器旅程、十张截图和日志分析均技术成功，但AI逐图拒绝视觉基线：个人资料TopAppBar压缩安全区，草稿箱和内容数据采到退出转场残层，我的首页与发布管理详情泄露ISO时间，蓝底刷新按钮对比度不足。
+- CR-0356移除固定TopAppBar总高度，HhyMotion退出层改为完全离屏，候选稳定采样提高到至少四次连续相同；R12时间统一转换为Asia/Shanghai商业格式，品牌蓝底刷新按钮改为反色文字、图标和边框。
+- attempt6、request006和Run证据保持已消费但未批准；原APK不晋升、不交付桌面，CR-0356不授权attempt7。obx-test固定Android镜像已通过受影响Shell、内容管理单测和AndroidTest Kotlin编译。
+
+## R12公网路由修复后的单次第六轮最终候选授权 · 2026-07-26
+
+- attempt5及其一次同Commit失败作业重跑均在CR-0354公网路由修复前结束且未产生Android截图，既有运行继续保留为已消费事实；路由修复本身不构成新增候选授权。
+- 项目所有者明确批准CR-0355：保持全局`max_ai_attempts=3`与普通1至3不变，仅登记`R12 / attempt 6 / R12-CANDIDATE-20260726-006 / f11901ea / max_candidate_runs=1`精确例外。
+- 候选请求、策略和专项回归同步锁定全部字段；attempt7、复用004/005/006、错误Release/request/CR/Commit或非连续例外历史均在Android重型准备前硬拒绝。本授权只建立唯一候选路径，候选结果仍须独立验收。
+
+## R12候选公网路由与前置启动码门禁加固 · 2026-07-26
+
+- Run `30188636875` attempt2证明固定镜像已健康并不代表公网已切流：`api.orbexa.cc`仍代理旧`28099`并让bootstrap返回400；现场已备份配置、切至新`28098`、通过`nginx -t`与reload，并以唯一`X-Request-ID`证明公网请求进入目标容器。
+- CR-0353因实现前发现遗漏测试影响映射而SUPERSEDED且未实施；CR-0354原位加固既有Android策略、测试体系、远程复用模式和踩坑20，新增严格确认、精确upstream、目标容器端口、本机健康、自动回滚及公网requestId命中的唯一切流脚本。
+- GitHub OIDC与Staging bootstrap改为在Java、Android SDK、平台包和KVM之前分阶段预检，仅输出安全HTTP状态并抑制响应体与令牌；脚本、策略和专项测试进入既有`android-governance-unit` tooling，普通规则提交不再重复编译Android，真实客户端源码仍进入`android-module`。attempt5失败证据保留，同Commit第三次重跑及未批准attempt6继续禁止。
+
+## R12候选前夹具修复的单次第五轮授权 · 2026-07-26
+
+- CR-0351专项测试发现影响范围遗漏策略加载器后即被SUPERSEDED，未提交、未推送、未运行候选；CR-0352不复用已消费的attempt 4，保留全局`max_ai_attempts=3`和普通1至3，只为CR-0345修复提交`fbde523e8e751b74f7300ef125c70fa9eb4d03fd`登记`R12 / attempt 5 / R12-CANDIDATE-20260726-005 / max_candidate_runs=1`精确例外。
+- 历史attempt 4例外继续只作归档事实；attempt 6、复用004请求、错误Release/request/CR/Commit或缺少修复祖先全部在Android环境安装和模拟器启动前硬拒绝。
+- 候选策略、请求、运行报告与R12候选合同新增正反回归；本变更只形成合法候选路径，尚未运行第五次候选。
+
+## R06首页延迟视觉证据对账 · 2026-07-26
+
+- CR-0350确认R10最终候选源Run `30013677033`、晋升Run `30015180600`和Commit `1e35a97f`已经满足PROB-0099规定的恢复条件；批准的1080x2400首页截图SHA-256为`2b2357c76b36f2d939d91829a98dd70d362355c001f716be965b7926afe8f7ff`。
+- R06首页视觉台账恢复PASS，PROB-0099同步改为SOLVED；回归测试直接绑定批准状态、两级Run、Commit和截图哈希，禁止仅凭状态文字自证。
+- 既有普通CI影响映射原位增加视觉验收台账、门禁、合同测试与冻结规格的tooling检查；不触发Android候选，R12尚缺的11页视觉债务继续保持IN_REVIEW。
+
+## R12 普通CI tooling影响映射补强 · 2026-07-26
+
+- run `30187349464` 已验证后端Maven Wrapper修复PASS，但候选历史测试与严格Doctor变化被错误判为tooling `skipped`；本地357项PASS不能替代远端Job被正确选择。
+- CR-0349 在既有`test-impact-map`原位增加候选历史与治理知识两个精确tooling检查，覆盖候选测试、视觉归档、严格Doctor、Problem Registry、复用模式和踩坑记录；未受影响的Android、数据库和Web继续跳过。
+- PROB-0120、PATTERN-CONTINUITY-001和踩坑30原位补充该经验，不新增平行规则或问题记录，不触发Android候选。
+
+## R12 普通CI历史候选与Wrapper模式漂移修复 · 2026-07-26
+
+- CR-0348 修复R11历史候选测试把全局当前构建配置、候选请求和共享模拟器旅程永久锁死为R11的问题：旧身份、页面集合和截图哈希改由归档候选报告、构建证据与视觉合同验证，当前身份只要求构建与发布策略一致且严格递增。
+- 恢复`services/backend/mvnw`的Git `100755`模式；既有严格Doctor与工具回归同时检查Android和Maven Wrapper索引模式，阻断Windows不显现、Linux CI才报`Permission denied`的漂移。
+- 本修复只恢复普通CI可信度，不运行模拟器、不打包APK，也不授权复用R12已消耗的第四次候选。
+
+## 主开发文档定位断链修复 · 2026-07-26
+
+- CR-0347 修复 `docs/00-baseline` 既有定位文件仍指向仓库不存在旧主文档文件名的问题，原位改为唯一权威的页面与运营规格冻结版。
+- V1.2.2/V1.2.3 严格文档门禁新增指针存在、目标存在和唯一文件名一致性回归；问题、复用模式和踩坑记录同步闭环，不改变产品功能或 R12 实现。
+
+## R12 候选提交目标事务重建 · 2026-07-26
+
+- CR-0345 修复候选夹具只在部署时准备一次的问题：OIDC bootstrap 现显式携带 Release，R12 在 GitHub 身份验证成功后、发码前的同一事务中重建会被真实提交旅程消费的固定草稿。
+- R12 准备器使用 PostgreSQL 事务级 advisory lock，回收非 DRAFT 旧目标，从已验证模板克隆项目详情、最新版本快照、统计与 READY 媒体，最终强制恰好一个 `DRAFT/version=0/review_status=NULL` 目标且不复制审核记录。
+- 模板缺失、重复 DRAFT、BANNED、子资源不完整、非法 Release、OIDC 失败均硬失败；非 R12 不执行 R12 数据写入。该修复不授权复用已消耗的 attempt 4，也不触发新的 GitHub 模拟器候选。
+
+## 全局规则、进度与经验复用防漂移加固 · 2026-07-26
+
+- CR-0346 修复总执行计划的假绿：滚动窗口和每版 `planning_depth` 改由 `CURRENT_STATUS.active_release` 确定性生成，检查器独立交叉验证；当前窗口为 R12，后续 Story 窗口为 R13-R14。
+- 保留 CR-0242 已登记的 R08 历史关闭，不追溯改写旧产物；R12 起机器关闭改为累计验证截至当前版本的全部前端页面，后续 CR 重开历史页时旧 PASS 立即失效。当前真实视觉债务为 R06 首页 `SCR-HOME-001=IN_REVIEW`。
+- R12 起每个大版本最终候选后必须完成开发文档、硬门禁执行、开发进度、复用模式、Problem Registry 和踩坑记录六项审计，报告绑定候选源码 Commit 与 SHA-256 后才可机器关闭和进入下一版。
+- 严格 Doctor 新增经验资产结构门禁，并原位补齐 `PROB-0044`、`PROB-0045`、`PROB-0052` 的关闭证据；不建立第二套规则或问题登记。
+
+## R12 Android 第四次候选一次性受控例外 · 2026-07-26
+
+- CR-0344 解决“三轮全局上限”与“R12 前三轮分别暴露三个不同根因”的事实表达冲突：全局 `max_ai_attempts=3` 和普通候选 `1-3` 均保持不变，禁止永久放宽或把第四次伪写为 attempt 1。
+- 唯一例外精确绑定 `R12 / attempt 4 / R12-CANDIDATE-20260726-004 / CR-0344 / daae207af319008411995b7ac23a13c9042fc5a2 / max_candidate_runs=1`；Release、request、CR、修复 Commit、轮次任一漂移以及 attempt 5 均在模拟器前硬拒绝。
+- 分支候选与权威质量工作流端到端透传例外身份和有效上限；GitHub 使用完整历史验证 `daae207a` 为候选提交祖先，运行报告同时保留全局上限 3 与本次有效上限 4，失败修复项不再硬编码 `/3`。
+
+## R12 审核记录真实摘要与时间线修复 · 2026-07-26
+
+- Run `30176531999` 已完成构建、OIDC 自动登录、提交成功及前八页真实旅程；唯一业务失败是管理员尚未处理时 `/contents/{id}/reviews` 合法返回空列表，旧客户端把整页误判为空，未展示冻结 SCR-MYC-004 要求的当前内容摘要和待审状态。
+- CR-0342 将审核页拆为当前内容摘要与真实管理员处理时间线：详情接口提供真实标题和当前审核状态，历史仅按 `attributes.review.id` 去重和生成稳定 Compose key；无人处理时展示“审核中 + 暂无人工审核记录”，不伪造待审历史，也不暴露管理员、记录 ID 或内部状态码。
+- 刷新保留已显示摘要并重置历史分页，追加只请求时间线，旧内容或旧 generation 响应不能覆盖当前页面；原始 ISO 时间统一转换为上海业务时间。CR-0343 按既有 feature 边界补齐 JSON 直接依赖，不扩大 `core:network` ABI。
+- `obx-test` 固定 Android 镜像已通过内容管理单测、Lint 和完整 App Kotlin 编译，共 197 个任务 `BUILD SUCCESSFUL`；R12 视觉目录和 Android UI foundation 静态门禁均通过。三轮候选上限仍保持有效，下一轮只能在独立批准候选策略后触发。
+
+## R12 Android 最终候选 attempt 3 · 2026-07-26
+
+- 修复提交 `a16a75e6` 已通过本地三层连续性门禁、`obx-test` 双次夹具幂等验证、公网 `official + STAGING + 10221` 版本检查 `200/NONE`，以及 GitHub Continuity Gate `30176293676` 和受影响 CI `30176293786`；普通推送未启动 Android、后端、数据库、Web 或模拟器重型 Job。
+- 唯一候选请求递增为 `R12-CANDIDATE-20260726-003` / attempt 3；继续使用 versionCode `10221`、R12 专用 Flyway V041 数据、OIDC 自动登录和十页唯一旅程。该轮完成构建、安装、功能、截图、日志及追溯后，由 AI 逐图判定视觉质量；若首次 R12 基线缺失，只做轻量基线晋升，不重复模拟器。
+
+## R12 Android 最终候选 attempt 2 · 2026-07-26
+
+- Run `30173649942` 的 Android Build 已成功，但 Emulator Job `89719831962` 在模拟器旅程启动前请求 CI bootstrap 时返回 500；未产生 R12 页面截图，也未消耗视觉审核结果。
+- CR-0340 修复 `GlobalExceptionHandler` 同时从 MDC 与 SLF4J keyValue 写入 `requestId` 导致原始 OIDC 异常被结构化日志错误遮蔽的问题；`obx-test` Java 21 双路径回归 2 项全部通过。
+- 精确 Commit `d2244cf5` 的后端镜像 `sha256:2bb8c5348d1e2cefa0eeafa124e84c942d8f5c6da623c024a19a55e4041ade99` 已部署为 R12 专用候选，公网请求只进入新容器；安全伪令牌实测记录 `errorType=BadJwtException`，未再出现重复字段错误。
+- 候选请求递增为 `R12-CANDIDATE-20260726-002` / attempt 2；继续复用 versionCode `10221`、R12 专用 Flyway V041 夹具和十页唯一旅程，截图仍由 AI 自主逐页审核。
+- Run `30175242918` 已证明 OIDC bootstrap、session 与 `/api/v1/me` 全部为 200；Emulator Job `89723135402` 随后因 R12 隔离数据库版本发布链为空，`official + STAGING + 10221` 的公开版本检查返回 404，启动门禁未进入首页，十页截图尚未开始。
+- CR-0341 在同一 R12 专用夹具事务内补齐确定性构建配置、构建任务、APK 元数据、`official + STAGING` 活动渠道和 `10221/NONE/PUBLISHED` 发布记录；任何重复或漂移均硬失败，禁止触碰 PROD。完整候选下一轮只允许在 `obx-test` 双次幂等输出一致且公网版本检查先返回 `200/NONE` 后触发。
+
+## R12 六项专项测试与故障证据闭环 · 2026-07-26
+
+- `TST-CONTENT_002-*` 与 `TST-PUBLISH_001-*` 六个既有测试 ID 全部升级为可机检 `AUTOMATED`，通过 `tests/r12` 适配器和唯一中央矩阵绑定真实 Java、PostgreSQL 与 Android 测试，不建立平行测试清单。
+- 补齐响应丢失重放、同键异体冲突、Outbox 单写、配置超时零成功副作用、外部账号与未实名拒绝、非法状态和并发失败者零成功副作用；共享媒体存储故障复用生产回归，不虚构 R12 私有供应商或消息消费者。
+- 精确源码 Commit `5419d682` 在 `obx-test` 通过 Java 21 后端 15 项、PostgreSQL 17.10 真实事务/并发 5 项和 Android 202 个 MODULE 任务；三份非空日志的服务器/仓库 SHA-256 一致，六项矩阵全部 PASS，关键缺陷为零。
+- 本任务没有启动模拟器、截图或 APK；完整候选仍严格保留到 `TASK-R12-007`。
+
+## R12 客户端与后台八个 Story 闭环 · 2026-07-26
+
+- `TASK-R12-004` 的八个 Story 已按依赖顺序完成：后台审核工作台、内容管理详情、四页发布管理、发布中心与预览、稳定幂等提交结果、个人资料、我的首页及工程治理投影均有提交和模块证据。
+- R12 十一页全部绑定冻结页面规格、operationId、共享合同模型和 typed Navigation；后台 113 项测试、后端最新 415 项测试、Android 最新 534 个任务以及合同、商业 UI、Token 和严格文档门禁均为 PASS。
+- 十一页视觉目录继续保持 `IN_REVIEW`；真实模拟器截图、AI 逐页复核、候选 APK、安装冒烟和桌面交付严格保留到 `TASK-R12-007`，不以静态扫描冒充最终视觉验收。
+
+## R12 Android 我的首页真实资产聚合与顶层导航修复 · 2026-07-25
+
+- `SCR-ME-001` 按 B08/P01 重建为蓝色真实身份头、奖励资产双主双次摘要、会员状态、四列真实功能网格、会员权益、账号服务和固定五栏底部导航；只消费用户、会员和奖励三项冻结 GET，过滤效果图中的订单、红包、收藏、浏览、消息、邀请、成长、任务、红点、等级和示例金额。
+- 会员接口归属统一登记为 `R12/R18`，奖励接口统一登记为 `R12/R24`，奖励风险冻结补齐 HTTP 423；Android 成功/错误信封兼容 OpenAPI 合法省略字段，字段级错误只保留具名字段，`requestId/errorCode/traceId` 不进入正式 UI。
+- 用户、会员和奖励模块独立加载、缓存、更新时间、局部失败和重试；会员 404、奖励 404、奖励 422/423、429、网络/5xx 分别映射真实商业状态，任一模块失败不清空其他成功模块，401 只触发一次根会话失效。
+- 底部栏目从页面级 `selectedIndex` 伪切页恢复为 typed `Home/Me` Jetpack Navigation Compose 目的地，使用 `saveState/restoreState/launchSingleTop` 和 `HhyMotion.peerContent()`；红包与消息未实现时禁用，不再进入文字占位页。页面登记为 `IN_REVIEW`，真实模拟器截图与最终视觉 PASS 留到 `TASK-R12-007`。
+
+## R12 Android 个人资料闭环与 Unicode 合同统一 · 2026-07-25
+
+- `nickname/bio` 统一为 Unicode-aware 去除首尾空白后最多 255 个 Unicode code point；客户端、后台、运行时 OpenAPI、共享用户/发布者响应、九份派生页面规格和 Java 服务校验同步，数据库保持既有 `varchar(255)` 且禁止静默截断。
+- 新增独立 `ContractR12ProfileApi` 与 `SCR-ME-002`：只发送实际变化字段，清空简介或头像使用空字符串，保存使用同一请求体稳定幂等键；409 保留输入并查询最新资料，网络中断、5xx 和联合命令响应先 GET 确认，禁止盲目重复写入。
+- 个人资料页按 B08/P01 身份层级与 `MOB-FORM` 实现 56dp 返回顶栏、可编辑真实头像、脱敏账号摘要、昵称/简介字段级校验和底部单一保存操作；头像固定 `public_media`、单图与单并发，媒体选择器保持既有多选调用向后兼容。
+- “我的”身份头接入 typed `Profile` 路由，保存或查询成功后的 `UserSelfResource` 回接根认证会话；页面登记为 `IN_REVIEW`，当前只执行受影响合同、后端与 Android MODULE，模拟器截图和最终视觉 PASS 留到 `TASK-R12-007`。
+
+## R12 Android 稳定幂等提交与结果闭环 · 2026-07-25
+
+- `ContractR12Api` 新增冻结 `contentPostContentsByIdSubmit`：请求只携带最新 `expectedVersion` 和可选 `reason`，路径、请求体与 `X-Idempotency-Key` 作为同一不可变提交意图绑定；服务端联合响应继续严格解析为 `ContentResource | CommandResultResource`。
+- `SCR-PUB-006` 在真实预览上增加二次确认，确认后进入 typed `SCR-PUB-007`；结果页按 B05/P07、B06/P07/P08 与批准补充规格实现提交中、已受理、待审、驳回、冲突、未知、离线和可恢复失败状态，同资源写请求期间锁定重复操作。
+- 409 只重新读取服务端最新内容，网络中断和 5xx 未知结果只允许查询最新状态，不自动判失败或生成新幂等键；429 仅允许使用原请求和原键继续。提交成功只显示“提交已受理”，不声称审核通过或已上线。
+- 正式 UI 不展示 `requestId`、错误码、资源 ID、`version`、幂等键或原始 `attributes`；网络响应测试按冻结 `Long` 版本类型断言。本 Story 仅执行受影响 Android MODULE，R12 模拟器、真实截图、AI 视觉复核和候选 APK 仍留到 `TASK-R12-007`。
+
+## R12 Android 发布中心与发布预览 · 2026-07-25
+
+- 新增 `SCR-PUB-001` 发布中心和 `SCR-PUB-006` 发布预览，精确绑定 B04/P01 与 B05/P06：发布中心包含真实资格/发布概览和项目、App、群聊、团队长四个同级入口；预览包含内容类型、标题标签、真实媒体、分区详情及固定操作区。
+- 底部“发布”导航接入 typed Navigation 真实页面，四类编辑器保存后进入 `/publish/preview/{contentId}`，内容管理详情也提供预览入口；页面复用现有 `userGetMe` 会话事实、`contentGetMeContents` 和 `contentGetContentsById`，不新增接口或业务类型。
+- 发布概览不硬编码额度次数，预览只接收安全 HTTPS 图片并隐藏缺失可选字段；页面不展示 requestId、错误码、资源 ID、version 或原始 attributes，也不生成示例图片、地点、人数和编号。
+- 发布预览已由后续 `STORY-R12-005` 接入冻结幂等提交与结果路由；当前登记 `IN_REVIEW`，模拟器截图与最终视觉 PASS 留在 `TASK-R12-007`。
+
+## R12 Android 发布管理四页 · 2026-07-25
+
+- 新增 `SCR-MYC-001/002/004/005` 我的发布、草稿箱、审核记录和内容数据四页，按 B08/P02、B08/P06 与批准补充视觉规格实现状态筛选、紧凑内容卡、真实状态层级、指标网格和业务空态，并从“我的”页面接入 typed Navigation 真实入口。
+- `ContractR12Api` 补齐七项冻结 operationId，列表支持刷新、游标/页码翻页去重、保留旧数据的局部失败和商业化错误恢复；上架、下架、删除全部使用最新 `expectedVersion`、稳定幂等键、同资源写锁和二次确认。
+- 审核记录和内容数据严格使用冻结 `ContentPageResource`：不虚构审核员、审核原因、编号、时限、申诉入口、同比百分比或趋势序列；正式 UI 不展示 requestId、错误码、版本或 attributes。
+- 四页登记为 `IN_REVIEW`，当前只执行受影响 Android MODULE；模拟器真实截图、AI 逐页视觉复核与候选 APK 留待 `TASK-R12-007` 最终候选阶段。
+
+## R12 Android 内容管理详情 · 2026-07-25
+
+- 新增 `SCR-MYC-003` 内容管理详情模块与 `/me/contents/{id}` typed Navigation 路由，按 B08/P03 保留媒体标题状态头、四项真实指标、管理动作、信息分区和固定双操作区；只映射详情、内容数据与复制为草稿三项冻结能力，过滤编辑、上下架、置顶、道具和红包等未登记动作。
+- 新增冻结 R12 Android 网络合同，详情与数据复用 `ContentResource`、`ContentPageResource`，复制兼容 `ContentResource | CommandResultResource` 联合响应；复制动作强制实名、所有者、最新 `expectedVersion`、稳定幂等键、同资源单写锁和二次确认。
+- 页面覆盖 `LOADING / CONTENT / STALE_CACHE / NOT_FOUND / FORBIDDEN / ERROR / OFFLINE`，刷新失败保留只读缓存，内容数据失败局部降级；正式 UI 不展示 requestId、错误码、version 或原始 attributes，无真实媒体时不生成虚构图片。
+- `obx-test` 固定 Android 镜像完成网络合同单测、新模块 6 项状态单测、Lint 与 `app:compileDebugKotlin`，最终 197 个任务 `BUILD SUCCESSFUL`；本 Story 不触发模拟器、候选 APK 或全量 R12 视觉关闭。
+
+## R12 后台统一审核工作台 · 2026-07-25
+
+- 新增大型商业后台三栏审核工作台：审核队列、任务上下文/举报申诉证据和决定面板同屏协作，窄屏按真实步骤切换；支持 URL 筛选分页、取消旧请求、局部失败、离线只读、权限收回、版本冲突和真实空态，不虚构证据媒体、SLA、历史或审核员。
+- 落地六个冻结后台 operationId，并把读取、决定、分配、举报和申诉拆分为 `review.read`、`review.decide`、`review.assign`、`report.read`、`appeal.read`；`V041/U041` 无损映射历史 `review.manage` 角色并保护独立细粒度授权。
+- 默认队列排序正式支持 `priority:desc,createdAt:asc`，仅使用页码且不生成误导性游标；批量操作只允许未领取任务逐项分配，每项携带自身最新服务端版本并显示独立成功、失败或冲突结果，最终审核决定仍必须逐项完成。
+- 后台 25 个测试文件、113 项测试、类型检查与生产构建全部通过；数据库 200 表/41 迁移、API 合同、生成资产和 R12 严格文档均通过。`ADM-REVIEW-001` 仅登记为 `IN_REVIEW`，最终浏览器截图和 AI 视觉复核仍留在 R12 最终候选阶段。
+
+## R12 发布管理后端与审核二审事务 · 2026-07-25
+
+- 落地 R12 范围 19 个冻结 operationId：10 个发布管理与内容接口、6 个后台审核接口、3 个个人资料/会员/奖励账户接口；控制器、应用服务、PostgreSQL Store、权限、幂等、错误码、审计和事务 Outbox 同步实现。
+- 新增 `V040/U040`，实现 `ESCALATE → 更晚 ASSIGN → 被分配二审员 APPROVE/REJECT`；升级保持 `REVIEWING`、版本恰好加一且禁止伪造 `REVIEWING → REVIEWING` 状态日志，同一提交快照最多升级一次。审核事实、管理员审计和应用 Outbox 以 `commandId` 精确关联，设备只读取已认证管理员会话。
+- 真实 PostgreSQL 17.10 门禁修复复制内容 Outbox 对可空 JSON 参数缺少显式类型的问题，并把审核 Store 测试夹具对齐 R01 管理员会话 `NONE → VERIFIED` 状态机和生命周期时间约束。
+- Java 21 定向 32 项、PostgreSQL Store 2 项零跳过、V001→V040、二审正反事务、U040 无事实回滚重放及有事实原子阻断均通过；完整 Android、模拟器、截图和 APK 仍仅在 `TASK-R12-007` 最终候选阶段执行。
+
+## R12 统一发布数据不变量 · 2026-07-25
+
+- 新增 `V039/U039`，把 11 状态、29 条合法边的统一内容状态机落实为数据库强制规则；新内容固定 `DRAFT/version=0`，所有更新严格 `version+1`，状态历史、提交快照、审核命令和事务 Outbox 按同一内容版本绑定。
+- 内容详情、媒体、联系方式、版本、审核和历史禁止物理删除；媒体与联系方式改为保留历史的软移除，媒体对象级联不能绕过。V039 在 DDL 前完成 9 类旧数据审计，失败保持 V038 原子不变；U039 保留业务数据和兼容列并可重放。
+- `DELETE /api/v1/contents/{id}` 补齐必填 `expectedVersion`，生成客户端和页面合同同步；用户不能把平台强制下架内容直接恢复上线。
+- PostgreSQL 17 全迁移、9/9 脏升级、回滚重放和双会话 `1:0` 乐观并发均通过；后端 380 项、Admin 101 项、H5 29 项及远端 Android 571 个 unit/lint 任务全部通过。完整 APK、模拟器和截图仍只在 `TASK-R12-007` 执行。
+
+## R12 发布管理开发入口与精确视觉基线 · 2026-07-24
+
+- 建立R12单一事实Session执行计划：普通任务仅运行受影响FAST/MODULE，完整Android构建、模拟器旅程、截图和候选APK只在`TASK-R12-007`最终候选阶段执行；机器收尾不重复重型门禁，真机反馈保持异步。
+- 11页已逐页绑定精确面板、批准补充规格或原始ADM标准模板。发布入口经独立复核从同名但业务错误的B05/P01校正为四类发布中心B04/P01；提交结果和审核记录同时复用B06待审/驳回状态。
+- 当前无需外部效果图补充包；`ui_visual_acceptance`将在R12客户端实现形成真实路径时登记IN_REVIEW，最终候选真实截图由AI逐页判断后才可PASS，禁止提前伪造验收。
+
+## R11 Android 最终候选与四方交付 · 2026-07-24
+
+- Run `30069588243` 完成真实OIDC登录后的首页、团队长列表、详情与编辑四页旅程；四张截图由AI逐图审核通过，并由轻量Run `30074128265`晋升为R11首版视觉基线，没有重复运行Gradle或模拟器。
+- 错误复用R09 App截图的问题已用确定性团队专用Logo修复并关闭 `PROB-0105`；不合格首轮截图未进入基线或交付APK。
+- 固定测试签名APK `hhy-r11-a3c3266-debug.apk` 通过zipalign、v2/v3、单一签名者、正式API和版本身份校验；仓库、桌面、服务器与HTTPS四方SHA一致，真机反馈保持异步 `PENDING`。
+
+## R11 Android 最终候选准备 · 2026-07-24
+
+- 最终候选旅程切换为真实 OIDC 登录后的首页、团队长列表、团队长详情和团队长编辑四页，截图由 AI 按 `SCR-HOME-001`、`SCR-LIST-004`、`SCR-DETAIL-004`、`SCR-PUB-005` 精确视觉合同自主审核。
+- 新增仅允许 `hhy-r11-ci-candidate-*` 使用的幂等隔离夹具，要求 Flyway V038、实名 CI 用户、唯一 ONLINE 团队长、完整必填资料、真实 READY Logo 媒体、脱敏联系方式和不可变版本历史。
+- 测试 APK 单调递增至 `versionCode 10220`，候选请求登记为 `R11-CANDIDATE-20260724-001`；普通提交不启动模拟器，本请求只触发一次完整候选门禁。
+- 首轮 Run `30066554254` 的编译、OIDC 自动登录、四页真实旅程和截图采集均成功；AI 视觉审核拒绝将错误复用的 R09 App 截图作为团队 Logo 与团队风采，新增专用团队品牌 PNG 并登记有界修复候选 `R11-CANDIDATE-20260724-002`。
+
+## R11 团队长专项测试与并发幂等修复 · 2026-07-24
+
+- 将既有三项 `TST-TEAM_001-*` 权威测试接入统一机器适配器，覆盖成功编辑、权限与配置拒绝、网络超时重放、同键异体冲突、真实 PostgreSQL 并发唯一归属和 Outbox 去重，不新增第二套测试清单。
+- Android 团队长详情增加全局单写动作锁；重复点击不再并发请求，动作失败保留已加载详情并允许使用稳定幂等键重试。
+- 管理后台幂等键按操作与资源隔离，不同内容或字典命令不再互相覆盖，成功后只清理对应资源作用域。
+- 控制器合同测试改从运行时 classpath 读取同步 OpenAPI，消除本机、容器和 CI 工作目录差异；Java 21、PostgreSQL 17.10、固定 Android 容器和后台模块验证均已通过。
+
+## 同一 Task 多 Story 原子接续 · 2026-07-24
+
+- 新增 `continuity.py story-switch`：完成一个 Story 的独立提交后，可在不关闭整个 Task 的前提下切换到同一 Task 的另一个就绪 Story。
+- 切换强制要求干净工作树、已提交的最新检查点和当前 Actor；同步 Session、Claim、索引、状态、事件链与 Context Pack，并清空旧检查点要求新 Story 重新验证。
+
+## R11 团队长列表与首页入口 · 2026-07-24
+
+- 新增团队长专属 Android 模块与冻结 `TEAM_LEADER` 内容查询，列表按 `B02/P08` 展示真实 Logo、团队介绍、规模、地区、登记属性标签、发布者及服务端浏览/收藏统计，不复制效果图虚构数据。
+- 团队长列表覆盖首屏骨架、空状态、刷新保留、游标翻页去重、尾部失败重试、离线与无权限状态；未知技术属性和不安全媒体地址不会进入正式 UI。
+- 首页“团队长”四大分类入口及服务端 `/content/team-leaders` 目标已接入真实 Jetpack Navigation 列表目的地；详情与资料编辑继续由 `TASK-R11-004` 后续 Story 实现，不以占位页冒充完成。
+
+## R11 团队长入驻精确视觉入口基线 · 2026-07-24
+
+- 团队长列表、详情、入驻编辑分别精确绑定 `B02/P08`、`B03/P04`、`B04/P05`，替换旧的跨面板粗绑定和 `TOKENS_ONLY`；效果图只约束结构层级与视觉，功能字段动作仍以冻结开发文档和页面合同为准。
+- R11 客户端关闭前必须把首页“团队长”一级入口、真实团队长内容卡及列表/详情导航回接 `SCR-HOME-001`；普通任务只跑受影响 MODULE，完整门禁和模拟器仍只在 `TASK-R11-007` 最终候选执行。
+
+## R10 群聊推广可观测性与隔离预发布验收 · 2026-07-23
+
+- R10 最终 Android 候选固定为首页、群聊列表、群聊详情、群聊编辑四页真实业务旅程；候选截图必须由 AI 逐页对照视觉合同审核，未通过不得晋升或交付。
+- 新增仅允许 `hhy-r10-ci-candidate-*` 使用的幂等隔离夹具，创建实名 CI 用户、ONLINE 群聊、群详情、WECHAT 群主联系和独立入群口令；统计保持零值且不可变内容版本不得被改写。
+- 测试 APK 单调递增至 `versionCode 10219`，候选请求登记为 `R10-CANDIDATE-20260723-001`；普通提交仍不启动模拟器，本请求只触发一次完整候选门禁。
+- 首轮 Run `30011688259` 的编译、OIDC 自动登录、首页与群聊三页真实旅程、四张截图和 instrumentation 均成功；机器分析唯一失败为遗漏 `R10.yaml` 视觉清单，并非登录、接口、导航或模拟器故障。
+- 四张首轮截图已由 AI 审核为页面定位与真实数据合格；补齐唯一视觉清单及脱敏断言后，第二轮登记为 `R10-CANDIDATE-20260723-002`，不得用同一 Commit 盲目重跑掩盖确定性缺口。
+- 增加群聊总量、在线、待审核、收藏、联系方式访问/拒绝和 R10 Outbox 积压七项只读业务 Gauge，并冻结 Prometheus 指标名称与无敏感标签边界。
+- 新增 R10 独立 Staging、Prometheus、Alertmanager 和审计接收器，固定已核对的独立回环端口、子网与数据卷，不触碰公网或既有版本环境。
+- 单一演练入口绑定冻结 Commit，验证 Trace/结构化日志脱敏、RED、群聊业务指标、BackendDown 与 Outbox 告警送达，以及 V036 同库同卷应用回切；禁止 U036、U035 和任何降版本 DDL。
+- 云端 Java 21 定向测试 6 项和完整隔离现场演练通过；23 个证据文件完成 SHA-256 复核与敏感探针扫描，AC-R10-004 签为 PASS。
+
+## R10 群聊推广数据不变量 · 2026-07-23
+
+- 修复生产管理后台基础可用性：`SUPER_ADMIN` 幂等补齐全部已登记权限，菜单只展示真实实现且当前账号有权访问的中文业务页面，未实现目录不再伪装为可用功能。
+- 修复配置页面权限码、独立 403、当前标签页会话恢复、首次登录菜单响应、左右区域独立滚动，并完成后台前端、后端、生产数据库和 `admin.orbexa.cc` 真实浏览器回归。
+- TASK-R10-003 补齐群聊推广应用服务与接口：`GROUP_CHAT` 映射数据库 `GROUP`，创建/详情/编辑/公开分享复用冻结内容入口，支持群平台、规模、入群要求、二维码、HTTPS 群链接和群号，并保持权限、乐观锁、幂等快照、Outbox 与公开分享最小披露。
+- 根 OpenAPI、boot 运行时镜像和生成客户端已同步 `JOIN_PASSWORD`；R07 联系访问复用原有加密、掩码、审计和幂等机制，R10 群聊写入固定显示 `口令***`，禁止把口令放入 attributes、群号或入群要求。
+- 页面字段目录与 `SCR-DETAIL-003`、`SCR-PUB-004`、`SHEET-CONTACT-001` 明确：`JOIN_PASSWORD` 仅 GROUP、每内容至多一条、不计作群主联系方式，群主联系仍仅接受 `WECHAT/PHONE/QQ/EMAIL`；公开 H5 不披露群号、群链接或口令。
+- 新增 `V036/U036`，把群平台、二维码、群链接、群号、独立加密入群口令和群主联系方式落实为可迁移、可回滚的数据库事实；`join_requirement` 只表示入群要求，不再与入群口令混用。
+- `JOIN_PASSWORD` 仅允许绑定 `GROUP` 且每内容至多一条，复用 V032 加密信封、脱敏摘要和显式访问审计，并明确不计入群主联系方式；ONLINE 群必须另有 `WECHAT/PHONE/QQ/EMAIL` 群主联系。
+- 对 `content_posts`、`group_details`、`content_contacts` 建立双向延迟终态检查和父内容行锁，覆盖同事务任意施工顺序、详情或联系人迁移以及并发删除写偏斜；二维码媒体引用使用 `ON DELETE RESTRICT`。
+- PostgreSQL 17 已验证空库、合法升级、八类违规历史数据失败关闭、运行时正反例、双会话并发、U036 数据保留和 V036 重放；CR-0268 保持 `IMPLEMENTING`，后续 R10-003/004 必须同步接口、生成客户端和页面后方可完成。
+
+## 开发文档功能一一对应与首页信息架构纠偏 · 2026-07-23
+
+- 项目所有者再次确认所有实现必须逐项对应《合伙云Pro_完整项目开发文档_V1.2_工程执行强化版》；现有全局硬边界已原位强化，补充规格不得新增、删减、替换或重新组织主开发文档明确功能。
+- CR-0265 取代面板绑定错误的 CR-0264：R10 群聊列表、详情、发布/编辑分别精确绑定 `B02/P07`、`B03/P03`、`B04/P03`，不再误用 App 发布 `B04/P04`。
+- 撤销旧首页视觉 `PASS`：旧实现缺少横向 Banner 和项目/App/群聊/团队长四入口，并把服务端丰富模块降级为文字列表；修复后须在 R10 最终候选按开发文档 4.3 与 B02 重新采集和审核，普通提交不启动模拟器。
+- R08 项目、R09 App、R10 群聊、R11 团队长故事新增首页跨版本回接验收，真实入口、内容卡和导航不得因首页历史归属而遗漏。
+
+## R09 机器关闭与异步真机交接 · 2026-07-23
+
+- R09 前七项任务、三页 AI 视觉候选、固定签名 APK、正式 API 基址及仓库/桌面/服务器/HTTPS 四方交付均已通过；六项验收条目改为精确文件证据并全部 `PASS`。
+- Release 状态进入 `MACHINE_COMPLETE_OWNER_PENDING`；`owner_physical_test` 保持 `PENDING`，正式 Release 验收与生产激活继续阻断，不把机器完成伪装成 Owner 验收。
+- `next_release_development=ALLOWED`，R09 机器关闭后直接进入 R10，不强制项目所有者逐版本反馈，也不重复运行 GitHub 模拟器或重新打包。
+
+## R09 App最终候选准备 · 2026-07-23
+
+- 候选旅程从历史混合页面收敛为 App 列表、详情、编辑三张 R09 对应截图，并显式限制 instrumentation 只运行候选测试类，避免离线历史审计截图混入版本证据。
+- 新增仅限专用 Staging CI 账号的 V035 幂等 App 夹具；只使用真实冻结字段、零值统计和两张真实候选截图媒体，不创建 APK、评分、下载量、虚构业务数据或效果图示例能力。
+- App 编辑页分类与平台改为中文业务选择器，内部仍提交兼容编码，未知编码显示受控中文兜底，不再把 `TOOLS`、`ANDROID` 等技术值直接暴露给用户。
+- 首轮 Run `29959550918` 的登录与三页功能旅程通过，但列表、详情和编辑没有完整消费用户已上传媒体，AI 视觉审核拒绝，截图和 APK 均禁止晋升或交付。
+- 列表接入真实首图和截图条，详情接入横向截图画廊，编辑页显示已有及新上传图片预览；无图只显示中性占位，不虚构评分、下载量、标签或功能。
+- R09 测试 APK 单调递增为 `versionCode 10218`；第二轮使用 `R09-CANDIDATE-20260723-002` 继续同一三页 OIDC 真实旅程，必须通过 AI 逐图审核后才能轻量晋升。
+- 候选前预检补齐不可变内容版本的幂等保护，固定数据复跑只校验并复用既有版本、不再尝试更新历史；编辑页截图仅断言首屏真实可见业务标签，避免把屏外平台字段误报为产品失败。
+- 第二轮 Run `29966683853` 的全部自动门禁和详情/编辑视觉通过，但列表卡因截图分散在左侧且右侧空白过大被 AI 拒绝；第三轮将中性应用标识与紧凑事实信息固定在卡片上部，并把全部真实截图统一为下方横向等高截图条，不虚构应用图标、评分或下载量。
+- 最后一次候选使用 `R09-CANDIDATE-20260723-003`；三页截图仍由 AI 逐图审核，任何一页不合格都禁止交付 APK 或关闭 R09。
+- 第三轮 Run `29968398037` 的技术门禁和列表版式通过，但候选截图稳定器在 Coil 异步图片成功前约 `0.35` 秒误采占位画面；公网媒体文件与仓库 SHA 一致，第二轮同一详情实现已证明真实加载可用。证据重采保持 `remediation_attempt=3`，列表和详情各两张图片必须出现 `loaded` 成功标识后才可截图，失败或超时直接阻断候选。
+
+## R09 App推广可观测性与隔离预发布验收 · 2026-07-23
+
+- 增加 App 总量、在线、待审核、收藏、联系方式访问/拒绝和 R09 Outbox 积压七项只读业务 Gauge，并在 Prometheus 端点测试中冻结指标名称。
+- 新增 R09 独立 Staging、Prometheus、Alertmanager 和审计接收器配置；使用独立回环端口、子网与数据卷，不触碰公网或既有版本环境。
+- 单一演练入口绑定冻结 Commit，验证 Trace/结构化日志脱敏、RED、App 业务指标、BackendDown 与 Outbox 告警送达，以及 V035 同库同卷应用回切；禁止 U035、U034 和任何降版本 DDL。
+- 修复全新隔离工作区中单一入口未启动 Compose 就静默退出的问题；入口现在先拒绝非空同名项目，再自行构建并启动整套隔离环境，避免版本关闭依赖聊天中的人工前置命令。
+
+## R09 App推广专项测试与故障注入 · 2026-07-22
+
+- 将冻结的三项 App 推广测试接入唯一测试目录和统一证据矩阵，不建立平行测试清单。
+- 增加网络超时后的完成快照重放、同键异体冲突、Outbox 重复防护、八路 PostgreSQL 17 并发唯一归属和客户端幂等键稳定性验证。
+- 将供应商异常精确映射到本领域真实存在的媒体存储与 H5 域名配置提供方；超时、乐观锁竞争和非法输入均验证零业务副作用，不虚构第三方 App 供应商。
+
+## R09 App推广跨端闭环 · 2026-07-22
+
+- 新增按 B02/P06、B03/P02、B04/P04 精确建模的 Android App 列表、详情和发布/编辑闭环。
+- H5 App 分享页使用冻结导航动作承载真实外部 HTTPS 链接，不再把第三方链接伪装为具备版本码和 SHA256 的自有 APK 发布包。
+- 统一内容后台继续复用既有内容列表和版本化详情操作，并补充 APP 专项回归。
+
+## R09 App推广后端应用服务 · 2026-07-22
+
+- 保留冻结的统一内容路径和 operationId，在唯一Controller内按 `contentType` 分派PROJECT与APP，避免重复映射和消费者迁移。
+- 新增App创建、详情、编辑和公开分享的应用服务与PostgreSQL存储；App名称及外部链接按业务规则校验，联系方式继续加密，写操作继续使用实名、幂等、乐观锁和Outbox。
+- 媒体在应用层要求“归属当前用户、READY且非APK”，数据库V035继续提供不可绕过的APK MIME、媒体类型和对象键保护；未新增APK上传字段或二进制下载响应。
+- 收藏、分享和私聊来源从仅PROJECT扩展为通用在线内容检查，PROJECT既有分享路径保持不变，APP使用 `/share/app/{id}`。
+
+## R09 App推广数据不变量 · 2026-07-22
+
+- 复用既有统一内容与 `app_details` 模型，不新增APK上传字段；App名称必填，平台、版本、外部下载链接和官网有值时禁止空白。
+- 增加延迟App详情完整性检查、活跃详情软删除保护和公开App列表/平台索引，允许同一事务先创建内容再写入详情，同时阻止提交缺少详情的App事实。
+- 从媒体关联和媒体元数据变更两条路径共同禁止APK MIME、APK媒体类型和 `.apk` 对象键；迁移前发现历史APK关联时明确失败并要求人工治理，不静默放行或改写数据。
+- 增加空库、历史升级、领域拒绝、开发回滚和迁移重放验证；回滚只移除R09数据库对象并保留业务行。
+
+## R01—R07 历史 UI 效果图级返工 · 2026-07-22
+
+- 补齐 R01 管理端登录、二次验证和账号安全三页视觉合同与浏览器证据，移除面向用户的技术页面编号，并按既有管理端模板完成 AI 六项视觉复核。
+- 重构 R02 启动与认证安全页、R06 首页、R07 搜索与发布者页的信息层级和组件精致度；R04 上传与 R05 实名页复核并清除字符假图标。所有增强只组合已实现真实业务，未增加效果图中的虚构功能、指标、图片或数据。
+- 在既有权威 Android Quality Gate 中增加仅手动触发的历史离线视觉模式：一次渲染 22 个非敏感生产 Composable 页面，不登录服务器、不生成候选 APK、不替代大版本最终门禁，也不建立平行工作流；联系方式安全面板继续以 `FLAG_SECURE` 语义与源码证据验收。
+- 历史视觉命令收敛为仓库内单一脚本，避免模拟器 Runner 将多行命令逐行隔离后丢失工作目录；脚本固定测试类、回收失败现场并精确校验 22 张截图。
+- Run `29943415539` 仅运行历史 UI 离线视觉批次并成功产出 22 张非敏感页面截图；AI 逐张六项复核后，截至 R08 的 45 页视觉账本全部 `PASS`，联系方式安全面板继续以 `FLAG_SECURE` 源码语义与仪器报告验收。
+
+## UI施工事实源与版本关闭阶段消歧 · 2026-07-22
+
+- 纠正189份逐页施工规格中“效果图仅用于视觉参考”的旧表述；效果图对建模、区域顺序、信息层级、布局、组件形态和视觉样式具有强制约束，但仍不得虚构功能、字段、动作或业务数据。文档门禁新增冲突表述回归，换电脑或换AI后执行同一规则。
+- `release-close`固定为大版本机器收尾：候选、当前版本视觉、APK身份、稳定签名转换链、SHA、文档和证据必须PASS，但项目所有者真机反馈可以保持异步`PENDING`并继续开发。
+- 正式生产验收改为显式`--production-close-gate`，继续要求真机PASS、Release Commit、Tag与生产终态；旧`--close-gate`直接拒绝并提示选择，避免机器收尾后反复产生无意义失败。
+- 测试映射文件自身变化只运行选择器与统一工作流回归，不再误触发无Android源码变化的编译、单测和Lint；Android策略、工作流、门禁脚本、测试或应用源码变化仍照常触发Android MODULE。
+- 连续性任务迁移索引加入统一忽略清单，由连续性门禁负责一致性校验，不再因为其位于`catalogs/`误触发与业务无关的契约资产回归。
+
+## R08 机器关闭与 Staging 502 恢复 · 2026-07-22
+
+- 使用已通过的 `49f40f2` 三页产品候选、Run `29905158793` 原始采集、Run `29906167593` 轻量晋升和四方一致桌面 APK 完成 R08 机器关闭；真机反馈继续异步 `PENDING`，不伪造正式验收或生产激活。
+- 当前 HEAD Run `29929926432` 的构建、lint、单测和 APK 打包通过；模拟器开始前因服务器重启后专用 CI 容器未自启而收到 HTTP 502，一次受控重试同因失败后按规则停止，没有继续浪费 GitHub。
+- 启动既有专用 CI 容器后，公网平台状态恢复 HTTP 200；R08 关闭后立即进入 P00/R01—R08 全局 UI 审计，历史 `IN_REVIEW` 页面不会被伪报为 PASS。
+
+## R08 普通 CI 工具回归收口 · 2026-07-22
+
+- 删除 R07 Android 错误卡与 H5 公开分享错误页中的请求编号展示；内部错误模型仍可保留 requestId 用于日志关联，但正式 UI 不再暴露技术诊断字段。
+- GitHub tooling 作业补齐 `test_android_ci_gate` 实际导入的 Pillow；普通 Android 作业继续 `candidate: false`，不启动模拟器。
+- Release 关闭隔离正向夹具补齐既有效果图级六项 PASS 标记，保持门禁强度不变；完整 GitHub 失败集合必须先在本地全部通过。
+
+## R08 普通 CI OIDC 权限与连续性报告修复 · 2026-07-22
+
+- 修复普通 `ci.yml` 调用 Android 可复用质量门禁时遗漏 `id-token: write` 的确定性权限合同错误；`contents` 继续只读，普通调用继续保持 `candidate: false`。
+- 权限修复不增加候选模拟器频率、不绕过受影响 MODULE 选择，也不改变产品代码、接口、数据库或生产配置。
+- 使用既有唯一连续性自测入口刷新生命周期与无对话重建报告，消除 `continuity.py` 来源哈希更新后的报告过期。
+
+## R08 历史 Android 安全页与关于页视觉修复 · 2026-07-22
+
+- 历史截图逐图审核确认修改密码、注销账号和关于页不满足既有唯一视觉规则；登记 `PROB-0086`，不得将功能可用或截图存在冒充视觉通过。
+- 修改密码页补齐显式字段层级、真实输入驱动的密码强度条和安全建议；注销页补齐当前账号、风险提示及身份验证分组，保留原接口、验证条件和确认流程。
+- 关于页只展示清洗后的公开语义版本号，内部 `debug` 构建后缀及 `P00/测试包/验收/Staging` 发布说明统一在展示边界过滤，不改变服务端版本策略。
+- 清洗结果为空时显示中性“未知”而不回退内部构建值；历史 instrumentation 语义同步按当前 Compose 测试 API 完成编译兼容修正。
+
+## R08 历史视觉独立测试宿主 · 2026-07-22
+
+- 第 2 次历史补审证明 R07 真实旅程已走完并产出到清空历史确认框，但共享 Compose 宿主的测试对象外部状态仍未可靠重组；该轮不得晋升。
+- 启动三态、认证独立状态和实名四态拆为独立 JUnit 测试，每个测试只设置一次 Compose 内容并直接组合生产组件；登录、短信、注册和重置仍在同一真实认证页面内部导航。
+- 第 3 次是独立历史批次的最后一次有依据候选；推送前必须通过固定 Android 镜像编译，失败后不得增加第 4 次同类重试。
+
+## R08 历史视觉首轮旅程确定性修复 · 2026-07-22
+
+- 首轮历史补审 Run 29910384239 的编译、Lint、单测和打包通过，但模拟器确认两项旅程失配：异步启动 Gate 未可靠从 Loading 切到维护态，R07 仍寻找旧发布者提示语；5 张诊断截图保留但不得晋升。
+- 不新增 UI 或候选规则；启动三态改由 debug-only 选择器直接组合唯一生产状态展示组件，R07 按真实发布者名称精确导航，生产 Release、API、数据库和业务页面不变。
+- 第 2 次历史补审前必须先在 `obx-test` 固定镜像编译通过；该批次独立于已批准的 R08 三页功能修复次数，仍受最多三次的历史批次有界上限约束。
+
+## R08 历史 Android 页面统一视觉补审 · 2026-07-22
+
+- R08 本版三页候选通过后，完整 Release 视觉门禁发现 R02、R04—R07 共 23 个 Android 历史页面仍为 `IN_REVIEW`；登记 `PROB-0083`，禁止以本版候选成功掩盖跨版本关闭前置项遗漏。
+- 复用既有唯一视觉和最终候选规则：R02 与 R05 通过仅存在于 debug/androidTest 的生产组件组合入口渲染，R04 媒体面板及 R06—R08 页面继续走真实认证旅程；22 个允许截图页面与 1 个 `FLAG_SECURE` 联系方式安全面板纳入同一补审批次。
+- 隔离 R08 Staging 夹具补齐 R07 搜索内容、热词和联系方式可用性事实；夹具不改变生产 API、数据库结构或正式业务数据，截图仍须由 AI 逐张判断后才能更新历史页面状态。
+
+## R08 最终候选、视觉基线与测试 APK 交付 · 2026-07-22
+
+- 第三轮且最后一次有依据的 GitHub 候选完成编译、Lint、单测、打包、模拟器安装、OIDC 自动认证、三页真实项目旅程、目标进程日志和安全门禁；三张截图由 AI 按绑定效果图或批准补充规格逐张审核并批准为 R08 首版视觉基线。
+- 轻量晋升只复用同一 Run 的 APK、报告和截图完成 PASS，没有重新编译或启动模拟器；列表、详情和编辑页已从 `IN_REVIEW` 升级为 `PASS`，技术编码、虚构媒体和联系方式明文均未进入截图。
+- 最终 APK 使用固定 Staging 测试签名并通过 v2/v3 验证；仓库、桌面、服务器和 HTTPS 下载四份文件 SHA-256 一致，项目所有者真机反馈保持异步 `PENDING`，不阻断 R08 机器收口及后续开发。
+
+## R08 项目页业务编码展示修复 · 2026-07-22
+
+- 第二轮候选截图由 AI 判定未通过：项目列表、详情和编辑器直接显示 `COOPERATION`、`CN-11` 及联系方式英文枚举；该候选不晋升视觉基线。
+- 不新增平行 UI 规则，复用既有正式前端技术字段禁显规则，在显示边界映射合作项目、北京及微信等用户文案；未修改的存量请求仍保留冻结原始编码，未知代码仅显示中性业务标签。
+- 候选仪器测试和 R08 视觉清单逐页要求中文业务标签并禁止原始技术码；第三轮作为本候选上限内最后一次有依据复验，仍由 AI 独立判断截图。
+
+## 无会话 `resume` 只读接续修复 · 2026-07-22
+
+- 修复任务关闭元数据 Commit 推送后，`resume` 无条件刷新 Context Pack 导致工作区变脏、下一任务无法 `start` 的确定性死锁；登记 `PROB-0079` 并直接修改既有唯一冷启动入口，不新增平行规则。
+- 无 ACTIVE Session 时只读验证事件链、当前全部必读规则来源哈希、NEXT_TASK、Git 和 Context 文件完整性；只允许忽略关闭 Commit 造成的树指纹滞后，规则缺失、来源变化或内容损坏仍会阻断。
+- 连续两次 `resume` 必须保持工作区不变并返回唯一 `start` 命令，使换电脑或换 AI 后项目所有者只说“继续开发”即可接续。
+
+## R08 项目可观测性与隔离 Staging · 2026-07-22
+
+- 在既有业务指标绑定器中增加项目总量、在线量、待审核量、收藏量、近 5 分钟联系方式访问/拒绝量和 R08 Outbox 积压七项只读 Gauge，不读取项目正文、联系方式明文或密文。
+- 复用既有 Staging 骨架建立 R08 独立 Compose、Prometheus、Alertmanager 和内部审计接收器；现场门禁绑定精确 Commit，验证 RED、TraceId、日志脱敏、后端与 Outbox 告警 firing/resolved 及送达回执。
+- 应用回切只替换 `api` 镜像并保持同一 PostgreSQL 容器、数据卷和 V034，禁止 U034/U033、降版本 DDL、删除卷或删除项目、审计及 Outbox 事实；模拟器、截图和候选 APK 仍只在 TASK-R08-007 执行。
+
+## R08 项目专项测试与故障注入 · 2026-07-22
+
+- 将既有三项 `TST-PROJECT_001-*` 权威测试从待自动化升级为统一机器适配器，不新增第二套测试 ID；证据必须绑定冻结 Commit、Java 21、PostgreSQL 17、Android JDK 21 及原始日志 SHA-256。
+- 新增完成请求延迟重放零重复 Outbox、8 路真实数据库并发唯一幂等归属、媒体存储超时和 H5 配置提供方超时零副作用故障注入；生产 API、数据库结构和客户端功能保持不变。
+
+## R02—R05 历史页面效果图级视觉回补 · 2026-07-22
+
+- 在既有唯一视觉验收目录内补齐 R02 14 页、R03 7 页、R04 1 页和 R05 7 页合同；后台 12 张 1440×1100 与 H5 两张 360×800 真实浏览器证据由 AI 按丰富度、层级、精致度、业务映射和状态完整性复核通过。
+- 修复后台身份/会员状态误用账号状态字典，以及复用同一 Vue 供应商配置组件切换路由时不重新加载详情的问题；受控 fixture 仅监听本机 loopback 并与生产构建和运行时隔离。
+- 回补 Android 启动、会话恢复、维护、更新和媒体上传弹层的品牌状态卡、真实说明、文件状态与操作层级，不增加效果图中的虚构业务、额度、字段或成功状态；Android 截图统一留到 R08 最终候选模拟器旅程判定。
+
+## R08 项目客户端首轮闭环 · 2026-07-22
+
+- Android 新增项目列表、项目详情和项目发布/编辑三张冻结页面，接入认证导航、首页项目入口及 R08 真实接口；列表与详情复用 B02/B03 效果图的卡片层级、品牌色、信息密度和固定操作区，发布表单复用既有 MOB-FORM 视觉语言且不增加未登记业务字段。
+- 项目读取覆盖加载、空、离线、无权限、404、错误与分页状态；详情接入联系方式、收藏、分享和直接会话，敏感联系方式只在启用 `FLAG_SECURE` 的当前底部面板短时展示并由用户显式复制。
+- 创建与编辑执行实名、必填字段、真实媒体上传、稳定幂等键和 `expectedVersion` 冲突保护；冲突时禁止覆盖服务端新数据，表单错误保留在当前页面。
+- H5 项目分享页绑定生成的 `publicGetShareContentsById` 类型和真实公开内容块，补齐骨架、失效、无权限、离线、SEO、媒体替代文本、安全提示及 App 下载回退；非分享 H5 页面保持原行为。
+- 管理后台继续复用 R06 统一内容列表与详情，不新建平行项目页面；R08 回归证明 PROJECT 筛选、商业标签和版本化上下线操作。
+- 在既有视觉验收目录登记项目列表 `B02/P05`、项目详情 `B03/P01` 和发布编辑批准补充规格；当前保持 `IN_REVIEW`，只在 R08 最终候选模拟器截图经 AI 肉眼对照后升级 PASS。
+
+## R08 真实数据库测试夹具约束修正 · 2026-07-22
+
+- 修正 R08 项目后端真实 PostgreSQL 测试中的实名用户夹具：`VERIFIED` 状态现在同时提供 V023 冻结约束要求的证件密文、不可逆哈希和验证时间；生产约束、迁移与业务代码保持不变。
+- 测试证据必须同时核对 Maven 退出码和 Surefire 摘要，禁止以日志末尾的 `PASS` 文字掩盖管道中的真实失败。
+
+## 规则去重与跨 AI 规则就绪门禁 · 2026-07-22
+
+- 强化既有变更控制：用户新增或强化规则前必须检索现有权威规则、CR、踩坑和经验复用记录；相同或相似内容直接修订原规则，禁止并列制造第二事实源。
+- 强化既有无状态接续：Context Pack 对全局必读规则来源逐项记录 SHA-256 并输出机器可验证的 `rule_readiness=PASS`；缺失、未纳入或过期即阻断开发，主观“已理解”不能代替证据。
+- 换电脑或换 AI 后，项目所有者只需说“继续开发”；接手者必须通过 `continuity.py resume` 恢复规则、任务、进度和证据，不得要求重新讲解。
+
+## 全项目效果图级视觉质量门禁强化 · 2026-07-22
+
+- 直接强化既有 UI/页面参数唯一规则：页面在不虚构功能、字段、指标或数据的前提下，必须肉眼达到绑定效果图或批准补充规格同等级的信息密度、层级丰富度、组件细节、品牌质感和状态完整性；Token 合规、功能可用或截图存在不再足以判定视觉通过。
+- 无直接效果图时先在既有逐页视觉合同中复用相近页面已批准视觉语言；无法可靠复用时生成效果图补充需求包供项目所有者取得新图，经 CR 纳入原规则体系，不新增并列事实源。
+- R02–R07 旧标准页面纳入现有 `ui_visual_acceptance.csv` 重新审计和回补，并成为 R08 最终候选关闭前置条件；历史证据保留但不得冒充新标准已通过，无依赖后端与其他页面继续推进。
+
+## R08 项目发布与详情后端闭环 · 2026-07-22
+
+- 新增项目创建、登录详情、所有者编辑、收藏、分享地址、直接会话和公开分享预览七个真实接口，复用 R06 列表与 R07 联系方式访问，完整覆盖 R08 九项冻结页面依赖。
+- 发布和编辑联系方式改为带渠道的结构化数组并使用 AES-GCM 安全信封；收藏强制最后读取版本，分享返回 `https://h5.orbexa.cc/share/project/{id}` 形式的专用结果，公开预览只允许在线项目且不披露联系方式明文。
+- V034 激活 13 项冻结内容、聊天与 H5 域名配置，并把项目发布涉及的旧 `varchar(255)` 字段无损扩容到 2000；已有激活值优先，回滚遇到配置变化或合法长文本会原子拒绝，禁止覆盖和截断。
+- 写操作统一执行实名、所有权、在线状态、媒体归属、拉黑关系、每日陌生会话上限、稳定幂等、领域审计与 Outbox；公开媒体仅从已激活公共存储绑定生成 HTTPS 地址。
+
+## R08 项目发布数据基线 · 2026-07-22
+
+- V033 为项目合作说明、可选字段、内容统计和版本号补齐真实数据库不变量；复用 V007 内容状态枚举、V029 历史约束和全局幂等唯一键，不新增重复表或重复状态约束。
+- 三项检查约束采用 `NOT VALID` 兼容历史存量但立即约束新写入；项目详情只有在内容软删除后才允许移除，公开项目时间倒序和地区读取新增专用索引。
+- U033 只移除本版约束、索引和删除保护并保留全部业务行；PostgreSQL 17.10 空库、V032 升级库、R07 Staging 只读克隆、回滚和重放均通过。
+
+## R07 搜索、发布者与联系方式可观测性 · 2026-07-22
+
+- Android新Release首版视觉基线改为“一次权威模拟器采集 + AI逐图批准 + 轻量Actions原工件晋升”；基线不存在不再强迫完整编译和模拟器原样重跑，晋升仍严格绑定Run、Commit、截图与APK哈希且不提前允许真机、正式验收或生产激活。
+- 搜索页保存最小公开查询条件并在发布者子页面返回后重新加载真实结果，不保存联系方式或授权明文；清空历史确认框同步补齐独立窗口语义导出。
+- 修复独立Compose联系方式底部面板未导出UiAutomator资源标记的问题；候选同时验证业务标题、唯一语义标记、受保护动作和FLAG_SECURE，安全面板继续禁止截图。
+- R07候选隔离夹具使用事务级临时用户上下文传递CI身份，避免在PostgreSQL匿名代码块内误用客户端变量；失败保持零写入，输出继续禁止手机号、联系方式和秘密。
+- 新增搜索历史量、有效热词量、活跃发布者量、近 5 分钟联系方式访问/拒绝量和 R07 Outbox 积压六项只读业务 Gauge，不读取搜索关键词、联系方式明文或密文。
+- 建立 R07 独立 Compose、Prometheus、Alertmanager、审计接收器、静态门禁及精确 Commit 现场验收脚本；测试 Outbox 事实只按不可变状态机终结，不删除审计记录。
+- R07 预发布只验证结构化日志、TraceId、RED、业务告警和同库卷应用镜像回切；模拟器、截图和候选 APK 继续留在 TASK-R07-007 最终候选阶段。
+
+## R07 搜索、发布者与联系方式专项测试 · 2026-07-22
+
+- 将 TASK-R07-005 的旧“9项”描述校正为发布清单冻结的10项权威测试，所有 Catalog 条目升级为 `AUTOMATED` 并绑定真实 Java/Kotlin 方法和中央证据矩阵。
+- 新增搜索、发布者公开资料、联系方式高敏访问及清空历史确认的主路径、拒绝、重复、并发、超时、幂等冲突、Outbox 去重和明文清除故障注入；正式 PASS 必须绑定冻结 Commit 的 Java 21、PostgreSQL 17 和 Android Gradle JDK 21 日志及 SHA-256。
+- Windows 受控 Git 由临时 PATH 注入升级为用户级一次性配置：仓库脚本可幂等安装和检查 `HHY_GIT_BIN`/PATH，换电脑按 `START_HERE` 自动恢复；旧长驻进程未刷新时继续走统一入口，不再重复排查或误判仓库。
+
+## R07 Android 搜索、发布者主页与联系方式闭环 · 2026-07-22
+
+- Android 新增全局搜索、搜索结果、发布者主页、联系方式面板和清空搜索历史确认五个冻结交互面，绑定 R07 七项唯一合同接口，并从已认证首页提供真实搜索入口。
+- 搜索支持热词、账号隔离历史、内容类型筛选、空/错误/离线/权限恢复和分页；结果中的发布者可进入公开主页，主页仅展示最小公开资料及其在线内容。
+- 联系方式访问保持同业务意图稳定幂等键，授权明文只存在当前底部面板内存，面板开启期间启用系统防截屏，关闭立即清除；复制必须由用户显式触发且明文不进入日志、埋点、持久化或保存状态。
+- H5 与后台在 R07 没有登记页面，按事实源明确 N/A，未新增未冻结字段、按钮或路由。
+
+## R07 搜索、发布者主页与联系方式后端 · 2026-07-22
+
+- R07 后端已实现并冻结 7 个故事接口：全局搜索、热词、搜索历史读取/清空、发布者公开资料、指定发布者的在线内容列表和联系方式访问；客户端页面仍由后续 R07 任务落地。
+- 搜索只返回在线内容，历史记录按登录用户隔离并去重；发布者主页只披露公开资料，内容列表强制 `ONLINE` 且支持 `publisherId` 筛选。
+- 联系方式访问改为版本化 AES-GCM 安全信封，明文仅在 `no-store` 响应中短时返回，不进入日志、Outbox、幂等引用或客户端持久缓存；查看、复制、拒绝和幂等重放均记录审计。
+- V032 将历史联系方式引用无损迁移为可容纳安全信封的文本字段；回滚遇到新密文会原子阻断，空库、升级库、回滚、重放和真实 PostgreSQL 17 存储集成均已验证。
+
+## R06 客户端与内容运营首切片 · 2026-07-20
+
+- R06 五页视觉合同已补齐并全部通过：Android 首页/关于绑定批准补充规格与最终候选截图，管理端内容列表/详情/字典绑定标准模板并生成固定 1440×1100 浏览器截图；截图审查发现并修复原始内容枚举、分类/地区代码、ISO 时间泄漏及详情排版缺口，新增 3 项页面回归后管理端累计 86 项测试通过。
+- Release 关闭门禁移除“固定只能有3个operationId”和“APK候选Commit必须等于后续文档关闭Commit”的错误假设，并在Windows解析受控Git路径；R06共10个冻结operationId全部按OpenAPI校验。项目所有者真机反馈继续保持异步PENDING，只阻断正式验收/生产激活，不阻断R07开发。
+- R06 最终测试 APK 版本身份递增为 `versionCode 10214`，同步构建配置、应用内发布策略和版本一致性单测；旧 `10213` 候选仅保留视觉与旅程通过证据，不得覆盖 R05 已验收产物或作为 R06 最终交付。
+- 新增 R06 内容在线量、待审核量、内容 Outbox 积压和首页启用模块四项只读业务 Gauge；建立独立 Compose/Prometheus/Alertmanager 告警链、静态门禁及同库卷应用回切手册，生产路由、数据库结构、实名认证沙箱和 CI 自动登录均不变。
+- R06 隔离 Staging 已在精确 Commit 完成 TraceId/RED/四项业务 Gauge、后端与内容 Outbox 告警 firing/resolved 以及同一 PostgreSQL 容器和卷的应用回切；测试 Outbox 事实按不可变状态机终结并永久保留，禁止删除。
+- AI 拒绝将首轮真实页面截图直接登记为基线：修复首页成功空数组时未显示空模块降级卡，以及“我的”页底部五栏目只绘制首尾项的视觉漂移；五栏目现在显式等权、始终显示标签，并在截图前逐项断言可见。
+- 修复 GitHub 候选一次性引导码在模拟器冷启动与测试 APK 编译完成前确定性过期：引导码改为 10 分钟硬上限，仍精确绑定仓库、工作流、Commit 与 Run 并单次原子消费；兑换会话保持 15 分钟，生产环境继续硬拒绝。
+- Android 候选门禁改为按版本影响清单采集真实业务页面，R06 使用 GitHub OIDC 一次性 Staging 会话进入首页、我的和关于页；AI 按冻结设计、页面身份、加载状态、像素稳定与截图哈希自主验收，桌面 APK 的延后真机反馈不再阻断后续版本编码。
+- 修复 Android 候选自动截图在页面过渡期间过早采集、导致密码登录与忘记密码页面错位的问题；新门禁以页面身份、真实加载和连续稳定像素绑定截图，禁止用屏幕外控件或仅语义节点判定页面稳定，视觉基线由 AI 按冻结规格和截图哈希自主验收。
+- 新增管理端统一内容列表、内容详情、字典与属性页面，绑定冻结内容 operationId、权限、expectedVersion、幂等写操作及加载/空/离线/无权限/404/冲突恢复状态。
+- Android 首页接入 `homeGetHome` 模块化读取并保留局部失败；“我的”新增关于与检查更新真实导航入口，接入版本检查与协议读取。
+- 关于页协议读取绑定冻结代码 `PRIVACY_POLICY`，更新按钮仅在服务端返回安全 HTTPS 下载地址时启用，并由单元测试覆盖非法 URL 拒绝。
+
+## R05 单一实名认证首切片 · 2026-07-20
+
+- 修复模拟器测试结束后应用专属外部目录随卸载被清理、导致页面截图收集为零的问题：UIAutomator先在应用缓存生成截图，再通过Android官方MediaStore发布到系统Pictures专用测试目录，主机在测试完成后统一拉取，测试前会清空该专用目录，避免旧截图误判通过；JUnit失败断言同时进入GitHub Annotation，后续可直接定位而无需二次下载日志。
+- 建立 R06-R32 长期 Android 候选自动门禁：GitHub Actions 固定执行编译、Lint、单测、APK/测试 APK 打包、Pixel 7 模拟器安装、登录注册旅程、页面截图、视觉基线比较、logcat/崩溃/ANR 检查及候选报告；任何失败进入可跨电脑、跨 AI 接续的有界修复队列，全部 PASS 前禁止标记完成或要求项目所有者真机测试，最终候选才允许复制到桌面并进行一次真机终验。
+- 首轮云端自修复把 Android 编译目标从预览 API 37 收敛到正式稳定 API 36，并补齐 Linux 中文路径、Git Hook 可执行位和第三方原始证据逐字节冻结规则；自动门禁必须在干净 Linux 克隆中复现通过，不能再依赖某台 Windows 电脑的换行或文件模式。
+- 第二轮云端自修复补齐 Android Gradle Wrapper 的 Linux 执行位，工具与契约任务显式固定 Node 24，并在成功或失败时上传完整诊断日志；后续 Runner 环境差异可直接定位，不再重复环境摸底。
+- 第三轮云端自修复确认 Emulator Runner 会逐行创建独立 `sh` 进程，原内嵌多行脚本因此丢失目录、变量和续行并退出 127；现改为调用仓库内单一可执行 Bash 门禁脚本，补齐模拟器作业稳定 SDK，并把关键失败摘要同步为 GitHub Annotation 供后续 AI 无鉴权接续定位。
+- 自动化系统自测补齐两项跨平台边界：Android工作流、策略、脚本、测试或影响映射自身变更必须实际触发Android全链；动态委托Worktree的禁止提交/推送Hook在POSIX系统强制赋予执行权限，避免Linux忽略0644 Hook而放行提交。
+- 修复真机活体页被240dp容器裁切、已认证仍可重复进入和中途退出后状态卡死：新增服务端实名总览与活动会话恢复，Android按未认证/认证中/已认证加载真实状态，第三方完整H5进入独立全屏WebView，240dp冻结区域只承载准备、授权、加载、处理中和失败状态；409/422优先展示安全商业原因。修复测试包递增为`versionCode 10213`。
+- 修复10211测试包打开即显示“暂时无法连接”：构建误注入`owner-test`渠道，而公网仅发布`official + STAGING`版本策略，版本检查因此返回404；修复包递增为`versionCode 10212`，并新增BuildConfig渠道与环境单测，非`official + STAGING`构建会在交付前失败。
+- 登录导航修复与实名认证沙箱闭环真机测试包版本身份递增为`versionCode 10211`；继续使用`1.2.2-debug`、固定Staging测试签名和`https://api.orbexa.cc`，禁止复用已测试的10210产物。
+- 新增生产硬隔离的实名认证Staging供应商沙箱：默认关闭，仅`staging`可显式启用，任何`prod/production`组合误开都会拒绝启动；真机仍真实申请相机权限、打开HTTPS活体页、由服务端数据库事务写入结果并通过原轮询进入结果页，Android不伪造状态，正式环境继续要求后台激活真实供应商与SecretRef。
+- 修复认证入口导航来源与转场语义：密码/验证码登录改为无方向同级淡入淡出，注册/忘记密码改为真实Navigation Compose子目的地，页内、系统键和手势pop均使用反向转场并恢复进入前登录模式；静态门禁禁止再次写死PASSWORD或用forwardContent切同级Tab。
+- 记录versionCode 10210部分真机验收：实名认证首页与资料输入页通过；活体前会话创建因公网Staging没有任何ACTIVE identity配置返回HTTP 500，确认发生在第三方AppCode调用之前，不把其冒充为外部供应商正常失败或整版通过。
+- 实名结果状态补齐后端`VERIFIED`成功映射，避免真实或沙箱供应商完成后仍停留“正在确认认证结果”。
+- 全项目新增“大型商业 App 成熟方案优先”硬边界：基础能力只采用官方 Stable、行业主流且有长期维护路径的方案；禁止小众、预发布或自行构思的导航、返回栈、图标与动效框架，例外必须 ADR 与批准 CR。
+- Android 全部既有页面迁移到稳定 Jetpack Navigation Compose 真实返回栈；顶栏、系统键和手势返回同源，实名认证从“我的”进入后返回仍恢复“我的”，登录注册及账号安全子页不再以页面枚举模拟导航。
+- 新增 `HhyIcons` 官方矢量语义图标注册表与 `HhyMotion` 统一转场 Token；底部五栏目、实名认证准备项/状态、认证结果、登录注册和账号安全页已移除汉字、Unicode 与临时字符图标，并补齐前进/返回原生方向动效。
+- 新增 Android UI 基础设施静态门禁、单元测试和 Navigation Test：阻止字符占位图标、自研返回栈、写死返回首页、页面私有动效数字与预发布导航依赖回流；本轮真机测试包递增为 `versionCode 10210`。
+- 采纳并校验R05冻结视觉补充包：Android实名认证首页、身份信息、活体检测和结果页按逐状态效果图与Design Token重构，H5回跳页改为深蓝品牌头与悬浮业务状态卡；管理后台按项目原始ADM标准模板验收，不误扩张为专属效果图要求。正式页面继续过滤示例身份数据、供应商字段、state、接口名、错误码和请求编号。
+- 修复R05客户端与公网后端版本错位：保留现有测试账号并完成数据库可恢复备份后，将`api.orbexa.cc`从R03滚动到R05候选服务；真实注册令牌读取实名认证授权说明返回HTTP 200，旧认证安全验证回归继续通过，第三方实名密钥仍只影响后续活体检测。
+- R05 冻结视觉真机测试包版本身份递增为 `versionCode 10209`，继续使用 `1.2.2-debug`、固定 Staging 测试签名和 `https://api.orbexa.cc`，并绑定桌面、仓库、服务器与公网四方哈希门禁。
+- 构建配置、应用内发布策略与版本一致性单测统一锁定 `versionCode 10209`，任一来源漂移都会在 APK 构建前失败。
+- 八项核心实名专项测试已由占位路径升级为可执行 Adapter，并绑定真实 Java 测试方法；新增供应商超时、订单错配、私有证据摘要错配、处理中重复幂等请求和16路并发重复回跳故障注入，失败路径均保持稳定商业错误、零重复结果和秘密用后清零。
+- 七个实名页面/交互面补齐可恢复状态验收：Android 覆盖业务状态与限流/字段错误，H5覆盖处理中、人工复核、未通过、回跳失效、离线和服务不可用，管理后台覆盖加载、空列表、无权限、记录不存在、乐观锁写入和成功导航；所有页面继续禁止展示供应商代码、内部失败码与请求编号。
+- Cloudflare R2 与阿里云 OSS 均已接入真实对象存储端口：按业务作用域和精确激活配置路由，使用SecretRef短时解析凭据、签名上传/私有读取、HEAD大小/SHA/ETag校验和幂等对象键；本地开发回退与伪造成功继续禁止。
+- 供应商结果新增乐观锁事务编排：待处理结果保持可重试，活体拒绝、人脸通过、人工复核与拒绝只通过受控状态机推进；原始供应商响应按用户与字段域加密，照片必须先取得 `private_kyc` 内部媒体ID才能更新会话和身份档案，PostgreSQL 17 集成验证已通过。
+- 修复公开活体回跳控制器因 `final` 与参数校验代理冲突导致的全应用启动失败；保留原路由与响应契约，Spring Boot 应用上下文回归通过。
+- 已购阿里云市场实名接口不再处于字段猜测状态：以用户提供原始资料哈希冻结活体结果0/1/2和人脸比对1001—1004契约，适配器补齐真实表单请求、响应大小/HTTPS/订单一致性校验、激活结果码配置和APPCODE用后清零；私有照片与事务状态机完成前仍禁止把供应商回包直接标记为实名通过。
+- 活体照片新增服务端安全下载边界：不跟随重定向，域名解析必须全部为公网地址，正文限制100KiB并校验JPEG/PNG魔数与SHA-256；图片只在内存中短时存在，不落临时文件、不记录第三方地址。
+- 实名授权协议改为服务端受控读取：Android进入信息表单自动加载当前生效正文，用户可展开阅读并明确同意，技术版本ID只在内存传递；创建会话会再次校验当前版本，APK不再硬编码协议版本，V027种子及有签署拒绝回滚均纳入PostgreSQL 17门禁。
+- H5活体回跳改为一次性state原子消费：进入页面后立即清理URL，只返回最小业务状态，重复、过期或篡改state统一失效；V026新增消费时间并纳入PostgreSQL回滚重放门禁。
+- Android 新增实名认证首页、本人信息输入、活体检测容器和结果页，接入四个冻结身份接口；身份证号仅在当前输入内存中存在，提交成功即清除，活体页面限制为 HTTPS 并按相机权限受控加载。
+- 登录后“我的”新增实名认证入口，并移除原 Shell 中开发基线、API 地址、契约版本和 READY 等技术性展示；业务错误统一转换为用户可处理的中文提示。
+- 管理后台新增实名认证列表与详情页，接入列表、详情、短时敏感资料、人工复核和双人冻结五个冻结接口；签名地址、供应商代码、内部失败码和请求编号不进入页面。
+- 第三方原始响应加密、事务状态机和真实 `private_kyc` 对象写入适配器已实现；剩余门禁是注入正式环境SecretRef与激活配置并完成端到端验收，在此之前存储不可用会保持可重试且禁止伪造实名通过。
+
+## R04 媒体与多对象存储 · 2026-07-19
+
+- R04 真机测试包版本身份递增为 `versionCode 10207`，继续绑定固定 Staging 签名、`https://api.orbexa.cc` 和桌面/仓库/服务器/公网四方哈希门禁。
+- Android 新增可复用媒体上传底部面板与管理器：选择文件后按后台配置的并发上限自动校验和上传，逐文件展示进度，支持取消、失败文件单独重试、完成回传、受信任私有预览和未绑定媒体删除确认；离线及 401/403/404/409/422/429/500 均提供可处理的商业提示。
+- 媒体创建、完成和删除使用冻结网络契约与稳定幂等键；上传地址、私有读取地址、访问凭据、请求编号和幂等键仅在内部传递，不展示或记录到商业前端。
+- 媒体上传面板的按钮高度统一使用冻结设计系统尺寸，视觉尺寸保持不变并通过全项目 UI Token 门禁。
+
+## R03 供应商配置首切片 · 2026-07-18
+
+- 热修复快速通道补齐35分钟时间盒、逐检查输入指纹复用、冻结Commit后的最多2路模块并行和便携Git入口；测试APK支持验证成功后自动归档并原子换版，失败不再破坏或手工移动当前交付状态。
+- 修复注册专用提示未生效：Android补齐统一错误信封固定字段，已注册手机号不再退化为通用注册失败；邀请码预校验改用无锁只读查询，不存在的邀请码不再触发服务异常。公网已分别验证409和422专用场景码，回归APK版本递增为`versionCode 10206`。
+- 注册体验修复后端已通过 V020 迁移和公网认证黑盒门禁并切换至新健康实例；真机回归 APK 版本身份递增为 `versionCode 10205`，继续绑定固定测试签名和正式 API 地址。
+- 注册页新增持续可见的8–20位字母数字组合密码规则和确认密码不一致提示；密码、短信、注册、忘记密码之间切换会清空各自输入，不再串用手机号或敏感字段。
+- 注册接口新增手机号已注册、邀请码无效和密码策略不符专用错误码，Android与H5展示可直接处理的商业文案；安全验证码仍默认120秒，后台配置与运行时范围收紧为60–300秒。
+- 验证码误分类修复真机回归包递增为 `versionCode 10204`，沿用固定测试签名与 `https://api.orbexa.cc`，支持覆盖安装上一版 10203。
+- 修复连续开发接续死锁：仅允许关闭流程显式生成、Release任务与NEXT_TASK均为同一BLOCKED任务且接续命令精确匹配时恢复；普通阻断仍拒绝，恢复不会伪造验收通过或任务完成。
+- R02安全验证码模态交互与视觉设计登记为非阻断外部回传；新增只读回包门禁检查必需规格、八状态PNG、占位内容、参考资料哈希和敏感文件，设计返回后再经独立CR实现、测试并重新交付APK，不阻断R03及后续版本推进。
+- R03 Android 回归测试包使用单调 `versionCode 10203`；构建配置、应用内发布策略和版本测试统一更新，并继续强制固定 Staging 签名、真实 API 地址与四方哈希门禁。
+- 新增外部激活与域名实时证据：缺少真实 SecretRef/证书的供应商保持 BLOCKED 并绑定负责人和截止版本，12 个域名分别记录 DNS、TLS 指纹与服务健康，禁止用模拟成功替代外部验收。
+- `ADM-CONFIG-005/006` 从目录占位升级为支付网关与支付宝企业付款真实配置页，沿用冻结供应商版本、SecretRef、只读连接测试、双人审批、激活和回滚门禁。
+- 支付与出款连接测试新增专用只读探针：彩虹支付只执行签名账户查询，支付宝只执行证书认证查询，连接测试不会创建支付单或企业出款；带凭据、内网、回环及非 HTTPS 地址在传输前被拒绝。
+- 新增冻结类型驱动的供应商证书客户端和支付宝证书管理面板；上传后只展示 SHA-256 指纹、有效期、状态和版本，原始证书/私钥不可回读，轮换必须携带乐观锁版本与双人审批单，写请求结果不确定时不会自动重放。
+- 新增短信、对象存储与实名认证供应商配置字段白名单和 SecretRef 安全边界；明文秘密、未知字段及非 Vault/KMS 引用会在进入持久化前被拒绝。
+- 固化供应商配置不可变版本状态机：只有字段校验和真实连接测试成功后才能申请审批，审批申请人与复核人必须不同，旧版本并发请求、未审批激活和无审批回滚均被阻断。
+- 回滚改为绑定本次独立双人审批：当前运行版本原子标记为已回滚，只有曾真实连接测试成功的历史版本才能恢复激活，自审回滚和未验证历史版本均被阻断。
+- 新增供应商配置版本应用服务与事务存储端口，把字段校验、连接探测、审批激活、旧版本替代、成对回滚和安全审计组合为可原子持久化的纵向流程；共享数据库迁移和 HTTP 控制器仍由 R03 汇合任务统一接入。
+- 新增短信、R2/OSS 与实名认证的连接测试编排及专用适配层：按激活供应商校验必填端点和 SecretRef，统一阻断 HTTP、URL 凭据、内网与回环探测，解析后的秘密仅在连接器调用期间存在并立即清零；异常响应只保存安全分类，不记录供应商原文或异常内容。
+- 管理后台新增冻结类型驱动的供应商配置客户端，接通列表、详情、创建版本、连接测试、激活和回滚请求路径及幂等头；写请求发生不确定网络失败时不会自动重放。
+- `ADM-CONFIG-002/003/004/007` 从目录占位页升级为真实配置页面，覆盖供应商概览、环境与版本、连接状态、离线/403/冲突恢复及仅脱敏 SecretRef 元数据展示；创建、连接测试、审批激活和回滚表单按状态机启用，提交前阻断疑似明文秘密和非法 SecretRef。
+- 新增 orbexa.cc 受控域名计划校验，固定 12 个生产/预发布主机名及环境映射，拒绝伪造子域、外部域名、带协议/端口/凭据的歧义输入。
+- 域名验证拆分为 DNS、TLS/证书和业务服务健康三层串行门禁；仅 DNS 解析或 HTTPS 握手成功不会标记域名可用，前层失败将阻断后续探测。
+- 域名配置应用服务接入 expectedVersion、稳定幂等键、DNS 待办负责人/截止条件和安全审计；更新主机计划会重置旧健康结果，重复 verify 不会重复执行网络探测。
+- 管理端新增冻结生成类型驱动的域名客户端，接通域名列表、DNS 待办、更新与分层验证路径；写请求不在不确定网络失败后自动重放。
+- `ADM-CONFIG-008` 从目录占位页升级为域名与环境真实配置页，展示受控域名、DNS 待办、三层门禁和服务端版本；离线、权限收回和 409 冲突时禁止继续写入，且不会把 DNS/HTTPS 通过误显示为业务健康。
+
+## R02 认证启动首切片 · 2026-07-18
+
+- 修复真机验证码结果误分类：后端新增仅供图片安全验证失败、过期或已使用的专用错误码；Android 与 H5 不再把账号密码、邀请码或短信服务异常误报为验证码错误、认证失效或网络中断，冻结 UI 布局和交互参数保持不变。
+- 接入2026-07-19冻结安全验证码设计回传：初始页不展示验证码，登录、发送短信或注册等业务按钮通过本地校验后自动打开328dp模态弹层；覆盖加载、就绪、输错换图、过期换图、服务端限流倒计时、网络恢复、成功360ms自动续办及小屏键盘适配。
+- 注册改为手机号、登录密码、重复密码和邀请码四项用户输入；注册不发送短信验证码，图片安全验证成功后直接续办注册。测试万能邀请码仅允许显式配置在dev/test/staging，任何prod/production组合都会强制失效。
+- 正式商业前端全局移除请求编号、请求标识、挑战字段和“敏感信息不会写入日志”等技术性说明；新增Android/H5/管理端静态门禁，并将严格按效果图及dp/sp/圆角参数施工、版本逐项核对和桌面测试说明写入跨AI连续性规则。
+- 图形安全验证改为160x56真实PNG，服务单测和公网门禁均验证PNG签名与尺寸，修复后端返回SVG而Android位图解码失败导致真机看不到验证码的问题。
+- 登录、短信登录、注册、忘记密码和账号注销不再展示“创建安全验证”技术按钮；用户点击登录或发送验证码等业务按钮时自动加载图形验证，完成后沿原按钮继续操作。
+- Android 认证页按 B01 八页参考图和冻结设计令牌重构：接入 20/18/16/15/14/13/12/11sp 字体层级、48dp 主按钮、52dp 输入框、64dp 品牌标识及 12/14/16dp 圆角；登录仅保留两个等宽模式页签，注册与忘记密码回到辅助入口，修复窄屏按钮纵向折行。
+- `api.orbexa.cc` 后端从旧 P00 旁路升级到 R02：数据库备份后完成 Flyway V012—V018，使用受控 staging 安全密钥启动候选服务，匿名注册配置、安全验证和平台状态均验证 HTTP 200 后切换 Nginx，并保留旧服务与配置回滚点。
+- 新增 R02 公网匿名认证门禁并补齐 staging 三项用户安全密钥的必填编排，后续 APK 不再只凭平台状态 200 判断认证服务可用。
+- APK HTTPS 校验增加 CDN 强制回源头与明确 HTTP 状态诊断，修复新 Commit 精确下载路径首次 404 被 Cloudflare 负缓存后持续误判的问题。
+- R02 Android 测试包启用单调 `versionCode 10202`，构建配置与应用内发布策略使用同一版本身份，并与固定签名、真实 API 地址和四方哈希交付门禁绑定，避免旧包覆盖或误交付。
+- R02 首轮全量集成消除受限刷新静态断言、H5 原始色值、端点计数和滚动总计划漂移；本版本精确端点数按已批准注册协议配置接口同步为 20，完整 Python 工具链 95 项测试通过。
+- H5 邀请注册页同步无短信注册和自动安全验证：页面只保留手机号、密码、确认密码及锁定邀请码，安全验证通过后直接续办注册；写请求不自动重试，敏感表单只保留在内存。
+- Android APK 打包现在强制校验 `HHY_API_BASE_URL`；未注入、`.invalid` 占位域名、非 HTTPS 或携带凭据的地址会直接使构建失败，防止再交付必然显示“暂时无法连接”的 APK。
+- 管理后台用户列表与详情已接入真实分页、筛选和脱敏数据，并补齐限制、解除限制、双人复核冻结、解冻与强制下线的权限化确认流程。
+- 新增 `user_restrictions` 持久化、细粒度用户管控权限、幂等加密快照和限制到期自动恢复；数据库门禁升级为 V001—V018、199 表完整迁移与历史回滚重放。
+- 新增账号注销申请后端闭环：敏感操作短信验证、数据版本乐观锁、状态历史与全会话失效在同一事务中完成。
+- 补齐冻结账号受限自助通道：受限会话只可读取本人脱敏资料和提交幂等申诉工单，不能访问其他登录后 API。
+- 已登录用户新增登录设备列表、远端设备二次确认下线和修改登录密码入口；修改密码成功后清除本机刷新凭据并强制重新登录。
+- 用户 Bearer 令牌现在必须同时通过签名与数据库活跃会话校验；改密、设备下线或会话版本变化会立即使旧访问令牌失效。
+- 登录设备接口改用不含 accessToken/refreshToken 的安全会话摘要，Android 页面与生成客户端类型同步阻止凭据回显。
+- Android 新增密码登录、短信登录、注册、忘记密码与图形安全验证入口；启动完成后未认证用户进入认证页，安全验证图片在端内渲染。
+- 后端新增认证挑战、密码/短信登录、邀请码校验、注册、重置密码和刷新令牌接口，并补齐密码失败锁定、幂等快照、验证码尝试限制和 V017 数据库不变量。
+- `api.orbexa.cc` 已作为受控开发 API 入口接入服务器 loopback 后端；测试 APK 默认使用已发布的 `official/STAGING` 版本策略，修复真机“暂时无法连接”启动兜底。
+- Android 认证请求已统一使用网络层冻结契约模型，并使用随机安装指纹建立最小设备会话上下文；不再采集 Android 硬件标识。
+- 认证页现在按冻结错误码展示面向用户的校验失败、账号受限和限流恢复提示；服务端请求编号仅保留在内部诊断链路，不在商业页面渲染。
+- 登录后的刷新令牌现通过 Android Keystore 加密保存；应用重启会用冻结 refresh 接口恢复会话，访问令牌不落盘，恢复失败会安全回到登录页。
+- 注册流程现在要求邀请码通过服务端校验；修改邀请码会立即使之前的校验失效，防止未经验证的注册提交。
+- 注册页不再把协议版本加载或确认作为账号创建字段；手机号、两次密码和邀请码通过本地规则后进入安全验证并直接续办注册。
+- 认证请求提交期间现在冻结路由和输入字段；邀请码校验结果只绑定发起校验时的原始值，避免异步返回造成前端误显示为已验证。
+- 启动门禁补齐强制更新下载内容暂不可用时仍阻断进入、以及版本检查失败保留请求编号的回归保障。
+- 启动更新下载现在仅接受受信的 HTTPS APK 域名；异常协议、伪造主机、携带凭据、非默认端口或片段的地址会被拒绝且不会打开系统浏览器。
+- 补齐认证挑战、短信发送、邀请码校验、密码重置和短信登录的 HTTP 成功契约回归，冻结请求字段与幂等头均有云端 Maven 验证。
+- 补齐公开认证接口的拒绝契约：缺失或过短幂等键、畸形注册体及非法邀请码请求均返回安全校验信封，且不会调用认证服务。
+- Android 认证失败提示不展示服务端错误码、请求编号或挑战内部字段，只保留可理解、可操作的用户文案。
+- 未配置短信供应商时服务端显式失败且不伪造验证码；阿里云短信 SecretRef、模板、连接测试和真实回执继续由 R03 配置生命周期完成。
+
+## 跨电脑 Git、模型分级与云端既有环境门禁 · 2026-07-18
+
+- 跟踪不含秘密的仓库 transport descriptor，支持在新电脑、完整仓库或已验证 Git Bundle 中恢复 `origin`/upstream，并拒绝 force、错误 remote、behind/diverged 和含凭据 URL 的推送。
+- 固化任务模型路由：复杂/高风险使用 Sol，中等使用 Terra，轻量/机械/只读使用 Luna；目标模型不可用时必须记录实际回退且不得伪称。
+- 固化 Codex 默认已连接 `obx-test` 和项目既有环境的前提；启动预检失败必须阻断，禁止按无服务器状态开发或重建本地 Android SDK，Android 继续复用固定镜像和 Gradle 缓存。
+
+## 跨 AI / 跨设备默认多代理授权 · 2026-07-18
+
+- 将项目所有者长期授权写入权威连续性策略、AGENTS、START_HERE、导出模板、Context Pack、R02—R32 总计划和 R02—R04 并行计划；后续无需逐 Task 再确认是否启用执行代理。
+- 固定调度模型为 1 个事实主控加最多 3 个隔离执行代理；未委托必须在 Checkpoint 记录原因，不支持代理的 AI 禁止伪造并行证据。
+- 新增已批准 CR 精确范围应用、Checkpoint 结构化并行决策、第 4 个代理拒绝、路径租约与模板/Context Pack 防漂移门禁。
+
+## R02 并行加速开发基线 · 2026-07-18
+
+- 保留唯一主控 Session，引入最多 3 个受托执行代理、独立 scratch worktree、互斥路径租约和主控统一集成，避免事件哈希链及 Release 事实冲突。
+- 将 R02 后续实施改为 4 个可并行纵向 Story 批次，再统一进入专项测试、预发布、APK 和封板流程。
+- 建立 FAST、MODULE、INTEGRATION、RELEASE 四级门禁、受影响测试映射、确定性生成漂移检查和每日一次全量集成。
+- APK 交付基线要求稳定测试签名、单调 versionCode、桌面/仓库/服务器/公网四方哈希，并把机器交付与用户真机验收分开记录。
+
+## R01 Android 测试 APK 交付准备 · 2026-07-18
+
+- Debug 测试包使用独立包名、测试签名，并启用 AGP 9 的资源覆盖功能，使应用名称明确显示“合伙云 Pro 测试”，避免与正式包混淆。
+- 新增基于 Java 21、Android SDK Platform 37.0 与 Build Tools 36.0.0 的可复现 Docker 工具链，供后续测试 APK 复用。
+
+## R01 管理员认证与个人安全前端 · 2026-07-17
+
+- 管理后台新增真实登录、MFA 二次验证与管理员安全设置三页面，联通 R01 冻结的 8 个后台安全接口。
+- 管理员访问令牌、MFA 票据和绑定信息仅保存在页面内存；刷新、退出、改密、权限撤销和弹窗关闭均执行敏感信息清理。
+- 补齐请求内容感知幂等、结构化字段错误、限流倒计时、受限账号、无权限、离线和网络瞬断重试状态。
+- 所有后台目录路由统一纳入认证守卫，高风险弹窗补齐键盘焦点圈定、Escape 关闭与关闭还焦。
+- 新增同源本地交互验证服务及管理端路由、页面、服务、HTML 入口回归测试。
+- 管理端写操作统一处理超时、429 冷却、离线清理、冲突刷新与重复提交，补齐故障注入回归。
+- 7 个管理员安全 POST 持久化加密保存首次响应；改密、退出或 MFA 状态变化后仍可凭原幂等键安全重放。
+- 新增 27 项 R01 权威测试矩阵、设计 Token 防漂移、配置注册表与 PostgreSQL 迁移不变量门禁。
+- R01 隔离预发布栈接入 Prometheus、Alertmanager 与隐私最小化告警回执，错误率/P95 阈值与冻结配置统一为 2%/500ms。
+- 新增管理员活跃会话、五分钟认证失败、MFA 启用、幂等快照不变量及 Gauge 查询失败指标和告警。
+- 修正 4xx/5xx 错误体把 RequestId 冒充 TraceId 的问题，安全拒绝路径现在端到端回传真实 TraceId；未知业务端口资源按 404 返回，不再污染 5xx RED 指标。
+- 不受支持的请求媒体类型统一返回冻结的 400 校验错误，不再落入 500 并污染服务端故障率。
+- 加密幂等快照损坏测试改为确定性修改有效密文字节，消除 Base64 尾位导致的概率性假阴性。
+
 ## P00 工程基线修复 · 2026-07-17
 
 - 产品版本保持 V1.2.2，修正 Android 内残留的 V1.2.1 展示和重复版本常量校验。
@@ -19,7 +1043,52 @@
 - 风险重新分类；P00—R32 实现不再被误写为文档缺口。
 - 新增 `scripts/check_v122_documentation.py` 文档防漂移门禁。
 
-# Changelog
+## TASK-R12-007 · IMPLEMENTING · 2026-07-26
+
+- 将唯一 Android 候选切换为 R12 attempt 1，测试包 `versionCode` 单调递增至 `10221`。
+- 新增仅限专用 R12 Staging/Flyway V041 的幂等 CI 夹具，构造实名认证、会员、奖励及草稿、审核中、未通过、已上线发布事实。
+- 模拟器旅程覆盖发布中心、我的首页、个人资料、草稿箱、发布管理、发布预览、提交结果、我的发布、审核记录、内容数据十页，并由实现 AI 逐图审核后再晋升视觉基线。
+
+## R11 后台团队长运营详情 · 2026-07-24
+
+- 统一内容后台详情页新增团队长只读运营区，展示服务端返回的冻结团队属性、真实 HTTPS 媒体、发布者、脱敏联系方式和运营统计，并继续复用既有上线、下线、推荐、官方标记与封禁动作。
+- 统一内容领域区补齐清晰分区、响应式媒体网格、长文本和案例列表样式；团队长原始联系方式、非 HTTPS 媒体和未冻结审核动作不会进入后台页面，R28 团队长分享页不在 R11 提前开发。
+
+- R11 团队长资料创建/编辑已按 B04/P05 接入真实 Navigation、媒体上传、所有者编辑、稳定幂等与 expectedVersion；敏感联系方式编辑不回填掩码，未修改时由 PATCH 保留服务端原值。
+
+- R11 团队长详情按 `SCR-DETAIL-004` 与 `B03/P04` 接入真实媒体、团队资料、案例、发布者、统计、脱敏联系方式、收藏、分享、私聊和 Jetpack Navigation；列表及首页团队长深链不再停留在空回调。
+
+## R10 Android最终候选、四方交付与SSH稳定性 · 2026-07-23
+
+- R10源Run `30013677033`完成编译、Lint、单测、OIDC认证、首页与群聊列表/详情/编辑四页旅程、日志和截图；AI批准首版视觉基线后，轻量晋升Run `30015737539`在27秒内复用同一证据并通过，没有重复编译或模拟器。
+- 固定签名APK `hhy-r10-1e35a97-debug.apk` 使用 `versionCode 10219`、正式API和稳定证书，仓库、桌面、服务器、HTTPS四方SHA-256均为 `f2f0888917e5476b99e2ca63221dd66bae7a68a39e21c7020bb2d226d1fd66ec`；Owner真机反馈保持异步 `PENDING`。
+- `PROB-0102` 修复严格Doctor报告遗漏于轻量晋升白名单；`PROB-0103` 修复公网preauth扫描占满OpenSSH默认MaxStartups导致SCP随机reset，并把诊断、回滚与12连接验证写入既有运行手册和踩坑事实源。
+
+## R08 Android 最终候选准备 · 2026-07-22
+
+- 复用既有 GitHub OIDC 候选体系，将模拟器旅程从 R07 搜索页面切换为 R08 项目列表、项目详情和所有者编辑三页；补充稳定页面资源标识、逐页视觉清单和真实 V034 专用 CI 夹具，不增加第二套候选或 UI 规则。
+- R08 测试 APK 单调递增为 `versionCode 10216`；联系方式候选只证明掩码可用动作和明文不进入截图，真实获取仍由既有加密、安全窗口和审计合同保护。
+- 首次 R08 截图允许同一 Run 进入基线 AI 审查，批准后只做轻量晋升，不重复编译或启动模拟器；完整候选仍仅在 TASK-R08-007 执行一次。
+- 修复最终候选全量 Token 门禁发现的历史裸参数：H5 品牌渐变现在由既有 `gradient.brand` 确定性派生，启动状态卡和 R08 项目页尺寸全部改用既有 Android Token 的等价组合；未增加平行参数事实源。
+
+- R08 / CR-0222：回补 R06 首页与关于页的品牌卡、真实动作、服务端模块/空态、版本状态和协议内容层级；三个后台内容页面以既有真实浏览器截图通过新效果图级 AI 复核。未虚构首页内容、版本、指标或后台能力。
+- R08 / CR-0221：按既有效果图级 UI 规则回补 R07 搜索、结果与发布者主页，以组合卡、紧凑真实关键词、类型标签、发布者资料分层和公开内容动作强化 B02/B03 视觉丰富度；未增加虚构图片、指标、关注或营销功能，候选截图与 AI 最终判定保留至 R08 候选阶段。
+
+## 2026-07-22 — R07 最终候选真实页面旅程
+
+- 将 Android 候选模拟器从 R06 通用首页旅程切换到 R07 搜索落地、真实搜索结果、发布者主页和清空历史确认框四图验证。
+- 联系方式弹层保持 `FLAG_SECURE`，明确禁止截图并由自动化验证页面身份、动作和安全窗口标记。
+- 新增仅限专用 Staging CI 账号的幂等 R07 数据夹具；真实手机号、Secret 和联系方式明文均不进入仓库或证据。
+
+## 2026-07-20 · 全项目UI视觉零漂移门禁
+
+- CR-0113：效果图成为页面建模、布局、信息层级、组件形态和视觉样式的强制来源；功能、字段、动作和正式文案仍以开发文档和合同为准，过滤虚拟/无关内容时不得自行重构布局。
+- 新增逐页视觉验收目录与Release关闭检查；粗粒度面板范围、`TOKENS_ONLY`、相邻页面参考和缺少截图证据均不能通过关闭门禁。
+- 当前R05七个客户端页面按真实状态登记为待补视觉规格或待按图重构，禁止把现有APK误标为UI验收通过。
+
+- 2026-07-19：CR-0081落地统一轻重分级开发入口，简单Bug按受影响模块验证，正式功能、测试APK和版本关闭分流；补充跨电脑Git/pnpm发现与APK精确Nginx路由构建前预检，防止局部修复被发布流程放大。
+
+- R02 后台用户读取闭环：实现用户列表、筛选、分页、服务端手机号脱敏与详情查询，`ADM-USER-001/002` 替换占位页并覆盖加载、空、离线、无权限、404、重试和详情导航。
 
 ## V1.2.2 — 2026-07-16
 
@@ -138,3 +1207,1147 @@
 - 摘要：R01管理员认证V012数据迁移、状态机、领域不变量和PostgreSQL17空库升级回滚并发验证全部完成
 - 记录：`docs/03-continuity/sessions/2026-07/SES-20260717T080633Z-7A2C9226.md`
 
+## TASK-R01-003 · COMPLETED · 2026-07-17T11:11:58Z
+
+- Task close: TASK-R01-003 / SES-20260717T084524Z-9FE47D9F
+- Release：`R01`
+- Story：`STORY-R01-003`
+- Actor：`codex-root`
+- 摘要：R01管理员认证安全8接口完成，独立审计ACCEPT，PG17/API/代理/卷/重启/文档与连续性门禁全部通过
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260717T084524Z-9FE47D9F.md`
+
+## TASK-R01-004 · COMPLETED · 2026-07-17T12:20:19Z
+
+- Task close: TASK-R01-004 / SES-20260717T111928Z-C383F7A2
+- Release：`R01`
+- Story：`STORY-R01-001`
+- Actor：`codex-root`
+- 摘要：R01 管理端登录、MFA 与管理员自身安全设置前端已完成；类型化接口、内存会话、安全错误态、离线与权限收敛、自动化及浏览器验收均通过。
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260717T111928Z-C383F7A2.md`
+
+## TASK-R01-005 · COMPLETED · 2026-07-17T13:55:41Z
+
+- Task close: TASK-R01-005 / SES-20260717T122518Z-91E6F4D6
+- Release：`R01`
+- Story：`STORY-R01-003`
+- Actor：`codex-root`
+- 摘要：TASK-R01-005完成：权威27项测试27/27 PASS，Java21、PostgreSQL17和隔离真实API证据归档，关键缺陷清零，CR-0016关闭。
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260717T122518Z-91E6F4D6.md`
+
+## TASK-R01-006 · COMPLETED · 2026-07-17T15:20:29Z
+
+- Task close: TASK-R01-006 / SES-20260717T141717Z-A01412D7
+- Release：`R01`
+- Story：`STORY-R01-003`
+- Actor：`codex-root`
+- 摘要：R01独立预发布栈、结构化日志与TraceId、RED和九类业务监控序列、双告警firing/resolved、日志脱敏、最终镜像回滚及AC-R01-004现场证据全部通过
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260717T141717Z-A01412D7.md`
+
+## TASK-R01-007 · COMPLETED · 2026-07-17T17:06:16Z
+
+- Task close: TASK-R01-007 / SES-20260717T152721Z-016DB4B2
+- Release：`R01`
+- Story：`STORY-R01-003`
+- Actor：`codex-root`
+- 摘要：R01 Android测试APK已按固定工具链构建、签名和归档；项目所有者于2026-07-18提供真机截图确认安装、启动、首页和五项导航均通过。
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260717T152721Z-016DB4B2.md`
+
+## TASK-R01-008 · COMPLETED · 2026-07-17T17:45:20Z
+
+- Task close: TASK-R01-008 / SES-20260717T171412Z-7CD86701
+- Release：`R01`
+- Story：`STORY-R01-003`
+- Actor：`codex-root`
+- 摘要：R01全部验收证据、真机APK、HTTPS下载、发布标签和无状态交接均已完成。
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260717T171412Z-7CD86701.md`
+
+## TASK-R02-001 · COMPLETED · 2026-07-17T20:02:10Z
+
+- Task close: TASK-R02-001 / SES-20260717T183459Z-D64E7407
+- Release：`R02`
+- Story：`STORY-R02-009`
+- Actor：`codex-master`
+- 摘要：完成R02开发就绪与并行加速基线：主控与隔离执行机制、纵向切片任务图、分层测试、确定性代码生成、APK持续交付和CI全量集成已落地并验证
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260717T183459Z-D64E7407.md`
+
+## TASK-R02-002 · COMPLETED · 2026-07-18T05:31:33Z
+
+- Task close: TASK-R02-002 / SES-20260717T210927Z-13B07A7D
+- Release：`R02`
+- Story：`STORY-R02-003`
+- Actor：`codex-root`
+- 摘要：TASK-R02-002 completed: startup, password/SMS authentication, invite registration, controlled agreement versions, source/runtime contract synchronization, cloud backend test, fixed-image Android tests, WIP APK, and trace records delivered.
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260717T210927Z-13B07A7D.md`
+
+## TASK-R02-003 · COMPLETED · 2026-07-18T07:05:22Z
+
+- Task close: TASK-R02-003 / SES-20260718T053331Z-F0ED92BF
+- Release：`R02`
+- Story：`STORY-R02-005`
+- Actor：`codex-root`
+- 摘要：完成R02账户安全批次：受限账户申诉、账户注销与短信敏感操作闭环；修复测试APK因遗漏API地址导致暂时无法连接的问题，并建立打包阻断与自动回归测试。
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260718T053331Z-F0ED92BF.md`
+
+## TASK-R02-004 · COMPLETED · 2026-07-18T08:14:54Z
+
+- Task close: TASK-R02-004 / SES-20260718T070836Z-25E39817
+- Release：`R02`
+- Story：`STORY-R02-001`
+- Actor：`codex-root`
+- 摘要：完成TASK-R02-004：用户列表、详情、限制、双人冻结、解冻、强制下线、到期恢复、V018迁移和全部模块门禁真实闭环。
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260718T070836Z-25E39817.md`
+
+## TASK-R02-005 · COMPLETED · 2026-07-18T08:44:58Z
+
+- Task close: TASK-R02-005 / SES-20260718T081744Z-71EAAA84
+- Release：`R02`
+- Story：`STORY-R02-008`
+- Actor：`codex-root`
+- 摘要：完成TASK-R02-005：公开邀请注册配置、H5四端点安全调用链、MOB-AUTH-FORM页面、加载/失效/离线/重试/限流/成功导航与幂等自动化全部闭环。
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260718T081744Z-71EAAA84.md`
+
+## TASK-R02-006 · COMPLETED · 2026-07-18T10:48:30Z
+
+- Task close: TASK-R02-006 / SES-20260718T084729Z-BD53B7C4
+- Release：`R02`
+- Story：`STORY-R02-009`
+- Actor：`codex-root`
+- 摘要：TASK-R02-006完成：四批次全量集成、25/25权威矩阵、131项Maven、真实PostgreSQL 17迁移、Android/H5/Admin回归、R02预发布可观测性与告警故障注入全部通过
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260718T084729Z-BD53B7C4.md`
+
+## TASK-R02-007 · BLOCKED · 2026-07-18T13:23:29Z
+
+- Task close: TASK-R02-007 / SES-20260718T105025Z-0B8DE284
+- Release：`R02`
+- Story：`STORY-R02-009`
+- Actor：`codex-root`
+- 摘要：R02机器交付与公网PNG门禁均PASS，等待项目所有者对hhy-r02-7b425c4-debug.apk完成真机验证码与登录路径验收
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260718T105025Z-0B8DE284.md`
+
+## TASK-R03-001 · COMPLETED · 2026-07-18T13:30:28Z
+
+- Task close: TASK-R03-001 / SES-20260718T132650Z-C5038104
+- Release：`R03`
+- Story：`STORY-R03-004`
+- Actor：`codex-root`
+- 摘要：R03开发就绪核验完成：6项需求、7个页面、13个接口、4个Story、18项测试、26张表及三切片共享边界全部冻结，严格文档与云端Android预检通过
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260718T132650Z-C5038104.md`
+
+## TASK-R03-002 · COMPLETED · 2026-07-18T14:21:44Z
+
+- Task close: TASK-R03-002 / SES-20260718T133151Z-12DB5949
+- Release：`R03`
+- Story：`STORY-R03-001`
+- Actor：`codex-root`
+- 摘要：TASK-R03-002短信、R2/OSS与实名供应商配置纵向闭环完成，Admin与后端MODULE门禁通过，等待TASK-R03-005共享API和数据库汇合
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260718T133151Z-12DB5949.md`
+
+## TASK-R03-003 · COMPLETED · 2026-07-18T14:52:05Z
+
+- Task close: TASK-R03-003 / SES-20260718T142638Z-EF4C3723
+- Release：`R03`
+- Story：`STORY-R03-002`
+- Actor：`codex-root`
+- 摘要：TASK-R03-003完成orbexa.cc域名计划、DNS待办、DNS/TLS/服务健康分层验证、expectedVersion和幂等阻断、ADM-CONFIG-008页面及69项Admin与14项后端测试闭环
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260718T142638Z-EF4C3723.md`
+
+## TASK-R03-004 · COMPLETED · 2026-07-18T15:18:31Z
+
+- Task close: TASK-R03-004 / SES-20260718T145327Z-DEA562CB
+- Release：`R03`
+- Story：`STORY-R03-003`
+- Actor：`codex-root`
+- 摘要：支付、企业出款、证书生命周期、只读连接测试和ADM-CONFIG-005/006后台闭环完成，全量测试与文档门禁通过
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260718T145327Z-DEA562CB.md`
+
+## TASK-R03-005 · COMPLETED · 2026-07-18T16:21:43Z
+
+- Task close: TASK-R03-005 / SES-20260718T152013Z-8B704646
+- Release：`R03`
+- Story：`STORY-R03-004`
+- Actor：`codex-root`
+- 摘要：TASK-R03-005完成：13个冻结API、共享V019迁移、审批资源绑定、真实PostgreSQL17.10、193项后端测试、73项管理端测试、生产构建、文档与生成物门禁全绿
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260718T152013Z-8B704646.md`
+
+## TASK-R03-006 · COMPLETED · 2026-07-18T16:56:21Z
+
+- Task close: TASK-R03-006 / SES-20260718T162320Z-23C14331
+- Release：`R03`
+- Story：`STORY-R03-004`
+- Actor：`codex-root`
+- 摘要：R03可观测性、隔离Staging、两组业务告警和同库卷应用回切演练全部通过，AC-R03-004已签PASS
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260718T162320Z-23C14331.md`
+
+## TASK-R03-007 · BLOCKED · 2026-07-18T17:24:49Z
+
+- Task close: TASK-R03-007 / SES-20260718T165842Z-356A8138
+- Release：`R03`
+- Story：`STORY-R03-004`
+- Actor：`codex-root`
+- 摘要：R03机器实现、测试、外部清单和固定签名APK四方交付均PASS；等待项目所有者对hhy-r03-3a913c9-debug.apk完成真机安装、启动与自动验证码路径验收
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260718T165842Z-356A8138.md`
+
+## TASK-R03-007 · COMPLETED · 2026-07-19T08:16:56Z
+
+- Task close: TASK-R03-007 / SES-20260718T200607Z-3569D212
+- Release：`R03`
+- Story：`STORY-R03-004`
+- Actor：`codex-root`
+- 摘要：R03外部激活证据、10206固定签名APK四方交付和项目所有者真机验收全部PASS
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260718T200607Z-3569D212.md`
+
+## TASK-R03-008 · COMPLETED · 2026-07-19T08:31:20Z
+
+- Task close: TASK-R03-008 / SES-20260719T081942Z-8D5C4241
+- Release：`R03`
+- Story：`STORY-R03-004`
+- Actor：`codex-root`
+- 摘要：R03版本关闭完成：13个冻结API、V019迁移、193项后端测试、73项管理端测试、Staging可观测与回滚、10206固定签名APK四方交付及项目所有者真机验收全部PASS，终态Manifest、Tag和桌面测试说明已归档
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260719T081942Z-8D5C4241.md`
+
+## TASK-R04-001 · COMPLETED · 2026-07-19T08:52:59Z
+
+- Task close: TASK-R04-001 / SES-20260719T083704Z-6E4CE28F
+- Release：`R04`
+- Story：`STORY-R04-002`
+- Actor：`codex-root`
+- 摘要：R04开发就绪核验完成：2项需求、3个冻结媒体API、12张相关表、1个Android交互面、2个故事和6项测试均无TBD；存储外部阻断边界、10207 APK基线与last_green自动回填防复发修复全部落地
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260719T083704Z-6E4CE28F.md`
+
+## TASK-R04-002 · COMPLETED · 2026-07-19T11:33:01Z
+
+- Task close: TASK-R04-002 / SES-20260719T085423Z-0385FEE0
+- Release：`R04`
+- Story：`STORY-R04-002`
+- Actor：`codex-root`
+- 摘要：TASK-R04-002完成：存储Scope与活动桶隔离、R2/OSS端口、私有短期URL、跨供应商迁移游标恢复、访问审计、PostgreSQL空库/回滚重放及MODULE门禁全部通过
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260719T085423Z-0385FEE0.md`
+
+## TASK-R04-003 · COMPLETED · 2026-07-19T12:08:04Z
+
+- Task close: TASK-R04-003 / SES-20260719T113522Z-6B27AD4B
+- Release：`R04`
+- Story：`STORY-R04-001`
+- Actor：`codex-root`
+- 摘要：TASK-R04-003完成：V022、三个冻结媒体API、用途/Scope策略、加密幂等、owner/过期/SHA/重复完成删除、Outbox与MODULE门禁全部通过
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260719T113522Z-6B27AD4B.md`
+
+## TASK-R04-004 · COMPLETED · 2026-07-19T13:04:23Z
+
+- Task close: TASK-R04-004 / SES-20260719T122607Z-04FDBE70
+- Release：`R04`
+- Story：`STORY-R04-001`
+- Actor：`codex-root`
+- 摘要：TASK-R04-004完成：冻结Media DTO/API、配置驱动并发上传、进度/取消/重试、受信任私有预览、删除确认、商业错误恢复及Android MODULE全部通过
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260719T122607Z-04FDBE70.md`
+
+## TASK-R04-005 · COMPLETED · 2026-07-19T13:57:40Z
+
+- Task close: TASK-R04-005 / SES-20260719T130824Z-06DC3492
+- Release：`R04`
+- Story：`STORY-R04-002`
+- Actor：`codex-root`
+- 摘要：TASK-R04-005完成：三分区汇合、六项权威测试6/6、Java21后端216项、PostgreSQL17迁移回滚重放、Android331任务、Python144项、连续性11项、Contracts与Web全部通过，生成物漂移和关键缺陷清零
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260719T130824Z-06DC3492.md`
+
+## TASK-R04-006 · COMPLETED · 2026-07-19T14:41:52Z
+
+- Task close: TASK-R04-006 / SES-20260719T135908Z-32D952EC
+- Release：`R04`
+- Story：`STORY-R04-002`
+- Actor：`codex-root`
+- 摘要：R04可观测性、隔离Staging、两组业务告警、日志脱敏和同库卷应用回切全部通过，AC-R04-004已签PASS
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260719T135908Z-32D952EC.md`
+
+## TASK-R04-007 · COMPLETED · 2026-07-19T16:00:22Z
+
+- Task close: TASK-R04-007 / SES-20260719T144443Z-BF11796E
+- Release：`R04`
+- Story：`STORY-R04-001`
+- Actor：`codex-root`
+- 摘要：R04测试APK versionCode 10207固定签名构建、真实API、桌面/仓库/服务器/公网四方同哈希和项目所有者真机验收全部PASS
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260719T144443Z-BF11796E.md`
+
+## TASK-R04-008 · COMPLETED · 2026-07-19T16:10:28Z
+
+- Task close: TASK-R04-008 / SES-20260719T160438Z-BF4F2F1D
+- Release：`R04`
+- Story：`STORY-R04-002`
+- Actor：`codex-root`
+- 摘要：R04媒体与多对象存储六项验收、Staging告警回滚、固定签名APK、四方同哈希、项目所有者真机PASS、Release Tag和无状态交接全部完成
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260719T160438Z-BF4F2F1D.md`
+
+## TASK-R05-001 · COMPLETED · 2026-07-19T16:22:45Z
+
+- Task close: TASK-R05-001 / SES-20260719T161434Z-47C1FAA4
+- Release：`R05`
+- Story：`STORY-R05-008`
+- Actor：`codex-root`
+- 摘要：R05开发就绪完成：2项需求、9个新增operationId、10张表、7个页面、8个故事、10项测试与R02外部真机发布门禁边界均已冻结并通过文档门禁
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260719T161434Z-47C1FAA4.md`
+
+## TASK-R05-002 · COMPLETED · 2026-07-19T16:52:15Z
+
+- Task close: TASK-R05-002 / SES-20260719T162332Z-9372DEF2
+- Release：`R05`
+- Story：`STORY-R05-008`
+- Actor：`codex-root`
+- 摘要：TASK-R05-002完成：V023迁移、回滚、幂等唯一性、状态历史、私有媒体、人工复核与敏感访问审计均通过PostgreSQL17.10真实验证和MODULE测试
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260719T162332Z-9372DEF2.md`
+
+## TASK-R05-003 · COMPLETED · 2026-07-19T18:30:04Z
+
+- Task close: TASK-R05-003 / SES-20260719T165401Z-12791729
+- Release：`R05`
+- Story：`STORY-R05-008`
+- Actor：`codex-root`
+- 摘要：R05-003九个冻结实名认证接口、生产活体供应商适配、权限幂等审计Outbox、V023-V025迁移回滚及PostgreSQL17真实存储集成门禁全部完成
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260719T165401Z-12791729.md`
+
+## TASK-R05-004 · COMPLETED · 2026-07-19T22:38:18Z
+
+- Task close: TASK-R05-004 / SES-20260719T183335Z-535311E4
+- Release：`R05`
+- Story：`STORY-R05-001`
+- Actor：`codex-root`
+- 摘要：R05-004 七端页面恢复态与无技术字段验证完成：Android 单元测试、lint、固定 API 地址校验和 debug 构建成功；H5/Admin 全量测试与生产构建通过；补齐空态、403、404、处理中、人工复核、拒绝、离线和服务不可用测试。
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260719T183335Z-535311E4.md`
+
+## TASK-R05-005 · COMPLETED · 2026-07-19T23:04:16Z
+
+- Task close: TASK-R05-005 / SES-20260719T224052Z-2C69767F
+- Release：`R05`
+- Story：`STORY-R05-001`
+- Actor：`codex-root`
+- 摘要：R05-005八项实名认证专项测试全部自动化并通过：Java21全后端284项0失败，PostgreSQL17真实集成5项0失败0跳过，空库迁移/回滚/不变量门禁通过，供应商超时、并发回跳、重复消息、订单与摘要错配均有故障证据，关键产品缺陷为0。
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260719T224052Z-2C69767F.md`
+
+## TASK-R05-006 · COMPLETED · 2026-07-19T23:41:58Z
+
+- Task close: TASK-R05-006 / SES-20260719T230526Z-55ABC07F
+- Release：`R05`
+- Story：`STORY-R05-001`
+- Actor：`codex-root`
+- 摘要：R05-006已完成四项实名认证业务指标、七条告警、结构化日志与Trace脱敏、隔离Staging、两类告警触发恢复、同库卷回切和AC-R05-004证据归档。
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260719T230526Z-55ABC07F.md`
+
+## TASK-R05-007 · COMPLETED · 2026-07-20T09:53:15Z
+
+- Task close: TASK-R05-007 / SES-20260719T234639Z-1D7D7A00
+- Release：`R05`
+- Story：`STORY-R05-001`
+- Actor：`codex-root`
+- 摘要：R05 versionCode 10213 项目所有者于2026-07-20明确确认整体真机体验通过；TASK-R05-007 APK构建、安装、追溯和真机验收门禁完成
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260719T234639Z-1D7D7A00.md`
+
+## TASK-R05-008 · COMPLETED · 2026-07-20T13:30:59Z
+
+- Task close: TASK-R05-008 / SES-20260720T095830Z-752E5121
+- Release：`R05`
+- Story：`STORY-R05-008`
+- Actor：`codex-root`
+- 摘要：R05真机体验已由项目所有者通过；Android长期自动构建、APK、模拟器旅程、四张截图、日志、回归、自修复与候选资格体系由GitHub CI #244完整验证；R06顺序依赖已补齐
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260720T095830Z-752E5121.md`
+
+## R05 关闭门禁跨环境修复 · 2026-07-20
+
+- 修复 Context Pack 将本机历史 APK 计入仓库树指纹、导致 GitHub 干净检出失败的问题。
+- 修复版本关闭后 `active_session=null` 时并行计划回归测试崩溃的问题。
+- 关闭态改由 `CURRENT_STATUS` / `NEXT_TASK` 恢复 Release 上下文；R06 仍仅为 READY，未启动开发。
+
+## TASK-R06-001 · COMPLETED · 2026-07-20T16:03:58Z
+
+- Task close: TASK-R06-001 / SES-20260720T155546Z-F13C645A
+- Release：`R06`
+- Story：`STORY-R06-005`
+- Actor：`codex-root`
+- 摘要：R06开发就绪核验完成：DoR、5个Story、Release产物、API契约、R05顺序依赖和R06至R08连续交付授权均已登记并通过门禁
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260720T155546Z-F13C645A.md`
+
+## TASK-R06-002 · COMPLETED · 2026-07-20T16:22:57Z
+
+- Task close: TASK-R06-002 / SES-20260720T160653Z-1DDCDB22
+- Release：`R06`
+- Story：`STORY-R06-005`
+- Actor：`codex-root`
+- 摘要：R06内容与首页数据迁移、领域不变量、空库升级回滚验证全部完成
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260720T160653Z-1DDCDB22.md`
+
+## TASK-R06-003 · COMPLETED · 2026-07-20T17:21:13Z
+
+- Task close: TASK-R06-003 / SES-20260720T163244Z-D1F3CEE8
+- Release：`R06`
+- Story：`STORY-R06-005`
+- Actor：`codex-root`
+- 摘要：统一内容基础、首页与CMS后端服务、10条冻结operationId、幂等审计Outbox、V030权限迁移和实库回滚重放完成
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260720T163244Z-D1F3CEE8.md`
+
+## TASK-R06-004 · COMPLETED · 2026-07-21T01:02:55Z
+
+- Task close: TASK-R06-004 / SES-20260720T173038Z-35648A77
+- Release：`R06`
+- Story：`STORY-R06-001`
+- Actor：`codex-root`
+- 摘要：完成TASK-R06-004：管理端内容三页、Android首页/我的/关于页、自动认证、三张AI批准视觉基线及最终GitHub候选门禁全部通过；按项目所有者指令在TASK-R06-004后暂停
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260720T173038Z-35648A77.md`
+
+## TASK-R06-005 · COMPLETED · 2026-07-21T02:00:11Z
+
+- Task close: TASK-R06-005 / SES-20260721T012656Z-E067730A
+- Release：`R06`
+- Story：`STORY-R06-005`
+- Actor：`codex-root`
+- 摘要：完成TASK-R06-005：六个权威测试ID、重复请求、并发、存储超时、Outbox去重、非法CMS配置与CMS提供方超时专项测试全部通过，P0/P1缺陷为0
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260721T012656Z-E067730A.md`
+
+## TASK-R06-006 · COMPLETED · 2026-07-21T04:23:38Z
+
+- Task close: TASK-R06-006 / SES-20260721T020225Z-397AF410
+- Release：`R06`
+- Story：`STORY-R06-005`
+- Actor：`codex-root`
+- 摘要：TASK-R06-006完成：精确Commit 0e528d17的四项内容业务Gauge、TraceId/RED、六条告警规则、两组firing-resolved、V030隔离Staging、不可变Outbox合法终结和同库卷应用回切全部PASS，报告及机器证据已推送
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260721T020225Z-397AF410.md`
+
+## TASK-R06-007 · COMPLETED · 2026-07-21T05:50:37Z
+
+- Task close: TASK-R06-007 / SES-20260721T043434Z-868F3619
+- Release：`R06`
+- Story：`STORY-R06-001`
+- Actor：`codex-root`
+- 摘要：TASK-R06-007完成：GitHub Run 29803223373一次通过，f5cf1e4/10214固定签名APK完成模拟器旅程、AI审图、日志、四方SHA与桌面交付，owner_physical_test按异步规则保持PENDING
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260721T043434Z-868F3619.md`
+
+## TASK-R06-008 · BLOCKED · 2026-07-21T08:13:30Z
+
+- Task close: TASK-R06-008 / SES-20260721T055708Z-741C3D49
+- Release：`R06`
+- Story：`STORY-R06-005`
+- Actor：`codex-root`
+- 摘要：R06机器开发、候选APK、自动化与视觉验收均PASS；仅项目所有者异步真机验收保持PENDING，正式验收和生产激活继续阻断，按批准规则启动独立R07
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260721T055708Z-741C3D49.md`
+
+## TASK-R07-001 · COMPLETED · 2026-07-21T08:56:02Z
+
+- Task close: TASK-R07-001 / SES-20260721T082026Z-E6763DFE
+- Release：`R07`
+- Story：`STORY-R07-005`
+- Actor：`codex-root`
+- 摘要：R07开发就绪核验、五个故事领取、实施入口、并行计划与连续性证据全部PASS，允许进入数据迁移与领域不变量
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260721T082026Z-E6763DFE.md`
+
+## TASK-R07-002 · COMPLETED · 2026-07-21T17:06:37Z
+
+- Task close: TASK-R07-002 / SES-20260721T130339Z-785E85BE
+- Release：`R07`
+- Story：`STORY-R07-005`
+- Actor：`codex-root-r07`
+- 摘要：R07搜索数据迁移与领域不变量完成：V031前向、U031回滚、空库/升级库/重放、PostgreSQL不变量及后端311项零失败；ModuleBoundary既有误报已按PROB-0068和CR-0177修复。
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260721T130339Z-785E85BE.md`
+
+## TASK-R07-003 · COMPLETED · 2026-07-21T18:56:28Z
+
+- Task close: TASK-R07-003 / SES-20260721T171025Z-A3718A1C
+- Release：`R07`
+- Story：`STORY-R07-005`
+- Actor：`codex-root-r07-003`
+- 摘要：R07-003七项冻结后端接口、V032联系方式安全迁移、权限幂等错误码审计、真实PostgreSQL集成和全部受影响MODULE门禁已完成；实现提交83d58c6a与CR关闭提交301a3012均已安全推送。
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260721T171025Z-A3718A1C.md`
+
+## TASK-R07-004 · COMPLETED · 2026-07-21T19:27:02Z
+
+- Task close: TASK-R07-004 / SES-20260721T190306Z-32CB66BF
+- Release：`R07`
+- Story：`STORY-R07-001`
+- Actor：`codex-root-r07-004`
+- 摘要：TASK-R07-004已完成：五个冻结Android交互面绑定七项R07接口，搜索到发布者及联系方式闭环可操作；高敏明文仅内存、防截屏、关闭清除；合同与Android MODULE全通过。
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260721T190306Z-32CB66BF.md`
+
+## TASK-R07-005 · COMPLETED · 2026-07-21T20:16:15Z
+
+- Task close: TASK-R07-005 / SES-20260721T193434Z-0C5F0BFA
+- Release：`R07`
+- Story：`STORY-R07-005`
+- Actor：`codex-root-r07-005`
+- 摘要：完成R07搜索、发布者主页与联系方式保护十项专项测试及故障注入：冻结Commit后端Java21 332项通过，PostgreSQL17 R07集成2项零跳过通过，Android单测与lint通过，10/10机器矩阵PASS，P0/P1缺陷为0；同时永久固化Windows Git用户环境与跨机恢复规则。
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260721T193434Z-0C5F0BFA.md`
+
+## TASK-R07-006 · COMPLETED · 2026-07-21T20:59:41Z
+
+- Task close: TASK-R07-006 / SES-20260721T201747Z-CD80A1EE
+- Release：`R07`
+- Story：`STORY-R07-005`
+- Actor：`codex-root-r07-006`
+- 摘要：R07六项业务指标、七条告警、隔离Staging、日志脱敏、告警触发恢复和同库同卷回滚全部通过；AC-R07-004已签署，Git永久化跨机模板与连续性报告同步闭环。
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260721T201747Z-CD80A1EE.md`
+
+## TASK-R07-007 · COMPLETED · 2026-07-21T23:53:51Z
+
+- Task close: TASK-R07-007 / SES-20260721T210252Z-D631F6E4
+- Release：`R07`
+- Story：`STORY-R07-005`
+- Actor：`codex-root-r07-007`
+- 摘要：R07最终候选完整门禁、AI视觉审批、固定签名、四方APK交付、桌面文档和五页视觉合同全部通过；真机反馈保持异步PENDING
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260721T210252Z-D631F6E4.md`
+
+## 2026-07-22 · R07 跨版本异步真机依赖修复
+
+- `CR-0204` 修复历史 `MACHINE_COMPLETE_OWNER_PENDING` Release 被机械判为后续开发依赖失败的问题。
+- 仅完整 Manifest 下最后一个 `BLOCKED` 外部门禁任务可作为开发依赖 GREEN；正式验收与生产激活继续等待项目所有者真机反馈。
+
+## TASK-R07-008 · BLOCKED · 2026-07-22T00:23:07Z
+
+- Task close: TASK-R07-008 / SES-20260721T235847Z-F9109B61
+- Release：`R07`
+- Story：`STORY-R07-005`
+- Actor：`codex-root-r07-008`
+- 摘要：R07机器开发、Staging、最终候选、视觉、四方APK与桌面交付均PASS；仅项目所有者异步真机验收PENDING，正式验收和生产激活继续阻断
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260721T235847Z-F9109B61.md`
+
+## 2026-07-22 · Context来源哈希跨平台一致性
+
+- `CR-0208` 统一 Context Pack 来源生成与严格校验的规范化换行哈希算法。
+- Windows CRLF 与 Linux LF 对同一Git文本不再产生假 `CONTEXT_SOURCE_STALE`；真实内容变化仍由SHA和字节数双重比较阻断。
+
+## TASK-R08-001 · COMPLETED · 2026-07-22T00:44:28Z
+
+- Task close: TASK-R08-001 / SES-20260722T002444Z-8BEC3CA6
+- Release：`R08`
+- Story：`STORY-R08-004`
+- Actor：`codex-root-r08-001`
+- 摘要：TASK-R08-001完成：R08四故事、九端点工程范围、历史异步Owner边界、云与Git环境、执行分区和跨平台Context哈希均完成冻结与严格验证
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260722T002444Z-8BEC3CA6.md`
+
+## TASK-R08-002 · COMPLETED · 2026-07-22T01:16:49Z
+
+- Task close: TASK-R08-002 / SES-20260722T004601Z-1DC3809E
+- Release：`R08`
+- Story：`STORY-R08-004`
+- Actor：`codex-root-r08-002`
+- 摘要：TASK-R08-002完成：V033项目数据不变量、U033无损回滚、空库/升级库/R07 Staging只读克隆及MODULE验证全部通过
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260722T004601Z-1DC3809E.md`
+
+## TASK-R08-003 · COMPLETED · 2026-07-22T03:13:01Z
+
+- Task close: TASK-R08-003 / SES-20260722T012224Z-E70EA3B7
+- Release：`R08`
+- Story：`STORY-R08-004`
+- Actor：`codex-root-r08-003`
+- 摘要：R08项目发布与详情后端闭环完成：九项页面依赖、V033/V034、真实PostgreSQL Store 3项和后端MODULE 340项均通过，P0/P1为0。
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260722T012224Z-E70EA3B7.md`
+
+## TASK-R08-004 · COMPLETED · 2026-07-22T05:34:21Z
+
+- Task close: TASK-R08-004 / SES-20260722T031604Z-105CF4C6
+- Release：`R08`
+- Story：`STORY-R08-004`
+- Actor：`codex-root-r08-004`
+- 摘要：完成R08项目列表、详情、发布编辑客户端闭环及R02-R07历史视觉回补实现；后台与H5真实浏览器AI复核通过，Android受影响MODULE在精确提交通过；最终候选Android截图按既定规则延续至R08-007。
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260722T031604Z-105CF4C6.md`
+
+## TASK-R08-005 · COMPLETED · 2026-07-22T06:06:08Z
+
+- Task close: TASK-R08-005 / SES-20260722T053639Z-033C23B5
+- Release：`R08`
+- Story：`STORY-R08-004`
+- Actor：`codex-root-r08-005`
+- 摘要：R08项目专项测试与故障注入完成：三项权威测试、延迟重放、8路并发、媒体与配置超时零副作用全部PASS，P0/P1为0。
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260722T053639Z-033C23B5.md`
+
+## TASK-R08-006 · COMPLETED · 2026-07-22T06:40:19Z
+
+- Task close: TASK-R08-006 / SES-20260722T060947Z-B45C6BC0
+- Release：`R08`
+- Story：`STORY-R08-004`
+- Actor：`codex-root-r08-006`
+- 摘要：R08七项项目Gauge、Trace脱敏、RED、两项告警firing/resolved、Outbox合法终结和同库同卷应用回切全部通过，AC-R08-004已签PASS。
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260722T060947Z-B45C6BC0.md`
+
+## TASK-R08-007 · IN PROGRESS · 2026-07-22
+
+- R08最终候选真实旅程已切换到项目列表、项目详情和项目编辑页。
+- 编辑页候选断言仅校验首屏可见业务字段；媒体空态仍由页面实现和静态门禁覆盖，不再因正常滚动布局产生模拟器误判。
+- 首轮候选人工审核发现已实名所有者仍显示实名拦截；已修复`users/me`实名与会员状态映射，错误截图不作为视觉基线。
+
+## TASK-R08-007 · COMPLETED · 2026-07-22T09:34:49Z
+
+- Task close: TASK-R08-007 / SES-20260722T064621Z-68304DE1
+- Release：`R08`
+- Story：`STORY-R08-004`
+- Actor：`codex-root-r08-007`
+- 摘要：TASK-R08-007完成：第三轮候选与轻量基线晋升PASS，R08三页AI视觉批准，固定签名APK完成四方一致交付并放桌面；Owner真机反馈异步PENDING。
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260722T064621Z-68304DE1.md`
+
+## TASK-R08-008 · GitHub模拟器系统ANR隔离 · 2026-07-22
+
+- Run `29922189010` 证明固定API36构建与OIDC通过，但Pixel Launcher系统ANR弹层污染认证截图并阻断后续点击；该批截图不进入验收基线。
+- `CR-0241` 在候选采样前关闭并验证系统ANR弹层消失，认证入口绑定完整冻结文案，R04长屏媒体面板改用系统返回语义关闭；产品Release代码、API和数据库不变。
+
+## TASK-R08-008 · COMPLETED · 2026-07-22T15:23:04Z
+
+- Task close: TASK-R08-008 / SES-20260722T093645Z-C7DB8EF0
+- Release：`R08`
+- Story：`STORY-R08-004`
+- Actor：`codex-root-r08-008`
+- 摘要：R08项目推广完整闭环已机器关闭：候选、三页视觉、APK、发布文档、问题登记和无状态交接全部完成；项目所有者真机反馈保持异步PENDING。
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260722T093645Z-C7DB8EF0.md`
+
+## TASK-R09-001 · COMPLETED · 2026-07-22T18:08:52Z
+
+- Task close: TASK-R09-001 / SES-20260722T153450Z-FAD75B8D
+- Release：`R09`
+- Story：`STORY-R09-004`
+- Actor：`codex-root-r09-ui-audit`
+- 摘要：完成R09开发就绪核验、UI规则消歧及R01-R08历史视觉返工；截至R08共45页全部通过视觉验收，CR-0247与CR-0248均已关闭。
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260722T153450Z-FAD75B8D.md`
+
+## TASK-R09-002 · COMPLETED · 2026-07-22T18:30:47Z
+
+- Task close: TASK-R09-002 / SES-20260722T181159Z-F501CFF5
+- Release：`R09`
+- Story：`STORY-R09-004`
+- Actor：`codex-root-r09-data`
+- 摘要：完成R09 App推广V035/U035数据迁移与领域不变量：禁止APK双路径绕过、详情完整性、软删除保护、索引及空库/升级/回滚/重放全部通过。
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260722T181159Z-F501CFF5.md`
+
+## TASK-R09-003 · COMPLETED · 2026-07-22T19:00:13Z
+
+- Task close: TASK-R09-003 / SES-20260722T183222Z-79C9A5DB
+- Release：`R09`
+- Story：`STORY-R09-004`
+- Actor：`codex-root-r09-backend`
+- 摘要：R09-003完成：APP创建、详情、编辑、公开分享及通用收藏分享/会话来源后端闭环落地；真实PostgreSQL和受影响MODULE通过，CR-0250关闭。
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260722T183222Z-79C9A5DB.md`
+
+## TASK-R09-004 · COMPLETED · 2026-07-22T19:39:46Z
+
+- Task close: TASK-R09-004 / SES-20260722T190220Z-19869F4B
+- Release：`R09`
+- Story：`STORY-R09-004`
+- Actor：`codex-root-r09-client`
+- 摘要：完成R09 App推广Android列表/详情/发布编辑、H5真实外链动作和后台统一内容复用；受影响MODULE门禁全部通过，三页最终截图按R09候选阶段保留IN_REVIEW。
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260722T190220Z-19869F4B.md`
+
+## TASK-R09-005 · COMPLETED · 2026-07-22T20:02:46Z
+
+- Task close: TASK-R09-005 / SES-20260722T194140Z-BCF8BB57
+- Release：`R09`
+- Story：`STORY-R09-004`
+- Actor：`codex-root-r09-tests`
+- 摘要：R09 App推广三项权威专项测试、超时重放、八路并发、重复消息防护、真实依赖异常及规范化哈希证据全部PASS，P0/P1为0。
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260722T194140Z-BCF8BB57.md`
+
+## TASK-R09-006 · COMPLETED · 2026-07-22T20:51:47Z
+
+- Task close: TASK-R09-006 / SES-20260722T200509Z-8FC026EC
+- Release：`R09`
+- Story：`STORY-R09-004`
+- Actor：`codex-root-r09-observability`
+- 摘要：R09 App推广可观测性与隔离Staging验收完成：358项受影响后端测试通过，7项App业务Gauge和7条告警规则可用，BackendDown与Outbox告警完成firing/resolved送达，V035同库同卷回切和22文件可移植证据通过；PROB-0095已SOLVED，GitHub模拟器与候选APK留给R09-007。
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260722T200509Z-8FC026EC.md`
+
+## TASK-R09-007 · COMPLETED · 2026-07-23T02:04:27Z
+
+- R09 最终候选 Run `29969376611` 完成编译、Lint、单测、模拟器、OIDC、三页真实 App 推广旅程、日志与四张媒体加载硬断言；三张截图由 AI 逐图批准。
+- 轻量基线晋升 Run `29970240620` 仅耗时 17 秒，复用同一 APK、截图和报告，没有重新编译或启动模拟器。
+- 固定签名 APK `hhy-r09-97dc163-debug.apk` 已完成 v2/v3、zipalign、正式 API、版本身份和四方 SHA-256 一致验证，并放入仓库、桌面和公网下载站。
+- `PROB-0098` 已关闭；项目所有者真机反馈保持异步 `PENDING`，不阻断 R09 机器关闭及 R10 开发。
+
+## TASK-R09-007 · COMPLETED · 2026-07-23T02:39:11Z
+
+- Task close: TASK-R09-007 / SES-20260722T205410Z-782F22B9
+- Release：`R09`
+- Story：`STORY-R09-004`
+- Actor：`codex-root-r09-candidate`
+- 摘要：R09最终候选、视觉、固定签名和四方APK交付完成
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260722T205410Z-782F22B9.md`
+
+## TASK-R09-008 · COMPLETED · 2026-07-23T02:48:58Z
+
+- Task close: TASK-R09-008 / SES-20260723T024212Z-696F7963
+- Release：`R09`
+- Story：`STORY-R09-004`
+- Actor：`codex-root-r09-machine-close`
+- 摘要：R09机器完成、六项验收和异步真机交接已通过，正式验收与生产激活继续由Owner真机PENDING阻断
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260723T024212Z-696F7963.md`
+
+## R10 首页主开发文档对齐纠偏 · 2026-07-23
+
+- CR-0265恢复主开发文档4.3规定的品牌/搜索/消息、公告、横向Banner、四分类入口和分型运营内容，撤销错误首页视觉PASS。
+- 实时核验确认公网共享Staging的`home_modules`原为0行；CR-0267补真实ONLINE数据源、数量、跨模块去重、`moreTarget`和显式STAGING幂等配置，禁止以空数据或实现自身截图自证完成。
+- 首页保持R08项目、R09 App、R10群聊、R11团队长逐版本真实回接；未来红包、头条、置顶等模块不得提前虚构。
+
+## TASK-R10-001 · COMPLETED · 2026-07-23T04:49:36Z
+
+- Task close: TASK-R10-001 / SES-20260723T025104Z-E29F6208
+- Release：`R10`
+- Story：`STORY-R10-004`
+- Actor：`codex-root-r10-entry`
+- 摘要：R10开发入口、主开发文档功能一一对应纠偏及首页真实数据闭环完成；CR-0265/0266/0267已实现，公网Staging返回真实四模块，全部受影响门禁通过。
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260723T025104Z-E29F6208.md`
+
+## TASK-R10-002 · COMPLETED · 2026-07-23T06:17:46Z
+
+- Task close: TASK-R10-002 / SES-20260723T045352Z-FC8DC2CF
+- Release：`R10`
+- Story：`STORY-R10-004`
+- Actor：`codex-root-r10-data`
+- 摘要：TASK-R10-002完成：V036/U036、群详情/入群通道/群主联系终态不变量、父行并发锁、二维码外键、数据目录和PostgreSQL17完整矩阵全部通过；实现提交9322209a已推送。CR-0268保持IMPLEMENTING并强制衔接R10-003/004。
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260723T045352Z-FC8DC2CF.md`
+
+## TASK-R10-003 · COMPLETED · 2026-07-23T07:03:52Z
+
+- Task close: TASK-R10-003 / SES-20260723T062549Z-79779015
+- Release：`R10`
+- Story：`STORY-R10-004`
+- Actor：`codex-root-r10-backend`
+- 摘要：TASK-R10-003完成：GROUP_CHAT后端创建/详情/编辑/公开分享、JOIN_PASSWORD独立加密渠道、OpenAPI与生成客户端、页面追踪及R07访问审计全部合入；PostgreSQL17真实Store、后端368测试、合同生成、文档和continuity strict通过，实现提交896948b7已推送。关闭后按项目所有者要求先开放验证admin.orbexa.cc，再启动R10-004。
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260723T062549Z-79779015.md`
+
+## TASK-R10-004 · IMPLEMENTED · 2026-07-23
+
+- Android 完成群聊列表、详情、发布/编辑三页，接入首页真实群聊入口、服务端目标和统一 Navigation Compose 返回栈。
+- 新增 R10 专用网络契约与表单不变量，`JOIN_PASSWORD` 仅作为独立加密联系渠道提交和访问，禁止进入扩展属性。
+- H5-006 只展示安全公开群聊信息；后台统一内容详情补齐群聊业务字段、真实媒体、发布者、统计与脱敏入群信息。
+- 同步 admin OpenAPI、boot 运行时合同、生成 TypeScript 与合同注册表；固定云端 Android 114 tasks、后台 97 tests、H5 29 tests 和全部受影响门禁 PASS。
+
+## TASK-R10-005 · SPECIALIZED TESTS PASS · 2026-07-23
+
+- 冻结 `HAPPY/REJECT/IDEMPOTENT` 三类群聊测试全部通过，补齐同键换请求体冲突且零副作用的显式回归。
+- 固定 Maven 容器 R10 精确测试 9 项通过；PostgreSQL17 隔离矩阵覆盖升级失败关闭、空库/升级、并发、回滚和重放。
+- 消息重复和供应商异常经依赖审计判定为 `N/A_WITH_EVIDENCE`；R10 无消息消费或供应商回调，Outbox 单次写入已由幂等测试覆盖。
+
+## TASK-R10-004 · COMPLETED · 2026-07-23T11:41:07Z
+
+- Task close: TASK-R10-004 / SES-20260723T074719Z-AB4D0E80
+- Release：`R10`
+- Story：`STORY-R10-004`
+- Actor：`codex-root-r10-client`
+- 摘要：完成R10群聊推广Android三页、H5安全公开分享、后台类型化管理和跨端契约闭环，全部受影响MODULE门禁通过
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260723T074719Z-AB4D0E80.md`
+
+## TASK-R10-005 · COMPLETED · 2026-07-23T11:53:51Z
+
+- Task close: TASK-R10-005 / SES-20260723T114316Z-44EBE3C1
+- Release：`R10`
+- Story：`STORY-R10-004`
+- Actor：`codex-root-r10-tests`
+- 摘要：完成R10群聊专项测试与故障注入，三类冻结测试和PostgreSQL17矩阵全部通过
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260723T114316Z-44EBE3C1.md`
+
+## TASK-R10-006 · COMPLETED · 2026-07-23T12:28:52Z
+
+- Task close: TASK-R10-006 / SES-20260723T115555Z-5C81458B
+- Release：`R10`
+- Story：`STORY-R10-004`
+- Actor：`codex-root-r10-observability`
+- 摘要：完成R10群聊推广可观测性与隔离预发布验收，AC-R10-004及全部现场证据通过
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260723T115555Z-5C81458B.md`
+
+## TASK-R10-007 · COMPLETED · 2026-07-23T16:49:09Z
+
+- Task close: TASK-R10-007 / SES-20260723T122953Z-52EBA51E
+- Release：`R10`
+- Story：`STORY-R10-004`
+- Actor：`codex-root-r10-candidate`
+- 摘要：R10 Android测试APK与产物追溯完成：候选、AI视觉审批、轻量晋升、固定签名APK、四方SHA交付、桌面说明和严格文档核对全部PASS；Owner真机反馈保持异步PENDING。实现Commit 758c30a3已本地形成，GitHub HTTPS三次因外部443连接重置或不可达尚未推送，恢复后必须先push该Commit。
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260723T122953Z-52EBA51E.md`
+
+## TASK-R10-008 · COMPLETED · 2026-07-23T16:56:45Z
+
+- Task close: TASK-R10-008 / SES-20260723T165113Z-58C6D99A
+- Release：`R10`
+- Story：`STORY-R10-004`
+- Actor：`codex-root-r10-close`
+- 摘要：R10机器关闭完成：8任务、6验收、3视觉页、Android候选和四方APK交付全部PASS；Owner真机保持PENDING，正式验收与生产激活继续阻断，按仓库顺序进入并列依赖满足的R11。GitHub HTTPS外部不可达，本地待推送提交如实登记。
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260723T165113Z-58C6D99A.md`
+
+## TASK-R11-001 · COMPLETED · 2026-07-23T17:11:06Z
+
+- Task close: TASK-R11-001 / SES-20260723T165808Z-606D1DDF
+- Release：`R11`
+- Story：`STORY-R11-004`
+- Actor：`codex-root-r11-entry`
+- 摘要：R11开发就绪完成：DoR、严格文档、云Android环境、生成资产与契约哈希PASS；团队长列表/详情/入驻编辑分别精确绑定B02/P08、B03/P04、B04/P05，首页团队长真实入口卡片导航回接和最终候选才跑模拟器已冻结。
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260723T165808Z-606D1DDF.md`
+
+## TASK-R11-002 · COMPLETED · 2026-07-23T17:52:53Z
+
+- Task close: TASK-R11-002 / SES-20260723T171219Z-D5E6B99E
+- Release：`R11`
+- Story：`STORY-R11-004`
+- Actor：`codex-root-r11-data`
+- 摘要：TASK-R11-002完成：团队长资料V038/U038、地区纠错、审核与ONLINE终态、并发父锁、脏升级和有值回滚失败关闭全部通过。
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260723T171219Z-D5E6B99E.md`
+
+## TASK-R11-003 · COMPLETED · 2026-07-23T18:29:16Z
+
+- Task close: TASK-R11-003 / SES-20260723T175513Z-EFD4D365
+- Release：`R11`
+- Story：`STORY-R11-004`
+- Actor：`codex-root-r11-backend`
+- 摘要：TASK-R11-003完成：团队长类型专属创建详情编辑、账号唯一、实名/媒体权限、幂等、加密联系方式、乐观锁、Outbox及8个冻结operationId唯一分发通过。
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260723T175513Z-EFD4D365.md`
+
+## TASK-R11-004 · COMPLETED · 2026-07-23T23:07:23Z
+
+- Task close: TASK-R11-004 / SES-20260723T183130Z-454A6E0D
+- Release：`R11`
+- Story：`STORY-R11-003`
+- Actor：`codex-root-r11-client`
+- 摘要：TASK-R11-004完成：团队长列表、详情、资料创建编辑三页纵向闭环，首页Navigation回接，后台统一内容列表与团队长运营详情，H5-007按R28显式N/A；Android、admin-web、生成资产和连续性证据PASS。
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260723T183130Z-454A6E0D.md`
+
+## TASK-R11-005 · COMPLETED · 2026-07-24T02:07:43Z
+
+- Task close: TASK-R11-005 / SES-20260723T231210Z-409B970E
+- Release：`R11`
+- Story：`STORY-R11-004`
+- Actor：`codex-root-r11-test`
+- 摘要：TASK-R11-005完成：三项权威测试自动化、并发与幂等缺陷修复、Java21/PostgreSQL17/Android/后台精确Commit证据全部通过，关键缺陷清零
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260723T231210Z-409B970E.md`
+
+## TASK-R11-006 · IMPLEMENTED · 2026-07-24T03:13:00Z
+
+- Release：`R11`
+- Story：`STORY-R11-004`
+- Actor：`codex-root-r11-observability`
+- 摘要：完成团队长七项业务Gauge、七条专属告警、隔离Staging、Trace/日志脱敏、告警送达、Outbox流转和同库同卷回切；精确Commit `b190476f` 的208.1秒现场演练及25项证据全部PASS，`AC-R11-004` 已签字。
+- 证据：`artifacts/reports/R11/TASK-R11-006-staging.md`
+
+## TASK-R11-006 · COMPLETED · 2026-07-24T03:20:55Z
+
+- Task close: TASK-R11-006 / SES-20260724T021901Z-603D54F5
+- Release：`R11`
+- Story：`STORY-R11-004`
+- Actor：`codex-root-r11-observability`
+- 摘要：TASK-R11-006完成：团队长七项Gauge、七条告警、V038隔离Staging、Trace日志脱敏、告警送达、Outbox与同库同卷回切全部通过，AC-R11-004及25项证据闭环
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260724T021901Z-603D54F5.md`
+
+## TASK-R11-007 · COMPLETED · 2026-07-24T09:30:16Z
+
+- Task close: TASK-R11-007 / SES-20260724T032308Z-98D6D10A
+- Release：`R11`
+- Story：`STORY-R11-004`
+- Actor：`codex-root-r11-candidate`
+- 摘要：R11 Android候选、AI视觉审核、固定签名、四方APK交付和桌面说明全部完成；真机反馈异步PENDING
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260724T032308Z-98D6D10A.md`
+
+## TASK-R11-008 · COMPLETED · 2026-07-24T14:43:35Z
+
+- Task close: TASK-R11-008 / SES-20260724T110611Z-0D26E8D5
+- Release：`R11`
+- Story：`STORY-R11-004`
+- Actor：`codex-root-r11-close`
+- 摘要：TASK-R11-008完成：R11机器候选、Staging、三页视觉、APK四方SHA、桌面说明、Acceptance与无状态交接PASS；项目所有者真机PENDING保持异步；关闭工作流已修正为MACHINE_CLOSE且不再重复本机Java/Android门禁
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260724T110611Z-0D26E8D5.md`
+
+## TASK-R12-001 · COMPLETED · 2026-07-24T16:35:17Z
+
+- Task close: TASK-R12-001 / SES-20260724T144831Z-B2E27A89
+- Release：`R12`
+- Story：`STORY-R12-008`
+- Actor：`codex-root-r12-entry`
+- 摘要：R12开发入口完成：DoR、云端环境、执行计划、依赖、11页精确视觉基线、Manifest、Stories与轻量门禁全部PASS；完整Android门禁保留至TASK-R12-007。
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260724T144831Z-B2E27A89.md`
+
+## TASK-R12-002 · COMPLETED · 2026-07-25T02:47:05Z
+
+- Task close: TASK-R12-002 / SES-20260724T235749Z-6EC9DB09
+- Release：`R12`
+- Story：`STORY-R12-008`
+- Actor：`codex-root-r12-data-20260725`
+- 摘要：TASK-R12-002统一发布数据库状态机、乐观版本、审核快照、Outbox绑定与软删除门禁完成
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260724T235749Z-6EC9DB09.md`
+
+## TASK-R12-003 · COMPLETED · 2026-07-25T05:31:44Z
+
+- Task close: TASK-R12-003 / SES-20260725T025042Z-A53070A0
+- Release：`R12`
+- Story：`STORY-R12-008`
+- Actor：`codex-root-r12-backend-20260725`
+- 摘要：TASK-R12-003完成：19个冻结operationId、发布管理、审核二审、资料会员奖励、V040/U040、权限幂等审计Outbox和Java21/PostgreSQL17全回归闭环
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260725T025042Z-A53070A0.md`
+
+## TASK-R12-004 · COMPLETED · 2026-07-25T17:10:07Z
+
+- Task close: TASK-R12-004 / SES-20260725T053515Z-11D4084D
+- Release：`R12`
+- Story：`STORY-R12-008`
+- Actor：`codex-root-r12-client-20260725`
+- 摘要：TASK-R12-004完成：八个Story、十一页客户端/后台真实闭环、逐Story MODULE证据、视觉IN_REVIEW边界和Release Manifest均已收口；最终候选截图与APK保留至TASK-R12-007。
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260725T053515Z-11D4084D.md`
+
+## TASK-R12-005 · COMPLETED · 2026-07-25T18:02:53Z
+
+- Task close: TASK-R12-005 / SES-20260725T171320Z-7ACF9261
+- Release：`R12`
+- Story：`STORY-R12-008`
+- Actor：`codex-root-r12-testing-20260726`
+- 摘要：TASK-R12-005完成：六个既有R12权威测试ID全部AUTOMATED，响应丢失重放、同键异体、Outbox单写、配置/存储故障零成功副作用和PostgreSQL17真实并发证据全部PASS，P0/P1缺陷清零。
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260725T171320Z-7ACF9261.md`
+
+## TASK-R12-006 · IMPLEMENTED · 2026-07-25T18:56:00Z
+
+- Release：`R12`
+- Story：`STORY-R12-008`
+- Actor：`codex-root-r12-observability-20260726`
+- 摘要：完成统一发布七项业务Gauge、七条专属告警、隔离Staging、Trace与日志脱敏、两类告警送达、Outbox合法终结和同库同卷回切；精确Commit `4365e1c7` 的223.7秒现场演练及25项证据全部PASS，`AC-R12-004` 已签字。
+- 证据：`artifacts/reports/R12/TASK-R12-006-staging.md`
+
+## TASK-R12-006 · COMPLETED · 2026-07-25T19:17:27Z
+
+- Task close: TASK-R12-006 / SES-20260725T180922Z-D7231210
+- Release：`R12`
+- Story：`STORY-R12-008`
+- Actor：`codex-root-r12-observability-20260726`
+- 摘要：TASK-R12-006完成：七项发布Gauge、七条告警、V041隔离Staging、Trace日志脱敏、告警送达、Outbox合法终结、同库同卷回切、AC-R12-004与25项原始字节证据全部闭环
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260725T180922Z-D7231210.md`
+
+## TASK-R12-007 · COMPLETED · 2026-07-26T10:46:57Z
+
+- Task close: TASK-R12-007 / SES-20260725T192048Z-668BD05D
+- Release：`R12`
+- Story：`STORY-R12-008`
+- Actor：`codex-root-r12-candidate-20260726`
+- 摘要：TASK-R12-007完成：R12最终Android候选和轻量视觉基线晋升PASS；十页AI视觉审核、固定签名APK、生产API、四方SHA-256交付、桌面测试说明、六项验收与全局治理审计全部闭环，Owner真机反馈保持异步。
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260725T192048Z-668BD05D.md`
+
+## TASK-R12-008 · COMPLETED · 2026-07-26T10:57:48Z
+
+- Task close: TASK-R12-008 / SES-20260726T105013Z-AE578D81
+- Release：`R12`
+- Story：`STORY-R12-008`
+- Actor：`codex-root-r12-close-20260726`
+- 摘要：TASK-R12-008完成：R12八项任务、六项AC、七个operationId、累计65页视觉、最终候选、固定签名APK、四方交付和六项治理审计全部机器PASS；Owner真机保持异步PENDING，正式验收与生产激活继续阻断，按计划进入R13。
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260726T105013Z-AE578D81.md`
+
+## TASK-R13-001 · COMPLETED · 2026-07-26T11:33:50Z
+
+- Task close: TASK-R13-001 / SES-20260726T110209Z-C9DC8AD5
+- Release：`R13`
+- Story：`STORY-R13-001`
+- Actor：`codex-root-r13-20260726`
+- 摘要：R13开发入口、三项故事、六operationId边界、四页精确视觉施工基线、动态执行计划与生成客户端一致性全部完成并通过严格门禁。
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260726T110209Z-C9DC8AD5.md`
+
+## TASK-R13-002 · COMPLETED · 2026-07-26T12:28:32Z
+
+- Task close: TASK-R13-002 / SES-20260726T113800Z-4EDAA918
+- Release：`R13`
+- Story：`STORY-R13-003`
+- Actor：`codex-root-r13-data-20260726`
+- 摘要：TASK-R13-002完成：V042补齐收藏、浏览分享、联系方式访问与内容举报数据不变量；复用全局幂等和后台审计事实源；空库、V041升级库、无数据删除回滚和Java21 MODULE全部通过
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260726T113800Z-4EDAA918.md`
+
+## TASK-R13-003 · COMPLETED · 2026-07-26T13:33:25Z
+
+- Task close: TASK-R13-003 / SES-20260726T123133Z-63E93B88
+- Release：`R13`
+- Story：`STORY-R13-003`
+- Actor：`codex-root-r13-backend-20260726`
+- 摘要：TASK-R13-003完成：六个冻结operationId后端能力齐备；取消收藏、收藏列表、去重浏览历史和失效反馈已实现，既有收藏分享回归通过；Java21全回归440项与PostgreSQL16专项集成全部PASS
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260726T123133Z-63E93B88.md`
+
+## TASK-R13-004 · COMPLETED · 2026-07-26T15:51:51Z
+
+- Task close: TASK-R13-004 / SES-20260726T134047Z-F9A80405
+- Release：`R13`
+- Story：`STORY-R13-002`
+- Actor：`codex-root-r13-client-20260726`
+- 摘要：TASK-R13-004四页Android收藏历史分享与失效反馈客户端闭环完成；精确Commit f8df36e3在obx-test固定镜像579任务PASS，四页保持IN_REVIEW等待最终候选截图。
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260726T134047Z-F9A80405.md`
+
+## TASK-R13-005 · COMPLETED · 2026-07-26T18:16:33Z
+
+- Task close: TASK-R13-005 / SES-20260726T160157Z-6B5BC09A
+- Release：`R13`
+- Story：`STORY-R13-003`
+- Actor：`codex-root-r13-testing-20260726`
+- 摘要：TASK-R13-005完成：三个既有TST-ACTIVITY_001测试ID全部AUTOMATED；Java21 37项、PostgreSQL17隔离数据库5项、Android activity 109任务全部PASS，三类规范化日志远端本地哈希一致，P0/P1缺陷清零。
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260726T160157Z-6B5BC09A.md`
+
+## TASK-R13-006 · COMPLETED · 2026-07-26T19:08:23Z
+
+- Task close: TASK-R13-006 / SES-20260726T182231Z-EE79FA49
+- Release：`R13`
+- Story：`STORY-R13-003`
+- Actor：`codex-root-r13-staging-20260727`
+- 摘要：TASK-R13-006完成：精确Commit 410aef53通过Java21模块测试与obx-test隔离Staging现场演练；七项Gauge、七条告警、日志脱敏、TraceId、V042应用回切、活动事实保留和25项证据归档均PASS，AC-R13-004已签署。
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260726T182231Z-EE79FA49.md`
+
+## CR-0387 · IMPLEMENTING · 2026-07-27T00:24:40Z
+
+- Release：`R13`
+- Task：`TASK-R13-007`
+- 摘要：Run 30226547910 attempt6已消费失败，编译链路通过且媒体三态可观测性生效，但收藏页精确报告`success=2 errors=0 loading=1`；固定尺寸Lazy列表的预组合节点尚未测量，默认约束SizeResolver未启动第三个真实请求。
+- 修复：R13媒体改用与固定容器一致像素尺寸的稳定`ImageRequest`，保留三条success、零error、零loading、30秒和截图前硬门禁；专项回归、UI基础门禁及obx-test固定镜像223任务通过。
+- 候选：首个修复Commit `0769abff1ecb12e4f4cd6415f66cdef8c92d0209`冻结后，唯一`R13-CANDIDATE-20260727-007 / CR-0387 / attempt7 / max1`通过69项正反向治理回归；attempt8未授权。
+
+## CR-0388 · IMPLEMENTING · 2026-07-27T00:56:47Z
+
+- Release：`R13`
+- Task：`TASK-R13-007`
+- 摘要：Run `30228016402` attempt7已消费失败；确定尺寸ImageRequest仍精确报告`success=2 errors=0 loading=1`，证明第三个Lazy预组合节点虽进入语义树但未进入活动视口，断言后的DNS与Google联网探针错误不是业务根因。
+- 修复：候选在原30秒总期限内定位唯一滚动列表，按业务description累计确认媒体成功并受控下滚激活；三项全部成功后回到冻结列表顶部，严格复验三条success、零error、零loading后才允许首张截图。禁止延长超时、固定等待、降低数量或改变截图起点。
+- 候选：首个测试修复Commit `02f3dc856b2dc6de4df0c1f94730b80388b5d563`形成后，专项回归、UI基础门禁及obx-test固定镜像212任务均通过；唯一`R13-CANDIDATE-20260727-008 / CR-0388 / attempt8 / max1`只绑定该不可变SHA，attempt9未授权。
+
+## CR-0389 · IMPLEMENTING · 2026-07-27T01:34:05Z
+
+- Release：`R13`
+- Task：`TASK-R13-007`
+- 摘要：Run `30229476784` attempt8已消费失败；请求、编译、Lint、单测和打包通过，但模拟器在媒体激活前精确报告`Expected exactly one R13 activity list ... count=0`。Compose LazyColumn未向UiAutomator暴露`scrollable=true`，SurfaceFlinger权限噪声不是业务根因；runtime artifact SHA-256为`cb6907f5b5903d650d74cc586ea22328a66769503e9f31d844e1dc42e233d897`。
+- 修复：R13活动列表按模式暴露稳定资源，候选用`By.res`定位收藏列表并根据节点`visibleBounds`执行内容区上下滑动；保留原30秒、按description累计三条成功、回顶严格三态复验和截图起点。
+- 候选：首个修复Commit `2832d47d5c2a27d73c7a7d2b4f63bc0f331a5e54`形成后，62项治理回归、UI基础门禁和obx-test固定镜像223任务通过；唯一`R13-CANDIDATE-20260727-009 / CR-0389 / attempt9 / max1`只绑定该不可变SHA，attempt10未授权。
+
+## CR-0390 · IMPLEMENTING · 2026-07-27T03:19:24Z
+
+- Release：`R13`
+- Task：`TASK-R13-007`
+- 摘要：Run `30231157257` attempt9已消费失败；请求、编译、Lint、单测和打包通过，但模拟器在收藏入口后精确失败于`R13 favorites did not become visible`。目标容器同时间段收到会话、平台状态、版本、首页和我的页请求，却没有任何`GET /api/v1/me/favorites`，证明失败在Compose导航前；runtime artifact SHA-256为`1e16b7319ffe94e0970f4e0393295c44224d27622e985b81f8b54f993deb6f6c`。
+- 修复：候选关键资源命中后向上选择首个`enabled + clickable`祖先并点击，找不到立即失败；保留稳定资源、页面marker、原等待上限、三媒体和四张截图合同，禁止改为文字、坐标、固定sleep或延长等待。
+- 候选：attempt9与Run `30231157257`不得重跑、晋升或交付；首个修复Commit `8393b35464b16083833e7c9d95e7d303ce8a11a2`形成后，39项专项治理回归、UI基础门禁和obx-test固定镜像212任务通过；唯一`R13-CANDIDATE-20260727-010 / CR-0390 / attempt10 / max1`只绑定该不可变SHA，attempt11未授权。
+
+## TASK-R13-007 · COMPLETED · 2026-07-27T16:28:13Z
+
+- Task close: TASK-R13-007 / SES-20260726T191158Z-2B506AB7
+- Release：`R13`
+- Story：`STORY-R13-003`
+- Actor：`codex-root-r13-candidate-20260727`
+- 摘要：R13 TEST_APK已完成固定工具链构建、稳定签名、正式API和四方SHA交付，owner真机反馈保持异步PENDING
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260726T191158Z-2B506AB7.md`
+
+## TASK-R13-008 · BLOCKED · 2026-07-27T18:15:05Z
+
+- Task close: TASK-R13-008 / SES-20260727T163211Z-EDFF7E87
+- Release：`R13`
+- Story：`STORY-R13-003`
+- Actor：`codex-root-r13-close-20260728`
+- 摘要：R13固定工具链TEST_APK、稳定签名、版本身份、四方SHA、桌面说明和公网注册恢复均已PASS；当前Commit缺SCR-FAV-001、SCR-HIS-001、SHEET-SHARE-001、SHEET-CONTENT-INVALID-001四页截图，AC-R13-001/002/003/005/006未回填，AC-R13-004证据路径需结构化，六项治理审计缺失，因此保持BLOCKED_EXTERNAL_GATE，恢复条件为补齐当前Commit视觉证据、验收矩阵、治理审计并重跑machine-close；项目所有者真机反馈继续异步PENDING
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260727T163211Z-EDFF7E87.md`
+
+## TASK-R14-001 · COMPLETED · 2026-07-27T19:29:14Z
+
+- Task close: TASK-R14-001 / SES-20260727T181928Z-B51C7408
+- Release：`R14`
+- Story：`STORY-R14-004`
+- Actor：`codex-root-r14-20260728`
+- 摘要：TASK-R14-001已建立六页精确视觉合同、用户可见页面目录、四类聊天消息Schema和R14可恢复执行入口，全部适用轻量门禁通过
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260727T181928Z-B51C7408.md`
+
+## TASK-R14-002 · COMPLETED · 2026-07-27T20:34:53Z
+
+- Task close: TASK-R14-002 / SES-20260727T193842Z-C948B6FC
+- Release：`R14`
+- Story：`STORY-R14-004`
+- Actor：`codex-root-r14-data-20260728`
+- 摘要：TASK-R14-002完成：R14聊天数据迁移、领域不变量、回滚、合同同步、真实PostgreSQL17矩阵与R15前置问题登记全部通过
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260727T193842Z-C948B6FC.md`
+
+## TASK-R14-003 · COMPLETED · 2026-07-27T22:11:13Z
+
+- Task close: TASK-R14-003 / SES-20260727T203754Z-DCE3090A
+- Release：`R14`
+- Story：`STORY-R14-004`
+- Actor：`codex-root-r14-backend-20260728`
+- 摘要：R14一对一聊天九个冻结后端接口、成员权限、配置限流、幂等、敏感联系方式三段边界、Outbox与真实PostgreSQL17回归全部完成
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260727T203754Z-DCE3090A.md`
+
+## CR-0428 · IMPLEMENTING · 2026-07-28T02:38:53Z
+
+- Release：`R14`
+- Task：`TASK-R14-004`
+- 摘要：举报面板复用既有媒体上传闭环，以 `AUDIT_EVIDENCE` 只接受图片并支持累计去重、移除和 100 项上限；消息与图片证据同时进入二次确认和真实请求。
+- 版本并发：会话列表和四类内容直聊入口传播服务端 `conversation.version`；旧深链或异常负版本仅允许查看聊天，举报编辑和提交明确禁用。
+- 边界：`PROB-0135` 仍保持 `OPEN`，不硬编码效果图示例原因，不关闭 `SHEET-CHAT-002` 或 R14 机器验收。
+
+## TASK-R14-004 · BLOCKED · 2026-07-28T09:09:55Z
+
+- Task close: TASK-R14-004 / SES-20260727T221444Z-FD353AD3
+- Release：`R14`
+- Story：`STORY-R14-004`
+- Actor：`codex-root-r14-client-20260728`
+- 摘要：TASK-R14-004可实施的会话列表、私聊、联系方式、拉黑解除、删除、举报证据结构、九接口、十二事件实时链路、隔离Staging与稳定签名TEST_APK均已完成；但PROB-0135缺少产品事实源冻结的举报原因code/用户文案/启停/排序，SHEET-CHAT-002与STORY-R14-003不得用效果图示例或测试值冒充完成，且ws.orbexa.cc仍BLOCKED_EXTERNAL_DNS，因此R14保持BLOCKED_EXTERNAL_GATE并保留CR-0427/0428为IMPLEMENTED待恢复
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260727T221444Z-FD353AD3.md`
+
+## CR-0440 · R16 ENTRY BASELINE · 2026-07-28
+
+- 修正 R16 十接口的商品、SKU、订单、订单项、价格快照与不退款证据显式资源，删除错误资源复用和写响应 `oneOf` 歧义。
+- `SCR-ORDER-001` 精确绑定 B08/P04；详情与后台订单页建立独立批准补充规格，过滤效果图示例内容和所有未登记动作。
+- 同步 OpenAPI、运行时副本、生成客户端、合同哈希、页面字段/状态/动作、前后端矩阵和施工文档。
+
+## TASK-R16-001 · COMPLETED · 2026-07-28T09:48:22Z
+
+- Task close: TASK-R16-001 / SES-20260728T091447Z-9A245BB4
+- Release：`R16`
+- Story：`STORY-R16-004`
+- Actor：`codex-root-r16-entry-20260728`
+- 摘要：TASK-R16-001完成：R16三需求、十接口、七表、三页面与四故事已核验，显式商品订单合同和三页视觉施工基线已冻结并通过全部入口门禁
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260728T091447Z-9A245BB4.md`
+
+## TASK-R16-002 · COMPLETED · 2026-07-28T10:21:48Z
+
+- Task close: TASK-R16-002 / SES-20260728T095044Z-DCF99F77
+- Release：`R16`
+- Story：`STORY-R16-001`
+- Actor：`codex-root-r16-data-20260728`
+- 摘要：TASK-R16-002完成：V045商品、SKU、报价与统一订单前向迁移、历史无伪造兼容、完整ORDER_STATUS、不退款证据、创建幂等、不可变快照和PostgreSQL 17属性验证全部通过
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260728T095044Z-DCF99F77.md`
+
+## TASK-R16-003 · BACKEND READY · 2026-07-28
+
+- R16十个冻结接口、商品与SKU写链、用户订单owner隔离、管理员权限、审计、Outbox、加密幂等快照和乐观锁已落地。
+- V046补齐`product.read`/`product.write`权限，V047前向对齐冻结OpenAPI边界且不改写V045。
+- PostgreSQL 17完整迁移、回滚、属性与8路并发矩阵PASS；Java 21后端全量491项，0失败、0错误。
+- CR-0444保持生产WebSocket容器限制并隔离Mock上下文；CR-0445让默认H2按ApplicationContext隔离，消除测试状态串扰。
+
+## CR-0446 · APK与桌面测试说明成对交付 · 2026-07-28
+
+- 修复既有规则与机器执行脱节：R14及后续新`TEST_APK`必须同时复制对应版本测试说明，桌面说明绑定同一Release和Commit。
+- 新交付使用APK Manifest schema 3与Evidence schema 2，五方核对仓库说明、Release Manifest、APK Manifest、Evidence和桌面副本；缺失、改名、空文件、大小或SHA漂移均非零失败。
+- R06–R13 schema 2+1历史记录保持只读兼容；R14已真实补交`hhy-r14-ca57666-test-guide.md`并以实测大小和SHA-256升级证据。
+
+## TASK-R16-003 · COMPLETED · 2026-07-28T12:57:04Z
+
+- Task close: TASK-R16-003 / SES-20260728T102501Z-3189682B
+- Release：`R16`
+- Story：`STORY-R16-001`
+- Actor：`codex-r16-backend-20260728`
+- 摘要：TASK-R16-003完成：十个冻结后端operationId、V046/V047、权限幂等审计Outbox、订单owner隔离及完整Java/PostgreSQL回归通过；R14紧急公网消息热修已独立闭环且不改变R16验收。
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260728T102501Z-3189682B.md`
+
+## TASK-R14-004 · COMPLETED · 2026-07-28T18:17:52Z
+
+- Task close: TASK-R14-004 / SES-20260728T154000Z-0458A14C
+- Release：`R14`
+- Story：`STORY-R14-004`
+- Actor：`codex-r14-continuation-20260728`
+- 摘要：TASK-R14-004六个Android交互面、九项REST、十二事件实时链路、加载与失败恢复、举报证据和OpenAPI单源原因目录均完成；H5与后台按R14 Manifest明确N/A；固定工具链与GitHub门禁通过
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260728T154000Z-0458A14C.md`
+
+## TASK-R14-005 · COMPLETED · 2026-07-28T19:30:10Z
+
+- Task close: TASK-R14-005 / SES-20260728T182015Z-7EB6FEF2
+- Release：`R14`
+- Story：`STORY-R14-004`
+- Actor：`codex-r14-testing-20260729`
+- 摘要：R14六项聊天专项测试全部自动化并由Java21、PostgreSQL17、Android固定环境、日志SHA与GitHub双门禁证明；R14至R32全链防漂移回归同步PASS
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260728T182015Z-7EB6FEF2.md`
+
+## TASK-R14-006 · COMPLETED · 2026-07-28T20:56:31Z
+
+- Task close: TASK-R14-006 / SES-20260728T195020Z-B1DAB2D3
+- Release：`R14`
+- Story：`STORY-R14-004`
+- Actor：`codex-r14-observability-20260729`
+- 摘要：R14隔离Staging在f58be15f通过Flyway044、举报目录、可观测性、告警生命周期、回滚与数据保持验收；证据已按SHA回收且68021505远端双门禁PASS
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260728T195020Z-B1DAB2D3.md`
+
+## TASK-R14-007 · COMPLETED · 2026-07-28T21:59:52Z
+
+- Task close: TASK-R14-007 / SES-20260728T205917Z-52E3B6B1
+- Release：`R14`
+- Story：`STORY-R14-004`
+- Actor：`codex-r14-apk-20260729`
+- 摘要：TASK-R14-007完成：R14 versionCode10224测试APK在obx-test固定工具链构建，稳定签名、正式API/WSS、精确下载路由、仓库/桌面/服务器/公网四方SHA和测试说明全部PASS；旧ca57666双文件原字节归档，GitHub CI 30402394274与Continuity Gate 30402394075均PASS，owner真机保持异步PENDING
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260728T205917Z-52E3B6B1.md`

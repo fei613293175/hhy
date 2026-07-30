@@ -1,0 +1,9 @@
+task=TASK-R07-006
+story=STORY-R07-005
+release=R07
+frozen_commit=417b6cc9bc5f1b56adc280db5375358100bf23ae
+compose_project=hhy-r07-staging
+network_subnet=172.31.245.0/24
+current_image=sha256:00dacf80e349e4f6b4fad0de3493eff39ec56db88d7d96675cfbb2158ff1bd37
+postgres_container=409d15193d92fc672adbdccc2e398d5ceb9f88c66512f9d3e1c3496c6f56df1f
+postgres_volume=hhy-r07-staging_pgdata

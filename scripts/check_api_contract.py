@@ -114,6 +114,113 @@ require(
     "platform capability set drift",
 )
 
+# CR-0316: the destructive content command must participate in the same
+# optimistic-lock contract as every other content mutation.  The operation is
+# still pre-implementation, so this corrects the frozen v1 contract before any
+# runtime consumer can ship without a version token.
+content_delete = client["paths"]["/api/v1/contents/{id}"]["delete"]
+delete_parameters = {
+    (item.get("name"), item.get("in")): item
+    for item in content_delete.get("parameters", [])
+    if "$ref" not in item
+}
+delete_expected_version = delete_parameters.get(("expectedVersion", "query"), {})
+require(
+    delete_expected_version.get("required") is True
+    and delete_expected_version.get("schema") == {
+        "type": "integer", "format": "int64", "minimum": 0,
+    },
+    "content delete expectedVersion query contract drift",
+)
+delete_contract = schemas.get("ContentDeleteContentsByIdParameters", {})
+require(
+    "expectedVersion" in delete_contract.get("required", [])
+    and delete_contract.get("properties", {}).get("expectedVersion", {}).get("minimum") == 0,
+    "content delete named parameter contract must require nonnegative expectedVersion",
+)
+
+websocket = yaml.safe_load((ROOT / "contracts/websocket-events.yaml").read_text(encoding="utf-8"))
+ws_events = {event.get("code"): event for event in websocket.get("events", [])}
+require(
+    list(ws_events) == [
+        "chat.message.send", "chat.message.ack", "chat.message.new",
+        "chat.message.read", "chat.read.updated", "chat.typing",
+        "notification.new", "system.kickout", "system.ping", "system.pong",
+        "system.delivery.ack", "system.resume",
+    ],
+    "WebSocket event set/order must contain the frozen 12 events",
+)
+authentication = websocket.get("authentication", {})
+request_protocols = authentication.get("request_subprotocols", {})
+require(
+    request_protocols.get("required_exactly_once")
+    == ["hhy.v1", "hhy.access.<compact-JWT>"]
+    and request_protocols.get("compact_jwt_pattern")
+    == r"^[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+$"
+    and request_protocols.get("padding_allowed") is False
+    and request_protocols.get("whitespace_allowed") is False
+    and request_protocols.get("reject_duplicate_or_missing") is True,
+    "WebSocket request subprotocol authentication drift",
+)
+require(
+    authentication.get("selected_subprotocol") == "hhy.v1"
+    and authentication.get("validate_before_upgrade")
+    == ["jwt_signature", "jwt_expiry", "session_active"]
+    and authentication.get("ws_ticket", {}).get("status") == "RESERVED_UNAVAILABLE",
+    "WebSocket upgrade validation or wsTicket reservation drift",
+)
+require(
+    set(authentication.get("log_redaction", {}).get("required_scopes", []))
+    == {"edge", "reverse_proxy", "handshake_error", "server", "application"}
+    and all(authentication.get("credential_transport", {}).values()),
+    "WebSocket credential redaction/transport boundary drift",
+)
+delivery = websocket.get("delivery", {})
+ack = delivery.get("ack", {})
+require(
+    ack.get("s2c_confirmation_event") == "system.delivery.ack"
+    and ack.get("match_fields") == ["eventId", "serverSequence"]
+    and ack.get("duplicate_result") == "IDEMPOTENT_SUCCESS"
+    and ack.get("unknown_or_mismatched_result") == "REJECT"
+    and ack.get("stop_redelivery_only_after_valid_ack") is True
+    and ack.get("ack_event_ack_required") is False,
+    "WebSocket delivery ACK semantics drift",
+)
+resume = delivery.get("resume", {})
+resume_query = resume.get("query_parameter", {})
+require(
+    resume_query.get("name") == "lastServerSequence"
+    and resume_query.get("minimum") == 0
+    and resume_query.get("reject_above_server_high_watermark") is True,
+    "WebSocket resume query contract drift",
+)
+require(
+    resume.get("gap_fill", {}).get("CHAT", {}).get("operations")
+    == ["chatGetConversations", "chatGetConversationsByIdMessages"]
+    and resume.get("gap_fill", {}).get("NOTIFICATIONS", {}).get("operations")
+    == ["notificationGetNotifications"]
+    and resume.get("gap_fill", {}).get("infer_sequence_from_rest_forbidden") is True,
+    "WebSocket REST gap-fill scope contract drift",
+)
+delivery_ack = ws_events.get("system.delivery.ack", {})
+system_resume = ws_events.get("system.resume", {})
+require(
+    delivery_ack.get("direction") == "C2S"
+    and delivery_ack.get("ack_required") is False
+    and delivery_ack.get("payload", {}).get("required") == ["eventId", "serverSequence"],
+    "system.delivery.ack event drift",
+)
+require(
+    system_resume.get("direction") == "S2C"
+    and system_resume.get("ack_required") is False
+    and set(system_resume.get("payload", {}).get("required", []))
+    == {
+        "mode", "requestedLastServerSequence", "serverHighWatermark",
+        "resumeFromServerSequence", "affectedScopes",
+    },
+    "system.resume event drift",
+)
+
 for row_number, row in enumerate(rows("contracts/contract_status.csv"), start=2):
     source = ROOT / row["事实源"]
     require(source.is_file(), f"contract_status:{row_number} source missing: {row['事实源']}")
@@ -131,4 +238,4 @@ if errors:
     print("API_CONTRACT_FAIL")
     print("\n".join(errors))
     sys.exit(1)
-print("API_CONTRACT_OK client=131 admin=184 websocket=10 runtime_hashes=PASS")
+print("API_CONTRACT_OK client=131 admin=184 websocket=12 runtime_hashes=PASS")

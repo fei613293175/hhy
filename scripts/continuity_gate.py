@@ -17,6 +17,12 @@ import sys
 
 import yaml
 
+from restore_git_transport import (
+    TransportError as GitTransportError,
+    load_descriptor as load_git_transport_descriptor,
+    push_preflight as git_transport_push_preflight,
+)
+
 from continuity_lib import (
     ACTIVE_FILE,
     CONTINUITY_DIR,
@@ -44,6 +50,7 @@ from continuity_lib import (
     filter_project_files,
     git,
     git_changed_files,
+    git_index_worktree_divergence,
     git_info,
     is_git_repo,
     is_managed_record,
@@ -62,6 +69,7 @@ from continuity_lib import (
     canonical_fingerprint_bytes,
     read_current_status,
     read_next_task,
+    required_rule_sources,
     root_from_script,
     run_command,
     secret_scan,
@@ -90,6 +98,7 @@ REQUIRED_ROOT_FILES = [
     "NEXT_TASK.yaml",
     "AGENTS.md",
     "START_HERE.md",
+    "config/REPOSITORY_TRANSPORT.yaml",
     "scripts/continuity.py",
     "scripts/continuity_gate.py",
     "scripts/build_context_pack.py",
@@ -101,6 +110,27 @@ REQUIRED_ROOT_FILES = [
     "docs/03-continuity/EVENT_LOG_SCHEMA.yaml",
     "docs/03-continuity/CONTEXT_PACK_SCHEMA.yaml",
 ]
+
+# Application-only commits cannot invalidate the frozen documentation baseline.
+# Doctor/release modes still force the complete check.
+DOCUMENT_GATE_INPUT_PATTERNS = (
+    "PROJECT_BASELINE.yaml",
+    "PROJECT_BASELINE.json",
+    "V1.2.2_最终文档冻结说明.md",
+    "合伙云Pro_完整项目开发文档_*.md",
+    "catalogs/**",
+    "contracts/**",
+    "config/**",
+    "database/**",
+    "docs/00-baseline/**",
+    "docs/01-architecture/**",
+    "docs/02-config/**",
+    "docs/02-contracts/**",
+    "docs/02-ui/**",
+    "releases/**",
+    "scripts/check_v122_documentation.py",
+    "scripts/check_v123_documentation.py",
+)
 
 
 class Report:
@@ -199,7 +229,19 @@ def validate_session_structure(report: Report, session: dict[str, Any], policy: 
         report.require(bool(session.get(key)), "SESSION_FIELD", f"会话缺少字段：{key}")
     actor = session.get("actor", {})
     report.require(bool(actor.get("id")), "SESSION_ACTOR", "会话必须记录Actor ID")
-    report.require(session.get("status") in {"ACTIVE", "HANDED_OFF", "CLOSING", "CLOSED", "ABANDONED", "TRANSFERRED"}, "SESSION_STATUS", f"非法会话状态：{session.get('status')}")
+    report.require(
+        session.get("status") in {
+            "ACTIVE",
+            "HANDED_OFF",
+            "CLOSING",
+            "CLOSED",
+            "ABANDONED",
+            "TRANSFERRED",
+            "SEQUENCE_RECOVERED",
+        },
+        "SESSION_STATUS",
+        f"非法会话状态：{session.get('status')}",
+    )
     report.require(bool(session.get("scope", {}).get("allowed_paths")), "SESSION_SCOPE", "会话必须有允许路径")
     session_path = ROOT / CONTINUITY_DIR / "sessions" / f"{session.get('session_id')}.yaml"
     report.require(session_path.is_file(), "SESSION_RECORD", f"会话机器记录不存在：{session_path.relative_to(ROOT)}")
@@ -306,7 +348,7 @@ def project_fingerprint_at_commit(session: dict[str, Any], commit_sha: str) -> d
         ]
     else:
         result = run_command(
-            ["git", "diff", "--name-only", "--diff-filter=ACDMRTUXB", f"{base}..{commit_sha}"],
+            ["git", "diff", "--no-renames", "--name-only", "--diff-filter=ACDMRTUXB", f"{base}..{commit_sha}"],
             cwd=ROOT, timeout=120,
         )
         if result.returncode != 0:
@@ -403,6 +445,33 @@ def validate_change_set(
         report.require(bool(checkpoint.get("summary")), "CHECKPOINT_SUMMARY", "检查点缺少summary")
         report.require(bool(checkpoint.get("next_step")), "CHECKPOINT_NEXT", "检查点缺少next_step")
         report.require(checkpoint.get("session_id") == session.get("session_id"), "CHECKPOINT_SESSION", "检查点不属于当前会话")
+        parallel_policy = policy.get("parallel_development", {})
+        authorization_at = str(parallel_policy.get("authorization", {}).get("granted_at") or "")
+        if not authorization_at or str(checkpoint.get("created_at") or "") >= authorization_at:
+            execution = checkpoint.get("parallel_execution") or {}
+            assessment = execution.get("assessment")
+            workers = list(execution.get("workers") or [])
+            report.require(
+                assessment in {"DELEGATED", "NO_SAFE_PARALLEL", "CAPABILITY_UNAVAILABLE", "USER_SERIAL_OVERRIDE"},
+                "CHECKPOINT_PARALLEL_ASSESSMENT",
+                "检查点缺少有效parallel_execution.assessment",
+            )
+            report.require(
+                execution.get("delegated_workers") == len(workers),
+                "CHECKPOINT_PARALLEL_COUNT",
+                "parallel_execution.delegated_workers与workers不一致",
+            )
+            max_workers = int(parallel_policy.get("max_delegated_workers", 3))
+            if assessment == "DELEGATED":
+                report.require(1 <= len(workers) <= max_workers, "CHECKPOINT_PARALLEL_WORKERS", f"DELEGATED必须记录1至{max_workers}个执行代理")
+                report.require(
+                    all(worker.get("worker_id") and worker.get("responsibility") and worker.get("allowed_paths") for worker in workers),
+                    "CHECKPOINT_PARALLEL_WORKER_CONTRACT",
+                    "每个执行代理必须记录身份、职责和路径租约",
+                )
+            else:
+                report.require(not workers, "CHECKPOINT_PARALLEL_UNEXPECTED_WORKERS", "未委托评估不得记录执行代理")
+                report.require(bool(str(execution.get("reason") or "").strip()), "CHECKPOINT_PARALLEL_REASON", "未委托必须记录具体原因")
         if commit_sha:
             historical_fp = project_fingerprint_at_commit(session, commit_sha)
             report.require(
@@ -538,12 +607,33 @@ def validate_commit_identity(
     report.require(checkpoint is not None, "COMMIT_CHECKPOINT", f"{commit_sha}引用的检查点不存在：{checkpoint_id}")
     if not checkpoint:
         return None, checkpoint_path
-    expected = {key.lower(): value for key, value in expected_commit_trailers(session, checkpoint).items()}
+    trailer_story_id = trailers.get("story-id")
+    checkpoint_story_id = checkpoint.get("story_id")
+    if checkpoint_story_id:
+        historical_story_id = str(checkpoint_story_id)
+    else:
+        known_story_ids = {
+            str(value)
+            for value in [
+                session.get("story_id"),
+                *(row.get("story_id") for row in session.get("story_history", []) if isinstance(row, dict)),
+            ]
+            if value
+        }
+        report.require(
+            bool(trailer_story_id) and trailer_story_id in known_story_ids,
+            "COMMIT_HISTORICAL_STORY",
+            f"{commit_sha}旧格式检查点的Story-ID未登记于Session历史：{trailer_story_id}",
+        )
+        historical_story_id = trailer_story_id
+    historical_checkpoint = dict(checkpoint)
+    historical_checkpoint["story_id"] = historical_story_id
+    expected = {key.lower(): value for key, value in expected_commit_trailers(session, historical_checkpoint).items()}
     for key, value in expected.items():
         report.require(trailers.get(key) == value, "COMMIT_TRAILER_MISMATCH", f"{commit_sha} {key}应为{value}，实际为{trailers.get(key)}")
-    if not session.get("story_id"):
+    if not historical_story_id:
         report.require(not trailers.get("story-id"), "UNEXPECTED_STORY_TRAILER", f"{commit_sha}会话无Story但提交含Story-ID")
-    anchor = session.get("story_id") or session.get("task_id")
+    anchor = historical_story_id or checkpoint.get("task_id") or session.get("task_id")
     report.require(subject.startswith(f"[{anchor}] "), "COMMIT_SUBJECT_ANCHOR", f"{commit_sha}主题必须以[{anchor}]开头")
 
     changed_set = set(changed)
@@ -553,7 +643,31 @@ def validate_commit_identity(
     return checkpoint, checkpoint_path
 
 
-def run_document_gate(report: Report) -> None:
+def document_gate_required(paths: Iterable[str]) -> bool:
+    return any(
+        path_matches(relative, pattern)
+        for relative in paths
+        for pattern in DOCUMENT_GATE_INPUT_PATTERNS
+    )
+
+
+def run_document_gate(report: Report, paths: Iterable[str] = (), *, force: bool = False) -> None:
+    # Checkpoint/session indexes are mandatory on every commit but are runtime
+    # continuity records, not frozen documentation inputs.
+    normalized_paths = filter_project_files(
+        path.replace("\\", "/") for path in paths if path
+    )
+    required = force or document_gate_required(normalized_paths)
+    report.metrics["document_gate"] = {
+        "status": "EXECUTED" if required else "SKIPPED_UNAFFECTED",
+        "forced": force,
+        "affected_inputs": [
+            path for path in normalized_paths
+            if any(path_matches(path, pattern) for pattern in DOCUMENT_GATE_INPUT_PATTERNS)
+        ],
+    }
+    if not required:
+        return
     script = ROOT / "scripts/check_v123_documentation.py"
     result = run_command([
         sys.executable,
@@ -565,13 +679,40 @@ def run_document_gate(report: Report) -> None:
     report.require(result.returncode == 0, "DOCUMENT_GATE", "V1.2.2页面/运营文档门禁失败")
 
 
+def prepush_base_ref(git_state: dict[str, Any], session: dict[str, Any] | None) -> str | None:
+    """Use the task's recorded base for a branch that has no upstream yet."""
+    return git_state.get("upstream") or (session or {}).get("git", {}).get("base_commit")
+
+
+def validate_rule_readiness(report: Report, policy: dict[str, Any]) -> None:
+    required = required_rule_sources(policy)
+    context = load_yaml(ROOT / "artifacts/context/CURRENT_CONTEXT_PACK.yaml", {})
+    readiness = context.get("rule_readiness", {})
+    manifested = {
+        str(row.get("path") or "")
+        for row in context.get("source_manifest", [])
+        if isinstance(row, dict)
+    }
+    missing_files = [relative for relative in required if not (ROOT / relative).is_file()]
+    missing_manifest = [relative for relative in required if relative not in manifested]
+    report.require(bool(required), "RULE_SOURCE_REGISTRY_EMPTY", "权威策略必须登记全局必读规则来源")
+    report.require(not missing_files, "RULE_SOURCE_MISSING", "全局必读规则来源缺失：" + ", ".join(missing_files))
+    report.require(not missing_manifest, "RULE_SOURCE_NOT_HASHED", "全局必读规则未进入Context Pack哈希清单：" + ", ".join(missing_manifest))
+    report.require(readiness.get("status") == "PASS", "RULE_READINESS", "Context Pack规则就绪状态必须为PASS")
+    report.require(readiness.get("required_sources") == required, "RULE_READINESS_DRIFT", "Context Pack规则来源清单与权威策略不一致")
+    report.metrics["rule_readiness"] = readiness.get("status")
+    report.metrics["required_rule_sources"] = len(required)
+
+
 def main() -> int:
     parser = ArgumentParser(description="持续开发无状态接续强制门禁")
-    parser.add_argument("--mode", choices=["doctor", "pre-commit", "commit-msg", "pre-push", "ci"], default="doctor")
+    parser.add_argument("--mode", choices=["doctor", "release", "pre-commit", "commit-msg", "pre-push", "ci"], default="doctor")
     parser.add_argument("--strict", action="store_true")
     parser.add_argument("--base-ref")
     parser.add_argument("--head-ref", default="HEAD")
     parser.add_argument("--commit-message-file")
+    parser.add_argument("--push-remote")
+    parser.add_argument("--push-url")
     parser.add_argument("--require-closed", action="store_true")
     parser.add_argument("--json-out", default="artifacts/validation/continuity-gate-v1.2.3.json")
     args = parser.parse_args()
@@ -595,11 +736,11 @@ def main() -> int:
             validate_session_structure(report, session, policy)
         validate_current_next_consistency(report, session)
         validate_indexes(report, session)
-        run_document_gate(report)
-
+        validate_rule_readiness(report, policy)
         message = ""
         if args.commit_message_file:
             message = Path(args.commit_message_file).read_text(encoding="utf-8")
+        document_paths: list[str] = []
 
         if args.mode == "pre-commit":
             if not is_git_repo(ROOT):
@@ -608,14 +749,21 @@ def main() -> int:
             full = git_changed_files(ROOT)
             staged_project = set(filter_project_files(staged))
             full_project = set(filter_project_files(full))
+            diverged_project = filter_project_files(git_index_worktree_divergence(ROOT))
+            report.metrics["index_worktree_divergence"] = diverged_project
+            report.require(not diverged_project, "INDEX_WORKTREE_DIVERGED", "项目工作树内容必须全部暂存后再提交：" + ", ".join(diverged_project))
             report.require(staged_project == full_project, "PARTIAL_COMMIT", "禁止部分提交项目内容；先创建检查点并一次性暂存全部项目变更")
             relevant = latest_relevant_session(staged)
             validate_change_set(report, policy, staged, relevant, mode=args.mode)
+            document_paths = staged
 
         elif args.mode == "commit-msg":
             if not args.commit_message_file:
                 report.errors.append({"code": "MESSAGE_FILE", "message": "commit-msg模式需要--commit-message-file"})
             changed = git_changed_files(ROOT, staged=True)
+            diverged_project = filter_project_files(git_index_worktree_divergence(ROOT))
+            report.metrics["index_worktree_divergence"] = diverged_project
+            report.require(not diverged_project, "INDEX_WORKTREE_DIVERGED", "项目工作树内容必须全部暂存后再提交：" + ", ".join(diverged_project))
             relevant = latest_relevant_session(changed)
             checkpoint, checkpoint_path = validate_commit_identity(
                 report, policy, message=message, changed=changed, session=relevant, commit_sha="STAGED"
@@ -624,10 +772,23 @@ def main() -> int:
                 report, policy, changed, relevant, mode=args.mode, commit_message=message,
                 checkpoint_override=checkpoint, checkpoint_path_override=checkpoint_path,
             )
+            document_paths = changed
 
         elif args.mode == "pre-push":
             if not is_git_repo(ROOT):
                 report.errors.append({"code": "GIT_REQUIRED", "message": "pre-push必须在Git仓库中运行"})
+            else:
+                try:
+                    transport = load_git_transport_descriptor(ROOT / "config/REPOSITORY_TRANSPORT.yaml")
+                    transport_result = git_transport_push_preflight(
+                        ROOT,
+                        transport,
+                        remote_name=args.push_remote,
+                        push_url=args.push_url,
+                    )
+                    report.metrics["git_transport"] = transport_result
+                except GitTransportError as exc:
+                    report.errors.append({"code": "GIT_TRANSPORT", "message": str(exc)})
             info = git_info(ROOT)
             report.require(not info.get("dirty"), "DIRTY_PUSH", "推送前工作区必须完全干净，避免远程状态落后于本地记录")
             if session:
@@ -637,9 +798,11 @@ def main() -> int:
                     report.require(project_fingerprint(ROOT, session)["sha256"] == checkpoint.get("project_fingerprint", {}).get("sha256"), "CHECKPOINT_STALE", "推送内容与检查点不一致")
             fresh, reason = context_is_fresh(ROOT, session)
             report.require(fresh, "CONTEXT_STALE", reason)
-            upstream = info.get("upstream")
+            upstream = prepush_base_ref(info, session)
             records = commit_records(upstream, "HEAD") if is_git_repo(ROOT) else []
+            report.metrics["validation_base_ref"] = upstream
             report.metrics["unpushed_commits"] = len(records)
+            document_paths = sorted({path for record in records for path in record["paths"]})
             for record in records:
                 trailers = parse_trailers(record["message"])
                 sid = trailers.get("session-id")
@@ -662,6 +825,7 @@ def main() -> int:
         elif args.mode == "ci":
             records = commit_records(args.base_ref, args.head_ref)
             report.metrics["validated_commits"] = len(records)
+            document_paths = sorted({path for record in records for path in record["paths"]})
             require_closed = args.require_closed or os.environ.get("GITHUB_BASE_REF") in {"main", "master"}
             for record in records:
                 trailers = parse_trailers(record["message"])
@@ -683,15 +847,31 @@ def main() -> int:
                     commit_sha=record["sha"],
                 )
             relevant = current_session(ROOT)
-            fresh, reason = context_is_fresh(ROOT, relevant if relevant and relevant.get("status") in {"ACTIVE", "HANDED_OFF", "CLOSING"} else None)
+            ci_git = git_info(ROOT)
+            report.require(not ci_git.get("dirty"), "DIRTY_CI", "CI必须使用干净Git检出")
+            fresh, reason = context_is_fresh(
+                ROOT,
+                relevant if relevant and relevant.get("status") in {"ACTIVE", "HANDED_OFF", "CLOSING"} else None,
+                verify_tree=False,
+            )
             report.require(fresh, "CONTEXT_STALE", reason)
 
-        else:  # doctor
-            fresh, reason = context_is_fresh(ROOT, session)
+        else:  # doctor/release
+            fresh, reason = context_is_fresh(
+                ROOT,
+                session,
+                verify_tree=os.environ.get("GITHUB_ACTIONS") != "true",
+            )
             report.require(fresh, "CONTEXT_STALE", reason)
             if session and session.get("status") == "ACTIVE" and session.get("latest_checkpoint"):
                 cp = latest_checkpoint(ROOT, session)
                 report.require(project_fingerprint(ROOT, session)["sha256"] == cp.get("project_fingerprint", {}).get("sha256"), "CHECKPOINT_STALE", "最新检查点与工作区不一致")
+
+        run_document_gate(
+            report,
+            document_paths,
+            force=args.mode in {"doctor", "release"},
+        )
 
     except (ContinuityError, OSError, ValueError, yaml.YAMLError) as exc:
         report.errors.append({"code": "GATE_EXCEPTION", "message": str(exc)})

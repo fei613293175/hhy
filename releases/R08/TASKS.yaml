@@ -3,7 +3,7 @@ title: 项目推广完整闭环
 tasks:
 - id: TASK-R08-001
   title: 项目推广完整闭环开发就绪核验、故事领取与变更基线
-  status: READY
+  status: DONE
   depends_on: []
   requirements: &id001
   - REQ-CONTACT-001
@@ -23,9 +23,10 @@ tasks:
   - 更新Release Manifest与CR记录
   - python scripts/check_v122_documentation.py --release R08
   session_log_required: true
+  completed_at: '2026-07-22T00:44:28Z'
 - id: TASK-R08-002
   title: 项目推广完整闭环数据迁移与领域不变量
-  status: BLOCKED
+  status: DONE
   depends_on:
   - TASK-R08-001
   requirements: *id001
@@ -39,9 +40,10 @@ tasks:
   - Flyway前向迁移与空库/升级库测试
   - 不变量属性测试
   session_log_required: true
+  completed_at: '2026-07-22T01:16:49Z'
 - id: TASK-R08-003
   title: 项目推广完整闭环后端应用服务与接口
-  status: BLOCKED
+  status: DONE
   depends_on:
   - TASK-R08-002
   requirements: *id001
@@ -55,29 +57,37 @@ tasks:
   - OpenAPI契约测试
   - 权限/幂等/错误码/审计覆盖
   session_log_required: true
+  completed_at: '2026-07-22T03:13:01Z'
 - id: TASK-R08-004
   title: 项目推广完整闭环客户端/H5/后台实现
-  status: BLOCKED
+  status: DONE
   depends_on:
   - TASK-R08-003
   requirements: *id001
   description: 按 3 个页面/交互面的逐页施工规格和 4 个故事实现；禁止从参考图或通用摘要自行发明业务字段和按钮。
   deliverables:
   - 全部页面绑定catalogs/ui_page_specifications.csv
+  - R02-R07既有前端页面保留IN_REVIEW事实，并在R08机器关闭后立即进入全局UI审计与必要回补
+  - R08页面达到绑定效果图或批准补充规格同等级的视觉丰富度与精致度且不虚构业务
+  - 无可靠参考时生成效果图补充需求包并继续推进其他不受影响页面
   - 字段/状态/动作/导航与后台运营规格通过契约测试
   - 禁止页面级手写重复DTO
   - 全部动作绑定生成API类型
   acceptance:
   - 所有页面故事验收条件通过
+  - R08三个冻结页面全部PASS；R02-R07历史回补不得伪报PASS且不再阻断R08先行机器关闭
+  - 肉眼对照覆盖信息密度、层级、组件细节、品牌质感和状态完整性；仅Token合规、页面可用或截图存在不得判PASS
+  - 页面丰富度只使用开发文档、页面合同、API事实和非业务装饰资产，禁止虚构功能、字段、指标与数据
   - 加载、空、局部失败、无权限、404、离线、冲突和成功导航均有证据
   - 全部页面绑定catalogs/ui_page_specifications.csv
   - 字段/状态/动作/导航与后台运营规格通过契约测试
   - 禁止页面级手写重复DTO
   - 全部动作绑定生成API类型
   session_log_required: true
+  completed_at: '2026-07-22T05:34:21Z'
 - id: TASK-R08-005
   title: 项目推广完整闭环专项测试与故障注入
-  status: BLOCKED
+  status: DONE
   depends_on:
   - TASK-R08-003
   - TASK-R08-004
@@ -92,9 +102,10 @@ tasks:
   - 测试报告和失败证据归档
   - 关键缺陷清零
   session_log_required: true
+  completed_at: '2026-07-22T06:06:08Z'
 - id: TASK-R08-006
   title: 项目推广完整闭环可观测性与预发布验收
-  status: BLOCKED
+  status: DONE
   depends_on:
   - TASK-R08-005
   requirements: *id001
@@ -108,9 +119,10 @@ tasks:
   - 运行手册演练
   - 验收矩阵签字
   session_log_required: true
+  completed_at: '2026-07-22T06:40:19Z'
 - id: TASK-R08-007
   title: 项目推广完整闭环Android测试APK与产物追溯
-  status: BLOCKED
+  status: DONE
   depends_on:
   - TASK-R08-006
   requirements: *id001
@@ -124,9 +136,10 @@ tasks:
   - APK可下载/可安装
   - SHA256、Commit、versionName/versionCode、测试结果齐全
   session_log_required: true
+  completed_at: '2026-07-22T09:34:49Z'
 - id: TASK-R08-008
   title: 项目推广完整闭环版本关闭与无状态交接
-  status: BLOCKED
+  status: DONE
   depends_on:
   - TASK-R08-007
   requirements: *id001
@@ -140,6 +153,7 @@ tasks:
   - 全新AI仅凭仓库可继续
   - 工作区干净且Tag可追溯
   session_log_required: true
+  completed_at: '2026-07-22T15:23:04Z'
 version: 1.2.2
 definition_of_ready: releases/R08/DEFINITION_OF_READY.yaml
 story_backlog: releases/R08/STORIES.yaml

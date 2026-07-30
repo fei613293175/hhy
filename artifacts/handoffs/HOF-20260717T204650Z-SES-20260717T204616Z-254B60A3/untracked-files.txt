@@ -1,0 +1,4 @@
+.continuity/checkpoints/SES-20260717T204616Z-254B60A3/0001.yaml
+.continuity/checkpoints/SES-20260717T204616Z-254B60A3/0002.yaml
+.continuity/sessions/SES-20260717T204616Z-254B60A3.yaml
+docs/03-continuity/sessions/2026-07/SES-20260717T204616Z-254B60A3.md

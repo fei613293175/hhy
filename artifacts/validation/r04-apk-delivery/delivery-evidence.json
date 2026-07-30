@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "release": "R04",
+  "commit": "04cda65d4a0749727a482526b616fb56cb475f34",
+  "apk_file": "hhy-r04-04cda65-debug.apk",
+  "version_name": "1.2.2-debug",
+  "version_code": 10207,
+  "sha256": "381d91e047c225009f38b152b790fb6f0fac14320d983be463f9ff368327bfce",
+  "size_bytes": 11956589,
+  "signing": {
+    "status": "PASS",
+    "profile_id": "hhy-staging-test-v1",
+    "fingerprint": "f17b040789a845244ff9e2a9d8aedc1e7412adea0539d99c5cc036baf5dbb873",
+    "stable": true
+  },
+  "local": {
+    "status": "PASS",
+    "artifact_copy": "C:\\Users\\小白\\Desktop\\workspace\\hhy-v1.2.3-handoff\\合伙云Pro_Codex直接开发包_V1.2.3_持续开发无状态接续强制门禁最终版\\artifacts\\apk\\R04\\hhy-r04-04cda65-debug.apk"
+  },
+  "desktop": {
+    "status": "PASS",
+    "path": "C:\\Users\\小白\\Desktop\\hhy-r04-04cda65-debug.apk",
+    "sha256": "381d91e047c225009f38b152b790fb6f0fac14320d983be463f9ff368327bfce"
+  },
+  "route_preflight": {
+    "status": "PASS",
+    "route": "/r04-artifacts/hhy-r04-04cda65-debug.apk",
+    "remote_path": "/www/wwwroot/download.orbexa.cc/r04-artifacts/hhy-r04-04cda65-debug.apk",
+    "checked_at": "2026-07-19T15:03:33.858877Z"
+  },
+  "remote": {
+    "status": "PASS",
+    "sha256": "381d91e047c225009f38b152b790fb6f0fac14320d983be463f9ff368327bfce",
+    "size_bytes": 11956589,
+    "path": "/www/wwwroot/download.orbexa.cc/r04-artifacts/hhy-r04-04cda65-debug.apk",
+    "publish_state": "CREATED"
+  },
+  "https": {
+    "status": "PASS",
+    "http_status": 200,
+    "range_status": 206,
+    "content_type": "application/vnd.android.package-archive",
+    "sha256": "381d91e047c225009f38b152b790fb6f0fac14320d983be463f9ff368327bfce",
+    "size_bytes": 11956589,
+    "verified_at": "2026-07-19T15:04:53.985226Z",
+    "url": "https://download.orbexa.cc/r04-artifacts/hhy-r04-04cda65-debug.apk"
+  },
+  "owner_physical_test": {
+    "status": "PASS",
+    "confirmation": "R04 versionCode 10207 真机安装、启动和基础回归通过",
+    "accepted_at": "2026-07-19T15:57:30.523502Z",
+    "evidence_reference": "项目所有者在当前Codex任务中于2026-07-19明确回复：测试通过，现在立即开始推进开发"
+  },
+  "created_at": "2026-07-19T15:04:29.079997Z",
+  "last_verified_at": "2026-07-19T15:04:53.985226Z"
+}

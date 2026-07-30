@@ -31,9 +31,9 @@
 | FLD-02115 | 表单输入 | reason | 原因 | INPUT | string | TEXT_INPUT | authPostAuthLogout.request | 可选；按业务条件或页面状态决定 | 执行“退出当前会话”且字段适用时显示 | 具备 登录 且资源状态允许 | 最多2000字符 | NORMAL | 无需特殊掩码；仍遵守最小展示 | 原因不符合要求 |
 | FLD-02116 | 表单输入 | expectedVersion | 数据版本 | INPUT | integer | NUMBER_INPUT | authPostAuthLogout.request | 可选；按业务条件或页面状态决定 | 执行“退出当前会话”且字段适用时显示 | 具备 登录 且资源状态允许 | 格式:int64 | NORMAL | 无需特殊掩码；仍遵守最小展示 | 数据版本不符合要求 |
 | FLD-02117 | 表单输入 | payload | 消息内容 | INPUT | object | STRUCTURED_EDITOR | authPostAuthLogout.request | 可选；按业务条件或页面状态决定 | 执行“退出当前会话”且字段适用时显示 | 具备 登录 且资源状态允许 | 按服务端Schema校验；前端不得放宽 | NORMAL | 无需特殊掩码；仍遵守最小展示 | 消息内容不符合要求 |
-| FLD-02118 | 表单输入 | nickname | 昵称 | INPUT | string | TEXT_INPUT | userPatchMeProfile.request | 可选；按业务条件或页面状态决定 | 执行“修改头像昵称简介”且字段适用时显示 | 具备 登录 且资源状态允许 | 最多2000字符 | NORMAL | 无需特殊掩码；仍遵守最小展示 | 昵称不符合要求 |
+| FLD-02118 | 表单输入 | nickname | 昵称 | INPUT | string | TEXT_INPUT | userPatchMeProfile.request | 可选；按业务条件或页面状态决定 | 执行“修改头像昵称简介”且字段适用时显示 | 具备 登录 且资源状态允许 | 最多255字符 | NORMAL | 无需特殊掩码；仍遵守最小展示 | 昵称不符合要求 |
 | FLD-02119 | 表单输入 | avatarMediaId | 头像 | INPUT | string | TEXT_INPUT | userPatchMeProfile.request | 可选；按业务条件或页面状态决定 | 执行“修改头像昵称简介”且字段适用时显示 | 具备 登录 且资源状态允许 | 最多64字符 | NORMAL | 无需特殊掩码；仍遵守最小展示 | 头像不符合要求 |
-| FLD-02120 | 表单输入 | bio | 个人简介 | INPUT | string | TEXT_INPUT | userPatchMeProfile.request | 可选；按业务条件或页面状态决定 | 执行“修改头像昵称简介”且字段适用时显示 | 具备 登录 且资源状态允许 | 最多2000字符 | NORMAL | 无需特殊掩码；仍遵守最小展示 | 个人简介不符合要求 |
+| FLD-02120 | 表单输入 | bio | 个人简介 | INPUT | string | TEXT_INPUT | userPatchMeProfile.request | 可选；按业务条件或页面状态决定 | 执行“修改头像昵称简介”且字段适用时显示 | 具备 登录 且资源状态允许 | 最多255字符 | NORMAL | 无需特殊掩码；仍遵守最小展示 | 个人简介不符合要求 |
 
 ## 4. 页面状态与恢复
 
@@ -75,7 +75,7 @@
 
 ## 8. 开发就绪检查
 
-- [ ] 页面模板和区域按本文件实现；效果图仅用于视觉参考。
+- [ ] 页面模板和区域按本文件实现；效果图对页面建模、区域顺序、信息层级、布局、组件形态和视觉样式具有强制约束，但不得作为功能、字段、动作或业务数据事实源。
 - [ ] 字段、校验、显示/编辑条件与 OpenAPI/配置一致，无新增匿名字段。
 - [ ] 所有状态均有可见表现、允许操作和恢复路径。
 - [ ] 所有动作均使用登记 operationId、权限、幂等或 expectedVersion。

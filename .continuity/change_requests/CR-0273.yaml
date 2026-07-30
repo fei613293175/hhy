@@ -1,0 +1,50 @@
+protocol_version: '1.0'
+cr_id: CR-0273
+title: 同步R10候选静态回归事实源
+status: IMPLEMENTED
+created_at: '2026-07-23T12:41:54Z'
+updated_at: '2026-07-23T13:00:54Z'
+requester_actor_id: codex-root-r10-candidate
+approver_actor_id: codex-independent-r10-test-reviewer
+task_id: TASK-R10-007
+session_id: SES-20260723T122953Z-52EBA51E
+user_request: 立即开始并持续推进开发，由AI自行审核截图
+reason: 通用Android候选测试仍硬编码R09页面，且R10专用夹具缺少不可变历史和安全边界回归
+original_rule: tests/test_android_ci_gate.py固定断言R09三页，R10夹具没有专用安全与幂等静态回归。
+new_rule: 通用候选回归随当前R10最终旅程断言首页及三张群聊页；专用测试锁定容器命名、Staging开关、V036、零指标、不可变内容版本和四张截图。
+impact_summary: 仅同步测试事实源，不变更生产实现、接口、数据库结构或候选范围。
+impact:
+  files:
+  - tests/test_android_ci_gate.py
+  - tests/test_r10_candidate.py
+  pages: []
+  apis: []
+  database: []
+  configuration: []
+  ledger: []
+  tests:
+  - tests.test_android_ci_gate
+  - tests.test_r10_candidate
+  releases:
+  - R10
+  migration_and_compatibility: 无迁移；R09历史测试保留在R09专用测试，通用最终候选测试前移到R10。
+user_confirmation: 用户已授权立即持续推进并由AI完成截图判断
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-23T12:42:15Z'
+  note: 独立复核确认仅修正候选回归事实源，覆盖冻结四页和夹具安全边界。
+machine_record: .continuity/change_requests/CR-0273.yaml
+document: docs/03-continuity/change-requests/CR-0273-同步R10候选静态回归事实源.md
+decision_log:
+- at: '2026-07-23T12:42:23Z'
+  actor_id: codex-root-r10-candidate
+  status: IMPLEMENTING
+  note: 开始同步R10候选静态回归。
+  session_id: SES-20260723T122953Z-52EBA51E
+- at: '2026-07-23T13:00:54Z'
+  actor_id: codex-root-r10-candidate
+  status: IMPLEMENTED
+  note: R10候选静态回归事实源已同步，21项测试通过。
+  session_id: SES-20260723T122953Z-52EBA51E
+session_ids:
+- SES-20260723T122953Z-52EBA51E

@@ -1,0 +1,139 @@
+protocol_version: '1.0'
+package_version: 1.2.3
+session_id: SES-20260721T210252Z-D631F6E4
+status: CLOSED
+actor:
+  id: codex-root-r07-007
+  kind: AI_OR_HUMAN
+  host: unknown
+release: R07
+task_id: TASK-R07-007
+story_id: STORY-R07-005
+goal: 完成R07大版本最终候选完整门禁、Android模拟器页面验证、候选APK追溯与桌面交付，AI独立判断截图并保持真机反馈异步。
+started_at: '2026-07-21T21:02:52Z'
+updated_at: '2026-07-21T23:53:58Z'
+takeover_of: null
+change_requests:
+- CR-0191
+- CR-0192
+- CR-0193
+- CR-0194
+- CR-0195
+- CR-0196
+- CR-0197
+- CR-0198
+- CR-0199
+- CR-0200
+- CR-0201
+- CR-0202
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions:
+  - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+  - scripts/prepare_r07_ci_fixture.sh
+  - tests/android/visual-manifests/R07.yaml
+  - config/android-candidate-request.yaml
+  - docs/07-operations/DEPLOYMENT_RUNBOOK.md
+  - CHANGELOG.md
+  - apps/android/feature/discovery/src/main/java/cc/orbexa/hhy/discovery/R07DiscoveryScreens.kt
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - tests/test_r07_ci_fixture.py
+  - scripts/android_ci_gate.py
+  - scripts/run_android_emulator_gate.sh
+  - .github/workflows/android-quality-gate.yml
+  - .github/workflows/android-baseline-promotion.yml
+  - config/android-automation.yaml
+  - tests/test_android_ci_gate.py
+  - tests/android/visual-baselines/R07/APPROVAL.yaml
+  - tests/android/visual-baselines/R07/01-search-landing.png
+  - tests/android/visual-baselines/R07/02-search-results.png
+  - tests/android/visual-baselines/R07/03-publisher.png
+  - tests/android/visual-baselines/R07/04-clear-history-dialog.png
+  - PITFALLS.md
+  - docs/03-continuity/PITFALLS.md
+  - artifacts/validation/r07-task007-android/build-evidence.json
+  - artifacts/validation/r07-task007-android/candidate-report.json
+  - artifacts/validation/r07-task007-android/screenshots
+  - artifacts/validation/r07-apk-delivery/delivery-evidence.json
+  - artifacts/apk/R07/APK_MANIFEST.yaml
+  - artifacts/reports/R07/TASK-R07-007-android-apk.md
+  - artifacts/reports/R07/R07-version-test-guide.md
+  - design/R07-UI-FROZEN/specs/SCR-SEARCH-001.md
+  - design/R07-UI-FROZEN/specs/SCR-SEARCH-002.md
+  - design/R07-UI-FROZEN/specs/SCR-PUBLISHER-001.md
+  - design/R07-UI-FROZEN/specs/SHEET-CONTACT-001.md
+  - design/R07-UI-FROZEN/specs/DIALOG-SEARCH-001.md
+  - catalogs/ui_visual_acceptance.csv
+  source: story+explicit+approved-cr:CR-0191+approved-cr:CR-0192+approved-cr:CR-0193+approved-cr:CR-0194+approved-cr:CR-0195+approved-cr:CR-0196+approved-cr:CR-0197+approved-cr:CR-0198+approved-cr:CR-0199+approved-cr:CR-0200+approved-cr:CR-0201+approved-cr:CR-0202
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  base_commit: 0dc40abf3ed879893c510d4f7c3b4cf9a42700c0
+  start_head: 0dc40abf3ed879893c510d4f7c3b4cf9a42700c0
+  upstream: origin/task/TASK-R03-001
+  initial_worktree_state: CLEAN
+lease:
+  duration_minutes: 240
+  renewed_at: '2026-07-21T23:53:54Z'
+  expires_at: '2026-07-22T03:53:54Z'
+checkpoint_sequence: 15
+latest_checkpoint: .continuity/checkpoints/SES-20260721T210252Z-D631F6E4/0015.yaml
+session_log: docs/03-continuity/sessions/2026-07/SES-20260721T210252Z-D631F6E4.md
+next_step: 提交关闭元数据Commit，然后运行pre-push/CI门禁
+context_pack:
+  yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
+  markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
+  manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+  context_hash: 17b86d54cc122c259c89f4f2d9e684668ecbf5a80d993de2f86567319770507b
+  generated_at: '2026-07-21T23:53:57Z'
+handoff_bundle: null
+closure:
+  result: COMPLETED
+  summary: R07最终候选完整门禁、AI视觉审批、固定签名、四方APK交付、桌面文档和五页视觉合同全部通过；真机反馈保持异步PENDING
+  code_commit: 947a4349a3c1ddefe55c7ee5c11333117a1b2736
+  next_release: R07
+  next_task: TASK-R07-008
+  blocked_advance: false
+  user_confirmation: null
+  metadata_commit: PENDING
+  push_verification: CI_REQUIRED_AFTER_METADATA_COMMIT
+  started_at: '2026-07-21T23:53:51Z'
+  closure_checkpoint_id: CP-SES-20260721T210252Z-D631F6E4-0015
+  closed_at: '2026-07-21T23:53:58Z'
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: CR状态链和任务关闭元数据必须串行一致
+closed_at: '2026-07-21T23:53:58Z'

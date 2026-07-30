@@ -1,0 +1,50 @@
+protocol_version: '1.0'
+cr_id: CR-0514
+title: 建立仅离线历史视觉审计的推送触发入口
+status: IMPLEMENTING
+created_at: '2026-07-30T04:15:22Z'
+updated_at: '2026-07-30T04:15:43Z'
+requester_actor_id: codex-r14-release-closer
+approver_actor_id: codex-r14-ci-efficiency-authorizer
+task_id: TASK-R14-008
+session_id: SES-20260729T161557Z-6FCE6ACA
+user_request: GitHub测试只在大版本最终审核使用，避免反复登录、后端和完整候选耗时；截图由AI自行判断且不中断开发
+reason: Android Quality Gate的HISTORICAL-UI工作流不在GitHub侧边栏显示，浏览器手工dispatch不可复用；需用仓库内不可变请求一次触发仅历史离线模拟器Job
+original_rule: HISTORICAL-UI只有workflow_dispatch入口，但复用工作流未在默认分支Actions侧边栏暴露，换电脑或AI需依赖已登录浏览器手工操作。
+new_rule: 新增路径限定的push请求工作流；只有config/android-historical-visual-request.yaml变化时运行，固定调用HISTORICAL-UI且candidate=false，因此不执行构建候选、OIDC、Staging或后端旅程。
+impact_summary: 新增一个可审计的一次性离线视觉请求入口与当前请求文件；不修改产品代码、候选、API、数据库、APK或生产部署。
+impact:
+  files:
+  - .github/workflows/android-historical-visual-request.yml
+  - config/android-historical-visual-request.yaml
+  pages:
+  - 历史Android视觉审计
+  apis:
+  - 无API影响
+  database:
+  - 无数据库影响
+  configuration:
+  - HISTORICAL-UI push request
+  ledger:
+  - 无资金或账本影响
+  tests:
+  - workflow YAML parse; request source commit ancestor; GitHub historical-visual job only
+  releases:
+  - R13
+  - R14
+  migration_and_compatibility: 后续历史UI补证可更新请求ID复用；普通提交不触发；当前请求绑定67b81388为内容来源祖先。
+user_confirmation: 项目所有者已明确要求GitHub测试只在大版本最终审核使用，并要求把高效稳定方案写入仓库供换电脑和AI复用。
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-30T04:15:35Z'
+  note: 独立确认路径触发只调用HISTORICAL-UI candidate=false，build/emulator candidate/候选/remediation全部跳过；能消除浏览器登录依赖且不扩大线上权限。
+machine_record: .continuity/change_requests/CR-0514.yaml
+document: docs/03-continuity/change-requests/CR-0514-建立仅离线历史视觉审计的推送触发入口.md
+decision_log:
+- at: '2026-07-30T04:15:43Z'
+  actor_id: codex-r14-release-closer
+  status: IMPLEMENTING
+  note: 开始新增仅离线历史视觉的路径限定推送请求入口。
+  session_id: SES-20260729T161557Z-6FCE6ACA
+session_ids:
+- SES-20260729T161557Z-6FCE6ACA

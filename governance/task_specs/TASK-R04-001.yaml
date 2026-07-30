@@ -1,0 +1,38 @@
+schema: hhy.task-spec/v5.0
+id: TASK-R04-001
+release: R04
+ordinal: 1
+title: 媒体与多对象存储开发就绪核验、故事领取与变更基线
+kind: readiness
+mode: worker
+source:
+  path: releases/R04/TASKS.yaml
+  original_id: TASK-R04-001
+requirements:
+- REQ-MEDIA-001
+- REQ-STORAGE-001
+- REQ-APK-001
+depends_on: []
+objective: 核验2项业务需求、3个客户端接口、12张相关表、1个Android交互面、2个故事和6项测试；确认R03存储配置依赖和R04 APK门禁
+deliverables:
+- releases/R04/DEFINITION_OF_READY.yaml 全部适用项PASS
+- releases/R04/PARALLEL_EXECUTION_PLAN.yaml 的三分区实施边界已冻结
+- 私有预览、存储迁移和访问审计的系统所有者与证据明确
+- python scripts/check_v122_documentation.py --release R04
+acceptance:
+- 页面、字段、状态、动作、API、配置、数据和测试无TBD
+- R03存储Scope与供应商连接门禁具备明确前置状态
+- R04固定测试签名和APK交付要求可执行
+allowed_paths:
+- catalogs/**
+- contracts/**
+- database/**
+- docs/**
+- releases/R04/**
+risks:
+- secrets
+acceptance_commands:
+- python3 tools/governance/hhy_governance.py product-readiness --release R04
+maximum_attempts: 3
+owner_verification: ASYNC_NON_BLOCKING_FOR_NEXT_RELEASE
+legacy_status: DONE

@@ -1,0 +1,55 @@
+protocol_version: '1.0'
+cr_id: CR-0432
+title: 补齐R14 Android CHAT权威补洞运行时文件范围
+status: CLOSED
+created_at: '2026-07-28T06:07:06Z'
+updated_at: '2026-07-28T06:43:45Z'
+requester_actor_id: codex-root-r14-runtime-20260728
+approver_actor_id: codex-r14-scope-independent-review-20260728
+task_id: TASK-R14-004
+session_id: SES-20260727T221444Z-FD353AD3
+user_request: 继续R14开发并确保换AI后仓库范围完整可复核
+reason: CR-0430已批准CHAT固定分页补洞语义，但其影响文件清单遗漏唯一承载该逻辑的R14RealtimeRefresh.kt，直接提交会触发Scope门禁且使跨AI事实不完整
+original_rule: CR-0430冻结并批准Android CHAT固定分页权威补洞，但影响清单只有其测试文件，遗漏对应运行时文件R14RealtimeRefresh.kt
+new_rule: R14RealtimeRefresh.kt作为CR-0430既有CHAT补洞语义的唯一运行时实现纳入受控范围；必须穷尽全部会话及每个会话的全部消息分页，任一失败或游标循环均不得推进服务端水位
+impact_summary: 仅补齐一个已实现、已测试且语义已由CR-0430批准的Android运行时文件范围，不新增第二套规则，不改变API、数据库、页面视觉或生产状态
+impact:
+  files:
+  - apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14RealtimeRefresh.kt
+  pages: []
+  apis: []
+  database: []
+  configuration: []
+  ledger: []
+  tests:
+  - apps/android/feature/chat/src/test/java/cc/orbexa/hhy/chat/R14RealtimeRefreshTest.kt
+  releases:
+  - R14
+  migration_and_compatibility: 纯客户端增量文件，无数据迁移；旧客户端继续REST可用，新客户端只有CHAT权威补洞完全成功才重连
+user_confirmation: 用户已明确授权持续推进R14开发且不再逐项批准
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-28T06:10:25Z'
+  note: 独立复核确认仅补齐CR-0430遗漏的R14RealtimeRefresh运行时文件范围；既有CHAT全分页补洞语义、失败不推进水位及测试保持一致，无第二事实源。
+machine_record: .continuity/change_requests/CR-0432.yaml
+document: docs/03-continuity/change-requests/CR-0432-补齐R14-Android-CHAT权威补洞运行时文件范围.md
+decision_log:
+- at: '2026-07-28T06:39:11Z'
+  actor_id: codex-root-r14-client-20260728
+  status: IMPLEMENTING
+  note: 已按批准范围完成实施，进入实现结果登记。
+  session_id: SES-20260727T221444Z-FD353AD3
+- at: '2026-07-28T06:39:27Z'
+  actor_id: codex-root-r14-client-20260728
+  status: IMPLEMENTED
+  note: R14RealtimeRefresh运行时范围已登记，CHAT全分页补洞及失败不推进水位已由Android单测验证。
+  session_id: SES-20260727T221444Z-FD353AD3
+- at: '2026-07-28T06:43:45Z'
+  actor_id: codex-root-r14-client-20260728
+  status: CLOSED
+  note: 批准范围已由实现提交 7ce3c2169925fef717c051e16e09f556ce619aa6 完整交付并通过门禁；CR关闭。ws生产激活不在CR-0430范围内，仍留待R14候选阶段。
+  session_id: SES-20260727T221444Z-FD353AD3
+session_ids:
+- SES-20260727T221444Z-FD353AD3
+implementation_commits:
+- 7ce3c2169925fef717c051e16e09f556ce619aa6

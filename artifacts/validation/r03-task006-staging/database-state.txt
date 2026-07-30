@@ -1,0 +1,5 @@
+product_table_count=200
+table_count_including_flyway_history=201
+flyway_version=019
+postgres_container_id=c813d3a23357a22137f8184311c734004ee06ec06fa7fec3e81babfdac8661a8
+postgres_volume=hhy-r03-2950cb6_pgdata

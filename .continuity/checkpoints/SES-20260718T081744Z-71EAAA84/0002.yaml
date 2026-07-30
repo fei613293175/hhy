@@ -1,0 +1,249 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260718T081744Z-71EAAA84-0002
+session_id: SES-20260718T081744Z-71EAAA84
+sequence: 2
+created_at: '2026-07-18T08:43:13Z'
+summary: STORY-R02-008实现与MODULE门禁全部完成，追踪和用户可见变更记录已同步
+next_step: 提交实现Commit，关闭CR-0038与TASK-R02-005并启动TASK-R02-006全量集成
+blockers: []
+decisions:
+- 冻结PublicPageResource承载邀请注册配置，协议版本ID映射为RICH_TEXT块blockId，不增加未冻结字段
+note: CR-0038仅授权CHANGELOG.md单文件治理记录；暂时无法连接问题沿用APK端点硬门禁；本Task未生成或误标正式APK
+tests:
+- name: h5-typecheck
+  result: PASS
+  evidence: pnpm --filter @hhy/h5 typecheck
+  note: 生成契约类型无错误
+- name: h5-unit
+  result: PASS
+  evidence: 'pnpm --filter @hhy/h5 test: 3 files 8 tests'
+  note: TST-AUTH_005 happy/idempotent及页面状态
+- name: h5-build
+  result: PASS
+  evidence: pnpm --filter @hhy/h5 build
+  note: 生产构建成功
+- name: backend-service
+  result: PASS
+  evidence: 'Maven UserAuthServiceTest: 14 tests'
+  note: Java21服务验证
+- name: backend-public-contract
+  result: PASS
+  evidence: 'Maven UserAuthPublicSuccessContractTest: 6 tests'
+  note: 公开路由冻结信封验证
+- name: r02-documentation
+  result: PASS
+  evidence: check_v123_documentation.py --release R02
+  note: 199表316 REST无文档缺口
+- name: generated-assets
+  result: PASS
+  evidence: check_generated_assets.py
+  note: 生成资产一致
+- name: api-contract
+  result: PASS
+  evidence: check_api_contract.py
+  note: client131 admin184 runtime hash通过
+- name: db-schema
+  result: PASS
+  evidence: check_db_schema.py
+  note: 199表18迁移通过
+- name: traceability
+  result: PASS
+  evidence: check_traceability.py
+  note: 84需求追踪通过
+- name: continuity
+  result: PASS
+  evidence: check_v123_continuity.py
+  note: 连续性门禁通过
+git:
+  initialized: true
+  branch: task/TASK-R02-002
+  head: 1e41f587985849538b8ba2f6b5d0ee24e0652223
+  upstream: origin/task/TASK-R02-002
+  ahead: 0
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/ACTIVE_SESSION.yaml'
+  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/SESSION_INDEX.yaml'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/TASK_CLAIMS.yaml'
+  - ' M .continuity/TASK_TRANSITIONS.yaml'
+  - ' M CHANGELOG.md'
+  - ' M CURRENT_STATUS.yaml'
+  - ' M apps/h5/src/router.ts'
+  - ' M apps/h5/src/styles.css'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+  - ' M artifacts/validation/project-doctor-v1.2.3.json'
+  - ' M catalogs/change_request_index.csv'
+  - ' M catalogs/session_index.csv'
+  - ' M catalogs/task_transition_ledger.csv'
+  - ' M services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthContracts.java'
+  - ' M services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthService.java'
+  - ' M services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthStore.java'
+  - ' M services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserAuthPublicSuccessContractTest.java'
+  - ' M services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserAuthServiceTest.java'
+  - ?? .continuity/change_requests/CR-0038.yaml
+  - ?? .continuity/checkpoints/SES-20260718T081744Z-71EAAA84/0001.yaml
+  - ?? .continuity/sessions/SES-20260718T081744Z-71EAAA84.yaml
+  - ?? apps/h5/src/services/inviteRegistration.test.ts
+  - ?? apps/h5/src/services/inviteRegistration.ts
+  - ?? apps/h5/src/views/InviteRegistrationPage.test.ts
+  - ?? apps/h5/src/views/InviteRegistrationPage.vue
+  - ?? docs/03-continuity/change-requests/CR-0038-TASK-R02-005允许同步H5用户可见变更日志.md
+  - ?? docs/03-continuity/sessions/2026-07/SES-20260718T081744Z-71EAAA84.md
+  - ?? services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/InviteRegistrationController.java
+  recent_commits:
+  - "1e41f587985849538b8ba2f6b5d0ee24e0652223\t2026-07-18T16:15:49+08:00\tHHY Continuity Bootstrap\t[STORY-R02-001] chore(continuity): close TASK-R02-004\
+    \ as completed"
+  - "6d28613c19d0f64986aac5b4d7a51276bd3ff440\t2026-07-18T16:14:31+08:00\tHHY Continuity Bootstrap\t[STORY-R02-001] chore(continuity): close CR-0037"
+  - "2317ead46211c9bcfddbf7b77af8f76059325606\t2026-07-18T16:12:31+08:00\tHHY Continuity Bootstrap\t[STORY-R02-001] feat(admin): complete user\
+    \ control operations"
+  - "38026234165906db0432eece6203c790aba4851b\t2026-07-18T15:26:29+08:00\tHHY Continuity Bootstrap\t[STORY-R02-001] feat(admin): implement user\
+    \ read views"
+  - "67d189bb50a96bad6e6d1acf54983162130a9299\t2026-07-18T15:06:32+08:00\tHHY Continuity Bootstrap\t[STORY-R02-005] chore(continuity): close TASK-R02-003\
+    \ as completed"
+  - "8573731b1f0fa26af70f5b2eb67e18f37263470a\t2026-07-18T15:05:07+08:00\tHHY Continuity Bootstrap\t[STORY-R02-005] fix(android): reject APK builds\
+    \ with placeholder API"
+  - "4ea46c06c62b14eda09b9d1d533962bdfcc731cf\t2026-07-18T14:49:43+08:00\tHHY Continuity Bootstrap\t[STORY-R02-005] feat(auth): close account\
+    \ cancellation flow"
+  - "93be8d6799542112ee63db6d1c9d6c3735766d1c\t2026-07-18T14:39:48+08:00\tHHY Continuity Bootstrap\t[STORY-R02-005] feat(auth): close restricted\
+    \ account appeal flow"
+project_fingerprint:
+  sha256: 5a0f17b7817a2f9339cd39310d8c5ea87d4eb477f21c0145444a8c003cb83eff
+  files:
+  - CHANGELOG.md
+  - apps/h5/src/router.ts
+  - apps/h5/src/services/inviteRegistration.test.ts
+  - apps/h5/src/services/inviteRegistration.ts
+  - apps/h5/src/styles.css
+  - apps/h5/src/views/InviteRegistrationPage.test.ts
+  - apps/h5/src/views/InviteRegistrationPage.vue
+  - docs/03-continuity/change-requests/CR-0038-TASK-R02-005允许同步H5用户可见变更日志.md
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthContracts.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthService.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthStore.java
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/InviteRegistrationController.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserAuthPublicSuccessContractTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserAuthServiceTest.java
+  file_count: 14
+  payload:
+    base_commit: 1e41f587985849538b8ba2f6b5d0ee24e0652223
+    files:
+    - path: CHANGELOG.md
+      state: FILE
+      size: 20062
+      sha256: 8bc214b0074446ce3a4a9fffaf0f9d3cba450d652cc2a0a7d6d3768bd2822668
+    - path: apps/h5/src/router.ts
+      state: FILE
+      size: 548
+      sha256: b4ee92c7528d4ddaa9d6202e2669791f4cd98ea4a38837a2644135b0366a0f8b
+    - path: apps/h5/src/services/inviteRegistration.test.ts
+      state: FILE
+      size: 4081
+      sha256: c3d6cb75aabfbec27775babbdcc59c72ca5c670ebd2b3ff929fc1b584567a039
+    - path: apps/h5/src/services/inviteRegistration.ts
+      state: FILE
+      size: 8048
+      sha256: 678d140990e66c350c42d7aeae666dc0857bf9ad9090830ccce013232a754a27
+    - path: apps/h5/src/styles.css
+      state: FILE
+      size: 6187
+      sha256: 5dda2ba7e6b0ab4ff03fda2470d1d2777e8ce92bbb1c84049f9d98ca626bef51
+    - path: apps/h5/src/views/InviteRegistrationPage.test.ts
+      state: FILE
+      size: 5154
+      sha256: 15a7817d773018adb2b789416c78e7b0e3d0fc0a6c1a7508117f94ffca4a0b69
+    - path: apps/h5/src/views/InviteRegistrationPage.vue
+      state: FILE
+      size: 12127
+      sha256: ff2a0cd8bde099f18b636572772ca6fca22b98981d1b926f98edf28547b52d56
+    - path: docs/03-continuity/change-requests/CR-0038-TASK-R02-005允许同步H5用户可见变更日志.md
+      state: FILE
+      size: 1836
+      sha256: 3f7fac50b137568d77d0107705cac64a686451f1af86a9786b4fdcee785dabf7
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthContracts.java
+      state: FILE
+      size: 6454
+      sha256: 1b849df3bea4e5d54fb5ec4c0a07ee8bd21eab27a4422b910071bb6178b5c378
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthService.java
+      state: FILE
+      size: 32085
+      sha256: 83a4adab6ca34a4930e59c786a6a0e145a727cc4b1388f13df5863bc653759ef
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthStore.java
+      state: FILE
+      size: 29097
+      sha256: 95cfbe3fb1a2462cdcba91d692486ed99e64f7f56055ad8077e5e82472203340
+    - path: services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/InviteRegistrationController.java
+      state: FILE
+      size: 2496
+      sha256: a412382acbd578a4129af5311e198adef45a90ce9d2897bc76d336f98e51fc65
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserAuthPublicSuccessContractTest.java
+      state: FILE
+      size: 13253
+      sha256: 6f32c1090181ffa941d5e409f2cd651342a77a63491883dfe6cda5d747945e68
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserAuthServiceTest.java
+      state: FILE
+      size: 24922
+      sha256: 9b913af8066c320555025e45255033661b0709ffd292a325e2ef458830a2f4e7
+change_classification:
+  other:
+  - CHANGELOG.md
+  code:
+  - apps/h5/src/router.ts
+  - apps/h5/src/services/inviteRegistration.test.ts
+  - apps/h5/src/services/inviteRegistration.ts
+  - apps/h5/src/styles.css
+  - apps/h5/src/views/InviteRegistrationPage.test.ts
+  - apps/h5/src/views/InviteRegistrationPage.vue
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthContracts.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthService.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthStore.java
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/InviteRegistrationController.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserAuthPublicSuccessContractTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserAuthServiceTest.java
+  user_visible:
+  - apps/h5/src/router.ts
+  - apps/h5/src/services/inviteRegistration.test.ts
+  - apps/h5/src/services/inviteRegistration.ts
+  - apps/h5/src/styles.css
+  - apps/h5/src/views/InviteRegistrationPage.test.ts
+  - apps/h5/src/views/InviteRegistrationPage.vue
+  continuity:
+  - docs/03-continuity/change-requests/CR-0038-TASK-R02-005允许同步H5用户可见变更日志.md
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+- CHANGELOG
+change_requests:
+- CR-0038
+scope:
+  allowed_paths:
+  - apps/h5/**
+  - apps/cashier-h5/**
+  - services/backend/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - tests/**
+  - docs/**
+  - catalogs/**
+  - releases/**
+  - design/**
+  - scripts/**
+  approved_exceptions:
+  - CHANGELOG.md
+  source: story+explicit+approved-cr:CR-0038
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 进入共享契约、后端控制器、H5页面和连续性事实的最终集成与提交阶段，拆分会造成同一事实分支和验收证据冲突，主控串行复核
+event_hash: d833ea09c5d3b51c1377b439f9dcf3b9bb14b08b2a3942f2fb8fe95b53dfd6b3

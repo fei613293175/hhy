@@ -1,0 +1,42 @@
+schema: hhy.task-spec/v5.0
+id: TASK-R10-006
+release: R10
+ordinal: 6
+title: 群聊推广完整闭环可观测性与预发布验收
+kind: staging_observability
+mode: worker
+source:
+  path: releases/R10/TASKS.yaml
+  original_id: TASK-R10-006
+requirements:
+- REQ-CONTACT-001
+- REQ-GROUP-001
+- REQ-APK-001
+depends_on:
+- TASK-R10-005
+objective: 部署Staging，验证结构化日志、TraceId、RED指标、业务指标、告警和回滚
+deliverables:
+- 运行手册演练
+- 验收矩阵签字
+acceptance:
+- 无TODO/生产Mock
+- 代码、文档、测试、追踪同步更新
+- 运行手册演练
+- 验收矩阵签字
+allowed_paths:
+- apps/**
+- catalogs/**
+- config/**
+- docs/**
+- infra/**
+- scripts/**
+- services/**
+- tests/**
+risks:
+- production
+- secrets
+acceptance_commands:
+- python3 scripts/check_r10_observability.py
+maximum_attempts: 3
+owner_verification: ASYNC_NON_BLOCKING_FOR_NEXT_RELEASE
+legacy_status: DONE

@@ -1,0 +1,254 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260718T105025Z-0B8DE284-0007
+session_id: SES-20260718T105025Z-0B8DE284
+sequence: 7
+created_at: '2026-07-18T12:04:39Z'
+summary: 根据项目所有者真机截图修复R02认证UI偏离B01及公网匿名认证401：接入冻结设计令牌，重构登录注册导航与表单层级，旁路部署R02后端并完成V018迁移和公网切换
+next_step: 提交并推送修复；基于新提交重新执行正式APK构建、签名、四方哈希交付，等待项目所有者复测
+blockers: []
+decisions:
+- 真机首轮验收判定FAILED，旧bbad603 APK不得接受或关闭TASK-R02-007
+- 公网切换采用数据库备份、旁路候选、三匿名端点200门禁和旧P00保留回滚，不直接覆盖旧服务
+note: ''
+tests:
+- name: r02-public-auth-live
+  result: PASS
+  evidence: scripts/check_r02_public_auth.py
+  note: registration-config和security-challenges公网均HTTP 200
+- name: android-auth-ui-cloud
+  result: PASS
+  evidence: obx-test:/tmp/hhy-r02-ui-20260718-195241
+  note: feature auth unit+lint及app assembleDebug BUILD SUCCESSFUL
+- name: r02-auth-static
+  result: PASS
+  evidence: tests/test_r02_auth_slice_contract.py
+  note: 11项通过
+- name: ui-token-gate
+  result: PASS
+  evidence: scripts/check_ui_tokens.py
+  note: UI_TOKENS_OK 52
+git:
+  initialized: true
+  branch: task/TASK-R02-002
+  head: ae63b0321fee7d87c05d73f3fbacc18cf68ba66d
+  upstream: origin/task/TASK-R02-002
+  ahead: 0
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/sessions/SES-20260718T105025Z-0B8DE284.yaml'
+  - ' M CHANGELOG.md'
+  - ' M apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyTheme.kt'
+  - ' M apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyTokens.kt'
+  - ' M apps/android/feature/auth/src/main/java/cc/orbexa/hhy/auth/AuthScreen.kt'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+  - ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
+  - ' M infra/staging/docker-compose.p00.yml'
+  - ' M scripts/check_ui_tokens.py'
+  - ' M tests/test_r02_auth_slice_contract.py'
+  - ?? scripts/check_r02_public_auth.py
+  recent_commits:
+  - "ae63b0321fee7d87c05d73f3fbacc18cf68ba66d\t2026-07-18T19:21:30+08:00\tHHY Continuity Bootstrap\t[STORY-R02-009] chore(continuity): close APK\
+    \ evidence scope"
+  - "37c921b3396f8291ee5a212e5f05ac1bf4c72aa6\t2026-07-18T19:19:35+08:00\tHHY Continuity Bootstrap\t[STORY-R02-009] fix(delivery): publish R02\
+    \ test APK safely"
+  - "bbad603ed7136e1fc1d9fbcf03ca414c6862d16e\t2026-07-18T18:59:54+08:00\tHHY Continuity Bootstrap\t[STORY-R02-009] fix(android): align R02 release\
+    \ identity"
+  - "c5e6ce27a843a83e835472be61301d0c074019c4\t2026-07-18T18:52:01+08:00\tHHY Continuity Bootstrap\t[STORY-R02-009] build(android): set R02 test\
+    \ APK identity"
+  - "c82f53671c1184c3bb8612fcbef5e5dd35d4e962\t2026-07-18T18:49:10+08:00\tHHY Continuity Bootstrap\t[STORY-R02-009] chore(continuity): close TASK-R02-006\
+    \ as completed"
+  - "892e4a7bee5e88395e97817db8a67030edd2f135\t2026-07-18T18:48:11+08:00\tHHY Continuity Bootstrap\t[STORY-R02-009] chore(continuity): close R02\
+    \ integration changes"
+  - "4d5598286a7158f50960e1dfa45db5390d83863d\t2026-07-18T18:46:35+08:00\tHHY Continuity Bootstrap\t[STORY-R02-009] test(integration): finalize\
+    \ R02 release evidence"
+  - "a1893b20709c474c4cbe421f4bd1dc7eecaacebf\t2026-07-18T18:42:22+08:00\tHHY Continuity Bootstrap\t[STORY-R02-009] fix(staging): require R02\
+    \ user security secrets"
+project_fingerprint:
+  sha256: 23aee820727187b59c302daf744884160b2848c3054a536ddc3fad3583e64e63
+  files:
+  - CHANGELOG.md
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+  - apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+  - apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyTheme.kt
+  - apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyTokens.kt
+  - apps/android/feature/auth/src/main/java/cc/orbexa/hhy/auth/AuthScreen.kt
+  - artifacts/apk/R02/APK_MANIFEST.yaml
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/change-requests/CR-0042-TASK-R02-007允许写入APK交付与追溯证据.md
+  - docs/03-continuity/change-requests/CR-0043-TASK-R02-007精确登记APK交付证据文件.md
+  - infra/staging/docker-compose.p00.yml
+  - scripts/check_r02_public_auth.py
+  - scripts/check_ui_tokens.py
+  - scripts/deliver_android_test_apk.py
+  - tests/test_android_apk_delivery.py
+  - tests/test_r02_auth_slice_contract.py
+  file_count: 17
+  payload:
+    base_commit: c82f53671c1184c3bb8612fcbef5e5dd35d4e962
+    files:
+    - path: CHANGELOG.md
+      state: FILE
+      size: 22204
+      sha256: 613efca142c470ccc2078b748e0c4ab113fdc501f1954f51bcfffd33d02a3ab5
+    - path: apps/android/app/build.gradle.kts
+      state: FILE
+      size: 4445
+      sha256: 81a68f673a1c3eee2b7f6a61a1cdcb35f8f61370b94246578c9020cc56534941
+    - path: apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+      state: FILE
+      size: 520
+      sha256: 09546b124b79f59cdd82067d1d6107d0bff3365b7ba4270eda185fab1c6ce018
+    - path: apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+      state: FILE
+      size: 1025
+      sha256: a382ced5d88e5f78e78b20d0dd926f57faf82c3a057866afc2ea40c8c1ff2c29
+    - path: apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyTheme.kt
+      state: FILE
+      size: 2597
+      sha256: 5a00f33f15f8db5fda997066a3502d96aed583f74bb38d14527f18fd05164752
+    - path: apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyTokens.kt
+      state: FILE
+      size: 2169
+      sha256: e36e2b2d8b5a412855107436e1a4ee7a95b404d43590d362d574ef25e7e16422
+    - path: apps/android/feature/auth/src/main/java/cc/orbexa/hhy/auth/AuthScreen.kt
+      state: FILE
+      size: 38562
+      sha256: f48b3c7e274b49c8d13ce13de2d64674cd6410f55c35093aed026d3baab84bac
+    - path: artifacts/apk/R02/APK_MANIFEST.yaml
+      state: FILE
+      size: 673
+      sha256: 664e9b05c06899d3040c1472edc280d7b8475cd49569c6272e7d0bbf7a952a3f
+    - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
+      state: FILE
+      size: 20871
+      sha256: 76f931c918285cd6943a953f027f3e5e1aa41c9d94d41219607d67de4b611921
+    - path: docs/03-continuity/change-requests/CR-0042-TASK-R02-007允许写入APK交付与追溯证据.md
+      state: FILE
+      size: 2264
+      sha256: f741747a857d81238a5ba72c9412d575bcfba43276b82512f9c5a791226c9964
+    - path: docs/03-continuity/change-requests/CR-0043-TASK-R02-007精确登记APK交付证据文件.md
+      state: FILE
+      size: 3085
+      sha256: 0baed73e20769bd80c56d9e6cec07a375a802fbcb997ef579e703f209eb95514
+    - path: infra/staging/docker-compose.p00.yml
+      state: FILE
+      size: 4392
+      sha256: 2a705e1388a9b20492fbb655a11588bba7532169bfc5d057da064348eabba13e
+    - path: scripts/check_r02_public_auth.py
+      state: FILE
+      size: 3547
+      sha256: d499d5d959374bc68baec139d915f94fa5adaa2c64f19ef4874c506031861652
+    - path: scripts/check_ui_tokens.py
+      state: FILE
+      size: 12185
+      sha256: 4c6840447f9c1b3f7332b82100f30f30695bf07caf51cfc6d8f3334d86d4401f
+    - path: scripts/deliver_android_test_apk.py
+      state: FILE
+      size: 41559
+      sha256: 0cde6c379c0dd5f999f263689d9caaaa1bf2fff2904adae35fb173ba825d9245
+    - path: tests/test_android_apk_delivery.py
+      state: FILE
+      size: 18047
+      sha256: 5feaf7fbd9aa524b0e04151501e93a25a65079e05350192a2f59bcf9e0650fff
+    - path: tests/test_r02_auth_slice_contract.py
+      state: FILE
+      size: 9138
+      sha256: 63e61986c156927fbe927d0be3d39b04252caa51433044b7715c3468fecd46f6
+change_classification:
+  other:
+  - CHANGELOG.md
+  - artifacts/apk/R02/APK_MANIFEST.yaml
+  code:
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+  - apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+  - apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyTheme.kt
+  - apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyTokens.kt
+  - apps/android/feature/auth/src/main/java/cc/orbexa/hhy/auth/AuthScreen.kt
+  - scripts/check_r02_public_auth.py
+  - scripts/check_ui_tokens.py
+  - scripts/deliver_android_test_apk.py
+  user_visible:
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+  - apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+  - apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyTheme.kt
+  - apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyTokens.kt
+  - apps/android/feature/auth/src/main/java/cc/orbexa/hhy/auth/AuthScreen.kt
+  continuity:
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/change-requests/CR-0042-TASK-R02-007允许写入APK交付与追溯证据.md
+  - docs/03-continuity/change-requests/CR-0043-TASK-R02-007精确登记APK交付证据文件.md
+  infrastructure:
+  - infra/staging/docker-compose.p00.yml
+  tests:
+  - tests/test_android_apk_delivery.py
+  - tests/test_r02_auth_slice_contract.py
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+- CHANGELOG
+change_requests:
+- CR-0042
+- CR-0043
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions:
+  - artifacts/apk/R02/APK_MANIFEST.yaml
+  - artifacts/reports/R02/TASK-R02-007-android-apk.md
+  - artifacts/validation/r02-apk-delivery/delivery-evidence.json
+  - artifacts/validation/r02-task007-android/api-platform-status.json
+  - artifacts/validation/r02-task007-android/apk-badging.txt
+  - artifacts/validation/r02-task007-android/apk-signing.txt
+  - artifacts/validation/r02-task007-android/build-evidence.json
+  - artifacts/validation/r02-task007-android/gradle-build.exit
+  - artifacts/validation/r02-task007-android/gradle-build.log
+  - artifacts/validation/r02-task007-android/nginx-download-gate.txt
+  - artifacts/validation/r02-task007-android/zipalign.txt
+  - artifacts/validation/project-doctor-v1.2.2.json
+  source: story+explicit+approved-cr:CR-0043
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 本轮涉及同一认证页面集成、staging数据库迁移与Nginx切换，需由主控串行复核；既有三个执行代理已完成且不再启动重叠开发回合
+event_hash: 92a936232fb96f6fb450dbdf39fca0ec4cdff92ac41beccf08db73c9b72dd5e9

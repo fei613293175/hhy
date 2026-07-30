@@ -1,0 +1,252 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260717T183459Z-D64E7407-0005
+session_id: SES-20260717T183459Z-D64E7407
+sequence: 5
+created_at: '2026-07-17T19:40:11Z'
+summary: 排除强制Session/Checkpoint运行索引对文档Doctor的误触发，普通应用提交只运行连续性核心与受影响测试。
+next_step: 提交并推送最终门禁优化，关闭TASK-R02-001。
+blockers: []
+decisions: []
+note: ''
+tests:
+- name: document-impact-unit
+  result: PASS
+  evidence: managed session index does not trigger document subprocess
+  note: ''
+- name: continuity-self-test
+  result: PASS
+  evidence: 9/9 integration and 14/14 lifecycle after managed-record filter
+  note: ''
+git:
+  initialized: true
+  branch: task/TASK-R02-001
+  head: 919b095307a366c88c1cd0c6c0b48c4f03dff574
+  upstream: origin/task/TASK-R02-001
+  ahead: 1
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - ' M artifacts/validation/continuity-integration-v1.2.3.json'
+  - ' M artifacts/validation/continuity-lifecycle-integration-v1.2.3.json'
+  - ' M artifacts/validation/continuity-lifecycle-integration-v1.2.3.log'
+  - ' M scripts/continuity_gate.py'
+  - ' M tests/test_run_affected_tests.py'
+  recent_commits:
+  - "919b095307a366c88c1cd0c6c0b48c4f03dff574\t2026-07-18T03:36:23+08:00\tHHY Continuity Bootstrap\t[STORY-R02-009] perf(continuity): limit first\
+    \ push validation range"
+  - "c19f6d6259801d785dc70eb2a81dfac5c41278ec\t2026-07-18T03:28:34+08:00\tHHY Continuity Bootstrap\t[STORY-R02-009] perf(dev): establish parallel\
+    \ acceleration baseline"
+  - "878abc7f51eb3724703d5ff72d78d5eaed1cff30\t2026-07-18T01:47:21+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] chore(continuity): close TASK-R01-008\
+    \ as completed"
+  - "2e6c8dc68303b32ce154e4a3567dd36b0c0c225f\t2026-07-18T01:44:54+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] chore(r01): finalize release\
+    \ closure evidence"
+  - "e3d4d3782f067ebe963856d741dd4cd6be3d16ca\t2026-07-18T01:07:45+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] chore(continuity): close TASK-R01-007\
+    \ as completed"
+  - "d32ad36e5b0f838c16df57c1246230c995229c8e\t2026-07-18T01:05:47+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] test(r01): record owner APK\
+    \ acceptance"
+  - "920daf4e314c80f37a324c863f988dd6fc57ec8c\t2026-07-18T00:54:39+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] test(r01): archive Android\
+    \ APK traceability"
+  - "db3cfddcc4cda84265ec18f24de972804d62a08f\t2026-07-18T00:44:24+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] build(r01): enable debug resource\
+    \ overrides"
+project_fingerprint:
+  sha256: c992cff089f54279535299e81f8902d413c8a491df5db4d76be4ad68f3851e6a
+  files:
+  - .github/workflows/ci.yml
+  - .github/workflows/daily-integration.yml
+  - AGENTS.md
+  - CHANGELOG.md
+  - Makefile
+  - config/test-impact-map.yaml
+  - docs/03-continuity/change-requests/CR-0018-建立主控与受托执行代理的并行开发、分层测试及APK交付基线.md
+  - docs/03-continuity/并行加速开发运行手册_V1.0.md
+  - docs/05-app-build/APK持续交付强制规则_V1.2.2.md
+  - package.json
+  - releases/R02/PARALLEL_EXECUTION_PLAN.yaml
+  - releases/R02/RELEASE_MANIFEST.yaml
+  - releases/R02/TASKS.yaml
+  - scripts/check_generated_assets.py
+  - scripts/continuity_gate.py
+  - scripts/continuity_lib.py
+  - scripts/deliver_android_test_apk.py
+  - scripts/generate_release_slice.py
+  - scripts/prepare_parallel_worktrees.ps1
+  - scripts/run_affected_tests.py
+  - tests/test_android_apk_delivery.py
+  - tests/test_generated_assets.py
+  - tests/test_parallel_worktrees.py
+  - tests/test_run_affected_tests.py
+  file_count: 24
+  payload:
+    base_commit: 878abc7f51eb3724703d5ff72d78d5eaed1cff30
+    files:
+    - path: .github/workflows/ci.yml
+      state: FILE
+      size: 5354
+      sha256: 2ae002e2a94695bf4e8a097b8c24016bc36f542f91c1082b2505cd4592f8d082
+    - path: .github/workflows/daily-integration.yml
+      state: FILE
+      size: 198
+      sha256: f692e4e93d84510443d1e0d0635a99188df973bcfcd447dd835b47736944e997
+    - path: AGENTS.md
+      state: FILE
+      size: 4254
+      sha256: c8948610f3e08b25002fc73c0bec6335ba7d19326a7bce4c6ebad2a30ea8164e
+    - path: CHANGELOG.md
+      state: FILE
+      size: 12324
+      sha256: 08f197c4b12af2507750281cd9006770386bd9f52283c2cd93364d0a90b23abf
+    - path: Makefile
+      state: FILE
+      size: 2354
+      sha256: 0b6c6aa4b79c7d77406fa6875c010910a6c944e456381e388e404c73f83c873a
+    - path: config/test-impact-map.yaml
+      state: FILE
+      size: 4760
+      sha256: 573a57a98773d0b7a02c2fc23dcaefcd112029bb67f6a59180844c579851cb76
+    - path: docs/03-continuity/change-requests/CR-0018-建立主控与受托执行代理的并行开发、分层测试及APK交付基线.md
+      state: FILE
+      size: 4945
+      sha256: 75e3005287b763f9e0d6dd875ba0aa220f448d6d2dfeecddfc8e6dc57784998c
+    - path: docs/03-continuity/并行加速开发运行手册_V1.0.md
+      state: FILE
+      size: 5493
+      sha256: 198591c280b362f1f41b747a6a079cb7a01553f7d58bfc7ff25a5741fff5c72b
+    - path: docs/05-app-build/APK持续交付强制规则_V1.2.2.md
+      state: FILE
+      size: 5640
+      sha256: f04913e42cb41823da1b87e46520bdf3d680ce63a35334970dff592e03cc5e1c
+    - path: package.json
+      state: FILE
+      size: 1034
+      sha256: 563880f971857e6f6c25ff4b6407881ad9dc4ce1c22947415877ade91ba8e3b0
+    - path: releases/R02/PARALLEL_EXECUTION_PLAN.yaml
+      state: FILE
+      size: 1991
+      sha256: afa1a5a89dde1fe8f2bd00479dcf4db48eb6fa2a876f511f6722deff8ac2ccdf
+    - path: releases/R02/RELEASE_MANIFEST.yaml
+      state: FILE
+      size: 4270
+      sha256: 19e4b7d065970c607389acb9485b41efcfa81cb51e6e72464c05bfb60606074d
+    - path: releases/R02/TASKS.yaml
+      state: FILE
+      size: 7336
+      sha256: c06d92360ac9d2e563b08d38c6e5dc094116cfed1f79c1b13bfebba3c826296f
+    - path: scripts/check_generated_assets.py
+      state: FILE
+      size: 9152
+      sha256: 5d1455ba6716285e6f36ebf310949bf882079b58556e635d148ea9fb5b37c451
+    - path: scripts/continuity_gate.py
+      state: FILE
+      size: 37841
+      sha256: d43a321ac22660207d5276cca23eda5c5373c947ff87fae11ab87ac1d7c2249f
+    - path: scripts/continuity_lib.py
+      state: FILE
+      size: 98926
+      sha256: 6df7dc697adaebae64dec6cbb4c8057475bdab723e7baa7ec0630a4dfc2a7449
+    - path: scripts/deliver_android_test_apk.py
+      state: FILE
+      size: 41478
+      sha256: 2ca4159ee4b0d48abbb8ba10da7300057fdc9d8ae8acb51b9918981cd51c4f9d
+    - path: scripts/generate_release_slice.py
+      state: FILE
+      size: 10036
+      sha256: 02f4f0f6ad1a33296340a356c770f614eac2baeacc432869bb7e086d7abf3cda
+    - path: scripts/prepare_parallel_worktrees.ps1
+      state: FILE
+      size: 5831
+      sha256: 55c503f3c73d81597b744b1da7583b7523d497dfe58c7ccab1315227044aaca9
+    - path: scripts/run_affected_tests.py
+      state: FILE
+      size: 11031
+      sha256: ff7eb3f1a9133f0109204db08e56115f64b89d40a50d321365dc17b1cba694f1
+    - path: tests/test_android_apk_delivery.py
+      state: FILE
+      size: 17882
+      sha256: 05ed1ace13017a4d5037cf3a5a7276c45c50dc9096c492e2fa840f57a0081a76
+    - path: tests/test_generated_assets.py
+      state: FILE
+      size: 3375
+      sha256: 28e22f37345a845f34673604c94ab3eeae27d70b965be0f563b7e9ceda38a271
+    - path: tests/test_parallel_worktrees.py
+      state: FILE
+      size: 4147
+      sha256: 4ebdd87ffa8694e58db995caf68dd16d3df331359a386f76c82b63de7e720b1d
+    - path: tests/test_run_affected_tests.py
+      state: FILE
+      size: 5827
+      sha256: 18f4811c38a18f966458c949708d2ba1abb6b8bf67293c63fe44b995cb883c39
+change_classification:
+  infrastructure:
+  - .github/workflows/ci.yml
+  - .github/workflows/daily-integration.yml
+  other:
+  - AGENTS.md
+  - CHANGELOG.md
+  - Makefile
+  - config/test-impact-map.yaml
+  - docs/05-app-build/APK持续交付强制规则_V1.2.2.md
+  - package.json
+  - releases/R02/PARALLEL_EXECUTION_PLAN.yaml
+  - releases/R02/TASKS.yaml
+  continuity:
+  - docs/03-continuity/change-requests/CR-0018-建立主控与受托执行代理的并行开发、分层测试及APK交付基线.md
+  - docs/03-continuity/并行加速开发运行手册_V1.0.md
+  source_of_truth:
+  - releases/R02/RELEASE_MANIFEST.yaml
+  code:
+  - scripts/check_generated_assets.py
+  - scripts/continuity_gate.py
+  - scripts/continuity_lib.py
+  - scripts/deliver_android_test_apk.py
+  - scripts/generate_release_slice.py
+  - scripts/prepare_parallel_worktrees.ps1
+  - scripts/run_affected_tests.py
+  tests:
+  - tests/test_android_apk_delivery.py
+  - tests/test_generated_assets.py
+  - tests/test_parallel_worktrees.py
+  - tests/test_run_affected_tests.py
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+- APPROVED_CHANGE_REQUEST
+change_requests:
+- CR-0018
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions: []
+  source: story+explicit
+event_hash: bddf15f887de4d84481bd7fb99c65ddd1396f5114e50b893fe2b7ae08a8d9370

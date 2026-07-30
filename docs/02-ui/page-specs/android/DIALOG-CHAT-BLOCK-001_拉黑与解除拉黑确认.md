@@ -26,35 +26,28 @@
 
 | 字段ID | 区域 | 字段键 | 显示名称 | 字段角色 | 语义类型 | 控件类型 | 数据来源 | 必填条件 | 显示条件 | 可编辑条件 | 校验规则 | 敏感级别 | 脱敏规则 | 错误提示 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| FLD-02184 | 页面头部 | pageTitle | 页面标题 | UI_META | ui | TEXT | LOCAL_UI | 必需 | 按页面状态显示 | 本地UI字段不可写入业务事实 | 按页面模板 | NORMAL | 无需特殊掩码；仍遵守最小展示 | 页面标题不符合页面规格 |
-| FLD-02185 | 路由与筛选 | id | ID | PATH_PARAM | string | TEXT_INPUT | chatPostUsersByIdBlock.path | 必填 | 执行“拉黑”时显示 | 用户具备权限且页面状态允许 | 必填；正则:^[A-Za-z0-9_-]{1,64}$ | NORMAL | 无需特殊掩码；仍遵守最小展示 | ID格式或范围不正确 |
-| FLD-02186 | 请求头 | X-Idempotency-Key | X-Idempotency-Key | REQUEST_HEADER | string | TEXT_INPUT | chatPostUsersByIdBlock.header | 必填 | 执行“拉黑”时显示 | 用户具备权限且页面状态允许 | 必填；最多128字符 | NORMAL | 无需特殊掩码；仍遵守最小展示 | X-Idempotency-Key格式或范围不正确 |
-| FLD-02187 | 表单输入 | reason | 原因 | INPUT | string | TEXT_INPUT | chatPostUsersByIdBlock.request | 可选；按业务条件或页面状态决定 | 执行“拉黑”且字段适用时显示 | 具备 登录 且资源状态允许 | 最多2000字符 | NORMAL | 无需特殊掩码；仍遵守最小展示 | 原因不符合要求 |
-| FLD-02188 | 表单输入 | id | ID | INPUT | string | TEXT_INPUT | chatDeleteUsersByIdBlock.request | 必填 | 执行“取消拉黑”且字段适用时显示 | 具备 登录 且资源状态允许 | 必填；正则:^[A-Za-z0-9_-]{1,64}$ | NORMAL | 无需特殊掩码；仍遵守最小展示 | ID不符合要求 |
-| FLD-02189 | 表单输入 | xIdempotencyKey | x Idempotency Key | INPUT | string | TEXT_INPUT | chatDeleteUsersByIdBlock.request | 必填 | 执行“取消拉黑”且字段适用时显示 | 具备 登录 且资源状态允许 | 必填；最少16字符；最多128字符 | NORMAL | 无需特殊掩码；仍遵守最小展示 | x Idempotency Key不符合要求 |
-| FLD-02190 | 主要内容 | resourceId | resource Id | DISPLAY | string | TEXT | chatDeleteUsersByIdBlock.response.data.CommandResultResource | 服务端返回时展示 | 有值且当前角色拥有字段访问权限 | 只读；通过明确写操作更新 | 最多64字符 | NORMAL | 无需特殊掩码；仍遵守最小展示 | resource Id加载失败时显示字段级占位或隐藏 |
-| FLD-02191 | 主要内容 | businessNo | business No | DISPLAY | string | TEXT | chatDeleteUsersByIdBlock.response.data.CommandResultResource | 服务端返回时展示 | 有值且当前角色拥有字段访问权限 | 只读；通过明确写操作更新 | 最多2000字符 | NORMAL | 无需特殊掩码；仍遵守最小展示 | business No加载失败时显示字段级占位或隐藏 |
-| FLD-02192 | 主要内容 | status | 状态 | DISPLAY | string | TEXT | chatDeleteUsersByIdBlock.response.data.CommandResultResource | 服务端返回时展示 | 有值且当前角色拥有字段访问权限 | 只读；通过明确写操作更新 | 必填；最多2000字符 | NORMAL | 无需特殊掩码；仍遵守最小展示 | 状态加载失败时显示字段级占位或隐藏 |
-| FLD-02193 | 主要内容 | version | 版本 | DISPLAY | integer | NUMBER_TEXT | chatDeleteUsersByIdBlock.response.data.CommandResultResource | 服务端返回时展示 | 有值且当前角色拥有字段访问权限 | 只读；通过明确写操作更新 | 格式:int64 | NORMAL | 无需特殊掩码；仍遵守最小展示 | 版本加载失败时显示字段级占位或隐藏 |
-| FLD-02194 | 主要内容 | acceptedAt | accepted At | DISPLAY | string | DATETIME_TEXT | chatDeleteUsersByIdBlock.response.data.CommandResultResource | 服务端返回时展示 | 有值且当前角色拥有字段访问权限 | 只读；通过明确写操作更新 | 必填；格式:date-time | NORMAL | 无需特殊掩码；仍遵守最小展示 | accepted At加载失败时显示字段级占位或隐藏 |
+| FLD-02184 | 页面头部 | pageTitle | 确认操作 | UI_META | ui | TEXT | LOCAL_UI | 必需 | 始终显示 | 只读 | 按操作模式展示拉黑或解除拉黑标题 | NORMAL | 无需特殊掩码；仍遵守最小展示 | 操作标题加载失败 |
+| FLD-02185 | 目标摘要 | targetSummary | 用户摘要 | DISPLAY | PublisherSummaryResource | USER_SUMMARY | TRUSTED_CALLER_CONTEXT | 必需 | 弹层打开时显示 | 只读 | 必须来自受信任调用页快照 | NORMAL | 无需特殊掩码；仍遵守最小展示 | 用户信息暂时无法显示 |
+| FLD-02187 | 原因 | reason | 拉黑原因 | INPUT | string | MULTILINE_TEXT | chatPostUsersByIdBlock.request | 拉黑时可选；解除拉黑时不适用 | 拉黑模式显示 | 用户可编辑 | 最多2000字符 | HIGH | 只展示业务所需内容；禁止写入日志、埋点或非必要缓存 | 原因最多2000字 |
+| FLD-02188 | 影响说明 | blockMode | 操作影响 | UI_META | ui | IMPACT_NOTICE | LOCAL_UI | 必需 | 弹层打开时显示 | 只读 | 仅BLOCK或UNBLOCK；文案按当前服务端状态映射 | NORMAL | 无需特殊掩码；仍遵守最小展示 | 操作状态已变化，请重新打开 |
 
 ## 4. 页面状态与恢复
 
 | 状态码 | 进入条件 | 展示行为 | 允许操作 | 禁用操作 | 恢复策略 | 是否终态 |
 | --- | --- | --- | --- | --- | --- | --- |
-| OPEN | 由页面业务状态机进入 | 按“OPEN”状态展示标准状态区 | 按页面动作矩阵 | 与当前状态、权限或服务端version冲突的所有写操作 | 重新查询服务端事实 | 否 |
-| EDITING | 用户正在编辑表单 | 显示字段、帮助、脏状态和保存/提交入口 | 编辑/保存/提交/取消 | 与当前状态、权限或服务端version冲突的所有写操作 | 离开时执行脏表单保护 | 否 |
-| SUBMITTING | 写请求已提交，结果未确定 | 锁定同资源写操作，保留输入，展示进度 | 查询结果/取消（业务允许时） | 与当前状态、权限或服务端version冲突的所有写操作 | 不得重复生成新业务意图 | 否 |
-| SUCCESS | 操作成功且服务端已返回事实 | 展示明确结果并刷新关联数据 | 继续/返回/查看详情 | 与当前状态、权限或服务端version冲突的所有写操作 | 一次性敏感输入立即清除 | 是 |
-| ERROR | 请求失败且无法展示可靠内容 | 展示稳定错误码、requestId、重试和返回 | 重试/返回 | 与当前状态、权限或服务端version冲突的所有写操作 | 按错误码恢复 | 否 |
-| OFFLINE | 网络不可用 | 只读页面可展示标记为缓存的数据；写操作禁用 | 重试网络 | 与当前状态、权限或服务端version冲突的所有写操作 | 恢复网络后主动刷新 | 否 |
+| OPEN | 由页面业务状态机进入 | 按“OPEN”状态展示标准状态区 | 按页面动作矩阵 | 与当前状态或权限冲突的写操作 | 重新查询服务端事实 | 否 |
+| EDITING | 用户正在编辑表单 | 显示字段、帮助、脏状态和保存/提交入口 | 编辑/保存/提交/取消 | 与当前状态或权限冲突的写操作 | 离开时执行脏表单保护 | 否 |
+| SUBMITTING | 写请求已提交，结果未确定 | 锁定同资源写操作，保留输入，展示进度 | 查询结果/取消（业务允许时） | 与当前状态或权限冲突的写操作 | 不得重复生成新业务意图 | 否 |
+| SUCCESS | 操作成功且服务端已返回事实 | 展示明确结果并刷新关联数据 | 继续/返回/查看详情 | 与当前状态或权限冲突的写操作 | 一次性敏感输入立即清除 | 是 |
+| ERROR | 请求失败且无法展示可靠内容 | 展示面向用户的失败原因、重试和返回，不显示内部诊断信息 | 重试/返回 | 与当前状态或权限冲突的写操作 | 按用户可见错误类型恢复 | 否 |
+| OFFLINE | 网络不可用 | 只读页面可展示标记为缓存的数据；写操作禁用 | 重试网络 | 与当前状态或权限冲突的写操作 | 恢复网络后主动刷新 | 否 |
 
 ## 5. 页面动作
 
 | 动作ID | 动作 | 动作类型 | 入口组件 | 触发条件 | 显示条件 | 可用条件 | 前置校验 | 二次确认 | 请求映射 | 并发控制 | 加载表现 | 成功状态 | 失败状态 | 重试策略 | 成功后导航 | 审计要求 | 敏感处理 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| ACT-V122-008 | 拉黑 | CONTROLLED_COMMAND | 页面主按钮/行操作/更多菜单/标准弹层，具体位置由模板和页面操作规格确定 | 用户显式点击操作入口，且本地字段校验、权限、状态机前置条件全部满足 | 具备权限 登录，且资源状态允许“拉黑”；按钮显示条件由页面状态表和状态机共同决定 | 不存在同资源写请求；必填字段有效；服务端 version 未被本地标记过期；需要审批时已选择审批单 | 校验 id,X-Idempotency-Key,reason；同一业务意图生成稳定 X-Idempotency-Key；请求体变化必须换键 | 必须二次确认；确认框展示目标、影响、不可逆性、原因、审批要求和将触发的通知 | POST /api/v1/users/{id}/block；请求模型 ChatPostUsersByIdBlockRequest；响应模型 ChatPostUsersByIdBlockResponse | X-Idempotency-Key + 服务端结果查询 | 提交期间锁定同资源写操作，保留输入并显示明确进度；禁止全页无反馈等待 | 按状态机更新资源并移除或禁用不再可用的操作；展示“拉黑成功”；保留操作记录入口 | 400逐字段映射；401要求重新认证；403隐藏后续写入口并记录越权拒绝；409提示数据已变化并重新加载；422展示业务原因且保留输入；429显示可重试时间；500保留上下文并提供 requestId | 使用同一幂等键仅重试同一请求体；若服务端已受理则先查询结果；409版本冲突不得盲重试 | 默认留在当前页并刷新；创建成功进入详情，支付/认证/发布结果按对应流程导航 | 记录操作人、角色、目标、前后状态/版本、原因、审批单、requestId、IP/设备和结果 | 遵循最小采集；仅记录业务标识和状态，不记录自由文本中的个人信息 |
-| ACT-V122-009 | 取消拉黑 | DESTRUCTIVE_COMMAND | 页面主按钮/行操作/更多菜单/标准弹层，具体位置由模板和页面操作规格确定 | 用户显式点击操作入口，且本地字段校验、权限、状态机前置条件全部满足 | 具备权限 登录，且资源状态允许“取消拉黑”；按钮显示条件由页面状态表和状态机共同决定 | 不存在同资源写请求；必填字段有效；服务端 version 未被本地标记过期；需要审批时已选择审批单 | 校验 id,X-Idempotency-Key,xIdempotencyKey；同一业务意图生成稳定 X-Idempotency-Key；请求体变化必须换键 | 必须二次确认；确认框展示目标、影响、不可逆性、原因、审批要求和将触发的通知 | DELETE /api/v1/users/{id}/block；请求模型 ChatDeleteUsersByIdBlockParameters；响应模型 ChatDeleteUsersByIdBlockResponse | X-Idempotency-Key + 服务端结果查询 | 提交期间锁定同资源写操作，保留输入并显示明确进度；禁止全页无反馈等待 | 按状态机更新资源并移除或禁用不再可用的操作；展示“取消拉黑成功”；保留操作记录入口 | 400逐字段映射；401要求重新认证；403隐藏后续写入口并记录越权拒绝；409提示数据已变化并重新加载；422展示业务原因且保留输入；429显示可重试时间；500保留上下文并提供 requestId | 使用同一幂等键仅重试同一请求体；若服务端已受理则先查询结果；409版本冲突不得盲重试 | 默认留在当前页并刷新；创建成功进入详情，支付/认证/发布结果按对应流程导航 | 记录操作人、角色、目标、前后状态/版本、原因、审批单、requestId、IP/设备和结果 | 遵循最小采集；仅记录业务标识和状态，不记录自由文本中的个人信息 |
+| ACT-V122-008 | 拉黑 | CONTROLLED_COMMAND | 页面主按钮/行操作/更多菜单/标准弹层，具体位置由模板和页面操作规格确定 | 用户显式点击操作入口，且本地字段校验、权限、状态机前置条件全部满足 | 具备权限 登录，且资源状态允许“拉黑”；按钮显示条件由页面状态表和状态机共同决定 | 不存在同资源写请求；必填字段有效；服务端状态未被本地标记过期 | 确认目标用户仍可拉黑；可选原因符合长度限制；幂等信息由网络层维护 | 确认拉黑后双方无法互发消息及相关可见性影响 | POST /api/v1/users/{id}/block；请求模型 ChatPostUsersByIdBlockRequest；响应模型 ChatPostUsersByIdBlockResponse | X-Idempotency-Key + 服务端结果查询 | 提交期间锁定同资源写操作，保留输入并显示明确进度；禁止全页无反馈等待 | 关闭弹层并将当前会话切换为禁发状态 | 400逐字段映射；401要求重新认证；403隐藏后续写入口并记录越权拒绝；409提示数据已变化并重新加载；422展示业务原因且保留输入；429显示可重试时间；500保留可安全恢复的上下文并提示稍后重试 | 使用同一幂等键仅重试同一请求体；若服务端已受理则先查询结果；409版本冲突不得盲重试 | 关闭弹层并返回原私聊页；输入区进入禁发状态 | 记录操作人、角色、目标、前后状态/版本、原因、审批单、requestId、IP/设备和结果 | 遵循最小采集；仅记录业务标识和状态，不记录自由文本中的个人信息 |
+| ACT-V122-009 | 取消拉黑 | DESTRUCTIVE_COMMAND | 页面主按钮/行操作/更多菜单/标准弹层，具体位置由模板和页面操作规格确定 | 用户显式点击操作入口，且本地字段校验、权限、状态机前置条件全部满足 | 具备权限 登录，且资源状态允许“取消拉黑”；按钮显示条件由页面状态表和状态机共同决定 | 不存在同资源写请求；必填字段有效；服务端状态未被本地标记过期 | 确认目标用户当前已被拉黑且允许解除；幂等信息由网络层维护 | 确认解除后恢复服务端允许的消息能力 | DELETE /api/v1/users/{id}/block；请求模型 ChatDeleteUsersByIdBlockParameters；响应模型 ChatDeleteUsersByIdBlockResponse | X-Idempotency-Key + 服务端结果查询 | 提交期间锁定同资源写操作，保留输入并显示明确进度；禁止全页无反馈等待 | 关闭弹层并恢复服务端允许的发送能力；不自动发送消息 | 400逐字段映射；401要求重新认证；403隐藏后续写入口并记录越权拒绝；409提示数据已变化并重新加载；422展示业务原因且保留输入；429显示可重试时间；500保留可安全恢复的上下文并提示稍后重试 | 使用同一幂等键仅重试同一请求体；若服务端已受理则先查询结果；409版本冲突不得盲重试 | 关闭弹层并返回原私聊页；按最新服务端状态恢复输入区 | 记录操作人、角色、目标、前后状态/版本、原因、审批单、requestId、IP/设备和结果 | 遵循最小采集；仅记录业务标识和状态，不记录自由文本中的个人信息 |
 
 ## 6. 导航、深链与缓存
 
@@ -74,11 +67,12 @@
 - 配置组：`chat;notification`
 - 关键配置：`chat.stranger.daily_conversation_limit;chat.message.per_minute_limit;chat.image.max_mb;chat.history.retention_days;notification.marketing.default_enabled;notification.quiet_hours.start;notification.quiet_hours.end`
 - 测试：`TST-V122-007;TST-V122-008`
-- UI参考：`TOKENS_AND_TEMPLATE`
+- UI参考：`SPEC:design/R14-UI-FROZEN/specs/DIALOG-CHAT-BLOCK-001.md`
+- 视觉覆盖状态：`IN_REVIEW`（编码完成并取得实现截图前不得标记 PASS）
 
 ## 8. 开发就绪检查
 
-- [ ] 页面模板和区域按本文件实现；效果图仅用于视觉参考。
+- [ ] 页面模板和区域按本文件实现；效果图对页面建模、区域顺序、信息层级、布局、组件形态和视觉样式具有强制约束，但不得作为功能、字段、动作或业务数据事实源。
 - [ ] 字段、校验、显示/编辑条件与 OpenAPI/配置一致，无新增匿名字段。
 - [ ] 所有状态均有可见表现、允许操作和恢复路径。
 - [ ] 所有动作均使用登记 operationId、权限、幂等或 expectedVersion。

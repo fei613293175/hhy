@@ -1,0 +1,450 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260726T191158Z-2B506AB7-0040
+session_id: SES-20260726T191158Z-2B506AB7
+task_id: TASK-R13-007
+story_id: STORY-R13-003
+sequence: 40
+created_at: '2026-07-27T09:46:27Z'
+summary: 完成CR-0398：唯一R13 attempt15精确绑定request015、修复Commit 035a80b2与max1，并拒绝绑定漂移和attempt16
+next_step: 提交CR-0398候选授权Commit，执行Git transport与push preflight后单次推送并只监控Attempt15新Run
+blockers: []
+decisions: []
+note: ''
+tests:
+- name: android-candidate-governance
+  result: PASS
+  evidence: python -m unittest -v tests.test_android_candidate_request tests.test_android_ci_gate tests.test_r13_candidate;77 tests
+  note: 唯一attempt15及R13请求绑定
+- name: governance-knowledge
+  result: PASS
+  evidence: python -m unittest -v tests.test_context_pack_parallel_policy;17 tests
+  note: Problem Registry和规则结构
+- name: git-diff-check
+  result: PASS
+  evidence: git diff --check
+  note: no whitespace errors
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: 035a80b21b51f6652cc1bf107a12e457eb06620b
+  upstream: origin/task/TASK-R03-001
+  ahead: 1
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/sessions/SES-20260726T191158Z-2B506AB7.yaml'
+  - ' M CHANGELOG.md'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+  - ' M catalogs/change_request_index.csv'
+  - ' M catalogs/session_index.csv'
+  - ' M config/android-automation.yaml'
+  - ' M config/android-candidate-request.yaml'
+  - ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
+  - ' M tests/test_android_candidate_request.py'
+  - ' M tests/test_android_ci_gate.py'
+  - ' M tests/test_r13_candidate.py'
+  - ?? .continuity/change_requests/CR-0398.yaml
+  - ?? artifacts/validation/r13-attempt14-runtime/android-runtime-30246999437.zip
+  - ?? artifacts/validation/r13-attempt14-runtime/extracted/runtime/analyze.log
+  - ?? artifacts/validation/r13-attempt14-runtime/extracted/runtime/exit-info.txt
+  - ?? artifacts/validation/r13-attempt14-runtime/extracted/runtime/instrumentation.log
+  - ?? artifacts/validation/r13-attempt14-runtime/extracted/runtime/logcat.txt
+  - ?? artifacts/validation/r13-attempt14-runtime/extracted/runtime/runtime-report.json
+  - ?? artifacts/validation/r13-attempt14-runtime/extracted/runtime/test-exit-code.txt
+  - ?? docs/03-continuity/change-requests/CR-0398-授权CR-0396修复后的唯一R13候选attempt15.md
+  recent_commits:
+  - "035a80b21b51f6652cc1bf107a12e457eb06620b\t2026-07-27T17:38:40+08:00\tHHY Continuity Bootstrap\t[STORY-R13-003] fix(android): decouple candidate\
+    \ entry from home data"
+  - "6e8b4858a91eac2e1343dadeba5ffb9004a527ed\t2026-07-27T15:38:22+08:00\tHHY Continuity Bootstrap\t[STORY-R13-003] chore(ci): authorize R13 attempt\
+    \ 14"
+  - "8a73630d7cda118fa7fb88942e38b06939dc95a4\t2026-07-27T15:30:53+08:00\tHHY Continuity Bootstrap\t[STORY-R13-003] fix(android): target R13 lazy\
+    \ media activation"
+  - "857bc504c261e3d9c2ad2e9f8b5186f55f0eda88\t2026-07-27T14:48:48+08:00\tHHY Continuity Bootstrap\t[STORY-R13-003] chore(ci): authorize R13 attempt\
+    \ 13"
+  - "fedda55654a256db02877e1fdc7be25b3ba1ba4f\t2026-07-27T14:42:05+08:00\tHHY Continuity Bootstrap\t[STORY-R13-003] fix(android): stabilize R13\
+    \ candidate media scan"
+  - "1c2b6ae22cf90a13d21bbac5e6e7cbe5f28919d4\t2026-07-27T13:51:57+08:00\tHHY Continuity Bootstrap\t[STORY-R13-003] chore(ci): authorize R13 attempt\
+    \ 12"
+  - "10c904b02750641892e35616f162319867e7f0c9\t2026-07-27T13:48:39+08:00\tHHY Continuity Bootstrap\t[STORY-R13-003] fix(android): diagnose candidate\
+    \ navigation phases"
+  - "75fc914bd73f51bc5476b45de3444f3a60ecc6f8\t2026-07-27T12:44:34+08:00\tHHY Continuity Bootstrap\t[STORY-R13-003] chore(ci): authorize R13 attempt\
+    \ 11"
+project_fingerprint:
+  sha256: 808d75a79530c7472246b163546447039cbdee84fd3f7d4fd866b56ba5b77935
+  files:
+  - CHANGELOG.md
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+  - apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+  - apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+  - apps/android/feature/activity/src/main/java/cc/orbexa/hhy/activity/R13ActivityScreens.kt
+  - apps/android/feature/project/src/main/java/cc/orbexa/hhy/project/R08ProjectScreens.kt
+  - config/android-automation.yaml
+  - config/android-candidate-request.yaml
+  - docs/03-continuity/PITFALLS.md
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/REUSABLE_PATTERNS.md
+  - docs/03-continuity/change-requests/CR-0377-建立R13收藏历史分享最终Android候选.md
+  - docs/03-continuity/change-requests/CR-0378-修复候选公网命中证明的请求号提取.md
+  - docs/03-continuity/change-requests/CR-0379-修复R13分类指示线原始透明色并建立候选attempt2.md
+  - docs/03-continuity/change-requests/CR-0380-修复R13启动发布夹具未来生效时间并建立attempt3.md
+  - docs/03-continuity/change-requests/CR-0381-解除R12历史候选测试对R13当前attempt的锁死.md
+  - docs/03-continuity/change-requests/CR-0382-修复R13候选分享反馈稳定点击并授权一次精确attempt4.md
+  - docs/03-continuity/change-requests/CR-0383-按Release隔离候选例外轮次并修复R13稳定点击.md
+  - docs/03-continuity/change-requests/CR-0384-批准并轻量晋升R13首版视觉基线.md
+  - docs/03-continuity/change-requests/CR-0385-修复R13收藏页候选媒体未加载即截图并建立attempt5.md
+  - docs/03-continuity/change-requests/CR-0386-修复R13候选媒体状态未进入UiAutomator无障碍树.md
+  - docs/03-continuity/change-requests/CR-0387-修复R13预组合媒体因未测量尺寸永久停留loading并建立attempt7.md
+  - docs/03-continuity/change-requests/CR-0388-修复R13-Lazy预组合媒体未进入活动视口并建立attempt8.md
+  - docs/03-continuity/change-requests/CR-0389-修复R13候选列表滚动容器未暴露UiAutomator资源并建立attempt9.md
+  - docs/03-continuity/change-requests/CR-0390-修复R13候选资源标记点击未触发Compose导航并建立attempt10.md
+  - docs/03-continuity/change-requests/CR-0391-修复R13候选相同媒体并发回调状态漂移并建立attempt11.md
+  - docs/03-continuity/change-requests/CR-0392-修复R13候选收藏导航阶段不可判定并建立attempt12.md
+  - docs/03-continuity/change-requests/CR-0393-修复R13候选列表结构化媒体扫描并建立attempt13.md
+  - docs/03-continuity/change-requests/CR-0394-修复R13候选结构化滚动仍未激活第三媒体并建立attempt14.md
+  - docs/03-continuity/change-requests/CR-0395-纠正CR-0394无效分类假设并用Compose精确激活R13媒体.md
+  - docs/03-continuity/change-requests/CR-0396-修复R13候选被非目标首页加载状态阻断.md
+  - docs/03-continuity/change-requests/CR-0397-同步CR-0396共享Android候选门禁断言.md
+  - docs/03-continuity/change-requests/CR-0398-授权CR-0396修复后的唯一R13候选attempt15.md
+  - docs/08-testing/Android自动开发测试修复交付体系_V1.0.md
+  - scripts/android_ci_gate.py
+  - scripts/prepare_r13_ci_fixture.sh
+  - scripts/switch_android_candidate_route.sh
+  - tests/android/visual-manifests/R13.yaml
+  - tests/test_android_candidate_request.py
+  - tests/test_android_candidate_route.py
+  - tests/test_android_ci_gate.py
+  - tests/test_r12_candidate.py
+  - tests/test_r13_candidate.py
+  file_count: 44
+  payload:
+    base_commit: 05fe13da3dded5a41321de78bff0f08c34d2f647
+    files:
+    - path: CHANGELOG.md
+      state: FILE
+      size: 177536
+      sha256: eba144d7dcd975561b431e26985531a8b6e191ee84d8675b8e6f652d707c75e9
+    - path: apps/android/app/build.gradle.kts
+      state: FILE
+      size: 5406
+      sha256: b628df19d4207a98db1e3b2ad4c431f4d9c1be4284a216aa0a2f0abfc72e9035
+    - path: apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+      state: FILE
+      size: 21737
+      sha256: f3ca9934a993ed8310e9c79e8964f58d4f85f38e37d12670caa3af381b337f22
+    - path: apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+      state: FILE
+      size: 520
+      sha256: d894c16e56a16c4ced9a6fbd7ba619ddf481329aadc642c9e9e01af377dcd6a8
+    - path: apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+      state: FILE
+      size: 1243
+      sha256: 2f5eb46f4379c20574deb858c4c037c47abcaf73f9554b0e92ff3b9d8fd3d54a
+    - path: apps/android/feature/activity/src/main/java/cc/orbexa/hhy/activity/R13ActivityScreens.kt
+      state: FILE
+      size: 35652
+      sha256: 86b3a2cd5d44c4002537091783ec8f2206317e69ceec23b5f82df7e011495209
+    - path: apps/android/feature/project/src/main/java/cc/orbexa/hhy/project/R08ProjectScreens.kt
+      state: FILE
+      size: 35361
+      sha256: 021300c6493addc9f8442bf3260918e803f6608d9968b6a1fa3bf6e86974cf70
+    - path: config/android-automation.yaml
+      state: FILE
+      size: 10114
+      sha256: 96a4af733b7032df36017970877b1359ea85dd825eb1abe09f0217a53528708f
+    - path: config/android-candidate-request.yaml
+      state: FILE
+      size: 1323
+      sha256: 62b30d6d52c5b752c9eb0fa3b357eea251a5925f9f5c9b9fa893003de40dd17b
+    - path: docs/03-continuity/PITFALLS.md
+      state: FILE
+      size: 15560
+      sha256: 157661b42953f94c67934bd541c7583662ae0ca53bf401d6c5b5f6f5f2bd0288
+    - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
+      state: FILE
+      size: 203439
+      sha256: 4a4955bf6ce52df24dd607cdceb18adad1ef13e930aa70ce71063c6fc474e42a
+    - path: docs/03-continuity/REUSABLE_PATTERNS.md
+      state: FILE
+      size: 9159
+      sha256: d577c9a2b70063aa32ca5faef6243bb47c10ef85f309391aeb442bcc5134941b
+    - path: docs/03-continuity/change-requests/CR-0377-建立R13收藏历史分享最终Android候选.md
+      state: FILE
+      size: 4113
+      sha256: 1c479ee4a79fcf710b3693522024ba4fbb071a79573339a9c131fa4fcb30c981
+    - path: docs/03-continuity/change-requests/CR-0378-修复候选公网命中证明的请求号提取.md
+      state: FILE
+      size: 3528
+      sha256: 4e93c1dc88a48e96f3b4a561b06f999a7ef0be5f5c1fc9d1b62800299c82f7bc
+    - path: docs/03-continuity/change-requests/CR-0379-修复R13分类指示线原始透明色并建立候选attempt2.md
+      state: FILE
+      size: 3753
+      sha256: a903477526b416c47adcea229f03335406ce4efcb5013db22c02462b02c3d89e
+    - path: docs/03-continuity/change-requests/CR-0380-修复R13启动发布夹具未来生效时间并建立attempt3.md
+      state: FILE
+      size: 3738
+      sha256: 300554ed8c5190342bcd471012e09be688028bfc3cc18a01fed7af626a025ab6
+    - path: docs/03-continuity/change-requests/CR-0381-解除R12历史候选测试对R13当前attempt的锁死.md
+      state: FILE
+      size: 3151
+      sha256: ac6ccb3a90a09ef5f596003940367609e72cf2f657d982db1494e77d9d62eedc
+    - path: docs/03-continuity/change-requests/CR-0382-修复R13候选分享反馈稳定点击并授权一次精确attempt4.md
+      state: FILE
+      size: 4101
+      sha256: e2ef6f7f6947e154b31e90e1ab52ab2166d77dbabcededddfa8ffc0e479b816c
+    - path: docs/03-continuity/change-requests/CR-0383-按Release隔离候选例外轮次并修复R13稳定点击.md
+      state: FILE
+      size: 4318
+      sha256: 4fe08c5bf4b77fb12399f77a2b61e3fd6b0974e6bc9a8efa96b9cc0a5038004a
+    - path: docs/03-continuity/change-requests/CR-0384-批准并轻量晋升R13首版视觉基线.md
+      state: FILE
+      size: 3143
+      sha256: b2476397a420e3b9add43926b679b563b17088b3f281f015d5590c355279f1f7
+    - path: docs/03-continuity/change-requests/CR-0385-修复R13收藏页候选媒体未加载即截图并建立attempt5.md
+      state: FILE
+      size: 5129
+      sha256: c3c4068905aeceb17ca1c83fc4fa4add947f2b96f1eb07acaded791b87ee540b
+    - path: docs/03-continuity/change-requests/CR-0386-修复R13候选媒体状态未进入UiAutomator无障碍树.md
+      state: FILE
+      size: 5180
+      sha256: 532e89f61d59887a1e2c7ff4c2ac0d4a2d101c43a946aaa80550f6ce3d878d68
+    - path: docs/03-continuity/change-requests/CR-0387-修复R13预组合媒体因未测量尺寸永久停留loading并建立attempt7.md
+      state: FILE
+      size: 4061
+      sha256: b4dcd6c50d552220bb8ef7dcdf94e3da9545a568d6ed380b1c3b8dd99401d17d
+    - path: docs/03-continuity/change-requests/CR-0388-修复R13-Lazy预组合媒体未进入活动视口并建立attempt8.md
+      state: FILE
+      size: 3954
+      sha256: c709b4dfa31b456a91c31f4e4c8a7f77abe50a50180a442f0500bff6b0279899
+    - path: docs/03-continuity/change-requests/CR-0389-修复R13候选列表滚动容器未暴露UiAutomator资源并建立attempt9.md
+      state: FILE
+      size: 4473
+      sha256: d647002597f27f6a2c0bb74ce2e7388af83e83c7502faa55b40602d95452449e
+    - path: docs/03-continuity/change-requests/CR-0390-修复R13候选资源标记点击未触发Compose导航并建立attempt10.md
+      state: FILE
+      size: 4609
+      sha256: 0810fcf1e2e551f7e3daabb347fafcfbd0262c78902d19e18f0b73931216f2fd
+    - path: docs/03-continuity/change-requests/CR-0391-修复R13候选相同媒体并发回调状态漂移并建立attempt11.md
+      state: FILE
+      size: 3582
+      sha256: edfa789c07efe58a4cbb37fd7a7a49971f81891f24115c601c900bb7b581db87
+    - path: docs/03-continuity/change-requests/CR-0392-修复R13候选收藏导航阶段不可判定并建立attempt12.md
+      state: FILE
+      size: 4835
+      sha256: 429798ab3f20e671aca745bfb43094859fd02e37318c5bb8f575b1fb36942b57
+    - path: docs/03-continuity/change-requests/CR-0393-修复R13候选列表结构化媒体扫描并建立attempt13.md
+      state: FILE
+      size: 4330
+      sha256: 9db27b9beab41ad19914efe84fd19d6ed2b323002f18f8d22172c710358951ab
+    - path: docs/03-continuity/change-requests/CR-0394-修复R13候选结构化滚动仍未激活第三媒体并建立attempt14.md
+      state: FILE
+      size: 3518
+      sha256: 51d3a24a07e4676ddafadd4bab5b5a3a4fb7c0bd4cf650524398d0b57b31511b
+    - path: docs/03-continuity/change-requests/CR-0395-纠正CR-0394无效分类假设并用Compose精确激活R13媒体.md
+      state: FILE
+      size: 4170
+      sha256: ed3dcdf49dd072b955ac9f6cee5561d18a48b21a230a6b18b71488271f834d61
+    - path: docs/03-continuity/change-requests/CR-0396-修复R13候选被非目标首页加载状态阻断.md
+      state: FILE
+      size: 3682
+      sha256: 1d56966e6e1367049c7f7764bc74bff755097b48ef2f3cea43aca9a71c3c33cc
+    - path: docs/03-continuity/change-requests/CR-0397-同步CR-0396共享Android候选门禁断言.md
+      state: FILE
+      size: 2396
+      sha256: a710867b1292d8660e167108db1c52d1a2cb378c18d8560b9f0e83424102cf82
+    - path: docs/03-continuity/change-requests/CR-0398-授权CR-0396修复后的唯一R13候选attempt15.md
+      state: FILE
+      size: 3304
+      sha256: bae5b55f69d5372b283c49265935b3748c785a01f18b589ad055faeabcb52976
+    - path: docs/08-testing/Android自动开发测试修复交付体系_V1.0.md
+      state: FILE
+      size: 16513
+      sha256: 8b9f623ed68a536254c203aa55a91aaf253cd2fe6f8179efbf45521a5d1c8c28
+    - path: scripts/android_ci_gate.py
+      state: FILE
+      size: 33558
+      sha256: 7d5a35321182347f2a0c79a1faba8b1d8fd2da898056326f99a4aaa3c16f3fde
+    - path: scripts/prepare_r13_ci_fixture.sh
+      state: FILE
+      size: 18938
+      sha256: a58c047606efdc6e51d24e158bc0a5532c47b404b665fb289d3f1b8714de2224
+    - path: scripts/switch_android_candidate_route.sh
+      state: FILE
+      size: 4410
+      sha256: b3e6704a34b9c401d032a012bd55e249d23ea467b2759050e61cb4ed13bb9d63
+    - path: tests/android/visual-manifests/R13.yaml
+      state: FILE
+      size: 2136
+      sha256: 4bd2e96c87ff3c91703aa37f6ba3c2337f1a0a4d815249e92d655162a5d9e12f
+    - path: tests/test_android_candidate_request.py
+      state: FILE
+      size: 33229
+      sha256: d0ffbefe9bfdb81984a30253410fcc9e058cc587fb61b5523c5a2bb94544b70e
+    - path: tests/test_android_candidate_route.py
+      state: FILE
+      size: 4255
+      sha256: 279e8d36fa4b9983e83e0748b298cbf81c6b7071f73ed8d8053a7c7a818eca32
+    - path: tests/test_android_ci_gate.py
+      state: FILE
+      size: 65506
+      sha256: c5496cc220ace39773a737296372bf18f8a10ef97edb22f5e685bf310179e4df
+    - path: tests/test_r12_candidate.py
+      state: FILE
+      size: 11089
+      sha256: 8f5c99a82cbda44fd6b2b1896c3bf45cbde8022211a4bb1f720e38dc5ebc5544
+    - path: tests/test_r13_candidate.py
+      state: FILE
+      size: 15904
+      sha256: c649e0064a76ed77a8fc4c58f62a2343ad323f272a1c81fb5e74b87cf35498f5
+change_classification:
+  other:
+  - CHANGELOG.md
+  - config/android-automation.yaml
+  - config/android-candidate-request.yaml
+  - docs/08-testing/Android自动开发测试修复交付体系_V1.0.md
+  code:
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+  - apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+  - apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+  - apps/android/feature/activity/src/main/java/cc/orbexa/hhy/activity/R13ActivityScreens.kt
+  - apps/android/feature/project/src/main/java/cc/orbexa/hhy/project/R08ProjectScreens.kt
+  - scripts/android_ci_gate.py
+  - scripts/prepare_r13_ci_fixture.sh
+  - scripts/switch_android_candidate_route.sh
+  user_visible:
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+  - apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+  - apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+  - apps/android/feature/activity/src/main/java/cc/orbexa/hhy/activity/R13ActivityScreens.kt
+  - apps/android/feature/project/src/main/java/cc/orbexa/hhy/project/R08ProjectScreens.kt
+  continuity:
+  - docs/03-continuity/PITFALLS.md
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/REUSABLE_PATTERNS.md
+  - docs/03-continuity/change-requests/CR-0377-建立R13收藏历史分享最终Android候选.md
+  - docs/03-continuity/change-requests/CR-0378-修复候选公网命中证明的请求号提取.md
+  - docs/03-continuity/change-requests/CR-0379-修复R13分类指示线原始透明色并建立候选attempt2.md
+  - docs/03-continuity/change-requests/CR-0380-修复R13启动发布夹具未来生效时间并建立attempt3.md
+  - docs/03-continuity/change-requests/CR-0381-解除R12历史候选测试对R13当前attempt的锁死.md
+  - docs/03-continuity/change-requests/CR-0382-修复R13候选分享反馈稳定点击并授权一次精确attempt4.md
+  - docs/03-continuity/change-requests/CR-0383-按Release隔离候选例外轮次并修复R13稳定点击.md
+  - docs/03-continuity/change-requests/CR-0384-批准并轻量晋升R13首版视觉基线.md
+  - docs/03-continuity/change-requests/CR-0385-修复R13收藏页候选媒体未加载即截图并建立attempt5.md
+  - docs/03-continuity/change-requests/CR-0386-修复R13候选媒体状态未进入UiAutomator无障碍树.md
+  - docs/03-continuity/change-requests/CR-0387-修复R13预组合媒体因未测量尺寸永久停留loading并建立attempt7.md
+  - docs/03-continuity/change-requests/CR-0388-修复R13-Lazy预组合媒体未进入活动视口并建立attempt8.md
+  - docs/03-continuity/change-requests/CR-0389-修复R13候选列表滚动容器未暴露UiAutomator资源并建立attempt9.md
+  - docs/03-continuity/change-requests/CR-0390-修复R13候选资源标记点击未触发Compose导航并建立attempt10.md
+  - docs/03-continuity/change-requests/CR-0391-修复R13候选相同媒体并发回调状态漂移并建立attempt11.md
+  - docs/03-continuity/change-requests/CR-0392-修复R13候选收藏导航阶段不可判定并建立attempt12.md
+  - docs/03-continuity/change-requests/CR-0393-修复R13候选列表结构化媒体扫描并建立attempt13.md
+  - docs/03-continuity/change-requests/CR-0394-修复R13候选结构化滚动仍未激活第三媒体并建立attempt14.md
+  - docs/03-continuity/change-requests/CR-0395-纠正CR-0394无效分类假设并用Compose精确激活R13媒体.md
+  - docs/03-continuity/change-requests/CR-0396-修复R13候选被非目标首页加载状态阻断.md
+  - docs/03-continuity/change-requests/CR-0397-同步CR-0396共享Android候选门禁断言.md
+  - docs/03-continuity/change-requests/CR-0398-授权CR-0396修复后的唯一R13候选attempt15.md
+  tests:
+  - tests/android/visual-manifests/R13.yaml
+  - tests/test_android_candidate_request.py
+  - tests/test_android_candidate_route.py
+  - tests/test_android_ci_gate.py
+  - tests/test_r12_candidate.py
+  - tests/test_r13_candidate.py
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+- CHANGELOG
+change_requests:
+- CR-0377
+- CR-0378
+- CR-0379
+- CR-0380
+- CR-0381
+- CR-0382
+- CR-0383
+- CR-0384
+- CR-0385
+- CR-0386
+- CR-0387
+- CR-0388
+- CR-0389
+- CR-0390
+- CR-0391
+- CR-0392
+- CR-0393
+- CR-0394
+- CR-0395
+- CR-0396
+- CR-0397
+- CR-0398
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions:
+  - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+  - apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+  - apps/android/feature/activity/src/main/java/cc/orbexa/hhy/activity/R13ActivityScreens.kt
+  - config/android-candidate-request.yaml
+  - scripts/prepare_r13_ci_fixture.sh
+  - tests/test_r13_candidate.py
+  - tests/test_r12_candidate.py
+  - tests/test_android_ci_gate.py
+  - tests/android/visual-manifests/R13.yaml
+  - CHANGELOG.md
+  - scripts/switch_android_candidate_route.sh
+  - tests/test_android_candidate_route.py
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/REUSABLE_PATTERNS.md
+  - docs/03-continuity/PITFALLS.md
+  - config/android-automation.yaml
+  - tests/test_android_candidate_request.py
+  - docs/08-testing/Android自动开发测试修复交付体系_V1.0.md
+  source: story+explicit+approved-cr:CR-0377+approved-cr:CR-0378+approved-cr:CR-0379+approved-cr:CR-0380+approved-cr:CR-0381+approved-cr:CR-0385+approved-cr:CR-0387+approved-cr:CR-0388+approved-cr:CR-0389+approved-cr:CR-0390+approved-cr:CR-0396+approved-cr:CR-0397+approved-cr:CR-0398
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 唯一候选请求、共享例外表和连续性状态是同一事实链，必须由主控串行提交与推送
+event_hash: 3c0594f82e8242a22bee50bc2f7b89db30cc7b6e94be886fe6549f81a05b1f95

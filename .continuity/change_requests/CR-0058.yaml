@@ -1,0 +1,68 @@
+protocol_version: '1.0'
+cr_id: CR-0058
+title: 同步H5无短信注册与自动安全验证
+status: CLOSED
+created_at: '2026-07-18T21:54:47Z'
+updated_at: '2026-07-18T23:22:51Z'
+requester_actor_id: codex-root
+approver_actor_id: project-owner-delegated
+task_id: TASK-R03-007
+session_id: SES-20260718T200607Z-3569D212
+user_request: 注册账号无需发送短信验证码，正式前端不展示技术性提示。
+reason: 注册OpenAPI变化同时影响H5邀请注册；旧H5仍依赖短信、协议版本和手动获取安全验证，必须同批同步避免契约断裂。
+original_rule: H5邀请注册要求用户手动获取安全验证、发送注册短信、输入短信码并提交协议版本。
+new_rule: H5注册以手机号、密码、确认密码和URL邀请码为可见注册字段；点击注册后自动弹出安全验证，验证并继续直接提交注册；不发送注册短信、不提交协议版本、不展示技术提示。
+impact_summary: 同步H5页面、服务类型、测试与H5页面规格到新注册契约。
+impact:
+  files:
+  - apps/h5/src/views/InviteRegistrationPage.vue
+  - apps/h5/src/services/inviteRegistration.ts
+  - apps/h5/src/views/InviteRegistrationPage.test.ts
+  - apps/h5/src/services/inviteRegistration.test.ts
+  - docs/02-ui/page-specs/h5/H5-013_H5邀请注册页.md
+  - CHANGELOG.md
+  - docs/03-continuity/change-requests/CR-0058-同步H5无短信注册与自动安全验证.md
+  - .continuity/change_requests/CR-0058.yaml
+  - .continuity/CHANGE_REQUEST_INDEX.yaml
+  pages:
+  - H5-013
+  apis:
+  - POST /api/v1/auth/register
+  - POST /api/v1/auth/security-challenges
+  database: []
+  configuration: []
+  ledger: []
+  tests:
+  - pnpm --filter @hhy/h5 test
+  - pnpm --filter @hhy/h5 typecheck
+  releases:
+  - R02
+  - R03
+  migration_and_compatibility: 与CR-0054注册API同步升级；旧H5请求不再兼容，前后端必须同批部署。协议内容可继续作为只读链接/说明，但不作为本次注册请求字段。
+user_confirmation: 注册账号无需发送短信验证码，前端全局不允许技术性提示。
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-18T21:54:49Z'
+  note: 批准H5与Android、后端同批同步，避免旧短信注册契约残留。
+machine_record: .continuity/change_requests/CR-0058.yaml
+document: docs/03-continuity/change-requests/CR-0058-同步H5无短信注册与自动安全验证.md
+decision_log:
+- at: '2026-07-18T21:54:51Z'
+  actor_id: codex-root
+  status: IMPLEMENTING
+  note: 同步H5注册流程与自动安全验证
+  session_id: SES-20260718T200607Z-3569D212
+- at: '2026-07-18T22:34:36Z'
+  actor_id: codex-root
+  status: IMPLEMENTED
+  note: 冻结安全验证、无短信注册、商业UI边界及对应测试门禁已完成，等待精确提交与发布交付
+  session_id: SES-20260718T200607Z-3569D212
+- at: '2026-07-18T23:22:51Z'
+  actor_id: codex-root
+  status: CLOSED
+  note: 变更已包含在0958f1f精确提交，相关测试与连续性门禁通过，并随最新R03测试APK完成机器交付。
+  session_id: SES-20260718T200607Z-3569D212
+session_ids:
+- SES-20260718T200607Z-3569D212
+implementation_commits:
+- 0958f1f96ff12b769647c293082e5a4fadd7cb78

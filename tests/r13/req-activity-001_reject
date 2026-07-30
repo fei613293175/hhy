@@ -1,0 +1,16 @@
+{
+  "schema": "hhy.r13.test-adapter/v1",
+  "test_id": "TST-ACTIVITY_001-REJECT",
+  "central_runner": "scripts/run_r13_specialized_matrix.py",
+  "runner": "r13-java21-postgresql17-android-activity",
+  "selectors": [
+    "services/backend/boot/src/test/java/cc/orbexa/hhy/content/R13ServiceTest.java#historyParsesAscendingCursorAndRejectsUnsupportedSorts",
+    "services/backend/boot/src/test/java/cc/orbexa/hhy/content/R13ServiceTest.java#inactiveUserCannotReadOrWriteActivityData",
+    "services/backend/boot/src/test/java/cc/orbexa/hhy/content/R13ServiceTest.java#pendingFeedbackReplayReturnsVersionConflictBeforeAnyWrite",
+    "services/backend/boot/src/test/java/cc/orbexa/hhy/content/R13ServiceTest.java#invalidFeedbackStoreTimeoutLeavesNoOutboxOrCompletedSnapshot",
+    "services/backend/boot/src/test/java/cc/orbexa/hhy/content/R08ServiceTest.java#favoriteVersionConflictStopsFavoriteOutboxAndCompletion",
+    "services/backend/boot/src/test/java/cc/orbexa/hhy/content/R08ServiceTest.java#shareConfigurationProviderTimeoutLeavesNoShareOutboxOrCompletion",
+    "services/backend/boot/src/test/java/cc/orbexa/hhy/content/R07ServiceTest.java#contactStorageTimeoutAbandonsClaimBeforeAuditMessageOrSnapshot"
+  ],
+  "fault_classes": ["validation-rejection", "forbidden-user", "version-conflict", "activity-store-timeout", "configuration-provider-timeout", "sensitive-store-timeout", "zero-success-side-effects"]
+}

@@ -1,0 +1,23 @@
+Before rollback:
+api_image=sha256:5dadec588e5676b430dc4899b9b7221f2d1c371af54fb196211a05de2c1a74d4
+postgres_container=f7bf36008c86e9d99a9c04b4fb5c4e6da2b9196591d5c954e58266e0e4d3311f
+postgres_volume=hhy-r05-c2bc1ab_pgdata
+flyway=028
+
+Compatible previous image:
+api_image=sha256:c2854a85df9e54888e0f2689a82ef694daebd73b06efcd80239f8b58f2791a79
+readiness=UP
+public_status_http=200
+postgres_container=f7bf36008c86e9d99a9c04b4fb5c4e6da2b9196591d5c954e58266e0e4d3311f
+postgres_volume=hhy-r05-c2bc1ab_pgdata
+flyway=028
+
+After restoring current image:
+api_image=sha256:5dadec588e5676b430dc4899b9b7221f2d1c371af54fb196211a05de2c1a74d4
+readiness=UP
+prometheus_target_up=1
+all_four_r05_identity_gauges_present=PASS
+postgres_container=f7bf36008c86e9d99a9c04b4fb5c4e6da2b9196591d5c954e58266e0e4d3311f
+postgres_volume=hhy-r05-c2bc1ab_pgdata
+
+No down migration, schema rebuild, volume deletion, or production-provider operation was executed.

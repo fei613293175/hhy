@@ -1,0 +1,59 @@
+protocol_version: '1.0'
+cr_id: CR-0444
+title: 隔离R14 WebSocket容器生产配置与Mock测试上下文
+status: CLOSED
+created_at: '2026-07-28T11:42:13Z'
+updated_at: '2026-07-28T12:54:59Z'
+requester_actor_id: codex-r16-implementation-20260728
+approver_actor_id: codex-r14-websocket-container-independent-review-20260728
+task_id: TASK-R16-003
+session_id: SES-20260728T102501Z-3189682B
+user_request: 持续推进R16开发并完成真实回归，不因既有配置故障停止
+reason: 完整后端回归确认R14 ServletServerContainerFactoryBean在Mock ServletContext中无ServerContainer属性，导致47个Spring上下文用例级联失败；需要保留生产容器限制并在test profile禁用该容器工厂Bean
+original_rule: R14WebSocketConfiguration无条件创建ServletServerContainerFactoryBean，Mock ServletContext缺少jakarta.websocket.server.ServerContainer属性时上下文启动失败。
+new_rule: WebSocket处理器注册继续默认启用；仅Servlet容器缓冲与空闲超时工厂Bean受hhy.websocket.container.enabled控制，生产默认true，test profile固定false；真实容器部署行为不变，Mock上下文不得伪造生产ServerContainer。
+impact_summary: 为容器工厂Bean增加显式配置条件，并在统一测试配置关闭该Bean；新增配置边界合同测试，修复47个由同一上下文根因引发的级联错误。
+impact:
+  files:
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/realtime/R14WebSocketConfiguration.java
+  - services/backend/boot/src/test/resources/application-test.yml
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/realtime/R14WebSocketConfigurationTest.java
+  pages: []
+  apis: []
+  database: []
+  configuration:
+  - hhy.websocket.container.enabled
+  ledger: []
+  tests:
+  - R14WebSocketConfigurationTest必须直接断言无配置时容器工厂存在且文本/二进制缓冲均为10485760字节、空闲超时75000毫秒；WebApplicationContextRunner在配置false时必须断言仅缺失ServletServerContainerFactoryBean，同时WebSocketHandlerMapping仍含/ws，WebSocketHttpRequestHandler持有原处理器和握手拦截器；完整mvn
+    -pl boot -am test须489项0失败0错误。
+  releases:
+  - R16
+  migration_and_compatibility: 无数据库或API变更。生产缺省值true保持10MiB缓冲和75秒空闲超时；仅test profile覆盖false。现有WebSocket协议、握手、路由及Android客户端不变。
+user_confirmation: 项目所有者已明确要求持续推进R16并完成真实回归，本修正仅隔离Mock测试容器且不改变生产WebSocket行为。
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-28T11:46:50Z'
+  note: 独立审查确认生产缺省仍创建ServletServerContainerFactoryBean并保持10MiB文本/二进制缓冲和75000毫秒空闲超时；test profile仅关闭该Bean，专项测试精确验证/ws映射、原处理器与握手拦截器仍注册，影响范围准确。
+machine_record: .continuity/change_requests/CR-0444.yaml
+document: docs/03-continuity/change-requests/CR-0444-隔离R14-WebSocket容器生产配置与Mock测试上下文.md
+decision_log:
+- at: '2026-07-28T11:47:15Z'
+  actor_id: codex-r16-implementation-20260728
+  status: IMPLEMENTING
+  note: 独立审批通过后开始实施测试上下文隔离。
+  session_id: SES-20260728T102501Z-3189682B
+- at: '2026-07-28T12:54:53Z'
+  actor_id: codex-r16-backend-20260728
+  status: IMPLEMENTED
+  note: R14 WebSocket容器工厂在test profile安全隔离，生产限制不变，完整Java回归通过。
+  session_id: SES-20260728T102501Z-3189682B
+- at: '2026-07-28T12:54:59Z'
+  actor_id: codex-r16-backend-20260728
+  status: CLOSED
+  note: Mock ServletContext级联故障已消除且生产WebSocket配置保持。
+  session_id: SES-20260728T102501Z-3189682B
+session_ids:
+- SES-20260728T102501Z-3189682B
+implementation_commits:
+- 63ebeca8ca54f087b18e0b9605dc879dd10bc4c4

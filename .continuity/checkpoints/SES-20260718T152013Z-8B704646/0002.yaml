@@ -1,0 +1,135 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260718T152013Z-8B704646-0002
+session_id: SES-20260718T152013Z-8B704646
+sequence: 2
+created_at: '2026-07-18T15:26:26Z'
+summary: V019 R03共享迁移已接入供应商版本、证书、域名分层健康、DNS待办、10项权限及不可变/追加审计约束
+next_step: 执行PostgreSQL空库升级回滚验证并接入13个冻结API的Spring控制器与持久化适配器
+blockers: []
+decisions:
+- R03共享字段采用V019前向扩展，不改写V001-V018 checksum；SecretRef仅允许Vault/KMS，配置载荷和证书材料插入后不可变
+note: ''
+tests:
+- name: R03 migration static invariants
+  result: PASS
+  evidence: tests/test_r03_provider_configuration_migration.py
+  note: 4 tests
+- name: runtime asset drift
+  result: PASS
+  evidence: scripts/sync_runtime_assets.py
+  note: 23 assets exact
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: a5a0629f18b4ad3b69d28116c5a45d3fd129f1fd
+  upstream: origin/task/TASK-R03-001
+  ahead: 0
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - ?? database/migrations/V019__r03_provider_configuration_center.sql
+  - ?? database/rollback/U019__r03_provider_configuration_center.sql
+  - ?? services/backend/boot/src/main/resources/db/migration/V019__r03_provider_configuration_center.sql
+  - ?? tests/test_r03_provider_configuration_migration.py
+  recent_commits:
+  - "a5a0629f18b4ad3b69d28116c5a45d3fd129f1fd\t2026-07-18T23:20:53+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] chore(r03): start shared integration\
+    \ task"
+  - "d54b5e2d019ec48a866d0559b24bcaf996e8aef6\t2026-07-18T23:19:12+08:00\tHHY Continuity Bootstrap\t[STORY-R03-003] chore(continuity): close TASK-R03-004\
+    \ as completed"
+  - "bc96c003b7ff8283e3b302a2d7097da7be94ca2d\t2026-07-18T23:17:32+08:00\tHHY Continuity Bootstrap\t[STORY-R03-003] chore(r03): close payment\
+    \ slice evidence"
+  - "b3a90b52062bd227ac40c4f6a9d6e7c7282de43e\t2026-07-18T23:14:33+08:00\tHHY Continuity Bootstrap\t[STORY-R03-003] feat(r03): deliver payment\
+    \ and payout admin pages"
+  - "ea17e6835282cf7f9da16be714c1ad6610261ad2\t2026-07-18T23:05:31+08:00\tHHY Continuity Bootstrap\t[STORY-R03-003] feat(r03): secure provider\
+    \ certificate rotation"
+  - "125d3b816f5d03a79ed745575c70e00e33b92620\t2026-07-18T23:00:16+08:00\tHHY Continuity Bootstrap\t[STORY-R03-003] feat(r03): add safe financial\
+    \ provider probes"
+  - "ce50e363bf861c8a5480881778fa4cbdf81a9856\t2026-07-18T22:57:25+08:00\tHHY Continuity Bootstrap\t[STORY-R03-003] feat(r03): validate payment\
+    \ provider secrets"
+  - "7f37a5226bde9afe6e658c7f73e0665c05ba46e5\t2026-07-18T22:53:52+08:00\tHHY Continuity Bootstrap\t[STORY-R03-003] chore(r03): start payment\
+    \ configuration slice"
+project_fingerprint:
+  sha256: 500c7ebbada4697e8c54b13c14f3a175277cd30ff6345a8f12e5dc41f7975843
+  files:
+  - database/migrations/V019__r03_provider_configuration_center.sql
+  - database/rollback/U019__r03_provider_configuration_center.sql
+  - services/backend/boot/src/main/resources/db/migration/V019__r03_provider_configuration_center.sql
+  - tests/test_r03_provider_configuration_migration.py
+  file_count: 4
+  payload:
+    base_commit: d54b5e2d019ec48a866d0559b24bcaf996e8aef6
+    files:
+    - path: database/migrations/V019__r03_provider_configuration_center.sql
+      state: FILE
+      size: 8691
+      sha256: b73d6f9fef1e4418f0976234eb0333b80d3430ea2c931d25b8cabe9ac40d9aab
+    - path: database/rollback/U019__r03_provider_configuration_center.sql
+      state: FILE
+      size: 4099
+      sha256: 0996a2cfe94c6d593f07ef3b02bd9e3518b608b5682a9150d9ea322733674312
+    - path: services/backend/boot/src/main/resources/db/migration/V019__r03_provider_configuration_center.sql
+      state: FILE
+      size: 8691
+      sha256: b73d6f9fef1e4418f0976234eb0333b80d3430ea2c931d25b8cabe9ac40d9aab
+    - path: tests/test_r03_provider_configuration_migration.py
+      state: FILE
+      size: 2394
+      sha256: ebf233863c1c6fe071886dd40ee425c45f847687aa2d1ecc94a92e6b610e8507
+change_classification:
+  database:
+  - database/migrations/V019__r03_provider_configuration_center.sql
+  - database/rollback/U019__r03_provider_configuration_center.sql
+  code:
+  - services/backend/boot/src/main/resources/db/migration/V019__r03_provider_configuration_center.sql
+  tests:
+  - tests/test_r03_provider_configuration_migration.py
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+- DATABASE_TEST_EVIDENCE
+- SCHEMA_TRACEABILITY
+change_requests: []
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions: []
+  source: story+explicit
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: Flyway前向迁移和回滚必须由同一主控串行校验
+event_hash: 99685ee5c70a058ec0b49126092bdfca1f1299151eea0ae0e61e906ef3fc6caf

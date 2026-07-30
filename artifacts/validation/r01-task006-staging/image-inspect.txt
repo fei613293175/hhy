@@ -1,0 +1,1 @@
+id=sha256:94f510ac0beaf0a15ddfeae233e0a4bd99a33c4ac9d3a95282d40b4492e4a85d tags=["hhy-backend-r01-smoke:72de42c"] architecture=amd64 created=2026-07-17T23:12:00.303351027+08:00 user=10001:10001 entrypoint=["java","-XX:MaxRAMPercentage=75.0","-XX:+ExitOnOutOfMemoryError","-jar","/app/hhy-backend.jar"]

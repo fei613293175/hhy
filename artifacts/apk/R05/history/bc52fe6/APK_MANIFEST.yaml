@@ -1,0 +1,16 @@
+manifest_schema: 2
+release: R05
+apk_file: hhy-r05-bc52fe6-debug.apk
+version_name: 1.2.2-debug
+version_code: 10211
+commit: bc52fe68ae169a79586002af4f8b2af9b21690a6
+sha256: c02b20d8e2198dc2938d7be8245ffadcf4269cc6187ea8d79e3464bb631d84d4
+size_bytes: 19268698
+signing_fingerprint: f17b040789a845244ff9e2a9d8aedc1e7412adea0539d99c5cc036baf5dbb873
+built_at: '2026-07-20T06:39:05Z'
+delivery_status: PASS
+test_status: PENDING
+owner_physical_test: PENDING
+download_url: https://download.orbexa.cc/r05-artifacts/hhy-r05-bc52fe6-debug.apk
+desktop_copy: C:\Users\小白\Desktop\hhy-r05-bc52fe6-debug.apk
+delivery_evidence: artifacts\validation\r05-apk-delivery\delivery-evidence.json

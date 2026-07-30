@@ -1,0 +1,64 @@
+protocol_version: '1.0'
+cr_id: CR-0127
+title: 修复测试APK渠道漂移导致启动版本检查404并递增10212
+status: IMPLEMENTED
+created_at: '2026-07-20T06:53:54Z'
+updated_at: '2026-07-20T07:19:06Z'
+requester_actor_id: codex-root
+approver_actor_id: project-owner
+task_id: TASK-R05-007
+session_id: SES-20260719T234639Z-1D7D7A00
+user_request: 项目所有者安装桌面10211后打开App立即显示暂时无法连接。
+reason: 10211构建错误注入HHY_APP_CHANNEL=owner-test，而公网仅发布official+STAGING版本策略；必须恢复official、增加构建断言并单调递增交付。
+original_rule: 10211测试APK允许构建任务临时覆盖APP_CHANNEL，版本一致性测试只校验versionCode、versionName和合同版本。
+new_rule: R05项目所有者测试APK固定APP_CHANNEL=official与APP_ENVIRONMENT=STAGING，版本一致性测试强制断言；10211标记为启动失败历史，修复包单调递增为10212。
+impact_summary: 修复启动版本策略查询404并建立渠道环境构建门禁；不修改后端版本策略、用户数据或实名认证业务。
+impact:
+  files:
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+  - apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+  - CHANGELOG.md
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - artifacts/reports/R05/R05-version-test-guide.md
+  - artifacts/reports/R05/TASK-R05-007-android-apk.md
+  - artifacts/apk/R05/APK_MANIFEST.yaml
+  - artifacts/validation/r05-apk-delivery/delivery-evidence.json
+  - artifacts/validation/r05-task007-android
+  - artifacts/apk/R05/history/bc52fe6/APK_MANIFEST.yaml
+  - artifacts/validation/r05-apk-delivery/history/bc52fe6/delivery-evidence.json
+  pages:
+  - SCR-START-001
+  apis: []
+  database: []
+  configuration: []
+  ledger: []
+  tests:
+  - VersionMetadataTest强制BuildConfig.APP_CHANNEL=official且APP_ENVIRONMENT=STAGING。
+  - 公网official+STAGING version-check返回200，错误渠道返回404的诊断回归固定。
+  - 10212完整Gradle、签名、内嵌URL、桌面/仓库/服务器/HTTPS四方哈希门禁通过。
+  releases:
+  - R05
+  migration_and_compatibility: 同applicationId与固定Staging签名覆盖安装10211；10211交付证据只读归档；10212重新执行启动接口、构建、签名和四方哈希门禁。
+user_confirmation: 2026-07-20项目所有者明确反馈10211打开立即显示暂时无法连接，并要求持续开发。
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-20T06:54:22Z'
+  note: 依据项目所有者即时启动故障反馈和持续修复授权，批准渠道硬门禁与10212换版。
+machine_record: .continuity/change_requests/CR-0127.yaml
+document: docs/03-continuity/change-requests/CR-0127-修复测试APK渠道漂移导致启动版本检查404并递增10212.md
+decision_log:
+- at: '2026-07-20T06:54:25Z'
+  actor_id: codex-root
+  status: IMPLEMENTING
+  note: 开始修复渠道环境、建立版本策略构建断言并递增10212。
+  session_id: SES-20260719T234639Z-1D7D7A00
+- at: '2026-07-20T07:19:06Z'
+  actor_id: codex-root
+  status: IMPLEMENTED
+  note: 10212已由不可变提交构建并固定official+STAGING；完整Gradle、签名、包内策略、公网启动接口及桌面/服务器/HTTPS四方SHA门禁通过，10211只读归档。
+  session_id: SES-20260719T234639Z-1D7D7A00
+session_ids:
+- SES-20260719T234639Z-1D7D7A00
+implementation_commits:
+- 9b726556391cb8e16e52750f83b1e80c4f2bf28b

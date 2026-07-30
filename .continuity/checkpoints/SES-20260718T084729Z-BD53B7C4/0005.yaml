@@ -1,0 +1,217 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260718T084729Z-BD53B7C4-0005
+session_id: SES-20260718T084729Z-BD53B7C4
+sequence: 5
+created_at: '2026-07-18T09:23:26Z'
+summary: PROB-0019登记完成并将非规范Base64URL等价签名构造成确定性安全回归测试
+next_step: 提交PROB-0019、令牌验签和确定性回归测试，随后按提交SHA重跑全量后端并归档证据
+blockers: []
+decisions:
+- 回归测试必须证明被篡改签名文本与规范签名解码字节相同但仍被拒绝
+note: 补齐提交门禁要求；未绕过Problem Registry或回归测试
+tests:
+- name: user-token-canonical-regression
+  result: PASS
+  evidence: 'obx-test Maven UserTokenServiceTest: 2 tests'
+  note: 确定性非规范等价编码被拒绝
+- name: problem-registry
+  result: PASS
+  evidence: docs/03-continuity/PROBLEM_REGISTRY.yaml PROB-0019
+  note: 根因、修复和防复发规则齐全
+git:
+  initialized: true
+  branch: task/TASK-R02-002
+  head: 61d125dc354803d943d9881e81cfb9c8a291dd97
+  upstream: origin/task/TASK-R02-002
+  ahead: 0
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - M  .continuity/ACTIVE_SESSION.yaml
+  - M  .continuity/EVENT_LOG.jsonl
+  - M  .continuity/SESSION_INDEX.yaml
+  - M  .continuity/STATE.yaml
+  - A  .continuity/checkpoints/SES-20260718T084729Z-BD53B7C4/0004.yaml
+  - M  .continuity/sessions/SES-20260718T084729Z-BD53B7C4.yaml
+  - M  CURRENT_STATUS.yaml
+  - M  artifacts/context/CURRENT_CONTEXT_PACK.md
+  - M  artifacts/context/CURRENT_CONTEXT_PACK.yaml
+  - M  artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+  - M  catalogs/session_index.csv
+  - ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
+  - M  docs/03-continuity/sessions/2026-07/SES-20260718T084729Z-BD53B7C4.md
+  - M  services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserTokenService.java
+  - ' M services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserTokenServiceTest.java'
+  recent_commits:
+  - "61d125dc354803d943d9881e81cfb9c8a291dd97\t2026-07-18T17:08:24+08:00\tHHY Continuity Bootstrap\t[STORY-R02-009] test(integration): align R02\
+    \ release facts"
+  - "6d1cb7eaf2064311ce4a841807dd4a31a3548124\t2026-07-18T16:49:24+08:00\tHHY Continuity Bootstrap\t[STORY-R02-009] test(auth): align restricted\
+    \ refresh contract"
+  - "342e70b9ceb649821e08b3977abd8bef31cfd45b\t2026-07-18T16:45:40+08:00\tHHY Continuity Bootstrap\t[STORY-R02-008] chore(continuity): close TASK-R02-005\
+    \ as completed"
+  - "0d49f7c62f4602d77c5231ae02221c8cc9dc9ec7\t2026-07-18T16:44:46+08:00\tHHY Continuity Bootstrap\t[STORY-R02-008] chore(continuity): close CR-0038"
+  - "194813662259dde14a320111dfe5db44b5066082\t2026-07-18T16:43:45+08:00\tHHY Continuity Bootstrap\t[STORY-R02-008] feat(h5): complete invite\
+    \ registration flow"
+  - "1e41f587985849538b8ba2f6b5d0ee24e0652223\t2026-07-18T16:15:49+08:00\tHHY Continuity Bootstrap\t[STORY-R02-001] chore(continuity): close TASK-R02-004\
+    \ as completed"
+  - "6d28613c19d0f64986aac5b4d7a51276bd3ff440\t2026-07-18T16:14:31+08:00\tHHY Continuity Bootstrap\t[STORY-R02-001] chore(continuity): close CR-0037"
+  - "2317ead46211c9bcfddbf7b77af8f76059325606\t2026-07-18T16:12:31+08:00\tHHY Continuity Bootstrap\t[STORY-R02-001] feat(admin): complete user\
+    \ control operations"
+project_fingerprint:
+  sha256: eac49981bf7dbb5bda644eb2c784df633646cc077e435cc5f17c0c2ffb0a16db
+  files:
+  - CHANGELOG.md
+  - apps/h5/src/styles.css
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/change-requests/CR-0039-同步R02新增注册协议配置端点后的权威计数.md
+  - docs/03-continuity/change-requests/CR-0040-同步R02端点计数的滚动总计划派生结果.md
+  - docs/03-continuity/change-requests/CR-0041-TASK-R02-006允许同步集成修正变更日志.md
+  - releases/PROGRAM_EXECUTION_PLAN.yaml
+  - releases/R02/DEFINITION_OF_READY.yaml
+  - releases/R02/RELEASE_MANIFEST.yaml
+  - releases/R02/TASKS.yaml
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserTokenService.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserTokenServiceTest.java
+  - tests/test_generated_assets.py
+  - tests/test_r02_auth_slice_contract.py
+  file_count: 14
+  payload:
+    base_commit: 342e70b9ceb649821e08b3977abd8bef31cfd45b
+    files:
+    - path: CHANGELOG.md
+      state: FILE
+      size: 20751
+      sha256: de2481fa978e607db553a4d99c7d2ad22459ed51258033b2dc0f321951be2770
+    - path: apps/h5/src/styles.css
+      state: FILE
+      size: 6209
+      sha256: ac0f5bbbead5925439fec133f1b4610f057baec71e2b0bc1c50fa6fcd3c427f3
+    - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
+      state: FILE
+      size: 16007
+      sha256: 20dc7cf5a24e22c033a5102a8e85432f4ebf3f33c0773c77f462ef2778eb5a65
+    - path: docs/03-continuity/change-requests/CR-0039-同步R02新增注册协议配置端点后的权威计数.md
+      state: FILE
+      size: 2122
+      sha256: 941bdab0b59baca63a321469d2309959fcae7dee37789052b37ee13ea52d0937
+    - path: docs/03-continuity/change-requests/CR-0040-同步R02端点计数的滚动总计划派生结果.md
+      state: FILE
+      size: 1789
+      sha256: 1e50caa216a54eca560abd87929000ca8b6ba2da9a8d6c2121eaf253a52945ae
+    - path: docs/03-continuity/change-requests/CR-0041-TASK-R02-006允许同步集成修正变更日志.md
+      state: FILE
+      size: 1699
+      sha256: 134b2c55024d59aef5587c77bb668698f55395e0194c880d69962d437cb3170a
+    - path: releases/PROGRAM_EXECUTION_PLAN.yaml
+      state: FILE
+      size: 35804
+      sha256: a16351c5e292e352990e58efa1941911b73b16b35b8b7c0a9528c4f937ee30d0
+    - path: releases/R02/DEFINITION_OF_READY.yaml
+      state: FILE
+      size: 7091
+      sha256: 56bb6f71390ee34bf92eac60dc7276dd90f969781bf32eac0028eff48972c0dc
+    - path: releases/R02/RELEASE_MANIFEST.yaml
+      state: FILE
+      size: 4311
+      sha256: 18bddf632011b122311da03f361f90a853bc7469f7af784900d49e30c1cb5633
+    - path: releases/R02/TASKS.yaml
+      state: FILE
+      size: 7545
+      sha256: 234fa8e540106bcbed790b160e4d2d343ea6370630744c104e0bc6c57fc5f429
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserTokenService.java
+      state: FILE
+      size: 6636
+      sha256: 0928b9e19608b05dde6901a0b82afeffabe394080e0d96045cbb792011c2c0d3
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserTokenServiceTest.java
+      state: FILE
+      size: 2589
+      sha256: 69c46b58387631c182242f5682231fdbe5751e49f7c6dc82070a61e94223a22b
+    - path: tests/test_generated_assets.py
+      state: FILE
+      size: 3375
+      sha256: bb6a8e7610e25e2f80c29e962cfa628a528dfadee2c59718788099061c445ac4
+    - path: tests/test_r02_auth_slice_contract.py
+      state: FILE
+      size: 7156
+      sha256: d0cc375053dbd64fa6072905e8958482e4622906c50641ca1625f150e9e4875b
+change_classification:
+  other:
+  - CHANGELOG.md
+  - releases/PROGRAM_EXECUTION_PLAN.yaml
+  - releases/R02/TASKS.yaml
+  code:
+  - apps/h5/src/styles.css
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserTokenService.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserTokenServiceTest.java
+  user_visible:
+  - apps/h5/src/styles.css
+  continuity:
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/change-requests/CR-0039-同步R02新增注册协议配置端点后的权威计数.md
+  - docs/03-continuity/change-requests/CR-0040-同步R02端点计数的滚动总计划派生结果.md
+  - docs/03-continuity/change-requests/CR-0041-TASK-R02-006允许同步集成修正变更日志.md
+  source_of_truth:
+  - releases/R02/DEFINITION_OF_READY.yaml
+  - releases/R02/RELEASE_MANIFEST.yaml
+  tests:
+  - tests/test_generated_assets.py
+  - tests/test_r02_auth_slice_contract.py
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+- APPROVED_CHANGE_REQUEST
+- CHANGELOG
+change_requests:
+- CR-0039
+- CR-0040
+- CR-0041
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions:
+  - releases/R02/RELEASE_MANIFEST.yaml
+  - releases/R02/TASKS.yaml
+  - releases/R02/DEFINITION_OF_READY.yaml
+  - tests/test_generated_assets.py
+  - releases/PROGRAM_EXECUTION_PLAN.yaml
+  - CHANGELOG.md
+  source: story+explicit+approved-cr:CR-0039+approved-cr:CR-0040+approved-cr:CR-0041
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 生产验签、唯一回归类和问题登记构成一个原子安全修复提交
+event_hash: d077e34bf1e21200865b87d691d82e6feebd10bc4a13babeb2876a287f7d8892

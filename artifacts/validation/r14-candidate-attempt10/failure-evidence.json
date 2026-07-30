@@ -1,0 +1,77 @@
+{
+  "schema_version": "1.0",
+  "release": "R14",
+  "attempt": 10,
+  "recorded_at": "2026-07-29T20:44:00Z",
+  "source": {
+    "repository": "fei613293175/hhy",
+    "branch": "task/TASK-R03-001",
+    "commit": "ae95d4b0fba8136c852557bc331ed4ea22f537a1"
+  },
+  "github": {
+    "run_id": 30488268307,
+    "run_conclusion": "failure",
+    "candidate_request_job_id": 90699332687,
+    "build_job_id": 90699388546,
+    "emulator_job_id": 90701073711,
+    "passed_stages": [
+      "candidate_request",
+      "compile",
+      "lint",
+      "unit_test",
+      "apk_package",
+      "staging_bootstrap",
+      "emulator_start"
+    ],
+    "failed_stage": "authenticated_r14_chat_journey",
+    "failure": {
+      "test": "ReleaseCandidateSmokeTest.authenticatedReleaseJourneyProducesBoundFunctionalAndVisualEvidence",
+      "line": 217,
+      "message": "R14 block did not expose the stable blocked state: composeNodes=1 composerResourceVisible=false",
+      "error_type": "java.lang.AssertionError"
+    }
+  },
+  "artifacts": [
+    {
+      "id": 8738995086,
+      "name": "android-runtime-30488268307",
+      "size_in_bytes": 177230,
+      "digest": "sha256:cf202cf8fdae2c3ffb4c6a2f25e4930826c99a1cbd1edacbf5f743ff35a3a1f1"
+    },
+    {
+      "id": 8738776244,
+      "name": "android-build-30488268307",
+      "size_in_bytes": 23283353,
+      "digest": "sha256:d77298487c4c151e19583491c2892407e668a265f92f52fcb39328eebe1956ea"
+    },
+    {
+      "id": 8738573842,
+      "name": "android-candidate-request-30488268307",
+      "size_in_bytes": 1259,
+      "digest": "sha256:fbfc7ba1bcb488db1efe10389d121e780ed078637c7b4dd8d98925579d090557"
+    }
+  ],
+  "staging": {
+    "container": "hhy-r14-ci-candidate-ae95d4b0",
+    "port": 28124,
+    "source_commit": "ae95d4b0fba8136c852557bc331ed4ea22f537a1",
+    "block_request": {
+      "operation": "POST /api/v1/users/{id}/block",
+      "status": 200,
+      "latency_ms": 65,
+      "request_id": "299fd7f7-185b-4abe-a8f3-3cb41ce22278",
+      "trace_id": "f21e12b774914028a0cb4eb0aa681957",
+      "completed_at": "2026-07-29T20:39:12.776667493Z"
+    }
+  },
+  "diagnosis": {
+    "business_state_changed": true,
+    "compose_blocked_node_count": 1,
+    "composer_resource_visible": false,
+    "old_path_round": 3,
+    "old_path_exhausted": true,
+    "root_cause": "UiAutomator resource-id export is not a reliable visibility oracle for the Compose bottom-bar testTag.",
+    "next_path": "Compose assertIsDisplayed plus UiAutomator user-visible text plus composer absence"
+  },
+  "secrets_included": false
+}

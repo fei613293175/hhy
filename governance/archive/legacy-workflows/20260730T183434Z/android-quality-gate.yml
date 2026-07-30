@@ -1,0 +1,382 @@
+name: Android Quality Gate
+
+on:
+  workflow_call:
+    inputs:
+      release:
+        description: Release identifier or DEVELOPMENT
+        required: false
+        type: string
+        default: DEVELOPMENT
+      candidate:
+        description: Publish a candidate artifact after every automated gate passes
+        required: false
+        type: boolean
+        default: false
+      remediation_attempt:
+        description: AI remediation attempt number; ordinary range is one through three
+        required: false
+        type: number
+        default: 1
+      request_id:
+        description: Durable candidate request identifier
+        required: false
+        type: string
+        default: ''
+      attempt_exception_id:
+        description: Approved CR for an exact attempt exception
+        required: false
+        type: string
+        default: ''
+      required_fix_commit:
+        description: Exact approved root-fix commit for an attempt exception
+        required: false
+        type: string
+        default: ''
+      effective_attempt_limit:
+        description: Effective limit resolved by the candidate request validator
+        required: false
+        type: number
+        default: 3
+  workflow_dispatch:
+    inputs:
+      release:
+        description: Release identifier, for example R06
+        required: true
+        type: string
+      candidate:
+        description: Publish candidate APK when green
+        required: true
+        type: boolean
+        default: true
+      remediation_attempt:
+        description: AI remediation attempt number
+        required: true
+        type: number
+        default: 1
+      request_id:
+        description: Durable candidate request identifier
+        required: false
+        type: string
+        default: ''
+      attempt_exception_id:
+        description: Approved CR for an exact attempt exception
+        required: false
+        type: string
+        default: ''
+      required_fix_commit:
+        description: Exact approved root-fix commit for an attempt exception
+        required: false
+        type: string
+        default: ''
+      effective_attempt_limit:
+        description: Effective attempt limit
+        required: true
+        type: number
+        default: 3
+
+permissions:
+  contents: read
+  issues: write
+  id-token: write
+
+env:
+  LANG: C.UTF-8
+  LC_ALL: C.UTF-8
+  HHY_API_BASE_URL: https://api.orbexa.cc
+  HHY_APP_CHANNEL: official
+  HHY_APP_ENVIRONMENT: STAGING
+  ANDROID_RELEASE: ${{ inputs.release }}
+
+concurrency:
+  group: android-quality-${{ github.ref }}-${{ inputs.release }}
+  cancel-in-progress: true
+
+jobs:
+  historical-visual:
+    name: Historical UI offline visual evidence
+    if: ${{ inputs.release == 'HISTORICAL-UI' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: gradle
+      - uses: android-actions/setup-android@v3
+      - name: Install Android build platform
+        run: sdkmanager 'platforms;android-36' 'build-tools;36.0.0'
+      - name: Enable KVM for the Android emulator
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+      - name: Capture the single offline historical visual batch
+        uses: reactivecircus/android-emulator-runner@a421e43855164a8197daf9d8d40fe71c6996bb0d
+        with:
+          api-level: 35
+          target: google_apis
+          arch: x86_64
+          profile: pixel_7
+          emulator-options: -no-snapshot -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -prop persist.sys.locale=zh-CN
+          disable-animations: true
+          script: bash scripts/run_android_historical_visual_audit.sh
+      - name: Collect instrumentation reports
+        if: always()
+        run: |
+          mkdir -p artifacts/historical-ui/test-results
+          find apps/android/app/build -path '*/androidTests/connected/*' -type f -print0 \
+            | xargs -0 -r cp --parents -t artifacts/historical-ui/test-results
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: android-historical-visual-${{ github.run_id }}
+          if-no-files-found: error
+          retention-days: 30
+          path: artifacts/historical-ui
+
+  build:
+    name: Compile, lint, unit test and package
+    if: ${{ inputs.release != 'HISTORICAL-UI' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Configure portable Git behavior
+        run: git config core.quotepath false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install --disable-pip-version-check pyyaml pillow
+      - name: Validate durable automation policy
+        run: python scripts/android_ci_gate.py policy-check
+      - name: Validate exact candidate attempt before Android setup
+        if: ${{ inputs.candidate }}
+        shell: bash
+        run: |
+          python scripts/android_ci_gate.py attempt-check \
+            --release "${{ inputs.release }}" \
+            --commit "$GITHUB_SHA" \
+            --attempt "${{ inputs.remediation_attempt }}" \
+            --request-id "${{ inputs.request_id }}" \
+            --attempt-exception-id "${{ inputs.attempt_exception_id }}" \
+            --required-fix-commit "${{ inputs.required_fix_commit }}" \
+            --effective-attempt-limit "${{ inputs.effective_attempt_limit }}"
+          if [[ -n "${{ inputs.required_fix_commit }}" ]]; then
+            git merge-base --is-ancestor "${{ inputs.required_fix_commit }}" "$GITHUB_SHA"
+          fi
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: gradle
+      - uses: android-actions/setup-android@v3
+      - name: Install Android build platform
+        run: sdkmanager 'platforms;android-36' 'build-tools;36.0.0'
+      - name: Run source and visual foundation gates
+        run: |
+          python scripts/check_android_ui_foundation.py
+          python scripts/check_ui_tokens.py
+      - name: Compile, lint, test and package
+        working-directory: apps/android
+        shell: bash
+        run: |
+          # Keep peak memory deterministic on GitHub-hosted runners.  Large
+          # Android lint, Kotlin and packaging graphs must not share one
+          # unbounded parallel Gradle invocation.
+          common=(--no-daemon --no-parallel --max-workers=1 --stacktrace "-Dorg.gradle.jvmargs=-Xmx1536m -Dfile.encoding=UTF-8 -Duser.timezone=UTC")
+          ./gradlew "${common[@]}" verifyApiBaseUrl assembleDebug
+          ./gradlew "${common[@]}" assembleDebugAndroidTest
+          ./gradlew "${common[@]}" testDebugUnitTest
+          ./gradlew "${common[@]}" lintDebug
+      - name: Assemble build evidence
+        if: always()
+        shell: bash
+        run: |
+          mkdir -p artifacts/android-ci/build
+          find apps/android -path '*/build/reports/*' -type f -print0 | xargs -0 -r cp --parents -t artifacts/android-ci/build
+          find apps/android -path '*/build/test-results/*' -type f -print0 | xargs -0 -r cp --parents -t artifacts/android-ci/build
+          find apps/android/app/build/outputs/apk -name '*.apk' -type f -print0 | xargs -0 -r cp -t artifacts/android-ci/build
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: android-build-${{ github.run_id }}
+          if-no-files-found: error
+          retention-days: 30
+          path: artifacts/android-ci/build
+
+  emulator:
+    name: Emulator install, journeys, screenshots and logs
+    needs: build
+    if: ${{ inputs.candidate }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Request one-time Staging CI bootstrap code
+        shell: bash
+        run: |
+          set -euo pipefail
+          oidc_file="${RUNNER_TEMP}/hhy-android-oidc.json"
+          bootstrap_file="${RUNNER_TEMP}/hhy-android-bootstrap.json"
+          trap 'rm -f "$oidc_file" "$bootstrap_file"' EXIT
+          oidc_status="$(curl --silent --show-error \
+            --output "$oidc_file" \
+            --write-out '%{http_code}' \
+            --header "Authorization: bearer ${ACTIONS_ID_TOKEN_REQUEST_TOKEN}" \
+            "${ACTIONS_ID_TOKEN_REQUEST_URL}&audience=hhy-android-e2e")"
+          if [[ "$oidc_status" != "200" ]]; then
+            echo "::error title=GitHub OIDC bootstrap preflight failed::GitHub OIDC token endpoint returned HTTP ${oidc_status}; response body is intentionally suppressed"
+            exit 22
+          fi
+          oidc_token="$(python -c 'import json,sys; print(json.load(open(sys.argv[1], encoding="utf-8"))["value"])' "$oidc_file")"
+          bootstrap_payload="$(python -c 'import json,os; print(json.dumps({"commit":os.environ["GITHUB_SHA"],"runId":os.environ["GITHUB_RUN_ID"],"release":os.environ["ANDROID_RELEASE"]}))')"
+          bootstrap_attempt=1
+          bootstrap_max_attempts=3
+          bootstrap_status=
+          while (( bootstrap_attempt <= bootstrap_max_attempts )); do
+            bootstrap_status="$(curl --silent --show-error \
+              --output "$bootstrap_file" \
+              --write-out '%{http_code}' \
+              --header "Authorization: Bearer ${oidc_token}" \
+              --header 'Content-Type: application/json' \
+              --data "$bootstrap_payload" \
+              https://api.orbexa.cc/internal-ci/v1/android/bootstrap)"
+            [[ "$bootstrap_status" == "200" ]] && break
+            if [[ ! " 500 502 503 504 " =~ " ${bootstrap_status} " ]] \
+              || (( bootstrap_attempt == bootstrap_max_attempts )); then
+              echo "::error title=Staging bootstrap preflight failed::Staging bootstrap endpoint returned HTTP ${bootstrap_status} after ${bootstrap_attempt} attempt(s); response body and bearer token are intentionally suppressed"
+              exit 22
+            fi
+            bootstrap_backoff_seconds=$(( bootstrap_attempt == 1 ? 2 : 4 ))
+            echo "::warning title=Staging bootstrap transient failure::Staging bootstrap endpoint returned retryable HTTP ${bootstrap_status} on attempt ${bootstrap_attempt}/${bootstrap_max_attempts}; retrying after ${bootstrap_backoff_seconds}s with response body and bearer token suppressed"
+            rm -f "$bootstrap_file"
+            sleep "$bootstrap_backoff_seconds"
+            bootstrap_attempt=$((bootstrap_attempt + 1))
+          done
+          bootstrap_code="$(python -c 'import json,sys; print(json.load(open(sys.argv[1], encoding="utf-8"))["data"]["code"])' "$bootstrap_file")"
+          echo "::add-mask::$bootstrap_code"
+          echo "HHY_CI_BOOTSTRAP_CODE=$bootstrap_code" >> "$GITHUB_ENV"
+      - run: pip install --disable-pip-version-check pyyaml pillow
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: gradle
+      - uses: android-actions/setup-android@v3
+      - name: Install Android build platform for instrumentation
+        run: sdkmanager 'platforms;android-36' 'build-tools;36.0.0'
+      - name: Enable KVM for the Android emulator
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+      - name: Execute deterministic emulator journeys
+        uses: reactivecircus/android-emulator-runner@a421e43855164a8197daf9d8d40fe71c6996bb0d
+        with:
+          api-level: 35
+          target: google_apis
+          arch: x86_64
+          profile: pixel_7
+          emulator-options: -no-snapshot -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back emulated -camera-front emulated -prop persist.sys.locale=zh-CN
+          disable-animations: true
+          script: bash scripts/run_android_emulator_gate.sh
+        env:
+          REMEDIATION_ATTEMPT: ${{ inputs.remediation_attempt }}
+          CANDIDATE_REQUEST_ID: ${{ inputs.request_id }}
+          ATTEMPT_EXCEPTION_ID: ${{ inputs.attempt_exception_id }}
+          REQUIRED_FIX_COMMIT: ${{ inputs.required_fix_commit }}
+          HHY_CI_BOOTSTRAP_CODE: ${{ env.HHY_CI_BOOTSTRAP_CODE }}
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: android-runtime-${{ github.run_id }}
+          if-no-files-found: error
+          retention-days: 30
+          path: artifacts/android-ci
+
+  candidate:
+    name: Candidate eligibility gate
+    needs: [build, emulator]
+    if: ${{ always() && inputs.candidate }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install --disable-pip-version-check pyyaml
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: android-*-${{ github.run_id }}
+          path: ci-downloads
+          merge-multiple: true
+      - name: Refuse a candidate until every automated gate is green
+        shell: bash
+        run: |
+          apk="$(find ci-downloads -name '*.apk' ! -name '*androidTest*' -type f | head -n 1)"
+          mkdir -p candidate-output
+          candidate_apk="candidate-output/hhy-${ANDROID_RELEASE}-${GITHUB_SHA:0:7}-candidate.apk"
+          cp "$apk" "$candidate_apk"
+          python scripts/android_ci_gate.py finalize \
+            --release "$ANDROID_RELEASE" \
+            --commit "$GITHUB_SHA" \
+            --run-id "$GITHUB_RUN_ID" \
+            --build-result "${{ needs.build.result }}" \
+            --emulator-report ci-downloads/runtime/runtime-report.json \
+            --apk "$candidate_apk" \
+            --output candidate-output/candidate-report.json
+          cp -r ci-downloads/screenshots candidate-output/screenshots
+          cp -r ci-downloads/runtime candidate-output/runtime
+      - uses: actions/upload-artifact@v4
+        with:
+          name: hhy-${{ inputs.release }}-candidate-${{ github.run_id }}
+          if-no-files-found: error
+          retention-days: 30
+          path: candidate-output
+
+  remediation-queue:
+    name: Durable AI remediation queue
+    needs: [build, emulator, candidate]
+    if: ${{ always() && inputs.candidate && needs.candidate.result != 'success' && github.event_name != 'pull_request' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/github-script@v7
+        with:
+          script: |
+            const release = '${{ inputs.release }}';
+            const title = `[Android CI] ${release} 自动门禁失败，禁止真机验收`;
+            const runUrl = `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
+            const body = [
+              '状态：REMEDIATION_REQUIRED',
+              `Release：${release}`,
+              `Commit：${context.sha}`,
+              `修复轮次：${{ inputs.remediation_attempt }}/${{ inputs.effective_attempt_limit }}`,
+              `失败证据：${runUrl}`,
+              '',
+              '接续 AI 必须下载 android-build 与 android-runtime 证据，定位根因、修改、重新打包并重跑。',
+              '自动门禁 PASS 前不得标记版本完成，也不得要求项目所有者进行真机测试。'
+            ].join('\n');
+            const { data: issues } = await github.rest.issues.listForRepo({
+              owner: context.repo.owner, repo: context.repo.repo, state: 'open', per_page: 100
+            });
+            const existing = issues.find(issue => issue.title === title);
+            if (existing) {
+              await github.rest.issues.update({
+                owner: context.repo.owner, repo: context.repo.repo,
+                issue_number: existing.number, body
+              });
+            } else {
+              await github.rest.issues.create({ owner: context.repo.owner, repo: context.repo.repo, title, body });
+            }

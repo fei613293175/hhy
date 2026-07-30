@@ -1,0 +1,141 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260722T194140Z-BCF8BB57-0002
+session_id: SES-20260722T194140Z-BCF8BB57
+sequence: 2
+created_at: '2026-07-22T19:45:23Z'
+summary: CR-0252已完成影响说明、异Actor审批并应用15项精确文件范围。
+next_step: 在批准范围内实现R09 App三项专项测试、统一证据检查器和适配器。
+blockers: []
+decisions:
+- 供应商异常只覆盖R09真实依赖：媒体存储与H5域名配置提供方；不虚构第三方App供应商。
+note: ''
+tests:
+- name: 本阶段未执行测试
+  result: NOT_RUN
+  evidence: ''
+  note: 该检查点用于满足CR应用后的强制边界确认，尚未写入实现。
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: 78c1f91bbacd724991292e2634288d6af6ace5d5
+  upstream: origin/task/TASK-R03-001
+  ahead: 0
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/ACTIVE_SESSION.yaml'
+  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/SESSION_INDEX.yaml'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/TASK_CLAIMS.yaml'
+  - ' M .continuity/TASK_TRANSITIONS.yaml'
+  - ' M CURRENT_STATUS.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+  - ' M catalogs/change_request_index.csv'
+  - ' M catalogs/session_index.csv'
+  - ' M catalogs/task_transition_ledger.csv'
+  - ?? .continuity/change_requests/CR-0252.yaml
+  - ?? .continuity/checkpoints/SES-20260722T194140Z-BCF8BB57/0001.yaml
+  - ?? .continuity/sessions/SES-20260722T194140Z-BCF8BB57.yaml
+  - ?? docs/03-continuity/change-requests/CR-0252-R09-App推广专项测试与故障证据闭环.md
+  - ?? docs/03-continuity/sessions/2026-07/SES-20260722T194140Z-BCF8BB57.md
+  recent_commits:
+  - "78c1f91bbacd724991292e2634288d6af6ace5d5\t2026-07-23T03:40:17+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] docs(r09): close client task"
+  - "2606a21c4f3020c2279b8320958be13d4fc0df0c\t2026-07-23T03:38:58+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] docs(r09): close promotion\
+    \ change request"
+  - "b548d582e8e5b942a93513c128a113c8571bff0c\t2026-07-23T03:37:56+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] feat(app): implement promotion\
+    \ experience"
+  - "536601aecf5e775466fe0a3c4225bc2bc3e633d8\t2026-07-23T03:01:18+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] docs(r09): close App backend\
+    \ task"
+  - "3f27a588499e9ca8e9679a85b9cf5b454447c76f\t2026-07-23T02:57:53+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] docs(cr): close R09 App backend"
+  - "e4f54c07b1b3cae024b5de42179a5e2cfb6f2c76\t2026-07-23T02:56:02+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] feat(content): implement App\
+    \ promotion backend"
+  - "4b4d71a63a5eccc428e2e04f04e13b2fa466bc72\t2026-07-23T02:31:25+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] docs(r09): close App data\
+    \ task"
+  - "a147db6de57534277d882755c9831793ecb02fdd\t2026-07-23T02:30:06+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] docs(cr): close R09 data invariants"
+project_fingerprint:
+  sha256: dd25c5465990949eb3bfde462db9e7f5e714659574bcf8968c8da11c3970c99b
+  files:
+  - docs/03-continuity/change-requests/CR-0252-R09-App推广专项测试与故障证据闭环.md
+  file_count: 1
+  payload:
+    base_commit: 78c1f91bbacd724991292e2634288d6af6ace5d5
+    files:
+    - path: docs/03-continuity/change-requests/CR-0252-R09-App推广专项测试与故障证据闭环.md
+      state: FILE
+      size: 3510
+      sha256: 9c8623098d859cfd1962a4f759d12b0e443e0b6d9b5c5c529d7334e85cd21f95
+change_classification:
+  continuity:
+  - docs/03-continuity/change-requests/CR-0252-R09-App推广专项测试与故障证据闭环.md
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+change_requests:
+- CR-0252
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  - tests/r09/**
+  - services/backend/boot/src/test/**
+  - artifacts/reports/R09/**
+  - catalogs/test_cases.csv
+  approved_exceptions:
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R09ServiceTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R09PostgresStoreTest.java
+  - apps/android/feature/app-promotion/src/test/java/cc/orbexa/hhy/apppromotion/R09AppStateTest.kt
+  - scripts/run_r09_specialized_matrix.py
+  - tests/r09/README.md
+  - tests/r09/req-app-promo-001_happy
+  - tests/r09/req-app-promo-001_reject
+  - tests/r09/req-app-promo-001_idempotent
+  - catalogs/test_cases.csv
+  - artifacts/reports/R09/TASK-R09-005-specialized-tests.md
+  - artifacts/validation/r09-test-evidence/backend-java21.log
+  - artifacts/validation/r09-test-evidence/postgresql17.log
+  - artifacts/validation/r09-test-evidence/android-module.log
+  - artifacts/validation/r09-test-evidence/evidence.json
+  - CHANGELOG.md
+  source: story+explicit+approved-cr:CR-0252
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 测试方法名、适配器选择器与证据校验器必须原子同步，且未获用户授权启用子代理。
+event_hash: a103af06d36ac0fee2473d6350e149252019f27f464135ab0849d8ff299735cf

@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "release": "R03",
+  "verified_at": "2026-07-18T17:01:31Z",
+  "probe_origin": "obx-test/hhy-r03-2950cb6-alert-sink-1",
+  "rows": [
+    {"host":"admin.orbexa.cc","dns_status":"FAILED","tls_status":"FAILED","service_health_status":"FAILED","error_type":"gaierror","owner":"PROJECT_OWNER","deadline_release":"R03","blocker":"PROB-0031"},
+    {"host":"api.orbexa.cc","dns_status":"PASSED","tls_status":"PASSED","service_health_status":"PASSED","addresses":["172.66.40.193","172.66.43.63","2606:4700:3108::ac42:28c1","2606:4700:3108::ac42:2b3f"],"certificate_sha256":"2f0fca81d4a1616a73d182e9905de157774e80b84f6895eb48f41efd9b9f972f","certificate_not_after":"2026-08-27T04:58:17Z","http_status":200},
+    {"host":"assets.orbexa.cc","dns_status":"FAILED","tls_status":"FAILED","service_health_status":"FAILED","error_type":"gaierror","owner":"PROJECT_OWNER","deadline_release":"R03","blocker":"PROB-0031"},
+    {"host":"download.orbexa.cc","dns_status":"PASSED","tls_status":"PASSED","service_health_status":"PASSED","addresses":["172.66.40.193","172.66.43.63","2606:4700:3108::ac42:28c1","2606:4700:3108::ac42:2b3f"],"certificate_sha256":"2f0fca81d4a1616a73d182e9905de157774e80b84f6895eb48f41efd9b9f972f","certificate_not_after":"2026-08-27T04:58:17Z","http_status":404,"note":"根路径404符合精确APK白名单策略；产物路径由APK交付门禁单独验证200/206。"},
+    {"host":"h5.orbexa.cc","dns_status":"FAILED","tls_status":"FAILED","service_health_status":"FAILED","error_type":"gaierror","owner":"PROJECT_OWNER","deadline_release":"R03","blocker":"PROB-0031"},
+    {"host":"stg-admin.orbexa.cc","dns_status":"FAILED","tls_status":"FAILED","service_health_status":"FAILED","error_type":"gaierror","owner":"PROJECT_OWNER","deadline_release":"R03","blocker":"PROB-0031"},
+    {"host":"stg-api.orbexa.cc","dns_status":"FAILED","tls_status":"FAILED","service_health_status":"FAILED","error_type":"gaierror","owner":"PROJECT_OWNER","deadline_release":"R03","blocker":"PROB-0031"},
+    {"host":"stg-download.orbexa.cc","dns_status":"FAILED","tls_status":"FAILED","service_health_status":"FAILED","error_type":"gaierror","owner":"PROJECT_OWNER","deadline_release":"R03","blocker":"PROB-0031"},
+    {"host":"stg-h5.orbexa.cc","dns_status":"FAILED","tls_status":"FAILED","service_health_status":"FAILED","error_type":"gaierror","owner":"PROJECT_OWNER","deadline_release":"R03","blocker":"PROB-0031"},
+    {"host":"stg-ws.orbexa.cc","dns_status":"FAILED","tls_status":"FAILED","service_health_status":"FAILED","error_type":"gaierror","owner":"PROJECT_OWNER","deadline_release":"R03","blocker":"PROB-0031"},
+    {"host":"ws.orbexa.cc","dns_status":"FAILED","tls_status":"FAILED","service_health_status":"FAILED","error_type":"gaierror","owner":"PROJECT_OWNER","deadline_release":"R03","blocker":"PROB-0031"},
+    {"host":"www.orbexa.cc","dns_status":"FAILED","tls_status":"FAILED","service_health_status":"FAILED","error_type":"gaierror","owner":"PROJECT_OWNER","deadline_release":"R03","blocker":"PROB-0031"}
+  ]
+}

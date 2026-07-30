@@ -34,11 +34,13 @@ public final class SecurityErrorResponseWriter {
             String message) throws IOException {
         Object requestIdAttribute = request.getAttribute("requestId");
         String requestId = requestIdAttribute == null ? "missing" : requestIdAttribute.toString();
+        Object traceIdAttribute = request.getAttribute("traceId");
+        String traceId = traceIdAttribute == null ? "missing" : traceIdAttribute.toString();
         response.setStatus(status);
         response.setCharacterEncoding("UTF-8");
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.getWriter().write("""
                 {"success":false,"requestId":"%s","timestamp":"%s","error":{"code":"%s","message":"%s","details":[],"retryable":false,"traceId":"%s"}}
-                """.formatted(requestId, Instant.now(clock), code, message, requestId).strip());
+                """.formatted(requestId, Instant.now(clock), code, message, traceId).strip());
     }
 }

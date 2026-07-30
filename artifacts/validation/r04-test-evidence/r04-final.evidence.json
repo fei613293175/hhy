@@ -1,0 +1,132 @@
+{
+  "schema": "hhy.r04.test-evidence/v1",
+  "report_id": "R04-06DC3492-3fb6405-final",
+  "suite": "r04-java21-pg17-android-contracts",
+  "producer": "codex-root@obx-test",
+  "generated_at": "2026-07-19T13:49:01Z",
+  "source_commit": "3fb6405ad6161c09f73c1fd5274edd8140567b08",
+  "command": [
+    "HHY_R04_DB_CONTAINER=hhy-r04-integration-06dc3492-db4 bash scripts/run_r04_remote_integration.sh"
+  ],
+  "environment": {
+    "java": "Eclipse Temurin 21.0.9",
+    "maven": "Apache Maven 3.9.11",
+    "postgresql": "PostgreSQL 17.10",
+    "android_image": "hhy-android-toolchain:r01-46fb273",
+    "android_image_id": "sha256:97a5b2d7ae4d6c4abab0c985b502597d0612f3a1e0941fd842008e30a4632607",
+    "api_base_url": "https://api.orbexa.cc",
+    "remote": "obx-test",
+    "isolated_source_root": "/tmp/hhy-r04-integration-06DC3492"
+  },
+  "results": [
+    {
+      "test_id": "TST-MEDIA_001-HAPPY",
+      "status": "PASS",
+      "executed": true,
+      "exit_code": 0,
+      "started_at": "2026-07-19T13:47:40Z",
+      "finished_at": "2026-07-19T13:48:50Z",
+      "assertions": [
+        {"name": "媒体创建、完成、读取与删除服务主路径通过", "status": "PASS"},
+        {"name": "PostgreSQL 17 空库至 V022 且 200 张表与 R04 不变量通过", "status": "PASS"},
+        {"name": "Android 上传、完成回传与私有预览边界通过", "status": "PASS"}
+      ],
+      "artifacts": [
+        {"path": "raw/backend-integration.log", "sha256": "ac68436e8af14c1384ed0e56bca47e2e8903bfcdeeb132f74bb3a1b947ca7587"},
+        {"path": "raw/postgres17-integration.log", "sha256": "e5deff9c54256746c64c721b002aff3d034dfcf98996f6069586083f88f312ca"},
+        {"path": "raw/android-integration.log", "sha256": "c7f4710dfee6c5e32bcba3a676d925d79eebce3a0478ab93fe7b386c6a4ff6e6"}
+      ],
+      "details": "后端 216 项测试、R04 数据库升级回滚重放与 Android 331 个任务共同覆盖媒体主路径。"
+    },
+    {
+      "test_id": "TST-MEDIA_001-IDEMPOTENT",
+      "status": "PASS",
+      "executed": true,
+      "exit_code": 0,
+      "started_at": "2026-07-19T13:47:40Z",
+      "finished_at": "2026-07-19T13:48:50Z",
+      "assertions": [
+        {"name": "创建、完成与删除的服务端幂等快照测试通过", "status": "PASS"},
+        {"name": "Android 创建、完成与删除重试复用稳定幂等键", "status": "PASS"},
+        {"name": "供应商失败暂停且恢复时不越过迁移游标", "status": "PASS"}
+      ],
+      "artifacts": [
+        {"path": "raw/backend-integration.log", "sha256": "ac68436e8af14c1384ed0e56bca47e2e8903bfcdeeb132f74bb3a1b947ca7587"},
+        {"path": "raw/android-integration.log", "sha256": "c7f4710dfee6c5e32bcba3a676d925d79eebce3a0478ab93fe7b386c6a4ff6e6"}
+      ],
+      "details": "重复请求、响应丢失后的重试与供应商暂停恢复均保持单一业务结果。"
+    },
+    {
+      "test_id": "TST-MEDIA_001-REJECT",
+      "status": "PASS",
+      "executed": true,
+      "exit_code": 0,
+      "started_at": "2026-07-19T13:47:40Z",
+      "finished_at": "2026-07-19T13:48:50Z",
+      "assertions": [
+        {"name": "未知用途、非法 SHA、过期、跨 owner 与已绑定删除均被拒绝", "status": "PASS"},
+        {"name": "跨 Scope 迁移与供应商错配被阻断", "status": "PASS"},
+        {"name": "数据库约束拒绝跨 Scope、非法状态与不一致数据", "status": "PASS"}
+      ],
+      "artifacts": [
+        {"path": "raw/backend-integration.log", "sha256": "ac68436e8af14c1384ed0e56bca47e2e8903bfcdeeb132f74bb3a1b947ca7587"},
+        {"path": "raw/postgres17-integration.log", "sha256": "e5deff9c54256746c64c721b002aff3d034dfcf98996f6069586083f88f312ca"}
+      ],
+      "details": "权限、校验、状态机和数据库拒绝路径不产生已完成媒体副作用。"
+    },
+    {
+      "test_id": "TST-V122-001",
+      "status": "PASS",
+      "executed": true,
+      "exit_code": 0,
+      "started_at": "2026-07-19T13:47:40Z",
+      "finished_at": "2026-07-19T13:48:50Z",
+      "assertions": [
+        {"name": "创建上传会话使用冻结 DTO、operationId 与稳定幂等键", "status": "PASS"},
+        {"name": "离线及 401、403、404、409、422、429、500 均为商业提示", "status": "PASS"},
+        {"name": "上传 URL 与技术字段不进入可见状态", "status": "PASS"}
+      ],
+      "artifacts": [
+        {"path": "raw/android-integration.log", "sha256": "c7f4710dfee6c5e32bcba3a676d925d79eebce3a0478ab93fe7b386c6a4ff6e6"},
+        {"path": "raw/backend-integration.log", "sha256": "ac68436e8af14c1384ed0e56bca47e2e8903bfcdeeb132f74bb3a1b947ca7587"}
+      ],
+      "details": "SHEET-MEDIA-001 创建动作的字段、加载、恢复、敏感处理与服务端契约一致。"
+    },
+    {
+      "test_id": "TST-V122-002",
+      "status": "PASS",
+      "executed": true,
+      "exit_code": 0,
+      "started_at": "2026-07-19T13:47:40Z",
+      "finished_at": "2026-07-19T13:48:50Z",
+      "assertions": [
+        {"name": "完成上传校验对象键、大小和 SHA-256", "status": "PASS"},
+        {"name": "完成重试复用稳定幂等键且重复完成返回同一媒体", "status": "PASS"},
+        {"name": "私有 readUrl 仅通过受信任预览回调传递", "status": "PASS"}
+      ],
+      "artifacts": [
+        {"path": "raw/android-integration.log", "sha256": "c7f4710dfee6c5e32bcba3a676d925d79eebce3a0478ab93fe7b386c6a4ff6e6"},
+        {"path": "raw/backend-integration.log", "sha256": "ac68436e8af14c1384ed0e56bca47e2e8903bfcdeeb132f74bb3a1b947ca7587"}
+      ],
+      "details": "SHEET-MEDIA-001 完成动作的状态、并发恢复、敏感边界和服务端校验一致。"
+    },
+    {
+      "test_id": "TST-V122-003",
+      "status": "PASS",
+      "executed": true,
+      "exit_code": 0,
+      "started_at": "2026-07-19T13:47:40Z",
+      "finished_at": "2026-07-19T13:48:50Z",
+      "assertions": [
+        {"name": "删除仅在明确确认后执行且不会自动重放", "status": "PASS"},
+        {"name": "删除失败重试复用稳定幂等键", "status": "PASS"},
+        {"name": "已绑定媒体拒绝删除且重复删除保持单一状态转换", "status": "PASS"}
+      ],
+      "artifacts": [
+        {"path": "raw/android-integration.log", "sha256": "c7f4710dfee6c5e32bcba3a676d925d79eebce3a0478ab93fe7b386c6a4ff6e6"},
+        {"path": "raw/backend-integration.log", "sha256": "ac68436e8af14c1384ed0e56bca47e2e8903bfcdeeb132f74bb3a1b947ca7587"}
+      ],
+      "details": "SHEET-MEDIA-001 删除动作的确认、幂等、错误恢复与服务端状态机一致。"
+    }
+  ]
+}

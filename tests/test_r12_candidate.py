@@ -1,0 +1,218 @@
+from pathlib import Path
+import json
+import re
+import unittest
+
+import yaml
+
+
+ROOT = Path(__file__).resolve().parents[1]
+FIXTURE = ROOT / "scripts/prepare_r12_ci_fixture.sh"
+JOURNEY = ROOT / "apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt"
+VISUAL_MANIFEST = ROOT / "tests/android/visual-manifests/R12.yaml"
+BUILD = ROOT / "apps/android/app/build.gradle.kts"
+RELEASE_POLICY = ROOT / "apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt"
+VERSION_TEST = ROOT / "apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt"
+WORKFLOW = ROOT / ".github/workflows/android-quality-gate.yml"
+CI_SERVICE = ROOT / "services/backend/access/src/main/java/cc/orbexa/hhy/access/user/CiAutomationService.java"
+CI_FIXTURE_STORE = ROOT / "services/backend/access/src/main/java/cc/orbexa/hhy/access/user/CiAutomationFixtureStore.java"
+CI_CONTROLLER = ROOT / "services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/CiAutomationController.java"
+HHY_MOTION = ROOT / "apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyMotion.kt"
+PROFILE_SCREEN = ROOT / "apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/R12ProfileScreen.kt"
+ME_SCREEN = ROOT / "apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/R12MeHomeScreen.kt"
+MANAGEMENT_LIST = ROOT / "apps/android/feature/content-management/src/main/java/cc/orbexa/hhy/contentmanagement/R12ContentManagementListScreens.kt"
+MANAGEMENT_DETAIL = ROOT / "apps/android/feature/content-management/src/main/java/cc/orbexa/hhy/contentmanagement/R12ContentManagementDetailScreen.kt"
+ARCHIVED_BUILD = ROOT / "artifacts/validation/r12-task007-android/build-evidence.json"
+ARCHIVED_REPORT = ROOT / "artifacts/validation/r12-task007-android/candidate-report.json"
+
+
+class R12CandidateTest(unittest.TestCase):
+    def setUp(self) -> None:
+        self.fixture = FIXTURE.read_text(encoding="utf-8")
+        self.journey = JOURNEY.read_text(encoding="utf-8")
+
+    def test_fixture_is_isolated_to_r12_v041_candidate_staging(self) -> None:
+        self.assertIn("hhy-r12-ci-candidate-*", self.fixture)
+        self.assertIn("hhy-r12-staging-*-postgres-1", self.fixture)
+        self.assertIn("SPRING_PROFILES_ACTIVE", self.fixture)
+        self.assertIn("HHY_CI_AUTOMATION_ENABLED", self.fixture)
+        self.assertIn("version='041'", self.fixture)
+        self.assertIn("psql -qAt", self.fixture)
+        self.assertIn("INSERT INTO hhy.users(phone,status,invite_code)", self.fixture)
+        self.assertIn("ON CONFLICT (phone) DO NOTHING", self.fixture)
+        self.assertNotIn("ON CONFLICT (phone) DO UPDATE", self.fixture)
+        self.assertNotIn('echo "$phone"', self.fixture)
+        self.assertNotIn("hhy-r11-ci-candidate-*", self.fixture)
+
+    def test_fixture_uses_only_legal_r12_content_edges_and_review_bindings(self) -> None:
+        for edge in (
+            "'DRAFT','PENDING_REVIEW'",
+            "'PENDING_REVIEW','REVIEWING'",
+            "'REVIEWING','REJECTED'",
+            "'REVIEWING','APPROVED'",
+            "'APPROVED','ONLINE'",
+        ):
+            self.assertIn(edge, self.fixture)
+        self.assertIn("snapshot_version_id,command_id", self.fixture)
+        self.assertIn("transition_version", self.fixture)
+        self.assertIn("status='DRAFT' AND version=0", self.fixture)
+        self.assertNotIn("VALUES (\n+    p_user_id,'PROJECT',p_title,p_summary,'ONLINE'", self.fixture)
+        self.assertNotIn("SET status='DRAFT'", self.fixture)
+        self.assertIn("ON CONFLICT (user_id) DO UPDATE", self.fixture)
+        self.assertIn("R12_CI_FIXTURE_OK", self.fixture)
+
+    def test_fixture_contains_every_candidate_owner_fact(self) -> None:
+        for fact in (
+            "R12候选发布者",
+            "R12候选发布预览项目",
+            "R12候选内容策略草稿",
+            "R12候选审核中的品牌合作",
+            "R12候选未通过的渠道方案",
+            "R12候选已上线的联合增长项目",
+            "专业协作会员",
+            "reward_accounts",
+            "identity.status='VERIFIED'",
+            "target_snapshot=",
+            "target_media=",
+        ):
+            self.assertIn(fact, self.fixture)
+        self.assertIn("count(DISTINCT draft.id)>=2", self.fixture)
+        self.assertIn("reviewing.status='REVIEWING'", self.fixture)
+        self.assertIn("rejected.status='REJECTED'", self.fixture)
+        self.assertIn("online.status='ONLINE'", self.fixture)
+
+    def test_fixture_contains_idempotent_official_staging_startup_release(self) -> None:
+        for fact in (
+            "INSERT INTO hhy.app_build_profiles(",
+            "INSERT INTO hhy.app_build_jobs(",
+            "INSERT INTO hhy.app_build_artifacts(",
+            "INSERT INTO hhy.app_release_channels(",
+            "INSERT INTO hhy.app_release_records(",
+            "'official','STAGING'",
+            "'1.2.2',10221,'NONE','PUBLISHED'",
+            "min_supported_version_code IS DISTINCT FROM 10221",
+            "R12 startup build job is duplicated",
+            "R12 startup release record is duplicated",
+            "R12 startup release record drifted",
+            "|release_version=",
+            "|release_update=",
+        ):
+            self.assertIn(fact, self.fixture)
+        self.assertNotIn("'official','PROD'", self.fixture)
+        self.assertNotIn("environment='PROD'", self.fixture)
+        self.assertEqual(1, self.fixture.count("'official','STAGING'"))
+        self.assertIn("count(DISTINCT release.id)=1", self.fixture)
+
+    def test_oidc_bootstrap_rebuilds_consumable_r12_target_before_issuing_code(self) -> None:
+        workflow = WORKFLOW.read_text(encoding="utf-8")
+        service = CI_SERVICE.read_text(encoding="utf-8")
+        fixture_store = CI_FIXTURE_STORE.read_text(encoding="utf-8")
+        controller = CI_CONTROLLER.read_text(encoding="utf-8")
+
+        self.assertIn('"release":os.environ["ANDROID_RELEASE"]', workflow)
+        self.assertIn("body.release()", controller)
+        self.assertIn("prepareR12SubmitTarget(user.id())", service)
+        self.assertLess(service.index("prepareR12SubmitTarget(user.id())"), service.index("store.create("))
+        self.assertIn("pg_advisory_xact_lock", fixture_store)
+        self.assertIn("R12候选发布预览项目", fixture_store)
+        self.assertIn("'DRAFT',NULL,0,0", fixture_store)
+        self.assertIn("version_no,snapshot_json,created_by", fixture_store)
+        self.assertIn("content_stats", fixture_store)
+        self.assertIn("content_media", fixture_store)
+        self.assertIn("media.status='READY'", fixture_store)
+        self.assertIn("duplicate active submit targets", fixture_store)
+        self.assertIn("Banned R12 candidate submit target", fixture_store)
+        self.assertNotIn("INSERT INTO hhy.content_review_records", fixture_store)
+        self.assertIn('if ("R12".equals(release))', service)
+
+    def test_archived_candidate_preserves_the_exact_ten_r12_android_pages(self) -> None:
+        report = json.loads(ARCHIVED_REPORT.read_text(encoding="utf-8"))
+        screens = report["baseline_approval"]["screens"]
+        self.assertEqual("R12", report["release"])
+        self.assertEqual("PASS", report["status"])
+        self.assertTrue(report["owner_test_allowed"])
+        self.assertEqual(10, len(screens))
+        self.assertEqual(
+            {
+                "01-publish-center.png", "02-me-home.png", "03-profile.png", "04-drafts.png",
+                "05-content-management-detail.png", "06-publish-preview.png", "07-submit-result.png",
+                "08-my-contents.png", "09-content-reviews.png", "10-content-analytics.png",
+            },
+            {row["file"] for row in screens},
+        )
+        self.assertTrue(all(len(row["sha256"]) == 64 for row in screens))
+
+    def test_visual_manifest_covers_the_exact_r12_journey(self) -> None:
+        manifest = yaml.safe_load(VISUAL_MANIFEST.read_text(encoding="utf-8"))
+        self.assertEqual("R12", manifest["release"])
+        self.assertEqual("AI_IMPLEMENTATION_AGENT", manifest["review_authority"])
+        self.assertEqual(10, len(manifest["screens"]))
+        self.assertEqual(
+            {
+                "SCR-PUB-001", "SCR-PUB-006", "SCR-PUB-007",
+                "SCR-MYC-001", "SCR-MYC-002", "SCR-MYC-003",
+                "SCR-MYC-004", "SCR-MYC-005", "SCR-ME-001", "SCR-ME-002",
+            },
+            {row["screen_id"] for row in manifest["screens"]},
+        )
+        self.assertEqual(
+            {capture.split('"')[1] for capture in (
+                'captureStable("01-publish-center.png")',
+                'captureStable("02-me-home.png")',
+                'captureStable("03-profile.png")',
+                'captureStable("04-drafts.png")',
+                'captureStable("05-content-management-detail.png")',
+                'captureStable("06-publish-preview.png")',
+                'captureStable("07-submit-result.png")',
+                'captureStable("08-my-contents.png")',
+                'captureStable("09-content-reviews.png")',
+                'captureStable("10-content-analytics.png")',
+            )},
+            {row["file"] for row in manifest["screens"]},
+        )
+        for row in manifest["screens"]:
+            self.assertIn("请求编号", row["forbidden_text"])
+            self.assertIn("TraceId", row["forbidden_text"])
+            self.assertIn("PROJECT", row["forbidden_text"])
+
+    def test_visual_capture_rejects_transition_residue_and_technical_time(self) -> None:
+        motion = HHY_MOTION.read_text(encoding="utf-8")
+        profile = PROFILE_SCREEN.read_text(encoding="utf-8")
+        me = ME_SCREEN.read_text(encoding="utf-8")
+        management_list = MANAGEMENT_LIST.read_text(encoding="utf-8")
+        management_detail = MANAGEMENT_DETAIL.read_text(encoding="utf-8")
+
+        self.assertIn("targetOffsetX = { width -> -width }", motion)
+        self.assertIn("targetOffsetX = { width -> width }", motion)
+        self.assertIn("stableMatches >= 4", self.journey)
+        self.assertNotIn("modifier = Modifier.height(HhySize.TopAppBarHeight)", profile)
+        self.assertIn("r12MeBusinessTimeLabel()", me)
+        self.assertIn("it.r12BusinessTimeLabel()", management_detail)
+        self.assertIn("R12InverseOutlinedButton", management_list)
+
+    def test_candidate_identity_is_monotonic_and_unique(self) -> None:
+        build = BUILD.read_text(encoding="utf-8")
+        release_policy = RELEASE_POLICY.read_text(encoding="utf-8")
+        version_test = VERSION_TEST.read_text(encoding="utf-8")
+        archived = json.loads(ARCHIVED_BUILD.read_text(encoding="utf-8"))
+        self.assertEqual("R12", archived["release"])
+        self.assertEqual(10221, archived["version_code"])
+        self.assertEqual("PASS", archived["build_status"])
+        current_version_match = re.search(r"\bversionCode\s*=\s*(\d+)", build)
+        self.assertIsNotNone(current_version_match)
+        current_version = int(current_version_match.group(1))
+        self.assertGreaterEqual(current_version, 10222)
+        self.assertGreater(current_version, archived["version_code"])
+        policy_version_match = re.search(r"\bVERSION_CODE:\s*Int\s*=\s*(\d+)", release_policy)
+        metadata_version_match = re.search(
+            r'assertEquals\("[^"]*versionCode must remain monotonic",\s*(\d+),\s*ReleasePolicy\.VERSION_CODE\)',
+            version_test,
+        )
+        self.assertIsNotNone(policy_version_match)
+        self.assertIsNotNone(metadata_version_match)
+        self.assertEqual(current_version, int(policy_version_match.group(1)))
+        self.assertEqual(current_version, int(metadata_version_match.group(1)))
+
+
+if __name__ == "__main__":
+    unittest.main()

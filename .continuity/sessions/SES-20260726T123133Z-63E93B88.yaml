@@ -1,0 +1,106 @@
+protocol_version: '1.0'
+package_version: 1.2.3
+session_id: SES-20260726T123133Z-63E93B88
+status: CLOSED
+actor:
+  id: codex-root-r13-backend-20260726
+  kind: AI_OR_HUMAN
+  host: unknown
+release: R13
+task_id: TASK-R13-003
+story_id: STORY-R13-003
+goal: 实现并验证R13六个冻结operationId的后端应用服务、权限、幂等、错误码、审计和Outbox，保持控制器仅编排且不发明合同
+started_at: '2026-07-26T12:31:33Z'
+updated_at: '2026-07-26T13:33:35Z'
+takeover_of: null
+change_requests:
+- CR-0367
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions:
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentStore.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentPostgresStore.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentService.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R13Contracts.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R13Store.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R13PostgresStore.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R13Service.java
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/R13Controller.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/ContentServiceTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R13ServiceTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R13PostgresStoreTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/R13ControllerContractTest.java
+  source: story+explicit+approved-cr:CR-0367
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  base_commit: c5e4ce7c3139823291896f9d1b8a26df147cad74
+  start_head: c5e4ce7c3139823291896f9d1b8a26df147cad74
+  upstream: origin/task/TASK-R03-001
+  initial_worktree_state: CLEAN
+lease:
+  duration_minutes: 240
+  renewed_at: '2026-07-26T13:33:28Z'
+  expires_at: '2026-07-26T17:33:28Z'
+checkpoint_sequence: 4
+latest_checkpoint: .continuity/checkpoints/SES-20260726T123133Z-63E93B88/0004.yaml
+session_log: docs/03-continuity/sessions/2026-07/SES-20260726T123133Z-63E93B88.md
+next_step: 提交关闭元数据Commit，然后运行pre-push/CI门禁
+context_pack:
+  yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
+  markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
+  manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+  context_hash: bbe3d39885989b43a9dd9e65d476bd04cd8cd14a965f594ceb65bb7a4152981d
+  generated_at: '2026-07-26T13:33:32Z'
+handoff_bundle: null
+closure:
+  result: COMPLETED
+  summary: TASK-R13-003完成：六个冻结operationId后端能力齐备；取消收藏、收藏列表、去重浏览历史和失效反馈已实现，既有收藏分享回归通过；Java21全回归440项与PostgreSQL16专项集成全部PASS
+  code_commit: be9a99d9
+  next_release: R13
+  next_task: TASK-R13-004
+  blocked_advance: false
+  completed_independent_advance: false
+  user_confirmation: null
+  metadata_commit: PENDING
+  push_verification: CI_REQUIRED_AFTER_METADATA_COMMIT
+  started_at: '2026-07-26T13:33:25Z'
+  closure_checkpoint_id: CP-SES-20260726T123133Z-63E93B88-0004
+  closed_at: '2026-07-26T13:33:35Z'
+parallel_execution:
+  assessment: CAPABILITY_UNAVAILABLE
+  delegated_workers: 0
+  workers: []
+  reason: 当前系统级协作约束禁止启动子代理；实现和绑定由主控串行复核
+closed_at: '2026-07-26T13:33:35Z'

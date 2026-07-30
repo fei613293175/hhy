@@ -1,0 +1,58 @@
+protocol_version: '1.0'
+cr_id: CR-0030
+title: 同步R02注册协议配置接口的契约镜像与生成客户端
+status: IMPLEMENTED
+created_at: '2026-07-18T05:06:12Z'
+updated_at: '2026-07-18T05:23:08Z'
+requester_actor_id: codex
+approver_actor_id: user-project-owner
+task_id: TASK-R02-002
+session_id: SES-20260717T210927Z-13B07A7D
+user_request: 现在立即开始开发，这次必须把这个版本收尾做完，不允许进入无限做不完的状态，做完后立即推进下一版本
+reason: CR-0029 adds one public endpoint. The API gate requires its boot contract mirror, endpoint catalog, generated client, and contract-status
+  hashes to stay synchronized.
+original_rule: contracts/openapi.yaml is the only approved contract artifact in CR-0029.
+new_rule: The same R02 read-only registration configuration operation must remain identical across the source contract, boot mirror, endpoint
+  catalog, generated TypeScript client, and contract-status hashes.
+impact_summary: Adds only the required contract-governance mirrors; no business behavior, schema migration, or R28 agreement-management ownership
+  changes.
+impact:
+  files:
+  - services/backend/boot/src/main/resources/contracts/openapi.yaml
+  - catalogs/api_endpoints.csv
+  - packages/api-client/src/client.generated.ts
+  - contracts/contract_status.csv
+  pages: []
+  apis:
+  - GET /api/v1/auth/registration-config
+  database: []
+  configuration: []
+  ledger: []
+  tests:
+  - python scripts/check_api_contract.py
+  - generated client operation/type parity inspection
+  releases:
+  - R02
+  migration_and_compatibility: Additive public GET endpoint. No database migration and no modification to existing frozen R28 registration-config
+    contract.
+user_confirmation: User explicitly authorized immediate R02 closure and the next version after completion in the current task.
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-18T05:07:39Z'
+  note: User ordered immediate bounded R02 closure; approve exact API-governance companion scope.
+machine_record: .continuity/change_requests/CR-0030.yaml
+document: docs/03-continuity/change-requests/CR-0030-同步R02注册协议配置接口的契约镜像与生成客户端.md
+decision_log:
+- at: '2026-07-18T05:07:41Z'
+  actor_id: codex-root
+  status: IMPLEMENTING
+  note: Implementing synchronized contract mirrors alongside CR-0029.
+  session_id: SES-20260717T210927Z-13B07A7D
+- at: '2026-07-18T05:23:08Z'
+  actor_id: codex-root
+  status: IMPLEMENTED
+  note: Source contract, runtime mirror, endpoint catalog, generated TypeScript client, and status hashes are synchronized and passed contract
+    gates.
+  session_id: SES-20260717T210927Z-13B07A7D
+session_ids:
+- SES-20260717T210927Z-13B07A7D

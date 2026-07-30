@@ -1,0 +1,62 @@
+protocol_version: '1.0'
+cr_id: CR-0175
+title: 补齐R07并行执行计划与连续性验证证据
+status: CLOSED
+created_at: '2026-07-21T08:33:01Z'
+updated_at: '2026-07-21T08:50:03Z'
+requester_actor_id: codex-root
+approver_actor_id: codex-reviewer
+task_id: TASK-R07-001
+session_id: SES-20260721T082026Z-E6763DFE
+user_request: 持续推进R07且后续换电脑换AI可从仓库无缝接续，不依赖聊天
+reason: 严格组合门禁要求当前Release并行计划进入Context Pack，且CR-0172/0173修改连续性核心后集成与生命周期报告必须重新生成绑定当前源码
+original_rule: R07尚无PARALLEL_EXECUTION_PLAN，Context Pack无法携带当前Release并行边界；连续性集成和生命周期报告仍绑定CR-0172/0173修改前源码。
+new_rule: 新增R07单主控、最多三个隔离执行工作包的路径与任务分区；执行代理不得改连续性、契约、Flyway编号、APK身份或提交推送；重新生成连续性集成和生命周期报告并刷新Context Pack来源哈希。
+impact_summary: 补齐R07跨AI并行治理和当前连续性源码验证证据，不改变R07业务契约、页面、数据库或运行语义。
+impact:
+  files:
+  - releases/R07/PARALLEL_EXECUTION_PLAN.yaml
+  - artifacts/validation/continuity-integration-v1.2.3.json
+  - artifacts/validation/continuity-integration-v1.2.3.log
+  - artifacts/validation/continuity-lifecycle-integration-v1.2.3.json
+  - artifacts/validation/continuity-lifecycle-integration-v1.2.3.log
+  - artifacts/validation/project-doctor-v1.2.3.json
+  pages: []
+  apis: []
+  database: []
+  configuration: []
+  ledger: []
+  tests:
+  - python scripts/run_continuity_self_test.py
+  - python -m unittest tests.test_context_pack_parallel_policy
+  - python scripts/check_v123_continuity.py --strict
+  releases:
+  - R07
+  migration_and_compatibility: 无数据迁移；R07任务依赖保持串行事实链，仅允许在单一ACTIVE Task内部对路径互斥工作包并行，最终集成由主控串行完成。
+user_confirmation: 项目所有者要求持续开发且跨电脑跨AI可从仓库事实无缝接续
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-21T08:33:45Z'
+  note: 计划保持一个事实Session和一个Claim，只在当前任务内部按互斥路径委托，连续性报告仅重建现有源码证据，未改变业务范围。
+machine_record: .continuity/change_requests/CR-0175.yaml
+document: docs/03-continuity/change-requests/CR-0175-补齐R07并行执行计划与连续性验证证据.md
+decision_log:
+- at: '2026-07-21T08:49:58Z'
+  actor_id: codex-root
+  status: IMPLEMENTING
+  note: R07并行计划与连续性证据已进入远端事实提交绑定
+  session_id: SES-20260721T082026Z-E6763DFE
+- at: '2026-07-21T08:50:01Z'
+  actor_id: codex-root
+  status: IMPLEMENTED
+  note: R07计划、11项集成、14项生命周期和严格组合门禁已由远端提交证明
+  session_id: SES-20260721T082026Z-E6763DFE
+- at: '2026-07-21T08:50:03Z'
+  actor_id: codex-root
+  status: CLOSED
+  note: 并行治理与连续性证据已验证并完成远端闭环
+  session_id: SES-20260721T082026Z-E6763DFE
+session_ids:
+- SES-20260721T082026Z-E6763DFE
+implementation_commits:
+- cac604cf6663facb0200b187d20a3ba6f9a1ca4e

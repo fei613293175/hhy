@@ -3,7 +3,7 @@ title: App推广完整闭环
 tasks:
 - id: TASK-R09-001
   title: App推广完整闭环开发就绪核验、故事领取与变更基线
-  status: READY
+  status: DONE
   depends_on: []
   requirements: &id001
   - REQ-CONTACT-001
@@ -23,9 +23,10 @@ tasks:
   - 更新Release Manifest与CR记录
   - python scripts/check_v122_documentation.py --release R09
   session_log_required: true
+  completed_at: '2026-07-22T18:08:52Z'
 - id: TASK-R09-002
   title: App推广完整闭环数据迁移与领域不变量
-  status: BLOCKED
+  status: DONE
   depends_on:
   - TASK-R09-001
   requirements: *id001
@@ -39,9 +40,10 @@ tasks:
   - Flyway前向迁移与空库/升级库测试
   - 不变量属性测试
   session_log_required: true
+  completed_at: '2026-07-22T18:30:47Z'
 - id: TASK-R09-003
   title: App推广完整闭环后端应用服务与接口
-  status: BLOCKED
+  status: DONE
   depends_on:
   - TASK-R09-002
   requirements: *id001
@@ -55,9 +57,10 @@ tasks:
   - OpenAPI契约测试
   - 权限/幂等/错误码/审计覆盖
   session_log_required: true
+  completed_at: '2026-07-22T19:00:13Z'
 - id: TASK-R09-004
   title: App推广完整闭环客户端/H5/后台实现
-  status: BLOCKED
+  status: DONE
   depends_on:
   - TASK-R09-003
   requirements: *id001
@@ -75,9 +78,10 @@ tasks:
   - 禁止页面级手写重复DTO
   - 全部动作绑定生成API类型
   session_log_required: true
+  completed_at: '2026-07-22T19:39:46Z'
 - id: TASK-R09-005
   title: App推广完整闭环专项测试与故障注入
-  status: BLOCKED
+  status: DONE
   depends_on:
   - TASK-R09-003
   - TASK-R09-004
@@ -92,9 +96,10 @@ tasks:
   - 测试报告和失败证据归档
   - 关键缺陷清零
   session_log_required: true
+  completed_at: '2026-07-22T20:02:46Z'
 - id: TASK-R09-006
   title: App推广完整闭环可观测性与预发布验收
-  status: BLOCKED
+  status: DONE
   depends_on:
   - TASK-R09-005
   requirements: *id001
@@ -108,9 +113,10 @@ tasks:
   - 运行手册演练
   - 验收矩阵签字
   session_log_required: true
+  completed_at: '2026-07-22T20:51:47Z'
 - id: TASK-R09-007
   title: App推广完整闭环Android测试APK与产物追溯
-  status: BLOCKED
+  status: DONE
   depends_on:
   - TASK-R09-006
   requirements: *id001
@@ -124,9 +130,10 @@ tasks:
   - APK可下载/可安装
   - SHA256、Commit、versionName/versionCode、测试结果齐全
   session_log_required: true
+  completed_at: '2026-07-23T02:39:11Z'
 - id: TASK-R09-008
   title: App推广完整闭环版本关闭与无状态交接
-  status: BLOCKED
+  status: DONE
   depends_on:
   - TASK-R09-007
   requirements: *id001
@@ -140,6 +147,7 @@ tasks:
   - 全新AI仅凭仓库可继续
   - 工作区干净且Tag可追溯
   session_log_required: true
+  completed_at: '2026-07-23T02:48:58Z'
 version: 1.2.2
 definition_of_ready: releases/R09/DEFINITION_OF_READY.yaml
 story_backlog: releases/R09/STORIES.yaml

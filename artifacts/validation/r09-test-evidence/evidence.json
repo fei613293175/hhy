@@ -1,0 +1,81 @@
+{
+  "schema": "hhy.r09.specialized-evidence/v1",
+  "suite": "r09-java21-postgresql17-android-app-promotion",
+  "source_commit": "450d8758a2ba2ad42b4906f8911495815ac29213",
+  "environment": {
+    "host": "local Windows plus obx-test disposable database",
+    "java": "Eclipse Temurin 21.0.11",
+    "postgresql": "PostgreSQL 17.10 disposable container",
+    "android_gradle_jdk": "Eclipse Temurin 21.0.11"
+  },
+  "results": [
+    {
+      "test_id": "TST-APP_PROMO_001-HAPPY",
+      "status": "PASS",
+      "exit_code": 0,
+      "assertions": [
+        "verified App creation encrypts contacts and emits exactly one outbox event",
+        "App create/read/update passes against PostgreSQL 17.10",
+        "the frozen controller dispatcher and Android App form contract pass"
+      ],
+      "artifacts": [
+        {
+          "path": "backend-java21.log",
+          "sha256": "99f39b8e81569962ed04132f1da59d264fb5b108779fc93719a11d7d365d30e4"
+        },
+        {
+          "path": "postgresql17.log",
+          "sha256": "5ab37c3a6b4df66764bbc52e68fda9953a80d6de0e471deb68de1762fc5bb577"
+        },
+        {
+          "path": "android-module.log",
+          "sha256": "a88ee5fb0de6a570ec21a6bd5d3ce7dcf7e0171889ef0804229aad7a491d7aee"
+        }
+      ]
+    },
+    {
+      "test_id": "TST-APP_PROMO_001-REJECT",
+      "status": "PASS",
+      "exit_code": 0,
+      "assertions": [
+        "unverified owner, unsafe link and stale version are rejected with stable codes and no writes",
+        "media storage and H5 configuration provider timeouts leave no outbox or completed snapshot",
+        "a concurrent patch loser returns version conflict without a duplicate message"
+      ],
+      "artifacts": [
+        {
+          "path": "backend-java21.log",
+          "sha256": "99f39b8e81569962ed04132f1da59d264fb5b108779fc93719a11d7d365d30e4"
+        },
+        {
+          "path": "android-module.log",
+          "sha256": "a88ee5fb0de6a570ec21a6bd5d3ce7dcf7e0171889ef0804229aad7a491d7aee"
+        }
+      ]
+    },
+    {
+      "test_id": "TST-APP_PROMO_001-IDEMPOTENT",
+      "status": "PASS",
+      "exit_code": 0,
+      "assertions": [
+        "network-timeout retry returns the frozen completed snapshot without duplicate creation or outbox",
+        "a different request using the same key returns COMMON-409-IDEMPOTENCY_CONFLICT without side effects",
+        "eight concurrent identical claims produce one PostgreSQL owner and Android keys stay stable per body"
+      ],
+      "artifacts": [
+        {
+          "path": "backend-java21.log",
+          "sha256": "99f39b8e81569962ed04132f1da59d264fb5b108779fc93719a11d7d365d30e4"
+        },
+        {
+          "path": "postgresql17.log",
+          "sha256": "5ab37c3a6b4df66764bbc52e68fda9953a80d6de0e471deb68de1762fc5bb577"
+        },
+        {
+          "path": "android-module.log",
+          "sha256": "a88ee5fb0de6a570ec21a6bd5d3ce7dcf7e0171889ef0804229aad7a491d7aee"
+        }
+      ]
+    }
+  ]
+}

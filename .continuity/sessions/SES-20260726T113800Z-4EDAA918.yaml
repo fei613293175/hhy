@@ -1,0 +1,99 @@
+protocol_version: '1.0'
+package_version: 1.2.3
+session_id: SES-20260726T113800Z-4EDAA918
+status: CLOSED
+actor:
+  id: codex-root-r13-data-20260726
+  kind: AI_OR_HUMAN
+  host: unknown
+release: R13
+task_id: TASK-R13-002
+story_id: STORY-R13-003
+goal: 实现R13收藏、浏览历史、分享与行为审计的数据迁移、约束、幂等与回滚验证，保持冻结契约和资金边界不变。
+started_at: '2026-07-26T11:38:00Z'
+updated_at: '2026-07-26T12:28:42Z'
+takeover_of: null
+change_requests:
+- CR-0366
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions:
+  - database/migrations/V042__r13_activity_invariants.sql
+  - services/backend/boot/src/main/resources/db/migration/V042__r13_activity_invariants.sql
+  - database/rollback/U042__r13_activity_invariants.sql
+  - database/tests/r13_activity_invariants.sql
+  - tests/test_r13_activity_migration.py
+  source: story+explicit+approved-cr:CR-0366
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  base_commit: aeda26ad525af23f5e26a855b78e03f7c412a5f9
+  start_head: aeda26ad525af23f5e26a855b78e03f7c412a5f9
+  upstream: origin/task/TASK-R03-001
+  initial_worktree_state: CLEAN
+lease:
+  duration_minutes: 240
+  renewed_at: '2026-07-26T12:28:36Z'
+  expires_at: '2026-07-26T16:28:36Z'
+checkpoint_sequence: 4
+latest_checkpoint: .continuity/checkpoints/SES-20260726T113800Z-4EDAA918/0004.yaml
+session_log: docs/03-continuity/sessions/2026-07/SES-20260726T113800Z-4EDAA918.md
+next_step: 提交关闭元数据Commit，然后运行pre-push/CI门禁
+context_pack:
+  yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
+  markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
+  manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+  context_hash: 57bf201dc4607117d12dec50efacb3c5e9cb5bd0fdd958182079d625348b5967
+  generated_at: '2026-07-26T12:28:39Z'
+handoff_bundle: null
+closure:
+  result: COMPLETED
+  summary: TASK-R13-002完成：V042补齐收藏、浏览分享、联系方式访问与内容举报数据不变量；复用全局幂等和后台审计事实源；空库、V041升级库、无数据删除回滚和Java21 MODULE全部通过
+  code_commit: 6b1da3779106ae9db5f454511c365111d85a8d62
+  next_release: R13
+  next_task: TASK-R13-003
+  blocked_advance: false
+  completed_independent_advance: false
+  user_confirmation: null
+  metadata_commit: PENDING
+  push_verification: CI_REQUIRED_AFTER_METADATA_COMMIT
+  started_at: '2026-07-26T12:28:32Z'
+  closure_checkpoint_id: CP-SES-20260726T113800Z-4EDAA918-0004
+  closed_at: '2026-07-26T12:28:42Z'
+parallel_execution:
+  assessment: CAPABILITY_UNAVAILABLE
+  delegated_workers: 0
+  workers: []
+  reason: 当前系统级约束禁止启动子代理；本次仅更新CR绑定与连续性派生记录
+closed_at: '2026-07-26T12:28:42Z'

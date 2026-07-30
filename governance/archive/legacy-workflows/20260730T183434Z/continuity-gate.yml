@@ -1,0 +1,102 @@
+name: Continuity Gate
+on:
+  push:
+  pull_request:
+permissions: { contents: read }
+env:
+  LANG: C.UTF-8
+  LC_ALL: C.UTF-8
+  PYTHONDONTWRITEBYTECODE: '1'
+jobs:
+  continuity:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+      - name: Configure portable Git behavior
+        run: git config core.quotepath false
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.12' }
+      - run: pip install --disable-pip-version-check pyyaml
+      - name: Select continuity validation tier
+        id: scope
+        run: >-
+          python3 scripts/continuity_ci_scope.py
+          --base-ref "${{ github.event.pull_request.base.sha || github.event.before }}"
+          --head-ref HEAD
+          --github-output "$GITHUB_OUTPUT"
+          --json-output "$RUNNER_TEMP/continuity-scope.json"
+      - name: Initial repository push or ranged per-commit validation
+        shell: bash
+        run: |
+          set +e
+          set -o pipefail
+          if git rev-parse HEAD^ >/dev/null 2>&1; then
+            python3 scripts/continuity_gate.py --mode ci --strict --base-ref HEAD^ --head-ref HEAD --json-out "$RUNNER_TEMP/continuity-ci.json"
+          else
+            echo 'Initial repository push'
+            python3 scripts/continuity_gate.py --mode ci --strict --head-ref HEAD --json-out "$RUNNER_TEMP/continuity-ci.json"
+          fi
+          gate_rc=${PIPESTATUS[0]}
+          set -e
+          if (( gate_rc != 0 )); then
+            summary=$(python3 - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+          path = Path(os.environ["RUNNER_TEMP"]) / "continuity-ci.json"
+          data = json.loads(path.read_text(encoding="utf-8")) if path.exists() else {}
+          rows = [f"{item.get('code', 'ERROR')}: {item.get('message', '')}" for item in data.get("errors", [])]
+          print("\n".join(rows[-10:]) or "Continuity gate failed; inspect continuity-evidence artifact")
+          PY
+            )
+            summary=${summary//'%'/'%25'}; summary=${summary//$'\r'/'%0D'}; summary=${summary//$'\n'/'%0A'}
+            echo "::error title=Continuity gate failed::$summary"
+          fi
+          exit "$gate_rc"
+      - name: Run repository reconstruction integration
+        if: steps.scope.outputs.full_lifecycle == 'true'
+        run: python3 scripts/run_continuity_self_test.py
+      - name: Run lifecycle integration
+        if: steps.scope.outputs.full_lifecycle == 'true'
+        run: python3 scripts/test_continuity_protocol.py
+      - name: Run bootstrap recovery regression with diagnostics
+        if: steps.scope.outputs.full_lifecycle == 'true'
+        shell: bash
+        run: |
+          set +e
+          set -o pipefail
+          mkdir -p artifacts/validation/ci
+          python3 tests/test_continuity_bootstrap_recovery.py 2>&1 \
+            | tee artifacts/validation/ci/continuity-bootstrap-recovery.log
+          test_rc=${PIPESTATUS[0]}
+          set -e
+          if (( test_rc != 0 )); then
+            summary=$(grep -E 'FAIL|ERROR|FAILED|Traceback|AssertionError|test_.*\.\.\.' artifacts/validation/ci/continuity-bootstrap-recovery.log | tail -n 25 || true)
+            [[ -n "$summary" ]] || summary='Bootstrap recovery regression failed; inspect continuity-evidence artifact'
+            summary=${summary//'%'/'%25'}; summary=${summary//$'\r'/'%0D'}; summary=${summary//$'\n'/'%0A'}
+            echo "::error title=Bootstrap recovery regression failed::$summary"
+          fi
+          exit "$test_rc"
+      - name: Run continuity governance regressions
+        if: steps.scope.outputs.full_lifecycle == 'true'
+        run: |
+          python3 tests/test_continuity_cross_release_close.py
+          python3 tests/test_git_transport_recovery.py
+          python3 tests/test_model_routing.py
+          python3 tests/test_cloud_environment.py
+          python3 tests/test_context_pack_parallel_policy.py
+          python3 tests/test_release_close_gate.py
+      - name: Validate current repository continuity facts
+        run: python3 scripts/check_v123_continuity.py --strict
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: continuity-evidence
+          path: |
+            artifacts/validation/continuity-integration-v1.2.3.json
+            artifacts/validation/continuity-lifecycle-integration-v1.2.3.json
+            artifacts/validation/project-doctor-v1.2.3.json
+            ${{ runner.temp }}/continuity-ci.json
+            ${{ runner.temp }}/continuity-scope.json
+            artifacts/validation/ci/continuity-bootstrap-recovery.log

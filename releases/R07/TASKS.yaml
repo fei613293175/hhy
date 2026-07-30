@@ -3,7 +3,7 @@ title: 搜索、发布者主页与联系方式保护
 tasks:
 - id: TASK-R07-001
   title: 搜索、发布者主页与联系方式保护开发就绪核验、故事领取与变更基线
-  status: READY
+  status: DONE
   depends_on: []
   requirements: &id001
   - REQ-CONTACT-001
@@ -24,9 +24,10 @@ tasks:
   - 更新Release Manifest与CR记录
   - python scripts/check_v122_documentation.py --release R07
   session_log_required: true
+  completed_at: '2026-07-21T08:56:02Z'
 - id: TASK-R07-002
   title: 搜索、发布者主页与联系方式保护数据迁移与领域不变量
-  status: BLOCKED
+  status: DONE
   depends_on:
   - TASK-R07-001
   requirements: *id001
@@ -40,13 +41,14 @@ tasks:
   - Flyway前向迁移与空库/升级库测试
   - 不变量属性测试
   session_log_required: true
+  completed_at: '2026-07-21T17:06:37Z'
 - id: TASK-R07-003
   title: 搜索、发布者主页与联系方式保护后端应用服务与接口
-  status: BLOCKED
+  status: DONE
   depends_on:
   - TASK-R07-002
   requirements: *id001
-  description: 实现范围内9个operationId；控制器仅编排应用服务，跨模块副作用写Outbox
+  description: 实现或复用5个R07故事绑定的7个operationId；控制器仅编排应用服务，跨模块副作用写Outbox
   deliverables:
   - OpenAPI契约测试
   - 权限/幂等/错误码/审计覆盖
@@ -56,9 +58,10 @@ tasks:
   - OpenAPI契约测试
   - 权限/幂等/错误码/审计覆盖
   session_log_required: true
+  completed_at: '2026-07-21T18:56:28Z'
 - id: TASK-R07-004
   title: 搜索、发布者主页与联系方式保护客户端/H5/后台实现
-  status: BLOCKED
+  status: DONE
   depends_on:
   - TASK-R07-003
   requirements: *id001
@@ -76,14 +79,15 @@ tasks:
   - 禁止页面级手写重复DTO
   - 全部动作绑定生成API类型
   session_log_required: true
+  completed_at: '2026-07-21T19:27:02Z'
 - id: TASK-R07-005
   title: 搜索、发布者主页与联系方式保护专项测试与故障注入
-  status: BLOCKED
+  status: DONE
   depends_on:
   - TASK-R07-003
   - TASK-R07-004
   requirements: *id001
-  description: 执行9项测试，覆盖重复请求、并发、超时、消息重复和供应商异常
+  description: 执行发布清单冻结的10项测试，覆盖重复请求、并发、超时、消息重复、依赖异常与清空历史页面动作契约
   deliverables:
   - 测试报告和失败证据归档
   - 关键缺陷清零
@@ -93,9 +97,10 @@ tasks:
   - 测试报告和失败证据归档
   - 关键缺陷清零
   session_log_required: true
+  completed_at: '2026-07-21T20:16:15Z'
 - id: TASK-R07-006
   title: 搜索、发布者主页与联系方式保护可观测性与预发布验收
-  status: BLOCKED
+  status: DONE
   depends_on:
   - TASK-R07-005
   requirements: *id001
@@ -109,9 +114,10 @@ tasks:
   - 运行手册演练
   - 验收矩阵签字
   session_log_required: true
+  completed_at: '2026-07-21T20:59:41Z'
 - id: TASK-R07-007
   title: 搜索、发布者主页与联系方式保护Android测试APK与产物追溯
-  status: BLOCKED
+  status: DONE
   depends_on:
   - TASK-R07-006
   requirements: *id001
@@ -125,6 +131,7 @@ tasks:
   - APK可下载/可安装
   - SHA256、Commit、versionName/versionCode、测试结果齐全
   session_log_required: true
+  completed_at: '2026-07-21T23:53:51Z'
 - id: TASK-R07-008
   title: 搜索、发布者主页与联系方式保护版本关闭与无状态交接
   status: BLOCKED
@@ -141,6 +148,8 @@ tasks:
   - 全新AI仅凭仓库可继续
   - 工作区干净且Tag可追溯
   session_log_required: true
+  blocker: R07机器开发、Staging、最终候选、视觉、四方APK与桌面交付均PASS；仅项目所有者异步真机验收PENDING，正式验收和生产激活继续阻断
+  blocked_at: '2026-07-22T00:23:07Z'
 version: 1.2.2
 definition_of_ready: releases/R07/DEFINITION_OF_READY.yaml
 story_backlog: releases/R07/STORIES.yaml

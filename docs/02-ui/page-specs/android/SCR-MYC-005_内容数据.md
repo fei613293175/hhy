@@ -78,7 +78,7 @@
 | REFRESHING | 已有内容上执行刷新 | 保留内容并显示轻量刷新指示 | 取消刷新 | 与当前状态、权限或服务端version冲突的所有写操作 | 失败保留旧数据 | 否 |
 | APPENDING | 列表加载下一页 | 列表尾部加载器；已加载项保持可用 | 取消翻页 | 与当前状态、权限或服务端version冲突的所有写操作 | 失败提供尾部重试 | 否 |
 | PARTIAL_ERROR | 非首屏请求或单模块失败 | 保留现有内容并在对应区域提示 | 局部重试 | 与当前状态、权限或服务端version冲突的所有写操作 | 成功后回到CONTENT | 否 |
-| ERROR | 请求失败且无法展示可靠内容 | 展示稳定错误码、requestId、重试和返回 | 重试/返回 | 与当前状态、权限或服务端version冲突的所有写操作 | 按错误码恢复 | 否 |
+| ERROR | 请求失败且无法展示可靠内容 | 展示业务化错误说明、重试和返回；技术诊断信息仅保留在受控日志 | 重试/返回 | 与当前状态、权限或服务端version冲突的所有写操作 | 按业务错误类型恢复 | 否 |
 | OFFLINE | 网络不可用 | 只读页面可展示标记为缓存的数据；写操作禁用 | 重试网络 | 与当前状态、权限或服务端version冲突的所有写操作 | 恢复网络后主动刷新 | 否 |
 
 ## 5. 页面动作
@@ -105,11 +105,11 @@
 - 配置组：`content`
 - 关键配置：`content.limit.normal.online;content.limit.month.online;content.limit.quarter.online;content.limit.year.online;content.team_leader_per_account;content.limit.normal.pending;content.limit.normal.drafts;content.limit.normal.daily_submissions`
 - 测试：`TST-PUBLISH_001-HAPPY;TST-CONTENT_002-HAPPY`
-- UI参考：`TOKENS_ONLY/-`
+- UI参考：`B08/P06`
 
 ## 8. 开发就绪检查
 
-- [ ] 页面模板和区域按本文件实现；效果图仅用于视觉参考。
+- [ ] 页面模板和区域按本文件实现；效果图对页面建模、区域顺序、信息层级、布局、组件形态和视觉样式具有强制约束，但不得作为功能、字段、动作或业务数据事实源。
 - [ ] 字段、校验、显示/编辑条件与 OpenAPI/配置一致，无新增匿名字段。
 - [ ] 所有状态均有可见表现、允许操作和恢复路径。
 - [ ] 所有动作均使用登记 operationId、权限、幂等或 expectedVersion。

@@ -1,0 +1,63 @@
+protocol_version: '1.0'
+cr_id: CR-0076
+title: 交付10205注册体验修复真机APK并归档上一包
+status: CLOSED
+created_at: '2026-07-19T04:33:10Z'
+updated_at: '2026-07-19T04:58:39Z'
+requester_actor_id: codex-root
+approver_actor_id: project-owner-delegated
+task_id: TASK-R03-007
+session_id: SES-20260718T200607Z-3569D212
+user_request: 用户完成注册页面真机测试并要求修复四项问题后持续推进
+reason: 新包必须完成固定签名、正式API、桌面/仓库/服务器/HTTPS四方哈希和上一包不可变归档
+original_rule: R03当前交付指向25e9e5b、versionCode10204的测试APK
+new_rule: 归档25e9e5b交付证据，当前交付切换为35ee8ba、versionCode10205注册体验修复测试APK
+impact_summary: 刷新R03 APK清单、构建/签名/交付证据和测试报告，保留上一版本历史，不标记项目所有者真机通过
+impact:
+  files:
+  - artifacts/apk/R03/APK_MANIFEST.yaml
+  - artifacts/apk/R03/history/25e9e5b/APK_MANIFEST.yaml
+  - artifacts/validation/r03-apk-delivery/delivery-evidence.json
+  - artifacts/validation/r03-apk-delivery/history/25e9e5b/delivery-evidence.json
+  - artifacts/validation/r03-task007-android/build-evidence.json
+  - artifacts/validation/r03-task007-android/apk-signing.txt
+  - artifacts/validation/r03-task007-android/gradle-build.log
+  - artifacts/reports/R03/TASK-R03-007-android-apk.md
+  - artifacts/validation/R03_AUTH_REGISTRATION_UX_SECURITY_FIX_20260719.md
+  pages: []
+  apis: []
+  database: []
+  configuration: []
+  ledger: []
+  tests:
+  - testDebugUnitTest、lintDebug、assembleDebug、zipalign、apksigner、versionCode、API端点、四方SHA-256
+  releases:
+  - R03
+  migration_and_compatibility: 应用ID和固定测试签名不变，可覆盖安装10204；旧APK与证据只归档不删除；新包仍为测试APK
+user_confirmation: 用户2026-07-19四项注册真机反馈及持续开发授权
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-19T04:33:12Z'
+  note: 用户已授权持续开发和桌面APK交付，历史归档与四方门禁是安全交付必需
+machine_record: .continuity/change_requests/CR-0076.yaml
+document: docs/03-continuity/change-requests/CR-0076-交付10205注册体验修复真机APK并归档上一包.md
+decision_log:
+- at: '2026-07-19T04:33:14Z'
+  actor_id: codex-root
+  status: IMPLEMENTING
+  note: 归档10204并准备35ee8ba固定签名测试APK四方交付
+  session_id: SES-20260718T200607Z-3569D212
+- at: '2026-07-19T04:58:38Z'
+  actor_id: codex-root
+  status: IMPLEMENTED
+  note: 10204交付已归档，c257aee/10205测试APK已完成固定签名和四方交付
+  session_id: SES-20260718T200607Z-3569D212
+- at: '2026-07-19T04:58:39Z'
+  actor_id: codex-root
+  status: CLOSED
+  note: 当前清单、历史归档、桌面与公网下载证据全部闭环
+  session_id: SES-20260718T200607Z-3569D212
+session_ids:
+- SES-20260718T200607Z-3569D212
+implementation_commits:
+- b476e37730f7b0855e6a07333e0ea90eba6f3198

@@ -1,0 +1,83 @@
+protocol_version: '1.0'
+package_version: 1.2.3
+session_id: SES-20260718T145327Z-DEA562CB
+status: CLOSED
+actor:
+  id: codex-root
+  kind: AI_OR_HUMAN
+  host: unknown
+release: R03
+task_id: TASK-R03-004
+story_id: STORY-R03-003
+goal: 纵向批次C：支付、出款与证书生命周期配置闭环
+started_at: '2026-07-18T14:53:27Z'
+updated_at: '2026-07-18T15:18:35Z'
+takeover_of: null
+change_requests:
+- CR-0047
+scope:
+  allowed_paths:
+  - apps/admin-web/**
+  - services/backend/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - tests/**
+  - docs/**
+  - catalogs/**
+  - releases/**
+  - design/**
+  - scripts/**
+  approved_exceptions:
+  - apps/admin-web/src/router.ts
+  - apps/admin-web/src/views/ProviderConfigPage.vue
+  - apps/admin-web/src/components/ProviderCertificatePanel.vue
+  - apps/admin-web/src/services/adminProviderCertificates.ts
+  - apps/admin-web/src/services/adminProviderCertificates.test.ts
+  - apps/admin-web/src/services/idempotency.ts
+  - apps/admin-web/src/services/index.ts
+  - apps/admin-web/src/r03ProviderPage.test.ts
+  - CHANGELOG.md
+  source: story+explicit+approved-cr:CR-0047
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  base_commit: 8cfa5f515b29ac0095e16e1d839c48caf391758d
+  start_head: 8cfa5f515b29ac0095e16e1d839c48caf391758d
+  upstream: origin/task/TASK-R03-001
+  initial_worktree_state: CLEAN
+lease:
+  duration_minutes: 240
+  renewed_at: '2026-07-18T15:18:32Z'
+  expires_at: '2026-07-18T19:18:32Z'
+checkpoint_sequence: 7
+latest_checkpoint: .continuity/checkpoints/SES-20260718T145327Z-DEA562CB/0007.yaml
+session_log: docs/03-continuity/sessions/2026-07/SES-20260718T145327Z-DEA562CB.md
+next_step: 提交关闭元数据Commit，然后运行pre-push/CI门禁
+context_pack:
+  yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
+  markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
+  manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+  context_hash: 9317cf1fc6db32f517a2a4f71f51f9802b075b86e9cfc5cb675f70d2f8ea7747
+  generated_at: '2026-07-18T15:18:34Z'
+handoff_bundle: null
+closure:
+  result: COMPLETED
+  summary: 支付、企业出款、证书生命周期、只读连接测试和ADM-CONFIG-005/006后台闭环完成，全量测试与文档门禁通过
+  code_commit: bc96c003b7ff8283e3b302a2d7097da7be94ca2d
+  next_release: R03
+  next_task: TASK-R03-005
+  blocked_advance: false
+  user_confirmation: null
+  metadata_commit: PENDING
+  push_verification: CI_REQUIRED_AFTER_METADATA_COMMIT
+  started_at: '2026-07-18T15:18:31Z'
+  closure_checkpoint_id: CP-SES-20260718T145327Z-DEA562CB-0007
+  closed_at: '2026-07-18T15:18:35Z'
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 任务关闭与下一共享汇合任务必须在唯一事实分支串行切换
+closed_at: '2026-07-18T15:18:35Z'

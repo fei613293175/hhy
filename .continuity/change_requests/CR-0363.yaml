@@ -1,0 +1,81 @@
+protocol_version: '1.0'
+cr_id: CR-0363
+title: 建立R13开发入口计划与四页精确视觉基线
+status: IMPLEMENTED
+created_at: '2026-07-26T11:06:25Z'
+updated_at: '2026-07-26T11:29:58Z'
+requester_actor_id: codex-root-r13-20260726
+approver_actor_id: project-owner
+task_id: TASK-R13-001
+session_id: SES-20260726T110209Z-C9DC8AD5
+user_request: 项目所有者要求按R01-R32持续开发，功能与开发文档一一对应，全部页面达到效果图丰富度；普通任务不跑完整模拟器，最终候选再执行完整门禁。
+reason: R13缺少PARALLEL_EXECUTION_PLAN；SHEET-SHARE-001和SCR-HIS-001仍为TOKENS_ONLY，SCR-FAV-001引用整批P01-P08，SHEET-CONTENT-INVALID-001无视觉绑定；Release Manifest使用HTTP路径且遗漏Story要求的contentPostContentsByIdInvalidFeedback，直接编码会违反精确视觉和operationId事实源规则。
+original_rule: 既有全局UI规则要求编码前每页绑定精确效果图面板或批准补充规格，普通任务只跑FAST/MODULE，完整Android与模拟器只在最终候选执行；R13现有页面目录仍含TOKENS_ONLY、整批P01-P08和缺失绑定，且版本缺少执行计划。
+new_rule: 不新增平行规则：R13建立单一执行计划；我的收藏=B08/P07、浏览记录=B08/P08；分享面板采用批准补充规格，复用B03详情分享入口和B07/P07底部面板结构；联系方式失效反馈采用批准补充规格，复用B03/P08失效语境与B07/P07原因反馈面板。字段、动作和内容只来自冻结文档。Manifest统一登记六个operationId，其中五个为R13归属、失效反馈为Story要求的共享复用接口。
+impact_summary: 消除R13执行计划、四页视觉施工入口和Manifest接口表达漂移；不新增业务字段、接口或数据库，不运行Android构建和模拟器。
+impact:
+  files:
+  - releases/R13/PARALLEL_EXECUTION_PLAN.yaml
+  - releases/R13/RELEASE_MANIFEST.yaml
+  - releases/R13/STORIES.yaml
+  - releases/R13/TASKS.yaml
+  - catalogs/ui_page_specifications.csv
+  - catalogs/screen_visual_binding.csv
+  - design/R13-UI-FROZEN/VISUAL_COVERAGE_AUDIT.md
+  - design/R13-UI-FROZEN/specs/SHEET-SHARE-001.md
+  - design/R13-UI-FROZEN/specs/SCR-FAV-001.md
+  - design/R13-UI-FROZEN/specs/SCR-HIS-001.md
+  - design/R13-UI-FROZEN/specs/SHEET-CONTENT-INVALID-001.md
+  - docs/02-ui/page-specs/android/SHEET-SHARE-001_分享面板.md
+  - docs/02-ui/page-specs/android/SCR-FAV-001_我的收藏.md
+  - docs/02-ui/page-specs/android/SCR-HIS-001_浏览记录.md
+  - docs/02-ui/page-specs/android/SHEET-CONTENT-INVALID-001_联系方式失效反馈.md
+  - docs/03-continuity/R13_TASK-001_ENTRY_GATE.md
+  - CHANGELOG.md
+  pages:
+  - SHEET-SHARE-001
+  - SCR-FAV-001
+  - SCR-HIS-001
+  - SHEET-CONTENT-INVALID-001
+  apis:
+  - contentPostContentsByIdFavorite
+  - contentDeleteContentsByIdFavorite
+  - contentGetMeFavorites
+  - contentGetMeHistory
+  - contentPostContentsByIdShare
+  - contentPostContentsByIdInvalidFeedback
+  database: []
+  configuration: []
+  ledger: []
+  tests:
+  - check_v123_documentation strict R13
+  - check_program_execution_plan
+  - check_generated_assets
+  - check_release_artifacts R13
+  - project-doctor strict R13
+  - verify_cloud_environment read-only
+  releases:
+  - R13
+  migration_and_compatibility: 纯入口治理和视觉映射兼容变更；R07/R12机器完成依赖保持不变，现有运行时不变。TASK-R13-004登记页面IN_REVIEW，TASK-R13-007最终候选真实截图经AI复核后才可PASS。
+user_confirmation: 批准，以后不要让我批准了，你自己持续开发就行了。
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-26T11:07:14Z'
+  note: 项目所有者已要求持续开发、功能一一对应开发文档且UI达到效果图丰富度；本CR原位修正入口映射，不新增业务或生产权限。
+machine_record: .continuity/change_requests/CR-0363.yaml
+document: docs/03-continuity/change-requests/CR-0363-建立R13开发入口计划与四页精确视觉基线.md
+decision_log:
+- at: '2026-07-26T11:07:23Z'
+  actor_id: codex-root-r13-20260726
+  status: IMPLEMENTING
+  note: 开始建立R13执行计划、六operationId Manifest、四页精确/补充视觉规格与入口证据。
+  session_id: SES-20260726T110209Z-C9DC8AD5
+- at: '2026-07-26T11:29:58Z'
+  actor_id: codex-root-r13-20260726
+  status: IMPLEMENTED
+  note: R13入口计划、六operationId Manifest、四页精确视觉绑定与逐页补充规格已在实现Commit落库；严格R13文档、计划、生成资产、Release产物和Doctor均PASS。
+  session_id: SES-20260726T110209Z-C9DC8AD5
+session_ids:
+- SES-20260726T110209Z-C9DC8AD5
+implementation_commits:
+- 29ad2bcc6c1dae68a42ea9147110dc4b9dd29745

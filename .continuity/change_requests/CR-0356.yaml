@@ -1,0 +1,82 @@
+protocol_version: '1.0'
+cr_id: CR-0356
+title: 修复R12候选视觉缺陷与过渡帧误采集
+status: CLOSED
+created_at: '2026-07-26T07:01:42Z'
+updated_at: '2026-07-26T07:55:17Z'
+requester_actor_id: codex-root-r12-visual-fix-20260726
+approver_actor_id: project-owner
+task_id: TASK-R12-007
+session_id: SES-20260725T192048Z-668BD05D
+user_request: 项目所有者要求所有版本截图由AI自主判断，不合格立即修复且不中断开发；本轮已批准R12第六次最终候选。
+reason: Run 30191193348技术流程成功但AI逐图拒绝基线：个人资料安全区被压缩、退出转场残层被误采、ISO时间泄露和蓝底刷新按钮对比度不足。attempt6保持已消费，本CR不授权attempt7。
+original_rule: 候选截图要求目标页面身份、前页消失、连续像素稳定和AI逐图验收；页面必须使用统一HhyMotion转场、Design Token和真实业务时间，不得直接展示技术字段。
+new_rule: 不新增平行硬规则，原位落实既有视觉与候选规则：页面退出转场必须完全离开视口；候选截图至少连续四次取得相同像素后才可采信；TopAppBar不得以固定总高度压缩系统安全区；R12用户可见时间统一转换为Asia/Shanghai商业格式；品牌蓝底轮廓按钮必须使用反色文字、图标和边框。
+impact_summary: 修复R12 Android页面与候选视觉证据可信度；不修改业务API、数据库、资金、候选次数或生产配置。attempt6不晋升且保持已消费，本CR不授权attempt7或新的GitHub候选。
+impact:
+  files:
+  - apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyMotion.kt
+  - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/R12ProfileScreen.kt
+  - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/R12MeHomeScreen.kt
+  - apps/android/feature/shell/src/test/java/cc/orbexa/hhy/shell/R12MeHomeStateTest.kt
+  - apps/android/feature/content-management/src/main/java/cc/orbexa/hhy/contentmanagement/R12ContentManagementListScreens.kt
+  - apps/android/feature/content-management/src/main/java/cc/orbexa/hhy/contentmanagement/R12ContentManagementDetailScreen.kt
+  - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+  - tests/test_r12_candidate.py
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/PITFALLS.md
+  - docs/03-continuity/REUSABLE_PATTERNS.md
+  - docs/08-testing/Android自动开发测试修复交付体系_V1.0.md
+  - CHANGELOG.md
+  pages:
+  - SCR-ME-001
+  - SCR-ME-002
+  - SCR-MYC-001
+  - SCR-MYC-002
+  - SCR-MYC-003
+  - SCR-MYC-005
+  apis:
+  - 无直接影响
+  database:
+  - 无直接影响
+  configuration:
+  - 无直接影响
+  ledger:
+  - 保留Run 30191193348、attempt6、request006及截图哈希为已消费但未批准的历史证据
+  tests:
+  - :feature:shell:testDebugUnitTest
+  - :feature:content-management:testDebugUnitTest
+  - :app:compileDebugAndroidTestKotlin
+  - python -m unittest -v tests.test_r12_candidate tests.test_android_ui_foundation
+  - python scripts/check_v123_documentation.py --strict --release R12
+  - python scripts/check_v123_continuity.py --strict --release R12
+  releases:
+  - R12
+  migration_and_compatibility: 保持Navigation Compose真实返回栈和HhyMotion统一入口，只把退出层终点改为完全离屏并提高截图稳定窗口；时间异常安全回退为时间待同步。接口和持久化数据不变。
+user_confirmation: 项目所有者明确要求AI自主审核截图、不合格立即修复且不中断开发，并已批准本轮R12最终候选。
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-26T07:02:12Z'
+  note: 按项目所有者既有持续开发和AI视觉自主验收授权立即修复attempt6已确认缺陷；attempt7仍需单独精确授权。
+machine_record: .continuity/change_requests/CR-0356.yaml
+document: docs/03-continuity/change-requests/CR-0356-修复R12候选视觉缺陷与过渡帧误采集.md
+decision_log:
+- at: '2026-07-26T07:02:16Z'
+  actor_id: codex-root-r12-visual-fix-20260726
+  status: IMPLEMENTING
+  note: 开始修复安全区、转场残留、时间格式、按钮对比度和截图稳定窗口；不启动新候选。
+  session_id: SES-20260725T192048Z-668BD05D
+- at: '2026-07-26T07:16:49Z'
+  actor_id: codex-root-r12-visual-fix-20260726
+  status: IMPLEMENTED
+  note: 产品与候选修复已实现：安全区、全屏退出、四次稳定采样、Asia/Shanghai时间及蓝底反色按钮完成。obx-test固定镜像testDebugUnitTest、lintDebug、assembleDebug及AndroidTest编译PASS；本地候选、治理知识、合同和严格文档PASS。未运行attempt7。
+  session_id: SES-20260725T192048Z-668BD05D
+- at: '2026-07-26T07:55:17Z'
+  actor_id: codex-root-r12-visual-fix-20260726
+  status: CLOSED
+  note: 视觉实现与候选稳定采样修复已完成；obx-test Android全模块PASS，GitHub Continuity Gate 30193469053和普通CI 30193469150均PASS。关闭实现CR不代表批准视觉基线，真实截图复验仍需新的精确候选授权；attempt7未运行。
+  session_id: SES-20260725T192048Z-668BD05D
+session_ids:
+- SES-20260725T192048Z-668BD05D
+implementation_commits:
+- bcde496e9821dce301d4b13bfe0b1f590f1380f5

@@ -1,0 +1,57 @@
+protocol_version: '1.0'
+cr_id: CR-0338
+title: 冻结现场证据原始字节避免Git换行改写
+status: CLOSED
+created_at: '2026-07-25T19:11:37Z'
+updated_at: '2026-07-25T19:15:16Z'
+requester_actor_id: codex-root-r12-observability-20260726
+approver_actor_id: codex-reviewer-r12-evidence
+task_id: TASK-R12-006
+session_id: SES-20260725T180922Z-D7231210
+user_request: 按仓库事实源连续开发并保证交付证据可验证
+reason: 未推送Commit对象校验发现trace-headers.txt被Git文本规范化，提交字节哈希与obx-test原始证据不一致
+original_rule: 现场证据必须保留服务器原始字节并可由SHA256SUMS复核
+new_rule: artifacts/validation下的现场证据按原始字节入库，禁止Git换行过滤；提交对象必须逐文件对照SHA256SUMS
+impact_summary: 为现场证据目录增加Git -text规则，重新暂存原始字节并登记PROB-0112，不修改产品代码或运行时
+impact:
+  files:
+  - .gitattributes
+  - artifacts/validation/r12-task006-staging
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  pages: []
+  apis: []
+  database: []
+  configuration: []
+  ledger: []
+  tests:
+  - Git index blob SHA256 versus artifacts/validation/r12-task006-staging/SHA256SUMS
+  releases:
+  - R12
+  migration_and_compatibility: 仅证据存储格式治理；既有产品、数据库、API和现场运行结果不变
+user_confirmation: 项目所有者要求证据和规则跨电脑跨AI可直接复用
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-25T19:12:01Z'
+  note: 原始现场证据必须字节级可追溯，目录级-text规则和提交对象复核是最小修复
+machine_record: .continuity/change_requests/CR-0338.yaml
+document: docs/03-continuity/change-requests/CR-0338-冻结现场证据原始字节避免Git换行改写.md
+decision_log:
+- at: '2026-07-25T19:13:05Z'
+  actor_id: codex-root-r12-observability-20260726
+  status: IMPLEMENTING
+  note: 已加入artifacts/validation原始字节规则，Git索引25文件与现场SHA256SUMS逐项一致
+  session_id: SES-20260725T180922Z-D7231210
+- at: '2026-07-25T19:14:55Z'
+  actor_id: codex-root-r12-observability-20260726
+  status: IMPLEMENTED
+  note: gitattributes原始字节规则、PROB-0112和Commit对象25文件SHA复核已进入正式证据提交
+  session_id: SES-20260725T180922Z-D7231210
+- at: '2026-07-25T19:15:16Z'
+  actor_id: codex-root-r12-observability-20260726
+  status: CLOSED
+  note: R12现场验收、证据签字和Commit对象哈希均已推送并通过，变更请求关闭
+  session_id: SES-20260725T180922Z-D7231210
+session_ids:
+- SES-20260725T180922Z-D7231210
+implementation_commits:
+- 6abb78314402cfd5811480742341d487a6139cdb

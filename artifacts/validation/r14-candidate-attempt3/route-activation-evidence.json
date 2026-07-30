@@ -1,0 +1,51 @@
+{
+  "schema": "hhy.android-candidate-route-evidence/v1",
+  "release": "R14",
+  "attempt": 3,
+  "request_id": "R14-CANDIDATE-20260729-003",
+  "github_run_id": "30408703138",
+  "source_commit": "21125aa96111d715659e75609077bc48f04c78d9",
+  "status": "PASS_AFTER_INCIDENT_REMEDIATION",
+  "activated_at": "2026-07-29T00:26:56Z",
+  "revalidated_at": "2026-07-29T01:03:14Z",
+  "route": {
+    "public_host": "api.orbexa.cc",
+    "upstream": "127.0.0.1:28116",
+    "container": "hhy-r14-ci-candidate-21125aa9",
+    "rollback_container": "hhy-r14-ci-candidate-59331083",
+    "container_source_commit": "21125aa96111d715659e75609077bc48f04c78d9",
+    "image_id": "sha256:ebb70612bbe847778ce34a888692255769defa69db029c47d891fbf8163cd7aa",
+    "candidate_health": "healthy",
+    "rollback_health": "healthy",
+    "nginx_backup": "/www/server/panel/vhost/nginx/api.orbexa.cc.conf.pre-candidate-20260729T002655Z",
+    "activation_request_id": "hhy-route-20260729T002656Z-1-2929130999",
+    "revalidation_request_id": "hhy-route-audit-20260729T010312Z",
+    "public_request_observed_in_target_log": true
+  },
+  "isolation": {
+    "network": "hhy-r14-staging_smoke",
+    "candidate_network_exact": true,
+    "rollback_network_exact": true,
+    "database_container": "hhy-r14-staging-postgres-1",
+    "database_name": "hhy_r14_smoke",
+    "database_binding_exact": true,
+    "flyway_version": "044",
+    "mfa_volume_destination": "/var/lib/hhy/secrets",
+    "mfa_volume_writable": true
+  },
+  "probes": {
+    "candidate_source_commit_exact": "PASS",
+    "candidate_network_exact": "PASS",
+    "candidate_database_binding_exact": "PASS",
+    "candidate_mfa_volume_writable": "PASS",
+    "target_container_local_http_200": "PASS",
+    "nginx_upstream_exact": "PASS",
+    "nginx_config_test_pass": "PASS",
+    "public_status_http_200": "PASS",
+    "public_request_id_in_target_container_log": "PASS",
+    "rollback_container_healthy": "PASS"
+  },
+  "candidate_result_unchanged": "FAIL",
+  "note": "This evidence proves the post-incident route and isolation correction only; it does not convert Attempt3 into a candidate PASS.",
+  "secrets_recorded": false
+}

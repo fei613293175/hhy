@@ -1,9 +1,11 @@
 ﻿operationId,平台,方法,路径,用途,所有者类型,UI_ID,责任模块,计划版本,权限,说明,状态
+identityGetIdentityOverview,CLIENT,GET,/api/v1/identity/overview,获取当前实名认证总览,PAGE_ACTION,SCR-ID-001,Identity,R05,登录,页面进入与返回恢复时自动加载服务端事实；存在活动会话必须继续且已认证不得新建,FROZEN
 authPostAuthSecurityChallenges,CLIENT,POST,/api/v1/auth/security-challenges,创建图形/行为安全挑战,PAGE_ACTION,H5-013;SCR-AUTH-001;SCR-AUTH-002;SCR-AUTH-003;SCR-AUTH-004,Auth,R02,公开,由页面详细动作规格实现；共享组件允许多页面复用,FROZEN
 authPostAuthPasswordLogin,CLIENT,POST,/api/v1/auth/password/login,手机号+密码+安全验证登录,PAGE_ACTION,SCR-AUTH-001,Auth,R02,公开,由页面详细动作规格实现；共享组件允许多页面复用,FROZEN
 authPostAuthSmsSend,CLIENT,POST,/api/v1/auth/sms/send,阿里云短信验证码：LOGIN/REGISTER/RESET_PASSWORD,PAGE_ACTION,H5-013;SCR-AUTH-002;SCR-AUTH-003;SCR-AUTH-004,Auth,R02,公开+安全挑战,由页面详细动作规格实现；共享组件允许多页面复用,FROZEN
 authPostAuthSmsLogin,CLIENT,POST,/api/v1/auth/sms/login,已注册手机号短信验证码登录,PAGE_ACTION,SCR-AUTH-002,Auth,R02,公开,由页面详细动作规格实现；共享组件允许多页面复用,FROZEN
 authPostAuthInviteCodesValidate,CLIENT,POST,/api/v1/auth/invite-codes/validate,校验邀请码和注册必填规则,PAGE_ACTION,SCR-AUTH-003,Auth,R02,公开,由页面详细动作规格实现；共享组件允许多页面复用,FROZEN
+authGetAuthRegistrationConfig,CLIENT,GET,/api/v1/auth/registration-config,读取当前注册协议版本配置,PAGE_ACTION,SCR-AUTH-003,Auth,R02,公开,由页面详细动作规格实现；共享组件允许多页面复用,FROZEN
 authPostAuthRegister,CLIENT,POST,/api/v1/auth/register,密码注册、短信校验、邀请码绑定、随机用户名,PAGE_ACTION,H5-013;SCR-AUTH-003,Auth,R02,公开,由页面详细动作规格实现；共享组件允许多页面复用,FROZEN
 authPostAuthPasswordReset,CLIENT,POST,/api/v1/auth/password/reset,短信校验后重置密码,PAGE_ACTION,SCR-AUTH-004,Auth,R02,公开,由页面详细动作规格实现；共享组件允许多页面复用,FROZEN
 authPostMeSecurityPasswordChange,CLIENT,POST,/api/v1/me/security/password/change,修改登录密码,PAGE_ACTION,SCR-AUTH-007,Auth,R02,登录,由页面详细动作规格实现；共享组件允许多页面复用,FROZEN
@@ -15,10 +17,12 @@ userGetMe,CLIENT,GET,/api/v1/me,当前用户资料,PAGE_ACTION,SCR-AUTH-005;SCR-
 userPatchMeProfile,CLIENT,PATCH,/api/v1/me/profile,修改头像昵称简介,PAGE_ACTION,SCR-ME-002;SCR-SET-001,User,R02/R07/R12,登录,由页面详细动作规格实现；共享组件允许多页面复用,FROZEN
 userGetPublishersById,CLIENT,GET,/api/v1/publishers/{id},发布者公开主页,PAGE_ACTION,SCR-PUBLISHER-001,User,R02/R07/R12,登录,由页面详细动作规格实现；共享组件允许多页面复用,FROZEN
 userPostMeCancellation,CLIENT,POST,/api/v1/me/cancellation,申请注销,PAGE_ACTION,SCR-AUTH-008,User,R02/R07/R12,登录,由页面详细动作规格实现；共享组件允许多页面复用,FROZEN
+identityGetIdentityConsent,CLIENT,GET,/api/v1/identity/consent,获取当前实名认证授权说明,PAGE_ACTION,SCR-ID-002,Identity,R05,登录,页面自动加载并在提交时仅使用当前不可变版本ID；版本ID不得展示,FROZEN
 identityPostIdentitySessions,CLIENT,POST,/api/v1/identity/sessions,创建实名会话,PAGE_ACTION,SCR-ID-001;SCR-ID-002,Identity,R05,登录,由页面详细动作规格实现；共享组件允许多页面复用,FROZEN
 identityPostIdentitySessionsByIdLivenessToken,CLIENT,POST,/api/v1/identity/sessions/{id}/liveness-token,获取活体H5,PAGE_ACTION,SCR-ID-003,Identity,R05,登录,由页面详细动作规格实现；共享组件允许多页面复用,FROZEN
 identityGetIdentitySessionsById,CLIENT,GET,/api/v1/identity/sessions/{id},查询实名状态,PAGE_ACTION,H5-012;SCR-ID-003;SCR-ID-004,Identity,R05,登录,由页面详细动作规格实现；共享组件允许多页面复用,FROZEN
 identityPostIdentitySessionsByIdRetry,CLIENT,POST,/api/v1/identity/sessions/{id}/retry,重新认证,PAGE_ACTION,SCR-ID-004,Identity,R05,登录,由页面详细动作规格实现；共享组件允许多页面复用,FROZEN
+publicPostIdentityCallbackConsume,CLIENT,POST,/public-api/v1/identity/callback/consume,消费一次性活体回跳,PAGE_ACTION,H5-012,Public,R05,公开,仅消费一次性state并返回最小业务状态；不得展示state或技术字段,FROZEN
 mediaPostMediaUploadSessions,CLIENT,POST,/api/v1/media/upload-sessions,创建上传会话,PAGE_ACTION,SHEET-MEDIA-001,Media,R04,登录,由页面详细动作规格实现；共享组件允许多页面复用,FROZEN
 mediaPostMediaUploadSessionsByIdComplete,CLIENT,POST,/api/v1/media/upload-sessions/{id}/complete,完成上传,PAGE_ACTION,SHEET-MEDIA-001,Media,R04,登录,由页面详细动作规格实现；共享组件允许多页面复用,FROZEN
 mediaDeleteMediaById,CLIENT,DELETE,/api/v1/media/{id},删除未绑定媒体,PAGE_ACTION,SHEET-MEDIA-001,Media,R04,登录,由页面详细动作规格实现；共享组件允许多页面复用,FROZEN
@@ -63,7 +67,7 @@ notificationPostNotificationsReadAll,CLIENT,POST,/api/v1/notifications/read-all,
 notificationGetAnnouncements,CLIENT,GET,/api/v1/announcements,公告列表,PAGE_ACTION,SCR-ANN-001;SCR-MSG-001,Notification,R15,登录,由页面详细动作规格实现；共享组件允许多页面复用,FROZEN
 notificationGetAnnouncementsById,CLIENT,GET,/api/v1/announcements/{id},公告详情,PAGE_ACTION,SCR-ANN-002,Notification,R15,登录,由页面详细动作规格实现；共享组件允许多页面复用,FROZEN
 membershipGetMembershipSkus,CLIENT,GET,/api/v1/membership/skus,会员SKU和权益,PAGE_ACTION,SCR-MEMBER-001;SCR-MEMBER-002,Membership,R18,登录,由页面详细动作规格实现；共享组件允许多页面复用,FROZEN
-membershipGetMeMembership,CLIENT,GET,/api/v1/me/membership,当前会员,PAGE_ACTION,SCR-ME-001;SCR-MEMBER-001;SCR-MEMBER-004,Membership,R18,登录,由页面详细动作规格实现；共享组件允许多页面复用,FROZEN
+membershipGetMeMembership,CLIENT,GET,/api/v1/me/membership,当前会员,PAGE_ACTION,SCR-ME-001;SCR-MEMBER-001;SCR-MEMBER-004,Membership,R12/R18,登录,由页面详细动作规格实现；共享组件允许多页面复用,FROZEN
 membershipPostMembershipOrders,CLIENT,POST,/api/v1/membership/orders,创建会员购买订单,PAGE_ACTION,SCR-MEMBER-002,Membership,R18,登录,由页面详细动作规格实现；共享组件允许多页面复用,FROZEN
 membershipPostMembershipUpgradeQuotes,CLIENT,POST,/api/v1/membership/upgrade-quotes,生成升级报价,PAGE_ACTION,SCR-MEMBER-003,Membership,R18,登录,由页面详细动作规格实现；共享组件允许多页面复用,FROZEN
 membershipPostMembershipUpgradeOrders,CLIENT,POST,/api/v1/membership/upgrade-orders,创建升级订单,PAGE_ACTION,SCR-MEMBER-003,Membership,R18,登录,由页面详细动作规格实现；共享组件允许多页面复用,FROZEN
@@ -96,7 +100,7 @@ paymentGetOrdersByOrdernoCashier,CLIENT,GET,/api/v1/orders/{orderNo}/cashier,收
 paymentPostOrdersByOrdernoPayments,CLIENT,POST,/api/v1/orders/{orderNo}/payments,创建第三方支付,PAGE_ACTION,H5-008,Payment,R17,登录,由页面详细动作规格实现；共享组件允许多页面复用,FROZEN
 paymentGetOrdersByOrdernoPaymentStatus,CLIENT,GET,/api/v1/orders/{orderNo}/payment-status,查询支付状态,PAGE_ACTION,H5-009,Payment,R17,登录,由页面详细动作规格实现；共享组件允许多页面复用,FROZEN
 paymentPostPaymentByGatewayNotify,CLIENT,POST,/public-api/v1/payment/{gateway}/notify,支付异步回调,SYSTEM_CALLBACK,,Payment,R17,供应商签名,支付网关异步回调；无页面所有者，归支付适配器和回调幂等处理器,EXPLICIT_SYSTEM_OWNER
-rewardGetMeRewardAccount,CLIENT,GET,/api/v1/me/reward-account,奖励账户,PAGE_ACTION,SCR-ME-001;SCR-REWARD-001;SCR-RP-004;SHEET-RP-001,Reward,R24,登录+实名,由页面详细动作规格实现；共享组件允许多页面复用,FROZEN
+rewardGetMeRewardAccount,CLIENT,GET,/api/v1/me/reward-account,奖励账户,PAGE_ACTION,SCR-ME-001;SCR-REWARD-001;SCR-RP-004;SHEET-RP-001,Reward,R12/R24,登录+实名,由页面详细动作规格实现；共享组件允许多页面复用,FROZEN
 rewardGetMeRewardLedger,CLIENT,GET,/api/v1/me/reward-ledger,奖励流水,PAGE_ACTION,SCR-REWARD-002,Reward,R24,登录+实名,由页面详细动作规格实现；共享组件允许多页面复用,FROZEN
 withdrawalGetMePayoutAccount,CLIENT,GET,/api/v1/me/payout-account,支付宝账户,PAGE_ACTION,SCR-WD-001,Withdrawal,R24,登录+实名,由页面详细动作规格实现；共享组件允许多页面复用,FROZEN
 withdrawalPutMePayoutAccount,CLIENT,PUT,/api/v1/me/payout-account,绑定/修改支付宝,PAGE_ACTION,SCR-WD-001,Withdrawal,R24,登录+实名,由页面详细动作规格实现；共享组件允许多页面复用,FROZEN

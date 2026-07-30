@@ -1,0 +1,182 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260718T081744Z-71EAAA84-0003
+session_id: SES-20260718T081744Z-71EAAA84
+sequence: 3
+created_at: '2026-07-18T08:44:23Z'
+summary: CR-0038最小CHANGELOG范围记录已实现并关闭
+next_step: 提交CR关闭记录后关闭TASK-R02-005
+blockers: []
+decisions: []
+note: CR仅涉及CHANGELOG.md单文件治理范围
+tests:
+- name: implementation-commit-gates
+  result: PASS
+  evidence: commit 1948136 pre-commit and commit-msg
+  note: 34 files strict gates pass
+git:
+  initialized: true
+  branch: task/TASK-R02-002
+  head: 194813662259dde14a320111dfe5db44b5066082
+  upstream: origin/task/TASK-R02-002
+  ahead: 1
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/change_requests/CR-0038.yaml'
+  - ' M catalogs/change_request_index.csv'
+  - ' M catalogs/session_index.csv'
+  - ' M docs/03-continuity/change-requests/CR-0038-TASK-R02-005允许同步H5用户可见变更日志.md'
+  recent_commits:
+  - "194813662259dde14a320111dfe5db44b5066082\t2026-07-18T16:43:45+08:00\tHHY Continuity Bootstrap\t[STORY-R02-008] feat(h5): complete invite\
+    \ registration flow"
+  - "1e41f587985849538b8ba2f6b5d0ee24e0652223\t2026-07-18T16:15:49+08:00\tHHY Continuity Bootstrap\t[STORY-R02-001] chore(continuity): close TASK-R02-004\
+    \ as completed"
+  - "6d28613c19d0f64986aac5b4d7a51276bd3ff440\t2026-07-18T16:14:31+08:00\tHHY Continuity Bootstrap\t[STORY-R02-001] chore(continuity): close CR-0037"
+  - "2317ead46211c9bcfddbf7b77af8f76059325606\t2026-07-18T16:12:31+08:00\tHHY Continuity Bootstrap\t[STORY-R02-001] feat(admin): complete user\
+    \ control operations"
+  - "38026234165906db0432eece6203c790aba4851b\t2026-07-18T15:26:29+08:00\tHHY Continuity Bootstrap\t[STORY-R02-001] feat(admin): implement user\
+    \ read views"
+  - "67d189bb50a96bad6e6d1acf54983162130a9299\t2026-07-18T15:06:32+08:00\tHHY Continuity Bootstrap\t[STORY-R02-005] chore(continuity): close TASK-R02-003\
+    \ as completed"
+  - "8573731b1f0fa26af70f5b2eb67e18f37263470a\t2026-07-18T15:05:07+08:00\tHHY Continuity Bootstrap\t[STORY-R02-005] fix(android): reject APK builds\
+    \ with placeholder API"
+  - "4ea46c06c62b14eda09b9d1d533962bdfcc731cf\t2026-07-18T14:49:43+08:00\tHHY Continuity Bootstrap\t[STORY-R02-005] feat(auth): close account\
+    \ cancellation flow"
+project_fingerprint:
+  sha256: 833a1596049c99bf78b5f28204900bffcdff4e29ab3b814eecacf7687d8297a1
+  files:
+  - CHANGELOG.md
+  - apps/h5/src/router.ts
+  - apps/h5/src/services/inviteRegistration.test.ts
+  - apps/h5/src/services/inviteRegistration.ts
+  - apps/h5/src/styles.css
+  - apps/h5/src/views/InviteRegistrationPage.test.ts
+  - apps/h5/src/views/InviteRegistrationPage.vue
+  - docs/03-continuity/change-requests/CR-0038-TASK-R02-005允许同步H5用户可见变更日志.md
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthContracts.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthService.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthStore.java
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/InviteRegistrationController.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserAuthPublicSuccessContractTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserAuthServiceTest.java
+  file_count: 14
+  payload:
+    base_commit: 1e41f587985849538b8ba2f6b5d0ee24e0652223
+    files:
+    - path: CHANGELOG.md
+      state: FILE
+      size: 20062
+      sha256: 8bc214b0074446ce3a4a9fffaf0f9d3cba450d652cc2a0a7d6d3768bd2822668
+    - path: apps/h5/src/router.ts
+      state: FILE
+      size: 548
+      sha256: b4ee92c7528d4ddaa9d6202e2669791f4cd98ea4a38837a2644135b0366a0f8b
+    - path: apps/h5/src/services/inviteRegistration.test.ts
+      state: FILE
+      size: 4081
+      sha256: c3d6cb75aabfbec27775babbdcc59c72ca5c670ebd2b3ff929fc1b584567a039
+    - path: apps/h5/src/services/inviteRegistration.ts
+      state: FILE
+      size: 8048
+      sha256: 678d140990e66c350c42d7aeae666dc0857bf9ad9090830ccce013232a754a27
+    - path: apps/h5/src/styles.css
+      state: FILE
+      size: 6187
+      sha256: 5dda2ba7e6b0ab4ff03fda2470d1d2777e8ce92bbb1c84049f9d98ca626bef51
+    - path: apps/h5/src/views/InviteRegistrationPage.test.ts
+      state: FILE
+      size: 5154
+      sha256: 15a7817d773018adb2b789416c78e7b0e3d0fc0a6c1a7508117f94ffca4a0b69
+    - path: apps/h5/src/views/InviteRegistrationPage.vue
+      state: FILE
+      size: 12127
+      sha256: ff2a0cd8bde099f18b636572772ca6fca22b98981d1b926f98edf28547b52d56
+    - path: docs/03-continuity/change-requests/CR-0038-TASK-R02-005允许同步H5用户可见变更日志.md
+      state: FILE
+      size: 2515
+      sha256: 48589fdfbb842a3a3b8c9ba18381735e948499a8e035f3bc8f644e50a53d359a
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthContracts.java
+      state: FILE
+      size: 6454
+      sha256: 1b849df3bea4e5d54fb5ec4c0a07ee8bd21eab27a4422b910071bb6178b5c378
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthService.java
+      state: FILE
+      size: 32085
+      sha256: 83a4adab6ca34a4930e59c786a6a0e145a727cc4b1388f13df5863bc653759ef
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthStore.java
+      state: FILE
+      size: 29097
+      sha256: 95cfbe3fb1a2462cdcba91d692486ed99e64f7f56055ad8077e5e82472203340
+    - path: services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/InviteRegistrationController.java
+      state: FILE
+      size: 2496
+      sha256: a412382acbd578a4129af5311e198adef45a90ce9d2897bc76d336f98e51fc65
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserAuthPublicSuccessContractTest.java
+      state: FILE
+      size: 13253
+      sha256: 6f32c1090181ffa941d5e409f2cd651342a77a63491883dfe6cda5d747945e68
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserAuthServiceTest.java
+      state: FILE
+      size: 24922
+      sha256: 9b913af8066c320555025e45255033661b0709ffd292a325e2ef458830a2f4e7
+change_classification:
+  other:
+  - CHANGELOG.md
+  code:
+  - apps/h5/src/router.ts
+  - apps/h5/src/services/inviteRegistration.test.ts
+  - apps/h5/src/services/inviteRegistration.ts
+  - apps/h5/src/styles.css
+  - apps/h5/src/views/InviteRegistrationPage.test.ts
+  - apps/h5/src/views/InviteRegistrationPage.vue
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthContracts.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthService.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthStore.java
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/InviteRegistrationController.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserAuthPublicSuccessContractTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserAuthServiceTest.java
+  user_visible:
+  - apps/h5/src/router.ts
+  - apps/h5/src/services/inviteRegistration.test.ts
+  - apps/h5/src/services/inviteRegistration.ts
+  - apps/h5/src/styles.css
+  - apps/h5/src/views/InviteRegistrationPage.test.ts
+  - apps/h5/src/views/InviteRegistrationPage.vue
+  continuity:
+  - docs/03-continuity/change-requests/CR-0038-TASK-R02-005允许同步H5用户可见变更日志.md
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+- CHANGELOG
+change_requests:
+- CR-0038
+scope:
+  allowed_paths:
+  - apps/h5/**
+  - apps/cashier-h5/**
+  - services/backend/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - tests/**
+  - docs/**
+  - catalogs/**
+  - releases/**
+  - design/**
+  - scripts/**
+  approved_exceptions:
+  - CHANGELOG.md
+  source: story+explicit+approved-cr:CR-0038
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 仅更新当前会话唯一CR和连续性事实，必须由事实主控串行完成
+event_hash: 3793708dabd97b144f008be6196ae41573a0f594d8979daf42d6b0ddced32dc0

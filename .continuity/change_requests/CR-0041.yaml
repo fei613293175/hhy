@@ -1,0 +1,55 @@
+protocol_version: '1.0'
+cr_id: CR-0041
+title: TASK-R02-006允许同步集成修正变更日志
+status: CLOSED
+created_at: '2026-07-18T09:07:16Z'
+updated_at: '2026-07-18T10:47:56Z'
+requester_actor_id: codex-root
+approver_actor_id: project-owner-standing-authorization
+task_id: TASK-R02-006
+session_id: SES-20260718T084729Z-BD53B7C4
+user_request: 用户要求持续完成R02并自行处理非紧急实现问题
+reason: Design Token集成修正触及H5用户可见样式，提交门禁要求更新CHANGELOG.md，但当前会话允许路径遗漏该治理文件。
+original_rule: TASK-R02-006会话范围未包含根目录CHANGELOG.md。
+new_rule: TASK-R02-006发生用户可见集成修正时允许同步根目录CHANGELOG.md，其他范围不变。
+impact_summary: 仅登记H5 Design Token和R02事实计数集成修正，不改变产品契约、版本号或发布状态。
+impact:
+  files:
+  - CHANGELOG.md
+  pages: []
+  apis: []
+  database: []
+  configuration: []
+  ledger: []
+  tests:
+  - continuity pre-commit CHANGELOG_REQUIRED gate
+  releases:
+  - R02
+  migration_and_compatibility: 纯文档追加，无运行时迁移。
+user_confirmation: 后续这种问题不要问我确认，你自己决定
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-18T09:07:31Z'
+  note: 仅批准CHANGELOG.md单文件治理记录，不扩大TASK-R02-006产品或发布范围。
+machine_record: .continuity/change_requests/CR-0041.yaml
+document: docs/03-continuity/change-requests/CR-0041-TASK-R02-006允许同步集成修正变更日志.md
+decision_log:
+- at: '2026-07-18T10:47:54Z'
+  actor_id: codex-root
+  status: IMPLEMENTING
+  note: R02集成与预发布验收实施完成，进入证据绑定
+  session_id: SES-20260718T084729Z-BD53B7C4
+- at: '2026-07-18T10:47:55Z'
+  actor_id: codex-root
+  status: IMPLEMENTED
+  note: 实现与回归证据已绑定到最终集成提交
+  session_id: SES-20260718T084729Z-BD53B7C4
+- at: '2026-07-18T10:47:56Z'
+  actor_id: codex-root
+  status: CLOSED
+  note: 25项矩阵、131项Maven、预发布可观测性与故障注入均通过，关闭变更请求
+  session_id: SES-20260718T084729Z-BD53B7C4
+implementation_commits:
+- 4d5598286a7158f50960e1dfa45db5390d83863d
+session_ids:
+- SES-20260718T084729Z-BD53B7C4

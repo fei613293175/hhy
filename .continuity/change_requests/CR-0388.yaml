@@ -1,0 +1,62 @@
+protocol_version: '1.0'
+cr_id: CR-0388
+title: 修复R13 Lazy预组合媒体未进入活动视口并建立attempt8
+status: IMPLEMENTED
+created_at: '2026-07-27T00:55:36Z'
+updated_at: '2026-07-27T01:08:23Z'
+requester_actor_id: codex-root-r13-candidate-20260727
+approver_actor_id: codex-review-r13-candidate-20260727
+task_id: TASK-R13-007
+session_id: SES-20260726T191158Z-2B506AB7
+user_request: 用户已批准持续开发且不再逐项批准；R13最终候选必须自主修复并完成真实媒体截图验收
+reason: Run 30228016402证明显式尺寸ImageRequest仍为success=2/errors=0/loading=1；第三项虽在预组合语义树中但未进入活动视口，候选必须确定性激活Lazy项后逐条等待真实成功并回顶复验，禁止延时或降数
+original_rule: 候选在收藏页初始视口一次性等待无障碍树三条loaded；即使固定尺寸ImageRequest，Lazy预组合但未进入活动视口的第三项仍可能保持loading
+new_rule: 候选必须用稳定列表资源执行一次受控向下滚动，使预组合媒体进入活动视口；逐条确认三项无失败并全部成功后回到列表顶部，再复验三条success、零error、零loading，才允许首张截图。禁止延长30秒上限、固定sleep、降为两项或改变截图起始位置
+impact_summary: 只修正R13候选旅程的Lazy媒体激活与诊断，不改生产页面、API、数据库或业务事实；attempt7已消费，首个测试修复Commit和模块证据完成后才登记精确attempt8/max1
+impact:
+  files:
+  - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+  - tests/test_r13_candidate.py
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/PITFALLS.md
+  - docs/03-continuity/REUSABLE_PATTERNS.md
+  - docs/08-testing/Android自动开发测试修复交付体系_V1.0.md
+  - config/android-automation.yaml
+  - config/android-candidate-request.yaml
+  - tests/test_android_ci_gate.py
+  - tests/test_android_candidate_request.py
+  - CHANGELOG.md
+  pages:
+  - R13收藏列表候选真实媒体激活
+  apis: []
+  database: []
+  configuration:
+  - R13 attempt8候选请求
+  ledger:
+  - TASK-R13-007 attempt7失败与attempt8单次授权
+  tests:
+  - tests.test_r13_candidate;tests.test_android_ci_gate;tests.test_android_candidate_request;app:compileDebugAndroidTestKotlin
+  releases:
+  - R13
+  migration_and_compatibility: 生产APK页面逻辑保持CR-0387确定尺寸请求；候选新增确定性滚动激活并回顶，不改变用户可见默认位置、截图合同、三条夹具或媒体URL
+user_confirmation: 用户2026-07-27明确批准持续开发并要求后续不再逐项批准，由开发代理自主完成门禁与候选修复
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-27T00:56:28Z'
+  note: 独立合同复核通过：attempt7相同2/0/1结果证明确定尺寸仍不足，受控滚动激活后回顶复验是对Lazy生命周期的最小确定性修复；不改业务功能且不放宽媒体与视觉门禁
+machine_record: .continuity/change_requests/CR-0388.yaml
+document: docs/03-continuity/change-requests/CR-0388-修复R13-Lazy预组合媒体未进入活动视口并建立attempt8.md
+decision_log:
+- at: '2026-07-27T00:56:47Z'
+  actor_id: codex-root-r13-candidate-20260727
+  status: IMPLEMENTING
+  note: 开始实现候选Lazy列表受控激活、回顶复验与专项回归；attempt8在首个修复Commit前不登记
+  session_id: SES-20260726T191158Z-2B506AB7
+- at: '2026-07-27T01:08:23Z'
+  actor_id: codex-root-r13-candidate-20260727
+  status: IMPLEMENTED
+  note: R13候选已实现唯一Lazy列表定位、业务description累计三条成功、同一30秒期限受控下滚激活与回顶严格三态复验；60项专项治理回归、Android UI基础门禁、git diff检查及obx-test固定镜像app:compileDebugAndroidTestKotlin
+    212任务全部PASS。attempt8尚未登记。
+  session_id: SES-20260726T191158Z-2B506AB7
+session_ids:
+- SES-20260726T191158Z-2B506AB7

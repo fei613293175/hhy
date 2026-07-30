@@ -1,6 +1,6 @@
 release: R09
 title: App推广完整闭环
-status: READY_WHEN_DEPENDENCIES_GREEN
+status: MACHINE_COMPLETE_OWNER_PENDING
 milestone: M1_CONTENT_MARKETPLACE
 depends_on:
 - R05
@@ -47,6 +47,110 @@ tests:
 - TST-APP_PROMO_001-HAPPY
 - TST-APP_PROMO_001-IDEMPOTENT
 - TST-APP_PROMO_001-REJECT
+test_count: 3
+planning_depth: STORY_READY
+apk_gate: MACHINE_CANDIDATE_PASS_OWNER_FEEDBACK_ASYNC
+android_delivery:
+  source_commit: 97dc163e1cbed8d19a054326806453c5fa0aee9b
+  apk_file: hhy-r09-97dc163-debug.apk
+  version_name: 1.2.2-debug
+  version_code: 10218
+  sha256: 78dda7171867f9005917b9768d5c79510ba0c9ddf86448c1497d8b62e65e31f9
+  machine_delivery: PASS
+  owner_physical_test: PENDING
+  evidence: artifacts/validation/r09-apk-delivery/delivery-evidence.json
+  test_guide: artifacts/reports/R09/R09-version-test-guide.md
+android_automation:
+  policy_id: HHY-ANDROID-AUTOMATION-V1
+  request_id: R09-CANDIDATE-20260723-003-EVIDENCE-REPLAY
+  source_github_run_id: '29969376611'
+  promotion_github_run_id: '29970240620'
+  status: PASS
+  remediation_attempt: 3
+  commit: 97dc163e1cbed8d19a054326806453c5fa0aee9b
+  candidate_report: artifacts/validation/r09-task007-android/candidate-report.json
+  first_candidate:
+    github_run_id: '29959550918'
+    functional_journey: PASS
+    ai_visual_review: REJECTED
+    candidate_delivery: FORBIDDEN
+    problem_id: PROB-0098
+  attempt_2_preflight:
+    staging_fixture: PASS
+    fixture_runs: 2
+    stable_content_id: '3'
+    stable_media_ids:
+    - '1'
+    - '2'
+    public_media_https: PASS
+    repository_server_public_sha256: PASS
+  attempt_2_result:
+    github_run_id: '29966683853'
+    automated_gate: PASS
+    functional_journey: PASS
+    detail_visual_review: PASS
+    editor_visual_review: PASS
+    list_visual_review: REJECTED
+    candidate_delivery: FORBIDDEN
+    rejection_reason: 列表卡把竖向截图分散在左侧且右侧大面积空白，未形成中性应用标识、紧凑信息层和下方横向截图条
+  attempt_3_scope:
+    list_brand_mark: NEUTRAL_APPLICATION_MARK
+    list_information_hierarchy: COMPACT_RIGHT_COLUMN
+    list_media_layout: FULL_HORIZONTAL_SCREENSHOT_STRIP
+    detail_and_editor_scope: UNCHANGED
+  attempt_3_result:
+    github_run_id: '29968398037'
+    automated_gate: PASS
+    functional_journey: PASS
+    list_layout_review: PASS
+    media_pixel_evidence: INVALID_CAPTURED_BEFORE_ASYNC_SUCCESS
+    candidate_delivery: FORBIDDEN
+  attempt_3_evidence_replay:
+    remediation_attempt: 3
+    additional_ui_remediation: false
+    required_loaded_tags:
+    - r09.app.media.list.preview.1.loaded
+    - r09.app.media.list.preview.2.loaded
+    - r09.app.media.detail.1.loaded
+    - r09.app.media.detail.2.loaded
+    rule: 任何图片未成功加载即让instrumentation失败，不得生成占位图视觉候选
+  attempt_3_evidence_replay_result:
+    github_run_id: '29969376611'
+    automated_gate: PASS
+    functional_journey: PASS
+    loaded_media_evidence: PASS
+    ai_visual_review: PASS
+    candidate_delivery: ALLOWED_AFTER_LIGHTWEIGHT_PROMOTION
+  baseline_promotion:
+    github_run_id: '29970240620'
+    duration_seconds: 17
+    artifact_id: '8549375024'
+    artifact_sha256: bd24942389ef89cc75f5ed6ec00c21ef41b6e9881c54bb50280a91beeea81ff2
+    rebuild_or_emulator_rerun: false
+    status: PASS
+  owner_test_allowed: true
+  owner_physical_test: PENDING
+  ai_visual_review: PASS
+  evidence: artifacts/validation/r09-task007-android/candidate-report.json
+machine_completion:
+  status: PASS
+  owner_feedback_mode: ASYNC_NON_BLOCKING
+  formal_release_acceptance: PENDING_OWNER_PHYSICAL_TEST
+  production_activation: BLOCKED_OWNER_PHYSICAL_TEST
+  next_release_development: ALLOWED
+  evidence: artifacts/reports/R09/TASK-R09-008-machine-close.md
+machine_closure:
+  status: PASS
+  task_id: TASK-R09-008
+  session_id: SES-20260723T024212Z-696F7963
+  report: artifacts/reports/R09/TASK-R09-008-machine-close.md
+  owner_physical_test: PENDING
+  formal_release_acceptance: PENDING_OWNER_PHYSICAL_TEST
+  production_activation: BLOCKED_OWNER_PHYSICAL_TEST
+  next_work: R10
+  candidate_product_commit: 97dc163e1cbed8d19a054326806453c5fa0aee9b
+  candidate_delivery_commit: 6c214e59d028679ea2e51b83e619f1c87c2be4d0
+  task007_closure_commit: 2e667408a5987b53ce55521f827ac70ce9e80cac
 entry_gate:
 - releases/R09/DEFINITION_OF_READY.yaml 全部适用项为PASS
 - releases/R09/STORIES.yaml 中每个故事均绑定页面/API/配置/数据/测试或显式N/A

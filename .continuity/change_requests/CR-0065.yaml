@@ -1,0 +1,57 @@
+protocol_version: '1.0'
+cr_id: CR-0065
+title: 同步R03发布计划与回归APK硬门禁
+status: CLOSED
+created_at: '2026-07-18T23:28:09Z'
+updated_at: '2026-07-18T23:32:35Z'
+requester_actor_id: codex-root
+approver_actor_id: project-owner-delegated
+task_id: TASK-R03-007
+session_id: SES-20260718T200607Z-3569D212
+user_request: 用户要求每个版本完成测试、桌面APK交付和可无状态接续，并严格按开发文档逐项核对。
+reason: R03 RELEASE_MANIFEST自滚动计划建立时已要求回归APK，但catalogs/release_plan.csv仍标记Android测试APK=NO，导致发布产物常规门禁APK_POLICY_MISMATCH。
+original_rule: catalogs/release_plan.csv中R03的Android测试APK字段为NO，而releases/R03/RELEASE_MANIFEST.yaml和滚动执行计划要求回归APK。
+new_rule: R03发布计划Android测试APK字段统一为YES；版本退出前必须交付固定签名回归APK并完成仓库、桌面、公网和项目所有者真机验收。
+impact_summary: 仅修正发布计划元数据与既有R03硬门禁一致，不新增业务功能、不将当前PENDING真机验收提前标记为PASS。
+impact:
+  files:
+  - catalogs/release_plan.csv
+  pages: []
+  apis: []
+  database: []
+  configuration:
+  - R03 Android测试APK策略
+  ledger:
+  - CR-0065及连续性检查点
+  tests:
+  - check_release_artifacts.py --release R03 与严格连续性门禁
+  releases:
+  - R03
+  migration_and_compatibility: 后续所有R03发布产物检查均以YES执行；当前0958f1f测试APK继续作为待项目所有者真机反馈的回归包。
+user_confirmation: 用户已明确要求每个版本测试、桌面APK、追溯和版本开发说明完整交付，并授权非紧急问题自行决策。
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-18T23:28:27Z'
+  note: 该修正落实用户已明确要求的每版本APK交付与文档一致性硬边界，不改变业务范围。
+machine_record: .continuity/change_requests/CR-0065.yaml
+document: docs/03-continuity/change-requests/CR-0065-同步R03发布计划与回归APK硬门禁.md
+decision_log:
+- at: '2026-07-18T23:28:29Z'
+  actor_id: codex-root
+  status: IMPLEMENTING
+  note: 开始将R03发布计划APK策略同步为YES并复跑发布产物门禁。
+  session_id: SES-20260718T200607Z-3569D212
+- at: '2026-07-18T23:29:46Z'
+  actor_id: codex-root
+  status: IMPLEMENTED
+  note: R03总发布计划Android测试APK策略已同步为YES，R03发布产物门禁和严格连续性门禁均通过。
+  session_id: SES-20260718T200607Z-3569D212
+- at: '2026-07-18T23:32:35Z'
+  actor_id: codex-root
+  status: CLOSED
+  note: R03发布计划APK策略已与版本清单统一，常规发布产物和严格连续性门禁均通过，证据提交已推送。
+  session_id: SES-20260718T200607Z-3569D212
+session_ids:
+- SES-20260718T200607Z-3569D212
+implementation_commits:
+- f7b1279ede9d481a957d588c03624862227a52c3

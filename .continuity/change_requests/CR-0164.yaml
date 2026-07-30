@@ -1,0 +1,75 @@
+protocol_version: '1.0'
+cr_id: CR-0164
+title: 登记R06-10214候选、固定签名与四方APK交付证据
+status: CLOSED
+created_at: '2026-07-21T05:38:49Z'
+updated_at: '2026-07-21T05:49:15Z'
+requester_actor_id: codex-root
+approver_actor_id: project-owner
+task_id: TASK-R06-007
+session_id: SES-20260721T043434Z-868F3619
+user_request: 项目所有者要求解决阻塞后持续开发，测试APK和文档放到桌面且不等待逐版本真机反馈
+reason: GitHub候选f5cf1e4已PASS，需要将固定签名APK、机器报告、截图、Manifest、HTTPS与桌面交付事实写入仓库并保持owner_physical_test=PENDING
+original_rule: R06最终候选通过机器门禁后，必须以固定测试签名、10214身份、真实API、桌面仓库服务器HTTPS四方同SHA交付；真机反馈异步且不得伪造PASS
+new_rule: 绑定Commit f5cf1e4和GitHub Run 29803223373，归档候选报告、三张AI审核截图、运行日志摘要、固定签名与版本证据；交付hhy-r06-f5cf1e4-debug.apk并保持owner_physical_test=PENDING
+impact_summary: 新增R06 APK机器证据、交付Manifest、版本测试说明、Acceptance与Release Manifest结果；下载站只增加当前APK精确白名单路由
+impact:
+  files:
+  - artifacts/validation/r06-task007-android/build-evidence.json
+  - artifacts/validation/r06-task007-android/apk-badging.txt
+  - artifacts/validation/r06-task007-android/apk-signing.txt
+  - artifacts/validation/r06-task007-android/zipalign.txt
+  - artifacts/validation/r06-task007-android/candidate-report.json
+  - artifacts/validation/r06-task007-android/runtime-report.json
+  - artifacts/validation/r06-task007-android/github-run.txt
+  - artifacts/validation/r06-task007-android/screenshots/01-home-loaded.png
+  - artifacts/validation/r06-task007-android/screenshots/02-mine.png
+  - artifacts/validation/r06-task007-android/screenshots/03-about-loaded.png
+  - artifacts/reports/R06/TASK-R06-007-android-apk.md
+  - artifacts/reports/R06/R06-version-test-guide.md
+  - artifacts/apk/R06/APK_MANIFEST.yaml
+  - artifacts/validation/r06-apk-delivery/delivery-evidence.json
+  - releases/R06/ACCEPTANCE_MATRIX.csv
+  - releases/R06/RELEASE_MANIFEST.yaml
+  pages: []
+  apis: []
+  database: []
+  configuration:
+  - download.orbexa.cc exact route
+  ledger: []
+  tests:
+  - GitHub candidate PASS
+  - apksigner v2/v3 fixed fingerprint
+  - zipalign and aapt 10214
+  - embedded API and public version check
+  - four-copy SHA and HTTPS Range
+  releases:
+  - R06
+  migration_and_compatibility: 使用与R05相同的hhy-staging-test-v1证书，可覆盖安装已验收版本；不改变生产激活状态，用户可异步真机反馈
+user_confirmation: 项目所有者：帮我解决这个问题，然后接着开发，不用停止；测试APK和文档放到桌面
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-21T05:39:24Z'
+  note: 按持续开发与桌面交付要求执行，真机反馈保持异步
+machine_record: .continuity/change_requests/CR-0164.yaml
+document: docs/03-continuity/change-requests/CR-0164-登记R06-10214候选、固定签名与四方APK交付证据.md
+decision_log:
+- at: '2026-07-21T05:47:03Z'
+  actor_id: codex-root
+  status: IMPLEMENTING
+  note: 候选、签名、截图、四方交付和桌面说明进入证据固化
+  session_id: SES-20260721T043434Z-868F3619
+- at: '2026-07-21T05:47:05Z'
+  actor_id: codex-root
+  status: IMPLEMENTED
+  note: 机器证据、Manifest、HTTPS与桌面交付全部完成，owner_physical_test保持PENDING
+  session_id: SES-20260721T043434Z-868F3619
+- at: '2026-07-21T05:49:15Z'
+  actor_id: codex-root
+  status: CLOSED
+  note: R06 10214机器候选、固定签名、四方SHA、桌面APK和测试说明已固化
+  session_id: SES-20260721T043434Z-868F3619
+session_ids:
+- SES-20260721T043434Z-868F3619
+implementation_commits:
+- 53ec5106

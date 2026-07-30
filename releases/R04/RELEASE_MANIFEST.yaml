@@ -1,6 +1,8 @@
 release: R04
 title: 媒体与多对象存储
-status: READY_WHEN_DEPENDENCIES_GREEN
+status: DONE
+release_commit: 04cda65d4a0749727a482526b616fb56cb475f34
+release_tag: R04-04cda65
 milestone: M0_ENGINEERING_FOUNDATION
 depends_on:
 - R03
@@ -16,9 +18,14 @@ ui:
   admin: []
 contracts:
   client_api:
-  - POST /api/v1/media/upload-sessions
-  - POST /api/v1/media/upload-sessions/{id}/complete
-  - DELETE /api/v1/media/{id}
+    operation_ids:
+    - mediaPostMediaUploadSessions
+    - mediaPostMediaUploadSessionsByIdComplete
+    - mediaDeleteMediaById
+    paths:
+    - POST /api/v1/media/upload-sessions
+    - POST /api/v1/media/upload-sessions/{id}/complete
+    - DELETE /api/v1/media/{id}
   admin_api: []
   websocket: []
 database_tables:
@@ -41,6 +48,10 @@ tests:
 - TST-V122-001
 - TST-V122-002
 - TST-V122-003
+test_count: 6
+parallel_execution_plan: releases/R04/PARALLEL_EXECUTION_PLAN.yaml
+planning_depth: STORY_READY
+apk_gate: DESKTOP_PUBLIC_AND_OWNER_DEVICE_REQUIRED
 entry_gate:
 - releases/R04/DEFINITION_OF_READY.yaml 全部适用项为PASS
 - releases/R04/STORIES.yaml 中每个故事均绑定页面/API/配置/数据/测试或显式N/A

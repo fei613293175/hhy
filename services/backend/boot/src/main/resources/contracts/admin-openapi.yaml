@@ -19083,13 +19083,13 @@ components:
           maxLength: 2000
         nickname:
           type: string
-          maxLength: 2000
+          maxLength: 255
         avatarUrl:
           type: string
           maxLength: 2000
         bio:
           type: string
-          maxLength: 2000
+          maxLength: 255
         status:
           type: string
           maxLength: 2000
@@ -19516,34 +19516,51 @@ components:
     OrderResource:
       type: object
       additionalProperties: false
+      required:
+      - orderNo
+      - userId
+      - orderType
+      - status
+      - currency
+      - items
+      - priceSnapshot
+      - noRefundEvidence
+      - createdAt
+      - version
       properties:
         orderNo:
           type: string
-          maxLength: 2000
+          maxLength: 128
         userId:
           type: string
           maxLength: 64
         orderType:
           type: string
-          maxLength: 2000
+          maxLength: 64
         status:
           type: string
-          maxLength: 2000
+          enum:
+          - PENDING_PAYMENT
+          - PAYMENT_PROCESSING
+          - PAID
+          - FULFILLING
+          - COMPLETED
+          - PAYMENT_FAILED
+          - CLOSED
+          - CHANNEL_REVERSAL
         currency:
           type: string
-          maxLength: 2000
-        originalAmountCent:
-          type: integer
-          format: int64
-          minimum: 0
-        discountAmountCent:
-          type: integer
-          format: int64
-          minimum: 0
-        payableAmountCent:
-          type: integer
-          format: int64
-          minimum: 0
+          minLength: 3
+          maxLength: 3
+        items:
+          type: array
+          maxItems: 100
+          items:
+            $ref: '#/components/schemas/OrderItemResource'
+        priceSnapshot:
+          $ref: '#/components/schemas/OrderPriceSnapshotResource'
+        noRefundEvidence:
+          $ref: '#/components/schemas/NoRefundEvidenceResource'
         paidAmountCent:
           type: integer
           format: int64
@@ -19557,13 +19574,7 @@ components:
         version:
           type: integer
           format: int64
-      required:
-      - orderNo
-      - orderType
-      - status
-      - currency
-      - payableAmountCent
-      - version
+          minimum: 0
     PaymentResource:
       type: object
       additionalProperties: false
@@ -20080,64 +20091,45 @@ components:
     ProductResource:
       type: object
       additionalProperties: false
+      required:
+      - id
+      - productCode
+      - name
+      - productType
+      - status
+      - skus
+      - version
       properties:
         id:
           type: string
           maxLength: 64
         productCode:
           type: string
-          maxLength: 2000
+          maxLength: 64
         name:
           type: string
-          maxLength: 2000
+          maxLength: 255
         productType:
           type: string
-          maxLength: 2000
-        status:
+          maxLength: 64
+        description:
           type: string
           maxLength: 2000
+        displayOrder:
+          type: integer
+          format: int32
+        status:
+          type: string
+          maxLength: 64
         skus:
           type: array
-          items:
-            type: object
-            additionalProperties: false
-            properties:
-              id:
-                type: string
-                maxLength: 64
-              skuCode:
-                type: string
-                maxLength: 64
-              name:
-                type: string
-                maxLength: 120
-              priceCent:
-                type: integer
-                format: int64
-                minimum: 0
-              durationDays:
-                type: integer
-                format: int64
-                minimum: 0
-              status:
-                type: string
-                maxLength: 32
-            required:
-            - id
-            - skuCode
-            - name
-            - priceCent
-            - status
           maxItems: 100
+          items:
+            $ref: '#/components/schemas/ProductSkuResource'
         version:
           type: integer
           format: int64
-      required:
-      - id
-      - productCode
-      - name
-      - status
-      - version
+          minimum: 0
     CmsResource:
       type: object
       additionalProperties: false
@@ -22612,26 +22604,30 @@ components:
     AdminProductsPostProductsRequest:
       type: object
       additionalProperties: false
-      properties:
-        productCode:
-          type: string
-          maxLength: 2000
-        name:
-          type: string
-          maxLength: 2000
-        productType:
-          type: string
-          maxLength: 2000
-        description:
-          type: string
-          maxLength: 2000
-        status:
-          type: string
-          maxLength: 2000
       required:
       - productCode
       - name
       - productType
+      - status
+      properties:
+        productCode:
+          type: string
+          maxLength: 64
+        name:
+          type: string
+          maxLength: 255
+        productType:
+          type: string
+          maxLength: 64
+        description:
+          type: string
+          maxLength: 2000
+        displayOrder:
+          type: integer
+          format: int32
+        status:
+          type: string
+          maxLength: 64
     AdminProductsPostProductsResponse:
       type: object
       additionalProperties: false
@@ -22650,27 +22646,32 @@ components:
           type: string
           format: date-time
         data:
-          oneOf:
-          - $ref: '#/components/schemas/ProductResource'
-          - $ref: '#/components/schemas/CommandResultResource'
+          $ref: '#/components/schemas/ProductResource'
     AdminProductsPatchProductsByIdRequest:
       type: object
       additionalProperties: false
+      required:
+      - expectedVersion
       properties:
         name:
           type: string
-          maxLength: 2000
+          maxLength: 255
+        productType:
+          type: string
+          maxLength: 64
         description:
           type: string
           maxLength: 2000
+        displayOrder:
+          type: integer
+          format: int32
         status:
           type: string
-          maxLength: 2000
+          maxLength: 64
         expectedVersion:
           type: integer
           format: int64
-      required:
-      - expectedVersion
+          minimum: 0
     AdminProductsPatchProductsByIdResponse:
       type: object
       additionalProperties: false
@@ -22689,9 +22690,7 @@ components:
           type: string
           format: date-time
         data:
-          oneOf:
-          - $ref: '#/components/schemas/ProductResource'
-          - $ref: '#/components/schemas/CommandResultResource'
+          $ref: '#/components/schemas/ProductResource'
     AdminProductsGetSkusResponse:
       type: object
       additionalProperties: false
@@ -22719,7 +22718,7 @@ components:
             items:
               type: array
               items:
-                $ref: '#/components/schemas/ProductResource'
+                $ref: '#/components/schemas/ProductSkuResource'
             page:
               $ref: '#/components/schemas/PageMeta'
     AdminProductsGetSkusParameters:
@@ -22756,17 +22755,29 @@ components:
     AdminProductsPostSkusRequest:
       type: object
       additionalProperties: false
+      required:
+      - productId
+      - skuCode
+      - name
+      - priceCent
+      - benefits
+      - commissionEnabled
+      - status
       properties:
         productId:
           type: string
           maxLength: 64
         skuCode:
           type: string
-          maxLength: 2000
+          maxLength: 64
         name:
           type: string
-          maxLength: 2000
+          maxLength: 255
         priceCent:
+          type: integer
+          format: int64
+          minimum: 0
+        memberPriceCent:
           type: integer
           format: int64
           minimum: 0
@@ -22775,17 +22786,29 @@ components:
           format: int64
           minimum: 0
         benefits:
-          type: object
-          additionalProperties:
-            $ref: '#/components/schemas/JsonValue'
+          type: array
+          maxItems: 100
+          items:
+            $ref: '#/components/schemas/BenefitResource'
+        commissionEnabled:
+          type: boolean
+        level1Bps:
+          type: integer
+          minimum: 0
+          maximum: 10000
+        level2Bps:
+          type: integer
+          minimum: 0
+          maximum: 10000
+        saleStartsAt:
+          type: string
+          format: date-time
+        saleEndsAt:
+          type: string
+          format: date-time
         status:
           type: string
-          maxLength: 2000
-      required:
-      - productId
-      - skuCode
-      - name
-      - priceCent
+          maxLength: 64
     AdminProductsPostSkusResponse:
       type: object
       additionalProperties: false
@@ -22804,17 +22827,21 @@ components:
           type: string
           format: date-time
         data:
-          oneOf:
-          - $ref: '#/components/schemas/ProductResource'
-          - $ref: '#/components/schemas/CommandResultResource'
+          $ref: '#/components/schemas/ProductSkuResource'
     AdminProductsPatchSkusByIdRequest:
       type: object
       additionalProperties: false
+      required:
+      - expectedVersion
       properties:
         name:
           type: string
-          maxLength: 2000
+          maxLength: 255
         priceCent:
+          type: integer
+          format: int64
+          minimum: 0
+        memberPriceCent:
           type: integer
           format: int64
           minimum: 0
@@ -22823,17 +22850,33 @@ components:
           format: int64
           minimum: 0
         benefits:
-          type: object
-          additionalProperties:
-            $ref: '#/components/schemas/JsonValue'
+          type: array
+          maxItems: 100
+          items:
+            $ref: '#/components/schemas/BenefitResource'
+        commissionEnabled:
+          type: boolean
+        level1Bps:
+          type: integer
+          minimum: 0
+          maximum: 10000
+        level2Bps:
+          type: integer
+          minimum: 0
+          maximum: 10000
+        saleStartsAt:
+          type: string
+          format: date-time
+        saleEndsAt:
+          type: string
+          format: date-time
         status:
           type: string
-          maxLength: 2000
+          maxLength: 64
         expectedVersion:
           type: integer
           format: int64
-      required:
-      - expectedVersion
+          minimum: 0
     AdminProductsPatchSkusByIdResponse:
       type: object
       additionalProperties: false
@@ -22852,9 +22895,7 @@ components:
           type: string
           format: date-time
         data:
-          oneOf:
-          - $ref: '#/components/schemas/ProductResource'
-          - $ref: '#/components/schemas/CommandResultResource'
+          $ref: '#/components/schemas/ProductSkuResource'
     AdminOrdersGetOrdersResponse:
       type: object
       additionalProperties: false
@@ -22882,7 +22923,7 @@ components:
             items:
               type: array
               items:
-                $ref: '#/components/schemas/CommandResultResource'
+                $ref: '#/components/schemas/OrderResource'
             page:
               $ref: '#/components/schemas/PageMeta'
     AdminOrdersGetOrdersParameters:
@@ -22934,7 +22975,7 @@ components:
           type: string
           format: date-time
         data:
-          $ref: '#/components/schemas/CommandResultResource'
+          $ref: '#/components/schemas/OrderResource'
     AdminOrdersGetOrdersByOrdernoParameters:
       type: object
       additionalProperties: false
@@ -28409,6 +28450,164 @@ components:
           oneOf:
           - $ref: '#/components/schemas/SigningProfileResource'
           - $ref: '#/components/schemas/CommandResultResource'
+    BenefitResource:
+      type: object
+      additionalProperties: false
+      required:
+      - benefitCode
+      - name
+      - value
+      properties:
+        benefitCode:
+          type: string
+          maxLength: 64
+        name:
+          type: string
+          maxLength: 255
+        value:
+          $ref: '#/components/schemas/JsonValue'
+        unit:
+          type: string
+          maxLength: 64
+    ProductSkuResource:
+      type: object
+      additionalProperties: false
+      required:
+      - id
+      - productId
+      - skuCode
+      - name
+      - priceCent
+      - benefits
+      - commissionEnabled
+      - status
+      - version
+      properties:
+        id:
+          type: string
+          maxLength: 64
+        productId:
+          type: string
+          maxLength: 64
+        skuCode:
+          type: string
+          maxLength: 64
+        name:
+          type: string
+          maxLength: 255
+        priceCent:
+          type: integer
+          format: int64
+          minimum: 0
+        memberPriceCent:
+          type: integer
+          format: int64
+          minimum: 0
+        durationDays:
+          type: integer
+          format: int64
+          minimum: 0
+        benefits:
+          type: array
+          maxItems: 100
+          items:
+            $ref: '#/components/schemas/BenefitResource'
+        commissionEnabled:
+          type: boolean
+        level1Bps:
+          type: integer
+          minimum: 0
+          maximum: 10000
+        level2Bps:
+          type: integer
+          minimum: 0
+          maximum: 10000
+        saleStartsAt:
+          type: string
+          format: date-time
+        saleEndsAt:
+          type: string
+          format: date-time
+        status:
+          type: string
+          maxLength: 64
+        version:
+          type: integer
+          format: int64
+          minimum: 0
+    OrderItemResource:
+      type: object
+      additionalProperties: false
+      required:
+      - itemName
+      - quantity
+      - unitPriceCent
+      - subtotalAmountCent
+      properties:
+        skuId:
+          type: string
+          maxLength: 64
+        itemName:
+          type: string
+          maxLength: 255
+        quantity:
+          type: integer
+          minimum: 1
+        unitPriceCent:
+          type: integer
+          format: int64
+          minimum: 0
+        subtotalAmountCent:
+          type: integer
+          format: int64
+          minimum: 0
+    OrderPriceSnapshotResource:
+      type: object
+      additionalProperties: false
+      required:
+      - originalAmountCent
+      - discountAmountCent
+      - serviceFeeCent
+      - payableAmountCent
+      - ruleVersions
+      properties:
+        originalAmountCent:
+          type: integer
+          format: int64
+          minimum: 0
+        discountAmountCent:
+          type: integer
+          format: int64
+          minimum: 0
+        serviceFeeCent:
+          type: integer
+          format: int64
+          minimum: 0
+        payableAmountCent:
+          type: integer
+          format: int64
+          minimum: 0
+        ruleVersions:
+          type: array
+          maxItems: 100
+          items:
+            type: string
+            maxLength: 128
+    NoRefundEvidenceResource:
+      type: object
+      additionalProperties: false
+      required:
+      - confirmed
+      - agreementVersion
+      properties:
+        confirmed:
+          type: boolean
+        agreementVersion:
+          type: string
+          maxLength: 64
+        confirmedAt:
+          type: string
+          format: date-time
     JsonScalar:
       oneOf:
       - type: string
@@ -28535,14 +28734,14 @@ components:
           maxLength: 64
         nickname:
           type: string
-          maxLength: 64
+          maxLength: 255
         avatarUrl:
           type: string
           maxLength: 2048
           format: uri
         bio:
           type: string
-          maxLength: 300
+          maxLength: 255
         verified:
           type: boolean
         memberBadge:
@@ -28568,6 +28767,7 @@ components:
           - EMAIL
           - LINK
           - QR_CODE
+          - JOIN_PASSWORD
         maskedValue:
           type: string
           maxLength: 256

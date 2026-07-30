@@ -1,0 +1,86 @@
+protocol_version: '1.0'
+package_version: 1.2.3
+session_id: SES-20260717T171412Z-7CD86701
+status: CLOSED
+actor:
+  id: codex-root
+  kind: AI_OR_HUMAN
+  host: unknown
+release: R01
+task_id: TASK-R01-008
+story_id: STORY-R01-003
+goal: 完成R01版本关闭、无状态交接与发布门禁修复
+started_at: '2026-07-17T17:14:12Z'
+updated_at: '2026-07-17T17:45:22Z'
+takeover_of: null
+change_requests:
+- CR-0017
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  - artifacts/apk/**
+  approved_exceptions: []
+  source: story+explicit
+git:
+  initialized: true
+  branch: task/TASK-R01-008
+  base_commit: e3d4d3782f067ebe963856d741dd4cd6be3d16ca
+  start_head: e3d4d3782f067ebe963856d741dd4cd6be3d16ca
+  upstream: null
+  initial_worktree_state: CLEAN
+lease:
+  duration_minutes: 240
+  renewed_at: '2026-07-17T17:45:21Z'
+  expires_at: '2026-07-17T21:45:21Z'
+checkpoint_sequence: 2
+latest_checkpoint: .continuity/checkpoints/SES-20260717T171412Z-7CD86701/0002.yaml
+session_log: docs/03-continuity/sessions/2026-07/SES-20260717T171412Z-7CD86701.md
+next_step: 提交关闭元数据Commit，然后运行pre-push/CI门禁
+context_pack:
+  yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
+  markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
+  manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+  context_hash: fa030c9beb7c1d705b6db327e681d956049c57ba3584272415a87db052d19136
+  generated_at: '2026-07-17T17:45:22Z'
+handoff_bundle: null
+closure:
+  result: COMPLETED
+  summary: R01全部验收证据、真机APK、HTTPS下载、发布标签和无状态交接均已完成。
+  code_commit: 2e6c8dc
+  next_release: R02
+  next_task: TASK-R02-001
+  metadata_commit: PENDING
+  push_verification: CI_REQUIRED_AFTER_METADATA_COMMIT
+  started_at: '2026-07-17T17:45:20Z'
+  closure_checkpoint_id: CP-SES-20260717T171412Z-7CD86701-0002
+  closed_at: '2026-07-17T17:45:22Z'
+closed_at: '2026-07-17T17:45:22Z'

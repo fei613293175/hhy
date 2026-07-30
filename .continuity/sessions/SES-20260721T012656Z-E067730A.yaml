@@ -1,0 +1,94 @@
+protocol_version: '1.0'
+package_version: 1.2.3
+session_id: SES-20260721T012656Z-E067730A
+status: CLOSED
+actor:
+  id: codex-root
+  kind: AI_OR_HUMAN
+  host: unknown
+release: R06
+task_id: TASK-R06-005
+story_id: STORY-R06-005
+goal: 统一内容基础、首页与CMS专项测试与故障注入
+started_at: '2026-07-21T01:26:56Z'
+updated_at: '2026-07-21T02:00:17Z'
+takeover_of: null
+change_requests:
+- CR-0158
+- CR-0159
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions: []
+  source: story+explicit
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  base_commit: 1a021ca1ae0c95f8409dd1686f91a140f82ee2e9
+  start_head: 1a021ca1ae0c95f8409dd1686f91a140f82ee2e9
+  upstream: origin/task/TASK-R03-001
+  initial_worktree_state: CLEAN
+lease:
+  duration_minutes: 240
+  renewed_at: '2026-07-21T02:00:14Z'
+  expires_at: '2026-07-21T06:00:14Z'
+checkpoint_sequence: 5
+latest_checkpoint: .continuity/checkpoints/SES-20260721T012656Z-E067730A/0005.yaml
+session_log: docs/03-continuity/sessions/2026-07/SES-20260721T012656Z-E067730A.md
+next_step: 提交关闭元数据Commit，然后运行pre-push/CI门禁
+context_pack:
+  yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
+  markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
+  manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+  context_hash: 4ac29b9d32dffc150f01220faa22aedbb253252a2fc31a2c284fb97d6a640070
+  generated_at: '2026-07-21T02:00:16Z'
+handoff_bundle: null
+closure:
+  result: COMPLETED
+  summary: 完成TASK-R06-005：六个权威测试ID、重复请求、并发、存储超时、Outbox去重、非法CMS配置与CMS提供方超时专项测试全部通过，P0/P1缺陷为0
+  code_commit: 0bbd4c39590f352507994c30a7a3d03c98355923
+  next_release: R06
+  next_task: TASK-R06-006
+  blocked_advance: false
+  user_confirmation: null
+  metadata_commit: PENDING
+  push_verification: CI_REQUIRED_AFTER_METADATA_COMMIT
+  started_at: '2026-07-21T02:00:11Z'
+  closure_checkpoint_id: CP-SES-20260721T012656Z-E067730A-0005
+  closed_at: '2026-07-21T02:00:17Z'
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 精确Commit外部验证和任务关闭由事实主控串行完成
+closed_at: '2026-07-21T02:00:17Z'

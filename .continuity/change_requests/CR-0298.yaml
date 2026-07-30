@@ -1,0 +1,62 @@
+protocol_version: '1.0'
+cr_id: CR-0298
+title: R11并发重复动作与后台幂等隔离修复
+status: CLOSED
+created_at: '2026-07-23T23:23:00Z'
+updated_at: '2026-07-24T01:59:04Z'
+requester_actor_id: codex-root-r11-test
+approver_actor_id: codex-reviewer-r11-quality
+task_id: TASK-R11-005
+session_id: SES-20260723T231210Z-409B970E
+user_request: 立即开始并持续推进开发；所有终端命令静默执行
+reason: 专项测试审计发现Android详情动作缺少单写锁且失败丢失已加载上下文，后台不同内容命令共享operation级幂等槽，均会导致重复或错误请求
+original_rule: 团队长详情动作仅使用稳定幂等键但未阻止同一资源重复并发；后台幂等键工厂仅按operation保存单槽
+new_rule: 团队长详情同一时刻只允许一个写动作，动作失败保留已加载详情并允许同体同键重试；后台幂等键按operation与资源作用域隔离，成功仅清理对应作用域
+impact_summary: 增加Android纯状态动作门禁并接入详情按钮；动作错误转为局部提示；扩展后台幂等键工厂作用域并让内容及字典命令按资源隔离；补回归测试
+impact:
+  files:
+  - apps/android/feature/team-leader/src/main/java/cc/orbexa/hhy/teamleader/R11TeamLeaderState.kt
+  - apps/android/feature/team-leader/src/main/java/cc/orbexa/hhy/teamleader/R11TeamLeaderDetailScreen.kt
+  - apps/android/feature/team-leader/src/test/java/cc/orbexa/hhy/teamleader/R11TeamLeaderStateTest.kt
+  - apps/admin-web/src/services/idempotency.ts
+  - apps/admin-web/src/services/adminContents.ts
+  - apps/admin-web/src/services/adminContents.test.ts
+  pages:
+  - SCR-DETAIL-004
+  apis: []
+  database: []
+  configuration: []
+  ledger: []
+  tests:
+  - TST-TEAM_001-IDEMPOTENT
+  - TST-TEAM_001-REJECT
+  releases:
+  - R11
+  migration_and_compatibility: 不改变API、字段或业务状态机；仅收紧重复点击并发和客户端幂等键生命周期，失败重试语义保持兼容
+user_confirmation: 用户已明确要求立即开始并持续推进开发，且所有终端命令由AI静默执行
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-23T23:23:46Z'
+  note: 只读并发审计确认两项均为冻结行为的客户端缺陷，修复不扩展业务合同，回归范围明确
+machine_record: .continuity/change_requests/CR-0298.yaml
+document: docs/03-continuity/change-requests/CR-0298-R11并发重复动作与后台幂等隔离修复.md
+decision_log:
+- at: '2026-07-23T23:23:53Z'
+  actor_id: codex-root-r11-test
+  status: IMPLEMENTING
+  note: 开始修复Android动作单写锁与后台资源级幂等隔离
+  session_id: SES-20260723T231210Z-409B970E
+- at: '2026-07-24T01:57:26Z'
+  actor_id: codex-root-r11-test
+  status: IMPLEMENTED
+  note: Android单写锁与后台资源级幂等隔离已实现并通过模块回归
+  session_id: SES-20260723T231210Z-409B970E
+- at: '2026-07-24T01:59:04Z'
+  actor_id: codex-root-r11-test
+  status: CLOSED
+  note: 并发和幂等缺陷回归通过，关键缺陷清零
+  session_id: SES-20260723T231210Z-409B970E
+session_ids:
+- SES-20260723T231210Z-409B970E
+implementation_commits:
+- 5013a9a042026328bb9e6602f1931ed32d6632ed

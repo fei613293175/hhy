@@ -1,0 +1,157 @@
+protocol_version: '1.0'
+package_version: 1.2.3
+session_id: SES-20260717T210927Z-13B07A7D
+status: CLOSED
+actor:
+  id: codex-root
+  kind: AI_OR_HUMAN
+  host: unknown
+release: R02
+task_id: TASK-R02-002
+story_id: STORY-R02-003
+goal: 接管 SES-20260717T204616Z-254B60A3：接管 SES-20260717T200842Z-456B8F52：完成Android启动、登录与邀请注册纵向闭环，覆盖数据、API、Android、测试与模块门禁
+started_at: '2026-07-17T21:09:27Z'
+updated_at: '2026-07-18T05:31:36Z'
+takeover_of: SES-20260717T204616Z-254B60A3
+change_requests:
+- CR-0019
+- CR-0020
+- CR-0021
+- CR-0022
+- CR-0023
+- CR-0024
+- CR-0025
+- CR-0026
+- CR-0027
+- CR-0028
+- CR-0029
+- CR-0030
+- CR-0031
+- CR-0032
+scope:
+  allowed_paths:
+  - apps/android/**
+  - services/backend/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - tests/**
+  - docs/**
+  - catalogs/**
+  - releases/**
+  - design/**
+  - scripts/**
+  - STORY-R02-003,STORY-R02-004及其直接实现、测试与生成契约
+  approved_exceptions:
+  - AGENTS.md
+  - START_HERE.md
+  - .continuity/CONTINUITY_POLICY.yaml
+  - config/CONTINUITY_POLICY.yaml
+  - templates/AGENTS.md
+  - releases/PROGRAM_EXECUTION_PLAN.yaml
+  - releases/R02/PARALLEL_EXECUTION_PLAN.yaml
+  - releases/R03/PARALLEL_EXECUTION_PLAN.yaml
+  - releases/R04/PARALLEL_EXECUTION_PLAN.yaml
+  - scripts/generate_program_execution_plan.py
+  - scripts/check_program_execution_plan.py
+  - tests/test_program_execution_plan.py
+  - scripts/prepare_parallel_worktrees.ps1
+  - tests/test_parallel_worktrees.py
+  - scripts/check_v123_continuity.py
+  - scripts/continuity.py
+  - scripts/continuity_lib.py
+  - scripts/test_continuity_protocol.py
+  - docs/03-continuity/CHECKPOINT_SCHEMA.yaml
+  - docs/03-continuity/CONTEXT_PACK_SCHEMA.yaml
+  - docs/03-continuity/全项目滚动开发总计划_R02-R32_V1.0.md
+  - docs/03-continuity/并行加速开发运行手册_V1.0.md
+  - artifacts/context/CURRENT_CONTEXT_PACK.yaml
+  - artifacts/context/CURRENT_CONTEXT_PACK.md
+  - artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+  - MANIFEST_SHA256.txt
+  - CHANGELOG.md
+  - templates/START_HERE.md
+  - scripts/run_continuity_self_test.py
+  - tests/test_context_pack_parallel_policy.py
+  - scripts/continuity_gate.py
+  - tests/test_continuity_bootstrap_recovery.py
+  - tests/test_continuity_cross_release_close.py
+  - tests/test_parallel_checkpoint_policy.py
+  - README.md
+  - .gitignore
+  - config/REPOSITORY_TRANSPORT.yaml
+  - config/DEVELOPMENT_RUNTIME.yaml
+  - PROJECT_MANIFEST.yaml
+  - apps/android/README.md
+  - scripts/restore_git_transport.py
+  - scripts/select_execution_profile.py
+  - scripts/verify_cloud_environment.py
+  - tests/test_git_transport_recovery.py
+  - tests/test_model_routing.py
+  - tests/test_cloud_environment.py
+  - docs/03-continuity/无状态接续运行手册_V1.2.3.md
+  - .github/workflows/continuity-gate.yml
+  - .githooks/pre-push
+  - infra/nginx/api.orbexa.cc.conf
+  - apps/android/app/build.gradle.kts
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthStore.java
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/UserAuthController.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserAuthPublicSuccessContractTest.java
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractAuthApi.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ApiModels.kt
+  - apps/android/feature/auth/src/main/java/cc/orbexa/hhy/auth/AuthScreen.kt
+  - apps/android/feature/auth/src/test/java/cc/orbexa/hhy/auth/AuthFormRulesTest.kt
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - contracts/openapi.yaml
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthContracts.java
+  - tests/test_r02_auth_slice_contract.py
+  - services/backend/boot/src/main/resources/contracts/openapi.yaml
+  - catalogs/api_endpoints.csv
+  - packages/api-client/src/client.generated.ts
+  - contracts/contract_status.csv
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/security/SecurityConfiguration.java
+  - catalogs/api_ui_ownership.csv
+  - catalogs/ui_action_matrix.csv
+  - catalogs/ui_page_specifications.csv
+  source: story+explicit+approved-cr:CR-0021+approved-cr:CR-0022+approved-cr:CR-0023+approved-cr:CR-0024+approved-cr:CR-0025+approved-cr:CR-0026+approved-cr:CR-0027+approved-cr:CR-0028+approved-cr:CR-0029+approved-cr:CR-0030+approved-cr:CR-0031+approved-cr:CR-0032
+git:
+  initialized: true
+  branch: task/TASK-R02-002
+  base_commit: 3e5e39d7ef1501cc6d93856cde11fb880dfcc21e
+  start_head: bdebdcadf025e8ce3f6d1703a3eaea097f45a7c1
+  upstream: origin/task/TASK-R02-002
+  initial_worktree_state: DIRTY_TAKEOVER
+lease:
+  duration_minutes: 240
+  renewed_at: '2026-07-18T05:31:34Z'
+  expires_at: '2026-07-18T09:31:34Z'
+checkpoint_sequence: 51
+latest_checkpoint: .continuity/checkpoints/SES-20260717T210927Z-13B07A7D/0051.yaml
+session_log: docs/03-continuity/sessions/2026-07/SES-20260717T210927Z-13B07A7D.md
+next_step: 提交关闭元数据Commit，然后运行pre-push/CI门禁
+context_pack:
+  yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
+  markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
+  manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+  context_hash: 6503f959cb5bb2e5f41a96c2a23556fbaabb3eac277daaf750a0ba8aee9eab4d
+  generated_at: '2026-07-18T05:31:36Z'
+handoff_bundle: null
+closure:
+  result: COMPLETED
+  summary: 'TASK-R02-002 completed: startup, password/SMS authentication, invite registration, controlled agreement versions, source/runtime contract
+    synchronization, cloud backend test, fixed-image Android tests, WIP APK, and trace records delivered.'
+  code_commit: f74b49367168311b5ed605c988c0cbbd364850cf
+  next_release: R02
+  next_task: TASK-R02-003
+  metadata_commit: PENDING
+  push_verification: CI_REQUIRED_AFTER_METADATA_COMMIT
+  started_at: '2026-07-18T05:31:33Z'
+  closure_checkpoint_id: CP-SES-20260717T210927Z-13B07A7D-0051
+  closed_at: '2026-07-18T05:31:36Z'
+parallel_execution:
+  assessment: USER_SERIAL_OVERRIDE
+  delegated_workers: 0
+  workers: []
+  reason: User requires serialized continuous development; Task R02-003 is the next fixed batch.
+closed_at: '2026-07-18T05:31:36Z'

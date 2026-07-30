@@ -1,0 +1,207 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260718T133151Z-12DB5949-0004
+session_id: SES-20260718T133151Z-12DB5949
+sequence: 4
+created_at: '2026-07-18T13:57:07Z'
+summary: R03供应商配置Admin读取切片与用户可见变更记录已同步
+next_step: 在ProviderConfigPage接入创建版本、连接测试、审批激活和回滚表单，并保持权限、离线和状态机门禁
+blockers: []
+decisions:
+- 所有R03用户可见读取页面变更已同步CHANGELOG，CR-0045仅授权根CHANGELOG.md
+note: ''
+tests:
+- name: admin-web typecheck
+  result: PASS
+  evidence: vue-tsc --noEmit
+  note: 冻结生成类型无手工分叉
+- name: admin-web full test
+  result: PASS
+  evidence: Vitest 54 tests, 0 failures
+  note: 含供应商API和页面安全测试
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: 3f801f53d99171421b49aa4c91cf144a04c73c8d
+  upstream: origin/task/TASK-R03-001
+  ahead: 0
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - M  .continuity/ACTIVE_SESSION.yaml
+  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
+  - MM .continuity/EVENT_LOG.jsonl
+  - M  .continuity/SESSION_INDEX.yaml
+  - MM .continuity/STATE.yaml
+  - A  .continuity/checkpoints/SES-20260718T133151Z-12DB5949/0003.yaml
+  - MM .continuity/sessions/SES-20260718T133151Z-12DB5949.yaml
+  - ' M CHANGELOG.md'
+  - M  CURRENT_STATUS.yaml
+  - A  apps/admin-web/src/provider-config.css
+  - A  apps/admin-web/src/r03ProviderPage.test.ts
+  - M  apps/admin-web/src/router.ts
+  - A  apps/admin-web/src/services/adminProviderConfigs.test.ts
+  - A  apps/admin-web/src/services/adminProviderConfigs.ts
+  - M  apps/admin-web/src/services/idempotency.ts
+  - M  apps/admin-web/src/services/index.ts
+  - A  apps/admin-web/src/views/ProviderConfigPage.vue
+  - M  artifacts/context/CURRENT_CONTEXT_PACK.md
+  - M  artifacts/context/CURRENT_CONTEXT_PACK.yaml
+  - M  artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+  - ' M catalogs/change_request_index.csv'
+  - MM catalogs/session_index.csv
+  - M  docs/03-continuity/sessions/2026-07/SES-20260718T133151Z-12DB5949.md
+  - ?? .continuity/change_requests/CR-0045.yaml
+  - ?? docs/03-continuity/change-requests/CR-0045-允许R03用户可见Admin变更同步根CHANGELOG.md
+  recent_commits:
+  - "3f801f53d99171421b49aa4c91cf144a04c73c8d\t2026-07-18T21:45:37+08:00\tHHY Continuity Bootstrap\t[STORY-R03-001] feat(r03): enforce provider\
+    \ activation lifecycle"
+  - "0a7520cdb450487f6c151e9244a193614df79544\t2026-07-18T21:41:56+08:00\tHHY Continuity Bootstrap\t[STORY-R03-001] feat(r03): enforce provider\
+    \ secret boundaries"
+  - "d37d08cb5a691f7605844742cbe645c01bf2b4f4\t2026-07-18T21:30:49+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] chore(continuity): close TASK-R03-001\
+    \ as completed"
+  - "1277725fb77832168dc0634e6af8081fdf4e770e\t2026-07-18T21:29:00+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] docs(r03): freeze implementation\
+    \ entry gate"
+  - "315bdf261fd7f4b0cf5c89af5106050b3a580445\t2026-07-18T21:25:40+08:00\tHHY Continuity Bootstrap\t[STORY-R02-009] chore(continuity): close TASK-R02-007\
+    \ as blocked"
+  - "7b6483c0449100af27ecac5cb75ca0b741832de1\t2026-07-18T21:22:52+08:00\tHHY Continuity Bootstrap\t[STORY-R02-009] chore(continuity): close external\
+    \ gate continuation CR"
+  - "4acdf682149786255d25d67e043fa2e5c991c46e\t2026-07-18T21:21:56+08:00\tHHY Continuity Bootstrap\t[STORY-R02-009] feat(continuity): continue\
+    \ independent release on external gate"
+  - "bac0889da24869e731f35353b2601b35ede4a577\t2026-07-18T21:03:56+08:00\tHHY Continuity Bootstrap\t[STORY-R02-009] chore(release): deliver validated\
+    \ R02 apk evidence"
+project_fingerprint:
+  sha256: 183967f5a89cef651e3ed816c7e5352671e6ebcd07db44314c29b134dfe23a1d
+  files:
+  - CHANGELOG.md
+  - apps/admin-web/src/provider-config.css
+  - apps/admin-web/src/r03ProviderPage.test.ts
+  - apps/admin-web/src/router.ts
+  - apps/admin-web/src/services/adminProviderConfigs.test.ts
+  - apps/admin-web/src/services/adminProviderConfigs.ts
+  - apps/admin-web/src/services/idempotency.ts
+  - apps/admin-web/src/services/index.ts
+  - apps/admin-web/src/views/ProviderConfigPage.vue
+  - docs/03-continuity/change-requests/CR-0045-允许R03用户可见Admin变更同步根CHANGELOG.md
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/ProviderConfigLifecycle.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/ProviderConfigValidator.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/ProviderConfigLifecycleTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/ProviderConfigValidatorTest.java
+  file_count: 14
+  payload:
+    base_commit: d37d08cb5a691f7605844742cbe645c01bf2b4f4
+    files:
+    - path: CHANGELOG.md
+      state: FILE
+      size: 24563
+      sha256: dfafbec6da0cd2a5db7d14a2879cc78063227cbd9060d089f5cb81e87c7891a7
+    - path: apps/admin-web/src/provider-config.css
+      state: FILE
+      size: 2533
+      sha256: 41693fba4b4cf6c9fbc547d2a3482ce4248c4af2b0217f42b13aaa7372510a91
+    - path: apps/admin-web/src/r03ProviderPage.test.ts
+      state: FILE
+      size: 3161
+      sha256: e76c8fed0324d77f1c178667a8bbba5e21a20d3559e270ec182548ce098e8059
+    - path: apps/admin-web/src/router.ts
+      state: FILE
+      size: 2868
+      sha256: 7dee225aba38249ee4cfdda4a13fa65cb4a505a19569fc995d406146f7e5bd6e
+    - path: apps/admin-web/src/services/adminProviderConfigs.test.ts
+      state: FILE
+      size: 5182
+      sha256: ae856469a3298d48d1c19e342abd691fa36f927e867e68c85df3dc567f425fac
+    - path: apps/admin-web/src/services/adminProviderConfigs.ts
+      state: FILE
+      size: 7725
+      sha256: 5590958ea302a39d9edccc1b9d1ff1bbc17983b0fd3ab7f3fe289635df71b0ec
+    - path: apps/admin-web/src/services/idempotency.ts
+      state: FILE
+      size: 2038
+      sha256: b17253c87ac6d80d0859a206c6468160e95e71ced219413660f724cb8376a448
+    - path: apps/admin-web/src/services/index.ts
+      state: FILE
+      size: 194
+      sha256: ab65f92f493c94ab623c4723ce3aceedf8aa4e82c933164766a728f9859452c3
+    - path: apps/admin-web/src/views/ProviderConfigPage.vue
+      state: FILE
+      size: 9260
+      sha256: 213df0d885315dcb8f397371b2d0c856bd3d98a9f1fc5de69d1130c7739c3d4a
+    - path: docs/03-continuity/change-requests/CR-0045-允许R03用户可见Admin变更同步根CHANGELOG.md
+      state: FILE
+      size: 2040
+      sha256: 3a8cd901e88a72c9d636a049be51365a55f7ba8ac37d6fdc8d9d84ce24d5abf9
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/ProviderConfigLifecycle.java
+      state: FILE
+      size: 9026
+      sha256: 474e9ed84a837c55b0a0edc45aa77a7f8e2390dfe9abf378f71f5c0f2e02f3e1
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/ProviderConfigValidator.java
+      state: FILE
+      size: 10254
+      sha256: f136e967ca14bb99495c036fbe3152dc7e84aa6afa9e556cf8bdb69efeca69cc
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/ProviderConfigLifecycleTest.java
+      state: FILE
+      size: 4321
+      sha256: 81f30e8efd46a9e2cc9ea2cf495aa8e66ae4a4f22ea95959098e9cb4454b6953
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/ProviderConfigValidatorTest.java
+      state: FILE
+      size: 3868
+      sha256: 3d3a3a703510ade58c9305e1822385d22dad4b9ef6e11732e02014886b4ba2ee
+change_classification:
+  other:
+  - CHANGELOG.md
+  code:
+  - apps/admin-web/src/provider-config.css
+  - apps/admin-web/src/r03ProviderPage.test.ts
+  - apps/admin-web/src/router.ts
+  - apps/admin-web/src/services/adminProviderConfigs.test.ts
+  - apps/admin-web/src/services/adminProviderConfigs.ts
+  - apps/admin-web/src/services/idempotency.ts
+  - apps/admin-web/src/services/index.ts
+  - apps/admin-web/src/views/ProviderConfigPage.vue
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/ProviderConfigLifecycle.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/ProviderConfigValidator.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/ProviderConfigLifecycleTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/ProviderConfigValidatorTest.java
+  user_visible:
+  - apps/admin-web/src/provider-config.css
+  - apps/admin-web/src/r03ProviderPage.test.ts
+  - apps/admin-web/src/router.ts
+  - apps/admin-web/src/services/adminProviderConfigs.test.ts
+  - apps/admin-web/src/services/adminProviderConfigs.ts
+  - apps/admin-web/src/services/idempotency.ts
+  - apps/admin-web/src/services/index.ts
+  - apps/admin-web/src/views/ProviderConfigPage.vue
+  continuity:
+  - docs/03-continuity/change-requests/CR-0045-允许R03用户可见Admin变更同步根CHANGELOG.md
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+- CHANGELOG
+change_requests:
+- CR-0045
+scope:
+  allowed_paths:
+  - apps/admin-web/**
+  - services/backend/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - tests/**
+  - docs/**
+  - catalogs/**
+  - releases/**
+  - design/**
+  - scripts/**
+  approved_exceptions:
+  - CHANGELOG.md
+  source: story+explicit+approved-cr:CR-0045
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 路由、服务、页面、样式和测试形成单一纵向切片
+event_hash: 72092eda0572477f4a09c43822499a594b9ec73bbb3b05aeaa453c9f6aa1f225

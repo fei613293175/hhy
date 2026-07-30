@@ -1,0 +1,168 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260720T163244Z-D1F3CEE8-0001
+session_id: SES-20260720T163244Z-D1F3CEE8
+sequence: 1
+created_at: '2026-07-20T16:46:44Z'
+summary: R06内容领域服务、PostgreSQL存储与管理员权限迁移WIP已编译
+next_step: 补齐HomeController与AdminContentController，新增服务、存储、契约和迁移测试
+blockers: []
+decisions: []
+note: ''
+tests:
+- name: cloud-environment
+  result: PASS
+  evidence: verify_cloud_environment --check-android
+  note: 云端连接、Android镜像和Gradle缓存可用
+- name: content-compile
+  result: PASS
+  evidence: mvnw -pl content -am test -DskipTests
+  note: Java21编译成功
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: fda95f8a084a366108c22fb90decba1f2aaf15aa
+  upstream: origin/task/TASK-R03-001
+  ahead: 0
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/ACTIVE_SESSION.yaml'
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/SESSION_INDEX.yaml'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/TASK_CLAIMS.yaml'
+  - ' M .continuity/TASK_TRANSITIONS.yaml'
+  - ' M CURRENT_STATUS.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+  - ' M catalogs/session_index.csv'
+  - ' M catalogs/task_transition_ledger.csv'
+  - ' M services/backend/content/pom.xml'
+  - ?? .continuity/sessions/SES-20260720T163244Z-D1F3CEE8.yaml
+  - ?? database/migrations/V030__r06_content_admin_permissions.sql
+  - ?? database/rollback/U030__r06_content_admin_permissions.sql
+  - ?? docs/03-continuity/sessions/2026-07/SES-20260720T163244Z-D1F3CEE8.md
+  - ?? services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentContracts.java
+  - ?? services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentPostgresStore.java
+  - ?? services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentService.java
+  - ?? services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentStore.java
+  recent_commits:
+  - "fda95f8a084a366108c22fb90decba1f2aaf15aa\t2026-07-21T00:23:27+08:00\tHHY Continuity Bootstrap\t[STORY-R06-005] chore(continuity): close TASK-R06-002\
+    \ as completed"
+  - "3de2ae637f478c8b3390818a08a491a49a805890\t2026-07-21T00:22:13+08:00\tHHY Continuity Bootstrap\t[STORY-R06-005] feat(database): enforce R06\
+    \ content and home invariants"
+  - "00670ed98ed8974f4aaea6c5e678c2ce8b4d10a2\t2026-07-21T00:05:19+08:00\tHHY Continuity Bootstrap\t[STORY-R06-005] chore(continuity): close TASK-R06-001\
+    \ as completed"
+  - "5ae20d227bd1511b774e06f3ecb8060f44ccb632\t2026-07-21T00:03:24+08:00\tHHY Continuity Bootstrap\t[STORY-R06-005] chore(governance): open R06\
+    \ implementation"
+  - "5384135fdcdc2d6acc877e4883bf6946fe15e9a4\t2026-07-20T23:11:55+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] ci(continuity): reuse clean-checkout\
+    \ policy"
+  - "28f948c3cdeb54ffb7e57e48939ef0cab72bba78\t2026-07-20T23:04:14+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] ci(continuity): remove redundant\
+    \ CI tree check"
+  - "b4f4e51e98f8d1ede4eb7ad95f93ce63a3cdb53e\t2026-07-20T23:01:06+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] ci(continuity): anchor fingerprints\
+    \ to Git index"
+  - "371703d30ff4f7bae692ddc10cd93290ff11a69d\t2026-07-20T22:57:47+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] ci(continuity): normalize\
+    \ Git blob fingerprints"
+project_fingerprint:
+  sha256: 88c0921f2ab83b990956d26d5c619d4ad5e63276c19ac421410eaf575e81c7b7
+  files:
+  - database/migrations/V030__r06_content_admin_permissions.sql
+  - database/rollback/U030__r06_content_admin_permissions.sql
+  - services/backend/content/pom.xml
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentContracts.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentPostgresStore.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentService.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentStore.java
+  file_count: 7
+  payload:
+    base_commit: fda95f8a084a366108c22fb90decba1f2aaf15aa
+    files:
+    - path: database/migrations/V030__r06_content_admin_permissions.sql
+      state: FILE
+      size: 1321
+      sha256: dbb3a84e6a10c78be34d87ffcfb26f8614ed0d1081fcf9b28476c97d5a497c23
+    - path: database/rollback/U030__r06_content_admin_permissions.sql
+      state: FILE
+      size: 493
+      sha256: 2cf2a36fc08e5882f16704c207043924c9d29a795ae7998666f93918e9636b8e
+    - path: services/backend/content/pom.xml
+      state: FILE
+      size: 973
+      sha256: 4fec4e6b2c7b8430240eb802b44f63b64fa63a921cbac75263c453c83b559031
+    - path: services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentContracts.java
+      state: FILE
+      size: 4164
+      sha256: 4d72c31e99d6b375e36c9901e6cb47b607a587ee373b6ca7fa1ad899c25223b5
+    - path: services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentPostgresStore.java
+      state: FILE
+      size: 13077
+      sha256: 6c1bff4e14b785adb991ada2bf2dde5f7a52fcb578ace5fa8ea0452f930970ff
+    - path: services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentService.java
+      state: FILE
+      size: 21600
+      sha256: f50641517ec05bcb3c69d2cb94ce53f81f602695bc7c70213aac60c9aa9a171b
+    - path: services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentStore.java
+      state: FILE
+      size: 2300
+      sha256: 349fbcffd0cefd22f99b524921845a5ba4434cfa715aaa05d5f4d534bb831077
+change_classification:
+  database:
+  - database/migrations/V030__r06_content_admin_permissions.sql
+  - database/rollback/U030__r06_content_admin_permissions.sql
+  code:
+  - services/backend/content/pom.xml
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentContracts.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentPostgresStore.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentService.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentStore.java
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+- DATABASE_TEST_EVIDENCE
+- SCHEMA_TRACEABILITY
+change_requests: []
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions: []
+  source: story+explicit
+parallel_execution:
+  assessment: CAPABILITY_UNAVAILABLE
+  delegated_workers: 0
+  workers: []
+  reason: 当前Codex会话未开放可用的独立执行代理能力，主控串行实施并验证
+event_hash: 16643729f0de0b25120dfa1d63b94ead3f2a5ce11abbc5b4644c482cf5939072

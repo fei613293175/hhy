@@ -1,0 +1,192 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260718T105025Z-0B8DE284-0006
+session_id: SES-20260718T105025Z-0B8DE284
+sequence: 6
+created_at: '2026-07-18T11:21:27Z'
+summary: CR-0043精确APK证据范围已完成闭环，机器交付证据已推送
+next_step: 等待项目所有者真机验收反馈；通过后执行accept并关闭TASK-R02-007
+blockers:
+- 项目所有者真机安装、启动与R02认证入口验收尚未反馈
+decisions: []
+note: ''
+tests:
+- name: CR-0043 closure
+  result: PASS
+  evidence: .continuity/change_requests/CR-0043.yaml
+  note: implementation commit 37c921b pushed and CR closed
+- name: Desktop APK hash
+  result: PASS
+  evidence: C:/Users/小白/Desktop/hhy-r02-bbad603-debug.apk
+  note: 0e9f0b2c004fd839f4811bcce5b103111d435167c774812c0b97b90d7b345cf6
+git:
+  initialized: true
+  branch: task/TASK-R02-002
+  head: 37c921b3396f8291ee5a212e5f05ac1bf4c72aa6
+  upstream: origin/task/TASK-R02-002
+  ahead: 0
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/change_requests/CR-0043.yaml'
+  - ' M catalogs/change_request_index.csv'
+  - ' M catalogs/session_index.csv'
+  - ' M docs/03-continuity/change-requests/CR-0043-TASK-R02-007精确登记APK交付证据文件.md'
+  recent_commits:
+  - "37c921b3396f8291ee5a212e5f05ac1bf4c72aa6\t2026-07-18T19:19:35+08:00\tHHY Continuity Bootstrap\t[STORY-R02-009] fix(delivery): publish R02\
+    \ test APK safely"
+  - "bbad603ed7136e1fc1d9fbcf03ca414c6862d16e\t2026-07-18T18:59:54+08:00\tHHY Continuity Bootstrap\t[STORY-R02-009] fix(android): align R02 release\
+    \ identity"
+  - "c5e6ce27a843a83e835472be61301d0c074019c4\t2026-07-18T18:52:01+08:00\tHHY Continuity Bootstrap\t[STORY-R02-009] build(android): set R02 test\
+    \ APK identity"
+  - "c82f53671c1184c3bb8612fcbef5e5dd35d4e962\t2026-07-18T18:49:10+08:00\tHHY Continuity Bootstrap\t[STORY-R02-009] chore(continuity): close TASK-R02-006\
+    \ as completed"
+  - "892e4a7bee5e88395e97817db8a67030edd2f135\t2026-07-18T18:48:11+08:00\tHHY Continuity Bootstrap\t[STORY-R02-009] chore(continuity): close R02\
+    \ integration changes"
+  - "4d5598286a7158f50960e1dfa45db5390d83863d\t2026-07-18T18:46:35+08:00\tHHY Continuity Bootstrap\t[STORY-R02-009] test(integration): finalize\
+    \ R02 release evidence"
+  - "a1893b20709c474c4cbe421f4bd1dc7eecaacebf\t2026-07-18T18:42:22+08:00\tHHY Continuity Bootstrap\t[STORY-R02-009] fix(staging): require R02\
+    \ user security secrets"
+  - "d26aff1b69cbe5d94ee64d47042ddd9d56a22070\t2026-07-18T18:06:48+08:00\tHHY Continuity Bootstrap\t[STORY-R02-009] feat(observability): add R02\
+    \ auth release gates"
+project_fingerprint:
+  sha256: e2f7b63f04efaeac6431240ee89a7c4efe8411d2a916202bf60d53a50358c905
+  files:
+  - CHANGELOG.md
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+  - apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+  - artifacts/apk/R02/APK_MANIFEST.yaml
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/change-requests/CR-0042-TASK-R02-007允许写入APK交付与追溯证据.md
+  - docs/03-continuity/change-requests/CR-0043-TASK-R02-007精确登记APK交付证据文件.md
+  - scripts/deliver_android_test_apk.py
+  - tests/test_android_apk_delivery.py
+  file_count: 10
+  payload:
+    base_commit: c82f53671c1184c3bb8612fcbef5e5dd35d4e962
+    files:
+    - path: CHANGELOG.md
+      state: FILE
+      size: 21444
+      sha256: fd4007dc37c81b309116f474c29717b37e6adedb886891a42b795366ce6fb644
+    - path: apps/android/app/build.gradle.kts
+      state: FILE
+      size: 4445
+      sha256: 81a68f673a1c3eee2b7f6a61a1cdcb35f8f61370b94246578c9020cc56534941
+    - path: apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+      state: FILE
+      size: 520
+      sha256: 09546b124b79f59cdd82067d1d6107d0bff3365b7ba4270eda185fab1c6ce018
+    - path: apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+      state: FILE
+      size: 1025
+      sha256: a382ced5d88e5f78e78b20d0dd926f57faf82c3a057866afc2ea40c8c1ff2c29
+    - path: artifacts/apk/R02/APK_MANIFEST.yaml
+      state: FILE
+      size: 673
+      sha256: 664e9b05c06899d3040c1472edc280d7b8475cd49569c6272e7d0bbf7a952a3f
+    - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
+      state: FILE
+      size: 18818
+      sha256: cc21ed6b2d447568b6b77424c414f372d9c5d48e96649e7fa0cc0eb75742f435
+    - path: docs/03-continuity/change-requests/CR-0042-TASK-R02-007允许写入APK交付与追溯证据.md
+      state: FILE
+      size: 2264
+      sha256: f741747a857d81238a5ba72c9412d575bcfba43276b82512f9c5a791226c9964
+    - path: docs/03-continuity/change-requests/CR-0043-TASK-R02-007精确登记APK交付证据文件.md
+      state: FILE
+      size: 3085
+      sha256: 0baed73e20769bd80c56d9e6cec07a375a802fbcb997ef579e703f209eb95514
+    - path: scripts/deliver_android_test_apk.py
+      state: FILE
+      size: 41559
+      sha256: 0cde6c379c0dd5f999f263689d9caaaa1bf2fff2904adae35fb173ba825d9245
+    - path: tests/test_android_apk_delivery.py
+      state: FILE
+      size: 18047
+      sha256: 5feaf7fbd9aa524b0e04151501e93a25a65079e05350192a2f59bcf9e0650fff
+change_classification:
+  other:
+  - CHANGELOG.md
+  - artifacts/apk/R02/APK_MANIFEST.yaml
+  code:
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+  - apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+  - scripts/deliver_android_test_apk.py
+  user_visible:
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+  - apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+  continuity:
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/change-requests/CR-0042-TASK-R02-007允许写入APK交付与追溯证据.md
+  - docs/03-continuity/change-requests/CR-0043-TASK-R02-007精确登记APK交付证据文件.md
+  tests:
+  - tests/test_android_apk_delivery.py
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+- CHANGELOG
+change_requests:
+- CR-0042
+- CR-0043
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions:
+  - artifacts/apk/R02/APK_MANIFEST.yaml
+  - artifacts/reports/R02/TASK-R02-007-android-apk.md
+  - artifacts/validation/r02-apk-delivery/delivery-evidence.json
+  - artifacts/validation/r02-task007-android/api-platform-status.json
+  - artifacts/validation/r02-task007-android/apk-badging.txt
+  - artifacts/validation/r02-task007-android/apk-signing.txt
+  - artifacts/validation/r02-task007-android/build-evidence.json
+  - artifacts/validation/r02-task007-android/gradle-build.exit
+  - artifacts/validation/r02-task007-android/gradle-build.log
+  - artifacts/validation/r02-task007-android/nginx-download-gate.txt
+  - artifacts/validation/r02-task007-android/zipalign.txt
+  - artifacts/validation/project-doctor-v1.2.2.json
+  source: story+explicit+approved-cr:CR-0043
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 真机验收只能由项目所有者执行，不能由代理或服务器替代
+event_hash: 7ba8b87b3b42ae21cc1c87f6713defe04215432d32f5e1b782957b74d6662d0a

@@ -1,0 +1,10 @@
+source_commit=2950cb64d0ed5887725bc20afe4c6d148c22335a
+api_health=UP
+public_status=200
+prometheus_target=UP
+backend_down=firing,resolved
+provider_connection_failure=firing,resolved
+provider_failure_metric_after_cleanup=0
+active_alerts_after_cleanup=0
+sensitive_log_probe=PASS
+application_rollback=PASS

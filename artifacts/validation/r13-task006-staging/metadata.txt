@@ -1,0 +1,9 @@
+task=TASK-R13-006
+story=STORY-R13-003
+release=R13
+frozen_commit=410aef5327ec460d87775a33b8d1f41927a3f29e
+compose_project=hhy-r13-staging
+network_subnet=172.31.239.0/24
+current_image=sha256:30d4a7b3ab2fac69e27f4019035c050c889f9b7f20ee166fedda26960fae28e0
+postgres_container=004a89b967c1788e416f5ae105471d53b2cb36a64b5816cb09d32cf39ea66bdc
+postgres_volume=hhy-r13-staging_pgdata

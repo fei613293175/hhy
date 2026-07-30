@@ -1,0 +1,64 @@
+protocol_version: '1.0'
+cr_id: CR-0352
+title: 连续精确例外验证并授权R12第五次候选
+status: IMPLEMENTED
+created_at: '2026-07-26T04:51:32Z'
+updated_at: '2026-07-26T04:57:40Z'
+requester_actor_id: codex-root-r12-candidate-20260726
+approver_actor_id: project-owner
+task_id: TASK-R12-007
+session_id: SES-20260725T192048Z-668BD05D
+user_request: 项目所有者要求所有版本持续开发，自动候选失败由AI判断、修复并继续，不得复用失败候选或因真机未反馈停止。
+reason: CR-0351专项测试发现既有策略加载器只允许一个max+1例外，无法保留已消费attempt4历史并登记CR-0345修复后的attempt5；需要以连续、唯一、无缺口例外序列验证取代单例假设，并精确授权一次第五轮。
+original_rule: approved_attempt_exceptions每一项都必须等于max_ai_attempts+1，因此只能保存单个第四轮例外；任何attempt5都会让整份策略加载失败。
+new_rule: 全局max_ai_attempts继续严格为3且普通1至3不变；approved_attempt_exceptions只允许从4开始按轮次连续、严格递增，request/CR/Commit分别唯一的已审批历史序列，每项max_candidate_runs=1。保留CR-0344的attempt4，并仅新增R12/attempt5/R12-CANDIDATE-20260726-005/CR-0352/fbde523e8e751b74f7300ef125c70fa9eb4d03fd；attempt6、缺口、乱序、重复、复用004请求或任一字段漂移均在候选前硬拒绝。
+impact_summary: 修复例外策略只能保存单轮的建模缺陷并形成CR-0345修复后的单次R12 attempt5合法请求；不提高全局上限、不改变产品或生产配置。
+impact:
+  files:
+  - scripts/android_ci_gate.py
+  - config/android-automation.yaml
+  - config/android-candidate-request.yaml
+  - tests/test_android_candidate_request.py
+  - tests/test_android_ci_gate.py
+  - tests/test_r12_candidate.py
+  - docs/08-testing/Android自动开发测试修复交付体系_V1.0.md
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/PITFALLS.md
+  - CHANGELOG.md
+  pages: []
+  apis: []
+  database: []
+  configuration:
+  - android remediation approved_attempt_exceptions
+  ledger:
+  - PROB-0116
+  - PROB-0118
+  tests:
+  - python -m unittest -v tests.test_android_candidate_request tests.test_android_ci_gate tests.test_r12_candidate
+  - python scripts/android_ci_gate.py policy-check
+  - python scripts/android_candidate_request.py --request config/android-candidate-request.yaml
+  releases:
+  - R12
+  migration_and_compatibility: CR-0351因遗漏策略加载器而SUPERSEDED且未提交/未推送/未运行；CR-0352保留CR-0344已消费历史，当前请求改绑CR-0352。R13-R32普通候选仍为1至3，未登记attempt6。
+user_confirmation: 用户明确要求自动测试失败由AI判断修复继续、截图由AI验收、开发不因真机未反馈停止。
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-26T04:52:05Z'
+  note: 项目所有者既有持续开发与AI自动修复授权适用于本次精确单次候选；批准保留不可变attempt4历史并以连续无缺口校验新增attempt5，禁止attempt6和全局放宽。
+machine_record: .continuity/change_requests/CR-0352.yaml
+document: docs/03-continuity/change-requests/CR-0352-连续精确例外验证并授权R12第五次候选.md
+decision_log:
+- at: '2026-07-26T04:52:12Z'
+  actor_id: codex-root-r12-candidate-20260726
+  status: IMPLEMENTING
+  note: 开始实现连续且唯一的例外序列校验，将当前attempt5请求精确改绑CR-0352并执行正反回归。
+  session_id: SES-20260725T192048Z-668BD05D
+- at: '2026-07-26T04:57:40Z'
+  actor_id: codex-root-r12-candidate-20260726
+  status: IMPLEMENTED
+  note: 例外序列改为从4连续有序且request/CR/Commit分别唯一；attempt4历史和attempt5当前请求均精确解析，attempt6/缺口/乱序/重复/错误绑定硬拒绝。41项专项、policy-check、request解析及严格Doctor PASS。
+  session_id: SES-20260725T192048Z-668BD05D
+session_ids:
+- SES-20260725T192048Z-668BD05D
+implementation_commits:
+- 438cf624

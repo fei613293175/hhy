@@ -1,0 +1,7 @@
+{
+  "schema": "hhy.r01.test-adapter/v1",
+  "test_id": "TST-DESIGN_001-IDEMPOTENT",
+  "central_runner": "scripts/run_r01_test_matrix.py",
+  "assignment_source": "local",
+  "runner": "ui-token-contract"
+}

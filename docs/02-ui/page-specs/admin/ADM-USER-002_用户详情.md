@@ -43,9 +43,9 @@
 | FLD-02497 | 表单输入 | sort | 排序 | INPUT | string | TEXT_INPUT | adminUsersGetUsers.request | 可选；按业务条件或页面状态决定 | 执行“用户列表”且字段适用时显示 | 具备 user.read 且资源状态允许 | 最多64字符 | NORMAL | 无需特殊掩码；仍遵守最小展示 | 排序不符合要求 |
 | FLD-02498 | 主要内容 | id | ID | DISPLAY | string | TEXT | adminUsersGetUsers.response.data.UserResource | 服务端返回时展示 | 有值且当前角色拥有字段访问权限 | 只读；通过明确写操作更新 | 必填；最多64字符 | NORMAL | 无需特殊掩码；仍遵守最小展示 | ID加载失败时显示字段级占位或隐藏 |
 | FLD-02499 | 主要内容 | phoneMasked | phone Masked | DISPLAY | string | TEXT | adminUsersGetUsers.response.data.UserResource | 服务端返回时展示 | 有值且当前角色拥有字段访问权限 | 只读；通过明确写操作更新 | 最多2000字符 | HIGH | 按数据分级展示部分掩码；导出执行更严格脱敏 | phone Masked加载失败时显示字段级占位或隐藏 |
-| FLD-02500 | 主要内容 | nickname | 昵称 | DISPLAY | string | TEXT | adminUsersGetUsers.response.data.UserResource | 服务端返回时展示 | 有值且当前角色拥有字段访问权限 | 只读；通过明确写操作更新 | 最多2000字符 | NORMAL | 无需特殊掩码；仍遵守最小展示 | 昵称加载失败时显示字段级占位或隐藏 |
+| FLD-02500 | 主要内容 | nickname | 昵称 | DISPLAY | string | TEXT | adminUsersGetUsers.response.data.UserResource | 服务端返回时展示 | 有值且当前角色拥有字段访问权限 | 只读；通过明确写操作更新 | 最多255字符 | NORMAL | 无需特殊掩码；仍遵守最小展示 | 昵称加载失败时显示字段级占位或隐藏 |
 | FLD-02501 | 主要内容 | avatarUrl | 头像 | DISPLAY | string | TEXT | adminUsersGetUsers.response.data.UserResource | 服务端返回时展示 | 有值且当前角色拥有字段访问权限 | 只读；通过明确写操作更新 | 最多2000字符 | NORMAL | 无需特殊掩码；仍遵守最小展示 | 头像加载失败时显示字段级占位或隐藏 |
-| FLD-02502 | 主要内容 | bio | 个人简介 | DISPLAY | string | TEXT | adminUsersGetUsers.response.data.UserResource | 服务端返回时展示 | 有值且当前角色拥有字段访问权限 | 只读；通过明确写操作更新 | 最多2000字符 | NORMAL | 无需特殊掩码；仍遵守最小展示 | 个人简介加载失败时显示字段级占位或隐藏 |
+| FLD-02502 | 主要内容 | bio | 个人简介 | DISPLAY | string | TEXT | adminUsersGetUsers.response.data.UserResource | 服务端返回时展示 | 有值且当前角色拥有字段访问权限 | 只读；通过明确写操作更新 | 最多255字符 | NORMAL | 无需特殊掩码；仍遵守最小展示 | 个人简介加载失败时显示字段级占位或隐藏 |
 | FLD-02503 | 主要内容 | status | 状态 | DISPLAY | string | TEXT | adminUsersGetUsers.response.data.UserResource | 服务端返回时展示 | 有值且当前角色拥有字段访问权限 | 只读；通过明确写操作更新 | 必填；最多2000字符 | NORMAL | 无需特殊掩码；仍遵守最小展示 | 状态加载失败时显示字段级占位或隐藏 |
 | FLD-02504 | 主要内容 | identityStatus | identity Status | DISPLAY | string | TEXT | adminUsersGetUsers.response.data.UserResource | 服务端返回时展示 | 有值且当前角色拥有字段访问权限 | 只读；通过明确写操作更新 | 最多2000字符 | NORMAL | 无需特殊掩码；仍遵守最小展示 | identity Status加载失败时显示字段级占位或隐藏 |
 | FLD-02505 | 主要内容 | membershipStatus | membership Status | DISPLAY | string | TEXT | adminUsersGetUsers.response.data.UserResource | 服务端返回时展示 | 有值且当前角色拥有字段访问权限 | 只读；通过明确写操作更新 | 最多2000字符 | HIGH | 按数据分级展示部分掩码；导出执行更严格脱敏 | membership Status加载失败时显示字段级占位或隐藏 |
@@ -118,7 +118,7 @@
 
 ## 9. 开发就绪检查
 
-- [ ] 页面模板和区域按本文件实现；效果图仅用于视觉参考。
+- [ ] 页面模板和区域按本文件实现；效果图对页面建模、区域顺序、信息层级、布局、组件形态和视觉样式具有强制约束，但不得作为功能、字段、动作或业务数据事实源。
 - [ ] 字段、校验、显示/编辑条件与 OpenAPI/配置一致，无新增匿名字段。
 - [ ] 所有状态均有可见表现、允许操作和恢复路径。
 - [ ] 所有动作均使用登记 operationId、权限、幂等或 expectedVersion。

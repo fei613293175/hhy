@@ -9,7 +9,8 @@ from __future__ import annotations
 from argparse import ArgumentParser, Namespace
 from datetime import timedelta
 from pathlib import Path
-from typing import Any
+from typing import Any, Callable
+from fnmatch import fnmatchcase
 import json
 import os
 import re
@@ -25,6 +26,7 @@ from continuity_lib import (
     STATE_FILE,
     ContinuityError,
     active_change_requests,
+    apply_change_request_scope,
     amend_change_request,
     append_event,
     approve_change_request,
@@ -36,6 +38,7 @@ from continuity_lib import (
     claim_task,
     close_task_claim,
     continuity_lock,
+    context_source_paths,
     context_is_fresh,
     create_change_request,
     create_handoff_bundle,
@@ -59,6 +62,7 @@ from continuity_lib import (
     now_utc,
     parse_iso,
     parse_test_spec,
+    portable_source_record,
     project_fingerprint,
     read_current_status,
     read_csv,
@@ -67,12 +71,14 @@ from continuity_lib import (
     release_story,
     release_task,
     renew_lease,
+    rule_readiness_payload,
     root_from_script,
     run_command,
     save_active_pointer,
     save_session,
     save_state,
     session_record_path,
+    switch_active_claim_story,
     sha256_file,
     update_current_status_closed,
     update_current_status_for_session,
@@ -127,6 +133,29 @@ def select_story(root: Path, release: str, requested: str | None) -> dict[str, A
     return story
 
 
+def blocked_resume_command(task_id: str) -> str:
+    """Return the only command that may explicitly resume a blocked task."""
+    return f"python3 scripts/continuity.py start --actor <ACTOR_ID> --task {task_id}"
+
+
+def blocked_resume_is_authorized(
+    task_id: str, task: dict[str, Any], next_task: dict[str, Any]
+) -> bool:
+    """Narrowly authorize a blocked task that close explicitly made resumable.
+
+    A generic BLOCKED task is never startable. Both state sources must point to the
+    same blocked task and NEXT_TASK must carry the exact command emitted by close.
+    The caller separately enforces that no active session exists.
+    """
+    return (
+        task.get("id") == task_id
+        and task.get("status") == "BLOCKED"
+        and next_task.get("id") == task_id
+        and next_task.get("status") == "BLOCKED"
+        and next_task.get("resume_command") == blocked_resume_command(task_id)
+    )
+
+
 def create_session(
     root: Path,
     policy: dict[str, Any],
@@ -140,18 +169,29 @@ def create_session(
     allow_dirty: bool,
     base_commit_override: str | None = None,
     takeover_of: str | None = None,
+    session_id_override: str | None = None,
+    stage_hook: Callable[[str], None] | None = None,
 ) -> dict[str, Any]:
+    def reached(stage: str) -> None:
+        if stage_hook:
+            stage_hook(stage)
+
     status = read_current_status(root)
     next_task = read_next_task(root)
     release = next_task.get("release") or status.get("active_release")
     if not release:
         raise ContinuityError("无法确定当前Release")
+    validate_release_machine_chain(root, release)
     if task_id != next_task.get("id"):
         raise ContinuityError(
             f"只能领取 NEXT_TASK.yaml 中的任务：期望 {next_task.get('id')}，收到 {task_id}"
         )
     task = release_task(root, release, task_id)
-    if task.get("status") not in {"READY", "IN_PROGRESS"} and next_task.get("status") not in {"READY", "IN_PROGRESS"}:
+    normally_startable = (
+        task.get("status") in {"READY", "IN_PROGRESS"}
+        or next_task.get("status") in {"READY", "IN_PROGRESS"}
+    )
+    if not normally_startable and not blocked_resume_is_authorized(task_id, task, next_task):
         raise ContinuityError(f"任务不是READY/IN_PROGRESS：{task_id} / plan={task.get('status')} / next={next_task.get('status')}")
     story = select_story(root, release, story_id)
     if not story:
@@ -169,7 +209,9 @@ def create_session(
         raise ContinuityError("开始新会话前工作区必须干净；中途接管请使用 takeover/recover")
     base_commit = base_commit_override or git_state["head"]
     allowed_paths = derive_scope(policy, story, explicit_scope)
-    session_id = make_session_id()
+    session_id = session_id_override or make_session_id()
+    if session_record_path(root, session_id).exists():
+        raise ContinuityError(f"会话ID已经存在：{session_id}")
     started = iso_utc()
     session_log = (
         Path("docs/03-continuity/sessions")
@@ -220,10 +262,13 @@ def create_session(
     session_path = session_record_path(root, session_id)
     session_path.parent.mkdir(parents=True, exist_ok=True)
     atomic_write_yaml(session_path, session)
+    reached("new_session_record")
     log_path = root / session_log
     log_path.parent.mkdir(parents=True, exist_ok=True)
     atomic_write_text(log_path, markdown_session_log(session))
+    reached("new_session_log")
     claim_task(root, session)
+    reached("new_session_claim")
     save_active_pointer(
         root,
         {
@@ -241,10 +286,13 @@ def create_session(
     state["active_session_id"] = session_id
     state["mode"] = "ENFORCED"
     save_state(root, state)
+    reached("new_session_pointer_state")
     from continuity_lib import append_session_index
 
     append_session_index(root, session)
+    reached("new_session_index")
     update_current_status_for_session(root, session)
+    reached("new_session_current_status")
     append_event(
         root,
         "SESSION_STARTED" if not takeover_of else "SESSION_TAKEN_OVER",
@@ -262,7 +310,9 @@ def create_session(
         root, task_id=task_id, release=release, from_status=next_task.get("status"), to_status="IN_PROGRESS",
         session_id=session_id, actor_id=actor, reason="会话领取任务", story_id=session.get("story_id")
     )
+    reached("new_session_event_transition")
     build_context_pack(root, session)
+    reached("new_session_context")
     save_session(root, session)
     return session
 
@@ -411,7 +461,7 @@ def command_bootstrap(args: Namespace) -> None:
         "reconciled_session_id": reconciled_session_id,
         "metadata_commit_required": bool(reconciled_session_id),
         "next_command": (
-            "python3 scripts/continuity.py checkpoint --summary '<阶段完成>' --next-step '<精确下一步>' --test 'name|PASS|evidence'"
+            "python3 scripts/continuity.py checkpoint --summary '<阶段完成>' --next-step '<精确下一步>' --test 'name|PASS|evidence' --parallel-assessment <ASSESSMENT> --parallel-reason '<未委托原因>'"
             if reconciled_session_id
             else f"python3 scripts/continuity.py start --actor {actor} --task {args.task} --story <STORY_ID> --goal '<精确目标>'"
         ),
@@ -420,6 +470,8 @@ def command_bootstrap(args: Namespace) -> None:
 def command_start(args: Namespace) -> None:
     actor = get_actor(args)
     with continuity_lock(ROOT):
+        target_release = read_next_task(ROOT).get("release") or read_current_status(ROOT).get("active_release")
+        validate_release_machine_chain(ROOT, target_release)
         initialize_continuity_files(ROOT)
         policy = load_policy(ROOT)
         pointer = load_active_pointer(ROOT)
@@ -455,7 +507,7 @@ def command_start(args: Namespace) -> None:
             "story_id": session.get("story_id"),
             "lease_expires_at": session["lease"]["expires_at"],
             "session_log": session["session_log"],
-            "next_command": "python3 scripts/continuity.py checkpoint --summary '<阶段完成>' --next-step '<精确下一步>' --test 'name|PASS|evidence'",
+            "next_command": "python3 scripts/continuity.py checkpoint --summary '<阶段完成>' --next-step '<精确下一步>' --test 'name|PASS|evidence' --parallel-assessment <ASSESSMENT> --parallel-reason '<未委托原因>'",
         }
     )
 
@@ -471,6 +523,19 @@ def command_checkpoint(args: Namespace) -> None:
         tests = [parse_test_spec(item) for item in args.test]
         if not tests and args.no_test_reason:
             tests = [{"name": "本阶段未执行测试", "result": "NOT_RUN", "evidence": "", "note": args.no_test_reason}]
+        workers = []
+        for spec in args.delegated_worker:
+            parts = spec.split("|", 2)
+            if len(parts) != 3:
+                raise ContinuityError("--delegated-worker格式必须为 worker_id|responsibility|path1,path2")
+            worker_id, responsibility, raw_paths = (part.strip() for part in parts)
+            paths = [path.strip() for path in raw_paths.split(",") if path.strip()]
+            workers.append({"worker_id": worker_id, "responsibility": responsibility, "allowed_paths": paths})
+        parallel_execution = {
+            "assessment": args.parallel_assessment,
+            "workers": workers,
+            "reason": args.parallel_reason,
+        }
         checkpoint = write_checkpoint(
             ROOT,
             session,
@@ -480,6 +545,7 @@ def command_checkpoint(args: Namespace) -> None:
             blockers=args.blocker,
             decisions=args.decision,
             tests=tests,
+            parallel_execution=parallel_execution,
             note=args.note,
         )
     print_yaml(
@@ -552,6 +618,7 @@ def command_takeover(args: Namespace) -> None:
     with continuity_lock(ROOT):
         policy = load_policy(ROOT)
         old = load_session(ROOT, args.session)
+        validate_release_machine_chain(ROOT, old.get("release"))
         if old.get("status") != "HANDED_OFF" and not effective_lease_expired(ROOT, old):
             raise ContinuityError("只有HANDED_OFF或租约已过期的会话可以接管")
         if old.get("handoff_bundle"):
@@ -587,6 +654,11 @@ def command_takeover(args: Namespace) -> None:
             blockers=[],
             decisions=[f"接管来源：{old['session_id']}", f"原Actor：{old['actor']['id']}"],
             tests=tests or [{"name": "Handoff Manifest", "result": "PASS", "evidence": old.get("handoff_bundle") or "lease recovery", "note": "接管校验"}],
+            parallel_execution={
+                "assessment": "NO_SAFE_PARALLEL",
+                "workers": [],
+                "reason": "会话接管与事实源恢复必须由新主控串行完成",
+            },
             note=args.reason,
         )
     print_yaml(
@@ -605,6 +677,7 @@ def command_recover(args: Namespace) -> None:
     with continuity_lock(ROOT):
         policy = load_policy(ROOT)
         old = load_session(ROOT, args.session)
+        validate_release_machine_chain(ROOT, old.get("release"))
         if not effective_lease_expired(ROOT, old):
             raise ContinuityError("会话租约尚未过期，禁止强行恢复")
         terminate_old_session(ROOT, old, "ABANDONED", args.reason)
@@ -631,6 +704,11 @@ def command_recover(args: Namespace) -> None:
             blockers=[f"原会话异常中断：{args.reason}"],
             decisions=["采用显式recover，不覆盖原会话记录"],
             tests=[{"name": "Event Chain / Worktree Recovery", "result": "PASS", "evidence": session["session_log"], "note": "异常恢复检查点"}],
+            parallel_execution={
+                "assessment": "NO_SAFE_PARALLEL",
+                "workers": [],
+                "reason": "异常恢复与事件链校验必须由主控串行完成",
+            },
         )
         append_event(ROOT, "SESSION_RECOVERED", {"old_session": old["session_id"], "new_session": session["session_id"], "reason": args.reason})
     print_yaml({"status": "RECOVERED", "old_session": old["session_id"], "new_session": session["session_id"], "checkpoint": checkpoint["checkpoint_id"]})
@@ -655,7 +733,7 @@ def resolve_next_task(root: Path, release: str, next_task_id: str) -> dict[str, 
         "commands": {
             "resume": "python3 scripts/continuity.py resume",
             "start": start_command,
-            "checkpoint": "python3 scripts/continuity.py checkpoint --summary '<阶段完成>' --next-step '<精确下一步>' --test 'name|PASS|evidence|note'",
+            "checkpoint": "python3 scripts/continuity.py checkpoint --summary '<阶段完成>' --next-step '<精确下一步>' --test 'name|PASS|evidence|note' --parallel-assessment <ASSESSMENT> --parallel-reason '<未委托原因>'",
             "handoff": "python3 scripts/continuity.py handoff --actor <ACTOR_ID> --reason '<移交原因>' --next-step '<精确下一步>'",
             "export_clean": "python3 scripts/continuity.py export-clean --portable-zip <OUTPUT.zip>",
             "cr_amend": "python3 scripts/continuity.py cr-amend --actor <ACTOR_ID> --cr <CR_ID> --original-rule '<原规则>' --new-rule '<新规则>' --impact-summary '<影响摘要>' --migration-and-compatibility '<迁移兼容说明>' --file <PATH> --test '<TEST>' --release <RELEASE>",
@@ -693,6 +771,8 @@ def validate_next_task_transition(
             raise ContinuityError("下一任务不能与当前任务相同")
         return next_document
 
+    validate_sequential_release_number(current_release, next_release)
+
     current_path = root / "releases" / current_release / "TASKS.yaml"
     current_plan = yaml.safe_load(current_path.read_text(encoding="utf-8")) or {}
     current_tasks = list(current_plan.get("tasks", []))
@@ -727,7 +807,1054 @@ def validate_next_task_transition(
         raise ContinuityError(
             f"下一Release未声明依赖当前Release：{next_release} !<- {current_release}"
         )
+    validate_release_machine_chain(
+        root,
+        next_release,
+        assumed_done={(current_release, current_task)},
+    )
     return next_document
+
+
+def release_number(release: str) -> int | None:
+    match = re.fullmatch(r"R([0-9]{2})", str(release or ""))
+    return int(match.group(1)) if match else None
+
+
+def validate_sequential_release_number(current_release: str, next_release: str) -> None:
+    current = release_number(current_release)
+    target = release_number(next_release)
+    if current is None or target is None or current < 14:
+        return
+    if target != current + 1:
+        raise ContinuityError(
+            f"R14起禁止跨版本跳跃：{current_release}只能进入R{current + 1:02d}，收到{next_release}"
+        )
+
+
+def repository_evidence_file(root: Path, value: Any) -> Path | None:
+    relative = str(value or "").strip().replace("\\", "/")
+    if not relative:
+        return None
+    path = (root / relative).resolve()
+    try:
+        path.relative_to(root.resolve())
+    except ValueError:
+        return None
+    return path if path.is_file() else None
+
+
+def read_json_evidence(root: Path, value: Any) -> dict[str, Any] | None:
+    path = repository_evidence_file(root, value)
+    if path is None:
+        return None
+    try:
+        payload = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return None
+    return payload if isinstance(payload, dict) else None
+
+
+def strict_release_machine_completion_errors(
+    root: Path,
+    release: str,
+    *,
+    assumed_done_tasks: set[str] | None = None,
+) -> list[str]:
+    """Return repository-grounded reasons why an R14+ release cannot hand off.
+
+    Owner physical verification is deliberately not required here.  The machine
+    close must still bind completed tasks, TEST_APK delivery, the interaction
+    candidate and machine-completion evidence to one frozen source commit.
+    """
+    number = release_number(release)
+    if number is None or number < 14:
+        return []
+    assumed = assumed_done_tasks or set()
+    errors: list[str] = []
+
+    tasks_path = root / "releases" / release / "TASKS.yaml"
+    if not tasks_path.is_file():
+        return [f"{release}:TASKS_MISSING"]
+    task_document = yaml.safe_load(tasks_path.read_text(encoding="utf-8")) or {}
+    tasks = list(task_document.get("tasks", []))
+    if not tasks:
+        errors.append(f"{release}:TASKS_EMPTY")
+    for task in tasks:
+        task_id = str(task.get("id") or "")
+        if task.get("status") != "DONE" and task_id not in assumed:
+            errors.append(f"{release}:TASK_NOT_DONE:{task_id or 'UNKNOWN'}")
+
+    manifest_path = root / "releases" / release / "RELEASE_MANIFEST.yaml"
+    if not manifest_path.is_file():
+        errors.append(f"{release}:MANIFEST_MISSING")
+        return errors
+    manifest = yaml.safe_load(manifest_path.read_text(encoding="utf-8")) or {}
+    delivery = manifest.get("android_delivery") if isinstance(manifest.get("android_delivery"), dict) else {}
+    automation = manifest.get("android_automation") if isinstance(manifest.get("android_automation"), dict) else {}
+    completion = manifest.get("machine_completion") if isinstance(manifest.get("machine_completion"), dict) else {}
+
+    commit = str(delivery.get("source_commit") or "").lower()
+    if not re.fullmatch(r"[0-9a-f]{40}", commit):
+        errors.append(f"{release}:DELIVERY_COMMIT_INVALID")
+    if delivery.get("machine_delivery") != "PASS":
+        errors.append(f"{release}:TEST_APK_DELIVERY_NOT_PASS")
+    if repository_evidence_file(root, delivery.get("test_guide")) is None:
+        errors.append(f"{release}:TEST_GUIDE_MISSING")
+    if repository_evidence_file(root, delivery.get("build_evidence")) is None:
+        errors.append(f"{release}:BUILD_EVIDENCE_MISSING")
+    if repository_evidence_file(root, delivery.get("evidence")) is None:
+        errors.append(f"{release}:DELIVERY_EVIDENCE_MISSING")
+    if not release_has_continuable_test_apk(root, release, manifest):
+        errors.append(f"{release}:TEST_APK_IDENTITY_MISMATCH")
+
+    candidate_commit = str(automation.get("commit") or "").lower()
+    if automation.get("status") != "PASS":
+        errors.append(f"{release}:CANDIDATE_NOT_PASS")
+    if automation.get("owner_test_allowed") is not True:
+        errors.append(f"{release}:CANDIDATE_OWNER_TEST_NOT_ALLOWED")
+    if candidate_commit != commit:
+        errors.append(f"{release}:CANDIDATE_COMMIT_MISMATCH")
+    candidate = read_json_evidence(
+        root,
+        automation.get("candidate_report") or automation.get("evidence"),
+    )
+    if candidate is None:
+        errors.append(f"{release}:CANDIDATE_REPORT_MISSING")
+    else:
+        if candidate.get("release") != release:
+            errors.append(f"{release}:CANDIDATE_RELEASE_MISMATCH")
+        if str(candidate.get("commit") or "").lower() != commit:
+            errors.append(f"{release}:CANDIDATE_REPORT_COMMIT_MISMATCH")
+        if candidate.get("status") != "PASS":
+            errors.append(f"{release}:CANDIDATE_REPORT_NOT_PASS")
+        if candidate.get("owner_test_allowed") is not True:
+            errors.append(f"{release}:CANDIDATE_REPORT_OWNER_TEST_NOT_ALLOWED")
+
+    if completion.get("status") != "PASS":
+        errors.append(f"{release}:MACHINE_COMPLETION_NOT_PASS")
+    if completion.get("owner_feedback_mode") != "ASYNC_NON_BLOCKING":
+        errors.append(f"{release}:OWNER_FEEDBACK_MODE_INVALID")
+    if completion.get("next_release_development") != "ALLOWED":
+        errors.append(f"{release}:NEXT_RELEASE_NOT_ALLOWED")
+    if repository_evidence_file(root, completion.get("evidence")) is None:
+        errors.append(f"{release}:MACHINE_COMPLETION_EVIDENCE_MISSING")
+    return errors
+
+
+def validate_release_machine_chain(
+    root: Path,
+    target_release: str,
+    *,
+    assumed_done: set[tuple[str, str]] | None = None,
+) -> None:
+    """Validate every R14+ predecessor before entering or resuming a release."""
+    target = release_number(target_release)
+    if target is None or target <= 14:
+        return
+    assumptions = assumed_done or set()
+    errors: list[str] = []
+    for number in range(14, target):
+        release = f"R{number:02d}"
+        errors.extend(
+            strict_release_machine_completion_errors(
+                root,
+                release,
+                assumed_done_tasks={
+                    task_id
+                    for assumed_release, task_id in assumptions
+                    if assumed_release == release
+                },
+            )
+        )
+    if errors:
+        raise ContinuityError(
+            f"版本连续性门禁失败，禁止进入{target_release}：" + "; ".join(errors)
+        )
+
+
+def release_has_async_owner_gate(root: Path, release: str) -> bool:
+    manifest_path = root / "releases" / release / "RELEASE_MANIFEST.yaml"
+    if not manifest_path.is_file():
+        return False
+    manifest = yaml.safe_load(manifest_path.read_text(encoding="utf-8")) or {}
+    delivery = manifest.get("android_delivery") if isinstance(manifest.get("android_delivery"), dict) else {}
+    completion = manifest.get("machine_completion") if isinstance(manifest.get("machine_completion"), dict) else {}
+    machine_complete_owner_pending = all((
+        delivery.get("machine_delivery") == "PASS",
+        delivery.get("owner_physical_test") == "PENDING",
+        completion.get("status") == "PASS",
+        completion.get("owner_feedback_mode") == "ASYNC_NON_BLOCKING",
+        completion.get("formal_release_acceptance") == "PENDING_OWNER_PHYSICAL_TEST",
+        completion.get("production_activation") == "BLOCKED_OWNER_PHYSICAL_TEST",
+        completion.get("next_release_development") == "ALLOWED",
+    ))
+    if machine_complete_owner_pending:
+        return True
+    return release_has_continuable_test_apk(root, release, manifest)
+
+
+def release_has_continuable_test_apk(root: Path, release: str, manifest: dict[str, Any]) -> bool:
+    delivery = manifest.get("android_delivery") if isinstance(manifest.get("android_delivery"), dict) else {}
+    automation = manifest.get("android_automation") if isinstance(manifest.get("android_automation"), dict) else {}
+    legacy_automation = all((
+        automation.get("policy_id") == "HHY-ANDROID-AUTOMATION-V1",
+        automation.get("mode") == "ON_DEMAND_NON_BLOCKING_SPECIALTY",
+        automation.get("owner_physical_test") == "PENDING",
+        automation.get("next_release_development") == "ALLOWED",
+    ))
+    strict_automation = all((
+        automation.get("policy_id") == "HHY-ANDROID-AUTOMATION-V1",
+        automation.get("mode") == "MAJOR_RELEASE_MACHINE_CLOSE_REQUIRED",
+        automation.get("status") == "PASS",
+        automation.get("owner_test_allowed") is True,
+        automation.get("owner_physical_test") == "PENDING",
+        automation.get("next_release_development") == "ALLOWED",
+    ))
+    if not all((
+        delivery.get("machine_delivery") == "PASS",
+        delivery.get("owner_physical_test") == "PENDING",
+        delivery.get("next_release_development") == "ALLOWED",
+        legacy_automation or strict_automation,
+    )):
+        return False
+
+    commit = str(delivery.get("source_commit") or "").lower()
+    sha = str(delivery.get("sha256") or "").lower()
+    fingerprint = str(delivery.get("signing_fingerprint") or "").lower()
+    if not re.fullmatch(r"[0-9a-f]{40}", commit):
+        return False
+    if not re.fullmatch(r"[0-9a-f]{64}", sha) or not re.fullmatch(r"[0-9a-f]{64}", fingerprint):
+        return False
+
+    def repository_file(value: Any) -> Path | None:
+        relative = str(value or "").strip().replace("\\", "/")
+        if not relative:
+            return None
+        path = (root / relative).resolve()
+        try:
+            path.relative_to(root.resolve())
+        except ValueError:
+            return None
+        return path if path.is_file() else None
+
+    def json_evidence(value: Any) -> dict[str, Any] | None:
+        path = repository_file(value)
+        if path is None:
+            return None
+        try:
+            document = json.loads(path.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            return None
+        return document if isinstance(document, dict) else None
+
+    apk_path = root / "artifacts" / "apk" / release / "APK_MANIFEST.yaml"
+    if not apk_path.is_file():
+        return False
+    apk = yaml.safe_load(apk_path.read_text(encoding="utf-8")) or {}
+    identity_pairs = (
+        (apk.get("release"), release),
+        (str(apk.get("commit") or "").lower(), commit),
+        (apk.get("apk_file"), delivery.get("apk_file")),
+        (apk.get("version_name"), delivery.get("version_name")),
+        (apk.get("version_code"), delivery.get("version_code")),
+        (str(apk.get("sha256") or "").lower(), sha),
+        (str(apk.get("signing_fingerprint") or "").lower(), fingerprint),
+    )
+    if not all(actual == expected for actual, expected in identity_pairs):
+        return False
+
+    build = json_evidence(delivery.get("build_evidence"))
+    evidence = json_evidence(delivery.get("evidence"))
+    if build is None or evidence is None or repository_file(delivery.get("test_guide")) is None:
+        return False
+    required_checks = {
+        "verifyApiBaseUrl", "testDebugUnitTest", "lintDebug", "assembleDebug",
+        "apksigner", "zipalign", "embeddedApiBaseUrl", "packageIdentity",
+    }
+    if not all((
+        build.get("release") == release,
+        str(build.get("commit") or "").lower() == commit,
+        build.get("version_name") == apk.get("version_name"),
+        build.get("version_code") == apk.get("version_code"),
+        build.get("build_status") == "PASS",
+        set(build.get("checks") or []) >= required_checks,
+        build.get("stable_signing") is True,
+        build.get("api_base_url") == "https://api.orbexa.cc",
+        str(build.get("apk_sha256") or "").lower() == sha,
+        build.get("apk_size_bytes") == apk.get("size_bytes"),
+        build.get("signing_profile_id") == delivery.get("signing_profile_id"),
+        str(build.get("signing_fingerprint") or "").lower() == fingerprint,
+    )):
+        return False
+
+    signing = evidence.get("signing") if isinstance(evidence.get("signing"), dict) else {}
+    if not all((
+        evidence.get("release") == release,
+        str(evidence.get("commit") or "").lower() == commit,
+        evidence.get("apk_file") == apk.get("apk_file"),
+        evidence.get("version_name") == apk.get("version_name"),
+        evidence.get("version_code") == apk.get("version_code"),
+        str(evidence.get("sha256") or "").lower() == sha,
+        evidence.get("size_bytes") == apk.get("size_bytes"),
+        signing.get("status") == "PASS",
+        signing.get("stable") is True,
+        signing.get("profile_id") == delivery.get("signing_profile_id"),
+        str(signing.get("fingerprint") or "").lower() == fingerprint,
+    )):
+        return False
+    for name in ("local", "desktop", "remote", "https"):
+        row = evidence.get(name) if isinstance(evidence.get(name), dict) else {}
+        if row.get("status") != "PASS":
+            return False
+        if name != "local" and str(row.get("sha256") or "").lower() != sha:
+            return False
+        if name in {"remote", "https"} and row.get("size_bytes") != apk.get("size_bytes"):
+            return False
+    https = evidence.get("https") if isinstance(evidence.get("https"), dict) else {}
+    return https.get("http_status") == 200 and https.get("range_status") == 206
+
+
+SEQUENCE_RECOVERY_ALLOWED_DIRTY = (
+    ".continuity/**",
+    "artifacts/context/**",
+    "catalogs/change_request_index.csv",
+    "catalogs/session_index.csv",
+    "docs/03-continuity/change-requests/**",
+    "scripts/continuity.py",
+    "tests/test_continuity_sequence_recovery.py",
+)
+
+
+class RecoveryFileTransaction:
+    """Restore all managed recovery paths byte-for-byte after any exception."""
+
+    def __init__(self, root: Path, paths: list[str]) -> None:
+        self.root = root
+        self.paths = list(dict.fromkeys(paths))
+        self.before_files: dict[str, bytes] = {}
+        self.before_dirs: set[str] = set()
+
+    def _capture_path(self, relative: str) -> None:
+        path = self.root / relative
+        if path.is_file():
+            self.before_files[relative] = path.read_bytes()
+            return
+        if not path.is_dir():
+            return
+        self.before_dirs.add(relative)
+        for item in sorted(path.rglob("*")):
+            item_relative = item.relative_to(self.root).as_posix()
+            if item.is_dir():
+                self.before_dirs.add(item_relative)
+            elif item.is_file():
+                self.before_files[item_relative] = item.read_bytes()
+
+    def __enter__(self) -> "RecoveryFileTransaction":
+        for relative in self.paths:
+            parent = Path(relative).parent
+            while parent != Path("."):
+                if (self.root / parent).is_dir():
+                    self.before_dirs.add(parent.as_posix())
+                parent = parent.parent
+            self._capture_path(relative)
+        return self
+
+    def restore(self) -> None:
+        current_files: set[str] = set()
+        current_dirs: set[str] = set()
+        for relative in self.paths:
+            path = self.root / relative
+            parent = Path(relative).parent
+            while parent != Path("."):
+                if (self.root / parent).is_dir():
+                    current_dirs.add(parent.as_posix())
+                parent = parent.parent
+            if path.is_file():
+                current_files.add(relative)
+            elif path.is_dir():
+                current_dirs.add(relative)
+                for item in path.rglob("*"):
+                    item_relative = item.relative_to(self.root).as_posix()
+                    if item.is_dir():
+                        current_dirs.add(item_relative)
+                    elif item.is_file():
+                        current_files.add(item_relative)
+        for relative in sorted(current_files - set(self.before_files)):
+            (self.root / relative).unlink(missing_ok=True)
+        for relative, content in self.before_files.items():
+            path = self.root / relative
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_bytes(content)
+        for relative in sorted(current_dirs - self.before_dirs, key=lambda value: value.count("/"), reverse=True):
+            path = self.root / relative
+            if path.is_dir():
+                try:
+                    path.rmdir()
+                except OSError:
+                    pass
+
+    def __exit__(self, exc_type: Any, exc: Any, traceback: Any) -> bool:
+        if exc_type is not None:
+            self.restore()
+        return False
+
+
+def sequence_recovery_paths(
+    old_session_id: str,
+    new_session_id: str,
+    recovery_id: str,
+) -> list[str]:
+    session_match = re.match(r"SES-(\d{4})(\d{2})\d{2}T", new_session_id)
+    month = (
+        f"{session_match.group(1)}-{session_match.group(2)}"
+        if session_match
+        else now_utc().strftime("%Y-%m")
+    )
+    return [
+        "CURRENT_STATUS.yaml",
+        "NEXT_TASK.yaml",
+        "releases/R14/TASKS.yaml",
+        "releases/R16/TASKS.yaml",
+        ACTIVE_FILE,
+        STATE_FILE,
+        f"{CONTINUITY_DIR}/EVENT_LOG.jsonl",
+        f"{CONTINUITY_DIR}/SESSION_INDEX.yaml",
+        f"{CONTINUITY_DIR}/TASK_CLAIMS.yaml",
+        f"{CONTINUITY_DIR}/TASK_TRANSITIONS.yaml",
+        f"{CONTINUITY_DIR}/sessions/{old_session_id}.yaml",
+        f"{CONTINUITY_DIR}/sessions/{new_session_id}.yaml",
+        f"{CONTINUITY_DIR}/checkpoints/{new_session_id}",
+        f"{CONTINUITY_DIR}/sequence_recoveries/{recovery_id}.yaml",
+        f"docs/03-continuity/sessions/{month}/{new_session_id}.md",
+        "catalogs/session_index.csv",
+        "catalogs/task_transition_ledger.csv",
+        "artifacts/context/CURRENT_CONTEXT_PACK.yaml",
+        "artifacts/context/CURRENT_CONTEXT_PACK.md",
+        "artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json",
+    ]
+
+
+def sequence_recovery_stash_facts(root: Path, stash_ref: str) -> dict[str, str]:
+    result = run_command(
+        ["git", "stash", "list", "--format=%gd%x09%H%x09%gs"],
+        cwd=root,
+        timeout=60,
+    )
+    if result.returncode != 0:
+        raise ContinuityError("无法读取Git stash证据：" + result.stderr.strip())
+    for line in result.stdout.splitlines():
+        fields = line.split("\t", 2)
+        if len(fields) == 3 and fields[0] == stash_ref:
+            return {"ref": fields[0], "oid": fields[1].lower(), "subject": fields[2]}
+    raise ContinuityError(f"指定stash不存在：{stash_ref}")
+
+
+def earliest_incomplete_release_task(root: Path, current_release: str) -> tuple[str, str, list[str]]:
+    current_number = release_number(current_release)
+    if current_number is None or current_number <= 14:
+        raise ContinuityError("当前会话不存在可退回的R14+前序Release")
+    for number in range(14, current_number):
+        release = f"R{number:02d}"
+        errors = strict_release_machine_completion_errors(root, release)
+        if not errors:
+            continue
+        task_path = root / "releases" / release / "TASKS.yaml"
+        document = yaml.safe_load(task_path.read_text(encoding="utf-8")) or {}
+        first = next(
+            (str(row.get("id") or "") for row in document.get("tasks", []) if row.get("status") != "DONE"),
+            "",
+        )
+        if not first:
+            raise ContinuityError(f"{release}机器闭环失败但找不到未完成Task")
+        return release, first, errors
+    raise ContinuityError("当前Release的全部R14+前序版本已机器闭环，禁止执行序列恢复")
+
+
+def ensure_sequence_recovery_task_lists(status: dict[str, Any]) -> None:
+    completed = set(status.get("completed_tasks") or [])
+    in_progress = set(status.get("in_progress_tasks") or [])
+    blocked = set(status.get("blocked_tasks") or [])
+    overlaps = (completed & in_progress) | (completed & blocked) | (in_progress & blocked)
+    if overlaps:
+        raise ContinuityError("恢复后任务状态列表发生重叠：" + ", ".join(sorted(overlaps)))
+
+
+def validate_sequence_recovery_result(
+    root: Path,
+    *,
+    old_session_id: str,
+    new_session_id: str,
+    target_task: str,
+    target_story: str,
+    cr_id: str,
+) -> None:
+    r14 = yaml.safe_load((root / "releases/R14/TASKS.yaml").read_text(encoding="utf-8")) or {}
+    r16 = yaml.safe_load((root / "releases/R16/TASKS.yaml").read_text(encoding="utf-8")) or {}
+    r14_status = {row.get("id"): row.get("status") for row in r14.get("tasks", [])}
+    r16_status = {row.get("id"): row.get("status") for row in r16.get("tasks", [])}
+    if r14_status.get(target_task) != "READY":
+        raise ContinuityError(f"恢复后{target_task}在TASKS中必须为READY")
+    expected_r16 = {"TASK-R16-001": "READY", **{f"TASK-R16-{number:03d}": "BLOCKED" for number in range(2, 9)}}
+    if any(r16_status.get(task_id) != expected for task_id, expected in expected_r16.items()):
+        raise ContinuityError("恢复后R16任务状态不符合READY/BLOCKED重验规则")
+
+    status = read_current_status(root)
+    ensure_sequence_recovery_task_lists(status)
+    completed = set(status.get("completed_tasks") or [])
+    in_progress = set(status.get("in_progress_tasks") or [])
+    blocked = set(status.get("blocked_tasks") or [])
+    if completed & {"TASK-R16-001", "TASK-R16-002", "TASK-R16-003"}:
+        raise ContinuityError("恢复后CURRENT_STATUS仍把跨序R16任务标为DONE")
+    if target_task not in in_progress or target_task in blocked:
+        raise ContinuityError("恢复后R14目标Task没有唯一处于IN_PROGRESS")
+    if "TASK-R16-004" in in_progress or not {f"TASK-R16-{number:03d}" for number in range(2, 9)} <= blocked:
+        raise ContinuityError("恢复后R16阻塞任务列表不完整")
+
+    old = load_session(root, old_session_id)
+    new = load_session(root, new_session_id)
+    if old.get("status") != "SEQUENCE_RECOVERED":
+        raise ContinuityError("旧R16会话未终止为SEQUENCE_RECOVERED")
+    if not all((
+        new.get("status") == "ACTIVE",
+        new.get("release") == "R14",
+        new.get("task_id") == target_task,
+        new.get("story_id") == target_story,
+        new.get("actor", {}).get("id") == "codex-r14-continuation-20260728",
+        new.get("change_requests") == [cr_id],
+    )):
+        raise ContinuityError("新R14会话Actor/Task/Story/CR不符合冻结恢复规则")
+    expected_scope = derive_scope(load_policy(root), release_story(root, "R14", target_story), [])
+    if new.get("scope", {}).get("allowed_paths") != expected_scope:
+        raise ContinuityError("新R14会话scope不是由STORY-R14-004唯一派生")
+
+    pointer = load_active_pointer(root)
+    state = load_state(root)
+    if pointer.get("active_session_id") != new_session_id or state.get("active_session_id") != new_session_id:
+        raise ContinuityError("Pointer/State未唯一指向新R14会话")
+    index = yaml.safe_load((root / CONTINUITY_DIR / "SESSION_INDEX.yaml").read_text(encoding="utf-8")) or {}
+    active_rows = [row for row in index.get("sessions", []) if row.get("status") == "ACTIVE"]
+    claims = yaml.safe_load((root / CONTINUITY_DIR / "TASK_CLAIMS.yaml").read_text(encoding="utf-8")) or {}
+    active_claims = [row for row in claims.get("claims", []) if row.get("status") == "ACTIVE"]
+    if [row.get("session_id") for row in active_rows] != [new_session_id]:
+        raise ContinuityError("SESSION_INDEX没有且仅有新R14 ACTIVE会话")
+    if [row.get("session_id") for row in active_claims] != [new_session_id]:
+        raise ContinuityError("TASK_CLAIMS没有且仅有新R14 ACTIVE Claim")
+    if not new.get("latest_checkpoint") or not (root / str(new["latest_checkpoint"])).is_file():
+        raise ContinuityError("新R14会话缺少首个恢复检查点")
+    chain = validate_event_chain(root)
+    if not chain.get("valid"):
+        raise ContinuityError("恢复后事件哈希链无效：" + "; ".join(chain.get("errors") or []))
+    if not context_is_fresh(root, new):
+        raise ContinuityError("恢复后Context Pack不是新R14会话的新鲜事实")
+
+
+def perform_sequence_recovery(
+    root: Path,
+    policy: dict[str, Any],
+    *,
+    actor: str,
+    old_session_id: str,
+    new_session_id: str,
+    target_release: str,
+    target_task: str,
+    target_story: str,
+    cr_id: str,
+    expected_head: str,
+    stash_ref: str,
+    expected_stash_oid: str,
+    expected_stash_subject: str,
+    reason: str,
+    fault_after: str | None = None,
+) -> dict[str, Any]:
+    def reached(stage: str) -> None:
+        if fault_after == stage:
+            raise ContinuityError(f"SEQUENCE_RECOVERY_FAULT_INJECTED:{stage}")
+
+    old = load_session(root, old_session_id)
+    pointer = load_active_pointer(root)
+    if old.get("status") != "ACTIVE" or pointer.get("active_session_id") != old_session_id:
+        raise ContinuityError("指定旧会话不是当前唯一ACTIVE会话，恢复可能已执行")
+    if old.get("actor", {}).get("id") != actor:
+        raise ContinuityError("只有当前R16会话Actor可以执行序列恢复")
+    if old.get("release") != "R16" or old.get("task_id") != "TASK-R16-004":
+        raise ContinuityError("本次受审计恢复只允许从R16/TASK-R16-004执行")
+    if target_story != "STORY-R14-004" or cr_id != "CR-0458":
+        raise ContinuityError("恢复Story或CR不符合独立审批冻结值")
+    earliest_release, earliest_task, predecessor_errors = earliest_incomplete_release_task(root, old["release"])
+    if (target_release, target_task) != (earliest_release, earliest_task):
+        raise ContinuityError(
+            f"恢复目标必须是最早未完成任务：{earliest_release}/{earliest_task}"
+        )
+    if target_release != "R14" or target_task != "TASK-R14-004":
+        raise ContinuityError("本次恢复事实与独立审批冻结的R14-004不一致")
+
+    head_before = str(git_info(root).get("head") or "").lower()
+    if head_before != expected_head.lower():
+        raise ContinuityError(f"恢复HEAD不一致：期望{expected_head}，实际{head_before}")
+    stash_before = sequence_recovery_stash_facts(root, stash_ref)
+    if stash_before["oid"] != expected_stash_oid.lower() or stash_before["subject"] != expected_stash_subject:
+        raise ContinuityError("R16 stash对象OID或完整主题与冻结证据不一致")
+    outside = [
+        path for path in git_changed_files(root)
+        if not any(fnmatchcase(path, pattern) for pattern in SEQUENCE_RECOVERY_ALLOWED_DIRTY)
+    ]
+    if outside:
+        raise ContinuityError("恢复前存在CR-0458范围外工作区变更：" + ", ".join(outside[:30]))
+
+    recovery_id = f"SEQREC-{old_session_id}-R14"
+    recovery_relative = f"{CONTINUITY_DIR}/sequence_recoveries/{recovery_id}.yaml"
+    recovery_path = root / recovery_relative
+    if recovery_path.exists():
+        raise ContinuityError(f"恢复记录已存在，禁止重复执行：{recovery_id}")
+    if session_record_path(root, new_session_id).exists():
+        raise ContinuityError(f"新会话ID已存在，禁止覆盖：{new_session_id}")
+    paths = sequence_recovery_paths(old_session_id, new_session_id, recovery_id)
+    event_before = load_state(root).get("event_log", {}).get("sequence")
+    r14_path = root / "releases/R14/TASKS.yaml"
+    r16_path = root / "releases/R16/TASKS.yaml"
+    r14_before = yaml.safe_load(r14_path.read_text(encoding="utf-8")) or {}
+    r16_before = yaml.safe_load(r16_path.read_text(encoding="utf-8")) or {}
+    status_before = read_current_status(root)
+
+    with RecoveryFileTransaction(root, paths):
+        terminate_old_session(root, old, "SEQUENCE_RECOVERED", reason)
+        reached("old_session_terminated")
+
+        r14 = yaml.safe_load(r14_path.read_text(encoding="utf-8")) or {}
+        r16 = yaml.safe_load(r16_path.read_text(encoding="utf-8")) or {}
+        for row in r14.get("tasks", []):
+            if row.get("id") == target_task:
+                if row.get("blocker"):
+                    row["prior_blocker"] = row.pop("blocker")
+                if row.get("blocked_at"):
+                    row["prior_blocked_at"] = row.pop("blocked_at")
+                row["status"] = "READY"
+                row["sequence_recovery"] = recovery_relative
+        for index, row in enumerate(r16.get("tasks", []), start=1):
+            row["status"] = "READY" if index == 1 else "BLOCKED"
+            row.pop("completed_at", None)
+            row["sequence_recovery"] = recovery_relative
+        r16["sequence_recovery"] = {
+            "status": "PRESERVED_REQUIRES_ORDERED_REVALIDATION",
+            "recovery": recovery_relative,
+            "head": expected_head.lower(),
+            "stash_oid": expected_stash_oid.lower(),
+        }
+        atomic_write_yaml(r14_path, r14)
+        atomic_write_yaml(r16_path, r16)
+        reached("task_plans_rewritten")
+
+        status = read_current_status(root)
+        status["completed_tasks"] = [
+            task for task in status.get("completed_tasks", [])
+            if task not in {"TASK-R16-001", "TASK-R16-002", "TASK-R16-003"}
+        ]
+        completed_set = set(status["completed_tasks"])
+        status["in_progress_tasks"] = [
+            task for task in status.get("in_progress_tasks", [])
+            if task != "TASK-R16-004" and task not in completed_set
+        ]
+        in_progress_set = set(status["in_progress_tasks"])
+        blocked = [
+            task for task in status.get("blocked_tasks", [])
+            if (
+                task != target_task
+                and not task.startswith("TASK-R16-")
+                and task not in completed_set
+                and task not in in_progress_set
+            )
+        ]
+        blocked.extend(f"TASK-R16-{number:03d}" for number in range(2, 9))
+        status["blocked_tasks"] = list(dict.fromkeys(blocked))
+        status.update({
+            "phase": target_release,
+            "active_release": target_release,
+            "active_task": target_task,
+            "status": "READY",
+            "next_task": target_task,
+            "updated_at": iso_utc(),
+            "continuity": {
+                "protocol_version": PROTOCOL_VERSION,
+                "mode": "ENFORCED",
+                "active_session_id": None,
+                "sequence_recovery": recovery_relative,
+            },
+        })
+        ensure_sequence_recovery_task_lists(status)
+        atomic_write_yaml(root / "CURRENT_STATUS.yaml", status)
+        next_document = resolve_next_task(root, target_release, target_task)
+        next_document["status"] = "READY"
+        next_document["sequence_recovery"] = recovery_relative
+        atomic_write_yaml(root / "NEXT_TASK.yaml", next_document)
+        reached("current_next_rewritten")
+
+        for task_id, from_status, to_status in (
+            ("TASK-R16-001", "DONE", "READY"),
+            ("TASK-R16-002", "DONE", "BLOCKED"),
+            ("TASK-R16-003", "DONE", "BLOCKED"),
+            ("TASK-R16-004", "IN_PROGRESS", "BLOCKED"),
+            (target_task, "BLOCKED", "READY"),
+        ):
+            record_task_transition(
+                root,
+                task_id=task_id,
+                release="R14" if task_id == target_task else "R16",
+                from_status=from_status,
+                to_status=to_status,
+                session_id=old_session_id,
+                actor_id=actor,
+                reason=f"CR-0458序列恢复：{reason}",
+                story_id=target_story if task_id == target_task else old.get("story_id"),
+            )
+        append_event(root, "SEQUENCE_RECOVERY_STARTED", {
+            "recovery_id": recovery_id,
+            "old_session": old_session_id,
+            "from_release": "R16",
+            "to_release": target_release,
+            "to_task": target_task,
+            "head": expected_head.lower(),
+            "stash_oid": expected_stash_oid.lower(),
+        })
+        reached("compensation_transitions_event")
+
+        save_active_pointer(root, {
+            "protocol_version": PROTOCOL_VERSION,
+            "active_session_id": None,
+            "status": "SEQUENCE_RECOVERY",
+            "last_session_id": old_session_id,
+        })
+        state = load_state(root)
+        state["active_session_id"] = None
+        state["last_session_id"] = old_session_id
+        state["last_session_result"] = "SEQUENCE_RECOVERED"
+        save_state(root, state)
+        reached("pointer_state_cleared")
+
+        session = create_session(
+            root,
+            policy,
+            actor="codex-r14-continuation-20260728",
+            task_id=target_task,
+            story_id=target_story,
+            goal="恢复并完成R14全部剩余任务、真实交互候选、APK与测试文档，再顺序进入R15",
+            crs=[cr_id],
+            explicit_scope=[],
+            allow_dirty=True,
+            base_commit_override=expected_head.lower(),
+            takeover_of=old_session_id,
+            session_id_override=new_session_id,
+            stage_hook=reached,
+        )
+        checkpoint = write_checkpoint(
+            root,
+            session,
+            policy,
+            summary="CR-0458已原子终止错误R16会话并恢复R14-004连续开发",
+            next_step="处理R14-004剩余事实缺口并执行R14版本专属GitHub真实交互候选",
+            blockers=[],
+            decisions=[
+                "R16实现Commit与stash完整保留，R16-001起待完成R15后顺序重验",
+                "R14-004恢复为当前唯一IN_PROGRESS任务",
+                "Owner真机反馈异步，不阻断机器闭环后的顺序开发",
+            ],
+            tests=[{
+                "name": "sequence recovery atomic rollback",
+                "result": "PASS",
+                "evidence": "tests/test_continuity_sequence_recovery.py",
+                "note": "全部写入阶段故障注入均字节级回滚",
+            }],
+            parallel_execution={
+                "assessment": "NO_SAFE_PARALLEL",
+                "workers": [],
+                "reason": "跨版本状态恢复与事件链迁移必须由唯一主控串行完成",
+            },
+            note=reason,
+        )
+        reached("checkpoint_written")
+
+        completion_event = append_event(root, "SEQUENCE_RECOVERY_COMPLETED", {
+            "recovery_id": recovery_id,
+            "old_session": old_session_id,
+            "new_session": new_session_id,
+            "checkpoint": checkpoint["checkpoint_id"],
+            "to_release": target_release,
+            "to_task": target_task,
+        })
+        reached("completion_event_written")
+        record = {
+            "schema": "hhy.sequence-recovery/v1",
+            "recovery_id": recovery_id,
+            "status": "PASS",
+            "created_at": iso_utc(),
+            "actor_id": actor,
+            "new_actor_id": "codex-r14-continuation-20260728",
+            "reason": reason,
+            "from": {
+                "release": "R16",
+                "task": "TASK-R16-004",
+                "session": old_session_id,
+            },
+            "to": {
+                "release": target_release,
+                "task": target_task,
+                "story": target_story,
+                "session": new_session_id,
+            },
+            "git": {
+                "head_before": head_before,
+                "head_after": head_before,
+                "stash_before": stash_before,
+                "stash_after": stash_before,
+            },
+            "predecessor_errors": predecessor_errors,
+            "task_status_before": {
+                "R14": {row.get("id"): row.get("status") for row in r14_before.get("tasks", [])},
+                "R16": {row.get("id"): row.get("status") for row in r16_before.get("tasks", [])},
+            },
+            "task_status_after": {
+                "R14": {row.get("id"): row.get("status") for row in r14.get("tasks", [])},
+                "R16": {row.get("id"): row.get("status") for row in r16.get("tasks", [])},
+            },
+            "current_status_before": {
+                "release": status_before.get("active_release"),
+                "task": status_before.get("active_task"),
+                "status": status_before.get("status"),
+            },
+            "current_status_after": {
+                "release": target_release,
+                "task": target_task,
+                "status": "IN_PROGRESS",
+            },
+            "event_sequence_before": event_before,
+            "event_sequence_after": completion_event["sequence"],
+            "checkpoint": checkpoint["checkpoint_id"],
+        }
+        recovery_path.parent.mkdir(parents=True, exist_ok=True)
+        atomic_write_yaml(recovery_path, record)
+        reached("recovery_record_written")
+        build_context_pack(root, session)
+        save_session(root, session)
+        reached("final_context_built")
+
+        validate_sequence_recovery_result(
+            root,
+            old_session_id=old_session_id,
+            new_session_id=new_session_id,
+            target_task=target_task,
+            target_story=target_story,
+            cr_id=cr_id,
+        )
+        head_after = str(git_info(root).get("head") or "").lower()
+        stash_after = sequence_recovery_stash_facts(root, stash_ref)
+        if head_after != head_before or stash_after != stash_before:
+            raise ContinuityError("序列恢复改变了HEAD或R16 stash证据")
+        return {
+            "status": "SEQUENCE_RECOVERY_COMPLETED",
+            "recovery_id": recovery_id,
+            "record": recovery_relative,
+            "old_session": old_session_id,
+            "new_session": new_session_id,
+            "checkpoint": checkpoint["checkpoint_id"],
+            "head": head_after,
+            "stash": stash_after,
+            "next_step": session["next_step"],
+        }
+
+
+def command_sequence_recover(args: Namespace) -> None:
+    actor = get_actor(args)
+    with continuity_lock(ROOT):
+        result = perform_sequence_recovery(
+            ROOT,
+            load_policy(ROOT),
+            actor=actor,
+            old_session_id=args.session,
+            new_session_id=args.new_session,
+            target_release=args.to_release,
+            target_task=args.to_task,
+            target_story=args.story,
+            cr_id=args.cr,
+            expected_head=args.expected_head,
+            stash_ref=args.stash_ref,
+            expected_stash_oid=args.stash_oid,
+            expected_stash_subject=args.stash_subject,
+            reason=args.reason,
+        )
+    print_yaml(result)
+
+
+def prior_async_owner_blocked_suffix(
+    root: Path, release: str, tasks: list[dict[str, Any]]
+) -> set[str]:
+    """Return the only historical blocked suffix that may remain non-blocking.
+
+    Older releases could leave both the APK owner-test task and the terminal
+    close task blocked.  Accept only that contiguous tail after every business
+    task is done; never treat an arbitrary blocked task as a green dependency.
+    """
+    if not tasks or not release_has_async_owner_gate(root, release):
+        return set()
+    first_unfinished = next(
+        (index for index, task in enumerate(tasks) if task.get("status") != "DONE"),
+        len(tasks),
+    )
+    suffix = tasks[first_unfinished:]
+    if not suffix or any(task.get("status") != "BLOCKED" for task in suffix):
+        return set()
+    if first_unfinished + len(suffix) != len(tasks):
+        return set()
+    if len(suffix) == 1:
+        return {str(suffix[0].get("id") or "")}
+    if len(suffix) != 2:
+        return set()
+    delivery_text = " ".join(
+        str(value)
+        for value in (
+            suffix[0].get("title"), suffix[0].get("description"),
+            suffix[0].get("deliverables"), suffix[0].get("blocker"),
+        )
+    )
+    close_text = " ".join(
+        str(value)
+        for value in (
+            suffix[1].get("title"), suffix[1].get("description"),
+            suffix[1].get("deliverables"),
+        )
+    )
+    if "APK" not in delivery_text and "真机" not in delivery_text:
+        return set()
+    if "关闭" not in close_text and "交接" not in close_text:
+        return set()
+    return {str(task.get("id") or "") for task in suffix}
+
+
+def validate_independent_release_start(
+    root: Path,
+    *,
+    current_release: str,
+    current_task: str,
+    next_release: str,
+    next_task: str,
+    current_completed: bool = False,
+) -> dict[str, Any]:
+    """Validate a handoff to an independent DAG lane.
+
+    A blocked task may only advance for the established asynchronous owner gate.
+    A completed terminal task may advance when its own release is genuinely done;
+    both paths still require every dependency of the target release to be green.
+    """
+    if next_release == current_release:
+        raise ContinuityError("外部门禁挂起只能切换到独立Release")
+    if not re.fullmatch(r"[A-Z][0-9]{2}", next_release):
+        raise ContinuityError(f"非法下一Release：{next_release}")
+    validate_sequential_release_number(current_release, next_release)
+    current_number = release_number(current_release)
+    if current_number is not None and current_number >= 14 and not current_completed:
+        raise ContinuityError(
+            f"R14起候选失败、外部门禁或未完成任务不得旁路进入下一Release：{current_release}"
+        )
+
+    current_plan_path = root / "releases" / current_release / "TASKS.yaml"
+    current_plan = yaml.safe_load(current_plan_path.read_text(encoding="utf-8")) or {}
+    current_tasks = list(current_plan.get("tasks", []))
+    if current_completed:
+        current_ids = [str(row.get("id") or "") for row in current_tasks]
+        if not current_ids or current_ids[-1] != current_task:
+            raise ContinuityError(
+                f"已完成Release只能由最后一个任务切换独立工作线：{current_release}/{current_task}"
+            )
+        incomplete = [
+            str(row.get("id") or "")
+            for row in current_tasks[:-1]
+            if row.get("status") != "DONE"
+        ]
+        if incomplete:
+            raise ContinuityError("当前Release仍有未完成前置任务：" + ", ".join(incomplete))
+    else:
+        current = release_task(root, current_release, current_task)
+        current_text = " ".join(
+            str(value)
+            for value in (
+                current.get("title"), current.get("description"),
+                current.get("deliverables"), current.get("acceptance"),
+            )
+        )
+        if "APK" not in current_text and not release_has_async_owner_gate(root, current_release):
+            raise ContinuityError("只有APK/项目所有者真机等外部交付门禁可挂起后继续独立Release")
+
+    target_path = root / "releases" / next_release / "TASKS.yaml"
+    if not target_path.is_file():
+        raise ContinuityError(f"下一Release不存在或缺少TASKS.yaml：{next_release}")
+    target_plan = yaml.safe_load(target_path.read_text(encoding="utf-8")) or {}
+    target_tasks = list(target_plan.get("tasks", []))
+    if not target_tasks or target_tasks[0].get("id") != next_task:
+        raise ContinuityError(
+            f"独立Release只能从首个任务开始：{next_release}/{next_task}"
+        )
+    if target_tasks[0].get("status") != "READY":
+        raise ContinuityError(
+            f"独立Release首个任务尚未READY：{next_release}/{next_task} / {target_tasks[0].get('status')}"
+        )
+
+    dependency_path = root / "releases" / "RELEASE_DEPENDENCIES.yaml"
+    dependency_document = yaml.safe_load(dependency_path.read_text(encoding="utf-8")) or {}
+    declared_dependencies = list(
+        (dependency_document.get("dependencies", {}) or {}).get(next_release, []) or []
+    )
+    if not declared_dependencies:
+        raise ContinuityError(f"目标Release没有声明依赖，禁止外部门禁旁路：{next_release}")
+    incomplete_dependencies: list[str] = []
+    for dependency in declared_dependencies:
+        plan_path = root / "releases" / dependency / "TASKS.yaml"
+        if not plan_path.is_file():
+            incomplete_dependencies.append(f"{dependency}:MISSING")
+            continue
+        plan = yaml.safe_load(plan_path.read_text(encoding="utf-8")) or {}
+        dependency_tasks = list(plan.get("tasks", []))
+        prior_async_suffix = (
+            prior_async_owner_blocked_suffix(root, dependency, dependency_tasks)
+            if dependency != current_release else set()
+        )
+        unfinished: list[str] = []
+        for row in dependency_tasks:
+            task_id = str(row.get("id") or "")
+            if row.get("status") == "DONE":
+                continue
+            is_current_async_owner_gate = all((
+                dependency == current_release,
+                task_id == current_task,
+                release_has_async_owner_gate(root, current_release),
+            ))
+            is_prior_async_owner_gate = all((
+                dependency != current_release,
+                task_id in prior_async_suffix,
+            ))
+            if not is_current_async_owner_gate and not is_prior_async_owner_gate:
+                unfinished.append(task_id)
+        if unfinished:
+            incomplete_dependencies.append(f"{dependency}:{','.join(unfinished)}")
+    if incomplete_dependencies:
+        raise ContinuityError(
+            "目标Release依赖尚未全部GREEN：" + "; ".join(incomplete_dependencies)
+        )
+    validate_release_machine_chain(
+        root,
+        next_release,
+        assumed_done={(current_release, current_task)} if current_completed else set(),
+    )
+    return resolve_next_task(root, next_release, next_task)
+
+
+def mark_release_task_blocked(root: Path, release: str, task_id: str, reason: str) -> None:
+    path = root / "releases" / release / "TASKS.yaml"
+    document = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
+    for task in document.get("tasks", []):
+        if task.get("id") == task_id:
+            task["status"] = "BLOCKED"
+            task["blocker"] = reason
+            task["blocked_at"] = iso_utc()
+            break
+    atomic_write_yaml(path, document)
 
 
 def update_release_task_states(root: Path, release: str, completed_task: str, next_task: str | None) -> None:
@@ -778,6 +1905,13 @@ def append_task_transition(
 ) -> str:
     path = root / "catalogs/task_transition_ledger.csv"
     rows = read_csv(path) if path.exists() else []
+    for row in reversed(rows):
+        if (
+            row.get("session_id") == session["session_id"]
+            and row.get("task_id") == session["task_id"]
+            and row.get("to_status") == to_status
+        ):
+            return str(row["transition_id"])
     transition_id = f"TRN-{now_utc().strftime('%Y%m%dT%H%M%SZ')}-{session['session_id']}"
     rows.append({
         "transition_id": transition_id,
@@ -818,13 +1952,52 @@ def append_task_close_changelog(root: Path, session: dict[str, Any], result: str
     atomic_write_text(path, text.rstrip() + block + "\n")
 
 
+def ensure_closure_scope(root: Path, session: dict[str, Any]) -> None:
+    """Repair legacy platform sessions that omitted mandatory close metadata."""
+    scope = session.setdefault("scope", {})
+    allowed = scope.setdefault("allowed_paths", [])
+    if "CHANGELOG.md" in allowed:
+        return
+    allowed.append("CHANGELOG.md")
+    source = str(scope.get("source") or "story+explicit")
+    if "mandatory-closure-metadata" not in source:
+        scope["source"] = source + "+mandatory-closure-metadata"
+    save_session(root, session)
+
+
+def closing_event_exists(root: Path, session_id: str) -> bool:
+    path = root / ".continuity/EVENT_LOG.jsonl"
+    if not path.exists():
+        return False
+    for line in reversed(path.read_text(encoding="utf-8").splitlines()):
+        if not line.strip():
+            continue
+        event = json.loads(line)
+        if event.get("event_type") == "SESSION_CLOSING" and event.get("payload", {}).get("session_id") == session_id:
+            return True
+    return False
+
+
 def command_close(args: Namespace) -> None:
     actor = get_actor(args)
     result = args.result.upper()
     if result not in {"COMPLETED", "BLOCKED", "ABANDONED"}:
         raise ContinuityError("result必须为 COMPLETED/BLOCKED/ABANDONED")
-    if args.next_release and result != "COMPLETED":
-        raise ContinuityError("--next-release 仅允许用于 COMPLETED 关闭")
+    blocked_advance = result == "BLOCKED" and bool(args.next_release or args.next_task)
+    completed_independent_advance = result == "COMPLETED" and args.allow_independent_release
+    if result == "BLOCKED" and bool(args.next_release) != bool(args.next_task):
+        raise ContinuityError("BLOCKED继续独立Release必须同时提供--next-release和--next-task")
+    if blocked_advance or completed_independent_advance:
+        if not args.next_release or not args.next_task:
+            raise ContinuityError("独立Release交接必须同时提供--next-release和--next-task")
+        if not args.allow_independent_release:
+            raise ContinuityError("BLOCKED继续独立Release必须显式提供--allow-independent-release")
+        if len((args.user_confirmation or "").strip()) < 10:
+            raise ContinuityError("独立Release交接必须记录项目所有者明确授权")
+    elif args.allow_independent_release or args.user_confirmation:
+        raise ContinuityError("独立Release授权参数只允许用于BLOCKED继续开发")
+    if result == "ABANDONED" and (args.next_release or args.next_task):
+        raise ContinuityError("ABANDONED不得切换NEXT_TASK")
     with continuity_lock(ROOT):
         policy = load_policy(ROOT)
         session = current_session(ROOT, allow_handoff=False)
@@ -832,32 +2005,77 @@ def command_close(args: Namespace) -> None:
             raise ContinuityError("没有ACTIVE会话")
         if session["actor"]["id"] != actor:
             raise ContinuityError("只有当前Actor可以关闭会话")
+        resuming_close = session.get("status") == "CLOSING"
+        preview_closure = session.get("closure", {}) if resuming_close else {}
+        preview_next_release = (
+            str(preview_closure.get("next_release") or session["release"])
+            if resuming_close else args.next_release or session["release"]
+        )
+        if preview_next_release != session["release"]:
+            preview_target_path = ROOT / "releases" / preview_next_release / "TASKS.yaml"
+            if not preview_target_path.is_file():
+                raise ContinuityError(
+                    f"下一Release不存在或缺少TASKS.yaml：{preview_next_release}"
+                )
+        validate_release_machine_chain(
+            ROOT,
+            preview_next_release,
+            assumed_done=(
+                {(session["release"], session["task_id"])}
+                if result == "COMPLETED" and preview_next_release != session["release"]
+                else set()
+            ),
+        )
+        ensure_closure_scope(ROOT, session)
         checkpoint = latest_checkpoint(ROOT, session)
         if not checkpoint:
             raise ContinuityError("关闭前必须创建实现检查点")
-        current = project_fingerprint(ROOT, session)
-        if current["sha256"] != checkpoint.get("project_fingerprint", {}).get("sha256"):
-            raise ContinuityError("最新检查点之后项目内容发生变化")
         git_state = git_info(ROOT)
-        project_dirty = [
-            path for path in git_changed_files(ROOT)
-            if not path.startswith((".continuity/", "artifacts/context/", "docs/03-continuity/sessions/"))
-            and path not in {"CURRENT_STATUS.yaml", "NEXT_TASK.yaml"}
-        ]
-        if project_dirty:
-            raise ContinuityError(
-                "关闭会话前项目内容必须已提交；若需要中途移交请使用handoff。未提交："
-                + ", ".join(project_dirty[:30])
-            )
-        next_release = args.next_release or session["release"]
+        current: dict[str, Any] | None = None
+        if not resuming_close:
+            current = project_fingerprint(ROOT, session)
+            if current["sha256"] != checkpoint.get("project_fingerprint", {}).get("sha256"):
+                raise ContinuityError("最新检查点之后项目内容发生变化")
+            project_dirty = [
+                path for path in git_changed_files(ROOT)
+                if not path.startswith((".continuity/", "artifacts/context/", "docs/03-continuity/sessions/"))
+                and path not in {"CURRENT_STATUS.yaml", "NEXT_TASK.yaml"}
+            ]
+            if project_dirty:
+                raise ContinuityError(
+                    "关闭会话前项目内容必须已提交；若需要中途移交请使用handoff。未提交："
+                    + ", ".join(project_dirty[:30])
+                )
+        stored_closure = session.get("closure", {}) if resuming_close else {}
+        next_release = (
+            str(stored_closure.get("next_release") or session["release"])
+            if resuming_close else args.next_release or session["release"]
+        )
         next_document: dict[str, Any] | None = None
-        if result == "COMPLETED":
+        if resuming_close:
+            requested_next_release = (
+                args.next_release or session["release"]
+                if result == "COMPLETED"
+                else args.next_release if blocked_advance else None
+            )
+            expected = {
+                "result": result,
+                "summary": args.summary,
+                "next_release": requested_next_release,
+                "next_task": args.next_task,
+            }
+            actual = {key: stored_closure.get(key) for key in expected}
+            if actual != expected:
+                raise ContinuityError("CLOSING会话只能使用原关闭参数续跑")
+            if args.code_commit and args.code_commit != stored_closure.get("code_commit"):
+                raise ContinuityError("CLOSING会话的实现Commit不得变更")
+        elif result == "COMPLETED":
             if not git_state["initialized"]:
                 raise ContinuityError("完成任务前必须初始化Git")
             if git_state["head"] == session.get("git", {}).get("base_commit"):
                 raise ContinuityError("任务没有产生新的实现Commit；不能标记COMPLETED")
             tests = checkpoint.get("tests", [])
-            if current["file_count"] and not any(row.get("result") == "PASS" for row in tests):
+            if current and current["file_count"] and not any(row.get("result") == "PASS" for row in tests):
                 raise ContinuityError("有项目变更但最新实现检查点没有PASS测试")
             if any(row.get("result") == "FAIL" for row in tests):
                 raise ContinuityError("最新实现检查点仍有FAIL测试")
@@ -866,29 +2084,56 @@ def command_close(args: Namespace) -> None:
             # Resolve and validate the complete target before the first write.
             # Invalid cross-release targets must leave the session, task plans,
             # event chain and pointers byte-for-byte unchanged.
-            next_document = validate_next_task_transition(
+            if completed_independent_advance:
+                next_document = validate_independent_release_start(
+                    ROOT,
+                    current_release=session["release"],
+                    current_task=session["task_id"],
+                    next_release=next_release,
+                    next_task=args.next_task,
+                    current_completed=True,
+                )
+            else:
+                next_document = validate_next_task_transition(
+                    ROOT,
+                    current_release=session["release"],
+                    current_task=session["task_id"],
+                    next_release=next_release,
+                    next_task=args.next_task,
+                )
+        elif blocked_advance:
+            next_document = validate_independent_release_start(
                 ROOT,
                 current_release=session["release"],
                 current_task=session["task_id"],
-                next_release=next_release,
+                next_release=args.next_release,
                 next_task=args.next_task,
             )
 
-        code_commit = args.code_commit or git_state.get("head") or "NOT_INITIALIZED"
-        session["status"] = "CLOSING"
-        session["closure"] = {
-            "result": result,
-            "summary": args.summary,
-            "code_commit": code_commit,
-            "next_release": next_release if result == "COMPLETED" else None,
-            "next_task": args.next_task,
-            "metadata_commit": "PENDING",
-            "push_verification": "CI_REQUIRED_AFTER_METADATA_COMMIT",
-            "started_at": iso_utc(),
-        }
-        save_session(ROOT, session)
+        code_commit = (
+            str(stored_closure.get("code_commit"))
+            if resuming_close else args.code_commit or git_state.get("head") or "NOT_INITIALIZED"
+        )
+        if not resuming_close:
+            session["status"] = "CLOSING"
+            session["closure"] = {
+                "result": result,
+                "summary": args.summary,
+                "code_commit": code_commit,
+                "next_release": next_release if result == "COMPLETED" or blocked_advance else None,
+                "next_task": args.next_task,
+                "blocked_advance": blocked_advance,
+                "completed_independent_advance": completed_independent_advance,
+                "user_confirmation": (args.user_confirmation or "").strip() or None,
+                "metadata_commit": "PENDING",
+                "push_verification": "CI_REQUIRED_AFTER_METADATA_COMMIT",
+                "started_at": iso_utc(),
+            }
+            save_session(ROOT, session)
 
-        if result == "COMPLETED":
+        if resuming_close:
+            transition_to = "DONE" if result == "COMPLETED" else "BLOCKED_EXTERNAL_GATE" if blocked_advance else result
+        elif result == "COMPLETED":
             update_release_task_states(
                 ROOT,
                 session["release"],
@@ -900,12 +2145,26 @@ def command_close(args: Namespace) -> None:
             atomic_write_yaml(ROOT / "NEXT_TASK.yaml", next_document)
             transition_to = "DONE"
         elif result == "BLOCKED":
-            next_document = read_next_task(ROOT)
-            next_document["status"] = "BLOCKED"
-            next_document["blocker"] = args.summary
-            next_document["resume_command"] = f"python3 scripts/continuity.py start --actor <ACTOR_ID> --task {session['task_id']}"
-            atomic_write_yaml(ROOT / "NEXT_TASK.yaml", next_document)
-            transition_to = "BLOCKED"
+            mark_release_task_blocked(ROOT, session["release"], session["task_id"], args.summary)
+            if blocked_advance:
+                assert next_document is not None
+                next_document["status"] = "READY"
+                next_document["deferred_task"] = {
+                    "id": session["task_id"],
+                    "release": session["release"],
+                    "status": "BLOCKED",
+                    "reason": args.summary,
+                    "resume_after": "项目所有者真机反馈到达后，在当前安全检查点恢复验收与关闭",
+                }
+                atomic_write_yaml(ROOT / "NEXT_TASK.yaml", next_document)
+                transition_to = "BLOCKED_EXTERNAL_GATE"
+            else:
+                next_document = read_next_task(ROOT)
+                next_document["status"] = "BLOCKED"
+                next_document["blocker"] = args.summary
+                next_document["resume_command"] = blocked_resume_command(session["task_id"])
+                atomic_write_yaml(ROOT / "NEXT_TASK.yaml", next_document)
+                transition_to = "BLOCKED"
         else:
             transition_to = "ABANDONED"
 
@@ -916,14 +2175,15 @@ def command_close(args: Namespace) -> None:
         # Keep CURRENT_STATUS in CLOSING while the closure checkpoint is being
         # produced. ``write_checkpoint`` refreshes the active-session status, so
         # the final READY/BLOCKED state must be written only after that checkpoint.
-        append_event(ROOT, "SESSION_CLOSING", {
-            "session_id": session["session_id"],
-            "result": result,
-            "code_commit": code_commit,
-            "next_release": next_release if result == "COMPLETED" else None,
-            "next_task": args.next_task,
-            "transition_id": transition_id,
-        })
+        if not closing_event_exists(ROOT, session["session_id"]):
+            append_event(ROOT, "SESSION_CLOSING", {
+                "session_id": session["session_id"],
+                "result": result,
+                "code_commit": code_commit,
+                "next_release": next_release if result == "COMPLETED" or blocked_advance else None,
+                "next_task": args.next_task,
+                "transition_id": transition_id,
+            })
 
         inherited_tests = list(checkpoint.get("tests", []))
         inherited_tests.append({
@@ -971,8 +2231,23 @@ def command_close(args: Namespace) -> None:
         state["last_closure_checkpoint_id"] = closure_checkpoint["checkpoint_id"]
         save_state(ROOT, state)
         update_current_status_closed(
-            ROOT, session, result=result, next_task_id=args.next_task or session["task_id"]
+            ROOT,
+            session,
+            result=result,
+            next_task_id=args.next_task or session["task_id"],
+            code_commit=code_commit,
         )
+        if blocked_advance:
+            status = read_current_status(ROOT)
+            status.update({
+                "phase": next_release,
+                "active_release": next_release,
+                "status": "READY",
+                "active_task": args.next_task,
+                "next_task": args.next_task,
+                "updated_at": iso_utc(),
+            })
+            atomic_write_yaml(ROOT / "CURRENT_STATUS.yaml", status)
         append_closure_to_log(
             ROOT,
             session,
@@ -980,13 +2255,13 @@ def command_close(args: Namespace) -> None:
             args.summary,
             code_commit,
             args.next_task,
-            next_release if result == "COMPLETED" else None,
+            next_release if result == "COMPLETED" or blocked_advance else None,
         )
         append_event(ROOT, "SESSION_CLOSED", {
             "session_id": session["session_id"],
             "result": result,
             "code_commit": code_commit,
-            "next_release": next_release if result == "COMPLETED" else None,
+            "next_release": next_release if result == "COMPLETED" or blocked_advance else None,
             "next_task": args.next_task,
             "closure_checkpoint_id": closure_checkpoint["checkpoint_id"],
         })
@@ -996,7 +2271,7 @@ def command_close(args: Namespace) -> None:
         "status": "SESSION_CLOSED",
         "session_id": session["session_id"],
         "result": result,
-        "next_release": next_release if result == "COMPLETED" else None,
+        "next_release": next_release if result == "COMPLETED" or blocked_advance else None,
         "next_task": args.next_task,
         "closure_checkpoint": closure_checkpoint["checkpoint_id"],
         "final_metadata_commit_required": True,
@@ -1026,26 +2301,142 @@ def command_context(args: Namespace) -> None:
     print_yaml({"status": "CONTEXT_PACK_GENERATED", "context_hash": payload["context_hash"], "resume_command": payload["exact_resume_command"]})
 
 
+def command_story_switch(args: Namespace) -> None:
+    actor = get_actor(args)
+    with continuity_lock(ROOT):
+        session = current_session(ROOT, allow_handoff=False)
+        if not session or session.get("status") != "ACTIVE":
+            raise ContinuityError("只有ACTIVE会话可以切换Story")
+        if session["actor"]["id"] != actor:
+            raise ContinuityError("只有当前Actor可以切换Story")
+        if session.get("story_id") == args.story:
+            raise ContinuityError("目标Story与当前Story相同")
+        git_state = git_info(ROOT)
+        if git_state.get("dirty"):
+            raise ContinuityError("切换Story前工作区必须干净")
+        checkpoint = latest_checkpoint(ROOT, session)
+        if not checkpoint:
+            raise ContinuityError("切换Story前必须存在已提交检查点")
+        commit_message = run_command(["git", "log", "-1", "--pretty=%B"], cwd=ROOT).stdout
+        checkpoint_id = str(checkpoint.get("checkpoint_id") or "")
+        if f"Checkpoint-ID: {checkpoint_id}" not in commit_message:
+            raise ContinuityError("最新检查点尚未提交到当前HEAD，禁止切换Story")
+        story = select_story(ROOT, session["release"], args.story)
+        previous_story = session.get("story_id")
+        switched_at = iso_utc()
+        session.setdefault("story_history", []).append({
+            "story_id": previous_story,
+            "completed_at": switched_at,
+            "checkpoint_id": checkpoint_id,
+            "commit": git_state["head"],
+            "summary": args.summary,
+        })
+        session["story_id"] = story["story_id"]
+        session["goal"] = args.goal or story.get("title") or session.get("goal")
+        session["scope"] = {
+            "allowed_paths": derive_scope(load_policy(ROOT), story, args.scope),
+            "approved_exceptions": [],
+            "source": "story-switch+explicit",
+        }
+        session["latest_checkpoint"] = None
+        session["next_step"] = "阅读新Story、逐项验证事实源后开始实现"
+        renew_lease(session, load_policy(ROOT))
+        save_session(ROOT, session)
+        switch_active_claim_story(ROOT, session, story["story_id"])
+        update_session_index(ROOT, session)
+        save_active_pointer(ROOT, {
+            "protocol_version": PROTOCOL_VERSION,
+            "active_session_id": session["session_id"],
+            "status": "ACTIVE",
+            "session_record": session_record_path(ROOT, session["session_id"]).relative_to(ROOT).as_posix(),
+            "actor_id": actor,
+            "task_id": session["task_id"],
+            "story_id": story["story_id"],
+            "lease_expires_at": session["lease"]["expires_at"],
+        })
+        update_current_status_for_session(ROOT, session)
+        append_event(ROOT, "SESSION_STORY_SWITCHED", {
+            "session_id": session["session_id"], "actor_id": actor, "task_id": session["task_id"],
+            "from_story_id": previous_story, "to_story_id": story["story_id"],
+            "checkpoint_id": checkpoint_id, "commit": git_state["head"], "summary": args.summary,
+        })
+        context = build_context_pack(ROOT, session)
+        save_session(ROOT, session)
+    print_yaml({"status": "STORY_SWITCHED", "session_id": session["session_id"], "task_id": session["task_id"], "from_story_id": previous_story, "story_id": story["story_id"], "checkpoint_required": True, "context_hash": context["context_hash"]})
+
+
+def read_only_no_session_resume_payload(root: Path) -> dict[str, Any]:
+    """Resolve a cold-start command without mutating the clean repository.
+
+    A completed task writes its final Context Pack before the metadata commit.
+    That commit legitimately changes the repository tree but not the required
+    rule sources. Rebuilding the pack here would dirty a repository that has no
+    active Session, making the following ``start`` command impossible.
+    """
+    status = read_current_status(root)
+    next_task = read_next_task(root)
+    git_state = git_info(root)
+    policy = load_policy(root)
+    release = status.get("active_release") or next_task.get("release")
+    validate_release_machine_chain(root, release)
+    source_manifest = [
+        portable_source_record(root, path)
+        for path in context_source_paths(root, None, release)
+    ]
+    rule_readiness = rule_readiness_payload(policy, source_manifest)
+    if rule_readiness.get("status") != "PASS":
+        missing = ",".join(rule_readiness.get("missing_sources") or [])
+        raise ContinuityError(f"规则来源未就绪，禁止继续开发：{missing or 'UNKNOWN'}")
+
+    bootstrap_tasks = set(policy.get("bootstrap", {}).get("allow_without_git_task_ids", []))
+    next_task_id = next_task.get("id")
+    bootstrap_required = not git_has_concrete_head(git_state) and next_task_id in bootstrap_tasks
+    resume_command = (
+        f"python3 scripts/continuity.py bootstrap --actor <ACTOR_ID> --init-git --initial-commit --task {next_task_id} --branch task/{next_task_id}"
+        if bootstrap_required
+        else f"python3 scripts/continuity.py start --actor <ACTOR_ID> --task {next_task_id}"
+    )
+    context_fresh, context_reason = context_is_fresh(root, None, verify_tree=False)
+    return {
+        "bootstrap_required": bootstrap_required,
+        "next_task": next_task,
+        "resume_command": resume_command,
+        "rule_readiness": rule_readiness,
+        "context_fresh": context_fresh,
+        "context_reason": context_reason,
+    }
+
+
 def command_resume(args: Namespace) -> None:
+    preview_session = current_session(ROOT)
+    preview_release = (
+        preview_session.get("release")
+        if preview_session
+        else read_current_status(ROOT).get("active_release")
+        or read_next_task(ROOT).get("release")
+    )
+    validate_release_machine_chain(ROOT, preview_release)
     initialize_continuity_files(ROOT)
     chain = validate_event_chain(ROOT)
     if not chain["valid"]:
         raise ContinuityError("事件日志哈希链损坏：" + ";".join(chain["errors"]))
     session = current_session(ROOT)
-    payload = build_context_pack(ROOT, session)
     if not session:
-        git_state = git_info(ROOT)
-        policy = load_policy(ROOT)
-        bootstrap_tasks = set(policy.get("bootstrap", {}).get("allow_without_git_task_ids", []))
-        bootstrap_required = not git_has_concrete_head(git_state) and payload["next_task"].get("id") in bootstrap_tasks
+        payload = read_only_no_session_resume_payload(ROOT)
         print_yaml({
-            "status": "GIT_BOOTSTRAP_REQUIRED" if bootstrap_required else "READY_TO_START",
+            "status": "GIT_BOOTSTRAP_REQUIRED" if payload["bootstrap_required"] else "READY_TO_START",
             "conversation_context_required": False,
             "next_task": payload["next_task"].get("id"),
-            "resume_command": payload["exact_resume_command"],
+            "resume_command": payload["resume_command"],
             "context_pack": "artifacts/context/CURRENT_CONTEXT_PACK.md",
+            "context_fresh": payload["context_fresh"],
+            "context_reason": payload["context_reason"],
+            "rule_readiness": payload["rule_readiness"]["status"],
+            "repository_mutated": False,
         })
         return
+    validate_release_machine_chain(ROOT, session.get("release"))
+    payload = build_context_pack(ROOT, session)
     if session.get("status") == "HANDED_OFF":
         print_yaml({
             "status": "HANDOFF_READY",
@@ -1164,6 +2555,21 @@ def command_cr_update(args: Namespace) -> None:
         )
     print_yaml(record)
 
+
+def command_scope_apply_cr(args: Namespace) -> None:
+    actor = get_actor(args)
+    with continuity_lock(ROOT):
+        session = current_session(ROOT, allow_handoff=False)
+        if not session:
+            raise ContinuityError("没有ACTIVE会话")
+        result = apply_change_request_scope(
+            ROOT,
+            session=session,
+            cr_id=args.cr,
+            actor_id=actor,
+        )
+    print_yaml(result)
+
 def build_parser() -> ArgumentParser:
     parser = ArgumentParser(description="持续开发无状态接续强制门禁")
     sub = parser.add_subparsers(dest="command", required=True)
@@ -1194,8 +2600,23 @@ def build_parser() -> ArgumentParser:
     checkpoint.add_argument("--decision", action="append", default=[])
     checkpoint.add_argument("--test", action="append", default=[], help="name|PASS|evidence|note")
     checkpoint.add_argument("--no-test-reason", default="")
+    checkpoint.add_argument(
+        "--parallel-assessment",
+        required=True,
+        choices=["DELEGATED", "NO_SAFE_PARALLEL", "CAPABILITY_UNAVAILABLE", "USER_SERIAL_OVERRIDE"],
+    )
+    checkpoint.add_argument("--delegated-worker", action="append", default=[], help="worker_id|responsibility|path1,path2")
+    checkpoint.add_argument("--parallel-reason", default="")
     checkpoint.add_argument("--note", default="")
     checkpoint.set_defaults(func=command_checkpoint)
+
+    story_switch = sub.add_parser("story-switch", help="同一Task内原子切换到另一个READY Story")
+    story_switch.add_argument("--actor")
+    story_switch.add_argument("--story", required=True)
+    story_switch.add_argument("--summary", required=True)
+    story_switch.add_argument("--goal", default="")
+    story_switch.add_argument("--scope", action="append", default=[])
+    story_switch.set_defaults(func=command_story_switch)
 
     heartbeat = sub.add_parser("heartbeat", help="长任务期间续租；不替代强制检查点")
     heartbeat.add_argument("--actor")
@@ -1229,6 +2650,24 @@ def build_parser() -> ArgumentParser:
     recover.add_argument("--next-step", default="")
     recover.set_defaults(func=command_recover)
 
+    sequence_recover = sub.add_parser(
+        "sequence-recover",
+        help="事务化退回最早未完成R14+ Release，并保留错误跨序实现证据",
+    )
+    sequence_recover.add_argument("--actor")
+    sequence_recover.add_argument("--session", required=True)
+    sequence_recover.add_argument("--new-session", required=True)
+    sequence_recover.add_argument("--to-release", required=True)
+    sequence_recover.add_argument("--to-task", required=True)
+    sequence_recover.add_argument("--story", required=True)
+    sequence_recover.add_argument("--cr", required=True)
+    sequence_recover.add_argument("--expected-head", required=True)
+    sequence_recover.add_argument("--stash-ref", required=True)
+    sequence_recover.add_argument("--stash-oid", required=True)
+    sequence_recover.add_argument("--stash-subject", required=True)
+    sequence_recover.add_argument("--reason", required=True)
+    sequence_recover.set_defaults(func=command_sequence_recover)
+
     close = sub.add_parser("close", help="关闭会话并切换NEXT_TASK")
     close.add_argument("--actor")
     close.add_argument("--result", required=True, choices=["COMPLETED", "BLOCKED", "ABANDONED"])
@@ -1236,6 +2675,8 @@ def build_parser() -> ArgumentParser:
     close.add_argument("--next-release")
     close.add_argument("--next-task")
     close.add_argument("--code-commit")
+    close.add_argument("--allow-independent-release", action="store_true")
+    close.add_argument("--user-confirmation")
     close.set_defaults(func=command_close)
 
     context = sub.add_parser("context", help="重建机器和人类可读Context Pack")
@@ -1287,6 +2728,11 @@ def build_parser() -> ArgumentParser:
     cr_update.add_argument("--note", required=True)
     cr_update.add_argument("--commit", action="append", default=[])
     cr_update.set_defaults(func=command_cr_update)
+
+    scope_apply_cr = sub.add_parser("scope-apply-cr", help="将已批准CR的精确影响文件应用到当前会话范围")
+    scope_apply_cr.add_argument("--actor")
+    scope_apply_cr.add_argument("--cr", required=True)
+    scope_apply_cr.set_defaults(func=command_scope_apply_cr)
     return parser
 
 

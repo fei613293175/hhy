@@ -85,6 +85,7 @@ stories:
   - test_engineer
   acceptance_criteria:
   - SCR-DETAIL-004 全部绑定模板 MOB-DETAIL，字段、状态、动作、导航和错误恢复无TBD
+  - SCR-DETAIL-004必须以B03/P04团队长详情作为精确视觉施工面板，联系方式仅复用安全语义且不得复制示例明文
   - 页面调用 operationId：contentGetContentsById;contentPostContentsByIdContactsByChannelAccess;chatPostConversationsDirect;contentPostContentsByIdFavorite;contentPostContentsByIdShare；请求/响应字段不得另行发明
   - 按钮显示、可用和确认条件与服务端状态机、权限、expectedVersion、幂等策略一致
   - 首屏、空、刷新、翻页/局部失败、无权限、404、离线和版本冲突状态按页面状态目录实现
@@ -158,6 +159,8 @@ stories:
   - 首屏、空、刷新、翻页/局部失败、无权限、404、离线和版本冲突状态按页面状态目录实现
   - 敏感字段按分级脱敏；高敏读取和后台写操作完整审计
   - 自动化覆盖：TST-CONTENT_001-HAPPY;TST-TEAM_001-HAPPY
+  - 团队长列表闭环必须同时把首页“团队长”一级入口、真实团队长内容卡和团队长列表/详情导航接回SCR-HOME-001，并按V1.2工程执行强化版4.3与B02/P01、P02、P08回归
+  - SCR-LIST-004必须以B02/P08作为精确视觉施工面板，禁止继续使用B02/P01-P08粗粒度绑定
   definition_of_ready: 全部引用的页面/字段/状态/动作/API/配置/数据/测试均为FROZEN且无空缺
   status: READY_FOR_IMPLEMENTATION
 - story_id: STORY-R11-003
@@ -231,6 +234,7 @@ stories:
   - test_engineer
   acceptance_criteria:
   - SCR-PUB-005 全部绑定模板 MOB-FORM，字段、状态、动作、导航和错误恢复无TBD
+  - SCR-PUB-005必须以B04/P05团队长入驻申请作为精确视觉施工面板，禁止TOKENS_ONLY或相邻发布类型代替
   - 页面调用 operationId：contentPostContents;contentPatchContentsById；请求/响应字段不得另行发明
   - 按钮显示、可用和确认条件与服务端状态机、权限、expectedVersion、幂等策略一致
   - 首屏、空、刷新、翻页/局部失败、无权限、404、离线和版本冲突状态按页面状态目录实现

@@ -1,0 +1,171 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260721T043434Z-868F3619-0003
+session_id: SES-20260721T043434Z-868F3619
+sequence: 3
+created_at: '2026-07-21T05:08:14Z'
+summary: R06 10214候选源码冻结前门禁完成：CR-0163批准、版本三源一致、候选请求有效、UI基础/合同/严格连续性全部PASS
+next_step: 提交并推送当前Checkpoint绑定Commit，触发且仅触发R06-20260721-008最终GitHub候选
+blockers: []
+decisions: []
+note: ''
+tests:
+- name: CHECK_V123_CONTINUITY_STRICT
+  result: PASS
+  evidence: artifacts/validation/project-doctor-v1.2.3.json
+  note: 0错误0警告
+- name: R06_VERSION_IDENTITY
+  result: PASS
+  evidence: apps/android/app/build.gradle.kts
+  note: versionCode=10214三源一致
+- name: ANDROID_CANDIDATE_REQUEST
+  result: PASS
+  evidence: config/android-candidate-request.yaml
+  note: request_id R06-20260721-008 attempt 1
+- name: ANDROID_UI_FOUNDATION_GATE
+  result: PASS
+  evidence: scripts/check_android_ui_foundation.py
+  note: 全量门禁通过
+- name: API_CONTRACT
+  result: PASS
+  evidence: scripts/check_api_contract.py
+  note: client131/admin184/websocket10
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: 91710089aac48bd73c8534bb02ceea00e7f4242d
+  upstream: origin/task/TASK-R03-001
+  ahead: 0
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/ACTIVE_SESSION.yaml'
+  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/SESSION_INDEX.yaml'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/TASK_CLAIMS.yaml'
+  - ' M .continuity/TASK_TRANSITIONS.yaml'
+  - ' M CHANGELOG.md'
+  - ' M CURRENT_STATUS.yaml'
+  - ' M apps/android/app/build.gradle.kts'
+  - ' M apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt'
+  - ' M apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+  - ' M artifacts/validation/project-doctor-v1.2.3.json'
+  - ' M catalogs/change_request_index.csv'
+  - ' M catalogs/session_index.csv'
+  - ' M catalogs/task_transition_ledger.csv'
+  - ' M config/android-candidate-request.yaml'
+  - ?? .continuity/change_requests/CR-0163.yaml
+  - ?? .continuity/checkpoints/SES-20260721T043434Z-868F3619/0001.yaml
+  - ?? .continuity/checkpoints/SES-20260721T043434Z-868F3619/0002.yaml
+  - ?? .continuity/sessions/SES-20260721T043434Z-868F3619.yaml
+  - ?? docs/03-continuity/change-requests/CR-0163-递增R06最终候选APK版本身份并重新触发唯一候选.md
+  - ?? docs/03-continuity/sessions/2026-07/SES-20260721T043434Z-868F3619.md
+  recent_commits:
+  - "91710089aac48bd73c8534bb02ceea00e7f4242d\t2026-07-21T12:25:26+08:00\tHHY Continuity Bootstrap\t[STORY-R06-005] chore(continuity): close TASK-R06-006\
+    \ as completed"
+  - "940a1560fe579b15d1724b5223034e23ae76f07d\t2026-07-21T12:21:47+08:00\tHHY Continuity Bootstrap\t[STORY-R06-005] chore(continuity): close R06\
+    \ staging changes"
+  - "5be5e06cd4f3c339b66bb843ca2d2c4bfb24b253\t2026-07-21T12:17:16+08:00\tHHY Continuity Bootstrap\t[STORY-R06-005] chore(staging): record R06\
+    \ acceptance pass"
+  - "0e528d17d7cd5c6d972958bd566d6e91f05f37f7\t2026-07-21T12:05:07+08:00\tHHY Continuity Bootstrap\t[STORY-R06-005] chore(staging): preserve immutable\
+    \ alert events"
+  - "34c2840dd017f3e6b65f1edf6b15a8c1c7bd7954\t2026-07-21T11:55:50+08:00\tHHY Continuity Bootstrap\t[STORY-R06-005] chore(staging): stream SQL\
+    \ and resume failed phase"
+  - "da812a934942365cd05838683ee42a0cc9136155\t2026-07-21T11:47:23+08:00\tHHY Continuity Bootstrap\t[STORY-R06-005] chore(staging): defer runtime\
+    \ secret loading"
+  - "c0bfc9536e8c763b0d25da76a159a6af39f11422\t2026-07-21T11:41:50+08:00\tHHY Continuity Bootstrap\t[STORY-R06-005] chore(staging): automate R06\
+    \ acceptance"
+  - "be62b727d480cacf055227823b9ed64e30ae488a\t2026-07-21T11:28:18+08:00\tHHY Continuity Bootstrap\t[STORY-R06-005] feat(observability): add R06\
+    \ staging gates"
+project_fingerprint:
+  sha256: 33c323cd940e3caa575ef76a46124f6dbbfe3ca03b67060ff6b6f5e5e0909930
+  files:
+  - CHANGELOG.md
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+  - apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+  - config/android-candidate-request.yaml
+  - docs/03-continuity/change-requests/CR-0163-递增R06最终候选APK版本身份并重新触发唯一候选.md
+  file_count: 6
+  payload:
+    base_commit: 91710089aac48bd73c8534bb02ceea00e7f4242d
+    files:
+    - path: CHANGELOG.md
+      state: FILE
+      size: 59440
+      sha256: af2685315c9b92fb2710bfb9196b3672c260d68e9469937b80d0760adc22c1e2
+    - path: apps/android/app/build.gradle.kts
+      state: FILE
+      size: 4981
+      sha256: d5a0d78b94015ba0c03c874175c9a85e41314d373ccf9500c8c8e72ce354d60a
+    - path: apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+      state: FILE
+      size: 520
+      sha256: 10ca2895b61f5ea7bc059ca4617c26ec2090aef55c9d923724b2aa92ee6093aa
+    - path: apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+      state: FILE
+      size: 1243
+      sha256: e246b104d16a0fea7606b7390989cd897f2f4958acc256bd4d14990763e59d24
+    - path: config/android-candidate-request.yaml
+      state: FILE
+      size: 236
+      sha256: d8b88e9fed55d01e0cbcd91ba840bfabae75e9c94230626874d9af4f002a3583
+    - path: docs/03-continuity/change-requests/CR-0163-递增R06最终候选APK版本身份并重新触发唯一候选.md
+      state: FILE
+      size: 2283
+      sha256: 0661b01697231f505f0dfa8ca287e0c23c482cd44cd975b65c8836c916475de0
+change_classification:
+  other:
+  - CHANGELOG.md
+  - config/android-candidate-request.yaml
+  code:
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+  - apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+  user_visible:
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+  - apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+  continuity:
+  - docs/03-continuity/change-requests/CR-0163-递增R06最终候选APK版本身份并重新触发唯一候选.md
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+- CHANGELOG
+change_requests:
+- CR-0163
+scope:
+  allowed_paths:
+  - apps/admin-web/**
+  - services/backend/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - tests/**
+  - docs/**
+  - catalogs/**
+  - releases/**
+  - design/**
+  - scripts/**
+  - CHANGELOG.md
+  approved_exceptions:
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+  - apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+  - CHANGELOG.md
+  - config/android-candidate-request.yaml
+  source: story+explicit+approved-cr:CR-0163
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 冻结候选Commit、触发配置和连续性身份必须同一提交，不能拆分并行
+event_hash: 6d6ad895da14ed45cdfd8d480f07738e1e543293486546eed52f0d4f23a58d3b

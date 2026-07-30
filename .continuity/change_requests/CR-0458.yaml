@@ -1,0 +1,82 @@
+protocol_version: '1.0'
+cr_id: CR-0458
+title: 替代CR-0457原子恢复跨序状态并锁定R16代码证据
+status: IMPLEMENTED
+created_at: '2026-07-28T15:36:23Z'
+updated_at: '2026-07-28T16:13:09Z'
+requester_actor_id: codex-r16-client-admin-20260728
+approver_actor_id: codex-sequence-recovery-atomic-review-20260728
+task_id: TASK-R16-004
+session_id: SES-20260728T125934Z-F3DED330
+user_request: 纠正R14未完成且R15未开发却进入R16的连续性错误；恢复R14持续开发，不依赖聊天，且不得丢失或篡改R16代码。
+reason: CR-0457独立审查REJECTED并保留审计：缺少各写入阶段故障注入回滚、完整任务不变量、新会话全索引一致、stash对象钉住及幂等拒绝。替代CR补齐。
+original_rule: CR-0457只提出恢复指针，未冻结全状态不变量，也未保证旧Session终止、任务计划、CURRENT/NEXT、Transition/Event、新Session/Checkpoint/Context任一中途异常时全部文件字节级回滚；stash还只用可漂移引用。
+new_rule: 新增sequence-recover事务命令并作为CR-0457唯一替代：仅当前R14+ ACTIVE会话因前序机器闭环失败时可用，目标必须是自动计算的最早未完成Release及其首个未完成Task。实际恢复固定从SES-20260728T125934Z-F3DED330/R16-004退回R14-004，固定新Actor
+  codex-r14-continuation-20260728、Story STORY-R14-004、CR仅CR-0458和由该Story派生的R14 scope。命令钉住执行HEAD c47d19064bec57bd751f1cfa06a0fa7a75844790、stash对象c85e7088464eb2c0d12885aa8a39e2cd10c53d9b及完整主题，前后HEAD/stash对象/主题必须一致，代码禁止checkout/reset/rebase/stash
+  pop/drop。R16-001至003从TASKS DONE和CURRENT.completed同时撤销，R16-001=READY，R16-002至008=BLOCKED，R16-004旧Session和Claim终止且从CURRENT.in_progress移除；R14-004保留旧blocker为prior_blocker、从blocked移除，经补偿Transition
+  BLOCKED->READY后由新会话记录READY->IN_PROGRESS。completed/in_progress/blocked三表禁止重叠。事务记录完整before/after、失败原因、HEAD、stash、旧新Session、Task状态、Event序号；对旧Session终止、Task/CURRENT/NEXT、Transition/Event、Pointer/State/Index/Claim、R14新Session/Checkpoint/Context、最终记录逐阶段故障注入，任一异常恢复所有既有文件原字节并删除事务中新文件/目录。成功后仅一个ACTIVE
+  Session/Claim/Pointer，State/Index/CSV/Event/Context一致；重跑按旧Session或Recovery ID非零零写入拒绝。
+impact_summary: 以带文件系统快照回滚的唯一sequence-recover命令修复当前跨序状态；保留Git历史和R16 stash内容，把跨序R16完成声明降为待重验，并原子创建R14-004新会话与首个检查点。
+impact:
+  files:
+  - scripts/continuity.py
+  - tests/test_continuity_sequence_recovery.py
+  - CURRENT_STATUS.yaml
+  - NEXT_TASK.yaml
+  - releases/R14/TASKS.yaml
+  - releases/R16/TASKS.yaml
+  - .continuity/ACTIVE_SESSION.yaml
+  - .continuity/STATE.yaml
+  - .continuity/EVENT_LOG.jsonl
+  - .continuity/SESSION_INDEX.yaml
+  - .continuity/TASK_CLAIMS.yaml
+  - .continuity/TASK_TRANSITIONS.yaml
+  - .continuity/sessions/**
+  - .continuity/checkpoints/**
+  - .continuity/sequence_recoveries/**
+  - docs/03-continuity/sessions/**
+  - catalogs/session_index.csv
+  - catalogs/task_transition_ledger.csv
+  - artifacts/context/CURRENT_CONTEXT_PACK.yaml
+  - artifacts/context/CURRENT_CONTEXT_PACK.md
+  - artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+  pages: []
+  apis: []
+  database: []
+  configuration: []
+  ledger: []
+  tests:
+  - 纯验证失败：非最早Release/Task、合法顺序状态、HEAD错、stash OID/主题错、范围外产品脏文件、重复恢复均返回非零且全仓快照不变
+  - 逐阶段故障注入：旧Session终止、Task/CURRENT/NEXT、补偿Transition/Event、Pointer/State/Index/Claim、新Session各写点、Checkpoint、Context、最终Recovery Record任一点抛错后所有既有文件字节相同且新文件/目录消失
+  - 成功不变量：R16-001 READY、002至008 BLOCKED且001至003不在CURRENT.completed、004不在in_progress；R14-004 TASKS READY但CURRENT in_progress且不在blocked；三任务表互斥；旧session/claim终止；新session
+    actor/story/CR/scope精确；唯一ACTIVE session/claim/pointer；State/Index/CSV/Event/Context一致；HEAD/stash不变；resume R14通过，R15/R16仍按门禁阻断
+  releases:
+  - R14
+  - R15
+  - R16
+  migration_and_compatibility: 正常顺序开发不调用；R13以前不受影响。恢复实现与状态将在同一后续Commit固化，因此命令执行期间HEAD必须仍为已审查基线c47d19064bec57bd751f1cfa06a0fa7a75844790且前后不变；工作区只允许CR-0458批准范围内变更。R16代码Commit不删除或改写，stash不pop/drop；R14完成后必须R15，再标准进入R16，从R16-001开始按保留Commit重验。
+user_confirmation: 项目所有者本轮明确要求：纠正R14未完成、R15未开发却进入R16的连续性错误，恢复R14持续开发，开发不得依赖聊天，并且不得丢失或篡改已经产生的R16代码。
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-28T15:38:42Z'
+  note: APPROVED：CR-0458完整替代并保留CR-0457的REJECTED审计历史，五类缺口均已冻结。事务对旧Session、TASK/CURRENT/NEXT、补偿Transition/Event、Pointer/State/Index/Claim、新Session、Checkpoint、Context和最终Recovery
+    Record逐阶段故障注入，任一点异常须字节级回滚全部既有文件并删除新目录；失败原因仅作为非持久化错误输出，保持失败零写入。R16-001=READY、002至008=BLOCKED，001至003撤销TASKS/CURRENT.completed，004终止旧Session/Claim并清in_progress；R14-004保留prior_blocker，经BLOCKED->READY与新会话READY->IN_PROGRESS，三任务列表互斥。新会话actor/story/CR/scope固定，State/Pointer/Index/Claims/Transitions/CSV/Event/Context及唯一ACTIVE不变量完整。HEAD固定c47d19064bec57bd751f1cfa06a0fa7a75844790，stash对象固定c85e7088464eb2c0d12885aa8a39e2cd10c53d9b并验证完整主题，前后不变且禁止checkout/reset/rebase/pop/drop。Recovery
+    Record和重复执行零写入拒绝明确。影响文件覆盖实现、测试及全部直接/派生状态写入；若实现选择修改continuity_lib.py则必须另行CR，当前批准仅授权continuity.py内事务实现。批准实施并执行一次精确恢复。
+machine_record: .continuity/change_requests/CR-0458.yaml
+document: docs/03-continuity/change-requests/CR-0458-替代CR-0457原子恢复跨序状态并锁定R16代码证据.md
+decision_log:
+- at: '2026-07-28T15:39:25Z'
+  actor_id: codex-r16-client-admin-20260728
+  status: IMPLEMENTING
+  note: 独立原子性审查APPROVED后开始实现sequence-recover事务与故障注入回归
+  session_id: SES-20260728T125934Z-F3DED330
+- at: '2026-07-28T16:13:09Z'
+  actor_id: codex-r14-continuation-20260728
+  status: IMPLEMENTED
+  note: 原子序列恢复命令、17阶段回滚、R14实际恢复和R16证据保留均完成
+  session_id: SES-20260728T154000Z-0458A14C
+session_ids:
+- SES-20260728T125934Z-F3DED330
+- SES-20260728T154000Z-0458A14C
+implementation_commits:
+- 311e94a7

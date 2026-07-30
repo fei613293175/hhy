@@ -5,6 +5,22 @@ import argparse, csv, json, re, sys, hashlib
 import yaml
 
 ROOT=Path(__file__).resolve().parents[1]
+MAIN_DOCUMENT = "合伙云Pro_完整项目开发文档_V1.2.2_页面与运营规格冻结版.md"
+MAIN_DOCUMENT_POINTER = "docs/00-baseline/合伙云Pro_完整项目开发文档_V1.2.2_开发就绪版.md"
+
+
+def validate_main_document_pointer(root, require):
+    target = root / MAIN_DOCUMENT
+    pointer = root / MAIN_DOCUMENT_POINTER
+    require(target.is_file(), "MAIN_DOC_TARGET_MISSING", MAIN_DOCUMENT)
+    require(pointer.is_file(), "MAIN_DOC_POINTER_MISSING", MAIN_DOCUMENT_POINTER)
+    if pointer.is_file():
+        linked_documents = re.findall(r"`([^`]+\.md)`", pointer.read_text(encoding="utf-8"))
+        require(
+            linked_documents == [MAIN_DOCUMENT],
+            "MAIN_DOC_POINTER_DRIFT",
+            f"主开发文档定位指针必须且只能指向 {MAIN_DOCUMENT}: {linked_documents}",
+        )
 
 def read_csv(rel):
     with (ROOT/rel).open("r",encoding="utf-8-sig",newline="") as f:
@@ -58,6 +74,19 @@ def main():
     ]
     for rel in required:
         require((ROOT/rel).is_file(),"FILE_MISSING",rel)
+    validate_main_document_pointer(ROOT, require)
+
+    legacy_ui_wording=[]
+    page_spec_root=ROOT/"docs/02-ui/page-specs"
+    if page_spec_root.is_dir():
+        for page_spec in sorted(page_spec_root.rglob("*.md")):
+            if "效果图仅用于视觉参考" in page_spec.read_text(encoding="utf-8"):
+                legacy_ui_wording.append(str(page_spec.relative_to(ROOT)).replace("\\","/"))
+    require(
+        not legacy_ui_wording,
+        "UI_VISUAL_SOURCE_WORDING_CONFLICT",
+        f"逐页规格仍把强制效果图降级为仅供参考: {legacy_ui_wording[:10]}",
+    )
 
     baseline=load_yaml("PROJECT_BASELINE.yaml")
     require(baseline.get("package_version")=="1.2.3","BASELINE_VERSION","PROJECT_BASELINE must be 1.2.3 with V1.2.2 product specification baseline")

@@ -1,0 +1,78 @@
+{
+  "schema": "hhy.r01.test-evidence/v1",
+  "report_id": "R01-79bbd45-20260717T135033Z",
+  "suite": "r01-backend-maven-pg17-real-api",
+  "producer": "codex-root",
+  "generated_at": "2026-07-17T13:50:33Z",
+  "source_commit": "79bbd45d22d16b334330b4b36f2fbb489d5e73f0",
+  "command": [
+    "mvn -B test -DskipTests=false",
+    "mvn -B -pl hhy-access -Dtest=AdminSecurityStorePostgresTest test",
+    "bash scripts/test_r01_db_invariants.sh",
+    "bash scripts/test_r01_admin_security_api.sh"
+  ],
+  "environment": {
+    "java": "Eclipse Temurin 21.0.9",
+    "maven": "Apache Maven 3.9.11",
+    "postgresql": "PostgreSQL 17.10",
+    "api_base_url": "http://127.0.0.1:38081"
+  },
+  "results": [
+    {
+      "test_id": "TST-ADMIN_SECURITY_001-HAPPY",
+      "status": "PASS",
+      "executed": true,
+      "exit_code": 0,
+      "started_at": "2026-07-17T13:30:08Z",
+      "finished_at": "2026-07-17T13:50:33Z",
+      "assertions": [
+        { "name": "Java 21 Maven suite passes 74 tests without failures or errors", "status": "PASS" },
+        { "name": "PostgreSQL 17 applies all 16 migrations and passes store integration", "status": "PASS" },
+        { "name": "Real API happy paths and seven POST snapshots pass", "status": "PASS" }
+      ],
+      "artifacts": [
+        { "path": "maven-java21.log", "sha256": "6C46EB9324C737D7C6D7E1083EE72B829B3C148638008E69D19804054B7623B1" },
+        { "path": "maven-postgres17.log", "sha256": "129A3F0ADE68D357E3F4CF2114A65CE445D952621CF8DB7E65418F27EF564EC4" },
+        { "path": "real-api.log", "sha256": "D20FF1E4086CCF87FA64AD51601465198CF675CFC77A79DD81214B843D0FE3BA" }
+      ],
+      "details": "Clean source at 79bbd45 passed the complete Java 21 suite, PostgreSQL 17 integration, and the isolated real API smoke stack."
+    },
+    {
+      "test_id": "TST-ADMIN_SECURITY_001-REJECT",
+      "status": "PASS",
+      "executed": true,
+      "exit_code": 0,
+      "started_at": "2026-07-17T13:48:57Z",
+      "finished_at": "2026-07-17T13:50:33Z",
+      "assertions": [
+        { "name": "TOTP replay is rejected", "status": "PASS" },
+        { "name": "Digest conflict is rejected", "status": "PASS" },
+        { "name": "Rejected idempotency request can be retried safely", "status": "PASS" }
+      ],
+      "artifacts": [
+        { "path": "real-api.log", "sha256": "D20FF1E4086CCF87FA64AD51601465198CF675CFC77A79DD81214B843D0FE3BA" }
+      ],
+      "details": "The clean isolated stack exercised rejection branches without preserving invalid transient state."
+    },
+    {
+      "test_id": "TST-ADMIN_SECURITY_001-SECURITY",
+      "status": "PASS",
+      "executed": true,
+      "exit_code": 0,
+      "started_at": "2026-07-17T13:30:08Z",
+      "finished_at": "2026-07-17T13:50:33Z",
+      "assertions": [
+        { "name": "Revoked bearer can only replay a matching encrypted response snapshot", "status": "PASS" },
+        { "name": "Replay produces zero database side effects", "status": "PASS" },
+        { "name": "PostgreSQL pool concurrency of 20 passes", "status": "PASS" },
+        { "name": "V016 rollback and reapply invariants pass", "status": "PASS" }
+      ],
+      "artifacts": [
+        { "path": "postgres17-invariants.log", "sha256": "6799F7F56860B5340C8927DB15644D8F13B0EDF7003BFE1DBFB4226E89704957" },
+        { "path": "maven-postgres17.log", "sha256": "129A3F0ADE68D357E3F4CF2114A65CE445D952621CF8DB7E65418F27EF564EC4" },
+        { "path": "real-api.log", "sha256": "D20FF1E4086CCF87FA64AD51601465198CF675CFC77A79DD81214B843D0FE3BA" }
+      ],
+      "details": "Security gates prove encrypted replay scope, key binding, rollback safety, concurrency, and no replay side effects on PostgreSQL 17."
+    }
+  ]
+}

@@ -1,0 +1,55 @@
+protocol_version: '1.0'
+cr_id: CR-0456
+title: 补齐CR-0455发布产物准入门禁范围
+status: IMPLEMENTED
+created_at: '2026-07-28T15:07:01Z'
+updated_at: '2026-07-28T15:28:49Z'
+requester_actor_id: codex-r16-client-admin-20260728
+approver_actor_id: codex-r14-sequence-independent-review-20260728
+task_id: TASK-R16-004
+session_id: SES-20260728T125934Z-F3DED330
+user_request: 强制更新连续性规则，避免R14未完和R15空缺时进入R16，且不依赖聊天记录。
+reason: CR-0455实施检索发现check_release_artifacts仍以TEST_APK next_release_development=ALLOWED表述下一版准入；必须补入同一规则投影，不能留下交付门禁旁路。
+original_rule: check_release_artifacts把android_delivery.next_release_development=ALLOWED描述为合格TEST_APK即可继续下一版本，R14+虽另验候选但没有显式断言候选和machine completion共同控制下一版准入。
+new_rule: R02-R13保留历史TEST_APK异步语义；R14起android_delivery.next_release_development=ALLOWED只表示owner PENDING本身不阻断，不能单独授权下一版。发布产物关闭门禁必须同时要求MAJOR_RELEASE候选PASS、同Commit候选报告、machine_completion
+  PASS与next_release_development=ALLOWED，并由continuity再核对全部Task和连续编号。错误信息和测试不得再暗示TEST_APK单独放行。
+impact_summary: 窄范围补齐发布产物检查器和现有版本关闭回归，与CR-0455统一语义，不改产品代码或证据格式。
+impact:
+  files:
+  - scripts/check_release_artifacts.py
+  - tests/test_release_close_gate.py
+  pages: []
+  apis: []
+  database: []
+  configuration: []
+  ledger: []
+  tests:
+  - R13历史按需模式仍通过；R14 TEST_APK PASS但candidate或machine completion缺失必须失败；R14全组合PASS；错误文案不得声称TEST_APK单独允许下一版
+  releases:
+  - R14
+  - R15
+  - R16
+  migration_and_compatibility: R13及以前旧Manifest继续按历史模式；R14+现有字段不删除，只提高组合校验，不影响TEST_APK先行交付和owner PENDING异步。
+user_confirmation: 项目所有者已明确要求：强制更新连续性规则，防止R14未完成、R15空缺时进入R16；owner真机反馈保持异步，但开发必须以仓库机器证据闭环而非聊天记录为准。
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-28T15:08:04Z'
+  note: APPROVED：CR-0456是CR-0455的必要窄范围投影补正，仅修改发布产物检查器及其既有回归测试，无产品、API、数据库、配置格式或证据格式扩展。R02-R13保留历史TEST_APK异步兼容；R14+将android_delivery.next_release_development=ALLOWED严格解释为owner
+    PENDING本身不阻断，不能单独授权跨Release，必须与同Release同Commit交互候选报告PASS、machine_completion.status=PASS及TEST_APK身份闭环组合通过，并由continuity继续校验TASK全DONE和连续编号。测试覆盖R13兼容、R14候选/机器完成缺失失败、完整组合通过及错误文案不再宣称TEST_APK单独放行，范围完整。批准实施。
+machine_record: .continuity/change_requests/CR-0456.yaml
+document: docs/03-continuity/change-requests/CR-0456-补齐CR-0455发布产物准入门禁范围.md
+decision_log:
+- at: '2026-07-28T15:09:58Z'
+  actor_id: codex-r14-sequence-implementation-20260728
+  status: IMPLEMENTING
+  note: 独立审批后开始补齐发布产物检查器与回归测试
+  session_id: SES-20260728T125934Z-F3DED330
+- at: '2026-07-28T15:28:49Z'
+  actor_id: codex-r16-client-admin-20260728
+  status: IMPLEMENTED
+  note: 发布产物检查器已补齐R14同版本候选和机器完成组合准入
+  session_id: SES-20260728T125934Z-F3DED330
+session_ids:
+- SES-20260728T125934Z-F3DED330
+implementation_commits:
+- c47d1906

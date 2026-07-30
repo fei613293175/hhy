@@ -1,0 +1,44 @@
+{
+  "schema": "hhy.test-impact-plan/v1",
+  "profile": "MODULE",
+  "affected_only": true,
+  "changed_files": [
+    "services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04StoragePostgresStore.java",
+    "services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/StorageMigrationService.java",
+    "services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/StorageProviderAdapter.java",
+    "services/backend/boot/src/test/java/cc/orbexa/hhy/access/storage/StorageMigrationServiceTest.java",
+    "services/backend/boot/src/test/java/cc/orbexa/hhy/access/storage/StorageProviderAdapterTest.java"
+  ],
+  "job_filter": null,
+  "checks": [
+    {
+      "id": "backend-module",
+      "ci_job": "backend",
+      "cwd": "C:\\Users\\小白\\Desktop\\workspace\\hhy-v1.2.3-handoff\\合伙云Pro_Codex直接开发包_V1.2.3_持续开发无状态接续强制门禁最终版\\services\\backend",
+      "command": [
+        "C:\\Users\\小白\\Desktop\\workspace\\hhy-v1.2.3-handoff\\合伙云Pro_Codex直接开发包_V1.2.3_持续开发无状态接续强制门禁最终版\\services\\backend\\mvnw.cmd",
+        "-pl",
+        "access,boot",
+        "-am",
+        "test"
+      ],
+      "env": {},
+      "timeout_seconds": 900
+    }
+  ],
+  "ci_jobs": [
+    "backend"
+  ],
+  "status": "PASS",
+  "executed": true,
+  "results": [
+    {
+      "id": "backend-module",
+      "status": "PASS",
+      "exit_code": 0,
+      "duration_seconds": 47.063,
+      "stdout_tail": "org.springframework.boot.test.context.SpringBootTestContextBootstrapper\",\"thread_name\":\"main\",\"level\":\"INFO\",\"level_value\":20000,\"tags\":[\"COMMONS-LOGGING\"]}\n{\"@timestamp\":\"2026-07-19T19:19:16.9357385+08:00\",\"@version\":\"1\",\"message\":\"http_request_completed\",\"logger_name\":\"cc.orbexa.hhy.boot.web.RequestIdFilter\",\"thread_name\":\"main\",\"level\":\"INFO\",\"level_value\":20000,\"traceId\":\"8414a804ca87460d88576d16da9323c8\",\"requestId\":\"request_latest_001\",\"operation\":\"GET /public-api/v1/app/latest\",\"status\":200,\"latency\":37}\n{\"@timestamp\":\"2026-07-19T19:19:16.9421187+08:00\",\"@version\":\"1\",\"message\":\"http_request_completed\",\"logger_name\":\"cc.orbexa.hhy.boot.web.RequestIdFilter\",\"thread_name\":\"main\",\"level\":\"INFO\",\"level_value\":20000,\"traceId\":\"c1c300ef0f1f443ca9ee644395513385\",\"requestId\":\"request_status_001\",\"operation\":\"GET /public-api/v1/platform/status\",\"status\":200,\"latency\":1}\n{\"@timestamp\":\"2026-07-19T19:19:16.9579915+08:00\",\"@version\":\"1\",\"message\":\"http_request_completed\",\"logger_name\":\"cc.orbexa.hhy.boot.web.RequestIdFilter\",\"thread_name\":\"main\",\"level\":\"INFO\",\"level_value\":20000,\"traceId\":\"9f962f6c6a934584bcc69c8debd4f7bd\",\"requestId\":\"972f6978-807a-4ecc-9b2d-0301d5f53232\",\"operation\":\"GET /api/v1/app/version-check\",\"status\":200,\"latency\":11}\n{\"@timestamp\":\"2026-07-19T19:19:16.9625203+08:00\",\"@version\":\"1\",\"message\":\"http_request_completed\",\"logger_name\":\"cc.orbexa.hhy.boot.web.RequestIdFilter\",\"thread_name\":\"main\",\"level\":\"INFO\",\"level_value\":20000,\"traceId\":\"85cb5ea140914a409c2363601a4e15ed\",\"requestId\":\"c26dbd7b-7f9d-4835-b399-06ab8bc1b84e\",\"operation\":\"GET /api/v1/app/version-check\",\"status\":200,\"latency\":2}\n{\"@timestamp\":\"2026-07-19T19:19:16.9683644+08:00\",\"@version\":\"1\",\"message\":\"http_request_completed\",\"logger_name\":\"cc.orbexa.hhy.boot.web.RequestIdFilter\",\"thread_name\":\"main\",\"level\":\"INFO\",\"level_value\":20000,\"traceId\":\"f95149743bb440d5b36f13c7538092de\",\"requestId\":\"request_auth_001\",\"operation\":\"GET UNMAPPED\",\"status\":401,\"latency\":1}\n{\"@timestamp\":\"2026-07-19T19:19:16.9846134+08:00\",\"@version\":\"1\",\"message\":\"http_request_completed\",\"logger_name\":\"cc.orbexa.hhy.boot.web.RequestIdFilter\",\"thread_name\":\"main\",\"level\":\"INFO\",\"level_value\":20000,\"traceId\":\"21f51f3b479444cfbe816e2f1e500322\",\"requestId\":\"4899730e-ad1e-495f-8372-be44148295ad\",\"operation\":\"POST /public-api/v1/app/version-check\",\"status\":404,\"latency\":12}\n{\"@timestamp\":\"2026-07-19T19:19:16.9945612+08:00\",\"@version\":\"1\",\"message\":\"http_request_completed\",\"logger_name\":\"cc.orbexa.hhy.boot.web.RequestIdFilter\",\"thread_name\":\"main\",\"level\":\"INFO\",\"level_value\":20000,\"traceId\":\"f0053e3a4b0a4553847b916fa7d9795b\",\"requestId\":\"715a9108-ba05-444b-bae6-cd861708247d\",\"operation\":\"POST /public-api/v1/app/version-check\",\"status\":200,\"latency\":3}\n{\"@timestamp\":\"2026-07-19T19:19:17.0035528+08:00\",\"@version\":\"1\",\"message\":\"http_request_completed\",\"logger_name\":\"cc.orbexa.hhy.boot.web.RequestIdFilter\",\"thread_name\":\"main\",\"level\":\"INFO\",\"level_value\":20000,\"traceId\":\"69510d332bbc4d4fbaf028b6e1bde5c2\",\"requestId\":\"b32f30cd-563c-40ac-8eb1-f91417188931\",\"operation\":\"POST /public-api/v1/app/version-check\",\"status\":400,\"latency\":4}\n{\"@timestamp\":\"2026-07-19T19:19:17.0147905+08:00\",\"@version\":\"1\",\"message\":\"http_request_completed\",\"logger_name\":\"cc.orbexa.hhy.boot.web.RequestIdFilter\",\"thread_name\":\"main\",\"level\":\"INFO\",\"level_value\":20000,\"traceId\":\"9228fdc846fb42a5a2fcaa249260ede3\",\"requestId\":\"cfdcbd84-5e73-4bdb-9532-f5c056f19524\",\"operation\":\"POST /public-api/v1/app/version-check\",\"status\":400,\"latency\":10}\n{\"@timestamp\":\"2026-07-19T19:19:17.0269908+08:00\",\"@version\":\"1\",\"message\":\"http_request_completed\",\"logger_name\":\"cc.orbexa.hhy.boot.web.RequestIdFilter\",\"thread_name\":\"main\",\"level\":\"INFO\",\"level_value\":20000,\"traceId\":\"c653f6ab5f074d6a993e078b9b379f66\",\"requestId\":\"d3bed968-f299-49be-a3c7-f5a7d128c4d7\",\"operation\":\"GET /api/v1/app/version-check\",\"status\":400,\"latency\":11}\n{\"@timestamp\":\"2026-07-19T19:19:17.0348352+08:00\",\"@version\":\"1\",\"message\":\"http_request_completed\",\"logger_name\":\"cc.orbexa.hhy.boot.web.RequestIdFilter\",\"thread_name\":\"main\",\"level\":\"INFO\",\"level_value\":20000,\"traceId\":\"11eee01a81ee4a1ea56ab86d9d1900c2\",\"requestId\":\"a41e547f-9bec-418a-864c-34b583c732ea\",\"operation\":\"POST /public-api/v1/app/version-check\",\"status\":200,\"latency\":3}\n{\"@timestamp\":\"2026-07-19T19:19:17.0396579+08:00\",\"@version\":\"1\",\"message\":\"http_request_completed\",\"logger_name\":\"cc.orbexa.hhy.boot.web.RequestIdFilter\",\"thread_name\":\"main\",\"level\":\"INFO\",\"level_value\":20000,\"traceId\":\"0c9cf46e530b4f5bbd658f85127694ad\",\"requestId\":\"8e443f82-bc7d-4ce0-8554-61c2e9a2e506\",\"operation\":\"POST /public-api/v1/app/version-check\",\"status\":200,\"latency\":3}\n[INFO] Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.228 s -- in cc.orbexa.hhy.PublicEndpointsTest\n[INFO] \n[INFO] Results:\n[INFO] \n[WARNING] Tests run: 208, Failures: 0, Errors: 0, Skipped: 2\n[INFO] \n[INFO] ------------------------------------------------------------------------\n[INFO] Reactor Summary for HHY Backend 1.2.2-SNAPSHOT:\n[INFO] \n[INFO] HHY Backend ........................................ SUCCESS [  0.003 s]\n[INFO] hhy-shared-kernel .................................. SUCCESS [  0.896 s]\n[INFO] hhy-access ......................................... SUCCESS [  0.540 s]\n[INFO] hhy-content ........................................ SUCCESS [  0.038 s]\n[INFO] hhy-commerce ....................................... SUCCESS [  0.042 s]\n[INFO] hhy-incentive ...................................... SUCCESS [  0.072 s]\n[INFO] hhy-platform ....................................... SUCCESS [  0.121 s]\n[INFO] hhy-boot ........................................... SUCCESS [ 41.926 s]\n[INFO] ------------------------------------------------------------------------\n[INFO] BUILD SUCCESS\n[INFO] ------------------------------------------------------------------------\n[INFO] Total time:  44.118 s\n[INFO] Finished at: 2026-07-19T11:19:17Z\n[INFO] ------------------------------------------------------------------------\n",
+      "stderr_tail": "Mockito is currently self-attaching to enable the inline-mock-maker. This will no longer work in future releases of the JDK. Please add Mockito as an agent to your build as described in Mockito's documentation: https://javadoc.io/doc/org.mockito/mockito-core/latest/org.mockito/org/mockito/Mockito.html#0.3\nWARNING: A Java agent has been loaded dynamically (C:\\Users\\小白\\.m2\\repository\\net\\bytebuddy\\byte-buddy-agent\\1.18.10\\byte-buddy-agent-1.18.10.jar)\nWARNING: If a serviceability tool is in use, please run with -XX:+EnableDynamicAgentLoading to hide this warning\nWARNING: If a serviceability tool is not in use, please run with -Djdk.instrument.traceUsage for more information\nWARNING: Dynamic loading of agents will be disallowed by default in a future release\n"
+    }
+  ]
+}

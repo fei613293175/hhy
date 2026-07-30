@@ -1,0 +1,198 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260723T175513Z-EFD4D365-0001
+session_id: SES-20260723T175513Z-EFD4D365
+sequence: 1
+created_at: '2026-07-23T18:28:12Z'
+summary: 完成TASK-R11-003团队长后端纵向切片：类型专属创建详情编辑、账号唯一串行锁、实名与媒体归属、幂等加密快照、联系方式加密、乐观锁、Outbox与8个通用operationId唯一分发。
+next_step: 提交实现Commit，关闭TASK-R11-003并启动TASK-R11-004客户端/H5/后台实现。
+blockers: []
+decisions:
+- 复用8个冻结通用operationId，不虚构TASK模板误写的第9个接口；草稿仅放宽V038终态字段，team_name保持数据库必填。
+note: ''
+tests:
+- name: r11-precise-postgres
+  result: PASS
+  evidence: obx-test Maven JDK21 + PostgreSQL17
+  note: 6 tests, 0 failures, 0 errors, 0 skipped; V001-V038 migrated
+- name: backend-content-boot
+  result: PASS
+  evidence: obx-test Maven JDK21
+  note: 375 tests, 0 failures, 0 errors, 13 existing external-store skips
+- name: r11-documentation
+  result: PASS
+  evidence: scripts/check_v122_documentation.py --release R11
+  note: 0 errors, 0 warnings
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: ed2f80ff1b1b9b7fbfd2b950a68c6c312fae565f
+  upstream: origin/task/TASK-R03-001
+  ahead: 8
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/ACTIVE_SESSION.yaml'
+  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/SESSION_INDEX.yaml'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/TASK_CLAIMS.yaml'
+  - ' M .continuity/TASK_TRANSITIONS.yaml'
+  - ' M CURRENT_STATUS.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+  - ' M artifacts/validation/project-doctor-v1.2.2.json'
+  - ' M catalogs/change_request_index.csv'
+  - ' M catalogs/session_index.csv'
+  - ' M catalogs/task_transition_ledger.csv'
+  - ' M services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/R08Controller.java'
+  - ?? .continuity/change_requests/CR-0284.yaml
+  - ?? .continuity/sessions/SES-20260723T175513Z-EFD4D365.yaml
+  - ?? docs/03-continuity/change-requests/CR-0284-实现R11团队长后端领域服务与通用接口分发.md
+  - ?? docs/03-continuity/sessions/2026-07/SES-20260723T175513Z-EFD4D365.md
+  - ?? services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/R11ControllerContractTest.java
+  - ?? services/backend/boot/src/test/java/cc/orbexa/hhy/content/R11PostgresStoreTest.java
+  - ?? services/backend/boot/src/test/java/cc/orbexa/hhy/content/R11ServiceTest.java
+  - ?? services/backend/content/src/main/java/cc/orbexa/hhy/content/R11Contracts.java
+  - ?? services/backend/content/src/main/java/cc/orbexa/hhy/content/R11PostgresStore.java
+  - ?? services/backend/content/src/main/java/cc/orbexa/hhy/content/R11Service.java
+  - ?? services/backend/content/src/main/java/cc/orbexa/hhy/content/R11Store.java
+  recent_commits:
+  - "ed2f80ff1b1b9b7fbfd2b950a68c6c312fae565f\t2026-07-24T01:54:02+08:00\tHHY Continuity Bootstrap\t[STORY-R11-004] chore(continuity): close TASK-R11-002\
+    \ as completed"
+  - "b7cb1e4316753a8d5a4276c2366f3813b64afd87\t2026-07-24T01:51:35+08:00\tHHY Continuity Bootstrap\t[STORY-R11-004] feat(database): enforce team\
+    \ leader invariants"
+  - "94a520df9e3c5df535b4d26ff1b918cccb91288e\t2026-07-24T01:11:42+08:00\tHHY Continuity Bootstrap\t[STORY-R11-004] chore(continuity): close TASK-R11-001\
+    \ as completed"
+  - "8a2c6b937716789351afa7d49c146bb215867949\t2026-07-24T01:10:25+08:00\tHHY Continuity Bootstrap\t[STORY-R11-004] docs(release): freeze R11\
+    \ entry baseline"
+  - "70524de3347e0365aeac268e6e25d66e6915615e\t2026-07-24T00:57:17+08:00\tHHY Continuity Bootstrap\t[STORY-R10-004] chore(continuity): close TASK-R10-008\
+    \ as completed"
+  - "28354e71d6adff700696cb340f2275a62e61ede1\t2026-07-24T00:55:36+08:00\tHHY Continuity Bootstrap\t[STORY-R10-004] chore(release): close R10\
+    \ machine acceptance"
+  - "b04f326ddda935decdf2609ea7b1bee8cc799cfc\t2026-07-24T00:50:11+08:00\tHHY Continuity Bootstrap\t[STORY-R10-004] chore(continuity): close TASK-R10-007\
+    \ as completed"
+  - "758c30a3f5fa393dd57b886ac496edd039a6e46f\t2026-07-24T00:43:51+08:00\tHHY Continuity Bootstrap\t[STORY-R10-004] test(android): deliver R10\
+    \ test APK"
+project_fingerprint:
+  sha256: dea65546e3b7d8f8550f8c2aabc38dfe27e83b8469d6662a84312f95b9592c88
+  files:
+  - docs/03-continuity/change-requests/CR-0284-实现R11团队长后端领域服务与通用接口分发.md
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/R08Controller.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/R11ControllerContractTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R11PostgresStoreTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R11ServiceTest.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R11Contracts.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R11PostgresStore.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R11Service.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R11Store.java
+  file_count: 9
+  payload:
+    base_commit: ed2f80ff1b1b9b7fbfd2b950a68c6c312fae565f
+    files:
+    - path: docs/03-continuity/change-requests/CR-0284-实现R11团队长后端领域服务与通用接口分发.md
+      state: FILE
+      size: 3987
+      sha256: 255ddffc6511e40228b9dcc74c8153edc55908457ddbd699483cc0359dcac10a
+    - path: services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/R08Controller.java
+      state: FILE
+      size: 7267
+      sha256: 3597237512c796ad70dea9fc10bd173f12f3cd2db015a498d5c5af21af4180e3
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/R11ControllerContractTest.java
+      state: FILE
+      size: 2040
+      sha256: 427c8a7c0268cb0f6a7f8d80177ee4fe25db0ad2e04907ef59052c4b263a0440
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/content/R11PostgresStoreTest.java
+      state: FILE
+      size: 4473
+      sha256: 6b9eef4176d950d3e06a1899868ef7de6913ae62c7b70d1bfc5e0f656396a538
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/content/R11ServiceTest.java
+      state: FILE
+      size: 8916
+      sha256: 2cd7ee49f19c557777ddb6400f13c700b5c2131cda716e92f8ce804f351d54ca
+    - path: services/backend/content/src/main/java/cc/orbexa/hhy/content/R11Contracts.java
+      state: FILE
+      size: 532
+      sha256: 0f5c34ae10e08105be8495df0193d3a96b79fe6cf26dcc4920a2ebd734207269
+    - path: services/backend/content/src/main/java/cc/orbexa/hhy/content/R11PostgresStore.java
+      state: FILE
+      size: 8800
+      sha256: ed63dfabf306d6e36a54ddbeed3a4f4aa9e3f095211aded5e842a08a6a6bd249
+    - path: services/backend/content/src/main/java/cc/orbexa/hhy/content/R11Service.java
+      state: FILE
+      size: 20978
+      sha256: d422bd4a7c4060b34b71b6b5a09b69b61c987234c3496a85e0e6cf2ad116971a
+    - path: services/backend/content/src/main/java/cc/orbexa/hhy/content/R11Store.java
+      state: FILE
+      size: 1154
+      sha256: b93c40298ebfa0cb1e7c3bea8140b682cd34f1f98b819f694584818d109cb14e
+change_classification:
+  continuity:
+  - docs/03-continuity/change-requests/CR-0284-实现R11团队长后端领域服务与通用接口分发.md
+  code:
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/R08Controller.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/R11ControllerContractTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R11PostgresStoreTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R11ServiceTest.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R11Contracts.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R11PostgresStore.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R11Service.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R11Store.java
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+change_requests:
+- CR-0284
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions:
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R11Contracts.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R11Store.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R11PostgresStore.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R11Service.java
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/R08Controller.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R11ServiceTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R11PostgresStoreTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/R11ControllerContractTest.java
+  source: story+explicit+approved-cr:CR-0284
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 当前工作涉及同一控制器分发、服务事务边界、Store SQL和连续性事实元数据，路径高度重叠且需串行集成复核。
+event_hash: 57d3e2415e4d66e7b7cdae1045179e85e8e1baa300e5c50751578fd5c9602b3c

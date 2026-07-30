@@ -1,0 +1,137 @@
+protocol_version: '1.0'
+package_version: 1.2.3
+session_id: SES-20260722T064621Z-68304DE1
+status: CLOSED
+actor:
+  id: codex-root-r08-007
+  kind: AI_OR_HUMAN
+  host: unknown
+release: R08
+task_id: TASK-R08-007
+story_id: STORY-R08-004
+goal: 项目推广完整闭环Android测试APK与产物追溯
+started_at: '2026-07-22T06:46:21Z'
+updated_at: '2026-07-22T09:34:57Z'
+takeover_of: null
+change_requests:
+- CR-0227
+- CR-0228
+- CR-0229
+- CR-0230
+- CR-0231
+- CR-0232
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions:
+  - scripts/continuity.py
+  - tests/test_continuity_resume_read_only.py
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - CHANGELOG.md
+  - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+  - apps/android/feature/project/src/main/java/cc/orbexa/hhy/project/R08ProjectScreens.kt
+  - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+  - scripts/prepare_r08_ci_fixture.sh
+  - tests/test_r08_ci_fixture.py
+  - tests/android/visual-manifests/R08.yaml
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+  - apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+  - config/android-candidate-request.yaml
+  - docs/07-operations/DEPLOYMENT_RUNBOOK.md
+  - catalogs/ui_visual_acceptance.csv
+  - releases/R08/RELEASE_MANIFEST.yaml
+  - scripts/check_ui_tokens.py
+  - tests/test_ui_tokens.py
+  - packages/design-tokens/h5.css
+  - packages/design-tokens/admin.css
+  - apps/h5/src/styles.css
+  - apps/android/feature/startup/src/main/java/cc/orbexa/hhy/startup/StartupGateScreen.kt
+  - apps/android/feature/project/src/main/java/cc/orbexa/hhy/project/R08ProjectState.kt
+  - apps/android/feature/project/src/test/java/cc/orbexa/hhy/project/R08ProjectStateTest.kt
+  - tests/test_android_ci_gate.py
+  - artifacts/validation/r08-task007-android/APPROVAL.yaml
+  - artifacts/validation/r08-task007-android/build-evidence.json
+  - artifacts/validation/r08-task007-android/candidate-report.json
+  - artifacts/validation/r08-task007-android/source-candidate-report.json
+  - artifacts/validation/r08-task007-android/screenshots/01-project-list.png
+  - artifacts/validation/r08-task007-android/screenshots/02-project-detail.png
+  - artifacts/validation/r08-task007-android/screenshots/03-project-editor.png
+  - artifacts/validation/r08-apk-delivery/delivery-evidence.json
+  - artifacts/apk/R08/APK_MANIFEST.yaml
+  - artifacts/apk/R08/hhy-r08-49f40f2-debug.apk
+  - artifacts/reports/R08/TASK-R08-007-android-apk.md
+  - artifacts/reports/R08/R08-version-test-guide.md
+  - releases/R08/ACCEPTANCE_MATRIX.csv
+  source: story+explicit+approved-cr:CR-0227+approved-cr:CR-0228+approved-cr:CR-0229+approved-cr:CR-0231+approved-cr:CR-0232
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  base_commit: 827c8b7b81988b4f844b3b7ff766d30b6a34a77a
+  start_head: 827c8b7b81988b4f844b3b7ff766d30b6a34a77a
+  upstream: origin/task/TASK-R03-001
+  initial_worktree_state: CLEAN
+lease:
+  duration_minutes: 240
+  renewed_at: '2026-07-22T09:34:52Z'
+  expires_at: '2026-07-22T13:34:52Z'
+checkpoint_sequence: 13
+latest_checkpoint: .continuity/checkpoints/SES-20260722T064621Z-68304DE1/0013.yaml
+session_log: docs/03-continuity/sessions/2026-07/SES-20260722T064621Z-68304DE1.md
+next_step: 提交关闭元数据Commit，然后运行pre-push/CI门禁
+context_pack:
+  yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
+  markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
+  manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+  context_hash: 0287b08df5bcf9a9a6918eb1f52e3d26c5ad3161d932263c5d697fb7af544a66
+  generated_at: '2026-07-22T09:34:55Z'
+handoff_bundle: null
+closure:
+  result: COMPLETED
+  summary: TASK-R08-007完成：第三轮候选与轻量基线晋升PASS，R08三页AI视觉批准，固定签名APK完成四方一致交付并放桌面；Owner真机反馈异步PENDING。
+  code_commit: 01043c803dc576990278608e693819979ad2a0c5
+  next_release: R08
+  next_task: TASK-R08-008
+  blocked_advance: false
+  user_confirmation: null
+  metadata_commit: PENDING
+  push_verification: CI_REQUIRED_AFTER_METADATA_COMMIT
+  started_at: '2026-07-22T09:34:49Z'
+  closure_checkpoint_id: CP-SES-20260722T064621Z-68304DE1-0013
+  closed_at: '2026-07-22T09:34:57Z'
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 连续性关闭和唯一NEXT_TASK更新必须串行。
+closed_at: '2026-07-22T09:34:57Z'

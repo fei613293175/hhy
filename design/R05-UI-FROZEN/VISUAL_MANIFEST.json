@@ -1,0 +1,493 @@
+{
+  "project": "合伙云 Pro",
+  "release": "R05",
+  "package": "R05 UI精确视觉规格补充",
+  "status": "FROZEN_VISUAL_SPEC",
+  "generated_at": "2026-07-20",
+  "source_package_sha256": "452d8ad9d00a71849940287247d471c4c883ce2f67511e19bb375264b35bd8cb",
+  "token_file": "REFERENCE_ONLY/tokens/hhy_design_tokens_v1.2.2.json",
+  "token_sha256": "5e79cdc6dc8dddb216ad5b112c2c95ec3af30bbed47b81e06cecbcacfc86dffa",
+  "reference": {
+    "file": "REFERENCE_ONLY/reference/B12/HHY_B12_8PAGE_UI_REFERENCE.png",
+    "panel": "B12/P04",
+    "sha256": "9c3a1dedd10da7aa4e3c996e97eed59dd25bb1aaf592b3fff422f3eecbc743cf"
+  },
+  "pages": [
+    {
+      "page_id": "SCR-ID-001",
+      "name": "实名认证首页",
+      "spec": "specs/SCR-ID-001.md",
+      "spec_sha256": "519538e7cbbb99c424002be7eb125175670a3663759425cffcf96c6eb95b9bc6",
+      "reference": "B12/P04",
+      "images": [
+        {
+          "state": "未认证",
+          "file": "images/SCR-ID-001_01_未认证.png",
+          "sha256": "707d0bc3cc75c5ad4ea7efb99a1f560b600769b94cb4b974f0e1d0e284d56bb3",
+          "size": [
+            1080,
+            2400
+          ]
+        },
+        {
+          "state": "认证中",
+          "file": "images/SCR-ID-001_02_认证中.png",
+          "sha256": "fd556515359f1d6fced99997c5b9ba3553b3d23df5a39441c3203ab32864bfdb",
+          "size": [
+            1080,
+            2400
+          ]
+        },
+        {
+          "state": "已认证",
+          "file": "images/SCR-ID-001_03_已认证.png",
+          "sha256": "e6b2cd54df9cab68e33b80b65ddc7299d0ed51025b56cfe360e829d0770390b4",
+          "size": [
+            1080,
+            2400
+          ]
+        }
+      ],
+      "overview": {
+        "file": "images/SCR-ID-001_OVERVIEW.png",
+        "sha256": "1bca08f0f4ea3eb4ead1493416c2e1c1efd2ffda8482e502f6cdf6ab94c3206d",
+        "size": [
+          2256,
+          1387
+        ]
+      }
+    },
+    {
+      "page_id": "SCR-ID-002",
+      "name": "实名信息输入",
+      "spec": "specs/SCR-ID-002.md",
+      "spec_sha256": "05d0e9c6c26a7c53d3e5d6f12d69ca77048bcaf41d1fbca92c5b7198c592c40e",
+      "reference": "B12/P04 视觉语言 + 批准补充规格",
+      "images": [
+        {
+          "state": "默认",
+          "file": "images/SCR-ID-002_01_默认.png",
+          "sha256": "ef032b348ba947353be561bf7075d2174ac26348de136972746bf240047c6203",
+          "size": [
+            1080,
+            2400
+          ]
+        },
+        {
+          "state": "字段错误",
+          "file": "images/SCR-ID-002_02_字段错误.png",
+          "sha256": "aa74e19141d524c62ad1abda976f5e67901059617ccb031f64282747749a024c",
+          "size": [
+            1080,
+            2400
+          ]
+        },
+        {
+          "state": "授权说明弹层",
+          "file": "images/SCR-ID-002_03_授权说明弹层.png",
+          "sha256": "89cc32835f9a31522bb74d92042ea3b7e27f8aaa56969cd3fde9c8680e74e9bd",
+          "size": [
+            1080,
+            2400
+          ]
+        },
+        {
+          "state": "网络失败重试",
+          "file": "images/SCR-ID-002_04_网络失败重试.png",
+          "sha256": "e33f834a3a1a3b2ebd8421d14ec5ac93e6c1f796e58e805624d9f7a333a40c07",
+          "size": [
+            1080,
+            2400
+          ]
+        }
+      ],
+      "overview": {
+        "file": "images/SCR-ID-002_OVERVIEW.png",
+        "sha256": "e273419b7292d36601a57c0087b49124d995233a5b80cdb698bd9969af643398",
+        "size": [
+          2976,
+          1387
+        ]
+      }
+    },
+    {
+      "page_id": "SCR-ID-003",
+      "name": "活体检测容器",
+      "spec": "specs/SCR-ID-003.md",
+      "spec_sha256": "6de30587eff8a90d3ba4621e59be550f0e2304891e4e3dfdd8d0fd0b369c6959",
+      "reference": "B12/P04 顶栏与卡片语言 + 批准补充规格",
+      "images": [
+        {
+          "state": "准备",
+          "file": "images/SCR-ID-003_01_准备.png",
+          "sha256": "fd1e94953dacc54906bc5d671430506940e41b5b4d58a159b0cc3881c0fe3839",
+          "size": [
+            1080,
+            2400
+          ]
+        },
+        {
+          "state": "相机授权",
+          "file": "images/SCR-ID-003_02_相机授权.png",
+          "sha256": "f9ffcc5f13420e9ebdae5292025477cdfdbee0a8c1a4e831f20e3e2dff039a89",
+          "size": [
+            1080,
+            2400
+          ]
+        },
+        {
+          "state": "加载",
+          "file": "images/SCR-ID-003_03_加载.png",
+          "sha256": "da70504929f68d912af92f214c423bb77906c40a39b10fdb6154448794808ae7",
+          "size": [
+            1080,
+            2400
+          ]
+        },
+        {
+          "state": "处理中",
+          "file": "images/SCR-ID-003_04_处理中.png",
+          "sha256": "3fdf15ceeb1d7fdf9ed69169ca5677be4946c34435bef2dc477c7476794de065",
+          "size": [
+            1080,
+            2400
+          ]
+        },
+        {
+          "state": "失败重试",
+          "file": "images/SCR-ID-003_05_失败重试.png",
+          "sha256": "2612feffac989043dfe4aa305acb7367c253f25a7b7d3be89b1d3f965345123f",
+          "size": [
+            1080,
+            2400
+          ]
+        }
+      ],
+      "overview": {
+        "file": "images/SCR-ID-003_OVERVIEW.png",
+        "sha256": "15368c5805cc4617bb5024cfc23bb04c79c0fdaa7390c23f20881eec776746c5",
+        "size": [
+          2976,
+          2576
+        ]
+      }
+    },
+    {
+      "page_id": "SCR-ID-004",
+      "name": "实名结果",
+      "spec": "specs/SCR-ID-004.md",
+      "spec_sha256": "65010394bd826d32680d27ea92ab2c0c0ab096353955569aabcd91d1174bfd30",
+      "reference": "B12/P04",
+      "images": [
+        {
+          "state": "核验中",
+          "file": "images/SCR-ID-004_01_核验中.png",
+          "sha256": "761245d069825f385eaef9ab555bdb89a3cbadc433dbe76af4d68e0392b70d62",
+          "size": [
+            1080,
+            2400
+          ]
+        },
+        {
+          "state": "人工审核",
+          "file": "images/SCR-ID-004_02_人工审核.png",
+          "sha256": "e270b0ff8e80c6ef671ad43e3a5d7330df7c45f0ed49c034742982731ff2fba3",
+          "size": [
+            1080,
+            2400
+          ]
+        },
+        {
+          "state": "成功",
+          "file": "images/SCR-ID-004_03_成功.png",
+          "sha256": "20e6d19636b4a746442145e43a6c7c5577d092ed1a6e620412a8f32f7db9c0eb",
+          "size": [
+            1080,
+            2400
+          ]
+        },
+        {
+          "state": "拒绝",
+          "file": "images/SCR-ID-004_04_拒绝.png",
+          "sha256": "2389ee381eb13f5b25b6827b311e319151c4c3152b4f34b93768bbcbb19f1cbc",
+          "size": [
+            1080,
+            2400
+          ]
+        },
+        {
+          "state": "失败",
+          "file": "images/SCR-ID-004_05_失败.png",
+          "sha256": "d1ff5c631610913bc395c4ba7ea683c3c350a05750ea8a830c61d76982fba375",
+          "size": [
+            1080,
+            2400
+          ]
+        },
+        {
+          "state": "过期",
+          "file": "images/SCR-ID-004_06_过期.png",
+          "sha256": "abdf5f0fef0551929a9bb6f49accced2d725a6a4d93bcf7ac3f0ffdc32dc2db8",
+          "size": [
+            1080,
+            2400
+          ]
+        }
+      ],
+      "overview": {
+        "file": "images/SCR-ID-004_OVERVIEW.png",
+        "sha256": "3c714f3ab18e25ff8a371b79ec3106a066d27836a0ac88cf0b9bc917b593e7a0",
+        "size": [
+          2976,
+          2576
+        ]
+      }
+    },
+    {
+      "page_id": "H5-012",
+      "name": "活体回跳",
+      "spec": "specs/H5-012.md",
+      "spec_sha256": "7bbee5e7a925bc2c667d31dea3241829c260cf061590f3c9bcdd2b03e61f723f",
+      "reference": "h5Tech 渐变 Token + 批准补充规格",
+      "images": [
+        {
+          "state": "加载",
+          "file": "images/H5-012_01_加载.png",
+          "sha256": "7c18543f2c09367c8491a13192d2b9508abe36b93b6f73836b19076531a76d7a",
+          "size": [
+            1080,
+            2400
+          ]
+        },
+        {
+          "state": "处理中",
+          "file": "images/H5-012_02_处理中.png",
+          "sha256": "075f36f6879a001fc0928f8d8121fa2de69fce3c0389d15d539cbdd0c45aff15",
+          "size": [
+            1080,
+            2400
+          ]
+        },
+        {
+          "state": "成功",
+          "file": "images/H5-012_03_成功.png",
+          "sha256": "5df9ac2acc63f7319060294f8735a8e7cfcb6eb1bcfcc3ea52cafc6a41f236cd",
+          "size": [
+            1080,
+            2400
+          ]
+        },
+        {
+          "state": "人工审核",
+          "file": "images/H5-012_04_人工审核.png",
+          "sha256": "91414d152bca262212c2f11f7e3b9a9783fb384213b16bfede3150ec391d22c4",
+          "size": [
+            1080,
+            2400
+          ]
+        },
+        {
+          "state": "未通过",
+          "file": "images/H5-012_05_未通过.png",
+          "sha256": "0f207d2ac2c2aed4d90c9ed32b91b02482571407a44978938fa6b2341baabee1",
+          "size": [
+            1080,
+            2400
+          ]
+        },
+        {
+          "state": "失效",
+          "file": "images/H5-012_06_失效.png",
+          "sha256": "b72e8c37a0b6f6660e31c59339f903c066c16092ff7131a6b20b4f0b0e51d7fa",
+          "size": [
+            1080,
+            2400
+          ]
+        },
+        {
+          "state": "离线",
+          "file": "images/H5-012_07_离线.png",
+          "sha256": "b1d976f13417fe02bbfc0b6f265f1ad34c6aa6e17cc6490f552b668216378540",
+          "size": [
+            1080,
+            2400
+          ]
+        }
+      ],
+      "overview": {
+        "file": "images/H5-012_OVERVIEW.png",
+        "sha256": "bb1c55b0ffd14805d9beb9187a696d8a40269412d53480e5b90ac5e585706545",
+        "size": [
+          2976,
+          2576
+        ]
+      }
+    },
+    {
+      "page_id": "ADM-ID-001",
+      "name": "管理端实名列表",
+      "spec": "specs/ADM-ID-001.md",
+      "spec_sha256": "5301a14dfd93f697d1cde72388c8b4bd5165d27c36af148ca5be640d6eb43cfd",
+      "reference": "ADM-LIST 标准模板 + 批准补充规格",
+      "images": [
+        {
+          "state": "加载",
+          "file": "images/ADM-ID-001_01_加载.png",
+          "sha256": "f3f48e05ff87c9f1e08d74db6c9b6850f4cf2d1a03d12aba477d3dad5a104610",
+          "size": [
+            1440,
+            900
+          ]
+        },
+        {
+          "state": "正常列表",
+          "file": "images/ADM-ID-001_02_正常列表.png",
+          "sha256": "8f58eafd8f543345516c708b96533121ca6cc5ee2bad473c4a3dd1c756fbbf13",
+          "size": [
+            1440,
+            900
+          ]
+        },
+        {
+          "state": "空列表",
+          "file": "images/ADM-ID-001_03_空列表.png",
+          "sha256": "0905cf33c3ef0a0f43af8571da88ea29fd5e098b2e52ff2a7d0c808ac59fd1ed",
+          "size": [
+            1440,
+            900
+          ]
+        },
+        {
+          "state": "无权限",
+          "file": "images/ADM-ID-001_04_无权限.png",
+          "sha256": "3bd8ecbb40b7eb0837355383287a5263314541588b46cbcc5cf7302406d5e267",
+          "size": [
+            1440,
+            900
+          ]
+        },
+        {
+          "state": "失败",
+          "file": "images/ADM-ID-001_05_失败.png",
+          "sha256": "b7583b1882af5044ae338f42c4c9ef92eb2097729d0857da1f5b10e12f525fad",
+          "size": [
+            1440,
+            900
+          ]
+        },
+        {
+          "state": "1200响应式",
+          "file": "images/ADM-ID-001_06_1200响应式.png",
+          "sha256": "cf6186e65abf45a97babe0bfb4c9a8e3ca2f58119f4c43b674bafc16eb9fd6bf",
+          "size": [
+            1200,
+            900
+          ]
+        }
+      ],
+      "overview": {
+        "file": "images/ADM-ID-001_OVERVIEW.png",
+        "sha256": "97fd566fc5171ae90c48a59c1cb2cc2023ae3ee5c6e5e5f88b479ef49e844a5b",
+        "size": [
+          2816,
+          3102
+        ]
+      }
+    },
+    {
+      "page_id": "ADM-ID-002",
+      "name": "管理端实名详情与复核",
+      "spec": "specs/ADM-ID-002.md",
+      "spec_sha256": "4f57fa2fcbbcf7ce170f6c7a25691094641bf3176f0c357b3663b42c3714f1fe",
+      "reference": "ADM-REVIEW 标准模板 + 批准补充规格",
+      "images": [
+        {
+          "state": "加载",
+          "file": "images/ADM-ID-002_01_加载.png",
+          "sha256": "844068b00360755dd2bad6df17bd7fdb4366bbd0106bd025f0cc366fb44758ca",
+          "size": [
+            1440,
+            900
+          ]
+        },
+        {
+          "state": "详情",
+          "file": "images/ADM-ID-002_02_详情.png",
+          "sha256": "82aac1dad8ddf41338ff537ece167fc8667ce1a37f21fcf522e9fb77b3c4c131",
+          "size": [
+            1440,
+            900
+          ]
+        },
+        {
+          "state": "敏感资料授权",
+          "file": "images/ADM-ID-002_03_敏感资料授权.png",
+          "sha256": "28ade9e47b8aecd0022df1135e632cccd7d1e365037da798adcc5477c082d401",
+          "size": [
+            1440,
+            900
+          ]
+        },
+        {
+          "state": "人工复核",
+          "file": "images/ADM-ID-002_04_人工复核.png",
+          "sha256": "64309dbd320460c9e1dae6affcb6bbc8c5a7de68c3953cc1bdd26734e561da8a",
+          "size": [
+            1440,
+            900
+          ]
+        },
+        {
+          "state": "乐观锁冲突",
+          "file": "images/ADM-ID-002_05_乐观锁冲突.png",
+          "sha256": "6d8268b3ef898e0ea2fe36494650bfe1e820f14e80943e745662d3268c74cfab",
+          "size": [
+            1440,
+            900
+          ]
+        },
+        {
+          "state": "无权限",
+          "file": "images/ADM-ID-002_06_无权限.png",
+          "sha256": "886b765cc796490a898a1bf35d2b9fac4efe7395c5c00c92b3ccfd5e76645843",
+          "size": [
+            1440,
+            900
+          ]
+        },
+        {
+          "state": "404",
+          "file": "images/ADM-ID-002_07_404.png",
+          "sha256": "ee174fe314dd2929fef069507a626a0cfc01cd3d4f51082a1201876792ded31e",
+          "size": [
+            1440,
+            900
+          ]
+        },
+        {
+          "state": "1200响应式",
+          "file": "images/ADM-ID-002_08_1200响应式.png",
+          "sha256": "01dd34a868c280ea93414c701e986cc8b7f03e0367ef17b8673f1349f821d691",
+          "size": [
+            1200,
+            900
+          ]
+        }
+      ],
+      "overview": {
+        "file": "images/ADM-ID-002_OVERVIEW.png",
+        "sha256": "f477d597b430237d4123d0929def20ef257916d5ebcc0272c89e3997e14ac92b",
+        "size": [
+          2816,
+          4070
+        ]
+      }
+    }
+  ],
+  "business_filters": [
+    "不包含真实姓名、真实身份证号、真实手机号、账号、密钥或供应商秘密",
+    "不展示 requestId、traceId、state、会话ID、Token、AppKey、接口名或异常栈",
+    "用户页面只展示业务状态和下一步；管理端敏感信息默认脱敏并保留授权/审计结构",
+    "效果图不新增未登记业务；功能字段动作仍以页面规格和合同为准"
+  ]
+}

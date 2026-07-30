@@ -1,0 +1,16 @@
+schema: hhy.android-historical-visual-request/v1
+request_id: HISTORICAL-UI-20260730-005
+status: REQUESTED
+mode: HISTORICAL-UI
+candidate: false
+source_commit: aac31255efaf2df17e5cacad0f911a46c6fc6c42
+expected_screenshot_count: 33
+requested_for:
+- R13 historical visual debt
+- R14 machine close
+- R13/R14 safe-area visual remediation
+- R14 report viewport remediation
+network_mode: OFFLINE_PRODUCTION_COMPOSABLES
+staging_bootstrap_required: false
+candidate_backend_required: false
+owner_confirmation_required: false

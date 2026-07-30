@@ -1,0 +1,300 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260723T231210Z-409B970E-0001
+session_id: SES-20260723T231210Z-409B970E
+task_id: TASK-R11-005
+story_id: STORY-R11-004
+sequence: 1
+created_at: '2026-07-24T00:17:28Z'
+summary: R11三项专项矩阵、并发幂等修复及真实PostgreSQL17验证阶段完成
+next_step: 执行CROSS_LAYER受影响MODULE门禁，补齐CR范围后提交实现Commit
+blockers: []
+decisions: []
+note: ''
+tests:
+- name: r11-specialized-inventory
+  result: PASS
+  evidence: scripts/run_r11_specialized_matrix.py
+  note: 三项权威测试库存与适配器通过
+- name: r11-python-selftest
+  result: PASS
+  evidence: tests/test_r11_specialized_matrix.py
+  note: 3项自测全部通过
+- name: r11-backend-java21
+  result: PASS
+  evidence: services/backend/boot/target/surefire-reports
+  note: R11Service 8项、ContentService 13项、StorageMigration 3项、Controller合同1项通过
+- name: r11-postgresql17
+  result: PASS
+  evidence: obx-test ephemeral PostgreSQL 17.10
+  note: R11PostgresStore 1项加R08PostgresStore 4项，0失败0跳过，容器已清理
+- name: r11-admin-web
+  result: PASS
+  evidence: apps/admin-web
+  note: 23文件101项测试与TypeScript通过
+- name: r11-android-module
+  result: PASS
+  evidence: obx-test fixed Android container
+  note: 189任务、团队长单测、Lint和Kotlin编译通过
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: f31737d6714f7088397ab505626ea703ac4f6c7e
+  upstream: origin/task/TASK-R03-001
+  ahead: 23
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/ACTIVE_SESSION.yaml'
+  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/SESSION_INDEX.yaml'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/TASK_CLAIMS.yaml'
+  - ' M .continuity/TASK_TRANSITIONS.yaml'
+  - ' M CURRENT_STATUS.yaml'
+  - ' M apps/admin-web/src/services/adminContents.ts'
+  - ' M apps/admin-web/src/services/idempotency.ts'
+  - ' M apps/android/feature/team-leader/src/main/java/cc/orbexa/hhy/teamleader/R11TeamLeaderDetailScreen.kt'
+  - ' M apps/android/feature/team-leader/src/main/java/cc/orbexa/hhy/teamleader/R11TeamLeaderState.kt'
+  - ' M apps/android/feature/team-leader/src/test/java/cc/orbexa/hhy/teamleader/R11TeamLeaderStateTest.kt'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+  - ' M catalogs/change_request_index.csv'
+  - ' M catalogs/session_index.csv'
+  - ' M catalogs/task_transition_ledger.csv'
+  - ' M catalogs/test_cases.csv'
+  - ' M services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/R11ControllerContractTest.java'
+  - ' M services/backend/boot/src/test/java/cc/orbexa/hhy/content/R11ServiceTest.java'
+  - ?? .continuity/change_requests/CR-0297.yaml
+  - ?? .continuity/change_requests/CR-0298.yaml
+  - ?? .continuity/change_requests/CR-0299.yaml
+  - ?? .continuity/sessions/SES-20260723T231210Z-409B970E.yaml
+  - ?? apps/admin-web/src/services/adminContents.test.ts
+  - ?? docs/03-continuity/change-requests/CR-0297-R11团队长三项专项测试与故障证据闭环.md
+  - ?? docs/03-continuity/change-requests/CR-0298-R11并发重复动作与后台幂等隔离修复.md
+  - ?? docs/03-continuity/change-requests/CR-0299-R11控制器合同测试路径稳定化.md
+  - ?? docs/03-continuity/sessions/2026-07/SES-20260723T231210Z-409B970E.md
+  - ?? scripts/run_r11_specialized_matrix.py
+  - ?? tests/r11/README.md
+  - ?? tests/r11/req-team-001_happy
+  - ?? tests/r11/req-team-001_idempotent
+  - ?? tests/r11/req-team-001_reject
+  - ?? tests/test_r11_specialized_matrix.py
+  recent_commits:
+  - "f31737d6714f7088397ab505626ea703ac4f6c7e\t2026-07-24T07:09:16+08:00\tHHY Continuity Bootstrap\t[STORY-R11-003] chore(continuity): close TASK-R11-004\
+    \ as completed"
+  - "f156b9673a093e87261d4926146134fe555a409d\t2026-07-24T07:05:23+08:00\tHHY Continuity Bootstrap\t[STORY-R11-003] chore(continuity): close admin\
+    \ changes"
+  - "7f3483f8335c6601aaf757e12b5ceac3c608949d\t2026-07-24T07:02:00+08:00\tHHY Continuity Bootstrap\t[STORY-R11-003] feat(admin): add team leader\
+    \ operations view"
+  - "db7f0f364a9afe15ef26090774d98d05bb584f89\t2026-07-24T06:28:03+08:00\tHHY Continuity Bootstrap\t[STORY-R11-003] chore(continuity): close platform\
+    \ cache change"
+  - "88b984242b6eef0fdc30a1c02309e21c65772820\t2026-07-24T06:27:47+08:00\tHHY Continuity Bootstrap\t[STORY-R11-003] chore(infra): persist android\
+    \ 36 platform"
+  - "28a65a2d26af1088600e9b9b92cff66faad90ad6\t2026-07-24T05:38:43+08:00\tHHY Continuity Bootstrap\t[STORY-R11-003] chore(continuity): close r11\
+    \ editor changes"
+  - "1634f6345b0bf81eb9c1660c3615d71c840953c4\t2026-07-24T05:37:14+08:00\tHHY Continuity Bootstrap\t[STORY-R11-003] feat(r11): implement team\
+    \ leader editor"
+  - "8409f51e0290187f6e55316ec682c469761947c1\t2026-07-24T04:44:01+08:00\tHHY Continuity Bootstrap\t[STORY-R11-003] chore(continuity): close android\
+    \ resource guard"
+project_fingerprint:
+  sha256: 2643bd7c6521f01d0fecfd926c9c393d942b9191fb02bab8eca7c23c3d26aaeb
+  files:
+  - apps/admin-web/src/services/adminContents.test.ts
+  - apps/admin-web/src/services/adminContents.ts
+  - apps/admin-web/src/services/idempotency.ts
+  - apps/android/feature/team-leader/src/main/java/cc/orbexa/hhy/teamleader/R11TeamLeaderDetailScreen.kt
+  - apps/android/feature/team-leader/src/main/java/cc/orbexa/hhy/teamleader/R11TeamLeaderState.kt
+  - apps/android/feature/team-leader/src/test/java/cc/orbexa/hhy/teamleader/R11TeamLeaderStateTest.kt
+  - catalogs/test_cases.csv
+  - docs/03-continuity/change-requests/CR-0297-R11团队长三项专项测试与故障证据闭环.md
+  - docs/03-continuity/change-requests/CR-0298-R11并发重复动作与后台幂等隔离修复.md
+  - docs/03-continuity/change-requests/CR-0299-R11控制器合同测试路径稳定化.md
+  - scripts/run_r11_specialized_matrix.py
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/R11ControllerContractTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R11ServiceTest.java
+  - tests/r11/README.md
+  - tests/r11/req-team-001_happy
+  - tests/r11/req-team-001_idempotent
+  - tests/r11/req-team-001_reject
+  - tests/test_r11_specialized_matrix.py
+  file_count: 18
+  payload:
+    base_commit: f31737d6714f7088397ab505626ea703ac4f6c7e
+    files:
+    - path: apps/admin-web/src/services/adminContents.test.ts
+      state: FILE
+      size: 2743
+      sha256: 18836aaacf5fe26e6dc473768e07897b48af422fcb96a18371c30690219368c7
+    - path: apps/admin-web/src/services/adminContents.ts
+      state: FILE
+      size: 5287
+      sha256: df7610b4bf8d29e4d5fe87a87ff68c28a5cf9e2d21a5c8c6b2f0bc44bcbf2826
+    - path: apps/admin-web/src/services/idempotency.ts
+      state: FILE
+      size: 2863
+      sha256: 508821cd47600465b97cc7c6e065b39e5f0bce4cd4cbddb61a918fd70872180b
+    - path: apps/android/feature/team-leader/src/main/java/cc/orbexa/hhy/teamleader/R11TeamLeaderDetailScreen.kt
+      state: FILE
+      size: 20554
+      sha256: 10a5b8ec4e4d97a9e46b599b492b6e72afe564b6ffcb92bc0b3e4e80bc001854
+    - path: apps/android/feature/team-leader/src/main/java/cc/orbexa/hhy/teamleader/R11TeamLeaderState.kt
+      state: FILE
+      size: 12508
+      sha256: 2fbd1cd2411bd88142912fc5e0a4c14f2196e8c4786499fdb9c35e758edff19c
+    - path: apps/android/feature/team-leader/src/test/java/cc/orbexa/hhy/teamleader/R11TeamLeaderStateTest.kt
+      state: FILE
+      size: 6759
+      sha256: 7706db646e0b9ef01a1c9940ecb0fbdaf1abeeeb1303cb63b30ae59f00a07907
+    - path: catalogs/test_cases.csv
+      state: FILE
+      size: 227832
+      sha256: 376d8b9252557f7a4a103c057dab5bc1dd735a3589f42c723e80d30b818188af
+    - path: docs/03-continuity/change-requests/CR-0297-R11团队长三项专项测试与故障证据闭环.md
+      state: FILE
+      size: 3184
+      sha256: 2fb8bbb87c517bc6ff636e2242c4bcd0f4d05e48795bf987313f08b00d5e15c5
+    - path: docs/03-continuity/change-requests/CR-0298-R11并发重复动作与后台幂等隔离修复.md
+      state: FILE
+      size: 2775
+      sha256: 93447daaec90b797b7bd1226157bdf40196c1cc617aa091a1cb4dd07ae506b3e
+    - path: docs/03-continuity/change-requests/CR-0299-R11控制器合同测试路径稳定化.md
+      state: FILE
+      size: 2102
+      sha256: 878228736269a756bbaf7a6762996ab1bd7256414c5048a56a5098cff0d58e2a
+    - path: scripts/run_r11_specialized_matrix.py
+      state: FILE
+      size: 9072
+      sha256: 0c6edbab85f7538641e7ad876307b949f0f829c113149c2e82de18a7ca267ef2
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/R11ControllerContractTest.java
+      state: FILE
+      size: 2242
+      sha256: 83e3137dac5fd107fe4bbc079e5ad857d1d5102cefaf0514bad88f9f929a185c
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/content/R11ServiceTest.java
+      state: FILE
+      size: 13868
+      sha256: 1dfb267de8ff973394f5c7f0f64ad05d0699437c347a3c3a06a4c96eb9dab06a
+    - path: tests/r11/README.md
+      state: FILE
+      size: 936
+      sha256: cfeb54b34fe63fccfd3f69e23ec6bf4aa24915036a00f8c50be6f2ee20543d2d
+    - path: tests/r11/req-team-001_happy
+      state: FILE
+      size: 1252
+      sha256: 2b91d815ecd6605526a1b866df235610084926307c3cdf27314f271e6504c4af
+    - path: tests/r11/req-team-001_idempotent
+      state: FILE
+      size: 1659
+      sha256: e4bfa29b5b8d57929dfeb8657effc804d8b7a7eca1ea9b099cb71288a462d5f8
+    - path: tests/r11/req-team-001_reject
+      state: FILE
+      size: 1240
+      sha256: afac7058ec97ed8490bcc23c3f7b61b3f1cd53bdd4db93654ab06a2fe895f39b
+    - path: tests/test_r11_specialized_matrix.py
+      state: FILE
+      size: 1976
+      sha256: fd525e088c753b46aea4434e9b96dea172eca3bb2254ef532bed5c79f72f5f1b
+change_classification:
+  code:
+  - apps/admin-web/src/services/adminContents.test.ts
+  - apps/admin-web/src/services/adminContents.ts
+  - apps/admin-web/src/services/idempotency.ts
+  - apps/android/feature/team-leader/src/main/java/cc/orbexa/hhy/teamleader/R11TeamLeaderDetailScreen.kt
+  - apps/android/feature/team-leader/src/main/java/cc/orbexa/hhy/teamleader/R11TeamLeaderState.kt
+  - apps/android/feature/team-leader/src/test/java/cc/orbexa/hhy/teamleader/R11TeamLeaderStateTest.kt
+  - scripts/run_r11_specialized_matrix.py
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/R11ControllerContractTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R11ServiceTest.java
+  user_visible:
+  - apps/admin-web/src/services/adminContents.test.ts
+  - apps/admin-web/src/services/adminContents.ts
+  - apps/admin-web/src/services/idempotency.ts
+  - apps/android/feature/team-leader/src/main/java/cc/orbexa/hhy/teamleader/R11TeamLeaderDetailScreen.kt
+  - apps/android/feature/team-leader/src/main/java/cc/orbexa/hhy/teamleader/R11TeamLeaderState.kt
+  - apps/android/feature/team-leader/src/test/java/cc/orbexa/hhy/teamleader/R11TeamLeaderStateTest.kt
+  other:
+  - catalogs/test_cases.csv
+  continuity:
+  - docs/03-continuity/change-requests/CR-0297-R11团队长三项专项测试与故障证据闭环.md
+  - docs/03-continuity/change-requests/CR-0298-R11并发重复动作与后台幂等隔离修复.md
+  - docs/03-continuity/change-requests/CR-0299-R11控制器合同测试路径稳定化.md
+  tests:
+  - tests/r11/README.md
+  - tests/r11/req-team-001_happy
+  - tests/r11/req-team-001_idempotent
+  - tests/r11/req-team-001_reject
+  - tests/test_r11_specialized_matrix.py
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+- CHANGELOG
+change_requests:
+- CR-0297
+- CR-0298
+- CR-0299
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions:
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R11ServiceTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R11PostgresStoreTest.java
+  - tests/r11/README.md
+  - tests/r11/req-team-001_happy
+  - tests/r11/req-team-001_reject
+  - tests/r11/req-team-001_idempotent
+  - tests/test_r11_specialized_matrix.py
+  - scripts/run_r11_specialized_matrix.py
+  - catalogs/test_cases.csv
+  - artifacts/reports/R11/TASK-R11-005_SPECIALIZED_TEST_REPORT.md
+  - artifacts/validation/r11-test-evidence/evidence.json
+  - artifacts/validation/r11-test-evidence/backend-java21.log
+  - artifacts/validation/r11-test-evidence/postgresql17.log
+  - artifacts/validation/r11-test-evidence/android-module.log
+  - apps/android/feature/team-leader/src/main/java/cc/orbexa/hhy/teamleader/R11TeamLeaderState.kt
+  - apps/android/feature/team-leader/src/main/java/cc/orbexa/hhy/teamleader/R11TeamLeaderDetailScreen.kt
+  - apps/android/feature/team-leader/src/test/java/cc/orbexa/hhy/teamleader/R11TeamLeaderStateTest.kt
+  - apps/admin-web/src/services/idempotency.ts
+  - apps/admin-web/src/services/adminContents.ts
+  - apps/admin-web/src/services/adminContents.test.ts
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/R11ControllerContractTest.java
+  source: story+explicit+approved-cr:CR-0297+approved-cr:CR-0298+approved-cr:CR-0299
+parallel_execution:
+  assessment: CAPABILITY_UNAVAILABLE
+  delegated_workers: 0
+  workers: []
+  reason: 当前运行时策略禁用主动子代理委托，主控按模块边界串行复核
+event_hash: bc434cc4395977c4f40b64573891179e0e9fb25482a5d0157349ee718c9e2479

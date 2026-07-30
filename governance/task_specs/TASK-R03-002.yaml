@@ -1,0 +1,45 @@
+schema: hhy.task-spec/v5.0
+id: TASK-R03-002
+release: R03
+ordinal: 2
+title: 纵向批次A：短信、存储与实名供应商配置闭环
+kind: database
+mode: worker
+source:
+  path: releases/R03/TASKS.yaml
+  original_id: TASK-R03-002
+requirements:
+- REQ-CONFIG-001
+- REQ-DOMAIN-001
+- REQ-STORAGE-001
+- REQ-SECRET-001
+- REQ-CONFIG-UX-001
+- REQ-APK-001
+depends_on:
+- TASK-R03-001
+objective: 完成供应商定义、不可变版本、连接测试、SecretRef、证书状态、双人审批、激活/回滚、后台页面和自动化测试的真实闭环
+deliverables:
+- 短信、R2/OSS和实名配置的数据、API、Admin页面与测试闭环
+- 连接测试失败不得激活，秘密只暴露配置状态和SecretRef元数据
+- 幂等、乐观锁、审批、审计和回滚证据
+acceptance:
+- 无TODO/生产Mock或明文秘密
+- STORY-R03-001全部页面动作使用冻结生成类型
+- MODULE门禁通过并可独立交给主控集成
+allowed_paths:
+- catalogs/**
+- contracts/**
+- database/**
+- docs/**
+- services/backend/**
+- tests/**
+risks:
+- database
+- production
+- secrets
+- security
+acceptance_commands:
+- python3 scripts/check_db_schema.py
+maximum_attempts: 3
+owner_verification: ASYNC_NON_BLOCKING_FOR_NEXT_RELEASE
+legacy_status: DONE

@@ -1,6 +1,6 @@
 release: R16
 title: 商品、SKU、报价与统一订单
-status: READY_WHEN_DEPENDENCIES_GREEN
+status: IMPLEMENTING
 milestone: M2_COMMERCE
 depends_on:
 - R02
@@ -66,6 +66,50 @@ exit_gate:
 change_policy: V1.2.2 页面、字段、状态、动作、API、配置和数据目录是唯一事实源；破坏性变更必须CR+版本升级+迁移+消费者兼容窗口
 documentation_baseline: V1.2.2
 document_gap_status: ZERO_BLOCKING_DOCUMENT_GAPS
+entry_baseline:
+  cr_id: CR-0440
+  status: PASS
+  evidence: artifacts/validation/r16-entry/entry-contract.json
+  report: artifacts/reports/R16/TASK-R16-001-entry-baseline.md
+  contract_rule: R16十接口使用显式商品、SKU和订单资源；禁止oneOf或CommandResultResource回退
+  visual_rule: 三页具备精确或批准补充视觉合同；效果图示例数据与未登记动作全部过滤
+data_baseline:
+  cr_id: CR-0441
+  status: PASS
+  migration: database/migrations/V045__r16_commerce_order_invariants.sql
+  rollback: database/rollback/U045__r16_commerce_order_invariants_DEV_ONLY.sql
+  invariant_matrix: database/tests/r16_commerce_order_invariants.sql
+  report: artifacts/reports/R16/TASK-R16-002-data-invariants.md
+  compatibility_rule: 历史事实只做确定性转换，无法确定时升级原子拒绝；禁止伪造展示名称、权益或不退款证据
+backend_baseline:
+  cr_ids:
+  - CR-0442
+  - CR-0443
+  - CR-0444
+  - CR-0445
+  status: PASS
+  migrations:
+  - database/migrations/V046__r16_product_permission_alignment.sql
+  - database/migrations/V047__r16_commerce_contract_alignment.sql
+  report: artifacts/reports/R16/TASK-R16-003-backend.md
+  operation_ids: 10
+  owner_isolation: 用户订单列表与详情在SQL层绑定认证userId，跨用户和不存在统一404
+  transaction_rule: 商品与SKU业务写、管理员审计、Outbox、幂等领取和加密首次响应快照同事务
+  contract_alignment: BenefitResource名称255、单位64且durationDays最小0；V047前向对齐且不改写V045
+  regression: Java 21后端全量491项，0失败、0错误、27项按外部PostgreSQL条件跳过
+  test_isolation: Spring控制器保持可代理；WebSocket容器工厂在test profile关闭；默认H2按ApplicationContext使用UUID隔离
+admin_order_baseline:
+  cr_id: CR-0448
+  status: MACHINE_VERIFIED
+  page: apps/admin-web/src/views/CommerceOrdersPage.vue
+  service: apps/admin-web/src/services/adminOrders.ts
+  report: artifacts/reports/R16/TASK-R16-004-admin-orders.md
+  permission: order.read
+  operations:
+  - adminOrdersGetOrders
+  - adminOrdersGetOrdersByOrderno
+  regression: admin Vue typecheck、27个测试文件和121项测试全部PASS
+  visual_status: IN_REVIEW；R16大版本候选阶段生成真实数据截图后由AI判定，不阻塞后续Android故事
 definition_of_ready: releases/R16/DEFINITION_OF_READY.yaml
 story_backlog: releases/R16/STORIES.yaml
 continuity:

@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "release": "R09",
+  "commit": "97dc163e1cbed8d19a054326806453c5fa0aee9b",
+  "apk_file": "hhy-r09-97dc163-debug.apk",
+  "version_name": "1.2.2-debug",
+  "version_code": 10218,
+  "sha256": "78dda7171867f9005917b9768d5c79510ba0c9ddf86448c1497d8b62e65e31f9",
+  "size_bytes": 20752173,
+  "signing": {
+    "status": "PASS",
+    "profile_id": "hhy-staging-test-v1",
+    "fingerprint": "f17b040789a845244ff9e2a9d8aedc1e7412adea0539d99c5cc036baf5dbb873",
+    "v2": true,
+    "v3": true,
+    "stable": true
+  },
+  "local": {
+    "status": "PASS",
+    "artifact_copy": "C:\\Users\\小白\\Desktop\\workspace\\hhy-v1.2.3-handoff\\合伙云Pro_Codex直接开发包_V1.2.3_持续开发无状态接续强制门禁最终版\\artifacts\\apk\\R09\\hhy-r09-97dc163-debug.apk"
+  },
+  "desktop": {
+    "status": "PASS",
+    "path": "C:\\Users\\小白\\Desktop\\hhy-r09-97dc163-debug.apk",
+    "sha256": "78dda7171867f9005917b9768d5c79510ba0c9ddf86448c1497d8b62e65e31f9"
+  },
+  "route_preflight": {
+    "status": "PASS",
+    "route": "/r09-artifacts/hhy-r09-97dc163-debug.apk",
+    "remote_path": "/www/wwwroot/download.orbexa.cc/r09-artifacts/hhy-r09-97dc163-debug.apk",
+    "nginx_config_test": "PASS",
+    "checked_at": "2026-07-23T02:04:27Z"
+  },
+  "remote": {
+    "status": "PASS",
+    "sha256": "78dda7171867f9005917b9768d5c79510ba0c9ddf86448c1497d8b62e65e31f9",
+    "size_bytes": 20752173,
+    "path": "/www/wwwroot/download.orbexa.cc/r09-artifacts/hhy-r09-97dc163-debug.apk",
+    "publish_state": "CREATED"
+  },
+  "https": {
+    "status": "PASS",
+    "http_status": 200,
+    "range_status": 206,
+    "content_type": "application/vnd.android.package-archive",
+    "sha256": "78dda7171867f9005917b9768d5c79510ba0c9ddf86448c1497d8b62e65e31f9",
+    "size_bytes": 20752173,
+    "verified_at": "2026-07-23T02:04:27Z",
+    "url": "https://download.orbexa.cc/r09-artifacts/hhy-r09-97dc163-debug.apk"
+  },
+  "owner_physical_test": {
+    "status": "PENDING"
+  },
+  "created_at": "2026-07-23T02:04:27Z",
+  "last_verified_at": "2026-07-23T02:04:27Z"
+}

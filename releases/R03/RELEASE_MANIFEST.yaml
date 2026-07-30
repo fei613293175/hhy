@@ -1,17 +1,20 @@
 release: R03
 title: 供应商配置、密钥、证书与域名中心
-status: READY_WHEN_DEPENDENCIES_GREEN
+status: DONE
+release_commit: 660d148d0743e796a9b77558bed68f046197519e
+release_tag: R03-660d148
 milestone: M0_ENGINEERING_FOUNDATION
 depends_on:
 - R01
 scope: 后台配置短信、R2/OSS、实名、支付、支付宝出款；orbexa.cc二级域名和DNS待办
-android_test_apk_required: false
+android_test_apk_required: true
 requirements:
 - REQ-CONFIG-001
 - REQ-DOMAIN-001
 - REQ-STORAGE-001
 - REQ-SECRET-001
 - REQ-CONFIG-UX-001
+- REQ-APK-001
 ui:
   android: []
   h5: []
@@ -26,19 +29,24 @@ ui:
 contracts:
   client_api: []
   admin_api:
-  - GET /admin-api/v1/provider-configs
-  - GET /admin-api/v1/provider-configs/{provider}
-  - POST /admin-api/v1/provider-configs/{provider}/versions
-  - POST /admin-api/v1/provider-configs/{provider}/test
-  - POST /admin-api/v1/provider-configs/{provider}/activate
-  - POST /admin-api/v1/provider-configs/{provider}/rollback
-  - POST /admin-api/v1/provider-certificates
-  - GET /admin-api/v1/provider-certificates
-  - POST /admin-api/v1/provider-certificates/{id}/rotate
-  - GET /admin-api/v1/domains
-  - PUT /admin-api/v1/domains/{code}
-  - GET /admin-api/v1/domains/dns-actions
-  - POST /admin-api/v1/domains/{code}/verify
+    operation_ids:
+    - adminProviderConfigPostProviderConfigsByProviderVersions
+    - adminProviderCertificatePostProviderCertificatesByIdRotate
+    - adminDomainConfigPostDomainsByCodeVerify
+    paths:
+    - GET /admin-api/v1/provider-configs
+    - GET /admin-api/v1/provider-configs/{provider}
+    - POST /admin-api/v1/provider-configs/{provider}/versions
+    - POST /admin-api/v1/provider-configs/{provider}/test
+    - POST /admin-api/v1/provider-configs/{provider}/activate
+    - POST /admin-api/v1/provider-configs/{provider}/rollback
+    - POST /admin-api/v1/provider-certificates
+    - GET /admin-api/v1/provider-certificates
+    - POST /admin-api/v1/provider-certificates/{id}/rotate
+    - GET /admin-api/v1/domains
+    - PUT /admin-api/v1/domains/{code}
+    - GET /admin-api/v1/domains/dns-actions
+    - POST /admin-api/v1/domains/{code}/verify
   websocket: []
 database_tables:
 - system_configs
@@ -86,6 +94,10 @@ tests:
 - TST-V122-032
 - TST-V122-033
 - TST-V122-034
+test_count: 18
+parallel_execution_plan: releases/R03/PARALLEL_EXECUTION_PLAN.yaml
+planning_depth: STORY_READY
+apk_gate: REGRESSION_APK_DESKTOP_PUBLIC_AND_OWNER_DEVICE_REQUIRED
 entry_gate:
 - releases/R03/DEFINITION_OF_READY.yaml 全部适用项为PASS
 - releases/R03/STORIES.yaml 中每个故事均绑定页面/API/配置/数据/测试或显式N/A
@@ -99,6 +111,7 @@ exit_gate:
 - 日志指标链路和业务告警可验证
 - Session Log、追踪矩阵、产物Manifest和下一任务更新
 - 供应商测试环境、SecretRef、证书和DNS外部激活项已完成或登记明确阻断
+- 即使无Android页面变更，也必须交付回归APK并完成桌面、公网和项目所有者真机验收
 change_policy: V1.2.2 页面、字段、状态、动作、API、配置和数据目录是唯一事实源；破坏性变更必须CR+版本升级+迁移+消费者兼容窗口
 documentation_baseline: V1.2.2
 document_gap_status: ZERO_BLOCKING_DOCUMENT_GAPS

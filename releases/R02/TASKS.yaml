@@ -3,8 +3,10 @@ title: 账号、登录、注册与安全会话
 tasks:
 - id: TASK-R02-001
   title: 账号、登录、注册与安全会话开发就绪核验、故事领取与变更基线
-  status: READY
+  status: DONE
   depends_on: []
+  stories:
+  - STORY-R02-009
   requirements: &id001
   - REQ-AUTH-001
   - REQ-AUTH-002
@@ -12,11 +14,12 @@ tasks:
   - REQ-AUTH-004
   - REQ-AUTH-005
   - REQ-APK-001
-  description: 核验 6 项需求、19 个接口、28 张相关表、14 个页面/交互面和 9 个故事；全部适用DoR必须PASS。
+  description: 核验6项需求、20个本版本新增端点、27个故事唯一operationId（含8个复用依赖）、28张相关表、14个页面/交互面、9个故事和25项测试；全部适用DoR必须PASS。
   deliverables:
   - releases/R02/DEFINITION_OF_READY.yaml 全部适用项PASS
   - releases/R02/STORIES.yaml 故事责任人和依赖已领取
   - 更新Release Manifest与CR记录
+  - releases/R02/PARALLEL_EXECUTION_PLAN.yaml 已冻结4个纵向批次和互斥责任边界
   - python scripts/check_v122_documentation.py --release R02
   acceptance:
   - 页面、字段、状态、动作、API、配置、数据和测试无TBD
@@ -24,94 +27,133 @@ tasks:
   - releases/R02/DEFINITION_OF_READY.yaml 全部适用项PASS
   - releases/R02/STORIES.yaml 故事责任人和依赖已领取
   - 更新Release Manifest与CR记录
+  - 20个新增端点、27个故事唯一operationId与25项测试口径一致
+  - 4个纵向批次均可在独立worktree领取且汇合条件明确
   - python scripts/check_v122_documentation.py --release R02
   session_log_required: true
+  completed_at: '2026-07-17T20:02:09Z'
 - id: TASK-R02-002
-  title: 账号、登录、注册与安全会话数据迁移与领域不变量
-  status: BLOCKED
+  title: 纵向批次A：Android启动、登录与邀请注册闭环
+  status: DONE
   depends_on:
   - TASK-R02-001
-  requirements: *id001
-  description: 实现/演进users, user_credentials, auth_security_challenges, password_reset_sessions, registration_records, user_profiles, user_sessions,
-    user_devices等，补齐唯一约束、状态历史、幂等键和回滚验证
-  deliverables:
-  - Flyway前向迁移与空库/升级库测试
-  - 不变量属性测试
-  acceptance:
-  - 无TODO/生产Mock
-  - 代码、文档、测试、追踪同步更新
-  - Flyway前向迁移与空库/升级库测试
-  - 不变量属性测试
-  session_log_required: true
-- id: TASK-R02-003
-  title: 账号、登录、注册与安全会话后端应用服务与接口
-  status: BLOCKED
-  depends_on:
-  - TASK-R02-002
-  requirements: *id001
-  description: 实现范围内26个operationId；控制器仅编排应用服务，跨模块副作用写Outbox
-  deliverables:
-  - OpenAPI契约测试
-  - 权限/幂等/错误码/审计覆盖
-  acceptance:
-  - 无TODO/生产Mock
-  - 代码、文档、测试、追踪同步更新
-  - OpenAPI契约测试
-  - 权限/幂等/错误码/审计覆盖
-  session_log_required: true
-- id: TASK-R02-004
-  title: 账号、登录、注册与安全会话客户端/H5/后台实现
-  status: BLOCKED
-  depends_on:
-  - TASK-R02-003
-  requirements: *id001
-  description: 按 14 个页面/交互面的逐页施工规格和 9 个故事实现；禁止从参考图或通用摘要自行发明业务字段和按钮。
-  deliverables:
-  - 全部页面绑定catalogs/ui_page_specifications.csv
-  - 字段/状态/动作/导航与后台运营规格通过契约测试
-  - 禁止页面级手写重复DTO
-  - 全部动作绑定生成API类型
-  acceptance:
-  - 所有页面故事验收条件通过
-  - 加载、空、局部失败、无权限、404、离线、冲突和成功导航均有证据
-  - 全部页面绑定catalogs/ui_page_specifications.csv
-  - 字段/状态/动作/导航与后台运营规格通过契约测试
-  - 禁止页面级手写重复DTO
-  - 全部动作绑定生成API类型
-  session_log_required: true
-- id: TASK-R02-005
-  title: 账号、登录、注册与安全会话专项测试与故障注入
-  status: BLOCKED
-  depends_on:
+  parallelizable_with:
   - TASK-R02-003
   - TASK-R02-004
+  - TASK-R02-005
+  stories:
+  - STORY-R02-003
+  - STORY-R02-004
   requirements: *id001
-  description: 执行20项测试，覆盖重复请求、并发、超时、消息重复和供应商异常
+  description: 同一批次完成启动门禁、密码/短信登录、邀请注册所需数据迁移、领域不变量、后端接口、Android页面、契约和自动化测试。
   deliverables:
-  - 测试报告和失败证据归档
-  - 关键缺陷清零
+  - STORY-R02-003与STORY-R02-004的数据、API、Android和测试真实闭环
+  - Flyway前向/升级/回滚证据与登录注册并发、幂等、安全测试
+  - 无页面级手写重复DTO，动作绑定生成API类型
   acceptance:
   - 无TODO/生产Mock
   - 代码、文档、测试、追踪同步更新
-  - 测试报告和失败证据归档
-  - 关键缺陷清零
+  - 启动、登录、注册的加载、拒绝、离线、冲突和成功导航有证据
+  - MODULE门禁通过并可独立合入主控分支
   session_log_required: true
-- id: TASK-R02-006
-  title: 账号、登录、注册与安全会话可观测性与预发布验收
-  status: BLOCKED
+  completed_at: '2026-07-18T05:31:33Z'
+- id: TASK-R02-003
+  title: 纵向批次B：安全会话、冻结与注销闭环
+  status: DONE
   depends_on:
+  - TASK-R02-001
+  parallelizable_with:
+  - TASK-R02-002
+  - TASK-R02-004
+  - TASK-R02-005
+  stories:
+  - STORY-R02-005
+  - STORY-R02-006
+  - STORY-R02-007
+  requirements: *id001
+  description: 同一批次完成密码修改、安全会话管理、冻结提示、申诉入口与注销申请所需数据、API、Android页面和自动化测试。
+  deliverables:
+  - STORY-R02-005、006、007的数据、API、Android和测试真实闭环
+  - 会话撤销、冻结、注销状态机与审计/幂等/并发证据
+  acceptance:
+  - 无TODO/生产Mock
+  - 代码、文档、测试、追踪同步更新
+  - 权限、错误码、敏感数据和高风险动作审计覆盖
+  - MODULE门禁通过并可独立合入主控分支
+  session_log_required: true
+  completed_at: '2026-07-18T07:05:22Z'
+- id: TASK-R02-004
+  title: 纵向批次C：后台用户列表、详情与管控闭环
+  status: DONE
+  depends_on:
+  - TASK-R02-001
+  parallelizable_with:
+  - TASK-R02-002
+  - TASK-R02-003
+  - TASK-R02-005
+  stories:
+  - STORY-R02-001
+  - STORY-R02-002
+  requirements: *id001
+  description: 同一批次完成用户列表/详情、限制、冻结、解冻和强制退出所需数据、7个后台新增端点、后台页面和自动化测试。
+  deliverables:
+  - STORY-R02-001与STORY-R02-002的数据、API、后台和测试真实闭环
+  - ADM-USER-001与ADM-USER-002绑定页面及后台运营规格
+  - 禁止页面级手写重复DTO
+  - 全部动作绑定生成API类型
+  acceptance:
+  - 两个后台页面故事验收条件通过
+  - 加载、空、局部失败、无权限、404、离线、冲突和成功导航均有证据
+  - MODULE门禁通过并可独立合入主控分支
+  session_log_required: true
+  completed_at: '2026-07-18T08:14:54Z'
+- id: TASK-R02-005
+  title: 纵向批次D：H5邀请注册闭环
+  status: DONE
+  depends_on:
+  - TASK-R02-001
+  parallelizable_with:
+  - TASK-R02-002
+  - TASK-R02-003
+  - TASK-R02-004
+  stories:
+  - STORY-R02-008
+  requirements: *id001
+  description: 同一批次完成邀请配置、安全验证、短信和注册所需数据、4个调用链端点、H5邀请注册页面和自动化测试。
+  deliverables:
+  - STORY-R02-008的数据、API、H5和测试真实闭环
+  - 邀请码、安全验证、短信供应商异常、幂等和成功跳转证据
+  acceptance:
+  - 无TODO/生产Mock
+  - 代码、文档、测试、追踪同步更新
+  - H5-013加载、拒绝、离线、重试和成功导航有证据
+  - MODULE门禁通过并可独立合入主控分支
+  session_log_required: true
+  completed_at: '2026-07-18T08:44:58Z'
+- id: TASK-R02-006
+  title: 四批次全量集成、专项测试、可观测性与预发布验收
+  status: DONE
+  depends_on:
+  - TASK-R02-002
+  - TASK-R02-003
+  - TASK-R02-004
   - TASK-R02-005
   requirements: *id001
-  description: 部署Staging，验证结构化日志、TraceId、RED指标、业务指标、告警和回滚
+  description: 汇合四个纵向批次，执行Release Manifest权威25项测试以及重复请求、并发、超时、消息重复、供应商异常、结构化日志、TraceId、RED指标、业务指标、告警和回滚。
   deliverables:
+  - 25项权威测试、E2E、故障注入与失败证据归档
+  - 四批次生成物和契约无漂移
   - 运行手册演练
   - 验收矩阵签字
   acceptance:
   - 无TODO/生产Mock
   - 代码、文档、测试、追踪同步更新
+  - 25项测试全部PASS且关键缺陷清零
+  - INTEGRATION与预发布门禁通过
   - 运行手册演练
   - 验收矩阵签字
   session_log_required: true
+  completed_at: '2026-07-18T10:48:30Z'
 - id: TASK-R02-007
   title: 账号、登录、注册与安全会话Android测试APK与产物追溯
   status: BLOCKED
@@ -128,6 +170,8 @@ tasks:
   - APK可下载/可安装
   - SHA256、Commit、versionName/versionCode、测试结果齐全
   session_log_required: true
+  blocker: R02机器交付与公网PNG门禁均PASS，等待项目所有者对hhy-r02-7b425c4-debug.apk完成真机验证码与登录路径验收
+  blocked_at: '2026-07-18T13:23:29Z'
 - id: TASK-R02-008
   title: 账号、登录、注册与安全会话版本关闭与无状态交接
   status: BLOCKED
@@ -147,4 +191,4 @@ tasks:
 version: 1.2.2
 definition_of_ready: releases/R02/DEFINITION_OF_READY.yaml
 story_backlog: releases/R02/STORIES.yaml
-execution_rule: TASKS定义治理顺序，STORIES定义可领取纵向工作；二者必须同时满足，不得以通用任务替代页面故事验收。
+execution_rule: TASK-R02-001完成后，TASK-R02-002至005按四个纵向Story批次并行；TASK-R02-006等待四批次汇合。TASKS定义治理与汇合顺序，STORIES定义可领取纵向工作；二者必须同时满足，不得以通用任务替代页面故事验收。

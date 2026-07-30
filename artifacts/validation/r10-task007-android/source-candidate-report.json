@@ -1,0 +1,88 @@
+{
+  "schema": "hhy.android-ci-candidate/v1",
+  "policy_id": "HHY-ANDROID-AUTOMATION-V1",
+  "release": "R10",
+  "commit": "1e35a97fb0541644d85a264a84229435ead378bf",
+  "github_run_id": "30013677033",
+  "status": "BASELINE_REVIEW_REQUIRED",
+  "owner_test_allowed": false,
+  "release_completion_allowed": false,
+  "production_activation_allowed": false,
+  "apk": {
+    "file": "hhy-R10-1e35a97-candidate.apk",
+    "sha256": "30e1a54322c73a056751fb723eaa127aaf12bbffa827b9fc1ce52430bfc27e9a",
+    "size_bytes": 20896719
+  },
+  "runtime_report": {
+    "schema": "hhy.android-ci-runtime/v1",
+    "policy_id": "HHY-ANDROID-AUTOMATION-V1",
+    "release": "R10",
+    "commit": "1e35a97fb0541644d85a264a84229435ead378bf",
+    "github_run_id": "30013677033",
+    "attempt": 2,
+    "max_ai_attempts": 3,
+    "status": "BASELINE_REVIEW_REQUIRED",
+    "candidate_eligible": false,
+    "owner_test_allowed": false,
+    "failures": [
+      {
+        "type": "VISUAL",
+        "detail": "approved visual baseline missing: /home/runner/work/hhy/hhy/tests/android/visual-baselines/R10"
+      }
+    ],
+    "visual_comparisons": [
+      {
+        "comparison": "cross_screen",
+        "screenshots": [
+          "01-home.png",
+          "02-group-list.png"
+        ],
+        "changed_pixel_ratio": 0.236603
+      },
+      {
+        "comparison": "cross_screen",
+        "screenshots": [
+          "02-group-list.png",
+          "03-group-detail.png"
+        ],
+        "changed_pixel_ratio": 0.139858
+      },
+      {
+        "comparison": "cross_screen",
+        "screenshots": [
+          "03-group-detail.png",
+          "04-group-editor.png"
+        ],
+        "changed_pixel_ratio": 0.068505
+      }
+    ],
+    "screenshot_evidence": [
+      {
+        "screenshot": "01-home.png",
+        "sha256": "2b2357c76b36f2d939d91829a98dd70d362355c001f716be965b7926afe8f7ff",
+        "size_bytes": 231756
+      },
+      {
+        "screenshot": "02-group-list.png",
+        "sha256": "b1cc3fe40bdd99ee38a460984a4297ac85efe66451463250ffd2d447bb839b1f",
+        "size_bytes": 113104
+      },
+      {
+        "screenshot": "03-group-detail.png",
+        "sha256": "5e02a9415d5b620cc76a35cfb8b432d035c74d835ca5d073f202ab8eaf671cf2",
+        "size_bytes": 173798
+      },
+      {
+        "screenshot": "04-group-editor.png",
+        "sha256": "13ab9b5546472f89aeaae609a6acee03d5c2139d4d9f72f40092856a6dbbb4f8",
+        "size_bytes": 162816
+      }
+    ],
+    "remediation": {
+      "status": "AI_BASELINE_REVIEW_REQUIRED",
+      "next_action": "AI_REVIEW_AND_LIGHTWEIGHT_PROMOTE_BASELINE",
+      "escalation_allowed": false
+    }
+  },
+  "errors": []
+}

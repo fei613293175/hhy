@@ -1,0 +1,92 @@
+protocol_version: '1.0'
+package_version: 1.2.3
+session_id: SES-20260719T135908Z-32D952EC
+status: CLOSED
+actor:
+  id: codex-root
+  kind: AI_OR_HUMAN
+  host: unknown
+release: R04
+task_id: TASK-R04-006
+story_id: STORY-R04-002
+goal: 完成R04可观测性、Staging部署、供应商故障和回滚演练，确保日志无签名URL、Secret或私有内容并通过Staging与RELEASE前置门禁
+started_at: '2026-07-19T13:59:08Z'
+updated_at: '2026-07-19T14:41:56Z'
+takeover_of: null
+change_requests: []
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions: []
+  source: story+explicit
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  base_commit: 73a0e7db60711a00fd7b3a9a0f2a15d609f37ef7
+  start_head: 73a0e7db60711a00fd7b3a9a0f2a15d609f37ef7
+  upstream: origin/task/TASK-R03-001
+  initial_worktree_state: CLEAN
+lease:
+  duration_minutes: 240
+  renewed_at: '2026-07-19T14:41:54Z'
+  expires_at: '2026-07-19T18:41:54Z'
+checkpoint_sequence: 3
+latest_checkpoint: .continuity/checkpoints/SES-20260719T135908Z-32D952EC/0003.yaml
+session_log: docs/03-continuity/sessions/2026-07/SES-20260719T135908Z-32D952EC.md
+next_step: 提交关闭元数据Commit，然后运行pre-push/CI门禁
+context_pack:
+  yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
+  markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
+  manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+  context_hash: 3fc60613d9da81ce8bf0fefabe5d291405cdc4f0e38f587dfeb15d11f38367f5
+  generated_at: '2026-07-19T14:41:56Z'
+handoff_bundle: null
+closure:
+  result: COMPLETED
+  summary: R04可观测性、隔离Staging、两组业务告警、日志脱敏和同库卷应用回切全部通过，AC-R04-004已签PASS
+  code_commit: fe31d579d15c305f28cfac03c03ed026da6bfb66
+  next_release: R04
+  next_task: TASK-R04-007
+  blocked_advance: false
+  user_confirmation: null
+  metadata_commit: PENDING
+  push_verification: CI_REQUIRED_AFTER_METADATA_COMMIT
+  started_at: '2026-07-19T14:41:52Z'
+  closure_checkpoint_id: CP-SES-20260719T135908Z-32D952EC-0003
+  closed_at: '2026-07-19T14:41:56Z'
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 现场演练依赖同一Compose项目、告警状态与数据库卷顺序变化，必须串行保持证据因果链
+closed_at: '2026-07-19T14:41:56Z'

@@ -1,0 +1,53 @@
+schema: hhy.task-spec/v5.0
+id: TASK-R18-004
+release: R18
+ordinal: 4
+title: Pro会员与补差升级客户端/H5/后台实现
+kind: client_ui
+mode: worker
+source:
+  path: releases/R18/TASKS.yaml
+  original_id: TASK-R18-004
+requirements:
+- REQ-MEMBER-001
+- REQ-MEMBER-002
+- REQ-MEMBER-003
+- REQ-APK-001
+depends_on:
+- TASK-R18-003
+objective: 按 6 个页面/交互面的逐页施工规格和 4 个故事实现；禁止从参考图或通用摘要自行发明业务字段和按钮
+deliverables:
+- 全部页面绑定catalogs/ui_page_specifications.csv
+- 字段/状态/动作/导航与后台运营规格通过契约测试
+- 禁止页面级手写重复DTO
+- 全部动作绑定生成API类型
+acceptance:
+- 所有页面故事验收条件通过
+- 加载、空、局部失败、无权限、404、离线、冲突和成功导航均有证据
+- 全部页面绑定catalogs/ui_page_specifications.csv
+- 字段/状态/动作/导航与后台运营规格通过契约测试
+- 禁止页面级手写重复DTO
+- 全部动作绑定生成API类型
+allowed_paths:
+- apps/admin-web/**
+- apps/android/**
+- apps/h5/**
+- catalogs/**
+- design/**
+- docs/**
+- packages/**
+- tests/**
+risks:
+- contract
+- database
+- funds
+- secrets
+- security
+- ui
+acceptance_commands:
+- python3 scripts/check_db_schema.py
+- python3 scripts/check_api_contract.py
+- python3 scripts/check_ui_tokens.py
+maximum_attempts: 3
+owner_verification: ASYNC_NON_BLOCKING_FOR_NEXT_RELEASE
+legacy_status: BLOCKED

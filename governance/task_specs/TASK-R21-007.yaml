@@ -1,0 +1,47 @@
+schema: hhy.task-spec/v5.0
+id: TASK-R21-007
+release: R21
+ordinal: 7
+title: 红包付款、加价与暂停Android测试APK与产物追溯
+kind: test_apk
+mode: worker
+source:
+  path: releases/R21/TASKS.yaml
+  original_id: TASK-R21-007
+requirements:
+- REQ-RP-002
+- REQ-RP-005
+- REQ-APK-001
+depends_on:
+- TASK-R21-006
+objective: 使用固定工具链构建、签名、安装冒烟并生成APK_MANIFEST
+deliverables:
+- APK可下载/可安装
+- SHA256、Commit、versionName/versionCode、测试结果齐全
+acceptance:
+- 无TODO/生产Mock
+- 代码、文档、测试、追踪同步更新
+- APK可下载/可安装
+- SHA256、Commit、versionName/versionCode、测试结果齐全
+allowed_paths:
+- apps/android/**
+- artifacts/**
+- config/android-automation.yaml
+- docs/**
+- scripts/**
+- tests/android/**
+risks:
+- apk_identity
+- contract
+- database
+- funds
+- secrets
+- security
+- ui
+acceptance_commands:
+- python3 scripts/check_db_schema.py
+- python3 scripts/check_api_contract.py
+- python3 scripts/check_ui_tokens.py
+maximum_attempts: 3
+owner_verification: ASYNC_NON_BLOCKING_FOR_NEXT_RELEASE
+legacy_status: BLOCKED

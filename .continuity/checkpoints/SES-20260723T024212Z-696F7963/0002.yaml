@@ -1,0 +1,159 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260723T024212Z-696F7963-0002
+session_id: SES-20260723T024212Z-696F7963
+sequence: 2
+created_at: '2026-07-23T02:49:01Z'
+summary: 关闭 TASK-R09-008：R09机器完成、六项验收和异步真机交接已通过，正式验收与生产激活继续由Owner真机PENDING阻断
+next_step: 提交关闭元数据Commit，然后运行pre-push/CI门禁
+blockers: []
+decisions:
+- 任务结果：COMPLETED
+- 实现Commit：7f2c335493a6f78aadf8c041b4cc0fffd474d713
+- 任务转换：TRN-20260723T024858Z-SES-20260723T024212Z-696F7963
+- 下一Release：R10
+note: 该检查点专门绑定最终关闭元数据Commit
+tests:
+- name: R09 machine close gate
+  result: PASS
+  evidence: scripts/check_release_artifacts.py --release R09 --machine-close-gate
+  note: tasks=8 acceptance=6 visual_pages=3
+- name: R09 strict documentation
+  result: PASS
+  evidence: scripts/check_v122_documentation.py --strict --release R09
+  note: 0 errors and 0 warnings
+- name: R09 final candidate and APK delivery
+  result: PASS
+  evidence: artifacts/reports/R09/TASK-R09-007-android-apk.md
+  note: 三页视觉、固定签名和四方SHA均通过
+- name: continuity closure metadata
+  result: PASS
+  evidence: catalogs/task_transition_ledger.csv;CHANGELOG.md;CURRENT_STATUS.yaml;NEXT_TASK.yaml
+  note: 关闭元数据、任务转换和下一任务已原子生成
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: 7f2c335493a6f78aadf8c041b4cc0fffd474d713
+  upstream: origin/task/TASK-R03-001
+  ahead: 0
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/sessions/SES-20260723T024212Z-696F7963.yaml'
+  - ' M CHANGELOG.md'
+  - ' M NEXT_TASK.yaml'
+  - ' M catalogs/session_index.csv'
+  - ' M releases/R09/TASKS.yaml'
+  recent_commits:
+  - "7f2c335493a6f78aadf8c041b4cc0fffd474d713\t2026-07-23T10:47:23+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] chore(r09): complete machine\
+    \ closure"
+  - "2e667408a5987b53ce55521f827ac70ce9e80cac\t2026-07-23T10:40:22+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] chore(continuity): close TASK-R09-007\
+    \ as completed"
+  - "6c214e59d028679ea2e51b83e619f1c87c2be4d0\t2026-07-23T10:37:02+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] chore(r09): deliver final\
+    \ candidate apk"
+  - "443d127996f0dc4d91586ead69fec39edece66a8\t2026-07-23T08:49:39+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] test(r09): approve app visual\
+    \ baseline"
+  - "97dc163e1cbed8d19a054326806453c5fa0aee9b\t2026-07-23T08:30:26+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] fix(r09): require loaded media\
+    \ evidence"
+  - "c4cbe28920b424fa948c0023598789941ef2abb7\t2026-07-23T08:10:58+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] fix(r09): refine app list\
+    \ candidate layout"
+  - "8461d818981d4482689189300b408fcff65f2b5f\t2026-07-23T07:35:57+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] fix(r09): render uploaded\
+    \ app media"
+  - "040fa8354b7e6fc01e2373a96d2c78d5b30f219f\t2026-07-23T05:38:41+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] docs(r09): add release execution\
+    \ plan"
+project_fingerprint:
+  sha256: ee57caaeb0cce3eddd5441040ede9f69b6ddc25b30ebf15a83cef90059a1a948
+  files:
+  - CHANGELOG.md
+  - docs/03-continuity/change-requests/CR-0263-完成R09机器关闭与异步真机交接.md
+  - releases/R09/ACCEPTANCE_MATRIX.csv
+  - releases/R09/RELEASE_MANIFEST.yaml
+  - releases/R09/TASKS.yaml
+  file_count: 5
+  payload:
+    base_commit: 2e667408a5987b53ce55521f827ac70ce9e80cac
+    files:
+    - path: CHANGELOG.md
+      state: FILE
+      size: 104338
+      sha256: 5b4d02359480af089f04d577aad6dfd42650f06d0a11aafed2dcb5afc86daaea
+    - path: docs/03-continuity/change-requests/CR-0263-完成R09机器关闭与异步真机交接.md
+      state: FILE
+      size: 3394
+      sha256: f4df1a74f38e4903b33839f958c84e09143e0729d21fa4676e8978871ada67bc
+    - path: releases/R09/ACCEPTANCE_MATRIX.csv
+      state: FILE
+      size: 870
+      sha256: 42bae21ec0260354c513d87d18ee8d8909e3fa11536a4dadbdf0aa23f4a24eae
+    - path: releases/R09/RELEASE_MANIFEST.yaml
+      state: FILE
+      size: 6268
+      sha256: e2f78b7bc1b0eff219fd9ff86450d5bcb47770c979f6340d49106b6c877271bd
+    - path: releases/R09/TASKS.yaml
+      state: FILE
+      size: 5757
+      sha256: da0348eb46d65d2f8bcf1b1c9ede10d2f9d46c02990ea4d35e0b59b9117b04ad
+change_classification:
+  other:
+  - CHANGELOG.md
+  - releases/R09/ACCEPTANCE_MATRIX.csv
+  - releases/R09/TASKS.yaml
+  continuity:
+  - docs/03-continuity/change-requests/CR-0263-完成R09机器关闭与异步真机交接.md
+  source_of_truth:
+  - releases/R09/RELEASE_MANIFEST.yaml
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+- APPROVED_CHANGE_REQUEST
+change_requests:
+- CR-0263
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions:
+  - releases/R09/RELEASE_MANIFEST.yaml
+  - releases/R09/ACCEPTANCE_MATRIX.csv
+  - artifacts/reports/R09/TASK-R09-008-machine-close.md
+  - CHANGELOG.md
+  source: story+explicit+approved-cr:CR-0263
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: Release Manifest、验收矩阵、机器关闭报告和跨版本指针属于同一关闭事实源，必须串行原子提交。
+event_hash: 4c887c4aaf830e6a9a14d2950f25e4f87c76e37c58c7b69f1e76223e3eb0492d

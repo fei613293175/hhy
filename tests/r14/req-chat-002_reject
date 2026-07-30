@@ -1,0 +1,15 @@
+{
+  "schema": "hhy.r14.test-adapter/v1",
+  "test_id": "TST-CHAT_002-REJECT",
+  "central_runner": "scripts/run_r14_specialized_matrix.py",
+  "runner": "r14-java21-postgresql17-android-chat",
+  "selectors": [
+    "services/backend/boot/src/test/java/cc/orbexa/hhy/content/R14RealtimeServiceTest.java#futureCursorAndMismatchedAckAreRejected",
+    "services/backend/boot/src/test/java/cc/orbexa/hhy/boot/realtime/R14WebSocketHandlerTest.java#connectionWithoutHandshakePrincipalClosesBeforeAnyResume",
+    "services/backend/boot/src/test/java/cc/orbexa/hhy/boot/realtime/R14WebSocketHandlerTest.java#typingRequiresLiveConversationMembership",
+    "services/backend/boot/src/test/java/cc/orbexa/hhy/boot/realtime/R14RealtimeTransactionBoundaryTest.java#failedPostCommitPushLeavesPersistedDeliveryForRetry",
+    "services/backend/boot/src/test/java/cc/orbexa/hhy/content/R14ServiceTest.java#reportRejectsUnknownAndCaseChangedReasonsBeforeEvidenceOrPersistence",
+    "apps/android/feature/chat/src/test/java/cc/orbexa/hhy/chat/R14RealtimeRefreshTest.kt#failedAuthoritativePagePreventsGapCompletionSignal"
+  ],
+  "fault_classes": ["unauthenticated-websocket", "sequence-rejection", "membership-rejection", "post-commit-push-failure", "invalid-report-reason", "gap-fill-failure"]
+}

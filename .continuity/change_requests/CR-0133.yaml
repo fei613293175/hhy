@@ -1,0 +1,75 @@
+protocol_version: '1.0'
+cr_id: CR-0133
+title: 精确登记R05-10213构建交付与公网滚动发布证据
+status: IMPLEMENTED
+created_at: '2026-07-20T09:25:31Z'
+updated_at: '2026-07-20T09:33:37Z'
+requester_actor_id: codex-root
+approver_actor_id: project-owner
+task_id: TASK-R05-007
+session_id: SES-20260719T234639Z-1D7D7A00
+user_request: 项目所有者要求立即开始并完成R05修复、部署与测试APK桌面交付。
+reason: CR-0130只登记了交付目录，连续性范围门禁需要在源码提交和APK文件名确定后逐项精确登记。
+original_rule: R05当前证据仍指向10212和旧公网容器，不能证明10213修复包及实名总览新接口已经发布。
+new_rule: 以07f2fe2不可变源码构建10213，固定签名、official、STAGING和api.orbexa.cc；公网以28087候选完整验证后切换，并逐项更新构建、交付、报告、发布清单和回滚证据。
+impact_summary: 补齐10213构建身份、固定签名、包内策略、公网实名三态、下载四方哈希和真机测试指南的精确追溯。
+impact:
+  files:
+  - artifacts/validation/r05-task007-android/build-evidence.json
+  - artifacts/validation/r05-task007-android/apk-badging.txt
+  - artifacts/validation/r05-task007-android/apk-sha256.txt
+  - artifacts/validation/r05-task007-android/apk-signing.txt
+  - artifacts/validation/r05-task007-android/apk-size.txt
+  - artifacts/validation/r05-task007-android/zipalign.txt
+  - artifacts/validation/r05-task007-android/embedded-api-count.txt
+  - artifacts/validation/r05-task007-android/embedded-placeholder-count.txt
+  - artifacts/validation/r05-task007-android/embedded-policy.txt
+  - artifacts/validation/r05-task007-android/source-archive-sha256.txt
+  - artifacts/validation/r05-task007-android/toolchain-image-id.txt
+  - artifacts/validation/r05-task007-android/gradle-build.log
+  - artifacts/validation/r05-task007-android/evidence-sha256.txt
+  - artifacts/validation/r05-task007-android/documentation-gate.json
+  - artifacts/validation/r05-public-rollforward/evidence.json
+  - artifacts/validation/r05-apk-delivery/delivery-evidence.json
+  - artifacts/apk/R05/APK_MANIFEST.yaml
+  - artifacts/reports/R05/TASK-R05-007-android-apk.md
+  - artifacts/reports/R05/R05-version-test-guide.md
+  - releases/R05/RELEASE_MANIFEST.yaml
+  pages:
+  - SCR-ID-001
+  - SCR-ID-003
+  apis:
+  - GET /api/v1/identity/overview
+  database:
+  - 无迁移；沿用hhy_staging并保留旧容器
+  configuration:
+  - api.orbexa.cc上游28086滚动切换至28087；APK为official、STAGING、10213
+  ledger:
+  - 无
+  tests:
+  - 公网实名沙箱三态；R02登录注册回归；固定云端Android单测、Android测试编译、Lint、构建、签名、对齐、包内策略与下载门禁
+  releases:
+  - R05 versionCode 10213
+  migration_and_compatibility: GET总览为非破坏新增；旧28086容器和Nginx备份保留；APK可覆盖10212，仍为Staging测试包。
+user_confirmation: 2026-07-20 项目所有者明确要求立即开始并持续推进开发。
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-20T09:26:11Z'
+  note: 已有CR-0128和CR-0130方案授权；本CR仅精确登记其构建、部署和交付证据文件。
+machine_record: .continuity/change_requests/CR-0133.yaml
+document: docs/03-continuity/change-requests/CR-0133-精确登记R05-10213构建交付与公网滚动发布证据.md
+decision_log:
+- at: '2026-07-20T09:33:35Z'
+  actor_id: codex-root
+  status: IMPLEMENTING
+  note: 已进入已批准方案的构建、部署或交付实施。
+  session_id: SES-20260719T234639Z-1D7D7A00
+- at: '2026-07-20T09:33:37Z'
+  actor_id: codex-root
+  status: IMPLEMENTED
+  note: 源码、契约、三态公网滚动发布、固定工具链构建、固定签名、桌面及HTTPS交付门禁全部通过；等待项目所有者10213真机验收。
+  session_id: SES-20260719T234639Z-1D7D7A00
+session_ids:
+- SES-20260719T234639Z-1D7D7A00
+implementation_commits:
+- 07f2fe254dace0c422be6cb96e3f66b88b2ad40b

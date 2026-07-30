@@ -1,0 +1,37 @@
+version: 1
+purpose: 跨电脑、跨 AI 的模型分级和云端既有开发环境门禁
+model_routing:
+  complex_or_high_risk:
+    model: Sol
+    reasoning_effort: high
+  medium:
+    model: Terra
+    reasoning_effort: medium
+  lightweight_or_mechanical_or_read_only:
+    model: Luna
+    reasoning_effort: low
+    unavailable_fallback:
+      model: Terra
+      reasoning_effort: low
+      audit_status: LUNA_UNAVAILABLE_FALLBACK
+      prohibition: 不得宣称已使用 Luna
+cloud_environment:
+  default_assumption: CODEX_ALREADY_CONNECTED_UNLESS_USER_DECLARES_DISCONNECTED
+  user_declaration_required_to_override: true
+  ssh_alias: obx-test
+  startup_preflight_required: true
+  preflight_failure: BLOCK_DEVELOPMENT_AND_REPORT
+  android:
+    execution_location: REMOTE_CONTAINER_ONLY
+    image: hhy-android-toolchain:r01-46fb273
+    image_id: sha256:97a5b2d7ae4d6c4abab0c985b502597d0612f3a1e0941fd842008e30a4632607
+    gradle_cache: hhy-r01-android-gradle-cache
+    required_commands:
+    - testDebugUnitTest
+    - lintDebug
+    - assembleDebug
+  prohibited:
+  - LOCAL_ANDROID_SDK_BOOTSTRAP
+  - LOCAL_ANDROID_SDK_REBUILD
+  - REMOTE_ANDROID_IMAGE_REBUILD
+  - REMOTE_GRADLE_CACHE_REBUILD

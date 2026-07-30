@@ -1,0 +1,58 @@
+protocol_version: '1.0'
+cr_id: CR-0415
+title: 恢复R13公网注册邀请码并补部署防回归
+status: IMPLEMENTING
+created_at: '2026-07-27T17:38:08Z'
+updated_at: '2026-07-27T17:44:24Z'
+requester_actor_id: codex-root-r13-close-20260728
+approver_actor_id: codex-reviewer-r13-cr0415-20260728
+task_id: TASK-R13-008
+session_id: SES-20260727T163211Z-EDFF7E87
+user_request: 项目所有者报告最新APK无法注册新账号
+reason: R13公网Staging数据库没有任何有效邀请码且候选部署遗漏测试邀请码配置，导致所有新账号在邀请码校验阶段返回422
+original_rule: R13候选夹具只保证自动登录用户和业务内容，公网路由切换只验证平台状态与目标容器日志，没有确保至少一个实际可用的注册邀请码；测试说明也没有提供当前有效邀请码
+new_rule: R13 Staging夹具必须幂等保证唯一ACTIVE的HHYTEST2026邀请码并绑定ACTIVE候选用户；候选路由激活前后必须分别验证目标容器与公网邀请码校验HTTP 200，任一步失败不得激活或必须自动回滚；生产Profile继续硬拒绝测试万能邀请码
+impact_summary: 恢复当前Staging的HHYTEST2026并通过完整公网注册链路；加固既有R13夹具、候选路由门禁和Android自动化事实源，更新R13测试说明、Problem Registry和验证证据；不改变生产注册策略、不增加后台R25邀请码管理功能
+impact:
+  files:
+  - scripts/prepare_r13_ci_fixture.sh
+  - scripts/switch_android_candidate_route.sh
+  - scripts/android_ci_gate.py
+  - config/android-automation.yaml
+  - tests/test_r13_candidate.py
+  - tests/test_android_candidate_route.py
+  - tests/test_android_ci_gate.py
+  - artifacts/reports/R13/R13-version-test-guide.md
+  - artifacts/validation/r13-registration-readiness.json
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - CHANGELOG.md
+  pages: []
+  apis: []
+  database:
+  - 'Staging hhy.invite_codes only: HHYTEST2026 one ACTIVE row bound to ACTIVE inviter; no schema migration'
+  configuration:
+  - HHY_CANDIDATE_REGISTRATION_INVITE_CODE becomes mandatory for controlled candidate route activation
+  ledger: []
+  tests:
+  - public HHYTEST2026 invite validation returns HTTP 200 and full registration plus identity consent returns HTTP 200
+  - R13 fixture idempotently preserves one ACTIVE HHYTEST2026 mapping and rejects duplicates
+  - candidate route gate checks local and public invite readiness with automatic rollback
+  - Android automation policy and tamper regression require both registration readiness proofs
+  releases:
+  - R13
+  migration_and_compatibility: 当前Staging以可逆业务邀请码立即恢复；后续R13候选夹具重复执行保持同一code唯一ACTIVE映射。既有候选路由调用需显式提供HHY_CANDIDATE_REGISTRATION_INVITE_CODE；生产数据与Profile不变，R25继续实现正式用户和后台邀请码管理
+user_confirmation: 项目所有者明确报告最新APK无法注册新账号，并已长期授权直接修复项目问题和持续推进开发
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-27T17:39:36Z'
+  note: 独立复核确认：变更只恢复Staging实际注册能力并把邀请码准备和本地/公网HTTP 200纳入既有候选路由门禁；生产Profile硬拒绝不变，R25正式邀请码管理边界不提前扩张
+machine_record: .continuity/change_requests/CR-0415.yaml
+document: docs/03-continuity/change-requests/CR-0415-恢复R13公网注册邀请码并补部署防回归.md
+decision_log:
+- at: '2026-07-27T17:44:24Z'
+  actor_id: codex-root-r13-close-20260728
+  status: IMPLEMENTING
+  note: 当前Staging已恢复HHYTEST2026并完成公网邀请码校验与完整注册烟测；候选夹具、路由门禁、策略回归和R13说明已实现，正在形成检查点和提交
+  session_id: SES-20260727T163211Z-EDFF7E87
+session_ids:
+- SES-20260727T163211Z-EDFF7E87

@@ -1,0 +1,125 @@
+schema: hhy.governance-constitution/v5.0
+version: 5.0.0
+status: ENFORCED
+project: hhy-pro-platform
+single_authority:
+  product_truth: docs/00-baseline/SOURCE_OF_TRUTH.md
+  governance_truth: governance/DEVELOPMENT_CONSTITUTION.yaml
+  program_plan: governance/PROGRAM_PLAN.yaml
+  task_specs: governance/task_specs/*.yaml
+  mutable_state: governance/STATE.yaml
+  sole_state_writer: ORCHESTRATOR
+  code_trajectory: Git commit graph
+  evidence: governance/evidence/**
+  generated_views:
+    - CURRENT_STATUS.yaml
+    - NEXT_TASK.yaml
+    - governance/views/**
+  historical_only:
+    - .continuity/**
+    - docs/03-continuity/**
+    - legacy CR/Session/Checkpoint/Context Pack
+    - releases/*/TASKS.yaml
+    - config/test-impact-map.yaml
+  never_authoritative:
+    - conversation
+    - model memory
+    - long /goal context
+execution:
+  model: DETERMINISTIC_ORCHESTRATOR_WITH_EPHEMERAL_CODEX_WORKERS
+  one_worker_run_one_task: true
+  one_worker_run_one_attempt: true
+  fresh_ephemeral_worker_each_attempt: true
+  isolated_worker_worktree: true
+  isolated_gate_commit: true
+  worker_may_select_next_task: false
+  worker_may_write_state: false
+  worker_may_edit_governance_ci_gate_or_tests: false
+  worker_may_stage_commit_merge_push_tag_or_reset: false
+  worker_may_declare_pass: false
+  orchestrator_only_state_writer: true
+  deterministic_gate_only_pass_authority: true
+  no_background_or_unbounded_execution: true
+limits:
+  total_attempts_per_task: 3
+  overrides_allowed: false
+  infrastructure_auto_retries: 0
+  maximum_worker_tool_calls: 100
+  maximum_compactions_per_attempt: 1
+  maximum_same_command_same_diff: 1
+  run_loop_default_max_runs: 20
+  run_loop_absolute_max_runs: 100
+  worker_timeout_seconds: 3600
+  gate_timeout_seconds: 1800
+attempt_strategies:
+  1: direct_implementation_or_fix
+  2: fresh_worker_minimal_reproduction_and_root_cause
+  3: fresh_worker_alternative_implementation_from_authoritative_baseline
+  exhausted: FAILED_BOUNDED
+progress:
+  accepted:
+    - allowed product or test diff
+    - failing test set reduced
+    - new deterministic reproduction
+    - acceptance FAIL changed to PASS
+    - commit-bound artifact or evidence
+    - verifiable external blocker evidence
+  rejected:
+    - planning only
+    - self-attestation
+    - status/CR/Checkpoint/Session-only changes
+    - comments or formatting only
+    - repeated command/output/diff
+    - governance runtime-only changes
+release_flow:
+  stages:
+    - DEVELOPING
+    - MODULE_GREEN
+    - FREEZE_READY
+    - FROZEN
+    - TEST_APK_READY
+    - CANDIDATE_GREEN
+    - MACHINE_CLOSED
+    - OWNER_VERIFICATION_PENDING
+    - FORMALLY_ACCEPTED
+    - RELEASED
+  adjacent_release_only: true
+  machine_close_required_for_next_release: true
+  owner_feedback_async_and_non_blocking_for_next_release: true
+  owner_pass_required_for_formal_release: true
+candidate_identity:
+  frozen_commit_equals_candidate_commit: true
+  apk_source_commit_equals_frozen_commit: true
+  screenshots_source_commit_equals_frozen_commit: true
+  gate_report_commit_equals_frozen_commit: true
+  any_post_freeze_product_change: INVALIDATE
+  machine_close_read_only: true
+visual_policy:
+  product_behavior_source: formal product documents and contracts
+  visual_source: approved effect preview or explicit frozen visual specification
+  exact_values_source: design tokens
+  task_scope: changed pages and direct shared-component dependents
+  candidate_scope: current release plus causally impacted history
+  full_history_only_when:
+    - shared UI foundation changed
+    - explicit historical visual audit task
+  unrelated_old_visual_defect: LEGACY_VISUAL_DEBT
+hard_protections:
+  may_not_be_weakened:
+    - funds, payment, withdrawal, red-packet budget and ledger invariants
+    - secret, SecretRef and credential scanning
+    - authentication, authorization, privacy and production test rejection
+    - empty database and existing database migrations plus rollback/compatibility
+    - OpenAPI, WebSocket and consumer compatibility
+    - APK commit, SHA-256, versionCode, versionName and signing identity
+    - product documents, UI contracts, effect previews and runtime screenshots
+    - owner authorization, release tag, production activation and rollback evidence
+blocking:
+  external_or_infrastructure_block_does_not_consume_engineering_attempt: true
+  blocked_task_never_auto_retries: true
+  independent_tasks_may_continue_when_dependency_safe: true
+  owner_pending_is_not_a_blocker_for_next_release: true
+completion:
+  final_release: R32
+  marker: governance/GOAL_COMPLETE.json
+  reject_new_worker_leases_after_complete: true

@@ -1,0 +1,145 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260726T105013Z-AE578D81-0003
+session_id: SES-20260726T105013Z-AE578D81
+task_id: TASK-R12-008
+story_id: STORY-R12-008
+sequence: 3
+created_at: '2026-07-26T10:57:53Z'
+summary: 关闭 TASK-R12-008：TASK-R12-008完成：R12八项任务、六项AC、七个operationId、累计65页视觉、最终候选、固定签名APK、四方交付和六项治理审计全部机器PASS；Owner真机保持异步PENDING，正式验收与生产激活继续阻断，按计划进入R13。
+next_step: 提交关闭元数据Commit，然后运行pre-push/CI门禁
+blockers: []
+decisions:
+- 任务结果：COMPLETED
+- 实现Commit：60c547b9cd0fc8c35a6567c744271ba23a593d41
+- 任务转换：TRN-20260726T105748Z-SES-20260726T105013Z-AE578D81
+- 下一Release：R13
+note: 该检查点专门绑定最终关闭元数据Commit
+tests:
+- name: R12 machine close implementation
+  result: PASS
+  evidence: 60c547b9cd0fc8c35a6567c744271ba23a593d41
+  note: 机器关闭报告与Manifest实现提交完成
+- name: continuity closure metadata
+  result: PASS
+  evidence: catalogs/task_transition_ledger.csv;CHANGELOG.md;CURRENT_STATUS.yaml;NEXT_TASK.yaml
+  note: 关闭元数据、任务转换和下一任务已原子生成
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: 0af377d34568245e87a279e5cb0811369086b670
+  upstream: origin/task/TASK-R03-001
+  ahead: 5
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/sessions/SES-20260726T105013Z-AE578D81.yaml'
+  - ' M CHANGELOG.md'
+  - ' M NEXT_TASK.yaml'
+  - ' M catalogs/session_index.csv'
+  - ' M releases/R12/TASKS.yaml'
+  recent_commits:
+  - "0af377d34568245e87a279e5cb0811369086b670\t2026-07-26T18:57:30+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] docs(r12): bind machine close\
+    \ implementation"
+  - "60c547b9cd0fc8c35a6567c744271ba23a593d41\t2026-07-26T18:55:49+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] chore(r12): complete machine\
+    \ close evidence"
+  - "9b367d87b1037d1b91a9b46f44d45b9f01be31b8\t2026-07-26T18:48:53+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] chore(continuity): close TASK-R12-007\
+    \ as completed"
+  - "339fd7389d3f322f98a7abfc6a45a3319bd6438c\t2026-07-26T18:46:43+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] docs(r12): bind delivery implementation\
+    \ commit"
+  - "47a4494dea729eda45cde6bb6bc144622c42745c\t2026-07-26T18:43:38+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] chore(r12): deliver final\
+    \ test APK"
+  - "75fb4271dabec52d477b597512f028886ba261d3\t2026-07-26T17:00:00+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] test(android): approve R12\
+    \ visual baseline"
+  - "8090001f064c304db08ca9886fe1b1d4d231ef00\t2026-07-26T16:17:26+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] test(r12): authorize autonomous\
+    \ attempt 7"
+  - "8ad04b03befe575fc35cc619184e55db5781c7e0\t2026-07-26T15:58:57+08:00\tHHY Continuity Bootstrap\t[STORY-R12-008] docs(continuity): prepare\
+    \ attempt 7 decision"
+project_fingerprint:
+  sha256: e9da04963f1178d4769595d9a5968b9fff505adf7c9470c5c91cbb50db747aef
+  files:
+  - CHANGELOG.md
+  - docs/03-continuity/change-requests/CR-0362-完成R12机器关闭与异步真机交接.md
+  - releases/R12/RELEASE_MANIFEST.yaml
+  - releases/R12/TASKS.yaml
+  file_count: 4
+  payload:
+    base_commit: 9b367d87b1037d1b91a9b46f44d45b9f01be31b8
+    files:
+    - path: CHANGELOG.md
+      state: FILE
+      size: 157957
+      sha256: 929e82a5e3d56420fa98de2bbbf5b69d0f0817b45d3e53eeb2d5c636eb452d1e
+    - path: docs/03-continuity/change-requests/CR-0362-完成R12机器关闭与异步真机交接.md
+      state: FILE
+      size: 3320
+      sha256: 3c8e024cfc1da644d75574a0e237401d1d126fba720ee78c33848f7948829a41
+    - path: releases/R12/RELEASE_MANIFEST.yaml
+      state: FILE
+      size: 14270
+      sha256: cd8ca9e3f1d764f608227774869b5b768e4b177f2be47b86e4ea9458f13f26e8
+    - path: releases/R12/TASKS.yaml
+      state: FILE
+      size: 5812
+      sha256: d4998b6b787cec70f6c2c5261be65542545d91def34e8b97c6cd20bd40151aae
+change_classification:
+  other:
+  - CHANGELOG.md
+  - releases/R12/TASKS.yaml
+  continuity:
+  - docs/03-continuity/change-requests/CR-0362-完成R12机器关闭与异步真机交接.md
+  source_of_truth:
+  - releases/R12/RELEASE_MANIFEST.yaml
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+- APPROVED_CHANGE_REQUEST
+change_requests:
+- CR-0362
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions:
+  - releases/R12/RELEASE_MANIFEST.yaml
+  - artifacts/reports/R12/TASK-R12-008-machine-close.md
+  source: story+explicit+approved-cr:CR-0362
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 最终任务关闭和跨版本指针迁移必须串行保持CR、Commit和Session一致。
+event_hash: edd90d3963917116653f8dc9131ee4e0b671844693fd296172a2641a6dde677b

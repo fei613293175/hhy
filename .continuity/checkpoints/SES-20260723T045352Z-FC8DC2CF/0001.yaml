@@ -1,0 +1,111 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260723T045352Z-FC8DC2CF-0001
+session_id: SES-20260723T045352Z-FC8DC2CF
+sequence: 1
+created_at: '2026-07-23T04:55:39Z'
+summary: 已启动TASK-R10-002并完成数据层入口核验：当前group_details来自V003且仅有R06通用类型约束，R10需要V036/U036补群平台、二维码/链接/群号互斥可达性、媒体外键、群主联系与失效反馈相关不变量；主文档和冻结schema仍是唯一字段源
+next_step: 逐项读取REQ-GROUP-001、group_details冻结字典及R08/R09迁移模式，建立受控CR后实现V036/U036与空库/升级/回滚/重放测试
+blockers: []
+decisions: []
+note: ''
+tests:
+- name: 本阶段未执行测试
+  result: NOT_RUN
+  evidence: ''
+  note: 当前检查点仅记录TASK-R10-002只读入口分析，尚未产生数据迁移实现
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: 47f2b158f68207603f260460aad7c4eccdd0b936
+  upstream: origin/task/TASK-R03-001
+  ahead: 0
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/ACTIVE_SESSION.yaml'
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/SESSION_INDEX.yaml'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/TASK_CLAIMS.yaml'
+  - ' M .continuity/TASK_TRANSITIONS.yaml'
+  - ' M CURRENT_STATUS.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+  - ' M catalogs/session_index.csv'
+  - ' M catalogs/task_transition_ledger.csv'
+  - ?? .continuity/sessions/SES-20260723T045352Z-FC8DC2CF.yaml
+  - ?? docs/03-continuity/sessions/2026-07/SES-20260723T045352Z-FC8DC2CF.md
+  recent_commits:
+  - "47f2b158f68207603f260460aad7c4eccdd0b936\t2026-07-23T12:51:23+08:00\tHHY Continuity Bootstrap\t[STORY-R10-004] chore(continuity): close TASK-R10-001\
+    \ as completed"
+  - "04a6e66a91725fdd2352f8a262f7de701fc4629e\t2026-07-23T12:46:50+08:00\tHHY Continuity Bootstrap\t[STORY-R10-004] fix(home): align runtime with\
+    \ canonical product contract"
+  - "9e05beefef5754521c1730ddbf1179bae694c31b\t2026-07-23T10:49:29+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] chore(continuity): close TASK-R09-008\
+    \ as completed"
+  - "7f2c335493a6f78aadf8c041b4cc0fffd474d713\t2026-07-23T10:47:23+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] chore(r09): complete machine\
+    \ closure"
+  - "2e667408a5987b53ce55521f827ac70ce9e80cac\t2026-07-23T10:40:22+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] chore(continuity): close TASK-R09-007\
+    \ as completed"
+  - "6c214e59d028679ea2e51b83e619f1c87c2be4d0\t2026-07-23T10:37:02+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] chore(r09): deliver final\
+    \ candidate apk"
+  - "443d127996f0dc4d91586ead69fec39edece66a8\t2026-07-23T08:49:39+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] test(r09): approve app visual\
+    \ baseline"
+  - "97dc163e1cbed8d19a054326806453c5fa0aee9b\t2026-07-23T08:30:26+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] fix(r09): require loaded media\
+    \ evidence"
+project_fingerprint:
+  sha256: 0c058cec23916eea79f38648cfa88ab588db89cdf5845563446e0c15782a34b8
+  files: []
+  file_count: 0
+  payload:
+    base_commit: 47f2b158f68207603f260460aad7c4eccdd0b936
+    files: []
+change_classification: {}
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+change_requests: []
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions: []
+  source: story+explicit
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 数据迁移、回滚和同表不变量必须由单一会话原子设计，避免版本号与约束冲突
+event_hash: ce7f99f5f69975d1249c149d8e809b5f6551357498874768052fe25646d365a1

@@ -1,2 +1,12 @@
-<script setup lang="ts">import type { AdminPage } from '../catalog'; defineProps<{page:AdminPage}>();</script>
-<template><article class="page"><div class="eyebrow">{{page.ID}} · {{page.计划版本}}</div><h1>{{page.页面}}</h1><p>{{page.功能摘要}}</p><div class="grid"><section><h3>契约状态</h3><dl><dt>路由</dt><dd><code>{{page.路由}}</code></dd><dt>读取权限</dt><dd>{{page.读取权限}}</dd><dt>写入权限</dt><dd>{{page.写入权限}}</dd><dt>敏感级别</dt><dd>{{page.敏感级别}}</dd><dt>成熟度</dt><dd>{{page.成熟度}}</dd></dl></section><section><h3>实现约束</h3><p>页面实现必须读取 <code>ui_action_matrix.csv</code> 的 operationId、错误状态、幂等键与测试绑定。高敏页面默认脱敏并记录访问理由。</p><button type="button">占位操作（未接业务）</button></section></div></article></template>
+<script setup lang="ts">
+import type { AdminPage } from '../catalog'
+
+defineProps<{ page: AdminPage }>()
+</script>
+
+<template>
+  <article class="page">
+    <header class="page-heading"><div><div class="eyebrow">功能建设中</div><h1>{{ page.页面 }}</h1><p>{{ page.功能摘要 }}</p></div></header>
+    <section class="card empty-state"><div class="avatar centered-mark">建</div><h2>该功能尚未开放</h2><p>页面业务接口、权限、审计和完整操作链路尚未完成，因此不会提供不可用的占位按钮。</p><RouterLink class="primary-button table-link" to="/me/security">返回可用功能</RouterLink></section>
+  </article>
+</template>

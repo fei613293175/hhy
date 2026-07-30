@@ -1,0 +1,64 @@
+protocol_version: '1.0'
+cr_id: CR-0312
+title: 修正机器收尾重复本机构建与生成证据指纹
+status: CLOSED
+created_at: '2026-07-24T13:46:17Z'
+updated_at: '2026-07-24T14:20:17Z'
+requester_actor_id: codex-root-r11-close
+approver_actor_id: codex-independent-r11-workflow-reviewer
+task_id: TASK-R11-008
+session_id: SES-20260724T110611Z-0D26E8D5
+user_request: 项目所有者确认Java和Android工具链应复用obx-test既有环境，不应为R11关闭在本机安装或重复运行已通过的候选门禁
+reason: CR-0247与统一效率规范已要求同一候选只执行一次重型门禁，但RELEASE_CLOSE仍映射通用RELEASE profile并包含本机Maven、PostgreSQL和Android集成；生成的validation报告还参与输入指纹，导致已通过节点失效重跑
+original_rule: RELEASE_CLOSE映射通用RELEASE profile，在TASK-xx-007最终候选已经完成云端全量集成、Android构建和模拟器后，TASK-xx-008仍在本机重复Maven、PostgreSQL和Android；生成validation报告还参与同一工作流输入指纹
+new_rule: 更新CR-0247既有唯一关闭规则的实现投影：最终候选阶段在obx-test/GitHub固定工具链完成且证据绑定同一源码Commit后，机器收尾使用专用MACHINE_CLOSE profile，只核验候选、APK四方SHA、Staging、视觉、Acceptance、桌面文档与无状态交接；不得在本机安装Java/Android
+  SDK或重复Maven、PostgreSQL、Android、模拟器。生成的artifacts/validation证据不参与工作分类和缓存输入指纹
+impact_summary: 纠正统一工作流profile与已批准效率规则不一致的问题，保留INTEGRATION/RELEASE供真正最终候选使用，机器关闭仅运行既有machine-close-gate；补精确负向测试和生成证据指纹回归
+impact:
+  files:
+  - AGENTS.md
+  - docs/09-development/统一开发与交付效率规范.md
+  - config/development-workflow.yaml
+  - config/test-impact-map.yaml
+  - scripts/hhy_workflow.py
+  - tests/test_hhy_workflow.py
+  - tests/test_run_affected_tests.py
+  pages: []
+  apis: []
+  database: []
+  configuration: []
+  ledger: []
+  tests:
+  - python -m unittest tests.test_hhy_workflow tests.test_run_affected_tests
+  - python scripts/hhy_workflow.py plan --intent release-close --release R11
+  - python scripts/hhy_workflow.py run --intent release-close --release R11
+  releases:
+  - R11
+  migration_and_compatibility: 不改变产品、API、数据库、候选质量或生产验收；旧RELEASE profile保留。release-close计划改为MACHINE_CLOSE，已有R11候选证据直接复用；若候选源码或真实依赖变化，仍须在最终候选阶段重新执行完整云端门禁
+user_confirmation: 项目所有者明确指出线上已有Java和Android环境并质疑本机安装，要求继续按既定持续开发目标推进
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-24T13:47:31Z'
+  note: CR-0247和统一效率规范已明确同一候选只运行一次重型门禁；专用MACHINE_CLOSE profile保留所有不可变候选与交付证据核验，同时消除本机重复环境和生成报告缓存抖动，未降低最终候选或生产验收强度
+machine_record: .continuity/change_requests/CR-0312.yaml
+document: docs/03-continuity/change-requests/CR-0312-修正机器收尾重复本机构建与生成证据指纹.md
+decision_log:
+- at: '2026-07-24T13:52:56Z'
+  actor_id: codex-root-r11-close
+  status: IMPLEMENTING
+  note: MACHINE_CLOSE专用profile、生成证据指纹排除、唯一规则投影和负向测试已实现；27项定向测试与计划检查通过
+  session_id: SES-20260724T110611Z-0D26E8D5
+- at: '2026-07-24T14:05:38Z'
+  actor_id: codex-root-r11-close
+  status: IMPLEMENTED
+  note: 专用MACHINE_CLOSE profile、现有唯一规则与模板投影、validation生成证据指纹排除及负向回归完成；27项工作流测试、模板失败节点复测、R11视觉和机器关闭门禁均PASS，实际关闭耗时0.468秒且无本机Java/Android重跑
+  session_id: SES-20260724T110611Z-0D26E8D5
+- at: '2026-07-24T14:20:17Z'
+  actor_id: codex-root-r11-close
+  status: CLOSED
+  note: MACHINE_CLOSE专用profile、规则模板同步、生成证据指纹和PROB-0106已由实现提交6bd3313e087de6afc6f7189c6a1791a9a198ae7f落地，R11机器门禁PASS
+  session_id: SES-20260724T110611Z-0D26E8D5
+session_ids:
+- SES-20260724T110611Z-0D26E8D5
+implementation_commits:
+- 6bd3313e087de6afc6f7189c6a1791a9a198ae7f

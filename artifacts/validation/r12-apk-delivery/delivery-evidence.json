@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "release": "R12",
+  "commit": "8090001f064c304db08ca9886fe1b1d4d231ef00",
+  "apk_file": "hhy-r12-8090001-debug.apk",
+  "version_name": "1.2.2-debug",
+  "version_code": 10221,
+  "sha256": "b97bf8fd1a0306678f297da72c6b5b2e0b224aff2965a962a7db41167bc3e4f8",
+  "size_bytes": 21522280,
+  "signing": {
+    "status": "PASS",
+    "profile_id": "hhy-staging-test-v1",
+    "fingerprint": "f17b040789a845244ff9e2a9d8aedc1e7412adea0539d99c5cc036baf5dbb873",
+    "stable": true
+  },
+  "local": {
+    "status": "PASS",
+    "artifact_copy": "C:\\Users\\小白\\Desktop\\workspace\\hhy-v1.2.3-handoff\\合伙云Pro_Codex直接开发包_V1.2.3_持续开发无状态接续强制门禁最终版\\artifacts\\apk\\R12\\hhy-r12-8090001-debug.apk"
+  },
+  "desktop": {
+    "status": "PASS",
+    "path": "C:\\Users\\小白\\Desktop\\hhy-r12-8090001-debug.apk",
+    "sha256": "b97bf8fd1a0306678f297da72c6b5b2e0b224aff2965a962a7db41167bc3e4f8"
+  },
+  "route_preflight": {
+    "status": "PASS",
+    "route": "/r12-artifacts/hhy-r12-8090001-debug.apk",
+    "remote_path": "/www/wwwroot/download.orbexa.cc/r12-artifacts/hhy-r12-8090001-debug.apk",
+    "checked_at": "2026-07-26T09:16:37.578719Z"
+  },
+  "remote": {
+    "status": "PASS",
+    "sha256": "b97bf8fd1a0306678f297da72c6b5b2e0b224aff2965a962a7db41167bc3e4f8",
+    "size_bytes": 21522280,
+    "path": "/www/wwwroot/download.orbexa.cc/r12-artifacts/hhy-r12-8090001-debug.apk",
+    "publish_state": "CREATED"
+  },
+  "https": {
+    "status": "PASS",
+    "http_status": 200,
+    "range_status": 206,
+    "content_type": "application/vnd.android.package-archive",
+    "sha256": "b97bf8fd1a0306678f297da72c6b5b2e0b224aff2965a962a7db41167bc3e4f8",
+    "size_bytes": 21522280,
+    "verified_at": "2026-07-26T09:25:09.432300Z",
+    "url": "https://download.orbexa.cc/r12-artifacts/hhy-r12-8090001-debug.apk"
+  },
+  "owner_physical_test": {
+    "status": "PENDING"
+  },
+  "created_at": "2026-07-26T09:18:27.787860Z",
+  "last_verified_at": "2026-07-26T09:25:09.432699Z"
+}

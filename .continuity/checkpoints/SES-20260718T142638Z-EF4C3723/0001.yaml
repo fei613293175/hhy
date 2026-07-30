@@ -1,0 +1,92 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260718T142638Z-EF4C3723-0001
+session_id: SES-20260718T142638Z-EF4C3723
+sequence: 1
+created_at: '2026-07-18T14:26:49Z'
+summary: TASK-R03-003域名与环境配置闭环已领取并完成范围核验
+next_step: 实现域名配置校验、DNS/TLS/服务健康三层状态机与验证编排
+blockers: []
+decisions:
+- DNS解析成功不等于TLS或服务健康；共享OpenAPI、Flyway和生成类型留待TASK-R03-005
+note: ''
+tests:
+- name: R03 entry gate
+  result: PASS
+  evidence: docs/03-continuity/R03_TASK-001_ENTRY_GATE.md
+  note: TASK-R03-003边界明确
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: 6bb0f76ca9b2287848e00b2dbcc8b28e2c9d21ef
+  upstream: origin/task/TASK-R03-001
+  ahead: 0
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/ACTIVE_SESSION.yaml'
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/SESSION_INDEX.yaml'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/TASK_CLAIMS.yaml'
+  - ' M .continuity/TASK_TRANSITIONS.yaml'
+  - ' M CURRENT_STATUS.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+  - ' M catalogs/session_index.csv'
+  - ' M catalogs/task_transition_ledger.csv'
+  - ?? .continuity/sessions/SES-20260718T142638Z-EF4C3723.yaml
+  - ?? docs/03-continuity/sessions/2026-07/SES-20260718T142638Z-EF4C3723.md
+  recent_commits:
+  - "6bb0f76ca9b2287848e00b2dbcc8b28e2c9d21ef\t2026-07-18T22:21:58+08:00\tHHY Continuity Bootstrap\t[STORY-R03-001] chore(continuity): close TASK-R03-002\
+    \ as completed"
+  - "f7aec9a27e0905698891636815da7ec385ce0070\t2026-07-18T22:21:24+08:00\tHHY Continuity Bootstrap\t[STORY-R03-001] chore(continuity): record\
+    \ R03 provider module gate"
+  - "04ca65c294adbef23b174b3f639e1764e8f69925\t2026-07-18T22:19:30+08:00\tHHY Continuity Bootstrap\t[STORY-R03-001] feat(r03): orchestrate provider\
+    \ config versions"
+  - "9dc7d0cbb8410c1135a691feefbd16f346f1e557\t2026-07-18T22:15:31+08:00\tHHY Continuity Bootstrap\t[STORY-R03-001] feat(r03): enforce approved\
+    \ provider rollback"
+  - "b3c64cb8dc9b292b11ab077de3c719b777195a73\t2026-07-18T22:13:11+08:00\tHHY Continuity Bootstrap\t[STORY-R03-001] feat(r03): add provider connector\
+    \ adapters"
+  - "ade76ab4f6521bc193dcab8bd0c85e493ad1e933\t2026-07-18T22:10:11+08:00\tHHY Continuity Bootstrap\t[STORY-R03-001] feat(r03): secure provider\
+    \ connection tests"
+  - "b1c5c7f7f416fd87c5d6fc06ca32d7c9e6c06743\t2026-07-18T22:04:15+08:00\tHHY Continuity Bootstrap\t[STORY-R03-001] feat(r03): connect provider\
+    \ config write flows"
+  - "e5e5661ab1e9076ff8b9b6acb975316e85abfe1e\t2026-07-18T21:58:38+08:00\tHHY Continuity Bootstrap\t[STORY-R03-001] chore(continuity): close CR-0045"
+project_fingerprint:
+  sha256: 99accbed12c556e2ea3641d64f62366616d1559c659efc49d7d7d3ab42e09070
+  files: []
+  file_count: 0
+  payload:
+    base_commit: 6bb0f76ca9b2287848e00b2dbcc8b28e2c9d21ef
+    files: []
+change_classification: {}
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+change_requests: []
+scope:
+  allowed_paths:
+  - apps/admin-web/**
+  - services/backend/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - tests/**
+  - docs/**
+  - catalogs/**
+  - releases/**
+  - design/**
+  - scripts/**
+  approved_exceptions: []
+  source: story+explicit
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 任务领取和状态基线必须由唯一事实主控串行完成
+event_hash: 7e2076103e8e6fa9f69c09307d7087d4c035864f2071ea5c867b96b3b5277dd7

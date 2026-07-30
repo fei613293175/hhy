@@ -1,0 +1,80 @@
+protocol_version: '1.0'
+cr_id: CR-0268
+title: 补齐R10群聊推广数据库不变量与可逆迁移
+status: IMPLEMENTING
+created_at: '2026-07-23T05:17:29Z'
+updated_at: '2026-07-23T06:02:54Z'
+requester_actor_id: codex-root-r10-data
+approver_actor_id: codex-r10-data-review
+task_id: TASK-R10-002
+session_id: SES-20260723T045352Z-FC8DC2CF
+user_request: 项目所有者要求所有开发功能一比一对应主开发文档，并持续推进R10至后续版本；当前TASK-R10-002必须完成群聊推广数据迁移与领域不变量。
+reason: 冻结group_details自V003仅有content_id唯一和R06通用类型约束，尚未在数据库层保证有效入群通道、二维码媒体引用、GROUP详情完整性及活跃详情删除保护；TASK-R10-002明确要求V036/U036和空库升级回滚重放验证。
+original_rule: 主文档把入群要求和入群口令定义为独立概念，但冻结group_details只有join_requirement且Contact渠道没有口令枚举；数据库仅有V006 content_id唯一/内容外键和R06类型匹配。platform及可选字段允许空白，ONLINE群可缺详情、真实入群通道或群主联系，qr_media_id没有媒体外键，详情/最后联系人可在并发写入后留下可见违规；R10也未显式核验幂等前置。
+new_rule: join_requirement只表示入群要求，group_no只表示群号；入群口令使用content_contacts.channel=JOIN_PASSWORD的独立V032加密信封、display_mask和显式访问审计，禁止明文或复用其他字段。JOIN_PASSWORD仅允许绑定GROUP且每内容至多一条，不计入群主联系方式；群主联系只接受WECHAT/PHONE/QQ/EMAIL。非DELETED
+  GROUP在事务最终态必须有唯一group_details；ONLINE GROUP还必须有非空platform、qr_media_id/group_link/group_no/JOIN_PASSWORD至少一种真实入群通道及至少一条群主联系。V036对content_posts/group_details/content_contacts相关写入执行双向DEFERRABLE终态检查并锁父内容行，阻止删除/迁移/并发写偏斜；qr_media_id必须RESTRICT引用media_objects。升级对所有非DELETED
+  GROUP缺详情及所有ONLINE违规、孤儿二维码失败关闭。TASK-R10-002落数据库事实；同一CR在TASK-R10-003把JOIN_PASSWORD追加到ContactInputResource、ContactAccessResource、ContactChannelSummaryResource及contacts/{channel}/access路径枚举并同步根/boot
+  OpenAPI、生成客户端和追踪，TASK-R10-004完成页面施工；在接口和客户端同步前服务端不得发出该枚举，R10关闭前全部阶段必须完成，禁止另建重复CR。
+impact_summary: 以一个跨任务CR补齐主文档已有但旧契约遗漏的独立入群口令语义。当前阶段新增V036/U036、数据库目录和PostgreSQL17空库/升级/违规升级/回滚/重放/并发测试；后续依赖任务同步OpenAPI、运行时镜像、生成客户端、页面字段和契约测试。现有字段不混义、不新增明文秘密、不提前触发最终候选门禁。
+impact:
+  files:
+  - database/migrations/V036__r10_group_promotion_invariants.sql
+  - database/rollback/U036__r10_group_promotion_invariants.sql
+  - services/backend/boot/src/main/resources/db/migration/V036__r10_group_promotion_invariants.sql
+  - database/tests/r10_group_promotion_invariants.sql
+  - scripts/run_r10_database_invariants.sh
+  - scripts/run_r10_disposable_postgres_container.sh
+  - tests/test_r10_group_database_invariants.py
+  - database/schema_dictionary.csv
+  - catalogs/data_tables.csv
+  - contracts/openapi.yaml
+  - services/backend/boot/src/main/resources/contracts/openapi.yaml
+  - packages/api-client/src/client.generated.ts
+  - contracts/contract_status.csv
+  - catalogs/ui_page_fields.csv
+  - docs/02-ui/page-specs/android/SCR-DETAIL-003_群聊详情.md
+  - docs/02-ui/page-specs/android/SCR-PUB-004_群聊发布_编辑.md
+  - docs/02-ui/page-specs/android/SHEET-CONTACT-001_联系方式面板.md
+  - releases/R10/STORIES.yaml
+  - tests/test_r10_group_contract.py
+  - CHANGELOG.md
+  pages:
+  - SCR-DETAIL-003
+  - SCR-PUB-004
+  - SHEET-CONTACT-001
+  apis:
+  - contentPostContents
+  - contentPatchContentsById
+  - contentPostContentsByIdContactsByChannelAccess
+  database:
+  - group_details
+  - media_objects
+  - content_posts
+  - content_contacts
+  - idempotency_records
+  configuration: []
+  ledger:
+  - TASK-R10-002数据库→TASK-R10-003契约后端→TASK-R10-004页面客户端；R10关闭前同一CR全部IMPLEMENTED
+  tests:
+  - python -m unittest tests.test_r10_group_database_invariants
+  - bash scripts/run_r10_disposable_postgres_container.sh
+  - PostgreSQL17 V001→V036空库、V035有效/违规升级、字段/QR外键、详情与联系人双顺序、最后联系人删除/迁移、父锁并发、U036数据保留、U036→V036重放
+  - 'TASK-R10-003: OpenAPI根/boot/生成客户端一致，JOIN_PASSWORD仅GROUP且唯一、密文/掩码/access审计'
+  releases:
+  - R10
+  migration_and_compatibility: V036不重写业务数据：CHECK可用NOT VALID兼容不可见历史草稿，但升级前对所有非DELETED GROUP缺详情及所有ONLINE缺平台/通道/群主联系、二维码孤儿失败关闭；新写入始终受约束。U036只移除本版约束、索引、触发器和函数，保留content_posts、group_details、content_contacts及JOIN_PASSWORD密文业务行。JOIN_PASSWORD是加法枚举；TASK-R10-003必须先同步OpenAPI运行时镜像和生成客户端再允许服务端读取/返回，旧客户端在该阶段前不接收未知枚举。
+user_confirmation: 项目所有者明确要求开发功能一比一对应主开发文档并持续推进
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-23T05:38:19Z'
+  note: 'APPROVED: CR-0268以JOIN_PASSWORD独立加密渠道补齐冻结入群口令语义，明确GROUP限定与唯一性、ONLINE详情/通道/群主联系双向DEFERRABLE终态不变量、父行锁并发保护、历史违规升级失败关闭、V036/U036完整迁移测试，以及R10-002到R10-004的同一CR跨层强制依赖；未复用join_requirement、未新增明文字段或原因码。'
+machine_record: .continuity/change_requests/CR-0268.yaml
+document: docs/03-continuity/change-requests/CR-0268-补齐R10群聊推广数据库不变量与可逆迁移.md
+decision_log:
+- at: '2026-07-23T06:02:54Z'
+  actor_id: codex-root-r10-data
+  status: IMPLEMENTING
+  note: TASK-R10-002数据库阶段已实现并通过PostgreSQL17真实验证；CR继续约束TASK-R10-003接口合同和TASK-R10-004页面施工，R10关闭前方可IMPLEMENTED。
+  session_id: SES-20260723T045352Z-FC8DC2CF
+session_ids:
+- SES-20260723T045352Z-FC8DC2CF

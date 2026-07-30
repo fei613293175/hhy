@@ -1,0 +1,228 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260721T210252Z-D631F6E4-0006
+session_id: SES-20260721T210252Z-D631F6E4
+sequence: 6
+created_at: '2026-07-21T22:11:47Z'
+summary: R07候选首轮全量构建通过，联系方式独立模态语义缺口已修复，前三张非敏感截图AI审查合格，attempt 2推送前门禁通过
+next_step: 提交推送R07候选attempt 2，验证安全面板语义、FLAG_SECURE和第四张清空历史截图
+blockers:
+- 首轮运行29871247067因ModalBottomSheet未独立导出testTag资源ID失败；已修复，非外部阻断
+decisions:
+- 前三张截图均符合冻结页面身份、真实夹具、排版层级与非敏感要求；安全联系方式面板继续只做语义和FLAG_SECURE验收，不截屏
+note: ''
+tests:
+- name: GitHub run 29871247067 build
+  result: PASS
+  evidence: android-build artifact
+  note: compile lint unit package 9m57s
+- name: GitHub run 29871247067 journey diagnosis
+  result: FAIL
+  evidence: android-runtime-29871247067
+  note: 已定位并修复contact sheet资源标记缺失
+- name: R07 screenshots 01-03 AI review
+  result: PASS
+  evidence: android-runtime-29871247067/screenshots
+  note: search landing results publisher all qualified
+- name: Android affected MODULE preflight
+  result: PASS
+  evidence: obx-test /tmp/hhy-r07-remediation-30140ce
+  note: 132 tasks BUILD SUCCESSFUL
+- name: Android candidate request attempt 2
+  result: PASS
+  evidence: config/android-candidate-request.yaml
+  note: R07-20260722-002
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: 30140ce8799e908b375d1a083fc8906e07d9b088
+  upstream: origin/task/TASK-R03-001
+  ahead: 0
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/sessions/SES-20260721T210252Z-D631F6E4.yaml'
+  - ' M CHANGELOG.md'
+  - ' M apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt'
+  - ' M apps/android/feature/discovery/src/main/java/cc/orbexa/hhy/discovery/R07DiscoveryScreens.kt'
+  - ' M catalogs/change_request_index.csv'
+  - ' M catalogs/session_index.csv'
+  - ' M config/android-candidate-request.yaml'
+  - ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
+  - ?? .continuity/change_requests/CR-0195.yaml
+  - ?? docs/03-continuity/change-requests/CR-0195-修复R07安全联系方式面板候选可观测语义.md
+  recent_commits:
+  - "30140ce8799e908b375d1a083fc8906e07d9b088\t2026-07-22T05:45:13+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] ci(android): 请求R07首次最终候选"
+  - "f46af781e0fa9007d712332713b3f067875ecb5f\t2026-07-22T05:41:20+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] fix(staging): 修复R07候选夹具事务边界"
+  - "7f7245ce6cd5c880ae2080a0284c2ea2c513a29f\t2026-07-22T05:31:51+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] test(android): 建立R07候选真实页面旅程"
+  - "0dc40abf3ed879893c510d4f7c3b4cf9a42700c0\t2026-07-22T05:00:31+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] chore(continuity): close TASK-R07-006\
+    \ as completed"
+  - "13a740044a77b700ccaa4bf2f6243649bd0aadeb\t2026-07-22T04:59:26+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] docs(governance): 关闭R07预发布变更"
+  - "7c5a5f7a329d36c62c5269fb68d23e0fca69ab19\t2026-07-22T04:57:16+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] test(staging): 签署R07隔离预发布验收"
+  - "417b6cc9bc5f1b56adc280db5375358100bf23ae\t2026-07-22T04:31:47+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] feat(observability): 建立R07隔离预发布门禁"
+  - "e6d73b0fb4be95c6769c8f6aa493172592d686ea\t2026-07-22T04:16:46+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] chore(continuity): close TASK-R07-005\
+    \ as completed"
+project_fingerprint:
+  sha256: 40dd4f585f14cb204c2fe80915ea5a55f2aca24cf7a0df7e923e9331a02409c6
+  files:
+  - CHANGELOG.md
+  - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+  - apps/android/feature/discovery/src/main/java/cc/orbexa/hhy/discovery/R07DiscoveryScreens.kt
+  - config/android-candidate-request.yaml
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/change-requests/CR-0191-建立R07最终候选真实页面旅程与隔离测试夹具.md
+  - docs/03-continuity/change-requests/CR-0192-修复R07页面残留Compose颜色硬编码.md
+  - docs/03-continuity/change-requests/CR-0193-修复R07候选夹具psql变量边界.md
+  - docs/03-continuity/change-requests/CR-0194-补齐R07候选夹具事务边界自动回归.md
+  - docs/03-continuity/change-requests/CR-0195-修复R07安全联系方式面板候选可观测语义.md
+  - docs/07-operations/DEPLOYMENT_RUNBOOK.md
+  - scripts/prepare_r07_ci_fixture.sh
+  - tests/android/visual-manifests/R07.yaml
+  - tests/test_r07_ci_fixture.py
+  file_count: 14
+  payload:
+    base_commit: 0dc40abf3ed879893c510d4f7c3b4cf9a42700c0
+    files:
+    - path: CHANGELOG.md
+      state: FILE
+      size: 68334
+      sha256: d76296890385d61465a766749c3c6b87ef2303161886bb1ae98d26592e094a1d
+    - path: apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+      state: FILE
+      size: 13017
+      sha256: 968f1b1deaa9fa2071fd735a0629fe8efdeb378009b695e6d5945effe68178e1
+    - path: apps/android/feature/discovery/src/main/java/cc/orbexa/hhy/discovery/R07DiscoveryScreens.kt
+      state: FILE
+      size: 25408
+      sha256: 4362f6a2f6fd0a5b54ecbdfbbc2d21b8e945804908d14881062641ea18e94ea0
+    - path: config/android-candidate-request.yaml
+      state: FILE
+      size: 264
+      sha256: 4cd6fdef492c1ecbf71ffa2dac79d1d3bbda92b86af3157987ab8d7e16ce7f73
+    - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
+      state: FILE
+      size: 89565
+      sha256: 0eb8b60e93358190cc2fc66b4376f87e59956ae4a38c53e14c665cebf94302e4
+    - path: docs/03-continuity/change-requests/CR-0191-建立R07最终候选真实页面旅程与隔离测试夹具.md
+      state: FILE
+      size: 3638
+      sha256: 7981a223c3257e4b6c2b25a432fb990be3510c5225562279c49b0ea1ac314265
+    - path: docs/03-continuity/change-requests/CR-0192-修复R07页面残留Compose颜色硬编码.md
+      state: FILE
+      size: 2257
+      sha256: 1f862ca5cce32d3fce89446cdb9e77a33d8cd547ad78f8237c0ec5c494c3121b
+    - path: docs/03-continuity/change-requests/CR-0193-修复R07候选夹具psql变量边界.md
+      state: FILE
+      size: 2100
+      sha256: ddbc882f1508bbf8d76020a518cb350cc198b51c3e3651f5be8fd6ecb0e042f7
+    - path: docs/03-continuity/change-requests/CR-0194-补齐R07候选夹具事务边界自动回归.md
+      state: FILE
+      size: 1918
+      sha256: 27d21dd5959589d7f7f2b2cab2550f68b29288e5f4e3be8e39e2102e3843cedd
+    - path: docs/03-continuity/change-requests/CR-0195-修复R07安全联系方式面板候选可观测语义.md
+      state: FILE
+      size: 2545
+      sha256: c53aabefb7eb0eea745e22350fe9b16325c49c67797329e0e9f80c4247b37b82
+    - path: docs/07-operations/DEPLOYMENT_RUNBOOK.md
+      state: FILE
+      size: 25855
+      sha256: 481bbcf79b3e9275c004948ed1164e877de607f5d1cb52e045c0870a05204fbc
+    - path: scripts/prepare_r07_ci_fixture.sh
+      state: FILE
+      size: 3809
+      sha256: 873c9311b5f4af257c6071b3809cf1e455ca9fe83f27f5c7b9ec28ad5e71ea69
+    - path: tests/android/visual-manifests/R07.yaml
+      state: FILE
+      size: 1439
+      sha256: d937f326b2686ce0c76a3636e7d6355b995b8485f1f277c3384e3d88528e5ba5
+    - path: tests/test_r07_ci_fixture.py
+      state: FILE
+      size: 1586
+      sha256: f488f893c140044ec3d8b61f70fde81604b545148cf060bee65e581bae89d317
+change_classification:
+  other:
+  - CHANGELOG.md
+  - config/android-candidate-request.yaml
+  - docs/07-operations/DEPLOYMENT_RUNBOOK.md
+  code:
+  - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+  - apps/android/feature/discovery/src/main/java/cc/orbexa/hhy/discovery/R07DiscoveryScreens.kt
+  - scripts/prepare_r07_ci_fixture.sh
+  user_visible:
+  - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+  - apps/android/feature/discovery/src/main/java/cc/orbexa/hhy/discovery/R07DiscoveryScreens.kt
+  continuity:
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/change-requests/CR-0191-建立R07最终候选真实页面旅程与隔离测试夹具.md
+  - docs/03-continuity/change-requests/CR-0192-修复R07页面残留Compose颜色硬编码.md
+  - docs/03-continuity/change-requests/CR-0193-修复R07候选夹具psql变量边界.md
+  - docs/03-continuity/change-requests/CR-0194-补齐R07候选夹具事务边界自动回归.md
+  - docs/03-continuity/change-requests/CR-0195-修复R07安全联系方式面板候选可观测语义.md
+  tests:
+  - tests/android/visual-manifests/R07.yaml
+  - tests/test_r07_ci_fixture.py
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+- CHANGELOG
+change_requests:
+- CR-0191
+- CR-0192
+- CR-0193
+- CR-0194
+- CR-0195
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions:
+  - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+  - scripts/prepare_r07_ci_fixture.sh
+  - tests/android/visual-manifests/R07.yaml
+  - config/android-candidate-request.yaml
+  - docs/07-operations/DEPLOYMENT_RUNBOOK.md
+  - CHANGELOG.md
+  - apps/android/feature/discovery/src/main/java/cc/orbexa/hhy/discovery/R07DiscoveryScreens.kt
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - tests/test_r07_ci_fixture.py
+  source: story+explicit+approved-cr:CR-0191+approved-cr:CR-0192+approved-cr:CR-0193+approved-cr:CR-0194+approved-cr:CR-0195
+parallel_execution:
+  assessment: USER_SERIAL_OVERRIDE
+  delegated_workers: 0
+  workers: []
+  reason: 单一候选修复运行必须串行，禁止并发触发重复GitHub构建
+event_hash: ee4e89852824234971b188380bf2e253b3a1e24a82926630ec5ef2ac034b768a

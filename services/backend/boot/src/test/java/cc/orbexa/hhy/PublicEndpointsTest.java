@@ -52,6 +52,24 @@ class PublicEndpointsTest {
                 .andExpect(jsonPath("$.data.serverTime").exists());
     }
 
+    @Test void publicLatestReturnsThePublishedProductionApk() throws Exception {
+        mvc.perform(get("/public-api/v1/app/latest")
+                        .header("X-Request-Id", "request_latest_001"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.requestId").value("request_latest_001"))
+                .andExpect(jsonPath("$.data.code").value("app-latest"))
+                .andExpect(jsonPath("$.data.title").value("合伙云 Pro 2.2.0"))
+                .andExpect(jsonPath("$.data.description").value("生产环境稳定版"))
+                .andExpect(jsonPath("$.data.version").value(4_294_967_296L))
+                .andExpect(jsonPath("$.data.download.platform").value("ANDROID"))
+                .andExpect(jsonPath("$.data.download.versionName").value("2.2.0"))
+                .andExpect(jsonPath("$.data.download.versionCode").value(4_294_967_296L))
+                .andExpect(jsonPath("$.data.download.downloadUrl")
+                        .value("https://downloads.example.com/apps/official-prod-2.2.0.apk"))
+                .andExpect(jsonPath("$.data.download.sha256")
+                        .value("cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"));
+    }
+
     @Test void versionPolicyEnforcesMinimumAndReturnsNoneForCurrentClient() throws Exception {
         mvc.perform(post("/public-api/v1/app/version-check")
                         .contentType("application/json")

@@ -1,0 +1,159 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260719T144443Z-BF11796E-0005
+session_id: SES-20260719T144443Z-BF11796E
+sequence: 5
+created_at: '2026-07-19T15:58:31Z'
+summary: 项目所有者确认R04 versionCode 10207真机通过，APK Manifest、独立交付证据、测试报告和说明均已回填PASS
+next_step: 提交并推送R04项目所有者真机PASS证据，然后关闭TASK-R04-007并领取TASK-R04-008版本关闭
+blockers: []
+decisions: []
+note: ''
+tests:
+- name: Owner physical device acceptance
+  result: PASS
+  evidence: artifacts/validation/r04-apk-delivery/delivery-evidence.json
+  note: owner confirmed install startup and basic regression for versionCode 10207
+- name: APK acceptance manifest
+  result: PASS
+  evidence: artifacts/apk/R04/APK_MANIFEST.yaml
+  note: delivery_status test_status owner_physical_test all PASS
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: 168c6caa7004a1f82f4a1976fafae0d036d5aef4
+  upstream: origin/task/TASK-R03-001
+  ahead: 0
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/sessions/SES-20260719T144443Z-BF11796E.yaml'
+  - ' M artifacts/apk/R04/APK_MANIFEST.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+  - ' M artifacts/reports/R04/R04-version-test-guide.md'
+  - ' M artifacts/reports/R04/TASK-R04-007-android-apk.md'
+  - ' M artifacts/validation/r04-apk-delivery/delivery-evidence.json'
+  recent_commits:
+  - "168c6caa7004a1f82f4a1976fafae0d036d5aef4\t2026-07-19T23:16:44+08:00\tHHY Continuity Bootstrap\t[STORY-R04-001] chore(release): record R04\
+    \ APK delivery"
+  - "04cda65d4a0749727a482526b616fb56cb475f34\t2026-07-19T22:50:52+08:00\tHHY Continuity Bootstrap\t[STORY-R04-001] chore(android): set R04 test\
+    \ APK identity"
+  - "4520cfdbcf774d31ae70f7215885935d11db5d1e\t2026-07-19T22:43:00+08:00\tHHY Continuity Bootstrap\t[STORY-R04-002] chore(continuity): close TASK-R04-006\
+    \ as completed"
+  - "fe31d579d15c305f28cfac03c03ed026da6bfb66\t2026-07-19T22:40:17+08:00\tHHY Continuity Bootstrap\t[STORY-R04-002] test(staging): attest R04\
+    \ observability and rollback"
+  - "4bbf6e23c0a6f1b2773e60182fde4683deeb6d0d\t2026-07-19T22:11:51+08:00\tHHY Continuity Bootstrap\t[STORY-R04-002] feat(observability): add R04\
+    \ staging gates"
+  - "73a0e7db60711a00fd7b3a9a0f2a15d609f37ef7\t2026-07-19T21:58:16+08:00\tHHY Continuity Bootstrap\t[STORY-R04-002] chore(continuity): close TASK-R04-005\
+    \ as completed"
+  - "ccf2ed56a8f90181a9da018b83b8cd59262d952f\t2026-07-19T21:57:10+08:00\tHHY Continuity Bootstrap\t[STORY-R04-002] test(r04): attest six-test\
+    \ integration matrix"
+  - "3fb6405ad6161c09f73c1fd5274edd8140567b08\t2026-07-19T21:46:47+08:00\tHHY Continuity Bootstrap\t[STORY-R04-002] fix(media): use frozen button\
+    \ height token"
+project_fingerprint:
+  sha256: 7971687ed1de97e95f97d5a22e77c7ecf484b4f9a131a883c8a2ff2b5fa8ca7f
+  files:
+  - CHANGELOG.md
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+  - apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+  - artifacts/apk/R04/APK_MANIFEST.yaml
+  - docs/03-continuity/change-requests/CR-0086-纳入R04测试APK交付与验证证据目录.md
+  - docs/03-continuity/change-requests/CR-0087-精确纳入R04测试APK交付证据文件.md
+  file_count: 7
+  payload:
+    base_commit: 4520cfdbcf774d31ae70f7215885935d11db5d1e
+    files:
+    - path: CHANGELOG.md
+      state: FILE
+      size: 38329
+      sha256: c73dd8f6feceece7ef300d640ce8e183539a06a81d3bc6992df95577dd9c8d0f
+    - path: apps/android/app/build.gradle.kts
+      state: FILE
+      size: 4445
+      sha256: 1cf0691092e356d8166f904b1303b44a04f017bde701abad4688c3d74899dfe2
+    - path: apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+      state: FILE
+      size: 520
+      sha256: 4f2764bf0c2d85b8cdb3b5cb932d344ad8100ba0ad47d09e7aa968ad81e138e6
+    - path: apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+      state: FILE
+      size: 1025
+      sha256: c22b7b8c100cb5210c820860c2982206102eff3873d2bf1205981a5c5f053cd3
+    - path: artifacts/apk/R04/APK_MANIFEST.yaml
+      state: FILE
+      size: 939
+      sha256: 208e5180429957d85a01549c74b2a6500a7289affb3e646dac587d96cbd9c60a
+    - path: docs/03-continuity/change-requests/CR-0086-纳入R04测试APK交付与验证证据目录.md
+      state: FILE
+      size: 2524
+      sha256: 3fd73d910d3152e7a90f060e970f48bd84e29443de29e4d80da144306ba86ea3
+    - path: docs/03-continuity/change-requests/CR-0087-精确纳入R04测试APK交付证据文件.md
+      state: FILE
+      size: 2890
+      sha256: f16ef2c5fa0cfee4e462b386343710f73c92ee03da8b96fd642a4ff2c51812bf
+change_classification:
+  other:
+  - CHANGELOG.md
+  - artifacts/apk/R04/APK_MANIFEST.yaml
+  code:
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+  - apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+  user_visible:
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+  - apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+  continuity:
+  - docs/03-continuity/change-requests/CR-0086-纳入R04测试APK交付与验证证据目录.md
+  - docs/03-continuity/change-requests/CR-0087-精确纳入R04测试APK交付证据文件.md
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+- CHANGELOG
+change_requests:
+- CR-0086
+- CR-0087
+scope:
+  allowed_paths:
+  - apps/android/**
+  - services/backend/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - tests/**
+  - docs/**
+  - catalogs/**
+  - releases/**
+  - design/**
+  - scripts/**
+  - CHANGELOG.md
+  approved_exceptions:
+  - artifacts/apk/R04/APK_MANIFEST.yaml
+  - artifacts/validation/r04-apk-delivery/delivery-evidence.json
+  - artifacts/validation/r04-task007-android/api-public-auth.json
+  - artifacts/validation/r04-task007-android/apk-badging.txt
+  - artifacts/validation/r04-task007-android/apk-signing.txt
+  - artifacts/validation/r04-task007-android/build-evidence.json
+  - artifacts/validation/r04-task007-android/embedded-api-count.txt
+  - artifacts/validation/r04-task007-android/embedded-placeholder-count.txt
+  - artifacts/validation/r04-task007-android/evidence-sha256.txt
+  - artifacts/validation/r04-task007-android/gradle-build.log
+  - artifacts/validation/r04-task007-android/source-archive-sha256.txt
+  - artifacts/validation/r04-task007-android/toolchain-image-id.txt
+  - artifacts/validation/r04-task007-android/zipalign.txt
+  - artifacts/reports/R04/R04-version-test-guide.md
+  - artifacts/reports/R04/TASK-R04-007-android-apk.md
+  source: story+explicit+approved-cr:CR-0087
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 项目所有者真机确认、APK Manifest和独立证据必须绑定同一APK身份原子回填
+event_hash: f52c1304c647ee6e1015699cc1f6e61f6d81b40e20764f7cf6f8d048996e9653

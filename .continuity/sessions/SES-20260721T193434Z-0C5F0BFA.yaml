@@ -1,0 +1,128 @@
+protocol_version: '1.0'
+package_version: 1.2.3
+session_id: SES-20260721T193434Z-0C5F0BFA
+status: CLOSED
+actor:
+  id: codex-root-r07-005
+  kind: AI_OR_HUMAN
+  host: unknown
+release: R07
+task_id: TASK-R07-005
+story_id: STORY-R07-005
+goal: 搜索、发布者主页与联系方式保护专项测试与故障注入
+started_at: '2026-07-21T19:34:34Z'
+updated_at: '2026-07-21T20:16:20Z'
+takeover_of: null
+change_requests:
+- CR-0184
+- CR-0185
+- CR-0186
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions:
+  - releases/R07/TASKS.yaml
+  - catalogs/test_cases.csv
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R07ServiceTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R07PostgresStoreTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/R07ControllerContractTest.java
+  - apps/android/feature/discovery/src/test/java/cc/orbexa/hhy/discovery/R07DiscoveryStateTest.kt
+  - scripts/run_r07_specialized_matrix.py
+  - tests/r07/README.md
+  - tests/r07/test_r07_specialized_matrix.py
+  - tests/r07/req-contact-001_happy
+  - tests/r07/req-contact-001_idempotent
+  - tests/r07/req-contact-001_reject
+  - tests/r07/req-publisher-001_happy
+  - tests/r07/req-publisher-001_idempotent
+  - tests/r07/req-publisher-001_reject
+  - tests/r07/req-search-001_happy
+  - tests/r07/req-search-001_idempotent
+  - tests/r07/req-search-001_reject
+  - tests/r07/dialog-search-001_clear-history
+  - artifacts/validation/r07-test-evidence/r07-specialized.evidence.json
+  - artifacts/validation/r07-test-evidence/backend-java21.log
+  - artifacts/validation/r07-test-evidence/postgresql17.log
+  - artifacts/validation/r07-test-evidence/android-module.log
+  - artifacts/reports/R07/TASK-R07-005-specialized-testing.md
+  - CHANGELOG.md
+  - scripts/configure_windows_git_runtime.ps1
+  - config/REPOSITORY_TRANSPORT.yaml
+  - START_HERE.md
+  - docs/09-development/统一开发与交付效率规范.md
+  - docs/03-continuity/PITFALLS.md
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - artifacts/validation/r07-test-evidence/backend-java21-readonly-mount.failure.log
+  source: story+explicit+approved-cr:CR-0184+approved-cr:CR-0185+approved-cr:CR-0186
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  base_commit: ddf293eda518bca96b695d518ad67f9d18536536
+  start_head: ddf293eda518bca96b695d518ad67f9d18536536
+  upstream: origin/task/TASK-R03-001
+  initial_worktree_state: CLEAN
+lease:
+  duration_minutes: 240
+  renewed_at: '2026-07-21T20:16:16Z'
+  expires_at: '2026-07-22T00:16:16Z'
+checkpoint_sequence: 4
+latest_checkpoint: .continuity/checkpoints/SES-20260721T193434Z-0C5F0BFA/0004.yaml
+session_log: docs/03-continuity/sessions/2026-07/SES-20260721T193434Z-0C5F0BFA.md
+next_step: 提交关闭元数据Commit，然后运行pre-push/CI门禁
+context_pack:
+  yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
+  markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
+  manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+  context_hash: 199c79cea88b88abeea5c0f8517dd31c89477e60daac9ff071eed5b1b37e77d2
+  generated_at: '2026-07-21T20:16:19Z'
+handoff_bundle: null
+closure:
+  result: COMPLETED
+  summary: 完成R07搜索、发布者主页与联系方式保护十项专项测试及故障注入：冻结Commit后端Java21 332项通过，PostgreSQL17 R07集成2项零跳过通过，Android单测与lint通过，10/10机器矩阵PASS，P0/P1缺陷为0；同时永久固化Windows
+    Git用户环境与跨机恢复规则。
+  code_commit: 015178b3d45c5d0ff0d0e458eb92a166d8d5026a
+  next_release: R07
+  next_task: TASK-R07-006
+  blocked_advance: false
+  user_confirmation: null
+  metadata_commit: PENDING
+  push_verification: CI_REQUIRED_AFTER_METADATA_COMMIT
+  started_at: '2026-07-21T20:16:15Z'
+  closure_checkpoint_id: CP-SES-20260721T193434Z-0C5F0BFA-0004
+  closed_at: '2026-07-21T20:16:20Z'
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 当前仅剩连续性关闭状态与任务切换，必须由唯一活动会话串行完成。
+closed_at: '2026-07-21T20:16:20Z'

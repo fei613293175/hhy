@@ -1,0 +1,46 @@
+schema: hhy.task-spec/v5.0
+id: TASK-R03-003
+release: R03
+ordinal: 3
+title: 纵向批次B：orbexa.cc域名与环境配置闭环
+kind: backend_contract
+mode: worker
+source:
+  path: releases/R03/TASKS.yaml
+  original_id: TASK-R03-003
+requirements:
+- REQ-CONFIG-001
+- REQ-DOMAIN-001
+- REQ-STORAGE-001
+- REQ-SECRET-001
+- REQ-CONFIG-UX-001
+- REQ-APK-001
+depends_on:
+- TASK-R03-001
+objective: 完成域名版本、环境隔离、DNS动作、DNS/TLS/服务健康验证、负责人和截止条件、Admin页面及自动化测试
+deliverables:
+- 域名数据、API、Admin页面和测试真实闭环
+- api/download当前验证状态与其余域名待办可追踪
+- expectedVersion、重复verify幂等和失败阻断证据
+acceptance:
+- 不把DNS解析成功等同于服务健康或生产激活
+- STORY-R03-002全部页面动作使用冻结生成类型
+- MODULE门禁通过并可独立交给主控集成
+allowed_paths:
+- catalogs/**
+- contracts/**
+- docs/**
+- packages/api-client/**
+- packages/domain-types/**
+- services/backend/**
+- tests/**
+risks:
+- contract
+- production
+- secrets
+- security
+acceptance_commands:
+- python3 scripts/check_api_contract.py
+maximum_attempts: 3
+owner_verification: ASYNC_NON_BLOCKING_FOR_NEXT_RELEASE
+legacy_status: DONE

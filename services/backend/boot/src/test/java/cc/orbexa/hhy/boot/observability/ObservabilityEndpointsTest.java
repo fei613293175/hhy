@@ -1,17 +1,25 @@
 package cc.orbexa.hhy.boot.observability;
 
 import cc.orbexa.hhy.boot.web.RequestIdFilter;
+import cc.orbexa.hhy.boot.realtime.R14RealtimeDeliveryListener;
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.Logger;
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.read.ListAppender;
+import jakarta.websocket.server.ServerContainer;
 import org.junit.jupiter.api.Test;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
+import org.springframework.context.ApplicationContextInitializer;
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.mock.web.MockServletContext;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.web.context.ConfigurableWebApplicationContext;
 
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -27,9 +35,26 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
+@ContextConfiguration(initializers = ObservabilityEndpointsTest.WebSocketTestContainerInitializer.class)
 class ObservabilityEndpointsTest {
     @Autowired
     MockMvc mvc;
+    @MockitoBean
+    R14RealtimeDeliveryListener realtimeDeliveryListener;
+
+    public static final class WebSocketTestContainerInitializer
+            implements ApplicationContextInitializer<ConfigurableApplicationContext> {
+        @Override
+        public void initialize(ConfigurableApplicationContext applicationContext) {
+            if (applicationContext instanceof ConfigurableWebApplicationContext webApplicationContext) {
+                MockServletContext servletContext = new MockServletContext();
+                servletContext.setAttribute(
+                        "jakarta.websocket.server.ServerContainer",
+                        org.mockito.Mockito.mock(ServerContainer.class));
+                webApplicationContext.setServletContext(servletContext);
+            }
+        }
+    }
 
     @Test
     void exposesOnlyHealthInfoAndPrometheusWithoutSensitiveHealthDetails() throws Exception {
@@ -43,6 +68,86 @@ class ObservabilityEndpointsTest {
                 .andExpect(content().string(org.hamcrest.Matchers.containsString("hhy_outbox_dead_letter")))
                 .andExpect(content().string(org.hamcrest.Matchers.containsString("hhy_ledger_unbalanced_transactions")))
                 .andExpect(content().string(org.hamcrest.Matchers.containsString("hhy_reconciliation_open_differences")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("hhy_admin_active_sessions")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("hhy_admin_auth_failures_5m")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("hhy_admin_mfa_active_methods")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("hhy_admin_idempotency_incomplete_snapshots")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("hhy_user_active_sessions")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("hhy_user_security_challenge_failures_5m")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("hhy_user_sms_expired_unused")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("hhy_provider_connection_test_failures_5m")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("hhy_provider_config_untested_active")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("hhy_provider_certificates_expiring_30d")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("hhy_domain_verification_failures")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("hhy_media_upload_failures_5m")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("hhy_media_upload_expired_open")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("hhy_media_delete_pending")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("hhy_storage_migration_blocked")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("hhy_identity_active_sessions")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("hhy_identity_provider_failures_5m")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("hhy_identity_manual_review_pending")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("hhy_identity_private_media_invalid")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("hhy_content_online_count")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("hhy_content_review_pending")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("hhy_content_outbox_backlog")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("hhy_home_enabled_modules")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("hhy_search_history_rows")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("hhy_search_hot_terms_active")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("hhy_publisher_active_count")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("hhy_contact_accesses_5m")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("hhy_contact_rejections_5m")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("hhy_r07_outbox_backlog")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("hhy_project_total_count")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("hhy_project_online_count")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("hhy_project_review_pending")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("hhy_project_favorites_count")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("hhy_project_contact_accesses_5m")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("hhy_project_contact_rejections_5m")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("hhy_r08_outbox_backlog")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("hhy_app_total_count")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("hhy_app_online_count")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("hhy_app_review_pending")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("hhy_app_favorites_count")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("hhy_app_contact_accesses_5m")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("hhy_app_contact_rejections_5m")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("hhy_r09_outbox_backlog")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("hhy_group_total_count")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("hhy_group_online_count")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("hhy_group_review_pending")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("hhy_group_favorites_count")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("hhy_group_contact_accesses_5m")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("hhy_group_contact_rejections_5m")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("hhy_r10_outbox_backlog")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("hhy_team_leader_total_count")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("hhy_team_leader_online_count")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("hhy_team_leader_review_pending")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("hhy_team_leader_favorites_count")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("hhy_team_leader_contact_accesses_5m")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("hhy_team_leader_contact_rejections_5m")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("hhy_r11_outbox_backlog")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("hhy_publish_total_count")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("hhy_publish_draft_count")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("hhy_publish_review_pending")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("hhy_publish_reviewing_count")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("hhy_publish_rejected_count")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("hhy_publish_online_count")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("hhy_r12_outbox_backlog")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("hhy_activity_favorites_count")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("hhy_activity_history_rows")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("hhy_activity_shares_5m")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("hhy_activity_contact_accesses_5m")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("hhy_activity_contact_rejections_5m")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("hhy_activity_invalid_feedback_pending")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("hhy_r13_outbox_backlog")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("hhy_chat_conversations_count")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("hhy_chat_messages_5m")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("hhy_chat_unread")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("hhy_chat_reports_pending")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("hhy_websocket_deliveries_unacked")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("hhy_websocket_deliveries_retry_exhausted")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("hhy_websocket_gap_users")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("hhy_r14_outbox_backlog")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("hhy_business_metric_query_failures_total")))
                 .andExpect(content().string(org.hamcrest.Matchers.containsString("http_server_requests_seconds_bucket")));
         mvc.perform(get("/actuator").with(user("observability-auditor")))
                 .andExpect(status().isOk())
@@ -87,5 +192,26 @@ class ObservabilityEndpointsTest {
         assertThat(fields.get("status")).isEqualTo(200);
         assertThat(((Number) fields.get("latency")).longValue()).isGreaterThanOrEqualTo(0);
         assertThat(event.toString()).doesNotContain("must-not-appear", "Authorization", "Cookie", "password");
+    }
+
+    @Test
+    void securityRejectionKeepsRequestIdAndTraceIdDistinctAndCorrelated() throws Exception {
+        mvc.perform(get("/admin-api/v1/me/security")
+                        .header("X-Request-Id", "request_reject_observe_001")
+                        .header("X-Trace-Id", "abcdef0123456789abcdef0123456789"))
+                .andExpect(status().isUnauthorized())
+                .andExpect(header().string("X-Request-Id", "request_reject_observe_001"))
+                .andExpect(header().string("X-Trace-Id", "abcdef0123456789abcdef0123456789"))
+                .andExpect(jsonPath("$.requestId").value("request_reject_observe_001"))
+                .andExpect(jsonPath("$.error.traceId").value("abcdef0123456789abcdef0123456789"));
+    }
+
+    @Test
+    void unknownPermittedManagementPathIsNotReportedAsServerFailure() throws Exception {
+        mvc.perform(get("/actuator/health/not-a-real-group")
+                        .header("X-Request-Id", "request_missing_observe_001")
+                        .header("X-Trace-Id", "1234567890abcdef1234567890abcdef"))
+                .andExpect(status().isNotFound())
+                .andExpect(header().string("X-Trace-Id", "1234567890abcdef1234567890abcdef"));
     }
 }

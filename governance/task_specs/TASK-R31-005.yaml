@@ -1,0 +1,43 @@
+schema: hhy.task-spec/v5.0
+id: TASK-R31-005
+release: R31
+ordinal: 5
+title: 安全、性能、备份与灾备验收专项测试与故障注入
+kind: quality
+mode: worker
+source:
+  path: releases/R31/TASKS.yaml
+  original_id: TASK-R31-005
+requirements:
+- REQ-SEC-001
+- REQ-OPS-001
+- REQ-APK-001
+depends_on:
+- TASK-R31-003
+- TASK-R31-004
+objective: 执行7项测试，覆盖重复请求、并发、超时、消息重复和供应商异常
+deliverables:
+- 测试报告和失败证据归档
+- 关键缺陷清零
+acceptance:
+- 无TODO/生产Mock
+- 代码、文档、测试、追踪同步更新
+- 测试报告和失败证据归档
+- 关键缺陷清零
+allowed_paths:
+- apps/**
+- catalogs/**
+- contracts/**
+- database/**
+- docs/**
+- packages/**
+- scripts/**
+- services/**
+- tests/**
+risks:
+- secrets
+- security
+acceptance_commands: []
+maximum_attempts: 3
+owner_verification: ASYNC_NON_BLOCKING_FOR_NEXT_RELEASE
+legacy_status: BLOCKED

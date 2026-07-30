@@ -1,0 +1,99 @@
+---
+cr_id: CR-0377
+status: APPROVED
+requester_actor_id: codex-root-r13-candidate-20260727
+approver_actor_id: owner-standing-delegation-20260727
+task_id: TASK-R13-007
+session_id: SES-20260726T191158Z-2B506AB7
+created_at: 2026-07-26T19:21:21Z
+updated_at: 2026-07-26T19:21:57Z
+---
+# CR-0377 — 建立R13收藏历史分享最终Android候选
+
+## 用户需求摘要
+
+批准，以后不要让我批准了，你自己持续开发；最终候选截图由AI自主判断，APK和文档交付桌面。
+
+## 原规则
+
+TASK-R13-007要求构建可安装可追溯APK并覆盖收藏、历史、分享与失效反馈，但当前候选请求、版本身份、模拟器旅程、视觉清单和Staging夹具仍停留在R12，且R13分类控件与冻结B08/P07-P08效果图不一致、底部面板marker未稳定导出。
+
+## 新规则
+
+将唯一Android最终候选切换为R13普通attempt 1和versionCode 10222；在专用hhy-r13-ci-candidate环境以Flyway V042幂等构造真实ONLINE内容、READY媒体、脱敏联系方式、收藏和非SHARE浏览事实；OIDC自动登录只采集SCR-FAV-001、SCR-HIS-001、SHEET-SHARE-001、SHEET-CONTENT-INVALID-001四张真实截图；分类导航按冻结纯文本加蓝色指示线施工，面板marker显式导出；AI审图通过后只做轻量基线晋升。
+
+## 修改原因
+
+当前唯一Android候选仍绑定R12十页旅程与10221身份，R13缺少四页视觉清单、专用Staging活动夹具和候选专项测试；收藏历史分类形态及底部面板marker还存在确定性视觉与自动化风险。
+
+## 影响摘要
+
+仅调整R13候选版本身份、测试夹具、四页旅程、视觉清单、候选专项回归和两项候选前UI/自动化缺陷；不改生产API、数据库迁移、R01-R12视觉基线或正式业务契约。
+
+## 影响文件
+
+- `apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt`
+- `apps/android/app/build.gradle.kts`
+- `apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt`
+- `apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt`
+- `apps/android/feature/activity/src/main/java/cc/orbexa/hhy/activity/R13ActivityScreens.kt`
+- `config/android-candidate-request.yaml`
+- `scripts/prepare_r13_ci_fixture.sh`
+- `tests/test_r13_candidate.py`
+- `tests/test_r12_candidate.py`
+- `tests/test_android_ci_gate.py`
+- `tests/android/visual-manifests/R13.yaml`
+- `CHANGELOG.md`
+
+## 页面
+
+- `SCR-FAV-001`
+- `SCR-HIS-001`
+- `SHEET-SHARE-001`
+- `SHEET-CONTENT-INVALID-001`
+
+## API
+
+- 无直接影响（已在影响摘要说明）
+
+## 数据库与迁移
+
+- 无直接影响（已在影响摘要说明）
+
+## 配置
+
+- `android-candidate-request:R13-attempt-1`
+
+## 资金/账本与历史数据
+
+- 无直接影响（已在影响摘要说明）
+
+## 测试
+
+- `tests.test_r13_candidate;tests.test_r12_candidate;tests.test_android_ci_gate;Android app unit/instrumentation compile;R13 fixture double-run idempotence;four-page visual manifest;UI foundation;UI tokens`
+
+## 版本
+
+- `R13`
+
+## 迁移与兼容策略
+
+R13夹具只允许专用hhy-r13-ci-candidate-*容器、Staging profile和Flyway V042，不访问PROD且不输出高敏明文；R12候选改为归档证据只读验证；10222沿用稳定测试签名并支持覆盖安装；首次无R13基线只采集一次模拟器证据，AI通过后不重跑模拟器。
+
+## 用户确认
+
+批准，以后不要让我批准了 你自己持续开发就行了
+
+## 审批
+
+- 审批人：`owner-standing-delegation-20260727`
+- 决定：`APPROVED`
+- 时间：`2026-07-26T19:21:57Z`
+- 说明：项目所有者本轮再次明确批准并授权持续开发。独立范围复核确认仅覆盖R13最终候选四页、10222身份、隔离Staging夹具、现有视觉规则原位落实及相应回归，不扩展生产权限、API或数据库契约。
+
+## 状态记录 · 2026-07-26T19:22:15Z
+
+- Actor：`codex-root-r13-candidate-20260727`
+- Status：`IMPLEMENTING`
+- Session：`SES-20260726T191158Z-2B506AB7`
+- Note：已完成候选与视觉双重审计并应用精确范围，开始实现10222身份、R13四页旅程、隔离夹具、视觉清单及候选专项回归。

@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "hhy.governance-state/v5.0",
+  "type": "object",
+  "required": [
+    "schema",
+    "revision",
+    "project",
+    "tasks",
+    "releases",
+    "state_hash"
+  ],
+  "properties": {
+    "schema": {
+      "const": "hhy.governance-state/v5.0"
+    },
+    "revision": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "project": {
+      "type": "object"
+    },
+    "tasks": {
+      "type": "object"
+    },
+    "releases": {
+      "type": "object"
+    },
+    "state_hash": {
+      "type": "string",
+      "pattern": "^[0-9a-fA-F]{64}$"
+    }
+  }
+}

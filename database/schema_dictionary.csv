@@ -105,6 +105,18 @@
 账号,user_status_logs,5,reason,text,是,,,不可删除,R02,FROZEN
 账号,user_status_logs,6,operator,varchar(255),是,,,不可删除,R02,FROZEN
 账号,user_status_logs,7,created_at,timestamptz,否,now(),INDEX,统一审计字段,R02,FROZEN
+账号,user_restrictions,1,id,bigint,否,generated,PRIMARY KEY,技术主键,R02,FROZEN_CR-0037
+账号,user_restrictions,2,user_id,bigint,否,,INDEX;FOREIGN KEY hhy.users(id),用户+类型唯一活动限制,R02,FROZEN_CR-0037
+账号,user_restrictions,3,restriction_type,varchar(128),否,,INDEX,限制类型,R02,FROZEN_CR-0037
+账号,user_restrictions,4,reason,text,否,,,限制原因,R02,FROZEN_CR-0037
+账号,user_restrictions,5,expires_at,timestamptz,是,,INDEX,可选到期时间,R02,FROZEN_CR-0037
+账号,user_restrictions,6,status,varchar(64),否,'ACTIVE',INDEX,ACTIVE/REMOVED/EXPIRED,R02,FROZEN_CR-0037
+账号,user_restrictions,7,created_by,bigint,否,,INDEX;FOREIGN KEY hhy.admin_users(id),创建管理员,R02,FROZEN_CR-0037
+账号,user_restrictions,8,removed_by,bigint,是,,INDEX;FOREIGN KEY hhy.admin_users(id),解除管理员,R02,FROZEN_CR-0037
+账号,user_restrictions,9,removed_at,timestamptz,是,,,解除或到期时间,R02,FROZEN_CR-0037
+账号,user_restrictions,10,version,bigint,否,0,,乐观锁,R02,FROZEN_CR-0037
+账号,user_restrictions,11,created_at,timestamptz,否,now(),INDEX,统一审计字段,R02,FROZEN_CR-0037
+账号,user_restrictions,12,updated_at,timestamptz,否,now(),,统一审计字段,R02,FROZEN_CR-0037
 实名,identity_profiles,1,id,bigint,否,generated,PRIMARY KEY,技术主键,R05,FROZEN
 实名,identity_profiles,2,user_id,bigint,否,,INDEX,id_hash唯一策略,R05,FROZEN
 实名,identity_profiles,3,name_cipher,varchar(255),否,,,id_hash唯一策略,R05,FROZEN
@@ -207,10 +219,10 @@
 内容,group_details,2,content_id,bigint,否,,INDEX,content_id唯一,R06-R13,FROZEN
 内容,group_details,3,platform,varchar(255),否,,,content_id唯一,R06-R13,FROZEN
 内容,group_details,4,size_range,varchar(255),是,,,content_id唯一,R06-R13,FROZEN
-内容,group_details,5,join_requirement,varchar(255),是,,,content_id唯一,R06-R13,FROZEN
-内容,group_details,6,qr_media_id,bigint,是,,INDEX,content_id唯一,R06-R13,FROZEN
+内容,group_details,5,join_requirement,varchar(255),是,,,仅表示入群要求；不得存入群口令,R06-R13,FROZEN_CR-0268
+内容,group_details,6,qr_media_id,bigint,是,,INDEX,引用media_objects且ON DELETE RESTRICT；ONLINE入群通道之一,R06-R13,FROZEN_CR-0268
 内容,group_details,7,group_link,varchar(255),是,,,content_id唯一,R06-R13,FROZEN
-内容,group_details,8,group_no,varchar(255),是,,,content_id唯一,R06-R13,FROZEN
+内容,group_details,8,group_no,varchar(255),是,,,仅表示群号；ONLINE入群通道之一,R06-R13,FROZEN_CR-0268
 内容,group_details,9,created_at,timestamptz,否,now(),INDEX,统一审计字段,R06-R13,FROZEN
 内容,group_details,10,updated_at,timestamptz,否,now(),,统一审计字段,R06-R13,FROZEN
 内容,team_leader_details,1,id,bigint,否,generated,PRIMARY KEY,技术主键,R06-R13,FROZEN
@@ -221,6 +233,14 @@
 内容,team_leader_details,6,cooperation_types,varchar(255),是,,,owner唯一活动资料,R06-R13,FROZEN
 内容,team_leader_details,7,created_at,timestamptz,否,now(),INDEX,统一审计字段,R06-R13,FROZEN
 内容,team_leader_details,8,updated_at,timestamptz,否,now(),,统一审计字段,R06-R13,FROZEN
+内容,team_leader_details,9,nickname,varchar(255),是,,,团队长昵称,R11,FROZEN_CR-0282
+内容,team_leader_details,10,logo_media_id,bigint,是,,FOREIGN KEY,头像或Logo媒体引用,R11,FROZEN_CR-0282
+内容,team_leader_details,11,region,varchar(255),是,,,团队长所在地区,R11,FROZEN_CR-0283
+内容,team_leader_details,12,personal_intro,text,是,,,个人介绍,R11,FROZEN_CR-0282
+内容,team_leader_details,13,team_intro,text,是,,,团队介绍,R11,FROZEN_CR-0282
+内容,team_leader_details,14,cooperation_requirement,text,是,,,合作要求,R11,FROZEN_CR-0282
+内容,team_leader_details,15,past_cases,jsonb,是,,,过往案例数组,R11,FROZEN_CR-0282
+内容,team_leader_details,16,accept_private_chat,boolean,是,,,是否接受私聊,R11,FROZEN_CR-0282
 内容,content_media,1,id,bigint,否,generated,PRIMARY KEY,技术主键,R06-R13,FROZEN
 内容,content_media,2,content_id,bigint,否,,INDEX,内容+顺序唯一,R06-R13,FROZEN
 内容,content_media,3,media_id,bigint,否,,INDEX,内容+顺序唯一,R06-R13,FROZEN
@@ -228,14 +248,16 @@
 内容,content_media,5,sort_order,integer,是,,,内容+顺序唯一,R06-R13,FROZEN
 内容,content_media,6,created_at,timestamptz,否,now(),INDEX,统一审计字段,R06-R13,FROZEN
 内容,content_media,7,updated_at,timestamptz,否,now(),,统一审计字段,R06-R13,FROZEN
+内容,content_media,8,removed_at,timestamptz,是,,INDEX,移除仅软标记且保留绑定历史,R12,FROZEN_CR-0316
 内容,content_contacts,1,id,bigint,否,generated,PRIMARY KEY,详情获取,R06-R13,FROZEN
 内容,content_contacts,2,content_id,bigint,否,,INDEX,详情获取,R06-R13,FROZEN
-内容,content_contacts,3,channel,varchar(64),是,,,详情获取,R06-R13,FROZEN
-内容,content_contacts,4,value_cipher,bigint,是,,,详情获取,R06-R13,FROZEN
+内容,content_contacts,3,channel,varchar(64),是,,,JOIN_PASSWORD仅允许GROUP且每内容至多一条；不计入群主联系方式,R06-R13,FROZEN_CR-0268
+内容,content_contacts,4,value_cipher,varchar(2048),是,,,联系方式与JOIN_PASSWORD仅保存V032加密信封；禁止入群口令明文,R06-R13,FROZEN_CR-0178_CR-0268
 内容,content_contacts,5,display_mask,varchar(255),是,,,详情获取,R06-R13,FROZEN
 内容,content_contacts,6,sort_order,integer,是,,,详情获取,R06-R13,FROZEN
 内容,content_contacts,7,created_at,timestamptz,否,now(),INDEX,统一审计字段,R06-R13,FROZEN
 内容,content_contacts,8,updated_at,timestamptz,否,now(),,统一审计字段,R06-R13,FROZEN
+内容,content_contacts,9,removed_at,timestamptz,是,,INDEX,移除仅软标记且保留绑定历史,R12,FROZEN_CR-0316
 内容,content_versions,1,id,bigint,否,generated,PRIMARY KEY,技术主键,R06-R13,FROZEN
 内容,content_versions,2,content_id,bigint,否,,INDEX,内容+版本唯一,R06-R13,FROZEN
 内容,content_versions,3,version_no,varchar(255),否,,,内容+版本唯一,R06-R13,FROZEN
@@ -249,13 +271,16 @@
 内容,content_status_logs,5,reason,text,是,,,不可删除,R06-R13,FROZEN
 内容,content_status_logs,6,operator,varchar(255),是,,,不可删除,R06-R13,FROZEN
 内容,content_status_logs,7,created_at,timestamptz,否,now(),INDEX,统一审计字段,R06-R13,FROZEN
+内容,content_status_logs,8,transition_version,bigint,是,,UNIQUE(content_id transition_version),V039后每次迁移绑定唯一内容版本；旧历史允许空,R12,FROZEN_CR-0316
 内容,content_review_records,1,id,bigint,否,generated,PRIMARY KEY,版本索引,R06-R13,FROZEN
 内容,content_review_records,2,content_id,bigint,否,,INDEX,版本索引,R06-R13,FROZEN
 内容,content_review_records,3,version_no,varchar(255),是,,,版本索引,R06-R13,FROZEN
-内容,content_review_records,4,decision,varchar(64),是,,,版本索引,R06-R13,FROZEN
+内容,content_review_records,4,decision,varchar(64),是,,,V040后提交快照决策允许CLAIM/ASSIGN/APPROVE/REJECT/ESCALATE；ESCALATE后必须重新分配二审员,R06-R13,FROZEN_CR-0318
 内容,content_review_records,5,reason,text,是,,,版本索引,R06-R13,FROZEN
 内容,content_review_records,6,admin_id,bigint,是,,INDEX,版本索引,R06-R13,FROZEN
 内容,content_review_records,7,created_at,timestamptz,否,now(),INDEX,统一审计字段,R06-R13,FROZEN
+内容,content_review_records,8,snapshot_version_id,bigint,是,,INDEX FK content_versions(id); UNIQUE WHERE decision=ESCALATE,V039后审核事件绑定提交快照；V040强制同快照最多一次ESCALATE；旧记录允许空,R12,FROZEN_CR-0318
+内容,content_review_records,9,command_id,varchar(128),是,,UNIQUE(content_id command_id),V039后审核命令幂等；旧记录允许空,R12,FROZEN_CR-0316
 内容,content_stats,1,id,bigint,否,generated,PRIMARY KEY,技术主键,R06-R13,FROZEN
 内容,content_stats,2,content_id,bigint,否,,INDEX,content_id唯一,R06-R13,FROZEN
 内容,content_stats,3,organic_views,varchar(255),否,,,content_id唯一,R06-R13,FROZEN
@@ -329,32 +354,36 @@
 聊天,conversations,4,last_message_at,timestamptz,是,,INDEX,首版仅direct,R14,FROZEN
 聊天,conversations,5,created_at,timestamptz,否,now(),INDEX,统一审计字段,R14,FROZEN
 聊天,conversations,6,updated_at,timestamptz,否,now(),,统一审计字段,R14,FROZEN
+聊天,conversations,7,direct_user_low_id,bigint,是,,UNIQUE,事务提交时与双成员规范对一致,R14,FROZEN
+聊天,conversations,8,direct_user_high_id,bigint,是,,UNIQUE,事务提交时与双成员规范对一致,R14,FROZEN
+聊天,conversations,9,version,bigint,否,0,,乐观锁版本不得为负,R14,FROZEN
 聊天,conversation_members,1,id,bigint,否,generated,PRIMARY KEY,技术主键,R14,FROZEN
 聊天,conversation_members,2,conversation_id,bigint,否,,INDEX,会话+用户唯一,R14,FROZEN
 聊天,conversation_members,3,user_id,bigint,否,,INDEX,会话+用户唯一,R14,FROZEN
-聊天,conversation_members,4,unread_count,integer,是,,,会话+用户唯一,R14,FROZEN
+聊天,conversation_members,4,unread_count,integer,否,0,,会话+用户唯一；未读数不得为负,R14,FROZEN
 聊天,conversation_members,5,last_read_message_id,bigint,是,,INDEX,会话+用户唯一,R14,FROZEN
 聊天,conversation_members,6,created_at,timestamptz,否,now(),INDEX,统一审计字段,R14,FROZEN
 聊天,conversation_members,7,updated_at,timestamptz,否,now(),,统一审计字段,R14,FROZEN
+聊天,conversation_members,8,hidden_at,timestamptz,是,,INDEX,仅隐藏当前用户会话视图；不删除成员或消息,R14,FROZEN
 聊天,chat_messages,1,id,bigint,否,generated,PRIMARY KEY,技术主键,R14,FROZEN
 聊天,chat_messages,2,conversation_id,bigint,否,,INDEX,发送者+client_msg_id唯一,R14,FROZEN
 聊天,chat_messages,3,sender_id,bigint,否,,INDEX,发送者+client_msg_id唯一,R14,FROZEN
-聊天,chat_messages,4,type,varchar(64),是,,,发送者+client_msg_id唯一,R14,FROZEN
-聊天,chat_messages,5,body_json,jsonb,是,,,发送者+client_msg_id唯一,R14,FROZEN
+聊天,chat_messages,4,type,varchar(64),否,,,四类封闭消息Schema,R14,FROZEN
+聊天,chat_messages,5,body_json,jsonb,否,,,必须匹配type的封闭payload,R14,FROZEN
 聊天,chat_messages,6,status,varchar(64),否,,,发送者+client_msg_id唯一,R14,FROZEN
-聊天,chat_messages,7,client_msg_id,bigint,是,,INDEX,发送者+client_msg_id唯一,R14,FROZEN
+聊天,chat_messages,7,client_msg_id,varchar(64),否,,INDEX,发送者+client_msg_id唯一；1至64字符,R14,FROZEN
 聊天,chat_messages,8,created_at,timestamptz,否,now(),INDEX,统一审计字段,R14,FROZEN
 聊天,chat_messages,9,updated_at,timestamptz,否,now(),,统一审计字段,R14,FROZEN
 聊天,chat_message_attachments,1,id,bigint,否,generated,PRIMARY KEY,私有媒体,R14,FROZEN
 聊天,chat_message_attachments,2,message_id,bigint,否,,INDEX,私有媒体,R14,FROZEN
-聊天,chat_message_attachments,3,media_id,bigint,是,,INDEX,私有媒体,R14,FROZEN
-聊天,chat_message_attachments,4,sort_order,integer,是,,,私有媒体,R14,FROZEN
+聊天,chat_message_attachments,3,media_id,bigint,否,,INDEX,发送者READY的private_chat媒体,R14,FROZEN
+聊天,chat_message_attachments,4,sort_order,integer,否,0,,消息内顺序唯一且不得为负,R14,FROZEN
 聊天,chat_message_attachments,5,created_at,timestamptz,否,now(),INDEX,统一审计字段,R14,FROZEN
 聊天,chat_message_attachments,6,updated_at,timestamptz,否,now(),,统一审计字段,R14,FROZEN
 聊天,chat_read_receipts,1,id,bigint,否,generated,PRIMARY KEY,技术主键,R14,FROZEN
 聊天,chat_read_receipts,2,message_id,bigint,否,,INDEX,消息+用户唯一,R14,FROZEN
 聊天,chat_read_receipts,3,user_id,bigint,否,,INDEX,消息+用户唯一,R14,FROZEN
-聊天,chat_read_receipts,4,read_at,timestamptz,是,,INDEX,消息+用户唯一,R14,FROZEN
+聊天,chat_read_receipts,4,read_at,timestamptz,否,,INDEX,消息+用户唯一；仅对方成员可写,R14,FROZEN
 聊天,chat_read_receipts,5,created_at,timestamptz,否,now(),INDEX,统一审计字段,R14,FROZEN
 聊天,chat_read_receipts,6,updated_at,timestamptz,否,now(),,统一审计字段,R14,FROZEN
 聊天,user_blocks,1,id,bigint,否,generated,PRIMARY KEY,技术主键,R14,FROZEN
@@ -365,12 +394,16 @@
 聊天,user_blocks,6,updated_at,timestamptz,否,now(),,统一审计字段,R14,FROZEN
 聊天,chat_reports,1,id,bigint,否,generated,PRIMARY KEY,证据,R14,FROZEN
 聊天,chat_reports,2,reporter_id,bigint,否,,INDEX,证据,R14,FROZEN
-聊天,chat_reports,3,target_user_id,bigint,是,,INDEX,证据,R14,FROZEN
-聊天,chat_reports,4,conversation_id,bigint,是,,INDEX,证据,R14,FROZEN
-聊天,chat_reports,5,message_ids,jsonb,是,,,证据,R14,FROZEN
+聊天,chat_reports,3,target_user_id,bigint,否,,INDEX,必须为同会话对方成员,R14,FROZEN
+聊天,chat_reports,4,conversation_id,bigint,否,,INDEX,举报人与目标用户必须为成员,R14,FROZEN
+聊天,chat_reports,5,message_ids,jsonb,否,[],,最多100个唯一且属于当前会话的消息ID,R14,FROZEN
 聊天,chat_reports,6,status,varchar(64),否,,,证据,R14,FROZEN
 聊天,chat_reports,7,created_at,timestamptz,否,now(),INDEX,统一审计字段,R14,FROZEN
 聊天,chat_reports,8,updated_at,timestamptz,否,now(),,统一审计字段,R14,FROZEN
+聊天,chat_reports,9,reason_code,varchar(2000),否,,,用户提交的举报原因代码,R14,FROZEN
+聊天,chat_reports,10,description,text,否,,,用户提交的举报说明；最多2000字符,R14,FROZEN
+聊天,chat_reports,11,evidence_media_ids,jsonb,否,[],,最多100个唯一且授权可见的READY私有媒体ID,R14,FROZEN
+聊天,chat_reports,12,version,bigint,否,0,,R15后台处理乐观锁版本不得为负,R14,FROZEN
 通知,notifications,1,id,bigint,否,generated,PRIMARY KEY,用户+时间索引,R15,FROZEN
 通知,notifications,2,user_id,bigint,否,,INDEX,用户+时间索引,R15,FROZEN
 通知,notifications,3,type,varchar(64),是,,,用户+时间索引,R15,FROZEN
@@ -415,22 +448,32 @@
 通知,announcement_reads,4,read_at,timestamptz,是,,INDEX,唯一,R15,FROZEN
 通知,announcement_reads,5,created_at,timestamptz,否,now(),INDEX,统一审计字段,R15,FROZEN
 通知,announcement_reads,6,updated_at,timestamptz,否,now(),,统一审计字段,R15,FROZEN
-商品,products,1,id,bigint,否,generated,PRIMARY KEY,商品类型,R16,FROZEN
-商品,products,2,type,varchar(64),否,,,商品类型,R16,FROZEN
-商品,products,3,name,varchar(255),是,,,商品类型,R16,FROZEN
-商品,products,4,status,varchar(64),否,,,商品类型,R16,FROZEN
-商品,products,5,display_order,integer,是,,,商品类型,R16,FROZEN
-商品,products,6,created_at,timestamptz,否,now(),INDEX,统一审计字段,R16,FROZEN
-商品,products,7,updated_at,timestamptz,否,now(),,统一审计字段,R16,FROZEN
+商品,products,1,id,bigint,否,generated,PRIMARY KEY,技术主键,R16,FROZEN
+商品,products,2,product_code,varchar(64),否,,UNIQUE,显式商品合同,R16,FROZEN
+商品,products,3,type,varchar(64),否,,,商品类型,R16,FROZEN
+商品,products,4,name,varchar(255),否,,,显式商品合同,R16,FROZEN
+商品,products,5,description,varchar(2000),是,,,显式商品合同,R16,FROZEN
+商品,products,6,status,varchar(64),否,,INDEX,商品状态受限字符串,R16,FROZEN
+商品,products,7,display_order,integer,是,,,商品排序,R16,FROZEN
+商品,products,8,version,bigint,否,0,,乐观锁,R16,FROZEN
+商品,products,9,created_at,timestamptz,否,now(),INDEX,统一审计字段,R16,FROZEN
+商品,products,10,updated_at,timestamptz,否,now(),,统一审计字段,R16,FROZEN
 商品,product_skus,1,id,bigint,否,generated,PRIMARY KEY,技术主键,R16,FROZEN
-商品,product_skus,2,product_id,bigint,否,,INDEX,code唯一,R16,FROZEN
-商品,product_skus,3,code,varchar(64),否,,,code唯一,R16,FROZEN
-商品,product_skus,4,price_cent,bigint,是,,,code唯一,R16,FROZEN
-商品,product_skus,5,duration,integer,是,,,code唯一,R16,FROZEN
-商品,product_skus,6,attributes_json,jsonb,是,,,code唯一,R16,FROZEN
-商品,product_skus,7,status,varchar(64),否,,,code唯一,R16,FROZEN
-商品,product_skus,8,created_at,timestamptz,否,now(),INDEX,统一审计字段,R16,FROZEN
-商品,product_skus,9,updated_at,timestamptz,否,now(),,统一审计字段,R16,FROZEN
+商品,product_skus,2,product_id,bigint,否,,INDEX,所属商品,R16,FROZEN
+商品,product_skus,3,code,varchar(64),否,,UNIQUE,SKU code唯一,R16,FROZEN
+商品,product_skus,4,name,varchar(255),否,,,显式SKU合同,R16,FROZEN
+商品,product_skus,5,price_cent,bigint,否,,,标准价格非负,R16,FROZEN
+商品,product_skus,6,member_price_cent,bigint,是,,,会员价格非负,R16,FROZEN
+商品,product_skus,7,duration,integer,是,,,旧字段兼容,R16,FROZEN
+商品,product_skus,8,duration_days,integer,是,,,显式SKU合同,R16,FROZEN
+商品,product_skus,9,attributes_json,jsonb,是,,,旧字段兼容,R16,FROZEN
+商品,product_skus,10,benefits_json,jsonb,否,,,BenefitResource对象数组,R16,FROZEN
+商品,product_skus,11,sale_starts_at,timestamptz,是,,INDEX,销售时段,R16,FROZEN
+商品,product_skus,12,sale_ends_at,timestamptz,是,,INDEX,销售时段,R16,FROZEN
+商品,product_skus,13,status,varchar(64),否,,INDEX,SKU状态受限字符串,R16,FROZEN
+商品,product_skus,14,version,bigint,否,0,,乐观锁,R16,FROZEN
+商品,product_skus,15,created_at,timestamptz,否,now(),INDEX,统一审计字段,R16,FROZEN
+商品,product_skus,16,updated_at,timestamptz,否,now(),,统一审计字段,R16,FROZEN
 商品,sku_commission_policies,1,id,bigint,否,generated,PRIMARY KEY,版本快照,R16,FROZEN
 商品,sku_commission_policies,2,sku_id,bigint,否,,INDEX,版本快照,R16,FROZEN
 商品,sku_commission_policies,3,level1_bps,integer,是,,,版本快照,R16,FROZEN
@@ -455,32 +498,44 @@
 商品,user_coupons,6,created_at,timestamptz,否,now(),INDEX,统一审计字段,R16,FROZEN
 商品,user_coupons,7,updated_at,timestamptz,否,now(),,统一审计字段,R16,FROZEN
 订单,orders,1,id,bigint,否,generated,PRIMARY KEY,技术主键,R16,FROZEN
-订单,orders,2,order_no,varchar(255),否,,,order_no唯一,R16,FROZEN
-订单,orders,3,user_id,bigint,否,,INDEX,order_no唯一,R16,FROZEN
-订单,orders,4,biz_type,varchar(255),是,,,order_no唯一,R16,FROZEN
-订单,orders,5,biz_id,bigint,是,,INDEX,order_no唯一,R16,FROZEN
-订单,orders,6,amount_cent,bigint,是,,,order_no唯一,R16,FROZEN
-订单,orders,7,status,varchar(64),否,,,order_no唯一,R16,FROZEN
-订单,orders,8,version,bigint,否,0,,乐观锁,R16,FROZEN
-订单,orders,9,created_at,timestamptz,否,now(),INDEX,统一审计字段,R16,FROZEN
-订单,orders,10,updated_at,timestamptz,否,now(),,统一审计字段,R16,FROZEN
-订单,order_items,1,id,bigint,否,generated,PRIMARY KEY,快照,R16,FROZEN
-订单,order_items,2,order_id,bigint,否,,INDEX,快照,R16,FROZEN
-订单,order_items,3,sku_id,bigint,是,,INDEX,快照,R16,FROZEN
-订单,order_items,4,quantity,integer,是,,,快照,R16,FROZEN
-订单,order_items,5,unit_price,bigint,是,,,快照,R16,FROZEN
-订单,order_items,6,snapshot_json,jsonb,是,,,快照,R16,FROZEN
-订单,order_items,7,created_at,timestamptz,否,now(),INDEX,统一审计字段,R16,FROZEN
-订单,order_items,8,updated_at,timestamptz,否,now(),,统一审计字段,R16,FROZEN
+订单,orders,2,order_no,varchar(255),否,,UNIQUE,订单号唯一,R16,FROZEN
+订单,orders,3,user_id,bigint,否,,INDEX,订单所有者,R16,FROZEN
+订单,orders,4,biz_type,varchar(255),是,,,订单类型；新订单非空,R16,FROZEN
+订单,orders,5,biz_id,bigint,是,,INDEX,业务对象,R16,FROZEN
+订单,orders,6,amount_cent,bigint,否,,,等于报价快照payable,R16,FROZEN
+订单,orders,7,status,varchar(64),否,,INDEX,ORDER_STATUS,R16,FROZEN
+订单,orders,8,currency,varchar(3),否,CNY,,ISO 4217大写三字符,R16,FROZEN
+订单,orders,9,paid_amount_cent,bigint,是,,,实付金额非负,R16,FROZEN
+订单,orders,10,paid_at,timestamptz,是,,INDEX,支付时间,R16,FROZEN
+订单,orders,11,no_refund_confirmed,boolean,否,false,,不退款确认,R16,FROZEN
+订单,orders,12,no_refund_agreement_version,varchar(64),是,,,不退款协议版本,R16,FROZEN
+订单,orders,13,no_refund_confirmed_at,timestamptz,是,,,不退款确认时间,R16,FROZEN
+订单,orders,14,idempotency_key,varchar(128),是,,,新订单16至128字符,R16,FROZEN
+订单,orders,15,request_hash,varchar(64),是,,,规范请求SHA-256,R16,FROZEN
+订单,orders,16,legacy_without_idempotency,boolean,否,false,,迁移兼容事实；新插入禁止,R16,FROZEN
+订单,orders,17,version,bigint,否,0,,乐观锁,R16,FROZEN
+订单,orders,18,created_at,timestamptz,否,now(),INDEX,统一审计字段,R16,FROZEN
+订单,orders,19,updated_at,timestamptz,否,now(),,统一审计字段,R16,FROZEN
+订单,order_items,1,id,bigint,否,generated,PRIMARY KEY,技术主键,R16,FROZEN
+订单,order_items,2,order_id,bigint,否,,INDEX,所属订单,R16,FROZEN
+订单,order_items,3,sku_id,bigint,是,,INDEX,来源SKU,R16,FROZEN
+订单,order_items,4,item_name,varchar(255),否,,,下单时名称快照,R16,FROZEN
+订单,order_items,5,quantity,integer,否,,,至少1,R16,FROZEN
+订单,order_items,6,unit_price,bigint,否,,,下单时单价,R16,FROZEN
+订单,order_items,7,subtotal_amount_cent,bigint,否,,,quantity乘unit_price,R16,FROZEN
+订单,order_items,8,snapshot_json,jsonb,是,,,下单时扩展快照,R16,FROZEN
+订单,order_items,9,created_at,timestamptz,否,now(),INDEX,统一审计字段,R16,FROZEN
+订单,order_items,10,updated_at,timestamptz,否,now(),,统一审计字段,R16,FROZEN
 订单,order_price_snapshots,1,id,bigint,否,generated,PRIMARY KEY,技术主键,R16,FROZEN
-订单,order_price_snapshots,2,order_id,bigint,否,,INDEX,order唯一,R16,FROZEN
-订单,order_price_snapshots,3,original,bigint,否,,,order唯一,R16,FROZEN
-订单,order_price_snapshots,4,discount,bigint,是,,,order唯一,R16,FROZEN
-订单,order_price_snapshots,5,service_fee,bigint,是,,,order唯一,R16,FROZEN
-订单,order_price_snapshots,6,payable,bigint,是,,,order唯一,R16,FROZEN
-订单,order_price_snapshots,7,rule_versions,varchar(255),是,,,order唯一,R16,FROZEN
-订单,order_price_snapshots,8,created_at,timestamptz,否,now(),INDEX,统一审计字段,R16,FROZEN
-订单,order_price_snapshots,9,updated_at,timestamptz,否,now(),,统一审计字段,R16,FROZEN
+订单,order_price_snapshots,2,order_id,bigint,否,,UNIQUE,每订单唯一,R16,FROZEN
+订单,order_price_snapshots,3,original,bigint,否,,,原价,R16,FROZEN
+订单,order_price_snapshots,4,discount,bigint,否,,,优惠金额,R16,FROZEN
+订单,order_price_snapshots,5,service_fee,bigint,否,,,服务费,R16,FROZEN
+订单,order_price_snapshots,6,payable,bigint,否,,,应付金额,R16,FROZEN
+订单,order_price_snapshots,7,rule_versions,varchar(255),是,,,旧字段兼容,R16,FROZEN
+订单,order_price_snapshots,8,rule_versions_json,jsonb,否,,,有序规则版本数组,R16,FROZEN
+订单,order_price_snapshots,9,created_at,timestamptz,否,now(),INDEX,统一审计字段,R16,FROZEN
+订单,order_price_snapshots,10,updated_at,timestamptz,否,now(),,统一审计字段,R16,FROZEN
 支付,payment_transactions,1,id,bigint,否,generated,PRIMARY KEY,技术主键,R17,FROZEN
 支付,payment_transactions,2,order_id,bigint,否,,INDEX,provider_trade_no唯一,R17,FROZEN
 支付,payment_transactions,3,gateway,varchar(255),否,,,provider_trade_no唯一,R17,FROZEN
@@ -1202,8 +1257,10 @@ CMS,h5_page_configs,7,updated_at,timestamptz,否,now(),,统一审计字段,R28,F
 系统,idempotency_records,3,idem_key,varchar(255),否,,,scope+key唯一,P00/R29/R30,FROZEN
 系统,idempotency_records,4,request_hash,varchar(128),是,,,scope+key唯一,P00/R29/R30,FROZEN
 系统,idempotency_records,5,response_ref,varchar(255),是,,,scope+key唯一,P00/R29/R30,FROZEN
-系统,idempotency_records,6,expires_at,timestamptz,是,,INDEX,scope+key唯一,P00/R29/R30,FROZEN
-系统,idempotency_records,7,created_at,timestamptz,否,now(),INDEX,统一审计字段,P00/R29/R30,FROZEN
+系统,idempotency_records,6,response_type,varchar(128),是,,,幂等首次响应DTO版本类型,R01,FROZEN
+系统,idempotency_records,7,response_payload_ciphertext,text,是,,,版本化AES-256-GCM首次响应密文信封,R01,FROZEN
+系统,idempotency_records,8,expires_at,timestamptz,是,,INDEX,scope+key唯一,P00/R29/R30,FROZEN
+系统,idempotency_records,9,created_at,timestamptz,否,now(),INDEX,统一审计字段,P00/R29/R30,FROZEN
 分析,analytics_events,1,id,bigint,否,generated,PRIMARY KEY,可分区,R23/R30,FROZEN
 分析,analytics_events,2,user_id,bigint,否,,INDEX,可分区,R23/R30,FROZEN
 分析,analytics_events,3,event_name,varchar(255),是,,,可分区,R23/R30,FROZEN
@@ -1237,6 +1294,18 @@ CMS,h5_page_configs,7,updated_at,timestamptz,否,now(),,统一审计字段,R28,F
 配置中心,provider_config_versions,6,created_by,varchar(255),是,,,版本不可覆盖；激活唯一,R01/R03/R30,FROZEN
 配置中心,provider_config_versions,7,activated_at,timestamptz,是,,INDEX,版本不可覆盖；激活唯一,R01/R03/R30,FROZEN
 配置中心,provider_config_versions,8,created_at,timestamptz,否,now(),INDEX,统一审计字段,R01/R03/R30,FROZEN
+配置中心,provider_config_versions,9,environment,varchar(16),否,'STAGING',INDEX,仅DEV/TEST/STAGING/PROD,R03,IMPLEMENTED_R03
+配置中心,provider_config_versions,10,values_json,jsonb,否,'{}',,非秘密配置对象；版本载荷不可变,R03,IMPLEMENTED_R03
+配置中心,provider_config_versions,11,secret_refs_json,jsonb,否,'{}',,只允许vault://或kms://引用；版本载荷不可变,R03,IMPLEMENTED_R03
+配置中心,provider_config_versions,12,remark,varchar(500),否,'',,创建备注不可变,R03,IMPLEMENTED_R03
+配置中心,provider_config_versions,13,connection_successful,boolean,是,,,与tested_at同时为空或同时非空,R03,IMPLEMENTED_R03
+配置中心,provider_config_versions,14,masked_test_result,varchar(255),是,,,只保存安全结果码和脱敏摘要,R03,IMPLEMENTED_R03
+配置中心,provider_config_versions,15,tested_at,timestamptz,是,,INDEX,连接测试时间,R03,IMPLEMENTED_R03
+配置中心,provider_config_versions,16,approval_ref,varchar(64),是,,,激活或回滚审批引用,R03,IMPLEMENTED_R03
+配置中心,provider_config_versions,17,approval_requester_id,bigint,是,,INDEX,与复核管理员必须不同,R03,IMPLEMENTED_R03
+配置中心,provider_config_versions,18,approval_reviewer_id,bigint,是,,INDEX,与申请管理员必须不同,R03,IMPLEMENTED_R03
+配置中心,provider_config_versions,19,version,bigint,否,0,,乐观锁,R03,IMPLEMENTED_R03
+配置中心,provider_config_versions,20,updated_at,timestamptz,否,now(),,统一审计字段,R03,IMPLEMENTED_R03
 配置中心,provider_connection_tests,1,id,bigint,否,generated,PRIMARY KEY,不保存明文秘密,R01/R03/R30,FROZEN
 配置中心,provider_connection_tests,2,provider_code,varchar(64),否,,,不保存明文秘密,R01/R03/R30,FROZEN
 配置中心,provider_connection_tests,3,config_version_id,bigint,是,,INDEX,不保存明文秘密,R01/R03/R30,FROZEN
@@ -1257,6 +1326,12 @@ CMS,h5_page_configs,7,updated_at,timestamptz,否,now(),,统一审计字段,R28,F
 配置中心,provider_certificates,9,status,varchar(64),否,,,私有存储；原文不可读回,R01/R03/R30,FROZEN
 配置中心,provider_certificates,10,created_at,timestamptz,否,now(),INDEX,统一审计字段,R01/R03/R30,FROZEN
 配置中心,provider_certificates,11,updated_at,timestamptz,否,now(),,统一审计字段,R01/R03/R30,FROZEN
+配置中心,provider_certificates,12,alias,varchar(200),否,'',,证书显示别名,R03,IMPLEMENTED_R03
+配置中心,provider_certificates,13,secret_ref,varchar(512),是,,,仅Vault/KMS引用；材料不可变,R03,IMPLEMENTED_R03
+配置中心,provider_certificates,14,created_by,bigint,是,,INDEX,创建管理员,R03,IMPLEMENTED_R03
+配置中心,provider_certificates,15,rotated_to_id,bigint,是,,INDEX,轮换目标证书,R03,IMPLEMENTED_R03
+配置中心,provider_certificates,16,approval_ref,varchar(64),是,,,轮换审批引用,R03,IMPLEMENTED_R03
+配置中心,provider_certificates,17,version,bigint,否,0,,乐观锁,R03,IMPLEMENTED_R03
 配置中心,provider_certificate_access_logs,1,id,bigint,否,generated,PRIMARY KEY,不可删除,R01/R03/R30,FROZEN
 配置中心,provider_certificate_access_logs,2,certificate_id,bigint,否,,INDEX,不可删除,R01/R03/R30,FROZEN
 配置中心,provider_certificate_access_logs,3,admin_id,bigint,是,,INDEX,不可删除,R01/R03/R30,FROZEN
@@ -1274,6 +1349,21 @@ CMS,h5_page_configs,7,updated_at,timestamptz,否,now(),,统一审计字段,R28,F
 配置中心,domain_configs,8,version,bigint,否,0,,乐观锁,R01/R03/R30,FROZEN
 配置中心,domain_configs,9,created_at,timestamptz,否,now(),INDEX,统一审计字段,R01/R03/R30,FROZEN
 配置中心,domain_configs,10,updated_at,timestamptz,否,now(),,统一审计字段,R01/R03/R30,FROZEN
+配置中心,domain_configs,11,certificate_mode,varchar(32),否,'MANAGED',,仅MANAGED或EXTERNAL,R03,IMPLEMENTED_R03
+配置中心,domain_configs,12,dns_status,varchar(32),否,'PENDING',INDEX,DNS分层状态,R03,IMPLEMENTED_R03
+配置中心,domain_configs,13,https_status,varchar(32),否,'PENDING',INDEX,TLS分层状态,R03,IMPLEMENTED_R03
+配置中心,domain_configs,14,certificate_status,varchar(32),否,'PENDING',INDEX,证书分层状态,R03,IMPLEMENTED_R03
+配置中心,domain_configs,15,service_health_status,varchar(32),否,'PENDING',INDEX,服务健康分层状态,R03,IMPLEMENTED_R03
+配置中心,domain_configs,16,last_probe_code,varchar(64),是,,,只保存安全分类码,R03,IMPLEMENTED_R03
+配置中心,domain_configs,17,last_verified_at,timestamptz,是,,INDEX,最近分层验证时间,R03,IMPLEMENTED_R03
+配置中心,domain_command_receipts,1,id,bigint,否,generated,PRIMARY KEY,技术主键,R03,IMPLEMENTED_R03
+配置中心,domain_command_receipts,2,domain_config_id,bigint,否,,INDEX,绑定域名配置,R03,IMPLEMENTED_R03
+配置中心,domain_command_receipts,3,operation,varchar(16),否,,,仅UPDATE或VERIFY,R03,IMPLEMENTED_R03
+配置中心,domain_command_receipts,4,idempotency_key,varchar(128),否,,,资源+操作+键唯一,R03,IMPLEMENTED_R03
+配置中心,domain_command_receipts,5,fingerprint,text,否,,,请求指纹不可变,R03,IMPLEMENTED_R03
+配置中心,domain_command_receipts,6,result_json,jsonb,否,,,首个响应快照不可变,R03,IMPLEMENTED_R03
+配置中心,domain_command_receipts,7,created_at,timestamptz,否,now(),INDEX,创建时间,R03,IMPLEMENTED_R03
+配置中心,domain_command_receipts,8,expires_at,timestamptz,否,,INDEX,必须晚于创建时间,R03,IMPLEMENTED_R03
 配置中心,dns_action_items,1,id,bigint,否,generated,PRIMARY KEY,解析由用户完成,R01/R03/R30,FROZEN
 配置中心,dns_action_items,2,domain_config_id,bigint,否,,INDEX,解析由用户完成,R01/R03/R30,FROZEN
 配置中心,dns_action_items,3,record_type,varchar(255),是,,,解析由用户完成,R01/R03/R30,FROZEN
@@ -1283,6 +1373,10 @@ CMS,h5_page_configs,7,updated_at,timestamptz,否,now(),,统一审计字段,R28,F
 配置中心,dns_action_items,7,user_action_required,boolean,是,,,解析由用户完成,R01/R03/R30,FROZEN
 配置中心,dns_action_items,8,created_at,timestamptz,否,now(),INDEX,统一审计字段,R01/R03/R30,FROZEN
 配置中心,dns_action_items,9,updated_at,timestamptz,否,now(),,统一审计字段,R01/R03/R30,FROZEN
+配置中心,dns_action_items,10,record_value,text,是,,,DNS记录文本值,R03,IMPLEMENTED_R03
+配置中心,dns_action_items,11,owner_admin_id,bigint,是,,INDEX,责任管理员,R03,IMPLEMENTED_R03
+配置中心,dns_action_items,12,due_at,timestamptz,是,,INDEX,必须晚于创建时间,R03,IMPLEMENTED_R03
+配置中心,dns_action_items,13,last_error_code,varchar(64),是,,,只保存安全失败码,R03,IMPLEMENTED_R03
 配置中心,storage_scope_bindings,1,id,bigint,否,generated,PRIMARY KEY,技术主键,R01/R03/R30,FROZEN
 配置中心,storage_scope_bindings,2,scope_code,varchar(255),否,,,scope唯一激活,R01/R03/R30,FROZEN
 配置中心,storage_scope_bindings,3,provider_code,varchar(64),否,,,scope唯一激活,R01/R03/R30,FROZEN
@@ -1569,3 +1663,27 @@ App构建,app_release_approvals,9,updated_at,timestamptz,否,now(),,统一审计
 后台,export_download_logs,9,result,varchar(32),否,'ISSUED',INDEX,结果,R30,FROZEN_V1.2.2
 后台,export_download_logs,10,request_id,varchar(64),是,,INDEX,请求ID,R30,FROZEN_V1.2.2
 后台,export_download_logs,11,created_at,timestamptz,否,now(),INDEX,创建时间,R30,FROZEN_V1.2.2
+实时通信,websocket_user_sequences,1,user_id,bigint,否,,PRIMARY KEY;FOREIGN KEY hhy.users(id),用户,R14,FROZEN_V1.2.2
+实时通信,websocket_user_sequences,2,high_watermark,bigint,否,0,,非负且只增不减,R14,FROZEN_V1.2.2
+实时通信,websocket_user_sequences,3,created_at,timestamptz,否,now(),,创建时间,R14,FROZEN_V1.2.2
+实时通信,websocket_user_sequences,4,updated_at,timestamptz,否,now(),INDEX,更新时间,R14,FROZEN_V1.2.2
+实时通信,websocket_deliveries,1,id,bigint,否,generated,PRIMARY KEY,投递标识,R14,FROZEN_V1.2.2
+实时通信,websocket_deliveries,2,event_id,uuid,否,,UNIQUE,协议事件标识,R14,FROZEN_V1.2.2
+实时通信,websocket_deliveries,3,user_id,bigint,否,,INDEX;FOREIGN KEY hhy.users(id),目标用户,R14,FROZEN_V1.2.2
+实时通信,websocket_deliveries,4,server_sequence,bigint,否,,UNIQUE(user_id server_sequence),用户级连续序列,R14,FROZEN_V1.2.2
+实时通信,websocket_deliveries,5,event_type,varchar(64),否,,,冻结事件类型,R14,FROZEN_V1.2.2
+实时通信,websocket_deliveries,6,conversation_id,bigint,是,,INDEX;FOREIGN KEY hhy.conversations(id),会话,R14,FROZEN_V1.2.2
+实时通信,websocket_deliveries,7,affected_scope,varchar(32),否,,INDEX,CHAT或NOTIFICATIONS,R14,FROZEN_V1.2.2
+实时通信,websocket_deliveries,8,envelope,jsonb,否,,,完整冻结信封,R14,FROZEN_V1.2.2
+实时通信,websocket_deliveries,9,ack_required,boolean,否,false,INDEX,是否要求确认,R14,FROZEN_V1.2.2
+实时通信,websocket_deliveries,10,acked_at,timestamptz,是,,,有效ACK时间,R14,FROZEN_V1.2.2
+实时通信,websocket_deliveries,11,delivery_attempts,smallint,否,0,INDEX,初投加重投最多6次,R14,FROZEN_V1.2.2
+实时通信,websocket_deliveries,12,first_delivered_at,timestamptz,是,,,首次实际推送时间,R14,FROZEN_V1.2.2
+实时通信,websocket_deliveries,13,last_delivered_at,timestamptz,是,,INDEX,最近实际推送时间,R14,FROZEN_V1.2.2
+实时通信,websocket_deliveries,14,expires_at,timestamptz,否,,INDEX,至少保留72小时,R14,FROZEN_V1.2.2
+实时通信,websocket_deliveries,15,created_at,timestamptz,否,now(),INDEX,创建时间,R14,FROZEN_V1.2.2
+实时通信,websocket_gap_watermarks,1,user_id,bigint,否,,PRIMARY KEY;FOREIGN KEY hhy.users(id),用户,R14,FROZEN_V1.2.2
+实时通信,websocket_gap_watermarks,2,expired_through_sequence,bigint,否,0,,已过期安全水位只增不减,R14,FROZEN_V1.2.2
+实时通信,websocket_gap_watermarks,3,affected_scopes,varchar(32)[],否,{},,CHAT或NOTIFICATIONS集合,R14,FROZEN_V1.2.2
+实时通信,websocket_gap_watermarks,4,created_at,timestamptz,否,now(),,创建时间,R14,FROZEN_V1.2.2
+实时通信,websocket_gap_watermarks,5,updated_at,timestamptz,否,now(),INDEX,更新时间,R14,FROZEN_V1.2.2

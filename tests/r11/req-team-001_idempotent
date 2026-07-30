@@ -1,0 +1,18 @@
+{
+  "schema": "hhy.r11.test-adapter/v1",
+  "test_id": "TST-TEAM_001-IDEMPOTENT",
+  "central_runner": "scripts/run_r11_specialized_matrix.py",
+  "runner": "r11-java21-postgresql17-android-admin-team-leader",
+  "selectors": [
+    "services/backend/boot/src/test/java/cc/orbexa/hhy/content/R11ServiceTest.java#retryReplaysSnapshotWithoutDuplicateWrites",
+    "services/backend/boot/src/test/java/cc/orbexa/hhy/content/R11ServiceTest.java#differentRequestReusingKeyIsRejectedWithoutBusinessSideEffects",
+    "services/backend/boot/src/test/java/cc/orbexa/hhy/content/R08PostgresStoreTest.java#concurrentIdenticalClaimsHaveExactlyOneOwnerInRealPostgres",
+    "services/backend/boot/src/test/java/cc/orbexa/hhy/content/ContentServiceTest.java#repeatedContentCommandReplaysStoredResultWithoutDuplicateMessage",
+    "apps/android/feature/team-leader/src/test/java/cc/orbexa/hhy/teamleader/R11TeamLeaderStateTest.kt#intentKeysAreStableForRetryAndChangeWithRequestBody",
+    "apps/android/feature/team-leader/src/test/java/cc/orbexa/hhy/teamleader/R11TeamLeaderStateTest.kt#actionStateAllowsOnlyOneRequestAndReopensAfterCompletion",
+    "apps/admin-web/src/services/adminContents.test.ts#retains one key for the same resource and request after a network failure",
+    "apps/admin-web/src/services/adminContents.test.ts#isolates concurrent intents for different content resources",
+    "apps/admin-web/src/services/adminContents.test.ts#clears only the successful resource scope"
+  ],
+  "fault_classes": ["network-timeout-retry", "duplicate-outbox-prevention", "eight-way-concurrency", "request-body-key-conflict", "android-single-flight", "admin-resource-isolation"]
+}

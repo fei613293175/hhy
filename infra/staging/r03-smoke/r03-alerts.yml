@@ -1,0 +1,51 @@
+groups:
+  - name: hhy-r03-provider-configuration
+    rules:
+      - alert: HhyR03BackendDown
+        expr: up{job="hhy-backend-r03"} == 0
+        for: 15s
+        labels: { severity: critical, release: R03 }
+        annotations:
+          summary: 合伙云 R03 Staging 后端不可用
+      - alert: HhyR03HighServerErrorRate
+        expr: sum(rate(http_server_requests_seconds_count{job="hhy-backend-r03",status=~"5.."}[1m])) / clamp_min(sum(rate(http_server_requests_seconds_count{job="hhy-backend-r03"}[1m])), 0.001) > 0.02
+        for: 1m
+        labels: { severity: warning, release: R03 }
+        annotations:
+          summary: 合伙云 R03 Staging 5xx 比例超过冻结阈值 2%
+      - alert: HhyR03HighP95Latency
+        expr: histogram_quantile(0.95, sum by (le) (rate(http_server_requests_seconds_bucket{job="hhy-backend-r03"}[5m]))) > 0.5
+        for: 2m
+        labels: { severity: warning, release: R03 }
+        annotations:
+          summary: 合伙云 R03 Staging P95 延迟超过冻结阈值 500ms
+      - alert: HhyR03ProviderConnectionFailureBurst
+        expr: hhy_provider_connection_test_failures_5m{job="hhy-backend-r03"} > 3
+        for: 30s
+        labels: { severity: warning, release: R03 }
+        annotations:
+          summary: 供应商安全连接测试五分钟内失败超过 3 次
+      - alert: HhyR03UntestedActiveProviderConfig
+        expr: hhy_provider_config_untested_active{job="hhy-backend-r03"} > 0
+        for: 15s
+        labels: { severity: critical, release: R03 }
+        annotations:
+          summary: 检测到未经成功连接测试却处于 ACTIVE 的供应商配置
+      - alert: HhyR03CertificateExpiring30d
+        expr: hhy_provider_certificates_expiring_30d{job="hhy-backend-r03"} > 0
+        for: 5m
+        labels: { severity: warning, release: R03 }
+        annotations:
+          summary: 存在 30 天内到期的有效供应商证书
+      - alert: HhyR03DomainVerificationFailure
+        expr: hhy_domain_verification_failures{job="hhy-backend-r03"} > 0
+        for: 30s
+        labels: { severity: warning, release: R03 }
+        annotations:
+          summary: 域名 DNS、HTTPS、证书或服务健康验证失败
+      - alert: HhyR03BusinessMetricQueryFailure
+        expr: sum(hhy_business_metric_query_failures_total{job="hhy-backend-r03"}) > 0
+        for: 15s
+        labels: { severity: critical, release: R03 }
+        annotations:
+          summary: R03 业务指标查询失败，监控结果不可信

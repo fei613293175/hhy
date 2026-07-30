@@ -1,0 +1,82 @@
+protocol_version: '1.0'
+package_version: 1.2.3
+session_id: SES-20260719T230526Z-55ABC07F
+status: CLOSED
+actor:
+  id: codex-root
+  kind: AI_OR_HUMAN
+  host: unknown
+release: R05
+task_id: TASK-R05-006
+story_id: STORY-R05-001
+goal: 完成R05实名认证可观测性与预发布验收：Staging部署、结构化日志、TraceId、RED与业务指标、告警、运行手册和回滚演练全部可验证
+started_at: '2026-07-19T23:05:26Z'
+updated_at: '2026-07-19T23:42:03Z'
+takeover_of: null
+change_requests:
+- CR-0107
+- CR-0108
+scope:
+  allowed_paths:
+  - apps/admin-web/**
+  - services/backend/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - tests/**
+  - docs/**
+  - catalogs/**
+  - releases/**
+  - design/**
+  - scripts/**
+  - R05后端可观测性、Staging部署验证、结构化日志与Trace、RED/业务指标、告警规则、回滚演练、运行手册和Acceptance
+  - CHANGELOG.md
+  approved_exceptions:
+  - infra/staging/r05-smoke/docker-compose.yml
+  - infra/staging/r05-smoke/prometheus.yml
+  - infra/staging/r05-smoke/alertmanager.yml
+  - infra/staging/r05-smoke/nginx.conf
+  - infra/staging/r05-smoke/r05-alerts.yml
+  source: story+explicit+approved-cr:CR-0108
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  base_commit: ae3bd21fe7e58d5bfedd256d21cdfae535653998
+  start_head: ae3bd21fe7e58d5bfedd256d21cdfae535653998
+  upstream: origin/task/TASK-R03-001
+  initial_worktree_state: CLEAN
+lease:
+  duration_minutes: 240
+  renewed_at: '2026-07-19T23:42:00Z'
+  expires_at: '2026-07-20T03:42:00Z'
+checkpoint_sequence: 4
+latest_checkpoint: .continuity/checkpoints/SES-20260719T230526Z-55ABC07F/0004.yaml
+session_log: docs/03-continuity/sessions/2026-07/SES-20260719T230526Z-55ABC07F.md
+next_step: 提交关闭元数据Commit，然后运行pre-push/CI门禁
+context_pack:
+  yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
+  markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
+  manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+  context_hash: ad9205cf511f5c0ce998b33a1c9e5ede96ed7c9194ca735258c0f2b18971eadc
+  generated_at: '2026-07-19T23:42:02Z'
+handoff_bundle: null
+closure:
+  result: COMPLETED
+  summary: R05-006已完成四项实名认证业务指标、七条告警、结构化日志与Trace脱敏、隔离Staging、两类告警触发恢复、同库卷回切和AC-R05-004证据归档。
+  code_commit: c6399d0e079118c456545a2f4ec92661ddd2f9cd
+  next_release: R05
+  next_task: TASK-R05-007
+  blocked_advance: false
+  user_confirmation: null
+  metadata_commit: PENDING
+  push_verification: CI_REQUIRED_AFTER_METADATA_COMMIT
+  started_at: '2026-07-19T23:41:58Z'
+  closure_checkpoint_id: CP-SES-20260719T230526Z-55ABC07F-0004
+  closed_at: '2026-07-19T23:42:03Z'
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 仅更新当前任务和CR的单一连续性终态，不能并行写入共享状态账本。
+closed_at: '2026-07-19T23:42:03Z'

@@ -1,7 +1,7 @@
 ﻿验收ID,版本,验收项,证据路径,状态,阻断级别
-AC-R10-001,R10,领域代码与前端真实闭环,artifacts/reports/R10/,NOT_RUN,BLOCKING
-AC-R10-002,R10,数据库迁移和不变量测试通过,artifacts/reports/R10/,NOT_RUN,BLOCKING
-AC-R10-003,R10,契约/单元/集成/E2E/安全专项测试通过,artifacts/reports/R10/,NOT_RUN,BLOCKING
-AC-R10-004,R10,日志指标链路和业务告警可验证,artifacts/reports/R10/,NOT_RUN,BLOCKING
-AC-R10-005,R10,Session Log、追踪矩阵、产物Manifest和下一任务更新,artifacts/reports/R10/,NOT_RUN,BLOCKING
-AC-R10-006,R10,Staging APK可安装且SHA256、Commit、版本信息完整,artifacts/reports/R10/,NOT_RUN,BLOCKING
+AC-R10-001,R10,领域代码与前端真实闭环,docs/03-continuity/sessions/2026-07/SES-20260723T074719Z-AB4D0E80.md,PASS,BLOCKING
+AC-R10-002,R10,数据库迁移和不变量测试通过,docs/03-continuity/sessions/2026-07/SES-20260723T045352Z-FC8DC2CF.md,PASS,BLOCKING
+AC-R10-003,R10,契约/单元/集成/E2E/安全专项测试通过,artifacts/reports/R10/TASK-R10-005-specialized-tests.md,PASS,BLOCKING
+AC-R10-004,R10,日志指标链路和业务告警可验证,artifacts/reports/R10/TASK-R10-006-staging.md,PASS,BLOCKING
+AC-R10-005,R10,Session Log、追踪矩阵、产物Manifest和下一任务更新,artifacts/reports/R10/TASK-R10-008-machine-close.md,PASS,BLOCKING
+AC-R10-006,R10,Staging APK可安装且SHA256、Commit、版本信息完整,artifacts/reports/R10/TASK-R10-007-android-apk.md,PASS,BLOCKING

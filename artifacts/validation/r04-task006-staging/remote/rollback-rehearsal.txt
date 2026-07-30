@@ -1,0 +1,7 @@
+ROLLBACK_REHEARSAL_PASS
+previous_image=sha256:22a0d334b53b924a6ef8a07331795fccec3fddb3854cf3d32d285b52df62b801
+current_image=sha256:88585b641d4247aeb8ac03589d3e38e8d85d7b254ca590e90bc9a5a9473c2d63
+postgres_container_unchanged=PASS
+postgres_volume_unchanged=PASS
+flyway_version=022
+table_count=200

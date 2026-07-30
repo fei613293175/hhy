@@ -1,0 +1,306 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260720T095830Z-752E5121-0004
+session_id: SES-20260720T095830Z-752E5121
+sequence: 4
+created_at: '2026-07-20T10:51:14Z'
+summary: 补齐Android自动候选门禁的用户可见CHANGELOG记录，满足提交门禁
+next_step: 提交推送并执行GitHub Actions
+blockers: []
+decisions: []
+note: ''
+tests:
+- name: precommit_diagnosis
+  result: PASS
+  evidence: continuity_gate pre-commit
+  note: 唯一缺口CHANGELOG_REQUIRED已修复
+- name: python_full_regression
+  result: PASS
+  evidence: 186 tests
+  note: OK
+- name: android_current_compile
+  result: PASS
+  evidence: cloud current source compile
+  note: BUILD SUCCESSFUL
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: becdceec04d22c9179e29c794e28ad85bbe89137
+  upstream: origin/task/TASK-R03-001
+  ahead: 0
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - M  .continuity/ACTIVE_SESSION.yaml
+  - M  .continuity/CHANGE_REQUEST_INDEX.yaml
+  - M  .continuity/EVENT_LOG.jsonl
+  - M  .continuity/SESSION_INDEX.yaml
+  - M  .continuity/STATE.yaml
+  - M  .continuity/TASK_CLAIMS.yaml
+  - M  .continuity/TASK_TRANSITIONS.yaml
+  - A  .continuity/change_requests/CR-0135.yaml
+  - A  .continuity/change_requests/CR-0136.yaml
+  - A  .continuity/checkpoints/SES-20260720T095830Z-752E5121/0001.yaml
+  - A  .continuity/checkpoints/SES-20260720T095830Z-752E5121/0002.yaml
+  - A  .continuity/checkpoints/SES-20260720T095830Z-752E5121/0003.yaml
+  - A  .continuity/sessions/SES-20260720T095830Z-752E5121.yaml
+  - A  .github/workflows/android-quality-gate.yml
+  - M  .github/workflows/ci.yml
+  - M  AGENTS.md
+  - ' M CHANGELOG.md'
+  - M  CURRENT_STATUS.yaml
+  - M  apps/android/app/build.gradle.kts
+  - A  apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+  - M  apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyIcons.kt
+  - M  apps/android/gradle/libs.versions.toml
+  - M  artifacts/context/CURRENT_CONTEXT_PACK.md
+  - M  artifacts/context/CURRENT_CONTEXT_PACK.yaml
+  - M  artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+  - M  artifacts/validation/project-doctor-v1.2.3-documentation.json
+  - M  catalogs/change_request_index.csv
+  - M  catalogs/session_index.csv
+  - M  catalogs/task_transition_ledger.csv
+  - A  config/android-automation.yaml
+  - M  docs/00-baseline/正式商业系统全局硬性开发边界.md
+  - A  docs/03-continuity/change-requests/CR-0135-建立Android版本级自动构建模拟器视觉日志自修复与候选交付硬门禁.md
+  - A  docs/03-continuity/change-requests/CR-0136-修复统一图标默认颜色违反UI令牌门禁.md
+  - A  docs/03-continuity/sessions/2026-07/SES-20260720T095830Z-752E5121.md
+  - A  docs/08-testing/Android自动开发测试修复交付体系_V1.0.md
+  - M  docs/08-testing/测试策略与质量门禁_V1.2.2.md
+  - M  docs/09-development/统一开发与交付效率规范.md
+  - M  releases/PROGRAM_EXECUTION_PLAN.yaml
+  - M  releases/R05/RELEASE_MANIFEST.yaml
+  - A  scripts/android_ci_gate.py
+  - M  scripts/check_release_artifacts.py
+  - M  templates/AGENTS.md
+  - A  tests/test_android_ci_gate.py
+  recent_commits:
+  - "becdceec04d22c9179e29c794e28ad85bbe89137\t2026-07-20T17:57:20+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] chore(continuity): close TASK-R05-007\
+    \ as completed"
+  - "30ad62962ce8ccf6323a7865ebf6fbe13f4aebb1\t2026-07-20T17:41:24+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] build(r05): publish verified\
+    \ 10213 identity APK"
+  - "07f2fe254dace0c422be6cb96e3f66b88b2ad40b\t2026-07-20T16:52:16+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] test(r05): gate identity overview\
+    \ recovery states"
+  - "d8c9cd418f8e878252bf279421f29c834283481c\t2026-07-20T16:46:23+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] fix(r05): restore identity\
+    \ state and fullscreen liveness"
+  - "301a521e079a4947d7f7f5bc519201c180eaa564\t2026-07-20T15:20:55+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] build(android): publish verified\
+    \ 10212 APK"
+  - "9b726556391cb8e16e52750f83b1e80c4f2bf28b\t2026-07-20T14:57:16+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] fix(android): lock startup\
+    \ policy for 10212"
+  - "bc52fe68ae169a79586002af4f8b2af9b21690a6\t2026-07-20T14:22:10+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] chore(android): bump owner\
+    \ test apk to 10211"
+  - "c12cd60ce4ca3fafe1af3969fad31e296ff76ba7\t2026-07-20T14:18:48+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] test(identity): gate staging\
+    \ sandbox journey"
+project_fingerprint:
+  sha256: 9724d3bdaa0e768443c651fa1521d80d4dcc1d93534cf496b7e370a8a92fb536
+  files:
+  - .github/workflows/android-quality-gate.yml
+  - .github/workflows/ci.yml
+  - AGENTS.md
+  - CHANGELOG.md
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+  - apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyIcons.kt
+  - apps/android/gradle/libs.versions.toml
+  - config/android-automation.yaml
+  - docs/00-baseline/正式商业系统全局硬性开发边界.md
+  - docs/03-continuity/change-requests/CR-0135-建立Android版本级自动构建模拟器视觉日志自修复与候选交付硬门禁.md
+  - docs/03-continuity/change-requests/CR-0136-修复统一图标默认颜色违反UI令牌门禁.md
+  - docs/08-testing/Android自动开发测试修复交付体系_V1.0.md
+  - docs/08-testing/测试策略与质量门禁_V1.2.2.md
+  - docs/09-development/统一开发与交付效率规范.md
+  - releases/PROGRAM_EXECUTION_PLAN.yaml
+  - releases/R05/RELEASE_MANIFEST.yaml
+  - scripts/android_ci_gate.py
+  - scripts/check_release_artifacts.py
+  - templates/AGENTS.md
+  - tests/test_android_ci_gate.py
+  file_count: 21
+  payload:
+    base_commit: becdceec04d22c9179e29c794e28ad85bbe89137
+    files:
+    - path: .github/workflows/android-quality-gate.yml
+      state: FILE
+      size: 10271
+      sha256: 28a740d14b45a4d1b72c7dfff4bacbc0b86870786608121409247f2b1c05f7e8
+    - path: .github/workflows/ci.yml
+      state: FILE
+      size: 4971
+      sha256: 3f63afdf0683f38ea3d1852a548e7b446699468d04032351fff48379cd0444cc
+    - path: AGENTS.md
+      state: FILE
+      size: 11056
+      sha256: fcaf6aadd2a4b46b24335ab963415fb6d38c599eaf5b25fa738fa82fb5002c7d
+    - path: CHANGELOG.md
+      state: FILE
+      size: 51645
+      sha256: 9fc4a162732269b163095e5a5dbde7c0bae7b75d1f845b033e7a24d45889d697
+    - path: apps/android/app/build.gradle.kts
+      state: FILE
+      size: 4981
+      sha256: 210f5c5d56b45d9bc01dcf6e6dd005b30f27a9d5d67d3d280b8f752dbb4dd629
+    - path: apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+      state: FILE
+      size: 3930
+      sha256: 171a7a64919c923b2d18c3de9eb7fe36ef46d2a7ab77ec0e67033da02a1c17c9
+    - path: apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyIcons.kt
+      state: FILE
+      size: 2841
+      sha256: a3b80f088f31880545f427838b3ecd1dd4d847695cb4c3ecc033e7ebc7288380
+    - path: apps/android/gradle/libs.versions.toml
+      state: FILE
+      size: 2425
+      sha256: 152a44c6e3967ad86e4961ac0ade159164ad439d4b7bdd62f35da2c39f91ae25
+    - path: config/android-automation.yaml
+      state: FILE
+      size: 2150
+      sha256: 6a29aea6365440860e5b3b591b41b22bfbc2b6eea6b795765e860adf44262ac1
+    - path: docs/00-baseline/正式商业系统全局硬性开发边界.md
+      state: FILE
+      size: 8113
+      sha256: 2eeee9d8997f48c0604f965ffd408399a0ff2473f5cde2d394ea06e30f637d25
+    - path: docs/03-continuity/change-requests/CR-0135-建立Android版本级自动构建模拟器视觉日志自修复与候选交付硬门禁.md
+      state: FILE
+      size: 3823
+      sha256: 9fd9ea826a7fc71e94b8804243f7deec23739e002d8aefdf6b6c49a9ef92e7b4
+    - path: docs/03-continuity/change-requests/CR-0136-修复统一图标默认颜色违反UI令牌门禁.md
+      state: FILE
+      size: 1983
+      sha256: 10a87ff0adcf705866b49e67b8f26041c5e4ab9e91a64120c7af6cc8b3bf3961
+    - path: docs/08-testing/Android自动开发测试修复交付体系_V1.0.md
+      state: FILE
+      size: 5606
+      sha256: d289b96f9c69bc4318ec3eaf16d3140a7e6b95cb0b1023580e934a769cf33b99
+    - path: docs/08-testing/测试策略与质量门禁_V1.2.2.md
+      state: FILE
+      size: 1831
+      sha256: 6e4e2c50d45500672ce56ad9ba5ff1542a29104b7b7a82fedfe2cf94effbd5cb
+    - path: docs/09-development/统一开发与交付效率规范.md
+      state: FILE
+      size: 7263
+      sha256: cb2dc987943c8de7da3d58bd0211ea4faf95bcf2eb507eb86e03246e3e0a396c
+    - path: releases/PROGRAM_EXECUTION_PLAN.yaml
+      state: FILE
+      size: 35802
+      sha256: 1bf72bbd9a76d0bfb9c9691b1b3a4a07fca1fe2ac928df7267be95675c5f9bdb
+    - path: releases/R05/RELEASE_MANIFEST.yaml
+      state: FILE
+      size: 4594
+      sha256: 6fc95b4abdedcaa6561460c2d5db23e6fccf1a870452779b0c03035bd6ea11ec
+    - path: scripts/android_ci_gate.py
+      state: FILE
+      size: 11782
+      sha256: 584f84a7dec4f6b38f5d811e4bd132b706055514f90657de517c806c2bdb5ff0
+    - path: scripts/check_release_artifacts.py
+      state: FILE
+      size: 21157
+      sha256: 0dbb7c429590edc327afc4da482fa1cb803a7476497b16e66faf39cfd1dabf62
+    - path: templates/AGENTS.md
+      state: FILE
+      size: 11056
+      sha256: fcaf6aadd2a4b46b24335ab963415fb6d38c599eaf5b25fa738fa82fb5002c7d
+    - path: tests/test_android_ci_gate.py
+      state: FILE
+      size: 8028
+      sha256: f28c4c9d14b4ee58fac7f4d367e5befad6c7807c97a4a552aec6df76a1d0d6fd
+change_classification:
+  infrastructure:
+  - .github/workflows/android-quality-gate.yml
+  - .github/workflows/ci.yml
+  other:
+  - AGENTS.md
+  - CHANGELOG.md
+  - config/android-automation.yaml
+  - docs/08-testing/Android自动开发测试修复交付体系_V1.0.md
+  - docs/08-testing/测试策略与质量门禁_V1.2.2.md
+  - docs/09-development/统一开发与交付效率规范.md
+  - releases/PROGRAM_EXECUTION_PLAN.yaml
+  - templates/AGENTS.md
+  code:
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+  - apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyIcons.kt
+  - apps/android/gradle/libs.versions.toml
+  - scripts/android_ci_gate.py
+  - scripts/check_release_artifacts.py
+  user_visible:
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+  - apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyIcons.kt
+  - apps/android/gradle/libs.versions.toml
+  source_of_truth:
+  - docs/00-baseline/正式商业系统全局硬性开发边界.md
+  - releases/R05/RELEASE_MANIFEST.yaml
+  continuity:
+  - docs/03-continuity/change-requests/CR-0135-建立Android版本级自动构建模拟器视觉日志自修复与候选交付硬门禁.md
+  - docs/03-continuity/change-requests/CR-0136-修复统一图标默认颜色违反UI令牌门禁.md
+  tests:
+  - tests/test_android_ci_gate.py
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+- APPROVED_CHANGE_REQUEST
+- CHANGELOG
+change_requests:
+- CR-0135
+- CR-0136
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions:
+  - .github/workflows/android-quality-gate.yml
+  - .github/workflows/ci.yml
+  - config/android-automation.yaml
+  - scripts/android_ci_gate.py
+  - tests/test_android_ci_gate.py
+  - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+  - apps/android/app/build.gradle.kts
+  - apps/android/gradle/libs.versions.toml
+  - docs/08-testing/Android自动开发测试修复交付体系_V1.0.md
+  - docs/08-testing/测试策略与质量门禁_V1.2.2.md
+  - docs/09-development/统一开发与交付效率规范.md
+  - docs/00-baseline/正式商业系统全局硬性开发边界.md
+  - AGENTS.md
+  - templates/AGENTS.md
+  - releases/R05/RELEASE_MANIFEST.yaml
+  - scripts/check_release_artifacts.py
+  - apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyIcons.kt
+  source: story+explicit+approved-cr:CR-0135+approved-cr:CR-0136
+parallel_execution:
+  assessment: CAPABILITY_UNAVAILABLE
+  delegated_workers: 0
+  workers: []
+  reason: 上级规则禁止用户未明确要求的子代理委托
+event_hash: a24867c7328f1e09d958fd9bbf59ac0e16765d0b54273b25048a98068195839f

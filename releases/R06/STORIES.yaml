@@ -93,7 +93,7 @@ stories:
   - 敏感字段按分级脱敏；高敏读取和后台写操作完整审计
   - 自动化覆盖：TST-CONTENT_001-HAPPY;TST-PUBLISH_001-HAPPY;TST-CONTENT_001-IDEMPOTENT;TST-PUBLISH_001-IDEMPOTENT
   definition_of_ready: 全部引用的页面/字段/状态/动作/API/配置/数据/测试均为FROZEN且无空缺
-  status: READY_FOR_IMPLEMENTATION
+  status: MACHINE_VERIFIED
 - story_id: STORY-R06-002
   release: R06
   title: 内容：统一内容列表、字典与属性
@@ -193,7 +193,7 @@ stories:
   - 敏感字段按分级脱敏；高敏读取和后台写操作完整审计
   - 自动化覆盖：TST-CONTENT_001-HAPPY;TST-PUBLISH_001-HAPPY;TST-CONTENT_001-IDEMPOTENT;TST-PUBLISH_001-IDEMPOTENT;TST-V122-017
   definition_of_ready: 全部引用的页面/字段/状态/动作/API/配置/数据/测试均为FROZEN且无空缺
-  status: READY_FOR_IMPLEMENTATION
+  status: MACHINE_VERIFIED
 - story_id: STORY-R06-003
   release: R06
   title: 设置：关于与检查更新
@@ -257,7 +257,7 @@ stories:
   - 敏感字段按分级脱敏；高敏读取和后台写操作完整审计
   - 自动化覆盖：TST-APP_RELEASE_001-HAPPY
   definition_of_ready: 全部引用的页面/字段/状态/动作/API/配置/数据/测试均为FROZEN且无空缺
-  status: READY_FOR_IMPLEMENTATION
+  status: MACHINE_VERIFIED
 - story_id: STORY-R06-004
   release: R06
   title: 首页：首页
@@ -320,7 +320,7 @@ stories:
   - 敏感字段按分级脱敏；高敏读取和后台写操作完整审计
   - 自动化覆盖：TST-HOME_001-HAPPY;TST-CONTENT_001-HAPPY
   definition_of_ready: 全部引用的页面/字段/状态/动作/API/配置/数据/测试均为FROZEN且无空缺
-  status: READY_FOR_IMPLEMENTATION
+  status: MACHINE_VERIFIED
 - story_id: STORY-R06-005
   release: R06
   title: 统一内容基础、首页与CMS：契约、数据、配置、测试与交接
@@ -424,4 +424,4 @@ stories:
   - 变更必须通过CR，更新唯一事实源并重新生成全部派生目录和哈希
   - 完成Session Log、追踪矩阵、发布证据和下一任务交接
   definition_of_ready: DEFINITION_OF_READY.yaml全部阻断项PASS
-  status: READY_FOR_IMPLEMENTATION
+  status: MACHINE_VERIFIED_OWNER_PENDING

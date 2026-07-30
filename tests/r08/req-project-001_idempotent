@@ -1,0 +1,12 @@
+{
+  "schema": "hhy.r08.test-adapter/v1",
+  "test_id": "TST-PROJECT_001-IDEMPOTENT",
+  "central_runner": "scripts/run_r08_specialized_matrix.py",
+  "runner": "r08-java21-postgresql17-android-project",
+  "selectors": [
+    "services/backend/boot/src/test/java/cc/orbexa/hhy/content/R08ServiceTest.java#completedCreateReplayReturnsFrozenSnapshotWithoutDuplicateOutbox",
+    "services/backend/boot/src/test/java/cc/orbexa/hhy/content/R08PostgresStoreTest.java#concurrentIdenticalClaimsHaveExactlyOneOwnerInRealPostgres",
+    "apps/android/feature/project/src/test/java/cc/orbexa/hhy/project/R08ProjectStateTest.kt#sameIntentReusesKeyAndChangedBodyGetsNewKey"
+  ],
+  "fault_classes": ["delayed-replay", "duplicate-outbox-prevention", "eight-way-concurrency", "request-body-key-conflict"]
+}

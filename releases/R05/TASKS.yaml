@@ -3,7 +3,7 @@ title: 单一实名认证
 tasks:
 - id: TASK-R05-001
   title: 单一实名认证开发就绪核验、故事领取与变更基线
-  status: READY
+  status: DONE
   depends_on: []
   requirements: &id001
   - REQ-ID-001
@@ -23,9 +23,10 @@ tasks:
   - 更新Release Manifest与CR记录
   - python scripts/check_v122_documentation.py --release R05
   session_log_required: true
+  completed_at: '2026-07-19T16:22:45Z'
 - id: TASK-R05-002
   title: 单一实名认证数据迁移与领域不变量
-  status: BLOCKED
+  status: DONE
   depends_on:
   - TASK-R05-001
   requirements: *id001
@@ -39,9 +40,10 @@ tasks:
   - Flyway前向迁移与空库/升级库测试
   - 不变量属性测试
   session_log_required: true
+  completed_at: '2026-07-19T16:52:15Z'
 - id: TASK-R05-003
   title: 单一实名认证后端应用服务与接口
-  status: BLOCKED
+  status: DONE
   depends_on:
   - TASK-R05-002
   requirements: *id001
@@ -55,9 +57,10 @@ tasks:
   - OpenAPI契约测试
   - 权限/幂等/错误码/审计覆盖
   session_log_required: true
+  completed_at: '2026-07-19T18:30:04Z'
 - id: TASK-R05-004
   title: 单一实名认证客户端/H5/后台实现
-  status: BLOCKED
+  status: DONE
   depends_on:
   - TASK-R05-003
   requirements: *id001
@@ -75,9 +78,10 @@ tasks:
   - 禁止页面级手写重复DTO
   - 全部动作绑定生成API类型
   session_log_required: true
+  completed_at: '2026-07-19T22:38:18Z'
 - id: TASK-R05-005
   title: 单一实名认证专项测试与故障注入
-  status: BLOCKED
+  status: DONE
   depends_on:
   - TASK-R05-003
   - TASK-R05-004
@@ -92,9 +96,10 @@ tasks:
   - 测试报告和失败证据归档
   - 关键缺陷清零
   session_log_required: true
+  completed_at: '2026-07-19T23:04:16Z'
 - id: TASK-R05-006
   title: 单一实名认证可观测性与预发布验收
-  status: BLOCKED
+  status: DONE
   depends_on:
   - TASK-R05-005
   requirements: *id001
@@ -108,9 +113,10 @@ tasks:
   - 运行手册演练
   - 验收矩阵签字
   session_log_required: true
+  completed_at: '2026-07-19T23:41:58Z'
 - id: TASK-R05-007
   title: 单一实名认证Android测试APK与产物追溯
-  status: BLOCKED
+  status: DONE
   depends_on:
   - TASK-R05-006
   requirements: *id001
@@ -124,9 +130,10 @@ tasks:
   - APK可下载/可安装
   - SHA256、Commit、versionName/versionCode、测试结果齐全
   session_log_required: true
+  completed_at: '2026-07-20T09:53:15Z'
 - id: TASK-R05-008
   title: 单一实名认证版本关闭与无状态交接
-  status: BLOCKED
+  status: DONE
   depends_on:
   - TASK-R05-007
   requirements: *id001
@@ -140,6 +147,7 @@ tasks:
   - 全新AI仅凭仓库可继续
   - 工作区干净且Tag可追溯
   session_log_required: true
+  completed_at: '2026-07-20T13:30:59Z'
 version: 1.2.2
 definition_of_ready: releases/R05/DEFINITION_OF_READY.yaml
 story_backlog: releases/R05/STORIES.yaml

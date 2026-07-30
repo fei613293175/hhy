@@ -26,7 +26,10 @@
     "background": {
       "page": "#F5F7FA",
       "surface": "#FFFFFF",
-      "softBlue": "#EEF5FF"
+      "softBlue": "#EEF5FF",
+      "successSoft": "#ECFDF3",
+      "warningSoft": "#FFFAEB",
+      "errorSoft": "#FEF3F2"
     },
     "text": {
       "primary": "#182230",
@@ -41,6 +44,9 @@
       "success": "#12B76A",
       "warning": "#F79009",
       "error": "#F04438"
+    },
+    "overlay": {
+      "scrim": "#1822307A"
     }
   },
   "gradient": {
@@ -93,7 +99,8 @@
     "appLogo": 64,
     "redPacketTimerBall": 56,
     "redPacketTimerBallScrolling": 44,
-    "centerPublishVisual": 52
+    "centerPublishVisual": 52,
+    "identityLivenessFrame": 240
   },
   "radiusDp": {
     "largeCard": 16,
@@ -103,7 +110,9 @@
     "tag": 8,
     "dialog": 20,
     "bottomSheetTop": 24,
-    "pill": 999
+    "pill": 999,
+    "identityLivenessPanel": 20,
+    "h5CallbackCard": 20
   },
   "typographySp": {
     "pageTitle": {
@@ -151,6 +160,11 @@
       "size": 24,
       "lineHeight": 32,
       "weight": 700
+    },
+    "challengeSuccessIcon": {
+      "size": 48,
+      "lineHeight": 56,
+      "weight": 600
     }
   },
   "previewSheet": {
@@ -254,6 +268,13 @@
     "listRowMinHeight": 64,
     "snackbarMinHeight": 48,
     "dialogMinWidth": 280,
+    "challengeDialogWidth": 328,
+    "challengeDialogMaxHeight": 560,
+    "challengeImageWidth": 216,
+    "challengeImageHeight": 72,
+    "challengeCancelButtonWidth": 84,
+    "challengeLoadingMinHeight": 144,
+    "challengeInputHorizontalPadding": 14,
     "bottomSheetHandleWidth": 32,
     "bottomSheetHandleHeight": 4,
     "skeletonRadius": 8,

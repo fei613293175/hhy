@@ -1,0 +1,87 @@
+protocol_version: '1.0'
+cr_id: CR-0320
+title: 扩展CR-0319审核证据权限与真实工作台施工范围
+status: CLOSED
+created_at: '2026-07-25T06:25:12Z'
+updated_at: '2026-07-25T17:06:43Z'
+requester_actor_id: codex-root-r12-client-20260725
+approver_actor_id: codex-r12-review-contract-reviewer
+task_id: TASK-R12-004
+session_id: SES-20260725T053515Z-11D4084D
+user_request: OWNER_ACTIVE_GOAL_CONTINUE_R01_R32_IN_REPOSITORY_ORDER
+reason: CR-0319批准后只允许PROPOSED状态补充影响文件；实施复核又确认六个冻结operationId中的举报和申诉分别需要report.read与appeal.read，且工作台真实三栏、空态和自动化文件必须纳入可审计范围，因此建立非并行规则的受控实施扩展并显式引用CR-0319
+original_rule: CR-0319已统一review.read、review.decide、review.assign与默认复合排序，但其批准影响清单未包含V041实际迁移、举报/申诉证据读取权限、三栏工作台产品文件和完整自动化证据；批准后治理工具禁止原位补充影响清单
+new_rule: CR-0320仅作为CR-0319的受控实施范围扩展，不建立第二套权限规则：举报与申诉证据区分别使用report.read和appeal.read；V041将五项细粒度权限无损映射给历史review.manage角色；ADM-REVIEW-001按宽屏三栏/窄屏分步实现六个冻结operationId，缺少证据媒体、SLA、完整历史时展示明确真实空态；不得虚构字段、操作、审核员或批量最终决定
+impact_summary: 补齐CR-0319无法后补的实际迁移、页面、服务、路由、样式、生成资产和测试范围；保留原权限规则为唯一事实，新增内容只解决其实施完整性和六接口可访问性
+impact:
+  files:
+  - database/migrations/V041__r12_review_permission_alignment.sql
+  - services/backend/boot/src/main/resources/db/migration/V041__r12_review_permission_alignment.sql
+  - database/rollback/U041__r12_review_permission_alignment.sql
+  - database/tests/r12_review_permission_alignment.sql
+  - scripts/check_db_schema.py
+  - scripts/run_r12_database_invariants.sh
+  - catalogs/admin_pages.csv
+  - catalogs/ui_page_specifications.csv
+  - catalogs/admin_page_operation_specs.csv
+  - catalogs/release_story_backlog.csv
+  - database/state_machines.yaml
+  - releases/R12/STORIES.yaml
+  - apps/admin-web/src/generated/admin-pages.json
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R12ReviewService.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R12ReviewPostgresStore.java
+  - docs/02-ui/page-specs/admin/ADM-REVIEW-001_审核队列.md
+  - apps/admin-web/src/services/adminReviews.ts
+  - apps/admin-web/src/services/adminReviews.test.ts
+  - apps/admin-web/src/services/idempotency.ts
+  - apps/admin-web/src/services/index.ts
+  - apps/admin-web/src/views/AdminReviewWorkbenchPage.vue
+  - apps/admin-web/src/r12ReviewWorkbench.test.ts
+  - apps/admin-web/src/router.ts
+  - apps/admin-web/src/adminNavigation.ts
+  - apps/admin-web/src/adminNavigation.test.ts
+  - apps/admin-web/src/routerPermissions.test.ts
+  - apps/admin-web/src/styles.css
+  pages:
+  - ADM-REVIEW-001
+  apis:
+  - GET/POST /admin-api/v1/reviews/*;GET /admin-api/v1/content-reports;GET /admin-api/v1/appeals
+  database:
+  - admin_permissions;admin_role_permissions
+  configuration:
+  - 无新增运行时配置
+  ledger:
+  - 无资金账本影响
+  tests:
+  - 后台112项；typecheck/build；DB schema 41 migrations；V122/V123 documentation；obx-test Java/PostgreSQL待执行
+  releases:
+  - R12
+  migration_and_compatibility: V041幂等新增review.read/review.decide/review.assign/report.read/appeal.read并映射历史review.manage角色与SUPER_ADMIN；旧review.manage保留；U041发现独立细粒度授权时原子拒绝；页面对缺失证据数据只降级为空态
+user_confirmation: OWNER_ACTIVE_GOAL_CONTINUE_R01_R32_IN_REPOSITORY_ORDER
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-25T06:28:20Z'
+  note: CR-0320仅扩展CR-0319实施范围；V041五项权限无损映射、U041独立授权原子阻断、六operationId三栏真实空态与测试范围一致且未虚构能力
+machine_record: .continuity/change_requests/CR-0320.yaml
+document: docs/03-continuity/change-requests/CR-0320-扩展CR-0319审核证据权限与真实工作台施工范围.md
+decision_log:
+- at: '2026-07-25T06:52:31Z'
+  actor_id: codex-root-r12-client-20260725
+  status: IMPLEMENTING
+  note: 独立审批通过并已应用精确实施范围，开始补齐批量分配、视觉验收登记与模块验证。
+  session_id: SES-20260725T053515Z-11D4084D
+- at: '2026-07-25T07:41:34Z'
+  actor_id: codex-root-r12-client-20260725
+  status: IMPLEMENTED
+  note: 冻结实现已提交并推送；obx-test Java21、PostgreSQL17、V041/U041与仓库SQL合同全部PASS，日志/tmp/hhy-r12-task004-13d85385-v3.log sha256=2efd38006ae7e87b0827417d43e5f845921bbd4b02131d2877484c78ab747864
+  session_id: SES-20260725T053515Z-11D4084D
+- at: '2026-07-25T17:06:43Z'
+  actor_id: codex-root-r12-client-20260725
+  status: CLOSED
+  note: TASK-R12-004八个Story、模块证据与Release门禁报告已完成并推送，冻结范围无遗留实现项；最终截图与APK按既定策略留到TASK-R12-007。
+  session_id: SES-20260725T053515Z-11D4084D
+session_ids:
+- SES-20260725T053515Z-11D4084D
+implementation_commits:
+- 13d8538542c05c8a28f2f35f7b28224df657b7b1
+- 4366bd9392efe2e60b5aa9217428e71932368cf6

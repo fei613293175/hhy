@@ -3,7 +3,7 @@ title: 一对一聊天核心
 tasks:
 - id: TASK-R14-001
   title: 一对一聊天核心开发就绪核验、故事领取与变更基线
-  status: READY
+  status: DONE
   depends_on: []
   requirements: &id001
   - REQ-CHAT-001
@@ -23,9 +23,10 @@ tasks:
   - 更新Release Manifest与CR记录
   - python scripts/check_v122_documentation.py --release R14
   session_log_required: true
+  completed_at: '2026-07-27T19:29:14Z'
 - id: TASK-R14-002
   title: 一对一聊天核心数据迁移与领域不变量
-  status: BLOCKED
+  status: DONE
   depends_on:
   - TASK-R14-001
   requirements: *id001
@@ -39,9 +40,10 @@ tasks:
   - Flyway前向迁移与空库/升级库测试
   - 不变量属性测试
   session_log_required: true
+  completed_at: '2026-07-27T20:34:53Z'
 - id: TASK-R14-003
   title: 一对一聊天核心后端应用服务与接口
-  status: BLOCKED
+  status: DONE
   depends_on:
   - TASK-R14-002
   requirements: *id001
@@ -55,9 +57,10 @@ tasks:
   - OpenAPI契约测试
   - 权限/幂等/错误码/审计覆盖
   session_log_required: true
+  completed_at: '2026-07-27T22:11:13Z'
 - id: TASK-R14-004
   title: 一对一聊天核心客户端/H5/后台实现
-  status: BLOCKED
+  status: DONE
   depends_on:
   - TASK-R14-003
   requirements: *id001
@@ -75,9 +78,13 @@ tasks:
   - 禁止页面级手写重复DTO
   - 全部动作绑定生成API类型
   session_log_required: true
+  prior_blocker: TASK-R14-004可实施的会话列表、私聊、联系方式、拉黑解除、删除、举报证据结构、九接口、十二事件实时链路、隔离Staging与稳定签名TEST_APK均已完成；但PROB-0135缺少产品事实源冻结的举报原因code/用户文案/启停/排序，SHEET-CHAT-002与STORY-R14-003不得用效果图示例或测试值冒充完成，且ws.orbexa.cc仍BLOCKED_EXTERNAL_DNS，因此R14保持BLOCKED_EXTERNAL_GATE并保留CR-0427/0428为IMPLEMENTED待恢复
+  prior_blocked_at: '2026-07-28T09:09:55Z'
+  sequence_recovery: .continuity/sequence_recoveries/SEQREC-SES-20260728T125934Z-F3DED330-R14.yaml
+  completed_at: '2026-07-28T18:17:52Z'
 - id: TASK-R14-005
   title: 一对一聊天核心专项测试与故障注入
-  status: BLOCKED
+  status: DONE
   depends_on:
   - TASK-R14-003
   - TASK-R14-004
@@ -92,9 +99,10 @@ tasks:
   - 测试报告和失败证据归档
   - 关键缺陷清零
   session_log_required: true
+  completed_at: '2026-07-28T19:30:10Z'
 - id: TASK-R14-006
   title: 一对一聊天核心可观测性与预发布验收
-  status: BLOCKED
+  status: DONE
   depends_on:
   - TASK-R14-005
   requirements: *id001
@@ -108,9 +116,10 @@ tasks:
   - 运行手册演练
   - 验收矩阵签字
   session_log_required: true
+  completed_at: '2026-07-28T20:56:31Z'
 - id: TASK-R14-007
   title: 一对一聊天核心Android测试APK与产物追溯
-  status: BLOCKED
+  status: DONE
   depends_on:
   - TASK-R14-006
   requirements: *id001
@@ -124,9 +133,10 @@ tasks:
   - APK可下载/可安装
   - SHA256、Commit、versionName/versionCode、测试结果齐全
   session_log_required: true
+  completed_at: '2026-07-28T21:59:52Z'
 - id: TASK-R14-008
   title: 一对一聊天核心版本关闭与无状态交接
-  status: BLOCKED
+  status: READY
   depends_on:
   - TASK-R14-007
   requirements: *id001

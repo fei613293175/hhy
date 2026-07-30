@@ -1,0 +1,55 @@
+protocol_version: '1.0'
+cr_id: CR-0190
+title: 刷新Git永久化后的严格项目门禁报告
+status: CLOSED
+created_at: '2026-07-21T20:55:34Z'
+updated_at: '2026-07-21T20:58:26Z'
+requester_actor_id: codex-root-r07-006
+approver_actor_id: codex-reviewer-continuity
+task_id: TASK-R07-006
+session_id: SES-20260721T201747Z-CD80A1EE
+user_request: 彻底解决PowerShell Git不在PATH并计入踩坑与经验复用记录
+reason: 严格联合门禁已通过并生成新的项目Doctor报告，该受控派生文件需与当前配置和连续性事实一并提交。
+original_rule: 严格项目Doctor报告必须反映当前配置、CR索引、连续性事件链和门禁结果。
+new_rule: Git永久化规则及派生连续性证据同步后，必须保存最新严格项目Doctor PASS报告，且报告中错误和警告均为0。
+impact_summary: 仅刷新机器生成的严格项目门禁JSON报告，不改变业务实现和运行配置。
+impact:
+  files:
+  - artifacts/validation/project-doctor-v1.2.3.json
+  pages: []
+  apis: []
+  database: []
+  configuration: []
+  ledger: []
+  tests:
+  - scripts/check_v123_continuity.py --strict PASS errors=0 warnings=0
+  releases:
+  - R07
+  migration_and_compatibility: 报告是验证产物，无运行时迁移；旧环境仍可读取，新环境用同一命令重算。
+user_confirmation: 项目所有者明确要求Git问题彻底闭环并沉淀跨机复用证据。
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-21T20:55:51Z'
+  note: 仅提交严格门禁生成报告，结果必须为PASS且0错误0警告。
+machine_record: .continuity/change_requests/CR-0190.yaml
+document: docs/03-continuity/change-requests/CR-0190-刷新Git永久化后的严格项目门禁报告.md
+decision_log:
+- at: '2026-07-21T20:55:55Z'
+  actor_id: codex-root-r07-006
+  status: IMPLEMENTING
+  note: 严格项目Doctor已生成PASS报告，纳入当前任务证据。
+  session_id: SES-20260721T201747Z-CD80A1EE
+- at: '2026-07-21T20:58:24Z'
+  actor_id: codex-root-r07-006
+  status: IMPLEMENTED
+  note: 严格项目Doctor报告已刷新为PASS，错误0、警告0。
+  session_id: SES-20260721T201747Z-CD80A1EE
+- at: '2026-07-21T20:58:26Z'
+  actor_id: codex-reviewer-continuity
+  status: CLOSED
+  note: 复核最新Doctor报告为PASS且0错误0警告，关闭变更。
+  session_id: SES-20260721T201747Z-CD80A1EE
+session_ids:
+- SES-20260721T201747Z-CD80A1EE
+implementation_commits:
+- 7c5a5f7a329d36c62c5269fb68d23e0fca69ab19

@@ -7,6 +7,22 @@ import yaml
 
 ROOT = Path(__file__).resolve().parents[1]
 TODAY = '2026-07-16'
+WEBSOCKET_FREEZE_DATE = '2026-07-28'
+LEGACY_WEBSOCKET_EVENT_CODES = (
+    'chat.message.send',
+    'chat.message.ack',
+    'chat.message.new',
+    'chat.message.read',
+    'chat.read.updated',
+    'chat.typing',
+    'notification.new',
+    'system.kickout',
+    'system.ping',
+    'system.pong',
+)
+NEW_WEBSOCKET_EVENT_CODES = ('system.delivery.ack', 'system.resume')
+R16_FREEZE_DATE = '2026-07-28'
+R14_REPORT_REASON_FREEZE_DATE = '2026-07-29'
 
 
 def read_csv(rel: str) -> list[dict[str,str]]:
@@ -439,8 +455,17 @@ def path_parameters(path: str) -> list[dict]:
     return out
 
 def query_parameters(row: dict[str,str]) -> list[dict]:
+    path=row['路径']
+    if row['方法']=='DELETE':
+        if path == '/api/v1/contents/{id}':
+            return [{
+              'name':'expectedVersion','in':'query','required':True,
+              'description':'当前内容乐观锁版本；版本不一致返回 COMMON-409-VERSION_CONFLICT',
+              'schema':{'type':'integer','format':'int64','minimum':0},
+            }]
+        return []
     if row['方法']!='GET': return []
-    path=row['路径']; purpose=row['用途']; params=[]
+    purpose=row['用途']; params=[]
     if is_list(row):
         params += [
           {'name':'page','in':'query','required':False,'schema':{'type':'integer','minimum':1,'default':1},'description':'页码；游标接口可忽略'},
@@ -660,6 +685,686 @@ def dump_yaml(path: Path, data):
     Dumper.add_representer(OrderedDict, represent_ordered)
     path.write_text(yaml.dump(data,Dumper=Dumper,allow_unicode=True,sort_keys=False,width=140),encoding='utf-8')
 
+
+def _closed_object(properties: OrderedDict, required: list[str]) -> OrderedDict:
+    return OrderedDict(
+        type='object',
+        additionalProperties=False,
+        required=required,
+        properties=properties,
+    )
+
+
+def _r16_schemas() -> OrderedDict[str, OrderedDict]:
+    string_id = lambda: OrderedDict(type='string', maxLength=64)
+    text = lambda length=2000: OrderedDict(type='string', maxLength=length)
+    money = lambda: OrderedDict(type='integer', format='int64', minimum=0)
+    version = lambda: OrderedDict(type='integer', format='int64', minimum=0)
+    date_time = lambda: OrderedDict(type='string', format='date-time')
+    schemas: OrderedDict[str, OrderedDict] = OrderedDict()
+    schemas['BenefitResource'] = _closed_object(OrderedDict([
+        ('benefitCode', text(64)),
+        ('name', text(255)),
+        ('value', OrderedDict([('$ref', '#/components/schemas/JsonValue')])),
+        ('unit', text(64)),
+    ]), ['benefitCode', 'name', 'value'])
+    schemas['ProductSkuResource'] = _closed_object(OrderedDict([
+        ('id', string_id()),
+        ('productId', string_id()),
+        ('skuCode', text(64)),
+        ('name', text(255)),
+        ('priceCent', money()),
+        ('memberPriceCent', money()),
+        ('durationDays', OrderedDict(type='integer', format='int64', minimum=0)),
+        ('benefits', OrderedDict(type='array', maxItems=100, items=OrderedDict([('$ref', '#/components/schemas/BenefitResource')]))),
+        ('commissionEnabled', OrderedDict(type='boolean')),
+        ('level1Bps', OrderedDict(type='integer', minimum=0, maximum=10000)),
+        ('level2Bps', OrderedDict(type='integer', minimum=0, maximum=10000)),
+        ('saleStartsAt', date_time()),
+        ('saleEndsAt', date_time()),
+        ('status', text(64)),
+        ('version', version()),
+    ]), ['id', 'productId', 'skuCode', 'name', 'priceCent', 'benefits', 'commissionEnabled', 'status', 'version'])
+    schemas['ProductResource'] = _closed_object(OrderedDict([
+        ('id', string_id()),
+        ('productCode', text(64)),
+        ('name', text(255)),
+        ('productType', text(64)),
+        ('description', text(2000)),
+        ('displayOrder', OrderedDict(type='integer', format='int32')),
+        ('status', text(64)),
+        ('skus', OrderedDict(type='array', maxItems=100, items=OrderedDict([('$ref', '#/components/schemas/ProductSkuResource')]))),
+        ('version', version()),
+    ]), ['id', 'productCode', 'name', 'productType', 'status', 'skus', 'version'])
+    schemas['OrderItemResource'] = _closed_object(OrderedDict([
+        ('skuId', string_id()),
+        ('itemName', text(255)),
+        ('quantity', OrderedDict(type='integer', minimum=1)),
+        ('unitPriceCent', money()),
+        ('subtotalAmountCent', money()),
+    ]), ['itemName', 'quantity', 'unitPriceCent', 'subtotalAmountCent'])
+    schemas['OrderPriceSnapshotResource'] = _closed_object(OrderedDict([
+        ('originalAmountCent', money()),
+        ('discountAmountCent', money()),
+        ('serviceFeeCent', money()),
+        ('payableAmountCent', money()),
+        ('ruleVersions', OrderedDict(type='array', maxItems=100, items=text(128))),
+    ]), ['originalAmountCent', 'discountAmountCent', 'serviceFeeCent', 'payableAmountCent', 'ruleVersions'])
+    schemas['NoRefundEvidenceResource'] = _closed_object(OrderedDict([
+        ('confirmed', OrderedDict(type='boolean')),
+        ('agreementVersion', text(64)),
+        ('confirmedAt', date_time()),
+    ]), ['confirmed', 'agreementVersion'])
+    schemas['OrderResource'] = _closed_object(OrderedDict([
+        ('orderNo', text(128)),
+        ('userId', string_id()),
+        ('orderType', text(64)),
+        ('status', OrderedDict(type='string', enum=[
+            'PENDING_PAYMENT', 'PAYMENT_PROCESSING', 'PAID', 'FULFILLING',
+            'COMPLETED', 'PAYMENT_FAILED', 'CLOSED', 'CHANNEL_REVERSAL',
+        ])),
+        ('currency', OrderedDict(type='string', minLength=3, maxLength=3)),
+        ('items', OrderedDict(type='array', maxItems=100, items=OrderedDict([('$ref', '#/components/schemas/OrderItemResource')]))),
+        ('priceSnapshot', OrderedDict([('$ref', '#/components/schemas/OrderPriceSnapshotResource')])),
+        ('noRefundEvidence', OrderedDict([('$ref', '#/components/schemas/NoRefundEvidenceResource')])),
+        ('paidAmountCent', money()),
+        ('createdAt', date_time()),
+        ('paidAt', date_time()),
+        ('version', version()),
+    ]), ['orderNo', 'userId', 'orderType', 'status', 'currency', 'items', 'priceSnapshot', 'noRefundEvidence', 'createdAt', 'version'])
+    return schemas
+
+
+def _r16_request_schemas() -> OrderedDict[str, OrderedDict]:
+    common_product = OrderedDict([
+        ('productCode', OrderedDict(type='string', maxLength=64)),
+        ('name', OrderedDict(type='string', maxLength=255)),
+        ('productType', OrderedDict(type='string', maxLength=64)),
+        ('description', OrderedDict(type='string', maxLength=2000)),
+        ('displayOrder', OrderedDict(type='integer', format='int32')),
+        ('status', OrderedDict(type='string', maxLength=64)),
+    ])
+    benefit_array = OrderedDict(type='array', maxItems=100, items=OrderedDict([('$ref', '#/components/schemas/BenefitResource')]))
+    common_sku = OrderedDict([
+        ('productId', OrderedDict(type='string', maxLength=64)),
+        ('skuCode', OrderedDict(type='string', maxLength=64)),
+        ('name', OrderedDict(type='string', maxLength=255)),
+        ('priceCent', OrderedDict(type='integer', format='int64', minimum=0)),
+        ('memberPriceCent', OrderedDict(type='integer', format='int64', minimum=0)),
+        ('durationDays', OrderedDict(type='integer', format='int64', minimum=0)),
+        ('benefits', benefit_array),
+        ('commissionEnabled', OrderedDict(type='boolean')),
+        ('level1Bps', OrderedDict(type='integer', minimum=0, maximum=10000)),
+        ('level2Bps', OrderedDict(type='integer', minimum=0, maximum=10000)),
+        ('saleStartsAt', OrderedDict(type='string', format='date-time')),
+        ('saleEndsAt', OrderedDict(type='string', format='date-time')),
+        ('status', OrderedDict(type='string', maxLength=64)),
+    ])
+    return OrderedDict([
+        ('AdminProductsPostProductsRequest', _closed_object(common_product.copy(), ['productCode', 'name', 'productType', 'status'])),
+        ('AdminProductsPatchProductsByIdRequest', _closed_object(OrderedDict([
+            ('name', common_product['name']),
+            ('productType', common_product['productType']),
+            ('description', common_product['description']),
+            ('displayOrder', common_product['displayOrder']),
+            ('status', common_product['status']),
+            ('expectedVersion', OrderedDict(type='integer', format='int64', minimum=0)),
+        ]), ['expectedVersion'])),
+        ('AdminProductsPostSkusRequest', _closed_object(common_sku.copy(), [
+            'productId', 'skuCode', 'name', 'priceCent', 'benefits',
+            'commissionEnabled', 'status',
+        ])),
+        ('AdminProductsPatchSkusByIdRequest', _closed_object(OrderedDict([
+            (key, value) for key, value in common_sku.items()
+            if key not in {'productId', 'skuCode'}
+        ] + [('expectedVersion', OrderedDict(type='integer', format='int64', minimum=0))]), ['expectedVersion'])),
+    ])
+
+
+def _success_response(data_schema: OrderedDict) -> OrderedDict:
+    return _closed_object(OrderedDict([
+        ('success', OrderedDict(type='boolean', const=True)),
+        ('requestId', OrderedDict(type='string', maxLength=64)),
+        ('timestamp', OrderedDict(type='string', format='date-time')),
+        ('data', data_schema),
+    ]), ['success', 'requestId', 'data'])
+
+
+def _schema_block(name: str, schema: OrderedDict) -> str:
+    class Dumper(yaml.SafeDumper):
+        pass
+    Dumper.add_representer(
+        OrderedDict,
+        lambda dumper, value: dumper.represent_dict(value.items()),
+    )
+    body = yaml.dump(
+        {name: schema},
+        Dumper=Dumper,
+        allow_unicode=True,
+        sort_keys=False,
+        width=140,
+    ).rstrip()
+    return '\n'.join('    ' + line for line in body.splitlines()) + '\n'
+
+
+def _replace_schema(text: str, name: str, schema: OrderedDict) -> str:
+    block = _schema_block(name, schema)
+    pattern = re.compile(
+        rf'(?ms)^    {re.escape(name)}:\n.*?(?=^    [A-Za-z][A-Za-z0-9]*:\n|\Z)'
+    )
+    if pattern.search(text):
+        return pattern.sub(block, text, count=1)
+    marker = '    JsonScalar:\n'
+    if marker not in text:
+        raise SystemExit(f'cannot insert R16 schema {name}: JsonScalar marker missing')
+    return text.replace(marker, block + marker, 1)
+
+
+def _sync_r16_catalogs() -> list[str]:
+    changed: list[str] = []
+
+    def save_if_changed(relative: str, before: list[dict[str, str]], after: list[dict[str, str]]) -> None:
+        if before != after:
+            write_csv(relative, after, list(before[0]) if before else None)
+            changed.append(relative)
+
+    fields_path = 'catalogs/ui_page_fields.csv'
+    before_fields = read_csv(fields_path)
+    target_pages = {'SCR-ORDER-001', 'SCR-ORDER-002', 'ADM-ORDER-001', 'ADM-PROD-001'}
+    removed = [
+        row for row in before_fields
+        if row['页面ID'] in target_pages and row['字段角色'] == 'DISPLAY'
+    ]
+    retained = [row for row in before_fields if row not in removed]
+    reusable_ids = [row['字段ID'] for row in removed]
+    max_id = max(int(row['字段ID'].split('-')[1]) for row in before_fields)
+
+    def next_id() -> str:
+        nonlocal max_id
+        if reusable_ids:
+            return reusable_ids.pop(0)
+        max_id += 1
+        return f'FLD-{max_id:05d}'
+
+    page_meta = {
+        'SCR-ORDER-001': ('ANDROID', '订单列表'),
+        'SCR-ORDER-002': ('ANDROID', '订单详情'),
+        'ADM-ORDER-001': ('ADMIN', '订单列表'),
+        'ADM-PROD-001': ('ADMIN', '商品与SKU'),
+    }
+
+    def display_row(
+        page: str,
+        key: str,
+        label: str,
+        semantic: str,
+        control: str,
+        source: str,
+        order: int,
+        operation: str,
+        required: str = '服务端返回时展示',
+        condition: str = '有值且当前角色拥有字段访问权限',
+        validation: str = '按显式OpenAPI Schema校验',
+        help_text: str = '',
+    ) -> dict[str, str]:
+        platform, page_name = page_meta[page]
+        row = {column: '' for column in before_fields[0]}
+        row.update({
+            '字段ID': next_id(),
+            '页面ID': page,
+            '平台': platform,
+            '页面': page_name,
+            '区域': '订单卡片' if page == 'SCR-ORDER-001' else ('主要内容' if page != 'ADM-PROD-001' else '商品与SKU表格'),
+            '字段键': key,
+            '显示名称': label,
+            '字段角色': 'DISPLAY',
+            '语义类型': semantic,
+            '控件类型': control,
+            '数据来源': source,
+            '必填条件': required,
+            '显示条件': condition,
+            '可编辑条件': '只读；通过明确写操作更新',
+            '校验规则': validation,
+            '默认值': '禁止客户端暗设业务默认',
+            '选项来源': 'OpenAPI枚举或配置注册表；不得在页面散落硬编码',
+            '敏感级别': 'NORMAL',
+            '脱敏规则': '无需特殊掩码；仍遵守最小展示',
+            '帮助说明': help_text,
+            '错误提示': f'{label}暂时无法显示',
+            '排序': str(order),
+            '关联operationId': operation,
+            '成熟度': 'FROZEN_R16_CR0440',
+        })
+        return row
+
+    order_fields = {
+        'orderNo': ('订单号', 'string', 'TEXT'),
+        'userId': ('用户ID', 'string', 'TEXT'),
+        'orderType': ('订单类型', 'string', 'STATUS_TAG'),
+        'status': ('订单状态', 'ORDER_STATUS', 'STATUS_TAG'),
+        'currency': ('币种', 'string', 'TEXT'),
+        'items': ('订单项', 'OrderItemResource[]', 'STRUCTURED_LIST'),
+        'priceSnapshot.originalAmountCent': ('原价', 'integer', 'MONEY_CENT'),
+        'priceSnapshot.discountAmountCent': ('优惠金额', 'integer', 'MONEY_CENT'),
+        'priceSnapshot.serviceFeeCent': ('服务费', 'integer', 'MONEY_CENT'),
+        'priceSnapshot.payableAmountCent': ('应付金额', 'integer', 'MONEY_CENT'),
+        'paidAmountCent': ('实付金额', 'integer', 'MONEY_CENT'),
+        'noRefundEvidence.confirmed': ('不退款确认', 'boolean', 'STATUS_TAG'),
+        'noRefundEvidence.agreementVersion': ('不退款协议版本', 'string', 'TEXT'),
+        'noRefundEvidence.confirmedAt': ('确认时间', 'string', 'DATETIME_TEXT'),
+        'createdAt': ('创建时间', 'string', 'DATETIME_TEXT'),
+        'paidAt': ('支付时间', 'string', 'DATETIME_TEXT'),
+        'version': ('版本', 'integer', 'NUMBER_TEXT'),
+    }
+    order_page_specs = {
+        'SCR-ORDER-001': [
+            'orderNo', 'orderType', 'status', 'items',
+            'priceSnapshot.payableAmountCent', 'paidAmountCent',
+            'noRefundEvidence.confirmed', 'createdAt',
+        ],
+        'SCR-ORDER-002': [
+            'orderNo', 'orderType', 'status', 'currency', 'items',
+            'priceSnapshot.originalAmountCent', 'priceSnapshot.discountAmountCent',
+            'priceSnapshot.serviceFeeCent', 'priceSnapshot.payableAmountCent',
+            'paidAmountCent', 'noRefundEvidence.confirmed',
+            'noRefundEvidence.agreementVersion', 'noRefundEvidence.confirmedAt',
+            'createdAt', 'paidAt', 'version',
+        ],
+        'ADM-ORDER-001': [
+            'orderNo', 'userId', 'orderType', 'status', 'currency', 'items',
+            'priceSnapshot.originalAmountCent', 'priceSnapshot.discountAmountCent',
+            'priceSnapshot.serviceFeeCent', 'priceSnapshot.payableAmountCent',
+            'paidAmountCent', 'noRefundEvidence.confirmed',
+            'noRefundEvidence.agreementVersion', 'noRefundEvidence.confirmedAt',
+            'createdAt', 'paidAt', 'version',
+        ],
+    }
+    source_ops = {
+        'SCR-ORDER-001': ('orderGetMeOrders', 'orderGetMeOrders.response.data.OrderResource'),
+        'SCR-ORDER-002': ('orderGetMeOrdersByOrderno', 'orderGetMeOrdersByOrderno.response.data.OrderResource'),
+        'ADM-ORDER-001': ('adminOrdersGetOrders', 'adminOrdersGetOrders.response.data.OrderResource'),
+    }
+    appended: list[dict[str, str]] = []
+    for page, keys in order_page_specs.items():
+        operation, source = source_ops[page]
+        base_order = 17 if page == 'SCR-ORDER-001' else (6 if page == 'SCR-ORDER-002' else 19)
+        for offset, key in enumerate(keys):
+            label, semantic, control = order_fields[key]
+            appended.append(display_row(
+                page, key, label, semantic, control, source,
+                base_order + offset, operation,
+                help_text='金额统一为分；ORDER_STATUS必须使用中文映射，不得直出技术枚举' if 'AmountCent' in key or key == 'status' else '',
+            ))
+
+    product_fields = [
+        ('id', '商品ID', 'string', 'TEXT'),
+        ('productCode', '商品代码', 'string', 'TEXT'),
+        ('name', '商品名称', 'string', 'TEXT'),
+        ('productType', '商品类型', 'string', 'STATUS_TAG'),
+        ('description', '商品说明', 'string', 'TEXT'),
+        ('displayOrder', '展示顺序', 'integer', 'NUMBER_TEXT'),
+        ('status', '商品状态', 'string', 'STATUS_TAG'),
+        ('skus', 'SKU', 'ProductSkuResource[]', 'STRUCTURED_LIST'),
+        ('version', '版本', 'integer', 'NUMBER_TEXT'),
+    ]
+    sku_fields = [
+        ('id', 'SKU ID', 'string', 'TEXT'),
+        ('productId', '商品ID', 'string', 'TEXT'),
+        ('skuCode', 'SKU代码', 'string', 'TEXT'),
+        ('name', 'SKU名称', 'string', 'TEXT'),
+        ('priceCent', '售价', 'integer', 'MONEY_CENT'),
+        ('memberPriceCent', '会员价', 'integer', 'MONEY_CENT'),
+        ('durationDays', '有效期', 'integer', 'NUMBER_TEXT'),
+        ('benefits', '权益快照', 'BenefitResource[]', 'STRUCTURED_LIST'),
+        ('commissionEnabled', '参与分佣', 'boolean', 'STATUS_TAG'),
+        ('level1Bps', '一级比例', 'integer', 'BPS_TEXT'),
+        ('level2Bps', '二级比例', 'integer', 'BPS_TEXT'),
+        ('saleStartsAt', '销售开始时间', 'string', 'DATETIME_TEXT'),
+        ('saleEndsAt', '销售结束时间', 'string', 'DATETIME_TEXT'),
+        ('status', 'SKU状态', 'string', 'STATUS_TAG'),
+        ('version', '版本', 'integer', 'NUMBER_TEXT'),
+    ]
+    for index, (key, label, semantic, control) in enumerate(product_fields, start=19):
+        appended.append(display_row(
+            'ADM-PROD-001', key, label, semantic, control,
+            'adminProductsGetProducts.response.data.ProductResource',
+            index, 'adminProductsGetProducts',
+        ))
+    for index, (key, label, semantic, control) in enumerate(sku_fields, start=40):
+        appended.append(display_row(
+            'ADM-PROD-001', f'sku.{key}', label, semantic, control,
+            'adminProductsGetSkus.response.data.ProductSkuResource',
+            index, 'adminProductsGetSkus',
+        ))
+    after_fields = retained + appended
+    save_if_changed(fields_path, before_fields, after_fields)
+
+    page_documents = {
+        'SCR-ORDER-001': 'docs/02-ui/page-specs/android/SCR-ORDER-001_订单列表.md',
+        'SCR-ORDER-002': 'docs/02-ui/page-specs/android/SCR-ORDER-002_订单详情.md',
+        'ADM-ORDER-001': 'docs/02-ui/page-specs/admin/ADM-ORDER-001_订单列表.md',
+        'ADM-PROD-001': 'docs/02-ui/page-specs/admin/ADM-PROD-001_商品与SKU.md',
+    }
+    document_columns = [
+        '字段ID', '区域', '字段键', '显示名称', '字段角色', '语义类型',
+        '控件类型', '数据来源', '必填条件', '显示条件', '可编辑条件',
+        '校验规则', '敏感级别', '脱敏规则', '错误提示',
+    ]
+    header = '| ' + ' | '.join(document_columns) + ' |'
+    separator = '| ' + ' | '.join('---' for _ in document_columns) + ' |'
+    for page, relative in page_documents.items():
+        path = ROOT / relative
+        text = path.read_text(encoding='utf-8')
+        page_rows = sorted(
+            (row for row in after_fields if row['页面ID'] == page),
+            key=lambda row: int(row['排序'] or 0),
+        )
+        body = [header, separator]
+        for row in page_rows:
+            values = [
+                str(row[column]).replace('|', r'\|').replace('\r', ' ').replace('\n', ' ')
+                for column in document_columns
+            ]
+            body.append('| ' + ' | '.join(values) + ' |')
+        section = '## 3. 字段施工表\n\n' + '\n'.join(body) + '\n\n'
+        updated, count = re.subn(
+            r'(?ms)^## 3\. 字段施工表\n.*?(?=^## 4\.)',
+            section,
+            text,
+            count=1,
+        )
+        if count != 1:
+            raise SystemExit(f'cannot synchronize R16 page field table: {relative}')
+        if updated != text:
+            path.write_text(updated, encoding='utf-8', newline='\n')
+            changed.append(relative)
+
+    states_path = 'catalogs/ui_page_states.csv'
+    before_states = read_csv(states_path)
+    after_states = [row.copy() for row in before_states]
+    for row in after_states:
+        if row['页面ID'] in {'SCR-ORDER-001', 'ADM-ORDER-001'} and row['状态码'] == 'EMPTY':
+            row['允许操作'] = '清除筛选/返回'
+            row['展示行为'] = '展示当前筛选、暂无订单说明和返回路径；不得出现创建订单或联系客服'
+            row['成熟度'] = 'FROZEN_R16_CR0440'
+    save_if_changed(states_path, before_states, after_states)
+
+    actions_path = 'catalogs/ui_action_matrix.csv'
+    before_actions = read_csv(actions_path)
+    after_actions = [row.copy() for row in before_actions]
+    for row in after_actions:
+        if row['UI_ID'] == 'ADM-ORDER-001':
+            for key, value in list(row.items()):
+                row[key] = value.replace('CommandResultResource', 'OrderResource')
+            row['成熟度'] = 'FROZEN_R16_CR0440'
+        if row['UI_ID'] == 'ADM-PROD-001' and 'Skus' in row.get('operationId', ''):
+            for key, value in list(row.items()):
+                row[key] = value.replace('ProductResource', 'ProductSkuResource')
+            row['成熟度'] = 'FROZEN_R16_CR0440'
+    save_if_changed(actions_path, before_actions, after_actions)
+
+    visual_refs = {
+        'SCR-ORDER-001': 'B08/P04',
+        'SCR-ORDER-002': 'SPEC:design/R16-UI-FROZEN/specs/SCR-ORDER-002.md',
+        'ADM-ORDER-001': 'SPEC:design/R16-UI-FROZEN/specs/ADM-ORDER-001.md',
+    }
+    for relative, id_column, reference_column in (
+        ('catalogs/ui_page_specifications.csv', '页面ID', 'UI参考'),
+        ('catalogs/frontend_backend_matrix.csv', 'UI_ID', 'UI参考'),
+    ):
+        before = read_csv(relative)
+        after = [row.copy() for row in before]
+        for row in after:
+            if row[id_column] in visual_refs:
+                row[reference_column] = visual_refs[row[id_column]]
+                if '成熟度' in row:
+                    row['成熟度'] = 'FROZEN_R16_CR0440'
+                if '绑定成熟度' in row:
+                    row['绑定成熟度'] = 'EXACT_CONSTRUCTION_BOUND_R16_CR0440'
+        save_if_changed(relative, before, after)
+
+    binding_path = 'catalogs/screen_visual_binding.csv'
+    before_binding = read_csv(binding_path)
+    after_binding = [
+        row for row in before_binding
+        if row['Screen_ID'] not in visual_refs
+    ]
+    after_binding.extend([
+        {
+            'Screen_ID': 'SCR-ORDER-001', '页面': '订单列表', '路由': '/me/orders',
+            '主参考批次': 'B08', '参考面板': 'P04', '绑定方式': 'EXACT',
+            '开发说明': '仅复用订单中心结构；过滤示例订单号金额商品内容和联系客服',
+        },
+        {
+            'Screen_ID': 'SCR-ORDER-002', '页面': '订单详情', '路由': '/me/orders/{id}',
+            '主参考批次': 'R16-SPEC', '参考面板': 'SCR-ORDER-002', '绑定方式': 'APPROVED_SUPPLEMENT',
+            '开发说明': '复用B08/P04视觉语言并严格显示显式订单项报价和不退款证据',
+        },
+        {
+            'Screen_ID': 'ADM-ORDER-001', '页面': '订单列表', '路由': '/commerce/orders',
+            '主参考批次': 'R16-SPEC', '参考面板': 'ADM-ORDER-001', '绑定方式': 'APPROVED_SUPPLEMENT',
+            '开发说明': '复用商业后台ADM-LIST设计系统；无批量写、退款或联系客服',
+        },
+    ])
+    save_if_changed(binding_path, before_binding, after_binding)
+
+    acceptance_path = 'catalogs/ui_visual_acceptance.csv'
+    before_acceptance = read_csv(acceptance_path)
+    after_acceptance = [
+        row for row in before_acceptance
+        if row['页面ID'] not in visual_refs
+    ]
+    token = 'design/tokens/hhy_design_tokens_v1.2.2.json'
+    after_acceptance.extend([
+        {
+            '页面ID': 'SCR-ORDER-001', '计划版本': 'R16', '平台': 'ANDROID', '页面名称': '订单列表',
+            '视觉来源': 'B08/P04', '覆盖状态': 'EXACT',
+            '布局建模约束': '保持标题搜索或筛选状态标签订单卡片订单项应付实付时间与详情入口的多层信息密度',
+            '业务过滤说明': '只展示OrderResource真实字段；过滤示例订单号金额商品内容联系客服支付退款及任何未登记动作',
+            'Token源': token, '实现路径': 'apps/android/feature/order/src/main/java/cc/orbexa/hhy/order/R16OrderScreens.kt',
+            '参考证据': 'design/effect-previews/B08/HHY_B08_8PAGE_UI_REFERENCE.png;design/R16-UI-FROZEN/specs/SCR-ORDER-001.md',
+            '实现截图证据': '', '验收状态': 'IN_REVIEW',
+            '说明': 'TASK-R16-001冻结视觉合同；实现与候选截图完成前不得标PASS',
+        },
+        {
+            '页面ID': 'SCR-ORDER-002', '计划版本': 'R16', '平台': 'ANDROID', '页面名称': '订单详情',
+            '视觉来源': 'SPEC:design/R16-UI-FROZEN/specs/SCR-ORDER-002.md', '覆盖状态': 'APPROVED_SUPPLEMENT',
+            '布局建模约束': '保持顶栏状态摘要订单项报价拆分不退款证据和时间信息的卡片分区与长页节奏',
+            '业务过滤说明': '只展示显式OrderResource；过滤支付、退款、客服、物流和示例业务数据',
+            'Token源': token, '实现路径': 'apps/android/feature/order/src/main/java/cc/orbexa/hhy/order/R16OrderScreens.kt',
+            '参考证据': 'design/R16-UI-FROZEN/specs/SCR-ORDER-002.md;design/effect-previews/B08/HHY_B08_8PAGE_UI_REFERENCE.png',
+            '实现截图证据': '', '验收状态': 'IN_REVIEW',
+            '说明': 'TASK-R16-001批准补充规格；实现与候选截图完成前不得标PASS',
+        },
+        {
+            '页面ID': 'ADM-ORDER-001', '计划版本': 'R16', '平台': 'ADMIN', '页面名称': '订单列表',
+            '视觉来源': 'SPEC:design/R16-UI-FROZEN/specs/ADM-ORDER-001.md', '覆盖状态': 'APPROVED_SUPPLEMENT',
+            '布局建模约束': '使用固定侧栏与独立滚动主区，标题统计筛选专业表格分页详情抽屉和状态反馈层级完整',
+            '业务过滤说明': '只读上帝视角来自OrderResource；无批量写、退款、余额修改、客服或虚构经营指标',
+            'Token源': token, '实现路径': 'apps/admin-web/src/pages/CommerceOrdersPage.tsx',
+            '参考证据': 'design/R16-UI-FROZEN/specs/ADM-ORDER-001.md;docs/02-ui/后台视觉与交互设计系统_V1.2.2.md',
+            '实现截图证据': '', '验收状态': 'IN_REVIEW',
+            '说明': 'TASK-R16-001批准商业后台补充规格；实现与候选截图完成前不得标PASS',
+        },
+    ])
+    save_if_changed(acceptance_path, before_acceptance, after_acceptance)
+
+    admin_specs_path = 'catalogs/admin_page_operation_specs.csv'
+    before_admin_specs = read_csv(admin_specs_path)
+    after_admin_specs = [row.copy() for row in before_admin_specs]
+    for row in after_admin_specs:
+        if row['页面ID'] == 'ADM-ORDER-001':
+            frozen = '订单号;用户ID;订单类型;状态;订单项;原价;优惠金额;服务费;应付金额;实付金额;不退款确认;创建时间;支付时间;版本'
+            row['表格列'] = frozen
+            row['冻结列'] = '订单号;用户ID;订单类型;状态;应付金额;实付金额;创建时间;操作'
+            row['批量操作'] = '无批量写操作'
+            row['行操作'] = '查看详情'
+            row['导出字段'] = frozen
+            row['成熟度'] = 'FROZEN_R16_CR0440'
+    save_if_changed(admin_specs_path, before_admin_specs, after_admin_specs)
+    return changed
+
+
+def synchronize_r16_contract() -> int:
+    shared = _r16_schemas()
+    request_schemas = _r16_request_schemas()
+    list_of = lambda ref: OrderedDict(
+        type='object',
+        additionalProperties=False,
+        required=['items', 'page'],
+        properties=OrderedDict([
+            ('items', OrderedDict(type='array', items=OrderedDict([('$ref', ref)]))),
+            ('page', OrderedDict([('$ref', '#/components/schemas/PageMeta')])),
+        ]),
+    )
+    response_overrides = {
+        'OrderGetMeOrdersResponse': _success_response(list_of('#/components/schemas/OrderResource')),
+        'OrderGetMeOrdersByOrdernoResponse': _success_response(OrderedDict([('$ref', '#/components/schemas/OrderResource')])),
+        'AdminProductsGetProductsResponse': _success_response(list_of('#/components/schemas/ProductResource')),
+        'AdminProductsPostProductsResponse': _success_response(OrderedDict([('$ref', '#/components/schemas/ProductResource')])),
+        'AdminProductsPatchProductsByIdResponse': _success_response(OrderedDict([('$ref', '#/components/schemas/ProductResource')])),
+        'AdminProductsGetSkusResponse': _success_response(list_of('#/components/schemas/ProductSkuResource')),
+        'AdminProductsPostSkusResponse': _success_response(OrderedDict([('$ref', '#/components/schemas/ProductSkuResource')])),
+        'AdminProductsPatchSkusByIdResponse': _success_response(OrderedDict([('$ref', '#/components/schemas/ProductSkuResource')])),
+        'AdminOrdersGetOrdersResponse': _success_response(list_of('#/components/schemas/OrderResource')),
+        'AdminOrdersGetOrdersByOrdernoResponse': _success_response(OrderedDict([('$ref', '#/components/schemas/OrderResource')])),
+    }
+    changed = []
+    for relative, names in (
+        ('contracts/openapi.yaml', {
+            'OrderGetMeOrdersResponse', 'OrderGetMeOrdersByOrdernoResponse',
+        }),
+        ('contracts/admin-openapi.yaml', set(response_overrides) - {
+            'OrderGetMeOrdersResponse', 'OrderGetMeOrdersByOrdernoResponse',
+        }),
+    ):
+        path = ROOT / relative
+        text = path.read_text(encoding='utf-8')
+        before = text
+        for name, schema in shared.items():
+            text = _replace_schema(text, name, schema)
+        if relative.endswith('admin-openapi.yaml'):
+            for name, schema in request_schemas.items():
+                text = _replace_schema(text, name, schema)
+        for name in sorted(names):
+            text = _replace_schema(text, name, response_overrides[name])
+        if text != before:
+            path.write_text(text, encoding='utf-8', newline='\n')
+            changed.append(relative)
+    catalog_changes = _sync_r16_catalogs()
+    refresh_contract_status(check=False)
+    print(json.dumps({
+        'status': 'PASS',
+        'mode': 'sync-r16',
+        'freeze_date': R16_FREEZE_DATE,
+        'changed': changed,
+        'catalog_changes': catalog_changes,
+        'resources': list(shared),
+        'responses': sorted(response_overrides),
+    }, ensure_ascii=False, indent=2))
+    return 0
+
+
+def _r14_report_reason_property(options: list[dict]) -> str:
+    enabled = sorted(
+        (item for item in options if item.get('enabled') is True),
+        key=lambda item: item['order'],
+    )
+    lines = [
+        '        reasonCode:',
+        '          type: string',
+        '          description: 聊天举报原因；enum由x-hhy-options中启用项按order生成',
+        '          enum:',
+    ]
+    lines.extend(f"          - {item['code']}" for item in enabled)
+    lines.append('          x-hhy-options:')
+    for item in sorted(options, key=lambda value: value['order']):
+        lines.extend([
+            f"          - code: {item['code']}",
+            f"            label: {item['label']}",
+            f"            enabled: {'true' if item['enabled'] else 'false'}",
+            f"            order: {item['order']}",
+        ])
+    return '\n'.join(lines) + '\n'
+
+
+def _validate_r14_report_reason_options(options: object) -> list[dict]:
+    if not isinstance(options, list) or not options:
+        raise SystemExit('R14 report reason x-hhy-options must be a non-empty list')
+    expected_keys = {'code', 'label', 'enabled', 'order'}
+    codes: set[str] = set()
+    orders: set[int] = set()
+    normalized: list[dict] = []
+    for index, raw in enumerate(options, start=1):
+        if not isinstance(raw, dict) or set(raw) != expected_keys:
+            raise SystemExit(f'R14 report reason option {index} must contain exactly {sorted(expected_keys)}')
+        code = raw['code']
+        label = raw['label']
+        enabled = raw['enabled']
+        order = raw['order']
+        if not isinstance(code, str) or re.fullmatch(r'[A-Z][A-Z0-9_]{1,63}', code) is None:
+            raise SystemExit(f'R14 report reason option {index} has invalid code')
+        if not isinstance(label, str) or not label.strip() or label != label.strip():
+            raise SystemExit(f'R14 report reason option {index} has invalid label')
+        if type(enabled) is not bool:
+            raise SystemExit(f'R14 report reason option {index} has invalid enabled flag')
+        if type(order) is not int or order < 1:
+            raise SystemExit(f'R14 report reason option {index} has invalid order')
+        if code in codes or order in orders:
+            raise SystemExit('R14 report reason codes and orders must be unique')
+        codes.add(code)
+        orders.add(order)
+        normalized.append({'code': code, 'label': label, 'enabled': enabled, 'order': order})
+    if not any(item['enabled'] for item in normalized):
+        raise SystemExit('R14 report reason catalog must contain an enabled option')
+    return normalized
+
+
+def synchronize_r14_report_reasons_contract() -> int:
+    source_path = ROOT / 'contracts/openapi.yaml'
+    runtime_path = ROOT / 'services/backend/boot/src/main/resources/contracts/openapi.yaml'
+    source_text = source_path.read_text(encoding='utf-8')
+    document = yaml.safe_load(source_text)
+    reason = document['components']['schemas']['ChatPostConversationsByIdReportRequest']['properties']['reasonCode']
+    options = _validate_r14_report_reason_options(reason.get('x-hhy-options'))
+    schema_start_match = re.search(
+        r'(?m)^    ChatPostConversationsByIdReportRequest:\n', source_text,
+    )
+    if schema_start_match is None:
+        raise SystemExit('R14 report request schema could not be isolated')
+    schema_end_match = re.search(r'(?m)^    \S', source_text[schema_start_match.end():])
+    schema_end = (
+        schema_start_match.end() + schema_end_match.start()
+        if schema_end_match is not None else len(source_text)
+    )
+    schema_text = source_text[schema_start_match.start():schema_end]
+    pattern = re.compile(r'(?ms)^        reasonCode:\n.*?(?=^        description:\n)')
+    synchronized_schema, count = pattern.subn(
+        _r14_report_reason_property(options), schema_text, count=1,
+    )
+    if count != 1:
+        raise SystemExit('R14 report reason property could not be isolated')
+    synchronized = (
+        source_text[:schema_start_match.start()] + synchronized_schema + source_text[schema_end:]
+    )
+    changed = []
+    if synchronized != source_text:
+        source_path.write_text(synchronized, encoding='utf-8', newline='\n')
+        changed.append('contracts/openapi.yaml')
+    if not runtime_path.is_file() or runtime_path.read_bytes() != source_path.read_bytes():
+        runtime_path.parent.mkdir(parents=True, exist_ok=True)
+        runtime_path.write_bytes(source_path.read_bytes())
+        changed.append('services/backend/boot/src/main/resources/contracts/openapi.yaml')
+    refresh_contract_status(check=False)
+    print(json.dumps({
+        'status': 'PASS',
+        'mode': 'sync-r14-report-reasons',
+        'freeze_date': R14_REPORT_REASON_FREEZE_DATE,
+        'enabled_codes': [item['code'] for item in sorted(options, key=lambda value: value['order']) if item['enabled']],
+        'changed': changed,
+    }, ensure_ascii=False, indent=2))
+    return 0
+
 def update_ui_schema_refs(all_rows):
     mapping={(r['方法'],r['路径']):operation_id(r) for r in all_rows}
     ui=read_csv('catalogs/ui_action_matrix.csv')
@@ -673,46 +1378,269 @@ def update_ui_schema_refs(all_rows):
         row['成熟度']='FROZEN'
     write_csv('catalogs/ui_action_matrix.csv',ui)
 
-def websocket_contract():
-    events=read_csv('catalogs/api_endpoints.csv') # only for stable execution context
-    ws={
-      'version':'1.2.2','contract_maturity':'FROZEN','transport':'WebSocket over TLS','endpoint':'wss://ws.orbexa.cc/ws',
-      'subprotocol':'hhy.v1','serialization':'application/json; charset=utf-8','max_payload_bytes':10485760,
-      'authentication':{'method':'Bearer access token in Sec-WebSocket-Protocol or short-lived wsTicket query parameter','ticket_ttl_seconds':60,'token_in_url_logging_forbidden':True},
-      'envelope':{
-        'required':['eventId','eventType','occurredAt','payload'],
-        'properties':{
-          'eventId':{'type':'string','format':'uuid'},'eventType':{'type':'string'},'occurredAt':{'type':'string','format':'date-time'},
-          'traceId':{'type':'string'},'clientMessageId':{'type':'string'},'serverSequence':{'type':'integer','minimum':1},
-          'conversationId':{'type':'string'},'ackRequired':{'type':'boolean'},'payload':{'type':'object'}
-        }
+def websocket_authentication_contract() -> dict:
+    return {
+      'request_subprotocols': {
+        'required_exactly_once': ['hhy.v1', 'hhy.access.<compact-JWT>'],
+        'compact_jwt_pattern': r'^[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+$',
+        'padding_allowed': False,
+        'whitespace_allowed': False,
+        'reject_duplicate_or_missing': True,
       },
-      'delivery':{
-        'client_message_id_unique_scope':'authenticatedUserId + conversationId + clientMessageId',
-        'server_sequence_scope':'authenticatedUserId','ack_timeout_seconds':10,'max_redeliveries':5,
-        'resume':'client reconnects with lastServerSequence; server replays retained events then instructs REST gap-fill when retention exceeded',
-        'retention_hours':72,'ordering':'strict within one conversation; no global ordering guarantee','typing_event_persisted':False
+      'selected_subprotocol': 'hhy.v1',
+      'validate_before_upgrade': ['jwt_signature', 'jwt_expiry', 'session_active'],
+      'ws_ticket': {
+        'status': 'RESERVED_UNAVAILABLE',
+        'query_parameter': 'wsTicket',
+        'ticket_ttl_seconds': 60,
       },
-      'heartbeat':{'client_interval_seconds':25,'server_timeout_seconds':75,'clock_source':'server time'},
-      'reconnect':{'strategy':'full jitter exponential backoff','initial_delay_ms':500,'max_delay_ms':30000,'reset_after_stable_seconds':60},
-      'errors':[{'code':'WS-400-BAD_ENVELOPE','closeCode':4400},{'code':'WS-401-UNAUTHENTICATED','closeCode':4401},{'code':'WS-403-FORBIDDEN','closeCode':4403},{'code':'WS-409-SEQUENCE_GAP','closeCode':4409},{'code':'WS-429-RATE_LIMITED','closeCode':4429}],
-      'events':[]
+      'credential_transport': {
+        'token_in_url_forbidden': True,
+        'token_in_response_forbidden': True,
+        'token_in_error_text_forbidden': True,
+      },
+      'log_redaction': {
+        'header': 'Sec-WebSocket-Protocol',
+        'replacement': '[REDACTED]',
+        'required_scopes': [
+          'edge', 'reverse_proxy', 'handshake_error', 'server', 'application',
+        ],
+      },
     }
-    definitions=[
-      ('chat.message.send','C2S','发送文本、图片、联系方式或内容卡片',['conversationId','clientMessageId','messageType','payload'],True,{'messageType':['TEXT','IMAGE','CONTENT_CARD','CONTACT_CARD']}),
-      ('chat.message.ack','S2C','服务端持久化确认',['conversationId','clientMessageId','messageId','serverSequence','sentAt'],False,{}),
-      ('chat.message.new','S2C','新消息',['conversationId','messageId','senderId','messageType','payload','serverSequence','sentAt'],True,{}),
-      ('chat.message.read','C2S','已读上报',['conversationId','lastReadMessageId','clientMessageId'],True,{}),
-      ('chat.read.updated','S2C','会话已读游标变化',['conversationId','userId','lastReadMessageId','serverSequence'],False,{}),
-      ('chat.typing','BIDIRECTIONAL','短暂输入状态',['conversationId','userId','typing','expiresAt'],False,{}),
-      ('notification.new','S2C','业务通知',['notificationId','type','title','body','target','serverSequence'],True,{}),
-      ('system.kickout','S2C','会话失效或被强制下线',['reasonCode','message','serverSequence'],False,{}),
-      ('system.ping','C2S','心跳',['clientTime'],False,{}),
-      ('system.pong','S2C','心跳响应',['serverTime'],False,{})]
-    for code,direction,description,required,ack,enums in definitions:
-        props={x:scalar(x,enum=enums.get(x)) for x in required}
-        ws['events'].append({'code':code,'direction':direction,'description':description,'release':'R14/R15','contract_maturity':'FROZEN','ack_required':ack,'payload':{'type':'object','additionalProperties':False,'required':required,'properties':props}})
-    dump_yaml(ROOT/'contracts/websocket-events.yaml',ws)
+
+
+def websocket_delivery_contract() -> dict:
+    return {
+      'client_message_id_unique_scope': 'authenticatedUserId + conversationId + clientMessageId',
+      'server_sequence_scope': 'authenticatedUserId',
+      'ack_timeout_seconds': 10,
+      'max_redeliveries': 5,
+      'ack': {
+        's2c_confirmation_event': 'system.delivery.ack',
+        'match_fields': ['eventId', 'serverSequence'],
+        'match_scope': 'same authenticated user and actually delivered event',
+        'duplicate_result': 'IDEMPOTENT_SUCCESS',
+        'unknown_or_mismatched_result': 'REJECT',
+        'stop_redelivery_only_after_valid_ack': True,
+        'ack_event_ack_required': False,
+        'c2s_confirmations': {
+          'chat.message.send': {
+            'event': 'chat.message.ack',
+            'match': ['conversationId', 'clientMessageId'],
+          },
+          'chat.message.read': {
+            'event': 'chat.read.updated',
+            'match': [
+              'conversationId',
+              'authenticatedUserId=userId',
+              'lastReadMessageId',
+            ],
+          },
+        },
+      },
+      'resume': {
+        'query_parameter': {
+          'name': 'lastServerSequence',
+          'type': 'integer',
+          'minimum': 0,
+          'zero_means': 'no event has been processed',
+          'positive_means': 'highest contiguous processed sequence with every required S2C ACK completed',
+          'reject_above_server_high_watermark': True,
+        },
+        'response_event': 'system.resume',
+        'modes': {
+          'REPLAY_COMPLETE': {
+            'affected_scopes': [],
+            'resume_from': 'serverHighWatermark captured when the handshake was accepted',
+          },
+          'REST_GAP_FILL': {
+            'allowed_affected_scopes': ['CHAT', 'NOTIFICATIONS'],
+            'resume_from': 'server supplied safe watermark after every affected scope is fully refreshed',
+          },
+        },
+        'gap_fill': {
+          'CHAT': {
+            'operations': [
+              'chatGetConversations', 'chatGetConversationsByIdMessages',
+            ],
+            'completion': 'exhaust every conversations page and every active conversation messages page',
+          },
+          'NOTIFICATIONS': {
+            'operations': ['notificationGetNotifications'],
+            'completion': 'exhaust every notifications page',
+          },
+          'reconnect_sequence_source': 'system.resume.payload.resumeFromServerSequence',
+          'infer_sequence_from_rest_forbidden': True,
+        },
+      },
+      'retention_hours': 72,
+      'ordering': 'strict within one conversation; no global ordering guarantee',
+      'typing_event_persisted': False,
+    }
+
+
+def new_websocket_events() -> list[dict]:
+    return [
+      {
+        'code': 'system.delivery.ack',
+        'direction': 'C2S',
+        'description': '确认当前认证用户收到的需确认服务端事件',
+        'release': 'R14/R15',
+        'contract_maturity': 'FROZEN_V1.2.2',
+        'ack_required': False,
+        'payload': {
+          'type': 'object',
+          'additionalProperties': False,
+          'required': ['eventId', 'serverSequence'],
+          'properties': {
+            'eventId': {'type': 'string', 'format': 'uuid'},
+            'serverSequence': {'type': 'integer', 'format': 'int64', 'minimum': 1},
+          },
+        },
+      },
+      {
+        'code': 'system.resume',
+        'direction': 'S2C',
+        'description': '声明重放完成或要求按服务端水位执行REST补洞',
+        'release': 'R14/R15',
+        'contract_maturity': 'FROZEN_V1.2.2',
+        'ack_required': False,
+        'payload': {
+          'type': 'object',
+          'additionalProperties': False,
+          'required': [
+            'mode', 'requestedLastServerSequence', 'serverHighWatermark',
+            'resumeFromServerSequence', 'affectedScopes',
+          ],
+          'properties': {
+            'mode': {'type': 'string', 'enum': ['REPLAY_COMPLETE', 'REST_GAP_FILL']},
+            'requestedLastServerSequence': {'type': 'integer', 'format': 'int64', 'minimum': 0},
+            'serverHighWatermark': {'type': 'integer', 'format': 'int64', 'minimum': 0},
+            'resumeFromServerSequence': {'type': 'integer', 'format': 'int64', 'minimum': 0},
+            'affectedScopes': {
+              'type': 'array',
+              'uniqueItems': True,
+              'maxItems': 2,
+              'items': {'type': 'string', 'enum': ['CHAT', 'NOTIFICATIONS']},
+            },
+          },
+        },
+      },
+    ]
+
+
+def websocket_status_row(event: dict, ws_sha: str) -> dict[str, str]:
+    owners = {
+      'system.delivery.ack': 'SCR-CHAT-001;SCR-CHAT-002;SYSTEM_RUNTIME',
+      'system.resume': 'SCR-CHAT-001;SCR-CHAT-002;SCR-MSG-001;SYSTEM_RUNTIME',
+    }
+    return {
+      '契约类型': 'WEBSOCKET',
+      '契约标识': event['code'],
+      'operationId': event['code'],
+      '计划版本': event['release'],
+      '成熟度': event['contract_maturity'],
+      '安全模型': 'Sec-WebSocket-Protocol:hhy.v1+hhy.access.<compact-JWT>;serverSequence',
+      '请求Schema': f"inline:{event['code']}.payload",
+      '响应Schema': f"inline:{event['code']}.payload",
+      '幂等': '是' if event['code'] == 'system.delivery.ack' else '否',
+      'UI/系统所有者': owners[event['code']],
+      '事实源': 'contracts/websocket-events.yaml',
+      '事实源SHA256': ws_sha,
+      '冻结日期': WEBSOCKET_FREEZE_DATE,
+      '变更策略': '只允许向后兼容新增事件/字段；序列语义和ACK协议不得破坏性变更',
+    }
+
+
+def synchronize_websocket_contract() -> int:
+    contract_path = ROOT / 'contracts/websocket-events.yaml'
+    runtime_path = ROOT / 'services/backend/boot/src/main/resources/contracts/websocket-events.yaml'
+    registry_path = 'contracts/contract_status.csv'
+    openapi_paths = (ROOT / 'contracts/openapi.yaml', ROOT / 'contracts/admin-openapi.yaml')
+    openapi_hashes = {path: hashlib.sha256(path.read_bytes()).hexdigest() for path in openapi_paths}
+
+    ws = yaml.safe_load(contract_path.read_text(encoding='utf-8'))
+    events_by_code = {event['code']: event for event in ws.get('events', [])}
+    allowed_codes = set(LEGACY_WEBSOCKET_EVENT_CODES + NEW_WEBSOCKET_EVENT_CODES)
+    if set(events_by_code) - allowed_codes:
+        raise SystemExit(f"unknown websocket events: {sorted(set(events_by_code) - allowed_codes)}")
+    missing_legacy = set(LEGACY_WEBSOCKET_EVENT_CODES) - set(events_by_code)
+    if missing_legacy:
+        raise SystemExit(f"missing legacy websocket events: {sorted(missing_legacy)}")
+    legacy_snapshot = {
+      code: json.dumps(events_by_code[code], ensure_ascii=False, sort_keys=True)
+      for code in LEGACY_WEBSOCKET_EVENT_CODES
+    }
+    definitions_snapshot = json.dumps(ws.get('definitions', {}), ensure_ascii=False, sort_keys=True)
+
+    ws['authentication'] = websocket_authentication_contract()
+    ws['delivery'] = websocket_delivery_contract()
+    ws['events'] = [events_by_code[code] for code in LEGACY_WEBSOCKET_EVENT_CODES] + new_websocket_events()
+    dump_yaml(contract_path, ws)
+
+    generated = yaml.safe_load(contract_path.read_text(encoding='utf-8'))
+    generated_by_code = {event['code']: event for event in generated['events']}
+    for code, snapshot in legacy_snapshot.items():
+        if json.dumps(generated_by_code[code], ensure_ascii=False, sort_keys=True) != snapshot:
+            raise SystemExit(f'legacy websocket event drift: {code}')
+    if json.dumps(generated.get('definitions', {}), ensure_ascii=False, sort_keys=True) != definitions_snapshot:
+        raise SystemExit('websocket definitions drift')
+
+    runtime_path.parent.mkdir(parents=True, exist_ok=True)
+    runtime_path.write_bytes(contract_path.read_bytes())
+    ws_sha = hashlib.sha256(contract_path.read_bytes()).hexdigest()
+    rows = read_csv(registry_path)
+    fields = list(rows[0])
+    ws_indexes = [
+      index for index, row in enumerate(rows)
+      if row.get('事实源') == 'contracts/websocket-events.yaml'
+    ]
+    if not ws_indexes:
+        raise SystemExit('contract registry has no websocket rows')
+    insertion_index = sum(
+      1 for row in rows[:ws_indexes[0]]
+      if row.get('事实源') != 'contracts/websocket-events.yaml'
+    )
+    existing_ws_rows = {
+      row['契约标识']: row for row in rows
+      if row.get('事实源') == 'contracts/websocket-events.yaml'
+    }
+    non_ws_before = [
+      row.copy() for row in rows
+      if row.get('事实源') != 'contracts/websocket-events.yaml'
+    ]
+    generated_rows = []
+    for event in generated['events']:
+        if event['code'] in existing_ws_rows:
+            row = existing_ws_rows[event['code']].copy()
+            row['事实源SHA256'] = ws_sha
+        else:
+            row = websocket_status_row(event, ws_sha)
+        generated_rows.append(row)
+    without_ws = [
+      row for row in rows
+      if row.get('事实源') != 'contracts/websocket-events.yaml'
+    ]
+    rebuilt = without_ws[:insertion_index] + generated_rows + without_ws[insertion_index:]
+    if [row for row in rebuilt if row.get('事实源') != 'contracts/websocket-events.yaml'] != non_ws_before:
+        raise SystemExit('non-websocket contract registry rows changed')
+    write_csv(registry_path, rebuilt, fields)
+
+    for path, expected in openapi_hashes.items():
+        actual = hashlib.sha256(path.read_bytes()).hexdigest()
+        if actual != expected:
+            raise SystemExit(f'OpenAPI changed during websocket sync: {path.name}')
+    print(json.dumps({
+      'status': 'PASS',
+      'mode': 'sync-websocket',
+      'websocket_events': len(generated['events']),
+      'runtime_sha256': ws_sha,
+      'openapi_unchanged': True,
+      'non_websocket_registry_rows_unchanged': True,
+      'legacy_events_unchanged': True,
+      'definitions_unchanged': True,
+    }, ensure_ascii=False, indent=2))
+    return 0
 
 def refresh_contract_status(*, check: bool) -> int:
     """Refresh only authoritative-file hashes in the frozen registry.
@@ -748,7 +1676,7 @@ def full_rebuild():
     client=read_csv('catalogs/api_endpoints.csv'); admin=read_csv('catalogs/admin_api_endpoints.csv')
     cs=generate_spec(client,False); ads=generate_spec(admin,True)
     dump_yaml(ROOT/'contracts/openapi.yaml',cs); dump_yaml(ROOT/'contracts/admin-openapi.yaml',ads)
-    websocket_contract(); update_ui_schema_refs(client+admin)
+    synchronize_websocket_contract(); update_ui_schema_refs(client+admin)
     status=[]
     for kind,rows,rel in [('CLIENT_API',client,'contracts/openapi.yaml'),('ADMIN_API',admin,'contracts/admin-openapi.yaml')]:
         spec_path=ROOT/rel; spec_sha=hashlib.sha256(spec_path.read_bytes()).hexdigest()
@@ -765,11 +1693,20 @@ def full_rebuild():
 def main() -> int:
     parser=argparse.ArgumentParser(description='Safely synchronize frozen contract metadata.')
     parser.add_argument('--check',action='store_true',help='fail when contract registry hashes are stale')
+    parser.add_argument('--sync-websocket',action='store_true',help='safely update only WebSocket contract assets and registry rows')
+    parser.add_argument('--sync-r16',action='store_true',help='safely update only the frozen R16 product/order schemas and responses')
+    parser.add_argument('--sync-r14-report-reasons',action='store_true',help='safely synchronize the R14 chat report reason enum and runtime contract')
     parser.add_argument('--allow-legacy-full-rebuild',action='store_true',help='explicitly run the legacy catalog rebuild; may replace enriched schemas')
     args=parser.parse_args()
+    if sum(bool(value) for value in (args.check, args.sync_websocket, args.sync_r16, args.sync_r14_report_reasons, args.allow_legacy_full_rebuild)) > 1:
+        parser.error('--check, sync modes and --allow-legacy-full-rebuild are mutually exclusive')
+    if args.sync_websocket:
+        return synchronize_websocket_contract()
+    if args.sync_r16:
+        return synchronize_r16_contract()
+    if args.sync_r14_report_reasons:
+        return synchronize_r14_report_reasons_contract()
     if args.allow_legacy_full_rebuild:
-        if args.check:
-            parser.error('--check and --allow-legacy-full-rebuild are mutually exclusive')
         full_rebuild()
         return 0
     return refresh_contract_status(check=args.check)

@@ -1,0 +1,78 @@
+{
+  "schema": "hhy.r14-candidate-failure-evidence/v1",
+  "release": "R14",
+  "attempt": 17,
+  "github_run_id": "30505422466",
+  "head_commit": "4da8c8b3adf6d127b3170776149062bbee283f39",
+  "candidate_request_id": "R14-CANDIDATE-20260730-017",
+  "attempt_exception_id": "CR-0502",
+  "required_fix_commit": "913dbc31c0cdbd288ed7bcb5db8849f8de78f9a7",
+  "runtime_artifact": {
+    "name": "android-runtime-30505422466",
+    "downloaded_zip_sha256": "9a7ccaf3a874b857da6a88cdb01f0fd6ad046cfc3248d5f70dd920e0473f6a21",
+    "runtime_report_sha256": "96c52a73d1153e8b375d06465e4848dcc99c08ebc3c45a4e812f2613e3b6be01",
+    "runtime_status": "FAIL",
+    "owner_test_allowed": false
+  },
+  "successful_stages": [
+    "candidate request validation",
+    "Android compile",
+    "Android unit tests",
+    "Android lint",
+    "APK packaging",
+    "candidate backend routing",
+    "GitHub OIDC bootstrap",
+    "automatic session redemption",
+    "authenticated user load",
+    "home load",
+    "conversation list load twice",
+    "R14 conversation screen root visible"
+  ],
+  "server_http_evidence": [
+    {
+      "operation": "POST /internal-ci/v1/android/session",
+      "status": 200,
+      "latency_ms": 161,
+      "request_id": "c304e568-f090-4706-b242-b32f8f5656ae",
+      "timestamp": "2026-07-30T01:34:15.008324138Z"
+    },
+    {
+      "operation": "GET /api/v1/me",
+      "status": 200,
+      "latency_ms": 38,
+      "request_id": "640ed2af-f35d-47b4-9c1e-64d33f39a9ad",
+      "timestamp": "2026-07-30T01:34:16.376162303Z"
+    },
+    {
+      "operation": "GET /api/v1/home",
+      "status": 200,
+      "latency_ms": 59,
+      "request_id": "5daaa2b0-dd3d-400b-a921-3330c129ea1e",
+      "timestamp": "2026-07-30T01:34:18.278163243Z"
+    },
+    {
+      "operation": "GET /api/v1/conversations",
+      "status": 200,
+      "latency_ms": 41,
+      "request_id": "bfc41986-eb29-4243-bd9f-3290ad445654",
+      "timestamp": "2026-07-30T01:34:19.029600210Z"
+    },
+    {
+      "operation": "GET /api/v1/conversations",
+      "status": 200,
+      "latency_ms": 24,
+      "request_id": "1b5ef720-ffea-4bcd-a686-082c08ab7208",
+      "timestamp": "2026-07-30T01:34:19.305967571Z"
+    }
+  ],
+  "first_business_failure": {
+    "test": "ReleaseCandidateSmokeTest",
+    "source_line": 198,
+    "message": "Cannot find UI resource for text verification: r14.conversation.peer-name",
+    "screenshots_produced": []
+  },
+  "diagnosis": "The exact candidate backend redeemed the CI session and returned HTTP 200 for the authenticated user, home, and two conversation list requests. The R14 conversation screen root became visible, but UiAutomator did not export the Compose peer-name testTag as a resource in this run. This reproduces the cross-framework observation gap already tracked by PROB-0151; it is not evidence that the conversation API or fixture is missing.",
+  "required_fix": "Keep the existing peer-name and preview testTags and deadlines, but verify their unique nodes and exact text in the unmerged Compose semantics tree for initial load and filtered search. Remove the obsolete UiAutomator resource-text helper so this observation path cannot return.",
+  "fingerprint_round": 1,
+  "secrets_included": false
+}

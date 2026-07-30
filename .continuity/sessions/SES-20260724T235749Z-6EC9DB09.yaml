@@ -1,0 +1,136 @@
+protocol_version: '1.0'
+package_version: 1.2.3
+session_id: SES-20260724T235749Z-6EC9DB09
+status: CLOSED
+actor:
+  id: codex-root-r12-data-20260725
+  kind: AI_OR_HUMAN
+  host: unknown
+release: R12
+task_id: TASK-R12-002
+story_id: STORY-R12-008
+goal: 异常恢复 SES-20260724T195501Z-13F8DFDE：统一发布与发布管理数据迁移与领域不变量
+started_at: '2026-07-24T23:57:49Z'
+updated_at: '2026-07-25T02:47:14Z'
+takeover_of: SES-20260724T195501Z-13F8DFDE
+change_requests:
+- CR-0316
+- CR-0317
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions:
+  - contracts/openapi.yaml
+  - services/backend/boot/src/main/resources/contracts/openapi.yaml
+  - packages/api-client/src/client.generated.ts
+  - contracts/contract_status.csv
+  - scripts/generate_contracts.py
+  - scripts/check_api_contract.py
+  - catalogs/ui_action_matrix.csv
+  - catalogs/ui_page_fields.csv
+  - docs/02-ui/page-specs/android/SCR-MYC-002_草稿箱.md
+  - database/migrations/V039__r12_publish_management_invariants.sql
+  - services/backend/boot/src/main/resources/db/migration/V039__r12_publish_management_invariants.sql
+  - database/rollback/U039__r12_publish_management_invariants.sql
+  - database/tests/r12_publish_management_invariants.sql
+  - scripts/check_content_state_machine_projection.py
+  - scripts/run_r12_database_invariants.sh
+  - scripts/run_postgres_migration_smoke.sh
+  - scripts/run_r08_disposable_postgres_container.sh
+  - scripts/run_r09_disposable_postgres_container.sh
+  - scripts/check_db_schema.py
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentService.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentPostgresStore.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R08PostgresStore.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R09PostgresStore.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R10PostgresStore.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R11PostgresStore.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/ContentServiceTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R07PostgresStoreTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R08PostgresStoreTest.java
+  - database/tests/r06_content_home_invariants.sql
+  - database/tests/r07_contact_contract_alignment.sql
+  - database/tests/r07_search_invariants.sql
+  - database/tests/r08_project_invariants.sql
+  - database/tests/r09_app_promotion_invariants.sql
+  - database/tests/r10_group_promotion_invariants.sql
+  - database/tests/r11_team_leader_invariants.sql
+  - catalogs/data_tables.csv
+  - database/schema_dictionary.csv
+  - releases/R12/RELEASE_MANIFEST.yaml
+  - docs/03-continuity/R12_TASK-002_DATABASE_GATE.md
+  - CHANGELOG.md
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/P00FlywayMigrationTest.java
+  source: story+explicit+approved-cr:CR-0316+approved-cr:CR-0317
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  base_commit: 67436cb48ca2e9fb3c921744dd992022d574ce5d
+  start_head: 67436cb48ca2e9fb3c921744dd992022d574ce5d
+  upstream: origin/task/TASK-R03-001
+  initial_worktree_state: DIRTY_TAKEOVER
+lease:
+  duration_minutes: 240
+  renewed_at: '2026-07-25T02:47:09Z'
+  expires_at: '2026-07-25T06:47:09Z'
+checkpoint_sequence: 8
+latest_checkpoint: .continuity/checkpoints/SES-20260724T235749Z-6EC9DB09/0008.yaml
+session_log: docs/03-continuity/sessions/2026-07/SES-20260724T235749Z-6EC9DB09.md
+next_step: 提交关闭元数据Commit，然后运行pre-push/CI门禁
+context_pack:
+  yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
+  markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
+  manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+  context_hash: c94453086aa7f49fee1ba83c870f8491d70ba76079a6f990c6ad5044faf07ef6
+  generated_at: '2026-07-25T02:47:12Z'
+handoff_bundle: null
+closure:
+  result: COMPLETED
+  summary: TASK-R12-002统一发布数据库状态机、乐观版本、审核快照、Outbox绑定与软删除门禁完成
+  code_commit: 5e09dd4f80dc014611f93717b159f791403be457
+  next_release: R12
+  next_task: TASK-R12-003
+  blocked_advance: false
+  completed_independent_advance: false
+  user_confirmation: null
+  metadata_commit: PENDING
+  push_verification: CI_REQUIRED_AFTER_METADATA_COMMIT
+  started_at: '2026-07-25T02:47:05Z'
+  closure_checkpoint_id: CP-SES-20260724T235749Z-6EC9DB09-0008
+  closed_at: '2026-07-25T02:47:14Z'
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: CR与任务关闭修改同一连续性状态机且必须由唯一主控串行提交
+closed_at: '2026-07-25T02:47:14Z'

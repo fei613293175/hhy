@@ -1,0 +1,7 @@
+protocol_version: '1.0'
+active_session_id: SES-20260717T204616Z-254B60A3
+status: HANDED_OFF
+session_record: .continuity/sessions/SES-20260717T204616Z-254B60A3.yaml
+handoff_bundle: artifacts/handoffs/HOF-20260717T204650Z-SES-20260717T204616Z-254B60A3
+handoff_bundle_id: HOF-20260717T204650Z-SES-20260717T204616Z-254B60A3
+updated_at: '2026-07-17T20:46:50Z'

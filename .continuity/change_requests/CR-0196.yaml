@@ -1,0 +1,61 @@
+protocol_version: '1.0'
+cr_id: CR-0196
+title: 恢复R07搜索返回栈状态并补齐确认框语义
+status: CLOSED
+created_at: '2026-07-21T22:30:09Z'
+updated_at: '2026-07-21T23:51:33Z'
+requester_actor_id: codex-r07-candidate
+approver_actor_id: codex-release-audit
+task_id: TASK-R07-007
+session_id: SES-20260721T210252Z-D631F6E4
+user_request: 持续推进R07最终候选且GitHub修复必须有界收敛
+reason: 运行29872940610证明安全联系方式面板已通过，但搜索页普通remember在发布者子页面返回时丢失已提交查询，且AlertDialog属于同类独立语义窗口
+original_rule: 搜索页查询与已提交状态仅使用remember，子页面返回后允许重置为搜索首页；AlertDialog假设继承页面语义导出
+new_rule: 查询、筛选和已提交查询使用rememberSaveable，重建后自动重载结果；独立AlertDialog显式导出testTag资源ID
+impact_summary: 修复发布者页返回搜索结果的真实用户体验并确保最后清空历史确认框可观测，递增至有界attempt 3
+impact:
+  files:
+  - apps/android/feature/discovery/src/main/java/cc/orbexa/hhy/discovery/R07DiscoveryScreens.kt
+  - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+  - config/android-candidate-request.yaml
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - CHANGELOG.md
+  pages:
+  - SCR-SEARCH-002,DIALOG-SEARCH-001
+  apis: []
+  database: []
+  configuration:
+  - R07 candidate remediation_attempt 3
+  ledger: []
+  tests:
+  - Android受影响MODULE单测与instrumentation编译；本机既有API36模拟器完整R07旅程；GitHub候选attempt 3
+  releases:
+  - R07
+  migration_and_compatibility: 无API/数据库迁移；只保存非敏感公开搜索条件，不持久保存联系方式或授权明文
+user_confirmation: 项目所有者已授权持续推进和有界自动修复
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-21T22:30:15Z'
+  note: 保存内容限于公开搜索条件，返回栈行为符合成熟App习惯，独立窗口语义修复复用已证实规则
+machine_record: .continuity/change_requests/CR-0196.yaml
+document: docs/03-continuity/change-requests/CR-0196-恢复R07搜索返回栈状态并补齐确认框语义.md
+decision_log:
+- at: '2026-07-21T22:59:08Z'
+  actor_id: codex-root-r07-007
+  status: IMPLEMENTING
+  note: 搜索公开查询状态改为rememberSaveable并按返回栈重载真实结果；确认框独立语义和结果夹具断言已实现，Android模块编译与单测通过
+  session_id: SES-20260721T210252Z-D631F6E4
+- at: '2026-07-21T23:51:30Z'
+  actor_id: codex-root-r07-007
+  status: IMPLEMENTED
+  note: 批准范围已实现并由对应提交及R07候选/交付门禁验证。
+  session_id: SES-20260721T210252Z-D631F6E4
+- at: '2026-07-21T23:51:33Z'
+  actor_id: codex-root-r07-007
+  status: CLOSED
+  note: 实现提交已推送，相关受影响门禁均通过。
+  session_id: SES-20260721T210252Z-D631F6E4
+session_ids:
+- SES-20260721T210252Z-D631F6E4
+implementation_commits:
+- 69406d918b4c2aa6f1eea78baed48464e4f94277

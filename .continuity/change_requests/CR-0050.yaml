@@ -1,0 +1,60 @@
+protocol_version: '1.0'
+cr_id: CR-0050
+title: 精确登记R03 APK交付证据文件
+status: CLOSED
+created_at: '2026-07-18T17:21:36Z'
+updated_at: '2026-07-18T17:24:00Z'
+requester_actor_id: codex-root
+approver_actor_id: project-owner
+task_id: TASK-R03-007
+session_id: SES-20260718T165842Z-356A8138
+user_request: 项目所有者要求持续推进R03并将每版APK放到桌面供真机测试
+reason: CR-0049通配范围无法通过精确文件门禁，改为逐文件登记TASK-R03-007要求的六个证据文件
+original_rule: TASK-R03-007当前Story范围不包含artifacts目录，不能持久化任务要求的APK交付证据
+new_rule: 仅允许TASK-R03-007写入六个精确R03 APK交付证据文件
+impact_summary: 扩大范围只覆盖R03交付追溯文件，不改变产品代码、API、数据库、配置或验收标准
+impact:
+  files:
+  - artifacts/apk/R03/APK_MANIFEST.yaml
+  - artifacts/validation/r03-apk-delivery/delivery-evidence.json
+  - artifacts/validation/r03-task007-android/apk-signing.txt
+  - artifacts/validation/r03-task007-android/build-evidence.json
+  - artifacts/validation/r03-task007-android/gradle-build.log
+  - artifacts/reports/R03/TASK-R03-007-android-apk.md
+  pages: []
+  apis: []
+  database: []
+  configuration: []
+  ledger: []
+  tests:
+  - deliver_android_test_apk.py prepare/verify PASS
+  releases:
+  - R03
+  migration_and_compatibility: 仅新增证据和Manifest，无运行时迁移；真机状态继续保持PENDING直到项目所有者明确通过
+user_confirmation: 先继续推进开发下一个版本，我不让你暂停就不用停止，这个版本apk一会我测完告诉你
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-18T17:21:55Z'
+  note: 项目所有者已明确要求持续推进并交付桌面APK；批准六个精确R03追溯文件
+machine_record: .continuity/change_requests/CR-0050.yaml
+document: docs/03-continuity/change-requests/CR-0050-精确登记R03-APK交付证据文件.md
+decision_log:
+- at: '2026-07-18T17:21:57Z'
+  actor_id: codex-root
+  status: IMPLEMENTING
+  note: 开始写入已验证的R03 APK交付证据与报告
+  session_id: SES-20260718T165842Z-356A8138
+- at: '2026-07-18T17:23:58Z'
+  actor_id: codex-root
+  status: IMPLEMENTED
+  note: R03 APK六个精确证据文件已写入并由prepare/verify复核
+  session_id: SES-20260718T165842Z-356A8138
+- at: '2026-07-18T17:24:00Z'
+  actor_id: codex-root
+  status: CLOSED
+  note: 证据提交已推送，CR精确范围实现完成
+  session_id: SES-20260718T165842Z-356A8138
+session_ids:
+- SES-20260718T165842Z-356A8138
+implementation_commits:
+- 5cdfd38e50c563b345203b1255dc7fb67e618c46

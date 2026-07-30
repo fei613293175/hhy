@@ -1,0 +1,7 @@
+{
+  "schema": "hhy.r01.test-adapter/v1",
+  "test_id": "TST-DOR_001-SECURITY",
+  "central_runner": "scripts/run_r01_test_matrix.py",
+  "assignment_source": "local",
+  "runner": "documentation-r01"
+}

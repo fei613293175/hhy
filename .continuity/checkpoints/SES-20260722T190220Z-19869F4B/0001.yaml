@@ -1,0 +1,112 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260722T190220Z-19869F4B-0001
+session_id: SES-20260722T190220Z-19869F4B
+sequence: 1
+created_at: '2026-07-22T19:09:57Z'
+summary: 已完成R09-004只读审计：App列表、详情、发布编辑尚无Android实现；三页均存在精确效果图面板；H5外部下载数据结构与冻结公共页download结构不一致。
+next_step: 创建并批准R09-004跨端实现CR，采用PublicPageBlock CTA动作承载外部HTTPS链接，随后实现Android、H5与后台复用测试。
+blockers: []
+decisions:
+- SCR-LIST-002绑定B02/P06，SCR-DETAIL-002绑定B03/P02，SCR-PUB-003绑定B04/P04；无须效果图补充包。
+- 不伪造发布包versionCode或sha256；App推广外部下载通过既有NavigationTargetResource DOWNLOAD动作表达，公共页download字段保持为空。
+note: ''
+tests:
+- name: 本阶段未执行测试
+  result: NOT_RUN
+  evidence: ''
+  note: 本检查点仅完成只读合同、代码和效果图审计，尚未修改产品代码。
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: 536601aecf5e775466fe0a3c4225bc2bc3e633d8
+  upstream: origin/task/TASK-R03-001
+  ahead: 0
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/ACTIVE_SESSION.yaml'
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/SESSION_INDEX.yaml'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/TASK_CLAIMS.yaml'
+  - ' M .continuity/TASK_TRANSITIONS.yaml'
+  - ' M CURRENT_STATUS.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+  - ' M catalogs/session_index.csv'
+  - ' M catalogs/task_transition_ledger.csv'
+  - ?? .continuity/sessions/SES-20260722T190220Z-19869F4B.yaml
+  - ?? docs/03-continuity/sessions/2026-07/SES-20260722T190220Z-19869F4B.md
+  recent_commits:
+  - "536601aecf5e775466fe0a3c4225bc2bc3e633d8\t2026-07-23T03:01:18+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] docs(r09): close App backend\
+    \ task"
+  - "3f27a588499e9ca8e9679a85b9cf5b454447c76f\t2026-07-23T02:57:53+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] docs(cr): close R09 App backend"
+  - "e4f54c07b1b3cae024b5de42179a5e2cfb6f2c76\t2026-07-23T02:56:02+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] feat(content): implement App\
+    \ promotion backend"
+  - "4b4d71a63a5eccc428e2e04f04e13b2fa466bc72\t2026-07-23T02:31:25+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] docs(r09): close App data\
+    \ task"
+  - "a147db6de57534277d882755c9831793ecb02fdd\t2026-07-23T02:30:06+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] docs(cr): close R09 data invariants"
+  - "92dfb059bc78c48493c3300dc3d564a4bebbca73\t2026-07-23T02:28:18+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] feat(database): enforce App\
+    \ promotion invariants"
+  - "e336e79143572860308f6d3f372bd436b9f0131c\t2026-07-23T02:10:03+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] docs(r09): close readiness\
+    \ and UI audit"
+  - "d85bd820cdd6941d71dbbb4da31f98a5d9c05bef\t2026-07-23T02:06:01+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] docs(cr): close historical\
+    \ UI remediation"
+project_fingerprint:
+  sha256: 47e5cd40ea0e02905737e5054e7853ec738a9d5be3ec36c11674c12f8fcc744f
+  files: []
+  file_count: 0
+  payload:
+    base_commit: 536601aecf5e775466fe0a3c4225bc2bc3e633d8
+    files: []
+change_classification: {}
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+change_requests: []
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  - R09 App推广完整闭环客户端/H5/后台实现；严格绑定效果图与现有UI规格，不虚构业务；普通任务只跑受影响门禁。
+  approved_exceptions: []
+  source: story+explicit
+parallel_execution:
+  assessment: USER_SERIAL_OVERRIDE
+  delegated_workers: 0
+  workers: []
+  reason: 当前会话受用户要求连续单线推进，且没有显式要求子代理。
+event_hash: 85f40b9c64308804a9dfda95329911ef653c93bb5f9aecc83cd157aad8b107df

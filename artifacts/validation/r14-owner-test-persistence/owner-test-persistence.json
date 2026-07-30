@@ -1,0 +1,47 @@
+{
+  "schemaVersion": 1,
+  "release": "R14",
+  "sourceCommit": "89ccaf45cbecd0a5412e7d99057ee0036cd8f181",
+  "observedAt": "2026-07-30T04:30:32Z",
+  "rootCause": "api.orbexa.cc remained bound to a release-specific disposable smoke database, so accounts and the test invite became unavailable after cross-release route changes",
+  "remediation": {
+    "publicUpstream": "127.0.0.1:28140",
+    "backendContainer": "hhy-owner-test-api-89ccaf45",
+    "databaseContainer": "hhy-owner-test-postgres",
+    "databaseVolume": "hhy-owner-test-postgres-data",
+    "databaseNetwork": "hhy-owner-test",
+    "migrationMode": "FORWARD_ONLY",
+    "candidateDatabaseSeparated": true
+  },
+  "checks": {
+    "sourceSnapshotCreated": "PASS",
+    "persistentPostgresHealthy": "PASS",
+    "persistentApiHealthy": "PASS",
+    "flywaySchemaVersion": "044",
+    "requestedAccountExists": "PASS",
+    "requestedAccountActive": "PASS",
+    "requestedAccountProfileExists": "PASS",
+    "requestedAccountCredentialAlgorithm": "BCRYPT",
+    "requestedAccountFailedCountReset": "PASS",
+    "requestedAccountLockCleared": "PASS",
+    "requestedPasswordMatchesStoredHash": "PASS",
+    "publicPasswordLoginHttp": 200,
+    "publicPasswordLoginSessionIssued": "PASS",
+    "diagnosticLoginSessionRevoked": "PASS",
+    "durableInvitePresent": "PASS",
+    "publicPlatformStatusHttp": 200,
+    "publicInviteValidationHttp": 200,
+    "publicInviteStatus": "VALID",
+    "controlledRouteRestoreScript": "PASS",
+    "ciAutomationDisabledOnPersistentApi": "PASS",
+    "nginxConfigTest": "PASS",
+    "nginxReload": "PASS"
+  },
+  "sensitiveData": {
+    "phoneStored": false,
+    "passwordStored": false,
+    "passwordHashStored": false,
+    "databasePasswordStored": false,
+    "tokensStored": false
+  }
+}

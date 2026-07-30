@@ -1,0 +1,299 @@
+schema_version: 1
+policy_id: HHY-ANDROID-AUTOMATION-V1
+status: ENFORCED
+enforcement:
+  from_release: R06
+  grandfathered_releases:
+  - release: R05
+    reason: versionCode 10213 已于 2026-07-20 获得项目所有者整体真机体验通过
+  applies_to:
+  - VERSION_CANDIDATE
+  - APK_BUGFIX_CANDIDATE
+  owner_test_requires_candidate_status: PASS
+  test_apk_requires_candidate_status: false
+  machine_completion_requires_candidate_status: PASS
+  machine_completion_candidate_effective_from_release: R14
+  next_release_development_requires_machine_completion_status: PASS
+  next_release_development_requires_candidate_status: PASS
+  sequential_release_gate_effective_from_release: R14
+  release_complete_requires_owner_status: PASS
+  next_release_development_requires_owner_status: false
+  production_activation_requires_owner_status: PASS
+  owner_feedback_non_blocking_for_next_release: true
+  owner_feedback_required_per_version_before_next_release: false
+  owner_pending_blocks:
+  - FORMAL_RELEASE_ACCEPTANCE
+  - PRODUCTION_ACTIVATION
+  owner_pending_does_not_block:
+  - NEXT_RELEASE_DEVELOPMENT
+  - MACHINE_CANDIDATE
+  - DESKTOP_CANDIDATE_ACCUMULATION
+  - TEST_APK_DELIVERY
+build:
+  api_base_url: https://api.orbexa.cc
+  java_version: 21
+  compile_sdk: 37
+  required_gradle_tasks:
+  - verifyApiBaseUrl
+  - lintDebug
+  - testDebugUnitTest
+  - assembleDebug
+  - assembleDebugAndroidTest
+authentication:
+  mode: GITHUB_OIDC_ONE_TIME
+  bootstrap_ttl_seconds: 600
+  bootstrap_ttl_max_seconds: 600
+  session_ttl_seconds: 900
+  binding_claims:
+  - repository
+  - workflow_ref
+  - commit
+  - run_id
+  consume_once: true
+  production_enabled: false
+  bootstrap_retry:
+    retryable_http_statuses:
+    - 500
+    - 502
+    - 503
+    - 504
+    max_attempts: 3
+    backoff_seconds:
+    - 2
+    - 4
+    non_retryable_fail_fast: true
+    response_body_logging: false
+  public_route_activation:
+    required: true
+    script: scripts/switch_android_candidate_route.sh
+    confirmation_env: HHY_CANDIDATE_ROUTE_CONFIRM
+    nginx_config: /www/server/panel/vhost/nginx/api.orbexa.cc.conf
+    public_probe_url: https://api.orbexa.cc/public-api/v1/platform/status
+    required_proofs:
+    - candidate_source_commit_exact
+    - candidate_network_exact
+    - candidate_database_binding_exact
+    - candidate_mfa_volume_writable
+    - candidate_startup_version_fixture_exact
+    - owner_test_identity_exact_before_switch
+    - target_container_local_http_200
+    - target_startup_version_policy_http_200
+    - target_registration_invite_http_200
+    - nginx_upstream_exact
+    - nginx_config_test_pass
+    - public_registration_invite_http_200
+    - public_startup_version_policy_http_200
+    - public_request_id_in_target_container_log
+    - automatic_rollback_on_failure
+    - bounded_owner_test_route_lease
+    - automatic_owner_test_route_restore_scheduled
+  public_route_restoration:
+    required_after_candidate: true
+    script: scripts/restore_android_candidate_route.sh
+    applies_to_results:
+    - PASS
+    - FAIL
+    - CANCELLED
+    - INFRASTRUCTURE_FAILURE
+    maximum_route_lease_minutes: 45
+    required_proofs:
+    - owner_test_database_container_exact
+    - owner_test_database_volume_exact
+    - owner_test_database_network_exact
+    - owner_test_ci_automation_disabled
+    - owner_test_public_platform_http_200
+    - owner_test_public_invite_valid
+    - nginx_owner_test_upstream_exact
+emulator:
+  api_level: 35
+  target: google_apis
+  architecture: x86_64
+  profile: pixel_7
+  locale: zh-CN
+  orientation: portrait
+  visual_manifest_root: tests/android/visual-manifests
+  required_journeys:
+  - cold_start
+  - staging_oidc_session
+  - release_functional_interactions
+  - release_visual_matrix
+visual:
+  baseline_root: tests/android/visual-baselines
+  baseline_required_from_release: R06
+  baseline_bootstrap:
+    mode: SINGLE_EMULATOR_CAPTURE_THEN_LIGHTWEIGHT_PROMOTION
+    capture_status: BASELINE_REVIEW_REQUIRED
+    promotion_rebuild_allowed: false
+    promotion_emulator_allowed: false
+    source_binding:
+    - github_run_id
+    - release
+    - commit
+    - screenshot_sha256
+    - apk_sha256
+    promotion_rule: 首版无基线时只允许一次权威模拟器采集；AI批准原始截图和哈希后必须由轻量Actions复核原运行工件并晋升，禁止为了登记同一批基线再次编译或启动模拟器
+  max_mean_absolute_error: 14.0
+  max_changed_pixel_ratio: 0.1
+  changed_pixel_threshold: 24
+  minimum_cross_screen_changed_pixel_ratio: 0.005
+  stable_sample_interval_ms: 350
+  stable_sample_matches: 2
+  review_authority: AI_IMPLEMENTATION_AGENT
+  ai_acceptance_required_checks:
+  - frozen_design_and_token_match
+  - expected_screen_identity
+  - loaded_business_state
+  - stable_pixels
+  - distinct_screenshot_sha256
+  - no_sensitive_or_technical_text
+  - release_functional_journey_pass
+  rule: 基线必须来自冻结设计施工后的合格模拟器截图；AI实现代理按强制检查自主判定并登记哈希，不得等待项目所有者逐轮核实
+logs:
+  fatal_patterns:
+  - FATAL EXCEPTION
+  - ANR in cc.orbexa.hhy
+  - Process cc.orbexa.hhy.debug has died
+  - AndroidRuntime:.*cc.orbexa.hhy
+  forbidden_visible_patterns:
+  - 请求编号
+  - TraceId
+  - 暂时无法连接
+remediation:
+  max_ai_attempts: 3
+  candidate_authorization:
+    mode: AI_STANDING_DELEGATION
+    authority: AI_IMPLEMENTATION_AGENT
+    standing_owner_confirmation_cr: CR-0358
+    prompt_owner_each_attempt: false
+    require_previous_request_consumed: true
+    require_distinct_root_cause: true
+    require_fix_evidence: true
+    require_change_request: true
+    require_contiguous_attempts: true
+    require_unique_request_id: true
+    max_candidate_runs: 1
+    owner_only_actions:
+    - NEW_SECRET
+    - THIRD_PARTY_PERMISSION
+    - FUNDS_OR_LEDGER_POLICY
+    - PRODUCTION_ACTIVATION
+  failure_issue_title_prefix: '[Android CI]'
+  required_status: REMEDIATION_REQUIRED
+  retry_rule: 编译或测试确定性失败必须修改后重新提交；仅业务测试开始前且日志明确证明为GitHub、网络、镜像或Staging接口瞬态故障时，允许同一Commit只重跑失败作业及其依赖一次，禁止重跑已通过阶段或修改业务代码；同一瞬态再次出现必须停止重跑并检查Staging健康与基础设施
+  transient_retry:
+    proof_required: true
+    allowed_failure_classes:
+    - GITHUB_INFRASTRUCTURE
+    - NETWORK
+    - RUNNER_IMAGE
+    - STAGING_HTTP_5XX_BEFORE_BUSINESS_TEST
+    max_same_commit_reruns: 1
+    rerun_scope: FAILED_JOBS_AND_DEPENDENTS_ONLY
+    preserve_successful_jobs: true
+    business_code_change_allowed: false
+    repeated_transient_action: STOP_RERUN_AND_DIAGNOSE_STAGING_OR_INFRASTRUCTURE
+  escalation_rule: 同一根因连续三轮仍失败或需要项目所有者新增秘密/第三方权限时才允许升级
+delivery:
+  candidate_status: PASS
+  desktop_copy_after_actions_pass: true
+  desktop_test_guide_required: true
+  owner_feedback_mode: ASYNC_NON_BLOCKING
+  owner_feedback_required_before_next_release: false
+  production_activation_requires_owner_acceptance: true
+  required_evidence:
+  - build-report
+  - unit-test-report
+  - lint-report
+  - instrumentation-report
+  - screenshots
+  - logcat
+  - runtime-analysis
+  - apk-sha256
+  forbid_owner_request_before_pass: true
+  forbid_release_completion_before_pass: true
+  candidate_fields_scope: AUTOMATED_CANDIDATE_ONLY
+  test_apk:
+    mode: OBX_TEST_FIXED_TOOLCHAIN
+    github_emulator_required: false
+    owner_feedback_mode: ASYNC_NON_BLOCKING
+    continue_next_release_when_owner_pending: true
+    signing_profile:
+      profile_id: hhy-staging-test-v2
+      secret_ref: secretref://obx-test/hhy/android/test-signing/v2
+      certificate_sha256: e32a9d7ff8a209d2903db6383b461b259f0018a698d1f3646e6ed7f1112671be
+      effective_from_release: R13
+      server_directory_mode: '0700'
+      secret_file_mode: '0600'
+      previous_profile:
+        profile_id: hhy-staging-test-v1
+        certificate_sha256: f17b040789a845244ff9e2a9d8aedc1e7412adea0539d99c5cc036baf5dbb873
+        status: RETIRED_PRIVATE_KEY_UNAVAILABLE
+      first_install_migration: UNINSTALL_PRE_R13_TEST_APK_ONCE
+    required_evidence:
+    - frozen_commit
+    - official_api_base_url
+    - compile
+    - unit_tests
+    - lint
+    - assemble_apk
+    - stable_test_signing
+    - version_identity
+    - repository_desktop_server_https_sha256
+    - desktop_test_guide
+  automated_candidate:
+    mode: MAJOR_RELEASE_MACHINE_CLOSE_REQUIRED
+    required_for_test_apk_delivery: false
+    required_for_next_release_development: true
+    trigger_classes:
+    - MAJOR_RELEASE_MACHINE_COMPLETION
+    - AUTHENTICATION_HIGH_RISK
+    - PAYMENT_OR_LEDGER_HIGH_RISK
+    - APP_UPGRADE_HIGH_RISK
+    - HISTORICAL_VISUAL_AUDIT
+    - OWNER_EXPLICIT_REQUEST
+    failure_blocks:
+    - MACHINE_COMPLETION
+    - NEXT_RELEASE_DEVELOPMENT
+    - AUTOMATED_CANDIDATE_ACCEPTANCE
+    - PRODUCTION_AUTOMATION_EVIDENCE
+execution_tiers:
+  fast_commit:
+    trigger: affected Android source or workflow_call with candidate=false
+    required:
+    - policy_and_api_base_url
+    - ui_foundation_and_tokens
+    - compile_and_package
+    - unit_tests
+    - lint
+    emulator_allowed: false
+    candidate_artifact_allowed: false
+  test_apk:
+    trigger: completed major release or explicit owner test package request
+    required:
+    - fast_commit
+    - obx_test_fixed_toolchain
+    - stable_test_signing
+    - version_identity_and_four_way_sha
+    emulator_allowed: false
+    next_release_blocking: false
+  release_candidate:
+    trigger: R14起大版本机器完成或其他已验证的config/android-candidate-request.yaml，或workflow_dispatch with candidate=true
+    required:
+    - fast_commit
+    - emulator_install_and_journeys
+    - screenshots_and_visual_comparison
+    - logcat_crash_anr_analysis
+    - candidate_report_and_apk
+    owner_test_requires_pass: true
+candidate_request:
+  file: config/android-candidate-request.yaml
+  validator: scripts/android_candidate_request.py
+  workflow: .github/workflows/android-candidate-request.yml
+  reusable_quality_gate: .github/workflows/android-quality-gate.yml
+  allowed_releases: R06-R32
+  remediation_attempt_range: 1-3
+  rule: R14起每个大版本机器完成及下一业务版本领取必须通过一次该版本专属真实交互候选；请求必须进入事实分支并通过同一权威质量门禁，普通请求仅允许1至3，只有retired_legacy_exception_list全字段精确匹配时才允许其登记的单次轮次，且不得改变全局max_ai_attempts=3；候选失败不阻断固定环境TEST_APK先行交付，但阻断该版机器完成、下一业务版本领取、候选接受和生产自动证据；不得用普通CI的中间APK或截图数量替代交互候选产物
+governance_v50:
+  maximum_total_attempts_per_task: 3
+  overrides_allowed: false
+  infrastructure_auto_retries: 0

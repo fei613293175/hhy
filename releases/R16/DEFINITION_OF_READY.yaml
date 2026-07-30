@@ -3,6 +3,22 @@ release: R16
 title: 商品、SKU、报价与统一订单
 status: PASS_DOCUMENTATION_READY
 interpretation: 该结论仅表示开发前文档和施工契约完整；软件编译、运行、供应商联调、压测和上线验收仍在对应实施/退出门禁完成。
+entry_contract_correction:
+  cr_id: CR-0440
+  verified_at: '2026-07-28'
+  evidence: artifacts/validation/r16-entry/entry-contract.json
+  explicit_resources:
+  - ProductResource
+  - ProductSkuResource
+  - BenefitResource
+  - OrderResource
+  - OrderItemResource
+  - OrderPriceSnapshotResource
+  - NoRefundEvidenceResource
+  visual_contracts:
+  - SCR-ORDER-001=B08/P04
+  - SCR-ORDER-002=SPEC:design/R16-UI-FROZEN/specs/SCR-ORDER-002.md
+  - ADM-ORDER-001=SPEC:design/R16-UI-FROZEN/specs/ADM-ORDER-001.md
 gates:
 - 版本: R16
   门禁ID: R16-DOR-01

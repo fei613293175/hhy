@@ -1,0 +1,59 @@
+protocol_version: '1.0'
+cr_id: CR-0016
+title: 端到端持久化幂等首次响应与撤销会话安全重放
+status: CLOSED
+created_at: '2026-07-17T12:38:22Z'
+updated_at: '2026-07-17T13:54:15Z'
+requester_actor_id: codex-root
+approver_actor_id: codex-engineering-audit
+task_id: TASK-R01-005
+session_id: SES-20260717T122518Z-91E6F4D6
+user_request: 用户已授权继续开发并完整交付R01
+reason: CR-0015独立审核拒绝后重构方案：除响应快照外必须覆盖认证层对已撤销会话的严格replay-only通道，并补齐版本化AEAD、密钥轮换、AAD和闭锁边界
+original_rule: R01七个POST仅保存可变资源引用，认证层拒绝已撤销会话，无法在响应丢失后端到端返回首次结果
+new_rule: 七个POST原子保存版本化AEAD首次响应快照；AES-256-GCM使用随机96位nonce，密钥从版本化MFA根密钥经SHA-256域分离派生，AAD严格绑定scope+idem_key+request_hash+response_type；密文信封包含算法和密钥版本，当前与previous
+  root key均可解密，未知版本/篡改/类型不符立即闭锁且绝不记录明文或密文。认证过滤器仅对签名有效且未过期、会话已撤销、携带幂等键、命中白名单R01重放端点的Bearer建立replayOnly主体；Service对replayOnly仅允许已完成且摘要匹配的快照，缺失快照或新业务请求返回401且零副作用
+impact_summary: 修复login、mfa verify、logout、password change、MFA enroll/confirm/disable在提交后响应丢失、状态变化及会话撤销后的端到端首次响应一致性；新增认证层replay-only最小权限通道、AEAD组件、V016迁移/回滚和HTTP/篡改/轮换回归，不改变OpenAPI字段
+impact:
+  files:
+  - services/backend/**;database/**;catalogs/data_tables.csv;database/schema_dictionary.csv;docs/07-operations/DEPLOYMENT_RUNBOOK.md
+  pages: []
+  apis:
+  - R01七个POST的认证后幂等重放
+  database:
+  - idempotency_records
+  configuration:
+  - HHY_ADMIN_MFA_ROOT_SECRET_VERSION;HHY_ADMIN_MFA_PREVIOUS_ROOT_SECRETS
+  ledger: []
+  tests:
+  - 七POST首次响应快照/会话撤销HTTP重放/AAD篡改/随机nonce/previous-key轮换/回滚阻断/并发单副作用
+  releases:
+  - R01
+  migration_and_compatibility: V016新增nullable response_type/response_payload_ciphertext；旧记录继续按response_ref兼容回放；新密文以版本化信封写入且轮换期间由HHY_ADMIN_MFA_PREVIOUS_ROOT_SECRETS保留旧版本至少24小时；U016在存在任何密文快照时硬失败，避免数据丢失；响应快照TTL届满后按现有记录清理
+user_confirmation: 用户已授权继续开发并完整交付R01
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-17T12:39:48Z'
+  note: APPROVED，严格限于R01七个既有POST及其幂等基础设施，不得借此新增接口、业务或放宽普通认证。replay-only仅允许精确白名单POST路径，必须同时满足签名有效且未过期的ACCESS Bearer、数据库中sid/sub/jti严格匹配且会话已撤销、X-Idempotency-Key存在；主体只能携带专用replayOnly标记，不授予可复用业务权限。Service必须先命中同scope/key的已完成快照再返回；无记录、未完成或非白名单一律401且零副作用，摘要不一致仍按冻结契约返回COMMON-409-IDEMPOTENCY_CONFLICT。AEAD仅AES-256-GCM，SecureRandom每次生成独立96位nonce和128位tag；使用固定独立域标签从版本化MFA根密钥派生，信封显式保存算法/格式版本/密钥版本/nonce/密文，AAD用无歧义规范编码绑定scope、idem_key、request_hash、response_type。未知版本、AAD/密文篡改、类型不符或反序列化失败必须闭锁：禁止回退重建、删除/覆盖记录、执行业务副作用或记录明文/密文/令牌/QR秘密。旧记录仅在两个新列均为空时继续response_ref兼容；新记录必须response_type与TEXT密文同事务原子完成，禁止半快照。previous密钥至少保留完整24小时TTL且版本唯一。U016只要任一快照列存在数据即硬失败，确认无快照后方可删列。必须覆盖七POST首次结果、logout/changePassword撤销后HTTP重放、白名单越界、摘要冲突、并发单副作用、随机nonce、AAD/密文/类型篡改、当前/previous轮换、未知版本闭锁、旧记录兼容及U016阻断测试。
+machine_record: .continuity/change_requests/CR-0016.yaml
+document: docs/03-continuity/change-requests/CR-0016-端到端持久化幂等首次响应与撤销会话安全重放.md
+decision_log:
+- at: '2026-07-17T12:41:32Z'
+  actor_id: codex-root
+  status: IMPLEMENTING
+  note: 按独立审批边界实施版本化AEAD快照与replay-only端到端重放
+  session_id: SES-20260717T122518Z-91E6F4D6
+- at: '2026-07-17T13:11:30Z'
+  actor_id: codex-root
+  status: IMPLEMENTED
+  note: 实现与本地静态/契约/前端测试完成；待云端Maven21、PostgreSQL17和真实HTTP验证后关闭
+  session_id: SES-20260717T122518Z-91E6F4D6
+- at: '2026-07-17T13:54:15Z'
+  actor_id: codex-root
+  status: CLOSED
+  note: 云端Java21全模块74项测试、PostgreSQL17十一个迁移不变量、真实PG集成测试与隔离真实API故障注入全部通过；27项R01权威测试矩阵27/27 PASS，失败或缺失为0，端到端幂等安全重放变更关闭。
+  session_id: SES-20260717T122518Z-91E6F4D6
+session_ids:
+- SES-20260717T122518Z-91E6F4D6
+implementation_commits:
+- 79bbd45d22d16b334330b4b36f2fbb489d5e73f0

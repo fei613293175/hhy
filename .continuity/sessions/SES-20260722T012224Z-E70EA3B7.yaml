@@ -1,0 +1,134 @@
+protocol_version: '1.0'
+package_version: 1.2.3
+session_id: SES-20260722T012224Z-E70EA3B7
+status: CLOSED
+actor:
+  id: codex-root-r08-003
+  kind: AI_OR_HUMAN
+  host: unknown
+release: R08
+task_id: TASK-R08-003
+story_id: STORY-R08-004
+goal: 项目推广完整闭环后端应用服务与接口
+started_at: '2026-07-22T01:22:24Z'
+updated_at: '2026-07-22T03:13:08Z'
+takeover_of: null
+change_requests:
+- CR-0211
+- CR-0212
+- CR-0213
+- CR-0214
+- CR-0215
+- CR-0216
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions:
+  - contracts/openapi.yaml
+  - contracts/contract_status.csv
+  - services/backend/boot/src/main/resources/contracts/openapi.yaml
+  - packages/api-client/src/client.generated.ts
+  - database/migrations/V034__r08_backend_configuration.sql
+  - services/backend/boot/src/main/resources/db/migration/V034__r08_backend_configuration.sql
+  - database/rollback/U034__r08_backend_configuration.sql
+  - database/tests/r08_backend_configuration.sql
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentContracts.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentService.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentStore.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentPostgresStore.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R08Contracts.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R08Service.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R08Store.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R08PostgresStore.java
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/R08Controller.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/R08ControllerContractTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R08ServiceTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R08PostgresStoreTest.java
+  - tests/test_r08_backend_contract.py
+  - tests/test_r08_backend_configuration.py
+  - scripts/run_r08_backend_postgres_integration.sh
+  - artifacts/reports/R08/TASK-R08-003-backend.md
+  - CHANGELOG.md
+  - .continuity/CONTINUITY_POLICY.yaml
+  - docs/00-baseline/正式商业系统全局硬性开发边界.md
+  - docs/02-ui/UI参考图使用与开发约束_V1.2.2.md
+  - catalogs/ui_visual_acceptance.csv
+  - scripts/check_ui_visual_acceptance.py
+  - tests/test_ui_visual_acceptance.py
+  - releases/R08/TASKS.yaml
+  - artifacts/validation/continuity-integration-v1.2.3.json
+  - artifacts/validation/continuity-integration-v1.2.3.log
+  - artifacts/validation/continuity-lifecycle-integration-v1.2.3.json
+  - artifacts/validation/continuity-lifecycle-integration-v1.2.3.log
+  source: story+explicit+approved-cr:CR-0211+approved-cr:CR-0212+approved-cr:CR-0213+approved-cr:CR-0214
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  base_commit: 2e09ed18f835ab325b8b88afb7fab062547cac9b
+  start_head: 2e09ed18f835ab325b8b88afb7fab062547cac9b
+  upstream: origin/task/TASK-R03-001
+  initial_worktree_state: CLEAN
+lease:
+  duration_minutes: 240
+  renewed_at: '2026-07-22T03:13:04Z'
+  expires_at: '2026-07-22T07:13:04Z'
+checkpoint_sequence: 12
+latest_checkpoint: .continuity/checkpoints/SES-20260722T012224Z-E70EA3B7/0012.yaml
+session_log: docs/03-continuity/sessions/2026-07/SES-20260722T012224Z-E70EA3B7.md
+next_step: 提交关闭元数据Commit，然后运行pre-push/CI门禁
+context_pack:
+  yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
+  markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
+  manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+  context_hash: ca07a862e2d0ee7b07b12ac3233deed3f3bf327cac78a950f6168091e7b7a22c
+  generated_at: '2026-07-22T03:13:07Z'
+handoff_bundle: null
+closure:
+  result: COMPLETED
+  summary: R08项目发布与详情后端闭环完成：九项页面依赖、V033/V034、真实PostgreSQL Store 3项和后端MODULE 340项均通过，P0/P1为0。
+  code_commit: d7b5b84b
+  next_release: R08
+  next_task: TASK-R08-004
+  blocked_advance: false
+  user_confirmation: null
+  metadata_commit: PENDING
+  push_verification: CI_REQUIRED_AFTER_METADATA_COMMIT
+  started_at: '2026-07-22T03:13:01Z'
+  closure_checkpoint_id: CP-SES-20260722T012224Z-E70EA3B7-0012
+  closed_at: '2026-07-22T03:13:08Z'
+parallel_execution:
+  assessment: CAPABILITY_UNAVAILABLE
+  delegated_workers: 0
+  workers: []
+  reason: 当前运行模式明确不允许自主启动子代理；任务关闭事实由主控串行复核。
+closed_at: '2026-07-22T03:13:08Z'

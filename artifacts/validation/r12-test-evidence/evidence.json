@@ -1,0 +1,101 @@
+{
+  "schema": "hhy.r12.specialized-evidence/v1",
+  "suite": "r12-java21-postgresql17-android-publish-management",
+  "source_commit": "5419d68255dcc965c2c31fcb3006f616d9f8c38a",
+  "environment": {
+    "host": "obx-test isolated containers",
+    "java": "Eclipse Temurin 21",
+    "postgresql": "PostgreSQL 17.10 disposable container",
+    "android_gradle_jdk": "Eclipse Temurin 21.0.9"
+  },
+  "results": [
+    {
+      "test_id": "TST-CONTENT_002-HAPPY",
+      "status": "PASS",
+      "exit_code": 0,
+      "assertions": [
+        "owner-scoped content management, copy and analytics contracts pass",
+        "submit, copy and delete commit with version history and Outbox in PostgreSQL 17",
+        "Android content state and local analytics recovery follow the frozen contract"
+      ],
+      "artifacts": [
+        { "path": "backend-java21.log", "sha256": "8526f1421842de9bc5619eb6afa20fae33a2d6798c84c7101ccd0b2f1ebf1389" },
+        { "path": "postgresql17.log", "sha256": "4ff88496ab06bdf8f5a02d821aa7b5adeb4c6c7add3cc0c0e16d932098209c03" },
+        { "path": "android-module.log", "sha256": "33d18a7c972cfa577c5e3167a2647d4da80087703e8bce6516c695594ce502bb" }
+      ]
+    },
+    {
+      "test_id": "TST-CONTENT_002-IDEMPOTENT",
+      "status": "PASS",
+      "exit_code": 0,
+      "assertions": [
+        "a lost response replays the completed snapshot without duplicate content writes or Outbox",
+        "the same key with a different body is rejected before content locking",
+        "eight PostgreSQL contenders have exactly one idempotency owner"
+      ],
+      "artifacts": [
+        { "path": "backend-java21.log", "sha256": "8526f1421842de9bc5619eb6afa20fae33a2d6798c84c7101ccd0b2f1ebf1389" },
+        { "path": "postgresql17.log", "sha256": "4ff88496ab06bdf8f5a02d821aa7b5adeb4c6c7add3cc0c0e16d932098209c03" },
+        { "path": "android-module.log", "sha256": "33d18a7c972cfa577c5e3167a2647d4da80087703e8bce6516c695594ce502bb" }
+      ]
+    },
+    {
+      "test_id": "TST-CONTENT_002-REJECT",
+      "status": "PASS",
+      "exit_code": 0,
+      "assertions": [
+        "foreign ownership, illegal state and concurrent version loss produce no success side effects",
+        "shared storage provider failure does not advance migration state and remains resumable",
+        "Android reject and recovery states expose no technical identifiers"
+      ],
+      "artifacts": [
+        { "path": "backend-java21.log", "sha256": "8526f1421842de9bc5619eb6afa20fae33a2d6798c84c7101ccd0b2f1ebf1389" },
+        { "path": "android-module.log", "sha256": "33d18a7c972cfa577c5e3167a2647d4da80087703e8bce6516c695594ce502bb" }
+      ]
+    },
+    {
+      "test_id": "TST-PUBLISH_001-HAPPY",
+      "status": "PASS",
+      "exit_code": 0,
+      "assertions": [
+        "submit persists one versioned snapshot, status history record and transactional Outbox event",
+        "the ten frozen publishing controller operations have one landing each",
+        "Android exposes exactly four frozen publish types and never claims approval at submission"
+      ],
+      "artifacts": [
+        { "path": "backend-java21.log", "sha256": "8526f1421842de9bc5619eb6afa20fae33a2d6798c84c7101ccd0b2f1ebf1389" },
+        { "path": "postgresql17.log", "sha256": "4ff88496ab06bdf8f5a02d821aa7b5adeb4c6c7add3cc0c0e16d932098209c03" },
+        { "path": "android-module.log", "sha256": "33d18a7c972cfa577c5e3167a2647d4da80087703e8bce6516c695594ce502bb" }
+      ]
+    },
+    {
+      "test_id": "TST-PUBLISH_001-IDEMPOTENT",
+      "status": "PASS",
+      "exit_code": 0,
+      "assertions": [
+        "retry with the same request and key returns the first result with one transition and one Outbox",
+        "a different request reusing the key returns COMMON-409-IDEMPOTENCY_CONFLICT",
+        "PostgreSQL unique ownership and Android stable intent keys remain deterministic"
+      ],
+      "artifacts": [
+        { "path": "backend-java21.log", "sha256": "8526f1421842de9bc5619eb6afa20fae33a2d6798c84c7101ccd0b2f1ebf1389" },
+        { "path": "postgresql17.log", "sha256": "4ff88496ab06bdf8f5a02d821aa7b5adeb4c6c7add3cc0c0e16d932098209c03" },
+        { "path": "android-module.log", "sha256": "33d18a7c972cfa577c5e3167a2647d4da80087703e8bce6516c695594ce502bb" }
+      ]
+    },
+    {
+      "test_id": "TST-PUBLISH_001-REJECT",
+      "status": "PASS",
+      "exit_code": 0,
+      "assertions": [
+        "identity and ownership rejection occur before business writes",
+        "configuration timeout and a concurrent transition loser emit no status, snapshot, Outbox or completion",
+        "Android blocks invalid submission states and never blindly retries an unknown result"
+      ],
+      "artifacts": [
+        { "path": "backend-java21.log", "sha256": "8526f1421842de9bc5619eb6afa20fae33a2d6798c84c7101ccd0b2f1ebf1389" },
+        { "path": "android-module.log", "sha256": "33d18a7c972cfa577c5e3167a2647d4da80087703e8bce6516c695594ce502bb" }
+      ]
+    }
+  ]
+}

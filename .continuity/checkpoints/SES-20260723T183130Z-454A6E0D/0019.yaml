@@ -1,0 +1,409 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260723T183130Z-454A6E0D-0019
+session_id: SES-20260723T183130Z-454A6E0D
+task_id: TASK-R11-004
+story_id: STORY-R11-003
+sequence: 19
+created_at: '2026-07-23T23:07:24Z'
+summary: 关闭 TASK-R11-004：TASK-R11-004完成：团队长列表、详情、资料创建编辑三页纵向闭环，首页Navigation回接，后台统一内容列表与团队长运营详情，H5-007按R28显式N/A；Android、admin-web、生成资产和连续性证据PASS。
+next_step: 提交关闭元数据Commit，然后运行pre-push/CI门禁
+blockers: []
+decisions:
+- 任务结果：COMPLETED
+- 实现Commit：7f3483f8
+- 任务转换：TRN-20260723T230723Z-SES-20260723T183130Z-454A6E0D
+- 下一Release：R11
+note: 该检查点专门绑定最终关闭元数据Commit
+tests:
+- name: ANDROID_SOURCE_DRIFT
+  result: PASS
+  evidence: git diff 1634f634..HEAD -- apps/android empty
+  note: 已验证Android实现后无源码变化
+- name: R11_ANDROID_MODULE
+  result: PASS
+  evidence: CP-0013 remote module and network serialization
+  note: 团队长列表详情编辑及序列化已通过
+- name: ADMIN_WEB_MODULE
+  result: PASS
+  evidence: 22 files / 98 tests and production build
+  note: 统一后台团队长详情与既有页面回归
+- name: H5_RELEASE_OWNERSHIP
+  result: PASS
+  evidence: H5-007=R28 STORY-R28-003
+  note: R11显式N/A
+- name: GENERATED_ASSETS
+  result: PASS
+  evidence: GENERATED_ASSETS_OK
+  note: OpenAPI类型与运行时资产一致
+- name: continuity closure metadata
+  result: PASS
+  evidence: catalogs/task_transition_ledger.csv;CHANGELOG.md;CURRENT_STATUS.yaml;NEXT_TASK.yaml
+  note: 关闭元数据、任务转换和下一任务已原子生成
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: f156b9673a093e87261d4926146134fe555a409d
+  upstream: origin/task/TASK-R03-001
+  ahead: 22
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/sessions/SES-20260723T183130Z-454A6E0D.yaml'
+  - ' M CHANGELOG.md'
+  - ' M NEXT_TASK.yaml'
+  - ' M catalogs/session_index.csv'
+  - ' M releases/R11/TASKS.yaml'
+  recent_commits:
+  - "f156b9673a093e87261d4926146134fe555a409d\t2026-07-24T07:05:23+08:00\tHHY Continuity Bootstrap\t[STORY-R11-003] chore(continuity): close admin\
+    \ changes"
+  - "7f3483f8335c6601aaf757e12b5ceac3c608949d\t2026-07-24T07:02:00+08:00\tHHY Continuity Bootstrap\t[STORY-R11-003] feat(admin): add team leader\
+    \ operations view"
+  - "db7f0f364a9afe15ef26090774d98d05bb584f89\t2026-07-24T06:28:03+08:00\tHHY Continuity Bootstrap\t[STORY-R11-003] chore(continuity): close platform\
+    \ cache change"
+  - "88b984242b6eef0fdc30a1c02309e21c65772820\t2026-07-24T06:27:47+08:00\tHHY Continuity Bootstrap\t[STORY-R11-003] chore(infra): persist android\
+    \ 36 platform"
+  - "28a65a2d26af1088600e9b9b92cff66faad90ad6\t2026-07-24T05:38:43+08:00\tHHY Continuity Bootstrap\t[STORY-R11-003] chore(continuity): close r11\
+    \ editor changes"
+  - "1634f6345b0bf81eb9c1660c3615d71c840953c4\t2026-07-24T05:37:14+08:00\tHHY Continuity Bootstrap\t[STORY-R11-003] feat(r11): implement team\
+    \ leader editor"
+  - "8409f51e0290187f6e55316ec682c469761947c1\t2026-07-24T04:44:01+08:00\tHHY Continuity Bootstrap\t[STORY-R11-003] chore(continuity): close android\
+    \ resource guard"
+  - "f90386660ded11a3e2ecbdf2eb29092e5d47fbe5\t2026-07-24T04:41:14+08:00\tHHY Continuity Bootstrap\t[STORY-R11-003] chore(infra): protect remote\
+    \ android build resources"
+project_fingerprint:
+  sha256: 87fdafd5c856bc30837c5b17bef0746f5476b8493384be6399168133d962f80e
+  files:
+  - CHANGELOG.md
+  - apps/admin-web/src/r11TeamLeaderReuse.test.ts
+  - apps/admin-web/src/styles.css
+  - apps/admin-web/src/views/AdminContentDetailPage.vue
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR11Api.kt
+  - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/R11ApiModelsSerializationTest.kt
+  - apps/android/feature/team-leader/build.gradle.kts
+  - apps/android/feature/team-leader/src/main/java/cc/orbexa/hhy/teamleader/R11TeamLeaderDetailScreen.kt
+  - apps/android/feature/team-leader/src/main/java/cc/orbexa/hhy/teamleader/R11TeamLeaderEditorScreen.kt
+  - apps/android/feature/team-leader/src/main/java/cc/orbexa/hhy/teamleader/R11TeamLeaderListScreen.kt
+  - apps/android/feature/team-leader/src/main/java/cc/orbexa/hhy/teamleader/R11TeamLeaderState.kt
+  - apps/android/feature/team-leader/src/test/java/cc/orbexa/hhy/teamleader/R11TeamLeaderStateTest.kt
+  - apps/android/settings.gradle.kts
+  - catalogs/screen_visual_binding.csv
+  - catalogs/ui_visual_acceptance.csv
+  - docs/03-continuity/PITFALLS.md
+  - docs/03-continuity/REUSABLE_PATTERNS.md
+  - docs/03-continuity/change-requests/CR-0285-实现R11团队长列表与首页真实入口回接.md
+  - docs/03-continuity/change-requests/CR-0286-补齐R11团队长列表既有变更日志投影.md
+  - docs/03-continuity/change-requests/CR-0287-支持同一Task内原子切换Story.md
+  - docs/03-continuity/change-requests/CR-0288-补齐R11版本级并行执行计划实例.md
+  - docs/03-continuity/change-requests/CR-0289-实现R11团队长详情客户端纵向闭环.md
+  - docs/03-continuity/change-requests/CR-0290-强化云端Android构建资源隔离与连接可用性.md
+  - docs/03-continuity/change-requests/CR-0291-实现R11团队长资料创建编辑纵向闭环.md
+  - docs/03-continuity/change-requests/CR-0292-完整实现R11团队长资料创建编辑纵向闭环.md
+  - docs/03-continuity/change-requests/CR-0293-登记R11团队长三页逐页视觉验收合同.md
+  - docs/03-continuity/change-requests/CR-0294-持久化云端Android-36平台缓存.md
+  - docs/03-continuity/change-requests/CR-0295-补齐R11后台团队长运营详情.md
+  - docs/03-continuity/change-requests/CR-0296-补齐后台统一内容领域区响应式样式.md
+  - docs/07-operations/DEPLOYMENT_RUNBOOK.md
+  - docs/09-development/统一开发与交付效率规范.md
+  - releases/R11/PARALLEL_EXECUTION_PLAN.yaml
+  - releases/R11/TASKS.yaml
+  - scripts/continuity.py
+  - scripts/continuity_gate.py
+  - scripts/continuity_lib.py
+  - scripts/test_continuity_protocol.py
+  - scripts/tests/test_verify_cloud_environment.py
+  - scripts/verify_cloud_environment.py
+  file_count: 41
+  payload:
+    base_commit: ad68caf656ade3d36a4c775c7b0eeec0d8be1078
+    files:
+    - path: CHANGELOG.md
+      state: FILE
+      size: 121075
+      sha256: ec63c9ac1e86623a268b6580f82825c52a4469d9d03d6c4d8409881449de458f
+    - path: apps/admin-web/src/r11TeamLeaderReuse.test.ts
+      state: FILE
+      size: 2997
+      sha256: 2777e1ecf52829a0402c01b50229d3d018b818ff4b2c68498a4dba4b0c719115
+    - path: apps/admin-web/src/styles.css
+      state: FILE
+      size: 22386
+      sha256: d9e79c35cb52ae149845d50cc548ce851afed1e84986d958f8df6b4b87da49bd
+    - path: apps/admin-web/src/views/AdminContentDetailPage.vue
+      state: FILE
+      size: 12198
+      sha256: 65c4bcb2b4049383a8a369f7d83c18a4d4474334e0801be4826a9581cb6c1892
+    - path: apps/android/app/build.gradle.kts
+      state: FILE
+      size: 5298
+      sha256: ac72529e2b8c4c41dd876203e33c7b60d6a1fdf9b38479ec9838a383d3c2bae6
+    - path: apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+      state: FILE
+      size: 30126
+      sha256: 4d2bc22f391663a45ad8b0c5f882abced8910dee76d68418e20022223541c28c
+    - path: apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR11Api.kt
+      state: FILE
+      size: 10622
+      sha256: c74c9c3223736a78d39dbf8d5b998cd26fd61526285c774a65d1123d380b8d48
+    - path: apps/android/core/network/src/test/java/cc/orbexa/hhy/network/R11ApiModelsSerializationTest.kt
+      state: FILE
+      size: 3226
+      sha256: a602813003d646bcf0316fcdfa9d52fa19c84600c03dddc5c45079eb008e3608
+    - path: apps/android/feature/team-leader/build.gradle.kts
+      state: FILE
+      size: 1239
+      sha256: c5b1e0e24c219bd976a7abe53ad5e474a31ea43be6ff157728de59c6f0948ccb
+    - path: apps/android/feature/team-leader/src/main/java/cc/orbexa/hhy/teamleader/R11TeamLeaderDetailScreen.kt
+      state: FILE
+      size: 19518
+      sha256: aefa90e42753996766937e1b2157cafb126704240ef21a567e27b76a709782a1
+    - path: apps/android/feature/team-leader/src/main/java/cc/orbexa/hhy/teamleader/R11TeamLeaderEditorScreen.kt
+      state: FILE
+      size: 21254
+      sha256: 7e87efb05b8ad3d35b805ef96aec29a84868025a302e48c4cfb9c88dc710909d
+    - path: apps/android/feature/team-leader/src/main/java/cc/orbexa/hhy/teamleader/R11TeamLeaderListScreen.kt
+      state: FILE
+      size: 15272
+      sha256: 18d02c285f1371057e63df327b84aa5b86aec2e8048bd80d76a1f1a097405a2c
+    - path: apps/android/feature/team-leader/src/main/java/cc/orbexa/hhy/teamleader/R11TeamLeaderState.kt
+      state: FILE
+      size: 12118
+      sha256: 2f03818ada5bc21b23090dda9093e4fa819ba9bb4b323398e8c677611bc8c808
+    - path: apps/android/feature/team-leader/src/test/java/cc/orbexa/hhy/teamleader/R11TeamLeaderStateTest.kt
+      state: FILE
+      size: 6284
+      sha256: cbf892f254c3657ad3156383341e55ae94a9f1a32da6b9091854eaf3e584d401
+    - path: apps/android/settings.gradle.kts
+      state: FILE
+      size: 680
+      sha256: 5b557c5d9bd88aed60c3dc3b5dd612f52a8e8179bdea79d430d1134e5856e495
+    - path: catalogs/screen_visual_binding.csv
+      state: FILE
+      size: 14488
+      sha256: c9e8dab963a3baaefe159ac1b5222ad99261e7dd1ae33c0e1e876a4b6efef2fb
+    - path: catalogs/ui_visual_acceptance.csv
+      state: FILE
+      size: 47528
+      sha256: d7450d9e2421abbba3a65699445d8d44991a5a33877b68e854f240bf55a06de5
+    - path: docs/03-continuity/PITFALLS.md
+      state: FILE
+      size: 8041
+      sha256: 80ebb16c0f5a94a5f20a06df9a60b398e957c2e9d66720f199cad6deebc6dd45
+    - path: docs/03-continuity/REUSABLE_PATTERNS.md
+      state: FILE
+      size: 3629
+      sha256: fe65ac4157e0072a3e8fbe2fb815bf6badf3f81fa295f54b9663b66683f5d593
+    - path: docs/03-continuity/change-requests/CR-0285-实现R11团队长列表与首页真实入口回接.md
+      state: FILE
+      size: 3484
+      sha256: 4f68dc6f283c3500ff1020ccf976b1d8a17cd731e83243f0794c6f94ab0e90bb
+    - path: docs/03-continuity/change-requests/CR-0286-补齐R11团队长列表既有变更日志投影.md
+      state: FILE
+      size: 2321
+      sha256: 6856ae0f732d458e52c21ee7249f5fa6f405a8c0eb08710c4d31bb1c42be1593
+    - path: docs/03-continuity/change-requests/CR-0287-支持同一Task内原子切换Story.md
+      state: FILE
+      size: 3067
+      sha256: 0175a0db6540bc194e142b132eb2d84be8e4ecfc65c8cd49feb8bc49446b04b7
+    - path: docs/03-continuity/change-requests/CR-0288-补齐R11版本级并行执行计划实例.md
+      state: FILE
+      size: 2588
+      sha256: c0bcfcee4e94d558d0950a908be98205909d7f92904be16a57bb51d6a061b474
+    - path: docs/03-continuity/change-requests/CR-0289-实现R11团队长详情客户端纵向闭环.md
+      state: FILE
+      size: 3454
+      sha256: 288740be74b8a28e011f21c2931acf221e6ef07186faeaa4404acfd1d2e6dc16
+    - path: docs/03-continuity/change-requests/CR-0290-强化云端Android构建资源隔离与连接可用性.md
+      state: FILE
+      size: 3213
+      sha256: 42783fc09720fb7268af985d93640c0965ed838c57868b224f28bfb64788a70c
+    - path: docs/03-continuity/change-requests/CR-0291-实现R11团队长资料创建编辑纵向闭环.md
+      state: FILE
+      size: 3613
+      sha256: a1bc2fa7c27e42942484b26f12d0439a819b1ae9a92774c9c1668af3063ba756
+    - path: docs/03-continuity/change-requests/CR-0292-完整实现R11团队长资料创建编辑纵向闭环.md
+      state: FILE
+      size: 3954
+      sha256: 4871df03f2afbed34e738b8e211e1164fda707dc08b1e245c7ea05c33924e4b6
+    - path: docs/03-continuity/change-requests/CR-0293-登记R11团队长三页逐页视觉验收合同.md
+      state: FILE
+      size: 2847
+      sha256: 83abcddb42c73a9a2d746a6af8df386571d05a1eed314173893fa4b9bc781669
+    - path: docs/03-continuity/change-requests/CR-0294-持久化云端Android-36平台缓存.md
+      state: FILE
+      size: 2996
+      sha256: aa4648016a0309376b89eb236ad1d6583202bd08c85b592f4b8e7fb201b00029
+    - path: docs/03-continuity/change-requests/CR-0295-补齐R11后台团队长运营详情.md
+      state: FILE
+      size: 3137
+      sha256: af56e03ef58ded34907c9cbbad6f51ca0aa429cdc5422957db178b9c01d96b63
+    - path: docs/03-continuity/change-requests/CR-0296-补齐后台统一内容领域区响应式样式.md
+      state: FILE
+      size: 2845
+      sha256: 5f8aff95a5cbf68b7c470c98147c823de236438b61764d798c8fbf0e01622a84
+    - path: docs/07-operations/DEPLOYMENT_RUNBOOK.md
+      state: FILE
+      size: 40379
+      sha256: bb0ce0062149cff4b18e53abb29e76d72b993602a57c1a3d41d4847b6198f4e5
+    - path: docs/09-development/统一开发与交付效率规范.md
+      state: FILE
+      size: 16499
+      sha256: c972a8fb9ed842877d8e047c0ee67a3c17af26b959c19335c2498e76cc6825b2
+    - path: releases/R11/PARALLEL_EXECUTION_PLAN.yaml
+      state: FILE
+      size: 2630
+      sha256: e892959361fe9a80841a49496d4302125b27838f73aab987c62a0e57a9070e54
+    - path: releases/R11/TASKS.yaml
+      state: FILE
+      size: 5660
+      sha256: 6bf2011ca13d12249228f7dcb9c544349d81be33a6928ee779c59597e3c50b20
+    - path: scripts/continuity.py
+      state: FILE
+      size: 78766
+      sha256: 353987f6e319c13009dc7033468daa8679cc4cc1af3d45fe8f41153ed346cd58
+    - path: scripts/continuity_gate.py
+      state: FILE
+      size: 43300
+      sha256: 7e80536d9b6127babae1230c11d655fd9654f608eca67d9518d9ce01e1d6b8d8
+    - path: scripts/continuity_lib.py
+      state: FILE
+      size: 114495
+      sha256: effd5bc6ea95649d7594dccb6721638b384b2c6dc721f677d146f695b0cb86d0
+    - path: scripts/test_continuity_protocol.py
+      state: FILE
+      size: 30678
+      sha256: 97608112da947779c2fcf1cf5caf298f8f5a6dbc95d714ce7512f9f2e1bd4a09
+    - path: scripts/tests/test_verify_cloud_environment.py
+      state: FILE
+      size: 3961
+      sha256: 060fb9088847b129c034cfcf989a27bde7d85d52c383d95b2ee56d997828e642
+    - path: scripts/verify_cloud_environment.py
+      state: FILE
+      size: 6202
+      sha256: 698aa5bbdd90112748134f1f51f6657d15b793fc9e902dea7e8660ac185d8eaf
+change_classification:
+  other:
+  - CHANGELOG.md
+  - catalogs/screen_visual_binding.csv
+  - catalogs/ui_visual_acceptance.csv
+  - docs/07-operations/DEPLOYMENT_RUNBOOK.md
+  - docs/09-development/统一开发与交付效率规范.md
+  - releases/R11/PARALLEL_EXECUTION_PLAN.yaml
+  - releases/R11/TASKS.yaml
+  code:
+  - apps/admin-web/src/r11TeamLeaderReuse.test.ts
+  - apps/admin-web/src/styles.css
+  - apps/admin-web/src/views/AdminContentDetailPage.vue
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR11Api.kt
+  - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/R11ApiModelsSerializationTest.kt
+  - apps/android/feature/team-leader/build.gradle.kts
+  - apps/android/feature/team-leader/src/main/java/cc/orbexa/hhy/teamleader/R11TeamLeaderDetailScreen.kt
+  - apps/android/feature/team-leader/src/main/java/cc/orbexa/hhy/teamleader/R11TeamLeaderEditorScreen.kt
+  - apps/android/feature/team-leader/src/main/java/cc/orbexa/hhy/teamleader/R11TeamLeaderListScreen.kt
+  - apps/android/feature/team-leader/src/main/java/cc/orbexa/hhy/teamleader/R11TeamLeaderState.kt
+  - apps/android/feature/team-leader/src/test/java/cc/orbexa/hhy/teamleader/R11TeamLeaderStateTest.kt
+  - apps/android/settings.gradle.kts
+  - scripts/continuity.py
+  - scripts/continuity_gate.py
+  - scripts/continuity_lib.py
+  - scripts/test_continuity_protocol.py
+  - scripts/tests/test_verify_cloud_environment.py
+  - scripts/verify_cloud_environment.py
+  user_visible:
+  - apps/admin-web/src/r11TeamLeaderReuse.test.ts
+  - apps/admin-web/src/styles.css
+  - apps/admin-web/src/views/AdminContentDetailPage.vue
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR11Api.kt
+  - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/R11ApiModelsSerializationTest.kt
+  - apps/android/feature/team-leader/build.gradle.kts
+  - apps/android/feature/team-leader/src/main/java/cc/orbexa/hhy/teamleader/R11TeamLeaderDetailScreen.kt
+  - apps/android/feature/team-leader/src/main/java/cc/orbexa/hhy/teamleader/R11TeamLeaderEditorScreen.kt
+  - apps/android/feature/team-leader/src/main/java/cc/orbexa/hhy/teamleader/R11TeamLeaderListScreen.kt
+  - apps/android/feature/team-leader/src/main/java/cc/orbexa/hhy/teamleader/R11TeamLeaderState.kt
+  - apps/android/feature/team-leader/src/test/java/cc/orbexa/hhy/teamleader/R11TeamLeaderStateTest.kt
+  - apps/android/settings.gradle.kts
+  continuity:
+  - docs/03-continuity/PITFALLS.md
+  - docs/03-continuity/REUSABLE_PATTERNS.md
+  - docs/03-continuity/change-requests/CR-0285-实现R11团队长列表与首页真实入口回接.md
+  - docs/03-continuity/change-requests/CR-0286-补齐R11团队长列表既有变更日志投影.md
+  - docs/03-continuity/change-requests/CR-0287-支持同一Task内原子切换Story.md
+  - docs/03-continuity/change-requests/CR-0288-补齐R11版本级并行执行计划实例.md
+  - docs/03-continuity/change-requests/CR-0289-实现R11团队长详情客户端纵向闭环.md
+  - docs/03-continuity/change-requests/CR-0290-强化云端Android构建资源隔离与连接可用性.md
+  - docs/03-continuity/change-requests/CR-0291-实现R11团队长资料创建编辑纵向闭环.md
+  - docs/03-continuity/change-requests/CR-0292-完整实现R11团队长资料创建编辑纵向闭环.md
+  - docs/03-continuity/change-requests/CR-0293-登记R11团队长三页逐页视觉验收合同.md
+  - docs/03-continuity/change-requests/CR-0294-持久化云端Android-36平台缓存.md
+  - docs/03-continuity/change-requests/CR-0295-补齐R11后台团队长运营详情.md
+  - docs/03-continuity/change-requests/CR-0296-补齐后台统一内容领域区响应式样式.md
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+- CHANGELOG
+change_requests:
+- CR-0285
+- CR-0286
+- CR-0287
+- CR-0288
+- CR-0289
+- CR-0290
+- CR-0291
+- CR-0292
+- CR-0293
+- CR-0294
+- CR-0295
+- CR-0296
+scope:
+  allowed_paths:
+  - apps/android/**
+  - services/backend/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - tests/**
+  - docs/**
+  - catalogs/**
+  - releases/**
+  - design/**
+  - scripts/**
+  - 严格按MOB-FORM与精确效果图绑定，实现POST /api/v1/contents与PATCH /api/v1/contents/{id}，不扩展冻结契约
+  - CHANGELOG.md
+  approved_exceptions:
+  - docs/03-continuity/PITFALLS.md
+  - docs/03-continuity/REUSABLE_PATTERNS.md
+  - docs/07-operations/DEPLOYMENT_RUNBOOK.md
+  - scripts/verify_cloud_environment.py
+  - scripts/tests/test_verify_cloud_environment.py
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR11Api.kt
+  - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/R11ApiModelsSerializationTest.kt
+  - apps/android/feature/team-leader/src/main/java/cc/orbexa/hhy/teamleader/R11TeamLeaderState.kt
+  - apps/android/feature/team-leader/src/main/java/cc/orbexa/hhy/teamleader/R11TeamLeaderEditorScreen.kt
+  - apps/android/feature/team-leader/src/test/java/cc/orbexa/hhy/teamleader/R11TeamLeaderStateTest.kt
+  - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+  - catalogs/screen_visual_binding.csv
+  - CHANGELOG.md
+  - apps/android/feature/team-leader/build.gradle.kts
+  - apps/android/feature/team-leader/src/main/java/cc/orbexa/hhy/teamleader/R11TeamLeaderListScreen.kt
+  - apps/android/feature/team-leader/src/main/java/cc/orbexa/hhy/teamleader/R11TeamLeaderDetailScreen.kt
+  - apps/admin-web/src/views/AdminContentDetailPage.vue
+  - apps/admin-web/src/r11TeamLeaderReuse.test.ts
+  - apps/admin-web/src/styles.css
+  source: story-switch+explicit+approved-cr:CR-0290+approved-cr:CR-0291+approved-cr:CR-0292+approved-cr:CR-0295+approved-cr:CR-0296
+parallel_execution:
+  assessment: CAPABILITY_UNAVAILABLE
+  delegated_workers: 0
+  workers: []
+  reason: 当前执行环境未授权创建子代理；审计为同一任务事实汇总，串行核验避免重复改动状态文件
+event_hash: 2f08fab475662242f2de561a8b4811b665e8705701de0f0eacdc7b7463cb2ef5

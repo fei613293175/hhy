@@ -1,0 +1,146 @@
+protocol_version: '1.0'
+package_version: 1.2.3
+session_id: SES-20260725T053515Z-11D4084D
+status: CLOSED
+actor:
+  id: codex-root-r12-client-20260725
+  kind: AI_OR_HUMAN
+  host: unknown
+release: R12
+task_id: TASK-R12-004
+story_id: STORY-R12-008
+goal: 按冻结R12契约完成数据、配置、测试、观测、视觉验收、候选APK与版本交接收口。
+started_at: '2026-07-25T05:35:15Z'
+updated_at: '2026-07-25T17:10:17Z'
+takeover_of: null
+change_requests:
+- CR-0319
+- CR-0320
+- CR-0321
+- CR-0322
+- CR-0323
+- CR-0324
+- CR-0325
+- CR-0326
+- CR-0327
+- CR-0328
+- CR-0329
+- CR-0330
+- CR-0331
+- CR-0332
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions:
+  - releases/R12/RELEASE_MANIFEST.yaml
+  - docs/03-continuity/R12_TASK-004_CLIENT_GATE.md
+  - CHANGELOG.md
+  source: story-switch+explicit+approved-cr:CR-0332
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  base_commit: 8b852b35e1e152adbc37feb6f0add7fc719f4770
+  start_head: 8b852b35e1e152adbc37feb6f0add7fc719f4770
+  upstream: origin/task/TASK-R03-001
+  initial_worktree_state: CLEAN
+lease:
+  duration_minutes: 240
+  renewed_at: '2026-07-25T17:10:11Z'
+  expires_at: '2026-07-25T21:10:11Z'
+checkpoint_sequence: 37
+latest_checkpoint: .continuity/checkpoints/SES-20260725T053515Z-11D4084D/0037.yaml
+session_log: docs/03-continuity/sessions/2026-07/SES-20260725T053515Z-11D4084D.md
+next_step: 提交关闭元数据Commit，然后运行pre-push/CI门禁
+context_pack:
+  yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
+  markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
+  manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+  context_hash: 7d248bd661174e1ccae061dc627289178f6c960664a5544e3929cf33eff23452
+  generated_at: '2026-07-25T17:10:14Z'
+handoff_bundle: null
+closure:
+  result: COMPLETED
+  summary: TASK-R12-004完成：八个Story、十一页客户端/后台真实闭环、逐Story MODULE证据、视觉IN_REVIEW边界和Release Manifest均已收口；最终候选截图与APK保留至TASK-R12-007。
+  code_commit: 4366bd9392efe2e60b5aa9217428e71932368cf6
+  next_release: R12
+  next_task: TASK-R12-005
+  blocked_advance: false
+  completed_independent_advance: false
+  user_confirmation: null
+  metadata_commit: PENDING
+  push_verification: CI_REQUIRED_AFTER_METADATA_COMMIT
+  started_at: '2026-07-25T17:10:07Z'
+  closure_checkpoint_id: CP-SES-20260725T053515Z-11D4084D-0037
+  closed_at: '2026-07-25T17:10:17Z'
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 十四个CR共享同一任务关闭事实和连续性索引，必须串行原子收口。
+story_history:
+- story_id: STORY-R12-001
+  completed_at: '2026-07-25T07:44:07Z'
+  checkpoint_id: CP-SES-20260725T053515Z-11D4084D-0004
+  commit: ad95719dc9aceb22b2e189c5cae28b07eae5c025
+  summary: STORY-R12-001审核工作台已实现、推送并通过obx-test模块门禁，继续内容管理详情
+- story_id: STORY-R12-002
+  completed_at: '2026-07-25T08:36:51Z'
+  checkpoint_id: CP-SES-20260725T053515Z-11D4084D-0008
+  commit: a074488d8745a9175a832ebabb49d336b98eef81
+  summary: STORY-R12-002内容管理详情已实现、云端MODULE通过并以7c30b6b0/a074488d推送；继续仓库顺序四页发布管理列表闭环。
+- story_id: STORY-R12-003
+  completed_at: '2026-07-25T10:17:45Z'
+  checkpoint_id: CP-SES-20260725T053515Z-11D4084D-0013
+  commit: 4ccc1f3fa3656d9032561c14753b9ed24743f813
+  summary: STORY-R12-003实现与证据已提交推送，按R12依赖顺序进入发布入口与发布预览。
+- story_id: STORY-R12-004
+  completed_at: '2026-07-25T10:56:19Z'
+  checkpoint_id: CP-SES-20260725T053515Z-11D4084D-0019
+  commit: 43d55108ea1b86efcc887c17a7f8c2c7f05ba88e
+  summary: STORY-R12-004实现与证据已提交推送，继续R12提交结果闭环。
+- story_id: STORY-R12-005
+  completed_at: '2026-07-25T12:24:12Z'
+  checkpoint_id: CP-SES-20260725T053515Z-11D4084D-0026
+  commit: 7155dbff25fbc38cb397ce96bd71bf612b7d89d3
+  summary: STORY-R12-005稳定幂等提交与SCR-PUB-007闭环已完成并推送，切换到个人资料。
+- story_id: STORY-R12-006
+  completed_at: '2026-07-25T14:58:27Z'
+  checkpoint_id: CP-SES-20260725T053515Z-11D4084D-0029
+  commit: 7792d4321f284c0660f185878d2be70a60a3ecfc
+  summary: STORY-R12-006个人资料闭环已实现、MODULE通过并以7792d432推送；按R12顺序继续我的首页。
+- story_id: STORY-R12-007
+  completed_at: '2026-07-25T16:56:48Z'
+  checkpoint_id: CP-SES-20260725T053515Z-11D4084D-0032
+  commit: 3153ef9cafbcc06ffee8be92dac4f77435f43866
+  summary: STORY-R12-007真实我的首页、会员奖励聚合、typed顶层导航与全部MODULE证据已提交并推送。
+closed_at: '2026-07-25T17:10:17Z'

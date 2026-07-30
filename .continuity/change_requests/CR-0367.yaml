@@ -1,0 +1,76 @@
+protocol_version: '1.0'
+cr_id: CR-0367
+title: 实现R13收藏历史分享与失效反馈后端接口
+status: IMPLEMENTED
+created_at: '2026-07-26T12:43:21Z'
+updated_at: '2026-07-26T13:28:15Z'
+requester_actor_id: codex-root-r13-backend-20260726
+approver_actor_id: codex-contract-review-r13-20260726
+task_id: TASK-R13-003
+session_id: SES-20260726T123133Z-63E93B88
+user_request: 项目所有者已批准持续开发且日常开发无需逐次确认
+reason: R13六个冻结operationId中取消收藏、收藏列表、浏览历史和失效反馈尚无后端实现；既有收藏和分享需纳入同一合同回归
+original_rule: R13复用R08收藏与分享实现、V042活动不变量、冻结OpenAPI和通用幂等/Outbox；四个冻结接口仍缺少应用服务与控制器，内容列表现有逐条装配会产生N+1查询
+new_rule: 新增独立R13控制器、服务和存储边界实现取消收藏、收藏列表、去重浏览历史和失效反馈；复核既有收藏分享；列表按活动游标分页并批量装配内容媒体与联系方式；取消收藏计数不低于零；写操作复用加密幂等快照和Outbox，失效反馈复用content_reports
+impact_summary: 补齐R13六个operationId的真实后端能力与合同、服务和PostgreSQL回归，不修改冻结OpenAPI、数据库迁移、资金或生产配置
+impact:
+  files:
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentStore.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentPostgresStore.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentService.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R13Contracts.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R13Store.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R13PostgresStore.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R13Service.java
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/R13Controller.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/ContentServiceTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R13ServiceTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R13PostgresStoreTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/R13ControllerContractTest.java
+  pages: []
+  apis:
+  - contentPostContentsByIdFavorite
+  - contentDeleteContentsByIdFavorite
+  - contentGetMeFavorites
+  - contentGetMeHistory
+  - contentPostContentsByIdShare
+  - contentPostContentsByIdInvalidFeedback
+  database:
+  - content_favorites
+  - content_view_logs
+  - content_reports
+  - content_stats
+  - idempotency_records
+  - outbox_events
+  configuration: []
+  ledger: []
+  tests:
+  - R13 service permission idempotency and error contract tests
+  - R13 cursor pagination sorting deduplication and batch materialization tests
+  - R13 PostgreSQL favorite counter report and activity query integration
+  - R13 controller OpenAPI operation mapping contract
+  releases:
+  - R13
+  migration_and_compatibility: 无数据库结构变化；兼容V042及既有R08/R12数据，新增批量读取接口保留原单条默认实现，旧调用方行为不变
+user_confirmation: 项目所有者已批准持续开发并明确日常开发不再逐项索要批准
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-26T12:44:35Z'
+  note: 独立合同复核确认仅补齐冻结R13接口并复用现有活动、幂等和审计事实源；批量装配消除N+1，取消收藏计数下界和失效反馈审计均有专项测试
+machine_record: .continuity/change_requests/CR-0367.yaml
+document: docs/03-continuity/change-requests/CR-0367-实现R13收藏历史分享与失效反馈后端接口.md
+decision_log:
+- at: '2026-07-26T12:45:00Z'
+  actor_id: codex-root-r13-backend-20260726
+  status: IMPLEMENTING
+  note: 开始实现R13独立后端边界、批量内容装配和合同/数据库测试
+  session_id: SES-20260726T123133Z-63E93B88
+- at: '2026-07-26T13:28:15Z'
+  actor_id: codex-root-r13-backend-20260726
+  status: IMPLEMENTED
+  note: R13六个冻结operationId后端边界已完整实现并由Java21、PostgreSQL16、OpenAPI和严格连续性门禁验证通过
+  session_id: SES-20260726T123133Z-63E93B88
+session_ids:
+- SES-20260726T123133Z-63E93B88
+implementation_commits:
+- be9a99d9

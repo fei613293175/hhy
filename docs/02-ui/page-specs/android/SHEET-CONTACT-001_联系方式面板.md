@@ -10,6 +10,8 @@
 
 **业务目标：** 查看/复制联系方式
 
+**R10 扩展：** 面板支持 `JOIN_PASSWORD`，但该渠道仅用于 GROUP 入群口令。明文只在用户显式访问后的本次面板授权会话展示，关闭、退后台或会话结束立即清除；不得写入日志、埋点、Outbox、截图识别或持久化缓存。`JOIN_PASSWORD` 不计作群主联系方式。
+
 **主要角色：** 已登录用户；公开能力仅限文档明确的H5页面
 
 **入口：** 由拥有该动作的页面显式打开，携带不可变目标快照
@@ -31,6 +33,9 @@
 | FLD-00623 | 路由与筛选 | channel | 渠道 | PATH_PARAM | string | TEXT_INPUT | contentPostContentsByIdContactsByChannelAccess.path | 必填 | 执行“获取/复制联系方式”时显示 | 用户具备权限且页面状态允许 | 必填；最少1字符；最多128字符 | NORMAL | 无需特殊掩码；仍遵守最小展示 | 渠道格式或范围不正确 |
 | FLD-00624 | 请求头 | X-Idempotency-Key | X-Idempotency-Key | REQUEST_HEADER | string | TEXT_INPUT | contentPostContentsByIdContactsByChannelAccess.header | 必填 | 执行“获取/复制联系方式”时显示 | 用户具备权限且页面状态允许 | 必填；最多128字符 | NORMAL | 无需特殊掩码；仍遵守最小展示 | X-Idempotency-Key格式或范围不正确 |
 | FLD-00625 | 表单输入 | clientContext | 客户端上下文 | INPUT | object | STRUCTURED_EDITOR | contentPostContentsByIdContactsByChannelAccess.request | 可选；按业务条件或页面状态决定 | 执行“获取/复制联系方式”且字段适用时显示 | 具备 登录 且资源状态允许 | 按服务端Schema校验；前端不得放宽 | NORMAL | 无需特殊掩码；仍遵守最小展示 | 客户端上下文不符合要求 |
+| FLD-05178 | 结果区 | channel | 渠道 | DISPLAY | string | TEXT | contentPostContentsByIdContactsByChannelAccess.response.data.ContactAccessResource | 服务端成功返回时必需 | 仅当前面板本次授权会话展示 | 只读；不得写入客户端持久化缓存 | 枚举:WECHAT/PHONE/QQ/EMAIL/LINK/QR_CODE/JOIN_PASSWORD；JOIN_PASSWORD仅GROUP | NORMAL | 无需特殊掩码；仍遵守最小展示 | 渠道加载失败时关闭结果区 |
+| FLD-05179 | 结果区 | value | 联系方式 | DISPLAY | string | COPYABLE_TEXT | contentPostContentsByIdContactsByChannelAccess.response.data.ContactAccessResource | 服务端成功返回时必需 | 仅当前面板本次授权会话展示 | 只读；不得写入客户端持久化缓存 | 必填；最少1字符；最多2048字符 | HIGH | 仅本次授权响应明文展示；禁止日志、埋点、截图识别和持久化缓存 | 联系方式加载失败时关闭结果区 |
+| FLD-05180 | 结果区 | accessedAt | 访问时间 | DISPLAY | string | DATETIME_TEXT | contentPostContentsByIdContactsByChannelAccess.response.data.ContactAccessResource | 服务端成功返回时必需 | 仅当前面板本次授权会话展示 | 只读；不得写入客户端持久化缓存 | 必填；格式:date-time | NORMAL | 无需特殊掩码；仍遵守最小展示 | 访问时间加载失败时关闭结果区 |
 
 ## 4. 页面状态与恢复
 
@@ -47,7 +52,7 @@
 
 | 动作ID | 动作 | 动作类型 | 入口组件 | 触发条件 | 显示条件 | 可用条件 | 前置校验 | 二次确认 | 请求映射 | 并发控制 | 加载表现 | 成功状态 | 失败状态 | 重试策略 | 成功后导航 | 审计要求 | 敏感处理 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| ACT-SHEET-CONTACT-001-01 | 获取/复制联系方式 | CREATE_OR_SUBMIT | 页面主按钮/行操作/更多菜单/标准弹层，具体位置由模板和页面操作规格确定 | 用户显式点击操作入口，且本地字段校验、权限、状态机前置条件全部满足 | 具备权限 登录，且资源状态允许“获取/复制联系方式”；按钮显示条件由页面状态表和状态机共同决定 | 不存在同资源写请求；必填字段有效；服务端 version 未被本地标记过期；需要审批时已选择审批单 | 校验 id,channel,X-Idempotency-Key,clientContext；同一业务意图生成稳定 X-Idempotency-Key；请求体变化必须换键 | 金额、权益或发布范围变化时二次确认；普通可撤销保存不需要 | POST /api/v1/contents/{id}/contacts/{channel}/access；请求模型 ContentPostContentsByIdContactsByChannelAccessRequest；响应模型 ContentPostContentsByIdContactsByChannelAccessResponse | X-Idempotency-Key + 服务端结果查询 | 提交期间锁定同资源写操作，保留输入并显示明确进度；禁止全页无反馈等待 | 以响应数据更新页面和关联缓存；展示“获取/复制联系方式成功”；仅刷新受影响区域 | 400逐字段映射；401要求重新认证；403隐藏后续写入口并记录越权拒绝；409提示数据已变化并重新加载；422展示业务原因且保留输入；429显示可重试时间；500保留上下文并提供 requestId | 使用同一幂等键仅重试同一请求体；若服务端已受理则先查询结果；409版本冲突不得盲重试 | 默认留在当前页并刷新；创建成功进入详情，支付/认证/发布结果按对应流程导航 | 记录必要业务埋点；读取高敏字段时额外记录访问审计 | 遵循最小采集；仅记录业务标识和状态，不记录自由文本中的个人信息 |
+| ACT-SHEET-CONTACT-001-01 | 获取/复制联系方式 | CREATE_OR_SUBMIT | 页面主按钮/行操作/更多菜单/标准弹层，具体位置由模板和页面操作规格确定 | 用户显式点击操作入口，且本地字段校验、权限、状态机前置条件全部满足 | 具备权限 登录，且资源状态允许“获取/复制联系方式”；按钮显示条件由页面状态表和状态机共同决定 | 不存在同资源写请求；必填字段有效；服务端 version 未被本地标记过期；需要审批时已选择审批单 | 校验 id,channel,X-Idempotency-Key,clientContext；同一业务意图生成稳定 X-Idempotency-Key；请求体变化必须换键 | 金额、权益或发布范围变化时二次确认；普通可撤销保存不需要 | POST /api/v1/contents/{id}/contacts/{channel}/access；请求模型 ContentPostContentsByIdContactsByChannelAccessRequest；响应模型 ContentPostContentsByIdContactsByChannelAccessResponse | X-Idempotency-Key + 服务端结果查询 | 提交期间锁定同资源写操作，保留输入并显示明确进度；禁止全页无反馈等待 | 仅在当前面板展示响应数据，禁止写入关联缓存；展示“获取/复制联系方式成功”；仅刷新受影响区域 | 400逐字段映射；401要求重新认证；403隐藏后续写入口并记录越权拒绝；409提示数据已变化并重新加载；422展示业务原因且保留输入；429显示可重试时间；500保留上下文并提供 requestId | 使用同一幂等键仅重试同一请求体；若服务端已受理则先查询结果；409版本冲突不得盲重试 | 默认留在当前页并刷新；创建成功进入详情，支付/认证/发布结果按对应流程导航 | 记录必要业务埋点；读取高敏字段时额外记录访问审计 | 联系方式 value 不得进入日志、埋点、Outbox、response_ref或客户端持久化缓存；响应必须 no-store |
 
 ## 6. 导航、深链与缓存
 
@@ -55,7 +60,7 @@
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | 由拥有该动作的页面显式打开，携带不可变目标快照 | 按动作成功后导航列执行；未指定时留在当前页并刷新 | 成功后向调用页回传结果并关闭；取消恢复触发控件焦点 | 保存原目标并进入登录；公开H5除外 | 展示无权限，不泄露资源存在性；返回安全上级 | 展示明确空/失效状态并从来源列表移除无效入口 | 禁止外部深链直接打开；必须由受信任调用页创建上下文 | 单一来源栈；回跳页清理敏感参数；弹层关闭恢复焦点 |
 
-- 刷新策略：初始化按需加载；写操作后仅刷新受影响数据；禁止无差别全局缓存清空
+- 刷新策略：联系方式响应禁止缓存；面板关闭或离开前台立即清除明文
 - 分页策略：不适用；若子区块为列表，遵循所属平台标准分页模板
 - 离线策略：不支持离线写入；网络不可用时保留安全可保留输入并提供重试
 
@@ -71,7 +76,7 @@
 
 ## 8. 开发就绪检查
 
-- [ ] 页面模板和区域按本文件实现；效果图仅用于视觉参考。
+- [ ] 页面模板和区域按本文件实现；效果图对页面建模、区域顺序、信息层级、布局、组件形态和视觉样式具有强制约束，但不得作为功能、字段、动作或业务数据事实源。
 - [ ] 字段、校验、显示/编辑条件与 OpenAPI/配置一致，无新增匿名字段。
 - [ ] 所有状态均有可见表现、允许操作和恢复路径。
 - [ ] 所有动作均使用登记 operationId、权限、幂等或 expectedVersion。

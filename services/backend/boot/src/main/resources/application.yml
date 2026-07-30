@@ -22,7 +22,7 @@ spring:
 server:
   port: ${HHY_HTTP_PORT:8080}
   shutdown: graceful
-  forward-headers-strategy: framework
+  forward-headers-strategy: none
 logging:
   structured:
     format:
@@ -47,6 +47,51 @@ management:
       probes:
         enabled: true
 hhy:
+  content-security:
+    contact-root-secret: ${HHY_CONTENT_CONTACT_ROOT_SECRET}
+  ci-automation:
+    enabled: ${HHY_CI_AUTOMATION_ENABLED:false}
+    user-phone: ${HHY_CI_AUTOMATION_USER_PHONE:}
+    github-repository: ${HHY_CI_GITHUB_REPOSITORY:fei613293175/hhy}
+    github-workflow: ${HHY_CI_GITHUB_WORKFLOW:.github/workflows/android-candidate-request.yml}
+    oidc-audience: ${HHY_CI_OIDC_AUDIENCE:hhy-android-e2e}
+    bootstrap-ttl: ${HHY_CI_BOOTSTRAP_TTL:PT10M}
+    session-ttl: ${HHY_CI_SESSION_TTL:PT15M}
+  identity-sandbox:
+    enabled: ${HHY_IDENTITY_SANDBOX_ENABLED:false}
+    public-base-url: ${HHY_IDENTITY_SANDBOX_PUBLIC_BASE_URL:}
+    allowed-return-host: ${HHY_IDENTITY_SANDBOX_ALLOWED_RETURN_HOST:h5.orbexa.cc}
+    max-daily-attempts: ${HHY_IDENTITY_SANDBOX_MAX_DAILY_ATTEMPTS:5}
+    session-ttl: ${HHY_IDENTITY_SANDBOX_SESSION_TTL:PT10M}
+  provider-secrets:
+    material-directory: ${HHY_PROVIDER_SECRET_DIR:}
+  test-registration:
+    universal-invite-code: ${HHY_TEST_UNIVERSAL_INVITE_CODE:}
+    universal-inviter-id: ${HHY_TEST_UNIVERSAL_INVITER_ID:0}
+  user-security:
+    jwt-secret: ${HHY_USER_JWT_SECRET}
+    token-hmac-secret: ${HHY_USER_TOKEN_HMAC_SECRET}
+    snapshot-root-secret: ${HHY_USER_SNAPSHOT_ROOT_SECRET}
+    issuer: ${HHY_USER_TOKEN_ISSUER:orbexa.cc/user}
+    access-ttl: ${HHY_USER_ACCESS_TTL:PT15M}
+    refresh-ttl: ${HHY_USER_REFRESH_TTL:P30D}
+    idempotency-ttl: ${HHY_USER_IDEMPOTENCY_TTL:PT24H}
+  admin-security:
+    jwt-secret: ${HHY_ADMIN_JWT_SECRET}
+    mfa-root-secret: ${HHY_ADMIN_MFA_ROOT_SECRET}
+    mfa-root-secret-version: ${HHY_ADMIN_MFA_ROOT_SECRET_VERSION:v1}
+    mfa-previous-root-secrets: ${HHY_ADMIN_MFA_PREVIOUS_ROOT_SECRETS:}
+    idempotency-hmac-secret: ${HHY_ADMIN_IDEMPOTENCY_HMAC_SECRET}
+    mfa-secret-directory: ${HHY_ADMIN_MFA_SECRET_DIR:/var/lib/hhy/secrets/admin-mfa}
+    trusted-proxy-cidrs: ${HHY_ADMIN_TRUSTED_PROXY_CIDRS:127.0.0.1/32,::1/128}
+    issuer: ${HHY_ADMIN_TOKEN_ISSUER:orbexa.cc/admin}
+    access-ttl: ${HHY_ADMIN_ACCESS_TTL:PT8H}
+    mfa-ticket-ttl: ${HHY_ADMIN_MFA_TICKET_TTL:PT5M}
+    enrollment-ttl: ${HHY_ADMIN_MFA_ENROLLMENT_TTL:PT10M}
+    password-min-length: ${HHY_ADMIN_PASSWORD_MIN_LENGTH:8}
+    password-max-length: ${HHY_ADMIN_PASSWORD_MAX_LENGTH:20}
+    password-max-failures: ${HHY_ADMIN_PASSWORD_MAX_FAILURES:5}
+    password-lock-seconds: ${HHY_ADMIN_PASSWORD_LOCK_SECONDS:900}
   platform:
     maintenance: ${HHY_MAINTENANCE:false}
     maintenance-message: ${HHY_MAINTENANCE_MESSAGE:系统维护中}

@@ -1,0 +1,58 @@
+protocol_version: '1.0'
+cr_id: CR-0073
+title: 登记认证策略V020权威迁移与安全回滚
+status: CLOSED
+created_at: '2026-07-19T03:45:53Z'
+updated_at: '2026-07-19T04:54:00Z'
+requester_actor_id: codex-root
+approver_actor_id: project-owner-delegated
+task_id: TASK-R03-007
+session_id: SES-20260718T200607Z-3569D212
+user_request: 明确注册密码规则并持续交付可部署后端。
+reason: 运行时迁移必须由database/migrations权威源生成，且数据纠错回滚不得把合法20位值误改回错误的72。
+original_rule: V020仅存在后端运行时目录，资产同步门禁判定为非权威迁移。
+new_rule: V020在database/migrations登记权威源并提供不恢复错误种子值的安全no-op回滚说明，运行时副本由同步工具生成。
+impact_summary: 补齐认证策略数据纠正迁移的权威源和回滚治理。
+impact:
+  files:
+  - database/migrations/V020__r03_auth_registration_policy_alignment.sql
+  - database/rollback/U020__r03_auth_registration_policy_alignment.sql
+  pages: []
+  apis: []
+  database:
+  - hhy.system_configs
+  configuration:
+  - auth.password.max_length
+  ledger: []
+  tests:
+  - scripts/sync_runtime_assets.py --check与Flyway V001-V020迁移
+  releases:
+  - R03后端认证策略热修复
+  migration_and_compatibility: 正向仅更新仍为72的错误种子；回滚不把20改回72，避免破坏冻结规格或人工合法配置。
+user_confirmation: 用户要求明确密码规则并持续开发。
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-19T03:45:55Z'
+  note: 数据库权威源和安全回滚必须补齐；禁止回滚恢复已确认错误的72位种子。
+machine_record: .continuity/change_requests/CR-0073.yaml
+document: docs/03-continuity/change-requests/CR-0073-登记认证策略V020权威迁移与安全回滚.md
+decision_log:
+- at: '2026-07-19T03:45:56Z'
+  actor_id: codex-root
+  status: IMPLEMENTING
+  note: 登记V020权威迁移和no-op安全回滚。
+  session_id: SES-20260718T200607Z-3569D212
+- at: '2026-07-19T04:53:59Z'
+  actor_id: codex-root
+  status: IMPLEMENTED
+  note: 权威V020迁移和无操作回滚策略已实现并在上线前完成数据库备份
+  session_id: SES-20260718T200607Z-3569D212
+- at: '2026-07-19T04:54:00Z'
+  actor_id: codex-root
+  status: CLOSED
+  note: 权威迁移线上成功且回滚备份可用
+  session_id: SES-20260718T200607Z-3569D212
+session_ids:
+- SES-20260718T200607Z-3569D212
+implementation_commits:
+- e4994ed06131f3d3207c36c1b83f589ef2e58fe1

@@ -23,16 +23,26 @@ ui:
   - ADM-ID-002
 contracts:
   client_api:
-  - POST /api/v1/identity/sessions
-  - POST /api/v1/identity/sessions/{id}/liveness-token
-  - GET /api/v1/identity/sessions/{id}
-  - POST /api/v1/identity/sessions/{id}/retry
+    operation_ids:
+    - identityGetIdentityOverview
+    - identityPostIdentitySessions
+    - publicPostIdentityCallbackConsume
+    paths:
+    - GET /api/v1/identity/overview
+    - POST /api/v1/identity/sessions
+    - POST /api/v1/identity/sessions/{id}/liveness-token
+    - GET /api/v1/identity/sessions/{id}
+    - POST /api/v1/identity/sessions/{id}/retry
+    - POST /public-api/v1/identity/callback/consume
   admin_api:
-  - GET /admin-api/v1/identities
-  - GET /admin-api/v1/identities/{userId}
-  - POST /admin-api/v1/identities/{userId}/media-access
-  - POST /admin-api/v1/identity-sessions/{id}/review
-  - POST /admin-api/v1/identities/{userId}/freeze
+    operation_ids:
+    - adminIdentityPostIdentitySessionsByIdReview
+    paths:
+    - GET /admin-api/v1/identities
+    - GET /admin-api/v1/identities/{userId}
+    - POST /admin-api/v1/identities/{userId}/media-access
+    - POST /admin-api/v1/identity-sessions/{id}/review
+    - POST /admin-api/v1/identities/{userId}/freeze
   websocket: []
 database_tables:
 - identity_profiles
@@ -56,6 +66,44 @@ tests:
 - TST-ID_002-SECURITY
 - TST-V122-015
 - TST-V122-016
+test_count: 10
+planning_depth: STORY_READY
+apk_gate: DESKTOP_PUBLIC_AND_OWNER_DEVICE_REQUIRED
+android_delivery:
+  source_commit: 07f2fe254dace0c422be6cb96e3f66b88b2ad40b
+  apk_file: hhy-r05-07f2fe2-debug.apk
+  version_name: 1.2.2-debug
+  version_code: 10213
+  sha256: 6cb3fb26c06599821a0b60dd250657ce08429eed23317acc11be4f47d78008dd
+  machine_delivery: PASS
+  owner_physical_test: PASS
+  owner_physical_test_at: '2026-07-20'
+  owner_confirmation: 项目所有者明确反馈R05整体真机体验通过
+  evidence: artifacts/validation/r05-apk-delivery/delivery-evidence.json
+  test_guide: artifacts/reports/R05/R05-version-test-guide.md
+android_automation_migration:
+  policy_id: HHY-ANDROID-AUTOMATION-V1
+  status: GRANDFATHERED_OWNER_ACCEPTED
+  enforcement_from_release: R06
+  baseline_apk_version_code: 10213
+  rule: R05已完成机器交付与项目所有者真机验收；R06起自动门禁PASS后才允许真机体验
+entry_baseline:
+  checked_at: '2026-07-19'
+  documentation_status: PASS_DOCUMENTATION_READY
+  implementation_start: ALLOWED
+  dependency_state:
+    R04:
+      status: DONE
+      release_commit: 04cda65d4a0749727a482526b616fb56cb475f34
+      release_tag: R04-04cda65
+    R02:
+      implementation_tasks: TASK-R02-001_TO_006_DONE
+      machine_apk_delivery: PASS
+      owner_physical_test: PENDING
+      implementation_effect: NON_BLOCKING
+      release_close_effect: BLOCKING
+      policy: CR-0089
+  rule: R02真机待验事实不得改写为PASS；允许可验证的R05本地实现，但R05最终Release关闭和生产激活必须等待该门禁解决
 entry_gate:
 - releases/R05/DEFINITION_OF_READY.yaml 全部适用项为PASS
 - releases/R05/STORIES.yaml 中每个故事均绑定页面/API/配置/数据/测试或显式N/A

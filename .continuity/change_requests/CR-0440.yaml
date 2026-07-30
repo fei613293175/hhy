@@ -1,0 +1,105 @@
+protocol_version: '1.0'
+cr_id: CR-0440
+title: 建立R16显式商品订单合同与三页视觉施工基线
+status: CLOSED
+created_at: '2026-07-28T09:21:35Z'
+updated_at: '2026-07-28T09:45:15Z'
+requester_actor_id: codex-root-r16-entry-20260728
+approver_actor_id: codex-r16-entry-independent-review-20260728
+task_id: TASK-R16-001
+session_id: SES-20260728T091447Z-9A245BB4
+user_request: 严格按完整开发文档逐一落地功能；所有页面肉眼接近效果图的丰富度和精致度，效果图虚构内容不得进入功能；持续推进开发且不等待邀请码注册问题
+reason: R16 DoR声称页面和契约无TBD，但当前后台订单错误返回CommandResultResource、SKU错误返回ProductResource、商品和SKU写响应存在oneOf歧义，三张R16页面缺少可执行视觉合同，无法支撑真实后端字段和效果图级UI施工
+original_rule: R16 DoR将十个API与三张页面标为可实施，但通用生成规则按模块粗映射：SKU列表复用ProductResource，后台订单返回CommandResultResource，四个商品/SKU写响应允许业务资源或命令结果二选一；SCR-ORDER-001、SCR-ORDER-002仅笼统绑定B08全部八面板，ADM-ORDER-001仅TOKENS_ONLY，页面状态、动作和前后端矩阵继续投影旧类型。
+new_rule: 在R16-002持久化前冻结完整显式合同。ProductResource={id,productCode,name,productType,description?,displayOrder?,status,skus:ProductSkuResource[],version}；ProductSkuResource={id,productId,skuCode,name,priceCent,memberPriceCent?,durationDays?,benefits:BenefitResource[],commissionEnabled,level1Bps?,level2Bps?,saleStartsAt?,saleEndsAt?,status,version}；BenefitResource严格复用R12的{benefitCode,name,value:JsonValue,unit?}。OrderItemResource={skuId?,itemName,quantity>=1,unitPriceCent,subtotalAmountCent}；OrderPriceSnapshotResource={originalAmountCent,discountAmountCent,serviceFeeCent,payableAmountCent,ruleVersions:string[]}；NoRefundEvidenceResource={confirmed,agreementVersion,confirmedAt?}；OrderResource={orderNo,userId,orderType,status:ORDER_STATUS,currency,items,priceSnapshot,noRefundEvidence,paidAmountCent?,createdAt,paidAt?,version}。所有商品接口只返回ProductResource，SKU只返回ProductSkuResource，客户端与后台订单只返回OrderResource，写响应禁用oneOf/CommandResultResource。未冻结商品/SKU状态枚举继续使用受限string而不得臆造枚举。SCR-ORDER-001只精确绑定B08/P04；SCR-ORDER-002和ADM-ORDER-001分别绑定自己的批准补充规格。B08/P04仅提供订单视觉结构，示例订单号、金额、商品内容、联系客服以及任何未登记动作全部过滤。
+impact_summary: 修正R16资源类型、字段、必填/可空边界、ORDER_STATUS枚举投影和三页视觉事实源；同步契约哈希、页面字段、状态、动作、前后端矩阵、未来R30商品后台字段以及生成客户端，增加R16入口门禁。不得增加退款、客服、支付、示例商品或其他未登记能力。
+impact:
+  files:
+  - scripts/generate_contracts.py
+  - scripts/check_r16_entry_contract.py
+  - contracts/openapi.yaml
+  - contracts/admin-openapi.yaml
+  - contracts/contract_status.csv
+  - services/backend/boot/src/main/resources/contracts/openapi.yaml
+  - services/backend/boot/src/main/resources/contracts/admin-openapi.yaml
+  - packages/api-client/src/client.generated.ts
+  - packages/api-client/src/admin.generated.ts
+  - catalogs/ui_page_fields.csv
+  - catalogs/ui_page_states.csv
+  - catalogs/ui_action_matrix.csv
+  - catalogs/admin_page_operation_specs.csv
+  - catalogs/ui_page_specifications.csv
+  - catalogs/frontend_backend_matrix.csv
+  - catalogs/screen_visual_binding.csv
+  - catalogs/ui_visual_acceptance.csv
+  - design/R16-UI-FROZEN/VISUAL_COVERAGE_AUDIT.md
+  - design/R16-UI-FROZEN/specs/SCR-ORDER-001.md
+  - design/R16-UI-FROZEN/specs/SCR-ORDER-002.md
+  - design/R16-UI-FROZEN/specs/ADM-ORDER-001.md
+  - docs/02-ui/page-specs/android/SCR-ORDER-001_订单列表.md
+  - docs/02-ui/page-specs/android/SCR-ORDER-002_订单详情.md
+  - docs/02-ui/page-specs/admin/ADM-ORDER-001_订单列表.md
+  - docs/02-ui/page-specs/admin/ADM-PROD-001_商品与SKU.md
+  - releases/R16/DEFINITION_OF_READY.yaml
+  - releases/R16/RELEASE_MANIFEST.yaml
+  - releases/R16/STORIES.yaml
+  - artifacts/validation/r16-entry/entry-contract.json
+  - artifacts/reports/R16/TASK-R16-001-entry-baseline.md
+  - CHANGELOG.md
+  pages:
+  - SCR-ORDER-001
+  - SCR-ORDER-002
+  - ADM-ORDER-001
+  - ADM-PROD-001
+  apis:
+  - GET /api/v1/me/orders
+  - GET /api/v1/me/orders/{orderNo}
+  - GET /admin-api/v1/products
+  - POST /admin-api/v1/products
+  - PATCH /admin-api/v1/products/{id}
+  - GET /admin-api/v1/skus
+  - POST /admin-api/v1/skus
+  - PATCH /admin-api/v1/skus/{id}
+  - GET /admin-api/v1/orders
+  - GET /admin-api/v1/orders/{orderNo}
+  database: []
+  configuration: []
+  ledger: []
+  tests:
+  - python scripts/check_r16_entry_contract.py
+  - python scripts/check_ui_visual_acceptance.py --release R16 --catalog-only
+  - python scripts/check_v122_documentation.py --release R16
+  - python scripts/check_api_contract.py
+  - python scripts/check_generated_assets.py
+  - python scripts/check_release_artifacts.py --release R16
+  releases:
+  - R16
+  - R30
+  migration_and_compatibility: R16尚无运行时消费者，歧义合同在首次实现前纠偏。R16-002仅按本CR做向前数据库迁移与历史空值兼容，不再决定API字段。旧迁移不改写；旧记录的memberPrice、销售时段或不退款确认缺失时返回null/confirmed=false并在UI明确降级，禁止伪造。商品/SKU状态仍为受限string，待独立权威枚举CR后才可收窄。
+user_confirmation: 项目所有者已明确要求功能逐一对应完整开发文档、UI接近效果图但禁止虚构内容，并授权持续推进开发。
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-28T09:29:40Z'
+  note: 独立复审确认显式合同已冻结必要字段/类型/可空边界，影响文件与兼容策略完整；B08/P04仅作为列表视觉结构并过滤示例内容与未授权动作，详情和后台各自补充规格。
+machine_record: .continuity/change_requests/CR-0440.yaml
+document: docs/03-continuity/change-requests/CR-0440-建立R16显式商品订单合同与三页视觉施工基线.md
+decision_log:
+- at: '2026-07-28T09:41:52Z'
+  actor_id: codex-root-r16-entry-20260728
+  status: IMPLEMENTING
+  note: 独立审批后按精确范围实施R16显式合同与三页视觉施工基线
+  session_id: SES-20260728T091447Z-9A245BB4
+- at: '2026-07-28T09:41:58Z'
+  actor_id: codex-root-r16-entry-20260728
+  status: IMPLEMENTED
+  note: 十接口显式Product/ProductSku/Order合同、结构化权益、订单项/价格快照/不退款证据、三页视觉合同及全部目录派生资产已落地；R16入口、视觉目录、文档、API、运行时副本、生成资产和Release artifacts门禁全部PASS。admin-pages.json为admin_page_operation_specs的确定性派生产物并已同步复验。
+  session_id: SES-20260728T091447Z-9A245BB4
+- at: '2026-07-28T09:45:15Z'
+  actor_id: codex-root-r16-entry-20260728
+  status: CLOSED
+  note: 实现提交a0ffe13e已推送；R16入口、视觉、文档、API、派生资产和发布目录全部复验PASS，CR关闭。
+  session_id: SES-20260728T091447Z-9A245BB4
+session_ids:
+- SES-20260728T091447Z-9A245BB4
+implementation_commits:
+- a0ffe13ec2294c4af79da5d185887f1ad6053175

@@ -1,0 +1,158 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260719T165401Z-12791729-0001
+session_id: SES-20260719T165401Z-12791729
+sequence: 1
+created_at: '2026-07-19T17:03:24Z'
+summary: 完成R05客户端身份会话领域第一切片：冻结DTO、创建/活体/查询/重试状态机、敏感字段AEAD加密与密钥哈希、持久加密幂等快照及8项单测
+next_step: 提交推送领域切片；新增V024接口存储字段并实现R05 PostgreSQL Store、配置策略、供应商Gateway和4个客户端Controller端点
+blockers: []
+decisions: []
+note: ''
+tests:
+- name: R05身份领域与幂等单测
+  result: PASS
+  evidence: mvn -Dtest=IdentityServiceTest,IdentityIdempotencyServiceTest test
+  note: 8 tests passed
+- name: R05 access编译
+  result: PASS
+  evidence: mvn -pl access -am -DskipTests compile
+  note: 65 source files compile
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: fa3f2bc052b4446a92757ab0cb0b2086d50e4754
+  upstream: origin/task/TASK-R03-001
+  ahead: 0
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/ACTIVE_SESSION.yaml'
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/SESSION_INDEX.yaml'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/TASK_CLAIMS.yaml'
+  - ' M .continuity/TASK_TRANSITIONS.yaml'
+  - ' M CURRENT_STATUS.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+  - ' M catalogs/session_index.csv'
+  - ' M catalogs/task_transition_ledger.csv'
+  - ?? .continuity/sessions/SES-20260719T165401Z-12791729.yaml
+  - ?? docs/03-continuity/sessions/2026-07/SES-20260719T165401Z-12791729.md
+  - ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentityContracts.java
+  - ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentityIdempotencyService.java
+  - ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentitySensitiveCipher.java
+  - ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentityService.java
+  - ?? services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/IdentityIdempotencyServiceTest.java
+  - ?? services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/IdentityServiceTest.java
+  recent_commits:
+  - "fa3f2bc052b4446a92757ab0cb0b2086d50e4754\t2026-07-20T00:53:14+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] chore(continuity): close TASK-R05-002\
+    \ as completed"
+  - "9ded6d084a4c073b9c2d739d0340506f369e9893\t2026-07-20T00:51:31+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] docs(identity): record PostgreSQL\
+    \ 17 gate evidence"
+  - "fc002aa2ce8103a12aa2af12e396238690ae5b63\t2026-07-20T00:46:59+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] test(identity): assert immutable\
+    \ audit SQLSTATE"
+  - "855df4a218879481e961c174da763eace8ed32c4\t2026-07-20T00:44:58+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] fix(identity): reject null\
+    \ provider completion state"
+  - "e952473677bfb56527c811530509d619bbf562e4\t2026-07-20T00:37:33+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] test(identity): verify PostgreSQL\
+    \ invariants and rollback"
+  - "441cd6bf3fbb483f2d7f1ed1dfe437332c973ccb\t2026-07-20T00:29:43+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] feat(identity): enforce verification\
+    \ data invariants"
+  - "2282bc24a3b771715582514a939cffb481920749\t2026-07-20T00:22:53+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] chore(continuity): close TASK-R05-001\
+    \ as completed"
+  - "9e4e50a75c9d8373c5c5c9770407b413ef85633c\t2026-07-20T00:22:12+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] chore(governance): close R04\
+    \ and R05 entry decisions"
+project_fingerprint:
+  sha256: 99f08b026126552328927183b32d6a284f386e350bf33865311b47a0c201333e
+  files:
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentityContracts.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentityIdempotencyService.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentitySensitiveCipher.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentityService.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/IdentityIdempotencyServiceTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/IdentityServiceTest.java
+  file_count: 6
+  payload:
+    base_commit: fa3f2bc052b4446a92757ab0cb0b2086d50e4754
+    files:
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentityContracts.java
+      state: FILE
+      size: 1230
+      sha256: f580d9f0a0f527de5b7b5204d2b6e0a37f29c47b9dc997dbc83c06eccc232c64
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentityIdempotencyService.java
+      state: FILE
+      size: 3569
+      sha256: cce9866b7d4fb2efaf0212efd217271bb9aeb5b5521eec1d956bd469272e556a
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentitySensitiveCipher.java
+      state: FILE
+      size: 5565
+      sha256: 426397fa7048c5dd46e6670baae960c409242aa2a84b7c94ae0aa0c565d993e6
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentityService.java
+      state: FILE
+      size: 12131
+      sha256: 4e0077cca3ed994175c2074d9491066651757056d3a94963e61a459015560d85
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/IdentityIdempotencyServiceTest.java
+      state: FILE
+      size: 4627
+      sha256: 9204b0570ee7a3786c2a7b679973ed06fa82765ac75be2293c5f67c30e199101
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/IdentityServiceTest.java
+      state: FILE
+      size: 11812
+      sha256: 7a5fd4102f34e793e6f799e2dd658dc858b995473a4397d31f81e245a562a610
+change_classification:
+  code:
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentityContracts.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentityIdempotencyService.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentitySensitiveCipher.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentityService.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/IdentityIdempotencyServiceTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/IdentityServiceTest.java
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+change_requests: []
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions: []
+  source: story+explicit
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: Controller与PostgreSQL Store必须依赖当前冻结的领域接口稳定后串行接入，避免并发修改同一接口
+event_hash: 8fac5119049c503cdbf23124c84ac8c351a490d7d7bf591b2ea24c1444ba69df

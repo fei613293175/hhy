@@ -1,0 +1,129 @@
+services:
+  postgres:
+    image: postgres:17.10-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: hhy_r07_smoke
+      POSTGRES_USER: hhy_r07_smoke
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?POSTGRES_PASSWORD is required}
+      TZ: UTC
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U hhy_r07_smoke -d hhy_r07_smoke"]
+      interval: 3s
+      timeout: 3s
+      retries: 30
+    volumes: ["pgdata:/var/lib/postgresql/data"]
+    networks:
+      smoke:
+        ipv4_address: ${HHY_R07_POSTGRES_IP:-172.31.247.40}
+
+  api:
+    image: hhy-backend-r07-smoke:${HHY_SMOKE_ID:?HHY_SMOKE_ID is required}
+    build:
+      context: ../../..
+      dockerfile: services/backend/Dockerfile
+    restart: unless-stopped
+    environment:
+      SPRING_PROFILES_ACTIVE: staging
+      HHY_PHASE: staging
+      HHY_DB_URL: jdbc:postgresql://postgres:5432/hhy_r07_smoke
+      HHY_DB_USER: hhy_r07_smoke
+      HHY_DB_PASSWORD: ${POSTGRES_PASSWORD:?POSTGRES_PASSWORD is required}
+      HHY_CONTENT_CONTACT_ROOT_SECRET: ${HHY_CONTENT_CONTACT_ROOT_SECRET:?HHY_CONTENT_CONTACT_ROOT_SECRET is required}
+      HHY_USER_JWT_SECRET: ${HHY_USER_JWT_SECRET:?HHY_USER_JWT_SECRET is required}
+      HHY_USER_TOKEN_HMAC_SECRET: ${HHY_USER_TOKEN_HMAC_SECRET:?HHY_USER_TOKEN_HMAC_SECRET is required}
+      HHY_USER_SNAPSHOT_ROOT_SECRET: ${HHY_USER_SNAPSHOT_ROOT_SECRET:?HHY_USER_SNAPSHOT_ROOT_SECRET is required}
+      HHY_ADMIN_JWT_SECRET: ${HHY_ADMIN_JWT_SECRET:?HHY_ADMIN_JWT_SECRET is required}
+      HHY_ADMIN_MFA_ROOT_SECRET: ${HHY_ADMIN_MFA_ROOT_SECRET:?HHY_ADMIN_MFA_ROOT_SECRET is required}
+      HHY_ADMIN_IDEMPOTENCY_HMAC_SECRET: ${HHY_ADMIN_IDEMPOTENCY_HMAC_SECRET:?HHY_ADMIN_IDEMPOTENCY_HMAC_SECRET is required}
+      HHY_ADMIN_MFA_ROOT_SECRET_VERSION: v1
+      HHY_ADMIN_MFA_SECRET_DIR: /var/lib/hhy/secrets/admin-mfa
+      HHY_ADMIN_TRUSTED_PROXY_CIDRS: ${HHY_R07_TRUSTED_PROXY_CIDRS:-172.31.247.10/32}
+      HHY_IDENTITY_SANDBOX_ENABLED: false
+      HHY_CI_AUTOMATION_ENABLED: false
+      HHY_HTTP_PORT: 8080
+      HHY_MANAGEMENT_PORT: 9091
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://127.0.0.1:9091/actuator/health/readiness"]
+      interval: 5s
+      timeout: 3s
+      retries: 30
+      start_period: 20s
+    volumes: ["mfa-secrets:/var/lib/hhy/secrets"]
+    networks:
+      smoke:
+        ipv4_address: ${HHY_R07_API_IP:-172.31.247.20}
+
+  nginx:
+    image: nginx:1.28.0-alpine
+    restart: unless-stopped
+    depends_on:
+      api:
+        condition: service_healthy
+    ports: ["127.0.0.1:${HHY_R07_SMOKE_HTTP_PORT:-38107}:80"]
+    volumes: ["./nginx.conf:/etc/nginx/conf.d/default.conf:ro"]
+    networks:
+      smoke:
+        ipv4_address: ${HHY_R07_NGINX_IP:-172.31.247.10}
+
+  prometheus:
+    image: prom/prometheus:v3.5.0
+    restart: unless-stopped
+    command:
+      - --config.file=/etc/prometheus/prometheus.yml
+      - --storage.tsdb.retention.time=7d
+      - --web.enable-lifecycle
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - ./r07-alerts.yml:/etc/prometheus/r07-alerts.yml:ro
+      - prometheus-data:/prometheus
+    ports: ["127.0.0.1:${HHY_R07_PROMETHEUS_PORT:-39591}:9090"]
+    depends_on:
+      api:
+        condition: service_healthy
+      alertmanager:
+        condition: service_started
+    networks: [smoke]
+
+  alertmanager:
+    image: prom/alertmanager:v0.28.1
+    restart: unless-stopped
+    command: ["--config.file=/etc/alertmanager/alertmanager.yml"]
+    volumes:
+      - ./alertmanager.yml:/etc/alertmanager/alertmanager.yml:ro
+      - alertmanager-data:/alertmanager
+    ports: ["127.0.0.1:${HHY_R07_ALERTMANAGER_PORT:-39594}:9093"]
+    depends_on:
+      alert-sink:
+        condition: service_healthy
+    networks: [smoke]
+
+  alert-sink:
+    image: hhy-alert-sink-r07:${HHY_SMOKE_ID:?HHY_SMOKE_ID is required}
+    build:
+      context: ../../..
+      dockerfile: infra/staging/alert-sink/Dockerfile
+    restart: unless-stopped
+    volumes: ["alert-sink-data:/data"]
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8080/health', timeout=2).read()"]
+      interval: 5s
+      timeout: 3s
+      retries: 12
+    networks: [smoke]
+
+networks:
+  smoke:
+    ipam:
+      config:
+        - subnet: ${HHY_R07_SMOKE_SUBNET:-172.31.247.0/24}
+
+volumes:
+  pgdata: {}
+  mfa-secrets: {}
+  prometheus-data: {}
+  alertmanager-data: {}
+  alert-sink-data: {}

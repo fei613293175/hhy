@@ -1,6 +1,8 @@
 release: R01
 title: Design System与契约工程化
-status: IN_PROGRESS
+status: DONE
+release_commit: db3cfddcc4cda84265ec18f24de972804d62a08f
+release_tag: R01-db3cfdd
 development_baseline:
   session_id: SES-20260717T074317Z-C575A687
   actor_id: codex-root
@@ -44,14 +46,19 @@ ui:
 contracts:
   client_api: []
   admin_api:
-  - POST /admin-api/v1/auth/login
-  - POST /admin-api/v1/auth/mfa/verify
-  - POST /admin-api/v1/auth/logout
-  - GET /admin-api/v1/me/security
-  - POST /admin-api/v1/me/security/password/change
-  - POST /admin-api/v1/me/security/mfa/enroll
-  - POST /admin-api/v1/me/security/mfa/confirm
-  - POST /admin-api/v1/me/security/mfa/disable
+    operation_ids:
+    - adminAdminAuthPostAuthLogin
+    - adminAdminAuthPostAuthMfaVerify
+    - adminAdminAuthPostAuthLogout
+    paths:
+    - POST /admin-api/v1/auth/login
+    - POST /admin-api/v1/auth/mfa/verify
+    - POST /admin-api/v1/auth/logout
+    - GET /admin-api/v1/me/security
+    - POST /admin-api/v1/me/security/password/change
+    - POST /admin-api/v1/me/security/mfa/enroll
+    - POST /admin-api/v1/me/security/mfa/confirm
+    - POST /admin-api/v1/me/security/mfa/disable
   websocket: []
 database_tables:
 - outbox_events

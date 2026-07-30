@@ -1,0 +1,161 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260718T165842Z-356A8138-0001
+session_id: SES-20260718T165842Z-356A8138
+sequence: 1
+created_at: '2026-07-18T17:04:04Z'
+summary: R03外部供应商和12域名三层状态已采集并机器化登记，Android构建号升级为10203
+next_step: 提交构建基线，使用固定云端Android工具链完成测试、Lint、APK构建、固定签名与四方哈希交付
+blockers:
+- PROB-0012短信SecretRef缺失；PROB-0030存储/实名/支付/出款测试环境缺失；PROB-0031十个域名未解析，均已绑定负责人和截止版本
+decisions:
+- 真实外部凭据缺失时只记录BLOCKED；APK机器交付可独立完成，真机验收保持PENDING
+note: ''
+tests:
+- name: R03_EXTERNAL_ACTIVATION
+  result: PASS
+  evidence: scripts/check_r03_external_activation.py
+  note: 5个供应商和12个域名均为VERIFIED或完整BLOCKED
+- name: R03_ANDROID_PREFLIGHT
+  result: PASS
+  evidence: scripts/verify_cloud_environment.py --check-android
+  note: 固定镜像与Gradle缓存可用
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: 25d8171c76e0cef323a717ad66ac85ccd69371c3
+  upstream: origin/task/TASK-R03-001
+  ahead: 0
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/ACTIVE_SESSION.yaml'
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/SESSION_INDEX.yaml'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/TASK_CLAIMS.yaml'
+  - ' M .continuity/TASK_TRANSITIONS.yaml'
+  - ' M CURRENT_STATUS.yaml'
+  - ' M apps/android/app/build.gradle.kts'
+  - ' M apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt'
+  - ' M apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+  - ' M catalogs/session_index.csv'
+  - ' M catalogs/task_transition_ledger.csv'
+  - ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
+  - ?? .continuity/sessions/SES-20260718T165842Z-356A8138.yaml
+  - ?? artifacts/validation/r03-task007-external/domain-probe.json
+  - ?? artifacts/validation/r03-task007-external/external-activation-ledger.yaml
+  - ?? docs/03-continuity/sessions/2026-07/SES-20260718T165842Z-356A8138.md
+  - ?? scripts/check_r03_external_activation.py
+  recent_commits:
+  - "25d8171c76e0cef323a717ad66ac85ccd69371c3\t2026-07-19T00:57:28+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] chore(continuity): close TASK-R03-006\
+    \ as completed"
+  - "f41c84e6df03f49cd5c21537ea6a1235471006ba\t2026-07-19T00:55:29+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] test(r03): record staging\
+    \ rollback evidence"
+  - "2950cb64d0ed5887725bc20afe4c6d148c22335a\t2026-07-19T00:32:41+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] feat(r03): add staging observability\
+    \ gates"
+  - "b4edfff1f81359677d87bc8486da2d9330926e20\t2026-07-19T00:22:27+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] chore(continuity): close TASK-R03-005\
+    \ as completed"
+  - "cd9d6a4771451e2b34bfa94dc7dec08b5b7898f4\t2026-07-19T00:20:48+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] docs(r03): bind integration\
+    \ gate evidence"
+  - "650fdee862405db673ed5f3f856611356508e337\t2026-07-19T00:19:23+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] feat(r03): close integration\
+    \ database gates"
+  - "ba6cab5414c9954f7cadb244d5d825f0e903714d\t2026-07-19T00:01:37+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] fix(r03): bind approvals and\
+    \ database invariants"
+  - "3efc85ec67b1890b381091d022e28806e8dbd226\t2026-07-18T23:52:39+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] feat(r03): integrate domain\
+    \ verification commands"
+project_fingerprint:
+  sha256: 2d0b3ca8a789fa264f657a237d9d28e9e03a175fe10812f81b708f1abd487b0e
+  files:
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+  - apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - scripts/check_r03_external_activation.py
+  file_count: 5
+  payload:
+    base_commit: 25d8171c76e0cef323a717ad66ac85ccd69371c3
+    files:
+    - path: apps/android/app/build.gradle.kts
+      state: FILE
+      size: 4445
+      sha256: 6d878f835144961c5567c991879dfdd85c934489d7cecb13c8245de88fe2ffa4
+    - path: apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+      state: FILE
+      size: 520
+      sha256: 00b8e359a420a9ca406995fcae05522885f76a95d1709d482007a0c2514c7f96
+    - path: apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+      state: FILE
+      size: 1025
+      sha256: 1cf28ae442ae3888e00ee500253cc51b8de893aa558cf5b17caa2f8755f95278
+    - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
+      state: FILE
+      size: 27862
+      sha256: 0237d673837cbafb9020cfa1fc5c35f5a5f1ca1b0f84a7254d816de13b185634
+    - path: scripts/check_r03_external_activation.py
+      state: FILE
+      size: 4184
+      sha256: 0120a9a24924cc4b8f372f4a855f91de454fa94c65214e4be8dee58651ec3084
+change_classification:
+  code:
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+  - apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+  - scripts/check_r03_external_activation.py
+  user_visible:
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+  - apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+  continuity:
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+- CHANGELOG
+change_requests: []
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions: []
+  source: story+explicit
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: APK身份必须绑定单一精确提交，外部账本、版本号和连续性元数据需先原子提交再进入构建
+event_hash: 6c46ebb875108d6c25ebbf2058d75c05c26b0f21767cb9b0e491e6783c782f26

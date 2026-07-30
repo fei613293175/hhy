@@ -1,0 +1,68 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://orbexa.cc/schemas/r04-test-evidence-v1.json",
+  "title": "R04 Java 21 PostgreSQL 17 Android contract evidence",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "report_id", "suite", "producer", "generated_at", "source_commit", "command", "environment", "results"],
+  "properties": {
+    "schema": {"const": "hhy.r04.test-evidence/v1"},
+    "report_id": {"type": "string", "minLength": 1},
+    "suite": {"const": "r04-java21-pg17-android-contracts"},
+    "producer": {"type": "string", "minLength": 1},
+    "generated_at": {"type": "string", "format": "date-time"},
+    "source_commit": {"type": "string", "pattern": "^[0-9A-Fa-f]{40,64}$"},
+    "command": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+    "environment": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["java", "maven", "postgresql", "android_image", "api_base_url"],
+      "properties": {
+        "java": {"type": "string", "pattern": "21"},
+        "maven": {"type": "string", "minLength": 1},
+        "postgresql": {"type": "string", "pattern": "(^|[^0-9])17([^0-9]|$)"},
+        "android_image": {"const": "hhy-android-toolchain:r01-46fb273"},
+        "api_base_url": {"const": "https://api.orbexa.cc"}
+      }
+    },
+    "results": {
+      "type": "array",
+      "minItems": 6,
+      "maxItems": 6,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["test_id", "status", "executed", "exit_code", "started_at", "finished_at", "assertions", "artifacts", "details"],
+        "properties": {
+          "test_id": {"type": "string", "minLength": 1},
+          "status": {"enum": ["PASS", "FAIL", "N/A", "NOT_RUN"]},
+          "executed": {"type": "boolean"},
+          "exit_code": {"type": "integer"},
+          "started_at": {"type": "string", "format": "date-time"},
+          "finished_at": {"type": "string", "format": "date-time"},
+          "assertions": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["name", "status"],
+              "properties": {"name": {"type": "string", "minLength": 1}, "status": {"enum": ["PASS", "FAIL"]}}
+            }
+          },
+          "artifacts": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["path", "sha256"],
+              "properties": {"path": {"type": "string", "minLength": 1}, "sha256": {"type": "string", "pattern": "^[0-9A-Fa-f]{64}$"}}
+            }
+          },
+          "details": {"type": "string", "minLength": 1}
+        }
+      }
+    }
+  }
+}

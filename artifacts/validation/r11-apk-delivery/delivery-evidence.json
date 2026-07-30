@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "release": "R11",
+  "commit": "a3c32668ae1d6502d859efd3e8c18947f650e150",
+  "apk_file": "hhy-r11-a3c3266-debug.apk",
+  "version_name": "1.2.2-debug",
+  "version_code": 10220,
+  "sha256": "01e2c435752fcf969c641057a11855a12dd1991dda6f1af8ba2d982d4b07185a",
+  "size_bytes": 21079912,
+  "signing": {
+    "status": "PASS",
+    "profile_id": "hhy-staging-test-v1",
+    "fingerprint": "f17b040789a845244ff9e2a9d8aedc1e7412adea0539d99c5cc036baf5dbb873",
+    "stable": true
+  },
+  "local": {
+    "status": "PASS",
+    "artifact_copy": "artifacts\\apk\\R11\\hhy-r11-a3c3266-debug.apk"
+  },
+  "desktop": {
+    "status": "PASS",
+    "path": "C:\\Users\\小白\\Desktop\\hhy-r11-a3c3266-debug.apk",
+    "sha256": "01e2c435752fcf969c641057a11855a12dd1991dda6f1af8ba2d982d4b07185a"
+  },
+  "route_preflight": {
+    "status": "PASS",
+    "route": "/r11-artifacts/hhy-r11-a3c3266-debug.apk",
+    "remote_path": "/www/wwwroot/download.orbexa.cc/r11-artifacts/hhy-r11-a3c3266-debug.apk",
+    "checked_at": "2026-07-24T09:18:15.366143Z"
+  },
+  "remote": {
+    "status": "PASS",
+    "sha256": "01e2c435752fcf969c641057a11855a12dd1991dda6f1af8ba2d982d4b07185a",
+    "size_bytes": 21079912,
+    "path": "/www/wwwroot/download.orbexa.cc/r11-artifacts/hhy-r11-a3c3266-debug.apk",
+    "publish_state": "CREATED"
+  },
+  "https": {
+    "status": "PASS",
+    "http_status": 200,
+    "range_status": 206,
+    "content_type": "application/vnd.android.package-archive",
+    "sha256": "01e2c435752fcf969c641057a11855a12dd1991dda6f1af8ba2d982d4b07185a",
+    "size_bytes": 21079912,
+    "verified_at": "2026-07-24T09:21:32.565454Z",
+    "url": "https://download.orbexa.cc/r11-artifacts/hhy-r11-a3c3266-debug.apk"
+  },
+  "owner_physical_test": {
+    "status": "PENDING"
+  },
+  "created_at": "2026-07-24T09:20:54.997846Z",
+  "last_verified_at": "2026-07-24T09:21:32.565454Z"
+}

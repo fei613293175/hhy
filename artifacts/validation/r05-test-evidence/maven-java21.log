@@ -1,0 +1,510 @@
+[INFO] Scanning for projects...
+[INFO] ------------------------------------------------------------------------
+[INFO] Reactor Build Order:
+[INFO] 
+[INFO] HHY Backend                                                        [pom]
+[INFO] hhy-shared-kernel                                                  [jar]
+[INFO] hhy-access                                                         [jar]
+[INFO] hhy-content                                                        [jar]
+[INFO] hhy-commerce                                                       [jar]
+[INFO] hhy-incentive                                                      [jar]
+[INFO] hhy-platform                                                       [jar]
+[INFO] hhy-boot                                                           [jar]
+[INFO] 
+[INFO] ------------------< cc.orbexa.hhy:hhy-backend-parent >------------------
+[INFO] Building HHY Backend 1.2.2-SNAPSHOT                                [1/8]
+[INFO]   from pom.xml
+[INFO] --------------------------------[ pom ]---------------------------------
+[INFO] 
+[INFO] ------------------< cc.orbexa.hhy:hhy-shared-kernel >-------------------
+[INFO] Building hhy-shared-kernel 1.2.2-SNAPSHOT                          [2/8]
+[INFO]   from shared-kernel/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ hhy-shared-kernel ---
+[INFO] skip non existing resourceDirectory /workspace/services/backend/shared-kernel/src/main/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ hhy-shared-kernel ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ hhy-shared-kernel ---
+[INFO] skip non existing resourceDirectory /workspace/services/backend/shared-kernel/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ hhy-shared-kernel ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- surefire:3.5.4:test (default-test) @ hhy-shared-kernel ---
+[INFO] No tests to run.
+[INFO] 
+[INFO] ----------------------< cc.orbexa.hhy:hhy-access >----------------------
+[INFO] Building hhy-access 1.2.2-SNAPSHOT                                 [3/8]
+[INFO]   from access/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ hhy-access ---
+[INFO] skip non existing resourceDirectory /workspace/services/backend/access/src/main/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ hhy-access ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ hhy-access ---
+[INFO] skip non existing resourceDirectory /workspace/services/backend/access/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ hhy-access ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- surefire:3.5.4:test (default-test) @ hhy-access ---
+[INFO] No tests to run.
+[INFO] 
+[INFO] ---------------------< cc.orbexa.hhy:hhy-content >----------------------
+[INFO] Building hhy-content 1.2.2-SNAPSHOT                                [4/8]
+[INFO]   from content/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ hhy-content ---
+[INFO] skip non existing resourceDirectory /workspace/services/backend/content/src/main/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ hhy-content ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ hhy-content ---
+[INFO] skip non existing resourceDirectory /workspace/services/backend/content/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ hhy-content ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- surefire:3.5.4:test (default-test) @ hhy-content ---
+[INFO] No tests to run.
+[INFO] 
+[INFO] ---------------------< cc.orbexa.hhy:hhy-commerce >---------------------
+[INFO] Building hhy-commerce 1.2.2-SNAPSHOT                               [5/8]
+[INFO]   from commerce/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ hhy-commerce ---
+[INFO] skip non existing resourceDirectory /workspace/services/backend/commerce/src/main/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ hhy-commerce ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ hhy-commerce ---
+[INFO] skip non existing resourceDirectory /workspace/services/backend/commerce/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ hhy-commerce ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- surefire:3.5.4:test (default-test) @ hhy-commerce ---
+[INFO] No tests to run.
+[INFO] 
+[INFO] --------------------< cc.orbexa.hhy:hhy-incentive >---------------------
+[INFO] Building hhy-incentive 1.2.2-SNAPSHOT                              [6/8]
+[INFO]   from incentive/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ hhy-incentive ---
+[INFO] skip non existing resourceDirectory /workspace/services/backend/incentive/src/main/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ hhy-incentive ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ hhy-incentive ---
+[INFO] skip non existing resourceDirectory /workspace/services/backend/incentive/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ hhy-incentive ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- surefire:3.5.4:test (default-test) @ hhy-incentive ---
+[INFO] No tests to run.
+[INFO] 
+[INFO] ---------------------< cc.orbexa.hhy:hhy-platform >---------------------
+[INFO] Building hhy-platform 1.2.2-SNAPSHOT                               [7/8]
+[INFO]   from platform/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ hhy-platform ---
+[INFO] skip non existing resourceDirectory /workspace/services/backend/platform/src/main/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ hhy-platform ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ hhy-platform ---
+[INFO] skip non existing resourceDirectory /workspace/services/backend/platform/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ hhy-platform ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- surefire:3.5.4:test (default-test) @ hhy-platform ---
+[INFO] No tests to run.
+[INFO] 
+[INFO] -----------------------< cc.orbexa.hhy:hhy-boot >-----------------------
+[INFO] Building hhy-boot 1.2.2-SNAPSHOT                                   [8/8]
+[INFO]   from boot/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ hhy-boot ---
+[INFO] Copying 33 resources from src/main/resources to target/classes
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ hhy-boot ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ hhy-boot ---
+[INFO] Copying 4 resources from src/test/resources to target/test-classes
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ hhy-boot ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- surefire:3.5.4:test (default-test) @ hhy-boot ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running cc.orbexa.hhy.ModuleBoundaryTest
+22:53:43.842 [main] INFO com.tngtech.archunit.core.PluginLoader -- Detected Java version 21.0.9
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 12.08 s -- in cc.orbexa.hhy.ModuleBoundaryTest
+[INFO] Running cc.orbexa.hhy.boot.user.IdentityControllerTest
+Mockito is currently self-attaching to enable the inline-mock-maker. This will no longer work in future releases of the JDK. Please add Mockito as an agent to your build as described in Mockito's documentation: https://javadoc.io/doc/org.mockito/mockito-core/latest/org.mockito/org/mockito/Mockito.html#0.3
+WARNING: A Java agent has been loaded dynamically (/root/.m2/repository/net/bytebuddy/byte-buddy-agent/1.18.10/byte-buddy-agent-1.18.10.jar)
+WARNING: If a serviceability tool is in use, please run with -XX:+EnableDynamicAgentLoading to hide this warning
+WARNING: If a serviceability tool is not in use, please run with -Djdk.instrument.traceUsage for more information
+WARNING: Dynamic loading of agents will be disallowed by default in a future release
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.673 s -- in cc.orbexa.hhy.boot.user.IdentityControllerTest
+[INFO] Running cc.orbexa.hhy.boot.user.MediaControllerTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.043 s -- in cc.orbexa.hhy.boot.user.MediaControllerTest
+[INFO] Running cc.orbexa.hhy.boot.user.PublicIdentityCallbackControllerTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.050 s -- in cc.orbexa.hhy.boot.user.PublicIdentityCallbackControllerTest
+[INFO] Running cc.orbexa.hhy.boot.admin.R03ProviderCertificateCommandControllerContractTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.006 s -- in cc.orbexa.hhy.boot.admin.R03ProviderCertificateCommandControllerContractTest
+[INFO] Running cc.orbexa.hhy.boot.admin.AdminIdentityControllerTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.003 s -- in cc.orbexa.hhy.boot.admin.AdminIdentityControllerTest
+[INFO] Running cc.orbexa.hhy.boot.admin.R03DomainCommandControllerContractTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.013 s -- in cc.orbexa.hhy.boot.admin.R03DomainCommandControllerContractTest
+[INFO] Running cc.orbexa.hhy.boot.admin.R03FrozenApiCoverageTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.031 s -- in cc.orbexa.hhy.boot.admin.R03FrozenApiCoverageTest
+[INFO] Running cc.orbexa.hhy.boot.admin.R03ConfigurationQueryControllerContractTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.008 s -- in cc.orbexa.hhy.boot.admin.R03ConfigurationQueryControllerContractTest
+[INFO] Running cc.orbexa.hhy.boot.admin.AdminClientIpResolverTest
+[INFO] Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.228 s -- in cc.orbexa.hhy.boot.admin.AdminClientIpResolverTest
+[INFO] Running cc.orbexa.hhy.boot.admin.R03ProviderConfigCommandControllerContractTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.004 s -- in cc.orbexa.hhy.boot.admin.R03ProviderConfigCommandControllerContractTest
+[INFO] Running cc.orbexa.hhy.boot.web.GlobalExceptionHandlerTest
+22:53:57.969 [main] ERROR cc.orbexa.hhy.boot.web.GlobalExceptionHandler -requestId="request-safe-001" errorType="IllegalStateException"- unhandled_api_exception
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.119 s -- in cc.orbexa.hhy.boot.web.GlobalExceptionHandlerTest
+[INFO] Running cc.orbexa.hhy.boot.observability.ObservabilityEndpointsTest
+22:53:58.183 [main] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [cc.orbexa.hhy.boot.observability.ObservabilityEndpointsTest]: ObservabilityEndpointsTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+22:53:58.435 [main] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration cc.orbexa.hhy.HhyApplication for test class cc.orbexa.hhy.boot.observability.ObservabilityEndpointsTest
+22:53:58.625 [main] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [cc.orbexa.hhy.boot.observability.ObservabilityEndpointsTest]: ObservabilityEndpointsTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+22:53:58.630 [main] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration cc.orbexa.hhy.HhyApplication for test class cc.orbexa.hhy.boot.observability.ObservabilityEndpointsTest
+{"@timestamp":"2026-07-19T22:53:59.395024778Z","@version":"1","message":"Starting ObservabilityEndpointsTest using Java 21.0.9 with PID 79 (started by root in /workspace/services/backend/boot)","logger_name":"cc.orbexa.hhy.boot.observability.ObservabilityEndpointsTest","thread_name":"main","level":"INFO","level_value":20000,"tags":["COMMONS-LOGGING"]}
+{"@timestamp":"2026-07-19T22:53:59.405709828Z","@version":"1","message":"The following 1 profile is active: \"test\"","logger_name":"cc.orbexa.hhy.boot.observability.ObservabilityEndpointsTest","thread_name":"main","level":"INFO","level_value":20000,"tags":["COMMONS-LOGGING"]}
+{"@timestamp":"2026-07-19T22:54:02.223437317Z","@version":"1","message":"HikariPool-1 - Starting...","logger_name":"com.zaxxer.hikari.HikariDataSource","thread_name":"main","level":"INFO","level_value":20000}
+{"@timestamp":"2026-07-19T22:54:02.696521071Z","@version":"1","message":"HikariPool-1 - Added connection conn0: url=jdbc:h2:mem:hhy user=SA","logger_name":"com.zaxxer.hikari.pool.HikariPool","thread_name":"main","level":"INFO","level_value":20000}
+{"@timestamp":"2026-07-19T22:54:02.699572412Z","@version":"1","message":"HikariPool-1 - Start completed.","logger_name":"com.zaxxer.hikari.HikariDataSource","thread_name":"main","level":"INFO","level_value":20000}
+{"@timestamp":"2026-07-19T22:54:07.355102384Z","@version":"1","message":"Exposing 3 endpoints beneath base path '/actuator'","logger_name":"org.springframework.boot.actuate.endpoint.web.EndpointLinksResolver","thread_name":"main","level":"INFO","level_value":20000,"tags":["COMMONS-LOGGING"]}
+{"@timestamp":"2026-07-19T22:54:07.932178255Z","@version":"1","message":"Initializing Spring TestDispatcherServlet ''","logger_name":"org.springframework.boot.test.mock.web.SpringBootMockServletContext","thread_name":"main","level":"INFO","level_value":20000,"tags":["COMMONS-LOGGING"]}
+{"@timestamp":"2026-07-19T22:54:07.932875003Z","@version":"1","message":"Initializing Servlet ''","logger_name":"org.springframework.test.web.servlet.TestDispatcherServlet","thread_name":"main","level":"INFO","level_value":20000,"tags":["COMMONS-LOGGING"]}
+{"@timestamp":"2026-07-19T22:54:07.937217864Z","@version":"1","message":"Completed initialization in 4 ms","logger_name":"org.springframework.test.web.servlet.TestDispatcherServlet","thread_name":"main","level":"INFO","level_value":20000,"tags":["COMMONS-LOGGING"]}
+{"@timestamp":"2026-07-19T22:54:08.197805145Z","@version":"1","message":"Started ObservabilityEndpointsTest in 9.485 seconds (process running for 26.484)","logger_name":"cc.orbexa.hhy.boot.observability.ObservabilityEndpointsTest","thread_name":"main","level":"INFO","level_value":20000,"tags":["COMMONS-LOGGING"]}
+{"@timestamp":"2026-07-19T22:54:08.664462359Z","@version":"1","message":"http_request_completed","logger_name":"cc.orbexa.hhy.boot.web.RequestIdFilter","thread_name":"main","level":"INFO","level_value":20000,"traceId":"0123456789abcdef0123456789abcdef","requestId":"request_observe_001","operation":"GET /public-api/v1/platform/status","status":200,"latency":242}
+{"@timestamp":"2026-07-19T22:54:08.705395231Z","@version":"1","message":"http_request_completed","logger_name":"cc.orbexa.hhy.boot.web.RequestIdFilter","thread_name":"main","level":"INFO","level_value":20000,"traceId":"abcdef0123456789abcdef0123456789","requestId":"request_reject_observe_001","operation":"GET UNMAPPED","status":401,"latency":8}
+{"@timestamp":"2026-07-19T22:54:08.813184805Z","@version":"1","message":"http_request_completed","logger_name":"cc.orbexa.hhy.boot.web.RequestIdFilter","thread_name":"main","level":"INFO","level_value":20000,"traceId":"1234567890abcdef1234567890abcdef","requestId":"request_missing_observe_001","operation":"GET /actuator/health/**","status":404,"latency":31}
+{"@timestamp":"2026-07-19T22:54:08.908125472Z","@version":"1","message":"http_request_completed","logger_name":"cc.orbexa.hhy.boot.web.RequestIdFilter","thread_name":"main","level":"INFO","level_value":20000,"traceId":"a82d6158a43e4b38975ed6c2d1c62d53","requestId":"ac216855-abe2-4634-a018-c4a428a7e727","operation":"GET /actuator/health","status":200,"latency":52}
+{"@timestamp":"2026-07-19T22:54:08.951522376Z","@version":"1","message":"business_metric_query_failed","logger_name":"cc.orbexa.hhy.boot.observability.BusinessGaugeBinder","thread_name":"main","level":"WARN","level_value":30000,"traceId":"2d3150534c2e499a9adaa63e1b97c7ef","requestId":"ea8f4447-8ba1-4b5c-9b4b-cbb88d539a7e","metric":"hhy.admin.idempotency.incomplete.snapshots","errorType":"BadSqlGrammarException"}
+{"@timestamp":"2026-07-19T22:54:08.963590638Z","@version":"1","message":"business_metric_query_failed","logger_name":"cc.orbexa.hhy.boot.observability.BusinessGaugeBinder","thread_name":"main","level":"WARN","level_value":30000,"traceId":"2d3150534c2e499a9adaa63e1b97c7ef","requestId":"ea8f4447-8ba1-4b5c-9b4b-cbb88d539a7e","metric":"hhy.user.active.sessions","errorType":"BadSqlGrammarException"}
+{"@timestamp":"2026-07-19T22:54:09.016928452Z","@version":"1","message":"business_metric_query_failed","logger_name":"cc.orbexa.hhy.boot.observability.BusinessGaugeBinder","thread_name":"main","level":"WARN","level_value":30000,"traceId":"2d3150534c2e499a9adaa63e1b97c7ef","requestId":"ea8f4447-8ba1-4b5c-9b4b-cbb88d539a7e","metric":"hhy.user.security.challenge.failures.5m","errorType":"BadSqlGrammarException"}
+{"@timestamp":"2026-07-19T22:54:09.018235429Z","@version":"1","message":"business_metric_query_failed","logger_name":"cc.orbexa.hhy.boot.observability.BusinessGaugeBinder","thread_name":"main","level":"WARN","level_value":30000,"traceId":"2d3150534c2e499a9adaa63e1b97c7ef","requestId":"ea8f4447-8ba1-4b5c-9b4b-cbb88d539a7e","metric":"hhy.provider.connection.test.failures.5m","errorType":"BadSqlGrammarException"}
+{"@timestamp":"2026-07-19T22:54:09.027955707Z","@version":"1","message":"business_metric_query_failed","logger_name":"cc.orbexa.hhy.boot.observability.BusinessGaugeBinder","thread_name":"main","level":"WARN","level_value":30000,"traceId":"2d3150534c2e499a9adaa63e1b97c7ef","requestId":"ea8f4447-8ba1-4b5c-9b4b-cbb88d539a7e","metric":"hhy.storage.migration.blocked","errorType":"BadSqlGrammarException"}
+{"@timestamp":"2026-07-19T22:54:09.032942548Z","@version":"1","message":"business_metric_query_failed","logger_name":"cc.orbexa.hhy.boot.observability.BusinessGaugeBinder","thread_name":"main","level":"WARN","level_value":30000,"traceId":"2d3150534c2e499a9adaa63e1b97c7ef","requestId":"ea8f4447-8ba1-4b5c-9b4b-cbb88d539a7e","metric":"hhy.user.sms.expired.unused","errorType":"BadSqlGrammarException"}
+{"@timestamp":"2026-07-19T22:54:09.033988154Z","@version":"1","message":"business_metric_query_failed","logger_name":"cc.orbexa.hhy.boot.observability.BusinessGaugeBinder","thread_name":"main","level":"WARN","level_value":30000,"traceId":"2d3150534c2e499a9adaa63e1b97c7ef","requestId":"ea8f4447-8ba1-4b5c-9b4b-cbb88d539a7e","metric":"hhy.media.delete.pending","errorType":"BadSqlGrammarException"}
+{"@timestamp":"2026-07-19T22:54:09.035218419Z","@version":"1","message":"business_metric_query_failed","logger_name":"cc.orbexa.hhy.boot.observability.BusinessGaugeBinder","thread_name":"main","level":"WARN","level_value":30000,"traceId":"2d3150534c2e499a9adaa63e1b97c7ef","requestId":"ea8f4447-8ba1-4b5c-9b4b-cbb88d539a7e","metric":"hhy.domain.verification.failures","errorType":"BadSqlGrammarException"}
+{"@timestamp":"2026-07-19T22:54:09.036397917Z","@version":"1","message":"business_metric_query_failed","logger_name":"cc.orbexa.hhy.boot.observability.BusinessGaugeBinder","thread_name":"main","level":"WARN","level_value":30000,"traceId":"2d3150534c2e499a9adaa63e1b97c7ef","requestId":"ea8f4447-8ba1-4b5c-9b4b-cbb88d539a7e","metric":"hhy.admin.active.sessions","errorType":"BadSqlGrammarException"}
+{"@timestamp":"2026-07-19T22:54:09.039653235Z","@version":"1","message":"business_metric_query_failed","logger_name":"cc.orbexa.hhy.boot.observability.BusinessGaugeBinder","thread_name":"main","level":"WARN","level_value":30000,"traceId":"2d3150534c2e499a9adaa63e1b97c7ef","requestId":"ea8f4447-8ba1-4b5c-9b4b-cbb88d539a7e","metric":"hhy.provider.config.untested.active","errorType":"BadSqlGrammarException"}
+{"@timestamp":"2026-07-19T22:54:09.041272939Z","@version":"1","message":"business_metric_query_failed","logger_name":"cc.orbexa.hhy.boot.observability.BusinessGaugeBinder","thread_name":"main","level":"WARN","level_value":30000,"traceId":"2d3150534c2e499a9adaa63e1b97c7ef","requestId":"ea8f4447-8ba1-4b5c-9b4b-cbb88d539a7e","metric":"hhy.admin.auth.failures.5m","errorType":"BadSqlGrammarException"}
+{"@timestamp":"2026-07-19T22:54:09.044280502Z","@version":"1","message":"business_metric_query_failed","logger_name":"cc.orbexa.hhy.boot.observability.BusinessGaugeBinder","thread_name":"main","level":"WARN","level_value":30000,"traceId":"2d3150534c2e499a9adaa63e1b97c7ef","requestId":"ea8f4447-8ba1-4b5c-9b4b-cbb88d539a7e","metric":"hhy.media.upload.failures.5m","errorType":"BadSqlGrammarException"}
+{"@timestamp":"2026-07-19T22:54:09.048458423Z","@version":"1","message":"business_metric_query_failed","logger_name":"cc.orbexa.hhy.boot.observability.BusinessGaugeBinder","thread_name":"main","level":"WARN","level_value":30000,"traceId":"2d3150534c2e499a9adaa63e1b97c7ef","requestId":"ea8f4447-8ba1-4b5c-9b4b-cbb88d539a7e","metric":"hhy.provider.certificates.expiring.30d","errorType":"BadSqlGrammarException"}
+{"@timestamp":"2026-07-19T22:54:09.051484859Z","@version":"1","message":"business_metric_query_failed","logger_name":"cc.orbexa.hhy.boot.observability.BusinessGaugeBinder","thread_name":"main","level":"WARN","level_value":30000,"traceId":"2d3150534c2e499a9adaa63e1b97c7ef","requestId":"ea8f4447-8ba1-4b5c-9b4b-cbb88d539a7e","metric":"hhy.media.upload.expired.open","errorType":"BadSqlGrammarException"}
+{"@timestamp":"2026-07-19T22:54:09.062247421Z","@version":"1","message":"business_metric_query_failed","logger_name":"cc.orbexa.hhy.boot.observability.BusinessGaugeBinder","thread_name":"main","level":"WARN","level_value":30000,"traceId":"2d3150534c2e499a9adaa63e1b97c7ef","requestId":"ea8f4447-8ba1-4b5c-9b4b-cbb88d539a7e","metric":"hhy.admin.mfa.active.methods","errorType":"BadSqlGrammarException"}
+{"@timestamp":"2026-07-19T22:54:09.093637034Z","@version":"1","message":"http_request_completed","logger_name":"cc.orbexa.hhy.boot.web.RequestIdFilter","thread_name":"main","level":"INFO","level_value":20000,"traceId":"2d3150534c2e499a9adaa63e1b97c7ef","requestId":"ea8f4447-8ba1-4b5c-9b4b-cbb88d539a7e","operation":"GET /actuator/prometheus","status":200,"latency":182}
+{"@timestamp":"2026-07-19T22:54:09.130716891Z","@version":"1","message":"http_request_completed","logger_name":"cc.orbexa.hhy.boot.web.RequestIdFilter","thread_name":"main","level":"INFO","level_value":20000,"traceId":"d3edd51098524e4a91279f180537d4cf","requestId":"381ee304-189a-4008-9560-160a9b06553a","operation":"GET /actuator","status":200,"latency":14}
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 11.05 s -- in cc.orbexa.hhy.boot.observability.ObservabilityEndpointsTest
+[INFO] Running cc.orbexa.hhy.boot.observability.BusinessGaugeBinderTest
+{"@timestamp":"2026-07-19T22:54:09.310478609Z","@version":"1","message":"business_metric_query_failed","logger_name":"cc.orbexa.hhy.boot.observability.BusinessGaugeBinder","thread_name":"main","level":"WARN","level_value":30000,"metric":"hhy.outbox.backlog","errorType":"BadSqlGrammarException"}
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.171 s -- in cc.orbexa.hhy.boot.observability.BusinessGaugeBinderTest
+[INFO] Running cc.orbexa.hhy.access.identity.IdentityCallbackServiceTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.063 s -- in cc.orbexa.hhy.access.identity.IdentityCallbackServiceTest
+[INFO] Running cc.orbexa.hhy.access.identity.AliyunMarketIdentityProviderClientTest
+[INFO] Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.154 s -- in cc.orbexa.hhy.access.identity.AliyunMarketIdentityProviderClientTest
+[INFO] Running cc.orbexa.hhy.access.identity.R05IdentityProviderSettingsTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.012 s -- in cc.orbexa.hhy.access.identity.R05IdentityProviderSettingsTest
+[INFO] Running cc.orbexa.hhy.access.identity.ProviderFaceImageDownloaderTest
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.016 s -- in cc.orbexa.hhy.access.identity.ProviderFaceImageDownloaderTest
+[INFO] Running cc.orbexa.hhy.access.identity.R05PrivateIdentityEvidenceStorageTest
+[WARNING] Tests run: 4, Failures: 0, Errors: 0, Skipped: 1, Time elapsed: 0.103 s -- in cc.orbexa.hhy.access.identity.R05PrivateIdentityEvidenceStorageTest
+[INFO] Running cc.orbexa.hhy.access.identity.AdminIdentityServiceTest
+[INFO] Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.560 s -- in cc.orbexa.hhy.access.identity.AdminIdentityServiceTest
+[INFO] Running cc.orbexa.hhy.access.identity.IdentityServiceTest
+[INFO] Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.094 s -- in cc.orbexa.hhy.access.identity.IdentityServiceTest
+[INFO] Running cc.orbexa.hhy.access.identity.IdentityProviderResultCoordinatorTest
+[INFO] Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.074 s -- in cc.orbexa.hhy.access.identity.IdentityProviderResultCoordinatorTest
+[INFO] Running cc.orbexa.hhy.access.identity.IdentityIdempotencyServiceTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.501 s -- in cc.orbexa.hhy.access.identity.IdentityIdempotencyServiceTest
+[INFO] Running cc.orbexa.hhy.access.identity.R05IdentityPostgresStoreTest
+[WARNING] Tests run: 1, Failures: 0, Errors: 0, Skipped: 1, Time elapsed: 0.016 s -- in cc.orbexa.hhy.access.identity.R05IdentityPostgresStoreTest
+[INFO] Running cc.orbexa.hhy.access.storage.R04StorageProviderSettingsTest
+[WARNING] Tests run: 5, Failures: 0, Errors: 0, Skipped: 1, Time elapsed: 0.021 s -- in cc.orbexa.hhy.access.storage.R04StorageProviderSettingsTest
+[INFO] Running cc.orbexa.hhy.access.storage.StorageProviderAdapterTest
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.033 s -- in cc.orbexa.hhy.access.storage.StorageProviderAdapterTest
+[INFO] Running cc.orbexa.hhy.access.storage.R04OssStorageTransportTest
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.285 s -- in cc.orbexa.hhy.access.storage.R04OssStorageTransportTest
+[INFO] Running cc.orbexa.hhy.access.storage.StorageMigrationServiceTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.012 s -- in cc.orbexa.hhy.access.storage.StorageMigrationServiceTest
+[INFO] Running cc.orbexa.hhy.access.storage.R04S3StorageTransportTest
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.827 s -- in cc.orbexa.hhy.access.storage.R04S3StorageTransportTest
+[INFO] Running cc.orbexa.hhy.access.storage.MediaIdempotencyServiceTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.019 s -- in cc.orbexa.hhy.access.storage.MediaIdempotencyServiceTest
+[INFO] Running cc.orbexa.hhy.access.storage.MediaUploadServiceTest
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.036 s -- in cc.orbexa.hhy.access.storage.MediaUploadServiceTest
+[INFO] Running cc.orbexa.hhy.access.user.UserAuthVerificationServiceTest
+[INFO] Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.248 s -- in cc.orbexa.hhy.access.user.UserAuthVerificationServiceTest
+[INFO] Running cc.orbexa.hhy.access.user.UserAuthSuccessContractTest
+{"@timestamp":"2026-07-19T22:54:12.472677514Z","@version":"1","message":"Could not detect default configuration classes for test class [cc.orbexa.hhy.access.user.UserAuthSuccessContractTest]: UserAuthSuccessContractTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.","logger_name":"org.springframework.test.context.support.AnnotationConfigContextLoaderUtils","thread_name":"main","level":"INFO","level_value":20000,"tags":["COMMONS-LOGGING"]}
+{"@timestamp":"2026-07-19T22:54:12.556222357Z","@version":"1","message":"Found @SpringBootConfiguration cc.orbexa.hhy.HhyApplication for test class cc.orbexa.hhy.access.user.UserAuthSuccessContractTest","logger_name":"org.springframework.boot.test.context.SpringBootTestContextBootstrapper","thread_name":"main","level":"INFO","level_value":20000,"tags":["COMMONS-LOGGING"]}
+{"@timestamp":"2026-07-19T22:54:12.559215274Z","@version":"1","message":"Could not detect default configuration classes for test class [cc.orbexa.hhy.access.user.UserAuthSuccessContractTest]: UserAuthSuccessContractTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.","logger_name":"org.springframework.test.context.support.AnnotationConfigContextLoaderUtils","thread_name":"main","level":"INFO","level_value":20000,"tags":["COMMONS-LOGGING"]}
+{"@timestamp":"2026-07-19T22:54:12.562854468Z","@version":"1","message":"Found @SpringBootConfiguration cc.orbexa.hhy.HhyApplication for test class cc.orbexa.hhy.access.user.UserAuthSuccessContractTest","logger_name":"org.springframework.boot.test.context.SpringBootTestContextBootstrapper","thread_name":"main","level":"INFO","level_value":20000,"tags":["COMMONS-LOGGING"]}
+{"@timestamp":"2026-07-19T22:54:12.677602319Z","@version":"1","message":"Starting UserAuthSuccessContractTest using Java 21.0.9 with PID 79 (started by root in /workspace/services/backend/boot)","logger_name":"cc.orbexa.hhy.access.user.UserAuthSuccessContractTest","thread_name":"main","level":"INFO","level_value":20000,"tags":["COMMONS-LOGGING"]}
+{"@timestamp":"2026-07-19T22:54:12.678302346Z","@version":"1","message":"The following 1 profile is active: \"test\"","logger_name":"cc.orbexa.hhy.access.user.UserAuthSuccessContractTest","thread_name":"main","level":"INFO","level_value":20000,"tags":["COMMONS-LOGGING"]}
+{"@timestamp":"2026-07-19T22:54:13.984048053Z","@version":"1","message":"HikariPool-2 - Starting...","logger_name":"com.zaxxer.hikari.HikariDataSource","thread_name":"main","level":"INFO","level_value":20000}
+{"@timestamp":"2026-07-19T22:54:13.998795222Z","@version":"1","message":"HikariPool-2 - Added connection conn61: url=jdbc:h2:mem:hhy-user-auth-contract user=SA","logger_name":"com.zaxxer.hikari.pool.HikariPool","thread_name":"main","level":"INFO","level_value":20000}
+{"@timestamp":"2026-07-19T22:54:13.999397969Z","@version":"1","message":"HikariPool-2 - Start completed.","logger_name":"com.zaxxer.hikari.HikariDataSource","thread_name":"main","level":"INFO","level_value":20000}
+{"@timestamp":"2026-07-19T22:54:15.241370331Z","@version":"1","message":"Exposing 3 endpoints beneath base path '/actuator'","logger_name":"org.springframework.boot.actuate.endpoint.web.EndpointLinksResolver","thread_name":"main","level":"INFO","level_value":20000,"tags":["COMMONS-LOGGING"]}
+{"@timestamp":"2026-07-19T22:54:15.359319775Z","@version":"1","message":"Initializing Spring TestDispatcherServlet ''","logger_name":"org.springframework.boot.test.mock.web.SpringBootMockServletContext","thread_name":"main","level":"INFO","level_value":20000,"tags":["COMMONS-LOGGING"]}
+{"@timestamp":"2026-07-19T22:54:15.359775965Z","@version":"1","message":"Initializing Servlet ''","logger_name":"org.springframework.test.web.servlet.TestDispatcherServlet","thread_name":"main","level":"INFO","level_value":20000,"tags":["COMMONS-LOGGING"]}
+{"@timestamp":"2026-07-19T22:54:15.361930819Z","@version":"1","message":"Completed initialization in 2 ms","logger_name":"org.springframework.test.web.servlet.TestDispatcherServlet","thread_name":"main","level":"INFO","level_value":20000,"tags":["COMMONS-LOGGING"]}
+{"@timestamp":"2026-07-19T22:54:15.417442062Z","@version":"1","message":"Started UserAuthSuccessContractTest in 2.837 seconds (process running for 33.704)","logger_name":"cc.orbexa.hhy.access.user.UserAuthSuccessContractTest","thread_name":"main","level":"INFO","level_value":20000,"tags":["COMMONS-LOGGING"]}
+{"@timestamp":"2026-07-19T22:54:15.582110395Z","@version":"1","message":"http_request_completed","logger_name":"cc.orbexa.hhy.boot.web.RequestIdFilter","thread_name":"main","level":"INFO","level_value":20000,"traceId":"32f5434e71ca49b997972b2588bb4587","requestId":"contract-password-login","operation":"POST /api/v1/auth/password/login","status":200,"latency":151}
+{"@timestamp":"2026-07-19T22:54:15.649839511Z","@version":"1","message":"http_request_completed","logger_name":"cc.orbexa.hhy.boot.web.RequestIdFilter","thread_name":"main","level":"INFO","level_value":20000,"traceId":"57fb5a8e5b4e418c9a5879c62cf4034b","requestId":"contract-sms-login","operation":"POST /api/v1/auth/sms/login","status":200,"latency":25}
+{"@timestamp":"2026-07-19T22:54:15.698931623Z","@version":"1","message":"http_request_completed","logger_name":"cc.orbexa.hhy.boot.web.RequestIdFilter","thread_name":"main","level":"INFO","level_value":20000,"traceId":"c754757245414799af5699d321ab8798","requestId":"contract-registration","operation":"POST /api/v1/auth/register","status":200,"latency":39}
+{"@timestamp":"2026-07-19T22:54:15.794790011Z","@version":"1","message":"http_request_completed","logger_name":"cc.orbexa.hhy.boot.web.RequestIdFilter","thread_name":"main","level":"INFO","level_value":20000,"traceId":"cbb56cdd33f3443a8ef8b2b231ebccc9","requestId":"contract-user-refresh","operation":"POST /api/v1/auth/refresh","status":200,"latency":72}
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 3.378 s -- in cc.orbexa.hhy.access.user.UserAuthSuccessContractTest
+[INFO] Running cc.orbexa.hhy.access.user.UserAuthServiceTest
+[INFO] Tests run: 18, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.640 s -- in cc.orbexa.hhy.access.user.UserAuthServiceTest
+[INFO] Running cc.orbexa.hhy.access.user.UserBearerAuthenticationFilterTest
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.029 s -- in cc.orbexa.hhy.access.user.UserBearerAuthenticationFilterTest
+[INFO] Running cc.orbexa.hhy.access.user.UserAuthPublicRejectionContractTest
+{"@timestamp":"2026-07-19T22:54:16.528299486Z","@version":"1","message":"Could not detect default configuration classes for test class [cc.orbexa.hhy.access.user.UserAuthPublicRejectionContractTest]: UserAuthPublicRejectionContractTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.","logger_name":"org.springframework.test.context.support.AnnotationConfigContextLoaderUtils","thread_name":"main","level":"INFO","level_value":20000,"tags":["COMMONS-LOGGING"]}
+{"@timestamp":"2026-07-19T22:54:16.532103943Z","@version":"1","message":"Found @SpringBootConfiguration cc.orbexa.hhy.HhyApplication for test class cc.orbexa.hhy.access.user.UserAuthPublicRejectionContractTest","logger_name":"org.springframework.boot.test.context.SpringBootTestContextBootstrapper","thread_name":"main","level":"INFO","level_value":20000,"tags":["COMMONS-LOGGING"]}
+{"@timestamp":"2026-07-19T22:54:16.559086886Z","@version":"1","message":"Could not detect default configuration classes for test class [cc.orbexa.hhy.access.user.UserAuthPublicRejectionContractTest]: UserAuthPublicRejectionContractTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.","logger_name":"org.springframework.test.context.support.AnnotationConfigContextLoaderUtils","thread_name":"main","level":"INFO","level_value":20000,"tags":["COMMONS-LOGGING"]}
+{"@timestamp":"2026-07-19T22:54:16.561580893Z","@version":"1","message":"Found @SpringBootConfiguration cc.orbexa.hhy.HhyApplication for test class cc.orbexa.hhy.access.user.UserAuthPublicRejectionContractTest","logger_name":"org.springframework.boot.test.context.SpringBootTestContextBootstrapper","thread_name":"main","level":"INFO","level_value":20000,"tags":["COMMONS-LOGGING"]}
+{"@timestamp":"2026-07-19T22:54:16.661034198Z","@version":"1","message":"Starting UserAuthPublicRejectionContractTest using Java 21.0.9 with PID 79 (started by root in /workspace/services/backend/boot)","logger_name":"cc.orbexa.hhy.access.user.UserAuthPublicRejectionContractTest","thread_name":"main","level":"INFO","level_value":20000,"tags":["COMMONS-LOGGING"]}
+{"@timestamp":"2026-07-19T22:54:16.66153872Z","@version":"1","message":"The following 1 profile is active: \"test\"","logger_name":"cc.orbexa.hhy.access.user.UserAuthPublicRejectionContractTest","thread_name":"main","level":"INFO","level_value":20000,"tags":["COMMONS-LOGGING"]}
+{"@timestamp":"2026-07-19T22:54:17.305010293Z","@version":"1","message":"HikariPool-3 - Starting...","logger_name":"com.zaxxer.hikari.HikariDataSource","thread_name":"main","level":"INFO","level_value":20000}
+{"@timestamp":"2026-07-19T22:54:17.31034658Z","@version":"1","message":"HikariPool-3 - Added connection conn63: url=jdbc:h2:mem:hhy-user-auth-public-rejection user=SA","logger_name":"com.zaxxer.hikari.pool.HikariPool","thread_name":"main","level":"INFO","level_value":20000}
+{"@timestamp":"2026-07-19T22:54:17.310778858Z","@version":"1","message":"HikariPool-3 - Start completed.","logger_name":"com.zaxxer.hikari.HikariDataSource","thread_name":"main","level":"INFO","level_value":20000}
+{"@timestamp":"2026-07-19T22:54:18.161340925Z","@version":"1","message":"Exposing 3 endpoints beneath base path '/actuator'","logger_name":"org.springframework.boot.actuate.endpoint.web.EndpointLinksResolver","thread_name":"main","level":"INFO","level_value":20000,"tags":["COMMONS-LOGGING"]}
+{"@timestamp":"2026-07-19T22:54:18.253084471Z","@version":"1","message":"Initializing Spring TestDispatcherServlet ''","logger_name":"org.springframework.boot.test.mock.web.SpringBootMockServletContext","thread_name":"main","level":"INFO","level_value":20000,"tags":["COMMONS-LOGGING"]}
+{"@timestamp":"2026-07-19T22:54:18.253452141Z","@version":"1","message":"Initializing Servlet ''","logger_name":"org.springframework.test.web.servlet.TestDispatcherServlet","thread_name":"main","level":"INFO","level_value":20000,"tags":["COMMONS-LOGGING"]}
+{"@timestamp":"2026-07-19T22:54:18.255488582Z","@version":"1","message":"Completed initialization in 2 ms","logger_name":"org.springframework.test.web.servlet.TestDispatcherServlet","thread_name":"main","level":"INFO","level_value":20000,"tags":["COMMONS-LOGGING"]}
+{"@timestamp":"2026-07-19T22:54:18.312729887Z","@version":"1","message":"Started UserAuthPublicRejectionContractTest in 1.745 seconds (process running for 36.599)","logger_name":"cc.orbexa.hhy.access.user.UserAuthPublicRejectionContractTest","thread_name":"main","level":"INFO","level_value":20000,"tags":["COMMONS-LOGGING"]}
+{"@timestamp":"2026-07-19T22:54:18.392090591Z","@version":"1","message":"http_request_completed","logger_name":"cc.orbexa.hhy.boot.web.RequestIdFilter","thread_name":"main","level":"INFO","level_value":20000,"traceId":"ad3a6b4448b7466abaee719756dbf602","requestId":"reject-invalid-invite","operation":"POST /api/v1/auth/invite-codes/validate","status":400,"latency":67}
+{"@timestamp":"2026-07-19T22:54:18.434757165Z","@version":"1","message":"http_request_completed","logger_name":"cc.orbexa.hhy.boot.web.RequestIdFilter","thread_name":"main","level":"INFO","level_value":20000,"traceId":"4868a4c94aab4bd5a274033a9d6c0815","requestId":"reject-malformed-registration","operation":"POST /api/v1/auth/register","status":400,"latency":14}
+{"@timestamp":"2026-07-19T22:54:18.480975033Z","@version":"1","message":"http_request_completed","logger_name":"cc.orbexa.hhy.boot.web.RequestIdFilter","thread_name":"main","level":"INFO","level_value":20000,"traceId":"dd3df9a71bf74e9599fbc630c38767d3","requestId":"reject-missing-idempotency","operation":"POST /api/v1/auth/sms/send","status":400,"latency":23}
+{"@timestamp":"2026-07-19T22:54:18.5236604Z","@version":"1","message":"http_request_completed","logger_name":"cc.orbexa.hhy.boot.web.RequestIdFilter","thread_name":"main","level":"INFO","level_value":20000,"traceId":"f2c9be30527a4724b4e650184fd2a03e","requestId":"reject-short-idempotency","operation":"POST /api/v1/auth/password/login","status":400,"latency":34}
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.008 s -- in cc.orbexa.hhy.access.user.UserAuthPublicRejectionContractTest
+[INFO] Running cc.orbexa.hhy.access.user.UserSecurityWebSecurityTest
+{"@timestamp":"2026-07-19T22:54:18.53124057Z","@version":"1","message":"Could not detect default configuration classes for test class [cc.orbexa.hhy.access.user.UserSecurityWebSecurityTest]: UserSecurityWebSecurityTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.","logger_name":"org.springframework.test.context.support.AnnotationConfigContextLoaderUtils","thread_name":"main","level":"INFO","level_value":20000,"tags":["COMMONS-LOGGING"]}
+{"@timestamp":"2026-07-19T22:54:18.534034051Z","@version":"1","message":"Found @SpringBootConfiguration cc.orbexa.hhy.HhyApplication for test class cc.orbexa.hhy.access.user.UserSecurityWebSecurityTest","logger_name":"org.springframework.boot.test.context.SpringBootTestContextBootstrapper","thread_name":"main","level":"INFO","level_value":20000,"tags":["COMMONS-LOGGING"]}
+{"@timestamp":"2026-07-19T22:54:18.535053353Z","@version":"1","message":"Could not detect default configuration classes for test class [cc.orbexa.hhy.access.user.UserSecurityWebSecurityTest]: UserSecurityWebSecurityTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.","logger_name":"org.springframework.test.context.support.AnnotationConfigContextLoaderUtils","thread_name":"main","level":"INFO","level_value":20000,"tags":["COMMONS-LOGGING"]}
+{"@timestamp":"2026-07-19T22:54:18.541461695Z","@version":"1","message":"Found @SpringBootConfiguration cc.orbexa.hhy.HhyApplication for test class cc.orbexa.hhy.access.user.UserSecurityWebSecurityTest","logger_name":"org.springframework.boot.test.context.SpringBootTestContextBootstrapper","thread_name":"main","level":"INFO","level_value":20000,"tags":["COMMONS-LOGGING"]}
+{"@timestamp":"2026-07-19T22:54:18.575119835Z","@version":"1","message":"Starting UserSecurityWebSecurityTest using Java 21.0.9 with PID 79 (started by root in /workspace/services/backend/boot)","logger_name":"cc.orbexa.hhy.access.user.UserSecurityWebSecurityTest","thread_name":"main","level":"INFO","level_value":20000,"tags":["COMMONS-LOGGING"]}
+{"@timestamp":"2026-07-19T22:54:18.575474684Z","@version":"1","message":"The following 1 profile is active: \"test\"","logger_name":"cc.orbexa.hhy.access.user.UserSecurityWebSecurityTest","thread_name":"main","level":"INFO","level_value":20000,"tags":["COMMONS-LOGGING"]}
+{"@timestamp":"2026-07-19T22:54:19.043811158Z","@version":"1","message":"HikariPool-4 - Starting...","logger_name":"com.zaxxer.hikari.HikariDataSource","thread_name":"main","level":"INFO","level_value":20000}
+{"@timestamp":"2026-07-19T22:54:19.060479427Z","@version":"1","message":"HikariPool-4 - Added connection conn65: url=jdbc:h2:mem:hhy-user-security user=SA","logger_name":"com.zaxxer.hikari.pool.HikariPool","thread_name":"main","level":"INFO","level_value":20000}
+{"@timestamp":"2026-07-19T22:54:19.061026969Z","@version":"1","message":"HikariPool-4 - Start completed.","logger_name":"com.zaxxer.hikari.HikariDataSource","thread_name":"main","level":"INFO","level_value":20000}
+{"@timestamp":"2026-07-19T22:54:20.091855959Z","@version":"1","message":"Exposing 3 endpoints beneath base path '/actuator'","logger_name":"org.springframework.boot.actuate.endpoint.web.EndpointLinksResolver","thread_name":"main","level":"INFO","level_value":20000,"tags":["COMMONS-LOGGING"]}
+{"@timestamp":"2026-07-19T22:54:20.222209931Z","@version":"1","message":"Initializing Spring TestDispatcherServlet ''","logger_name":"org.springframework.boot.test.mock.web.SpringBootMockServletContext","thread_name":"main","level":"INFO","level_value":20000,"tags":["COMMONS-LOGGING"]}
+{"@timestamp":"2026-07-19T22:54:20.222759903Z","@version":"1","message":"Initializing Servlet ''","logger_name":"org.springframework.test.web.servlet.TestDispatcherServlet","thread_name":"main","level":"INFO","level_value":20000,"tags":["COMMONS-LOGGING"]}
+{"@timestamp":"2026-07-19T22:54:20.226151004Z","@version":"1","message":"Completed initialization in 3 ms","logger_name":"org.springframework.test.web.servlet.TestDispatcherServlet","thread_name":"main","level":"INFO","level_value":20000,"tags":["COMMONS-LOGGING"]}
+{"@timestamp":"2026-07-19T22:54:20.309774932Z","@version":"1","message":"Started UserSecurityWebSecurityTest in 1.763 seconds (process running for 38.596)","logger_name":"cc.orbexa.hhy.access.user.UserSecurityWebSecurityTest","thread_name":"main","level":"INFO","level_value":20000,"tags":["COMMONS-LOGGING"]}
+{"@timestamp":"2026-07-19T22:54:20.322808911Z","@version":"1","message":"http_request_completed","logger_name":"cc.orbexa.hhy.boot.web.RequestIdFilter","thread_name":"main","level":"INFO","level_value":20000,"traceId":"0ce884e11e5f4efb87596afb402f3d12","requestId":"anonymous-device-list","operation":"GET UNMAPPED","status":401,"latency":5}
+{"@timestamp":"2026-07-19T22:54:20.326676746Z","@version":"1","message":"http_request_completed","logger_name":"cc.orbexa.hhy.boot.web.RequestIdFilter","thread_name":"main","level":"INFO","level_value":20000,"traceId":"f634d4478abf412c99ea447af45d02e1","requestId":"anonymous-password-change","operation":"POST UNMAPPED","status":401,"latency":2}
+{"@timestamp":"2026-07-19T22:54:20.364780693Z","@version":"1","message":"http_request_completed","logger_name":"cc.orbexa.hhy.boot.web.RequestIdFilter","thread_name":"main","level":"INFO","level_value":20000,"traceId":"0d1bdcd13bb04454938d713240e44d25","requestId":"f8391d05-e9a9-4a2e-a5cc-30639de5cd2a","operation":"GET /api/v1/me","status":200,"latency":30}
+{"@timestamp":"2026-07-19T22:54:20.41302541Z","@version":"1","message":"http_request_completed","logger_name":"cc.orbexa.hhy.boot.web.RequestIdFilter","thread_name":"main","level":"INFO","level_value":20000,"traceId":"e9d4cbe0e35b42a3befe4b7ead14e795","requestId":"7f0e1c12-4f30-4efe-81d5-39d4bcd08835","operation":"POST /api/v1/support/tickets","status":200,"latency":34}
+{"@timestamp":"2026-07-19T22:54:20.425826042Z","@version":"1","message":"http_request_completed","logger_name":"cc.orbexa.hhy.boot.web.RequestIdFilter","thread_name":"main","level":"INFO","level_value":20000,"traceId":"b79009534f72430d8b426390aec4cbcb","requestId":"38312a61-32fb-4cc2-a242-912cbf20a828","operation":"GET UNMAPPED","status":403,"latency":11}
+{"@timestamp":"2026-07-19T22:54:20.460271901Z","@version":"1","message":"http_request_completed","logger_name":"cc.orbexa.hhy.boot.web.RequestIdFilter","thread_name":"main","level":"INFO","level_value":20000,"traceId":"364b5b3c4e6240dea89500915cf690b5","requestId":"1df8a36e-cbe5-43a1-9694-b20f8cd97cb9","operation":"GET /api/v1/auth/sessions","status":200,"latency":24}
+{"@timestamp":"2026-07-19T22:54:20.49444301Z","@version":"1","message":"http_request_completed","logger_name":"cc.orbexa.hhy.boot.web.RequestIdFilter","thread_name":"main","level":"INFO","level_value":20000,"traceId":"a5f36b8cd2684c52b145c5340f8777bf","requestId":"437f75df-d4c4-4140-8f60-8badb99348fa","operation":"POST /api/v1/me/cancellation","status":200,"latency":26}
+{"@timestamp":"2026-07-19T22:54:20.507455733Z","@version":"1","message":"http_request_completed","logger_name":"cc.orbexa.hhy.boot.web.RequestIdFilter","thread_name":"main","level":"INFO","level_value":20000,"traceId":"217ae3d61d854c39b5e50ffd5e15754e","requestId":"644c20be-847b-420f-b7ac-60f05f04f004","operation":"DELETE /api/v1/auth/sessions/{id}","status":200,"latency":6}
+{"@timestamp":"2026-07-19T22:54:20.528586017Z","@version":"1","message":"http_request_completed","logger_name":"cc.orbexa.hhy.boot.web.RequestIdFilter","thread_name":"main","level":"INFO","level_value":20000,"traceId":"772552f1a04a4cd6aeec4e0690676a71","requestId":"671443ae-e393-4565-8c5f-1c56b553d588","operation":"POST /api/v1/me/security/password/change","status":200,"latency":19}
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.003 s -- in cc.orbexa.hhy.access.user.UserSecurityWebSecurityTest
+[INFO] Running cc.orbexa.hhy.access.user.UserAuthPolicyTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.575 s -- in cc.orbexa.hhy.access.user.UserAuthPolicyTest
+[INFO] Running cc.orbexa.hhy.access.user.UserTokenServiceTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.019 s -- in cc.orbexa.hhy.access.user.UserTokenServiceTest
+[INFO] Running cc.orbexa.hhy.access.user.UserAuthPublicSuccessContractTest
+{"@timestamp":"2026-07-19T22:54:21.13560494Z","@version":"1","message":"Could not detect default configuration classes for test class [cc.orbexa.hhy.access.user.UserAuthPublicSuccessContractTest]: UserAuthPublicSuccessContractTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.","logger_name":"org.springframework.test.context.support.AnnotationConfigContextLoaderUtils","thread_name":"main","level":"INFO","level_value":20000,"tags":["COMMONS-LOGGING"]}
+{"@timestamp":"2026-07-19T22:54:21.138283883Z","@version":"1","message":"Found @SpringBootConfiguration cc.orbexa.hhy.HhyApplication for test class cc.orbexa.hhy.access.user.UserAuthPublicSuccessContractTest","logger_name":"org.springframework.boot.test.context.SpringBootTestContextBootstrapper","thread_name":"main","level":"INFO","level_value":20000,"tags":["COMMONS-LOGGING"]}
+{"@timestamp":"2026-07-19T22:54:21.163810777Z","@version":"1","message":"Could not detect default configuration classes for test class [cc.orbexa.hhy.access.user.UserAuthPublicSuccessContractTest]: UserAuthPublicSuccessContractTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.","logger_name":"org.springframework.test.context.support.AnnotationConfigContextLoaderUtils","thread_name":"main","level":"INFO","level_value":20000,"tags":["COMMONS-LOGGING"]}
+{"@timestamp":"2026-07-19T22:54:21.165797089Z","@version":"1","message":"Found @SpringBootConfiguration cc.orbexa.hhy.HhyApplication for test class cc.orbexa.hhy.access.user.UserAuthPublicSuccessContractTest","logger_name":"org.springframework.boot.test.context.SpringBootTestContextBootstrapper","thread_name":"main","level":"INFO","level_value":20000,"tags":["COMMONS-LOGGING"]}
+{"@timestamp":"2026-07-19T22:54:21.231157792Z","@version":"1","message":"Starting UserAuthPublicSuccessContractTest using Java 21.0.9 with PID 79 (started by root in /workspace/services/backend/boot)","logger_name":"cc.orbexa.hhy.access.user.UserAuthPublicSuccessContractTest","thread_name":"main","level":"INFO","level_value":20000,"tags":["COMMONS-LOGGING"]}
+{"@timestamp":"2026-07-19T22:54:21.231579064Z","@version":"1","message":"The following 1 profile is active: \"test\"","logger_name":"cc.orbexa.hhy.access.user.UserAuthPublicSuccessContractTest","thread_name":"main","level":"INFO","level_value":20000,"tags":["COMMONS-LOGGING"]}
+{"@timestamp":"2026-07-19T22:54:21.984456028Z","@version":"1","message":"HikariPool-5 - Starting...","logger_name":"com.zaxxer.hikari.HikariDataSource","thread_name":"main","level":"INFO","level_value":20000}
+{"@timestamp":"2026-07-19T22:54:21.987453617Z","@version":"1","message":"HikariPool-5 - Added connection conn67: url=jdbc:h2:mem:hhy-user-auth-public-contract user=SA","logger_name":"com.zaxxer.hikari.pool.HikariPool","thread_name":"main","level":"INFO","level_value":20000}
+{"@timestamp":"2026-07-19T22:54:21.987729654Z","@version":"1","message":"HikariPool-5 - Start completed.","logger_name":"com.zaxxer.hikari.HikariDataSource","thread_name":"main","level":"INFO","level_value":20000}
+{"@timestamp":"2026-07-19T22:54:23.112564269Z","@version":"1","message":"Exposing 3 endpoints beneath base path '/actuator'","logger_name":"org.springframework.boot.actuate.endpoint.web.EndpointLinksResolver","thread_name":"main","level":"INFO","level_value":20000,"tags":["COMMONS-LOGGING"]}
+{"@timestamp":"2026-07-19T22:54:23.209966336Z","@version":"1","message":"Initializing Spring TestDispatcherServlet ''","logger_name":"org.springframework.boot.test.mock.web.SpringBootMockServletContext","thread_name":"main","level":"INFO","level_value":20000,"tags":["COMMONS-LOGGING"]}
+{"@timestamp":"2026-07-19T22:54:23.210381222Z","@version":"1","message":"Initializing Servlet ''","logger_name":"org.springframework.test.web.servlet.TestDispatcherServlet","thread_name":"main","level":"INFO","level_value":20000,"tags":["COMMONS-LOGGING"]}
+{"@timestamp":"2026-07-19T22:54:23.212340762Z","@version":"1","message":"Completed initialization in 2 ms","logger_name":"org.springframework.test.web.servlet.TestDispatcherServlet","thread_name":"main","level":"INFO","level_value":20000,"tags":["COMMONS-LOGGING"]}
+{"@timestamp":"2026-07-19T22:54:23.277838814Z","@version":"1","message":"Started UserAuthPublicSuccessContractTest in 2.094 seconds (process running for 41.564)","logger_name":"cc.orbexa.hhy.access.user.UserAuthPublicSuccessContractTest","thread_name":"main","level":"INFO","level_value":20000,"tags":["COMMONS-LOGGING"]}
+{"@timestamp":"2026-07-19T22:54:23.33637526Z","@version":"1","message":"http_request_completed","logger_name":"cc.orbexa.hhy.boot.web.RequestIdFilter","thread_name":"main","level":"INFO","level_value":20000,"traceId":"5c95a38a7a03442e92aecc545a2147b0","requestId":"contract-invite-validate","operation":"POST /api/v1/auth/invite-codes/validate","status":200,"latency":50}
+{"@timestamp":"2026-07-19T22:54:23.421021479Z","@version":"1","message":"http_request_completed","logger_name":"cc.orbexa.hhy.boot.web.RequestIdFilter","thread_name":"main","level":"INFO","level_value":20000,"traceId":"b27456fa98754c55b66e92af1ffd0317","requestId":"contract-registration-config","operation":"GET /api/v1/auth/registration-config","status":200,"latency":73}
+{"@timestamp":"2026-07-19T22:54:23.487356486Z","@version":"1","message":"http_request_completed","logger_name":"cc.orbexa.hhy.boot.web.RequestIdFilter","thread_name":"main","level":"INFO","level_value":20000,"traceId":"fc56253ca07b4c07bd13f3b7a8542f03","requestId":"contract-security-challenge","operation":"POST /api/v1/auth/security-challenges","status":200,"latency":52}
+{"@timestamp":"2026-07-19T22:54:23.539796774Z","@version":"1","message":"http_request_completed","logger_name":"cc.orbexa.hhy.boot.web.RequestIdFilter","thread_name":"main","level":"INFO","level_value":20000,"traceId":"df424572c2554251885f89e7800e959d","requestId":"contract-invite-registration-config","operation":"GET /public-api/v1/invite/{code}/registration-config","status":200,"latency":40}
+{"@timestamp":"2026-07-19T22:54:23.56417589Z","@version":"1","message":"http_request_completed","logger_name":"cc.orbexa.hhy.boot.web.RequestIdFilter","thread_name":"main","level":"INFO","level_value":20000,"traceId":"a62b3d36112541b7bab452bae5e02a3f","requestId":"contract-sms-send","operation":"POST /api/v1/auth/sms/send","status":200,"latency":15}
+{"@timestamp":"2026-07-19T22:54:23.580953149Z","@version":"1","message":"http_request_completed","logger_name":"cc.orbexa.hhy.boot.web.RequestIdFilter","thread_name":"main","level":"INFO","level_value":20000,"traceId":"14b571538257418dabc285671989557a","requestId":"contract-password-reset","operation":"POST /api/v1/auth/password/reset","status":200,"latency":9}
+[INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.456 s -- in cc.orbexa.hhy.access.user.UserAuthPublicSuccessContractTest
+[INFO] Running cc.orbexa.hhy.access.admin.AdminSecurityServiceTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.076 s -- in cc.orbexa.hhy.access.admin.AdminSecurityServiceTest
+[INFO] Running cc.orbexa.hhy.access.admin.ProviderCertificateServiceTest
+[INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.027 s -- in cc.orbexa.hhy.access.admin.ProviderCertificateServiceTest
+[INFO] Running cc.orbexa.hhy.access.admin.AdminMfaSecretStoreTest
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.028 s -- in cc.orbexa.hhy.access.admin.AdminMfaSecretStoreTest
+[INFO] Running cc.orbexa.hhy.access.admin.ProviderConnectionTestCoordinatorTest
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.027 s -- in cc.orbexa.hhy.access.admin.ProviderConnectionTestCoordinatorTest
+[INFO] Running cc.orbexa.hhy.access.admin.AdminUserServiceTest
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.056 s -- in cc.orbexa.hhy.access.admin.AdminUserServiceTest
+[INFO] Running cc.orbexa.hhy.access.admin.MountedProviderSecretResolverTest
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.024 s -- in cc.orbexa.hhy.access.admin.MountedProviderSecretResolverTest
+[INFO] Running cc.orbexa.hhy.access.admin.AdminSecurityIdempotencySnapshotServiceTest
+[INFO] Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.074 s -- in cc.orbexa.hhy.access.admin.AdminSecurityIdempotencySnapshotServiceTest
+[INFO] Running cc.orbexa.hhy.access.admin.ProviderConfigValidatorTest
+[INFO] Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.013 s -- in cc.orbexa.hhy.access.admin.ProviderConfigValidatorTest
+[INFO] Running cc.orbexa.hhy.access.admin.ProviderConfigLifecycleTest
+[INFO] Tests run: 9, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.014 s -- in cc.orbexa.hhy.access.admin.ProviderConfigLifecycleTest
+[INFO] Running cc.orbexa.hhy.access.admin.AdminIdempotencySnapshotCipherTest
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.023 s -- in cc.orbexa.hhy.access.admin.AdminIdempotencySnapshotCipherTest
+[INFO] Running cc.orbexa.hhy.access.admin.ProviderConnectorAdaptersTest
+[INFO] Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.020 s -- in cc.orbexa.hhy.access.admin.ProviderConnectorAdaptersTest
+[INFO] Running cc.orbexa.hhy.access.admin.AdminSecuritySuccessContractTest
+{"@timestamp":"2026-07-19T22:54:23.985090304Z","@version":"1","message":"Could not detect default configuration classes for test class [cc.orbexa.hhy.access.admin.AdminSecuritySuccessContractTest]: AdminSecuritySuccessContractTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.","logger_name":"org.springframework.test.context.support.AnnotationConfigContextLoaderUtils","thread_name":"main","level":"INFO","level_value":20000,"tags":["COMMONS-LOGGING"]}
+{"@timestamp":"2026-07-19T22:54:24.02324908Z","@version":"1","message":"Found @SpringBootConfiguration cc.orbexa.hhy.HhyApplication for test class cc.orbexa.hhy.access.admin.AdminSecuritySuccessContractTest","logger_name":"org.springframework.boot.test.context.SpringBootTestContextBootstrapper","thread_name":"main","level":"INFO","level_value":20000,"tags":["COMMONS-LOGGING"]}
+{"@timestamp":"2026-07-19T22:54:24.0252806Z","@version":"1","message":"Could not detect default configuration classes for test class [cc.orbexa.hhy.access.admin.AdminSecuritySuccessContractTest]: AdminSecuritySuccessContractTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.","logger_name":"org.springframework.test.context.support.AnnotationConfigContextLoaderUtils","thread_name":"main","level":"INFO","level_value":20000,"tags":["COMMONS-LOGGING"]}
+{"@timestamp":"2026-07-19T22:54:24.027385171Z","@version":"1","message":"Found @SpringBootConfiguration cc.orbexa.hhy.HhyApplication for test class cc.orbexa.hhy.access.admin.AdminSecuritySuccessContractTest","logger_name":"org.springframework.boot.test.context.SpringBootTestContextBootstrapper","thread_name":"main","level":"INFO","level_value":20000,"tags":["COMMONS-LOGGING"]}
+{"@timestamp":"2026-07-19T22:54:24.064394563Z","@version":"1","message":"Starting AdminSecuritySuccessContractTest using Java 21.0.9 with PID 79 (started by root in /workspace/services/backend/boot)","logger_name":"cc.orbexa.hhy.access.admin.AdminSecuritySuccessContractTest","thread_name":"main","level":"INFO","level_value":20000,"tags":["COMMONS-LOGGING"]}
+{"@timestamp":"2026-07-19T22:54:24.064730788Z","@version":"1","message":"The following 1 profile is active: \"test\"","logger_name":"cc.orbexa.hhy.access.admin.AdminSecuritySuccessContractTest","thread_name":"main","level":"INFO","level_value":20000,"tags":["COMMONS-LOGGING"]}
+{"@timestamp":"2026-07-19T22:54:24.439594577Z","@version":"1","message":"HikariPool-6 - Starting...","logger_name":"com.zaxxer.hikari.HikariDataSource","thread_name":"main","level":"INFO","level_value":20000}
+{"@timestamp":"2026-07-19T22:54:24.44383131Z","@version":"1","message":"HikariPool-6 - Added connection conn69: url=jdbc:h2:mem:hhy-admin-success user=SA","logger_name":"com.zaxxer.hikari.pool.HikariPool","thread_name":"main","level":"INFO","level_value":20000}
+{"@timestamp":"2026-07-19T22:54:24.444149787Z","@version":"1","message":"HikariPool-6 - Start completed.","logger_name":"com.zaxxer.hikari.HikariDataSource","thread_name":"main","level":"INFO","level_value":20000}
+{"@timestamp":"2026-07-19T22:54:24.87129076Z","@version":"1","message":"Exposing 3 endpoints beneath base path '/actuator'","logger_name":"org.springframework.boot.actuate.endpoint.web.EndpointLinksResolver","thread_name":"main","level":"INFO","level_value":20000,"tags":["COMMONS-LOGGING"]}
+{"@timestamp":"2026-07-19T22:54:24.974393451Z","@version":"1","message":"Initializing Spring TestDispatcherServlet ''","logger_name":"org.springframework.boot.test.mock.web.SpringBootMockServletContext","thread_name":"main","level":"INFO","level_value":20000,"tags":["COMMONS-LOGGING"]}
+{"@timestamp":"2026-07-19T22:54:24.974848598Z","@version":"1","message":"Initializing Servlet ''","logger_name":"org.springframework.test.web.servlet.TestDispatcherServlet","thread_name":"main","level":"INFO","level_value":20000,"tags":["COMMONS-LOGGING"]}
+{"@timestamp":"2026-07-19T22:54:24.977095308Z","@version":"1","message":"Completed initialization in 2 ms","logger_name":"org.springframework.test.web.servlet.TestDispatcherServlet","thread_name":"main","level":"INFO","level_value":20000,"tags":["COMMONS-LOGGING"]}
+{"@timestamp":"2026-07-19T22:54:25.031519976Z","@version":"1","message":"Started AdminSecuritySuccessContractTest in 0.998 seconds (process running for 43.318)","logger_name":"cc.orbexa.hhy.access.admin.AdminSecuritySuccessContractTest","thread_name":"main","level":"INFO","level_value":20000,"tags":["COMMONS-LOGGING"]}
+{"@timestamp":"2026-07-19T22:54:25.122272831Z","@version":"1","message":"http_request_completed","logger_name":"cc.orbexa.hhy.boot.web.RequestIdFilter","thread_name":"main","level":"INFO","level_value":20000,"traceId":"8e98ddc69da744cea6334b51ceb75ba8","requestId":"contract-enroll","operation":"POST /admin-api/v1/me/security/mfa/enroll","status":200,"latency":80}
+{"@timestamp":"2026-07-19T22:54:25.191627556Z","@version":"1","message":"http_request_completed","logger_name":"cc.orbexa.hhy.boot.web.RequestIdFilter","thread_name":"main","level":"INFO","level_value":20000,"traceId":"833234a1a01648188f90f28aa5968d92","requestId":"contract-login","operation":"POST /admin-api/v1/auth/login","status":200,"latency":59}
+{"@timestamp":"2026-07-19T22:54:25.211536307Z","@version":"1","message":"http_request_completed","logger_name":"cc.orbexa.hhy.boot.web.RequestIdFilter","thread_name":"main","level":"INFO","level_value":20000,"traceId":"50b1b0a767f84cbe9ecb1fb727465f1a","requestId":"contract-logout","operation":"POST /admin-api/v1/auth/logout","status":200,"latency":8}
+{"@timestamp":"2026-07-19T22:54:25.231306513Z","@version":"1","message":"http_request_completed","logger_name":"cc.orbexa.hhy.boot.web.RequestIdFilter","thread_name":"main","level":"INFO","level_value":20000,"traceId":"bdf4fff0ff40434ca037d237bf2848c9","requestId":"contract-confirm","operation":"POST /admin-api/v1/me/security/mfa/confirm","status":200,"latency":10}
+{"@timestamp":"2026-07-19T22:54:25.247519202Z","@version":"1","message":"http_request_completed","logger_name":"cc.orbexa.hhy.boot.web.RequestIdFilter","thread_name":"main","level":"INFO","level_value":20000,"traceId":"0bbbee476c4d4ed481a39696e88b5116","requestId":"contract-password","operation":"POST /admin-api/v1/me/security/password/change","status":200,"latency":9}
+{"@timestamp":"2026-07-19T22:54:25.257435245Z","@version":"1","message":"http_request_completed","logger_name":"cc.orbexa.hhy.boot.web.RequestIdFilter","thread_name":"main","level":"INFO","level_value":20000,"traceId":"64c7ad5a355947859bab7c5e4148fc74","requestId":"contract-security","operation":"GET /admin-api/v1/me/security","status":200,"latency":4}
+{"@timestamp":"2026-07-19T22:54:25.282323232Z","@version":"1","message":"http_request_completed","logger_name":"cc.orbexa.hhy.boot.web.RequestIdFilter","thread_name":"main","level":"INFO","level_value":20000,"traceId":"5e02d80c57004bea9dcfddf13b993024","requestId":"contract-disable","operation":"POST /admin-api/v1/me/security/mfa/disable","status":200,"latency":11}
+{"@timestamp":"2026-07-19T22:54:25.296111314Z","@version":"1","message":"http_request_completed","logger_name":"cc.orbexa.hhy.boot.web.RequestIdFilter","thread_name":"main","level":"INFO","level_value":20000,"traceId":"3aa806a9626b44c0a7c5c4beb6553973","requestId":"contract-mfa-verify","operation":"POST /admin-api/v1/auth/mfa/verify","status":200,"latency":8}
+[INFO] Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.316 s -- in cc.orbexa.hhy.access.admin.AdminSecuritySuccessContractTest
+[INFO] Running cc.orbexa.hhy.access.admin.ProviderConfigVersionServiceTest
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.016 s -- in cc.orbexa.hhy.access.admin.ProviderConfigVersionServiceTest
+[INFO] Running cc.orbexa.hhy.access.admin.AdminSecurityStorePostgresTest
+[WARNING] Tests run: 1, Failures: 0, Errors: 0, Skipped: 1, Time elapsed: 0.002 s -- in cc.orbexa.hhy.access.admin.AdminSecurityStorePostgresTest
+[INFO] Running cc.orbexa.hhy.access.admin.DomainConfigPolicyTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.023 s -- in cc.orbexa.hhy.access.admin.DomainConfigPolicyTest
+[INFO] Running cc.orbexa.hhy.access.admin.AdminSecurityMfaSecretIsolationTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.022 s -- in cc.orbexa.hhy.access.admin.AdminSecurityMfaSecretIsolationTest
+[INFO] Running cc.orbexa.hhy.access.admin.AdminSecurityRateLimitTest
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.045 s -- in cc.orbexa.hhy.access.admin.AdminSecurityRateLimitTest
+[INFO] Running cc.orbexa.hhy.access.admin.AdminSecurityWebSecurityTest
+{"@timestamp":"2026-07-19T22:54:25.415314549Z","@version":"1","message":"Could not detect default configuration classes for test class [cc.orbexa.hhy.access.admin.AdminSecurityWebSecurityTest]: AdminSecurityWebSecurityTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.","logger_name":"org.springframework.test.context.support.AnnotationConfigContextLoaderUtils","thread_name":"main","level":"INFO","level_value":20000,"tags":["COMMONS-LOGGING"]}
+{"@timestamp":"2026-07-19T22:54:25.418380478Z","@version":"1","message":"Found @SpringBootConfiguration cc.orbexa.hhy.HhyApplication for test class cc.orbexa.hhy.access.admin.AdminSecurityWebSecurityTest","logger_name":"org.springframework.boot.test.context.SpringBootTestContextBootstrapper","thread_name":"main","level":"INFO","level_value":20000,"tags":["COMMONS-LOGGING"]}
+{"@timestamp":"2026-07-19T22:54:25.425556091Z","@version":"1","message":"Could not detect default configuration classes for test class [cc.orbexa.hhy.access.admin.AdminSecurityWebSecurityTest]: AdminSecurityWebSecurityTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.","logger_name":"org.springframework.test.context.support.AnnotationConfigContextLoaderUtils","thread_name":"main","level":"INFO","level_value":20000,"tags":["COMMONS-LOGGING"]}
+{"@timestamp":"2026-07-19T22:54:25.427410152Z","@version":"1","message":"Found @SpringBootConfiguration cc.orbexa.hhy.HhyApplication for test class cc.orbexa.hhy.access.admin.AdminSecurityWebSecurityTest","logger_name":"org.springframework.boot.test.context.SpringBootTestContextBootstrapper","thread_name":"main","level":"INFO","level_value":20000,"tags":["COMMONS-LOGGING"]}
+{"@timestamp":"2026-07-19T22:54:25.465157168Z","@version":"1","message":"Starting AdminSecurityWebSecurityTest using Java 21.0.9 with PID 79 (started by root in /workspace/services/backend/boot)","logger_name":"cc.orbexa.hhy.access.admin.AdminSecurityWebSecurityTest","thread_name":"main","level":"INFO","level_value":20000,"tags":["COMMONS-LOGGING"]}
+{"@timestamp":"2026-07-19T22:54:25.465546737Z","@version":"1","message":"The following 1 profile is active: \"test\"","logger_name":"cc.orbexa.hhy.access.admin.AdminSecurityWebSecurityTest","thread_name":"main","level":"INFO","level_value":20000,"tags":["COMMONS-LOGGING"]}
+{"@timestamp":"2026-07-19T22:54:25.812805942Z","@version":"1","message":"HikariPool-7 - Starting...","logger_name":"com.zaxxer.hikari.HikariDataSource","thread_name":"main","level":"INFO","level_value":20000}
+{"@timestamp":"2026-07-19T22:54:25.81629844Z","@version":"1","message":"HikariPool-7 - Added connection conn71: url=jdbc:h2:mem:hhy-admin-security user=SA","logger_name":"com.zaxxer.hikari.pool.HikariPool","thread_name":"main","level":"INFO","level_value":20000}
+{"@timestamp":"2026-07-19T22:54:25.816574543Z","@version":"1","message":"HikariPool-7 - Start completed.","logger_name":"com.zaxxer.hikari.HikariDataSource","thread_name":"main","level":"INFO","level_value":20000}
+{"@timestamp":"2026-07-19T22:54:26.152206023Z","@version":"1","message":"Exposing 3 endpoints beneath base path '/actuator'","logger_name":"org.springframework.boot.actuate.endpoint.web.EndpointLinksResolver","thread_name":"main","level":"INFO","level_value":20000,"tags":["COMMONS-LOGGING"]}
+{"@timestamp":"2026-07-19T22:54:26.225741727Z","@version":"1","message":"Initializing Spring TestDispatcherServlet ''","logger_name":"org.springframework.boot.test.mock.web.SpringBootMockServletContext","thread_name":"main","level":"INFO","level_value":20000,"tags":["COMMONS-LOGGING"]}
+{"@timestamp":"2026-07-19T22:54:26.226131024Z","@version":"1","message":"Initializing Servlet ''","logger_name":"org.springframework.test.web.servlet.TestDispatcherServlet","thread_name":"main","level":"INFO","level_value":20000,"tags":["COMMONS-LOGGING"]}
+{"@timestamp":"2026-07-19T22:54:26.228047917Z","@version":"1","message":"Completed initialization in 2 ms","logger_name":"org.springframework.test.web.servlet.TestDispatcherServlet","thread_name":"main","level":"INFO","level_value":20000,"tags":["COMMONS-LOGGING"]}
+{"@timestamp":"2026-07-19T22:54:26.278298597Z","@version":"1","message":"Started AdminSecurityWebSecurityTest in 0.847 seconds (process running for 44.565)","logger_name":"cc.orbexa.hhy.access.admin.AdminSecurityWebSecurityTest","thread_name":"main","level":"INFO","level_value":20000,"tags":["COMMONS-LOGGING"]}
+{"@timestamp":"2026-07-19T22:54:26.297247716Z","@version":"1","message":"http_request_completed","logger_name":"cc.orbexa.hhy.boot.web.RequestIdFilter","thread_name":"main","level":"INFO","level_value":20000,"traceId":"4367a084f9ac4182969e617e3528a53e","requestId":"2adc2e08-a002-4734-ab84-466c14a33fbe","operation":"GET /admin-api/v1/me/security","status":403,"latency":12}
+{"@timestamp":"2026-07-19T22:54:26.329568021Z","@version":"1","message":"http_request_completed","logger_name":"cc.orbexa.hhy.boot.web.RequestIdFilter","thread_name":"main","level":"INFO","level_value":20000,"traceId":"8e712780fc594fabbc1345fbc49d420a","requestId":"cc4e3e5b-9df8-4399-9e20-91eb60fc5d63","operation":"POST /admin-api/v1/me/security/password/change","status":403,"latency":20}
+{"@timestamp":"2026-07-19T22:54:26.348673986Z","@version":"1","message":"http_request_completed","logger_name":"cc.orbexa.hhy.boot.web.RequestIdFilter","thread_name":"main","level":"INFO","level_value":20000,"traceId":"c0b2373352c749e6b6ec1f65d8df7806","requestId":"d2fc5ea6-ff9b-421e-b0c8-d7db7fb7eacd","operation":"POST UNMAPPED","status":401,"latency":6}
+{"@timestamp":"2026-07-19T22:54:26.363437481Z","@version":"1","message":"http_request_completed","logger_name":"cc.orbexa.hhy.boot.web.RequestIdFilter","thread_name":"main","level":"INFO","level_value":20000,"traceId":"589a6eca136d4c85841070c593c069c3","requestId":"3c639c84-87ff-406b-9949-934f24afeb90","operation":"POST /admin-api/v1/me/security/mfa/enroll","status":403,"latency":7}
+{"@timestamp":"2026-07-19T22:54:26.382298489Z","@version":"1","message":"http_request_completed","logger_name":"cc.orbexa.hhy.boot.web.RequestIdFilter","thread_name":"main","level":"INFO","level_value":20000,"traceId":"6c205e3acb5f4c53833559c9a5e586e9","requestId":"request-unsupported-content-type","operation":"POST /admin-api/v1/auth/login","status":400,"latency":12}
+{"@timestamp":"2026-07-19T22:54:26.399683613Z","@version":"1","message":"http_request_completed","logger_name":"cc.orbexa.hhy.boot.web.RequestIdFilter","thread_name":"main","level":"INFO","level_value":20000,"traceId":"56996acda2f34b8ab805ca2fb6c59268","requestId":"request-missing-idempotency","operation":"POST /admin-api/v1/auth/login","status":400,"latency":10}
+{"@timestamp":"2026-07-19T22:54:26.422817537Z","@version":"1","message":"http_request_completed","logger_name":"cc.orbexa.hhy.boot.web.RequestIdFilter","thread_name":"main","level":"INFO","level_value":20000,"traceId":"af2494b9fd2e4634b235798794bc6b09","requestId":"request-anonymous-1","operation":"GET UNMAPPED","status":401,"latency":3}
+{"@timestamp":"2026-07-19T22:54:26.426254825Z","@version":"1","message":"http_request_completed","logger_name":"cc.orbexa.hhy.boot.web.RequestIdFilter","thread_name":"main","level":"INFO","level_value":20000,"traceId":"c559cd09159543598af4adafa25d479a","requestId":"53caf8d1-17ca-4893-99d5-8726a64c6b7b","operation":"GET UNMAPPED","status":401,"latency":2}
+{"@timestamp":"2026-07-19T22:54:26.443741167Z","@version":"1","message":"http_request_completed","logger_name":"cc.orbexa.hhy.boot.web.RequestIdFilter","thread_name":"main","level":"INFO","level_value":20000,"traceId":"c91ddd2248c04595a4bdc1da0862c8c8","requestId":"request-rate-limit-1","operation":"POST /admin-api/v1/auth/login","status":429,"latency":12}
+{"@timestamp":"2026-07-19T22:54:26.46934076Z","@version":"1","message":"http_request_completed","logger_name":"cc.orbexa.hhy.boot.web.RequestIdFilter","thread_name":"main","level":"INFO","level_value":20000,"traceId":"862dd42f3bcb41ef88a407078d1c6910","requestId":"ac2f3d66-07c2-4f3c-a5ad-c5ade2eb3e6a","operation":"POST /admin-api/v1/me/security/password/change","status":200,"latency":19}
+{"@timestamp":"2026-07-19T22:54:26.478182618Z","@version":"1","message":"http_request_completed","logger_name":"cc.orbexa.hhy.boot.web.RequestIdFilter","thread_name":"main","level":"INFO","level_value":20000,"traceId":"d3543564c5034ab1a3ba6806e00223f2","requestId":"e30bc81e-2f75-44e1-a7a9-60891a3b7184","operation":"POST /admin-api/v1/auth/logout","status":200,"latency":7}
+{"@timestamp":"2026-07-19T22:54:26.49460416Z","@version":"1","message":"http_request_completed","logger_name":"cc.orbexa.hhy.boot.web.RequestIdFilter","thread_name":"main","level":"INFO","level_value":20000,"traceId":"e0f356b11e8d48fdb074c304605a43e8","requestId":"acffe6fb-113c-49e1-9d7c-87264ac080f6","operation":"GET UNMAPPED","status":401,"latency":2}
+{"@timestamp":"2026-07-19T22:54:26.501425422Z","@version":"1","message":"http_request_completed","logger_name":"cc.orbexa.hhy.boot.web.RequestIdFilter","thread_name":"main","level":"INFO","level_value":20000,"traceId":"63d544e385214d44ba77905d66562587","requestId":"21f9d91d-77db-4565-8b8d-82e1f7e1879e","operation":"POST UNMAPPED","status":401,"latency":2}
+{"@timestamp":"2026-07-19T22:54:26.517883621Z","@version":"1","message":"http_request_completed","logger_name":"cc.orbexa.hhy.boot.web.RequestIdFilter","thread_name":"main","level":"INFO","level_value":20000,"traceId":"2bfc27a6353e47baaa509faa1a98f60c","requestId":"7a0f87c5-e939-4c2f-b861-76c9c4e0680c","operation":"POST UNMAPPED","status":401,"latency":14}
+{"@timestamp":"2026-07-19T22:54:26.537874384Z","@version":"1","message":"http_request_completed","logger_name":"cc.orbexa.hhy.boot.web.RequestIdFilter","thread_name":"main","level":"INFO","level_value":20000,"traceId":"be90c2ff18a2493eaef7a7b9abecd22f","requestId":"744cf6a3-c6ab-4f9a-8a18-d427bfa0e8ea","operation":"GET /admin-api/v1/me/security","status":403,"latency":13}
+[INFO] Tests run: 12, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.131 s -- in cc.orbexa.hhy.access.admin.AdminSecurityWebSecurityTest
+[INFO] Running cc.orbexa.hhy.access.admin.AdminUserCommandServiceTest
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.081 s -- in cc.orbexa.hhy.access.admin.AdminUserCommandServiceTest
+[INFO] Running cc.orbexa.hhy.access.admin.DomainVerificationCoordinatorTest
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.010 s -- in cc.orbexa.hhy.access.admin.DomainVerificationCoordinatorTest
+[INFO] Running cc.orbexa.hhy.access.admin.AdminSecurityTransactionContractTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.002 s -- in cc.orbexa.hhy.access.admin.AdminSecurityTransactionContractTest
+[INFO] Running cc.orbexa.hhy.access.admin.AdminSecurityIdempotencyDigestTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.019 s -- in cc.orbexa.hhy.access.admin.AdminSecurityIdempotencyDigestTest
+[INFO] Running cc.orbexa.hhy.access.admin.DomainConfigServiceTest
+[INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.015 s -- in cc.orbexa.hhy.access.admin.DomainConfigServiceTest
+[INFO] Running cc.orbexa.hhy.access.admin.R03ConfigurationQueryStoreTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.004 s -- in cc.orbexa.hhy.access.admin.R03ConfigurationQueryStoreTest
+[INFO] Running cc.orbexa.hhy.access.admin.AdminTotpServiceTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.015 s -- in cc.orbexa.hhy.access.admin.AdminTotpServiceTest
+[INFO] Running cc.orbexa.hhy.access.admin.AdminTokenServiceTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.012 s -- in cc.orbexa.hhy.access.admin.AdminTokenServiceTest
+[INFO] Running cc.orbexa.hhy.P00FlywayAutoConfigurationTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.006 s -- in cc.orbexa.hhy.P00FlywayAutoConfigurationTest
+[INFO] Running cc.orbexa.hhy.P00FlywayMigrationTest
+[WARNING] Tests run: 1, Failures: 0, Errors: 0, Skipped: 1, Time elapsed: 0.001 s -- in cc.orbexa.hhy.P00FlywayMigrationTest
+[INFO] Running cc.orbexa.hhy.PublicEndpointsTest
+{"@timestamp":"2026-07-19T22:54:26.726624263Z","@version":"1","message":"Could not detect default configuration classes for test class [cc.orbexa.hhy.PublicEndpointsTest]: PublicEndpointsTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.","logger_name":"org.springframework.test.context.support.AnnotationConfigContextLoaderUtils","thread_name":"main","level":"INFO","level_value":20000,"tags":["COMMONS-LOGGING"]}
+{"@timestamp":"2026-07-19T22:54:26.740457082Z","@version":"1","message":"Found @SpringBootConfiguration cc.orbexa.hhy.HhyApplication for test class cc.orbexa.hhy.PublicEndpointsTest","logger_name":"org.springframework.boot.test.context.SpringBootTestContextBootstrapper","thread_name":"main","level":"INFO","level_value":20000,"tags":["COMMONS-LOGGING"]}
+{"@timestamp":"2026-07-19T22:54:26.741399797Z","@version":"1","message":"Could not detect default configuration classes for test class [cc.orbexa.hhy.PublicEndpointsTest]: PublicEndpointsTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.","logger_name":"org.springframework.test.context.support.AnnotationConfigContextLoaderUtils","thread_name":"main","level":"INFO","level_value":20000,"tags":["COMMONS-LOGGING"]}
+{"@timestamp":"2026-07-19T22:54:26.74287178Z","@version":"1","message":"Found @SpringBootConfiguration cc.orbexa.hhy.HhyApplication for test class cc.orbexa.hhy.PublicEndpointsTest","logger_name":"org.springframework.boot.test.context.SpringBootTestContextBootstrapper","thread_name":"main","level":"INFO","level_value":20000,"tags":["COMMONS-LOGGING"]}
+{"@timestamp":"2026-07-19T22:54:26.802320117Z","@version":"1","message":"http_request_completed","logger_name":"cc.orbexa.hhy.boot.web.RequestIdFilter","thread_name":"main","level":"INFO","level_value":20000,"traceId":"6cb5b68736694a1382c59b2a97d3ae79","requestId":"request_latest_001","operation":"GET /public-api/v1/app/latest","status":200,"latency":51}
+{"@timestamp":"2026-07-19T22:54:26.818988505Z","@version":"1","message":"http_request_completed","logger_name":"cc.orbexa.hhy.boot.web.RequestIdFilter","thread_name":"main","level":"INFO","level_value":20000,"traceId":"0c9037595b9a4961a0df15f77f0bbb97","requestId":"request_status_001","operation":"GET /public-api/v1/platform/status","status":200,"latency":4}
+{"@timestamp":"2026-07-19T22:54:26.84959987Z","@version":"1","message":"http_request_completed","logger_name":"cc.orbexa.hhy.boot.web.RequestIdFilter","thread_name":"main","level":"INFO","level_value":20000,"traceId":"e03cc85ebea247ca93c544f98bcba8c7","requestId":"9b5649a3-109a-4668-a2d3-d84511803251","operation":"GET /api/v1/app/version-check","status":200,"latency":21}
+{"@timestamp":"2026-07-19T22:54:26.856531228Z","@version":"1","message":"http_request_completed","logger_name":"cc.orbexa.hhy.boot.web.RequestIdFilter","thread_name":"main","level":"INFO","level_value":20000,"traceId":"a32da9b08c394c138f49429c2986726a","requestId":"4b10e537-4b50-48fd-89fa-5065db057acc","operation":"GET /api/v1/app/version-check","status":200,"latency":4}
+{"@timestamp":"2026-07-19T22:54:26.866024903Z","@version":"1","message":"http_request_completed","logger_name":"cc.orbexa.hhy.boot.web.RequestIdFilter","thread_name":"main","level":"INFO","level_value":20000,"traceId":"12eb8b0a95cf44cca41af88e5b5ef401","requestId":"request_auth_001","operation":"GET UNMAPPED","status":401,"latency":3}
+{"@timestamp":"2026-07-19T22:54:26.891513768Z","@version":"1","message":"http_request_completed","logger_name":"cc.orbexa.hhy.boot.web.RequestIdFilter","thread_name":"main","level":"INFO","level_value":20000,"traceId":"1ca81ec0d0ea4b8e83fa88df83fb615d","requestId":"ab0cdeb1-3e35-4f1d-ae75-a5a183b5b10c","operation":"POST /public-api/v1/app/version-check","status":404,"latency":19}
+{"@timestamp":"2026-07-19T22:54:26.901497164Z","@version":"1","message":"http_request_completed","logger_name":"cc.orbexa.hhy.boot.web.RequestIdFilter","thread_name":"main","level":"INFO","level_value":20000,"traceId":"d2b9e6c7814a4a3e9d1d54f020d27960","requestId":"d48476ba-9c24-40a7-8255-0a26cb255bb5","operation":"POST /public-api/v1/app/version-check","status":200,"latency":4}
+{"@timestamp":"2026-07-19T22:54:26.91418978Z","@version":"1","message":"http_request_completed","logger_name":"cc.orbexa.hhy.boot.web.RequestIdFilter","thread_name":"main","level":"INFO","level_value":20000,"traceId":"385cbaaa7f6e4df4814ea4c8b5ac244e","requestId":"a85260ca-6677-48a8-86d5-8df20787587f","operation":"POST /public-api/v1/app/version-check","status":400,"latency":7}
+{"@timestamp":"2026-07-19T22:54:26.926418721Z","@version":"1","message":"http_request_completed","logger_name":"cc.orbexa.hhy.boot.web.RequestIdFilter","thread_name":"main","level":"INFO","level_value":20000,"traceId":"d42cfe5e40d546739043688a939405dc","requestId":"514b5a42-e3e0-4978-90a2-c9863688fdf4","operation":"POST /public-api/v1/app/version-check","status":400,"latency":11}
+{"@timestamp":"2026-07-19T22:54:26.938165162Z","@version":"1","message":"http_request_completed","logger_name":"cc.orbexa.hhy.boot.web.RequestIdFilter","thread_name":"main","level":"INFO","level_value":20000,"traceId":"670556ac35e74be48cb0a14645b0eb6c","requestId":"ac69c36d-6168-44a3-be96-1db38c4ddc25","operation":"GET /api/v1/app/version-check","status":400,"latency":10}
+{"@timestamp":"2026-07-19T22:54:26.947275055Z","@version":"1","message":"http_request_completed","logger_name":"cc.orbexa.hhy.boot.web.RequestIdFilter","thread_name":"main","level":"INFO","level_value":20000,"traceId":"9ec02eceb46a4e28993ffcd300ea027f","requestId":"267584cc-63ac-4233-88b0-075ecea70fda","operation":"POST /public-api/v1/app/version-check","status":200,"latency":3}
+{"@timestamp":"2026-07-19T22:54:26.951612117Z","@version":"1","message":"http_request_completed","logger_name":"cc.orbexa.hhy.boot.web.RequestIdFilter","thread_name":"main","level":"INFO","level_value":20000,"traceId":"c40a1b3a211b45318a3c4b29d4ccef95","requestId":"38027a16-d9df-447b-8854-428c358312cc","operation":"POST /public-api/v1/app/version-check","status":200,"latency":3}
+[INFO] Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.231 s -- in cc.orbexa.hhy.PublicEndpointsTest
+[INFO] 
+[INFO] Results:
+[INFO] 
+[WARNING] Tests run: 284, Failures: 0, Errors: 0, Skipped: 5
+[INFO] 
+[INFO] ------------------------------------------------------------------------
+[INFO] Reactor Summary for HHY Backend 1.2.2-SNAPSHOT:
+[INFO] 
+[INFO] HHY Backend ........................................ SUCCESS [  0.003 s]
+[INFO] hhy-shared-kernel .................................. SUCCESS [  0.961 s]
+[INFO] hhy-access ......................................... SUCCESS [  1.220 s]
+[INFO] hhy-content ........................................ SUCCESS [  0.063 s]
+[INFO] hhy-commerce ....................................... SUCCESS [  0.097 s]
+[INFO] hhy-incentive ...................................... SUCCESS [  0.058 s]
+[INFO] hhy-platform ....................................... SUCCESS [  0.151 s]
+[INFO] hhy-boot ........................................... SUCCESS [ 46.329 s]
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  49.478 s
+[INFO] Finished at: 2026-07-19T22:54:27Z
+[INFO] ------------------------------------------------------------------------
