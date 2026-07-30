@@ -68,6 +68,8 @@ def classify_error_text(value: Any) -> str | None:
         return "WINDOWS_ACCESS_DENIED"
     if "repository governance lock is busy" in text or "hhy-governance-v50.lock" in text:
         return "GOVERNANCE_LOCK_BUSY"
+    if "git commit" in text and "failed" in text:
+        return "GOVERNANCE_COMMIT_FAILURE"
     if "timed out" in text or "timeout" in text:
         return "CONTROLLER_TIMEOUT"
     if "file not found" in text or "not found" in text:
@@ -260,7 +262,7 @@ def map_controller_status(result: dict[str, Any], max_runs: int, state: dict[str
     raw = str(result.get("status") or "")
     if raw in {"FAIL", "TIMEOUT"}:
         category = result.get("error_category") or classify_error_text(result.get("error"))
-        if category in {"WINDOWS_ACCESS_DENIED", "GOVERNANCE_LOCK_BUSY", "CONTROLLER_TIMEOUT"}:
+        if category in {"WINDOWS_ACCESS_DENIED", "GOVERNANCE_LOCK_BUSY", "CONTROLLER_TIMEOUT", "GOVERNANCE_COMMIT_FAILURE"}:
             return "RETRYABLE_INFRASTRUCTURE"
     if raw in AUTO_CONTINUE:
         return raw
