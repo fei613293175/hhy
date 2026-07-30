@@ -1,0 +1,88 @@
+---
+cr_id: CR-0502
+status: APPROVED
+requester_actor_id: codex-r14-attempt17-requester
+approver_actor_id: codex-r14-attempt17-reviewer
+task_id: TASK-R14-008
+session_id: SES-20260729T161557Z-6FCE6ACA
+created_at: 2026-07-30T01:07:31Z
+updated_at: 2026-07-30T01:10:00Z
+---
+# CR-0502 — 授权R14删除后空状态Compose验收唯一Attempt17候选
+
+## 用户需求摘要
+
+持续开发并由AI完成R14候选审核，不要求项目所有者逐项确认
+
+## 原规则
+
+CR-0500只允许Attempt16验证解除恢复Compose观察面且已经消费；不得复用其身份重跑或触发Attempt17。
+
+## 新规则
+
+保持全局max_ai_attempts=3和所有已消费指纹边界；仅为Attempt16新暴露的删除后UiAutomator读取Compose筛选空状态指纹增加精确例外：release=R14、attempt=17、request=R14-CANDIDATE-20260730-017、exception=CR-0502、required_fix_commit=913dbc31c0cdbd288ed7bcb5db8849f8de78f9a7、max_candidate_runs=1。错误身份或重复运行必须拒绝。
+
+## 修改原因
+
+Attempt16全部业务及四张截图均完成，删除HTTP 200且会话行消失；唯一失败是UiAutomator无法观察Compose筛选空状态。CR-0501已切换为同框架稳定Compose语义并通过本地治理和远端精确编译，需要一次候选证明端到端结果。
+
+## 影响摘要
+
+只登记CR-0501观察面修复的一次候选身份；不修改App业务、API、数据库、旧指纹轮次或四图/JUnit/日志标准。
+
+## 影响文件
+
+- `config/android-automation.yaml`
+- `config/android-candidate-request.yaml`
+- `tests/test_android_ci_gate.py`
+- `CHANGELOG.md`
+
+## 页面
+
+- `R14 GitHub候选请求入口`
+
+## API
+
+- 无直接影响（已在影响摘要说明）
+
+## 数据库与迁移
+
+- 无直接影响（已在影响摘要说明）
+
+## 配置
+
+- `R14 Attempt17精确例外`
+
+## 资金/账本与历史数据
+
+- `CR-0502删除后空状态Compose观察指纹单次候选授权`
+
+## 测试
+
+- `精确匹配R14/17/Request017/CR-0502/913dbc31且全局上限仍为3；错误身份拒绝；治理回归`
+
+## 版本
+
+- `R14`
+
+## 迁移与兼容策略
+
+无运行时迁移；Attempt16和CR-0500保持已消费，Attempt17必须包含913dbc31且只运行一次。
+
+## 用户确认
+
+项目所有者已授权AI持续开发和候选自主审核
+
+## 审批
+
+- 审批人：`codex-r14-attempt17-reviewer`
+- 决定：`APPROVED`
+- 时间：`2026-07-30T01:10:00Z`
+- 说明：Attempt16已用服务端200、四张截图、Compose会话行消失和无崩溃证明删除业务成立；新授权只绑定已编译验证的Compose空状态观察修复并运行一次，不复用旧授权或放宽任何业务验收。
+
+## 状态记录 · 2026-07-30T01:10:06Z
+
+- Actor：`codex-r14-attempt17-requester`
+- Status：`IMPLEMENTING`
+- Session：`SES-20260729T161557Z-6FCE6ACA`
+- Note：开始写入Attempt17精确例外、候选请求和错误身份拒绝断言。

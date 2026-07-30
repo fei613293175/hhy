@@ -2,8 +2,8 @@ schema_version: 1
 status: REQUESTED
 release: R14
 candidate: true
-remediation_attempt: 16
-request_id: R14-CANDIDATE-20260730-016
-attempt_exception_id: CR-0500
-required_fix_commit: 9817630e19e38c7bdbff61d9942025cf370b1654
-reason: R14 GitHub Run 30500888697的Attempt15已通过请求、编译、单测、Lint、打包、候选后端、自动登录、会话加载、搜索、消息发送、已发送状态、composer Compose严格空值、拉黑禁发、返回列表、重进禁发和解除菜单，并产出前三张截图；拉黑POST 64毫秒和解除DELETE 61毫秒均返回HTTP 200且应用无崩溃。唯一失败是解除后以UiAutomator resource-id观察不到重新进入Compose分支的composer，属于已登记跨框架资源导出不稳定的独立观察面指纹。CR-0499及Commit 9817630e19e38c7bdbff61d9942025cf370b1654改用Compose未合并语义树等待唯一可见composer并最终assertIsDisplayed，同时补全后台调度器真实拉黑再解除页面回归，证明composer恢复、禁发栏消失和持久状态解除；33项治理回归和obx-test固定Android工具链231任务通过。CR-0500只授权request016运行一次，全局max_ai_attempts=3及旧指纹轮次不变；搜索、发送未误标已读、拉黑重进、解除拉黑、列表长按删除、四张截图、JUnit和目标进程日志审核全部保留。
+remediation_attempt: 17
+request_id: R14-CANDIDATE-20260730-017
+attempt_exception_id: CR-0502
+required_fix_commit: 913dbc31c0cdbd288ed7bcb5db8849f8de78f9a7
+reason: R14 GitHub Run 30503336232的Attempt16已通过请求、编译、单测、Lint、打包、候选后端、自动登录、会话加载、搜索、消息发送、发送状态、composer Compose严格空值、拉黑禁发、返回列表、重进禁发、解除菜单、解除HTTP 200、composer恢复、列表长按菜单、删除HTTP 200和全部四张截图；删除后Compose会话行也已经消失，应用无崩溃或ANR。唯一失败是最终仍用UiAutomator By.text读取Compose筛选空状态“没有找到相关会话”，属于已登记跨框架语义观察不稳定的独立指纹。CR-0501及Commit 913dbc31c0cdbd288ed7bcb5db8849f8de78f9a7为该文字增加稳定testTag，在Compose未合并语义树等待唯一节点、证明可见并严格核对文字，同时补全搜索后长按删除页面回归；34项治理回归和obx-test固定Android工具链231任务通过。CR-0502只授权request017运行一次，全局max_ai_attempts=3及旧指纹轮次不变；搜索、发送未误标已读、拉黑重进、解除拉黑、列表长按删除、四张截图、JUnit和目标进程日志审核全部保留。

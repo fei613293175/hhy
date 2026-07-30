@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## R14删除后空状态Compose语义候选授权 · 2026-07-30
+
+- `CR-0502`只授权`R14-CANDIDATE-20260730-017`绑定`CR-0501`修复Commit `913dbc31c0cdbd288ed7bcb5db8849f8de78f9a7`运行一次；Attempt16和`CR-0500`保持已消费历史。
+- Attempt17仅验证删除后筛选空状态的Compose唯一可见语义和精确文字，不复用不稳定的UiAutomator文字观察；34项治理回归和`obx-test`固定工具链231任务已经通过。
+- 全局`max_ai_attempts=3`及R14搜索、发送状态、拉黑重进、解除拉黑、长按删除、四张截图、JUnit和目标进程日志审核全部保持不变。
+
 ## R14删除后空状态Compose精确语义 · 2026-07-30
 
 - `CR-0501`归档GitHub Run `30503336232`的Attempt16：请求、编译、单测、Lint、APK、登录、搜索、发送、拉黑、重进、解除恢复、长按菜单和全部四张截图均通过；删除接口51毫秒返回HTTP 200，Compose会话行随后消失。
