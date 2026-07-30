@@ -1,13 +1,13 @@
 schema: hhy.governance-state/v5.0
-revision: 1
-updated_at: '2026-07-30T18:34:36.960751Z'
-state_hash: e9d6373a8f929dbd93668f00b2cdae89b4425292cf376ace5ab512e8b676dd2f
+revision: 2
+updated_at: '2026-07-30T18:35:35.620452Z'
+state_hash: 66c14593459d522680c1b3221c735f8505c7c67f9946af3a765af2df0244f59f
 project:
-  status: INSTALLED_NOT_ACTIVE
+  status: ACTIVE
   branch_at_install: governance/v5.0-migration-20260731
   migration_baseline_commit: ea64d82fab9ed3d1952ab7d3c0d2286051390b59
-  migration_commit: null
-  authoritative_commit: ea64d82fab9ed3d1952ab7d3c0d2286051390b59
+  migration_commit: 8beafc2a0e115345c554abc0bdc199ef92534106
+  authoritative_commit: 8beafc2a0e115345c554abc0bdc199ef92534106
   active_release: R14
   active_task: TASK-R14-RECOVERY-001
   goal_complete: false
@@ -2597,7 +2597,7 @@ tasks:
     last_gate_evidence: null
     blocker: null
   TASK-R14-RECOVERY-001:
-    status: PENDING_ACTIVATION
+    status: READY
     attempts_used: 0
     current_attempt: null
     last_error_fingerprint: null
