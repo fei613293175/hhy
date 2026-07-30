@@ -31361,3 +31361,106 @@ change_requests:
   - SES-20260729T161557Z-6FCE6ACA
   implementation_commits:
   - cf041219
+- protocol_version: '1.0'
+  cr_id: CR-0506
+  title: 授权R14删除筛选前置唯一Attempt19候选
+  status: SUPERSEDED
+  created_at: '2026-07-30T02:25:47Z'
+  updated_at: '2026-07-30T02:27:22Z'
+  requester_actor_id: codex-r14-attempt19-requester
+  approver_actor_id: codex-r14-attempt19-reviewer
+  task_id: TASK-R14-008
+  session_id: SES-20260729T161557Z-6FCE6ACA
+  user_request: 持续开发并由AI完成R14候选审核，不要求项目所有者逐项确认
+  reason: Attempt18已通过完整构建和全部R14业务操作并生成四图，唯一失败是返回列表后未重新输入搜索词却期待筛选空状态。CR-0505与Commit cf041219修复候选旅程前置，固定Android工具链225任务通过；已消费CR-0504不得复用。
+  original_rule: CR-0504只允许Attempt18验证列表业务文字Compose精确语义且已经消费；不得复用其身份重跑或触发Attempt19。
+  new_rule: 保持全局max_ai_attempts=3和所有旧指纹边界；仅为Attempt18新暴露的候选旅程搜索前置缺失增加精确例外：release=R14、attempt=19、request=R14-CANDIDATE-20260730-019、exception=CR-0506、required_fix_commit=cf041219fc5274c6d3ed5ae8309c23642516562e、max_candidate_runs=1。错误身份或重复运行必须拒绝。
+  impact_summary: 只登记CR-0505自动化旅程前置修复的一次候选身份；不修改App业务、API、数据库、旧指纹轮次或截图/JUnit/日志标准。
+  impact:
+    files:
+    - config/android-automation.yaml
+    - config/android-candidate-request.yaml
+    - tests/test_android_ci_gate.py
+    - CHANGELOG.md
+    pages:
+    - R14 GitHub候选请求入口
+    apis: []
+    database: []
+    configuration:
+    - R14 Attempt19精确例外
+    ledger:
+    - CR-0506删除筛选搜索前置单次候选授权
+    tests:
+    - 精确匹配R14/19/Request019/CR-0506/cf041219且全局上限仍为3；错误身份拒绝；治理回归
+    releases:
+    - R14
+    migration_and_compatibility: 无运行时迁移；Attempt18和CR-0504保持已消费，Attempt19必须包含cf041219且只运行一次。
+  user_confirmation: 项目所有者已授权AI持续开发和候选自主审核
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-30T02:26:32Z'
+    note: Attempt18删除HTTP 200、行消失和实际未筛选空状态证据完整；新授权绑定已编译的搜索前置修复并只运行一次，不复用旧授权。
+  machine_record: .continuity/change_requests/CR-0506.yaml
+  document: docs/03-continuity/change-requests/CR-0506-授权R14删除筛选前置唯一Attempt19候选.md
+  decision_log:
+  - at: '2026-07-30T02:26:38Z'
+    actor_id: codex-r14-attempt19-requester
+    status: IMPLEMENTING
+    note: 开始写入Attempt19精确例外、候选请求和错误身份拒绝断言。
+    session_id: SES-20260729T161557Z-6FCE6ACA
+  - at: '2026-07-30T02:27:22Z'
+    actor_id: codex-r14-attempt19-reviewer
+    status: SUPERSEDED
+    note: 授权尚未写入配置或推送前发现required_fix_commit手工展开值不等于Git实际Commit cf0412194af17e3a5562ba28b6436b4bf3d9e678；禁止消费CR-0506，由新CR使用Git实际哈希替代。
+    session_id: SES-20260729T161557Z-6FCE6ACA
+  session_ids:
+  - SES-20260729T161557Z-6FCE6ACA
+- protocol_version: '1.0'
+  cr_id: CR-0507
+  title: 授权R14删除筛选前置唯一Attempt19候选
+  status: IMPLEMENTING
+  created_at: '2026-07-30T02:27:28Z'
+  updated_at: '2026-07-30T02:28:06Z'
+  requester_actor_id: codex-r14-attempt19-requester
+  approver_actor_id: codex-r14-attempt19-reviewer
+  task_id: TASK-R14-008
+  session_id: SES-20260729T161557Z-6FCE6ACA
+  user_request: 持续开发并由AI完成R14候选审核，不要求项目所有者逐项确认
+  reason: Attempt18已通过完整构建和全部R14业务操作并生成四图，唯一失败是返回列表后未重新输入搜索词却期待筛选空状态。CR-0505与Git实际Commit cf0412194af17e3a5562ba28b6436b4bf3d9e678修复候选旅程前置，固定Android工具链225任务通过；CR-0506因错误哈希已在写配置和推送前废止。
+  original_rule: CR-0504只允许Attempt18且已经消费；CR-0506因错误哈希已在写配置和推送前废止，二者均不得用于Attempt19。
+  new_rule: 保持全局max_ai_attempts=3和所有旧指纹边界；仅为Attempt18新暴露的候选旅程搜索前置缺失增加精确例外：release=R14、attempt=19、request=R14-CANDIDATE-20260730-019、exception=CR-0507、required_fix_commit=cf0412194af17e3a5562ba28b6436b4bf3d9e678、max_candidate_runs=1。错误身份或重复运行必须拒绝。
+  impact_summary: 只登记CR-0505自动化旅程前置修复的一次候选身份；不修改App业务、API、数据库、旧指纹轮次或截图/JUnit/日志标准。
+  impact:
+    files:
+    - config/android-automation.yaml
+    - config/android-candidate-request.yaml
+    - tests/test_android_ci_gate.py
+    - CHANGELOG.md
+    pages:
+    - R14 GitHub候选请求入口
+    apis: []
+    database: []
+    configuration:
+    - R14 Attempt19精确例外
+    ledger:
+    - CR-0507删除筛选搜索前置单次候选授权
+    tests:
+    - 精确匹配R14/19/Request019/CR-0507/cf041219且全局上限仍为3；错误身份拒绝；治理回归
+    releases:
+    - R14
+    migration_and_compatibility: 无运行时迁移；Attempt18和CR-0504保持已消费，CR-0506保持SUPERSEDED，Attempt19必须包含Git实际Commit cf0412194af17e3a5562ba28b6436b4bf3d9e678且只运行一次。
+  user_confirmation: 项目所有者已授权AI持续开发和候选自主审核
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-30T02:28:00Z'
+    note: Git实际Commit已由rev-parse复核；Attempt18删除证据完整，新授权只绑定搜索前置修复并运行一次，CR-0506保持废止。
+  machine_record: .continuity/change_requests/CR-0507.yaml
+  document: docs/03-continuity/change-requests/CR-0507-授权R14删除筛选前置唯一Attempt19候选.md
+  decision_log:
+  - at: '2026-07-30T02:28:06Z'
+    actor_id: codex-r14-attempt19-requester
+    status: IMPLEMENTING
+    note: 开始以Git实际完整Commit写入Attempt19精确例外、候选请求和错误身份拒绝断言。
+    session_id: SES-20260729T161557Z-6FCE6ACA
+  session_ids:
+  - SES-20260729T161557Z-6FCE6ACA

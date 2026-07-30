@@ -1,7 +1,7 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-30T02:24:33Z
-- Context Hash：`5c3f2aa970aab92b7ccef9292781f213901ceb89905fb76befb8cbb1f19c999d`
+- 生成时间：2026-07-30T02:29:20Z
+- Context Hash：`a204daf629676d039db52a1f6d9007e1e4406018b88f6fc7039ff7b2df2dfd43`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 规则就绪：`PASS`（`HASHED_CONTEXT_MANIFEST`）
@@ -187,7 +187,7 @@ blocked_tasks:
 - TASK-R16-007
 - TASK-R16-008
 next_task: TASK-R14-008
-updated_at: '2026-07-30T02:24:28Z'
+updated_at: '2026-07-30T02:29:16Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -222,15 +222,15 @@ continuity:
   active_session_id: SES-20260729T161557Z-6FCE6ACA
   actor_id: codex-r14-resume-20260730
   story_id: STORY-R14-004
-  lease_expires_at: '2026-07-30T06:24:28Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260729T161557Z-6FCE6ACA/0048.yaml
-  project_fingerprint: 23e221ea7d78ab59ecd6ee930bb1c09c03cafb81919ee89ede20a7552a87d124
+  lease_expires_at: '2026-07-30T06:29:16Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260729T161557Z-6FCE6ACA/0049.yaml
+  project_fingerprint: 016ea2a1d28601c30bae83eedd35a13512126911824f0bcb82f288cb310240a1
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: 71315dc1b31682202d7af6c19fb70abcb063b549a03060c3da1d38634f1cac8e
-    generated_at: '2026-07-30T02:23:12Z'
+    context_hash: 5c3f2aa970aab92b7ccef9292781f213901ceb89905fb76befb8cbb1f19c999d
+    generated_at: '2026-07-30T02:24:33Z'
   handoff_bundle: null
 ```
 
@@ -428,7 +428,7 @@ task_id: TASK-R14-008
 story_id: STORY-R14-004
 goal: 异常恢复 SES-20260728T220632Z-FE7D82FD：一对一聊天核心版本关闭与无状态交接
 started_at: '2026-07-29T16:15:57Z'
-updated_at: '2026-07-30T02:24:28Z'
+updated_at: '2026-07-30T02:29:16Z'
 takeover_of: SES-20260728T220632Z-FE7D82FD
 change_requests:
 - CR-0475
@@ -462,6 +462,8 @@ change_requests:
 - CR-0503
 - CR-0504
 - CR-0505
+- CR-0506
+- CR-0507
 scope:
   allowed_paths:
   - apps/**
@@ -521,12 +523,12 @@ git:
   initial_worktree_state: DIRTY_TAKEOVER
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-30T02:24:28Z'
-  expires_at: '2026-07-30T06:24:28Z'
-checkpoint_sequence: 48
-latest_checkpoint: .continuity/checkpoints/SES-20260729T161557Z-6FCE6ACA/0048.yaml
+  renewed_at: '2026-07-30T02:29:16Z'
+  expires_at: '2026-07-30T06:29:16Z'
+checkpoint_sequence: 49
+latest_checkpoint: .continuity/checkpoints/SES-20260729T161557Z-6FCE6ACA/0049.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260729T161557Z-6FCE6ACA.md
-next_step: 提交CR-0505绑定元数据并登记唯一Attempt19候选授权
+next_step: 提交Attempt19授权并将CR-0507绑定到唯一授权Commit
 context_pack: THIS_CONTEXT_PACK
 handoff_bundle: null
 closure: null
@@ -534,46 +536,63 @@ parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: CR状态、检查点与元数据Commit必须串行保持唯一事实链
+  reason: 授权配置、废止记录、连续性状态和唯一Commit绑定属于同一原子收口步骤
 ```
 
 ## 最新检查点
 
 ```yaml
 protocol_version: '1.0'
-checkpoint_id: CP-SES-20260729T161557Z-6FCE6ACA-0048
+checkpoint_id: CP-SES-20260729T161557Z-6FCE6ACA-0049
 session_id: SES-20260729T161557Z-6FCE6ACA
 task_id: TASK-R14-008
 story_id: STORY-R14-004
-sequence: 48
-created_at: '2026-07-30T02:24:28Z'
-summary: CR-0505已绑定修复Commit cf041219并标记IMPLEMENTED
-next_step: 提交CR-0505绑定元数据并登记唯一Attempt19候选授权
+sequence: 49
+created_at: '2026-07-30T02:29:15Z'
+summary: CR-0506错误哈希授权已废止；CR-0507以Git实际Commit完成Attempt19唯一授权配置和治理验证
+next_step: 提交Attempt19授权并将CR-0507绑定到唯一授权Commit
 blockers: []
 decisions: []
 note: ''
 tests:
-- name: cr_binding
+- name: android_ci_gate_unit
   result: PASS
-  evidence: CR-0505@cf041219
-  note: 搜索前置修复与Attempt18证据已绑定
+  evidence: 35 tests OK
+  note: Attempt19精确身份、错误身份和旧例外回归通过
+- name: candidate_request_validator
+  result: PASS
+  evidence: .continuity/runtime/r14-attempt19-request-validation.json
+  note: request019严格绑定CR-0507和Git实际cf041219修复Commit
+- name: git_diff_check
+  result: PASS
+  evidence: git diff --check
+  note: 无空白错误
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: cf0412194af17e3a5562ba28b6436b4bf3d9e678
+  head: 1f2aede2e81961522075a181ec4f0f29ed59d869
   upstream: origin/task/TASK-R03-001
-  ahead: 1
+  ahead: 2
   behind: 0
   dirty: true
   status_porcelain:
   - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
   - ' M .continuity/EVENT_LOG.jsonl'
   - ' M .continuity/STATE.yaml'
-  - ' M .continuity/change_requests/CR-0505.yaml'
+  - ' M .continuity/sessions/SES-20260729T161557Z-6FCE6ACA.yaml'
+  - ' M CHANGELOG.md'
   - ' M catalogs/change_request_index.csv'
   - ' M catalogs/session_index.csv'
-  - ' M docs/03-continuity/change-requests/CR-0505-修正R14删除空状态旅程的搜索前置.md'
+  - ' M config/android-automation.yaml'
+  - ' M config/android-candidate-request.yaml'
+  - ' M tests/test_android_ci_gate.py'
+  - ?? .continuity/change_requests/CR-0506.yaml
+  - ?? .continuity/change_requests/CR-0507.yaml
+  - ?? docs/03-continuity/change-requests/CR-0506-授权R14删除筛选前置唯一Attempt19候选.md
+  - ?? docs/03-continuity/change-requests/CR-0507-授权R14删除筛选前置唯一Attempt19候选.md
   recent_commits:
+  - "1f2aede2e81961522075a181ec4f0f29ed59d869\t2026-07-30T10:25:06+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(r14): bind CR-0505 implementation\
+    \ record"
   - "cf0412194af17e3a5562ba28b6436b4bf3d9e678\t2026-07-30T10:23:55+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] test(r14): restore filtered\
     \ delete precondition"
   - "19c0209e9851b6ad3ef451d783180ba28588a652\t2026-07-30T09:53:00+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(r14): bind attempt18\
@@ -588,10 +607,8 @@ git:
     \ authorization record"
   - "9b07947be6f8c1a5e93bd3f1377ff511e36d24ed\t2026-07-30T09:11:12+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] test(android): request R14\
     \ candidate attempt17"
-  - "1c18a2bdb018ca791d7da88d93422965461114f7\t2026-07-30T09:06:54+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(r14): bind CR-0501 implementation\
-    \ record"
 project_fingerprint:
-  sha256: 23e221ea7d78ab59ecd6ee930bb1c09c03cafb81919ee89ede20a7552a87d124
+  sha256: 016ea2a1d28601c30bae83eedd35a13512126911824f0bcb82f288cb310240a1
   files:
   - .github/workflows/android-quality-gate.yml
   - CHANGELOG.md
@@ -641,6 +658,8 @@ project_fingerprint:
   - docs/03-continuity/change-requests/CR-0503-将R14列表业务文字验收切换为Compose精确语义.md
   - docs/03-continuity/change-requests/CR-0504-授权R14列表文字Compose验收唯一Attempt18候选.md
   - docs/03-continuity/change-requests/CR-0505-修正R14删除空状态旅程的搜索前置.md
+  - docs/03-continuity/change-requests/CR-0506-授权R14删除筛选前置唯一Attempt19候选.md
+  - docs/03-continuity/change-requests/CR-0507-授权R14删除筛选前置唯一Attempt19候选.md
   - scripts/android_ci_gate.py
   - scripts/prepare_r14_candidate_fixture.sh
   - scripts/switch_android_candidate_route.sh
@@ -648,7 +667,7 @@ project_fingerprint:
   - tests/test_android_candidate_route.py
   - tests/test_android_ci_gate.py
   - tests/test_r13_candidate.py
-  file_count: 55
+  file_count: 57
   payload:
     base_commit: 0a100b86f63829ef38ede5571d3e511219e67769
     files:
@@ -658,8 +677,8 @@ project_fingerprint:
       sha256: 3abacc131665906483dfd7f93ee84a691ac0e9e9d4070c7ff56127639991d87e
     - path: CHANGELOG.md
       state: FILE
-      size: 235833
-      sha256: 027a7e938d4b7a72eff8205348e5223791cd67944a39aab054176496e5eddb4c
+      size: 236492
+      sha256: ad4852226b63f080efe7a7a9d8cd559bba1de8348b5b5489be8c8f588e60be43
     - path: apps/android/app/build.gradle.kts
       state: FILE
       size: 6171
@@ -710,12 +729,12 @@ project_fingerprint:
       sha256: e7ccfa60cbef1f607c83c94bc9e3568c59199f30cdec5c83a930cca58a2536a7
     - path: config/android-automation.yaml
       state: FILE
-      size: 17048
-      sha256: 7972773a443fce5ca5490bee5f66374af5d5ab54699dce2f2a6b84cd261bcc51
+      size: 17242
+      sha256: 934700daad51a8ce708596fdf5f30ce4c70b2d9e3d4c3ce2d58fad9f96908aae
     - path: config/android-candidate-request.yaml
       state: FILE
-      size: 1314
-      sha256: 15a8c8d9efa7582cf0decb6a99692b751cae782118c6162b03ada90c5b4ac998
+      size: 1338
+      sha256: c112a9cc817b03ea89a927cdbc9398efb3cfec83839688908e80ae3741c84ae4
     - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
       state: FILE
       size: 273013
@@ -844,6 +863,14 @@ project_fingerprint:
       state: FILE
       size: 3015
       sha256: 24e06cad3f7d0aacddd185cc66dfacb958aa589cd5f16aff9513c6406807f5c8
+    - path: docs/03-continuity/change-requests/CR-0506-授权R14删除筛选前置唯一Attempt19候选.md
+      state: FILE
+      size: 3115
+      sha256: 0529411e65a3428c56b41705513adb2281a9a8793548bef6c6b25126e350d3a9
+    - path: docs/03-continuity/change-requests/CR-0507-授权R14删除筛选前置唯一Attempt19候选.md
+      state: FILE
+      size: 2897
+      sha256: 152b939829408d2fcc8acaee07f24f1fb1823b559e624a59ab5dac9906d78d52
     - path: scripts/android_ci_gate.py
       state: FILE
       size: 39771
@@ -866,8 +893,8 @@ project_fingerprint:
       sha256: 5d968c6041ed05de36fa9a5db066767655f11b28b5adba98b6c8049892fc1a32
     - path: tests/test_android_ci_gate.py
       state: FILE
-      size: 99046
-      sha256: f97f2d88d070df329a8b242bcaaba320671852e4637833419cddcdc9a2e1ac8e
+      size: 100595
+      sha256: 88cb4cc52c8d3278236ef7c16a90b5d53a5e0290f206f0e756c4ee64536b24e9
     - path: tests/test_r13_candidate.py
       state: FILE
       size: 21538
@@ -941,6 +968,8 @@ change_classification:
   - docs/03-continuity/change-requests/CR-0503-将R14列表业务文字验收切换为Compose精确语义.md
   - docs/03-continuity/change-requests/CR-0504-授权R14列表文字Compose验收唯一Attempt18候选.md
   - docs/03-continuity/change-requests/CR-0505-修正R14删除空状态旅程的搜索前置.md
+  - docs/03-continuity/change-requests/CR-0506-授权R14删除筛选前置唯一Attempt19候选.md
+  - docs/03-continuity/change-requests/CR-0507-授权R14删除筛选前置唯一Attempt19候选.md
   tests:
   - tests/test_android_candidate_request.py
   - tests/test_android_candidate_route.py
@@ -985,6 +1014,8 @@ change_requests:
 - CR-0503
 - CR-0504
 - CR-0505
+- CR-0506
+- CR-0507
 scope:
   allowed_paths:
   - apps/**
@@ -1039,8 +1070,8 @@ parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: CR状态、检查点与元数据Commit必须串行保持唯一事实链
-event_hash: 311b6a9fb96c1cf1e86d855baadfaaf86bf48188ea191ff1ff5e8338e31471d3
+  reason: 授权配置、废止记录、连续性状态和唯一Commit绑定属于同一原子收口步骤
+event_hash: 1631b88030938cee81a42f247425e70316d6922ce06ca23f71a1fa99a92de243
 ```
 
 ## 接续状态与事件头
@@ -1052,8 +1083,8 @@ active_session_id: SES-20260729T161557Z-6FCE6ACA
 last_session_id: SES-20260728T205917Z-52E3B6B1
 last_session_result: COMPLETED
 last_closure_checkpoint_id: CP-SES-20260728T205917Z-52E3B6B1-0008
-event_count: 4711
-event_head_hash: 311b6a9fb96c1cf1e86d855baadfaaf86bf48188ea191ff1ff5e8338e31471d3
+event_count: 4721
+event_head_hash: 1631b88030938cee81a42f247425e70316d6922ce06ca23f71a1fa99a92de243
 event_chain_valid: true
 ```
 
@@ -1176,9 +1207,9 @@ recent_sessions: - session_id: SES-20260728T091447Z-9A245BB4
   started_at: '2026-07-29T16:15:57Z'
   record: .continuity/sessions/SES-20260729T161557Z-6FCE6ACA.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260729T161557Z-6FCE6ACA.md
-  updated_at: '2026-07-30T02:24:28Z'
+  updated_at: '2026-07-30T02:29:16Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260729T161557Z-6FCE6ACA/0048.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260729T161557Z-6FCE6ACA/0049.yaml
   handoff_bundle: null
 task_claims: - claim_id: CLM-A470E7430D21
   session_id: SES-20260726T123133Z-63E93B88
@@ -2130,9 +2161,9 @@ recent_task_transitions: - transition_id: TRN-005608E4C9E4
 ```yaml
 initialized: true
 branch: task/TASK-R03-001
-head: cf0412194af17e3a5562ba28b6436b4bf3d9e678
+head: 1f2aede2e81961522075a181ec4f0f29ed59d869
 upstream: origin/task/TASK-R03-001
-ahead: 1
+ahead: 2
 behind: 0
 dirty: true
 status_porcelain:
@@ -2141,15 +2172,23 @@ status_porcelain:
 - ' M .continuity/EVENT_LOG.jsonl'
 - ' M .continuity/SESSION_INDEX.yaml'
 - ' M .continuity/STATE.yaml'
-- ' M .continuity/change_requests/CR-0505.yaml'
 - ' M .continuity/sessions/SES-20260729T161557Z-6FCE6ACA.yaml'
+- ' M CHANGELOG.md'
 - ' M CURRENT_STATUS.yaml'
 - ' M catalogs/change_request_index.csv'
 - ' M catalogs/session_index.csv'
-- ' M docs/03-continuity/change-requests/CR-0505-修正R14删除空状态旅程的搜索前置.md'
+- ' M config/android-automation.yaml'
+- ' M config/android-candidate-request.yaml'
 - ' M docs/03-continuity/sessions/2026-07/SES-20260729T161557Z-6FCE6ACA.md'
-- ?? .continuity/checkpoints/SES-20260729T161557Z-6FCE6ACA/0048.yaml
+- ' M tests/test_android_ci_gate.py'
+- ?? .continuity/change_requests/CR-0506.yaml
+- ?? .continuity/change_requests/CR-0507.yaml
+- ?? .continuity/checkpoints/SES-20260729T161557Z-6FCE6ACA/0049.yaml
+- ?? docs/03-continuity/change-requests/CR-0506-授权R14删除筛选前置唯一Attempt19候选.md
+- ?? docs/03-continuity/change-requests/CR-0507-授权R14删除筛选前置唯一Attempt19候选.md
 recent_commits:
+- "1f2aede2e81961522075a181ec4f0f29ed59d869\t2026-07-30T10:25:06+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(r14): bind CR-0505 implementation\
+  \ record"
 - "cf0412194af17e3a5562ba28b6436b4bf3d9e678\t2026-07-30T10:23:55+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] test(r14): restore filtered\
   \ delete precondition"
 - "19c0209e9851b6ad3ef451d783180ba28588a652\t2026-07-30T09:53:00+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(r14): bind attempt18 authorization\
@@ -2164,14 +2203,12 @@ recent_commits:
   \ record"
 - "9b07947be6f8c1a5e93bd3f1377ff511e36d24ed\t2026-07-30T09:11:12+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] test(android): request R14 candidate\
   \ attempt17"
-- "1c18a2bdb018ca791d7da88d93422965461114f7\t2026-07-30T09:06:54+08:00\tHHY Continuity Bootstrap\t[STORY-R14-004] chore(r14): bind CR-0501 implementation\
-  \ record"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`23e221ea7d78ab59ecd6ee930bb1c09c03cafb81919ee89ede20a7552a87d124`
-- 文件数：55
+- 指纹：`016ea2a1d28601c30bae83eedd35a13512126911824f0bcb82f288cb310240a1`
+- 文件数：57
 
 - `.github/workflows/android-quality-gate.yml`
 - `CHANGELOG.md`
@@ -2221,6 +2258,8 @@ recent_commits:
 - `docs/03-continuity/change-requests/CR-0503-将R14列表业务文字验收切换为Compose精确语义.md`
 - `docs/03-continuity/change-requests/CR-0504-授权R14列表文字Compose验收唯一Attempt18候选.md`
 - `docs/03-continuity/change-requests/CR-0505-修正R14删除空状态旅程的搜索前置.md`
+- `docs/03-continuity/change-requests/CR-0506-授权R14删除筛选前置唯一Attempt19候选.md`
+- `docs/03-continuity/change-requests/CR-0507-授权R14删除筛选前置唯一Attempt19候选.md`
 - `scripts/android_ci_gate.py`
 - `scripts/prepare_r14_candidate_fixture.sh`
 - `scripts/switch_android_candidate_route.sh`
@@ -17205,13 +17244,62 @@ PARALLEL_EXECUTION_PLAN.yaml:
   - SES-20260729T161557Z-6FCE6ACA
   implementation_commits:
   - cf041219
+- protocol_version: '1.0'
+  cr_id: CR-0507
+  title: 授权R14删除筛选前置唯一Attempt19候选
+  status: IMPLEMENTING
+  created_at: '2026-07-30T02:27:28Z'
+  updated_at: '2026-07-30T02:28:06Z'
+  requester_actor_id: codex-r14-attempt19-requester
+  approver_actor_id: codex-r14-attempt19-reviewer
+  task_id: TASK-R14-008
+  session_id: SES-20260729T161557Z-6FCE6ACA
+  user_request: 持续开发并由AI完成R14候选审核，不要求项目所有者逐项确认
+  reason: Attempt18已通过完整构建和全部R14业务操作并生成四图，唯一失败是返回列表后未重新输入搜索词却期待筛选空状态。CR-0505与Git实际Commit cf0412194af17e3a5562ba28b6436b4bf3d9e678修复候选旅程前置，固定Android工具链225任务通过；CR-0506因错误哈希已在写配置和推送前废止。
+  original_rule: CR-0504只允许Attempt18且已经消费；CR-0506因错误哈希已在写配置和推送前废止，二者均不得用于Attempt19。
+  new_rule: 保持全局max_ai_attempts=3和所有旧指纹边界；仅为Attempt18新暴露的候选旅程搜索前置缺失增加精确例外：release=R14、attempt=19、request=R14-CANDIDATE-20260730-019、exception=CR-0507、required_fix_commit=cf0412194af17e3a5562ba28b6436b4bf3d9e678、max_candidate_runs=1。错误身份或重复运行必须拒绝。
+  impact_summary: 只登记CR-0505自动化旅程前置修复的一次候选身份；不修改App业务、API、数据库、旧指纹轮次或截图/JUnit/日志标准。
+  impact:
+    files:
+    - config/android-automation.yaml
+    - config/android-candidate-request.yaml
+    - tests/test_android_ci_gate.py
+    - CHANGELOG.md
+    pages:
+    - R14 GitHub候选请求入口
+    apis: []
+    database: []
+    configuration:
+    - R14 Attempt19精确例外
+    ledger:
+    - CR-0507删除筛选搜索前置单次候选授权
+    tests:
+    - 精确匹配R14/19/Request019/CR-0507/cf041219且全局上限仍为3；错误身份拒绝；治理回归
+    releases:
+    - R14
+    migration_and_compatibility: 无运行时迁移；Attempt18和CR-0504保持已消费，CR-0506保持SUPERSEDED，Attempt19必须包含Git实际Commit cf0412194af17e3a5562ba28b6436b4bf3d9e678且只运行一次。
+  user_confirmation: 项目所有者已授权AI持续开发和候选自主审核
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-30T02:28:00Z'
+    note: Git实际Commit已由rev-parse复核；Attempt18删除证据完整，新授权只绑定搜索前置修复并运行一次，CR-0506保持废止。
+  machine_record: .continuity/change_requests/CR-0507.yaml
+  document: docs/03-continuity/change-requests/CR-0507-授权R14删除筛选前置唯一Attempt19候选.md
+  decision_log:
+  - at: '2026-07-30T02:28:06Z'
+    actor_id: codex-r14-attempt19-requester
+    status: IMPLEMENTING
+    note: 开始以Git实际完整Commit写入Attempt19精确例外、候选请求和错误身份拒绝断言。
+    session_id: SES-20260729T161557Z-6FCE6ACA
+  session_ids:
+  - SES-20260729T161557Z-6FCE6ACA
 ```
 
 ## 上下文来源及哈希
 
 - `AGENTS.md` — `bde93afcdb788b601aeffcf2369a1aeda8eeb391f165429d501d7ba8895ba4a6`
 - `START_HERE.md` — `22de14029ce47beb41ea569e36ce223fbc9d11b86f8676f28d5fbbd83896af5c`
-- `CURRENT_STATUS.yaml` — `f9047fcad6bb332d3d3a41506f500a554764ab95a31bb4a8622a23b1392c56c6`
+- `CURRENT_STATUS.yaml` — `23df8c54f9fca6d3a8999d5f2ab58812089f0f1fa6697e8a00913f0f1caf02dc`
 - `NEXT_TASK.yaml` — `e26e5c16bb6b761d538c5e11830ffbfaeacc532c054e569ab784155323b6af5c`
 - `DEVELOPMENT_RISK_REGISTER.md` — `8304c91492e4ee2abea0522a06541c8688d39c7fc532b5d0cde499bf09fffb87`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `5213b166f464a4415abe064e0ebcd99da8f1f8d23569b49ae4e9787007e83314`
@@ -17222,12 +17310,12 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `config/REPOSITORY_TRANSPORT.yaml` — `8c4a21f3e204d46e7ffb467d804a53ed26cda61cd088dadfddb50b69eea657fc`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `38e04ed812c8df0d353c2b91993d31e53b471e9c457f06b426bd2260c470aa92`
-- `.continuity/EVENT_LOG.jsonl` — `175cd3cf1809c27ca77f253f215148105c22b99002d1e86b5ded674345dbe81d`
-- `.continuity/SESSION_INDEX.yaml` — `b8b576cc49af6bb4b8d17de5ed53a5e5201af2963f6a5564fd9f171c01971507`
+- `.continuity/EVENT_LOG.jsonl` — `fbbbcd2464aa6106b0af7501ea49a060b558e20bcdbc26dad2625163a5c456f4`
+- `.continuity/SESSION_INDEX.yaml` — `780624f01d2a9dfcc83c2182fadd16a6ab88917abb3963d47b159c43e02d2824`
 - `.continuity/TASK_CLAIMS.yaml` — `0ff8aad03fdf7bd39105618d202972c82222c6359e96e7f3a89861b184c45eec`
 - `.continuity/TASK_TRANSITIONS.yaml` — `afd6333d15719bab6521ac976344a232ccba2e5e9edd4d2e5817ad4bb473f4d1`
-- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `b28de4c03a0129fc526f344b125dcce00b777f76f615d590eddc1f948d3ed9dd`
-- `.continuity/ACTIVE_SESSION.yaml` — `1c8bc35874b1cc1ae8d46d7007abe58038d0780eb831e0f5ce6e4aeb2b4931d4`
+- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `3c7d0b62cc68245376788f807589c68b280b7c510c34b6637e71bea984f74aca`
+- `.continuity/ACTIVE_SESSION.yaml` — `769d07a7d9766a9772d7dffbe1f9081d2c9cbe9207ac2ce35d17884ef1a7c97b`
 - `docs/00-baseline/正式商业系统全局硬性开发边界.md` — `30c07716c31d6d09621b6f6d119063b1fcb35e78d9b266423ed333d92b8262db`
 - `docs/02-ui/UI参考图使用与开发约束_V1.2.2.md` — `d14367586aa2067b059df58798acd20ab982459cdb35ff27fc7922a3896e4933`
 - `docs/03-continuity/持续开发无状态接续强制门禁_V1.2.3.md` — `d0ed3ed68bdd93b06500eecdfb5baa3245e6ca8b685a486788abb6eee39b3d51`
@@ -17238,8 +17326,8 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `releases/R14/TASKS.yaml` — `c7fc98c89d4e1e02535460d19de43608dcc5178d4fe61bffad94385b76df5e05`
 - `releases/R14/ACCEPTANCE_MATRIX.csv` — `ffc0fd23b945544de8fe2a37774a94675c0d60b73d88517abe69c68d326ad6f4`
 - `releases/R14/PARALLEL_EXECUTION_PLAN.yaml` — `cd1f0c96ffd7562acb214edba80a2bbb12b79f06c19032d1b133936ff6abd74f`
-- `docs/03-continuity/sessions/2026-07/SES-20260729T161557Z-6FCE6ACA.md` — `4dc9dcb63b7a751a68bd5e36c1346702665c098716d635c71dcac5625e6b47df`
-- `.continuity/checkpoints/SES-20260729T161557Z-6FCE6ACA/0048.yaml` — `9a7ec4a7c1ecab19d5b03aa87a7af5f0d65718c1ebe454f3eb716388b8d4f22f`
+- `docs/03-continuity/sessions/2026-07/SES-20260729T161557Z-6FCE6ACA.md` — `20548c0f9ce25df82ee8f0e9b1f06fa38452e1348477ff5a617f5b3546d0098b`
+- `.continuity/checkpoints/SES-20260729T161557Z-6FCE6ACA/0049.yaml` — `accaa54ff356c0f221017e762a5740a3a711cc1b6cfe4a3a5912e46a67123146`
 - `docs/03-continuity/change-requests/CR-0475-绑定R14最终交互候选与稳定TEST_APK同一提交.md` — `4d6c35fd99ef585a4802fb664ac2e2819d4a2fe93fc5d1747ca73496ae69387e`
 - `docs/03-continuity/change-requests/CR-0476-解除R13历史候选测试对当前请求的永久绑定.md` — `098711406c0bc8b2574f2388ab6ed76242e7df1d3fb442a67593a13f76871e11`
 - `docs/03-continuity/change-requests/CR-0477-阻断R14候选旧后端路由与夹具语义漂移.md` — `cbac66f0b6906977cce340a81d30f198e90dcef64ec13ff8c7edd10b2914da61`
@@ -17271,6 +17359,8 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `docs/03-continuity/change-requests/CR-0503-将R14列表业务文字验收切换为Compose精确语义.md` — `155e51f947ec409eb5deb4a2b1ea197357458e85b838a4abd4d0c160a3973dcb`
 - `docs/03-continuity/change-requests/CR-0504-授权R14列表文字Compose验收唯一Attempt18候选.md` — `4214ddbfdf7d82e79fc5b24c4c7495ac035c1c51c5ab4a95e0fb23a5e3bc9355`
 - `docs/03-continuity/change-requests/CR-0505-修正R14删除空状态旅程的搜索前置.md` — `24e06cad3f7d0aacddd185cc66dfacb958aa589cd5f16aff9513c6406807f5c8`
+- `docs/03-continuity/change-requests/CR-0506-授权R14删除筛选前置唯一Attempt19候选.md` — `0529411e65a3428c56b41705513adb2281a9a8793548bef6c6b25126e350d3a9`
+- `docs/03-continuity/change-requests/CR-0507-授权R14删除筛选前置唯一Attempt19候选.md` — `152b939829408d2fcc8acaee07f24f1fb1823b559e624a59ab5dac9906d78d52`
 
 ## 接手硬规则
 
