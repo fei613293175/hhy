@@ -15,7 +15,7 @@ from jsonschema import Draft202012Validator
 from .gates import run_gate, validate_candidate_evidence
 from .state import assert_valid_state, read_state, write_state
 from .tasks import FAILED_RECOVERY_TASK_ID, REPAIR_RECOVERY_TASK_ID, load_task_specs, validate_specs
-from .util import git, read_json, read_yaml, repository_lock, run, utc_now, write_json, write_yaml
+from .util import git, read_json, read_yaml, repository_lock, resolve_codex_executable, run, utc_now, write_json, write_yaml
 from .views import next_ready_task, render_views
 
 AUTH_ENV = {"HHY_GOVERNANCE_ROLE": "ORCHESTRATOR"}
@@ -341,8 +341,11 @@ def _run_independent_reviewer(worktree: Path, task: dict[str, Any], baseline: st
     runtime = worktree / "governance" / "runtime"
     result_path = runtime / "reviewer-result.json"
     schema_path = worktree / "governance" / "schemas" / "reviewer-result.schema.json"
+    codex = resolve_codex_executable()
+    if not codex:
+        return {"status": "INFRASTRUCTURE_BLOCKED", "error": "CODEX_CLI_MISSING_OR_INACCESSIBLE", "evidence_path": None}
     command = [
-        "codex", "exec", "--ephemeral", "--sandbox", "read-only",
+        codex, "exec", "--ephemeral", "--sandbox", "read-only",
         "--ask-for-approval", "never", "--output-schema", str(schema_path),
         "-o", str(result_path), "-C", str(worktree),
         _review_prompt(task, baseline, candidate),
@@ -511,9 +514,10 @@ def run_once(repo: Path, dry_run: bool = False) -> dict[str, Any]:
         attempt = int(row.get("attempts_used") or 0) + 1
         if dry_run:
             return {"schema": "hhy.run-once-plan/v5.0", "status": "DRY_RUN", "task_id": task_id, "attempt": attempt, "strategy": {1: "direct", 2: "minimal_reproduction", 3: "alternative"}[attempt], "allowed_paths": spec["allowed_paths"]}
-        if shutil.which("codex") is None:
+        codex = resolve_codex_executable()
+        if not codex:
             row["status"] = "INFRASTRUCTURE_BLOCKED"
-            row["blocker"] = {"code": "CODEX_CLI_MISSING", "resolution": "Install/authenticate current Codex CLI, then unblock with evidence."}
+            row["blocker"] = {"code": "CODEX_CLI_MISSING_OR_INACCESSIBLE", "resolution": "Install/authenticate a user-accessible Codex CLI, then unblock with evidence."}
             state["project"]["status"] = "INFRASTRUCTURE_BLOCKED"
             rev = state["revision"]
             write_state(repo, state, expected_revision=rev)
@@ -545,7 +549,7 @@ def run_once(repo: Path, dry_run: bool = False) -> dict[str, Any]:
             result_path = runtime / "worker-result.json"
             schema_path = worktree / "governance" / "schemas" / "worker-result.schema.json"
             command = [
-                "codex", "exec", "--ephemeral", "--sandbox", "workspace-write", "--ask-for-approval", "never",
+                codex, "exec", "--ephemeral", "--sandbox", "workspace-write", "--ask-for-approval", "never",
                 "--json", "--output-schema", str(schema_path), "-o", str(result_path), "-C", str(worktree),
                 _worker_prompt(spec, attempt),
             ]

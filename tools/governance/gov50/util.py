@@ -3,6 +3,7 @@ from __future__ import annotations
 import hashlib
 import json
 import os
+import shutil
 import subprocess
 import tempfile
 import time
@@ -12,6 +13,36 @@ from pathlib import Path
 from typing import Any, Iterable
 
 import yaml
+
+
+def resolve_codex_executable() -> str | None:
+    """Prefer the user-installed Codex CLI over the WindowsApps alias."""
+    explicit = os.environ.get("HHY_CODEX") or os.environ.get("CODEX_EXECUTABLE")
+    candidates: list[Path] = []
+    if explicit:
+        candidates.append(Path(explicit).expanduser())
+    local_bin = Path.home() / "AppData" / "Local" / "OpenAI" / "Codex" / "bin"
+    if local_bin.is_dir():
+        candidates.extend(sorted(local_bin.glob("*/codex.exe"), key=lambda path: path.stat().st_mtime, reverse=True))
+    for command in ("codex.exe", "codex"):
+        resolved = shutil.which(command)
+        if resolved:
+            candidates.append(Path(resolved))
+    seen: set[str] = set()
+    for candidate in candidates:
+        try:
+            resolved = str(candidate.resolve())
+        except OSError:
+            continue
+        key = resolved.lower()
+        if key in seen:
+            continue
+        seen.add(key)
+        if "windowsapps" in key:
+            continue
+        if candidate.is_file():
+            return resolved
+    return None
 
 
 def utc_now() -> str:
@@ -97,6 +128,15 @@ def run(command: Iterable[str], cwd: Path, timeout: int = 600, env: dict[str, st
         }
     except FileNotFoundError as exc:
         return {"status": "FAIL", "exit_code": 127, "command": argv, "stdout_tail": "", "stderr_tail": str(exc)}
+    except PermissionError as exc:
+        return {
+            "status": "FAIL",
+            "exit_code": 13,
+            "command": argv,
+            "stdout_tail": "",
+            "stderr_tail": str(exc),
+            "error_category": "WINDOWS_ACCESS_DENIED",
+        }
 
 
 @contextmanager

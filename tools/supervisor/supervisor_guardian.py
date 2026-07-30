@@ -34,6 +34,7 @@ from tools.supervisor.hhy_supervisor import (  # noqa: E402
     resolve_repo,
     utc_now,
 )
+from tools.governance.gov50.util import resolve_codex_executable  # noqa: E402
 
 GUARDIAN_STATE = "GUARDIAN_STATE.json"
 GUARDIAN_EVENTS = "GUARDIAN_EVENTS.jsonl"
@@ -185,7 +186,8 @@ class Guardian:
                 "git_error": git_error,
                 "python": str(self.python_executable),
                 "python_exists": Path(self.python_executable).is_file(),
-                "codex_on_path": shutil.which("codex") is not None,
+                "codex_on_path": resolve_codex_executable() is not None,
+                "codex_executable": resolve_codex_executable(),
             },
         }
 
