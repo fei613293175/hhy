@@ -19,5 +19,6 @@ jobs:
           python-version: '3.12'
       - run: python -m pip install --disable-pip-version-check pyyaml jsonschema pytest
       - run: python -m pytest tests/governance_v5 -q
+      - run: git config --local core.hooksPath .githooks-v5
       - run: python tools/governance/hhy_governance.py doctor --ci
       - run: python scripts/scan_secrets.py --repo . --full --include-untracked

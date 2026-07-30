@@ -39,7 +39,6 @@ risks:
 - apk_identity
 - contract
 - database
-- funds
 - production
 - security
 - secrets

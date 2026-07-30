@@ -124,6 +124,10 @@ def repository_lock(repo: Path, timeout: int = 30):
                     alive = False
                 except PermissionError:
                     alive = True
+                except OSError:
+                    # Windows reports a nonexistent PID as a generic OSError
+                    # (for example WinError 87), while POSIX uses ESRCH.
+                    alive = False
                 if not alive:
                     lock.unlink(missing_ok=True)
                     continue
