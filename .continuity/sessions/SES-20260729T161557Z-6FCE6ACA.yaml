@@ -11,7 +11,7 @@ task_id: TASK-R14-008
 story_id: STORY-R14-004
 goal: 异常恢复 SES-20260728T220632Z-FE7D82FD：一对一聊天核心版本关闭与无状态交接
 started_at: '2026-07-29T16:15:57Z'
-updated_at: '2026-07-30T03:00:07Z'
+updated_at: '2026-07-30T03:01:26Z'
 takeover_of: SES-20260728T220632Z-FE7D82FD
 change_requests:
 - CR-0475
@@ -108,22 +108,22 @@ git:
   initial_worktree_state: DIRTY_TAKEOVER
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-30T02:59:59Z'
-  expires_at: '2026-07-30T06:59:59Z'
-checkpoint_sequence: 53
-latest_checkpoint: .continuity/checkpoints/SES-20260729T161557Z-6FCE6ACA/0053.yaml
+  renewed_at: '2026-07-30T03:01:19Z'
+  expires_at: '2026-07-30T07:01:19Z'
+checkpoint_sequence: 54
+latest_checkpoint: .continuity/checkpoints/SES-20260729T161557Z-6FCE6ACA/0054.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260729T161557Z-6FCE6ACA.md
-next_step: 提交Attempt20授权实现，绑定CR-0509实现提交；随后构建同Commit候选后端、受控切流并只推送一次。
+next_step: 构建当前最终HEAD的精确候选后端到新端口，受控切流后执行push-preflight并只推送一次触发Attempt20。
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: 6218f155716ec4dceda5c0305e3bb0af8ab036c5421327d5ce935e05f908762a
-  generated_at: '2026-07-30T03:00:03Z'
+  context_hash: d1a2b3d2651f2c4dba2e9063eea561a2c380f198ecb536eeb305922e99ef4d8a
+  generated_at: '2026-07-30T03:01:23Z'
 handoff_bundle: null
 closure: null
 parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 候选授权、同Commit后端和单次推送存在严格顺序依赖，必须串行。
+  reason: 最终HEAD、候选镜像标签、Nginx切流与单次推送必须保持同一身份链。

@@ -86,3 +86,10 @@ Attempt19的App级ReleaseCandidateSmokeTest全部业务操作与四张截图已�
 - Status：`IMPLEMENTING`
 - Session：`SES-20260729T161557Z-6FCE6ACA`
 - Note：开始写入Attempt20精确例外、候选请求及错误身份拒绝断言；实现提交必须从Git rev-parse取得并绑定CR-0508。
+
+## 状态记录 · 2026-07-30T03:01:13Z
+
+- Actor：`codex-primary`
+- Status：`IMPLEMENTED`
+- Session：`SES-20260729T161557Z-6FCE6ACA`
+- Note：Attempt20唯一候选授权已由Commit e8ac4698a5219d2c9170848a54baa88f44109b0c实现；request020严格绑定CR-0509与CR-0508完整修复Commit 0220185599581170af24db6ca575592da940e9f4，35项治理回归及请求校验通过。
