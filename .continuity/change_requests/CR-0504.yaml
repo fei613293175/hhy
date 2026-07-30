@@ -1,9 +1,9 @@
 protocol_version: '1.0'
 cr_id: CR-0504
 title: 授权R14列表文字Compose验收唯一Attempt18候选
-status: IMPLEMENTING
+status: IMPLEMENTED
 created_at: '2026-07-30T01:47:55Z'
-updated_at: '2026-07-30T01:48:29Z'
+updated_at: '2026-07-30T01:52:34Z'
 requester_actor_id: codex-r14-attempt18-requester
 approver_actor_id: codex-r14-attempt18-reviewer
 task_id: TASK-R14-008
@@ -45,5 +45,12 @@ decision_log:
   status: IMPLEMENTING
   note: 开始写入Attempt18精确例外、候选请求和错误身份拒绝断言。
   session_id: SES-20260729T161557Z-6FCE6ACA
+- at: '2026-07-30T01:52:34Z'
+  actor_id: codex-r14-resume-20260730
+  status: IMPLEMENTED
+  note: Attempt18唯一候选授权已由Commit cf30cc53实现；request018严格绑定CR-0504和修复Commit d2d803831ae0def0902b2aff6362c39f68c8286f，35项治理回归及请求校验通过。
+  session_id: SES-20260729T161557Z-6FCE6ACA
 session_ids:
 - SES-20260729T161557Z-6FCE6ACA
+implementation_commits:
+- cf30cc53
