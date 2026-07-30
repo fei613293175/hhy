@@ -11,7 +11,7 @@ task_id: TASK-R14-008
 story_id: STORY-R14-004
 goal: 异常恢复 SES-20260728T220632Z-FE7D82FD：一对一聊天核心版本关闭与无状态交接
 started_at: '2026-07-29T16:15:57Z'
-updated_at: '2026-07-30T01:01:05Z'
+updated_at: '2026-07-30T01:06:37Z'
 takeover_of: SES-20260728T220632Z-FE7D82FD
 change_requests:
 - CR-0475
@@ -100,22 +100,22 @@ git:
   initial_worktree_state: DIRTY_TAKEOVER
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-30T01:00:57Z'
-  expires_at: '2026-07-30T05:00:57Z'
-checkpoint_sequence: 39
-latest_checkpoint: .continuity/checkpoints/SES-20260729T161557Z-6FCE6ACA/0039.yaml
+  renewed_at: '2026-07-30T01:06:29Z'
+  expires_at: '2026-07-30T05:06:29Z'
+checkpoint_sequence: 40
+latest_checkpoint: .continuity/checkpoints/SES-20260729T161557Z-6FCE6ACA/0040.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260729T161557Z-6FCE6ACA.md
-next_step: 提交CR-0501实现后在obx-test固定Android工具链编译页面与候选测试
+next_step: 为Attempt17创建独立一次性候选授权并完成受控候选验证。
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: 94f9821090bc992146a1c858871af2e7d8cfb7c12278388822909926a7bd64d6
-  generated_at: '2026-07-30T01:01:02Z'
+  context_hash: e7467af6186d95e1f89574819413b3f3fb5fe846516aa83a4d75059203f9b48f
+  generated_at: '2026-07-30T01:06:34Z'
 handoff_bundle: null
 closure: null
 parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 页面语义、候选断言、证据与问题记录必须作为同一原子修复提交
+  reason: 候选授权、精确提交绑定、后端切流和单次推送共同修改连续性状态与同一测试链，必须串行保持唯一事实源。

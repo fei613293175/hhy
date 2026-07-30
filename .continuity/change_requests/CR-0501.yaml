@@ -1,9 +1,9 @@
 protocol_version: '1.0'
 cr_id: CR-0501
 title: 切换R14删除后空状态验收为Compose精确语义
-status: IMPLEMENTING
+status: IMPLEMENTED
 created_at: '2026-07-30T00:58:37Z'
-updated_at: '2026-07-30T00:58:56Z'
+updated_at: '2026-07-30T01:06:01Z'
 requester_actor_id: codex-r14-empty-state-requester
 approver_actor_id: codex-r14-empty-state-reviewer
 task_id: TASK-R14-008
@@ -47,5 +47,13 @@ decision_log:
   status: IMPLEMENTING
   note: 开始归档Attempt16证据并实现空状态稳定Compose语义与回归锁。
   session_id: SES-20260729T161557Z-6FCE6ACA
+- at: '2026-07-30T01:06:01Z'
+  actor_id: codex-r14-empty-state-requester
+  status: IMPLEMENTED
+  note: Attempt16 filtered-empty failure replaced with exact Compose semantics; local governance PASS and exact commit Android test compilation
+    PASS on obx-test (231 tasks).
+  session_id: SES-20260729T161557Z-6FCE6ACA
 session_ids:
 - SES-20260729T161557Z-6FCE6ACA
+implementation_commits:
+- 913dbc31c0cdbd288ed7bcb5db8849f8de78f9a7
