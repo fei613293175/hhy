@@ -119,6 +119,51 @@ class AndroidCiGateTest(unittest.TestCase):
             evidence["first_business_failure"]["message"],
         )
 
+    def test_r14_attempt17_switches_list_business_text_to_compose_semantics(self) -> None:
+        evidence = json.loads(
+            (
+                ROOT
+                / "artifacts/validation/r14-candidate-attempt17/failure-evidence.json"
+            ).read_text(encoding="utf-8")
+        )
+        self.assertEqual("30505422466", evidence["github_run_id"])
+        self.assertEqual(
+            [
+                "POST /internal-ci/v1/android/session",
+                "GET /api/v1/me",
+                "GET /api/v1/home",
+                "GET /api/v1/conversations",
+                "GET /api/v1/conversations",
+            ],
+            [item["operation"] for item in evidence["server_http_evidence"]],
+        )
+        self.assertTrue(
+            all(item["status"] == 200 for item in evidence["server_http_evidence"])
+        )
+        self.assertEqual(
+            "Cannot find UI resource for text verification: r14.conversation.peer-name",
+            evidence["first_business_failure"]["message"],
+        )
+        smoke = (
+            ROOT
+            / "apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt"
+        ).read_text(encoding="utf-8")
+        self.assertIn(
+            'assertComposeTagText("r14.conversation.peer-name", peer, 20_000)',
+            smoke,
+        )
+        self.assertIn(
+            'assertComposeTagText("r14.conversation.preview", "R14候选会话已准备")',
+            smoke,
+        )
+        self.assertIn(
+            'assertComposeTagText("r14.conversation.peer-name", peer, 10_000)',
+            smoke,
+        )
+        self.assertNotIn('assertResourceText("r14.conversation.peer-name"', smoke)
+        self.assertNotIn('assertResourceText("r14.conversation.preview"', smoke)
+        self.assertNotIn("private fun assertResourceText(", smoke)
+
     def test_policy_enforces_from_r06_and_blocks_early_owner_test(self) -> None:
         policy = load_policy()
         self.assertFalse(is_enforced_release(policy, "R05"))
@@ -1661,23 +1706,20 @@ class AndroidCiGateTest(unittest.TestCase):
         self.assertIn('captureStable("03-r14-blocked-reentry.png")', smoke_test)
         self.assertIn('captureStable("04-r14-long-press-menu.png")', smoke_test)
         self.assertIn(
-            'assertResourceText("r14.conversation.peer-name", peer, 20_000)',
+            'assertComposeTagText("r14.conversation.peer-name", peer, 20_000)',
             smoke_test,
         )
         self.assertIn(
-            'assertResourceText("r14.conversation.preview", "R14候选会话已准备")',
+            'assertComposeTagText("r14.conversation.preview", "R14候选会话已准备")',
             smoke_test,
         )
         self.assertIn(
-            'assertResourceText("r14.conversation.peer-name", peer, 10_000)',
+            'assertComposeTagText("r14.conversation.peer-name", peer, 10_000)',
             smoke_test,
         )
         self.assertNotIn("By.text(peer)", smoke_test)
         self.assertNotIn('By.text("R14候选会话已准备")', smoke_test)
-        self.assertIn(
-            'assertEquals("Unexpected business text for resource: $resource", expected, node.text)',
-            smoke_test,
-        )
+        self.assertNotIn("private fun assertResourceText(", smoke_test)
         self.assertEqual(2, smoke_test.count('clickComposeTag("r14.conversation.row")'))
         self.assertNotIn('clickResource("r14.conversation.row")', smoke_test)
         self.assertIn('longClickComposeTag("r14.conversation.row")', smoke_test)

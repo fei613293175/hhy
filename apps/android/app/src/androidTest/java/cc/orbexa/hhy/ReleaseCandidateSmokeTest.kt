@@ -195,12 +195,12 @@ class ReleaseCandidateSmokeTest {
             "R14 conversation list did not become visible",
             waitForScreen("hhy.screen.r14.conversations"),
         )
-        assertResourceText("r14.conversation.peer-name", peer, 20_000)
-        assertResourceText("r14.conversation.preview", "R14候选会话已准备")
+        assertComposeTagText("r14.conversation.peer-name", peer, 20_000)
+        assertComposeTagText("r14.conversation.preview", "R14候选会话已准备")
         captureStable("01-r14-conversations.png")
 
         setResourceText("r14.conversations.search", peer)
-        assertResourceText("r14.conversation.peer-name", peer, 10_000)
+        assertComposeTagText("r14.conversation.peer-name", peer, 10_000)
         assertFalse("R14 keyword search exposed an error", device.hasObject(By.textContains("会话暂时无法加载")))
         clickComposeTag("r14.conversation.row")
         assertTrue("R14 chat detail did not become visible", waitForScreen("hhy.screen.r14.chat"))
@@ -469,16 +469,6 @@ class ReleaseCandidateSmokeTest {
         node.text = text
         composeRule.waitForIdle()
         device.waitForIdle(1_000)
-    }
-
-    private fun assertResourceText(
-        resource: String,
-        expected: String,
-        timeoutMillis: Long = 15_000,
-    ) {
-        val node = device.wait(Until.findObject(By.res(resource)), timeoutMillis)
-            ?: error("Cannot find UI resource for text verification: $resource")
-        assertEquals("Unexpected business text for resource: $resource", expected, node.text)
     }
 
     private fun clickDescription(value: String) {
