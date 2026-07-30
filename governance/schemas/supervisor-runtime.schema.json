@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "hhy.supervisor-runtime/v5.0",
+  "type": "object", "additionalProperties": false,
+  "required": ["schema", "status", "instance_uuid", "pid", "process_started_at", "repo", "batch_index", "total_runs", "started_at"],
+  "properties": {
+    "schema": {"const": "hhy.supervisor-runtime/v5.0"},
+    "status": {"enum": ["IDLE", "RUNNING", "STOPPED", "INTERRUPTED"]},
+    "instance_uuid": {"type": "string", "minLength": 1},
+    "pid": {"type": "integer", "minimum": 1},
+    "process_started_at": {"type": "string", "minLength": 1},
+    "repo": {"type": "string", "minLength": 1},
+    "started_at": {"type": "string", "minLength": 1},
+    "updated_at": {"type": "string", "minLength": 1},
+    "batch_index": {"type": "integer", "minimum": 0},
+    "total_runs": {"type": "integer", "minimum": 0},
+    "active_release": {"type": ["string", "null"]},
+    "active_task": {"type": ["string", "null"]},
+    "state_revision": {"type": ["integer", "null"], "minimum": 1},
+    "last_progress": {"type": ["object", "null"]},
+    "progress_history": {"type": "array", "items": {"type": "object"}},
+    "last_stop_status": {"type": ["string", "null"]},
+    "repeated_stop_status_count": {"type": "integer", "minimum": 0},
+    "repeated_fingerprint_count": {"type": "integer", "minimum": 0},
+    "budget_hours": {"type": "number", "exclusiveMinimum": 0},
+    "max_task_minutes": {"type": "integer", "minimum": 1},
+    "max_batches": {"type": "integer", "minimum": 1},
+    "max_runs_per_batch": {"type": "integer", "minimum": 1}
+  }
+}

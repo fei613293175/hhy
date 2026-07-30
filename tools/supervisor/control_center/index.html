@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>合伙云 Pro Supervisor 控制中心</title>
+  <link rel="stylesheet" href="/assets/control-center.css">
+</head>
+<body>
+  <header class="topbar">
+    <div>
+      <p class="eyebrow">合伙云 Pro / Governance V5.0</p>
+      <h1>Supervisor 控制中心</h1>
+      <p class="muted" id="repo-path">正在读取仓库状态</p>
+    </div>
+    <div class="topbar-actions">
+      <span class="live-indicator"><span class="dot"></span><span id="connection-state">连接中</span></span>
+      <button class="button secondary" data-action="refresh">刷新</button>
+    </div>
+  </header>
+
+  <main class="shell">
+    <section class="status-grid" aria-label="运行概况">
+      <article class="metric">
+        <span class="metric-label">Supervisor</span>
+        <strong id="supervisor-status">未运行</strong>
+        <small id="supervisor-detail">等待状态</small>
+      </article>
+      <article class="metric">
+        <span class="metric-label">当前 Release</span>
+        <strong id="release">-</strong>
+        <small id="release-status">-</small>
+      </article>
+      <article class="metric">
+        <span class="metric-label">当前 Task</span>
+        <strong id="task">-</strong>
+        <small id="task-status">-</small>
+      </article>
+      <article class="metric">
+        <span class="metric-label">STATE Revision</span>
+        <strong id="revision">-</strong>
+        <small id="attempt">Attempt -</small>
+      </article>
+      <article class="metric">
+        <span class="metric-label">Windows 任务</span>
+        <strong id="scheduled-task">未安装</strong>
+        <small id="scheduled-detail">-</small>
+      </article>
+      <article class="metric">
+        <span class="metric-label">配置状态</span>
+        <strong id="config-status">读取中</strong>
+        <small id="config-detail">-</small>
+      </article>
+    </section>
+
+    <section class="workspace">
+      <div class="column">
+        <article class="panel task-panel">
+          <div class="panel-heading">
+            <div>
+            <p class="eyebrow">当前治理任务</p>
+              <h2 id="task-title">当前任务</h2>
+            </div>
+            <span class="status-badge neutral" id="task-badge">-</span>
+          </div>
+          <dl class="detail-list">
+            <div><dt>Task ID</dt><dd id="task-id">-</dd></div>
+            <div><dt>Release</dt><dd id="task-release">-</dd></div>
+            <div><dt>目标</dt><dd id="task-objective">-</dd></div>
+            <div><dt>最后心跳</dt><dd id="heartbeat">-</dd></div>
+            <div><dt>权威 Commit</dt><dd class="mono" id="authority-commit">-</dd></div>
+          </dl>
+        </article>
+
+        <article class="panel controls-panel">
+          <div class="panel-heading">
+            <div>
+            <p class="eyebrow">控制操作</p>
+            <h2>控制操作</h2>
+          </div>
+            <span class="muted">所有操作仍由现有 Supervisor 执行</span>
+          </div>
+          <div class="control-groups">
+            <div class="control-group">
+              <h3>检查</h3>
+              <div class="button-row">
+                <button class="button secondary" data-action="dry-run">执行 Dry-run</button>
+                <button class="button secondary" data-action="simulate">执行 Simulate</button>
+              </div>
+            </div>
+            <div class="control-group">
+              <h3>运行</h3>
+              <div class="button-row">
+                <button class="button warning" data-action="trial">有限试运行</button>
+                <button class="button primary" data-action="start">正式启动</button>
+                <button class="button danger" data-action="stop">安全停止</button>
+              </div>
+            </div>
+            <div class="control-group">
+              <h3>Windows 任务计划</h3>
+              <div class="button-row">
+                <button class="button secondary" data-action="install-task">安装自动启动</button>
+                <button class="button secondary" data-action="uninstall-task">卸载自动启动</button>
+              </div>
+            </div>
+          </div>
+          <p class="inline-note">正式启动和有限试运行都会启动真实 Supervisor；Candidate、Owner、外部阻断和未知状态仍由治理控制器决定。</p>
+        </article>
+      </div>
+
+      <aside class="column side-column">
+        <article class="panel stop-panel">
+          <div class="panel-heading">
+            <div>
+            <p class="eyebrow">停止报告</p>
+              <h2>停止状态</h2>
+            </div>
+            <span class="status-badge neutral" id="stop-badge">无报告</span>
+          </div>
+          <dl class="detail-list compact">
+            <div><dt>停止时间</dt><dd id="stopped-at">-</dd></div>
+            <div><dt>停止原因</dt><dd id="stop-status">-</dd></div>
+            <div><dt>允许自动恢复</dt><dd id="auto-continue">-</dd></div>
+            <div><dt>解除条件</dt><dd id="resolution">-</dd></div>
+          </dl>
+          <div class="owner-action">
+            <label for="authorization">授权文件路径</label>
+            <input id="authorization" type="text" placeholder="owner-authorization.json">
+            <button class="button secondary full" data-action="clear-recoverable">清除授权的可恢复停止</button>
+          </div>
+        </article>
+
+        <article class="panel safety-panel">
+          <div class="panel-heading">
+            <div>
+            <p class="eyebrow">安全边界</p>
+              <h2>安全边界</h2>
+            </div>
+          </div>
+          <ul class="boundary-list">
+            <li><span class="check">OK</span>只绑定 127.0.0.1</li>
+            <li><span class="check">OK</span>不写 STATE.yaml</li>
+            <li><span class="check">OK</span>不选择 Task / Attempt</li>
+            <li><span class="check">OK</span>不直接调用 Codex CLI</li>
+            <li><span class="stop">STOP</span>未知状态立即停止</li>
+          </ul>
+        </article>
+      </aside>
+    </section>
+
+    <section class="panel config-panel">
+      <div class="panel-heading">
+        <div>
+          <p class="eyebrow">Supervisor settings</p>
+          <h2>运行配置</h2>
+          <p class="section-note">这些设置只影响下一次启动 Supervisor，不会修改当前治理任务。</p>
+        </div>
+        <div class="button-row">
+          <button class="button secondary" data-action="reload-config">重新读取</button>
+          <button class="button primary" data-action="save-config">保存配置</button>
+        </div>
+      </div>
+      <div id="config-form" class="config-grid">正在读取配置</div>
+    </section>
+
+    <section class="panel chat-panel">
+      <div class="panel-heading">
+        <div>
+          <p class="eyebrow">Development observer</p>
+          <h2>开发过程</h2>
+          <p class="section-note" id="chat-notice">这里显示 Supervisor、治理控制器和安全守卫的过程消息。</p>
+        </div>
+        <span class="status-badge neutral" id="chat-mode">观摩模式</span>
+      </div>
+      <div id="chat-view" class="chat-view">等待读取开发过程</div>
+    </section>
+
+    <section class="panel logs-panel">
+      <div class="panel-heading">
+        <div>
+          <p class="eyebrow">Readable activity</p>
+          <h2>运行日志</h2>
+          <p class="section-note">这里直接显示结论和下一步，不需要阅读代码或原始 JSON。</p>
+        </div>
+        <div class="log-controls">
+          <select id="log-select" aria-label="日志类型">
+            <option value="events">运行过程</option>
+            <option value="batches">批次结果</option>
+            <option value="stop-report">停止报告</option>
+          </select>
+          <button class="button secondary" data-action="load-log">刷新日志</button>
+        </div>
+      </div>
+      <div id="log-summary" class="log-summary"></div>
+      <div id="log-view" class="timeline">正在读取运行日志</div>
+    </section>
+  </main>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="/assets/control-center.js"></script>
+</body>
+</html>

@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "hhy.supervisor-config/v5.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "batch", "runtime", "no_progress", "recovery"],
+  "properties": {
+    "schema": {"const": "hhy.supervisor-config/v5.0"},
+    "repo_root": {"type": ["string", "null"]},
+    "batch": {
+      "type": "object", "additionalProperties": false,
+      "required": ["max_runs_per_batch", "max_batches_per_session", "cooldown_seconds"],
+      "properties": {
+        "max_runs_per_batch": {"type": "integer", "minimum": 1, "maximum": 20},
+        "max_batches_per_session": {"type": "integer", "minimum": 1, "maximum": 10},
+        "cooldown_seconds": {"type": "integer", "minimum": 60}
+      }
+    },
+    "runtime": {
+      "type": "object", "additionalProperties": false,
+      "required": ["max_total_hours", "max_task_minutes", "heartbeat_seconds", "process_shutdown_grace_seconds"],
+      "properties": {
+        "max_total_hours": {"type": "number", "exclusiveMinimum": 0, "maximum": 8},
+        "max_task_minutes": {"type": "integer", "minimum": 1, "maximum": 480},
+        "heartbeat_seconds": {"type": "integer", "minimum": 1},
+        "process_shutdown_grace_seconds": {"type": "integer", "minimum": 1}
+      }
+    },
+    "no_progress": {
+      "type": "object", "additionalProperties": false,
+      "required": ["repeated_fingerprint_limit", "repeated_stop_status_limit"],
+      "properties": {
+        "repeated_fingerprint_limit": {"type": "integer", "minimum": 1},
+        "repeated_stop_status_limit": {"type": "integer", "minimum": 2}
+      }
+    },
+    "recovery": {
+      "type": "object", "additionalProperties": false,
+      "required": ["restart_after_windows_login", "startup_delay_seconds"],
+      "properties": {
+        "restart_after_windows_login": {"type": "boolean"},
+        "startup_delay_seconds": {"type": "integer", "minimum": 0}
+      }
+    }
+  }
+}

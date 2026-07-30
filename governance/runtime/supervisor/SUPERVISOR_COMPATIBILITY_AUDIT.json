@@ -1,0 +1,70 @@
+{
+  "schema": "hhy.supervisor-compatibility-audit/v5.0",
+  "status": "PASS_WITH_COMPATIBILITY_NOTES",
+  "audited_at": "2026-07-30T00:00:00Z",
+  "repository": {
+    "expected_project": "hhy-pro-platform",
+    "root": "C:/Users/小白/Desktop/workspace/hhy-v1.2.3-handoff/合伙云Pro_Codex直接开发包_V1.2.3_持续开发无状态接续强制门禁最终版",
+    "head": "bdc1f6661126ec5d545bcd863230bdd46dab0338",
+    "branch": "governance/v5.0-r14-recovery-002-activation",
+    "git_repository": true,
+    "worktree_clean_at_audit": false,
+    "preexisting_untracked_supervisor_files": true
+  },
+  "governance": {
+    "constitution_schema": "hhy.governance-constitution/v5.0",
+    "constitution_status": "ENFORCED",
+    "state_schema": "hhy.governance-state/v5.0",
+    "state_revision": 6,
+    "active_release": "R14",
+    "active_task": "TASK-R14-RECOVERY-002",
+    "active_task_status": "READY",
+    "attempts": "0/3",
+    "sole_state_writer": "ORCHESTRATOR",
+    "program_final_release": "R32",
+    "program_complete_marker": "governance/GOAL_COMPLETE.json"
+  },
+  "doctor": {
+    "command": "python3 tools/governance/hhy_governance.py doctor --ci",
+    "status": "PASS"
+  },
+  "controller": {
+    "active_task_command": "python3 tools/governance/hhy_governance.py active-task --format json",
+    "run_once_command": "python3 tools/governance/hhy_governance.py run-once",
+    "run_loop_command": "python3 tools/governance/hhy_governance.py run-loop --max-runs 20",
+    "run_loop_schema": "hhy.run-loop/v5.0",
+    "starts_codex_worker": true,
+    "worker_mode": "codex exec --ephemeral --sandbox workspace-write",
+    "supervisor_calls_codex_cli": false,
+    "state_writer": "existing Orchestrator only",
+    "machine_readable_output": true,
+    "compatibility_notes": [
+      "run-loop returns structured JSON but does not expose MAX_RUNS_REACHED or NEXT_TASK_READY as literal statuses.",
+      "Supervisor maps a TASK_DONE result that consumed the configured batch limit to MAX_RUNS_REACHED after re-reading STATE.yaml.",
+      "CANDIDATE_EVIDENCE_REQUIRED is mapped to the Supervisor stop status CANDIDATE_REQUIRED.",
+      "All unmapped or unknown controller statuses stop as UNKNOWN_STATUS; the raw controller result is retained."
+    ]
+  },
+  "stop_statuses": {
+    "auto_continue": ["MAX_RUNS_REACHED", "NEXT_TASK_READY"],
+    "mandatory_stop": [
+      "CANDIDATE_REQUIRED", "EXTERNAL_BLOCKED", "INFRASTRUCTURE_BLOCKED", "FAILED_BOUNDED",
+      "POLICY_VIOLATION", "OWNER_ACTION_REQUIRED", "PROGRAM_COMPLETE", "UNKNOWN_STATUS",
+      "STATE_INVALID", "DOCTOR_FAILED", "WORKTREE_UNSAFE", "CODEX_AUTH_REQUIRED",
+      "SUPERVISOR_BUDGET_EXHAUSTED", "NO_PROGRESS_DETECTED"
+    ]
+  },
+  "protected_paths": [
+    "AGENTS.md", "governance/**", "tools/governance/**", ".codex/**",
+    ".github/workflows/**", ".githooks-v5/**", "tests/governance_v5/**",
+    "CURRENT_STATUS.yaml", "NEXT_TASK.yaml", ".continuity/**"
+  ],
+  "runtime_paths": {
+    "root": "governance/runtime/supervisor/",
+    "authority": "governance/STATE.yaml",
+    "logs": "governance/runtime/supervisor/",
+    "runtime_is_not_authority": true
+  },
+  "candidate_boundary": "Candidate, APK, screenshots and Machine Close remain controlled by the existing Orchestrator and Gates; Supervisor only stops and reports.",
+  "result": "Supervisor may be implemented as an external bounded wrapper around run-loop without modifying Governance STATE or adding a task/attempt state machine."
+}

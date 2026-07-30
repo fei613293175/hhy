@@ -1,2 +1,5 @@
 *
 !.gitignore
+!supervisor/
+!supervisor/SUPERVISOR_COMPATIBILITY_AUDIT.json
+!supervisor/SUPERVISOR_COMPATIBILITY_AUDIT.md

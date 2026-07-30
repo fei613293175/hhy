@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "hhy.supervisor-stop-report/v5.0",
+  "type": "object", "additionalProperties": false,
+  "required": ["schema", "stopped_at", "stop_status", "release", "task", "attempt", "start_commit", "end_commit", "state_revision", "last_progress", "error_fingerprint", "allow_auto_continue", "owner_actions", "resolution", "recovery_command", "log_paths"],
+  "properties": {
+    "schema": {"const": "hhy.supervisor-stop-report/v5.0"},
+    "stopped_at": {"type": "string", "minLength": 1},
+    "stop_status": {"type": "string", "minLength": 1},
+    "release": {"type": ["string", "null"]},
+    "task": {"type": ["string", "null"]},
+    "attempt": {"type": ["integer", "null"], "minimum": 0},
+    "start_commit": {"type": ["string", "null"]},
+    "end_commit": {"type": ["string", "null"]},
+    "state_revision": {"type": ["integer", "null"], "minimum": 1},
+    "last_progress": {"type": ["object", "null"]},
+    "error_fingerprint": {"type": ["string", "null"]},
+    "allow_auto_continue": {"type": "boolean"},
+    "owner_actions": {"type": "array", "items": {"type": "string"}},
+    "resolution": {"type": "string"},
+    "recovery_command": {"type": "string"},
+    "log_paths": {"type": "array", "items": {"type": "string"}},
+    "controller_result": {"type": ["object", "null"]}
+  }
+}

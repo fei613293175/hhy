@@ -1,0 +1,1 @@
+"""Supervisor acceptance tests."""

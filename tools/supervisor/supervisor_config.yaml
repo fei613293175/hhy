@@ -1,0 +1,17 @@
+schema: hhy.supervisor-config/v5.0
+repo_root: null
+batch:
+  max_runs_per_batch: 1
+  max_batches_per_session: 1
+  cooldown_seconds: 60
+runtime:
+  max_total_hours: 1
+  max_task_minutes: 30
+  heartbeat_seconds: 30
+  process_shutdown_grace_seconds: 30
+no_progress:
+  repeated_fingerprint_limit: 1
+  repeated_stop_status_limit: 2
+recovery:
+  restart_after_windows_login: true
+  startup_delay_seconds: 120
