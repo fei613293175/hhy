@@ -87,3 +87,10 @@ Attempt17请求、构建、OIDC、会话兑换、用户信息、首页和会话�
 - Status：`IMPLEMENTING`
 - Session：`SES-20260729T161557Z-6FCE6ACA`
 - Note：开始归档Attempt17证据并将联系人和预览的候选断言切换为Compose精确语义。
+
+## 状态记录 · 2026-07-30T01:47:12Z
+
+- Actor：`codex-r14-list-text-requester`
+- Status：`IMPLEMENTED`
+- Session：`SES-20260729T161557Z-6FCE6ACA`
+- Note：Attempt17证据、PROB-0151原位更新和Compose列表业务文字验收已提交；35项治理回归及obx-test精确提交231任务编译通过。

@@ -31197,9 +31197,9 @@ change_requests:
 - protocol_version: '1.0'
   cr_id: CR-0503
   title: 将R14列表业务文字验收切换为Compose精确语义
-  status: IMPLEMENTING
+  status: IMPLEMENTED
   created_at: '2026-07-30T01:41:28Z'
-  updated_at: '2026-07-30T01:42:06Z'
+  updated_at: '2026-07-30T01:47:12Z'
   requester_actor_id: codex-r14-list-text-requester
   approver_actor_id: codex-r14-list-text-reviewer
   task_id: TASK-R14-008
@@ -31242,5 +31242,12 @@ change_requests:
     status: IMPLEMENTING
     note: 开始归档Attempt17证据并将联系人和预览的候选断言切换为Compose精确语义。
     session_id: SES-20260729T161557Z-6FCE6ACA
+  - at: '2026-07-30T01:47:12Z'
+    actor_id: codex-r14-list-text-requester
+    status: IMPLEMENTED
+    note: Attempt17证据、PROB-0151原位更新和Compose列表业务文字验收已提交；35项治理回归及obx-test精确提交231任务编译通过。
+    session_id: SES-20260729T161557Z-6FCE6ACA
   session_ids:
   - SES-20260729T161557Z-6FCE6ACA
+  implementation_commits:
+  - d2d803831ae0def0902b2aff6362c39f68c8286f
