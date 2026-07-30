@@ -1724,7 +1724,8 @@ class AndroidCiGateTest(unittest.TestCase):
             ROOT
             / "apps/android/app/src/androidTest/java/cc/orbexa/hhy/HistoricalVisualAuditTest.kt"
         ).read_text(encoding="utf-8")
-        self.assertIn("connectedDebugAndroidTest", source)
+        self.assertIn("\n    :app:connectedDebugAndroidTest\n", source)
+        self.assertNotIn("\n    connectedDebugAndroidTest\n", source)
         self.assertIn("test_rc=${PIPESTATUS[0]}", source)
         self.assertIn("android_ci_gate.py analyze", source)
         self.assertIn("--request-id", source)

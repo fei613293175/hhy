@@ -31471,3 +31471,53 @@ change_requests:
   - SES-20260729T161557Z-6FCE6ACA
   implementation_commits:
   - d9b14517
+- protocol_version: '1.0'
+  cr_id: CR-0508
+  title: 限定Android候选旅程到App模块
+  status: IMPLEMENTING
+  created_at: '2026-07-30T02:51:03Z'
+  updated_at: '2026-07-30T02:51:40Z'
+  requester_actor_id: codex-r14-attempt19-remediator
+  approver_actor_id: codex-r14-attempt19-reviewer
+  task_id: TASK-R14-008
+  session_id: SES-20260729T161557Z-6FCE6ACA
+  user_request: 持续开发并由AI完成R14候选审核，不要求项目所有者逐项确认
+  reason: Attempt19的App级ReleaseCandidateSmokeTest完整通过并生成四图；根Gradle任务connectedDebugAndroidTest随后把App测试类过滤条件错误套到feature:chat，因测试类不在该模块而ClassNotFoundException。必须把候选任务限定为:app:connectedDebugAndroidTest并增加静态回归。
+  original_rule: 候选脚本从Android根工程执行未限定模块的connectedDebugAndroidTest，同时传入只存在于app模块的ReleaseCandidateSmokeTest类过滤条件。
+  new_rule: 候选脚本必须只执行:app:connectedDebugAndroidTest；测试必须断言精确模块任务存在且禁止恢复未限定模块的connectedDebugAndroidTest，避免类过滤条件传播到Library模块。
+  impact_summary: 只收窄GitHub模拟器候选的Gradle任务范围到App模块；不修改App产品代码、功能验收、截图、API、数据库或其他模块自己的测试。
+  impact:
+    files:
+    - scripts/run_android_emulator_gate.sh
+    - tests/test_android_ci_gate.py
+    - artifacts/validation/r14-candidate-attempt19/failure-evidence.json
+    - docs/03-continuity/PROBLEM_REGISTRY.yaml
+    - CHANGELOG.md
+    pages:
+    - GitHub Android候选模拟器执行器
+    apis: []
+    database: []
+    configuration:
+    - App模块候选任务范围
+    ledger:
+    - PROB-0055
+    tests:
+    - test_emulator_gate_script_is_single_process_and_preserves_evidence精确模块范围；35项治理回归
+    releases:
+    - R14
+    migration_and_compatibility: 无运行时迁移；App候选旅程及JUnit根路径保持原样，feature模块测试仍由各自门禁运行，不再错误加载App候选类。
+  user_confirmation: 项目所有者已授权AI持续开发和候选自主审核
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-30T02:51:33Z'
+    note: App级候选已功能通过；把类过滤条件限定到唯一拥有该测试类的App模块是最小修复，保留所有业务与视觉标准。
+  machine_record: .continuity/change_requests/CR-0508.yaml
+  document: docs/03-continuity/change-requests/CR-0508-限定Android候选旅程到App模块.md
+  decision_log:
+  - at: '2026-07-30T02:51:40Z'
+    actor_id: codex-r14-attempt19-remediator
+    status: IMPLEMENTING
+    note: 开始把候选Gradle任务限定为:app:connectedDebugAndroidTest并锁定静态回归。
+    session_id: SES-20260729T161557Z-6FCE6ACA
+  session_ids:
+  - SES-20260729T161557Z-6FCE6ACA

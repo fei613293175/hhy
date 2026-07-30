@@ -1,0 +1,84 @@
+{
+  "schema": "hhy.r14-candidate-failure-evidence/v1",
+  "release": "R14",
+  "attempt": 19,
+  "github_run_id": "30508844702",
+  "head_commit": "6fa2b56378a13b2253091cd9b7f2778c3ae2b4bc",
+  "candidate_request_id": "R14-CANDIDATE-20260730-019",
+  "attempt_exception_id": "CR-0507",
+  "required_fix_commit": "cf0412194af17e3a5562ba28b6436b4bf3d9e678",
+  "runtime_artifact": {
+    "name": "android-runtime-30508844702",
+    "downloaded_zip_sha256": "1cdb7eaa10ef73d4aefc5f0945e690d7cb58c104f80f8a75b1e64ff0a197848a",
+    "runtime_report_sha256": "b3f9b1962b72653d5063b68f0f9131548ecdcec30686b5a9ad3fb461db7bddae",
+    "runtime_status": "FAIL",
+    "owner_test_allowed": false
+  },
+  "successful_stages": [
+    "candidate request validation",
+    "Android compile",
+    "Android unit tests",
+    "Android lint",
+    "APK packaging",
+    "candidate backend routing",
+    "GitHub OIDC bootstrap",
+    "automatic session redemption",
+    "complete app ReleaseCandidateSmokeTest",
+    "keyword search after list reentry",
+    "message send with sent-not-read state",
+    "block and blocked reentry with composer hidden",
+    "unblock with composer restored",
+    "filtered conversation long press and delete",
+    "filtered empty-state assertion",
+    "four required screenshots",
+    "target process crash and ANR scan"
+  ],
+  "app_journey": {
+    "test_class": "cc.orbexa.hhy.ReleaseCandidateSmokeTest",
+    "gradle_task": ":app:connectedDebugAndroidTest",
+    "tests_started": 1,
+    "tests_finished": 1,
+    "failures": 0,
+    "status": "PASS",
+    "instrumentation_log_lines": "450-455"
+  },
+  "screenshot_review": {
+    "status": "AI_REVIEWED_ACCEPTABLE_BUT_NOT_PROMOTED",
+    "screens": [
+      {
+        "file": "01-r14-conversations.png",
+        "sha256": "e071b5f6780093f7e001b32babc247e2f33084b2a6319fa2a670cb724793ead4",
+        "finding": "消息标题、搜索框、会话业务值、未读数和底部导航清晰，无状态栏重叠。"
+      },
+      {
+        "file": "02-r14-sent.png",
+        "sha256": "cca43f58ae2d4c31858c65f32e2bf1232f8c1604f542fe4186bed33595c2a764",
+        "finding": "聊天顶栏、安全区、消息气泡和输入区无重叠，新消息显示已发送且未误标已读。"
+      },
+      {
+        "file": "03-r14-blocked-reentry.png",
+        "sha256": "8b628ef9d4018fe715a4ad2e9376b19293ae6acdce72b05cd7b8ed4169da4e42",
+        "finding": "拉黑重进后输入区消失，操作面板正确显示解除拉黑，层级与安全区正常。"
+      },
+      {
+        "file": "04-r14-long-press-menu.png",
+        "sha256": "616d8804fb1293f379dd8c22f3118c78f882ee23199d391a591202c563412b1b",
+        "finding": "重新搜索后的联系人清晰可见，长按菜单正确提供红色删除会话和取消。"
+      }
+    ],
+    "baseline_promotion_allowed": false,
+    "reason": "App旅程已通过，但聚合Gradle命令仍因错误执行其他模块而返回非零；必须先修复执行器范围并取得候选门禁状态。"
+  },
+  "first_failure_after_app_pass": {
+    "gradle_task": ":feature:chat:connectedDebugAndroidTest",
+    "test": "ReleaseCandidateSmokeTest.initializationError",
+    "message": "ClassNotFoundException: cc.orbexa.hhy.ReleaseCandidateSmokeTest",
+    "cause": "根任务connectedDebugAndroidTest把仅属于app模块的测试类过滤条件传播到feature:chat测试APK。",
+    "instrumentation_log_lines": "670-714"
+  },
+  "diagnosis": "App级R14候选旅程已完整通过并生成四图，目标应用无崩溃或ANR。脚本从Android根工程调用未限定模块的connectedDebugAndroidTest，Gradle在App任务成功后继续执行feature:chat模块；全局测试类过滤条件仍指向App的ReleaseCandidateSmokeTest，因此Library测试APK无法加载该类并返回ClassNotFoundException。这是候选执行器的任务范围错误，不是R14产品或feature:chat业务测试失败。",
+  "required_fix": "将候选脚本的Gradle任务收窄为:app:connectedDebugAndroidTest，并以治理测试同时断言精确模块任务存在、未限定模块任务不存在；保持App JUnit根、全部业务断言、四图和日志分析不变。",
+  "fingerprint_round": 1,
+  "target_crash_or_anr": false,
+  "secrets_included": false
+}

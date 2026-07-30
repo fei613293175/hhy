@@ -724,15 +724,23 @@ problems:
   - 不得用通用409或422文案覆盖经过技术字段过滤的安全商业原因
 - id: PROB-0055
   title: Android自动门禁首次迁移到GitHub Linux后因平台差异整链失败
-  status: SOLVED
+  status: IN_PROGRESS
   root_cause: 仓库长期只在Windows工作区和固定Android服务器镜像验证，GitHub干净Linux克隆未显式关闭Git中文路径转义，四个Hook与Android Gradle Wrapper也未提交可执行位；供应商原始TXT又被通用文本换行规则过滤，Context Pack记录了Windows工作区CRLF字节。Android各模块同时依赖GitHub稳定SDK仓库没有的预览API 37，工具与契约任务还隐式依赖Runner自带Node；临时Worktree动态Hook在POSIX系统默认为0644，Android门禁自身文件又未纳入Android影响映射，导致连续性、全量测试和Android全链分层失败或被错误跳过。
   resolution: CR-0138至CR-0144把GitHub连续性、工具和Android工作流统一配置core.quotepath=false，Hook与Android Gradle Wrapper提交为100755，动态Worktree Hook在POSIX系统强制chmod 700；供应商原始证据按二进制逐字节冻结，全部Android模块compileSdk与构建平台收敛到正式稳定API 36。工具与契约任务显式安装Node 24并持久上传诊断日志；模拟器Runner只调用仓库内单一可执行Bash脚本，避免其逐行sh执行语义破坏目录、变量与续行；UIAutomator先在应用缓存生成截图，再用Android官方MediaStore发布到系统Pictures专用测试目录，避免应用专属目录随connectedDebugAndroidTest卸载被清除，也遵守Android 10+分区存储边界；JUnit失败断言直接汇总为GitHub Annotation。Android门禁工作流、策略、脚本、测试及影响映射自身全部纳入Android触发范围，后续必须实际执行全链且在干净Linux克隆复现通过。
+  latest_attempt:
+    release: R14
+    attempt: 19
+    github_run_id: '30508844702'
+    evidence: artifacts/validation/r14-candidate-attempt19/failure-evidence.json
+    finding: App级ReleaseCandidateSmokeTest完整通过并生成四图；根任务connectedDebugAndroidTest随后把App测试类过滤条件传播到feature:chat模块，该测试APK不包含此类而ClassNotFoundException。
+    next_fix: CR-0508把候选任务限定为:app:connectedDebugAndroidTest，并以治理测试禁止恢复未限定模块任务；App JUnit根、业务断言、截图和日志分析保持不变。
   regression_checks:
   - python -m unittest tests.test_android_ci_gate tests.test_r05_identity_vendor_contract
   - python -m unittest discover -s tests -p 'test_*.py'
   - python scripts/continuity_gate.py --mode ci --strict --base-ref HEAD^ --head-ref HEAD
   - python scripts/project-doctor.py --strict
   - GitHub Actions Android Quality Gate：build、emulator、candidate全部PASS
+  - 候选脚本必须精确执行:app:connectedDebugAndroidTest，测试锁定该模块任务并禁止未限定模块的connectedDebugAndroidTest
   do_not_repeat:
   - 不得采用GitHub标准runner无法安装的Android预览SDK作为正式商业项目编译基线
   - 不得只在Windows工作区验证中文路径、换行和文件模式相关门禁
@@ -743,6 +751,7 @@ problems:
   - 不得在逐行执行script输入的第三方Action中内嵌依赖共享状态的多行Shell，必须调用仓库内受测脚本
   - 不得只写入临时Git Hook内容而不在POSIX系统赋执行位；禁止依赖Windows忽略文件模式的行为
   - Android门禁自身文件发生变化时不得被影响分析跳过Android任务
+  - 向Gradle传入App测试类过滤条件时，不得调用根工程未限定模块的connectedDebugAndroidTest，否则Library模块会错误加载App测试类
 - id: PROB-0056
   title: R05完成后因R06缺少直接前序依赖而无法关闭切换
   status: SOLVED

@@ -24,7 +24,7 @@ set +e
     "-Pandroid.testInstrumentationRunnerArguments.hhyCiCommit=${GITHUB_SHA:?missing GitHub SHA}" \
     "-Pandroid.testInstrumentationRunnerArguments.hhyCiRunId=${GITHUB_RUN_ID:?missing GitHub run id}" \
     "-Dorg.gradle.jvmargs=-Xmx1536m -Dfile.encoding=UTF-8 -Duser.timezone=UTC" \
-    connectedDebugAndroidTest
+    :app:connectedDebugAndroidTest
 ) 2>&1 | tee "$runtime_dir/instrumentation.log"
 test_rc=${PIPESTATUS[0]}
 printf '%s\n' "$test_rc" > "$runtime_dir/test-exit-code.txt"
