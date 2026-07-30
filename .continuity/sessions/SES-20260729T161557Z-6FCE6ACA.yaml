@@ -11,7 +11,7 @@ task_id: TASK-R14-008
 story_id: STORY-R14-004
 goal: 异常恢复 SES-20260728T220632Z-FE7D82FD：一对一聊天核心版本关闭与无状态交接
 started_at: '2026-07-29T16:15:57Z'
-updated_at: '2026-07-30T04:10:57Z'
+updated_at: '2026-07-30T04:43:55Z'
 takeover_of: SES-20260728T220632Z-FE7D82FD
 change_requests:
 - CR-0475
@@ -53,6 +53,8 @@ change_requests:
 - CR-0511
 - CR-0512
 - CR-0513
+- CR-0514
+- CR-0515
 scope:
   allowed_paths:
   - apps/**
@@ -120,7 +122,20 @@ scope:
   - catalogs/ui_visual_acceptance.csv
   - artifacts/apk/R14/history/2eb8ac7/APK_MANIFEST.yaml
   - artifacts/validation/r14-apk-delivery/history/2eb8ac7/delivery-evidence.json
-  source: story+explicit+approved-cr:CR-0484+approved-cr:CR-0485+approved-cr:CR-0486+approved-cr:CR-0511+approved-cr:CR-0512+approved-cr:CR-0513
+  - .github/workflows/android-historical-visual-request.yml
+  - config/android-historical-visual-request.yaml
+  - docs/00-baseline/正式商业系统全局硬性开发边界.md
+  - docs/07-operations/DEPLOYMENT_RUNBOOK.md
+  - config/owner-test-environment.yaml
+  - scripts/promote_owner_test_backend.sh
+  - scripts/restore_android_candidate_route.sh
+  - scripts/check_owner_test_environment.py
+  - scripts/switch_android_candidate_route.sh
+  - scripts/android_ci_gate.py
+  - tests/test_owner_test_environment.py
+  - tests/test_android_candidate_route.py
+  - artifacts/validation/r14-owner-test-persistence/owner-test-persistence.json
+  source: story+explicit+approved-cr:CR-0484+approved-cr:CR-0485+approved-cr:CR-0486+approved-cr:CR-0511+approved-cr:CR-0512+approved-cr:CR-0513+approved-cr:CR-0514+approved-cr:CR-0515
 git:
   initialized: true
   branch: task/TASK-R03-001
@@ -130,22 +145,22 @@ git:
   initial_worktree_state: DIRTY_TAKEOVER
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-30T04:10:45Z'
-  expires_at: '2026-07-30T08:10:45Z'
-checkpoint_sequence: 57
-latest_checkpoint: .continuity/checkpoints/SES-20260729T161557Z-6FCE6ACA/0057.yaml
+  renewed_at: '2026-07-30T04:43:46Z'
+  expires_at: '2026-07-30T08:43:46Z'
+checkpoint_sequence: 59
+latest_checkpoint: .continuity/checkpoints/SES-20260729T161557Z-6FCE6ACA/0059.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260729T161557Z-6FCE6ACA.md
-next_step: 提交并推送当前证据与历史视觉审计代码，运行一次HISTORICAL-UI离线工作流，审核并固化R13四张原图后完成R14机器关闭。
+next_step: 运行轻量提交门禁，提交CR-0514/CR-0515与离线历史视觉请求并单次推送。
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: f505d73552aad5f57aa6f578ba68f2e2189148b4ed046d608ed66e20d7758913
-  generated_at: '2026-07-30T04:10:52Z'
+  context_hash: 480ec8776031e4806a3eb447ecf7b3faa0011d59b7d8419b94067219dc34edf5
+  generated_at: '2026-07-30T04:43:51Z'
 handoff_bundle: null
 closure: null
 parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 本次提交同时冻结交付、连续性与历史视觉事务，需保持单写者顺序一致。
+  reason: 提交与单次工作流触发必须保持串行，避免重复GitHub运行。

@@ -118,6 +118,33 @@
 
    通过条件是同一告警至少存在一条 `firing` 和一条 `resolved` 回执；只有 Alertmanager 页面状态、没有 `deliveries.jsonl` 送达记录时不得签字。
 
+### 3.1 公网真机测试持久库与候选库隔离
+
+`api.orbexa.cc` 是项目所有者安装桌面 TEST_APK 后长期使用的真机测试入口，不属于可销毁的版本冒烟环境。服务器机器事实以 `config/owner-test-environment.yaml` 为准：
+
+- PostgreSQL 容器固定为 `hhy-owner-test-postgres`，数据卷固定为 `hhy-owner-test-postgres-data`，网络固定为 `hhy-owner-test`；
+- 密钥只保存在服务器 `/root/hhy-owner-test/secrets`，数据库快照只保存在 `/root/hhy-owner-test/backups`，仓库和日志不得记录密码、哈希、Token 或完整用户标识；
+- 公网后端必须连接 `hhy_owner_test` 且 `HHY_CI_AUTOMATION_ENABLED=false`；数据库名包含 `smoke`、`candidate` 或版本 `staging` 时禁止成为常态公网入口；
+- 跨版本升级先做 `pg_dump` 一致性快照，再通过 `scripts/promote_owner_test_backend.sh` 蓝绿启动新冻结镜像。只允许 Flyway 前向迁移，用户、凭证和邀请码计数不得减少；失败只回切应用，禁止回滚 DDL、重建数据库或替换卷。
+
+GitHub 候选如因固定域名测试临时切换公网路由，必须使用 `scripts/switch_android_candidate_route.sh` 登记 45 分钟租约。候选结束无论 PASS、FAIL、取消或 OIDC/网络失败，都立即运行：
+
+```bash
+HHY_OWNER_TEST_ROUTE_CONFIRM=YES \
+HHY_EXPECTED_CANDIDATE_UPSTREAM='<candidate-loopback>' \
+HHY_OWNER_TEST_UPSTREAM='<config active.loopback_upstream>' \
+HHY_OWNER_TEST_CONTAINER='<config active.backend_container>' \
+HHY_OWNER_TEST_DATABASE_CONTAINER=hhy-owner-test-postgres \
+HHY_OWNER_TEST_DATABASE_NAME=hhy_owner_test \
+HHY_OWNER_TEST_DATABASE_USER=hhy_owner_test \
+HHY_OWNER_TEST_DATABASE_VOLUME=hhy-owner-test-postgres-data \
+HHY_OWNER_TEST_NETWORK=hhy-owner-test \
+HHY_OWNER_TEST_REGISTRATION_INVITE_CODE='<server-controlled durable test invite>' \
+bash scripts/restore_android_candidate_route.sh
+```
+
+恢复后运行 `python3 scripts/check_owner_test_environment.py`，再从公网验证平台状态和邀请码。machine-close 证据必须记录持久数据库容器、卷、网络、当前冻结 Commit、Nginx upstream、HTTP 状态和脱敏账号连续性；不得只记录候选 PASS。
+
 ## 4. 告警与验收
 
 - `HhyBackendDown`：15 秒无抓取，立即阻断发布。

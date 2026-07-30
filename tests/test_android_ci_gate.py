@@ -269,6 +269,7 @@ class AndroidCiGateTest(unittest.TestCase):
                 "candidate_database_binding_exact",
                 "candidate_mfa_volume_writable",
                 "candidate_startup_version_fixture_exact",
+                "owner_test_identity_exact_before_switch",
                 "target_container_local_http_200",
                 "target_startup_version_policy_http_200",
                 "target_registration_invite_http_200",
@@ -278,9 +279,22 @@ class AndroidCiGateTest(unittest.TestCase):
                 "public_startup_version_policy_http_200",
                 "public_request_id_in_target_container_log",
                 "automatic_rollback_on_failure",
+                "bounded_owner_test_route_lease",
+                "automatic_owner_test_route_restore_scheduled",
             },
             set(route_activation["required_proofs"]),
         )
+        route_restoration = policy["authentication"]["public_route_restoration"]
+        self.assertTrue(route_restoration["required_after_candidate"])
+        self.assertEqual(
+            "scripts/restore_android_candidate_route.sh",
+            route_restoration["script"],
+        )
+        self.assertEqual(
+            {"PASS", "FAIL", "CANCELLED", "INFRASTRUCTURE_FAILURE"},
+            set(route_restoration["applies_to_results"]),
+        )
+        self.assertEqual(45, route_restoration["maximum_route_lease_minutes"])
         bootstrap = policy["visual"]["baseline_bootstrap"]
         self.assertEqual("SINGLE_EMULATOR_CAPTURE_THEN_LIGHTWEIGHT_PROMOTION", bootstrap["mode"])
         self.assertFalse(bootstrap["promotion_rebuild_allowed"])

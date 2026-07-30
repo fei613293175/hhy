@@ -4,7 +4,18 @@ set -euo pipefail
 : "${HHY_CANDIDATE_ROUTE_CONFIRM:?HHY_CANDIDATE_ROUTE_CONFIRM is required}"
 : "${HHY_CANDIDATE_CONTAINER:?HHY_CANDIDATE_CONTAINER is required}"
 : "${HHY_EXPECTED_OLD_UPSTREAM:?HHY_EXPECTED_OLD_UPSTREAM is required}"
+: "${HHY_EXPECTED_OLD_CONTAINER:?HHY_EXPECTED_OLD_CONTAINER is required}"
 : "${HHY_TARGET_UPSTREAM:?HHY_TARGET_UPSTREAM is required}"
+: "${HHY_OWNER_TEST_UPSTREAM:?HHY_OWNER_TEST_UPSTREAM is required}"
+: "${HHY_OWNER_TEST_CONTAINER:?HHY_OWNER_TEST_CONTAINER is required}"
+: "${HHY_OWNER_TEST_DATABASE_CONTAINER:?HHY_OWNER_TEST_DATABASE_CONTAINER is required}"
+: "${HHY_OWNER_TEST_DATABASE_NAME:?HHY_OWNER_TEST_DATABASE_NAME is required}"
+: "${HHY_OWNER_TEST_DATABASE_USER:?HHY_OWNER_TEST_DATABASE_USER is required}"
+: "${HHY_OWNER_TEST_DATABASE_VOLUME:?HHY_OWNER_TEST_DATABASE_VOLUME is required}"
+: "${HHY_OWNER_TEST_NETWORK:?HHY_OWNER_TEST_NETWORK is required}"
+: "${HHY_OWNER_TEST_REGISTRATION_INVITE_CODE:?HHY_OWNER_TEST_REGISTRATION_INVITE_CODE is required}"
+
+owner_test_route_lease_minutes="${HHY_OWNER_TEST_ROUTE_LEASE_MINUTES:-45}"
 
 probe_mode="${HHY_CANDIDATE_ROUTE_PROBE_MODE:-LEGACY_INVITE}"
 case "$probe_mode" in
@@ -15,7 +26,6 @@ case "$probe_mode" in
     : "${HHY_CANDIDATE_ACCESS_TOKEN:?HHY_CANDIDATE_ACCESS_TOKEN is required}"
     : "${HHY_EXPECTED_CANDIDATE_IMAGE_ID:?HHY_EXPECTED_CANDIDATE_IMAGE_ID is required}"
     : "${HHY_EXPECTED_SOURCE_COMMIT:?HHY_EXPECTED_SOURCE_COMMIT is required}"
-    : "${HHY_EXPECTED_OLD_CONTAINER:?HHY_EXPECTED_OLD_CONTAINER is required}"
     : "${HHY_CANDIDATE_NETWORK:?HHY_CANDIDATE_NETWORK is required}"
     : "${HHY_CANDIDATE_DATABASE_CONTAINER:?HHY_CANDIDATE_DATABASE_CONTAINER is required}"
     : "${HHY_CANDIDATE_DATABASE_USER:?HHY_CANDIDATE_DATABASE_USER is required}"
@@ -40,6 +50,31 @@ if [[ ! "$HHY_EXPECTED_OLD_UPSTREAM" =~ ^127\.0\.0\.1:[1-9][0-9]{3,4}$ ]] \
   || [[ ! "$HHY_TARGET_UPSTREAM" =~ ^127\.0\.0\.1:[1-9][0-9]{3,4}$ ]] \
   || [[ "$HHY_EXPECTED_OLD_UPSTREAM" == "$HHY_TARGET_UPSTREAM" ]]; then
   echo "Candidate upstreams must be distinct explicit loopback ports" >&2
+  exit 2
+fi
+if [[ "$HHY_EXPECTED_OLD_UPSTREAM" != "$HHY_OWNER_TEST_UPSTREAM" ]] \
+  || [[ "$HHY_EXPECTED_OLD_CONTAINER" != "$HHY_OWNER_TEST_CONTAINER" ]] \
+  || [[ "$owner_test_route_lease_minutes" != "45" ]]; then
+  echo "Candidate route must start from the registered owner-test backend with a 45-minute lease" >&2
+  exit 2
+fi
+if [[ "$HHY_OWNER_TEST_DATABASE_CONTAINER" != "hhy-owner-test-postgres" ]] \
+  || [[ "$HHY_OWNER_TEST_DATABASE_VOLUME" != "hhy-owner-test-postgres-data" ]] \
+  || [[ "$HHY_OWNER_TEST_NETWORK" != "hhy-owner-test" ]]; then
+  echo "Owner-test persistent database identity drift" >&2
+  exit 2
+fi
+owner_test_db_url="jdbc:postgresql://${HHY_OWNER_TEST_DATABASE_CONTAINER}:5432/${HHY_OWNER_TEST_DATABASE_NAME}"
+if [[ "$(docker exec "$HHY_OWNER_TEST_CONTAINER" printenv HHY_DB_URL)" != "$owner_test_db_url" ]] \
+  || [[ "$(docker exec "$HHY_OWNER_TEST_CONTAINER" printenv HHY_DB_USER)" \
+    != "$HHY_OWNER_TEST_DATABASE_USER" ]] \
+  || [[ "$(docker exec "$HHY_OWNER_TEST_CONTAINER" printenv HHY_CI_AUTOMATION_ENABLED)" != "false" ]]; then
+  echo "Owner-test backend is not bound to the persistent non-CI database" >&2
+  exit 2
+fi
+if [[ "$(docker inspect --format '{{range .Mounts}}{{if eq .Destination "/var/lib/postgresql/data"}}{{.Name}}{{end}}{{end}}' \
+  "$HHY_OWNER_TEST_DATABASE_CONTAINER")" != "$HHY_OWNER_TEST_DATABASE_VOLUME" ]]; then
+  echo "Owner-test PostgreSQL volume identity drift" >&2
   exit 2
 fi
 if [[ "$(docker exec "$HHY_CANDIDATE_CONTAINER" printenv SPRING_PROFILES_ACTIVE)" != "staging" ]]; then
@@ -85,10 +120,10 @@ if [[ "$probe_mode" == "R14_CONVERSATIONS" ]]; then
     echo "Candidate container is not attached to the exact R14 staging network" >&2
     exit 2
   fi
-  old_networks="$(docker inspect --format '{{range $k, $v := .NetworkSettings.Networks}}{{$k}} {{end}}' \
-    "$HHY_EXPECTED_OLD_CONTAINER")"
-  if [[ " $old_networks " != *" $HHY_CANDIDATE_NETWORK "* ]]; then
-    echo "Expected old candidate is not attached to the exact R14 staging network" >&2
+  owner_networks="$(docker inspect --format '{{range $k, $v := .NetworkSettings.Networks}}{{$k}} {{end}}' \
+    "$HHY_OWNER_TEST_CONTAINER")"
+  if [[ " $owner_networks " != *" $HHY_OWNER_TEST_NETWORK "* ]]; then
+    echo "Owner-test backend is not attached to the persistent network" >&2
     exit 2
   fi
   candidate_db_url="$(docker exec "$HHY_CANDIDATE_CONTAINER" printenv HHY_DB_URL)"
@@ -253,4 +288,33 @@ fi
 
 activated="false"
 trap - ERR
+owner_test_root="/root/hhy-owner-test"
+lease="${owner_test_root}/candidate-route-lease.env"
+restore_runtime="${owner_test_root}/bin/restore_android_candidate_route.sh"
+install -d -m 700 "${owner_test_root}/bin"
+install -m 700 scripts/restore_android_candidate_route.sh "$restore_runtime"
+umask 077
+{
+  echo "ACTIVATED_AT=$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+  echo "LEASE_MINUTES=${owner_test_route_lease_minutes}"
+  echo "CANDIDATE_UPSTREAM=${HHY_TARGET_UPSTREAM}"
+  echo "CANDIDATE_CONTAINER=${HHY_CANDIDATE_CONTAINER}"
+  echo "OWNER_TEST_UPSTREAM=${HHY_OWNER_TEST_UPSTREAM}"
+  echo "OWNER_TEST_CONTAINER=${HHY_OWNER_TEST_CONTAINER}"
+} >"$lease"
+restore_unit="hhy-owner-test-route-restore-$(date -u +%Y%m%dT%H%M%SZ)"
+systemd-run --quiet --collect --unit "$restore_unit" \
+  --on-active="${owner_test_route_lease_minutes}m" \
+  env \
+    HHY_OWNER_TEST_ROUTE_CONFIRM=YES \
+    HHY_EXPECTED_CANDIDATE_UPSTREAM="$HHY_TARGET_UPSTREAM" \
+    HHY_OWNER_TEST_UPSTREAM="$HHY_OWNER_TEST_UPSTREAM" \
+    HHY_OWNER_TEST_CONTAINER="$HHY_OWNER_TEST_CONTAINER" \
+    HHY_OWNER_TEST_DATABASE_CONTAINER="$HHY_OWNER_TEST_DATABASE_CONTAINER" \
+    HHY_OWNER_TEST_DATABASE_NAME="$HHY_OWNER_TEST_DATABASE_NAME" \
+    HHY_OWNER_TEST_DATABASE_USER="$HHY_OWNER_TEST_DATABASE_USER" \
+    HHY_OWNER_TEST_DATABASE_VOLUME="$HHY_OWNER_TEST_DATABASE_VOLUME" \
+    HHY_OWNER_TEST_NETWORK="$HHY_OWNER_TEST_NETWORK" \
+    HHY_OWNER_TEST_REGISTRATION_INVITE_CODE="$HHY_OWNER_TEST_REGISTRATION_INVITE_CODE" \
+    bash "$restore_runtime"
 echo "ANDROID_CANDIDATE_ROUTE_OK mode=${probe_mode} container=${HHY_CANDIDATE_CONTAINER} upstream=${HHY_TARGET_UPSTREAM} backup=${backup} sent_request_id=${sent_request_id} response_request_id=${response_request_id}"

@@ -149,6 +149,7 @@ def load_policy(path: Path = DEFAULT_POLICY) -> dict[str, Any]:
         "candidate_database_binding_exact",
         "candidate_mfa_volume_writable",
         "candidate_startup_version_fixture_exact",
+        "owner_test_identity_exact_before_switch",
         "target_container_local_http_200",
         "target_startup_version_policy_http_200",
         "target_registration_invite_http_200",
@@ -158,9 +159,33 @@ def load_policy(path: Path = DEFAULT_POLICY) -> dict[str, Any]:
         "public_startup_version_policy_http_200",
         "public_request_id_in_target_container_log",
         "automatic_rollback_on_failure",
+        "bounded_owner_test_route_lease",
+        "automatic_owner_test_route_restore_scheduled",
     }
     if set(route_activation.get("required_proofs") or []) != required_route_proofs:
         raise GateError("Android candidate public route activation proof set drift")
+    route_restoration = authentication.get("public_route_restoration") or {}
+    if route_restoration.get("required_after_candidate") is not True:
+        raise GateError("Android candidate completion must restore the persistent owner-test route")
+    if route_restoration.get("script") != "scripts/restore_android_candidate_route.sh":
+        raise GateError("Android candidate route restoration script drift")
+    if set(route_restoration.get("applies_to_results") or []) != {
+        "PASS", "FAIL", "CANCELLED", "INFRASTRUCTURE_FAILURE",
+    }:
+        raise GateError("Android candidate route restoration must cover every terminal result")
+    if route_restoration.get("maximum_route_lease_minutes") != 45:
+        raise GateError("Android candidate public route lease must remain fixed to 45 minutes")
+    required_restoration_proofs = {
+        "owner_test_database_container_exact",
+        "owner_test_database_volume_exact",
+        "owner_test_database_network_exact",
+        "owner_test_ci_automation_disabled",
+        "owner_test_public_platform_http_200",
+        "owner_test_public_invite_valid",
+        "nginx_owner_test_upstream_exact",
+    }
+    if set(route_restoration.get("required_proofs") or []) != required_restoration_proofs:
+        raise GateError("Android owner-test route restoration proof set drift")
     if not document["delivery"].get("forbid_owner_request_before_pass"):
         raise GateError("Owner test must remain blocked before automated PASS")
     if not document["delivery"].get("desktop_copy_after_actions_pass"):

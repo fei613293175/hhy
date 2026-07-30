@@ -1,0 +1,14 @@
+schema: hhy.android-historical-visual-request/v1
+request_id: HISTORICAL-UI-20260730-001
+status: REQUESTED
+mode: HISTORICAL-UI
+candidate: false
+source_commit: 67b81388ea77a14bccab4309ee72aa9b9a032eaf
+expected_screenshot_count: 26
+requested_for:
+- R13 historical visual debt
+- R14 machine close
+network_mode: OFFLINE_PRODUCTION_COMPOSABLES
+staging_bootstrap_required: false
+candidate_backend_required: false
+owner_confirmation_required: false

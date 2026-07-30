@@ -2212,3 +2212,19 @@ problems:
   - 不得让被拉黑后替换composer的底栏丢失IME避让，也不得只延长UiAutomator等待时间掩盖可见区域错误
   - 已有Compose节点、用户文本与composer消失证据时，不得继续把testTag未导出为UiAutomator resource-id误判为业务未生效
   - 真正执行R14拉黑旅程的第三轮若仍为相同指纹，必须登记三轮上限并切换测试或布局方案；不得把模拟器启动前的OIDC/JWKS/引导5xx计为业务轮，也不得借基础设施编号递增继续同一业务修复路径
+- id: PROB-0153
+  title: 公网真机测试入口长期绑定版本候选冒烟库导致账号和邀请码跨版本失效
+  status: SOLVED
+  root_cause: api.orbexa.cc在R13、R14候选审核时被受控切到版本专属smoke数据库，但候选结束和基线晋升只关闭Android机器证据，没有强制恢复长期真机测试数据源。项目所有者在旧版本注册的账号因此不在新版本smoke库中，登录接口以统一安全文案表现为手机号或密码错误；HHY2026TEST又只存在于部分候选配置或种子，切库后同步失效。数据库不是单次误删，而是公网路由长期指向了错误的可丢弃数据源。
+  resolution: CR-0515复用并加固既有同库同卷与公网环境不可销毁规则。服务器从R14当前数据建立一致性快照，创建独立hhy-owner-test-postgres容器、hhy-owner-test-postgres-data卷和hhy-owner-test网络，部署同一89ccaf45冻结后端且关闭CI自动化，再将api.orbexa.cc切到127.0.0.1:28140。指定账号恢复为ACTIVE，资料、BCRYPT凭证、失败次数和锁定状态均正确，密码仅通过交互stdin做哈希匹配且未写入仓库或日志；HHY2026TEST写入持久库后公网校验HTTP 200/VALID。仓库新增持久环境机器事实、应用-only升级、候选后恢复脚本和静态门禁。
+  regression_checks:
+  - config/owner-test-environment.yaml必须把公网后端绑定hhy-owner-test-postgres、hhy-owner-test-postgres-data和hhy-owner-test网络，数据库名不得包含smoke、candidate或版本staging
+  - 公网持久后端必须保持HHY_CI_AUTOMATION_ENABLED=false，版本升级前必须pg_dump并只允许Flyway前向迁移
+  - GitHub候选临时路由租约最多45分钟，候选PASS、FAIL、取消或基础设施失败后都必须运行scripts/restore_android_candidate_route.sh
+  - scripts/promote_owner_test_backend.sh必须比较升级前后users、user_credentials和invite_codes计数且禁止down -v、DROP DATABASE和TRUNCATE
+  - R14及后续machine-close必须运行scripts/check_owner_test_environment.py并保存脱敏服务器实证，不得仅凭候选报告关闭
+  do_not_repeat:
+  - 不得把登录统一错误文案直接归因于用户记错密码，必须先核对公网后端的真实数据库绑定和账号存在性
+  - 不得把hhy-r*-staging、smoke或candidate数据库作为项目所有者长期真机测试数据源
+  - 不得因切换大版本、重建候选、清理服务器或缺少项目所有者即时反馈而删除、重置或替换owner-test数据库卷
+  - 不得在命令、日志、仓库、证据或聊天总结中记录用户明文密码、完整密码哈希、数据库密码或会话Token

@@ -75,6 +75,7 @@ authentication:
     - candidate_database_binding_exact
     - candidate_mfa_volume_writable
     - candidate_startup_version_fixture_exact
+    - owner_test_identity_exact_before_switch
     - target_container_local_http_200
     - target_startup_version_policy_http_200
     - target_registration_invite_http_200
@@ -84,6 +85,25 @@ authentication:
     - public_startup_version_policy_http_200
     - public_request_id_in_target_container_log
     - automatic_rollback_on_failure
+    - bounded_owner_test_route_lease
+    - automatic_owner_test_route_restore_scheduled
+  public_route_restoration:
+    required_after_candidate: true
+    script: scripts/restore_android_candidate_route.sh
+    applies_to_results:
+    - PASS
+    - FAIL
+    - CANCELLED
+    - INFRASTRUCTURE_FAILURE
+    maximum_route_lease_minutes: 45
+    required_proofs:
+    - owner_test_database_container_exact
+    - owner_test_database_volume_exact
+    - owner_test_database_network_exact
+    - owner_test_ci_automation_disabled
+    - owner_test_public_platform_http_200
+    - owner_test_public_invite_valid
+    - nginx_owner_test_upstream_exact
 emulator:
   api_level: 35
   target: google_apis

@@ -1,19 +1,19 @@
 {
   "version": "1.0",
-  "generated_at": "2026-07-30T04:10:52Z",
-  "context_hash": "f505d73552aad5f57aa6f578ba68f2e2189148b4ed046d608ed66e20d7758913",
+  "generated_at": "2026-07-30T04:43:51Z",
+  "context_hash": "480ec8776031e4806a3eb447ecf7b3faa0011d59b7d8419b94067219dc34edf5",
   "fingerprint_mode": "SESSION_DELTA",
   "project_fingerprint": {
-    "sha256": "4c5cba57c84d623e0c09dd5536d0bef6d1ccd516fe5f59cd317889983b9d5bbc",
-    "file_count": 74
+    "sha256": "b76a69f25230533bcf0bd024cc95c4d8b6d933ca0a6c3ac3b9b8de2ea17f2990",
+    "file_count": 85
   },
   "yaml": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.yaml",
-    "sha256": "337725e39b5bcfafdbe3575fe78cdbac898e06e5db743399a16c70456b9ffe15"
+    "sha256": "a56ff09bf8d32d1996fc26803a3d51e818a522b8888fd10b1079d099e4988e8c"
   },
   "markdown": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.md",
-    "sha256": "111f8b66fb1732c0260d1ac60aa9c15a140909981e0d222983c633663c0f661f"
+    "sha256": "a0b40b40a20efc4cd06bc6d2c692e37e7e6be22c529e3c78f730c90cdbb7a7b2"
   },
   "sources": [
     {
@@ -28,7 +28,7 @@
     },
     {
       "path": "CURRENT_STATUS.yaml",
-      "sha256": "50db8087eb35f3365e536e7689a905622013cd5993f3f096de179c4f11592a9f",
+      "sha256": "66c9d177d345d8130a3f87f0f120428266a598cfe95a4b34b640338c6851e4ed",
       "bytes": 4817
     },
     {
@@ -48,8 +48,8 @@
     },
     {
       "path": "docs/03-continuity/PROBLEM_REGISTRY.yaml",
-      "sha256": "fcadfbd0e3278c66b57ab537c8a814a9ba6d3610328d17b680b0a87cc12fa729",
-      "bytes": 273919
+      "sha256": "04ef93aedecd5de2da772e9084cb7fdd646ee49f9a716ce63822723e58990f40",
+      "bytes": 276608
     },
     {
       "path": "docs/03-continuity/REUSABLE_PATTERNS.md",
@@ -83,12 +83,12 @@
     },
     {
       "path": ".continuity/EVENT_LOG.jsonl",
-      "sha256": "8bc71e9db2cd3cd18c9e46452990a7eee1bd07352b8d036ab4a05dafb27cb790",
-      "bytes": 2713091
+      "sha256": "0e7466015e01c8475bec8d1c06d2631e60bf0eaf4cba381a3dff4a0be8cd6c8a",
+      "bytes": 2720524
     },
     {
       "path": ".continuity/SESSION_INDEX.yaml",
-      "sha256": "3b7801397fce6cffdddeef6cca78cd74aecc4bcf0ad9e1d7d47f6dd19e565c02",
+      "sha256": "8faa2ff089f45183562e6134360ad63693c0d2d0299c87c520043b2c33949523",
       "bytes": 66849
     },
     {
@@ -103,18 +103,18 @@
     },
     {
       "path": ".continuity/CHANGE_REQUEST_INDEX.yaml",
-      "sha256": "bd523ddcc8e58dd205c3818fc9b004ee5480711f10f45591b0bba5b7750ff8af",
-      "bytes": 1909585
+      "sha256": "757f75bdb06e19452f4f0effd52cda3837160c83c7f9f5407d7c99e716896a28",
+      "bytes": 1916917
     },
     {
       "path": ".continuity/ACTIVE_SESSION.yaml",
-      "sha256": "daf2d4a9a6a11f29faa6767df4f99fdd2895648095e1a82f3c96e5d42974da22",
+      "sha256": "bebc819065e563adb361fc6a201e6bfa3147263831602efee337e575fd4a90ae",
       "bytes": 540
     },
     {
       "path": "docs/00-baseline/正式商业系统全局硬性开发边界.md",
-      "sha256": "30c07716c31d6d09621b6f6d119063b1fcb35e78d9b266423ed333d92b8262db",
-      "bytes": 14474
+      "sha256": "e9593dee87834aff4a717f83622d4f1a8c8873e4d6ed19d154a0dd3fbfd80f66",
+      "bytes": 15598
     },
     {
       "path": "docs/02-ui/UI参考图使用与开发约束_V1.2.2.md",
@@ -163,13 +163,13 @@
     },
     {
       "path": "docs/03-continuity/sessions/2026-07/SES-20260729T161557Z-6FCE6ACA.md",
-      "sha256": "d79095aeb12acbfbc5d069486e109da554fcdd23a9e84b8fe4460b06158f1c99",
-      "bytes": 275933
+      "sha256": "859edf42fce2b2974c07dbe3ac12426323eb5d5849852b5780e3146ad1b9b3fb",
+      "bytes": 292460
     },
     {
-      "path": ".continuity/checkpoints/SES-20260729T161557Z-6FCE6ACA/0057.yaml",
-      "sha256": "2967ba6bde39afb42deec679f8aadeea36471d56e6d1f5ed48687f559fa93957",
-      "bytes": 37472
+      "path": ".continuity/checkpoints/SES-20260729T161557Z-6FCE6ACA/0059.yaml",
+      "sha256": "19dd8b5641026fe293c532d748770df9f855c8f485335ecdb4a041385b098a89",
+      "bytes": 40803
     },
     {
       "path": "docs/03-continuity/change-requests/CR-0475-绑定R14最终交互候选与稳定TEST_APK同一提交.md",
@@ -365,6 +365,16 @@
       "path": "docs/03-continuity/change-requests/CR-0513-登记R14原子替换归档与历史视觉数量回归文件.md",
       "sha256": "e96d94ef151c29dd19c988440c8c3b052855aef57a07826c489fa3fec53e74da",
       "bytes": 2678
+    },
+    {
+      "path": "docs/03-continuity/change-requests/CR-0514-建立仅离线历史视觉审计的推送触发入口.md",
+      "sha256": "b7ec50ed72f1501df6d8a0396df6a23cbf984313b16707088683d6b3d0ed6dfd",
+      "bytes": 2622
+    },
+    {
+      "path": "docs/03-continuity/change-requests/CR-0515-分离公网真机持久库与GitHub候选冒烟库.md",
+      "sha256": "ebe0762189bf7965a475d3e08be9edd59e68dc60d5ddbc38e8898b7741965695",
+      "bytes": 4275
     }
   ]
 }

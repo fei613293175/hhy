@@ -31809,3 +31809,118 @@ change_requests:
     session_id: SES-20260729T161557Z-6FCE6ACA
   session_ids:
   - SES-20260729T161557Z-6FCE6ACA
+- protocol_version: '1.0'
+  cr_id: CR-0514
+  title: 建立仅离线历史视觉审计的推送触发入口
+  status: IMPLEMENTING
+  created_at: '2026-07-30T04:15:22Z'
+  updated_at: '2026-07-30T04:15:43Z'
+  requester_actor_id: codex-r14-release-closer
+  approver_actor_id: codex-r14-ci-efficiency-authorizer
+  task_id: TASK-R14-008
+  session_id: SES-20260729T161557Z-6FCE6ACA
+  user_request: GitHub测试只在大版本最终审核使用，避免反复登录、后端和完整候选耗时；截图由AI自行判断且不中断开发
+  reason: Android Quality Gate的HISTORICAL-UI工作流不在GitHub侧边栏显示，浏览器手工dispatch不可复用；需用仓库内不可变请求一次触发仅历史离线模拟器Job
+  original_rule: HISTORICAL-UI只有workflow_dispatch入口，但复用工作流未在默认分支Actions侧边栏暴露，换电脑或AI需依赖已登录浏览器手工操作。
+  new_rule: 新增路径限定的push请求工作流；只有config/android-historical-visual-request.yaml变化时运行，固定调用HISTORICAL-UI且candidate=false，因此不执行构建候选、OIDC、Staging或后端旅程。
+  impact_summary: 新增一个可审计的一次性离线视觉请求入口与当前请求文件；不修改产品代码、候选、API、数据库、APK或生产部署。
+  impact:
+    files:
+    - .github/workflows/android-historical-visual-request.yml
+    - config/android-historical-visual-request.yaml
+    pages:
+    - 历史Android视觉审计
+    apis:
+    - 无API影响
+    database:
+    - 无数据库影响
+    configuration:
+    - HISTORICAL-UI push request
+    ledger:
+    - 无资金或账本影响
+    tests:
+    - workflow YAML parse; request source commit ancestor; GitHub historical-visual job only
+    releases:
+    - R13
+    - R14
+    migration_and_compatibility: 后续历史UI补证可更新请求ID复用；普通提交不触发；当前请求绑定67b81388为内容来源祖先。
+  user_confirmation: 项目所有者已明确要求GitHub测试只在大版本最终审核使用，并要求把高效稳定方案写入仓库供换电脑和AI复用。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-30T04:15:35Z'
+    note: 独立确认路径触发只调用HISTORICAL-UI candidate=false，build/emulator candidate/候选/remediation全部跳过；能消除浏览器登录依赖且不扩大线上权限。
+  machine_record: .continuity/change_requests/CR-0514.yaml
+  document: docs/03-continuity/change-requests/CR-0514-建立仅离线历史视觉审计的推送触发入口.md
+  decision_log:
+  - at: '2026-07-30T04:15:43Z'
+    actor_id: codex-r14-release-closer
+    status: IMPLEMENTING
+    note: 开始新增仅离线历史视觉的路径限定推送请求入口。
+    session_id: SES-20260729T161557Z-6FCE6ACA
+  session_ids:
+  - SES-20260729T161557Z-6FCE6ACA
+- protocol_version: '1.0'
+  cr_id: CR-0515
+  title: 分离公网真机持久库与GitHub候选冒烟库
+  status: IMPLEMENTED
+  created_at: '2026-07-30T04:32:49Z'
+  updated_at: '2026-07-30T04:42:07Z'
+  requester_actor_id: codex-r14-owner-test-persistence
+  approver_actor_id: codex-r14-data-safety-authorizer
+  task_id: TASK-R14-008
+  session_id: SES-20260729T161557Z-6FCE6ACA
+  user_request: 用户多次注册账号后跨版本无法登录且HHY2026TEST邀请码失效；要求解释是否清库并彻底避免再次发生
+  reason: 公网api.orbexa.cc被长期指向R13/R14版本候选冒烟数据库，跨版本切换导致用户数据和临时邀请码不可见，违反既有公网开发环境不属于隔离演练且数据库同库同卷连续的规则
+  original_rule: 既有部署规则要求公网开发环境不属于可销毁演练，应用升级保持同一PostgreSQL容器和卷；但Android候选路由流程只证明候选自身正确，没有强制候选结束后恢复公网持久库，执行层因此把api.orbexa.cc长期留在版本冒烟库。
+  new_rule: api.orbexa.cc必须常态指向独立owner-test持久数据库；版本升级只替换冻结镜像并前向迁移，不得重建、清空或换卷。GitHub候选数据库只能承载自动夹具，候选结束无论PASS/FAIL都必须恢复owner-test路由并由机器门禁证明数据库容器、卷、CI关闭、公开健康和邀请码连续性。
+  impact_summary: 将当前R14数据复制到独立hhy-owner-test PostgreSQL卷，恢复指定账号和测试邀请码，公网切到持久后端；在既有全局边界和部署手册中加固同一规则，并增加可复用升级、候选恢复与环境核验入口。
+  impact:
+    files:
+    - docs/00-baseline/正式商业系统全局硬性开发边界.md
+    - docs/07-operations/DEPLOYMENT_RUNBOOK.md
+    - config/owner-test-environment.yaml
+    - config/android-automation.yaml
+    - scripts/promote_owner_test_backend.sh
+    - scripts/restore_android_candidate_route.sh
+    - scripts/check_owner_test_environment.py
+    - scripts/switch_android_candidate_route.sh
+    - scripts/android_ci_gate.py
+    - tests/test_owner_test_environment.py
+    - tests/test_android_candidate_route.py
+    - docs/03-continuity/PROBLEM_REGISTRY.yaml
+    - artifacts/validation/r14-owner-test-persistence/owner-test-persistence.json
+    pages:
+    - 无前端页面变更
+    apis:
+    - api.orbexa.cc公网真机测试入口
+    database:
+    - hhy-owner-test-postgres/hhy-owner-test-postgres-data，禁止候选库替代
+    configuration:
+    - owner-test机器事实、候选后恢复证明和当前R14持久后端身份
+    ledger:
+    - 不修改资金与账本事实
+    tests:
+    - 静态配置门禁、脚本策略测试、服务器容器/卷/路由/健康/邀请码/密码哈希匹配实证
+    releases:
+    - R14
+    migration_and_compatibility: 首次从R14冒烟库做一致性快照迁入独立持久卷；后续只允许Flyway前向迁移和应用镜像回切，禁止down -v、DROP DATABASE、TRUNCATE用户业务表或把公网持久入口永久切到hhy-r*-staging/smoke数据库。
+  user_confirmation: 项目所有者报告多个账号跨版本后无法登录及HHY2026TEST失效，并要求确认是否清库；此前已明确要求发现问题立即修复、规则跨电脑和AI生效且无需逐次批准。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-30T04:33:28Z'
+    note: 本变更更新既有数据库连续性规则而非另建同义规则；持久库与候选库分离能消除跨版本账号丢失，且不保存手机号、密码或哈希到仓库。
+  machine_record: .continuity/change_requests/CR-0515.yaml
+  document: docs/03-continuity/change-requests/CR-0515-分离公网真机持久库与GitHub候选冒烟库.md
+  decision_log:
+  - at: '2026-07-30T04:33:35Z'
+    actor_id: codex-r14-owner-test-persistence
+    status: IMPLEMENTING
+    note: 服务器持久库和公网路由已恢复，开始补齐仓库硬规则、可复用脚本、机器配置与回归。
+    session_id: SES-20260729T161557Z-6FCE6ACA
+  - at: '2026-07-30T04:42:07Z'
+    actor_id: codex-r14-owner-test-persistence
+    status: IMPLEMENTED
+    note: 公网已切到独立持久库；账号、密码公网登录、邀请码、容器/卷/网络、CI关闭、恢复脚本与全部静态回归均PASS，仓库未保存任何手机号、密码、哈希或Token。
+    session_id: SES-20260729T161557Z-6FCE6ACA
+  session_ids:
+  - SES-20260729T161557Z-6FCE6ACA

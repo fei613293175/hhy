@@ -38,6 +38,14 @@ class AndroidCandidateRouteTest(unittest.TestCase):
         self.assertIn("systemctl reload nginx", self.script)
         self.assertIn("rollback()", self.script)
         self.assertIn("trap rollback ERR", self.script)
+        self.assertIn("HHY_OWNER_TEST_UPSTREAM is required", self.script)
+        self.assertIn("hhy-owner-test-postgres-data", self.script)
+        self.assertIn("HHY_CI_AUTOMATION_ENABLED", self.script)
+        self.assertIn('owner_test_route_lease_minutes="${HHY_OWNER_TEST_ROUTE_LEASE_MINUTES:-45}"', self.script)
+        self.assertIn("candidate-route-lease.env", self.script)
+        self.assertIn("systemd-run --quiet --collect", self.script)
+        self.assertIn("--on-active=\"${owner_test_route_lease_minutes}m\"", self.script)
+        self.assertIn("scripts/restore_android_candidate_route.sh", self.script)
 
     def test_public_probe_must_be_observed_in_target_container(self) -> None:
         self.assertIn(
@@ -91,7 +99,7 @@ class AndroidCandidateRouteTest(unittest.TestCase):
         self.assertIn("Candidate release label is not R14", self.script)
         self.assertIn("HHY_CANDIDATE_NETWORK is required", self.script)
         self.assertIn("Candidate container is not attached to the exact R14 staging network", self.script)
-        self.assertIn("Expected old candidate is not attached to the exact R14 staging network", self.script)
+        self.assertIn("Owner-test backend is not attached to the persistent network", self.script)
         self.assertIn("Candidate database binding does not match the exact R14 smoke database", self.script)
         self.assertIn("Candidate MFA secret volume must be writable", self.script)
         self.assertIn('{{range .Mounts}}{{if eq .Destination "/var/lib/hhy/secrets"}}{{.RW}}', self.script)
