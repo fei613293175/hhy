@@ -1,7 +1,7 @@
 schema: hhy.governance-state/v5.0
-revision: 3
-updated_at: '2026-07-30T19:05:06.155234Z'
-state_hash: 13c0e9bc201858270d12f1b7863139470746f017145d9e2041b33c1c7a565ee5
+revision: 4
+updated_at: '2026-07-30T19:16:54.833701Z'
+state_hash: f56774c7d0585e71f34bbe2fcc8c41475e85a46f217b31c289afcdb9d672df69
 project:
   status: ACTIVE
   branch_at_install: governance/v5.0-migration-20260731
@@ -2598,7 +2598,7 @@ tasks:
     blocker: null
   TASK-R14-RECOVERY-001:
     status: READY
-    attempts_used: 1
+    attempts_used: 2
     current_attempt: null
     last_error_fingerprint: worker execution failed or produced no result
     last_candidate_commit: null
