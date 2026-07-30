@@ -481,7 +481,9 @@ private fun ConversationEmpty(filtered: Boolean, onClear: () -> Unit) {
         )
         Text(
             if (filtered) "没有找到相关会话" else "暂无会话",
-            modifier = Modifier.padding(top = HhySpacing.Md),
+            modifier = Modifier
+                .padding(top = HhySpacing.Md)
+                .testTag("r14.conversations.empty-message"),
             color = HhyColors.TextSecondary,
         )
         if (filtered) TextButton(onClick = onClear) { Text("清除搜索") }

@@ -2154,7 +2154,7 @@ problems:
   title: R14候选会话数据成功但列表业务文字与复进操作缺少稳定跨框架身份
   status: IN_PROGRESS
   root_cause: R14 Attempt6的候选请求、连续性、编译、单测、Lint、打包、自动会话和候选后端均通过；隔离R14 V044数据库存在唯一当前会话，真实GET /api/v1/conversations返回联系人“R14候选体验用户”和预览“R14候选会话已准备”。ConversationRow仅给整行提供r14.conversation.row，候选却用By.text等待Compose子文字；UiAutomator未发现该文字节点后把稳定语义身份缺口误报为夹具联系人缺失。Attempt11的同Commit唯一失败Job重跑进一步通过会话加载、搜索、发送、首次拉黑禁发断言并在拉黑后GET /api/v1/conversations返回200；数据库会话7仍未隐藏且1到8的拉黑关系真实存在，但返回列表后UiAutomator再次无法找到r14.conversation.row。Attempt12 Run 30495148156改用Compose原生输入后，消息POST以HTTP 200成功，但严格断言发现composer仍为R14候选发送文本；源码确认send函数的最后一个参数是onFailure，文本发送使用的尾随lambda因此静默绑定为失败回调，成功分支从未执行composer清空。CR-0493修复并通过双向Compose回归编译后，Attempt13 Run 30497451278仍在唯一遗留的UiAutomator resource文本快照报告旧值；同次消息POST仅128毫秒返回200且消息与“已发送”均已出现，证明跨框架可变文本快照不能作为Compose状态的最终事实源。
-  resolution: CR-0483为联系人名称和最后消息预览分别增加唯一r14.conversation.peer-name与r14.conversation.preview资源身份；候选按资源定位后严格比较UiObject2.text与预期业务值，搜索后再次复核联系人值，同时保留整行点击、错误文案和全部后续真实交互断言。Attempt6的GitHub注解、三项Artifact身份、数据库与无秘密HTTP重放证据入库，Attempt6不得重跑。CR-0491继续复用PROB-0125，不新增并列规则：会话行首次点击、拉黑后复进、长按与删除消失全部改用Compose唯一testTag、assertIsDisplayed和原生语义动作；composer输入改用performTextReplacement，发送成功后必须证明输入框为空再截图。CR-0493将文本发送改为显式命名onSuccess，仅成功时清空composer，并以Compose回归同时证明成功清空、失败保留草稿。CR-0495把最后一项composer空值验收也切到同一Compose未合并语义树，等待实时EditableText严格为空后再次assertTextEquals；超时、空值标准和截图前置条件均不变。Attempt15进一步通过前三图、拉黑禁发、重进禁发、解除菜单以及64毫秒拉黑POST和61毫秒解除DELETE，唯一失败是解除后用UiAutomator resource-id观察不到分支重建的composer；CR-0499保持10秒期限，改为Compose未合并树唯一节点并最终assertIsDisplayed，同时以真实拉黑再解除页面回归证明composer恢复、禁发节点消失和持久状态解除。
+  resolution: CR-0483为联系人名称和最后消息预览分别增加唯一r14.conversation.peer-name与r14.conversation.preview资源身份；候选按资源定位后严格比较UiObject2.text与预期业务值，搜索后再次复核联系人值，同时保留整行点击、错误文案和全部后续真实交互断言。Attempt6的GitHub注解、三项Artifact身份、数据库与无秘密HTTP重放证据入库，Attempt6不得重跑。CR-0491继续复用PROB-0125，不新增并列规则：会话行首次点击、拉黑后复进、长按与删除消失全部改用Compose唯一testTag、assertIsDisplayed和原生语义动作；composer输入改用performTextReplacement，发送成功后必须证明输入框为空再截图。CR-0493将文本发送改为显式命名onSuccess，仅成功时清空composer，并以Compose回归同时证明成功清空、失败保留草稿。CR-0495把最后一项composer空值验收也切到同一Compose未合并语义树，等待实时EditableText严格为空后再次assertTextEquals；超时、空值标准和截图前置条件均不变。Attempt15进一步通过前三图、拉黑禁发、重进禁发、解除菜单以及64毫秒拉黑POST和61毫秒解除DELETE，唯一失败是解除后用UiAutomator resource-id观察不到分支重建的composer；CR-0499保持10秒期限，改为Compose未合并树唯一节点并最终assertIsDisplayed，同时以真实拉黑再解除页面回归证明composer恢复、禁发节点消失和持久状态解除。Attempt16随后越过解除恢复，生成全部四图并完成长按删除；删除接口51毫秒返回200且Compose会话行消失，唯一失败是最终继续用UiAutomator By.text读取Compose筛选空状态。CR-0501为该文字增加r14.conversations.empty-message稳定语义，候选改为Compose唯一节点、可见性与精确文字三重断言，页面回归同步覆盖搜索后删除并显示“没有找到相关会话”。
   regression_checks:
   - R14ConversationListScreen必须分别暴露r14.conversation.peer-name与r14.conversation.preview，Compose测试在未合并语义树中核对精确业务值
   - ReleaseCandidateSmokeTest必须按两个稳定资源定位并比较节点精确文字，搜索后再次核对联系人值；不得恢复By.text(peer)或按夹具预览直接等待
@@ -2163,6 +2163,8 @@ problems:
   - 文本发送调用必须显式命名onSuccess并只在成功后清空composer；失败回调必须保留用户草稿，不得使用会绑定到末尾onFailure参数的尾随lambda
   - composer空值验收必须在Compose未合并语义树等待并最终assertTextEquals空串；不得再用UiAutomator resource文本的一次性快照代替实时Compose状态
   - 解除拉黑恢复composer必须在Compose未合并语义树等待唯一节点并最终assertIsDisplayed；页面回归必须真实执行拉黑再解除并证明禁发节点消失与持久状态解除
+  - 删除后筛选空状态必须暴露r14.conversations.empty-message，候选在Compose未合并语义树等待唯一节点、assertIsDisplayed并严格assertTextEquals“没有找到相关会话”
+  - R14ConversationListScreenTest必须先输入真实搜索词再长按删除并证明会话行消失和筛选空状态精确可见
   - Attempt7必须绑定新修复Commit、CR-0483与唯一request007，并从同Commit候选后端执行完整R14旅程
   do_not_repeat:
   - 后端HTTP 200、数据库夹具和精确响应均正常时，不得把UiAutomator找不到Compose文字直接归类为后端或夹具失败
@@ -2172,6 +2174,7 @@ problems:
   - 不得删除发送成功后composer为空的候选断言，也不得把HTTP 200后输入框未清空归类为测试环境抖动
   - Attempt12与Attempt13是同一composer错误指纹的前两轮；下一轮必须绑定CR-0495新Compose观察面且为该指纹最终轮，不得继续增加等待或复用旧resource断言
   - Attempt15的解除DELETE已HTTP 200且无崩溃时，不得继续把分支重建后UiAutomator resource-id不可见误判为解除业务失败或延长等待
+  - Attempt16的删除DELETE已HTTP 200、四图齐全且Compose会话行消失时，不得把UiAutomator By.text不可见误判为删除业务失败，也不得删掉空状态精确文字断言
 - id: PROB-0152
   title: R14拉黑业务成功但禁发底栏在输入法过渡期间不可见
   status: IN_PROGRESS

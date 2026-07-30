@@ -10,6 +10,7 @@ import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.performTextReplacement
 import androidx.compose.ui.test.performTouchInput
 import androidx.compose.ui.test.longClick
 import cc.orbexa.hhy.designsystem.HhyTheme
@@ -82,6 +83,9 @@ class R14ConversationListScreenTest {
         composeRule.waitUntil(5_000) {
             composeRule.onAllNodes(hasText("真实联系人")).fetchSemanticsNodes().isNotEmpty()
         }
+        composeRule.onNodeWithTag("r14.conversations.search", useUnmergedTree = true)
+            .performTextReplacement("真实联系人")
+        composeRule.onNodeWithText("真实联系人").assertIsDisplayed()
         composeRule.onNodeWithContentDescription("与真实联系人的会话").performTouchInput { longClick() }
         composeRule.onNodeWithText("删除会话").assertIsDisplayed().performClick()
         composeRule.onNodeWithText("将从当前账号的会话列表中删除与 真实联系人 的会话视图，不会删除对方的消息记录。")
@@ -91,6 +95,9 @@ class R14ConversationListScreenTest {
             composeRule.onAllNodes(hasText("真实联系人")).fetchSemanticsNodes().isEmpty()
         }
         assertEquals(0, composeRule.onAllNodes(hasText("真实联系人")).fetchSemanticsNodes().size)
+        composeRule.onNodeWithTag("r14.conversations.empty-message", useUnmergedTree = true)
+            .assertIsDisplayed()
+            .assertTextEquals("没有找到相关会话")
     }
 
     private object ConversationApi : ContractR14Api {

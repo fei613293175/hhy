@@ -83,6 +83,42 @@ class AndroidCiGateTest(unittest.TestCase):
             evidence["first_business_failure"]["message"],
         )
 
+    def test_r14_attempt16_records_delete_http_and_all_four_screens(self) -> None:
+        evidence = json.loads(
+            (
+                ROOT
+                / "artifacts/validation/r14-candidate-attempt16/failure-evidence.json"
+            ).read_text(encoding="utf-8")
+        )
+        self.assertEqual("30503336232", evidence["github_run_id"])
+        self.assertEqual(
+            [
+                "POST /api/v1/users/{id}/block",
+                "DELETE /api/v1/users/{id}/block",
+                "DELETE /api/v1/conversations/{id}",
+            ],
+            [item["operation"] for item in evidence["server_http_evidence"]],
+        )
+        self.assertTrue(
+            all(item["status"] == 200 for item in evidence["server_http_evidence"])
+        )
+        self.assertEqual(
+            [
+                "01-r14-conversations.png",
+                "02-r14-sent.png",
+                "03-r14-blocked-reentry.png",
+                "04-r14-long-press-menu.png",
+            ],
+            [
+                item["name"]
+                for item in evidence["first_business_failure"]["screenshots_produced"]
+            ],
+        )
+        self.assertEqual(
+            "R14 filtered empty state is missing",
+            evidence["first_business_failure"]["message"],
+        )
+
     def test_policy_enforces_from_r06_and_blocks_early_owner_test(self) -> None:
         policy = load_policy()
         self.assertFalse(is_enforced_release(policy, "R05"))
@@ -1629,6 +1665,14 @@ class AndroidCiGateTest(unittest.TestCase):
         self.assertIn("useUnmergedTree = true", compose_text_helper)
         self.assertIn(").assertTextEquals(expected)", compose_text_helper)
         self.assertIn('waitForComposeTagGone("r14.conversation.row", 10_000)', smoke_test)
+        self.assertIn(
+            'waitForUniqueComposeTag("r14.conversations.empty-message", 10_000)',
+            smoke_test,
+        )
+        self.assertNotIn(
+            'device.hasObject(By.text("没有找到相关会话"))',
+            smoke_test,
+        )
         self.assertIn(").assertIsDisplayed().performClick()", smoke_test)
         self.assertIn(").assertIsDisplayed().performTouchInput { longClick() }", smoke_test)
         self.assertIn(").assertIsDisplayed().performTextReplacement(text)", smoke_test)
@@ -1661,6 +1705,7 @@ class AndroidCiGateTest(unittest.TestCase):
         ).read_text(encoding="utf-8")
         self.assertIn('.testTag("r14.conversation.peer-name")', conversation_list)
         self.assertIn('.testTag("r14.conversation.preview")', conversation_list)
+        self.assertIn('.testTag("r14.conversations.empty-message")', conversation_list)
         self.assertIn('.testTag("r14.chat.blocked")', chat_detail)
         self.assertIn('stateDescription = "已拉黑，当前无法发送消息"', chat_detail)
         self.assertIn("val focusManager = LocalFocusManager.current", chat_detail)

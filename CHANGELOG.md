@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## R14删除后空状态Compose精确语义 · 2026-07-30
+
+- `CR-0501`归档GitHub Run `30503336232`的Attempt16：请求、编译、单测、Lint、APK、登录、搜索、发送、拉黑、重进、解除恢复、长按菜单和全部四张截图均通过；删除接口51毫秒返回HTTP 200，Compose会话行随后消失。
+- 唯一失败是最终仍用UiAutomator `By.text`读取Compose筛选空状态；空状态文字现增加`r14.conversations.empty-message`，候选在Compose未合并树等待唯一节点、证明可见并严格核对“没有找到相关会话”。
+- 页面回归同步执行“输入搜索词—长按—确认删除—行消失—筛选空状态可见”；删除API、十秒期限、四图、JUnit与日志门禁均未放宽。
+
 ## R14解除恢复Compose语义候选授权 · 2026-07-30
 
 - `CR-0500`只授权`R14-CANDIDATE-20260730-016`绑定`CR-0499`修复Commit `9817630e19e38c7bdbff61d9942025cf370b1654`运行一次；Attempt15和`CR-0498`保持已消费历史。

@@ -242,7 +242,11 @@ class ReleaseCandidateSmokeTest {
         clickExactText("删除会话")
         clickLastExactText("删除会话")
         waitForComposeTagGone("r14.conversation.row", 10_000)
-        assertTrue("R14 filtered empty state is missing", device.hasObject(By.text("没有找到相关会话")))
+        waitForUniqueComposeTag("r14.conversations.empty-message", 10_000)
+        composeRule.onNode(
+            hasTestTag("r14.conversations.empty-message"),
+            useUnmergedTree = true,
+        ).assertIsDisplayed().assertTextEquals("没有找到相关会话")
         assertNoForbiddenVisibleText()
     }
 
