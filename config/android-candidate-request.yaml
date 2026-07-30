@@ -2,8 +2,8 @@ schema_version: 1
 status: REQUESTED
 release: R14
 candidate: true
-remediation_attempt: 17
-request_id: R14-CANDIDATE-20260730-017
-attempt_exception_id: CR-0502
-required_fix_commit: 913dbc31c0cdbd288ed7bcb5db8849f8de78f9a7
-reason: R14 GitHub Run 30503336232的Attempt16已通过请求、编译、单测、Lint、打包、候选后端、自动登录、会话加载、搜索、消息发送、发送状态、composer Compose严格空值、拉黑禁发、返回列表、重进禁发、解除菜单、解除HTTP 200、composer恢复、列表长按菜单、删除HTTP 200和全部四张截图；删除后Compose会话行也已经消失，应用无崩溃或ANR。唯一失败是最终仍用UiAutomator By.text读取Compose筛选空状态“没有找到相关会话”，属于已登记跨框架语义观察不稳定的独立指纹。CR-0501及Commit 913dbc31c0cdbd288ed7bcb5db8849f8de78f9a7为该文字增加稳定testTag，在Compose未合并语义树等待唯一节点、证明可见并严格核对文字，同时补全搜索后长按删除页面回归；34项治理回归和obx-test固定Android工具链231任务通过。CR-0502只授权request017运行一次，全局max_ai_attempts=3及旧指纹轮次不变；搜索、发送未误标已读、拉黑重进、解除拉黑、列表长按删除、四张截图、JUnit和目标进程日志审核全部保留。
+remediation_attempt: 18
+request_id: R14-CANDIDATE-20260730-018
+attempt_exception_id: CR-0504
+required_fix_commit: d2d803831ae0def0902b2aff6362c39f68c8286f
+reason: R14 GitHub Run 30505422466的Attempt17已通过请求、编译、单测、Lint、打包、候选后端、GitHub OIDC、自动会话兑换、用户信息、首页和两次会话列表HTTP 200，并进入R14会话页面根；应用无崩溃或ANR。唯一首发失败是UiAutomator在20秒内无法找到Compose联系人r14.conversation.peer-name资源，属于PROB-0151已登记的跨框架资源导出不稳定指纹，失败发生在首图前，不能把后续四图缺失当作新的业务失败。CR-0503及Commit d2d803831ae0def0902b2aff6362c39f68c8286f保留联系人、预览、首次20秒和搜索后10秒期限，将三个业务值断言统一改为Compose未合并语义树唯一节点与严格文字核对，并删除旧UiAutomator资源文字帮助函数；35项治理回归和obx-test固定Android工具链231任务通过。CR-0504只授权request018运行一次，全局max_ai_attempts=3及旧指纹轮次不变；搜索、发送未误标已读、拉黑重进、解除拉黑、列表长按删除、空状态、四张截图、JUnit和目标进程日志审核全部保留。

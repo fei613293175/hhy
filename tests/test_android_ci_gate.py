@@ -590,6 +590,14 @@ class AndroidCiGateTest(unittest.TestCase):
                 "required_fix_commit": "913dbc31c0cdbd288ed7bcb5db8849f8de78f9a7",
                 "max_candidate_runs": 1,
             },
+            {
+                "exception_id": "CR-0504",
+                "release": "R14",
+                "attempt": 18,
+                "request_id": "R14-CANDIDATE-20260730-018",
+                "required_fix_commit": "d2d803831ae0def0902b2aff6362c39f68c8286f",
+                "max_candidate_runs": 1,
+            },
         ], policy["remediation"]["approved_attempt_exceptions"])
 
     def test_attempt_exception_is_exact_and_never_changes_the_global_limit(self) -> None:
@@ -955,6 +963,32 @@ class AndroidCiGateTest(unittest.TestCase):
         self.assertEqual(3, r14_attempt_seventeen["max_ai_attempts"])
         self.assertEqual(17, r14_attempt_seventeen["effective_attempt_limit"])
         self.assertEqual(1, r14_attempt_seventeen["max_candidate_runs"])
+        r14_attempt_eighteen = resolve_attempt_policy(
+            policy,
+            release="R14",
+            attempt=18,
+            request_id="R14-CANDIDATE-20260730-018",
+            exception_id="CR-0504",
+            required_fix_commit="d2d803831ae0def0902b2aff6362c39f68c8286f",
+        )
+        self.assertEqual(3, r14_attempt_eighteen["max_ai_attempts"])
+        self.assertEqual(18, r14_attempt_eighteen["effective_attempt_limit"])
+        self.assertEqual(1, r14_attempt_eighteen["max_candidate_runs"])
+        attempt_eighteen_identity = {
+            "release": "R14",
+            "attempt": 18,
+            "request_id": "R14-CANDIDATE-20260730-018",
+            "exception_id": "CR-0504",
+            "required_fix_commit": "d2d803831ae0def0902b2aff6362c39f68c8286f",
+        }
+        for override in (
+            {"attempt": 17},
+            {"request_id": "R14-CANDIDATE-20260730-017"},
+            {"exception_id": "CR-0502"},
+            {"required_fix_commit": "913dbc31c0cdbd288ed7bcb5db8849f8de78f9a7"},
+        ):
+            with self.subTest(r14_attempt18_override=override), self.assertRaises(GateError):
+                resolve_attempt_policy(policy, **(attempt_eighteen_identity | override))
         attempt_seventeen_identity = {
             "release": "R14",
             "attempt": 17,
