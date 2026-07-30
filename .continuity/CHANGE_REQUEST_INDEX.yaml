@@ -30967,9 +30967,9 @@ change_requests:
 - protocol_version: '1.0'
   cr_id: CR-0499
   title: 切换R14解除拉黑恢复输入框验收为Compose可见语义
-  status: IMPLEMENTING
+  status: IMPLEMENTED
   created_at: '2026-07-30T00:12:43Z'
-  updated_at: '2026-07-30T00:13:42Z'
+  updated_at: '2026-07-30T00:18:13Z'
   requester_actor_id: codex-r14-observation-implementer
   approver_actor_id: codex-r14-observation-reviewer
   task_id: TASK-R14-008
@@ -31014,5 +31014,12 @@ change_requests:
     status: IMPLEMENTING
     note: 开始归档Attempt15并实现解除后Compose可见验收和拉黑再解除页面回归。
     session_id: SES-20260729T161557Z-6FCE6ACA
+  - at: '2026-07-30T00:18:13Z'
+    actor_id: codex-r14-observation-implementer
+    status: IMPLEMENTED
+    note: Attempt15证据、PROB-0151原位更新、解除后Compose可见验收及后台返回拉黑再解除页面回归已完成；33项治理回归和obx-test固定工具链231任务通过。
+    session_id: SES-20260729T161557Z-6FCE6ACA
   session_ids:
   - SES-20260729T161557Z-6FCE6ACA
+  implementation_commits:
+  - 9817630e
