@@ -63,9 +63,9 @@ def read_json(path: Path) -> Any:
         return None
 
 
-def append_event(path: Path, event: str, **data: Any) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    with path.open("a", encoding="utf-8") as handle:
+def append_event(events_path: Path, event: str, **data: Any) -> None:
+    events_path.parent.mkdir(parents=True, exist_ok=True)
+    with events_path.open("a", encoding="utf-8") as handle:
         handle.write(json.dumps(redact({"at": utc_now(), "event": event, **data}), ensure_ascii=False, separators=(",", ":")) + "\n")
 
 
