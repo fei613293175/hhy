@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## R14解除恢复Compose语义候选授权 · 2026-07-30
+
+- `CR-0500`只授权`R14-CANDIDATE-20260730-016`绑定`CR-0499`修复Commit `9817630e19e38c7bdbff61d9942025cf370b1654`运行一次；Attempt15和`CR-0498`保持已消费历史。
+- Attempt16仅验证解除拉黑后重新进入Compose分支的composer可见语义，不复用不稳定的UiAutomator resource-id观察；33项治理回归和`obx-test`固定工具链231任务已经通过。
+- 全局`max_ai_attempts=3`及R14搜索、发送状态、拉黑重进、解除拉黑、长按删除、四张截图、JUnit和目标进程日志审核全部保持不变。
+
 ## R14解除拉黑恢复输入框实时语义 · 2026-07-30
 
 - `CR-0499`归档GitHub Run `30500888697`的Attempt15：构建、Lint、单测、APK、自动登录、搜索、发送、composer清空、拉黑禁发、返回重进禁发和解除菜单均通过，并生成前三张截图；拉黑POST 64毫秒、解除DELETE 61毫秒均返回HTTP 200且应用无崩溃。
