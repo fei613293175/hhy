@@ -20,9 +20,9 @@
 
   const statusClass = (value) => {
     if (!value) return "neutral";
-    if (["RUNNING", "PASS", "READY", "ACTIVE", "TASK_DONE", "检查通过", "正在运行"].includes(value)) return "good";
+    if (["RUNNING", "PASS", "READY", "ACTIVE", "TASK_DONE", "ONLINE", "STARTED", "检查通过", "正在运行"].includes(value)) return "good";
     if (["STOPPED", "INTERRUPTED", "DRY_RUN", "MAX_RUNS_REACHED", "NEXT_TASK_READY"].includes(value)) return "warn";
-    if (["FAILED_BOUNDED", "PROGRAM_COMPLETE", "UNKNOWN_STATUS", "DOCTOR_FAILED", "WORKTREE_UNSAFE", "NO_PROGRESS_DETECTED"].includes(value)) return "stop";
+    if (["FAILED_BOUNDED", "PROGRAM_COMPLETE", "UNKNOWN_STATUS", "DOCTOR_FAILED", "WORKTREE_UNSAFE", "NO_PROGRESS_DETECTED", "ATTENTION_REQUIRED", "RETRY_LIMIT_REACHED"].includes(value)) return "stop";
     return "neutral";
   };
 
@@ -89,6 +89,10 @@
     const config = payload.configuration || {};
     $("config-status").textContent = config.status === "PASS" ? "正常" : "异常";
     $("config-detail").textContent = config.status === "PASS" ? "下次启动生效" : (config.error || "无法读取");
+    const guardian = payload.guardian || {};
+    const guardianStatus = guardian.status || "未启动";
+    $("guardian-status").textContent = guardianStatus === "ONLINE" ? "在线" : (guardianStatus === "RECOVERING" ? "自动恢复中" : guardianStatus);
+    $("guardian-detail").textContent = guardian.next_action || "尚未启动 Guardian";
     if (payload.state_error) toast(`状态读取失败：${payload.state_error}`, true);
   };
 
@@ -225,13 +229,14 @@
 
   const action = async (name) => {
     let confirmed = false;
-    if (["trial", "start", "install-task", "uninstall-task", "clear-recoverable"].includes(name)) {
+    if (["trial", "start", "install-task", "uninstall-task", "clear-recoverable", "install-autonomous"].includes(name)) {
       const labels = {
         trial: "确认启动一次、最多 1 批 1 次的有限试运行？",
         start: "确认启动正式 Supervisor？这会调用现有 run-loop。",
         "install-task": "确认安装 Windows 登录自动启动任务？",
         "uninstall-task": "确认卸载 Windows 登录自动启动任务？",
         "clear-recoverable": "确认使用项目所有者授权文件清除可恢复停止？",
+        "install-autonomous": "确认安装全天候自动模式？安装一次后 Guardian 会在 Windows 登录后自动监督并启动 Supervisor。",
       };
       confirmed = window.confirm(labels[name]);
       if (!confirmed) return;
@@ -249,7 +254,7 @@
       toast(`${name}: ${payload.status || "UNKNOWN"}`, failed);
       renderActionResult(payload);
       await refresh();
-      if (name === "dry-run" || name === "simulate") await loadLog();
+      if (name === "dry-run" || name === "simulate" || name === "install-autonomous" || name === "start-guardian") await loadLog();
     } catch (error) {
       toast(`操作失败：${error.message}`, true);
     }

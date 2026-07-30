@@ -51,6 +51,11 @@
         <strong id="config-status">读取中</strong>
         <small id="config-detail">-</small>
       </article>
+      <article class="metric">
+        <span class="metric-label">Guardian 全天候监督</span>
+        <strong id="guardian-status">未启动</strong>
+        <small id="guardian-detail">-</small>
+      </article>
     </section>
 
     <section class="workspace">
@@ -78,7 +83,7 @@
             <p class="eyebrow">控制操作</p>
             <h2>控制操作</h2>
           </div>
-            <span class="muted">所有操作仍由现有 Supervisor 执行</span>
+            <span class="muted">Guardian 负责持续观察、自动重试和自动重新启动</span>
           </div>
           <div class="control-groups">
             <div class="control-group">
@@ -99,12 +104,14 @@
             <div class="control-group">
               <h3>Windows 任务计划</h3>
               <div class="button-row">
-                <button class="button secondary" data-action="install-task">安装自动启动</button>
+                <button class="button primary" data-action="install-autonomous">安装全天候自动模式</button>
+                <button class="button secondary" data-action="start-guardian">立即启动 Guardian</button>
+                <button class="button secondary" data-action="install-task">仅安装旧版 Supervisor 任务</button>
                 <button class="button secondary" data-action="uninstall-task">卸载自动启动</button>
               </div>
             </div>
           </div>
-          <p class="inline-note">正式启动和有限试运行都会启动真实 Supervisor；Candidate、Owner、外部阻断和未知状态仍由治理控制器决定。</p>
+          <p class="inline-note">安装一次后，Windows 登录、Supervisor 异常退出、临时权限/锁故障和普通失败重试都由 Guardian 自动处理。只有账号、外部依赖、业务决策和最终验收仍会进入待处理状态。</p>
         </article>
       </div>
 
@@ -123,6 +130,7 @@
             <div><dt>允许自动恢复</dt><dd id="auto-continue">-</dd></div>
             <div><dt>解除条件</dt><dd id="resolution">-</dd></div>
           </dl>
+          <p class="inline-note">正常的自动恢复不会要求你输入授权文件。只有 Guardian 判断为不可安全猜测的问题，才会保留这里的停止证据。</p>
           <div class="owner-action">
             <label for="authorization">授权文件路径</label>
             <input id="authorization" type="text" placeholder="owner-authorization.json">
@@ -187,6 +195,7 @@
             <option value="events">运行过程</option>
             <option value="batches">批次结果</option>
             <option value="stop-report">停止报告</option>
+            <option value="guardian">Guardian 监督</option>
           </select>
           <button class="button secondary" data-action="load-log">刷新日志</button>
         </div>

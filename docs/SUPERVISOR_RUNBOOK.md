@@ -38,11 +38,19 @@ The audit and Doctor must pass before any real Supervisor run.
 python tools/supervisor/hhy_supervisor.py --repo "C:\path\to\hhy" --trial
 ```
 
-After a successful trial, stop and obtain explicit owner authorization before using the default bounded mode.
+For unattended operation, use the Guardian mode described below. The Guardian owns
+restarts for known transient failures and automatically resumes ordinary retryable
+worker failures. It does not approve candidate evidence, bypass gates, alter
+Attempt counts, or invent a business decision.
 
 ## Automatic Continuation
 
-Only `MAX_RUNS_REACHED` and `NEXT_TASK_READY` may continue after the configured cooldown. Every continuation also requires a passing Doctor, a valid and consistent authoritative state, no active conflict, no second Supervisor, no pending stop report, and remaining Supervisor budget.
+`MAX_RUNS_REACHED`, `NEXT_TASK_READY`, `RETRY_REQUIRED`,
+`RETRYABLE_INFRASTRUCTURE`, and `SUPERVISOR_BUDGET_EXHAUSTED` are resumable by
+the configured Guardian. The Guardian archives the previous stop report before
+starting a new bounded Supervisor session. Every restart still requires a
+passing Doctor, a valid authoritative state, no active conflict, no second
+Supervisor, and remaining Guardian retry budget.
 
 ## Mandatory Stops
 
@@ -76,6 +84,8 @@ The page provides:
 - readable event, batch and stop-report conclusions instead of raw JSON;
 - a lifecycle observer that presents Supervisor and governance phases as a chat-like timeline; it is an observer, not a native Codex chat;
 - editable Supervisor limits for the next start, including per-task timeout, total session time, batch limits, cooldown, heartbeat and Windows recovery delay.
+- Guardian online state, last diagnosis, automatic retry count and next action;
+- one-time installation of the Windows login task that keeps Guardian running.
 
 Configuration changes are schema-validated and write only
 `tools/supervisor/supervisor_config.yaml`. They do not write `governance/STATE.yaml`,
@@ -90,6 +100,32 @@ without starting a Codex Worker.
 The server binds to `127.0.0.1` by default and should not be exposed through a reverse proxy or LAN binding.
 
 ## Windows Task Scheduler
+
+Install the unattended Guardian once:
+
+```powershell
+.\tools\supervisor\windows\install_autonomous_mode.ps1 `
+  -RepoPath "C:\path\to\hhy"
+```
+
+After installation, Windows starts Guardian at user logon. Guardian starts
+Supervisor automatically when the project is active, monitors heartbeats,
+archives known recoverable stop reports, and restarts bounded sessions. The
+control center's **安装全天候自动模式** button performs the same operation.
+
+Guardian state and readable recovery events are stored under:
+
+```text
+governance/runtime/supervisor/GUARDIAN_STATE.json
+governance/runtime/supervisor/GUARDIAN_EVENTS.jsonl
+governance/runtime/supervisor/guardian-history/
+```
+
+Guardian never auto-clears `UNKNOWN_STATUS` unless its diagnostic evidence maps
+the error to a known transient category such as Windows access denial,
+governance lock contention, or a controller timeout. Candidate, external,
+policy, authentication, state-integrity and bounded-failure conditions remain
+visible as attention-required states.
 
 Install for the current user:
 

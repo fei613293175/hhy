@@ -42,6 +42,7 @@ LOG_NAMES = {
     "events": "events.jsonl",
     "batches": "batches.jsonl",
     "stop-report": "SUPERVISOR_STOP_REPORT.md",
+    "guardian": "GUARDIAN_EVENTS.jsonl",
 }
 ACTION_NAMES = {
     "dry-run",
@@ -52,6 +53,9 @@ ACTION_NAMES = {
     "install-task",
     "uninstall-task",
     "clear-recoverable",
+    "install-autonomous",
+    "start-guardian",
+    "stop-guardian",
 }
 CONFIG_FIELDS = {
     "batch": {
@@ -73,12 +77,21 @@ CONFIG_FIELDS = {
         "restart_after_windows_login": {"label": "Windows 登录后自动恢复", "unit": "", "type": "boolean"},
         "startup_delay_seconds": {"label": "登录后等待再启动", "unit": "秒", "type": "integer", "min": 0, "max": 86400},
     },
+    "guardian": {
+        "enabled": {"label": "全天候自动监督", "unit": "", "type": "boolean"},
+        "poll_seconds": {"label": "Guardian 检查间隔", "unit": "秒", "type": "integer", "min": 3, "max": 3600},
+        "auto_start_supervisor": {"label": "发现停止后自动启动", "unit": "", "type": "boolean"},
+        "auto_retry_limit": {"label": "自动恢复最多次数", "unit": "次", "type": "integer", "min": 1, "max": 100},
+        "retry_cooldown_seconds": {"label": "自动恢复等待", "unit": "秒", "type": "integer", "min": 5, "max": 86400},
+        "auto_archive_recoverable_stop": {"label": "自动归档可恢复停止", "unit": "", "type": "boolean"},
+    },
 }
 CONFIG_GROUP_LABELS = {
     "batch": "任务批次",
     "runtime": "运行时间",
     "no_progress": "安全停止",
     "recovery": "Windows 自动恢复",
+    "guardian": "全天候自动监督",
 }
 STATUS_LABELS = {
     "PASS": "检查通过",
@@ -96,6 +109,12 @@ STATUS_LABELS = {
     "WORKTREE_UNSAFE": "工作区不安全",
     "UNKNOWN_STATUS": "未知状态，已停止",
     "NO_PROGRESS_DETECTED": "检测到没有进展",
+    "RETRYABLE_INFRASTRUCTURE": "临时基础设施故障，准备自动重试",
+    "SUPERVISOR_BUDGET_EXHAUSTED": "本轮预算结束，准备自动开启下一轮",
+    "ONLINE": "Guardian 在线",
+    "RECOVERING": "Guardian 正在自动恢复",
+    "ATTENTION_REQUIRED": "需要处理不可自动恢复的问题",
+    "RETRY_LIMIT_REACHED": "自动恢复达到上限",
 }
 
 
@@ -170,6 +189,7 @@ class ControlCenter:
         self.python_executable = python_executable or sys.executable
         self.runtime = self.repo / RUNTIME_DIR
         self.supervisor_script = self.repo / "tools" / "supervisor" / "hhy_supervisor.py"
+        self.guardian_script = self.repo / "tools" / "supervisor" / "supervisor_guardian.py"
         self.status_script = self.repo / "tools" / "supervisor" / "supervisor_status.py"
         self.windows_dir = self.repo / "tools" / "supervisor" / "windows"
         self.config_path = self.repo / "tools" / "supervisor" / "supervisor_config.yaml"
@@ -380,6 +400,7 @@ class ControlCenter:
         heartbeat = read_json(self.runtime / "heartbeat.json")
         pid_file = read_json(self.runtime / "supervisor.pid")
         stop_report = read_json(self.runtime / "SUPERVISOR_STOP_REPORT.json")
+        guardian = read_json(self.runtime / "GUARDIAN_STATE.json")
         try:
             state = read_active_state(self.repo)
             project = state.get("project") or {}
@@ -410,6 +431,7 @@ class ControlCenter:
                 "program_complete": (self.repo / PROGRAM_COMPLETE).is_file(),
                 "stop_report": redact(stop_report),
             },
+            "guardian": redact(guardian),
             "governance": state_view,
             "state_error": state_error,
             "task_scheduler": self._task_scheduler(),
@@ -479,6 +501,34 @@ class ControlCenter:
             "log": str(log_path.relative_to(self.repo)),
         }
 
+    def _spawn_guardian(self) -> dict[str, Any]:
+        self.runtime.mkdir(parents=True, exist_ok=True)
+        stamp = datetime.now().strftime("%Y%m%d-%H%M%S")
+        log_path = self.runtime / f"guardian-{stamp}.log"
+        env = os.environ.copy()
+        env["HHY_GOVERNANCE_ROLE"] = "ORCHESTRATOR"
+        env["HHY_SUPERVISOR_GUARDIAN"] = "1"
+        env["PYTHON"] = self.python_executable
+        try:
+            handle = log_path.open("a", encoding="utf-8")
+            process = subprocess.Popen(
+                [self.python_executable, str(self.guardian_script), "--repo", str(self.repo), "--daemon"],
+                cwd=self.repo,
+                stdout=handle,
+                stderr=subprocess.STDOUT,
+                stdin=subprocess.DEVNULL,
+                env=env,
+                creationflags=getattr(subprocess, "CREATE_NEW_PROCESS_GROUP", 0),
+            )
+            handle.close()
+        except OSError as exc:
+            try:
+                handle.close()
+            except (UnboundLocalError, OSError):
+                pass
+            return {"status": "FAIL", "error": str(exc)}
+        return {"status": "STARTED", "pid": process.pid, "mode": "guardian", "log": str(log_path.relative_to(self.repo))}
+
     def action(self, action: str, *, confirmed: bool = False, authorization: str | None = None) -> dict[str, Any]:
         if action not in ACTION_NAMES:
             return {"status": "FAIL", "error": f"unsupported action: {action}"}
@@ -492,6 +542,13 @@ class ControlCenter:
             return self._spawn_controller(trial=True)
         if action == "start":
             return self._spawn_controller(trial=False)
+        if action == "start-guardian":
+            return self._spawn_guardian()
+        if action == "stop-guardian":
+            atomic_text(self.runtime / "GUARDIAN_STOP_REQUESTED", "STOP\n")
+            return {"status": "STOP_REQUESTED", "detail": "Guardian 将在下一次检查时停止。"}
+        if action == "install-autonomous":
+            return self._powershell(self.windows_dir / "install_autonomous_mode.ps1", "-RepoPath", str(self.repo))
         if action == "stop":
             return self._powershell(self.windows_dir / "stop_supervisor.ps1", "-RepoPath", str(self.repo))
         if action == "install-task":
@@ -548,7 +605,16 @@ class ControlCenter:
             try:
                 entry = json.loads(line)
                 if isinstance(entry, dict):
-                    parsed.append(self._friendly_event(entry) if name == "events" else self._friendly_batch(entry))
+                    if name == "guardian":
+                        event = entry.get("event")
+                        parsed.append(friendly_item(
+                            at=entry.get("at"),
+                            title=f"Guardian：{status_label(event)}",
+                            detail=self._guardian_event_detail(entry),
+                            status="RECOVERING" if "START" in str(event) or "ARCHIVE" in str(event) else None,
+                        ))
+                    else:
+                        parsed.append(self._friendly_event(entry) if name == "events" else self._friendly_batch(entry))
             except json.JSONDecodeError:
                 continue
         return {
@@ -557,6 +623,19 @@ class ControlCenter:
             "summary": self._log_summary(parsed, name),
             "items": parsed,
         }
+
+    @staticmethod
+    def _guardian_event_detail(entry: dict[str, Any]) -> str:
+        event = str(entry.get("event") or "未知事件")
+        if event == "SUPERVISOR_AUTO_STARTED":
+            return f"Guardian 已自动启动 Supervisor。原因：{entry.get('reason') or '检测到 Supervisor 未运行'}。"
+        if event == "STOP_REPORT_ARCHIVED":
+            return "已把可自动恢复的停止报告归档，保留证据后继续运行。"
+        if event == "OWNER_ATTENTION_REQUIRED":
+            return f"检测到需要人工判断的问题：{entry.get('status') or '未知状态'}。"
+        if event == "AUTO_RETRY_LIMIT_REACHED":
+            return f"自动恢复达到上限：{entry.get('limit') or '-'} 次。"
+        return f"事件类型：{event}。"
 
     def chat(self) -> dict[str, Any]:
         runtime_state = read_json(self.runtime / "runtime_state.json") or {}
@@ -575,6 +654,15 @@ class ControlCenter:
                 "role": role,
                 "title": title,
                 "detail": detail,
+                "level": item.get("level", "info"),
+            })
+        guardian_events = self.logs("guardian", 100).get("items") or []
+        for item in guardian_events:
+            messages.append({
+                "at": item.get("at"),
+                "role": "Guardian",
+                "title": item.get("title"),
+                "detail": item.get("detail"),
                 "level": item.get("level", "info"),
             })
         if runtime_state.get("status") == "RUNNING":

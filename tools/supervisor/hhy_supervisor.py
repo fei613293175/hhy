@@ -37,7 +37,14 @@ RUNTIME_DIR = Path("governance/runtime/supervisor")
 PROGRAM_COMPLETE = RUNTIME_DIR / "PROGRAM_COMPLETE.lock"
 STOP_REQUEST = RUNTIME_DIR / "STOP_REQUESTED"
 
-AUTO_CONTINUE = {"MAX_RUNS_REACHED", "NEXT_TASK_READY"}
+AUTO_CONTINUE = {
+    "MAX_RUNS_REACHED",
+    "NEXT_TASK_READY",
+    "RETRY_REQUIRED",
+    "RETRYABLE_INFRASTRUCTURE",
+    "SUPERVISOR_BUDGET_EXHAUSTED",
+}
+AUTO_RECOVERABLE = {"RETRY_REQUIRED", "RETRYABLE_INFRASTRUCTURE", "SUPERVISOR_BUDGET_EXHAUSTED"}
 MANDATORY_STOP = {
     "CANDIDATE_REQUIRED", "EXTERNAL_BLOCKED", "INFRASTRUCTURE_BLOCKED", "FAILED_BOUNDED",
     "POLICY_VIOLATION", "OWNER_ACTION_REQUIRED", "PROGRAM_COMPLETE", "UNKNOWN_STATUS",
@@ -51,6 +58,21 @@ CONTROLLER_MAP = {
     "CODEX_AUTH_REQUIRED": "CODEX_AUTH_REQUIRED",
 }
 SECRET_KEY = re.compile(r"token|secret|password|passwd|authorization|private[_-]?key|credential|api[_-]?key", re.I)
+
+
+def classify_error_text(value: Any) -> str | None:
+    text = str(value or "").lower()
+    if not text:
+        return None
+    if "winerror 5" in text or "拒绝访问" in text or "access is denied" in text:
+        return "WINDOWS_ACCESS_DENIED"
+    if "repository governance lock is busy" in text or "hhy-governance-v50.lock" in text:
+        return "GOVERNANCE_LOCK_BUSY"
+    if "timed out" in text or "timeout" in text:
+        return "CONTROLLER_TIMEOUT"
+    if "file not found" in text or "not found" in text:
+        return "EXECUTABLE_NOT_FOUND"
+    return None
 
 
 def utc_now() -> str:
@@ -134,10 +156,14 @@ def run_command(repo: Path, argv: list[str], timeout: int = 120) -> dict[str, An
     try:
         proc = subprocess.run(argv, cwd=repo, text=True, capture_output=True, timeout=timeout, env=env)
     except FileNotFoundError as exc:
-        return {"status": "FAIL", "exit_code": 127, "command": argv, "stdout": "", "stderr": str(exc), "elapsed_seconds": round(time.monotonic() - started, 3)}
+        return {"status": "FAIL", "exit_code": 127, "command": argv, "stdout": "", "stderr": str(exc), "error_category": "EXECUTABLE_NOT_FOUND", "elapsed_seconds": round(time.monotonic() - started, 3)}
+    except PermissionError as exc:
+        return {"status": "FAIL", "exit_code": 13, "command": argv, "stdout": "", "stderr": str(exc), "error_category": "WINDOWS_ACCESS_DENIED", "elapsed_seconds": round(time.monotonic() - started, 3)}
     except subprocess.TimeoutExpired as exc:
-        return {"status": "TIMEOUT", "exit_code": 124, "command": argv, "stdout": (exc.stdout or "")[-4000:], "stderr": (exc.stderr or "")[-4000:], "elapsed_seconds": round(time.monotonic() - started, 3)}
-    return {"status": "PASS" if proc.returncode == 0 else "FAIL", "exit_code": proc.returncode, "command": argv, "stdout": proc.stdout[-12000:], "stderr": proc.stderr[-12000:], "elapsed_seconds": round(time.monotonic() - started, 3)}
+        detail = (exc.stderr or "") + "\n" + (exc.stdout or "")
+        return {"status": "TIMEOUT", "exit_code": 124, "command": argv, "stdout": (exc.stdout or "")[-4000:], "stderr": (exc.stderr or "")[-4000:], "error_category": classify_error_text(detail) or "CONTROLLER_TIMEOUT", "elapsed_seconds": round(time.monotonic() - started, 3)}
+    detail = (proc.stderr or "") + "\n" + (proc.stdout or "")
+    return {"status": "PASS" if proc.returncode == 0 else "FAIL", "exit_code": proc.returncode, "command": argv, "stdout": proc.stdout[-12000:], "stderr": proc.stderr[-12000:], "error_category": classify_error_text(detail), "elapsed_seconds": round(time.monotonic() - started, 3)}
 
 
 def parse_json_output(text: str) -> dict[str, Any] | None:
@@ -231,6 +257,10 @@ def real_progress(previous: dict[str, Any] | None, current: dict[str, Any]) -> b
 
 def map_controller_status(result: dict[str, Any], max_runs: int, state: dict[str, Any]) -> str:
     raw = str(result.get("status") or "")
+    if raw in {"FAIL", "TIMEOUT"}:
+        category = result.get("error_category") or classify_error_text(result.get("error"))
+        if category in {"WINDOWS_ACCESS_DENIED", "GOVERNANCE_LOCK_BUSY", "CONTROLLER_TIMEOUT"}:
+            return "RETRYABLE_INFRASTRUCTURE"
     if raw in AUTO_CONTINUE:
         return raw
     if raw == "INFRASTRUCTURE_BLOCKED":
@@ -477,6 +507,7 @@ class Supervisor:
                 raise RuntimeError("UNKNOWN_STATUS")
             raise RuntimeError("DOCTOR_FAILED" if args[:1] == ["doctor"] else "UNKNOWN_STATUS")
         payload.setdefault("_execution", result)
+        payload.setdefault("error_category", result.get("error_category") or classify_error_text(payload.get("error")))
         return payload
 
     def batch_once(self, max_runs: int) -> tuple[str, dict[str, Any], dict[str, Any]]:
@@ -564,7 +595,7 @@ class Supervisor:
                     progress = self.runtime_state.get("last_progress") or {}
                     same_progress = previous_progress is not None and not real_progress(previous_progress, progress)
                     previous_progress = progress
-                    if same_progress:
+                    if same_progress and status not in AUTO_RECOVERABLE:
                         repeats = int(self.runtime_state.get("repeated_fingerprint_count") or 0) + 1
                         self.runtime_state["repeated_fingerprint_count"] = repeats
                         self.runtime_state["last_stop_status"] = "NO_PROGRESS_DETECTED"

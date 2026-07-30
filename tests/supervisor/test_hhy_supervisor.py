@@ -120,6 +120,11 @@ def test_windows_scripts_cover_required_operations() -> None:
         "start_supervisor.ps1",
         "stop_supervisor.ps1",
         "status_supervisor.ps1",
+        "install_autonomous_mode.ps1",
+        "install_guardian_task.ps1",
+        "uninstall_guardian_task.ps1",
+        "start_guardian.ps1",
+        "status_guardian.ps1",
     }
     assert names == {path.name for path in windows.glob("*.ps1")}
     install = (windows / "install_supervisor_task.ps1").read_text(encoding="utf-8")
@@ -130,3 +135,9 @@ def test_windows_scripts_cover_required_operations() -> None:
     assert "py.exe" in start and "python.exe" in start
     assert "PROGRAM_COMPLETE.lock" in start
     assert "STOP_REQUESTED" in stop
+    guardian_start = (windows / "start_guardian.ps1").read_text(encoding="utf-8")
+    guardian_install = (windows / "install_guardian_task.ps1").read_text(encoding="utf-8")
+    autonomous = (windows / "install_autonomous_mode.ps1").read_text(encoding="utf-8")
+    assert "--daemon" in guardian_start
+    assert "Register-ScheduledTask" in guardian_install
+    assert "install_guardian_task.ps1" in autonomous

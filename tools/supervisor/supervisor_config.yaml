@@ -15,3 +15,10 @@ no_progress:
 recovery:
   restart_after_windows_login: true
   startup_delay_seconds: 120
+guardian:
+  enabled: true
+  poll_seconds: 10
+  auto_start_supervisor: true
+  auto_retry_limit: 20
+  retry_cooldown_seconds: 60
+  auto_archive_recoverable_stop: true

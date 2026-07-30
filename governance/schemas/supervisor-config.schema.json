@@ -3,7 +3,7 @@
   "$id": "hhy.supervisor-config/v5.0",
   "type": "object",
   "additionalProperties": false,
-  "required": ["schema", "batch", "runtime", "no_progress", "recovery"],
+  "required": ["schema", "batch", "runtime", "no_progress", "recovery", "guardian"],
   "properties": {
     "schema": {"const": "hhy.supervisor-config/v5.0"},
     "repo_root": {"type": ["string", "null"]},
@@ -40,6 +40,25 @@
       "properties": {
         "restart_after_windows_login": {"type": "boolean"},
         "startup_delay_seconds": {"type": "integer", "minimum": 0}
+      }
+    },
+    "guardian": {
+      "type": "object", "additionalProperties": false,
+      "required": [
+        "enabled",
+        "poll_seconds",
+        "auto_start_supervisor",
+        "auto_retry_limit",
+        "retry_cooldown_seconds",
+        "auto_archive_recoverable_stop"
+      ],
+      "properties": {
+        "enabled": {"type": "boolean"},
+        "poll_seconds": {"type": "integer", "minimum": 3, "maximum": 3600},
+        "auto_start_supervisor": {"type": "boolean"},
+        "auto_retry_limit": {"type": "integer", "minimum": 1, "maximum": 100},
+        "retry_cooldown_seconds": {"type": "integer", "minimum": 5, "maximum": 86400},
+        "auto_archive_recoverable_stop": {"type": "boolean"}
       }
     }
   }
