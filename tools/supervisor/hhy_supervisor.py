@@ -152,6 +152,7 @@ def run_command(repo: Path, argv: list[str], timeout: int = 120) -> dict[str, An
     env = os.environ.copy()
     # Existing Gates honor PYTHON; this also avoids the WindowsApps python stub.
     env["PYTHON"] = sys.executable
+    env["HHY_PYTHON"] = sys.executable
     started = time.monotonic()
     try:
         proc = subprocess.run(argv, cwd=repo, text=True, capture_output=True, timeout=timeout, env=env)

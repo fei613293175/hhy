@@ -480,11 +480,17 @@ class ControlCenter:
             args.append("--trial")
         try:
             handle = log_path.open("a", encoding="utf-8")
+            env = os.environ.copy()
+            env["HHY_GOVERNANCE_ROLE"] = "ORCHESTRATOR"
+            env["PYTHON"] = self.python_executable
+            env["HHY_PYTHON"] = self.python_executable
             process = subprocess.Popen(
                 args,
                 cwd=self.repo,
                 stdout=handle,
                 stderr=subprocess.STDOUT,
+                stdin=subprocess.DEVNULL,
+                env=env,
                 creationflags=getattr(subprocess, "CREATE_NEW_PROCESS_GROUP", 0),
             )
             handle.close()
@@ -509,6 +515,7 @@ class ControlCenter:
         env["HHY_GOVERNANCE_ROLE"] = "ORCHESTRATOR"
         env["HHY_SUPERVISOR_GUARDIAN"] = "1"
         env["PYTHON"] = self.python_executable
+        env["HHY_PYTHON"] = self.python_executable
         try:
             handle = log_path.open("a", encoding="utf-8")
             process = subprocess.Popen(

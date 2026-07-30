@@ -225,6 +225,7 @@ class Guardian:
         env["HHY_GOVERNANCE_ROLE"] = "ORCHESTRATOR"
         env["HHY_SUPERVISOR_GUARDIAN"] = "1"
         env["PYTHON"] = self.python_executable
+        env["HHY_PYTHON"] = self.python_executable
         handle = log_path.open("a", encoding="utf-8")
         try:
             process = subprocess.Popen(
