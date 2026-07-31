@@ -23,3 +23,5 @@ guardian:
   retry_cooldown_seconds: 60
   auto_archive_recoverable_stop: true
   auto_create_recovery_task: true
+  auto_handle_internal_failures: true
+  auto_clear_internal_stop_reports: true

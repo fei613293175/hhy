@@ -130,9 +130,9 @@
             <div><dt>允许自动恢复</dt><dd id="auto-continue">-</dd></div>
             <div><dt>解除条件</dt><dd id="resolution">-</dd></div>
           </dl>
-          <p class="inline-note">正常的自动恢复不会要求你输入授权文件。只有 Guardian 判断为不可安全猜测的问题，才会保留这里的停止证据。</p>
+          <p class="inline-note">普通故障由 Guardian 自动接管、归档、重试并继续开发。只有账号、外部依赖、工作区冲突和最终发布验收才会进入人工边界。</p>
           <div class="owner-action">
-            <label for="authorization">备用人工处理（正常无需操作）</label>
+            <label for="authorization">备用人工入口（正常无需操作）</label>
             <input id="authorization" type="text" placeholder="owner-authorization.json">
             <button class="button secondary full" data-action="clear-recoverable">备用：清除可恢复停止</button>
           </div>

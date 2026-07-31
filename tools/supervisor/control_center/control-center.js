@@ -49,7 +49,7 @@
       return "仓库有未提交改动，治理系统为保护项目安全拒绝启动。先提交或整理控制中心文件，再重新 Dry-run。";
     }
     if (report.stop_status === "DOCTOR_FAILED") return "环境检查未通过，暂时不能启动真实开发。";
-    if (report.stop_status === "OWNER_ACTION_REQUIRED") return "需要项目所有者处理，当前不会自动恢复。";
+    if (report.stop_status === "OWNER_ACTION_REQUIRED") return "系统正在自动接管内部停止状态，Guardian 会保留证据并继续尝试。";
     if (report.stop_status === "UNKNOWN_STATUS") return "治理系统返回了未知结果，已按安全规则停止。";
     return report.resolution || report.stop_status;
   };
@@ -235,7 +235,7 @@
         start: "确认启动正式 Supervisor？这会调用现有 run-loop。",
         "install-task": "确认安装 Windows 登录自动启动任务？",
         "uninstall-task": "确认卸载 Windows 登录自动启动任务？",
-        "clear-recoverable": "确认使用项目所有者授权文件清除可恢复停止？",
+        "clear-recoverable": "确认使用备用人工授权文件处理停止状态？正常的自动恢复不需要这个操作。",
         "install-autonomous": "确认安装全天候自动模式？安装一次后 Guardian 会在 Windows 登录后自动监督并启动 Supervisor。",
       };
       confirmed = window.confirm(labels[name]);

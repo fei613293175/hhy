@@ -41,6 +41,7 @@ GUARDIAN_STATE = "GUARDIAN_STATE.json"
 GUARDIAN_EVENTS = "GUARDIAN_EVENTS.jsonl"
 GUARDIAN_STOP_REQUEST = "GUARDIAN_STOP_REQUESTED"
 STOP_REPORT = "SUPERVISOR_STOP_REPORT.json"
+SUPERVISOR_STOP_REQUEST = "STOP_REQUESTED"
 SUPERVISOR_PID = "supervisor.pid"
 RUNTIME_STATE = "runtime_state.json"
 HEARTBEAT = "heartbeat.json"
@@ -56,6 +57,13 @@ AUTO_RESUMABLE_ERRORS = {
     "GOVERNANCE_LOCK_BUSY",
     "CONTROLLER_TIMEOUT",
     "GOVERNANCE_COMMIT_FAILURE",
+}
+MANUAL_INTERVENTION_STATUSES = {
+    "EXTERNAL_BLOCKED",
+    "POLICY_VIOLATION",
+    "WORKTREE_UNSAFE",
+    "CODEX_AUTH_REQUIRED",
+    "PROGRAM_COMPLETE",
 }
 
 
@@ -195,6 +203,7 @@ class Guardian:
             "supervisor": {
                 "pid": pid,
                 "running": supervisor_running,
+                "stop_requested": (self.runtime / SUPERVISOR_STOP_REQUEST).is_file(),
                 "runtime_status": runtime_status,
                 "heartbeat_age_seconds": age_seconds(heartbeat.get("at")),
                 "heartbeat_stale": bool(age_seconds(heartbeat.get("at")) is not None and age_seconds(heartbeat.get("at")) > 120),
@@ -352,6 +361,8 @@ class Guardian:
         stop_status = stop_report.get("stop_status") if isinstance(stop_report, dict) else None
         error_category = diagnosis["stop_report"].get("error_category")
         auto_resumable = diagnosis["stop_report"].get("auto_resumable")
+        manual_boundary = bool(diagnosis["supervisor"].get("stop_requested")) or stop_status in MANUAL_INTERVENTION_STATUSES
+        internal_auto = bool(guardian_config.get("auto_handle_internal_failures", True)) and not manual_boundary
         if diagnosis["governance"].get("failed_bounded"):
             if guardian_config.get("auto_create_recovery_task", True):
                 planned = self._run_recovery_planner()
@@ -380,15 +391,24 @@ class Guardian:
                         current.update({"status": "START_FAILED", "next_action": "修复任务已创建，但 Supervisor 启动失败", "error": str(exc)})
                         append_event(self.events_path, "AUTOMATIC_RECOVERY_START_FAILED", error=str(exc), task_id=planned.get("task_id"))
                     return self._write_state(current)
-                current.update({
-                    "status": "ATTENTION_REQUIRED",
-                    "next_action": "自动恢复规划未完成，已保留失败边界和全部证据",
-                    "blocked_reason": planned.get("error") or planned.get("reason") or planned.get("status") or "RECOVERY_PLANNER_FAILED",
-                    "recovery": planned,
-                })
-                if current.get("last_action") != "RECOVERY_PLANNER_FAILED":
-                    append_event(self.events_path, "OWNER_ATTENTION_REQUIRED", status="FAILED_BOUNDED", error_category=error_category)
-                current["last_action"] = "RECOVERY_PLANNER_FAILED"
+                planner_status = planned.get("status") or "RECOVERY_PLANNER_FAILED"
+                if planner_status == "RECOVERY_LIMIT_REACHED":
+                    current.update({
+                        "status": "ATTENTION_REQUIRED",
+                        "next_action": "自动修复代数达到安全上限，已保留全部证据等待项目所有者决定",
+                        "blocked_reason": planner_status,
+                        "recovery": planned,
+                    })
+                    append_event(self.events_path, "OWNER_ATTENTION_REQUIRED", status=planner_status, error_category=error_category)
+                else:
+                    current.update({
+                        "status": "RECOVERY_PLANNER_RETRYING",
+                        "next_action": "修复任务规划暂时失败，Guardian 将自动重试，不需要手动授权",
+                        "blocked_reason": planned.get("error") or planned.get("reason") or planner_status,
+                        "recovery": planned,
+                        "last_action": "RECOVERY_PLANNER_RETRYING",
+                    })
+                    append_event(self.events_path, "RECOVERY_PLANNER_RETRYING", status=planner_status, error_category=error_category)
                 return self._write_state(current)
             current.update({
                 "status": "ATTENTION_REQUIRED",
@@ -428,10 +448,10 @@ class Guardian:
                 current.update({"status": "START_FAILED", "next_action": "修复任务已存在，但 Supervisor 启动失败", "error": str(exc)})
                 append_event(self.events_path, "AUTOMATIC_RECOVERY_START_FAILED", error=str(exc))
             return self._write_state(current)
-        if stop_report and not auto_resumable:
+        if stop_report and not (auto_resumable or internal_auto):
             current.update({
                 "status": "ATTENTION_REQUIRED",
-                "next_action": "当前问题不是明确的临时故障，已保留停止证据并等待处理",
+                "next_action": "当前问题涉及外部依赖或安全边界，已保留停止证据等待处理",
                 "blocked_reason": stop_status or "UNKNOWN_STATUS",
             })
             append_event(self.events_path, "OWNER_ATTENTION_REQUIRED", status=stop_status, error_category=error_category)

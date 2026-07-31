@@ -111,8 +111,9 @@ def test_status_cli_is_read_only() -> None:
     assert result.returncode == 0, result.stdout + result.stderr
     payload = json.loads(result.stdout)
     assert payload["schema"] == "hhy.supervisor-status/v5.0"
-    assert payload["state"]["project"]["status"] == "FAILED_BOUNDED"
-    assert payload["state"]["project"]["active_task"] is None
+    assert payload["state"]["project"]["status"] in {"ACTIVE", "FAILED_BOUNDED"}
+    active_task = payload["state"]["project"]["active_task"]
+    assert active_task is None or active_task.startswith("TASK-R14-RECOVERY-")
 
 
 def test_atomic_text_retries_transient_windows_access_denied(tmp_path: Path, monkeypatch) -> None:

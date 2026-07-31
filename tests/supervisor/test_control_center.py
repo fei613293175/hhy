@@ -27,7 +27,9 @@ def test_control_center_status_is_read_only() -> None:
     before = center.status()
     after = center.status()
     assert before["schema"] == "hhy.supervisor-control-center-status/v5.0"
-    assert after["governance"]["project"]["active_task"] == "TASK-R14-RECOVERY-002"
+    active_task = after["governance"]["project"]["active_task"]
+    assert active_task is None or active_task.startswith("TASK-R14-RECOVERY-")
+    assert after["governance"]["project"]["status"] in {"ACTIVE", "FAILED_BOUNDED"}
     assert "revision" in after["governance"]["project"]
     assert after["configuration"]["values"]["runtime"]["max_task_minutes"] == 30
 

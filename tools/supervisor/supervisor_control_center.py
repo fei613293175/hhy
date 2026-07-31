@@ -85,6 +85,8 @@ CONFIG_FIELDS = {
         "retry_cooldown_seconds": {"label": "自动恢复等待", "unit": "秒", "type": "integer", "min": 5, "max": 86400},
         "auto_archive_recoverable_stop": {"label": "自动归档可恢复停止", "unit": "", "type": "boolean"},
         "auto_create_recovery_task": {"label": "达到失败边界后自动创建修复任务", "unit": "", "type": "boolean"},
+        "auto_handle_internal_failures": {"label": "内部故障自动接管", "unit": "", "type": "boolean"},
+        "auto_clear_internal_stop_reports": {"label": "自动清理内部停止报告", "unit": "", "type": "boolean"},
     },
 }
 CONFIG_GROUP_LABELS = {
@@ -103,7 +105,7 @@ STATUS_LABELS = {
     "ACTIVE": "当前生效",
     "MAX_RUNS_REACHED": "达到批次次数上限",
     "NEXT_TASK_READY": "下一步任务已准备",
-    "OWNER_ACTION_REQUIRED": "需要项目所有者处理",
+    "OWNER_ACTION_REQUIRED": "系统正在自动接管",
     "CANDIDATE_REQUIRED": "需要候选证据",
     "FAILED_BOUNDED": "已停止，达到失败边界",
     "DOCTOR_FAILED": "环境检查未通过",
@@ -117,8 +119,9 @@ STATUS_LABELS = {
     "RECOVERY_PLANNED": "已自动创建修复任务",
     "STARTED": "已自动启动修复任务",
     "START_FAILED": "修复任务已创建但启动失败",
+    "RECOVERY_PLANNER_RETRYING": "系统正在重试自动修复",
     "RECOVERY_LIMIT_REACHED": "自动修复代数达到上限",
-    "ATTENTION_REQUIRED": "需要处理不可自动恢复的问题",
+    "ATTENTION_REQUIRED": "系统正在处理异常",
     "RETRY_LIMIT_REACHED": "自动恢复达到上限",
 }
 
@@ -644,7 +647,9 @@ class ControlCenter:
         if event == "STOP_REPORT_ARCHIVED":
             return "已把可自动恢复的停止报告归档，保留证据后继续运行。"
         if event == "OWNER_ATTENTION_REQUIRED":
-            return f"检测到需要人工判断的问题：{entry.get('status') or '未知状态'}。"
+            return f"检测到外部依赖或安全边界：{entry.get('status') or '未知状态'}，此类问题才需要人工判断。"
+        if event == "RECOVERY_PLANNER_RETRYING":
+            return "自动修复任务规划暂时失败，Guardian 正在后台重试，不需要手动授权。"
         if event == "AUTO_RETRY_LIMIT_REACHED":
             return f"自动恢复达到上限：{entry.get('limit') or '-'} 次。"
         return f"事件类型：{event}。"

@@ -36,6 +36,7 @@ CONTROL_PREFIXES = (
 EVIDENCE_PREFIXES = (
     "artifacts/releases/", "artifacts/owner/", "artifacts/production/", "artifacts/rollback/",
 )
+WORKER_FAILURE_DIR = Path("governance/runtime/supervisor/worker-failures")
 
 
 def _commit_state(repo: Path, state: dict[str, Any], specs: dict[str, dict[str, Any]], message: str, extra_paths: list[str] | None = None) -> str | None:
@@ -449,7 +450,46 @@ def _worker_prompt(task: dict[str, Any], attempt: int) -> str:
     )
 
 
-def _attempt_failure(repo: Path, state: dict[str, Any], specs: dict[str, dict[str, Any]], task_id: str, reason: str, fingerprint: str | None = None) -> dict[str, Any]:
+def _worker_takeover_prompt(task: dict[str, Any], attempt: int, failure: dict[str, Any]) -> str:
+    return (
+        "你是接管当前任务的备用 Worker。主 Worker 没有提交可读取的结果，"
+        "请直接接管并完成 ACTIVE_TASK.json 中的同一个任务，不要等待主 Worker。\n"
+        f"任务 {task['id']}，第 {attempt}/3 次 Attempt。\n"
+        "先检查当前工作区已有改动和 ACTIVE_TASK.json，保留有效改动，修复主 Worker 未完成的部分。"
+        "禁止修改治理、状态、CI 或 AGENTS 文件，禁止选择下一任务，禁止执行 Git 权威命令。\n"
+        "完成产品代码和针对性测试后，必须写出符合 worker-result.schema.json 的结果。"
+        f"主 Worker 接管摘要：{failure.get('stderr_tail') or failure.get('stdout_tail') or '未返回可用输出'}"
+    )
+
+
+def _persist_worker_failure(repo: Path, task_id: str, attempt: int, worker: dict[str, Any], result_path: Path) -> str:
+    target = repo / WORKER_FAILURE_DIR / f"{task_id}-a{attempt}-{uuid.uuid4().hex[:10]}.json"
+    payload: dict[str, Any] = {
+        "schema": "hhy.worker-failure-evidence/v5.0",
+        "at": utc_now(),
+        "task_id": task_id,
+        "attempt": attempt,
+        "result_file_present": result_path.is_file(),
+        "execution": worker,
+    }
+    if result_path.is_file():
+        try:
+            payload["worker_result"] = read_json(result_path)
+        except Exception as exc:
+            payload["worker_result_read_error"] = str(exc)
+    write_json(target, payload)
+    return target.relative_to(repo).as_posix()
+
+
+def _attempt_failure(
+    repo: Path,
+    state: dict[str, Any],
+    specs: dict[str, dict[str, Any]],
+    task_id: str,
+    reason: str,
+    fingerprint: str | None = None,
+    diagnostic_path: str | None = None,
+) -> dict[str, Any]:
     row = state["tasks"][task_id]
     row["attempts_used"] = int(row.get("attempts_used") or 0) + 1
     row["last_error_fingerprint"] = fingerprint or reason
@@ -469,7 +509,17 @@ def _attempt_failure(repo: Path, state: dict[str, Any], specs: dict[str, dict[st
     write_state(repo, state, expected_revision=rev)
     new_state = read_state(repo)
     _commit_state(repo, new_state, specs, f"[gov5.0] record {task_id} attempt failure")
-    return {"schema": "hhy.run-once/v5.0", "status": status, "task_id": task_id, "attempts_used": row["attempts_used"], "reason": reason, "exit_code": exit_code}
+    result = {
+        "schema": "hhy.run-once/v5.0",
+        "status": status,
+        "task_id": task_id,
+        "attempts_used": row["attempts_used"],
+        "reason": reason,
+        "exit_code": exit_code,
+    }
+    if diagnostic_path:
+        result["diagnostic_path"] = diagnostic_path
+    return result
 
 
 def run_once(repo: Path, dry_run: bool = False) -> dict[str, Any]:
@@ -562,8 +612,40 @@ def run_once(repo: Path, dry_run: bool = False) -> dict[str, Any]:
             ]
             worker = run(command, worktree, timeout=3600, env={"HHY_GOVERNANCE_ROLE": "WORKER"})
             if worker["status"] != "PASS" or not result_path.is_file():
-                return _attempt_failure(repo, state, specs, task_id, "worker execution failed or produced no result")
-            result = read_json(result_path)
+                first_failure = worker
+                first_diagnostic = _persist_worker_failure(repo, task_id, attempt, worker, result_path)
+                result_path.unlink(missing_ok=True)
+                takeover_command = [
+                    codex, "exec", "--ephemeral", "--sandbox", "workspace-write", "--ask-for-approval", "never",
+                    "--json", "--output-schema", str(schema_path), "-o", str(result_path), "-C", str(worktree),
+                    _worker_takeover_prompt(spec, attempt, first_failure),
+                ]
+                worker = run(takeover_command, worktree, timeout=3600, env={"HHY_GOVERNANCE_ROLE": "WORKER_TAKEOVER"})
+                if worker["status"] != "PASS" or not result_path.is_file():
+                    diagnostic = _persist_worker_failure(repo, task_id, attempt, worker, result_path)
+                    reason = (
+                        "主 Worker 未返回结果，备用 Worker 接管也未返回结果"
+                        f"；主证据={first_diagnostic}；备用证据={diagnostic}"
+                    )
+                    return _attempt_failure(
+                        repo, state, specs, task_id, reason,
+                        diagnostic_path=diagnostic,
+                    )
+            try:
+                result = read_json(result_path)
+            except Exception as exc:
+                diagnostic = _persist_worker_failure(
+                    repo,
+                    task_id,
+                    attempt,
+                    {**worker, "result_read_error": str(exc)},
+                    result_path,
+                )
+                return _attempt_failure(
+                    repo, state, specs, task_id,
+                    f"Worker 已退出但结果文件无法读取：{exc}",
+                    diagnostic_path=diagnostic,
+                )
             status = result.get("status")
             changed = [line[3:].split(" -> ")[-1] for line in git(worktree, "-c", "core.quotepath=false", "status", "--porcelain=v1", "-uall").splitlines() if len(line) > 3 and not line[3:].startswith("governance/runtime/")]
             ok, violations = _scope_ok(changed, spec["allowed_paths"])
