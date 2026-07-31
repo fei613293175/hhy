@@ -164,11 +164,57 @@ def load_config(repo: Path, path: Path | None = None) -> dict[str, Any]:
     return data
 
 
-def run_command(repo: Path, argv: list[str], timeout: int = 120) -> dict[str, Any]:
-    env = os.environ.copy()
-    # Existing Gates honor PYTHON; this also avoids the WindowsApps python stub.
+def controller_environment(
+    base_env: dict[str, str] | None = None,
+    toolchain_root: Path | None = None,
+) -> dict[str, str]:
+    """Expose the user-local portable toolchain only to Supervisor children."""
+    env = dict(base_env or os.environ)
     env["PYTHON"] = sys.executable
     env["HHY_PYTHON"] = sys.executable
+
+    root = toolchain_root or Path(
+        env.get("HHY_SUPERVISOR_TOOLCHAIN_ROOT", Path.home() / ".local" / "hhy-toolchain")
+    )
+    path_entries = [Path(sys.executable).parent]
+
+    git_bin = root / "git" / "bin"
+    if (git_bin / "bash.exe").is_file():
+        path_entries.append(git_bin)
+
+    jdk_candidates = sorted((root / "jdk").glob("jdk-*"), reverse=True)
+    jdk_home = next((path for path in jdk_candidates if (path / "bin" / "java.exe").is_file()), None)
+    if jdk_home:
+        env["JAVA_HOME"] = str(jdk_home)
+        path_entries.append(jdk_home / "bin")
+
+    android_home = root / "android"
+    platform_tools = android_home / "platform-tools"
+    if (platform_tools / "adb.exe").is_file():
+        env["ANDROID_HOME"] = str(android_home)
+        env["ANDROID_SDK_ROOT"] = str(android_home)
+        path_entries.append(platform_tools)
+    command_line_tools = android_home / "cmdline-tools" / "latest" / "bin"
+    if (command_line_tools / "sdkmanager.bat").is_file():
+        path_entries.append(command_line_tools)
+
+    path_key = next((key for key in env if key.upper() == "PATH"), "PATH")
+    existing = [value for value in env.get(path_key, "").split(os.pathsep) if value]
+    combined: list[str] = []
+    seen: set[str] = set()
+    for value in [str(path) for path in path_entries] + existing:
+        key = os.path.normcase(os.path.normpath(value))
+        if key not in seen:
+            seen.add(key)
+            combined.append(value)
+    for key in [key for key in env if key.upper() == "PATH"]:
+        env.pop(key)
+    env["PATH"] = os.pathsep.join(combined)
+    return env
+
+
+def run_command(repo: Path, argv: list[str], timeout: int = 120) -> dict[str, Any]:
+    env = controller_environment()
     started = time.monotonic()
     try:
         proc = subprocess.run(argv, cwd=repo, text=True, capture_output=True, timeout=timeout, env=env)

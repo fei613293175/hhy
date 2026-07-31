@@ -20,6 +20,7 @@ from tools.supervisor.hhy_supervisor import (  # noqa: E402
     MANDATORY_STOP,
     SingleInstanceLock,
     atomic_text,
+    controller_environment,
     map_controller_status,
     simulation,
 )
@@ -132,6 +133,38 @@ def test_atomic_text_retries_transient_windows_access_denied(tmp_path: Path, mon
     assert target.read_text(encoding="utf-8") == "ok\n"
     assert calls["count"] == 3
     assert list(tmp_path.glob(".*.tmp")) == []
+
+
+def test_controller_environment_exposes_portable_tools_without_global_path_changes(tmp_path: Path) -> None:
+    toolchain = tmp_path / "toolchain"
+    git_bin = toolchain / "git" / "bin"
+    jdk_home = toolchain / "jdk" / "jdk-21.0.12+8"
+    platform_tools = toolchain / "android" / "platform-tools"
+    command_line_tools = toolchain / "android" / "cmdline-tools" / "latest" / "bin"
+    for executable in (
+        git_bin / "bash.exe",
+        jdk_home / "bin" / "java.exe",
+        platform_tools / "adb.exe",
+        command_line_tools / "sdkmanager.bat",
+    ):
+        executable.parent.mkdir(parents=True, exist_ok=True)
+        executable.touch()
+
+    base = {"PATH": str(tmp_path / "system-bin"), "UNCHANGED": "yes"}
+    env = controller_environment(base, toolchain)
+
+    assert base == {"PATH": str(tmp_path / "system-bin"), "UNCHANGED": "yes"}
+    assert env["PYTHON"] == sys.executable
+    assert env["HHY_PYTHON"] == sys.executable
+    assert env["JAVA_HOME"] == str(jdk_home)
+    assert env["ANDROID_HOME"] == str(toolchain / "android")
+    assert env["ANDROID_SDK_ROOT"] == str(toolchain / "android")
+    path_entries = env["PATH"].split(os.pathsep)
+    assert str(git_bin) in path_entries
+    assert str(jdk_home / "bin") in path_entries
+    assert str(platform_tools) in path_entries
+    assert str(command_line_tools) in path_entries
+    assert str(tmp_path / "system-bin") in path_entries
 
 
 def test_windows_scripts_cover_required_operations() -> None:
