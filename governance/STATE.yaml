@@ -1,9 +1,9 @@
 schema: hhy.governance-state/v5.0
-revision: 68
-updated_at: '2026-07-31T11:41:04.200038Z'
-state_hash: 549313359efb204c1d3d63ac6efd15548675487ea20cb3d5820efcbee90d1c5c
+revision: 69
+updated_at: '2026-07-31T12:12:55.164227Z'
+state_hash: 2e0c22f83d01363070d7778555bcea7692344b43941804a31e426ed7bd04394d
 project:
-  status: ACTIVE
+  status: INFRASTRUCTURE_BLOCKED
   branch_at_install: governance/v5.0-migration-20260731
   migration_baseline_commit: ea64d82fab9ed3d1952ab7d3c0d2286051390b59
   migration_commit: 8beafc2a0e115345c554abc0bdc199ef92534106
@@ -2701,7 +2701,7 @@ tasks:
     last_gate_evidence: null
     blocker: null
   TASK-R14-RECOVERY-014:
-    status: READY
+    status: INFRASTRUCTURE_BLOCKED
     attempts_used: 1
     current_attempt: null
     last_error_fingerprint: '[{"id": "commit_binding", "status": "PASS", "detail": {"HEAD": "05d37098219c135669e4d918f70e2a8551e4d118",
@@ -2775,4 +2775,22 @@ tasks:
       "stderr_tail": ""}}]'
     last_candidate_commit: null
     last_gate_evidence: null
-    blocker: null
+    blocker:
+      code: INFRA_GRADLE_WRAPPER_NETWORK_BLOCKED
+      detail: 'The Attempt 2 minimal reproduction found and fixed two deterministic local validation failures: contracts/contract_status.csv
+        had 12 stale websocket source hashes, and scripts/check_ui_tokens.py used normal Windows absolute paths that failed
+        on the deep Worker worktree with FileNotFoundError. After the fix, the ACTIVE_TASK acceptance checks and focused regressions
+        pass. Candidate APK/Android Gradle validation is still blocked because apps/android/gradlew.bat tries to download
+        https://services.gradle.org/distributions/gradle-9.4.1-bin.zip and fails with java.net.SocketException: Permission
+        denied: connect in this network-restricted sandbox, even with --offline.'
+      paths:
+      - apps/android/gradlew.bat
+      - apps/android/gradle/wrapper/gradle-wrapper.properties
+      - scripts/run_android_emulator_gate.sh
+      resolution: Provide network access or a wrapper cache accepted by apps/android/gradlew.bat, then rerun Android Gradle
+        validation and the emulator/candidate gate for the same repaired source tree.
+      worker_result_evidence: 'PASS: python scripts/check_api_contract.py; PASS: python scripts/check_db_schema.py; PASS:
+        python scripts/check_ui_tokens.py; PASS: python scripts/check_ui_visual_acceptance.py --release R14; PASS: python
+        -m unittest -v tests.test_ui_tokens; PASS: python -m unittest -v tests.test_r14_websocket_contract; PASS: scoped R14
+        Android CI gate unit tests; BLOCKED: cmd /c apps\android\gradlew.bat -p apps\android --offline :app:tasks --all ->
+        java.net.SocketException: Permission denied: connect'
