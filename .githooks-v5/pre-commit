@@ -7,11 +7,11 @@ if [ "$ROLE" = "WORKER" ]; then
   exit 1
 fi
 if [ -n "${HHY_PYTHON:-}" ]; then
-  "$HHY_PYTHON" "$ROOT/tools/governance/hhy_governance.py" doctor >/dev/null
+  "$HHY_PYTHON" "$ROOT/tools/governance/hhy_governance.py" doctor
 elif command -v py.exe >/dev/null 2>&1; then
-  py.exe -3 "$ROOT/tools/governance/hhy_governance.py" doctor >/dev/null
+  py.exe -3 "$ROOT/tools/governance/hhy_governance.py" doctor
 elif command -v python.exe >/dev/null 2>&1; then
-  python.exe "$ROOT/tools/governance/hhy_governance.py" doctor >/dev/null
+  python.exe "$ROOT/tools/governance/hhy_governance.py" doctor
 else
-  python3 "$ROOT/tools/governance/hhy_governance.py" doctor >/dev/null
+  python3 "$ROOT/tools/governance/hhy_governance.py" doctor
 fi
