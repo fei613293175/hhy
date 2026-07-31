@@ -50,16 +50,19 @@ def load_request(path: Path, policy_path: Path = DEFAULT_POLICY) -> dict[str, ob
     request_id = str(payload.get("request_id") or "").strip()
     if not request_id or not re.fullmatch(r"[A-Z0-9][A-Z0-9._-]{5,79}", request_id):
         raise CandidateRequestError("request_id must be a stable 6-80 character identifier")
-    attempt_exception_id = str(payload.get("attempt_exception_id") or "").strip()
-    required_fix_commit = str(payload.get("required_fix_commit") or "").strip()
+    legacy_fields = sorted({"attempt_exception_id", "required_fix_commit"} & set(payload))
+    if legacy_fields:
+        raise CandidateRequestError(
+            f"legacy attempt override fields are forbidden by Governance V5: {legacy_fields}"
+        )
     try:
         attempt_policy = resolve_attempt_policy(
             load_policy(policy_path),
             release=release,
             attempt=attempt,
             request_id=request_id,
-            exception_id=attempt_exception_id,
-            required_fix_commit=required_fix_commit,
+            exception_id="",
+            required_fix_commit="",
         )
     except GateError as exc:
         raise CandidateRequestError(str(exc)) from exc

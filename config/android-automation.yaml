@@ -292,7 +292,7 @@ candidate_request:
   reusable_quality_gate: .github/workflows/android-quality-gate.yml
   allowed_releases: R06-R32
   remediation_attempt_range: 1-3
-  rule: R14起每个大版本机器完成及下一业务版本领取必须通过一次该版本专属真实交互候选；请求必须进入事实分支并通过同一权威质量门禁，普通请求仅允许1至3，只有retired_legacy_exception_list全字段精确匹配时才允许其登记的单次轮次，且不得改变全局max_ai_attempts=3；候选失败不阻断固定环境TEST_APK先行交付，但阻断该版机器完成、下一业务版本领取、候选接受和生产自动证据；不得用普通CI的中间APK或截图数量替代交互候选产物
+  rule: R14起每个大版本机器完成及下一业务版本领取必须通过一次该版本专属真实交互候选；请求必须进入事实分支并通过同一权威质量门禁；请求只允许第1至3次，超过3次一律拒绝且不得通过历史字段扩大上限；候选失败不阻断固定环境TEST_APK先行交付，但阻断该版机器完成、下一业务版本领取、候选接受和生产自动证据；不得用普通CI的中间APK或截图数量替代交互候选产物
 governance_v50:
   maximum_total_attempts_per_task: 3
   overrides_allowed: false

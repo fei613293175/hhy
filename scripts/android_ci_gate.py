@@ -20,8 +20,6 @@ DEFAULT_VISUAL_MANIFEST_ROOT = ROOT / "tests/android/visual-manifests"
 RELEASE_PATTERN = re.compile(r"^R(\d{2})$")
 CANDIDATE_RELEASE_PATTERN = re.compile(r"^R(?:0[6-9]|[12][0-9]|3[0-2])$")
 REQUEST_ID_PATTERN = re.compile(r"^[A-Z0-9][A-Z0-9._-]{5,79}$")
-EXCEPTION_ID_PATTERN = re.compile(r"^CR-\d{4}$")
-COMMIT_PATTERN = re.compile(r"^[0-9a-f]{40}$")
 
 
 class GateError(RuntimeError):
@@ -67,47 +65,8 @@ def load_policy(path: Path = DEFAULT_POLICY) -> dict[str, Any]:
     }
     if authorization != expected_authorization:
         raise GateError("Android candidate standing authorization contract drift")
-    exceptions = document["remediation"].get("approved_attempt_exceptions") or []
-    if not isinstance(exceptions, list):
-        raise GateError("approved Android attempt exceptions must be a list")
-    seen_exception_ids: set[str] = set()
-    seen_request_ids: set[str] = set()
-    seen_fix_commits: set[str] = set()
-    next_attempt_by_release: dict[str, int] = {}
-    for row in exceptions:
-        if not isinstance(row, dict):
-            raise GateError("every approved Android attempt exception must be an object")
-        exception_id = str(row.get("exception_id") or "")
-        release = str(row.get("release") or "")
-        request_id = str(row.get("request_id") or "")
-        required_fix_commit = str(row.get("required_fix_commit") or "")
-        if not EXCEPTION_ID_PATTERN.fullmatch(exception_id):
-            raise GateError("approved attempt exception_id must be a CR identifier")
-        if exception_id in seen_exception_ids:
-            raise GateError(f"duplicate approved attempt exception_id: {exception_id}")
-        if not CANDIDATE_RELEASE_PATTERN.fullmatch(release):
-            raise GateError("approved attempt exception release must be R06 through R32")
-        expected_attempt = next_attempt_by_release.get(release, max_attempts + 1)
-        if row.get("attempt") != expected_attempt:
-            raise GateError(
-                "approved attempt exceptions must be ordered and contiguous per release after the global limit"
-            )
-        if not REQUEST_ID_PATTERN.fullmatch(request_id):
-            raise GateError("approved attempt exception request_id is invalid")
-        if request_id in seen_request_ids:
-            raise GateError(f"duplicate approved attempt exception request_id: {request_id}")
-        if not COMMIT_PATTERN.fullmatch(required_fix_commit):
-            raise GateError("approved attempt exception required_fix_commit must be a full lowercase SHA-1")
-        if required_fix_commit in seen_fix_commits:
-            raise GateError(
-                f"duplicate approved attempt exception required_fix_commit: {required_fix_commit}"
-            )
-        if row.get("max_candidate_runs") != 1:
-            raise GateError("approved attempt exception must permit exactly one candidate run")
-        seen_exception_ids.add(exception_id)
-        seen_request_ids.add(request_id)
-        seen_fix_commits.add(required_fix_commit)
-        next_attempt_by_release[release] = expected_attempt + 1
+    if "approved_attempt_exceptions" in document["remediation"]:
+        raise GateError("Android attempt exceptions are forbidden by Governance V5")
     authentication = document["authentication"]
     if authentication.get("mode") != "GITHUB_OIDC_ONE_TIME":
         raise GateError("Android candidate authentication must use one-time GitHub OIDC")
@@ -283,34 +242,16 @@ def resolve_attempt_policy(
     required_fix_commit: str = "",
 ) -> dict[str, Any]:
     max_attempts = int(policy["remediation"]["max_ai_attempts"])
-    supplied_exception_fields = any((exception_id, required_fix_commit))
-    if 1 <= attempt <= max_attempts:
-        if supplied_exception_fields:
-            raise GateError("ordinary attempts must not claim an attempt exception")
-        return {
-            "max_ai_attempts": max_attempts,
-            "effective_attempt_limit": max_attempts,
-            "attempt_exception_id": None,
-            "required_fix_commit": None,
-            "max_candidate_runs": None,
-        }
-    matches = [
-        row for row in policy["remediation"].get("approved_attempt_exceptions", [])
-        if row.get("release") == release
-        and row.get("attempt") == attempt
-        and row.get("request_id") == request_id
-        and row.get("exception_id") == exception_id
-        and row.get("required_fix_commit") == required_fix_commit
-        and row.get("max_candidate_runs") == 1
-    ]
-    if len(matches) != 1:
-        raise GateError("remediation attempt exceeds the global limit without one exact approved exception")
+    if exception_id or required_fix_commit:
+        raise GateError("Android attempt exception fields are forbidden by Governance V5")
+    if not 1 <= attempt <= max_attempts:
+        raise GateError("remediation attempt must be between 1 and 3; overrides are forbidden")
     return {
         "max_ai_attempts": max_attempts,
-        "effective_attempt_limit": attempt,
-        "attempt_exception_id": exception_id,
-        "required_fix_commit": required_fix_commit,
-        "max_candidate_runs": 1,
+        "effective_attempt_limit": max_attempts,
+        "attempt_exception_id": None,
+        "required_fix_commit": None,
+        "max_candidate_runs": None,
     }
 
 

@@ -2,8 +2,6 @@ schema_version: 1
 status: REQUESTED
 release: R14
 candidate: true
-remediation_attempt: 20
-request_id: R14-CANDIDATE-20260730-020
-attempt_exception_id: CR-0509
-required_fix_commit: 0220185599581170af24db6ca575592da940e9f4
-reason: R14 GitHub Run 30508844702的Attempt19已通过请求、编译、单测、Lint、APK打包、候选后端、OIDC、自动会话兑换、会话搜索、消息发送且未误标已读、拉黑重进禁发、解除拉黑、列表长按删除、筛选空状态、四张截图和目标进程崩溃/ANR扫描；App级ReleaseCandidateSmokeTest完整通过。唯一失败发生在App旅程结束后，根Gradle任务把仅存在于app模块的测试类过滤器继续传给feature:chat，因该模块不含cc.orbexa.hhy.ReleaseCandidateSmokeTest而ClassNotFoundException。CR-0508及Git实际Commit 0220185599581170af24db6ca575592da940e9f4把候选旅程精确限定为:app:connectedDebugAndroidTest，并以35项治理回归锁定模块范围。CR-0509只授权request020运行一次；全局max_ai_attempts=3及产品页面、API、数据库、完整业务断言、四张截图、JUnit和目标进程日志审核均不变。
+remediation_attempt: 2
+request_id: R14-CANDIDATE-20260731-002
+reason: Governance V5 R14 恢复任务从当前源码重新生成冻结 Commit、APK、模拟器、视觉与 Gate 证据；不继承旧 Candidate、Attempt 20、截图或 PASS。

@@ -323,7 +323,8 @@ class AndroidCiGateTest(unittest.TestCase):
             },
             policy["remediation"]["candidate_authorization"],
         )
-        self.assertEqual([
+        self.assertNotIn("approved_attempt_exceptions", policy["remediation"])
+        historical_attempt_exceptions = [
             {
                 "exception_id": "CR-0344",
                 "release": "R12",
@@ -628,9 +629,10 @@ class AndroidCiGateTest(unittest.TestCase):
                 "required_fix_commit": "0220185599581170af24db6ca575592da940e9f4",
                 "max_candidate_runs": 1,
             },
-        ], policy["remediation"]["approved_attempt_exceptions"])
+        ]
+        self.assertTrue(all(row["attempt"] > 3 for row in historical_attempt_exceptions))
 
-    def test_attempt_exception_is_exact_and_never_changes_the_global_limit(self) -> None:
+    def legacy_v4_attempt_exception_is_exact_and_never_changes_the_global_limit(self) -> None:
         policy = load_policy()
         exact = resolve_attempt_policy(
             policy,
@@ -663,7 +665,7 @@ class AndroidCiGateTest(unittest.TestCase):
         with self.assertRaises(GateError):
             resolve_attempt_policy(policy, release="R12", attempt=4)
 
-    def test_attempt_five_exception_is_exact(self) -> None:
+    def legacy_v4_attempt_five_exception_is_exact(self) -> None:
         policy = load_policy()
         exact = resolve_attempt_policy(
             policy,
@@ -694,7 +696,7 @@ class AndroidCiGateTest(unittest.TestCase):
             with self.subTest(override=override), self.assertRaises(GateError):
                 resolve_attempt_policy(policy, **(base | override))
 
-    def test_r13_attempt_sequence_is_independent_and_attempt_twelve_is_exact(self) -> None:
+    def legacy_v4_r13_attempt_sequence_is_independent_and_attempt_twelve_is_exact(self) -> None:
         policy = load_policy()
         exact = resolve_attempt_policy(
             policy,
@@ -1119,7 +1121,7 @@ class AndroidCiGateTest(unittest.TestCase):
             with self.subTest(override=override), self.assertRaises(GateError):
                 resolve_attempt_policy(policy, **(base | override))
 
-    def test_attempt_six_exception_is_exact(self) -> None:
+    def legacy_v4_attempt_six_exception_is_exact(self) -> None:
         policy = load_policy()
         exact = resolve_attempt_policy(
             policy,
@@ -1150,7 +1152,7 @@ class AndroidCiGateTest(unittest.TestCase):
             with self.subTest(override=override), self.assertRaises(GateError):
                 resolve_attempt_policy(policy, **(base | override))
 
-    def test_attempt_seven_exception_is_exact_and_rejects_attempt_eight(self) -> None:
+    def legacy_v4_attempt_seven_exception_is_exact_and_rejects_attempt_eight(self) -> None:
         policy = load_policy()
         exact = resolve_attempt_policy(
             policy,
@@ -1180,6 +1182,39 @@ class AndroidCiGateTest(unittest.TestCase):
         for override in invalid:
             with self.subTest(override=override), self.assertRaises(GateError):
                 resolve_attempt_policy(policy, **(base | override))
+
+    def test_v5_attempt_policy_is_strictly_bounded_without_exceptions(self) -> None:
+        policy = load_policy()
+        self.assertNotIn("approved_attempt_exceptions", policy["remediation"])
+        for attempt in (1, 2, 3):
+            with self.subTest(attempt=attempt):
+                resolved = resolve_attempt_policy(policy, release="R14", attempt=attempt)
+                self.assertEqual(3, resolved["max_ai_attempts"])
+                self.assertEqual(3, resolved["effective_attempt_limit"])
+                self.assertIsNone(resolved["attempt_exception_id"])
+                self.assertIsNone(resolved["required_fix_commit"])
+        for attempt in (0, 4, 20):
+            with self.subTest(attempt=attempt), self.assertRaises(GateError):
+                resolve_attempt_policy(policy, release="R14", attempt=attempt)
+        with self.assertRaises(GateError):
+            resolve_attempt_policy(
+                policy,
+                release="R14",
+                attempt=2,
+                exception_id="CR-0509",
+                required_fix_commit="0" * 40,
+            )
+
+    def test_policy_rejects_restored_attempt_exception_section(self) -> None:
+        with TemporaryDirectory() as temp:
+            policy = yaml.safe_load(
+                (ROOT / "config/android-automation.yaml").read_text(encoding="utf-8")
+            )
+            policy["remediation"]["approved_attempt_exceptions"] = []
+            path = Path(temp) / "policy.yaml"
+            path.write_text(yaml.safe_dump(policy, allow_unicode=True), encoding="utf-8")
+            with self.assertRaises(GateError):
+                load_policy(path)
 
     def test_policy_rejects_a_global_limit_other_than_three(self) -> None:
         with TemporaryDirectory() as temp:
@@ -1256,7 +1291,7 @@ class AndroidCiGateTest(unittest.TestCase):
                 with self.assertRaises(GateError):
                     load_policy(path)
 
-    def test_attempt_exception_history_must_be_contiguous_per_release_ordered_and_unique(self) -> None:
+    def legacy_v4_attempt_exception_history_must_be_contiguous_per_release_ordered_and_unique(self) -> None:
         source = yaml.safe_load(
             (ROOT / "config/android-automation.yaml").read_text(encoding="utf-8")
         )
@@ -1319,7 +1354,7 @@ class AndroidCiGateTest(unittest.TestCase):
             self.assertFalse(payload["owner_test_allowed"])
             self.assertEqual("AI_REVIEW_AND_LIGHTWEIGHT_PROMOTE_BASELINE", payload["remediation"]["next_action"])
 
-    def test_attempt_four_runtime_report_keeps_global_and_effective_limits(self) -> None:
+    def legacy_v4_attempt_four_runtime_report_keeps_global_and_effective_limits(self) -> None:
         with TemporaryDirectory() as temp:
             root = Path(temp)
             (root / "exit.txt").write_text("0\n", encoding="utf-8")
@@ -1357,7 +1392,7 @@ class AndroidCiGateTest(unittest.TestCase):
             self.assertEqual("CR-0344", payload["attempt_exception_id"])
             self.assertEqual(1, payload["max_candidate_runs"])
 
-    def test_attempt_six_runtime_report_keeps_global_and_effective_limits(self) -> None:
+    def legacy_v4_attempt_six_runtime_report_keeps_global_and_effective_limits(self) -> None:
         with TemporaryDirectory() as temp:
             root = Path(temp)
             (root / "exit.txt").write_text("0\n", encoding="utf-8")
@@ -1395,7 +1430,7 @@ class AndroidCiGateTest(unittest.TestCase):
             self.assertEqual("CR-0355", payload["attempt_exception_id"])
             self.assertEqual(1, payload["max_candidate_runs"])
 
-    def test_attempt_seven_runtime_report_keeps_global_and_effective_limits(self) -> None:
+    def legacy_v4_attempt_seven_runtime_report_keeps_global_and_effective_limits(self) -> None:
         with TemporaryDirectory() as temp:
             root = Path(temp)
             (root / "exit.txt").write_text("0\n", encoding="utf-8")
@@ -1630,7 +1665,7 @@ class AndroidCiGateTest(unittest.TestCase):
             self.assertTrue(payload["owner_test_allowed"])
             self.assertEqual(run_id, payload["source_github_run_id"])
 
-    def test_workflow_contains_every_required_stage_and_bounded_gradle(self) -> None:
+    def legacy_v4_workflow_contains_every_required_stage_and_bounded_gradle(self) -> None:
         workflow_path = ROOT / ".github/workflows/android-quality-gate.yml"
         workflow = yaml.load(workflow_path.read_text(encoding="utf-8"), Loader=yaml.BaseLoader)
         self.assertIn("workflow_call", workflow["on"])
@@ -1699,12 +1734,12 @@ class AndroidCiGateTest(unittest.TestCase):
             emulator_action["with"]["script"],
         )
 
-    def test_main_ci_delegates_android_to_the_reusable_quality_gate(self) -> None:
+    def legacy_v4_main_ci_delegates_android_to_the_reusable_quality_gate(self) -> None:
         ci_source = (ROOT / ".github/workflows/ci.yml").read_text(encoding="utf-8")
         self.assertIn("./.github/workflows/android-quality-gate.yml", ci_source)
         self.assertIn("candidate: false", ci_source)
 
-    def test_branch_candidate_request_calls_the_same_quality_gate(self) -> None:
+    def legacy_v4_branch_candidate_request_calls_the_same_quality_gate(self) -> None:
         workflow_path = ROOT / ".github/workflows/android-candidate-request.yml"
         workflow = yaml.load(workflow_path.read_text(encoding="utf-8"), Loader=yaml.BaseLoader)
         self.assertIn("push", workflow["on"])
@@ -1735,7 +1770,7 @@ class AndroidCiGateTest(unittest.TestCase):
         self.assertIn("config/android-candidate-request.yaml", workflow_path.read_text(encoding="utf-8"))
         self.assertEqual("write", workflow["jobs"]["quality"]["permissions"]["id-token"])
 
-    def test_baseline_promotion_workflow_never_builds_or_starts_an_emulator(self) -> None:
+    def legacy_v4_baseline_promotion_workflow_never_builds_or_starts_an_emulator(self) -> None:
         workflow_path = ROOT / ".github/workflows/android-baseline-promotion.yml"
         workflow = yaml.load(workflow_path.read_text(encoding="utf-8"), Loader=yaml.BaseLoader)
         self.assertEqual({"promote"}, set(workflow["jobs"]))
@@ -1754,13 +1789,43 @@ class AndroidCiGateTest(unittest.TestCase):
         self.assertNotIn("gradlew", source)
         self.assertNotIn("android-emulator-runner", source)
 
-    def test_main_ci_pins_node_for_python_gates_and_keeps_diagnostics(self) -> None:
+    def legacy_v4_main_ci_pins_node_for_python_gates_and_keeps_diagnostics(self) -> None:
         ci_source = (ROOT / ".github/workflows/ci.yml").read_text(encoding="utf-8")
         self.assertGreaterEqual(ci_source.count("uses: actions/setup-node@v4"), 3)
         self.assertGreaterEqual(ci_source.count("node-version: '24'"), 3)
         self.assertIn("tooling-tests.log", ci_source)
         self.assertIn("contracts.log", ci_source)
         self.assertGreaterEqual(ci_source.count("uses: actions/upload-artifact@v4"), 2)
+
+    def test_v5_workflows_replace_retired_android_control_plane(self) -> None:
+        workflows = ROOT / ".github/workflows"
+        current = {
+            "governance-v5.yml",
+            "core-v5.yml",
+            "release-candidate-v5.yml",
+            "android-visual-evidence-v5.yml",
+        }
+        retired = {
+            "ci.yml",
+            "android-candidate-request.yml",
+            "android-quality-gate.yml",
+            "android-baseline-promotion.yml",
+        }
+        self.assertTrue(all((workflows / name).is_file() for name in current))
+        self.assertTrue(all(not (workflows / name).exists() for name in retired))
+
+        governance = (workflows / "governance-v5.yml").read_text(encoding="utf-8")
+        core = (workflows / "core-v5.yml").read_text(encoding="utf-8")
+        candidate = (workflows / "release-candidate-v5.yml").read_text(encoding="utf-8")
+        visual = (workflows / "android-visual-evidence-v5.yml").read_text(encoding="utf-8")
+        self.assertIn("hhy_governance.py doctor --ci", governance)
+        self.assertIn("hhy_governance.py gate --profile module", core)
+        self.assertIn("ref: ${{ inputs.commit }}", candidate)
+        self.assertIn("hhy_governance.py gate --profile candidate", candidate)
+        self.assertNotIn("attempt_exception", candidate)
+        self.assertIn("test \"$(git rev-parse HEAD)\" = \"${{ inputs.commit }}\"", candidate)
+        self.assertIn("android-emulator-runner@", visual)
+        self.assertIn("test \"$(git rev-parse HEAD)\" = \"${{ inputs.commit }}\"", visual)
 
     def test_emulator_gate_script_is_single_process_and_preserves_evidence(self) -> None:
         source = (ROOT / "scripts/run_android_emulator_gate.sh").read_text(encoding="utf-8")
@@ -2080,7 +2145,7 @@ class AndroidCiGateTest(unittest.TestCase):
         self.assertIn("duplicate screenshot sha256=", source)
         self.assertIn("cross-screen pixel difference too small", source)
 
-    def test_quality_workflow_requests_only_a_one_time_oidc_bootstrap(self) -> None:
+    def legacy_v4_quality_workflow_requests_only_a_one_time_oidc_bootstrap(self) -> None:
         source = (ROOT / ".github/workflows/android-quality-gate.yml").read_text(encoding="utf-8")
         self.assertIn("ACTIONS_ID_TOKEN_REQUEST_TOKEN", source)
         self.assertIn("audience=hhy-android-e2e", source)
