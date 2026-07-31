@@ -760,13 +760,14 @@ private fun R13InvalidFeedbackSheetBody(
     Column(
         Modifier.fillMaxWidth()
             .heightIn(max = sheetMaxHeight)
+            .height(sheetMaxHeight)
             .navigationBarsPadding()
             .imePadding()
             .padding(bottom = HhySpacing.Xxl),
     ) {
             Column(
                 Modifier.fillMaxWidth()
-                    .weight(1f, fill = false)
+                    .weight(1f)
                     .verticalScroll(rememberScrollState())
                     .padding(horizontal = HhySpacing.Xl, vertical = HhySpacing.Md),
                 verticalArrangement = Arrangement.spacedBy(HhySpacing.Md),

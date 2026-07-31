@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.navigationBarsPadding
@@ -149,13 +150,14 @@ fun R14ReportSheet(
         Column(
             Modifier.fillMaxWidth()
                 .heightIn(max = sheetMaxHeight)
+                .height(sheetMaxHeight)
                 .navigationBarsPadding()
                 .imePadding()
                 .padding(bottom = HhySpacing.Xxl),
         ) {
                 Column(
                     Modifier.fillMaxWidth()
-                        .weight(1f, fill = false)
+                        .weight(1f)
                         .verticalScroll(rememberScrollState())
                         .padding(horizontal = HhySpacing.Xl, vertical = HhySpacing.Lg),
                     verticalArrangement = Arrangement.spacedBy(HhySpacing.Md),

@@ -1,0 +1,76 @@
+{
+  "schema_version": 1,
+  "release": "R14",
+  "task_id": "TASK-R14-RECOVERY-014",
+  "request_id": "HISTORICAL-UI-20260731-005-PREFLIGHT",
+  "status": "IMPLEMENTED_PENDING_VISUAL_EVIDENCE",
+  "previous_failure": {
+    "github_run_id": "30517994197",
+    "artifact_id": "8749751779",
+    "source_commit": "aac31255efaf2df17e5cacad0f911a46c6fc6c42",
+    "first_failure_test": "cc.orbexa.hhy.HistoricalVisualAuditTest.r14ReportSheetProducesBoundVisualEvidence",
+    "assertion": "The component with TestTag = 'r14.report.actions' is not displayed"
+  },
+  "root_cause": "The first CR-0519 layout used a screen-derived max height but only constrained the bottom sheet with heightIn. Under ModalBottomSheet parent constraints this could still leave the long form without a fixed viewport, so the fixed action row was not displayed on device.",
+  "remediation": {
+    "r14_report_sheet": "Add explicit height(sheetMaxHeight) after heightIn(max = sheetMaxHeight), keep navigationBarsPadding, imePadding and HhySpacing.Xxl bottom buffer, and make the content body fill its weighted viewport.",
+    "r13_invalid_feedback_sheet": "Apply the same explicit fixed sheet height and weighted scroll body to preserve historical-through-R14 visual closure."
+  },
+  "changed_files": [
+    "apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ChatSheets.kt",
+    "apps/android/feature/activity/src/main/java/cc/orbexa/hhy/activity/R13ActivityScreens.kt",
+    "tests/test_android_historical_visual_request.py",
+    ".continuity/change_requests/CR-0519.yaml",
+    "docs/03-continuity/change-requests/CR-0519-修复R13与R14长表单底部操作安全区及历史页顶栏裁切.md",
+    "docs/03-continuity/PROBLEM_REGISTRY.yaml",
+    "CHANGELOG.md"
+  ],
+  "verification": {
+    "passed_before_commit": [
+      {
+        "environment": "local",
+        "command": "python -m unittest -v tests.test_android_historical_visual_request",
+        "result": "PASS",
+        "summary": "4 tests passed"
+      },
+      {
+        "environment": "local",
+        "command": "scripts/check_ui_tokens.py",
+        "result": "PASS",
+        "summary": "UI_TOKENS_OK 52"
+      },
+      {
+        "environment": "local",
+        "command": "scripts/check_api_contract.py",
+        "result": "PASS",
+        "summary": "API_CONTRACT_OK client=131 admin=184 websocket=12 runtime_hashes=PASS"
+      },
+      {
+        "environment": "local",
+        "command": "scripts/check_db_schema.py",
+        "result": "PASS",
+        "summary": "DB_SCHEMA_OK tables=203 migrations=47 runtime_hashes=PASS"
+      },
+      {
+        "environment": "local",
+        "command": "git diff --check",
+        "result": "PASS",
+        "summary": "No whitespace errors"
+      },
+      {
+        "environment": "local",
+        "command": "tools/governance/hhy_governance.py doctor --ci",
+        "result": "PASS",
+        "summary": "hhy.doctor/v5.0 PASS, active task TASK-R14-RECOVERY-014"
+      },
+      {
+        "environment": "obx-test docker hhy-android-toolchain:r01-46fb273",
+        "command": "./gradlew :feature:chat:compileDebugAndroidTestKotlin :feature:activity:compileDebugKotlin",
+        "result": "PASS",
+        "summary": "BUILD SUCCESSFUL"
+      }
+    ],
+    "visual_evidence_status": "NOT_CLAIMED",
+    "visual_evidence_required_next": "Dispatch android-visual-evidence-v5.yml with release=R14 and the new commit SHA, then review the real screenshot artifact before changing catalogs/ui_visual_acceptance.csv."
+  }
+}

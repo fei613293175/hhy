@@ -5,7 +5,7 @@ import yaml
 
 
 ROOT = Path(__file__).resolve().parents[1]
-WORKFLOW_PATH = ROOT / ".github" / "workflows" / "android-historical-visual-request.yml"
+WORKFLOW_PATH = ROOT / ".github" / "workflows" / "android-visual-evidence-v5.yml"
 REQUEST_PATH = ROOT / "config" / "android-historical-visual-request.yaml"
 RUNNER_PATH = ROOT / "scripts" / "run_android_historical_visual_audit.sh"
 AUDIT_TEST_PATH = (
@@ -38,29 +38,18 @@ class AndroidHistoricalVisualRequestWorkflowTest(unittest.TestCase):
             Loader=yaml.BaseLoader,
         )
 
-    def test_only_request_file_triggers_offline_historical_workflow(self) -> None:
-        self.assertEqual(
-            self.workflow["on"]["push"]["paths"],
-            ["config/android-historical-visual-request.yaml"],
-        )
-        historical = self.workflow["jobs"]["historical-visual"]
-        self.assertEqual(
-            historical["uses"],
-            "./.github/workflows/android-quality-gate.yml",
-        )
-        self.assertEqual(historical["with"]["release"], "HISTORICAL-UI")
-        self.assertEqual(historical["with"]["candidate"], "false")
+    def test_dispatch_requires_exact_release_and_commit_inputs(self) -> None:
+        workflow_dispatch = self.workflow["on"]["workflow_dispatch"]
+        self.assertEqual(set(workflow_dispatch["inputs"]), {"release", "commit"})
+        self.assertEqual(workflow_dispatch["inputs"]["release"]["required"], "true")
+        self.assertEqual(workflow_dispatch["inputs"]["commit"]["required"], "true")
+
+        binding_step = self.workflow["jobs"]["offline-compose-visuals"]["steps"][1]
+        self.assertIn('test "$(git rev-parse HEAD)" = "${{ inputs.commit }}"', binding_step["run"])
+        self.assertIn('test "${{ inputs.release }}" = "R14"', binding_step["run"])
 
     def test_reusable_workflow_receives_its_declared_permissions(self) -> None:
-        historical = self.workflow["jobs"]["historical-visual"]
-        self.assertEqual(
-            historical["permissions"],
-            {
-                "contents": "read",
-                "issues": "write",
-                "id-token": "write",
-            },
-        )
+        self.assertEqual(self.workflow["permissions"], {"contents": "read"})
 
     def test_request_runner_and_r14_surfaces_share_exact_screenshot_count(self) -> None:
         request = yaml.safe_load(REQUEST_PATH.read_text(encoding="utf-8"))
@@ -88,6 +77,7 @@ class AndroidHistoricalVisualRequestWorkflowTest(unittest.TestCase):
             source = path.read_text(encoding="utf-8")
             self.assertIn("LocalConfiguration.current.screenHeightDp.dp - HhySpacing.Xxl", source)
             self.assertIn(".heightIn(max = sheetMaxHeight)", source)
+            self.assertIn(".height(sheetMaxHeight)", source)
             self.assertIn(".navigationBarsPadding()", source)
             self.assertIn(".imePadding()", source)
             self.assertIn(".padding(bottom = HhySpacing.Xxl)", source)
