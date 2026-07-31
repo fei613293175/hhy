@@ -1,0 +1,30 @@
+{
+  "schema": "hhy.r14-attempt3-preflight/v1",
+  "task_id": "TASK-R14-RECOVERY-014",
+  "preflight_source_commit": "fba4243cb232c14dd1e1c4b914df4f6805f6fef9",
+  "verified_at": "2026-07-31T15:41:07Z",
+  "status": "PASS",
+  "environment": {
+    "gradle_user_home": "C:\\tmp\\hhy-g",
+    "gradle_version": "9.4.1",
+    "jdk": "21.0.12+8",
+    "android_sdk": "C:\\Users\\小白\\.local\\hhy-toolchain\\android",
+    "codex_sandbox": "workspace-write",
+    "codex_writable_root": "C:\\tmp\\hhy-g",
+    "network_access": false
+  },
+  "cache_copy": {
+    "caches_files": 10401,
+    "caches_bytes": 1039098600,
+    "wrapper_files": 643,
+    "wrapper_bytes": 290712956,
+    "source_target_counts_and_bytes_match": true
+  },
+  "verification": {
+    "command": ".\\gradlew.bat --offline --no-daemon :feature:chat:compileDebugAndroidTestKotlin :feature:activity:compileDebugKotlin",
+    "ordinary_process_result": "BUILD SUCCESSFUL in 1m 28s; 44 actionable tasks",
+    "codex_workspace_write_result": "BUILD SUCCESSFUL in 1m 20s; 44 actionable tasks",
+    "repository_changes": "none"
+  },
+  "worker_note": "GRADLE_USER_HOME is injected by the Orchestrator environment. Use the existing wrapper with --offline; do not search for or download another Gradle distribution."
+}
