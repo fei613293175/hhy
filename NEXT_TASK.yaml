@@ -1,6 +1,6 @@
 DO_NOT_EDIT: true
 GENERATED_FROM: governance/STATE.yaml + governance/task_specs/*.yaml
-SOURCE_REVISION: 63
+SOURCE_REVISION: 64
 task:
   schema: hhy.task-spec/v5.0
   id: TASK-R14-RECOVERY-014
