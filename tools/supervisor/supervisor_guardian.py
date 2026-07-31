@@ -300,6 +300,13 @@ class Guardian:
             )
         except (OSError, subprocess.TimeoutExpired) as exc:
             return {"status": "FAIL", "error": str(exc)}
+        try:
+            payload = json.loads(proc.stdout)
+            if isinstance(payload, dict):
+                payload.setdefault("process_exit_code", proc.returncode)
+                return payload
+        except json.JSONDecodeError:
+            pass
         for line in reversed([line.strip() for line in proc.stdout.splitlines() if line.strip()]):
             try:
                 payload = json.loads(line)
@@ -386,6 +393,38 @@ class Guardian:
                 "next_action": "已达到失败边界，自动修复任务功能已关闭",
                 "blocked_reason": "FAILED_BOUNDED",
             })
+            return self._write_state(current)
+        if (
+            stop_status == "FAILED_BOUNDED"
+            and diagnosis["governance"].get("active_task")
+            and diagnosis["governance"].get("active_task_status") == "READY"
+        ):
+            archived = self._archive_stop_report(stop_report) if stop_report else None
+            current.update({
+                "status": "RECOVERY_PLANNED",
+                "last_action": f"检测到新修复任务 {diagnosis['governance']['active_task']}",
+                "next_action": "等待冷却后自动启动 Supervisor",
+                "archived_stop_report": archived,
+            })
+            self._write_state(current)
+            delay = int(guardian_config.get("retry_cooldown_seconds", 60))
+            if delay:
+                time.sleep(delay)
+            try:
+                started = self._start_supervisor(f"自动恢复任务 {diagnosis['governance']['active_task']}")
+                current.update({
+                    "status": "STARTED",
+                    "next_action": "自动修复任务已启动，Guardian 将继续监控",
+                    "started": started,
+                })
+                append_event(
+                    self.events_path,
+                    "AUTOMATIC_RECOVERY_TASK_STARTED",
+                    task_id=diagnosis["governance"]["active_task"],
+                )
+            except Exception as exc:
+                current.update({"status": "START_FAILED", "next_action": "修复任务已存在，但 Supervisor 启动失败", "error": str(exc)})
+                append_event(self.events_path, "AUTOMATIC_RECOVERY_START_FAILED", error=str(exc))
             return self._write_state(current)
         if stop_report and not auto_resumable:
             current.update({
