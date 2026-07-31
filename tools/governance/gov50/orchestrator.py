@@ -7,6 +7,7 @@ import os
 import re
 import shutil
 import subprocess
+import sys
 import tempfile
 import uuid
 from pathlib import Path
@@ -20,7 +21,11 @@ from .tasks import FAILED_RECOVERY_TASK_ID, REPAIR_RECOVERY_TASK_ID, load_task_s
 from .util import git, read_json, read_yaml, repository_lock, resolve_codex_executable, run, utc_now, write_json, write_yaml
 from .views import next_ready_task, render_views
 
-AUTH_ENV = {"HHY_GOVERNANCE_ROLE": "ORCHESTRATOR"}
+AUTH_ENV = {
+    "HHY_GOVERNANCE_ROLE": "ORCHESTRATOR",
+    "PYTHON": sys.executable,
+    "HHY_PYTHON": sys.executable,
+}
 OWNER_ENV = {"HHY_GOVERNANCE_ROLE": "OWNER"}
 CONTROL_PREFIXES = (
     "governance/", "tools/governance/", ".codex/", ".githooks-v5/", ".github/workflows/",
