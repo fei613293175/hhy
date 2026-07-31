@@ -1,11 +1,11 @@
 {
   "DO_NOT_EDIT": true,
   "GENERATED_FROM": "governance/STATE.yaml",
-  "SOURCE_REVISION": 52,
-  "SOURCE_HASH": "9878b2098d4dc14aaf3d81c7858960c51fc28cbe4dbcb97d9347ad1d844812a9",
-  "project_status": "ACTIVE",
+  "SOURCE_REVISION": 53,
+  "SOURCE_HASH": "632659f2671bd74b590f07157cd6f463e611d0680c99f5740cfdecad8e34b753",
+  "project_status": "FAILED_BOUNDED",
   "active_release": "R14",
-  "active_task": "TASK-R14-RECOVERY-013",
+  "active_task": null,
   "authoritative_commit": "7aeb55c96ad1a693563e60c217ea1458748ab7fb",
   "goal_complete": false
 }
