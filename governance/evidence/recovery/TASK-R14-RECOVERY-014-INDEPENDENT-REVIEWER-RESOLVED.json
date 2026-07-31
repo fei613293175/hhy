@@ -1,0 +1,19 @@
+{
+  "schema": "hhy.infrastructure-unblock/v5.0",
+  "resolved": true,
+  "task_id": "TASK-R14-RECOVERY-014",
+  "blocker_code": "INDEPENDENT_REVIEWER_FAILED",
+  "resolution": "The configured Codex independent-review provider recovered after the transient upstream 502 and 429 responses. A new ephemeral read-only Codex probe completed successfully without reading or modifying repository files.",
+  "evidence": {
+    "blocked_state_commit": "2979651f5e6372e17fbdb7702084b7ef6fb71c39",
+    "probe_completed_at": "2026-07-31T14:06:53Z",
+    "codex_version": "codex-cli 0.146.0-alpha.9.2",
+    "provider": "custom",
+    "model": "gpt-5.5",
+    "sandbox": "read-only",
+    "approval": "never",
+    "probe_result": "PROVIDER_OK",
+    "process_exit_code": 0,
+    "repository_changes": "none"
+  }
+}
