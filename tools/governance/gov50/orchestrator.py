@@ -445,8 +445,9 @@ def _worker_prompt(task: dict[str, Any], attempt: int) -> str:
         "只执行 governance/runtime/ACTIVE_TASK.json 指定的唯一任务。\n"
         f"这是第 {attempt}/3 次总尝试，固定策略：{strategy}。\n"
         "禁止选择下一任务、修改治理/CI/Gate/AGENTS/状态、执行任何 Git 权威命令、自判正式 PASS。\n"
+        "所有文件路径必须完整保留 ACTIVE_TASK.allowed_paths 的前缀（例如 scripts/，禁止截断为 cripts/ 或其他变体）。\n"
         "完成实际产品代码和测试后，运行必要的针对性验证。相同命令、输出和 Diff 不得重复。\n"
-        "最终仅输出符合 worker-result.schema.json 的 CANDIDATE_READY、ATTEMPT_FAILED、EXTERNAL_BLOCKED 或 INFRASTRUCTURE_BLOCKED。"
+        "最终仅输出符合 worker-result.schema.json 的 CANDIDATE_READY、ATTEMPT_FAILED、EXTERNAL_BLOCKED 或 INFRASTRUCTURE_BLOCKED；必须包含 schema、status、task_id、summary、changed_files、commands_run、error_fingerprint、blocker 字段，无值时使用空数组、空字符串或 null。"
     )
 
 
