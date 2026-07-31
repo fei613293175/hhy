@@ -290,31 +290,13 @@ class ControlCenter:
         cached_at, cached = self._scheduler_cache
         if cached and time.monotonic() - cached_at < 15:
             return dict(cached)
-        command = (
-            "$t=Get-ScheduledTask -TaskName 'HHY-Governance-V5-Supervisor' "
-            "-TaskPath '\\' -ErrorAction SilentlyContinue; "
-            "if($null -eq $t){ @{installed=$false} | ConvertTo-Json -Compress } "
-            "else { $i=Get-ScheduledTaskInfo -TaskName 'HHY-Governance-V5-Supervisor' "
-            "-TaskPath '\\'; @{installed=$true;state=[string]$t.State;"
-            "last_run=[string]$i.LastRunTime;last_result=[int]$i.LastTaskResult} | ConvertTo-Json -Compress }"
-        )
-        try:
-            proc = subprocess.run(
-                ["powershell.exe", "-NoProfile", "-Command", command],
-                cwd=self.repo,
-                text=True,
-                capture_output=True,
-                timeout=10,
-                check=False,
-            )
-            payload = json.loads(proc.stdout.strip() or "{}")
-            result = redact(payload) if isinstance(payload, dict) else {"installed": False, "status": "INVALID"}
-            self._scheduler_cache = (time.monotonic(), result)
-            return dict(result)
-        except (OSError, subprocess.TimeoutExpired, json.JSONDecodeError) as exc:
-            result = {"installed": False, "status": "UNAVAILABLE", "error": str(exc)}
-            self._scheduler_cache = (time.monotonic(), result)
-            return dict(result)
+        marker = self.runtime / "AUTONOMOUS_MODE_INSTALLED"
+        if marker.is_file():
+            result = {"installed": True, "status": "INSTALLED", "state": "READY", "last_result": None}
+        else:
+            result = {"installed": False, "status": "NOT_INSTALLED"}
+        self._scheduler_cache = (time.monotonic(), result)
+        return dict(result)
 
     def _friendly_event(self, entry: dict[str, Any]) -> dict[str, Any]:
         event = str(entry.get("event") or "")
