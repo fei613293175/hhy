@@ -22,6 +22,26 @@ SPEC.loader.exec_module(matrix)
 
 
 class P00TestMatrixTest(unittest.TestCase):
+    def test_apk_reject_adapter_binds_real_automation(self) -> None:
+        adapter_path = ROOT / "tests/p00/req-apk-001_reject"
+        adapter = json.loads(adapter_path.read_text(encoding="utf-8"))
+        self.assertEqual(adapter["schema"], "hhy.p00.test-adapter/v1")
+        self.assertEqual(adapter["test_id"], "TST-APK_001-REJECT")
+        self.assertEqual(adapter["central_runner"], "scripts/run_p00_test_matrix.py")
+        self.assertEqual(adapter["assignment_source"], "external")
+        self.assertEqual(adapter["runner"], "p00-apk-validation")
+        self.assertGreaterEqual(len(adapter["selectors"]), 8)
+        self.assertGreaterEqual(len(adapter["fault_classes"]), 8)
+
+        for selector in adapter["selectors"]:
+            relative_path, separator, symbol = selector.partition("#")
+            self.assertEqual(separator, "#", selector)
+            self.assertTrue(symbol, selector)
+            source = ROOT / relative_path
+            self.assertTrue(source.is_file(), selector)
+            leaf_symbol = symbol.rsplit(".", 1)[-1]
+            self.assertIn(leaf_symbol, source.read_text(encoding="utf-8"), selector)
+
     def test_repository_inventory_is_exact_and_includes_baseline_reuse(self) -> None:
         manifest_ids, catalog, errors = matrix.load_inventory()
         self.assertEqual(errors, [])

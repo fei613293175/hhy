@@ -1,0 +1,27 @@
+{
+  "schema": "hhy.p00.test-adapter/v1",
+  "test_id": "TST-APK_001-REJECT",
+  "central_runner": "scripts/run_p00_test_matrix.py",
+  "assignment_source": "external",
+  "runner": "p00-apk-validation",
+  "selectors": [
+    "services/backend/boot/src/test/java/cc/orbexa/hhy/PublicEndpointsTest.java#versionCheckRejectsInvalidPayload",
+    "tests/test_android_apk_delivery.py#AndroidApkDeliveryTest.test_prepare_rejects_unstable_or_wrong_signing_before_publish",
+    "tests/test_android_apk_delivery.py#AndroidApkDeliveryTest.test_prepare_rejects_wrong_version_before_publish",
+    "tests/test_android_apk_delivery.py#AndroidApkDeliveryTest.test_https_failure_retracts_only_new_publication_and_writes_no_state",
+    "tests/test_android_apk_delivery.py#AndroidApkDeliveryTest.test_accept_rejects_incomplete_machine_delivery",
+    "tests/test_android_apk_delivery.py#AndroidApkDeliveryTest.test_credential_options_are_rejected_without_parsing_values",
+    "tests/test_release_close_gate.py#ReleaseCloseGateTest.test_machine_close_rejects_tampered_on_demand_test_apk_evidence",
+    "tests/test_release_close_gate.py#ReleaseCloseGateTest.test_close_gate_rejects_fake_manifest_and_pending_apk"
+  ],
+  "fault_classes": [
+    "request-validation",
+    "signing-authorization",
+    "version-identity-conflict",
+    "publication-rollback",
+    "incomplete-delivery-evidence",
+    "credential-injection",
+    "tampered-evidence",
+    "zero-publish-side-effects"
+  ]
+}
