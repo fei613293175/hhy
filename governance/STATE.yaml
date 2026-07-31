@@ -1,9 +1,9 @@
 schema: hhy.governance-state/v5.0
-revision: 65
-updated_at: '2026-07-31T10:46:30.548968Z'
-state_hash: 3c00b95688c88794d957ccc9040f768ffd31ba4e92cc89645ef6a94b9609bdf5
+revision: 66
+updated_at: '2026-07-31T10:56:00.863789Z'
+state_hash: f718a82359f10270d3ce367820b8224b2951774f57604038cb79074caf8747df
 project:
-  status: ACTIVE
+  status: INFRASTRUCTURE_BLOCKED
   branch_at_install: governance/v5.0-migration-20260731
   migration_baseline_commit: ea64d82fab9ed3d1952ab7d3c0d2286051390b59
   migration_commit: 8beafc2a0e115345c554abc0bdc199ef92534106
@@ -2701,10 +2701,32 @@ tasks:
     last_gate_evidence: null
     blocker: null
   TASK-R14-RECOVERY-014:
-    status: READY
+    status: INFRASTRUCTURE_BLOCKED
     attempts_used: 0
     current_attempt: null
     last_error_fingerprint: null
     last_candidate_commit: null
     last_gate_evidence: null
-    blocker: null
+    blocker:
+      code: INFRA_MISSING_REQUIRED_LOCAL_TOOLCHAIN
+      detail: 'The required worker validation toolchain is not available in this shell: python/python3/py are missing, bash
+        is missing, and Java/JAVA_HOME are missing. Because of that I could not run the governance helper, the task acceptance
+        commands, bash syntax validation, or Android Gradle validation. Current inspected sources already contain the latest
+        R14 attempt19 root-cause fix: scripts/run_android_emulator_gate.sh uses :app:connectedDebugAndroidTest and app-scoped
+        JUnit output, and ReleaseCandidateSmokeTest preserves the R14 filtered-search precondition plus Compose semantics
+        checks.'
+      paths:
+      - tools/governance/hhy_governance.py
+      - scripts/check_api_contract.py
+      - scripts/check_db_schema.py
+      - scripts/check_ui_tokens.py
+      - scripts/check_ui_visual_acceptance.py
+      - scripts/run_android_emulator_gate.sh
+      - apps/android/gradlew.bat
+      - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+      resolution: Provide python3, bash, Java/JAVA_HOME, Android SDK/adb, then rerun the governance active-task command, the
+        four ACTIVE_TASK acceptance commands, bash -n scripts/run_android_emulator_gate.sh, and the app-scoped Android validation.
+      worker_result_evidence: 'Targeted PowerShell checks passed: PASS r14 emulator gate module scope; PASS r14 smoke journey
+        search and compose semantics. Tool checks showed only node/npm available; python, python3, py, bash, java, javac,
+        adb, JAVA_HOME, ANDROID_HOME, and ANDROID_SDK_ROOT were unavailable. Gradle failed with: JAVA_HOME is not set and
+        no ''java'' command could be found in your PATH.'
