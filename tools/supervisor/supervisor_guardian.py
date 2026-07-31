@@ -340,6 +340,8 @@ class Guardian:
             current.update({"status": "COMPLETE", "next_action": "项目已完成，不再启动开发"})
             return self._write_state(current)
         if diagnosis["supervisor"]["running"]:
+            current.pop("error", None)
+            current.pop("blocked_reason", None)
             current.update({"status": "ONLINE", "next_action": "持续监控 Supervisor 心跳和运行结果"})
             return self._write_state(current)
         if not guardian_config.get("auto_start_supervisor", True):
@@ -466,6 +468,7 @@ class Guardian:
             time.sleep(delay)
         try:
             started = self._start_supervisor(reason)
+            current.pop("error", None)
             current.update({"status": "STARTED", "next_action": "Supervisor 已自动启动，Guardian 将继续监控", "started": started})
         except Exception as exc:
             current.update({"status": "START_FAILED", "next_action": "自动启动失败，保留诊断结果等待处理", "error": str(exc)})
