@@ -1,15 +1,15 @@
 schema: hhy.governance-state/v5.0
-revision: 62
-updated_at: '2026-07-31T04:09:14.796716Z'
-state_hash: a4364b38ca2f00a55c87948345cd9b452ae7862e7f2c1d6988dfbea723204867
+revision: 63
+updated_at: '2026-07-31T04:21:27.586689Z'
+state_hash: 6061dc8c27c63b172b7b510f396854b870a837bdfa878f40e3724dca13b9e5f8
 project:
-  status: POLICY_VIOLATION
+  status: ACTIVE
   branch_at_install: governance/v5.0-migration-20260731
   migration_baseline_commit: ea64d82fab9ed3d1952ab7d3c0d2286051390b59
   migration_commit: 8beafc2a0e115345c554abc0bdc199ef92534106
   authoritative_commit: bc3f6f20b03377886ce004a3567c4b571d6a1438
   active_release: R14
-  active_task: null
+  active_task: TASK-R14-RECOVERY-014
   goal_complete: false
 lease: null
 releases:
@@ -2701,13 +2701,10 @@ tasks:
     last_gate_evidence: null
     blocker: null
   TASK-R14-RECOVERY-014:
-    status: POLICY_VIOLATION
+    status: READY
     attempts_used: 0
     current_attempt: null
     last_error_fingerprint: null
     last_candidate_commit: null
     last_gate_evidence: null
-    blocker:
-      code: WORKER_SCOPE_VIOLATION
-      paths:
-      - pps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ChatDetailScreen.kt
+    blocker: null
