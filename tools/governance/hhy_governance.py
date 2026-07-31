@@ -16,7 +16,7 @@ sys.path.insert(0, str(ROOT))
 from tools.governance.gov50.gates import product_readiness, run_gate
 from tools.governance.gov50.legacy import scan_active_control_plane
 from tools.governance.gov50.orchestrator import (
-    activate_migration, candidate_authorize, candidate_check, candidate_report,
+    activate_migration, auto_supersede_failed, candidate_authorize, candidate_check, candidate_report,
     formal_release, machine_close, owner_result, run_loop, run_once, supersede_failed, unblock,
 )
 from tools.governance.gov50.secrets import scan_secrets
@@ -123,6 +123,7 @@ def main() -> int:
     fr = sub.add_parser("formal-release"); fr.add_argument("--release", required=True); fr.add_argument("--evidence", required=True)
     ub = sub.add_parser("unblock"); ub.add_argument("--task", required=True); ub.add_argument("--evidence", required=True)
     sf = sub.add_parser("supersede-failed"); sf.add_argument("--from-task", required=True); sf.add_argument("--to-task", required=True); sf.add_argument("--authorization", required=True)
+    ar = sub.add_parser("auto-recover-failed"); ar.add_argument("--policy")
     args = p.parse_args()
     repo = ROOT
     try:
@@ -149,6 +150,7 @@ def main() -> int:
         elif args.command == "formal-release": _require(repo, {"OWNER", "RELEASE_OPERATOR"}); result = formal_release(repo, args.release, Path(args.evidence))
         elif args.command == "unblock": _require(repo, {"ORCHESTRATOR", "MIGRATION_OPERATOR"}); result = unblock(repo, args.task, Path(args.evidence))
         elif args.command == "supersede-failed": _require(repo, {"ORCHESTRATOR", "MIGRATION_OPERATOR"}); result = supersede_failed(repo, args.from_task, args.to_task, Path(args.authorization))
+        elif args.command == "auto-recover-failed": _require(repo, {"ORCHESTRATOR", "MIGRATION_OPERATOR"}); result = auto_supersede_failed(repo, Path(args.policy) if args.policy else None)
         else: raise RuntimeError("unsupported command")
         _print(result)
         return 0 if result.get("status") in {"PASS", "ACTIVE", "AUTHORIZED", "ALREADY_AUTHORIZED", "TASK_DONE", "MACHINE_CLOSED", "READY", "FORMALLY_ACCEPTED", "RELEASED", "PROGRAM_COMPLETE", "DRY_RUN", "NO_READY_TASK"} else int(result.get("exit_code", 1))

@@ -31,6 +31,7 @@ from tools.supervisor.hhy_supervisor import (  # noqa: E402
     classify_error_text,
     load_config,
     redact,
+    read_active_state,
     resolve_repo,
     utc_now,
 )
@@ -160,21 +161,52 @@ class Guardian:
             git_error = str(exc)
         stop_report = files["stop_report"] if isinstance(files["stop_report"], dict) else None
         category = report_error_category(stop_report)
+        governance: dict[str, Any] = {
+            "project_status": None,
+            "active_task": None,
+            "active_task_status": None,
+            "failed_bounded": False,
+            "failed_tasks": [],
+        }
+        try:
+            state = read_active_state(self.repo)
+            project = state.get("project") or {}
+            active_task = project.get("active_task")
+            rows = state.get("tasks") or {}
+            failed_tasks = [
+                task_id for task_id, row in rows.items()
+                if isinstance(row, dict) and row.get("status") == "FAILED_BOUNDED"
+            ]
+            governance = {
+                "project_status": project.get("status"),
+                "active_task": active_task,
+                "active_task_status": (rows.get(active_task) or {}).get("status") if active_task else None,
+                "failed_bounded": project.get("status") == "FAILED_BOUNDED" or bool(
+                    active_task and (rows.get(active_task) or {}).get("status") == "FAILED_BOUNDED"
+                ),
+                "failed_tasks": failed_tasks[-20:],
+            }
+        except Exception as exc:
+            governance["state_error"] = str(exc)
+        runtime_status = runtime_state.get("status")
+        supervisor_running = process_alive(pid) and runtime_status not in {"STOPPED", "IDLE"}
         return {
             "at": utc_now(),
             "supervisor": {
                 "pid": pid,
-                "running": process_alive(pid),
-                "runtime_status": runtime_state.get("status"),
+                "running": supervisor_running,
+                "runtime_status": runtime_status,
                 "heartbeat_age_seconds": age_seconds(heartbeat.get("at")),
                 "heartbeat_stale": bool(age_seconds(heartbeat.get("at")) is not None and age_seconds(heartbeat.get("at")) > 120),
             },
+            "governance": governance,
             "stop_report": {
                 "present": stop_report is not None,
                 "status": stop_report.get("stop_status") if stop_report else None,
                 "error_category": category,
                 "auto_resumable": bool(
                     stop_report
+                    and not governance.get("failed_bounded")
                     and (
                         stop_report.get("stop_status") in AUTO_RESUMABLE_STATUSES
                         or category in AUTO_RESUMABLE_ERRORS
@@ -243,6 +275,45 @@ class Guardian:
         append_event(self.events_path, "SUPERVISOR_AUTO_STARTED", pid=process.pid, reason=reason, log=str(log_path.relative_to(self.repo)))
         return {"pid": process.pid, "reason": reason, "log": str(log_path.relative_to(self.repo))}
 
+    def _run_recovery_planner(self) -> dict[str, Any]:
+        policy = self.repo / "governance" / "evidence" / "recovery" / "PROJECT_OWNER_STANDING_AUTHORIZATION.json"
+        command = [
+            self.python_executable,
+            str(self.repo / "tools" / "governance" / "hhy_governance.py"),
+            "auto-recover-failed",
+            "--policy",
+            str(policy),
+        ]
+        env = os.environ.copy()
+        env["HHY_GOVERNANCE_ROLE"] = "ORCHESTRATOR"
+        env["PYTHON"] = self.python_executable
+        env["HHY_PYTHON"] = self.python_executable
+        try:
+            proc = subprocess.run(
+                command,
+                cwd=self.repo,
+                text=True,
+                capture_output=True,
+                timeout=180,
+                env=env,
+                check=False,
+            )
+        except (OSError, subprocess.TimeoutExpired) as exc:
+            return {"status": "FAIL", "error": str(exc)}
+        for line in reversed([line.strip() for line in proc.stdout.splitlines() if line.strip()]):
+            try:
+                payload = json.loads(line)
+                if isinstance(payload, dict):
+                    payload.setdefault("process_exit_code", proc.returncode)
+                    return payload
+            except json.JSONDecodeError:
+                continue
+        return {
+            "status": "FAIL",
+            "error": (proc.stderr or proc.stdout or "recovery planner returned no result")[-4000:],
+            "process_exit_code": proc.returncode,
+        }
+
     def once(self) -> dict[str, Any]:
         config = load_config(self.repo)
         guardian_config = config["guardian"]
@@ -272,6 +343,50 @@ class Guardian:
         stop_status = stop_report.get("stop_status") if isinstance(stop_report, dict) else None
         error_category = diagnosis["stop_report"].get("error_category")
         auto_resumable = diagnosis["stop_report"].get("auto_resumable")
+        if diagnosis["governance"].get("failed_bounded"):
+            if guardian_config.get("auto_create_recovery_task", True):
+                planned = self._run_recovery_planner()
+                if planned.get("status") == "READY":
+                    archived = self._archive_stop_report(stop_report) if stop_report else None
+                    current.update({
+                        "status": "RECOVERY_PLANNED",
+                        "last_action": f"已自动创建修复任务 {planned.get('task_id')}",
+                        "next_action": "等待冷却后自动启动 Supervisor",
+                        "recovery": planned,
+                        "archived_stop_report": archived,
+                    })
+                    self._write_state(current)
+                    delay = int(guardian_config.get("retry_cooldown_seconds", 60))
+                    if delay:
+                        time.sleep(delay)
+                    try:
+                        started = self._start_supervisor(f"自动恢复任务 {planned.get('task_id')}")
+                        current.update({
+                            "status": "STARTED",
+                            "next_action": "自动修复任务已启动，Guardian 将继续监控",
+                            "started": started,
+                        })
+                        append_event(self.events_path, "AUTOMATIC_RECOVERY_TASK_STARTED", task_id=planned.get("task_id"))
+                    except Exception as exc:
+                        current.update({"status": "START_FAILED", "next_action": "修复任务已创建，但 Supervisor 启动失败", "error": str(exc)})
+                        append_event(self.events_path, "AUTOMATIC_RECOVERY_START_FAILED", error=str(exc), task_id=planned.get("task_id"))
+                    return self._write_state(current)
+                current.update({
+                    "status": "ATTENTION_REQUIRED",
+                    "next_action": "自动恢复规划未完成，已保留失败边界和全部证据",
+                    "blocked_reason": planned.get("error") or planned.get("reason") or planned.get("status") or "RECOVERY_PLANNER_FAILED",
+                    "recovery": planned,
+                })
+                if current.get("last_action") != "RECOVERY_PLANNER_FAILED":
+                    append_event(self.events_path, "OWNER_ATTENTION_REQUIRED", status="FAILED_BOUNDED", error_category=error_category)
+                current["last_action"] = "RECOVERY_PLANNER_FAILED"
+                return self._write_state(current)
+            current.update({
+                "status": "ATTENTION_REQUIRED",
+                "next_action": "已达到失败边界，自动修复任务功能已关闭",
+                "blocked_reason": "FAILED_BOUNDED",
+            })
+            return self._write_state(current)
         if stop_report and not auto_resumable:
             current.update({
                 "status": "ATTENTION_REQUIRED",

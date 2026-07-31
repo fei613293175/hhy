@@ -22,3 +22,4 @@ guardian:
   auto_retry_limit: 20
   retry_cooldown_seconds: 60
   auto_archive_recoverable_stop: true
+  auto_create_recovery_task: true

@@ -19,9 +19,11 @@ from tools.supervisor.hhy_supervisor import (  # noqa: E402
     AUTO_CONTINUE,
     MANDATORY_STOP,
     SingleInstanceLock,
+    atomic_text,
     map_controller_status,
     simulation,
 )
+import tools.supervisor.hhy_supervisor as supervisor_module
 
 
 def run_python(*args: str) -> subprocess.CompletedProcess[str]:
@@ -109,7 +111,26 @@ def test_status_cli_is_read_only() -> None:
     assert result.returncode == 0, result.stdout + result.stderr
     payload = json.loads(result.stdout)
     assert payload["schema"] == "hhy.supervisor-status/v5.0"
-    assert payload["state"]["project"]["active_task"] == "TASK-R14-RECOVERY-002"
+    assert payload["state"]["project"]["status"] == "FAILED_BOUNDED"
+    assert payload["state"]["project"]["active_task"] is None
+
+
+def test_atomic_text_retries_transient_windows_access_denied(tmp_path: Path, monkeypatch) -> None:
+    target = tmp_path / "runtime.json"
+    original_replace = supervisor_module.os.replace
+    calls = {"count": 0}
+
+    def flaky_replace(source, destination):
+        calls["count"] += 1
+        if calls["count"] < 3:
+            raise PermissionError(5, "Access is denied")
+        return original_replace(source, destination)
+
+    monkeypatch.setattr(supervisor_module.os, "replace", flaky_replace)
+    atomic_text(target, "ok\n")
+    assert target.read_text(encoding="utf-8") == "ok\n"
+    assert calls["count"] == 3
+    assert list(tmp_path.glob(".*.tmp")) == []
 
 
 def test_windows_scripts_cover_required_operations() -> None:

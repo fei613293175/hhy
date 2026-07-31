@@ -84,6 +84,7 @@ CONFIG_FIELDS = {
         "auto_retry_limit": {"label": "自动恢复最多次数", "unit": "次", "type": "integer", "min": 1, "max": 100},
         "retry_cooldown_seconds": {"label": "自动恢复等待", "unit": "秒", "type": "integer", "min": 5, "max": 86400},
         "auto_archive_recoverable_stop": {"label": "自动归档可恢复停止", "unit": "", "type": "boolean"},
+        "auto_create_recovery_task": {"label": "达到失败边界后自动创建修复任务", "unit": "", "type": "boolean"},
     },
 }
 CONFIG_GROUP_LABELS = {
@@ -113,6 +114,10 @@ STATUS_LABELS = {
     "SUPERVISOR_BUDGET_EXHAUSTED": "本轮预算结束，准备自动开启下一轮",
     "ONLINE": "Guardian 在线",
     "RECOVERING": "Guardian 正在自动恢复",
+    "RECOVERY_PLANNED": "已自动创建修复任务",
+    "STARTED": "已自动启动修复任务",
+    "START_FAILED": "修复任务已创建但启动失败",
+    "RECOVERY_LIMIT_REACHED": "自动修复代数达到上限",
     "ATTENTION_REQUIRED": "需要处理不可自动恢复的问题",
     "RETRY_LIMIT_REACHED": "自动恢复达到上限",
 }

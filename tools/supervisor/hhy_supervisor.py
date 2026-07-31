@@ -104,17 +104,31 @@ def redact(value: Any, depth: int = 0) -> Any:
 
 
 def atomic_json(path: Path, value: dict[str, Any]) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    tmp = path.with_name(f".{path.name}.{uuid.uuid4().hex}.tmp")
-    tmp.write_text(json.dumps(value, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-    os.replace(tmp, path)
+    atomic_text(path, json.dumps(value, ensure_ascii=False, indent=2) + "\n")
 
 
 def atomic_text(path: Path, value: str) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     tmp = path.with_name(f".{path.name}.{uuid.uuid4().hex}.tmp")
-    tmp.write_text(value, encoding="utf-8")
-    os.replace(tmp, path)
+    try:
+        tmp.write_text(value, encoding="utf-8")
+        last_error: OSError | None = None
+        for attempt in range(8):
+            try:
+                os.replace(tmp, path)
+                return
+            except PermissionError as exc:
+                last_error = exc
+                if attempt == 7:
+                    raise
+                time.sleep(0.1 * (attempt + 1))
+        if last_error:
+            raise last_error
+    finally:
+        try:
+            tmp.unlink(missing_ok=True)
+        except OSError:
+            pass
 
 
 def append_jsonl(path: Path, value: dict[str, Any]) -> None:

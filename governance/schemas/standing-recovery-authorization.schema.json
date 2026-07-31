@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "hhy.project-owner-standing-recovery/v5.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "status",
+    "authorized_by",
+    "authorized_at",
+    "mode",
+    "max_recovery_generations",
+    "allowed_releases",
+    "preserve_attempt_bounds",
+    "require_new_task_per_failed_task",
+    "require_candidate_gate",
+    "require_owner_acceptance_for_release"
+  ],
+  "properties": {
+    "schema": {"const": "hhy.project-owner-standing-recovery/v5.0"},
+    "status": {"const": "ENABLED"},
+    "authorized_by": {"const": "PROJECT_OWNER"},
+    "authorized_at": {"type": "string", "minLength": 1},
+    "mode": {"const": "AUTONOMOUS_BOUNDED_RECOVERY"},
+    "max_recovery_generations": {"type": "integer", "minimum": 1, "maximum": 100},
+    "allowed_releases": {
+      "type": "array",
+      "items": {"type": "string", "pattern": "^(R|P)\\d{2}$"}
+    },
+    "preserve_attempt_bounds": {"const": true},
+    "require_new_task_per_failed_task": {"const": true},
+    "require_candidate_gate": {"const": true},
+    "require_owner_acceptance_for_release": {"const": true}
+  }
+}

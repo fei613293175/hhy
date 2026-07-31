@@ -1,0 +1,33 @@
+{
+  "schema": "hhy.project-owner-standing-recovery/v5.0",
+  "status": "ENABLED",
+  "authorized_by": "PROJECT_OWNER",
+  "authorized_at": "2026-07-30T00:00:00Z",
+  "mode": "AUTONOMOUS_BOUNDED_RECOVERY",
+  "max_recovery_generations": 20,
+  "allowed_releases": [
+    "R14",
+    "R15",
+    "R16",
+    "R17",
+    "R18",
+    "R19",
+    "R20",
+    "R21",
+    "R22",
+    "R23",
+    "R24",
+    "R25",
+    "R26",
+    "R27",
+    "R28",
+    "R29",
+    "R30",
+    "R31",
+    "R32"
+  ],
+  "preserve_attempt_bounds": true,
+  "require_new_task_per_failed_task": true,
+  "require_candidate_gate": true,
+  "require_owner_acceptance_for_release": true
+}

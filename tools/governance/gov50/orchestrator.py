@@ -1,8 +1,10 @@
 from __future__ import annotations
 
 import fnmatch
+import copy
 import json
 import os
+import re
 import shutil
 import subprocess
 import tempfile
@@ -792,4 +794,173 @@ def supersede_failed(repo: Path, from_task: str, to_task: str, authorization: Pa
                 else:
                     path.write_bytes(raw)
             git(repo, "reset", "--quiet", "--", auth_rel, *[str(path.relative_to(repo)) for path in transition_paths], check=False, env=AUTH_ENV)
+            raise
+
+
+def auto_supersede_failed(repo: Path, policy_path: Path | None = None) -> dict[str, Any]:
+    """Create the next bounded repair task under a standing owner policy.
+
+    This never edits a failed task or increases its attempt budget. It only
+    creates a new repair task, rebinds downstream dependencies, and returns
+    the project to ACTIVE so the normal Supervisor/Gate flow can continue.
+    """
+    policy_path = (policy_path or (repo / "governance" / "evidence" / "recovery" / "PROJECT_OWNER_STANDING_AUTHORIZATION.json")).resolve()
+    with repository_lock(repo):
+        policy = read_json(policy_path)
+        if not isinstance(policy, dict):
+            raise RuntimeError("standing recovery policy is missing or invalid")
+        required = {
+            "schema": "hhy.project-owner-standing-recovery/v5.0",
+            "status": "ENABLED",
+            "authorized_by": "PROJECT_OWNER",
+            "mode": "AUTONOMOUS_BOUNDED_RECOVERY",
+        }
+        if any(policy.get(key) != value for key, value in required.items()):
+            raise RuntimeError("standing recovery policy is not enabled by PROJECT_OWNER")
+        if policy.get("preserve_attempt_bounds") is not True or policy.get("require_new_task_per_failed_task") is not True:
+            raise RuntimeError("standing recovery policy must preserve bounded attempts")
+
+        state = read_state(repo)
+        project = state.get("project") or {}
+        if project.get("status") != "FAILED_BOUNDED":
+            return {"schema": "hhy.auto-recovery/v5.0", "status": "NO_ACTION", "reason": "project is not FAILED_BOUNDED"}
+        release = str(project.get("active_release") or "")
+        allowed_releases = policy.get("allowed_releases") or []
+        if allowed_releases and release not in allowed_releases:
+            raise RuntimeError(f"standing recovery policy does not cover release {release}")
+
+        specs = load_task_specs(repo)
+        failed = [
+            (int(spec.get("ordinal") or 0), task_id, spec)
+            for task_id, spec in specs.items()
+            if spec.get("release") == release
+            and (state.get("tasks") or {}).get(task_id, {}).get("status") == "FAILED_BOUNDED"
+            and (state.get("tasks") or {}).get(task_id, {}).get("attempts_used") == 3
+        ]
+        if not failed:
+            return {"schema": "hhy.auto-recovery/v5.0", "status": "NO_ACTION", "reason": "no bounded failed task is ready for recovery"}
+        _, from_task, source = sorted(failed)[-1]
+
+        max_generations = int(policy.get("max_recovery_generations") or 20)
+        generation_count = sum(1 for spec in specs.values() if spec.get("release") == release and spec.get("kind") == "recovery")
+        if generation_count >= max_generations:
+            return {
+                "schema": "hhy.auto-recovery/v5.0",
+                "status": "RECOVERY_LIMIT_REACHED",
+                "release": release,
+                "failed_task": from_task,
+                "generations": generation_count,
+                "limit": max_generations,
+            }
+
+        pattern = re.compile(rf"^TASK-{re.escape(release)}-RECOVERY-(\d+)$")
+        numbers = [
+            int(match.group(1))
+            for task_id in specs
+            if (match := pattern.match(task_id))
+        ]
+        to_task = f"TASK-{release}-RECOVERY-{(max(numbers or [0]) + 1):03d}"
+        baseline = git(repo, "rev-parse", "HEAD")
+        plan_path = repo / "governance" / "PROGRAM_PLAN.yaml"
+        target_path = repo / "governance" / "task_specs" / f"{to_task}.yaml"
+        dependent_paths: list[Path] = []
+        original_files: dict[Path, bytes | None] = {}
+        changed_specs = copy.deepcopy(specs)
+
+        repair = copy.deepcopy(source)
+        repair.update({
+            "id": to_task,
+            "ordinal": max(int(spec.get("ordinal") or 0) for spec in specs.values() if spec.get("release") == release) + 1,
+            "title": f"自动恢复接替：{source.get('title') or from_task}",
+            "source": {"path": "Supervisor automatic bounded recovery", "original_id": from_task},
+            "supersedes": from_task,
+            "depends_on": [],
+            "legacy_status": "AUTOMATIC_RECOVERY_PLANNED",
+        })
+        repair["requirements"] = list(repair.get("requirements") or []) + [
+            "保留前序失败任务及其三次尝试记录",
+            "不得继承前序 Candidate、APK、截图或 PASS",
+        ]
+        repair["acceptance"] = list(repair.get("acceptance") or []) + [
+            f"{from_task} 永久保持 FAILED_BOUNDED",
+            "新候选证据必须绑定当前修复后的冻结 Commit",
+        ]
+        changed_specs[to_task] = repair
+
+        for task_id, spec in changed_specs.items():
+            if task_id == to_task:
+                continue
+            dependencies = list(spec.get("depends_on") or [])
+            if from_task not in dependencies:
+                continue
+            spec["depends_on"] = [to_task if dep == from_task else dep for dep in dependencies]
+            dependent_paths.append(repo / "governance" / "task_specs" / f"{task_id}.yaml")
+
+        plan = read_yaml(plan_path) or {}
+        plan["task_count"] = len(changed_specs)
+        plan.setdefault("release_tasks", {}).setdefault(release, []).append(to_task)
+        plan["recovery_tasks"] = [
+            task_id for task_id, spec in sorted(changed_specs.items(), key=lambda item: (item[1].get("release", ""), item[1].get("ordinal", 0), item[0]))
+            if spec.get("kind") == "recovery"
+        ]
+        changed_plan = plan
+
+        transition_paths = [
+            target_path, plan_path, *dependent_paths,
+            repo / "governance" / "STATE.yaml", repo / "CURRENT_STATUS.yaml", repo / "NEXT_TASK.yaml",
+            repo / "governance" / "views" / "project-status.json", repo / "governance" / "views" / "release-status.json",
+        ]
+        original_files = {path: path.read_bytes() if path.is_file() else None for path in transition_paths}
+        try:
+            write_yaml(target_path, repair)
+            for path in dependent_paths:
+                task_id = path.stem
+                write_yaml(path, changed_specs[task_id])
+            write_yaml(plan_path, changed_plan)
+            loaded = load_task_specs(repo)
+            errors = validate_specs(loaded, changed_plan)
+            if errors:
+                raise RuntimeError("automatic recovery task specs invalid: " + "; ".join(errors))
+            state["project"]["status"] = "ACTIVE"
+            state["project"]["active_release"] = release
+            state["project"]["active_task"] = to_task
+            state["project"]["authoritative_commit"] = baseline
+            state["lease"] = None
+            state["tasks"][to_task] = {
+                "status": "READY",
+                "attempts_used": 0,
+                "current_attempt": None,
+                "last_error_fingerprint": None,
+                "last_candidate_commit": None,
+                "last_gate_evidence": None,
+                "blocker": None,
+            }
+            rev = state["revision"]
+            write_state(repo, state, expected_revision=rev)
+            state = read_state(repo)
+            commit_id = _commit_state(
+                repo,
+                state,
+                loaded,
+                f"[gov5.0] automatic recovery {from_task} -> {to_task}",
+                [str(path.relative_to(repo)) for path in [target_path, plan_path, *dependent_paths]],
+            )
+            return {
+                "schema": "hhy.auto-recovery/v5.0",
+                "status": "READY",
+                "release": release,
+                "supersedes": from_task,
+                "task_id": to_task,
+                "baseline_commit": baseline,
+                "state_commit": commit_id,
+                "attempts_used": 0,
+                "maximum_attempts": 3,
+            }
+        except Exception:
+            for path, raw in original_files.items():
+                if raw is None:
+                    path.unlink(missing_ok=True)
+                else:
+                    path.write_bytes(raw)
+            git(repo, "reset", "--quiet", "--", *[str(path.relative_to(repo)) for path in transition_paths], check=False, env=AUTH_ENV)
             raise

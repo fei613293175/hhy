@@ -251,10 +251,16 @@ def load_task_specs(repo: Path) -> dict[str, dict[str, Any]]:
         if task_id in specs:
             raise RuntimeError(f"duplicate task id: {task_id}")
         specs[task_id] = spec
-    # A formally superseding R14 repair task changes the R15 dependency. The
-    # Orchestrator persists the same change to the generated task-spec file.
-    if REPAIR_RECOVERY_TASK_ID in specs and "TASK-R15-001" in specs:
-        specs["TASK-R15-001"]["depends_on"] = [REPAIR_RECOVERY_TASK_ID]
+    # The latest bounded R14 recovery task is the dependency for R15. The
+    # Orchestrator persists this relationship in the task-spec file as well,
+    # so repeated automatic recovery generations remain deterministic.
+    recovery_ids = [
+        task_id for task_id, spec in specs.items()
+        if spec.get("release") == "R14" and spec.get("kind") == "recovery"
+    ]
+    recovery_ids.sort(key=lambda task_id: (int(str(task_id).rsplit("-", 1)[-1]) if str(task_id).rsplit("-", 1)[-1].isdigit() else -1, task_id))
+    if recovery_ids and "TASK-R15-001" in specs:
+        specs["TASK-R15-001"]["depends_on"] = [recovery_ids[-1]]
     return specs
 
 
@@ -271,14 +277,17 @@ def build_program_plan(specs: dict[str, dict[str, Any]]) -> dict[str, Any]:
         "adjacent_release_only": True,
         "release_tasks": {r: [s["id"] for s in sorted(specs.values(), key=lambda x: (x.get("ordinal", 0), x["id"])) if s.get("release") == r] for r in releases},
         "control_tasks": ["CONTROL-GOV50-MIGRATION"],
-        "recovery_tasks": [FAILED_RECOVERY_TASK_ID]
-        + ([REPAIR_RECOVERY_TASK_ID] if REPAIR_RECOVERY_TASK_ID in specs else []),
+        "recovery_tasks": [
+            task_id for task_id, spec in sorted(specs.items(), key=lambda item: (item[1].get("release", ""), item[1].get("ordinal", 0), item[0]))
+            if spec.get("kind") == "recovery"
+        ],
     }
 
 
 def validate_specs(specs: dict[str, dict[str, Any]], plan: dict[str, Any]) -> list[str]:
     errors: list[str] = []
-    expected_tasks = EXPECTED_TASKS + int(REPAIR_RECOVERY_TASK_ID in specs)
+    recovery_count = sum(1 for spec in specs.values() if spec.get("kind") == "recovery")
+    expected_tasks = EXPECTED_TASKS + max(0, recovery_count - 1)
     if len(specs) != expected_tasks:
         errors.append(f"task_count expected {expected_tasks}, got {len(specs)}")
     future = sum(1 for s in specs.values() if s.get("release", "").startswith("R") and 15 <= int(s["release"][1:]) <= 32)

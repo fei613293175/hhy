@@ -50,7 +50,8 @@
         "auto_start_supervisor",
         "auto_retry_limit",
         "retry_cooldown_seconds",
-        "auto_archive_recoverable_stop"
+        "auto_archive_recoverable_stop",
+        "auto_create_recovery_task"
       ],
       "properties": {
         "enabled": {"type": "boolean"},
@@ -58,7 +59,8 @@
         "auto_start_supervisor": {"type": "boolean"},
         "auto_retry_limit": {"type": "integer", "minimum": 1, "maximum": 100},
         "retry_cooldown_seconds": {"type": "integer", "minimum": 5, "maximum": 86400},
-        "auto_archive_recoverable_stop": {"type": "boolean"}
+        "auto_archive_recoverable_stop": {"type": "boolean"},
+        "auto_create_recovery_task": {"type": "boolean"}
       }
     }
   }
