@@ -1,15 +1,15 @@
 schema: hhy.governance-state/v5.0
-revision: 44
-updated_at: '2026-07-31T01:53:38.644295Z'
-state_hash: 10717db624a90fceb90b9f046150e356f982fd75fd61659b107974a09133b37c
+revision: 45
+updated_at: '2026-07-31T01:55:36.206096Z'
+state_hash: f4b9464c541fc74dee5159f509755f97bd7dec00068f682e5ff50431d4561252
 project:
-  status: ACTIVE
+  status: FAILED_BOUNDED
   branch_at_install: governance/v5.0-migration-20260731
   migration_baseline_commit: ea64d82fab9ed3d1952ab7d3c0d2286051390b59
   migration_commit: 8beafc2a0e115345c554abc0bdc199ef92534106
   authoritative_commit: 04e8957d9bb9fe40b4e36cd8de6142ae86c04986
   active_release: R14
-  active_task: TASK-R14-RECOVERY-011
+  active_task: null
   goal_complete: false
 lease: null
 releases:
@@ -2677,10 +2677,10 @@ tasks:
     last_gate_evidence: null
     blocker: null
   TASK-R14-RECOVERY-011:
-    status: READY
-    attempts_used: 2
+    status: FAILED_BOUNDED
+    attempts_used: 3
     current_attempt: null
-    last_error_fingerprint: 主 Worker 未返回结果，备用 Worker 接管也未返回结果；主证据=governance/runtime/supervisor/worker-failures/TASK-R14-RECOVERY-011-a2-fdffcc1ca4.json；备用证据=governance/runtime/supervisor/worker-failures/TASK-R14-RECOVERY-011-a2-4dbb3f1643.json
+    last_error_fingerprint: 主 Worker 未返回结果，备用 Worker 接管也未返回结果；主证据=governance/runtime/supervisor/worker-failures/TASK-R14-RECOVERY-011-a3-9adea84c95.json；备用证据=governance/runtime/supervisor/worker-failures/TASK-R14-RECOVERY-011-a3-873b68f4c3.json
     last_candidate_commit: null
     last_gate_evidence: null
     blocker: null
