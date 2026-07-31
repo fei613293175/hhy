@@ -1,9 +1,9 @@
 schema: hhy.governance-state/v5.0
-revision: 70
-updated_at: '2026-07-31T12:21:20.831475Z'
-state_hash: 988424ced1b14a1ee32a42c86fe1b1ea7b5baaf04c1f74dd64eef2ad61378b35
+revision: 71
+updated_at: '2026-07-31T12:58:59.000438Z'
+state_hash: e17f5e8794d46c5a7903da461bf0943e756c25ce200128da1df555c118f33dde
 project:
-  status: ACTIVE
+  status: INFRASTRUCTURE_BLOCKED
   branch_at_install: governance/v5.0-migration-20260731
   migration_baseline_commit: ea64d82fab9ed3d1952ab7d3c0d2286051390b59
   migration_commit: 8beafc2a0e115345c554abc0bdc199ef92534106
@@ -2701,7 +2701,7 @@ tasks:
     last_gate_evidence: null
     blocker: null
   TASK-R14-RECOVERY-014:
-    status: READY
+    status: INFRASTRUCTURE_BLOCKED
     attempts_used: 1
     current_attempt: null
     last_error_fingerprint: '[{"id": "commit_binding", "status": "PASS", "detail": {"HEAD": "05d37098219c135669e4d918f70e2a8551e4d118",
@@ -2775,4 +2775,23 @@ tasks:
       "stderr_tail": ""}}]'
     last_candidate_commit: null
     last_gate_evidence: null
-    blocker: null
+    blocker:
+      code: LOCAL_TOOLCHAIN_MISSING
+      detail: 本机 PATH 中没有 python3/python/py，治理入口和 ACTIVE_TASK acceptance_commands 无法运行；Android Gradle 编译也因 JAVA_HOME 未设置且
+        PATH 无 java 在启动前失败。已定位本任务关联根因为 R13/R14 长表单 ModalBottomSheet 半展开锚点导致 r13.invalid.actions/r14.report.actions 不可见，当前允许路径源码与测试中可静态看到
+        skipPartiallyExpanded、固定 sheetMaxHeight、安全区 padding 和操作区可见性断言，但无法在本地完成必要针对性运行验证。
+      paths:
+      - scripts/check_api_contract.py
+      - scripts/check_db_schema.py
+      - scripts/check_ui_tokens.py
+      - scripts/check_ui_visual_acceptance.py
+      - apps/android/gradlew.bat
+      - apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ChatSheets.kt
+      - apps/android/feature/activity/src/main/java/cc/orbexa/hhy/activity/R13ActivityScreens.kt
+      - tests/test_android_historical_visual_request.py
+      - apps/android/app/src/androidTest/java/cc/orbexa/hhy/HistoricalVisualAuditTest.kt
+      resolution: 恢复 Python 3 与 JDK/JAVA_HOME，或在既有 Android toolchain 环境中重新运行治理入口、ACTIVE_TASK acceptance_commands 与受影响 Gradle
+        编译/视觉验证。
+      worker_result_evidence: 'python3/python/py 均返回 CommandNotFoundException；gradlew.bat 返回 ERROR: JAVA_HOME is not set and
+        no ''java'' command could be found in your PATH；Get-Command python3,python,py,java 无输出；静态 Select-String 确认 R14ChatSheets.kt:150/158-160/228、R13ActivityScreens.kt:613/768-770/808、tests/test_android_historical_visual_request.py:62-93、HistoricalVisualAuditTest.kt:441/528
+        存在对应修复与断言。'
