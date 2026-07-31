@@ -661,8 +661,15 @@ def run_once(repo: Path, dry_run: bool = False) -> dict[str, Any]:
                 _commit_state(repo, state, specs, f"[gov5.0] policy violation {task_id}")
                 return {"schema": "hhy.run-once/v5.0", "status": "POLICY_VIOLATION", "paths": violations, "exit_code": 22}
             if status in {"EXTERNAL_BLOCKED", "INFRASTRUCTURE_BLOCKED"}:
+                result_evidence = worktree / "governance" / "evidence" / "recovery" / f"{task_id}-a{attempt}-worker-result.json"
+                write_json(result_evidence, result)
+                result_rel = result_evidence.relative_to(worktree).as_posix()
+                _copy_worker_evidence(worktree, repo, result_rel)
                 row["status"] = status
-                row["blocker"] = result.get("blocker") or {"code": "UNSPECIFIED_BLOCKER"}
+                row["blocker"] = result.get("blocker") or {
+                    "code": "UNSPECIFIED_BLOCKER",
+                    "worker_result_evidence": str((Path("governance") / "evidence" / "recovery" / result_evidence.name).as_posix()),
+                }
                 row["current_attempt"] = None
                 state["project"]["status"] = status
                 state["lease"] = None
@@ -670,7 +677,15 @@ def run_once(repo: Path, dry_run: bool = False) -> dict[str, Any]:
                 write_state(repo, state, expected_revision=rev)
                 state = read_state(repo)
                 _commit_state(repo, state, specs, f"[gov5.0] block {task_id}")
-                return {"schema": "hhy.run-once/v5.0", "status": status, "task_id": task_id, "blocker": row["blocker"], "attempts_used": row["attempts_used"], "exit_code": 21}
+                return {
+                    "schema": "hhy.run-once/v5.0",
+                    "status": status,
+                    "task_id": task_id,
+                    "blocker": row["blocker"],
+                    "attempts_used": row["attempts_used"],
+                    "worker_result_evidence": str((Path("governance") / "evidence" / "recovery" / result_evidence.name).as_posix()),
+                    "exit_code": 21,
+                }
             if status != "CANDIDATE_READY" or not changed:
                 return _attempt_failure(repo, state, specs, task_id, str(result.get("summary") or "worker did not produce a candidate"), str(result.get("error_fingerprint") or ""))
             git(worktree, "add", "-A", env=AUTH_ENV)
