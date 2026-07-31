@@ -1,0 +1,38 @@
+{
+  "schema": "hhy.infrastructure-unblock/v5.0",
+  "resolved": true,
+  "task_id": "TASK-R14-RECOVERY-014",
+  "blocker_code": "INFRASTRUCTURE_BLOCKED",
+  "blocked_at_revision": 64,
+  "original_conditions": [
+    "Android Gradle 9.4.1 could not be downloaded in the local worker environment.",
+    "Historical visual baselines and screenshot evidence were missing.",
+    "R13 and R14 visual acceptance rows remained IN_REVIEW or incomplete."
+  ],
+  "resolution": "Remote Android execution supplied the unavailable toolchain, and the missing historical visual evidence was regenerated from production Composables. The resulting immutable artifact passed all 29 device tests, produced exactly 33 screenshots, and was reviewed against the effect references and frozen supplemental specifications. R13 and R14 formal visual acceptance now pass.",
+  "evidence": {
+    "closure_commit": "fe434052cc5e11893f6e3cd3ea4c0438f6c31e6e",
+    "source_commit": "8fd23b22ababe81ec37da145c1fb8eed963e336f",
+    "github_run_id": "30622584877",
+    "job_id": "91130357638",
+    "artifact_id": "8790217920",
+    "artifact_digest": "sha256:0cb9c8c1b5254b5eed884681383e4c14d0be6c5d665f4fc09ca552f8674a1dcd",
+    "android_build": "BUILD SUCCESSFUL",
+    "device_tests": "29 passed, 0 failed, 0 skipped",
+    "screenshots": "33 of 33 at 1080x2400",
+    "approval": "artifacts/validation/r14-historical-visual-attempt5/APPROVAL.yaml",
+    "visual_manifest": "artifacts/validation/r14-historical-visual-attempt5/VISUAL_EVIDENCE.json",
+    "hash_manifest": "artifacts/validation/r14-historical-visual-attempt5/SHA256SUMS",
+    "r13_visual_acceptance": "UI_VISUAL_ACCEPTANCE_OK R13 pages=4",
+    "r14_visual_acceptance": "UI_VISUAL_ACCEPTANCE_OK R14 pages=6",
+    "ui_tokens": "UI_TOKENS_OK 52",
+    "api_contract": "API_CONTRACT_OK client=131 admin=184 websocket=12 runtime_hashes=PASS",
+    "db_schema": "DB_SCHEMA_OK tables=203 migrations=47 runtime_hashes=PASS",
+    "doctor_ci": "PASS"
+  },
+  "candidate_boundary": {
+    "historical_run_candidate": false,
+    "old_candidate_reused": false,
+    "required_next": "Resume TASK-R14-RECOVERY-014 from READY and create a new frozen commit with same-commit APK, emulator, visual, and gate evidence before machine-close."
+  }
+}
