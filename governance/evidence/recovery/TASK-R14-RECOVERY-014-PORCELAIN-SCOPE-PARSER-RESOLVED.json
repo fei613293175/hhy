@@ -1,0 +1,13 @@
+{
+  "schema": "hhy.policy-violation-unblock/v5.0",
+  "resolved": true,
+  "task_id": "TASK-R14-RECOVERY-014",
+  "violation_disposition": "REJECTED_UNMERGED",
+  "authority_worktree_clean": true,
+  "violating_paths": [
+    "pps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ChatDetailScreen.kt"
+  ],
+  "resolution": "修复 Supervisor 对 Git porcelain 状态行的解析，保留前导状态字符，避免将合法 apps/ 路径误报为 pps/；前次 Worker worktree 已丢弃且未合并。",
+  "fix_commit": "HEAD",
+  "retry_constraint": "恢复同一任务并保持 attempts_used 不变；不得复用被拒绝 worktree 的候选或 Gate 证据。"
+}
