@@ -779,7 +779,7 @@ def unblock(repo: Path, task_id: str, evidence: Path) -> dict[str, Any]:
         row["status"] = "READY"
         row["blocker"] = None
         state["project"]["active_task"] = task_id
-        if state["project"]["status"] in {"INFRASTRUCTURE_BLOCKED", "EXTERNAL_BLOCKED"}:
+        if state["project"]["status"] in {"INFRASTRUCTURE_BLOCKED", "EXTERNAL_BLOCKED", "POLICY_VIOLATION"}:
             state["project"]["status"] = "ACTIVE"
         rev = state["revision"]
         write_state(repo, state, expected_revision=rev)
