@@ -361,8 +361,19 @@ class Guardian:
         stop_status = stop_report.get("stop_status") if isinstance(stop_report, dict) else None
         error_category = diagnosis["stop_report"].get("error_category")
         auto_resumable = diagnosis["stop_report"].get("auto_resumable")
-        manual_boundary = bool(diagnosis["supervisor"].get("stop_requested")) or stop_status in MANUAL_INTERVENTION_STATUSES
+        worktree_still_dirty = bool(diagnosis["environment"].get("git_worktree_dirty"))
+        manual_boundary = (
+            bool(diagnosis["supervisor"].get("stop_requested"))
+            or stop_status in MANUAL_INTERVENTION_STATUSES - {"WORKTREE_UNSAFE"}
+            or (stop_status == "WORKTREE_UNSAFE" and worktree_still_dirty)
+        )
+        stale_internal_stop = (
+            stop_status == "WORKTREE_UNSAFE"
+            and not worktree_still_dirty
+            and bool(guardian_config.get("auto_clear_internal_stop_reports", True))
+        )
         internal_auto = bool(guardian_config.get("auto_handle_internal_failures", True)) and not manual_boundary
+        internal_auto = internal_auto or stale_internal_stop
         if diagnosis["governance"].get("failed_bounded"):
             if guardian_config.get("auto_create_recovery_task", True):
                 planned = self._run_recovery_planner()
