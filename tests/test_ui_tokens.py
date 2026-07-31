@@ -65,6 +65,15 @@ class UiTokenCheckerTest(unittest.TestCase):
             ),
         )
 
+    def test_windows_long_path_reader_preserves_absolute_file_identity(self) -> None:
+        path = ROOT / (
+            "apps/android/feature/content-management/src/main/java/cc/orbexa/hhy/"
+            "contentmanagement/R12ContentManagementDetailScreen.kt"
+        )
+        self.assertIn("fun R12ContentManagementDetailScreen(", CHECKER._read_text_utf8(path))
+        if CHECKER.sys.platform == "win32":
+            self.assertTrue(CHECKER._windows_long_path(path).startswith("\\\\?\\"))
+
     def test_noncanonical_derivative_is_rejected_and_renderer_is_idempotent(self) -> None:
         canonical = CHECKER.render_css(TOKENS, include_admin=True)
         self.assertEqual(canonical, CHECKER.render_css(TOKENS, include_admin=True))

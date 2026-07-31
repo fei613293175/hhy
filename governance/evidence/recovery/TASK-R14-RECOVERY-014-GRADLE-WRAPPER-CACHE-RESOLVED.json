@@ -1,0 +1,29 @@
+{
+  "schema": "hhy.infrastructure-unblock/v5.0",
+  "resolved": true,
+  "task_id": "TASK-R14-RECOVERY-014",
+  "blocker_code": "INFRA_GRADLE_WRAPPER_NETWORK_BLOCKED",
+  "blocked_at_revision": 69,
+  "resolution": "The official Gradle 9.4.1 binary distribution is complete in the user-level Wrapper cache, its SHA-256 matches the checksum published by services.gradle.org, and the Android wrapper now resolves and lists the complete app task graph with --offline. Worker subprocesses use this shared cache without global PATH changes or network access.",
+  "cache": {
+    "scope": "USER_GRADLE_WRAPPER_CACHE",
+    "distribution": "gradle-9.4.1-bin.zip",
+    "distribution_url": "https://services.gradle.org/distributions/gradle-9.4.1-bin.zip",
+    "sha256": "2ab2958f2a1e51120c326cad6f385153bb11ee93b3c216c5fccebfdfbb7ec6cb",
+    "official_checksum_match": true,
+    "archive_size_bytes": 137878901,
+    "extracted": true,
+    "wrapper_ok_marker": true,
+    "global_path_modified": false
+  },
+  "verification": {
+    "offline_gradle_probe": "apps/android/gradlew.bat -p apps/android --offline :app:tasks --all exited 0 with BUILD SUCCESSFUL",
+    "bash_syntax": "bash -n scripts/run_android_emulator_gate.sh exited 0",
+    "api_contract": "API_CONTRACT_OK client=131 admin=184 websocket=12 runtime_hashes=PASS",
+    "database_schema": "DB_SCHEMA_OK tables=203 migrations=47 runtime_hashes=PASS",
+    "ui_tokens": "UI_TOKENS_OK 52",
+    "r14_visual_acceptance": "UI_VISUAL_ACCEPTANCE_OK R14 pages=6",
+    "focused_regressions": "18 tests passed: UI token, R14 WebSocket contract, and scoped Android candidate gate"
+  },
+  "required_next": "Resume TASK-R14-RECOVERY-014 with attempts_used unchanged at 1 and run Android, emulator, candidate, and machine-close validation on the repaired source."
+}

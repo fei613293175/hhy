@@ -41,6 +41,25 @@ RAW_COMPOSE_VALUE = re.compile(
 CSS_DECLARATION = re.compile(r"(?m)^\s*(--[\w-]+)\s*:\s*([^;]+);\s*$")
 
 
+def _windows_long_path(path: Path) -> str:
+    absolute = str(path if path.is_absolute() else path.resolve())
+    if sys.platform != "win32" or absolute.startswith("\\\\?\\"):
+        return absolute
+    if absolute.startswith("\\\\"):
+        return "\\\\?\\UNC\\" + absolute.lstrip("\\")
+    return "\\\\?\\" + absolute
+
+
+def _read_text_utf8(path: Path) -> str:
+    with open(_windows_long_path(path), encoding="utf-8") as handle:
+        return handle.read()
+
+
+def _read_bytes(path: Path) -> bytes:
+    with open(_windows_long_path(path), "rb") as handle:
+        return handle.read()
+
+
 def _camel_to_kebab(value: str) -> str:
     return re.sub(r"(?<!^)(?=[A-Z])", "-", value).lower()
 
@@ -305,7 +324,7 @@ def validate(root: Path = ROOT) -> list[str]:
     errors: list[str] = []
     token_path = root / TOKEN_RELATIVE_PATH
     try:
-        token_bytes = token_path.read_bytes()
+        token_bytes = _read_bytes(token_path)
         tokens = json.loads(token_bytes.decode("utf-8"))
     except (OSError, UnicodeDecodeError, json.JSONDecodeError) as exc:
         return [f"TOKEN_SOURCE_INVALID {TOKEN_RELATIVE_PATH.as_posix()} {exc}"]
@@ -316,7 +335,7 @@ def validate(root: Path = ROOT) -> list[str]:
 
     asset_path = root / ANDROID_ASSET_RELATIVE_PATH
     try:
-        if asset_path.read_bytes() != token_bytes:
+        if _read_bytes(asset_path) != token_bytes:
             errors.append("ANDROID_TOKEN_ASSET_BYTE_DRIFT")
     except OSError:
         errors.append(f"ANDROID_TOKEN_ASSET_MISSING {ANDROID_ASSET_RELATIVE_PATH.as_posix()}")
@@ -326,7 +345,7 @@ def validate(root: Path = ROOT) -> list[str]:
         (Path("packages/design-tokens/admin.css"), True),
     ):
         try:
-            text = (root / relative_path).read_text(encoding="utf-8")
+            text = _read_text_utf8(root / relative_path)
         except OSError:
             errors.append(f"CSS_DERIVED_MISSING {relative_path.as_posix()}")
             continue
@@ -336,7 +355,7 @@ def validate(root: Path = ROOT) -> list[str]:
 
     kotlin_path = root / KOTLIN_RELATIVE_PATH
     try:
-        kotlin_text = kotlin_path.read_text(encoding="utf-8").replace("\r\n", "\n")
+        kotlin_text = _read_text_utf8(kotlin_path).replace("\r\n", "\n")
         if kotlin_text != render_kotlin_tokens(tokens):
             errors.append(f"DERIVED_NOT_IDEMPOTENT {KOTLIN_RELATIVE_PATH.as_posix()}")
     except OSError:
@@ -357,12 +376,12 @@ def validate(root: Path = ROOT) -> list[str]:
             if Path(relative_path) == KOTLIN_RELATIVE_PATH:
                 continue
             errors.extend(
-                validate_page_source_text(relative_path, path.read_text(encoding="utf-8"))
+                validate_page_source_text(relative_path, _read_text_utf8(path))
             )
 
     catalog_path = root / "design/component-catalog.csv"
     try:
-        with catalog_path.open(encoding="utf-8-sig", newline="") as handle:
+        with open(_windows_long_path(catalog_path), encoding="utf-8-sig", newline="") as handle:
             component_count = len(list(csv.DictReader(handle)))
         if component_count < 30:
             errors.append(f"COMPONENT_CATALOG_TOO_SMALL actual={component_count} minimum=30")
