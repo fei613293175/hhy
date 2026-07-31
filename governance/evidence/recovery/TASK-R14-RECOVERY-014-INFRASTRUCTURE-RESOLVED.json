@@ -1,0 +1,12 @@
+{
+  "schema": "hhy.infrastructure-unblock/v5.0",
+  "resolved": true,
+  "task_id": "TASK-R14-RECOVERY-014",
+  "blocker_code": "UNSPECIFIED_BLOCKER",
+  "resolution": "修复 Worker 结构化输出 schema，使 Codex Responses API 接受 --output-schema，并完成同参数只读协议探针。",
+  "evidence": {
+    "schema_commit": "06a3d5a5",
+    "doctor_ci": "PASS",
+    "protocol_probe": "codex exec --output-schema 返回 exit 0，并生成符合 hhy.worker-result/v5.0 的 JSON"
+  }
+}
