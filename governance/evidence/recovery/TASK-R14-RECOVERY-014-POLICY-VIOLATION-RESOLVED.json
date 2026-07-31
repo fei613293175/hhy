@@ -1,0 +1,12 @@
+{
+  "schema": "hhy.policy-violation-unblock/v5.0",
+  "resolved": true,
+  "task_id": "TASK-R14-RECOVERY-014",
+  "violation_disposition": "REJECTED_UNMERGED",
+  "authority_worktree_clean": true,
+  "violating_paths": [
+    "cripts/run_android_emulator_gate.sh"
+  ],
+  "resolution": "Supervisor rejected the worker candidate for scope violation and removed its disposable worktree; no violating change was merged into the authority worktree.",
+  "retry_constraint": "Retry the same task with attempts_used unchanged at 0; no candidate or gate result from the rejected worktree may be reused."
+}
