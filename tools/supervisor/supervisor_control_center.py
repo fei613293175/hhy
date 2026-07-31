@@ -9,6 +9,7 @@ import os
 import subprocess
 import sys
 import threading
+import time
 import urllib.parse
 from datetime import datetime, timezone
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
@@ -201,6 +202,7 @@ class ControlCenter:
         self.status_script = self.repo / "tools" / "supervisor" / "supervisor_status.py"
         self.windows_dir = self.repo / "tools" / "supervisor" / "windows"
         self.config_path = self.repo / "tools" / "supervisor" / "supervisor_config.yaml"
+        self._scheduler_cache: tuple[float, dict[str, Any]] = (0.0, {})
 
     def configuration(self) -> dict[str, Any]:
         try:
@@ -285,6 +287,9 @@ class ControlCenter:
     def _task_scheduler(self) -> dict[str, Any]:
         if os.name != "nt":
             return {"installed": False, "status": "UNSUPPORTED_PLATFORM"}
+        cached_at, cached = self._scheduler_cache
+        if cached and time.monotonic() - cached_at < 15:
+            return dict(cached)
         command = (
             "$t=Get-ScheduledTask -TaskName 'HHY-Governance-V5-Supervisor' "
             "-TaskPath '\\' -ErrorAction SilentlyContinue; "
@@ -303,9 +308,13 @@ class ControlCenter:
                 check=False,
             )
             payload = json.loads(proc.stdout.strip() or "{}")
-            return redact(payload) if isinstance(payload, dict) else {"installed": False, "status": "INVALID"}
+            result = redact(payload) if isinstance(payload, dict) else {"installed": False, "status": "INVALID"}
+            self._scheduler_cache = (time.monotonic(), result)
+            return dict(result)
         except (OSError, subprocess.TimeoutExpired, json.JSONDecodeError) as exc:
-            return {"installed": False, "status": "UNAVAILABLE", "error": str(exc)}
+            result = {"installed": False, "status": "UNAVAILABLE", "error": str(exc)}
+            self._scheduler_cache = (time.monotonic(), result)
+            return dict(result)
 
     def _friendly_event(self, entry: dict[str, Any]) -> dict[str, Any]:
         event = str(entry.get("event") or "")
