@@ -2260,3 +2260,17 @@ problems:
   - 不得根据旧Shell常量推算截图总数，必须从Kotlin唯一captureStable源精确计数
   - 不得因两个可复现旧文案超时重跑完整候选或切换api.orbexa.cc
   - 不得删除已成功的历史截图用例来迎合错误数量常量
+- id: PROB-0156
+  title: R13与R14长表单停留半展开锚点导致固定操作区落出屏幕
+  status: SOLVED
+  root_cause: Run 30516346703首次暴露R13失效反馈与R14聊天举报的固定操作区被系统手势区覆盖或落出首屏；追加屏幕高度上限后，Run 30517994197仍有r14.report.actions不可见。Run 30621021351绑定Commit 9d892f61并生成31张截图，29项设备测试仍同时失败于r14.report.actions与r13.invalid.actions，证明固定height不能消除ModalBottomSheet默认半展开锚点。长表单标题和正文虽然可见，完整展开状态底部的固定操作区仍处于设备视口之外。
+  resolution: CR-0519只对R14举报和R13失效反馈长表单使用skipPartiallyExpanded=true，R13普通分享面板保持默认行为。Run 30622584877精确绑定Commit 8fd23b22，29项设备测试全部通过并生成33张1080x2400截图；AI逐图确认长表单固定操作区位于系统手势条上方，全部页面无空白、裁切、重叠、系统栏覆盖或转场残影。R13四页与R14六页视觉目录绑定不可变截图和APPROVAL.yaml后正式PASS。
+  regression_checks:
+  - tests/test_android_historical_visual_request.py必须锁定R14举报和R13失效反馈显式skipPartiallyExpanded，并证明R13分享面板不被连带修改
+  - 历史视觉设备测试必须同时断言r14.report.actions与r13.invalid.actions真实显示，且截图总数精确为33
+  - catalogs/ui_visual_acceptance.csv中的R13四页与R14六页必须绑定Run 30622584877原图、APPROVAL.yaml及六项明确质量PASS标记
+  - 当前恢复任务不得把candidate=false历史补证冒充新Candidate，最终APK、模拟器、视觉与Gate证据必须重新绑定同一冻结Commit
+  do_not_repeat:
+  - 不得只根据标题或正文可见就判定长表单完整展开，必须验证固定操作区和系统手势安全区
+  - 不得用固定height代替ModalBottomSheet状态锚点控制
+  - 不得把自动化绿色、截图数量正确或文件存在单独当作AI视觉PASS

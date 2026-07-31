@@ -1,0 +1,122 @@
+schema: hhy.android-historical-visual-approval/v1
+release: R14
+status: APPROVED
+authority: AI_IMPLEMENTATION_AGENT
+reviewed_at: '2026-07-31T10:19:12Z'
+source:
+  github_run_id: '30622584877'
+  job_id: '91130357638'
+  commit: 8fd23b22ababe81ec37da145c1fb8eed963e336f
+  artifact_id: '8790217920'
+  artifact_name: android-visual-evidence-v5-30622584877
+  artifact_digest: sha256:0cb9c8c1b5254b5eed884681383e4c14d0be6c5d665f4fc09ca552f8674a1dcd
+  manifest_sha256: 614312f1a1efd1a174947b6c749b440a8cee5000ab390cfcd4eb6eda79c6b14c
+  network_mode: OFFLINE_PRODUCTION_COMPOSABLES
+test_result:
+  test_class: cc.orbexa.hhy.HistoricalVisualAuditTest
+  tests: 29
+  failures: 0
+  skipped: 0
+  success_rate: 100%
+  screenshot_count: 33
+  expected_screenshot_count: 33
+references:
+- design/effect-previews/B07/HHY_B07_8PAGE_UI_REFERENCE.png
+- design/effect-previews/B08/HHY_B08_8PAGE_UI_REFERENCE.png
+- design/R13-UI-FROZEN/specs/SHEET-SHARE-001.md
+- design/R13-UI-FROZEN/specs/SHEET-CONTENT-INVALID-001.md
+- design/R14-UI-FROZEN/VISUAL_COVERAGE_AUDIT.md
+- design/R14-UI-FROZEN/specs/SCR-CHAT-002.md
+- design/R14-UI-FROZEN/specs/SHEET-CHAT-001.md
+- design/R14-UI-FROZEN/specs/SHEET-CHAT-002.md
+- design/R14-UI-FROZEN/specs/DIALOG-CHAT-BLOCK-001.md
+- design/R14-UI-FROZEN/specs/DIALOG-CHAT-DELETE-001.md
+accepted_pages:
+- page_id: SCR-FAV-001
+  screenshot: screenshots/27-r13-favorites.png
+- page_id: SCR-HIS-001
+  screenshot: screenshots/28-r13-history.png
+- page_id: SHEET-SHARE-001
+  screenshot: screenshots/29-r13-share-sheet.png
+- page_id: SHEET-CONTENT-INVALID-001
+  screenshot: screenshots/30-r13-invalid-feedback-sheet.png
+- page_id: SCR-CHAT-001
+  screenshot: screenshots/31-r14-conversations.png
+- page_id: SCR-CHAT-002
+  screenshot: screenshots/32-r14-chat-detail.png
+- page_id: SHEET-CHAT-001
+  screenshot: screenshots/33-r14-contact-sheet.png
+- page_id: SHEET-CHAT-002
+  screenshot: screenshots/34-r14-report-sheet.png
+- page_id: DIALOG-CHAT-BLOCK-001
+  screenshot: screenshots/35-r14-block-dialog.png
+- page_id: DIALOG-CHAT-DELETE-001
+  screenshot: screenshots/36-r14-delete-dialog.png
+decision: 33张1080x2400原始截图逐图复核完成。全部页面无空白、系统栏覆盖、内容裁切、控件重叠或转场残影；R13失效反馈与R14聊天举报的固定操作区完整位于系统手势条上方，正文保持独立滚动；R14会话列表、私聊、联系方式、举报、拉黑与删除均符合B07过滤规则和冻结补充规格，不展示技术字段、虚构业务能力或敏感自由文本。批准十个历史补证页面转为PASS；既有R14候选四图基线不变。
+screens:
+- file: screenshots/10-r02-startup.png
+  sha256: 1c1f050f5fb2c207ee6008b0134228ff1e47d60d27ecdbd8e6c9d1d2f96987b7
+- file: screenshots/11-r02-maintenance.png
+  sha256: d5f2ef7e86d934d4b925e7ff724dca3d19c04dab9abe322cb19363493c8a3900
+- file: screenshots/12-r02-update.png
+  sha256: aa1340333b4fbfedaa91d2f15a40fc3ac9aa2408303094d00ad38b9884aaacf6
+- file: screenshots/13-r02-password-login.png
+  sha256: aa07c3266e5964ffc0d55563a518bb247b427f7623a3a453b57588769678107a
+- file: screenshots/14-r02-sms-login.png
+  sha256: e86e5949417fca6f87b038050b1c87733a6c4027030e9093ceef1232930a4461
+- file: screenshots/15-r02-register.png
+  sha256: 6b62cfdc1c417f70461c54ea53e38fa476430aeb0d1614efa7c661634b6aafaf
+- file: screenshots/16-r02-reset-password.png
+  sha256: 73b5cb77ab51d0ae51be15fdbf14fe73c525fded5d3d9c6890bdf34bddffb0e3
+- file: screenshots/17-r02-account-blocked.png
+  sha256: b5fc9240774f9f1cbea8964b8df189435de6ab0409982bdaa630d459c1ac7c99
+- file: screenshots/18-r02-login-devices.png
+  sha256: 26d54178d31e54be25e655d25f057b6857cf75ae07c417368e70271205b10ee5
+- file: screenshots/19-r02-change-password.png
+  sha256: 66a88feacb8c5dc6113e5d3d7c5525494e76568a5e2d8202cb14761a8e01b807
+- file: screenshots/20-r02-account-cancellation.png
+  sha256: df33cf5289244a0e5c34b8b6b6dc49fed523f509f9c88b7bb653b5703e7b8387
+- file: screenshots/21-r04-media-upload.png
+  sha256: 6a855d485d8bff987710de1a66bd53a7372a8dbfcd345e3d125fb05a83ccc442
+- file: screenshots/22-r05-identity-home.png
+  sha256: 44e28b737e8db9ca92c4cd14f7a64582b3f63005507525be90e39d94ecf5855a
+- file: screenshots/23-r05-identity-form.png
+  sha256: e59604fec7866aa7455c8f0c9d87bc4c4ea1a3ca2b0106b3b5cb27bcdd85b147
+- file: screenshots/24-r05-identity-liveness.png
+  sha256: cc281c06af17381224c633cbd9f960c1ab539c35c008a6e68c4e891556149f11
+- file: screenshots/25-r05-identity-result.png
+  sha256: 405616d6c578940aac1a7bc9773bbe851ee1867da6079a7385d70e4c742abfde
+- file: screenshots/26-r06-home.png
+  sha256: c5846737140e2c7e2f74152610bcd2f9fbf180f5444c5d375cf0b7b03e09035e
+- file: screenshots/27-r06-about.png
+  sha256: 0a067fe7390b9b9ea750f24a9725525caa7e419efe936ebbfabaddf566f3e70e
+- file: screenshots/27-r13-favorites.png
+  sha256: 5bd4e19c375033bb1807615adbde6c927eede187b44655bb9aa45a5776dcbc53
+- file: screenshots/28-r07-search-landing.png
+  sha256: a1ea75483048be2bd94658caa24f484886c45a143904b464bd14f9c5c93d9fc9
+- file: screenshots/28-r13-history.png
+  sha256: 6ab407df9b3d42ef56298a1aedbb3169d91296a85bd2244653e2db58989e376a
+- file: screenshots/29-r07-search-results.png
+  sha256: f8b8c6b13e201a71922366ed99c97db8672bf0be7cf38c3813adf31fb837dbc9
+- file: screenshots/29-r13-share-sheet.png
+  sha256: e00873abe316ae6df98a27c2005428f415ce18f9343bce85605dffbd2cfc2329
+- file: screenshots/30-r07-publisher.png
+  sha256: a038563f317cf24d6d5634a913babebeeb2331bf39390b01ae45b9c49b578e52
+- file: screenshots/30-r13-invalid-feedback-sheet.png
+  sha256: 6f86d37efd7bbaf8d27c752494cae9ac718164b174933f9061829ee3d110650f
+- file: screenshots/31-r14-conversations.png
+  sha256: 06a651d7763bde0cad62d2c3a6703ba7f960f78f5e8fadd69f78e22ba9f5ed00
+- file: screenshots/32-r07-clear-history-dialog.png
+  sha256: 2538c9c6337eaf767f7883e36c41ac8774eaab7d83f20d46371c17cc35480546
+- file: screenshots/32-r14-chat-detail.png
+  sha256: dece78b00b5de6be1943e6ca01f6bc3debad750b01734422a3f5e395ae73f765
+- file: screenshots/33-r14-contact-sheet.png
+  sha256: f6cf832a9e10d66b873435062a140dcd1bc6fac7ec601954a61717dc1c85f077
+- file: screenshots/34-r14-report-sheet.png
+  sha256: 67fee63fe9311d5d25d04c109767e38825768044b29ac8c746df9eba4abce0f2
+- file: screenshots/35-r14-block-dialog.png
+  sha256: 1df87520a52f56b32e68b5d33fca50621774be522b953aebb60e252d22222687
+- file: screenshots/36-r14-delete-dialog.png
+  sha256: c631b49cc61975ce684d4cf9a5b4b73269ab68e9732953c79d68c6f03e2d14e3
+- file: screenshots/41-r12-me-home.png
+  sha256: 74829e3ab8bf97f0227b7c49919d3893db5afb9aefbc5972a4a0a72ac8bb0d7e

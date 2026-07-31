@@ -3,7 +3,7 @@
   "release": "R14",
   "task_id": "TASK-R14-RECOVERY-014",
   "request_id": "HISTORICAL-UI-20260731-005-PREFLIGHT",
-  "status": "IMPLEMENTED_PENDING_VISUAL_EVIDENCE",
+  "status": "VISUAL_EVIDENCE_APPROVED",
   "previous_failure": {
     "github_run_id": "30621021351",
     "job_id": "91125339985",
@@ -78,7 +78,24 @@
         "summary": "BUILD SUCCESSFUL"
       }
     ],
-    "visual_evidence_status": "NOT_CLAIMED",
-    "visual_evidence_required_next": "Dispatch android-visual-evidence-v5.yml with release=R14 and the new commit SHA, then review the real screenshot artifact before changing catalogs/ui_visual_acceptance.csv."
+    "successful_visual_run": {
+      "github_run_id": "30622584877",
+      "job_id": "91130357638",
+      "source_commit": "8fd23b22ababe81ec37da145c1fb8eed963e336f",
+      "artifact_id": "8790217920",
+      "artifact_digest": "sha256:0cb9c8c1b5254b5eed884681383e4c14d0be6c5d665f4fc09ca552f8674a1dcd",
+      "tests": 29,
+      "failures": 0,
+      "screenshot_count": 33,
+      "expected_screenshot_count": 33
+    },
+    "visual_evidence_status": "APPROVED",
+    "visual_evidence_approval": "artifacts/validation/r14-historical-visual-attempt5/APPROVAL.yaml",
+    "visual_evidence_hashes": "artifacts/validation/r14-historical-visual-attempt5/SHA256SUMS",
+    "visual_acceptance": {
+      "R13": "PASS pages=4",
+      "R14": "PASS pages=6"
+    },
+    "candidate_boundary": "This candidate=false historical run resolves the visual debt only. TASK-R14-RECOVERY-014 must still create a new frozen commit and same-commit APK, emulator, visual, and gate evidence."
   }
 }

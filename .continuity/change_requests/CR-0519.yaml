@@ -1,9 +1,9 @@
 protocol_version: '1.0'
 cr_id: CR-0519
 title: 修复R13与R14长表单底部操作安全区及历史页顶栏裁切
-status: IMPLEMENTED_PENDING_VISUAL_EVIDENCE
+status: IMPLEMENTED
 created_at: '2026-07-30T05:34:48Z'
-updated_at: '2026-07-31T10:04:37Z'
+updated_at: '2026-07-31T10:30:00Z'
 requester_actor_id: codex-r14-resume-20260730
 approver_actor_id: codex-r14-visual-reviewer-20260730
 task_id: TASK-R14-008
@@ -23,6 +23,10 @@ impact:
   - tests/test_android_historical_visual_request.py
   - docs/03-continuity/PROBLEM_REGISTRY.yaml
   - artifacts/validation/r14-historical-visual-attempt3/failure-evidence.json
+  - artifacts/validation/r14-historical-visual-attempt5/APPROVAL.yaml
+  - artifacts/validation/r14-historical-visual-attempt5/VISUAL_EVIDENCE.json
+  - artifacts/validation/r14-historical-visual-attempt5/SHA256SUMS
+  - catalogs/ui_visual_acceptance.csv
   - CHANGELOG.md
   pages:
   - SCR-HIS-001
@@ -69,6 +73,11 @@ decision_log:
   actor_id: codex-r14-recovery-014
   status: IMPLEMENTED_PENDING_VISUAL_EVIDENCE
   note: Run 30621021351绑定Commit 9d892f61，29项设备测试仍同时失败于r14.report.actions与r13.invalid.actions不可见并仅生成31张截图，证明固定高度不能消除ModalBottomSheet默认半展开锚点。两个长表单现显式skipPartiallyExpanded；R13普通分享面板仍保留默认行为。历史契约5项、UI/API/DB门禁和固定Android工具链编译通过，但不声明视觉PASS，仍须新Commit的33张真实Artifact和AI逐图复核。
+  session_id: TASK-R14-RECOVERY-014
+- at: '2026-07-31T10:30:00Z'
+  actor_id: codex-r14-recovery-014
+  status: IMPLEMENTED
+  note: Run 30622584877精确绑定Commit 8fd23b22，29项设备测试全部通过并生成精确33张1080x2400截图。AI逐图复核确认无空白、裁切、重叠、系统栏覆盖或转场残影，R13四页与R14六页正式视觉验收均PASS；该历史补证仅用于解除视觉债务，不冒充当前恢复任务的新Candidate。
   session_id: TASK-R14-RECOVERY-014
 session_ids:
 - SES-20260729T161557Z-6FCE6ACA
