@@ -1,7 +1,7 @@
 schema: hhy.governance-state/v5.0
-revision: 51
-updated_at: '2026-07-31T02:27:47.017788Z'
-state_hash: 2db60d781e71cae8b8becc42d86300eb81be362f1c3a9cf7417598288603016c
+revision: 52
+updated_at: '2026-07-31T02:30:38.300007Z'
+state_hash: 9878b2098d4dc14aaf3d81c7858960c51fc28cbe4dbcb97d9347ad1d844812a9
 project:
   status: ACTIVE
   branch_at_install: governance/v5.0-migration-20260731
@@ -2694,9 +2694,9 @@ tasks:
     blocker: null
   TASK-R14-RECOVERY-013:
     status: READY
-    attempts_used: 1
+    attempts_used: 2
     current_attempt: null
-    last_error_fingerprint: 主 Worker 未返回结果，备用 Worker 接管也未返回结果；主证据=governance/runtime/supervisor/worker-failures/TASK-R14-RECOVERY-013-a1-46892a09ba.json；备用证据=governance/runtime/supervisor/worker-failures/TASK-R14-RECOVERY-013-a1-db743b4aea.json
+    last_error_fingerprint: 主 Worker 未返回结果，备用 Worker 接管也未返回结果；主证据=governance/runtime/supervisor/worker-failures/TASK-R14-RECOVERY-013-a2-d9b38c01ca.json；备用证据=governance/runtime/supervisor/worker-failures/TASK-R14-RECOVERY-013-a2-ed6323bfd7.json
     last_candidate_commit: null
     last_gate_evidence: null
     blocker: null
