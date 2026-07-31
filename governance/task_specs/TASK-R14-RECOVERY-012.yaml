@@ -1,0 +1,96 @@
+schema: hhy.task-spec/v5.0
+id: TASK-R14-RECOVERY-012
+release: R14
+ordinal: 20
+title: 自动恢复接替：自动恢复接替：自动恢复接替：自动恢复接替：自动恢复接替：自动恢复接替：自动恢复接替：自动恢复接替：自动恢复接替：自动恢复接替：R14 有界失败接替后的候选重建与机器关闭恢复
+kind: recovery
+mode: worker
+source:
+  path: Supervisor automatic bounded recovery
+  original_id: TASK-R14-RECOVERY-011
+supersedes: TASK-R14-RECOVERY-011
+requirements:
+- 仅使用当前 main 作为源码基线
+- 保留旧 Candidate 及三次失败记录为历史证据
+- 保留前序失败任务及其三次尝试记录
+- 不得继承前序 Candidate、APK、截图或 PASS
+- 保留前序失败任务及其三次尝试记录
+- 不得继承前序 Candidate、APK、截图或 PASS
+- 保留前序失败任务及其三次尝试记录
+- 不得继承前序 Candidate、APK、截图或 PASS
+- 保留前序失败任务及其三次尝试记录
+- 不得继承前序 Candidate、APK、截图或 PASS
+- 保留前序失败任务及其三次尝试记录
+- 不得继承前序 Candidate、APK、截图或 PASS
+- 保留前序失败任务及其三次尝试记录
+- 不得继承前序 Candidate、APK、截图或 PASS
+- 保留前序失败任务及其三次尝试记录
+- 不得继承前序 Candidate、APK、截图或 PASS
+- 保留前序失败任务及其三次尝试记录
+- 不得继承前序 Candidate、APK、截图或 PASS
+- 保留前序失败任务及其三次尝试记录
+- 不得继承前序 Candidate、APK、截图或 PASS
+- 保留前序失败任务及其三次尝试记录
+- 不得继承前序 Candidate、APK、截图或 PASS
+depends_on: []
+objective: 基于当前 main 重新修复三次失败证据确认的根因，生成与当前源码绑定的新冻结 Commit、候选证据和可机器关闭的 R14。
+deliverables:
+- 三次失败根因对应的实际修复
+- 新冻结 Commit 与同 Commit 的 APK、模拟器、视觉和 Gate 证据
+- 可机器关闭的 R14
+acceptance:
+- TASK-R14-RECOVERY-001 永久保持 FAILED_BOUNDED
+- 不继承旧 Candidate、APK、截图或 PASS
+- 所有新候选证据绑定同一冻结 Commit
+- R14 达到 MACHINE_CLOSED 后才允许激活 R15
+- TASK-R14-RECOVERY-002 永久保持 FAILED_BOUNDED
+- 新候选证据必须绑定当前修复后的冻结 Commit
+- TASK-R14-RECOVERY-003 永久保持 FAILED_BOUNDED
+- 新候选证据必须绑定当前修复后的冻结 Commit
+- TASK-R14-RECOVERY-004 永久保持 FAILED_BOUNDED
+- 新候选证据必须绑定当前修复后的冻结 Commit
+- TASK-R14-RECOVERY-005 永久保持 FAILED_BOUNDED
+- 新候选证据必须绑定当前修复后的冻结 Commit
+- TASK-R14-RECOVERY-006 永久保持 FAILED_BOUNDED
+- 新候选证据必须绑定当前修复后的冻结 Commit
+- TASK-R14-RECOVERY-007 永久保持 FAILED_BOUNDED
+- 新候选证据必须绑定当前修复后的冻结 Commit
+- TASK-R14-RECOVERY-008 永久保持 FAILED_BOUNDED
+- 新候选证据必须绑定当前修复后的冻结 Commit
+- TASK-R14-RECOVERY-009 永久保持 FAILED_BOUNDED
+- 新候选证据必须绑定当前修复后的冻结 Commit
+- TASK-R14-RECOVERY-010 永久保持 FAILED_BOUNDED
+- 新候选证据必须绑定当前修复后的冻结 Commit
+- TASK-R14-RECOVERY-011 永久保持 FAILED_BOUNDED
+- 新候选证据必须绑定当前修复后的冻结 Commit
+allowed_paths:
+- apps/**
+- services/**
+- database/**
+- contracts/**
+- packages/**
+- tests/**
+- scripts/**
+- infra/**
+- config/**
+- docs/**
+- catalogs/**
+- design/R14-UI-FROZEN/**
+- artifacts/**
+- releases/R14/**
+risks:
+- apk_identity
+- contract
+- database
+- production
+- security
+- secrets
+- ui
+acceptance_commands:
+- python3 scripts/check_api_contract.py
+- python3 scripts/check_db_schema.py
+- python3 scripts/check_ui_tokens.py
+- python3 scripts/check_ui_visual_acceptance.py --release R14
+maximum_attempts: 3
+owner_verification: ASYNC_NON_BLOCKING_FOR_NEXT_RELEASE
+legacy_status: AUTOMATIC_RECOVERY_PLANNED
