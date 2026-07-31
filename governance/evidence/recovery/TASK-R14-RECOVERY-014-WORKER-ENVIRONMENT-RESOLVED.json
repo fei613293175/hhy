@@ -1,0 +1,62 @@
+{
+  "schema": "hhy.infrastructure-unblock/v5.0",
+  "resolved": true,
+  "task_id": "TASK-R14-RECOVERY-014",
+  "blocked_at_revision": 71,
+  "blocker_code": "LOCAL_TOOLCHAIN_MISSING",
+  "resolution": "The existing user-local portable toolchain is exposed to Supervisor child processes without changing the system PATH. A python3 command shim delegates to HHY_PYTHON, JDK 21.0.12 is exported through JAVA_HOME, and the portable Android SDK now contains platform 36 and build-tools 36.0.0. The exact blocked acceptance and Android compilation paths pass from a new deep detached worktree, including a final fully offline Gradle run.",
+  "environment": {
+    "scope": "SUPERVISOR_CHILD_PROCESS_ONLY",
+    "python": "C:/Users/小白/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/python.exe",
+    "python_sha256": "3c6a206b7d93cca823934a83732220dcffd413fd1036d9fb82eebb64599cf7f3",
+    "python3_shim": "C:/Users/小白/.local/hhy-toolchain/git/bin/python3.cmd",
+    "python3_shim_sha256": "863cbae0c1c85bb3271e9af3636c187a340026e791ec4ff07f37eb742e27c56a",
+    "java_home": "C:/Users/小白/.local/hhy-toolchain/jdk/jdk-21.0.12+8",
+    "java_version": "21.0.12",
+    "android_sdk_root": "C:/Users/小白/.local/hhy-toolchain/android",
+    "android_platform": "platforms;android-36 revision 2",
+    "android_build_tools": "build-tools;36.0.0",
+    "gradle_distribution": "gradle-9.4.1-bin"
+  },
+  "validation": {
+    "worktree": ".git/hhy-governance-worktrees/toolchain-validation-586fbcd2",
+    "source_commit": "586fbcd2f00dad9ccac1ce5b20743e1e12a68a47",
+    "worktree_clean": true,
+    "commands": [
+      {
+        "command": "python3 tools/governance/hhy_governance.py doctor --ci",
+        "status": "PASS"
+      },
+      {
+        "command": "python3 scripts/check_api_contract.py",
+        "status": "PASS",
+        "result": "API_CONTRACT_OK client=131 admin=184 websocket=12 runtime_hashes=PASS"
+      },
+      {
+        "command": "python3 scripts/check_db_schema.py",
+        "status": "PASS",
+        "result": "DB_SCHEMA_OK tables=203 migrations=47 runtime_hashes=PASS"
+      },
+      {
+        "command": "python3 scripts/check_ui_tokens.py",
+        "status": "PASS",
+        "result": "UI_TOKENS_OK 52"
+      },
+      {
+        "command": "python3 scripts/check_ui_visual_acceptance.py --release R14",
+        "status": "PASS",
+        "result": "UI_VISUAL_ACCEPTANCE_OK R14 pages=6"
+      },
+      {
+        "command": "python3 -m unittest -q tests.test_android_candidate_request tests.test_android_ci_gate tests.test_android_historical_visual_request",
+        "status": "PASS",
+        "result": "Ran 37 tests; OK"
+      },
+      {
+        "command": "apps/android/gradlew.bat -p apps/android --offline --no-daemon --max-workers=1 :feature:chat:compileDebugAndroidTestKotlin :feature:activity:compileDebugKotlin :app:compileDebugAndroidTestKotlin",
+        "status": "PASS",
+        "result": "BUILD SUCCESSFUL; 231 actionable tasks"
+      }
+    ]
+  }
+}
