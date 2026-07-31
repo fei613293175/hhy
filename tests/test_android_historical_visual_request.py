@@ -82,6 +82,18 @@ class AndroidHistoricalVisualRequestWorkflowTest(unittest.TestCase):
             self.assertIn(".imePadding()", source)
             self.assertIn(".padding(bottom = HhySpacing.Xxl)", source)
 
+    def test_long_sheets_skip_the_partially_expanded_anchor(self) -> None:
+        r13_source = R13_SURFACES_PATH.read_text(encoding="utf-8")
+        r14_source = R14_SHEETS_PATH.read_text(encoding="utf-8")
+        self.assertIn(
+            "skipPartiallyExpanded = sheet == R13ContentSheet.INVALID_FEEDBACK",
+            r13_source,
+        )
+        self.assertIn(
+            "rememberModalBottomSheetState(skipPartiallyExpanded = true)",
+            r14_source,
+        )
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -5,16 +5,24 @@
   "request_id": "HISTORICAL-UI-20260731-005-PREFLIGHT",
   "status": "IMPLEMENTED_PENDING_VISUAL_EVIDENCE",
   "previous_failure": {
-    "github_run_id": "30517994197",
-    "artifact_id": "8749751779",
-    "source_commit": "aac31255efaf2df17e5cacad0f911a46c6fc6c42",
-    "first_failure_test": "cc.orbexa.hhy.HistoricalVisualAuditTest.r14ReportSheetProducesBoundVisualEvidence",
-    "assertion": "The component with TestTag = 'r14.report.actions' is not displayed"
+    "github_run_id": "30621021351",
+    "job_id": "91125339985",
+    "source_commit": "9d892f61d54b7c06babf08aa6e115c5e3404767d",
+    "failed_tests": [
+      "cc.orbexa.hhy.HistoricalVisualAuditTest.r14ReportSheetProducesBoundVisualEvidence",
+      "cc.orbexa.hhy.HistoricalVisualAuditTest.r13InvalidFeedbackSheetProducesBoundVisualEvidence"
+    ],
+    "assertions": [
+      "The component with TestTag = 'r14.report.actions' is not displayed",
+      "The component with TestTag = 'r13.invalid.actions' is not displayed"
+    ],
+    "actual_screenshot_count": 31,
+    "expected_screenshot_count": 33
   },
-  "root_cause": "The first CR-0519 layout used a screen-derived max height but only constrained the bottom sheet with heightIn. Under ModalBottomSheet parent constraints this could still leave the long form without a fixed viewport, so the fixed action row was not displayed on device.",
+  "root_cause": "The explicit screen-derived height created a bounded long-form viewport, but both ModalBottomSheet instances still used the default partially expanded anchor. The title and scroll body were visible while the fixed action row at the bottom of the full sheet remained below the device viewport.",
   "remediation": {
-    "r14_report_sheet": "Add explicit height(sheetMaxHeight) after heightIn(max = sheetMaxHeight), keep navigationBarsPadding, imePadding and HhySpacing.Xxl bottom buffer, and make the content body fill its weighted viewport.",
-    "r13_invalid_feedback_sheet": "Apply the same explicit fixed sheet height and weighted scroll body to preserve historical-through-R14 visual closure."
+    "r14_report_sheet": "Use rememberModalBottomSheetState(skipPartiallyExpanded = true) so the bounded report form opens at its expanded anchor and the fixed actions enter the visible viewport.",
+    "r13_invalid_feedback_sheet": "Skip the partially expanded anchor only for INVALID_FEEDBACK; preserve the default expansion behavior for the shorter SHARE sheet."
   },
   "changed_files": [
     "apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ChatSheets.kt",
@@ -31,7 +39,7 @@
         "environment": "local",
         "command": "python -m unittest -v tests.test_android_historical_visual_request",
         "result": "PASS",
-        "summary": "4 tests passed"
+        "summary": "5 tests passed, including explicit long-sheet expansion contracts"
       },
       {
         "environment": "local",

@@ -3,7 +3,7 @@ cr_id: CR-0519
 title: 修复R13与R14长表单底部操作安全区及历史页顶栏裁切
 status: IMPLEMENTED_PENDING_VISUAL_EVIDENCE
 created_at: '2026-07-30T05:34:48Z'
-updated_at: '2026-07-31T07:20:00Z'
+updated_at: '2026-07-31T10:04:37Z'
 requester_actor_id: codex-r14-resume-20260730
 approver_actor_id: codex-r14-visual-reviewer-20260730
 task_id: TASK-R14-008
@@ -65,5 +65,11 @@ decision_log:
   status: IMPLEMENTED_PENDING_VISUAL_EVIDENCE
   note: Run 30517994197证明首轮CR-0519仍有唯一设备可见性失败：r14.report.actions未显示。R13失效反馈与R14举报长表单追加固定height(sheetMaxHeight)，避免只使用heightIn时继续受ModalBottomSheet无界父约束影响；历史视觉请求契约同步锁定当前android-visual-evidence-v5.yml的release=R14与精确Commit绑定。此记录不声明截图PASS，仍等待新Commit的真实离线截图Artifact和AI逐图复核。
   session_id: TASK-R14-RECOVERY-014
+- at: '2026-07-31T10:04:37Z'
+  actor_id: codex-r14-recovery-014
+  status: IMPLEMENTED_PENDING_VISUAL_EVIDENCE
+  note: Run 30621021351绑定Commit 9d892f61，29项设备测试仍同时失败于r14.report.actions与r13.invalid.actions不可见并仅生成31张截图，证明固定高度不能消除ModalBottomSheet默认半展开锚点。两个长表单现显式skipPartiallyExpanded；R13普通分享面板仍保留默认行为。历史契约5项、UI/API/DB门禁和固定Android工具链编译通过，但不声明视觉PASS，仍须新Commit的33张真实Artifact和AI逐图复核。
+  session_id: TASK-R14-RECOVERY-014
 session_ids:
 - SES-20260729T161557Z-6FCE6ACA
+- TASK-R14-RECOVERY-014

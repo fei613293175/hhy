@@ -51,6 +51,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -608,8 +609,12 @@ fun R13ContentActionSheet(
     val scope = rememberCoroutineScope()
     val context = LocalContext.current
     val keys = remember(contentId) { R13IntentKeys() }
+    val sheetState = rememberModalBottomSheetState(
+        skipPartiallyExpanded = sheet == R13ContentSheet.INVALID_FEEDBACK,
+    )
     ModalBottomSheet(
         onDismissRequest = onDismiss,
+        sheetState = sheetState,
         containerColor = HhyColors.Surface,
         modifier = Modifier.semantics { testTagsAsResourceId = true }
             .testTag("hhy.sheet.r13.${if (sheet == R13ContentSheet.SHARE) "share" else "invalid-feedback"}"),

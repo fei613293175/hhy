@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## R13/R14长表单完整展开修复 · 2026-07-31
+
+- GitHub Run `30621021351`精确绑定Commit `9d892f61`，但29项设备测试仍同时失败于 `r14.report.actions` 与 `r13.invalid.actions` 不可见，Artifact仅生成31张截图；该结果证明固定面板高度仍不能替代真实展开状态。
+- R14举报长表单和R13失效反馈长表单现显式跳过 `ModalBottomSheet` 半展开锚点，使固定底部操作区进入首屏可视区域；R13普通分享面板继续使用默认展开行为。
+- 历史视觉契约新增完整展开回归约束，固定Android工具链已通过R13生产Kotlin和R14 AndroidTest Kotlin编译；本记录仍不登记视觉PASS，下一Commit必须生成精确33张真实截图并由AI逐图复核。
+
 ## R14历史视觉长表单二次封顶修复 · 2026-07-31
 
 - GitHub Run `30517994197`把首轮CR-0519缩小到唯一设备可见性失败：R14聊天举报面板的 `r14.report.actions` 操作区未进入可视区域，32张Artifact和失败证据保留为拒绝基线。

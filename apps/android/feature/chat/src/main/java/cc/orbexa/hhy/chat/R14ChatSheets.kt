@@ -23,6 +23,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateMapOf
@@ -146,7 +147,11 @@ fun R14ReportSheet(
     var confirming by remember { mutableStateOf(false) }
     val canEdit = reasons.isNotEmpty() && versionAvailable && !submitting
     val sheetMaxHeight = LocalConfiguration.current.screenHeightDp.dp - HhySpacing.Xxl
-    ModalBottomSheet(onDismissRequest = { if (!submitting) onDismiss() }) {
+    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+    ModalBottomSheet(
+        onDismissRequest = { if (!submitting) onDismiss() },
+        sheetState = sheetState,
+    ) {
         Column(
             Modifier.fillMaxWidth()
                 .heightIn(max = sheetMaxHeight)
