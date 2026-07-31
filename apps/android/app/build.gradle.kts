@@ -6,9 +6,11 @@ plugins {
     alias(libs.plugins.kotlin.serialization)
 }
 
-val apiBaseUrl = providers.environmentVariable("HHY_API_BASE_URL")
+val apiBaseUrl = providers.gradleProperty("HHY_API_BASE_URL")
+    .orElse(providers.environmentVariable("HHY_API_BASE_URL"))
     .orElse("https://api.example.invalid")
-val wsBaseUrl = providers.environmentVariable("HHY_WS_BASE_URL")
+val wsBaseUrl = providers.gradleProperty("HHY_WS_BASE_URL")
+    .orElse(providers.environmentVariable("HHY_WS_BASE_URL"))
     .orElse("wss://ws.orbexa.cc")
 val appChannel = providers.environmentVariable("HHY_APP_CHANNEL").orElse("official")
 // The publicly reachable development API publishes its test artefacts in STAGING.

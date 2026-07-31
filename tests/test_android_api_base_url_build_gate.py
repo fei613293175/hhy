@@ -34,6 +34,7 @@ class AndroidApiBaseUrlBuildGateTest(unittest.TestCase):
                 self.assertIn(policy_check, self.source)
 
     def test_apk_build_config_uses_the_validated_environment_value(self) -> None:
+        self.assertIn('gradleProperty("HHY_API_BASE_URL")', self.source)
         self.assertIn('environmentVariable("HHY_API_BASE_URL")', self.source)
         self.assertIn(
             'buildConfigField("String", "API_BASE_URL", "\\\"${apiBaseUrl.get()}\\\"")',
