@@ -18,7 +18,7 @@ from jsonschema import Draft202012Validator
 from .gates import run_gate, validate_candidate_evidence
 from .state import assert_valid_state, read_state, write_state
 from .tasks import FAILED_RECOVERY_TASK_ID, REPAIR_RECOVERY_TASK_ID, load_task_specs, validate_specs
-from .util import git, read_json, read_yaml, repository_lock, resolve_codex_executable, run, utc_now, write_json, write_yaml
+from .util import git, git_status_lines, read_json, read_yaml, repository_lock, resolve_codex_executable, run, utc_now, write_json, write_yaml
 from .views import next_ready_task, render_views
 
 AUTH_ENV = {
@@ -447,7 +447,7 @@ def _worker_prompt(task: dict[str, Any], attempt: int) -> str:
         "禁止选择下一任务、修改治理/CI/Gate/AGENTS/状态、执行任何 Git 权威命令、自判正式 PASS。\n"
         "所有文件路径必须完整保留 ACTIVE_TASK.allowed_paths 的前缀（例如 scripts/，禁止截断为 cripts/ 或其他变体）。\n"
         "完成实际产品代码和测试后，运行必要的针对性验证。相同命令、输出和 Diff 不得重复。\n"
-        "最终仅输出符合 worker-result.schema.json 的 CANDIDATE_READY、ATTEMPT_FAILED、EXTERNAL_BLOCKED 或 INFRASTRUCTURE_BLOCKED；必须包含 schema、status、task_id、summary、changed_files、commands_run、error_fingerprint、blocker 字段，无值时使用空数组、空字符串或 null。"
+        "最终仅输出符合 worker-result.schema.json 的 CANDIDATE_READY、ATTEMPT_FAILED、EXTERNAL_BLOCKED 或 INFRASTRUCTURE_BLOCKED；必须包含 schema、status、task_id、summary、changed_files、commands_run、error_fingerprint、blocker 字段，无值时使用空数组、空字符串或 null；blocker 非 null 时必须包含 code、detail、resolution、paths、worker_result_evidence 五个字段，无值使用 null。"
     )
 
 
@@ -458,7 +458,7 @@ def _worker_takeover_prompt(task: dict[str, Any], attempt: int, failure: dict[st
         f"任务 {task['id']}，第 {attempt}/3 次 Attempt。\n"
         "先检查当前工作区已有改动和 ACTIVE_TASK.json，保留有效改动，修复主 Worker 未完成的部分。"
         "禁止修改治理、状态、CI 或 AGENTS 文件，禁止选择下一任务，禁止执行 Git 权威命令。\n"
-        "完成产品代码和针对性测试后，必须写出符合 worker-result.schema.json 的结果。"
+        "完成产品代码和针对性测试后，必须写出符合 worker-result.schema.json 的结果；blocker 非 null 时必须包含 code、detail、resolution、paths、worker_result_evidence 五个字段，无值使用 null。"
         f"主 Worker 接管摘要：{failure.get('stderr_tail') or failure.get('stdout_tail') or '未返回可用输出'}"
     )
 
@@ -648,7 +648,11 @@ def run_once(repo: Path, dry_run: bool = False) -> dict[str, Any]:
                     diagnostic_path=diagnostic,
                 )
             status = result.get("status")
-            changed = [line[3:].split(" -> ")[-1] for line in git(worktree, "-c", "core.quotepath=false", "status", "--porcelain=v1", "-uall").splitlines() if len(line) > 3 and not line[3:].startswith("governance/runtime/")]
+            changed = [
+                line[3:].split(" -> ")[-1]
+                for line in git_status_lines(worktree, "-c", "core.quotepath=false", "status", "--porcelain=v1", "-uall")
+                if len(line) > 3 and not line[3:].startswith("governance/runtime/")
+            ]
             ok, violations = _scope_ok(changed, spec["allowed_paths"])
             if not ok:
                 row["status"] = "POLICY_VIOLATION"
@@ -823,7 +827,11 @@ def supersede_failed(repo: Path, from_task: str, to_task: str, authorization: Pa
         if auth.get("baseline_commit") != baseline:
             raise RuntimeError("authorization baseline_commit must equal current HEAD")
         if git(repo, "status", "--porcelain=v1", "-uall"):
-            dirty = [line[3:] for line in git(repo, "status", "--porcelain=v1", "-uall").splitlines() if len(line) >= 4]
+            dirty = [
+                line[3:]
+                for line in git_status_lines(repo, "status", "--porcelain=v1", "-uall")
+                if len(line) >= 4
+            ]
             if dirty != [auth_rel]:
                 raise RuntimeError("only the authorization evidence may be uncommitted")
 

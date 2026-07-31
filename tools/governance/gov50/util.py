@@ -111,6 +111,17 @@ def git(repo: Path, *args: str, check: bool = True, env: dict[str, str] | None =
     return proc.stdout.strip()
 
 
+def git_status_lines(repo: Path, *args: str, check: bool = True, env: dict[str, str] | None = None) -> list[str]:
+    """Read porcelain status without stripping its two-character status prefix."""
+    merged = os.environ.copy()
+    if env:
+        merged.update(env)
+    proc = subprocess.run(["git", *args], cwd=repo, text=True, capture_output=True, env=merged)
+    if check and proc.returncode != 0:
+        raise RuntimeError(f"git {' '.join(args)} failed ({proc.returncode}): {proc.stderr.strip() or proc.stdout.strip()}")
+    return proc.stdout.splitlines()
+
+
 def run(command: Iterable[str], cwd: Path, timeout: int = 600, env: dict[str, str] | None = None) -> dict[str, Any]:
     argv = [str(v) for v in command]
     merged = os.environ.copy()

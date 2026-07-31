@@ -33,16 +33,30 @@ from tools.governance.gov50.tasks import (
     validate_specs,
 )
 from tools.governance.gov50.views import next_ready_task
-from tools.governance.gov50.util import repository_lock, write_yaml
+from tools.governance.gov50.util import git_status_lines, repository_lock, write_yaml
 
 
 def _specs():
     return load_task_specs(ROOT)
 
 
+def _active_recovery_id():
+    specs = _specs()
+    superseded = {str(spec["supersedes"]) for spec in specs.values() if spec.get("supersedes")}
+    recovery = [
+        task_id for task_id, spec in specs.items()
+        if spec.get("release") == "R14"
+        and spec.get("kind") == "recovery"
+        and task_id not in superseded
+    ]
+    assert len(recovery) == 1
+    return recovery[0]
+
+
 def test_expected_task_counts():
     specs = _specs()
-    assert len(specs) == EXPECTED_TASKS + int(REPAIR_RECOVERY_TASK_ID in specs)
+    recovery_count = sum(1 for spec in specs.values() if spec.get("kind") == "recovery")
+    assert len(specs) == EXPECTED_TASKS + max(0, recovery_count - 1)
     assert sum(1 for s in specs.values() if s.get("source", {}).get("path", "").startswith("releases/")) == EXPECTED_SOURCE_TASKS == 264
     assert sum(1 for s in specs.values() if str(s.get("release", "")).startswith("R") and 15 <= int(s["release"][1:]) <= 32) == EXPECTED_FUTURE_TASKS == 144
 
@@ -62,7 +76,7 @@ def test_program_plan_and_specs_are_valid():
 def test_program_is_finite_and_adjacent():
     result = simulate_program(ROOT)
     assert result["status"] == "PASS", result
-    expected_first = "TASK-R14-RECOVERY-002" if REPAIR_RECOVERY_TASK_ID in _specs() else "TASK-R14-RECOVERY-001"
+    expected_first = _active_recovery_id()
     assert result["first_task"] == expected_first
     assert result["last_task"] == "TASK-R32-008"
     assert result["attempt_four_possible"] is False
@@ -77,13 +91,15 @@ def test_single_state_is_valid():
         assert state["project"]["active_task"] is None
         assert state["tasks"]["TASK-R14-RECOVERY-001"]["status"] == "FAILED_BOUNDED"
         assert state["tasks"]["TASK-R14-RECOVERY-001"]["attempts_used"] == 3
-    elif state["project"]["active_task"] == REPAIR_RECOVERY_TASK_ID:
+    elif state["project"]["active_task"] == _active_recovery_id():
         assert state["tasks"]["TASK-R14-RECOVERY-001"]["status"] == "FAILED_BOUNDED"
         assert state["tasks"]["TASK-R14-RECOVERY-001"]["attempts_used"] == 3
-        assert state["tasks"][REPAIR_RECOVERY_TASK_ID]["status"] == "READY"
-        assert state["tasks"][REPAIR_RECOVERY_TASK_ID]["attempts_used"] == 0
+        active_task = _active_recovery_id()
+        assert state["tasks"][active_task]["status"] == "READY"
+        assert state["tasks"][active_task]["attempts_used"] == 0
     else:
-        assert state["project"]["active_task"] == "TASK-R14-RECOVERY-001"
+        assert state["project"]["status"] in {"EXTERNAL_BLOCKED", "INFRASTRUCTURE_BLOCKED", "POLICY_VIOLATION"}
+        assert state["project"]["active_task"] is None
 
 
 def test_attempt_four_is_rejected():
@@ -108,12 +124,12 @@ def test_recovery_is_only_active_entry_before_activation():
         assert state["project"]["active_task"] is None
         assert state["tasks"]["TASK-R14-RECOVERY-001"]["status"] == "FAILED_BOUNDED"
         assert state["tasks"]["TASK-R14-RECOVERY-001"]["attempts_used"] == 3
-    elif state["project"]["active_task"] == REPAIR_RECOVERY_TASK_ID:
+    elif state["project"]["active_task"] == _active_recovery_id():
         assert state["tasks"]["TASK-R14-RECOVERY-001"]["status"] == "FAILED_BOUNDED"
-        assert state["tasks"][REPAIR_RECOVERY_TASK_ID]["status"] == "READY"
+        assert state["tasks"][_active_recovery_id()]["status"] == "READY"
     else:
-        assert state["project"]["active_task"] == "TASK-R14-RECOVERY-001"
-        assert state["tasks"]["TASK-R14-RECOVERY-001"]["status"] in {"PENDING_ACTIVATION", "READY"}
+        assert state["project"]["status"] in {"EXTERNAL_BLOCKED", "INFRASTRUCTURE_BLOCKED", "POLICY_VIOLATION"}
+        assert state["project"]["active_task"] is None
 
 
 def test_generated_views_are_read_only_views():
@@ -151,7 +167,16 @@ def test_secret_scanner_detects_untracked_high_confidence_token(tmp_path):
 def test_worker_result_schema_is_strict_enough():
     schema = json.loads((ROOT / "governance/schemas/worker-result.schema.json").read_text(encoding="utf-8"))
     validator = Draft202012Validator(schema)
-    good = {"schema": "hhy.worker-result/v5.0", "status": "CANDIDATE_READY", "task_id": "X", "summary": "done"}
+    good = {
+        "schema": "hhy.worker-result/v5.0",
+        "status": "CANDIDATE_READY",
+        "task_id": "X",
+        "summary": "done",
+        "changed_files": [],
+        "commands_run": [],
+        "error_fingerprint": None,
+        "blocker": None,
+    }
     assert list(validator.iter_errors(good)) == []
     bad = dict(good, status="PASS")
     assert list(validator.iter_errors(bad))
@@ -231,7 +256,7 @@ def test_release_close_is_bounded_worker_not_self_closing():
 
 def test_r15_depends_on_r14_recovery():
     expected = "TASK-R14-RECOVERY-002" if REPAIR_RECOVERY_TASK_ID in _specs() else "TASK-R14-RECOVERY-001"
-    assert _specs()["TASK-R15-001"]["depends_on"] == [expected]
+    assert _specs()["TASK-R15-001"]["depends_on"] == [_active_recovery_id()]
 
 
 def test_release_dependencies_are_adjacent():
@@ -301,6 +326,23 @@ def test_stale_repository_lock_is_reclaimed(tmp_path):
     assert not lock.exists()
 
 
+def test_git_status_lines_preserve_porcelain_leading_status_space(tmp_path):
+    repo = tmp_path / "repo"
+    repo.mkdir()
+    subprocess.run(["git", "init", "-q"], cwd=repo, check=True)
+    subprocess.run(["git", "config", "user.name", "test"], cwd=repo, check=True)
+    subprocess.run(["git", "config", "user.email", "test@example.invalid"], cwd=repo, check=True)
+    target = repo / "apps" / "feature.txt"
+    target.parent.mkdir()
+    target.write_text("before\n", encoding="utf-8")
+    subprocess.run(["git", "add", "."], cwd=repo, check=True)
+    subprocess.run(["git", "commit", "-q", "-m", "baseline"], cwd=repo, check=True)
+    target.write_text("after\n", encoding="utf-8")
+    lines = git_status_lines(repo, "status", "--porcelain=v1", "-uall")
+    assert lines == [" M apps/feature.txt"]
+    assert lines[0][3:] == "apps/feature.txt"
+
+
 def test_failed_recovery_authorization_schema_has_strict_owner_binding():
     schema = json.loads((ROOT / "governance/schemas/failed-recovery-authorization.schema.json").read_text(encoding="utf-8"))
     validator = Draft202012Validator(schema)
@@ -334,10 +376,12 @@ def test_failed_recovery_transition_preserves_predecessor_and_binds_new_task(tmp
         shutil.copy2(ROOT / name, repo / name)
     # Build a clean pre-transition fixture even when the suite itself runs on
     # the branch that already contains TASK-R14-RECOVERY-002.
-    (repo / "governance/task_specs/TASK-R14-RECOVERY-002.yaml").unlink(missing_ok=True)
+    for path in (repo / "governance/task_specs").glob("TASK-R14-RECOVERY-*.yaml"):
+        if path.name != "TASK-R14-RECOVERY-001.yaml":
+            path.unlink(missing_ok=True)
     plan = yaml.safe_load((repo / "governance/PROGRAM_PLAN.yaml").read_text(encoding="utf-8"))
     plan["task_count"] = 266
-    plan["release_tasks"]["R14"] = [task for task in plan["release_tasks"]["R14"] if task != "TASK-R14-RECOVERY-002"]
+    plan["release_tasks"]["R14"] = [task for task in plan["release_tasks"]["R14"] if not task.startswith("TASK-R14-RECOVERY-") or task == "TASK-R14-RECOVERY-001"]
     plan["recovery_tasks"] = ["TASK-R14-RECOVERY-001"]
     write_yaml(repo / "governance/PROGRAM_PLAN.yaml", plan)
     r15 = yaml.safe_load((repo / "governance/task_specs/TASK-R15-001.yaml").read_text(encoding="utf-8"))
@@ -346,7 +390,9 @@ def test_failed_recovery_transition_preserves_predecessor_and_binds_new_task(tmp
     state = yaml.safe_load((repo / "governance/STATE.yaml").read_text(encoding="utf-8"))
     state["project"]["status"] = "FAILED_BOUNDED"
     state["project"]["active_task"] = None
-    state["tasks"].pop("TASK-R14-RECOVERY-002", None)
+    for task_id in list(state["tasks"]):
+        if task_id.startswith("TASK-R14-RECOVERY-") and task_id != "TASK-R14-RECOVERY-001":
+            state["tasks"].pop(task_id, None)
     state["tasks"]["TASK-R14-RECOVERY-001"].update({"status": "FAILED_BOUNDED", "attempts_used": 3, "current_attempt": None})
     state["lease"] = None
     state["state_hash"] = _state_hash(state)
