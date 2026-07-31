@@ -1,15 +1,15 @@
 schema: hhy.governance-state/v5.0
-revision: 16
-updated_at: '2026-07-31T00:30:51.804307Z'
-state_hash: 9b9c43cf2ec695ad0353ffb7cf531077f322c631190f0ae7c90d3b204e4c941f
+revision: 17
+updated_at: '2026-07-31T00:33:24.963993Z'
+state_hash: 5b0df2fea2c579abc5ee5eb048ae0f2cbbe7db33ee8750f33c650dc3cd728501
 project:
-  status: ACTIVE
+  status: FAILED_BOUNDED
   branch_at_install: governance/v5.0-migration-20260731
   migration_baseline_commit: ea64d82fab9ed3d1952ab7d3c0d2286051390b59
   migration_commit: 8beafc2a0e115345c554abc0bdc199ef92534106
   authoritative_commit: 570952b0835591068f8215e4ad12a6531cf061b9
   active_release: R14
-  active_task: TASK-R14-RECOVERY-004
+  active_task: null
   goal_complete: false
 lease: null
 releases:
@@ -2621,8 +2621,8 @@ tasks:
     last_gate_evidence: null
     blocker: null
   TASK-R14-RECOVERY-004:
-    status: READY
-    attempts_used: 2
+    status: FAILED_BOUNDED
+    attempts_used: 3
     current_attempt: null
     last_error_fingerprint: worker execution failed or produced no result
     last_candidate_commit: null
