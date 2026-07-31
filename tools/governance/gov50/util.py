@@ -69,7 +69,14 @@ def _atomic_write(path: Path, data: bytes) -> None:
             handle.write(data)
             handle.flush()
             os.fsync(handle.fileno())
-        os.replace(tmp_name, path)
+        for attempt in range(8):
+            try:
+                os.replace(tmp_name, path)
+                return
+            except PermissionError:
+                if attempt == 7:
+                    raise
+                time.sleep(0.1 * (attempt + 1))
     finally:
         try:
             os.unlink(tmp_name)
