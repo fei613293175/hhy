@@ -1,34 +1,46 @@
 {
   "blocker": {
-    "code": "INFRASTRUCTURE_BLOCKED",
-    "detail": "已完成 R14 联系方式长表单的 Compose 滚动与固定操作区修复及针对性回归测试。Android Gradle 9.4.1 下载被网络策略拒绝；历史视觉验收所需基线文件缺失，且仍有 18 项视觉证据处于 IN_REVIEW/缺失状态，因此无法完成冻结 Commit、APK、模拟器和完整 Candidate Gate。",
+    "code": "INFRA_MISSING_REQUIRED_LOCAL_TOOLCHAIN",
+    "detail": "The required worker validation toolchain is not available in this shell: python/python3/py are missing, bash is missing, and Java/JAVA_HOME are missing. Because of that I could not run the governance helper, the task acceptance commands, bash syntax validation, or Android Gradle validation. Current inspected sources already contain the latest R14 attempt19 root-cause fix: scripts/run_android_emulator_gate.sh uses :app:connectedDebugAndroidTest and app-scoped JUnit output, and ReleaseCandidateSmokeTest preserves the R14 filtered-search precondition plus Compose semantics checks.",
     "paths": [
-      "apps/android/gradle/wrapper/gradle-wrapper.properties",
-      ".github/workflows/android-historical-visual-request.yml",
-      "apps/android/feature/content-management/**/R12ContentManagementDetailScreen.kt"
+      "tools/governance/hhy_governance.py",
+      "scripts/check_api_contract.py",
+      "scripts/check_db_schema.py",
+      "scripts/check_ui_tokens.py",
+      "scripts/check_ui_visual_acceptance.py",
+      "scripts/run_android_emulator_gate.sh",
+      "apps/android/gradlew.bat",
+      "apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt"
     ],
-    "resolution": "提供可用的 Gradle 9.4.1 离线缓存或网络访问，并恢复缺失的历史视觉基线文件及截图证据后，在当前工作区重新运行 Android、UI Token 和 R14 视觉验收门禁。",
-    "worker_result_evidence": "active-task 为 READY、Attempt 1/3；API contract、DB schema、R14 专项测试 14/14、R14 entry contract（pages=6 payloads=4）通过；结果 schema 形状校验通过；仅保留两个允许路径产品文件改动，未执行 Git 权威命令，未声明 Candidate/PASS。"
+    "resolution": "Provide python3, bash, Java/JAVA_HOME, Android SDK/adb, then rerun the governance active-task command, the four ACTIVE_TASK acceptance commands, bash -n scripts/run_android_emulator_gate.sh, and the app-scoped Android validation.",
+    "worker_result_evidence": "Targeted PowerShell checks passed: PASS r14 emulator gate module scope; PASS r14 smoke journey search and compose semantics. Tool checks showed only node/npm available; python, python3, py, bash, java, javac, adb, JAVA_HOME, ANDROID_HOME, and ANDROID_SDK_ROOT were unavailable. Gradle failed with: JAVA_HOME is not set and no 'java' command could be found in your PATH."
   },
-  "changed_files": [
-    "apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat/R14ChatSheets.kt",
-    "apps/android/feature/chat/src/androidTest/java/cc/orbexa/hhy/chat/R14ChatSurfacesTest.kt"
-  ],
+  "changed_files": [],
   "commands_run": [
-    "tools/governance/hhy_governance.py active-task --format context（便携 Python，PASS：READY，Attempt 1/3）",
-    "python3 tools/governance/hhy_governance.py active-task --format context（阻断：python3 不在 PATH）",
-    "python3 scripts/check_api_contract.py（PASS）",
-    "python3 scripts/check_db_schema.py（PASS）",
-    "R14 专项 Python 测试（14/14 PASS）",
-    "python3 scripts/check_r14_entry_contract.py（PASS：pages=6，payloads=4）",
-    "Android Gradle 测试（阻断：Gradle 9.4.1 下载被网络策略拒绝）",
-    "python3 scripts/check_ui_tokens.py（阻断：历史视觉基线文件缺失）",
-    "python3 scripts/check_ui_visual_acceptance.py --release R14（阻断：18 项 IN_REVIEW/缺失证据）",
-    "worker-result schema 形状校验（PASS）"
+    "python tools/governance/hhy_governance.py active-task --format context",
+    "py tools/governance/hhy_governance.py active-task --format context",
+    "python3 tools/governance/hhy_governance.py active-task --format context",
+    "Get-Content -Raw -LiteralPath 'governance/runtime/ACTIVE_TASK.json'",
+    "Get-Content -Raw -LiteralPath 'governance/task_specs/TASK-R14-RECOVERY-014.yaml'",
+    "Get-Content -Raw -LiteralPath 'governance/STATE.yaml'",
+    "rg -n \"TASK-R14-RECOVERY-014|TASK-R14-RECOVERY-013|FAILED_BOUNDED|error_fingerprint|root cause|根因|failure|FAIL\" artifacts releases docs tests scripts apps services database contracts packages config catalogs infra design/R14-UI-FROZEN",
+    "Get-Content -Raw -LiteralPath 'tests/test_android_ci_gate.py'",
+    "rg -n \"r14\\.conversation|r14\\.chat|assertComposeTagText|assertResourceText|clickComposeTag|longClickComposeTag|setComposeTagText|waitForUniqueComposeTag|blocked|focusManager|keyboardController|testTag|stateDescription\" apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt apps/android/feature/chat/src/main/java/cc/orbexa/hhy/chat",
+    "Get-Content -Raw -LiteralPath 'artifacts/validation/r14-candidate-attempt18/failure-evidence.json'",
+    "Get-Content -Raw -LiteralPath 'artifacts/validation/r14-candidate-attempt19/failure-evidence.json'",
+    "Get-Content -Raw -LiteralPath 'scripts/run_android_emulator_gate.sh'",
+    "rg -n \"connectedDebugAndroidTest|:app:connectedDebugAndroidTest|ReleaseCandidateSmokeTest|attempt20|CR-0509|R14-CANDIDATE-20260730-020|0220185599581170af24db6ca575592da940e9f4\" scripts/run_android_emulator_gate.sh tests/test_android_ci_gate.py config/android-candidate-request.yaml config/android-automation.yaml docs/03-continuity/change-requests",
+    "Get-Command bash,python,python3,py,node,npm,pwsh -ErrorAction SilentlyContinue | Select-Object Name,Source",
+    "$script = Get-Content -Raw -LiteralPath 'scripts/run_android_emulator_gate.sh'; if ($script -notmatch ':app:connectedDebugAndroidTest') { throw 'missing app-scoped connectedDebugAndroidTest' }; if ($script -match \"\\n\\s+connectedDebugAndroidTest\\n\") { throw 'unscoped connectedDebugAndroidTest still present' }; if ($script -notmatch 'apps/android/app/build/outputs/androidTest-results/connected') { throw 'junit root not app-scoped' }; 'PASS r14 emulator gate module scope'",
+    "$smoke = Get-Content -Raw -LiteralPath 'apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt'; if ($smoke -notmatch 'setComposeTagText\\(\"r14\\.conversations\\.search\", peer\\)\\s+assertComposeTagText\\(\"r14\\.conversation\\.peer-name\", peer, 10_000\\)\\s+longClickComposeTag\\(\"r14\\.conversation\\.row\"\\)') { throw 'missing R14 reentry search before delete' }; if ($smoke -match 'assertResourceText\\(\"r14\\.conversation\\.peer-name\"') { throw 'resource text assertion still present for peer name' }; if ($smoke -match 'private fun assertResourceText\\(') { throw 'legacy assertResourceText helper still present' }; 'PASS r14 smoke journey search and compose semantics'",
+    "bash -n scripts/run_android_emulator_gate.sh",
+    "Get-Command java,javac,adb -ErrorAction SilentlyContinue | Select-Object Name,Source",
+    "Get-ChildItem Env:ANDROID_HOME,ANDROID_SDK_ROOT,JAVA_HOME -ErrorAction SilentlyContinue | Select-Object Name,Value",
+    "cmd /c apps\\android\\gradlew.bat -p apps\\android :app:tasks --all"
   ],
-  "error_fingerprint": "gradle-9.4.1-download-denied;historical-visual-baseline-files-missing",
+  "error_fingerprint": "missing_python_bash_java_android_toolchain",
   "schema": "hhy.worker-result/v5.0",
   "status": "INFRASTRUCTURE_BLOCKED",
-  "summary": "完成 R14 Compose 长表单修复和针对性测试；基础契约测试通过，但 Android 构建及历史视觉门禁受基础设施和缺失基线文件阻断，未生成或声明 Candidate。",
+  "summary": "TASK-R14-RECOVERY-014 could not be completed as a candidate because the validation infrastructure is missing. No files were changed. Static inspection and targeted PowerShell assertions confirm the latest R14 attempt19 fix is present, but official acceptance and Android validation cannot run in this environment.",
   "task_id": "TASK-R14-RECOVERY-014"
 }
