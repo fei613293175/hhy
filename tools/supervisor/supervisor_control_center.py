@@ -437,6 +437,49 @@ class ControlCenter:
             "configuration": self.configuration(),
         }
 
+    def status_fast(self) -> dict[str, Any]:
+        """Serve the panel snapshot without rerunning the full governance doctor."""
+        runtime_state = read_json(self.runtime / "runtime_state.json")
+        heartbeat = read_json(self.runtime / "heartbeat.json")
+        pid_file = read_json(self.runtime / "supervisor.pid")
+        stop_report = read_json(self.runtime / "SUPERVISOR_STOP_REPORT.json")
+        guardian = read_json(self.runtime / "GUARDIAN_STATE.json")
+        state_error = None
+        try:
+            state = yaml.safe_load((self.repo / "governance" / "STATE.yaml").read_text(encoding="utf-8")) or {}
+            project = dict(state.get("project") or {})
+            project["revision"] = state.get("revision")
+            task_id = project.get("active_task")
+            task = dict((state.get("tasks") or {}).get(task_id) or {}) if task_id else {}
+            if task_id:
+                spec_path = self.repo / "governance" / "task_specs" / f"{task_id}.yaml"
+                if spec_path.is_file():
+                    task.update(yaml.safe_load(spec_path.read_text(encoding="utf-8")) or {})
+            state_view = {"project": redact(project), "task": redact(task)}
+        except Exception as exc:
+            state_view = None
+            state_error = str(exc)
+        pid = (pid_file or {}).get("pid") if isinstance(pid_file, dict) else None
+        return {
+            "schema": "hhy.supervisor-control-center-status/v5.0",
+            "at": utc_now(),
+            "repo": str(self.repo),
+            "runtime": {
+                "state": redact(runtime_state),
+                "heartbeat": redact(heartbeat),
+                "pid": redact(pid_file),
+                "pid_alive": process_alive(pid),
+                "stop_requested": (self.runtime / STOP_REQUEST).is_file(),
+                "program_complete": (self.repo / PROGRAM_COMPLETE).is_file(),
+                "stop_report": redact(stop_report),
+            },
+            "guardian": redact(guardian),
+            "governance": state_view,
+            "state_error": state_error,
+            "task_scheduler": self._task_scheduler(),
+            "configuration": self.configuration(),
+        }
+
     def _run_controller(self, *args: str) -> dict[str, Any]:
         try:
             proc = subprocess.run(
@@ -729,7 +772,7 @@ class Handler(BaseHTTPRequestHandler):
             self._send(200, (CONTROL_CENTER_DIR / "control-center.js").read_bytes(), "text/javascript; charset=utf-8")
             return
         if parsed.path == "/api/status":
-            self._send(200, self.center.status())
+            self._send(200, self.center.status_fast())
             return
         if parsed.path == "/api/config":
             self._send(200, self.center.configuration())
