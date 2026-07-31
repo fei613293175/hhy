@@ -34,19 +34,28 @@ if (-not $SkipStartupDelay -and $delay -gt 0) {
 
 function Get-PythonInvocation {
     $override = $env:HHY_PYTHON
-    if ($override) {
+    if ($override -and (Test-Path -LiteralPath $override)) {
         return [pscustomobject]@{ Executable = $override; Prefix = @() }
     }
+    $bundled = Get-ChildItem `
+        -Path (Join-Path $env:USERPROFILE ".cache\codex-runtimes") `
+        -Filter "python.exe" -File -Recurse -ErrorAction SilentlyContinue |
+        Where-Object { $_.FullName -match "\\dependencies\\python\\python.exe$" } |
+        Sort-Object LastWriteTime -Descending |
+        Select-Object -First 1
+    if ($bundled) {
+        return [pscustomobject]@{ Executable = $bundled.FullName; Prefix = @() }
+    }
     $py = Get-Command py.exe -ErrorAction SilentlyContinue
-    if ($py) {
+    if ($py -and $py.Source -notmatch "\\WindowsApps\\") {
         return [pscustomobject]@{ Executable = $py.Source; Prefix = @("-3") }
     }
     $python = Get-Command python.exe -ErrorAction SilentlyContinue
-    if ($python) {
+    if ($python -and $python.Source -notmatch "\\WindowsApps\\") {
         return [pscustomobject]@{ Executable = $python.Source; Prefix = @() }
     }
     $python3 = Get-Command python3.exe -ErrorAction SilentlyContinue
-    if ($python3) {
+    if ($python3 -and $python3.Source -notmatch "\\WindowsApps\\") {
         return [pscustomobject]@{ Executable = $python3.Source; Prefix = @() }
     }
     throw "Python was not found. Install Python or set HHY_PYTHON."

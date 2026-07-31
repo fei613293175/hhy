@@ -16,11 +16,26 @@ New-Item -ItemType Directory -Path $runtime -Force | Out-Null
 
 function Get-PythonInvocation {
     $override = $env:HHY_PYTHON
-    if ($override) { return [pscustomobject]@{ Executable = $override; Prefix = @() } }
+    if ($override -and (Test-Path -LiteralPath $override)) {
+        return [pscustomobject]@{ Executable = $override; Prefix = @() }
+    }
+    $bundled = Get-ChildItem `
+        -Path (Join-Path $env:USERPROFILE ".cache\codex-runtimes") `
+        -Filter "python.exe" -File -Recurse -ErrorAction SilentlyContinue |
+        Where-Object { $_.FullName -match "\\dependencies\\python\\python.exe$" } |
+        Sort-Object LastWriteTime -Descending |
+        Select-Object -First 1
+    if ($bundled) {
+        return [pscustomobject]@{ Executable = $bundled.FullName; Prefix = @() }
+    }
     $py = Get-Command py.exe -ErrorAction SilentlyContinue
-    if ($py) { return [pscustomobject]@{ Executable = $py.Source; Prefix = @("-3") } }
+    if ($py -and $py.Source -notmatch "\\WindowsApps\\") {
+        return [pscustomobject]@{ Executable = $py.Source; Prefix = @("-3") }
+    }
     $python = Get-Command python.exe -ErrorAction SilentlyContinue
-    if ($python) { return [pscustomobject]@{ Executable = $python.Source; Prefix = @() } }
+    if ($python -and $python.Source -notmatch "\\WindowsApps\\") {
+        return [pscustomobject]@{ Executable = $python.Source; Prefix = @() }
+    }
     throw "Python was not found. Install Python or set HHY_PYTHON."
 }
 
