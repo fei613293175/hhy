@@ -1,15 +1,15 @@
 schema: hhy.governance-state/v5.0
-revision: 58
-updated_at: '2026-07-31T03:28:29.665406Z'
-state_hash: 5d853a99eca87bd3404e109acfc427b62d3e7c5bd8d1e538a726131624e568e4
+revision: 59
+updated_at: '2026-07-31T03:42:22.535272Z'
+state_hash: d50327a4695fb3fa269925ccb6e353291cd5078b7c3afcdbeba313209c51422f
 project:
-  status: ACTIVE
+  status: POLICY_VIOLATION
   branch_at_install: governance/v5.0-migration-20260731
   migration_baseline_commit: ea64d82fab9ed3d1952ab7d3c0d2286051390b59
   migration_commit: 8beafc2a0e115345c554abc0bdc199ef92534106
   authoritative_commit: bc3f6f20b03377886ce004a3567c4b571d6a1438
   active_release: R14
-  active_task: TASK-R14-RECOVERY-014
+  active_task: null
   goal_complete: false
 lease: null
 releases:
@@ -2701,10 +2701,13 @@ tasks:
     last_gate_evidence: null
     blocker: null
   TASK-R14-RECOVERY-014:
-    status: READY
+    status: POLICY_VIOLATION
     attempts_used: 0
     current_attempt: null
     last_error_fingerprint: null
     last_candidate_commit: null
     last_gate_evidence: null
-    blocker: null
+    blocker:
+      code: WORKER_SCOPE_VIOLATION
+      paths:
+      - cripts/run_android_emulator_gate.sh
