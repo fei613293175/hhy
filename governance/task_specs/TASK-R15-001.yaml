@@ -14,7 +14,7 @@ requirements:
 - REQ-SUPPORT-001
 - REQ-APK-001
 depends_on:
-- TASK-R14-RECOVERY-006
+- TASK-R14-RECOVERY-007
 objective: 核验 4 项需求、23 个接口、41 张相关表、19 个页面/交互面和 14 个故事；全部适用DoR必须PASS
 deliverables:
 - releases/R15/DEFINITION_OF_READY.yaml 全部适用项PASS

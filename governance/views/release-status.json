@@ -1,5 +1,5 @@
 {
-  "source_revision": 25,
+  "source_revision": 26,
   "releases": [
     {
       "status": "HISTORICAL",
@@ -330,7 +330,8 @@
       "task_counts": {
         "DONE": 7,
         "SUPERSEDED": 1,
-        "FAILED_BOUNDED": 6
+        "FAILED_BOUNDED": 6,
+        "READY": 1
       }
     },
     {
