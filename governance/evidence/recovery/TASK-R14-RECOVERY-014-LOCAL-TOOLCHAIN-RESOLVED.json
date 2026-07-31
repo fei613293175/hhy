@@ -1,0 +1,42 @@
+{
+  "schema": "hhy.infrastructure-unblock/v5.0",
+  "resolved": true,
+  "task_id": "TASK-R14-RECOVERY-014",
+  "blocker_code": "INFRA_MISSING_REQUIRED_LOCAL_TOOLCHAIN",
+  "blocked_at_revision": 66,
+  "resolution": "A user-local portable validation toolchain is now available and the Supervisor injects it only into controller child processes. Python, Bash, JDK 21, javac, adb, Android command-line tools, and the repository Gradle probe are executable without administrator access or global PATH changes. Full APK and emulator evidence remains delegated to the existing commit-bound remote candidate workflow.",
+  "implementation": {
+    "commit": "abb507e5f4f3f5edd1f8533593f9a345e4f207cd",
+    "toolchain_root": "C:/Users/小白/.local/hhy-toolchain",
+    "environment_scope": "SUPERVISOR_CHILD_PROCESS_ONLY",
+    "global_path_modified": false,
+    "system_installer_used": false,
+    "local_backend_or_database_started": false,
+    "local_emulator_installed": false
+  },
+  "tools": {
+    "python": "3.12.13",
+    "bash": "5.3.15",
+    "java": "Temurin 21.0.12+8 LTS",
+    "javac": "21.0.12",
+    "adb": "37.0.1-15733141",
+    "portable_git_archive_sha256": "ab00566336b5472120f9a52d34f2e79c5406535792acb0548001ffd0bd090e5d",
+    "temurin_archive_sha256": "9ba963ee2371874a74185d18bc7bb2ab9407df7683300855ed7606e0662321d0",
+    "platform_tools_archive_sha256": "45f4d63113e895ebde0c90f194099a4676b6ac653bd28d54314a9e022bbc1a99"
+  },
+  "verification": {
+    "supervisor_tests": "28 passed, 1 state-dependent status test deselected while the authoritative state is blocked",
+    "child_process_probe": "python, bash, java, javac, and adb all resolved and exited 0 from a newly spawned child process",
+    "gradle_probe": "apps/android/gradlew.bat -p apps/android :app:tasks --all exited 0",
+    "bash_syntax": "bash -n scripts/run_android_emulator_gate.sh exited 0",
+    "api_contract": "API_CONTRACT_OK client=131 admin=184 websocket=12 runtime_hashes=PASS",
+    "db_schema": "DB_SCHEMA_OK tables=203 migrations=47 runtime_hashes=PASS",
+    "ui_tokens": "UI_TOKENS_OK 52",
+    "r14_visual_acceptance": "UI_VISUAL_ACCEPTANCE_OK R14 pages=6",
+    "doctor": "PASS"
+  },
+  "candidate_boundary": {
+    "local_tools_are_candidate_evidence": false,
+    "required_next": "Resume the same READY task with attempts_used unchanged at 0. The final frozen commit still requires same-commit APK, remote emulator, visual, and gate evidence before machine-close."
+  }
+}
