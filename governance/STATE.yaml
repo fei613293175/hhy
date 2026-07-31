@@ -1,9 +1,9 @@
 schema: hhy.governance-state/v5.0
-revision: 64
-updated_at: '2026-07-31T04:46:20.077733Z'
-state_hash: 5f12ad7aaf144181ab9f67122f20214c2e6b19a32098af2d92d945529ded9b39
+revision: 65
+updated_at: '2026-07-31T10:46:30.548968Z'
+state_hash: 3c00b95688c88794d957ccc9040f768ffd31ba4e92cc89645ef6a94b9609bdf5
 project:
-  status: INFRASTRUCTURE_BLOCKED
+  status: ACTIVE
   branch_at_install: governance/v5.0-migration-20260731
   migration_baseline_commit: ea64d82fab9ed3d1952ab7d3c0d2286051390b59
   migration_commit: 8beafc2a0e115345c554abc0bdc199ef92534106
@@ -2701,20 +2701,10 @@ tasks:
     last_gate_evidence: null
     blocker: null
   TASK-R14-RECOVERY-014:
-    status: INFRASTRUCTURE_BLOCKED
+    status: READY
     attempts_used: 0
     current_attempt: null
     last_error_fingerprint: null
     last_candidate_commit: null
     last_gate_evidence: null
-    blocker:
-      code: INFRASTRUCTURE_BLOCKED
-      detail: 已完成 R14 联系方式长表单的 Compose 滚动与固定操作区修复及针对性回归测试。Android Gradle 9.4.1 下载被网络策略拒绝；历史视觉验收所需基线文件缺失，且仍有 18 项视觉证据处于 IN_REVIEW/缺失状态，因此无法完成冻结
-        Commit、APK、模拟器和完整 Candidate Gate。
-      paths:
-      - apps/android/gradle/wrapper/gradle-wrapper.properties
-      - .github/workflows/android-historical-visual-request.yml
-      - apps/android/feature/content-management/**/R12ContentManagementDetailScreen.kt
-      resolution: 提供可用的 Gradle 9.4.1 离线缓存或网络访问，并恢复缺失的历史视觉基线文件及截图证据后，在当前工作区重新运行 Android、UI Token 和 R14 视觉验收门禁。
-      worker_result_evidence: active-task 为 READY、Attempt 1/3；API contract、DB schema、R14 专项测试 14/14、R14 entry contract（pages=6
-        payloads=4）通过；结果 schema 形状校验通过；仅保留两个允许路径产品文件改动，未执行 Git 权威命令，未声明 Candidate/PASS。
+    blocker: null
