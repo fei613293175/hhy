@@ -37,12 +37,20 @@ function Get-PythonInvocation {
     if ($override -and (Test-Path -LiteralPath $override)) {
         return [pscustomobject]@{ Executable = $override; Prefix = @() }
     }
-    $bundled = Get-ChildItem `
-        -Path (Join-Path $env:USERPROFILE ".cache\codex-runtimes") `
-        -Filter "python.exe" -File -Recurse -ErrorAction SilentlyContinue |
-        Where-Object { $_.FullName -match "\\dependencies\\python\\python.exe$" } |
-        Sort-Object LastWriteTime -Descending |
-        Select-Object -First 1
+    $preferred = Join-Path $env:USERPROFILE ".cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe"
+    $bundled = if (Test-Path -LiteralPath $preferred) {
+        Get-Item -LiteralPath $preferred
+    } else {
+        Get-ChildItem `
+            -Path (Join-Path $env:USERPROFILE ".cache\codex-runtimes") `
+            -Filter "python.exe" -File -Recurse -ErrorAction SilentlyContinue |
+            Where-Object {
+                $_.FullName -match "\\dependencies\\python\\python.exe$" -and
+                $_.FullName -notmatch "\\codex-primary-runtime\.previous-"
+            } |
+            Sort-Object LastWriteTime -Descending |
+            Select-Object -First 1
+    }
     if ($bundled) {
         return [pscustomobject]@{ Executable = $bundled.FullName; Prefix = @() }
     }
