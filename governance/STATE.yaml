@@ -1,9 +1,9 @@
 schema: hhy.governance-state/v5.0
-revision: 75
-updated_at: '2026-07-31T15:12:02.610957Z'
-state_hash: 0c92d6ed97b055b3a140457fcecd4d45871c286590e5c943df6b66d956e13f2d
+revision: 76
+updated_at: '2026-07-31T16:02:23.272952Z'
+state_hash: 99c5cd3b778eec01a8da63de1140eab342b20f92e4deea7105a39a1e5f72f95d
 project:
-  status: ACTIVE
+  status: INFRASTRUCTURE_BLOCKED
   branch_at_install: governance/v5.0-migration-20260731
   migration_baseline_commit: ea64d82fab9ed3d1952ab7d3c0d2286051390b59
   migration_commit: 8beafc2a0e115345c554abc0bdc199ef92534106
@@ -2701,10 +2701,124 @@ tasks:
     last_gate_evidence: null
     blocker: null
   TASK-R14-RECOVERY-014:
-    status: READY
+    status: INFRASTRUCTURE_BLOCKED
     attempts_used: 2
     current_attempt: null
     last_error_fingerprint: 主 Worker 未返回结果，备用 Worker 接管也未返回结果；主证据=governance/runtime/supervisor/worker-failures/TASK-R14-RECOVERY-014-a2-84bc8f8593.json；备用证据=governance/runtime/supervisor/worker-failures/TASK-R14-RECOVERY-014-a2-2112a5841e.json
     last_candidate_commit: null
     last_gate_evidence: null
-    blocker: null
+    blocker:
+      code: INDEPENDENT_REVIEWER_FAILED
+      detail:
+        status: INFRASTRUCTURE_BLOCKED
+        execution:
+          status: FAIL
+          exit_code: 1
+          command:
+          - C:\Users\小白\AppData\Local\OpenAI\Codex\bin\d7e8094cfb76a267\codex.exe
+          - --ask-for-approval
+          - never
+          - exec
+          - --ephemeral
+          - --sandbox
+          - read-only
+          - --output-schema
+          - C:\Users\小白\Desktop\workspace\hhy-v1.2.3-handoff\合伙云Pro_Codex直接开发包_V1.2.3_持续开发无状态接续强制门禁最终版\.git\hhy-governance-worktrees\task-r14-recovery-014-a3-6602a9ee\governance\schemas\reviewer-result.schema.json
+          - -o
+          - C:\Users\小白\Desktop\workspace\hhy-v1.2.3-handoff\合伙云Pro_Codex直接开发包_V1.2.3_持续开发无状态接续强制门禁最终版\.git\hhy-governance-worktrees\task-r14-recovery-014-a3-6602a9ee\governance\runtime\reviewer-result.json
+          - -C
+          - C:\Users\小白\Desktop\workspace\hhy-v1.2.3-handoff\合伙云Pro_Codex直接开发包_V1.2.3_持续开发无状态接续强制门禁最终版\.git\hhy-governance-worktrees\task-r14-recovery-014-a3-6602a9ee
+          - '你是一次性的独立只读审查员，不是实现 Worker。禁止修改任何文件、运行写命令、重新规划项目或建议扩大范围。
+
+            只审查 governance/runtime/ACTIVE_TASK.json 和 Git diff 3796a21147e2fb9718bb5eb5a00536691af66601..cc46d01f7832604606fb925b5e860fba1ebf0228，确认候选是否满足当前任务、是否存在真实正确性/安全/资金/数据库/契约问题，以及是否通过删除、跳过或弱化测试来取得通过。
+
+            仅将有具体文件、行号或可复核证据的 BLOCKER/HIGH 问题判为 BLOCK；风格、偏好、未来重构或任务范围外问题只能列为 MEDIUM/LOW，且不得阻断。
+
+            输出 task_id=TASK-R14-RECOVERY-014、commit=cc46d01f7832604606fb925b5e860fba1ebf0228，严格符合 reviewer-result.schema.json。'
+          stdout_tail: ''
+          stderr_tail: 'Reading additional input from stdin...
+
+            2026-07-31T16:00:29.275904Z  WARN codex_core_plugins::remote::remote_installed_plugin_sync: remote installed plugin
+            bundle sync failed error=chatgpt authentication required for remote plugin catalog; api key auth is not supported
+
+            2026-07-31T16:00:29.368754Z  WARN codex_core::shell_snapshot: Failed to create shell snapshot for powershell:
+            Shell snapshot not supported yet for PowerShell
+
+            OpenAI Codex v0.146.0-alpha.9.2
+
+            --------
+
+            workdir: C:\Users\小白\Desktop\workspace\hhy-v1.2.3-handoff\合伙云Pro_Codex直接开发包_V1.2.3_持续开发无状态接续强制门禁最终版\.git\hhy-governance-worktrees\task-r14-recovery-014-a3-6602a9ee
+
+            model: gpt-5.5
+
+            provider: custom
+
+            approval: never
+
+            sandbox: read-only
+
+            reasoning effort: medium
+
+            reasoning summaries: none
+
+            session id: 019fb8e7-d673-7a22-8397-76122cd1caf3
+
+            --------
+
+            user
+
+            你是一次性的独立只读审查员，不是实现 Worker。禁止修改任何文件、运行写命令、重新规划项目或建议扩大范围。
+
+            只审查 governance/runtime/ACTIVE_TASK.json 和 Git diff 3796a21147e2fb9718bb5eb5a00536691af66601..cc46d01f7832604606fb925b5e860fba1ebf0228，确认候选是否满足当前任务、是否存在真实正确性/安全/资金/数据库/契约问题，以及是否通过删除、跳过或弱化测试来取得通过。
+
+            仅将有具体文件、行号或可复核证据的 BLOCKER/HIGH 问题判为 BLOCK；风格、偏好、未来重构或任务范围外问题只能列为 MEDIUM/LOW，且不得阻断。
+
+            输出 task_id=TASK-R14-RECOVERY-014、commit=cc46d01f7832604606fb925b5e860fba1ebf0228，严格符合 reviewer-result.schema.json。
+
+            2026-07-31T16:00:30.089422Z  WARN codex_core_plugins::manager: failed to warm featured plugin ids cache error=remote
+            featured plugin request to https://chatgpt.com/backend-api/plugins/featured?platform=codex failed with status
+            401 Unauthorized: {"detail":"Unauthorized"}
+
+            2026-07-31T16:00:30.751311Z  WARN codex_core_plugins::manifest: ignoring interface.defaultPrompt[0]: prompt must
+            be at most 128 characters path=file:///C:/Users/%E5%B0%8F%E7%99%BD/.codex/.tmp/plugins/plugins/ngs-analysis/.codex-plugin/plugin.json
+
+            2026-07-31T16:00:30.769263Z  WARN codex_core_plugins::manifest: ignoring interface.defaultPrompt[0]: prompt must
+            be at most 128 characters path=file:///C:/Users/%E5%B0%8F%E7%99%BD/.codex/.tmp/plugins/plugins/ngs-analysis/.codex-plugin/plugin.json
+
+            2026-07-31T16:00:37.268662Z  WARN codex_core::responses_retry: stream disconnected - retrying sampling request
+            (1/5 in 198ms)... turn_id=019fb8e7-d74c-78b2-8b40-c3af782372fc retries=1 max_retries=5 sampling_error=stream disconnected
+            before completion: error sending request for url (https://ai.hexuan.cc/v1/responses)
+
+            ERROR: Reconnecting... 1/5
+
+            2026-07-31T16:00:45.171432Z  WARN codex_core::responses_retry: stream disconnected - retrying sampling request
+            (2/5 in 368ms)... turn_id=019fb8e7-d74c-78b2-8b40-c3af782372fc retries=2 max_retries=5 sampling_error=unexpected
+            status 502 Bad Gateway: error code: 502, url: https://ai.hexuan.cc/v1/responses, cf-ray: a23dd15bc96ffe87-SIN
+
+            ERROR: Reconnecting... 2/5
+
+            2026-07-31T16:00:55.004578Z  WARN codex_core::responses_retry: stream disconnected - retrying sampling request
+            (3/5 in 879ms)... turn_id=019fb8e7-d74c-78b2-8b40-c3af782372fc retries=3 max_retries=5 sampling_error=unexpected
+            status 502 Bad Gateway: error code: 502, url: https://ai.hexuan.cc/v1/responses, cf-ray: a23dd18fdeb6de12-SIN
+
+            ERROR: Reconnecting... 3/5
+
+            2026-07-31T16:01:04.699674Z  WARN codex_core::responses_retry: stream disconnected - retrying sampling request
+            (4/5 in 1.534s)... turn_id=019fb8e7-d74c-78b2-8b40-c3af782372fc retries=4 max_retries=5 sampling_error=unexpected
+            status 502 Bad Gateway: error code: 502, url: https://ai.hexuan.cc/v1/responses, cf-ray: a23dd1d4d90e2c14-SIN
+
+            ERROR: Reconnecting... 4/5
+
+            2026-07-31T16:01:37.818449Z  WARN codex_core::responses_retry: stream disconnected - retrying sampling request
+            (5/5 in 3.337s)... turn_id=019fb8e7-d74c-78b2-8b40-c3af782372fc retries=5 max_retries=5 sampling_error=unexpected
+            status 502 Bad Gateway: error code: 502, url: https://ai.hexuan.cc/v1/responses, cf-ray: a23dd28e1b6d14fd-SIN
+
+            ERROR: Reconnecting... 5/5
+
+            ERROR: unexpected status 502 Bad Gateway: error code: 502, url: https://ai.hexuan.cc/v1/responses, cf-ray: a23dd3a39af876e9-SIN
+
+            ERROR: unexpected status 502 Bad Gateway: error code: 502, url: https://ai.hexuan.cc/v1/responses, cf-ray: a23dd3a39af876e9-SIN
+
+            '
+        evidence_path: null
