@@ -353,8 +353,8 @@ def _run_independent_reviewer(worktree: Path, task: dict[str, Any], baseline: st
     if not codex:
         return {"status": "INFRASTRUCTURE_BLOCKED", "error": "CODEX_CLI_MISSING_OR_INACCESSIBLE", "evidence_path": None}
     command = [
-        codex, "exec", "--ephemeral", "--sandbox", "read-only",
-        "--ask-for-approval", "never", "--output-schema", str(schema_path),
+        codex, "--ask-for-approval", "never", "exec", "--ephemeral", "--sandbox", "read-only",
+        "--output-schema", str(schema_path),
         "-o", str(result_path), "-C", str(worktree),
         _review_prompt(task, baseline, candidate),
     ]
@@ -606,7 +606,7 @@ def run_once(repo: Path, dry_run: bool = False) -> dict[str, Any]:
             result_path = runtime / "worker-result.json"
             schema_path = worktree / "governance" / "schemas" / "worker-result.schema.json"
             command = [
-                codex, "exec", "--ephemeral", "--sandbox", "workspace-write", "--ask-for-approval", "never",
+                codex, "--ask-for-approval", "never", "exec", "--ephemeral", "--sandbox", "workspace-write",
                 "--json", "--output-schema", str(schema_path), "-o", str(result_path), "-C", str(worktree),
                 _worker_prompt(spec, attempt),
             ]
@@ -616,7 +616,7 @@ def run_once(repo: Path, dry_run: bool = False) -> dict[str, Any]:
                 first_diagnostic = _persist_worker_failure(repo, task_id, attempt, worker, result_path)
                 result_path.unlink(missing_ok=True)
                 takeover_command = [
-                    codex, "exec", "--ephemeral", "--sandbox", "workspace-write", "--ask-for-approval", "never",
+                    codex, "--ask-for-approval", "never", "exec", "--ephemeral", "--sandbox", "workspace-write",
                     "--json", "--output-schema", str(schema_path), "-o", str(result_path), "-C", str(worktree),
                     _worker_takeover_prompt(spec, attempt, first_failure),
                 ]
