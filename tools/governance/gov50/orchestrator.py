@@ -761,7 +761,8 @@ def unblock(repo: Path, task_id: str, evidence: Path) -> dict[str, Any]:
         specs = load_task_specs(repo)
         state = read_state(repo)
         row = state["tasks"][task_id]
-        if row["status"] not in {"EXTERNAL_BLOCKED", "INFRASTRUCTURE_BLOCKED", "POLICY_VIOLATION"}:
+        policy_cleanup_pending = row["status"] == "READY" and state["project"].get("status") == "POLICY_VIOLATION"
+        if row["status"] not in {"EXTERNAL_BLOCKED", "INFRASTRUCTURE_BLOCKED", "POLICY_VIOLATION"} and not policy_cleanup_pending:
             raise RuntimeError("task is not blocked")
         evidence = evidence.resolve()
         try:
@@ -771,7 +772,7 @@ def unblock(repo: Path, task_id: str, evidence: Path) -> dict[str, Any]:
         data = read_json(evidence)
         if not data.get("resolved") or data.get("task_id") != task_id:
             raise RuntimeError("unblock evidence must bind task and resolved=true")
-        if row["status"] == "POLICY_VIOLATION" and (
+        if (row["status"] == "POLICY_VIOLATION" or policy_cleanup_pending) and (
             data.get("violation_disposition") != "REJECTED_UNMERGED"
             or data.get("authority_worktree_clean") is not True
         ):
