@@ -1,9 +1,9 @@
 schema: hhy.governance-state/v5.0
-revision: 57
-updated_at: '2026-07-31T03:26:01.163374Z'
-state_hash: d640047bc0f8e7cd2fbfd0648dc9a9cb55d57b3e6e3d92556b82293ede063883
+revision: 58
+updated_at: '2026-07-31T03:28:29.665406Z'
+state_hash: 5d853a99eca87bd3404e109acfc427b62d3e7c5bd8d1e538a726131624e568e4
 project:
-  status: INFRASTRUCTURE_BLOCKED
+  status: ACTIVE
   branch_at_install: governance/v5.0-migration-20260731
   migration_baseline_commit: ea64d82fab9ed3d1952ab7d3c0d2286051390b59
   migration_commit: 8beafc2a0e115345c554abc0bdc199ef92534106
@@ -2701,11 +2701,10 @@ tasks:
     last_gate_evidence: null
     blocker: null
   TASK-R14-RECOVERY-014:
-    status: INFRASTRUCTURE_BLOCKED
+    status: READY
     attempts_used: 0
     current_attempt: null
     last_error_fingerprint: null
     last_candidate_commit: null
     last_gate_evidence: null
-    blocker:
-      code: UNSPECIFIED_BLOCKER
+    blocker: null
