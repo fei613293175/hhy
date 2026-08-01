@@ -1,9 +1,9 @@
 schema: hhy.governance-state/v5.0
-revision: 104
-updated_at: '2026-08-01T13:35:51.871886Z'
-state_hash: 3a128da2c00c14906afd4342ee0e74008a261adeb2c2dc89dd147030ae1f4687
+revision: 105
+updated_at: '2026-08-01T13:46:02.927552Z'
+state_hash: ac31ec0a0027295366cb55f51fc2a7c7a7419b4af91d728953c494c374004e8c
 project:
-  status: INFRASTRUCTURE_BLOCKED
+  status: ACTIVE
   branch_at_install: governance/v5.0-migration-20260731
   migration_baseline_commit: ea64d82fab9ed3d1952ab7d3c0d2286051390b59
   migration_commit: 8beafc2a0e115345c554abc0bdc199ef92534106
@@ -1445,7 +1445,7 @@ tasks:
     last_gate_evidence: governance/evidence/gates/task-TASK-R15-001-9b467950a2f9.json
     blocker: null
   TASK-R15-002:
-    status: INFRASTRUCTURE_BLOCKED
+    status: READY
     attempts_used: 2
     current_attempt: null
     last_error_fingerprint: '{"commit": "d693246ed3ae4e5cdbdca4cc91aeb4fb3a31979e", "findings": [{"evidence": "`guard_r15_support_ticket()`
@@ -1473,23 +1473,7 @@ tasks:
       不变量验证，因此不能确认满足 TASK-R15-002。", "task_id": "TASK-R15-002"}'
     last_candidate_commit: null
     last_gate_evidence: null
-    blocker:
-      code: JAVAC_ZIPFS_ACCESSDENIED_ON_CLOSE_JAR
-      detail: Implementation and static gates are complete, but Maven compile/JUnit verification is infrastructure-blocked.
-        Maven initially resolved user.home to C:\ and failed to create C:\.m2; after MAVEN_OPTS forced user.home to C:\Users\小白,
-        javac repeatedly failed with java.nio.file.AccessDeniedException while closing dependency jars via ZipFS, under both
-        C:\Users\小白\.m2\repository and a workspace-local Maven repository. The explicit PostgreSQL env vars are present, but
-        psql/docker and Python PostgreSQL drivers are not available for a non-Maven database execution fallback.
-      paths:
-      - C:\Users\小白\.m2\repository\com\fasterxml\jackson\core\jackson-annotations\2.21\jackson-annotations-2.21.jar
-      - C:\Users\小白\.m2\repository\software\amazon\awssdk\auth\2.48.3\auth-2.48.3.jar
-      - services/backend/target/hhy-m2-repo/com/fasterxml/jackson/core/jackson-annotations/2.21/jackson-annotations-2.21.jar
-      resolution: Repair local Java/Maven filesystem access for jar ZipFS close or provide psql/docker/Python PostgreSQL driver
-        fallback, then rerun mvn -q -f services/backend/pom.xml -DskipTests install and mvn -q -f services/backend/pom.xml
-        -pl boot -Dtest=R15NotificationSupportMigrationTest test.
-      worker_result_evidence: 'Static gates passed: python -m pytest -q tests/test_r15_database_contract.py -> 5 passed; python3
-        scripts/check_db_schema.py -> DB_SCHEMA_OK tables=203 migrations=48 runtime_hashes=PASS. Maven/JUnit blocked by AccessDeniedException
-        on dependency jar close.'
+    blocker: null
   TASK-R15-003:
     status: PLANNED
     attempts_used: 0
