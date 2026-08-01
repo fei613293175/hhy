@@ -1,0 +1,60 @@
+{
+  "schema": "hhy.infrastructure-unblock/v5.0",
+  "resolved": true,
+  "task_id": "TASK-R14-RECOVERY-015",
+  "blocker_code": "PYTHON_RUNTIME_MISSING",
+  "blocked_at_revision": 81,
+  "blocked_state_commit": "4e7209a58b76c286db590c8ffdb0ed3bf602d909",
+  "resolution": "The existing portable Python 3.12.13 runtime is exposed to fresh Codex workers through python.cmd and python3.cmd shims in the bundled stable override directory. HHY_PYTHON is injected only into Supervisor child processes; the system PATH was not modified.",
+  "environment": {
+    "scope": "SUPERVISOR_CHILD_PROCESS_ONLY",
+    "python": "C:/Users/\u5c0f\u767d/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/python.exe",
+    "python_sha256": "3c6a206b7d93cca823934a83732220dcffd413fd1036d9fb82eebb64599cf7f3",
+    "python3_shim": "C:/Users/\u5c0f\u767d/.cache/codex-runtimes/codex-primary-runtime/dependencies/bin/override/python3.cmd",
+    "python3_shim_sha256": "7416da4e67bd90429e93478f6a753e2ea3068b12697227f7e84a495c5a38e2b4",
+    "python_shim": "C:/Users/\u5c0f\u767d/.cache/codex-runtimes/codex-primary-runtime/dependencies/bin/override/python.cmd",
+    "python_shim_sha256": "7416da4e67bd90429e93478f6a753e2ea3068b12697227f7e84a495c5a38e2b4",
+    "pyyaml_version": "6.0.2",
+    "jsonschema_import": "PASS",
+    "system_path_modified": false
+  },
+  "fresh_worker_validation": {
+    "source_commit": "4e7209a58b76c286db590c8ffdb0ed3bf602d909",
+    "session_id": "019fbbef-ce45-7971-8f93-b111f8d00626",
+    "sandbox": "workspace-write",
+    "repository_modified": false,
+    "commands": [
+      {
+        "command": "python3 -c \"import yaml,jsonschema; print(yaml.__version__); print('jsonschema-ok')\"",
+        "status": "PASS",
+        "result": "6.0.2; jsonschema-ok"
+      },
+      {
+        "command": "python3 -m unittest tests.test_r14_entry_contract",
+        "status": "PASS",
+        "result": "Ran 5 tests; OK"
+      },
+      {
+        "command": "python3 scripts/check_api_contract.py",
+        "status": "PASS",
+        "result": "API_CONTRACT_OK client=131 admin=184 websocket=12 runtime_hashes=PASS"
+      },
+      {
+        "command": "python3 scripts/check_db_schema.py",
+        "status": "PASS",
+        "result": "DB_SCHEMA_OK tables=203 migrations=47 runtime_hashes=PASS"
+      },
+      {
+        "command": "python3 scripts/check_ui_tokens.py",
+        "status": "PASS",
+        "result": "UI_TOKENS_OK 52"
+      },
+      {
+        "command": "python3 scripts/check_ui_visual_acceptance.py --release R14",
+        "status": "PASS",
+        "result": "UI_VISUAL_ACCEPTANCE_OK R14 pages=6"
+      }
+    ]
+  },
+  "original_worker_result": "governance/evidence/recovery/TASK-R14-RECOVERY-015-a2-worker-result.json"
+}

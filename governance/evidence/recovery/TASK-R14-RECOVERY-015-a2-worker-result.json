@@ -1,0 +1,39 @@
+{
+  "schema": "hhy.worker-result/v5.0",
+  "status": "INFRASTRUCTURE_BLOCKED",
+  "task_id": "TASK-R14-RECOVERY-015",
+  "summary": "已定位并修复 R14 入口 IN_REVIEW 与候选 PASS 的生命周期冲突：明确完成实现、截图和效果图复核后单向推进至 PASS，禁止回退及复用旧候选证据；新增回归测试。静态复现验证通过，但缺少真实 Python 3 运行时，无法执行规定的 Python 验收命令。",
+  "changed_files": [
+    "releases/R14/STORIES.yaml",
+    "releases/R14/RELEASE_MANIFEST.yaml",
+    "tests/test_r14_entry_contract.py"
+  ],
+  "commands_run": [
+    "python tools/governance/hhy_governance.py active-task --format context",
+    "Get-Content -Raw governance/runtime/ACTIVE_TASK.json",
+    "Get-Content -Raw governance/task_specs/TASK-R14-RECOVERY-015.yaml",
+    "Select-String -Path governance/STATE.yaml -Pattern 'TASK-R14-RECOVERY-015|TASK-R14-RECOVERY-014|FAILED_BOUNDED|error_fingerprint' -Context 3,12",
+    "rg -n \"IN_REVIEW|VISUAL_PASS|visual.*PASS|entry.*contract|ENTRY_CONTRACT\" releases/R14 design/R14-UI-FROZEN scripts tests apps contracts artifacts/validation/r14-historical-visual-attempt5-preflight artifacts/validation/r14-attempt3-preflight",
+    "Get-Content tests/test_r14_entry_contract.py; Get-Content scripts/check_r14_entry_contract.py | Select-Object -First 340",
+    "Import-Csv catalogs/ui_visual_acceptance.csv | Where-Object { $_.'计划版本' -eq 'R14' }",
+    "Get-Content releases/R14/RELEASE_MANIFEST.yaml",
+    "apply_patch via codex.exe --codex-run-as-apply-patch",
+    "Get-Command python,python3 -ErrorAction SilentlyContinue",
+    "Common-path Python runtime scan",
+    "R14 lifecycle PowerShell static reproduction and evidence-path validation"
+  ],
+  "error_fingerprint": "PYTHON_RUNTIME_MISSING_WINDOWS_STORE_ALIAS_ONLY",
+  "blocker": {
+    "code": "PYTHON_RUNTIME_MISSING",
+    "detail": "python.exe 和 python3.exe 仅解析到 Microsoft WindowsApps 空别名；常见用户及系统路径未发现真实 Python 解释器，因此无法运行 unittest 和四条 acceptance_commands。",
+    "resolution": "提供带 PyYAML 的真实 Python 3 环境后，运行 tests/test_r14_entry_contract.py，以及 scripts/check_api_contract.py、scripts/check_db_schema.py、scripts/check_ui_tokens.py、scripts/check_ui_visual_acceptance.py --release R14。",
+    "paths": [
+      "tests/test_r14_entry_contract.py",
+      "scripts/check_api_contract.py",
+      "scripts/check_db_schema.py",
+      "scripts/check_ui_tokens.py",
+      "scripts/check_ui_visual_acceptance.py"
+    ],
+    "worker_result_evidence": "针对性静态验证输出：R14_LIFECYCLE_STATIC_REPRO_OK pages=6 entry=IN_REVIEW candidate=PASS evidence_reuse=FORBIDDEN；运行时扫描输出：NO_REAL_PYTHON_FOUND。"
+  }
+}
