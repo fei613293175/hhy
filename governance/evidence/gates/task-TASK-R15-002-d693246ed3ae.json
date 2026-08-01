@@ -1,0 +1,90 @@
+{
+  "schema": "hhy.gate-report/v5.0",
+  "status": "PASS",
+  "profile": "task",
+  "task_id": "TASK-R15-002",
+  "release": "R15",
+  "commit": "d693246ed3ae4e5cdbdca4cc91aeb4fb3a31979e",
+  "generated_at": "2026-08-01T12:36:48.752053Z",
+  "checks": [
+    {
+      "id": "commit_binding",
+      "status": "PASS",
+      "detail": {
+        "HEAD": "d693246ed3ae4e5cdbdca4cc91aeb4fb3a31979e",
+        "expected": "d693246ed3ae4e5cdbdca4cc91aeb4fb3a31979e"
+      }
+    },
+    {
+      "id": "test_authority",
+      "status": "PASS",
+      "detail": {
+        "schema": "hhy.test-authority/v5.0",
+        "status": "PASS",
+        "commit": "d693246ed3ae4e5cdbdca4cc91aeb4fb3a31979e",
+        "parent": "855cfe11500886204007209d2849169cf1c718c0",
+        "test_paths_checked": [
+          "database/tests/r15_notification_support_invariants.sql",
+          "tests/test_r15_notification_support_migration.py"
+        ],
+        "violations": []
+      }
+    },
+    {
+      "id": "static_specs",
+      "status": "PASS",
+      "detail": []
+    },
+    {
+      "id": "state_integrity",
+      "status": "PASS"
+    },
+    {
+      "id": "active_legacy_routes",
+      "status": "PASS",
+      "detail": []
+    },
+    {
+      "id": "secret_scan",
+      "status": "PASS",
+      "detail": {
+        "mode": null,
+        "files_considered": 9,
+        "files_scanned": 9,
+        "findings": []
+      }
+    },
+    {
+      "id": "hard_protection",
+      "status": "PASS",
+      "detail": {
+        "schema": "hhy.hard-protection/v5.0",
+        "status": "PASS",
+        "task_id": "TASK-R15-002",
+        "release": "R15",
+        "profile": "task",
+        "risks": [
+          "database",
+          "production",
+          "secrets"
+        ],
+        "details": {},
+        "errors": []
+      }
+    },
+    {
+      "id": "task_acceptance_1",
+      "status": "PASS",
+      "detail": {
+        "status": "PASS",
+        "exit_code": 0,
+        "command": [
+          "C:\\Users\\小白\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe",
+          "scripts/check_db_schema.py"
+        ],
+        "stdout_tail": "DB_SCHEMA_OK tables=203 migrations=48 runtime_hashes=PASS\n",
+        "stderr_tail": ""
+      }
+    }
+  ]
+}

@@ -1,7 +1,7 @@
 schema: hhy.governance-state/v5.0
-revision: 100
-updated_at: '2026-08-01T12:20:17.458047Z'
-state_hash: 786dbdb8a3bb3326ab28b763f4aa13d878ca8b250a79925281ac06d48f0cce7d
+revision: 101
+updated_at: '2026-08-01T12:39:02.254570Z'
+state_hash: 2a7e91ae05557d52648e2779a43f311c31df6ad6a66e6e63e171c24345e74190
 project:
   status: ACTIVE
   branch_at_install: governance/v5.0-migration-20260731
@@ -1446,24 +1446,31 @@ tasks:
     blocker: null
   TASK-R15-002:
     status: READY
-    attempts_used: 1
+    attempts_used: 2
     current_attempt: null
-    last_error_fingerprint: '{"commit": "26b0aad0c15d338e99c024f8416af2b7b1caa43e", "findings": [{"evidence": "ACTIVE_TASK.json
-      requires both \"Flyway前向迁移与空库/升级库测试\" and \"不变量属性测试\". The added test named test_executable_property_matrix_covers_expected_failures
-      only reads database/tests/r15_notification_support_invariants.sql and checks marker substrings plus trailing ROLLBACK;
-      the diff adds no script or test that applies V048 on empty/upgrade databases or executes the SQL matrix through psql/Flyway.",
-      "issue": "TASK-R15-002 acceptance is weakened to static marker checks; the required executable empty/upgrade Flyway
-      verification and invariant property execution are not present in the candidate diff.", "line": 67, "path": "tests/test_r15_notification_support_migration.py",
-      "requirement_ref": "governance/runtime/ACTIVE_TASK.json:9-17", "severity": "HIGH"}, {"evidence": "The DO block declares
-      PL/pgSQL variables announcement_id and ticket_id, then uses unqualified predicates WHERE announcement_id=announcement_id
-      and WHERE ticket_id=ticket_id against tables that also have columns with those names. Under the default PL/pgSQL name-conflict
-      behavior these references are ambiguous; even under a non-default setting they are tautological or variable-only rather
-      than scoped to the inserted row.", "issue": "The claimed SQL property matrix is not a reliable executable invariant
-      test; it will fail on ambiguous column/variable references or fail to constrain checks to the row created by the test.",
-      "line": 85, "path": "database/tests/r15_notification_support_invariants.sql", "requirement_ref": "governance/runtime/ACTIVE_TASK.json:11",
-      "severity": "HIGH"}], "schema": "hhy.reviewer-result/v5.0", "status": "BLOCK", "summary": "BLOCK: candidate adds the
-      R15 migration assets within allowed paths and does not delete existing tests, but the required database/property verification
-      is not actually executable and the SQL matrix itself contains concrete PL/pgSQL scoping defects.", "task_id": "TASK-R15-002"}'
+    last_error_fingerprint: '{"commit": "d693246ed3ae4e5cdbdca4cc91aeb4fb3a31979e", "findings": [{"evidence": "`guard_r15_support_ticket()`
+      rejects any update where `OLD.status IN (''RESOLVED'',''CLOSED'',''CANCELLED'')` before checking the transition whitelist,
+      but the same whitelist includes `(''RESOLVED'',''CLOSED'')`. As written, a resolved ticket can never be closed, contradicting
+      the migration''s own allowed state machine.", "issue": "Support ticket state machine makes the intended RESOLVED ->
+      CLOSED transition unreachable.", "line": 238, "path": "database/migrations/V048__r15_notification_support_invariants.sql",
+      "requirement_ref": "TASK-R15-002 objective: support_tickets 状态历史/状态不变量", "severity": "HIGH"}, {"evidence": "The message
+      immutability trigger only blocks changes to `ticket_id`, `sender_type`, `sender_id`, `body`, and `client_message_id`;
+      it does not block updates to `idempotency_key`, `request_hash`, or `legacy_without_idempotency`. Those fields define
+      the new idempotency/audit contract and can be changed after insert, defeating the uniqueness/history invariant.", "issue":
+      "Ticket message idempotency identity remains mutable after insertion.", "line": 338, "path": "database/migrations/V048__r15_notification_support_invariants.sql",
+      "requirement_ref": "TASK-R15-002 objective: ticket_messages 幂等键/不变量", "severity": "HIGH"}, {"evidence": "The compatibility
+      flag is a normal insertable column and each check constraint accepts rows when `legacy_without_idempotency` is true.
+      Existing rows are backfilled at lines 56-58, but there is no trigger or constraint preventing new writes from explicitly
+      setting this flag to true and omitting idempotency fields.", "issue": "New notification/support writes can bypass required
+      idempotency by setting the legacy flag.", "line": 62, "path": "database/migrations/V048__r15_notification_support_invariants.sql",
+      "requirement_ref": "TASK-R15-002 objective: 幂等键", "severity": "HIGH"}, {"evidence": "The Python tests only load files
+      with `read_text()`/`read_bytes()` and assert marker strings from lines 17-76; they do not run Flyway, connect to a database,
+      execute `database/tests/r15_notification_support_invariants.sql`, or verify empty/upgrade migrations. This does not
+      satisfy the task''s required Flyway empty/upgrade and invariant property tests.", "issue": "Required database acceptance
+      tests are represented as string checks rather than executed migration/invariant tests.", "line": 17, "path": "tests/test_r15_notification_support_migration.py",
+      "requirement_ref": "ACTIVE_TASK.deliverables: Flyway前向迁移与空库/升级库测试; 不变量属性测试", "severity": "HIGH"}], "schema": "hhy.reviewer-result/v5.0",
+      "status": "BLOCK", "summary": "候选修改均位于允许路径，未发现删除既有测试或 protected_paths 修改。但当前 diff 存在阻断级数据库契约问题，且新增测试没有实际执行 Flyway/SQL
+      不变量验证，因此不能确认满足 TASK-R15-002。", "task_id": "TASK-R15-002"}'
     last_candidate_commit: null
     last_gate_evidence: null
     blocker: null

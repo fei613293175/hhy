@@ -1,0 +1,41 @@
+{
+  "commit": "d693246ed3ae4e5cdbdca4cc91aeb4fb3a31979e",
+  "findings": [
+    {
+      "evidence": "`guard_r15_support_ticket()` rejects any update where `OLD.status IN ('RESOLVED','CLOSED','CANCELLED')` before checking the transition whitelist, but the same whitelist includes `('RESOLVED','CLOSED')`. As written, a resolved ticket can never be closed, contradicting the migration's own allowed state machine.",
+      "issue": "Support ticket state machine makes the intended RESOLVED -> CLOSED transition unreachable.",
+      "line": 238,
+      "path": "database/migrations/V048__r15_notification_support_invariants.sql",
+      "requirement_ref": "TASK-R15-002 objective: support_tickets 状态历史/状态不变量",
+      "severity": "HIGH"
+    },
+    {
+      "evidence": "The message immutability trigger only blocks changes to `ticket_id`, `sender_type`, `sender_id`, `body`, and `client_message_id`; it does not block updates to `idempotency_key`, `request_hash`, or `legacy_without_idempotency`. Those fields define the new idempotency/audit contract and can be changed after insert, defeating the uniqueness/history invariant.",
+      "issue": "Ticket message idempotency identity remains mutable after insertion.",
+      "line": 338,
+      "path": "database/migrations/V048__r15_notification_support_invariants.sql",
+      "requirement_ref": "TASK-R15-002 objective: ticket_messages 幂等键/不变量",
+      "severity": "HIGH"
+    },
+    {
+      "evidence": "The compatibility flag is a normal insertable column and each check constraint accepts rows when `legacy_without_idempotency` is true. Existing rows are backfilled at lines 56-58, but there is no trigger or constraint preventing new writes from explicitly setting this flag to true and omitting idempotency fields.",
+      "issue": "New notification/support writes can bypass required idempotency by setting the legacy flag.",
+      "line": 62,
+      "path": "database/migrations/V048__r15_notification_support_invariants.sql",
+      "requirement_ref": "TASK-R15-002 objective: 幂等键",
+      "severity": "HIGH"
+    },
+    {
+      "evidence": "The Python tests only load files with `read_text()`/`read_bytes()` and assert marker strings from lines 17-76; they do not run Flyway, connect to a database, execute `database/tests/r15_notification_support_invariants.sql`, or verify empty/upgrade migrations. This does not satisfy the task's required Flyway empty/upgrade and invariant property tests.",
+      "issue": "Required database acceptance tests are represented as string checks rather than executed migration/invariant tests.",
+      "line": 17,
+      "path": "tests/test_r15_notification_support_migration.py",
+      "requirement_ref": "ACTIVE_TASK.deliverables: Flyway前向迁移与空库/升级库测试; 不变量属性测试",
+      "severity": "HIGH"
+    }
+  ],
+  "schema": "hhy.reviewer-result/v5.0",
+  "status": "BLOCK",
+  "summary": "候选修改均位于允许路径，未发现删除既有测试或 protected_paths 修改。但当前 diff 存在阻断级数据库契约问题，且新增测试没有实际执行 Flyway/SQL 不变量验证，因此不能确认满足 TASK-R15-002。",
+  "task_id": "TASK-R15-002"
+}
