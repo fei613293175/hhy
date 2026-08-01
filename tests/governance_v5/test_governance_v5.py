@@ -340,6 +340,16 @@ def test_readiness_documentation_evidence_stays_inside_release_scope():
     assert "releases/R16/**" in spec["allowed_paths"]
 
 
+def test_r15_database_task_requires_real_postgres_execution():
+    spec = _specs()["TASK-R15-002"]
+    commands = spec["acceptance_commands"]
+    assert "mvn -q -f services/backend/pom.xml -DskipTests install" in commands
+    assert "mvn -q -f services/backend/pom.xml -pl boot -Dtest=R15NotificationSupportMigrationTest test" in commands
+    assert all("failIfNoSpecifiedTests=false" not in command for command in commands)
+    acceptance = " ".join(spec["acceptance"])
+    assert "不得以读取 SQL 文本或匹配标记替代数据库运行" in acceptance
+
+
 def test_r15_depends_on_r14_recovery():
     expected = "TASK-R14-RECOVERY-002" if REPAIR_RECOVERY_TASK_ID in _specs() else "TASK-R14-RECOVERY-001"
     assert _specs()["TASK-R15-001"]["depends_on"] == [_active_recovery_id()]
