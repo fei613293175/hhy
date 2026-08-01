@@ -1,0 +1,512 @@
+{
+  "schema": "hhy.gate-report/v5.0",
+  "status": "PASS",
+  "profile": "freeze",
+  "task_id": "TASK-R14-RECOVERY-015",
+  "release": "R14",
+  "commit": "ed30c09d16d5f716997e7f69e9097ed542e6bff1",
+  "generated_at": "2026-08-01T06:29:58.225008Z",
+  "checks": [
+    {
+      "id": "commit_binding",
+      "status": "PASS",
+      "detail": {
+        "HEAD": "ed30c09d16d5f716997e7f69e9097ed542e6bff1",
+        "expected": "ed30c09d16d5f716997e7f69e9097ed542e6bff1"
+      }
+    },
+    {
+      "id": "test_authority",
+      "status": "PASS",
+      "detail": {
+        "schema": "hhy.test-authority/v5.0",
+        "status": "PASS",
+        "commit": "ed30c09d16d5f716997e7f69e9097ed542e6bff1",
+        "parent": "868a07e758f869f31ca15ece1811a1a3befa464c",
+        "test_paths_checked": [
+          "tests/governance_v5/test_governance_v5.py",
+          "tests/governance_v5/test_runtime_command_resolution.py"
+        ],
+        "violations": []
+      }
+    },
+    {
+      "id": "static_specs",
+      "status": "PASS",
+      "detail": []
+    },
+    {
+      "id": "state_integrity",
+      "status": "PASS"
+    },
+    {
+      "id": "active_legacy_routes",
+      "status": "PASS",
+      "detail": []
+    },
+    {
+      "id": "secret_scan",
+      "status": "PASS",
+      "detail": {
+        "mode": null,
+        "files_considered": 5836,
+        "files_scanned": 5631,
+        "findings": []
+      }
+    },
+    {
+      "id": "hard_protection",
+      "status": "PASS",
+      "detail": {
+        "schema": "hhy.hard-protection/v5.0",
+        "status": "PASS",
+        "task_id": "TASK-R14-RECOVERY-015",
+        "release": "R14",
+        "profile": "freeze",
+        "risks": [
+          "apk_identity",
+          "contract",
+          "database",
+          "production",
+          "secrets",
+          "security",
+          "ui"
+        ],
+        "details": {
+          "security_requirements": []
+        },
+        "errors": []
+      }
+    },
+    {
+      "id": "release_hard_protection",
+      "status": "PASS",
+      "detail": {
+        "schema": "hhy.release-hard-protection/v5.0",
+        "status": "PASS",
+        "release": "R14",
+        "profile": "freeze",
+        "task_count": 17,
+        "errors": [],
+        "results": [
+          {
+            "schema": "hhy.hard-protection/v5.0",
+            "status": "PASS",
+            "task_id": "TASK-R14-003",
+            "release": "R14",
+            "profile": "freeze",
+            "risks": [
+              "contract",
+              "secrets",
+              "security"
+            ],
+            "details": {
+              "security_requirements": [
+                "REQ-APK-001",
+                "REQ-CHAT-001",
+                "REQ-CHAT-002"
+              ]
+            },
+            "errors": []
+          },
+          {
+            "schema": "hhy.hard-protection/v5.0",
+            "status": "PASS",
+            "task_id": "TASK-R14-004",
+            "release": "R14",
+            "profile": "freeze",
+            "risks": [
+              "secrets",
+              "security",
+              "ui"
+            ],
+            "details": {
+              "security_requirements": [
+                "REQ-APK-001",
+                "REQ-CHAT-001",
+                "REQ-CHAT-002"
+              ]
+            },
+            "errors": []
+          },
+          {
+            "schema": "hhy.hard-protection/v5.0",
+            "status": "PASS",
+            "task_id": "TASK-R14-RECOVERY-001",
+            "release": "R14",
+            "profile": "freeze",
+            "risks": [
+              "apk_identity",
+              "contract",
+              "database",
+              "production",
+              "secrets",
+              "security",
+              "ui"
+            ],
+            "details": {
+              "security_requirements": [
+                "REQ-APK-001",
+                "REQ-CHAT-001",
+                "REQ-CHAT-002"
+              ]
+            },
+            "errors": []
+          },
+          {
+            "schema": "hhy.hard-protection/v5.0",
+            "status": "PASS",
+            "task_id": "TASK-R14-RECOVERY-002",
+            "release": "R14",
+            "profile": "freeze",
+            "risks": [
+              "apk_identity",
+              "contract",
+              "database",
+              "production",
+              "secrets",
+              "security",
+              "ui"
+            ],
+            "details": {
+              "security_requirements": []
+            },
+            "errors": []
+          },
+          {
+            "schema": "hhy.hard-protection/v5.0",
+            "status": "PASS",
+            "task_id": "TASK-R14-RECOVERY-003",
+            "release": "R14",
+            "profile": "freeze",
+            "risks": [
+              "apk_identity",
+              "contract",
+              "database",
+              "production",
+              "secrets",
+              "security",
+              "ui"
+            ],
+            "details": {
+              "security_requirements": []
+            },
+            "errors": []
+          },
+          {
+            "schema": "hhy.hard-protection/v5.0",
+            "status": "PASS",
+            "task_id": "TASK-R14-RECOVERY-004",
+            "release": "R14",
+            "profile": "freeze",
+            "risks": [
+              "apk_identity",
+              "contract",
+              "database",
+              "production",
+              "secrets",
+              "security",
+              "ui"
+            ],
+            "details": {
+              "security_requirements": []
+            },
+            "errors": []
+          },
+          {
+            "schema": "hhy.hard-protection/v5.0",
+            "status": "PASS",
+            "task_id": "TASK-R14-RECOVERY-005",
+            "release": "R14",
+            "profile": "freeze",
+            "risks": [
+              "apk_identity",
+              "contract",
+              "database",
+              "production",
+              "secrets",
+              "security",
+              "ui"
+            ],
+            "details": {
+              "security_requirements": []
+            },
+            "errors": []
+          },
+          {
+            "schema": "hhy.hard-protection/v5.0",
+            "status": "PASS",
+            "task_id": "TASK-R14-RECOVERY-006",
+            "release": "R14",
+            "profile": "freeze",
+            "risks": [
+              "apk_identity",
+              "contract",
+              "database",
+              "production",
+              "secrets",
+              "security",
+              "ui"
+            ],
+            "details": {
+              "security_requirements": []
+            },
+            "errors": []
+          },
+          {
+            "schema": "hhy.hard-protection/v5.0",
+            "status": "PASS",
+            "task_id": "TASK-R14-RECOVERY-007",
+            "release": "R14",
+            "profile": "freeze",
+            "risks": [
+              "apk_identity",
+              "contract",
+              "database",
+              "production",
+              "secrets",
+              "security",
+              "ui"
+            ],
+            "details": {
+              "security_requirements": []
+            },
+            "errors": []
+          },
+          {
+            "schema": "hhy.hard-protection/v5.0",
+            "status": "PASS",
+            "task_id": "TASK-R14-RECOVERY-008",
+            "release": "R14",
+            "profile": "freeze",
+            "risks": [
+              "apk_identity",
+              "contract",
+              "database",
+              "production",
+              "secrets",
+              "security",
+              "ui"
+            ],
+            "details": {
+              "security_requirements": []
+            },
+            "errors": []
+          },
+          {
+            "schema": "hhy.hard-protection/v5.0",
+            "status": "PASS",
+            "task_id": "TASK-R14-RECOVERY-009",
+            "release": "R14",
+            "profile": "freeze",
+            "risks": [
+              "apk_identity",
+              "contract",
+              "database",
+              "production",
+              "secrets",
+              "security",
+              "ui"
+            ],
+            "details": {
+              "security_requirements": []
+            },
+            "errors": []
+          },
+          {
+            "schema": "hhy.hard-protection/v5.0",
+            "status": "PASS",
+            "task_id": "TASK-R14-RECOVERY-010",
+            "release": "R14",
+            "profile": "freeze",
+            "risks": [
+              "apk_identity",
+              "contract",
+              "database",
+              "production",
+              "secrets",
+              "security",
+              "ui"
+            ],
+            "details": {
+              "security_requirements": []
+            },
+            "errors": []
+          },
+          {
+            "schema": "hhy.hard-protection/v5.0",
+            "status": "PASS",
+            "task_id": "TASK-R14-RECOVERY-011",
+            "release": "R14",
+            "profile": "freeze",
+            "risks": [
+              "apk_identity",
+              "contract",
+              "database",
+              "production",
+              "secrets",
+              "security",
+              "ui"
+            ],
+            "details": {
+              "security_requirements": []
+            },
+            "errors": []
+          },
+          {
+            "schema": "hhy.hard-protection/v5.0",
+            "status": "PASS",
+            "task_id": "TASK-R14-RECOVERY-012",
+            "release": "R14",
+            "profile": "freeze",
+            "risks": [
+              "apk_identity",
+              "contract",
+              "database",
+              "production",
+              "secrets",
+              "security",
+              "ui"
+            ],
+            "details": {
+              "security_requirements": []
+            },
+            "errors": []
+          },
+          {
+            "schema": "hhy.hard-protection/v5.0",
+            "status": "PASS",
+            "task_id": "TASK-R14-RECOVERY-013",
+            "release": "R14",
+            "profile": "freeze",
+            "risks": [
+              "apk_identity",
+              "contract",
+              "database",
+              "production",
+              "secrets",
+              "security",
+              "ui"
+            ],
+            "details": {
+              "security_requirements": []
+            },
+            "errors": []
+          },
+          {
+            "schema": "hhy.hard-protection/v5.0",
+            "status": "PASS",
+            "task_id": "TASK-R14-RECOVERY-014",
+            "release": "R14",
+            "profile": "freeze",
+            "risks": [
+              "apk_identity",
+              "contract",
+              "database",
+              "production",
+              "secrets",
+              "security",
+              "ui"
+            ],
+            "details": {
+              "security_requirements": []
+            },
+            "errors": []
+          },
+          {
+            "schema": "hhy.hard-protection/v5.0",
+            "status": "PASS",
+            "task_id": "TASK-R14-RECOVERY-015",
+            "release": "R14",
+            "profile": "freeze",
+            "risks": [
+              "apk_identity",
+              "contract",
+              "database",
+              "production",
+              "secrets",
+              "security",
+              "ui"
+            ],
+            "details": {
+              "security_requirements": []
+            },
+            "errors": []
+          }
+        ]
+      }
+    },
+    {
+      "id": "documentation",
+      "status": "PASS",
+      "detail": {
+        "status": "PASS",
+        "exit_code": 0,
+        "command": [
+          "C:\\Users\\小白\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe",
+          "scripts/check_v123_documentation.py"
+        ],
+        "stdout_tail": "{\n  \"version\": \"1.2.3\",\n  \"product_spec_baseline\": \"V1.2.2\",\n  \"status\": \"PASS\",\n  \"strict\": false,\n  \"release_filter\": null,\n  \"metrics\": {\n    \"android_surfaces\": 102,\n    \"h5_pages\": 13,\n    \"admin_pages\": 74,\n    \"ui_surfaces\": 189,\n    \"templates\": 30,\n    \"fields\": 5143,\n    \"states\": 1628,\n    \"actions\": 609,\n    \"configs\": 319,\n    \"config_rules\": 58,\n    \"config_roles\": 21,\n    \"requirements\": 84,\n    \"tests\": 376,\n    \"stories\": 163,\n    \"dor_gates\": 396,\n    \"tables\": 203,\n    \"rest_operations\": 319,\n    \"websocket_events\": 12,\n    \"unassigned_api_operations\": 0,\n    \"open_document_gaps\": 0\n  },\n  \"errors\": [],\n  \"warnings\": []\n}\n",
+        "stderr_tail": ""
+      }
+    },
+    {
+      "id": "api_contract",
+      "status": "PASS",
+      "detail": {
+        "status": "PASS",
+        "exit_code": 0,
+        "command": [
+          "C:\\Users\\小白\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe",
+          "scripts/check_api_contract.py"
+        ],
+        "stdout_tail": "API_CONTRACT_OK client=131 admin=184 websocket=12 runtime_hashes=PASS\n",
+        "stderr_tail": ""
+      }
+    },
+    {
+      "id": "database_schema",
+      "status": "PASS",
+      "detail": {
+        "status": "PASS",
+        "exit_code": 0,
+        "command": [
+          "C:\\Users\\小白\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe",
+          "scripts/check_db_schema.py"
+        ],
+        "stdout_tail": "DB_SCHEMA_OK tables=203 migrations=47 runtime_hashes=PASS\n",
+        "stderr_tail": ""
+      }
+    },
+    {
+      "id": "ui_tokens",
+      "status": "PASS",
+      "detail": {
+        "status": "PASS",
+        "exit_code": 0,
+        "command": [
+          "C:\\Users\\小白\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe",
+          "scripts/check_ui_tokens.py"
+        ],
+        "stdout_tail": "UI_TOKENS_OK 52\n",
+        "stderr_tail": ""
+      }
+    },
+    {
+      "id": "visual_contract",
+      "status": "PASS",
+      "detail": {
+        "status": "PASS",
+        "exit_code": 0,
+        "command": [
+          "C:\\Users\\小白\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe",
+          "scripts/check_ui_visual_acceptance.py",
+          "--release",
+          "R14"
+        ],
+        "stdout_tail": "UI_VISUAL_ACCEPTANCE_OK R14 pages=6\n",
+        "stderr_tail": ""
+      }
+    }
+  ]
+}
