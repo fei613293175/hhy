@@ -6,11 +6,45 @@ depends_on:
 - R14
 scope: 业务通知、公告、拉黑举报、防骚扰、客服工单、申诉和纠纷
 android_test_apk_required: true
+# “需求4条”只统计本版本业务范围；TASK-R15-001 同时继承跨版本 APK 交付门禁，
+# 不因此扩大本版本 19 个页面/交互面和 23 个接口的施工范围。
+task_requirements:
+- REQ-CHAT-002
+- REQ-NOTIFY-001
+- REQ-SUPPORT-001
+- REQ-APK-001
 requirements:
 - REQ-CHAT-002
 - REQ-NOTIFY-001
 - REQ-SUPPORT-001
 - REQ-NOTIFICATION-OPS-001
+requirement_scope_bindings:
+  REQ-APK-001:
+    scope: CROSS_CUTTING_RELEASE_ARTIFACT
+    ui: N/A_R15_REUSES_CENTRAL_APP_BUILD_SURFACES
+    api: N/A_R15_REUSES_CENTRAL_APP_BUILD_CONTRACTS
+    config_keys:
+    - app.build.apk_required_for_android_release
+    data_tables:
+    - app_versions
+    test_ids:
+    - TST-GATE-ANDROID-BUILD
+    reason: R15仅在候选出口绑定APK的Commit、SHA256、版本、签名和安装冒烟；构建中心页面与接口由R29统一施工。
+  REQ-NOTIFICATION-OPS-001:
+    scope: R15_DOMAIN_DATA_AND_TEST_FOUNDATION
+    ui: N/A_ADMIN_SURFACES_SCHEDULED_FOR_R30
+    api: N/A_ADMIN_OPERATIONS_SCHEDULED_FOR_R30
+    data_tables:
+    - notification_templates
+    - notification_deliveries
+    - notification_delivery_attempts
+    - admin_operation_logs
+    test_ids:
+    - TST-NOTIFICATION_OPS_001-DRIFT
+    - TST-NOTIFICATION_OPS_001-HAPPY
+    - TST-NOTIFICATION_OPS_001-REJECT
+    - TST-NOTIFICATION_OPS_001-SECURITY
+    reason: R15冻结通知模板与投递的数据、审计和测试基础；ADM-NOTIFY-001、ADM-NOTIFY-002及其5个后台operationId由R30故事施工。
 ui:
   android:
   - SHEET-REPORT-001

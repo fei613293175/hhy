@@ -6,6 +6,41 @@ rules:
 - 故事未通过definition_of_ready不得进入编码
 - 页面故事不得增加未登记字段、状态、按钮、接口或配置
 - 工程治理故事负责契约、数据、配置、测试、观测和交接
+assignment_contract:
+  owner_claim_field: owner_roles
+  dependency_claim_field: dependencies
+  required_story_status: READY_FOR_IMPLEMENTATION
+  dynamic_dependency_status_source: governance/STATE.yaml
+  note: 本文件只冻结责任角色和依赖声明，不复制动态完成状态。
+task_requirement_bindings:
+- requirement_id: REQ-APK-001
+  delivery_story: STORY-R15-014
+  scope: CROSS_CUTTING_RELEASE_ARTIFACT
+  ui: N/A_R15_REUSES_CENTRAL_APP_BUILD_SURFACES
+  api: N/A_R15_REUSES_CENTRAL_APP_BUILD_CONTRACTS
+  config_keys:
+  - app.build.apk_required_for_android_release
+  data_tables:
+  - app_versions
+  test_ids:
+  - TST-GATE-ANDROID-BUILD
+  reason: R15仅验收候选APK身份与安装冒烟；构建中心页面和接口由R29统一施工，不计入R15的19个交互面和23个接口。
+- requirement_id: REQ-NOTIFICATION-OPS-001
+  delivery_story: STORY-R15-014
+  scope: R15_DOMAIN_DATA_AND_TEST_FOUNDATION
+  ui: N/A_ADMIN_SURFACES_SCHEDULED_FOR_R30
+  api: N/A_ADMIN_OPERATIONS_SCHEDULED_FOR_R30
+  data_tables:
+  - notification_templates
+  - notification_deliveries
+  - notification_delivery_attempts
+  - admin_operation_logs
+  test_ids:
+  - TST-NOTIFICATION_OPS_001-DRIFT
+  - TST-NOTIFICATION_OPS_001-HAPPY
+  - TST-NOTIFICATION_OPS_001-REJECT
+  - TST-NOTIFICATION_OPS_001-SECURITY
+  reason: R15冻结数据、审计和测试基础；ADM-NOTIFY-001、ADM-NOTIFY-002及其5个后台operationId由R30故事施工。
 stories:
 - story_id: STORY-R15-001
   release: R15
