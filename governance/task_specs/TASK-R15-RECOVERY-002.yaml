@@ -28,6 +28,8 @@ deliverables:
 acceptance:
 - RESOLVED 到 CLOSED 可达，消息幂等身份不可变，新写入不能使用 legacy 兼容标志绕过幂等字段
 - 真实连接 PostgreSQL 17 执行空库、V047 升级库和 SQL 不变量矩阵
+- PostgreSQL 测试必须直接读取 DATABASE_URL 或 HHY_DB_MIGRATION_TEST_URL/USER/PASSWORD；不得要求 Gate 未提供的 HHY_R15_POSTGRES_DSN，不得调用 pytest.skip
+- 空库路径必须从 V001 执行到 V048；升级路径必须先只执行 V001-V047、写入覆盖 legacy 兼容和状态场景的旧数据，再单独执行 V048，最后在两条路径执行 database/tests/r15_notification_support_invariants.sql
 - TASK-R15-RECOVERY-001 永久保持 FAILED_BOUNDED
 - 不继承或冒用旧 Candidate、APK、截图、视觉批准或 PASS
 - Worker 候选不得伪造 Gate、审查或自动化证据
@@ -64,6 +66,7 @@ recovery_product_contract:
   acceptance:
   - RESOLVED 到 CLOSED 可达，消息幂等身份不可变，新写入不能使用 legacy 兼容标志绕过幂等字段
   - 真实连接 PostgreSQL 17 执行空库、V047 升级库和 SQL 不变量矩阵
+  - 不得 skip；必须分别执行 V001-V048 空库路径与 V001-V047 加旧数据后单独执行 V048 的升级路径
 latest_failure_evidence:
   commit: 501cd4a77898a5352ab320eb8b924a915920ff76
   findings:
@@ -93,3 +96,16 @@ latest_failure_evidence:
   summary: 'BLOCK: candidate violates current R15 idempotency and support-ticket state-machine contracts. No protected-path
     writes or explicit skip/xfail deletion were observed in the reviewed diff.'
   task_id: TASK-R15-RECOVERY-001
+attempt_1_reviewer_evidence:
+  commit: eccf3c2ce6b37b5ad5583ac3d7b5c9a4b0a6e651
+  status: BLOCK
+  finding:
+    severity: HIGH
+    path: tests/test_r15_notification_support_postgres.py
+    line: 139
+    issue: Candidate can pass while skipping real PostgreSQL validation and does not implement a populated V047 upgrade path.
+    required_fix:
+    - Remove all skip paths for missing database confirmation, driver, connection, or DSN.
+    - Use the Gate-provided DATABASE_URL or HHY_DB_MIGRATION_TEST_URL environment.
+    - Execute V001-V047, seed legacy rows, then execute V048 separately for the upgrade case.
+    - Execute the SQL invariant matrix on both empty and upgrade databases.
