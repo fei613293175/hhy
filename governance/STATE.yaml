@@ -1,15 +1,15 @@
 schema: hhy.governance-state/v5.0
-revision: 126
-updated_at: '2026-08-01T21:49:11.188587Z'
-state_hash: 7a3a9ce19c7311bec3a206e29f5228254d8ed3766516c80411eec14f95bc56c9
+revision: 127
+updated_at: '2026-08-01T21:50:27.285301Z'
+state_hash: 9c26aa5adf7c716995dae9796a1eea033f355a647e1adbfc812677b757d21692
 project:
-  status: FAILED_BOUNDED
+  status: ACTIVE
   branch_at_install: governance/v5.0-migration-20260731
   migration_baseline_commit: ea64d82fab9ed3d1952ab7d3c0d2286051390b59
   migration_commit: 8beafc2a0e115345c554abc0bdc199ef92534106
-  authoritative_commit: aff6e288cfcdd1b3fb20a4f851fd606dc6821950
+  authoritative_commit: 3be7e1637cc1bb1ef59d885121ca44dea0a1e6ad
   active_release: R15
-  active_task: null
+  active_task: TASK-R15-RECOVERY-005
   goal_complete: false
 lease: null
 releases:
@@ -2829,6 +2829,14 @@ tasks:
       25 个 operationId 目标；新增契约测试只冻结 24 个操作，缺少的 operationId 未被实现或测试覆盖。", "line": 8, "path": "governance/runtime/ACTIVE_TASK.json",
       "requirement_ref": "TASK-R15-RECOVERY-004 objective", "severity": "HIGH"}], "schema": "hhy.reviewer-result/v5.0", "status":
       "BLOCK", "summary": "候选不满足 TASK-R15-RECOVERY-004：存在启动级重复路由、数据库迁移同步测试弱化且真实漂移、operationId 数量少于任务要求。", "task_id": "TASK-R15-RECOVERY-004"}'
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R15-RECOVERY-005:
+    status: READY
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
     last_candidate_commit: null
     last_gate_evidence: null
     blocker: null
