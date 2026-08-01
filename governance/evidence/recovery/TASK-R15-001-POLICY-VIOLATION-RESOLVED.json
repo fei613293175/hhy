@@ -1,0 +1,24 @@
+{
+  "schema": "hhy.unblock-evidence/v5.0",
+  "status": "PASS",
+  "resolved": true,
+  "task_id": "TASK-R15-001",
+  "blocker_code": "WORKER_SCOPE_VIOLATION",
+  "violation_disposition": "REJECTED_UNMERGED",
+  "authority_worktree_clean": true,
+  "violating_paths": [
+    "artifacts/validation/project-doctor-v1.2.2.json"
+  ],
+  "root_cause": "The readiness task required check_v122_documentation.py but did not bind its default JSON output to a task-allowed path.",
+  "resolution": {
+    "strategy": "BIND_EVIDENCE_TO_RELEASE_SCOPE",
+    "output_path": "releases/R15/evidence/project-doctor-v1.2.2.json",
+    "worker_scope_expanded": false,
+    "attempt_limit_changed": false
+  },
+  "verification": {
+    "documentation_check": "PASS",
+    "governance_tests": "40 passed",
+    "command": "python -m pytest tests/governance_v5/test_governance_v5.py -q"
+  }
+}

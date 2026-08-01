@@ -19,13 +19,13 @@ objective: 核验 4 项需求、23 个接口、41 张相关表、19 个页面/�
 deliverables:
 - releases/R15/DEFINITION_OF_READY.yaml 全部适用项PASS
 - releases/R15/STORIES.yaml 故事责任人和依赖已领取
-- python scripts/check_v122_documentation.py --release R15
+- python scripts/check_v122_documentation.py --release R15 --json-out releases/R15/evidence/project-doctor-v1.2.2.json
 acceptance:
 - 页面、字段、状态、动作、API、配置、数据和测试无TBD
 - 不适用项明确N/A及原因
 - releases/R15/DEFINITION_OF_READY.yaml 全部适用项PASS
 - releases/R15/STORIES.yaml 故事责任人和依赖已领取
-- python scripts/check_v122_documentation.py --release R15
+- python scripts/check_v122_documentation.py --release R15 --json-out releases/R15/evidence/project-doctor-v1.2.2.json
 allowed_paths:
 - catalogs/**
 - contracts/**

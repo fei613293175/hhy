@@ -36,6 +36,7 @@ from tools.governance.gov50.tasks import (
     EXPECTED_SOURCE_TASKS,
     EXPECTED_TASKS,
     REPAIR_RECOVERY_TASK_ID,
+    _normalize_source_task,
     build_program_plan,
     load_task_specs,
     validate_specs,
@@ -125,15 +126,12 @@ def test_single_state_is_valid():
     specs = _specs()
     state = yaml.safe_load((ROOT / "governance/STATE.yaml").read_text(encoding="utf-8"))
     assert_valid_state(state, specs)
-    assert state["project"]["active_release"] == "R14"
+    active_release = state["project"]["active_release"]
+    active_task = state["project"]["active_task"]
     if state["project"]["status"] == "FAILED_BOUNDED":
-        assert state["project"]["active_task"] is None
-        assert state["tasks"]["TASK-R14-RECOVERY-001"]["status"] == "FAILED_BOUNDED"
-        assert state["tasks"]["TASK-R14-RECOVERY-001"]["attempts_used"] == 3
-    elif state["project"]["active_task"] == _active_recovery_id():
-        assert state["tasks"]["TASK-R14-RECOVERY-001"]["status"] == "FAILED_BOUNDED"
-        assert state["tasks"]["TASK-R14-RECOVERY-001"]["attempts_used"] == 3
-        active_task = _active_recovery_id()
+        assert active_task is None
+    elif active_task:
+        assert specs[active_task]["release"] in {active_release, "CONTROL"}
         project_status = state["project"]["status"]
         expected_status = project_status if project_status in {
             "INFRASTRUCTURE_BLOCKED", "EXTERNAL_BLOCKED", "POLICY_VIOLATION",
@@ -141,11 +139,12 @@ def test_single_state_is_valid():
         assert state["tasks"][active_task]["status"] == expected_status
         attempts_used = state["tasks"][active_task]["attempts_used"]
         assert 0 <= attempts_used < specs[active_task]["maximum_attempts"]
-    elif state["project"]["active_task"] is None and state["releases"]["R14"]["status"] in {"FREEZE_READY", "CANDIDATE_GREEN"}:
+    elif state["project"]["status"] == "ACTIVE":
+        assert state["releases"][active_release]["status"] in {"FREEZE_READY", "CANDIDATE_GREEN"}
         assert state["project"]["status"] == "ACTIVE"
     else:
         assert state["project"]["status"] in {"EXTERNAL_BLOCKED", "INFRASTRUCTURE_BLOCKED", "POLICY_VIOLATION"}
-        assert state["project"]["active_task"] is None
+        assert active_task is None
 
 
 def test_attempt_four_is_rejected():
@@ -166,6 +165,14 @@ def test_state_hash_tampering_is_rejected():
 
 def test_recovery_is_only_active_entry_before_activation():
     state = yaml.safe_load((ROOT / "governance/STATE.yaml").read_text(encoding="utf-8"))
+    if state["project"]["active_release"] != "R14":
+        assert state["releases"]["R14"]["status"] == "MACHINE_CLOSED"
+        assert all(
+            row["status"] in {"DONE", "FAILED_BOUNDED"}
+            for task_id, row in state["tasks"].items()
+            if task_id.startswith("TASK-R14-RECOVERY-")
+        )
+        return
     if state["project"]["status"] == "FAILED_BOUNDED":
         assert state["project"]["active_task"] is None
         assert state["tasks"]["TASK-R14-RECOVERY-001"]["status"] == "FAILED_BOUNDED"
@@ -309,6 +316,21 @@ def test_release_close_is_bounded_worker_not_self_closing():
 def test_machine_close_preserves_failed_recovery_history():
     source = (ROOT / "tools/governance/gov50/orchestrator.py").read_text(encoding="utf-8")
     assert 'state["tasks"]["TASK-R14-RECOVERY-001"]["status"] = "DONE"' not in source
+
+
+def test_readiness_documentation_evidence_stays_inside_release_scope():
+    raw = {
+        "id": "TASK-R16-001",
+        "title": "readiness",
+        "status": "READY",
+        "deliverables": ["python scripts/check_v122_documentation.py --release R16"],
+        "acceptance": ["python scripts/check_v122_documentation.py --release R16"],
+    }
+    spec = _normalize_source_task("R16", raw, "releases/R16/TASKS.yaml")
+    expected = "--json-out releases/R16/evidence/project-doctor-v1.2.2.json"
+    assert expected in spec["deliverables"][0]
+    assert expected in spec["acceptance"][0]
+    assert "releases/R16/**" in spec["allowed_paths"]
 
 
 def test_r15_depends_on_r14_recovery():

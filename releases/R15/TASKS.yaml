@@ -15,14 +15,14 @@ tasks:
   - releases/R15/DEFINITION_OF_READY.yaml 全部适用项PASS
   - releases/R15/STORIES.yaml 故事责任人和依赖已领取
   - 更新Release Manifest与CR记录
-  - python scripts/check_v122_documentation.py --release R15
+  - python scripts/check_v122_documentation.py --release R15 --json-out releases/R15/evidence/project-doctor-v1.2.2.json
   acceptance:
   - 页面、字段、状态、动作、API、配置、数据和测试无TBD
   - 不适用项明确N/A及原因
   - releases/R15/DEFINITION_OF_READY.yaml 全部适用项PASS
   - releases/R15/STORIES.yaml 故事责任人和依赖已领取
   - 更新Release Manifest与CR记录
-  - python scripts/check_v122_documentation.py --release R15
+  - python scripts/check_v122_documentation.py --release R15 --json-out releases/R15/evidence/project-doctor-v1.2.2.json
   session_log_required: true
 - id: TASK-R15-002
   title: 通知、公告、举报与客服数据迁移与领域不变量

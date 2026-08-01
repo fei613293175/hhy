@@ -68,6 +68,16 @@ def _clean_description(text: Any) -> str:
     return "；".join(kept) or "按正式产品文档、合同、代码与测试完成本任务。"
 
 
+def _bind_readiness_evidence(items: list[str], release: str) -> list[str]:
+    output = f"releases/{release}/evidence/project-doctor-v1.2.2.json"
+    return [
+        f"{item} --json-out {output}"
+        if "check_v122_documentation.py" in item and "--json-out" not in item
+        else item
+        for item in items
+    ]
+
+
 def _risks(kind: str, raw: dict[str, Any]) -> list[str]:
     text = " ".join(
         [str(raw.get("title") or ""), str(raw.get("description") or "")]
@@ -151,6 +161,9 @@ def _normalize_source_task(release: str, raw: dict[str, Any], source_path: str) 
     objective = _clean_description(raw.get("description"))
     deliverables = _strip_legacy(raw.get("deliverables") or [])
     acceptance = _strip_legacy(raw.get("acceptance") or [])
+    if kind == "readiness":
+        deliverables = _bind_readiness_evidence(deliverables, release)
+        acceptance = _bind_readiness_evidence(acceptance, release)
     if kind == "release_close":
         objective = (
             f"在 {release} 冻结前完成全部会修改源码的集成修复，使发布级文档、接口、数据库、"
