@@ -1,0 +1,33 @@
+{
+  "commit": "6f5fdde9601c2bedc1072b79753440b51d6ce5dd",
+  "findings": [
+    {
+      "evidence": "ContentReportRequest 的 evidenceMediaIds/messageIds 在 R13Service.java:97-105 被解析并纳入幂等 hash，但实际写库调用 R13Service.java:119 只传 userId/contentId/reasonCode/description；R13PostgresStore.java:52-58 也只插入 reporter_id/content_id/type/description/status，没有保存证据媒体或消息引用。",
+      "issue": "contentPostContentsByIdReport 会静默丢弃请求中的 evidenceMediaIds 和 messageIds，候选没有完整实现当前 R15 内容举报契约，造成可复核证据数据丢失。",
+      "line": 119,
+      "path": "services/backend/content/src/main/java/cc/orbexa/hhy/content/R13Service.java",
+      "requirement_ref": "ACTIVE_TASK objective: 实现范围内25个operationId；deliverables: 权限/幂等/错误码/审计覆盖",
+      "severity": "HIGH"
+    },
+    {
+      "evidence": "TicketMessageRequest 在 R15Contracts.java:41-43 定义 attachments；R15Service.java:174-180 和 254-256 将 attachments 纳入请求 hash，但 R15Service.java:189、265 调用的 Store 方法只传 content。R15Store.java:190-197 与 265-272 只插入 hhy.ticket_messages，不写 ticket_attachments。",
+      "issue": "用户和管理员补充工单消息时，attachments 参数会被接受但完全不持久化，supportPostSupportTicketsByIdMessages/adminSupportPostSupportTicketsByIdMessages 存在契约级数据丢失。",
+      "line": 189,
+      "path": "services/backend/access/src/main/java/cc/orbexa/hhy/access/r15/R15Service.java",
+      "requirement_ref": "ACTIVE_TASK objective: 实现范围内25个operationId；deliverables: OpenAPI契约测试",
+      "severity": "HIGH"
+    },
+    {
+      "evidence": "现有列表端把 content_reports/content_appeals 的 version 返回为 updated_at epoch 微秒（R12ReviewPostgresStore.java:101-104、122-125，并由 R12ReviewService.java:331-339 暴露）。但新增决策端在 R15Store.java:288-289 对这两张表锁定时硬编码 0 AS version，R15Service.java:317 又要求 expectedVersion 和 locked.version 都为 0。正常客户端从列表拿到的非零 expectedVersion 会被固定判为 409。",
+      "issue": "adminReportsPostContentReportsByIdDecide 和 adminAppealsPostAppealsByIdDecide 与现有读取契约的 version 不兼容，正常从列表进入处理的请求无法通过版本校验。",
+      "line": 317,
+      "path": "services/backend/access/src/main/java/cc/orbexa/hhy/access/r15/R15Service.java",
+      "requirement_ref": "ACTIVE_TASK deliverables: 权限/幂等/错误码/审计覆盖",
+      "severity": "HIGH"
+    }
+  ],
+  "schema": "hhy.reviewer-result/v5.0",
+  "status": "BLOCK",
+  "summary": "候选未满足 TASK-R15-RECOVERY-005：发现 3 个 HIGH 级真实契约/数据正确性问题。未看到通过删除、跳过或弱化既有测试取得通过的 diff 证据。",
+  "task_id": "TASK-R15-RECOVERY-005"
+}
