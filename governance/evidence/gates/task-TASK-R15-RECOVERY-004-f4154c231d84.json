@@ -1,0 +1,98 @@
+{
+  "schema": "hhy.gate-report/v5.0",
+  "status": "PASS",
+  "profile": "task",
+  "task_id": "TASK-R15-RECOVERY-004",
+  "release": "R15",
+  "commit": "f4154c231d84e4f5ec40fb6f3adc21a934e399a7",
+  "generated_at": "2026-08-01T21:43:57.726221Z",
+  "checks": [
+    {
+      "id": "commit_binding",
+      "status": "PASS",
+      "detail": {
+        "HEAD": "f4154c231d84e4f5ec40fb6f3adc21a934e399a7",
+        "expected": "f4154c231d84e4f5ec40fb6f3adc21a934e399a7"
+      }
+    },
+    {
+      "id": "test_authority",
+      "status": "PASS",
+      "detail": {
+        "schema": "hhy.test-authority/v5.0",
+        "status": "PASS",
+        "commit": "f4154c231d84e4f5ec40fb6f3adc21a934e399a7",
+        "parent": "e7dffcc53f84fd7701a8e8681af395d9e9c0a6bc",
+        "test_paths_checked": [
+          "services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/R15NotificationSupportControllerContractTest.java",
+          "services/backend/boot/src/test/java/cc/orbexa/hhy/content/R15NotificationSupportServiceTest.java",
+          "tests/test_r15_notification_support_postgres.py"
+        ],
+        "violations": []
+      }
+    },
+    {
+      "id": "static_specs",
+      "status": "PASS",
+      "detail": []
+    },
+    {
+      "id": "state_integrity",
+      "status": "PASS"
+    },
+    {
+      "id": "active_legacy_routes",
+      "status": "PASS",
+      "detail": []
+    },
+    {
+      "id": "secret_scan",
+      "status": "PASS",
+      "detail": {
+        "mode": null,
+        "files_considered": 10,
+        "files_scanned": 9,
+        "findings": []
+      }
+    },
+    {
+      "id": "hard_protection",
+      "status": "PASS",
+      "detail": {
+        "schema": "hhy.hard-protection/v5.0",
+        "status": "PASS",
+        "task_id": "TASK-R15-RECOVERY-004",
+        "release": "R15",
+        "profile": "task",
+        "risks": [
+          "contract",
+          "secrets",
+          "security"
+        ],
+        "details": {
+          "security_requirements": [
+            "REQ-APK-001",
+            "REQ-CHAT-002",
+            "REQ-NOTIFY-001",
+            "REQ-SUPPORT-001"
+          ]
+        },
+        "errors": []
+      }
+    },
+    {
+      "id": "task_acceptance_1",
+      "status": "PASS",
+      "detail": {
+        "status": "PASS",
+        "exit_code": 0,
+        "command": [
+          "C:\\Users\\小白\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe",
+          "scripts/check_api_contract.py"
+        ],
+        "stdout_tail": "API_CONTRACT_OK client=131 admin=184 websocket=12 runtime_hashes=PASS\n",
+        "stderr_tail": ""
+      }
+    }
+  ]
+}
