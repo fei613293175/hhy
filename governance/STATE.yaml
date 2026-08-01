@@ -1,15 +1,15 @@
 schema: hhy.governance-state/v5.0
-revision: 110
-updated_at: '2026-08-01T15:44:15.428035Z'
-state_hash: b558ab7b7f47938ca87324fbbc57ce7f97b024bc3b622dc473c10e4f1e2349f8
+revision: 111
+updated_at: '2026-08-01T15:48:38.728709Z'
+state_hash: c90172f47accef5e2b1ef57c220afa38005f0b19fbe924ac10bc9589cedfeb76
 project:
-  status: FAILED_BOUNDED
+  status: ACTIVE
   branch_at_install: governance/v5.0-migration-20260731
   migration_baseline_commit: ea64d82fab9ed3d1952ab7d3c0d2286051390b59
   migration_commit: 8beafc2a0e115345c554abc0bdc199ef92534106
-  authoritative_commit: d26fedb71e6e72e61de11fb7b1a52a4618d0afbf
+  authoritative_commit: e49246e697cc4f2341c4447794e5cedb4720b7c0
   active_release: R15
-  active_task: null
+  active_task: TASK-R15-RECOVERY-002
   goal_complete: false
 lease: null
 releases:
@@ -2763,6 +2763,14 @@ tasks:
       "requirement_ref": "ACTIVE_TASK acceptance: RESOLVED 到 CLOSED 可达; 状态历史/契约同步", "severity": "HIGH"}], "schema": "hhy.reviewer-result/v5.0",
       "status": "BLOCK", "summary": "BLOCK: candidate violates current R15 idempotency and support-ticket state-machine contracts.
       No protected-path writes or explicit skip/xfail deletion were observed in the reviewed diff.", "task_id": "TASK-R15-RECOVERY-001"}'
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R15-RECOVERY-002:
+    status: READY
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
     last_candidate_commit: null
     last_gate_evidence: null
     blocker: null

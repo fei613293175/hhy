@@ -14,7 +14,7 @@ requirements:
 - REQ-SUPPORT-001
 - REQ-APK-001
 depends_on:
-- TASK-R15-RECOVERY-001
+- TASK-R15-RECOVERY-002
 objective: 实现范围内25个operationId；控制器仅编排应用服务，跨模块副作用写Outbox
 deliverables:
 - OpenAPI契约测试
