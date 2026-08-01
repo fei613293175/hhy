@@ -305,9 +305,14 @@ def validate_specs(specs: dict[str, dict[str, Any]], plan: dict[str, Any]) -> li
     expected_tasks = EXPECTED_TASKS + max(0, recovery_count - 1)
     if len(specs) != expected_tasks:
         errors.append(f"task_count expected {expected_tasks}, got {len(specs)}")
-    future = sum(1 for s in specs.values() if s.get("release", "").startswith("R") and 15 <= int(s["release"][1:]) <= 32)
-    if future != EXPECTED_FUTURE_TASKS:
-        errors.append(f"R15-R32 task count expected {EXPECTED_FUTURE_TASKS}, got {future}")
+    future_specs = [
+        spec for spec in specs.values()
+        if spec.get("release", "").startswith("R") and 15 <= int(spec["release"][1:]) <= 32
+    ]
+    future_recovery_count = sum(1 for spec in future_specs if spec.get("kind") == "recovery")
+    expected_future_tasks = EXPECTED_FUTURE_TASKS + future_recovery_count
+    if len(future_specs) != expected_future_tasks:
+        errors.append(f"R15-R32 task count expected {expected_future_tasks}, got {len(future_specs)}")
     if plan.get("task_count") != len(specs):
         errors.append("program plan task_count mismatch")
     for task_id, spec in specs.items():

@@ -58,10 +58,26 @@ def test_auto_recovery_spec_resets_accumulated_recovery_prose():
     repair = build_auto_recovery_spec(source, "TASK-R14-RECOVERY-016", "TASK-R14-RECOVERY-017", "R14", 25)
 
     assert repair["title"] == "R14 自动有界恢复：源码冻结就绪"
+    assert repair["kind"] == "recovery"
     assert len(repair["requirements"]) == 5
     assert len(repair["acceptance"]) == 5
     assert "python3 scripts/check_ui_visual_acceptance.py --release R14" not in repair["acceptance_commands"]
     assert "python3 scripts/check_r14_entry_contract.py" in repair["acceptance_commands"]
+
+
+def test_r15_auto_recovery_is_counted_as_a_bounded_recovery_task():
+    specs = _specs()
+    source = copy.deepcopy(specs["TASK-R15-002"])
+    repair = build_auto_recovery_spec(
+        source, "TASK-R15-002", "TASK-R15-RECOVERY-001", "R15", 9
+    )
+    specs[repair["id"]] = repair
+    plan = build_program_plan(specs)
+
+    assert repair["kind"] == "recovery"
+    assert repair["maximum_attempts"] == 3
+    assert repair["supersedes"] == "TASK-R15-002"
+    assert validate_specs(specs, plan) == []
 
 
 def test_visual_gate_uses_pre_freeze_entry_and_post_freeze_strict_acceptance():
@@ -96,9 +112,15 @@ def _active_recovery_id():
 def test_expected_task_counts():
     specs = _specs()
     recovery_count = sum(1 for spec in specs.values() if spec.get("kind") == "recovery")
+    future_recovery_count = sum(
+        1 for spec in specs.values()
+        if spec.get("kind") == "recovery"
+        and str(spec.get("release", "")).startswith("R")
+        and 15 <= int(spec["release"][1:]) <= 32
+    )
     assert len(specs) == EXPECTED_TASKS + max(0, recovery_count - 1)
     assert sum(1 for s in specs.values() if s.get("source", {}).get("path", "").startswith("releases/")) == EXPECTED_SOURCE_TASKS == 264
-    assert sum(1 for s in specs.values() if str(s.get("release", "")).startswith("R") and 15 <= int(s["release"][1:]) <= 32) == EXPECTED_FUTURE_TASKS == 144
+    assert sum(1 for s in specs.values() if str(s.get("release", "")).startswith("R") and 15 <= int(s["release"][1:]) <= 32) == EXPECTED_FUTURE_TASKS + future_recovery_count
 
 
 def test_every_task_has_hard_total_attempt_budget():

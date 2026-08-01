@@ -59,8 +59,15 @@ def doctor(repo: Path, ci: bool) -> dict[str, Any]:
         add("task_specs", "PASS" if not errors else "FAIL", errors)
         future = sum(1 for s in specs.values() if str(s.get("release", "")).startswith("R") and 15 <= int(str(s["release"])[1:]) <= 32)
         recovery_count = sum(1 for spec in specs.values() if spec.get("kind") == "recovery")
+        future_recovery_count = sum(
+            1 for spec in specs.values()
+            if spec.get("kind") == "recovery"
+            and str(spec.get("release", "")).startswith("R")
+            and 15 <= int(str(spec["release"])[1:]) <= 32
+        )
         expected_total = EXPECTED_TASKS + max(0, recovery_count - 1)
-        add("task_counts", "PASS" if (len(specs), future) == (expected_total, EXPECTED_FUTURE_TASKS) else "FAIL", {"total": len(specs), "expected_total": expected_total, "R15_R32": future})
+        expected_future = EXPECTED_FUTURE_TASKS + future_recovery_count
+        add("task_counts", "PASS" if (len(specs), future) == (expected_total, expected_future) else "FAIL", {"total": len(specs), "expected_total": expected_total, "R15_R32": future, "expected_R15_R32": expected_future})
     except Exception as exc:
         specs = {}
         add("task_specs", "FAIL", str(exc))

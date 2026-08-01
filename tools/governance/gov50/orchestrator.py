@@ -966,6 +966,7 @@ def build_auto_recovery_spec(
         "id": to_task,
         "ordinal": ordinal,
         "title": f"{release} 自动有界恢复：源码冻结就绪",
+        "kind": "recovery",
         "source": {"path": "Supervisor automatic bounded recovery", "original_id": from_task},
         "supersedes": from_task,
         "depends_on": [],
