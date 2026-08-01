@@ -1,0 +1,25 @@
+{
+  "commit": "26b0aad0c15d338e99c024f8416af2b7b1caa43e",
+  "findings": [
+    {
+      "evidence": "ACTIVE_TASK.json requires both \"Flyway前向迁移与空库/升级库测试\" and \"不变量属性测试\". The added test named test_executable_property_matrix_covers_expected_failures only reads database/tests/r15_notification_support_invariants.sql and checks marker substrings plus trailing ROLLBACK; the diff adds no script or test that applies V048 on empty/upgrade databases or executes the SQL matrix through psql/Flyway.",
+      "issue": "TASK-R15-002 acceptance is weakened to static marker checks; the required executable empty/upgrade Flyway verification and invariant property execution are not present in the candidate diff.",
+      "line": 67,
+      "path": "tests/test_r15_notification_support_migration.py",
+      "requirement_ref": "governance/runtime/ACTIVE_TASK.json:9-17",
+      "severity": "HIGH"
+    },
+    {
+      "evidence": "The DO block declares PL/pgSQL variables announcement_id and ticket_id, then uses unqualified predicates WHERE announcement_id=announcement_id and WHERE ticket_id=ticket_id against tables that also have columns with those names. Under the default PL/pgSQL name-conflict behavior these references are ambiguous; even under a non-default setting they are tautological or variable-only rather than scoped to the inserted row.",
+      "issue": "The claimed SQL property matrix is not a reliable executable invariant test; it will fail on ambiguous column/variable references or fail to constrain checks to the row created by the test.",
+      "line": 85,
+      "path": "database/tests/r15_notification_support_invariants.sql",
+      "requirement_ref": "governance/runtime/ACTIVE_TASK.json:11",
+      "severity": "HIGH"
+    }
+  ],
+  "schema": "hhy.reviewer-result/v5.0",
+  "status": "BLOCK",
+  "summary": "BLOCK: candidate adds the R15 migration assets within allowed paths and does not delete existing tests, but the required database/property verification is not actually executable and the SQL matrix itself contains concrete PL/pgSQL scoping defects.",
+  "task_id": "TASK-R15-002"
+}
