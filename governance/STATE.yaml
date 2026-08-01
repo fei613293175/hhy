@@ -1,7 +1,7 @@
 schema: hhy.governance-state/v5.0
-revision: 124
-updated_at: '2026-08-01T20:48:39.380174Z'
-state_hash: ae46a8b2d45add7ab4fdfb83f17f3a04e737c7c95530656506b2d71c699823c1
+revision: 125
+updated_at: '2026-08-01T21:09:51.318654Z'
+state_hash: cf2619cebd10aa42bc9431bb710c076c532f81b4a905545e320503638fc5f041
 project:
   status: ACTIVE
   branch_at_install: governance/v5.0-migration-20260731
@@ -2809,17 +2809,26 @@ tasks:
     blocker: null
   TASK-R15-RECOVERY-004:
     status: READY
-    attempts_used: 1
+    attempts_used: 2
     current_attempt: null
-    last_error_fingerprint: '{"commit": "e2df86718522d8bc039bcf31b78618085a4ada29", "findings": [{"evidence": "`contracts/openapi.yaml`
-      defines `SupportGetHelpArticlesByIdResponse.data` as `#/components/schemas/SupportTicketResource` at lines 20651-20669,
-      but the new controller method for `GET /api/v1/help/articles/{id}` returns `ApiResponse<PublicPageResource>` and calls
-      `service.publicHelpArticle(id)`. The service constructs a `PublicPageResource`, so the authenticated help-article detail
-      endpoint returns the wrong response shape for a frozen R15 operation. The added contract test only checks the operationId
-      has a mapping and does not catch response-type drift.", "issue": "`supportGetHelpArticlesById` violates the frozen OpenAPI
-      response contract by returning `PublicPageResource` instead of `SupportTicketResource`.", "line": 123, "path": "services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/R15NotificationSupportController.java",
-      "requirement_ref": "contracts/openapi.yaml:20651-20669", "severity": "HIGH"}], "schema": "hhy.reviewer-result/v5.0",
-      "status": "BLOCK", "summary": "候选未修改受保护路径，未发现删除、跳过或禁用测试的证据；但存在一个可复核的 R15 OpenAPI 响应契约错配，当前候选不能通过独立审查。", "task_id": "TASK-R15-RECOVERY-004"}'
+    last_error_fingerprint: '{"commit": "a79397eb46aa8d2b387157250588b489470b6a4d", "findings": [{"evidence": "User endpoint
+      passes principal.userId() into addUserTicketMessage, but that method immediately delegates to addTicketMessage; addTicketMessage
+      inserts by ticket_id only and returns adminTicket(id), so a normal user can append to and receive details for any ticket
+      id if they know it. There is no WHERE user_id=? ownership check in the write path.", "issue": "User support-ticket message
+      write bypasses ticket ownership and leaks cross-user ticket details.", "line": 215, "path": "services/backend/content/src/main/java/cc/orbexa/hhy/content/R15NotificationSupportService.java",
+      "requirement_ref": "ACTIVE_TASK acceptance: 权限/幂等/错误码/审计覆盖; risks: security", "severity": "BLOCKER"}, {"evidence": "DecideRequest/AssignRequest/CloseRequest
+      require expectedVersion, but content-report decide updates with WHERE id=? only, support assign updates with WHERE id=?
+      only, and support close updates with WHERE id=? AND status=''RESOLVED'' only. These writes neither compare expectedVersion
+      nor increment a version, allowing stale admin decisions/assignments/closes to overwrite current state.", "issue": "Required
+      optimistic-concurrency contract is ignored on admin write operations.", "line": 416, "path": "services/backend/content/src/main/java/cc/orbexa/hhy/content/R15NotificationSupportService.java",
+      "requirement_ref": "ACTIVE_TASK acceptance: 权限/幂等/错误码/审计覆盖", "severity": "HIGH"}, {"evidence": "ACTIVE_TASK requires
+      implementing 25 operationIds and OpenAPI contract tests, but the added R15_OPERATION_IDS set contains only 23 strings
+      and the test checks Java source text rather than OpenAPI contract behavior. This can pass while the declared 25-operation
+      contract remains incomplete or mismatched.", "issue": "Added test weakens the contract gate by hardcoding an incomplete
+      23-operation source-text check instead of validating the required 25 OpenAPI operations.", "line": 16, "path": "tests/test_r15_notification_support_backend_surface.py",
+      "requirement_ref": "ACTIVE_TASK objective/deliverables: 实现范围内25个operationId; OpenAPI契约测试", "severity": "HIGH"}], "schema":
+      "hhy.reviewer-result/v5.0", "status": "BLOCK", "summary": "候选不满足当前任务。未发现通过删除或跳过既有测试取得通过的证据，diff 为 5 个新增文件、0 删除；但新增实现存在可复核的权限与契约正确性问题，且新增测试以不完整硬编码文本检查替代
+      25-operation OpenAPI 契约验证。", "task_id": "TASK-R15-RECOVERY-004"}'
     last_candidate_commit: null
     last_gate_evidence: null
     blocker: null

@@ -1,0 +1,96 @@
+{
+  "schema": "hhy.gate-report/v5.0",
+  "status": "PASS",
+  "profile": "task",
+  "task_id": "TASK-R15-RECOVERY-004",
+  "release": "R15",
+  "commit": "a79397eb46aa8d2b387157250588b489470b6a4d",
+  "generated_at": "2026-08-01T21:06:50.006337Z",
+  "checks": [
+    {
+      "id": "commit_binding",
+      "status": "PASS",
+      "detail": {
+        "HEAD": "a79397eb46aa8d2b387157250588b489470b6a4d",
+        "expected": "a79397eb46aa8d2b387157250588b489470b6a4d"
+      }
+    },
+    {
+      "id": "test_authority",
+      "status": "PASS",
+      "detail": {
+        "schema": "hhy.test-authority/v5.0",
+        "status": "PASS",
+        "commit": "a79397eb46aa8d2b387157250588b489470b6a4d",
+        "parent": "69ccf1c5bb3489cd30a4f1ad094f6c2370c65cca",
+        "test_paths_checked": [
+          "tests/test_r15_notification_support_backend_surface.py"
+        ],
+        "violations": []
+      }
+    },
+    {
+      "id": "static_specs",
+      "status": "PASS",
+      "detail": []
+    },
+    {
+      "id": "state_integrity",
+      "status": "PASS"
+    },
+    {
+      "id": "active_legacy_routes",
+      "status": "PASS",
+      "detail": []
+    },
+    {
+      "id": "secret_scan",
+      "status": "PASS",
+      "detail": {
+        "mode": null,
+        "files_considered": 5,
+        "files_scanned": 5,
+        "findings": []
+      }
+    },
+    {
+      "id": "hard_protection",
+      "status": "PASS",
+      "detail": {
+        "schema": "hhy.hard-protection/v5.0",
+        "status": "PASS",
+        "task_id": "TASK-R15-RECOVERY-004",
+        "release": "R15",
+        "profile": "task",
+        "risks": [
+          "contract",
+          "secrets",
+          "security"
+        ],
+        "details": {
+          "security_requirements": [
+            "REQ-APK-001",
+            "REQ-CHAT-002",
+            "REQ-NOTIFY-001",
+            "REQ-SUPPORT-001"
+          ]
+        },
+        "errors": []
+      }
+    },
+    {
+      "id": "task_acceptance_1",
+      "status": "PASS",
+      "detail": {
+        "status": "PASS",
+        "exit_code": 0,
+        "command": [
+          "C:\\Users\\小白\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe",
+          "scripts/check_api_contract.py"
+        ],
+        "stdout_tail": "API_CONTRACT_OK client=131 admin=184 websocket=12 runtime_hashes=PASS\n",
+        "stderr_tail": ""
+      }
+    }
+  ]
+}
