@@ -1,0 +1,25 @@
+{
+  "commit": "501cd4a77898a5352ab320eb8b924a915920ff76",
+  "findings": [
+    {
+      "evidence": "V048 adds idempotency_key/request_hash to notifications, notification_deliveries, and announcement_reads as nullable columns, then defines CHECK constraints that explicitly accept `(idempotency_key IS NULL AND request_hash IS NULL)` for all three tables. The related unique indexes on notifications and notification_deliveries are also partial `WHERE idempotency_key IS NOT NULL`, so new rows can still be inserted without idempotency identity and bypass the intended uniqueness path.",
+      "issue": "R15 idempotency enforcement is incomplete for notification tables: new writes can omit idempotency fields entirely.",
+      "line": 59,
+      "path": "database/migrations/V048__r15_notification_support_invariants.sql",
+      "requirement_ref": "ACTIVE_TASK acceptance: 新写入不能使用 legacy 兼容标志绕过幂等字段; objective covers notifications, notification_deliveries, announcement_reads",
+      "severity": "HIGH"
+    },
+    {
+      "evidence": "The new SUPPORT_TICKET_STATUS state machine only defines CLOSE from RESOLVED to CLOSED, but the database trigger accepts both OPEN->CLOSED and PENDING->CLOSED via `NEW.status IN ('PENDING','RESOLVED','CLOSED')` and `NEW.status IN ('OPEN','RESOLVED','CLOSED')`. The SQL matrix only rejects CLOSED->OPEN, so these contract-invalid close transitions are not caught.",
+      "issue": "Database support ticket status guard is looser than the declared state machine and permits illegal direct CLOSE transitions.",
+      "line": 131,
+      "path": "database/migrations/V048__r15_notification_support_invariants.sql",
+      "requirement_ref": "ACTIVE_TASK acceptance: RESOLVED 到 CLOSED 可达; 状态历史/契约同步",
+      "severity": "HIGH"
+    }
+  ],
+  "schema": "hhy.reviewer-result/v5.0",
+  "status": "BLOCK",
+  "summary": "BLOCK: candidate violates current R15 idempotency and support-ticket state-machine contracts. No protected-path writes or explicit skip/xfail deletion were observed in the reviewed diff.",
+  "task_id": "TASK-R15-RECOVERY-001"
+}
