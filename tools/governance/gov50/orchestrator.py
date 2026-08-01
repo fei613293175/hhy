@@ -926,6 +926,50 @@ def supersede_failed(repo: Path, from_task: str, to_task: str, authorization: Pa
             raise
 
 
+def build_auto_recovery_spec(
+    source: dict[str, Any], from_task: str, to_task: str, release: str, ordinal: int
+) -> dict[str, Any]:
+    """Build one bounded recovery spec without inheriting prior recovery prose."""
+    repair = copy.deepcopy(source)
+    release_entry_contract = f"python3 scripts/check_{release.lower()}_entry_contract.py"
+    acceptance_commands = [
+        command for command in repair.get("acceptance_commands") or []
+        if "check_ui_visual_acceptance.py" not in command
+    ]
+    if release == "R14" and release_entry_contract not in acceptance_commands:
+        acceptance_commands.append(release_entry_contract)
+    repair.update({
+        "id": to_task,
+        "ordinal": ordinal,
+        "title": f"{release} 自动有界恢复：源码冻结就绪",
+        "source": {"path": "Supervisor automatic bounded recovery", "original_id": from_task},
+        "supersedes": from_task,
+        "depends_on": [],
+        "requirements": [
+            "仅使用当前权威 HEAD 作为源码基线",
+            "保留前序失败任务及其三次尝试记录",
+            "不得继承前序 Candidate、APK、截图、视觉批准或 PASS",
+            "Worker 阶段只生成可冻结的源码 Commit，不得在提交内伪造尚未生成的冻结后证据",
+            "冻结后的 APK、截图、视觉批准和 Gate 证据必须由候选流程生成并绑定 frozen_commit",
+        ],
+        "objective": "修复最新失败证据确认的源码或规则根因，生成通过冻结门禁和独立审查的源码 Commit；候选证据由冻结后的候选流程另行生成。",
+        "deliverables": [
+            "最新失败根因对应的实际修复",
+            "通过冻结门禁与独立审查的源码 Commit",
+        ],
+        "acceptance": [
+            f"{from_task} 永久保持 FAILED_BOUNDED",
+            "不继承或冒用旧 Candidate、APK、截图、视觉批准或 PASS",
+            "Worker 候选不得声称已生成冻结后证据",
+            "源码 Commit 通过 freeze Gate 和独立只读审查",
+            f"{release} 达到 MACHINE_CLOSED 后才允许激活下一版本",
+        ],
+        "acceptance_commands": acceptance_commands,
+        "legacy_status": "AUTOMATIC_RECOVERY_PLANNED",
+    })
+    return repair
+
+
 def auto_supersede_failed(repo: Path, policy_path: Path | None = None) -> dict[str, Any]:
     """Create the next bounded repair task under a standing owner policy.
 
@@ -996,24 +1040,13 @@ def auto_supersede_failed(repo: Path, policy_path: Path | None = None) -> dict[s
         original_files: dict[Path, bytes | None] = {}
         changed_specs = copy.deepcopy(specs)
 
-        repair = copy.deepcopy(source)
-        repair.update({
-            "id": to_task,
-            "ordinal": max(int(spec.get("ordinal") or 0) for spec in specs.values() if spec.get("release") == release) + 1,
-            "title": f"自动恢复接替：{source.get('title') or from_task}",
-            "source": {"path": "Supervisor automatic bounded recovery", "original_id": from_task},
-            "supersedes": from_task,
-            "depends_on": [],
-            "legacy_status": "AUTOMATIC_RECOVERY_PLANNED",
-        })
-        repair["requirements"] = list(repair.get("requirements") or []) + [
-            "保留前序失败任务及其三次尝试记录",
-            "不得继承前序 Candidate、APK、截图或 PASS",
-        ]
-        repair["acceptance"] = list(repair.get("acceptance") or []) + [
-            f"{from_task} 永久保持 FAILED_BOUNDED",
-            "新候选证据必须绑定当前修复后的冻结 Commit",
-        ]
+        repair = build_auto_recovery_spec(
+            source,
+            from_task,
+            to_task,
+            release,
+            max(int(spec.get("ordinal") or 0) for spec in specs.values() if spec.get("release") == release) + 1,
+        )
         changed_specs[to_task] = repair
 
         for task_id, spec in changed_specs.items():

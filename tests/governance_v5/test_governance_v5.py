@@ -16,10 +16,14 @@ from jsonschema import Draft202012Validator
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT))
 
-from tools.governance.gov50.gates import test_authority_check as authority_check, validate_candidate_evidence
+from tools.governance.gov50.gates import (
+    test_authority_check as authority_check,
+    validate_candidate_evidence,
+    visual_contract_command,
+)
 from tools.governance.gov50.hard import run_hard_protection
 from tools.governance.gov50.legacy import scan_active_control_plane
-from tools.governance.gov50.orchestrator import supersede_failed
+from tools.governance.gov50.orchestrator import build_auto_recovery_spec, supersede_failed
 from tools.governance.gov50.secrets import scan_secrets
 from tools.governance.gov50.simulation import simulate_program
 from tools.governance.gov50.state import _state_hash, assert_valid_state, bootstrap_state
@@ -38,6 +42,32 @@ from tools.governance.gov50.util import git_status_lines, repository_lock, write
 
 def _specs():
     return load_task_specs(ROOT)
+
+
+def test_auto_recovery_spec_resets_accumulated_recovery_prose():
+    source = copy.deepcopy(_specs()["TASK-R14-RECOVERY-016"])
+    source["title"] = "自动恢复接替：" * 8 + "旧标题"
+    source["requirements"] = ["旧要求"] * 20
+    source["acceptance"] = ["旧验收"] * 20
+
+    repair = build_auto_recovery_spec(source, "TASK-R14-RECOVERY-016", "TASK-R14-RECOVERY-017", "R14", 25)
+
+    assert repair["title"] == "R14 自动有界恢复：源码冻结就绪"
+    assert len(repair["requirements"]) == 5
+    assert len(repair["acceptance"]) == 5
+    assert "python3 scripts/check_ui_visual_acceptance.py --release R14" not in repair["acceptance_commands"]
+    assert "python3 scripts/check_r14_entry_contract.py" in repair["acceptance_commands"]
+
+
+def test_visual_gate_uses_pre_freeze_entry_and_post_freeze_strict_acceptance():
+    assert visual_contract_command(ROOT, "freeze", "R14", True) == (
+        "visual_entry_contract",
+        ["scripts/check_r14_entry_contract.py"],
+    )
+    assert visual_contract_command(ROOT, "candidate", "R14", True) == (
+        "visual_contract",
+        ["scripts/check_ui_visual_acceptance.py", "--release", "R14"],
+    )
 
 
 def _active_recovery_id():

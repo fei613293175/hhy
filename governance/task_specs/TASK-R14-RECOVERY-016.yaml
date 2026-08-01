@@ -2,7 +2,7 @@ schema: hhy.task-spec/v5.0
 id: TASK-R14-RECOVERY-016
 release: R14
 ordinal: 24
-title: 自动恢复接替：自动恢复接替：自动恢复接替：自动恢复接替：自动恢复接替：自动恢复接替：自动恢复接替：自动恢复接替：自动恢复接替：自动恢复接替：自动恢复接替：自动恢复接替：自动恢复接替：自动恢复接替：R14 有界失败接替后的候选重建与机器关闭恢复
+title: R14 自动有界恢复：源码冻结就绪
 kind: recovery
 mode: worker
 source:
@@ -10,75 +10,22 @@ source:
   original_id: TASK-R14-RECOVERY-015
 supersedes: TASK-R14-RECOVERY-015
 requirements:
-- 仅使用当前 main 作为源码基线
-- 保留旧 Candidate 及三次失败记录为历史证据
+- 仅使用当前权威 HEAD 作为源码基线
 - 保留前序失败任务及其三次尝试记录
-- 不得继承前序 Candidate、APK、截图或 PASS
-- 保留前序失败任务及其三次尝试记录
-- 不得继承前序 Candidate、APK、截图或 PASS
-- 保留前序失败任务及其三次尝试记录
-- 不得继承前序 Candidate、APK、截图或 PASS
-- 保留前序失败任务及其三次尝试记录
-- 不得继承前序 Candidate、APK、截图或 PASS
-- 保留前序失败任务及其三次尝试记录
-- 不得继承前序 Candidate、APK、截图或 PASS
-- 保留前序失败任务及其三次尝试记录
-- 不得继承前序 Candidate、APK、截图或 PASS
-- 保留前序失败任务及其三次尝试记录
-- 不得继承前序 Candidate、APK、截图或 PASS
-- 保留前序失败任务及其三次尝试记录
-- 不得继承前序 Candidate、APK、截图或 PASS
-- 保留前序失败任务及其三次尝试记录
-- 不得继承前序 Candidate、APK、截图或 PASS
-- 保留前序失败任务及其三次尝试记录
-- 不得继承前序 Candidate、APK、截图或 PASS
-- 保留前序失败任务及其三次尝试记录
-- 不得继承前序 Candidate、APK、截图或 PASS
-- 保留前序失败任务及其三次尝试记录
-- 不得继承前序 Candidate、APK、截图或 PASS
-- 保留前序失败任务及其三次尝试记录
-- 不得继承前序 Candidate、APK、截图或 PASS
-- 保留前序失败任务及其三次尝试记录
-- 不得继承前序 Candidate、APK、截图或 PASS
+- 不得继承前序 Candidate、APK、截图、视觉批准或 PASS
+- Worker 阶段只生成可冻结的源码 Commit，不得在提交内伪造尚未生成的冻结后证据
+- 冻结后的 APK、截图、视觉批准和 Gate 证据必须由候选流程生成并绑定 frozen_commit
 depends_on: []
-objective: 基于当前 main 重新修复三次失败证据确认的根因，生成与当前源码绑定的新冻结 Commit、候选证据和可机器关闭的 R14。
+objective: 修复最新失败证据确认的源码或规则根因，生成通过冻结门禁和独立审查的源码 Commit；候选证据由冻结后的候选流程另行生成。
 deliverables:
-- 三次失败根因对应的实际修复
-- 新冻结 Commit 与同 Commit 的 APK、模拟器、视觉和 Gate 证据
-- 可机器关闭的 R14
+- 最新失败根因对应的实际修复
+- 通过冻结门禁与独立审查的源码 Commit
 acceptance:
-- TASK-R14-RECOVERY-001 永久保持 FAILED_BOUNDED
-- 不继承旧 Candidate、APK、截图或 PASS
-- 所有新候选证据绑定同一冻结 Commit
-- R14 达到 MACHINE_CLOSED 后才允许激活 R15
-- TASK-R14-RECOVERY-002 永久保持 FAILED_BOUNDED
-- 新候选证据必须绑定当前修复后的冻结 Commit
-- TASK-R14-RECOVERY-003 永久保持 FAILED_BOUNDED
-- 新候选证据必须绑定当前修复后的冻结 Commit
-- TASK-R14-RECOVERY-004 永久保持 FAILED_BOUNDED
-- 新候选证据必须绑定当前修复后的冻结 Commit
-- TASK-R14-RECOVERY-005 永久保持 FAILED_BOUNDED
-- 新候选证据必须绑定当前修复后的冻结 Commit
-- TASK-R14-RECOVERY-006 永久保持 FAILED_BOUNDED
-- 新候选证据必须绑定当前修复后的冻结 Commit
-- TASK-R14-RECOVERY-007 永久保持 FAILED_BOUNDED
-- 新候选证据必须绑定当前修复后的冻结 Commit
-- TASK-R14-RECOVERY-008 永久保持 FAILED_BOUNDED
-- 新候选证据必须绑定当前修复后的冻结 Commit
-- TASK-R14-RECOVERY-009 永久保持 FAILED_BOUNDED
-- 新候选证据必须绑定当前修复后的冻结 Commit
-- TASK-R14-RECOVERY-010 永久保持 FAILED_BOUNDED
-- 新候选证据必须绑定当前修复后的冻结 Commit
-- TASK-R14-RECOVERY-011 永久保持 FAILED_BOUNDED
-- 新候选证据必须绑定当前修复后的冻结 Commit
-- TASK-R14-RECOVERY-012 永久保持 FAILED_BOUNDED
-- 新候选证据必须绑定当前修复后的冻结 Commit
-- TASK-R14-RECOVERY-013 永久保持 FAILED_BOUNDED
-- 新候选证据必须绑定当前修复后的冻结 Commit
-- TASK-R14-RECOVERY-014 永久保持 FAILED_BOUNDED
-- 新候选证据必须绑定当前修复后的冻结 Commit
 - TASK-R14-RECOVERY-015 永久保持 FAILED_BOUNDED
-- 新候选证据必须绑定当前修复后的冻结 Commit
+- 不继承或冒用旧 Candidate、APK、截图、视觉批准或 PASS
+- Worker 候选不得声称已生成冻结后证据
+- 源码 Commit 通过 freeze Gate 和独立只读审查
+- R14 达到 MACHINE_CLOSED 后才允许激活下一版本
 allowed_paths:
 - apps/**
 - services/**
@@ -106,7 +53,7 @@ acceptance_commands:
 - python3 scripts/check_api_contract.py
 - python3 scripts/check_db_schema.py
 - python3 scripts/check_ui_tokens.py
-- python3 scripts/check_ui_visual_acceptance.py --release R14
+- python3 scripts/check_r14_entry_contract.py
 maximum_attempts: 3
 owner_verification: ASYNC_NON_BLOCKING_FOR_NEXT_RELEASE
 legacy_status: AUTOMATIC_RECOVERY_PLANNED

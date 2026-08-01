@@ -40,6 +40,18 @@ def _script(repo: Path, relative: str, *args: str, timeout: int = 1800) -> dict[
     return run([os.environ.get("PYTHON", "python3"), relative, *args], repo, timeout=timeout)
 
 
+def visual_contract_command(
+    repo: Path, profile: str, release: str | None, release_has_ui: bool
+) -> tuple[str, list[str]] | None:
+    if not release or not release_has_ui:
+        return None
+    if profile == "freeze" and release == "R14" and (repo / "scripts/check_r14_entry_contract.py").is_file():
+        return "visual_entry_contract", ["scripts/check_r14_entry_contract.py"]
+    if profile in {"candidate", "release"}:
+        return "visual_contract", ["scripts/check_ui_visual_acceptance.py", "--release", release]
+    return None
+
+
 
 
 _TEST_SUFFIXES = (
@@ -188,9 +200,11 @@ def run_gate(repo: Path, *, profile: str, task_id: str | None, commit: str, rele
         ]:
             result = _script(repo, script)
             checks.append({"id": check_id, "status": result["status"], "detail": result})
-    if profile in {"freeze", "candidate", "release"} and release and release_has_ui:
-        result = _script(repo, "scripts/check_ui_visual_acceptance.py", "--release", release)
-        checks.append({"id": "visual_contract", "status": result["status"], "detail": result})
+    visual_command = visual_contract_command(repo, profile, release, release_has_ui)
+    if visual_command:
+        check_id, argv = visual_command
+        result = _script(repo, argv[0], *argv[1:])
+        checks.append({"id": check_id, "status": result["status"], "detail": result})
     if profile in {"candidate", "release"}:
         # Run the repository's own package-manager test matrix. No model-generated
         # success claim may replace this command.
@@ -314,4 +328,3 @@ def validate_candidate_evidence(repo: Path, release: str, evidence_path: Path, f
         if path is None or not path.is_file():
             errors.append(f"runtime screenshot file missing: {value}")
     return {"status": "PASS" if not errors else "FAIL", "errors": sorted(set(errors)), "evidence": data}
-
