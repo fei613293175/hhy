@@ -1,9 +1,9 @@
 schema: hhy.governance-state/v5.0
-revision: 81
-updated_at: '2026-08-01T05:59:31.908396Z'
-state_hash: 9b6833797e4a625866608cfd07b49cce6ee6166b72dca2aa0c93b24869c62260
+revision: 82
+updated_at: '2026-08-01T06:10:17.342640Z'
+state_hash: 967860c6bb371db9a44b1e18b68bcd6aee791dca54dd292374a7bad8575b1b8d
 project:
-  status: INFRASTRUCTURE_BLOCKED
+  status: ACTIVE
   branch_at_install: governance/v5.0-migration-20260731
   migration_baseline_commit: ea64d82fab9ed3d1952ab7d3c0d2286051390b59
   migration_commit: 8beafc2a0e115345c554abc0bdc199ef92534106
@@ -2709,21 +2709,10 @@ tasks:
     last_gate_evidence: null
     blocker: null
   TASK-R14-RECOVERY-015:
-    status: INFRASTRUCTURE_BLOCKED
+    status: READY
     attempts_used: 1
     current_attempt: null
     last_error_fingerprint: R14_ENTRY_CONTRACT_REQUIRES_IN_REVIEW_BUT_ACTIVE_TASK_ACCEPTANCE_REQUIRES_VISUAL_PASS
     last_candidate_commit: null
     last_gate_evidence: null
-    blocker:
-      code: PYTHON_RUNTIME_MISSING
-      detail: python.exe 和 python3.exe 仅解析到 Microsoft WindowsApps 空别名；常见用户及系统路径未发现真实 Python 解释器，因此无法运行 unittest 和四条 acceptance_commands。
-      resolution: 提供带 PyYAML 的真实 Python 3 环境后，运行 tests/test_r14_entry_contract.py，以及 scripts/check_api_contract.py、scripts/check_db_schema.py、scripts/check_ui_tokens.py、scripts/check_ui_visual_acceptance.py
-        --release R14。
-      paths:
-      - tests/test_r14_entry_contract.py
-      - scripts/check_api_contract.py
-      - scripts/check_db_schema.py
-      - scripts/check_ui_tokens.py
-      - scripts/check_ui_visual_acceptance.py
-      worker_result_evidence: 针对性静态验证输出：R14_LIFECYCLE_STATIC_REPRO_OK pages=6 entry=IN_REVIEW candidate=PASS evidence_reuse=FORBIDDEN；运行时扫描输出：NO_REAL_PYTHON_FOUND。
+    blocker: null
