@@ -1,8 +1,8 @@
 DO_NOT_EDIT: true
 GENERATED_FROM: governance/STATE.yaml
-SOURCE_REVISION: 116
-SOURCE_HASH: 88e6fbd3518c7e25965cebe691bccb05203ccbcce231232a605d1e143bad506a
-project_status: INFRASTRUCTURE_BLOCKED
+SOURCE_REVISION: 117
+SOURCE_HASH: 4acbddd84e3c8129a30fca539369db8b8ea08af777d1141275514190ee1cff51
+project_status: ACTIVE
 active_release: R15
 active_task: TASK-R15-003
 authoritative_commit: e2614cdc8b50853f24ebfc091fde5e2f9c1bd085

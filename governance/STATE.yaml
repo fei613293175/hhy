@@ -1,9 +1,9 @@
 schema: hhy.governance-state/v5.0
-revision: 116
-updated_at: '2026-08-01T18:10:06.881024Z'
-state_hash: 88e6fbd3518c7e25965cebe691bccb05203ccbcce231232a605d1e143bad506a
+revision: 117
+updated_at: '2026-08-01T18:12:26.229747Z'
+state_hash: 4acbddd84e3c8129a30fca539369db8b8ea08af777d1141275514190ee1cff51
 project:
-  status: INFRASTRUCTURE_BLOCKED
+  status: ACTIVE
   branch_at_install: governance/v5.0-migration-20260731
   migration_baseline_commit: ea64d82fab9ed3d1952ab7d3c0d2286051390b59
   migration_commit: 8beafc2a0e115345c554abc0bdc199ef92534106
@@ -1462,7 +1462,7 @@ tasks:
     last_gate_evidence: null
     blocker: null
   TASK-R15-003:
-    status: INFRASTRUCTURE_BLOCKED
+    status: READY
     attempts_used: 1
     current_attempt: null
     last_error_fingerprint: '{"commit": "4dafb0d01b5c5f227dbc95508e8a90a383119342", "findings": [{"evidence": "R15Contracts.CloseTicketRequest
@@ -1483,20 +1483,7 @@ tasks:
       "task_id": "TASK-R15-003"}'
     last_candidate_commit: null
     last_gate_evidence: null
-    blocker:
-      code: JAVAC_ACCESS_DENIED_DEPENDENCY_JAR
-      detail: 'Targeted Python regression and OpenAPI contract checks pass, but Java compile could not complete because Maven/javac
-        fails before reaching the R15 boot module: access compile aborts with Fatal error compiling C:\Users\小白\.m2\repository\software\amazon\awssdk\auth\2.48.3\auth-2.48.3.jar
-        and javac reports unable to close compiler resources. Forked javac also reports AccessDeniedException on C:\Users\小白\.m2\repository\org\slf4j\jul-to-slf4j\2.0.18\jul-to-slf4j-2.0.18.jar
-        plus classpath fallout.'
-      paths:
-      - C:\Users\小白\.m2\repository\software\amazon\awssdk\auth\2.48.3\auth-2.48.3.jar
-      - C:\Users\小白\.m2\repository\org\slf4j\jul-to-slf4j\2.0.18\jul-to-slf4j-2.0.18.jar
-      resolution: Release the local Maven repository jar lock or refresh the affected dependency cache, then rerun mvn "-Dmaven.repo.local=C:/Users/小白/.m2/repository"
-        -pl boot -am -DskipTests compile and the targeted boot tests.
-      worker_result_evidence: python3 -m pytest -q tests/test_r15_backend_operation_coverage.py => 4 passed; python3 scripts/check_api_contract.py
-        => API_CONTRACT_OK client=131 admin=184 websocket=12 runtime_hashes=PASS; mvn boot compile => hhy-access FAILURE before
-        hhy-content/hhy-boot with Fatal error compiling auth-2.48.3.jar
+    blocker: null
   TASK-R15-004:
     status: PLANNED
     attempts_used: 0
