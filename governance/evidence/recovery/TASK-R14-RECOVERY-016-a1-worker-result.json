@@ -1,0 +1,31 @@
+{
+  "schema": "hhy.worker-result/v5.0",
+  "status": "INFRASTRUCTURE_BLOCKED",
+  "task_id": "TASK-R14-RECOVERY-016",
+  "summary": "已定位最新失败根因并设计实际修复与回归测试：视觉批准 source.commit 必须等于当前候选 Commit。内置 apply_patch 因 Windows 受限令牌沙箱无法处理分离写入根而持续失败；兼容补丁入口亦受参数传递或执行权限限制，未产生任何文件修改，因而无法运行修改后的针对性验证。",
+  "changed_files": [],
+  "commands_run": [
+    "python3 tools/governance/hhy_governance.py active-task --format context",
+    "Get-Content -LiteralPath governance/runtime/ACTIVE_TASK.json -Raw",
+    "rg -n --hidden \"TASK-R14-RECOVERY-015|FAILED_BOUNDED|error_fingerprint|freeze Gate|independent\" governance artifacts releases/R14 docs",
+    "Get-Content governance/task_specs/TASK-R14-RECOVERY-016.yaml and TASK-R14-RECOVERY-015.yaml",
+    "Select-String governance/STATE.yaml for TASK-R14-RECOVERY-015 failure evidence",
+    "Get-Content docs/00-baseline/SOURCE_OF_TRUTH.md, scripts/check_r14_entry_contract.py and related references",
+    "Get-Content tests/test_r14_entry_contract.py and relevant RELEASE_MANIFEST/APPROVAL evidence",
+    "Get-Content governance/evidence/reviews/TASK-R14-RECOVERY-015-f99fca852bd2.json",
+    "apply_patch scripts/check_r14_entry_contract.py tests/test_r14_entry_contract.py",
+    "codex.exe --codex-run-as-apply-patch compatibility attempts",
+    "rg -n \"MANIFEST_VISUAL_STATUSES|R14_VISUAL_APPROVAL_COMMIT_MISMATCH|test_completed_visual_approval_must_match_current_candidate_commit\" scripts/check_r14_entry_contract.py tests/test_r14_entry_contract.py"
+  ],
+  "error_fingerprint": "APPLY_PATCH_WINDOWS_SPLIT_WRITABLE_ROOT_SANDBOX",
+  "blocker": {
+    "code": "APPLY_PATCH_SANDBOX_FAILURE",
+    "detail": "补丁工具在读取目标文件前失败：windows unelevated restricted-token sandbox cannot enforce split writable root sets directly; refusing to run unsandboxed。兼容入口无法完整传递多行补丁参数，复制兼容可执行文件到允许的临时根也被拒绝访问。最终检索确认预期修复标记均不存在，没有产生 Diff。",
+    "resolution": "修复当前会话的 Windows apply_patch 沙箱，使其能够写入 ACTIVE_TASK worktree；解除后重新执行本次 Attempt 1，在 scripts/check_r14_entry_contract.py 中校验批准 Commit 与当前候选 Commit 完全一致，并在 tests/test_r14_entry_contract.py 增加旧批准 Commit 不匹配回归测试，然后运行规定的四条 acceptance_commands 和针对性 unittest。",
+    "paths": [
+      "scripts/check_r14_entry_contract.py",
+      "tests/test_r14_entry_contract.py"
+    ],
+    "worker_result_evidence": "两次内置 apply_patch 均返回相同 split writable root sandbox 错误；多次 codex apply-patch 兼容入口分别返回缺少 UTF-8 PATCH 参数、补丁结尾识别失败、子进程找不到可执行文件或拒绝访问；最终 rg 返回退出码 1，确认目标修复标记未写入。"
+  }
+}

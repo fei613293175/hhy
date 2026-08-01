@@ -364,6 +364,14 @@ def validate_reviewer_result(
         raise ValueError("reviewer BLOCK requires a BLOCKER or HIGH finding")
 
 
+def worker_sandbox_args(platform_name: str | None = None) -> list[str]:
+    """Select the Windows backend that supports workspace-write apply_patch."""
+    platform_name = platform_name or os.name
+    if platform_name == "nt":
+        return ["-c", 'windows.sandbox="elevated"']
+    return []
+
+
 def _run_independent_reviewer(worktree: Path, task: dict[str, Any], baseline: str, candidate: str) -> dict[str, Any]:
     if not HIGH_RISK_REVIEW.intersection(task.get("risks") or []):
         return {"status": "NOT_REQUIRED", "evidence_path": None, "result": None}
@@ -620,7 +628,7 @@ def run_once(repo: Path, dry_run: bool = False) -> dict[str, Any]:
             schema_path = worktree / "governance" / "schemas" / "worker-result.schema.json"
             command = [
                 codex, "--ask-for-approval", "never", "exec", "--ephemeral", "--sandbox", "workspace-write",
-                "--json", "--output-schema", str(schema_path), "-o", str(result_path), "-C", str(worktree),
+                *worker_sandbox_args(), "--json", "--output-schema", str(schema_path), "-o", str(result_path), "-C", str(worktree),
                 _worker_prompt(spec, attempt),
             ]
             worker = run(command, worktree, timeout=3600, env={"HHY_GOVERNANCE_ROLE": "WORKER"})
@@ -630,7 +638,7 @@ def run_once(repo: Path, dry_run: bool = False) -> dict[str, Any]:
                 result_path.unlink(missing_ok=True)
                 takeover_command = [
                     codex, "--ask-for-approval", "never", "exec", "--ephemeral", "--sandbox", "workspace-write",
-                    "--json", "--output-schema", str(schema_path), "-o", str(result_path), "-C", str(worktree),
+                    *worker_sandbox_args(), "--json", "--output-schema", str(schema_path), "-o", str(result_path), "-C", str(worktree),
                     _worker_takeover_prompt(spec, attempt, first_failure),
                 ]
                 worker = run(takeover_command, worktree, timeout=3600, env={"HHY_GOVERNANCE_ROLE": "WORKER_TAKEOVER"})

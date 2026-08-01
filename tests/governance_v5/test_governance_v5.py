@@ -23,7 +23,11 @@ from tools.governance.gov50.gates import (
 )
 from tools.governance.gov50.hard import run_hard_protection
 from tools.governance.gov50.legacy import scan_active_control_plane
-from tools.governance.gov50.orchestrator import build_auto_recovery_spec, supersede_failed
+from tools.governance.gov50.orchestrator import (
+    build_auto_recovery_spec,
+    supersede_failed,
+    worker_sandbox_args,
+)
 from tools.governance.gov50.secrets import scan_secrets
 from tools.governance.gov50.simulation import simulate_program
 from tools.governance.gov50.state import _state_hash, assert_valid_state, bootstrap_state
@@ -68,6 +72,11 @@ def test_visual_gate_uses_pre_freeze_entry_and_post_freeze_strict_acceptance():
         "visual_contract",
         ["scripts/check_ui_visual_acceptance.py", "--release", "R14"],
     )
+
+
+def test_worker_uses_patch_capable_windows_workspace_sandbox():
+    assert worker_sandbox_args("nt") == ["-c", 'windows.sandbox="elevated"']
+    assert worker_sandbox_args("posix") == []
 
 
 def _active_recovery_id():
