@@ -1,0 +1,30 @@
+{
+  "schema": "hhy.infrastructure-unblock/v5.0",
+  "resolved": true,
+  "task_id": "TASK-R14-RECOVERY-015",
+  "blocker_code": "INDEPENDENT_REVIEWER_FAILED",
+  "blocked_at_revision": 84,
+  "blocked_state_commit": "8885cf04a8e6968ee48f093eca50fd93bea459d0",
+  "resolution": "The reviewer result schema is now compatible with the Responses API while the local semantic validation continues to enforce task binding, commit binding, and blocking severity rules. A fresh read-only Codex reviewer protocol probe completed successfully and its output passed the repository validator.",
+  "schema_repairs": [
+    "5503e28d07d72190cb5c0b0396d2a02fda4ffba8",
+    "91b05df84964a64bd6b18ec84304a62701cc1dbc"
+  ],
+  "validation": {
+    "session_id": "019fbc52-8d73-7dc3-86f7-d281d35763b4",
+    "sandbox": "read-only",
+    "approval": "never",
+    "process_exit_code": 0,
+    "repository_modified": false,
+    "result": {
+      "schema": "hhy.reviewer-result/v5.0",
+      "status": "PASS",
+      "task_id": "TASK-R14-RECOVERY-015",
+      "commit": "91b05df84964a64bd6b18ec84304a62701cc1dbc",
+      "summary": "schema protocol verified",
+      "findings": []
+    },
+    "repository_validator": "PASS"
+  },
+  "blocked_candidate_commit": "4f40ef41f9d523b4f922e9bfecbd9e59de0e1008"
+}
