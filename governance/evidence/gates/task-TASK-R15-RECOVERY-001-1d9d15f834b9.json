@@ -1,0 +1,114 @@
+{
+  "schema": "hhy.gate-report/v5.0",
+  "status": "PASS",
+  "profile": "task",
+  "task_id": "TASK-R15-RECOVERY-001",
+  "release": "R15",
+  "commit": "1d9d15f834b9060d1aa8d99ad5e9107fec0ce4d5",
+  "generated_at": "2026-08-01T15:09:47.059114Z",
+  "checks": [
+    {
+      "id": "commit_binding",
+      "status": "PASS",
+      "detail": {
+        "HEAD": "1d9d15f834b9060d1aa8d99ad5e9107fec0ce4d5",
+        "expected": "1d9d15f834b9060d1aa8d99ad5e9107fec0ce4d5"
+      }
+    },
+    {
+      "id": "test_authority",
+      "status": "PASS",
+      "detail": {
+        "schema": "hhy.test-authority/v5.0",
+        "status": "PASS",
+        "commit": "1d9d15f834b9060d1aa8d99ad5e9107fec0ce4d5",
+        "parent": "c4fce0fb91c7a938f1a5a0c883f07908f7284c62",
+        "test_paths_checked": [
+          "database/tests/r15_notification_support_invariants.sql",
+          "tests/r15/README.md",
+          "tests/r15/req-notify-001_happy",
+          "tests/r15/req-notify-001_idempotent",
+          "tests/r15/req-notify-001_reject",
+          "tests/r15/req-support-001_happy",
+          "tests/r15/req-support-001_idempotent",
+          "tests/r15/req-support-001_reject",
+          "tests/test_r15_notification_support_postgres.py"
+        ],
+        "violations": []
+      }
+    },
+    {
+      "id": "static_specs",
+      "status": "PASS",
+      "detail": []
+    },
+    {
+      "id": "state_integrity",
+      "status": "PASS"
+    },
+    {
+      "id": "active_legacy_routes",
+      "status": "PASS",
+      "detail": []
+    },
+    {
+      "id": "secret_scan",
+      "status": "PASS",
+      "detail": {
+        "mode": null,
+        "files_considered": 13,
+        "files_scanned": 13,
+        "findings": []
+      }
+    },
+    {
+      "id": "hard_protection",
+      "status": "PASS",
+      "detail": {
+        "schema": "hhy.hard-protection/v5.0",
+        "status": "PASS",
+        "task_id": "TASK-R15-RECOVERY-001",
+        "release": "R15",
+        "profile": "task",
+        "risks": [
+          "database",
+          "production",
+          "secrets"
+        ],
+        "details": {},
+        "errors": []
+      }
+    },
+    {
+      "id": "task_acceptance_1",
+      "status": "PASS",
+      "detail": {
+        "status": "PASS",
+        "exit_code": 0,
+        "command": [
+          "C:\\Users\\小白\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe",
+          "scripts/check_db_schema.py"
+        ],
+        "stdout_tail": "DB_SCHEMA_OK tables=203 migrations=48 runtime_hashes=PASS\n",
+        "stderr_tail": ""
+      }
+    },
+    {
+      "id": "task_acceptance_2",
+      "status": "PASS",
+      "detail": {
+        "status": "PASS",
+        "exit_code": 0,
+        "command": [
+          "C:\\Users\\小白\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe",
+          "-m",
+          "pytest",
+          "-q",
+          "tests/test_r15_notification_support_postgres.py"
+        ],
+        "stdout_tail": "......                                                                   [100%]\n============================== warnings summary ===============================\n..\\..\\..\\..\\..\\..\\..\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\Lib\\site-packages\\_pytest\\cacheprovider.py:475\n  C:\\Users\\小白\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\Lib\\site-packages\\_pytest\\cacheprovider.py:475: PytestCacheWarning: could not create cache path C:\\Users\\小白\\Desktop\\workspace\\hhy-v1.2.3-handoff\\合伙云Pro_Codex直接开发包_V1.2.3_持续开发无状态接续强制门禁最终版\\.git\\hhy-governance-worktrees\\task-r15-recovery-001-a2-bae15df8\\.pytest_cache\\v\\cache\\nodeids: [WinError 5] 拒绝访问。: 'C:\\\\Users\\\\小白\\\\Desktop\\\\workspace\\\\hhy-v1.2.3-handoff\\\\合伙云Pro_Codex直接开发包_V1.2.3_持续开发无状态接续强制门禁最终版\\\\.git\\\\hhy-governance-worktrees\\\\task-r15-recovery-001-a2-bae15df8\\\\.pytest_cache\\\\v\\\\cache'\n    config.cache.set(\"cache/nodeids\", sorted(self.cached_nodeids))\n\n..\\..\\..\\..\\..\\..\\..\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\Lib\\site-packages\\_pytest\\stepwise.py:51\n  C:\\Users\\小白\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\Lib\\site-packages\\_pytest\\stepwise.py:51: PytestCacheWarning: could not create cache path C:\\Users\\小白\\Desktop\\workspace\\hhy-v1.2.3-handoff\\合伙云Pro_Codex直接开发包_V1.2.3_持续开发无状态接续强制门禁最终版\\.git\\hhy-governance-worktrees\\task-r15-recovery-001-a2-bae15df8\\.pytest_cache\\v\\cache\\stepwise: [WinError 5] 拒绝访问。: 'C:\\\\Users\\\\小白\\\\Desktop\\\\workspace\\\\hhy-v1.2.3-handoff\\\\合伙云Pro_Codex直接开发包_V1.2.3_持续开发无状态接续强制门禁最终版\\\\.git\\\\hhy-governance-worktrees\\\\task-r15-recovery-001-a2-bae15df8\\\\.pytest_cache\\\\v\\\\cache'\n    session.config.cache.set(STEPWISE_CACHE_DIR, [])\n\n-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html\n6 passed, 2 warnings in 2.15s\n",
+        "stderr_tail": ""
+      }
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "commit": "1d9d15f834b9060d1aa8d99ad5e9107fec0ce4d5",
+  "findings": [
+    {
+      "evidence": "governance/runtime/ACTIVE_TASK.json lines 42-44 only require `python3 scripts/check_db_schema.py` and `python3 -m pytest -q tests/test_r15_notification_support_postgres.py`. The pytest reads SQL text and asserts markers (`tests/test_r15_notification_support_postgres.py` lines 27-46 and 62-82) and only checks catalog paths are nonempty (lines 84-113). Meanwhile the catalog marks all six R15 rows as `AUTOMATED` (`catalogs/test_cases.csv` lines 144-149), but the adapter files are plain text pointers, e.g. `tests/r15/README.md` lines 3-8. The executable SQL `database/tests/r15_notification_support_invariants.sql` is never executed by the acceptance pytest, so the claimed DB/API/INTEGRATION automation is not real.",
+      "issue": "候选通过方式弱化/冒用测试自动化：R15 数据库不变量只做文本标记检查和空文件存在性检查，未真实运行 PostgreSQL invariant SQL，却把六个 R15 合同测试从 READY_TO_AUTOMATE 改为 AUTOMATED。对 database/production 风险任务，这不能证明迁移、触发器和拒绝路径真实通过。",
+      "line": 62,
+      "path": "tests/test_r15_notification_support_postgres.py",
+      "requirement_ref": "TASK-R15-RECOVERY-001 acceptance_commands; catalogs/test_cases.csv R15 rows require automation in CI",
+      "severity": "HIGH"
+    }
+  ],
+  "schema": "hhy.reviewer-result/v5.0",
+  "status": "BLOCK",
+  "summary": "BLOCK: candidate does not provide trustworthy R15 automation evidence; it marks tests automated while the acceptance pytest only inspects source text and nonempty adapter files.",
+  "task_id": "TASK-R15-RECOVERY-001"
+}
