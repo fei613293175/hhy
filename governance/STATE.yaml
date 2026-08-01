@@ -1,7 +1,7 @@
 schema: hhy.governance-state/v5.0
-revision: 91
-updated_at: '2026-08-01T09:04:37.504384Z'
-state_hash: b609c1b226218f9ada1b5738fc599135f84c486e97eac4caa6a5bc6eef881480
+revision: 92
+updated_at: '2026-08-01T09:06:23.583377Z'
+state_hash: 1ad0edff03df7d5d1d269dd22acb6a451f816f5b3d46b63c7179501bab8ef650
 project:
   status: ACTIVE
   branch_at_install: governance/v5.0-migration-20260731
@@ -210,11 +210,11 @@ releases:
       evidence: null
       tag: null
   R14:
-    status: FREEZE_READY
-    frozen_commit: null
+    status: FROZEN
+    frozen_commit: de01f5ad32693e845c3b4ecf6f0e034fc8792aff
     candidate:
-      status: NONE
-      commit: null
+      status: AUTHORIZED
+      commit: de01f5ad32693e845c3b4ecf6f0e034fc8792aff
       evidence: null
     owner_verification:
       status: PENDING

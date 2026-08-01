@@ -1,5 +1,5 @@
 {
-  "source_revision": 91,
+  "source_revision": 92,
   "releases": [
     {
       "status": "HISTORICAL",
@@ -310,11 +310,11 @@
       }
     },
     {
-      "status": "FREEZE_READY",
-      "frozen_commit": null,
+      "status": "FROZEN",
+      "frozen_commit": "de01f5ad32693e845c3b4ecf6f0e034fc8792aff",
       "candidate": {
-        "status": "NONE",
-        "commit": null,
+        "status": "AUTHORIZED",
+        "commit": "de01f5ad32693e845c3b4ecf6f0e034fc8792aff",
         "evidence": null
       },
       "owner_verification": {
