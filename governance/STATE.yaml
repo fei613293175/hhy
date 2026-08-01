@@ -1,7 +1,7 @@
 schema: hhy.governance-state/v5.0
-revision: 114
-updated_at: '2026-08-01T16:53:59.870434Z'
-state_hash: 0262efa21f1a16b2b4044f67129d3ca8915da5121468236252a1b8295b6fe79f
+revision: 115
+updated_at: '2026-08-01T17:49:17.736875Z'
+state_hash: 5a0d64cba080cfbbed3eb7340544fb01d10a1a3a75d2a22ee0f2e855aa92bc64
 project:
   status: ACTIVE
   branch_at_install: governance/v5.0-migration-20260731
@@ -1463,9 +1463,24 @@ tasks:
     blocker: null
   TASK-R15-003:
     status: READY
-    attempts_used: 0
+    attempts_used: 1
     current_attempt: null
-    last_error_fingerprint: null
+    last_error_fingerprint: '{"commit": "4dafb0d01b5c5f227dbc95508e8a90a383119342", "findings": [{"evidence": "R15Contracts.CloseTicketRequest
+      declares reason and expectedVersion without @NotNull at lines 91-94, but R15Service.closeTicket builds the idempotency
+      intent with Map.of at lines 311-313 using clean(request.reason()) and request.expectedVersion(). Java Map.of rejects
+      null values, so a contract-valid close request that omits either optional field throws NullPointerException before returning
+      the required business/error-code response. The same pattern exists for AssignTicketRequest.reason: optional at R15Contracts.java:86-89,
+      consumed by Map.of at R15Service.java:266-268.", "issue": "Optional request fields accepted by the contract can produce
+      raw 500/NPE before idempotency/error-code handling.", "line": 311, "path": "services/backend/content/src/main/java/cc/orbexa/hhy/content/R15Service.java",
+      "requirement_ref": "TASK-R15-003 acceptance: 权限/幂等/错误码/审计覆盖; OpenAPI契约测试", "severity": "HIGH"}, {"evidence": "R15PostgresStore.announcements
+      builds queries over hhy.announcements as alias announcement at lines 46-57, but reuses notificationWhere. notificationWhere
+      appends announcement.read_at predicates for status READ/UNREAD at lines 465-467. The announcements SQL only synthesizes
+      NULL as the selected read_at value; it does not define an announcement.read_at table column, so those accepted query
+      values lead to a database error instead of a contract response.", "issue": "Announcement list status filtering can generate
+      invalid SQL for READ/UNREAD and return a database error.", "line": 466, "path": "services/backend/content/src/main/java/cc/orbexa/hhy/content/R15PostgresStore.java",
+      "requirement_ref": "TASK-R15-003 acceptance: OpenAPI契约测试; 权限/幂等/错误码/审计覆盖", "severity": "HIGH"}], "schema": "hhy.reviewer-result/v5.0",
+      "status": "BLOCK", "summary": "候选未满足 TASK-R15-003：diff 未显示删除、跳过或弱化既有测试，且新增测试没有禁用痕迹；但存在可由契约允许输入触发的运行时正确性/错误码问题，应阻断。",
+      "task_id": "TASK-R15-003"}'
     last_candidate_commit: null
     last_gate_evidence: null
     blocker: null
