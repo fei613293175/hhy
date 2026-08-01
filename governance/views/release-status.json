@@ -1,5 +1,5 @@
 {
-  "source_revision": 122,
+  "source_revision": 123,
   "releases": [
     {
       "status": "HISTORICAL",
@@ -354,6 +354,7 @@
         "DONE": 2,
         "FAILED_BOUNDED": 3,
         "PLANNED": 5,
+        "SUPERSEDED": 1,
         "READY": 1
       }
     },

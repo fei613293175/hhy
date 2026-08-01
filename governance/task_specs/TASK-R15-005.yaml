@@ -14,7 +14,7 @@ requirements:
 - REQ-SUPPORT-001
 - REQ-APK-001
 depends_on:
-- TASK-R15-003
+- TASK-R15-RECOVERY-004
 - TASK-R15-004
 objective: 执行6项测试，覆盖重复请求、并发、超时、消息重复和供应商异常
 deliverables:
