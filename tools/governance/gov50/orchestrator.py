@@ -370,6 +370,15 @@ def worker_sandbox_args(platform_name: str | None = None) -> list[str]:
     return []
 
 
+def task_gate_profile(spec: dict[str, Any]) -> str:
+    explicit = str(spec.get("gate_profile") or "")
+    if explicit:
+        if explicit not in {"task", "freeze"}:
+            raise RuntimeError(f"unsupported task gate profile: {explicit}")
+        return explicit
+    return "freeze" if spec.get("kind") in {"release_close", "recovery"} else "task"
+
+
 def _run_independent_reviewer(worktree: Path, task: dict[str, Any], baseline: str, candidate: str) -> dict[str, Any]:
     if not HIGH_RISK_REVIEW.intersection(task.get("risks") or []):
         return {"status": "NOT_REQUIRED", "evidence_path": None, "result": None}
@@ -732,7 +741,7 @@ def run_once(repo: Path, dry_run: bool = False) -> dict[str, Any]:
                 write_json(repo / diagnostic_path, diagnostic)
                 raise RuntimeError(f"worker candidate commit failed; diagnostic={diagnostic_path.as_posix()}") from exc
             candidate = git(worktree, "rev-parse", "HEAD")
-            gate_profile = "freeze" if spec.get("kind") in {"release_close", "recovery"} else "task"
+            gate_profile = task_gate_profile(spec)
             gate = run_gate(worktree, profile=gate_profile, task_id=task_id, commit=candidate, release=spec["release"])
             gate_rel = str(gate["evidence_path"])
             _copy_worker_evidence(worktree, repo, gate_rel)
@@ -764,7 +773,7 @@ def run_once(repo: Path, dry_run: bool = False) -> dict[str, Any]:
             row["blocker"] = None
             state["lease"] = None
             state["project"]["authoritative_commit"] = candidate
-            if spec.get("kind") in {"release_close", "recovery"}:
+            if gate_profile == "freeze":
                 state["releases"][spec["release"]]["status"] = "FREEZE_READY"
                 state["project"]["active_task"] = None
             else:
@@ -962,11 +971,16 @@ def build_auto_recovery_spec(
     ]
     if release == "R14" and release_entry_contract not in acceptance_commands:
         acceptance_commands.append(release_entry_contract)
+    recovery_gate_profile = str(source.get("gate_profile") or "")
+    if not recovery_gate_profile:
+        recovery_gate_profile = "freeze" if source.get("kind") in {"release_close", "recovery"} else "task"
+    gate_label = "freeze Gate" if recovery_gate_profile == "freeze" else "task Gate"
     repair.update({
         "id": to_task,
         "ordinal": ordinal,
         "title": f"{release} 自动有界恢复：源码冻结就绪",
         "kind": "recovery",
+        "gate_profile": recovery_gate_profile,
         "source": {"path": "Supervisor automatic bounded recovery", "original_id": from_task},
         "supersedes": from_task,
         "depends_on": [],
@@ -977,16 +991,16 @@ def build_auto_recovery_spec(
             "Worker 阶段只生成可冻结的源码 Commit，不得在提交内伪造尚未生成的冻结后证据",
             "冻结后的 APK、截图、视觉批准和 Gate 证据必须由候选流程生成并绑定 frozen_commit",
         ],
-        "objective": "修复最新失败证据确认的源码或规则根因，生成通过冻结门禁和独立审查的源码 Commit；候选证据由冻结后的候选流程另行生成。",
+        "objective": f"修复最新失败证据确认的源码或规则根因，生成通过 {gate_label} 和独立审查的源码 Commit。",
         "deliverables": [
             "最新失败根因对应的实际修复",
-            "通过冻结门禁与独立审查的源码 Commit",
+            f"通过 {gate_label} 与独立审查的源码 Commit",
         ],
         "acceptance": [
             f"{from_task} 永久保持 FAILED_BOUNDED",
             "不继承或冒用旧 Candidate、APK、截图、视觉批准或 PASS",
             "Worker 候选不得声称已生成冻结后证据",
-            "源码 Commit 通过 freeze Gate 和独立只读审查",
+            f"源码 Commit 通过 {gate_label} 和独立只读审查",
             f"{release} 达到 MACHINE_CLOSED 后才允许激活下一版本",
         ],
         "acceptance_commands": acceptance_commands,

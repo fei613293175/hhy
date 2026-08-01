@@ -4,6 +4,7 @@ release: R15
 ordinal: 9
 title: R15 自动有界恢复：源码冻结就绪
 kind: recovery
+gate_profile: task
 mode: worker
 source:
   path: Supervisor automatic bounded recovery
@@ -15,15 +16,15 @@ requirements:
 - Worker 阶段只生成可冻结的源码 Commit，不得在提交内伪造尚未生成的冻结后证据
 - 冻结后的 APK、截图、视觉批准和 Gate 证据必须由候选流程生成并绑定 frozen_commit
 depends_on: []
-objective: 修复最新失败证据确认的源码或规则根因，生成通过冻结门禁和独立审查的源码 Commit；候选证据由冻结后的候选流程另行生成。
+objective: 修复最新失败证据确认的源码或规则根因，生成通过 task Gate 和独立审查的源码 Commit。
 deliverables:
 - 最新失败根因对应的实际修复
-- 通过冻结门禁与独立审查的源码 Commit
+- 通过 task Gate 与独立审查的源码 Commit
 acceptance:
 - TASK-R15-002 永久保持 FAILED_BOUNDED
 - 不继承或冒用旧 Candidate、APK、截图、视觉批准或 PASS
 - Worker 候选不得声称已生成冻结后证据
-- 源码 Commit 通过 freeze Gate 和独立只读审查
+- 源码 Commit 通过 task Gate 和独立只读审查
 - R15 达到 MACHINE_CLOSED 后才允许激活下一版本
 allowed_paths:
 - catalogs/**

@@ -26,6 +26,7 @@ from tools.governance.gov50.legacy import scan_active_control_plane
 from tools.governance.gov50.orchestrator import (
     build_auto_recovery_spec,
     supersede_failed,
+    task_gate_profile,
     worker_sandbox_args,
 )
 from tools.governance.gov50.secrets import scan_secrets
@@ -59,6 +60,8 @@ def test_auto_recovery_spec_resets_accumulated_recovery_prose():
 
     assert repair["title"] == "R14 自动有界恢复：源码冻结就绪"
     assert repair["kind"] == "recovery"
+    assert repair["gate_profile"] == "freeze"
+    assert task_gate_profile(repair) == "freeze"
     assert len(repair["requirements"]) == 5
     assert len(repair["acceptance"]) == 5
     assert "python3 scripts/check_ui_visual_acceptance.py --release R14" not in repair["acceptance_commands"]
@@ -75,9 +78,31 @@ def test_r15_auto_recovery_is_counted_as_a_bounded_recovery_task():
     plan = build_program_plan(specs)
 
     assert repair["kind"] == "recovery"
+    assert repair["gate_profile"] == "task"
+    assert task_gate_profile(repair) == "task"
     assert repair["maximum_attempts"] == 3
     assert repair["supersedes"] == "TASK-R15-002"
     assert validate_specs(specs, plan) == []
+
+
+def test_recovery_gate_profile_is_inherited_across_generations():
+    source = build_auto_recovery_spec(
+        copy.deepcopy(_specs()["TASK-R15-002"]),
+        "TASK-R15-002",
+        "TASK-R15-RECOVERY-001",
+        "R15",
+        9,
+    )
+    repair = build_auto_recovery_spec(
+        source,
+        "TASK-R15-RECOVERY-001",
+        "TASK-R15-RECOVERY-002",
+        "R15",
+        10,
+    )
+
+    assert repair["gate_profile"] == "task"
+    assert "task Gate" in repair["acceptance"][-2]
 
 
 def test_visual_gate_uses_pre_freeze_entry_and_post_freeze_strict_acceptance():
@@ -498,22 +523,29 @@ def test_failed_recovery_transition_preserves_predecessor_and_binds_new_task(tmp
         shutil.copy2(ROOT / name, repo / name)
     # Build a clean pre-transition fixture even when the suite itself runs on
     # the branch that already contains TASK-R14-RECOVERY-002.
-    for path in (repo / "governance/task_specs").glob("TASK-R14-RECOVERY-*.yaml"):
+    for path in (repo / "governance/task_specs").glob("TASK-*-RECOVERY-*.yaml"):
         if path.name != "TASK-R14-RECOVERY-001.yaml":
             path.unlink(missing_ok=True)
     plan = yaml.safe_load((repo / "governance/PROGRAM_PLAN.yaml").read_text(encoding="utf-8"))
     plan["task_count"] = 266
-    plan["release_tasks"]["R14"] = [task for task in plan["release_tasks"]["R14"] if not task.startswith("TASK-R14-RECOVERY-") or task == "TASK-R14-RECOVERY-001"]
+    for release, tasks in plan["release_tasks"].items():
+        plan["release_tasks"][release] = [
+            task for task in tasks
+            if "-RECOVERY-" not in task or task == "TASK-R14-RECOVERY-001"
+        ]
     plan["recovery_tasks"] = ["TASK-R14-RECOVERY-001"]
     write_yaml(repo / "governance/PROGRAM_PLAN.yaml", plan)
     r15 = yaml.safe_load((repo / "governance/task_specs/TASK-R15-001.yaml").read_text(encoding="utf-8"))
     r15["depends_on"] = ["TASK-R14-RECOVERY-001"]
     write_yaml(repo / "governance/task_specs/TASK-R15-001.yaml", r15)
+    r15_next = yaml.safe_load((repo / "governance/task_specs/TASK-R15-003.yaml").read_text(encoding="utf-8"))
+    r15_next["depends_on"] = ["TASK-R15-002"]
+    write_yaml(repo / "governance/task_specs/TASK-R15-003.yaml", r15_next)
     state = yaml.safe_load((repo / "governance/STATE.yaml").read_text(encoding="utf-8"))
     state["project"]["status"] = "FAILED_BOUNDED"
     state["project"]["active_task"] = None
     for task_id in list(state["tasks"]):
-        if task_id.startswith("TASK-R14-RECOVERY-") and task_id != "TASK-R14-RECOVERY-001":
+        if "-RECOVERY-" in task_id and task_id != "TASK-R14-RECOVERY-001":
             state["tasks"].pop(task_id, None)
     state["tasks"]["TASK-R14-RECOVERY-001"].update({"status": "FAILED_BOUNDED", "attempts_used": 3, "current_attempt": None})
     state["lease"] = None
