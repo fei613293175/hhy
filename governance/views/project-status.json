@@ -1,9 +1,9 @@
 {
   "DO_NOT_EDIT": true,
   "GENERATED_FROM": "governance/STATE.yaml",
-  "SOURCE_REVISION": 103,
-  "SOURCE_HASH": "4a3037a59edd404b70827e145cb7db8f82bdfdc52634a1b1e50b06beedeacd3c",
-  "project_status": "ACTIVE",
+  "SOURCE_REVISION": 104,
+  "SOURCE_HASH": "3a128da2c00c14906afd4342ee0e74008a261adeb2c2dc89dd147030ae1f4687",
+  "project_status": "INFRASTRUCTURE_BLOCKED",
   "active_release": "R15",
   "active_task": "TASK-R15-002",
   "authoritative_commit": "9b467950a2f9c75dbc9ec9c395cc553369940754",
