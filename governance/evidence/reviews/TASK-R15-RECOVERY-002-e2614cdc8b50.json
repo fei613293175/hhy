@@ -1,0 +1,8 @@
+{
+  "commit": "e2614cdc8b50853f24ebfc091fde5e2f9c1bd085",
+  "findings": [],
+  "schema": "hhy.reviewer-result/v5.0",
+  "status": "PASS",
+  "summary": "只读审查了 governance/runtime/ACTIVE_TASK.json 与指定 Git diff。变更均在允许路径内，未见 protected path 修改、测试删除、pytest.skip、要求 HHY_R15_POSTGRES_DSN、或通过删除/跳过/弱化测试取得通过的可阻断证据；未发现具备具体证据的 BLOCKER/HIGH 正确性、安全、资金、数据库或契约问题。",
+  "task_id": "TASK-R15-RECOVERY-002"
+}

@@ -1,15 +1,15 @@
 schema: hhy.governance-state/v5.0
-revision: 113
-updated_at: '2026-08-01T16:34:41.433567Z'
-state_hash: d011194d8c2c85f2879b3e5dc040c65d5c10ccc38bf46cdcb2638d887ce70f8f
+revision: 114
+updated_at: '2026-08-01T16:53:59.870434Z'
+state_hash: 0262efa21f1a16b2b4044f67129d3ca8915da5121468236252a1b8295b6fe79f
 project:
   status: ACTIVE
   branch_at_install: governance/v5.0-migration-20260731
   migration_baseline_commit: ea64d82fab9ed3d1952ab7d3c0d2286051390b59
   migration_commit: 8beafc2a0e115345c554abc0bdc199ef92534106
-  authoritative_commit: e49246e697cc4f2341c4447794e5cedb4720b7c0
+  authoritative_commit: e2614cdc8b50853f24ebfc091fde5e2f9c1bd085
   active_release: R15
-  active_task: TASK-R15-RECOVERY-002
+  active_task: TASK-R15-003
   goal_complete: false
 lease: null
 releases:
@@ -1462,7 +1462,7 @@ tasks:
     last_gate_evidence: null
     blocker: null
   TASK-R15-003:
-    status: PLANNED
+    status: READY
     attempts_used: 0
     current_attempt: null
     last_error_fingerprint: null
@@ -2767,8 +2767,8 @@ tasks:
     last_gate_evidence: null
     blocker: null
   TASK-R15-RECOVERY-002:
-    status: READY
-    attempts_used: 2
+    status: DONE
+    attempts_used: 3
     current_attempt: null
     last_error_fingerprint: '{"commit": "9c86d2d3ded935a00c8460e05d256827f20ca968", "findings": [{"evidence": "In the candidate
       file, SUPPORT_TICKET_STATUS starts at database/state_machines.yaml:624, but database/state_machines.yaml:661-693 contains
@@ -2783,6 +2783,6 @@ tasks:
       "Candidate does not pass independent read-only review. I found no protected-path edits, no pytest.skip, no HHY_R15_POSTGRES_DSN
       dependency, and no evidence of passing by deleting tests in the reviewed diff, but the state-machine contract regression
       is blocking.", "task_id": "TASK-R15-RECOVERY-002"}'
-    last_candidate_commit: null
-    last_gate_evidence: null
+    last_candidate_commit: e2614cdc8b50853f24ebfc091fde5e2f9c1bd085
+    last_gate_evidence: governance/evidence/gates/task-TASK-R15-RECOVERY-002-e2614cdc8b50.json
     blocker: null
