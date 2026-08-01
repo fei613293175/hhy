@@ -1,9 +1,9 @@
 schema: hhy.governance-state/v5.0
-revision: 98
-updated_at: '2026-08-01T11:50:32.023748Z'
-state_hash: 01992ab0c2df1aafa48aa12886c28c40a2497e92f7c8e54231238c6fb16c9b6d
+revision: 99
+updated_at: '2026-08-01T12:09:44.717885Z'
+state_hash: 4a546481ec2f90894ad09b41766f2d0e03c6f6ad336b869396ba8b71849f3ab5
 project:
-  status: ACTIVE
+  status: INFRASTRUCTURE_BLOCKED
   branch_at_install: governance/v5.0-migration-20260731
   migration_baseline_commit: ea64d82fab9ed3d1952ab7d3c0d2286051390b59
   migration_commit: 8beafc2a0e115345c554abc0bdc199ef92534106
@@ -1445,7 +1445,7 @@ tasks:
     last_gate_evidence: governance/evidence/gates/task-TASK-R15-001-9b467950a2f9.json
     blocker: null
   TASK-R15-002:
-    status: READY
+    status: INFRASTRUCTURE_BLOCKED
     attempts_used: 1
     current_attempt: null
     last_error_fingerprint: '{"commit": "26b0aad0c15d338e99c024f8416af2b7b1caa43e", "findings": [{"evidence": "ACTIVE_TASK.json
@@ -1466,7 +1466,25 @@ tasks:
       is not actually executable and the SQL matrix itself contains concrete PL/pgSQL scoping defects.", "task_id": "TASK-R15-002"}'
     last_candidate_commit: null
     last_gate_evidence: null
-    blocker: null
+    blocker:
+      code: POSTGRES_TOOLING_UNAVAILABLE
+      detail: Implemented the R15 database migration, rollback, invariant SQL, catalog/dictionary sync, and contract tests.
+        Static/contract validation passes, but this worker cannot execute the required real PostgreSQL Flyway empty/upgrade/invariant
+        run because psql and docker are not on PATH, HHY_DB_MIGRATION_TEST_URL/HHY_DB_SMOKE_CONFIRM are not configured, and
+        the Maven wrapper fails before startup with 'Cannot index into a null array' / 'Cannot start maven from wrapper'.
+      paths:
+      - database/migrations/V048__r15_notification_support_invariants.sql
+      - services/backend/boot/src/main/resources/db/migration/V048__r15_notification_support_invariants.sql
+      - database/tests/r15_notification_support_invariants.sql
+      - database/rollback/U048__r15_notification_support_invariants_DEV_ONLY.sql
+      - services/backend/mvnw.cmd
+      resolution: Provide a disposable PostgreSQL 17 database with psql available or configure HHY_DB_MIGRATION_TEST_URL plus
+        HHY_DB_SMOKE_CONFIRM=YES and a working Maven wrapper/system Maven, then run the real Flyway empty/upgrade and invariant
+        SQL execution.
+      worker_result_evidence: 'PASS: python -m pytest tests/test_r15_database_contract.py tests/test_r14_database_contract.py
+        tests/test_r16_database_contract.py -q -> 17 passed. PASS: python3 scripts/check_db_schema.py -> DB_SCHEMA_OK tables=203
+        migrations=48 runtime_hashes=PASS. BLOCKED: Get-Command psql and docker returned no executable; Maven wrapper failed
+        before startup.'
   TASK-R15-003:
     status: PLANNED
     attempts_used: 0
