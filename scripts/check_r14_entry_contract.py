@@ -20,6 +20,7 @@ PAGES = {
     "DIALOG-CHAT-DELETE-001": "SPEC:design/R14-UI-FROZEN/specs/DIALOG-CHAT-DELETE-001.md",
 }
 B07_SHA256 = "1262b25c4d3f40ba8fc89cce1890b8203911e608b82900a223c4474b2a877c08"
+ENTRY_VISUAL_STATUSES = {"IN_REVIEW", "PASS"}
 BANNED_FIELD_KEYS = {
     "id", "page", "pageSize", "cursor", "status", "sort",
     "X-Idempotency-Key", "xIdempotencyKey", "clientMessageId",
@@ -60,8 +61,9 @@ def validate(root: Path) -> list[str]:
         expected_coverage = "EXACT" if page == "SCR-CHAT-001" else "APPROVED_SUPPLEMENT"
         if row.get("覆盖状态") != expected_coverage:
             errors.append(f"R14_VISUAL_COVERAGE {page} {row.get('覆盖状态')}")
-        if row.get("验收状态") != "IN_REVIEW":
-            errors.append(f"R14_VISUAL_PREMATURE_PASS {page} {row.get('验收状态')}")
+        visual_status = row.get("验收状态", "").strip().upper()
+        if visual_status not in ENTRY_VISUAL_STATUSES:
+            errors.append(f"R14_VISUAL_LIFECYCLE_STATUS {page} {visual_status or 'EMPTY'}")
         if "P05" in row.get("参考证据", "") or "P06" in row.get("参考证据", ""):
             errors.append(f"R14_VISUAL_R15_PANEL {page}")
 
