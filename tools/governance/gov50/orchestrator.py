@@ -197,8 +197,6 @@ def machine_close(repo: Path, release: str) -> dict[str, Any]:
         close_task = f"TASK-{release}-008"
         if close_task in state["tasks"]:
             state["tasks"][close_task]["status"] = "DONE"
-        if release == "R14":
-            state["tasks"]["TASK-R14-RECOVERY-001"]["status"] = "DONE"
         number = _release_number(release)
         if release == "R32":
             state["project"]["status"] = "COMPLETE"

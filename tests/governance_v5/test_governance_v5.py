@@ -141,6 +141,8 @@ def test_single_state_is_valid():
         assert state["tasks"][active_task]["status"] == expected_status
         attempts_used = state["tasks"][active_task]["attempts_used"]
         assert 0 <= attempts_used < specs[active_task]["maximum_attempts"]
+    elif state["project"]["active_task"] is None and state["releases"]["R14"]["status"] in {"FREEZE_READY", "CANDIDATE_GREEN"}:
+        assert state["project"]["status"] == "ACTIVE"
     else:
         assert state["project"]["status"] in {"EXTERNAL_BLOCKED", "INFRASTRUCTURE_BLOCKED", "POLICY_VIOLATION"}
         assert state["project"]["active_task"] is None
@@ -175,6 +177,8 @@ def test_recovery_is_only_active_entry_before_activation():
             "INFRASTRUCTURE_BLOCKED", "EXTERNAL_BLOCKED", "POLICY_VIOLATION",
         } else "READY"
         assert state["tasks"][_active_recovery_id()]["status"] == expected_status
+    elif state["project"]["active_task"] is None and state["releases"]["R14"]["status"] in {"FREEZE_READY", "CANDIDATE_GREEN"}:
+        assert state["project"]["status"] == "ACTIVE"
     else:
         assert state["project"]["status"] in {"EXTERNAL_BLOCKED", "INFRASTRUCTURE_BLOCKED", "POLICY_VIOLATION"}
         assert state["project"]["active_task"] is None
@@ -300,6 +304,11 @@ def test_release_close_is_bounded_worker_not_self_closing():
         assert task["mode"] == "worker"
         assert task["maximum_attempts"] == 3
         assert "Orchestrator" in " ".join(task["acceptance"])
+
+
+def test_machine_close_preserves_failed_recovery_history():
+    source = (ROOT / "tools/governance/gov50/orchestrator.py").read_text(encoding="utf-8")
+    assert 'state["tasks"]["TASK-R14-RECOVERY-001"]["status"] = "DONE"' not in source
 
 
 def test_r15_depends_on_r14_recovery():
