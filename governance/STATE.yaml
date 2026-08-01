@@ -1,7 +1,7 @@
 schema: hhy.governance-state/v5.0
-revision: 79
-updated_at: '2026-07-31T16:31:03.240851Z'
-state_hash: 86a7358988e1a725486d07c596858c17cbf4c3122d09b587dc45ba69ea3198f2
+revision: 80
+updated_at: '2026-08-01T05:46:42.185176Z'
+state_hash: bf1c9ba61473a15881ed368c49727b4f81c24b729f7209edbfbcf5c61445a68d
 project:
   status: ACTIVE
   branch_at_install: governance/v5.0-migration-20260731
@@ -2710,9 +2710,9 @@ tasks:
     blocker: null
   TASK-R14-RECOVERY-015:
     status: READY
-    attempts_used: 0
+    attempts_used: 1
     current_attempt: null
-    last_error_fingerprint: null
+    last_error_fingerprint: R14_ENTRY_CONTRACT_REQUIRES_IN_REVIEW_BUT_ACTIVE_TASK_ACCEPTANCE_REQUIRES_VISUAL_PASS
     last_candidate_commit: null
     last_gate_evidence: null
     blocker: null
