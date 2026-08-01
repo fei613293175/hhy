@@ -10,20 +10,33 @@ source:
   path: Supervisor automatic bounded recovery
   original_id: TASK-R15-002
 requirements:
+- REQ-CHAT-002
+- REQ-NOTIFY-001
+- REQ-SUPPORT-001
+- REQ-APK-001
 - 仅使用当前权威 HEAD 作为源码基线
 - 保留前序失败任务及其三次尝试记录
 - 不得继承前序 Candidate、APK、截图、视觉批准或 PASS
-- Worker 阶段只生成可冻结的源码 Commit，不得在提交内伪造尚未生成的冻结后证据
-- 冻结后的 APK、截图、视觉批准和 Gate 证据必须由候选流程生成并绑定 frozen_commit
+- Worker 阶段只生成可接受的源码 Commit，不得伪造 Gate 或审查证据
 depends_on: []
-objective: 修复最新失败证据确认的源码或规则根因，生成通过 task Gate 和独立审查的源码 Commit。
+objective: 修复最新失败证据确认的源码或规则根因并完成原任务目标：实现/演进 notifications、notification_templates、notification_deliveries、push_tokens、announcements、announcement_reads、support_tickets、ticket_messages，补齐唯一约束、状态历史、幂等键和回滚验证；生成通过 task Gate 和独立审查的源码 Commit。
 deliverables:
+- Flyway 前向迁移与空库/升级库测试
+- 不变量属性测试
+- test_r15_notification_support_postgres.py 在显式确认的一次性 PostgreSQL 17 数据库中执行空库、升级库和 SQL 不变量矩阵
 - 最新失败根因对应的实际修复
 - 通过 task Gate 与独立审查的源码 Commit
 acceptance:
+- 无 TODO/生产 Mock
+- 代码、文档、测试、追踪同步更新
+- RESOLVED 到 CLOSED 可达，消息幂等身份不可变，新写入不能使用 legacy 兼容标志绕过幂等字段
+- test_r15_notification_support_postgres.py 必须要求 HHY_DB_SMOKE_CONFIRM=YES，使用 psycopg 真实连接一次性 PostgreSQL 17 并执行 database/tests/r15_notification_support_invariants.sql；不得仅读取 SQL 文本或匹配标记
+- 必须真实执行截至 V048 的空库与 V047 升级库迁移，缺少确认、连接、驱动或测试文件时必须失败，不得 skip/xfail
+- ticket_messages.sender_id 保持可空；幂等唯一索引必须使用 PostgreSQL 17 NULLS NOT DISTINCT 或等价表达式，并由 SQL 矩阵证明两个 NULL sender_id 的 SYSTEM/ADMIN 消息不能使用同一幂等键重复写入
+- 不得把只读文本指针或未执行的适配器标记为 AUTOMATED
 - TASK-R15-002 永久保持 FAILED_BOUNDED
 - 不继承或冒用旧 Candidate、APK、截图、视觉批准或 PASS
-- Worker 候选不得声称已生成冻结后证据
+- Worker 候选不得伪造 Gate、审查或自动化证据
 - 源码 Commit 通过 task Gate 和独立只读审查
 - R15 达到 MACHINE_CLOSED 后才允许激活下一版本
 allowed_paths:
@@ -44,3 +57,16 @@ maximum_attempts: 3
 owner_verification: ASYNC_NON_BLOCKING_FOR_NEXT_RELEASE
 legacy_status: AUTOMATIC_RECOVERY_PLANNED
 supersedes: TASK-R15-002
+recovery_product_contract:
+  requirements:
+  - REQ-CHAT-002
+  - REQ-NOTIFY-001
+  - REQ-SUPPORT-001
+  - REQ-APK-001
+  objective: 实现/演进通知、公告与客服数据表，补齐唯一约束、状态历史、幂等键和回滚验证
+  deliverables:
+  - Flyway 前向迁移与空库/升级库测试
+  - 不变量属性测试
+  acceptance:
+  - RESOLVED 到 CLOSED 可达，消息幂等身份不可变，新写入不能使用 legacy 兼容标志绕过幂等字段
+  - 真实连接 PostgreSQL 17 执行空库、V047 升级库和 SQL 不变量矩阵

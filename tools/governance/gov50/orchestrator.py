@@ -975,34 +975,44 @@ def build_auto_recovery_spec(
     if not recovery_gate_profile:
         recovery_gate_profile = "freeze" if source.get("kind") in {"release_close", "recovery"} else "task"
     gate_label = "freeze Gate" if recovery_gate_profile == "freeze" else "task Gate"
+    product_contract = copy.deepcopy(source.get("recovery_product_contract") or {})
+    if not product_contract and source.get("kind") != "recovery":
+        product_contract = {
+            "requirements": list(source.get("requirements") or []),
+            "objective": str(source.get("objective") or ""),
+            "deliverables": list(source.get("deliverables") or []),
+            "acceptance": list(source.get("acceptance") or []),
+        }
+    control_requirements = [
+        "仅使用当前权威 HEAD 作为源码基线",
+        "保留前序失败任务及其三次尝试记录",
+        "不得继承前序 Candidate、APK、截图、视觉批准或 PASS",
+        "Worker 阶段只生成可接受的源码 Commit，不得伪造 Gate 或审查证据",
+    ]
+    product_objective = str(product_contract.get("objective") or "")
     repair.update({
         "id": to_task,
         "ordinal": ordinal,
         "title": f"{release} 自动有界恢复：源码冻结就绪",
         "kind": "recovery",
         "gate_profile": recovery_gate_profile,
+        "recovery_product_contract": product_contract,
         "source": {"path": "Supervisor automatic bounded recovery", "original_id": from_task},
         "supersedes": from_task,
         "depends_on": [],
-        "requirements": [
-            "仅使用当前权威 HEAD 作为源码基线",
-            "保留前序失败任务及其三次尝试记录",
-            "不得继承前序 Candidate、APK、截图、视觉批准或 PASS",
-            "Worker 阶段只生成可冻结的源码 Commit，不得在提交内伪造尚未生成的冻结后证据",
-            "冻结后的 APK、截图、视觉批准和 Gate 证据必须由候选流程生成并绑定 frozen_commit",
-        ],
-        "objective": f"修复最新失败证据确认的源码或规则根因，生成通过 {gate_label} 和独立审查的源码 Commit。",
-        "deliverables": [
+        "requirements": list(dict.fromkeys(list(product_contract.get("requirements") or []) + control_requirements)),
+        "objective": f"修复最新失败证据确认的源码或规则根因并完成原任务目标：{product_objective}；生成通过 {gate_label} 和独立审查的源码 Commit。",
+        "deliverables": list(dict.fromkeys(list(product_contract.get("deliverables") or []) + [
             "最新失败根因对应的实际修复",
             f"通过 {gate_label} 与独立审查的源码 Commit",
-        ],
-        "acceptance": [
+        ])),
+        "acceptance": list(dict.fromkeys(list(product_contract.get("acceptance") or []) + [
             f"{from_task} 永久保持 FAILED_BOUNDED",
             "不继承或冒用旧 Candidate、APK、截图、视觉批准或 PASS",
-            "Worker 候选不得声称已生成冻结后证据",
+            "Worker 候选不得伪造 Gate、审查或自动化证据",
             f"源码 Commit 通过 {gate_label} 和独立只读审查",
             f"{release} 达到 MACHINE_CLOSED 后才允许激活下一版本",
-        ],
+        ])),
         "acceptance_commands": acceptance_commands,
         "legacy_status": "AUTOMATIC_RECOVERY_PLANNED",
     })

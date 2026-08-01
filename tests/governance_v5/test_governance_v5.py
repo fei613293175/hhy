@@ -62,8 +62,10 @@ def test_auto_recovery_spec_resets_accumulated_recovery_prose():
     assert repair["kind"] == "recovery"
     assert repair["gate_profile"] == "freeze"
     assert task_gate_profile(repair) == "freeze"
-    assert len(repair["requirements"]) == 5
+    assert len(repair["requirements"]) == 4
     assert len(repair["acceptance"]) == 5
+    assert "旧要求" not in repair["requirements"]
+    assert "旧验收" not in repair["acceptance"]
     assert "python3 scripts/check_ui_visual_acceptance.py --release R14" not in repair["acceptance_commands"]
     assert "python3 scripts/check_r14_entry_contract.py" in repair["acceptance_commands"]
 
@@ -82,6 +84,10 @@ def test_r15_auto_recovery_is_counted_as_a_bounded_recovery_task():
     assert task_gate_profile(repair) == "task"
     assert repair["maximum_attempts"] == 3
     assert repair["supersedes"] == "TASK-R15-002"
+    assert repair["recovery_product_contract"]["objective"] == source["objective"]
+    assert set(source["requirements"]).issubset(repair["requirements"])
+    assert set(source["deliverables"]).issubset(repair["deliverables"])
+    assert set(source["acceptance"]).issubset(repair["acceptance"])
     assert validate_specs(specs, plan) == []
 
 
@@ -102,6 +108,7 @@ def test_recovery_gate_profile_is_inherited_across_generations():
     )
 
     assert repair["gate_profile"] == "task"
+    assert repair["recovery_product_contract"] == source["recovery_product_contract"]
     assert "task Gate" in repair["acceptance"][-2]
 
 
