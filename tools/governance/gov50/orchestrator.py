@@ -379,6 +379,15 @@ def task_gate_profile(spec: dict[str, Any]) -> str:
     return "freeze" if spec.get("kind") in {"release_close", "recovery"} else "task"
 
 
+def structured_failure_evidence(raw: Any) -> Any:
+    if not isinstance(raw, str):
+        return raw
+    try:
+        return json.loads(raw)
+    except json.JSONDecodeError:
+        return raw
+
+
 def _run_independent_reviewer(worktree: Path, task: dict[str, Any], baseline: str, candidate: str) -> dict[str, Any]:
     if not HIGH_RISK_REVIEW.intersection(task.get("risks") or []):
         return {"status": "NOT_REQUIRED", "evidence_path": None, "result": None}
@@ -1095,6 +1104,9 @@ def auto_supersede_failed(repo: Path, policy_path: Path | None = None) -> dict[s
             to_task,
             release,
             max(int(spec.get("ordinal") or 0) for spec in specs.values() if spec.get("release") == release) + 1,
+        )
+        repair["latest_failure_evidence"] = structured_failure_evidence(
+            (state.get("tasks") or {}).get(from_task, {}).get("last_error_fingerprint")
         )
         changed_specs[to_task] = repair
 

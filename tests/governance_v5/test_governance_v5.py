@@ -26,6 +26,7 @@ from tools.governance.gov50.legacy import scan_active_control_plane
 from tools.governance.gov50.orchestrator import (
     build_auto_recovery_spec,
     supersede_failed,
+    structured_failure_evidence,
     task_gate_profile,
     worker_sandbox_args,
 )
@@ -110,6 +111,13 @@ def test_recovery_gate_profile_is_inherited_across_generations():
     assert repair["gate_profile"] == "task"
     assert repair["recovery_product_contract"] == source["recovery_product_contract"]
     assert "task Gate" in repair["acceptance"][-2]
+
+
+def test_failure_evidence_is_structured_for_the_next_recovery_worker():
+    evidence = {"status": "BLOCK", "findings": [{"severity": "HIGH", "line": 59}]}
+
+    assert structured_failure_evidence(json.dumps(evidence)) == evidence
+    assert structured_failure_evidence("plain infrastructure fingerprint") == "plain infrastructure fingerprint"
 
 
 def test_visual_gate_uses_pre_freeze_entry_and_post_freeze_strict_acceptance():
