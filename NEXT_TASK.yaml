@@ -1,5 +1,100 @@
 DO_NOT_EDIT: true
 GENERATED_FROM: governance/STATE.yaml + governance/task_specs/*.yaml
-SOURCE_REVISION: 121
-task: null
+SOURCE_REVISION: 122
+task:
+  schema: hhy.task-spec/v5.0
+  id: TASK-R15-RECOVERY-003
+  release: R15
+  ordinal: 11
+  title: R15 自动有界恢复：源码冻结就绪
+  kind: recovery
+  gate_profile: task
+  mode: worker
+  source:
+    path: Supervisor automatic bounded recovery
+    original_id: TASK-R15-RECOVERY-001
+  requirements:
+  - REQ-CHAT-002
+  - REQ-NOTIFY-001
+  - REQ-SUPPORT-001
+  - REQ-APK-001
+  - 仅使用当前权威 HEAD 作为源码基线
+  - 保留前序失败任务及其三次尝试记录
+  - 不得继承前序 Candidate、APK、截图、视觉批准或 PASS
+  - Worker 阶段只生成可接受的源码 Commit，不得伪造 Gate 或审查证据
+  depends_on: []
+  objective: 修复最新失败证据确认的源码或规则根因并完成原任务目标：实现/演进通知、公告与客服数据表，补齐唯一约束、状态历史、幂等键和回滚验证；生成通过 task Gate 和独立审查的源码 Commit。
+  deliverables:
+  - Flyway 前向迁移与空库/升级库测试
+  - 不变量属性测试
+  - 最新失败根因对应的实际修复
+  - 通过 task Gate 与独立审查的源码 Commit
+  acceptance:
+  - RESOLVED 到 CLOSED 可达，消息幂等身份不可变，新写入不能使用 legacy 兼容标志绕过幂等字段
+  - 真实连接 PostgreSQL 17 执行空库、V047 升级库和 SQL 不变量矩阵
+  - TASK-R15-RECOVERY-001 永久保持 FAILED_BOUNDED
+  - 不继承或冒用旧 Candidate、APK、截图、视觉批准或 PASS
+  - Worker 候选不得伪造 Gate、审查或自动化证据
+  - 源码 Commit 通过 task Gate 和独立只读审查
+  - R15 达到 MACHINE_CLOSED 后才允许激活下一版本
+  allowed_paths:
+  - catalogs/**
+  - contracts/**
+  - database/**
+  - docs/**
+  - services/backend/**
+  - tests/**
+  risks:
+  - database
+  - production
+  - secrets
+  acceptance_commands:
+  - python3 scripts/check_db_schema.py
+  - python3 -m pytest -q tests/test_r15_notification_support_postgres.py
+  maximum_attempts: 3
+  owner_verification: ASYNC_NON_BLOCKING_FOR_NEXT_RELEASE
+  legacy_status: AUTOMATIC_RECOVERY_PLANNED
+  supersedes: TASK-R15-RECOVERY-001
+  recovery_product_contract:
+    requirements:
+    - REQ-CHAT-002
+    - REQ-NOTIFY-001
+    - REQ-SUPPORT-001
+    - REQ-APK-001
+    objective: 实现/演进通知、公告与客服数据表，补齐唯一约束、状态历史、幂等键和回滚验证
+    deliverables:
+    - Flyway 前向迁移与空库/升级库测试
+    - 不变量属性测试
+    acceptance:
+    - RESOLVED 到 CLOSED 可达，消息幂等身份不可变，新写入不能使用 legacy 兼容标志绕过幂等字段
+    - 真实连接 PostgreSQL 17 执行空库、V047 升级库和 SQL 不变量矩阵
+  latest_failure_evidence:
+    commit: 501cd4a77898a5352ab320eb8b924a915920ff76
+    findings:
+    - evidence: V048 adds idempotency_key/request_hash to notifications, notification_deliveries, and announcement_reads as
+        nullable columns, then defines CHECK constraints that explicitly accept `(idempotency_key IS NULL AND request_hash
+        IS NULL)` for all three tables. The related unique indexes on notifications and notification_deliveries are also partial
+        `WHERE idempotency_key IS NOT NULL`, so new rows can still be inserted without idempotency identity and bypass the
+        intended uniqueness path.
+      issue: 'R15 idempotency enforcement is incomplete for notification tables: new writes can omit idempotency fields entirely.'
+      line: 59
+      path: database/migrations/V048__r15_notification_support_invariants.sql
+      requirement_ref: 'ACTIVE_TASK acceptance: 新写入不能使用 legacy 兼容标志绕过幂等字段; objective covers notifications, notification_deliveries,
+        announcement_reads'
+      severity: HIGH
+    - evidence: The new SUPPORT_TICKET_STATUS state machine only defines CLOSE from RESOLVED to CLOSED, but the database trigger
+        accepts both OPEN->CLOSED and PENDING->CLOSED via `NEW.status IN ('PENDING','RESOLVED','CLOSED')` and `NEW.status
+        IN ('OPEN','RESOLVED','CLOSED')`. The SQL matrix only rejects CLOSED->OPEN, so these contract-invalid close transitions
+        are not caught.
+      issue: Database support ticket status guard is looser than the declared state machine and permits illegal direct CLOSE
+        transitions.
+      line: 131
+      path: database/migrations/V048__r15_notification_support_invariants.sql
+      requirement_ref: 'ACTIVE_TASK acceptance: RESOLVED 到 CLOSED 可达; 状态历史/契约同步'
+      severity: HIGH
+    schema: hhy.reviewer-result/v5.0
+    status: BLOCK
+    summary: 'BLOCK: candidate violates current R15 idempotency and support-ticket state-machine contracts. No protected-path
+      writes or explicit skip/xfail deletion were observed in the reviewed diff.'
+    task_id: TASK-R15-RECOVERY-001
 instruction: Only the Orchestrator may lease this task; a Worker may not select another task.
