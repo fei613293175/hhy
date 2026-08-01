@@ -1,9 +1,9 @@
 schema: hhy.governance-state/v5.0
-revision: 84
-updated_at: '2026-08-01T07:48:08.709203Z'
-state_hash: 490c4390afac66624492375200977ab79c27f5990c89e0696d73ef04ed632b08
+revision: 85
+updated_at: '2026-08-01T08:00:03.071113Z'
+state_hash: d161d3d98745ad62949f999d6a53d5593ef8e9b81692c14fa73e836f86117948
 project:
-  status: INFRASTRUCTURE_BLOCKED
+  status: ACTIVE
   branch_at_install: governance/v5.0-migration-20260731
   migration_baseline_commit: ea64d82fab9ed3d1952ab7d3c0d2286051390b59
   migration_commit: 8beafc2a0e115345c554abc0bdc199ef92534106
@@ -2709,7 +2709,7 @@ tasks:
     last_gate_evidence: null
     blocker: null
   TASK-R14-RECOVERY-015:
-    status: INFRASTRUCTURE_BLOCKED
+    status: READY
     attempts_used: 2
     current_attempt: null
     last_error_fingerprint: '[{"id": "commit_binding", "status": "PASS", "detail": {"HEAD": "70069678b2a88aa043968b8adc1e72289f2fdcb0",
@@ -2772,73 +2772,4 @@ tasks:
       "--release", "R14"], "stdout_tail": "", "stderr_tail": ""}}]'
     last_candidate_commit: null
     last_gate_evidence: null
-    blocker:
-      code: INDEPENDENT_REVIEWER_FAILED
-      detail:
-        status: INFRASTRUCTURE_BLOCKED
-        execution:
-          status: FAIL
-          exit_code: 1
-          command:
-          - C:\Users\小白\AppData\Local\OpenAI\Codex\bin\d7e8094cfb76a267\codex.exe
-          - --ask-for-approval
-          - never
-          - exec
-          - --ephemeral
-          - --sandbox
-          - read-only
-          - --output-schema
-          - C:\Users\小白\Desktop\workspace\hhy-v1.2.3-handoff\合伙云Pro_Codex直接开发包_V1.2.3_持续开发无状态接续强制门禁最终版\.git\hhy-governance-worktrees\task-r14-recovery-015-a3-7c3374eb\governance\schemas\reviewer-result.schema.json
-          - -o
-          - C:\Users\小白\Desktop\workspace\hhy-v1.2.3-handoff\合伙云Pro_Codex直接开发包_V1.2.3_持续开发无状态接续强制门禁最终版\.git\hhy-governance-worktrees\task-r14-recovery-015-a3-7c3374eb\governance\runtime\reviewer-result.json
-          - -C
-          - C:\Users\小白\Desktop\workspace\hhy-v1.2.3-handoff\合伙云Pro_Codex直接开发包_V1.2.3_持续开发无状态接续强制门禁最终版\.git\hhy-governance-worktrees\task-r14-recovery-015-a3-7c3374eb
-          - '你是一次性的独立只读审查员，不是实现 Worker。禁止修改任何文件、运行写命令、重新规划项目或建议扩大范围。
-
-            只审查 governance/runtime/ACTIVE_TASK.json 和 Git diff b54bb080845abd9f476331d6da1c02fa41f053fd..4f40ef41f9d523b4f922e9bfecbd9e59de0e1008，确认候选是否满足当前任务、是否存在真实正确性/安全/资金/数据库/契约问题，以及是否通过删除、跳过或弱化测试来取得通过。
-
-            仅将有具体文件、行号或可复核证据的 BLOCKER/HIGH 问题判为 BLOCK；风格、偏好、未来重构或任务范围外问题只能列为 MEDIUM/LOW，且不得阻断。
-
-            输出 task_id=TASK-R14-RECOVERY-015、commit=4f40ef41f9d523b4f922e9bfecbd9e59de0e1008，严格符合 reviewer-result.schema.json。'
-          stdout_tail: ''
-          stderr_tail: "Reading additional input from stdin...\n2026-08-01T07:47:20.586297Z  WARN codex_core_skills::loader:\
-            \ ignoring interface.icon_small: icon path with '..' must resolve under plugin assets/\n2026-08-01T07:47:20.586360Z\
-            \  WARN codex_core_skills::loader: ignoring interface.icon_large: icon path with '..' must resolve under plugin\
-            \ assets/\n2026-08-01T07:47:20.588207Z  WARN codex_core_plugins::manifest: ignoring interface.defaultPrompt: maximum\
-            \ of 3 prompts is supported path=file:///C:/Users/%E5%B0%8F%E7%99%BD/.codex/plugins/cache/openai-primary-runtime/template-creator/26.731.11130/.codex-plugin/plugin.json\n\
-            2026-08-01T07:47:20.597019Z  WARN codex_core_plugins::manifest: ignoring interface.defaultPrompt: maximum of 3\
-            \ prompts is supported path=file:///C:/Users/%E5%B0%8F%E7%99%BD/.codex/plugins/cache/openai-primary-runtime/template-creator/26.731.11130/.codex-plugin/plugin.json\n\
-            2026-08-01T07:47:20.652532Z  WARN codex_core::shell_snapshot: Failed to create shell snapshot for powershell:\
-            \ Shell snapshot not supported yet for PowerShell\nOpenAI Codex v0.146.0-alpha.9.2\n--------\nworkdir: C:\\Users\\\
-            小白\\Desktop\\workspace\\hhy-v1.2.3-handoff\\合伙云Pro_Codex直接开发包_V1.2.3_持续开发无状态接续强制门禁最终版\\.git\\hhy-governance-worktrees\\\
-            task-r14-recovery-015-a3-7c3374eb\nmodel: gpt-5.6-sol\nprovider: openai\napproval: never\nsandbox: read-only\n\
-            reasoning effort: medium\nreasoning summaries: none\nsession id: 019fbc4a-b49a-7d33-a9ce-46b89463173b\n--------\n\
-            user\n你是一次性的独立只读审查员，不是实现 Worker。禁止修改任何文件、运行写命令、重新规划项目或建议扩大范围。\n只审查 governance/runtime/ACTIVE_TASK.json 和 Git diff\
-            \ b54bb080845abd9f476331d6da1c02fa41f053fd..4f40ef41f9d523b4f922e9bfecbd9e59de0e1008，确认候选是否满足当前任务、是否存在真实正确性/安全/资金/数据库/契约问题，以及是否通过删除、跳过或弱化测试来取得通过。\n\
-            仅将有具体文件、行号或可复核证据的 BLOCKER/HIGH 问题判为 BLOCK；风格、偏好、未来重构或任务范围外问题只能列为 MEDIUM/LOW，且不得阻断。\n输出 task_id=TASK-R14-RECOVERY-015、commit=4f40ef41f9d523b4f922e9bfecbd9e59de0e1008，严格符合\
-            \ reviewer-result.schema.json。\n2026-08-01T07:47:25.315428Z  WARN codex_core_plugins::manager: failed to load\
-            \ recommended plugins error=failed to parse remote plugin catalog response from https://chatgpt.com/backend-api/ps/plugins/suggested?scope=GLOBAL:\
-            \ EOF while parsing a value at line 1 column 0\n2026-08-01T07:47:25.315805Z ERROR codex_models_manager::manager:\
-            \ failed to refresh available models: timeout waiting for child process to exit\n2026-08-01T07:47:27.034886Z \
-            \ WARN codex_core_skills::loader: ignoring interface.icon_small: icon path with '..' must resolve under plugin\
-            \ assets/\n2026-08-01T07:47:27.034920Z  WARN codex_core_skills::loader: ignoring interface.icon_large: icon path\
-            \ with '..' must resolve under plugin assets/\n2026-08-01T07:47:27.036490Z  WARN codex_core_plugins::manifest:\
-            \ ignoring interface.defaultPrompt: maximum of 3 prompts is supported path=file:///C:/Users/%E5%B0%8F%E7%99%BD/.codex/plugins/cache/openai-primary-runtime/template-creator/26.731.11130/.codex-plugin/plugin.json\n\
-            2026-08-01T07:47:27.043759Z  WARN codex_core_plugins::manifest: ignoring interface.defaultPrompt: maximum of 3\
-            \ prompts is supported path=file:///C:/Users/%E5%B0%8F%E7%99%BD/.codex/plugins/cache/openai-primary-runtime/template-creator/26.731.11130/.codex-plugin/plugin.json\n\
-            2026-08-01T07:47:46.162516Z  WARN codex_core_plugins::manager: failed to load recommended plugins error=failed\
-            \ to send remote plugin catalog request to https://chatgpt.com/backend-api/ps/plugins/suggested?scope=GLOBAL:\
-            \ error sending request for url (https://chatgpt.com/backend-api/ps/plugins/suggested?scope=GLOBAL)\n2026-08-01T07:47:46.193812Z\
-            \  WARN codex_core_plugins::manifest: ignoring interface.defaultPrompt: maximum of 3 prompts is supported path=file:///C:/Users/%E5%B0%8F%E7%99%BD/.cache/codex-runtimes/codex-primary-runtime/plugins/openai-primary-runtime/plugins/template-creator/.codex-plugin/plugin.json\n\
-            2026-08-01T07:47:50.378592Z  WARN codex_core_plugins::manager: failed to refresh cached remote plugin catalog\
-            \ error=failed to parse remote plugin catalog response from https://chatgpt.com/backend-api/ps/plugins/list?scope=GLOBAL&limit=200:\
-            \ EOF while parsing a value at line 1 column 0 scope=Global\n2026-08-01T07:47:55.399550Z  WARN codex_core_plugins::manager:\
-            \ failed to load recommended plugins error=failed to send remote plugin catalog request to https://chatgpt.com/backend-api/ps/plugins/suggested?scope=GLOBAL:\
-            \ error sending request for url (https://chatgpt.com/backend-api/ps/plugins/suggested?scope=GLOBAL)\nERROR: {\n\
-            \  \"type\": \"error\",\n  \"error\": {\n    \"type\": \"invalid_request_error\",\n    \"code\": \"invalid_json_schema\"\
-            ,\n    \"message\": \"Invalid schema for response_format 'codex_output_schema': In context=(), 'allOf' is not\
-            \ permitted.\",\n    \"param\": \"text.format.schema\"\n  },\n  \"status\": 400\n}\nERROR: {\n  \"type\": \"error\"\
-            ,\n  \"error\": {\n    \"type\": \"invalid_request_error\",\n    \"code\": \"invalid_json_schema\",\n    \"message\"\
-            : \"Invalid schema for response_format 'codex_output_schema': In context=(), 'allOf' is not permitted.\",\n  \
-            \  \"param\": \"text.format.schema\"\n  },\n  \"status\": 400\n}\n"
-        evidence_path: null
+    blocker: null
