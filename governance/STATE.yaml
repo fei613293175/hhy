@@ -1,15 +1,15 @@
 schema: hhy.governance-state/v5.0
-revision: 120
-updated_at: '2026-08-01T19:37:49.448989Z'
-state_hash: cfc94bcee9fcb957880c1ba0a6fc015c3c705aec67f1a4ce5b07379fba971401
+revision: 121
+updated_at: '2026-08-01T20:06:25.103095Z'
+state_hash: 1235121d52de86be726206e944c07eaf8d700abe4361fc24f1e027f816fd4c71
 project:
-  status: ACTIVE
+  status: FAILED_BOUNDED
   branch_at_install: governance/v5.0-migration-20260731
   migration_baseline_commit: ea64d82fab9ed3d1952ab7d3c0d2286051390b59
   migration_commit: 8beafc2a0e115345c554abc0bdc199ef92534106
   authoritative_commit: e2614cdc8b50853f24ebfc091fde5e2f9c1bd085
   active_release: R15
-  active_task: TASK-R15-003
+  active_task: null
   goal_complete: false
 lease: null
 releases:
@@ -1462,31 +1462,23 @@ tasks:
     last_gate_evidence: null
     blocker: null
   TASK-R15-003:
-    status: READY
-    attempts_used: 2
+    status: FAILED_BOUNDED
+    attempts_used: 3
     current_attempt: null
-    last_error_fingerprint: '{"commit": "860e7806bef507f311393c0432cea71806ed2d3a", "findings": [{"evidence": "AdminDecisionRequest/AdminSupport*
-      DTOs require expectedVersion, but R15Service accepts only expectedVersion == 0 via expectZero() and does not pass that
-      version to content report, appeal, assign, or close store calls. The store then updates hhy.content_reports, hhy.content_appeals,
-      and hhy.support_tickets by id only, without a version predicate or version increment, while projecting version 0 back.
-      Stale or concurrent admin writes will overwrite instead of returning the required 409 conflict.", "issue": "expectedVersion
-      is effectively bypassed for multiple admin write operations, breaking concurrency/error-code correctness.", "line":
-      270, "path": "services/backend/content/src/main/java/cc/orbexa/hhy/content/R15Service.java", "requirement_ref": "ACTIVE_TASK.acceptance:
-      权限/幂等/错误码/审计覆盖", "severity": "HIGH"}, {"evidence": "SupportTicketRequest and SupportTicketMessageRequest include attachments,
-      and R15PostgresStore persists those attachments into hhy.ticket_attachments, but the idempotency hashes for support.create
-      and support.user_message include only category/subject/content or content. withIdempotency compares only that hash and
-      replays the prior response, so reusing the same idempotency key with different attachments is not detected as a different
-      request.", "issue": "idempotency request hashes omit persisted request fields, allowing different payloads to be treated
-      as identical replays.", "line": 112, "path": "services/backend/content/src/main/java/cc/orbexa/hhy/content/R15Service.java",
-      "requirement_ref": "ACTIVE_TASK.acceptance: 权限/幂等/错误码/审计覆盖", "severity": "HIGH"}, {"evidence": "test_r15_operation_ids_have_unique_controller_methods
-      reads OpenAPI method/path pairs, but the assertions only regex-match a Java method name once. It never checks @GetMapping/@PostMapping
-      HTTP method, route path, parameters, request/response schema, or error responses, so the acceptance ''OpenAPI contract
-      test'' can pass with contract-incompatible controller mappings.", "issue": "the added OpenAPI contract test is weakened
-      to operationId-name presence only and does not validate the actual OpenAPI contract.", "line": 36, "path": "tests/test_r15_backend_contract.py",
-      "requirement_ref": "ACTIVE_TASK.deliverables: OpenAPI契约测试", "severity": "HIGH"}], "schema": "hhy.reviewer-result/v5.0",
-      "status": "BLOCK", "summary": "Reviewed only governance/runtime/ACTIVE_TASK.json and diff 73652dfed1fc52cf7d871f7819484f477af0e5b8..860e7806bef507f311393c0432cea71806ed2d3a.
-      Changes are within allowed paths and I saw no test deletions, but the candidate has HIGH correctness/contract issues
-      and should block.", "task_id": "TASK-R15-003"}'
+    last_error_fingerprint: '{"commit": "46a7063aac150942d2dc3b70eb2c91cc791d8a9c", "findings": [{"evidence": "ACTIVE_TASK.json要求当前任务实现范围内25个operationId并覆盖“权限/幂等/错误码/审计”。新增的唯一测试文件
+      R15NotificationSupportControllerContractTest 仅在第74-86行反射校验方法名、HTTP方法、路径和部分PreAuthorize值，没有对幂等重放/冲突、错误码或审计写入做任何断言。",
+      "issue": "当前候选未满足任务验收中的幂等、错误码、审计测试覆盖要求；这不是删除测试取得通过，但属于必需验收覆盖缺失。", "line": 74, "path": "services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/R15NotificationSupportControllerContractTest.java",
+      "requirement_ref": "governance/runtime/ACTIVE_TASK.json:10-17", "severity": "HIGH"}, {"evidence": "decideReport()在服务层解析decision并计算next状态，但持久化调用只传status；Postgres实现
+      updateContentReport/updateChatReport 仅更新status、updated_at。report()查询第494行还把decision列固定选择为NULL，因此处理结果响应中的decision也会丢失。",
+      "issue": "举报处理接口会静默丢弃管理员的decision/reason/evidence信息，只更新状态，破坏内容/聊天举报处理契约和可审计性。", "line": 200, "path": "services/backend/content/src/main/java/cc/orbexa/hhy/content/R15NotificationSupportPostgresStore.java",
+      "requirement_ref": "governance/runtime/ACTIVE_TASK.json:8,11,17", "severity": "HIGH"}, {"evidence": "addUserTicketMessage/addAdminTicketMessage解析attachments后只把它们写入outbox
+      payload；实际数据库调用是 store.addTicketMessage(...)，没有调用已经定义的 addTicketAttachments(...)。PostgresStore第244-250行提供附件落库方法但本diff中服务层未使用。",
+      "issue": "工单消息接口接受attachments但不会持久化附件关系，导致客户端提交的附件数据丢失。", "line": 156, "path": "services/backend/content/src/main/java/cc/orbexa/hhy/content/R15NotificationSupportService.java",
+      "requirement_ref": "governance/runtime/ACTIVE_TASK.json:8", "severity": "HIGH"}, {"evidence": "createTemplate()只将templateCode/channel/bodyTemplate传给store.createNotificationTemplate；titleTemplate、allowedVariables、sampleVariables、effectiveAt均未保存。template()映射又在第515-518行硬编码locale=''zh-CN''、versionNo=1、titleTemplate=null、allowedVariables=List.of()、sampleVariables=Map.of()、version=0。",
+      "issue": "通知模板创建/查询契约字段被静默丢弃或硬编码，候选没有真实实现模板资源契约。", "line": 330, "path": "services/backend/content/src/main/java/cc/orbexa/hhy/content/R15NotificationSupportService.java",
+      "requirement_ref": "governance/runtime/ACTIVE_TASK.json:8,16", "severity": "HIGH"}], "schema": "hhy.reviewer-result/v5.0",
+      "status": "BLOCK", "summary": "候选在允许路径内，未发现删除或禁用测试的证据；但存在任务验收覆盖缺失以及多个会丢弃业务输入/破坏契约的HIGH问题，不能通过当前TASK-R15-003审查。", "task_id":
+      "TASK-R15-003"}'
     last_candidate_commit: null
     last_gate_evidence: null
     blocker: null
