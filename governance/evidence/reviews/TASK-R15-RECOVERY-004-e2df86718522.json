@@ -1,0 +1,17 @@
+{
+  "commit": "e2df86718522d8bc039bcf31b78618085a4ada29",
+  "findings": [
+    {
+      "evidence": "`contracts/openapi.yaml` defines `SupportGetHelpArticlesByIdResponse.data` as `#/components/schemas/SupportTicketResource` at lines 20651-20669, but the new controller method for `GET /api/v1/help/articles/{id}` returns `ApiResponse<PublicPageResource>` and calls `service.publicHelpArticle(id)`. The service constructs a `PublicPageResource`, so the authenticated help-article detail endpoint returns the wrong response shape for a frozen R15 operation. The added contract test only checks the operationId has a mapping and does not catch response-type drift.",
+      "issue": "`supportGetHelpArticlesById` violates the frozen OpenAPI response contract by returning `PublicPageResource` instead of `SupportTicketResource`.",
+      "line": 123,
+      "path": "services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/R15NotificationSupportController.java",
+      "requirement_ref": "contracts/openapi.yaml:20651-20669",
+      "severity": "HIGH"
+    }
+  ],
+  "schema": "hhy.reviewer-result/v5.0",
+  "status": "BLOCK",
+  "summary": "候选未修改受保护路径，未发现删除、跳过或禁用测试的证据；但存在一个可复核的 R15 OpenAPI 响应契约错配，当前候选不能通过独立审查。",
+  "task_id": "TASK-R15-RECOVERY-004"
+}
