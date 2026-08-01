@@ -1028,6 +1028,53 @@ def build_auto_recovery_spec(
     return repair
 
 
+def bounded_recovery_candidates(
+    state: dict[str, Any], specs: dict[str, dict[str, Any]], release: str
+) -> list[tuple[int, str, dict[str, Any]]]:
+    """Return failed leaf tasks that do not already have a recovery successor."""
+    covered = {
+        str(spec["supersedes"])
+        for spec in specs.values()
+        if spec.get("release") == release and spec.get("supersedes")
+    }
+    return [
+        (int(spec.get("ordinal") or 0), task_id, spec)
+        for task_id, spec in specs.items()
+        if spec.get("release") == release
+        and task_id not in covered
+        and (state.get("tasks") or {}).get(task_id, {}).get("status") == "FAILED_BOUNDED"
+        and (state.get("tasks") or {}).get(task_id, {}).get("attempts_used") == 3
+    ]
+
+
+def stale_auto_recovery_task(
+    state: dict[str, Any], specs: dict[str, dict[str, Any]]
+) -> str | None:
+    """Detect an unstarted duplicate recovery for an already repaired predecessor."""
+    project = state.get("project") or {}
+    active_task = str(project.get("active_task") or "")
+    active_spec = specs.get(active_task) or {}
+    active_row = (state.get("tasks") or {}).get(active_task) or {}
+    predecessor = str(active_spec.get("supersedes") or "")
+    if (
+        project.get("status") != "ACTIVE"
+        or active_spec.get("kind") != "recovery"
+        or (active_spec.get("source") or {}).get("path") != "Supervisor automatic bounded recovery"
+        or active_row.get("status") != "READY"
+        or active_row.get("attempts_used") != 0
+        or not predecessor
+    ):
+        return None
+    successful_successors = [
+        task_id
+        for task_id, spec in specs.items()
+        if task_id != active_task
+        and spec.get("supersedes") == predecessor
+        and (state.get("tasks") or {}).get(task_id, {}).get("status") == "DONE"
+    ]
+    return active_task if successful_successors else None
+
+
 def auto_supersede_failed(repo: Path, policy_path: Path | None = None) -> dict[str, Any]:
     """Create the next bounded repair task under a standing owner policy.
 
@@ -1052,22 +1099,17 @@ def auto_supersede_failed(repo: Path, policy_path: Path | None = None) -> dict[s
             raise RuntimeError("standing recovery policy must preserve bounded attempts")
 
         state = read_state(repo)
+        specs = load_task_specs(repo)
         project = state.get("project") or {}
-        if project.get("status") != "FAILED_BOUNDED":
+        stale_recovery = stale_auto_recovery_task(state, specs)
+        if project.get("status") != "FAILED_BOUNDED" and stale_recovery is None:
             return {"schema": "hhy.auto-recovery/v5.0", "status": "NO_ACTION", "reason": "project is not FAILED_BOUNDED"}
         release = str(project.get("active_release") or "")
         allowed_releases = policy.get("allowed_releases") or []
         if allowed_releases and release not in allowed_releases:
             raise RuntimeError(f"standing recovery policy does not cover release {release}")
 
-        specs = load_task_specs(repo)
-        failed = [
-            (int(spec.get("ordinal") or 0), task_id, spec)
-            for task_id, spec in specs.items()
-            if spec.get("release") == release
-            and (state.get("tasks") or {}).get(task_id, {}).get("status") == "FAILED_BOUNDED"
-            and (state.get("tasks") or {}).get(task_id, {}).get("attempts_used") == 3
-        ]
+        failed = bounded_recovery_candidates(state, specs, release)
         if not failed:
             return {"schema": "hhy.auto-recovery/v5.0", "status": "NO_ACTION", "reason": "no bounded failed task is ready for recovery"}
         _, from_task, source = sorted(failed)[-1]
@@ -1135,6 +1177,11 @@ def auto_supersede_failed(repo: Path, policy_path: Path | None = None) -> dict[s
         ]
         original_files = {path: path.read_bytes() if path.is_file() else None for path in transition_paths}
         try:
+            if stale_recovery:
+                stale_row = state["tasks"][stale_recovery]
+                stale_row["status"] = "SUPERSEDED"
+                stale_row["current_attempt"] = None
+                stale_row["blocker"] = None
             write_yaml(target_path, repair)
             for path in dependent_paths:
                 task_id = path.stem
@@ -1178,6 +1225,7 @@ def auto_supersede_failed(repo: Path, policy_path: Path | None = None) -> dict[s
                 "state_commit": commit_id,
                 "attempts_used": 0,
                 "maximum_attempts": 3,
+                "retired_stale_recovery": stale_recovery,
             }
         except Exception:
             for path, raw in original_files.items():

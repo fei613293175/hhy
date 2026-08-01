@@ -24,7 +24,9 @@ from tools.governance.gov50.gates import (
 from tools.governance.gov50.hard import run_hard_protection
 from tools.governance.gov50.legacy import scan_active_control_plane
 from tools.governance.gov50.orchestrator import (
+    bounded_recovery_candidates,
     build_auto_recovery_spec,
+    stale_auto_recovery_task,
     supersede_failed,
     structured_failure_evidence,
     task_gate_profile,
@@ -598,3 +600,51 @@ def test_failed_recovery_transition_preserves_predecessor_and_binds_new_task(tmp
     simulated = simulate_program(repo)
     assert simulated["status"] == "PASS", simulated
     assert simulated["first_task"] == "TASK-R14-RECOVERY-002"
+
+
+def test_bounded_recovery_candidates_exclude_failures_with_successors():
+    specs = {
+        "TASK-R15-002": {"release": "R15", "ordinal": 2},
+        "TASK-R15-RECOVERY-001": {
+            "release": "R15", "ordinal": 9, "kind": "recovery", "supersedes": "TASK-R15-002"
+        },
+        "TASK-R15-RECOVERY-002": {
+            "release": "R15", "ordinal": 10, "kind": "recovery", "supersedes": "TASK-R15-RECOVERY-001"
+        },
+        "TASK-R15-003": {"release": "R15", "ordinal": 3},
+    }
+    state = {"tasks": {
+        "TASK-R15-002": {"status": "FAILED_BOUNDED", "attempts_used": 3},
+        "TASK-R15-RECOVERY-001": {"status": "FAILED_BOUNDED", "attempts_used": 3},
+        "TASK-R15-RECOVERY-002": {"status": "DONE", "attempts_used": 3},
+        "TASK-R15-003": {"status": "FAILED_BOUNDED", "attempts_used": 3},
+    }}
+
+    candidates = bounded_recovery_candidates(state, specs, "R15")
+
+    assert [task_id for _, task_id, _ in candidates] == ["TASK-R15-003"]
+
+
+def test_stale_auto_recovery_detects_duplicate_of_done_successor():
+    specs = {
+        "TASK-R15-RECOVERY-001": {"release": "R15", "kind": "recovery"},
+        "TASK-R15-RECOVERY-002": {
+            "release": "R15", "kind": "recovery", "supersedes": "TASK-R15-RECOVERY-001"
+        },
+        "TASK-R15-RECOVERY-003": {
+            "release": "R15",
+            "kind": "recovery",
+            "supersedes": "TASK-R15-RECOVERY-001",
+            "source": {"path": "Supervisor automatic bounded recovery"},
+        },
+    }
+    state = {
+        "project": {"status": "ACTIVE", "active_task": "TASK-R15-RECOVERY-003"},
+        "tasks": {
+            "TASK-R15-RECOVERY-001": {"status": "FAILED_BOUNDED", "attempts_used": 3},
+            "TASK-R15-RECOVERY-002": {"status": "DONE", "attempts_used": 3},
+            "TASK-R15-RECOVERY-003": {"status": "READY", "attempts_used": 0},
+        },
+    }
+
+    assert stale_auto_recovery_task(state, specs) == "TASK-R15-RECOVERY-003"
