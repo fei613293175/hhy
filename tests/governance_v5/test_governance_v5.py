@@ -343,10 +343,14 @@ def test_readiness_documentation_evidence_stays_inside_release_scope():
 def test_r15_database_task_requires_real_postgres_execution():
     spec = _specs()["TASK-R15-002"]
     commands = spec["acceptance_commands"]
-    assert "mvn -q -f services/backend/pom.xml -DskipTests install" in commands
-    assert "mvn -q -f services/backend/pom.xml -pl boot -Dtest=R15NotificationSupportMigrationTest test" in commands
-    assert all("failIfNoSpecifiedTests=false" not in command for command in commands)
+    postgres_test = "python3 -m pytest -q tests/test_r15_notification_support_postgres.py"
+    assert postgres_test in commands
+    assert all("mvn" not in command for command in commands)
     acceptance = " ".join(spec["acceptance"])
+    assert "HHY_DB_SMOKE_CONFIRM=YES" in acceptance
+    assert "缺少确认、连接或测试文件时必须失败，不得跳过" in acceptance
+    assert "database/tests/r15_notification_support_invariants.sql" in acceptance
+    assert "空库与升级库迁移" in acceptance
     assert "不得以读取 SQL 文本或匹配标记替代数据库运行" in acceptance
 
 

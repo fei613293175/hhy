@@ -134,10 +134,7 @@ def _acceptance_commands(kind: str, task_id: str, release: str, risks: list[str]
     if "database" in risks:
         commands.append("python3 scripts/check_db_schema.py")
     if task_id == "TASK-R15-002":
-        commands.extend([
-            "mvn -q -f services/backend/pom.xml -DskipTests install",
-            "mvn -q -f services/backend/pom.xml -pl boot -Dtest=R15NotificationSupportMigrationTest test",
-        ])
+        commands.append("python3 -m pytest -q tests/test_r15_notification_support_postgres.py")
     if "contract" in risks:
         commands.append("python3 scripts/check_api_contract.py")
     if "ui" in risks:
