@@ -1,0 +1,17 @@
+{
+  "commit": "eccf3c2ce6b37b5ad5583ac3d7b5c9a4b0a6e651",
+  "findings": [
+    {
+      "evidence": "governance/runtime/ACTIVE_TASK.json:17 requires a real PostgreSQL 17 empty-db, V047-upgrade, and SQL invariant matrix. The only real-Postgres test skips when HHY_R15_POSTGRES_DSN is absent at tests/test_r15_notification_support_postgres.py:137-139, and the SQL it runs at lines 153-156 drops the schema then executes all migrations from scratch, so it does not exercise a populated V047 upgrade path. The listed acceptance command does not require or provide that DSN.",
+      "issue": "Candidate can pass the task pytest command while skipping the required real PostgreSQL 17 validation and does not implement the required V047 upgrade test path.",
+      "line": 139,
+      "path": "tests/test_r15_notification_support_postgres.py",
+      "requirement_ref": "governance/runtime/ACTIVE_TASK.json:17",
+      "severity": "HIGH"
+    }
+  ],
+  "schema": "hhy.reviewer-result/v5.0",
+  "status": "BLOCK",
+  "summary": "Blocked by a real gate/acceptance gap. Diff stays within allowed paths and I found no test deletions, but the new database validation can be skipped and does not cover the required V047 upgrade scenario.",
+  "task_id": "TASK-R15-RECOVERY-002"
+}
