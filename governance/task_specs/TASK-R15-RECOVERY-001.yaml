@@ -1,0 +1,45 @@
+schema: hhy.task-spec/v5.0
+id: TASK-R15-RECOVERY-001
+release: R15
+ordinal: 9
+title: R15 自动有界恢复：源码冻结就绪
+kind: recovery
+mode: worker
+source:
+  path: Supervisor automatic bounded recovery
+  original_id: TASK-R15-002
+requirements:
+- 仅使用当前权威 HEAD 作为源码基线
+- 保留前序失败任务及其三次尝试记录
+- 不得继承前序 Candidate、APK、截图、视觉批准或 PASS
+- Worker 阶段只生成可冻结的源码 Commit，不得在提交内伪造尚未生成的冻结后证据
+- 冻结后的 APK、截图、视觉批准和 Gate 证据必须由候选流程生成并绑定 frozen_commit
+depends_on: []
+objective: 修复最新失败证据确认的源码或规则根因，生成通过冻结门禁和独立审查的源码 Commit；候选证据由冻结后的候选流程另行生成。
+deliverables:
+- 最新失败根因对应的实际修复
+- 通过冻结门禁与独立审查的源码 Commit
+acceptance:
+- TASK-R15-002 永久保持 FAILED_BOUNDED
+- 不继承或冒用旧 Candidate、APK、截图、视觉批准或 PASS
+- Worker 候选不得声称已生成冻结后证据
+- 源码 Commit 通过 freeze Gate 和独立只读审查
+- R15 达到 MACHINE_CLOSED 后才允许激活下一版本
+allowed_paths:
+- catalogs/**
+- contracts/**
+- database/**
+- docs/**
+- services/backend/**
+- tests/**
+risks:
+- database
+- production
+- secrets
+acceptance_commands:
+- python3 scripts/check_db_schema.py
+- python3 -m pytest -q tests/test_r15_notification_support_postgres.py
+maximum_attempts: 3
+owner_verification: ASYNC_NON_BLOCKING_FOR_NEXT_RELEASE
+legacy_status: AUTOMATIC_RECOVERY_PLANNED
+supersedes: TASK-R15-002

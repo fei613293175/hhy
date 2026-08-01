@@ -1,15 +1,15 @@
 schema: hhy.governance-state/v5.0
-revision: 106
-updated_at: '2026-08-01T14:14:16.732503Z'
-state_hash: 3d3201b3fe079633acfc6145ba21fc89cb8299d5bc9db9a95e1e1ba6f2030722
+revision: 107
+updated_at: '2026-08-01T14:19:30.532592Z'
+state_hash: 545ae8ea6a3f0b78e359dd9d1a81e6a2013e4177c1149d0aebfe47d2e764387b
 project:
-  status: FAILED_BOUNDED
+  status: ACTIVE
   branch_at_install: governance/v5.0-migration-20260731
   migration_baseline_commit: ea64d82fab9ed3d1952ab7d3c0d2286051390b59
   migration_commit: 8beafc2a0e115345c554abc0bdc199ef92534106
-  authoritative_commit: 9b467950a2f9c75dbc9ec9c395cc553369940754
+  authoritative_commit: d26fedb71e6e72e61de11fb7b1a52a4618d0afbf
   active_release: R15
-  active_task: null
+  active_task: TASK-R15-RECOVERY-001
   goal_complete: false
 lease: null
 releases:
@@ -2742,4 +2742,12 @@ tasks:
       "requirement_ref": "ACTIVE_TASK.acceptance[3]; ACTIVE_TASK.risks.security; ACTIVE_TASK.risks.ui"}]}'
     last_candidate_commit: de01f5ad32693e845c3b4ecf6f0e034fc8792aff
     last_gate_evidence: governance/evidence/gates/freeze-TASK-R14-RECOVERY-016-de01f5ad3269.json
+    blocker: null
+  TASK-R15-RECOVERY-001:
+    status: READY
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
+    last_candidate_commit: null
+    last_gate_evidence: null
     blocker: null
