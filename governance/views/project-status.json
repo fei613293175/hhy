@@ -1,11 +1,11 @@
 {
   "DO_NOT_EDIT": true,
   "GENERATED_FROM": "governance/STATE.yaml",
-  "SOURCE_REVISION": 95,
-  "SOURCE_HASH": "cbe0b4d816d4a630f2cb849b9f6bc56597078af085de14ec1b0ae55f626b49ac",
-  "project_status": "POLICY_VIOLATION",
+  "SOURCE_REVISION": 96,
+  "SOURCE_HASH": "4c56e4478bcbed97fa95daf3203b4a99cbea3f307f05b54be5a23c2bf1a516cf",
+  "project_status": "ACTIVE",
   "active_release": "R15",
-  "active_task": null,
+  "active_task": "TASK-R15-001",
   "authoritative_commit": "de01f5ad32693e845c3b4ecf6f0e034fc8792aff",
   "goal_complete": false
 }
