@@ -1,9 +1,9 @@
 schema: hhy.governance-state/v5.0
-revision: 118
-updated_at: '2026-08-01T19:04:18.291829Z'
-state_hash: 42b1b1cbd6ee4242401a8cc8cd726d254dea6380b6ddda912a7ae95dc303feff
+revision: 119
+updated_at: '2026-08-01T19:06:52.870899Z'
+state_hash: 47e0b5b45c8c3279cb99e0a8ce27964b89d320769f128954e23d58ce315ba0c4
 project:
-  status: INFRASTRUCTURE_BLOCKED
+  status: ACTIVE
   branch_at_install: governance/v5.0-migration-20260731
   migration_baseline_commit: ea64d82fab9ed3d1952ab7d3c0d2286051390b59
   migration_commit: 8beafc2a0e115345c554abc0bdc199ef92534106
@@ -1462,7 +1462,7 @@ tasks:
     last_gate_evidence: null
     blocker: null
   TASK-R15-003:
-    status: INFRASTRUCTURE_BLOCKED
+    status: READY
     attempts_used: 1
     current_attempt: null
     last_error_fingerprint: '{"commit": "4dafb0d01b5c5f227dbc95508e8a90a383119342", "findings": [{"evidence": "R15Contracts.CloseTicketRequest
@@ -1483,26 +1483,7 @@ tasks:
       "task_id": "TASK-R15-003"}'
     last_candidate_commit: null
     last_gate_evidence: null
-    blocker:
-      code: JAVAC_ZIPFS_RESOURCE_CLOSE_FAILURE
-      detail: 'R15 product code and targeted Python/static checks were completed, but Maven/Javac verification cannot be cleanly
-        completed in this Windows toolchain. Short-path subst builds and direct javac both fail with javac/JDK 21 resource-close
-        failures, including AccessDeniedException on Maven dependency jars and ''致命错误: 无法关闭编译器资源'', while direct javac still
-        emitted R15SupportService/R15SupportContracts class files before failing on resource close.'
-      paths:
-      - services/backend/content/src/main/java/cc/orbexa/hhy/content/R15SupportContracts.java
-      - services/backend/content/src/main/java/cc/orbexa/hhy/content/R15SupportService.java
-      - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/R15SupportUserController.java
-      - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/admin/R15SupportAdminController.java
-      - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/R15SupportControllerContractTest.java
-      - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/UserSelfServiceController.java
-      - services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04StoragePostgresStore.java
-      resolution: Run the same targeted Maven command on a clean Java 21/Maven environment without the Windows zipfs/resource-close
-        failure, or repair local JDK/Maven jar access permissions, then rerun boot targeted test.
-      worker_result_evidence: 'Passed: python3 scripts/check_api_contract.py => API_CONTRACT_OK client=131 admin=184 websocket=12
-        runtime_hashes=PASS; passed pytest R15 V048 static contract; passed R15_STATIC_OK operationIds=25 adminPermissions=11
-        idempotency=PASS outboxAudit=PASS. Blocked: mvn targeted test fails with java.nio.file.AccessDeniedException on C:\Users\小白\.m2\repository\software\amazon\awssdk\auth\2.48.3\auth-2.48.3.jar
-        and later ''An unknown compilation problem occurred'' / ''致命错误: 无法关闭编译器资源'' even under subst X: and X:\.m2repo.'
+    blocker: null
   TASK-R15-004:
     status: PLANNED
     attempts_used: 0
