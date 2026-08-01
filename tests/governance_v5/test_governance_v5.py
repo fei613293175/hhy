@@ -283,6 +283,13 @@ def test_worker_guard_denies_git_authority_commands():
     assert "permissionDecision':'deny'" in text or 'permissionDecision\":\"deny' in text
 
 
+def test_worker_commit_failure_persists_diagnostics_without_bypassing_hooks():
+    source = (ROOT / "tools/governance/gov50/orchestrator.py").read_text(encoding="utf-8")
+    assert "hhy.worker-commit-failure/v5.0" in source
+    assert 'worktree / ".githooks-v5" / "pre-commit"' in source
+    assert '"--no-verify"' not in source
+
+
 def test_watchdog_stops_second_identical_action():
     text = (ROOT / ".codex/hooks/post_tool_watchdog.py").read_text(encoding="utf-8")
     assert "REPEATED_COMMAND_OUTPUT_DIFF" in text

@@ -712,7 +712,25 @@ def run_once(repo: Path, dry_run: bool = False) -> dict[str, Any]:
             if status != "CANDIDATE_READY" or not changed:
                 return _attempt_failure(repo, state, specs, task_id, str(result.get("summary") or "worker did not produce a candidate"), str(result.get("error_fingerprint") or ""))
             git(worktree, "add", "-A", env=AUTH_ENV)
-            git(worktree, "commit", "-m", f"[{task_id}] bounded attempt {attempt} candidate", env=AUTH_ENV)
+            try:
+                git(worktree, "commit", "-m", f"[{task_id}] bounded attempt {attempt} candidate", env=AUTH_ENV)
+            except Exception as exc:
+                hook = run([str(worktree / ".githooks-v5" / "pre-commit")], worktree, timeout=300, env=AUTH_ENV)
+                diagnostic = {
+                    "schema": "hhy.worker-commit-failure/v5.0",
+                    "task_id": task_id,
+                    "attempt": attempt,
+                    "baseline_commit": baseline,
+                    "changed_paths": changed,
+                    "status_porcelain": git_status_lines(worktree, "-c", "core.quotepath=false", "status", "--porcelain=v1", "-uall", check=False),
+                    "staged_paths": git(worktree, "diff", "--cached", "--name-status", check=False).splitlines(),
+                    "staged_diff_check": git(worktree, "diff", "--cached", "--check", check=False),
+                    "hook": hook,
+                    "commit_error": str(exc),
+                }
+                diagnostic_path = WORKER_FAILURE_DIR / f"{task_id}-a{attempt}-commit-failure.json"
+                write_json(repo / diagnostic_path, diagnostic)
+                raise RuntimeError(f"worker candidate commit failed; diagnostic={diagnostic_path.as_posix()}") from exc
             candidate = git(worktree, "rev-parse", "HEAD")
             gate_profile = "freeze" if spec.get("kind") in {"release_close", "recovery"} else "task"
             gate = run_gate(worktree, profile=gate_profile, task_id=task_id, commit=candidate, release=spec["release"])
