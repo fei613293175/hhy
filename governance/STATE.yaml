@@ -1,7 +1,7 @@
 schema: hhy.governance-state/v5.0
-revision: 112
-updated_at: '2026-08-01T16:05:38.368167Z'
-state_hash: fffa9df896781799da927e19c3d7c7d42d3b9eb7f1cc7ccd68701f2a6cfd3f7e
+revision: 113
+updated_at: '2026-08-01T16:34:41.433567Z'
+state_hash: d011194d8c2c85f2879b3e5dc040c65d5c10ccc38bf46cdcb2638d887ce70f8f
 project:
   status: ACTIVE
   branch_at_install: governance/v5.0-migration-20260731
@@ -2768,18 +2768,21 @@ tasks:
     blocker: null
   TASK-R15-RECOVERY-002:
     status: READY
-    attempts_used: 1
+    attempts_used: 2
     current_attempt: null
-    last_error_fingerprint: '{"commit": "eccf3c2ce6b37b5ad5583ac3d7b5c9a4b0a6e651", "findings": [{"evidence": "governance/runtime/ACTIVE_TASK.json:17
-      requires a real PostgreSQL 17 empty-db, V047-upgrade, and SQL invariant matrix. The only real-Postgres test skips when
-      HHY_R15_POSTGRES_DSN is absent at tests/test_r15_notification_support_postgres.py:137-139, and the SQL it runs at lines
-      153-156 drops the schema then executes all migrations from scratch, so it does not exercise a populated V047 upgrade
-      path. The listed acceptance command does not require or provide that DSN.", "issue": "Candidate can pass the task pytest
-      command while skipping the required real PostgreSQL 17 validation and does not implement the required V047 upgrade test
-      path.", "line": 139, "path": "tests/test_r15_notification_support_postgres.py", "requirement_ref": "governance/runtime/ACTIVE_TASK.json:17",
-      "severity": "HIGH"}], "schema": "hhy.reviewer-result/v5.0", "status": "BLOCK", "summary": "Blocked by a real gate/acceptance
-      gap. Diff stays within allowed paths and I found no test deletions, but the new database validation can be skipped and
-      does not cover the required V047 upgrade scenario.", "task_id": "TASK-R15-RECOVERY-002"}'
+    last_error_fingerprint: '{"commit": "9c86d2d3ded935a00c8460e05d256827f20ca968", "findings": [{"evidence": "In the candidate
+      file, SUPPORT_TICKET_STATUS starts at database/state_machines.yaml:624, but database/state_machines.yaml:661-693 contains
+      ADMIN_MFA_METHOD_STATUS transitions/events such as CANCEL_ENROLLMENT, DISABLE, and REENROLL with ADMIN actors and MFA/password
+      guards. The reviewed diff shows the new support-ticket machine was inserted before these pre-existing MFA transitions,
+      moving them under the wrong state machine.", "issue": "The candidate corrupts the state-machine contract: admin MFA
+      method lifecycle transitions are no longer scoped to ADMIN_MFA_METHOD_STATUS and are instead nested under SUPPORT_TICKET_STATUS,
+      while SUPPORT_TICKET_STATUS gains impossible DISABLED/PENDING/ACTIVE-related admin flows. This is a real correctness/security
+      contract regression outside the R15 notification/support objective.", "line": 661, "path": "database/state_machines.yaml",
+      "requirement_ref": "ACTIVE_TASK risks=production,secrets; task must satisfy current R15 objective without introducing
+      contract/security regressions", "severity": "HIGH"}], "schema": "hhy.reviewer-result/v5.0", "status": "BLOCK", "summary":
+      "Candidate does not pass independent read-only review. I found no protected-path edits, no pytest.skip, no HHY_R15_POSTGRES_DSN
+      dependency, and no evidence of passing by deleting tests in the reviewed diff, but the state-machine contract regression
+      is blocking.", "task_id": "TASK-R15-RECOVERY-002"}'
     last_candidate_commit: null
     last_gate_evidence: null
     blocker: null

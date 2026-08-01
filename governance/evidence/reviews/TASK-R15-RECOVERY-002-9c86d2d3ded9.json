@@ -1,0 +1,17 @@
+{
+  "commit": "9c86d2d3ded935a00c8460e05d256827f20ca968",
+  "findings": [
+    {
+      "evidence": "In the candidate file, SUPPORT_TICKET_STATUS starts at database/state_machines.yaml:624, but database/state_machines.yaml:661-693 contains ADMIN_MFA_METHOD_STATUS transitions/events such as CANCEL_ENROLLMENT, DISABLE, and REENROLL with ADMIN actors and MFA/password guards. The reviewed diff shows the new support-ticket machine was inserted before these pre-existing MFA transitions, moving them under the wrong state machine.",
+      "issue": "The candidate corrupts the state-machine contract: admin MFA method lifecycle transitions are no longer scoped to ADMIN_MFA_METHOD_STATUS and are instead nested under SUPPORT_TICKET_STATUS, while SUPPORT_TICKET_STATUS gains impossible DISABLED/PENDING/ACTIVE-related admin flows. This is a real correctness/security contract regression outside the R15 notification/support objective.",
+      "line": 661,
+      "path": "database/state_machines.yaml",
+      "requirement_ref": "ACTIVE_TASK risks=production,secrets; task must satisfy current R15 objective without introducing contract/security regressions",
+      "severity": "HIGH"
+    }
+  ],
+  "schema": "hhy.reviewer-result/v5.0",
+  "status": "BLOCK",
+  "summary": "Candidate does not pass independent read-only review. I found no protected-path edits, no pytest.skip, no HHY_R15_POSTGRES_DSN dependency, and no evidence of passing by deleting tests in the reviewed diff, but the state-machine contract regression is blocking.",
+  "task_id": "TASK-R15-RECOVERY-002"
+}
