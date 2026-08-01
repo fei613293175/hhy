@@ -1,9 +1,9 @@
 schema: hhy.governance-state/v5.0
-revision: 101
-updated_at: '2026-08-01T12:39:02.254570Z'
-state_hash: 2a7e91ae05557d52648e2779a43f311c31df6ad6a66e6e63e171c24345e74190
+revision: 102
+updated_at: '2026-08-01T12:58:58.285791Z'
+state_hash: 8e6b7c6323d3c0a7845c3315b5a82223482a880e288099b60c7718352af9abe4
 project:
-  status: ACTIVE
+  status: INFRASTRUCTURE_BLOCKED
   branch_at_install: governance/v5.0-migration-20260731
   migration_baseline_commit: ea64d82fab9ed3d1952ab7d3c0d2286051390b59
   migration_commit: 8beafc2a0e115345c554abc0bdc199ef92534106
@@ -1445,7 +1445,7 @@ tasks:
     last_gate_evidence: governance/evidence/gates/task-TASK-R15-001-9b467950a2f9.json
     blocker: null
   TASK-R15-002:
-    status: READY
+    status: INFRASTRUCTURE_BLOCKED
     attempts_used: 2
     current_attempt: null
     last_error_fingerprint: '{"commit": "d693246ed3ae4e5cdbdca4cc91aeb4fb3a31979e", "findings": [{"evidence": "`guard_r15_support_ticket()`
@@ -1473,7 +1473,19 @@ tasks:
       不变量验证，因此不能确认满足 TASK-R15-002。", "task_id": "TASK-R15-002"}'
     last_candidate_commit: null
     last_gate_evidence: null
-    blocker: null
+    blocker:
+      code: INFRASTRUCTURE_MAVEN_NETWORK_AND_DB_UNAVAILABLE
+      detail: Targeted implementation is present and python scripts/check_db_schema.py passes, but Maven acceptance commands
+        cannot resolve required BOM POMs because network access to Maven Central is denied. A direct PostgreSQL 17 verification
+        attempt also could not connect to HHY_DB_MIGRATION_TEST_URL at 127.0.0.1:55432.
+      paths:
+      - services/backend/pom.xml
+      - services/backend/boot/src/test/java/cc/orbexa/hhy/R15NotificationSupportMigrationTest.java
+      resolution: Re-run the Maven acceptance commands after Maven dependencies are available in the local repository or network
+        access is enabled, and ensure the explicitly confirmed disposable PostgreSQL 17 database is running at HHY_DB_MIGRATION_TEST_URL.
+      worker_result_evidence: 'python scripts/check_db_schema.py => DB_SCHEMA_OK tables=203 migrations=48 runtime_hashes=PASS;
+        mvn commands fail with Permission denied: getsockopt resolving org.springframework.boot:spring-boot-dependencies:4.1.0
+        and software.amazon.awssdk:bom:2.48.3; direct JDBC source-launch verifier failed with Connection refused to 127.0.0.1:55432.'
   TASK-R15-003:
     status: PLANNED
     attempts_used: 0
