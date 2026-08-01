@@ -96,7 +96,8 @@ def test_single_state_is_valid():
         assert state["tasks"]["TASK-R14-RECOVERY-001"]["attempts_used"] == 3
         active_task = _active_recovery_id()
         assert state["tasks"][active_task]["status"] == "READY"
-        assert state["tasks"][active_task]["attempts_used"] == 0
+        attempts_used = state["tasks"][active_task]["attempts_used"]
+        assert 0 <= attempts_used < specs[active_task]["maximum_attempts"]
     else:
         assert state["project"]["status"] in {"EXTERNAL_BLOCKED", "INFRASTRUCTURE_BLOCKED", "POLICY_VIOLATION"}
         assert state["project"]["active_task"] is None

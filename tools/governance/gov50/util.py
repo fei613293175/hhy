@@ -15,6 +15,19 @@ from typing import Any, Iterable
 import yaml
 
 
+_PYTHON_COMMANDS = {"python", "python.exe", "python3", "python3.exe"}
+
+
+def resolve_runtime_command(command: Iterable[str], env: dict[str, str]) -> list[str]:
+    """Bind bare Python commands to the Supervisor's verified interpreter."""
+    argv = [str(value) for value in command]
+    if argv and argv[0].lower() in _PYTHON_COMMANDS:
+        interpreter = env.get("HHY_PYTHON") or env.get("PYTHON")
+        if interpreter:
+            argv[0] = interpreter
+    return argv
+
+
 def resolve_codex_executable() -> str | None:
     """Prefer the user-installed Codex CLI over the WindowsApps alias."""
     explicit = os.environ.get("HHY_CODEX") or os.environ.get("CODEX_EXECUTABLE")
@@ -123,10 +136,10 @@ def git_status_lines(repo: Path, *args: str, check: bool = True, env: dict[str, 
 
 
 def run(command: Iterable[str], cwd: Path, timeout: int = 600, env: dict[str, str] | None = None) -> dict[str, Any]:
-    argv = [str(v) for v in command]
     merged = os.environ.copy()
     if env:
         merged.update(env)
+    argv = resolve_runtime_command(command, merged)
     try:
         proc = subprocess.run(argv, cwd=cwd, text=True, capture_output=True, timeout=timeout, env=merged)
         return {
