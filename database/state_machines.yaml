@@ -654,3 +654,44 @@ machines:
     - write_admin_operation_log
     - increment_method_version
     idempotency: COMMAND_ID
+- code: SUPPORT_TICKET_STATUS
+  initial: OPEN
+  terminal:
+  - CLOSED
+  transitions:
+  - from: OPEN
+    to: PENDING
+    event: ASSIGN
+    actor: SUPPORT_AGENT
+    guard: assignee_available
+    side_effects:
+    - write_ticket_status_log
+    - write_platform_status_history
+    idempotency: COMMAND_ID
+  - from: PENDING
+    to: RESOLVED
+    event: RESOLVE
+    actor: SUPPORT_AGENT
+    guard: resolution_recorded
+    side_effects:
+    - write_ticket_status_log
+    - write_platform_status_history
+    idempotency: COMMAND_ID
+  - from: RESOLVED
+    to: PENDING
+    event: REOPEN
+    actor: USER
+    guard: reopen_reason_recorded
+    side_effects:
+    - write_ticket_status_log
+    - write_platform_status_history
+    idempotency: COMMAND_ID
+  - from: RESOLVED
+    to: CLOSED
+    event: CLOSE
+    actor: SUPPORT_AGENT
+    guard: resolved_ticket_confirmed
+    side_effects:
+    - write_ticket_status_log
+    - write_platform_status_history
+    idempotency: COMMAND_ID
