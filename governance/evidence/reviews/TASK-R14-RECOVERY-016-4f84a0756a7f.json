@@ -1,0 +1,17 @@
+{
+  "schema": "hhy.reviewer-result/v5.0",
+  "status": "BLOCK",
+  "task_id": "TASK-R14-RECOVERY-016",
+  "commit": "4f84a0756a7f1448445b80bba0b4be2e75f91b1c",
+  "summary": "候选新增的视觉批准证据提交绑定存在目录穿越缺陷，可读取仓库外证据并绕过门禁；未发现删除、跳过或弱化既有测试。",
+  "findings": [
+    {
+      "severity": "HIGH",
+      "path": "scripts/check_r14_entry_contract.py",
+      "line": 257,
+      "issue": "证据路径的仓库边界检查是纯词法检查，无法阻止包含“..”的路径逃逸；随后代码会读取仓库外的批准文件，破坏视觉批准证据必须绑定当前候选且可在仓库内复核的门禁完整性。",
+      "evidence": "对等表达式可复现：root=Path(r'C:\\repo')，evidence=root/'..'/'outside'/'APPROVAL.yaml'；evidence.relative_to(root)不会抛出 ValueError，而是返回“..\\outside\\APPROVAL.yaml”。因此第257行放行该路径，第261行 is_file() 和第264行 load_yaml(root, evidence_path) 会跟随“..”读取仓库外文件。新增测试只覆盖提交相同和不同两种情况，没有覆盖路径逃逸。",
+      "requirement_ref": "ACTIVE_TASK.acceptance[3]; ACTIVE_TASK.risks.security; ACTIVE_TASK.risks.ui"
+    }
+  ]
+}
