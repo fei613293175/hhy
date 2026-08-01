@@ -30,6 +30,7 @@ acceptance:
 - 真实连接 PostgreSQL 17 执行空库、V047 升级库和 SQL 不变量矩阵
 - PostgreSQL 测试必须直接读取 DATABASE_URL 或 HHY_DB_MIGRATION_TEST_URL/USER/PASSWORD；不得要求 Gate 未提供的 HHY_R15_POSTGRES_DSN，不得调用 pytest.skip
 - 空库路径必须从 V001 执行到 V048；升级路径必须先只执行 V001-V047、写入覆盖 legacy 兼容和状态场景的旧数据，再单独执行 V048，最后在两条路径执行 database/tests/r15_notification_support_invariants.sql
+- SUPPORT_TICKET_STATUS 必须是 database/state_machines.yaml 的顶层同级状态机；不得移动、嵌套、重命名或改变既有 ADMIN_MFA_METHOD_STATUS 的 transitions/events/guards/actors，并由 YAML 解析测试验证
 - TASK-R15-RECOVERY-001 永久保持 FAILED_BOUNDED
 - 不继承或冒用旧 Candidate、APK、截图、视觉批准或 PASS
 - Worker 候选不得伪造 Gate、审查或自动化证据
@@ -67,6 +68,7 @@ recovery_product_contract:
   - RESOLVED 到 CLOSED 可达，消息幂等身份不可变，新写入不能使用 legacy 兼容标志绕过幂等字段
   - 真实连接 PostgreSQL 17 执行空库、V047 升级库和 SQL 不变量矩阵
   - 不得 skip；必须分别执行 V001-V048 空库路径与 V001-V047 加旧数据后单独执行 V048 的升级路径
+  - 新增 SUPPORT_TICKET_STATUS 时保持 ADMIN_MFA_METHOD_STATUS 完整且语义不变
 latest_failure_evidence:
   commit: 501cd4a77898a5352ab320eb8b924a915920ff76
   findings:
@@ -109,3 +111,15 @@ attempt_1_reviewer_evidence:
     - Use the Gate-provided DATABASE_URL or HHY_DB_MIGRATION_TEST_URL environment.
     - Execute V001-V047, seed legacy rows, then execute V048 separately for the upgrade case.
     - Execute the SQL invariant matrix on both empty and upgrade databases.
+attempt_2_reviewer_evidence:
+  commit: 9c86d2d3ded935a00c8460e05d256827f20ca968
+  status: BLOCK
+  finding:
+    severity: HIGH
+    path: database/state_machines.yaml
+    line: 661
+    issue: SUPPORT_TICKET_STATUS was inserted inside the existing ADMIN_MFA_METHOD_STATUS structure and captured its MFA transitions.
+    required_fix:
+    - Preserve the complete pre-existing ADMIN_MFA_METHOD_STATUS mapping unchanged.
+    - Add SUPPORT_TICKET_STATUS only as a top-level sibling mapping.
+    - Parse YAML in a test and assert MFA transitions remain under ADMIN_MFA_METHOD_STATUS while support transitions remain under SUPPORT_TICKET_STATUS.
