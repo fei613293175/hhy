@@ -1,15 +1,15 @@
 schema: hhy.governance-state/v5.0
-revision: 93
-updated_at: '2026-08-01T09:54:45.021714Z'
-state_hash: c1929f37e2075d12790ec2685e5ef87b8bc1f275966000b2a98ecb6cb26ad190
+revision: 94
+updated_at: '2026-08-01T09:59:36.953800Z'
+state_hash: a589e9902d30a86b5205dfa7472ae247b4edf39cde62891546ca143a0876333c
 project:
   status: ACTIVE
   branch_at_install: governance/v5.0-migration-20260731
   migration_baseline_commit: ea64d82fab9ed3d1952ab7d3c0d2286051390b59
   migration_commit: 8beafc2a0e115345c554abc0bdc199ef92534106
   authoritative_commit: de01f5ad32693e845c3b4ecf6f0e034fc8792aff
-  active_release: R14
-  active_task: null
+  active_release: R15
+  active_task: TASK-R15-001
   goal_complete: false
 lease: null
 releases:
@@ -210,7 +210,7 @@ releases:
       evidence: null
       tag: null
   R14:
-    status: CANDIDATE_GREEN
+    status: MACHINE_CLOSED
     frozen_commit: de01f5ad32693e845c3b4ecf6f0e034fc8792aff
     candidate:
       status: PASS
@@ -224,7 +224,7 @@ releases:
       evidence: null
       tag: null
   R15:
-    status: PLANNED
+    status: DEVELOPING
     frozen_commit: null
     candidate:
       status: NONE
@@ -1429,7 +1429,7 @@ tasks:
     last_gate_evidence: null
     blocker: null
   TASK-R14-008:
-    status: SUPERSEDED
+    status: DONE
     attempts_used: 0
     current_attempt: null
     last_error_fingerprint: null
@@ -1437,7 +1437,7 @@ tasks:
     last_gate_evidence: null
     blocker: null
   TASK-R15-001:
-    status: PLANNED
+    status: READY
     attempts_used: 0
     current_attempt: null
     last_error_fingerprint: null

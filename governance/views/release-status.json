@@ -1,5 +1,5 @@
 {
-  "source_revision": 93,
+  "source_revision": 94,
   "releases": [
     {
       "status": "HISTORICAL",
@@ -310,7 +310,7 @@
       }
     },
     {
-      "status": "CANDIDATE_GREEN",
+      "status": "MACHINE_CLOSED",
       "frozen_commit": "de01f5ad32693e845c3b4ecf6f0e034fc8792aff",
       "candidate": {
         "status": "PASS",
@@ -328,13 +328,12 @@
       },
       "release": "R14",
       "task_counts": {
-        "DONE": 8,
-        "SUPERSEDED": 1,
+        "DONE": 9,
         "FAILED_BOUNDED": 15
       }
     },
     {
-      "status": "PLANNED",
+      "status": "DEVELOPING",
       "frozen_commit": null,
       "candidate": {
         "status": "NONE",
@@ -352,7 +351,8 @@
       },
       "release": "R15",
       "task_counts": {
-        "PLANNED": 8
+        "READY": 1,
+        "PLANNED": 7
       }
     },
     {
