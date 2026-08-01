@@ -1,0 +1,88 @@
+{
+  "schema": "hhy.gate-report/v5.0",
+  "status": "PASS",
+  "profile": "task",
+  "task_id": "TASK-R15-001",
+  "release": "R15",
+  "commit": "9b467950a2f9c75dbc9ec9c395cc553369940754",
+  "generated_at": "2026-08-01T10:49:12.142282Z",
+  "checks": [
+    {
+      "id": "commit_binding",
+      "status": "PASS",
+      "detail": {
+        "HEAD": "9b467950a2f9c75dbc9ec9c395cc553369940754",
+        "expected": "9b467950a2f9c75dbc9ec9c395cc553369940754"
+      }
+    },
+    {
+      "id": "test_authority",
+      "status": "PASS",
+      "detail": {
+        "schema": "hhy.test-authority/v5.0",
+        "status": "PASS",
+        "commit": "9b467950a2f9c75dbc9ec9c395cc553369940754",
+        "parent": "00b089aa606f062b2502ce3997fed3ce890323a1",
+        "test_paths_checked": [],
+        "violations": []
+      }
+    },
+    {
+      "id": "static_specs",
+      "status": "PASS",
+      "detail": []
+    },
+    {
+      "id": "state_integrity",
+      "status": "PASS"
+    },
+    {
+      "id": "active_legacy_routes",
+      "status": "PASS",
+      "detail": []
+    },
+    {
+      "id": "secret_scan",
+      "status": "PASS",
+      "detail": {
+        "mode": null,
+        "files_considered": 2,
+        "files_scanned": 2,
+        "findings": []
+      }
+    },
+    {
+      "id": "hard_protection",
+      "status": "PASS",
+      "detail": {
+        "schema": "hhy.hard-protection/v5.0",
+        "status": "PASS",
+        "task_id": "TASK-R15-001",
+        "release": "R15",
+        "profile": "task",
+        "risks": [
+          "secrets"
+        ],
+        "details": {},
+        "errors": []
+      }
+    },
+    {
+      "id": "task_acceptance_1",
+      "status": "PASS",
+      "detail": {
+        "status": "PASS",
+        "exit_code": 0,
+        "command": [
+          "C:\\Users\\小白\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe",
+          "tools/governance/hhy_governance.py",
+          "product-readiness",
+          "--release",
+          "R15"
+        ],
+        "stdout_tail": "{\n  \"schema\": \"hhy.product-readiness/v5.0\",\n  \"status\": \"PASS\",\n  \"release\": \"R15\",\n  \"errors\": []\n}\n",
+        "stderr_tail": ""
+      }
+    }
+  ]
+}

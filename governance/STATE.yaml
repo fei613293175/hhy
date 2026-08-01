@@ -1,15 +1,15 @@
 schema: hhy.governance-state/v5.0
-revision: 96
-updated_at: '2026-08-01T10:26:19.161756Z'
-state_hash: 4c56e4478bcbed97fa95daf3203b4a99cbea3f307f05b54be5a23c2bf1a516cf
+revision: 97
+updated_at: '2026-08-01T10:49:12.487888Z'
+state_hash: 8811b2b9ba42b8ccc2da85377de43d37793a48ca13f532a77d5117b84a41d8d0
 project:
   status: ACTIVE
   branch_at_install: governance/v5.0-migration-20260731
   migration_baseline_commit: ea64d82fab9ed3d1952ab7d3c0d2286051390b59
   migration_commit: 8beafc2a0e115345c554abc0bdc199ef92534106
-  authoritative_commit: de01f5ad32693e845c3b4ecf6f0e034fc8792aff
+  authoritative_commit: 9b467950a2f9c75dbc9ec9c395cc553369940754
   active_release: R15
-  active_task: TASK-R15-001
+  active_task: TASK-R15-002
   goal_complete: false
 lease: null
 releases:
@@ -1437,15 +1437,15 @@ tasks:
     last_gate_evidence: null
     blocker: null
   TASK-R15-001:
-    status: READY
-    attempts_used: 0
+    status: DONE
+    attempts_used: 1
     current_attempt: null
     last_error_fingerprint: null
-    last_candidate_commit: null
-    last_gate_evidence: null
+    last_candidate_commit: 9b467950a2f9c75dbc9ec9c395cc553369940754
+    last_gate_evidence: governance/evidence/gates/task-TASK-R15-001-9b467950a2f9.json
     blocker: null
   TASK-R15-002:
-    status: PLANNED
+    status: READY
     attempts_used: 0
     current_attempt: null
     last_error_fingerprint: null

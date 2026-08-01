@@ -1,46 +1,48 @@
 DO_NOT_EDIT: true
 GENERATED_FROM: governance/STATE.yaml + governance/task_specs/*.yaml
-SOURCE_REVISION: 96
+SOURCE_REVISION: 97
 task:
   schema: hhy.task-spec/v5.0
-  id: TASK-R15-001
+  id: TASK-R15-002
   release: R15
-  ordinal: 1
-  title: 通知、公告、举报与客服开发就绪核验、故事领取与变更基线
-  kind: readiness
+  ordinal: 2
+  title: 通知、公告、举报与客服数据迁移与领域不变量
+  kind: database
   mode: worker
   source:
     path: releases/R15/TASKS.yaml
-    original_id: TASK-R15-001
+    original_id: TASK-R15-002
   requirements:
   - REQ-CHAT-002
   - REQ-NOTIFY-001
   - REQ-SUPPORT-001
   - REQ-APK-001
   depends_on:
-  - TASK-R14-RECOVERY-016
-  objective: 核验 4 项需求、23 个接口、41 张相关表、19 个页面/交互面和 14 个故事；全部适用DoR必须PASS
+  - TASK-R15-001
+  objective: 实现/演进notifications, notification_templates, notification_deliveries, push_tokens, announcements, announcement_reads,
+    support_tickets, ticket_messages等，补齐唯一约束、状态历史、幂等键和回滚验证
   deliverables:
-  - releases/R15/DEFINITION_OF_READY.yaml 全部适用项PASS
-  - releases/R15/STORIES.yaml 故事责任人和依赖已领取
-  - python scripts/check_v122_documentation.py --release R15 --json-out releases/R15/evidence/project-doctor-v1.2.2.json
+  - Flyway前向迁移与空库/升级库测试
+  - 不变量属性测试
   acceptance:
-  - 页面、字段、状态、动作、API、配置、数据和测试无TBD
-  - 不适用项明确N/A及原因
-  - releases/R15/DEFINITION_OF_READY.yaml 全部适用项PASS
-  - releases/R15/STORIES.yaml 故事责任人和依赖已领取
-  - python scripts/check_v122_documentation.py --release R15 --json-out releases/R15/evidence/project-doctor-v1.2.2.json
+  - 无TODO/生产Mock
+  - 代码、文档、测试、追踪同步更新
+  - Flyway前向迁移与空库/升级库测试
+  - 不变量属性测试
   allowed_paths:
   - catalogs/**
   - contracts/**
   - database/**
   - docs/**
-  - releases/R15/**
+  - services/backend/**
+  - tests/**
   risks:
+  - database
+  - production
   - secrets
   acceptance_commands:
-  - python3 tools/governance/hhy_governance.py product-readiness --release R15
+  - python3 scripts/check_db_schema.py
   maximum_attempts: 3
   owner_verification: ASYNC_NON_BLOCKING_FOR_NEXT_RELEASE
-  legacy_status: READY
+  legacy_status: BLOCKED
 instruction: Only the Orchestrator may lease this task; a Worker may not select another task.
