@@ -95,7 +95,11 @@ def test_single_state_is_valid():
         assert state["tasks"]["TASK-R14-RECOVERY-001"]["status"] == "FAILED_BOUNDED"
         assert state["tasks"]["TASK-R14-RECOVERY-001"]["attempts_used"] == 3
         active_task = _active_recovery_id()
-        assert state["tasks"][active_task]["status"] == "READY"
+        project_status = state["project"]["status"]
+        expected_status = project_status if project_status in {
+            "INFRASTRUCTURE_BLOCKED", "EXTERNAL_BLOCKED", "POLICY_VIOLATION",
+        } else "READY"
+        assert state["tasks"][active_task]["status"] == expected_status
         attempts_used = state["tasks"][active_task]["attempts_used"]
         assert 0 <= attempts_used < specs[active_task]["maximum_attempts"]
     else:
@@ -127,7 +131,11 @@ def test_recovery_is_only_active_entry_before_activation():
         assert state["tasks"]["TASK-R14-RECOVERY-001"]["attempts_used"] == 3
     elif state["project"]["active_task"] == _active_recovery_id():
         assert state["tasks"]["TASK-R14-RECOVERY-001"]["status"] == "FAILED_BOUNDED"
-        assert state["tasks"][_active_recovery_id()]["status"] == "READY"
+        project_status = state["project"]["status"]
+        expected_status = project_status if project_status in {
+            "INFRASTRUCTURE_BLOCKED", "EXTERNAL_BLOCKED", "POLICY_VIOLATION",
+        } else "READY"
+        assert state["tasks"][_active_recovery_id()]["status"] == expected_status
     else:
         assert state["project"]["status"] in {"EXTERNAL_BLOCKED", "INFRASTRUCTURE_BLOCKED", "POLICY_VIOLATION"}
         assert state["project"]["active_task"] is None

@@ -343,6 +343,27 @@ def _review_prompt(task: dict[str, Any], baseline: str, candidate: str) -> str:
     )
 
 
+def validate_reviewer_result(
+    data: dict[str, Any],
+    schema: dict[str, Any],
+    task_id: str,
+    candidate: str,
+) -> None:
+    errors = sorted(Draft202012Validator(schema).iter_errors(data), key=lambda error: list(error.path))
+    if errors:
+        raise ValueError("; ".join(error.message for error in errors))
+    if data.get("task_id") != task_id or data.get("commit") != candidate:
+        raise ValueError("reviewer result is not bound to the current task and commit")
+    blocking = [
+        row for row in data.get("findings") or []
+        if row.get("severity") in {"BLOCKER", "HIGH"}
+    ]
+    if data.get("status") == "PASS" and blocking:
+        raise ValueError("reviewer returned PASS with blocking findings")
+    if data.get("status") == "BLOCK" and not blocking:
+        raise ValueError("reviewer BLOCK requires a BLOCKER or HIGH finding")
+
+
 def _run_independent_reviewer(worktree: Path, task: dict[str, Any], baseline: str, candidate: str) -> dict[str, Any]:
     if not HIGH_RISK_REVIEW.intersection(task.get("risks") or []):
         return {"status": "NOT_REQUIRED", "evidence_path": None, "result": None}
@@ -364,16 +385,7 @@ def _run_independent_reviewer(worktree: Path, task: dict[str, Any], baseline: st
     try:
         data = read_json(result_path)
         schema = read_json(schema_path)
-        errors = sorted(Draft202012Validator(schema).iter_errors(data), key=lambda error: list(error.path))
-        if errors:
-            raise ValueError("; ".join(error.message for error in errors))
-        if data.get("task_id") != task["id"] or data.get("commit") != candidate:
-            raise ValueError("reviewer result is not bound to the current task and commit")
-        blocking = [row for row in data.get("findings") or [] if row.get("severity") in {"BLOCKER", "HIGH"}]
-        if data.get("status") == "PASS" and blocking:
-            raise ValueError("reviewer returned PASS with blocking findings")
-        if data.get("status") == "BLOCK" and not blocking:
-            raise ValueError("reviewer BLOCK requires a BLOCKER or HIGH finding")
+        validate_reviewer_result(data, schema, task["id"], candidate)
     except Exception as exc:
         return {
             "status": "INFRASTRUCTURE_BLOCKED",

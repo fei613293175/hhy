@@ -26,11 +26,5 @@
       }
     }
   },
-  "allOf": [
-    {
-      "if": {"properties": {"status": {"const": "BLOCK"}}},
-      "then": {"properties": {"findings": {"minItems": 1}}}
-    }
-  ],
   "additionalProperties": false
 }
