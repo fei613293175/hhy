@@ -1,0 +1,31 @@
+{
+  "schema": "hhy.infrastructure-unblock/v5.0",
+  "resolved": true,
+  "task_id": "TASK-R14-RECOVERY-016",
+  "blocker_code": "APPLY_PATCH_SANDBOX_FAILURE",
+  "blocked_at_revision": 88,
+  "blocked_state_commit": "0a8147feadaa67285b988fd9a15e7a47dc08f344",
+  "resolution": "Supervisor Worker child processes now select the Codex Windows elevated sandbox backend while retaining workspace-write scope and approval=never. The global Codex sandbox remains unelevated, and the independent Reviewer remains read-only.",
+  "implementation_commit": "0f4f55c4c0da90fb1df825370a9e59f2fde209fc",
+  "validation": {
+    "session_id": "019fbc78-e675-7591-b62f-6f0be5890f1a",
+    "codex_cli": "0.146.0-alpha.9.2",
+    "sandbox_mode": "workspace-write",
+    "windows_backend": "elevated",
+    "approval": "never",
+    "test_file": "C:/tmp/hhy-apply-patch-probe/probe.txt",
+    "operation": "apply_patch changed the only line from before to after",
+    "process_exit_code": 0,
+    "result": "PASS"
+  },
+  "regression_tests": {
+    "command": "python -m pytest -q tests/governance_v5",
+    "result": "45 passed"
+  },
+  "global_configuration": {
+    "model_reasoning_effort": "high",
+    "windows_sandbox": "unelevated",
+    "extra_workspace_writable_roots": false
+  },
+  "original_worker_result": "governance/evidence/recovery/TASK-R14-RECOVERY-016-a1-worker-result.json"
+}
