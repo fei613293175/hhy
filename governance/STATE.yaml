@@ -1,15 +1,15 @@
 schema: hhy.governance-state/v5.0
-revision: 86
-updated_at: '2026-08-01T08:13:49.692117Z'
-state_hash: da397d25b62361f6f15a1f21c3c1cb9cc96f960f92a2eb31989df224e1da85ea
+revision: 87
+updated_at: '2026-08-01T08:16:05.878556Z'
+state_hash: 08b1194632d41c4a0ed77a9c34d580d48d089352b38dcba0dfaff10fec20aa76
 project:
-  status: FAILED_BOUNDED
+  status: ACTIVE
   branch_at_install: governance/v5.0-migration-20260731
   migration_baseline_commit: ea64d82fab9ed3d1952ab7d3c0d2286051390b59
   migration_commit: 8beafc2a0e115345c554abc0bdc199ef92534106
-  authoritative_commit: 80738f701093694cd283c50e9079bf8aab827562
+  authoritative_commit: 3cfd557e8b04ebeb1309b4cda2b17dc74d92ee54
   active_release: R14
-  active_task: null
+  active_task: TASK-R14-RECOVERY-016
   goal_complete: false
 lease: null
 releases:
@@ -2718,6 +2718,14 @@ tasks:
       是40位十六进制字符串，不验证其等于当前候选 Commit，因此旧候选证据可被用于声明当前候选视觉 PASS。", "evidence": "当前候选为 f99fca852bd21e739a7874356050bf5bc20bdd1e；RELEASE_MANIFEST.yaml:215-216
       声明 PASS_6_PAGES_APPROVED 并引用 r14-historical-visual-attempt5/APPROVAL.yaml，但该证据的 source.commit 实际为 8fd23b22ababe81ec37da145c1fb8eed963e336f。新增代码第87-91行仅检查格式，新增测试也未构造或拒绝
       Commit 不匹配。", "requirement_ref": "ACTIVE_TASK acceptance: 所有新候选证据绑定同一冻结 Commit；新候选证据必须绑定当前修复后的冻结 Commit"}]}'
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R14-RECOVERY-016:
+    status: READY
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
     last_candidate_commit: null
     last_gate_evidence: null
     blocker: null
