@@ -1,9 +1,9 @@
 schema: hhy.governance-state/v5.0
-revision: 87
-updated_at: '2026-08-01T08:16:05.878556Z'
-state_hash: 08b1194632d41c4a0ed77a9c34d580d48d089352b38dcba0dfaff10fec20aa76
+revision: 88
+updated_at: '2026-08-01T08:34:58.551728Z'
+state_hash: b3d099a918644f421c03a304d2c25361700f8bf46dac5b6917d25c42cbe6385e
 project:
-  status: ACTIVE
+  status: INFRASTRUCTURE_BLOCKED
   branch_at_install: governance/v5.0-migration-20260731
   migration_baseline_commit: ea64d82fab9ed3d1952ab7d3c0d2286051390b59
   migration_commit: 8beafc2a0e115345c554abc0bdc199ef92534106
@@ -2722,10 +2722,21 @@ tasks:
     last_gate_evidence: null
     blocker: null
   TASK-R14-RECOVERY-016:
-    status: READY
+    status: INFRASTRUCTURE_BLOCKED
     attempts_used: 0
     current_attempt: null
     last_error_fingerprint: null
     last_candidate_commit: null
     last_gate_evidence: null
-    blocker: null
+    blocker:
+      code: APPLY_PATCH_SANDBOX_FAILURE
+      detail: 补丁工具在读取目标文件前失败：windows unelevated restricted-token sandbox cannot enforce split writable root sets directly;
+        refusing to run unsandboxed。兼容入口无法完整传递多行补丁参数，复制兼容可执行文件到允许的临时根也被拒绝访问。最终检索确认预期修复标记均不存在，没有产生 Diff。
+      resolution: 修复当前会话的 Windows apply_patch 沙箱，使其能够写入 ACTIVE_TASK worktree；解除后重新执行本次 Attempt 1，在 scripts/check_r14_entry_contract.py
+        中校验批准 Commit 与当前候选 Commit 完全一致，并在 tests/test_r14_entry_contract.py 增加旧批准 Commit 不匹配回归测试，然后运行规定的四条 acceptance_commands
+        和针对性 unittest。
+      paths:
+      - scripts/check_r14_entry_contract.py
+      - tests/test_r14_entry_contract.py
+      worker_result_evidence: 两次内置 apply_patch 均返回相同 split writable root sandbox 错误；多次 codex apply-patch 兼容入口分别返回缺少 UTF-8
+        PATCH 参数、补丁结尾识别失败、子进程找不到可执行文件或拒绝访问；最终 rg 返回退出码 1，确认目标修复标记未写入。
