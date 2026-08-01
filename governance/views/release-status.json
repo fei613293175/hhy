@@ -1,5 +1,5 @@
 {
-  "source_revision": 90,
+  "source_revision": 91,
   "releases": [
     {
       "status": "HISTORICAL",
@@ -310,7 +310,7 @@
       }
     },
     {
-      "status": "DEVELOPING",
+      "status": "FREEZE_READY",
       "frozen_commit": null,
       "candidate": {
         "status": "NONE",
@@ -328,10 +328,9 @@
       },
       "release": "R14",
       "task_counts": {
-        "DONE": 7,
+        "DONE": 8,
         "SUPERSEDED": 1,
-        "FAILED_BOUNDED": 15,
-        "READY": 1
+        "FAILED_BOUNDED": 15
       }
     },
     {

@@ -1,0 +1,8 @@
+{
+  "schema": "hhy.reviewer-result/v5.0",
+  "status": "PASS",
+  "task_id": "TASK-R14-RECOVERY-016",
+  "commit": "de01f5ad32693e845c3b4ecf6f0e034fc8792aff",
+  "summary": "候选满足当前恢复任务。差异仅修改允许路径内的 R14 入口契约检查器及其回归测试：最终视觉批准证据被限制在仓库内，并要求证据绑定当前候选 Commit。未发现可证实的正确性、安全、资金、数据库或契约 BLOCKER/HIGH 问题；没有删除、跳过或弱化测试，测试文件净新增 66 行。",
+  "findings": []
+}

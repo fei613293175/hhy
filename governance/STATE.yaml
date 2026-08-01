@@ -1,15 +1,15 @@
 schema: hhy.governance-state/v5.0
-revision: 90
-updated_at: '2026-08-01T08:52:15.672217Z'
-state_hash: 776b8d54ff1b97a617bb7806845c26739c20ce701e8889bf355397e3bc376b4b
+revision: 91
+updated_at: '2026-08-01T09:04:37.504384Z'
+state_hash: b609c1b226218f9ada1b5738fc599135f84c486e97eac4caa6a5bc6eef881480
 project:
   status: ACTIVE
   branch_at_install: governance/v5.0-migration-20260731
   migration_baseline_commit: ea64d82fab9ed3d1952ab7d3c0d2286051390b59
   migration_commit: 8beafc2a0e115345c554abc0bdc199ef92534106
-  authoritative_commit: 3cfd557e8b04ebeb1309b4cda2b17dc74d92ee54
+  authoritative_commit: de01f5ad32693e845c3b4ecf6f0e034fc8792aff
   active_release: R14
-  active_task: TASK-R14-RECOVERY-016
+  active_task: null
   goal_complete: false
 lease: null
 releases:
@@ -210,7 +210,7 @@ releases:
       evidence: null
       tag: null
   R14:
-    status: DEVELOPING
+    status: FREEZE_READY
     frozen_commit: null
     candidate:
       status: NONE
@@ -2722,8 +2722,8 @@ tasks:
     last_gate_evidence: null
     blocker: null
   TASK-R14-RECOVERY-016:
-    status: READY
-    attempts_used: 1
+    status: DONE
+    attempts_used: 2
     current_attempt: null
     last_error_fingerprint: '{"schema": "hhy.reviewer-result/v5.0", "status": "BLOCK", "task_id": "TASK-R14-RECOVERY-016",
       "commit": "4f84a0756a7f1448445b80bba0b4be2e75f91b1c", "summary": "候选新增的视觉批准证据提交绑定存在目录穿越缺陷，可读取仓库外证据并绕过门禁；未发现删除、跳过或弱化既有测试。",
@@ -2731,6 +2731,6 @@ tasks:
       "evidence": "对等表达式可复现：root=Path(r''C:\\repo'')，evidence=root/''..''/''outside''/''APPROVAL.yaml''；evidence.relative_to(root)不会抛出
       ValueError，而是返回“..\\outside\\APPROVAL.yaml”。因此第257行放行该路径，第261行 is_file() 和第264行 load_yaml(root, evidence_path) 会跟随“..”读取仓库外文件。新增测试只覆盖提交相同和不同两种情况，没有覆盖路径逃逸。",
       "requirement_ref": "ACTIVE_TASK.acceptance[3]; ACTIVE_TASK.risks.security; ACTIVE_TASK.risks.ui"}]}'
-    last_candidate_commit: null
-    last_gate_evidence: null
+    last_candidate_commit: de01f5ad32693e845c3b4ecf6f0e034fc8792aff
+    last_gate_evidence: governance/evidence/gates/freeze-TASK-R14-RECOVERY-016-de01f5ad3269.json
     blocker: null
