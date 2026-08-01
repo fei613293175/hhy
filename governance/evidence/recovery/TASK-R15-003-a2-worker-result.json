@@ -1,57 +1,43 @@
 {
   "blocker": {
-    "code": "JAVAC_ACCESS_DENIED_DEPENDENCY_JAR",
-    "detail": "Targeted Python regression and OpenAPI contract checks pass, but Java compile could not complete because Maven/javac fails before reaching the R15 boot module: access compile aborts with Fatal error compiling C:\\Users\\小白\\.m2\\repository\\software\\amazon\\awssdk\\auth\\2.48.3\\auth-2.48.3.jar and javac reports unable to close compiler resources. Forked javac also reports AccessDeniedException on C:\\Users\\小白\\.m2\\repository\\org\\slf4j\\jul-to-slf4j\\2.0.18\\jul-to-slf4j-2.0.18.jar plus classpath fallout.",
+    "code": "JAVAC_ZIPFS_RESOURCE_CLOSE_FAILURE",
+    "detail": "R15 product code and targeted Python/static checks were completed, but Maven/Javac verification cannot be cleanly completed in this Windows toolchain. Short-path subst builds and direct javac both fail with javac/JDK 21 resource-close failures, including AccessDeniedException on Maven dependency jars and '致命错误: 无法关闭编译器资源', while direct javac still emitted R15SupportService/R15SupportContracts class files before failing on resource close.",
     "paths": [
-      "C:\\Users\\小白\\.m2\\repository\\software\\amazon\\awssdk\\auth\\2.48.3\\auth-2.48.3.jar",
-      "C:\\Users\\小白\\.m2\\repository\\org\\slf4j\\jul-to-slf4j\\2.0.18\\jul-to-slf4j-2.0.18.jar"
+      "services/backend/content/src/main/java/cc/orbexa/hhy/content/R15SupportContracts.java",
+      "services/backend/content/src/main/java/cc/orbexa/hhy/content/R15SupportService.java",
+      "services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/R15SupportUserController.java",
+      "services/backend/boot/src/main/java/cc/orbexa/hhy/boot/admin/R15SupportAdminController.java",
+      "services/backend/boot/src/test/java/cc/orbexa/hhy/boot/R15SupportControllerContractTest.java",
+      "services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/UserSelfServiceController.java",
+      "services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04StoragePostgresStore.java"
     ],
-    "resolution": "Release the local Maven repository jar lock or refresh the affected dependency cache, then rerun mvn \"-Dmaven.repo.local=C:/Users/小白/.m2/repository\" -pl boot -am -DskipTests compile and the targeted boot tests.",
-    "worker_result_evidence": "python3 -m pytest -q tests/test_r15_backend_operation_coverage.py => 4 passed; python3 scripts/check_api_contract.py => API_CONTRACT_OK client=131 admin=184 websocket=12 runtime_hashes=PASS; mvn boot compile => hhy-access FAILURE before hhy-content/hhy-boot with Fatal error compiling auth-2.48.3.jar"
+    "resolution": "Run the same targeted Maven command on a clean Java 21/Maven environment without the Windows zipfs/resource-close failure, or repair local JDK/Maven jar access permissions, then rerun boot targeted test.",
+    "worker_result_evidence": "Passed: python3 scripts/check_api_contract.py => API_CONTRACT_OK client=131 admin=184 websocket=12 runtime_hashes=PASS; passed pytest R15 V048 static contract; passed R15_STATIC_OK operationIds=25 adminPermissions=11 idempotency=PASS outboxAudit=PASS. Blocked: mvn targeted test fails with java.nio.file.AccessDeniedException on C:\\Users\\小白\\.m2\\repository\\software\\amazon\\awssdk\\auth\\2.48.3\\auth-2.48.3.jar and later 'An unknown compilation problem occurred' / '致命错误: 无法关闭编译器资源' even under subst X: and X:\\.m2repo."
   },
   "changed_files": [
-    "services/backend/content/src/main/java/cc/orbexa/hhy/content/R15Contracts.java",
-    "services/backend/content/src/main/java/cc/orbexa/hhy/content/R15Store.java",
-    "services/backend/content/src/main/java/cc/orbexa/hhy/content/R15PostgresStore.java",
-    "services/backend/content/src/main/java/cc/orbexa/hhy/content/R15Service.java",
-    "services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/R15UserController.java",
-    "services/backend/boot/src/main/java/cc/orbexa/hhy/boot/admin/R15AdminController.java",
+    "services/backend/content/src/main/java/cc/orbexa/hhy/content/R15SupportContracts.java",
+    "services/backend/content/src/main/java/cc/orbexa/hhy/content/R15SupportService.java",
+    "services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/R15SupportUserController.java",
+    "services/backend/boot/src/main/java/cc/orbexa/hhy/boot/admin/R15SupportAdminController.java",
+    "services/backend/boot/src/test/java/cc/orbexa/hhy/boot/R15SupportControllerContractTest.java",
     "services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/UserSelfServiceController.java",
-    "services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserSecurityWebSecurityTest.java",
-    "tests/test_r15_backend_operation_coverage.py"
+    "services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04StoragePostgresStore.java"
   ],
   "commands_run": [
     "python3 tools/governance/hhy_governance.py active-task --format context",
     "Get-Content -Raw governance/runtime/ACTIVE_TASK.json",
-    "rg -n \"operationId|TASK-R15-003|R15|TODO|Mock|mock\" contracts catalogs docs services/backend tests packages/api-client packages/domain-types",
-    "rg --files contracts catalogs docs services/backend tests packages/api-client packages/domain-types",
-    "Get-Content -Raw scripts/check_api_contract.py",
     "python3 scripts/check_api_contract.py",
-    "rg -n \"notification|announcement|support|ticket|report|appeal|invalid-feedback|read-all|content-reports|chat-reports|help/articles|R15\" services/backend -g \"*.java\" -g \"*.sql\" -g \"*.yml\" -g \"*.yaml\"",
-    "rg -n \"notificationGetNotifications|notificationPostNotificationsByIdRead|notificationPostNotificationsReadAll|notificationGetAnnouncements|notificationGetAnnouncementsById|supportGetHelpArticles|supportGetHelpArticlesById|supportPostSupportTickets|supportGetSupportTickets|supportGetSupportTicketsById|supportPostSupportTicketsByIdMessages|contentPostContentsByIdReport|contentPostContentsByIdInvalidFeedback|admin.*Report|admin.*Appeal|admin.*Support|chat.*Report\" contracts/openapi.yaml contracts/admin-openapi.yaml catalogs/api_endpoints.csv catalogs/admin_api_endpoints.csv contracts/operation-error-matrix.csv packages/api-client/src/client.generated.ts packages/api-client/src/admin.generated.ts",
-    "Get-Content -Raw tests/test_r15_notification_support_postgres.py",
-    "Get-Content -Raw services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthContracts.java",
-    "Get-Content -Raw services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthService.java",
-    "Get-Content -Raw services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthStore.java",
-    "Get-Content -Raw services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/UserAuthController.java",
-    "Get-Content -Raw services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/UserSelfServiceController.java",
-    "Get-Content -Raw services/backend/boot/src/main/java/cc/orbexa/hhy/boot/admin/R12ReviewController.java",
-    "Get-Content -Raw services/backend/content/src/main/java/cc/orbexa/hhy/content/R12ReviewService.java",
-    "Get-Content -Raw services/backend/content/src/main/java/cc/orbexa/hhy/content/R12ReviewPostgresStore.java",
-    "Get-Content -Raw services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/ContentController.java",
-    "Get-Content -Raw services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/R13Controller.java",
-    "Get-Content -Raw services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/R14Controller.java",
-    "Get-Content -Raw services/backend/content/src/main/java/cc/orbexa/hhy/content/R13Contracts.java; Get-Content -Raw services/backend/content/src/main/java/cc/orbexa/hhy/content/R13Service.java; Get-Content -Raw services/backend/content/src/main/java/cc/orbexa/hhy/content/R14Contracts.java; Get-Content -Raw services/backend/content/src/main/java/cc/orbexa/hhy/content/R14Service.java",
-    "rg -n \"CREATE TABLE hhy\\.(notifications|notification_templates|notification_deliveries|push_tokens|announcements|announcement_reads|support_tickets|ticket_messages|ticket_attachments|ticket_status_logs|help|content_reports|content_appeals|chat_reports|admin_operation_logs|outbox_events)|ALTER TABLE hhy\\.(notifications|support_tickets|announcements|ticket_messages|content_reports|content_appeals|chat_reports)\" services/backend/boot/src/main/resources/db/migration -g \"*.sql\"",
-    "Get-Content services/backend/boot/src/main/resources/db/migration/V003__content_identity_and_communication.sql | Select-Object -Skip 320 -First 310",
-    "Get-Content services/backend/boot/src/main/resources/db/migration/V002__access_admin_and_platform.sql | Select-Object -Skip 250 -First 260",
-    "mvn \"-Dmaven.repo.local=C:/Users/小白/.m2/repository\" -pl boot -am -DskipTests compile",
-    "python3 -m pytest -q tests/test_r15_backend_operation_coverage.py",
-    "python3 scripts/check_api_contract.py"
+    "python3 -m pytest tests/test_r15_notification_support_postgres.py::test_v048_static_contract_matches_r15_recovery_requirements -q",
+    "python3 static R15 operationId/permission/idempotency/outbox verification",
+    "subst X: <worktree>; mvn -pl boot -am -Dtest=R15SupportControllerContractTest \"-Dsurefire.failIfNoSpecifiedTests=false\" \"-Dmaven.repo.local=C:\\Users\\小白\\.m2\\repository\" \"-Dmaven.compiler.fork=true\" test",
+    "subst X: <worktree>; mvn -pl boot -am -Dtest=R15SupportControllerContractTest \"-Dsurefire.failIfNoSpecifiedTests=false\" \"-Dmaven.repo.local=X:\\.m2repo\" test",
+    "subst X: <worktree>; mvn -pl content -am \"-Dmaven.repo.local=X:\\.m2repo\" compile",
+    "javac --release 21 -encoding UTF-8 -cp <short R15 classpath> -d services/backend/content/target/r15-javac-check R15SupportContracts.java R15SupportService.java",
+    "python3 cleanup .m2repo and R15 temporary javac artifacts with Windows long-path prefix"
   ],
-  "error_fingerprint": "JAVAC_ACCESS_DENIED_AWSSDK_AUTH_2_48_3",
+  "error_fingerprint": "JDK21_JAVAC_ZIPFS_CLOSE_FAILURE_WINDOWS_ACCESSDENIED",
   "schema": "hhy.worker-result/v5.0",
   "status": "INFRASTRUCTURE_BLOCKED",
-  "summary": "Implemented R15 backend operation coverage slice for notification read/list/read-all, announcements, content report, support tickets, admin chat report decisions, admin support operations, and related idempotency/audit/Outbox storage paths. Added static regression coverage for the 25-operation R15 scope and removed the duplicate old support-create mapping. Targeted Python regression and OpenAPI contract check pass, but Java compile is infrastructure-blocked by local Maven dependency jar access errors before boot compilation completes.",
+  "summary": "Attempt 2 followed the required strategy: minimal reproduction showed OpenAPI/catalog generation still passes, so the root cause was missing backend implementation for the 25 scoped R15 operationIds. Implemented R15 user/admin controllers, application service orchestration with Outbox/Audit side effects, operationId contract test, removed the duplicate legacy support-ticket mapping, and fixed a text-block warning in R04 storage. Targeted contract/static validations pass, but Maven/Javac verification is infrastructure-blocked by the local Windows JDK 21 zipfs/resource-close failure.",
   "task_id": "TASK-R15-003"
 }

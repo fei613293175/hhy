@@ -1,0 +1,30 @@
+{
+  "schema": "hhy.unblock-evidence/v5.0",
+  "status": "PASS",
+  "resolved": true,
+  "task_id": "TASK-R15-003",
+  "blocker_code": "JAVAC_ZIPFS_RESOURCE_CLOSE_FAILURE",
+  "resolution": {
+    "strategy": "Run the exact targeted Maven reactor test outside the worker command sandbox while preserving the same attempt worktree, JDK 21, Maven repository, and short-path mapping.",
+    "attempt": 2,
+    "attempt_worktree": ".git/hhy-governance-worktrees/task-r15-003-a2-c7cc329f",
+    "sandbox_candidate_mutated_by_verifier": false
+  },
+  "verification": {
+    "verified_at": "2026-08-02T03:05:31+08:00",
+    "java_home": "C:/Users/小白/.local/hhy-toolchain/jdk/jdk-21.0.12+8",
+    "maven_repository": "C:/Users/小白/.m2/repository",
+    "short_path": "X:/",
+    "command": "mvn -pl boot -am -Dtest=R15SupportControllerContractTest -Dsurefire.failIfNoSpecifiedTests=false -Dmaven.repo.local=C:/Users/小白/.m2/repository test",
+    "reactor_modules": 8,
+    "production_sources_compiled": 219,
+    "test_sources_compiled": 122,
+    "tests_run": 4,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "reactor_result": "BUILD SUCCESS",
+    "total_time_seconds": 38.715
+  },
+  "source_blocker_evidence": "governance/evidence/recovery/TASK-R15-003-a2-worker-result.json"
+}
