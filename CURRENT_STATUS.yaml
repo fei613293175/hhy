@@ -1,9 +1,9 @@
 DO_NOT_EDIT: true
 GENERATED_FROM: governance/STATE.yaml
-SOURCE_REVISION: 105
-SOURCE_HASH: ac31ec0a0027295366cb55f51fc2a7c7a7419b4af91d728953c494c374004e8c
-project_status: ACTIVE
+SOURCE_REVISION: 106
+SOURCE_HASH: 3d3201b3fe079633acfc6145ba21fc89cb8299d5bc9db9a95e1e1ba6f2030722
+project_status: FAILED_BOUNDED
 active_release: R15
-active_task: TASK-R15-002
+active_task: null
 authoritative_commit: 9b467950a2f9c75dbc9ec9c395cc553369940754
 goal_complete: false

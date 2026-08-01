@@ -1,0 +1,17 @@
+{
+  "commit": "b883f8bd80c90234a2702f858b53c83b24c35c5d",
+  "findings": [
+    {
+      "evidence": "V003 defines hhy.ticket_messages.sender_id as nullable, and V048 only makes sender_type/body NOT NULL while the idempotency unique index is (ticket_id, sender_type, sender_id, idempotency_key). In PostgreSQL, NULL values are distinct in a normal UNIQUE index, so two SYSTEM/ADMIN messages on the same ticket with sender_id NULL and the same idempotency_key/request_hash pass the check constraint and bypass message idempotency. The new test only covers a duplicate with non-null sender_id.",
+      "issue": "ticket_messages idempotency is not enforced for nullable sender_id, violating the TASK-R15-002 acceptance that message idempotency identity is immutable.",
+      "line": 272,
+      "path": "database/migrations/V048__r15_notification_support_invariants.sql",
+      "requirement_ref": "TASK-R15-002 acceptance: 消息幂等身份不可变",
+      "severity": "HIGH"
+    }
+  ],
+  "schema": "hhy.reviewer-result/v5.0",
+  "status": "BLOCK",
+  "summary": "候选未满足当前任务。未发现通过删除、skip/xfail 或弱化既有测试取得通过的证据；阻断点是新增数据库约束本身仍允许 ticket_messages 幂等重复写入。",
+  "task_id": "TASK-R15-002"
+}
