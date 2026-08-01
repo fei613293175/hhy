@@ -14,7 +14,9 @@ sys.path.insert(0, str(ROOT / "scripts"))
 
 from check_r14_entry_contract import (  # noqa: E402
     ENTRY_VISUAL_STATUSES,
+    FINAL_VISUAL_STATUS,
     PAGES,
+    load_yaml,
     read_csv,
     validate,
 )
@@ -53,6 +55,70 @@ class R14EntryContractTest(unittest.TestCase):
 
     def test_entry_visual_statuses_only_allow_forward_progress(self) -> None:
         self.assertEqual({"IN_REVIEW", "PASS"}, ENTRY_VISUAL_STATUSES)
+
+    def test_final_visual_approval_is_bound_to_current_candidate(self) -> None:
+        candidate = "a" * 40
+
+        def load_final_visual(root: Path, relative: str) -> dict:
+            document = deepcopy(load_yaml(root, relative))
+            if relative == "releases/R14/RELEASE_MANIFEST.yaml":
+                document["visual_acceptance_status"] = FINAL_VISUAL_STATUS
+                document["visual_acceptance_evidence"] = (
+                    "artifacts/validation/r14-historical-visual-attempt5/APPROVAL.yaml"
+                )
+            elif relative.endswith("/APPROVAL.yaml"):
+                document["source"]["commit"] = candidate
+            return document
+
+        with patch("check_r14_entry_contract.load_yaml", side_effect=load_final_visual):
+            self.assertEqual([], validate(ROOT, expected_commit=candidate))
+
+    def test_final_visual_approval_rejects_a_different_commit(self) -> None:
+        candidate = "a" * 40
+        stale = "b" * 40
+
+        def load_stale_visual(root: Path, relative: str) -> dict:
+            document = deepcopy(load_yaml(root, relative))
+            if relative == "releases/R14/RELEASE_MANIFEST.yaml":
+                document["visual_acceptance_status"] = FINAL_VISUAL_STATUS
+                document["visual_acceptance_evidence"] = (
+                    "artifacts/validation/r14-historical-visual-attempt5/APPROVAL.yaml"
+                )
+            elif relative.endswith("/APPROVAL.yaml"):
+                document["source"]["commit"] = stale
+            return document
+
+        with patch("check_r14_entry_contract.load_yaml", side_effect=load_stale_visual):
+            self.assertIn(
+                f"R14_VISUAL_APPROVAL_COMMIT_MISMATCH expected={candidate} actual={stale}",
+                validate(ROOT, expected_commit=candidate),
+            )
+
+    def test_final_visual_approval_rejects_repository_escape(self) -> None:
+        candidate = "a" * 40
+        escape = "../outside/APPROVAL.yaml"
+        real_is_file = Path.is_file
+
+        def load_escaped_visual(root: Path, relative: str) -> dict:
+            if relative == escape:
+                return {"source": {"commit": candidate}}
+            document = deepcopy(load_yaml(root, relative))
+            if relative == "releases/R14/RELEASE_MANIFEST.yaml":
+                document["visual_acceptance_status"] = FINAL_VISUAL_STATUS
+                document["visual_acceptance_evidence"] = escape
+            return document
+
+        def escaped_file_exists(path: Path) -> bool:
+            return True if path == ROOT / escape else real_is_file(path)
+
+        with (
+            patch("check_r14_entry_contract.load_yaml", side_effect=load_escaped_visual),
+            patch("pathlib.Path.is_file", autospec=True, side_effect=escaped_file_exists),
+        ):
+            self.assertIn(
+                f"R14_VISUAL_APPROVAL_EVIDENCE_OUTSIDE_ROOT {escape}",
+                validate(ROOT, expected_commit=candidate),
+            )
 
     def test_expected_page_set_is_exact(self) -> None:
         self.assertEqual(

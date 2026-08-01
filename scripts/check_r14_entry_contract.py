@@ -5,6 +5,8 @@ from __future__ import annotations
 from argparse import ArgumentParser
 import csv
 from pathlib import Path
+import re
+import subprocess
 import sys
 
 import yaml
@@ -21,6 +23,8 @@ PAGES = {
 }
 B07_SHA256 = "1262b25c4d3f40ba8fc89cce1890b8203911e608b82900a223c4474b2a877c08"
 ENTRY_VISUAL_STATUSES = {"IN_REVIEW", "PASS"}
+FINAL_VISUAL_STATUS = "PASS_6_PAGES_APPROVED"
+SHA_PATTERN = re.compile(r"[0-9a-f]{40}")
 BANNED_FIELD_KEYS = {
     "id", "page", "pageSize", "cursor", "status", "sort",
     "X-Idempotency-Key", "xIdempotencyKey", "clientMessageId",
@@ -39,7 +43,23 @@ def load_yaml(root: Path, relative: str) -> dict:
     return yaml.safe_load((root / relative).read_text(encoding="utf-8"))
 
 
-def validate(root: Path) -> list[str]:
+def current_commit(root: Path) -> str:
+    result = subprocess.run(
+        ["git", "rev-parse", "--verify", "HEAD"],
+        cwd=root,
+        text=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        timeout=30,
+        check=False,
+    )
+    commit = result.stdout.strip().lower()
+    if result.returncode != 0 or not SHA_PATTERN.fullmatch(commit):
+        raise RuntimeError("cannot resolve current candidate commit")
+    return commit
+
+
+def validate(root: Path, expected_commit: str | None = None) -> list[str]:
     errors: list[str] = []
     visual_rows = [
         row for row in read_csv(root, "catalogs/ui_visual_acceptance.csv")
@@ -227,6 +247,37 @@ def validate(root: Path) -> list[str]:
     if not (root / "releases/R14/PARALLEL_EXECUTION_PLAN.yaml").is_file():
         errors.append("R14_EXECUTION_PLAN_MISSING")
 
+    if manifest.get("visual_acceptance_status") == FINAL_VISUAL_STATUS:
+        evidence_path = str(manifest.get("visual_acceptance_evidence") or "").strip()
+        if not evidence_path:
+            errors.append("R14_VISUAL_APPROVAL_EVIDENCE_MISSING")
+        else:
+            resolved_root = root.resolve()
+            evidence = (resolved_root / evidence_path).resolve()
+            try:
+                repository_relative_evidence = evidence.relative_to(resolved_root)
+            except ValueError:
+                errors.append(f"R14_VISUAL_APPROVAL_EVIDENCE_OUTSIDE_ROOT {evidence_path}")
+            else:
+                if not evidence.is_file():
+                    errors.append(f"R14_VISUAL_APPROVAL_EVIDENCE_MISSING {evidence_path}")
+                else:
+                    approval = load_yaml(
+                        resolved_root,
+                        repository_relative_evidence.as_posix(),
+                    )
+                    approval_commit = str(
+                        (approval.get("source") or {}).get("commit") or ""
+                    ).strip().lower()
+                    candidate_commit = (expected_commit or current_commit(root)).lower()
+                    if not SHA_PATTERN.fullmatch(candidate_commit):
+                        errors.append(f"R14_CANDIDATE_COMMIT_INVALID {candidate_commit}")
+                    elif approval_commit != candidate_commit:
+                        errors.append(
+                            "R14_VISUAL_APPROVAL_COMMIT_MISMATCH "
+                            f"expected={candidate_commit} actual={approval_commit or 'EMPTY'}"
+                        )
+
     runtime_markers = {
         "services/backend/boot/src/main/java/cc/orbexa/hhy/boot/realtime/R14WebSocketHandler.java": (
             "implements SubProtocolCapable", '"hhy.v1"', "system.delivery.ack",
@@ -272,8 +323,9 @@ def validate(root: Path) -> list[str]:
 def main(argv: list[str] | None = None) -> int:
     parser = ArgumentParser(description=__doc__)
     parser.add_argument("--root", type=Path, default=ROOT)
+    parser.add_argument("--expected-commit")
     args = parser.parse_args(argv)
-    errors = validate(args.root.resolve())
+    errors = validate(args.root.resolve(), expected_commit=args.expected_commit)
     if errors:
         print("R14_ENTRY_CONTRACT_FAILED", len(errors))
         for error in errors:
