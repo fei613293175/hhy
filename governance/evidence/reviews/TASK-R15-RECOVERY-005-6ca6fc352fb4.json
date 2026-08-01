@@ -1,0 +1,25 @@
+{
+  "commit": "6ca6fc352fb4e0c07f68b745fdaf063ce13e884b",
+  "findings": [
+    {
+      "evidence": "User support-message flow accepts any active user and then checks only ticket existence: addSupportMessage builds an idempotent action for the caller/ticket, but addTicketMessage validates with ticket(\" WHERE id=?\", ticketId) and inserts the message without requiring support_tickets.user_id to match the caller. A user who knows another ticket id can append messages to it.",
+      "issue": "Missing ticket ownership authorization on user support replies.",
+      "line": 340,
+      "path": "services/backend/content/src/main/java/cc/orbexa/hhy/content/R15Service.java",
+      "requirement_ref": "权限/幂等/错误码/审计覆盖",
+      "severity": "HIGH"
+    },
+    {
+      "evidence": "Admin decision requests require expectedVersion, but decide() uses it only in the request hash and returned CommandResult; the UPDATE is WHERE id=? AND status='PENDING' with no version predicate or persisted version increment. The same pattern appears in support assign/close, allowing stale expectedVersion requests to mutate records while returning expected+1 as if optimistic locking succeeded.",
+      "issue": "expectedVersion contract is not enforced on mutable admin decisions/support state transitions.",
+      "line": 369,
+      "path": "services/backend/content/src/main/java/cc/orbexa/hhy/content/R15Service.java",
+      "requirement_ref": "权限/幂等/错误码/审计覆盖",
+      "severity": "HIGH"
+    }
+  ],
+  "schema": "hhy.reviewer-result/v5.0",
+  "status": "BLOCK",
+  "summary": "Candidate changes are confined to allowed paths and the diff is additions-only, with no direct evidence of deleted/skipped tests. However, the candidate has concrete authorization and optimistic-locking correctness failures, so it does not satisfy TASK-R15-RECOVERY-005.",
+  "task_id": "TASK-R15-RECOVERY-005"
+}
