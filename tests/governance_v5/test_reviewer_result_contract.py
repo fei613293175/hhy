@@ -34,6 +34,10 @@ class ReviewerResultContractTest(unittest.TestCase):
         self.assertNotIn("allOf", self.schema)
         self.assertNotIn("if", self.schema)
         self.assertNotIn("then", self.schema)
+        self.assertEqual("string", self.schema["properties"]["schema"]["type"])
+        self.assertEqual("string", self.schema["properties"]["status"]["type"])
+        finding = self.schema["properties"]["findings"]["items"]
+        self.assertEqual(set(finding["properties"]), set(finding["required"]))
 
     def test_pass_rejects_blocking_findings(self) -> None:
         blocking = [{

@@ -4,8 +4,8 @@
   "type": "object",
   "required": ["schema", "status", "task_id", "commit", "summary", "findings"],
   "properties": {
-    "schema": {"const": "hhy.reviewer-result/v5.0"},
-    "status": {"enum": ["PASS", "BLOCK"]},
+    "schema": {"type": "string", "const": "hhy.reviewer-result/v5.0"},
+    "status": {"type": "string", "enum": ["PASS", "BLOCK"]},
     "task_id": {"type": "string", "minLength": 1},
     "commit": {"type": "string", "pattern": "^[a-f0-9]{40}$"},
     "summary": {"type": "string"},
@@ -13,9 +13,9 @@
       "type": "array",
       "items": {
         "type": "object",
-        "required": ["severity", "issue", "evidence"],
+        "required": ["severity", "path", "line", "issue", "evidence", "requirement_ref"],
         "properties": {
-          "severity": {"enum": ["BLOCKER", "HIGH", "MEDIUM", "LOW"]},
+          "severity": {"type": "string", "enum": ["BLOCKER", "HIGH", "MEDIUM", "LOW"]},
           "path": {"type": ["string", "null"]},
           "line": {"type": ["integer", "null"], "minimum": 1},
           "issue": {"type": "string", "minLength": 1},
