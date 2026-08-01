@@ -1,0 +1,17 @@
+{
+  "schema": "hhy.reviewer-result/v5.0",
+  "status": "BLOCK",
+  "task_id": "TASK-R14-RECOVERY-015",
+  "commit": "f99fca852bd21e739a7874356050bf5bc20bdd1e",
+  "summary": "候选未满足证据与当前冻结 Commit 绑定的硬要求。未发现删除、跳过或弱化既有测试，但新增测试未覆盖该身份错配。",
+  "findings": [
+    {
+      "severity": "HIGH",
+      "path": "scripts/check_r14_entry_contract.py",
+      "line": 87,
+      "issue": "视觉批准检查只验证 source.commit 是40位十六进制字符串，不验证其等于当前候选 Commit，因此旧候选证据可被用于声明当前候选视觉 PASS。",
+      "evidence": "当前候选为 f99fca852bd21e739a7874356050bf5bc20bdd1e；RELEASE_MANIFEST.yaml:215-216 声明 PASS_6_PAGES_APPROVED 并引用 r14-historical-visual-attempt5/APPROVAL.yaml，但该证据的 source.commit 实际为 8fd23b22ababe81ec37da145c1fb8eed963e336f。新增代码第87-91行仅检查格式，新增测试也未构造或拒绝 Commit 不匹配。",
+      "requirement_ref": "ACTIVE_TASK acceptance: 所有新候选证据绑定同一冻结 Commit；新候选证据必须绑定当前修复后的冻结 Commit"
+    }
+  ]
+}

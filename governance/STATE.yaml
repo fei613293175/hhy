@@ -1,15 +1,15 @@
 schema: hhy.governance-state/v5.0
-revision: 85
-updated_at: '2026-08-01T08:00:03.071113Z'
-state_hash: d161d3d98745ad62949f999d6a53d5593ef8e9b81692c14fa73e836f86117948
+revision: 86
+updated_at: '2026-08-01T08:13:49.692117Z'
+state_hash: da397d25b62361f6f15a1f21c3c1cb9cc96f960f92a2eb31989df224e1da85ea
 project:
-  status: ACTIVE
+  status: FAILED_BOUNDED
   branch_at_install: governance/v5.0-migration-20260731
   migration_baseline_commit: ea64d82fab9ed3d1952ab7d3c0d2286051390b59
   migration_commit: 8beafc2a0e115345c554abc0bdc199ef92534106
   authoritative_commit: 80738f701093694cd283c50e9079bf8aab827562
   active_release: R14
-  active_task: TASK-R14-RECOVERY-015
+  active_task: null
   goal_complete: false
 lease: null
 releases:
@@ -2709,67 +2709,15 @@ tasks:
     last_gate_evidence: null
     blocker: null
   TASK-R14-RECOVERY-015:
-    status: READY
-    attempts_used: 2
+    status: FAILED_BOUNDED
+    attempts_used: 3
     current_attempt: null
-    last_error_fingerprint: '[{"id": "commit_binding", "status": "PASS", "detail": {"HEAD": "70069678b2a88aa043968b8adc1e72289f2fdcb0",
-      "expected": "70069678b2a88aa043968b8adc1e72289f2fdcb0"}}, {"id": "test_authority", "status": "PASS", "detail": {"schema":
-      "hhy.test-authority/v5.0", "status": "PASS", "commit": "70069678b2a88aa043968b8adc1e72289f2fdcb0", "parent": "f2fe249133b8a4f9f642d9d79389e5ca23fa05d6",
-      "test_paths_checked": ["tests/test_r14_entry_contract.py"], "violations": []}}, {"id": "static_specs", "status": "PASS",
-      "detail": []}, {"id": "state_integrity", "status": "PASS"}, {"id": "active_legacy_routes", "status": "PASS", "detail":
-      []}, {"id": "secret_scan", "status": "PASS", "detail": {"mode": null, "files_considered": 5834, "files_scanned": 5551,
-      "findings": []}}, {"id": "hard_protection", "status": "PASS", "detail": {"schema": "hhy.hard-protection/v5.0", "status":
-      "PASS", "task_id": "TASK-R14-RECOVERY-015", "release": "R14", "profile": "freeze", "risks": ["apk_identity", "contract",
-      "database", "production", "secrets", "security", "ui"], "details": {"security_requirements": []}, "errors": []}}, {"id":
-      "release_hard_protection", "status": "PASS", "detail": {"schema": "hhy.release-hard-protection/v5.0", "status": "PASS",
-      "release": "R14", "profile": "freeze", "task_count": 17, "errors": [], "results": [{"schema": "hhy.hard-protection/v5.0",
-      "status": "PASS", "task_id": "TASK-R14-003", "release": "R14", "profile": "freeze", "risks": ["contract", "secrets",
-      "security"], "details": {"security_requirements": ["REQ-APK-001", "REQ-CHAT-001", "REQ-CHAT-002"]}, "errors": []}, {"schema":
-      "hhy.hard-protection/v5.0", "status": "PASS", "task_id": "TASK-R14-004", "release": "R14", "profile": "freeze", "risks":
-      ["secrets", "security", "ui"], "details": {"security_requirements": ["REQ-APK-001", "REQ-CHAT-001", "REQ-CHAT-002"]},
-      "errors": []}, {"schema": "hhy.hard-protection/v5.0", "status": "PASS", "task_id": "TASK-R14-RECOVERY-001", "release":
-      "R14", "profile": "freeze", "risks": ["apk_identity", "contract", "database", "production", "secrets", "security", "ui"],
-      "details": {"security_requirements": ["REQ-APK-001", "REQ-CHAT-001", "REQ-CHAT-002"]}, "errors": []}, {"schema": "hhy.hard-protection/v5.0",
-      "status": "PASS", "task_id": "TASK-R14-RECOVERY-002", "release": "R14", "profile": "freeze", "risks": ["apk_identity",
-      "contract", "database", "production", "secrets", "security", "ui"], "details": {"security_requirements": []}, "errors":
-      []}, {"schema": "hhy.hard-protection/v5.0", "status": "PASS", "task_id": "TASK-R14-RECOVERY-003", "release": "R14",
-      "profile": "freeze", "risks": ["apk_identity", "contract", "database", "production", "secrets", "security", "ui"], "details":
-      {"security_requirements": []}, "errors": []}, {"schema": "hhy.hard-protection/v5.0", "status": "PASS", "task_id": "TASK-R14-RECOVERY-004",
-      "release": "R14", "profile": "freeze", "risks": ["apk_identity", "contract", "database", "production", "secrets", "security",
-      "ui"], "details": {"security_requirements": []}, "errors": []}, {"schema": "hhy.hard-protection/v5.0", "status": "PASS",
-      "task_id": "TASK-R14-RECOVERY-005", "release": "R14", "profile": "freeze", "risks": ["apk_identity", "contract", "database",
-      "production", "secrets", "security", "ui"], "details": {"security_requirements": []}, "errors": []}, {"schema": "hhy.hard-protection/v5.0",
-      "status": "PASS", "task_id": "TASK-R14-RECOVERY-006", "release": "R14", "profile": "freeze", "risks": ["apk_identity",
-      "contract", "database", "production", "secrets", "security", "ui"], "details": {"security_requirements": []}, "errors":
-      []}, {"schema": "hhy.hard-protection/v5.0", "status": "PASS", "task_id": "TASK-R14-RECOVERY-007", "release": "R14",
-      "profile": "freeze", "risks": ["apk_identity", "contract", "database", "production", "secrets", "security", "ui"], "details":
-      {"security_requirements": []}, "errors": []}, {"schema": "hhy.hard-protection/v5.0", "status": "PASS", "task_id": "TASK-R14-RECOVERY-008",
-      "release": "R14", "profile": "freeze", "risks": ["apk_identity", "contract", "database", "production", "secrets", "security",
-      "ui"], "details": {"security_requirements": []}, "errors": []}, {"schema": "hhy.hard-protection/v5.0", "status": "PASS",
-      "task_id": "TASK-R14-RECOVERY-009", "release": "R14", "profile": "freeze", "risks": ["apk_identity", "contract", "database",
-      "production", "secrets", "security", "ui"], "details": {"security_requirements": []}, "errors": []}, {"schema": "hhy.hard-protection/v5.0",
-      "status": "PASS", "task_id": "TASK-R14-RECOVERY-010", "release": "R14", "profile": "freeze", "risks": ["apk_identity",
-      "contract", "database", "production", "secrets", "security", "ui"], "details": {"security_requirements": []}, "errors":
-      []}, {"schema": "hhy.hard-protection/v5.0", "status": "PASS", "task_id": "TASK-R14-RECOVERY-011", "release": "R14",
-      "profile": "freeze", "risks": ["apk_identity", "contract", "database", "production", "secrets", "security", "ui"], "details":
-      {"security_requirements": []}, "errors": []}, {"schema": "hhy.hard-protection/v5.0", "status": "PASS", "task_id": "TASK-R14-RECOVERY-012",
-      "release": "R14", "profile": "freeze", "risks": ["apk_identity", "contract", "database", "production", "secrets", "security",
-      "ui"], "details": {"security_requirements": []}, "errors": []}, {"schema": "hhy.hard-protection/v5.0", "status": "PASS",
-      "task_id": "TASK-R14-RECOVERY-013", "release": "R14", "profile": "freeze", "risks": ["apk_identity", "contract", "database",
-      "production", "secrets", "security", "ui"], "details": {"security_requirements": []}, "errors": []}, {"schema": "hhy.hard-protection/v5.0",
-      "status": "PASS", "task_id": "TASK-R14-RECOVERY-014", "release": "R14", "profile": "freeze", "risks": ["apk_identity",
-      "contract", "database", "production", "secrets", "security", "ui"], "details": {"security_requirements": []}, "errors":
-      []}, {"schema": "hhy.hard-protection/v5.0", "status": "PASS", "task_id": "TASK-R14-RECOVERY-015", "release": "R14",
-      "profile": "freeze", "risks": ["apk_identity", "contract", "database", "production", "secrets", "security", "ui"], "details":
-      {"security_requirements": []}, "errors": []}]}}, {"id": "documentation", "status": "FAIL", "detail": {"status": "FAIL",
-      "exit_code": 9009, "command": ["python3", "scripts/check_v123_documentation.py"], "stdout_tail": "", "stderr_tail":
-      ""}}, {"id": "api_contract", "status": "FAIL", "detail": {"status": "FAIL", "exit_code": 9009, "command": ["python3",
-      "scripts/check_api_contract.py"], "stdout_tail": "", "stderr_tail": ""}}, {"id": "database_schema", "status": "FAIL",
-      "detail": {"status": "FAIL", "exit_code": 9009, "command": ["python3", "scripts/check_db_schema.py"], "stdout_tail":
-      "", "stderr_tail": ""}}, {"id": "ui_tokens", "status": "FAIL", "detail": {"status": "FAIL", "exit_code": 9009, "command":
-      ["python3", "scripts/check_ui_tokens.py"], "stdout_tail": "", "stderr_tail": ""}}, {"id": "visual_contract", "status":
-      "FAIL", "detail": {"status": "FAIL", "exit_code": 9009, "command": ["python3", "scripts/check_ui_visual_acceptance.py",
-      "--release", "R14"], "stdout_tail": "", "stderr_tail": ""}}]'
+    last_error_fingerprint: '{"schema": "hhy.reviewer-result/v5.0", "status": "BLOCK", "task_id": "TASK-R14-RECOVERY-015",
+      "commit": "f99fca852bd21e739a7874356050bf5bc20bdd1e", "summary": "候选未满足证据与当前冻结 Commit 绑定的硬要求。未发现删除、跳过或弱化既有测试，但新增测试未覆盖该身份错配。",
+      "findings": [{"severity": "HIGH", "path": "scripts/check_r14_entry_contract.py", "line": 87, "issue": "视觉批准检查只验证 source.commit
+      是40位十六进制字符串，不验证其等于当前候选 Commit，因此旧候选证据可被用于声明当前候选视觉 PASS。", "evidence": "当前候选为 f99fca852bd21e739a7874356050bf5bc20bdd1e；RELEASE_MANIFEST.yaml:215-216
+      声明 PASS_6_PAGES_APPROVED 并引用 r14-historical-visual-attempt5/APPROVAL.yaml，但该证据的 source.commit 实际为 8fd23b22ababe81ec37da145c1fb8eed963e336f。新增代码第87-91行仅检查格式，新增测试也未构造或拒绝
+      Commit 不匹配。", "requirement_ref": "ACTIVE_TASK acceptance: 所有新候选证据绑定同一冻结 Commit；新候选证据必须绑定当前修复后的冻结 Commit"}]}'
     last_candidate_commit: null
     last_gate_evidence: null
     blocker: null
