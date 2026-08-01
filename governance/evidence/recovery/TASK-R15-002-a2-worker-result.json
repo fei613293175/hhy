@@ -1,0 +1,44 @@
+{
+  "blocker": {
+    "code": "POSTGRES_TOOLING_UNAVAILABLE",
+    "detail": "Implemented the R15 database migration, rollback, invariant SQL, catalog/dictionary sync, and contract tests. Static/contract validation passes, but this worker cannot execute the required real PostgreSQL Flyway empty/upgrade/invariant run because psql and docker are not on PATH, HHY_DB_MIGRATION_TEST_URL/HHY_DB_SMOKE_CONFIRM are not configured, and the Maven wrapper fails before startup with 'Cannot index into a null array' / 'Cannot start maven from wrapper'.",
+    "paths": [
+      "database/migrations/V048__r15_notification_support_invariants.sql",
+      "services/backend/boot/src/main/resources/db/migration/V048__r15_notification_support_invariants.sql",
+      "database/tests/r15_notification_support_invariants.sql",
+      "database/rollback/U048__r15_notification_support_invariants_DEV_ONLY.sql",
+      "services/backend/mvnw.cmd"
+    ],
+    "resolution": "Provide a disposable PostgreSQL 17 database with psql available or configure HHY_DB_MIGRATION_TEST_URL plus HHY_DB_SMOKE_CONFIRM=YES and a working Maven wrapper/system Maven, then run the real Flyway empty/upgrade and invariant SQL execution.",
+    "worker_result_evidence": "PASS: python -m pytest tests/test_r15_database_contract.py tests/test_r14_database_contract.py tests/test_r16_database_contract.py -q -> 17 passed. PASS: python3 scripts/check_db_schema.py -> DB_SCHEMA_OK tables=203 migrations=48 runtime_hashes=PASS. BLOCKED: Get-Command psql and docker returned no executable; Maven wrapper failed before startup."
+  },
+  "changed_files": [
+    "tests/test_r15_database_contract.py",
+    "database/migrations/V048__r15_notification_support_invariants.sql",
+    "services/backend/boot/src/main/resources/db/migration/V048__r15_notification_support_invariants.sql",
+    "database/rollback/U048__r15_notification_support_invariants_DEV_ONLY.sql",
+    "database/tests/r15_notification_support_invariants.sql",
+    "catalogs/data_tables.csv",
+    "database/schema_dictionary.csv",
+    "docs/01-architecture/adr/ADR-010-R15通知公告客服数据不变量.md"
+  ],
+  "commands_run": [
+    "python3 tools/governance/hhy_governance.py active-task --format context",
+    "python -m pytest tests/test_r15_database_contract.py -q",
+    "Copy-Item -LiteralPath database/migrations/V048__r15_notification_support_invariants.sql -Destination services/backend/boot/src/main/resources/db/migration/V048__r15_notification_support_invariants.sql",
+    "python3 scripts/check_db_schema.py",
+    "Get-Command psql -ErrorAction SilentlyContinue | Select-Object -ExpandProperty Source",
+    "Get-Command docker -ErrorAction SilentlyContinue | Select-Object -ExpandProperty Source",
+    "python -m pytest tests/test_r15_database_contract.py tests/test_r14_database_contract.py tests/test_r16_database_contract.py -q",
+    "rg -n \"TODO|Mock|mock|CRIPTS|cripts/|cripts\\\\|TODO\" database/migrations/V048__r15_notification_support_invariants.sql services/backend/boot/src/main/resources/db/migration/V048__r15_notification_support_invariants.sql database/rollback/U048__r15_notification_support_invariants_DEV_ONLY.sql database/tests/r15_notification_support_invariants.sql tests/test_r15_database_contract.py catalogs/data_tables.csv database/schema_dictionary.csv docs/01-architecture/adr/ADR-010-R15通知公告客服数据不变量.md",
+    "Test-Path services/backend/pom.xml; Test-Path services/backend/mvnw.cmd",
+    ".\\mvnw.cmd -q -pl boot -Dtest=P00FlywayAutoConfigurationTest test",
+    "Get-Command mvn -ErrorAction SilentlyContinue | Select-Object -ExpandProperty Source",
+    "cmd /c mvnw.cmd -q -pl boot -Dtest=P00FlywayAutoConfigurationTest test"
+  ],
+  "error_fingerprint": "POSTGRES_TOOLING_UNAVAILABLE:psql_docker_missing:maven_wrapper_null_array",
+  "schema": "hhy.worker-result/v5.0",
+  "status": "INFRASTRUCTURE_BLOCKED",
+  "summary": "Attempt 2 constructed a failing minimal R15 database contract repro, then implemented V048 forward hardening for notifications, templates, deliveries, push tokens, announcements, support tickets, ticket messages, and ticket status logs. Added DEV/TEST rollback, executable SQL invariant matrix, schema/catalog sync, and ADR. Local static/contract gates pass, but real PostgreSQL Flyway empty/upgrade/invariant execution is blocked by missing local PostgreSQL/Docker/Maven tooling.",
+  "task_id": "TASK-R15-002"
+}

@@ -1,0 +1,29 @@
+{
+  "schema": "hhy.unblock-evidence/v5.0",
+  "status": "PASS",
+  "resolved": true,
+  "task_id": "TASK-R15-002",
+  "blocker_code": "POSTGRES_TOOLING_UNAVAILABLE",
+  "resolution": {
+    "database": "Disposable PostgreSQL 17.10 container on obx-test",
+    "remote_container": "hhy-r15-gov50-pg",
+    "remote_binding": "127.0.0.1:55432",
+    "local_tunnel": "127.0.0.1:55432 via ssh obx-test",
+    "maven": "Apache Maven 3.9.11 from the existing Maven Wrapper distribution cache",
+    "java": "Temurin JDK 21.0.12+8",
+    "smoke_confirmation": "YES"
+  },
+  "verification": {
+    "tcp_connection": "PASS",
+    "postgres_version": "17.10",
+    "jdbc_connection": "PASS",
+    "flyway_validation": "47 migrations validated",
+    "flyway_execution": "V001 through V047 executed on the disposable database",
+    "remaining_product_issue": "P00FlywayMigrationTest has a stale 200-table assertion while the authoritative schema contains 203 tables; R15 Worker must add and execute the V048-specific matrix rather than treating this as an infrastructure failure."
+  },
+  "required_environment": {
+    "HHY_DB_MIGRATION_TEST_URL": "jdbc:postgresql://127.0.0.1:55432/postgres",
+    "HHY_DB_MIGRATION_TEST_USER": "postgres",
+    "HHY_DB_SMOKE_CONFIRM": "YES"
+  }
+}
