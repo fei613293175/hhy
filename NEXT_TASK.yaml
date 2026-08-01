@@ -1,6 +1,6 @@
 DO_NOT_EDIT: true
 GENERATED_FROM: governance/STATE.yaml + governance/task_specs/*.yaml
-SOURCE_REVISION: 117
+SOURCE_REVISION: 118
 task:
   schema: hhy.task-spec/v5.0
   id: TASK-R15-003
