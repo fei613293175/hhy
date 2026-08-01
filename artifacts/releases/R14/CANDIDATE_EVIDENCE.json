@@ -1,0 +1,53 @@
+{
+  "schema": "hhy.candidate-evidence/v5.0",
+  "status": "PASS",
+  "release": "R14",
+  "commit": "de01f5ad32693e845c3b4ecf6f0e034fc8792aff",
+  "gate_report": "governance/evidence/gates/candidate-release-de01f5ad3269.json",
+  "apk": {
+    "path": "artifacts/releases/R14/apk/hhy-R14-de01f5ad-candidate.apk",
+    "sha256": "2583594113fb5126d36f8269db9651dfc6234bd54614a76f754ff442178e5b51",
+    "source_commit": "de01f5ad32693e845c3b4ecf6f0e034fc8792aff",
+    "version_code": 10225,
+    "version_name": "1.2.2-debug",
+    "signing_sha256": "e32a9d7ff8a209d2903db6383b461b259f0018a698d1f3646e6ed7f1112671be"
+  },
+  "screenshots": {
+    "source_commit": "de01f5ad32693e845c3b4ecf6f0e034fc8792aff",
+    "paths": [
+      "artifacts/releases/R14/screenshots/10-r02-startup.png",
+      "artifacts/releases/R14/screenshots/11-r02-maintenance.png",
+      "artifacts/releases/R14/screenshots/12-r02-update.png",
+      "artifacts/releases/R14/screenshots/13-r02-password-login.png",
+      "artifacts/releases/R14/screenshots/14-r02-sms-login.png",
+      "artifacts/releases/R14/screenshots/15-r02-register.png",
+      "artifacts/releases/R14/screenshots/16-r02-reset-password.png",
+      "artifacts/releases/R14/screenshots/17-r02-account-blocked.png",
+      "artifacts/releases/R14/screenshots/18-r02-login-devices.png",
+      "artifacts/releases/R14/screenshots/19-r02-change-password.png",
+      "artifacts/releases/R14/screenshots/20-r02-account-cancellation.png",
+      "artifacts/releases/R14/screenshots/21-r04-media-upload.png",
+      "artifacts/releases/R14/screenshots/22-r05-identity-home.png",
+      "artifacts/releases/R14/screenshots/23-r05-identity-form.png",
+      "artifacts/releases/R14/screenshots/24-r05-identity-liveness.png",
+      "artifacts/releases/R14/screenshots/25-r05-identity-result.png",
+      "artifacts/releases/R14/screenshots/26-r06-home.png",
+      "artifacts/releases/R14/screenshots/27-r06-about.png",
+      "artifacts/releases/R14/screenshots/27-r13-favorites.png",
+      "artifacts/releases/R14/screenshots/28-r07-search-landing.png",
+      "artifacts/releases/R14/screenshots/28-r13-history.png",
+      "artifacts/releases/R14/screenshots/29-r07-search-results.png",
+      "artifacts/releases/R14/screenshots/29-r13-share-sheet.png",
+      "artifacts/releases/R14/screenshots/30-r07-publisher.png",
+      "artifacts/releases/R14/screenshots/30-r13-invalid-feedback-sheet.png",
+      "artifacts/releases/R14/screenshots/31-r14-conversations.png",
+      "artifacts/releases/R14/screenshots/32-r07-clear-history-dialog.png",
+      "artifacts/releases/R14/screenshots/32-r14-chat-detail.png",
+      "artifacts/releases/R14/screenshots/33-r14-contact-sheet.png",
+      "artifacts/releases/R14/screenshots/34-r14-report-sheet.png",
+      "artifacts/releases/R14/screenshots/35-r14-block-dialog.png",
+      "artifacts/releases/R14/screenshots/36-r14-delete-dialog.png",
+      "artifacts/releases/R14/screenshots/41-r12-me-home.png"
+    ]
+  }
+}

@@ -1,0 +1,557 @@
+{
+  "schema": "hhy.gate-report/v5.0",
+  "status": "PASS",
+  "profile": "candidate",
+  "task_id": null,
+  "release": "R14",
+  "commit": "de01f5ad32693e845c3b4ecf6f0e034fc8792aff",
+  "generated_at": "2026-08-01T09:52:20.520919Z",
+  "checks": [
+    {
+      "id": "commit_binding",
+      "status": "PASS",
+      "detail": {
+        "HEAD": "de01f5ad32693e845c3b4ecf6f0e034fc8792aff",
+        "expected": "de01f5ad32693e845c3b4ecf6f0e034fc8792aff"
+      }
+    },
+    {
+      "id": "test_authority",
+      "status": "PASS",
+      "detail": {
+        "schema": "hhy.test-authority/v5.0",
+        "status": "PASS",
+        "commit": "de01f5ad32693e845c3b4ecf6f0e034fc8792aff",
+        "parent": "649b3bc972ed93afaa0126c3260dec1fce80f55f",
+        "test_paths_checked": [
+          "tests/test_r14_entry_contract.py"
+        ],
+        "violations": []
+      }
+    },
+    {
+      "id": "static_specs",
+      "status": "PASS",
+      "detail": []
+    },
+    {
+      "id": "state_integrity",
+      "status": "PASS"
+    },
+    {
+      "id": "active_legacy_routes",
+      "status": "PASS",
+      "detail": []
+    },
+    {
+      "id": "secret_scan",
+      "status": "PASS",
+      "detail": {
+        "mode": null,
+        "files_considered": 5849,
+        "files_scanned": 5643,
+        "findings": []
+      }
+    },
+    {
+      "id": "release_hard_protection",
+      "status": "PASS",
+      "detail": {
+        "schema": "hhy.release-hard-protection/v5.0",
+        "status": "PASS",
+        "release": "R14",
+        "profile": "candidate",
+        "task_count": 18,
+        "errors": [],
+        "results": [
+          {
+            "schema": "hhy.hard-protection/v5.0",
+            "status": "PASS",
+            "task_id": "TASK-R14-003",
+            "release": "R14",
+            "profile": "candidate",
+            "risks": [
+              "contract",
+              "secrets",
+              "security"
+            ],
+            "details": {
+              "security_requirements": [
+                "REQ-APK-001",
+                "REQ-CHAT-001",
+                "REQ-CHAT-002"
+              ]
+            },
+            "errors": []
+          },
+          {
+            "schema": "hhy.hard-protection/v5.0",
+            "status": "PASS",
+            "task_id": "TASK-R14-004",
+            "release": "R14",
+            "profile": "candidate",
+            "risks": [
+              "secrets",
+              "security",
+              "ui"
+            ],
+            "details": {
+              "security_requirements": [
+                "REQ-APK-001",
+                "REQ-CHAT-001",
+                "REQ-CHAT-002"
+              ]
+            },
+            "errors": []
+          },
+          {
+            "schema": "hhy.hard-protection/v5.0",
+            "status": "PASS",
+            "task_id": "TASK-R14-RECOVERY-001",
+            "release": "R14",
+            "profile": "candidate",
+            "risks": [
+              "apk_identity",
+              "contract",
+              "database",
+              "production",
+              "secrets",
+              "security",
+              "ui"
+            ],
+            "details": {
+              "security_requirements": [
+                "REQ-APK-001",
+                "REQ-CHAT-001",
+                "REQ-CHAT-002"
+              ]
+            },
+            "errors": []
+          },
+          {
+            "schema": "hhy.hard-protection/v5.0",
+            "status": "PASS",
+            "task_id": "TASK-R14-RECOVERY-002",
+            "release": "R14",
+            "profile": "candidate",
+            "risks": [
+              "apk_identity",
+              "contract",
+              "database",
+              "production",
+              "secrets",
+              "security",
+              "ui"
+            ],
+            "details": {
+              "security_requirements": []
+            },
+            "errors": []
+          },
+          {
+            "schema": "hhy.hard-protection/v5.0",
+            "status": "PASS",
+            "task_id": "TASK-R14-RECOVERY-003",
+            "release": "R14",
+            "profile": "candidate",
+            "risks": [
+              "apk_identity",
+              "contract",
+              "database",
+              "production",
+              "secrets",
+              "security",
+              "ui"
+            ],
+            "details": {
+              "security_requirements": []
+            },
+            "errors": []
+          },
+          {
+            "schema": "hhy.hard-protection/v5.0",
+            "status": "PASS",
+            "task_id": "TASK-R14-RECOVERY-004",
+            "release": "R14",
+            "profile": "candidate",
+            "risks": [
+              "apk_identity",
+              "contract",
+              "database",
+              "production",
+              "secrets",
+              "security",
+              "ui"
+            ],
+            "details": {
+              "security_requirements": []
+            },
+            "errors": []
+          },
+          {
+            "schema": "hhy.hard-protection/v5.0",
+            "status": "PASS",
+            "task_id": "TASK-R14-RECOVERY-005",
+            "release": "R14",
+            "profile": "candidate",
+            "risks": [
+              "apk_identity",
+              "contract",
+              "database",
+              "production",
+              "secrets",
+              "security",
+              "ui"
+            ],
+            "details": {
+              "security_requirements": []
+            },
+            "errors": []
+          },
+          {
+            "schema": "hhy.hard-protection/v5.0",
+            "status": "PASS",
+            "task_id": "TASK-R14-RECOVERY-006",
+            "release": "R14",
+            "profile": "candidate",
+            "risks": [
+              "apk_identity",
+              "contract",
+              "database",
+              "production",
+              "secrets",
+              "security",
+              "ui"
+            ],
+            "details": {
+              "security_requirements": []
+            },
+            "errors": []
+          },
+          {
+            "schema": "hhy.hard-protection/v5.0",
+            "status": "PASS",
+            "task_id": "TASK-R14-RECOVERY-007",
+            "release": "R14",
+            "profile": "candidate",
+            "risks": [
+              "apk_identity",
+              "contract",
+              "database",
+              "production",
+              "secrets",
+              "security",
+              "ui"
+            ],
+            "details": {
+              "security_requirements": []
+            },
+            "errors": []
+          },
+          {
+            "schema": "hhy.hard-protection/v5.0",
+            "status": "PASS",
+            "task_id": "TASK-R14-RECOVERY-008",
+            "release": "R14",
+            "profile": "candidate",
+            "risks": [
+              "apk_identity",
+              "contract",
+              "database",
+              "production",
+              "secrets",
+              "security",
+              "ui"
+            ],
+            "details": {
+              "security_requirements": []
+            },
+            "errors": []
+          },
+          {
+            "schema": "hhy.hard-protection/v5.0",
+            "status": "PASS",
+            "task_id": "TASK-R14-RECOVERY-009",
+            "release": "R14",
+            "profile": "candidate",
+            "risks": [
+              "apk_identity",
+              "contract",
+              "database",
+              "production",
+              "secrets",
+              "security",
+              "ui"
+            ],
+            "details": {
+              "security_requirements": []
+            },
+            "errors": []
+          },
+          {
+            "schema": "hhy.hard-protection/v5.0",
+            "status": "PASS",
+            "task_id": "TASK-R14-RECOVERY-010",
+            "release": "R14",
+            "profile": "candidate",
+            "risks": [
+              "apk_identity",
+              "contract",
+              "database",
+              "production",
+              "secrets",
+              "security",
+              "ui"
+            ],
+            "details": {
+              "security_requirements": []
+            },
+            "errors": []
+          },
+          {
+            "schema": "hhy.hard-protection/v5.0",
+            "status": "PASS",
+            "task_id": "TASK-R14-RECOVERY-011",
+            "release": "R14",
+            "profile": "candidate",
+            "risks": [
+              "apk_identity",
+              "contract",
+              "database",
+              "production",
+              "secrets",
+              "security",
+              "ui"
+            ],
+            "details": {
+              "security_requirements": []
+            },
+            "errors": []
+          },
+          {
+            "schema": "hhy.hard-protection/v5.0",
+            "status": "PASS",
+            "task_id": "TASK-R14-RECOVERY-012",
+            "release": "R14",
+            "profile": "candidate",
+            "risks": [
+              "apk_identity",
+              "contract",
+              "database",
+              "production",
+              "secrets",
+              "security",
+              "ui"
+            ],
+            "details": {
+              "security_requirements": []
+            },
+            "errors": []
+          },
+          {
+            "schema": "hhy.hard-protection/v5.0",
+            "status": "PASS",
+            "task_id": "TASK-R14-RECOVERY-013",
+            "release": "R14",
+            "profile": "candidate",
+            "risks": [
+              "apk_identity",
+              "contract",
+              "database",
+              "production",
+              "secrets",
+              "security",
+              "ui"
+            ],
+            "details": {
+              "security_requirements": []
+            },
+            "errors": []
+          },
+          {
+            "schema": "hhy.hard-protection/v5.0",
+            "status": "PASS",
+            "task_id": "TASK-R14-RECOVERY-014",
+            "release": "R14",
+            "profile": "candidate",
+            "risks": [
+              "apk_identity",
+              "contract",
+              "database",
+              "production",
+              "secrets",
+              "security",
+              "ui"
+            ],
+            "details": {
+              "security_requirements": []
+            },
+            "errors": []
+          },
+          {
+            "schema": "hhy.hard-protection/v5.0",
+            "status": "PASS",
+            "task_id": "TASK-R14-RECOVERY-015",
+            "release": "R14",
+            "profile": "candidate",
+            "risks": [
+              "apk_identity",
+              "contract",
+              "database",
+              "production",
+              "secrets",
+              "security",
+              "ui"
+            ],
+            "details": {
+              "security_requirements": []
+            },
+            "errors": []
+          },
+          {
+            "schema": "hhy.hard-protection/v5.0",
+            "status": "PASS",
+            "task_id": "TASK-R14-RECOVERY-016",
+            "release": "R14",
+            "profile": "candidate",
+            "risks": [
+              "apk_identity",
+              "contract",
+              "database",
+              "production",
+              "secrets",
+              "security",
+              "ui"
+            ],
+            "details": {
+              "security_requirements": []
+            },
+            "errors": []
+          }
+        ]
+      }
+    },
+    {
+      "id": "documentation",
+      "status": "PASS",
+      "detail": {
+        "status": "PASS",
+        "exit_code": 0,
+        "command": [
+          "python3",
+          "scripts/check_v123_documentation.py"
+        ],
+        "stdout_tail": "{\n  \"version\": \"1.2.3\",\n  \"product_spec_baseline\": \"V1.2.2\",\n  \"status\": \"PASS\",\n  \"strict\": false,\n  \"release_filter\": null,\n  \"metrics\": {\n    \"android_surfaces\": 102,\n    \"h5_pages\": 13,\n    \"admin_pages\": 74,\n    \"ui_surfaces\": 189,\n    \"templates\": 30,\n    \"fields\": 5143,\n    \"states\": 1628,\n    \"actions\": 609,\n    \"configs\": 319,\n    \"config_rules\": 58,\n    \"config_roles\": 21,\n    \"requirements\": 84,\n    \"tests\": 376,\n    \"stories\": 163,\n    \"dor_gates\": 396,\n    \"tables\": 203,\n    \"rest_operations\": 319,\n    \"websocket_events\": 12,\n    \"unassigned_api_operations\": 0,\n    \"open_document_gaps\": 0\n  },\n  \"errors\": [],\n  \"warnings\": []\n}\n",
+        "stderr_tail": ""
+      }
+    },
+    {
+      "id": "api_contract",
+      "status": "PASS",
+      "detail": {
+        "status": "PASS",
+        "exit_code": 0,
+        "command": [
+          "python3",
+          "scripts/check_api_contract.py"
+        ],
+        "stdout_tail": "API_CONTRACT_OK client=131 admin=184 websocket=12 runtime_hashes=PASS\n",
+        "stderr_tail": ""
+      }
+    },
+    {
+      "id": "database_schema",
+      "status": "PASS",
+      "detail": {
+        "status": "PASS",
+        "exit_code": 0,
+        "command": [
+          "python3",
+          "scripts/check_db_schema.py"
+        ],
+        "stdout_tail": "DB_SCHEMA_OK tables=203 migrations=47 runtime_hashes=PASS\n",
+        "stderr_tail": ""
+      }
+    },
+    {
+      "id": "ui_tokens",
+      "status": "PASS",
+      "detail": {
+        "status": "PASS",
+        "exit_code": 0,
+        "command": [
+          "python3",
+          "scripts/check_ui_tokens.py"
+        ],
+        "stdout_tail": "UI_TOKENS_OK 52\n",
+        "stderr_tail": ""
+      }
+    },
+    {
+      "id": "visual_contract",
+      "status": "PASS",
+      "detail": {
+        "status": "PASS",
+        "exit_code": 0,
+        "command": [
+          "python3",
+          "scripts/check_ui_visual_acceptance.py",
+          "--release",
+          "R14"
+        ],
+        "stdout_tail": "UI_VISUAL_ACCEPTANCE_OK R14 pages=6\n",
+        "stderr_tail": ""
+      }
+    },
+    {
+      "id": "web_tests",
+      "status": "PASS",
+      "detail": {
+        "status": "PASS",
+        "exit_code": 0,
+        "command": [
+          "pnpm",
+          "test"
+        ],
+        "stdout_tail": "Scope: 5 of 6 workspace projects\npackages/api-client test$ vitest run --passWithNoTests\npackages/design-tokens test$ node -e \"process.exit(0)\"\npackages/domain-types test$ vitest run --passWithNoTests\npackages/design-tokens test: Done\npackages/api-client test: \u001b[1m\u001b[30m\u001b[46m RUN \u001b[49m\u001b[39m\u001b[22m \u001b[36mv4.1.10 \u001b[39m\u001b[90m/root/hhy-r14-candidate-de01f5ad-exact/packages/api-client\u001b[39m\npackages/domain-types test: \u001b[1m\u001b[30m\u001b[46m RUN \u001b[49m\u001b[39m\u001b[22m \u001b[36mv4.1.10 \u001b[39m\u001b[90m/root/hhy-r14-candidate-de01f5ad-exact/packages/domain-types\u001b[39m\npackages/api-client test: No test files found, exiting with code 0\npackages/api-client test: \u001b[2minclude: \u001b[22m\u001b[33m**/*.{test,spec}.?(c|m)[jt]s?(x)\u001b[39m\npackages/api-client test: \u001b[2mexclude:  \u001b[22m\u001b[33m**/node_modules/**\u001b[2m, \u001b[22m**/.git/**\u001b[39m\npackages/domain-types test: No test files found, exiting with code 0\npackages/domain-types test: \u001b[2minclude: \u001b[22m\u001b[33m**/*.{test,spec}.?(c|m)[jt]s?(x)\u001b[39m\npackages/domain-types test: \u001b[2mexclude:  \u001b[22m\u001b[33m**/node_modules/**\u001b[2m, \u001b[22m**/.git/**\u001b[39m\npackages/api-client test: Done\npackages/domain-types test: Done\napps/admin-web test$ vitest run\napps/h5 test$ vitest run\napps/admin-web test: \u001b[1m\u001b[30m\u001b[46m RUN \u001b[49m\u001b[39m\u001b[22m \u001b[36mv4.1.10 \u001b[39m\u001b[90m/root/hhy-r14-candidate-de01f5ad-exact/apps/admin-web\u001b[39m\napps/h5 test: \u001b[1m\u001b[30m\u001b[46m RUN \u001b[49m\u001b[39m\u001b[22m \u001b[36mv4.1.10 \u001b[39m\u001b[90m/root/hhy-r14-candidate-de01f5ad-exact/apps/h5\u001b[39m\napps/h5 test:  \u001b[32m✓\u001b[39m src/services/inviteRegistration.test.ts \u001b[2m(\u001b[22m\u001b[2m4 tests\u001b[22m\u001b[2m)\u001b[22m\u001b[32m 208\u001b[2mms\u001b[22m\u001b[39m\napps/h5 test:  \u001b[32m✓\u001b[39m src/services/identityCallback.test.ts \u001b[2m(\u001b[22m\u001b[2m2 tests\u001b[22m\u001b[2m)\u001b[22m\u001b[32m 239\u001b[2mms\u001b[22m\u001b[39m\napps/h5 test:  \u001b[32m✓\u001b[39m src/catalog.test.ts \u001b[2m(\u001b[22m\u001b[2m1 test\u001b[22m\u001b[2m)\u001b[22m\u001b[32m 12\u001b[2mms\u001b[22m\u001b[39m\napps/admin-web test:  \u001b[32m✓\u001b[39m src/services/adminReviews.test.ts \u001b[2m(\u001b[22m\u001b[2m5 tests\u001b[22m\u001b[2m)\u001b[22m\u001b[32m 131\u001b[2mms\u001b[22m\u001b[39m\napps/admin-web test:  \u001b[32m✓\u001b[39m src/services/adminSecurity.test.ts \u001b[2m(\u001b[22m\u001b[2m14 tests\u001b[22m\u001b[2m)\u001b[22m\u001b[33m 445\u001b[2mms\u001b[22m\u001b[39m\napps/admin-web test:      \u001b[33m\u001b[2m✓\u001b[22m\u001b[39m retries the read-only security overview twice after transient network failures \u001b[33m 312\u001b[2mms\u001b[22m\u001b[39m\napps/admin-web test:  \u001b[32m✓\u001b[39m src/services/adminUsers.test.ts \u001b[2m(\u001b[22m\u001b[2m5 tests\u001b[22m\u001b[2m)\u001b[22m\u001b[32m 91\u001b[2mms\u001b[22m\u001b[39m\napps/h5 test:  \u001b[32m✓\u001b[39m src/views/IdentityCallbackPage.test.ts \u001b[2m(\u001b[22m\u001b[2m8 tests\u001b[22m\u001b[2m)\u001b[22m\u001b[32m 135\u001b[2mms\u001b[22m\u001b[39m\napps/admin-web test:  \u001b[32m✓\u001b[39m src/r03DomainPage.test.ts \u001b[2m(\u001b[22m\u001b[2m6 tests\u001b[22m\u001b[2m)\u001b[22m\u001b[33m 311\u001b[2mms\u001b[22m\u001b[39m\napps/h5 test: \u001b[90mstderr\u001b[2m | src/services/publicShare.test.ts\u001b[2m > \u001b[22m\u001b[2mPublicShareApi\u001b[2m > \u001b[22m\u001b[2mrenders real public project blocks and the protected-action explanation\napps/h5 test: \u001b[22m\u001b[39m[Vue Router warn]: No match found for location with path \"/\"\napps/h5 test: \u001b[90mstderr\u001b[2m | src/services/publicShare.test.ts\u001b[2m > \u001b[22m\u001b[2mPublicShareApi\u001b[2m > \u001b[22m\u001b[2mrenders App external actions from frozen navigation targets without pretending they are platform APKs\napps/h5 test: \u001b[22m\u001b[39m[Vue Router warn]: No match found for location with path \"/\"\napps/h5 test: \u001b[90mstderr\u001b[2m | src/services/publicShare.test.ts\u001b[2m > \u001b[22m\u001b[2mPublicShareApi\u001b[2m > \u001b[22m\u001b[2mrenders the group share identity without exposing protected join facts or unsafe actions\napps/h5 test: \u001b[22m\u001b[39m[Vue Router warn]: No match found for location with path \"/\"\napps/h5 test: \u001b[90mstderr\u001b[2m | src/services/publicShare.test.ts\u001b[2m > \u001b[22m\u001b[2mPublicShareApi\u001b[2m > \u001b[22m\u001b[2mrenders an explicit expired state without leaking backend details\napps/h5 test: \u001b[22m\u001b[39m[Vue Router warn]: No match found for location with path \"/\"\napps/h5 test:  \u001b[32m✓\u001b[39m src/services/publicShare.test.ts \u001b[2m(\u001b[22m\u001b[2m7 tests\u001b[22m\u001b[2m)\u001b[22m\u001b[33m 306\u001b[2mms\u001b[22m\u001b[39m\napps/admin-web test:  \u001b[32m✓\u001b[39m src/r03ProviderPage.test.ts \u001b[2m(\u001b[22m\u001b[2m9 tests\u001b[22m\u001b[2m)\u001b[22m\u001b[33m 588\u001b[2mms\u001b[22m\u001b[39m\napps/admin-web test:  \u001b[32m✓\u001b[39m src/r16CommerceOrders.test.ts \u001b[2m(\u001b[22m\u001b[2m4 tests\u001b[22m\u001b[2m)\u001b[22m\u001b[33m 463\u001b[2mms\u001b[22m\u001b[39m\napps/admin-web test:  \u001b[32m✓\u001b[39m src/r12ReviewWorkbench.test.ts \u001b[2m(\u001b[22m\u001b[2m5 tests\u001b[22m\u001b[2m)\u001b[22m\u001b[33m 751\u001b[2mms\u001b[22m\u001b[39m\napps/h5 test:  \u001b[32m✓\u001b[39m src/views/InviteRegistrationPage.test.ts \u001b[2m(\u001b[22m\u001b[2m7 tests\u001b[22m\u001b[2m)\u001b[22m\u001b[33m 435\u001b[2mms\u001b[22m\u001b[39m\napps/h5 test: \u001b[2m Test Files \u001b[22m \u001b[1m\u001b[32m6 passed\u001b[39m\u001b[22m\u001b[90m (6)\u001b[39m\napps/h5 test: \u001b[2m      Tests \u001b[22m \u001b[1m\u001b[32m29 passed\u001b[39m\u001b[22m\u001b[90m (29)\u001b[39m\napps/h5 test: \u001b[2m   Start at \u001b[22m 09:51:30\napps/h5 test: \u001b[2m   Duration \u001b[22m 7.15s\u001b[2m (transform 10.90s, setup 0ms, import 13.24s, tests 1.34s, environment 9.86s)\u001b[22m\napps/h5 test: Done\napps/admin-web test:  \u001b[32m✓\u001b[39m src/services/adminIdentities.test.ts \u001b[2m(\u001b[22m\u001b[2m5 tests\u001b[22m\u001b[2m)\u001b[22m\u001b[32m 85\u001b[2mms\u001b[22m\u001b[39m\napps/admin-web test:  \u001b[32m✓\u001b[39m src/services/adminProviderConfigs.test.ts \u001b[2m(\u001b[22m\u001b[2m4 tests\u001b[22m\u001b[2m)\u001b[22m\u001b[32m 75\u001b[2mms\u001b[22m\u001b[39m\napps/admin-web test:  \u001b[32m✓\u001b[39m src/services/adminDomains.test.ts \u001b[2m(\u001b[22m\u001b[2m4 tests\u001b[22m\u001b[2m)\u001b[22m\u001b[32m 101\u001b[2mms\u001b[22m\u001b[39m\napps/admin-web test:  \u001b[32m✓\u001b[39m src/r05IdentityPages.test.ts \u001b[2m(\u001b[22m\u001b[2m5 tests\u001b[22m\u001b[2m)\u001b[22m\u001b[33m 363\u001b[2mms\u001b[22m\u001b[39m\napps/admin-web test:  \u001b[32m✓\u001b[39m src/services/adminOrders.test.ts \u001b[2m(\u001b[22m\u001b[2m3 tests\u001b[22m\u001b[2m)\u001b[22m\u001b[32m 140\u001b[2mms\u001b[22m\u001b[39m\napps/admin-web test:  \u001b[32m✓\u001b[39m src/r09AppReuse.test.ts \u001b[2m(\u001b[22m\u001b[2m2 tests\u001b[22m\u001b[2m)\u001b[22m\u001b[32m 267\u001b[2mms\u001b[22m\u001b[39m\napps/admin-web test:  \u001b[32m✓\u001b[39m src/r01Pages.test.ts \u001b[2m(\u001b[22m\u001b[2m21 tests\u001b[22m\u001b[2m)\u001b[22m\u001b[33m 802\u001b[2mms\u001b[22m\u001b[39m\napps/admin-web test:  \u001b[32m✓\u001b[39m src/services/adminContents.test.ts \u001b[2m(\u001b[22m\u001b[2m3 tests\u001b[22m\u001b[2m)\u001b[22m\u001b[32m 89\u001b[2mms\u001b[22m\u001b[39m\napps/admin-web test:  \u001b[32m✓\u001b[39m src/r08ProjectReuse.test.ts \u001b[2m(\u001b[22m\u001b[2m2 tests\u001b[22m\u001b[2m)\u001b[22m\u001b[32m 208\u001b[2mms\u001b[22m\u001b[39m\napps/admin-web test:  \u001b[32m✓\u001b[39m src/r06ContentPages.test.ts \u001b[2m(\u001b[22m\u001b[2m3 tests\u001b[22m\u001b[2m)\u001b[22m\u001b[32m 161\u001b[2mms\u001b[22m\u001b[39m\napps/admin-web test:  \u001b[32m✓\u001b[39m src/services/adminSession.test.ts \u001b[2m(\u001b[22m\u001b[2m4 tests\u001b[22m\u001b[2m)\u001b[22m\u001b[32m 18\u001b[2mms\u001b[22m\u001b[39m\napps/admin-web test:  \u001b[32m✓\u001b[39m src/services/adminProviderCertificates.test.ts \u001b[2m(\u001b[22m\u001b[2m3 tests\u001b[22m\u001b[2m)\u001b[22m\u001b[32m 138\u001b[2mms\u001b[22m\u001b[39m\napps/admin-web test:  \u001b[32m✓\u001b[39m src/indexHtml.test.ts \u001b[2m(\u001b[22m\u001b[2m2 tests\u001b[22m\u001b[2m)\u001b[22m\u001b[32m 32\u001b[2mms\u001b[22m\u001b[39m\napps/admin-web test:  \u001b[32m✓\u001b[39m src/r02UsersPage.test.ts \u001b[2m(\u001b[22m\u001b[2m1 test\u001b[22m\u001b[2m)\u001b[22m\u001b[32m 237\u001b[2mms\u001b[22m\u001b[39m\napps/admin-web test:  \u001b[32m✓\u001b[39m src/routerPermissions.test.ts \u001b[2m(\u001b[22m\u001b[2m3 tests\u001b[22m\u001b[2m)\u001b[22m\u001b[32m 10\u001b[2mms\u001b[22m\u001b[39m\napps/admin-web test:  \u001b[32m✓\u001b[39m src/catalog.test.ts \u001b[2m(\u001b[22m\u001b[2m1 test\u001b[22m\u001b[2m)\u001b[22m\u001b[32m 18\u001b[2mms\u001b[22m\u001b[39m\napps/admin-web test:  \u001b[32m✓\u001b[39m src/adminNavigation.test.ts \u001b[2m(\u001b[22m\u001b[2m4 tests\u001b[22m\u001b[2m)\u001b[22m\u001b[32m 20\u001b[2mms\u001b[22m\u001b[39m\napps/admin-web test:  \u001b[32m✓\u001b[39m src/r11TeamLeaderReuse.test.ts \u001b[2m(\u001b[22m\u001b[2m1 test\u001b[22m\u001b[2m)\u001b[22m\u001b[32m 106\u001b[2mms\u001b[22m\u001b[39m\napps/admin-web test:  \u001b[32m✓\u001b[39m src/App.test.ts \u001b[2m(\u001b[22m\u001b[2m1 test\u001b[22m\u001b[2m)\u001b[22m\u001b[32m 149\u001b[2mms\u001b[22m\u001b[39m\napps/admin-web test:  \u001b[32m✓\u001b[39m src/r10GroupReuse.test.ts \u001b[2m(\u001b[22m\u001b[2m1 test\u001b[22m\u001b[2m)\u001b[22m\u001b[32m 95\u001b[2mms\u001b[22m\u001b[39m\napps/admin-web test: \u001b[2m Test Files \u001b[22m \u001b[1m\u001b[32m27 passed\u001b[39m\u001b[22m\u001b[90m (27)\u001b[39m\napps/admin-web test: \u001b[2m      Tests \u001b[22m \u001b[1m\u001b[32m121 passed\u001b[39m\u001b[22m\u001b[90m (121)\u001b[39m\napps/admin-web test: \u001b[2m   Start at \u001b[22m 09:51:30\napps/admin-web test: \u001b[2m   Duration \u001b[22m 12.75s\u001b[2m (transform 19.58s, setup 0ms, import 28.31s, tests 5.89s, environment 32.48s)\u001b[22m\napps/admin-web test: Done\n",
+        "stderr_tail": "$ pnpm --recursive test\n"
+      }
+    },
+    {
+      "id": "r14_specialized_matrix",
+      "status": "PASS",
+      "detail": {
+        "status": "PASS",
+        "exit_code": 0,
+        "command": [
+          "python3",
+          "scripts/run_r14_specialized_matrix.py"
+        ],
+        "stdout_tail": "{\n  \"schema\": \"hhy.r14.specialized-matrix-result/v1\",\n  \"release\": \"R14\",\n  \"executed\": false,\n  \"status\": \"PASS\",\n  \"test_count\": 6,\n  \"test_ids\": [\n    \"TST-CHAT_001-HAPPY\",\n    \"TST-CHAT_001-IDEMPOTENT\",\n    \"TST-CHAT_001-REJECT\",\n    \"TST-CHAT_002-HAPPY\",\n    \"TST-CHAT_002-IDEMPOTENT\",\n    \"TST-CHAT_002-REJECT\"\n  ],\n  \"errors\": []\n}\n",
+        "stderr_tail": ""
+      }
+    },
+    {
+      "id": "r14_database_invariants",
+      "status": "PASS",
+      "detail": {
+        "status": "PASS",
+        "exit_code": 0,
+        "command": [
+          "bash",
+          "scripts/run_r14_database_invariants.sh"
+        ],
+        "stdout_tail": "R14_EMPTY_DATABASE_MIGRATION PASS state=character varying:NO|bigint:0|16\nR14_V042_UPGRADE PASS state=43001|1|2|0\nR14_DIRTY_UPGRADE_BLOCKED PASS case=missing_members marker=R14_DIRTY_UPGRADE_DIRECT_MEMBERS_MISSING\nR14_DIRTY_UPGRADE_BLOCKED PASS case=excess_members marker=R14_DIRTY_UPGRADE_DIRECT_MEMBERS_EXCESS\nR14_DIRTY_UPGRADE_BLOCKED PASS case=self_chat marker=R14_DIRTY_UPGRADE_DIRECT_SELF_CHAT\nR14_DIRTY_UPGRADE_BLOCKED PASS case=duplicate_pair marker=R14_DIRTY_UPGRADE_DUPLICATE_DIRECT_PAIR\nR14_DIRTY_UPGRADE_BLOCKED PASS case=invalid_client_message marker=R14_DIRTY_UPGRADE_INVALID_CLIENT_MESSAGE_ID\nR14_DIRTY_UPGRADE_BLOCKED PASS case=report_contract marker=R14_DIRTY_UPGRADE_REPORT_CONTRACT_MISSING\nR14_DIRTY_UPGRADE_ATOMIC_MATRIX PASS cases=6\nR14_U043_ROLLBACK_WITH_FACTS_REJECTED_ATOMICALLY PASS state=1|1|0|1\nR14_U043_ROLLBACK_V043_REPLAY PASS columns=8\nR14_U044_ROLLBACK_V044_REPLAY PASS tables=203\nR14_CHAT_INVARIANT_PROPERTY_MATRIX PASS\nR14_WEBSOCKET_RELIABILITY_INVARIANTS PASS\nR14_WS_CONCURRENT_SEQUENCE_ALLOCATION PASS state=8|8|1|8\nR14_DATABASE_INVARIANTS PASS\n",
+        "stderr_tail": "NOTICE:  database \"r14_v042_98427305\" does not exist, skipping\npsql:/root/hhy-r14-candidate-de01f5ad-exact/database/migrations/V009__v122_operational_governance.sql:31: NOTICE:  trigger \"trg_admin_sessions_updated_at\" for relation \"hhy.admin_sessions\" does not exist, skipping\npsql:/root/hhy-r14-candidate-de01f5ad-exact/database/migrations/V009__v122_operational_governance.sql:53: NOTICE:  trigger \"trg_admin_mfa_methods_updated_at\" for relation \"hhy.admin_mfa_methods\" does not exist, skipping\npsql:/root/hhy-r14-candidate-de01f5ad-exact/database/migrations/V009__v122_operational_governance.sql:121: NOTICE:  trigger \"trg_accounting_reversal_requests_updated_at\" for relation \"hhy.accounting_reversal_requests\" does not exist, skipping\npsql:/root/hhy-r14-candidate-de01f5ad-exact/database/migrations/V009__v122_operational_governance.sql:205: NOTICE:  trigger \"trg_export_jobs_updated_at\" for relation \"hhy.export_jobs\" does not exist, skipping\nNOTICE:  database \"r14_empty_98427305\" does not exist, skipping\npsql:/root/hhy-r14-candidate-de01f5ad-exact/database/migrations/V009__v122_operational_governance.sql:31: NOTICE:  trigger \"trg_admin_sessions_updated_at\" for relation \"hhy.admin_sessions\" does not exist, skipping\npsql:/root/hhy-r14-candidate-de01f5ad-exact/database/migrations/V009__v122_operational_governance.sql:53: NOTICE:  trigger \"trg_admin_mfa_methods_updated_at\" for relation \"hhy.admin_mfa_methods\" does not exist, skipping\npsql:/root/hhy-r14-candidate-de01f5ad-exact/database/migrations/V009__v122_operational_governance.sql:121: NOTICE:  trigger \"trg_accounting_reversal_requests_updated_at\" for relation \"hhy.accounting_reversal_requests\" does not exist, skipping\npsql:/root/hhy-r14-candidate-de01f5ad-exact/database/migrations/V009__v122_operational_governance.sql:205: NOTICE:  trigger \"trg_export_jobs_updated_at\" for relation \"hhy.export_jobs\" does not exist, skipping\nNOTICE:  database \"r14_upgrade_98427305\" does not exist, skipping\nNOTICE:  database \"r14_dirty_0_98427305\" does not exist, skipping\nNOTICE:  database \"r14_dirty_1_98427305\" does not exist, skipping\nNOTICE:  database \"r14_dirty_2_98427305\" does not exist, skipping\nNOTICE:  database \"r14_dirty_3_98427305\" does not exist, skipping\nNOTICE:  database \"r14_dirty_4_98427305\" does not exist, skipping\nNOTICE:  database \"r14_dirty_5_98427305\" does not exist, skipping\npsql:/root/hhy-r14-candidate-de01f5ad-exact/database/migrations/V009__v122_operational_governance.sql:31: NOTICE:  trigger \"trg_admin_sessions_updated_at\" for relation \"hhy.admin_sessions\" does not exist, skipping\npsql:/root/hhy-r14-candidate-de01f5ad-exact/database/migrations/V009__v122_operational_governance.sql:53: NOTICE:  trigger \"trg_admin_mfa_methods_updated_at\" for relation \"hhy.admin_mfa_methods\" does not exist, skipping\npsql:/root/hhy-r14-candidate-de01f5ad-exact/database/migrations/V009__v122_operational_governance.sql:121: NOTICE:  trigger \"trg_accounting_reversal_requests_updated_at\" for relation \"hhy.accounting_reversal_requests\" does not exist, skipping\npsql:/root/hhy-r14-candidate-de01f5ad-exact/database/migrations/V009__v122_operational_governance.sql:205: NOTICE:  trigger \"trg_export_jobs_updated_at\" for relation \"hhy.export_jobs\" does not exist, skipping\n"
+      }
+    },
+    {
+      "id": "release_specific_matrix_present",
+      "status": "PASS",
+      "detail": {
+        "release": "R14",
+        "found": 2
+      }
+    }
+  ]
+}

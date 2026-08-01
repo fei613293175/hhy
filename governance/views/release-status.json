@@ -1,5 +1,5 @@
 {
-  "source_revision": 92,
+  "source_revision": 93,
   "releases": [
     {
       "status": "HISTORICAL",
@@ -310,12 +310,12 @@
       }
     },
     {
-      "status": "FROZEN",
+      "status": "CANDIDATE_GREEN",
       "frozen_commit": "de01f5ad32693e845c3b4ecf6f0e034fc8792aff",
       "candidate": {
-        "status": "AUTHORIZED",
+        "status": "PASS",
         "commit": "de01f5ad32693e845c3b4ecf6f0e034fc8792aff",
-        "evidence": null
+        "evidence": "artifacts/releases/R14/CANDIDATE_EVIDENCE.json"
       },
       "owner_verification": {
         "status": "PENDING",

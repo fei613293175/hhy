@@ -1,7 +1,7 @@
 schema: hhy.governance-state/v5.0
-revision: 92
-updated_at: '2026-08-01T09:06:23.583377Z'
-state_hash: 1ad0edff03df7d5d1d269dd22acb6a451f816f5b3d46b63c7179501bab8ef650
+revision: 93
+updated_at: '2026-08-01T09:54:45.021714Z'
+state_hash: c1929f37e2075d12790ec2685e5ef87b8bc1f275966000b2a98ecb6cb26ad190
 project:
   status: ACTIVE
   branch_at_install: governance/v5.0-migration-20260731
@@ -210,12 +210,12 @@ releases:
       evidence: null
       tag: null
   R14:
-    status: FROZEN
+    status: CANDIDATE_GREEN
     frozen_commit: de01f5ad32693e845c3b4ecf6f0e034fc8792aff
     candidate:
-      status: AUTHORIZED
+      status: PASS
       commit: de01f5ad32693e845c3b4ecf6f0e034fc8792aff
-      evidence: null
+      evidence: artifacts/releases/R14/CANDIDATE_EVIDENCE.json
     owner_verification:
       status: PENDING
       evidence: null
