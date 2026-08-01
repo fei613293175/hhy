@@ -1,0 +1,41 @@
+{
+  "blocker": {
+    "code": "INFRASTRUCTURE_MAVEN_NETWORK_AND_DB_UNAVAILABLE",
+    "detail": "Targeted implementation is present and python scripts/check_db_schema.py passes, but Maven acceptance commands cannot resolve required BOM POMs because network access to Maven Central is denied. A direct PostgreSQL 17 verification attempt also could not connect to HHY_DB_MIGRATION_TEST_URL at 127.0.0.1:55432.",
+    "paths": [
+      "services/backend/pom.xml",
+      "services/backend/boot/src/test/java/cc/orbexa/hhy/R15NotificationSupportMigrationTest.java"
+    ],
+    "resolution": "Re-run the Maven acceptance commands after Maven dependencies are available in the local repository or network access is enabled, and ensure the explicitly confirmed disposable PostgreSQL 17 database is running at HHY_DB_MIGRATION_TEST_URL.",
+    "worker_result_evidence": "python scripts/check_db_schema.py => DB_SCHEMA_OK tables=203 migrations=48 runtime_hashes=PASS; mvn commands fail with Permission denied: getsockopt resolving org.springframework.boot:spring-boot-dependencies:4.1.0 and software.amazon.awssdk:bom:2.48.3; direct JDBC source-launch verifier failed with Connection refused to 127.0.0.1:55432."
+  },
+  "changed_files": [
+    "database/migrations/V048__r15_notification_support_invariants.sql",
+    "services/backend/boot/src/main/resources/db/migration/V048__r15_notification_support_invariants.sql",
+    "database/rollback/U048__r15_notification_support_invariants_DEV_ONLY.sql",
+    "database/tests/r15_notification_support_invariants.sql",
+    "docs/01-architecture/adr/ADR-010-R15通知客服数据不变量.md",
+    "services/backend/boot/src/test/java/cc/orbexa/hhy/R15NotificationSupportMigrationTest.java"
+  ],
+  "commands_run": [
+    "python tools/governance/hhy_governance.py active-task --format context",
+    "Select-String -Path \"C:\\Users\\小白\\.codex\\memories\\MEMORY.md\" -Pattern \"TASK-R15-002|R15|notifications|notification_templates|support_tickets\" -Context 2,3",
+    "Get-Content -Raw governance/runtime/ACTIVE_TASK.json",
+    "Get-Content -Raw governance/task_specs/TASK-R15-002.yaml",
+    "Get-Content -Raw docs/00-baseline/SOURCE_OF_TRUTH.md",
+    "rg --files database services/backend tests catalogs contracts docs | rg \"(migration|R15|notification|support|ticket|announcement|schema|state|trace|pom|Flyway|V[0-9].*__)\"",
+    "rg -n \"notification|announcement|support_ticket|ticket_message|push_token|RESOLVED|CLOSED|idempot|legacy\" database services/backend tests catalogs contracts docs",
+    "python scripts/check_db_schema.py",
+    "Get-FileHash database/migrations/V048__r15_notification_support_invariants.sql,services/backend/boot/src/main/resources/db/migration/V048__r15_notification_support_invariants.sql -Algorithm SHA256 | Format-Table -AutoSize",
+    "mvn -q -f services/backend/pom.xml -DskipTests install",
+    "mvn -o -q -f services/backend/pom.xml -DskipTests install",
+    "java -cp \"$env:USERPROFILE\\.m2\\repository\\org\\postgresql\\postgresql\\42.7.11\\postgresql-42.7.11.jar\" tests/R15SqlVerifier.java",
+    "mvn -q -f services/backend/pom.xml -pl boot -Dtest=R15NotificationSupportMigrationTest test",
+    "Test-Path database/migrations/V048__r15_notification_support_invariants.sql; Test-Path services/backend/boot/src/main/resources/db/migration/V048__r15_notification_support_invariants.sql; Test-Path database/rollback/U048__r15_notification_support_invariants_DEV_ONLY.sql; Test-Path database/tests/r15_notification_support_invariants.sql; Test-Path docs/01-architecture/adr/ADR-010-R15通知客服数据不变量.md; Test-Path services/backend/boot/src/test/java/cc/orbexa/hhy/R15NotificationSupportMigrationTest.java"
+  ],
+  "error_fingerprint": "MAVEN_CENTRAL_PERMISSION_DENIED_GETSOCKOPT_AND_POSTGRES_127001_55432_CONNECTION_REFUSED",
+  "schema": "hhy.worker-result/v5.0",
+  "status": "INFRASTRUCTURE_BLOCKED",
+  "summary": "Implemented the R15 alternative forward hardening path: V048 adds idempotency columns, unique constraints, status guards/history, legacy-write rejection, immutable ticket message identity, DEV/TEST rollback, SQL invariant matrix, ADR note, and R15NotificationSupportMigrationTest. Static DB schema validation passed and root/runtime migration hashes match, but full Maven and live PostgreSQL acceptance could not complete due infrastructure blockers.",
+  "task_id": "TASK-R15-002"
+}

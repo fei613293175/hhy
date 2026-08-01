@@ -1,0 +1,27 @@
+{
+  "schema": "hhy.unblock-evidence/v5.0",
+  "status": "PASS",
+  "resolved": true,
+  "task_id": "TASK-R15-002",
+  "blocker_code": "INFRASTRUCTURE_MAVEN_NETWORK_AND_DB_UNAVAILABLE",
+  "resolution": {
+    "workspace_write_network_access": true,
+    "workspace_write_writable_root": "C:\\Users\\小白\\.m2",
+    "maven_cache": "Apache Maven 3.9.11 and required BOM POMs present",
+    "postgres_tunnel": "Keepalive SSH tunnel from 127.0.0.1:55432 to disposable PostgreSQL 17.10 on obx-test",
+    "production_data_used": false
+  },
+  "verification": {
+    "codex_workspace_write_tcp_127_0_0_1_55432": "PASS",
+    "codex_workspace_write_get_command_mvn": "PASS",
+    "codex_workspace_write_maven_offline_version": "PASS",
+    "maven_version": "3.9.11",
+    "java_version": "21.0.12",
+    "postgres_version": "17.10"
+  },
+  "required_environment": {
+    "HHY_DB_MIGRATION_TEST_URL": "jdbc:postgresql://127.0.0.1:55432/postgres",
+    "HHY_DB_MIGRATION_TEST_USER": "postgres",
+    "HHY_DB_SMOKE_CONFIRM": "YES"
+  }
+}
