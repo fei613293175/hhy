@@ -1,9 +1,9 @@
 schema: hhy.governance-state/v5.0
-revision: 127
-updated_at: '2026-08-01T21:50:27.285301Z'
-state_hash: 9c26aa5adf7c716995dae9796a1eea033f355a647e1adbfc812677b757d21692
+revision: 128
+updated_at: '2026-08-01T22:25:35.806297Z'
+state_hash: 4b4569821342781004d6dd82b33832654f6235121f28fca11db2d2307dd5e1ce
 project:
-  status: ACTIVE
+  status: INFRASTRUCTURE_BLOCKED
   branch_at_install: governance/v5.0-migration-20260731
   migration_baseline_commit: ea64d82fab9ed3d1952ab7d3c0d2286051390b59
   migration_commit: 8beafc2a0e115345c554abc0bdc199ef92534106
@@ -2833,10 +2833,21 @@ tasks:
     last_gate_evidence: null
     blocker: null
   TASK-R15-RECOVERY-005:
-    status: READY
+    status: INFRASTRUCTURE_BLOCKED
     attempts_used: 0
     current_attempt: null
     last_error_fingerprint: null
     last_candidate_commit: null
     last_gate_evidence: null
-    blocker: null
+    blocker:
+      code: PYTHON_INTERPRETER_NOT_FOUND
+      detail: Implemented the R15 route-conflict fix and targeted Java verification passed, but the required acceptance command
+        `python3 scripts/check_api_contract.py` could not be executed because `python3`, `python`, `py`, and bash are not
+        available on PATH and no local repo Python executable was found.
+      paths:
+      - scripts/check_api_contract.py
+      resolution: Expose/install a Python 3 interpreter as `python3` in this Worker environment, then rerun `python3 scripts/check_api_contract.py`.
+      worker_result_evidence: '`python3 tools/governance/hhy_governance.py active-task --format context`, `python tools/governance/hhy_governance.py
+        active-task --format context`, and `py -3 tools/governance/hhy_governance.py active-task --format context` all failed
+        with command-not-found. `where.exe python` and `where.exe python3` found no interpreter. Targeted Maven test command
+        passed: 13 tests, 0 failures, 0 errors.'

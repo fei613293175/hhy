@@ -1,0 +1,60 @@
+{
+  "blocker": {
+    "code": "PYTHON_INTERPRETER_NOT_FOUND",
+    "detail": "Implemented the R15 route-conflict fix and targeted Java verification passed, but the required acceptance command `python3 scripts/check_api_contract.py` could not be executed because `python3`, `python`, `py`, and bash are not available on PATH and no local repo Python executable was found.",
+    "paths": [
+      "scripts/check_api_contract.py"
+    ],
+    "resolution": "Expose/install a Python 3 interpreter as `python3` in this Worker environment, then rerun `python3 scripts/check_api_contract.py`.",
+    "worker_result_evidence": "`python3 tools/governance/hhy_governance.py active-task --format context`, `python tools/governance/hhy_governance.py active-task --format context`, and `py -3 tools/governance/hhy_governance.py active-task --format context` all failed with command-not-found. `where.exe python` and `where.exe python3` found no interpreter. Targeted Maven test command passed: 13 tests, 0 failures, 0 errors."
+  },
+  "changed_files": [
+    "services/backend/content/src/main/java/cc/orbexa/hhy/content/R15NotificationSupportContracts.java",
+    "services/backend/content/src/main/java/cc/orbexa/hhy/content/R15NotificationSupportService.java",
+    "services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/R15NotificationSupportController.java",
+    "services/backend/boot/src/main/java/cc/orbexa/hhy/boot/admin/R15AdminSupportController.java",
+    "services/backend/boot/src/test/java/cc/orbexa/hhy/boot/R15OperationCoverageTest.java",
+    "services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/UserSelfServiceController.java",
+    "services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthStore.java",
+    "services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentContracts.java",
+    "services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentStore.java",
+    "services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentPostgresStore.java",
+    "services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentService.java",
+    "services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/ContentController.java",
+    "services/backend/content/src/main/java/cc/orbexa/hhy/content/R12ReviewStore.java",
+    "services/backend/content/src/main/java/cc/orbexa/hhy/content/R12ReviewPostgresStore.java",
+    "services/backend/content/src/main/java/cc/orbexa/hhy/content/R12ReviewService.java",
+    "services/backend/boot/src/main/java/cc/orbexa/hhy/boot/admin/R12ReviewController.java",
+    "services/backend/boot/src/test/java/cc/orbexa/hhy/boot/admin/R12ReviewControllerContractTest.java",
+    "services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/R13Controller.java",
+    "services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/R13ControllerContractTest.java"
+  ],
+  "commands_run": [
+    "python3 tools/governance/hhy_governance.py active-task --format context",
+    "python tools/governance/hhy_governance.py active-task --format context",
+    "py -3 tools/governance/hhy_governance.py active-task --format context",
+    "Get-Content -Path \"governance/runtime/ACTIVE_TASK.json\"",
+    "Get-Content -Path \"services/backend/boot/target/surefire-reports/cc.orbexa.hhy.access.user.UserSecurityWebSecurityTest.txt\" -TotalCount 240",
+    "rg -n \"@(Get|Post|Delete|Patch|Put)Mapping|RequestMapping|/api/v1/\" \"services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/R13Controller.java\" \"services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user\"",
+    "Get-Content -Path \"services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/R13Controller.java\"",
+    "Get-Content -Path \"services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/ContentController.java\"",
+    "rg -n \"contentPostContentsByIdInvalidFeedback|invalid-feedback|InvalidFeedback\" \"contracts\" \"catalogs\" \"docs\" \"services/backend\" \"tests\"",
+    "Get-Content -Path \"services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/R13ControllerContractTest.java\"",
+    "Get-Content -Path \"services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/ContentControllerContractTest.java\"",
+    "Get-Content -Path \"services/backend/boot/src/test/java/cc/orbexa/hhy/boot/R15OperationCoverageTest.java\"",
+    "rg -n 'PostMapping\\(\"/api/v1/contents/\\{id\\}/invalid-feedback\"\\)|contentPostContentsByIdInvalidFeedback' services/backend/boot/src/main/java services/backend/boot/src/test/java",
+    "mvn -pl boot -am \"-Dtest=R15OperationCoverageTest,R12ReviewControllerContractTest,ContentControllerContractTest,R14ControllerContractTest,R13ControllerContractTest,UserSecurityWebSecurityTest\" \"-Dsurefire.failIfNoSpecifiedTests=false\" test",
+    "where.exe python",
+    "where.exe python3",
+    "Get-Command python3, python, py, uv -ErrorAction SilentlyContinue | Select-Object Name,Source",
+    "where.exe bash",
+    "rg --files -g python.exe -g python3.exe .",
+    "mvn -pl boot -am -DskipTests compile",
+    "Get-Content -Path \"scripts/check_api_contract.py\" -TotalCount 80"
+  ],
+  "error_fingerprint": "PYTHON_INTERPRETER_NOT_FOUND_FOR_ACCEPTANCE",
+  "schema": "hhy.worker-result/v5.0",
+  "status": "INFRASTRUCTURE_BLOCKED",
+  "summary": "TASK-R15-RECOVERY-005 product/test changes were implemented in allowed paths. The duplicate `POST /api/v1/contents/{id}/invalid-feedback` Spring mapping was fixed by keeping the canonical ContentController endpoint and removing the duplicate R13Controller mapping; the R13 contract test was updated accordingly. Focused verification passed: Maven compile succeeded and the targeted controller/security/R15 coverage test set passed with 13 tests, 0 failures, 0 errors. Candidate readiness is blocked only because the required Python acceptance command cannot run in this Worker environment.",
+  "task_id": "TASK-R15-RECOVERY-005"
+}
