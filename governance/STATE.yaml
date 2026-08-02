@@ -1,15 +1,15 @@
 schema: hhy.governance-state/v5.0
-revision: 136
-updated_at: '2026-08-02T01:57:16.436252Z'
-state_hash: 0b38220d5cf536a787c6af1458e85e4049dcc26cacc9196ee307ffbea753081c
+revision: 137
+updated_at: '2026-08-02T02:13:41.168539Z'
+state_hash: 2f2d16079d2e6d9a895fa2e532e7263bac73b2799bdf3444733add7f1443eb1a
 project:
-  status: FAILED_BOUNDED
+  status: ACTIVE
   branch_at_install: governance/v5.0-migration-20260731
   migration_baseline_commit: ea64d82fab9ed3d1952ab7d3c0d2286051390b59
   migration_commit: 8beafc2a0e115345c554abc0bdc199ef92534106
-  authoritative_commit: d4b6282d0b9dbb0c1ce9e0bb6e58a6784c6bbd59
+  authoritative_commit: 6b8a745edd68077fc22ab25701c31d07ea38276a
   active_release: R15
-  active_task: null
+  active_task: TASK-R15-RECOVERY-007
   goal_complete: false
 lease: null
 releases:
@@ -2898,6 +2898,14 @@ tasks:
       "services/backend/boot/src/main/java/cc/orbexa/hhy/boot/admin/R15SupportAdminController.java", "requirement_ref": "TASK-R15-RECOVERY-006:
       权限/幂等/错误码/审计覆盖", "severity": "HIGH"}], "schema": "hhy.reviewer-result/v5.0", "status": "BLOCK", "summary": "候选不满足 TASK-R15-RECOVERY-006。审查未发现该
       diff 删除或跳过既有测试，但新增静态 guard 只做文本匹配，未覆盖上述契约、数据库、权限和幂等问题。", "task_id": "TASK-R15-RECOVERY-006"}'
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R15-RECOVERY-007:
+    status: READY
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
     last_candidate_commit: null
     last_gate_evidence: null
     blocker: null

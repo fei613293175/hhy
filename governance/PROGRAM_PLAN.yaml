@@ -35,7 +35,7 @@ release_order:
 - R31
 - R32
 final_release: R32
-task_count: 287
+task_count: 288
 future_task_count_R15_R32: 144
 maximum_attempts_per_task: 3
 adjacent_release_only: true
@@ -206,6 +206,7 @@ release_tasks:
   - TASK-R15-RECOVERY-004
   - TASK-R15-RECOVERY-005
   - TASK-R15-RECOVERY-006
+  - TASK-R15-RECOVERY-007
   R16:
   - TASK-R16-001
   - TASK-R16-002
@@ -384,3 +385,4 @@ recovery_tasks:
 - TASK-R15-RECOVERY-004
 - TASK-R15-RECOVERY-005
 - TASK-R15-RECOVERY-006
+- TASK-R15-RECOVERY-007
