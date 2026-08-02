@@ -18,7 +18,7 @@ from jsonschema import Draft202012Validator
 from .gates import run_gate, validate_candidate_evidence
 from .state import assert_valid_state, read_state, write_state
 from .tasks import FAILED_RECOVERY_TASK_ID, REPAIR_RECOVERY_TASK_ID, load_task_specs, validate_specs
-from .util import git, git_status_lines, read_json, read_yaml, repository_lock, resolve_codex_executable, run, utc_now, write_json, write_yaml
+from .util import git, git_status_lines, read_json, read_yaml, repository_lock, resolve_codex_executable, run, run_with_progress_timeout, utc_now, write_json, write_yaml
 from .views import next_ready_task, render_views
 
 AUTH_ENV = {
@@ -37,6 +37,11 @@ EVIDENCE_PREFIXES = (
     "artifacts/releases/", "artifacts/owner/", "artifacts/production/", "artifacts/rollback/",
 )
 WORKER_FAILURE_DIR = Path("governance/runtime/supervisor/worker-failures")
+
+
+def _worker_idle_timeout(repo: Path) -> int:
+    constitution = read_yaml(repo / "governance" / "DEVELOPMENT_CONSTITUTION.yaml") or {}
+    return int((constitution.get("limits") or {}).get("worker_idle_timeout_seconds", 1800))
 
 
 def _commit_state(repo: Path, state: dict[str, Any], specs: dict[str, dict[str, Any]], message: str, extra_paths: list[str] | None = None) -> str | None:
@@ -647,7 +652,13 @@ def run_once(repo: Path, dry_run: bool = False) -> dict[str, Any]:
                 *worker_sandbox_args(), "--json", "--output-schema", str(schema_path), "-o", str(result_path), "-C", str(worktree),
                 _worker_prompt(spec, attempt),
             ]
-            worker = run(command, worktree, timeout=3600, env={"HHY_GOVERNANCE_ROLE": "WORKER"})
+            worker = run_with_progress_timeout(
+                command,
+                worktree,
+                timeout=3600,
+                idle_timeout=_worker_idle_timeout(repo),
+                env={"HHY_GOVERNANCE_ROLE": "WORKER"},
+            )
             if worker["status"] != "PASS" or not result_path.is_file():
                 first_failure = worker
                 first_diagnostic = _persist_worker_failure(repo, task_id, attempt, worker, result_path)
@@ -657,7 +668,13 @@ def run_once(repo: Path, dry_run: bool = False) -> dict[str, Any]:
                     *worker_sandbox_args(), "--json", "--output-schema", str(schema_path), "-o", str(result_path), "-C", str(worktree),
                     _worker_takeover_prompt(spec, attempt, first_failure),
                 ]
-                worker = run(takeover_command, worktree, timeout=3600, env={"HHY_GOVERNANCE_ROLE": "WORKER_TAKEOVER"})
+                worker = run_with_progress_timeout(
+                    takeover_command,
+                    worktree,
+                    timeout=3600,
+                    idle_timeout=_worker_idle_timeout(repo),
+                    env={"HHY_GOVERNANCE_ROLE": "WORKER_TAKEOVER"},
+                )
                 if worker["status"] != "PASS" or not result_path.is_file():
                     diagnostic = _persist_worker_failure(repo, task_id, attempt, worker, result_path)
                     reason = (

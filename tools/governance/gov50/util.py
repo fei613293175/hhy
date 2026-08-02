@@ -140,22 +140,29 @@ def run(command: Iterable[str], cwd: Path, timeout: int = 600, env: dict[str, st
     if env:
         merged.update(env)
     argv = resolve_runtime_command(command, merged)
+    proc = None
     try:
-        proc = subprocess.run(argv, cwd=cwd, text=True, capture_output=True, timeout=timeout, env=merged)
+        proc = subprocess.Popen(argv, cwd=cwd, text=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, env=merged)
+        stdout, stderr = proc.communicate(timeout=timeout)
         return {
             "status": "PASS" if proc.returncode == 0 else "FAIL",
             "exit_code": proc.returncode,
             "command": argv,
-            "stdout_tail": proc.stdout[-12000:],
-            "stderr_tail": proc.stderr[-12000:],
+            "stdout_tail": stdout[-12000:],
+            "stderr_tail": stderr[-12000:],
         }
     except subprocess.TimeoutExpired as exc:
+        if proc is not None:
+            _terminate_process_tree(proc)
+            stdout, stderr = proc.communicate()
+        else:
+            stdout, stderr = "", ""
         return {
             "status": "FAIL",
             "exit_code": 124,
             "command": argv,
-            "stdout_tail": (exc.stdout or "")[-12000:] if isinstance(exc.stdout, str) else "",
-            "stderr_tail": f"TIMEOUT after {timeout}s",
+            "stdout_tail": (stdout or exc.stdout or "")[-12000:] if isinstance(stdout or exc.stdout, str) else "",
+            "stderr_tail": f"TIMEOUT after {timeout}s\n{stderr[-4000:] if stderr else ''}",
         }
     except FileNotFoundError as exc:
         return {"status": "FAIL", "exit_code": 127, "command": argv, "stdout_tail": "", "stderr_tail": str(exc)}
@@ -168,6 +175,103 @@ def run(command: Iterable[str], cwd: Path, timeout: int = 600, env: dict[str, st
             "stderr_tail": str(exc),
             "error_category": "WINDOWS_ACCESS_DENIED",
         }
+
+
+def _terminate_process_tree(proc: subprocess.Popen[str]) -> None:
+    """Stop only the command tree created by this governance invocation."""
+    if os.name == "nt":
+        subprocess.run(
+            ["taskkill", "/PID", str(proc.pid), "/T", "/F"],
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL,
+            check=False,
+        )
+    else:
+        proc.kill()
+
+
+def _tree_signature(root: Path) -> str:
+    digest = hashlib.sha256()
+    if not root.exists():
+        return digest.hexdigest()
+    for directory, dirnames, filenames in os.walk(root):
+        dirnames[:] = sorted(name for name in dirnames if name not in {".git", "runtime"})
+        for name in sorted(filenames):
+            path = Path(directory) / name
+            try:
+                stat = path.stat()
+            except OSError:
+                continue
+            relative = path.relative_to(root).as_posix()
+            digest.update(f"{relative}\0{stat.st_mtime_ns}\0{stat.st_size}\n".encode("utf-8"))
+    return digest.hexdigest()
+
+
+def run_with_progress_timeout(
+    command: Iterable[str],
+    cwd: Path,
+    timeout: int = 600,
+    idle_timeout: int | None = None,
+    env: dict[str, str] | None = None,
+) -> dict[str, Any]:
+    """Run a command with a bounded no-file-progress watchdog.
+
+    The watchdog only accelerates a stalled worker; it does not change any
+    acceptance or review decision. Runtime files are excluded so result-file
+    writes cannot mask a stalled product implementation.
+    """
+    merged = os.environ.copy()
+    if env:
+        merged.update(env)
+    argv = resolve_runtime_command(command, merged)
+    started = time.monotonic()
+    last_progress = started
+    signature = _tree_signature(cwd)
+    proc = None
+    try:
+        proc = subprocess.Popen(argv, cwd=cwd, text=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, env=merged)
+        while True:
+            try:
+                proc.wait(timeout=5)
+                break
+            except subprocess.TimeoutExpired:
+                current = _tree_signature(cwd)
+                if current != signature:
+                    signature = current
+                    last_progress = time.monotonic()
+                now = time.monotonic()
+                if idle_timeout and now - last_progress >= idle_timeout:
+                    _terminate_process_tree(proc)
+                    stdout, stderr = proc.communicate()
+                    return {
+                        "status": "FAIL",
+                        "exit_code": 124,
+                        "command": argv,
+                        "stdout_tail": (stdout or "")[-12000:],
+                        "stderr_tail": f"IDLE_TIMEOUT after {idle_timeout}s without product-file progress\n{(stderr or '')[-4000:]}",
+                    }
+                if now - started >= timeout:
+                    _terminate_process_tree(proc)
+                    stdout, stderr = proc.communicate()
+                    return {
+                        "status": "FAIL",
+                        "exit_code": 124,
+                        "command": argv,
+                        "stdout_tail": (stdout or "")[-12000:],
+                        "stderr_tail": f"TIMEOUT after {timeout}s\n{(stderr or '')[-4000:]}",
+                    }
+        stdout, stderr = proc.communicate()
+        return {
+            "status": "PASS" if proc.returncode == 0 else "FAIL",
+            "exit_code": proc.returncode,
+            "command": argv,
+            "stdout_tail": (stdout or "")[-12000:],
+            "stderr_tail": (stderr or "")[-12000:],
+        }
+    except FileNotFoundError as exc:
+        return {"status": "FAIL", "exit_code": 127, "command": argv, "stdout_tail": "", "stderr_tail": str(exc)}
+    except PermissionError as exc:
+        return {"status": "FAIL", "exit_code": 13, "command": argv, "stdout_tail": "", "stderr_tail": str(exc), "error_category": "WINDOWS_ACCESS_DENIED"}
 
 
 @contextmanager
