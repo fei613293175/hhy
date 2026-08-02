@@ -26,6 +26,7 @@ from tools.governance.gov50.legacy import scan_active_control_plane
 from tools.governance.gov50.orchestrator import (
     _draft_manifest_from_blocker,
     _latest_worker_draft,
+    _preserve_allowed_worker_draft,
     _restore_worker_draft,
     _structured_worker_draft_paths,
     _worker_blocker_with_recovery_context,
@@ -239,6 +240,27 @@ def test_infrastructure_draft_is_hash_bound_and_restored_for_same_attempt(tmp_pa
     assert _restore_worker_draft(worktree, manifest) == [relative]
     assert (worktree / relative).read_text(encoding="utf-8") == "final class R15 {}\n"
     assert _latest_worker_draft(repo, "TASK-R15-001", 3, "a" * 40) is None
+
+
+def test_policy_violation_draft_preserves_only_allowed_product_paths(tmp_path):
+    repo = tmp_path / "repo"
+    worktree = tmp_path / "worktree"
+    allowed = "services/backend/src/R15.java"
+    violation = "database/migrations/V999__outside_scope.sql"
+    for relative in (allowed, violation):
+        path = worktree / relative
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(relative, encoding="utf-8")
+
+    manifest_rel = _preserve_allowed_worker_draft(
+        repo, worktree, "TASK-R15-001", 3, "a" * 40,
+        ["services/backend/**"], [allowed, violation],
+    )
+
+    assert manifest_rel is not None
+    manifest = json.loads((repo / manifest_rel).read_text(encoding="utf-8"))
+    assert list(manifest["files"]) == [allowed]
+    assert violation not in manifest["files"]
 
 
 def test_structured_worker_blocker_keeps_evidence_and_resumable_draft():

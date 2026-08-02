@@ -1,0 +1,16 @@
+{
+  "schema": "hhy.unblock-evidence/v5.0",
+  "task_id": "TASK-R15-RECOVERY-009",
+  "resolved": true,
+  "blocker_code": "WORKER_SCOPE_VIOLATION",
+  "violation_disposition": "REJECTED_UNMERGED",
+  "authority_worktree_clean": true,
+  "resolution": {
+    "violating_path": "database/migrations/V049__r15_access_contract_alignment.sql",
+    "candidate_disposition": "The violating Worker candidate was rejected before commit, Gate, review, or merge.",
+    "authority_state_commit": "d45829f",
+    "attempts_used": 2,
+    "scope_correction": "Allow only the V049 migration source required by the latest independent Reviewer finding; all other database paths remain forbidden.",
+    "quality_controls": "The migration remains subject to task Gate, real PostgreSQL migration tests, and independent read-only review."
+  }
+}

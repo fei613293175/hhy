@@ -658,6 +658,23 @@ def _preserve_worker_draft(
     )
 
 
+def _preserve_allowed_worker_draft(
+    repo: Path,
+    worktree: Path,
+    task_id: str,
+    attempt: int,
+    baseline: str,
+    allowed_paths: list[str],
+    changed_paths: list[str],
+) -> str | None:
+    allowed_changes = [
+        path for path in changed_paths if _scope_ok([path], allowed_paths)[0]
+    ]
+    return _write_worker_draft(
+        repo, worktree, task_id, attempt, baseline, allowed_paths, allowed_changes
+    )
+
+
 def _draft_manifest_from_blocker(blocker: Any) -> str | None:
     if not isinstance(blocker, dict):
         return None
@@ -1086,8 +1103,16 @@ def run_once(repo: Path, dry_run: bool = False) -> dict[str, Any]:
             changed = _worker_changed_paths(worktree)
             ok, violations = _scope_ok(changed, spec["allowed_paths"])
             if not ok:
+                draft = _preserve_allowed_worker_draft(
+                    repo, worktree, task_id, attempt, baseline,
+                    spec["allowed_paths"], changed,
+                )
                 row["status"] = "POLICY_VIOLATION"
-                row["blocker"] = {"code": "WORKER_SCOPE_VIOLATION", "paths": violations}
+                row["blocker"] = {
+                    "code": "WORKER_SCOPE_VIOLATION",
+                    "paths": violations,
+                    "draft_manifest": draft,
+                }
                 state["project"]["status"] = "POLICY_VIOLATION"
                 state["project"]["active_task"] = None
                 state["lease"] = None
@@ -1095,7 +1120,13 @@ def run_once(repo: Path, dry_run: bool = False) -> dict[str, Any]:
                 write_state(repo, state, expected_revision=rev)
                 state = read_state(repo)
                 _commit_state(repo, state, specs, f"[gov5.0] policy violation {task_id}")
-                return {"schema": "hhy.run-once/v5.0", "status": "POLICY_VIOLATION", "paths": violations, "exit_code": 22}
+                return {
+                    "schema": "hhy.run-once/v5.0",
+                    "status": "POLICY_VIOLATION",
+                    "paths": violations,
+                    "draft_manifest": draft,
+                    "exit_code": 22,
+                }
             if status in {"EXTERNAL_BLOCKED", "INFRASTRUCTURE_BLOCKED"}:
                 result_evidence = worktree / "governance" / "evidence" / "recovery" / f"{task_id}-a{attempt}-worker-result.json"
                 write_json(result_evidence, result)

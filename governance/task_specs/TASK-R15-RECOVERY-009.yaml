@@ -37,6 +37,7 @@ acceptance:
 allowed_paths:
 - catalogs/**
 - contracts/**
+- database/migrations/V049__r15_access_contract_alignment.sql
 - docs/**
 - packages/api-client/**
 - packages/domain-types/**
