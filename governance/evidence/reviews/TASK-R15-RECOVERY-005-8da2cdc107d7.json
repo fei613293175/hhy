@@ -1,0 +1,41 @@
+{
+  "commit": "8da2cdc107d73de517e71a51a5db2f261ae40d8a",
+  "findings": [
+    {
+      "evidence": "reportContent accepts evidenceMediaIds/messageIds, runs only evidenceList string-format validation, then persists those IDs inside reportPayload/content_reports.description without checking media/message existence, ownership, or relation to the reported content. This violates the task's permission/security coverage for contentPostContentsByIdReport and can attach arbitrary private identifiers to a report.",
+      "issue": "Content report evidence IDs are not authorized or bound to the reported content.",
+      "line": 126,
+      "path": "services/backend/content/src/main/java/cc/orbexa/hhy/content/R13Service.java",
+      "requirement_ref": "ACTIVE_TASK.acceptance: 权限/幂等/错误码/审计覆盖; risks: security",
+      "severity": "HIGH"
+    },
+    {
+      "evidence": "query() accepts and stores cursor, but every page builder uses OFFSET based only on page/pageSize and PageMeta always returns nextCursor=null. Cursor requests therefore do not advance from the supplied cursor and list endpoints cannot satisfy cursor pagination semantics exposed by the controllers.",
+      "issue": "R15 list endpoints accept cursor parameters but ignore them in data access and response metadata.",
+      "line": 557,
+      "path": "services/backend/access/src/main/java/cc/orbexa/hhy/access/r15/R15Service.java",
+      "requirement_ref": "ACTIVE_TASK.deliverables: OpenAPI契约测试",
+      "severity": "HIGH"
+    },
+    {
+      "evidence": "userTicketMessage/adminTicketMessage insert ticket_messages and return a SupportTicketResource, but they do not update hhy.support_tickets.updated_at when the ticket is already PENDING; ticketSelect derives version from ticket.updated_at, so message creation leaves the ticket version stale and later optimistic-lock operations can proceed against a pre-message version.",
+      "issue": "Support ticket message creation does not bump the ticket version timestamp used for optimistic concurrency.",
+      "line": 239,
+      "path": "services/backend/access/src/main/java/cc/orbexa/hhy/access/r15/R15Service.java",
+      "requirement_ref": "ACTIVE_TASK.acceptance: 权限/幂等/错误码/审计覆盖",
+      "severity": "HIGH"
+    },
+    {
+      "evidence": "publicHelpArticle loads a SupportTicketResource from helpArticle(), whose SQL does not select cms_articles.content, then constructs PublicPageResource with row.category() as description and List.of() as content. The public help-article detail endpoint therefore returns no article body.",
+      "issue": "Public help article detail response drops the article content and returns an empty content array.",
+      "line": 180,
+      "path": "services/backend/access/src/main/java/cc/orbexa/hhy/access/r15/R15Service.java",
+      "requirement_ref": "ACTIVE_TASK.deliverables: OpenAPI契约测试",
+      "severity": "HIGH"
+    }
+  ],
+  "schema": "hhy.reviewer-result/v5.0",
+  "status": "BLOCK",
+  "summary": "候选不满足 TASK-R15-RECOVERY-005：存在可复核的安全/契约/数据库并发正确性问题。指定 diff 未显示删除文件或删除/跳过既有测试，新增测试主要是映射和静态字符串检查，未覆盖上述行为。",
+  "task_id": "TASK-R15-RECOVERY-005"
+}

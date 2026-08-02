@@ -1,15 +1,15 @@
 schema: hhy.governance-state/v5.0
-revision: 131
-updated_at: '2026-08-01T23:40:50.058350Z'
-state_hash: 015b3359ca28d58fd485f5623337c21b288557536c1fd47932caf8a96ab19f30
+revision: 132
+updated_at: '2026-08-02T00:05:28.693208Z'
+state_hash: 2662ae4bb9a47740c165c3cd36fb44630cf5fbeb000f89d8dd3aec30fe7e5baa
 project:
-  status: ACTIVE
+  status: FAILED_BOUNDED
   branch_at_install: governance/v5.0-migration-20260731
   migration_baseline_commit: ea64d82fab9ed3d1952ab7d3c0d2286051390b59
   migration_commit: 8beafc2a0e115345c554abc0bdc199ef92534106
   authoritative_commit: 3be7e1637cc1bb1ef59d885121ca44dea0a1e6ad
   active_release: R15
-  active_task: TASK-R15-RECOVERY-005
+  active_task: null
   goal_complete: false
 lease: null
 releases:
@@ -2833,25 +2833,32 @@ tasks:
     last_gate_evidence: null
     blocker: null
   TASK-R15-RECOVERY-005:
-    status: READY
-    attempts_used: 2
+    status: FAILED_BOUNDED
+    attempts_used: 3
     current_attempt: null
-    last_error_fingerprint: '{"commit": "6f5fdde9601c2bedc1072b79753440b51d6ce5dd", "findings": [{"evidence": "ContentReportRequest
-      的 evidenceMediaIds/messageIds 在 R13Service.java:97-105 被解析并纳入幂等 hash，但实际写库调用 R13Service.java:119 只传 userId/contentId/reasonCode/description；R13PostgresStore.java:52-58
-      也只插入 reporter_id/content_id/type/description/status，没有保存证据媒体或消息引用。", "issue": "contentPostContentsByIdReport 会静默丢弃请求中的
-      evidenceMediaIds 和 messageIds，候选没有完整实现当前 R15 内容举报契约，造成可复核证据数据丢失。", "line": 119, "path": "services/backend/content/src/main/java/cc/orbexa/hhy/content/R13Service.java",
-      "requirement_ref": "ACTIVE_TASK objective: 实现范围内25个operationId；deliverables: 权限/幂等/错误码/审计覆盖", "severity": "HIGH"}, {"evidence":
-      "TicketMessageRequest 在 R15Contracts.java:41-43 定义 attachments；R15Service.java:174-180 和 254-256 将 attachments 纳入请求
-      hash，但 R15Service.java:189、265 调用的 Store 方法只传 content。R15Store.java:190-197 与 265-272 只插入 hhy.ticket_messages，不写 ticket_attachments。",
-      "issue": "用户和管理员补充工单消息时，attachments 参数会被接受但完全不持久化，supportPostSupportTicketsByIdMessages/adminSupportPostSupportTicketsByIdMessages
-      存在契约级数据丢失。", "line": 189, "path": "services/backend/access/src/main/java/cc/orbexa/hhy/access/r15/R15Service.java",
-      "requirement_ref": "ACTIVE_TASK objective: 实现范围内25个operationId；deliverables: OpenAPI契约测试", "severity": "HIGH"}, {"evidence":
-      "现有列表端把 content_reports/content_appeals 的 version 返回为 updated_at epoch 微秒（R12ReviewPostgresStore.java:101-104、122-125，并由
-      R12ReviewService.java:331-339 暴露）。但新增决策端在 R15Store.java:288-289 对这两张表锁定时硬编码 0 AS version，R15Service.java:317 又要求 expectedVersion
-      和 locked.version 都为 0。正常客户端从列表拿到的非零 expectedVersion 会被固定判为 409。", "issue": "adminReportsPostContentReportsByIdDecide
-      和 adminAppealsPostAppealsByIdDecide 与现有读取契约的 version 不兼容，正常从列表进入处理的请求无法通过版本校验。", "line": 317, "path": "services/backend/access/src/main/java/cc/orbexa/hhy/access/r15/R15Service.java",
-      "requirement_ref": "ACTIVE_TASK deliverables: 权限/幂等/错误码/审计覆盖", "severity": "HIGH"}], "schema": "hhy.reviewer-result/v5.0",
-      "status": "BLOCK", "summary": "候选未满足 TASK-R15-RECOVERY-005：发现 3 个 HIGH 级真实契约/数据正确性问题。未看到通过删除、跳过或弱化既有测试取得通过的 diff 证据。",
+    last_error_fingerprint: '{"commit": "8da2cdc107d73de517e71a51a5db2f261ae40d8a", "findings": [{"evidence": "reportContent
+      accepts evidenceMediaIds/messageIds, runs only evidenceList string-format validation, then persists those IDs inside
+      reportPayload/content_reports.description without checking media/message existence, ownership, or relation to the reported
+      content. This violates the task''s permission/security coverage for contentPostContentsByIdReport and can attach arbitrary
+      private identifiers to a report.", "issue": "Content report evidence IDs are not authorized or bound to the reported
+      content.", "line": 126, "path": "services/backend/content/src/main/java/cc/orbexa/hhy/content/R13Service.java", "requirement_ref":
+      "ACTIVE_TASK.acceptance: 权限/幂等/错误码/审计覆盖; risks: security", "severity": "HIGH"}, {"evidence": "query() accepts and stores
+      cursor, but every page builder uses OFFSET based only on page/pageSize and PageMeta always returns nextCursor=null.
+      Cursor requests therefore do not advance from the supplied cursor and list endpoints cannot satisfy cursor pagination
+      semantics exposed by the controllers.", "issue": "R15 list endpoints accept cursor parameters but ignore them in data
+      access and response metadata.", "line": 557, "path": "services/backend/access/src/main/java/cc/orbexa/hhy/access/r15/R15Service.java",
+      "requirement_ref": "ACTIVE_TASK.deliverables: OpenAPI契约测试", "severity": "HIGH"}, {"evidence": "userTicketMessage/adminTicketMessage
+      insert ticket_messages and return a SupportTicketResource, but they do not update hhy.support_tickets.updated_at when
+      the ticket is already PENDING; ticketSelect derives version from ticket.updated_at, so message creation leaves the ticket
+      version stale and later optimistic-lock operations can proceed against a pre-message version.", "issue": "Support ticket
+      message creation does not bump the ticket version timestamp used for optimistic concurrency.", "line": 239, "path":
+      "services/backend/access/src/main/java/cc/orbexa/hhy/access/r15/R15Service.java", "requirement_ref": "ACTIVE_TASK.acceptance:
+      权限/幂等/错误码/审计覆盖", "severity": "HIGH"}, {"evidence": "publicHelpArticle loads a SupportTicketResource from helpArticle(),
+      whose SQL does not select cms_articles.content, then constructs PublicPageResource with row.category() as description
+      and List.of() as content. The public help-article detail endpoint therefore returns no article body.", "issue": "Public
+      help article detail response drops the article content and returns an empty content array.", "line": 180, "path": "services/backend/access/src/main/java/cc/orbexa/hhy/access/r15/R15Service.java",
+      "requirement_ref": "ACTIVE_TASK.deliverables: OpenAPI契约测试", "severity": "HIGH"}], "schema": "hhy.reviewer-result/v5.0",
+      "status": "BLOCK", "summary": "候选不满足 TASK-R15-RECOVERY-005：存在可复核的安全/契约/数据库并发正确性问题。指定 diff 未显示删除文件或删除/跳过既有测试，新增测试主要是映射和静态字符串检查，未覆盖上述行为。",
       "task_id": "TASK-R15-RECOVERY-005"}'
     last_candidate_commit: null
     last_gate_evidence: null
