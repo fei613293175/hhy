@@ -157,6 +157,13 @@ def test_windows_worker_prompts_require_serial_shell_commands():
     assert "shell/tool 命令必须串行执行" in _worker_takeover_prompt(spec, 1, {})
 
 
+def test_rejected_candidate_paths_do_not_block_fresh_implementation():
+    spec = _specs()["TASK-R15-RECOVERY-008"]
+
+    assert "必须依据冻结契约和任务目标新建实现" in _worker_prompt(spec, 1)
+    assert "禁止仅因文件缺失返回 ATTEMPT_FAILED" in _worker_takeover_prompt(spec, 1, {})
+
+
 def test_visual_gate_uses_pre_freeze_entry_and_post_freeze_strict_acceptance():
     assert visual_contract_command(ROOT, "freeze", "R14", True) == (
         "visual_entry_contract",
