@@ -94,3 +94,38 @@ def test_worker_output_is_drained_while_process_runs(tmp_path):
     assert result["status"] == "PASS"
     assert result["stdout_tail"] == "x" * 12000
     assert result["stderr_tail"] == "y" * 12000
+
+
+def test_progress_watchdog_only_scans_allowed_product_roots(tmp_path):
+    result = run_with_progress_timeout(
+        [
+            sys.executable,
+            "-c",
+            "import pathlib,time; pathlib.Path('ignored.txt').write_text('x'); time.sleep(2)",
+        ],
+        tmp_path,
+        timeout=5,
+        startup_timeout=0.5,
+        idle_timeout=3,
+        progress_paths=["services/backend/**"],
+        poll_interval=0.1,
+    )
+
+    assert result["status"] == "FAIL"
+    assert "STARTUP_IDLE_TIMEOUT" in result["stderr_tail"]
+
+
+def test_restored_draft_uses_idle_timeout_instead_of_startup_timeout(tmp_path):
+    result = run_with_progress_timeout(
+        [sys.executable, "-c", "import time; time.sleep(2)"],
+        tmp_path,
+        timeout=5,
+        startup_timeout=0.2,
+        idle_timeout=0.5,
+        poll_interval=0.1,
+        initial_product_progress=True,
+    )
+
+    assert result["status"] == "FAIL"
+    assert "IDLE_TIMEOUT" in result["stderr_tail"]
+    assert "STARTUP_IDLE_TIMEOUT" not in result["stderr_tail"]

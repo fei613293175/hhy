@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import fnmatch
 import copy
+import hashlib
 import json
 import os
 import re
@@ -37,6 +38,12 @@ EVIDENCE_PREFIXES = (
     "artifacts/releases/", "artifacts/owner/", "artifacts/production/", "artifacts/rollback/",
 )
 WORKER_FAILURE_DIR = Path("governance/runtime/supervisor/worker-failures")
+WORKER_DRAFT_DIR = Path("governance/runtime/supervisor/worker-drafts")
+TRANSIENT_PROVIDER_MARKERS = (
+    "INVALID_API_KEY",
+    "401 Unauthorized",
+    "unexpected status 401",
+)
 
 
 def _worker_idle_timeout(repo: Path) -> int:
@@ -47,6 +54,11 @@ def _worker_idle_timeout(repo: Path) -> int:
 def _worker_startup_timeout(repo: Path) -> int:
     constitution = read_yaml(repo / "governance" / "DEVELOPMENT_CONSTITUTION.yaml") or {}
     return int((constitution.get("limits") or {}).get("worker_startup_timeout_seconds", 600))
+
+
+def _worker_progress_poll(repo: Path) -> float:
+    constitution = read_yaml(repo / "governance" / "DEVELOPMENT_CONSTITUTION.yaml") or {}
+    return float((constitution.get("limits") or {}).get("worker_progress_poll_seconds", 15))
 
 
 def _commit_state(repo: Path, state: dict[str, Any], specs: dict[str, dict[str, Any]], message: str, extra_paths: list[str] | None = None) -> str | None:
@@ -463,6 +475,196 @@ def _copy_worker_evidence(worktree: Path, repo: Path, relative: str | None) -> N
     shutil.copy2(source, target)
 
 
+def _worker_infrastructure_code(worker: dict[str, Any]) -> str | None:
+    stderr = str(worker.get("stderr_tail") or "")
+    category = str(worker.get("error_category") or "")
+    if any(marker in f"{category}\n{stderr}" for marker in TRANSIENT_PROVIDER_MARKERS):
+        return "CODEX_PROVIDER_AUTH_UNAVAILABLE"
+    for line in str(worker.get("stdout_tail") or "").splitlines():
+        try:
+            event = json.loads(line)
+        except json.JSONDecodeError:
+            continue
+        if event.get("type") not in {"error", "turn.failed"}:
+            continue
+        if any(marker in line for marker in TRANSIENT_PROVIDER_MARKERS):
+            return "CODEX_PROVIDER_AUTH_UNAVAILABLE"
+    return None
+
+
+def _probe_codex_provider() -> dict[str, Any]:
+    codex = resolve_codex_executable()
+    if not codex:
+        return {"status": "FAIL", "error": "Codex CLI unavailable"}
+    with tempfile.TemporaryDirectory(prefix="hhy-codex-provider-probe-") as directory:
+        execution = run(
+            [
+                codex, "--ask-for-approval", "never", "exec", "--ephemeral",
+                "--sandbox", "read-only", *worker_sandbox_args(), "--json",
+                "-C", directory,
+                '仅输出 JSON 文本 {"status":"OK"}，不要调用任何工具。',
+            ],
+            Path(directory),
+            timeout=90,
+            env={"HHY_GOVERNANCE_ROLE": "INFRASTRUCTURE_PROBE"},
+        )
+    healthy = execution.get("status") == "PASS" and '"turn.completed"' in str(execution.get("stdout_tail") or "")
+    return {
+        "status": "PASS" if healthy else "FAIL",
+        "exit_code": execution.get("exit_code"),
+        "stderr_tail": str(execution.get("stderr_tail") or "")[-2000:],
+    }
+
+
+def _auto_resume_transient_provider(
+    repo: Path,
+    state: dict[str, Any],
+    specs: dict[str, dict[str, Any]],
+    task_id: str,
+) -> dict[str, Any] | None:
+    row = state["tasks"][task_id]
+    blocker = row.get("blocker") or {}
+    if row.get("status") != "INFRASTRUCTURE_BLOCKED" or blocker.get("code") != "CODEX_PROVIDER_AUTH_UNAVAILABLE":
+        return None
+    probe = _probe_codex_provider()
+    if probe["status"] != "PASS":
+        return None
+    draft_relative = (blocker.get("detail") or {}).get("draft_manifest")
+    evidence = repo / "governance" / "evidence" / "recovery" / f"{task_id}-provider-recovered-{uuid.uuid4().hex[:10]}.json"
+    write_json(evidence, {
+        "schema": "hhy.infrastructure-recovery/v5.0",
+        "task_id": task_id,
+        "resolved": True,
+        "code": "CODEX_PROVIDER_AUTH_UNAVAILABLE",
+        "probe": probe,
+        "at": utc_now(),
+    })
+    row["status"] = "READY"
+    row["blocker"] = None
+    row["current_attempt"] = None
+    state["project"]["status"] = "ACTIVE"
+    state["project"]["active_task"] = task_id
+    state["lease"] = None
+    rev = state["revision"]
+    write_state(repo, state, expected_revision=rev)
+    new_state = read_state(repo)
+    state_commit = _commit_state(
+        repo, new_state, specs, f"[gov5.0] auto-resume provider for {task_id}",
+        extra_paths=[evidence.relative_to(repo).as_posix()],
+    )
+    if state_commit and draft_relative:
+        draft_data = read_json(repo / draft_relative)
+        draft_data["baseline_commit"] = state_commit
+        write_json(repo / draft_relative, draft_data)
+    return read_state(repo)
+
+
+def _worker_changed_paths(worktree: Path) -> list[str]:
+    return sorted({
+        line[3:].split(" -> ")[-1]
+        for line in git_status_lines(
+            worktree, "-c", "core.quotepath=false", "status", "--porcelain=v1", "-uall"
+        )
+        if len(line) > 3 and not line[3:].startswith("governance/runtime/")
+    })
+
+
+def _file_sha256(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as stream:
+        for chunk in iter(lambda: stream.read(1024 * 1024), b""):
+            digest.update(chunk)
+    return digest.hexdigest()
+
+
+def _write_worker_draft(
+    repo: Path,
+    source: Path,
+    task_id: str,
+    attempt: int,
+    baseline: str,
+    allowed_paths: list[str],
+    changed_paths: list[str],
+) -> str | None:
+    ok, violations = _scope_ok(changed_paths, allowed_paths)
+    if not ok:
+        return None
+    existing = [path for path in changed_paths if (source / path).is_file()]
+    deleted = [path for path in changed_paths if not (source / path).exists()]
+    if not existing and not deleted:
+        return None
+    draft = repo / WORKER_DRAFT_DIR / f"{task_id}-a{attempt}-{uuid.uuid4().hex[:10]}"
+    files_root = draft / "files"
+    hashes: dict[str, str] = {}
+    for relative in existing:
+        source_file = source / relative
+        target = files_root / relative
+        target.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(source_file, target)
+        hashes[relative] = _file_sha256(target)
+    manifest = {
+        "schema": "hhy.worker-draft/v5.0",
+        "task_id": task_id,
+        "attempt": attempt,
+        "baseline_commit": baseline,
+        "created_at": utc_now(),
+        "files": hashes,
+        "deleted_paths": deleted,
+        "quality_status": "UNVERIFIED_REQUIRES_WORKER_GATE_AND_REVIEWER",
+    }
+    manifest_path = draft / "manifest.json"
+    write_json(manifest_path, manifest)
+    return manifest_path.relative_to(repo).as_posix()
+
+
+def _preserve_worker_draft(
+    repo: Path,
+    worktree: Path,
+    task_id: str,
+    attempt: int,
+    baseline: str,
+    allowed_paths: list[str],
+) -> str | None:
+    return _write_worker_draft(
+        repo, worktree, task_id, attempt, baseline, allowed_paths,
+        _worker_changed_paths(worktree),
+    )
+
+
+def _latest_worker_draft(repo: Path, task_id: str, attempt: int, baseline: str) -> Path | None:
+    root = repo / WORKER_DRAFT_DIR
+    candidates = sorted(
+        root.glob(f"{task_id}-a{attempt}-*/manifest.json"),
+        key=lambda path: path.stat().st_mtime_ns,
+        reverse=True,
+    ) if root.is_dir() else []
+    for manifest_path in candidates:
+        manifest = read_json(manifest_path)
+        if manifest.get("baseline_commit") == baseline:
+            return manifest_path
+    return None
+
+
+def _restore_worker_draft(worktree: Path, manifest_path: Path) -> list[str]:
+    manifest = read_json(manifest_path)
+    files_root = manifest_path.parent / "files"
+    restored: list[str] = []
+    for relative, expected_hash in (manifest.get("files") or {}).items():
+        source = files_root / relative
+        if not source.is_file() or _file_sha256(source) != expected_hash:
+            raise RuntimeError(f"worker draft hash mismatch: {relative}")
+        target = worktree / relative
+        target.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(source, target)
+        restored.append(relative)
+    for relative in manifest.get("deleted_paths") or []:
+        target = worktree / relative
+        if target.is_file():
+            target.unlink()
+        restored.append(relative)
+    return sorted(restored)
+
+
 def _infrastructure_block(
     repo: Path,
     state: dict[str, Any],
@@ -480,13 +682,19 @@ def _infrastructure_block(
     rev = state["revision"]
     write_state(repo, state, expected_revision=rev)
     new_state = read_state(repo)
-    _commit_state(repo, new_state, specs, f"[gov5.0] block {task_id}: {code}")
+    state_commit = _commit_state(repo, new_state, specs, f"[gov5.0] block {task_id}: {code}")
+    draft_relative = detail.get("draft_manifest") if isinstance(detail, dict) else None
+    if state_commit and draft_relative:
+        draft_data = read_json(repo / draft_relative)
+        draft_data["baseline_commit"] = state_commit
+        write_json(repo / draft_relative, draft_data)
     return {
         "schema": "hhy.run-once/v5.0",
         "status": "INFRASTRUCTURE_BLOCKED",
         "task_id": task_id,
         "blocker": row["blocker"],
         "attempts_used": row["attempts_used"],
+        "state_commit": state_commit,
         "exit_code": 21,
     }
 
@@ -511,6 +719,8 @@ def _worker_prompt(task: dict[str, Any], attempt: int) -> str:
         "若 ACTIVE_TASK.latest_failure_evidence 非空，先按其中的具体文件、行号和问题修复，禁止重新扫描全部历史证据。\n"
         "失败证据可能来自已拒绝且未合并的 Candidate；引用路径在当前权威基线不存在时，必须依据冻结契约和任务目标新建实现，禁止仅因文件缺失返回 ATTEMPT_FAILED 或 blocker。\n"
         "只读定位最多使用 30 次工具调用；随后必须开始一个完整、可编译的产品文件，禁止用占位、TODO、空壳或无意义改动刷新进展计时。\n"
+        "若编排器已恢复基础设施中断前的草稿，必须先审查并继续有效改动；草稿不是 PASS，仍须完成编译、测试和结果契约。\n"
+        "大型任务必须按可编译的垂直切片推进（契约/存储/服务/入口/迁移/测试），每完成一片立即落盘并做针对性验证，禁止把全部实现滞留到最终回复。\n"
         "在 Windows 上所有 shell/tool 命令必须串行执行；上一条结束前禁止并发启动下一条。\n"
         "所有文件路径必须完整保留 ACTIVE_TASK.allowed_paths 的前缀（例如 scripts/，禁止截断为 cripts/ 或其他变体）。\n"
         "完成实际产品代码和测试后，运行必要的针对性验证。相同命令、输出和 Diff 不得重复。\n"
@@ -528,6 +738,8 @@ def _worker_takeover_prompt(task: dict[str, Any], attempt: int, failure: dict[st
         "若 ACTIVE_TASK.latest_failure_evidence 非空，先按其中的具体文件、行号和问题修复，禁止重新扫描全部历史证据。\n"
         "失败证据可能来自已拒绝且未合并的 Candidate；引用路径在当前权威基线不存在时，必须依据冻结契约和任务目标新建实现，禁止仅因文件缺失返回 ATTEMPT_FAILED 或 blocker。\n"
         "只读定位最多使用 30 次工具调用；随后必须开始一个完整、可编译的产品文件，禁止用占位、TODO、空壳或无意义改动刷新进展计时。\n"
+        "若编排器已恢复基础设施中断前的草稿，必须先审查并继续有效改动；草稿不是 PASS，仍须完成编译、测试和结果契约。\n"
+        "大型任务必须按可编译的垂直切片推进（契约/存储/服务/入口/迁移/测试），每完成一片立即落盘并做针对性验证，禁止把全部实现滞留到最终回复。\n"
         "在 Windows 上所有 shell/tool 命令必须串行执行；上一条结束前禁止并发启动下一条。\n"
         "完成产品代码和针对性测试后，必须写出符合 worker-result.schema.json 的结果；blocker 非 null 时必须包含 code、detail、resolution、paths、worker_result_evidence 五个字段，无值使用 null。"
         f"主 Worker 接管摘要：{failure.get('stderr_tail') or failure.get('stdout_tail') or '未返回可用输出'}"
@@ -649,6 +861,10 @@ def run_once(repo: Path, dry_run: bool = False) -> dict[str, Any]:
             return {"schema": "hhy.run-once/v5.0", "status": "NO_READY_TASK", "exit_code": 21}
         spec = specs[task_id]
         row = state["tasks"][task_id]
+        resumed_state = _auto_resume_transient_provider(repo, state, specs, task_id)
+        if resumed_state is not None:
+            state = resumed_state
+            row = state["tasks"][task_id]
         if row["status"] in {"EXTERNAL_BLOCKED", "INFRASTRUCTURE_BLOCKED", "FAILED_BOUNDED", "POLICY_VIOLATION"}:
             return {"schema": "hhy.run-once/v5.0", "status": row["status"], "task_id": task_id, "blocker": row.get("blocker"), "exit_code": 21 if "BLOCKED" in row["status"] else 20}
         if int(row.get("attempts_used") or 0) >= 3:
@@ -691,6 +907,13 @@ def run_once(repo: Path, dry_run: bool = False) -> dict[str, Any]:
         git(repo, "worktree", "add", "-b", branch, str(worktree), baseline, env=AUTH_ENV)
         try:
             active = build_active_task_payload(task_id, spec, attempt, baseline)
+            draft_manifest = _latest_worker_draft(repo, task_id, attempt, baseline)
+            if draft_manifest:
+                active["restored_draft"] = {
+                    "manifest": draft_manifest.relative_to(repo).as_posix(),
+                    "paths": _restore_worker_draft(worktree, draft_manifest),
+                    "quality_status": "UNVERIFIED_REQUIRES_WORKER_GATE_AND_REVIEWER",
+                }
             runtime = worktree / "governance" / "runtime"
             runtime.mkdir(parents=True, exist_ok=True)
             write_json(runtime / "ACTIVE_TASK.json", active)
@@ -707,11 +930,23 @@ def run_once(repo: Path, dry_run: bool = False) -> dict[str, Any]:
                 timeout=3600,
                 startup_timeout=_worker_startup_timeout(repo),
                 idle_timeout=_worker_idle_timeout(repo),
+                progress_paths=spec["allowed_paths"],
+                poll_interval=_worker_progress_poll(repo),
+                initial_product_progress=bool(draft_manifest),
                 env={"HHY_GOVERNANCE_ROLE": "WORKER"},
             )
             if worker["status"] != "PASS" or not result_path.is_file():
                 first_failure = worker
                 first_diagnostic = _persist_worker_failure(repo, task_id, attempt, worker, result_path)
+                infrastructure_code = _worker_infrastructure_code(worker)
+                if infrastructure_code:
+                    draft = _preserve_worker_draft(
+                        repo, worktree, task_id, attempt, baseline, spec["allowed_paths"]
+                    )
+                    return _infrastructure_block(
+                        repo, state, specs, task_id, infrastructure_code,
+                        {"diagnostic_path": first_diagnostic, "draft_manifest": draft},
+                    )
                 result_path.unlink(missing_ok=True)
                 takeover_command = [
                     codex, "--ask-for-approval", "never", "exec", "--ephemeral", "--sandbox", "workspace-write",
@@ -724,10 +959,26 @@ def run_once(repo: Path, dry_run: bool = False) -> dict[str, Any]:
                     timeout=3600,
                     startup_timeout=_worker_startup_timeout(repo),
                     idle_timeout=_worker_idle_timeout(repo),
+                    progress_paths=spec["allowed_paths"],
+                    poll_interval=_worker_progress_poll(repo),
+                    initial_product_progress=bool(_worker_changed_paths(worktree)),
                     env={"HHY_GOVERNANCE_ROLE": "WORKER_TAKEOVER"},
                 )
                 if worker["status"] != "PASS" or not result_path.is_file():
                     diagnostic = _persist_worker_failure(repo, task_id, attempt, worker, result_path)
+                    infrastructure_code = _worker_infrastructure_code(worker)
+                    if infrastructure_code:
+                        draft = _preserve_worker_draft(
+                            repo, worktree, task_id, attempt, baseline, spec["allowed_paths"]
+                        )
+                        return _infrastructure_block(
+                            repo, state, specs, task_id, infrastructure_code,
+                            {
+                                "diagnostic_path": diagnostic,
+                                "primary_diagnostic_path": first_diagnostic,
+                                "draft_manifest": draft,
+                            },
+                        )
                     reason = (
                         "主 Worker 未返回结果，备用 Worker 接管也未返回结果"
                         f"；主证据={first_diagnostic}；备用证据={diagnostic}"
@@ -752,11 +1003,7 @@ def run_once(repo: Path, dry_run: bool = False) -> dict[str, Any]:
                     diagnostic_path=diagnostic,
                 )
             status = result.get("status")
-            changed = [
-                line[3:].split(" -> ")[-1]
-                for line in git_status_lines(worktree, "-c", "core.quotepath=false", "status", "--porcelain=v1", "-uall")
-                if len(line) > 3 and not line[3:].startswith("governance/runtime/")
-            ]
+            changed = _worker_changed_paths(worktree)
             ok, violations = _scope_ok(changed, spec["allowed_paths"])
             if not ok:
                 row["status"] = "POLICY_VIOLATION"
@@ -881,6 +1128,108 @@ def run_loop(repo: Path, max_runs: int) -> dict[str, Any]:
             break
     status = results[-1]["status"] if results else "NO_RUNS"
     return {"schema": "hhy.run-loop/v5.0", "status": status, "runs": len(results), "results": results, "bounded_by": max_runs}
+
+
+def reclassify_infrastructure_attempt(
+    repo: Path,
+    task_id: str,
+    evidence: Path,
+    draft_source: Path | None = None,
+    draft_paths: list[str] | None = None,
+) -> dict[str, Any]:
+    """Correct an engineering attempt consumed by a proven Worker infrastructure outage."""
+    with repository_lock(repo):
+        if git(repo, "status", "--porcelain=v1", "-uall"):
+            raise RuntimeError("authority worktree must be clean before reclassification")
+        specs = load_task_specs(repo)
+        state = read_state(repo)
+        if state["project"].get("active_task") != task_id:
+            raise RuntimeError("task must be the current active task")
+        row = state["tasks"][task_id]
+        if row.get("status") != "READY" or int(row.get("attempts_used") or 0) < 1:
+            raise RuntimeError("task must be READY with at least one consumed attempt")
+        evidence = evidence.resolve()
+        try:
+            evidence_rel = evidence.relative_to(repo.resolve()).as_posix()
+        except ValueError as exc:
+            raise RuntimeError("failure evidence must be inside repository") from exc
+        if evidence_rel not in str(row.get("last_error_fingerprint") or ""):
+            raise RuntimeError("evidence is not bound to the latest attempt failure")
+        failure = read_json(evidence)
+        infrastructure_code = _worker_infrastructure_code(failure.get("execution") or {})
+        if not infrastructure_code:
+            raise RuntimeError("evidence does not prove a recognized infrastructure failure")
+        attempt = int(failure.get("attempt") or 0)
+        if attempt != int(row.get("attempts_used") or 0):
+            raise RuntimeError("evidence attempt does not match current attempts_used")
+
+        draft_manifest = None
+        if draft_source:
+            source = draft_source.resolve()
+            work_root = (repo / ".git" / "hhy-governance-worktrees").resolve()
+            try:
+                source.relative_to(work_root)
+            except ValueError as exc:
+                raise RuntimeError("draft source must be an isolated governance worktree") from exc
+            active_path = source / "governance" / "runtime" / "ACTIVE_TASK.json"
+            active = read_json(active_path)
+            if active.get("task_id") != task_id or int(active.get("attempt") or 0) != attempt:
+                raise RuntimeError("draft source does not match task and attempt")
+            expanded: list[str] = []
+            for relative in draft_paths or []:
+                candidate = source / relative
+                if candidate.is_dir():
+                    expanded.extend(
+                        path.relative_to(source).as_posix()
+                        for path in candidate.rglob("*") if path.is_file()
+                    )
+                elif candidate.is_file():
+                    expanded.append(relative.replace("\\", "/"))
+                else:
+                    raise RuntimeError(f"draft path does not exist: {relative}")
+            changed = sorted({
+                relative for relative in expanded
+                if not (repo / relative).is_file()
+                or _file_sha256(source / relative) != _file_sha256(repo / relative)
+            })
+            draft_manifest = _write_worker_draft(
+                repo, source, task_id, attempt, str(active["baseline_commit"]),
+                specs[task_id]["allowed_paths"], changed,
+            )
+            if changed and not draft_manifest:
+                raise RuntimeError("failed to preserve the infrastructure-interrupted draft")
+
+        row["attempts_used"] = attempt - 1
+        row["last_error_fingerprint"] = (
+            f"RECLASSIFIED_INFRASTRUCTURE:{infrastructure_code};evidence={evidence_rel}"
+        )
+        row["current_attempt"] = None
+        row["status"] = "READY"
+        row["blocker"] = None
+        state["project"]["status"] = "ACTIVE"
+        state["project"]["active_task"] = task_id
+        state["lease"] = None
+        rev = state["revision"]
+        write_state(repo, state, expected_revision=rev)
+        new_state = read_state(repo)
+        commit_id = _commit_state(
+            repo, new_state, specs,
+            f"[gov5.0] reclassify {task_id} attempt {attempt} as infrastructure",
+        )
+        if commit_id and draft_manifest:
+            draft_data = read_json(repo / draft_manifest)
+            draft_data["baseline_commit"] = commit_id
+            write_json(repo / draft_manifest, draft_data)
+        return {
+            "schema": "hhy.reclassify-infrastructure-attempt/v5.0",
+            "status": "READY",
+            "task_id": task_id,
+            "attempts_used": attempt - 1,
+            "infrastructure_code": infrastructure_code,
+            "evidence": evidence_rel,
+            "draft_manifest": draft_manifest,
+            "state_commit": commit_id,
+        }
 
 
 def unblock(repo: Path, task_id: str, evidence: Path) -> dict[str, Any]:

@@ -39,6 +39,8 @@ execution:
   worker_may_declare_pass: false
   orchestrator_only_state_writer: true
   deterministic_gate_only_pass_authority: true
+  infrastructure_interrupted_draft_may_resume_same_attempt: true
+  restored_draft_requires_full_worker_gate_and_reviewer: true
   no_background_or_unbounded_execution: true
 limits:
   total_attempts_per_task: 3
@@ -52,6 +54,7 @@ limits:
   worker_timeout_seconds: 3600
   worker_startup_timeout_seconds: 900
   worker_idle_timeout_seconds: 1800
+  worker_progress_poll_seconds: 15
   gate_timeout_seconds: 1800
 attempt_strategies:
   1: direct_implementation_or_fix
@@ -59,6 +62,13 @@ attempt_strategies:
   3: fresh_worker_alternative_implementation_from_authoritative_baseline
   exhausted: FAILED_BOUNDED
 progress:
+  large_task_vertical_slices:
+    - contract_and_types
+    - persistence_and_outbox
+    - application_service
+    - controller_or_entrypoint
+    - migration_and_permissions
+    - targeted_tests
   accepted:
     - allowed product or test diff
     - failing test set reduced
@@ -118,6 +128,9 @@ hard_protections:
     - owner authorization, release tag, production activation and rollback evidence
 blocking:
   external_or_infrastructure_block_does_not_consume_engineering_attempt: true
+  transient_provider_auth_failure_is_infrastructure: true
+  transient_provider_auth_may_auto_resume_after_health_probe: true
+  infrastructure_draft_is_unverified_and_never_bypasses_gate: true
   blocked_task_never_auto_retries: true
   independent_tasks_may_continue_when_dependency_safe: true
   owner_pending_is_not_a_blocker_for_next_release: true

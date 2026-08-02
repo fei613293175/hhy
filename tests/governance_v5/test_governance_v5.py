@@ -24,8 +24,12 @@ from tools.governance.gov50.gates import (
 from tools.governance.gov50.hard import run_hard_protection
 from tools.governance.gov50.legacy import scan_active_control_plane
 from tools.governance.gov50.orchestrator import (
+    _latest_worker_draft,
+    _restore_worker_draft,
+    _worker_infrastructure_code,
     _worker_prompt,
     _worker_takeover_prompt,
+    _write_worker_draft,
     bounded_recovery_candidates,
     build_active_task_payload,
     build_auto_recovery_spec,
@@ -169,6 +173,49 @@ def test_worker_prompts_bound_read_only_discovery_before_implementation():
 
     assert "只读定位最多使用 30 次工具调用" in _worker_prompt(spec, 1)
     assert "禁止用占位、TODO、空壳或无意义改动刷新进展计时" in _worker_takeover_prompt(spec, 1, {})
+
+
+def test_worker_prompts_require_incremental_vertical_slices_and_full_draft_validation():
+    spec = _specs()["TASK-R15-RECOVERY-009"]
+
+    assert "大型任务必须按可编译的垂直切片推进" in _worker_prompt(spec, 1)
+    assert "草稿不是 PASS" in _worker_takeover_prompt(spec, 1, {})
+
+
+def test_worker_provider_401_is_infrastructure_not_engineering_failure():
+    worker = {
+        "status": "FAIL",
+        "stderr_tail": "unexpected status 401 Unauthorized: INVALID_API_KEY",
+    }
+
+    assert _worker_infrastructure_code(worker) == "CODEX_PROVIDER_AUTH_UNAVAILABLE"
+    assert _worker_infrastructure_code({"stderr_tail": "compile failed"}) is None
+    assert _worker_infrastructure_code({"stdout_tail": "historical finding: 401 Unauthorized"}) is None
+    assert _worker_infrastructure_code({
+        "stdout_tail": json.dumps({"type": "error", "message": "401 Unauthorized: INVALID_API_KEY"})
+    }) == "CODEX_PROVIDER_AUTH_UNAVAILABLE"
+
+
+def test_infrastructure_draft_is_hash_bound_and_restored_for_same_attempt(tmp_path):
+    repo = tmp_path / "repo"
+    source = tmp_path / "source"
+    worktree = tmp_path / "worktree"
+    relative = "services/backend/src/R15.java"
+    source_file = source / relative
+    source_file.parent.mkdir(parents=True)
+    source_file.write_text("final class R15 {}\n", encoding="utf-8")
+
+    manifest_rel = _write_worker_draft(
+        repo, source, "TASK-R15-001", 2, "a" * 40,
+        ["services/backend/**"], [relative],
+    )
+
+    assert manifest_rel is not None
+    manifest = _latest_worker_draft(repo, "TASK-R15-001", 2, "a" * 40)
+    assert manifest is not None
+    assert _restore_worker_draft(worktree, manifest) == [relative]
+    assert (worktree / relative).read_text(encoding="utf-8") == "final class R15 {}\n"
+    assert _latest_worker_draft(repo, "TASK-R15-001", 3, "a" * 40) is None
 
 
 def test_visual_gate_uses_pre_freeze_entry_and_post_freeze_strict_acceptance():

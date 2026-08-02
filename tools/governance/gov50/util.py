@@ -204,29 +204,62 @@ def _pipe_tail(chunks: deque[str], limit: int = 12000) -> str:
     return "".join(chunks)[-limit:]
 
 
-def _tree_signature(root: Path) -> str:
+def _signature_roots(root: Path, progress_paths: Iterable[str] | None) -> list[Path]:
+    if not progress_paths:
+        return [root]
+    roots: list[Path] = []
+    for pattern in progress_paths:
+        normalized = str(pattern).replace("\\", "/").lstrip("./")
+        wildcard = min(
+            (index for token in ("*", "?", "[") if (index := normalized.find(token)) >= 0),
+            default=len(normalized),
+        )
+        prefix = normalized[:wildcard].rstrip("/")
+        if not prefix:
+            return [root]
+        candidate = root / prefix
+        if not any(candidate == existing or existing in candidate.parents for existing in roots):
+            roots = [existing for existing in roots if candidate not in existing.parents]
+            roots.append(candidate)
+    return sorted(roots, key=lambda path: path.as_posix())
+
+
+def _tree_signature(root: Path, progress_paths: Iterable[str] | None = None) -> str:
     digest = hashlib.sha256()
     if not root.exists():
         return digest.hexdigest()
-    for directory, dirnames, filenames in os.walk(root):
-        dirnames[:] = sorted(
-            name for name in dirnames
-            if name not in {
-                ".git", "runtime", "__pycache__", ".pytest_cache", ".mypy_cache",
-                ".ruff_cache", ".gradle", "node_modules", "target", "build", "dist",
-                "coverage",
-            }
-        )
-        for name in sorted(filenames):
-            if name.endswith((".pyc", ".pyo", ".class", ".log")):
-                continue
-            path = Path(directory) / name
-            try:
-                stat = path.stat()
-            except OSError:
-                continue
-            relative = path.relative_to(root).as_posix()
-            digest.update(f"{relative}\0{stat.st_mtime_ns}\0{stat.st_size}\n".encode("utf-8"))
+    seen: set[str] = set()
+    signature_roots = _signature_roots(root, progress_paths)
+    for signature_root in signature_roots:
+        if signature_root.is_file():
+            walk_items = [(str(signature_root.parent), [], [signature_root.name])]
+        elif signature_root.is_dir():
+            walk_items = os.walk(signature_root)
+        else:
+            digest.update(f"missing:{signature_root.relative_to(root).as_posix()}\n".encode("utf-8"))
+            continue
+        for directory, dirnames, filenames in walk_items:
+            dirnames[:] = sorted(
+                name for name in dirnames
+                if name not in {
+                    ".git", "runtime", "__pycache__", ".pytest_cache", ".mypy_cache",
+                    ".ruff_cache", ".gradle", "node_modules", "target", "build", "dist",
+                    "coverage",
+                }
+            )
+            for name in sorted(filenames):
+                if name.endswith((".pyc", ".pyo", ".class", ".log")):
+                    continue
+                path = Path(directory) / name
+                try:
+                    relative = path.relative_to(root).as_posix()
+                    stat = path.stat()
+                except (OSError, ValueError):
+                    continue
+                if relative in seen:
+                    continue
+                seen.add(relative)
+                digest.update(f"{relative}\0{stat.st_mtime_ns}\0{stat.st_size}\n".encode("utf-8"))
     return digest.hexdigest()
 
 
@@ -236,6 +269,9 @@ def run_with_progress_timeout(
     timeout: int = 600,
     startup_timeout: int | None = None,
     idle_timeout: int | None = None,
+    progress_paths: Iterable[str] | None = None,
+    poll_interval: float = 5.0,
+    initial_product_progress: bool = False,
     env: dict[str, str] | None = None,
 ) -> dict[str, Any]:
     """Run a command with a bounded no-file-progress watchdog.
@@ -250,8 +286,8 @@ def run_with_progress_timeout(
     argv = resolve_runtime_command(command, merged)
     started = time.monotonic()
     last_progress = started
-    product_progress = False
-    signature = _tree_signature(cwd)
+    product_progress = initial_product_progress
+    signature = _tree_signature(cwd, progress_paths)
     proc = None
     stdout_chunks: deque[str] = deque(maxlen=32)
     stderr_chunks: deque[str] = deque(maxlen=32)
@@ -264,10 +300,10 @@ def run_with_progress_timeout(
             drain_threads.append(thread)
         while True:
             try:
-                proc.wait(timeout=5)
+                proc.wait(timeout=poll_interval)
                 break
             except subprocess.TimeoutExpired:
-                current = _tree_signature(cwd)
+                current = _tree_signature(cwd, progress_paths)
                 if current != signature:
                     signature = current
                     last_progress = time.monotonic()
