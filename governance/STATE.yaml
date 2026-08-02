@@ -1,7 +1,7 @@
 schema: hhy.governance-state/v5.0
-revision: 133
-updated_at: '2026-08-02T00:06:42.233842Z'
-state_hash: 68455338cd70c87b8f7fe852fa063a48b5da8fd522b828df83539b2cdd1d90da
+revision: 134
+updated_at: '2026-08-02T00:36:47.130408Z'
+state_hash: 38cf975e008f7da813192cc44d5b58edc0d53080b734d7d1829b7dfc8ab246b5
 project:
   status: ACTIVE
   branch_at_install: governance/v5.0-migration-20260731
@@ -2865,9 +2865,27 @@ tasks:
     blocker: null
   TASK-R15-RECOVERY-006:
     status: READY
-    attempts_used: 0
+    attempts_used: 1
     current_attempt: null
-    last_error_fingerprint: null
+    last_error_fingerprint: '{"commit": "9a4b274047455ad2d3c41386954d9065346ecd22", "findings": [{"evidence": "R15EngagementStore.notifications()
+      appends cursor predicate as \"notification.id<?\" at line 35, but the SQL immediately below uses \"FROM hhy.notifications\"
+      with no \"notification\" alias at lines 36-39. Any valid notifications request with cursor will fail at SQL parse/bind
+      time instead of satisfying the API contract.", "issue": "Cursor pagination for notifications is broken by a nonexistent
+      SQL alias.", "line": 35, "path": "services/backend/access/src/main/java/cc/orbexa/hhy/access/user/R15EngagementStore.java",
+      "requirement_ref": "governance/runtime/ACTIVE_TASK.json:8,10,18", "severity": "HIGH"}, {"evidence": "announcements()
+      appends keyword/cursor parameters before adding userId at lines 69-71, while the first SQL placeholder is read_row.user_id=?
+      in the LEFT JOIN at line 78. With keyword or cursor filters, the first bound value becomes the keyword/cursor rather
+      than userId, causing wrong results or SQL type errors for valid filtered announcement requests.", "issue": "Filtered
+      announcement pagination/search binds SQL parameters in the wrong order.", "line": 71, "path": "services/backend/access/src/main/java/cc/orbexa/hhy/access/user/R15EngagementStore.java",
+      "requirement_ref": "governance/runtime/ACTIVE_TASK.json:8,10,18", "severity": "HIGH"}, {"evidence": "ACTIVE_TASK requires
+      implementing the 25 operationIds and OpenAPI contract tests. The added test only checks substring presence with \"assert
+      operation_id in sources\" at line 49; \"supportPostSupportTickets\" at line 32 is satisfied by the longer method \"supportPostSupportTicketsByIdMessages\"
+      in R15EngagementController line 151. The actual POST /api/v1/support/tickets handler is named createTicket in UserSelfServiceController
+      line 46, so the exact operationId is not wired while the test still passes.", "issue": "The operationId coverage test
+      is weakened by substring matching and misses the exact supportPostSupportTickets operationId.", "line": 49, "path":
+      "tests/test_r15_recovery_006_runtime_sources.py", "requirement_ref": "governance/runtime/ACTIVE_TASK.json:8,10,18",
+      "severity": "HIGH"}], "schema": "hhy.reviewer-result/v5.0", "status": "BLOCK", "summary": "候选不满足当前任务。未发现受保护路径修改；阻断点集中在真实数据库/API正确性问题，以及新增测试以子串匹配掩盖缺失的精确
+      operationId。", "task_id": "TASK-R15-RECOVERY-006"}'
     last_candidate_commit: null
     last_gate_evidence: null
     blocker: null
