@@ -182,6 +182,8 @@ def test_worker_prompts_require_incremental_vertical_slices_and_full_draft_valid
 
     assert "大型任务必须按可编译的垂直切片推进" in _worker_prompt(spec, 1)
     assert "草稿不是 PASS" in _worker_takeover_prompt(spec, 1, {})
+    assert "前 5 次工具调用内必须运行适用的最小编译或目标测试" in _worker_prompt(spec, 1)
+    assert "当前草稿的第一个真实失败优先于历史 latest_failure_evidence" in _worker_takeover_prompt(spec, 1, {})
 
 
 def test_worker_provider_401_is_infrastructure_not_engineering_failure():
