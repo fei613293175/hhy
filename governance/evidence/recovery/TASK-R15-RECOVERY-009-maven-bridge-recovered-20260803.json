@@ -1,0 +1,30 @@
+{
+  "schema": "hhy.infrastructure-recovery/v5.0",
+  "task_id": "TASK-R15-RECOVERY-009",
+  "resolved": true,
+  "code": "MAVEN_DEPENDENCY_RESOLUTION_NETWORK_DENIED",
+  "verified_at": "2026-08-02T17:56:00Z",
+  "checks": {
+    "maven_bridge": {
+      "status": "PASS",
+      "endpoint": "127.0.0.1:43815",
+      "process_id": 32352,
+      "maven_version": "3.9.11",
+      "jdk_version": "21.0.12"
+    },
+    "offline_backend_compile": {
+      "status": "PASS_INFRASTRUCTURE",
+      "command": "mvn -o -pl boot -am -DskipTests compile",
+      "evidence": "The bridge resolved the cached Spring Boot and AWS BOMs, loaded all backend reactor modules, and reached javac. No non-resolvable import POM error occurred."
+    },
+    "postgresql": {
+      "status": "PASS",
+      "endpoint": "127.0.0.1:55432",
+      "server_version_num": 170010
+    }
+  },
+  "current_product_failure": {
+    "classification": "PRODUCT_COMPILATION_ERROR",
+    "summary": "The remaining javac errors are invalid bound references to static row mappers and a Duration-to-Instant mismatch. They must be fixed by the Worker and are not infrastructure blockers."
+  }
+}
