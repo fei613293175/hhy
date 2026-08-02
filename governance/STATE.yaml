@@ -1,9 +1,9 @@
 schema: hhy.governance-state/v5.0
-revision: 153
-updated_at: '2026-08-02T17:52:31.437913Z'
-state_hash: 06f2656998b9b9ba8b398108d5e815ccd1233624363f3f23d6f3c84efe9792a6
+revision: 154
+updated_at: '2026-08-02T17:59:25.347801Z'
+state_hash: 2d56c1b96b417dc6d36c8e0094c7a899cf9dfe20595b3c9ed01f4cfb01623375
 project:
-  status: INFRASTRUCTURE_BLOCKED
+  status: ACTIVE
   branch_at_install: governance/v5.0-migration-20260731
   migration_baseline_commit: ea64d82fab9ed3d1952ab7d3c0d2286051390b59
   migration_commit: 8beafc2a0e115345c554abc0bdc199ef92534106
@@ -2918,21 +2918,10 @@ tasks:
     last_gate_evidence: null
     blocker: null
   TASK-R15-RECOVERY-009:
-    status: INFRASTRUCTURE_BLOCKED
+    status: READY
     attempts_used: 1
     current_attempt: null
     last_error_fingerprint: RECLASSIFIED_INFRASTRUCTURE:CODEX_PROVIDER_AUTH_UNAVAILABLE;evidence=governance/runtime/supervisor/worker-failures/TASK-R15-RECOVERY-009-a2-24ad311cb5.json
     last_candidate_commit: null
     last_gate_evidence: null
-    blocker:
-      code: MAVEN_DEPENDENCY_RESOLUTION_NETWORK_DENIED
-      detail: 'Targeted backend compile failed before compilation because org.springframework.boot:spring-boot-dependencies:pom:4.1.0
-        and software.amazon.awssdk:bom:pom:2.48.3 were absent locally and Maven could not fetch them from https://repo.maven.apache.org/maven2:
-        Permission denied: getsockopt.'
-      resolution: 'Provide network access to Maven Central or pre-populate the local Maven cache with the required BOMs, then
-        rerun: mvn -f services\backend\pom.xml -pl access,boot -am -DskipTests compile, followed by the passing focused pytest
-        and API contract checks.'
-      paths:
-      - services/backend/pom.xml
-      worker_result_evidence: governance/evidence/recovery/TASK-R15-RECOVERY-009-a2-worker-result.json
-      draft_manifest: governance/runtime/supervisor/worker-drafts/TASK-R15-RECOVERY-009-a2-d800e7ecf0/manifest.json
+    blocker: null
