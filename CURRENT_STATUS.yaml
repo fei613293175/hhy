@@ -1,9 +1,9 @@
 DO_NOT_EDIT: true
 GENERATED_FROM: governance/STATE.yaml
-SOURCE_REVISION: 157
-SOURCE_HASH: 1dc67a84ed13ac7429ecb8671342a6300ea9a7170847d593183e8870523b133c
-project_status: ACTIVE
+SOURCE_REVISION: 158
+SOURCE_HASH: 26ccbc694296bb119ba2406b7fabbbf7429a88ca530a7a5e6edbe2b506150437
+project_status: FAILED_BOUNDED
 active_release: R15
-active_task: TASK-R15-RECOVERY-009
+active_task: null
 authoritative_commit: 8ced90edb8185be68091bbd7bf8f9bd8a29b1eed
 goal_complete: false
