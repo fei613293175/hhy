@@ -24,7 +24,10 @@ from tools.governance.gov50.gates import (
 from tools.governance.gov50.hard import run_hard_protection
 from tools.governance.gov50.legacy import scan_active_control_plane
 from tools.governance.gov50.orchestrator import (
+    _worker_prompt,
+    _worker_takeover_prompt,
     bounded_recovery_candidates,
+    build_active_task_payload,
     build_auto_recovery_spec,
     stale_auto_recovery_task,
     supersede_failed,
@@ -120,6 +123,25 @@ def test_failure_evidence_is_structured_for_the_next_recovery_worker():
 
     assert structured_failure_evidence(json.dumps(evidence)) == evidence
     assert structured_failure_evidence("plain infrastructure fingerprint") == "plain infrastructure fingerprint"
+
+
+def test_active_task_carries_latest_failure_evidence_to_worker():
+    spec = copy.deepcopy(_specs()["TASK-R15-RECOVERY-007"])
+    evidence = {"status": "BLOCK", "findings": [{"severity": "HIGH", "line": 59}]}
+    spec["latest_failure_evidence"] = evidence
+
+    active = build_active_task_payload(spec["id"], spec, 1, "a" * 40)
+
+    assert active["latest_failure_evidence"] == evidence
+    assert "ACTIVE_TASK.latest_failure_evidence" in _worker_prompt(spec, 1)
+    assert "ACTIVE_TASK.latest_failure_evidence" in _worker_takeover_prompt(spec, 1, {})
+
+
+def test_windows_worker_prompts_require_serial_shell_commands():
+    spec = _specs()["TASK-R15-RECOVERY-007"]
+
+    assert "shell/tool 命令必须串行执行" in _worker_prompt(spec, 1)
+    assert "shell/tool 命令必须串行执行" in _worker_takeover_prompt(spec, 1, {})
 
 
 def test_visual_gate_uses_pre_freeze_entry_and_post_freeze_strict_acceptance():
@@ -558,6 +580,14 @@ def test_failed_recovery_transition_preserves_predecessor_and_binds_new_task(tmp
     r15_next = yaml.safe_load((repo / "governance/task_specs/TASK-R15-003.yaml").read_text(encoding="utf-8"))
     r15_next["depends_on"] = ["TASK-R15-002"]
     write_yaml(repo / "governance/task_specs/TASK-R15-003.yaml", r15_next)
+    for task_id, dependencies in {
+        "TASK-R15-004": ["TASK-R15-003"],
+        "TASK-R15-005": ["TASK-R15-003", "TASK-R15-004"],
+    }.items():
+        task_path = repo / "governance/task_specs" / f"{task_id}.yaml"
+        task_spec = yaml.safe_load(task_path.read_text(encoding="utf-8"))
+        task_spec["depends_on"] = dependencies
+        write_yaml(task_path, task_spec)
     state = yaml.safe_load((repo / "governance/STATE.yaml").read_text(encoding="utf-8"))
     state["project"]["status"] = "FAILED_BOUNDED"
     state["project"]["active_task"] = None

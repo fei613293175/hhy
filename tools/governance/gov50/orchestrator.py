@@ -486,6 +486,8 @@ def _worker_prompt(task: dict[str, Any], attempt: int) -> str:
         "只执行 governance/runtime/ACTIVE_TASK.json 指定的唯一任务。\n"
         f"这是第 {attempt}/3 次总尝试，固定策略：{strategy}。\n"
         "禁止选择下一任务、修改治理/CI/Gate/AGENTS/状态、执行任何 Git 权威命令、自判正式 PASS。\n"
+        "若 ACTIVE_TASK.latest_failure_evidence 非空，先按其中的具体文件、行号和问题修复，禁止重新扫描全部历史证据。\n"
+        "在 Windows 上所有 shell/tool 命令必须串行执行；上一条结束前禁止并发启动下一条。\n"
         "所有文件路径必须完整保留 ACTIVE_TASK.allowed_paths 的前缀（例如 scripts/，禁止截断为 cripts/ 或其他变体）。\n"
         "完成实际产品代码和测试后，运行必要的针对性验证。相同命令、输出和 Diff 不得重复。\n"
         "最终仅输出符合 worker-result.schema.json 的 CANDIDATE_READY、ATTEMPT_FAILED、EXTERNAL_BLOCKED 或 INFRASTRUCTURE_BLOCKED；必须包含 schema、status、task_id、summary、changed_files、commands_run、error_fingerprint、blocker 字段，无值时使用空数组、空字符串或 null；blocker 非 null 时必须包含 code、detail、resolution、paths、worker_result_evidence 五个字段，无值使用 null。"
@@ -499,6 +501,8 @@ def _worker_takeover_prompt(task: dict[str, Any], attempt: int, failure: dict[st
         f"任务 {task['id']}，第 {attempt}/3 次 Attempt。\n"
         "先检查当前工作区已有改动和 ACTIVE_TASK.json，保留有效改动，修复主 Worker 未完成的部分。"
         "禁止修改治理、状态、CI 或 AGENTS 文件，禁止选择下一任务，禁止执行 Git 权威命令。\n"
+        "若 ACTIVE_TASK.latest_failure_evidence 非空，先按其中的具体文件、行号和问题修复，禁止重新扫描全部历史证据。\n"
+        "在 Windows 上所有 shell/tool 命令必须串行执行；上一条结束前禁止并发启动下一条。\n"
         "完成产品代码和针对性测试后，必须写出符合 worker-result.schema.json 的结果；blocker 非 null 时必须包含 code、detail、resolution、paths、worker_result_evidence 五个字段，无值使用 null。"
         f"主 Worker 接管摘要：{failure.get('stderr_tail') or failure.get('stdout_tail') or '未返回可用输出'}"
     )
@@ -521,6 +525,34 @@ def _persist_worker_failure(repo: Path, task_id: str, attempt: int, worker: dict
             payload["worker_result_read_error"] = str(exc)
     write_json(target, payload)
     return target.relative_to(repo).as_posix()
+
+
+def build_active_task_payload(
+    task_id: str, spec: dict[str, Any], attempt: int, baseline: str
+) -> dict[str, Any]:
+    return {
+        "schema": "hhy.active-task/v5.0",
+        "task_id": task_id,
+        "release": spec["release"],
+        "attempt": attempt,
+        "maximum_attempts": 3,
+        "baseline_commit": baseline,
+        "objective": spec["objective"],
+        "deliverables": spec["deliverables"],
+        "acceptance": spec["acceptance"],
+        "latest_failure_evidence": spec.get("latest_failure_evidence"),
+        "allowed_paths": spec["allowed_paths"],
+        "protected_paths": [
+            "AGENTS.md", "governance/**", "tools/governance/**", ".codex/**",
+            ".github/workflows/**", ".githooks-v5/**", "tests/governance_v5/**",
+            "CURRENT_STATUS.yaml", "NEXT_TASK.yaml", ".continuity/**",
+            "releases/*/TASKS.yaml", "design/effect-previews/**",
+        ],
+        "acceptance_commands": spec["acceptance_commands"],
+        "risks": spec["risks"],
+        "limits": {"max_tool_calls": 100, "max_compactions": 1},
+        "ledger_path": "governance/runtime/command-ledger.jsonl",
+    }
 
 
 def _attempt_failure(
@@ -632,16 +664,7 @@ def run_once(repo: Path, dry_run: bool = False) -> dict[str, Any]:
         branch = f"gov-worker/{task_id.lower()}-a{attempt}-{uuid.uuid4().hex[:6]}"
         git(repo, "worktree", "add", "-b", branch, str(worktree), baseline, env=AUTH_ENV)
         try:
-            active = {
-                "schema": "hhy.active-task/v5.0", "task_id": task_id, "release": spec["release"],
-                "attempt": attempt, "maximum_attempts": 3, "baseline_commit": baseline,
-                "objective": spec["objective"], "deliverables": spec["deliverables"], "acceptance": spec["acceptance"],
-                "allowed_paths": spec["allowed_paths"],
-                "protected_paths": ["AGENTS.md", "governance/**", "tools/governance/**", ".codex/**", ".github/workflows/**", ".githooks-v5/**", "tests/governance_v5/**", "CURRENT_STATUS.yaml", "NEXT_TASK.yaml", ".continuity/**", "releases/*/TASKS.yaml", "design/effect-previews/**"],
-                "acceptance_commands": spec["acceptance_commands"], "risks": spec["risks"],
-                "limits": {"max_tool_calls": 100, "max_compactions": 1},
-                "ledger_path": "governance/runtime/command-ledger.jsonl",
-            }
+            active = build_active_task_payload(task_id, spec, attempt, baseline)
             runtime = worktree / "governance" / "runtime"
             runtime.mkdir(parents=True, exist_ok=True)
             write_json(runtime / "ACTIVE_TASK.json", active)
