@@ -1,7 +1,11 @@
 from __future__ import annotations
 
 import sys
+from pathlib import Path
+
 from tools.governance.gov50.util import run_with_progress_timeout
+
+ROOT = Path(__file__).resolve().parents[2]
 
 
 def test_worker_idle_timeout_terminates_without_product_progress(tmp_path):
@@ -129,3 +133,11 @@ def test_restored_draft_uses_idle_timeout_instead_of_startup_timeout(tmp_path):
     assert result["status"] == "FAIL"
     assert "IDLE_TIMEOUT" in result["stderr_tail"]
     assert "STARTUP_IDLE_TIMEOUT" not in result["stderr_tail"]
+
+
+def test_orchestrator_does_not_count_preexisting_drafts_as_current_worker_progress():
+    source = (ROOT / "tools/governance/gov50/orchestrator.py").read_text(encoding="utf-8")
+
+    assert "initial_product_progress=bool(draft_manifest)" not in source
+    assert "initial_product_progress=bool(_worker_changed_paths(worktree))" not in source
+    assert source.count("initial_product_progress=False") == 2

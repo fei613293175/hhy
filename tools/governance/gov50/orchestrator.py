@@ -1006,7 +1006,7 @@ def run_once(repo: Path, dry_run: bool = False) -> dict[str, Any]:
                 idle_timeout=_worker_idle_timeout(repo),
                 progress_paths=spec["allowed_paths"],
                 poll_interval=_worker_progress_poll(repo),
-                initial_product_progress=bool(draft_manifest),
+                initial_product_progress=False,
                 env={"HHY_GOVERNANCE_ROLE": "WORKER"},
             )
             if worker["status"] != "PASS" or not result_path.is_file():
@@ -1035,7 +1035,7 @@ def run_once(repo: Path, dry_run: bool = False) -> dict[str, Any]:
                     idle_timeout=_worker_idle_timeout(repo),
                     progress_paths=spec["allowed_paths"],
                     poll_interval=_worker_progress_poll(repo),
-                    initial_product_progress=bool(_worker_changed_paths(worktree)),
+                    initial_product_progress=False,
                     env={"HHY_GOVERNANCE_ROLE": "WORKER_TAKEOVER"},
                 )
                 if worker["status"] != "PASS" or not result_path.is_file():
