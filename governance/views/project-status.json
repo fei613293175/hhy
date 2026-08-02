@@ -1,9 +1,9 @@
 {
   "DO_NOT_EDIT": true,
   "GENERATED_FROM": "governance/STATE.yaml",
-  "SOURCE_REVISION": 150,
-  "SOURCE_HASH": "44de805e87addd6bb80b5d3b70e9fba8896eae54edf2a310dbc6e8e7befeae4f",
-  "project_status": "ACTIVE",
+  "SOURCE_REVISION": 151,
+  "SOURCE_HASH": "3af300cb02aa8840bbba8611916bb51f4150217c963e189263c210c3d37792b8",
+  "project_status": "INFRASTRUCTURE_BLOCKED",
   "active_release": "R15",
   "active_task": "TASK-R15-RECOVERY-009",
   "authoritative_commit": "8ced90edb8185be68091bbd7bf8f9bd8a29b1eed",

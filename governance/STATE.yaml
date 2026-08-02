@@ -1,9 +1,9 @@
 schema: hhy.governance-state/v5.0
-revision: 150
-updated_at: '2026-08-02T16:00:44.164616Z'
-state_hash: 44de805e87addd6bb80b5d3b70e9fba8896eae54edf2a310dbc6e8e7befeae4f
+revision: 151
+updated_at: '2026-08-02T17:29:21.721401Z'
+state_hash: 3af300cb02aa8840bbba8611916bb51f4150217c963e189263c210c3d37792b8
 project:
-  status: ACTIVE
+  status: INFRASTRUCTURE_BLOCKED
   branch_at_install: governance/v5.0-migration-20260731
   migration_baseline_commit: ea64d82fab9ed3d1952ab7d3c0d2286051390b59
   migration_commit: 8beafc2a0e115345c554abc0bdc199ef92534106
@@ -2918,10 +2918,19 @@ tasks:
     last_gate_evidence: null
     blocker: null
   TASK-R15-RECOVERY-009:
-    status: READY
+    status: INFRASTRUCTURE_BLOCKED
     attempts_used: 1
     current_attempt: null
     last_error_fingerprint: RECLASSIFIED_INFRASTRUCTURE:CODEX_PROVIDER_AUTH_UNAVAILABLE;evidence=governance/runtime/supervisor/worker-failures/TASK-R15-RECOVERY-009-a2-24ad311cb5.json
     last_candidate_commit: null
     last_gate_evidence: null
-    blocker: null
+    blocker:
+      code: INFRASTRUCTURE_DEPENDENCIES_UNAVAILABLE
+      detail: PostgreSQL 127.0.0.1:55432 不可连接；Maven 依赖 org.springframework.boot:spring-boot-dependencies:4.1.0 与 software.amazon.awssdk:bom:2.48.3
+        未缓存且网络受限。
+      resolution: 恢复 PostgreSQL 实例并提供 Maven 依赖缓存或仓库访问后，重新运行后端编译及 PostgreSQL 测试。
+      paths:
+      - services/backend/access/src/main/java/cc/orbexa/hhy/access/r15/R15PostgresStore.java
+      - services/backend/access/src/main/java/cc/orbexa/hhy/access/r15/R15UserService.java
+      - tests/test_r15_notification_support_postgres.py
+      worker_result_evidence: governance/evidence/recovery/TASK-R15-RECOVERY-009-a2-worker-result.json
