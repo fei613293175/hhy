@@ -29,6 +29,7 @@ from tools.governance.gov50.orchestrator import (
     bounded_recovery_candidates,
     build_active_task_payload,
     build_auto_recovery_spec,
+    merged_recovery_failure_evidence,
     stale_auto_recovery_task,
     supersede_failed,
     structured_failure_evidence,
@@ -123,6 +124,18 @@ def test_failure_evidence_is_structured_for_the_next_recovery_worker():
 
     assert structured_failure_evidence(json.dumps(evidence)) == evidence
     assert structured_failure_evidence("plain infrastructure fingerprint") == "plain infrastructure fingerprint"
+
+
+def test_recovery_preserves_product_findings_when_latest_execution_times_out():
+    product = {"status": "BLOCK", "findings": [{"severity": "HIGH", "line": 59}]}
+    source = {"latest_failure_evidence": product}
+
+    evidence = merged_recovery_failure_evidence(source, "worker idle timeout")
+
+    assert evidence == {
+        "current_execution_failure": "worker idle timeout",
+        "product_failure_evidence": product,
+    }
 
 
 def test_active_task_carries_latest_failure_evidence_to_worker():

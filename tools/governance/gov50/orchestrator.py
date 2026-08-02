@@ -393,6 +393,17 @@ def structured_failure_evidence(raw: Any) -> Any:
         return raw
 
 
+def merged_recovery_failure_evidence(source: dict[str, Any], current_raw: Any) -> Any:
+    current = structured_failure_evidence(current_raw)
+    product = copy.deepcopy(source.get("latest_failure_evidence"))
+    if current and product:
+        return {
+            "current_execution_failure": current,
+            "product_failure_evidence": product,
+        }
+    return current or product
+
+
 def _run_independent_reviewer(worktree: Path, task: dict[str, Any], baseline: str, candidate: str) -> dict[str, Any]:
     if not HIGH_RISK_REVIEW.intersection(task.get("risks") or []):
         return {"status": "NOT_REQUIRED", "evidence_path": None, "result": None}
@@ -1187,8 +1198,9 @@ def auto_supersede_failed(repo: Path, policy_path: Path | None = None) -> dict[s
             release,
             max(int(spec.get("ordinal") or 0) for spec in specs.values() if spec.get("release") == release) + 1,
         )
-        repair["latest_failure_evidence"] = structured_failure_evidence(
-            (state.get("tasks") or {}).get(from_task, {}).get("last_error_fingerprint")
+        repair["latest_failure_evidence"] = merged_recovery_failure_evidence(
+            source,
+            (state.get("tasks") or {}).get(from_task, {}).get("last_error_fingerprint"),
         )
         changed_specs[to_task] = repair
 
