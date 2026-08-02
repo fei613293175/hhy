@@ -6,7 +6,9 @@ import os
 import shutil
 import subprocess
 import tempfile
+import threading
 import time
+from collections import deque
 from contextlib import contextmanager
 from datetime import datetime, timezone
 from pathlib import Path
@@ -190,13 +192,34 @@ def _terminate_process_tree(proc: subprocess.Popen[str]) -> None:
         proc.kill()
 
 
+def _drain_pipe(stream: Any, chunks: deque[str]) -> None:
+    while True:
+        chunk = stream.read(4096)
+        if not chunk:
+            return
+        chunks.append(chunk)
+
+
+def _pipe_tail(chunks: deque[str], limit: int = 12000) -> str:
+    return "".join(chunks)[-limit:]
+
+
 def _tree_signature(root: Path) -> str:
     digest = hashlib.sha256()
     if not root.exists():
         return digest.hexdigest()
     for directory, dirnames, filenames in os.walk(root):
-        dirnames[:] = sorted(name for name in dirnames if name not in {".git", "runtime"})
+        dirnames[:] = sorted(
+            name for name in dirnames
+            if name not in {
+                ".git", "runtime", "__pycache__", ".pytest_cache", ".mypy_cache",
+                ".ruff_cache", ".gradle", "node_modules", "target", "build", "dist",
+                "coverage",
+            }
+        )
         for name in sorted(filenames):
+            if name.endswith((".pyc", ".pyo", ".class", ".log")):
+                continue
             path = Path(directory) / name
             try:
                 stat = path.stat()
@@ -230,8 +253,15 @@ def run_with_progress_timeout(
     product_progress = False
     signature = _tree_signature(cwd)
     proc = None
+    stdout_chunks: deque[str] = deque(maxlen=32)
+    stderr_chunks: deque[str] = deque(maxlen=32)
+    drain_threads: list[threading.Thread] = []
     try:
         proc = subprocess.Popen(argv, cwd=cwd, text=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, env=merged)
+        for stream, chunks in ((proc.stdout, stdout_chunks), (proc.stderr, stderr_chunks)):
+            thread = threading.Thread(target=_drain_pipe, args=(stream, chunks), daemon=True)
+            thread.start()
+            drain_threads.append(thread)
         while True:
             try:
                 proc.wait(timeout=5)
@@ -245,7 +275,10 @@ def run_with_progress_timeout(
                 now = time.monotonic()
                 if startup_timeout and not product_progress and now - started >= startup_timeout:
                     _terminate_process_tree(proc)
-                    stdout, stderr = proc.communicate()
+                    proc.wait(timeout=10)
+                    for thread in drain_threads:
+                        thread.join(timeout=10)
+                    stdout, stderr = _pipe_tail(stdout_chunks), _pipe_tail(stderr_chunks)
                     return {
                         "status": "FAIL",
                         "exit_code": 124,
@@ -255,7 +288,10 @@ def run_with_progress_timeout(
                     }
                 if idle_timeout and now - last_progress >= idle_timeout:
                     _terminate_process_tree(proc)
-                    stdout, stderr = proc.communicate()
+                    proc.wait(timeout=10)
+                    for thread in drain_threads:
+                        thread.join(timeout=10)
+                    stdout, stderr = _pipe_tail(stdout_chunks), _pipe_tail(stderr_chunks)
                     return {
                         "status": "FAIL",
                         "exit_code": 124,
@@ -265,7 +301,10 @@ def run_with_progress_timeout(
                     }
                 if now - started >= timeout:
                     _terminate_process_tree(proc)
-                    stdout, stderr = proc.communicate()
+                    proc.wait(timeout=10)
+                    for thread in drain_threads:
+                        thread.join(timeout=10)
+                    stdout, stderr = _pipe_tail(stdout_chunks), _pipe_tail(stderr_chunks)
                     return {
                         "status": "FAIL",
                         "exit_code": 124,
@@ -273,7 +312,9 @@ def run_with_progress_timeout(
                         "stdout_tail": (stdout or "")[-12000:],
                         "stderr_tail": f"TIMEOUT after {timeout}s\n{(stderr or '')[-4000:]}",
                     }
-        stdout, stderr = proc.communicate()
+        for thread in drain_threads:
+            thread.join(timeout=10)
+        stdout, stderr = _pipe_tail(stdout_chunks), _pipe_tail(stderr_chunks)
         return {
             "status": "PASS" if proc.returncode == 0 else "FAIL",
             "exit_code": proc.returncode,
