@@ -41,6 +41,7 @@ from tools.governance.gov50.orchestrator import (
     supersede_failed,
     structured_failure_evidence,
     task_gate_profile,
+    worker_failure_evidence,
     worker_sandbox_args,
 )
 from tools.governance.gov50.secrets import scan_secrets
@@ -155,6 +156,20 @@ def test_active_task_carries_latest_failure_evidence_to_worker():
     assert active["latest_failure_evidence"] == evidence
     assert "ACTIVE_TASK.latest_failure_evidence" in _worker_prompt(spec, 1)
     assert "ACTIVE_TASK.latest_failure_evidence" in _worker_takeover_prompt(spec, 1, {})
+
+
+def test_worker_uses_current_state_failure_evidence_before_stale_task_spec():
+    spec = {"latest_failure_evidence": {"status": "OLD"}}
+    current = {"status": "BLOCK", "findings": [{"issue": "current reviewer finding"}]}
+    row = {"last_error_fingerprint": json.dumps(current)}
+
+    assert worker_failure_evidence(spec, row) == current
+
+
+def test_worker_keeps_task_spec_failure_evidence_when_state_has_none():
+    evidence = {"status": "BLOCK", "findings": [{"issue": "recovery source finding"}]}
+
+    assert worker_failure_evidence({"latest_failure_evidence": evidence}, {}) == evidence
 
 
 def test_windows_worker_prompts_require_serial_shell_commands():

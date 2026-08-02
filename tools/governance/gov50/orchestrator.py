@@ -438,6 +438,11 @@ def merged_recovery_failure_evidence(source: dict[str, Any], current_raw: Any) -
     return current or product
 
 
+def worker_failure_evidence(spec: dict[str, Any], row: dict[str, Any]) -> Any:
+    current = structured_failure_evidence(row.get("last_error_fingerprint"))
+    return copy.deepcopy(current or spec.get("latest_failure_evidence"))
+
+
 def _run_independent_reviewer(worktree: Path, task: dict[str, Any], baseline: str, candidate: str) -> dict[str, Any]:
     if not HIGH_RISK_REVIEW.intersection(task.get("risks") or []):
         return {"status": "NOT_REQUIRED", "evidence_path": None, "result": None}
@@ -981,6 +986,7 @@ def run_once(repo: Path, dry_run: bool = False) -> dict[str, Any]:
         git(repo, "worktree", "add", "-b", branch, str(worktree), baseline, env=AUTH_ENV)
         try:
             active = build_active_task_payload(task_id, spec, attempt, baseline)
+            active["latest_failure_evidence"] = worker_failure_evidence(spec, row)
             draft_manifest = _latest_worker_draft(repo, task_id, attempt, baseline)
             if draft_manifest:
                 active["restored_draft"] = {
