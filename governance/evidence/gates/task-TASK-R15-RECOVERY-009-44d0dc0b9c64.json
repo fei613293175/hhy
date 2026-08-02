@@ -1,0 +1,96 @@
+{
+  "schema": "hhy.gate-report/v5.0",
+  "status": "PASS",
+  "profile": "task",
+  "task_id": "TASK-R15-RECOVERY-009",
+  "release": "R15",
+  "commit": "44d0dc0b9c645929270ef2f5341050782aa6e164",
+  "generated_at": "2026-08-02T18:51:50.070489Z",
+  "checks": [
+    {
+      "id": "commit_binding",
+      "status": "PASS",
+      "detail": {
+        "HEAD": "44d0dc0b9c645929270ef2f5341050782aa6e164",
+        "expected": "44d0dc0b9c645929270ef2f5341050782aa6e164"
+      }
+    },
+    {
+      "id": "test_authority",
+      "status": "PASS",
+      "detail": {
+        "schema": "hhy.test-authority/v5.0",
+        "status": "PASS",
+        "commit": "44d0dc0b9c645929270ef2f5341050782aa6e164",
+        "parent": "047fb62a51a66480a66d166c89a9a27a0490c929",
+        "test_paths_checked": [
+          "tests/test_r15_notification_support_postgres.py"
+        ],
+        "violations": []
+      }
+    },
+    {
+      "id": "static_specs",
+      "status": "PASS",
+      "detail": []
+    },
+    {
+      "id": "state_integrity",
+      "status": "PASS"
+    },
+    {
+      "id": "active_legacy_routes",
+      "status": "PASS",
+      "detail": []
+    },
+    {
+      "id": "secret_scan",
+      "status": "PASS",
+      "detail": {
+        "mode": null,
+        "files_considered": 10,
+        "files_scanned": 10,
+        "findings": []
+      }
+    },
+    {
+      "id": "hard_protection",
+      "status": "PASS",
+      "detail": {
+        "schema": "hhy.hard-protection/v5.0",
+        "status": "PASS",
+        "task_id": "TASK-R15-RECOVERY-009",
+        "release": "R15",
+        "profile": "task",
+        "risks": [
+          "contract",
+          "secrets",
+          "security"
+        ],
+        "details": {
+          "security_requirements": [
+            "REQ-APK-001",
+            "REQ-CHAT-002",
+            "REQ-NOTIFY-001",
+            "REQ-SUPPORT-001"
+          ]
+        },
+        "errors": []
+      }
+    },
+    {
+      "id": "task_acceptance_1",
+      "status": "PASS",
+      "detail": {
+        "status": "PASS",
+        "exit_code": 0,
+        "command": [
+          "C:\\Users\\Public\\hhy-toolchain\\python\\python.exe",
+          "scripts/check_api_contract.py"
+        ],
+        "stdout_tail": "API_CONTRACT_OK client=131 admin=184 websocket=12 runtime_hashes=PASS\n",
+        "stderr_tail": ""
+      }
+    }
+  ]
+}

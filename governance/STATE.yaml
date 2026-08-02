@@ -1,7 +1,7 @@
 schema: hhy.governance-state/v5.0
-revision: 154
-updated_at: '2026-08-02T17:59:25.347801Z'
-state_hash: 2d56c1b96b417dc6d36c8e0094c7a899cf9dfe20595b3c9ed01f4cfb01623375
+revision: 155
+updated_at: '2026-08-02T19:00:40.725624Z'
+state_hash: 823ad0b2f581cb7ca4d5c93cd7e918d774db0b3ba8d4c9b6f0e1cb1c91453e45
 project:
   status: ACTIVE
   branch_at_install: governance/v5.0-migration-20260731
@@ -2919,9 +2919,40 @@ tasks:
     blocker: null
   TASK-R15-RECOVERY-009:
     status: READY
-    attempts_used: 1
+    attempts_used: 2
     current_attempt: null
-    last_error_fingerprint: RECLASSIFIED_INFRASTRUCTURE:CODEX_PROVIDER_AUTH_UNAVAILABLE;evidence=governance/runtime/supervisor/worker-failures/TASK-R15-RECOVERY-009-a2-24ad311cb5.json
+    last_error_fingerprint: '{"commit": "44d0dc0b9c645929270ef2f5341050782aa6e164", "findings": [{"evidence": "V049 仅将 legacy_permission.code
+      = ''review.manage'' 的角色映射到 report.decide/appeal.decide；ACTIVE_TASK 的最新失败证据明确现有迁移提供的是 review.decide。普通既有审查角色因此仍无法获得新端点所需权限，只有
+      SUPER_ADMIN 路径被单独覆盖。", "issue": "权限迁移没有修复实际存在的 review.decide 角色权限，导致 report.decide 和 appeal.decide 对正常 RBAC 用户仍不可用。",
+      "line": 22, "path": "services/backend/boot/src/main/resources/db/migration/V049__r15_admin_support_permissions.sql",
+      "requirement_ref": "TASK-R15-RECOVERY-009: 权限覆盖与最新失败根因修复", "severity": "HIGH"}, {"evidence": "R15UserService 收集并加入哈希的
+      evidenceMediaIds/messageIds 在调用 createContentReport 时未传递；R15PostgresStore 的 INSERT 只写 reporter_id、content_id、type、description、status，完全没有保存证据或消息关联。",
+      "issue": "内容举报请求中的证据和消息标识被静默丢弃，OpenAPI 请求语义及举报审计事实不完整。", "line": 295, "path": "services/backend/access/src/main/java/cc/orbexa/hhy/access/r15/R15PostgresStore.java",
+      "requirement_ref": "TASK-R15-RECOVERY-009: OpenAPI 契约与审计覆盖", "severity": "HIGH"}, {"evidence": "R15AdminService 校验并哈希了
+      AdminDecisionRequest.reason/evidenceIds，但 decideContentReport、decideAppeal、decideChatReport 的存储调用只传入目标状态和 requestId；audit
+      仅序列化 before/after 行，也不包含 reason/evidenceIds。", "issue": "管理员决定的原因和证据不会写入数据库、Outbox 或审计记录，导致已接受的契约字段实际丢失。", "line": 64,
+      "path": "services/backend/access/src/main/java/cc/orbexa/hhy/access/r15/R15AdminService.java", "requirement_ref": "TASK-R15-RECOVERY-009:
+      权限/幂等/错误码/审计覆盖", "severity": "HIGH"}, {"evidence": "公开用户服务调用 announcements 时允许 status 为空或任意值；R15PostgresStore 的列表查询从
+      WHERE 1=1 开始，详情查询仅按 id 查询，均没有 status=''PUBLISHED'' 或发布时点限制。", "issue": "普通用户可以通过公告列表或详情接口读取草稿、归档或其他非公开公告，形成未发布内容泄露。",
+      "line": 90, "path": "services/backend/access/src/main/java/cc/orbexa/hhy/access/r15/R15PostgresStore.java", "requirement_ref":
+      "TASK-R15-RECOVERY-009: 安全与用户数据访问边界", "severity": "HIGH"}, {"evidence": "assignTicket 对 OPEN 以外的状态直接令 nextStatus=before.status()，WHERE
+      也匹配该原状态。因此 CLOSED 工单仍可更新 assignee 并产生 assigned Outbox 事件；ACTIVE_TASK 中的支持工单状态机明确 CLOSED 为 terminal。", "issue": "管理员分派接口违反
+      CLOSED 终态不变量，允许修改已关闭工单。", "line": 209, "path": "services/backend/access/src/main/java/cc/orbexa/hhy/access/r15/R15PostgresStore.java",
+      "requirement_ref": "TASK-R15-RECOVERY-009: 数据库状态机与业务不变量", "severity": "HIGH"}, {"evidence": "代码定义了 HelpArticlePage，但
+      supportGetHelpArticles 实际返回 SupportTicketPage；articleAsContractTicket 将文章 content 放入 SupportTicketResource.assignee，并生成
+      ARTICLE-* ticketNo。/help/articles 因而返回工单结构而非文章结构。", "issue": "帮助文章端点实现了错误的响应契约，文章内容和字段被映射到不相关的工单字段。", "line": 98, "path":
+      "services/backend/access/src/main/java/cc/orbexa/hhy/access/r15/R15Contracts.java", "requirement_ref": "TASK-R15-RECOVERY-009:
+      25 个 operationId 与 OpenAPI 契约", "severity": "HIGH"}, {"evidence": "创建工单时 subject 写入 ticket.biz_type，但列表搜索使用 ticket.subject；对新建工单按标题搜索时，要么引用不存在的列导致
+      SQL 失败，要么无法匹配实际保存的标题。", "issue": "支持工单 keyword 查询与写入字段不一致，搜索路径存在数据库错误或结果缺失。", "line": 515, "path": "services/backend/access/src/main/java/cc/orbexa/hhy/access/r15/R15PostgresStore.java",
+      "requirement_ref": "TASK-R15-RECOVERY-009: 数据库查询与支持工单契约", "severity": "MEDIUM"}, {"evidence": "各服务只校验 cursor/sort，随后调用不接收这两个参数的
+      Store 方法；排序 SQL 固定为 created_at/updated_at，PageMeta.nextCursor 始终为 null。", "issue": "分页游标和非默认排序参数被静默忽略，列表契约行为不完整。", "line":
+      67, "path": "services/backend/access/src/main/java/cc/orbexa/hhy/access/r15/R15UserService.java", "requirement_ref":
+      "TASK-R15-RECOVERY-009: OpenAPI 列表契约", "severity": "MEDIUM"}, {"evidence": "新增测试仅静态读取 V049 内容；数据库集成路径仍调用 _run_migrations(...,
+      48)，而目标树中 V049 只有 services/backend/boot/src/main/resources/db/migration 下的运行时文件，没有 database/migrations 对应副本。", "issue":
+      "新权限迁移未进入实际数据库升级矩阵，静态字符串断言可以通过但无法证明 V049 可执行或完成真实角色映射。未发现删除既有测试或 pytest.skip。", "line": 388, "path": "tests/test_r15_notification_support_postgres.py",
+      "requirement_ref": "TASK-R15-RECOVERY-009: 独立测试与数据库迁移验证", "severity": "MEDIUM"}], "schema": "hhy.reviewer-result/v5.0",
+      "status": "BLOCK", "summary": "发现多项有具体证据的 HIGH 正确性、安全、权限、状态机和契约问题，候选不能通过独立审查。Git diff 未显示删除或跳过既有测试，但新增门禁主要是静态匹配，未覆盖
+      V049 的真实升级执行。", "task_id": "TASK-R15-RECOVERY-009"}'
     last_candidate_commit: null
     last_gate_evidence: null
     blocker: null
