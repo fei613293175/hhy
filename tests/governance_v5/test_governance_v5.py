@@ -164,6 +164,13 @@ def test_rejected_candidate_paths_do_not_block_fresh_implementation():
     assert "禁止仅因文件缺失返回 ATTEMPT_FAILED" in _worker_takeover_prompt(spec, 1, {})
 
 
+def test_worker_prompts_bound_read_only_discovery_before_implementation():
+    spec = _specs()["TASK-R15-RECOVERY-009"]
+
+    assert "只读定位最多使用 30 次工具调用" in _worker_prompt(spec, 1)
+    assert "禁止用占位、TODO、空壳或无意义改动刷新进展计时" in _worker_takeover_prompt(spec, 1, {})
+
+
 def test_visual_gate_uses_pre_freeze_entry_and_post_freeze_strict_acceptance():
     assert visual_contract_command(ROOT, "freeze", "R14", True) == (
         "visual_entry_contract",
