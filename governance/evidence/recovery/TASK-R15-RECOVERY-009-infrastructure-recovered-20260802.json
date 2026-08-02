@@ -1,0 +1,39 @@
+{
+  "schema": "hhy.infrastructure-recovery/v5.0",
+  "task_id": "TASK-R15-RECOVERY-009",
+  "resolved": true,
+  "code": "MAVEN_DEPENDENCIES_AND_POSTGRES_DRIVER_UNAVAILABLE",
+  "verified_at": "2026-08-02T16:10:00Z",
+  "checks": {
+    "maven": {
+      "status": "PASS",
+      "version": "3.9.11",
+      "mode": "offline reactor compile reached javac"
+    },
+    "jdk": {
+      "status": "PASS",
+      "version": "21.0.12"
+    },
+    "postgresql": {
+      "status": "PASS",
+      "version": "17.10",
+      "container": "hhy-r15-gov50-pg",
+      "tunnel": "127.0.0.1:55432"
+    },
+    "python_postgresql_driver": {
+      "status": "PASS",
+      "package": "psycopg",
+      "version": "3.2.9"
+    }
+  },
+  "current_product_failure": {
+    "classification": "PRODUCT_COMPILATION_ERROR",
+    "command": "mvn -o -pl boot -am -DskipTests compile",
+    "module": "hhy-access",
+    "files": [
+      "services/backend/access/src/main/java/cc/orbexa/hhy/access/r15/R15PostgresStore.java",
+      "services/backend/access/src/main/java/cc/orbexa/hhy/access/r15/R15UserService.java"
+    ],
+    "summary": "Dependency resolution completed offline and javac reported invalid bound references to static row mappers plus a Duration-to-Instant type mismatch. These are product code errors, not infrastructure failures."
+  }
+}
