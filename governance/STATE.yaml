@@ -1,15 +1,15 @@
 schema: hhy.governance-state/v5.0
-revision: 132
-updated_at: '2026-08-02T00:05:28.693208Z'
-state_hash: 2662ae4bb9a47740c165c3cd36fb44630cf5fbeb000f89d8dd3aec30fe7e5baa
+revision: 133
+updated_at: '2026-08-02T00:06:42.233842Z'
+state_hash: 68455338cd70c87b8f7fe852fa063a48b5da8fd522b828df83539b2cdd1d90da
 project:
-  status: FAILED_BOUNDED
+  status: ACTIVE
   branch_at_install: governance/v5.0-migration-20260731
   migration_baseline_commit: ea64d82fab9ed3d1952ab7d3c0d2286051390b59
   migration_commit: 8beafc2a0e115345c554abc0bdc199ef92534106
-  authoritative_commit: 3be7e1637cc1bb1ef59d885121ca44dea0a1e6ad
+  authoritative_commit: d4b6282d0b9dbb0c1ce9e0bb6e58a6784c6bbd59
   active_release: R15
-  active_task: null
+  active_task: TASK-R15-RECOVERY-006
   goal_complete: false
 lease: null
 releases:
@@ -2860,6 +2860,14 @@ tasks:
       "requirement_ref": "ACTIVE_TASK.deliverables: OpenAPI契约测试", "severity": "HIGH"}], "schema": "hhy.reviewer-result/v5.0",
       "status": "BLOCK", "summary": "候选不满足 TASK-R15-RECOVERY-005：存在可复核的安全/契约/数据库并发正确性问题。指定 diff 未显示删除文件或删除/跳过既有测试，新增测试主要是映射和静态字符串检查，未覆盖上述行为。",
       "task_id": "TASK-R15-RECOVERY-005"}'
+    last_candidate_commit: null
+    last_gate_evidence: null
+    blocker: null
+  TASK-R15-RECOVERY-006:
+    status: READY
+    attempts_used: 0
+    current_attempt: null
+    last_error_fingerprint: null
     last_candidate_commit: null
     last_gate_evidence: null
     blocker: null
