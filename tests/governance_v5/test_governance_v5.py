@@ -24,8 +24,10 @@ from tools.governance.gov50.gates import (
 from tools.governance.gov50.hard import run_hard_protection
 from tools.governance.gov50.legacy import scan_active_control_plane
 from tools.governance.gov50.orchestrator import (
+    _draft_manifest_from_blocker,
     _latest_worker_draft,
     _restore_worker_draft,
+    _worker_blocker_with_recovery_context,
     _worker_infrastructure_code,
     _worker_prompt,
     _worker_takeover_prompt,
@@ -216,6 +218,26 @@ def test_infrastructure_draft_is_hash_bound_and_restored_for_same_attempt(tmp_pa
     assert _restore_worker_draft(worktree, manifest) == [relative]
     assert (worktree / relative).read_text(encoding="utf-8") == "final class R15 {}\n"
     assert _latest_worker_draft(repo, "TASK-R15-001", 3, "a" * 40) is None
+
+
+def test_structured_worker_blocker_keeps_evidence_and_resumable_draft():
+    evidence = "governance/evidence/recovery/TASK-R15-001-a2-worker-result.json"
+    draft = "governance/runtime/supervisor/worker-drafts/TASK-R15-001-a2-x/manifest.json"
+    blocker = {
+        "code": "DATABASE_UNAVAILABLE",
+        "detail": "PostgreSQL is unavailable",
+        "resolution": "Restore PostgreSQL",
+        "paths": ["tests/test_r15.py"],
+        "worker_result_evidence": "worker self-report",
+    }
+
+    enriched = _worker_blocker_with_recovery_context(blocker, evidence, draft)
+
+    assert enriched["detail"] == blocker["detail"]
+    assert enriched["worker_result_evidence"] == evidence
+    assert enriched["draft_manifest"] == draft
+    assert _draft_manifest_from_blocker(enriched) == draft
+    assert _draft_manifest_from_blocker({"detail": {"draft_manifest": draft}}) == draft
 
 
 def test_visual_gate_uses_pre_freeze_entry_and_post_freeze_strict_acceptance():

@@ -1,0 +1,29 @@
+{
+  "blocker": {
+    "code": "MAVEN_DEPENDENCIES_AND_POSTGRES_DRIVER_UNAVAILABLE",
+    "detail": "已完成源码修复和静态验证；完整编译因 Maven Central 依赖网络被拒绝，PostgreSQL 集成测试因缺少 psycopg2/psycopg 无法执行。",
+    "paths": [
+      "services/backend/pom.xml",
+      "tests/test_r15_notification_support_postgres.py"
+    ],
+    "resolution": "提供缓存依赖、PostgreSQL 驱动和数据库服务后，重新执行 Maven 编译及 PostgreSQL 测试。",
+    "worker_result_evidence": "静态 R15 测试 4 passed；API_CONTRACT_OK。直接 Maven 编译失败于 Spring Boot/AWS BOM 下载，PostgreSQL 测试失败于 ModuleNotFoundError: psycopg2/psycopg。"
+  },
+  "changed_files": [
+    "services/backend/access/src/main/java/cc/orbexa/hhy/access/r15/R15PostgresStore.java",
+    "services/backend/access/src/main/java/cc/orbexa/hhy/access/r15/R15UserService.java",
+    "tests/test_r15_notification_support_postgres.py"
+  ],
+  "commands_run": [
+    "python3 tools/governance/hhy_governance.py active-task --format context",
+    "python3 -m pytest tests/test_r15_notification_support_postgres.py -q -k \"not postgresql_empty_and_v047_upgrade_paths_execute_r15_matrix\"",
+    "python3 scripts/check_api_contract.py",
+    "python3 -m pytest tests/test_r15_notification_support_postgres.py -q -k \"postgresql_empty_and_v047_upgrade_paths_execute_r15_matrix\"",
+    "& local Maven/bin/mvn.cmd -pl boot -am -DskipTests compile"
+  ],
+  "error_fingerprint": "maven-central-network-denied-and-psycopg-missing",
+  "schema": "hhy.worker-result/v5.0",
+  "status": "INFRASTRUCTURE_BLOCKED",
+  "summary": "修复通知已读与全部已读命令的请求关联：分离 HTTP requestId 与 X-Idempotency-Key，并将幂等元数据写入 Outbox 载荷；静态测试和 API 契约检查通过。完整编译及 PostgreSQL 集成验证受基础设施阻断。",
+  "task_id": "TASK-R15-RECOVERY-009"
+}

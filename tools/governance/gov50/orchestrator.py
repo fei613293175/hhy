@@ -530,7 +530,7 @@ def _auto_resume_transient_provider(
     probe = _probe_codex_provider()
     if probe["status"] != "PASS":
         return None
-    draft_relative = (blocker.get("detail") or {}).get("draft_manifest")
+    draft_relative = _draft_manifest_from_blocker(blocker)
     evidence = repo / "governance" / "evidence" / "recovery" / f"{task_id}-provider-recovered-{uuid.uuid4().hex[:10]}.json"
     write_json(evidence, {
         "schema": "hhy.infrastructure-recovery/v5.0",
@@ -638,6 +638,37 @@ def _preserve_worker_draft(
         repo, worktree, task_id, attempt, baseline, allowed_paths,
         _worker_changed_paths(worktree),
     )
+
+
+def _draft_manifest_from_blocker(blocker: Any) -> str | None:
+    if not isinstance(blocker, dict):
+        return None
+    direct = blocker.get("draft_manifest")
+    if isinstance(direct, str) and direct:
+        return direct
+    detail = blocker.get("detail")
+    if isinstance(detail, dict):
+        nested = detail.get("draft_manifest")
+        if isinstance(nested, str) and nested:
+            return nested
+    return None
+
+
+def _worker_blocker_with_recovery_context(
+    blocker: Any,
+    worker_result_evidence: str,
+    draft_manifest: str | None,
+) -> dict[str, Any]:
+    enriched = dict(blocker) if isinstance(blocker, dict) else {
+        "code": "UNSPECIFIED_BLOCKER",
+        "detail": None,
+        "resolution": None,
+        "paths": None,
+    }
+    enriched["worker_result_evidence"] = worker_result_evidence
+    if draft_manifest:
+        enriched["draft_manifest"] = draft_manifest
+    return enriched
 
 
 def _latest_worker_draft(repo: Path, task_id: str, attempt: int, baseline: str) -> Path | None:
@@ -1034,25 +1065,36 @@ def run_once(repo: Path, dry_run: bool = False) -> dict[str, Any]:
                 write_json(result_evidence, result)
                 result_rel = result_evidence.relative_to(worktree).as_posix()
                 _copy_worker_evidence(worktree, repo, result_rel)
+                draft = _preserve_worker_draft(
+                    repo, worktree, task_id, attempt, baseline, spec["allowed_paths"]
+                )
                 row["status"] = status
-                row["blocker"] = result.get("blocker") or {
-                    "code": "UNSPECIFIED_BLOCKER",
-                    "worker_result_evidence": str((Path("governance") / "evidence" / "recovery" / result_evidence.name).as_posix()),
-                }
+                row["blocker"] = _worker_blocker_with_recovery_context(
+                    result.get("blocker"), result_rel, draft,
+                )
                 row["current_attempt"] = None
                 state["project"]["status"] = status
                 state["lease"] = None
                 rev = state["revision"]
                 write_state(repo, state, expected_revision=rev)
                 state = read_state(repo)
-                _commit_state(repo, state, specs, f"[gov5.0] block {task_id}")
+                state_commit = _commit_state(
+                    repo, state, specs, f"[gov5.0] block {task_id}",
+                    extra_paths=[result_rel],
+                )
+                if state_commit and draft:
+                    draft_data = read_json(repo / draft)
+                    draft_data["baseline_commit"] = state_commit
+                    write_json(repo / draft, draft_data)
                 return {
                     "schema": "hhy.run-once/v5.0",
                     "status": status,
                     "task_id": task_id,
-                    "blocker": row["blocker"],
-                    "attempts_used": row["attempts_used"],
-                    "worker_result_evidence": str((Path("governance") / "evidence" / "recovery" / result_evidence.name).as_posix()),
+                    "blocker": state["tasks"][task_id]["blocker"],
+                    "attempts_used": state["tasks"][task_id]["attempts_used"],
+                    "worker_result_evidence": result_rel,
+                    "draft_manifest": draft,
+                    "state_commit": state_commit,
                     "exit_code": 21,
                 }
             if status != "CANDIDATE_READY" or not changed:
@@ -1266,6 +1308,7 @@ def unblock(repo: Path, task_id: str, evidence: Path) -> dict[str, Any]:
             or data.get("authority_worktree_clean") is not True
         ):
             raise RuntimeError("policy violation evidence must prove the violating candidate was rejected and authority worktree is clean")
+        draft_manifest = _draft_manifest_from_blocker(row.get("blocker"))
         row["status"] = "READY"
         row["blocker"] = None
         state["project"]["active_task"] = task_id
@@ -1275,7 +1318,14 @@ def unblock(repo: Path, task_id: str, evidence: Path) -> dict[str, Any]:
         write_state(repo, state, expected_revision=rev)
         state = read_state(repo)
         commit_id = _commit_state(repo, state, specs, f"[gov5.0] unblock {task_id}")
-        return {"schema": "hhy.unblock/v5.0", "status": "READY", "task_id": task_id, "evidence": rel, "state_commit": commit_id}
+        if commit_id and draft_manifest and (repo / draft_manifest).is_file():
+            draft_data = read_json(repo / draft_manifest)
+            draft_data["baseline_commit"] = commit_id
+            write_json(repo / draft_manifest, draft_data)
+        return {
+            "schema": "hhy.unblock/v5.0", "status": "READY", "task_id": task_id,
+            "evidence": rel, "draft_manifest": draft_manifest, "state_commit": commit_id,
+        }
 
 
 def supersede_failed(repo: Path, from_task: str, to_task: str, authorization: Path) -> dict[str, Any]:
