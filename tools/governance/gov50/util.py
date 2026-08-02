@@ -211,6 +211,7 @@ def run_with_progress_timeout(
     command: Iterable[str],
     cwd: Path,
     timeout: int = 600,
+    startup_timeout: int | None = None,
     idle_timeout: int | None = None,
     env: dict[str, str] | None = None,
 ) -> dict[str, Any]:
@@ -226,6 +227,7 @@ def run_with_progress_timeout(
     argv = resolve_runtime_command(command, merged)
     started = time.monotonic()
     last_progress = started
+    product_progress = False
     signature = _tree_signature(cwd)
     proc = None
     try:
@@ -239,7 +241,18 @@ def run_with_progress_timeout(
                 if current != signature:
                     signature = current
                     last_progress = time.monotonic()
+                    product_progress = True
                 now = time.monotonic()
+                if startup_timeout and not product_progress and now - started >= startup_timeout:
+                    _terminate_process_tree(proc)
+                    stdout, stderr = proc.communicate()
+                    return {
+                        "status": "FAIL",
+                        "exit_code": 124,
+                        "command": argv,
+                        "stdout_tail": (stdout or "")[-12000:],
+                        "stderr_tail": f"STARTUP_IDLE_TIMEOUT after {startup_timeout}s without first product-file change\n{(stderr or '')[-4000:]}",
+                    }
                 if idle_timeout and now - last_progress >= idle_timeout:
                     _terminate_process_tree(proc)
                     stdout, stderr = proc.communicate()

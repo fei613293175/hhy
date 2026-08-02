@@ -169,7 +169,13 @@ def test_visual_gate_uses_pre_freeze_entry_and_post_freeze_strict_acceptance():
 
 
 def test_worker_uses_patch_capable_windows_workspace_sandbox():
-    assert worker_sandbox_args("nt") == ["-c", 'windows.sandbox="elevated"']
+    assert worker_sandbox_args("nt") == [
+        "-c", 'windows.sandbox="elevated"',
+        "-c", "features.apps=false",
+        "-c", "features.plugins=false",
+        "-c", "features.remote_plugin=false",
+        "-c", "features.memories=false",
+    ]
     assert worker_sandbox_args("posix") == []
 
 

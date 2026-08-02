@@ -50,6 +50,7 @@ limits:
   run_loop_default_max_runs: 20
   run_loop_absolute_max_runs: 100
   worker_timeout_seconds: 3600
+  worker_startup_timeout_seconds: 600
   worker_idle_timeout_seconds: 1800
   gate_timeout_seconds: 1800
 attempt_strategies:

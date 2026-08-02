@@ -44,6 +44,11 @@ def _worker_idle_timeout(repo: Path) -> int:
     return int((constitution.get("limits") or {}).get("worker_idle_timeout_seconds", 1800))
 
 
+def _worker_startup_timeout(repo: Path) -> int:
+    constitution = read_yaml(repo / "governance" / "DEVELOPMENT_CONSTITUTION.yaml") or {}
+    return int((constitution.get("limits") or {}).get("worker_startup_timeout_seconds", 600))
+
+
 def _commit_state(repo: Path, state: dict[str, Any], specs: dict[str, dict[str, Any]], message: str, extra_paths: list[str] | None = None) -> str | None:
     render_views(repo, state, specs)
     paths = ["governance/STATE.yaml", "CURRENT_STATUS.yaml", "NEXT_TASK.yaml", "governance/views"]
@@ -371,7 +376,13 @@ def worker_sandbox_args(platform_name: str | None = None) -> list[str]:
     """Select the Windows backend that supports workspace-write apply_patch."""
     platform_name = platform_name or os.name
     if platform_name == "nt":
-        return ["-c", 'windows.sandbox="elevated"']
+        return [
+            "-c", 'windows.sandbox="elevated"',
+            "-c", "features.apps=false",
+            "-c", "features.plugins=false",
+            "-c", "features.remote_plugin=false",
+            "-c", "features.memories=false",
+        ]
     return []
 
 
@@ -690,6 +701,7 @@ def run_once(repo: Path, dry_run: bool = False) -> dict[str, Any]:
                 command,
                 worktree,
                 timeout=3600,
+                startup_timeout=_worker_startup_timeout(repo),
                 idle_timeout=_worker_idle_timeout(repo),
                 env={"HHY_GOVERNANCE_ROLE": "WORKER"},
             )
@@ -706,6 +718,7 @@ def run_once(repo: Path, dry_run: bool = False) -> dict[str, Any]:
                     takeover_command,
                     worktree,
                     timeout=3600,
+                    startup_timeout=_worker_startup_timeout(repo),
                     idle_timeout=_worker_idle_timeout(repo),
                     env={"HHY_GOVERNANCE_ROLE": "WORKER_TAKEOVER"},
                 )
