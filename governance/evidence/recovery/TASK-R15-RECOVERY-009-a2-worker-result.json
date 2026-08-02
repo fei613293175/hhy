@@ -2,28 +2,52 @@
   "schema": "hhy.worker-result/v5.0",
   "status": "INFRASTRUCTURE_BLOCKED",
   "task_id": "TASK-R15-RECOVERY-009",
-  "summary": "已修复 chat_reports 显式 version 乐观锁、通知幂等异常清理，并通过静态目标测试与 OpenAPI 契约检查；编译和 PostgreSQL 集成测试受环境阻断。",
+  "summary": "Restored draft was reviewed against latest failure evidence. The cited R15 audit column mismatch, chat report domain/controller mismatch, help article SQL alias, notification read idempotency path, and missing admin permission seeds are present as fixed in the current draft. Focused regression test and OpenAPI contract check pass. Backend Java compile could not complete because Maven dependency resolution needs network access to repo.maven.apache.org and the required BOMs are absent from the local cache.",
   "changed_files": [
+    "services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminSecurityStore.java",
+    "services/backend/access/src/main/java/cc/orbexa/hhy/access/r15/R15AdminService.java",
+    "services/backend/access/src/main/java/cc/orbexa/hhy/access/r15/R15Contracts.java",
     "services/backend/access/src/main/java/cc/orbexa/hhy/access/r15/R15PostgresStore.java",
     "services/backend/access/src/main/java/cc/orbexa/hhy/access/r15/R15UserService.java",
+    "services/backend/boot/src/main/java/cc/orbexa/hhy/boot/admin/R15SupportAdminController.java",
+    "services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/R15UserController.java",
+    "services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/UserSelfServiceController.java",
+    "services/backend/boot/src/main/resources/db/migration/V049__r15_admin_support_permissions.sql",
     "tests/test_r15_notification_support_postgres.py"
   ],
   "commands_run": [
-    "python3 -m pytest tests/test_r15_notification_support_postgres.py -q -k \"not postgresql\"",
+    "python3 tools/governance/hhy_governance.py active-task --format context",
+    "Get-Content -Raw governance/runtime/ACTIVE_TASK.json",
+    "python3 -m pytest tests/test_r15_notification_support_postgres.py",
+    "Get-Content -Raw services/backend/access/src/main/java/cc/orbexa/hhy/access/r15/R15PostgresStore.java",
+    "Get-Content -Raw services/backend/boot/src/main/java/cc/orbexa/hhy/boot/admin/R15SupportAdminController.java",
+    "Get-Content -Raw services/backend/access/src/main/java/cc/orbexa/hhy/access/r15/R15AdminService.java",
+    "Get-Content -Raw services/backend/access/src/main/java/cc/orbexa/hhy/access/r15/R15Contracts.java",
     "python3 scripts/check_api_contract.py",
-    "mvn.cmd -o -q -DskipTests package",
-    "Test-NetConnection -ComputerName 127.0.0.1 -Port 55432 -InformationLevel Quiet"
+    "rg --files -g \"build.gradle*\" -g \"settings.gradle*\" -g \"gradlew*\"",
+    "Get-Content -Raw services/backend/access/src/main/java/cc/orbexa/hhy/access/r15/R15UserService.java",
+    "Get-Content -Raw services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/R15UserController.java",
+    "Get-Content -Raw services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/UserSelfServiceController.java",
+    "Get-Content -Raw services/backend/boot/src/main/resources/db/migration/V049__r15_admin_support_permissions.sql",
+    "Get-ChildItem -Force",
+    "rg --files -g \"pom.xml\" -g \"mvnw*\" -g \"build.gradle*\" -g \"settings.gradle*\"",
+    "rg \"supportGetHelpArticles|HelpArticle\" contracts catalogs docs packages services/backend tests",
+    "Get-Content -Raw services/backend/pom.xml",
+    "services\\backend\\mvnw.cmd -f services\\backend\\pom.xml -pl access,boot -am -DskipTests compile",
+    "cmd /c services\\backend\\mvnw.cmd -f services\\backend\\pom.xml -pl access,boot -am -DskipTests compile",
+    "mvn -v",
+    "mvn -f services\\backend\\pom.xml -pl access,boot -am -DskipTests compile",
+    "python3 -m pytest tests/test_r15_notification_support_postgres.py",
+    "python3 scripts/check_api_contract.py"
   ],
-  "error_fingerprint": "postgres-127.0.0.1:55432-unreachable;maven-bom-not-cached;pytest-postgresql-timeout",
+  "error_fingerprint": "maven_dependency_resolution_network_denied_spring_boot_dependencies_4_1_0_aws_bom_2_48_3",
   "blocker": {
-    "code": "INFRASTRUCTURE_DEPENDENCIES_UNAVAILABLE",
-    "detail": "PostgreSQL 127.0.0.1:55432 不可连接；Maven 依赖 org.springframework.boot:spring-boot-dependencies:4.1.0 与 software.amazon.awssdk:bom:2.48.3 未缓存且网络受限。",
-    "resolution": "恢复 PostgreSQL 实例并提供 Maven 依赖缓存或仓库访问后，重新运行后端编译及 PostgreSQL 测试。",
+    "code": "MAVEN_DEPENDENCY_RESOLUTION_NETWORK_DENIED",
+    "detail": "Targeted backend compile failed before compilation because org.springframework.boot:spring-boot-dependencies:pom:4.1.0 and software.amazon.awssdk:bom:pom:2.48.3 were absent locally and Maven could not fetch them from https://repo.maven.apache.org/maven2: Permission denied: getsockopt.",
+    "resolution": "Provide network access to Maven Central or pre-populate the local Maven cache with the required BOMs, then rerun: mvn -f services\\backend\\pom.xml -pl access,boot -am -DskipTests compile, followed by the passing focused pytest and API contract checks.",
     "paths": [
-      "services/backend/access/src/main/java/cc/orbexa/hhy/access/r15/R15PostgresStore.java",
-      "services/backend/access/src/main/java/cc/orbexa/hhy/access/r15/R15UserService.java",
-      "tests/test_r15_notification_support_postgres.py"
+      "services/backend/pom.xml"
     ],
-    "worker_result_evidence": "4 个静态目标测试通过；API_CONTRACT_OK client=131 admin=184 websocket=12 runtime_hashes=PASS；完整 PostgreSQL 测试超时；Test-NetConnection 返回 False；Maven 离线编译报告 BOM 未缓存。"
+    "worker_result_evidence": "mvn -f services\\backend\\pom.xml -pl access,boot -am -DskipTests compile -> Non-resolvable import POM for spring-boot-dependencies:4.1.0 and software.amazon.awssdk:bom:2.48.3; Could not transfer artifact from central; Permission denied: getsockopt. python3 -m pytest tests/test_r15_notification_support_postgres.py -> 5 passed. python3 scripts/check_api_contract.py -> API_CONTRACT_OK client=131 admin=184 websocket=12 runtime_hashes=PASS."
   }
 }
