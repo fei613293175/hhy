@@ -45,6 +45,16 @@ TRANSIENT_PROVIDER_MARKERS = (
     "401 Unauthorized",
     "unexpected status 401",
 )
+PROVIDER_TRANSPORT_MARKERS = (
+    "stream disconnected before completion",
+    "error sending request for url",
+    "Transport error",
+    "network error",
+)
+TRANSIENT_PROVIDER_CODES = {
+    "CODEX_PROVIDER_AUTH_UNAVAILABLE",
+    "CODEX_PROVIDER_TRANSPORT_UNAVAILABLE",
+}
 
 
 def _worker_idle_timeout(repo: Path) -> int:
@@ -479,8 +489,11 @@ def _copy_worker_evidence(worktree: Path, repo: Path, relative: str | None) -> N
 def _worker_infrastructure_code(worker: dict[str, Any]) -> str | None:
     stderr = str(worker.get("stderr_tail") or "")
     category = str(worker.get("error_category") or "")
-    if any(marker in f"{category}\n{stderr}" for marker in TRANSIENT_PROVIDER_MARKERS):
+    combined = f"{category}\n{stderr}"
+    if any(marker in combined for marker in TRANSIENT_PROVIDER_MARKERS):
         return "CODEX_PROVIDER_AUTH_UNAVAILABLE"
+    if any(marker in combined for marker in PROVIDER_TRANSPORT_MARKERS):
+        return "CODEX_PROVIDER_TRANSPORT_UNAVAILABLE"
     for line in str(worker.get("stdout_tail") or "").splitlines():
         try:
             event = json.loads(line)
@@ -525,7 +538,7 @@ def _auto_resume_transient_provider(
 ) -> dict[str, Any] | None:
     row = state["tasks"][task_id]
     blocker = row.get("blocker") or {}
-    if row.get("status") != "INFRASTRUCTURE_BLOCKED" or blocker.get("code") != "CODEX_PROVIDER_AUTH_UNAVAILABLE":
+    if row.get("status") != "INFRASTRUCTURE_BLOCKED" or blocker.get("code") not in TRANSIENT_PROVIDER_CODES:
         return None
     probe = _probe_codex_provider()
     if probe["status"] != "PASS":

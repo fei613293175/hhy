@@ -196,6 +196,9 @@ def test_worker_provider_401_is_infrastructure_not_engineering_failure():
     assert _worker_infrastructure_code({
         "stdout_tail": json.dumps({"type": "error", "message": "401 Unauthorized: INVALID_API_KEY"})
     }) == "CODEX_PROVIDER_AUTH_UNAVAILABLE"
+    assert _worker_infrastructure_code({
+        "stderr_tail": "stream disconnected before completion: error sending request for url"
+    }) == "CODEX_PROVIDER_TRANSPORT_UNAVAILABLE"
 
 
 def test_infrastructure_draft_is_hash_bound_and_restored_for_same_attempt(tmp_path):
