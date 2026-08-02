@@ -1,0 +1,33 @@
+{
+  "schema": "hhy.infrastructure-recovery/v5.0",
+  "task_id": "TASK-R15-RECOVERY-009",
+  "resolved": true,
+  "code": "INFRASTRUCTURE_DEPENDENCIES_UNAVAILABLE",
+  "verified_at": "2026-08-02T17:31:00Z",
+  "checks": {
+    "postgresql_tunnel": {
+      "status": "PASS",
+      "endpoint": "127.0.0.1:55432",
+      "process_id": 20292
+    },
+    "postgresql_connection": {
+      "status": "PASS",
+      "driver": "psycopg 3.2.9",
+      "server_version_num": 170010
+    },
+    "maven_offline_reactor": {
+      "status": "PASS",
+      "version": "3.9.11",
+      "command": "mvn -o -pl boot -am -DskipTests compile",
+      "evidence": "The reactor loaded all eight backend modules and javac compiled 103 hhy-access source files."
+    }
+  },
+  "current_product_failure": {
+    "classification": "PRODUCT_COMPILATION_ERROR",
+    "files": [
+      "services/backend/access/src/main/java/cc/orbexa/hhy/access/r15/R15PostgresStore.java",
+      "services/backend/access/src/main/java/cc/orbexa/hhy/access/r15/R15UserService.java"
+    ],
+    "summary": "Invalid bound references to static row mapper methods and a Duration-to-Instant mismatch remain. Maven dependency resolution and PostgreSQL connectivity are not blockers."
+  }
+}
