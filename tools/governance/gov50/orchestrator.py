@@ -11,6 +11,7 @@ import subprocess
 import sys
 import tempfile
 import uuid
+import zipfile
 from pathlib import Path
 from typing import Any
 
@@ -571,10 +572,18 @@ def _worker_changed_paths(worktree: Path) -> list[str]:
 
 def _file_sha256(path: Path) -> str:
     digest = hashlib.sha256()
-    with path.open("rb") as stream:
+    with _filesystem_path(path).open("rb") as stream:
         for chunk in iter(lambda: stream.read(1024 * 1024), b""):
             digest.update(chunk)
     return digest.hexdigest()
+
+
+def _filesystem_path(path: Path) -> Path:
+    if os.name == "nt":
+        absolute = str(path.absolute())
+        if not absolute.startswith("\\\\?\\"):
+            return Path("\\\\?\\" + absolute)
+    return path
 
 
 def _write_worker_draft(
@@ -594,14 +603,14 @@ def _write_worker_draft(
     if not existing and not deleted:
         return None
     draft = repo / WORKER_DRAFT_DIR / f"{task_id}-a{attempt}-{uuid.uuid4().hex[:10]}"
-    files_root = draft / "files"
+    draft.mkdir(parents=True, exist_ok=False)
+    archive_path = draft / "files.zip"
     hashes: dict[str, str] = {}
-    for relative in existing:
-        source_file = source / relative
-        target = files_root / relative
-        target.parent.mkdir(parents=True, exist_ok=True)
-        shutil.copy2(source_file, target)
-        hashes[relative] = _file_sha256(target)
+    with zipfile.ZipFile(archive_path, "w", compression=zipfile.ZIP_DEFLATED) as archive:
+        for relative in existing:
+            source_file = source / relative
+            hashes[relative] = _file_sha256(source_file)
+            archive.write(_filesystem_path(source_file), arcname=relative)
     manifest = {
         "schema": "hhy.worker-draft/v5.0",
         "task_id": task_id,
@@ -647,18 +656,22 @@ def _latest_worker_draft(repo: Path, task_id: str, attempt: int, baseline: str) 
 
 def _restore_worker_draft(worktree: Path, manifest_path: Path) -> list[str]:
     manifest = read_json(manifest_path)
-    files_root = manifest_path.parent / "files"
+    archive_path = manifest_path.parent / "files.zip"
     restored: list[str] = []
-    for relative, expected_hash in (manifest.get("files") or {}).items():
-        source = files_root / relative
-        if not source.is_file() or _file_sha256(source) != expected_hash:
-            raise RuntimeError(f"worker draft hash mismatch: {relative}")
-        target = worktree / relative
-        target.parent.mkdir(parents=True, exist_ok=True)
-        shutil.copy2(source, target)
-        restored.append(relative)
+    with zipfile.ZipFile(archive_path, "r") as archive:
+        archive_names = set(archive.namelist())
+        for relative, expected_hash in (manifest.get("files") or {}).items():
+            if relative not in archive_names:
+                raise RuntimeError(f"worker draft file missing: {relative}")
+            data = archive.read(relative)
+            if hashlib.sha256(data).hexdigest() != expected_hash:
+                raise RuntimeError(f"worker draft hash mismatch: {relative}")
+            target = _filesystem_path(worktree / relative)
+            target.parent.mkdir(parents=True, exist_ok=True)
+            target.write_bytes(data)
+            restored.append(relative)
     for relative in manifest.get("deleted_paths") or []:
-        target = worktree / relative
+        target = _filesystem_path(worktree / relative)
         if target.is_file():
             target.unlink()
         restored.append(relative)
