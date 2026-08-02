@@ -1,15 +1,15 @@
 schema: hhy.governance-state/v5.0
-revision: 135
-updated_at: '2026-08-02T01:10:28.733323Z'
-state_hash: f13b064c1b921ae394964500953a74d5e6c810b766c53983422656b682cf3237
+revision: 136
+updated_at: '2026-08-02T01:57:16.436252Z'
+state_hash: 0b38220d5cf536a787c6af1458e85e4049dcc26cacc9196ee307ffbea753081c
 project:
-  status: ACTIVE
+  status: FAILED_BOUNDED
   branch_at_install: governance/v5.0-migration-20260731
   migration_baseline_commit: ea64d82fab9ed3d1952ab7d3c0d2286051390b59
   migration_commit: 8beafc2a0e115345c554abc0bdc199ef92534106
   authoritative_commit: d4b6282d0b9dbb0c1ce9e0bb6e58a6784c6bbd59
   active_release: R15
-  active_task: TASK-R15-RECOVERY-006
+  active_task: null
   goal_complete: false
 lease: null
 releases:
@@ -2864,41 +2864,40 @@ tasks:
     last_gate_evidence: null
     blocker: null
   TASK-R15-RECOVERY-006:
-    status: READY
-    attempts_used: 2
+    status: FAILED_BOUNDED
+    attempts_used: 3
     current_attempt: null
-    last_error_fingerprint: '{"commit": "f10644023d28b729a0782cab9e3a7e601c5ac0bc", "findings": [{"evidence": "R15 idempotent
-      endpoints are marked x-idempotent in the frozen contracts, e.g. /api/v1/support/tickets/{id}/messages at contracts/openapi.yaml:12231
-      and admin support messages at contracts/admin-openapi.yaml:10192. The service only calls commandHash(...) and then immediately
-      inserts ticket_messages/admin_operation_logs/outbox_events at lines 232-241; commandHash itself only validates/hashes
-      and returns a value at lines 401-410, with no claim/replay/complete persistence. Repeating the same X-Idempotency-Key
-      will duplicate messages, audit rows, and outbox events.", "issue": "R15 command idempotency is not implemented; the
-      candidate only validates the key shape and does not persist or replay idempotent command results.", "line": 232, "path":
-      "services/backend/access/src/main/java/cc/orbexa/hhy/access/r15/R15Service.java", "requirement_ref": "ACTIVE_TASK.deliverables:
-      权限/幂等/错误码/审计覆盖; OpenAPI x-idempotent=true", "severity": "HIGH"}, {"evidence": "The frozen admin decide request schemas
-      require expectedVersion for content reports, appeals, and chat reports at contracts/admin-openapi.yaml:22002-22013,
-      22110-22121, and 25220-25231. R15Service.decide hashes only operation/admin/id/decision/reason, never checks request.expectedVersion(),
-      then writes audit/outbox and returns DECIDED at lines 264-270. The store update methods return void and ignore jdbc.update
-      counts, e.g. content_reports at lines 184-186 and chat_reports at lines 223-225, so stale or nonexistent resources can
-      still produce success/audit/outbox evidence.", "issue": "Admin decide operations ignore required optimistic version
-      and update row count, allowing stale or nonexistent reports/appeals/chat reports to be reported as successfully decided.",
-      "line": 264, "path": "services/backend/access/src/main/java/cc/orbexa/hhy/access/r15/R15Service.java", "requirement_ref":
-      "ACTIVE_TASK.acceptance: OpenAPI契约测试; 权限/幂等/错误码/审计覆盖", "severity": "HIGH"}, {"evidence": "Frozen support message requests
-      require only content, not expectedVersion, at contracts/openapi.yaml:20813-20826 and contracts/admin-openapi.yaml:25380-25393,
-      but TicketMessageRequest requires @NotNull expectedVersion at lines 59-62. Admin assign requires assigneeId in the contract
-      at contracts/admin-openapi.yaml:25347-25358, while AssignTicketRequest exposes assignee at lines 64-66. Admin close
-      exposes reason in the contract at contracts/admin-openapi.yaml:25419-25424, while CloseTicketRequest requires resolution
-      at lines 68-70.", "issue": "R15 support command DTOs do not match the frozen OpenAPI request schemas, so valid contract
-      payloads will be rejected or mapped to the wrong fields.", "line": 59, "path": "services/backend/access/src/main/java/cc/orbexa/hhy/access/r15/R15Contracts.java",
-      "requirement_ref": "ACTIVE_TASK.acceptance: OpenAPI契约测试", "severity": "HIGH"}, {"evidence": "adminTicket is annotated
-      @Transactional(readOnly = true) and calls store.lockAdminTicket at lines 208-210. R15PostgresStore.lockAdminTicket uses
-      SELECT ... FOR UPDATE OF t at lines 129-130. On PostgreSQL, SELECT FOR UPDATE is not allowed in a read-only transaction,
-      so GET /admin-api/v1/support/tickets/{id} can fail at runtime.", "issue": "The admin support-ticket detail read path
-      uses a FOR UPDATE lock inside a read-only transaction.", "line": 208, "path": "services/backend/access/src/main/java/cc/orbexa/hhy/access/r15/R15Service.java",
-      "requirement_ref": "TASK-R15-RECOVERY-006 objective: implement scope operationIds with real backend behavior", "severity":
-      "HIGH"}], "schema": "hhy.reviewer-result/v5.0", "status": "BLOCK", "summary": "Candidate does not satisfy TASK-R15-RECOVERY-006.
-      I found no test deletions under tests/ in the reviewed diff, but the added regression test is only static string checking
-      and does not catch the contract/idempotency/runtime failures above.", "task_id": "TASK-R15-RECOVERY-006"}'
+    last_error_fingerprint: '{"commit": "225ed16f831018803ce8e94f6fdc660d13352bf4", "findings": [{"evidence": "R15PostgresStore.audit
+      inserts into hhy.admin_operation_logs(admin_id,operation,resource,request_id,ip,created_at), but the table is defined
+      with action and resource_id columns and no operation/request_id columns in V002__access_admin_and_platform.sql:265-274.
+      Any admin support mutation that calls audit after mutating/outboxing will fail with a SQL column error.", "issue": "Admin
+      support mutation audit writes to nonexistent database columns, causing runtime failure and possible partial side effects.",
+      "line": 293, "path": "services/backend/access/src/main/java/cc/orbexa/hhy/access/r15/R15PostgresStore.java", "requirement_ref":
+      "TASK-R15-RECOVERY-006: 权限/幂等/错误码/审计覆盖; 跨模块副作用写Outbox", "severity": "HIGH"}, {"evidence": "The chat report endpoints
+      return SupportTicketPage/SupportTicketResource and delegate to support ticket service methods. OpenAPI requires AdminChatGetChatReportsResponse
+      items to be ConversationResource and AdminChatPostChatReportsByIdDecideRequest to contain decision/reason/expectedVersion/evidenceIds
+      (admin-openapi.yaml:25145-25252). The controller instead lists/closes support tickets under /chat-reports.", "issue":
+      "adminChatGetChatReports and adminChatPostChatReportsByIdDecide implement the wrong domain and response/request contract.",
+      "line": 51, "path": "services/backend/boot/src/main/java/cc/orbexa/hhy/boot/admin/R15SupportAdminController.java", "requirement_ref":
+      "TASK-R15-RECOVERY-006: 实现范围内25个operationId; OpenAPI契约测试", "severity": "HIGH"}, {"evidence": "helpArticles builds SQL
+      as SELECT ... FROM hhy.cms_articles WHERE ... ORDER BY item.updated_at..., but the FROM clause has no item alias. The
+      generated query for /api/v1/help/articles will fail at runtime with a missing FROM-clause entry for item.", "issue":
+      "supportGetHelpArticles SQL uses an undefined alias, so the R15 help article list endpoint is broken.", "line": 187,
+      "path": "services/backend/access/src/main/java/cc/orbexa/hhy/access/r15/R15PostgresStore.java", "requirement_ref": "TASK-R15-RECOVERY-006:
+      实现范围内25个operationId; OpenAPI契约测试", "severity": "HIGH"}, {"evidence": "notificationPostNotificationsByIdRead is x-idempotent
+      in contracts/openapi.yaml:5980-5988, and the service passes key/requestHash to markNotificationRead. The store ignores
+      both values and only updates read_at/updated_at. A replay with the same X-Idempotency-Key and original expectedVersion
+      will conflict after updated_at changes instead of replaying the prior success.", "issue": "Notification read idempotency
+      is not implemented despite the frozen contract requiring it.", "line": 150, "path": "services/backend/access/src/main/java/cc/orbexa/hhy/access/r15/R15PostgresStore.java",
+      "requirement_ref": "TASK-R15-RECOVERY-006: 权限/幂等/错误码/审计覆盖", "severity": "HIGH"}, {"evidence": "New controllers require
+      report.decide, appeal.decide, chat.report.decide, support.read, support.assign, support.reply, and support.close. Existing
+      migrations only create chat.report.read/chat.report.manage/support.manage in V008:32-34 and V041 creates review.decide/report.read/appeal.read
+      but not report.decide/appeal.decide. AdminSecurityStore loads exact p.code values into SimpleGrantedAuthority, so these
+      endpoints have no seeded matching authorities.", "issue": "R15 admin endpoints require permission codes that are not
+      provisioned by migrations, making the protected operations inaccessible under normal RBAC data.", "line": 75, "path":
+      "services/backend/boot/src/main/java/cc/orbexa/hhy/boot/admin/R15SupportAdminController.java", "requirement_ref": "TASK-R15-RECOVERY-006:
+      权限/幂等/错误码/审计覆盖", "severity": "HIGH"}], "schema": "hhy.reviewer-result/v5.0", "status": "BLOCK", "summary": "候选不满足 TASK-R15-RECOVERY-006。审查未发现该
+      diff 删除或跳过既有测试，但新增静态 guard 只做文本匹配，未覆盖上述契约、数据库、权限和幂等问题。", "task_id": "TASK-R15-RECOVERY-006"}'
     last_candidate_commit: null
     last_gate_evidence: null
     blocker: null
