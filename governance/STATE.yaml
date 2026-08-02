@@ -1,9 +1,9 @@
 schema: hhy.governance-state/v5.0
-revision: 149
-updated_at: '2026-08-02T15:27:03.142524Z'
-state_hash: e4ae240592de3bdac193e94dbbccc1d5bb5001f69e6176cf3331c1dbbc4c77c3
+revision: 150
+updated_at: '2026-08-02T16:00:44.164616Z'
+state_hash: 44de805e87addd6bb80b5d3b70e9fba8896eae54edf2a310dbc6e8e7befeae4f
 project:
-  status: INFRASTRUCTURE_BLOCKED
+  status: ACTIVE
   branch_at_install: governance/v5.0-migration-20260731
   migration_baseline_commit: ea64d82fab9ed3d1952ab7d3c0d2286051390b59
   migration_commit: 8beafc2a0e115345c554abc0bdc199ef92534106
@@ -2918,18 +2918,10 @@ tasks:
     last_gate_evidence: null
     blocker: null
   TASK-R15-RECOVERY-009:
-    status: INFRASTRUCTURE_BLOCKED
+    status: READY
     attempts_used: 1
     current_attempt: null
     last_error_fingerprint: RECLASSIFIED_INFRASTRUCTURE:CODEX_PROVIDER_AUTH_UNAVAILABLE;evidence=governance/runtime/supervisor/worker-failures/TASK-R15-RECOVERY-009-a2-24ad311cb5.json
     last_candidate_commit: null
     last_gate_evidence: null
-    blocker:
-      code: MAVEN_DEPENDENCIES_AND_POSTGRES_DRIVER_UNAVAILABLE
-      detail: 已完成源码修复和静态验证；完整编译因 Maven Central 依赖网络被拒绝，PostgreSQL 集成测试因缺少 psycopg2/psycopg 无法执行。
-      paths:
-      - services/backend/pom.xml
-      - tests/test_r15_notification_support_postgres.py
-      resolution: 提供缓存依赖、PostgreSQL 驱动和数据库服务后，重新执行 Maven 编译及 PostgreSQL 测试。
-      worker_result_evidence: '静态 R15 测试 4 passed；API_CONTRACT_OK。直接 Maven 编译失败于 Spring Boot/AWS BOM 下载，PostgreSQL 测试失败于 ModuleNotFoundError:
-        psycopg2/psycopg。'
+    blocker: null
