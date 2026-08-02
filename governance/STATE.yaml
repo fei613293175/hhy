@@ -1,15 +1,15 @@
 schema: hhy.governance-state/v5.0
-revision: 156
-updated_at: '2026-08-02T20:55:38.703720Z'
-state_hash: 4a70ce0fbeb940f0dbb4e4e4726d3ea517a0239997a891d6542bd4061c51b70b
+revision: 157
+updated_at: '2026-08-02T21:12:11.425205Z'
+state_hash: 1dc67a84ed13ac7429ecb8671342a6300ea9a7170847d593183e8870523b133c
 project:
-  status: POLICY_VIOLATION
+  status: ACTIVE
   branch_at_install: governance/v5.0-migration-20260731
   migration_baseline_commit: ea64d82fab9ed3d1952ab7d3c0d2286051390b59
   migration_commit: 8beafc2a0e115345c554abc0bdc199ef92534106
   authoritative_commit: 8ced90edb8185be68091bbd7bf8f9bd8a29b1eed
   active_release: R15
-  active_task: null
+  active_task: TASK-R15-RECOVERY-009
   goal_complete: false
 lease: null
 releases:
@@ -2918,7 +2918,7 @@ tasks:
     last_gate_evidence: null
     blocker: null
   TASK-R15-RECOVERY-009:
-    status: POLICY_VIOLATION
+    status: READY
     attempts_used: 2
     current_attempt: null
     last_error_fingerprint: '{"commit": "44d0dc0b9c645929270ef2f5341050782aa6e164", "findings": [{"evidence": "V049 仅将 legacy_permission.code
@@ -2955,7 +2955,4 @@ tasks:
       V049 的真实升级执行。", "task_id": "TASK-R15-RECOVERY-009"}'
     last_candidate_commit: null
     last_gate_evidence: null
-    blocker:
-      code: WORKER_SCOPE_VIOLATION
-      paths:
-      - database/migrations/V049__r15_access_contract_alignment.sql
+    blocker: null
