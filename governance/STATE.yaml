@@ -1,7 +1,7 @@
 schema: hhy.governance-state/v5.0
-revision: 134
-updated_at: '2026-08-02T00:36:47.130408Z'
-state_hash: 38cf975e008f7da813192cc44d5b58edc0d53080b734d7d1829b7dfc8ab246b5
+revision: 135
+updated_at: '2026-08-02T01:10:28.733323Z'
+state_hash: f13b064c1b921ae394964500953a74d5e6c810b766c53983422656b682cf3237
 project:
   status: ACTIVE
   branch_at_install: governance/v5.0-migration-20260731
@@ -2865,27 +2865,40 @@ tasks:
     blocker: null
   TASK-R15-RECOVERY-006:
     status: READY
-    attempts_used: 1
+    attempts_used: 2
     current_attempt: null
-    last_error_fingerprint: '{"commit": "9a4b274047455ad2d3c41386954d9065346ecd22", "findings": [{"evidence": "R15EngagementStore.notifications()
-      appends cursor predicate as \"notification.id<?\" at line 35, but the SQL immediately below uses \"FROM hhy.notifications\"
-      with no \"notification\" alias at lines 36-39. Any valid notifications request with cursor will fail at SQL parse/bind
-      time instead of satisfying the API contract.", "issue": "Cursor pagination for notifications is broken by a nonexistent
-      SQL alias.", "line": 35, "path": "services/backend/access/src/main/java/cc/orbexa/hhy/access/user/R15EngagementStore.java",
-      "requirement_ref": "governance/runtime/ACTIVE_TASK.json:8,10,18", "severity": "HIGH"}, {"evidence": "announcements()
-      appends keyword/cursor parameters before adding userId at lines 69-71, while the first SQL placeholder is read_row.user_id=?
-      in the LEFT JOIN at line 78. With keyword or cursor filters, the first bound value becomes the keyword/cursor rather
-      than userId, causing wrong results or SQL type errors for valid filtered announcement requests.", "issue": "Filtered
-      announcement pagination/search binds SQL parameters in the wrong order.", "line": 71, "path": "services/backend/access/src/main/java/cc/orbexa/hhy/access/user/R15EngagementStore.java",
-      "requirement_ref": "governance/runtime/ACTIVE_TASK.json:8,10,18", "severity": "HIGH"}, {"evidence": "ACTIVE_TASK requires
-      implementing the 25 operationIds and OpenAPI contract tests. The added test only checks substring presence with \"assert
-      operation_id in sources\" at line 49; \"supportPostSupportTickets\" at line 32 is satisfied by the longer method \"supportPostSupportTicketsByIdMessages\"
-      in R15EngagementController line 151. The actual POST /api/v1/support/tickets handler is named createTicket in UserSelfServiceController
-      line 46, so the exact operationId is not wired while the test still passes.", "issue": "The operationId coverage test
-      is weakened by substring matching and misses the exact supportPostSupportTickets operationId.", "line": 49, "path":
-      "tests/test_r15_recovery_006_runtime_sources.py", "requirement_ref": "governance/runtime/ACTIVE_TASK.json:8,10,18",
-      "severity": "HIGH"}], "schema": "hhy.reviewer-result/v5.0", "status": "BLOCK", "summary": "候选不满足当前任务。未发现受保护路径修改；阻断点集中在真实数据库/API正确性问题，以及新增测试以子串匹配掩盖缺失的精确
-      operationId。", "task_id": "TASK-R15-RECOVERY-006"}'
+    last_error_fingerprint: '{"commit": "f10644023d28b729a0782cab9e3a7e601c5ac0bc", "findings": [{"evidence": "R15 idempotent
+      endpoints are marked x-idempotent in the frozen contracts, e.g. /api/v1/support/tickets/{id}/messages at contracts/openapi.yaml:12231
+      and admin support messages at contracts/admin-openapi.yaml:10192. The service only calls commandHash(...) and then immediately
+      inserts ticket_messages/admin_operation_logs/outbox_events at lines 232-241; commandHash itself only validates/hashes
+      and returns a value at lines 401-410, with no claim/replay/complete persistence. Repeating the same X-Idempotency-Key
+      will duplicate messages, audit rows, and outbox events.", "issue": "R15 command idempotency is not implemented; the
+      candidate only validates the key shape and does not persist or replay idempotent command results.", "line": 232, "path":
+      "services/backend/access/src/main/java/cc/orbexa/hhy/access/r15/R15Service.java", "requirement_ref": "ACTIVE_TASK.deliverables:
+      权限/幂等/错误码/审计覆盖; OpenAPI x-idempotent=true", "severity": "HIGH"}, {"evidence": "The frozen admin decide request schemas
+      require expectedVersion for content reports, appeals, and chat reports at contracts/admin-openapi.yaml:22002-22013,
+      22110-22121, and 25220-25231. R15Service.decide hashes only operation/admin/id/decision/reason, never checks request.expectedVersion(),
+      then writes audit/outbox and returns DECIDED at lines 264-270. The store update methods return void and ignore jdbc.update
+      counts, e.g. content_reports at lines 184-186 and chat_reports at lines 223-225, so stale or nonexistent resources can
+      still produce success/audit/outbox evidence.", "issue": "Admin decide operations ignore required optimistic version
+      and update row count, allowing stale or nonexistent reports/appeals/chat reports to be reported as successfully decided.",
+      "line": 264, "path": "services/backend/access/src/main/java/cc/orbexa/hhy/access/r15/R15Service.java", "requirement_ref":
+      "ACTIVE_TASK.acceptance: OpenAPI契约测试; 权限/幂等/错误码/审计覆盖", "severity": "HIGH"}, {"evidence": "Frozen support message requests
+      require only content, not expectedVersion, at contracts/openapi.yaml:20813-20826 and contracts/admin-openapi.yaml:25380-25393,
+      but TicketMessageRequest requires @NotNull expectedVersion at lines 59-62. Admin assign requires assigneeId in the contract
+      at contracts/admin-openapi.yaml:25347-25358, while AssignTicketRequest exposes assignee at lines 64-66. Admin close
+      exposes reason in the contract at contracts/admin-openapi.yaml:25419-25424, while CloseTicketRequest requires resolution
+      at lines 68-70.", "issue": "R15 support command DTOs do not match the frozen OpenAPI request schemas, so valid contract
+      payloads will be rejected or mapped to the wrong fields.", "line": 59, "path": "services/backend/access/src/main/java/cc/orbexa/hhy/access/r15/R15Contracts.java",
+      "requirement_ref": "ACTIVE_TASK.acceptance: OpenAPI契约测试", "severity": "HIGH"}, {"evidence": "adminTicket is annotated
+      @Transactional(readOnly = true) and calls store.lockAdminTicket at lines 208-210. R15PostgresStore.lockAdminTicket uses
+      SELECT ... FOR UPDATE OF t at lines 129-130. On PostgreSQL, SELECT FOR UPDATE is not allowed in a read-only transaction,
+      so GET /admin-api/v1/support/tickets/{id} can fail at runtime.", "issue": "The admin support-ticket detail read path
+      uses a FOR UPDATE lock inside a read-only transaction.", "line": 208, "path": "services/backend/access/src/main/java/cc/orbexa/hhy/access/r15/R15Service.java",
+      "requirement_ref": "TASK-R15-RECOVERY-006 objective: implement scope operationIds with real backend behavior", "severity":
+      "HIGH"}], "schema": "hhy.reviewer-result/v5.0", "status": "BLOCK", "summary": "Candidate does not satisfy TASK-R15-RECOVERY-006.
+      I found no test deletions under tests/ in the reviewed diff, but the added regression test is only static string checking
+      and does not catch the contract/idempotency/runtime failures above.", "task_id": "TASK-R15-RECOVERY-006"}'
     last_candidate_commit: null
     last_gate_evidence: null
     blocker: null

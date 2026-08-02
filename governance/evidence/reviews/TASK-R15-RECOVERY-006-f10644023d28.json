@@ -1,0 +1,41 @@
+{
+  "commit": "f10644023d28b729a0782cab9e3a7e601c5ac0bc",
+  "findings": [
+    {
+      "evidence": "R15 idempotent endpoints are marked x-idempotent in the frozen contracts, e.g. /api/v1/support/tickets/{id}/messages at contracts/openapi.yaml:12231 and admin support messages at contracts/admin-openapi.yaml:10192. The service only calls commandHash(...) and then immediately inserts ticket_messages/admin_operation_logs/outbox_events at lines 232-241; commandHash itself only validates/hashes and returns a value at lines 401-410, with no claim/replay/complete persistence. Repeating the same X-Idempotency-Key will duplicate messages, audit rows, and outbox events.",
+      "issue": "R15 command idempotency is not implemented; the candidate only validates the key shape and does not persist or replay idempotent command results.",
+      "line": 232,
+      "path": "services/backend/access/src/main/java/cc/orbexa/hhy/access/r15/R15Service.java",
+      "requirement_ref": "ACTIVE_TASK.deliverables: 权限/幂等/错误码/审计覆盖; OpenAPI x-idempotent=true",
+      "severity": "HIGH"
+    },
+    {
+      "evidence": "The frozen admin decide request schemas require expectedVersion for content reports, appeals, and chat reports at contracts/admin-openapi.yaml:22002-22013, 22110-22121, and 25220-25231. R15Service.decide hashes only operation/admin/id/decision/reason, never checks request.expectedVersion(), then writes audit/outbox and returns DECIDED at lines 264-270. The store update methods return void and ignore jdbc.update counts, e.g. content_reports at lines 184-186 and chat_reports at lines 223-225, so stale or nonexistent resources can still produce success/audit/outbox evidence.",
+      "issue": "Admin decide operations ignore required optimistic version and update row count, allowing stale or nonexistent reports/appeals/chat reports to be reported as successfully decided.",
+      "line": 264,
+      "path": "services/backend/access/src/main/java/cc/orbexa/hhy/access/r15/R15Service.java",
+      "requirement_ref": "ACTIVE_TASK.acceptance: OpenAPI契约测试; 权限/幂等/错误码/审计覆盖",
+      "severity": "HIGH"
+    },
+    {
+      "evidence": "Frozen support message requests require only content, not expectedVersion, at contracts/openapi.yaml:20813-20826 and contracts/admin-openapi.yaml:25380-25393, but TicketMessageRequest requires @NotNull expectedVersion at lines 59-62. Admin assign requires assigneeId in the contract at contracts/admin-openapi.yaml:25347-25358, while AssignTicketRequest exposes assignee at lines 64-66. Admin close exposes reason in the contract at contracts/admin-openapi.yaml:25419-25424, while CloseTicketRequest requires resolution at lines 68-70.",
+      "issue": "R15 support command DTOs do not match the frozen OpenAPI request schemas, so valid contract payloads will be rejected or mapped to the wrong fields.",
+      "line": 59,
+      "path": "services/backend/access/src/main/java/cc/orbexa/hhy/access/r15/R15Contracts.java",
+      "requirement_ref": "ACTIVE_TASK.acceptance: OpenAPI契约测试",
+      "severity": "HIGH"
+    },
+    {
+      "evidence": "adminTicket is annotated @Transactional(readOnly = true) and calls store.lockAdminTicket at lines 208-210. R15PostgresStore.lockAdminTicket uses SELECT ... FOR UPDATE OF t at lines 129-130. On PostgreSQL, SELECT FOR UPDATE is not allowed in a read-only transaction, so GET /admin-api/v1/support/tickets/{id} can fail at runtime.",
+      "issue": "The admin support-ticket detail read path uses a FOR UPDATE lock inside a read-only transaction.",
+      "line": 208,
+      "path": "services/backend/access/src/main/java/cc/orbexa/hhy/access/r15/R15Service.java",
+      "requirement_ref": "TASK-R15-RECOVERY-006 objective: implement scope operationIds with real backend behavior",
+      "severity": "HIGH"
+    }
+  ],
+  "schema": "hhy.reviewer-result/v5.0",
+  "status": "BLOCK",
+  "summary": "Candidate does not satisfy TASK-R15-RECOVERY-006. I found no test deletions under tests/ in the reviewed diff, but the added regression test is only static string checking and does not catch the contract/idempotency/runtime failures above.",
+  "task_id": "TASK-R15-RECOVERY-006"
+}
