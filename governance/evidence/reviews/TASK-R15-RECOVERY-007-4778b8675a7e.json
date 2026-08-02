@@ -1,0 +1,73 @@
+{
+  "commit": "4778b8675a7eadb757cdfaca0a842145041cefad",
+  "findings": [
+    {
+      "evidence": "R15Service.java:369-375 parses `:`-separated cursors into exactly 3 parts, while R15Service.java:387-389 emits values such as `createdAt:desc:<timestamp>:<id>`; every returned cursor is therefore rejected as invalid.",
+      "issue": "All R15 cursor pagination is unusable after the first page.",
+      "line": 369,
+      "path": "services/backend/access/src/main/java/cc/orbexa/hhy/access/r15/R15Service.java",
+      "requirement_ref": "OpenAPI契约测试",
+      "severity": "HIGH"
+    },
+    {
+      "evidence": "R15Service.java:470-480 maps the resource id/version from `conversationId`/`conversationVersion`; R15PostgresStore.java:221-234 decides by `report.id` and `report.version`, although the query selects both at lines 455 and 472.",
+      "issue": "Chat-report list resources expose the wrong identity and optimistic-concurrency version for the decision endpoint.",
+      "line": 472,
+      "path": "services/backend/access/src/main/java/cc/orbexa/hhy/access/r15/R15Service.java",
+      "requirement_ref": "契约/幂等/错误码覆盖",
+      "severity": "HIGH"
+    },
+    {
+      "evidence": "The unauthenticated route R15Controller.java:165-169 calls publicHelpArticle(), which calls helpArticle(); R15PostgresStore.java:149-156 selects from `cms_articles` with only `WHERE item.id=?` and no publication-status predicate.",
+      "issue": "The public help-article API can expose draft or otherwise non-public CMS articles.",
+      "line": 154,
+      "path": "services/backend/access/src/main/java/cc/orbexa/hhy/access/r15/R15PostgresStore.java",
+      "requirement_ref": "security",
+      "severity": "HIGH"
+    },
+    {
+      "evidence": "ContentContracts.java:63-68 accepts `evidenceMediaIds` and `messageIds`; ContentService.java:221-237 hashes them but calls createReport with only reasonCode and description; ContentPostgresStore.java:252-260 persists no evidence or message links.",
+      "issue": "Content-report evidence is silently discarded while the request succeeds.",
+      "line": 226,
+      "path": "services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentService.java",
+      "requirement_ref": "database/契约",
+      "severity": "HIGH"
+    },
+    {
+      "evidence": "R15Service.java:402-410 derives cursor timestamps from response fields that do not match the SQL keys in R15PostgresStore.java:543-556: notifications/announcements use createdAt for updatedAt, support tickets use lastMessageAt for updatedAt, and conversations use lastMessageAt for createdAt.",
+      "issue": "Cursor pagination can skip or duplicate records because generated cursor values do not match the database ordering columns.",
+      "line": 404,
+      "path": "services/backend/access/src/main/java/cc/orbexa/hhy/access/r15/R15Service.java",
+      "requirement_ref": "OpenAPI契约测试",
+      "severity": "HIGH"
+    },
+    {
+      "evidence": "R15PostgresStore.java:440-448 uses `INSERT ... SELECT` for attachments and ignores the affected-row count; R15PostgresStore.java:183-195 still completes ticket/message creation when the media id is missing or not owned by the user.",
+      "issue": "Invalid or unauthorized attachment ids are silently dropped instead of producing an error.",
+      "line": 445,
+      "path": "services/backend/access/src/main/java/cc/orbexa/hhy/access/r15/R15PostgresStore.java",
+      "requirement_ref": "错误码/数据库覆盖",
+      "severity": "MEDIUM"
+    },
+    {
+      "evidence": "tests/test_r15_recovery_007_contract.py:7-77 only reads source files and asserts substrings; it does not execute OpenAPI routes, RBAC, idempotency, error mapping, audit/outbox, or database behavior.",
+      "issue": "The added contract test is source-text-only and cannot substantiate the required runtime contract and security coverage. No deleted or skipped tests were observed.",
+      "line": 7,
+      "path": "tests/test_r15_recovery_007_contract.py",
+      "requirement_ref": "OpenAPI契约测试/权限/幂等/错误码/审计覆盖",
+      "severity": "MEDIUM"
+    },
+    {
+      "evidence": "R12ReviewService.java:123-127 validates and hashes decision reason/evidence, but lines 135-143 update only status and serialize the resource into audit/outbox; the reason and evidence are not persisted or emitted.",
+      "issue": "Report and appeal decision reasons/evidence are discarded, weakening the required audit trail.",
+      "line": 135,
+      "path": "services/backend/content/src/main/java/cc/orbexa/hhy/content/R12ReviewService.java",
+      "requirement_ref": "审计覆盖",
+      "severity": "MEDIUM"
+    }
+  ],
+  "schema": "hhy.reviewer-result/v5.0",
+  "status": "BLOCK",
+  "summary": "BLOCK: five concrete HIGH correctness/security/contract defects remain. No test deletion or skip was detected, but the added test is only source-text validation.",
+  "task_id": "TASK-R15-RECOVERY-007"
+}
