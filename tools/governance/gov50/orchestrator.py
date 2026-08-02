@@ -684,6 +684,21 @@ def _worker_blocker_with_recovery_context(
     return enriched
 
 
+def _structured_worker_draft_paths(
+    active: dict[str, Any], result: dict[str, Any], changed_paths: list[str]
+) -> list[str]:
+    restored = active.get("restored_draft") or {}
+    return sorted({
+        str(path)
+        for path in [
+            *changed_paths,
+            *(restored.get("paths") or []),
+            *(result.get("changed_files") or []),
+        ]
+        if path
+    })
+
+
 def _latest_worker_draft(repo: Path, task_id: str, attempt: int, baseline: str) -> Path | None:
     root = repo / WORKER_DRAFT_DIR
     candidates = sorted(
@@ -1080,8 +1095,9 @@ def run_once(repo: Path, dry_run: bool = False) -> dict[str, Any]:
                 write_json(result_evidence, result)
                 result_rel = result_evidence.relative_to(worktree).as_posix()
                 _copy_worker_evidence(worktree, repo, result_rel)
-                draft = _preserve_worker_draft(
-                    repo, worktree, task_id, attempt, baseline, spec["allowed_paths"]
+                draft = _write_worker_draft(
+                    repo, worktree, task_id, attempt, baseline, spec["allowed_paths"],
+                    _structured_worker_draft_paths(active, result, changed),
                 )
                 row["status"] = status
                 row["blocker"] = _worker_blocker_with_recovery_context(

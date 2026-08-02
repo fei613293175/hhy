@@ -27,6 +27,7 @@ from tools.governance.gov50.orchestrator import (
     _draft_manifest_from_blocker,
     _latest_worker_draft,
     _restore_worker_draft,
+    _structured_worker_draft_paths,
     _worker_blocker_with_recovery_context,
     _worker_infrastructure_code,
     _worker_prompt,
@@ -243,6 +244,17 @@ def test_structured_worker_blocker_keeps_evidence_and_resumable_draft():
     assert enriched["draft_manifest"] == draft
     assert _draft_manifest_from_blocker(enriched) == draft
     assert _draft_manifest_from_blocker({"detail": {"draft_manifest": draft}}) == draft
+
+
+def test_structured_block_preserves_restored_and_worker_reported_paths():
+    active = {"restored_draft": {"paths": ["services/backend/Restored.java"]}}
+    result = {"changed_files": ["tests/test_current.py"]}
+
+    assert _structured_worker_draft_paths(active, result, ["services/backend/Changed.java"]) == [
+        "services/backend/Changed.java",
+        "services/backend/Restored.java",
+        "tests/test_current.py",
+    ]
 
 
 def test_visual_gate_uses_pre_freeze_entry_and_post_freeze_strict_acceptance():
