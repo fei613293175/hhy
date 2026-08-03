@@ -1,0 +1,16 @@
+{
+  "schema": "hhy.infrastructure-recovery/v5.0",
+  "task_id": "TASK-R15-RECOVERY-012",
+  "resolved": true,
+  "blocker_code": "INDEPENDENT_REVIEWER_FAILED",
+  "resolution": "A fresh read-only Codex CLI health probe completed successfully in the authoritative repository.",
+  "probe": {
+    "command": "codex exec --ephemeral --sandbox read-only -C <authoritative-repository> <health probe>",
+    "exit_code": 0,
+    "stdout": "READY",
+    "observed_at": "2026-08-03T08:15:49Z",
+    "product_files_changed": false
+  },
+  "authority_worktree_clean_before_unblock": false,
+  "notes": "The generated module gate report is preserved outside the repository; the unblock transition itself is performed by Governance V5.0."
+}
