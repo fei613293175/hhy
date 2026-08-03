@@ -1,0 +1,23 @@
+{
+  "schema": "hhy.infrastructure-recovery/v5.0",
+  "task_id": "TASK-R15-RECOVERY-010",
+  "resolved": true,
+  "code": "CODEX_PROVIDER_TRANSPORT_UNAVAILABLE",
+  "verified_at": "2026-08-03T01:15:59.616Z",
+  "probe": {
+    "status": "PASS",
+    "exit_code": 0,
+    "workdir": "C:\\Windows\\Temp",
+    "command": "codex exec --ephemeral --sandbox read-only --skip-git-repo-check --json -C C:\\Windows\\Temp",
+    "completion_event": "turn.completed",
+    "response": {
+      "status": "OK"
+    },
+    "events": [
+      "thread.started",
+      "turn.started",
+      "item.completed(agent_message)",
+      "turn.completed"
+    ]
+  }
+}
