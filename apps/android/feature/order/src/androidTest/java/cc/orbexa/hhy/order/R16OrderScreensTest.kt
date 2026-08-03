@@ -81,7 +81,7 @@ private class FakeR16Api : ContractR16Api {
     )
     override suspend fun orders(accessToken: String, status: String?, page: Int, pageSize: Int): R07CallResult<R16OrderPage> {
         lastStatus = status
-        return R07CallResult.Success(R16OrderPage(if (status == null || status == "PAID") listOf(order) else emptyList(), R07PageMeta(page, pageSize.toLong(), "1", null, "false")), "r16-test")
+        return R07CallResult.Success(R16OrderPage(if (status == null || status == "PAID") listOf(order) else emptyList(), R07PageMeta(page.toLong(), pageSize.toLong(), "1", null, "false")), "r16-test")
     }
     override suspend fun order(accessToken: String, orderNo: String) = R07CallResult.Success(this.order, "r16-test")
 }
