@@ -51,9 +51,11 @@ limits:
   maximum_same_command_same_diff: 1
   run_loop_default_max_runs: 20
   run_loop_absolute_max_runs: 100
-  worker_timeout_seconds: 2700
+  # Keep the controller and both Worker paths bounded to one observable run.
+  # This is a responsiveness limit, not a test or release-gate bypass.
+  worker_timeout_seconds: 900
   worker_startup_timeout_seconds: 600
-  worker_idle_timeout_seconds: 900
+  worker_idle_timeout_seconds: 300
   worker_progress_poll_seconds: 15
   gate_timeout_seconds: 1800
 fast_lane:

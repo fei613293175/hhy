@@ -535,6 +535,7 @@ def test_worker_prompt_requires_offline_maven_with_injected_java_home():
     assert "JAVA_HOME" in prompt
     assert "mvnw.cmd -o" in prompt
     assert "maven.repo.local" in prompt
+    assert "实际存在性与版本" in prompt
 
 
 def test_candidate_evidence_schema_requires_complete_apk_identity():
