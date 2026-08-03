@@ -22,6 +22,7 @@
       "type": "string",
       "enum": [
         "CANDIDATE_READY",
+        "DEVELOPMENT_RETRY",
         "ATTEMPT_FAILED",
         "EXTERNAL_BLOCKED",
         "INFRASTRUCTURE_BLOCKED"

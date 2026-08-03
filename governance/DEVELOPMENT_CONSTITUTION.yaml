@@ -27,6 +27,9 @@ single_authority:
     - long /goal context
 execution:
   model: DETERMINISTIC_ORCHESTRATOR_WITH_EPHEMERAL_CODEX_WORKERS
+  development_flow: VERSION_DELIVERY_LOOP
+  attempt_fields: HISTORICAL_COMPATIBILITY_ONLY
+  stop_on_attempt_exhaustion: false
   one_worker_run_one_task: true
   one_worker_run_one_attempt: true
   fresh_ephemeral_worker_each_attempt: true
@@ -80,6 +83,39 @@ fast_lane:
     - preserve_candidate_commit_identity
     - never_increase_attempt_budget
     - never_create_attempt_four
+version_delivery_loop:
+  enabled: true
+  scope: R15_R32
+  sequence:
+    - implement_all_release_features
+    - compile_and_automated_tests
+    - independent_review
+    - github_clean_candidate_ci
+    - obx_test_signed_test_apk
+    - github_fixed_emulator_user_journeys
+    - fix_discovered_defects
+    - delivery_apk_and_test_checklist
+    - machine_close_release
+    - activate_next_release
+  failure_action: SAVE_DIAGNOSTIC_AND_CONTINUE_SAME_RELEASE
+  completion_authority: QUALITY_GATES_AND_MACHINE_CLOSE_ONLY
+  local_machine_policy:
+    install_or_deploy_build_environment: FORBIDDEN
+    start_backend_database_docker_or_emulator: FORBIDDEN
+    allowed: SOURCE_EDIT_AND_LIGHTWEIGHT_STATIC_CHECKS_ONLY
+  authoritative_execution:
+    clean_compile_and_automated_tests: GITHUB_ACTIONS
+    signed_test_apk: OBX_TEST_FIXED_TOOLCHAIN
+    emulator_user_journeys: GITHUB_ACTIONS_FIXED_EMULATOR
+  owner_delivery:
+    destination: PROJECT_OWNER_DESKTOP
+    required:
+      - test_apk
+      - complete_feature_list
+      - automated_test_checklist
+      - physical_device_test_guide
+      - known_limitations
+    owner_physical_test: ASYNC_PENDING_UNTIL_EXPLICIT_FEEDBACK
 attempt_strategies:
   1: direct_implementation_or_fix
   2: fresh_worker_minimal_reproduction_and_root_cause

@@ -77,6 +77,11 @@ def _worker_timeout(repo: Path) -> int:
     return int((constitution.get("limits") or {}).get("worker_timeout_seconds", 3600))
 
 
+def _attempt_stops_enabled(repo: Path) -> bool:
+    constitution = read_yaml(repo / "governance" / "DEVELOPMENT_CONSTITUTION.yaml") or {}
+    return bool((constitution.get("execution") or {}).get("stop_on_attempt_exhaustion", True))
+
+
 def _fast_lane(repo: Path) -> dict[str, Any]:
     constitution = read_yaml(repo / "governance" / "DEVELOPMENT_CONSTITUTION.yaml") or {}
     return constitution.get("fast_lane") or {}
@@ -766,18 +771,26 @@ def _structured_worker_draft_paths(
     })
 
 
-def _latest_worker_draft(repo: Path, task_id: str, attempt: int, baseline: str) -> Path | None:
+def _latest_worker_draft(
+    repo: Path,
+    task_id: str,
+    attempt: int,
+    baseline: str,
+    predecessor_task: str | None = None,
+) -> Path | None:
     root = repo / WORKER_DRAFT_DIR
+    task_ids = [task_id, *([predecessor_task] if predecessor_task else [])]
     candidates = sorted(
-        root.glob(f"{task_id}-a*-*/manifest.json"),
+        [path for candidate_task in task_ids for path in root.glob(f"{candidate_task}-a*-*/manifest.json")],
         key=lambda path: path.stat().st_mtime_ns,
         reverse=True,
     ) if root.is_dir() else []
     for manifest_path in candidates:
         manifest = read_json(manifest_path)
         draft_attempt = int(manifest.get("attempt") or 0)
+        draft_task = str(manifest.get("task_id") or "")
         draft_baseline = str(manifest.get("baseline_commit") or "")
-        if draft_attempt > attempt or not draft_baseline:
+        if (draft_task == task_id and draft_attempt > attempt) or not draft_baseline:
             continue
         compatible = draft_baseline == baseline or git(
             repo, "merge-base", "--is-ancestor", draft_baseline, baseline, check=False
@@ -856,14 +869,19 @@ def _scope_ok(changed: list[str], allowed: list[str]) -> tuple[bool, list[str]]:
     return not violations, sorted(violations)
 
 
-def _worker_prompt(task: dict[str, Any], attempt: int) -> str:
+def _worker_prompt(task: dict[str, Any], attempt: int, continuous: bool = False) -> str:
     strategy = {1: "直接实现或修复", 2: "先构造最小复现并定位根因，再修复", 3: "从权威基线采用一个替代实现"}[attempt]
     fast_lane = _fast_lane(Path.cwd())
     discovery_limit = int(fast_lane.get("max_read_only_discovery_tool_calls", 12))
     deadline = int(fast_lane.get("first_product_file_deadline_seconds", 600))
+    cycle = (
+        "当前处于版本交付循环；开发失败必须保存诊断并继续同一版本，不存在 Attempt 停止环节。"
+        if continuous else f"这是第 {attempt}/3 次总尝试，固定策略：{strategy}。"
+    )
+    retry_status = "DEVELOPMENT_RETRY" if continuous else "ATTEMPT_FAILED"
     return (
         "只执行 governance/runtime/ACTIVE_TASK.json 指定的唯一任务。\n"
-        f"这是第 {attempt}/3 次总尝试，固定策略：{strategy}。\n"
+        f"{cycle}\n"
         "禁止选择下一任务、修改治理/CI/Gate/AGENTS/状态、执行任何 Git 权威命令、自判正式 PASS。\n"
         "若 ACTIVE_TASK.latest_failure_evidence 非空，先按其中的具体文件、行号和问题修复，禁止重新扫描全部历史证据；其中来自隔离工作树或其他机器的绝对路径仅作诊断参考，必须在当前工作树按 allowed_paths 重新定位，不得直接读取原路径。\n"
         "失败证据可能来自已拒绝且未合并的 Candidate；引用路径在当前权威基线不存在时，必须依据冻结契约和任务目标新建实现，禁止仅因文件缺失返回 ATTEMPT_FAILED 或 blocker。\n"
@@ -874,21 +892,27 @@ def _worker_prompt(task: dict[str, Any], attempt: int) -> str:
         "必须保留 Task Gate、独立 Reviewer、全量测试、APK、模拟器和发布门禁；Fast Lane 只减少分析和返工，不得弱化任何门禁。\n"
         "在 Windows 上所有 shell/tool 命令必须串行执行；上一条结束前禁止并发启动下一条。\n"
         "Windows 下运行 Python 时必须优先使用控制器注入的 HHY_PYTHON 环境变量（PowerShell 使用 & $env:HHY_PYTHON），不要因 PATH 中没有 python/py/python3 而报告基础设施阻断。\n"
-        "Windows 后端编译必须先输出 JAVA_HOME、HHY_MAVEN_REPOSITORY、mvnw.cmd 和 java.exe 的实际存在性与版本，再优先使用控制器注入的 JAVA_HOME 和 HHY_MAVEN_REPOSITORY，使用 mvnw.cmd -o -Dmaven.repo.local=$env:HHY_MAVEN_REPOSITORY 的离线 Reactor 编译；不要因 PATH 没有 java/mvn 而报告基础设施阻断。\n"
+        "禁止在项目所有者本机安装、部署或启动 JDK/Android SDK、后端、数据库、Docker、Gradle/Maven 构建服务或模拟器。Worker 只允许源码编辑和轻量静态检查；编译、自动测试、APK 与模拟器旅程必须交由 GitHub Actions/obx-test 固定环境。\n"
         "所有文件路径必须完整保留 ACTIVE_TASK.allowed_paths 的前缀（例如 scripts/，禁止截断为 cripts/ 或其他变体）。\n"
         "完成实际产品代码和测试后，运行必要的针对性验证。相同命令、输出和 Diff 不得重复。\n"
-        "最终仅输出符合 worker-result.schema.json 的 CANDIDATE_READY、ATTEMPT_FAILED、EXTERNAL_BLOCKED 或 INFRASTRUCTURE_BLOCKED；必须包含 schema、status、task_id、summary、changed_files、commands_run、error_fingerprint、blocker 字段，无值时使用空数组、空字符串或 null；blocker 非 null 时必须包含 code、detail、resolution、paths、worker_result_evidence 五个字段，无值使用 null。"
+        f"最终仅输出符合 worker-result.schema.json 的 CANDIDATE_READY、{retry_status}、EXTERNAL_BLOCKED 或 INFRASTRUCTURE_BLOCKED；必须包含 schema、status、task_id、summary、changed_files、commands_run、error_fingerprint、blocker 字段，无值时使用空数组、空字符串或 null；blocker 非 null 时必须包含 code、detail、resolution、paths、worker_result_evidence 五个字段，无值使用 null。"
     )
 
 
-def _worker_takeover_prompt(task: dict[str, Any], attempt: int, failure: dict[str, Any]) -> str:
+def _worker_takeover_prompt(
+    task: dict[str, Any], attempt: int, failure: dict[str, Any], continuous: bool = False
+) -> str:
     fast_lane = _fast_lane(Path.cwd())
     discovery_limit = int(fast_lane.get("max_read_only_discovery_tool_calls", 12))
     deadline = int(fast_lane.get("first_product_file_deadline_seconds", 600))
+    cycle = (
+        "当前处于版本交付循环，不得因开发轮次停止；失败要保存诊断并继续同一版本。"
+        if continuous else f"任务 {task['id']}，第 {attempt}/3 次 Attempt。"
+    )
     return (
         "你是接管当前任务的备用 Worker。主 Worker 没有提交可读取的结果，"
         "请直接接管并完成 ACTIVE_TASK.json 中的同一个任务，不要等待主 Worker。\n"
-        f"任务 {task['id']}，第 {attempt}/3 次 Attempt。\n"
+        f"{cycle}\n"
         "先检查当前工作区已有改动和 ACTIVE_TASK.json，保留有效改动，修复主 Worker 未完成的部分。"
         "禁止修改治理、状态、CI 或 AGENTS 文件，禁止选择下一任务，禁止执行 Git 权威命令。\n"
         "若 ACTIVE_TASK.latest_failure_evidence 非空，先按其中的具体文件、行号和问题修复，禁止重新扫描全部历史证据；其中来自隔离工作树或其他机器的绝对路径仅作诊断参考，必须在当前工作树按 allowed_paths 重新定位，不得直接读取原路径。\n"
@@ -897,10 +921,10 @@ def _worker_takeover_prompt(task: dict[str, Any], attempt: int, failure: dict[st
         "大型任务必须拆成不超过 6 个 operationId 的可编译垂直切片，每个切片立即最小验证；不得把全部实现滞留到最终回复。\n"
         "若 ACTIVE_TASK.restored_draft 存在，前 5 次工具调用内必须运行适用的最小编译或目标测试（第一条产品相关命令必须执行）；当前草稿的第一个真实失败优先于历史 latest_failure_evidence，修复后立即复验。\n"
         "必须审查并继续恢复草稿中的有效改动；草稿不是 PASS，仍须完成编译、测试和结果契约。\n"
-        "必须保留 Task Gate、独立 Reviewer、全量测试、APK、模拟器和发布门禁；Fast Lane 不改变 Attempt 预算。\n"
+        "必须保留 Task Gate、独立 Reviewer、全量测试、GitHub 候选、APK、固定模拟器和发布门禁。\n"
         "在 Windows 上所有 shell/tool 命令必须串行执行；上一条结束前禁止并发启动下一条。\n"
         "Windows 下运行 Python 时必须优先使用控制器注入的 HHY_PYTHON 环境变量（PowerShell 使用 & $env:HHY_PYTHON）。\n"
-        "Windows 后端编译必须先输出 JAVA_HOME、HHY_MAVEN_REPOSITORY、mvnw.cmd 和 java.exe 的实际存在性与版本，再优先使用控制器注入的 JAVA_HOME 和 HHY_MAVEN_REPOSITORY，使用 mvnw.cmd -o -Dmaven.repo.local=$env:HHY_MAVEN_REPOSITORY 的离线 Reactor 编译。\n"
+        "禁止在项目所有者本机安装、部署或启动 JDK/Android SDK、后端、数据库、Docker、Gradle/Maven 构建服务或模拟器。Worker 只允许源码编辑和轻量静态检查；编译、自动测试、APK 与模拟器旅程必须交由 GitHub Actions/obx-test 固定环境。\n"
         "完成产品代码和针对性测试后，必须写出符合 worker-result.schema.json 的结果；blocker 非 null 时必须包含 code、detail、resolution、paths、worker_result_evidence 五个字段，无值使用 null。"
         f"主 Worker 接管摘要：{failure.get('stderr_tail') or failure.get('stdout_tail') or '未返回可用输出'}"
     )
@@ -968,11 +992,19 @@ def _attempt_failure(
     diagnostic_path: str | None = None,
 ) -> dict[str, Any]:
     row = state["tasks"][task_id]
-    row["attempts_used"] = int(row.get("attempts_used") or 0) + 1
+    continuous = not _attempt_stops_enabled(repo)
+    if not continuous:
+        row["attempts_used"] = int(row.get("attempts_used") or 0) + 1
     row["last_error_fingerprint"] = fingerprint or reason
     row["current_attempt"] = None
     state["lease"] = None
-    if row["attempts_used"] >= 3:
+    if continuous:
+        row["status"] = "READY"
+        state["project"]["status"] = "ACTIVE"
+        state["project"]["active_task"] = task_id
+        status = "DEVELOPMENT_RETRY"
+        exit_code = 10
+    elif row["attempts_used"] >= 3:
         row["status"] = "FAILED_BOUNDED"
         state["project"]["status"] = "FAILED_BOUNDED"
         state["project"]["active_task"] = None
@@ -985,7 +1017,8 @@ def _attempt_failure(
     rev = state["revision"]
     write_state(repo, state, expected_revision=rev)
     new_state = read_state(repo)
-    _commit_state(repo, new_state, specs, f"[gov5.0] record {task_id} attempt failure")
+    action = "development retry" if continuous else "attempt failure"
+    _commit_state(repo, new_state, specs, f"[gov5.0] record {task_id} {action}")
     result = {
         "schema": "hhy.run-once/v5.0",
         "status": status,
@@ -1032,7 +1065,8 @@ def run_once(repo: Path, dry_run: bool = False) -> dict[str, Any]:
             row = state["tasks"][task_id]
         if row["status"] in {"EXTERNAL_BLOCKED", "INFRASTRUCTURE_BLOCKED", "FAILED_BOUNDED", "POLICY_VIOLATION"}:
             return {"schema": "hhy.run-once/v5.0", "status": row["status"], "task_id": task_id, "blocker": row.get("blocker"), "exit_code": 21 if "BLOCKED" in row["status"] else 20}
-        if int(row.get("attempts_used") or 0) >= 3:
+        continuous = not _attempt_stops_enabled(repo)
+        if not continuous and int(row.get("attempts_used") or 0) >= 3:
             row["status"] = "FAILED_BOUNDED"
             row["current_attempt"] = None
             state["project"]["status"] = "FAILED_BOUNDED"
@@ -1049,7 +1083,7 @@ def run_once(repo: Path, dry_run: bool = False) -> dict[str, Any]:
             }
         if spec.get("mode") != "worker":
             raise RuntimeError(f"active task {task_id} is not a Worker task")
-        attempt = int(row.get("attempts_used") or 0) + 1
+        attempt = 1 if continuous else int(row.get("attempts_used") or 0) + 1
         if dry_run:
             return {"schema": "hhy.run-once-plan/v5.0", "status": "DRY_RUN", "task_id": task_id, "attempt": attempt, "strategy": {1: "direct", 2: "minimal_reproduction", 3: "alternative"}[attempt], "allowed_paths": spec["allowed_paths"]}
         codex = resolve_codex_executable()
@@ -1073,7 +1107,13 @@ def run_once(repo: Path, dry_run: bool = False) -> dict[str, Any]:
         try:
             active = build_active_task_payload(task_id, spec, attempt, baseline)
             active["latest_failure_evidence"] = worker_failure_evidence(spec, row)
-            draft_manifest = _latest_worker_draft(repo, task_id, attempt, baseline)
+            draft_manifest = _latest_worker_draft(
+                repo,
+                task_id,
+                attempt,
+                baseline,
+                str(spec.get("supersedes") or "") or None,
+            )
             if draft_manifest:
                 active["restored_draft"] = {
                     "manifest": draft_manifest.relative_to(repo).as_posix(),
@@ -1088,7 +1128,7 @@ def run_once(repo: Path, dry_run: bool = False) -> dict[str, Any]:
             command = [
                 codex, "--ask-for-approval", "never", "exec", "--ephemeral", "--sandbox", "workspace-write",
                 *worker_sandbox_args(), "--json", "--output-schema", str(schema_path), "-o", str(result_path), "-C", str(worktree),
-                _worker_prompt(spec, attempt),
+                _worker_prompt(spec, attempt, continuous=continuous),
             ]
             worker = run_with_progress_timeout(
                 command,
@@ -1117,7 +1157,7 @@ def run_once(repo: Path, dry_run: bool = False) -> dict[str, Any]:
                 takeover_command = [
                     codex, "--ask-for-approval", "never", "exec", "--ephemeral", "--sandbox", "workspace-write",
                     *worker_sandbox_args(), "--json", "--output-schema", str(schema_path), "-o", str(result_path), "-C", str(worktree),
-                    _worker_takeover_prompt(spec, attempt, first_failure),
+                    _worker_takeover_prompt(spec, attempt, first_failure, continuous=continuous),
                 ]
                 worker = run_with_progress_timeout(
                     takeover_command,
@@ -1149,6 +1189,9 @@ def run_once(repo: Path, dry_run: bool = False) -> dict[str, Any]:
                         "主 Worker 未返回结果，备用 Worker 接管也未返回结果"
                         f"；主证据={first_diagnostic}；备用证据={diagnostic}"
                     )
+                    _preserve_worker_draft(
+                        repo, worktree, task_id, attempt, baseline, spec["allowed_paths"]
+                    )
                     return _attempt_failure(
                         repo, state, specs, task_id, reason,
                         diagnostic_path=diagnostic,
@@ -1162,6 +1205,9 @@ def run_once(repo: Path, dry_run: bool = False) -> dict[str, Any]:
                     attempt,
                     {**worker, "result_read_error": str(exc)},
                     result_path,
+                )
+                _preserve_worker_draft(
+                    repo, worktree, task_id, attempt, baseline, spec["allowed_paths"]
                 )
                 return _attempt_failure(
                     repo, state, specs, task_id,
@@ -1235,10 +1281,14 @@ def run_once(repo: Path, dry_run: bool = False) -> dict[str, Any]:
                     "exit_code": 21,
                 }
             if status != "CANDIDATE_READY" or not changed:
+                _preserve_worker_draft(
+                    repo, worktree, task_id, attempt, baseline, spec["allowed_paths"]
+                )
                 return _attempt_failure(repo, state, specs, task_id, str(result.get("summary") or "worker did not produce a candidate"), str(result.get("error_fingerprint") or ""))
             git(worktree, "add", "-A", env=AUTH_ENV)
             try:
-                git(worktree, "commit", "-m", f"[{task_id}] bounded attempt {attempt} candidate", env=AUTH_ENV)
+                label = "version delivery" if continuous else f"bounded attempt {attempt}"
+                git(worktree, "commit", "-m", f"[{task_id}] {label} candidate", env=AUTH_ENV)
             except Exception as exc:
                 hook = run([str(worktree / ".githooks-v5" / "pre-commit")], worktree, timeout=300, env=AUTH_ENV)
                 diagnostic = {
@@ -1262,6 +1312,12 @@ def run_once(repo: Path, dry_run: bool = False) -> dict[str, Any]:
             gate_rel = str(gate["evidence_path"])
             _copy_worker_evidence(worktree, repo, gate_rel)
             if gate["status"] != "PASS":
+                candidate_paths = git(
+                    worktree, "-c", "core.quotepath=false", "diff", "--name-only", f"{baseline}..{candidate}"
+                ).splitlines()
+                _write_worker_draft(
+                    repo, worktree, task_id, attempt, baseline, spec["allowed_paths"], candidate_paths
+                )
                 return _attempt_failure(
                     repo, state, specs, task_id,
                     f"independent {gate_profile} gate failed",
@@ -1275,6 +1331,12 @@ def run_once(repo: Path, dry_run: bool = False) -> dict[str, Any]:
                     {key: value for key, value in review.items() if key != "result"},
                 )
             if review["status"] == "BLOCK":
+                candidate_paths = git(
+                    worktree, "-c", "core.quotepath=false", "diff", "--name-only", f"{baseline}..{candidate}"
+                ).splitlines()
+                _write_worker_draft(
+                    repo, worktree, task_id, attempt, baseline, spec["allowed_paths"], candidate_paths
+                )
                 return _attempt_failure(
                     repo, state, specs, task_id,
                     "independent read-only reviewer found a blocking issue",

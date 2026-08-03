@@ -142,7 +142,13 @@ def main() -> int:
             if args.format == "context":
                 if not spec: print("PROGRAM_COMPLETE_OR_NO_ACTIVE_TASK")
                 else:
-                    print(f"TASK={task_id}\nRELEASE={spec['release']}\nSTATUS={state['tasks'][task_id]['status']}\nATTEMPTS_USED={state['tasks'][task_id]['attempts_used']}/3\nOBJECTIVE={spec['objective']}\nALLOWED_PATHS=" + ",".join(spec.get("allowed_paths") or []))
+                    constitution = read_yaml(repo / "governance" / "DEVELOPMENT_CONSTITUTION.yaml") or {}
+                    execution = constitution.get("execution") or {}
+                    if execution.get("development_flow") == "VERSION_DELIVERY_LOOP":
+                        progress = "FLOW=VERSION_DELIVERY_LOOP\nFAILURE_ACTION=SAVE_DIAGNOSTIC_AND_CONTINUE_SAME_RELEASE"
+                    else:
+                        progress = f"ATTEMPTS_USED={state['tasks'][task_id]['attempts_used']}/3"
+                    print(f"TASK={task_id}\nRELEASE={spec['release']}\nSTATUS={state['tasks'][task_id]['status']}\n{progress}\nOBJECTIVE={spec['objective']}\nALLOWED_PATHS=" + ",".join(spec.get("allowed_paths") or []))
                 return 0
             _print({"state": state.get("project"), "task": spec}); return 0
         if args.command == "doctor": result = doctor(repo, args.ci)

@@ -277,6 +277,24 @@ def test_later_attempt_restores_latest_ancestor_draft(tmp_path):
     assert _latest_worker_draft(repo, "TASK-R15-001", 2, baseline) is not None
 
 
+def test_recovery_task_restores_predecessor_product_draft(tmp_path):
+    repo = tmp_path / "repo"
+    source = tmp_path / "source"
+    relative = "services/backend/src/R15.java"
+    source_file = source / relative
+    source_file.parent.mkdir(parents=True)
+    source_file.write_text("final class R15 {}\n", encoding="utf-8")
+    baseline = "a" * 40
+    manifest_rel = _write_worker_draft(
+        repo, source, "TASK-R15-RECOVERY-011", 3, baseline,
+        ["services/backend/**"], [relative],
+    )
+    assert manifest_rel is not None
+    assert _latest_worker_draft(
+        repo, "TASK-R15-RECOVERY-012", 1, baseline, "TASK-R15-RECOVERY-011"
+    ) is not None
+
+
 def test_policy_violation_draft_preserves_only_allowed_product_paths(tmp_path):
     repo = tmp_path / "repo"
     worktree = tmp_path / "worktree"
@@ -550,12 +568,12 @@ def test_worker_environment_exposes_existing_portable_toolchain(tmp_path):
     assert str(adb.parent) in env["PATH"]
 
 
-def test_worker_prompt_requires_offline_maven_with_injected_java_home():
-    prompt = _worker_prompt({"id": "TASK-R15-001"}, 1)
-    assert "JAVA_HOME" in prompt
-    assert "mvnw.cmd -o" in prompt
-    assert "maven.repo.local" in prompt
-    assert "实际存在性与版本" in prompt
+def test_worker_prompt_forbids_local_build_environment_and_uses_remote_authority():
+    prompt = _worker_prompt({"id": "TASK-R15-001"}, 1, continuous=True)
+    assert "不存在 Attempt 停止环节" in prompt
+    assert "禁止在项目所有者本机安装、部署或启动" in prompt
+    assert "GitHub Actions/obx-test" in prompt
+    assert "DEVELOPMENT_RETRY" in prompt
 
 
 def test_candidate_evidence_schema_requires_complete_apk_identity():
@@ -705,6 +723,11 @@ def test_governance_constitution_has_single_authority_and_no_long_goal():
     assert constitution["single_authority"]["mutable_state"] == "governance/STATE.yaml"
     assert constitution["execution"]["one_worker_run_one_task"] is True
     assert constitution["limits"]["total_attempts_per_task"] == 3
+    assert constitution["execution"]["development_flow"] == "VERSION_DELIVERY_LOOP"
+    assert constitution["execution"]["stop_on_attempt_exhaustion"] is False
+    assert constitution["version_delivery_loop"]["local_machine_policy"]["install_or_deploy_build_environment"] == "FORBIDDEN"
+    assert constitution["version_delivery_loop"]["authoritative_execution"]["clean_compile_and_automated_tests"] == "GITHUB_ACTIONS"
+    assert constitution["version_delivery_loop"]["owner_delivery"]["destination"] == "PROJECT_OWNER_DESKTOP"
     assert constitution["completion"]["final_release"] == "R32"
 
 
@@ -716,6 +739,7 @@ def test_goal_complete_marker_is_defined():
 def test_no_worker_may_self_declare_pass():
     schema = json.loads((ROOT / "governance/schemas/worker-result.schema.json").read_text(encoding="utf-8"))
     assert "PASS" not in schema["properties"]["status"]["enum"]
+    assert "DEVELOPMENT_RETRY" in schema["properties"]["status"]["enum"]
 
 
 def test_candidate_validation_rejects_missing_files(tmp_path):
