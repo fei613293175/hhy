@@ -1,0 +1,22 @@
+{
+  "schema": "hhy.infrastructure-unblock/v5.0",
+  "status": "PASS",
+  "resolved": true,
+  "task_id": "TASK-R15-RECOVERY-011",
+  "blocker_code": "maven_offline_dependencies_missing",
+  "resolution": "The Maven repository is reachable from the controller environment and the missing BOMs were resolved by a real Maven run. The resulting compile failure is now a product-code error in out-of-scope R12ReviewService changes carried by the Worker draft; the next Worker must discard those out-of-scope changes and compile only the R15 recovery surface.",
+  "source_blocker_evidence": "governance/evidence/recovery/TASK-R15-RECOVERY-011-a1-worker-result.json",
+  "validation": [
+    {
+      "command": "HEAD requests to both Maven Central BOM POM URLs",
+      "status": "PASS",
+      "result": "HTTP 200"
+    },
+    {
+      "command": "services/backend/mvn.cmd -pl access,boot -am -DskipTests compile",
+      "status": "PRODUCT_FAILURE",
+      "result": "R12ReviewService.java has two undefined audit(...) calls from out-of-scope draft changes"
+    }
+  ],
+  "required_worker_action": "Discard all non-R15 draft changes, repair the R15-only slice, then rerun the real Maven compile and targeted tests."
+}
