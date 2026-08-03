@@ -1,0 +1,39 @@
+{
+  "schemaVersion": 1,
+  "environment": "HHY-OWNER-TEST",
+  "release": "R15",
+  "verifiedAt": "2026-08-03T12:35:41Z",
+  "backend": {
+    "sourceCommit": "0a7cf9360f6a0a46527d57ed039631421a2fc279",
+    "container": "hhy-owner-test-api-0a7cf936",
+    "image": "hhy-backend-r15-owner-test:0a7cf936",
+    "upstream": "127.0.0.1:28149",
+    "health": "healthy"
+  },
+  "database": {
+    "container": "hhy-owner-test-postgres",
+    "flywayBefore": "044",
+    "flywayAfter": "049",
+    "prePromotionSnapshot": "/root/hhy-owner-test/backups/pre-R15-0a7cf936-20260803T121104Z.dump",
+    "preservedByPromotionCountCheck": true
+  },
+  "routing": {
+    "publicUrl": "https://api.orbexa.cc",
+    "nginxBackup": "/www/server/panel/vhost/nginx/api.orbexa.cc.conf.pre-owner-test-R15-20260803T121121Z",
+    "nginxConfigTest": "PASS",
+    "platformStatus": "PASS"
+  },
+  "authenticatedAcceptance": {
+    "registration": "PASS",
+    "notifications": "PASS",
+    "announcements": "PASS",
+    "helpArticles": "PASS",
+    "supportTicketList": "PASS",
+    "supportTicketCreate": "PASS",
+    "supportTicketDetail": "PASS",
+    "identitySessionCreate": "SESSION_CREATED",
+    "identityProvider": "STAGING_SANDBOX",
+    "identityLiveness": "LIVENESS_PENDING"
+  },
+  "secretsIncluded": false
+}

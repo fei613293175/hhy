@@ -8,17 +8,17 @@ nginx_config: /www/server/panel/vhost/nginx/api.orbexa.cc.conf
 secret_root: /root/hhy-owner-test/secrets
 backup_root: /root/hhy-owner-test/backups
 active:
-  release: R14
-  source_commit: 89ccaf45cbecd0a5412e7d99057ee0036cd8f181
-  backend_container: hhy-owner-test-api-89ccaf45
-  backend_image: hhy-backend-r14-candidate:89ccaf45
-  loopback_upstream: 127.0.0.1:28140
+  release: R15
+  source_commit: 0a7cf9360f6a0a46527d57ed039631421a2fc279
+  backend_container: hhy-owner-test-api-0a7cf936
+  backend_image: hhy-backend-r15-owner-test:0a7cf936
+  loopback_upstream: 127.0.0.1:28149
   database_container: hhy-owner-test-postgres
   database_name: hhy_owner_test
   database_user: hhy_owner_test
   database_volume: hhy-owner-test-postgres-data
   docker_network: hhy-owner-test
-  flyway_version: "044"
+  flyway_version: "049"
 persistence:
   preserve_across_releases: true
   application_upgrade_only: true
@@ -48,6 +48,6 @@ public_validation:
   expected_invite_status: VALID
   ci_automation_enabled: false
 last_verified:
-  at: "2026-07-30T04:30:32Z"
-  evidence: artifacts/validation/r14-owner-test-persistence/owner-test-persistence.json
+  at: "2026-08-03T12:35:41Z"
+  evidence: artifacts/validation/r15-owner-test-runtime/owner-test-runtime.json
   result: PASS
