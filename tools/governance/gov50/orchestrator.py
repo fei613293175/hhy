@@ -769,13 +769,20 @@ def _structured_worker_draft_paths(
 def _latest_worker_draft(repo: Path, task_id: str, attempt: int, baseline: str) -> Path | None:
     root = repo / WORKER_DRAFT_DIR
     candidates = sorted(
-        root.glob(f"{task_id}-a{attempt}-*/manifest.json"),
+        root.glob(f"{task_id}-a*-*/manifest.json"),
         key=lambda path: path.stat().st_mtime_ns,
         reverse=True,
     ) if root.is_dir() else []
     for manifest_path in candidates:
         manifest = read_json(manifest_path)
-        if manifest.get("baseline_commit") == baseline:
+        draft_attempt = int(manifest.get("attempt") or 0)
+        draft_baseline = str(manifest.get("baseline_commit") or "")
+        if draft_attempt > attempt or not draft_baseline:
+            continue
+        compatible = draft_baseline == baseline or git(
+            repo, "merge-base", "--is-ancestor", draft_baseline, baseline, check=False
+        ) == ""
+        if compatible:
             return manifest_path
     return None
 
@@ -858,11 +865,11 @@ def _worker_prompt(task: dict[str, Any], attempt: int) -> str:
         "只执行 governance/runtime/ACTIVE_TASK.json 指定的唯一任务。\n"
         f"这是第 {attempt}/3 次总尝试，固定策略：{strategy}。\n"
         "禁止选择下一任务、修改治理/CI/Gate/AGENTS/状态、执行任何 Git 权威命令、自判正式 PASS。\n"
-        "若 ACTIVE_TASK.latest_failure_evidence 非空，先按其中的具体文件、行号和问题修复，禁止重新扫描全部历史证据。\n"
+        "若 ACTIVE_TASK.latest_failure_evidence 非空，先按其中的具体文件、行号和问题修复，禁止重新扫描全部历史证据；其中来自隔离工作树或其他机器的绝对路径仅作诊断参考，必须在当前工作树按 allowed_paths 重新定位，不得直接读取原路径。\n"
         "失败证据可能来自已拒绝且未合并的 Candidate；引用路径在当前权威基线不存在时，必须依据冻结契约和任务目标新建实现，禁止仅因文件缺失返回 ATTEMPT_FAILED 或 blocker。\n"
         f"Fast Lane 硬规则：只读定位最多使用 {discovery_limit} 次工具调用；启动后 {deadline} 秒内必须开始一个允许路径内的真实产品文件，禁止先做全仓库扫描或把分析延伸到整个版本。\n"
         "大型任务必须拆成不超过 6 个 operationId 的可编译垂直切片；每个切片完成后立即运行最小验证并继续，不得把全部实现滞留到最终回复。\n"
-        "若 ACTIVE_TASK.restored_draft 存在，前 5 次工具调用内必须运行适用的最小编译或目标测试；当前草稿的第一个真实失败优先于历史 latest_failure_evidence，修复后立即复验。\n"
+        "若 ACTIVE_TASK.restored_draft 存在，前 5 次工具调用内必须运行适用的最小编译或目标测试（第一条产品相关命令必须执行）；当前草稿的第一个真实失败优先于历史 latest_failure_evidence，修复后立即复验。\n"
         "必须审查并继续恢复草稿中的有效改动；草稿不是 PASS，仍须完成编译、测试和结果契约。\n"
         "必须保留 Task Gate、独立 Reviewer、全量测试、APK、模拟器和发布门禁；Fast Lane 只减少分析和返工，不得弱化任何门禁。\n"
         "在 Windows 上所有 shell/tool 命令必须串行执行；上一条结束前禁止并发启动下一条。\n"
@@ -884,11 +891,11 @@ def _worker_takeover_prompt(task: dict[str, Any], attempt: int, failure: dict[st
         f"任务 {task['id']}，第 {attempt}/3 次 Attempt。\n"
         "先检查当前工作区已有改动和 ACTIVE_TASK.json，保留有效改动，修复主 Worker 未完成的部分。"
         "禁止修改治理、状态、CI 或 AGENTS 文件，禁止选择下一任务，禁止执行 Git 权威命令。\n"
-        "若 ACTIVE_TASK.latest_failure_evidence 非空，先按其中的具体文件、行号和问题修复，禁止重新扫描全部历史证据。\n"
+        "若 ACTIVE_TASK.latest_failure_evidence 非空，先按其中的具体文件、行号和问题修复，禁止重新扫描全部历史证据；其中来自隔离工作树或其他机器的绝对路径仅作诊断参考，必须在当前工作树按 allowed_paths 重新定位，不得直接读取原路径。\n"
         "失败证据可能来自已拒绝且未合并的 Candidate；引用路径在当前权威基线不存在时，必须依据冻结契约和任务目标新建实现，禁止仅因文件缺失返回 ATTEMPT_FAILED 或 blocker。\n"
         f"Fast Lane 硬规则：只读定位最多使用 {discovery_limit} 次工具调用；接管后 {deadline} 秒内必须开始真实产品文件，禁止重新扫描整个仓库。\n"
         "大型任务必须拆成不超过 6 个 operationId 的可编译垂直切片，每个切片立即最小验证；不得把全部实现滞留到最终回复。\n"
-        "若 ACTIVE_TASK.restored_draft 存在，前 5 次工具调用内必须运行适用的最小编译或目标测试；当前草稿的第一个真实失败优先于历史 latest_failure_evidence，修复后立即复验。\n"
+        "若 ACTIVE_TASK.restored_draft 存在，前 5 次工具调用内必须运行适用的最小编译或目标测试（第一条产品相关命令必须执行）；当前草稿的第一个真实失败优先于历史 latest_failure_evidence，修复后立即复验。\n"
         "必须审查并继续恢复草稿中的有效改动；草稿不是 PASS，仍须完成编译、测试和结果契约。\n"
         "必须保留 Task Gate、独立 Reviewer、全量测试、APK、模拟器和发布门禁；Fast Lane 不改变 Attempt 预算。\n"
         "在 Windows 上所有 shell/tool 命令必须串行执行；上一条结束前禁止并发启动下一条。\n"

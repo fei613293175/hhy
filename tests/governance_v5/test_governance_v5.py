@@ -254,7 +254,27 @@ def test_infrastructure_draft_is_hash_bound_and_restored_for_same_attempt(tmp_pa
     assert manifest is not None
     assert _restore_worker_draft(worktree, manifest) == [relative]
     assert (worktree / relative).read_text(encoding="utf-8") == "final class R15 {}\n"
-    assert _latest_worker_draft(repo, "TASK-R15-001", 3, "a" * 40) is None
+    assert _latest_worker_draft(repo, "TASK-R15-001", 3, "a" * 40) is not None
+
+
+def test_later_attempt_restores_latest_ancestor_draft(tmp_path):
+    repo = tmp_path / "repo"
+    source = tmp_path / "source"
+    relative = "services/backend/src/R15.java"
+    source_file = source / relative
+    source_file.parent.mkdir(parents=True)
+    source_file.write_text("final class R15 {}\n", encoding="utf-8")
+    repo.mkdir()
+    subprocess.run(["git", "init", "-q"], cwd=repo, check=True)
+    subprocess.run(["git", "config", "user.name", "test"], cwd=repo, check=True)
+    subprocess.run(["git", "config", "user.email", "test@example.invalid"], cwd=repo, check=True)
+    (repo / "baseline.txt").write_text("baseline\n", encoding="utf-8")
+    subprocess.run(["git", "add", "."], cwd=repo, check=True)
+    subprocess.run(["git", "commit", "-q", "-m", "baseline"], cwd=repo, check=True)
+    baseline = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=repo, text=True).strip()
+    manifest_rel = _write_worker_draft(repo, source, "TASK-R15-001", 1, baseline, ["services/backend/**"], [relative])
+    assert manifest_rel is not None
+    assert _latest_worker_draft(repo, "TASK-R15-001", 2, baseline) is not None
 
 
 def test_policy_violation_draft_preserves_only_allowed_product_paths(tmp_path):
