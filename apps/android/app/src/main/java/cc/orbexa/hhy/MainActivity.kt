@@ -122,7 +122,6 @@ import cc.orbexa.hhy.shell.HhyTopLevelDestination
 import cc.orbexa.hhy.shell.R12ProfileScreen
 import cc.orbexa.hhy.startup.StartupGateScreen
 import cc.orbexa.hhy.support.R15CreateTicketScreen
-import cc.orbexa.hhy.support.R15MessageCenterScreen
 import cc.orbexa.hhy.support.R15NotificationDetailScreen
 import cc.orbexa.hhy.support.R15NotificationListScreen
 import cc.orbexa.hhy.support.R15ReportContentSheet
@@ -432,11 +431,17 @@ private fun AuthenticatedNavHost(
             onOpenTeamLeaders = { navController.navigate(AuthenticatedRoute.TeamLeaders) },
             onOpenPublish = { navController.navigate(AuthenticatedRoute.PublishCenter) },
             messageContent = { padding ->
-                R15MessageCenterScreen(
+                R14ConversationListScreen(
+                    api = r14Api,
+                    accessToken = authenticated.session.accessToken,
+                    realtimeEvents = r14Realtime.events,
                     contentPadding = padding,
-                    onOpenChats = { navController.navigate(AuthenticatedRoute.ChatList) },
                     onOpenNotifications = { navController.navigate(AuthenticatedRoute.Notifications) },
                     onOpenAnnouncements = { navController.navigate(AuthenticatedRoute.Announcements) },
+                    onConversationSelected = { conversation ->
+                        chatDetailRoute(conversation)?.let(navController::navigate)
+                    },
+                    onSessionExpired = onSessionInvalidated,
                 )
             },
             canOpenHomeTarget = { target -> canOpenHomeTarget(target) },

@@ -2,6 +2,7 @@ package cc.orbexa.hhy.chat
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -82,6 +83,8 @@ fun R14ConversationListScreen(
     accessToken: String,
     contentPadding: PaddingValues = PaddingValues(),
     realtimeEvents: Flow<R14RealtimeEvent> = emptyFlow(),
+    onOpenNotifications: (() -> Unit)? = null,
+    onOpenAnnouncements: (() -> Unit)? = null,
     onConversationSelected: (ChatConversationResource) -> Unit,
     onSessionExpired: () -> Unit,
 ) {
@@ -226,6 +229,14 @@ fun R14ConversationListScreen(
                 value = keyword,
                 onValueChange = { if (it.length <= 100) keyword = it },
             )
+            if (onOpenNotifications != null && onOpenAnnouncements != null) {
+                ConversationQuickActions(
+                    onOpenNotifications = onOpenNotifications,
+                    onOpenAnnouncements = onOpenAnnouncements,
+                    onOpenCustomerMessages = { keyword = "官方客服" },
+                    onOpenSystemMessages = { keyword = "系统消息" },
+                )
+            }
             PullToRefreshBox(
                 isRefreshing = state.phase == R14ConversationPhase.SYNCING && !state.appending,
                 onRefresh = { refreshKey += 1 },
@@ -346,6 +357,58 @@ private fun ConversationSearchField(value: String, onValueChange: (String) -> Un
             unfocusedBorderColor = HhyColors.Border.copy(alpha = 0f),
         ),
     )
+}
+
+@Composable
+private fun ConversationQuickActions(
+    onOpenNotifications: () -> Unit,
+    onOpenAnnouncements: () -> Unit,
+    onOpenCustomerMessages: () -> Unit,
+    onOpenSystemMessages: () -> Unit,
+) {
+    val actions = listOf(
+        Triple("通知中心", HhyIcons.Information, onOpenNotifications),
+        Triple("公告中心", HhyIcons.Information, onOpenAnnouncements),
+        Triple("客服消息", HhyIcons.Contact, onOpenCustomerMessages),
+        Triple("系统消息", HhyIcons.Message, onOpenSystemMessages),
+    )
+    Row(
+        modifier = Modifier.fillMaxWidth().padding(horizontal = HhySpacing.Md, vertical = HhySpacing.Sm),
+        horizontalArrangement = Arrangement.SpaceEvenly,
+    ) {
+        actions.forEachIndexed { index, (label, icon, action) ->
+            Column(
+                modifier = Modifier.weight(1f).clickable(onClick = action)
+                    .padding(vertical = HhySpacing.Sm).testTag("r14.conversations.quick.$index"),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.spacedBy(HhySpacing.Xs),
+            ) {
+                Surface(
+                    modifier = Modifier.size(HhySize.MinimumTouchTarget),
+                    shape = CircleShape,
+                    color = when (index) {
+                        0 -> HhyColors.SoftBlue
+                        1 -> HhyColors.WarningSoft
+                        2 -> HhyColors.SuccessSoft
+                        else -> HhyColors.SurfaceVariant
+                    },
+                ) {
+                    HhyIcon(
+                        imageVector = icon,
+                        contentDescription = null,
+                        modifier = Modifier.padding(HhySpacing.Md),
+                        tint = when (index) {
+                            0 -> HhyColors.BrandPrimary
+                            1 -> HhyColors.Warning
+                            2 -> HhyColors.Success
+                            else -> HhyColors.BrandTertiary
+                        },
+                    )
+                }
+                Text(label, fontSize = HhyType.CaptionSize, color = HhyColors.TextPrimary)
+            }
+        }
+    }
 }
 
 @OptIn(ExperimentalFoundationApi::class)

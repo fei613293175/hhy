@@ -68,6 +68,30 @@ class R14ConversationListScreenTest {
     }
 
     @Test
+    fun messageHomeExposesB07QuickActions() {
+        var selected = ""
+        composeRule.setContent {
+            HhyTheme {
+                R14ConversationListScreen(
+                    api = ConversationApi,
+                    accessToken = "token",
+                    onOpenNotifications = { selected = "notifications" },
+                    onOpenAnnouncements = { selected = "announcements" },
+                    onConversationSelected = {},
+                    onSessionExpired = {},
+                )
+            }
+        }
+
+        composeRule.onNodeWithText("通知中心").assertIsDisplayed().performClick()
+        assertEquals("notifications", selected)
+        composeRule.onNodeWithText("公告中心").assertIsDisplayed().performClick()
+        assertEquals("announcements", selected)
+        composeRule.onNodeWithText("客服消息").assertIsDisplayed()
+        composeRule.onNodeWithText("系统消息").assertIsDisplayed()
+    }
+
+    @Test
     fun longPressOwnsConversationDeletionAndRemovesConfirmedRow() {
         composeRule.setContent {
             HhyTheme {
