@@ -85,13 +85,13 @@ jobs:
         run: ./gradlew --no-daemon --stacktrace testDebugUnitTest assembleDebug
       - uses: actions/upload-artifact@v4
         with:
-          name: r15-debug-apk-${{ github.run_id }}
+          name: r16-debug-apk-${{ github.run_id }}
           path: apps/android/app/build/outputs/apk/debug/app-debug.apk
           if-no-files-found: error
           retention-days: 30
 
   android-emulator:
-    name: R15 Android emulator interactions
+    name: R16 Android emulator interactions
     runs-on: ubuntu-latest
     timeout-minutes: 45
     steps:
@@ -116,25 +116,25 @@ jobs:
           disable-animations: true
           emulator-options: -no-snapshot -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -prop persist.sys.locale=zh-CN
           script: |
-            apps/android/gradlew -p apps/android --no-daemon --stacktrace :feature:support:connectedDebugAndroidTest :app:assembleDebug
-            mkdir -p artifacts/r15-emulator/r15-visual
-            adb pull /sdcard/Download/hhy-r15-visual/. artifacts/r15-emulator/r15-visual/
-            test "$(find artifacts/r15-emulator/r15-visual -name '*.png' | wc -l)" -ge 3
+            apps/android/gradlew -p apps/android --no-daemon --stacktrace :feature:order:connectedDebugAndroidTest :app:assembleDebug
+            mkdir -p artifacts/r16-emulator/r16-visual
+            adb pull /sdcard/Download/hhy-r16-visual/. artifacts/r16-emulator/r16-visual/
+            test "$(find artifacts/r16-emulator/r16-visual -name '*.png' | wc -l)" -ge 2
             adb install -r apps/android/app/build/outputs/apk/debug/app-debug.apk
             adb logcat -c
             adb shell am start -W -n cc.orbexa.hhy.debug/cc.orbexa.hhy.MainActivity
             sleep 8
-            mkdir -p artifacts/r15-emulator
-            adb exec-out screencap -p > artifacts/r15-emulator/startup.png
-            adb logcat -d -v threadtime > artifacts/r15-emulator/logcat.txt
-            ! grep -E 'FATAL EXCEPTION|ANR in cc\.orbexa\.hhy' artifacts/r15-emulator/logcat.txt
+            mkdir -p artifacts/r16-emulator
+            adb exec-out screencap -p > artifacts/r16-emulator/startup.png
+            adb logcat -d -v threadtime > artifacts/r16-emulator/logcat.txt
+            ! grep -E 'FATAL EXCEPTION|ANR in cc\.orbexa\.hhy' artifacts/r16-emulator/logcat.txt
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: r15-emulator-${{ github.run_id }}
+          name: r16-emulator-${{ github.run_id }}
           path: |
-            artifacts/r15-emulator
-            apps/android/feature/support/build/reports/androidTests
-            apps/android/feature/support/build/outputs/androidTest-results
+            artifacts/r16-emulator
+            apps/android/feature/order/build/reports/androidTests
+            apps/android/feature/order/build/outputs/androidTest-results
           if-no-files-found: warn
           retention-days: 30

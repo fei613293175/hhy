@@ -24,7 +24,7 @@ import kotlinx.serialization.decodeFromString
 @Serializable data class R16OrderPage(val items: List<R16OrderResource> = emptyList(), val page: R07PageMeta)
 
 interface ContractR16Api {
-    suspend fun orders(accessToken: String, status: String? = null): R07CallResult<R16OrderPage>
+    suspend fun orders(accessToken: String, status: String? = null, page: Int = 1, pageSize: Int = 20): R07CallResult<R16OrderPage>
     suspend fun order(accessToken: String, orderNo: String): R07CallResult<R16OrderResource>
 }
 
@@ -34,8 +34,8 @@ class UrlConnectionContractR16Api(baseUrl: String) : ContractR16Api {
         require(it.userInfo == null && it.fragment == null && it.query == null)
     }.toString().trimEnd('/')
 
-    override suspend fun orders(accessToken: String, status: String?): R07CallResult<R16OrderPage> = call(
-        "/api/v1/me/orders?page=1&pageSize=20&sort=createdAt%3Adesc" + (status?.takeIf { it.isNotBlank() }?.let { "&status=${encode(it)}" } ?: ""),
+    override suspend fun orders(accessToken: String, status: String?, page: Int, pageSize: Int): R07CallResult<R16OrderPage> = call(
+        "/api/v1/me/orders?page=${page.coerceAtLeast(1)}&pageSize=${pageSize.coerceIn(1, 100)}&sort=createdAt%3Adesc" + (status?.takeIf { it.isNotBlank() }?.let { "&status=${encode(it)}" } ?: ""),
         accessToken, R16OrderPage.serializer(),
     )
 
