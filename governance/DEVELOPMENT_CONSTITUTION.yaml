@@ -46,16 +46,38 @@ limits:
   total_attempts_per_task: 3
   overrides_allowed: false
   infrastructure_auto_retries: 0
-  maximum_worker_tool_calls: 100
+  maximum_worker_tool_calls: 80
   maximum_compactions_per_attempt: 1
   maximum_same_command_same_diff: 1
   run_loop_default_max_runs: 20
   run_loop_absolute_max_runs: 100
-  worker_timeout_seconds: 3600
-  worker_startup_timeout_seconds: 900
-  worker_idle_timeout_seconds: 1800
+  worker_timeout_seconds: 2700
+  worker_startup_timeout_seconds: 600
+  worker_idle_timeout_seconds: 900
   worker_progress_poll_seconds: 15
   gate_timeout_seconds: 1800
+fast_lane:
+  enabled: true
+  applies_to: ALL_RELEASES
+  required_for: LARGE_OR_MULTI_DOMAIN_TASKS
+  max_read_only_discovery_tool_calls: 12
+  first_product_file_deadline_seconds: 600
+  checkpoint_interval_minutes: 45
+  max_operation_ids_per_slice: 6
+  required_slice_order:
+    - contract_and_types
+    - persistence_and_outbox
+    - application_service
+    - controller_or_entrypoint
+    - migration_and_permissions
+    - targeted_tests
+  rules:
+    - begin_product_edit_before_broad_repository_scan
+    - validate_each_compilable_slice_before_next_slice
+    - preserve_task_gate_and_independent_reviewer
+    - preserve_candidate_commit_identity
+    - never_increase_attempt_budget
+    - never_create_attempt_four
 attempt_strategies:
   1: direct_implementation_or_fix
   2: fresh_worker_minimal_reproduction_and_root_cause

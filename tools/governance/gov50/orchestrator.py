@@ -72,6 +72,16 @@ def _worker_progress_poll(repo: Path) -> float:
     return float((constitution.get("limits") or {}).get("worker_progress_poll_seconds", 15))
 
 
+def _worker_timeout(repo: Path) -> int:
+    constitution = read_yaml(repo / "governance" / "DEVELOPMENT_CONSTITUTION.yaml") or {}
+    return int((constitution.get("limits") or {}).get("worker_timeout_seconds", 3600))
+
+
+def _fast_lane(repo: Path) -> dict[str, Any]:
+    constitution = read_yaml(repo / "governance" / "DEVELOPMENT_CONSTITUTION.yaml") or {}
+    return constitution.get("fast_lane") or {}
+
+
 def _commit_state(repo: Path, state: dict[str, Any], specs: dict[str, dict[str, Any]], message: str, extra_paths: list[str] | None = None) -> str | None:
     render_views(repo, state, specs)
     paths = ["governance/STATE.yaml", "CURRENT_STATUS.yaml", "NEXT_TASK.yaml", "governance/views"]
@@ -806,16 +816,20 @@ def _scope_ok(changed: list[str], allowed: list[str]) -> tuple[bool, list[str]]:
 
 def _worker_prompt(task: dict[str, Any], attempt: int) -> str:
     strategy = {1: "直接实现或修复", 2: "先构造最小复现并定位根因，再修复", 3: "从权威基线采用一个替代实现"}[attempt]
+    fast_lane = _fast_lane(Path.cwd())
+    discovery_limit = int(fast_lane.get("max_read_only_discovery_tool_calls", 12))
+    deadline = int(fast_lane.get("first_product_file_deadline_seconds", 600))
     return (
         "只执行 governance/runtime/ACTIVE_TASK.json 指定的唯一任务。\n"
         f"这是第 {attempt}/3 次总尝试，固定策略：{strategy}。\n"
         "禁止选择下一任务、修改治理/CI/Gate/AGENTS/状态、执行任何 Git 权威命令、自判正式 PASS。\n"
         "若 ACTIVE_TASK.latest_failure_evidence 非空，先按其中的具体文件、行号和问题修复，禁止重新扫描全部历史证据。\n"
         "失败证据可能来自已拒绝且未合并的 Candidate；引用路径在当前权威基线不存在时，必须依据冻结契约和任务目标新建实现，禁止仅因文件缺失返回 ATTEMPT_FAILED 或 blocker。\n"
-        "只读定位最多使用 30 次工具调用；随后必须开始一个完整、可编译的产品文件，禁止用占位、TODO、空壳或无意义改动刷新进展计时。\n"
+        f"Fast Lane 硬规则：只读定位最多使用 {discovery_limit} 次工具调用；启动后 {deadline} 秒内必须开始一个允许路径内的真实产品文件，禁止先做全仓库扫描或把分析延伸到整个版本。\n"
+        "大型任务必须拆成不超过 6 个 operationId 的可编译垂直切片；每个切片完成后立即运行最小验证并继续，不得把全部实现滞留到最终回复。\n"
         "若 ACTIVE_TASK.restored_draft 存在，前 5 次工具调用内必须运行适用的最小编译或目标测试；当前草稿的第一个真实失败优先于历史 latest_failure_evidence，修复后立即复验。\n"
         "必须审查并继续恢复草稿中的有效改动；草稿不是 PASS，仍须完成编译、测试和结果契约。\n"
-        "大型任务必须按可编译的垂直切片推进（契约/存储/服务/入口/迁移/测试），每完成一片立即落盘并做针对性验证，禁止把全部实现滞留到最终回复。\n"
+        "必须保留 Task Gate、独立 Reviewer、全量测试、APK、模拟器和发布门禁；Fast Lane 只减少分析和返工，不得弱化任何门禁。\n"
         "在 Windows 上所有 shell/tool 命令必须串行执行；上一条结束前禁止并发启动下一条。\n"
         "所有文件路径必须完整保留 ACTIVE_TASK.allowed_paths 的前缀（例如 scripts/，禁止截断为 cripts/ 或其他变体）。\n"
         "完成实际产品代码和测试后，运行必要的针对性验证。相同命令、输出和 Diff 不得重复。\n"
@@ -824,6 +838,9 @@ def _worker_prompt(task: dict[str, Any], attempt: int) -> str:
 
 
 def _worker_takeover_prompt(task: dict[str, Any], attempt: int, failure: dict[str, Any]) -> str:
+    fast_lane = _fast_lane(Path.cwd())
+    discovery_limit = int(fast_lane.get("max_read_only_discovery_tool_calls", 12))
+    deadline = int(fast_lane.get("first_product_file_deadline_seconds", 600))
     return (
         "你是接管当前任务的备用 Worker。主 Worker 没有提交可读取的结果，"
         "请直接接管并完成 ACTIVE_TASK.json 中的同一个任务，不要等待主 Worker。\n"
@@ -832,10 +849,11 @@ def _worker_takeover_prompt(task: dict[str, Any], attempt: int, failure: dict[st
         "禁止修改治理、状态、CI 或 AGENTS 文件，禁止选择下一任务，禁止执行 Git 权威命令。\n"
         "若 ACTIVE_TASK.latest_failure_evidence 非空，先按其中的具体文件、行号和问题修复，禁止重新扫描全部历史证据。\n"
         "失败证据可能来自已拒绝且未合并的 Candidate；引用路径在当前权威基线不存在时，必须依据冻结契约和任务目标新建实现，禁止仅因文件缺失返回 ATTEMPT_FAILED 或 blocker。\n"
-        "只读定位最多使用 30 次工具调用；随后必须开始一个完整、可编译的产品文件，禁止用占位、TODO、空壳或无意义改动刷新进展计时。\n"
+        f"Fast Lane 硬规则：只读定位最多使用 {discovery_limit} 次工具调用；接管后 {deadline} 秒内必须开始真实产品文件，禁止重新扫描整个仓库。\n"
+        "大型任务必须拆成不超过 6 个 operationId 的可编译垂直切片，每个切片立即最小验证；不得把全部实现滞留到最终回复。\n"
         "若 ACTIVE_TASK.restored_draft 存在，前 5 次工具调用内必须运行适用的最小编译或目标测试；当前草稿的第一个真实失败优先于历史 latest_failure_evidence，修复后立即复验。\n"
         "必须审查并继续恢复草稿中的有效改动；草稿不是 PASS，仍须完成编译、测试和结果契约。\n"
-        "大型任务必须按可编译的垂直切片推进（契约/存储/服务/入口/迁移/测试），每完成一片立即落盘并做针对性验证，禁止把全部实现滞留到最终回复。\n"
+        "必须保留 Task Gate、独立 Reviewer、全量测试、APK、模拟器和发布门禁；Fast Lane 不改变 Attempt 预算。\n"
         "在 Windows 上所有 shell/tool 命令必须串行执行；上一条结束前禁止并发启动下一条。\n"
         "完成产品代码和针对性测试后，必须写出符合 worker-result.schema.json 的结果；blocker 非 null 时必须包含 code、detail、resolution、paths、worker_result_evidence 五个字段，无值使用 null。"
         f"主 Worker 接管摘要：{failure.get('stderr_tail') or failure.get('stdout_tail') or '未返回可用输出'}"
@@ -864,6 +882,8 @@ def _persist_worker_failure(repo: Path, task_id: str, attempt: int, worker: dict
 def build_active_task_payload(
     task_id: str, spec: dict[str, Any], attempt: int, baseline: str
 ) -> dict[str, Any]:
+    constitution = read_yaml(Path.cwd() / "governance" / "DEVELOPMENT_CONSTITUTION.yaml") or {}
+    limits = constitution.get("limits") or {}
     return {
         "schema": "hhy.active-task/v5.0",
         "task_id": task_id,
@@ -884,7 +904,10 @@ def build_active_task_payload(
         ],
         "acceptance_commands": spec["acceptance_commands"],
         "risks": spec["risks"],
-        "limits": {"max_tool_calls": 100, "max_compactions": 1},
+        "limits": {
+            "max_tool_calls": int(limits.get("maximum_worker_tool_calls", 100)),
+            "max_compactions": int(limits.get("maximum_compactions_per_attempt", 1)),
+        },
         "ledger_path": "governance/runtime/command-ledger.jsonl",
     }
 
@@ -1024,7 +1047,7 @@ def run_once(repo: Path, dry_run: bool = False) -> dict[str, Any]:
             worker = run_with_progress_timeout(
                 command,
                 worktree,
-                timeout=3600,
+                timeout=_worker_timeout(repo),
                 startup_timeout=_worker_startup_timeout(repo),
                 idle_timeout=_worker_idle_timeout(repo),
                 progress_paths=spec["allowed_paths"],

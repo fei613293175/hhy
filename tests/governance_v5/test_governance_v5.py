@@ -190,17 +190,31 @@ def test_rejected_candidate_paths_do_not_block_fresh_implementation():
 def test_worker_prompts_bound_read_only_discovery_before_implementation():
     spec = _specs()["TASK-R15-RECOVERY-009"]
 
-    assert "只读定位最多使用 30 次工具调用" in _worker_prompt(spec, 1)
-    assert "禁止用占位、TODO、空壳或无意义改动刷新进展计时" in _worker_takeover_prompt(spec, 1, {})
+    assert "只读定位最多使用 12 次工具调用" in _worker_prompt(spec, 1)
+    assert "Fast Lane 硬规则" in _worker_takeover_prompt(spec, 1, {})
 
 
 def test_worker_prompts_require_incremental_vertical_slices_and_full_draft_validation():
     spec = _specs()["TASK-R15-RECOVERY-009"]
 
-    assert "大型任务必须按可编译的垂直切片推进" in _worker_prompt(spec, 1)
+    assert "大型任务必须拆成不超过 6 个 operationId 的可编译垂直切片" in _worker_prompt(spec, 1)
     assert "草稿不是 PASS" in _worker_takeover_prompt(spec, 1, {})
     assert "前 5 次工具调用内必须运行适用的最小编译或目标测试" in _worker_prompt(spec, 1)
     assert "当前草稿的第一个真实失败优先于历史 latest_failure_evidence" in _worker_takeover_prompt(spec, 1, {})
+
+
+def test_fast_lane_rules_bound_discovery_and_preserve_gates():
+    constitution = yaml.safe_load((ROOT / "governance/DEVELOPMENT_CONSTITUTION.yaml").read_text(encoding="utf-8"))
+    fast_lane = constitution["fast_lane"]
+    assert fast_lane["enabled"] is True
+    assert fast_lane["max_read_only_discovery_tool_calls"] == 12
+    assert fast_lane["first_product_file_deadline_seconds"] == 600
+    assert fast_lane["max_operation_ids_per_slice"] == 6
+    assert "preserve_task_gate_and_independent_reviewer" in fast_lane["rules"]
+    assert "never_increase_attempt_budget" in fast_lane["rules"]
+    prompt = _worker_prompt(_specs()["TASK-R15-RECOVERY-009"], 1)
+    assert "Fast Lane 硬规则" in prompt
+    assert "不得弱化任何门禁" in prompt
 
 
 def test_worker_provider_401_is_infrastructure_not_engineering_failure():
