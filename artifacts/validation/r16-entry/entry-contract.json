@@ -2,9 +2,9 @@
   "status": "PASS",
   "release": "R16",
   "cr": "CR-0440",
-  "verified_at": "2026-07-28T09:41:13.950135+00:00",
+  "verified_at": "2026-08-03T20:48:31.769642+00:00",
   "contracts": {
-    "client_sha256": "81e92293b5663656f6818d9c58a6c629151692278a61021c0996ecb40ed4c901",
+    "client_sha256": "396dddbe38a1ab28db675be45bc2da98301d3f9fe041e3d0f87962542233e703",
     "admin_sha256": "d33038a72b60922d243c38f624b3f4f25d7f841c3233b8d091a450d485cabfde",
     "explicit_resources": [
       "BenefitResource",

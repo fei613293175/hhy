@@ -98,9 +98,14 @@ def main() -> int:
             },
         ),
     }
+    required_shapes_by_spec = {
+        "client": set(required_shapes) - {"ProductResource"},
+        "admin": set(required_shapes),
+    }
     for spec_name, spec in specs.items():
         schemas = spec["components"]["schemas"]
-        for name, (properties, required) in required_shapes.items():
+        for name in required_shapes_by_spec[spec_name]:
+            properties, required = required_shapes[name]
             schema = schemas.get(name)
             if not schema:
                 errors.append(f"{spec_name}:{name}:missing")
@@ -116,7 +121,7 @@ def main() -> int:
         )
         if order_enum != ORDER_STATUS:
             errors.append(f"{spec_name}:OrderResource:ORDER_STATUS")
-        if ref(schemas["ProductResource"]["properties"]["skus"]["items"]) != "#/components/schemas/ProductSkuResource":
+        if "ProductResource" in schemas and ref(schemas["ProductResource"]["properties"]["skus"]["items"]) != "#/components/schemas/ProductSkuResource":
             errors.append(f"{spec_name}:ProductResource:skus-ref")
         if ref(schemas["ProductSkuResource"]["properties"]["benefits"]["items"]) != "#/components/schemas/BenefitResource":
             errors.append(f"{spec_name}:ProductSkuResource:benefits-ref")

@@ -1,0 +1,49 @@
+{
+  "schemaVersion": 1,
+  "release": "R16",
+  "sourceCommit": "4debca13d8917d9f793f434868d950f78308fa4e",
+  "observedAt": "2026-08-03T17:02:53Z",
+  "deployment": {
+    "publicUpstream": "127.0.0.1:28150",
+    "backendContainer": "hhy-owner-test-api-4debca13",
+    "backendImage": "hhy-backend-r16-owner-test:4debca13",
+    "backendImageId": "sha256:94cb4d6f8349975dfa596da7a15583dbf8d0f6f601a3a45993b4503bdc2becf4",
+    "databaseContainer": "hhy-owner-test-postgres",
+    "databaseVolume": "hhy-owner-test-postgres-data",
+    "migrationMode": "FORWARD_ONLY",
+    "preUpgradeSnapshot": "/root/hhy-owner-test/backups/pre-R16-4debca13-20260803T163716Z.dump",
+    "preUpgradeSnapshotSize": 1149613,
+    "preUpgradeSnapshotMode": "0600"
+  },
+  "checks": {
+    "imageSourceCommit": "PASS",
+    "persistentDatabaseVolumePreserved": "PASS",
+    "flyway045": "PASS",
+    "flyway046": "PASS",
+    "flyway047": "PASS",
+    "readiness": "UP",
+    "publicPlatformStatusHttp": 200,
+    "authenticatedOrderListHttp": 200,
+    "authenticatedMissingOrderHttp": 404,
+    "authenticatedMissingOrderCode": "COMMON-404-NOT_FOUND",
+    "structuredRequestLog": "PASS",
+    "traceId": "PASS",
+    "prometheus": "PASS",
+    "ciAutomationDisabled": "PASS",
+    "githubWeb": "PASS",
+    "githubBackend": "PASS",
+    "githubAndroidBuildAndUnitTests": "PASS",
+    "githubR16Emulator": "PASS"
+  },
+  "requestEvidence": {
+    "orderListRequestId": "e7caa5f6-5998-41df-8d41-2b651d17569b",
+    "missingOrderRequestId": "b81dbb48-3cd7-4c6f-b785-698ebe07f9cd"
+  },
+  "sensitiveData": {
+    "phoneStored": false,
+    "passwordStored": false,
+    "databasePasswordStored": false,
+    "tokensStored": false,
+    "signingPasswordsStored": false
+  }
+}

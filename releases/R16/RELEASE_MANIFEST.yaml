@@ -1,6 +1,6 @@
 release: R16
 title: 商品、SKU、报价与统一订单
-status: IMPLEMENTING
+status: MACHINE_VERIFIED_OWNER_TEST_PENDING
 milestone: M2_COMMERCE
 depends_on:
 - R02
@@ -115,19 +115,54 @@ android_delivery:
   apk_file: hhy-r16-4debca1-debug.apk
   version_name: 1.2.2-debug
   version_code: 10226
-  sha256: 9bed8419c0002602045bc81bdc181ce08e8914991197e97b998359157b0c41b4
+  sha256: 4c937a0774f2a2c7d1c7c6f85bce683b34b6d757a89f1c2aae17d5b71ce870b6
+  size_bytes: 22116119
+  signing_profile: hhy-staging-test-v2
+  signing_fingerprint: e32a9d7ff8a209d2903db6383b461b259f0018a698d1f3646e6ed7f1112671be
+  fixed_toolchain: hhy-android-toolchain:r01-46fb273
   api_base_url: https://api.orbexa.cc
   websocket_base_url: wss://ws.orbexa.cc
   machine_delivery: PASS
   owner_physical_test: PENDING
   github_run: '30829520789'
+  github_delivery_run: '30831992663'
   android_build: PASS
   android_unit_tests: PASS
   android_emulator: PASS
   visual_evidence:
-  - C:\Users\小白\Desktop\合伙云Pro_R16_交付_4debca13\SCR-ORDER-001.png
-  - C:\Users\小白\Desktop\合伙云Pro_R16_交付_4debca13\SCR-ORDER-002.png
-  test_guide: C:\Users\小白\Desktop\合伙云Pro_R16_交付_4debca13\R16_真机测试说明.md
+  - C:\Users\小白\Desktop\合伙云Pro_R16_正式交付_4debca13\SCR-ORDER-001.png
+  - C:\Users\小白\Desktop\合伙云Pro_R16_正式交付_4debca13\SCR-ORDER-002.png
+  test_guide: artifacts/reports/R16/R16-version-test-guide.md
+  desktop_test_guide:
+    desktop_path: 'C:\Users\小白\Desktop\合伙云Pro_R16_正式交付_4debca13\hhy-r16-4debca1-test-guide.md'
+    file_name: hhy-r16-4debca1-test-guide.md
+    size_bytes: 2101
+    sha256: 6c9981ba41776dcc703b10c9e3d1ed658b6bdee992de45ce755d0979b39d487b
+    status: PASS
+owner_test_runtime:
+  release: R16
+  source_commit: 4debca13d8917d9f793f434868d950f78308fa4e
+  backend_container: hhy-owner-test-api-4debca13
+  backend_image: hhy-backend-r16-owner-test:4debca13
+  public_upstream: 127.0.0.1:28150
+  database_container: hhy-owner-test-postgres
+  database_volume: hhy-owner-test-postgres-data
+  flyway_version: '049'
+  r16_migrations: PASS
+  authenticated_order_api: PASS
+  observability: PASS
+  evidence: artifacts/validation/r16-owner-test-runtime/owner-test-runtime.json
+machine_completion:
+  status: PASS
+  completed_at: '2026-08-03T17:13:55Z'
+  source_commit: 4debca13d8917d9f793f434868d950f78308fa4e
+  github_runs:
+  - '30829520789'
+  - '30831992663'
+  acceptance_matrix: releases/R16/ACCEPTANCE_MATRIX.csv
+  feature_list: artifacts/reports/R16/R16-feature-list.md
+  test_checklist: artifacts/reports/R16/R16-test-checklist.md
+  owner_physical_test: PENDING
 definition_of_ready: releases/R16/DEFINITION_OF_READY.yaml
 story_backlog: releases/R16/STORIES.yaml
 continuity:

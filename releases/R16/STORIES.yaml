@@ -269,4 +269,10 @@ stories:
     operation_ids: 10
     report: artifacts/reports/R16/TASK-R16-003-backend.md
     status: PASS
-  status: IMPLEMENTING
+  verification_baseline:
+    special_tests: artifacts/reports/R16/TASK-R16-005-special-tests.md
+    runtime: artifacts/reports/R16/TASK-R16-006-runtime-acceptance.md
+    test_apk: artifacts/reports/R16/TASK-R16-007-test-apk.md
+    github_run: '30831992663'
+    owner_physical_test: PENDING
+  status: MACHINE_VERIFIED

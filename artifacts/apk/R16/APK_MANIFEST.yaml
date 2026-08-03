@@ -1,0 +1,23 @@
+manifest_schema: 3
+release: R16
+apk_file: hhy-r16-4debca1-debug.apk
+version_name: 1.2.2-debug
+version_code: 10226
+commit: 4debca13d8917d9f793f434868d950f78308fa4e
+sha256: 4c937a0774f2a2c7d1c7c6f85bce683b34b6d757a89f1c2aae17d5b71ce870b6
+size_bytes: 22116119
+signing_fingerprint: e32a9d7ff8a209d2903db6383b461b259f0018a698d1f3646e6ed7f1112671be
+built_at: '2026-08-03T17:02:53Z'
+delivery_status: PASS
+test_status: PENDING
+owner_physical_test: PENDING
+download_url: https://download.orbexa.cc/r16-artifacts/hhy-r16-4debca1-debug.apk
+desktop_copy: C:\Users\小白\Desktop\合伙云Pro_R16_正式交付_4debca13\hhy-r16-4debca1-debug.apk
+test_guide:
+  source_path: artifacts/reports/R16/R16-version-test-guide.md
+  desktop_path: C:\Users\小白\Desktop\合伙云Pro_R16_正式交付_4debca13\hhy-r16-4debca1-test-guide.md
+  file_name: hhy-r16-4debca1-test-guide.md
+  size_bytes: 2101
+  sha256: 6c9981ba41776dcc703b10c9e3d1ed658b6bdee992de45ce755d0979b39d487b
+  status: PASS
+delivery_evidence: artifacts\validation\r16-apk-delivery\delivery-evidence.json
