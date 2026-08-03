@@ -1,7 +1,7 @@
 schema: hhy.governance-state/v5.0
-revision: 183
-updated_at: '2026-08-03T06:38:45.404396Z'
-state_hash: db16de138dca8e94f5e27d4fb5876bbdb6feb4891e8289c99a3f5a08507c4640
+revision: 184
+updated_at: '2026-08-03T07:08:17.474201Z'
+state_hash: d7c4f936ba82f9580b46395c85a748341788f3a6b441613d0931a96dbee87ad6
 project:
   status: ACTIVE
   branch_at_install: governance/v5.0-migration-20260731
@@ -2945,17 +2945,7 @@ tasks:
     status: READY
     attempts_used: 0
     current_attempt: null
-    last_error_fingerprint: '[{"id": "commit_binding", "status": "PASS", "detail": {"HEAD": "0a09b73664f5457b040e95c59992cce71d4f07a4",
-      "expected": "0a09b73664f5457b040e95c59992cce71d4f07a4"}}, {"id": "test_authority", "status": "PASS", "detail": {"schema":
-      "hhy.test-authority/v5.0", "status": "PASS", "commit": "0a09b73664f5457b040e95c59992cce71d4f07a4", "parent": "503d3c42f3df42c8dffd6794e1e9e749764d9dae",
-      "test_paths_checked": ["tests/test_r15_recovery_static.py"], "violations": []}}, {"id": "static_specs", "status": "PASS",
-      "detail": []}, {"id": "state_integrity", "status": "PASS"}, {"id": "active_legacy_routes", "status": "PASS", "detail":
-      []}, {"id": "secret_scan", "status": "PASS", "detail": {"mode": null, "files_considered": 17, "files_scanned": 17, "findings":
-      []}}, {"id": "hard_protection", "status": "PASS", "detail": {"schema": "hhy.hard-protection/v5.0", "status": "PASS",
-      "task_id": "TASK-R15-RECOVERY-012", "release": "R15", "profile": "task", "risks": ["contract", "secrets", "security"],
-      "details": {"security_requirements": ["REQ-APK-001", "REQ-CHAT-002", "REQ-NOTIFY-001", "REQ-SUPPORT-001"]}, "errors":
-      []}}, {"id": "task_acceptance_1", "status": "FAIL", "detail": {"status": "FAIL", "exit_code": 9009, "command": ["python3",
-      "scripts/check_api_contract.py"], "stdout_tail": "", "stderr_tail": ""}}]'
+    last_error_fingerprint: 主 Worker 未返回结果，备用 Worker 接管也未返回结果；主证据=governance/runtime/supervisor/worker-failures/TASK-R15-RECOVERY-012-a1-46f28b626c.json；备用证据=governance/runtime/supervisor/worker-failures/TASK-R15-RECOVERY-012-a1-859d5301e1.json
     last_candidate_commit: null
     last_gate_evidence: null
     blocker: null
