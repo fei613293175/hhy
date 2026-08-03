@@ -1,7 +1,9 @@
 package cc.orbexa.hhy.support
 
 import androidx.activity.ComponentActivity
+import android.content.ContentValues
 import android.graphics.Bitmap
+import android.provider.MediaStore
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.hasText
@@ -25,8 +27,6 @@ import org.junit.Assert.assertEquals
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import java.io.File
-import java.io.FileOutputStream
 
 @RunWith(AndroidJUnit4::class)
 class R15SupportScreensTest {
@@ -86,11 +86,18 @@ class R15SupportScreensTest {
     private fun capture(name: String) {
         compose.waitForIdle()
         val instrumentation = InstrumentationRegistry.getInstrumentation()
-        val directory = File(instrumentation.targetContext.getExternalFilesDir(null), "r15-visual")
-        check(directory.exists() || directory.mkdirs())
-        FileOutputStream(File(directory, name)).use { output ->
+        val resolver = instrumentation.targetContext.contentResolver
+        val uri = resolver.insert(
+            MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+            ContentValues().apply {
+                put(MediaStore.Images.Media.DISPLAY_NAME, name)
+                put(MediaStore.Images.Media.MIME_TYPE, "image/png")
+                put(MediaStore.Images.Media.RELATIVE_PATH, "Download/hhy-r15-visual")
+            },
+        ) ?: error("Unable to create visual evidence output")
+        resolver.openOutputStream(uri)?.use { output ->
             check(instrumentation.uiAutomation.takeScreenshot().compress(Bitmap.CompressFormat.PNG, 100, output))
-        }
+        } ?: error("Unable to open visual evidence output")
     }
 }
 
