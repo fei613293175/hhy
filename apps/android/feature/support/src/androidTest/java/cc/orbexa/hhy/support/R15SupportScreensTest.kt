@@ -88,11 +88,11 @@ class R15SupportScreensTest {
         val instrumentation = InstrumentationRegistry.getInstrumentation()
         val resolver = instrumentation.targetContext.contentResolver
         val uri = resolver.insert(
-            MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+            MediaStore.Downloads.EXTERNAL_CONTENT_URI,
             ContentValues().apply {
-                put(MediaStore.Images.Media.DISPLAY_NAME, name)
-                put(MediaStore.Images.Media.MIME_TYPE, "image/png")
-                put(MediaStore.Images.Media.RELATIVE_PATH, "Download/hhy-r15-visual")
+                put(MediaStore.Downloads.DISPLAY_NAME, name)
+                put(MediaStore.Downloads.MIME_TYPE, "image/png")
+                put(MediaStore.Downloads.RELATIVE_PATH, "Download/hhy-r15-visual")
             },
         ) ?: error("Unable to create visual evidence output")
         resolver.openOutputStream(uri)?.use { output ->
