@@ -864,6 +864,7 @@ def _worker_prompt(task: dict[str, Any], attempt: int) -> str:
         "必须保留 Task Gate、独立 Reviewer、全量测试、APK、模拟器和发布门禁；Fast Lane 只减少分析和返工，不得弱化任何门禁。\n"
         "在 Windows 上所有 shell/tool 命令必须串行执行；上一条结束前禁止并发启动下一条。\n"
         "Windows 下运行 Python 时必须优先使用控制器注入的 HHY_PYTHON 环境变量（PowerShell 使用 & $env:HHY_PYTHON），不要因 PATH 中没有 python/py/python3 而报告基础设施阻断。\n"
+        "Windows 后端编译必须优先使用控制器注入的 JAVA_HOME 和本地 Maven 缓存，使用 mvnw.cmd -o 的离线 Reactor 编译；不要因 PATH 没有 java/mvn 而报告基础设施阻断。\n"
         "所有文件路径必须完整保留 ACTIVE_TASK.allowed_paths 的前缀（例如 scripts/，禁止截断为 cripts/ 或其他变体）。\n"
         "完成实际产品代码和测试后，运行必要的针对性验证。相同命令、输出和 Diff 不得重复。\n"
         "最终仅输出符合 worker-result.schema.json 的 CANDIDATE_READY、ATTEMPT_FAILED、EXTERNAL_BLOCKED 或 INFRASTRUCTURE_BLOCKED；必须包含 schema、status、task_id、summary、changed_files、commands_run、error_fingerprint、blocker 字段，无值时使用空数组、空字符串或 null；blocker 非 null 时必须包含 code、detail、resolution、paths、worker_result_evidence 五个字段，无值使用 null。"
@@ -889,6 +890,7 @@ def _worker_takeover_prompt(task: dict[str, Any], attempt: int, failure: dict[st
         "必须保留 Task Gate、独立 Reviewer、全量测试、APK、模拟器和发布门禁；Fast Lane 不改变 Attempt 预算。\n"
         "在 Windows 上所有 shell/tool 命令必须串行执行；上一条结束前禁止并发启动下一条。\n"
         "Windows 下运行 Python 时必须优先使用控制器注入的 HHY_PYTHON 环境变量（PowerShell 使用 & $env:HHY_PYTHON）。\n"
+        "Windows 后端编译必须优先使用控制器注入的 JAVA_HOME 和本地 Maven 缓存，使用 mvnw.cmd -o 的离线 Reactor 编译。\n"
         "完成产品代码和针对性测试后，必须写出符合 worker-result.schema.json 的结果；blocker 非 null 时必须包含 code、detail、resolution、paths、worker_result_evidence 五个字段，无值使用 null。"
         f"主 Worker 接管摘要：{failure.get('stderr_tail') or failure.get('stdout_tail') or '未返回可用输出'}"
     )

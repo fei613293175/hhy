@@ -528,6 +528,12 @@ def test_worker_environment_exposes_existing_portable_toolchain(tmp_path):
     assert str(adb.parent) in env["PATH"]
 
 
+def test_worker_prompt_requires_offline_maven_with_injected_java_home():
+    prompt = _worker_prompt({"id": "TASK-R15-001"}, 1)
+    assert "JAVA_HOME" in prompt
+    assert "mvnw.cmd -o" in prompt
+
+
 def test_candidate_evidence_schema_requires_complete_apk_identity():
     schema = json.loads((ROOT / "governance/schemas/candidate-evidence.schema.json").read_text(encoding="utf-8"))
     validator = Draft202012Validator(schema)

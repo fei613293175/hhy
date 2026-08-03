@@ -80,6 +80,8 @@ Worker 不得：
 
 Windows Worker 的 Python 命令必须优先使用控制器注入的 `HHY_PYTHON` 环境变量（PowerShell 使用 `& $env:HHY_PYTHON`），不得因系统 PATH 没有 `python`、`py` 或 `python3` 而把可用运行时误判为基础设施阻断。
 
+Windows Worker 的后端编译必须优先使用控制器注入的 `JAVA_HOME` 和本地 Maven 缓存，并使用 Maven 离线模式（例如 `mvnw.cmd -o -pl access,boot -am -DskipTests compile`）；不得因系统 PATH 没有 `java` 或 `mvn` 而忽略已存在的用户级工具链，也不得绕过编译门禁。
+
 ## 6. Worker 终止结果
 
 只允许符合 Schema 的：
