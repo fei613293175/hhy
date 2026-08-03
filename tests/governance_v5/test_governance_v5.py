@@ -524,6 +524,8 @@ def test_worker_environment_exposes_existing_portable_toolchain(tmp_path):
     assert env["HHY_PYTHON"]
     assert env["JAVA_HOME"] == str(tmp_path / "jdk" / "jdk-21")
     assert env["ANDROID_HOME"] == str(tmp_path / "android")
+    assert env["HHY_MAVEN_REPOSITORY"] == str(Path.home() / ".m2" / "repository")
+    assert "maven.repo.local=" in env["MAVEN_ARGS"]
     assert str(java.parent) in env["PATH"]
     assert str(adb.parent) in env["PATH"]
 
@@ -532,6 +534,7 @@ def test_worker_prompt_requires_offline_maven_with_injected_java_home():
     prompt = _worker_prompt({"id": "TASK-R15-001"}, 1)
     assert "JAVA_HOME" in prompt
     assert "mvnw.cmd -o" in prompt
+    assert "maven.repo.local" in prompt
 
 
 def test_candidate_evidence_schema_requires_complete_apk_identity():
