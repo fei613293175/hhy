@@ -3,6 +3,7 @@ package cc.orbexa.hhy.order
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
@@ -84,18 +85,19 @@ fun R16OrderListScreen(
             if (loading && items.isNotEmpty()) LinearProgressIndicator(Modifier.fillMaxWidth())
             when {
                 loading && items.isEmpty() -> R16OrderSkeleton()
-                error != null && items.isEmpty() -> R16Failure(error!!, onBack) { load() }
+                error != null && items.isEmpty() -> R16Failure(error!!, onBack, retry = { load() })
                 items.isEmpty() -> R16Empty("暂无订单")
                 else -> LazyColumn(Modifier.fillMaxSize(), contentPadding = PaddingValues(start = 16.dp, end = 16.dp, bottom = 24.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
                     items(items, key = R16OrderResource::orderNo) { order -> R16OrderCard(order) { onOpen(order.orderNo) } }
                     if (error != null) item { R16InlineFailure(error!!, ::load) }
-                    if (hasMore) item { TextButton(Modifier.fillMaxWidth().testTag("hhy.order.load-more"), enabled = !appending, onClick = { load(false) }) { Text(if (appending) "正在加载" else "加载更多") } }
+                    if (hasMore) item { TextButton(onClick = { load(false) }, modifier = Modifier.fillMaxWidth().testTag("hhy.order.load-more"), enabled = !appending) { Text(if (appending) "正在加载" else "加载更多") } }
                 }
             }
         }
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun R16OrderDetailScreen(api: ContractR16Api, token: String, orderNo: String, onBack: () -> Unit, onExpired: () -> Unit) {
     val scope = rememberCoroutineScope(); var state by remember { mutableStateOf<R07CallResult<R16OrderResource>?>(null) }
