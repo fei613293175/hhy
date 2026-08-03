@@ -1,0 +1,22 @@
+{
+  "schema": "hhy.infrastructure-unblock/v5.0",
+  "status": "PASS",
+  "resolved": true,
+  "task_id": "TASK-R15-RECOVERY-011",
+  "blocker_code": "MAVEN_DEPENDENCY_NETWORK_BLOCKED",
+  "resolution": "The Worker contract now requires the existing local Maven cache and offline mvnw.cmd -o compilation with injected JAVA_HOME. This avoids the rejected external Maven Central route while preserving the real Java compilation gate.",
+  "source_blocker_evidence": "governance/evidence/recovery/TASK-R15-RECOVERY-011-a1-worker-result.json",
+  "fix_commit": "1dc44c49",
+  "validation": [
+    {
+      "command": "services/backend/mvnw.cmd -o -pl access,boot -am -DskipTests compile",
+      "status": "PASS",
+      "result": "8/8 Maven reactor modules BUILD SUCCESS against the preserved R15 draft"
+    },
+    {
+      "command": "C:/Users/小白/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/python.exe -m pytest -q tests/governance_v5",
+      "status": "PASS",
+      "result": "81 passed"
+    }
+  ]
+}
