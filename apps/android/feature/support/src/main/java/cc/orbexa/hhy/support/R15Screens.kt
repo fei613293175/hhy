@@ -202,9 +202,27 @@ fun R15NotificationListScreen(
                 R15Load.Loading -> R15Centered("正在加载", true)
             R15Load.Empty -> R15Centered(if (announcements) "暂无公告" else "暂无通知")
                 is R15Load.Failed -> R15Failure(value.failure, onBack, ::load)
-                is R15Load.Content -> LazyColumn(contentPadding = PaddingValues(bottom = HhySpacing.Xl)) {
-                    items(value.value, key = R15NotificationResource::id) { item ->
-                        R15NotificationRow(item) { onOpen(item.id) }
+                is R15Load.Content -> if (announcements) {
+                    LazyColumn(contentPadding = PaddingValues(horizontal = HhySpacing.Lg, bottom = HhySpacing.Xl)) {
+                        item {
+                            Card(
+                                modifier = Modifier.fillMaxWidth(),
+                                shape = RoundedCornerShape(HhyRadius.NormalCard),
+                                colors = CardDefaults.cardColors(containerColor = HhyColors.Surface),
+                            ) {
+                                Column {
+                                    value.value.forEach { item ->
+                                        R15NotificationRow(item) { onOpen(item.id) }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    LazyColumn(contentPadding = PaddingValues(bottom = HhySpacing.Xl)) {
+                        items(value.value, key = R15NotificationResource::id) { item ->
+                            R15NotificationRow(item) { onOpen(item.id) }
+                        }
                     }
                 }
             }
