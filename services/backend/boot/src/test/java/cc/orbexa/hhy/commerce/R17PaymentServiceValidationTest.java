@@ -37,7 +37,9 @@ class R17PaymentServiceValidationTest {
     void acceptsWhitelistedHttpsReturnUrl() {
         when(codec.canonicalBytes(any())).thenReturn(new byte[] { 1, 2, 3 });
         when(store.createPayment(any(), anyString(), any(), anyString()))
-                .thenReturn(mock(PaymentResource.class));
+                .thenReturn(new PaymentResource(
+                        "17", "ORD-17", "WECHAT_PAY", null, "CREATED",
+                        9900L, "CNY", null, null, 0L));
 
         service.createPayment(context, "ORD-17",
                 new CreatePaymentRequest("WECHAT_PAY", "https://h5.orbexa.cc/payment/result?orderNo=ORD-17"));
