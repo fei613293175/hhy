@@ -1,9 +1,9 @@
 schema: hhy.governance-state/v5.0
-revision: 185
-updated_at: '2026-08-03T08:11:01.466929Z'
-state_hash: 2119f01096ee808167e79e61c9b70a6e57d17899b9537ea2cc873968f1a6f0ec
+revision: 186
+updated_at: '2026-08-03T08:18:01.170471Z'
+state_hash: d8e8e0bbea3bd73f47ff97cd3513a5dde15d6efe3c9264e5c961e50dc640719e
 project:
-  status: INFRASTRUCTURE_BLOCKED
+  status: ACTIVE
   branch_at_install: governance/v5.0-migration-20260731
   migration_baseline_commit: ea64d82fab9ed3d1952ab7d3c0d2286051390b59
   migration_commit: 8beafc2a0e115345c554abc0bdc199ef92534106
@@ -2942,146 +2942,10 @@ tasks:
     last_gate_evidence: null
     blocker: null
   TASK-R15-RECOVERY-012:
-    status: INFRASTRUCTURE_BLOCKED
+    status: READY
     attempts_used: 0
     current_attempt: null
     last_error_fingerprint: 主 Worker 未返回结果，备用 Worker 接管也未返回结果；主证据=governance/runtime/supervisor/worker-failures/TASK-R15-RECOVERY-012-a1-46f28b626c.json；备用证据=governance/runtime/supervisor/worker-failures/TASK-R15-RECOVERY-012-a1-859d5301e1.json
     last_candidate_commit: null
     last_gate_evidence: null
-    blocker:
-      code: INDEPENDENT_REVIEWER_FAILED
-      detail:
-        status: INFRASTRUCTURE_BLOCKED
-        execution:
-          status: FAIL
-          exit_code: 1
-          command:
-          - C:\Users\小白\AppData\Local\OpenAI\Codex\bin\d7e8094cfb76a267\codex.exe
-          - --ask-for-approval
-          - never
-          - exec
-          - --ephemeral
-          - --sandbox
-          - read-only
-          - --output-schema
-          - C:\Users\小白\Desktop\workspace\hhy-v1.2.3-handoff\合伙云Pro_Codex直接开发包_V1.2.3_持续开发无状态接续强制门禁最终版\.git\hhy-governance-worktrees\task-r15-recovery-012-a1-dd2510ed\governance\schemas\reviewer-result.schema.json
-          - -o
-          - C:\Users\小白\Desktop\workspace\hhy-v1.2.3-handoff\合伙云Pro_Codex直接开发包_V1.2.3_持续开发无状态接续强制门禁最终版\.git\hhy-governance-worktrees\task-r15-recovery-012-a1-dd2510ed\governance\runtime\reviewer-result.json
-          - -C
-          - C:\Users\小白\Desktop\workspace\hhy-v1.2.3-handoff\合伙云Pro_Codex直接开发包_V1.2.3_持续开发无状态接续强制门禁最终版\.git\hhy-governance-worktrees\task-r15-recovery-012-a1-dd2510ed
-          - '你是一次性的独立只读审查员，不是实现 Worker。禁止修改任何文件、运行写命令、重新规划项目或建议扩大范围。
-
-            只审查 governance/runtime/ACTIVE_TASK.json 和 Git diff dc4e3329f0f9df022be0c279857014098b725d9e..16b733fcb1e304aed20378d54e83411b8775c2fe，确认候选是否满足当前任务、是否存在真实正确性/安全/资金/数据库/契约问题，以及是否通过删除、跳过或弱化测试来取得通过。
-
-            仅将有具体文件、行号或可复核证据的 BLOCKER/HIGH 问题判为 BLOCK；风格、偏好、未来重构或任务范围外问题只能列为 MEDIUM/LOW，且不得阻断。
-
-            输出 task_id=TASK-R15-RECOVERY-012、commit=16b733fcb1e304aed20378d54e83411b8775c2fe，严格符合 reviewer-result.schema.json。'
-          stdout_tail: ''
-          stderr_tail: "), now);\n202:         SupportTicketResource result = supportTicket(null, idValue);\n203:        \
-            \ audit(adminId, \"SUPPORT_REPLIED\", \"SUPPORT_TICKET\", id, supportTicket(before), result, requestId, ip, now);\n\
-            204:         store.outbox(\"SUPPORT_TICKET\", id, \"support.ticket.replied.v1\", requestId, json(result));\n205:\
-            \         store.complete(claim.id(), idValue);\n206:         return result;\n207:     }\n208: \n209:     @Transactional\n\
-            \n succeeded in 1771ms:\n1: CREATE TABLE IF NOT EXISTS hhy.r15_notifications (\n2:     id BIGSERIAL PRIMARY KEY,\n\
-            3:     user_id BIGINT NOT NULL,\n4:     title TEXT NOT NULL,\n5:     body TEXT,\n6:     type VARCHAR(64) NOT NULL\
-            \ DEFAULT 'SYSTEM',\n7:     status VARCHAR(32) NOT NULL DEFAULT 'UNREAD',\n8:     read_at TIMESTAMPTZ,\n9:   \
-            \  created_at TIMESTAMPTZ NOT NULL DEFAULT clock_timestamp(),\n10:     updated_at TIMESTAMPTZ NOT NULL DEFAULT\
-            \ clock_timestamp(),\n11:     version BIGINT NOT NULL DEFAULT 0\n12: );\n13: \n14: CREATE INDEX IF NOT EXISTS\
-            \ idx_r15_notifications_user_status\n15:     ON hhy.r15_notifications(user_id, status, created_at DESC, id DESC);\n\
-            16: \n17: CREATE TABLE IF NOT EXISTS hhy.r15_announcements (\n18:     id BIGSERIAL PRIMARY KEY,\n19:     title\
-            \ TEXT NOT NULL,\n20:     body TEXT,\n21:     status VARCHAR(32) NOT NULL DEFAULT 'PUBLISHED',\n22:     created_at\
-            \ TIMESTAMPTZ NOT NULL DEFAULT clock_timestamp(),\n23:     updated_at TIMESTAMPTZ NOT NULL DEFAULT clock_timestamp(),\n\
-            24:     version BIGINT NOT NULL DEFAULT 0\n25: );\n26: \n27: CREATE INDEX IF NOT EXISTS idx_r15_announcements_status\n\
-            28:     ON hhy.r15_announcements(status, created_at DESC, id DESC);\n29: \n30: CREATE TABLE IF NOT EXISTS hhy.r15_help_articles\
-            \ (\n31:     id BIGSERIAL PRIMARY KEY,\n32:     title TEXT NOT NULL,\n33:     content TEXT NOT NULL,\n34:    \
-            \ category_code VARCHAR(64),\n35:     status VARCHAR(32) NOT NULL DEFAULT 'PUBLISHED',\n36:     created_at TIMESTAMPTZ\
-            \ NOT NULL DEFAULT clock_timestamp(),\n37:     updated_at TIMESTAMPTZ NOT NULL DEFAULT clock_timestamp(),\n38:\
-            \     version BIGINT NOT NULL DEFAULT 0\n39: );\n40: \n41: CREATE INDEX IF NOT EXISTS idx_r15_help_articles_status\n\
-            42:     ON hhy.r15_help_articles(status, updated_at DESC, id DESC);\n43: \n44: CREATE TABLE IF NOT EXISTS hhy.r15_support_tickets\
-            \ (\n45:     id BIGSERIAL PRIMARY KEY,\n46:     user_id BIGINT NOT NULL,\n47:     subject TEXT NOT NULL,\n48:\
-            \     description TEXT NOT NULL,\n49:     status VARCHAR(32) NOT NULL DEFAULT 'OPEN',\n50:     assignee_admin_id\
-            \ BIGINT,\n51:     close_reason TEXT,\n52:     created_at TIMESTAMPTZ NOT NULL DEFAULT clock_timestamp(),\n53:\
-            \     updated_at TIMESTAMPTZ NOT NULL DEFAULT clock_timestamp(),\n54:     version BIGINT NOT NULL DEFAULT 0\n\
-            55: );\n56: \n57: CREATE INDEX IF NOT EXISTS idx_r15_support_tickets_user_status\n58:     ON hhy.r15_support_tickets(user_id,\
-            \ status, updated_at DESC, id DESC);\n59: \n60: CREATE TABLE IF NOT EXISTS hhy.r15_support_messages (\n61:   \
-            \  id BIGSERIAL PRIMARY KEY,\n62:     ticket_id BIGINT NOT NULL REFERENCES hhy.r15_support_tickets(id),\n63: \
-            \    sender_type VARCHAR(16) NOT NULL,\n64:     sender_id BIGINT NOT NULL,\n65:     body TEXT NOT NULL,\n66: \
-            \    created_at TIMESTAMPTZ NOT NULL DEFAULT clock_timestamp()\n67: );\n68: \n69: CREATE TABLE IF NOT EXISTS hhy.r15_chat_reports\
-            \ (\n70:     id BIGSERIAL PRIMARY KEY,\n71:     reporter_id BIGINT,\n72:     conversation_id BIGINT NOT NULL,\n\
-            73:     reason TEXT NOT NULL,\n74:     status VARCHAR(32) NOT NULL DEFAULT 'PENDING',\n75:     decision VARCHAR(32),\n\
-            76:     decision_reason TEXT,\n77:     created_at TIMESTAMPTZ NOT NULL DEFAULT clock_timestamp(),\n78:     updated_at\
-            \ TIMESTAMPTZ NOT NULL DEFAULT clock_timestamp(),\n79:     version BIGINT NOT NULL DEFAULT 0\n80: );\n81: \n82:\
-            \ CREATE INDEX IF NOT EXISTS idx_r15_chat_reports_status\n83:     ON hhy.r15_chat_reports(status, updated_at DESC,\
-            \ id DESC);\n84: \n85: INSERT INTO hhy.admin_permissions(code,resource,action)\n86: VALUES\n87:     ('report.decide','report','decide'),\n\
-            88:     ('appeal.decide','appeal','decide'),\n89:     ('chat.report.read','chat','report.read'),\n90:     ('chat.report.decide','chat','report.decide'),\n\
-            91:     ('support.read','support','read'),\n92:     ('support.assign','support','assign'),\n93:     ('support.reply','support','reply'),\n\
-            94:     ('support.close','support','close')\n95: ON CONFLICT (code) DO NOTHING;\n96: \n97: \n98: \n99: \n100:\
-            \ \n\nexec\n\"C:\\\\Windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command \"rg -n --glob\
-            \ '*.java' 'new SupportMessageRequest|new NotificationReadRequest|new SupportAssignRequest|new SupportCloseRequest|new\
-            \ DecideRequest|new SupportTicketCreateRequest' .\" in C:\\Users\\小白\\Desktop\\workspace\\hhy-v1.2.3-handoff\\\
-            合伙云Pro_Codex直接开发包_V1.2.3_持续开发无状态接续强制门禁最终版\\.git\\hhy-governance-worktrees\\task-r15-recovery-012-a1-dd2510ed\n\
-            exec\n\"C:\\\\Windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\" -Command 'git diff --numstat\
-            \ dc4e3329f0f9df022be0c279857014098b725d9e..16b733fcb1e304aed20378d54e83411b8775c2fe -- tests; git diff --unified=20\
-            \ dc4e3329f0f9df022be0c279857014098b725d9e..16b733fcb1e304aed20378d54e83411b8775c2fe -- tests' in C:\\Users\\\
-            小白\\Desktop\\workspace\\hhy-v1.2.3-handoff\\合伙云Pro_Codex直接开发包_V1.2.3_持续开发无状态接续强制门禁最终版\\.git\\hhy-governance-worktrees\\\
-            task-r15-recovery-012-a1-dd2510ed\nexec\n\"C:\\\\Windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\"\
-            \ -Command '$p='\"'services/backend/boot/src/main/java/cc/orbexa/hhy/boot/admin/R15SupportAdminController.java';\
-            \ \"'$lines=Get-Content $p; 55..135 | ForEach-Object { '\"'{0}: {1}' -f (\"'$_+1),$lines[$_] }' in C:\\Users\\\
-            小白\\Desktop\\workspace\\hhy-v1.2.3-handoff\\合伙云Pro_Codex直接开发包_V1.2.3_持续开发无状态接接续强制门禁最终版\\.git\\hhy-governance-worktrees\\\
-            task-r15-recovery-012-a1-dd2510ed\n2026-08-03T08:10:53.994089Z ERROR codex_core::exec: exec error: windows sandbox:\
-            \ CreateProcessWithLogonW failed: 267\n2026-08-03T08:10:53.996198Z ERROR codex_core::tools::router: error=execution\
-            \ error: Io(Custom { kind: Other, error: \"windows sandbox: CreateProcessWithLogonW failed: 267\" })\n exited\
-            \ -1 in 0ms:\nexecution error: Io(Custom { kind: Other, error: \"windows sandbox: CreateProcessWithLogonW failed:\
-            \ 267\" })\n succeeded in 1926ms:\n.\\services\\backend\\boot\\src\\test\\java\\cc\\orbexa\\hhy\\access\\user\\\
-            UserAuthServiceTest.java:461:        SupportTicketCreateRequest request = new SupportTicketCreateRequest(\n\n\
-            \ succeeded in 1868ms:\n19\t2\ttests/test_r15_recovery_static.py\ndiff --git a/tests/test_r15_recovery_static.py\
-            \ b/tests/test_r15_recovery_static.py\nindex 320cdb91..80ba3fac 100644\n--- a/tests/test_r15_recovery_static.py\n\
-            +++ b/tests/test_r15_recovery_static.py\n@@ -9,42 +9,44 @@ PUBLIC = ROOT / \"services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/R15\n\
-            \ SELF = ROOT / \"services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/UserSelfServiceController.java\"\
-            \n USER_CONTENT = ROOT / \"services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/R13Controller.java\"\n\
-            \ CONTENT_SERVICE = ROOT / \"services/backend/content/src/main/java/cc/orbexa/hhy/content/R13Service.java\"\n\
-            \ REVIEW_ADMIN = ROOT / \"services/backend/boot/src/main/java/cc/orbexa/hhy/boot/admin/R12ReviewController.java\"\
-            \n REVIEW_SERVICE = ROOT / \"services/backend/content/src/main/java/cc/orbexa/hhy/content/R12ReviewService.java\"\
-            \n MIGRATION = ROOT / \"database/migrations/V049__r15_access_contract_alignment.sql\"\n \n \n def text(path: Path)\
-            \ -> str:\n     return path.read_text(encoding=\"utf-8\")\n \n \n def test_r15_audit_uses_real_admin_operation_log_columns()\
-            \ -> None:\n     store = text(STORE)\n     assert \"admin_id,action,resource,resource_id,before_json,after_json,ip,created_at\"\
-            \ in store\n     assert \"operation,resource,request_id\" not in store\n \n \n def test_r15_help_articles_query_has_item_alias_for_sorting()\
-            \ -> None:\n     store = text(STORE)\n-    assert \"FROM hhy.cms_articles item\" in store\n+    assert \"FROM\
-            \ hhy.r15_help_articles item\" in store\n     assert 'order(\"item\", query.sort())' in store\n+    assert \"\
-            if (defaultPublished)\" in store\n+    assert \"status='PUBLISHED'\" in store\n \n \n def test_r15_notification_read_claims_idempotency_before_version_lock()\
-            \ -> None:\n     service = text(SERVICE)\n     store = text(STORE)\n     controller = text(USER_CONTENT.parent\
-            \ / \"R15Controller.java\")\n     claim_index = service.index(\"R15Store.IdempotencyClaim claim = claim(scope,\
-            \ key, requestHash);\")\n     lock_index = service.index(\"store.lockNotification(userId, id)\")\n     assert\
-            \ claim_index < lock_index\n     assert \"store.complete(claim.id(), \\\"notification:\\\" + id + \\\":read\\\"\
-            )\" in service\n     assert 'store.outbox(\"NOTIFICATION\", id, \"notification.read.v1\", requestId' in service\n\
-            \     assert 'store.outbox(\"NOTIFICATION\", userId, \"notification.read-all.v1\", requestId' in service\n   \
-            \  assert \"store.markNotificationRead(userId, id, expectedVersion, now)\" in service\n     assert \"WHERE user_id=?\
-            \ AND id=? AND version=?\" in store\n     assert \"service.readNotification(principal.userId(), id, body, key,\
-            \ requestId(request))\" in controller\n     assert \"service.readAllNotifications(principal.userId(), key, requestId(request))\"\
-            \ in controller\n     assert \"String input = json(value);\" in service\n     assert \"String input = value.toString();\"\
-            \ not in service\n \n \n@@ -53,49 +55,64 @@ def test_r15_chat_reports_return_conversation_contract_not_support_ticket()\
-            \ -> N\n     assert \"ApiResponse<ConversationPage> chatReports\" in admin\n     assert \"ApiResponse<ConversationResource>\
-            \ decideChatReport\" in admin\n     assert \"SupportTicketPage> chatReports\" not in admin\n \n \n def test_r15_permission_seed_contains_granular_authorities()\
-            \ -> None:\n     migration = text(MIGRATION)\n     for permission in (\n         \"report.decide\",\n        \
-            \ \"appeal.decide\",\n         \"chat.report.read\",\n         \"chat.report.decide\",\n         \"support.read\"\
-            ,\n         \"support.assign\",\n         \"support.reply\",\n         \"support.close\",\n     ):\n         assert\
-            \ permission in migration\n \n \n+def test_r15_runtime_migration_creates_tables_used_by_access_store() -> None:\n\
-            +    runtime_migration = text(\n+        ROOT / \"services/backend/boot/src/main/resources/db/migration/V049__r15_access_contract_alignment.sql\"\
-            \n+    )\n+    for table in (\n+        \"r15_notifications\",\n+        \"r15_announcements\",\n+        \"r15_help_articles\"\
-            ,\n+        \"r15_support_tickets\",\n+        \"r15_support_messages\",\n+        \"r15_chat_reports\",\n+  \
-            \  ):\n+        assert f\"CREATE TABLE IF NOT EXISTS hhy.{table}\" in runtime_migration\n+\n+\n def test_r15_public_help_and_support_create_have_single_authoritative_mapping()\
-            \ -> None:\n     public = text(PUBLIC)\n     r15_user = text(USER_CONTENT.parent / \"R15Controller.java\")\n \
-            \    self_service = text(SELF)\n     assert '@RequestMapping(\"/public-api/v1\")' in public\n     assert '@GetMapping(\"\
-            /help/articles/{id}\")' in public\n     assert \"service.helpArticle(id)\" in public\n     assert '@PostMapping(\"\
-            /support/tickets\")' not in r15_user\n-    assert \"service.createSupportTicket(principal, body, key)\" in self_service\n\
-            +    assert \"r15Service.createTicket(principal.userId(), body, key)\" in self_service\n \n \n def test_r15_content_report_is_idempotent_and_emits_outbox()\
-            \ -> None:\n     controller = text(USER_CONTENT)\n     service = text(CONTENT_SERVICE)\n     assert '@PostMapping(\"\
-            /api/v1/contents/{id}/report\")' in controller\n     assert \"ContentReportRequest\" in controller\n     assert\
-            \ 'String scope = \"r15.content-report:\"' in service\n     assert \"shared.outbox(userId, \\\"CONTENT_REPORT\\\
-            \", \\\"content.report.created.v1\\\"\" in service\n \n \n def test_r15_admin_report_and_appeal_decisions_use_granular_permissions()\
-            \ -> None:\n     controller = text(REVIEW_ADMIN)\n     service = text(REVIEW_SERVICE)\n     assert '@PostMapping(\"\
-            /content-reports/{id}/decide\")' in controller\n     assert '@PostMapping(\"/appeals/{id}/decide\")' in controller\n\
-            \     assert \"hasAuthority('report.decide')\" in controller\n     assert \"hasAuthority('appeal.decide')\" in\
-            \ controller\n     assert \"r15.adminReportsPostContentReportsByIdDecide:admin:\" in service\n     assert \"r15.adminAppealsPostAppealsByIdDecide:admin:\"\
-            \ in service\n\nERROR: Selected model is at capacity. Please try a different model.\nERROR: Selected model is\
-            \ at capacity. Please try a different model.\ntokens used\n157,577\n"
-        evidence_path: null
+    blocker: null
