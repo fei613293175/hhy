@@ -40,6 +40,11 @@ jobs:
     name: Backend
     runs-on: ubuntu-latest
     timeout-minutes: 25
+    env:
+      HHY_DB_MIGRATION_TEST_URL: jdbc:postgresql://localhost:5432/hhy_ci
+      HHY_DB_MIGRATION_TEST_USER: hhy
+      HHY_DB_MIGRATION_TEST_PASSWORD: hhy_ci_password
+      HHY_DB_SMOKE_CONFIRM: 'YES'
     services:
       postgres:
         image: postgres:17
