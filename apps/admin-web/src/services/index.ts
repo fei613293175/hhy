@@ -10,3 +10,4 @@ export * from './adminIdentities';
 export * from './adminContents';
 export * from './adminReviews';
 export * from './adminOrders';
+export * from './adminR15';

@@ -16,6 +16,22 @@ public final class R15Contracts {
     public record NavigationTargetResource(
             String targetType, String route, String url, boolean requiresLogin) { }
 
+    public record PublicPageBlockResource(
+            String blockId, String blockType, String heading, String body,
+            List<Object> media, Object action, long sortOrder) {
+        public PublicPageBlockResource {
+            media = media == null ? List.of() : List.copyOf(media);
+        }
+    }
+
+    public record PublicPageResource(
+            String code, String title, String description, List<PublicPageBlockResource> content,
+            Object seoMetadata, Object download, Object trackingContext, long version) {
+        public PublicPageResource {
+            content = content == null ? List.of() : List.copyOf(content);
+        }
+    }
+
     public record NotificationResource(
             String id, String type, String title, String body, NavigationTargetResource target,
             Instant readAt, Instant createdAt) { }

@@ -107,7 +107,7 @@ class UserSecurityWebSecurityTest {
         when(service.self(restricted)).thenReturn(new UserResource(
                 "17", "138****0000", "合伙人17", null, null, "FROZEN", null, null,
                 Instant.parse("2026-07-18T04:00:00Z"), 2L));
-        when(service.createSupportTicket(eq(restricted), any(), eq(IDEMPOTENCY_KEY)))
+        when(service.createSupportTicket(eq(restricted), any(), eq(IDEMPOTENCY_KEY), anyString()))
                 .thenReturn(new SupportTicketResource(
                         "81", "HHY81", "ACCOUNT_APPEAL", "账号冻结申诉", "OPEN", null,
                         Instant.parse("2026-07-18T04:01:00Z"),

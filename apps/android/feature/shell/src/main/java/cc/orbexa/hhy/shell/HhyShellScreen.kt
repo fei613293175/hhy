@@ -122,6 +122,7 @@ fun HhyShellScreen(
     onOpenCancellation: () -> Unit = {},
     onOpenIdentity: () -> Unit = {},
     onOpenAbout: () -> Unit = {},
+    onOpenSupport: () -> Unit = {},
     onOpenMyContents: () -> Unit = {},
     onOpenMyDrafts: () -> Unit = {},
     onOpenFavorites: () -> Unit = {},
@@ -361,6 +362,7 @@ fun HhyShellScreen(
                     onOpenLoginDevices = onOpenLoginDevices,
                     onOpenChangePassword = onOpenChangePassword,
                     onOpenAbout = onOpenAbout,
+                    onOpenSupport = onOpenSupport,
                     onOpenCancellation = onOpenCancellation,
                 )
             }

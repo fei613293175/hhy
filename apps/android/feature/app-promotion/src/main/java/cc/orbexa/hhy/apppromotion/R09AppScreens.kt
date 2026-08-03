@@ -218,6 +218,7 @@ fun R09AppDetailScreen(
     onConversationReady: (String, Long, ContentResource) -> Unit = { _, _, _ -> },
     onShare: (String) -> Unit = {},
     onInvalidFeedback: (String, List<String>) -> Unit = { _, _ -> },
+    onReport: (String, Long) -> Unit = { _, _ -> },
     onSessionExpired: () -> Unit,
 ) {
     val scope = rememberCoroutineScope()
@@ -262,6 +263,7 @@ fun R09AppDetailScreen(
         modifier = Modifier.semantics { testTagsAsResourceId = true }.testTag("hhy.screen.r09.app.detail.${phase.name.lowercase()}"),
         topBar = {
             TopAppBar(title = { Text("App详情") }, navigationIcon = { HhyBackButton(onBack) }, actions = {
+                TextButton(enabled = app != null, onClick = { app?.let { onReport(it.title, it.version) } }) { Text("举报") }
                 TextButton(enabled = app?.contactsMasked?.isNotEmpty() == true, onClick = { app?.let { onInvalidFeedback(it.title, it.contactsMasked.map { contact -> contact.channel }) } }) { Text("反馈") }
                 TextButton(enabled = app != null, onClick = { app?.title?.let(onShare) }) { Text("分享") }
             })

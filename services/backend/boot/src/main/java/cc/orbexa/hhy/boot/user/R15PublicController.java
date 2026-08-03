@@ -1,6 +1,6 @@
 package cc.orbexa.hhy.boot.user;
 
-import cc.orbexa.hhy.access.r15.R15Contracts.SupportTicketResource;
+import cc.orbexa.hhy.access.r15.R15Contracts.PublicPageResource;
 import cc.orbexa.hhy.access.r15.R15Service;
 import cc.orbexa.hhy.shared.api.ApiResponse;
 import jakarta.servlet.http.HttpServletRequest;
@@ -27,9 +27,15 @@ public class R15PublicController {
     }
 
     @GetMapping("/help/articles/{id}")
-    public ApiResponse<SupportTicketResource> helpArticle(
+    public ApiResponse<PublicPageResource> helpArticle(
             @PathVariable @Pattern(regexp = RESOURCE_ID) String id, HttpServletRequest request) {
-        return ApiResponse.success(requestId(request), service.helpArticle(id), Instant.now(clock));
+        return ApiResponse.success(requestId(request), service.publicHelpArticle(id), Instant.now(clock));
+    }
+
+    @GetMapping("/agreements/{code}")
+    public ApiResponse<PublicPageResource> agreement(
+            @PathVariable @Pattern(regexp = RESOURCE_ID) String code, HttpServletRequest request) {
+        return ApiResponse.success(requestId(request), service.publicAgreement(code), Instant.now(clock));
     }
 
     private static String requestId(HttpServletRequest request) {

@@ -77,6 +77,7 @@ fun R12MeHomeScreen(
     onOpenLoginDevices: () -> Unit,
     onOpenChangePassword: () -> Unit,
     onOpenAbout: () -> Unit,
+    onOpenSupport: () -> Unit,
     onOpenCancellation: () -> Unit,
 ) {
     val actions = listOf(
@@ -89,6 +90,7 @@ fun R12MeHomeScreen(
         MeQuickAction("登录设备", HhyIcons.Devices, "mine.devices", onOpenLoginDevices),
         MeQuickAction("修改密码", HhyIcons.Lock, "mine.password", onOpenChangePassword),
         MeQuickAction("关于与更新", HhyIcons.Information, "mine.about", onOpenAbout),
+        MeQuickAction("帮助与客服", HhyIcons.Message, "mine.support", onOpenSupport),
     )
 
     LazyColumn(
@@ -121,6 +123,7 @@ fun R12MeHomeScreen(
                 onOpenLoginDevices = onOpenLoginDevices,
                 onOpenChangePassword = onOpenChangePassword,
                 onOpenAbout = onOpenAbout,
+                onOpenSupport = onOpenSupport,
                 onOpenCancellation = onOpenCancellation,
             )
         }
@@ -422,6 +425,7 @@ private fun MeAccountServices(
     onOpenLoginDevices: () -> Unit,
     onOpenChangePassword: () -> Unit,
     onOpenAbout: () -> Unit,
+    onOpenSupport: () -> Unit,
     onOpenCancellation: () -> Unit,
 ) {
     Column(verticalArrangement = Arrangement.spacedBy(HhySpacing.Sm)) {
@@ -436,6 +440,7 @@ private fun MeAccountServices(
                 MeServiceRow("登录设备", HhyIcons.Devices, "mine.service.devices", onOpenLoginDevices)
                 MeServiceRow("修改登录密码", HhyIcons.Lock, "mine.service.password", onOpenChangePassword)
                 MeServiceRow("关于与检查更新", HhyIcons.Information, "mine.service.about", onOpenAbout)
+                MeServiceRow("帮助与客服", HhyIcons.Message, "mine.service.support", onOpenSupport)
                 MeServiceRow("注销账号", HhyIcons.Delete, "mine.service.cancellation", onOpenCancellation, destructive = true)
             }
         }

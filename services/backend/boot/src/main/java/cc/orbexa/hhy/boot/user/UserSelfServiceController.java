@@ -45,7 +45,7 @@ public class UserSelfServiceController {
             @Valid @RequestBody SupportTicketCreateRequest body,
             @RequestHeader("X-Idempotency-Key") @NotBlank @Size(min = 16, max = 128) String key,
             HttpServletRequest request) {
-        return success(request, service.createSupportTicket(principal, body, key));
+        return success(request, service.createSupportTicket(principal, body, key, requestId(request)));
     }
 
     @PostMapping("/api/v1/me/cancellation")
@@ -58,8 +58,11 @@ public class UserSelfServiceController {
     }
 
     private <T> ApiResponse<T> success(HttpServletRequest request, T data) {
-        Object requestId = request.getAttribute("requestId");
-        return ApiResponse.success(requestId == null ? "missing" : requestId.toString(),
-                data, Instant.now(clock));
+        return ApiResponse.success(requestId(request), data, Instant.now(clock));
+    }
+
+    private static String requestId(HttpServletRequest request) {
+        Object value = request.getAttribute("requestId");
+        return value == null ? "missing" : value.toString();
     }
 }

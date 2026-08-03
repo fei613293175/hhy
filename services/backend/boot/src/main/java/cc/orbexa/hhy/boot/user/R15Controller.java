@@ -138,7 +138,7 @@ public class R15Controller {
             @Valid @RequestBody SupportMessageRequest body,
             @RequestHeader("X-Idempotency-Key") @NotBlank @Size(min = 16, max = 128) String key,
             HttpServletRequest request) {
-        return success(request, service.addUserMessage(principal.userId(), id, body, key));
+        return success(request, service.addUserMessage(principal.userId(), id, body, key, requestId(request)));
     }
 
     private <T> ApiResponse<T> success(HttpServletRequest request, T data) {

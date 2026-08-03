@@ -9,6 +9,8 @@ export const implementedAdminPageIds = new Set([
   'ADM-CONTENT-001', 'ADM-CONTENT-002', 'ADM-CONTENT-003',
   'ADM-REVIEW-001',
   'ADM-ORDER-001',
+  'ADM-CHAT-001', 'ADM-REPORT-001', 'ADM-APPEAL-001',
+  'ADM-SUPPORT-001', 'ADM-SUPPORT-002',
 ])
 
 export const menuGroupLabels: Record<string, string> = {
@@ -26,6 +28,7 @@ export const pagePermissionAlternatives: Record<string, string[]> = {
   'ADM-CONFIG-006': ['provider.config.read', 'config.manage'],
   'ADM-CONFIG-007': ['provider.config.read', 'config.manage'],
   'ADM-CONFIG-008': ['domain.read', 'config.manage'],
+  'ADM-SUPPORT-001': ['support.read', 'support.manage'],
 }
 
 export function permissionsForPage(page: AdminPage): string[] {

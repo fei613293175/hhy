@@ -111,7 +111,7 @@ private val R13_CATEGORIES = listOf(
     R13Category("TEAM_LEADER", "团队长"),
 )
 
-enum class R13ContentSheet { SHARE, INVALID_FEEDBACK }
+enum class R13ContentSheet { SHARE, INVALID_FEEDBACK, REPORT }
 
 @Composable
 fun R13FavoritesScreen(
@@ -610,14 +610,14 @@ fun R13ContentActionSheet(
     val context = LocalContext.current
     val keys = remember(contentId) { R13IntentKeys() }
     val sheetState = rememberModalBottomSheetState(
-        skipPartiallyExpanded = sheet == R13ContentSheet.INVALID_FEEDBACK,
+        skipPartiallyExpanded = sheet != R13ContentSheet.SHARE,
     )
     ModalBottomSheet(
         onDismissRequest = onDismiss,
         sheetState = sheetState,
         containerColor = HhyColors.Surface,
         modifier = Modifier.semantics { testTagsAsResourceId = true }
-            .testTag("hhy.sheet.r13.${if (sheet == R13ContentSheet.SHARE) "share" else "invalid-feedback"}"),
+            .testTag("hhy.sheet.r13.${sheet.name.lowercase()}"),
     ) {
         when (sheet) {
             R13ContentSheet.SHARE -> R13ShareSheetBody(
@@ -626,6 +626,7 @@ fun R13ContentActionSheet(
             R13ContentSheet.INVALID_FEEDBACK -> R13InvalidFeedbackSheetBody(
                 api, accessToken, contentId, contentTitle, feedbackChannels, keys, onDismiss, onCompleted, onSessionExpired, scope,
             )
+            R13ContentSheet.REPORT -> Unit
         }
     }
 }

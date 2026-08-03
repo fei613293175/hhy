@@ -12,6 +12,8 @@ public interface R15Store {
     int markAllNotificationsRead(long userId, Instant now);
     PageRows<NotificationRow> announcements(PageQuery query);
     Optional<NotificationRow> announcement(long id);
+    Optional<PublicPageRow> publicAgreement(String code);
+    Optional<PublicPageRow> publicHelpArticle(long id);
     PageRows<SupportTicketRow> helpArticles(PageQuery query);
     Optional<SupportTicketRow> helpArticle(long id);
     PageRows<SupportTicketRow> supportTickets(Long userId, PageQuery query);
@@ -19,7 +21,9 @@ public interface R15Store {
     Optional<SupportTicketRow> lockSupportTicket(long id);
     boolean assignTicket(long id, String assigneeId, long expectedVersion, Instant now);
     boolean closeTicket(long id, String reason, long expectedVersion, Instant now);
-    void appendSupportMessage(long ticketId, String senderType, long senderId, String body, Instant now);
+    boolean attachmentsAvailable(List<Long> attachmentIds, Long ownerId);
+    void appendSupportMessage(long ticketId, String senderType, long senderId, String body,
+                              List<Long> attachmentIds, Long attachmentOwnerId, Instant now);
     PageRows<ConversationRow> chatReports(PageQuery query);
     Optional<ConversationRow> lockChatReport(long id);
     Optional<ConversationRow> chatReport(long id);
@@ -34,9 +38,12 @@ public interface R15Store {
     record PageRows<T>(List<T> items, long total, boolean hasMore) { }
     record NotificationRow(long id, String type, String title, String body,
                            Instant readAt, Instant createdAt, long version) { }
+    record PublicPageRow(long id, String code, String title, String description,
+                         String body, long version) { }
     record SupportTicketRow(long id, String ticketNo, String category, String subject, String status,
                             String assignee, Instant lastMessageAt, Instant createdAt, Instant updatedAt,
                             long version) { }
-    record ConversationRow(long reportId, long conversationId, Instant updatedAt, long version) { }
+    record ConversationRow(
+            long reportId, long conversationId, String status, Instant updatedAt, long version) { }
     record IdempotencyClaim(long id, String requestHash, String responseRef, boolean replay) { }
 }

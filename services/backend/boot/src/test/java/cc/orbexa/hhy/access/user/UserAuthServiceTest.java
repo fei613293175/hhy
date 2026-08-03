@@ -464,17 +464,38 @@ class UserAuthServiceTest {
                 .thenReturn(new UserAuthStore.IdempotencyClaim(
                         new UserAuthStore.IdempotencyRow(101L, "request-hash", null, null, null), false));
         when(repository.createSupportTicket(eq(17L), anyString(), eq("ACCOUNT_APPEAL"),
-                eq("账号冻结申诉"), eq("请复核账号状态"), eq(List.of()), eq(NOW)))
+                eq("账号冻结申诉"), eq("请复核账号状态"), eq(List.of()),
+                eq("request-appeal-001"), eq(NOW)))
                 .thenReturn(new UserAuthStore.TicketRow(
                         81L, "HHY81", "ACCOUNT_APPEAL", "账号冻结申诉", "OPEN", null, NOW, NOW, 0L));
 
-        var result = service.createSupportTicket(principal, request, "appeal-idem-key-0001");
+        var result = service.createSupportTicket(
+                principal, request, "appeal-idem-key-0001", "request-appeal-001");
 
         assertEquals("81", result.id());
         assertEquals("HHY81", result.ticketNo());
         assertEquals("OPEN", result.status());
         verify(repository).completeIdempotencySnapshot(
                 eq(101L), eq("support-ticket-v1:ok"), eq("support-ticket-v1"), anyString());
+    }
+
+    @Test
+    void supportTicketRejectsUnavailableAttachmentBeforeClaimOrTicketInsert() {
+        UserPrincipal principal = new UserPrincipal(17L, 23L, 4L, "access-jti-17", "ACTIVE");
+        SupportTicketCreateRequest request = new SupportTicketCreateRequest(
+                "QUESTION", "附件问题", "请查看附件", List.of("91"));
+        when(repository.claimIdempotency(anyString(), eq("support-idem-key-0001"), anyString(), any()))
+                .thenReturn(new UserAuthStore.IdempotencyClaim(
+                        new UserAuthStore.IdempotencyRow(103L, "request-hash", null, null, null), false));
+        when(repository.supportAttachmentsAvailable(17L, List.of(91L))).thenReturn(false);
+
+        BusinessException error = assertThrows(BusinessException.class, () -> service.createSupportTicket(
+                principal, request, "support-idem-key-0001", "request-support-001"));
+
+        assertEquals("COMMON-403-FORBIDDEN", error.code());
+        verify(repository).abandonIdempotency(103L);
+        verify(repository, never()).createSupportTicket(
+                anyLong(), anyString(), anyString(), anyString(), anyString(), any(), anyString(), any());
     }
 
     @Test

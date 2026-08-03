@@ -178,6 +178,7 @@ fun R08ProjectDetailScreen(
     onConversationReady: (String, Long, ContentResource) -> Unit = { _, _, _ -> },
     onShare: (String) -> Unit = {},
     onInvalidFeedback: (String, List<String>) -> Unit = { _, _ -> },
+    onReport: (String, Long) -> Unit = { _, _ -> },
     onSessionExpired: () -> Unit,
 ) {
     val scope = rememberCoroutineScope()
@@ -230,6 +231,7 @@ fun R08ProjectDetailScreen(
                 title = { Text("项目详情") },
                 navigationIcon = { HhyBackButton(onBack) },
                 actions = {
+                    TextButton(enabled = project != null, onClick = { project?.let { onReport(it.title, it.version) } }) { Text("举报") }
                     TextButton(
                         modifier = Modifier.testTag("r13.action.project.invalid-feedback"),
                         enabled = project?.contactsMasked?.isNotEmpty() == true,

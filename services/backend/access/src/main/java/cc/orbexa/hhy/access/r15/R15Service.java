@@ -8,6 +8,8 @@ import cc.orbexa.hhy.access.r15.R15Contracts.NotificationPage;
 import cc.orbexa.hhy.access.r15.R15Contracts.NotificationReadRequest;
 import cc.orbexa.hhy.access.r15.R15Contracts.NotificationResource;
 import cc.orbexa.hhy.access.r15.R15Contracts.PageMeta;
+import cc.orbexa.hhy.access.r15.R15Contracts.PublicPageBlockResource;
+import cc.orbexa.hhy.access.r15.R15Contracts.PublicPageResource;
 import cc.orbexa.hhy.access.r15.R15Contracts.SupportAssignRequest;
 import cc.orbexa.hhy.access.r15.R15Contracts.SupportCloseRequest;
 import cc.orbexa.hhy.access.r15.R15Contracts.SupportMessageRequest;
@@ -20,8 +22,11 @@ import java.security.MessageDigest;
 import java.time.Clock;
 import java.time.Duration;
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.HexFormat;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import org.springframework.stereotype.Service;
@@ -100,6 +105,18 @@ public class R15Service {
     }
 
     @Transactional(readOnly = true)
+    public PublicPageResource publicAgreement(String codeValue) {
+        String code = clean(codeValue);
+        if (code == null) throw validation("协议代码无效");
+        return store.publicAgreement(code).map(this::publicPage).orElseThrow(R15Service::notFound);
+    }
+
+    @Transactional(readOnly = true)
+    public PublicPageResource publicHelpArticle(String idValue) {
+        return store.publicHelpArticle(id(idValue)).map(this::publicPage).orElseThrow(R15Service::notFound);
+    }
+
+    @Transactional(readOnly = true)
     public SupportTicketPage helpArticles(int page, int pageSize, String status, String keyword, String sort) {
         R15Store.PageQuery query = query(page, pageSize, status, keyword, sort);
         R15Store.PageRows<R15Store.SupportTicketRow> rows = store.helpArticles(query);
@@ -124,8 +141,10 @@ public class R15Service {
     }
 
     @Transactional
-    public SupportTicketResource addUserMessage(long userId, String idValue, SupportMessageRequest request, String key) {
+    public SupportTicketResource addUserMessage(
+            long userId, String idValue, SupportMessageRequest request, String key, String requestId) {
         long id = id(idValue);
+        List<Long> attachments = attachmentIds(request.attachments());
         String requestHash = hash(Map.of("id", id, "content", clean(request.content()),
                 "attachments", request.attachments()));
         String scope = "r15.supportPostSupportTicketsByIdMessages:user:" + userId + ":ticket:" + id;
@@ -135,8 +154,10 @@ public class R15Service {
             return supportTicket(userId, idValue);
         }
         R15Store.SupportTicketRow ticket = store.supportTicket(userId, id).orElseThrow(R15Service::notFound);
-        store.appendSupportMessage(id, "USER", userId, clean(request.content()), Instant.now(clock));
-        store.outbox("SUPPORT_TICKET", id, "support.ticket.message-added.v1", null, json(ticket));
+        if ("CLOSED".equals(ticket.status())) throw business("已关闭工单不能继续回复");
+        requireAttachments(attachments, userId);
+        store.appendSupportMessage(id, "USER", userId, clean(request.content()), attachments, userId, Instant.now(clock));
+        store.outbox("SUPPORT_TICKET", id, "support.ticket.message-added.v1", requestId, json(ticket));
         store.complete(claim.id(), idValue);
         return supportTicket(userId, idValue);
     }
@@ -157,6 +178,7 @@ public class R15Service {
         }
         R15Store.SupportTicketRow before = store.lockSupportTicket(id).orElseThrow(R15Service::notFound);
         if (before.version() != expectedVersion) throw versionConflict();
+        if ("CLOSED".equals(before.status())) throw business("已关闭工单不能重新分配");
         Instant now = Instant.now(clock);
         if (!store.assignTicket(id, assignee, expectedVersion, now)) throw versionConflict();
         SupportTicketResource result = supportTicket(null, idValue);
@@ -169,6 +191,7 @@ public class R15Service {
     @Transactional
     public SupportTicketResource replyTicket(long adminId, String idValue, SupportMessageRequest request, String key, String requestId, String ip) {
         long id = id(idValue);
+        List<Long> attachments = attachmentIds(request.attachments());
         String requestHash = hash(Map.of("id", id, "content", clean(request.content()),
                 "attachments", request.attachments()));
         String scope = "r15.adminSupportReply:admin:" + adminId + ":ticket:" + id;
@@ -178,8 +201,10 @@ public class R15Service {
             return supportTicket(null, idValue);
         }
         R15Store.SupportTicketRow before = store.supportTicket(null, id).orElseThrow(R15Service::notFound);
+        if ("CLOSED".equals(before.status())) throw business("已关闭工单不能继续回复");
         Instant now = Instant.now(clock);
-        store.appendSupportMessage(id, "ADMIN", adminId, clean(request.content()), now);
+        requireAttachments(attachments, null);
+        store.appendSupportMessage(id, "ADMIN", adminId, clean(request.content()), attachments, null, now);
         SupportTicketResource result = supportTicket(null, idValue);
         audit(adminId, "SUPPORT_REPLIED", "SUPPORT_TICKET", id, supportTicket(before), result, requestId, ip, now);
         store.outbox("SUPPORT_TICKET", id, "support.ticket.replied.v1", requestId, json(result));
@@ -190,10 +215,10 @@ public class R15Service {
     @Transactional
     public SupportTicketResource closeTicket(long adminId, String idValue, SupportCloseRequest request, String key, String requestId, String ip) {
         long id = id(idValue);
-        long expectedVersion = version(request.expectedVersion());
+        Long requestedVersion = request.expectedVersion();
         String reason = clean(request.reason());
         String requestHash = hash(Map.of("id", id, "reason", reason == null ? "" : reason,
-                "expectedVersion", expectedVersion, "payload", request.payload()));
+                "expectedVersion", requestedVersion == null ? -1L : requestedVersion, "payload", request.payload()));
         String scope = "r15.adminSupportClose:admin:" + adminId + ":ticket:" + id;
         R15Store.IdempotencyClaim claim = claim(scope, key, requestHash);
         if (claim.replay()) {
@@ -201,7 +226,9 @@ public class R15Service {
             return supportTicket(null, idValue);
         }
         R15Store.SupportTicketRow before = store.lockSupportTicket(id).orElseThrow(R15Service::notFound);
+        long expectedVersion = requestedVersion == null ? before.version() : version(requestedVersion);
         if (before.version() != expectedVersion) throw versionConflict();
+        if (!"RESOLVED".equals(before.status())) throw business("只有已解决工单可以关闭");
         Instant now = Instant.now(clock);
         if (!store.closeTicket(id, reason, expectedVersion, now)) throw versionConflict();
         SupportTicketResource result = supportTicket(null, idValue);
@@ -224,6 +251,9 @@ public class R15Service {
         long expectedVersion = version(request.expectedVersion());
         String decision = clean(request.decision());
         String reason = clean(request.reason());
+        if (decision == null || !Set.of("APPROVE", "REJECT", "ESCALATE").contains(decision)) {
+            throw validation("处理决定不符合要求");
+        }
         String requestHash = hash(Map.of("id", id, "decision", decision, "reason", reason,
                 "expectedVersion", expectedVersion, "evidenceIds", request.evidenceIds()));
         String scope = "r15.adminChatPostChatReportsByIdDecide:admin:" + adminId + ":report:" + id;
@@ -234,6 +264,7 @@ public class R15Service {
         }
         R15Store.ConversationRow before = store.lockChatReport(id).orElseThrow(R15Service::notFound);
         if (before.version() != expectedVersion) throw versionConflict();
+        if (!"PENDING".equals(before.status())) throw business("聊天举报已处理，不能重复改判");
         Instant now = Instant.now(clock);
         if (!store.decideChatReport(id, decision, reason, expectedVersion, now)) throw versionConflict();
         ConversationResource result = store.chatReport(id).map(this::conversation).orElseThrow(R15Service::notFound);
@@ -281,6 +312,26 @@ public class R15Service {
     private ConversationResource conversation(R15Store.ConversationRow row) {
         return new ConversationResource(Long.toString(row.reportId()), null, null, 0, null,
                 row.updatedAt(), row.version());
+    }
+
+    private PublicPageResource publicPage(R15Store.PublicPageRow row) {
+        PublicPageBlockResource block = new PublicPageBlockResource(
+                Long.toString(row.id()), "RICH_TEXT", row.title(), row.body(), java.util.List.of(), null, 0);
+        return new PublicPageResource(row.code(), row.title(), row.description(), java.util.List.of(block),
+                null, null, null, row.version());
+    }
+
+    private List<Long> attachmentIds(List<String> values) {
+        List<Long> ids = new ArrayList<>();
+        for (String value : values) ids.add(id(value));
+        if (new HashSet<>(ids).size() != ids.size()) throw validation("附件不能重复");
+        return List.copyOf(ids);
+    }
+
+    private void requireAttachments(List<Long> attachmentIds, Long ownerId) {
+        if (!attachmentIds.isEmpty() && !store.attachmentsAvailable(attachmentIds, ownerId)) {
+            throw new BusinessException("COMMON-403-FORBIDDEN", "附件不存在或不可使用", 403, false);
+        }
     }
 
     private String json(Object value) {
@@ -335,5 +386,9 @@ public class R15Service {
 
     private static BusinessException idempotencyConflict() {
         return new BusinessException("COMMON-409-IDEMPOTENCY_CONFLICT", "同一幂等键对应不同请求", 409, false);
+    }
+
+    private static BusinessException business(String message) {
+        return new BusinessException("COMMON-422-BUSINESS_RULE", message, 422, false);
     }
 }

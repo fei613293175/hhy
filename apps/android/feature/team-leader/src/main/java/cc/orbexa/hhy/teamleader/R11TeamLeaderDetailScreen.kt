@@ -80,6 +80,7 @@ fun R11TeamLeaderDetailScreen(
     onConversationReady: (String, Long, ContentResource) -> Unit,
     onShare: (String) -> Unit = {},
     onInvalidFeedback: (String, List<String>) -> Unit = { _, _ -> },
+    onReport: (String, Long) -> Unit = { _, _ -> },
     onSessionExpired: () -> Unit,
 ) {
     val scope = rememberCoroutineScope()
@@ -184,6 +185,7 @@ fun R11TeamLeaderDetailScreen(
                     if (content?.publisher?.userId == currentUserId) {
                         TextButton(onClick = { onEdit(teamLeaderId) }) { Text("编辑") }
                     }
+                    TextButton(enabled = content != null && phase == R11TeamLeaderPhase.CONTENT && !actionState.busy, onClick = { content?.let { onReport(it.title, it.version) } }) { Text("举报") }
                     TextButton(enabled = content?.contactsMasked?.isNotEmpty() == true && phase == R11TeamLeaderPhase.CONTENT && !actionState.busy, onClick = { content?.let { onInvalidFeedback(it.title, it.contactsMasked.map { contact -> contact.channel }) } }) { Text("反馈") }
                     TextButton(enabled = content != null && phase == R11TeamLeaderPhase.CONTENT && !actionState.busy, onClick = { content?.title?.let(onShare) }) { Text("分享") }
                 },

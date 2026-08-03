@@ -16,6 +16,9 @@ import AdminContentDetailPage from './views/AdminContentDetailPage.vue'
 import AdminContentDictionariesPage from './views/AdminContentDictionariesPage.vue'
 import AdminReviewWorkbenchPage from './views/AdminReviewWorkbenchPage.vue'
 import CommerceOrdersPage from './views/CommerceOrdersPage.vue'
+import AdminGovernanceQueuePage from './views/AdminGovernanceQueuePage.vue'
+import AdminSupportTicketsPage from './views/AdminSupportTicketsPage.vue'
+import AdminSupportTicketDetailPage from './views/AdminSupportTicketDetailPage.vue'
 import AdminForbiddenPage from './views/AdminForbiddenPage.vue'
 import { implementedAdminPageIds } from './adminNavigation'
 import { resolveAdminRouteRedirect } from './routerAccess'
@@ -43,6 +46,11 @@ export const router = createRouter({
     { path: '/contents/:id', name: 'ADM-CONTENT-002', component: AdminContentDetailPage, meta: { requiresAuth: true, permission: 'content.read' } },
     { path: '/reviews', name: 'ADM-REVIEW-001', component: AdminReviewWorkbenchPage, meta: { requiresAuth: true, permission: 'review.read' } },
     { path: '/commerce/orders', name: 'ADM-ORDER-001', component: CommerceOrdersPage, meta: { requiresAuth: true, permission: 'order.read' } },
+    { path: '/governance/chat-reports', name: 'ADM-CHAT-001', component: AdminGovernanceQueuePage, props: { kind: 'chat' }, meta: { requiresAuth: true, permission: 'chat.report.read' } },
+    { path: '/governance/content-reports', name: 'ADM-REPORT-001', component: AdminGovernanceQueuePage, props: { kind: 'report' }, meta: { requiresAuth: true, permission: 'report.read' } },
+    { path: '/governance/appeals', name: 'ADM-APPEAL-001', component: AdminGovernanceQueuePage, props: { kind: 'appeal' }, meta: { requiresAuth: true, permission: 'appeal.read' } },
+    { path: '/support/tickets', name: 'ADM-SUPPORT-001', component: AdminSupportTicketsPage, meta: { requiresAuth: true, permissions: ['support.read', 'support.manage'] } },
+    { path: '/support/tickets/:id', name: 'ADM-SUPPORT-002', component: AdminSupportTicketDetailPage, meta: { requiresAuth: true, permission: 'support.read' } },
     ...adminPages.filter((page) => !implementedAdminPageIds.has(page.ID)).map((page) => ({
       path: page.路由,
       name: page.ID,

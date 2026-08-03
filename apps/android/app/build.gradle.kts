@@ -142,6 +142,7 @@ dependencies {
     implementation(project(":feature:content-management"))
     implementation(project(":feature:activity"))
     implementation(project(":feature:chat"))
+    implementation(project(":feature:support"))
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.navigation.compose)

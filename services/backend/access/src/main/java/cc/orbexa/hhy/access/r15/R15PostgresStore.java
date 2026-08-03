@@ -81,6 +81,26 @@ public class R15PostgresStore implements R15Store {
     }
 
     @Override
+    public Optional<PublicPageRow> publicAgreement(String code) {
+        return single("""
+                SELECT version_row.id,'H5-010',agreement.code,NULL,version_row.content,version_row.version
+                FROM hhy.agreements agreement
+                JOIN hhy.agreement_versions version_row ON version_row.id=agreement.current_version_id
+                WHERE agreement.code=? AND version_row.effective_at IS NOT NULL
+                  AND version_row.effective_at<=clock_timestamp()
+                """, this::publicPageRow, code);
+    }
+
+    @Override
+    public Optional<PublicPageRow> publicHelpArticle(long id) {
+        return single("""
+                SELECT id,'H5-011',title,type,content,0
+                FROM hhy.cms_articles
+                WHERE id=? AND status='PUBLISHED'
+                """, this::publicPageRow, id);
+    }
+
+    @Override
     public PageRows<SupportTicketRow> helpArticles(PageQuery query) {
         QueryParts parts = where("item.status='PUBLISHED'", List.of(), query, "item", "title", false);
         return page("""
@@ -157,12 +177,42 @@ public class R15PostgresStore implements R15Store {
     }
 
     @Override
-    public void appendSupportMessage(long ticketId, String senderType, long senderId, String body, Instant now) {
-        if (jdbc.update("""
+    public boolean attachmentsAvailable(List<Long> attachmentIds, Long ownerId) {
+        if (attachmentIds.isEmpty()) return true;
+        String placeholders = String.join(",", java.util.Collections.nCopies(attachmentIds.size(), "?"));
+        List<Object> args = new ArrayList<>(attachmentIds);
+        String owner = "";
+        if (ownerId != null) {
+            owner = " AND owner_id=?";
+            args.add(ownerId);
+        }
+        Long count = jdbc.queryForObject("SELECT count(*) FROM hhy.media_objects WHERE id IN ("
+                        + placeholders + ") AND deleted_at IS NULL AND (status IS NULL OR status='READY')" + owner,
+                Long.class, args.toArray());
+        return count != null && count == attachmentIds.size();
+    }
+
+    @Override
+    public void appendSupportMessage(long ticketId, String senderType, long senderId, String body,
+                                     List<Long> attachmentIds, Long attachmentOwnerId, Instant now) {
+        Long messageId = jdbc.queryForObject("""
                 INSERT INTO hhy.ticket_messages(ticket_id,sender_type,sender_id,body,created_at,updated_at)
-                VALUES (?,?,?,?,?,?)
-                """, ticketId, senderType, senderId, body, time(now), time(now)) != 1) {
+                VALUES (?,?,?,?,?,?) RETURNING id
+                """, Long.class, ticketId, senderType, senderId, body, time(now), time(now));
+        if (messageId == null) {
             throw new IllegalStateException("R15 support message was not inserted");
+        }
+        for (long mediaId : attachmentIds) {
+            String owner = attachmentOwnerId == null ? "" : " AND owner_id=?";
+            List<Object> args = new ArrayList<>(List.of(ticketId, messageId, mediaId));
+            if (attachmentOwnerId != null) args.add(attachmentOwnerId);
+            int inserted = jdbc.update("""
+                    INSERT INTO hhy.ticket_attachments(ticket_id,message_id,media_id)
+                    SELECT ?,?,id FROM hhy.media_objects
+                    WHERE id=? AND deleted_at IS NULL
+                      AND (status IS NULL OR status='READY')
+                    """ + owner, args.toArray());
+            if (inserted != 1) throw new IllegalStateException("R15 support attachment became unavailable");
         }
         jdbc.update("""
                 UPDATE hhy.support_tickets
@@ -179,7 +229,7 @@ public class R15PostgresStore implements R15Store {
     public PageRows<ConversationRow> chatReports(PageQuery query) {
         QueryParts parts = where("1=1", List.of(), query, "item", "reason_code", false);
         return page("""
-                SELECT item.id,item.conversation_id,item.updated_at,item.version
+                SELECT item.id,item.conversation_id,item.status,item.updated_at,item.version
                 FROM hhy.chat_reports item
                 """, parts, order("item", query.sort()), query, this::conversationRow);
     }
@@ -187,7 +237,7 @@ public class R15PostgresStore implements R15Store {
     @Override
     public Optional<ConversationRow> lockChatReport(long id) {
         return single("""
-                SELECT id,conversation_id,updated_at,version
+                SELECT id,conversation_id,status,updated_at,version
                 FROM hhy.chat_reports WHERE id=? FOR UPDATE
                 """, this::conversationRow, id);
     }
@@ -195,7 +245,7 @@ public class R15PostgresStore implements R15Store {
     @Override
     public Optional<ConversationRow> chatReport(long id) {
         return single("""
-                SELECT id,conversation_id,updated_at,version
+                SELECT id,conversation_id,status,updated_at,version
                 FROM hhy.chat_reports WHERE id=?
                 """, this::conversationRow, id);
     }
@@ -328,9 +378,14 @@ public class R15PostgresStore implements R15Store {
                 rs.getLong(10));
     }
 
+    private PublicPageRow publicPageRow(ResultSet rs, int row) throws SQLException {
+        return new PublicPageRow(rs.getLong(1), rs.getString(2), rs.getString(3), rs.getString(4),
+                rs.getString(5), rs.getLong(6));
+    }
+
     private ConversationRow conversationRow(ResultSet rs, int row) throws SQLException {
-        return new ConversationRow(rs.getLong(1), rs.getLong(2),
-                instant(rs.getObject(3, OffsetDateTime.class)), rs.getLong(4));
+        return new ConversationRow(rs.getLong(1), rs.getLong(2), rs.getString(3),
+                instant(rs.getObject(4, OffsetDateTime.class)), rs.getLong(5));
     }
 
     private static OffsetDateTime time(Instant value) {

@@ -274,9 +274,21 @@ public class UserAuthStore {
         return nextVersion;
     }
 
+    public boolean supportAttachmentsAvailable(long userId, List<Long> attachmentIds) {
+        if (attachmentIds.isEmpty()) return true;
+        String placeholders = String.join(",", java.util.Collections.nCopies(attachmentIds.size(), "?"));
+        List<Object> args = new java.util.ArrayList<>(attachmentIds);
+        args.add(userId);
+        Long count = jdbc.queryForObject("SELECT count(*) FROM hhy.media_objects WHERE id IN ("
+                        + placeholders + ") AND owner_id=? AND deleted_at IS NULL"
+                        + " AND (status IS NULL OR status='READY')",
+                Long.class, args.toArray());
+        return count != null && count == attachmentIds.size();
+    }
+
     public TicketRow createSupportTicket(long userId, String ticketNo, String category,
                                          String subject, String content, List<Long> attachmentIds,
-                                         Instant now) {
+                                         String requestId, Instant now) {
         Long ticketId = jdbc.queryForObject("""
                 INSERT INTO hhy.support_tickets(ticket_no,user_id,type,biz_type,status)
                 VALUES (?,?,?,?,'OPEN') RETURNING id
@@ -287,11 +299,23 @@ public class UserAuthStore {
                 VALUES (?,'USER',?,?) RETURNING id
                 """, Long.class, ticketId, userId, content);
         for (long mediaId : attachmentIds) {
-            jdbc.update("""
+            int inserted = jdbc.update("""
                     INSERT INTO hhy.ticket_attachments(ticket_id,message_id,media_id)
-                    SELECT ?,?,id FROM hhy.media_objects WHERE id=? AND owner_id=?
+                    SELECT ?,?,id FROM hhy.media_objects
+                    WHERE id=? AND owner_id=? AND deleted_at IS NULL
+                      AND (status IS NULL OR status='READY')
                     """, ticketId, messageId, mediaId, userId);
+            if (inserted != 1) {
+                throw new IllegalStateException("Support attachment became unavailable");
+            }
         }
+        jdbc.update("""
+                INSERT INTO hhy.outbox_events(
+                  aggregate_id,aggregate_type,event_id,event_type,event_version,headers,payload)
+                VALUES (?, 'SUPPORT_TICKET', gen_random_uuid()::text, 'support.ticket.created.v1', 1,
+                  jsonb_build_object('source','user-auth-api','requestId',?),
+                  jsonb_build_object('ticketId',?,'userId',?,'status','OPEN'))
+                """, Long.toString(ticketId), requestId, Long.toString(ticketId), Long.toString(userId));
         return new TicketRow(ticketId, ticketNo, category, subject, "OPEN", null, now, now, 0L);
     }
 

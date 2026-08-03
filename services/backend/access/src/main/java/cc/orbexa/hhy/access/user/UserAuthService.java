@@ -310,17 +310,23 @@ public class UserAuthService {
 
     @Transactional(noRollbackFor = BusinessException.class)
     public SupportTicketResource createSupportTicket(UserPrincipal principal,
-                                                     SupportTicketCreateRequest request, String key) {
+                                                     SupportTicketCreateRequest request, String key,
+                                                     String requestId) {
         List<Long> attachments = attachmentIds(request.attachments());
         String requestHash = tokens.intentHash("supportPostSupportTickets", request.category(),
                 request.subject(), request.content(), attachments.toString());
         return idempotent(scope("st", Long.toString(principal.userId())), key, requestHash,
                 "support-ticket-v1", SupportTicketResource.class, () -> {
+                    if (!attachments.isEmpty()
+                            && !repository.supportAttachmentsAvailable(principal.userId(), attachments)) {
+                        throw new BusinessException(
+                                "COMMON-403-FORBIDDEN", "附件不存在或不可使用", 403, false);
+                    }
                     Instant now = Instant.now(clock);
                     String ticketNo = "HHY" + now.toEpochMilli() + UUID.randomUUID().toString().substring(0, 8);
                     UserAuthStore.TicketRow row = repository.createSupportTicket(principal.userId(), ticketNo,
                             request.category().trim(), request.subject().trim(), request.content().trim(),
-                            attachments, now);
+                            attachments, requestId, now);
                     return new SupportTicketResource(Long.toString(row.id()), row.ticketNo(), row.category(),
                             row.subject(), row.status(), row.assignee(), row.lastMessageAt(), row.createdAt(),
                             row.version());

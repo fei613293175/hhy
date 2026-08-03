@@ -12,6 +12,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -85,6 +86,7 @@ import cc.orbexa.hhy.network.UrlConnectionContractR12MeApi
 import cc.orbexa.hhy.network.UrlConnectionContractR12ProfileApi
 import cc.orbexa.hhy.network.UrlConnectionContractR13Api
 import cc.orbexa.hhy.network.UrlConnectionContractR14Api
+import cc.orbexa.hhy.network.UrlConnectionContractR15Api
 import cc.orbexa.hhy.network.OkHttpR14RealtimeClient
 import cc.orbexa.hhy.network.R14RealtimeEvent
 import cc.orbexa.hhy.network.R14RealtimeScope
@@ -119,6 +121,14 @@ import cc.orbexa.hhy.shell.HhyShellScreen
 import cc.orbexa.hhy.shell.HhyTopLevelDestination
 import cc.orbexa.hhy.shell.R12ProfileScreen
 import cc.orbexa.hhy.startup.StartupGateScreen
+import cc.orbexa.hhy.support.R15CreateTicketScreen
+import cc.orbexa.hhy.support.R15MessageCenterScreen
+import cc.orbexa.hhy.support.R15NotificationDetailScreen
+import cc.orbexa.hhy.support.R15NotificationListScreen
+import cc.orbexa.hhy.support.R15ReportContentSheet
+import cc.orbexa.hhy.support.R15SupportDetailScreen
+import cc.orbexa.hhy.support.R15SupportHomeScreen
+import cc.orbexa.hhy.support.R15SupportListScreen
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.decodeFromString
 import kotlinx.coroutines.awaitCancellation
@@ -249,6 +259,17 @@ private sealed interface SessionState {
 internal sealed interface AuthenticatedRoute {
     @Serializable data object Home : AuthenticatedRoute
     @Serializable data object Messages : AuthenticatedRoute
+    @Serializable data object ChatList : AuthenticatedRoute
+    @Serializable data object Notifications : AuthenticatedRoute
+    @Serializable data class NotificationDetail(val notificationId: String) : AuthenticatedRoute
+    @Serializable data object Announcements : AuthenticatedRoute
+    @Serializable data class AnnouncementDetail(val announcementId: String) : AuthenticatedRoute
+    @Serializable data object Support : AuthenticatedRoute
+    @Serializable data object HelpArticles : AuthenticatedRoute
+    @Serializable data class HelpArticleDetail(val articleId: String) : AuthenticatedRoute
+    @Serializable data object SupportTickets : AuthenticatedRoute
+    @Serializable data object CreateSupportTicket : AuthenticatedRoute
+    @Serializable data class SupportTicketDetail(val ticketId: String) : AuthenticatedRoute
     @Serializable data object Me : AuthenticatedRoute
     @Serializable data object Profile : AuthenticatedRoute
     @Serializable data object LoginDevices : AuthenticatedRoute
@@ -323,6 +344,7 @@ private fun AuthenticatedNavHost(
     val r12ProfileApi = remember { UrlConnectionContractR12ProfileApi(BuildConfig.API_BASE_URL) }
     val r13Api = remember { UrlConnectionContractR13Api(BuildConfig.API_BASE_URL) }
     val r14Api = remember { UrlConnectionContractR14Api(BuildConfig.API_BASE_URL) }
+    val r15Api = remember { UrlConnectionContractR15Api(BuildConfig.API_BASE_URL) }
     val r14Realtime = remember { OkHttpR14RealtimeClient(BuildConfig.WS_BASE_URL) }
     val mediaApi = remember { UrlConnectionContractMediaApi(BuildConfig.API_BASE_URL) }
     val uriHandler = androidx.compose.ui.platform.LocalUriHandler.current
@@ -410,15 +432,11 @@ private fun AuthenticatedNavHost(
             onOpenTeamLeaders = { navController.navigate(AuthenticatedRoute.TeamLeaders) },
             onOpenPublish = { navController.navigate(AuthenticatedRoute.PublishCenter) },
             messageContent = { padding ->
-                R14ConversationListScreen(
-                    api = r14Api,
-                    accessToken = authenticated.session.accessToken,
-                    realtimeEvents = r14Realtime.events,
+                R15MessageCenterScreen(
                     contentPadding = padding,
-                    onConversationSelected = { conversation ->
-                        chatDetailRoute(conversation)?.let(navController::navigate)
-                    },
-                    onSessionExpired = onSessionInvalidated,
+                    onOpenChats = { navController.navigate(AuthenticatedRoute.ChatList) },
+                    onOpenNotifications = { navController.navigate(AuthenticatedRoute.Notifications) },
+                    onOpenAnnouncements = { navController.navigate(AuthenticatedRoute.Announcements) },
                 )
             },
             canOpenHomeTarget = { target -> canOpenHomeTarget(target) },
@@ -454,6 +472,7 @@ private fun AuthenticatedNavHost(
             onOpenCancellation = { navController.navigate(AuthenticatedRoute.Cancellation) },
             onOpenIdentity = { navController.navigate(AuthenticatedRoute.Identity) },
             onOpenAbout = { navController.navigate(AuthenticatedRoute.About) },
+            onOpenSupport = { navController.navigate(AuthenticatedRoute.Support) },
             onOpenMyContents = { navController.navigate(AuthenticatedRoute.MyContents) },
             onOpenMyDrafts = { navController.navigate(AuthenticatedRoute.MyDrafts) },
             onOpenFavorites = { navController.navigate(AuthenticatedRoute.Favorites) },
@@ -492,6 +511,82 @@ private fun AuthenticatedNavHost(
             popEnterTransition = { androidx.compose.animation.EnterTransition.None },
             popExitTransition = { androidx.compose.animation.ExitTransition.None },
         ) { rootContent() }
+        composable<AuthenticatedRoute.ChatList> {
+            R14ConversationListScreen(
+                api = r14Api,
+                accessToken = authenticated.session.accessToken,
+                realtimeEvents = r14Realtime.events,
+                contentPadding = PaddingValues(),
+                onConversationSelected = { conversation -> chatDetailRoute(conversation)?.let(navController::navigate) },
+                onSessionExpired = onSessionInvalidated,
+            )
+        }
+        composable<AuthenticatedRoute.Notifications> {
+            R15NotificationListScreen(
+                r15Api, authenticated.session.accessToken, false,
+                { navController.popBackStack() },
+                { navController.navigate(AuthenticatedRoute.NotificationDetail(it)) },
+                onSessionInvalidated,
+            )
+        }
+        composable<AuthenticatedRoute.NotificationDetail> { entry ->
+            val route = entry.toRoute<AuthenticatedRoute.NotificationDetail>()
+            R15NotificationDetailScreen(r15Api, authenticated.session.accessToken, route.notificationId, false, { navController.popBackStack() }, onSessionInvalidated)
+        }
+        composable<AuthenticatedRoute.Announcements> {
+            R15NotificationListScreen(
+                r15Api, authenticated.session.accessToken, true,
+                { navController.popBackStack() },
+                { navController.navigate(AuthenticatedRoute.AnnouncementDetail(it)) },
+                onSessionInvalidated,
+            )
+        }
+        composable<AuthenticatedRoute.AnnouncementDetail> { entry ->
+            val route = entry.toRoute<AuthenticatedRoute.AnnouncementDetail>()
+            R15NotificationDetailScreen(r15Api, authenticated.session.accessToken, route.announcementId, true, { navController.popBackStack() }, onSessionInvalidated)
+        }
+        composable<AuthenticatedRoute.Support> {
+            R15SupportHomeScreen(
+                { navController.popBackStack() },
+                { navController.navigate(AuthenticatedRoute.HelpArticles) },
+                { navController.navigate(AuthenticatedRoute.SupportTickets) },
+                { navController.navigate(AuthenticatedRoute.CreateSupportTicket) },
+            )
+        }
+        composable<AuthenticatedRoute.HelpArticles> {
+            R15SupportListScreen(
+                r15Api, authenticated.session.accessToken, true,
+                { navController.popBackStack() },
+                { navController.navigate(AuthenticatedRoute.HelpArticleDetail(it)) },
+                { navController.navigate(AuthenticatedRoute.CreateSupportTicket) },
+                onSessionInvalidated,
+            )
+        }
+        composable<AuthenticatedRoute.HelpArticleDetail> { entry ->
+            val route = entry.toRoute<AuthenticatedRoute.HelpArticleDetail>()
+            R15SupportDetailScreen(r15Api, authenticated.session.accessToken, route.articleId, true, { navController.popBackStack() }, onSessionInvalidated)
+        }
+        composable<AuthenticatedRoute.SupportTickets> {
+            R15SupportListScreen(
+                r15Api, authenticated.session.accessToken, false,
+                { navController.popBackStack() },
+                { navController.navigate(AuthenticatedRoute.SupportTicketDetail(it)) },
+                { navController.navigate(AuthenticatedRoute.CreateSupportTicket) },
+                onSessionInvalidated,
+            )
+        }
+        composable<AuthenticatedRoute.CreateSupportTicket> {
+            R15CreateTicketScreen(
+                r15Api, authenticated.session.accessToken,
+                { navController.popBackStack() },
+                { id -> navController.navigate(AuthenticatedRoute.SupportTicketDetail(id)) { popUpTo<AuthenticatedRoute.CreateSupportTicket> { inclusive = true } } },
+                onSessionInvalidated,
+            )
+        }
+        composable<AuthenticatedRoute.SupportTicketDetail> { entry ->
+            val route = entry.toRoute<AuthenticatedRoute.SupportTicketDetail>()
+            R15SupportDetailScreen(r15Api, authenticated.session.accessToken, route.ticketId, false, { navController.popBackStack() }, onSessionInvalidated)
+        }
         composable<AuthenticatedRoute.Profile> {
             R12ProfileScreen(
                 api = r12ProfileApi,
@@ -623,6 +718,7 @@ private fun AuthenticatedNavHost(
             val route = backStackEntry.toRoute<AuthenticatedRoute.ProjectDetail>()
             var actionSheet by remember(route.projectId) { mutableStateOf<R13ContentSheet?>(null) }
             var actionTitle by remember(route.projectId) { mutableStateOf("") }
+            var reportVersion by remember(route.projectId) { mutableStateOf<Long?>(null) }
             var feedbackChannels by remember(route.projectId) { mutableStateOf(emptyList<String>()) }
             R08ProjectDetailScreen(
                 api = r08Api,
@@ -636,9 +732,10 @@ private fun AuthenticatedNavHost(
                 },
                 onShare = { actionTitle = it; actionSheet = R13ContentSheet.SHARE },
                 onInvalidFeedback = { title, channels -> actionTitle = title; feedbackChannels = channels; actionSheet = R13ContentSheet.INVALID_FEEDBACK },
+                onReport = { title, version -> actionTitle = title; reportVersion = version; actionSheet = R13ContentSheet.REPORT },
                 onSessionExpired = onSessionInvalidated,
             )
-            R13DetailActionHost(actionSheet, r13Api, authenticated.session.accessToken, route.projectId, actionTitle, feedbackChannels, { actionSheet = null }, onSessionInvalidated)
+            R13DetailActionHost(actionSheet, r13Api, r15Api, authenticated.session.accessToken, route.projectId, actionTitle, feedbackChannels, reportVersion, { actionSheet = null }, onSessionInvalidated)
         }
         composable<AuthenticatedRoute.ProjectEditor> { backStackEntry ->
             val route = backStackEntry.toRoute<AuthenticatedRoute.ProjectEditor>()
@@ -669,6 +766,7 @@ private fun AuthenticatedNavHost(
             val route = backStackEntry.toRoute<AuthenticatedRoute.AppDetail>()
             var actionSheet by remember(route.appId) { mutableStateOf<R13ContentSheet?>(null) }
             var actionTitle by remember(route.appId) { mutableStateOf("") }
+            var reportVersion by remember(route.appId) { mutableStateOf<Long?>(null) }
             var feedbackChannels by remember(route.appId) { mutableStateOf(emptyList<String>()) }
             R09AppDetailScreen(
                 api = r09Api,
@@ -682,9 +780,10 @@ private fun AuthenticatedNavHost(
                 },
                 onShare = { actionTitle = it; actionSheet = R13ContentSheet.SHARE },
                 onInvalidFeedback = { title, channels -> actionTitle = title; feedbackChannels = channels; actionSheet = R13ContentSheet.INVALID_FEEDBACK },
+                onReport = { title, version -> actionTitle = title; reportVersion = version; actionSheet = R13ContentSheet.REPORT },
                 onSessionExpired = onSessionInvalidated,
             )
-            R13DetailActionHost(actionSheet, r13Api, authenticated.session.accessToken, route.appId, actionTitle, feedbackChannels, { actionSheet = null }, onSessionInvalidated)
+            R13DetailActionHost(actionSheet, r13Api, r15Api, authenticated.session.accessToken, route.appId, actionTitle, feedbackChannels, reportVersion, { actionSheet = null }, onSessionInvalidated)
         }
         composable<AuthenticatedRoute.AppEditor> { backStackEntry ->
             val route = backStackEntry.toRoute<AuthenticatedRoute.AppEditor>()
@@ -715,6 +814,7 @@ private fun AuthenticatedNavHost(
             val route = backStackEntry.toRoute<AuthenticatedRoute.GroupDetail>()
             var actionSheet by remember(route.groupId) { mutableStateOf<R13ContentSheet?>(null) }
             var actionTitle by remember(route.groupId) { mutableStateOf("") }
+            var reportVersion by remember(route.groupId) { mutableStateOf<Long?>(null) }
             var feedbackChannels by remember(route.groupId) { mutableStateOf(emptyList<String>()) }
             R10GroupDetailScreen(
                 api = r10Api,
@@ -728,9 +828,10 @@ private fun AuthenticatedNavHost(
                 },
                 onShare = { actionTitle = it; actionSheet = R13ContentSheet.SHARE },
                 onInvalidFeedback = { title, channels -> actionTitle = title; feedbackChannels = channels; actionSheet = R13ContentSheet.INVALID_FEEDBACK },
+                onReport = { title, version -> actionTitle = title; reportVersion = version; actionSheet = R13ContentSheet.REPORT },
                 onSessionExpired = onSessionInvalidated,
             )
-            R13DetailActionHost(actionSheet, r13Api, authenticated.session.accessToken, route.groupId, actionTitle, feedbackChannels, { actionSheet = null }, onSessionInvalidated)
+            R13DetailActionHost(actionSheet, r13Api, r15Api, authenticated.session.accessToken, route.groupId, actionTitle, feedbackChannels, reportVersion, { actionSheet = null }, onSessionInvalidated)
         }
         composable<AuthenticatedRoute.GroupEditor> { backStackEntry ->
             val route = backStackEntry.toRoute<AuthenticatedRoute.GroupEditor>()
@@ -761,6 +862,7 @@ private fun AuthenticatedNavHost(
             val route = backStackEntry.toRoute<AuthenticatedRoute.TeamLeaderDetail>()
             var actionSheet by remember(route.teamLeaderId) { mutableStateOf<R13ContentSheet?>(null) }
             var actionTitle by remember(route.teamLeaderId) { mutableStateOf("") }
+            var reportVersion by remember(route.teamLeaderId) { mutableStateOf<Long?>(null) }
             var feedbackChannels by remember(route.teamLeaderId) { mutableStateOf(emptyList<String>()) }
             R11TeamLeaderDetailScreen(
                 api = r11Api,
@@ -774,9 +876,10 @@ private fun AuthenticatedNavHost(
                 },
                 onShare = { actionTitle = it; actionSheet = R13ContentSheet.SHARE },
                 onInvalidFeedback = { title, channels -> actionTitle = title; feedbackChannels = channels; actionSheet = R13ContentSheet.INVALID_FEEDBACK },
+                onReport = { title, version -> actionTitle = title; reportVersion = version; actionSheet = R13ContentSheet.REPORT },
                 onSessionExpired = onSessionInvalidated,
             )
-            R13DetailActionHost(actionSheet, r13Api, authenticated.session.accessToken, route.teamLeaderId, actionTitle, feedbackChannels, { actionSheet = null }, onSessionInvalidated)
+            R13DetailActionHost(actionSheet, r13Api, r15Api, authenticated.session.accessToken, route.teamLeaderId, actionTitle, feedbackChannels, reportVersion, { actionSheet = null }, onSessionInvalidated)
         }
         composable<AuthenticatedRoute.TeamLeaderEditor> { backStackEntry ->
             val route = backStackEntry.toRoute<AuthenticatedRoute.TeamLeaderEditor>()
@@ -977,19 +1080,34 @@ private fun AuthenticatedNavHost(
     }
 }
 
+@OptIn(androidx.compose.material3.ExperimentalMaterial3Api::class)
 @androidx.compose.runtime.Composable
 private fun R13DetailActionHost(
     sheet: R13ContentSheet?,
     api: ContractR13Api,
+    r15Api: cc.orbexa.hhy.network.ContractR15Api,
     accessToken: String,
     contentId: String,
     contentTitle: String,
     feedbackChannels: List<String>,
+    expectedVersion: Long?,
     dismiss: () -> Unit,
     onSessionExpired: () -> Unit,
 ) {
     var completionNotice by remember(contentId) { mutableStateOf<String?>(null) }
-    sheet?.let {
+    if (sheet == R13ContentSheet.REPORT) {
+        androidx.compose.material3.ModalBottomSheet(onDismissRequest = dismiss) {
+            R15ReportContentSheet(
+                api = r15Api,
+                accessToken = accessToken,
+                contentId = contentId,
+                expectedVersion = expectedVersion,
+                onDismiss = dismiss,
+                onCompleted = { completionNotice = "举报已提交"; dismiss() },
+                onSessionExpired = onSessionExpired,
+            )
+        }
+    } else sheet?.let {
         R13ContentActionSheet(
             sheet = it,
             api = api,
