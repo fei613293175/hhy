@@ -1,9 +1,9 @@
 schema: hhy.governance-state/v5.0
-revision: 161
-updated_at: '2026-08-03T00:44:42.543759Z'
-state_hash: 455d16b853cde9ef3a0390f272032d61fe782372348fa4c1b463508dd804c964
+revision: 162
+updated_at: '2026-08-03T01:05:22.632628Z'
+state_hash: bcd707480d1abb94d9375f8958ebef718974cb5d6b5605309c57e9cb7591c00d
 project:
-  status: ACTIVE
+  status: INFRASTRUCTURE_BLOCKED
   branch_at_install: governance/v5.0-migration-20260731
   migration_baseline_commit: ea64d82fab9ed3d1952ab7d3c0d2286051390b59
   migration_commit: 8beafc2a0e115345c554abc0bdc199ef92534106
@@ -2926,10 +2926,14 @@ tasks:
     last_gate_evidence: null
     blocker: null
   TASK-R15-RECOVERY-010:
-    status: READY
+    status: INFRASTRUCTURE_BLOCKED
     attempts_used: 2
     current_attempt: null
     last_error_fingerprint: 主 Worker 未返回结果，备用 Worker 接管也未返回结果；主证据=governance/runtime/supervisor/worker-failures/TASK-R15-RECOVERY-010-a2-f007aef0de.json；备用证据=governance/runtime/supervisor/worker-failures/TASK-R15-RECOVERY-010-a2-c8f4addead.json
     last_candidate_commit: null
     last_gate_evidence: null
-    blocker: null
+    blocker:
+      code: CODEX_PROVIDER_TRANSPORT_UNAVAILABLE
+      detail:
+        diagnostic_path: governance/runtime/supervisor/worker-failures/TASK-R15-RECOVERY-010-a3-0e53abfbee.json
+        draft_manifest: null
