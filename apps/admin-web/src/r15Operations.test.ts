@@ -51,7 +51,8 @@ describe('R15 admin product surfaces', () => {
     const router = createRouter({ history: createMemoryHistory(), routes: [{ path: '/support/tickets', component: AdminSupportTicketsPage }, { path: '/support/tickets/:id', component: { template: '<div />' } }, { path: '/auth/login', component: { template: '<div />' } }] })
     await router.push('/support/tickets?status=OPEN'); await router.isReady(); const wrapper = mount(AdminSupportTicketsPage, { global: { plugins: [router] } }); await flushPromises()
     expect(wrapper.text()).toContain('TK-20260803-7'); expect(wrapper.text()).toContain('待受理')
-    await wrapper.get('button.table-link').trigger('click'); expect(router.currentRoute.value.path).toBe('/support/tickets/ticket-7'); expect(router.currentRoute.value.query.from).toContain('status=OPEN')
+    await wrapper.get('button.table-link').trigger('click'); await flushPromises()
+    expect(router.currentRoute.value.path).toBe('/support/tickets/ticket-7'); expect(router.currentRoute.value.query.from).toContain('status=OPEN')
   })
 
   it('uses the latest ticket version for assignment and exposes only granted commands', async () => {

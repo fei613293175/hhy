@@ -261,7 +261,7 @@ public class R12ReviewService {
         }
         ReportResource result = store.report(id).map(R12ReviewService::report)
                 .orElseThrow(R12ReviewService::notFound);
-        audit(actor.adminId(), "CONTENT_REPORT_DECIDED", id, json(report(before)),
+        store.audit(actor.adminId(), "CONTENT_REPORT_DECIDED", id, json(report(before)),
                 json(result), actor.ip(), now);
         store.outbox("content.report.decided.v1", id, actor.requestId(), json(result));
         completeResource(claim, scope, key, requestHash, "r15.content-report-decision.v1", result);
@@ -290,7 +290,7 @@ public class R12ReviewService {
         }
         AppealResource result = store.appeal(id).map(R12ReviewService::appeal)
                 .orElseThrow(R12ReviewService::notFound);
-        audit(actor.adminId(), "CONTENT_APPEAL_DECIDED", id, json(appeal(before)),
+        store.audit(actor.adminId(), "CONTENT_APPEAL_DECIDED", id, json(appeal(before)),
                 json(result), actor.ip(), now);
         store.outbox("content.appeal.decided.v1", id, actor.requestId(), json(result));
         completeResource(claim, scope, key, requestHash, "r15.content-appeal-decision.v1", result);

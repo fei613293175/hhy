@@ -111,16 +111,15 @@ jobs:
           disable-animations: true
           emulator-options: -no-snapshot -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -prop persist.sys.locale=zh-CN
           script: |
-            cd apps/android
-            ./gradlew --no-daemon --stacktrace :feature:support:connectedDebugAndroidTest :app:assembleDebug
-            adb install -r app/build/outputs/apk/debug/app-debug.apk
+            apps/android/gradlew -p apps/android --no-daemon --stacktrace :feature:support:connectedDebugAndroidTest :app:assembleDebug
+            adb install -r apps/android/app/build/outputs/apk/debug/app-debug.apk
             adb logcat -c
             adb shell am start -W -n cc.orbexa.hhy.debug/cc.orbexa.hhy.MainActivity
             sleep 8
-            mkdir -p ../../artifacts/r15-emulator
-            adb exec-out screencap -p > ../../artifacts/r15-emulator/startup.png
-            adb logcat -d -v threadtime > ../../artifacts/r15-emulator/logcat.txt
-            ! grep -E 'FATAL EXCEPTION|ANR in cc\.orbexa\.hhy' ../../artifacts/r15-emulator/logcat.txt
+            mkdir -p artifacts/r15-emulator
+            adb exec-out screencap -p > artifacts/r15-emulator/startup.png
+            adb logcat -d -v threadtime > artifacts/r15-emulator/logcat.txt
+            ! grep -E 'FATAL EXCEPTION|ANR in cc\.orbexa\.hhy' artifacts/r15-emulator/logcat.txt
       - uses: actions/upload-artifact@v4
         if: always()
         with:
