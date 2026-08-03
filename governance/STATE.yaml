@@ -1,9 +1,9 @@
 schema: hhy.governance-state/v5.0
-revision: 175
-updated_at: '2026-08-03T04:22:48.234076Z'
-state_hash: ec1c49e3b6f097880098307e16f4c31ecb94afd9d839801470e7d6daf8d20944
+revision: 176
+updated_at: '2026-08-03T04:37:07.017456Z'
+state_hash: 5146f459e4036522f933c1a634ca2c1755d52490fd1e4c33d7883e603cdc574a
 project:
-  status: ACTIVE
+  status: INFRASTRUCTURE_BLOCKED
   branch_at_install: governance/v5.0-migration-20260731
   migration_baseline_commit: ea64d82fab9ed3d1952ab7d3c0d2286051390b59
   migration_commit: 8beafc2a0e115345c554abc0bdc199ef92534106
@@ -2934,10 +2934,21 @@ tasks:
     last_gate_evidence: null
     blocker: null
   TASK-R15-RECOVERY-011:
-    status: READY
+    status: INFRASTRUCTURE_BLOCKED
     attempts_used: 0
     current_attempt: null
     last_error_fingerprint: null
     last_candidate_commit: null
     last_gate_evidence: null
-    blocker: null
+    blocker:
+      code: INFRASTRUCTURE_BLOCKED
+      detail: Backend compilation is blocked by AccessDeniedException on the local Maven AWS SDK archive; the full Python
+        suite also timed out.
+      paths:
+      - services/backend/access/src/main/java/cc/orbexa/hhy/access/r15/R15Store.java
+      - services/backend/access/src/main/java/cc/orbexa/hhy/access/r15/R15PostgresStore.java
+      - services/backend/access/src/main/java/cc/orbexa/hhy/access/r15/R15Service.java
+      - tests/test_r15_recovery_static.py
+      resolution: Repair the local Maven/JDK dependency environment, then rerun backend compilation and full tests.
+      worker_result_evidence: governance/evidence/recovery/TASK-R15-RECOVERY-011-a1-worker-result.json
+      draft_manifest: governance/runtime/supervisor/worker-drafts/TASK-R15-RECOVERY-011-a1-e508409b9a/manifest.json
