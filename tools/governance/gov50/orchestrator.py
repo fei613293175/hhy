@@ -1055,7 +1055,7 @@ def run_once(repo: Path, dry_run: bool = False) -> dict[str, Any]:
                 progress_paths=spec["allowed_paths"],
                 poll_interval=_worker_progress_poll(repo),
                 initial_product_progress=False,
-                env={"HHY_GOVERNANCE_ROLE": "WORKER"},
+                env={**AUTH_ENV, "HHY_GOVERNANCE_ROLE": "WORKER"},
             )
             if worker["status"] != "PASS" or not result_path.is_file():
                 first_failure = worker
@@ -1084,7 +1084,7 @@ def run_once(repo: Path, dry_run: bool = False) -> dict[str, Any]:
                     progress_paths=spec["allowed_paths"],
                     poll_interval=_worker_progress_poll(repo),
                     initial_product_progress=False,
-                    env={"HHY_GOVERNANCE_ROLE": "WORKER_TAKEOVER"},
+                    env={**AUTH_ENV, "HHY_GOVERNANCE_ROLE": "WORKER_TAKEOVER"},
                 )
                 if worker["status"] != "PASS" or not result_path.is_file():
                     diagnostic = _persist_worker_failure(repo, task_id, attempt, worker, result_path)

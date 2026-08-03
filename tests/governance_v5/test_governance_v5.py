@@ -503,6 +503,12 @@ def test_worker_prompt_exposes_controller_python_runtime_on_windows():
     assert "PATH" in prompt
 
 
+def test_worker_and_takeover_inherit_controller_python_runtime():
+    source = (ROOT / "tools/governance/gov50/orchestrator.py").read_text(encoding="utf-8")
+    assert 'env={**AUTH_ENV, "HHY_GOVERNANCE_ROLE": "WORKER"}' in source
+    assert 'env={**AUTH_ENV, "HHY_GOVERNANCE_ROLE": "WORKER_TAKEOVER"}' in source
+
+
 def test_candidate_evidence_schema_requires_complete_apk_identity():
     schema = json.loads((ROOT / "governance/schemas/candidate-evidence.schema.json").read_text(encoding="utf-8"))
     validator = Draft202012Validator(schema)
