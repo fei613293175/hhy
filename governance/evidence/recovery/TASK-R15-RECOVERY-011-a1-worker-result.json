@@ -1,28 +1,56 @@
 {
-  "blocker": {
-    "code": "maven_offline_dependencies_missing",
-    "detail": "离线 Maven 编译缺少两个 BOM，且全量测试超时。",
-    "paths": [
-      "services/backend/pom.xml",
-      "tests"
-    ],
-    "resolution": "补齐本地 Maven BOM 缓存后重跑编译与全量测试。",
-    "worker_result_evidence": "目标测试 7 passed；API_CONTRACT_OK；Maven 报 spring-boot-dependencies:4.1.0 与 aws sdk bom:2.48.3 absent。"
-  },
+  "schema": "hhy.worker-result/v5.0",
+  "status": "INFRASTRUCTURE_BLOCKED",
+  "task_id": "TASK-R15-RECOVERY-011",
+  "summary": "Restored draft was continued. I patched R15 idempotency hashing to use canonical JSON serialization instead of Object.toString(), and added a focused static guard. Targeted R15 static tests passed and the declared API contract check passed. Backend offline compile is blocked before Java compilation: Maven cannot resolve imported BOMs org.springframework.boot:spring-boot-dependencies:pom:4.1.0 and software.amazon.awssdk:bom:pom:2.48.3 in offline mode; the Maven wrapper also fails under PowerShell before launching Maven due a wrapper script null-array error, so cached Maven was invoked directly for evidence.",
   "changed_files": [
+    "database/migrations/V049__r15_access_contract_alignment.sql",
+    "services/backend/access/src/main/java/cc/orbexa/hhy/access/r15/R15Contracts.java",
+    "services/backend/access/src/main/java/cc/orbexa/hhy/access/r15/R15PostgresStore.java",
     "services/backend/access/src/main/java/cc/orbexa/hhy/access/r15/R15Service.java",
+    "services/backend/access/src/main/java/cc/orbexa/hhy/access/r15/R15Store.java",
+    "services/backend/boot/src/main/java/cc/orbexa/hhy/boot/admin/R12ReviewController.java",
+    "services/backend/boot/src/main/java/cc/orbexa/hhy/boot/admin/R15SupportAdminController.java",
+    "services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/R13Controller.java",
     "services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/R15Controller.java",
+    "services/backend/content/src/main/java/cc/orbexa/hhy/content/R12ReviewPostgresStore.java",
+    "services/backend/content/src/main/java/cc/orbexa/hhy/content/R12ReviewService.java",
+    "services/backend/content/src/main/java/cc/orbexa/hhy/content/R12ReviewStore.java",
+    "services/backend/content/src/main/java/cc/orbexa/hhy/content/R13Contracts.java",
+    "services/backend/content/src/main/java/cc/orbexa/hhy/content/R13PostgresStore.java",
+    "services/backend/content/src/main/java/cc/orbexa/hhy/content/R13Service.java",
+    "services/backend/content/src/main/java/cc/orbexa/hhy/content/R13Store.java",
     "tests/test_r15_recovery_static.py"
   ],
   "commands_run": [
-    "& $env:HHY_PYTHON -m pytest -q tests/test_r15_recovery_static.py",
+    "& $env:HHY_PYTHON tools/governance/hhy_governance.py active-task --format context",
+    "Get-Content -Raw governance/runtime/ACTIVE_TASK.json",
+    "& $env:HHY_PYTHON -m pytest tests/test_r15_recovery_static.py",
+    ".\\mvnw.cmd -o -pl access,boot -am -DskipTests compile",
+    "Get-Content -Raw tests/test_r15_recovery_static.py",
+    "Get-Content -Raw services/backend/access/src/main/java/cc/orbexa/hhy/access/r15/R15PostgresStore.java",
+    "Get-Content -Raw services/backend/access/src/main/java/cc/orbexa/hhy/access/r15/R15Service.java",
+    "Get-Content -Raw services/backend/access/src/main/java/cc/orbexa/hhy/access/r15/R15Contracts.java",
+    "Get-Content -Raw services/backend/boot/src/main/java/cc/orbexa/hhy/boot/admin/R15SupportAdminController.java",
+    "& $env:HHY_PYTHON -m pytest tests/test_r15_recovery_static.py",
     "& $env:HHY_PYTHON scripts/check_api_contract.py",
-    "& \"$HOME\\.m2\\wrapper\\dists\\apache-maven-3.9.11\\03d7e36a140982eea48e22c1dcac01d8862b2550b2939e09a0809bbc5182a5bc\\bin\\mvn.cmd\" -o -pl access,boot -am -DskipTests compile",
-    "& $env:HHY_PYTHON -m pytest -q tests"
+    "Get-ChildItem -Path $HOME/.m2/wrapper/dists -Recurse -Filter mvn.cmd -ErrorAction SilentlyContinue | Select-Object -First 5 -ExpandProperty FullName",
+    "& \"$HOME/.m2/wrapper/dists/apache-maven-3.9.11/03d7e36a140982eea48e22c1dcac01d8862b2550b2939e09a0809bbc5182a5bc/bin/mvn.cmd\" -o -pl access,boot -am -DskipTests compile",
+    "Get-ChildItem Env: | Where-Object { $_.Name -match 'MAVEN|JAVA|HHY' } | Sort-Object Name | Format-Table -AutoSize",
+    "Test-Path \"$HOME/.m2/repository/org/springframework/boot/spring-boot-dependencies/4.1.0/spring-boot-dependencies-4.1.0.pom\"; Test-Path \"$HOME/.m2/repository/software/amazon/awssdk/bom/2.48.3/bom-2.48.3.pom\"",
+    "& \"C:\\Users\\小白\\.m2\\wrapper\\dists\\apache-maven-3.9.11\\03d7e36a140982eea48e22c1dcac01d8862b2550b2939e09a0809bbc5182a5bc\\bin\\mvn.cmd\" -Dmaven.repo.local=\"C:\\Users\\小白\\.m2\\repository\" -o -pl access,boot -am -DskipTests compile"
   ],
-  "error_fingerprint": "maven_offline_dependencies_missing+full-tests-timeout",
-  "schema": "hhy.worker-result/v5.0",
-  "status": "EXTERNAL_BLOCKED",
-  "summary": "完成通知幂等 Outbox requestId 传递及回归断言；目标测试和 API 契约检查通过。正式后端编译被本地 Maven 缓存缺失 BOM 阻断。",
-  "task_id": "TASK-R15-RECOVERY-011"
+  "error_fingerprint": "maven_offline_import_pom_unresolvable_spring_boot_4_1_0_aws_sdk_bom_2_48_3",
+  "blocker": {
+    "code": "MAVEN_OFFLINE_DEPENDENCY_RESOLUTION_BLOCKED",
+    "detail": "Offline backend compile cannot proceed because Maven reports imported BOMs as absent: org.springframework.boot:spring-boot-dependencies:pom:4.1.0 and software.amazon.awssdk:bom:pom:2.48.3. The required wrapper invocation also fails before Maven startup with `Cannot index into a null array` and `Cannot start maven from wrapper`; direct cached Maven invocation reaches the same offline BOM resolution failure.",
+    "resolution": "Provide a Maven local repository/cache that Maven can resolve in offline mode for Spring Boot dependencies 4.1.0 and AWS SDK BOM 2.48.3, or repair the local Maven resolver metadata/settings so the existing cache is usable by the offline reactor; then rerun `mvnw.cmd -o -pl access,boot -am -DskipTests compile`.",
+    "paths": [
+      "services/backend/pom.xml",
+      "services/backend/mvnw.cmd",
+      "C:/Users/小白/.m2/repository/org/springframework/boot/spring-boot-dependencies/4.1.0",
+      "C:/Users/小白/.m2/repository/software/amazon/awssdk/bom/2.48.3"
+    ],
+    "worker_result_evidence": "Targeted verification passed: `7 passed` for tests/test_r15_recovery_static.py and `API_CONTRACT_OK client=131 admin=184 websocket=12 runtime_hashes=PASS`. Compile blocker evidence: direct cached Maven offline compile exits with Non-resolvable import POM for spring-boot-dependencies:4.1.0 and software.amazon.awssdk:bom:2.48.3 before Java compilation."
+  }
 }
