@@ -5,6 +5,7 @@ import os
 import re
 import shlex
 import shutil
+import sys
 from pathlib import Path
 from typing import Any
 
@@ -18,6 +19,11 @@ from .tasks import load_task_specs, validate_specs
 from .util import git, read_yaml, run, sha256_file, utc_now, write_json
 
 PROFILES = {"task", "module", "freeze", "candidate", "release"}
+
+
+def _runtime_env() -> dict[str, str]:
+    interpreter = sys.executable
+    return {"PYTHON": interpreter, "HHY_PYTHON": interpreter}
 
 
 def product_readiness(repo: Path, release: str) -> dict[str, Any]:
@@ -37,7 +43,7 @@ def _script(repo: Path, relative: str, *args: str, timeout: int = 1800) -> dict[
     path = repo / relative
     if not path.is_file():
         return {"status": "FAIL", "exit_code": 127, "command": [relative, *args], "stderr_tail": "required script missing", "stdout_tail": ""}
-    return run([os.environ.get("PYTHON", "python3"), relative, *args], repo, timeout=timeout)
+    return run([os.environ.get("PYTHON", "python3"), relative, *args], repo, timeout=timeout, env=_runtime_env())
 
 
 def visual_contract_command(
@@ -189,7 +195,7 @@ def run_gate(repo: Path, *, profile: str, task_id: str | None, commit: str, rele
             if not argv or "hhy_governance.py" in command and " gate " in f" {command} ":
                 checks.append({"id": f"task_acceptance_{index}", "status": "FAIL", "detail": "recursive governance gate command is forbidden"})
                 continue
-            result = run(argv, repo, timeout=1800)
+            result = run(argv, repo, timeout=1800, env=_runtime_env())
             checks.append({"id": f"task_acceptance_{index}", "status": result["status"], "detail": result})
     if profile in {"module", "freeze", "candidate", "release"}:
         for check_id, script in [
@@ -226,7 +232,7 @@ def run_gate(repo: Path, *, profile: str, task_id: str | None, commit: str, rele
             for check_id, argv in release_commands:
                 if (repo / argv[-1]).is_file():
                     found += 1
-                    result = run(argv, repo, timeout=1800)
+                    result = run(argv, repo, timeout=1800, env=_runtime_env())
                     checks.append({"id": check_id, "status": result["status"], "detail": result})
             checks.append({"id": "release_specific_matrix_present", "status": "PASS" if found else "FAIL", "detail": {"release": release, "found": found}})
     status = "PASS" if all(row["status"] == "PASS" for row in checks) else "FAIL"

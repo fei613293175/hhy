@@ -1,7 +1,10 @@
 from __future__ import annotations
 
 import unittest
+from pathlib import Path
+from unittest.mock import patch
 
+from tools.governance.gov50 import gates
 from tools.governance.gov50.util import resolve_runtime_command
 
 
@@ -33,6 +36,19 @@ class RuntimeCommandResolutionTest(unittest.TestCase):
         self.assertEqual(
             ["git", "status", "--short"],
             resolve_runtime_command(["git", "status", "--short"], env),
+        )
+
+    def test_gate_script_runner_injects_verified_python_env(self) -> None:
+        repo = Path("C:/repo")
+        with patch.object(Path, "is_file", return_value=True):
+            with patch("tools.governance.gov50.gates.run", return_value={"status": "PASS"}) as run_mock:
+                gates._script(repo, "scripts/check_api_contract.py")
+
+        _, kwargs = run_mock.call_args
+        self.assertEqual(gates._runtime_env(), kwargs["env"])
+        self.assertEqual(
+            ["python3", "scripts/check_api_contract.py"],
+            list(run_mock.call_args.args[0]),
         )
 
 
