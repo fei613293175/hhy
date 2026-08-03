@@ -1,22 +1,37 @@
 {
   "blocker": {
-    "code": "INFRA_PYTHON_ENV_MISSING",
-    "detail": "HHY_PYTHON is not set in this worker environment, so the required governance command cannot be invoked through the controller-provided Python runtime.",
+    "code": "JAVA_MAVEN_RUNTIME_UNAVAILABLE",
+    "detail": "Backend Java compilation could not be completed: mvnw.cmd fails before Maven startup with \"Cannot index into a null array\" / \"Cannot start maven from wrapper\"; global mvn is not installed; java is not on PATH.",
     "paths": [
-      "tools/governance/hhy_governance.py",
-      "governance/runtime/ACTIVE_TASK.json"
+      "services/backend/mvnw.cmd",
+      "services/backend/.mvn/wrapper/maven-wrapper.properties"
     ],
-    "resolution": "Set HHY_PYTHON to a valid Python executable path for Windows workers, then rerun this attempt.",
-    "worker_result_evidence": "PowerShell: `$env:HHY_PYTHON; Get-Location` produced an empty HHY_PYTHON value. Attempting `& $env:HHY_PYTHON tools/governance/hhy_governance.py active-task --format context` failed because the command expression was empty."
+    "resolution": "Provide a working Java/Maven runtime or repair the Maven wrapper bootstrap, then run services/backend/mvnw.cmd -pl access,boot -am -DskipTests compile.",
+    "worker_result_evidence": "mvn -version: command not recognized; java -version: command not recognized; .\\mvnw.cmd and cmd /c mvnw.cmd both fail before Maven starts. Verified instead: pytest tests/test_r15_recovery_static.py passed 5 tests; scripts/check_api_contract.py returned API_CONTRACT_OK."
   },
-  "changed_files": [],
+  "changed_files": [
+    "database/migrations/V049__r15_access_contract_alignment.sql",
+    "services/backend/access/src/main/java/cc/orbexa/hhy/access/r15/R15Contracts.java",
+    "services/backend/access/src/main/java/cc/orbexa/hhy/access/r15/R15Store.java",
+    "services/backend/access/src/main/java/cc/orbexa/hhy/access/r15/R15Service.java",
+    "services/backend/access/src/main/java/cc/orbexa/hhy/access/r15/R15PostgresStore.java",
+    "services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/R15Controller.java",
+    "services/backend/boot/src/main/java/cc/orbexa/hhy/boot/admin/R15SupportAdminController.java",
+    "tests/test_r15_recovery_static.py"
+  ],
   "commands_run": [
     "& $env:HHY_PYTHON tools/governance/hhy_governance.py active-task --format context",
-    "$env:HHY_PYTHON; Get-Location"
+    "Get-Content -Raw governance/runtime/ACTIVE_TASK.json",
+    ".\\mvnw.cmd -pl access,boot -am -DskipTests compile",
+    "mvn -version",
+    "cmd /c mvnw.cmd -pl access,boot -am -DskipTests compile",
+    "Get-ChildItem -Recurse -Name .mvn; java -version",
+    "& $env:HHY_PYTHON -m pytest tests/test_r15_recovery_static.py",
+    "& $env:HHY_PYTHON scripts/check_api_contract.py"
   ],
-  "error_fingerprint": "INFRA_PYTHON_ENV_MISSING",
+  "error_fingerprint": "java-maven-runtime-unavailable",
   "schema": "hhy.worker-result/v5.0",
   "status": "INFRASTRUCTURE_BLOCKED",
-  "summary": "Unable to start the Worker because the mandated HHY_PYTHON runtime is missing from the environment.",
-  "task_id": ".unknown"
+  "summary": "Implemented the R15 recovery slice for notifications, announcements, help articles, support tickets, admin support actions, chat report decisions, idempotency, audit/outbox writes, and V049 RBAC/table alignment. Targeted regression tests and OpenAPI contract check pass, but candidate readiness is blocked because Java/Maven compilation cannot run in this environment.",
+  "task_id": "TASK-R15-RECOVERY-011"
 }
