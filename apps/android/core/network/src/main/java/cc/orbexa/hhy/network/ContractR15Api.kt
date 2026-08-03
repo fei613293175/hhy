@@ -91,6 +91,9 @@ interface ContractR15Api {
 class UrlConnectionContractR15Api(baseUrl: String) : ContractR15Api {
     private val root = validateR15Root(baseUrl)
 
+    override suspend fun notifications(accessToken: String, keyword: String?) =
+        notifications(accessToken, keyword, null)
+
     override suspend fun notifications(accessToken: String, keyword: String?, status: String?) = call(
         "GET", listPath("/api/v1/notifications", keyword = keyword, status = status), accessToken, R15NotificationPage.serializer(),
     )
