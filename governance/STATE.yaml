@@ -1,9 +1,9 @@
 schema: hhy.governance-state/v5.0
-revision: 168
-updated_at: '2026-08-03T03:08:34.955637Z'
-state_hash: 0901fce39346e8dfda2f6af9934fddc898a3cd1f01054549a8af0a2bf8a57de7
+revision: 169
+updated_at: '2026-08-03T03:21:52.174224Z'
+state_hash: 653ef4b5895fcf6da0210c4084a649fbfac8341d90b146b9a6ded62152c796f5
 project:
-  status: INFRASTRUCTURE_BLOCKED
+  status: ACTIVE
   branch_at_install: governance/v5.0-migration-20260731
   migration_baseline_commit: ea64d82fab9ed3d1952ab7d3c0d2286051390b59
   migration_commit: 8beafc2a0e115345c554abc0bdc199ef92534106
@@ -2934,20 +2934,10 @@ tasks:
     last_gate_evidence: null
     blocker: null
   TASK-R15-RECOVERY-011:
-    status: INFRASTRUCTURE_BLOCKED
+    status: READY
     attempts_used: 0
     current_attempt: null
     last_error_fingerprint: null
     last_candidate_commit: null
     last_gate_evidence: null
-    blocker:
-      code: JAVA_MAVEN_RUNTIME_UNAVAILABLE
-      detail: 'Backend Java compilation could not be completed: mvnw.cmd fails before Maven startup with "Cannot index into
-        a null array" / "Cannot start maven from wrapper"; global mvn is not installed; java is not on PATH.'
-      paths:
-      - services/backend/mvnw.cmd
-      - services/backend/.mvn/wrapper/maven-wrapper.properties
-      resolution: Provide a working Java/Maven runtime or repair the Maven wrapper bootstrap, then run services/backend/mvnw.cmd
-        -pl access,boot -am -DskipTests compile.
-      worker_result_evidence: governance/evidence/recovery/TASK-R15-RECOVERY-011-a1-worker-result.json
-      draft_manifest: governance/runtime/supervisor/worker-drafts/TASK-R15-RECOVERY-011-a1-0554671975/manifest.json
+    blocker: null
