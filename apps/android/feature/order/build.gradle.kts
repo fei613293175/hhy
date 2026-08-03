@@ -2,7 +2,7 @@ plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.compose.compiler)
 }
-android { namespace = "cc.orbexa.hhy.order"; compileSdk = 36; defaultConfig { minSdk = 26 }
+android { namespace = "cc.orbexa.hhy.order"; compileSdk = 36; defaultConfig { minSdk = 26; testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner" }
     compileOptions { sourceCompatibility = JavaVersion.VERSION_17; targetCompatibility = JavaVersion.VERSION_17 }
     buildFeatures { compose = true }
 }
@@ -13,4 +13,5 @@ dependencies {
     implementation(libs.kotlinx.coroutines.android); implementation(libs.kotlinx.serialization.json)
     testImplementation(libs.junit); androidTestImplementation(bom); androidTestImplementation(libs.androidx.compose.ui.test.junit4)
     androidTestImplementation(libs.androidx.test.ext.junit)
+    debugImplementation(libs.androidx.compose.ui.test.manifest)
 }
