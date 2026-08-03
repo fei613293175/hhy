@@ -203,7 +203,13 @@ fun R15NotificationListScreen(
             R15Load.Empty -> R15Centered(if (announcements) "暂无公告" else "暂无通知")
                 is R15Load.Failed -> R15Failure(value.failure, onBack, ::load)
                 is R15Load.Content -> if (announcements) {
-                    LazyColumn(contentPadding = PaddingValues(horizontal = HhySpacing.Lg, bottom = HhySpacing.Xl)) {
+                    LazyColumn(
+                        contentPadding = PaddingValues(
+                            start = HhySpacing.Lg,
+                            end = HhySpacing.Lg,
+                            bottom = HhySpacing.Xl,
+                        ),
+                    ) {
                         item {
                             Card(
                                 modifier = Modifier.fillMaxWidth(),
