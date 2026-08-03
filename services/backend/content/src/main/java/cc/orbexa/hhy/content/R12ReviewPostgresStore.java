@@ -309,11 +309,12 @@ public class R12ReviewPostgresStore implements R12ReviewStore {
     }
 
     @Override
-    public IdempotencyClaim claim(String scope, String key, String requestHash, Instant expiresAt) {
+    public IdempotencyClaim claim(
+            String scope, String key, String requestHash, Instant now, Instant expiresAt) {
         jdbc.update("""
                 DELETE FROM hhy.idempotency_records
-                WHERE scope=? AND idem_key=? AND expires_at<=clock_timestamp()
-                """, scope, key);
+                WHERE scope=? AND idem_key=? AND expires_at<=?
+                """, scope, key, time(now));
         int inserted = jdbc.update("""
                 INSERT INTO hhy.idempotency_records(scope,idem_key,request_hash,expires_at)
                 VALUES (?,?,?,?) ON CONFLICT(scope,idem_key) DO NOTHING
@@ -321,10 +322,10 @@ public class R12ReviewPostgresStore implements R12ReviewStore {
         IdempotencyClaim result = jdbc.queryForObject("""
                 SELECT id,request_hash,response_ref,response_type,response_payload_ciphertext
                 FROM hhy.idempotency_records
-                WHERE scope=? AND idem_key=? AND expires_at>clock_timestamp()
+                WHERE scope=? AND idem_key=? AND expires_at>?
                 """, (rs, row) -> new IdempotencyClaim(
                         rs.getLong(1), rs.getString(2), rs.getString(3), rs.getString(4),
-                        rs.getString(5), inserted == 0), scope, key);
+                        rs.getString(5), inserted == 0), scope, key, time(now));
         if (result == null) throw new IllegalStateException("R12 review idempotency claim disappeared");
         return result;
     }

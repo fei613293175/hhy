@@ -177,7 +177,7 @@ class R12ReviewServiceTest {
 
     @Test
     void sameIdempotencyKeyWithDifferentIntentIsRejectedBeforeLock() {
-        when(store.claim(anyString(), eq(KEY), anyString(), any())).thenReturn(
+        when(store.claim(anyString(), eq(KEY), anyString(), any(), any())).thenReturn(
                 new R12ReviewStore.IdempotencyClaim(
                         7, "f".repeat(64), "r12.review-resource.v1:ok",
                         "r12.review-resource.v1", "ciphertext", true));
@@ -277,7 +277,7 @@ class R12ReviewServiceTest {
     }
 
     private void firstClaim() {
-        when(store.claim(anyString(), eq(KEY), anyString(), any())).thenAnswer(invocation ->
+        when(store.claim(anyString(), eq(KEY), anyString(), any(), any())).thenAnswer(invocation ->
                 new R12ReviewStore.IdempotencyClaim(
                         1, invocation.getArgument(2), null, null, null, false));
     }

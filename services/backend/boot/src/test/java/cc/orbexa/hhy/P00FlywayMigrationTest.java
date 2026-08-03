@@ -111,7 +111,7 @@ class P00FlywayMigrationTest {
                     "SELECT count(*) FROM information_schema.tables "
                             + "WHERE table_schema='hhy' AND table_type='BASE TABLE'")) {
                 assertTrue(rows.next());
-                assertEquals(200, rows.getInt(1), "latest Flyway chain must match the schema catalog");
+                assertEquals(203, rows.getInt(1), "latest Flyway chain must match the schema catalog");
             }
             try (ResultSet rows = statement.executeQuery(
                     "SELECT count(*) FROM pg_trigger "

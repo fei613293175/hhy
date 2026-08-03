@@ -454,12 +454,14 @@ public final class R16CommercePostgresStore implements R16CommerceStore {
     }
 
     private Claim claim(Connection connection, CommandContext context, String requestHash) throws SQLException {
+        OffsetDateTime now = OffsetDateTime.ofInstant(Instant.now(clock), ZoneOffset.UTC);
         try (PreparedStatement expired = connection.prepareStatement("""
                 DELETE FROM hhy.idempotency_records
-                WHERE scope=? AND idem_key=? AND expires_at<=clock_timestamp()
+                WHERE scope=? AND idem_key=? AND expires_at<=?
                 """)) {
             expired.setString(1, context.scope());
             expired.setString(2, context.idempotencyKey());
+            expired.setObject(3, now);
             expired.executeUpdate();
         }
         boolean inserted;
@@ -481,11 +483,12 @@ public final class R16CommercePostgresStore implements R16CommerceStore {
         try (PreparedStatement statement = connection.prepareStatement("""
                 SELECT id,request_hash,response_ref,response_type,response_payload_ciphertext
                 FROM hhy.idempotency_records
-                WHERE scope=? AND idem_key=? AND expires_at>clock_timestamp()
+                WHERE scope=? AND idem_key=? AND expires_at>?
                 FOR UPDATE
                 """)) {
             statement.setString(1, context.scope());
             statement.setString(2, context.idempotencyKey());
+            statement.setObject(3, now);
             try (ResultSet rows = statement.executeQuery()) {
                 if (!rows.next()) throw new StoreException(Kind.INTERNAL, "R16幂等记录消失");
                 Claim result = new Claim(

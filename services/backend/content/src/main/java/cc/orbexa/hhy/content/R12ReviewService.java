@@ -366,8 +366,9 @@ public class R12ReviewService {
     }
 
     private R12ReviewStore.IdempotencyClaim claim(String scope, String key, String requestHash) {
+        Instant now = Instant.now(clock);
         R12ReviewStore.IdempotencyClaim claim = store.claim(
-                scope, key, requestHash, Instant.now(clock).plus(IDEMPOTENCY_TTL));
+                scope, key, requestHash, now, now.plus(IDEMPOTENCY_TTL));
         if (claim.replay() && !requestHash.equals(claim.requestHash())) throw idempotencyConflict();
         return claim;
     }

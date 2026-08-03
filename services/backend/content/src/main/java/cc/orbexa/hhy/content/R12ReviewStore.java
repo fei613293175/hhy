@@ -31,7 +31,8 @@ public interface R12ReviewStore {
             long adminId, String action, long resourceId,
             String beforeJson, String afterJson, String ip, Instant now);
     void outbox(String eventType, long contentId, String requestId, String payloadJson);
-    IdempotencyClaim claim(String scope, String key, String requestHash, Instant expiresAt);
+    IdempotencyClaim claim(
+            String scope, String key, String requestHash, Instant now, Instant expiresAt);
     void complete(long claimId, String responseRef, String responseType, String ciphertext);
 
     record PageQuery(
