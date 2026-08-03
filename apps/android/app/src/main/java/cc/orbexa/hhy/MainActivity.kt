@@ -87,6 +87,7 @@ import cc.orbexa.hhy.network.UrlConnectionContractR12ProfileApi
 import cc.orbexa.hhy.network.UrlConnectionContractR13Api
 import cc.orbexa.hhy.network.UrlConnectionContractR14Api
 import cc.orbexa.hhy.network.UrlConnectionContractR15Api
+import cc.orbexa.hhy.network.UrlConnectionContractR16Api
 import cc.orbexa.hhy.network.OkHttpR14RealtimeClient
 import cc.orbexa.hhy.network.R14RealtimeEvent
 import cc.orbexa.hhy.network.R14RealtimeScope
@@ -128,6 +129,8 @@ import cc.orbexa.hhy.support.R15ReportContentSheet
 import cc.orbexa.hhy.support.R15SupportDetailScreen
 import cc.orbexa.hhy.support.R15SupportHomeScreen
 import cc.orbexa.hhy.support.R15SupportListScreen
+import cc.orbexa.hhy.order.R16OrderDetailScreen
+import cc.orbexa.hhy.order.R16OrderListScreen
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.decodeFromString
 import kotlinx.coroutines.awaitCancellation
@@ -269,6 +272,8 @@ internal sealed interface AuthenticatedRoute {
     @Serializable data object SupportTickets : AuthenticatedRoute
     @Serializable data object CreateSupportTicket : AuthenticatedRoute
     @Serializable data class SupportTicketDetail(val ticketId: String) : AuthenticatedRoute
+    @Serializable data object Orders : AuthenticatedRoute
+    @Serializable data class OrderDetail(val orderNo: String) : AuthenticatedRoute
     @Serializable data object Me : AuthenticatedRoute
     @Serializable data object Profile : AuthenticatedRoute
     @Serializable data object LoginDevices : AuthenticatedRoute
@@ -344,6 +349,7 @@ private fun AuthenticatedNavHost(
     val r13Api = remember { UrlConnectionContractR13Api(BuildConfig.API_BASE_URL) }
     val r14Api = remember { UrlConnectionContractR14Api(BuildConfig.API_BASE_URL) }
     val r15Api = remember { UrlConnectionContractR15Api(BuildConfig.API_BASE_URL) }
+    val r16Api = remember { UrlConnectionContractR16Api(BuildConfig.API_BASE_URL) }
     val r14Realtime = remember { OkHttpR14RealtimeClient(BuildConfig.WS_BASE_URL) }
     val mediaApi = remember { UrlConnectionContractMediaApi(BuildConfig.API_BASE_URL) }
     val uriHandler = androidx.compose.ui.platform.LocalUriHandler.current
@@ -482,6 +488,7 @@ private fun AuthenticatedNavHost(
             onOpenMyDrafts = { navController.navigate(AuthenticatedRoute.MyDrafts) },
             onOpenFavorites = { navController.navigate(AuthenticatedRoute.Favorites) },
             onOpenHistory = { navController.navigate(AuthenticatedRoute.History) },
+            onOpenOrders = { navController.navigate(AuthenticatedRoute.Orders) },
             onOpenProfile = { navController.navigate(AuthenticatedRoute.Profile) },
             experienceApi = experienceApi,
             meApi = r12MeApi,
@@ -591,6 +598,13 @@ private fun AuthenticatedNavHost(
         composable<AuthenticatedRoute.SupportTicketDetail> { entry ->
             val route = entry.toRoute<AuthenticatedRoute.SupportTicketDetail>()
             R15SupportDetailScreen(r15Api, authenticated.session.accessToken, route.ticketId, false, { navController.popBackStack() }, onSessionInvalidated)
+        }
+        composable<AuthenticatedRoute.Orders> {
+            R16OrderListScreen(r16Api, authenticated.session.accessToken, { navController.popBackStack() }, { navController.navigate(AuthenticatedRoute.OrderDetail(it)) }, onSessionInvalidated)
+        }
+        composable<AuthenticatedRoute.OrderDetail> { entry ->
+            val route = entry.toRoute<AuthenticatedRoute.OrderDetail>()
+            R16OrderDetailScreen(r16Api, authenticated.session.accessToken, route.orderNo, { navController.popBackStack() }, onSessionInvalidated)
         }
         composable<AuthenticatedRoute.Profile> {
             R12ProfileScreen(
