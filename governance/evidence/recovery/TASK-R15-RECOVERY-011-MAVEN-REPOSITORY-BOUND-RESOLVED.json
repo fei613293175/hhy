@@ -1,0 +1,22 @@
+{
+  "schema": "hhy.infrastructure-unblock/v5.0",
+  "status": "PASS",
+  "resolved": true,
+  "task_id": "TASK-R15-RECOVERY-011",
+  "blocker_code": "MAVEN_OFFLINE_DEPENDENCY_RESOLUTION_BLOCKED",
+  "resolution": "Worker environments now receive HHY_MAVEN_REPOSITORY=C:/Users/小白/.m2/repository and MAVEN_ARGS with -Dmaven.repo.local, so Maven offline resolution uses the verified user-local BOM cache.",
+  "source_blocker_evidence": "governance/evidence/recovery/TASK-R15-RECOVERY-011-a1-worker-result.json",
+  "fix_commit": "885e13a5",
+  "validation": [
+    {
+      "command": "C:/Users/小白/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/python.exe -m pytest -q tests/governance_v5",
+      "status": "PASS",
+      "result": "81 passed"
+    },
+    {
+      "command": "BOM cache inspection",
+      "status": "PASS",
+      "result": "spring-boot-dependencies-4.1.0.pom and aws sdk bom-2.48.3.pom exist in C:/Users/小白/.m2/repository"
+    }
+  ]
+}
