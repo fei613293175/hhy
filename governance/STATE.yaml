@@ -1,9 +1,9 @@
 schema: hhy.governance-state/v5.0
-revision: 171
-updated_at: '2026-08-03T03:45:05.494611Z'
-state_hash: 2302a500084f2ea381e25d68576032a5181845b8b448fb890b38711701c5da47
+revision: 172
+updated_at: '2026-08-03T03:55:27.979655Z'
+state_hash: 8ea1b3230225e2da1050acc3e37ba6cffb7ba9239006bbe46cd9c85dd608c19e
 project:
-  status: ACTIVE
+  status: EXTERNAL_BLOCKED
   branch_at_install: governance/v5.0-migration-20260731
   migration_baseline_commit: ea64d82fab9ed3d1952ab7d3c0d2286051390b59
   migration_commit: 8beafc2a0e115345c554abc0bdc199ef92534106
@@ -2934,10 +2934,18 @@ tasks:
     last_gate_evidence: null
     blocker: null
   TASK-R15-RECOVERY-011:
-    status: READY
+    status: EXTERNAL_BLOCKED
     attempts_used: 0
     current_attempt: null
     last_error_fingerprint: null
     last_candidate_commit: null
     last_gate_evidence: null
-    blocker: null
+    blocker:
+      code: maven_offline_dependencies_missing
+      detail: 离线 Maven 编译缺少两个 BOM，且全量测试超时。
+      paths:
+      - services/backend/pom.xml
+      - tests
+      resolution: 补齐本地 Maven BOM 缓存后重跑编译与全量测试。
+      worker_result_evidence: governance/evidence/recovery/TASK-R15-RECOVERY-011-a1-worker-result.json
+      draft_manifest: governance/runtime/supervisor/worker-drafts/TASK-R15-RECOVERY-011-a1-dc28940f92/manifest.json

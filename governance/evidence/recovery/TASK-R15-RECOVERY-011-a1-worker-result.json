@@ -1,34 +1,28 @@
 {
   "blocker": {
-    "code": "MAVEN_DEPENDENCY_NETWORK_BLOCKED",
-    "detail": "Java 编译因缺失 Maven 依赖且网络访问 Maven Central 被拒绝而阻断。",
+    "code": "maven_offline_dependencies_missing",
+    "detail": "离线 Maven 编译缺少两个 BOM，且全量测试超时。",
     "paths": [
-      "services/backend/pom.xml"
+      "services/backend/pom.xml",
+      "tests"
     ],
-    "resolution": "提供本地 Maven 依赖缓存或允许访问 Maven Central 后重新编译。",
-    "worker_result_evidence": "静态测试 7 passed；API_CONTRACT_OK；Maven 依赖解析报 Permission denied: getsockopt。"
+    "resolution": "补齐本地 Maven BOM 缓存后重跑编译与全量测试。",
+    "worker_result_evidence": "目标测试 7 passed；API_CONTRACT_OK；Maven 报 spring-boot-dependencies:4.1.0 与 aws sdk bom:2.48.3 absent。"
   },
   "changed_files": [
-    "services/backend/content/src/main/java/cc/orbexa/hhy/content/R13Contracts.java",
-    "services/backend/content/src/main/java/cc/orbexa/hhy/content/R13Store.java",
-    "services/backend/content/src/main/java/cc/orbexa/hhy/content/R13PostgresStore.java",
-    "services/backend/content/src/main/java/cc/orbexa/hhy/content/R13Service.java",
-    "services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/R13Controller.java",
-    "services/backend/content/src/main/java/cc/orbexa/hhy/content/R12ReviewStore.java",
-    "services/backend/content/src/main/java/cc/orbexa/hhy/content/R12ReviewPostgresStore.java",
-    "services/backend/content/src/main/java/cc/orbexa/hhy/content/R12ReviewService.java",
-    "services/backend/boot/src/main/java/cc/orbexa/hhy/boot/admin/R12ReviewController.java",
+    "services/backend/access/src/main/java/cc/orbexa/hhy/access/r15/R15Service.java",
+    "services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/R15Controller.java",
     "tests/test_r15_recovery_static.py"
   ],
   "commands_run": [
-    "& $env:HHY_PYTHON tools/governance/hhy_governance.py active-task --format context",
-    "& $env:HHY_PYTHON -m pytest tests/test_r15_recovery_static.py -q",
+    "& $env:HHY_PYTHON -m pytest -q tests/test_r15_recovery_static.py",
     "& $env:HHY_PYTHON scripts/check_api_contract.py",
-    "& 'C:\\Users\\小白\\.m2\\wrapper\\dists\\apache-maven-3.9.11\\03d7e36a140982eea48e22c1dcac01d8862b2550b2939e09a0809bbc5182a5bc\\bin\\mvn.cmd' -pl content,boot -am -DskipTests compile"
+    "& \"$HOME\\.m2\\wrapper\\dists\\apache-maven-3.9.11\\03d7e36a140982eea48e22c1dcac01d8862b2550b2939e09a0809bbc5182a5bc\\bin\\mvn.cmd\" -o -pl access,boot -am -DskipTests compile",
+    "& $env:HHY_PYTHON -m pytest -q tests"
   ],
-  "error_fingerprint": "MAVEN_DEPENDENCY_NETWORK_BLOCKED:SpringBoot4.1.0:AWSBOM2.48.3:getsockopt",
+  "error_fingerprint": "maven_offline_dependencies_missing+full-tests-timeout",
   "schema": "hhy.worker-result/v5.0",
   "status": "EXTERNAL_BLOCKED",
-  "summary": "已完成 TASK-R15-RECOVERY-011 的产品实现：补齐内容举报、后台内容举报决策、后台申诉决策，并覆盖幂等、权限、审计与 Outbox。静态测试 7 passed，API 合同检查通过；Java 编译受外部 Maven 依赖网络阻断。",
+  "summary": "完成通知幂等 Outbox requestId 传递及回归断言；目标测试和 API 契约检查通过。正式后端编译被本地 Maven 缓存缺失 BOM 阻断。",
   "task_id": "TASK-R15-RECOVERY-011"
 }
