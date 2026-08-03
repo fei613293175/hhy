@@ -210,6 +210,7 @@ def test_fast_lane_rules_bound_discovery_and_preserve_gates():
     assert fast_lane["enabled"] is True
     assert fast_lane["max_read_only_discovery_tool_calls"] == 12
     assert fast_lane["first_product_file_deadline_seconds"] == 600
+    assert constitution["limits"]["worker_idle_timeout_seconds"] >= fast_lane["first_product_file_deadline_seconds"]
     assert fast_lane["max_operation_ids_per_slice"] == 6
     assert "preserve_task_gate_and_independent_reviewer" in fast_lane["rules"]
     assert "never_increase_attempt_budget" in fast_lane["rules"]

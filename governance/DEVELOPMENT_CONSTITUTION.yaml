@@ -58,7 +58,9 @@ limits:
   # This is a responsiveness limit, not a test or release-gate bypass.
   worker_timeout_seconds: 900
   worker_startup_timeout_seconds: 600
-  worker_idle_timeout_seconds: 300
+  # A Worker may need to read and run a targeted static check after an edit.
+  # Keep the liveness watchdog aligned with the Fast Lane edit deadline.
+  worker_idle_timeout_seconds: 600
   worker_progress_poll_seconds: 15
   gate_timeout_seconds: 1800
 fast_lane:
