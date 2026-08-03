@@ -1,114 +1,62 @@
-# 合伙云 Pro — Codex 执行内核（Governance V5.0）
+# 合伙云 Pro - 直接版本开发规则
 
-## 1. 唯一事实源
+本文件是当前唯一开发执行规则。旧 Governance V5.0、Supervisor、Attempt、Worker、Reviewer、Gate、CR、Session、Checkpoint、授权文件和停止状态只保留历史记录，不得再控制或延迟开发。
 
-每次运行先读取：
+## 1. 唯一工作流程
 
-```bash
-python3 tools/governance/hhy_governance.py active-task --format context
-```
+每个版本只执行以下步骤：
 
-动态状态只认 `governance/STATE.yaml`；静态任务只认 `governance/task_specs/*.yaml`；产品功能只认 `docs/00-baseline/SOURCE_OF_TRUTH.md` 所指向的正式文档、合同、Catalog、代码与测试；视觉只认批准效果图、冻结视觉规格和 Design Token。
+1. 从正式产品文档、OpenAPI、数据库合同、视觉效果图和现有代码确认本版本功能范围。
+2. 一次性完成本版本 Android、H5、管理端、后端、数据库和契约范围内的全部实际功能代码。
+3. 本机只做源码编辑和轻量静态检查，不安装或启动任何开发运行环境。
+4. 把源码提交并推送到 GitHub，使用既有 GitHub Actions 和 `obx-test` 固定环境完成编译、自动测试、APK 构建和模拟器测试。
+5. 直接读取远程测试日志、截图和报告；发现问题立即修改代码并重新执行受影响测试。
+6. 远程测试通过后，把 APK、功能清单、自动测试清单、真机测试说明和已知限制交付到项目所有者桌面。
+7. 项目所有者异步真机测试；开发不等待即时反馈，可按正式版本顺序继续下一版本。
 
-聊天、模型记忆、旧 `/goal`、`.continuity/**`、CR、Session、Checkpoint、Context Pack、手写 `CURRENT_STATUS.yaml`、`NEXT_TASK.yaml`、旧 `releases/*/TASKS.yaml` 均无权声明当前进度。
+除实际代码、必要测试代码、远程测试和桌面交付物外，不创建治理任务、Attempt、审查任务、授权流程或状态流转。
 
-## 2. 两种运行身份
+## 2. 本机零环境
 
-### Orchestrator
+项目所有者电脑禁止安装、部署或启动：
 
-仓库根目录没有 `governance/runtime/ACTIVE_TASK.json` 时，只能执行只读诊断，或启动：
+- JDK、Android SDK、Gradle 或 Maven 构建环境；
+- PostgreSQL、后端服务、Docker；
+- Android 模拟器或其他重型测试环境。
 
-```bash
-python3 tools/governance/hhy_governance.py run-once
-python3 tools/governance/hhy_governance.py run-loop --max-runs 20
-```
+本机允许：读取和编辑源码、Git 操作、轻量 Python 静态检查、整理远程产物和桌面交付文件。
 
-Orchestrator 负责选择任务、创建隔离 worktree、启动全新 Codex 临时会话、创建候选 Commit、运行独立 Gate、写入唯一状态并切换下一任务。
+Java/Android 编译、数据库测试、后端集成测试、APK 打包、签名、模拟器交互、截图和日志采集必须在 GitHub Actions 或 `obx-test` 执行。
 
-### Worker
+## 3. 开发要求
 
-隔离 worktree 存在 `ACTIVE_TASK.json` 时，即为 Worker。一次 Worker 只执行一个 Task 的一次 Attempt，不得领取下一任务。
+- 以版本正式文档和产品合同为范围，不根据聊天自行删减功能。
+- 优先写真实产品代码，定位后立即实现，不进行长时间全仓库分析。
+- 前端、后端、数据库和契约必须形成可运行的完整纵向功能，禁止只写静态占位或 Mock 冒充完成。
+- 发现编译、接口、数据库、权限、幂等、UI 或模拟器问题时直接修复根因。
+- 不删除或跳过与本版本功能直接相关的测试；测试失败是待修问题，不是治理停止条件。
+- 不使用 Supervisor、`run-once`、`run-loop`、Attempt、独立 Reviewer 或 Machine Close 作为开发前置步骤。
+- 不要求项目所有者授权、手动启动、处理普通开发错误或查看代码日志。
 
-## 3. Worker 永久禁止
+## 4. 远程测试
 
-Worker 不得：
+每个版本代码完成后立即远程验证：
 
-1. 修改 `AGENTS.md`、`governance/**`、`tools/governance/**`、`.codex/**`、`.github/workflows/**`、`.githooks-v5/**`、`tests/governance_v5/**`；
-2. 修改状态、计划、Task 规格、Schema、Gate、CI、验收标准或批准视觉参考；
-3. 执行 `git add/commit/push/pull/merge/rebase/tag/reset/checkout/switch/worktree/cherry-pick/revert/clean/stash`；
-4. 自行声明正式 PASS、Machine Close、Owner PASS 或 Formal Release；
-5. 创建 Attempt 4、Attempt 例外、失败预算扩展或绕过字段；
-6. 删除、跳过、弱化测试，关闭检查或伪造证据；
-7. 在 Candidate 后修改冻结产品源码；
-8. 借自查重新规划整个项目；
-9. 因 Owner 尚未反馈而阻止不受影响的下一版本机器开发；
-10. 把旧 Continuity、CR、Session、Checkpoint 恢复为活动控制面。
+- GitHub Actions：干净 Linux 构建、自动测试、固定 Android 模拟器、真实交互旅程、截图、`logcat`、崩溃和 ANR 检查。
+- `obx-test`：固定工具链编译、后端与 PostgreSQL 测试、APK 打包、稳定测试签名和 APK 身份核对。
+- 测试失败：下载证据，修改代码，重新运行受影响的远程测试，直到通过或存在无法由代码解决的真实外部故障。
 
-## 4. 有限尝试与停止
+不得在本机复刻远程环境，也不得因远程测试失败恢复旧治理流程。
 
-每个 Task 一共三次，不按错误指纹重新计数：
+## 5. 桌面交付
 
-| Attempt | 固定策略 |
-|---:|---|
-| 1 | 直接实现或修复 |
-| 2 | 全新会话，先构造最小复现并定位根因 |
-| 3 | 全新会话，从权威基线采用一个替代实现 |
-| 3 后仍失败 | `FAILED_BOUNDED`，禁止继续 |
+每个版本完成后在项目所有者桌面创建清晰的版本目录，至少包含：
 
-相同工具输入在相同 Git Diff 上第二次出现时拒绝执行。相同错误且 Diff 未变化时结束本次 Attempt。
+- 可安装测试 APK；
+- 完整功能清单；
+- 自动测试结果与测试清单；
+- 小白可直接照做的真机测试说明；
+- 已知限制和未覆盖的外部条件；
+- APK 版本号、源码 Commit、SHA-256 和签名身份。
 
-真实外部依赖或基础设施缺失使用 `EXTERNAL_BLOCKED` / `INFRASTRUCTURE_BLOCKED`，不消耗工程 Attempt，也不自动重试；必须有白名单代码、真实证据和解除条件。
-
-## 5. 什么算进展
-
-只接受：
-
-- 允许路径内的产品代码或测试有效 Diff；
-- 失败测试集合减少；
-- 新增稳定复现；
-- 验收项由 FAIL 变 PASS；
-- 绑定具体 Commit 的新构建或验证证据；
-- 可复核的外部阻断证据。
-
-规划、总结、自证、CR、Checkpoint、时间戳、索引、注释、格式或重复命令均不算进展。
-
-## 5.1 全局 Fast Lane 硬规则
-
-对跨域或大型任务，必须采用可编译的垂直切片推进：一次只处理一个小切片，优先完成一个真实产品文件，再运行该切片的最小编译或测试。只读定位最多 12 次工具调用，且自 Worker 启动后 10 分钟内必须出现第一个允许路径内的产品文件变更；超时由 Orchestrator 记录为失败或基础设施问题，不得继续无限分析。
-
-单个切片默认不超过 6 个 operationId，完成一个切片后立即落盘并验证，再进入下一个切片。Fast Lane 只压缩分析和返工范围，不得删除、跳过或弱化 Task Gate、独立 Reviewer、全量测试、APK 身份校验、模拟器证据或发布关闭门禁。
-
-Windows Worker 的 Python 命令必须优先使用控制器注入的 `HHY_PYTHON` 环境变量（PowerShell 使用 `& $env:HHY_PYTHON`），不得因系统 PATH 没有 `python`、`py` 或 `python3` 而把可用运行时误判为基础设施阻断。
-
-Windows Worker 的后端编译必须优先使用控制器注入的 `JAVA_HOME` 和本地 Maven 缓存，并使用 Maven 离线模式（例如 `mvnw.cmd -o -pl access,boot -am -DskipTests compile`）；不得因系统 PATH 没有 `java` 或 `mvn` 而忽略已存在的用户级工具链，也不得绕过编译门禁。
-
-## 6. Worker 终止结果
-
-只允许符合 Schema 的：
-
-- `CANDIDATE_READY`
-- `ATTEMPT_FAILED`
-- `EXTERNAL_BLOCKED`
-- `INFRASTRUCTURE_BLOCKED`
-
-Worker 无权输出正式 PASS。
-
-## 7. 门禁分层
-
-- `task`：当前任务及因果风险范围；
-- `module`：当前模块与当前 Release 集成；
-- `freeze`：所有会修改源码的审计必须在此之前完成；
-- `candidate`：冻结 Commit 的完整编译、全量测试、模拟器、Runtime 截图和 APK 身份；
-- `release`：Owner、精确 Tag、生产激活与回滚。
-
-普通 Task 不运行发布级流程。全历史视觉仅在共享 UI 基础变化或明确历史视觉审计任务时运行。
-
-## 8. 不可降低的硬保护
-
-资金、支付、提现、红包预算、账本不变量；秘密和证书扫描；认证授权与隐私；空库/升级库迁移和回滚；OpenAPI/WebSocket 兼容；APK Commit/SHA/version/signing 身份；产品与视觉合同；Owner、正式 Tag、生产激活和回滚证据，均不得为了推进而弱化。
-
-## 9. Candidate 与版本顺序
-
-Candidate、APK、Runtime 截图和 Gate 报告必须绑定同一冻结 Commit。冻结后任何产品源码变化自动令 Candidate 失效并返回开发状态。
-
-版本只能相邻推进。当前 R14 先执行 `TASK-R14-RECOVERY-001`；R14 `MACHINE_CLOSED` 后只激活 R15。Owner 验收保持异步，但正式发布必须 Owner PASS。R32 完成后写入 `governance/GOAL_COMPLETE.json`，不得继续生成新任务。
+只有远程构建与本版本模拟测试通过的 APK 才能交付。正式生产发布仍需项目所有者明确确认，异步真机测试不阻碍后续版本编码。
