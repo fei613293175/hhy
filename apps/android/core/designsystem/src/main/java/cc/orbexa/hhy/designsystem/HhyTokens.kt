@@ -14,6 +14,7 @@ object HhyColors {
     val RewardGold = Color(0xFFFFB020)
     val PageBackground = Color(0xFFF5F7FA)
     val Surface = Color(0xFFFFFFFF)
+    val SurfaceVariant = Color(0xFFF2F4F7)
     val SoftBlue = Color(0xFFEEF5FF)
     val TextPrimary = Color(0xFF182230)
     val TextSecondary = Color(0xFF667085)

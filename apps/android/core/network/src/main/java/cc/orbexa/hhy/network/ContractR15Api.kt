@@ -69,6 +69,12 @@ data class R15ContentReportRequest(
 
 interface ContractR15Api {
     suspend fun notifications(accessToken: String, keyword: String? = null): R07CallResult<R15NotificationPage>
+
+    suspend fun notifications(
+        accessToken: String,
+        keyword: String? = null,
+        status: String? = null,
+    ): R07CallResult<R15NotificationPage> = notifications(accessToken, keyword)
     suspend fun readNotification(accessToken: String, id: String, key: String): R07CallResult<R15NotificationResource>
     suspend fun readAllNotifications(accessToken: String, key: String): R07CallResult<CommandResultResource>
     suspend fun announcements(accessToken: String, keyword: String? = null): R07CallResult<R15NotificationPage>
@@ -85,8 +91,8 @@ interface ContractR15Api {
 class UrlConnectionContractR15Api(baseUrl: String) : ContractR15Api {
     private val root = validateR15Root(baseUrl)
 
-    override suspend fun notifications(accessToken: String, keyword: String?) = call(
-        "GET", listPath("/api/v1/notifications", keyword = keyword), accessToken, R15NotificationPage.serializer(),
+    override suspend fun notifications(accessToken: String, keyword: String?, status: String?) = call(
+        "GET", listPath("/api/v1/notifications", keyword = keyword, status = status), accessToken, R15NotificationPage.serializer(),
     )
 
     override suspend fun readNotification(accessToken: String, id: String, key: String) = call(

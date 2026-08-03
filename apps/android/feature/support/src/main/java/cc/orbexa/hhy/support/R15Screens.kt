@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -93,11 +94,12 @@ fun R15NotificationListScreen(
     var state by remember { mutableStateOf<R15Load<List<R15NotificationResource>>>(R15Load.Loading) }
     var keyword by remember { mutableStateOf("") }
     var markingAll by remember { mutableStateOf(false) }
+    var category by remember { mutableStateOf<String?>(null) }
 
     fun load() {
         state = R15Load.Loading
         scope.launch {
-            val result = if (announcements) api.announcements(accessToken, keyword) else api.notifications(accessToken, keyword)
+            val result = if (announcements) api.announcements(accessToken, keyword) else api.notifications(accessToken, keyword, category)
             state = when (result) {
                 is R07CallResult.Success -> if (result.data.items.isEmpty()) R15Load.Empty else R15Load.Content(result.data.items)
                 is R07CallResult.Failure -> {
@@ -107,12 +109,12 @@ fun R15NotificationListScreen(
             }
         }
     }
-    LaunchedEffect(announcements, accessToken) { load() }
+    LaunchedEffect(announcements, accessToken, category) { load() }
     Scaffold(
         modifier = Modifier.testTag("hhy.screen.r15.${if (announcements) "announcements" else "notifications"}"),
         topBar = {
             TopAppBar(
-                title = { Text(if (announcements) "平台公告" else "系统通知") },
+                title = { Text(if (announcements) "公告中心" else "通知中心") },
                 navigationIcon = { HhyBackButton(onBack) },
                 actions = {
                     IconButton(onClick = ::load) { HhyIcon(HhyIcons.Refresh, "刷新") }
@@ -134,6 +136,29 @@ fun R15NotificationListScreen(
         },
     ) { padding ->
         Column(Modifier.fillMaxSize().padding(padding)) {
+            if (announcements) {
+                Surface(
+                    modifier = Modifier.fillMaxWidth().padding(horizontal = HhySpacing.Lg, vertical = HhySpacing.Md),
+                    color = HhyColors.BrandPrimary,
+                    shape = RoundedCornerShape(HhyRadius.NormalCard),
+                ) {
+                    Column(Modifier.padding(HhySpacing.Lg), verticalArrangement = Arrangement.spacedBy(HhySpacing.Xs)) {
+                        Text("合伙云 Pro", color = HhyColors.TextInverse, style = MaterialTheme.typography.titleMedium)
+                        Text("官方公告", color = HhyColors.TextInverse, style = MaterialTheme.typography.headlineMedium, fontWeight = FontWeight.Bold)
+                        Text("重要规则、活动与服务更新", color = HhyColors.TextInverse, style = MaterialTheme.typography.bodySmall)
+                    }
+                }
+            } else {
+                val filters = listOf(null to "全部", "SYSTEM" to "系统", "ACTIVITY" to "活动", "TRANSACTION" to "交易", "INTERACTION" to "互动")
+                LazyRow(
+                    contentPadding = PaddingValues(horizontal = HhySpacing.Lg),
+                    horizontalArrangement = Arrangement.spacedBy(HhySpacing.Sm),
+                ) {
+                    items(filters) { (value, label) ->
+                        FilterChip(selected = category == value, onClick = { category = value }, label = { Text(label) })
+                    }
+                }
+            }
             OutlinedTextField(
                 value = keyword,
                 onValueChange = { if (it.length <= 100) keyword = it },
@@ -144,7 +169,7 @@ fun R15NotificationListScreen(
             )
             when (val value = state) {
                 R15Load.Loading -> R15Centered("正在加载", true)
-                R15Load.Empty -> R15Centered(if (announcements) "暂无平台公告" else "暂无系统通知")
+            R15Load.Empty -> R15Centered(if (announcements) "暂无公告" else "暂无通知")
                 is R15Load.Failed -> R15Failure(value.failure, onBack, ::load)
                 is R15Load.Content -> LazyColumn(contentPadding = PaddingValues(bottom = HhySpacing.Xl)) {
                     items(value.value, key = R15NotificationResource::id) { item ->
@@ -379,7 +404,7 @@ fun R15SupportDetailScreen(
         }
     }
     LaunchedEffect(id, accessToken) { load() }
-    Scaffold(topBar = { TopAppBar(title = { Text(if (help) "帮助详情" else "工单详情") }, navigationIcon = { HhyBackButton(onBack) }) }) { padding ->
+        Scaffold(topBar = { TopAppBar(title = { Text(if (help) "帮助详情" else "工单详情") }, navigationIcon = { HhyBackButton(onBack) }) }) { padding ->
         when (val value = state) {
             R15Load.Loading -> Box(Modifier.fillMaxSize().padding(padding)) { R15Centered("正在加载", true) }
             R15Load.Empty -> Box(Modifier.fillMaxSize().padding(padding)) { R15Centered("内容不存在") }
@@ -488,13 +513,19 @@ private fun R15Entry(title: String, subtitle: String, onClick: () -> Unit) {
 private fun R15NotificationRow(item: R15NotificationResource, onClick: () -> Unit) {
     Surface(Modifier.fillMaxWidth().clickable(onClick = onClick)) {
         Row(Modifier.fillMaxWidth().padding(HhySpacing.Lg), verticalAlignment = Alignment.Top) {
-            if (item.readAt == null) Surface(Modifier.padding(top = HhySpacing.Sm).size(HhySpacing.Sm), shape = RoundedCornerShape(HhyRadius.Pill), color = HhyColors.BrandPrimary) {}
-            else Spacer(Modifier.size(HhySpacing.Sm))
+            Surface(
+                modifier = Modifier.size(HhySpacing.Xl),
+                shape = RoundedCornerShape(HhyRadius.Pill),
+                color = if (item.readAt == null) HhyColors.BrandPrimary else HhyColors.SurfaceVariant,
+            ) {
+                HhyIcon(if (item.type == "ANNOUNCEMENT") HhyIcons.Information else HhyIcons.Message, null, tint = HhyColors.TextInverse, modifier = Modifier.padding(HhySpacing.Xs))
+            }
             Column(Modifier.weight(1f).padding(horizontal = HhySpacing.Md), verticalArrangement = Arrangement.spacedBy(HhySpacing.Xs)) {
                 Text(item.title, fontWeight = FontWeight.SemiBold)
                 item.body?.let { Text(it, color = HhyColors.TextSecondary, maxLines = 2) }
                 Text(item.createdAt, color = HhyColors.TextTertiary, style = MaterialTheme.typography.labelSmall)
             }
+            if (item.readAt == null) Surface(Modifier.padding(top = HhySpacing.Sm).size(HhySpacing.Sm), shape = RoundedCornerShape(HhyRadius.Pill), color = HhyColors.BrandPrimary) {}
             HhyIcon(HhyIcons.ChevronRight, null, tint = HhyColors.TextTertiary)
         }
     }
