@@ -14,7 +14,7 @@ requirements:
 - REQ-SUPPORT-001
 - REQ-APK-001
 depends_on:
-- TASK-R15-RECOVERY-010
+- TASK-R15-RECOVERY-011
 objective: 按 19 个页面/交互面的逐页施工规格和 14 个故事实现；禁止从参考图或通用摘要自行发明业务字段和按钮
 deliverables:
 - 全部页面绑定catalogs/ui_page_specifications.csv
