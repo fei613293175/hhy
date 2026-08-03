@@ -110,6 +110,24 @@ admin_order_baseline:
   - adminOrdersGetOrdersByOrderno
   regression: admin Vue typecheck、27个测试文件和121项测试全部PASS
   visual_status: IN_REVIEW；R16大版本候选阶段生成真实数据截图后由AI判定，不阻塞后续Android故事
+android_delivery:
+  source_commit: 4debca13d8917d9f793f434868d950f78308fa4e
+  apk_file: hhy-r16-4debca1-debug.apk
+  version_name: 1.2.2-debug
+  version_code: 10226
+  sha256: 9bed8419c0002602045bc81bdc181ce08e8914991197e97b998359157b0c41b4
+  api_base_url: https://api.orbexa.cc
+  websocket_base_url: wss://ws.orbexa.cc
+  machine_delivery: PASS
+  owner_physical_test: PENDING
+  github_run: '30829520789'
+  android_build: PASS
+  android_unit_tests: PASS
+  android_emulator: PASS
+  visual_evidence:
+  - C:\Users\小白\Desktop\合伙云Pro_R16_交付_4debca13\SCR-ORDER-001.png
+  - C:\Users\小白\Desktop\合伙云Pro_R16_交付_4debca13\SCR-ORDER-002.png
+  test_guide: C:\Users\小白\Desktop\合伙云Pro_R16_交付_4debca13\R16_真机测试说明.md
 definition_of_ready: releases/R16/DEFINITION_OF_READY.yaml
 story_backlog: releases/R16/STORIES.yaml
 continuity:

@@ -108,7 +108,14 @@ stories:
   - 敏感字段按分级脱敏；高敏读取和后台写操作完整审计
   - 自动化覆盖：TST-ORDER_001-HAPPY;TST-NOREFUND_001-HAPPY
   definition_of_ready: 全部引用的页面/字段/状态/动作/API/配置/数据/测试均为FROZEN且无空缺
-  status: READY_FOR_IMPLEMENTATION
+  implementation_baseline:
+    cr_id: CR-R16-ANDROID-ORDER-20260803
+    page: apps/android/feature/order/src/main/java/cc/orbexa/hhy/order/R16OrderScreens.kt
+    service: apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR16Api.kt
+    report: artifacts/reports/R16/TASK-R16-005-android-orders.md
+    machine_gate: GitHub Actions 30829520789 Android build, unit tests and emulator PASS
+    visual_status: PASS_OFFLINE_COMPOSE_EVIDENCE_OWNER_PENDING
+  status: MACHINE_VERIFIED
 - story_id: STORY-R16-003
   release: R16
   title: 订单：订单列表
@@ -157,7 +164,14 @@ stories:
   - 敏感字段按分级脱敏；高敏读取和后台写操作完整审计
   - 自动化覆盖：TST-ORDER_001-HAPPY;TST-NOREFUND_001-HAPPY
   definition_of_ready: 全部引用的页面/字段/状态/动作/API/配置/数据/测试均为FROZEN且无空缺
-  status: READY_FOR_IMPLEMENTATION
+  implementation_baseline:
+    cr_id: CR-R16-ANDROID-ORDER-20260803
+    page: apps/android/feature/order/src/main/java/cc/orbexa/hhy/order/R16OrderScreens.kt
+    service: apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR16Api.kt
+    report: artifacts/reports/R16/TASK-R16-005-android-orders.md
+    machine_gate: GitHub Actions 30829520789 Android build, unit tests and emulator PASS
+    visual_status: PASS_OFFLINE_COMPOSE_EVIDENCE_OWNER_PENDING
+  status: MACHINE_VERIFIED
 - story_id: STORY-R16-004
   release: R16
   title: 商品、SKU、报价与统一订单：契约、数据、配置、测试与交接
