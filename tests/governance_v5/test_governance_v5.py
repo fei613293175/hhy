@@ -497,6 +497,12 @@ def test_worker_result_schema_is_strict_enough():
     assert list(validator.iter_errors(bad))
 
 
+def test_worker_prompt_exposes_controller_python_runtime_on_windows():
+    prompt = _worker_prompt({"id": "TASK-R15-001"}, 1)
+    assert "HHY_PYTHON" in prompt
+    assert "PATH" in prompt
+
+
 def test_candidate_evidence_schema_requires_complete_apk_identity():
     schema = json.loads((ROOT / "governance/schemas/candidate-evidence.schema.json").read_text(encoding="utf-8"))
     validator = Draft202012Validator(schema)

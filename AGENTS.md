@@ -78,6 +78,8 @@ Worker 不得：
 
 单个切片默认不超过 6 个 operationId，完成一个切片后立即落盘并验证，再进入下一个切片。Fast Lane 只压缩分析和返工范围，不得删除、跳过或弱化 Task Gate、独立 Reviewer、全量测试、APK 身份校验、模拟器证据或发布关闭门禁。
 
+Windows Worker 的 Python 命令必须优先使用控制器注入的 `HHY_PYTHON` 环境变量（PowerShell 使用 `& $env:HHY_PYTHON`），不得因系统 PATH 没有 `python`、`py` 或 `python3` 而把可用运行时误判为基础设施阻断。
+
 ## 6. Worker 终止结果
 
 只允许符合 Schema 的：
