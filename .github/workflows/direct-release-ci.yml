@@ -116,6 +116,8 @@ jobs:
           disable-animations: true
           emulator-options: -no-snapshot -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -prop persist.sys.locale=zh-CN
           script: |
+            adb shell am force-stop com.google.android.apps.nexuslauncher || true
+            adb shell input keyevent KEYCODE_BACK || true
             apps/android/gradlew -p apps/android --no-daemon --stacktrace :feature:order:connectedDebugAndroidTest :app:assembleDebug
             mkdir -p artifacts/r16-emulator/r16-visual
             adb pull /sdcard/Download/hhy-r16-visual/. artifacts/r16-emulator/r16-visual/
