@@ -3,7 +3,7 @@ title: 支付抽象与H5统一收银台
 tasks:
 - id: TASK-R17-001
   title: 支付抽象与H5统一收银台开发就绪核验、故事领取与变更基线
-  status: READY
+  status: DONE
   depends_on: []
   requirements: &id001
   - REQ-PAY-001
@@ -26,7 +26,7 @@ tasks:
   session_log_required: true
 - id: TASK-R17-002
   title: 支付抽象与H5统一收银台数据迁移与领域不变量
-  status: BLOCKED
+  status: DONE
   depends_on:
   - TASK-R17-001
   requirements: *id001
@@ -42,7 +42,7 @@ tasks:
   session_log_required: true
 - id: TASK-R17-003
   title: 支付抽象与H5统一收银台后端应用服务与接口
-  status: BLOCKED
+  status: DONE
   depends_on:
   - TASK-R17-002
   requirements: *id001
@@ -58,7 +58,7 @@ tasks:
   session_log_required: true
 - id: TASK-R17-004
   title: 支付抽象与H5统一收银台客户端/H5/后台实现
-  status: BLOCKED
+  status: DONE
   depends_on:
   - TASK-R17-003
   requirements: *id001
@@ -78,7 +78,7 @@ tasks:
   session_log_required: true
 - id: TASK-R17-005
   title: 支付抽象与H5统一收银台专项测试与故障注入
-  status: BLOCKED
+  status: DONE
   depends_on:
   - TASK-R17-003
   - TASK-R17-004
@@ -95,7 +95,7 @@ tasks:
   session_log_required: true
 - id: TASK-R17-006
   title: 支付抽象与H5统一收银台可观测性与预发布验收
-  status: BLOCKED
+  status: DONE
   depends_on:
   - TASK-R17-005
   requirements: *id001
@@ -111,7 +111,7 @@ tasks:
   session_log_required: true
 - id: TASK-R17-007
   title: 支付抽象与H5统一收银台Android测试APK与产物追溯
-  status: BLOCKED
+  status: DONE
   depends_on:
   - TASK-R17-006
   requirements: *id001
@@ -127,7 +127,7 @@ tasks:
   session_log_required: true
 - id: TASK-R17-008
   title: 支付抽象与H5统一收银台版本关闭与无状态交接
-  status: BLOCKED
+  status: DONE
   depends_on:
   - TASK-R17-007
   requirements: *id001

@@ -1,6 +1,6 @@
 release: R17
 title: 支付抽象与H5统一收银台
-status: READY_WHEN_DEPENDENCIES_GREEN
+status: GREEN_COMPLETE
 milestone: M2_COMMERCE
 depends_on:
 - R03
