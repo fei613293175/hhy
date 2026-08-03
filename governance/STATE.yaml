@@ -1,9 +1,9 @@
 schema: hhy.governance-state/v5.0
-revision: 165
-updated_at: '2026-08-03T02:22:46.752098Z'
-state_hash: fba98130dee8c7e7de55d1be2ac9a6bf34c3f5f6029ce0b007d09f7c001226e8
+revision: 166
+updated_at: '2026-08-03T02:29:40.938765Z'
+state_hash: 2a7319883e7e7cfadfc951d26b2dbed79ee8d012129b82ad22dbb0cff26ca76a
 project:
-  status: ACTIVE
+  status: INFRASTRUCTURE_BLOCKED
   branch_at_install: governance/v5.0-migration-20260731
   migration_baseline_commit: ea64d82fab9ed3d1952ab7d3c0d2286051390b59
   migration_commit: 8beafc2a0e115345c554abc0bdc199ef92534106
@@ -2934,10 +2934,18 @@ tasks:
     last_gate_evidence: null
     blocker: null
   TASK-R15-RECOVERY-011:
-    status: READY
+    status: INFRASTRUCTURE_BLOCKED
     attempts_used: 0
     current_attempt: null
     last_error_fingerprint: null
     last_candidate_commit: null
     last_gate_evidence: null
-    blocker: null
+    blocker:
+      code: INFRA_PYTHON_ENV_MISSING
+      detail: HHY_PYTHON is not set in this worker environment, so the required governance command cannot be invoked through
+        the controller-provided Python runtime.
+      paths:
+      - tools/governance/hhy_governance.py
+      - governance/runtime/ACTIVE_TASK.json
+      resolution: Set HHY_PYTHON to a valid Python executable path for Windows workers, then rerun this attempt.
+      worker_result_evidence: governance/evidence/recovery/TASK-R15-RECOVERY-011-a1-worker-result.json

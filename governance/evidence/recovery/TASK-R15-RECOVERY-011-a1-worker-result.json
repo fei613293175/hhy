@@ -1,0 +1,22 @@
+{
+  "blocker": {
+    "code": "INFRA_PYTHON_ENV_MISSING",
+    "detail": "HHY_PYTHON is not set in this worker environment, so the required governance command cannot be invoked through the controller-provided Python runtime.",
+    "paths": [
+      "tools/governance/hhy_governance.py",
+      "governance/runtime/ACTIVE_TASK.json"
+    ],
+    "resolution": "Set HHY_PYTHON to a valid Python executable path for Windows workers, then rerun this attempt.",
+    "worker_result_evidence": "PowerShell: `$env:HHY_PYTHON; Get-Location` produced an empty HHY_PYTHON value. Attempting `& $env:HHY_PYTHON tools/governance/hhy_governance.py active-task --format context` failed because the command expression was empty."
+  },
+  "changed_files": [],
+  "commands_run": [
+    "& $env:HHY_PYTHON tools/governance/hhy_governance.py active-task --format context",
+    "$env:HHY_PYTHON; Get-Location"
+  ],
+  "error_fingerprint": "INFRA_PYTHON_ENV_MISSING",
+  "schema": "hhy.worker-result/v5.0",
+  "status": "INFRASTRUCTURE_BLOCKED",
+  "summary": "Unable to start the Worker because the mandated HHY_PYTHON runtime is missing from the environment.",
+  "task_id": ".unknown"
+}
