@@ -9,6 +9,7 @@ export const implementedAdminPageIds = new Set([
   'ADM-CONTENT-001', 'ADM-CONTENT-002', 'ADM-CONTENT-003',
   'ADM-REVIEW-001',
   'ADM-ORDER-001',
+  'ADM-PAY-001', 'ADM-RECON-001',
   'ADM-CHAT-001', 'ADM-REPORT-001', 'ADM-APPEAL-001',
   'ADM-SUPPORT-001', 'ADM-SUPPORT-002',
 ])

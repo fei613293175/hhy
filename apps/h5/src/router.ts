@@ -4,6 +4,8 @@ import InviteRegistrationPage from './views/InviteRegistrationPage.vue';
 import IdentityCallbackPage from './views/IdentityCallbackPage.vue';
 import PublicPage from './views/PublicPage.vue';
 import DocumentPage from './views/DocumentPage.vue';
+import PaymentCashierPage from './views/PaymentCashierPage.vue';
+import PaymentResultPage from './views/PaymentResultPage.vue';
 
 export const router = createRouter({
   history: createWebHistory(),
@@ -11,7 +13,11 @@ export const router = createRouter({
     ...h5Pages.map((page) => ({
       path: page.vueRoute,
       name: page.ID,
-      component: page.ID === 'H5-013'
+      component: page.ID === 'H5-008'
+        ? PaymentCashierPage
+        : page.ID === 'H5-009'
+          ? PaymentResultPage
+          : page.ID === 'H5-013'
         ? InviteRegistrationPage
         : page.ID === 'H5-012'
           ? IdentityCallbackPage
