@@ -1,15 +1,15 @@
 schema: hhy.governance-state/v5.0
-revision: 163
-updated_at: '2026-08-03T01:17:37.497288Z'
-state_hash: 2f8aae521d29473532b53a04236ca74297a0e26aff5c756187743074fa1c941d
+revision: 164
+updated_at: '2026-08-03T02:19:11.551473Z'
+state_hash: 4cb407da6953b913f250fa9dc4c9ad739c47e1e97681a746c576a72a7b194aff
 project:
-  status: ACTIVE
+  status: FAILED_BOUNDED
   branch_at_install: governance/v5.0-migration-20260731
   migration_baseline_commit: ea64d82fab9ed3d1952ab7d3c0d2286051390b59
   migration_commit: 8beafc2a0e115345c554abc0bdc199ef92534106
   authoritative_commit: 4635292c8d1fbeca2422567a7d24a16560cf5774
   active_release: R15
-  active_task: TASK-R15-RECOVERY-010
+  active_task: null
   goal_complete: false
 lease: null
 releases:
@@ -2926,10 +2926,10 @@ tasks:
     last_gate_evidence: null
     blocker: null
   TASK-R15-RECOVERY-010:
-    status: READY
-    attempts_used: 2
+    status: FAILED_BOUNDED
+    attempts_used: 3
     current_attempt: null
-    last_error_fingerprint: 主 Worker 未返回结果，备用 Worker 接管也未返回结果；主证据=governance/runtime/supervisor/worker-failures/TASK-R15-RECOVERY-010-a2-f007aef0de.json；备用证据=governance/runtime/supervisor/worker-failures/TASK-R15-RECOVERY-010-a2-c8f4addead.json
+    last_error_fingerprint: 'Worker 已退出但结果文件无法读取：Extra data: line 1 column 3992 (char 3991)'
     last_candidate_commit: null
     last_gate_evidence: null
     blocker: null
