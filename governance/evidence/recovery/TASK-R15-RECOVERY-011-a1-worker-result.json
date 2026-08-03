@@ -1,37 +1,34 @@
 {
   "blocker": {
-    "code": "JAVA_MAVEN_RUNTIME_UNAVAILABLE",
-    "detail": "Backend Java compilation could not be completed: mvnw.cmd fails before Maven startup with \"Cannot index into a null array\" / \"Cannot start maven from wrapper\"; global mvn is not installed; java is not on PATH.",
+    "code": "MAVEN_DEPENDENCY_NETWORK_BLOCKED",
+    "detail": "Java 编译因缺失 Maven 依赖且网络访问 Maven Central 被拒绝而阻断。",
     "paths": [
-      "services/backend/mvnw.cmd",
-      "services/backend/.mvn/wrapper/maven-wrapper.properties"
+      "services/backend/pom.xml"
     ],
-    "resolution": "Provide a working Java/Maven runtime or repair the Maven wrapper bootstrap, then run services/backend/mvnw.cmd -pl access,boot -am -DskipTests compile.",
-    "worker_result_evidence": "mvn -version: command not recognized; java -version: command not recognized; .\\mvnw.cmd and cmd /c mvnw.cmd both fail before Maven starts. Verified instead: pytest tests/test_r15_recovery_static.py passed 5 tests; scripts/check_api_contract.py returned API_CONTRACT_OK."
+    "resolution": "提供本地 Maven 依赖缓存或允许访问 Maven Central 后重新编译。",
+    "worker_result_evidence": "静态测试 7 passed；API_CONTRACT_OK；Maven 依赖解析报 Permission denied: getsockopt。"
   },
   "changed_files": [
-    "database/migrations/V049__r15_access_contract_alignment.sql",
-    "services/backend/access/src/main/java/cc/orbexa/hhy/access/r15/R15Contracts.java",
-    "services/backend/access/src/main/java/cc/orbexa/hhy/access/r15/R15Store.java",
-    "services/backend/access/src/main/java/cc/orbexa/hhy/access/r15/R15Service.java",
-    "services/backend/access/src/main/java/cc/orbexa/hhy/access/r15/R15PostgresStore.java",
-    "services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/R15Controller.java",
-    "services/backend/boot/src/main/java/cc/orbexa/hhy/boot/admin/R15SupportAdminController.java",
+    "services/backend/content/src/main/java/cc/orbexa/hhy/content/R13Contracts.java",
+    "services/backend/content/src/main/java/cc/orbexa/hhy/content/R13Store.java",
+    "services/backend/content/src/main/java/cc/orbexa/hhy/content/R13PostgresStore.java",
+    "services/backend/content/src/main/java/cc/orbexa/hhy/content/R13Service.java",
+    "services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/R13Controller.java",
+    "services/backend/content/src/main/java/cc/orbexa/hhy/content/R12ReviewStore.java",
+    "services/backend/content/src/main/java/cc/orbexa/hhy/content/R12ReviewPostgresStore.java",
+    "services/backend/content/src/main/java/cc/orbexa/hhy/content/R12ReviewService.java",
+    "services/backend/boot/src/main/java/cc/orbexa/hhy/boot/admin/R12ReviewController.java",
     "tests/test_r15_recovery_static.py"
   ],
   "commands_run": [
     "& $env:HHY_PYTHON tools/governance/hhy_governance.py active-task --format context",
-    "Get-Content -Raw governance/runtime/ACTIVE_TASK.json",
-    ".\\mvnw.cmd -pl access,boot -am -DskipTests compile",
-    "mvn -version",
-    "cmd /c mvnw.cmd -pl access,boot -am -DskipTests compile",
-    "Get-ChildItem -Recurse -Name .mvn; java -version",
-    "& $env:HHY_PYTHON -m pytest tests/test_r15_recovery_static.py",
-    "& $env:HHY_PYTHON scripts/check_api_contract.py"
+    "& $env:HHY_PYTHON -m pytest tests/test_r15_recovery_static.py -q",
+    "& $env:HHY_PYTHON scripts/check_api_contract.py",
+    "& 'C:\\Users\\小白\\.m2\\wrapper\\dists\\apache-maven-3.9.11\\03d7e36a140982eea48e22c1dcac01d8862b2550b2939e09a0809bbc5182a5bc\\bin\\mvn.cmd' -pl content,boot -am -DskipTests compile"
   ],
-  "error_fingerprint": "java-maven-runtime-unavailable",
+  "error_fingerprint": "MAVEN_DEPENDENCY_NETWORK_BLOCKED:SpringBoot4.1.0:AWSBOM2.48.3:getsockopt",
   "schema": "hhy.worker-result/v5.0",
-  "status": "INFRASTRUCTURE_BLOCKED",
-  "summary": "Implemented the R15 recovery slice for notifications, announcements, help articles, support tickets, admin support actions, chat report decisions, idempotency, audit/outbox writes, and V049 RBAC/table alignment. Targeted regression tests and OpenAPI contract check pass, but candidate readiness is blocked because Java/Maven compilation cannot run in this environment.",
+  "status": "EXTERNAL_BLOCKED",
+  "summary": "已完成 TASK-R15-RECOVERY-011 的产品实现：补齐内容举报、后台内容举报决策、后台申诉决策，并覆盖幂等、权限、审计与 Outbox。静态测试 7 passed，API 合同检查通过；Java 编译受外部 Maven 依赖网络阻断。",
   "task_id": "TASK-R15-RECOVERY-011"
 }
