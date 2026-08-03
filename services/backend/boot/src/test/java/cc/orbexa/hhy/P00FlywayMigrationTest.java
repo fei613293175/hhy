@@ -31,6 +31,11 @@ class P00FlywayMigrationTest {
         flyway("9").migrate();
         assertEquals(9, appliedMigrationCount());
 
+        flyway("10").migrate();
+        assertTrue(isMigrationApplied("10"));
+        exerciseP00DevelopmentRollback();
+        assertP00EventLedgerInvariants();
+
         Flyway latest = flyway(null);
         latest.migrate();
         assertTrue(appliedMigrationCount() >= 10);
@@ -45,7 +50,9 @@ class P00FlywayMigrationTest {
         assertTrue(appliedMigrationCount() >= 10);
         assertTrue(isMigrationApplied("10"));
         assertP00Baseline();
+    }
 
+    private void exerciseP00DevelopmentRollback() throws Exception {
         Path root = findProjectRoot();
         String rollback = Files.readString(
                 root.resolve("database/rollback/U010__p00_event_ledger_invariants.sql"),
@@ -58,7 +65,6 @@ class P00FlywayMigrationTest {
             statement.execute(forward);
         }
         assertTrue(isMigrationApplied("10"));
-        assertP00Baseline();
     }
 
     private Flyway flyway(String target) {
@@ -113,6 +119,12 @@ class P00FlywayMigrationTest {
                 assertTrue(rows.next());
                 assertEquals(203, rows.getInt(1), "latest Flyway chain must match the schema catalog");
             }
+        }
+        assertP00EventLedgerInvariants();
+    }
+
+    private void assertP00EventLedgerInvariants() throws Exception {
+        try (Connection connection = connection(); Statement statement = connection.createStatement()) {
             try (ResultSet rows = statement.executeQuery(
                     "SELECT count(*) FROM pg_trigger "
                             + "WHERE tgname IN ('trg_outbox_events_guard',"
