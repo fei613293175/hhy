@@ -9,6 +9,7 @@ import androidx.compose.material.icons.outlined.Apps
 import androidx.compose.material.icons.outlined.AttachFile
 import androidx.compose.material.icons.outlined.CameraAlt
 import androidx.compose.material.icons.outlined.BarChart
+import androidx.compose.material.icons.outlined.Campaign
 import androidx.compose.material.icons.outlined.CardGiftcard
 import androidx.compose.material.icons.outlined.ChatBubbleOutline
 import androidx.compose.material.icons.outlined.ChevronRight
@@ -58,6 +59,7 @@ object HhyIcons {
     val Face = Icons.Outlined.Face
     val Check = Icons.Filled.CheckCircle
     val Information = Icons.Outlined.Info
+    val Campaign = Icons.Outlined.Campaign
     val Error = Icons.Outlined.ErrorOutline
     val Pending = Icons.Outlined.Schedule
     val Refresh = Icons.Outlined.Refresh

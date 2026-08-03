@@ -1,6 +1,7 @@
 package cc.orbexa.hhy.support
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -17,10 +18,12 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilterChip
@@ -45,6 +48,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
 import cc.orbexa.hhy.designsystem.HhyBackButton
 import cc.orbexa.hhy.designsystem.HhyColors
 import cc.orbexa.hhy.designsystem.HhyIcon
@@ -95,6 +99,7 @@ fun R15NotificationListScreen(
     var keyword by remember { mutableStateOf("") }
     var markingAll by remember { mutableStateOf(false) }
     var category by remember { mutableStateOf<String?>(null) }
+    var searchVisible by remember { mutableStateOf(false) }
 
     fun load() {
         state = R15Load.Loading
@@ -112,11 +117,15 @@ fun R15NotificationListScreen(
     LaunchedEffect(announcements, accessToken, category) { load() }
     Scaffold(
         modifier = Modifier.testTag("hhy.screen.r15.${if (announcements) "announcements" else "notifications"}"),
+        containerColor = HhyColors.Surface,
         topBar = {
-            TopAppBar(
+            CenterAlignedTopAppBar(
                 title = { Text(if (announcements) "公告中心" else "通知中心") },
                 navigationIcon = { HhyBackButton(onBack) },
                 actions = {
+                    IconButton(onClick = { searchVisible = !searchVisible }) {
+                        HhyIcon(HhyIcons.Search, "搜索")
+                    }
                     IconButton(onClick = ::load) { HhyIcon(HhyIcons.Refresh, "刷新") }
                     if (!announcements) TextButton(
                         enabled = !markingAll,
@@ -140,29 +149,51 @@ fun R15NotificationListScreen(
                 Surface(
                     modifier = Modifier.fillMaxWidth().padding(horizontal = HhySpacing.Lg, vertical = HhySpacing.Md),
                     color = HhyColors.BrandPrimary,
-                    shape = RoundedCornerShape(HhyRadius.NormalCard),
+                    shape = RoundedCornerShape(HhyRadius.LargeCard),
                 ) {
-                    Column(Modifier.padding(HhySpacing.Lg), verticalArrangement = Arrangement.spacedBy(HhySpacing.Xs)) {
-                        Text("合伙云 Pro", color = HhyColors.TextInverse, style = MaterialTheme.typography.titleMedium)
-                        Text("官方公告", color = HhyColors.TextInverse, style = MaterialTheme.typography.headlineMedium, fontWeight = FontWeight.Bold)
-                        Text("重要规则、活动与服务更新", color = HhyColors.TextInverse, style = MaterialTheme.typography.bodySmall)
+                    Row(
+                        Modifier.fillMaxWidth().padding(horizontal = HhySpacing.Lg, vertical = HhySpacing.Md),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(HhySpacing.Md),
+                    ) {
+                        Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(HhySpacing.Xs)) {
+                            Text("合伙云 Pro", color = HhyColors.TextInverse, style = MaterialTheme.typography.titleMedium)
+                            Text("官方公告", color = HhyColors.TextInverse, style = MaterialTheme.typography.headlineMedium, fontWeight = FontWeight.Bold)
+                            Text("重要规则、活动与服务更新", color = HhyColors.TextInverse, style = MaterialTheme.typography.bodySmall)
+                        }
+                        HhyIcon(HhyIcons.Campaign, null, Modifier.size(48.dp), HhyColors.TextInverse)
                     }
                 }
             } else {
                 val filters = listOf(null to "全部", "SYSTEM" to "系统", "ACTIVITY" to "活动", "TRANSACTION" to "交易", "INTERACTION" to "互动")
-                LazyRow(
-                    contentPadding = PaddingValues(horizontal = HhySpacing.Lg),
-                    horizontalArrangement = Arrangement.spacedBy(HhySpacing.Sm),
+                Row(
+                    Modifier.fillMaxWidth().padding(horizontal = HhySpacing.Lg),
+                    horizontalArrangement = Arrangement.SpaceBetween,
                 ) {
-                    items(filters) { (value, label) ->
-                        FilterChip(selected = category == value, onClick = { category = value }, label = { Text(label) })
+                    filters.forEach { (value, label) ->
+                        Column(
+                            Modifier.weight(1f).clickable { category = value },
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                        ) {
+                            Text(
+                                label,
+                                color = if (category == value) HhyColors.BrandPrimary else HhyColors.TextSecondary,
+                                fontWeight = if (category == value) FontWeight.SemiBold else FontWeight.Normal,
+                            )
+                            Spacer(Modifier.height(HhySpacing.Sm))
+                            Box(
+                                Modifier.fillMaxWidth().height(2.dp).background(
+                                    if (category == value) HhyColors.BrandPrimary else HhyColors.Surface,
+                                ),
+                            )
+                        }
                     }
                 }
             }
-            OutlinedTextField(
+            if (searchVisible) OutlinedTextField(
                 value = keyword,
                 onValueChange = { if (it.length <= 100) keyword = it },
-                label = { Text("搜索标题或内容") },
+                label = { Text(if (announcements) "搜索公告" else "搜索通知") },
                 singleLine = true,
                 trailingIcon = { TextButton(onClick = ::load) { Text("搜索") } },
                 modifier = Modifier.fillMaxWidth().padding(horizontal = HhySpacing.Lg, vertical = HhySpacing.Sm),
@@ -512,25 +543,42 @@ private fun R15Entry(title: String, subtitle: String, onClick: () -> Unit) {
 @Composable
 private fun R15NotificationRow(item: R15NotificationResource, onClick: () -> Unit) {
     Surface(Modifier.fillMaxWidth().clickable(onClick = onClick)) {
-        Row(Modifier.fillMaxWidth().padding(HhySpacing.Lg), verticalAlignment = Alignment.Top) {
+        Row(Modifier.fillMaxWidth().padding(horizontal = HhySpacing.Lg, vertical = HhySpacing.Md), verticalAlignment = Alignment.CenterVertically) {
             Surface(
-                modifier = Modifier.size(HhySpacing.Xl),
-                shape = RoundedCornerShape(HhyRadius.Pill),
-                color = if (item.readAt == null) HhyColors.BrandPrimary else HhyColors.SurfaceVariant,
+                modifier = Modifier.size(40.dp),
+                shape = CircleShape,
+                color = notificationIconColor(item),
             ) {
-                HhyIcon(if (item.type == "ANNOUNCEMENT") HhyIcons.Information else HhyIcons.Message, null, tint = HhyColors.TextInverse, modifier = Modifier.padding(HhySpacing.Xs))
+                HhyIcon(notificationIcon(item), null, tint = HhyColors.TextInverse, modifier = Modifier.padding(HhySpacing.Sm))
             }
-            Column(Modifier.weight(1f).padding(horizontal = HhySpacing.Md), verticalArrangement = Arrangement.spacedBy(HhySpacing.Xs)) {
+            Column(Modifier.weight(1f).padding(horizontal = HhySpacing.Md), verticalArrangement = Arrangement.spacedBy(2.dp)) {
                 Text(item.title, fontWeight = FontWeight.SemiBold)
-                item.body?.let { Text(it, color = HhyColors.TextSecondary, maxLines = 2) }
-                Text(item.createdAt, color = HhyColors.TextTertiary, style = MaterialTheme.typography.labelSmall)
+                item.body?.let { Text(it, color = HhyColors.TextSecondary, maxLines = 1) }
             }
-            if (item.readAt == null) Surface(Modifier.padding(top = HhySpacing.Sm).size(HhySpacing.Sm), shape = RoundedCornerShape(HhyRadius.Pill), color = HhyColors.BrandPrimary) {}
-            HhyIcon(HhyIcons.ChevronRight, null, tint = HhyColors.TextTertiary)
+            Column(horizontalAlignment = Alignment.End, verticalArrangement = Arrangement.spacedBy(HhySpacing.Xs)) {
+                Text(notificationDate(item.createdAt), color = HhyColors.TextTertiary, style = MaterialTheme.typography.labelSmall)
+                if (item.readAt == null) Surface(Modifier.size(8.dp), shape = CircleShape, color = HhyColors.RewardRed) {}
+            }
         }
     }
     HorizontalDivider()
 }
+
+private fun notificationIcon(item: R15NotificationResource) = when (item.type) {
+    "ACTIVITY" -> HhyIcons.Reward
+    "TRANSACTION" -> HhyIcons.Reward
+    "INTERACTION" -> HhyIcons.Message
+    else -> HhyIcons.Information
+}
+
+private fun notificationIconColor(item: R15NotificationResource) = when (item.type) {
+    "ACTIVITY" -> HhyColors.BrandPrimary
+    "TRANSACTION" -> HhyColors.BrandTertiary
+    "INTERACTION" -> HhyColors.BrandSecondary
+    else -> HhyColors.BrandPrimary
+}
+
+private fun notificationDate(value: String): String = value.substringBefore('T').ifBlank { value }
 
 @Composable
 private fun R15TicketRow(item: R15SupportTicketResource, onClick: () -> Unit) {
