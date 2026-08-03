@@ -1,9 +1,9 @@
 schema: hhy.governance-state/v5.0
-revision: 174
-updated_at: '2026-08-03T04:11:27.378788Z'
-state_hash: e7e560652dda983a2a2cc8f77d279430f03565b6811934a3f76b0b00649263a2
+revision: 175
+updated_at: '2026-08-03T04:22:48.234076Z'
+state_hash: ec1c49e3b6f097880098307e16f4c31ecb94afd9d839801470e7d6daf8d20944
 project:
-  status: INFRASTRUCTURE_BLOCKED
+  status: ACTIVE
   branch_at_install: governance/v5.0-migration-20260731
   migration_baseline_commit: ea64d82fab9ed3d1952ab7d3c0d2286051390b59
   migration_commit: 8beafc2a0e115345c554abc0bdc199ef92534106
@@ -2934,25 +2934,10 @@ tasks:
     last_gate_evidence: null
     blocker: null
   TASK-R15-RECOVERY-011:
-    status: INFRASTRUCTURE_BLOCKED
+    status: READY
     attempts_used: 0
     current_attempt: null
     last_error_fingerprint: null
     last_candidate_commit: null
     last_gate_evidence: null
-    blocker:
-      code: MAVEN_OFFLINE_DEPENDENCY_RESOLUTION_BLOCKED
-      detail: 'Offline backend compile cannot proceed because Maven reports imported BOMs as absent: org.springframework.boot:spring-boot-dependencies:pom:4.1.0
-        and software.amazon.awssdk:bom:pom:2.48.3. The required wrapper invocation also fails before Maven startup with `Cannot
-        index into a null array` and `Cannot start maven from wrapper`; direct cached Maven invocation reaches the same offline
-        BOM resolution failure.'
-      resolution: Provide a Maven local repository/cache that Maven can resolve in offline mode for Spring Boot dependencies
-        4.1.0 and AWS SDK BOM 2.48.3, or repair the local Maven resolver metadata/settings so the existing cache is usable
-        by the offline reactor; then rerun `mvnw.cmd -o -pl access,boot -am -DskipTests compile`.
-      paths:
-      - services/backend/pom.xml
-      - services/backend/mvnw.cmd
-      - C:/Users/小白/.m2/repository/org/springframework/boot/spring-boot-dependencies/4.1.0
-      - C:/Users/小白/.m2/repository/software/amazon/awssdk/bom/2.48.3
-      worker_result_evidence: governance/evidence/recovery/TASK-R15-RECOVERY-011-a1-worker-result.json
-      draft_manifest: governance/runtime/supervisor/worker-drafts/TASK-R15-RECOVERY-011-a1-5a3cca6a69/manifest.json
+    blocker: null
