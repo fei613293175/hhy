@@ -131,6 +131,46 @@ public class R12ReviewPostgresStore implements R12ReviewStore {
     }
 
     @Override
+    public Optional<ReportRow> report(long reportId) {
+        return report(reportId, false);
+    }
+
+    @Override
+    public Optional<ReportRow> lockReport(long reportId) {
+        return report(reportId, true);
+    }
+
+    private Optional<ReportRow> report(long reportId, boolean lock) {
+        return jdbc.query("""
+                SELECT report.id,report.reporter_id,report.content_id,report.type,report.status,
+                       report.created_at,report.updated_at,
+                       (extract(epoch FROM report.updated_at)*1000000)::bigint
+                FROM hhy.content_reports report
+                WHERE report.id=?
+                """ + (lock ? " FOR UPDATE" : ""), this::reportRow, reportId).stream().findFirst();
+    }
+
+    @Override
+    public Optional<AppealRow> appeal(long appealId) {
+        return appeal(appealId, false);
+    }
+
+    @Override
+    public Optional<AppealRow> lockAppeal(long appealId) {
+        return appeal(appealId, true);
+    }
+
+    private Optional<AppealRow> appeal(long appealId, boolean lock) {
+        return jdbc.query("""
+                SELECT appeal.id,appeal.owner_id,appeal.content_id,appeal.status,
+                       appeal.created_at,appeal.updated_at,
+                       (extract(epoch FROM appeal.updated_at)*1000000)::bigint
+                FROM hhy.content_appeals appeal
+                WHERE appeal.id=?
+                """ + (lock ? " FOR UPDATE" : ""), this::appealRow, appealId).stream().findFirst();
+    }
+
+    @Override
     public boolean activeAdmin(long adminId) {
         Boolean result = jdbc.queryForObject(
                 "SELECT EXISTS(SELECT 1 FROM hhy.admin_users WHERE id=? AND status='ACTIVE')",
@@ -194,6 +234,24 @@ public class R12ReviewPostgresStore implements R12ReviewStore {
                 SET status=?,version=version+1,updated_at=?
                 WHERE id=? AND version=?
                 """, status, time(now), contentId, expectedVersion) == 1;
+    }
+
+    @Override
+    public boolean decideReport(long reportId, long expectedVersion, String status, Instant now) {
+        return jdbc.update("""
+                UPDATE hhy.content_reports
+                SET status=?,updated_at=?
+                WHERE id=? AND (extract(epoch FROM updated_at)*1000000)::bigint=?
+                """, status, time(now), reportId, expectedVersion) == 1;
+    }
+
+    @Override
+    public boolean decideAppeal(long appealId, long expectedVersion, String status, Instant now) {
+        return jdbc.update("""
+                UPDATE hhy.content_appeals
+                SET status=?,updated_at=?
+                WHERE id=? AND (extract(epoch FROM updated_at)*1000000)::bigint=?
+                """, status, time(now), appealId, expectedVersion) == 1;
     }
 
     @Override

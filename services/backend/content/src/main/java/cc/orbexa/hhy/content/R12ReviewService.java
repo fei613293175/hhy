@@ -239,6 +239,89 @@ public class R12ReviewService {
         return result;
     }
 
+    @Transactional
+    public ReportResource decideReport(
+            ReviewActorContext actor, String idValue, ReviewDecisionRequest request,
+            String idempotencyKey) {
+        long id = id(idValue, "举报标识无效");
+        DecisionIntent intent = decisionIntent(id, request);
+        String key = key(idempotencyKey);
+        String scope = "r15.adminReportsPostContentReportsByIdDecide:admin:" + actor.adminId();
+        String requestHash = hash(intent.values());
+        R12ReviewStore.IdempotencyClaim claim = claim(scope, key, requestHash);
+        if (claim.replay()) {
+            if (claim.responseRef() == null) throw versionConflict();
+            return store.report(id).map(R12ReviewService::report).orElseThrow(R12ReviewService::notFound);
+        }
+        R12ReviewStore.ReportRow before = store.lockReport(id).orElseThrow(R12ReviewService::notFound);
+        if (before.version() != intent.expectedVersion()) throw versionConflict();
+        Instant now = Instant.now(clock);
+        if (!store.decideReport(id, intent.expectedVersion(), targetStatus(intent.decision()), now)) {
+            throw versionConflict();
+        }
+        ReportResource result = store.report(id).map(R12ReviewService::report)
+                .orElseThrow(R12ReviewService::notFound);
+        audit(actor.adminId(), "CONTENT_REPORT_DECIDED", id, json(report(before)),
+                json(result), actor.ip(), now);
+        store.outbox("content.report.decided.v1", id, actor.requestId(), json(result));
+        completeResource(claim, scope, key, requestHash, "r15.content-report-decision.v1", result);
+        return result;
+    }
+
+    @Transactional
+    public AppealResource decideAppeal(
+            ReviewActorContext actor, String idValue, ReviewDecisionRequest request,
+            String idempotencyKey) {
+        long id = id(idValue, "申诉标识无效");
+        DecisionIntent intent = decisionIntent(id, request);
+        String key = key(idempotencyKey);
+        String scope = "r15.adminAppealsPostAppealsByIdDecide:admin:" + actor.adminId();
+        String requestHash = hash(intent.values());
+        R12ReviewStore.IdempotencyClaim claim = claim(scope, key, requestHash);
+        if (claim.replay()) {
+            if (claim.responseRef() == null) throw versionConflict();
+            return store.appeal(id).map(R12ReviewService::appeal).orElseThrow(R12ReviewService::notFound);
+        }
+        R12ReviewStore.AppealRow before = store.lockAppeal(id).orElseThrow(R12ReviewService::notFound);
+        if (before.version() != intent.expectedVersion()) throw versionConflict();
+        Instant now = Instant.now(clock);
+        if (!store.decideAppeal(id, intent.expectedVersion(), targetStatus(intent.decision()), now)) {
+            throw versionConflict();
+        }
+        AppealResource result = store.appeal(id).map(R12ReviewService::appeal)
+                .orElseThrow(R12ReviewService::notFound);
+        audit(actor.adminId(), "CONTENT_APPEAL_DECIDED", id, json(appeal(before)),
+                json(result), actor.ip(), now);
+        store.outbox("content.appeal.decided.v1", id, actor.requestId(), json(result));
+        completeResource(claim, scope, key, requestHash, "r15.content-appeal-decision.v1", result);
+        return result;
+    }
+
+    private DecisionIntent decisionIntent(long id, ReviewDecisionRequest request) {
+        String decision = required(request.decision(), "决定不符合要求");
+        if (!Set.of("APPROVE", "REJECT", "ESCALATE").contains(decision)) {
+            throw validation("决定不符合要求");
+        }
+        String reason = required(request.reason(), "决定原因不能为空");
+        long expectedVersion = requiredVersion(request.expectedVersion());
+        Map<String, Object> values = new LinkedHashMap<>();
+        values.put("id", id);
+        values.put("decision", decision);
+        values.put("reason", reason);
+        values.put("expectedVersion", expectedVersion);
+        values.put("evidenceIds", request.evidenceIds());
+        return new DecisionIntent(decision, expectedVersion, values);
+    }
+
+    private static String targetStatus(String decision) {
+        return switch (decision) {
+            case "APPROVE" -> "APPROVED";
+            case "REJECT" -> "REJECTED";
+            case "ESCALATE" -> "ESCALATED";
+            default -> throw new IllegalStateException("Unsupported decision");
+        };
+    }
+
     private static Map<String, Object> event(
             ReviewActorContext actor, String device, long contentId,
             R12ReviewStore.SnapshotRow snapshot, long beforeVersion, long afterVersion,
@@ -320,6 +403,18 @@ public class R12ReviewService {
         }
     }
 
+    private void completeResource(
+            R12ReviewStore.IdempotencyClaim claim, String scope, String key,
+            String requestHash, String responseType, Object result) {
+        try {
+            store.complete(claim.id(), responseType + ":ok", responseType,
+                    cipher.encryptSnapshot(scope, key, requestHash, responseType,
+                            mapper.writeValueAsBytes(result)));
+        } catch (Exception failure) {
+            throw new IllegalStateException("R15 decision idempotency snapshot completion failed", failure);
+        }
+    }
+
     private static ReviewResource review(R12ReviewStore.ReviewRow row) {
         return new ReviewResource(
                 Long.toString(row.id()), "CONTENT", Long.toString(row.id()), row.status(),
@@ -330,13 +425,22 @@ public class R12ReviewService {
     private static ReportResource report(R12ReviewStore.ReportRow row) {
         return new ReportResource(
                 Long.toString(row.id()), string(row.reporterId()), "CONTENT", string(row.contentId()),
-                row.reasonCode(), row.status(), null, row.createdAt(), row.version());
+                row.reasonCode(), row.status(), decision(row.status()), row.createdAt(), row.version());
     }
 
     private static AppealResource appeal(R12ReviewStore.AppealRow row) {
         return new AppealResource(
                 Long.toString(row.id()), string(row.appellantId()), "CONTENT", Long.toString(row.contentId()),
-                null, row.status(), null, row.createdAt(), row.version());
+                null, row.status(), decision(row.status()), row.createdAt(), row.version());
+    }
+
+    private static String decision(String status) {
+        return switch (status) {
+            case "APPROVED" -> "APPROVE";
+            case "REJECTED" -> "REJECT";
+            case "ESCALATED" -> "ESCALATE";
+            default -> null;
+        };
     }
 
     private static PageMeta page(
@@ -443,6 +547,8 @@ public class R12ReviewService {
         String result = value.strip();
         return result.isEmpty() ? null : result;
     }
+
+    private record DecisionIntent(String decision, long expectedVersion, Map<String, Object> values) { }
 
     private static String string(Long value) {
         return value == null ? null : Long.toString(value);

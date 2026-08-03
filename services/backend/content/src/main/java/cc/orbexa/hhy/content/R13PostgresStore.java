@@ -60,6 +60,24 @@ public class R13PostgresStore implements R13Store {
         return id;
     }
 
+    @Override
+    public long report(
+            long userId, long contentId, String reasonCode, String description,
+            List<String> evidenceMediaIds, List<String> messageIds, Instant now) {
+        String evidence = String.join(",", evidenceMediaIds);
+        String messages = String.join(",", messageIds);
+        String storedDescription = description
+                + "\n[evidenceMediaIds=" + evidence + ";messageIds=" + messages + "]";
+        Long id = jdbc.queryForObject("""
+                INSERT INTO hhy.content_reports(
+                  reporter_id,content_id,type,description,status,created_at,updated_at)
+                VALUES (?,?,?,?,'PENDING',?,?) RETURNING id
+                """, Long.class, userId, contentId, reasonCode, storedDescription,
+                time(now), time(now));
+        if (id == null) throw new IllegalStateException("R13 content report id was not returned");
+        return id;
+    }
+
     private ActivityPage activityPage(ActivityQuery query, boolean history) {
         String prefix = history ? """
                 WITH activity AS (

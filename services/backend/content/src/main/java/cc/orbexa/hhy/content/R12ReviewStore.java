@@ -9,12 +9,18 @@ public interface R12ReviewStore {
     Optional<ReviewRow> review(long contentId);
     Optional<ReviewRow> lockReview(long contentId);
     ReportPageRows reports(PageQuery query);
+    Optional<ReportRow> report(long reportId);
+    Optional<ReportRow> lockReport(long reportId);
     AppealPageRows appeals(PageQuery query);
+    Optional<AppealRow> appeal(long appealId);
+    Optional<AppealRow> lockAppeal(long appealId);
     boolean activeAdmin(long adminId);
     Optional<String> sessionDevice(long adminId, long sessionId);
     Optional<SnapshotRow> submittedSnapshot(long contentId, long maximumVersion);
     SecondReviewState secondReviewState(long snapshotId);
     boolean advance(long contentId, long expectedVersion, String status, Instant now);
+    boolean decideReport(long reportId, long expectedVersion, String status, Instant now);
+    boolean decideAppeal(long appealId, long expectedVersion, String status, Instant now);
     void reviewRecord(
             long contentId, SnapshotRow snapshot, String decision, String reason,
             long adminId, String commandId, Instant now);

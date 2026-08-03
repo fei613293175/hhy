@@ -8,6 +8,9 @@ public interface R13Store {
     ActivityPage history(ActivityQuery query);
     boolean unfavorite(long userId, long contentId, Instant now);
     long invalidFeedback(long userId, long contentId, String reasonCode, String description, Instant now);
+    long report(
+            long userId, long contentId, String reasonCode, String description,
+            List<String> evidenceMediaIds, List<String> messageIds, Instant now);
 
     enum SortDirection { ASC, DESC }
 

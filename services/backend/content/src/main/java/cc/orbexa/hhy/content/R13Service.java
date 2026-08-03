@@ -5,6 +5,7 @@ import cc.orbexa.hhy.content.ContentContracts.ContentPage;
 import cc.orbexa.hhy.content.ContentContracts.ContentResource;
 import cc.orbexa.hhy.content.ContentContracts.PageMeta;
 import cc.orbexa.hhy.content.R13Contracts.InvalidFeedbackRequest;
+import cc.orbexa.hhy.content.R13Contracts.ContentReportRequest;
 import cc.orbexa.hhy.shared.api.BusinessException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -26,6 +27,7 @@ public class R13Service {
     private static final Duration IDEMPOTENCY_TTL = Duration.ofHours(24);
     private static final String UNFAVORITE_RESPONSE = "r13.unfavorite-command.v1";
     private static final String INVALID_FEEDBACK_RESPONSE = "r13.invalid-feedback-command.v1";
+    private static final String CONTENT_REPORT_RESPONSE = "r15.content-report-command.v1";
     private final R13Store store;
     private final R08Store shared;
     private final ContentService content;
@@ -111,6 +113,42 @@ public class R13Service {
                 Long.toString(reportId), "PENDING", now);
         CommandResult result = new CommandResult(Long.toString(reportId), null, "PENDING", 0, now);
         complete(claim, scope, key, requestHash, INVALID_FEEDBACK_RESPONSE, result);
+        return result;
+    }
+
+    @Transactional
+    public CommandResult report(
+            long userId, String idValue, ContentReportRequest request, String key) {
+        requireActive(userId);
+        long contentId = id(idValue, "内容标识无效");
+        R08Store.ContentRow locked = shared.lockContent(contentId).orElseThrow(R13Service::notFound);
+        if (request.expectedVersion() != null && request.expectedVersion() != locked.version()) {
+            throw versionConflict();
+        }
+        String reasonCode = normalizedReason(request.reasonCode());
+        String description = required(request.description(), 2000, "举报说明不符合要求");
+        List<String> evidenceMediaIds = normalizedIds(request.evidenceMediaIds(), "举报媒体标识无效");
+        List<String> messageIds = normalizedIds(request.messageIds(), "举报消息标识无效");
+        Map<String, Object> facts = new LinkedHashMap<>();
+        facts.put("userId", userId);
+        facts.put("contentId", contentId);
+        facts.put("reasonCode", reasonCode);
+        facts.put("description", description);
+        facts.put("evidenceMediaIds", evidenceMediaIds);
+        facts.put("messageIds", messageIds);
+        facts.put("expectedVersion", request.expectedVersion() == null ? "" : request.expectedVersion());
+        String scope = "r15.content-report:" + userId + ":" + contentId;
+        R08Store.IdempotencyClaim claim = claim(scope, key, hash(facts));
+        if (claim.replay()) {
+            return replay(claim, scope, key, hash(facts), CONTENT_REPORT_RESPONSE, CommandResult.class);
+        }
+        Instant now = Instant.now(clock);
+        long reportId = store.report(
+                userId, contentId, reasonCode, description, evidenceMediaIds, messageIds, now);
+        shared.outbox(userId, "CONTENT_REPORT", "content.report.created.v1",
+                Long.toString(reportId), "PENDING", now);
+        CommandResult result = new CommandResult(Long.toString(reportId), null, "PENDING", 0, now);
+        complete(claim, scope, key, hash(facts), CONTENT_REPORT_RESPONSE, result);
         return result;
     }
 
@@ -217,6 +255,25 @@ public class R13Service {
         if (result == null || result.length() > 64 || !result.matches("[A-Z0-9_-]+")) {
             throw validation("原因代码不符合要求");
         }
+        return result;
+    }
+
+    private static List<String> normalizedIds(List<String> values, String message) {
+        return values == null ? List.of() : values.stream()
+                .map(R13Service::clean)
+                .filter(value -> value != null)
+                .peek(value -> {
+                    if (value.length() > 64 || !value.matches("[A-Za-z0-9_-]+")) {
+                        throw validation(message);
+                    }
+                })
+                .distinct()
+                .toList();
+    }
+
+    private static String required(String value, int maxLength, String message) {
+        String result = clean(value);
+        if (result == null || result.length() > maxLength) throw validation(message);
         return result;
     }
 

@@ -4,6 +4,7 @@ import cc.orbexa.hhy.access.user.UserPrincipal;
 import cc.orbexa.hhy.content.ContentContracts.CommandResult;
 import cc.orbexa.hhy.content.ContentContracts.ContentPage;
 import cc.orbexa.hhy.content.R13Contracts.InvalidFeedbackRequest;
+import cc.orbexa.hhy.content.R13Contracts.ContentReportRequest;
 import cc.orbexa.hhy.content.R13Service;
 import cc.orbexa.hhy.shared.api.ApiResponse;
 import jakarta.servlet.http.HttpServletRequest;
@@ -84,6 +85,16 @@ public class R13Controller {
             @RequestHeader("X-Idempotency-Key") @NotBlank @Size(min = 16, max = 128) String key,
             HttpServletRequest request) {
         return success(request, service.invalidFeedback(principal.userId(), id, body, key));
+    }
+
+    @PostMapping("/api/v1/contents/{id}/report")
+    public ApiResponse<CommandResult> contentPostContentsByIdReport(
+            @AuthenticationPrincipal UserPrincipal principal,
+            @PathVariable @Pattern(regexp = RESOURCE_ID) String id,
+            @Valid @RequestBody ContentReportRequest body,
+            @RequestHeader("X-Idempotency-Key") @NotBlank @Size(min = 16, max = 128) String key,
+            HttpServletRequest request) {
+        return success(request, service.report(principal.userId(), id, body, key));
     }
 
     private <T> ApiResponse<T> success(HttpServletRequest request, T data) {

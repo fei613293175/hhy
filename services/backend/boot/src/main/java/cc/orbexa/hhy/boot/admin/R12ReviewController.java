@@ -2,7 +2,9 @@ package cc.orbexa.hhy.boot.admin;
 
 import cc.orbexa.hhy.access.admin.AdminPrincipal;
 import cc.orbexa.hhy.content.R12ReviewContracts.AppealPage;
+import cc.orbexa.hhy.content.R12ReviewContracts.AppealResource;
 import cc.orbexa.hhy.content.R12ReviewContracts.ReportPage;
+import cc.orbexa.hhy.content.R12ReviewContracts.ReportResource;
 import cc.orbexa.hhy.content.R12ReviewContracts.ReviewAssignRequest;
 import cc.orbexa.hhy.content.R12ReviewContracts.ReviewActorContext;
 import cc.orbexa.hhy.content.R12ReviewContracts.ReviewDecisionRequest;
@@ -92,6 +94,30 @@ public class R12ReviewController {
             @RequestParam(defaultValue = "createdAt:desc") @Size(max = 64) String sort,
             HttpServletRequest request) {
         return success(request, service.appeals(page, pageSize, cursor, status, keyword, sort));
+    }
+
+    @PostMapping("/content-reports/{id}/decide")
+    @PreAuthorize("hasAuthority('report.decide')")
+    public ApiResponse<ReportResource> adminReportsPostContentReportsByIdDecide(
+            @AuthenticationPrincipal AdminPrincipal principal,
+            @PathVariable @Pattern(regexp = RESOURCE_ID) String id,
+            @Valid @RequestBody ReviewDecisionRequest body,
+            @RequestHeader("X-Idempotency-Key") @NotBlank @Size(min = 16, max = 128) String key,
+            HttpServletRequest request) {
+        return success(request, service.decideReport(
+                actor(principal, "report.decide", request), id, body, key));
+    }
+
+    @PostMapping("/appeals/{id}/decide")
+    @PreAuthorize("hasAuthority('appeal.decide')")
+    public ApiResponse<AppealResource> adminAppealsPostAppealsByIdDecide(
+            @AuthenticationPrincipal AdminPrincipal principal,
+            @PathVariable @Pattern(regexp = RESOURCE_ID) String id,
+            @Valid @RequestBody ReviewDecisionRequest body,
+            @RequestHeader("X-Idempotency-Key") @NotBlank @Size(min = 16, max = 128) String key,
+            HttpServletRequest request) {
+        return success(request, service.decideAppeal(
+                actor(principal, "appeal.decide", request), id, body, key));
     }
 
     @PostMapping("/reviews/{id}/decide")
