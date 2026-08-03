@@ -30,6 +30,7 @@ from tools.governance.gov50.orchestrator import (
     _restore_worker_draft,
     _structured_worker_draft_paths,
     _worker_blocker_with_recovery_context,
+    _worker_environment,
     _worker_infrastructure_code,
     _worker_prompt,
     _worker_takeover_prompt,
@@ -505,8 +506,26 @@ def test_worker_prompt_exposes_controller_python_runtime_on_windows():
 
 def test_worker_and_takeover_inherit_controller_python_runtime():
     source = (ROOT / "tools/governance/gov50/orchestrator.py").read_text(encoding="utf-8")
-    assert 'env={**AUTH_ENV, "HHY_GOVERNANCE_ROLE": "WORKER"}' in source
-    assert 'env={**AUTH_ENV, "HHY_GOVERNANCE_ROLE": "WORKER_TAKEOVER"}' in source
+    assert 'env=_worker_environment("WORKER")' in source
+    assert 'env=_worker_environment("WORKER_TAKEOVER")' in source
+
+
+def test_worker_environment_exposes_existing_portable_toolchain(tmp_path):
+    java = tmp_path / "jdk" / "jdk-21" / "bin" / "java.exe"
+    adb = tmp_path / "android" / "platform-tools" / "adb.exe"
+    java.parent.mkdir(parents=True)
+    adb.parent.mkdir(parents=True)
+    java.touch()
+    adb.touch()
+
+    env = _worker_environment("WORKER", {"PATH": "existing"}, tmp_path)
+
+    assert env["HHY_GOVERNANCE_ROLE"] == "WORKER"
+    assert env["HHY_PYTHON"]
+    assert env["JAVA_HOME"] == str(tmp_path / "jdk" / "jdk-21")
+    assert env["ANDROID_HOME"] == str(tmp_path / "android")
+    assert str(java.parent) in env["PATH"]
+    assert str(adb.parent) in env["PATH"]
 
 
 def test_candidate_evidence_schema_requires_complete_apk_identity():

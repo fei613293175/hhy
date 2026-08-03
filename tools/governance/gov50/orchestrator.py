@@ -82,6 +82,38 @@ def _fast_lane(repo: Path) -> dict[str, Any]:
     return constitution.get("fast_lane") or {}
 
 
+def _worker_environment(
+    role: str,
+    base_env: dict[str, str] | None = None,
+    toolchain_root: Path | None = None,
+) -> dict[str, str]:
+    """Expose the existing user-local toolchain to isolated Worker processes."""
+    env = dict(base_env or os.environ)
+    env.update(AUTH_ENV)
+    env["HHY_GOVERNANCE_ROLE"] = role
+    root = toolchain_root or Path(
+        env.get("HHY_SUPERVISOR_TOOLCHAIN_ROOT", Path.home() / ".local" / "hhy-toolchain")
+    )
+    path_entries = [Path(sys.executable).parent]
+
+    jdk_candidates = sorted((root / "jdk").glob("jdk-*"), reverse=True)
+    jdk_home = next((path for path in jdk_candidates if (path / "bin" / "java.exe").is_file()), None)
+    if jdk_home:
+        env["JAVA_HOME"] = str(jdk_home)
+        path_entries.append(jdk_home / "bin")
+
+    android_home = root / "android"
+    platform_tools = android_home / "platform-tools"
+    if (platform_tools / "adb.exe").is_file():
+        env["ANDROID_HOME"] = str(android_home)
+        env["ANDROID_SDK_ROOT"] = str(android_home)
+        path_entries.append(platform_tools)
+
+    existing = [value for value in env.get("PATH", "").split(os.pathsep) if value]
+    env["PATH"] = os.pathsep.join(dict.fromkeys([str(path) for path in path_entries] + existing))
+    return env
+
+
 def _commit_state(repo: Path, state: dict[str, Any], specs: dict[str, dict[str, Any]], message: str, extra_paths: list[str] | None = None) -> str | None:
     render_views(repo, state, specs)
     paths = ["governance/STATE.yaml", "CURRENT_STATUS.yaml", "NEXT_TASK.yaml", "governance/views"]
@@ -1055,7 +1087,7 @@ def run_once(repo: Path, dry_run: bool = False) -> dict[str, Any]:
                 progress_paths=spec["allowed_paths"],
                 poll_interval=_worker_progress_poll(repo),
                 initial_product_progress=False,
-                env={**AUTH_ENV, "HHY_GOVERNANCE_ROLE": "WORKER"},
+                env=_worker_environment("WORKER"),
             )
             if worker["status"] != "PASS" or not result_path.is_file():
                 first_failure = worker
@@ -1084,7 +1116,7 @@ def run_once(repo: Path, dry_run: bool = False) -> dict[str, Any]:
                     progress_paths=spec["allowed_paths"],
                     poll_interval=_worker_progress_poll(repo),
                     initial_product_progress=False,
-                    env={**AUTH_ENV, "HHY_GOVERNANCE_ROLE": "WORKER_TAKEOVER"},
+                    env=_worker_environment("WORKER_TAKEOVER"),
                 )
                 if worker["status"] != "PASS" or not result_path.is_file():
                     diagnostic = _persist_worker_failure(repo, task_id, attempt, worker, result_path)
