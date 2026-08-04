@@ -15,12 +15,13 @@
 
 ## CI 证据
 
-- 补开发绿 CI：Run `30943013002`：Backend、Web、Android build/unit、R19 emulator 全部成功。
+- 最终绿 CI：Run `30946843363`，Commit `706a6f29`：Backend、Web、Android build/unit、R19 emulator 全部成功。
 - 管理端补充验证：32 个测试文件、139 项测试全部通过；`vue-tsc --noEmit` 通过。
 - Android 模拟器报告：36 tests，0 failures，0 errors；`meHomeProducesBoundVisualEvidence` 通过。
 - 入口视觉截图：`41-r12-me-home.png`；截图 SHA-256 `496F30A7A4FE775C2B392EB6A00EC3DA487DFDD7289AD2BE9DA2E10B491B01A6`。
 - 视觉证据：`artifacts/reports/R19/visual-evidence.md`。
 - APK 证据：`artifacts/reports/R19/apk-evidence.md`。
+- 固定工具链 APK：`verifyApiBaseUrl testDebugUnitTest lintDebug assembleDebug`、zipalign、v2/v3 签名、包名/版本/API/WSS 检查全部通过。
 
 ## 你拿到 APK 后的设备验收
 
