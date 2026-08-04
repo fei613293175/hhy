@@ -573,28 +573,37 @@ class HistoricalVisualAuditTest {
     }
 
     @Test
-    fun r18MembershipScreensProduceBoundVisualEvidence() {
+    fun r18MembershipCenterProducesBoundVisualEvidence() {
         setAuditContent {
             R18MembershipCenterScreen(visualR18Api, "visual-r18-token", {}, {}, {}, {}, {})
         }
         waitForText("会员中心")
         waitForText("选择套餐")
         captureStable("40-r18-scr-member-001.png")
+    }
 
+    @Test
+    fun r18MembershipPurchaseProducesBoundVisualEvidence() {
         setAuditContent {
             R18MembershipPurchaseScreen(visualR18Api, "visual-r18-token", "pro-monthly", {}, {}, {})
         }
         waitForText("确认开通 Pro")
         waitForText("应付金额：", substring = true)
         captureStable("41-r18-scr-member-002.png")
+    }
 
+    @Test
+    fun r18MembershipUpgradeProducesBoundVisualEvidence() {
         setAuditContent {
             R18MembershipUpgradeScreen(visualR18Api, "visual-r18-token", {}, {})
         }
         waitForText("升级 Pro")
         waitForText("目标套餐")
         captureStable("42-r18-scr-member-003.png")
+    }
 
+    @Test
+    fun r18MembershipBenefitsProducesBoundVisualEvidence() {
         setAuditContent {
             R18MembershipBenefitsScreen(visualR18Api, "visual-r18-token", {}, {})
         }
