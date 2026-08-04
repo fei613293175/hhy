@@ -38,7 +38,9 @@ public class R12MembershipStore {
                 MembershipHead current = head.orElseThrow();
                 Optional<Sku> sku = currentSku(connection, userId, current.planId());
                 List<BenefitResource> benefits = sku.isEmpty()
-                        ? List.of() : benefits(connection, sku.orElseThrow().membershipSkuId());
+                        ? List.of() : snapshotBenefits(connection, userId)
+                                .orElseGet(() -> uncheckedBenefits(
+                                        connection, sku.orElseThrow().membershipSkuId()));
                 Values values = entitlementValues(connection, userId);
                 connection.commit();
                 return Optional.of(new MembershipRow(
@@ -130,6 +132,55 @@ public class R12MembershipStore {
                 }
                 return List.copyOf(result);
             }
+        }
+    }
+
+    private Optional<List<BenefitResource>> snapshotBenefits(Connection connection, long userId)
+            throws SQLException {
+        try (PreparedStatement statement = connection.prepareStatement("""
+                WITH latest AS (
+                  SELECT snapshot.benefits_json
+                  FROM hhy.membership_entitlement_segments segment
+                  JOIN hhy.membership_benefit_snapshots snapshot
+                    ON snapshot.order_id=segment.source_order_id
+                  WHERE segment.user_id=? AND segment.source_order_id IS NOT NULL
+                  ORDER BY segment.ends_at DESC,segment.id DESC LIMIT 1
+                )
+                SELECT benefit->>'benefitCode' AS code,benefit->>'name' AS name,
+                       benefit->'value' AS value_json,benefit->>'unit' AS unit
+                FROM latest
+                LEFT JOIN LATERAL jsonb_array_elements(latest.benefits_json) benefit ON true
+                LIMIT 101
+                """)) {
+            statement.setLong(1, userId);
+            try (ResultSet rows = statement.executeQuery()) {
+                List<BenefitResource> result = new ArrayList<>();
+                boolean snapshotFound = false;
+                while (rows.next()) {
+                    snapshotFound = true;
+                    if (rows.getString("code") == null) continue;
+                    if (result.size() == MAX_BENEFITS) {
+                        throw new IllegalStateException(
+                                "Membership benefit snapshot exceeds the API limit");
+                    }
+                    Object value = jsonDecoder.decode(rows.getString("value_json"));
+                    if (value == null) {
+                        throw new IllegalStateException("Membership benefit snapshot has no value");
+                    }
+                    result.add(new BenefitResource(
+                            rows.getString("code"), rows.getString("name"), value,
+                            rows.getString("unit")));
+                }
+                return snapshotFound ? Optional.of(List.copyOf(result)) : Optional.empty();
+            }
+        }
+    }
+
+    private List<BenefitResource> uncheckedBenefits(Connection connection, long membershipSkuId) {
+        try {
+            return benefits(connection, membershipSkuId);
+        } catch (SQLException failure) {
+            throw new IllegalStateException("Unable to read live membership benefits", failure);
         }
     }
 
