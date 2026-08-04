@@ -28,6 +28,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.testTag
@@ -266,12 +267,12 @@ private fun MeRewardSummary(
             MeSectionTitle("奖励资产", state.updatedAt)
             state.value?.let { reward ->
                 Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(HhySpacing.Sm)) {
-                    MeAmountCell("可用奖励(元)", reward.availableCent, true, Modifier.weight(1f))
-                    MeAmountCell("待结算(元)", reward.pendingCent, true, Modifier.weight(1f))
+                    MeAmountCell("可用奖励（元）", reward.availableCent, true, Modifier.weight(1f), RewardPrimarySurface)
+                    MeAmountCell("待结算（元）", reward.pendingCent, true, Modifier.weight(1f), RewardSecondarySurface)
                 }
                 Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(HhySpacing.Sm)) {
-                    MeAmountCell("冻结金额", reward.frozenCent, false, Modifier.weight(1f))
-                    MeAmountCell("累计提现", reward.withdrawnCent, false, Modifier.weight(1f))
+                    MeAmountCell("冻结金额", reward.frozenCent, false, Modifier.weight(1f), HhyColors.PageBackground)
+                    MeAmountCell("累计提现", reward.withdrawnCent, false, Modifier.weight(1f), HhyColors.PageBackground)
                 }
             } ?: MeModuleBody(
                 kind = R12MeModuleKind.REWARD,
@@ -287,9 +288,18 @@ private fun MeRewardSummary(
     }
 }
 
+private val RewardPrimarySurface = Color(0xFFFFF1D6)
+private val RewardSecondarySurface = Color(0xFFFFF8EC)
+
 @Composable
-private fun MeAmountCell(label: String, cents: Long?, emphasized: Boolean, modifier: Modifier) {
-    Surface(modifier = modifier, shape = RoundedCornerShape(HhyRadius.Tag), color = HhyColors.PageBackground) {
+private fun MeAmountCell(
+    label: String,
+    cents: Long?,
+    emphasized: Boolean,
+    modifier: Modifier,
+    background: Color,
+) {
+    Surface(modifier = modifier, shape = RoundedCornerShape(HhyRadius.Tag), color = background) {
         Column(Modifier.padding(HhySpacing.Md), verticalArrangement = Arrangement.spacedBy(HhySpacing.Xs)) {
             Text(label, color = HhyColors.TextSecondary, fontSize = HhyType.CaptionSize)
             Text(
@@ -313,38 +323,75 @@ private fun MeMembershipSummary(
     Card(
         modifier = Modifier.fillMaxWidth().clickable(onClick = onOpenMembership).testTag("mine.membership"),
         shape = RoundedCornerShape(HhyRadius.NormalCard),
-        colors = CardDefaults.cardColors(containerColor = HhyColors.Surface),
+        colors = CardDefaults.cardColors(containerColor = Color.Transparent),
         elevation = CardDefaults.cardElevation(defaultElevation = HhyElevation.Card),
     ) {
-        Column(Modifier.fillMaxWidth().padding(HhySpacing.Lg), verticalArrangement = Arrangement.spacedBy(HhySpacing.Sm)) {
-            MeSectionTitle("会员状态", state.updatedAt)
+        Column(
+            Modifier.fillMaxWidth().background(
+                Brush.horizontalGradient(listOf(HhyColors.BrandPrimaryDark, HhyColors.BrandPrimary, HhyColors.BrandGradientEnd)),
+            ).padding(HhySpacing.Lg),
+            verticalArrangement = Arrangement.spacedBy(HhySpacing.Md),
+        ) {
+            Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+                Surface(shape = CircleShape, color = HhyColors.Surface.copy(alpha = .18f)) {
+                    HhyIcon(HhyIcons.Verified, "Pro 会员", Modifier.padding(HhySpacing.Sm), HhyColors.TextInverse)
+                }
+                Column(Modifier.weight(1f).padding(start = HhySpacing.Md), verticalArrangement = Arrangement.spacedBy(HhySpacing.Xs)) {
+                    Text("Pro 会员", color = HhyColors.TextInverse, fontSize = HhyType.CardTitleSize,
+                        lineHeight = HhyType.CardTitleLineHeight, fontWeight = FontWeight.Bold)
+                    Text(
+                        state.value?.let { membership ->
+                            if (membership.status == "ACTIVE") "统一 Pro 身份 · ${membershipStatusLabel(membership.status)}"
+                            else membershipStatusLabel(membership.status)
+                        } ?: if (state.status == R12MeModuleStatus.EMPTY) "暂未开通，开通后享受真实权益" else "会员状态加载中",
+                        color = HhyColors.TextInverse.copy(alpha = .82f), fontSize = HhyType.CaptionSize,
+                        lineHeight = HhyType.CaptionLineHeight, maxLines = 2, overflow = TextOverflow.Ellipsis,
+                    )
+                }
+                Surface(shape = RoundedCornerShape(HhyRadius.Pill), color = HhyColors.Surface.copy(alpha = .18f)) {
+                    Text(
+                        if (state.value?.status == "ACTIVE") "已开通" else "去开通",
+                        modifier = Modifier.padding(horizontal = HhySpacing.Sm, vertical = HhySpacing.Xs),
+                        color = HhyColors.TextInverse, fontSize = HhyType.CaptionSize, fontWeight = FontWeight.Bold,
+                    )
+                }
+            }
             state.value?.let { membership ->
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Surface(shape = CircleShape, color = HhyColors.SoftBlue) {
-                        HhyIcon(HhyIcons.Verified, null, Modifier.padding(HhySpacing.Sm), HhyColors.BrandPrimary)
-                    }
-                    Column(Modifier.weight(1f).padding(start = HhySpacing.Md)) {
-                        Text(
-                            membership.name?.takeIf(String::isNotBlank) ?: membershipStatusLabel(membership.status),
-                            color = HhyColors.TextPrimary,
-                            fontSize = HhyType.CardTitleSize,
-                            lineHeight = HhyType.CardTitleLineHeight,
-                            fontWeight = FontWeight.SemiBold,
-                        )
-                        Text(
-                            membership.expiresAt?.let { "有效期至 ${it.r12MeBusinessTimeLabel()}" }
-                                ?: membershipStatusLabel(membership.status),
-                            color = HhyColors.TextSecondary,
-                            fontSize = HhyType.CaptionSize,
-                            lineHeight = HhyType.CaptionLineHeight,
-                        )
+                Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(HhySpacing.Sm)) {
+                    MeMembershipFact("有效期", membership.expiresAt?.let { "至 ${it.r12MeBusinessTimeLabel()}" } ?: "未设置", Modifier.weight(1f))
+                    MeMembershipFact("权益", if (membership.benefits.isEmpty()) "开通后展示" else "${membership.benefits.size} 项真实权益", Modifier.weight(1f))
+                }
+            } ?: when (state.status) {
+                R12MeModuleStatus.LOADING, R12MeModuleStatus.REFRESHING -> {
+                    Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(HhySpacing.Sm)) {
+                        MeMembershipFact("有效期", "开通后展示", Modifier.weight(1f))
+                        MeMembershipFact("权益", "开通后展示", Modifier.weight(1f))
                     }
                 }
-            } ?: MeModuleBody(R12MeModuleKind.MEMBERSHIP, state.status, state.retryAfterSeconds, onRetry)
-            if (state.value != null && state.status !in setOf(R12MeModuleStatus.CONTENT, R12MeModuleStatus.REFRESHING)) {
-                MeInlineNotice(moduleMessage(R12MeModuleKind.MEMBERSHIP, state.status, state.retryAfterSeconds), onRetry)
+                R12MeModuleStatus.EMPTY -> {
+                    Text("开通后将在这里展示会员名称、有效期和真实权益。", color = HhyColors.TextInverse.copy(alpha = .82f),
+                        fontSize = HhyType.CaptionSize, lineHeight = HhyType.CaptionLineHeight)
+                }
+                else -> MeModuleInlineFailure(moduleMessage(R12MeModuleKind.MEMBERSHIP, state.status, state.retryAfterSeconds), onRetry)
             }
         }
+    }
+}
+
+@Composable
+private fun MeMembershipFact(label: String, value: String, modifier: Modifier) {
+    Column(modifier, verticalArrangement = Arrangement.spacedBy(HhySpacing.Xs)) {
+        Text(label, color = HhyColors.TextInverse.copy(alpha = .66f), fontSize = HhyType.CaptionSize)
+        Text(value, color = HhyColors.TextInverse, fontSize = HhyType.SecondaryBodySize,
+            lineHeight = HhyType.SecondaryBodyLineHeight, maxLines = 1, overflow = TextOverflow.Ellipsis)
+    }
+}
+
+@Composable
+private fun MeModuleInlineFailure(message: String, onRetry: () -> Unit) {
+    Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+        Text(message, Modifier.weight(1f), color = HhyColors.TextInverse.copy(alpha = .82f), fontSize = HhyType.CaptionSize)
+        TextButton(onClick = onRetry) { Text("重试", color = HhyColors.TextInverse) }
     }
 }
 

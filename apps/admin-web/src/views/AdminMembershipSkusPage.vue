@@ -8,6 +8,7 @@ type MembershipRow = {
   skuId?: string
   name?: string
   status: string
+  durationDays?: number
   paidValueCent?: number
   benefits?: unknown[]
   version: number
@@ -21,12 +22,21 @@ const editor = ref<MembershipRow>()
 const filters = reactive({ keyword: '', status: '', sort: 'priceCent:asc' })
 const activeCount = computed(() => items.value.filter((item) => item.status === 'ACTIVE').length)
 const prices = computed(() => items.value.map((item) => item.paidValueCent ?? 0).filter(Boolean))
+const termCount = computed(() => new Set(items.value.map(termLabel)).size)
 
 function money(value?: number) {
   return value === undefined ? '暂无' : new Intl.NumberFormat('zh-CN', { style: 'currency', currency: 'CNY' }).format(value / 100)
 }
 function statusLabel(value: string) {
-  return value === 'ACTIVE' ? '有效' : value === 'DISABLED' ? '停用' : '状态待确认'
+  return value === 'ACTIVE' ? '有效' : value === 'DISABLED' || value === 'INACTIVE' ? '停用' : '状态待确认'
+}
+function termLabel(item: MembershipRow) {
+  if (item.durationDays) return `${item.durationDays} 天`
+  const source = `${item.name ?? ''} ${item.skuId ?? ''}`.toLowerCase()
+  if (source.includes('月') || source.includes('month')) return '月度'
+  if (source.includes('季') || source.includes('quarter')) return '季度'
+  if (source.includes('年') || source.includes('year')) return '年度'
+  return '期限待确认'
 }
 function message(caught: unknown) {
   if (isApiRequestError(caught)) {
@@ -71,7 +81,7 @@ onMounted(() => { void load() })
       <div><span>当前结果</span><strong>{{ items.length }}</strong><small>按当前筛选</small></div>
       <div><span>可售套餐</span><strong>{{ activeCount }}</strong><small>状态为有效</small></div>
       <div><span>最低价格</span><strong>{{ money(prices.length ? Math.min(...prices) : undefined) }}</strong><small>服务端价格</small></div>
-      <div><span>期限体系</span><strong>3</strong><small>月 / 季 / 年</small></div>
+      <div><span>期限体系</span><strong>{{ termCount }}</strong><small>按服务端套餐</small></div>
     </section>
     <form class="card order-filters" @submit.prevent="load">
       <label class="field"><span class="field-label">关键词</span><input v-model="filters.keyword" class="input" maxlength="100" placeholder="套餐名称或编号" /></label>
@@ -82,10 +92,10 @@ onMounted(() => { void load() })
     <section class="card table-card">
       <div v-if="loading" class="loading-state">正在加载会员 SKU…</div>
       <div v-else-if="!items.length" class="empty-state">暂无符合条件的会员 SKU</div>
-      <table v-else class="data-table"><thead><tr><th>套餐</th><th>Pro 身份</th><th>价格</th><th>权益</th><th>状态</th><th>版本</th><th>操作</th></tr></thead>
+      <table v-else class="data-table"><thead><tr><th>套餐</th><th>Pro 身份</th><th>期限</th><th>价格</th><th>权益</th><th>状态</th><th>版本</th><th>操作</th></tr></thead>
         <tbody><tr v-for="item in items" :key="item.id">
-          <td><strong>{{ item.name || '未命名套餐' }}</strong><small>{{ item.skuId || item.id }}</small></td>
-          <td>Pro</td><td>{{ money(item.paidValueCent) }}</td><td>{{ (item.benefits ?? []).length }} 项</td>
+          <td><strong>{{ item.name || '未命名套餐' }}</strong><small>Pro 统一身份</small></td>
+          <td>Pro</td><td>{{ termLabel(item) }}</td><td>{{ money(item.paidValueCent) }}</td><td>{{ (item.benefits ?? []).length }} 项</td>
           <td><span class="status-chip" :data-status="item.status">{{ statusLabel(item.status) }}</span></td><td>v{{ item.version }}</td>
           <td><button class="secondary-button" @click="openEditor(item)">编辑</button></td>
         </tr></tbody>

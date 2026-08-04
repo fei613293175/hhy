@@ -34,6 +34,9 @@ describe('R18 admin membership pages', () => {
     expect(wrapper.text()).not.toContain('ACTIVE')
     expect(wrapper.text()).not.toContain('DISABLED')
     expect(wrapper.text()).toContain('Pro 月度')
+    expect(wrapper.text()).toContain('期限')
+    expect(wrapper.text()).toContain('月度')
+    expect(wrapper.text()).not.toContain('sku-month')
     wrapper.unmount()
   })
 

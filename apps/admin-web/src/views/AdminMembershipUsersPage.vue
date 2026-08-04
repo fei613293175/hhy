@@ -12,7 +12,17 @@ const grantOpen = ref(false)
 const grant = reactive({ userId: '', skuId: '', durationDays: 30, reason: '' })
 const items = computed(() => result.value?.items ?? [])
 function statusLabel(value: string) {
-  return value === 'ACTIVE' ? '有效' : value === 'PENDING' ? '待生效' : value === 'EXPIRED' ? '已到期' : '状态待确认'
+  return value === 'ACTIVE' ? '有效' : value === 'PENDING' ? '待生效' : value === 'EXPIRED' ? '已到期' : value === 'CANCELLED' ? '已取消' : '状态待确认'
+}
+function termLabel(item: { name?: string; skuId?: string }) {
+  const source = `${item.name ?? ''} ${item.skuId ?? ''}`.toLowerCase()
+  if (source.includes('月') || source.includes('month')) return '月度'
+  if (source.includes('季') || source.includes('quarter')) return '季度'
+  if (source.includes('年') || source.includes('year')) return '年度'
+  return '期限待确认'
+}
+function money(value?: number) {
+  return value === undefined ? '暂无' : new Intl.NumberFormat('zh-CN', { style: 'currency', currency: 'CNY' }).format(value / 100)
 }
 function dateLabel(value?: string) {
   if (!value) return '暂无'
@@ -64,8 +74,8 @@ onMounted(() => { void load() })
     <section class="card table-card">
       <div v-if="loading" class="loading-state">正在加载用户会员…</div>
       <div v-else-if="!items.length" class="empty-state">暂无用户会员记录</div>
-      <table v-else class="data-table"><thead><tr><th>用户</th><th>Pro 套餐</th><th>状态</th><th>有效期</th><th>权益</th><th>版本</th></tr></thead>
-        <tbody><tr v-for="item in items" :key="item.id"><td><strong>{{ item.id || '未知用户' }}</strong></td><td>{{ item.name || item.skuId || 'Pro' }}</td><td><span class="status-chip" :data-status="item.status">{{ statusLabel(item.status) }}</span></td><td>{{ dateLabel(item.startsAt) }}<small>{{ dateLabel(item.expiresAt) }}</small></td><td>{{ (item.benefits ?? []).length }} 项快照</td><td>v{{ item.version }}</td></tr></tbody>
+      <table v-else class="data-table"><thead><tr><th>用户</th><th>Pro 套餐</th><th>期限</th><th>状态</th><th>有效期</th><th>实付</th><th>剩余价值</th><th>版本</th></tr></thead>
+        <tbody><tr v-for="item in items" :key="item.id"><td><strong>{{ item.id || '未知用户' }}</strong></td><td>{{ item.name || item.skuId || 'Pro' }}</td><td>{{ termLabel(item) }}</td><td><span class="status-chip" :data-status="item.status">{{ statusLabel(item.status) }}</span></td><td>{{ dateLabel(item.startsAt) }}<small>{{ dateLabel(item.expiresAt) }}</small></td><td>{{ money(item.paidValueCent) }}</td><td>{{ money(item.remainingValueCent) }}</td><td>v{{ item.version }}</td></tr></tbody>
       </table>
     </section>
     <div v-if="grantOpen" class="dialog-backdrop" @click.self="grantOpen = false">
