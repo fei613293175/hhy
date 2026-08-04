@@ -283,10 +283,10 @@ public final class R19PropPostgresStore implements R19PropStore {
     private PageSlice<PropResource> page(
             PageQuery query, boolean user, long userId, String mode) {
         if ("USER_PROPS".equals(mode)) return userPage(query, userId);
-        return store(query);
+        return storePage(query);
     }
 
-    private PageSlice<PropResource> store(PageQuery query) {
+    private PageSlice<PropResource> storePage(PageQuery query) {
         List<Object> args = new ArrayList<>();
         String where = filters(query, args, "ps.status", "pp.name", "pp.type");
         String sql = """
@@ -296,7 +296,7 @@ public final class R19PropPostgresStore implements R19PropStore {
                 JOIN hhy.prop_products pp ON pp.id=ps.prop_id
                 JOIN hhy.product_skus product_sku ON product_sku.id=ps.product_sku_id
                 """ + where + " ORDER BY " + orderBy(query.sort(), "ps.created_at", "pp.name",
-                        "product_sku.price_cent", "ps.updated_at", "ps.id")
+                        "product_sku.price_cent", "ps.updated_at", "ps.updated_at", "ps.id")
                 + " LIMIT ? OFFSET ?";
         args.add(query.pageSize());
         args.add(query.offset());
@@ -706,13 +706,6 @@ public final class R19PropPostgresStore implements R19PropStore {
     }
 
     private Map<String, Object> object(String value) { return value == null ? Map.of() : codec.object(value); }
-
-    private Map<String, Object> productMap(ProductHead value) {
-        if (value == null) return Map.of();
-        return Map.of("id", value.id(), "type", value.type(), "name", value.name(),
-                "durationSeconds", value.durationSeconds(), "executionType", value.executionType(),
-                "status", value.status(), "version", value.version());
-    }
 
     private Map<String, Object> skuMap(SkuHead value) {
         if (value == null) return Map.of();
