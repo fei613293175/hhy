@@ -10,7 +10,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.sql.Timestamp;
 import java.sql.Types;
 import java.time.Instant;
@@ -85,7 +84,7 @@ public final class R19PropPostgresStore implements R19PropStore {
                       idempotency_key,request_hash,legacy_without_idempotency,version)
                     VALUES (?,?,?,?,?,'PENDING_PAYMENT','CNY',true,'PROP-NO-REFUND-V1',?, ?, ?, false,0)
                     RETURNING id,version
-                    """, Statement.RETURN_GENERATED_KEYS)) {
+                    """)) {
                 statement.setString(1, orderNo);
                 statement.setLong(2, context.userId());
                 statement.setString(3, "PROP");
@@ -192,7 +191,7 @@ public final class R19PropPostgresStore implements R19PropStore {
                       user_prop_id,content_id,result,status,operation_id,idempotency_key,request_hash,version)
                     VALUES (?,?,?::jsonb,'SUCCEEDED',?,?,?,0)
                     RETURNING id
-                    """, Statement.RETURN_GENERATED_KEYS)) {
+                    """)) {
                 statement.setLong(1, userPropId);
                 statement.setLong(2, contentId);
                 statement.setString(3, codec.json(result));
@@ -257,7 +256,7 @@ public final class R19PropPostgresStore implements R19PropStore {
                     """
                     INSERT INTO hhy.headline_slots(page_code,slot_code,capacity,status,version)
                     VALUES (?,?,?,'ACTIVE',0) RETURNING id
-                    """, Statement.RETURN_GENERATED_KEYS)) {
+                    """)) {
                 statement.setString(1, pageCode);
                 statement.setString(2, slotCode);
                 statement.setInt(3, capacity);
@@ -498,7 +497,7 @@ public final class R19PropPostgresStore implements R19PropStore {
         String status = start.isAfter(acceptedAt) ? "SCHEDULED" : "ACTIVE";
         try (PreparedStatement statement = connection.prepareStatement(
                 "INSERT INTO hhy.content_exposure_entitlements(content_id,user_prop_id,type,starts_at,ends_at,status,version) VALUES (?,?,?,?,?,?,0) RETURNING id",
-                Statement.RETURN_GENERATED_KEYS)) {
+                )) {
             statement.setLong(1, contentId); statement.setLong(2, inventory.id());
             statement.setString(3, inventory.propType()); statement.setObject(4, time(start));
             statement.setObject(5, time(end)); statement.setString(6, status);
