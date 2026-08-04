@@ -15,7 +15,9 @@
 
 ## CI 证据
 
-- 最终绿 CI：Run `30930316181`：Backend、Web、Android build/unit、R19 emulator 全部成功。
+- 最终绿 CI：Run `30932913809`：Backend、Web、Android build/unit、R19 emulator 全部成功。
+- Android 模拟器报告：36 tests，0 failures，0 errors；`meHomeProducesBoundVisualEvidence` 通过。
+- 入口视觉截图：`41-r12-me-home.png`；截图 SHA-256 `496F30A7A4FE775C2B392EB6A00EC3DA487DFDD7289AD2BE9DA2E10B491B01A6`。
 - 视觉证据：`artifacts/reports/R19/visual-evidence.md`。
 - APK 证据：`artifacts/reports/R19/apk-evidence.md`。
 

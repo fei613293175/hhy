@@ -9,6 +9,7 @@
 
 | 页面 | 精确来源/补充规格 | 目标视口 | 截图证据 |
 | --- | --- | --- | --- |
+| SCR-ME-001 R19 入口 | B08/P01；`specs/SCR-ME-001-R19-PROP-ENTRY.md` | Pixel 7 / API 35 | `artifacts/reports/R19/visual/android/SCR-R19-ME-ENTRY.png`；Run `30932913809` 的 `41-r12-me-home.png` |
 | SCR-PROP-001 | B11/P04；`specs/SCR-PROP-001.md` | Pixel 7 / API 35 | `artifacts/reports/R19/visual/android/SCR-PROP-001.png` |
 | SCR-PROP-002 | B11/P06；`specs/SCR-PROP-002.md` | Pixel 7 / API 35 | `artifacts/reports/R19/visual/android/SCR-PROP-002.png` |
 | SCR-PROP-003 | B11/P07；`specs/SCR-PROP-003.md` | Pixel 7 / API 35 | `artifacts/reports/R19/visual/android/SCR-PROP-003.png` |
