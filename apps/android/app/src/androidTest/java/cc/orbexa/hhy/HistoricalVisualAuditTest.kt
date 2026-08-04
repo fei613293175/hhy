@@ -69,6 +69,8 @@ import cc.orbexa.hhy.network.ContractR07Api
 import cc.orbexa.hhy.network.ContractR12MeApi
 import cc.orbexa.hhy.network.ContractR13Api
 import cc.orbexa.hhy.network.ContractR14Api
+import cc.orbexa.hhy.network.ContractR12Api
+import cc.orbexa.hhy.network.ContractR19PropApi
 import cc.orbexa.hhy.network.DirectUploadResource
 import cc.orbexa.hhy.network.ExperienceApi
 import cc.orbexa.hhy.network.HhyNetworkJson
@@ -95,6 +97,14 @@ import cc.orbexa.hhy.network.R18MembershipOrderRequest
 import cc.orbexa.hhy.network.R18MembershipPage
 import cc.orbexa.hhy.network.R18MembershipUpgradeOrderRequest
 import cc.orbexa.hhy.network.R18MembershipUpgradeQuoteRequest
+import cc.orbexa.hhy.network.R12ContentStatusRequest
+import cc.orbexa.hhy.network.R12CopyContentRequest
+import cc.orbexa.hhy.network.R12CopyContentResult
+import cc.orbexa.hhy.network.R12SubmitContentRequest
+import cc.orbexa.hhy.network.R19PropOrderRequest
+import cc.orbexa.hhy.network.R19PropPage
+import cc.orbexa.hhy.network.R19PropResource
+import cc.orbexa.hhy.network.R19PropUseRequest
 import cc.orbexa.hhy.network.PublisherSummaryResource
 import cc.orbexa.hhy.network.UserSelfResource
 import cc.orbexa.hhy.network.R07CallResult
@@ -117,6 +127,9 @@ import cc.orbexa.hhy.membership.R18MembershipBenefitsScreen
 import cc.orbexa.hhy.membership.R18MembershipCenterScreen
 import cc.orbexa.hhy.membership.R18MembershipPurchaseScreen
 import cc.orbexa.hhy.membership.R18MembershipUpgradeScreen
+import cc.orbexa.hhy.prop.R19MyPropsScreen
+import cc.orbexa.hhy.prop.R19PropStoreScreen
+import cc.orbexa.hhy.prop.R19PropUseScreen
 import cc.orbexa.hhy.startup.StartupVisualAuditMode
 import cc.orbexa.hhy.startup.StartupVisualAuditScreen
 import java.io.InputStream
@@ -612,6 +625,30 @@ class HistoricalVisualAuditTest {
         captureStable("43-r18-scr-member-004.png")
     }
 
+    @Test
+    fun r19PropStoreProducesBoundVisualEvidence() {
+        composeRule.setContent { HhyTheme { R19PropStoreScreen(visualR19Api, "visual-r19-token", {}, {}, {}, {}) } }
+        composeRule.onNodeWithTag("hhy.screen.scr-prop-001").assertIsDisplayed()
+        composeRule.onNodeWithText("头条加速").assertIsDisplayed()
+        captureStable("44-r19-scr-prop-001.png")
+    }
+
+    @Test
+    fun r19MyPropsProducesBoundVisualEvidence() {
+        composeRule.setContent { HhyTheme { R19MyPropsScreen(visualR19Api, "visual-r19-token", {}, {}, {}, {}) } }
+        composeRule.onNodeWithTag("hhy.screen.scr-prop-002").assertIsDisplayed()
+        composeRule.onNodeWithText("我的道具").assertIsDisplayed()
+        captureStable("45-r19-scr-prop-002.png")
+    }
+
+    @Test
+    fun r19PropUseProducesBoundVisualEvidence() {
+        composeRule.setContent { HhyTheme { R19PropUseScreen(visualR19Api, visualR19ContentApi, "visual-r19-token", "1901", {}, {}, {}) } }
+        composeRule.onNodeWithTag("hhy.screen.scr-prop-003").assertIsDisplayed()
+        composeRule.onNodeWithText("品牌联合增长计划").assertIsDisplayed()
+        captureStable("46-r19-scr-prop-003.png")
+    }
+
     @OptIn(ExperimentalComposeUiApi::class)
     private fun setAuditContent(content: @Composable () -> Unit) {
         composeRule.setContent {
@@ -898,6 +935,42 @@ class HistoricalVisualAuditTest {
             "visual-r12-reward",
             "2026-07-25T15:00:00Z",
         )
+    }
+
+    private val visualR19Props = listOf(
+        R19PropResource("1901", "HEADLINE", "头条加速", 2, "AVAILABLE", "2026-09-30T23:59:59Z", version = 3),
+        R19PropResource("1902", "REFRESH", "内容焕新", 5, "AVAILABLE", "2026-12-31T23:59:59Z", version = 1),
+        R19PropResource("1903", "COLOR", "主题变色", 1, "AVAILABLE", null, version = 2),
+        R19PropResource("1904", "TOP", "列表置顶", 0, "ACTIVE", null, version = 1),
+    )
+    private val visualR19Api = object : ContractR19PropApi {
+        override suspend fun store(accessToken: String, page: Int, pageSize: Int, status: String?, keyword: String?, sort: String) =
+            R07CallResult.Success(R19PropPage(visualR19Props.map { it.copy(status = "ACTIVE", quantity = 0) }, R07PageMeta(1, 20, "4", hasMore = "false")), "visual-r19-store")
+        override suspend fun mine(accessToken: String, page: Int, pageSize: Int, status: String?, keyword: String?, sort: String) =
+            R07CallResult.Success(R19PropPage(visualR19Props.take(3), R07PageMeta(1, 20, "3", hasMore = "false")), "visual-r19-mine")
+        override suspend fun order(accessToken: String, request: R19PropOrderRequest, idempotencyKey: String) =
+            R07CallResult.Success(CommandResultResource(request.skuId, status = "ACCEPTED", acceptedAt = "2026-08-04T08:00:00Z"), "visual-r19-order")
+        override suspend fun use(accessToken: String, inventoryId: String, request: R19PropUseRequest, idempotencyKey: String) =
+            R07CallResult.Success(CommandResultResource(inventoryId, status = "ACCEPTED", acceptedAt = "2026-08-04T08:00:00Z"), "visual-r19-use")
+    }
+    private val visualR19ContentPage = ContentPageResource(
+        listOf(
+            ContentResource("19001", "PROJECT", "品牌联合增长计划", "寻找区域合作伙伴", status = "ONLINE", version = 3),
+            ContentResource("19002", "APP", "企业效率工具合作", "面向已验证团队", status = "ONLINE", version = 2),
+        ),
+        R07PageMeta(1, 20, "2", hasMore = "false"),
+    )
+    private val visualR19ContentApi = object : ContractR12Api {
+        override suspend fun content(accessToken: String, id: String) = R07CallResult.Success(visualR19ContentPage.items.first(), "visual-r19-content")
+        override suspend fun contents(accessToken: String, page: Int, pageSize: Int, cursor: String?, status: String?, keyword: String?, sort: String?, contentType: String?, categoryCode: String?, regionCode: String?) = R07CallResult.Success(visualR19ContentPage, "visual-r19-contents")
+        override suspend fun drafts(accessToken: String, page: Int, pageSize: Int, cursor: String?, status: String?, keyword: String?, sort: String?) = R07CallResult.Success(visualR19ContentPage, "visual-r19-drafts")
+        override suspend fun copy(accessToken: String, id: String, idempotencyKey: String, request: R12CopyContentRequest): R07CallResult<R12CopyContentResult> = R07CallResult.Failure(503)
+        override suspend fun submit(accessToken: String, id: String, idempotencyKey: String, request: R12SubmitContentRequest): R07CallResult<R12CopyContentResult> = R07CallResult.Failure(503)
+        override suspend fun online(accessToken: String, id: String, idempotencyKey: String, request: R12ContentStatusRequest): R07CallResult<R12CopyContentResult> = R07CallResult.Failure(503)
+        override suspend fun offline(accessToken: String, id: String, idempotencyKey: String, request: R12ContentStatusRequest): R07CallResult<R12CopyContentResult> = R07CallResult.Failure(503)
+        override suspend fun delete(accessToken: String, id: String, expectedVersion: Long, idempotencyKey: String): R07CallResult<CommandResultResource> = R07CallResult.Failure(503)
+        override suspend fun reviews(accessToken: String, id: String, page: Int, pageSize: Int, cursor: String?, status: String?, keyword: String?, sort: String?, contentType: String?, categoryCode: String?, regionCode: String?) = R07CallResult.Success(visualR19ContentPage, "visual-r19-reviews")
+        override suspend fun analytics(accessToken: String, id: String, page: Int, pageSize: Int, cursor: String?, status: String?, keyword: String?, sort: String?, contentType: String?, categoryCode: String?, regionCode: String?) = R07CallResult.Success(visualR19ContentPage, "visual-r19-analytics")
     }
 
     private val visualR18Member = MembershipResource(

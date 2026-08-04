@@ -145,6 +145,7 @@ dependencies {
     implementation(project(":feature:support"))
     implementation(project(":feature:order"))
     implementation(project(":feature:membership"))
+    implementation(project(":feature:prop"))
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.navigation.compose)

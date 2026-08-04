@@ -89,6 +89,7 @@ import cc.orbexa.hhy.network.UrlConnectionContractR14Api
 import cc.orbexa.hhy.network.UrlConnectionContractR15Api
 import cc.orbexa.hhy.network.UrlConnectionContractR16Api
 import cc.orbexa.hhy.network.UrlConnectionContractR18MembershipApi
+import cc.orbexa.hhy.network.UrlConnectionContractR19PropApi
 import cc.orbexa.hhy.network.OkHttpR14RealtimeClient
 import cc.orbexa.hhy.network.R14RealtimeEvent
 import cc.orbexa.hhy.network.R14RealtimeScope
@@ -136,6 +137,9 @@ import cc.orbexa.hhy.membership.R18MembershipBenefitsScreen
 import cc.orbexa.hhy.membership.R18MembershipCenterScreen
 import cc.orbexa.hhy.membership.R18MembershipPurchaseScreen
 import cc.orbexa.hhy.membership.R18MembershipUpgradeScreen
+import cc.orbexa.hhy.prop.R19MyPropsScreen
+import cc.orbexa.hhy.prop.R19PropStoreScreen
+import cc.orbexa.hhy.prop.R19PropUseScreen
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.decodeFromString
 import kotlinx.coroutines.awaitCancellation
@@ -283,6 +287,9 @@ internal sealed interface AuthenticatedRoute {
     @Serializable data class MembershipPurchase(val skuId: String) : AuthenticatedRoute
     @Serializable data object MembershipUpgrade : AuthenticatedRoute
     @Serializable data object MembershipBenefits : AuthenticatedRoute
+    @Serializable data object PropStore : AuthenticatedRoute
+    @Serializable data object MyProps : AuthenticatedRoute
+    @Serializable data class PropUse(val inventoryId: String) : AuthenticatedRoute
     @Serializable data object Me : AuthenticatedRoute
     @Serializable data object Profile : AuthenticatedRoute
     @Serializable data object LoginDevices : AuthenticatedRoute
@@ -360,6 +367,7 @@ private fun AuthenticatedNavHost(
     val r15Api = remember { UrlConnectionContractR15Api(BuildConfig.API_BASE_URL) }
     val r16Api = remember { UrlConnectionContractR16Api(BuildConfig.API_BASE_URL) }
     val r18MembershipApi = remember { UrlConnectionContractR18MembershipApi(BuildConfig.API_BASE_URL) }
+    val r19PropApi = remember { UrlConnectionContractR19PropApi(BuildConfig.API_BASE_URL) }
     val r14Realtime = remember { OkHttpR14RealtimeClient(BuildConfig.WS_BASE_URL) }
     val mediaApi = remember { UrlConnectionContractMediaApi(BuildConfig.API_BASE_URL) }
     val uriHandler = androidx.compose.ui.platform.LocalUriHandler.current
@@ -500,6 +508,8 @@ private fun AuthenticatedNavHost(
             onOpenHistory = { navController.navigate(AuthenticatedRoute.History) },
             onOpenOrders = { navController.navigate(AuthenticatedRoute.Orders) },
             onOpenMembership = { navController.navigate(AuthenticatedRoute.Membership) },
+            onOpenMyProps = { navController.navigate(AuthenticatedRoute.MyProps) },
+            onOpenPropStore = { navController.navigate(AuthenticatedRoute.PropStore) },
             onOpenProfile = { navController.navigate(AuthenticatedRoute.Profile) },
             experienceApi = experienceApi,
             meApi = r12MeApi,
@@ -646,6 +656,35 @@ private fun AuthenticatedNavHost(
             R18MembershipBenefitsScreen(
                 r18MembershipApi, authenticated.session.accessToken,
                 { navController.popBackStack() }, onSessionInvalidated,
+            )
+        }
+        composable<AuthenticatedRoute.PropStore> {
+            R19PropStoreScreen(
+                r19PropApi, authenticated.session.accessToken,
+                { navController.popBackStack() },
+                { navController.navigate(AuthenticatedRoute.MyProps) },
+                { navController.navigate(AuthenticatedRoute.Orders) },
+                onSessionInvalidated,
+            )
+        }
+        composable<AuthenticatedRoute.MyProps> {
+            R19MyPropsScreen(
+                r19PropApi, authenticated.session.accessToken,
+                { navController.popBackStack() },
+                { navController.navigate(AuthenticatedRoute.PropStore) },
+                { navController.navigate(AuthenticatedRoute.PropUse(it)) },
+                onSessionInvalidated,
+            )
+        }
+        composable<AuthenticatedRoute.PropUse> { entry ->
+            val route = entry.toRoute<AuthenticatedRoute.PropUse>()
+            R19PropUseScreen(
+                r19PropApi, r12Api, authenticated.session.accessToken, route.inventoryId,
+                { navController.popBackStack() },
+                { navController.navigate(AuthenticatedRoute.MyProps) {
+                    popUpTo<AuthenticatedRoute.MyProps> { inclusive = true }
+                } },
+                onSessionInvalidated,
             )
         }
         composable<AuthenticatedRoute.Profile> {
