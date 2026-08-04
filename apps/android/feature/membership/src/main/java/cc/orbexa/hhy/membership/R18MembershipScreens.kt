@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalMaterial3Api::class)
+
 package cc.orbexa.hhy.membership
 
 import androidx.compose.foundation.layout.*
@@ -62,7 +64,9 @@ fun R18MembershipCenterScreen(
                         plans.take(3).forEach { sku -> R18SkuCard(sku, Modifier.weight(1f)) { onPurchase(sku.skuId.orEmpty()) } }
                     } }
                     item { Button(
-                        onClick = if (member?.status == "ACTIVE") onUpgrade else { { plans.firstOrNull()?.skuId?.let(onPurchase) } },
+                        onClick = if (member?.status == "ACTIVE") onUpgrade else {
+                            { plans.firstOrNull()?.skuId?.let { onPurchase(it) } ?: Unit }
+                        },
                         enabled = plans.isNotEmpty(), modifier = Modifier.fillMaxWidth().testTag("hhy.member.primary"),
                     ) { Text(if (member?.status == "ACTIVE") "升级 Pro" else "开通 Pro") } }
                 }
@@ -207,7 +211,7 @@ fun R18MembershipBenefitsScreen(api: ContractR18MembershipApi, token: String, on
     }
 }
 @Composable private fun R18SkuCard(sku: MembershipResource, modifier: Modifier, onClick: () -> Unit) {
-    Card(modifier.testTag("hhy.member.sku." + sku.skuId), onClick = onClick, shape = RoundedCornerShape(HhyRadius.NormalCard)) {
+    Card(onClick = onClick, modifier = modifier.testTag("hhy.member.sku." + sku.skuId), shape = RoundedCornerShape(HhyRadius.NormalCard)) {
         Column(Modifier.padding(10.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
             Text(sku.name ?: "Pro", fontWeight = FontWeight.SemiBold)
             Text(money(sku.paidValueCent), color = HhyColors.BrandPrimary)
