@@ -12,6 +12,8 @@ export type AdminPropResource = AdminContract.components['schemas']['PropResourc
 export type AdminPropPage = Data<Operation<'adminPropsGetProps'>>
 export type AdminPropQuery = { page?: number; pageSize?: number; cursor?: string; status?: string; keyword?: string; sort?: string }
 export type AdminPropPatch = Body<Operation<'adminPropsPatchPropsById'>>
+export type AdminPropCreate = Body<Operation<'adminPropsPostProps'>>
+export type AdminPropScope = NonNullable<AdminPropCreate['scope']>
 export type AdminPropSlotCreate = Body<Operation<'adminPropsPostHeadlineSlots'>>
 
 const SAFE_ID = /^[A-Za-z0-9_-]{1,64}$/
@@ -30,6 +32,7 @@ function query(parameters: AdminPropQuery) {
 export class AdminPropsApi {
   constructor(private readonly transport: AdminSecurityApi = adminSecurityApi, private readonly session: AdminSession = adminSession) {}
   props(parameters: AdminPropQuery = {}, options: AdminCallOptions = {}) { return this.list<Operation<'adminPropsGetProps'>>('/admin-api/v1/props', parameters, options) }
+  create(body: AdminPropCreate, key: string, options: AdminCallOptions = {}) { return this.write<Operation<'adminPropsPostProps'>>('/admin-api/v1/props', 'POST', body, key, options) }
   headlineSlots(parameters: AdminPropQuery = {}, options: AdminCallOptions = {}) { return this.list<Operation<'adminPropsGetHeadlineSlots'>>('/admin-api/v1/headline-slots', parameters, options) }
   executions(parameters: AdminPropQuery = {}, options: AdminCallOptions = {}) { return this.list<Operation<'adminPropsGetPropExecutions'>>('/admin-api/v1/prop-executions', parameters, options) }
   patch(id: string, body: AdminPropPatch, key: string, options: AdminCallOptions = {}) { return this.write<Operation<'adminPropsPatchPropsById'>>(`/admin-api/v1/props/${safeId(id)}`, 'PATCH', body, key, options) }

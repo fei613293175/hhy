@@ -28,12 +28,15 @@ contracts:
   - POST /api/v1/me/props/{id}/use
   admin_api:
   - GET /admin-api/v1/props
+  - POST /admin-api/v1/props
   - PATCH /admin-api/v1/props/{id}
   - GET /admin-api/v1/headline-slots
   - POST /admin-api/v1/headline-slots
   - GET /admin-api/v1/prop-executions
   websocket: []
 database_tables:
+- products
+- product_skus
 - prop_products
 - prop_skus
 - user_props

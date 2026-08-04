@@ -71,6 +71,7 @@ Membership,PUT,/admin-api/v1/membership/skus/{id}/benefits,membership.write,权�
 Membership,GET,/admin-api/v1/user-memberships,membership.read,用户会员,否,R18
 Membership,POST,/admin-api/v1/user-memberships/grants,membership.grant,人工赠送,是,R18
 Props,GET,/admin-api/v1/props,prop.read,道具定义和SKU,否,R19
+Props,POST,/admin-api/v1/props,prop.write,创建道具商品与SKU绑定,是,R19
 Props,PATCH,/admin-api/v1/props/{id},prop.write,修改道具,是,R19
 Props,GET,/admin-api/v1/headline-slots,prop.slot.read,头条资源位,否,R19
 Props,POST,/admin-api/v1/headline-slots,prop.slot.write,创建资源位,是,R19

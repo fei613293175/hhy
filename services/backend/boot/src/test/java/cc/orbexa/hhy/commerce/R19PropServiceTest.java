@@ -13,6 +13,7 @@ import static org.mockito.Mockito.when;
 import cc.orbexa.hhy.commerce.R19PropContracts.AdminActorContext;
 import cc.orbexa.hhy.commerce.R19PropContracts.CommandResultResource;
 import cc.orbexa.hhy.commerce.R19PropContracts.PropOrderRequest;
+import cc.orbexa.hhy.commerce.R19PropContracts.PropCreateRequest;
 import cc.orbexa.hhy.commerce.R19PropContracts.PropPatchRequest;
 import cc.orbexa.hhy.commerce.R19PropContracts.PropResource;
 import cc.orbexa.hhy.commerce.R19PropContracts.PropUseRequest;
@@ -107,6 +108,45 @@ class R19PropServiceTest {
                         R19PropStore.Kind.CONFLICT, "版本已变化"));
         assertCode("COMMON-409-VERSION_CONFLICT", () -> service.patch(
                 actor(), "7", request, "r19-patch-key-00002"));
+    }
+
+    @Test
+    void createValidatesTypesPricesDurationAndIdempotencyConflict() {
+        PropCreateRequest valid = new PropCreateRequest(
+                "refresh", "刷新道具", 600L, "IMMEDIATE", "PROP-REFRESH",
+                "SKU-REFRESH", 100L, 80L, Map.of(), "active", "首次上架");
+        PropResource resource = new PropResource(
+                "7", "REFRESH", "刷新道具", 0, "ACTIVE", null, Map.of(), 0);
+        when(store.create(any(), any(), anyString())).thenReturn(resource);
+        assertEquals(resource, service.create(actor(), valid, "r19-create-key-00001"));
+
+        assertCode("COMMON-400-VALIDATION", () -> service.create(actor(),
+                new PropCreateRequest("UNKNOWN", "未知", 60L, "IMMEDIATE", "P1", "S1",
+                        100L, null, Map.of(), "ACTIVE", "测试"),
+                "r19-create-key-00002"));
+        assertCode("COMMON-400-VALIDATION", () -> service.create(actor(),
+                new PropCreateRequest("TOP", "置顶", 2592001L, "IMMEDIATE", "P2", "S2",
+                        100L, 101L, Map.of(), "ACTIVE", "测试"),
+                "r19-create-key-00003"));
+
+        when(store.create(any(), any(), anyString())).thenThrow(new R19PropStore.StoreException(
+                R19PropStore.Kind.CONFLICT, "相同幂等键对应的后台请求已变化"));
+        assertCode("COMMON-409-IDEMPOTENCY_CONFLICT", () ->
+                service.create(actor(), valid, "r19-create-key-00004"));
+    }
+
+    @Test
+    void patchRejectsUnknownFieldsAndInvalidPriceRelationships() {
+        assertCode("COMMON-400-VALIDATION", () -> service.patch(actor(), "7",
+                new PropPatchRequest("测试", 0L, Map.of("sql", "drop")),
+                "r19-patch-key-00003"));
+        assertCode("COMMON-400-VALIDATION", () -> service.patch(actor(), "7",
+                new PropPatchRequest("测试", 0L,
+                        Map.of("priceCent", 100L, "memberPriceCent", 101L)),
+                "r19-patch-key-00004"));
+        assertCode("COMMON-400-VALIDATION", () -> service.patch(actor(), "7",
+                new PropPatchRequest("测试", 0L, Map.of("scope", List.of("invalid"))),
+                "r19-patch-key-00005"));
     }
 
     private static AdminActorContext actor() {

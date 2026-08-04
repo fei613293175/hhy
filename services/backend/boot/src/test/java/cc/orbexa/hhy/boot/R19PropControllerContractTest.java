@@ -21,7 +21,7 @@ class R19PropControllerContractTest {
     }
 
     @Test
-    void allNineFrozenOperationIdsExistExactlyOnceWithExactPermissions() {
+    void allR19OperationIdsExistExactlyOnceWithExactPermissions() {
         Map<Class<?>, Map<String, String>> expected = new LinkedHashMap<>();
         expected.put(R19PropController.class, Map.of(
                 "propGetPropsStore", "",
@@ -30,6 +30,7 @@ class R19PropControllerContractTest {
                 "propPostMePropsByIdUse", ""));
         expected.put(R19PropAdminController.class, Map.of(
                 "adminPropsGetProps", "hasAuthority('prop.read')",
+                "adminPropsPostProps", "hasAuthority('prop.write')",
                 "adminPropsPatchPropsById", "hasAuthority('prop.write')",
                 "adminPropsGetHeadlineSlots", "hasAuthority('prop.slot.read')",
                 "adminPropsPostHeadlineSlots", "hasAuthority('prop.slot.write')",

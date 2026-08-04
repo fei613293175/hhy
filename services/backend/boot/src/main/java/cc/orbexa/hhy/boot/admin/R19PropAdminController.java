@@ -5,6 +5,7 @@ import cc.orbexa.hhy.commerce.R19PropContracts.AdminActorContext;
 import cc.orbexa.hhy.commerce.R19PropContracts.CommandResultResource;
 import cc.orbexa.hhy.commerce.R19PropContracts.HeadlineSlotRequest;
 import cc.orbexa.hhy.commerce.R19PropContracts.PropPage;
+import cc.orbexa.hhy.commerce.R19PropContracts.PropCreateRequest;
 import cc.orbexa.hhy.commerce.R19PropContracts.PropPatchRequest;
 import cc.orbexa.hhy.commerce.R19PropContracts.PropResource;
 import cc.orbexa.hhy.commerce.R19PropService;
@@ -69,6 +70,17 @@ public class R19PropAdminController {
             @RequestParam(defaultValue = "name:asc") @Size(max = 64) String sort,
             HttpServletRequest request) {
         return success(request, service.adminProps(page, pageSize, cursor, status, keyword, sort));
+    }
+
+    @PostMapping("/props")
+    @PreAuthorize("hasAuthority('prop.write')")
+    public ApiResponse<PropResource> adminPropsPostProps(
+            @AuthenticationPrincipal AdminPrincipal principal,
+            @Valid @RequestBody PropCreateRequest body,
+            @RequestHeader("X-Idempotency-Key") @NotBlank @Size(min = 16, max = 128) String idempotencyKey,
+            HttpServletRequest request) {
+        return success(request, service.create(
+                actor(principal, "adminPropsPostProps", "new-prop", request), body, idempotencyKey));
     }
 
     @PatchMapping("/props/{id}")

@@ -4,6 +4,7 @@ import cc.orbexa.hhy.commerce.R19PropContracts.AdminActorContext;
 import cc.orbexa.hhy.commerce.R19PropContracts.CommandResultResource;
 import cc.orbexa.hhy.commerce.R19PropContracts.HeadlineSlotRequest;
 import cc.orbexa.hhy.commerce.R19PropContracts.PropPage;
+import cc.orbexa.hhy.commerce.R19PropContracts.PropCreateRequest;
 import cc.orbexa.hhy.commerce.R19PropContracts.PropPatchRequest;
 import cc.orbexa.hhy.commerce.R19PropContracts.PropResource;
 import cc.orbexa.hhy.commerce.R19PropContracts.PropUseRequest;
@@ -22,6 +23,8 @@ public interface R19PropStore {
             String requestHash);
 
     PageSlice<PropResource> adminProps(PageQuery query);
+
+    PropResource create(AdminCommand context, PropCreateRequest request, String requestHash);
 
     PropResource patch(AdminCommand context, long id, PropPatchRequest request, String requestHash);
 

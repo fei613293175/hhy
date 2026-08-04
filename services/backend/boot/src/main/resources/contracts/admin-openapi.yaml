@@ -7400,6 +7400,68 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+    post:
+      operationId: adminPropsPostProps
+      summary: 创建道具商品与SKU绑定
+      tags:
+      - Props
+      security:
+      - BearerAuth: []
+      x-permission: prop.write
+      x-idempotent: true
+      x-release: R19
+      x-contract-maturity: FROZEN_SUPPLEMENT
+      parameters:
+      - $ref: '#/components/parameters/XIdempotencyKey'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AdminPropsPostPropsRequest'
+      responses:
+        '200':
+          description: 成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminPropsPostPropsResponse'
+        '400':
+          description: 请求参数错误
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: 未认证或会话失效
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: 权限或能力不足
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: 编码、幂等或并发冲突
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: 业务规则不满足
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: 内部错误
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
   /admin-api/v1/props/{id}:
     patch:
       operationId: adminPropsPatchPropsById
@@ -24039,6 +24101,80 @@ components:
             $ref: '#/components/schemas/JsonValue'
       required:
       - expectedVersion
+    AdminPropsPostPropsRequest:
+      type: object
+      additionalProperties: false
+      required:
+      - propType
+      - name
+      - durationSeconds
+      - executionType
+      - productCode
+      - skuCode
+      - priceCent
+      - status
+      - reason
+      properties:
+        propType:
+          type: string
+          enum: [REFRESH, TOP, HEADLINE, COLOR]
+        name:
+          type: string
+          minLength: 1
+          maxLength: 255
+        durationSeconds:
+          type: integer
+          format: int64
+          minimum: 1
+        executionType:
+          type: string
+          minLength: 1
+          maxLength: 255
+        productCode:
+          type: string
+          minLength: 1
+          maxLength: 64
+        skuCode:
+          type: string
+          minLength: 1
+          maxLength: 64
+        priceCent:
+          type: integer
+          format: int64
+          minimum: 0
+        memberPriceCent:
+          type: integer
+          format: int64
+          minimum: 0
+          nullable: true
+        scope:
+          $ref: '#/components/schemas/JsonObject'
+        status:
+          type: string
+          enum: [ACTIVE, INACTIVE]
+        reason:
+          type: string
+          minLength: 1
+          maxLength: 500
+    AdminPropsPostPropsResponse:
+      type: object
+      additionalProperties: false
+      required:
+      - success
+      - requestId
+      - data
+      properties:
+        success:
+          type: boolean
+          const: true
+        requestId:
+          type: string
+          maxLength: 64
+        timestamp:
+          type: string
+          format: date-time
+        data:
+          $ref: '#/components/schemas/PropResource'
     AdminPropsPatchPropsByIdResponse:
       type: object
       additionalProperties: false

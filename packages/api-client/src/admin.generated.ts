@@ -1191,7 +1191,8 @@ export interface paths {
         /** 道具定义和SKU */
         get: operations["adminPropsGetProps"];
         put?: never;
-        post?: never;
+        /** 创建道具商品与SKU绑定 */
+        post: operations["adminPropsPostProps"];
         delete?: never;
         options?: never;
         head?: never;
@@ -4938,6 +4939,32 @@ export interface components {
             payload?: {
                 [key: string]: components["schemas"]["JsonValue"];
             };
+        };
+        AdminPropsPostPropsRequest: {
+            /** @enum {string} */
+            propType: "REFRESH" | "TOP" | "HEADLINE" | "COLOR";
+            name: string;
+            /** Format: int64 */
+            durationSeconds: number;
+            executionType: string;
+            productCode: string;
+            skuCode: string;
+            /** Format: int64 */
+            priceCent: number;
+            /** Format: int64 */
+            memberPriceCent?: number | null;
+            scope?: components["schemas"]["JsonObject"];
+            /** @enum {string} */
+            status: "ACTIVE" | "INACTIVE";
+            reason: string;
+        };
+        AdminPropsPostPropsResponse: {
+            /** @constant */
+            success: true;
+            requestId: string;
+            /** Format: date-time */
+            timestamp?: string;
+            data: components["schemas"]["PropResource"];
         };
         AdminPropsPatchPropsByIdResponse: {
             /** @constant */
@@ -15126,6 +15153,87 @@ export interface operations {
             };
             /** @description 触发限流 */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 内部错误 */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    adminPropsPostProps: {
+        parameters: {
+            query?: never;
+            header: {
+                /** @description UUID/ULID。相同主体、操作和键必须返回首次结果；请求摘要不一致返回 COMMON-409-IDEMPOTENCY_CONFLICT。 */
+                "X-Idempotency-Key": components["parameters"]["XIdempotencyKey"];
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AdminPropsPostPropsRequest"];
+            };
+        };
+        responses: {
+            /** @description 成功 */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AdminPropsPostPropsResponse"];
+                };
+            };
+            /** @description 请求参数错误 */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 未认证或会话失效 */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 权限或能力不足 */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 编码、幂等或并发冲突 */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 业务规则不满足 */
+            422: {
                 headers: {
                     [name: string]: unknown;
                 };

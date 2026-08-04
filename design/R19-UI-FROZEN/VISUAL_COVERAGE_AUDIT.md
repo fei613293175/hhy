@@ -5,7 +5,7 @@
 - 效果图 SHA-256：`16c492cd9fc46c5be435da3979126b8eb67063a641ec9b575074751f67c96778`
 - 产品边界：只实现登记的四种道具与曝光权益；B11 中的示例名称、价格、数量、图片、日期和成功文案不是产品事实。
 - 后台边界：后台原目录为 `TOKENS_ONLY`，以下补充规格以 `ADM-LIST`、`CMP-ADM-001/002/004/005`、后台 Design Token、字段/状态/动作目录和后台运营规格冻结施工结构。
-- 视觉状态：`VISUAL_ACCEPTED`。Android 与 Admin 均已生成目标视口真实运行截图，并按逐页规格完成对照；截图 SHA、CI Run 与证据索引见 `artifacts/reports/R19/visual-evidence.md`。
+- 视觉状态：`SUPPLEMENT_REVALIDATION_REQUIRED`。Android 原三页布局未变；`ADM-PROP-001` 因新增创建和完整编辑器，必须重新生成 1440x900 真实运行截图并覆盖原证据后才能恢复 `VISUAL_ACCEPTED`。
 
 | 页面 | 精确来源/补充规格 | 目标视口 | 截图证据 |
 | --- | --- | --- | --- |

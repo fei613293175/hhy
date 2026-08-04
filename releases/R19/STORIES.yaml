@@ -20,12 +20,14 @@ stories:
   - ADM-PROP-003
   operation_ids:
   - adminPropsGetProps
+  - adminPropsPostProps
   - adminPropsPatchPropsById
   - adminPropsGetHeadlineSlots
   - adminPropsPostHeadlineSlots
   - adminPropsGetPropExecutions
   api_contracts:
   - GET /admin-api/v1/props
+  - POST /admin-api/v1/props
   - PATCH /admin-api/v1/props/{id}
   - GET /admin-api/v1/headline-slots
   - POST /admin-api/v1/headline-slots
@@ -62,7 +64,7 @@ stories:
   - test_engineer
   acceptance_criteria:
   - ADM-PROP-001;ADM-PROP-002;ADM-PROP-003 全部绑定模板 ADM-LIST，字段、状态、动作、导航和错误恢复无TBD
-  - 页面调用 operationId：adminPropsGetProps;adminPropsPatchPropsById;adminPropsGetHeadlineSlots;adminPropsPostHeadlineSlots;adminPropsGetPropExecutions；请求/响应字段不得另行发明
+  - 页面调用 operationId：adminPropsGetProps;adminPropsPostProps;adminPropsPatchPropsById;adminPropsGetHeadlineSlots;adminPropsPostHeadlineSlots;adminPropsGetPropExecutions；请求/响应字段不得另行发明
   - 按钮显示、可用和确认条件与服务端状态机、权限、expectedVersion、幂等策略一致
   - 首屏、空、刷新、翻页/局部失败、无权限、404、离线和版本冲突状态按页面状态目录实现
   - 敏感字段按分级脱敏；高敏读取和后台写操作完整审计
@@ -206,6 +208,7 @@ stories:
   - propPostPropsOrders
   - propPostMePropsByIdUse
   - adminPropsGetProps
+  - adminPropsPostProps
   - adminPropsPatchPropsById
   - adminPropsGetHeadlineSlots
   - adminPropsPostHeadlineSlots
@@ -216,6 +219,7 @@ stories:
   - POST /api/v1/props/orders
   - POST /api/v1/me/props/{id}/use
   - GET /admin-api/v1/props
+  - POST /admin-api/v1/props
   - PATCH /admin-api/v1/props/{id}
   - GET /admin-api/v1/headline-slots
   - POST /admin-api/v1/headline-slots

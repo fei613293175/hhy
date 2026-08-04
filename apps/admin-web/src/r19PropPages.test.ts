@@ -38,13 +38,24 @@ describe('R19 admin prop pages', () => {
     const request = vi.fn().mockResolvedValue({ data: page([]) })
     const api = new AdminPropsApi({ request } as never, adminSession)
     await api.props({ sort: 'name:asc' }); await api.headlineSlots({ sort: 'createdAt:desc' }); await api.executions({ sort: 'createdAt:desc' })
+    await api.create({ propType: 'REFRESH', name: '刷新卡', durationSeconds: 1, executionType: 'IMMEDIATE', productCode: 'PROP-REFRESH', skuCode: 'PROP-REFRESH-1', priceCent: 990, scope: {}, status: 'ACTIVE', reason: '上架刷新道具' }, 'r19-prop-create-0001')
     await api.createHeadlineSlot({ reason: '新建首页资源位', payload: { pageCode: 'home', slotCode: 'top', capacity: 1 } }, 'r19-slot-create-0001')
     expect(request.mock.calls.map((call) => call[0])).toEqual([
       '/admin-api/v1/props?sort=name%3Aasc',
       '/admin-api/v1/headline-slots?sort=createdAt%3Adesc',
       '/admin-api/v1/prop-executions?sort=createdAt%3Adesc',
+      '/admin-api/v1/props',
       '/admin-api/v1/headline-slots',
     ])
+  })
+
+  it('shows atomic prop creation only with write permission', async () => {
+    adminSession.apply({ accessToken: 'token', adminUserId: '19', displayName: '道具运营', permissionCodes: ['prop.read', 'prop.write'], mfaRequired: 'NONE' })
+    const { wrapper } = await render(AdminPropProductsPage, '/commerce/props/products')
+    expect(wrapper.text()).toContain('创建道具商品')
+    await wrapper.get('header .primary-button').trigger('click')
+    expect(wrapper.text()).toContain('商品、SKU、道具定义和绑定关系将作为一个事务创建')
+    wrapper.unmount()
   })
 
   it('renders products in business language and hides row writes without permission', async () => {

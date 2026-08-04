@@ -4,6 +4,7 @@ import cc.orbexa.hhy.commerce.R19PropContracts.AdminActorContext;
 import cc.orbexa.hhy.commerce.R19PropContracts.CommandResultResource;
 import cc.orbexa.hhy.commerce.R19PropContracts.HeadlineSlotRequest;
 import cc.orbexa.hhy.commerce.R19PropContracts.PropOrderRequest;
+import cc.orbexa.hhy.commerce.R19PropContracts.PropCreateRequest;
 import cc.orbexa.hhy.commerce.R19PropContracts.PropPage;
 import cc.orbexa.hhy.commerce.R19PropContracts.PropPatchRequest;
 import cc.orbexa.hhy.commerce.R19PropContracts.PropResource;
@@ -27,6 +28,11 @@ public final class R19PropService {
             "createdAt:asc", "createdAt:desc", "updatedAt:asc", "updatedAt:desc",
             "name:asc", "name:desc", "quantity:asc", "quantity:desc", "expiresAt:asc");
     private static final Set<String> PAYMENT_CHANNELS = Set.of("ALIPAY", "WECHAT_PAY", "BALANCE");
+    private static final Set<String> PROP_TYPES = Set.of("REFRESH", "TOP", "HEADLINE", "COLOR");
+    private static final Set<String> STATUSES = Set.of("ACTIVE", "INACTIVE");
+    private static final Set<String> PATCH_FIELDS = Set.of(
+            "name", "durationSeconds", "executionType", "priceCent",
+            "memberPriceCent", "scope", "status");
 
     private final R19PropStore store;
     private final R19PropStore.Codec codec;
@@ -103,6 +109,31 @@ public final class R19PropService {
         return page(execute(() -> store.adminProps(query.store())), query);
     }
 
+    public PropResource create(
+            AdminActorContext actor, PropCreateRequest request, String idempotencyKey) {
+        if (request == null) throw validation("道具商品不能为空");
+        String type = required(request.propType(), 64, "道具类型").toUpperCase(Locale.ROOT);
+        if (!PROP_TYPES.contains(type)) throw validation("道具类型不受支持");
+        String status = required(request.status(), 64, "状态").toUpperCase(Locale.ROOT);
+        if (!STATUSES.contains(status)) throw validation("状态不受支持");
+        if (request.durationSeconds() == null || request.durationSeconds() < 1
+                || request.durationSeconds() > 2592000) {
+            throw validation("使用时长必须在1秒到30天之间");
+        }
+        if (request.priceCent() == null || request.priceCent() < 0
+                || (request.memberPriceCent() != null && (request.memberPriceCent() < 0 || request.memberPriceCent() > request.priceCent()))) {
+            throw validation("价格或会员价不符合要求");
+        }
+        PropCreateRequest normalized = new PropCreateRequest(type,
+                required(request.name(), 255, "名称"), request.durationSeconds(),
+                required(request.executionType(), 255, "执行方式"),
+                required(request.productCode(), 64, "商品编码"), required(request.skuCode(), 64, "SKU编码"),
+                request.priceCent(), request.memberPriceCent(), request.scope(), status,
+                required(request.reason(), 500, "创建原因"));
+        AdminHash command = adminHash(actor, "adminPropsPostProps", "new-prop", idempotencyKey, normalized);
+        return execute(() -> store.create(command.context(), normalized, command.hash()));
+    }
+
     public PropResource patch(
             AdminActorContext actor, String id, PropPatchRequest request, String idempotencyKey) {
         long resourceId = id(id, "道具");
@@ -140,9 +171,68 @@ public final class R19PropService {
         if (request.payload() == null || request.payload().isEmpty()) {
             throw validation("修改道具至少需要一个变更字段");
         }
-        String reason = optional(request.reason(), 2000, "原因");
-        if (request.payload().size() > 32) throw validation("道具变更字段过多");
-        return new PropPatchRequest(reason, request.expectedVersion(), request.payload());
+        String reason = required(request.reason(), 500, "修改原因");
+        if (!PATCH_FIELDS.containsAll(request.payload().keySet())) {
+            throw validation("包含不支持的道具变更字段");
+        }
+        Map<String, Object> payload = new LinkedHashMap<>();
+        if (request.payload().containsKey("name")) {
+            payload.put("name", required(value(request.payload(), "name"), 255, "名称"));
+        }
+        if (request.payload().containsKey("durationSeconds")) {
+            long duration = positiveLong(request.payload().get("durationSeconds"), "使用时长");
+            if (duration > 2592000) throw validation("使用时长不能超过30天");
+            payload.put("durationSeconds", duration);
+        }
+        if (request.payload().containsKey("executionType")) {
+            payload.put("executionType", required(
+                    value(request.payload(), "executionType"), 255, "执行方式"));
+        }
+        if (request.payload().containsKey("priceCent")) {
+            payload.put("priceCent", nonNegativeLong(
+                    request.payload().get("priceCent"), "普通价"));
+        }
+        if (request.payload().containsKey("memberPriceCent")) {
+            Object memberPrice = request.payload().get("memberPriceCent");
+            payload.put("memberPriceCent", memberPrice == null
+                    ? null : nonNegativeLong(memberPrice, "会员价"));
+        }
+        if (request.payload().containsKey("scope")) {
+            Object scope = request.payload().get("scope");
+            if (scope == null) payload.put("scope", Map.of());
+            else {
+                if (!(scope instanceof Map<?, ?>)) throw validation("适用范围必须是对象");
+                payload.put("scope", scope);
+            }
+        }
+        if (request.payload().containsKey("status")) {
+            String status = required(value(request.payload(), "status"), 64, "状态")
+                    .toUpperCase(Locale.ROOT);
+            if (!STATUSES.contains(status)) throw validation("状态不受支持");
+            payload.put("status", status);
+        }
+        Long price = (Long) payload.get("priceCent");
+        Long memberPrice = (Long) payload.get("memberPriceCent");
+        if (price != null && memberPrice != null && memberPrice > price) {
+            throw validation("会员价不能高于普通价");
+        }
+        return new PropPatchRequest(reason, request.expectedVersion(), payload);
+    }
+
+    private static long positiveLong(Object value, String name) {
+        long parsed = nonNegativeLong(value, name);
+        if (parsed < 1) throw validation(name + "必须大于零");
+        return parsed;
+    }
+
+    private static long nonNegativeLong(Object value, String name) {
+        if (!(value instanceof Number number)) throw validation(name + "不符合要求");
+        long parsed = number.longValue();
+        if (parsed < 0 || (number instanceof Double || number instanceof Float)
+                && number.doubleValue() != parsed) {
+            throw validation(name + "不符合要求");
+        }
+        return parsed;
     }
 
     private HeadlineSlotRequest normalizeSlot(HeadlineSlotRequest request) {
@@ -312,7 +402,10 @@ public final class R19PropService {
             throw switch (failure.kind()) {
                 case NOT_FOUND -> notFound();
                 case CONFLICT -> new BusinessException(
-                        "COMMON-409-VERSION_CONFLICT", failure.getMessage(), 409, true);
+                        failure.getMessage().contains("幂等键")
+                                ? "COMMON-409-IDEMPOTENCY_CONFLICT"
+                                : "COMMON-409-VERSION_CONFLICT",
+                        failure.getMessage(), 409, true);
                 case BUSINESS_RULE -> new BusinessException(
                         "COMMON-422-BUSINESS_RULE", failure.getMessage(), 422, false);
                 case INVALID_DATA, INTERNAL -> new IllegalStateException(failure.getMessage(), failure);

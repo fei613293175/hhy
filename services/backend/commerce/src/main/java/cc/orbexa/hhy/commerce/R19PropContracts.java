@@ -45,6 +45,16 @@ public final class R19PropContracts {
         }
     }
 
+    public record PropCreateRequest(
+            String propType, String name, Long durationSeconds, String executionType,
+            String productCode, String skuCode, Long priceCent, Long memberPriceCent,
+            Map<String, Object> scope, String status, String reason) {
+        public PropCreateRequest {
+            scope = scope == null ? Map.of()
+                    : Collections.unmodifiableMap(new LinkedHashMap<>(scope));
+        }
+    }
+
     public record HeadlineSlotRequest(
             String reason, Long expectedVersion, Map<String, Object> payload) {
         public HeadlineSlotRequest {

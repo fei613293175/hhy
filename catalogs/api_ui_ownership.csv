@@ -206,6 +206,7 @@ adminMembershipPutMembershipSkusByIdBenefits,ADMIN,PUT,/admin-api/v1/membership/
 adminMembershipGetUserMemberships,ADMIN,GET,/admin-api/v1/user-memberships,用户会员,PAGE_ACTION,ADM-MEMBER-001;ADM-MEMBER-002,Membership,R18,membership.read,由页面详细动作规格实现；共享组件允许多页面复用,FROZEN
 adminMembershipPostUserMembershipsGrants,ADMIN,POST,/admin-api/v1/user-memberships/grants,人工赠送,PAGE_ACTION,ADM-MEMBER-001,Membership,R18,membership.grant,由页面详细动作规格实现；共享组件允许多页面复用,FROZEN
 adminPropsGetProps,ADMIN,GET,/admin-api/v1/props,道具定义和SKU,PAGE_ACTION,ADM-PROP-001;ADM-PROP-002;ADM-PROP-003,Props,R19,prop.read,由页面详细动作规格实现；共享组件允许多页面复用,FROZEN
+adminPropsPostProps,ADMIN,POST,/admin-api/v1/props,创建道具商品与SKU绑定,PAGE_ACTION,ADM-PROP-001,Props,R19,prop.write,由道具商品页创建表单实现；在单事务内创建商品、SKU、道具定义和绑定,FROZEN
 adminPropsPatchPropsById,ADMIN,PATCH,/admin-api/v1/props/{id},修改道具,PAGE_ACTION,ADM-PROP-001;ADM-PROP-002;ADM-PROP-003,Props,R19,prop.write,由页面详细动作规格实现；共享组件允许多页面复用,FROZEN
 adminPropsGetHeadlineSlots,ADMIN,GET,/admin-api/v1/headline-slots,头条资源位,PAGE_ACTION,ADM-PROP-001;ADM-PROP-002;ADM-PROP-003,Props,R19,prop.slot.read,由页面详细动作规格实现；共享组件允许多页面复用,FROZEN
 adminPropsPostHeadlineSlots,ADMIN,POST,/admin-api/v1/headline-slots,创建资源位,PAGE_ACTION,ADM-PROP-001;ADM-PROP-003,Props,R19,prop.slot.write,由页面详细动作规格实现；共享组件允许多页面复用,FROZEN

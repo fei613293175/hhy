@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import cc.orbexa.hhy.commerce.R19PropContracts.AdminActorContext;
 import cc.orbexa.hhy.commerce.R19PropContracts.CommandResultResource;
 import cc.orbexa.hhy.commerce.R19PropContracts.PropOrderRequest;
+import cc.orbexa.hhy.commerce.R19PropContracts.PropCreateRequest;
 import cc.orbexa.hhy.commerce.R19PropContracts.PropPage;
 import cc.orbexa.hhy.commerce.R19PropContracts.PropPatchRequest;
 import cc.orbexa.hhy.commerce.R19PropContracts.PropResource;
@@ -36,6 +37,40 @@ class R19PropPostgresStoreTest {
     void orderUseOwnershipIdempotencyAdminMutationAndSlotCapacityAreTransactional() {
         Fixture fixture = fixture();
         String suffix = suffix();
+        PropCreateRequest createRequest = new PropCreateRequest(
+                "REFRESH", "后台刷新道具", 600L, "IMMEDIATE",
+                "CREATE-PRODUCT-" + suffix, "CREATE-SKU-" + suffix,
+                120L, 90L, Map.of("contentTypes", java.util.List.of("PROJECT")),
+                "ACTIVE", "R19后台创建集成测试");
+        PropResource created = fixture.service.create(
+                fixture.actor(), createRequest, "r19-create-" + suffix);
+        PropResource createReplay = fixture.service.create(
+                fixture.actor(), createRequest, "r19-create-" + suffix);
+        assertEquals(created, createReplay);
+        long createdSku = Long.parseLong(created.id());
+        assertEquals(1, fixture.jdbc.queryForObject(
+                "SELECT duration_days FROM hhy.product_skus sku JOIN hhy.prop_skus ps "
+                        + "ON ps.product_sku_id=sku.id WHERE ps.id=?", Integer.class, createdSku));
+        assertEquals(1L, fixture.count(
+                "SELECT count(*) FROM hhy.products WHERE product_code=?",
+                createRequest.productCode()));
+
+        BusinessException idempotencyConflict = assertThrows(BusinessException.class, () ->
+                fixture.service.create(fixture.actor(), new PropCreateRequest(
+                        "REFRESH", "变化后的名称", 600L, "IMMEDIATE",
+                        createRequest.productCode(), createRequest.skuCode(), 120L, 90L,
+                        Map.of(), "ACTIVE", "变化请求"), "r19-create-" + suffix));
+        assertEquals("COMMON-409-IDEMPOTENCY_CONFLICT", idempotencyConflict.code());
+
+        String rollbackProductCode = "ROLLBACK-PRODUCT-" + suffix;
+        assertThrows(BusinessException.class, () -> fixture.service.create(
+                fixture.actor(), new PropCreateRequest(
+                        "TOP", "冲突回滚", 86400L, "IMMEDIATE", rollbackProductCode,
+                        createRequest.skuCode(), 500L, null, Map.of(), "ACTIVE", "冲突回滚测试"),
+                "r19-create-rollback-" + suffix));
+        assertEquals(0L, fixture.count(
+                "SELECT count(*) FROM hhy.products WHERE product_code=?", rollbackProductCode));
+
         long userId = fixture.user("17" + suffix.substring(0, 9), "P" + suffix.substring(0, 12));
         long otherUserId = fixture.user("18" + suffix.substring(0, 9), "Q" + suffix.substring(0, 12));
         long contentId = fixture.content(userId, "R19 own " + suffix);
@@ -95,10 +130,25 @@ class R19PropPostgresStoreTest {
         assertEquals(patched, patchReplay);
         assertEquals("INACTIVE", fixture.jdbc.queryForObject(
                 "SELECT status FROM hhy.prop_skus WHERE id=?", String.class, refreshSku));
-        assertEquals("ACTIVE", fixture.jdbc.queryForObject(
+        assertEquals("INACTIVE", fixture.jdbc.queryForObject(
                 "SELECT product.status FROM hhy.prop_products product "
                         + "JOIN hhy.prop_skus sku ON sku.prop_id=product.id WHERE sku.id=?",
                 String.class, refreshSku));
+        assertEquals("INACTIVE", fixture.jdbc.queryForObject(
+                "SELECT product_sku.status FROM hhy.product_skus product_sku "
+                        + "JOIN hhy.prop_skus sku ON sku.product_sku_id=product_sku.id WHERE sku.id=?",
+                String.class, refreshSku));
+        assertEquals("INACTIVE", fixture.jdbc.queryForObject(
+                "SELECT product.status FROM hhy.products product "
+                        + "JOIN hhy.product_skus product_sku ON product_sku.product_id=product.id "
+                        + "JOIN hhy.prop_skus sku ON sku.product_sku_id=product_sku.id WHERE sku.id=?",
+                String.class, refreshSku));
+        assertEquals(false, fixture.service.propStore(
+                userId, 1, 100, null, null, null, "name:asc").items().stream()
+                .anyMatch(item -> item.id().equals(Long.toString(refreshSku))));
+        assertEquals(true, fixture.service.adminProps(
+                1, 100, null, "INACTIVE", null, "name:asc").items().stream()
+                .anyMatch(item -> item.id().equals(Long.toString(refreshSku))));
 
         long headlineSku = fixture.propSku("HEADLINE", "头条道具", 500, suffix + "H");
         long headlineInventory = fixture.inventory(userId, headlineSku, 1);

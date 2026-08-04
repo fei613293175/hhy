@@ -2,6 +2,7 @@ package cc.orbexa.hhy.commerce;
 
 import cc.orbexa.hhy.commerce.R19PropContracts.CommandResultResource;
 import cc.orbexa.hhy.commerce.R19PropContracts.HeadlineSlotRequest;
+import cc.orbexa.hhy.commerce.R19PropContracts.PropCreateRequest;
 import cc.orbexa.hhy.commerce.R19PropContracts.PropPatchRequest;
 import cc.orbexa.hhy.commerce.R19PropContracts.PropResource;
 import cc.orbexa.hhy.commerce.R19PropContracts.PropUseRequest;
@@ -211,7 +212,83 @@ public final class R19PropPostgresStore implements R19PropStore {
 
     @Override
     public PageSlice<PropResource> adminProps(PageQuery query) {
-        return store(query);
+        return adminStorePage(query);
+    }
+
+    @Override
+    public PropResource create(
+            AdminCommand context, PropCreateRequest request, String requestHash) {
+        return transaction(connection -> {
+            Idempotency prior = claim(connection, context, requestHash);
+            if (prior.responseRef() != null) return resourceRef(connection, prior.responseRef());
+            long productId;
+            try (PreparedStatement statement = connection.prepareStatement(
+                    "INSERT INTO hhy.products(product_code,type,name,description,status,display_order,version) "
+                            + "VALUES (?,'PROP',?,? ,?,0,0) RETURNING id")) {
+                statement.setString(1, request.productCode());
+                statement.setString(2, request.name());
+                statement.setString(3, "R19道具商品：" + request.propType());
+                statement.setString(4, request.status());
+                try (ResultSet rows = statement.executeQuery()) {
+                    if (!rows.next()) throw new StoreException(Kind.INTERNAL, "商品创建失败");
+                    productId = rows.getLong(1);
+                }
+            }
+            long productSkuId;
+            try (PreparedStatement statement = connection.prepareStatement(
+                    "INSERT INTO hhy.product_skus(product_id,code,name,price_cent,member_price_cent,duration,duration_days,attributes_json,benefits_json,status,version) "
+                            + "VALUES (?,?,?,?,?,?,?,?::jsonb,'[]'::jsonb,?,0) RETURNING id")) {
+                statement.setLong(1, productId);
+                statement.setString(2, request.skuCode());
+                statement.setString(3, request.name());
+                statement.setLong(4, request.priceCent());
+                if (request.memberPriceCent() == null) statement.setNull(5, Types.BIGINT);
+                else statement.setLong(5, request.memberPriceCent());
+                long durationDays = Math.max(1, (request.durationSeconds() + 86399) / 86400);
+                statement.setInt(6, (int) Math.min(Integer.MAX_VALUE, durationDays));
+                statement.setInt(7, (int) Math.min(Integer.MAX_VALUE, durationDays));
+                statement.setString(8, codec.json(Map.of("name", request.name(), "benefits", List.of())));
+                statement.setString(9, request.status());
+                try (ResultSet rows = statement.executeQuery()) {
+                    if (!rows.next()) throw new StoreException(Kind.INTERNAL, "SKU创建失败");
+                    productSkuId = rows.getLong(1);
+                }
+            }
+            long propId;
+            try (PreparedStatement statement = connection.prepareStatement(
+                    "INSERT INTO hhy.prop_products(type,name,duration_seconds,execution_type,status,version) "
+                            + "VALUES (?,?,?,?,?,0) RETURNING id")) {
+                statement.setString(1, request.propType());
+                statement.setString(2, request.name());
+                statement.setString(3, Long.toString(request.durationSeconds()));
+                statement.setString(4, request.executionType());
+                statement.setString(5, request.status());
+                try (ResultSet rows = statement.executeQuery()) {
+                    if (!rows.next()) throw new StoreException(Kind.INTERNAL, "道具定义创建失败");
+                    propId = rows.getLong(1);
+                }
+            }
+            long propSkuId;
+            try (PreparedStatement statement = connection.prepareStatement(
+                    "INSERT INTO hhy.prop_skus(prop_id,product_sku_id,scope_json,status,version) "
+                            + "VALUES (?,?,?::jsonb,?,0) RETURNING id")) {
+                statement.setLong(1, propId);
+                statement.setLong(2, productSkuId);
+                statement.setString(3, codec.json(request.scope()));
+                statement.setString(4, request.status());
+                try (ResultSet rows = statement.executeQuery()) {
+                    if (!rows.next()) throw new StoreException(Kind.INTERNAL, "道具SKU绑定失败");
+                    propSkuId = rows.getLong(1);
+                }
+            }
+            Map<String, Object> after = Map.of(
+                    "propId", propId, "propSkuId", propSkuId, "productId", productId,
+                    "productSkuId", productSkuId, "reason", request.reason());
+            audit(connection, context, propSkuId, Map.of(), after);
+            complete(connection, context, requestHash, "SKU:" + propSkuId);
+            outbox(connection, propSkuId, "prop", "prop.definition.created.v1", after);
+            return propResource(connection, propSkuId);
+        });
     }
 
     @Override
@@ -286,14 +363,27 @@ public final class R19PropPostgresStore implements R19PropStore {
     }
 
     private PageSlice<PropResource> storePage(PageQuery query) {
+        return propStorePage(query, true);
+    }
+
+    private PageSlice<PropResource> adminStorePage(PageQuery query) {
+        return propStorePage(query, false);
+    }
+
+    private PageSlice<PropResource> propStorePage(PageQuery query, boolean publicOnly) {
         List<Object> args = new ArrayList<>();
         String where = filters(query, args, "ps.status", "pp.name", "pp.type");
+        String active = "ps.status='ACTIVE' AND pp.status='ACTIVE' "
+                + "AND product_sku.status='ACTIVE' AND product.status='ACTIVE'";
+        if (publicOnly) where = where.isBlank() ? " WHERE " + active : where + " AND " + active;
         String sql = """
                 SELECT ps.id,pp.type,pp.name,ps.status,ps.version,ps.scope_json,
-                       product_sku.price_cent,pp.duration_seconds,pp.execution_type
+                       product_sku.price_cent,pp.duration_seconds,pp.execution_type,
+                       product_sku.member_price_cent
                 FROM hhy.prop_skus ps
                 JOIN hhy.prop_products pp ON pp.id=ps.prop_id
                 JOIN hhy.product_skus product_sku ON product_sku.id=ps.product_sku_id
+                JOIN hhy.products product ON product.id=product_sku.product_id
                 """ + where + " ORDER BY " + orderBy(query.sort(), "ps.created_at", "pp.name",
                         "product_sku.price_cent", "ps.updated_at", "ps.updated_at", "ps.id")
                 + " LIMIT ? OFFSET ?";
@@ -306,7 +396,11 @@ public final class R19PropPostgresStore implements R19PropStore {
             try (ResultSet rows = statement.executeQuery()) {
                 while (rows.next()) items.add(propSkuResource(rows));
             }
-            return new PageSlice<>(items, count(connection, "prop_skus ps JOIN hhy.prop_products pp ON pp.id=ps.prop_id", where, argsForCount(args, query), "ps.status", "pp.name", "pp.type"));
+            return new PageSlice<>(items, count(connection,
+                    "prop_skus ps JOIN hhy.prop_products pp ON pp.id=ps.prop_id "
+                            + "JOIN hhy.product_skus product_sku ON product_sku.id=ps.product_sku_id "
+                            + "JOIN hhy.products product ON product.id=product_sku.product_id",
+                    where, argsForCount(args, query), "ps.status", "pp.name", "pp.type"));
         } catch (SQLException failure) {
             throw sql(failure);
         }
@@ -559,7 +653,7 @@ public final class R19PropPostgresStore implements R19PropStore {
         try (PreparedStatement statement = connection.prepareStatement(
                 """
                 SELECT ps.id,ps.product_sku_id,ps.status,ps.version,pp.type,pp.name,
-                       product_sku.price_cent,product_sku.status
+                       product_sku.price_cent,product_sku.status,product_sku.member_price_cent
                 FROM hhy.prop_skus ps
                 JOIN hhy.prop_products pp ON pp.id=ps.prop_id
                 JOIN hhy.product_skus product_sku ON product_sku.id=ps.product_sku_id
@@ -569,7 +663,7 @@ public final class R19PropPostgresStore implements R19PropStore {
                 if (!rows.next()) return null;
                 return new SkuHead(rows.getLong(1), rows.getLong(2), rows.getString(3),
                         rows.getLong(4), rows.getString(5), rows.getString(6), rows.getLong(7),
-                        rows.getString(8));
+                        rows.getString(8), rows.getObject(9) == null ? null : rows.getLong(9));
             }
         }
     }
@@ -622,16 +716,74 @@ public final class R19PropPostgresStore implements R19PropStore {
     private void updatePropSku(Connection connection, SkuHead sku, PropPatchRequest request)
             throws SQLException {
         Map<String, Object> payload = request.payload();
+        long effectivePrice = payload.containsKey("priceCent")
+                ? ((Number) payload.get("priceCent")).longValue() : sku.priceCent();
+        Long effectiveMemberPrice = payload.containsKey("memberPriceCent")
+                ? (payload.get("memberPriceCent") == null ? null
+                        : ((Number) payload.get("memberPriceCent")).longValue())
+                : sku.memberPriceCent();
+        if (effectiveMemberPrice != null && effectiveMemberPrice > effectivePrice) {
+            throw rule("会员价不能高于普通价");
+        }
         List<String> sets = new ArrayList<>(); List<Object> values = new ArrayList<>();
         if (payload.containsKey("status")) { sets.add("status=?"); values.add(text(payload.get("status"), 64, "状态")); }
         if (payload.containsKey("scope")) { sets.add("scope_json=?::jsonb"); values.add(codec.json(payload.get("scope"))); }
-        if (payload.containsKey("scopeJson")) { sets.add("scope_json=?::jsonb"); values.add(codec.json(payload.get("scopeJson"))); }
-        if (sets.isEmpty()) throw rule("不支持的道具SKU变更字段");
         values.add(sku.id()); values.add(request.expectedVersion());
         try (PreparedStatement statement = connection.prepareStatement(
-                "UPDATE hhy.prop_skus SET " + String.join(",", sets) + ",version=version+1 WHERE id=? AND version=?")) {
+                "UPDATE hhy.prop_skus SET "
+                        + (sets.isEmpty() ? "" : String.join(",", sets) + ",")
+                        + "version=version+1 WHERE id=? AND version=?")) {
             bind(statement, values);
             if (statement.executeUpdate() != 1) throw conflict("道具SKU版本已变化");
+        }
+        if (payload.containsKey("name") || payload.containsKey("durationSeconds")
+                || payload.containsKey("executionType") || payload.containsKey("status")) {
+            List<String> productSets = new ArrayList<>(); List<Object> productValues = new ArrayList<>();
+            if (payload.containsKey("name")) { productSets.add("name=?"); productValues.add(text(payload.get("name"), 255, "名称")); }
+            if (payload.containsKey("durationSeconds")) { productSets.add("duration_seconds=?"); productValues.add(Long.toString(number(payload.get("durationSeconds"), "使用时长"))); }
+            if (payload.containsKey("executionType")) { productSets.add("execution_type=?"); productValues.add(text(payload.get("executionType"), 255, "执行方式")); }
+            if (payload.containsKey("status")) { productSets.add("status=?"); productValues.add(text(payload.get("status"), 64, "状态")); }
+            productValues.add(sku.id());
+            try (PreparedStatement statement = connection.prepareStatement(
+                    "UPDATE hhy.prop_products SET " + String.join(",", productSets)
+                            + ",version=version+1 WHERE id=(SELECT prop_id FROM hhy.prop_skus WHERE id=?)")) {
+                bind(statement, productValues); statement.executeUpdate();
+            }
+        }
+        if (payload.containsKey("name") || payload.containsKey("priceCent")
+                || payload.containsKey("durationSeconds")
+                || payload.containsKey("memberPriceCent") || payload.containsKey("status")) {
+            List<String> skuSets = new ArrayList<>(); List<Object> skuValues = new ArrayList<>();
+            if (payload.containsKey("name")) { skuSets.add("name=?"); skuValues.add(text(payload.get("name"), 255, "名称")); }
+            if (payload.containsKey("priceCent")) { skuSets.add("price_cent=?"); skuValues.add(number(payload.get("priceCent"), "售价")); }
+            if (payload.containsKey("memberPriceCent")) {
+                if (payload.get("memberPriceCent") == null) skuSets.add("member_price_cent=NULL");
+                else { skuSets.add("member_price_cent=?"); skuValues.add(payload.get("memberPriceCent")); }
+            }
+            if (payload.containsKey("status")) { skuSets.add("status=?"); skuValues.add(text(payload.get("status"), 64, "状态")); }
+            if (payload.containsKey("durationSeconds")) {
+                long seconds = ((Number) payload.get("durationSeconds")).longValue();
+                long days = Math.max(1, (seconds + 86399) / 86400);
+                skuSets.add("duration=?"); skuValues.add((int) Math.min(Integer.MAX_VALUE, days));
+                skuSets.add("duration_days=?"); skuValues.add((int) Math.min(Integer.MAX_VALUE, days));
+            }
+            skuValues.add(sku.productSkuId());
+            try (PreparedStatement statement = connection.prepareStatement(
+                    "UPDATE hhy.product_skus SET " + String.join(",", skuSets)
+                            + ",version=version+1 WHERE id=?")) {
+                bind(statement, skuValues); statement.executeUpdate();
+            }
+        }
+        if (payload.containsKey("name") || payload.containsKey("status")) {
+            List<String> productSets = new ArrayList<>(); List<Object> productValues = new ArrayList<>();
+            if (payload.containsKey("name")) { productSets.add("name=?"); productValues.add(payload.get("name")); }
+            if (payload.containsKey("status")) { productSets.add("status=?"); productValues.add(payload.get("status")); }
+            productValues.add(sku.productSkuId());
+            try (PreparedStatement statement = connection.prepareStatement(
+                    "UPDATE hhy.products SET " + String.join(",", productSets)
+                            + ",version=version+1 WHERE id=(SELECT product_id FROM hhy.product_skus WHERE id=?)")) {
+                bind(statement, productValues); statement.executeUpdate();
+            }
         }
     }
 
@@ -648,12 +800,13 @@ public final class R19PropPostgresStore implements R19PropStore {
 
     private PropResource propResource(Connection connection, long id) throws SQLException {
         try (PreparedStatement statement = connection.prepareStatement(
-                "SELECT ps.id,pp.type,pp.name,ps.status,ps.version,ps.scope_json FROM hhy.prop_skus ps JOIN hhy.prop_products pp ON pp.id=ps.prop_id WHERE ps.id=?")) {
+                "SELECT ps.id,pp.type,pp.name,ps.status,ps.version,ps.scope_json,sku.price_cent,pp.duration_seconds,pp.execution_type,sku.member_price_cent "
+                        + "FROM hhy.prop_skus ps JOIN hhy.prop_products pp ON pp.id=ps.prop_id "
+                        + "JOIN hhy.product_skus sku ON sku.id=ps.product_sku_id WHERE ps.id=?")) {
             statement.setLong(1, id);
             try (ResultSet rows = statement.executeQuery()) {
                 if (!rows.next()) throw notFound("道具SKU不存在");
-                return new PropResource(Long.toString(rows.getLong(1)), rows.getString(2), rows.getString(3), 0,
-                        rows.getString(4), null, object(rows.getString(6)), rows.getLong(5));
+                return propSkuResource(rows);
             }
         }
     }
@@ -682,6 +835,8 @@ public final class R19PropPostgresStore implements R19PropStore {
     private PropResource propSkuResource(ResultSet rows) throws SQLException {
         Map<String, Object> configuration = new LinkedHashMap<>();
         configuration.put("priceCent", rows.getLong(7));
+        Long memberPrice = rows.getObject(10) == null ? null : rows.getLong(10);
+        configuration.put("memberPriceCent", memberPrice);
         configuration.put("durationSeconds", rows.getString(8));
         configuration.put("executionType", rows.getString(9));
         configuration.put("scope", object(rows.getString(6)));
@@ -880,7 +1035,8 @@ public final class R19PropPostgresStore implements R19PropStore {
         CommandResultResource result() { return new CommandResultResource(Long.toString(id), orderNo, status, version, createdAt); }
     }
     private record SkuHead(long id, long productSkuId, String status, long version,
-            String propType, String name, long priceCent, String productSkuStatus) { }
+            String propType, String name, long priceCent, String productSkuStatus,
+            Long memberPriceCent) { }
     private record InventoryHead(long id, long quantity, String status, Instant expiresAt,
             long version, String propType) { }
     private record EntitlementResult(long entitlementId) { }
