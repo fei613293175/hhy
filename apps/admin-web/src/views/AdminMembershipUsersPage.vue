@@ -11,6 +11,14 @@ const forbidden = ref(false)
 const grantOpen = ref(false)
 const grant = reactive({ userId: '', skuId: '', durationDays: 30, reason: '' })
 const items = computed(() => result.value?.items ?? [])
+function statusLabel(value: string) {
+  return value === 'ACTIVE' ? '有效' : value === 'PENDING' ? '待生效' : value === 'EXPIRED' ? '已到期' : '状态待确认'
+}
+function dateLabel(value?: string) {
+  if (!value) return '暂无'
+  const date = new Date(value)
+  return Number.isNaN(date.getTime()) ? '日期待确认' : new Intl.DateTimeFormat('zh-CN', { dateStyle: 'medium' }).format(date)
+}
 function message(caught: unknown) {
   if (isApiRequestError(caught)) {
     if (caught.status === 401) adminSession.clear()
@@ -57,7 +65,7 @@ onMounted(() => { void load() })
       <div v-if="loading" class="loading-state">正在加载用户会员…</div>
       <div v-else-if="!items.length" class="empty-state">暂无用户会员记录</div>
       <table v-else class="data-table"><thead><tr><th>用户</th><th>Pro 套餐</th><th>状态</th><th>有效期</th><th>权益</th><th>版本</th></tr></thead>
-        <tbody><tr v-for="item in items" :key="item.id"><td><strong>{{ item.id || '未知用户' }}</strong></td><td>{{ item.name || item.skuId || 'Pro' }}</td><td><span class="status-chip" :data-status="item.status">{{ item.status }}</span></td><td>{{ item.startsAt || '暂无' }}<small>{{ item.expiresAt || '暂无' }}</small></td><td>{{ (item.benefits ?? []).length }} 项快照</td><td>v{{ item.version }}</td></tr></tbody>
+        <tbody><tr v-for="item in items" :key="item.id"><td><strong>{{ item.id || '未知用户' }}</strong></td><td>{{ item.name || item.skuId || 'Pro' }}</td><td><span class="status-chip" :data-status="item.status">{{ statusLabel(item.status) }}</span></td><td>{{ dateLabel(item.startsAt) }}<small>{{ dateLabel(item.expiresAt) }}</small></td><td>{{ (item.benefits ?? []).length }} 项快照</td><td>v{{ item.version }}</td></tr></tbody>
       </table>
     </section>
     <div v-if="grantOpen" class="dialog-backdrop" @click.self="grantOpen = false">

@@ -25,6 +25,9 @@ const prices = computed(() => items.value.map((item) => item.paidValueCent ?? 0)
 function money(value?: number) {
   return value === undefined ? '暂无' : new Intl.NumberFormat('zh-CN', { style: 'currency', currency: 'CNY' }).format(value / 100)
 }
+function statusLabel(value: string) {
+  return value === 'ACTIVE' ? '有效' : value === 'DISABLED' ? '停用' : '状态待确认'
+}
 function message(caught: unknown) {
   if (isApiRequestError(caught)) {
     if (caught.status === 401) adminSession.clear()
@@ -83,7 +86,7 @@ onMounted(() => { void load() })
         <tbody><tr v-for="item in items" :key="item.id">
           <td><strong>{{ item.name || '未命名套餐' }}</strong><small>{{ item.skuId || item.id }}</small></td>
           <td>Pro</td><td>{{ money(item.paidValueCent) }}</td><td>{{ (item.benefits ?? []).length }} 项</td>
-          <td><span class="status-chip" :data-status="item.status">{{ item.status }}</span></td><td>v{{ item.version }}</td>
+          <td><span class="status-chip" :data-status="item.status">{{ statusLabel(item.status) }}</span></td><td>v{{ item.version }}</td>
           <td><button class="secondary-button" @click="openEditor(item)">编辑</button></td>
         </tr></tbody>
       </table>

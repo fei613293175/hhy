@@ -15,6 +15,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import cc.orbexa.hhy.designsystem.*
 import cc.orbexa.hhy.network.*
+import java.time.OffsetDateTime
+import java.time.format.DateTimeFormatter
 import java.util.UUID
 import kotlinx.coroutines.launch
 
@@ -26,6 +28,9 @@ private fun status(value: String): String = when (value) {
     "CANCELLED" -> "已取消"
     else -> "状态待确认"
 }
+private fun dateLabel(value: String?): String = value?.let {
+    runCatching { OffsetDateTime.parse(it).format(DateTimeFormatter.ofPattern("yyyy年MM月dd日")) }.getOrDefault(it)
+} ?: "开通后展示有效期"
 private fun errorText(value: R07CallResult.Failure) =
     if (value.statusCode == null) "网络不可用，请稍后重试" else "暂时无法加载，请稍后重试"
 
@@ -198,7 +203,7 @@ fun R18MembershipBenefitsScreen(api: ContractR18MembershipApi, token: String, on
         Column(Modifier.padding(18.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
             Text("Pro", color = HhyColors.TextInverse, style = MaterialTheme.typography.headlineSmall, fontWeight = FontWeight.Bold)
             Text(if (member == null) "暂未开通" else status(member.status), color = HhyColors.TextInverse)
-            Text(if (member?.expiresAt == null) "开通后展示有效期" else "有效期至 " + member.expiresAt, color = HhyColors.TextInverse.copy(alpha = .86f))
+            Text(if (member == null) "开通后展示有效期" else "有效期至 " + dateLabel(member.expiresAt), color = HhyColors.TextInverse.copy(alpha = .86f))
         }
     }
 }
@@ -225,7 +230,6 @@ fun R18MembershipBenefitsScreen(api: ContractR18MembershipApi, token: String, on
             HhyIcon(HhyIcons.Check, "权益", tint = HhyColors.BrandSecondary)
             Column(Modifier.weight(1f)) {
                 Text(benefit.name, fontWeight = FontWeight.SemiBold)
-                Text(benefit.benefitCode, style = MaterialTheme.typography.bodySmall, color = HhyColors.TextSecondary)
             }
             Text(benefit.value.toString().removeSurrounding("\"") + (benefit.unit?.let { " " + it } ?: ""))
         }
