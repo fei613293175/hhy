@@ -1,7 +1,7 @@
 ﻿验收ID,版本,验收项,证据路径,状态,阻断级别
-AC-R19-001,R19,领域代码与前端真实闭环,artifacts/reports/R19/,NOT_RUN,BLOCKING
-AC-R19-002,R19,数据库迁移和不变量测试通过,artifacts/reports/R19/,NOT_RUN,BLOCKING
-AC-R19-003,R19,契约/单元/集成/E2E/安全专项测试通过,artifacts/reports/R19/,NOT_RUN,BLOCKING
-AC-R19-004,R19,日志指标链路和业务告警可验证,artifacts/reports/R19/,NOT_RUN,BLOCKING
-AC-R19-005,R19,Session Log、追踪矩阵、产物Manifest和下一任务更新,artifacts/reports/R19/,NOT_RUN,BLOCKING
-AC-R19-006,R19,Staging APK可安装且SHA256、Commit、版本信息完整,artifacts/reports/R19/,NOT_RUN,BLOCKING
+AC-R19-001,R19,领域代码与前端真实闭环,artifacts/reports/R19/traceability-matrix.md,PASS,BLOCKING
+AC-R19-002,R19,数据库迁移和不变量测试通过,artifacts/reports/R19/remote-ci-evidence.md,PASS,BLOCKING
+AC-R19-003,R19,契约/单元/集成/E2E/安全专项测试通过,artifacts/reports/R19/remote-ci-evidence.md,PASS,BLOCKING
+AC-R19-004,R19,日志指标链路和业务告警可验证,artifacts/reports/R19/remote-ci-evidence.md,PASS,BLOCKING
+AC-R19-005,R19,Session Log、追踪矩阵、产物Manifest和下一任务更新,artifacts/reports/R19/session-handoff.md,PASS,BLOCKING
+AC-R19-006,R19,Staging APK可安装且SHA256、Commit、版本信息完整,artifacts/reports/R19/apk-evidence.md,PASS,BLOCKING
