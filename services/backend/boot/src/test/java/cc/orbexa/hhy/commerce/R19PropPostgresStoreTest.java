@@ -16,6 +16,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import java.nio.charset.StandardCharsets;
+import java.sql.Timestamp;
 import java.time.Clock;
 import java.time.Instant;
 import java.util.Map;
@@ -217,12 +218,14 @@ class R19PropPostgresStoreTest {
                     INSERT INTO hhy.content_exposure_entitlements(
                       content_id,user_prop_id,type,starts_at,ends_at,status,version)
                     VALUES (?,?, 'HEADLINE',?,?, 'SCHEDULED',0) RETURNING id
-                    """, Long.class, contentId, userPropId, startsAt, endsAt);
+                    """, Long.class, contentId, userPropId,
+                    Timestamp.from(startsAt), Timestamp.from(endsAt));
             jdbc.update("""
                     INSERT INTO hhy.headline_slot_bookings(
                       slot_id,content_id,entitlement_id,starts_at,ends_at,status,version)
                     VALUES (?,?,?,?,?,'BOOKED',0)
-                    """, slotId, contentId, entitlementId, startsAt, endsAt);
+                    """, slotId, contentId, entitlementId,
+                    Timestamp.from(startsAt), Timestamp.from(endsAt));
         }
 
         void pay(String orderNo) {
