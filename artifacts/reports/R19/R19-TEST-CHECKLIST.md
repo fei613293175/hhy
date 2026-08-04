@@ -11,11 +11,12 @@
 - [x] Admin 页面：三条路由、精确 API、权限门控、业务中文文案、执行日志只读。
 - [x] 可观测性：R19 六项业务指标、查询失败不泄露数据库细节、告警规则静态门禁。
 - [x] Pixel 7 / API 35：SCR-PROP-001、002、003 真实运行截图和交互测试。
-- [x] Admin 1440x900：ADM-PROP-001、002、003 真实运行截图对照。
+- [x] Admin 1440x900：ADM-PROP-002、003 保留已验收证据；ADM-PROP-001 在补齐创建/修改商品能力后重新运行验收，确认页面无横向溢出、操作列完整，创建/修改弹窗可滚动且无重叠。
 
 ## CI 证据
 
-- 最终绿 CI：Run `30932913809`：Backend、Web、Android build/unit、R19 emulator 全部成功。
+- 补开发绿 CI：Run `30943013002`：Backend、Web、Android build/unit、R19 emulator 全部成功。
+- 管理端补充验证：32 个测试文件、139 项测试全部通过；`vue-tsc --noEmit` 通过。
 - Android 模拟器报告：36 tests，0 failures，0 errors；`meHomeProducesBoundVisualEvidence` 通过。
 - 入口视觉截图：`41-r12-me-home.png`；截图 SHA-256 `496F30A7A4FE775C2B392EB6A00EC3DA487DFDD7289AD2BE9DA2E10B491B01A6`。
 - 视觉证据：`artifacts/reports/R19/visual-evidence.md`。
