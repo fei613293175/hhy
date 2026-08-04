@@ -78,6 +78,7 @@ fun R12MeHomeScreen(
     onOpenMembership: () -> Unit = {},
     onOpenMyProps: () -> Unit = {},
     onOpenPropStore: () -> Unit = {},
+    buildIdentityLabel: String? = null,
     onOpenIdentity: () -> Unit,
     onOpenLoginDevices: () -> Unit,
     onOpenChangePassword: () -> Unit,
@@ -92,8 +93,6 @@ fun R12MeHomeScreen(
         MeQuickAction("收藏夹", HhyIcons.Favorite, "mine.favorites", onOpenFavorites),
         MeQuickAction("浏览记录", HhyIcons.Pending, "mine.history", onOpenHistory),
         MeQuickAction("我的订单", HhyIcons.Pending, "mine.orders", onOpenOrders),
-        MeQuickAction("我的道具", HhyIcons.Applications, "mine.props", onOpenMyProps),
-        MeQuickAction("道具商城", HhyIcons.Publish, "mine.prop-store", onOpenPropStore),
         MeQuickAction("实名认证", HhyIcons.Verified, "mine.identity", onOpenIdentity),
         MeQuickAction("登录设备", HhyIcons.Devices, "mine.devices", onOpenLoginDevices),
         MeQuickAction("修改密码", HhyIcons.Lock, "mine.password", onOpenChangePassword),
@@ -121,6 +120,9 @@ fun R12MeHomeScreen(
             MeMembershipSummary(membership, onRetryMembership, onOpenMembership)
         }
         item {
+            MePropCenter(onOpenMyProps, onOpenPropStore, buildIdentityLabel)
+        }
+        item {
             MeQuickActions(actions)
         }
         item {
@@ -143,6 +145,38 @@ fun R12MeHomeScreen(
                     onRetry = onRetryUser,
                     testTag = "mine.user.retry",
                 )
+            }
+        }
+    }
+}
+
+@Composable
+private fun MePropCenter(
+    onOpenMyProps: () -> Unit,
+    onOpenPropStore: () -> Unit,
+    buildIdentityLabel: String?,
+) {
+    Column(verticalArrangement = Arrangement.spacedBy(HhySpacing.Sm)) {
+        MeSectionTitle("道具中心", null)
+        Card(
+            modifier = Modifier.fillMaxWidth().testTag("mine.prop-center"),
+            shape = RoundedCornerShape(HhyRadius.NormalCard),
+            colors = CardDefaults.cardColors(containerColor = HhyColors.Surface),
+            elevation = CardDefaults.cardElevation(defaultElevation = HhyElevation.Card),
+        ) {
+            Column(Modifier.fillMaxWidth()) {
+                buildIdentityLabel?.let { label ->
+                    Text(
+                        label,
+                        modifier = Modifier.fillMaxWidth().background(HhyColors.SoftBlue).padding(HhySpacing.Md),
+                        color = HhyColors.BrandPrimary,
+                        fontSize = HhyType.CaptionSize,
+                        lineHeight = HhyType.CaptionLineHeight,
+                        fontWeight = FontWeight.SemiBold,
+                    )
+                }
+                MeServiceRow("我的道具", HhyIcons.Applications, "mine.props", onOpenMyProps)
+                MeServiceRow("道具商城", HhyIcons.Publish, "mine.prop-store", onOpenPropStore)
             }
         }
     }

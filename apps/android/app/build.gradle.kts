@@ -71,7 +71,7 @@ android {
         applicationId = "cc.orbexa.hhy"
         minSdk = 26
         targetSdk = 36
-        versionCode = 10227
+        versionCode = 10228
         versionName = "1.2.2"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
@@ -86,8 +86,8 @@ android {
     buildTypes {
         debug {
             applicationIdSuffix = ".debug"
-            versionNameSuffix = "-r19-debug"
-            resValue("string", "app_name", "合伙云 Pro 测试")
+            versionNameSuffix = "-r19-prop-debug"
+            resValue("string", "app_name", "R19 道具验证")
         }
         release {
             isMinifyEnabled = true

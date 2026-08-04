@@ -511,6 +511,7 @@ private fun AuthenticatedNavHost(
             onOpenMyProps = { navController.navigate(AuthenticatedRoute.MyProps) },
             onOpenPropStore = { navController.navigate(AuthenticatedRoute.PropStore) },
             onOpenProfile = { navController.navigate(AuthenticatedRoute.Profile) },
+            buildIdentityLabel = if (BuildConfig.DEBUG) "R19 道具验证包 · ${BuildConfig.VERSION_NAME}" else null,
             experienceApi = experienceApi,
             meApi = r12MeApi,
             accessToken = authenticated.session.accessToken,

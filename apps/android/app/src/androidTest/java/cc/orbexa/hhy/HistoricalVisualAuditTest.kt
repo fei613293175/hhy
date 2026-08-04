@@ -18,6 +18,7 @@ import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.performScrollTo
 import androidx.compose.ui.test.performSemanticsAction
 import androidx.compose.ui.test.performTextInput
 import androidx.test.platform.app.InstrumentationRegistry
@@ -321,11 +322,15 @@ class HistoricalVisualAuditTest {
                 accessToken = "visual-audit-token",
                 onOpenMyProps = { openedMyProps = true },
                 onOpenPropStore = { openedPropStore = true },
+                buildIdentityLabel = "R19 道具验证包 · 1.2.2-r19-prop-debug",
             )
         }
         waitForText("奖励资产")
         waitForText("1,268.88")
         waitForText("常用功能")
+        composeRule.onNodeWithTag("mine.prop-center").performScrollTo().assertIsDisplayed()
+        waitForText("道具中心")
+        waitForText("R19 道具验证包 · 1.2.2-r19-prop-debug")
         composeRule.onNodeWithTag("mine.props").assertIsDisplayed().performClick()
         composeRule.onNodeWithTag("mine.prop-store").assertIsDisplayed().performClick()
         composeRule.runOnIdle {
