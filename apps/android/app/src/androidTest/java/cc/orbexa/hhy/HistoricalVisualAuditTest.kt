@@ -90,6 +90,11 @@ import cc.orbexa.hhy.network.MediaCreateUploadSessionRequest
 import cc.orbexa.hhy.network.MediaResource
 import cc.orbexa.hhy.network.MembershipBenefitResource
 import cc.orbexa.hhy.network.MembershipResource
+import cc.orbexa.hhy.network.ContractR18MembershipApi
+import cc.orbexa.hhy.network.R18MembershipOrderRequest
+import cc.orbexa.hhy.network.R18MembershipPage
+import cc.orbexa.hhy.network.R18MembershipUpgradeOrderRequest
+import cc.orbexa.hhy.network.R18MembershipUpgradeQuoteRequest
 import cc.orbexa.hhy.network.PublisherSummaryResource
 import cc.orbexa.hhy.network.UserSelfResource
 import cc.orbexa.hhy.network.R07CallResult
@@ -108,6 +113,10 @@ import cc.orbexa.hhy.network.VersionCheckRequest
 import cc.orbexa.hhy.network.VersionPolicy
 import cc.orbexa.hhy.shell.HhyShellScreen
 import cc.orbexa.hhy.shell.HhyTopLevelDestination
+import cc.orbexa.hhy.membership.R18MembershipBenefitsScreen
+import cc.orbexa.hhy.membership.R18MembershipCenterScreen
+import cc.orbexa.hhy.membership.R18MembershipPurchaseScreen
+import cc.orbexa.hhy.membership.R18MembershipUpgradeScreen
 import cc.orbexa.hhy.startup.StartupVisualAuditMode
 import cc.orbexa.hhy.startup.StartupVisualAuditScreen
 import java.io.InputStream
@@ -563,6 +572,37 @@ class HistoricalVisualAuditTest {
         captureStable("36-r14-delete-dialog.png")
     }
 
+    @Test
+    fun r18MembershipScreensProduceBoundVisualEvidence() {
+        setAuditContent {
+            R18MembershipCenterScreen(visualR18Api, "visual-r18-token", {}, {}, {}, {}, {})
+        }
+        waitForText("会员中心")
+        waitForText("选择套餐")
+        captureStable("40-r18-scr-member-001.png")
+
+        setAuditContent {
+            R18MembershipPurchaseScreen(visualR18Api, "visual-r18-token", "pro-monthly", {}, {}, {})
+        }
+        waitForText("确认开通 Pro")
+        waitForText("应付金额：", substring = true)
+        captureStable("41-r18-scr-member-002.png")
+
+        setAuditContent {
+            R18MembershipUpgradeScreen(visualR18Api, "visual-r18-token", {}, {})
+        }
+        waitForText("升级 Pro")
+        waitForText("目标套餐")
+        captureStable("42-r18-scr-member-003.png")
+
+        setAuditContent {
+            R18MembershipBenefitsScreen(visualR18Api, "visual-r18-token", {}, {})
+        }
+        waitForText("Pro 权益")
+        waitForText("发布额度")
+        captureStable("43-r18-scr-member-004.png")
+    }
+
     @OptIn(ExperimentalComposeUiApi::class)
     private fun setAuditContent(content: @Composable () -> Unit) {
         composeRule.setContent {
@@ -849,6 +889,43 @@ class HistoricalVisualAuditTest {
             "visual-r12-reward",
             "2026-07-25T15:00:00Z",
         )
+    }
+
+    private val visualR18Member = MembershipResource(
+        id = "visual-r18-membership",
+        skuId = "pro-monthly",
+        name = "Pro 月度",
+        status = "ACTIVE",
+        startsAt = "2026-08-01T00:00:00Z",
+        expiresAt = "2026-09-01T00:00:00Z",
+        benefits = listOf(
+            MembershipBenefitResource("PUBLISH_LIMIT", "发布额度", kotlinx.serialization.json.JsonPrimitive(12), "次"),
+            MembershipBenefitResource("CONTACT_UNLOCK", "联系解锁", kotlinx.serialization.json.JsonPrimitive(8), "次"),
+            MembershipBenefitResource("WITHDRAW_FEE", "提现服务费", kotlinx.serialization.json.JsonPrimitive(0), "%"),
+            MembershipBenefitResource("STORAGE", "素材空间", kotlinx.serialization.json.JsonPrimitive(20), "GB"),
+        ),
+        paidValueCent = 9900,
+        remainingValueCent = 3300,
+        version = 1,
+    )
+
+    private val visualR18Skus = listOf(
+        visualR18Member,
+        visualR18Member.copy(skuId = "pro-quarterly", name = "Pro 季度", paidValueCent = 24900),
+        visualR18Member.copy(skuId = "pro-yearly", name = "Pro 年度", paidValueCent = 79900),
+    )
+
+    private val visualR18Api = object : ContractR18MembershipApi {
+        private val page = R18MembershipPage(visualR18Skus, R07PageMeta(page = 1, pageSize = 100, total = "3", hasMore = "false"))
+
+        override suspend fun skus(accessToken: String) = R07CallResult.Success(page, "visual-r18-skus")
+        override suspend fun current(accessToken: String) = R07CallResult.Success(visualR18Member, "visual-r18-current")
+        override suspend fun purchase(accessToken: String, request: R18MembershipOrderRequest, idempotencyKey: String) =
+            R07CallResult.Success(CommandResultResource(resourceId = request.skuId, status = "ACCEPTED", acceptedAt = "2026-08-04T00:00:00Z"), "visual-r18-purchase")
+        override suspend fun quote(accessToken: String, request: R18MembershipUpgradeQuoteRequest, idempotencyKey: String) =
+            R07CallResult.Success(visualR18Member.copy(skuId = request.targetSkuId, paidValueCent = 15000), "visual-r18-quote")
+        override suspend fun upgrade(accessToken: String, request: R18MembershipUpgradeOrderRequest, idempotencyKey: String) =
+            R07CallResult.Success(CommandResultResource(resourceId = request.quoteId, status = "ACCEPTED", acceptedAt = "2026-08-04T00:00:00Z"), "visual-r18-upgrade")
     }
 
     private val discoveryPublisher = PublisherSummaryResource(
