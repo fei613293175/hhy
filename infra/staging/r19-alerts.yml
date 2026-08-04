@@ -1,0 +1,48 @@
+groups:
+  - name: hhy-r19-props-and-exposure
+    rules:
+      - alert: HhyR19BackendDown
+        expr: up{job="hhy-backend-r19"} == 0
+        for: 15s
+        labels: { severity: critical, release: R19 }
+        annotations: { summary: 合伙云 R19 Staging 后端不可用 }
+      - alert: HhyR19HighServerErrorRate
+        expr: sum(rate(http_server_requests_seconds_count{job="hhy-backend-r19",status=~"5.."}[1m])) / clamp_min(sum(rate(http_server_requests_seconds_count{job="hhy-backend-r19"}[1m])), 0.001) > 0.02
+        for: 1m
+        labels: { severity: warning, release: R19 }
+        annotations: { summary: 合伙云 R19 Staging 5xx 比例超过 2% }
+      - alert: HhyR19HighP95Latency
+        expr: histogram_quantile(0.95, sum by (le) (rate(http_server_requests_seconds_bucket{job="hhy-backend-r19"}[5m]))) > 0.5
+        for: 2m
+        labels: { severity: warning, release: R19 }
+        annotations: { summary: 合伙云 R19 Staging P95 延迟超过 500ms }
+      - alert: HhyR19PropExecutionFailureBurst
+        expr: hhy_prop_executions_failed_5m{job="hhy-backend-r19"} > 5
+        for: 1m
+        labels: { severity: critical, release: R19 }
+        annotations: { summary: R19 五分钟内道具执行失败超过 5 次 }
+      - alert: HhyR19PropExecutionRetryBacklog
+        expr: hhy_prop_executions_retrying{job="hhy-backend-r19"} > 20
+        for: 2m
+        labels: { severity: warning, release: R19 }
+        annotations: { summary: R19 道具执行重试积压超过 20 条 }
+      - alert: HhyR19ExpiredExposureStillActive
+        expr: hhy_exposure_expired_active{job="hhy-backend-r19"} > 0
+        for: 1m
+        labels: { severity: critical, release: R19 }
+        annotations: { summary: R19 曝光权益到期后仍处于活动状态 }
+      - alert: HhyR19HeadlineBookingOverdue
+        expr: hhy_headline_bookings_overdue{job="hhy-backend-r19"} > 0
+        for: 1m
+        labels: { severity: critical, release: R19 }
+        annotations: { summary: R19 头条排期结束后仍未关闭 }
+      - alert: HhyR19OutboxBacklog
+        expr: hhy_r19_outbox_backlog{job="hhy-backend-r19"} > 50
+        for: 2m
+        labels: { severity: warning, release: R19 }
+        annotations: { summary: R19 道具执行事件 Outbox 积压超过 50 条 }
+      - alert: HhyR19BusinessMetricQueryFailure
+        expr: sum(hhy_business_metric_query_failures_total{job="hhy-backend-r19",metric=~"hhy\\.(prop|exposure|headline|r19)\\..*"}) > 0
+        for: 15s
+        labels: { severity: critical, release: R19 }
+        annotations: { summary: R19 业务指标查询失败，监控结果不可信 }

@@ -307,4 +307,43 @@ class BusinessGaugeBinderTest {
         assertThat(registry.get("hhy.business.metric.query.failures")
                 .tag("metric", "hhy.outbox.backlog").counter().count()).isEqualTo(1.0);
     }
+
+    @Test
+    void exposesR19PropAndExposureOperationalRisks() {
+        DriverManagerDataSource dataSource = new DriverManagerDataSource(
+                "jdbc:h2:mem:r19-business-gauges;MODE=PostgreSQL;DB_CLOSE_DELAY=-1", "sa", "");
+        JdbcTemplate jdbc = new JdbcTemplate(dataSource);
+        jdbc.execute("CREATE SCHEMA hhy");
+        jdbc.execute("CREATE TABLE hhy.user_props(quantity bigint, status varchar(32), expires_at timestamp)");
+        jdbc.execute("CREATE TABLE hhy.prop_execution_logs(status varchar(32), created_at timestamp)");
+        jdbc.execute("CREATE TABLE hhy.content_exposure_entitlements(status varchar(32), ends_at timestamp)");
+        jdbc.execute("CREATE TABLE hhy.headline_slot_bookings(status varchar(32), ends_at timestamp)");
+        jdbc.execute("CREATE TABLE hhy.outbox_events(event_type varchar(128), status varchar(32))");
+        jdbc.update("INSERT INTO hhy.user_props VALUES (3, 'AVAILABLE', CURRENT_TIMESTAMP + INTERVAL '1' HOUR), "
+                + "(5, 'AVAILABLE', CURRENT_TIMESTAMP - INTERVAL '1' HOUR), (7, 'CONSUMED', NULL)");
+        jdbc.update("INSERT INTO hhy.prop_execution_logs VALUES "
+                + "('FAILED', CURRENT_TIMESTAMP), ('FAILED', CURRENT_TIMESTAMP - INTERVAL '10' MINUTE), "
+                + "('RETRYING', CURRENT_TIMESTAMP), ('SUCCEEDED', CURRENT_TIMESTAMP)");
+        jdbc.update("INSERT INTO hhy.content_exposure_entitlements VALUES "
+                + "('ACTIVE', CURRENT_TIMESTAMP - INTERVAL '1' MINUTE), "
+                + "('ACTIVE', CURRENT_TIMESTAMP + INTERVAL '1' HOUR), "
+                + "('EXPIRED', CURRENT_TIMESTAMP - INTERVAL '1' HOUR)");
+        jdbc.update("INSERT INTO hhy.headline_slot_bookings VALUES "
+                + "('BOOKED', CURRENT_TIMESTAMP - INTERVAL '1' MINUTE), "
+                + "('ACTIVE', CURRENT_TIMESTAMP + INTERVAL '1' HOUR), "
+                + "('EXPIRED', CURRENT_TIMESTAMP - INTERVAL '1' HOUR)");
+        jdbc.update("INSERT INTO hhy.outbox_events VALUES "
+                + "('prop.execution.succeeded.v1', 'PENDING'), "
+                + "('prop.execution.succeeded.v1', 'DELIVERED'), ('chat.message.sent.v1', 'PENDING')");
+
+        SimpleMeterRegistry registry = new SimpleMeterRegistry();
+        new BusinessGaugeBinder(jdbc).bindTo(registry);
+
+        assertThat(registry.get("hhy.prop.inventory.available").gauge().value()).isEqualTo(3.0);
+        assertThat(registry.get("hhy.prop.executions.failed.5m").gauge().value()).isEqualTo(1.0);
+        assertThat(registry.get("hhy.prop.executions.retrying").gauge().value()).isEqualTo(1.0);
+        assertThat(registry.get("hhy.exposure.expired.active").gauge().value()).isEqualTo(1.0);
+        assertThat(registry.get("hhy.headline.bookings.overdue").gauge().value()).isEqualTo(1.0);
+        assertThat(registry.get("hhy.r19.outbox.backlog").gauge().value()).isEqualTo(1.0);
+    }
 }

@@ -147,6 +147,12 @@ class ObservabilityEndpointsTest {
                 .andExpect(content().string(org.hamcrest.Matchers.containsString("hhy_websocket_deliveries_retry_exhausted")))
                 .andExpect(content().string(org.hamcrest.Matchers.containsString("hhy_websocket_gap_users")))
                 .andExpect(content().string(org.hamcrest.Matchers.containsString("hhy_r14_outbox_backlog")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("hhy_prop_inventory_available")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("hhy_prop_executions_failed_5m")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("hhy_prop_executions_retrying")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("hhy_exposure_expired_active")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("hhy_headline_bookings_overdue")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("hhy_r19_outbox_backlog")))
                 .andExpect(content().string(org.hamcrest.Matchers.containsString("hhy_business_metric_query_failures_total")))
                 .andExpect(content().string(org.hamcrest.Matchers.containsString("http_server_requests_seconds_bucket")));
         mvc.perform(get("/actuator").with(user("observability-auditor")))

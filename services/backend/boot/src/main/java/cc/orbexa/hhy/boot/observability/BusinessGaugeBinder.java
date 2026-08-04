@@ -538,6 +538,41 @@ public final class BusinessGaugeBinder implements MeterBinder {
                 'chat.r14.stage.alert.v1'
             ) AND status IN ('PENDING', 'RETRY_WAIT')
             """;
+    static final String PROP_INVENTORY_AVAILABLE_SQL = """
+            SELECT COALESCE(SUM(quantity), 0)
+            FROM hhy.user_props
+            WHERE status = 'AVAILABLE'
+              AND (expires_at IS NULL OR expires_at > CURRENT_TIMESTAMP)
+            """;
+    static final String PROP_EXECUTIONS_FAILED_5M_SQL = """
+            SELECT COUNT(*)
+            FROM hhy.prop_execution_logs
+            WHERE status = 'FAILED'
+              AND created_at >= CURRENT_TIMESTAMP - INTERVAL '5' MINUTE
+            """;
+    static final String PROP_EXECUTIONS_RETRYING_SQL = """
+            SELECT COUNT(*)
+            FROM hhy.prop_execution_logs
+            WHERE status = 'RETRYING'
+            """;
+    static final String EXPOSURE_EXPIRED_ACTIVE_SQL = """
+            SELECT COUNT(*)
+            FROM hhy.content_exposure_entitlements
+            WHERE status IN ('SCHEDULED', 'ACTIVE')
+              AND ends_at <= CURRENT_TIMESTAMP
+            """;
+    static final String HEADLINE_BOOKINGS_OVERDUE_SQL = """
+            SELECT COUNT(*)
+            FROM hhy.headline_slot_bookings
+            WHERE status IN ('BOOKED', 'ACTIVE')
+              AND ends_at <= CURRENT_TIMESTAMP
+            """;
+    static final String R19_OUTBOX_BACKLOG_SQL = """
+            SELECT COUNT(*)
+            FROM hhy.outbox_events
+            WHERE event_type = 'prop.execution.succeeded.v1'
+              AND status IN ('PENDING', 'RETRY_WAIT')
+            """;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(BusinessGaugeBinder.class);
     private final JdbcTemplate jdbcTemplate;
@@ -631,6 +666,12 @@ public final class BusinessGaugeBinder implements MeterBinder {
         register(registry, "hhy.websocket.deliveries.retry.exhausted", "Unexpired WebSocket deliveries that exhausted acknowledgement retries", WEBSOCKET_DELIVERIES_RETRY_EXHAUSTED_SQL);
         register(registry, "hhy.websocket.gap.users", "Users requiring authoritative REST recovery after expired WebSocket deliveries", WEBSOCKET_GAP_USERS_SQL);
         register(registry, "hhy.r14.outbox.backlog", "R14 chat events waiting for delivery", R14_OUTBOX_BACKLOG_SQL);
+        register(registry, "hhy.prop.inventory.available", "Usable prop units in customer inventory", PROP_INVENTORY_AVAILABLE_SQL);
+        register(registry, "hhy.prop.executions.failed.5m", "Failed prop executions in the last five minutes", PROP_EXECUTIONS_FAILED_5M_SQL);
+        register(registry, "hhy.prop.executions.retrying", "Prop executions currently waiting for retry", PROP_EXECUTIONS_RETRYING_SQL);
+        register(registry, "hhy.exposure.expired.active", "Exposure entitlements still active after their end time", EXPOSURE_EXPIRED_ACTIVE_SQL);
+        register(registry, "hhy.headline.bookings.overdue", "Headline bookings still open after their end time", HEADLINE_BOOKINGS_OVERDUE_SQL);
+        register(registry, "hhy.r19.outbox.backlog", "R19 prop execution events waiting for delivery", R19_OUTBOX_BACKLOG_SQL);
     }
 
     private void register(MeterRegistry registry, String name, String description, String sql) {

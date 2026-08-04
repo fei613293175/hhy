@@ -61,6 +61,11 @@ jobs:
           --health-retries 10
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - run: pip install PyYAML==6.0.2
+      - run: python scripts/check_r19_observability.py
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
