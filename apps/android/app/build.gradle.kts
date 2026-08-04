@@ -71,7 +71,7 @@ android {
         applicationId = "cc.orbexa.hhy"
         minSdk = 26
         targetSdk = 36
-        versionCode = 10226
+        versionCode = 10227
         versionName = "1.2.2"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
@@ -86,7 +86,7 @@ android {
     buildTypes {
         debug {
             applicationIdSuffix = ".debug"
-            versionNameSuffix = "-debug"
+            versionNameSuffix = "-r19-debug"
             resValue("string", "app_name", "合伙云 Pro 测试")
         }
         release {

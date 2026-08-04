@@ -17,6 +17,7 @@ import androidx.compose.ui.test.onAllNodesWithText
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
+import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performSemanticsAction
 import androidx.compose.ui.test.performTextInput
 import androidx.test.platform.app.InstrumentationRegistry
@@ -310,17 +311,27 @@ class HistoricalVisualAuditTest {
 
     @Test
     fun meHomeProducesBoundVisualEvidence() {
+        var openedMyProps = false
+        var openedPropStore = false
         setAuditContent {
             HhyShellScreen(
                 user = visualMeUser,
                 selectedDestination = HhyTopLevelDestination.ME,
                 meApi = visualMeApi,
                 accessToken = "visual-audit-token",
+                onOpenMyProps = { openedMyProps = true },
+                onOpenPropStore = { openedPropStore = true },
             )
         }
         waitForText("奖励资产")
         waitForText("1,268.88")
         waitForText("常用功能")
+        composeRule.onNodeWithTag("mine.props").assertIsDisplayed().performClick()
+        composeRule.onNodeWithTag("mine.prop-store").assertIsDisplayed().performClick()
+        composeRule.runOnIdle {
+            assertTrue("我的道具入口必须可点击", openedMyProps)
+            assertTrue("道具商城入口必须可点击", openedPropStore)
+        }
         captureStable("41-r12-me-home.png")
     }
 
