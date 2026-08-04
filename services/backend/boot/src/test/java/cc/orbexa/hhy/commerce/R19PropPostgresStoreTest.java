@@ -25,6 +25,8 @@ import org.junit.jupiter.api.Assumptions;
 import org.junit.jupiter.api.Test;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.transaction.support.TransactionTemplate;
 
 class R19PropPostgresStoreTest {
     private static final Clock CLOCK = Clock.systemUTC();
@@ -156,13 +158,17 @@ class R19PropPostgresStoreTest {
         }
 
         long content(long ownerId, String title) {
-            long contentId = jdbc.queryForObject("""
-                    INSERT INTO hhy.content_posts(owner_id,type,title,status)
-                    VALUES (?,'PROJECT',?,'DRAFT') RETURNING id
-                    """, Long.class, ownerId, title);
-            jdbc.update("INSERT INTO hhy.project_details(content_id,cooperation) VALUES (?,?)",
-                    contentId, "R19 integration fixture");
-            return contentId;
+            TransactionTemplate transaction = new TransactionTemplate(
+                    new DataSourceTransactionManager(jdbc.getDataSource()));
+            return transaction.execute(status -> {
+                long contentId = jdbc.queryForObject("""
+                        INSERT INTO hhy.content_posts(owner_id,type,title,status)
+                        VALUES (?,'PROJECT',?,'DRAFT') RETURNING id
+                        """, Long.class, ownerId, title);
+                jdbc.update("INSERT INTO hhy.project_details(content_id,cooperation) VALUES (?,?)",
+                        contentId, "R19 integration fixture");
+                return contentId;
+            });
         }
 
         long propSku(String type, String name, long price, String code) {
