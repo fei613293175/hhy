@@ -7,6 +7,7 @@
 - [x] OpenAPI 契约：9 个 operationId 存在且权限精确匹配。
 - [x] Android 网络契约：路径、分页、状态/关键词/排序编码和非法路径/边界拒绝。
 - [x] Android 状态：正库存可使用；零库存/过期禁止使用；409 冲突和离线恢复文案。
+- [x] Android 用户入口：“我的道具”和“道具商城”在真实“我的”页可见且点击回调有效。
 - [x] Admin 页面：三条路由、精确 API、权限门控、业务中文文案、执行日志只读。
 - [x] 可观测性：R19 六项业务指标、查询失败不泄露数据库细节、告警规则静态门禁。
 - [x] Pixel 7 / API 35：SCR-PROP-001、002、003 真实运行截图和交互测试。
@@ -14,7 +15,7 @@
 
 ## CI 证据
 
-- 最终绿 CI：Run `30928445496`：Backend、Web、Android build/unit、R19 emulator 全部成功。
+- 最终绿 CI：Run `30930316181`：Backend、Web、Android build/unit、R19 emulator 全部成功。
 - 视觉证据：`artifacts/reports/R19/visual-evidence.md`。
 - APK 证据：`artifacts/reports/R19/apk-evidence.md`。
 
