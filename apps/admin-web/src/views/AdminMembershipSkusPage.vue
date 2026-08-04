@@ -1,14 +1,23 @@
 <script setup lang="ts">
 import { computed, onMounted, reactive, ref } from 'vue'
 import StatusNotice from '../components/StatusNotice.vue'
-import { adminMembershipApi, adminSession, isApiRequestError, type AdminMembershipSku } from '../services'
+import { adminMembershipApi, adminSession, isApiRequestError } from '../services'
 
-const items = ref<AdminMembershipSku[]>([])
+type MembershipRow = {
+  id?: string
+  skuId?: string
+  name?: string
+  status: string
+  paidValueCent?: number
+  benefits?: unknown[]
+  version: number
+}
+const items = ref<MembershipRow[]>([])
 const loading = ref(true)
 const refreshing = ref(false)
 const error = ref('')
 const forbidden = ref(false)
-const editor = ref<AdminMembershipSku>()
+const editor = ref<MembershipRow>()
 const filters = reactive({ keyword: '', status: '', sort: 'priceCent:asc' })
 const activeCount = computed(() => items.value.filter((item) => item.status === 'ACTIVE').length)
 const prices = computed(() => items.value.map((item) => item.paidValueCent ?? 0).filter(Boolean))
@@ -28,11 +37,11 @@ async function load() {
   loading.value = true; error.value = ''; forbidden.value = false
   try {
     const result = await adminMembershipApi.skus({ keyword: filters.keyword.trim(), status: filters.status, sort: filters.sort })
-    items.value = result.items
+    items.value = result.items as MembershipRow[]
   } catch (caught) { error.value = message(caught) } finally { loading.value = false; refreshing.value = false }
 }
 function refresh() { refreshing.value = true; void load() }
-function openEditor(item: AdminMembershipSku) { editor.value = item }
+function openEditor(item: MembershipRow) { editor.value = item }
 async function save() {
   if (!editor.value) return
   try {
@@ -73,7 +82,7 @@ onMounted(() => { void load() })
       <table v-else class="data-table"><thead><tr><th>套餐</th><th>Pro 身份</th><th>价格</th><th>权益</th><th>状态</th><th>版本</th><th>操作</th></tr></thead>
         <tbody><tr v-for="item in items" :key="item.id">
           <td><strong>{{ item.name || '未命名套餐' }}</strong><small>{{ item.skuId || item.id }}</small></td>
-          <td>Pro</td><td>{{ money(item.paidValueCent) }}</td><td>{{ item.benefits.length }} 项</td>
+          <td>Pro</td><td>{{ money(item.paidValueCent) }}</td><td>{{ (item.benefits ?? []).length }} 项</td>
           <td><span class="status-chip" :data-status="item.status">{{ item.status }}</span></td><td>v{{ item.version }}</td>
           <td><button class="secondary-button" @click="openEditor(item)">编辑</button></td>
         </tr></tbody>

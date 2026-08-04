@@ -57,7 +57,7 @@ onMounted(() => { void load() })
       <div v-if="loading" class="loading-state">正在加载用户会员…</div>
       <div v-else-if="!items.length" class="empty-state">暂无用户会员记录</div>
       <table v-else class="data-table"><thead><tr><th>用户</th><th>Pro 套餐</th><th>状态</th><th>有效期</th><th>权益</th><th>版本</th></tr></thead>
-        <tbody><tr v-for="item in items" :key="item.id"><td><strong>{{ item.id || '未知用户' }}</strong></td><td>{{ item.name || item.skuId || 'Pro' }}</td><td><span class="status-chip" :data-status="item.status">{{ item.status }}</span></td><td>{{ item.startsAt || '暂无' }}<small>{{ item.expiresAt || '暂无' }}</small></td><td>{{ item.benefits.length }} 项快照</td><td>v{{ item.version }}</td></tr></tbody>
+        <tbody><tr v-for="item in items" :key="item.id"><td><strong>{{ item.id || '未知用户' }}</strong></td><td>{{ item.name || item.skuId || 'Pro' }}</td><td><span class="status-chip" :data-status="item.status">{{ item.status }}</span></td><td>{{ item.startsAt || '暂无' }}<small>{{ item.expiresAt || '暂无' }}</small></td><td>{{ (item.benefits ?? []).length }} 项快照</td><td>v{{ item.version }}</td></tr></tbody>
       </table>
     </section>
     <div v-if="grantOpen" class="dialog-backdrop" @click.self="grantOpen = false">
