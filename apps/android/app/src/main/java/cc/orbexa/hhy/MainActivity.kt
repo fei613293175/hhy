@@ -88,6 +88,7 @@ import cc.orbexa.hhy.network.UrlConnectionContractR13Api
 import cc.orbexa.hhy.network.UrlConnectionContractR14Api
 import cc.orbexa.hhy.network.UrlConnectionContractR15Api
 import cc.orbexa.hhy.network.UrlConnectionContractR16Api
+import cc.orbexa.hhy.network.UrlConnectionContractR18MembershipApi
 import cc.orbexa.hhy.network.OkHttpR14RealtimeClient
 import cc.orbexa.hhy.network.R14RealtimeEvent
 import cc.orbexa.hhy.network.R14RealtimeScope
@@ -131,6 +132,10 @@ import cc.orbexa.hhy.support.R15SupportHomeScreen
 import cc.orbexa.hhy.support.R15SupportListScreen
 import cc.orbexa.hhy.order.R16OrderDetailScreen
 import cc.orbexa.hhy.order.R16OrderListScreen
+import cc.orbexa.hhy.membership.R18MembershipBenefitsScreen
+import cc.orbexa.hhy.membership.R18MembershipCenterScreen
+import cc.orbexa.hhy.membership.R18MembershipPurchaseScreen
+import cc.orbexa.hhy.membership.R18MembershipUpgradeScreen
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.decodeFromString
 import kotlinx.coroutines.awaitCancellation
@@ -274,6 +279,10 @@ internal sealed interface AuthenticatedRoute {
     @Serializable data class SupportTicketDetail(val ticketId: String) : AuthenticatedRoute
     @Serializable data object Orders : AuthenticatedRoute
     @Serializable data class OrderDetail(val orderNo: String) : AuthenticatedRoute
+    @Serializable data object Membership : AuthenticatedRoute
+    @Serializable data class MembershipPurchase(val skuId: String) : AuthenticatedRoute
+    @Serializable data object MembershipUpgrade : AuthenticatedRoute
+    @Serializable data object MembershipBenefits : AuthenticatedRoute
     @Serializable data object Me : AuthenticatedRoute
     @Serializable data object Profile : AuthenticatedRoute
     @Serializable data object LoginDevices : AuthenticatedRoute
@@ -350,6 +359,7 @@ private fun AuthenticatedNavHost(
     val r14Api = remember { UrlConnectionContractR14Api(BuildConfig.API_BASE_URL) }
     val r15Api = remember { UrlConnectionContractR15Api(BuildConfig.API_BASE_URL) }
     val r16Api = remember { UrlConnectionContractR16Api(BuildConfig.API_BASE_URL) }
+    val r18MembershipApi = remember { UrlConnectionContractR18MembershipApi(BuildConfig.API_BASE_URL) }
     val r14Realtime = remember { OkHttpR14RealtimeClient(BuildConfig.WS_BASE_URL) }
     val mediaApi = remember { UrlConnectionContractMediaApi(BuildConfig.API_BASE_URL) }
     val uriHandler = androidx.compose.ui.platform.LocalUriHandler.current
@@ -489,6 +499,7 @@ private fun AuthenticatedNavHost(
             onOpenFavorites = { navController.navigate(AuthenticatedRoute.Favorites) },
             onOpenHistory = { navController.navigate(AuthenticatedRoute.History) },
             onOpenOrders = { navController.navigate(AuthenticatedRoute.Orders) },
+            onOpenMembership = { navController.navigate(AuthenticatedRoute.Membership) },
             onOpenProfile = { navController.navigate(AuthenticatedRoute.Profile) },
             experienceApi = experienceApi,
             meApi = r12MeApi,
@@ -605,6 +616,37 @@ private fun AuthenticatedNavHost(
         composable<AuthenticatedRoute.OrderDetail> { entry ->
             val route = entry.toRoute<AuthenticatedRoute.OrderDetail>()
             R16OrderDetailScreen(r16Api, authenticated.session.accessToken, route.orderNo, { navController.popBackStack() }, onSessionInvalidated)
+        }
+        composable<AuthenticatedRoute.Membership> {
+            R18MembershipCenterScreen(
+                r18MembershipApi, authenticated.session.accessToken,
+                { navController.popBackStack() },
+                { navController.navigate(AuthenticatedRoute.MembershipPurchase(it)) },
+                { navController.navigate(AuthenticatedRoute.MembershipUpgrade) },
+                { navController.navigate(AuthenticatedRoute.MembershipBenefits) },
+                onSessionInvalidated,
+            )
+        }
+        composable<AuthenticatedRoute.MembershipPurchase> { entry ->
+            val route = entry.toRoute<AuthenticatedRoute.MembershipPurchase>()
+            R18MembershipPurchaseScreen(
+                r18MembershipApi, authenticated.session.accessToken, route.skuId,
+                { navController.popBackStack() },
+                { navController.navigate(AuthenticatedRoute.Orders) },
+                onSessionInvalidated,
+            )
+        }
+        composable<AuthenticatedRoute.MembershipUpgrade> {
+            R18MembershipUpgradeScreen(
+                r18MembershipApi, authenticated.session.accessToken,
+                { navController.popBackStack() }, onSessionInvalidated,
+            )
+        }
+        composable<AuthenticatedRoute.MembershipBenefits> {
+            R18MembershipBenefitsScreen(
+                r18MembershipApi, authenticated.session.accessToken,
+                { navController.popBackStack() }, onSessionInvalidated,
+            )
         }
         composable<AuthenticatedRoute.Profile> {
             R12ProfileScreen(

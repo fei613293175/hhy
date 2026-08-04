@@ -74,6 +74,7 @@ fun R12MeHomeScreen(
     onOpenFavorites: () -> Unit,
     onOpenHistory: () -> Unit,
     onOpenOrders: () -> Unit,
+    onOpenMembership: () -> Unit = {},
     onOpenIdentity: () -> Unit,
     onOpenLoginDevices: () -> Unit,
     onOpenChangePassword: () -> Unit,
@@ -112,7 +113,7 @@ fun R12MeHomeScreen(
             MeRewardSummary(reward, onRetryReward, onOpenIdentity)
         }
         item {
-            MeMembershipSummary(membership, onRetryMembership)
+            MeMembershipSummary(membership, onRetryMembership, onOpenMembership)
         }
         item {
             MeQuickActions(actions)
@@ -304,9 +305,13 @@ private fun MeAmountCell(label: String, cents: Long?, emphasized: Boolean, modif
 }
 
 @Composable
-private fun MeMembershipSummary(state: R12MeModuleState<MembershipResource>, onRetry: () -> Unit) {
+private fun MeMembershipSummary(
+    state: R12MeModuleState<MembershipResource>,
+    onRetry: () -> Unit,
+    onOpenMembership: () -> Unit,
+) {
     Card(
-        modifier = Modifier.fillMaxWidth().testTag("mine.membership"),
+        modifier = Modifier.fillMaxWidth().clickable(onClick = onOpenMembership).testTag("mine.membership"),
         shape = RoundedCornerShape(HhyRadius.NormalCard),
         colors = CardDefaults.cardColors(containerColor = HhyColors.Surface),
         elevation = CardDefaults.cardElevation(defaultElevation = HhyElevation.Card),
