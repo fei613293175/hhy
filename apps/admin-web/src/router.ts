@@ -21,6 +21,8 @@ import AdminSupportTicketsPage from './views/AdminSupportTicketsPage.vue'
 import AdminSupportTicketDetailPage from './views/AdminSupportTicketDetailPage.vue'
 import AdminForbiddenPage from './views/AdminForbiddenPage.vue'
 import AdminPaymentsPage from './views/AdminPaymentsPage.vue'
+import AdminMembershipSkusPage from './views/AdminMembershipSkusPage.vue'
+import AdminMembershipUsersPage from './views/AdminMembershipUsersPage.vue'
 import { implementedAdminPageIds } from './adminNavigation'
 import { resolveAdminRouteRedirect } from './routerAccess'
 
@@ -49,6 +51,8 @@ export const router = createRouter({
     { path: '/commerce/orders', name: 'ADM-ORDER-001', component: CommerceOrdersPage, meta: { requiresAuth: true, permission: 'order.read' } },
     { path: '/commerce/payments', name: 'ADM-PAY-001', component: AdminPaymentsPage, props: { mode: 'payments' }, meta: { requiresAuth: true, permission: 'payment.read' } },
     { path: '/commerce/reconciliation', name: 'ADM-RECON-001', component: AdminPaymentsPage, props: { mode: 'reconciliation' }, meta: { requiresAuth: true, permission: 'payment.reconcile' } },
+    { path: '/commerce/membership/skus', name: 'ADM-MEMBER-001', component: AdminMembershipSkusPage, meta: { requiresAuth: true, permission: 'membership.read' } },
+    { path: '/commerce/membership/users', name: 'ADM-MEMBER-002', component: AdminMembershipUsersPage, meta: { requiresAuth: true, permission: 'membership.read' } },
     { path: '/governance/chat-reports', name: 'ADM-CHAT-001', component: AdminGovernanceQueuePage, props: { kind: 'chat' }, meta: { requiresAuth: true, permission: 'chat.report.read' } },
     { path: '/governance/content-reports', name: 'ADM-REPORT-001', component: AdminGovernanceQueuePage, props: { kind: 'report' }, meta: { requiresAuth: true, permission: 'report.read' } },
     { path: '/governance/appeals', name: 'ADM-APPEAL-001', component: AdminGovernanceQueuePage, props: { kind: 'appeal' }, meta: { requiresAuth: true, permission: 'appeal.read' } },

@@ -12,3 +12,4 @@ export * from './adminReviews';
 export * from './adminOrders';
 export * from './adminR15';
 export * from './adminPayments';
+export * from './adminMembership';
