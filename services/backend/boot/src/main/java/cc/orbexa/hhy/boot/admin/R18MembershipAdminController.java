@@ -1,5 +1,6 @@
 package cc.orbexa.hhy.boot.admin;
 
+import cc.orbexa.hhy.access.admin.AdminIdempotencySnapshotCipher;
 import cc.orbexa.hhy.access.admin.AdminPrincipal;
 import cc.orbexa.hhy.commerce.R12MembershipContracts.BenefitResource;
 import cc.orbexa.hhy.commerce.R12MembershipContracts.MembershipResource;
