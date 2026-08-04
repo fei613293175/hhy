@@ -496,8 +496,7 @@ public final class R19PropPostgresStore implements R19PropStore {
         long entitlementId;
         String status = start.isAfter(acceptedAt) ? "SCHEDULED" : "ACTIVE";
         try (PreparedStatement statement = connection.prepareStatement(
-                "INSERT INTO hhy.content_exposure_entitlements(content_id,user_prop_id,type,starts_at,ends_at,status,version) VALUES (?,?,?,?,?,?,0) RETURNING id",
-                )) {
+                "INSERT INTO hhy.content_exposure_entitlements(content_id,user_prop_id,type,starts_at,ends_at,status,version) VALUES (?,?,?,?,?,?,0) RETURNING id")) {
             statement.setLong(1, contentId); statement.setLong(2, inventory.id());
             statement.setString(3, inventory.propType()); statement.setObject(4, time(start));
             statement.setObject(5, time(end)); statement.setString(6, status);
