@@ -4,7 +4,7 @@
 
 - 状态：`GREEN / READY_FOR_OWNER_DEVICE_FEEDBACK`
 - 源码 HEAD：`2cd5474e`，已推送 upstream。
-- 远程 CI：GitHub Actions `30926706002` 全绿。
+- 远程 CI：GitHub Actions `30927782137` 全绿。
 - 视觉合同：已冻结；Android 三页与 Admin 三页已完成目标视口截图对照，状态 `VISUAL_ACCEPTED`。
 - 验收矩阵：`releases/R19/ACCEPTANCE_MATRIX.csv` 六项 `PASS`。
 - APK：`C:\Users\小白\Desktop\hhy-r19-feedback\r19-debug-apk-30926706002\app-debug.apk`
