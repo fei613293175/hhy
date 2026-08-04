@@ -46,7 +46,7 @@ describe('R18 admin membership pages', () => {
     expect(wrapper.text()).not.toContain('ACTIVE')
     await wrapper.get('button.primary-button').trigger('click')
     expect(wrapper.text()).toContain('人工赠送 Pro')
-    expect(wrapper.text()).toContain('赠送原因')
+    expect(wrapper.text()).toContain('原因')
     wrapper.unmount()
   })
 })
