@@ -23,21 +23,21 @@ class R20RedPacketControllerContractTest {
     @Test
     void frozenOperationIdsAndAdminPermissionsExist() {
         Map<Class<?>, Map<String, String>> expected = new LinkedHashMap<>();
-        expected.put(R20RedPacketController.class, Map.of(
-                "redPacketGetRedPacketCampaigns", "",
-                "redPacketGetMeRedPacketCampaigns", "",
-                "redPacketPostRedPacketCampaigns", "",
-                "redPacketGetRedPacketCampaignsById", "",
-                "redPacketPatchRedPacketCampaignsById", "",
-                "redPacketPostRedPacketCampaignsByIdSubmitReview", "",
-                "redPacketPostRedPacketCampaignsByIdQuote", "",
-                "redPacketPostRedPacketCampaignsByIdOrders", "",
-                "redPacketPostRedPacketCampaignsByIdPause", "",
-                "redPacketPostRedPacketCampaignsByIdResume", "",
-                "redPacketPostRedPacketCampaignsByIdClose", "",
-                "redPacketPostRedPacketCampaignsByIdIncreaseQuotes", "",
-                "redPacketPostRedPacketCampaignsByIdIncreaseOrders", "",
-                "redPacketGetMeRedPacketCampaignsByIdAnalytics", ""));
+        expected.put(R20RedPacketController.class, Map.ofEntries(
+                Map.entry("redPacketGetRedPacketCampaigns", ""),
+                Map.entry("redPacketGetMeRedPacketCampaigns", ""),
+                Map.entry("redPacketPostRedPacketCampaigns", ""),
+                Map.entry("redPacketGetRedPacketCampaignsById", ""),
+                Map.entry("redPacketPatchRedPacketCampaignsById", ""),
+                Map.entry("redPacketPostRedPacketCampaignsByIdSubmitReview", ""),
+                Map.entry("redPacketPostRedPacketCampaignsByIdQuote", ""),
+                Map.entry("redPacketPostRedPacketCampaignsByIdOrders", ""),
+                Map.entry("redPacketPostRedPacketCampaignsByIdPause", ""),
+                Map.entry("redPacketPostRedPacketCampaignsByIdResume", ""),
+                Map.entry("redPacketPostRedPacketCampaignsByIdClose", ""),
+                Map.entry("redPacketPostRedPacketCampaignsByIdIncreaseQuotes", ""),
+                Map.entry("redPacketPostRedPacketCampaignsByIdIncreaseOrders", ""),
+                Map.entry("redPacketGetMeRedPacketCampaignsByIdAnalytics", ""));
         expected.put(R20RedPacketAdminController.class, Map.of(
                 "adminRedPacketGetRedPacketCampaigns", "hasAuthority('redpacket.read')",
                 "adminRedPacketGetRedPacketCampaignsById", "hasAuthority('redpacket.read')",
