@@ -257,6 +257,7 @@ fun R20RedPacketCreateScreen(
             item { SectionCard("金额与规则") { R20Field("红包总数量", totalCount, { totalCount = it.filter(Char::isDigit) }, "1 - 1,000,000"); R20Field("单个红包金额（分）", unitCent, { unitCent = it.filter(Char::isDigit) }, "服务端按分校验"); R20Field("定向规则（可选）", targeting, { targeting = it }, "仅保留业务备注") } }
             item { SectionCard("投放时间") { R20Field("开始时间", startAt, { startAt = it }, "ISO-8601，例如 2026-08-05T10:00:00Z"); R20Field("结束时间", endAt, { endAt = it }, "ISO-8601") } }
             item { MoneySummary(amount = (totalCount.toLongOrNull() ?: 0) * (unitCent.toLongOrNull() ?: 0)) }
+            item { Spacer(Modifier.height(HhySpacing.Xl)) }
             (result as? R07CallResult.Failure)?.let { failure -> item { InlineFailure(failure, {}) } }
         }
     }
