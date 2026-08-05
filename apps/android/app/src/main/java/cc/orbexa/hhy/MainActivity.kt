@@ -532,7 +532,7 @@ private fun AuthenticatedNavHost(
             onOpenMyProps = { navController.navigate(AuthenticatedRoute.MyProps) },
             onOpenPropStore = { navController.navigate(AuthenticatedRoute.PropStore) },
             onOpenProfile = { navController.navigate(AuthenticatedRoute.Profile) },
-            buildIdentityLabel = if (BuildConfig.DEBUG) "R20 红包验证包 · ${BuildConfig.VERSION_NAME}" else null,
+            buildIdentityLabel = if (BuildConfig.DEBUG) "R21 红包验证包 · ${BuildConfig.VERSION_NAME}" else null,
             experienceApi = experienceApi,
             meApi = r12MeApi,
             accessToken = authenticated.session.accessToken,
