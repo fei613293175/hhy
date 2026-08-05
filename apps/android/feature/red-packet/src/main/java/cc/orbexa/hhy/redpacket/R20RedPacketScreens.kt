@@ -252,7 +252,7 @@ fun R20RedPacketCreateScreen(
         },
         modifier = Modifier.testTag("hhy.screen.scr-rp-adv-002"),
     ) { padding ->
-        LazyColumn(Modifier.fillMaxSize().background(HhyColors.PageBackground).padding(padding), contentPadding = PaddingValues(HhySpacing.Lg), verticalArrangement = Arrangement.spacedBy(HhySpacing.Md)) {
+        LazyColumn(Modifier.fillMaxSize().background(HhyColors.PageBackground).padding(padding).testTag("hhy.scroll.scr-rp-adv-002"), contentPadding = PaddingValues(HhySpacing.Lg), verticalArrangement = Arrangement.spacedBy(HhySpacing.Md)) {
             item { SectionCard("关联内容") { Text("红包将关联已发布内容，服务端会再次校验广告主资格。", color = HhyColors.TextSecondary); R20Field("内容 ID", contentId, { contentId = it }, "例如 content-123") } }
             item { SectionCard("金额与规则") { R20Field("红包总数量", totalCount, { totalCount = it.filter(Char::isDigit) }, "1 - 1,000,000"); R20Field("单个红包金额（分）", unitCent, { unitCent = it.filter(Char::isDigit) }, "服务端按分校验"); R20Field("定向规则（可选）", targeting, { targeting = it }, "仅保留业务备注") } }
             item { SectionCard("投放时间") { R20Field("开始时间", startAt, { startAt = it }, "ISO-8601，例如 2026-08-05T10:00:00Z"); R20Field("结束时间", endAt, { endAt = it }, "ISO-8601") } }

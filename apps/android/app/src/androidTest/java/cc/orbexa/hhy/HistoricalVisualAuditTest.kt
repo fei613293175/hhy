@@ -24,6 +24,8 @@ import androidx.compose.ui.test.performScrollTo
 import androidx.compose.ui.test.performSemanticsAction
 import androidx.compose.ui.test.performTextInput
 import androidx.compose.ui.test.performTextReplacement
+import androidx.compose.ui.test.performTouchInput
+import androidx.compose.ui.test.swipeUp
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.uiautomator.By
 import androidx.test.uiautomator.UiDevice
@@ -722,9 +724,8 @@ class HistoricalVisualAuditTest {
         composeRule.runOnIdle { dismissKeyboard.value = true }
         composeRule.waitForIdle()
         composeRule.onNodeWithText("本金与服务费以服务端报价为准").performScrollTo()
-        val centerX = device.displayWidth / 2
-        device.swipe(centerX, device.displayHeight * 3 / 4, centerX, device.displayHeight * 2 / 3, 10)
-        device.waitForIdle(1_000)
+        composeRule.onNodeWithTag("hhy.scroll.scr-rp-adv-002").performTouchInput { swipeUp() }
+        composeRule.waitForIdle()
         composeRule.onNodeWithText("创建红包").assertIsDisplayed()
         captureStable("48-r20-scr-rp-adv-002.png")
     }
