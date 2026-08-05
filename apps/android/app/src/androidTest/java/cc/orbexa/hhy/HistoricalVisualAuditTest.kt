@@ -331,6 +331,7 @@ class HistoricalVisualAuditTest {
     fun meHomeProducesBoundVisualEvidence() {
         var openedMyProps = false
         var openedPropStore = false
+        var openedRedPacketCampaigns = false
         setAuditContent {
             HhyShellScreen(
                 user = visualMeUser,
@@ -339,6 +340,7 @@ class HistoricalVisualAuditTest {
                 accessToken = "visual-audit-token",
                 onOpenMyProps = { openedMyProps = true },
                 onOpenPropStore = { openedPropStore = true },
+                onOpenRedPacketCampaigns = { openedRedPacketCampaigns = true },
                 buildIdentityLabel = "R19 道具验证包 · 1.2.2-r19-prop-debug",
             )
         }
@@ -350,9 +352,11 @@ class HistoricalVisualAuditTest {
         waitForText("R19 道具验证包 · 1.2.2-r19-prop-debug")
         composeRule.onNodeWithTag("mine.props").assertIsDisplayed().performClick()
         composeRule.onNodeWithTag("mine.prop-store").assertIsDisplayed().performClick()
+        composeRule.onNodeWithTag("mine.red-packet-campaigns").performScrollTo().assertIsDisplayed().performClick()
         composeRule.runOnIdle {
             assertTrue("我的道具入口必须可点击", openedMyProps)
             assertTrue("道具商城入口必须可点击", openedPropStore)
+            assertTrue("红包活动入口必须可点击", openedRedPacketCampaigns)
         }
         captureStable("41-r12-me-home.png")
     }

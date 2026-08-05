@@ -523,6 +523,7 @@ private fun AuthenticatedNavHost(
             onOpenFavorites = { navController.navigate(AuthenticatedRoute.Favorites) },
             onOpenHistory = { navController.navigate(AuthenticatedRoute.History) },
             onOpenOrders = { navController.navigate(AuthenticatedRoute.Orders) },
+            onOpenRedPacketCampaigns = { navController.navigate(AuthenticatedRoute.RedPacketCampaigns) },
             onOpenMembership = { navController.navigate(AuthenticatedRoute.Membership) },
             onOpenMyProps = { navController.navigate(AuthenticatedRoute.MyProps) },
             onOpenPropStore = { navController.navigate(AuthenticatedRoute.PropStore) },
