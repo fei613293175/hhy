@@ -2166,6 +2166,19 @@ export interface components {
             version?: number;
             /** Format: date-time */
             acceptedAt: string;
+            /** Format: int64 */
+            principalCent?: number;
+            /** Format: int64 */
+            serviceFeeCent?: number;
+            /** Format: int64 */
+            payableCent?: number;
+            /** Format: int64 */
+            totalCount?: number;
+            /** Format: int64 */
+            amountPerClaimCent?: number;
+            quoteType?: string;
+            /** Format: date-time */
+            expiresAt?: string;
         };
         DeviceResource: {
             deviceId: string;

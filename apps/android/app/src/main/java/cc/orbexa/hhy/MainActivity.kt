@@ -145,6 +145,8 @@ import cc.orbexa.hhy.redpacket.R20RedPacketCampaignListScreen
 import cc.orbexa.hhy.redpacket.R20RedPacketCreateScreen
 import cc.orbexa.hhy.redpacket.R20RedPacketQuoteScreen
 import cc.orbexa.hhy.redpacket.R20RedPacketReviewResultScreen
+import cc.orbexa.hhy.redpacket.R21RedPacketDetailScreen
+import cc.orbexa.hhy.redpacket.R21RedPacketIncreaseAmountScreen
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.decodeFromString
 import kotlinx.coroutines.awaitCancellation
@@ -299,6 +301,8 @@ internal sealed interface AuthenticatedRoute {
     @Serializable data class RedPacketEditor(val campaignId: String? = null) : AuthenticatedRoute
     @Serializable data class RedPacketReview(val campaignId: String) : AuthenticatedRoute
     @Serializable data class RedPacketQuote(val campaignId: String) : AuthenticatedRoute
+    @Serializable data class RedPacketDetail(val campaignId: String) : AuthenticatedRoute
+    @Serializable data class RedPacketIncrease(val campaignId: String) : AuthenticatedRoute
     @Serializable data object Me : AuthenticatedRoute
     @Serializable data object Profile : AuthenticatedRoute
     @Serializable data object LoginDevices : AuthenticatedRoute
@@ -711,7 +715,29 @@ private fun AuthenticatedNavHost(
                 authenticated.session.accessToken,
                 { navController.popBackStack() },
                 { navController.navigate(AuthenticatedRoute.RedPacketEditor()) },
-                { navController.navigate(AuthenticatedRoute.RedPacketReview(it)) },
+                { navController.navigate(AuthenticatedRoute.RedPacketDetail(it)) },
+                onSessionInvalidated,
+            )
+        }
+        composable<AuthenticatedRoute.RedPacketDetail> { entry ->
+            val route = entry.toRoute<AuthenticatedRoute.RedPacketDetail>()
+            R21RedPacketDetailScreen(
+                r20RedPacketApi,
+                authenticated.session.accessToken,
+                route.campaignId,
+                { navController.popBackStack() },
+                { navController.navigate(AuthenticatedRoute.RedPacketIncrease(it)) },
+                onSessionInvalidated,
+            )
+        }
+        composable<AuthenticatedRoute.RedPacketIncrease> { entry ->
+            val route = entry.toRoute<AuthenticatedRoute.RedPacketIncrease>()
+            R21RedPacketIncreaseAmountScreen(
+                r20RedPacketApi,
+                authenticated.session.accessToken,
+                route.campaignId,
+                { navController.popBackStack() },
+                { navController.popBackStack() },
                 onSessionInvalidated,
             )
         }

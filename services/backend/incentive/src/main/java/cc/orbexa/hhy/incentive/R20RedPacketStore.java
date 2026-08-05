@@ -9,6 +9,9 @@ import cc.orbexa.hhy.incentive.R20RedPacketContracts.CreateRequest;
 import cc.orbexa.hhy.incentive.R20RedPacketContracts.OrderRequest;
 import cc.orbexa.hhy.incentive.R20RedPacketContracts.PatchRequest;
 import cc.orbexa.hhy.incentive.R20RedPacketContracts.QuoteRequest;
+import cc.orbexa.hhy.incentive.R20RedPacketContracts.IncreaseOrderRequest;
+import cc.orbexa.hhy.incentive.R20RedPacketContracts.IncreaseQuoteRequest;
+import cc.orbexa.hhy.incentive.R20RedPacketContracts.LifecycleRequest;
 import cc.orbexa.hhy.incentive.R20RedPacketContracts.SubmitReviewRequest;
 import cc.orbexa.hhy.incentive.R20RedPacketContracts.UserCommand;
 import java.time.Instant;
@@ -32,6 +35,20 @@ public interface R20RedPacketStore {
 
     CommandResultResource order(
             UserCommand command, long campaignId, OrderRequest request, String requestHash);
+
+    CampaignResource pause(UserCommand command, long campaignId, LifecycleRequest request, String requestHash);
+
+    CampaignResource resume(UserCommand command, long campaignId, LifecycleRequest request, String requestHash);
+
+    CampaignResource close(UserCommand command, long campaignId, LifecycleRequest request, String requestHash);
+
+    CommandResultResource increaseQuote(
+            UserCommand command, long campaignId, IncreaseQuoteRequest request, String requestHash);
+
+    CommandResultResource increaseOrder(
+            UserCommand command, long campaignId, IncreaseOrderRequest request, String requestHash);
+
+    PageSlice<CampaignResource> analytics(long userId, long campaignId, PageQuery query);
 
     PageSlice<CampaignResource> adminCampaigns(PageQuery query);
 

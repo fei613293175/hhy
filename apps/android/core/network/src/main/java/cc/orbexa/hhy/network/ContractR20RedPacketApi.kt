@@ -72,6 +72,25 @@ data class R20OrderRequest(
     val expectedVersion: Long,
 )
 
+@Serializable
+data class R20LifecycleRequest(
+    val reason: String? = null,
+    val expectedVersion: Long,
+)
+
+@Serializable
+data class R20IncreaseQuoteRequest(
+    val newAmountPerClaimCent: Long,
+    val expectedVersion: Long,
+)
+
+@Serializable
+data class R20IncreaseOrderRequest(
+    val quoteId: String,
+    val paymentChannel: String,
+    val expectedVersion: Long,
+)
+
 interface ContractR20RedPacketApi {
     suspend fun campaigns(
         accessToken: String,
@@ -88,6 +107,18 @@ interface ContractR20RedPacketApi {
     suspend fun submitReview(accessToken: String, id: String, body: R20SubmitReviewRequest, idempotencyKey: String): R07CallResult<R20RedPacketCampaignResource>
     suspend fun quote(accessToken: String, id: String, body: R20QuoteRequest, idempotencyKey: String): R07CallResult<CommandResultResource>
     suspend fun order(accessToken: String, id: String, body: R20OrderRequest, idempotencyKey: String): R07CallResult<CommandResultResource>
+    suspend fun analytics(accessToken: String, id: String): R07CallResult<R20RedPacketPage> =
+        R07CallResult.Failure(501, errorCode = "R21_UNSUPPORTED")
+    suspend fun pause(accessToken: String, id: String, body: R20LifecycleRequest, idempotencyKey: String): R07CallResult<R20RedPacketCampaignResource> =
+        R07CallResult.Failure(501, errorCode = "R21_UNSUPPORTED")
+    suspend fun resume(accessToken: String, id: String, body: R20LifecycleRequest, idempotencyKey: String): R07CallResult<R20RedPacketCampaignResource> =
+        R07CallResult.Failure(501, errorCode = "R21_UNSUPPORTED")
+    suspend fun close(accessToken: String, id: String, body: R20LifecycleRequest, idempotencyKey: String): R07CallResult<R20RedPacketCampaignResource> =
+        R07CallResult.Failure(501, errorCode = "R21_UNSUPPORTED")
+    suspend fun increaseQuote(accessToken: String, id: String, body: R20IncreaseQuoteRequest, idempotencyKey: String): R07CallResult<CommandResultResource> =
+        R07CallResult.Failure(501, errorCode = "R21_UNSUPPORTED")
+    suspend fun increaseOrder(accessToken: String, id: String, body: R20IncreaseOrderRequest, idempotencyKey: String): R07CallResult<CommandResultResource> =
+        R07CallResult.Failure(501, errorCode = "R21_UNSUPPORTED")
 }
 
 class UrlConnectionContractR20RedPacketApi internal constructor(
@@ -149,6 +180,47 @@ class UrlConnectionContractR20RedPacketApi internal constructor(
     override suspend fun order(accessToken: String, id: String, body: R20OrderRequest, idempotencyKey: String) = call(
         "POST", "/api/v1/red-packet-campaigns/${requireR20Id(id)}/orders", accessToken,
         CommandResultResource.serializer(), requireR20Key(idempotencyKey),
+        HhyNetworkJson.value.encodeToString(body),
+    )
+
+    override suspend fun analytics(accessToken: String, id: String) = call(
+        "GET", "/api/v1/me/red-packet-campaigns/${requireR20Id(id)}/analytics", accessToken,
+        R20RedPacketPage.serializer(),
+    )
+
+    override suspend fun pause(accessToken: String, id: String, body: R20LifecycleRequest, idempotencyKey: String) = lifecycle(
+        "pause", accessToken, id, body, idempotencyKey,
+    )
+
+    override suspend fun resume(accessToken: String, id: String, body: R20LifecycleRequest, idempotencyKey: String) = lifecycle(
+        "resume", accessToken, id, body, idempotencyKey,
+    )
+
+    override suspend fun close(accessToken: String, id: String, body: R20LifecycleRequest, idempotencyKey: String) = lifecycle(
+        "close", accessToken, id, body, idempotencyKey,
+    )
+
+    override suspend fun increaseQuote(accessToken: String, id: String, body: R20IncreaseQuoteRequest, idempotencyKey: String) = call(
+        "POST", "/api/v1/red-packet-campaigns/${requireR20Id(id)}/increase-quotes", accessToken,
+        CommandResultResource.serializer(), requireR20Key(idempotencyKey),
+        HhyNetworkJson.value.encodeToString(body),
+    )
+
+    override suspend fun increaseOrder(accessToken: String, id: String, body: R20IncreaseOrderRequest, idempotencyKey: String) = call(
+        "POST", "/api/v1/red-packet-campaigns/${requireR20Id(id)}/increase-orders", accessToken,
+        CommandResultResource.serializer(), requireR20Key(idempotencyKey),
+        HhyNetworkJson.value.encodeToString(body),
+    )
+
+    private suspend fun lifecycle(
+        action: String,
+        accessToken: String,
+        id: String,
+        body: R20LifecycleRequest,
+        idempotencyKey: String,
+    ) = call(
+        "POST", "/api/v1/red-packet-campaigns/${requireR20Id(id)}/$action", accessToken,
+        R20RedPacketCampaignResource.serializer(), requireR20Key(idempotencyKey),
         HhyNetworkJson.value.encodeToString(body),
     )
 

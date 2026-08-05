@@ -13288,6 +13288,27 @@ components:
         acceptedAt:
           type: string
           format: date-time
+        principalCent:
+          type: integer
+          format: int64
+        serviceFeeCent:
+          type: integer
+          format: int64
+        payableCent:
+          type: integer
+          format: int64
+        totalCount:
+          type: integer
+          format: int64
+        amountPerClaimCent:
+          type: integer
+          format: int64
+        quoteType:
+          type: string
+          maxLength: 32
+        expiresAt:
+          type: string
+          format: date-time
       required:
       - status
       - acceptedAt

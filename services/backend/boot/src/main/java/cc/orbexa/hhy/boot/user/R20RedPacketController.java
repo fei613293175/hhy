@@ -9,6 +9,9 @@ import cc.orbexa.hhy.incentive.R20RedPacketContracts.OrderRequest;
 import cc.orbexa.hhy.incentive.R20RedPacketContracts.PatchRequest;
 import cc.orbexa.hhy.incentive.R20RedPacketContracts.QuoteRequest;
 import cc.orbexa.hhy.incentive.R20RedPacketContracts.SubmitReviewRequest;
+import cc.orbexa.hhy.incentive.R20RedPacketContracts.IncreaseOrderRequest;
+import cc.orbexa.hhy.incentive.R20RedPacketContracts.IncreaseQuoteRequest;
+import cc.orbexa.hhy.incentive.R20RedPacketContracts.LifecycleRequest;
 import cc.orbexa.hhy.incentive.R20RedPacketService;
 import cc.orbexa.hhy.shared.api.ApiResponse;
 import cc.orbexa.hhy.shared.api.BusinessException;
@@ -131,6 +134,73 @@ public class R20RedPacketController {
             HttpServletRequest request) {
         return success(request, service.order(
                 activeUserId(principal), id, body, key, requestId(request)));
+    }
+
+    @PostMapping("/api/v1/red-packet-campaigns/{id}/pause")
+    public ApiResponse<CampaignResource> redPacketPostRedPacketCampaignsByIdPause(
+            @AuthenticationPrincipal UserPrincipal principal,
+            @PathVariable @Pattern(regexp = ID) String id,
+            @Valid @RequestBody LifecycleRequest body,
+            @RequestHeader("X-Idempotency-Key") @NotBlank @Size(min = 16, max = 128) String key,
+            HttpServletRequest request) {
+        return success(request, service.pause(activeUserId(principal), id, body, key, requestId(request)));
+    }
+
+    @PostMapping("/api/v1/red-packet-campaigns/{id}/resume")
+    public ApiResponse<CampaignResource> redPacketPostRedPacketCampaignsByIdResume(
+            @AuthenticationPrincipal UserPrincipal principal,
+            @PathVariable @Pattern(regexp = ID) String id,
+            @Valid @RequestBody LifecycleRequest body,
+            @RequestHeader("X-Idempotency-Key") @NotBlank @Size(min = 16, max = 128) String key,
+            HttpServletRequest request) {
+        return success(request, service.resume(activeUserId(principal), id, body, key, requestId(request)));
+    }
+
+    @PostMapping("/api/v1/red-packet-campaigns/{id}/close")
+    public ApiResponse<CampaignResource> redPacketPostRedPacketCampaignsByIdClose(
+            @AuthenticationPrincipal UserPrincipal principal,
+            @PathVariable @Pattern(regexp = ID) String id,
+            @Valid @RequestBody LifecycleRequest body,
+            @RequestHeader("X-Idempotency-Key") @NotBlank @Size(min = 16, max = 128) String key,
+            HttpServletRequest request) {
+        return success(request, service.close(activeUserId(principal), id, body, key, requestId(request)));
+    }
+
+    @PostMapping("/api/v1/red-packet-campaigns/{id}/increase-quotes")
+    public ApiResponse<CommandResultResource> redPacketPostRedPacketCampaignsByIdIncreaseQuotes(
+            @AuthenticationPrincipal UserPrincipal principal,
+            @PathVariable @Pattern(regexp = ID) String id,
+            @Valid @RequestBody IncreaseQuoteRequest body,
+            @RequestHeader("X-Idempotency-Key") @NotBlank @Size(min = 16, max = 128) String key,
+            HttpServletRequest request) {
+        return success(request, service.increaseQuote(
+                activeUserId(principal), id, body, key, requestId(request)));
+    }
+
+    @PostMapping("/api/v1/red-packet-campaigns/{id}/increase-orders")
+    public ApiResponse<CommandResultResource> redPacketPostRedPacketCampaignsByIdIncreaseOrders(
+            @AuthenticationPrincipal UserPrincipal principal,
+            @PathVariable @Pattern(regexp = ID) String id,
+            @Valid @RequestBody IncreaseOrderRequest body,
+            @RequestHeader("X-Idempotency-Key") @NotBlank @Size(min = 16, max = 128) String key,
+            HttpServletRequest request) {
+        return success(request, service.increaseOrder(
+                activeUserId(principal), id, body, key, requestId(request)));
+    }
+
+    @GetMapping("/api/v1/me/red-packet-campaigns/{id}/analytics")
+    public ApiResponse<CampaignPage> redPacketGetMeRedPacketCampaignsByIdAnalytics(
+            @AuthenticationPrincipal UserPrincipal principal,
+            @PathVariable @Pattern(regexp = ID) String id,
+            @RequestParam(defaultValue = "1") @Min(1) int page,
+            @RequestParam(defaultValue = "20") @Min(1) @Max(100) int pageSize,
+            @RequestParam(required = false) @Size(max = 256) String cursor,
+            @RequestParam(required = false) @Size(max = 64) String status,
+            @RequestParam(required = false) @Size(max = 100) String keyword,
+            @RequestParam(defaultValue = "createdAt:desc") @Size(max = 64) String sort,
+            HttpServletRequest request) {
+        return success(request, service.analytics(
+                activeUserId(principal), id, page, pageSize, cursor, status, keyword, sort));
     }
 
     private <T> ApiResponse<T> success(HttpServletRequest request, T data) {

@@ -10,6 +10,9 @@ import cc.orbexa.hhy.incentive.R20RedPacketContracts.PatchRequest;
 import cc.orbexa.hhy.incentive.R20RedPacketContracts.QuoteRequest;
 import cc.orbexa.hhy.incentive.R20RedPacketContracts.SubmitReviewRequest;
 import cc.orbexa.hhy.incentive.R20RedPacketContracts.UserCommand;
+import cc.orbexa.hhy.incentive.R20RedPacketContracts.IncreaseOrderRequest;
+import cc.orbexa.hhy.incentive.R20RedPacketContracts.IncreaseQuoteRequest;
+import cc.orbexa.hhy.incentive.R20RedPacketContracts.LifecycleRequest;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -205,7 +208,7 @@ public final class R20RedPacketPostgresStore implements R20RedPacketStore {
                     INSERT INTO hhy.red_packet_quotes(
                       campaign_id,quote_type,principal,service_fee,payable,expires_at,
                       total_count,amount_per_claim_cent,idempotency_key,request_hash,version)
-                    VALUES (?,'INITIAL',?,?,?,clock_timestamp()+interval '30 minutes',?,?,?,?,0)
+                    VALUES (?,'INITIAL',?,?,?,clock_timestamp()+interval '30 minutes',?,?,?,?,?)
                     RETURNING id
                     """)) {
                 statement.setLong(1, campaignId);
@@ -216,6 +219,7 @@ public final class R20RedPacketPostgresStore implements R20RedPacketStore {
                 statement.setLong(6, request.amountPerClaimCent());
                 statement.setString(7, command.idempotencyKey());
                 statement.setString(8, requestHash);
+                statement.setLong(9, request.expectedVersion());
                 try (ResultSet rows = statement.executeQuery()) {
                     if (!rows.next()) throw internal("红包报价创建失败");
                     quoteId = rows.getLong(1);
@@ -266,12 +270,13 @@ public final class R20RedPacketPostgresStore implements R20RedPacketStore {
                 }
             }
             try (PreparedStatement statement = connection.prepareStatement(
-                    "INSERT INTO hhy.red_packet_orders(campaign_id,order_id,quote_id,type,version,idempotency_key,request_hash) VALUES (?,?,?,'INITIAL',0,?,?)")) {
+                    "INSERT INTO hhy.red_packet_orders(campaign_id,order_id,quote_id,type,version,idempotency_key,request_hash) VALUES (?,?,?,'INITIAL',?,?,?)")) {
                 statement.setLong(1, campaignId);
                 statement.setLong(2, orderId);
                 statement.setLong(3, quote.id());
-                statement.setString(4, command.idempotencyKey());
-                statement.setString(5, requestHash);
+                statement.setLong(4, request.expectedVersion());
+                statement.setString(5, command.idempotencyKey());
+                statement.setString(6, requestHash);
                 statement.executeUpdate();
             }
             try (PreparedStatement statement = connection.prepareStatement(
@@ -286,6 +291,175 @@ public final class R20RedPacketPostgresStore implements R20RedPacketStore {
                     Map.of("orderId", orderId, "campaignId", campaignId, "paymentChannel", request.paymentChannel()));
             return new CommandResultResource(Long.toString(orderId), orderNo,
                     "PENDING_PAYMENT", 0, now());
+        });
+    }
+
+    @Override
+    public CampaignResource pause(
+            UserCommand command, long campaignId, LifecycleRequest request, String requestHash) {
+        return transition(command, campaignId, request, requestHash,
+                "ACTIVE", "PAUSED_BY_OWNER", "PAUSE");
+    }
+
+    @Override
+    public CampaignResource resume(
+            UserCommand command, long campaignId, LifecycleRequest request, String requestHash) {
+        return transition(command, campaignId, request, requestHash,
+                "PAUSED_BY_OWNER", "ACTIVE", "RESUME");
+    }
+
+    @Override
+    public CampaignResource close(
+            UserCommand command, long campaignId, LifecycleRequest request, String requestHash) {
+        return transition(command, campaignId, request, requestHash,
+                "ACTIVE", "CLOSED_BY_OWNER", "OWNER_CLOSE");
+    }
+
+    @Override
+    public CommandResultResource increaseQuote(
+            UserCommand command, long campaignId, IncreaseQuoteRequest request, String requestHash) {
+        return transaction(connection -> {
+            Idempotency claim = claim(connection, userScope(command), command.idempotencyKey(), requestHash);
+            if (claim.responseRef() != null) return quoteResult(connection, parse(claim.responseRef()));
+            CampaignHead current = campaign(connection, campaignId, command.userId(), false, true);
+            if (current.version() != request.expectedVersion()) throw conflict("红包活动版本已变化");
+            if (!raiseAllowed(current.status())) throw rule("当前红包活动状态不支持提高金额");
+            if (request.newAmountPerClaimCent() <= current.amountPerClaimCent()) {
+                throw rule("新单个金额必须高于当前金额");
+            }
+            long remaining = remaining(connection, campaignId);
+            if (remaining < 1) throw conflict("红包库存已耗尽");
+            long delta = Math.subtractExact(request.newAmountPerClaimCent(), current.amountPerClaimCent());
+            long principal = Math.multiplyExact(remaining, delta);
+            long fee = fee(principal);
+            long quoteId;
+            try (PreparedStatement statement = connection.prepareStatement(
+                    """
+                    INSERT INTO hhy.red_packet_quotes(
+                      campaign_id,quote_type,principal,service_fee,payable,expires_at,
+                      total_count,amount_per_claim_cent,idempotency_key,request_hash,version)
+                    VALUES (?,'INCREASE',?,?,?,clock_timestamp()+interval '30 minutes',?,?,?,?,?)
+                    RETURNING id
+                    """)) {
+                statement.setLong(1, campaignId);
+                statement.setLong(2, principal);
+                statement.setLong(3, fee);
+                statement.setLong(4, principal + fee);
+                statement.setLong(5, remaining);
+                statement.setLong(6, request.newAmountPerClaimCent());
+                statement.setString(7, command.idempotencyKey());
+                statement.setString(8, requestHash);
+                statement.setLong(9, request.expectedVersion());
+                try (ResultSet rows = statement.executeQuery()) {
+                    if (!rows.next()) throw internal("红包提高金额报价创建失败");
+                    quoteId = rows.getLong(1);
+                }
+            }
+            complete(connection, claim.id(), Long.toString(quoteId));
+            outbox(connection, quoteId, "red_packet_quote", "red.packet.increase_quote.created.v1",
+                    Map.of("quoteId", quoteId, "campaignId", campaignId,
+                            "expectedVersion", request.expectedVersion()));
+            return quoteResult(connection, quoteId);
+        });
+    }
+
+    @Override
+    public CommandResultResource increaseOrder(
+            UserCommand command, long campaignId, IncreaseOrderRequest request, String requestHash) {
+        return transaction(connection -> {
+            Idempotency claim = claim(connection, userScope(command), command.idempotencyKey(), requestHash);
+            if (claim.responseRef() != null) return orderResult(connection, parse(claim.responseRef()));
+            CampaignHead current = campaign(connection, campaignId, command.userId(), false, true);
+            if (current.version() != request.expectedVersion()) throw conflict("红包活动版本已变化");
+            if (!raiseAllowed(current.status())) throw rule("当前红包活动状态不支持创建加价订单");
+            QuoteHead quote = quote(connection, parse(request.quoteId()), campaignId, true);
+            if (!"INCREASE".equals(quote.type())) throw rule("报价不是加价报价");
+            if (quote.expiresAt() != null && !quote.expiresAt().isAfter(now())) throw rule("红包报价已过期");
+            if (quote.hasOrder()) throw rule("红包报价已关联订单");
+            if (quote.version() != current.version()) throw conflict("红包加价报价版本已变化");
+            if (quote.amountPerClaimCent() <= current.amountPerClaimCent()) {
+                throw rule("红包加价报价必须高于当前金额");
+            }
+            long remaining = remaining(connection, campaignId);
+            if (quote.totalCount() != remaining) throw conflict("红包加价报价对应的剩余库存已变化");
+            long orderId;
+            String orderNo = "R21-RP-" + UUID.randomUUID().toString().replace("-", "").toUpperCase();
+            try (PreparedStatement statement = connection.prepareStatement(
+                    """
+                    INSERT INTO hhy.orders(
+                      order_no,user_id,biz_type,biz_id,amount_cent,status,currency,
+                      no_refund_confirmed,no_refund_agreement_version,no_refund_confirmed_at,
+                      idempotency_key,request_hash,legacy_without_idempotency,version)
+                    VALUES (?,?, 'RED_PACKET',? ,?,'PENDING_PAYMENT','CNY',true,'R21-RED-PACKET-NO-REFUND-V1',?, ?, ?, false,0)
+                    RETURNING id
+                    """)) {
+                statement.setString(1, orderNo);
+                statement.setLong(2, command.userId());
+                statement.setLong(3, campaignId);
+                statement.setLong(4, quote.payable());
+                statement.setObject(5, time(now()));
+                statement.setString(6, command.idempotencyKey());
+                statement.setString(7, requestHash);
+                try (ResultSet rows = statement.executeQuery()) {
+                    if (!rows.next()) throw internal("红包加价订单创建失败");
+                    orderId = rows.getLong(1);
+                }
+            }
+            try (PreparedStatement statement = connection.prepareStatement(
+                    "INSERT INTO hhy.red_packet_orders(campaign_id,order_id,quote_id,type,version,idempotency_key,request_hash) VALUES (?,?,?,'INCREASE',?,?,?)")) {
+                statement.setLong(1, campaignId);
+                statement.setLong(2, orderId);
+                statement.setLong(3, quote.id());
+                statement.setLong(4, request.expectedVersion());
+                statement.setString(5, command.idempotencyKey());
+                statement.setString(6, requestHash);
+                statement.executeUpdate();
+            }
+            complete(connection, claim.id(), Long.toString(orderId));
+            outbox(connection, orderId, "red_packet_order", "red.packet.increase_order.created.v1",
+                    Map.of("orderId", orderId, "campaignId", campaignId,
+                            "paymentChannel", request.paymentChannel()));
+            return new CommandResultResource(Long.toString(orderId), orderNo,
+                    "PENDING_PAYMENT", 0, now());
+        });
+    }
+
+    @Override
+    public PageSlice<CampaignResource> analytics(long userId, long campaignId, PageQuery query) {
+        return read(connection -> {
+            CampaignResource resource = resource(connection, campaignId, userId, false);
+            boolean matches = (query.status() == null || query.status().equals(resource.status()))
+                    && (query.keyword() == null || resource.id().contains(query.keyword())
+                    || resource.contentId().contains(query.keyword()));
+            if (!matches || query.offset() > 0) return new PageSlice<>(List.of(), 1);
+            return new PageSlice<>(List.of(resource), 1);
+        });
+    }
+
+    private CampaignResource transition(UserCommand command, long campaignId, LifecycleRequest request,
+                                        String requestHash, String from, String to, String event) {
+        return transaction(connection -> {
+            Idempotency claim = claim(connection, userScope(command), command.idempotencyKey(), requestHash);
+            if (claim.responseRef() != null) return resource(connection, parse(claim.responseRef()), command.userId(), false);
+            CampaignHead current = campaign(connection, campaignId, command.userId(), false, true);
+            if (current.version() != request.expectedVersion()) throw conflict("红包活动版本已变化");
+            if (!from.equals(current.status())) throw rule("当前红包活动状态不支持该操作");
+            try (PreparedStatement statement = connection.prepareStatement(
+                    "UPDATE hhy.red_packet_campaigns SET status=?,owner_action=?,owner_action_reason=?,owner_action_at=?,version=version+1,updated_at=clock_timestamp() WHERE id=? AND owner_id=? AND version=?")) {
+                statement.setString(1, to);
+                statement.setString(2, event);
+                statement.setString(3, request.reason());
+                statement.setObject(4, time(now()));
+                statement.setLong(5, campaignId);
+                statement.setLong(6, command.userId());
+                statement.setLong(7, request.expectedVersion());
+                if (statement.executeUpdate() != 1) throw conflict("红包活动版本已变化");
+            }
+            snapshot(connection, campaignId, requestHash);
+            complete(connection, claim.id(), Long.toString(campaignId));
+            outbox(connection, campaignId, "red_packet_campaign", "red.packet.campaign." + event.toLowerCase() + ".v1",
+                    Map.of("campaignId", campaignId, "ownerId", command.userId(), "reason", request.reason() == null ? "" : request.reason()));
+            return resource(connection, campaignId, command.userId(), false);
         });
     }
 
@@ -417,11 +591,13 @@ public final class R20RedPacketPostgresStore implements R20RedPacketStore {
         try (PreparedStatement statement = connection.prepareStatement(
                 "SELECT q.id,q.principal+q.service_fee,q.expires_at,EXISTS("
                         + "SELECT 1 FROM hhy.red_packet_orders o WHERE o.quote_id=q.id) "
+                        + ",q.quote_type,COALESCE(q.total_count,0),COALESCE(q.amount_per_claim_cent,0) "
                         + "FROM hhy.red_packet_quotes q WHERE q.id=? AND q.campaign_id=?" + (lock ? " FOR UPDATE" : ""))) {
             statement.setLong(1, id); statement.setLong(2, campaignId);
             try (ResultSet rows = statement.executeQuery()) {
                 if (!rows.next()) throw notFound("红包报价不存在");
-                return new QuoteHead(rows.getLong(1), rows.getLong(2), instant(rows, 3), rows.getBoolean(4));
+                return new QuoteHead(rows.getLong(1), rows.getLong(2), instant(rows, 3), rows.getBoolean(4),
+                        rows.getString(5), rows.getLong(6), rows.getLong(7));
             }
         } catch (SQLException failure) { throw internal("红包报价读取失败", failure); }
     }
@@ -439,12 +615,16 @@ public final class R20RedPacketPostgresStore implements R20RedPacketStore {
 
     private CommandResultResource quoteResult(Connection connection, long id) {
         try (PreparedStatement statement = connection.prepareStatement(
-                "SELECT campaign_id,version,created_at FROM hhy.red_packet_quotes WHERE id=?")) {
+                "SELECT version,created_at,principal,service_fee,payable,total_count,"
+                        + "amount_per_claim_cent,quote_type,expires_at "
+                        + "FROM hhy.red_packet_quotes WHERE id=?")) {
             statement.setLong(1, id);
             try (ResultSet rows = statement.executeQuery()) {
                 if (!rows.next()) throw notFound("红包报价不存在");
                 return new CommandResultResource(Long.toString(id), "R20-QUOTE-" + id,
-                        "QUOTED", rows.getLong(2), instant(rows, 3));
+                        "QUOTED", rows.getLong(1), instant(rows, 2),
+                        rows.getLong(3), rows.getLong(4), rows.getLong(5),
+                        rows.getLong(6), rows.getLong(7), rows.getString(8), instant(rows, 9));
             }
         } catch (SQLException failure) { throw internal("红包报价结果读取失败", failure); }
     }
@@ -459,6 +639,17 @@ public final class R20RedPacketPostgresStore implements R20RedPacketStore {
                         rows.getLong(3), instant(rows, 4));
             }
         } catch (SQLException failure) { throw internal("红包订单结果读取失败", failure); }
+    }
+
+    private long remaining(Connection connection, long campaignId) {
+        try (PreparedStatement statement = connection.prepareStatement(
+                "SELECT GREATEST(total-claimed-reserved,0) FROM hhy.red_packet_stock WHERE campaign_id=? FOR UPDATE")) {
+            statement.setLong(1, campaignId);
+            try (ResultSet rows = statement.executeQuery()) {
+                if (!rows.next()) throw notFound("红包库存不存在");
+                return rows.getLong(1);
+            }
+        } catch (SQLException failure) { throw internal("红包库存读取失败", failure); }
     }
 
     private void version(Connection connection, long id, CreateRequest request, String requestHash) {
@@ -606,6 +797,11 @@ public final class R20RedPacketPostgresStore implements R20RedPacketStore {
 
     private static long fee(long principal) { return Math.multiplyExact(principal, SERVICE_FEE_BPS) / 10_000; }
 
+    private static boolean raiseAllowed(String status) {
+        return status.equals("ACTIVE") || status.equals("PAUSED_BY_OWNER")
+                || status.equals("PAUSED_BY_CONTENT_OFFLINE") || status.equals("PAUSED_BY_RISK");
+    }
+
     private static String userScope(UserCommand command) { return "r20rp:user:" + command.userId() + ":" + command.operationId(); }
 
     private static StoreException notFound(String message) { return new StoreException(Kind.NOT_FOUND, message); }
@@ -619,6 +815,7 @@ public final class R20RedPacketPostgresStore implements R20RedPacketStore {
 
     private record CampaignHead(long id, String status, long totalCount, long amountPerClaimCent,
                                 Instant startAt, Instant endAt, long version) { }
-    private record QuoteHead(long id, long payable, Instant expiresAt, boolean hasOrder) { }
+    private record QuoteHead(long id, long payable, Instant expiresAt, boolean hasOrder,
+                             String type, long totalCount, long amountPerClaimCent) { }
     private record Idempotency(long id, String responseRef) { }
 }

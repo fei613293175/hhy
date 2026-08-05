@@ -9,6 +9,9 @@ import cc.orbexa.hhy.incentive.R20RedPacketContracts.CreateRequest;
 import cc.orbexa.hhy.incentive.R20RedPacketContracts.OrderRequest;
 import cc.orbexa.hhy.incentive.R20RedPacketContracts.PatchRequest;
 import cc.orbexa.hhy.incentive.R20RedPacketContracts.QuoteRequest;
+import cc.orbexa.hhy.incentive.R20RedPacketContracts.IncreaseOrderRequest;
+import cc.orbexa.hhy.incentive.R20RedPacketContracts.IncreaseQuoteRequest;
+import cc.orbexa.hhy.incentive.R20RedPacketContracts.LifecycleRequest;
 import cc.orbexa.hhy.incentive.R20RedPacketContracts.SubmitReviewRequest;
 import cc.orbexa.hhy.incentive.R20RedPacketContracts.UserCommand;
 import cc.orbexa.hhy.shared.api.BusinessException;
@@ -128,6 +131,97 @@ public final class R20RedPacketService {
                 userCommand(userId, "redPacketPostRedPacketCampaignsByIdOrders",
                         idempotencyKey, requestId), campaignId, normalized,
                 hash("redPacketPostRedPacketCampaignsByIdOrders", userId, normalized)));
+    }
+
+    public CampaignResource pause(
+            long userId, String id, LifecycleRequest request,
+            String idempotencyKey, String requestId) {
+        return lifecycle(userId, id, request, idempotencyKey, requestId,
+                "redPacketPostRedPacketCampaignsByIdPause");
+    }
+
+    public CampaignResource resume(
+            long userId, String id, LifecycleRequest request,
+            String idempotencyKey, String requestId) {
+        return lifecycle(userId, id, request, idempotencyKey, requestId,
+                "redPacketPostRedPacketCampaignsByIdResume");
+    }
+
+    public CampaignResource close(
+            long userId, String id, LifecycleRequest request,
+            String idempotencyKey, String requestId) {
+        return lifecycle(userId, id, request, idempotencyKey, requestId,
+                "redPacketPostRedPacketCampaignsByIdClose");
+    }
+
+    public CommandResultResource increaseQuote(
+            long userId, String id, IncreaseQuoteRequest request,
+            String idempotencyKey, String requestId) {
+        activeUser(userId);
+        key(idempotencyKey);
+        if (request == null || request.expectedVersion() == null || request.expectedVersion() < 0
+                || request.newAmountPerClaimCent() == null) {
+            throw validation("提高金额参数不符合要求");
+        }
+        positive(request.newAmountPerClaimCent(), "新单个金额");
+        if (request.newAmountPerClaimCent() > MAX_AMOUNT_PER_CLAIM_CENT) {
+            throw validation("红包参数超出范围");
+        }
+        long campaignId = id(id, "红包活动");
+        return execute(() -> store.increaseQuote(
+                userCommand(userId, "redPacketPostRedPacketCampaignsByIdIncreaseQuotes",
+                        idempotencyKey, requestId), campaignId, request,
+                hash("redPacketPostRedPacketCampaignsByIdIncreaseQuotes", userId, request)));
+    }
+
+    public CommandResultResource increaseOrder(
+            long userId, String id, IncreaseOrderRequest request,
+            String idempotencyKey, String requestId) {
+        activeUser(userId);
+        key(idempotencyKey);
+        if (request == null || request.expectedVersion() == null || request.expectedVersion() < 0) {
+            throw validation("expectedVersion不符合要求");
+        }
+        String quoteId = required(request.quoteId(), 64, "报价");
+        String channel = required(request.paymentChannel(), 64, "支付渠道").toUpperCase(Locale.ROOT);
+        if (!PAYMENT_CHANNELS.contains(channel)) throw validation("支付渠道不受支持");
+        long campaignId = id(id, "红包活动");
+        IncreaseOrderRequest normalized = new IncreaseOrderRequest(quoteId, channel, request.expectedVersion());
+        return execute(() -> store.increaseOrder(
+                userCommand(userId, "redPacketPostRedPacketCampaignsByIdIncreaseOrders",
+                        idempotencyKey, requestId), campaignId, normalized,
+                hash("redPacketPostRedPacketCampaignsByIdIncreaseOrders", userId, normalized)));
+    }
+
+    public CampaignPage analytics(
+            long userId, String id, int page, int pageSize, String cursor,
+            String status, String keyword, String sort) {
+        activeUser(userId);
+        QueryPlan query = query(page, pageSize, cursor, status, keyword, sort, "createdAt:desc");
+        long campaignId = id(id, "红包活动");
+        return page(execute(() -> store.analytics(userId, campaignId, query.store())), query);
+    }
+
+    private CampaignResource lifecycle(long userId, String id, LifecycleRequest request,
+                                       String idempotencyKey, String requestId, String operation) {
+        activeUser(userId);
+        key(idempotencyKey);
+        if (request == null || request.expectedVersion() == null || request.expectedVersion() < 0) {
+            throw validation("expectedVersion不符合要求");
+        }
+        String reason = optional(request.reason(), 2000, "原因");
+        LifecycleRequest normalized = new LifecycleRequest(reason, request.expectedVersion());
+        long campaignId = id(id, "红包活动");
+        UserCommand command = userCommand(userId, operation, idempotencyKey, requestId);
+        return execute(() -> switch (operation) {
+            case "redPacketPostRedPacketCampaignsByIdPause" -> store.pause(
+                    command, campaignId, normalized, hash(operation, userId, normalized));
+            case "redPacketPostRedPacketCampaignsByIdResume" -> store.resume(
+                    command, campaignId, normalized, hash(operation, userId, normalized));
+            case "redPacketPostRedPacketCampaignsByIdClose" -> store.close(
+                    command, campaignId, normalized, hash(operation, userId, normalized));
+            default -> throw new IllegalArgumentException("unsupported lifecycle operation");
+        });
     }
 
     public CampaignPage adminCampaigns(

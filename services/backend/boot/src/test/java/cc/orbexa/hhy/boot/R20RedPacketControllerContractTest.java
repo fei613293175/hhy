@@ -31,7 +31,13 @@ class R20RedPacketControllerContractTest {
                 "redPacketPatchRedPacketCampaignsById", "",
                 "redPacketPostRedPacketCampaignsByIdSubmitReview", "",
                 "redPacketPostRedPacketCampaignsByIdQuote", "",
-                "redPacketPostRedPacketCampaignsByIdOrders", ""));
+                "redPacketPostRedPacketCampaignsByIdOrders", "",
+                "redPacketPostRedPacketCampaignsByIdPause", "",
+                "redPacketPostRedPacketCampaignsByIdResume", "",
+                "redPacketPostRedPacketCampaignsByIdClose", "",
+                "redPacketPostRedPacketCampaignsByIdIncreaseQuotes", "",
+                "redPacketPostRedPacketCampaignsByIdIncreaseOrders", "",
+                "redPacketGetMeRedPacketCampaignsByIdAnalytics", ""));
         expected.put(R20RedPacketAdminController.class, Map.of(
                 "adminRedPacketGetRedPacketCampaigns", "hasAuthority('redpacket.read')",
                 "adminRedPacketGetRedPacketCampaignsById", "hasAuthority('redpacket.read')",
