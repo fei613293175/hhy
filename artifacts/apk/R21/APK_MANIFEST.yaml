@@ -1,0 +1,27 @@
+manifest_schema: 3
+release: R21
+apk_file: hhy-r21-f049e67-test.apk
+version_name: 1.2.2-r21-red-packet-debug
+version_code: 10229
+commit: f049e672dd32a0fdf399780a73203977fc0846a8
+sha256: 1d081a6ed07faec1b370591548e0a9e2e7aaed5a448f4100977e9cf855d4dee4
+size_bytes: 22489172
+signing_fingerprint: e32a9d7ff8a209d2903db6383b461b259f0018a698d1f3646e6ed7f1112671be
+built_at: '2026-08-05'
+delivery_status: PASS
+test_status: PASS
+owner_physical_test: PENDING
+download_url: null
+desktop_copy: C:\Users\小白\Desktop\合伙云Pro_R21_正式交付_f049e672\hhy-r21-f049e67-test.apk
+test_guide:
+  source_path: artifacts/reports/R21/hhy-r21-f049e67-test-guide.md
+  desktop_path: C:\Users\小白\Desktop\合伙云Pro_R21_正式交付_f049e672\hhy-r21-f049e67-test-guide.md
+  file_name: hhy-r21-f049e67-test-guide.md
+  size_bytes: 1335
+  sha256: 9e61db34ad0f8e512c90eb2a0effab6c563218361f97fc246d59a2b38b4c3e50
+  status: PASS
+evidence:
+  build: artifacts/reports/R21/build-evidence.json
+  remote_ci: artifacts/reports/R21/remote-ci-evidence.md
+  apk: artifacts/reports/R21/apk-evidence.md
+  visual: artifacts/reports/R21/visual-evidence.md

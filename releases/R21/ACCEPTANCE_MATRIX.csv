@@ -1,7 +1,7 @@
 ﻿验收ID,版本,验收项,证据路径,状态,阻断级别
-AC-R21-001,R21,领域代码与前端真实闭环,artifacts/reports/R21/,NOT_RUN,BLOCKING
-AC-R21-002,R21,数据库迁移和不变量测试通过,artifacts/reports/R21/,NOT_RUN,BLOCKING
-AC-R21-003,R21,契约/单元/集成/E2E/安全专项测试通过,artifacts/reports/R21/,NOT_RUN,BLOCKING
-AC-R21-004,R21,日志指标链路和业务告警可验证,artifacts/reports/R21/,NOT_RUN,BLOCKING
-AC-R21-005,R21,Session Log、追踪矩阵、产物Manifest和下一任务更新,artifacts/reports/R21/,NOT_RUN,BLOCKING
-AC-R21-006,R21,Staging APK可安装且SHA256、Commit、版本信息完整,artifacts/reports/R21/,NOT_RUN,BLOCKING
+AC-R21-001,R21,领域代码与前端真实闭环,artifacts/reports/R21/traceability-matrix.md,PASS,BLOCKING
+AC-R21-002,R21,数据库迁移和不变量测试通过,artifacts/reports/R21/test-evidence.md,PASS,BLOCKING
+AC-R21-003,R21,契约/单元/集成/E2E/安全专项测试通过,artifacts/reports/R21/remote-ci-evidence.md,PASS,BLOCKING
+AC-R21-004,R21,日志指标链路和业务告警可验证,artifacts/reports/R21/test-evidence.md,PASS,BLOCKING
+AC-R21-005,R21,Session Log、追踪矩阵、产物Manifest和下一任务更新,releases/R21/DELIVERY_STATUS.md,PASS,BLOCKING
+AC-R21-006,R21,Staging APK可安装且SHA256、Commit、版本信息完整,artifacts/reports/R21/apk-evidence.md,PASS,BLOCKING

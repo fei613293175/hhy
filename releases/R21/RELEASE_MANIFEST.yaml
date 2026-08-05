@@ -1,6 +1,6 @@
 release: R21
 title: 红包付款、加价与暂停
-status: READY_WHEN_DEPENDENCIES_GREEN
+status: MACHINE_COMPLETE_OWNER_PENDING
 milestone: M3_INCENTIVES_FINANCE
 depends_on:
 - R20
@@ -71,3 +71,47 @@ continuity:
   checkpoint_required_before_commit: true
   old_conversation_required: false
   handoff_bundle_required_for_actor_switch: true
+android_delivery:
+  source_commit: f049e672dd32a0fdf399780a73203977fc0846a8
+  apk_file: hhy-r21-f049e67-test.apk
+  version_name: 1.2.2-r21-red-packet-debug
+  version_code: 10229
+  sha256: 1d081a6ed07faec1b370591548e0a9e2e7aaed5a448f4100977e9cf855d4dee4
+  size_bytes: 22489172
+  signing_profile: hhy-staging-test-v2
+  signing_fingerprint: e32a9d7ff8a209d2903db6383b461b259f0018a698d1f3646e6ed7f1112671be
+  fixed_toolchain: hhy-android-toolchain:r01-46fb273
+  toolchain_image_id: sha256:97a5b2d7ae4d6c4abab0c985b502597d0612f3a1e0941fd842008e30a4632607
+  api_base_url: https://api.orbexa.cc
+  websocket_base_url: wss://ws.orbexa.cc
+  machine_delivery: PASS
+  owner_physical_test: PENDING
+  next_release_development: STOPPED_BY_OWNER
+  github_run: '31037022921'
+  android_build: PASS
+  android_unit_tests: PASS
+  android_emulator: PASS
+  visual_acceptance: PASS
+  visual_evidence:
+  - artifacts/reports/R21/visual/SCR-RP-ADV-005.png
+  - artifacts/reports/R21/visual/SCR-RP-ADV-006.png
+  build_evidence: artifacts/reports/R21/build-evidence.json
+  artifact_manifest: artifacts/apk/R21/APK_MANIFEST.yaml
+  test_guide: artifacts/reports/R21/hhy-r21-f049e67-test-guide.md
+  desktop_delivery:
+    directory: C:\Users\小白\Desktop\合伙云Pro_R21_正式交付_f049e672
+    apk_file: C:\Users\小白\Desktop\合伙云Pro_R21_正式交付_f049e672\hhy-r21-f049e67-test.apk
+    test_guide: C:\Users\小白\Desktop\合伙云Pro_R21_正式交付_f049e672\hhy-r21-f049e67-test-guide.md
+machine_completion:
+  status: PASS
+  completed_at: '2026-08-05'
+  source_commit: f049e672dd32a0fdf399780a73203977fc0846a8
+  github_runs:
+  - '31037022921'
+  acceptance_matrix: releases/R21/ACCEPTANCE_MATRIX.csv
+  feature_list: artifacts/reports/R21/R21-FUNCTION-CHECKLIST.md
+  test_checklist: artifacts/reports/R21/hhy-r21-f049e67-test-guide.md
+  visual_acceptance: PASS
+  owner_physical_test: PENDING
+  owner_feedback_mode: ASYNC_NON_BLOCKING
+  next_release_development: STOPPED_BY_OWNER
