@@ -13,7 +13,6 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.semantics.SemanticsActions
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.hasSetTextAction
-import androidx.compose.ui.test.onAllNodes
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onAllNodesWithText
 import androidx.compose.ui.test.onNodeWithContentDescription
@@ -1087,7 +1086,12 @@ class HistoricalVisualAuditTest {
             R07CallResult.Success(
                 R20RedPacketPage(
                     visualR20Campaigns.filter { status == null || it.status == status },
-                    R07PageMeta(page, pageSize, "3", hasMore = "false"),
+                    R07PageMeta(
+                        page = page.toLong(),
+                        pageSize = pageSize.toLong(),
+                        total = "3",
+                        hasMore = "false",
+                    ),
                 ),
                 "visual-r20-campaigns",
             )
