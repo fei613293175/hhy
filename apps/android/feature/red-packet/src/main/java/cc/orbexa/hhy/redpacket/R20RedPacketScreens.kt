@@ -214,7 +214,18 @@ fun R20RedPacketCreateScreen(
             val saved = if (campaignId == null) {
                 api.create(token, R20CreateRedPacketRequest(contentId.trim(), count, amount, startAt.trim(), endAt.trim()), key("create"))
             } else {
-                api.patch(token, campaignId, R20PatchRedPacketRequest(count, amount, startAt.trim(), endAt.trim(), expectedVersion!!), key("patch"))
+                api.patch(
+                    token,
+                    campaignId,
+                    R20PatchRedPacketRequest(
+                        totalCount = count,
+                        amountPerClaimCent = amount,
+                        startAt = startAt.trim(),
+                        endAt = endAt.trim(),
+                        expectedVersion = expectedVersion!!,
+                    ),
+                    key("patch"),
+                )
             }
             result = saved
             when (saved) {
@@ -311,7 +322,7 @@ private fun failureText(value: R07CallResult.Failure) = when (value.statusCode) 
 
 @Composable private fun CampaignCard(item: R20RedPacketCampaignResource, onClick: () -> Unit) { Card(onClick = onClick, Modifier.fillMaxWidth().testTag("hhy.redpacket.campaign.${item.id}"), shape = RoundedCornerShape(HhyRadius.NormalCard), border = BorderStroke(HhySize.Hairline, HhyColors.Border), colors = CardDefaults.cardColors(containerColor = HhyColors.Surface)) { Column(Modifier.padding(HhySpacing.Lg), verticalArrangement = Arrangement.spacedBy(HhySpacing.Sm)) { Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) { Column(Modifier.weight(1f)) { Text("内容 ${item.contentId}", fontWeight = FontWeight.SemiBold); Text("活动 ${item.id}", style = MaterialTheme.typography.labelSmall, color = HhyColors.TextSecondary) }; StatusChip(statusLabel(item.status), item.status) }; Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) { Text("总额 ${money(item.principalCent)}", fontWeight = FontWeight.Bold); Text("已发放 ${money(item.principalCent - item.remainingCount * item.amountPerClaimCent)}", style = MaterialTheme.typography.bodySmall) }; Text("${item.totalCount} 个 · 单个 ${money(item.amountPerClaimCent)}", style = MaterialTheme.typography.bodySmall, color = HhyColors.TextSecondary); Text("${item.startAt ?: "待开始"} - ${item.endAt ?: "待结束"}", style = MaterialTheme.typography.bodySmall, color = HhyColors.TextSecondary) } } }
 @Composable private fun ReviewStatePanel(item: R20RedPacketCampaignResource, onRefresh: () -> Unit) { val rejected = item.status == "PRE_REVIEW_REJECTED"; Surface(Modifier.fillMaxWidth(), shape = RoundedCornerShape(HhyRadius.LargeCard), color = if (rejected) HhyColors.ErrorSoft else HhyColors.WarningSoft) { Column(Modifier.padding(HhySpacing.Xl), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(HhySpacing.Sm)) { Text(statusLabel(item.status), style = MaterialTheme.typography.headlineSmall, fontWeight = FontWeight.Bold); Text(if (rejected) "服务端已返回审核结果，请修改活动后重新提交" else "状态由服务端确认，提交后可在本页刷新", color = HhyColors.TextSecondary); TextButton(onClick = onRefresh) { Text("刷新状态") } } } }
-@Composable private fun MoneySummary(amount: Long) { Surface(Modifier.fillMaxWidth(), shape = RoundedCornerShape(HhyRadius.LargeCard), color = HhyColors.RewardRed) { Column(Modifier.padding(HhySpacing.Xl), verticalArrangement = Arrangement.spacedBy(HhySpacing.Sm)) { Text("金额摘要", color = HhyColors.TextInverse.copy(alpha = HhyOpacity.Secondary)); Text(money(amount), color = HhyColors.TextInverse, style = MaterialTheme.typography.headlineLarge, fontWeight = FontWeight.Bold); Text("本金与服务费以服务端报价为准", color = HhyColors.TextInverse.copy(alpha = HhyOpacity.Secondary)) } } }
+@Composable private fun MoneySummary(amount: Long) { Surface(Modifier.fillMaxWidth(), shape = RoundedCornerShape(HhyRadius.LargeCard), color = HhyColors.RewardRed) { Column(Modifier.padding(HhySpacing.Xl), verticalArrangement = Arrangement.spacedBy(HhySpacing.Sm)) { Text("金额摘要", color = HhyColors.TextInverse); Text(money(amount), color = HhyColors.TextInverse, style = MaterialTheme.typography.headlineLarge, fontWeight = FontWeight.Bold); Text("本金与服务费以服务端报价为准", color = HhyColors.TextInverse) } } }
 @Composable private fun StatusChip(label: String, status: String) { val danger = status in setOf("PRE_REVIEW_REJECTED", "PAUSED_BY_RISK", "TERMINATED_BY_PLATFORM"); Surface(shape = RoundedCornerShape(HhyRadius.Pill), color = if (danger) HhyColors.ErrorSoft else HhyColors.SoftBlue) { Text(label, Modifier.padding(horizontal = HhySpacing.Sm, vertical = HhySpacing.Xs), style = MaterialTheme.typography.labelSmall, color = if (danger) HhyColors.Error else HhyColors.BrandPrimary) } }
 @Composable private fun SectionCard(title: String, content: @Composable ColumnScope.() -> Unit) { Card(Modifier.fillMaxWidth(), shape = RoundedCornerShape(HhyRadius.NormalCard)) { Column(Modifier.padding(HhySpacing.Lg), verticalArrangement = Arrangement.spacedBy(HhySpacing.Sm)) { Text(title, style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.SemiBold); HorizontalDivider(); content() } } }
 @Composable private fun R20Field(label: String, value: String, onValueChange: (String) -> Unit, placeholder: String) { OutlinedTextField(value, onValueChange, Modifier.fillMaxWidth(), label = { Text(label) }, placeholder = { Text(placeholder) }, singleLine = true) }
