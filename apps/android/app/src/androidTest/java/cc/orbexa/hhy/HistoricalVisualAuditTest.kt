@@ -694,13 +694,13 @@ class HistoricalVisualAuditTest {
     @Test
     @OptIn(ExperimentalComposeUiApi::class)
     fun r20CampaignCreateProducesBoundVisualEvidence() {
-        var dismissKeyboard by mutableStateOf(false)
+        val dismissKeyboard = mutableStateOf(false)
         composeRule.setContent {
             HhyTheme {
                 val focusManager = LocalFocusManager.current
                 val keyboardController = LocalSoftwareKeyboardController.current
-                LaunchedEffect(dismissKeyboard) {
-                    if (dismissKeyboard) {
+                LaunchedEffect(dismissKeyboard.value) {
+                    if (dismissKeyboard.value) {
                         focusManager.clearFocus(force = true)
                         keyboardController?.hide()
                     }
@@ -719,7 +719,7 @@ class HistoricalVisualAuditTest {
         fields[3].performTextReplacement("已实名合作伙伴")
         fields[4].performTextReplacement("2026-08-10T08:00:00Z")
         fields[5].performTextReplacement("2026-08-17T08:00:00Z")
-        composeRule.runOnIdle { dismissKeyboard = true }
+        composeRule.runOnIdle { dismissKeyboard.value = true }
         composeRule.waitForIdle()
         composeRule.onNodeWithText("关联内容").performScrollTo()
         composeRule.onNodeWithText("创建红包").assertIsDisplayed()
