@@ -37,7 +37,7 @@ class R20RedPacketControllerContractTest {
                 Map.entry("redPacketPostRedPacketCampaignsByIdClose", ""),
                 Map.entry("redPacketPostRedPacketCampaignsByIdIncreaseQuotes", ""),
                 Map.entry("redPacketPostRedPacketCampaignsByIdIncreaseOrders", ""),
-                Map.entry("redPacketGetMeRedPacketCampaignsByIdAnalytics", ""));
+                Map.entry("redPacketGetMeRedPacketCampaignsByIdAnalytics", "")));
         expected.put(R20RedPacketAdminController.class, Map.of(
                 "adminRedPacketGetRedPacketCampaigns", "hasAuthority('redpacket.read')",
                 "adminRedPacketGetRedPacketCampaignsById", "hasAuthority('redpacket.read')",
