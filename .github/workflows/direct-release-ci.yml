@@ -125,13 +125,16 @@ jobs:
             adb shell am force-stop com.google.android.apps.nexuslauncher || true
             adb shell input keyevent KEYCODE_BACK || true
             apps/android/gradlew -p apps/android --no-daemon --stacktrace :app:connectedDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=cc.orbexa.hhy.HistoricalVisualAuditTest :app:assembleDebug
-            mkdir -p artifacts/r20-emulator/r20-visual artifacts/reports/R20/visual/android
+            mkdir -p artifacts/r20-emulator/r20-visual artifacts/reports/R20/visual/android artifacts/reports/R21/visual
             adb pull /sdcard/Pictures/hhy-ci-screenshots/. artifacts/r20-emulator/r20-visual/
             test "$(find artifacts/r20-emulator/r20-visual -name '*-r20-scr-rp-adv-*.png' | wc -l)" -ge 4
+            test "$(find artifacts/r20-emulator/r20-visual -name '*-r21-scr-rp-adv-*.png' | wc -l)" -ge 2
             cp artifacts/r20-emulator/r20-visual/47-r20-scr-rp-adv-001.png artifacts/reports/R20/visual/android/SCR-RP-ADV-001.png
             cp artifacts/r20-emulator/r20-visual/48-r20-scr-rp-adv-002.png artifacts/reports/R20/visual/android/SCR-RP-ADV-002.png
             cp artifacts/r20-emulator/r20-visual/49-r20-scr-rp-adv-003.png artifacts/reports/R20/visual/android/SCR-RP-ADV-003.png
             cp artifacts/r20-emulator/r20-visual/50-r20-scr-rp-adv-004.png artifacts/reports/R20/visual/android/SCR-RP-ADV-004.png
+            cp artifacts/r20-emulator/r20-visual/51-r21-scr-rp-adv-005.png artifacts/reports/R21/visual/SCR-RP-ADV-005.png
+            cp artifacts/r20-emulator/r20-visual/52-r21-scr-rp-adv-006.png artifacts/reports/R21/visual/SCR-RP-ADV-006.png
             adb install -r apps/android/app/build/outputs/apk/debug/app-debug.apk
             adb logcat -c
             adb shell am start -W -n cc.orbexa.hhy.debug/cc.orbexa.hhy.MainActivity
@@ -147,6 +150,7 @@ jobs:
           path: |
             artifacts/r20-emulator
             artifacts/reports/R20/visual/android
+            artifacts/reports/R21/visual
             apps/android/app/build/reports/androidTests
             apps/android/app/build/outputs/androidTest-results
           if-no-files-found: warn

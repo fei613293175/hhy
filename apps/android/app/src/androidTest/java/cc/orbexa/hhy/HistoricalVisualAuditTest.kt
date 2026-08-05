@@ -115,6 +115,7 @@ import cc.orbexa.hhy.network.R19PropPage
 import cc.orbexa.hhy.network.R19PropResource
 import cc.orbexa.hhy.network.R19PropUseRequest
 import cc.orbexa.hhy.network.R20CreateRedPacketRequest
+import cc.orbexa.hhy.network.R20IncreaseQuoteRequest
 import cc.orbexa.hhy.network.R20OrderRequest
 import cc.orbexa.hhy.network.R20PatchRedPacketRequest
 import cc.orbexa.hhy.network.R20QuoteRequest
@@ -150,6 +151,8 @@ import cc.orbexa.hhy.redpacket.R20RedPacketCampaignListScreen
 import cc.orbexa.hhy.redpacket.R20RedPacketCreateScreen
 import cc.orbexa.hhy.redpacket.R20RedPacketQuoteScreen
 import cc.orbexa.hhy.redpacket.R20RedPacketReviewResultScreen
+import cc.orbexa.hhy.redpacket.R21RedPacketDetailScreen
+import cc.orbexa.hhy.redpacket.R21RedPacketIncreaseAmountScreen
 import cc.orbexa.hhy.startup.StartupVisualAuditMode
 import cc.orbexa.hhy.startup.StartupVisualAuditScreen
 import java.io.InputStream
@@ -753,6 +756,35 @@ class HistoricalVisualAuditTest {
         captureStable("50-r20-scr-rp-adv-004.png")
     }
 
+    @Test
+    fun r21CampaignDetailProducesBoundVisualEvidence() {
+        composeRule.setContent {
+            HhyTheme {
+                R21RedPacketDetailScreen(visualR21Api, "visual-r21-token", "rp-active-2001", {}, {}, {})
+            }
+        }
+        composeRule.onNodeWithTag("hhy.screen.scr-rp-adv-005").assertIsDisplayed()
+        waitForText("活动 rp-active-2001")
+        composeRule.onNodeWithText("暂停").assertIsDisplayed()
+        composeRule.onNodeWithText("提高金额").assertIsDisplayed()
+        captureStable("51-r21-scr-rp-adv-005.png")
+    }
+
+    @Test
+    fun r21IncreaseAmountProducesBoundVisualEvidence() {
+        composeRule.setContent {
+            HhyTheme {
+                R21RedPacketIncreaseAmountScreen(visualR21Api, "visual-r21-token", "rp-active-2001", {}, {}, {})
+            }
+        }
+        composeRule.onNodeWithTag("hhy.screen.scr-rp-adv-006").assertIsDisplayed()
+        waitForText("活动 rp-active-2001")
+        composeRule.onNodeWithText("重新报价").performClick()
+        waitForText("报价状态：报价有效")
+        composeRule.onNodeWithText("最终应付：¥130.20").assertIsDisplayed()
+        captureStable("52-r21-scr-rp-adv-006.png")
+    }
+
     @OptIn(ExperimentalComposeUiApi::class)
     private fun setAuditContent(content: @Composable () -> Unit) {
         composeRule.setContent {
@@ -1135,6 +1167,36 @@ class HistoricalVisualAuditTest {
             )
         override suspend fun order(accessToken: String, id: String, body: R20OrderRequest, idempotencyKey: String) =
             R07CallResult.Failure(503, "visual-r20-read-only")
+    }
+    private val visualR21Api = object : ContractR20RedPacketApi by visualR20Api {
+        override suspend fun analytics(accessToken: String, id: String) =
+            R07CallResult.Success(
+                R20RedPacketPage(listOf(visualR20Campaigns.first()), R07PageMeta(1, 20, "1", hasMore = "false")),
+                "visual-r21-analytics",
+            )
+
+        override suspend fun increaseQuote(
+            accessToken: String,
+            id: String,
+            body: R20IncreaseQuoteRequest,
+            idempotencyKey: String,
+        ) = R07CallResult.Success(
+            CommandResultResource(
+                resourceId = "quote-r21-2101",
+                businessNo = "R21-QUOTE-2101",
+                status = "QUOTED",
+                version = 2,
+                acceptedAt = "2026-08-05T09:00:00Z",
+                principalCent = 12_400,
+                serviceFeeCent = 620,
+                payableCent = 13_020,
+                totalCount = 124,
+                amountPerClaimCent = body.newAmountPerClaimCent,
+                quoteType = "INCREASE",
+                expiresAt = "2026-08-05T09:15:00Z",
+            ),
+            "visual-r21-increase-quote",
+        )
     }
     private val visualR19ContentPage = ContentPageResource(
         listOf(
