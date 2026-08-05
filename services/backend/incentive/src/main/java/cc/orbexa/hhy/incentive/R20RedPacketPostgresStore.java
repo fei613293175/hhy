@@ -591,13 +591,13 @@ public final class R20RedPacketPostgresStore implements R20RedPacketStore {
         try (PreparedStatement statement = connection.prepareStatement(
                 "SELECT q.id,q.principal+q.service_fee,q.expires_at,EXISTS("
                         + "SELECT 1 FROM hhy.red_packet_orders o WHERE o.quote_id=q.id) "
-                        + ",q.quote_type,COALESCE(q.total_count,0),COALESCE(q.amount_per_claim_cent,0) "
+                        + ",q.quote_type,COALESCE(q.total_count,0),COALESCE(q.amount_per_claim_cent,0),q.version "
                         + "FROM hhy.red_packet_quotes q WHERE q.id=? AND q.campaign_id=?" + (lock ? " FOR UPDATE" : ""))) {
             statement.setLong(1, id); statement.setLong(2, campaignId);
             try (ResultSet rows = statement.executeQuery()) {
                 if (!rows.next()) throw notFound("红包报价不存在");
                 return new QuoteHead(rows.getLong(1), rows.getLong(2), instant(rows, 3), rows.getBoolean(4),
-                        rows.getString(5), rows.getLong(6), rows.getLong(7));
+                        rows.getString(5), rows.getLong(6), rows.getLong(7), rows.getLong(8));
             }
         } catch (SQLException failure) { throw internal("红包报价读取失败", failure); }
     }
@@ -816,6 +816,6 @@ public final class R20RedPacketPostgresStore implements R20RedPacketStore {
     private record CampaignHead(long id, String status, long totalCount, long amountPerClaimCent,
                                 Instant startAt, Instant endAt, long version) { }
     private record QuoteHead(long id, long payable, Instant expiresAt, boolean hasOrder,
-                             String type, long totalCount, long amountPerClaimCent) { }
+                             String type, long totalCount, long amountPerClaimCent, long version) { }
     private record Idempotency(long id, String responseRef) { }
 }
