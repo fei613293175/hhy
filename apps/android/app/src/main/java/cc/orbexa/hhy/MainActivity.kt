@@ -90,6 +90,7 @@ import cc.orbexa.hhy.network.UrlConnectionContractR15Api
 import cc.orbexa.hhy.network.UrlConnectionContractR16Api
 import cc.orbexa.hhy.network.UrlConnectionContractR18MembershipApi
 import cc.orbexa.hhy.network.UrlConnectionContractR19PropApi
+import cc.orbexa.hhy.network.UrlConnectionContractR20RedPacketApi
 import cc.orbexa.hhy.network.OkHttpR14RealtimeClient
 import cc.orbexa.hhy.network.R14RealtimeEvent
 import cc.orbexa.hhy.network.R14RealtimeScope
@@ -140,6 +141,10 @@ import cc.orbexa.hhy.membership.R18MembershipUpgradeScreen
 import cc.orbexa.hhy.prop.R19MyPropsScreen
 import cc.orbexa.hhy.prop.R19PropStoreScreen
 import cc.orbexa.hhy.prop.R19PropUseScreen
+import cc.orbexa.hhy.redpacket.R20RedPacketCampaignListScreen
+import cc.orbexa.hhy.redpacket.R20RedPacketCreateScreen
+import cc.orbexa.hhy.redpacket.R20RedPacketQuoteScreen
+import cc.orbexa.hhy.redpacket.R20RedPacketReviewResultScreen
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.decodeFromString
 import kotlinx.coroutines.awaitCancellation
@@ -290,6 +295,10 @@ internal sealed interface AuthenticatedRoute {
     @Serializable data object PropStore : AuthenticatedRoute
     @Serializable data object MyProps : AuthenticatedRoute
     @Serializable data class PropUse(val inventoryId: String) : AuthenticatedRoute
+    @Serializable data object RedPacketCampaigns : AuthenticatedRoute
+    @Serializable data class RedPacketEditor(val campaignId: String? = null) : AuthenticatedRoute
+    @Serializable data class RedPacketReview(val campaignId: String) : AuthenticatedRoute
+    @Serializable data class RedPacketQuote(val campaignId: String) : AuthenticatedRoute
     @Serializable data object Me : AuthenticatedRoute
     @Serializable data object Profile : AuthenticatedRoute
     @Serializable data object LoginDevices : AuthenticatedRoute
@@ -368,6 +377,7 @@ private fun AuthenticatedNavHost(
     val r16Api = remember { UrlConnectionContractR16Api(BuildConfig.API_BASE_URL) }
     val r18MembershipApi = remember { UrlConnectionContractR18MembershipApi(BuildConfig.API_BASE_URL) }
     val r19PropApi = remember { UrlConnectionContractR19PropApi(BuildConfig.API_BASE_URL) }
+    val r20RedPacketApi = remember { UrlConnectionContractR20RedPacketApi(BuildConfig.API_BASE_URL) }
     val r14Realtime = remember { OkHttpR14RealtimeClient(BuildConfig.WS_BASE_URL) }
     val mediaApi = remember { UrlConnectionContractMediaApi(BuildConfig.API_BASE_URL) }
     val uriHandler = androidx.compose.ui.platform.LocalUriHandler.current
@@ -375,6 +385,7 @@ private fun AuthenticatedNavHost(
     val selectedTopLevel = when {
         currentBackStackEntry?.destination?.hasRoute<AuthenticatedRoute.Messages>() == true -> HhyTopLevelDestination.MESSAGE
         currentBackStackEntry?.destination?.hasRoute<AuthenticatedRoute.Me>() == true -> HhyTopLevelDestination.ME
+        currentBackStackEntry?.destination?.hasRoute<AuthenticatedRoute.RedPacketCampaigns>() == true -> HhyTopLevelDestination.REWARD
         else -> HhyTopLevelDestination.HOME
     }
     DisposableEffect(r14Realtime) {
@@ -445,6 +456,11 @@ private fun AuthenticatedNavHost(
                         launchSingleTop = true
                         restoreState = true
                     }
+                    HhyTopLevelDestination.REWARD -> navController.navigate(AuthenticatedRoute.RedPacketCampaigns) {
+                        popUpTo<AuthenticatedRoute.Home> { saveState = true }
+                        launchSingleTop = true
+                        restoreState = true
+                    }
                     else -> Unit
                 }
             },
@@ -511,7 +527,7 @@ private fun AuthenticatedNavHost(
             onOpenMyProps = { navController.navigate(AuthenticatedRoute.MyProps) },
             onOpenPropStore = { navController.navigate(AuthenticatedRoute.PropStore) },
             onOpenProfile = { navController.navigate(AuthenticatedRoute.Profile) },
-            buildIdentityLabel = if (BuildConfig.DEBUG) "R19 道具验证包 · ${BuildConfig.VERSION_NAME}" else null,
+            buildIdentityLabel = if (BuildConfig.DEBUG) "R20 红包验证包 · ${BuildConfig.VERSION_NAME}" else null,
             experienceApi = experienceApi,
             meApi = r12MeApi,
             accessToken = authenticated.session.accessToken,
@@ -685,6 +701,51 @@ private fun AuthenticatedNavHost(
                 { navController.navigate(AuthenticatedRoute.MyProps) {
                     popUpTo<AuthenticatedRoute.MyProps> { inclusive = true }
                 } },
+                onSessionInvalidated,
+            )
+        }
+        composable<AuthenticatedRoute.RedPacketCampaigns> {
+            R20RedPacketCampaignListScreen(
+                r20RedPacketApi,
+                authenticated.session.accessToken,
+                { navController.popBackStack() },
+                { navController.navigate(AuthenticatedRoute.RedPacketEditor()) },
+                { navController.navigate(AuthenticatedRoute.RedPacketReview(it)) },
+                onSessionInvalidated,
+            )
+        }
+        composable<AuthenticatedRoute.RedPacketEditor> { entry ->
+            val route = entry.toRoute<AuthenticatedRoute.RedPacketEditor>()
+            R20RedPacketCreateScreen(
+                r20RedPacketApi,
+                authenticated.session.accessToken,
+                route.campaignId,
+                { navController.popBackStack() },
+                { navController.navigate(AuthenticatedRoute.RedPacketReview(it)) {
+                    popUpTo<AuthenticatedRoute.RedPacketCampaigns>()
+                } },
+                onSessionInvalidated,
+            )
+        }
+        composable<AuthenticatedRoute.RedPacketReview> { entry ->
+            val route = entry.toRoute<AuthenticatedRoute.RedPacketReview>()
+            R20RedPacketReviewResultScreen(
+                r20RedPacketApi,
+                authenticated.session.accessToken,
+                route.campaignId,
+                { navController.popBackStack() },
+                { navController.navigate(AuthenticatedRoute.RedPacketQuote(it)) },
+                onSessionInvalidated,
+            )
+        }
+        composable<AuthenticatedRoute.RedPacketQuote> { entry ->
+            val route = entry.toRoute<AuthenticatedRoute.RedPacketQuote>()
+            R20RedPacketQuoteScreen(
+                r20RedPacketApi,
+                authenticated.session.accessToken,
+                route.campaignId,
+                { navController.popBackStack() },
+                { navController.navigate(AuthenticatedRoute.Orders) },
                 onSessionInvalidated,
             )
         }

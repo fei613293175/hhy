@@ -12,6 +12,8 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.semantics.SemanticsActions
 import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.hasSetTextAction
+import androidx.compose.ui.test.onAllNodes
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onAllNodesWithText
 import androidx.compose.ui.test.onNodeWithContentDescription
@@ -21,6 +23,7 @@ import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performScrollTo
 import androidx.compose.ui.test.performSemanticsAction
 import androidx.compose.ui.test.performTextInput
+import androidx.compose.ui.test.performTextReplacement
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.uiautomator.By
 import androidx.test.uiautomator.UiDevice
@@ -73,6 +76,7 @@ import cc.orbexa.hhy.network.ContractR13Api
 import cc.orbexa.hhy.network.ContractR14Api
 import cc.orbexa.hhy.network.ContractR12Api
 import cc.orbexa.hhy.network.ContractR19PropApi
+import cc.orbexa.hhy.network.ContractR20RedPacketApi
 import cc.orbexa.hhy.network.DirectUploadResource
 import cc.orbexa.hhy.network.ExperienceApi
 import cc.orbexa.hhy.network.HhyNetworkJson
@@ -107,6 +111,13 @@ import cc.orbexa.hhy.network.R19PropOrderRequest
 import cc.orbexa.hhy.network.R19PropPage
 import cc.orbexa.hhy.network.R19PropResource
 import cc.orbexa.hhy.network.R19PropUseRequest
+import cc.orbexa.hhy.network.R20CreateRedPacketRequest
+import cc.orbexa.hhy.network.R20OrderRequest
+import cc.orbexa.hhy.network.R20PatchRedPacketRequest
+import cc.orbexa.hhy.network.R20QuoteRequest
+import cc.orbexa.hhy.network.R20RedPacketCampaignResource
+import cc.orbexa.hhy.network.R20RedPacketPage
+import cc.orbexa.hhy.network.R20SubmitReviewRequest
 import cc.orbexa.hhy.network.PublisherSummaryResource
 import cc.orbexa.hhy.network.UserSelfResource
 import cc.orbexa.hhy.network.R07CallResult
@@ -132,6 +143,10 @@ import cc.orbexa.hhy.membership.R18MembershipUpgradeScreen
 import cc.orbexa.hhy.prop.R19MyPropsScreen
 import cc.orbexa.hhy.prop.R19PropStoreScreen
 import cc.orbexa.hhy.prop.R19PropUseScreen
+import cc.orbexa.hhy.redpacket.R20RedPacketCampaignListScreen
+import cc.orbexa.hhy.redpacket.R20RedPacketCreateScreen
+import cc.orbexa.hhy.redpacket.R20RedPacketQuoteScreen
+import cc.orbexa.hhy.redpacket.R20RedPacketReviewResultScreen
 import cc.orbexa.hhy.startup.StartupVisualAuditMode
 import cc.orbexa.hhy.startup.StartupVisualAuditScreen
 import java.io.InputStream
@@ -665,6 +680,60 @@ class HistoricalVisualAuditTest {
         captureStable("46-r19-scr-prop-003.png")
     }
 
+    @Test
+    fun r20CampaignListProducesBoundVisualEvidence() {
+        composeRule.setContent {
+            HhyTheme { R20RedPacketCampaignListScreen(visualR20Api, "visual-r20-token", {}, {}, {}, {}) }
+        }
+        composeRule.onNodeWithTag("hhy.screen.scr-rp-adv-001").assertIsDisplayed()
+        composeRule.onNodeWithText("红包活动管理").assertIsDisplayed()
+        composeRule.onNodeWithText("内容 content-growth-2001").assertIsDisplayed()
+        captureStable("47-r20-scr-rp-adv-001.png")
+    }
+
+    @Test
+    fun r20CampaignCreateProducesBoundVisualEvidence() {
+        composeRule.setContent {
+            HhyTheme { R20RedPacketCreateScreen(visualR20Api, "visual-r20-token", null, {}, {}, {}) }
+        }
+        composeRule.onNodeWithTag("hhy.screen.scr-rp-adv-002").assertIsDisplayed()
+        composeRule.waitUntil(5_000) {
+            composeRule.onAllNodes(hasSetTextAction()).fetchSemanticsNodes().size >= 6
+        }
+        val fields = composeRule.onAllNodes(hasSetTextAction())
+        fields[0].performTextReplacement("content-growth-2001")
+        fields[1].performTextReplacement("200")
+        fields[2].performTextReplacement("150")
+        fields[3].performTextReplacement("已实名合作伙伴")
+        fields[4].performTextReplacement("2026-08-10T08:00:00Z")
+        fields[5].performTextReplacement("2026-08-17T08:00:00Z")
+        device.pressBack()
+        composeRule.onNodeWithText("关联内容").performScrollTo()
+        composeRule.onNodeWithText("创建红包").assertIsDisplayed()
+        captureStable("48-r20-scr-rp-adv-002.png")
+    }
+
+    @Test
+    fun r20ReviewResultProducesBoundVisualEvidence() {
+        composeRule.setContent {
+            HhyTheme { R20RedPacketReviewResultScreen(visualR20Api, "visual-r20-token", "rp-review-2002", {}, {}, {}) }
+        }
+        composeRule.onNodeWithTag("hhy.screen.scr-rp-adv-003").assertIsDisplayed()
+        composeRule.onNodeWithText("预审核中").assertIsDisplayed()
+        captureStable("49-r20-scr-rp-adv-003.png")
+    }
+
+    @Test
+    fun r20QuoteProducesBoundVisualEvidence() {
+        composeRule.setContent {
+            HhyTheme { R20RedPacketQuoteScreen(visualR20Api, "visual-r20-token", "rp-approved-2003", {}, {}, {}) }
+        }
+        composeRule.onNodeWithTag("hhy.screen.scr-rp-adv-004").assertIsDisplayed()
+        composeRule.onNodeWithText("重新报价").performClick()
+        composeRule.onNodeWithText("报价状态：报价有效").assertIsDisplayed()
+        captureStable("50-r20-scr-rp-adv-004.png")
+    }
+
     @OptIn(ExperimentalComposeUiApi::class)
     private fun setAuditContent(content: @Composable () -> Unit) {
         composeRule.setContent {
@@ -968,6 +1037,80 @@ class HistoricalVisualAuditTest {
             R07CallResult.Success(CommandResultResource(request.skuId, status = "ACCEPTED", acceptedAt = "2026-08-04T08:00:00Z"), "visual-r19-order")
         override suspend fun use(accessToken: String, inventoryId: String, request: R19PropUseRequest, idempotencyKey: String) =
             R07CallResult.Success(CommandResultResource(inventoryId, status = "ACCEPTED", acceptedAt = "2026-08-04T08:00:00Z"), "visual-r19-use")
+    }
+    private val visualR20Campaigns = listOf(
+        R20RedPacketCampaignResource(
+            id = "rp-active-2001",
+            contentId = "content-growth-2001",
+            ownerUserId = "advertiser-2001",
+            status = "ACTIVE",
+            totalCount = 200,
+            remainingCount = 124,
+            amountPerClaimCent = 150,
+            principalCent = 30_000,
+            serviceFeeCent = 1_500,
+            startAt = "2026-08-05T08:00:00Z",
+            endAt = "2026-08-12T08:00:00Z",
+            version = 7,
+        ),
+        R20RedPacketCampaignResource(
+            id = "rp-review-2002",
+            contentId = "content-partner-2002",
+            ownerUserId = "advertiser-2002",
+            status = "PRE_REVIEWING",
+            totalCount = 100,
+            remainingCount = 100,
+            amountPerClaimCent = 200,
+            principalCent = 20_000,
+            serviceFeeCent = 1_000,
+            startAt = "2026-08-10T08:00:00Z",
+            endAt = "2026-08-17T08:00:00Z",
+            version = 3,
+        ),
+        R20RedPacketCampaignResource(
+            id = "rp-approved-2003",
+            contentId = "content-brand-2003",
+            ownerUserId = "advertiser-2003",
+            status = "PRE_REVIEW_APPROVED",
+            totalCount = 300,
+            remainingCount = 300,
+            amountPerClaimCent = 100,
+            principalCent = 30_000,
+            serviceFeeCent = 1_500,
+            startAt = "2026-08-12T08:00:00Z",
+            endAt = "2026-08-19T08:00:00Z",
+            version = 5,
+        ),
+    )
+    private val visualR20Api = object : ContractR20RedPacketApi {
+        override suspend fun campaigns(accessToken: String, page: Int, pageSize: Int, status: String?, keyword: String?, sort: String) =
+            R07CallResult.Success(
+                R20RedPacketPage(
+                    visualR20Campaigns.filter { status == null || it.status == status },
+                    R07PageMeta(page, pageSize, "3", hasMore = "false"),
+                ),
+                "visual-r20-campaigns",
+            )
+        override suspend fun campaign(accessToken: String, id: String) =
+            visualR20Campaigns.firstOrNull { it.id == id }?.let { R07CallResult.Success(it, "visual-r20-campaign") }
+                ?: R07CallResult.Failure(404, "visual-r20-missing")
+        override suspend fun create(accessToken: String, body: R20CreateRedPacketRequest, idempotencyKey: String) =
+            R07CallResult.Failure(503, "visual-r20-read-only")
+        override suspend fun patch(accessToken: String, id: String, body: R20PatchRedPacketRequest, idempotencyKey: String) =
+            R07CallResult.Failure(503, "visual-r20-read-only")
+        override suspend fun submitReview(accessToken: String, id: String, body: R20SubmitReviewRequest, idempotencyKey: String) =
+            R07CallResult.Failure(503, "visual-r20-read-only")
+        override suspend fun quote(accessToken: String, id: String, body: R20QuoteRequest, idempotencyKey: String) =
+            R07CallResult.Success(
+                CommandResultResource(
+                    resourceId = "quote-r20-2003",
+                    status = "QUOTED",
+                    acceptedAt = "2026-08-05T08:30:00Z",
+                ),
+                "visual-r20-quote",
+            )
+        override suspend fun order(accessToken: String, id: String, body: R20OrderRequest, idempotencyKey: String) =
+            R07CallResult.Failure(503, "visual-r20-read-only")
     }
     private val visualR19ContentPage = ContentPageResource(
         listOf(

@@ -58,6 +58,28 @@ describe('R19 admin prop pages', () => {
     wrapper.unmount()
   })
 
+  it('sends only contract fields when creating a prop product', async () => {
+    adminSession.apply({ accessToken: 'token', adminUserId: '19', displayName: '道具运营', permissionCodes: ['prop.read', 'prop.write'], mfaRequired: 'NONE' })
+    const create = vi.spyOn(adminPropsApi, 'create').mockResolvedValue({} as never)
+    const { wrapper } = await render(AdminPropProductsPage, '/commerce/props/products')
+    await wrapper.get('header .primary-button').trigger('click')
+    const inputs = wrapper.findAll('.prop-create-dialog input')
+    await inputs[0].setValue('刷新道具')
+    await inputs[1].setValue('PROP-R19-REFRESH')
+    await inputs[2].setValue('PROP-R19-REFRESH-1')
+    await inputs[3].setValue(100)
+    await inputs[4].setValue(80)
+    await inputs[5].setValue(600)
+    await wrapper.findAll('.prop-create-dialog textarea')[0].setValue('{}')
+    await wrapper.findAll('.prop-create-dialog textarea')[1].setValue('R19 正式道具商城首次上架')
+    await wrapper.find('.prop-create-dialog .primary-button').trigger('click')
+    await flushPromises()
+    expect(create).toHaveBeenCalledOnce()
+    expect(create.mock.calls[0][0]).toEqual(expect.objectContaining({ propType: 'REFRESH', name: '刷新道具', scope: {} }))
+    expect(create.mock.calls[0][0]).not.toHaveProperty('scopeText')
+    wrapper.unmount()
+  })
+
   it('renders products in business language and hides row writes without permission', async () => {
     const { wrapper, router } = await render(AdminPropProductsPage, '/commerce/props/products')
     expect(wrapper.text()).toContain('道具商品'); expect(wrapper.text()).toContain('头条曝光'); expect(wrapper.text()).toContain('¥9.90')

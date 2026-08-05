@@ -97,6 +97,7 @@ private val navigationItems = listOf(
 internal fun isTopLevelDestinationEnabled(destination: HhyTopLevelDestination): Boolean =
     destination in setOf(
         HhyTopLevelDestination.HOME,
+        HhyTopLevelDestination.REWARD,
         HhyTopLevelDestination.PUBLISH,
         HhyTopLevelDestination.MESSAGE,
         HhyTopLevelDestination.ME,

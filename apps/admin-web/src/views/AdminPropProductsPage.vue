@@ -30,7 +30,19 @@ async function createProp() {
   try { scope = JSON.parse(createForm.scopeText) as AdminPropScope; if (!scope || Array.isArray(scope) || typeof scope !== 'object') throw new Error() } catch { error.value = '适用范围必须是 JSON 对象'; return }
   error.value = ''; conflict.value = ''
   try {
-    await adminPropsApi.create({ ...createForm, name: createForm.name.trim(), productCode: createForm.productCode.trim(), skuCode: createForm.skuCode.trim(), executionType: createForm.executionType.trim(), reason: createForm.reason.trim(), scope }, `r19-prop-create-${Date.now().toString(36)}`)
+    await adminPropsApi.create({
+      propType: createForm.propType,
+      name: createForm.name.trim(),
+      durationSeconds: createForm.durationSeconds,
+      executionType: createForm.executionType.trim(),
+      productCode: createForm.productCode.trim(),
+      skuCode: createForm.skuCode.trim(),
+      priceCent: createForm.priceCent,
+      memberPriceCent: createForm.memberPriceCent,
+      scope,
+      status: createForm.status,
+      reason: createForm.reason.trim()
+    }, `r19-prop-create-${Date.now().toString(36)}`)
     creating.value = false; Object.assign(createForm, { name: '', productCode: '', skuCode: '', priceCent: 0, memberPriceCent: undefined, scopeText: '{}', reason: '' }); await load()
   } catch (caught) { if (isApiRequestError(caught) && caught.status === 409) conflict.value = '商品编码或 SKU 编码已存在，请核对后重新提交。'; else error.value = message(caught) }
 }

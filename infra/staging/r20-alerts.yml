@@ -1,0 +1,43 @@
+groups:
+  - name: hhy-r20-red-packets
+    rules:
+      - alert: HhyR20BackendDown
+        expr: up{job="hhy-backend-r20"} == 0
+        for: 15s
+        labels: { severity: critical, release: R20 }
+        annotations: { summary: 合伙云 R20 Staging 后端不可用 }
+      - alert: HhyR20HighServerErrorRate
+        expr: sum(rate(http_server_requests_seconds_count{job="hhy-backend-r20",status=~"5.."}[1m])) / clamp_min(sum(rate(http_server_requests_seconds_count{job="hhy-backend-r20"}[1m])), 0.001) > 0.02
+        for: 1m
+        labels: { severity: warning, release: R20 }
+        annotations: { summary: 合伙云 R20 Staging 5xx 比例超过 2% }
+      - alert: HhyR20HighP95Latency
+        expr: histogram_quantile(0.95, sum by (le) (rate(http_server_requests_seconds_bucket{job="hhy-backend-r20"}[5m]))) > 0.5
+        for: 2m
+        labels: { severity: warning, release: R20 }
+        annotations: { summary: 合伙云 R20 Staging P95 延迟超过 500ms }
+      - alert: HhyR20CampaignReviewBacklog
+        expr: hhy_redpacket_campaigns_pending_review{job="hhy-backend-r20"} > 20
+        for: 2m
+        labels: { severity: warning, release: R20 }
+        annotations: { summary: R20 红包预审核队列超过 20 个活动 }
+      - alert: HhyR20ActiveCampaignExpired
+        expr: hhy_redpacket_campaigns_active_expired{job="hhy-backend-r20"} > 0
+        for: 1m
+        labels: { severity: critical, release: R20 }
+        annotations: { summary: R20 红包活动已过结束时间仍处于 ACTIVE }
+      - alert: HhyR20StockInvariantViolation
+        expr: hhy_redpacket_stock_invariant_violations{job="hhy-backend-r20"} > 0
+        for: 15s
+        labels: { severity: critical, release: R20 }
+        annotations: { summary: R20 红包库存不变量被破坏 }
+      - alert: HhyR20InitialQuoteExpired
+        expr: hhy_redpacket_quotes_initial_expired{job="hhy-backend-r20"} > 0
+        for: 2m
+        labels: { severity: warning, release: R20 }
+        annotations: { summary: R20 存在已过期的初始红包报价 }
+      - alert: HhyR20BusinessMetricQueryFailure
+        expr: sum(hhy_business_metric_query_failures_total{job="hhy-backend-r20",metric=~"hhy\\.redpacket\\..*"}) > 0
+        for: 15s
+        labels: { severity: critical, release: R20 }
+        annotations: { summary: R20 红包业务指标查询失败，监控结果不可信 }

@@ -346,4 +346,35 @@ class BusinessGaugeBinderTest {
         assertThat(registry.get("hhy.headline.bookings.overdue").gauge().value()).isEqualTo(1.0);
         assertThat(registry.get("hhy.r19.outbox.backlog").gauge().value()).isEqualTo(1.0);
     }
+
+    @Test
+    void exposesR20RedPacketOperationalRisks() {
+        DriverManagerDataSource dataSource = new DriverManagerDataSource(
+                "jdbc:h2:mem:r20-business-gauges;MODE=PostgreSQL;DB_CLOSE_DELAY=-1", "sa", "");
+        JdbcTemplate jdbc = new JdbcTemplate(dataSource);
+        jdbc.execute("CREATE SCHEMA hhy");
+        jdbc.execute("CREATE TABLE hhy.red_packet_campaigns(status varchar(64), end_at timestamp)");
+        jdbc.execute("CREATE TABLE hhy.red_packet_stock(total integer, claimed integer, reserved integer)");
+        jdbc.execute("CREATE TABLE hhy.red_packet_quotes(quote_type varchar(64), expires_at timestamp)");
+        jdbc.update("INSERT INTO hhy.red_packet_campaigns VALUES "
+                + "('PRE_REVIEWING', CURRENT_TIMESTAMP + INTERVAL '1' HOUR), "
+                + "('PRE_REVIEWING', CURRENT_TIMESTAMP), "
+                + "('ACTIVE', CURRENT_TIMESTAMP - INTERVAL '1' MINUTE), "
+                + "('ACTIVE', CURRENT_TIMESTAMP + INTERVAL '1' HOUR)");
+        jdbc.update("INSERT INTO hhy.red_packet_stock VALUES "
+                + "(10, 2, 3), (8, 8, 0), (6, 4, 3), (-1, 0, 0)");
+        jdbc.update("INSERT INTO hhy.red_packet_quotes VALUES "
+                + "('INITIAL', CURRENT_TIMESTAMP - INTERVAL '1' MINUTE), "
+                + "('INITIAL', CURRENT_TIMESTAMP + INTERVAL '1' HOUR), "
+                + "('RAISE', CURRENT_TIMESTAMP - INTERVAL '1' HOUR)");
+
+        SimpleMeterRegistry registry = new SimpleMeterRegistry();
+        new BusinessGaugeBinder(jdbc).bindTo(registry);
+
+        assertThat(registry.get("hhy.redpacket.campaigns.pending.review").gauge().value()).isEqualTo(2.0);
+        assertThat(registry.get("hhy.redpacket.campaigns.active.expired").gauge().value()).isEqualTo(1.0);
+        assertThat(registry.get("hhy.redpacket.stock.available").gauge().value()).isEqualTo(5.0);
+        assertThat(registry.get("hhy.redpacket.stock.invariant.violations").gauge().value()).isEqualTo(2.0);
+        assertThat(registry.get("hhy.redpacket.quotes.initial.expired").gauge().value()).isEqualTo(1.0);
+    }
 }

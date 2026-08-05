@@ -86,8 +86,8 @@ android {
     buildTypes {
         debug {
             applicationIdSuffix = ".debug"
-            versionNameSuffix = "-r19-prop-debug"
-            resValue("string", "app_name", "R19 道具验证")
+            versionNameSuffix = "-r20-red-packet-debug"
+            resValue("string", "app_name", "R20 红包验证")
         }
         release {
             isMinifyEnabled = true
@@ -146,6 +146,7 @@ dependencies {
     implementation(project(":feature:order"))
     implementation(project(":feature:membership"))
     implementation(project(":feature:prop"))
+    implementation(project(":feature:red-packet"))
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.navigation.compose)

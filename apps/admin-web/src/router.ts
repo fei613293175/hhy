@@ -26,6 +26,8 @@ import AdminMembershipUsersPage from './views/AdminMembershipUsersPage.vue'
 import AdminPropProductsPage from './views/AdminPropProductsPage.vue'
 import AdminPropSlotsPage from './views/AdminPropSlotsPage.vue'
 import AdminPropExecutionsPage from './views/AdminPropExecutionsPage.vue'
+import AdminRedPacketListPage from './views/AdminRedPacketListPage.vue'
+import AdminRedPacketReviewPage from './views/AdminRedPacketReviewPage.vue'
 import { implementedAdminPageIds } from './adminNavigation'
 import { resolveAdminRouteRedirect } from './routerAccess'
 
@@ -51,6 +53,8 @@ export const router = createRouter({
     { path: '/contents/dictionaries', name: 'ADM-CONTENT-003', component: AdminContentDictionariesPage, meta: { requiresAuth: true, permission: 'content.read' } },
     { path: '/contents/:id', name: 'ADM-CONTENT-002', component: AdminContentDetailPage, meta: { requiresAuth: true, permission: 'content.read' } },
     { path: '/reviews', name: 'ADM-REVIEW-001', component: AdminReviewWorkbenchPage, meta: { requiresAuth: true, permission: 'review.read' } },
+    { path: '/red-packets', name: 'ADM-RP-001', component: AdminRedPacketListPage, meta: { requiresAuth: true, permission: 'redpacket.read' } },
+    { path: '/red-packets/review', name: 'ADM-RP-003', component: AdminRedPacketReviewPage, meta: { requiresAuth: true, permission: 'redpacket.read' } },
     { path: '/commerce/orders', name: 'ADM-ORDER-001', component: CommerceOrdersPage, meta: { requiresAuth: true, permission: 'order.read' } },
     { path: '/commerce/payments', name: 'ADM-PAY-001', component: AdminPaymentsPage, props: { mode: 'payments' }, meta: { requiresAuth: true, permission: 'payment.read' } },
     { path: '/commerce/reconciliation', name: 'ADM-RECON-001', component: AdminPaymentsPage, props: { mode: 'reconciliation' }, meta: { requiresAuth: true, permission: 'payment.reconcile' } },

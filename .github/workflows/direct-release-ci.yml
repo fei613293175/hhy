@@ -66,6 +66,7 @@ jobs:
           python-version: '3.13'
       - run: pip install PyYAML==6.0.2
       - run: python scripts/check_r19_observability.py
+      - run: python scripts/check_r20_observability.py
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
@@ -90,13 +91,13 @@ jobs:
         run: ./gradlew --no-daemon --stacktrace testDebugUnitTest assembleDebug
       - uses: actions/upload-artifact@v4
         with:
-          name: r19-debug-apk-${{ github.run_id }}
+          name: r20-debug-apk-${{ github.run_id }}
           path: apps/android/app/build/outputs/apk/debug/app-debug.apk
           if-no-files-found: error
           retention-days: 30
 
   android-emulator:
-    name: R19 Android emulator interactions
+    name: R20 Android emulator interactions
     runs-on: ubuntu-latest
     timeout-minutes: 45
     steps:
@@ -124,23 +125,28 @@ jobs:
             adb shell am force-stop com.google.android.apps.nexuslauncher || true
             adb shell input keyevent KEYCODE_BACK || true
             apps/android/gradlew -p apps/android --no-daemon --stacktrace :app:connectedDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=cc.orbexa.hhy.HistoricalVisualAuditTest :app:assembleDebug
-            mkdir -p artifacts/r19-emulator/r19-visual
-            adb pull /sdcard/Pictures/hhy-ci-screenshots/. artifacts/r19-emulator/r19-visual/
-            test "$(find artifacts/r19-emulator/r19-visual -name '4[4-6]-r19-*.png' | wc -l)" -ge 3
+            mkdir -p artifacts/r20-emulator/r20-visual artifacts/reports/R20/visual/android
+            adb pull /sdcard/Pictures/hhy-ci-screenshots/. artifacts/r20-emulator/r20-visual/
+            test "$(find artifacts/r20-emulator/r20-visual -name '*-r20-scr-rp-adv-*.png' | wc -l)" -ge 4
+            cp artifacts/r20-emulator/r20-visual/47-r20-scr-rp-adv-001.png artifacts/reports/R20/visual/android/SCR-RP-ADV-001.png
+            cp artifacts/r20-emulator/r20-visual/48-r20-scr-rp-adv-002.png artifacts/reports/R20/visual/android/SCR-RP-ADV-002.png
+            cp artifacts/r20-emulator/r20-visual/49-r20-scr-rp-adv-003.png artifacts/reports/R20/visual/android/SCR-RP-ADV-003.png
+            cp artifacts/r20-emulator/r20-visual/50-r20-scr-rp-adv-004.png artifacts/reports/R20/visual/android/SCR-RP-ADV-004.png
             adb install -r apps/android/app/build/outputs/apk/debug/app-debug.apk
             adb logcat -c
             adb shell am start -W -n cc.orbexa.hhy.debug/cc.orbexa.hhy.MainActivity
             sleep 8
-            mkdir -p artifacts/r19-emulator
-            adb exec-out screencap -p > artifacts/r19-emulator/startup.png
-            adb logcat -d -v threadtime > artifacts/r19-emulator/logcat.txt
-            ! grep -E 'FATAL EXCEPTION|ANR in cc\.orbexa\.hhy' artifacts/r19-emulator/logcat.txt
+            mkdir -p artifacts/r20-emulator
+            adb exec-out screencap -p > artifacts/r20-emulator/startup.png
+            adb logcat -d -v threadtime > artifacts/r20-emulator/logcat.txt
+            ! grep -E 'FATAL EXCEPTION|ANR in cc\.orbexa\.hhy' artifacts/r20-emulator/logcat.txt
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: r19-emulator-${{ github.run_id }}
+          name: r20-emulator-${{ github.run_id }}
           path: |
-            artifacts/r19-emulator
+            artifacts/r20-emulator
+            artifacts/reports/R20/visual/android
             apps/android/app/build/reports/androidTests
             apps/android/app/build/outputs/androidTest-results
           if-no-files-found: warn

@@ -573,6 +573,38 @@ public final class BusinessGaugeBinder implements MeterBinder {
             WHERE event_type = 'prop.execution.succeeded.v1'
               AND status IN ('PENDING', 'RETRY_WAIT')
             """;
+    static final String R20_CAMPAIGNS_PENDING_REVIEW_SQL = """
+            SELECT COUNT(*)
+            FROM hhy.red_packet_campaigns
+            WHERE status = 'PRE_REVIEWING'
+            """;
+    static final String R20_CAMPAIGNS_ACTIVE_EXPIRED_SQL = """
+            SELECT COUNT(*)
+            FROM hhy.red_packet_campaigns
+            WHERE status = 'ACTIVE'
+              AND end_at IS NOT NULL
+              AND end_at <= CURRENT_TIMESTAMP
+            """;
+    static final String R20_STOCK_AVAILABLE_SQL = """
+            SELECT COALESCE(SUM(CASE
+                WHEN total >= 0 AND claimed >= 0 AND reserved >= 0
+                 AND claimed + reserved <= total
+                THEN total - claimed - reserved ELSE 0 END), 0)
+            FROM hhy.red_packet_stock
+            """;
+    static final String R20_STOCK_INVARIANT_VIOLATIONS_SQL = """
+            SELECT COUNT(*)
+            FROM hhy.red_packet_stock
+            WHERE total < 0 OR claimed < 0 OR reserved < 0
+               OR claimed + reserved > total
+            """;
+    static final String R20_INITIAL_QUOTES_EXPIRED_SQL = """
+            SELECT COUNT(*)
+            FROM hhy.red_packet_quotes
+            WHERE quote_type = 'INITIAL'
+              AND expires_at IS NOT NULL
+              AND expires_at <= CURRENT_TIMESTAMP
+            """;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(BusinessGaugeBinder.class);
     private final JdbcTemplate jdbcTemplate;
@@ -672,6 +704,11 @@ public final class BusinessGaugeBinder implements MeterBinder {
         register(registry, "hhy.exposure.expired.active", "Exposure entitlements still active after their end time", EXPOSURE_EXPIRED_ACTIVE_SQL);
         register(registry, "hhy.headline.bookings.overdue", "Headline bookings still open after their end time", HEADLINE_BOOKINGS_OVERDUE_SQL);
         register(registry, "hhy.r19.outbox.backlog", "R19 prop execution events waiting for delivery", R19_OUTBOX_BACKLOG_SQL);
+        register(registry, "hhy.redpacket.campaigns.pending.review", "Red packet campaigns awaiting pre-review", R20_CAMPAIGNS_PENDING_REVIEW_SQL);
+        register(registry, "hhy.redpacket.campaigns.active.expired", "Active red packet campaigns past their end time", R20_CAMPAIGNS_ACTIVE_EXPIRED_SQL);
+        register(registry, "hhy.redpacket.stock.available", "Unclaimed and unreserved red packet stock", R20_STOCK_AVAILABLE_SQL);
+        register(registry, "hhy.redpacket.stock.invariant.violations", "Red packet stock rows violating nonnegative bounds", R20_STOCK_INVARIANT_VIOLATIONS_SQL);
+        register(registry, "hhy.redpacket.quotes.initial.expired", "Expired initial red packet quotes", R20_INITIAL_QUOTES_EXPIRED_SQL);
     }
 
     private void register(MeterRegistry registry, String name, String description, String sql) {
