@@ -721,7 +721,7 @@ class HistoricalVisualAuditTest {
         fields[5].performTextReplacement("2026-08-17T08:00:00Z")
         composeRule.runOnIdle { dismissKeyboard.value = true }
         composeRule.waitForIdle()
-        composeRule.onNodeWithText("关联内容").performScrollTo()
+        composeRule.onNodeWithText("金额摘要").performScrollTo()
         composeRule.onNodeWithText("创建红包").assertIsDisplayed()
         captureStable("48-r20-scr-rp-adv-002.png")
     }
