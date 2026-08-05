@@ -80,6 +80,47 @@ exit_gate:
 change_policy: V1.2.2 页面、字段、状态、动作、API、配置和数据目录是唯一事实源；破坏性变更必须CR+版本升级+迁移+消费者兼容窗口
 documentation_baseline: V1.2.2
 document_gap_status: ZERO_BLOCKING_DOCUMENT_GAPS
+android_delivery:
+  source_commit: 8c9c1da034242e0b27d14bd6b1964eb2249d55e0
+  apk_file: hhy-r20-8c9c1da-test.apk
+  version_name: 1.2.2-r20-red-packet-debug
+  version_code: 10228
+  sha256: d90b0a8338558a3aa339ae435303799e05d35025c075682092d766c08fb3c9ed
+  size_bytes: 22423636
+  signing_profile: hhy-staging-test-v2
+  signing_fingerprint: e32a9d7ff8a209d2903db6383b461b259f0018a698d1f3646e6ed7f1112671be
+  fixed_toolchain: hhy-android-toolchain:r08-api36-cache
+  api_base_url: https://api.orbexa.cc
+  websocket_base_url: wss://ws.orbexa.cc
+  machine_delivery: PASS
+  owner_physical_test: PENDING
+  github_run: '30996447732'
+  android_build: PASS
+  android_unit_tests: PASS
+  android_emulator: PASS
+  visual_evidence:
+  - artifacts/reports/R20/visual/android/SCR-RP-ADV-001.png
+  - artifacts/reports/R20/visual/android/SCR-RP-ADV-002.png
+  - artifacts/reports/R20/visual/android/SCR-RP-ADV-003.png
+  - artifacts/reports/R20/visual/android/SCR-RP-ADV-004.png
+  test_guide: artifacts/reports/R20/hhy-r20-8c9c1da-test-guide.md
+  desktop_test_guide:
+    desktop_path: 'C:\Users\小白\Desktop\hhy-r20-feedback\hhy-r20-8c9c1da-test-guide.md'
+    file_name: hhy-r20-8c9c1da-test-guide.md
+    size_bytes: 1336
+    sha256: a64fb144ef3e4a7cc2784dd212ab70496f4638dec869fac5d0a61087635a4fce
+    status: PASS
+machine_completion:
+  status: PASS
+  completed_at: '2026-08-05T11:05:06Z'
+  source_commit: 8c9c1da034242e0b27d14bd6b1964eb2249d55e0
+  github_runs:
+  - '30996447732'
+  acceptance_matrix: releases/R20/ACCEPTANCE_MATRIX.csv
+  feature_list: artifacts/reports/R20/R20-FUNCTION-CHECKLIST.md
+  test_checklist: artifacts/reports/R20/hhy-r20-8c9c1da-test-guide.md
+  visual_acceptance: PASS
+  owner_physical_test: PENDING
 definition_of_ready: releases/R20/DEFINITION_OF_READY.yaml
 story_backlog: releases/R20/STORIES.yaml
 continuity:
