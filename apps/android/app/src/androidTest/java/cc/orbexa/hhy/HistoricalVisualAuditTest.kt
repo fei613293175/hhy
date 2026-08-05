@@ -691,9 +691,21 @@ class HistoricalVisualAuditTest {
     }
 
     @Test
+    @OptIn(ExperimentalComposeUiApi::class)
     fun r20CampaignCreateProducesBoundVisualEvidence() {
+        var dismissKeyboard by mutableStateOf(false)
         composeRule.setContent {
-            HhyTheme { R20RedPacketCreateScreen(visualR20Api, "visual-r20-token", null, {}, {}, {}) }
+            HhyTheme {
+                val focusManager = LocalFocusManager.current
+                val keyboardController = LocalSoftwareKeyboardController.current
+                LaunchedEffect(dismissKeyboard) {
+                    if (dismissKeyboard) {
+                        focusManager.clearFocus(force = true)
+                        keyboardController?.hide()
+                    }
+                }
+                R20RedPacketCreateScreen(visualR20Api, "visual-r20-token", null, {}, {}, {})
+            }
         }
         composeRule.onNodeWithTag("hhy.screen.scr-rp-adv-002").assertIsDisplayed()
         composeRule.waitUntil(5_000) {
@@ -706,7 +718,8 @@ class HistoricalVisualAuditTest {
         fields[3].performTextReplacement("已实名合作伙伴")
         fields[4].performTextReplacement("2026-08-10T08:00:00Z")
         fields[5].performTextReplacement("2026-08-17T08:00:00Z")
-        device.pressBack()
+        composeRule.runOnIdle { dismissKeyboard = true }
+        composeRule.waitForIdle()
         composeRule.onNodeWithText("关联内容").performScrollTo()
         composeRule.onNodeWithText("创建红包").assertIsDisplayed()
         captureStable("48-r20-scr-rp-adv-002.png")

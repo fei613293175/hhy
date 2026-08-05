@@ -101,6 +101,7 @@ class ContractR20RedPacketApiTest {
 
     private class FakeConnection(url: URL, private val response: String) : HttpURLConnection(url) {
         private val request = ByteArrayOutputStream()
+        private var requestMethodValue = "GET"
 
         override fun connect() = Unit
         override fun disconnect() = Unit
@@ -108,7 +109,8 @@ class ContractR20RedPacketApiTest {
         override fun getResponseCode(): Int = 200
         override fun getInputStream() = ByteArrayInputStream(response.toByteArray(Charsets.UTF_8))
         override fun getOutputStream() = request
-        override fun setRequestMethod(method: String) { requestMethod = method }
+        override fun getRequestMethod(): String = requestMethodValue
+        override fun setRequestMethod(method: String) { requestMethodValue = method }
 
         fun requestBody(): String = request.toString(Charsets.UTF_8.name())
     }
