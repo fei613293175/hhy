@@ -847,7 +847,7 @@ public final class R20RedPacketPostgresStore implements R20RedPacketStore {
                 bind(statement, args); statement.setInt(args.size() + 1, query.pageSize()); statement.setLong(args.size() + 2, query.offset());
                 try (ResultSet rows = statement.executeQuery()) { while (rows.next()) items.add(new ViewSessionResource(
                         Long.toString(rows.getLong(1)), Long.toString(rows.getLong(2)), rows.getString(3), rows.getLong(4),
-                        rows.getLong(5), instant(rows, 6), rows.getLong(7), instant(rows, 8)))); }
+                        rows.getLong(5), instant(rows, 6), rows.getLong(7), instant(rows, 8))); }
             } catch (SQLException failure) { throw internal("红包浏览会话读取失败", failure); }
             return new PageSlice<>(items, count(connection, "hhy.red_packet_view_sessions", filters, args));
         });
@@ -869,7 +869,7 @@ public final class R20RedPacketPostgresStore implements R20RedPacketStore {
                 bind(statement, args); statement.setInt(args.size() + 1, query.pageSize()); statement.setLong(args.size() + 2, query.offset());
                 try (ResultSet rows = statement.executeQuery()) { while (rows.next()) items.add(new ClaimResource(
                         Long.toString(rows.getLong(1)), Long.toString(rows.getLong(2)), rows.getString(3), rows.getLong(4),
-                        rows.getLong(5), instant(rows, 6), instant(rows, 7)))); }
+                        rows.getLong(5), instant(rows, 6), instant(rows, 7))); }
             } catch (SQLException failure) { throw internal("红包领取记录读取失败", failure); }
             return new PageSlice<>(items, count(connection, "hhy.red_packet_claims", filters, args));
         });
@@ -886,7 +886,7 @@ public final class R20RedPacketPostgresStore implements R20RedPacketStore {
                 statement.setLong(1, campaignId);
                 try (ResultSet rows = statement.executeQuery()) { while (rows.next()) items.add(new LedgerEntryResource(
                         Long.toString(rows.getLong(1)), Long.toString(rows.getLong(2)), rows.getString(3), rows.getLong(4),
-                        rows.getLong(5), nullableLong(rows, 6), instant(rows, 7)))); }
+                        rows.getLong(5), nullableLong(rows, 6), instant(rows, 7))); }
             } catch (SQLException failure) { throw internal("红包账本读取失败", failure); }
             return List.copyOf(items);
         });
