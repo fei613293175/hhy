@@ -1,0 +1,125 @@
+{
+  "api_base_url": "https://api.orbexa.cc",
+  "authentication_rejection": {
+    "code": "COMMON-401-UNAUTHENTICATED",
+    "http": 401,
+    "request_id": "24901cf2-4c16-465a-985f-8a73180100e9"
+  },
+  "campaign_detail": {
+    "http": 200,
+    "request_id": "56364122-9b41-4a12-af56-985b2cdd481f"
+  },
+  "campaign_list": {
+    "http": 200,
+    "request_id": "f2570577-892b-4db4-9a9c-60f476df77a1"
+  },
+  "cancel": {
+    "http": 200,
+    "idempotent_replay": "PASS",
+    "request_id": "a7400ffa-4d00-41ae-b08b-c57090eba448",
+    "status": "CANCELLED"
+  },
+  "cancel_claimed_rejection": {
+    "code": "REDPACKET-422-VIEW_INVALID",
+    "http": 422,
+    "request_id": "7cba9e62-219f-4f0b-8b75-3d8eef731532"
+  },
+  "claim": {
+    "amount_cent": 1,
+    "http": 200,
+    "idempotent_replay": "PASS",
+    "request_id": "487f35ac-19f3-425d-aafa-dbe2f8d342dd",
+    "status": "PENDING"
+  },
+  "database_facts": [
+    "flyway=055",
+    "stock=2,1,0",
+    "sessions=CLAIMED,CANCELLED",
+    "claims=1,amount=1",
+    "users=24",
+    "credentials=7",
+    "invite_codes=1"
+  ],
+  "durable_invite": {
+    "http": 200,
+    "request_id": "978868bf-018b-4765-b511-fdbb6a639256"
+  },
+  "early_claim_rejection": {
+    "code": "REDPACKET-422-VIEW_INVALID",
+    "http": 422,
+    "request_id": "c7e0d8e0-18e4-49e8-83a8-a65a287b9d34"
+  },
+  "elapsed_seconds": 26.637,
+  "eligibility_rejection": {
+    "code": "IDENTITY-422-NOT_VERIFIED",
+    "http": 422,
+    "request_id": "2744b669-f5c8-4a34-be87-44e2ff614ebe"
+  },
+  "environment": "public owner-test persistent database",
+  "heartbeat_sequence_rejection": {
+    "code": "REDPACKET-422-VIEW_INVALID",
+    "http": 422,
+    "request_id": "d503c32b-c0e4-4746-902d-880b05f79aaa"
+  },
+  "idempotency_conflicts": {
+    "claim": {
+      "code": "COMMON-409-IDEMPOTENCY_CONFLICT",
+      "http": 409,
+      "request_id": "853c30a7-3873-4226-b7bf-ef357e8b3bd9"
+    },
+    "start": {
+      "code": "COMMON-409-IDEMPOTENCY_CONFLICT",
+      "http": 409,
+      "request_id": "e88c1291-be8a-4205-9ba0-feb0b4a82c24"
+    }
+  },
+  "my_claims": {
+    "http": 200,
+    "request_id": "acbab479-14a8-46f1-87a6-e97255ac8f63"
+  },
+  "not_found_rejection": {
+    "code": "COMMON-404-NOT_FOUND",
+    "http": 404,
+    "request_id": "4e4318bd-ce06-45d6-8678-3b5871c46cf9"
+  },
+  "password_login": {
+    "http": 200,
+    "request_id": "17796e55-6098-4282-b6de-8a6337649e37"
+  },
+  "platform_status": {
+    "http": 200,
+    "red_packet": true,
+    "request_id": "3df488f8-5642-4318-8d8b-e3d38d7b00ac"
+  },
+  "registration": {
+    "account": "redacted isolated fixture",
+    "http": 200,
+    "request_id": "a209519e-e34f-4005-871d-6ae5cd8e71d8"
+  },
+  "release": "R22",
+  "secrets_in_report": false,
+  "server_timer": {
+    "accumulated_seconds": 20,
+    "client_elapsed_ignored": 9999,
+    "request_ids": [
+      "48f6c369-54d7-4c50-8385-3654e6552a83",
+      "9186173d-b48a-4d2c-854a-ada148875e01",
+      "530bddaa-34ec-47f2-accc-211a7954314a"
+    ],
+    "required_seconds": 20,
+    "statuses": [
+      "VIEWING",
+      "VIEWING",
+      "VIEW_COMPLETE"
+    ]
+  },
+  "source_commit": "e10d705bebd5bfdae9fa8ef2c9b1bff3fc764508",
+  "status": "PASS",
+  "test_data": "one isolated account; one 2-cent campaign; one 1-cent pending claim",
+  "verified_at_epoch": 1786012398,
+  "view_session": {
+    "idempotent_replay": "PASS",
+    "request_id": "1f27bfa0-d594-41e3-91d7-ee69bbca4077",
+    "status": "VIEWING"
+  }
+}
