@@ -99,6 +99,29 @@ fun R22RedPacketHomeScreen(
                 R22Panel("红包聚合") {
                     Text("完成 20 秒有效浏览后领取红包", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
                     Text("活动状态、金额与剩余名额均以服务端返回为准。", color = HhyColors.TextSecondary)
+                    if (items.isNotEmpty()) {
+                        val featured = items.first()
+                        Surface(
+                            modifier = Modifier.fillMaxWidth(),
+                            color = HhyColors.WarningSoft,
+                            shape = RoundedCornerShape(HhyRadius.Tag),
+                        ) {
+                            Row(
+                                Modifier.fillMaxWidth().padding(HhySpacing.Md),
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.SpaceBetween,
+                            ) {
+                                Column(verticalArrangement = Arrangement.spacedBy(HhySpacing.Xs)) {
+                                    Text("当前红包", color = HhyColors.TextSecondary, style = MaterialTheme.typography.bodySmall)
+                                    Text(r22Money(featured.amountPerClaimCent), color = HhyColors.RewardRed, style = MaterialTheme.typography.headlineSmall, fontWeight = FontWeight.Bold)
+                                }
+                                Column(horizontalAlignment = Alignment.End, verticalArrangement = Arrangement.spacedBy(HhySpacing.Xs)) {
+                                    Text("剩余名额", color = HhyColors.TextSecondary, style = MaterialTheme.typography.bodySmall)
+                                    Text("${featured.remainingCount} / ${featured.totalCount}", fontWeight = FontWeight.Bold)
+                                }
+                            }
+                        }
+                    }
                 }
             }
             item {
@@ -160,10 +183,30 @@ fun R22RedPacketEligibilityScreen(
                     failure != null -> R22Panel("无法确认资格") { Text("请检查网络后重试", color = HhyColors.Error); OutlinedButton(onClick = ::load) { Text("重试") } }
                     item != null -> {
                         R22Panel("活动信息") {
-                            Text("活动 ${item!!.id}", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
-                            Text("单个红包 ${r22Money(item!!.amountPerClaimCent)}", color = HhyColors.BrandPrimary)
-                            Text("剩余 ${item!!.remainingCount} / ${item!!.totalCount} 个")
-                            Text("有效浏览 20 秒 · 需要已完成实名认证", color = HhyColors.TextSecondary)
+                            val campaign = item!!
+                            Text("活动 ${campaign.id}", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
+                            Surface(
+                                modifier = Modifier.fillMaxWidth(),
+                                color = HhyColors.WarningSoft,
+                                shape = RoundedCornerShape(HhyRadius.Tag),
+                            ) {
+                                Row(
+                                    Modifier.fillMaxWidth().padding(HhySpacing.Md),
+                                    verticalAlignment = Alignment.CenterVertically,
+                                    horizontalArrangement = Arrangement.SpaceBetween,
+                                ) {
+                                    Column(verticalArrangement = Arrangement.spacedBy(HhySpacing.Xs)) {
+                                        Text("单个红包", color = HhyColors.TextSecondary, style = MaterialTheme.typography.bodySmall)
+                                        Text(r22Money(campaign.amountPerClaimCent), color = HhyColors.RewardRed, style = MaterialTheme.typography.headlineSmall, fontWeight = FontWeight.Bold)
+                                    }
+                                    Column(horizontalAlignment = Alignment.End, verticalArrangement = Arrangement.spacedBy(HhySpacing.Xs)) {
+                                        Text("剩余名额", color = HhyColors.TextSecondary, style = MaterialTheme.typography.bodySmall)
+                                        Text("${campaign.remainingCount} / ${campaign.totalCount}", fontWeight = FontWeight.Bold)
+                                    }
+                                }
+                            }
+                            R22MetricRow("浏览要求", "20 秒有效浏览")
+                            R22MetricRow("资格校验", "实名认证、库存与重复领取")
                         }
                     }
                 }
@@ -277,14 +320,33 @@ fun R22RedPacketTaskScreen(
         LazyColumn(Modifier.fillMaxSize().background(HhyColors.PageBackground).padding(padding), contentPadding = PaddingValues(HhySpacing.Lg), verticalArrangement = Arrangement.spacedBy(HhySpacing.Md)) {
             item {
                 R22Panel("任务进度") {
-                    Text("活动 ${item?.id ?: campaignId}", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
-                    Text("服务器状态：${session?.status ?: "READY"}", fontWeight = FontWeight.SemiBold)
                     val required = session?.requiredSeconds ?: 20L
                     val accumulated = session?.accumulatedSeconds ?: 0L
-                    Text("服务端有效浏览 ${accumulated.coerceIn(0L, required)} / $required 秒", color = HhyColors.BrandPrimary)
+                    Text("活动 ${item?.id ?: campaignId}", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
+                    Surface(
+                        modifier = Modifier.fillMaxWidth(),
+                        color = if (session?.status == "VIEWING") HhyColors.SoftBlue else HhyColors.SurfaceVariant,
+                        shape = RoundedCornerShape(HhyRadius.Tag),
+                    ) {
+                        Row(
+                            Modifier.fillMaxWidth().padding(HhySpacing.Md),
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                        ) {
+                            Column(verticalArrangement = Arrangement.spacedBy(HhySpacing.Xs)) {
+                                Text("服务器状态", color = HhyColors.TextSecondary, style = MaterialTheme.typography.bodySmall)
+                                Text(session?.status ?: "READY", color = HhyColors.BrandPrimary, fontWeight = FontWeight.Bold)
+                            }
+                            Column(horizontalAlignment = Alignment.End, verticalArrangement = Arrangement.spacedBy(HhySpacing.Xs)) {
+                                Text("服务端有效浏览", color = HhyColors.TextSecondary, style = MaterialTheme.typography.bodySmall)
+                                Text("${accumulated.coerceIn(0L, required)} / $required 秒", style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold)
+                            }
+                        }
+                    }
                     LinearProgressIndicator(progress = { (accumulated / required.toFloat()).coerceIn(0f, 1f) }, modifier = Modifier.fillMaxWidth())
-                    Text("最近心跳序号：${session?.lastHeartbeatSequence ?: "尚未开始"}", color = HhyColors.TextSecondary)
-                    Text("保持页面可见；是否完成由服务端心跳确认。", color = HhyColors.TextSecondary)
+                    R22MetricRow("最近心跳序号", "${session?.lastHeartbeatSequence ?: "尚未开始"}")
+                    R22MetricRow("页面可见性", "保持页面可见")
+                    Text("完成状态由服务端心跳确认，本地时间不会决定奖励。", color = HhyColors.TextSecondary, style = MaterialTheme.typography.bodySmall)
                 }
             }
             if (failure != null) item {
@@ -368,13 +430,28 @@ private fun R22Panel(title: String, content: @Composable () -> Unit) {
 
 @Composable
 private fun R22CampaignRow(item: R20RedPacketCampaignResource, onClick: () -> Unit) {
-    Row(Modifier.fillMaxWidth().padding(vertical = HhySpacing.Sm), verticalAlignment = Alignment.CenterVertically) {
+    Row(Modifier.fillMaxWidth().padding(vertical = HhySpacing.Md), verticalAlignment = Alignment.CenterVertically) {
         Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(HhySpacing.Xs)) {
             Text("活动 ${item.id}", fontWeight = FontWeight.SemiBold)
-            Text("剩余 ${item.remainingCount} 个 · ${r22Money(item.amountPerClaimCent)} / 个", color = HhyColors.TextSecondary)
-            Text("有效浏览 20 秒", color = HhyColors.TextSecondary, style = MaterialTheme.typography.bodySmall)
+            Row(horizontalArrangement = Arrangement.spacedBy(HhySpacing.Md)) {
+                Text(r22Money(item.amountPerClaimCent), color = HhyColors.RewardRed, fontWeight = FontWeight.Bold)
+                Text("剩余 ${item.remainingCount} / ${item.totalCount}", color = HhyColors.TextSecondary)
+            }
+            Text("有效浏览 20 秒 · ${item.status}", color = HhyColors.TextSecondary, style = MaterialTheme.typography.bodySmall)
         }
         Button(onClick = onClick) { Text("查看") }
+    }
+}
+
+@Composable
+private fun R22MetricRow(label: String, value: String) {
+    Row(
+        Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Text(label, color = HhyColors.TextSecondary)
+        Text(value, fontWeight = FontWeight.SemiBold)
     }
 }
 
