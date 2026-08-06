@@ -7,11 +7,9 @@
 
 ## 冷启动
 
-```bash
-python3 scripts/continuity.py resume
-```
-
-仓库是唯一上下文，对话不是事实源。任何 AI 只要取得完整仓库或受验证的 Handoff/Clean Export，即可读取当前任务、进度、修改、测试、决策和下一步。
+先读取仓库根 `AGENTS.md`，再读取目标版本 `releases/<Rxx>/`。仓库是唯一上下文，
+对话不是事实源；版本进度由连续关闭提交、Release 验收矩阵和交付证据判定。
+旧 Governance/Continuity 状态只保留为历史诊断材料。
 
 除非项目所有者明确报告未连接，否则冷启动必须假定 Codex 已连接 `obx-test` 且既有项目环境可用，并运行 `python3 scripts/verify_cloud_environment.py --check-android` 验证。失败只允许阻断并报告，禁止按无服务器状态继续或重建本地 Android SDK。
 
@@ -22,10 +20,9 @@ python3 scripts/continuity.py resume
 - `.continuity/CONTINUITY_POLICY.yaml`
 - `docs/03-continuity/持续开发无状态接续强制门禁_V1.2.3.md`
 - `docs/03-continuity/无状态接续运行手册_V1.2.3.md`
-- `CURRENT_STATUS.yaml`、`NEXT_TASK.yaml`
-- `artifacts/context/CURRENT_CONTEXT_PACK.md`
-- `scripts/continuity.py`
-- `scripts/check_v123_continuity.py`
+- `AGENTS.md`
+- `releases/R23/ACCEPTANCE_MATRIX.csv`
+- `releases/R24/RELEASE_MANIFEST.yaml`
 - `config/REPOSITORY_TRANSPORT.yaml`
 - `config/DEVELOPMENT_RUNTIME.yaml`
 - `scripts/verify_cloud_environment.py`
@@ -33,4 +30,4 @@ python3 scripts/continuity.py resume
 
 ## 状态
 
-`READY_FOR_FORMAL_DEVELOPMENT_WITH_ENFORCED_STATELESS_CONTINUITY`
+`R23_MACHINE_DELIVERED_R24_ACTIVE_DEVELOPMENT`

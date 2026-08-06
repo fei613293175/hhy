@@ -1,6 +1,9 @@
 release: R23
 title: 红包账本、数据与反作弊
-status: READY_WHEN_DEPENDENCIES_GREEN
+status: MACHINE_DELIVERED
+delivery_commit: 8c69354b92fe9b42b03a9cfe5f8d78613441ef88
+apk_source_commit: 6ee8ef50b68c0fe460c63afa4f2cb14375db4c32
+delivery_evidence: releases/R23/ACCEPTANCE_MATRIX.csv
 milestone: M3_INCENTIVES_FINANCE
 depends_on:
 - R22

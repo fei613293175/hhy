@@ -6,7 +6,7 @@
 
 V1.2.2 仍是产品、页面和运营施工基线；V1.2.3 在其上增加持续开发无状态接续强制门禁。项目可以不依赖任何旧对话，由完整仓库恢复任务、WIP、测试、CR、检查点和下一步。
 
-## 2. 新 AI / 新开发者第一条命令
+## 2. 新 AI / 新开发者第一步
 
 Windows 新电脑或首次接手先一次性配置受控 Git；命令会幂等写入用户级 `HHY_GIT_BIN` 与 `PATH`，不写凭据、不修改远端：
 
@@ -15,15 +15,12 @@ powershell -NoProfile -ExecutionPolicy Bypass -File scripts/configure_windows_gi
 powershell -NoProfile -ExecutionPolicy Bypass -File scripts/configure_windows_git_runtime.ps1 -Check
 ```
 
-随后恢复仓库事实：
+随后读取仓库根 `AGENTS.md`。当前开发入口以 Git 连续交付历史、目标版本 Release
+文件和验收证据为准；旧 `continuity.py resume`、Governance、Supervisor、Worker、
+`CURRENT_STATUS.yaml` 和 `NEXT_TASK.yaml` 只保留为历史诊断材料，不得再恢复为控制面。
 
-```bash
-python3 scripts/continuity.py resume
-```
-
-严格执行输出的唯一下一命令。不要先修改文件，也不要让用户重新解释需求。
-
-即使项目所有者只说“继续开发”，也必须由仓库恢复全部事实。继续前确认 Context Pack 的 `rule_readiness.status=PASS`，且所有必读规则来源均在 `source_manifest` 中具有 SHA-256；不得用 AI 的主观“已完全理解”代替这一证据。收到新规则时先检索并修订已有权威规则，禁止另建相同或相似的平行硬规则。
+当前连续交付基线为 R23，当前相邻开发版本为 R24。收到新规则时先检索并修订已有
+权威规则，禁止另建相同或相似的平行硬规则。
 
 随后必须验证项目云端既有环境：
 

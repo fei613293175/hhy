@@ -1,6 +1,11 @@
 release: R24
 title: 奖励账户与支付宝提现
-status: READY_WHEN_DEPENDENCIES_GREEN
+status: ACTIVE_DEVELOPMENT
+development_baseline: 8c69354b92fe9b42b03a9cfe5f8d78613441ef88
+dependency_evidence:
+  R05: HISTORICAL_CLOSED
+  R17: releases/R17/ACCEPTANCE_MATRIX.csv
+  R23: releases/R23/ACCEPTANCE_MATRIX.csv
 milestone: M3_INCENTIVES_FINANCE
 depends_on:
 - R05
