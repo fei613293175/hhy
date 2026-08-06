@@ -191,7 +191,7 @@ class R22RedPacketPostgresStoreTest {
         long ownerId = user(jdbc, true);
         long contentId = jdbc.queryForObject("""
                 INSERT INTO hhy.content_posts(owner_id,type,title,status)
-                VALUES (?,'PROJECT',?,'PUBLISHED') RETURNING id
+                VALUES (?,'PROJECT',?,'DRAFT') RETURNING id
                 """, Long.class, ownerId, "R22 integration " + suffix());
         return new Fixture(dataSource, jdbc, ownerId, contentId);
     }
