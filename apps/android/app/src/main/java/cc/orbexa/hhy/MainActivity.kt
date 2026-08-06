@@ -83,6 +83,8 @@ import cc.orbexa.hhy.network.UrlConnectionContractR10Api
 import cc.orbexa.hhy.network.UrlConnectionContractR11Api
 import cc.orbexa.hhy.network.UrlConnectionContractR12Api
 import cc.orbexa.hhy.network.UrlConnectionContractR12MeApi
+import cc.orbexa.hhy.network.ContractR24Api
+import cc.orbexa.hhy.network.UrlConnectionContractR24Api
 import cc.orbexa.hhy.network.UrlConnectionContractR12ProfileApi
 import cc.orbexa.hhy.network.UrlConnectionContractR13Api
 import cc.orbexa.hhy.network.UrlConnectionContractR14Api
@@ -311,6 +313,8 @@ internal sealed interface AuthenticatedRoute {
     @Serializable data class RedPacketTask(val campaignId: String) : AuthenticatedRoute
     @Serializable data object MyRedPackets : AuthenticatedRoute
     @Serializable data object Me : AuthenticatedRoute
+    @Serializable data object Rewards : AuthenticatedRoute
+    @Serializable data object RewardLedger : AuthenticatedRoute
     @Serializable data object Profile : AuthenticatedRoute
     @Serializable data object LoginDevices : AuthenticatedRoute
     @Serializable data object ChangePassword : AuthenticatedRoute
@@ -381,6 +385,7 @@ private fun AuthenticatedNavHost(
     val r11Api = remember { UrlConnectionContractR11Api(BuildConfig.API_BASE_URL) }
     val r12Api = remember { UrlConnectionContractR12Api(BuildConfig.API_BASE_URL) }
     val r12MeApi = remember { UrlConnectionContractR12MeApi(BuildConfig.API_BASE_URL) }
+    val r24Api = remember { UrlConnectionContractR24Api(BuildConfig.API_BASE_URL) }
     val r12ProfileApi = remember { UrlConnectionContractR12ProfileApi(BuildConfig.API_BASE_URL) }
     val r13Api = remember { UrlConnectionContractR13Api(BuildConfig.API_BASE_URL) }
     val r14Api = remember { UrlConnectionContractR14Api(BuildConfig.API_BASE_URL) }
@@ -462,12 +467,12 @@ private fun AuthenticatedNavHost(
                         launchSingleTop = true
                         restoreState = true
                     }
-                    HhyTopLevelDestination.MESSAGE -> navController.navigate(AuthenticatedRoute.Messages) {
+                    HhyTopLevelDestination.REWARD -> navController.navigate(AuthenticatedRoute.Rewards) {
                         popUpTo<AuthenticatedRoute.Home> { saveState = true }
                         launchSingleTop = true
                         restoreState = true
                     }
-                    HhyTopLevelDestination.REWARD -> navController.navigate(AuthenticatedRoute.RedPacketCampaigns) {
+                    HhyTopLevelDestination.MESSAGE -> navController.navigate(AuthenticatedRoute.Messages) {
                         popUpTo<AuthenticatedRoute.Home> { saveState = true }
                         launchSingleTop = true
                         restoreState = true
@@ -567,6 +572,18 @@ private fun AuthenticatedNavHost(
             popEnterTransition = { androidx.compose.animation.EnterTransition.None },
             popExitTransition = { androidx.compose.animation.ExitTransition.None },
         ) { rootContent() }
+        composable<AuthenticatedRoute.Rewards> {
+            R24RewardAccountScreen(
+                api = r12MeApi,
+                accessToken = authenticated.session.accessToken,
+                onBack = { navController.popBackStack() },
+                onOpenLedger = { navController.navigate(AuthenticatedRoute.RewardLedger) },
+                onRetry = { navController.navigate(AuthenticatedRoute.Rewards) { popUpTo<AuthenticatedRoute.Rewards> { inclusive = true } } },
+            )
+        }
+        composable<AuthenticatedRoute.RewardLedger> {
+            R24RewardLedgerScreen(api = r24Api, accessToken = authenticated.session.accessToken, onBack = { navController.popBackStack() })
+        }
         composable<AuthenticatedRoute.Messages>(
             enterTransition = { androidx.compose.animation.EnterTransition.None },
             exitTransition = { androidx.compose.animation.ExitTransition.None },

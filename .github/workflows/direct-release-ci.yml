@@ -84,12 +84,17 @@ jobs:
       - run: python scripts/check_r20_observability.py
       - run: python tests/test_r22_red_packet_contract.py
       - run: python tests/test_r23_red_packet_analytics_contract.py
+      - run: python scripts/check_ui_visual_acceptance.py --release R24 --catalog-only
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: '21'
           cache: maven
       - run: mvn -B -ntp -f services/backend/pom.xml test
+      - name: Run R24 database invariants
+        env:
+          DATABASE_URL: postgresql://hhy:hhy_ci_password@localhost:5432/hhy_ci
+        run: bash scripts/run_r24_database_invariants.sh
 
   android-build:
     name: Android build and unit tests
@@ -114,7 +119,7 @@ jobs:
           retention-days: 30
 
   android-emulator:
-    name: R23 Android emulator interactions
+    name: R24 Android emulator interactions
     runs-on: ubuntu-latest
     timeout-minutes: 45
     steps:
@@ -142,7 +147,7 @@ jobs:
             adb shell am force-stop com.google.android.apps.nexuslauncher || true
             adb shell input keyevent KEYCODE_BACK || true
             apps/android/gradlew -p apps/android --no-daemon --stacktrace :app:connectedDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=cc.orbexa.hhy.HistoricalVisualAuditTest :app:assembleDebug
-            mkdir -p artifacts/r22-emulator/r22-visual artifacts/reports/R20/visual/android artifacts/reports/R21/visual artifacts/reports/R22/visual artifacts/reports/R23/ui
+            mkdir -p artifacts/r22-emulator/r22-visual artifacts/reports/R20/visual/android artifacts/reports/R21/visual artifacts/reports/R22/visual artifacts/reports/R23/ui artifacts/reports/R24/ui
             adb pull /sdcard/Pictures/hhy-ci-screenshots/. artifacts/r22-emulator/r22-visual/
             test "$(find artifacts/r22-emulator/r22-visual -name '*-r20-scr-rp-adv-*.png' | wc -l)" -ge 4
             test "$(find artifacts/r22-emulator/r22-visual -name '*-r21-scr-rp-adv-*.png' | wc -l)" -ge 2

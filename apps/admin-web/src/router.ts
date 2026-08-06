@@ -30,6 +30,7 @@ import AdminRedPacketListPage from './views/AdminRedPacketListPage.vue'
 import AdminRedPacketReviewPage from './views/AdminRedPacketReviewPage.vue'
 import AdminRedPacketDetailPage from './views/AdminRedPacketDetailPage.vue'
 import AdminRedPacketRiskPage from './views/AdminRedPacketRiskPage.vue'
+import R24FinancePage from './views/R24FinancePage.vue'
 import { implementedAdminPageIds } from './adminNavigation'
 import { resolveAdminRouteRedirect } from './routerAccess'
 
@@ -59,6 +60,12 @@ export const router = createRouter({
     { path: '/red-packets/review', name: 'ADM-RP-003', component: AdminRedPacketReviewPage, meta: { requiresAuth: true, permission: 'redpacket.read' } },
     { path: '/red-packets/risk', name: 'ADM-RP-004', component: AdminRedPacketRiskPage, meta: { requiresAuth: true, permission: 'redpacket.read' } },
     { path: '/red-packets/:id', name: 'ADM-RP-002', component: AdminRedPacketDetailPage, meta: { requiresAuth: true, permission: 'redpacket.read' } },
+    { path: '/finance/reward-accounts', name: 'ADM-REWARD-001', component: R24FinancePage, props: { kind: 'rewards' }, meta: { requiresAuth: true, permission: 'reward.read' } },
+    { path: '/finance/reward-ledger', name: 'ADM-REWARD-002', component: R24FinancePage, props: { kind: 'ledger' }, meta: { requiresAuth: true, permission: 'reward.read' } },
+    { path: '/finance/withdrawals', name: 'ADM-WD-001', component: R24FinancePage, props: { kind: 'withdrawals' }, meta: { requiresAuth: true, permission: 'withdrawal.read' } },
+    { path: '/finance/withdrawals/:id', name: 'ADM-WD-002', component: R24FinancePage, props: { kind: 'withdrawals', detail: true }, meta: { requiresAuth: true, permission: 'withdrawal.read' } },
+    { path: '/finance/accounting/transactions', name: 'ADM-ACCOUNTING-001', component: R24FinancePage, props: { kind: 'accounting' }, meta: { requiresAuth: true, permission: 'accounting.read' } },
+    { path: '/finance/accounting/transactions/:id', name: 'ADM-ACCOUNTING-002', component: R24FinancePage, props: { kind: 'accounting', detail: true }, meta: { requiresAuth: true, permission: 'accounting.read' } },
     { path: '/commerce/orders', name: 'ADM-ORDER-001', component: CommerceOrdersPage, meta: { requiresAuth: true, permission: 'order.read' } },
     { path: '/commerce/payments', name: 'ADM-PAY-001', component: AdminPaymentsPage, props: { mode: 'payments' }, meta: { requiresAuth: true, permission: 'payment.read' } },
     { path: '/commerce/reconciliation', name: 'ADM-RECON-001', component: AdminPaymentsPage, props: { mode: 'reconciliation' }, meta: { requiresAuth: true, permission: 'payment.reconcile' } },
