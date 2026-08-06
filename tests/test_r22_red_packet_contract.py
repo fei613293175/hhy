@@ -95,9 +95,16 @@ class R22RedPacketContractTest(unittest.TestCase):
         integration = POSTGRES_TEST.read_text(encoding="utf-8")
         self.assertIn('releaseReservation(connection, session, "RELEASED"', store)
         for marker in (
-            "concurrentReservationNeverOversellsAndCancelReleasesStock",
+            "concurrentHundredRequestsNeverOversellOrDuplicateSettlement",
             "serverClockClaimReplayAndDuplicateClaimUseDurableInvariants",
             "identityRejectionAndTimeoutRecoveryReleaseTheReservedSlot",
+            "CLIENT_REQUESTS = 100",
+            "DATABASE_SLOTS = 12",
+            "Semaphore",
+            "claims.forEach(replay -> assertEquals(claimed, replay))",
+            "Kind.CONFLICT",
+            "new ClaimRequest(\"nonce-claim\", 2)",
+            "outbox_events",
         ):
             with self.subTest(marker=marker):
                 self.assertIn(marker, integration)

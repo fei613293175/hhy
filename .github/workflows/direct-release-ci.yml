@@ -67,6 +67,7 @@ jobs:
       - run: pip install PyYAML==6.0.2
       - run: python scripts/check_r19_observability.py
       - run: python scripts/check_r20_observability.py
+      - run: python tests/test_r22_red_packet_contract.py
       - uses: actions/setup-java@v4
         with:
           distribution: temurin

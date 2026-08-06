@@ -16,6 +16,7 @@ import java.sql.Timestamp;
 import java.time.Clock;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -23,6 +24,7 @@ import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
 import org.flywaydb.core.Flyway;
 import org.junit.jupiter.api.Assumptions;
@@ -33,52 +35,97 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.transaction.support.TransactionTemplate;
 
 class R22RedPacketPostgresStoreTest {
+    private static final int CLIENT_REQUESTS = 100;
+    private static final int DATABASE_SLOTS = 12;
+
     @Test
-    void concurrentReservationNeverOversellsAndCancelReleasesStock() throws Exception {
+    void concurrentHundredRequestsNeverOversellOrDuplicateSettlement() throws Exception {
         Fixture fixture = fixture();
         Instant base = Instant.now().truncatedTo(ChronoUnit.SECONDS);
         long campaignId = fixture.campaign(1, base);
-        long firstUser = fixture.user(true);
-        long secondUser = fixture.user(true);
-        CyclicBarrier barrier = new CyclicBarrier(2);
-        ExecutorService executor = Executors.newFixedThreadPool(2);
-        List<Future<Attempt>> futures;
+        List<Long> users = new ArrayList<>(CLIENT_REQUESTS);
+        for (int i = 0; i < CLIENT_REQUESTS; i++) users.add(fixture.user(true));
+        CyclicBarrier barrier = new CyclicBarrier(CLIENT_REQUESTS);
+        Semaphore databaseSlots = new Semaphore(DATABASE_SLOTS);
+        ExecutorService executor = Executors.newFixedThreadPool(CLIENT_REQUESTS);
         try {
-            futures = List.of(
-                    executor.submit(() -> fixture.startAttempt(firstUser, campaignId, base, barrier)),
-                    executor.submit(() -> fixture.startAttempt(secondUser, campaignId, base, barrier)));
-            Attempt first = futures.get(0).get(30, TimeUnit.SECONDS);
-            Attempt second = futures.get(1).get(30, TimeUnit.SECONDS);
-            List<Attempt> successes = List.of(first, second).stream()
+            List<Future<Attempt>> futures = users.stream()
+                    .map(userId -> executor.submit(
+                            () -> fixture.startAttempt(userId, campaignId, base, barrier, databaseSlots)))
+                    .toList();
+            List<Attempt> attempts = new ArrayList<>(CLIENT_REQUESTS);
+            for (Future<Attempt> future : futures) attempts.add(future.get(60, TimeUnit.SECONDS));
+            List<Attempt> successes = attempts.stream()
                     .filter(attempt -> attempt.result() != null).toList();
-            List<Attempt> failures = List.of(first, second).stream()
+            List<Attempt> failures = attempts.stream()
                     .filter(attempt -> attempt.failure() != null).toList();
             assertEquals(1, successes.size());
-            assertEquals(1, failures.size());
-            assertEquals(Kind.STOCK_EXHAUSTED, failures.getFirst().failure());
+            assertEquals(CLIENT_REQUESTS - 1, failures.size());
+            assertEquals(CLIENT_REQUESTS - 1, failures.stream()
+                    .filter(attempt -> attempt.failure() == Kind.STOCK_EXHAUSTED).count());
             assertStock(fixture, campaignId, 1, 0, 1);
+            assertEquals(1L, fixture.count(
+                    "SELECT count(*) FROM hhy.red_packet_view_sessions WHERE campaign_id=?", campaignId));
+            assertEquals(1L, fixture.count(
+                    "SELECT count(*) FROM hhy.red_packet_reservations WHERE campaign_id=? AND status='LOCKED'",
+                    campaignId));
+            assertEquals(1L, fixture.count(
+                    "SELECT count(*) FROM hhy.outbox_events WHERE aggregate_type='red_packet_view_session' "
+                            + "AND event_type='red.packet.view.started.v1' AND aggregate_id IN "
+                            + "(SELECT id::text FROM hhy.red_packet_view_sessions WHERE campaign_id=?)",
+                    campaignId));
 
             Attempt winner = successes.getFirst();
-            CommandResultResource cancelled = fixture.store(base.plusSeconds(1)).cancel(
-                    command(winner.userId(), "cancel-winner"),
-                    Long.parseLong(winner.result().resourceId()), new CancelRequest("USER_LEFT"),
-                    hash("cancel-winner"));
-            assertEquals("CANCELLED", cancelled.status());
-            assertEquals("RELEASED", fixture.jdbc().queryForObject(
-                    "SELECT status FROM hhy.red_packet_reservations WHERE session_id=?",
-                    String.class, Long.parseLong(winner.result().resourceId())));
-            assertStock(fixture, campaignId, 1, 0, 0);
+            long sessionId = Long.parseLong(winner.result().resourceId());
+            CommandResultResource complete = fixture.store(base.plusSeconds(30)).heartbeat(
+                    command(winner.userId(), "heartbeat-concurrent"), sessionId,
+                    new HeartbeatRequest(1, 1, true), hash("heartbeat-concurrent"));
+            assertEquals("VIEW_COMPLETE", complete.status());
 
-            long retryUser = failures.getFirst().userId();
-            CommandResultResource retry = fixture.store(base.plusSeconds(2)).startViewSession(
-                    command(retryUser, "start-retry"), campaignId,
-                    new ViewSessionRequest("nonce-retry", "android-ci"), hash("start-retry"));
-            assertEquals("VIEWING", retry.status());
-            assertStock(fixture, campaignId, 1, 0, 1);
-            fixture.store(base.plusSeconds(3)).cancel(
-                    command(retryUser, "cancel-retry"), Long.parseLong(retry.resourceId()),
-                    new CancelRequest("TEST_CLEANUP"), hash("cancel-retry"));
-            assertStock(fixture, campaignId, 1, 0, 0);
+            UserCommand claimCommand = command(winner.userId(), "claim-concurrent");
+            ClaimRequest claimRequest = new ClaimRequest("nonce-" + winner.userId(), 1);
+            CyclicBarrier claimBarrier = new CyclicBarrier(CLIENT_REQUESTS);
+            List<Future<CommandResultResource>> claimFutures = new ArrayList<>(CLIENT_REQUESTS);
+            for (int i = 0; i < CLIENT_REQUESTS; i++) {
+                claimFutures.add(executor.submit(() -> {
+                    claimBarrier.await(60, TimeUnit.SECONDS);
+                    databaseSlots.acquire();
+                    try {
+                        return fixture.store(base.plusSeconds(31)).claim(
+                                claimCommand, sessionId, claimRequest, hash("claim-concurrent"));
+                    } finally {
+                        databaseSlots.release();
+                    }
+                }));
+            }
+            List<CommandResultResource> claims = new ArrayList<>(CLIENT_REQUESTS);
+            for (Future<CommandResultResource> future : claimFutures) {
+                claims.add(future.get(60, TimeUnit.SECONDS));
+            }
+            CommandResultResource claimed = claims.getFirst();
+            claims.forEach(replay -> assertEquals(claimed, replay));
+            long claimId = Long.parseLong(claimed.resourceId());
+            assertEquals("PENDING", claimed.status());
+            assertStock(fixture, campaignId, 1, 1, 0);
+            assertEquals(1L, fixture.count(
+                    "SELECT count(*) FROM hhy.red_packet_claims WHERE campaign_id=? AND user_id=?",
+                    campaignId, winner.userId()));
+            assertEquals(1L, fixture.count(
+                    "SELECT count(*) FROM hhy.outbox_events WHERE aggregate_type='red_packet_claim' "
+                            + "AND aggregate_id=? AND event_type='red.packet.claim.created.v1'",
+                    Long.toString(claimId)));
+            assertEquals(0L, fixture.count(
+                    "SELECT count(*) FROM hhy.red_packet_ledger WHERE campaign_id=?", campaignId));
+            assertEquals(0L, fixture.count(
+                    "SELECT count(*) FROM hhy.reward_ledger WHERE biz_id=?", claimId));
+            assertEquals(0L, fixture.count(
+                    "SELECT count(*) FROM hhy.balance_snapshots WHERE available_cent < 0 OR frozen_cent < 0"));
+
+            StoreException changedRequest = assertThrows(StoreException.class, () ->
+                    fixture.store(base.plusSeconds(32)).claim(
+                            claimCommand, sessionId,
+                            new ClaimRequest("nonce-" + winner.userId(), 2), hash("claim-concurrent-changed")));
+            assertEquals(Kind.CONFLICT, changedRequest.kind());
         } finally {
             executor.shutdownNow();
         }
@@ -124,6 +171,16 @@ class R22RedPacketPostgresStoreTest {
         assertEquals(1L, fixture.count(
                 "SELECT count(*) FROM hhy.red_packet_claims WHERE campaign_id=? AND user_id=?",
                 campaignId, userId));
+        assertEquals(1L, fixture.count(
+                "SELECT count(*) FROM hhy.outbox_events WHERE aggregate_type='red_packet_claim' "
+                        + "AND aggregate_id=? AND event_type='red.packet.claim.created.v1'",
+                claimed.resourceId()));
+
+        StoreException changedRequest = assertThrows(StoreException.class, () ->
+                fixture.store(base.plusSeconds(33)).claim(
+                        claimCommand, sessionId,
+                        new ClaimRequest("nonce-claim", 2), hash("claim-ok-changed")));
+        assertEquals(Kind.CONFLICT, changedRequest.kind());
 
         CommandResultResource duplicateSession = fixture.store(base.plusSeconds(33)).startViewSession(
                 command(userId, "start-duplicate"), campaignId,
@@ -276,9 +333,11 @@ class R22RedPacketPostgresStoreTest {
                     dataSource, new Codec(), Clock.fixed(instant, java.time.ZoneOffset.UTC));
         }
 
-        Attempt startAttempt(long userId, long campaignId, Instant instant, CyclicBarrier barrier)
+        Attempt startAttempt(
+                long userId, long campaignId, Instant instant, CyclicBarrier barrier, Semaphore databaseSlots)
                 throws Exception {
-            barrier.await(10, TimeUnit.SECONDS);
+            barrier.await(60, TimeUnit.SECONDS);
+            databaseSlots.acquire();
             try {
                 CommandResultResource result = store(instant).startViewSession(
                         command(userId, "start-concurrent"), campaignId,
@@ -287,6 +346,8 @@ class R22RedPacketPostgresStoreTest {
                 return new Attempt(userId, result, null);
             } catch (StoreException failure) {
                 return new Attempt(userId, null, failure.kind());
+            } finally {
+                databaseSlots.release();
             }
         }
 
