@@ -10,7 +10,7 @@ Source scope: `releases/R22/STORIES.yaml`, `releases/R22/TASKS.yaml`, and requir
 | STORY-R22-004 | Contract, migration, config, testing, observability and handoff | IMPLEMENTED | Flyway v055 deployment evidence, local 6/6 contract tests, CI backend/web/android/emulator PASS, reports in this directory |
 | TASK-R22-005 | Duplicate/concurrency/timeout/message-duplicate/provider fault tests | IMPLEMENTED | CI backend and emulator suites; public idempotency conflict and replay evidence |
 | TASK-R22-006 | Staging observability, trace/request IDs, metrics and rollback | IMPLEMENTED | public request IDs, migration/deployment and rollback report |
-| TASK-R22-007 | Signed APK, identity and install/launch evidence | BLOCKED — physical-device acceptance is external | APK identity and CI emulator evidence exist in `APK_MANIFEST.md`; install/launch evidence on an owner device is absent |
-| TASK-R22-008 | Version closure and stateless handoff | BLOCKED — depends on TASK-R22-007 | This evidence package is ready, but version closure cannot be claimed while the required physical-device gate remains blocked |
+| TASK-R22-007 | Signed APK, identity and install/launch evidence | IMPLEMENTED | APK identity is in `APK_MANIFEST.md`; owner physical-device acceptance is in `OWNER_DEVICE_ACCEPTANCE.md` |
+| TASK-R22-008 | Version closure and stateless handoff | IMPLEMENTED | feature comparison, tests, visual evidence, APK identity, deployment/rollback and owner acceptance are committed with the closure |
 
-No R22 item is deferred. Physical-device verification is explicitly an external owner check and is not represented as PASS; therefore R22 itself remains open.
+No R22 item is deferred or blocked. Owner physical-device verification is recorded separately and is not substituted by emulator evidence.

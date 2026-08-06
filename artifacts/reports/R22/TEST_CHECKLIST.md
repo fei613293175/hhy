@@ -12,4 +12,4 @@
 | Idempotency | session/claim/cancel replay and start/claim conflicts | Public owner-test | PASS | `public-validation.json` |
 | Database facts | Flyway 055, stock/session/claim facts | Public PostgreSQL | PASS | `public-validation.json` database_facts |
 | Visual | four bound page screenshots compared | GitHub Actions Pixel 7 API 35 | PASS | `visual/SCREENSHOT_COMPARISON.md` and PNGs |
-| Physical device | install/launch and owner acceptance | Owner device | BLOCKED | No physical device evidence supplied; must remain explicit |
+| Physical device | install/launch and owner acceptance | Owner physical device | PASS | `OWNER_DEVICE_ACCEPTANCE.md`; owner attestation dated 2026-08-06 |
