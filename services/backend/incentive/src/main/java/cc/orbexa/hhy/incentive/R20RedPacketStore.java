@@ -79,6 +79,15 @@ public interface R20RedPacketStore {
     CampaignResource review(
             AdminCommand command, long campaignId, AdminReviewRequest request, String requestHash);
 
+    CampaignResource adminPause(
+            AdminCommand command, long campaignId, LifecycleRequest request, String requestHash);
+
+    CampaignResource adminResume(
+            AdminCommand command, long campaignId, LifecycleRequest request, String requestHash);
+
+    CampaignResource adminTerminate(
+            AdminCommand command, long campaignId, LifecycleRequest request, String requestHash);
+
     record PageQuery(
             int page, int pageSize, long offset, String status, String keyword, String sort) { }
 

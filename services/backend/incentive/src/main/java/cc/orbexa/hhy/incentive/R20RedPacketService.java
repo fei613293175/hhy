@@ -346,6 +346,46 @@ public final class R20RedPacketService {
                 command, campaignId, normalized, hash(command.operationId(), actor.adminId(), normalized)));
     }
 
+    public CampaignResource adminPause(
+            AdminCommand actor, String id, LifecycleRequest request, String idempotencyKey) {
+        return adminLifecycle(actor, id, request, idempotencyKey,
+                "adminRedPacketPostRedPacketCampaignsByIdPause", "PAUSE");
+    }
+
+    public CampaignResource adminResume(
+            AdminCommand actor, String id, LifecycleRequest request, String idempotencyKey) {
+        return adminLifecycle(actor, id, request, idempotencyKey,
+                "adminRedPacketPostRedPacketCampaignsByIdResume", "RESUME");
+    }
+
+    public CampaignResource adminTerminate(
+            AdminCommand actor, String id, LifecycleRequest request, String idempotencyKey) {
+        return adminLifecycle(actor, id, request, idempotencyKey,
+                "adminRedPacketPostRedPacketCampaignsByIdTerminate", "TERMINATE");
+    }
+
+    private CampaignResource adminLifecycle(
+            AdminCommand actor, String id, LifecycleRequest request, String idempotencyKey,
+            String operation, String kind) {
+        if (actor == null || actor.adminId() < 1 || actor.sessionId() < 1) throw validation("管理员身份无效");
+        key(idempotencyKey);
+        if (request == null || request.expectedVersion() == null || request.expectedVersion() < 0) {
+            throw validation("expectedVersion不符合要求");
+        }
+        String reason = optional(request.reason(), 2000, "原因");
+        if ("TERMINATE".equals(kind) && reason == null) throw validation("平台终止必须说明原因");
+        LifecycleRequest normalized = new LifecycleRequest(reason, request.expectedVersion());
+        AdminCommand command = new AdminCommand(actor.adminId(), actor.sessionId(), actor.username(),
+                operation, actor.requestId(), actor.ip(), idempotencyKey);
+        long campaignId = id(id, "红包活动");
+        return execute(() -> switch (kind) {
+            case "PAUSE" -> store.adminPause(command, campaignId, normalized, hash(operation, actor.adminId(), normalized));
+            case "RESUME" -> store.adminResume(command, campaignId, normalized, hash(operation, actor.adminId(), normalized));
+            case "TERMINATE" -> store.adminTerminate(command, campaignId, normalized, hash(operation, actor.adminId(), normalized));
+            default -> throw new IllegalArgumentException("unsupported admin lifecycle");
+        });
+    }
+
     private static CreateRequest normalizeCreate(CreateRequest request) {
         if (request == null) throw validation("红包活动不能为空");
         String contentId = required(request.contentId(), 64, "内容");

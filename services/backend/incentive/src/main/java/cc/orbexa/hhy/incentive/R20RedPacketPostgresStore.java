@@ -861,6 +861,65 @@ public final class R20RedPacketPostgresStore implements R20RedPacketStore {
         });
     }
 
+    @Override
+    public CampaignResource adminPause(
+            AdminCommand command, long campaignId, LifecycleRequest request, String requestHash) {
+        return adminTransition(command, campaignId, request, requestHash,
+                "ACTIVE", "PAUSED_BY_RISK", "PLATFORM_PAUSE");
+    }
+
+    @Override
+    public CampaignResource adminResume(
+            AdminCommand command, long campaignId, LifecycleRequest request, String requestHash) {
+        return adminTransition(command, campaignId, request, requestHash,
+                "PAUSED_BY_RISK", "ACTIVE", "PLATFORM_RESUME");
+    }
+
+    @Override
+    public CampaignResource adminTerminate(
+            AdminCommand command, long campaignId, LifecycleRequest request, String requestHash) {
+        return adminTransition(command, campaignId, request, requestHash,
+                null, "TERMINATED_BY_PLATFORM", "PLATFORM_TERMINATE");
+    }
+
+    private CampaignResource adminTransition(
+            AdminCommand command, long campaignId, LifecycleRequest request, String requestHash,
+            String from, String to, String event) {
+        return transaction(connection -> {
+            String scope = "r20rp:admin:" + command.adminId() + ":" + command.operationId();
+            Idempotency claim = claim(connection, scope, command.idempotencyKey(), requestHash);
+            if (claim.responseRef() != null) return resource(connection, parse(claim.responseRef()), 0, true);
+            CampaignHead current = campaign(connection, campaignId, 0, true, true);
+            if (current.version() != request.expectedVersion()) throw conflict("红包活动版本已变化");
+            if (from != null && !from.equals(current.status())) throw rule("当前红包活动状态不支持该操作");
+            if ("TERMINATED_BY_PLATFORM".equals(current.status())) throw rule("红包活动已被平台终止");
+            Map<String, Object> before = Map.of("status", current.status(), "version", current.version());
+            try (PreparedStatement statement = connection.prepareStatement(
+                    "UPDATE hhy.red_packet_campaigns SET status=?,owner_action=?,owner_action_reason=?,owner_action_at=?,version=version+1,updated_at=clock_timestamp() WHERE id=? AND version=?")) {
+                statement.setString(1, to); statement.setString(2, event); statement.setString(3, request.reason());
+                statement.setObject(4, time(now())); statement.setLong(5, campaignId); statement.setLong(6, request.expectedVersion());
+                if (statement.executeUpdate() != 1) throw conflict("红包活动版本已变化");
+            }
+            CampaignResource result = resource(connection, campaignId, 0, true);
+            audit(connection, command, campaignId, event, before, Map.of("status", result.status(), "version", result.version()));
+            complete(connection, claim.id(), Long.toString(campaignId));
+            outbox(connection, campaignId, "red_packet_campaign", "red.packet.campaign." + event.toLowerCase() + ".v1",
+                    Map.of("campaignId", campaignId, "adminId", command.adminId(), "reason", request.reason() == null ? "" : request.reason()));
+            return result;
+        });
+    }
+
+    private void audit(Connection connection, AdminCommand command, long campaignId, String action,
+                       Map<String, Object> before, Map<String, Object> after) throws SQLException {
+        try (PreparedStatement statement = connection.prepareStatement(
+                "INSERT INTO hhy.admin_operation_logs(admin_id,action,resource,resource_id,before_json,after_json,ip) VALUES (?,?,?,?,?::jsonb,?::jsonb,?)")) {
+            statement.setLong(1, command.adminId()); statement.setString(2, action);
+            statement.setString(3, "red_packet_campaign"); statement.setLong(4, campaignId);
+            statement.setString(5, codec.json(before)); statement.setString(6, codec.json(after)); statement.setString(7, command.ip());
+            statement.executeUpdate();
+        }
+    }
+
     private PageSlice<CampaignResource> page(PageQuery query, String ownerClause, List<Object> ownerArgs) {
         return page(query, ownerClause, ownerArgs, false);
     }

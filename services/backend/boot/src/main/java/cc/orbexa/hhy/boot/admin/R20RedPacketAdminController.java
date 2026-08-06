@@ -88,6 +88,33 @@ public class R20RedPacketAdminController {
         return success(request, service.review(actor(principal, key, request), id, body, key));
     }
 
+    @PostMapping("/red-packet-campaigns/{id}/pause")
+    @PreAuthorize("hasAuthority('redpacket.manage')")
+    public ApiResponse<CampaignResource> adminRedPacketPostRedPacketCampaignsByIdPause(
+            @AuthenticationPrincipal AdminPrincipal principal, @PathVariable @Pattern(regexp = ID) String id,
+            @Valid @RequestBody cc.orbexa.hhy.incentive.R20RedPacketContracts.LifecycleRequest body,
+            @RequestHeader("X-Idempotency-Key") @NotBlank @Size(min = 16, max = 128) String key, HttpServletRequest request) {
+        return success(request, service.adminPause(actor(principal, key, request), id, body, key));
+    }
+
+    @PostMapping("/red-packet-campaigns/{id}/resume")
+    @PreAuthorize("hasAuthority('redpacket.manage')")
+    public ApiResponse<CampaignResource> adminRedPacketPostRedPacketCampaignsByIdResume(
+            @AuthenticationPrincipal AdminPrincipal principal, @PathVariable @Pattern(regexp = ID) String id,
+            @Valid @RequestBody cc.orbexa.hhy.incentive.R20RedPacketContracts.LifecycleRequest body,
+            @RequestHeader("X-Idempotency-Key") @NotBlank @Size(min = 16, max = 128) String key, HttpServletRequest request) {
+        return success(request, service.adminResume(actor(principal, key, request), id, body, key));
+    }
+
+    @PostMapping("/red-packet-campaigns/{id}/terminate")
+    @PreAuthorize("hasAuthority('redpacket.terminate')")
+    public ApiResponse<CampaignResource> adminRedPacketPostRedPacketCampaignsByIdTerminate(
+            @AuthenticationPrincipal AdminPrincipal principal, @PathVariable @Pattern(regexp = ID) String id,
+            @Valid @RequestBody cc.orbexa.hhy.incentive.R20RedPacketContracts.LifecycleRequest body,
+            @RequestHeader("X-Idempotency-Key") @NotBlank @Size(min = 16, max = 128) String key, HttpServletRequest request) {
+        return success(request, service.adminTerminate(actor(principal, key, request), id, body, key));
+    }
+
     private AdminCommand actor(AdminPrincipal principal, String key, HttpServletRequest request) {
         return new AdminCommand(
                 principal.adminId(), principal.sessionId(), principal.username(),

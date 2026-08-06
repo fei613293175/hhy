@@ -5,9 +5,11 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import cc.orbexa.hhy.incentive.R20RedPacketContracts.CancelRequest;
+import cc.orbexa.hhy.incentive.R20RedPacketContracts.AdminCommand;
 import cc.orbexa.hhy.incentive.R20RedPacketContracts.ClaimRequest;
 import cc.orbexa.hhy.incentive.R20RedPacketContracts.CommandResultResource;
 import cc.orbexa.hhy.incentive.R20RedPacketContracts.HeartbeatRequest;
+import cc.orbexa.hhy.incentive.R20RedPacketContracts.LifecycleRequest;
 import cc.orbexa.hhy.incentive.R20RedPacketContracts.UserCommand;
 import cc.orbexa.hhy.incentive.R20RedPacketContracts.ViewSessionRequest;
 import cc.orbexa.hhy.incentive.R20RedPacketStore.Kind;
@@ -236,6 +238,36 @@ class R22RedPacketPostgresStoreTest {
         assertStock(fixture, campaignId, 1, 0, 0);
     }
 
+    @Test
+    void platformLifecycleIsAuditedIdempotentAndNeverUsesOwnerScope() {
+        Fixture fixture = fixture();
+        Instant base = Instant.now().truncatedTo(ChronoUnit.SECONDS);
+        long campaignId = fixture.campaign(3, base);
+        AdminCommand pause = adminCommand("pause");
+        LifecycleRequest pauseRequest = new LifecycleRequest("风控命中", 0L);
+        var paused = fixture.store(base).adminPause(pause, campaignId, pauseRequest, hash("admin-pause"));
+        assertEquals("PAUSED_BY_RISK", paused.status());
+        assertEquals(paused, fixture.store(base.plusSeconds(1)).adminPause(
+                pause, campaignId, pauseRequest, hash("admin-pause")));
+        assertEquals(1L, fixture.count(
+                "SELECT count(*) FROM hhy.admin_operation_logs WHERE action='PLATFORM_PAUSE' AND resource_id=?", campaignId));
+        assertEquals(1L, fixture.count(
+                "SELECT count(*) FROM hhy.outbox_events WHERE aggregate_id=? AND event_type='red.packet.campaign.platform_pause.v1'",
+                Long.toString(campaignId)));
+
+        var resumed = fixture.store(base.plusSeconds(2)).adminResume(
+                adminCommand("resume"), campaignId, new LifecycleRequest("已复核", paused.version()), hash("admin-resume"));
+        assertEquals("ACTIVE", resumed.status());
+        var terminated = fixture.store(base.plusSeconds(3)).adminTerminate(
+                adminCommand("terminate"), campaignId, new LifecycleRequest("确认违规且不退款", resumed.version()), hash("admin-terminate"));
+        assertEquals("TERMINATED_BY_PLATFORM", terminated.status());
+        assertEquals(3L, fixture.count(
+                "SELECT count(*) FROM hhy.admin_operation_logs WHERE resource='red_packet_campaign' AND resource_id=?", campaignId));
+        StoreException rejected = assertThrows(StoreException.class, () -> fixture.store(base.plusSeconds(4)).adminResume(
+                adminCommand("resume-after-terminate"), campaignId, new LifecycleRequest("错误恢复", terminated.version()), hash("admin-resume-terminated")));
+        assertEquals(Kind.BUSINESS_RULE, rejected.kind());
+    }
+
     private static Fixture fixture() {
         String url = System.getenv("HHY_DB_MIGRATION_TEST_URL");
         Assumptions.assumeTrue(url != null && !url.isBlank()
@@ -283,6 +315,12 @@ class R22RedPacketPostgresStoreTest {
         return new UserCommand(userId, "r22-" + operation + "-" + suffix,
                 "r22-idem-" + operation + "-" + suffix,
                 "r22-request-" + operation + "-" + suffix);
+    }
+
+    private static AdminCommand adminCommand(String operation) {
+        String suffix = suffix();
+        return new AdminCommand(99L, 199L, "r23-admin", "r23-admin-" + operation,
+                "r23-admin-request-" + suffix, "127.0.0.1", "r23-admin-idem-" + operation + "-" + suffix);
     }
 
     private static String hash(String value) {
