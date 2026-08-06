@@ -8,12 +8,12 @@ import org.junit.Test
 class VersionMetadataTest {
     @Test
     fun releaseAndContractVersionsRemainAligned() {
-        assertEquals("R22 owner test APK versionCode must remain monotonic", 10230, ReleasePolicy.VERSION_CODE)
+        assertEquals("R23 owner test APK versionCode must remain monotonic", 10230, ReleasePolicy.VERSION_CODE)
         assertEquals(BuildConfig.VERSION_CODE, ReleasePolicy.VERSION_CODE)
         assertTrue(BuildConfig.VERSION_NAME.startsWith(ReleasePolicy.VERSION_NAME))
         assertEquals(BuildConfig.CONTRACT_VERSION, ReleasePolicy.CONTRACT_VERSION)
-        assertEquals("R22 owner test APK must use the published channel", "official", BuildConfig.APP_CHANNEL)
-        assertEquals("R22 owner test APK must use Staging policy", "STAGING", BuildConfig.APP_ENVIRONMENT)
+        assertEquals("R23 owner test APK must use the published channel", "official", BuildConfig.APP_CHANNEL)
+        assertEquals("R23 owner test APK must use Staging policy", "STAGING", BuildConfig.APP_ENVIRONMENT)
     }
 
     @Test

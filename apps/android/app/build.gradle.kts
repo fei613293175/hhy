@@ -86,7 +86,7 @@ android {
     buildTypes {
         debug {
             applicationIdSuffix = ".debug"
-            versionNameSuffix = "-r22-red-packet-debug"
+            versionNameSuffix = "-r23-red-packet-debug"
             resValue("string", "app_name", "R22 红包验证")
         }
         release {
