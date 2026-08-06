@@ -814,7 +814,9 @@ class HistoricalVisualAuditTest {
         setAuditContent { R22RedPacketTaskScreen(visualR22Api, visualMeApi, "visual-r22-token", "rp-active-2001", {}, {}, {}) }
         composeRule.onNodeWithTag("hhy.screen.scr-rp-003").assertIsDisplayed()
         waitForText("任务进度")
-        composeRule.onNodeWithText("服务端有效浏览 20 / 20 秒").assertIsDisplayed()
+        waitForText("开始任务")
+        composeRule.onNodeWithText("开始任务").performClick()
+        waitForText("服务端有效浏览 0 / 20 秒")
         captureStable("55-r22-scr-rp-003.png")
     }
 
@@ -1254,10 +1256,10 @@ class HistoricalVisualAuditTest {
             R07CallResult.Success(visualR20Campaigns.first { it.id == id }, "visual-r22-campaign")
 
         override suspend fun startViewSession(accessToken: String, campaignId: String, body: R22ViewSessionRequest, idempotencyKey: String) =
-            R07CallResult.Success(CommandResultResource(resourceId = "session-r22-1", status = "VIEW_COMPLETE", acceptedAt = "2026-08-06T08:00:00Z", requiredSeconds = 20, accumulatedSeconds = 20, lastHeartbeatSequence = 19, lastServerTime = "2026-08-06T08:00:20Z"), "visual-r22-start")
+            R07CallResult.Success(CommandResultResource(resourceId = "session-r22-1", status = "VIEWING", acceptedAt = "2026-08-06T08:00:00Z", requiredSeconds = 20, accumulatedSeconds = 0, lastHeartbeatSequence = -1, lastServerTime = "2026-08-06T08:00:00Z"), "visual-r22-start")
 
         override suspend fun heartbeat(accessToken: String, sessionId: String, body: R22HeartbeatRequest, idempotencyKey: String) =
-            R07CallResult.Success(CommandResultResource(resourceId = sessionId, status = "VIEW_COMPLETE", acceptedAt = "2026-08-06T08:00:20Z", requiredSeconds = 20, accumulatedSeconds = 20, lastHeartbeatSequence = body.clientSequence, lastServerTime = "2026-08-06T08:00:20Z"), "visual-r22-heartbeat")
+            R07CallResult.Success(CommandResultResource(resourceId = sessionId, status = "VIEWING", acceptedAt = "2026-08-06T08:00:00Z", requiredSeconds = 20, accumulatedSeconds = 0, lastHeartbeatSequence = body.clientSequence, lastServerTime = "2026-08-06T08:00:00Z"), "visual-r22-heartbeat")
 
         override suspend fun claim(accessToken: String, sessionId: String, body: R22ClaimRequest, idempotencyKey: String) =
             R07CallResult.Success(CommandResultResource(resourceId = sessionId, status = "PENDING", acceptedAt = "2026-08-06T08:00:21Z", amountPerClaimCent = 150), "visual-r22-claim")
