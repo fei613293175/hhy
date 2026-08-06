@@ -205,9 +205,9 @@ class R22RedPacketPostgresStoreTest {
         if (verified) {
             jdbc.update("""
                     INSERT INTO hhy.identity_profiles(
-                      user_id,name_cipher,id_no_cipher,id_hash,status)
-                    VALUES (?,'r22-name','r22-id',?,'VERIFIED')
-                    """, userId, "r22-hash-" + suffix);
+                      user_id,name_cipher,id_no_cipher,id_hash,status,verified_at)
+                    VALUES (?,'r22-name','r22-id',?,'VERIFIED',clock_timestamp())
+                    """, userId, suffix.repeat(4));
         }
         return userId;
     }
