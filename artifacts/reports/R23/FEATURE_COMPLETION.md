@@ -8,4 +8,4 @@
 | STORY-R23-002 ADM-RP-004 | IMPLEMENTED | 风险事件审核、权限和审计；ADM-RP-004.png 由 Run 31106841391 真实构建产出。 |
 | STORY-R23-003 SCR-RP-004 | IMPLEMENTED | Android R23MyRedPacketsScreen 接入真实 read model；API 36 emulator 交互和 SCR-RP-004.png 通过。 |
 | STORY-R23-004 工程治理与交接 | IMPLEMENTED | UI binding matrix、冻结规格、三份清单、验收矩阵和桌面交付包已更新。 |
-| Android APK | IMPLEMENTED | Run 31106841391 artifact；versionName 1.2.2-r23-red-packet-debug、versionCode 10230、SHA-256 B0440221CBAEDB2D1D7861312B14EDC458835B7B16009F5920EB5260F5701E9B。 |
+| Android APK | IMPLEMENTED | Run 31107880383 artifact；source Commit 6ee8ef50；versionName 1.2.2-r23-red-packet-debug、versionCode 10230、SHA-256 421CBA0E40ACE85F7FE7498FE86DACF6AE293676FC0C91FC0B7B228F59ED9B2F。 |
