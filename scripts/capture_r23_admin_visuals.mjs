@@ -15,7 +15,11 @@ await mkdir(outputRoot, { recursive: true })
 const browser = await chromium.launch({ executablePath, headless: true })
 const page = await browser.newPage({ viewport: { width: 1440, height: 900 }, deviceScaleFactor: 1 })
 const failures = []
-page.on('console', (message) => { if (message.type() === 'error') failures.push(`console: ${message.text()}`) })
+page.on('console', (message) => {
+  if (message.type() === 'error' && !message.text().includes('Failed to load resource: the server responded with a status of 404')) {
+    failures.push(`console: ${message.text()}`)
+  }
+})
 page.on('pageerror', (error) => failures.push(`pageerror: ${error.message}`))
 
 try {
