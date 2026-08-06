@@ -22,7 +22,7 @@ from tools.governance.gov50.legacy import scan_active_control_plane
 from tools.governance.gov50.orchestrator import supersede_failed
 from tools.governance.gov50.secrets import scan_secrets
 from tools.governance.gov50.simulation import simulate_program
-from tools.governance.gov50.state import assert_valid_state, bootstrap_state
+from tools.governance.gov50.state import _state_hash, assert_valid_state, bootstrap_state
 from tools.governance.gov50.tasks import (
     EXPECTED_FUTURE_TASKS,
     EXPECTED_SOURCE_TASKS,
@@ -33,7 +33,7 @@ from tools.governance.gov50.tasks import (
     validate_specs,
 )
 from tools.governance.gov50.views import next_ready_task
-from tools.governance.gov50.util import repository_lock
+from tools.governance.gov50.util import repository_lock, write_yaml
 
 
 def _specs():
@@ -42,7 +42,7 @@ def _specs():
 
 def test_expected_task_counts():
     specs = _specs()
-    assert len(specs) == EXPECTED_TASKS + int(REPAIR_RECOVERY_TASK_ID in specs) == 266
+    assert len(specs) == EXPECTED_TASKS + int(REPAIR_RECOVERY_TASK_ID in specs)
     assert sum(1 for s in specs.values() if s.get("source", {}).get("path", "").startswith("releases/")) == EXPECTED_SOURCE_TASKS == 264
     assert sum(1 for s in specs.values() if str(s.get("release", "")).startswith("R") and 15 <= int(s["release"][1:]) <= 32) == EXPECTED_FUTURE_TASKS == 144
 
@@ -62,7 +62,8 @@ def test_program_plan_and_specs_are_valid():
 def test_program_is_finite_and_adjacent():
     result = simulate_program(ROOT)
     assert result["status"] == "PASS", result
-    assert result["first_task"] == "TASK-R14-RECOVERY-001"
+    expected_first = "TASK-R14-RECOVERY-002" if REPAIR_RECOVERY_TASK_ID in _specs() else "TASK-R14-RECOVERY-001"
+    assert result["first_task"] == expected_first
     assert result["last_task"] == "TASK-R32-008"
     assert result["attempt_four_possible"] is False
 
@@ -76,6 +77,11 @@ def test_single_state_is_valid():
         assert state["project"]["active_task"] is None
         assert state["tasks"]["TASK-R14-RECOVERY-001"]["status"] == "FAILED_BOUNDED"
         assert state["tasks"]["TASK-R14-RECOVERY-001"]["attempts_used"] == 3
+    elif state["project"]["active_task"] == REPAIR_RECOVERY_TASK_ID:
+        assert state["tasks"]["TASK-R14-RECOVERY-001"]["status"] == "FAILED_BOUNDED"
+        assert state["tasks"]["TASK-R14-RECOVERY-001"]["attempts_used"] == 3
+        assert state["tasks"][REPAIR_RECOVERY_TASK_ID]["status"] == "READY"
+        assert state["tasks"][REPAIR_RECOVERY_TASK_ID]["attempts_used"] == 0
     else:
         assert state["project"]["active_task"] == "TASK-R14-RECOVERY-001"
 
@@ -102,6 +108,9 @@ def test_recovery_is_only_active_entry_before_activation():
         assert state["project"]["active_task"] is None
         assert state["tasks"]["TASK-R14-RECOVERY-001"]["status"] == "FAILED_BOUNDED"
         assert state["tasks"]["TASK-R14-RECOVERY-001"]["attempts_used"] == 3
+    elif state["project"]["active_task"] == REPAIR_RECOVERY_TASK_ID:
+        assert state["tasks"]["TASK-R14-RECOVERY-001"]["status"] == "FAILED_BOUNDED"
+        assert state["tasks"][REPAIR_RECOVERY_TASK_ID]["status"] == "READY"
     else:
         assert state["project"]["active_task"] == "TASK-R14-RECOVERY-001"
         assert state["tasks"]["TASK-R14-RECOVERY-001"]["status"] in {"PENDING_ACTIVATION", "READY"}
@@ -221,7 +230,8 @@ def test_release_close_is_bounded_worker_not_self_closing():
 
 
 def test_r15_depends_on_r14_recovery():
-    assert _specs()["TASK-R15-001"]["depends_on"] == ["TASK-R14-RECOVERY-001"]
+    expected = "TASK-R14-RECOVERY-002" if REPAIR_RECOVERY_TASK_ID in _specs() else "TASK-R14-RECOVERY-001"
+    assert _specs()["TASK-R15-001"]["depends_on"] == [expected]
 
 
 def test_release_dependencies_are_adjacent():
@@ -322,6 +332,25 @@ def test_failed_recovery_transition_preserves_predecessor_and_binds_new_task(tmp
     shutil.copytree(ROOT / "tools" / "governance", repo / "tools" / "governance")
     for name in ("CURRENT_STATUS.yaml", "NEXT_TASK.yaml"):
         shutil.copy2(ROOT / name, repo / name)
+    # Build a clean pre-transition fixture even when the suite itself runs on
+    # the branch that already contains TASK-R14-RECOVERY-002.
+    (repo / "governance/task_specs/TASK-R14-RECOVERY-002.yaml").unlink(missing_ok=True)
+    plan = yaml.safe_load((repo / "governance/PROGRAM_PLAN.yaml").read_text(encoding="utf-8"))
+    plan["task_count"] = 266
+    plan["release_tasks"]["R14"] = [task for task in plan["release_tasks"]["R14"] if task != "TASK-R14-RECOVERY-002"]
+    plan["recovery_tasks"] = ["TASK-R14-RECOVERY-001"]
+    write_yaml(repo / "governance/PROGRAM_PLAN.yaml", plan)
+    r15 = yaml.safe_load((repo / "governance/task_specs/TASK-R15-001.yaml").read_text(encoding="utf-8"))
+    r15["depends_on"] = ["TASK-R14-RECOVERY-001"]
+    write_yaml(repo / "governance/task_specs/TASK-R15-001.yaml", r15)
+    state = yaml.safe_load((repo / "governance/STATE.yaml").read_text(encoding="utf-8"))
+    state["project"]["status"] = "FAILED_BOUNDED"
+    state["project"]["active_task"] = None
+    state["tasks"].pop("TASK-R14-RECOVERY-002", None)
+    state["tasks"]["TASK-R14-RECOVERY-001"].update({"status": "FAILED_BOUNDED", "attempts_used": 3, "current_attempt": None})
+    state["lease"] = None
+    state["state_hash"] = _state_hash(state)
+    write_yaml(repo / "governance/STATE.yaml", state)
     subprocess.run(["git", "init", "-q"], cwd=repo, check=True)
     subprocess.run(["git", "config", "user.name", "test"], cwd=repo, check=True)
     subprocess.run(["git", "config", "user.email", "test@example.invalid"], cwd=repo, check=True)

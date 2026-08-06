@@ -1,0 +1,17 @@
+{
+  "schema": "hhy.failed-recovery-authorization/v5.0",
+  "status": "APPROVED",
+  "authorized_by": "PROJECT_OWNER",
+  "authorized_at": "2026-07-31T00:00:00Z",
+  "from_task": "TASK-R14-RECOVERY-001",
+  "to_task": "TASK-R14-RECOVERY-002",
+  "supersedes": "TASK-R14-RECOVERY-001",
+  "baseline_commit": "349369104e101797944dc604991ebcc7a3ebb0c9",
+  "decision": "保留 89ccaf45 之后已经实施且经证据确认有效的修复，以当前 main 为基线重新修复并重新生成候选；不得恢复旧 Candidate 源码，也不得继承旧 Candidate PASS。",
+  "scope": {
+    "retain_prior_fixes": true,
+    "reject_old_candidate": true,
+    "release": "R14",
+    "maximum_attempts": 3
+  }
+}
