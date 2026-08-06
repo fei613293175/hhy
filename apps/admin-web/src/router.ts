@@ -55,6 +55,8 @@ export const router = createRouter({
     { path: '/reviews', name: 'ADM-REVIEW-001', component: AdminReviewWorkbenchPage, meta: { requiresAuth: true, permission: 'review.read' } },
     { path: '/red-packets', name: 'ADM-RP-001', component: AdminRedPacketListPage, meta: { requiresAuth: true, permission: 'redpacket.read' } },
     { path: '/red-packets/review', name: 'ADM-RP-003', component: AdminRedPacketReviewPage, meta: { requiresAuth: true, permission: 'redpacket.read' } },
+    { path: '/red-packets/risk', name: 'ADM-RP-004', component: AdminRedPacketReviewPage, meta: { requiresAuth: true, permission: 'redpacket.read' } },
+    { path: '/red-packets/:id', name: 'ADM-RP-002', component: AdminRedPacketListPage, meta: { requiresAuth: true, permission: 'redpacket.read' } },
     { path: '/commerce/orders', name: 'ADM-ORDER-001', component: CommerceOrdersPage, meta: { requiresAuth: true, permission: 'order.read' } },
     { path: '/commerce/payments', name: 'ADM-PAY-001', component: AdminPaymentsPage, props: { mode: 'payments' }, meta: { requiresAuth: true, permission: 'payment.read' } },
     { path: '/commerce/reconciliation', name: 'ADM-RECON-001', component: AdminPaymentsPage, props: { mode: 'reconciliation' }, meta: { requiresAuth: true, permission: 'payment.reconcile' } },

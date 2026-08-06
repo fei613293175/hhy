@@ -12,7 +12,7 @@ export const implementedAdminPageIds = new Set([
   'ADM-PAY-001', 'ADM-RECON-001',
   'ADM-CHAT-001', 'ADM-REPORT-001', 'ADM-APPEAL-001',
   'ADM-SUPPORT-001', 'ADM-SUPPORT-002', 'ADM-MEMBER-001', 'ADM-MEMBER-002', 'ADM-PROP-001', 'ADM-PROP-002', 'ADM-PROP-003',
-  'ADM-RP-001', 'ADM-RP-003',
+  'ADM-RP-001', 'ADM-RP-002', 'ADM-RP-003', 'ADM-RP-004',
 ])
 
 export const menuGroupLabels: Record<string, string> = {
