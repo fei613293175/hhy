@@ -150,6 +150,7 @@ import cc.orbexa.hhy.redpacket.R21RedPacketIncreaseAmountScreen
 import cc.orbexa.hhy.redpacket.R22RedPacketHomeScreen
 import cc.orbexa.hhy.redpacket.R22RedPacketEligibilityScreen
 import cc.orbexa.hhy.redpacket.R22RedPacketTaskScreen
+import cc.orbexa.hhy.redpacket.R23MyRedPacketsScreen
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.decodeFromString
 import kotlinx.coroutines.awaitCancellation
@@ -308,6 +309,7 @@ internal sealed interface AuthenticatedRoute {
     @Serializable data class RedPacketIncrease(val campaignId: String) : AuthenticatedRoute
     @Serializable data class RedPacketEligibility(val campaignId: String) : AuthenticatedRoute
     @Serializable data class RedPacketTask(val campaignId: String) : AuthenticatedRoute
+    @Serializable data object MyRedPackets : AuthenticatedRoute
     @Serializable data object Me : AuthenticatedRoute
     @Serializable data object Profile : AuthenticatedRoute
     @Serializable data object LoginDevices : AuthenticatedRoute
@@ -720,6 +722,7 @@ private fun AuthenticatedNavHost(
                 authenticated.session.accessToken,
                 { navController.popBackStack() },
                 { navController.navigate(AuthenticatedRoute.RedPacketEligibility(it)) },
+                { navController.navigate(AuthenticatedRoute.MyRedPackets) },
                 onSessionInvalidated,
             )
         }
@@ -739,6 +742,12 @@ private fun AuthenticatedNavHost(
                 { navController.popBackStack() },
                 { navController.popBackStack<AuthenticatedRoute.RedPacketCampaigns>(false) },
                 onSessionInvalidated,
+            )
+        }
+        composable<AuthenticatedRoute.MyRedPackets> {
+            R23MyRedPacketsScreen(
+                r20RedPacketApi, r12MeApi, authenticated.session.accessToken,
+                { navController.popBackStack() }, onSessionInvalidated,
             )
         }
         composable<AuthenticatedRoute.RedPacketDetail> { entry ->

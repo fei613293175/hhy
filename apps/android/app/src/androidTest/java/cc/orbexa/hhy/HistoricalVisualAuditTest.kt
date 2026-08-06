@@ -160,6 +160,7 @@ import cc.orbexa.hhy.redpacket.R21RedPacketIncreaseAmountScreen
 import cc.orbexa.hhy.redpacket.R22RedPacketHomeScreen
 import cc.orbexa.hhy.redpacket.R22RedPacketEligibilityScreen
 import cc.orbexa.hhy.redpacket.R22RedPacketTaskScreen
+import cc.orbexa.hhy.redpacket.R23MyRedPacketsScreen
 import cc.orbexa.hhy.startup.StartupVisualAuditMode
 import cc.orbexa.hhy.startup.StartupVisualAuditScreen
 import java.io.InputStream
@@ -794,7 +795,7 @@ class HistoricalVisualAuditTest {
 
     @Test
     fun r22RedPacketHomeProducesBoundVisualEvidence() {
-        setAuditContent { R22RedPacketHomeScreen(visualR22Api, "visual-r22-token", {}, {}, {}) }
+        setAuditContent { R22RedPacketHomeScreen(visualR22Api, "visual-r22-token", {}, {}, {}, {}) }
         composeRule.onNodeWithTag("hhy.screen.scr-rp-001").assertIsDisplayed()
         waitForText("进行中的红包")
         captureStable("53-r22-scr-rp-001.png")
@@ -831,6 +832,15 @@ class HistoricalVisualAuditTest {
         waitForText("领取红包")
         composeRule.onNodeWithText("确认领取").assertIsDisplayed()
         captureStable("56-r22-sheet-rp-001.png")
+    }
+
+    @Test
+    fun r23MyRedPacketsProducesBoundVisualEvidence() {
+        setAuditContent { R23MyRedPacketsScreen(visualR23Api, visualMeApi, "visual-r23-token", {}, {}) }
+        composeRule.onNodeWithTag("hhy.screen.scr-rp-004").assertIsDisplayed()
+        waitForText("红包奖励账户")
+        composeRule.onNodeWithText("红包记录").assertIsDisplayed()
+        captureStable("57-r23-scr-rp-004.png")
     }
 
     @OptIn(ExperimentalComposeUiApi::class)
@@ -1267,6 +1277,11 @@ class HistoricalVisualAuditTest {
 
         override suspend fun cancel(accessToken: String, sessionId: String, body: R22CancelRequest?, idempotencyKey: String) =
             R07CallResult.Success(CommandResultResource(resourceId = sessionId, status = "CANCELLED", acceptedAt = "2026-08-06T08:00:21Z"), "visual-r22-cancel")
+    }
+
+    private val visualR23Api = object : ContractR20RedPacketApi by visualR22Api {
+        override suspend fun claims(accessToken: String, page: Int, pageSize: Int) =
+            R07CallResult.Success(R20RedPacketPage(visualR20Campaigns.take(1), R07PageMeta(1, 20, "1", hasMore = "false")), "visual-r23-claims")
     }
     private val visualR19ContentPage = ContentPageResource(
         listOf(

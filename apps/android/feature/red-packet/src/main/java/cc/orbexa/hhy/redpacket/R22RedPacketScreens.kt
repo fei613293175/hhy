@@ -69,6 +69,7 @@ fun R22RedPacketHomeScreen(
     token: String,
     onBack: () -> Unit,
     onOpenCampaign: (String) -> Unit,
+    onOpenMyRedPackets: () -> Unit,
     onExpired: () -> Unit,
 ) {
     var items by remember { mutableStateOf<List<R20RedPacketCampaignResource>>(emptyList()) }
@@ -87,7 +88,7 @@ fun R22RedPacketHomeScreen(
     }
     LaunchedEffect(token) { load() }
     Scaffold(
-        topBar = { TopAppBar(title = { Text("红包") }, navigationIcon = { HhyBackButton(onBack) }, actions = { TextButton(onClick = ::load) { Text("刷新") } }) },
+        topBar = { TopAppBar(title = { Text("红包") }, navigationIcon = { HhyBackButton(onBack) }, actions = { TextButton(onClick = onOpenMyRedPackets) { Text("我的红包") }; TextButton(onClick = ::load) { Text("刷新") } }) },
         modifier = Modifier.testTag("hhy.screen.scr-rp-001"),
     ) { padding ->
         LazyColumn(
