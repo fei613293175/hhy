@@ -28,7 +28,9 @@ import org.flywaydb.core.Flyway;
 import org.junit.jupiter.api.Assumptions;
 import org.junit.jupiter.api.Test;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.transaction.support.TransactionTemplate;
 
 class R22RedPacketPostgresStoreTest {
     @Test
@@ -189,10 +191,17 @@ class R22RedPacketPostgresStoreTest {
         Flyway.configure().dataSource(dataSource).locations("classpath:db/migration").load().migrate();
         JdbcTemplate jdbc = new JdbcTemplate(dataSource);
         long ownerId = user(jdbc, true);
-        long contentId = jdbc.queryForObject("""
-                INSERT INTO hhy.content_posts(owner_id,type,title,status)
-                VALUES (?,'PROJECT',?,'DRAFT') RETURNING id
-                """, Long.class, ownerId, "R22 integration " + suffix());
+        TransactionTemplate transaction = new TransactionTemplate(
+                new DataSourceTransactionManager(dataSource));
+        long contentId = transaction.execute(status -> {
+            long id = jdbc.queryForObject("""
+                    INSERT INTO hhy.content_posts(owner_id,type,title,status)
+                    VALUES (?,'PROJECT',?,'DRAFT') RETURNING id
+                    """, Long.class, ownerId, "R22 integration " + suffix());
+            jdbc.update("INSERT INTO hhy.project_details(content_id,cooperation) VALUES (?,?)",
+                    id, "R22 integration fixture");
+            return id;
+        });
         return new Fixture(dataSource, jdbc, ownerId, contentId);
     }
 
