@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Assumptions;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class P00FlywayMigrationTest {
@@ -36,20 +37,29 @@ class P00FlywayMigrationTest {
         exerciseP00DevelopmentRollback();
         assertP00EventLedgerInvariants();
 
+        flyway("54").migrate();
+        assertTrue(isMigrationApplied("54"));
+        assertFalse(isMigrationApplied("55"));
+        assertFalse(columnExists("red_packet_view_sessions", "client_nonce"));
+
         Flyway latest = flyway(null);
         latest.migrate();
         assertTrue(appliedMigrationCount() >= 10);
         assertTrue(isMigrationApplied("10"));
+        assertTrue(isMigrationApplied("55"));
         int migrationCount = appliedMigrationCount();
         latest.migrate();
         assertEquals(migrationCount, appliedMigrationCount(), "repeat migrate must be a no-op");
         assertP00Baseline();
+        assertR22Baseline();
 
         resetDatabase();
         latest.migrate();
         assertTrue(appliedMigrationCount() >= 10);
         assertTrue(isMigrationApplied("10"));
+        assertTrue(isMigrationApplied("55"));
         assertP00Baseline();
+        assertR22Baseline();
     }
 
     private void exerciseP00DevelopmentRollback() throws Exception {
@@ -132,6 +142,47 @@ class P00FlywayMigrationTest {
                             + "AND NOT tgisinternal")) {
                 assertTrue(rows.next());
                 assertEquals(3, rows.getInt(1));
+            }
+        }
+    }
+
+    private boolean columnExists(String table, String column) throws Exception {
+        try (Connection connection = connection();
+             var statement = connection.prepareStatement(
+                     "SELECT count(*) FROM information_schema.columns "
+                             + "WHERE table_schema='hhy' AND table_name=? AND column_name=?")) {
+            statement.setString(1, table);
+            statement.setString(2, column);
+            try (ResultSet rows = statement.executeQuery()) {
+                assertTrue(rows.next());
+                return rows.getInt(1) == 1;
+            }
+        }
+    }
+
+    private void assertR22Baseline() throws Exception {
+        try (Connection connection = connection(); Statement statement = connection.createStatement()) {
+            try (ResultSet rows = statement.executeQuery("""
+                    SELECT count(*) FROM information_schema.columns
+                    WHERE table_schema='hhy' AND (
+                      (table_name='red_packet_view_sessions' AND column_name IN (
+                        'client_nonce','device_context','accumulated_seconds',
+                        'last_heartbeat_sequence','last_server_time','claimed_at'))
+                      OR (table_name='red_packet_reservations' AND column_name IN ('released_at','claim_id'))
+                      OR (table_name='red_packet_claims' AND column_name IN (
+                        'session_id','client_nonce','final_heartbeat_sequence','request_hash')))
+                    """)) {
+                assertTrue(rows.next());
+                assertEquals(12, rows.getInt(1));
+            }
+            try (ResultSet rows = statement.executeQuery("""
+                    SELECT count(*) FROM hhy.system_configs
+                    WHERE scope='GLOBAL' AND (
+                      (key='red_packet.default_view_seconds' AND value_json #>> '{}'='20') OR
+                      (key='red_packet.reservation_min_seconds' AND value_json #>> '{}'='90'))
+                    """)) {
+                assertTrue(rows.next());
+                assertEquals(2, rows.getInt(1));
             }
         }
     }

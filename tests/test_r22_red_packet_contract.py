@@ -11,6 +11,7 @@ OPENAPI = ROOT / "contracts/openapi.yaml"
 ANDROID_API = ROOT / "apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR20RedPacketApi.kt"
 ANDROID_MODELS = ROOT / "apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ApiModels.kt"
 ANDROID_SCREENS = ROOT / "apps/android/feature/red-packet/src/main/java/cc/orbexa/hhy/redpacket/R22RedPacketScreens.kt"
+POSTGRES_TEST = ROOT / "services/backend/boot/src/test/java/cc/orbexa/hhy/incentive/R22RedPacketPostgresStoreTest.java"
 
 
 class R22RedPacketContractTest(unittest.TestCase):
@@ -88,6 +89,18 @@ class R22RedPacketContractTest(unittest.TestCase):
             "重复提交不会重复入账",
         ):
             self.assertIn(marker, screens)
+
+    def test_postgres_regression_paths_and_release_status_are_bound(self) -> None:
+        store = STORE.read_text(encoding="utf-8")
+        integration = POSTGRES_TEST.read_text(encoding="utf-8")
+        self.assertIn('releaseReservation(connection, session, "RELEASED"', store)
+        for marker in (
+            "concurrentReservationNeverOversellsAndCancelReleasesStock",
+            "serverClockClaimReplayAndDuplicateClaimUseDurableInvariants",
+            "identityRejectionAndTimeoutRecoveryReleaseTheReservedSlot",
+        ):
+            with self.subTest(marker=marker):
+                self.assertIn(marker, integration)
 
 
 if __name__ == "__main__":

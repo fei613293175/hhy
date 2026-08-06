@@ -129,7 +129,10 @@ jobs:
             adb pull /sdcard/Pictures/hhy-ci-screenshots/. artifacts/r22-emulator/r22-visual/
             test "$(find artifacts/r22-emulator/r22-visual -name '*-r20-scr-rp-adv-*.png' | wc -l)" -ge 4
             test "$(find artifacts/r22-emulator/r22-visual -name '*-r21-scr-rp-adv-*.png' | wc -l)" -ge 2
-            test "$(find artifacts/r22-emulator/r22-visual -name '*-r22-scr-rp-*.png' | wc -l)" -ge 4
+            test -f artifacts/r22-emulator/r22-visual/53-r22-scr-rp-001.png
+            test -f artifacts/r22-emulator/r22-visual/54-r22-scr-rp-002.png
+            test -f artifacts/r22-emulator/r22-visual/55-r22-scr-rp-003.png
+            test -f artifacts/r22-emulator/r22-visual/56-r22-sheet-rp-001.png
             cp artifacts/r22-emulator/r22-visual/47-r20-scr-rp-adv-001.png artifacts/reports/R20/visual/android/SCR-RP-ADV-001.png
             cp artifacts/r22-emulator/r22-visual/48-r20-scr-rp-adv-002.png artifacts/reports/R20/visual/android/SCR-RP-ADV-002.png
             cp artifacts/r22-emulator/r22-visual/49-r20-scr-rp-adv-003.png artifacts/reports/R20/visual/android/SCR-RP-ADV-003.png

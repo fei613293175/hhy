@@ -645,7 +645,7 @@ public final class R20RedPacketPostgresStore implements R20RedPacketStore {
                 complete(connection, claim.id(), Long.toString(session.id()));
                 return sessionResult(connection, session.id());
             }
-            releaseReservation(connection, session, "CANCELLED", currentTime);
+            releaseReservation(connection, session, "RELEASED", currentTime);
             try (PreparedStatement update = connection.prepareStatement(
                     "UPDATE hhy.red_packet_view_sessions SET status='CANCELLED',version=version+1,updated_at=clock_timestamp() WHERE id=?")) {
                 update.setLong(1, session.id()); update.executeUpdate();
