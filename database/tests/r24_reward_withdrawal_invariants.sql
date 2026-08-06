@@ -20,6 +20,16 @@ BEGIN
   INSERT INTO hhy.reward_accounts(user_id, pending, available, frozen, withdrawing, withdrawn)
   VALUES (v_user_id, 0, 1000, 0, 0, 0);
 
+  INSERT INTO hhy.payout_accounts(user_id, account_cipher, account_hash, account_masked, real_name, status)
+  VALUES (v_user_id, 'hhy-r24-payout-v1.test.test', repeat('a', 64), '138****0000', '测试账户', 'ACTIVE');
+
+  BEGIN
+    INSERT INTO hhy.payout_accounts(user_id, account_cipher, account_hash, account_masked, real_name, status)
+    VALUES (v_user_id, 'hhy-r24-payout-v1.test.other', repeat('b', 64), '139****0000', '重复账户', 'ACTIVE');
+    RAISE EXCEPTION 'ASSERTION_FAILED: duplicate payout account unexpectedly succeeded';
+  EXCEPTION WHEN unique_violation THEN NULL;
+  END;
+
   BEGIN
     INSERT INTO hhy.reward_accounts(user_id) VALUES (v_user_id);
     RAISE EXCEPTION 'ASSERTION_FAILED: duplicate reward account unexpectedly succeeded';

@@ -1699,3 +1699,38 @@ App构建,app_release_approvals,9,updated_at,timestamptz,否,now(),,统一审计
 实时通信,websocket_gap_watermarks,3,affected_scopes,varchar(32)[],否,{},,CHAT或NOTIFICATIONS集合,R14,FROZEN_V1.2.2
 实时通信,websocket_gap_watermarks,4,created_at,timestamptz,否,now(),,创建时间,R14,FROZEN_V1.2.2
 实时通信,websocket_gap_watermarks,5,updated_at,timestamptz,否,now(),INDEX,更新时间,R14,FROZEN_V1.2.2
+提现,withdrawal_quotes,1,id,varchar(64),否,,PRIMARY KEY,报价标识,R24,FROZEN_R24
+提现,withdrawal_quotes,2,user_id,bigint,否,,FOREIGN KEY hhy.users(id),报价用户,R24,FROZEN_R24
+提现,withdrawal_quotes,3,payout_account_id,bigint,否,,FOREIGN KEY hhy.payout_accounts(id),收款账户,R24,FROZEN_R24
+提现,withdrawal_quotes,4,amount,bigint,否,,,提现金额分,R24,FROZEN_R24
+提现,withdrawal_quotes,5,fee,bigint,否,,,手续费分,R24,FROZEN_R24
+提现,withdrawal_quotes,6,net_amount,bigint,否,,,到账金额分且等于amount-fee,R24,FROZEN_R24
+提现,withdrawal_quotes,7,status,varchar(32),否,ACTIVE,INDEX,ACTIVE或CONSUMED或EXPIRED,R24,FROZEN_R24
+提现,withdrawal_quotes,8,expires_at,timestamptz,否,,INDEX,必须晚于创建时间,R24,FROZEN_R24
+提现,withdrawal_quotes,9,consumed_at,timestamptz,是,,,消费时间,R24,FROZEN_R24
+提现,withdrawal_quotes,10,version,bigint,否,0,,非负乐观锁版本,R24,FROZEN_R24
+提现,withdrawal_quotes,11,created_at,timestamptz,否,now(),,创建时间,R24,FROZEN_R24
+提现,withdrawal_quotes,12,updated_at,timestamptz,否,now(),,更新时间,R24,FROZEN_R24
+提现,withdrawal_review_events,1,id,bigint,否,generated,PRIMARY KEY,审核事件标识,R24,FROZEN_R24
+提现,withdrawal_review_events,2,withdrawal_id,bigint,否,,FOREIGN KEY hhy.withdrawal_requests(id),提现申请,R24,FROZEN_R24
+提现,withdrawal_review_events,3,stage,varchar(32),否,,,RISK或FINANCE,R24,FROZEN_R24
+提现,withdrawal_review_events,4,decision,varchar(32),否,,,APPROVE或REJECT或ESCALATE,R24,FROZEN_R24
+提现,withdrawal_review_events,5,reason,text,否,,,审核原因,R24,FROZEN_R24
+提现,withdrawal_review_events,6,evidence_json,jsonb,否,[], ,脱敏审核证据,R24,FROZEN_R24
+提现,withdrawal_review_events,7,from_status,varchar(64),否,,,迁移前状态,R24,FROZEN_R24
+提现,withdrawal_review_events,8,to_status,varchar(64),否,,,迁移后状态,R24,FROZEN_R24
+提现,withdrawal_review_events,9,actor_admin_id,bigint,否,,FOREIGN KEY hhy.admin_users(id),审核管理员,R24,FROZEN_R24
+提现,withdrawal_review_events,10,request_id,varchar(64),否,,,请求追踪标识,R24,FROZEN_R24
+提现,withdrawal_review_events,11,created_at,timestamptz,否,now(),INDEX,创建时间,R24,FROZEN_R24
+奖励,reward_adjustment_requests,1,id,bigint,否,generated,PRIMARY KEY,调整申请标识,R24,FROZEN_R24
+奖励,reward_adjustment_requests,2,user_id,bigint,否,,FOREIGN KEY hhy.users(id),目标用户,R24,FROZEN_R24
+奖励,reward_adjustment_requests,3,direction,varchar(16),否,,,CREDIT或DEBIT,R24,FROZEN_R24
+奖励,reward_adjustment_requests,4,amount,bigint,否,,,正数金额分,R24,FROZEN_R24
+奖励,reward_adjustment_requests,5,reason,text,否,,,调整原因,R24,FROZEN_R24
+奖励,reward_adjustment_requests,6,business_ref,varchar(255),是,,UNIQUE,业务幂等引用,R24,FROZEN_R24
+奖励,reward_adjustment_requests,7,approval_request_id,bigint,否,,FOREIGN KEY hhy.admin_approval_requests(id),双人审批申请,R24,FROZEN_R24
+奖励,reward_adjustment_requests,8,requested_by,bigint,否,,FOREIGN KEY hhy.admin_users(id),申请管理员,R24,FROZEN_R24
+奖励,reward_adjustment_requests,9,status,varchar(32),否,PENDING_APPROVAL,INDEX,审批执行状态,R24,FROZEN_R24
+奖励,reward_adjustment_requests,10,version,bigint,否,0,,非负乐观锁版本,R24,FROZEN_R24
+奖励,reward_adjustment_requests,11,created_at,timestamptz,否,now(),,创建时间,R24,FROZEN_R24
+奖励,reward_adjustment_requests,12,updated_at,timestamptz,否,now(),,更新时间,R24,FROZEN_R24

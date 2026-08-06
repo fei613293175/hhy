@@ -58,7 +58,7 @@ TOTP_REPLAY_COLUMN_COUNT="$("${PSQL[@]}" -Atc "
 echo "R01_TOTP_REPLAY_COLUMN PASS"
 
 TABLE_COUNT="$("${PSQL[@]}" -Atc "SELECT count(*) FROM information_schema.tables WHERE table_schema='hhy' AND table_type='BASE TABLE';")"
-[[ "$TABLE_COUNT" == "203" ]] || { echo "Expected 203 hhy tables, got $TABLE_COUNT" >&2; exit 1; }
+[[ "$TABLE_COUNT" == "206" ]] || { echo "Expected 206 hhy tables, got $TABLE_COUNT" >&2; exit 1; }
 echo "TABLE_COUNT $TABLE_COUNT"
 
 "${PSQL[@]}" -f "$ROOT/database/tests/postgres_smoke_success.sql" >/dev/null
@@ -332,8 +332,8 @@ DATABASE_URL="$DATABASE_URL" HHY_DB_SMOKE_CONFIRM=YES \
 DATABASE_URL="$DATABASE_URL" HHY_DB_SMOKE_CONFIRM=YES \
   bash "$ROOT/scripts/run_r16_database_invariants.sh"
 FINAL_TABLE_COUNT="$("${PSQL[@]}" -Atc "SELECT count(*) FROM information_schema.tables WHERE table_schema='hhy' AND table_type='BASE TABLE';")"
-[[ "$FINAL_TABLE_COUNT" == "203" ]] || {
-  echo "Final schema must contain 203 tables, got $FINAL_TABLE_COUNT" >&2
+[[ "$FINAL_TABLE_COUNT" == "206" ]] || {
+  echo "Final schema must contain 206 tables, got $FINAL_TABLE_COUNT" >&2
   exit 1
 }
 echo "R02_ADMIN_USER_CONTROLS PASS"

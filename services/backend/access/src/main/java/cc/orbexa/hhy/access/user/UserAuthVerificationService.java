@@ -70,9 +70,6 @@ public class UserAuthVerificationService {
         if (provider == null) {
             throw new BusinessException("COMMON-500-INTERNAL", "短信供应商尚未激活", 500, false);
         }
-        if (request.scene() == AuthScene.SENSITIVE_OPERATION) {
-            throw businessRuleInvalid("短信场景无效");
-        }
         verifyChallenge(request.challengeId(), request.challengeProof(), request.scene());
         Instant now = Instant.now(clock);
         if (repository.smsCooldownActive(request.phone(), request.scene().name(), now.minus(policy.smsCooldown()))) {

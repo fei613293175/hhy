@@ -126,6 +126,11 @@ import cc.orbexa.hhy.contentmanagement.R12PublishResultScreen
 import cc.orbexa.hhy.shell.HhyShellScreen
 import cc.orbexa.hhy.shell.HhyTopLevelDestination
 import cc.orbexa.hhy.shell.R12ProfileScreen
+import cc.orbexa.hhy.shell.R24CreateWithdrawalScreen
+import cc.orbexa.hhy.shell.R24PayoutAccountScreen
+import cc.orbexa.hhy.shell.R24RewardAccountScreen
+import cc.orbexa.hhy.shell.R24RewardLedgerScreen
+import cc.orbexa.hhy.shell.R24WithdrawalHistoryScreen
 import cc.orbexa.hhy.startup.StartupGateScreen
 import cc.orbexa.hhy.support.R15CreateTicketScreen
 import cc.orbexa.hhy.support.R15NotificationDetailScreen
@@ -315,6 +320,9 @@ internal sealed interface AuthenticatedRoute {
     @Serializable data object Me : AuthenticatedRoute
     @Serializable data object Rewards : AuthenticatedRoute
     @Serializable data object RewardLedger : AuthenticatedRoute
+    @Serializable data object PayoutAccount : AuthenticatedRoute
+    @Serializable data object CreateWithdrawal : AuthenticatedRoute
+    @Serializable data object WithdrawalHistory : AuthenticatedRoute
     @Serializable data object Profile : AuthenticatedRoute
     @Serializable data object LoginDevices : AuthenticatedRoute
     @Serializable data object ChangePassword : AuthenticatedRoute
@@ -578,11 +586,46 @@ private fun AuthenticatedNavHost(
                 accessToken = authenticated.session.accessToken,
                 onBack = { navController.popBackStack() },
                 onOpenLedger = { navController.navigate(AuthenticatedRoute.RewardLedger) },
-                onRetry = { navController.navigate(AuthenticatedRoute.Rewards) { popUpTo<AuthenticatedRoute.Rewards> { inclusive = true } } },
+                onOpenPayoutAccount = { navController.navigate(AuthenticatedRoute.PayoutAccount) },
+                onOpenWithdrawal = { navController.navigate(AuthenticatedRoute.CreateWithdrawal) },
+                onOpenWithdrawals = { navController.navigate(AuthenticatedRoute.WithdrawalHistory) },
+                onSessionExpired = onSessionInvalidated,
             )
         }
         composable<AuthenticatedRoute.RewardLedger> {
-            R24RewardLedgerScreen(api = r24Api, accessToken = authenticated.session.accessToken, onBack = { navController.popBackStack() })
+            R24RewardLedgerScreen(
+                api = r24Api,
+                accessToken = authenticated.session.accessToken,
+                onBack = { navController.popBackStack() },
+                onSessionExpired = onSessionInvalidated,
+            )
+        }
+        composable<AuthenticatedRoute.PayoutAccount> {
+            R24PayoutAccountScreen(
+                api = r24Api,
+                accessToken = authenticated.session.accessToken,
+                onBack = { navController.popBackStack() },
+                onSessionExpired = onSessionInvalidated,
+            )
+        }
+        composable<AuthenticatedRoute.CreateWithdrawal> {
+            R24CreateWithdrawalScreen(
+                api = r24Api,
+                meApi = r12MeApi,
+                accessToken = authenticated.session.accessToken,
+                onBack = { navController.popBackStack() },
+                onOpenPayoutAccount = { navController.navigate(AuthenticatedRoute.PayoutAccount) },
+                onOpenHistory = { navController.navigate(AuthenticatedRoute.WithdrawalHistory) },
+                onSessionExpired = onSessionInvalidated,
+            )
+        }
+        composable<AuthenticatedRoute.WithdrawalHistory> {
+            R24WithdrawalHistoryScreen(
+                api = r24Api,
+                accessToken = authenticated.session.accessToken,
+                onBack = { navController.popBackStack() },
+                onSessionExpired = onSessionInvalidated,
+            )
         }
         composable<AuthenticatedRoute.Messages>(
             enterTransition = { androidx.compose.animation.EnterTransition.None },
