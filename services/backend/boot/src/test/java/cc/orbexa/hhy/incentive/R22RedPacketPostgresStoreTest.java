@@ -293,7 +293,7 @@ class R22RedPacketPostgresStoreTest {
         assertEquals(2L, fixture.count(
                 "SELECT count(*) FROM hhy.analytics_events WHERE traffic_type='INCENTIVIZED_RED_PACKET_TRAFFIC'"));
         assertEquals(2L, fixture.count(
-                "SELECT sum(value) FROM hhy.daily_kpis WHERE dimensions @> '{\"trafficType\":\"INCENTIVIZED_RED_PACKET_TRAFFIC\"}'::jsonb"));
+                "SELECT sum(value) FROM hhy.daily_kpis WHERE metric_code IN ('red_packet_view_started','red_packet_claimed')"));
         assertEquals(0, fixture.store(base.plusSeconds(22)).adminLedger(campaignId).size());
     }
 
