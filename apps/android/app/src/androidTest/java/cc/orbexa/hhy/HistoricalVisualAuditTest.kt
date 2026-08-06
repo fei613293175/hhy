@@ -816,7 +816,8 @@ class HistoricalVisualAuditTest {
         waitForText("任务进度")
         waitForText("开始任务")
         composeRule.onNodeWithText("开始任务").performClick()
-        waitForText("服务端有效浏览 0 / 20 秒")
+        waitForText("服务端有效浏览")
+        waitForText("0 / 20 秒")
         captureStable("55-r22-scr-rp-003.png")
     }
 
