@@ -14,10 +14,18 @@ import cc.orbexa.hhy.incentive.R20RedPacketContracts.IncreaseQuoteRequest;
 import cc.orbexa.hhy.incentive.R20RedPacketContracts.LifecycleRequest;
 import cc.orbexa.hhy.incentive.R20RedPacketContracts.SubmitReviewRequest;
 import cc.orbexa.hhy.incentive.R20RedPacketContracts.UserCommand;
+import cc.orbexa.hhy.incentive.R20RedPacketContracts.ViewSessionRequest;
+import cc.orbexa.hhy.incentive.R20RedPacketContracts.HeartbeatRequest;
+import cc.orbexa.hhy.incentive.R20RedPacketContracts.ClaimRequest;
+import cc.orbexa.hhy.incentive.R20RedPacketContracts.CancelRequest;
 import java.time.Instant;
 import java.util.List;
 
 public interface R20RedPacketStore {
+    PageSlice<CampaignResource> publicCampaigns(PageQuery query);
+
+    CampaignResource publicCampaign(long campaignId);
+
     PageSlice<CampaignResource> userCampaigns(long userId, PageQuery query);
 
     CampaignResource userCampaign(long userId, long campaignId);
@@ -48,6 +56,20 @@ public interface R20RedPacketStore {
     CommandResultResource increaseOrder(
             UserCommand command, long campaignId, IncreaseOrderRequest request, String requestHash);
 
+    CommandResultResource startViewSession(
+            UserCommand command, long campaignId, ViewSessionRequest request, String requestHash);
+
+    CommandResultResource heartbeat(
+            UserCommand command, long sessionId, HeartbeatRequest request, String requestHash);
+
+    CommandResultResource claim(
+            UserCommand command, long sessionId, ClaimRequest request, String requestHash);
+
+    CommandResultResource cancel(
+            UserCommand command, long sessionId, CancelRequest request, String requestHash);
+
+    PageSlice<CampaignResource> claims(long userId, PageQuery query);
+
     PageSlice<CampaignResource> analytics(long userId, long campaignId, PageQuery query);
 
     PageSlice<CampaignResource> adminCampaigns(PageQuery query);
@@ -64,7 +86,10 @@ public interface R20RedPacketStore {
         public PageSlice { items = List.copyOf(items); }
     }
 
-    enum Kind { NOT_FOUND, CONFLICT, BUSINESS_RULE, INVALID_DATA, INTERNAL }
+    enum Kind {
+        NOT_FOUND, CONFLICT, BUSINESS_RULE, INVALID_DATA, INTERNAL,
+        IDENTITY_NOT_VERIFIED, STOCK_EXHAUSTED, ALREADY_CLAIMED, VIEW_INVALID
+    }
 
     final class StoreException extends RuntimeException {
         private static final long serialVersionUID = 1L;

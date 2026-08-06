@@ -13,6 +13,10 @@ import cc.orbexa.hhy.incentive.R20RedPacketContracts.UserCommand;
 import cc.orbexa.hhy.incentive.R20RedPacketContracts.IncreaseOrderRequest;
 import cc.orbexa.hhy.incentive.R20RedPacketContracts.IncreaseQuoteRequest;
 import cc.orbexa.hhy.incentive.R20RedPacketContracts.LifecycleRequest;
+import cc.orbexa.hhy.incentive.R20RedPacketContracts.ViewSessionRequest;
+import cc.orbexa.hhy.incentive.R20RedPacketContracts.HeartbeatRequest;
+import cc.orbexa.hhy.incentive.R20RedPacketContracts.ClaimRequest;
+import cc.orbexa.hhy.incentive.R20RedPacketContracts.CancelRequest;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -44,6 +48,16 @@ public final class R20RedPacketPostgresStore implements R20RedPacketStore {
     }
 
     @Override
+    public PageSlice<CampaignResource> publicCampaigns(PageQuery query) {
+        return page(query, "c.status='ACTIVE'", List.of(), true);
+    }
+
+    @Override
+    public CampaignResource publicCampaign(long campaignId) {
+        return read(connection -> publicResource(connection, campaignId));
+    }
+
+    @Override
     public PageSlice<CampaignResource> userCampaigns(long userId, PageQuery query) {
         return page(query, "c.owner_id = ?", List.<Object>of(userId));
     }
@@ -64,6 +78,7 @@ public final class R20RedPacketPostgresStore implements R20RedPacketStore {
             }
             long principal = Math.multiplyExact(request.totalCount(), request.amountPerClaimCent());
             long fee = fee(principal);
+            int requiredSeconds = r22ConfigSeconds(connection, "red_packet.default_view_seconds");
             long id;
             try (PreparedStatement statement = connection.prepareStatement(
                     """
@@ -71,18 +86,19 @@ public final class R20RedPacketPostgresStore implements R20RedPacketStore {
                       content_id,owner_id,status,total_count,current_amount,required_seconds,
                       amount_per_claim_cent,
                       principal_cent,service_fee_cent,start_at,end_at,targeting_json,version)
-                    VALUES (?,?, 'DRAFT',?,?,10,?,?,?,?,?,?::jsonb,0) RETURNING id
+                    VALUES (?,?, 'DRAFT',?,?,?,?,?,?,?,?,?::jsonb,0) RETURNING id
                     """)) {
                 statement.setLong(1, contentId);
                 statement.setLong(2, command.userId());
                 statement.setLong(3, request.totalCount());
                 statement.setLong(4, request.amountPerClaimCent());
-                statement.setLong(5, request.amountPerClaimCent());
-                statement.setLong(6, principal);
-                statement.setLong(7, fee);
-                statement.setObject(8, time(request.startAt()));
-                statement.setObject(9, time(request.endAt()));
-                statement.setString(10, codec.json(request.targeting()));
+                statement.setLong(5, requiredSeconds);
+                statement.setLong(6, request.amountPerClaimCent());
+                statement.setLong(7, principal);
+                statement.setLong(8, fee);
+                statement.setObject(9, time(request.startAt()));
+                statement.setObject(10, time(request.endAt()));
+                statement.setString(11, codec.json(request.targeting()));
                 try (ResultSet rows = statement.executeQuery()) {
                     if (!rows.next()) throw internal("红包活动创建未返回结果");
                     id = rows.getLong(1);
@@ -425,6 +441,341 @@ public final class R20RedPacketPostgresStore implements R20RedPacketStore {
     }
 
     @Override
+    public CommandResultResource startViewSession(
+            UserCommand command, long campaignId, ViewSessionRequest request, String requestHash) {
+        return transaction(connection -> {
+            Idempotency claim = claim(connection, userScope(command), command.idempotencyKey(), requestHash);
+            if (claim.responseRef() != null) return sessionResult(connection, parse(claim.responseRef()));
+            Instant currentTime = now();
+            releaseExpired(connection, currentTime);
+            try (PreparedStatement identity = connection.prepareStatement(
+                    "SELECT status FROM hhy.identity_profiles WHERE user_id=?")) {
+                identity.setLong(1, command.userId());
+                try (ResultSet rows = identity.executeQuery()) {
+                    if (!rows.next() || !"VERIFIED".equals(rows.getString(1))) {
+                        throw new StoreException(Kind.IDENTITY_NOT_VERIFIED, "完成实名认证后才可以领取红包");
+                    }
+                }
+            }
+            CampaignHead campaign = campaign(connection, campaignId, 0, true, true);
+            if (!"ACTIVE".equals(campaign.status())) {
+                throw new StoreException(Kind.VIEW_INVALID, "当前红包活动不可领取");
+            }
+            long stockId;
+            try (PreparedStatement stock = connection.prepareStatement(
+                    "SELECT id FROM hhy.red_packet_stock WHERE campaign_id=? "
+                            + "AND total-claimed-reserved>0 FOR UPDATE")) {
+                stock.setLong(1, campaignId);
+                try (ResultSet rows = stock.executeQuery()) {
+                    if (!rows.next()) throw new StoreException(Kind.STOCK_EXHAUSTED, "红包库存已耗尽");
+                    stockId = rows.getLong(1);
+                }
+            }
+            try (PreparedStatement active = connection.prepareStatement(
+                    "SELECT id FROM hhy.red_packet_view_sessions "
+                            + "WHERE campaign_id=? AND user_id=? AND status IN ('VIEWING','VIEW_COMPLETE') FOR UPDATE")) {
+                active.setLong(1, campaignId); active.setLong(2, command.userId());
+                try (ResultSet rows = active.executeQuery()) {
+                    if (rows.next()) throw new StoreException(Kind.VIEW_INVALID, "当前红包已有进行中的浏览会话");
+                }
+            }
+            int requiredSeconds = r22ConfigSeconds(connection, "red_packet.default_view_seconds");
+            int reservationSeconds = Math.max(requiredSeconds,
+                    r22ConfigSeconds(connection, "red_packet.reservation_min_seconds"));
+            long sessionId;
+            try (PreparedStatement session = connection.prepareStatement(
+                    "INSERT INTO hhy.red_packet_view_sessions "
+                            + "(campaign_id,user_id,required,valid_seconds,status,expires_at,version,client_nonce,device_context,"
+                            + "accumulated_seconds,last_heartbeat_sequence,last_server_time) "
+                            + "VALUES (?,?,true,?, 'VIEWING',?,0,?,?,0,-1,?) RETURNING id")) {
+                session.setLong(1, campaignId); session.setLong(2, command.userId());
+                session.setInt(3, requiredSeconds);
+                session.setObject(4, time(currentTime.plusSeconds(reservationSeconds)));
+                session.setString(5, request.clientNonce()); session.setString(6, request.deviceContext());
+                session.setObject(7, time(currentTime));
+                try (ResultSet rows = session.executeQuery()) {
+                    if (!rows.next()) throw internal("浏览会话创建失败");
+                    sessionId = rows.getLong(1);
+                }
+            }
+            long reservationId;
+            try (PreparedStatement reservation = connection.prepareStatement(
+                    "INSERT INTO hhy.red_packet_reservations "
+                            + "(campaign_id,user_id,session_id,amount_version,expires_at,status,idempotency_key,request_hash) "
+                            + "SELECT ?,?,?,c.version,?,'LOCKED',?,? FROM hhy.red_packet_campaigns c "
+                            + "WHERE c.id=? RETURNING id")) {
+                reservation.setLong(1, campaignId); reservation.setLong(2, command.userId());
+                reservation.setLong(3, sessionId); reservation.setObject(4, time(currentTime.plusSeconds(reservationSeconds)));
+                reservation.setString(5, command.idempotencyKey()); reservation.setString(6, requestHash);
+                reservation.setLong(7, campaignId);
+                try (ResultSet rows = reservation.executeQuery()) {
+                    if (!rows.next()) throw internal("红包名额锁定失败");
+                    reservationId = rows.getLong(1);
+                }
+            }
+            try (PreparedStatement update = connection.prepareStatement(
+                    "UPDATE hhy.red_packet_view_sessions SET reservation_id=?,version=version+1,updated_at=clock_timestamp() WHERE id=?")) {
+                update.setLong(1, reservationId); update.setLong(2, sessionId); update.executeUpdate();
+            }
+            try (PreparedStatement update = connection.prepareStatement(
+                    "UPDATE hhy.red_packet_stock SET reserved=reserved+1,version=version+1,updated_at=clock_timestamp() "
+                            + "WHERE id=? AND total-claimed-reserved>0")) {
+                update.setLong(1, stockId);
+                if (update.executeUpdate() != 1) throw new StoreException(Kind.STOCK_EXHAUSTED, "红包库存已耗尽");
+            }
+            complete(connection, claim.id(), Long.toString(sessionId));
+            outbox(connection, sessionId, "red_packet_view_session", "red.packet.view.started.v1",
+                    Map.of("sessionId", sessionId, "campaignId", campaignId, "userId", command.userId()));
+            return sessionResult(connection, sessionId);
+        });
+    }
+
+    @Override
+    public CommandResultResource heartbeat(
+            UserCommand command, long sessionId, HeartbeatRequest request, String requestHash) {
+        return transaction(connection -> {
+            Idempotency claim = claim(connection, userScope(command), command.idempotencyKey(), requestHash);
+            if (claim.responseRef() != null) return sessionResult(connection, parse(claim.responseRef()));
+            Instant currentTime = now();
+            releaseExpired(connection, currentTime);
+            SessionHead session = session(connection, sessionId, command.userId(), true);
+            if (!session.status().equals("VIEWING") && !session.status().equals("VIEW_COMPLETE")) {
+                throw new StoreException(Kind.VIEW_INVALID, "浏览会话已失效");
+            }
+            if (!currentTime.isBefore(session.expiresAt())) {
+                expireSession(connection, session, currentTime);
+                throw new StoreException(Kind.VIEW_INVALID, "浏览会话已过期");
+            }
+            if (request.clientSequence() <= session.lastHeartbeatSequence()) {
+                throw new StoreException(Kind.VIEW_INVALID, "浏览心跳序号必须递增");
+            }
+            long serverDelta = Math.max(0, Math.min(20,
+                    java.time.Duration.between(session.lastServerTime(), currentTime).getSeconds()));
+            long delta = request.pageVisible() ? serverDelta : 0;
+            int accumulated = (int) Math.min(session.validSeconds(), session.accumulatedSeconds() + delta);
+            String status = accumulated >= session.validSeconds() ? "VIEW_COMPLETE" : "VIEWING";
+            try (PreparedStatement heartbeat = connection.prepareStatement(
+                    "INSERT INTO hhy.red_packet_heartbeats(session_id,server_time,foreground,visible,delta) VALUES (?,?,?,?,?)")) {
+                heartbeat.setLong(1, session.id()); heartbeat.setObject(2, time(currentTime));
+                heartbeat.setBoolean(3, request.pageVisible()); heartbeat.setBoolean(4, request.pageVisible());
+                heartbeat.setLong(5, delta); heartbeat.executeUpdate();
+            }
+            try (PreparedStatement update = connection.prepareStatement(
+                    "UPDATE hhy.red_packet_view_sessions SET status=?,accumulated_seconds=?,last_heartbeat_sequence=?,"
+                            + "last_server_time=?,version=version+1,updated_at=clock_timestamp() WHERE id=?")) {
+                update.setString(1, status); update.setInt(2, accumulated);
+                update.setLong(3, request.clientSequence()); update.setObject(4, time(currentTime)); update.setLong(5, session.id());
+                update.executeUpdate();
+            }
+            complete(connection, claim.id(), Long.toString(session.id()));
+            return sessionResult(connection, session.id());
+        });
+    }
+
+    @Override
+    public CommandResultResource claim(
+            UserCommand command, long sessionId, ClaimRequest request, String requestHash) {
+        return transaction(connection -> {
+            Idempotency claim = claim(connection, userScope(command), command.idempotencyKey(), requestHash);
+            if (claim.responseRef() != null) return claimResult(connection, parse(claim.responseRef()));
+            Instant currentTime = now();
+            releaseExpired(connection, currentTime);
+            SessionHead session = session(connection, sessionId, command.userId(), true);
+            if (!request.clientNonce().equals(session.clientNonce()) || !"VIEW_COMPLETE".equals(session.status())
+                    || !currentTime.isBefore(session.expiresAt())
+                    || request.finalHeartbeatSequence() != session.lastHeartbeatSequence()) {
+                throw new StoreException(Kind.VIEW_INVALID, "浏览任务尚未完成或已过期");
+            }
+            CampaignHead campaign = campaign(connection, session.campaignId(), 0, true, true);
+            try (PreparedStatement existing = connection.prepareStatement(
+                    "SELECT id FROM hhy.red_packet_claims WHERE campaign_id=? AND user_id=? FOR UPDATE")) {
+                existing.setLong(1, session.campaignId()); existing.setLong(2, command.userId());
+                try (ResultSet rows = existing.executeQuery()) {
+                    if (rows.next()) throw new StoreException(Kind.ALREADY_CLAIMED, "该红包已领取");
+                }
+            }
+            long claimId;
+            try (PreparedStatement insert = connection.prepareStatement(
+                    "INSERT INTO hhy.red_packet_claims(campaign_id,user_id,amount,amount_version,status,reward_ledger_id,"
+                            + "session_id,client_nonce,final_heartbeat_sequence,request_hash) VALUES (?,?,?,?,'PENDING',NULL,?,?,?,?) RETURNING id")) {
+                insert.setLong(1, session.campaignId()); insert.setLong(2, command.userId());
+                insert.setLong(3, campaign.amountPerClaimCent()); insert.setLong(4, campaign.version());
+                insert.setLong(5, session.id()); insert.setString(6, request.clientNonce());
+                insert.setLong(7, request.finalHeartbeatSequence()); insert.setString(8, requestHash);
+                try (ResultSet rows = insert.executeQuery()) {
+                    if (!rows.next()) throw internal("红包领取记录创建失败");
+                    claimId = rows.getLong(1);
+                }
+            }
+            if (session.reservationId() == null) throw internal("红包名额锁定不存在");
+            try (PreparedStatement reservation = connection.prepareStatement(
+                    "UPDATE hhy.red_packet_reservations SET status='CLAIMED',claim_id=?,updated_at=clock_timestamp() "
+                            + "WHERE id=? AND status='LOCKED'")) {
+                reservation.setLong(1, claimId); reservation.setLong(2, session.reservationId());
+                if (reservation.executeUpdate() != 1) throw new StoreException(Kind.VIEW_INVALID, "红包名额锁定已失效");
+            }
+            try (PreparedStatement stock = connection.prepareStatement(
+                    "UPDATE hhy.red_packet_stock SET reserved=reserved-1,claimed=claimed+1,version=version+1,updated_at=clock_timestamp() "
+                            + "WHERE campaign_id=? AND reserved>0")) {
+                stock.setLong(1, session.campaignId());
+                if (stock.executeUpdate() != 1) throw internal("红包库存状态不一致");
+            }
+            try (PreparedStatement update = connection.prepareStatement(
+                    "UPDATE hhy.red_packet_view_sessions SET status='CLAIMED',claimed_at=?,version=version+1,updated_at=clock_timestamp() WHERE id=?")) {
+                update.setObject(1, time(currentTime)); update.setLong(2, session.id()); update.executeUpdate();
+            }
+            complete(connection, claim.id(), Long.toString(claimId));
+            outbox(connection, claimId, "red_packet_claim", "red.packet.claim.created.v1",
+                    Map.of("claimId", claimId, "campaignId", session.campaignId(), "userId", command.userId()));
+            return claimResult(connection, claimId);
+        });
+    }
+
+    @Override
+    public CommandResultResource cancel(
+            UserCommand command, long sessionId, CancelRequest request, String requestHash) {
+        return transaction(connection -> {
+            Idempotency claim = claim(connection, userScope(command), command.idempotencyKey(), requestHash);
+            if (claim.responseRef() != null) return sessionResult(connection, parse(claim.responseRef()));
+            Instant currentTime = now();
+            releaseExpired(connection, currentTime);
+            SessionHead session = session(connection, sessionId, command.userId(), true);
+            if ("CLAIMED".equals(session.status())) throw new StoreException(Kind.VIEW_INVALID, "已领取的浏览会话不能取消");
+            if ("CANCELLED".equals(session.status()) || "EXPIRED".equals(session.status())) {
+                complete(connection, claim.id(), Long.toString(session.id()));
+                return sessionResult(connection, session.id());
+            }
+            releaseReservation(connection, session, "CANCELLED", currentTime);
+            try (PreparedStatement update = connection.prepareStatement(
+                    "UPDATE hhy.red_packet_view_sessions SET status='CANCELLED',version=version+1,updated_at=clock_timestamp() WHERE id=?")) {
+                update.setLong(1, session.id()); update.executeUpdate();
+            }
+            complete(connection, claim.id(), Long.toString(session.id()));
+            return sessionResult(connection, session.id());
+        });
+    }
+
+    @Override
+    public PageSlice<CampaignResource> claims(long userId, PageQuery query) {
+        return read(connection -> {
+            String filter = "cl.user_id=?";
+            List<Object> args = new ArrayList<>(List.of(userId));
+            if (query.status() != null) { filter += " AND cl.status=?"; args.add(query.status()); }
+            if (query.keyword() != null) { filter += " AND (CAST(cl.campaign_id AS text) LIKE ? OR CAST(cl.id AS text) LIKE ?)";
+                args.add("%" + query.keyword() + "%"); args.add("%" + query.keyword() + "%"); }
+            String order = "cl.created_at DESC";
+            if ("createdAt:asc".equals(query.sort())) order = "cl.created_at ASC";
+            List<CampaignResource> items = new ArrayList<>();
+            try (PreparedStatement statement = connection.prepareStatement(
+                    "SELECT cl.campaign_id FROM hhy.red_packet_claims cl WHERE " + filter
+                            + " ORDER BY " + order + " LIMIT ? OFFSET ?")) {
+                bind(statement, args); statement.setInt(args.size() + 1, query.pageSize());
+                statement.setLong(args.size() + 2, query.offset());
+                try (ResultSet rows = statement.executeQuery()) { while (rows.next()) items.add(resource(connection, rows.getLong(1), 0, true)); }
+            }
+            long total;
+            try (PreparedStatement statement = connection.prepareStatement("SELECT count(*) FROM hhy.red_packet_claims cl WHERE " + filter)) {
+                bind(statement, args); try (ResultSet rows = statement.executeQuery()) { rows.next(); total = rows.getLong(1); }
+            }
+            return new PageSlice<>(items, total);
+        });
+    }
+
+    private SessionHead session(Connection connection, long sessionId, long userId, boolean lock) {
+        String sql = "SELECT id,campaign_id,user_id,reservation_id,status,valid_seconds,accumulated_seconds,"
+                + "last_heartbeat_sequence,last_server_time,expires_at,client_nonce,version "
+                + "FROM hhy.red_packet_view_sessions WHERE id=? AND user_id=?" + (lock ? " FOR UPDATE" : "");
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setLong(1, sessionId); statement.setLong(2, userId);
+            try (ResultSet rows = statement.executeQuery()) {
+                if (!rows.next()) throw notFound("浏览会话不存在");
+                Long reservationId = rows.getLong(4); if (rows.wasNull()) reservationId = null;
+                return new SessionHead(rows.getLong(1), rows.getLong(2), rows.getLong(3), reservationId,
+                        rows.getString(5), rows.getInt(6), rows.getInt(7), rows.getLong(8),
+                        instant(rows, 9), instant(rows, 10), rows.getString(11), rows.getLong(12));
+            }
+        } catch (SQLException failure) { throw internal("浏览会话读取失败", failure); }
+    }
+
+    private CommandResultResource sessionResult(Connection connection, long sessionId) {
+        try (PreparedStatement statement = connection.prepareStatement(
+                "SELECT id,status,version,created_at,expires_at,valid_seconds,accumulated_seconds,"
+                        + "last_heartbeat_sequence,last_server_time "
+                        + "FROM hhy.red_packet_view_sessions WHERE id=?")) {
+            statement.setLong(1, sessionId);
+            try (ResultSet rows = statement.executeQuery()) {
+                if (!rows.next()) throw notFound("浏览会话不存在");
+                return new CommandResultResource(Long.toString(rows.getLong(1)),
+                        "R22-VIEW-" + rows.getLong(1), rows.getString(2), rows.getLong(3), instant(rows, 4),
+                        null, null, null, null, null, null, instant(rows, 5),
+                        rows.getLong(6), rows.getLong(7), rows.getLong(8), instant(rows, 9));
+            }
+        } catch (SQLException failure) { throw internal("浏览会话结果读取失败", failure); }
+    }
+
+    private CommandResultResource claimResult(Connection connection, long claimId) {
+        try (PreparedStatement statement = connection.prepareStatement(
+                "SELECT id,status,created_at,amount,amount_version FROM hhy.red_packet_claims WHERE id=?")) {
+            statement.setLong(1, claimId);
+            try (ResultSet rows = statement.executeQuery()) {
+                if (!rows.next()) throw notFound("红包领取记录不存在");
+                long amount = rows.getLong(4);
+                return new CommandResultResource(Long.toString(rows.getLong(1)),
+                        "R22-CLAIM-" + rows.getLong(1), rows.getString(2), rows.getLong(5), instant(rows, 3),
+                        amount, 0L, amount, 1L, amount, "CLAIM", null);
+            }
+        } catch (SQLException failure) { throw internal("红包领取结果读取失败", failure); }
+    }
+
+    private void releaseExpired(Connection connection, Instant currentTime) throws SQLException {
+        try (PreparedStatement statement = connection.prepareStatement(
+                "SELECT id,campaign_id,user_id,reservation_id,status,valid_seconds,accumulated_seconds,"
+                        + "last_heartbeat_sequence,last_server_time,expires_at,client_nonce,version "
+                        + "FROM hhy.red_packet_view_sessions WHERE status IN ('VIEWING','VIEW_COMPLETE') "
+                        + "AND expires_at<=? FOR UPDATE")) {
+            statement.setObject(1, time(currentTime));
+            try (ResultSet rows = statement.executeQuery()) {
+                while (rows.next()) {
+                    Long reservationId = rows.getLong(4); if (rows.wasNull()) reservationId = null;
+                    SessionHead expired = new SessionHead(rows.getLong(1), rows.getLong(2), rows.getLong(3), reservationId,
+                            rows.getString(5), rows.getInt(6), rows.getInt(7), rows.getLong(8),
+                            instant(rows, 9), instant(rows, 10), rows.getString(11), rows.getLong(12));
+                    releaseReservation(connection, expired, "EXPIRED", currentTime);
+                    try (PreparedStatement update = connection.prepareStatement(
+                            "UPDATE hhy.red_packet_view_sessions SET status='EXPIRED',version=version+1,updated_at=clock_timestamp() WHERE id=?")) {
+                        update.setLong(1, expired.id()); update.executeUpdate();
+                    }
+                }
+            }
+        }
+    }
+
+    private void expireSession(Connection connection, SessionHead session, Instant currentTime) throws SQLException {
+        releaseReservation(connection, session, "EXPIRED", currentTime);
+        try (PreparedStatement update = connection.prepareStatement(
+                "UPDATE hhy.red_packet_view_sessions SET status='EXPIRED',version=version+1,updated_at=clock_timestamp() WHERE id=?")) {
+            update.setLong(1, session.id()); update.executeUpdate();
+        }
+    }
+
+    private void releaseReservation(Connection connection, SessionHead session, String status, Instant currentTime)
+            throws SQLException {
+        if (session.reservationId() == null) return;
+        try (PreparedStatement reservation = connection.prepareStatement(
+                "UPDATE hhy.red_packet_reservations SET status=?,released_at=?,updated_at=clock_timestamp() "
+                        + "WHERE id=? AND status='LOCKED'")) {
+            reservation.setString(1, status); reservation.setObject(2, time(currentTime)); reservation.setLong(3, session.reservationId());
+            if (reservation.executeUpdate() == 1) {
+                try (PreparedStatement stock = connection.prepareStatement(
+                        "UPDATE hhy.red_packet_stock SET reserved=reserved-1,version=version+1,updated_at=clock_timestamp() "
+                                + "WHERE campaign_id=? AND reserved>0")) {
+                    stock.setLong(1, session.campaignId()); stock.executeUpdate();
+                }
+            }
+        }
+    }
+
+    @Override
     public PageSlice<CampaignResource> analytics(long userId, long campaignId, PageQuery query) {
         return read(connection -> {
             CampaignResource resource = resource(connection, campaignId, userId, false);
@@ -511,6 +862,11 @@ public final class R20RedPacketPostgresStore implements R20RedPacketStore {
     }
 
     private PageSlice<CampaignResource> page(PageQuery query, String ownerClause, List<Object> ownerArgs) {
+        return page(query, ownerClause, ownerArgs, false);
+    }
+
+    private PageSlice<CampaignResource> page(
+            PageQuery query, String ownerClause, List<Object> ownerArgs, boolean publicView) {
         return read(connection -> {
             String filters = ownerClause;
             List<Object> args = new ArrayList<>(ownerArgs);
@@ -538,7 +894,11 @@ public final class R20RedPacketPostgresStore implements R20RedPacketStore {
                 bind(statement, args); statement.setInt(args.size() + 1, query.pageSize());
                 statement.setLong(args.size() + 2, query.offset());
                 try (ResultSet rows = statement.executeQuery()) {
-                    while (rows.next()) items.add(resource(connection, rows.getLong(1), 0, true));
+                    while (rows.next()) {
+                        items.add(publicView
+                                ? publicResource(connection, rows.getLong(1))
+                                : resource(connection, rows.getLong(1), 0, true));
+                    }
                 }
             }
             long total;
@@ -570,6 +930,29 @@ public final class R20RedPacketPostgresStore implements R20RedPacketStore {
                         nullableLong(rows, 3), rows.getString(4), rows.getLong(5), rows.getLong(6),
                         rows.getLong(7), rows.getLong(8), rows.getLong(9),
                         instant(rows, 10), instant(rows, 11), rows.getLong(12));
+            }
+        } catch (SQLException failure) { throw internal("红包活动读取失败", failure); }
+    }
+
+    private CampaignResource publicResource(Connection connection, long campaignId) {
+        String sql = """
+                SELECT c.id,c.content_id,c.status,c.total_count,
+                  COALESCE(s.total-s.claimed-s.reserved,c.total_count),
+                  COALESCE(c.amount_per_claim_cent,0),COALESCE(c.principal_cent,0),
+                  COALESCE(c.service_fee_cent,0),c.start_at,c.end_at,c.version
+                FROM hhy.red_packet_campaigns c
+                LEFT JOIN hhy.red_packet_stock s ON s.campaign_id=c.id
+                WHERE c.id=? AND c.status='ACTIVE'
+                """;
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setLong(1, campaignId);
+            try (ResultSet rows = statement.executeQuery()) {
+                if (!rows.next()) throw notFound("红包活动不存在或当前不可领取");
+                return new CampaignResource(
+                        Long.toString(rows.getLong(1)), Long.toString(rows.getLong(2)),
+                        null, rows.getString(3), rows.getLong(4), rows.getLong(5),
+                        rows.getLong(6), rows.getLong(7), rows.getLong(8),
+                        instant(rows, 9), instant(rows, 10), rows.getLong(11));
             }
         } catch (SQLException failure) { throw internal("红包活动读取失败", failure); }
     }
@@ -797,6 +1180,20 @@ public final class R20RedPacketPostgresStore implements R20RedPacketStore {
 
     private static long fee(long principal) { return Math.multiplyExact(principal, SERVICE_FEE_BPS) / 10_000; }
 
+    private static int r22ConfigSeconds(Connection connection, String key) throws SQLException {
+        try (PreparedStatement statement = connection.prepareStatement(
+                "SELECT (value_json #>> '{}')::integer FROM hhy.system_configs "
+                        + "WHERE key=? AND scope='GLOBAL'")) {
+            statement.setString(1, key);
+            try (ResultSet rows = statement.executeQuery()) {
+                if (!rows.next()) throw internal("缺少 R22 配置: " + key);
+                int value = rows.getInt(1);
+                if (rows.wasNull() || value < 1) throw internal("R22 配置无效: " + key);
+                return value;
+            }
+        }
+    }
+
     private static boolean raiseAllowed(String status) {
         return status.equals("ACTIVE") || status.equals("PAUSED_BY_OWNER")
                 || status.equals("PAUSED_BY_CONTENT_OFFLINE") || status.equals("PAUSED_BY_RISK");
@@ -815,6 +1212,9 @@ public final class R20RedPacketPostgresStore implements R20RedPacketStore {
 
     private record CampaignHead(long id, String status, long totalCount, long amountPerClaimCent,
                                 Instant startAt, Instant endAt, long version) { }
+    private record SessionHead(long id, long campaignId, long userId, Long reservationId, String status,
+                               int validSeconds, int accumulatedSeconds, long lastHeartbeatSequence,
+                               Instant lastServerTime, Instant expiresAt, String clientNonce, long version) { }
     private record QuoteHead(long id, long payable, Instant expiresAt, boolean hasOrder,
                              String type, long totalCount, long amountPerClaimCent, long version) { }
     private record Idempotency(long id, String responseRef) { }

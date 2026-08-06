@@ -19022,6 +19022,18 @@ components:
         acceptedAt:
           type: string
           format: date-time
+        requiredSeconds:
+          type: integer
+          format: int64
+        accumulatedSeconds:
+          type: integer
+          format: int64
+        lastHeartbeatSequence:
+          type: integer
+          format: int64
+        lastServerTime:
+          type: string
+          format: date-time
       required:
       - status
       - acceptedAt
@@ -19233,6 +19245,18 @@ components:
           type: string
           maxLength: 2000
         expiresAt:
+          type: string
+          format: date-time
+        requiredSeconds:
+          type: integer
+          format: int64
+        accumulatedSeconds:
+          type: integer
+          format: int64
+        lastHeartbeatSequence:
+          type: integer
+          format: int64
+        lastServerTime:
           type: string
           format: date-time
       required:

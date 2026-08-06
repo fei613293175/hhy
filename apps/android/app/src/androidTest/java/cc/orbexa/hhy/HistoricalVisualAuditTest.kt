@@ -119,6 +119,10 @@ import cc.orbexa.hhy.network.R20IncreaseQuoteRequest
 import cc.orbexa.hhy.network.R20OrderRequest
 import cc.orbexa.hhy.network.R20PatchRedPacketRequest
 import cc.orbexa.hhy.network.R20QuoteRequest
+import cc.orbexa.hhy.network.R22CancelRequest
+import cc.orbexa.hhy.network.R22ClaimRequest
+import cc.orbexa.hhy.network.R22HeartbeatRequest
+import cc.orbexa.hhy.network.R22ViewSessionRequest
 import cc.orbexa.hhy.network.R20RedPacketCampaignResource
 import cc.orbexa.hhy.network.R20RedPacketPage
 import cc.orbexa.hhy.network.R20SubmitReviewRequest
@@ -153,6 +157,9 @@ import cc.orbexa.hhy.redpacket.R20RedPacketQuoteScreen
 import cc.orbexa.hhy.redpacket.R20RedPacketReviewResultScreen
 import cc.orbexa.hhy.redpacket.R21RedPacketDetailScreen
 import cc.orbexa.hhy.redpacket.R21RedPacketIncreaseAmountScreen
+import cc.orbexa.hhy.redpacket.R22RedPacketHomeScreen
+import cc.orbexa.hhy.redpacket.R22RedPacketEligibilityScreen
+import cc.orbexa.hhy.redpacket.R22RedPacketTaskScreen
 import cc.orbexa.hhy.startup.StartupVisualAuditMode
 import cc.orbexa.hhy.startup.StartupVisualAuditScreen
 import java.io.InputStream
@@ -785,6 +792,44 @@ class HistoricalVisualAuditTest {
         captureStable("52-r21-scr-rp-adv-006.png")
     }
 
+    @Test
+    fun r22RedPacketHomeProducesBoundVisualEvidence() {
+        setAuditContent { R22RedPacketHomeScreen(visualR22Api, "visual-r22-token", {}, {}, {}) }
+        composeRule.onNodeWithTag("hhy.screen.scr-rp-001").assertIsDisplayed()
+        waitForText("进行中的红包")
+        captureStable("53-r22-scr-rp-001.png")
+    }
+
+    @Test
+    fun r22RedPacketEligibilityProducesBoundVisualEvidence() {
+        setAuditContent { R22RedPacketEligibilityScreen(visualR22Api, "visual-r22-token", "rp-active-2001", {}, {}, {}) }
+        composeRule.onNodeWithTag("hhy.screen.scr-rp-002").assertIsDisplayed()
+        waitForText("活动信息")
+        composeRule.onNodeWithText("开始浏览").assertIsDisplayed()
+        captureStable("54-r22-scr-rp-002.png")
+    }
+
+    @Test
+    fun r22RedPacketTaskProducesBoundVisualEvidence() {
+        setAuditContent { R22RedPacketTaskScreen(visualR22Api, visualMeApi, "visual-r22-token", "rp-active-2001", {}, {}, {}) }
+        composeRule.onNodeWithTag("hhy.screen.scr-rp-003").assertIsDisplayed()
+        waitForText("任务进度")
+        composeRule.onNodeWithText("服务端有效浏览 20 / 20 秒").assertIsDisplayed()
+        captureStable("55-r22-scr-rp-003.png")
+    }
+
+    @Test
+    fun r22RedPacketClaimSheetProducesBoundVisualEvidence() {
+        setAuditContent {
+            cc.orbexa.hhy.redpacket.R22RedPacketClaimSheet(
+                visualR22Api, visualMeApi, "visual-r22-token", "session-r22-1", "nonce-r22", 19, {}, {}, {},
+            )
+        }
+        waitForText("领取红包")
+        composeRule.onNodeWithText("确认领取").assertIsDisplayed()
+        captureStable("56-r22-sheet-rp-001.png")
+    }
+
     @OptIn(ExperimentalComposeUiApi::class)
     private fun setAuditContent(content: @Composable () -> Unit) {
         composeRule.setContent {
@@ -1147,6 +1192,8 @@ class HistoricalVisualAuditTest {
                 ),
                 "visual-r20-campaigns",
             )
+        override suspend fun publicCampaigns(accessToken: String, page: Int, pageSize: Int, status: String?, keyword: String?, sort: String) =
+            campaigns(accessToken, page, pageSize, status, keyword, sort)
         override suspend fun campaign(accessToken: String, id: String) =
             visualR20Campaigns.firstOrNull { it.id == id }?.let { R07CallResult.Success(it, "visual-r20-campaign") }
                 ?: R07CallResult.Failure(404, "visual-r20-missing")
@@ -1197,6 +1244,26 @@ class HistoricalVisualAuditTest {
             ),
             "visual-r21-increase-quote",
         )
+    }
+
+    private val visualR22Api = object : ContractR20RedPacketApi by visualR20Api {
+        override suspend fun publicCampaigns(accessToken: String, page: Int, pageSize: Int, status: String?, keyword: String?, sort: String) =
+            R07CallResult.Success(R20RedPacketPage(listOf(visualR20Campaigns.first()), R07PageMeta(1, 20, "1", hasMore = "false")), "visual-r22-campaigns")
+
+        override suspend fun campaign(accessToken: String, id: String) =
+            R07CallResult.Success(visualR20Campaigns.first { it.id == id }, "visual-r22-campaign")
+
+        override suspend fun startViewSession(accessToken: String, campaignId: String, body: R22ViewSessionRequest, idempotencyKey: String) =
+            R07CallResult.Success(CommandResultResource(resourceId = "session-r22-1", status = "VIEW_COMPLETE", acceptedAt = "2026-08-06T08:00:00Z", requiredSeconds = 20, accumulatedSeconds = 20, lastHeartbeatSequence = 19, lastServerTime = "2026-08-06T08:00:20Z"), "visual-r22-start")
+
+        override suspend fun heartbeat(accessToken: String, sessionId: String, body: R22HeartbeatRequest, idempotencyKey: String) =
+            R07CallResult.Success(CommandResultResource(resourceId = sessionId, status = "VIEW_COMPLETE", acceptedAt = "2026-08-06T08:00:20Z", requiredSeconds = 20, accumulatedSeconds = 20, lastHeartbeatSequence = body.clientSequence, lastServerTime = "2026-08-06T08:00:20Z"), "visual-r22-heartbeat")
+
+        override suspend fun claim(accessToken: String, sessionId: String, body: R22ClaimRequest, idempotencyKey: String) =
+            R07CallResult.Success(CommandResultResource(resourceId = sessionId, status = "PENDING", acceptedAt = "2026-08-06T08:00:21Z", amountPerClaimCent = 150), "visual-r22-claim")
+
+        override suspend fun cancel(accessToken: String, sessionId: String, body: R22CancelRequest?, idempotencyKey: String) =
+            R07CallResult.Success(CommandResultResource(resourceId = sessionId, status = "CANCELLED", acceptedAt = "2026-08-06T08:00:21Z"), "visual-r22-cancel")
     }
     private val visualR19ContentPage = ContentPageResource(
         listOf(

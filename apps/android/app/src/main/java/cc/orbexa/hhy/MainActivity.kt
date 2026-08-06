@@ -147,6 +147,9 @@ import cc.orbexa.hhy.redpacket.R20RedPacketQuoteScreen
 import cc.orbexa.hhy.redpacket.R20RedPacketReviewResultScreen
 import cc.orbexa.hhy.redpacket.R21RedPacketDetailScreen
 import cc.orbexa.hhy.redpacket.R21RedPacketIncreaseAmountScreen
+import cc.orbexa.hhy.redpacket.R22RedPacketHomeScreen
+import cc.orbexa.hhy.redpacket.R22RedPacketEligibilityScreen
+import cc.orbexa.hhy.redpacket.R22RedPacketTaskScreen
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.decodeFromString
 import kotlinx.coroutines.awaitCancellation
@@ -303,6 +306,8 @@ internal sealed interface AuthenticatedRoute {
     @Serializable data class RedPacketQuote(val campaignId: String) : AuthenticatedRoute
     @Serializable data class RedPacketDetail(val campaignId: String) : AuthenticatedRoute
     @Serializable data class RedPacketIncrease(val campaignId: String) : AuthenticatedRoute
+    @Serializable data class RedPacketEligibility(val campaignId: String) : AuthenticatedRoute
+    @Serializable data class RedPacketTask(val campaignId: String) : AuthenticatedRoute
     @Serializable data object Me : AuthenticatedRoute
     @Serializable data object Profile : AuthenticatedRoute
     @Serializable data object LoginDevices : AuthenticatedRoute
@@ -532,7 +537,7 @@ private fun AuthenticatedNavHost(
             onOpenMyProps = { navController.navigate(AuthenticatedRoute.MyProps) },
             onOpenPropStore = { navController.navigate(AuthenticatedRoute.PropStore) },
             onOpenProfile = { navController.navigate(AuthenticatedRoute.Profile) },
-            buildIdentityLabel = if (BuildConfig.DEBUG) "R21 红包验证包 · ${BuildConfig.VERSION_NAME}" else null,
+            buildIdentityLabel = if (BuildConfig.DEBUG) "R22 红包验证包 · ${BuildConfig.VERSION_NAME}" else null,
             experienceApi = experienceApi,
             meApi = r12MeApi,
             accessToken = authenticated.session.accessToken,
@@ -710,12 +715,29 @@ private fun AuthenticatedNavHost(
             )
         }
         composable<AuthenticatedRoute.RedPacketCampaigns> {
-            R20RedPacketCampaignListScreen(
+            R22RedPacketHomeScreen(
                 r20RedPacketApi,
                 authenticated.session.accessToken,
                 { navController.popBackStack() },
-                { navController.navigate(AuthenticatedRoute.RedPacketEditor()) },
-                { navController.navigate(AuthenticatedRoute.RedPacketDetail(it)) },
+                { navController.navigate(AuthenticatedRoute.RedPacketEligibility(it)) },
+                onSessionInvalidated,
+            )
+        }
+        composable<AuthenticatedRoute.RedPacketEligibility> { entry ->
+            val route = entry.toRoute<AuthenticatedRoute.RedPacketEligibility>()
+            R22RedPacketEligibilityScreen(
+                r20RedPacketApi, authenticated.session.accessToken, route.campaignId,
+                { navController.popBackStack() },
+                { navController.navigate(AuthenticatedRoute.RedPacketTask(it)) },
+                onSessionInvalidated,
+            )
+        }
+        composable<AuthenticatedRoute.RedPacketTask> { entry ->
+            val route = entry.toRoute<AuthenticatedRoute.RedPacketTask>()
+            R22RedPacketTaskScreen(
+                r20RedPacketApi, r12MeApi, authenticated.session.accessToken, route.campaignId,
+                { navController.popBackStack() },
+                { navController.popBackStack<AuthenticatedRoute.RedPacketCampaigns>(false) },
                 onSessionInvalidated,
             )
         }

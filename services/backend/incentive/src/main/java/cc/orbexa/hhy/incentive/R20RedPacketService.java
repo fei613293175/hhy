@@ -14,6 +14,10 @@ import cc.orbexa.hhy.incentive.R20RedPacketContracts.IncreaseQuoteRequest;
 import cc.orbexa.hhy.incentive.R20RedPacketContracts.LifecycleRequest;
 import cc.orbexa.hhy.incentive.R20RedPacketContracts.SubmitReviewRequest;
 import cc.orbexa.hhy.incentive.R20RedPacketContracts.UserCommand;
+import cc.orbexa.hhy.incentive.R20RedPacketContracts.ViewSessionRequest;
+import cc.orbexa.hhy.incentive.R20RedPacketContracts.HeartbeatRequest;
+import cc.orbexa.hhy.incentive.R20RedPacketContracts.ClaimRequest;
+import cc.orbexa.hhy.incentive.R20RedPacketContracts.CancelRequest;
 import cc.orbexa.hhy.shared.api.BusinessException;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
@@ -50,6 +54,19 @@ public final class R20RedPacketService {
         activeUser(userId);
         QueryPlan query = query(page, pageSize, cursor, status, keyword, sort, "createdAt:desc");
         return page(execute(() -> store.userCampaigns(userId, query.store())), query);
+    }
+
+    public CampaignPage publicCampaigns(
+            long userId, int page, int pageSize, String cursor,
+            String status, String keyword, String sort) {
+        activeUser(userId);
+        QueryPlan query = query(page, pageSize, cursor, status, keyword, sort, "createdAt:desc");
+        return page(execute(() -> store.publicCampaigns(query.store())), query);
+    }
+
+    public CampaignResource publicCampaign(long userId, String id) {
+        activeUser(userId);
+        return execute(() -> store.publicCampaign(id(id, "红包活动")));
     }
 
     public CampaignResource userCampaign(long userId, String id) {
@@ -200,6 +217,75 @@ public final class R20RedPacketService {
         QueryPlan query = query(page, pageSize, cursor, status, keyword, sort, "createdAt:desc");
         long campaignId = id(id, "红包活动");
         return page(execute(() -> store.analytics(userId, campaignId, query.store())), query);
+    }
+
+    public CommandResultResource startViewSession(
+            long userId, String id, ViewSessionRequest request,
+            String idempotencyKey, String requestId) {
+        activeUser(userId);
+        key(idempotencyKey);
+        if (request == null) throw validation("浏览会话参数不能为空");
+        ViewSessionRequest normalized = new ViewSessionRequest(
+                required(request.clientNonce(), 2000, "客户端随机数"),
+                required(request.deviceContext(), 2000, "设备上下文"));
+        long campaignId = id(id, "红包活动");
+        return execute(() -> store.startViewSession(
+                userCommand(userId, "redPacketPostRedPacketCampaignsByIdViewSessions",
+                        idempotencyKey, requestId), campaignId, normalized,
+                hash("redPacketPostRedPacketCampaignsByIdViewSessions", userId, normalized)));
+    }
+
+    public CommandResultResource heartbeat(
+            long userId, String id, HeartbeatRequest request,
+            String idempotencyKey, String requestId) {
+        activeUser(userId);
+        key(idempotencyKey);
+        if (request == null || request.clientSequence() < 0 || request.elapsedSeconds() < 0
+                || request.elapsedSeconds() > 20) throw validation("浏览心跳参数不符合要求");
+        long sessionId = id(id, "浏览会话");
+        return execute(() -> store.heartbeat(
+                userCommand(userId, "redPacketPostRedPacketViewSessionsByIdHeartbeat",
+                        idempotencyKey, requestId), sessionId, request,
+                hash("redPacketPostRedPacketViewSessionsByIdHeartbeat", userId, request)));
+    }
+
+    public CommandResultResource claim(
+            long userId, String id, ClaimRequest request,
+            String idempotencyKey, String requestId) {
+        activeUser(userId);
+        key(idempotencyKey);
+        if (request == null || request.finalHeartbeatSequence() < 0) {
+            throw validation("领取参数不符合要求");
+        }
+        ClaimRequest normalized = new ClaimRequest(
+                required(request.clientNonce(), 2000, "客户端随机数"), request.finalHeartbeatSequence());
+        long sessionId = id(id, "浏览会话");
+        return execute(() -> store.claim(
+                userCommand(userId, "redPacketPostRedPacketViewSessionsByIdClaim",
+                        idempotencyKey, requestId), sessionId, normalized,
+                hash("redPacketPostRedPacketViewSessionsByIdClaim", userId, normalized)));
+    }
+
+    public CommandResultResource cancel(
+            long userId, String id, CancelRequest request,
+            String idempotencyKey, String requestId) {
+        activeUser(userId);
+        key(idempotencyKey);
+        CancelRequest normalized = new CancelRequest(
+                request == null ? null : optional(request.reason(), 2000, "取消原因"));
+        long sessionId = id(id, "浏览会话");
+        return execute(() -> store.cancel(
+                userCommand(userId, "redPacketPostRedPacketViewSessionsByIdCancel",
+                        idempotencyKey, requestId), sessionId, normalized,
+                hash("redPacketPostRedPacketViewSessionsByIdCancel", userId, normalized)));
+    }
+
+    public CampaignPage claims(
+            long userId, int page, int pageSize, String cursor,
+            String status, String keyword, String sort) {
+        activeUser(userId);
+        QueryPlan query = query(page, pageSize, cursor, status, keyword, sort, "createdAt:desc");
+        return page(execute(() -> store.claims(userId, query.store())), query);
     }
 
     private CampaignResource lifecycle(long userId, String id, LifecycleRequest request,
@@ -391,6 +477,14 @@ public final class R20RedPacketService {
                         failure.getMessage().contains("幂等") ? "COMMON-409-IDEMPOTENCY_CONFLICT" : "COMMON-409-VERSION_CONFLICT",
                         failure.getMessage(), 409, true);
                 case BUSINESS_RULE -> new BusinessException("COMMON-422-BUSINESS_RULE", failure.getMessage(), 422, false);
+                case IDENTITY_NOT_VERIFIED -> new BusinessException(
+                        "IDENTITY-422-NOT_VERIFIED", failure.getMessage(), 422, false);
+                case STOCK_EXHAUSTED -> new BusinessException(
+                        "REDPACKET-409-STOCK_EXHAUSTED", failure.getMessage(), 409, true);
+                case ALREADY_CLAIMED -> new BusinessException(
+                        "REDPACKET-409-ALREADY_CLAIMED", failure.getMessage(), 409, false);
+                case VIEW_INVALID -> new BusinessException(
+                        "REDPACKET-422-VIEW_INVALID", failure.getMessage(), 422, false);
                 case INVALID_DATA, INTERNAL -> new IllegalStateException(failure.getMessage(), failure);
             };
         }

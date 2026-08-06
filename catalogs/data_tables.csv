@@ -90,10 +90,10 @@
 红包,red_packet_quotes,创建/加价报价,"campaign_id, quote_type, principal, service_fee, payable, expires_at",短期,R20-R23
 红包,red_packet_orders,红包订单关联,"campaign_id, order_id, quote_id, type",创建/加价,R20-R23
 红包,red_packet_stock,库存,"campaign_id, total, claimed, reserved, version",乐观锁/原子,R20-R23
-红包,red_packet_view_sessions,浏览会话,"campaign_id, user_id, reservation_id, required, valid_seconds, status, expires_at",用户+活动活跃唯一,R20-R23
+红包,red_packet_view_sessions,浏览会话,"campaign_id, user_id, reservation_id, required, valid_seconds, status, expires_at, client_nonce, device_context, accumulated_seconds, last_heartbeat_sequence, last_server_time, claimed_at",用户+活动活跃唯一；服务端计时,R20-R23
 红包,red_packet_heartbeats,心跳摘要/事件,"session_id, server_time, foreground, visible, delta",可归档,R20-R23
-红包,red_packet_reservations,名额锁定,"campaign_id, user_id, session_id, amount_version, expires_at, status",库存一致,R20-R23
-红包,red_packet_claims,领取,"campaign_id, user_id, amount, amount_version, status, reward_ledger_id",用户+活动唯一,R20-R23
+红包,red_packet_reservations,名额锁定,"campaign_id, user_id, session_id, amount_version, expires_at, status, released_at, claim_id",库存一致；领取关联,R20-R23
+红包,red_packet_claims,领取,"campaign_id, user_id, amount, amount_version, status, reward_ledger_id, session_id, client_nonce, final_heartbeat_sequence, request_hash",用户+活动唯一；幂等,R20-R23
 红包,red_packet_task_evidence,任务证据,"claim_id, session_id, evidence_json",风控,R20-R23
 红包,red_packet_ledger,红包资金账,"campaign_id, entry_type, amount, balance_after, biz_id",不可变,R20-R23
 红包,red_packet_campaign_stats,活动统计,"campaign_id, metrics_json, updated_at",聚合,R20-R23

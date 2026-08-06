@@ -747,6 +747,12 @@
 红包,red_packet_view_sessions,9,version,bigint,否,0,,乐观锁,R20-R23,FROZEN
 红包,red_packet_view_sessions,10,created_at,timestamptz,否,now(),INDEX,统一审计字段,R20-R23,FROZEN
 红包,red_packet_view_sessions,11,updated_at,timestamptz,否,now(),,统一审计字段,R20-R23,FROZEN
+红包,red_packet_view_sessions,12,client_nonce,varchar(2000),否,,INDEX,R22客户端幂等会话绑定,R22,FROZEN
+红包,red_packet_view_sessions,13,device_context,varchar(2000),否,,,R22客户端设备上下文,R22,FROZEN
+红包,red_packet_view_sessions,14,accumulated_seconds,integer,否,0,,服务端累计有效浏览秒数,R22,FROZEN
+红包,red_packet_view_sessions,15,last_heartbeat_sequence,bigint,否,-1,,服务端心跳序号,R22,FROZEN
+红包,red_packet_view_sessions,16,last_server_time,timestamptz,是,,INDEX,服务端计时事实,R22,FROZEN
+红包,red_packet_view_sessions,17,claimed_at,timestamptz,是,,,领取完成时间,R22,FROZEN
 红包,red_packet_heartbeats,1,id,bigint,否,generated,PRIMARY KEY,可归档,R20-R23,FROZEN
 红包,red_packet_heartbeats,2,session_id,bigint,否,,INDEX,可归档,R20-R23,FROZEN
 红包,red_packet_heartbeats,3,server_time,timestamptz,是,,,可归档,R20-R23,FROZEN
@@ -763,6 +769,8 @@
 红包,red_packet_reservations,7,status,varchar(64),否,,,库存一致,R20-R23,FROZEN
 红包,red_packet_reservations,8,created_at,timestamptz,否,now(),INDEX,统一审计字段,R20-R23,FROZEN
 红包,red_packet_reservations,9,updated_at,timestamptz,否,now(),,统一审计字段,R20-R23,FROZEN
+红包,red_packet_reservations,10,released_at,timestamptz,是,,,名额释放时间,R22,FROZEN
+红包,red_packet_reservations,11,claim_id,bigint,是,,INDEX,领取关联外键,R22,FROZEN
 红包,red_packet_claims,1,id,bigint,否,generated,PRIMARY KEY,技术主键,R20-R23,FROZEN
 红包,red_packet_claims,2,campaign_id,bigint,否,,INDEX,用户+活动唯一,R20-R23,FROZEN
 红包,red_packet_claims,3,user_id,bigint,否,,INDEX,用户+活动唯一,R20-R23,FROZEN
@@ -772,6 +780,10 @@
 红包,red_packet_claims,7,reward_ledger_id,bigint,是,,INDEX,用户+活动唯一,R20-R23,FROZEN
 红包,red_packet_claims,8,created_at,timestamptz,否,now(),INDEX,统一审计字段,R20-R23,FROZEN
 红包,red_packet_claims,9,updated_at,timestamptz,否,now(),,统一审计字段,R20-R23,FROZEN
+红包,red_packet_claims,10,session_id,bigint,是,,INDEX,浏览会话外键,R22,FROZEN
+红包,red_packet_claims,11,client_nonce,varchar(2000),否,,INDEX,客户端领取幂等绑定,R22,FROZEN
+红包,red_packet_claims,12,final_heartbeat_sequence,bigint,否,,INDEX,领取时最终心跳序号,R22,FROZEN
+红包,red_packet_claims,13,request_hash,varchar(64),是,,INDEX,幂等请求哈希,R22,FROZEN
 红包,red_packet_task_evidence,1,id,bigint,否,generated,PRIMARY KEY,风控,R20-R23,FROZEN
 红包,red_packet_task_evidence,2,claim_id,bigint,否,,INDEX,风控,R20-R23,FROZEN
 红包,red_packet_task_evidence,3,session_id,bigint,是,,INDEX,风控,R20-R23,FROZEN

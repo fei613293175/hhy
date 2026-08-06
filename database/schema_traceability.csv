@@ -89,10 +89,10 @@ red_packet_campaign_versions,红包,R20-R23,database/migrations/V004__commerce_r
 red_packet_quotes,红包,R20-R23,database/migrations/V004__commerce_redpacket_and_finance.sql,9,id,FROZEN
 red_packet_orders,红包,R20-R23,database/migrations/V004__commerce_redpacket_and_finance.sql,8,id,FROZEN
 red_packet_stock,红包,R20-R23,database/migrations/V004__commerce_redpacket_and_finance.sql,8,id,FROZEN
-red_packet_view_sessions,红包,R20-R23,database/migrations/V004__commerce_redpacket_and_finance.sql,11,id,FROZEN
+red_packet_view_sessions,红包,R20-R23,database/migrations/V055__r22_red_packet_view_sessions.sql,17,id,FROZEN
 red_packet_heartbeats,红包,R20-R23,database/migrations/V004__commerce_redpacket_and_finance.sql,7,id,FROZEN
-red_packet_reservations,红包,R20-R23,database/migrations/V004__commerce_redpacket_and_finance.sql,9,id,FROZEN
-red_packet_claims,红包,R20-R23,database/migrations/V004__commerce_redpacket_and_finance.sql,9,id,FROZEN
+red_packet_reservations,红包,R20-R23,database/migrations/V055__r22_red_packet_view_sessions.sql,11,id,FROZEN
+red_packet_claims,红包,R20-R23,database/migrations/V055__r22_red_packet_view_sessions.sql,13,id,FROZEN
 red_packet_task_evidence,红包,R20-R23,database/migrations/V004__commerce_redpacket_and_finance.sql,6,id,FROZEN
 red_packet_ledger,红包,R20-R23,database/migrations/V004__commerce_redpacket_and_finance.sql,7,id,FROZEN
 red_packet_campaign_stats,红包,R20-R23,database/migrations/V004__commerce_redpacket_and_finance.sql,5,id,FROZEN

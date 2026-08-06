@@ -12,6 +12,10 @@ import cc.orbexa.hhy.incentive.R20RedPacketContracts.SubmitReviewRequest;
 import cc.orbexa.hhy.incentive.R20RedPacketContracts.IncreaseOrderRequest;
 import cc.orbexa.hhy.incentive.R20RedPacketContracts.IncreaseQuoteRequest;
 import cc.orbexa.hhy.incentive.R20RedPacketContracts.LifecycleRequest;
+import cc.orbexa.hhy.incentive.R20RedPacketContracts.ViewSessionRequest;
+import cc.orbexa.hhy.incentive.R20RedPacketContracts.HeartbeatRequest;
+import cc.orbexa.hhy.incentive.R20RedPacketContracts.ClaimRequest;
+import cc.orbexa.hhy.incentive.R20RedPacketContracts.CancelRequest;
 import cc.orbexa.hhy.incentive.R20RedPacketService;
 import cc.orbexa.hhy.shared.api.ApiResponse;
 import cc.orbexa.hhy.shared.api.BusinessException;
@@ -56,8 +60,8 @@ public class R20RedPacketController {
             @RequestParam(required = false) @Size(max = 64) String status,
             @RequestParam(required = false) @Size(max = 100) String keyword,
             @RequestParam(defaultValue = "createdAt:desc") @Size(max = 64) String sort,
-            HttpServletRequest request) {
-        return success(request, service.userCampaigns(
+        HttpServletRequest request) {
+        return success(request, service.publicCampaigns(
                 activeUserId(principal), page, pageSize, cursor, status, keyword, sort));
     }
 
@@ -89,7 +93,7 @@ public class R20RedPacketController {
             @AuthenticationPrincipal UserPrincipal principal,
             @PathVariable @Pattern(regexp = ID) String id,
             HttpServletRequest request) {
-        return success(request, service.userCampaign(activeUserId(principal), id));
+        return success(request, service.publicCampaign(activeUserId(principal), id));
     }
 
     @PatchMapping("/api/v1/red-packet-campaigns/{id}")
@@ -186,6 +190,64 @@ public class R20RedPacketController {
             HttpServletRequest request) {
         return success(request, service.increaseOrder(
                 activeUserId(principal), id, body, key, requestId(request)));
+    }
+
+    @PostMapping("/api/v1/red-packet-campaigns/{id}/view-sessions")
+    public ApiResponse<CommandResultResource> redPacketPostRedPacketCampaignsByIdViewSessions(
+            @AuthenticationPrincipal UserPrincipal principal,
+            @PathVariable @Pattern(regexp = ID) String id,
+            @Valid @RequestBody ViewSessionRequest body,
+            @RequestHeader("X-Idempotency-Key") @NotBlank @Size(min = 16, max = 128) String key,
+            HttpServletRequest request) {
+        return success(request, service.startViewSession(
+                activeUserId(principal), id, body, key, requestId(request)));
+    }
+
+    @PostMapping("/api/v1/red-packet-view-sessions/{id}/heartbeat")
+    public ApiResponse<CommandResultResource> redPacketPostRedPacketViewSessionsByIdHeartbeat(
+            @AuthenticationPrincipal UserPrincipal principal,
+            @PathVariable @Pattern(regexp = ID) String id,
+            @Valid @RequestBody HeartbeatRequest body,
+            @RequestHeader("X-Idempotency-Key") @NotBlank @Size(min = 16, max = 128) String key,
+            HttpServletRequest request) {
+        return success(request, service.heartbeat(
+                activeUserId(principal), id, body, key, requestId(request)));
+    }
+
+    @PostMapping("/api/v1/red-packet-view-sessions/{id}/claim")
+    public ApiResponse<CommandResultResource> redPacketPostRedPacketViewSessionsByIdClaim(
+            @AuthenticationPrincipal UserPrincipal principal,
+            @PathVariable @Pattern(regexp = ID) String id,
+            @Valid @RequestBody ClaimRequest body,
+            @RequestHeader("X-Idempotency-Key") @NotBlank @Size(min = 16, max = 128) String key,
+            HttpServletRequest request) {
+        return success(request, service.claim(
+                activeUserId(principal), id, body, key, requestId(request)));
+    }
+
+    @PostMapping("/api/v1/red-packet-view-sessions/{id}/cancel")
+    public ApiResponse<CommandResultResource> redPacketPostRedPacketViewSessionsByIdCancel(
+            @AuthenticationPrincipal UserPrincipal principal,
+            @PathVariable @Pattern(regexp = ID) String id,
+            @RequestBody(required = false) CancelRequest body,
+            @RequestHeader("X-Idempotency-Key") @NotBlank @Size(min = 16, max = 128) String key,
+            HttpServletRequest request) {
+        return success(request, service.cancel(
+                activeUserId(principal), id, body, key, requestId(request)));
+    }
+
+    @GetMapping("/api/v1/me/red-packet-claims")
+    public ApiResponse<CampaignPage> redPacketGetMeRedPacketClaims(
+            @AuthenticationPrincipal UserPrincipal principal,
+            @RequestParam(defaultValue = "1") @Min(1) int page,
+            @RequestParam(defaultValue = "20") @Min(1) @Max(100) int pageSize,
+            @RequestParam(required = false) @Size(max = 256) String cursor,
+            @RequestParam(required = false) @Size(max = 64) String status,
+            @RequestParam(required = false) @Size(max = 100) String keyword,
+            @RequestParam(defaultValue = "createdAt:desc") @Size(max = 64) String sort,
+            HttpServletRequest request) {
+        return success(request, service.claims(
+                activeUserId(principal), page, pageSize, cursor, status, keyword, sort));
     }
 
     @GetMapping("/api/v1/me/red-packet-campaigns/{id}/analytics")

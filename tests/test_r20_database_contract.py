@@ -117,7 +117,8 @@ class R20DatabaseContractTest(unittest.TestCase):
     def test_new_and_edited_writes_sync_legacy_amount_and_required_seconds(self) -> None:
         store = STORE.read_text(encoding="utf-8")
         self.assertIn("total_count,current_amount,required_seconds,", store)
-        self.assertIn("VALUES (?,?, 'DRAFT',?,?,10,?,?,?,?,?,?::jsonb,0)", store)
+        self.assertIn("r22ConfigSeconds(connection, \"red_packet.default_view_seconds\")", store)
+        self.assertIn("VALUES (?,?, 'DRAFT',?,?,?,?,?,?,?,?,?::jsonb,0)", store)
         self.assertIn("SET total_count=?, current_amount=?, amount_per_claim_cent=?", store)
 
     def test_review_queue_sort_is_a_deterministic_database_order(self) -> None:

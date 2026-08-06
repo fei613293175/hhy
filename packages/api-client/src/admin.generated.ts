@@ -2856,6 +2856,14 @@ export interface components {
             version?: number;
             /** Format: date-time */
             acceptedAt: string;
+            /** Format: int64 */
+            requiredSeconds?: number;
+            /** Format: int64 */
+            accumulatedSeconds?: number;
+            /** Format: int64 */
+            lastHeartbeatSequence?: number;
+            /** Format: date-time */
+            lastServerTime?: string;
         };
         DeviceResource: {
             deviceId: string;
@@ -2931,6 +2939,14 @@ export interface components {
             status: string;
             /** Format: date-time */
             expiresAt?: string;
+            /** Format: int64 */
+            requiredSeconds?: number;
+            /** Format: int64 */
+            accumulatedSeconds?: number;
+            /** Format: int64 */
+            lastHeartbeatSequence?: number;
+            /** Format: date-time */
+            lastServerTime?: string;
         };
         HomeResource: {
             modules: components["schemas"]["HomeModuleResource"][];

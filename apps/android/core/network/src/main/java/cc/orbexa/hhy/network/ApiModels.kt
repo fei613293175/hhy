@@ -392,6 +392,10 @@ data class CommandResultResource(
     val amountPerClaimCent: Long? = null,
     val quoteType: String? = null,
     val expiresAt: String? = null,
+    val requiredSeconds: Long? = null,
+    val accumulatedSeconds: Long? = null,
+    val lastHeartbeatSequence: Long? = null,
+    val lastServerTime: String? = null,
 )
 
 // Frozen R07 search, publisher and contact-access types. The contact value is

@@ -2179,6 +2179,14 @@ export interface components {
             quoteType?: string;
             /** Format: date-time */
             expiresAt?: string;
+            /** Format: int64 */
+            requiredSeconds?: number;
+            /** Format: int64 */
+            accumulatedSeconds?: number;
+            /** Format: int64 */
+            lastHeartbeatSequence?: number;
+            /** Format: date-time */
+            lastServerTime?: string;
         };
         DeviceResource: {
             deviceId: string;

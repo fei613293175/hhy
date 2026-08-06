@@ -67,6 +67,15 @@ public final class R20RedPacketContracts {
 
     public record IncreaseOrderRequest(String quoteId, String paymentChannel, Long expectedVersion) { }
 
+    /** R22 user-side browsing task commands. The server owns elapsed time. */
+    public record ViewSessionRequest(String clientNonce, String deviceContext) { }
+
+    public record HeartbeatRequest(long clientSequence, long elapsedSeconds, boolean pageVisible) { }
+
+    public record ClaimRequest(String clientNonce, long finalHeartbeatSequence) { }
+
+    public record CancelRequest(String reason) { }
+
     public record AdminReviewRequest(
             String decision, String reason, Long expectedVersion, List<String> evidenceIds) {
         public AdminReviewRequest {
@@ -86,7 +95,30 @@ public final class R20RedPacketContracts {
             Long totalCount,
             Long amountPerClaimCent,
             String quoteType,
-            Instant expiresAt) {
+            Instant expiresAt,
+            Long requiredSeconds,
+            Long accumulatedSeconds,
+            Long lastHeartbeatSequence,
+            Instant lastServerTime) {
+        public CommandResultResource(
+                String resourceId,
+                String businessNo,
+                String status,
+                long version,
+                Instant acceptedAt,
+                Long principalCent,
+                Long serviceFeeCent,
+                Long payableCent,
+                Long totalCount,
+                Long amountPerClaimCent,
+                String quoteType,
+                Instant expiresAt) {
+            this(resourceId, businessNo, status, version, acceptedAt,
+                    principalCent, serviceFeeCent, payableCent, totalCount,
+                    amountPerClaimCent, quoteType, expiresAt,
+                    null, null, null, null);
+        }
+
         public CommandResultResource(
                 String resourceId,
                 String businessNo,
@@ -94,7 +126,8 @@ public final class R20RedPacketContracts {
                 long version,
                 Instant acceptedAt) {
             this(resourceId, businessNo, status, version, acceptedAt,
-                    null, null, null, null, null, null, null);
+                    null, null, null, null, null, null, null,
+                    null, null, null, null);
         }
     }
 

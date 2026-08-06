@@ -91,8 +91,33 @@ data class R20IncreaseOrderRequest(
     val expectedVersion: Long,
 )
 
+@Serializable
+data class R22ViewSessionRequest(val clientNonce: String, val deviceContext: String)
+
+@Serializable
+data class R22HeartbeatRequest(
+    val clientSequence: Long,
+    val elapsedSeconds: Long,
+    val pageVisible: Boolean,
+)
+
+@Serializable
+data class R22ClaimRequest(val clientNonce: String, val finalHeartbeatSequence: Long)
+
+@Serializable
+data class R22CancelRequest(val reason: String? = null)
+
 interface ContractR20RedPacketApi {
     suspend fun campaigns(
+        accessToken: String,
+        page: Int = 1,
+        pageSize: Int = 20,
+        status: String? = null,
+        keyword: String? = null,
+        sort: String = "createdAt:desc",
+    ): R07CallResult<R20RedPacketPage>
+
+    suspend fun publicCampaigns(
         accessToken: String,
         page: Int = 1,
         pageSize: Int = 20,
@@ -119,6 +144,16 @@ interface ContractR20RedPacketApi {
         R07CallResult.Failure(501, errorCode = "R21_UNSUPPORTED")
     suspend fun increaseOrder(accessToken: String, id: String, body: R20IncreaseOrderRequest, idempotencyKey: String): R07CallResult<CommandResultResource> =
         R07CallResult.Failure(501, errorCode = "R21_UNSUPPORTED")
+    suspend fun startViewSession(accessToken: String, campaignId: String, body: R22ViewSessionRequest, idempotencyKey: String): R07CallResult<CommandResultResource> =
+        R07CallResult.Failure(501, errorCode = "R22_UNSUPPORTED")
+    suspend fun heartbeat(accessToken: String, sessionId: String, body: R22HeartbeatRequest, idempotencyKey: String): R07CallResult<CommandResultResource> =
+        R07CallResult.Failure(501, errorCode = "R22_UNSUPPORTED")
+    suspend fun claim(accessToken: String, sessionId: String, body: R22ClaimRequest, idempotencyKey: String): R07CallResult<CommandResultResource> =
+        R07CallResult.Failure(501, errorCode = "R22_UNSUPPORTED")
+    suspend fun cancel(accessToken: String, sessionId: String, body: R22CancelRequest?, idempotencyKey: String): R07CallResult<CommandResultResource> =
+        R07CallResult.Failure(501, errorCode = "R22_UNSUPPORTED")
+    suspend fun claims(accessToken: String, page: Int = 1, pageSize: Int = 20): R07CallResult<R20RedPacketPage> =
+        R07CallResult.Failure(501, errorCode = "R22_UNSUPPORTED")
 }
 
 class UrlConnectionContractR20RedPacketApi internal constructor(
@@ -142,6 +177,20 @@ class UrlConnectionContractR20RedPacketApi internal constructor(
     ) = call(
         "GET",
         buildR20PageRoute("/api/v1/me/red-packet-campaigns", page, pageSize, status, keyword, sort),
+        accessToken,
+        R20RedPacketPage.serializer(),
+    )
+
+    override suspend fun publicCampaigns(
+        accessToken: String,
+        page: Int,
+        pageSize: Int,
+        status: String?,
+        keyword: String?,
+        sort: String,
+    ) = call(
+        "GET",
+        buildR20PageRoute("/api/v1/red-packet-campaigns", page, pageSize, status, keyword, sort),
         accessToken,
         R20RedPacketPage.serializer(),
     )
@@ -210,6 +259,31 @@ class UrlConnectionContractR20RedPacketApi internal constructor(
         "POST", "/api/v1/red-packet-campaigns/${requireR20Id(id)}/increase-orders", accessToken,
         CommandResultResource.serializer(), requireR20Key(idempotencyKey),
         HhyNetworkJson.value.encodeToString(body),
+    )
+
+    override suspend fun startViewSession(accessToken: String, campaignId: String, body: R22ViewSessionRequest, idempotencyKey: String) = call(
+        "POST", "/api/v1/red-packet-campaigns/${requireR20Id(campaignId)}/view-sessions", accessToken,
+        CommandResultResource.serializer(), requireR20Key(idempotencyKey), HhyNetworkJson.value.encodeToString(body),
+    )
+
+    override suspend fun heartbeat(accessToken: String, sessionId: String, body: R22HeartbeatRequest, idempotencyKey: String) = call(
+        "POST", "/api/v1/red-packet-view-sessions/${requireR20Id(sessionId)}/heartbeat", accessToken,
+        CommandResultResource.serializer(), requireR20Key(idempotencyKey), HhyNetworkJson.value.encodeToString(body),
+    )
+
+    override suspend fun claim(accessToken: String, sessionId: String, body: R22ClaimRequest, idempotencyKey: String) = call(
+        "POST", "/api/v1/red-packet-view-sessions/${requireR20Id(sessionId)}/claim", accessToken,
+        CommandResultResource.serializer(), requireR20Key(idempotencyKey), HhyNetworkJson.value.encodeToString(body),
+    )
+
+    override suspend fun cancel(accessToken: String, sessionId: String, body: R22CancelRequest?, idempotencyKey: String) = call(
+        "POST", "/api/v1/red-packet-view-sessions/${requireR20Id(sessionId)}/cancel", accessToken,
+        CommandResultResource.serializer(), requireR20Key(idempotencyKey), body?.let { HhyNetworkJson.value.encodeToString(it) },
+    )
+
+    override suspend fun claims(accessToken: String, page: Int, pageSize: Int) = call(
+        "GET", "/api/v1/me/red-packet-claims?page=$page&pageSize=$pageSize", accessToken,
+        R20RedPacketPage.serializer(),
     )
 
     private suspend fun lifecycle(
@@ -284,7 +358,7 @@ internal fun buildR20PageRoute(
     keyword: String?,
     sort: String,
 ): String {
-    require(path == "/api/v1/me/red-packet-campaigns")
+    require(path == "/api/v1/me/red-packet-campaigns" || path == "/api/v1/red-packet-campaigns")
     require(page >= 1)
     require(pageSize in 1..100)
     require(status == null || status.length <= 64)
