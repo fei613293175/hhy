@@ -273,7 +273,7 @@ class R22RedPacketPostgresStoreTest {
         Fixture fixture = fixture();
         Instant base = Instant.now().truncatedTo(ChronoUnit.SECONDS);
         long campaignId = fixture.campaign(2, base);
-        long otherCampaignId = fixture.campaign(1, base);
+        long otherCampaignId = fixture.campaign(1, base, fixture.additionalContent());
         long userId = fixture.user(true);
         CommandResultResource session = fixture.store(base).startViewSession(
                 command(userId, "r23-read-session"), campaignId,
@@ -379,6 +379,10 @@ class R22RedPacketPostgresStoreTest {
         }
 
         long campaign(int total, Instant base) {
+            return campaign(total, base, contentId);
+        }
+
+        long campaign(int total, Instant base, long campaignContentId) {
             long campaignId = jdbc.queryForObject("""
                     INSERT INTO hhy.red_packet_campaigns(
                       content_id,owner_id,current_amount,total_count,status,required_seconds,
@@ -386,13 +390,23 @@ class R22RedPacketPostgresStoreTest {
                       targeting_json,version)
                     VALUES (?,?,123,?,'ACTIVE',20,123,?,0,?,?,CAST('{}' AS jsonb),0)
                     RETURNING id
-                    """, Long.class, contentId, ownerId, total, total * 123L,
+                    """, Long.class, campaignContentId, ownerId, total, total * 123L,
                     Timestamp.from(base.minusSeconds(60)), Timestamp.from(base.plusSeconds(3600)));
             jdbc.update("""
                     INSERT INTO hhy.red_packet_stock(campaign_id,total,claimed,reserved,version)
                     VALUES (?,?,0,0,0)
                     """, campaignId, total);
             return campaignId;
+        }
+
+        long additionalContent() {
+            long id = jdbc.queryForObject("""
+                    INSERT INTO hhy.content_posts(owner_id,type,title,status)
+                    VALUES (?,'PROJECT',?,'DRAFT') RETURNING id
+                    """, Long.class, ownerId, "R23 integration " + suffix());
+            jdbc.update("INSERT INTO hhy.project_details(content_id,cooperation) VALUES (?,?)",
+                    id, "R23 integration fixture");
+            return id;
         }
 
         R20RedPacketPostgresStore store(Instant instant) {
